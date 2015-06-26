@@ -90,52 +90,45 @@ std::vector<Element> Join(const std::vector<Element> &vector_1, const std::vecto
     return joined;
 }
 
-enum class Tag
-{
-    Background = 0,
-    Signal = 1
-
-};
-
 enum class Severity
 {
-    Error,
-    Notification,
-    Information,
-    Debug,
-    Detailed
+    error,
+    notification,
+    information,
+    debug,
+    detailed
 };
 
 enum class Id
 {
-    Empty = 0,
-    Down = 1,
-    Up = 2,
-    Strange = 3,
-    Charm = 4,
-    Bottom = 5,
-    Top = 6,
-    TopPartner = 8,
-    Electron = 11,
-    ElectronNeutrino = 12,
-    Muon = 13,
-    MuonNeutrino = 14,
-    Tau = 15,
-    TauNeutrino = 16,
-    Gluon = 21,
-    Photon = 22,
+    empty = 0,
+    down = 1,
+    up = 2,
+    strange = 3,
+    charm = 4,
+    bottom = 5,
+    top = 6,
+    top_partner = 8,
+    electron = 11,
+    electron_neutrino = 12,
+    muon = 13,
+    muon_neutrino = 14,
+    tau = 15,
+    tau_neutrino = 16,
+    gluon = 21,
+    photon = 22,
     Z = 23,
     W = 24,
-    Higgs = 25,
-    HeavyHiggs = 35,
-    CPOddHiggs = 36,
-    ChargedHiggs = 37,
+    higgs = 25,
+    heavy_higgs = 35,
+    CP_odd_higgs = 36,
+    charged_higgs = 37,
     Any = 86,
     Isr = 87,
     Marker = 88,
     MixedJet = 90,
     Cluster = 91,
-    String = 92,
+    string = 92,
     Pi0Meson = 111,
     Rho0Meson = 113,
     K0LMeson = 130,
@@ -161,23 +154,15 @@ enum class Id
     BMesonS = 523,
     BMesonS0 = 531,
     BMesonSS0 = 533,
-    DownDown1 = 1103,
-    UpDown0 = 2101,
-    UpDown1 = 2103,
+    down_down_1 = 1103,
+    up_down_0 = 2101,
+    up_down_1 = 2103,
     DeltaBaryon = 1114,
-    Neutron = 2112,
-    UpUp1 = 2203,
-    Proton = 2212,
-    DeltaBaryon2 = 2224,
-    CpvHiggs = 5000000
-};
-
-enum class Status
-{
-    None = 0,
-    Stable = 1,
-    Unstable = 2,
-    Generator = 3
+    neutron = 2112,
+    up_up_1 = 2203,
+    proton = 2212,
+    Delta_2 = 2224,
+    CP_violating_higgs = 5000000
 };
 
 template <typename Enumeration>
@@ -189,8 +174,6 @@ auto to_int(Enumeration const value)
 std::string Name(const int id);
 
 std::string Name(const Id id);
-
-std::string Name(const Tag tag);
 
 float Mass(const Id id);
 

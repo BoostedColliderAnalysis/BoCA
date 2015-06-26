@@ -10,8 +10,8 @@ namespace standardmodel
 
 Analysis::Analysis(Tagger &tagger) : analysis::Analysis::Analysis(tagger)
 {
-//   DebugLevel = Object::Severity::Debug;
-    Print(Severity::Notification, "Constructor");
+//   DebugLevel = Severity::debug;
+    Print(Severity::notification, "Constructor");
     this->tagger().set_analysis_name(ProjectName());
 }
 
@@ -37,7 +37,7 @@ std::string Analysis::ProcessName(const Process process) const
     case zz:
         return "zz";
     default:
-        Print(Severity::Error, "process name", "unhandled case", process);
+        Print(Severity::error, "process name", "unhandled case", process);
         return "";
     }
 }
@@ -52,14 +52,14 @@ std::string Analysis::ColliderName(const Collider collider) const
     case LE:
         return "LE";
     default:
-        Print(Severity::Error, "Collider name", "unhandled case", collider);
+        Print(Severity::error, "Collider name", "unhandled case", collider);
         return "";
     }
 }
 
 void Analysis::SetFiles(const Tag tag)
 {
-    Print(Severity::Notification, "Set File Vector", Name(tag));
+    Print(Severity::notification, "Set File Vector", Name(tag));
 }
 
 std::string Analysis::NiceName(const Process process) const
@@ -84,7 +84,7 @@ std::string Analysis::NiceName(const Process process) const
     case ttlep:
         return "t_{l}";
     default:
-        Print(Severity::Error, "name", "unhandled case", process);
+        Print(Severity::error, "name", "unhandled case", process);
         return "";
     }
 }
@@ -245,13 +245,13 @@ void Analysis::RunReader()
 
 std::string Analysis::PathName(const std::string &file_name) const
 {
-    Print(Severity::Error, "Path Name", file_name);
+    Print(Severity::error, "Path Name", file_name);
     return ProjectName() + "/" + file_name + ".root";
 }
 
 bool Analysis::Missing(const std::string &name) const
 {
-    Print(Severity::Error, "Missing", name);
+    Print(Severity::error, "Missing", name);
     struct stat buffer;
     return (stat(name.c_str(), &buffer) != 0);
 }

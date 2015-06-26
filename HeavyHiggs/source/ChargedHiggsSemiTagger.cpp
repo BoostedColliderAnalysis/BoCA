@@ -7,24 +7,24 @@ namespace analysis
 
 ChargedHiggsSemiTagger::ChargedHiggsSemiTagger()
 {
-    //     DebugLevel = Object::Severity::Debug;
-    Print(Severity::Notification, "Constructor");
+    //     DebugLevel = Severity::debug;
+    Print(Severity::notification, "Constructor");
     set_tagger_name("ChargedHiggsSemi");
     DefineVariables();
 }
 
 int ChargedHiggsSemiTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
 {
-    Print(Severity::Information, "Higgs Tags");
+    Print(Severity::information, "Higgs Tags");
 
     float mass = event.mass();
     fastjet::PseudoJet HiggsBoson;
-    if (tag == Tag::Signal) {
+    if (tag == Tag::signal) {
       Jets HiggsParticles = event.Partons().GenParticles();
-      HiggsParticles = RemoveIfWrongAbsParticle(HiggsParticles, Id::ChargedHiggs);
-        if (tag == Tag::Signal) {
+      HiggsParticles = RemoveIfWrongAbsParticle(HiggsParticles, Id::charged_higgs);
+        if (tag == Tag::signal) {
             if (HiggsParticles.size() == 1) HiggsBoson = HiggsParticles.front();
-            else Print(Severity::Error, "Where is the Higgs?", HiggsParticles.size());
+            else Print(Severity::error, "Where is the Higgs?", HiggsParticles.size());
         }
     }
 
@@ -34,24 +34,24 @@ int ChargedHiggsSemiTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag
 
 //     int WSemiId = w_semi_tagger.WSemiId(event);
     Jets TopParticles = event.Partons().GenParticles();
-//     int TopSemiId = sgn(WSemiId) * std::abs(Id::Top);
+//     int TopSemiId = sgn(WSemiId) * std::abs(Id::top);
     int TopSemiId = top_semi_tagger_.TopSemiId(event);
     TopParticles = RemoveIfWrongParticle(TopParticles, TopSemiId);
     fastjet::PseudoJet TopQuark;
     if (TopParticles.size() == 1) TopQuark = TopParticles.front();
-    else Print(Severity::Error, "Where is the Top?", TopParticles.size());
+    else Print(Severity::error, "Where is the Top?", TopParticles.size());
     std::vector<Triplet> Finaltriplets;
-    if (tag == Tag::Signal) {
+    if (tag == Tag::signal) {
         for (const auto & triplet : triplets) if (triplet.Jet().delta_R(TopQuark) < detector_geometry().JetConeSize) Finaltriplets.emplace_back(triplet);
     } else Finaltriplets = triplets;
 
     Jets BottomJets;
-    if (tag == Tag::Signal) {
+    if (tag == Tag::signal) {
       Jets  BottomParticles = event.Partons().GenParticles();
-      BottomParticles = RemoveIfWrongAbsFamily(BottomParticles, Id::Bottom, Id::ChargedHiggs);
+      BottomParticles = RemoveIfWrongAbsFamily(BottomParticles, Id::bottom, Id::charged_higgs);
         fastjet::PseudoJet BottomQuark;
         if (BottomParticles.size() == 1) BottomQuark = BottomParticles.front();
-        else  Print(Severity::Error, "Where is the Bottom?");
+        else  Print(Severity::error, "Where is the Bottom?");
         for (const auto & Jet : jets)  if (Jet.delta_R(BottomQuark) < detector_geometry().JetConeSize) BottomJets.emplace_back(Jet);
     } else BottomJets = jets;
 
@@ -61,16 +61,16 @@ int ChargedHiggsSemiTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag
         for (const auto & Jet : BottomJets) {
             if (triplet.SingletJet().delta_R(Jet) < detector_geometry().JetConeSize) continue;
             Quartet31 quartet(triplet, Jet);
-            if (tag == Tag::Signal && quartet.Jet().m() < mass / 2)continue;
-            if (tag == Tag::Signal && quartet.Jet().m() > mass * 3 / 2)continue;
-            if (tag == Tag::Signal && quartet.Jet().delta_R(HiggsBoson) > 2 * detector_geometry().JetConeSize) continue;
+            if (tag == Tag::signal && quartet.Jet().m() < mass / 2)continue;
+            if (tag == Tag::signal && quartet.Jet().m() > mass * 3 / 2)continue;
+            if (tag == Tag::signal && quartet.Jet().delta_R(HiggsBoson) > 2 * detector_geometry().JetConeSize) continue;
             quartets.emplace_back(quartet);
         }
 
-    Print(Severity::Information, "Number of Heavy Higgses", quartets.size());
+    Print(Severity::information, "Number of Heavy Higgses", quartets.size());
 
-    if (tag == Tag::Signal && quartets.size() > 1) {
-        Print(Severity::Information, "Higgs Candidates", quartets.size());
+    if (tag == Tag::signal && quartets.size() > 1) {
+        Print(Severity::information, "Higgs Candidates", quartets.size());
         quartets = SortedByMassTo(quartets, mass);
         quartets.erase(quartets.begin() + 1, quartets.end());
     }

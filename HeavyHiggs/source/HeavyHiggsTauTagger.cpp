@@ -8,8 +8,8 @@ namespace heavyhiggs
 
 HeavyHiggsTauTagger::HeavyHiggsTauTagger()
 {
-//     DebugLevel = Object::Severity::Debug;
-    Print(Severity::Notification, "Constructor");
+//     DebugLevel = Severity::debug;
+    Print(Severity::notification, "Constructor");
     set_tagger_name("HeavyHiggsTau");
     tau_reader_.SetTagger(tau_tagger_);
     DefineVariables();
@@ -18,26 +18,26 @@ HeavyHiggsTauTagger::HeavyHiggsTauTagger()
 int HeavyHiggsTauTagger::Train(Event &event, const Tag tag)
 {
 
-    Print(Severity::Information, "Top Tags");
+    Print(Severity::information, "Top Tags");
 
     Jets jets = tau_reader_.Multiplets<TauTagger>(event);
-    Print(Severity::Information, "Number Jet", jets.size());
+    Print(Severity::information, "Number Jet", jets.size());
 
     const fastjet::PseudoJet MissingEt = event.Hadrons().MissingEt();
 
     Jets TauParticles = event.Partons().GenParticles();
-    TauParticles = RemoveIfWrongAbsParticle(TauParticles, Id::Tau);
-//     TauParticles.erase(std::remove_if(TauParticles.begin(), TauParticles.end(), WrongAbsId(Id::Tau)), TauParticles.end());
-    if (TauParticles.size() != 1) Print(Severity::Error, "Where is the Tau?", TauParticles.size());
+    TauParticles = RemoveIfWrongAbsParticle(TauParticles, Id::tau);
+//     TauParticles.erase(std::remove_if(TauParticles.begin(), TauParticles.end(), WrongAbsId(Id::tau)), TauParticles.end());
+    if (TauParticles.size() != 1) Print(Severity::error, "Where is the Tau?", TauParticles.size());
 
     Jets HiggsParticles = event.Partons().GenParticles();
-    HiggsParticles = RemoveIfWrongAbsParticle(HiggsParticles, Id::ChargedHiggs);
-//     HiggsParticles.erase(std::remove_if(HiggsParticles.begin(), HiggsParticles.end(), WrongAbsId(Id::ChargedHiggs)), HiggsParticles.end());
-    if (HiggsParticles.size() != 1) Print(Severity::Error, "Where is the Higgs?", HiggsParticles.size());
+    HiggsParticles = RemoveIfWrongAbsParticle(HiggsParticles, Id::charged_higgs);
+//     HiggsParticles.erase(std::remove_if(HiggsParticles.begin(), HiggsParticles.end(), WrongAbsId(Id::charged_higgs)), HiggsParticles.end());
+    if (HiggsParticles.size() != 1) Print(Severity::error, "Where is the Higgs?", HiggsParticles.size());
 
     for (const auto & Particle : TauParticles) {
         std::sort(jets.begin(), jets.end(), MinDeltaRTo(Particle));
-        if (jets.front().delta_R(Particle) < 0.4) static_cast<JetInfo *>(jets.front().user_info_shared_ptr().get())->SetTag(Tag::Signal);
+        if (jets.front().delta_R(Particle) < 0.4) static_cast<JetInfo *>(jets.front().user_info_shared_ptr().get())->SetTag(Tag::signal);
     }
     Jets NewCleanJets;
     for (const auto & jet : jets) {
@@ -52,22 +52,22 @@ int HeavyHiggsTauTagger::Train(Event &event, const Tag tag)
 //         std::vector<Doublet> Postdoublets = GetNeutrinos(Predoublet);
 
 //         std::sort(Postdoublets.begin(), Postdoublets.end(), MinDeltaR(HiggsParticles.front()));
-//         if (Tag == Tag::Signal && Postdoublets.size() > 1) Postdoublets.erase(Postdoublets.begin() + 1, Postdoublets.end());
+//         if (Tag == Tag::signal && Postdoublets.size() > 1) Postdoublets.erase(Postdoublets.begin() + 1, Postdoublets.end());
 //         if (Tag == HBackground && Postdoublets.size() > 0) Postdoublets.erase(Postdoublets.begin());
 //         for (auto & Postdoublet : Postdoublets) {
         Predoublet.SetTag(tag);
         doublets.emplace_back(Predoublet);
 //         }
     }
-    Print(Severity::Information, "Number doublets", doublets.size());
+    Print(Severity::information, "Number doublets", doublets.size());
     return SaveEntries(doublets);
 }
 
 std::vector<Doublet>  HeavyHiggsTauTagger::Multiplets(Event &event, const TMVA::Reader &reader)
 {
-    Print(Severity::Information, "Multiplets");
+    Print(Severity::information, "Multiplets");
     Jets jets = tau_reader_.Multiplets<TauTagger>(event);
-    Print(Severity::Information, "Number Jet", jets.size());
+    Print(Severity::information, "Number Jet", jets.size());
     const fastjet::PseudoJet missing_et = event.Hadrons().MissingEt();
     std::vector<Doublet> doublets;
     for (const auto & jet : jets)  {

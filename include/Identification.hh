@@ -5,6 +5,15 @@
 namespace analysis
 {
 
+enum class Tag
+{
+    background = 0,
+    signal = 1
+
+};
+
+std::string Name(const Tag tag);
+
 class Identification : public Object
 {
 
@@ -41,15 +50,15 @@ public:
     }
 
     void SetDegenerate() {
-      degenerate_ = true;
+        degenerate_ = true;
     }
 
     void UnsetDegenerate() {
-      degenerate_ = false;
+        degenerate_ = false;
     }
 
     float initial_value() const {
-      return -11.1111111; // this must be identical to the initial value in the branch
+        return -11.1111111; // this must be identical to the initial value in the branch
     }
 
     template<typename Multiplet>

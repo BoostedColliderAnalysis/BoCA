@@ -38,7 +38,7 @@ protected:
      * @brief set of Particle Ids defiend as initial state radiation
      *
      */
-    std::set<Id> RadiationParticles {Id::Proton};
+    std::set<Id> RadiationParticles {Id::proton};
 
 private:
 

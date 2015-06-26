@@ -8,8 +8,8 @@ namespace analysis
 
 AnalysisZ::AnalysisZ(Tagger &tagger) : analysis::standardmodel::Analysis::Analysis(tagger)
 {
-//   DebugLevel = Object::Severity::Debug;
-    Print(Severity::Notification, "Constructor");
+//   DebugLevel = Severity::debug;
+    Print(Severity::notification, "Constructor");
     this->tagger().set_analysis_name(ProjectName());
     pre_cuts().SetPtLowerCut(Id::Z, LowerPtCut());
     pre_cuts().SetPtUpperCut(Id::Z, UpperPtCut());
@@ -20,12 +20,12 @@ AnalysisZ::AnalysisZ(Tagger &tagger) : analysis::standardmodel::Analysis::Analys
 
 void AnalysisZ::SetFiles(const Tag tag)
 {
-    Print(Severity::Notification, "Set File Vector", Name(tag));
+    Print(Severity::notification, "Set File Vector", Name(tag));
     switch (tag) {
-    case Tag::Signal :
+    case Tag::signal :
         NewSignalFile(zz);
         break;
-    case Tag::Background :
+    case Tag::background :
         NewBackgroundFile(tthad);
         NewBackgroundFile(hh);
         NewBackgroundFile(ww);
@@ -40,7 +40,7 @@ void AnalysisZ::SetFiles(const Tag tag)
 
 int AnalysisZ::PassPreCut(Event &event)
 {
-    Print(Severity::Information, "pass pre cut");
+    Print(Severity::information, "pass pre cut");
     Jets leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
     if(leptons.empty()) return 1;
     if(leptons.front().pt()<80) return 1;

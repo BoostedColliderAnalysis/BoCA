@@ -4,9 +4,9 @@ namespace analysis {
 
 Family::Family() {
   particle_.Position = EmptyPosition;
-  particle_.Id = to_int(Id::Empty);
+  particle_.Id = to_int(Id::empty);
   mother_1_.Position = EmptyPosition;
-  mother_1_.Id = to_int(Id::Empty);
+  mother_1_.Id = to_int(Id::empty);
   marker_ = false;
   daughter_ids_.reserve(2);
 }

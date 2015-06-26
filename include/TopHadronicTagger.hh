@@ -22,7 +22,7 @@ public:
     analysis::Triplet Triplet(const Doublet &doublet, const fastjet::PseudoJet &jet, const Jets &leptons, PreCuts &pre_cuts, const Tag tag);
 
     int TopHadronicId(Event &event) const {
-        return sgn(w_hadronic_tagger_.WHadronicId(event)) * to_int(Id::Top);
+        return sgn(w_hadronic_tagger_.WHadronicId(event)) * to_int(Id::top);
     }
 
     int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
