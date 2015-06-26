@@ -64,7 +64,7 @@ bool TopLeptonicTagger::Problematic(const analysis::Doublet &doublet, analysis::
     switch (tag) {
     case Tag::signal :
         if (doublet.Singlet1().Jet().pt() <= DetectorGeometry().LeptonMinPt) return true;
-        if (std::abs(doublet.Jet().m() - Mass(Id::top) + 30) > top_mass_window) return true;
+        if (std::abs(doublet.Jet().m() - Mass(Id::top) + 40) > top_mass_window) return true;
         break;
     case Tag::background :
         break;
