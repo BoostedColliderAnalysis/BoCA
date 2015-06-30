@@ -9,7 +9,6 @@ namespace analysis {
 
 Factory::Factory(Tagger &tagger) : tagger_(tagger) , factory_(tagger.name(), output_file(), factory_options())
 {
-//     DebugLevel = Severity::debug;
     Note("Constructor");
     AddVariables();
     PrepareTrainingAndTestTree(GetTrees());

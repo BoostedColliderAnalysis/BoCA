@@ -11,8 +11,6 @@ namespace heavyhiggs
 
 HeavyHiggsLeptonicTagger::HeavyHiggsLeptonicTagger()
 {
-    //     DebugLevel = Severity::debug;
-
     Note("Constructor");
     set_tagger_name("HeavyHiggsLeptonic");
     top_leptonic_reader_.SetTagger(top_leptonic_tagger_);

@@ -9,7 +9,6 @@ namespace toppartner
 
 TopPartnerHadronicTagger::TopPartnerHadronicTagger()
 {
-//         DebugLevel = Severity::detailed;
     Note("Constructor");
     set_tagger_name("TopPartnerHadronic");
     top_reader_.SetTagger(top_tagger_);

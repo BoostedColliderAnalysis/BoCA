@@ -3,12 +3,6 @@
 
 namespace analysis {
 
-JetTag::JetTag()
-{
-//     DebugLevel = Severity::debug;
-    Info("Constructor");
-}
-
 int JetTag::GetBranchId(const int id, int branch_id)
 {
     Debug("Branch Id", Name(id), Name(branch_id));

@@ -16,8 +16,6 @@ class WimpMass
 
 public:
 
-    WimpMass();
-
     std::vector<analysis::Sextet> Sextets(const std::vector<Quartet22> &quartets, const fastjet::PseudoJet &missing_et);
 
     std::vector<analysis::Sextet> Sextet(const Quartet22 &quartet, const fastjet::PseudoJet &missing_et, const Jets &neutrinos, const Tag tag);

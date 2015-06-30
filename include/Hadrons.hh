@@ -15,12 +15,6 @@ class Hadrons : public FourVector
 
 public:
 
-    /**
-     * @brief constructor
-     *
-     */
-    Hadrons();
-
     virtual ~Hadrons() {};
 
     /**

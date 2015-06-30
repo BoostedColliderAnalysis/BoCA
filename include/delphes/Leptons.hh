@@ -17,8 +17,6 @@ class Leptons : public analysis::Leptons
 
 public:
 
-    Leptons();
-
     analysis::Jets Electrons();
 
     analysis::Jets Muons();

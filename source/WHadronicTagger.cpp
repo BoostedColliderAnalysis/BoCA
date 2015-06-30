@@ -6,7 +6,6 @@ namespace analysis
 
 WHadronicTagger::WHadronicTagger()
 {
-//     debug_level_ = Severity::debug;
     Note("Constructor");
     set_tagger_name("WHadronic");
     w_mass_window_ = 20;

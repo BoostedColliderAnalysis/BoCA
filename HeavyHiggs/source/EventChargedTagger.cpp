@@ -8,7 +8,6 @@ namespace heavyhiggs {
 
 EventChargedTagger::EventChargedTagger()
 {
-//       DebugLevel = Severity::debug;
     Info("Constructor");
     set_tagger_name("ChargedeventSemi");
     bottom_reader_.SetTagger(bottom_tagger_);

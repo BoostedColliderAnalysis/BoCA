@@ -4,12 +4,6 @@
 
 namespace analysis {
 
-Discriminator::Discriminator()
-{
-    Note("Constructor");
-//     DebugLevel = 5;
-}
-
 Jets Discriminator::GetCandidateJets(const Jets &EFlowJets, const float ScalarHt)
 {
     Info("Tagged Candidate Jets", EFlowJets.size());

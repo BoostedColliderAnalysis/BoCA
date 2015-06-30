@@ -9,7 +9,6 @@ namespace toppartner
 
 HiggsPairTagger::HiggsPairTagger()
 {
-//         DebugLevel = Severity::detailed;
     Note("Constructor");
     set_tagger_name("HiggsPairPair");
     higgs_reader_.SetTagger(higgs_tagger_);

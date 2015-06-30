@@ -23,8 +23,6 @@ class Tagger
 
 public:
 
-    Tagger();
-
     void AddSignalTreeName(const std::string signal_tree_name);
 
     void AddBackgroundTreeName(const std::string background_tree_name);

@@ -53,25 +53,6 @@ std::vector<Kinematics> Doublet::Constituents(const fastjet::PseudoJet &jet, con
     return Newconstituents;
 }
 
-// void Doublet::SetSinglets(const fastjet::PseudoJet &singlet_1, const fastjet::PseudoJet &singlet_2)
-// {
-//     Info("Constructor");
-//     multiplet_1_ = singlet_1;
-//     multiplet_2_ = singlet_2;
-//     SetBdt(SubMultiplet1().Bdt(), SubMultiplet2().Bdt());
-// }
-//
-// void Doublet::SetSinglets(const fastjet::PseudoJet &singlet)
-// {
-//     Info("Constructor");
-//     multiplet_1_ = singlet / 2;
-//     multiplet_2_ = singlet / 2;
-//     SetDegenerate();
-//     if (singlet.has_user_info<JetInfo>() && singlet.user_info<JetInfo>().Bdt() != initial_value()) SetBdt(singlet.user_info<JetInfo>().Bdt());
-//     else SetBdt(0);
-//     if (singlet.has_user_info<JetInfo>() && singlet.user_info<JetInfo>().Tag() != initial_value()) SetTag(singlet.user_info<JetInfo>().Tag());
-// }
-
 float Doublet::ReferenceAngle(const fastjet::PseudoJet &NewJet, const fastjet::PseudoJet &ReferenceJet) const
 {
     Info("ReferenceAngle");

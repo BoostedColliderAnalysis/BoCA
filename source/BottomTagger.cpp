@@ -6,7 +6,6 @@ namespace analysis
 
 BottomTagger::BottomTagger()
 {
-//     DebugLevel = Severity::debug;
     Info("Constructor");
     set_tagger_name("Bottom");
     DefineVariables();

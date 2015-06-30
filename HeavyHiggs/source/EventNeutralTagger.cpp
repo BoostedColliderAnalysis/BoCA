@@ -8,7 +8,6 @@ namespace heavyhiggs {
 
 EventNeutralTagger::EventNeutralTagger()
 {
-    //   DebugLevel = Severity::debug;
     Note("Constructor");
     set_tagger_name("EventNeutral");
     bottom_reader_.SetTagger(bottom_tagger_);

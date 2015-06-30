@@ -9,7 +9,6 @@ namespace toppartner
 
 TopPartnerHiggsPairTagger::TopPartnerHiggsPairTagger()
 {
-//         DebugLevel = Severity::detailed;
     Note("Constructor");
     set_tagger_name("TopPartnerHiggsPairTagger");
     top_partner_hadronic_reader_.SetTagger(top_partner_hadronic_tagger_);
