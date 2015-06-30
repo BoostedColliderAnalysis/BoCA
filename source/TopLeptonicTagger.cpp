@@ -1,4 +1,4 @@
-# include "TopLeptonicTagger.hh"
+#include "TopLeptonicTagger.hh"
 
 namespace analysis
 {
@@ -22,7 +22,7 @@ int TopLeptonicTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
     Print(Severity::information, "Jet Number", jets.size());
 
     Jets leptons = event.Leptons().leptons();
-    if (leptons.empty()) leptons.emplace_back(FakeLepton(jets.front()));
+    if (do_fake_leptons && leptons.empty()) leptons.emplace_back(FakeLepton(jets.front()));
     Print(Severity::information, "Lepton Number", leptons.size());
 
     std::vector<Doublet> doublets;
@@ -80,7 +80,8 @@ std::vector<Doublet> TopLeptonicTagger::Multiplets(analysis::Event &event, analy
     Jets jets = fastjet::sorted_by_pt(bottom_reader_.Multiplets<BottomTagger>(event));
     if (jets.empty()) return doublets;
     Jets leptons = event.Leptons().leptons();
-    if (leptons.empty()) leptons.emplace_back(FakeLepton(jets.front()));
+    Print(Severity::debug, "jets and Leptons", jets.size(), leptons.size());
+    if (do_fake_leptons && leptons.empty()) leptons.emplace_back(FakeLepton(jets.front()));
 
     for (const auto & jet : jets) {
         for (const auto & lepton : leptons) {

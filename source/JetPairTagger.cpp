@@ -1,4 +1,4 @@
-# include "JetPairTagger.hh"
+#include "JetPairTagger.hh"
 
 namespace analysis {
 

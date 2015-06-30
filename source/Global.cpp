@@ -1,4 +1,4 @@
-# include "Global.hh"
+#include "Global.hh"
 
 namespace analysis
 {
@@ -88,15 +88,15 @@ std::string Name(const Id id)
       return "A";
     case Id::charged_higgs:
         return "H+";
-    case Id::Isr:
+    case Id::isr:
         return "ISR";
-    case Id::Marker:
+    case Id::marker:
         return "TEMP";
-    case Id::Cluster:
+    case Id::cluster:
         return "Cluster";
     case Id::string:
         return "String";
-    case Id::MixedJet:
+    case Id::mixed_jet:
         return "MixJet";
     case Id::Pi0Meson:
         return "pi0";

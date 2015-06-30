@@ -1,4 +1,4 @@
-# include "EventFusionTagger.hh"
+#include "EventFusionTagger.hh"
 
 namespace analysis
 {

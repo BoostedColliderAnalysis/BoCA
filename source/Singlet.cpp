@@ -1,4 +1,4 @@
-# include "Singlet.hh"
+#include "Singlet.hh"
 
 namespace analysis {
 

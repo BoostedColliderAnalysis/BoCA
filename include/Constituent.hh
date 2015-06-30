@@ -1,16 +1,19 @@
-# pragma once
+#pragma once
 
-# include "Family.hh"
+#include "Family.hh"
 
 namespace analysis
 {
+
+enum class SubDetector
+{
+    none, gen_particle, track, photon, tower, muon
+};
 
 class Constituent
 {
 
 public:
-
-    enum SubDetector {kGenParticle, kTrack, kPhoton, kTower, kMuon, kNone};
 
     Constituent();
 
@@ -54,7 +57,7 @@ public:
 
 private:
 
-    SubDetector sub_detector_ = kNone;
+    SubDetector sub_detector_ = SubDetector::none;
 
     TLorentzVector position_;
 

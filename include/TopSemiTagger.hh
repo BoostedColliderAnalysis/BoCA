@@ -1,8 +1,8 @@
-# pragma once
+#pragma once
 
-# include "Triplet.hh"
-# include "BottomTagger.hh"
-# include "WSemiTagger.hh"
+#include "Triplet.hh"
+#include "BottomTagger.hh"
+#include "WSemiTagger.hh"
 
 namespace analysis
 {

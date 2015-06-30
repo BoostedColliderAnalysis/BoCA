@@ -1,6 +1,6 @@
-# pragma once
+#pragma once
 
-# include "Analysis.hh"
+#include "Analysis.hh"
 
 namespace analysis{
 
@@ -23,6 +23,7 @@ public:
   void RunNormal();
 
   void RunFull();
+  void RunFullTagger();
 
   Analysis(Tagger &tagger);
 
@@ -57,15 +58,15 @@ private:
 
   int PassPreCut(Event &event);
 
-  void RunTagger(analysis::Tagger::Stage stage);
+  void RunTagger(analysis::Stage stage);
 
   void RunFactory();
 
   void RunReader();
 
-  std::string PathName(const std::string &file_name) const;
+  void RunReaderTagger();
 
-  bool Missing(const std::string& name) const;
+  std::string PathName(const std::string &file_name) const;
 
 };
 

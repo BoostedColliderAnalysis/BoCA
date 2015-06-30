@@ -1,4 +1,4 @@
-# include "Configuration.hh"
+#include "Configuration.hh"
 
 namespace analysis {
 

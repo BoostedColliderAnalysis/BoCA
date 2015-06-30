@@ -1,9 +1,9 @@
-# ifndef HJetPropertiesBranch_hh
-# define HJetPropertiesBranch_hh
+#ifndef HJetPropertiesBranch_hh
+#define HJetPropertiesBranch_hh
 
-# include "TObject.h"
-# include "Rtypes.h"
-# include "TGenericClassInfo.h"
+#include "TObject.h"
+#include "Rtypes.h"
+#include "TGenericClassInfo.h"
 
 namespace hjetproperties{
 
@@ -128,4 +128,4 @@ private:
 
 };
 
-# endif
+#endif

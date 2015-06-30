@@ -1,7 +1,7 @@
-# pragma once
+#pragma once
 
-# include "Multiplet.hh"
-# include "Singlet.hh"
+#include "Multiplet.hh"
+#include "Singlet.hh"
 
 namespace analysis {
 

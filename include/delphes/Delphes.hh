@@ -1,6 +1,6 @@
-# pragma once
+#pragma once
 
-# include "classes/DelphesClasses.h"
+#include "classes/DelphesClasses.h"
 
 namespace delphes {
 

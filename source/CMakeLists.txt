@@ -7,6 +7,7 @@ add_subdirectory(delphes)
 HDictionary(Branches Branches.cpp ../include/LinkDef.hh)
 
 set(EventSources
+Debug.cpp
 Global.cpp
 Object.cpp
 FourVector.cpp
@@ -26,8 +27,7 @@ Identification.cpp
 Singlet.cpp
 Doublet.cpp
 Triplet.cpp
-Quartet22.cpp
-Quartet31.cpp
+Quartet.cpp
 Quintet.cpp
 Sextet.cpp
 Octet62.cpp

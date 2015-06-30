@@ -1,4 +1,4 @@
-# include "Sextet.hh"
+#include "Sextet.hh"
 
 namespace analysis {
 

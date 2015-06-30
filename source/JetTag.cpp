@@ -1,4 +1,4 @@
-# include "JetTag.hh"
+#include "JetTag.hh"
 
 namespace analysis {
 
@@ -19,7 +19,7 @@ int JetTag::GetBranchId(const int id, int branch_id)
     } else if (
         RadiationParticles.find(static_cast<Id>(std::abs(id))) != end(RadiationParticles)
     ) {
-        branch_id = to_int(Id::Isr);
+        branch_id = to_int(Id::isr);
     }
     Print(Severity::debug, "Branch Id", Name(branch_id));
     return branch_id;
@@ -44,7 +44,7 @@ Family JetTag::BranchFamily(const Family &node_family, Family &branch_family)
         RadiationParticles.find(static_cast<Id>(std::abs(node_family.mother_1().Id))) != end(RadiationParticles)
         || RadiationParticles.find(static_cast<Id>(std::abs(node_family.particle().Id))) != end(RadiationParticles)
     ) {
-        branch_family = Family(node_family.particle().Position,Id::Isr,node_family.mother_1().Position,Id::Isr);
+        branch_family = Family(node_family.particle().Position,Id::isr,node_family.mother_1().Position,Id::isr);
     }
     Print(Severity::debug, "Branch Id", Name(branch_family.particle().Id));
     return branch_family;

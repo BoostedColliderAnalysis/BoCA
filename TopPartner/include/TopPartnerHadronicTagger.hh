@@ -1,9 +1,10 @@
-# pragma once
+#pragma once
 
-# include "Quintet.hh"
-# include "TopHadronicTagger.hh"
-# include "ZHadronicTagger.hh"
-# include "BranchesTopPartner.hh"
+#include "Quintet.hh"
+#include "TopHadronicTagger.hh"
+// #include "ZHadronicTagger.hh"
+#include "HiggsTagger.hh"
+#include "BranchesTopPartner.hh"
 
 namespace analysis
 {
@@ -45,7 +46,7 @@ private:
 
     TopHadronicTagger top_tagger_;
 
-    ZHadronicTagger z_hadronic_tagger;
+    HiggsTagger z_hadronic_tagger;
 
     Reader top_reader_;
 

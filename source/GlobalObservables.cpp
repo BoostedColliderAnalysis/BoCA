@@ -1,4 +1,4 @@
-# include "GlobalObservables.hh"
+#include "GlobalObservables.hh"
 
 namespace analysis
 {

@@ -1,4 +1,4 @@
-# include "TopPartnerPairTagger.hh"
+#include "TopPartnerPairTagger.hh"
 
 namespace analysis
 {

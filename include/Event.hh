@@ -1,8 +1,8 @@
-# pragma once
+#pragma once
 
-# include "Partons.hh"
-# include "Leptons.hh"
-# include "Hadrons.hh"
+#include "Partons.hh"
+#include "Leptons.hh"
+#include "Hadrons.hh"
 
 namespace analysis
 {
@@ -16,7 +16,7 @@ class Event : public Object
 
 public:
 
-    Event(const ClonesArrays::Source source);
+    Event(const Source source);
 
     ~Event();
 
@@ -69,7 +69,7 @@ private:
      */
     analysis::Hadrons *hadrons_ = NULL;
 
-    ClonesArrays::Source source_;
+    Source source_;
 
     float mass_;
 

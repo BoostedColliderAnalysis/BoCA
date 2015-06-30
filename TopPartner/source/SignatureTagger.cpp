@@ -1,4 +1,4 @@
-# include "../include/SignatureTagger.hh"
+#include "../include/SignatureTagger.hh"
 
 namespace analysis
 {

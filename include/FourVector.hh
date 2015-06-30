@@ -1,7 +1,7 @@
-# pragma once
+#pragma once
 
-# include "ClonesArrays.hh"
-# include "JetTag.hh"
+#include "ClonesArrays.hh"
+#include "JetTag.hh"
 
 namespace analysis
 {
@@ -13,6 +13,14 @@ enum class Status
     unstable = 2,
     generator = 3
 };
+
+
+enum class JetDetail
+{
+    plain, tagging, isolation, structure, tagging_isolation, tagging_structure
+};
+
+std::string Name(const JetDetail jet_detail);
 
 /**
  * @brief converts Clones to LorentzVectors and fastjet::PseudoJets
@@ -142,8 +150,6 @@ protected:
     void set_jet_tag(JetTag &jet_tag) {
         jet_tag_ = &jet_tag;
     }
-
-    enum JetDetail {kPlain, kTagging, kIsolation, kStructure, kTaggingIsolation, kTaggingStructure};
 
     const bool check_four_vectors_;
 

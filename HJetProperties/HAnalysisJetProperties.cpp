@@ -1,6 +1,6 @@
-# include "HAnalysisJetProperties.hh"
-# include "fastjet/tools/MassDropTagger.hh"
-# include "Predicate.hh"
+#include "HAnalysisJetProperties.hh"
+#include "fastjet/tools/MassDropTagger.hh"
+#include "Predicate.hh"
 
 // hjetproperties::HAnalysis::HAnalysis()
 // {
@@ -96,7 +96,7 @@ void hjetproperties::HAnalysis::CloseFile()
 //         RadiationParticles.find(std::abs(id)) != end(RadiationParticles) &&
 //         HeavyParticles.find(std::abs(BranchId)) == end(HeavyParticles)
 //     ) {
-//         BranchId = Id::Isr;
+//         BranchId = Id::isr;
 //     } else if (
 //         HeavyParticles.find(std::abs(id)) != end(HeavyParticles)
 //         && HeavyParticles.find(std::abs(BranchId)) == end(HeavyParticles)
@@ -134,7 +134,7 @@ int hjetproperties::HAnalysis::Analysis(analysis::Event &event, const std::strin
     if (StudyName == "Top") Ids = { analysis::to_int(analysis::Id::top)};
     if (StudyName == "ATop") Ids = { -analysis::to_int(analysis::Id::top)};
     if (StudyName == "Higgs") Ids = {analysis::to_int(analysis::Id::CP_violating_higgs)};
-    if (StudyName == "Isr") Ids = {analysis::to_int(analysis::Id::Isr)};
+    if (StudyName == "Isr") Ids = {analysis::to_int(analysis::Id::isr)};
     for (const auto & Id : Ids) {
         analysis::Jets EFlowJets;
         std::copy_if(event.Hadrons().Jets().begin(), event.Hadrons().Jets().end(), std::back_inserter(EFlowJets),

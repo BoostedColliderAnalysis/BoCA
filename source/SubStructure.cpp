@@ -1,8 +1,8 @@
-# include "SubStructure.hh"
-# include "Predicate.hh"
+#include "SubStructure.hh"
+#include "Predicate.hh"
 
 #include  "exroot/ExRootAnalysis.hh"
-# include "Branches.hh"
+#include "Branches.hh"
 
 namespace analysis {
 
@@ -83,7 +83,7 @@ Vectors SubStructure::Getconstituents(const fastjet::PseudoJet &CandidateJet)
     DeltaR = 0;
     std::vector <TLorentzVector> constituentVectors;
     for (const auto & constituentJet : CandidateJet.constituents()) {
-        if (constituentJet.user_index() != to_int(Id::Isr) &&
+        if (constituentJet.user_index() != to_int(Id::isr) &&
                 constituentJet.user_index() != to_int(Id::CP_violating_higgs) &&
                 std::abs(constituentJet.user_index()) != to_int(Id::top) &&
                 constituentJet.user_index() != to_int(Id::higgs)

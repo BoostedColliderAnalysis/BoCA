@@ -1,6 +1,6 @@
-# pragma once
+#pragma once
 
-# include "Analysis.hh"
+#include "Analysis.hh"
 
 namespace analysis
 {
@@ -34,7 +34,7 @@ protected:
 
     std::string ProjectName() const;
 
-    enum Process {tt, ttlep, tthad, hh, zz, ww, bb, cc, qq, gg};
+    enum Process {tt, tt_lep, tt_had, hh, hh_bb, zz, zz_bb, ww, bb, cc, qq, gg};
 
     enum Collider {LHC, FHC, LE};
 
@@ -78,7 +78,7 @@ protected:
 
 private:
 
-    void RunTagger(analysis::Tagger::Stage stage);
+    void RunTagger(analysis::Stage stage);
 
     void RunFactory();
 

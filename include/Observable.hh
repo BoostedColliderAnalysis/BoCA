@@ -1,6 +1,6 @@
-# pragma once
+#pragma once
 
-# include "Object.hh"
+#include "Object.hh"
 
 namespace analysis
 {

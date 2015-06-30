@@ -1,4 +1,4 @@
-# include "../include/EventTagger.hh"
+#include "../include/EventTagger.hh"
 
 namespace analysis
 {
