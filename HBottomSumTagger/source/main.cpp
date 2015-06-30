@@ -1,12 +1,13 @@
 #include "HAnalysisBottomSumTagger.hh"
 #include "JetPairTagger.hh"
 #include "TSystem.h"
+#include "Debug.hh"
 
 void RunTagger(analysis::Tagger &tagger, analysis::Stage stage)
 {
     hbottomsumtagger::HAnalysis analysis(tagger);
     const std::string Name = tagger.name();
-    analysis.Print(analysis::Severity::error, "Tagger", Name);
+    Error("Tagger", Name);
 
     std::string FileName = analysis.ProjectName() + "/" + Name + ".root";
     if (gSystem->AccessPathName(FileName.c_str())) analysis.AnalysisLoop(stage);

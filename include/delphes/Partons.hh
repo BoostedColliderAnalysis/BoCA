@@ -27,10 +27,6 @@ private:
 
     Jets Particles(const Status max_status) const;
 
-     std::string NameSpaceName() const {
-        return "delphes";
-    }
-
 };
 
 }

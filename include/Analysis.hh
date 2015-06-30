@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Configuration.hh"
 #include "File.hh"
+#include "Configuration.hh"
 #include "Reader.hh"
 
 namespace analysis
@@ -11,7 +11,7 @@ namespace analysis
  * @brief Base for all analyses
  *
  */
-class Analysis : public Object
+class Analysis
 {
 
 public:
@@ -24,10 +24,7 @@ public:
 
     void AnalysisLoop(const Stage stage);
 
-    virtual std::vector<File> Files(const Tag tag) {
-        Print(Severity::error, "Files", Name(tag));
-        return files_;
-    }
+    virtual std::vector<File> Files(const Tag tag);
 
     void SetConfig(const Configuration &configuration) {
         configuration_ = configuration;
@@ -44,9 +41,7 @@ public:
 
 protected:
 
-    virtual void SetFiles(const Tag tag) {
-        Print(Severity::error, "Set Files", "should be subclassed", Name(tag));
-    }
+    virtual void SetFiles(const Tag tag);
 
     exroot::TreeWriter TreeWriter(TFile &export_file, const std::string &export_tree_name, Stage stage);
 
@@ -63,10 +58,6 @@ protected:
      */
     virtual  int EventNumberMax() const {
         return 100000;
-    }
-
-    virtual  std::string ClassName() const {
-        return "Analysis";
     }
 
     virtual  std::string ProcessName() const {
@@ -140,10 +131,7 @@ protected:
         return name + "-run_01";
     }
 
-    virtual int PassPreCut(Event &) {
-        Print(Severity::error, "Apply pre cut", "no pre cut applied");
-        return 1;
-    }
+    virtual int PassPreCut(Event &);
 
     int RunAnalysis(Event &event, const Stage stage, const Tag tag);
 

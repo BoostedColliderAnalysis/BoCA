@@ -29,16 +29,6 @@ public:
 
     std::vector<MultipletEvent<Octet44>> Multiplets(Event &event, const TMVA::Reader &reader);
 
-protected:
-
-    virtual  std::string NameSpaceName() const {
-        return "heavyhiggs";
-    }
-
-    virtual  std::string ClassName() const {
-        return "EventChargedTagger";
-    }
-
 private:
 
     BottomTagger bottom_tagger_;

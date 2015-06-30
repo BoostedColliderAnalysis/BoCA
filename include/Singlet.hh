@@ -135,12 +135,6 @@ public:
         return *this;
     }
 
-protected:
-
-    virtual  std::string ClassName() const {
-        return "Singlet";
-    }
-
 private:
 
     const JetInfo &UserInfo() const;

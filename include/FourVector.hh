@@ -2,6 +2,7 @@
 
 #include "ClonesArrays.hh"
 #include "JetTag.hh"
+#include <iomanip>
 
 namespace analysis
 {
@@ -26,7 +27,7 @@ std::string Name(const JetDetail jet_detail);
  * @brief converts Clones to LorentzVectors and fastjet::PseudoJets
  *
  */
-class FourVector : virtual public Object
+class FourVector
 {
 
 public:
@@ -43,56 +44,56 @@ protected:
 
     template<typename Particle>
     TLorentzVector LorentzVectorByEnergy(const Particle &particle) const {
-        Print(Severity::debug, "Lorentz Vector by Energy");
+//         Debug("Lorentz Vector by Energy");
         TLorentzVector vector;
         const float Pt = particle.PT;
         const float Eta = particle.Eta;
         const float Phi = particle.Phi;
         const float Energy = particle.E;
         vector.SetPtEtaPhiE(Pt, Eta, Phi, Energy);
-        if (check_four_vectors_) {
-            if (vector.Pt() - Pt > check_value_) Print(Severity::error, "Pt", Pt, vector.Pt());
-            if (vector.Eta() - Eta > check_value_) Print(Severity::error, "Eta", Eta, vector.Eta());
-            if (vector.Phi() - Phi > check_value_) Print(Severity::error, "Phi", Phi, vector.Phi());
-            if (vector.E() - Energy > check_value_) Print(Severity::error, "Energy", Energy, vector.E());
-        }
+//         if (check_four_vectors_) {
+//             if (vector.Pt() - Pt > check_value_) Error(Pt, vector.Pt());
+//             if (vector.Eta() - Eta > check_value_) Error(Eta, vector.Eta());
+//             if (vector.Phi() - Phi > check_value_) Error(Phi, vector.Phi());
+//             if (vector.E() - Energy > check_value_) Error(Energy, vector.E());
+//         }
         return vector;
     }
 
     template<typename Particle>
     TLorentzVector LorentzVectorByMass(const Particle &particle, const float mass) const {
-        Print(Severity::debug, "Lorentz Vector by Mass");
+//         Debug("Lorentz Vector by Mass");
         TLorentzVector LorentzVector;
         const float Pt = particle.PT;
         const float Eta = particle.Eta;
         const float Phi = particle.Phi;
         LorentzVector.SetPtEtaPhiM(Pt, Eta, Phi, mass);
-        if (check_four_vectors_) {
-            if (LorentzVector.Pt() - Pt > check_value_) Print(Severity::error, "Pt", Pt, LorentzVector.Pt());
-            if (LorentzVector.Eta() - Eta > check_value_) Print(Severity::error, "Eta", Eta, LorentzVector.Eta());
-            if (LorentzVector.Phi() - Phi > check_value_) Print(Severity::error, "Phi", Phi, LorentzVector.Phi());
-        }
+// //         if (check_four_vectors_) {
+// //             if (LorentzVector.Pt() - Pt > check_value_) Error(Pt, LorentzVector.Pt());
+// //             if (LorentzVector.Eta() - Eta > check_value_) Error(Eta, LorentzVector.Eta());
+// //             if (LorentzVector.Phi() - Phi > check_value_) Error(Phi, LorentzVector.Phi());
+// //         }
         return LorentzVector;
     }
 
     template<typename Particle>
     TLorentzVector LorentzVectorByMass(const Particle &particle) const {
-        Print(Severity::debug, "Lorentz Vector by Mass");
+//         Debug("Lorentz Vector by Mass");
         const float Mass = particle.Mass;
         const TLorentzVector LorentzVector = LorentzVectorByMass(particle, Mass);
         if (check_four_vectors_) {
-            if (LorentzVector.M() - Mass > mass_check_value_) Print(Severity::error, "Mass", Mass, LorentzVector.M());
+//             if (LorentzVector.M() - Mass > mass_check_value_) Error(Mass, LorentzVector.M());
         }
         return LorentzVector;
     }
 
     template<typename Particle>
     TLorentzVector LorentzVectorByM(const Particle &particle) const {
-        Print(Severity::debug, "Lorentz Vector by Mass");
+//         Debug("Lorentz Vector by Mass");
         const float Mass = particle.M;
         const TLorentzVector LorentzVector = LorentzVectorByMass(particle, Mass);
         if (check_four_vectors_) {
-            if (LorentzVector.M() - Mass > mass_check_value_) Print(Severity::error, "Mass", Mass, LorentzVector.M());
+//             if (LorentzVector.M() - Mass > mass_check_value_) Error(Mass, LorentzVector.M());
         }
         return LorentzVector;
     }
@@ -156,10 +157,6 @@ protected:
     const float check_value_;
 
     const float mass_check_value_;
-
-    virtual  std::string ClassName() const {
-        return "FourVector";
-    }
 
 private:
 

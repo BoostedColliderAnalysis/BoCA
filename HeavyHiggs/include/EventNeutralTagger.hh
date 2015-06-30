@@ -29,16 +29,6 @@ public:
 
     std::vector< MultipletEvent< Octet62 > > Multiplets(Event &event, const TMVA::Reader &reader);
 
-protected:
-
-    virtual  std::string NameSpaceName() const {
-        return "heavyhiggs";
-    }
-
-    virtual  std::string ClassName() const {
-        return "EventNeutralTagger";
-    }
-
 private:
 
     SignatureNeutralTagger signature_neutral_tagger_;

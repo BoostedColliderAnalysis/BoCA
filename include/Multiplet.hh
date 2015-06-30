@@ -142,10 +142,6 @@ public:
 
 protected:
 
-    virtual  std::string ClassName() const {
-        return "Multiplet";
-    }
-
     void SetMultiplet1(const Multiplet_1 multiplet_1) {
         multiplet_1_ = multiplet_1;
     }

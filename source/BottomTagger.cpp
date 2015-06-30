@@ -1,4 +1,5 @@
 #include "BottomTagger.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
@@ -6,17 +7,17 @@ namespace analysis
 BottomTagger::BottomTagger()
 {
 //     DebugLevel = Severity::debug;
-    Print(Severity::information, "Constructor");
+    Info("Constructor");
     set_tagger_name("Bottom");
     DefineVariables();
 }
 
 int BottomTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
 {
-    Print(Severity::information, "Bottom Tag", Name(tag));
+    Info("Bottom Tag", Name(tag));
 
     Jets jets = event.Hadrons().Jets();
-    Print(Severity::information, "Number Jets", jets.size());
+    Info("Number Jets", jets.size());
     if (jets.empty()) return 0;
 
     Jets final_jets = CleanJets(jets, pre_cuts, tag);
@@ -28,7 +29,7 @@ int BottomTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
     Jets particles = event.Partons().Particles();
     Jets bottoms = copy_if_abs_particle(particles, Id::bottom);
     bottoms = RemoveIfSoft(bottoms, DetectorGeometry().JetMinPt);
-    Print(Severity::information, "Particle size", bottoms.size());
+    Info("Particle size", bottoms.size());
     return SaveEntries(BestMatches(final_jets, bottoms, tag));
 }
 
@@ -52,7 +53,7 @@ bool BottomTagger::Problematic(const fastjet::PseudoJet &jet, PreCuts &pre_cuts)
 
 Jets BottomTagger::CleanJets(Jets &jets, PreCuts &pre_cuts, const Tag tag)
 {
-    Print(Severity::information, "Clean Jets", jets.size());
+    Info("Clean Jets", jets.size());
 
     if (jets.empty()) return jets;
     Jets clean_jets;
@@ -60,13 +61,13 @@ Jets BottomTagger::CleanJets(Jets &jets, PreCuts &pre_cuts, const Tag tag)
         if (Problematic(jet, pre_cuts, tag)) continue;
         clean_jets.emplace_back(jet);
     }
-    Print(Severity::information, "Jets", clean_jets.size());
+    Info("Jets", clean_jets.size());
     return clean_jets;
 }
 
 Jets BottomTagger::TrainOnSubJets(const Jets &jets, PreCuts &pre_cuts, const Tag tag, const int sub_jet_number)
 {
-    Print(Severity::debug, "Sub Jets", sub_jet_number);
+    Debug("Sub Jets", sub_jet_number);
     Jets sub_jets = SubJets(jets, sub_jet_number);
     return CleanJets(sub_jets, pre_cuts, tag);
 }
@@ -80,7 +81,7 @@ Jets BottomTagger::SubJets(const Jets &jets, const int sub_jet_number)
 
 Jets BottomTagger::Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
-    Print(Severity::information, "Jet Bdt");
+    Info("Jet Bdt");
     return Multiplets(event.Hadrons().Jets(), pre_cuts, reader);
 }
 

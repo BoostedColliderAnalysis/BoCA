@@ -34,16 +34,6 @@ public:
       return Multiplets(event, pre_cuts, reader);
     }
 
-protected:
-
-    virtual  std::string NameSpaceName() const {
-        return "higgscpv";
-    }
-
-    virtual  std::string ClassName() const {
-        return "SignatureTagger";
-    }
-
 private:
 
     HiggsTagger higgs_tagger_;

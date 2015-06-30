@@ -1,20 +1,14 @@
 #pragma once
 
-#include <iostream>
-#include <iomanip>
-#include <cmath>
 #include <vector>
-// #include "Debug.hh"
 
 #include "TLorentzVector.h"
-
 #include "fastjet/PseudoJet.hh"
 
 /**
  * @brief analysis namespace containing the general analysis and SM taggers
  *
  */
-
 namespace analysis
 {
 
@@ -176,8 +170,6 @@ std::string Name(const int id);
 std::string Name(const Id id);
 
 float Mass(const Id id);
-
-
 
 /**
  * @brief Initial user index

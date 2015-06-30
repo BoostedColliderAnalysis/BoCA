@@ -23,12 +23,6 @@ public:
 
     const std::set<analysis::Id> HeavyParticles {analysis::Id::top, analysis::Id::CP_violating_higgs, analysis::Id::higgs};
 
-    virtual  std::string ClassName() const {
-
-        return "HiggsCPV: JetTag";
-
-    };
-
 };
 
 /**
@@ -127,12 +121,6 @@ private:
     void NewBranches(exroot::TreeWriter *NewTreeWriter);
 
      analysis::Strings GetStudyNames() const;
-
-    virtual  std::string ClassName() const {
-
-        return "HiggsCPV: HAnalysis";
-
-    };
 
 };
 

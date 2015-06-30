@@ -1,4 +1,5 @@
 #include "AnalysisHiggsTagger.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
@@ -9,7 +10,7 @@ namespace standardmodel
 AnalysisHiggs::AnalysisHiggs(Tagger &tagger) : analysis::standardmodel::Analysis::Analysis(tagger)
 {
 //   DebugLevel = Severity::debug;
-    Print(Severity::notification, "Constructor");
+    Note("Constructor");
     this->tagger().set_analysis_name(ProjectName());
     pre_cuts().SetPtLowerCut(Id::higgs, LowerPtCut());
     pre_cuts().SetPtUpperCut(Id::higgs, UpperPtCut());
@@ -24,14 +25,9 @@ std::string AnalysisHiggs::ProjectName() const
     return  "HiggsTagger-" + ColliderName(collider_type()) + "-" + std::to_string(LowerPtCut()) + "GeV-bb";
 }
 
-std::string AnalysisHiggs::ClassName() const
-{
-    return "AnalysisHiggs";
-}
-
 void AnalysisHiggs::SetFiles(const Tag tag)
 {
-    Print(Severity::notification, "Set File Vector", Name(tag));
+    Note("Set File Vector", Name(tag));
     switch (tag) {
     case Tag::signal :
         NewSignalFile(hh_bb);
@@ -55,7 +51,7 @@ void AnalysisHiggs::SetFiles(const Tag tag)
 
 int AnalysisHiggs::PassPreCut(Event &event)
 {
-    Print(Severity::information, "pass pre cut");
+    Info("pass pre cut");
 
     Jets jets = fastjet::sorted_by_pt(event.Hadrons().Jets());
     if (jets.empty()) return 0;

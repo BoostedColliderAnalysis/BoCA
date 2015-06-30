@@ -58,12 +58,6 @@ public:
 
     std::vector< Kinematics > Constituents() const;
 
-protected:
-
-    virtual  std::string ClassName() const {
-        return "Doublet";
-    }
-
 private:
 
     std::vector< Kinematics > Constituents(const fastjet::PseudoJet &jet, const float jet_ratio, const float theta, const float shift) const;

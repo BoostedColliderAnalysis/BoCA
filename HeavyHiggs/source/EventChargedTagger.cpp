@@ -1,4 +1,5 @@
 #include "EventChargedTagger.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
@@ -8,7 +9,7 @@ namespace heavyhiggs {
 EventChargedTagger::EventChargedTagger()
 {
 //       DebugLevel = Severity::debug;
-    Print(Severity::information , "Constructor");
+    Info("Constructor");
     set_tagger_name("ChargedeventSemi");
     bottom_reader_.SetTagger(bottom_tagger_);
     signature_semi_reader_.SetTagger(signature_semi_tagger_);
@@ -17,7 +18,7 @@ EventChargedTagger::EventChargedTagger()
 
 int EventChargedTagger::Train(Event &event, const Tag tag)
 {
-    Print(Severity::information, "event Tags");
+    Info("event Tags");
 
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
     Jets Leptons = event.Leptons().leptons();
@@ -35,7 +36,7 @@ int EventChargedTagger::Train(Event &event, const Tag tag)
 
 std::vector<MultipletEvent<Octet44>> EventChargedTagger::Multiplets(Event &event, const TMVA::Reader &reader)
 {
-  Print(Severity::information, "event Tags");
+  Info("event Tags");
   Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
     std::vector<Octet44> octets = signature_semi_reader_.Multiplets<SignatureChargedTagger>(event);
     std::vector<MultipletEvent<Octet44>> multiplet_events;

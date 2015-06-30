@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Object.hh"
+#include "Global.hh"
 
 namespace analysis {
 
@@ -14,7 +14,7 @@ struct Particle {
 
 };
 
-class Family : public Object
+class Family
 {
 
 public:

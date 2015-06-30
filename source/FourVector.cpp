@@ -2,6 +2,7 @@
 
 #include "TClonesArray.h"
 #include "Predicate.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
@@ -30,135 +31,135 @@ FourVector::FourVector() :
     mass_check_value_(1)
 {
 //     DebugLevel = Severity::debug;
-    Print(Severity::information, "Constructor");
+    Info("Constructor");
 }
 
 void FourVector::NewEvent(const ClonesArrays &clones_arrays)
 {
     clones_arrays_ = &clones_arrays;
     topology_.assign(clones_arrays_->ParticleSum(), Family(Id::empty));
-    Print(Severity::information, "Topology", topology_.size());
+    Info("Topology", topology_.size());
 }
 
 TLorentzVector FourVector::LorentzVector(const exroot::Electron &Particle) const
 {
-    Print(Severity::debug, "Lorentz Vector", "Electron");
+    Debug("Lorentz Vector", "Electron");
     return LorentzVectorByMass(Particle, Mass(Id::electron));
 }
 
 TLorentzVector FourVector::LorentzVector(const exroot::GenJet &Particle) const
 {
-    Print(Severity::debug, "Lorentz Vector", "GenJet");
+    Debug("Lorentz Vector", "GenJet");
     return LorentzVectorByMass(Particle);
 }
 
 TLorentzVector FourVector::LorentzVector(const exroot::GenParticle &Particle) const
 {
-    Print(Severity::debug, "Lorentz Vector", "GenParticle");
+    Debug("Lorentz Vector", "GenParticle");
     return LorentzVectorByEnergy(Particle);
 }
 
 TLorentzVector FourVector::LorentzVector(const exroot::Jet &Particle) const
 {
-    Print(Severity::debug, "Lorentz Vector", "Jet");
+    Debug("Lorentz Vector", "Jet");
     return LorentzVectorByMass(Particle);
 }
 
 TLorentzVector FourVector::LorentzVector(const exroot::LHEFParticle &Particle) const
 {
-    Print(Severity::debug, "Lorentz Vector", "LHEFParticle");
+    Debug("Lorentz Vector", "LHEFParticle");
     return LorentzVectorByM(Particle);
 }
 
 TLorentzVector FourVector::LorentzVector(const exroot::Muon &Particle) const
 {
-    Print(Severity::debug, "Lorentz Vector", "Muon");
+    Debug("Lorentz Vector", "Muon");
     return LorentzVectorByMass(Particle, Mass(Id::muon));
 }
 
 TLorentzVector FourVector::LorentzVector(const exroot::Photon &Particle) const
 {
-    Print(Severity::debug, "Lorentz Vector", "Photon");
+    Debug("Lorentz Vector", "Photon");
     return LorentzVectorByMass(Particle, Mass(Id::photon));
 }
 
 TLorentzVector FourVector::LorentzVector(const exroot::Tau &Particle) const
 {
-    Print(Severity::debug, "Lorentz Vector", "Tau");
+    Debug("Lorentz Vector", "Tau");
     return LorentzVectorByMass(Particle, Mass(Id::tau));
 }
 
 fastjet::PseudoJet FourVector::PseudoJet(const exroot::Electron &Particle) const
 {
-    Print(Severity::debug, "Pseudo Jet", "Electron");
+    Debug("Pseudo Jet", "Electron");
     return analysis::PseudoJet(LorentzVectorByMass(Particle, Mass(Id::electron)));
 }
 
 fastjet::PseudoJet FourVector::PseudoJet(const exroot::GenJet &Particle) const
 {
-    Print(Severity::debug, "Pseudo Jet", "GenJet");
+    Debug("Pseudo Jet", "GenJet");
     return analysis::PseudoJet(LorentzVectorByMass(Particle));
 }
 
 fastjet::PseudoJet FourVector::PseudoJet(const exroot::GenParticle &Particle) const
 {
-    Print(Severity::debug, "Pseudo Jet", "GenParticle");
+    Debug("Pseudo Jet", "GenParticle");
     return analysis::PseudoJet(LorentzVectorByEnergy(Particle));
 }
 
 fastjet::PseudoJet FourVector::PseudoJet(const exroot::Jet &Particle) const
 {
-    Print(Severity::debug, "Pseudo Jet", "Jet");
+    Debug("Pseudo Jet", "Jet");
     return analysis::PseudoJet(LorentzVectorByMass(Particle));
 }
 
 fastjet::PseudoJet FourVector::PseudoJet(const exroot::LHEFParticle &Particle) const
 {
-    Print(Severity::debug, "Pseudo Jet", "LHEFParticle");
+    Debug("Pseudo Jet", "LHEFParticle");
     return analysis::PseudoJet(LorentzVectorByM(Particle));
 }
 
 fastjet::PseudoJet FourVector::PseudoJet(const exroot::Muon &Particle) const
 {
-    Print(Severity::debug, "Pseudo Jet", "Muon");
+    Debug("Pseudo Jet", "Muon");
     return analysis::PseudoJet(LorentzVectorByMass(Particle, Mass(Id::muon)));
 }
 
 fastjet::PseudoJet FourVector::PseudoJet(const exroot::Photon &Particle) const
 {
-    Print(Severity::debug, "Pseudo Jet", "Photon");
+    Debug("Pseudo Jet", "Photon");
     return analysis::PseudoJet(LorentzVectorByMass(Particle, 0));
 }
 
 fastjet::PseudoJet FourVector::PseudoJet(const exroot::Tau &Particle) const
 {
-    Print(Severity::debug, "Pseudo Jet", "Tau");
+    Debug("Pseudo Jet", "Tau");
     return analysis::PseudoJet(LorentzVectorByMass(Particle, Mass(Id::tau)));
 }
 
 Family FourVector::BranchFamily(const TObject &object)
 {
-    Print(Severity::information, "Mother Id", clones_arrays().ParticleSum());
+    Info("Mother Id", clones_arrays().ParticleSum());
     Family family;
     if (object.IsA() != ::delphes::GenParticle::Class()/* || Object == 0*/) {
-        Print(Severity::error, "Object is", object.ClassName());
+        Error("Object is", object.ClassName());
         return family;
     }
     const int Position = clones_arrays().ParticleClonesArray().IndexOf(&object);
     if (Position == EmptyPosition) return family;
     family = BranchFamily(family, Position);
     if (family.mother_1().Id == to_int(Id::empty)) family = Family(family.particle().Position, Id::isr, family.mother_1().Position, Id::isr);
-//       Print(Severity::error, "Truth Level Tagging Failed");
+//       Error("Truth Level Tagging Failed");
     for (auto & Node : topology_) if (Node.Marker()) Node = family;
     //
-    Print(Severity::debug, "Branch Family", Name(family.particle().Id), Name(family.mother_1().Id));
-    if (family.particle().Id == to_int(Id::empty) || family.mother_1().Id == to_int(Id::empty)) Print(Severity::error, "Branch Family", Name(family.particle().Id), Name(family.mother_1().Id));
+    Debug("Branch Family", Name(family.particle().Id), Name(family.mother_1().Id));
+    if (family.particle().Id == to_int(Id::empty) || family.mother_1().Id == to_int(Id::empty)) Error(Name(family.particle().Id), Name(family.mother_1().Id));
     return family;
 }
 
 Family FourVector::BranchFamily(Family &family, int Position)
 {
-    Print(Severity::information, "Branch Family ", Name(family.particle().Id), Position);
+    Info("Branch Family ", Name(family.particle().Id), Position);
     if (
         jet_tag().HeavyParticles.find(static_cast<Id>(std::abs(topology_.at(Position).mother_1().Id))) != end(jet_tag().HeavyParticles) ||
         jet_tag().HeavyParticles.find(static_cast<Id>(std::abs(topology_.at(Position).particle().Id))) != end(jet_tag().HeavyParticles) ||
@@ -171,7 +172,7 @@ Family FourVector::BranchFamily(Family &family, int Position)
         jet_tag().HeavyParticles.find(static_cast<Id>(std::abs(family.mother_1().Id))) == end(jet_tag().HeavyParticles) &&
         jet_tag().HeavyParticles.find(static_cast<Id>(std::abs(family.particle().Id))) == end(jet_tag().HeavyParticles)
     ) {
-        Print(Severity::debug, "Topology", Position, Name(topology_.at(Position).particle().Id), Name(topology_.at(Position).mother_1().Id));
+        Debug("Topology", Position, Name(topology_.at(Position).particle().Id), Name(topology_.at(Position).mother_1().Id));
         if (
             jet_tag().HeavyParticles.find(static_cast<Id>(std::abs(topology_.at(Position).mother_1().Id))) != end(jet_tag().HeavyParticles) ||
             jet_tag().HeavyParticles.find(static_cast<Id>(std::abs(topology_.at(Position).particle().Id))) != end(jet_tag().HeavyParticles) ||
@@ -200,20 +201,20 @@ Family FourVector::BranchFamily(Family &family, int Position)
         Family NodeFamily(particle.P4(), MotherVector, Position, particle.PID, particle.M1, M1Id);
         if (Mother1Status == to_int(Status::generator))
             family = jet_tag().BranchFamily(NodeFamily, family);
-        Print(Severity::detailed, "Branch Id", Name(M1Id), Name(family.mother_1().Id));
+        Detail("Branch Id", Name(M1Id), Name(family.mother_1().Id));
         if (jet_tag().HeavyParticles.find(static_cast<Id>(std::abs(family.mother_1().Id))) != end(jet_tag().HeavyParticles)) return family;
         if (jet_tag().HeavyParticles.find(static_cast<Id>(std::abs(family.particle().Id))) != end(jet_tag().HeavyParticles)) return family;
         if (particle.M2 != EmptyPosition && particle.M2 != particle.M1) {
             if (particle.PID == to_int(Id::string)) {
                 if (particle.M1 < particle.M2) {
-                    Print(Severity::debug, "String", Position, particle.M1, particle.M2);
+                    Debug("String", Position, particle.M1, particle.M2);
                     JetInfo jet_info;
 //                     for (int Counter = ParticleClone.M2; Counter >= ParticleClone.M1; --Counter) {
                     for (int Counter = particle.M1; Counter <= particle.M2; ++Counter) {
 //                         BranchFamily = BranchFamily(BranchFamily, Counter);
                         Family NewFamily = BranchFamily(family, Counter);
                         jet_info.AddFamily(NewFamily, NewFamily.Pt());
-                        Print(Severity::debug, "StringPart", Counter, Name(family.particle().Id));
+                        Debug("StringPart", Counter, Name(family.particle().Id));
 //                         if (std::abs(BranchFamily.particle().Id) == Id::isr) return BranchFamily;
                     }
                     jet_info.PrintAllFamInfos(Severity::debug);
@@ -221,27 +222,27 @@ Family FourVector::BranchFamily(Family &family, int Position)
                         for (int Counter = particle.M1; Counter <= particle.M2; ++Counter) {
                             topology_.at(Counter).UnSetMarker();
                         }
-                        Print(Severity::debug, "To many String fractions");
+                        Debug("To many String fractions");
                     };
                     family = jet_info.MaximalFamily();
                 } else {
-                    Print(Severity::error, "Strange Particle String");
+                    Error("Strange Particle String");
                 }
                 if (jet_tag().HeavyParticles.find(static_cast<Id>(std::abs(family.mother_1().Id))) != end(jet_tag().HeavyParticles)) return family;
                 if (jet_tag().HeavyParticles.find(static_cast<Id>(std::abs(family.particle().Id))) != end(jet_tag().HeavyParticles)) return family;
             } else {
-                Print(Severity::debug, "Not a String", Position, particle.M1, particle.M2);
+                Debug("Not a String", Position, particle.M1, particle.M2);
             }
         }
         Position = particle.M1;
-        Print(Severity::detailed, "Mother 1 Position", Position);
+        Detail("Mother 1 Position", Position);
     }
     return family;
 }
 
 void FourVector::PrintTruthLevel(const analysis::Severity severity) const
 {
-    if (severity <= debug_level_) {
+    if (to_int(severity) <= 0) {
         PrintCell("Position");
         PrintCell("Top Part");
         PrintCell("Top PP");

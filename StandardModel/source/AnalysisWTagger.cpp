@@ -1,4 +1,5 @@
 #include "AnalysisWTagger.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
@@ -9,7 +10,7 @@ namespace standardmodel
 AnalysisW::AnalysisW(Tagger &tagger) : analysis::standardmodel::Analysis::Analysis(tagger)
 {
 //   DebugLevel = Severity::debug;
-    Print(Severity::notification, "Constructor");
+    Note("Constructor");
     this->tagger().set_analysis_name(ProjectName());
     pre_cuts().SetPtLowerCut(Id::W, LowerPtCut());
     pre_cuts().SetPtUpperCut(Id::W, UpperPtCut());
@@ -20,7 +21,7 @@ AnalysisW::AnalysisW(Tagger &tagger) : analysis::standardmodel::Analysis::Analys
 
 void AnalysisW::SetFiles(const Tag tag)
 {
-    Print(Severity::notification, "Set File Vector", Name(tag));
+    Note("Set File Vector", Name(tag));
     switch (tag) {
     case Tag::signal :
         NewSignalFile(ww);
@@ -40,7 +41,7 @@ void AnalysisW::SetFiles(const Tag tag)
 
 int AnalysisW::PassPreCut(Event &event)
 {
-    Print(Severity::information, "pass pre cut");
+    Info("pass pre cut");
 //     Jets particles = event.Partons().GenParticles();
 //     Jets w = fastjet::sorted_by_pt(copy_if_abs_particle(particles, Id::W));
 //     remove_if_not_in_pt_window(w, PreCut(), UpperCut());

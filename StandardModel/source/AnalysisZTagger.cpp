@@ -1,4 +1,5 @@
 #include "AnalysisZTagger.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
@@ -9,7 +10,7 @@ namespace analysis
 AnalysisZ::AnalysisZ(Tagger &tagger) : analysis::standardmodel::Analysis::Analysis(tagger)
 {
 //   DebugLevel = Severity::debug;
-    Print(Severity::notification, "Constructor");
+    Note("Constructor");
     this->tagger().set_analysis_name(ProjectName());
     pre_cuts().SetPtLowerCut(Id::Z, LowerPtCut());
     pre_cuts().SetPtUpperCut(Id::Z, UpperPtCut());
@@ -20,7 +21,7 @@ AnalysisZ::AnalysisZ(Tagger &tagger) : analysis::standardmodel::Analysis::Analys
 
 void AnalysisZ::SetFiles(const Tag tag)
 {
-    Print(Severity::notification, "Set File Vector", Name(tag));
+    Note("Set File Vector", Name(tag));
     switch (tag) {
     case Tag::signal :
         NewSignalFile(zz);
@@ -40,7 +41,7 @@ void AnalysisZ::SetFiles(const Tag tag)
 
 int AnalysisZ::PassPreCut(Event &event)
 {
-    Print(Severity::information, "pass pre cut");
+    Info("pass pre cut");
     Jets leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
     if(leptons.empty()) return 1;
     if(leptons.front().pt()<80) return 1;

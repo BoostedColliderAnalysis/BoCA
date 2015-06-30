@@ -4,12 +4,13 @@
 #include "Factory.hh"
 
 #include "fastjet/LimitedWarning.hh"
+#include "Debug.hh"
 
 void RunTagger(analysis::Tagger &tagger, analysis::Stage stage)
 {
     analysis::heavyhiggs::AnalysisFusion analysis(tagger);
     const std::string Name = tagger.name();
-    analysis.Print(analysis::Severity::error, "Tagger", Name);
+    Error("Tagger", Name);
 
     std::string FileName = analysis.ProjectName() + "/" + Name + ".root";
     if (gSystem->AccessPathName(FileName.c_str())) analysis.AnalysisLoop(stage);

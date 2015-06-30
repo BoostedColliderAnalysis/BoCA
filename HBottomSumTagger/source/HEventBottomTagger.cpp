@@ -1,10 +1,11 @@
 #include "HEventBottomTagger.hh"
 #include "Doublet.hh"
+#include "Debug.hh"
 
 hbottomsumtagger::EventBottomTagger::EventBottomTagger()
 {
     //   DebugLevel = Severity::debug;
-  Print(analysis::Severity::notification , "Constructor");
+  Note("Constructor");
     set_tagger_name("eventBottom");
     DefineVariables();
     bottom_reader_.SetTagger(bottom_tagger_);
@@ -12,7 +13,7 @@ hbottomsumtagger::EventBottomTagger::EventBottomTagger()
 
 void hbottomsumtagger::EventBottomTagger::DefineVariables()
 {
-  Print(analysis::Severity::notification , "Define Variables");
+  Note("Define Variables");
     AddVariable(branch().BottomBdt1, "BottomBdt1");
     AddVariable(branch().BottomBdt2, "BottomBdt2");
     AddVariable(branch().BottomBdt3, "BottomBdt3");
@@ -30,7 +31,7 @@ void hbottomsumtagger::EventBottomTagger::DefineVariables()
 
 int hbottomsumtagger::EventBottomTagger::Train(analysis::Event &event, const analysis::Tag tag)
 {
-  Print(analysis::Severity::information, "event Tags");
+  Info("event Tags");
 
     analysis::Jets jets = bottom_reader_.Multiplets<analysis::BottomTagger>(event);
 
@@ -91,7 +92,7 @@ bool hbottomsumtagger::EventBottomTagger::TruthLevelCheck(const analysis::Jets &
 
 int hbottomsumtagger::EventBottomTagger::Multiplets(analysis::Event &event, const TMVA::Reader &)
 {
-  Print(analysis::Severity::information, "event Tags");
+  Info("event Tags");
   analysis::Jets jets = bottom_reader_.Multiplets<analysis::BottomTagger>(event);
     std::vector<analysis::EventBranch> eventMultiplets;
 

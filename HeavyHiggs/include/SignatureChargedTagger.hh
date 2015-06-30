@@ -30,16 +30,6 @@ public:
 
     std::vector<Octet44> Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
-protected:
-
-    virtual  std::string NameSpaceName() const {
-        return "heavyhiggs";
-    }
-
-    virtual  std::string ClassName() const {
-        return "SignatureChargedTagger";
-    }
-
 private:
 
     ChargedHiggsSemiTagger charged_higgs_semi_tagger_;

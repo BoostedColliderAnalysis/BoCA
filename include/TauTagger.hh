@@ -21,12 +21,6 @@ public:
 
     Jets Multiplets(analysis::Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
-protected:
-
-    virtual  std::string ClassName() const {
-        return "TauTagger";
-    }
-
 private:
 
     void DefineVariables();

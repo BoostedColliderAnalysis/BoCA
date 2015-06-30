@@ -1,4 +1,5 @@
 #include "EventSingleTagger.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
@@ -8,7 +9,7 @@ namespace toppartner
 
 EventSingleTagger::EventSingleTagger()
 {
-    Print(Severity::notification , "Constructor");
+    Note("Constructor");
 //     debug_level_ = Severity::debug;
     set_tagger_name("EventSingle");
     signature_reader_.SetTagger(signature_tagger_);
@@ -18,7 +19,7 @@ EventSingleTagger::EventSingleTagger()
 
 int EventSingleTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
 {
-    Print(Severity::information, "Train");
+    Info("Train");
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
     std::vector<Nonet> nonets = signature_reader_.Multiplets<TopPartnerLeptonicPairTagger>(event);
     std::vector< MultipletEvent< Nonet > > multipletevents;
@@ -32,7 +33,7 @@ int EventSingleTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
 
 std::vector< MultipletEvent< Nonet > > EventSingleTagger::Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
-    Print(Severity::information, "Multiplets");
+    Info("Multiplets");
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
     std::vector<Nonet> nonets = signature_reader_.Multiplets<TopPartnerLeptonicPairTagger>(event);
     std::vector< MultipletEvent< Nonet > > multiplet_events;

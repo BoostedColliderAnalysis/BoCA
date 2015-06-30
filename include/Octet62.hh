@@ -72,14 +72,6 @@ public:
         return (Sextet().Jet().pt() - Doublet().SingletJet2().pt());
     }
 
-protected:
-
-    virtual  std::string ClassName() const {
-        return "Octet62";
-    }
-
-private:
-
 };
 
 }

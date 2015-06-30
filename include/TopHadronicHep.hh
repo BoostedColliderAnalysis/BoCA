@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Object.hh"
+#include "Global.hh"
 
 namespace analysis {
 
@@ -8,7 +8,7 @@ namespace analysis {
  * @brief prepares the data for the top tagger
  *
  */
-class TopHadronicHep : public Object
+class TopHadronicHep
 {
 
 public:
@@ -23,7 +23,7 @@ public:
      * @brief tagges the tops
      *
      */
-    Jets Tops(std::vector< fastjet::PseudoJet > &e_flows);
+    Jets Tops(Jets &e_flows);
 
 private:
 
@@ -32,10 +32,6 @@ private:
      *
      */
     Jets GranulatedJets(analysis::Jets &e_flows);
-
-     std::string ClassName() const {
-      return "TopHadronicHep";
-    }
 
 };
 

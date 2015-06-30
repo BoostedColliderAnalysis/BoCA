@@ -16,14 +16,6 @@ public:
 
     analysis::Triplet & Triplet() const;
 
-protected:
-
-    virtual  std::string ClassName() const {
-        return "Quintet";
-    }
-
-private:
-
 };
 
 }

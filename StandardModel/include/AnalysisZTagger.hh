@@ -22,12 +22,6 @@ public:
 
     AnalysisZ(Tagger &tagger);
 
-protected:
-
-    virtual  std::string ClassName() const {
-        return "AnalysisZ";
-    }
-
 private:
 
     void SetFiles(const Tag tag);

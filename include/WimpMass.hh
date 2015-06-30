@@ -11,7 +11,7 @@ namespace analysis
  * reconstructs two missing neutrino momenta
  *
  */
-class WimpMass : public Object
+class WimpMass
 {
 
 public:
@@ -25,12 +25,6 @@ public:
     std::vector<analysis::Sextet> Sextets(const Quartet22 &quartet, const fastjet::PseudoJet &missing_et);
 
     analysis::Sextet Fake(const Quartet22 &quartet) const;
-
-protected:
-
-    virtual  std::string ClassName() const {
-        return "WimpMass";
-    }
 
 private:
 

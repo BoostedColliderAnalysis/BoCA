@@ -29,10 +29,6 @@ public:
 
     Decay TopDecay() const;
 
-protected:
-
-    virtual std::string ClassName() const;
-
 private:
 
     void SetFiles(const Tag tag);

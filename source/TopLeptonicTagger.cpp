@@ -1,4 +1,5 @@
 #include "TopLeptonicTagger.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
@@ -6,7 +7,7 @@ namespace analysis
 TopLeptonicTagger::TopLeptonicTagger()
 {
     //     debug_level_ = Severity::debug;
-    Print(Severity::notification, "Constructor");
+    Note("Constructor");
     set_tagger_name("TopLeptonic");
     bottom_reader_.SetTagger(bottom_tagger_);
     top_mass_window = 80;
@@ -15,15 +16,15 @@ TopLeptonicTagger::TopLeptonicTagger()
 
 int TopLeptonicTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
 {
-    Print(Severity::information, "Train");
+    Info("Train");
     do_fake_leptons = true;
     Jets jets = fastjet::sorted_by_pt(bottom_reader_.Multiplets<BottomTagger>(event));
     if (jets.empty()) return 0;
-    Print(Severity::information, "Jet Number", jets.size());
+    Info("Jet Number", jets.size());
 
     Jets leptons = event.Leptons().leptons();
     if (do_fake_leptons && leptons.empty()) leptons.emplace_back(FakeLepton(jets.front()));
-    Print(Severity::information, "Lepton Number", leptons.size());
+    Info("Lepton Number", leptons.size());
 
     std::vector<Doublet> doublets;
     for (const auto & jet : jets) {
@@ -34,7 +35,7 @@ int TopLeptonicTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
         }
     }
 
-    Print(Severity::information, "Number doublets", doublets.size());
+    Info("Number doublets", doublets.size());
     Jets tops = Particles(event);
     return SaveEntries(BestMatches(doublets, tops, tag));
 }
@@ -75,12 +76,12 @@ bool TopLeptonicTagger::Problematic(const analysis::Doublet &doublet, analysis::
 
 std::vector<Doublet> TopLeptonicTagger::Multiplets(analysis::Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
-    Print(Severity::information, "Bdt");
+    Info("Bdt");
     std::vector<Doublet> doublets;
     Jets jets = fastjet::sorted_by_pt(bottom_reader_.Multiplets<BottomTagger>(event));
     if (jets.empty()) return doublets;
     Jets leptons = event.Leptons().leptons();
-    Print(Severity::debug, "jets and Leptons", jets.size(), leptons.size());
+    Debug("jets and Leptons", jets.size(), leptons.size());
     if (do_fake_leptons && leptons.empty()) leptons.emplace_back(FakeLepton(jets.front()));
 
     for (const auto & jet : jets) {

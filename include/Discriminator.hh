@@ -30,12 +30,6 @@ public:
 
     static bool JetIsBad(const fastjet::PseudoJet &Jet);
 
-private:
-
-     std::string ClassName() const {
-        return "Discriminator";
-    }
-
 };
 
 }
