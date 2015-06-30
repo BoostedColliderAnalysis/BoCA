@@ -1,5 +1,5 @@
-# include "Discriminator.hh"
-# include "Predicate.hh"
+#include "Discriminator.hh"
+#include "Predicate.hh"
 
 namespace analysis {
 

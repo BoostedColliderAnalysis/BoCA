@@ -1,4 +1,4 @@
-# include "AnalysisHiggsTagger.hh"
+#include "AnalysisHiggsTagger.hh"
 
 namespace analysis
 {
@@ -21,7 +21,7 @@ AnalysisHiggs::AnalysisHiggs(Tagger &tagger) : analysis::standardmodel::Analysis
 }
 std::string AnalysisHiggs::ProjectName() const
 {
-    return  "HiggsTagger-" + ColliderName(collider_type()) + "-" + std::to_string(LowerPtCut()) + "GeV-";
+    return  "HiggsTagger-" + ColliderName(collider_type()) + "-" + std::to_string(LowerPtCut()) + "GeV-bb";
 }
 
 std::string AnalysisHiggs::ClassName() const
@@ -34,17 +34,17 @@ void AnalysisHiggs::SetFiles(const Tag tag)
     Print(Severity::notification, "Set File Vector", Name(tag));
     switch (tag) {
     case Tag::signal :
-        NewSignalFile(hh);
-        if (tagger().tagger_name() == "Bottom") NewSignalFile(bb);
-        if (tagger().tagger_name() == "Bottom") NewSignalFile(tthad);
-        if (tagger().tagger_name() == "Bottom") NewSignalFile(ttlep);
+        NewSignalFile(hh_bb);
+        if (tagger().name() == "Bottom") NewSignalFile(bb);
+        if (tagger().name() == "Bottom") NewSignalFile(tt_had);
+        if (tagger().name() == "Bottom") NewSignalFile(tt_lep);
         break;
     case Tag::background :
-        if (tagger().tagger_name() != "Bottom") NewBackgroundFile(tthad);
-        if (tagger().tagger_name() != "Bottom") NewBackgroundFile(ttlep);
+        if (tagger().name() != "Bottom") NewBackgroundFile(tt_had);
+        if (tagger().name() != "Bottom") NewBackgroundFile(tt_lep);
         NewBackgroundFile(zz);
         NewBackgroundFile(ww);
-        if (tagger().tagger_name() != "Bottom") NewBackgroundFile(bb);
+        if (tagger().name() != "Bottom") NewBackgroundFile(bb);
         NewBackgroundFile(cc);
         NewBackgroundFile(qq);
         NewBackgroundFile(gg);

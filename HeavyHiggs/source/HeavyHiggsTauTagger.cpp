@@ -1,4 +1,4 @@
-# include "HeavyHiggsTauTagger.hh"
+#include "HeavyHiggsTauTagger.hh"
 
 namespace analysis
 {

@@ -1,5 +1,5 @@
-# include "WSemiTagger.hh"
-# include "Reader.hh"
+#include "WSemiTagger.hh"
+#include "Reader.hh"
 
 namespace analysis {
 
@@ -119,6 +119,7 @@ std::vector<Doublet> WSemiTagger::ReconstructNeutrino(const Doublet &doublet)con
 Jets WSemiTagger::WSemiDaughters(Event &event)
 {
     Jets w_daughters = event.Partons().GenParticles();
+//     w_daughters = RemoveIfSoft(w_daughters, DetectorGeometry().JetMinPt);
     w_daughters = RemoveIfWrongAbsMother(w_daughters, Id::W);
     if (w_daughters.size() != 4) Print(Severity::error, "Where is the W 1?", w_daughters.size());
 

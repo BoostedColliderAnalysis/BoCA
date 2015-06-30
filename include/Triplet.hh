@@ -1,6 +1,6 @@
-# pragma once
+#pragma once
 
-# include "Doublet.hh"
+#include "Doublet.hh"
 
 namespace analysis
 {

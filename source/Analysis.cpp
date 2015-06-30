@@ -1,13 +1,14 @@
-# include "Analysis.hh"
+#include "Analysis.hh"
 
-# include <sys/stat.h>
+#include <sys/stat.h>
 
-# include "TTree.h"
+#include "TTree.h"
 
-# include "exroot/ExRootAnalysis.hh"
+#include "exroot/ExRootAnalysis.hh"
 
-# include "Branches.hh"
-# include "Event.hh"
+#include "Branches.hh"
+#include "Event.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
@@ -19,11 +20,11 @@ Analysis::Analysis(Tagger &tagger) : tagger_(tagger)
     Print(Severity::notification, "Constructor");
 }
 
-void Analysis::AnalysisLoop(const Tagger::Stage stage)
+void Analysis::AnalysisLoop(const Stage stage)
 {
     Print(Severity::notification, "Analysis Loop");
     mkdir(ProjectName().c_str(), 0700);
-    if (stage == Tagger::kReader) reader_.SetTagger(tagger_);
+    if (stage == Stage::reader) reader_.SetTagger(tagger_);
     tagger_.clear_tree_names();
     for (const auto & tag : std::vector<Tag> {Tag::signal, Tag::background}) {
         Print(Severity::notification, "Analysing Mva Sample", Name(tag));
@@ -43,7 +44,9 @@ void Analysis::AnalysisLoop(const Tagger::Stage stage)
             int object_sum = 0;
             int pre_cut_sum = 0;
             InfoBranch info_branch = FillInfoBranch(tree_reader, file);
-            for (const int event_number : Range(tree_reader.GetEntries())) {
+            int initial_number = 0;
+            if (stage == Stage::reader) initial_number = std::min((int)tree_reader.GetEntries(), EventNumberMax()); // TODO fix corner cases
+            for (int event_number = initial_number; event_number < tree_reader.GetEntries(); ++event_number) {
                 tree_reader.ReadEntry(event_number);
                 event.NewEvent(clones_arrays);
                 event.SetMass(file.mass());
@@ -55,8 +58,8 @@ void Analysis::AnalysisLoop(const Tagger::Stage stage)
                         object_sum += object_number;
                         info_branch.PreCutNumber = event_number;
                         analysis_empty = false;
-//                         static_cast<InfoBranch &>(*tree_branch.NewEntry()) = info_branch;
-                        dynamic_cast<InfoBranch &>(*tree_branch.NewEntry()) = info_branch;
+                        static_cast<InfoBranch &>(*tree_branch.NewEntry()) = info_branch;
+//                         dynamic_cast<InfoBranch &>(*tree_branch.NewEntry()) = info_branch;
                         tree_writer.Fill();
                     }
                 }
@@ -83,13 +86,13 @@ InfoBranch Analysis::FillInfoBranch(const exroot::TreeReader &tree_reader, const
     return info_branch;
 }
 
-std::string Analysis::ExportName(const Tagger::Stage stage, const Tag tag) const
+std::string Analysis::ExportName(const Stage stage, const Tag tag) const
 {
     Print(Severity::notification, "Export File", tagger_.name(stage, tag));
     return ProjectName() + "/" + tagger_.name(stage, tag) + FileSuffix();
 }
 
-exroot::TreeWriter Analysis::TreeWriter(TFile &export_file, const std::string &export_tree_name, Tagger::Stage stage)
+exroot::TreeWriter Analysis::TreeWriter(TFile &export_file, const std::string &export_tree_name, Stage stage)
 {
     Print(Severity::notification, "Tree Writer", export_tree_name.c_str());
     exroot::TreeWriter tree_writer(&export_file, export_tree_name.c_str());
@@ -97,17 +100,24 @@ exroot::TreeWriter Analysis::TreeWriter(TFile &export_file, const std::string &e
     return tree_writer;
 }
 
-int Analysis::RunAnalysis(Event &event, const Tagger::Stage stage, const Tag tag)
+int Analysis::RunAnalysis(Event &event, const Stage stage, const Tag tag)
 {
     Print(Severity::information, "Analysis");
     switch (stage) {
-    case Tagger::kTrainer :
+    case Stage::trainer :
         return tagger_.Train(event, pre_cuts_, tag);
-    case Tagger::kReader :
+    case Stage::reader :
         return reader_.GetBdt(event, pre_cuts_);
     default :
         return 0;
     }
+}
+
+bool Analysis::Missing(const std::string &name) const
+{
+    Print(Severity::error, "Missing", name);
+    struct stat buffer;
+    return (stat(name.c_str(), &buffer) != 0);
 }
 
 }

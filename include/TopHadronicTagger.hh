@@ -1,7 +1,7 @@
-# pragma once
+#pragma once
 
-# include "Triplet.hh"
-# include "WHadronicTagger.hh"
+#include "Triplet.hh"
+#include "WHadronicTagger.hh"
 
 namespace analysis
 {
@@ -18,8 +18,6 @@ public:
     TopHadronicTagger();
 
     int Train(Event &event, PreCuts &pre_cuts, const Tag tag);
-
-    analysis::Triplet Triplet(const Doublet &doublet, const fastjet::PseudoJet &jet, const Jets &leptons, PreCuts &pre_cuts, const Tag tag);
 
     int TopHadronicId(Event &event) const {
         return sgn(w_hadronic_tagger_.WHadronicId(event)) * to_int(Id::top);
@@ -38,6 +36,10 @@ protected:
     }
 
 private:
+
+    analysis::Triplet Triplet(const Doublet &doublet, const fastjet::PseudoJet &jet, const Jets &leptons, PreCuts &pre_cuts, const Tag tag);
+
+    analysis::Triplet Triplet(analysis::Triplet &triplet, const analysis::Jets &leptons, analysis::PreCuts &pre_cuts, const analysis::Tag tag);
 
     std::vector< analysis::Triplet > Triplets(const std::vector< Doublet > &doublets, const Jets &jets, const Jets &leptons, PreCuts &pre_cuts, const Tag tag);
 

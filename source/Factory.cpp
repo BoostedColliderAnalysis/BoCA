@@ -1,12 +1,12 @@
-# include "Factory.hh"
-# include "TSystem.h"
-# include "TMVA/Config.h"
-# include "TClonesArray.h"
-# include "Branches.hh"
+#include "Factory.hh"
+#include "TSystem.h"
+#include "TMVA/Config.h"
+#include "TClonesArray.h"
+#include "Branches.hh"
 
 namespace analysis {
 
-Factory::Factory(Tagger &tagger) : tagger_(tagger) , factory_(tagger.tagger_name(), output_file(), factory_options())
+Factory::Factory(Tagger &tagger) : tagger_(tagger) , factory_(tagger.name(), output_file(), factory_options())
 {
 //     DebugLevel = Severity::debug;
     Print(Severity::notification , "Constructor");
@@ -25,7 +25,7 @@ std::string Factory::factory_options()
 
 TFile *Factory::output_file() const
 {
-    const std::string factory_name = "Mva" + tagger().tagger_name();
+    const std::string factory_name = "Mva" + tagger().name();
     const std::string file_name = tagger().analysis_name() + "/" + factory_name + ".root";
     return TFile::Open(file_name.c_str(), "Recreate");
 }
@@ -106,7 +106,7 @@ void Factory::PrepareTrainingAndTestTree(const int event_number)
     Print(Severity::error , "PrepareTrainingAndTestTree");
     std::string number_options = "nTrain_Background=" + std::to_string(event_number) + ":nTest_Background=" + std::to_string(event_number) + ":nTrain_Signal=" + std::to_string(event_number) + ":nTest_Signal=" + std::to_string(event_number);
 //     std::string TrainingAndTestOptions = "nTrain_Signal=0:nTrain_Background=0:SplitMode=Random:NormMode=Numevents:!V";
-    const std::string training_and_test_options = number_options + "";
+    const std::string training_and_test_options = number_options + "SplitMode=Block";
     factory().PrepareTrainingAndTestTree(tagger().cut(), tagger().cut(), training_and_test_options);
 }
 

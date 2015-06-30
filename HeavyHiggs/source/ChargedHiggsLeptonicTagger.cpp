@@ -1,4 +1,4 @@
-# include "ChargedHiggsLeptonicTagger.hh"
+#include "ChargedHiggsLeptonicTagger.hh"
 
 namespace analysis
 {

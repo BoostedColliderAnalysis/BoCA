@@ -1,6 +1,6 @@
-# pragma once
+#pragma once
 
-# include "../Leptons.hh"
+#include "../Leptons.hh"
 
 namespace analysis
 {
@@ -31,9 +31,9 @@ protected:
 
 private:
 
-    analysis::Jets Electrons(analysis::FourVector::JetDetail jet_detail);
+    analysis::Jets Electrons(JetDetail jet_detail);
 
-    analysis::Jets Muons(analysis::FourVector::JetDetail jet_detail);
+    analysis::Jets Muons(JetDetail jet_detail);
 
 
 };

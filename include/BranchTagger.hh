@@ -1,8 +1,8 @@
-# pragma once
+#pragma once
 
-# include "Tagger.hh"
-# include "Singlet.hh"
-# include "TClonesArray.h"
+#include "Tagger.hh"
+#include "Singlet.hh"
+#include "TClonesArray.h"
 
 namespace analysis
 {
@@ -14,9 +14,9 @@ class BranchTagger : public Tagger
 
 protected:
 
-    BranchTagger() {
-        DefineVariables();
-    }
+//     BranchTagger() {
+//         DefineVariables();
+//     }
 
     template<typename Multiplet>
     std::vector<Multiplet> ReduceResult(std::vector<Multiplet> &multiplets, const std::size_t max = 4) {
@@ -30,10 +30,10 @@ protected:
     }
 
     Jets ReduceResult(Jets &jets, const std::size_t max = 4) {
-      if (jets.empty()) return jets;
-      std::sort(jets.begin(), jets.end(),SortByBdt());
-      jets.erase(jets.begin() + std::min(max, jets.size()), jets.end());
-      return jets;
+        if (jets.empty()) return jets;
+        std::sort(jets.begin(), jets.end(), SortByBdt());
+        jets.erase(jets.begin() + std::min(max, jets.size()), jets.end());
+        return jets;
     }
 
     template<typename Multiplet>
@@ -95,21 +95,21 @@ protected:
     template<typename Multiplet>
     int SaveEntries(const std::vector<Multiplet> &multiplets, std::size_t max = LargeNumber()) {
         if (multiplets.empty()) return 0;
+//         std::sort(multiplets.begin(),multiplets.end());
         const int sum = std::min(multiplets.size(), max);
         for (int counter = 0 ; counter < sum; ++counter) {
             FillBranch(multiplets.at(counter));
             static_cast<Branch &>(*tree_branch().NewEntry()) = branch();
-//             dynamic_cast<Branch &>(*tree_branch().NewEntry()) = branch();
         }
         return sum;
     }
 
-    int SaveEntries(const std::vector<fastjet::PseudoJet> &jets) {
+    int SaveEntries(const std::vector<fastjet::PseudoJet> &jets, std::size_t max = LargeNumber()) {
         if (jets.empty()) return 0;
-        for (const auto & jet : jets) {
-            FillBranch(Singlet(jet));
+        const int sum = std::min(jets.size(), max);
+        for (int counter = 0 ; counter < sum; ++counter) {
+            FillBranch(Singlet(jets.at(counter)));
             static_cast<Branch &>(*tree_branch().NewEntry()) = branch();
-//             dynamic_cast<Branch &>(*tree_branch().NewEntry()) = branch();
         }
         return jets.size();
     }

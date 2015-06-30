@@ -4,6 +4,6 @@ int main()
 {
 
 //     hcpvhiggs::HAnalysis Analysis();
-//     Analysis.AnalysisLoop(analysis::Tagger::kReader);
+//     Analysis.AnalysisLoop(analysis::Stage::reader);
     return 1;
 }

@@ -1,6 +1,6 @@
-# pragma once
+#pragma once
 
-# include "Branches.hh"
+#include "Branches.hh"
 
 namespace analysis
 {
@@ -100,7 +100,7 @@ private:
  * @brief lepton tree structure
  *
  */
-class HLeptonBranch : public analysis::Branch
+class HLeptonBranch : public analysis::BaseBranch
 {
 
 public:

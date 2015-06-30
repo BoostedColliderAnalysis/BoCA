@@ -1,4 +1,4 @@
-# include "HJetPropertiesBranch.hh"
+#include "HJetPropertiesBranch.hh"
 
 ClassImp(hjetproperties::HCandidateBranch)
 

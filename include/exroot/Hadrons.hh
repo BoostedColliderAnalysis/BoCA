@@ -1,6 +1,6 @@
-# pragma once
+#pragma once
 
-# include "../Hadrons.hh"
+#include "../Hadrons.hh"
 
 namespace analysis
 {

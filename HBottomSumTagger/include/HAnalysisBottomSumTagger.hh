@@ -1,17 +1,17 @@
-# ifndef HAnalysisBottomSumTagger_hh
-# define HAnalysisBottomSumTagger_hh
+#ifndef HAnalysisBottomSumTagger_hh
+#define HAnalysisBottomSumTagger_hh
 
-# include <sys/stat.h>
-# include <string>
+#include <sys/stat.h>
+#include <string>
 
-# include "File.hh"
-# include "Analysis.hh"
-// # include "HEventDelphes.hh"
-# include "Reader.hh"
-# include "Factory.hh"
-# include "JetTag.hh"
+#include "File.hh"
+#include "Analysis.hh"
+// #include "HEventDelphes.hh"
+#include "Reader.hh"
+#include "Factory.hh"
+#include "JetTag.hh"
 
-# include "HEventBottomTagger.hh"
+#include "HEventBottomTagger.hh"
 
 namespace hbottomsumtagger
 {
@@ -236,7 +236,7 @@ private:
 
 //     void NewBranches(exroot::TreeWriter &NewTreeWriter, const analysis::HAnalysis::HTagger Tagger);
 
-//     int RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const Tag tag);
+//     int RunAnalysis(analysis::Event &event, const analysis::Stage stage, const Tag tag);
 
 //     bool GetBottomTag(analysis::Event &event, const analysis::Tag Tag);
 //     bool GetBottomReader(analysis::Event &event, const analysis::Tag Tag);

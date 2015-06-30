@@ -1,13 +1,14 @@
-# pragma once
+#pragma once
 
-# include "Quartet22.hh"
-# include "Sextet.hh"
+#include "Quartet.hh"
+#include "Sextet.hh"
 
 namespace analysis
 {
 
 /**
- * @brief Leptonic heavy higgs BDT tagger
+ * @brief Wrapper for WimpMass class
+ * reconstructs two missing neutrino momenta
  *
  */
 class WimpMass : public Object
@@ -17,13 +18,13 @@ public:
 
     WimpMass();
 
-    std::vector<::analysis::Sextet> Sextets(const std::vector<Quartet22> &quartets, const fastjet::PseudoJet &missing_et);
+    std::vector<analysis::Sextet> Sextets(const std::vector<Quartet22> &quartets, const fastjet::PseudoJet &missing_et);
 
-    std::vector<::analysis::Sextet> Sextet(const Quartet22 &quartet, const fastjet::PseudoJet &missing_et, const Jets &neutrinos, const Tag tag);
+    std::vector<analysis::Sextet> Sextet(const Quartet22 &quartet, const fastjet::PseudoJet &missing_et, const Jets &neutrinos, const Tag tag);
 
-    std::vector<::analysis::Sextet> Sextets(const Quartet22 &quartet, const fastjet::PseudoJet &missing_et);
+    std::vector<analysis::Sextet> Sextets(const Quartet22 &quartet, const fastjet::PseudoJet &missing_et);
 
-    ::analysis::Sextet Fake(const Quartet22 &quartet) const;
+    analysis::Sextet Fake(const Quartet22 &quartet) const;
 
 protected:
 
@@ -40,8 +41,6 @@ private:
         // fastjet (px,py,pz,E)
         return fastjet::PseudoJet(Momentum[1], Momentum[2], Momentum[3], Momentum[0]);
     }
-
-//     int counter_ = 0;
 
 };
 

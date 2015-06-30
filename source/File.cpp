@@ -1,9 +1,9 @@
-# include "File.hh"
+#include "File.hh"
 
-# include "TFile.h"
-# include "TTree.h"
+#include "TFile.h"
+#include "TTree.h"
 
-# include "Predicate.hh"
+#include "Predicate.hh"
 
 namespace analysis
 {
@@ -110,11 +110,11 @@ File::File(const std::string &process, const std::string &base_path, const std::
 std::string File::file_suffix() const
 {
     switch (source()) {
-    case ClonesArrays::kDelphes :
+    case Source::delphes :
         return "_delphes_events.root";
-    case ClonesArrays::kParton :
+    case Source::parton :
         return "_unweighted_events.root";
-    case ClonesArrays::kPgs :
+    case Source::pgs :
         return "_pgs_events.root";
     default :
         Print(Severity::error, "file suffix", "no source");
@@ -125,11 +125,11 @@ std::string File::file_suffix() const
 std::string File::tree_name() const
 {
     switch (source()) {
-    case ClonesArrays::kDelphes :
+    case Source::delphes :
         return "Delphes";
-    case ClonesArrays::kParton :
+    case Source::parton :
         return "LHEF";
-    case ClonesArrays::kPgs :
+    case Source::pgs :
         return "LHCO";
     default :
         Print(Severity::error, "tree name", "no tree name");

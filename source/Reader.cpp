@@ -1,17 +1,17 @@
-# include "Reader.hh"
+#include "Reader.hh"
 
-# include "TClonesArray.h"
-# include "TPad.h"
-# include "TDirectoryFile.h"
-# include "TTree.h"
-# include "TCanvas.h"
-# include "TMultiGraph.h"
-# include "TLine.h"
-# include "TStyle.h"
-# include "TH1F.h"
+#include "TClonesArray.h"
+#include "TPad.h"
+#include "TDirectoryFile.h"
+#include "TTree.h"
+#include "TCanvas.h"
+#include "TMultiGraph.h"
+#include "TLine.h"
+#include "TStyle.h"
+#include "TH1F.h"
 
-// # include "TMVA/Reader.h"
-# include "TMVA/MethodCuts.h"
+// #include "TMVA/Reader.h"
+#include "TMVA/MethodCuts.h"
 
 namespace analysis
 {
@@ -79,7 +79,7 @@ float Reader::Bdt() const
 
 Results Reader::ExportFile() const
 {
-    std::string export_file_name = tagger().analysis_name() + "/" + tagger().analysis_name() + ".root";
+  std::string export_file_name = ExportName() + ".root";
     TFile export_file(export_file_name.c_str(), "Recreate");
 
     Results results;
@@ -170,9 +170,8 @@ void Reader::PlotHistograms(const Results &results)
     }
     legend.Draw();
 
-    const std::string efficiency_file_name = tagger().analysis_name() + "-Bdt.pdf";
-    const std::string efficiency_file_path = tagger().analysis_name() + "/" + efficiency_file_name;
-    canvas.Print(efficiency_file_path.c_str());
+    const std::string efficiency_file_name = ExportName() + "-Bdt.pdf";
+    canvas.Print(efficiency_file_name.c_str());
 }
 
 void Reader::PlotMultiGraph(const Results &results)
@@ -199,11 +198,11 @@ void Reader::PlotMultiGraph(const Results &results)
     multi_graph.GetYaxis()->SetTitle("Background acceptance");
     multi_graph.SetMaximum(1);
     multi_graph.SetMinimum(0.001);
+//     multi_graph.SetMinimum(0.01);
     legend.Draw();
 
-    std::string efficiency_file_name = tagger().analysis_name() + "-Acceptance.pdf";
-    std::string efficiency_file_path = tagger().analysis_name() + "/" + efficiency_file_name;
-    canvas.Print(efficiency_file_path.c_str());
+    std::string efficiency_file_name = ExportName() + "-Acceptance.pdf";
+    canvas.Print(efficiency_file_name.c_str());
 }
 
 void Reader::TaggingEfficiency()
@@ -297,9 +296,8 @@ std::vector<float> background_efficiencies(results.background.size(), 0);
     TLine EfficiencyLine(float(best_bin) * 2 / signal_results.steps, multi_graph.GetYaxis()->GetXmin(), float(best_bin) * 2 / signal_results.steps, multi_graph.GetYaxis()->GetXmax());
     EfficiencyLine.SetLineStyle(2);
     EfficiencyLine.Draw();
-    const std::string efficiency_file_name = tagger().analysis_name() + "-Efficiency.tex";
-    const std::string efficiency_file_path = tagger().analysis_name() + "/" + efficiency_file_name;
-    efficiency_canvas.Print(efficiency_file_path.c_str());
+    const std::string efficiency_file_name = ExportName() + "-Efficiency.tex";
+    efficiency_canvas.Print(efficiency_file_name.c_str());
 
     TCanvas SignificanceCanvas;
     TGraph SignificanceGraph(signal_results.steps, &x_values[0], &Significances[0]);
@@ -309,9 +307,8 @@ std::vector<float> background_efficiencies(results.background.size(), 0);
     TLine SignificanceLine(float(best_bin) * 2 / signal_results.steps, gPad->GetUymin(), float(best_bin) * 2 / signal_results.steps, gPad->GetUymax());
     SignificanceLine.SetLineStyle(2);
     SignificanceLine.Draw();
-    const std::string SignificanceFileName = tagger().analysis_name() + "-Significance.tex";
-    const std::string SignificanceFilePath = tagger().analysis_name() + "/" + SignificanceFileName;
-    SignificanceCanvas.Print(SignificanceFilePath.c_str());
+    const std::string SignificanceFileName = ExportName() + "-Significance.tex";
+    SignificanceCanvas.Print(SignificanceFileName.c_str());
 
 //     TCanvas BdtCanvas;
 //     std::vector<TH1F> Histograms;

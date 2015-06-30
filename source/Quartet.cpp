@@ -1,7 +1,17 @@
-# include "Quartet31.hh"
+#include "Quartet.hh"
 
 namespace analysis
 {
+
+Doublet &Quartet22::Doublet1()const
+{
+    return Multiplet1();
+}
+
+Doublet &Quartet22::Doublet2()const
+{
+    return Multiplet2();
+}
 
 Triplet &Quartet31::Triplet() const
 {

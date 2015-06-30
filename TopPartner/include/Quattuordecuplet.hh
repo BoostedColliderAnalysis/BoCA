@@ -1,7 +1,7 @@
-# pragma once
+#pragma once
 
-# include "Decuplet.hh"
-# include "Quartet22.hh"
+#include "Decuplet.hh"
+#include "Quartet.hh"
 
 namespace analysis
 {

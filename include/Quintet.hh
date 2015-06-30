@@ -1,6 +1,6 @@
-# pragma once
+#pragma once
 
-# include "Triplet.hh"
+#include "Triplet.hh"
 
 namespace analysis
 {

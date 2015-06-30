@@ -1,12 +1,12 @@
-# include "HiggsTagger.hh"
+#include "HiggsTagger.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
 
 HiggsTagger::HiggsTagger()
 {
-    //         DebugLevel = Severity::detailed;
-    Print(Severity::notification, "Constructor");
+    Note("Constructor");
     set_tagger_name("Higgs");
     bottom_reader_.SetTagger(bottom_tagger_);
     DefineVariables();
@@ -14,7 +14,7 @@ HiggsTagger::HiggsTagger()
 
 int HiggsTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
 {
-    Print(Severity::information, "Higgs Tag");
+    Info(Name(tag));
     Jets jets =  bottom_reader_.Multiplets<BottomTagger>(event);
     std::vector< Doublet > doublets;
     for (auto jet_1 = jets.begin(); jet_1 != jets.end(); ++jet_1) {
@@ -50,8 +50,8 @@ bool HiggsTagger::Problematic(const Doublet &doublet, PreCuts &pre_cuts, const T
     if (Problematic(doublet, pre_cuts)) return true;
     switch (tag) {
     case Tag::signal :
-        if (std::abs(doublet.Jet().m() - Mass(Id::higgs)) > higgs_mass_window) return true;
-        if ((doublet.Rho() > 2 || doublet.Rho() < 0.5)) return true;
+//         if (std::abs(doublet.Jet().m() - Mass(Id::higgs)) > higgs_mass_window) return true;
+//         if ((doublet.Rho() > 2 || doublet.Rho() < 0.5) && doublet.Rho() > 0) return true;
         break;
     case Tag::background :
         break;
@@ -69,7 +69,7 @@ bool HiggsTagger::Problematic(const Doublet &doublet, PreCuts &pre_cuts)
 
 std::vector<Doublet>  HiggsTagger::Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
-    Print(Severity::information, "Higgs Bdt");
+    Info("Higgs Bdt");
     Jets jets =  bottom_reader_.Multiplets<BottomTagger>(event);
     std::vector< Doublet > doublets;
     for (auto jet_1 = jets.begin(); jet_1 != jets.end(); ++jet_1) {

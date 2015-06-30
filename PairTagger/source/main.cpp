@@ -1,12 +1,12 @@
-# include "AnalysisPair.hh"
-# include "TSystem.h"
-# include "JetPairTagger.hh"
-# include "Factory.hh"
+#include "AnalysisPair.hh"
+#include "TSystem.h"
+#include "JetPairTagger.hh"
+#include "Factory.hh"
 
-void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
+void RunTagger(analysis::Tagger &tagger, analysis::Stage stage)
 {
     fusionpair::Analysis analysis(tagger);
-    const std::string Name = tagger.tagger_name();
+    const std::string Name = tagger.name();
     analysis.Print(analysis::Severity::error, "Tagger", Name);
 
     std::string FileName = analysis.ProjectName() + "/" + Name + ".root";
@@ -45,12 +45,12 @@ void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
 int main()
 {
   analysis::BottomTagger bottom_tagger;
-    RunTagger(bottom_tagger, analysis::Tagger::kTrainer);
-    RunTagger(bottom_tagger, analysis::Tagger::kReader);
+    RunTagger(bottom_tagger, analysis::Stage::trainer);
+    RunTagger(bottom_tagger, analysis::Stage::reader);
 
     analysis::JetPairTagger jet_pair_tagger;
-    RunTagger(jet_pair_tagger, analysis::Tagger::kTrainer);
-    RunTagger(jet_pair_tagger, analysis::Tagger::kReader);
+    RunTagger(jet_pair_tagger, analysis::Stage::trainer);
+    RunTagger(jet_pair_tagger, analysis::Stage::reader);
 
     return 0;
 

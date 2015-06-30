@@ -1,6 +1,6 @@
-# include "AnalysisTagger.hh"
-# include "Factory.hh"
-# include <sys/stat.h>
+#include "AnalysisTagger.hh"
+#include "Factory.hh"
+#include <sys/stat.h>
 
 namespace analysis
 {
@@ -20,9 +20,9 @@ std::string Analysis::ProcessName(const Process process) const
     switch (process) {
     case tt:
         return "tt";
-    case ttlep:
+    case tt_lep:
         return "tt_leptonic";
-    case tthad:
+    case tt_had:
         return "tt_hadronic";
     case bb:
         return "bb";
@@ -34,10 +34,14 @@ std::string Analysis::ProcessName(const Process process) const
         return "gg";
     case hh:
         return "hh";
+    case hh_bb:
+        return "hh_bb";
     case ww:
         return "ww";
     case zz:
         return "zz";
+    case zz_bb:
+        return "zz_bb";
     default:
         Print(Severity::error, "Process Name", "unhandled case", process);
         return "";
@@ -77,13 +81,17 @@ std::string Analysis::NiceName(const Process process) const
         return "g";
     case hh:
         return "h";
+    case hh_bb:
+        return "h|_{b}";
     case ww:
         return "W";
     case zz:
         return "Z";
-    case tthad:
+    case zz_bb:
+        return "Z|_{b}";
+    case tt_had:
         return "t_{h}";
-    case ttlep:
+    case tt_lep:
         return "t_{l}";
     default:
         Print(Severity::error, "Nice Name", "unhandled case", process);
@@ -214,14 +222,14 @@ std::string Analysis::BackgroundTree(const standardmodel::Analysis::Process Proc
 
 void Analysis::RunFast()
 {
-    RunTagger(analysis::Tagger::kTrainer);
+    RunTagger(analysis::Stage::trainer);
     RunFactory();
 }
 
 void Analysis::RunNormal()
 {
     RunFast();
-    RunTagger(analysis::Tagger::kReader);
+    RunTagger(analysis::Stage::reader);
 }
 
 void Analysis::RunFull()
@@ -230,7 +238,7 @@ void Analysis::RunFull()
     RunReader();
 }
 
-void Analysis::RunTagger(Tagger::Stage stage)
+void Analysis::RunTagger(Stage stage)
 {
     if (Missing(PathName(tagger().name(stage)))) AnalysisLoop(stage);
 }

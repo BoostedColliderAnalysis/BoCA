@@ -1,4 +1,4 @@
-# include "Decuplet.hh"
+#include "Decuplet.hh"
 
 namespace analysis
 {

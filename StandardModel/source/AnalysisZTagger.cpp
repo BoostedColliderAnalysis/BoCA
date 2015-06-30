@@ -1,4 +1,4 @@
-# include "AnalysisZTagger.hh"
+#include "AnalysisZTagger.hh"
 
 namespace analysis
 {
@@ -26,7 +26,7 @@ void AnalysisZ::SetFiles(const Tag tag)
         NewSignalFile(zz);
         break;
     case Tag::background :
-        NewBackgroundFile(tthad);
+        NewBackgroundFile(tt_had);
         NewBackgroundFile(hh);
         NewBackgroundFile(ww);
         NewBackgroundFile(bb);

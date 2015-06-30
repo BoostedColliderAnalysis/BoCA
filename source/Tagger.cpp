@@ -1,13 +1,13 @@
-# include "Tagger.hh"
+#include "Tagger.hh"
 
-# include "TObjArray.h"
-# include "TClonesArray.h"
+#include "TObjArray.h"
+#include "TClonesArray.h"
 
-# include "fastjet/ClusterSequence.hh"
+#include "fastjet/ClusterSequence.hh"
 
-# include "JetInfo.hh"
-# include "Event.hh"
-# include "Analysis.hh"
+#include "JetInfo.hh"
+#include "Event.hh"
+#include "Analysis.hh"
 
 namespace analysis
 {
@@ -73,64 +73,64 @@ void Tagger::AddBackgroundTreeName(const std::string background_tree_name)
 
 std::string Tagger::branch_name() const
 {
-    return tagger_name_;
+    return name_;
 }
 
 void Tagger::set_tagger_name(const std::string &tagger_name)
 {
-    tagger_name_ = tagger_name;
+    name_ = tagger_name;
     signal_file_names_ = {tagger_name};
     background_file_names_ = {"Not" + tagger_name};
 }
-std::string Tagger::tagger_name() const
+std::string Tagger::name() const
 {
-    return tagger_name_;
+    return name_;
 }
 std::string Tagger::factory_name() const
 {
-    return "Mva" + tagger_name();
+    return "Mva" + name();
 }
-std::string Tagger::signal_file_name(const Tagger::Stage stage) const
+std::string Tagger::signal_file_name(const Stage stage) const
 {
     const std::string file_name = analysis_name() + "/" + signal_name();
     switch (stage) {
-    case kTrainer :
+    case Stage::trainer :
         return file_name;
-    case kReader :
+    case Stage::reader :
         return file_name + "Reader";
     }
 }
-std::string Tagger::background_file_name(const Tagger::Stage stage) const
+std::string Tagger::background_file_name(const Stage stage) const
 {
     const std::string file_name = analysis_name() + "/" + background_name();
     switch (stage) {
-    case kTrainer :
+    case Stage::trainer :
         return file_name;
-    case kReader :
+    case Stage::reader :
         return file_name + "Reader";
     }
 }
 std::string Tagger::reader_name() const
 {
-    return tagger_name_ + "Reader";
+    return name_ + "Reader";
 }
-std::string Tagger::name(const Tagger::Stage stage) const
+std::string Tagger::name(const Stage stage) const
 {
     switch (stage) {
-    case kTrainer :
-        return tagger_name();
-    case kReader :
+    case Stage::trainer :
+        return name();
+    case Stage::reader :
         return reader_name();
     }
 }
-std::string Tagger::name(const Tagger::Stage stage, const Tag tag) const
+std::string Tagger::name(const Stage stage, const Tag tag) const
 {
     std::string name;
     switch (stage) {
-    case kTrainer :
-        name = tagger_name();
+    case Stage::trainer :
+        name = name_;
         break;
-    case kReader :
+    case Stage::reader :
         name = reader_name();
         break;
     }
@@ -190,7 +190,7 @@ std::string Tagger::bdt_method_name() const
 }
 
 std::string Tagger::bdt_weight_name() const{
-  return tagger_name() + "_" + bdt_method_name() + ".weights.xml";
+  return name() + "_" + bdt_method_name() + ".weights.xml";
 }
 
 std::string Tagger::weight_branch_name() const
@@ -199,11 +199,11 @@ std::string Tagger::weight_branch_name() const
 }
 std::string Tagger::background_name() const
 {
-    return "Not" + tagger_name_;
+    return "Not" + name_;
 }
 std::string Tagger::signal_name() const
 {
-    return tagger_name_;
+    return name_;
 }
 int Tagger::GetBdt(Event &, PreCuts &, const TMVA::Reader &)
 {
@@ -215,7 +215,7 @@ int Tagger::Train(Event &, PreCuts &, const Tag)
     Print(Severity::error, "Train", "Should be subclassed");
     return 0;
 }
-// float Tagger::GetBranches(Event &, Tagger::Stage, const Tag)
+// float Tagger::GetBranches(Event &, Stage, const Tag)
 // {
 //     Print(Severity::error, "get branches", "Should be subclassed", "should be deleted");
 //     return 0;
@@ -225,7 +225,7 @@ int Tagger::Train(Event &, PreCuts &, const Tag)
 // {
 //     return detector_geometry_;
 // }
-void Tagger::SetTreeBranch(exroot::TreeWriter &tree_writer, const Tagger::Stage stage)
+void Tagger::SetTreeBranch(exroot::TreeWriter &tree_writer, const Stage stage)
 {
     tree_branch_ = tree_writer.NewBranch(name(stage).c_str(), &Class());
 }

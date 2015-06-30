@@ -1,4 +1,4 @@
-# include "WHadronicTagger.hh"
+#include "WHadronicTagger.hh"
 
 namespace analysis
 {
