@@ -1,5 +1,4 @@
-#ifndef HJetPropertiesBranch_hh
-#define HJetPropertiesBranch_hh
+#pragma once
 
 #include "TObject.h"
 #include "Rtypes.h"
@@ -127,5 +126,3 @@ private:
     ClassDef(HLeptonBranch, 1)
 
 };
-
-#endif

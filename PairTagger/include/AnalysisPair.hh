@@ -39,16 +39,6 @@ public:
 //         return  ProductionChannelName(ProductionChannel()) + DetectorName(Detector())  + "_" + std::to_string(Mass()) + "GeV";
     }
 
-protected:
-
-    virtual  std::string NameSpaceName() const {
-        return "pairtagger";
-    }
-
-    virtual  std::string ClassName() const {
-        return "Analysis";
-    }
-
 private:
 
     enum ProcessType {bb, cc, jj, qq, gg, Hbb, ttbb, ttcc, ttjj, ttqq, ttgg};
@@ -84,7 +74,7 @@ private:
         case LE :
             return "LE";
         default:
-            Print(analysis::Severity::error, "Detector Name", "unhandeld case");
+            Error("Detector Name", "unhandeld case");
             return "";
         }
     }
@@ -99,7 +89,7 @@ private:
         case VBF :
             return "VBF_";
         default:
-          Print(analysis::Severity::error, "ProductionChannelName", "unhandeld case");
+          Error("ProductionChannelName", "unhandeld case");
             return "";
         }
     }
@@ -114,7 +104,7 @@ private:
         case Associated :
           return analysis::Id::gluon;
         default:
-          Print(analysis::Severity::error, "MotherId", "unhandeld case");
+          Error("MotherId", "unhandeld case");
             return analysis::Id::empty;
         }
     }
@@ -144,7 +134,7 @@ private:
         case ttgg:
             return "ttgg";
         default:
-          Print(analysis::Severity::error, "ProcessName", "unhandeld case");
+          Error("ProcessName", "unhandeld case");
             return "";
         }
     }

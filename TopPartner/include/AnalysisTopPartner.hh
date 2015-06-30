@@ -45,14 +45,10 @@ protected:
     return 1000;
   }
 
-
   virtual  std::string FilePath() const {
     return "~/Projects/TopPartner/Analysis/";
   }
 
-  virtual  std::string NameSpaceName() const {
-    return "toppartner";
-  }
 
 private:
 

@@ -11,7 +11,7 @@ namespace analysis
  * @brief Base class for the event Topology
  *
  */
-class Event : public Object
+class Event
 {
 
 public:
@@ -41,12 +41,6 @@ public:
 
     void SetMass(const float mass) {
         mass_ = mass;
-    }
-
-protected:
-
-    virtual  std::string ClassName() const {
-        return "Event";
     }
 
 private:

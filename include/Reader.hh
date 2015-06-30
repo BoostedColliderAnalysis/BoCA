@@ -9,7 +9,7 @@
 namespace analysis
 {
 
-class Result : Object
+class Result
 {
 
 public:
@@ -47,7 +47,7 @@ public:
  * @brief Presents result of multivariant analysis
  *
  */
-class Reader : public Object
+class Reader
 {
 
 public:
@@ -82,10 +82,7 @@ public:
 
     void PlotHistograms(const analysis::Results &results);
 
-    int GetBdt(Event &event, PreCuts &pre_cuts) const {
-        if (!tagger_) Print(Severity::error, "what is wrong with the tagger?");
-        return tagger().GetBdt(event, pre_cuts, reader_);
-    }
+    int GetBdt(Event &event, PreCuts &pre_cuts) const;
 
     template <typename Tagger, typename Input>
     auto Multiplets(Input &input) const {
@@ -145,10 +142,6 @@ private:
     void LatexHeader(std::ofstream &latex_file) const;
 
     void LatexFooter(std::ofstream &latex_file) const;
-
-    std::string ClassName() const {
-        return "Reader";
-    }
 
     int ColorCode(const int number) const;
 

@@ -26,14 +26,6 @@ public:
 
     virtual analysis::Jets Muons() = 0;
 
-protected:
-
-private:
-
-    virtual  std::string ClassName() const {
-        return ("Leptons");
-    }
-
 };
 
 }

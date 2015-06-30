@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Multiplet.hh"
 #include "GlobalObservables.hh"
+#include "Multiplet.hh"
 
 namespace analysis
 {
@@ -35,12 +35,6 @@ public:
 
     const analysis::GlobalObservables & GlobalObservables() const{
       return global_observables_;
-    }
-
-protected:
-
-    virtual  std::string ClassName() const {
-        return "MultipletEvent";
     }
 
 private:

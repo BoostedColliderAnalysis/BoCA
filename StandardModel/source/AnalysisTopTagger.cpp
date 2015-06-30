@@ -1,4 +1,5 @@
 #include "AnalysisTopTagger.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
@@ -9,7 +10,7 @@ namespace standardmodel
 TopAnalysis::TopAnalysis(Tagger &tagger) : analysis::standardmodel::Analysis::Analysis(tagger)
 {
 //   DebugLevel = Severity::debug;
-    Print(Severity::notification, "Constructor");
+    Note("Constructor");
     this->tagger().set_analysis_name(ProjectName());
     pre_cuts().SetPtLowerCut(Id::top, LowerPtCut());
     pre_cuts().SetPtUpperCut(Id::top, UpperPtCut());
@@ -17,11 +18,6 @@ TopAnalysis::TopAnalysis(Tagger &tagger) : analysis::standardmodel::Analysis::An
     pre_cuts().SetTrackerMaxEta(Id::top, DetectorGeometry().TrackerEtaMax);
     pre_cuts().SetPtLowerCut(Id::bottom, LowerPtCut() / 5);
     pre_cuts().SetPtLowerCut(Id::W, LowerPtCut() / 5);
-}
-
-std::string TopAnalysis::ClassName() const
-{
-    return "AnalysisTop";
 }
 
 std::string TopAnalysis::ProjectName() const
@@ -51,7 +47,7 @@ std::string TopAnalysis::DecayName(const Decay decay) const
 
 void TopAnalysis::SetFiles(const Tag tag)
 {
-    Print(Severity::notification, "Set File Vector", Name(tag));
+    Note("Set File Vector", Name(tag));
     switch (tag) {
     case Tag::signal :
         if (TopDecay() == Decay::hadronic || tagger().name() == "Bottom") NewSignalFile(tt_had);
@@ -77,11 +73,11 @@ void TopAnalysis::SetFiles(const Tag tag)
 
 int TopAnalysis::PassPreCut(Event &event)
 {
-    Print(Severity::information, "pass pre cut");
+    Info("pass pre cut");
     Jets particles = fastjet::sorted_by_pt(event.Partons().GenParticles());
 //     particles = fastjet::sorted_by_pt(copy_if_abs_particle(particles, Id::top));
 //     if (particles.empty()) return 1;
-//     if (particles.size() == 1) Print(Severity::error, "just one top");
+//     if (particles.size() == 1) Error("just one top");
     if ((particles.at(0).pt() > LowerQuarkCut() && particles.at(0).pt() < UpperQuarkCut()) && (particles.at(1).pt() > LowerQuarkCut() &&  particles.at(1).pt() < UpperQuarkCut())) return 1;
     return 0;
 }

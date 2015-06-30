@@ -32,12 +32,6 @@ public:
 
     int WHadronicId(Event &event) const;
 
-protected:
-
-    virtual  std::string ClassName() const {
-        return "WHadronicTagger";
-    }
-
 private:
 
     std::vector<Doublet> Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);

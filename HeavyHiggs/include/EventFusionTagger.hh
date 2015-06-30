@@ -29,16 +29,6 @@ public:
 
     std::vector< MultipletEvent<Sextet> > Multiplets(Event &event, TMVA::Reader &reader);
 
-protected:
-
-    virtual  std::string NameSpaceName() const {
-        return "heavyhiggs";
-    }
-
-    virtual  std::string ClassName() const {
-        return "EventFusionTagger";
-    }
-
 private:
 
     BottomTagger bottom_tagger_;

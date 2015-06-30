@@ -27,7 +27,7 @@ float DeltaPhi(const float phi_1, const float phi_2)
         } else if (delta_phi > M_PI) {
             delta_phi -= 2 * M_PI;
         } else {
-//       Print(Severity::error, "Delta Phi", delta_phi);
+//       Error("Delta Phi", delta_phi);
             break;
         }
     }

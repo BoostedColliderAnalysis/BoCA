@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Triplet.hh"
 #include "WHadronicTagger.hh"
+#include "Triplet.hh"
 
 namespace analysis
 {
@@ -28,12 +28,6 @@ public:
     }
 
     std::vector<analysis::Triplet> Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
-
-protected:
-
-    virtual  std::string ClassName() const {
-        return "TopHadronicTagger";
-    }
 
 private:
 

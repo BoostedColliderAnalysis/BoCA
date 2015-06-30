@@ -10,7 +10,7 @@ namespace analysis{
  * @brief defines how to tag a jet
  *
  */
-class JetTag : public Object
+class JetTag
 {
 
 public:
@@ -39,12 +39,6 @@ protected:
      *
      */
     std::set<Id> RadiationParticles {Id::proton};
-
-private:
-
-    virtual  std::string ClassName() const {
-        return "JetTag";
-    };
 
 };
 

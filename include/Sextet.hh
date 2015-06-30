@@ -76,14 +76,6 @@ public:
         return std::max(Triplet1().MassDifferenceTo(id), Triplet2().MassDifferenceTo(id));
     }
 
-protected:
-
-    virtual  std::string ClassName() const {
-        return "Sextet";
-    }
-
-private:
-
 };
 
 }

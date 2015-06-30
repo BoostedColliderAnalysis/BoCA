@@ -120,12 +120,6 @@ public:
         return sub_jettiness_;
     }
 
-protected:
-
-    virtual  std::string ClassName() const {
-        return "Triplet";
-    }
-
 private:
 
     SubJettiness sub_jettiness_;

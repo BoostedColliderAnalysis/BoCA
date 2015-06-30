@@ -42,12 +42,6 @@ public:
 
     std::vector<Doublet> Multiplet(const fastjet::PseudoJet &jet, const TMVA::Reader &reader);
 
-protected:
-
-    virtual  std::string ClassName() const {
-        return "DoubletTagger";
-    }
-
 private:
 
   std::vector<analysis::Doublet> Multiplet(analysis::Doublet &doublet, const TMVA::Reader &reader);

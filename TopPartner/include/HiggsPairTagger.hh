@@ -29,12 +29,6 @@ public:
         return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
-protected:
-
-    virtual  std::string ClassName() const {
-        return "HiggsPairTagger";
-    }
-
 private:
 
     HiggsTagger higgs_tagger_;

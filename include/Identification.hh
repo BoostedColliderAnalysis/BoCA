@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Object.hh"
+#include <string>
 
 namespace analysis
 {
@@ -14,7 +14,7 @@ enum class Tag
 
 std::string Name(const Tag tag);
 
-class Identification : public Object
+class Identification
 {
 
 public:
@@ -63,12 +63,6 @@ public:
     bool operator < (const Multiplet &multiplet) const {
         // largest bdt in front
         return (Bdt() > multiplet.Bdt());
-    }
-
-protected:
-
-    virtual  std::string ClassName() const {
-        return "Identification";
     }
 
 private:

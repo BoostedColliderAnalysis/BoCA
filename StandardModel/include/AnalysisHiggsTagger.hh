@@ -21,10 +21,6 @@ public:
 
     AnalysisHiggs(Tagger &tagger);
 
-protected:
-
-  virtual std::string ClassName() const;
-
 private:
 
     void SetFiles(const Tag tag);

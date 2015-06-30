@@ -1,5 +1,7 @@
 #include "Configuration.hh"
 
+#include <iostream>
+
 namespace analysis {
 
 Configuration::Configuration()

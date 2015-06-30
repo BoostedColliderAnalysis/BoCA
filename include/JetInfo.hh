@@ -163,12 +163,6 @@ public:
 
     void SetDelphesTags(const ::delphes::Jet &jet);
 
-protected:
-
-    std::string ClassName() const {
-        return "JetInfo";
-    }
-
 private:
 
     DetectorGeometry detector_geometry_;

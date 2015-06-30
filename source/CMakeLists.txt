@@ -9,7 +9,6 @@ HDictionary(Branches Branches.cpp ../include/LinkDef.hh)
 set(EventSources
 Debug.cpp
 Global.cpp
-Object.cpp
 FourVector.cpp
 File.cpp
 ClonesArrays.cpp

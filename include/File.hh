@@ -12,7 +12,7 @@ namespace analysis{
  * ProcessFolder has to be set
  *
  */
-class File : public Object
+class File
 {
 
 public:
@@ -103,10 +103,6 @@ protected:
     void  SetVariables();
 
     std::string MadGraphFilePath() const;
-
-    virtual  std::string ClassName() const {
-        return "File";
-    }
 
 private:
 

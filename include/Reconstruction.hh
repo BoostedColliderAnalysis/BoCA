@@ -1,7 +1,8 @@
 #pragma once
 
 #include "fastjet/JetDefinition.hh"
-#include "Object.hh"
+#include "Global.hh"
+
 
 namespace analysis
 {
@@ -10,7 +11,7 @@ namespace analysis
  * @brief FastJet calculations
  *
  */
-class Reconstruction : public Object
+class Reconstruction
 {
 
 public:
@@ -61,10 +62,6 @@ protected:
     static bool JetIsBad(const fastjet::PseudoJet &Jet);
 
     Jets GetFatjet_tag(Jets &);
-
-     std::string ClassName() const {
-        return "Reconstruction";
-    }
 
 };
 

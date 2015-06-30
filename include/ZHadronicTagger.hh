@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Doublet.hh"
 #include "BottomTagger.hh"
+#include "Doublet.hh"
 #include "Reader.hh"
 
 namespace analysis
@@ -29,12 +29,6 @@ public:
     auto Multiplets(Event &event, const TMVA::Reader &reader) {
         PreCuts pre_cuts;
         return Multiplets(event, pre_cuts, reader);
-    }
-
-protected:
-
-    virtual  std::string ClassName() const {
-        return "ZHadronicTagger";
     }
 
 private:

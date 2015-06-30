@@ -36,12 +36,6 @@ public:
       return Multiplets(event, pre_cuts, reader);
     }
 
-protected:
-
-    virtual  std::string ClassName() const {
-        return "TopPartnerHadronicTagger";
-    }
-
 private:
 
     TopHadronicTagger top_tagger_;

@@ -1,4 +1,5 @@
 #include "AnalysisHiggs.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
@@ -8,7 +9,7 @@ namespace higgscpv
 
 Analysis::Analysis(Tagger &tagger) : analysis::Analysis::Analysis(tagger)
 {
-    Print(Severity::notification, "Constructor");
+    Note("Constructor");
     this->tagger().set_analysis_name(ProjectName());
 }
 
@@ -19,7 +20,7 @@ std::string Analysis::ProcessName()
 
 void Analysis::SetFiles(const Tag tag)
 {
-    Print(Severity::notification, "Set Files");
+    Note("Set Files");
     switch (tag) {
     case Tag::signal :
         NewSignalFile("pp-ttx0-bbbbllnunu-1", 0.02071);
@@ -34,7 +35,7 @@ void Analysis::SetFiles(const Tag tag)
 
 int Analysis::PassPreCut(Event &event)
 {
-    Print(Severity::information, "pass pre cut");
+    Info("pass pre cut");
 //   Jets particles = event.Partons().GenParticles();
 //   Jets tops = fastjet::sorted_by_pt(copy_if_abs_particle(particles, Id::top));
 //   remove_if_not_in_pt_window(tops, PreCut(), UpperCut());

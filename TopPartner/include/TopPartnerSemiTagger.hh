@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Quintet.hh"
 #include "TopSemiTagger.hh"
 #include "ZHadronicTagger.hh"
+#include "Quintet.hh"
 #include "BranchesTopPartner.hh"
 
 namespace analysis
@@ -33,12 +33,6 @@ public:
     auto Multiplets(Event &event, const TMVA::Reader &reader){
       PreCuts pre_cuts;
       return Multiplets(event, pre_cuts, reader);
-    }
-
-protected:
-
-    virtual  std::string ClassName() const {
-        return "TopPartnerSemiTagger";
     }
 
 private:

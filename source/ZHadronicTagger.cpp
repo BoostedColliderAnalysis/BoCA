@@ -1,4 +1,5 @@
 #include "ZHadronicTagger.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
@@ -6,7 +7,7 @@ namespace analysis
 ZHadronicTagger::ZHadronicTagger()
 {
     //         DebugLevel = Severity::detailed;
-    Print(Severity::notification, "Constructor");
+    Note("Constructor");
     set_tagger_name("ZHadronic");
     bottom_reader_.SetTagger(bottom_tagger_);
     DefineVariables();
@@ -14,7 +15,7 @@ ZHadronicTagger::ZHadronicTagger()
 
 int ZHadronicTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
 {
-    Print(Severity::information, "ZHadronic Tag");
+    Info("ZHadronic Tag");
     Jets jets =  bottom_reader_.Multiplets<BottomTagger>(event);
     std::vector< Doublet > doublets;
     for (auto jet_1 = jets.begin(); jet_1 != jets.end(); ++jet_1) {
@@ -64,7 +65,7 @@ bool ZHadronicTagger::Problematic(const Doublet &doublet, PreCuts &pre_cuts)
 
 std::vector<Doublet>  ZHadronicTagger::Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
-    Print(Severity::information, "ZHadronic Bdt");
+    Info("ZHadronic Bdt");
     Jets jets =  bottom_reader_.Multiplets<BottomTagger>(event);
     std::vector< Doublet > doublets;
     for (auto jet_1 = jets.begin(); jet_1 != jets.end(); ++jet_1) {

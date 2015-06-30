@@ -1,6 +1,7 @@
 #include "AnalysisTopPartner.hh"
 #include "Factory.hh"
 #include <sys/stat.h>
+#include "Debug.hh"
 
 namespace analysis
 {
@@ -10,7 +11,7 @@ namespace toppartner
 
 Analysis::Analysis(Tagger &tagger) : analysis::Analysis::Analysis(tagger)
 {
-    Print(Severity::notification, "Constructor");
+    Note("Constructor");
     this->tagger().set_analysis_name(ProjectName());
 }
 
@@ -21,7 +22,7 @@ std::string Analysis::ProcessName()
 
 void Analysis::SetFiles(const Tag tag)
 {
-    Print(Severity::notification, "Set Files");
+    Note("Set Files");
     switch (tag) {
     case Tag::signal :
 //         NewSignalFile("pp-Tth-bbbbjjjjlv");
@@ -37,7 +38,7 @@ void Analysis::SetFiles(const Tag tag)
 
 int Analysis::PassPreCut(Event &event)
 {
-    Print(Severity::information, "pass pre cut");
+    Info("pass pre cut");
     return 1;
 }
 
@@ -96,7 +97,7 @@ void Analysis::RunReaderTagger()
 
 std::string Analysis::PathName(const std::string &file_name) const
 {
-    Print(Severity::error, "Path Name", file_name);
+    Error("Path Name", file_name);
     return ProjectName() + "/" + file_name + ".root";
 }
 

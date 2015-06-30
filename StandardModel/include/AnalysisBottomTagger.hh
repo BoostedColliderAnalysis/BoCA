@@ -22,12 +22,6 @@ public:
 
     AnalysisBottom(Tagger &tagger);
 
-protected:
-
-    virtual  std::string ClassName() const {
-        return "AnalysisBottom";
-    }
-
 private:
 
     enum ProductionChannel {DYP, VBF, Associated};

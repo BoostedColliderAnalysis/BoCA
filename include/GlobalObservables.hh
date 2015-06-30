@@ -1,14 +1,14 @@
 #pragma once
 
-#include "Singlet.hh"
 #include "Event.hh"
+#include "Singlet.hh"
 #include "BottomTagger.hh"
 #include "Reader.hh"
 
 namespace analysis
 {
 
-class GlobalObservables : Object
+class GlobalObservables
 {
 
 public:
@@ -42,12 +42,6 @@ public:
     analysis::Jets Jets() const;
 
     void SetJets(const analysis::Jets jets);
-
-protected:
-
-  virtual  std::string ClassName() const {
-    return ("GlobalObservables");
-  }
 
 private:
 

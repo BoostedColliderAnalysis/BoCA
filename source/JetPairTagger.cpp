@@ -1,18 +1,19 @@
 #include "JetPairTagger.hh"
+#include "Debug.hh"
 
 namespace analysis {
 
 JetPairTagger::JetPairTagger()
 {
 //     DebugLevel = Severity::detailed;
-    Print(Severity::notification, "Constructor");
+    Note("Constructor");
     set_tagger_name("JetPair");
     DefineVariables();
 }
 
 void JetPairTagger::DefineVariables()
 {
-    Print(Severity::notification , "Define Variables");
+    Note("Define Variables");
     AddVariable(branch().Mass, "Mass");
     AddVariable(branch().Pt, "Pt");
     AddVariable(branch().Rap, "Rap");
@@ -56,14 +57,14 @@ void JetPairTagger::DefineVariables()
 
 int JetPairTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
 {
-    Print(Severity::information, "Jet Pair Tags");
+    Info("Jet Pair Tags");
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
-    Print(Severity::debug, "Number of Jets", jets.size());
+    Debug("Number of Jets", jets.size());
 
     Jets BdtJets = jets;
 
     if (jets.empty()) return 0;
-    Print(Severity::debug, "Number BDT Jets", jets.size());
+    Debug("Number BDT Jets", jets.size());
 
     Jets Particles = event.Partons().GenParticles();
     Id MotherId = Id::gluon;
@@ -73,9 +74,9 @@ int JetPairTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
 //     if (Tag == HBackground) Particles = RemoveIfWrongAbsMother(Particles, Id::Z); // THIS IS WRONG AND SHOULD BE REMOVED AGAIN
     if (
         tag == Tag::signal &&  // THIS SHOULD BE ENABLED AGAIN
-        Particles.size() != 2) Print(Severity::error, "Where is the quark pair?", Particles.size());
+        Particles.size() != 2) Error("Where is the quark pair?", Particles.size());
     Jets BottomJets;
-    Print(Severity::debug, "Number of Bottoms", Particles.size());
+    Debug("Number of Bottoms", Particles.size());
 
     if (tag == Tag::signal) { // THIS SHOULD BE ENABLED AGAIN
         for (const auto & Particle : Particles) {
@@ -86,7 +87,7 @@ int JetPairTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
             if (jets.size() > 1) jets.erase(jets.begin());
         }
     } else if (tag == Tag::background) BottomJets = jets; // THIS SHOULD BE ENABLED AGAIN
-//     if (Tag == Tag::signal && BottomJets.size() != 2) Print(Severity::error, "Number of Matching Jets", BottomJets.size());
+//     if (Tag == Tag::signal && BottomJets.size() != 2) Error("Number of Matching Jets", BottomJets.size());
 
     std::vector<Doublet> doublets;
     for (auto jet1 = BottomJets.begin(); jet1 != BottomJets.end(); ++jet1)
@@ -96,15 +97,15 @@ int JetPairTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
             else doublet.SetMultiplets(*jet2, *jet1);
 
 //             for (const auto & Jet : BdtJets) if (Jet != *Jet1 && Jet != *Jet2) doublet.AddRestJet(Jet);
-//             if (doublet.RestJets().size() != BdtJets.size() - 2) Print(Severity::error, "to many jets in the rest jet vector");
+//             if (doublet.RestJets().size() != BdtJets.size() - 2) Error("to many jets in the rest jet vector");
 
             doublets.emplace_back(doublet);
         }
 
-    Print(Severity::debug, "Number of Jet Pairs", doublets.size());
+    Debug("Number of Jet Pairs", doublets.size());
 
     if (tag == Tag::signal && doublets.size() > 1) {
-        Print(Severity::error, "Number of Jet Pairs", doublets.size());
+        Error("Number of Jet Pairs", doublets.size());
         doublets = SortByMaxDeltaRap(doublets);
         if (doublets.size() > 1) doublets.erase(doublets.begin() + 1, doublets.end());
     }
@@ -123,7 +124,7 @@ std::vector<Doublet>  JetPairTagger::Multiplets(analysis::Event &event, analysis
             if (std::abs((*Jet1).rap()) > std::abs((*Jet2).rap())) doublet.SetMultiplets(*Jet1, *Jet2);
             else doublet.SetMultiplets(*Jet2, *Jet1);
 //             for (const auto & Jet : jets)  if (Jet != *Jet1 && Jet != *Jet2) doublet.AddRestJet(Jet);
-//             if (doublet.RestJets().size() != jets.size() - 2) Print(Severity::error, "to many jets in the rest jet vector");
+//             if (doublet.RestJets().size() != jets.size() - 2) Error("to many jets in the rest jet vector");
             //             if (std::abs(doublet.DeltaRap()) < DetectorGeometry().JetConeSize) continue;
             doublet.SetBdt(Bdt(doublet,reader));
             doublets.emplace_back(doublet);

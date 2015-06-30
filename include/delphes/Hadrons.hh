@@ -40,12 +40,6 @@ public:
 
     fastjet::PseudoJet MissingEt();
 
-protected:
-
-     std::string NameSpaceName() const {
-        return "delphes";
-    }
-
 private:
 
     void DoubleCounting();
@@ -62,12 +56,12 @@ private:
 
     template <typename Clone>
     JetInfo JetId(const Clone &clone) {
-        Print(Severity::detailed, "Jet Id", clone.Particles.GetEntriesFast());
+//         Detail("Jet Id", clone.Particles.GetEntriesFast());
         JetInfo jet_info;
 //         if(clone.IsA() == ::delphes::Jet::Class()) jet_info.SetDelphesTags(clone);
         for (const int ParticleNumber : Range(clone.Particles.GetEntriesFast())) {
             const Family family = BranchFamily(*clone.Particles.At(ParticleNumber));
-            Print(Severity::debug, "MotherId", family.particle().Id, family.mother_1().Id);
+//             Debug("MotherId", family.particle().Id, family.mother_1().Id);
             jet_info.AddConstituent(Constituent(const_cast<Clone &>(clone).P4(), family));
         }
         jet_info.PrintAllInfos(Severity::debug);

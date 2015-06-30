@@ -3,7 +3,7 @@
 #include "TObject.h"
 
 #include "exroot/ExRootAnalysis.hh"
-#include "Object.hh"
+
 
 namespace analysis
 {
@@ -22,7 +22,7 @@ enum class Source
  * @brief Base class for loading the TreeBrancheses into ClonesArrays
  *
  */
-class ClonesArrays : public Object
+class ClonesArrays
 {
 
 public:
@@ -245,13 +245,6 @@ public:
      */
     TObject &Tau(const int number) const {
         return Object(Branch::tau, number);
-    }
-
-protected:
-
-
-    virtual  std::string ClassName() const {
-        return "ClonesArrays";
     }
 
 private:

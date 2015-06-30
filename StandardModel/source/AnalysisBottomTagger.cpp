@@ -1,4 +1,5 @@
 #include "AnalysisBottomTagger.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
@@ -8,7 +9,7 @@ namespace analysis
 
 AnalysisBottom::AnalysisBottom(Tagger &tagger) : analysis::standardmodel::Analysis::Analysis(tagger)
 {
-    Print(Severity::notification, "Constructor");
+    Note("Constructor");
     this->tagger().set_analysis_name(ProjectName());
     pre_cuts().SetPtLowerCut(Id::bottom, LowerPtCut());
     pre_cuts().SetPtUpperCut(Id::bottom, UpperPtCut());
@@ -19,7 +20,7 @@ AnalysisBottom::AnalysisBottom(Tagger &tagger) : analysis::standardmodel::Analys
 
 void AnalysisBottom::SetFiles(const Tag tag)
 {
-    Print(Severity::notification, "Set File Vector", Name(tag));
+    Note("Set File Vector", Name(tag));
 
     switch (tag) {
     case Tag::signal :
@@ -57,7 +58,7 @@ std::string AnalysisBottom::ProductionChannelName(const ProductionChannel produc
 
 int AnalysisBottom::PassPreCut(Event &event)
 {
-    Print(Severity::information, "pass pre cut");
+    Info("pass pre cut");
     Jets jets = event.Hadrons().Jets();
     jets = remove_if_not_in_pt_window(jets, LowerPtCut(), UpperPtCut());
     return jets.size();

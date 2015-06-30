@@ -35,14 +35,6 @@ public:
         return Quartet2().SingletJet().user_info<analysis::JetInfo>().Bdt() + Quartet2().Triplet().SingletJet().user_info<analysis::JetInfo>().Bdt();
     }
 
-protected:
-
-    virtual  std::string ClassName() const {
-        return "Octet44";
-    }
-
-private:
-
 };
 
 }

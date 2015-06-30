@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Doublet.hh"
 #include "TauTagger.hh"
+#include "Doublet.hh"
 #include "Reader.hh"
 #include "Branch.hh"
 
@@ -25,12 +25,6 @@ public:
     int Train(Event &event, const Tag tag);
 
     std::vector<Doublet>  Multiplets(Event &event, const TMVA::Reader &reader);
-
-protected:
-
-    virtual  std::string ClassName() const {
-        return "HeavyHiggsTauTagger";
-    };
 
 private:
     TauTagger tau_tagger_;

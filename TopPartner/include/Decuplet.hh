@@ -22,14 +22,6 @@ public:
         return Multiplet2();
     }
 
-protected:
-
-    virtual  std::string ClassName() const {
-        return "Decuplet55";
-    }
-
-private:
-
 };
 
 class Decuplet73 : public Multiplet<Septet, Triplet>
@@ -46,14 +38,6 @@ public:
    Triplet Quintet2()const {
     return Multiplet2();
   }
-
-protected:
-
-  virtual  std::string ClassName() const {
-    return "Decuplet73";
-  }
-
-private:
 
 };
 

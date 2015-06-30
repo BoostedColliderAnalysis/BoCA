@@ -1,11 +1,12 @@
 #include "TripletJetPairTagger.hh"
 #include "Predicate.hh"
+#include "Debug.hh"
 
 namespace analysis {
 
 TripletJetPairTagger::TripletJetPairTagger()
 {
-    Print(Severity::notification, "Constructor");
+    Note("Constructor");
     set_tagger_name("TripletJetJetPair");
     bottom_reader_.SetTagger(bottom_tagger_);
     top_hadronic_reader_.SetTagger(top_hadronic_tagger);
@@ -14,7 +15,7 @@ TripletJetPairTagger::TripletJetPairTagger()
 
 int TripletJetPairTagger::Train(analysis::Event &event, analysis::PreCuts &pre_cuts, const analysis::Tag tag)
 {
-    Print(Severity::information, "W Tags");
+    Info("W Tags");
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
     std::vector<Triplet> triplets = top_hadronic_reader_.Multiplets<TopHadronicTagger>(event);
 //     Jets jets = GetJets(event);
@@ -22,7 +23,7 @@ int TripletJetPairTagger::Train(analysis::Event &event, analysis::PreCuts &pre_c
 //     std::vector<Doublet> doublets = WTagger.GetBdt(jets, WReader);
     //     std::vector<Triplet> triplets = top_hadronic_tagger.GetBdt(doublets, jets, TopHadronicReader);
 //     std::vector<Triplet> triplets = top_hadronic_tagger.GetBdt(jets, top_hadronic_reader_, WTagger, WReader, bottom_tagger_, bottom_reader_);
-    Print(Severity::debug, "Number of Hadronic Tops", triplets.size());
+    Debug("Number of Hadronic Tops", triplets.size());
 
 //     for (const auto & Jet : jets) {
 //         Jets Pieces = WTagger.GetSubJets(Jet, 2);
@@ -48,7 +49,7 @@ int TripletJetPairTagger::Train(analysis::Event &event, analysis::PreCuts &pre_c
 
     Jets TopParticles = event.Partons().GenParticles();
     TopParticles = RemoveIfWrongAbsFamily(TopParticles, Id::top, Id::gluon);
-    if (TopParticles.size() != 1 && tag == Tag::signal) Print(Severity::error, "Where is the Top?", TopParticles.size());
+    if (TopParticles.size() != 1 && tag == Tag::signal) Error("Where is the Top?", TopParticles.size());
 
     std::vector<Triplet> Finaltriplets;
     switch(tag) {
@@ -65,7 +66,7 @@ int TripletJetPairTagger::Train(analysis::Event &event, analysis::PreCuts &pre_c
 
     Jets BottomParticles = event.Partons().GenParticles();
     BottomParticles = RemoveIfWrongAbsFamily(BottomParticles, Id::bottom, Id::gluon);
-    if (BottomParticles.size() != 1 && tag == Tag::signal) Print(Severity::error, "Where is the Bottom?", BottomParticles.size());
+    if (BottomParticles.size() != 1 && tag == Tag::signal) Error("Where is the Bottom?", BottomParticles.size());
 
     Jets FinalJets;
     switch (tag) {
@@ -93,7 +94,7 @@ int TripletJetPairTagger::Train(analysis::Event &event, analysis::PreCuts &pre_c
             quartets.emplace_back(quartet);
         }
 
-    Print(Severity::debug, "Number of Jet Pairs", quartets.size());
+    Debug("Number of Jet Pairs", quartets.size());
 
     if (tag == Tag::signal && quartets.size() > 1) {
         quartets = SortByMaxDeltaRap(quartets);

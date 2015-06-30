@@ -1,6 +1,7 @@
 #include "AnalysisTagger.hh"
 #include "Factory.hh"
 #include <sys/stat.h>
+#include "Debug.hh"
 
 namespace analysis
 {
@@ -11,7 +12,7 @@ namespace standardmodel
 Analysis::Analysis(Tagger &tagger) : analysis::Analysis::Analysis(tagger)
 {
 //   DebugLevel = Severity::debug;
-    Print(Severity::notification, "Constructor");
+    Note("Constructor");
     this->tagger().set_analysis_name(ProjectName());
 }
 
@@ -43,7 +44,7 @@ std::string Analysis::ProcessName(const Process process) const
     case zz_bb:
         return "zz_bb";
     default:
-        Print(Severity::error, "Process Name", "unhandled case", process);
+        Error("Process Name", "unhandled case", process);
         return "";
     }
 }
@@ -58,14 +59,14 @@ std::string Analysis::ColliderName(const Collider collider) const
     case LE:
         return "LE";
     default:
-        Print(Severity::error, "Collider name", "unhandled case", collider);
+        Error("Collider name", "unhandled case", collider);
         return "";
     }
 }
 
 void Analysis::SetFiles(const Tag tag)
 {
-    Print(Severity::notification, "Set File Vector", Name(tag));
+    Note("Set File Vector", Name(tag));
 }
 
 std::string Analysis::NiceName(const Process process) const
@@ -94,7 +95,7 @@ std::string Analysis::NiceName(const Process process) const
     case tt_lep:
         return "t_{l}";
     default:
-        Print(Severity::error, "Nice Name", "unhandled case", process);
+        Error("Nice Name", "unhandled case", process);
         return "";
     }
 }
@@ -107,11 +108,6 @@ std::string Analysis::ProjectName() const
 std::string Analysis::FilePath() const
 {
     return "~/Projects/Tagger/";
-}
-
-std::string Analysis::NameSpaceName() const
-{
-    return "tagger";
 }
 
 void Analysis::NewSignalFile(const standardmodel::Analysis::Process process)
@@ -260,13 +256,13 @@ void Analysis::RunReader()
 
 std::string Analysis::PathName(const std::string &file_name) const
 {
-    Print(Severity::error, "Path Name", file_name);
+    Error("Path Name", file_name);
     return ProjectName() + "/" + file_name + ".root";
 }
 
 bool Analysis::Missing(const std::string &name) const
 {
-    Print(Severity::error, "Missing", name);
+    Error("Missing", name);
     struct stat buffer;
     return (stat(name.c_str(), &buffer) != 0);
 }

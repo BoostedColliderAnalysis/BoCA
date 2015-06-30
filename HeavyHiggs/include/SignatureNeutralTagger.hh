@@ -29,16 +29,6 @@ public:
 
     std::vector< Octet62 > Multiplets(Event& event, PreCuts &pre_cuts, const TMVA::Reader& reader);
 
-protected:
-
-    virtual  std::string NameSpaceName() const {
-        return "heavyhiggs";
-    }
-
-    virtual  std::string ClassName() const {
-        return "SignatureNeutralTagger";
-    }
-
 private:
 
     std::vector<Octet62> GetHeavyHiggsevents(Jets &jets);

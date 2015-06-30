@@ -1,4 +1,5 @@
 #include "SignatureSingleTagger.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
@@ -9,7 +10,7 @@ namespace toppartner
 SignatureSingleTagger::SignatureSingleTagger()
 {
 //         DebugLevel = Severity::detailed;
-    Print(Severity::notification, "Constructor");
+    Note("Constructor");
     set_tagger_name("SignatureSingle");
     top_partner_higgs_pair_reader_.SetTagger(top_partner_higgs_pair_tagger_);
     top_hadronic_reader_.SetTagger(top_hadronic_tagger_);
@@ -18,7 +19,7 @@ SignatureSingleTagger::SignatureSingleTagger()
 
 int SignatureSingleTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
 {
-    Print(Severity::information, "Higgs Tags");
+    Info("Higgs Tags");
     std::vector< Septet> septets = top_partner_higgs_pair_reader_.Multiplets<TopPartnerHiggsPairTagger>(event);
     std::vector< Triplet> triplets = top_hadronic_reader_.Multiplets<TopHadronicTagger>(event);
     std::vector< Decuplet73 > decuplets;

@@ -9,7 +9,7 @@ namespace analysis{
  * @brief Prepares multivariant analysis
  *
  */
-class Factory : public Object
+class Factory
 {
 
 public:
@@ -50,10 +50,6 @@ private:
     TFile *output_file() const;
 
     std::string factory_options();
-
-     std::string ClassName() const {
-        return "Factory";
-    }
 
     Tagger &tagger() const {
         return tagger_;

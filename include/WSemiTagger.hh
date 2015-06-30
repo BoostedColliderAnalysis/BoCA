@@ -29,12 +29,6 @@ public:
         return WSemiId(WSemiDaughters(event));
     }
 
-protected:
-
-    virtual  std::string ClassName() const {
-        return "WSemiTagger";
-    }
-
 private:
 
     Jets WSemiDaughters(Event &event);

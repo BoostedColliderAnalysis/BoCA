@@ -1,4 +1,5 @@
 #include "TopPartnerHiggsPairTagger.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
@@ -9,7 +10,7 @@ namespace toppartner
 TopPartnerHiggsPairTagger::TopPartnerHiggsPairTagger()
 {
 //         DebugLevel = Severity::detailed;
-    Print(Severity::notification, "Constructor");
+    Note("Constructor");
     set_tagger_name("TopPartnerHiggsPairTagger");
     top_partner_hadronic_reader_.SetTagger(top_partner_hadronic_tagger_);
     higgs_reader_.SetTagger(higgs_tagger_);
@@ -18,7 +19,7 @@ TopPartnerHiggsPairTagger::TopPartnerHiggsPairTagger()
 
 int TopPartnerHiggsPairTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
 {
-    Print(Severity::information, "Higgs Tags");
+    Info("Higgs Tags");
     std::vector< Quintet> quintets = top_partner_hadronic_reader_.Multiplets<TopPartnerSemiTagger>(event);
     std::vector< Doublet> doublets = higgs_reader_.Multiplets<HiggsTagger>(event);
     std::vector< Septet > septets;
