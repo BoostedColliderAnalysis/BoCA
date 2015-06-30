@@ -8,7 +8,6 @@ namespace analysis
 
 ChargedHiggsSemiTagger::ChargedHiggsSemiTagger()
 {
-    //     DebugLevel = Severity::debug;
     Note("Constructor");
     set_tagger_name("ChargedHiggsSemi");
     DefineVariables();

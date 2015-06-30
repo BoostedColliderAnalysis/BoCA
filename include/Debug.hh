@@ -7,32 +7,81 @@
 #include <iostream>
 #include "fastjet/PseudoJet.hh"
 
-namespace analysis
-{
-
 #define NOTIFICATION
 
+#define FILE_NAME ::analysis::FileName(__FILE__)
+
+#define NAMESPACE_NAME ::analysis::NameSpaceName(__PRETTY_FUNCTION__)
+
+#define CLASS_NAME ::analysis::ClassName(__PRETTY_FUNCTION__)
+
+#define FUNCTION_NAME ::analysis::FunctionName(__PRETTY_FUNCTION__)
+
+#define NAMES FILE_NAME, __LINE__, NAMESPACE_NAME, CLASS_NAME, FUNCTION_NAME
+
+#define LOG0 ::analysis::Log0(NAMES)
+
 #define STRING(x) #x
+
+#define PAIR2(value) STRING(value), value
+
+#define LOG1(value) ::analysis::Log1(NAMES, PAIR2(value))
+
+#define LOG2(value, value2) ::analysis::Log2(NAMES, PAIR2(value), PAIR2(value2))
+
+#define LOG3(value, value2, value3) ::analysis::Log3(NAMES, PAIR2(value), PAIR2(value2), PAIR2(value3))
+
+#define LOG4(value, value2, value3, value4) ::analysis::Log4(NAMES, PAIR2(value), PAIR2(value2), PAIR2(value3), PAIR2(value4))
+
+#define LOG(arg1, arg2, arg3, arg4, arg5, ...) arg5
+
+#define LOGCHOOSE(...) LOG(__VA_ARGS__, LOG4, LOG3, LOG2, LOG1, LOG0)
+
+#define ALIVE(...) LOGCHOOSE(__VA_ARGS__)(__VA_ARGS__)
+
+#define DEAD(...) do { if (0) ALIVE(__VA_ARGS__); } while (0)
+
+#define Error(...) ALIVE(__VA_ARGS__)
+#define Note(...) DEAD(__VA_ARGS__)
+#define Info(...) DEAD(__VA_ARGS__)
+#define Debug(...) DEAD(__VA_ARGS__)
+#define Detail(...) DEAD(__VA_ARGS__)
+
+#ifdef NOTIFICATION
+#define Note(...) ALIVE(__VA_ARGS__)
+#endif
+#ifdef INFORMATION
+#define Note(...) ALIVE(__VA_ARGS__)
+#define Info(...) ALIVE(__VA_ARGS__)
+#endif
+#ifdef DEBUG
+#define Note(...) ALIVE(__VA_ARGS__)
+#define Info(...) ALIVE(__VA_ARGS__)
+#define Debug(...) ALIVE(__VA_ARGS__)
+#endif
+#ifdef DETAILED
+#define Note(...) ALIVE(__VA_ARGS__)
+#define Info(...) ALIVE(__VA_ARGS__)
+#define Debug(...) ALIVE(__VA_ARGS__)
+#define Detail(...) ALIVE(__VA_ARGS__)
+#endif
+
+#define Check(condition, ...) if(!(condition)) { ALIVE(__VA_ARGS__); }
+
+namespace analysis
+{
 
 std::string Shorten(const std::string &pretty_function, std::size_t brake);
 
 std::string Shorten2(const std::string &pretty_function, std::size_t brake);
 
-std::string NameSpaceName2(const std::string &pretty_function);
+std::string NameSpaceName(const std::string &pretty_function);
 
-#define NAMESPACE_NAME ::analysis::NameSpaceName2(__PRETTY_FUNCTION__)
-
-std::string ClassName2(const std::string &pretty_function);
-
-#define CLASS_NAME ::analysis::ClassName2(__PRETTY_FUNCTION__)
+std::string ClassName(const std::string &pretty_function);
 
 std::string FunctionName(const std::string &pretty_function);
 
-#define FUNCTION_NAME ::analysis::FunctionName(__PRETTY_FUNCTION__)
-
-std::string FileName2(const std::string &file);
-
-#define FILE_NAME ::analysis::FileName2(__FILE__)
+std::string FileName(const std::string &file);
 
 template<typename Value>
 std::string Column(const int width, const Value &message)
@@ -87,54 +136,5 @@ void Log4(const std::string &file, const int line, const std::string &NameSpace,
     std::cout << std::endl;
 }
 
-
-#define NAMES FILE_NAME, __LINE__, NAMESPACE_NAME, CLASS_NAME, FUNCTION_NAME
-
-#define LOG0 ::analysis::Log0(NAMES)
-
-#define PAIR2(value) STRING(value), value
-
-#define LOG1(value) ::analysis::Log1(NAMES, PAIR2(value))
-
-#define LOG2(value, value2) ::analysis::Log2(NAMES, PAIR2(value), PAIR2(value2))
-
-#define LOG3(value, value2, value3) ::analysis::Log3(NAMES, PAIR2(value), PAIR2(value2), PAIR2(value3))
-
-#define LOG4(value, value2, value3, value4) ::analysis::Log4(NAMES, PAIR2(value), PAIR2(value2), PAIR2(value3), PAIR2(value4))
-
-#define LOG(arg1, arg2, arg3, arg4, arg5, ...) arg5
-
-#define LOGCHOOSE(...) LOG(__VA_ARGS__, LOG4, LOG3, LOG2, LOG1, LOG0)
-
-#define ALIVE(...) LOGCHOOSE(__VA_ARGS__)(__VA_ARGS__)
-
-#define DEAD(...) do { if (0) ALIVE(__VA_ARGS__); } while (0)
-
-#define Error(...) ALIVE(__VA_ARGS__)
-#define Note(...) DEAD(__VA_ARGS__)
-#define Info(...) DEAD(__VA_ARGS__)
-#define Debug(...) DEAD(__VA_ARGS__)
-#define Detail(...) DEAD(__VA_ARGS__)
-
-#ifdef NOTIFICATION
-#define Note(...) ALIVE(__VA_ARGS__)
-#endif
-#ifdef INFORMATION
-#define Note(...) ALIVE(__VA_ARGS__)
-#define Info(...) ALIVE(__VA_ARGS__)
-#endif
-#ifdef DEBUG
-#define Note(...) ALIVE(__VA_ARGS__)
-#define Info(...) ALIVE(__VA_ARGS__)
-#define Debug(...) ALIVE(__VA_ARGS__)
-#endif
-#ifdef DETAILED
-#define Note(...) ALIVE(__VA_ARGS__)
-#define Info(...) ALIVE(__VA_ARGS__)
-#define Debug(...) ALIVE(__VA_ARGS__)
-#define Detail(...) ALIVE(__VA_ARGS__)
-#endif
-
-#define Check(condition, value) if(!(condition)) { Error(value); }
 
 }

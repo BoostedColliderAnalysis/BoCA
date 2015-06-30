@@ -17,8 +17,6 @@ class Partons  : public analysis::Partons
 
 public:
 
-    Partons();
-
     Jets Particles() const;
 
     Jets GenParticles() const;

@@ -9,7 +9,6 @@ namespace heavyhiggs
 
 SignatureNeutralTagger::SignatureNeutralTagger()
 {
-    //   DebugLevel = Severity::debug;
     Note("Constructor");
     set_tagger_name("SignatureNeutral");
     heavy_higgs_semi_reader_.SetTagger(heavy_higgs_semi_tagger_);

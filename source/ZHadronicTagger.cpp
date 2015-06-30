@@ -6,7 +6,6 @@ namespace analysis
 
 ZHadronicTagger::ZHadronicTagger()
 {
-    //         DebugLevel = Severity::detailed;
     Note("Constructor");
     set_tagger_name("ZHadronic");
     bottom_reader_.SetTagger(bottom_tagger_);

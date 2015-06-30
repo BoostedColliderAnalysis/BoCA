@@ -9,7 +9,6 @@ namespace analysis
 
 TopHadronicTagger::TopHadronicTagger()
 {
-//     debug_level_ = Severity::debug;
     Note("Constructor");
     set_tagger_name("TopHadronic");
 //     top_mass_window_ = (Mass(Id::top) - Mass(Id::higgs)) / 2;

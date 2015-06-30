@@ -6,7 +6,6 @@ namespace analysis
 
 TopLeptonicTagger::TopLeptonicTagger()
 {
-    //     debug_level_ = Severity::debug;
     Note("Constructor");
     set_tagger_name("TopLeptonic");
     bottom_reader_.SetTagger(bottom_tagger_);

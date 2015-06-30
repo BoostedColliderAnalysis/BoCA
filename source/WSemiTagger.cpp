@@ -6,7 +6,6 @@ namespace analysis {
 
 WSemiTagger::WSemiTagger()
 {
-//     DebugLevel = Severity::debug;
     Note("Constructor");
     set_tagger_name("WSemi");
     w_mass_window_ = 20;

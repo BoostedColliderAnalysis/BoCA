@@ -9,7 +9,6 @@ namespace toppartner
 
 SignatureSingleTagger::SignatureSingleTagger()
 {
-//         DebugLevel = Severity::detailed;
     Note("Constructor");
     set_tagger_name("SignatureSingle");
     top_partner_higgs_pair_reader_.SetTagger(top_partner_higgs_pair_tagger_);

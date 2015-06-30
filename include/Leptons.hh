@@ -14,8 +14,6 @@ class Leptons : public FourVector
 
 public:
 
-    Leptons();
-
     virtual ~Leptons();
 
     void NewEvent(const ClonesArrays &clones_arrays);

@@ -9,7 +9,6 @@ namespace heavyhiggs
 
 HeavyHiggsSemiTagger::HeavyHiggsSemiTagger()
 {
-//         DebugLevel = Severity::detailed;
     Note("Constructor");
     set_tagger_name("HeavyHiggsSemi");
     top_hadronic_reader_.SetTagger(top_hadronic_tagger);

@@ -8,10 +8,6 @@ namespace analysis
 namespace delphes
 {
 
-Leptons::Leptons()
-{
-    Note("Constructor");
-}
 Jets Leptons::Electrons()
 {
     Info("Electrons", clones_arrays().ElectronSum());

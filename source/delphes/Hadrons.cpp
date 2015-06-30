@@ -11,12 +11,6 @@ namespace analysis
 namespace delphes
 {
 
-Hadrons::Hadrons()
-{
-//     debug_level_ = Severity::detailed;
-    Note("Constructor");
-}
-
 Jets Hadrons::DelphesJets(const JetDetail jet_detail)
 {
     Info("Jets", clones_arrays().JetSum());

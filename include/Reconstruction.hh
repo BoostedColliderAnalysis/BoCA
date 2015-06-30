@@ -16,12 +16,6 @@ class Reconstruction
 
 public:
 
-    /**
-     * @brief constructor
-     *
-     */
-    Reconstruction();
-
     virtual void NewEvent();
 
 protected:

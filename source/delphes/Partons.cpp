@@ -8,12 +8,6 @@ namespace analysis
 namespace delphes
 {
 
-Partons::Partons()
-{
-//     DebugLevel = Severity::debug;
-    Debug("Constructor");
-}
-
 Jets Partons::Particles() const
 {
     return Particles(Status::stable);

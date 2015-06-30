@@ -4,7 +4,6 @@
 
 hbottomsumtagger::EventBottomTagger::EventBottomTagger()
 {
-    //   DebugLevel = Severity::debug;
   Note("Constructor");
     set_tagger_name("eventBottom");
     DefineVariables();

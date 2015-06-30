@@ -14,12 +14,6 @@ class TopHadronicHep
 public:
 
     /**
-     * @brief constructor
-     *
-     */
-    TopHadronicHep();
-
-    /**
      * @brief tagges the tops
      *
      */

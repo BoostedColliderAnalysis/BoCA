@@ -9,7 +9,6 @@ namespace analysis
 
 AnalysisZ::AnalysisZ(Tagger &tagger) : analysis::standardmodel::Analysis::Analysis(tagger)
 {
-//   DebugLevel = Severity::debug;
     Note("Constructor");
     this->tagger().set_analysis_name(ProjectName());
     pre_cuts().SetPtLowerCut(Id::Z, LowerPtCut());

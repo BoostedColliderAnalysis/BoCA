@@ -6,11 +6,6 @@
 
 namespace analysis {
 
-TopHadronicHep::TopHadronicHep()
-{
-    Note("Constructor");
-}
-
 Jets TopHadronicHep::Tops(Jets &e_flows)
 {
     Info("Tagging Top");

@@ -9,7 +9,6 @@ namespace higgscpv
 
 SignatureTagger::SignatureTagger()
 {
-//    debug_level_ = Severity::debug;
     Note("Constructor");
     set_tagger_name("Signature");
     higgs_reader_.SetTagger(higgs_tagger_);

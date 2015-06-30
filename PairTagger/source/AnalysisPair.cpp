@@ -2,34 +2,6 @@
 #include "Predicate.hh"
 #include "Debug.hh"
 
-// hpairtagger::Analysis::Analysis()
-// {
-//     //     DebugLevel = analysis::Severity::debug;
-//     Note("Constructor");
-//     BottomTagger.SetAnalysisName(ProjectName());
-//     jet_pair_tagger.SetAnalysisName(ProjectName());
-//     mkdir(ProjectName().c_str(), 0700);
-// }
-
-// std::string hpairtagger::Analysis::StudyName(const analysis::Analysis::HTagger Tagger) const
-// {
-//     Note("Study Names", Tagger);
-//
-//     switch (Tagger) {
-//     case  BottomTagger :
-//         return "Bottom";
-//     case  HBottomReader :
-//         return "BottomReader";
-//     case  JetPairTagger :
-//         return "JetPair";
-//     case  HJetPairReader :
-//         return "JetPairReader";
-//     default :
-//         Error("unexpected TaggerName", Tagger);
-//         return "";
-//     }
-// }
-
 std::vector<analysis::File> fusionpair::Analysis::Files(const analysis::Tag tag)
 {
   Note("Set File Vector", Name(tag));
