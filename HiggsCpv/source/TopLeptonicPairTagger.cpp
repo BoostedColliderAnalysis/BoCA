@@ -2,6 +2,7 @@
 #include "Quartet.hh"
 #include "WimpMass.hh"
 #include "Predicate.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
@@ -12,7 +13,7 @@ namespace higgscpv
 TopLeptonicPairTagger::TopLeptonicPairTagger()
 {
 //     debug_level_ = Severity::debug;
-    Print(Severity::notification, "Constructor");
+    Note("Constructor");
     set_tagger_name("TopLeptonicPair");
     top_leptonic_reader_.SetTagger(top_leptonic_tagger_);
     DefineVariables();
@@ -20,14 +21,14 @@ TopLeptonicPairTagger::TopLeptonicPairTagger()
 
 int TopLeptonicPairTagger::Train(Event &event, PreCuts &, const Tag tag)
 {
-    Print(Severity::information, "Top Leptonic Pair Tagger Tags");
+    Info("Top Leptonic Pair Tagger Tags");
     std::vector<Doublet> doublets = top_leptonic_reader_.Multiplets<TopLeptonicTagger>(event);
-    Print(Severity::debug, "Number of Doublets", doublets.size());
+    Debug("Number of Doublets", doublets.size());
 
     Jets particles = event.Partons().GenParticles();
     Jets top_particles = copy_if_abs_particle(particles, Id::top);
     Jets neutrinos = copy_if_neutrino(particles);
-    if (top_particles.size() != 2 && tag == Tag::signal) Print(Severity::error, "Number of Tops?", particles.size());
+    if (top_particles.size() != 2 && tag == Tag::signal) Error("Number of Tops?", particles.size());
 
     std::vector<Doublet> final_doublets;
     switch (tag) {
@@ -37,7 +38,7 @@ int TopLeptonicPairTagger::Train(Event &event, PreCuts &, const Tag tag)
     case Tag::background :
         final_doublets = doublets;
     }
-    Print(Severity::debug, "Number of Doublets", final_doublets.size());
+    Debug("Number of Doublets", final_doublets.size());
 
     std::vector<Sextet> sextets;
     for (auto doublet1 = doublets.begin(); doublet1 != doublets.end(); ++doublet1)
@@ -48,7 +49,7 @@ int TopLeptonicPairTagger::Train(Event &event, PreCuts &, const Tag tag)
 //             sextets = Join(sextets, wimp_mass.Sextet(quartet, event.Hadrons().MissingEt(), neutrinos, tag));
             sextets.emplace_back(wimp_mass.Fake(quartet));
         }
-    Print(Severity::debug, "Number of Sextets", sextets.size());
+    Debug("Number of Sextets", sextets.size());
     if (tag == Tag::signal) sextets = BestRapidity(sextets);
     return SaveEntries(sextets);
 }
@@ -56,22 +57,22 @@ int TopLeptonicPairTagger::Train(Event &event, PreCuts &, const Tag tag)
 std::vector< Sextet > TopLeptonicPairTagger::Multiplets(Event &event, PreCuts &, const TMVA::Reader &reader)
 {
     std::vector<Doublet> doublets = top_leptonic_reader_.Multiplets<TopLeptonicTagger>(event);
-    Print(Severity::information, "Doublets", doublets.size());
+    Info("Doublets", doublets.size());
     std::vector<Sextet>  sextets;
     for (auto doublet1 = doublets.begin(); doublet1 != doublets.end(); ++doublet1)
         for (auto doublet2 = doublet1 + 1; doublet2 != doublets.end(); ++doublet2) {
             Quartet22 quartet(*doublet1, *doublet2);
             if (quartet.Overlap()) continue;
-            Print(Severity::information, "Quartet");
+            Info("Quartet");
             WimpMass wimp_mass;
 //             for (auto sextet : wimp_mass.Sextets(quartet, event.Hadrons().MissingEt())) {
                 Sextet sextet = wimp_mass.Fake(quartet);
-                Print(Severity::information, "Sextet");
+                Info("Sextet");
                 sextet.SetBdt(Bdt(sextet,reader));
                 sextets.emplace_back(sextet);
 //             }
         }
-    Print(Severity::information, "Sextets", sextets.size());
+    Info("Sextets", sextets.size());
     return ReduceResult(sextets);
 }
 

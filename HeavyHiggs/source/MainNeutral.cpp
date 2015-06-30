@@ -6,12 +6,13 @@
 #include "TSystem.h"
 #include "Factory.hh"
 #include "EventNeutralTagger.hh"
+#include "Debug.hh"
 
 void RunTagger(analysis::Tagger &tagger, analysis::Stage stage, const analysis::Configuration &config)
 {
     analysis::heavyhiggs::AnalysisNeutral analysis(tagger);
     const std::string name = tagger.name();
-    analysis.Print(analysis::Severity::error, "Tagger", name);
+    Error("Tagger", name);
     analysis.SetConfig(config);
 
     std::string file_name = analysis.ProjectName() + "/" + name + ".root";

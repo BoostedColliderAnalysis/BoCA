@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Sextet.hh"
 #include "TopLeptonicTagger.hh"
+#include "Sextet.hh"
 #include "BranchesHiggsCpv.hh"
 
 namespace analysis
@@ -32,16 +32,6 @@ public:
     auto Multiplets(Event &event, const TMVA::Reader &reader) {
         PreCuts pre_cuts;
         return Multiplets(event, pre_cuts, reader);
-    }
-
-protected:
-
-    virtual  std::string NameSpaceName() const {
-        return "higgscpv";
-    }
-
-    virtual  std::string ClassName() const {
-        return "TopLeptonicPairTagger";
     }
 
 private:

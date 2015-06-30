@@ -16,14 +16,6 @@ public:
 
     Doublet &Doublet2()const;
 
-protected:
-
-    virtual  std::string ClassName() const {
-        return "Quartet22";
-    }
-
-private:
-
 };
 
 class Quartet31 : public Multiplet<analysis::Triplet, analysis::Singlet>
@@ -38,14 +30,6 @@ public:
     fastjet::PseudoJet SingletJet() const;
 
     analysis::Singlet &Singlet() const;
-
-protected:
-
-    virtual  std::string ClassName() const {
-        return "Quartet31";
-    }
-
-private:
 
 };
 

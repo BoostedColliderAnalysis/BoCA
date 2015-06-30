@@ -9,6 +9,7 @@
 #include "TLine.h"
 #include "TStyle.h"
 #include "TH1F.h"
+#include "Debug.hh"
 
 // #include "TMVA/Reader.h"
 #include "TMVA/MethodCuts.h"
@@ -36,19 +37,19 @@ std::vector<int> Result::CutIntegral() const
 Reader::Reader()
 {
 //     debug_level_ = Severity::debug;
-    Print(Severity::information, "Constructor");
+    Info("Constructor");
 }
 
 Reader::Reader(Tagger &tagger)
 {
 //     debug_level_ = Severity::debug;
-    Print(Severity::information, "Constructor with tagger");
+    Info("Constructor with tagger");
     SetTagger(tagger);
 }
 
 void Reader::SetTagger(Tagger &tagger)
 {
-    Print(Severity::notification, "SetMva");
+    Note("SetMva");
     tagger_ = &tagger;
     AddVariable();
     BookMva();
@@ -56,7 +57,7 @@ void Reader::SetTagger(Tagger &tagger)
 
 void Reader::AddVariable()
 {
-    Print(Severity::notification, "Add Variable");
+    Note("Add Variable");
     const std::string default_options = "!Color:Silent";
     for (auto & observable : tagger().observables()) reader().AddVariable(observable.expression(), observable.value());
     for (auto & spectator : tagger().spectators()) reader().AddSpectator(spectator.expression(), spectator.value());
@@ -65,21 +66,27 @@ void Reader::AddVariable()
 
 void Reader::BookMva()
 {
-    Print(Severity::notification, "Book Mva");
+    Note("Book Mva");
     const std::string bdt_weight_file = tagger().analysis_name() + "/" + tagger().bdt_weight_name();
-    Print(Severity::notification, "Opening Weight File", bdt_weight_file);
+    Note("Opening Weight File", bdt_weight_file);
     reader().BookMVA(tagger().bdt_method_name(), bdt_weight_file);
 }
 
 float Reader::Bdt() const
 {
-    Print(Severity::information, "Bdt");
+    Info("Bdt");
     return const_cast<TMVA::Reader &>(reader_).EvaluateMVA(tagger().bdt_method_name()) + 1;
+}
+
+int Reader::GetBdt(analysis::Event &event, analysis::PreCuts &pre_cuts) const
+{
+    if (!tagger_) Error("what is wrong with the tagger?");
+    return tagger().GetBdt(event, pre_cuts, reader_);
 }
 
 Results Reader::ExportFile() const
 {
-  std::string export_file_name = ExportName() + ".root";
+    std::string export_file_name = ExportName() + ".root";
     TFile export_file(export_file_name.c_str(), "Recreate");
 
     Results results;
@@ -98,7 +105,7 @@ Results Reader::ExportFile() const
 std::vector<Result> Reader::Export(TFile &export_file, const std::string &file_name, const Strings &treename) const
 {
     TFile file(file_name.c_str(), "Read");
-    Print(Severity::error, "Open Signal File", file_name, treename.size());
+    Error("Open Signal File", file_name, treename.size());
 
     std::vector<Result> results;
     for (const auto & tree_name : treename) results.emplace_back(BdtResult(file, tree_name, export_file));
@@ -109,7 +116,7 @@ std::vector<Result> Reader::Export(TFile &export_file, const std::string &file_n
 TLegend Reader::Legend(float x_min, float y_max, float width, float height, const std::string &name)
 {
     TLegend legend(x_min, y_max - height, x_min + width, y_max);
-    if(name != "") legend.SetHeader(name.c_str());
+    if (name != "") legend.SetHeader(name.c_str());
     legend.SetBorderSize(0);
     legend.SetFillStyle(0);
     return legend;
@@ -117,7 +124,7 @@ TLegend Reader::Legend(float x_min, float y_max, float width, float height, cons
 
 void Reader::PlotHistograms(const Results &results)
 {
-    Print(Severity::error, "PlotHistograms");
+    Error("PlotHistograms");
     gStyle->SetOptStat("");
 
     TCanvas canvas;
@@ -176,7 +183,7 @@ void Reader::PlotHistograms(const Results &results)
 
 void Reader::PlotMultiGraph(const Results &results)
 {
-    Print(Severity::error, "PlotMultiGraph");
+    Error("PlotMultiGraph");
     TCanvas canvas;
     TMultiGraph multi_graph;
     std::vector<TGraph> graphs;
@@ -207,7 +214,7 @@ void Reader::PlotMultiGraph(const Results &results)
 
 void Reader::TaggingEfficiency()
 {
-    Print(Severity::notification, "Tagging Efficiency");
+    Note("Tagging Efficiency");
 
     Results results = ExportFile();
 
@@ -218,7 +225,7 @@ void Reader::TaggingEfficiency()
 
 void Reader::OptimalSignificance()
 {
-    Print(Severity::notification, "Mva Loop");
+    Note("Mva Loop");
     std::stringstream TableHeader;
     TableHeader << "\n\\begin{table}\n\\centering\n\\begin{tabular}{rlll}\n\\toprule\n";
 
@@ -229,7 +236,7 @@ void Reader::OptimalSignificance()
 
 //     const std::string background_file_name = tagger().analysis_name() + "/" + tagger().background_name() + "Reader.root";
 //     TFile background_file(background_file_name.c_str(), "Read");
-//     Print(Severity::error, "Open Background File", background_file_name, tagger().background_tree_names().size());
+//     Error("Open Background File", background_file_name, tagger().background_tree_names().size());
 
 
 //     std::vector<Result> background_results;
@@ -237,7 +244,7 @@ void Reader::OptimalSignificance()
 
 //     const std::string signal_file_name = tagger().analysis_name() + "/" + tagger().signal_name() + "Reader.root";
 //     TFile signal_file(signal_file_name.c_str(), "Read");
-//     Print(Severity::error, "Open Signal File", signal_file_name, tagger().signal_tree_names().size());
+//     Error("Open Signal File", signal_file_name, tagger().signal_tree_names().size());
 
 //     Result signal_results;
     std::vector<float> Significances(Result().steps, 0);
@@ -255,11 +262,11 @@ void Reader::OptimalSignificance()
     }
 //     export_file.Close();
 
-std::vector<float> background_efficiencies(results.background.size(), 0);
+    std::vector<float> background_efficiencies(results.background.size(), 0);
     int best_bin = 0;
     int counter = 0;
     for (std::size_t background_number = 0; background_number < results.background.size(); ++background_number) {
-      while (background_efficiencies.at(background_number) == 0 && counter < Result().steps) {
+        while (background_efficiencies.at(background_number) == 0 && counter < Result().steps) {
             best_bin = std::distance(Significances.begin(), std::max_element(std::begin(Significances), std::end(Significances) - counter));
             background_efficiencies.at(background_number) = results.background.at(background_number).efficiency.at(best_bin);
             ++counter;
@@ -278,7 +285,7 @@ std::vector<float> background_efficiencies(results.background.size(), 0);
     Table << "\n \\\\ Efficiency\n  & " << SignalEfficiency << "\n  & " << results.signal.front().analysis_event_number.at(best_bin) << "\n  & " << results.signal.front().event_sum() << "\n";
 
     for (std::size_t background_number = 0; background_number < results.background.size(); ++background_number) {
-      Table << " \\\\ \\verb|" << tagger().background_tree_names().at(background_number) << "|\n  & " << results.background.at(background_number).efficiency.at(best_bin) << "\n  & " << results.background.at(background_number).analysis_event_number.at(best_bin) << "\n  & " << results.background.at(background_number).event_sum() << "\n";
+        Table << " \\\\ \\verb|" << tagger().background_tree_names().at(background_number) << "|\n  & " << results.background.at(background_number).efficiency.at(best_bin) << "\n  & " << results.background.at(background_number).analysis_event_number.at(best_bin) << "\n  & " << results.background.at(background_number).event_sum() << "\n";
     }
 
     Result signal_results = results.signal.front();
@@ -352,10 +359,10 @@ std::vector<float> background_efficiencies(results.background.size(), 0);
 
 Result Reader::BdtResult(TFile &file, const std::string &tree_name, TFile &export_file) const
 {
-    Print(Severity::notification, "Apply Bdt", tree_name);
+    Note("Apply Bdt", tree_name);
     const float Luminosity = 3000; // 3000 fb-1
 
-    Print(Severity::error, "Open Tree", tree_name);
+    Error("Open Tree", tree_name);
     exroot::TreeReader tree_reader(static_cast<TTree *>(file.Get(tree_name.c_str())));
     Result result = BdtDistribution(tree_reader, tree_name, export_file);
     result.info_branch = InfoBranch(file, tree_name);
@@ -367,14 +374,14 @@ Result Reader::BdtResult(TFile &file, const std::string &tree_name, TFile &expor
         result.efficiency[step] = float(Integral[step]) / float(result.event_sum());
         result.analysis_event_number[step] = Integral[step];
 //         result.bdt[step] = bins[step];
-        Print(Severity::debug, "Result", result.efficiency[step], result.events[step]);
+        Debug("Result", result.efficiency[step], result.events[step]);
     }
     return result;
 }
 
 Result Reader::BdtDistribution(exroot::TreeReader &tree_reader, const std::string &tree_name, TFile &export_file) const
 {
-    Print(Severity::notification, "Bdt Distribution", tagger().branch_name());
+    Note("Bdt Distribution", tagger().branch_name());
     std::string branch_name = tagger().branch_name() + "Reader";
 
     Result result;
@@ -387,9 +394,9 @@ Result Reader::BdtDistribution(exroot::TreeReader &tree_reader, const std::strin
         for (const int entry : Range(event_clones_array.GetEntriesFast())) {
             float bdt_value = tagger().ReadBdt(event_clones_array, entry);
             result.bdt.emplace_back(bdt_value);
-            if (bdt_value < 0 || bdt_value > 2) Print(Severity::error, "Bdt Value" , bdt_value);
+            if (bdt_value < 0 || bdt_value > 2) Error("Bdt Value" , bdt_value);
             static_cast<ResultBranch &>(*result_branch.NewEntry()).Bdt = bdt_value;
-//             Print(Severity::notification, "Bdt Distribution", BdtValue,std::floor(BdtValue * result.steps / 2) - 1);
+//             Note("Bdt Distribution", BdtValue,std::floor(BdtValue * result.steps / 2) - 1);
             int bin = std::floor(bdt_value * result.steps / 2) - 1;
             if (bin == -1) bin = 0; // FIXME clean this up
 //             ++bins.at(std::floor(BdtValue * result.steps / 2) - 1);
@@ -406,9 +413,9 @@ Result Reader::BdtDistribution(exroot::TreeReader &tree_reader, const std::strin
 
 InfoBranch Reader::InfoBranch(TFile &file, const std::string &tree_name) const
 {
-    Print(Severity::notification, "Info Branch", tree_name);
+    Note("Info Branch", tree_name);
     exroot::TreeReader tree_reader(static_cast<TTree *>(file.Get(tree_name.c_str())));
-    Print(Severity::error, "Info Branch", tree_name, tagger().weight_branch_name());
+    Error("Info Branch", tree_name, tagger().weight_branch_name());
     TClonesArray &clones_array = *tree_reader.UseBranch(tagger().weight_branch_name().c_str());
 //     tree_reader.ReadEntry(tree_reader.GetEntries() - 1);
     tree_reader.ReadEntry(0);
@@ -418,7 +425,7 @@ InfoBranch Reader::InfoBranch(TFile &file, const std::string &tree_name) const
 
 void Reader::LatexHeader(std::ofstream &latex_file) const
 {
-    Print(Severity::notification, "LaTeX Header");
+    Note("LaTeX Header");
     const std::string file_name = tagger().analysis_name() + "/" + tagger().analysis_name() + ".tex";
     latex_file.open(file_name);
     latex_file << "\\documentclass[a4paper,10pt]{article}\n\n"
@@ -440,7 +447,7 @@ void Reader::LatexHeader(std::ofstream &latex_file) const
 
 void Reader::LatexFooter(ofstream &latex_file) const
 {
-    Print(Severity::notification, "LaTeX Footer");
+    Note("LaTeX Footer");
     latex_file << "\n\\end{document}\n";
     latex_file.close();
 }
@@ -459,7 +466,7 @@ void Reader::LatexFooter(ofstream &latex_file) const
 //
 // float Reader::GetScaling(const float events, const int Particles) const
 // {
-//     Print(Severity::information , "Scaling");
+//     Info("Scaling");
 //     float Scaling;
 //     if (Particles == 0) {
 //         Scaling = 0;
@@ -471,21 +478,21 @@ void Reader::LatexFooter(ofstream &latex_file) const
 //
 // float Reader::GetLuminosity(const float Number) const
 // {
-//     Print(Severity::information , "Luminosity");
+//     Info("Luminosity");
 //     float Luminosity = Number / CrosssectionScaled;
 //     return Luminosity;
 // }
 //
 // float Reader::GetLuminosityError(const float Number) const
 // {
-//     Print(Severity::information , "Luminosity Error");
+//     Info("Luminosity Error");
 //     float LuminosityError = GetError(Number) / CrosssectionScaled + Number / CrosssectionNorm * LuminosityScalingError + GetLuminosity(Number) * CrosssectionNormRelError;
 //     return LuminosityError;
 // }
 //
 // float Reader::GetError(const float Value) const
 // {
-//     Print(Severity::information , "Error");
+//     Info("Error");
 //     float Error;
 //     if (Value == 0) {
 //         Error = 0;
@@ -508,7 +515,7 @@ void Reader::LatexFooter(ofstream &latex_file) const
 //
 // float Reader::RoundToDigits(const float Value, const int Digits) const
 // {
-//     Print(Severity::information , "Round To Digits");
+//     Info("Round To Digits");
 //     if (Value == 0 || Value != Value) {
 //         return 0;
 //     } else {
@@ -519,7 +526,7 @@ void Reader::LatexFooter(ofstream &latex_file) const
 //
 // float Reader::RoundToError(const float Value, const float Error) const
 // {
-//     Print(Severity::information , "Round To Digits");
+//     Info("Round To Digits");
 //     if (Value == 0) {
 //         return 0;
 //     } else {

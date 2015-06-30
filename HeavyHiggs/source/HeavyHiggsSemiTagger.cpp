@@ -1,4 +1,5 @@
 #include "HeavyHiggsSemiTagger.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
@@ -9,7 +10,7 @@ namespace heavyhiggs
 HeavyHiggsSemiTagger::HeavyHiggsSemiTagger()
 {
 //         DebugLevel = Severity::detailed;
-    Print(Severity::notification, "Constructor");
+    Note("Constructor");
     set_tagger_name("HeavyHiggsSemi");
     top_hadronic_reader_.SetTagger(top_hadronic_tagger);
     top_semi_reader_.SetTagger(top_semi_tagger);
@@ -18,7 +19,7 @@ HeavyHiggsSemiTagger::HeavyHiggsSemiTagger()
 
 int HeavyHiggsSemiTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
 {
-    Print(Severity::information, "Higgs Tags");
+    Info("Higgs Tags");
 
     float Mass = event.mass();
     fastjet::PseudoJet HiggsBoson;
@@ -30,17 +31,17 @@ int HeavyHiggsSemiTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
         HiggsParticles.insert(HiggsParticles.end(), Odd.begin(), Odd.end());
         if (tag == Tag::signal) {
             if (HiggsParticles.size() == 1) HiggsBoson = HiggsParticles.front();
-            else Print(Severity::error, "Where is the Higgs?", HiggsParticles.size());
+            else Error("Where is the Higgs?", HiggsParticles.size());
         }
     }
     std::vector<Triplet> triplets_semi = top_semi_reader_.Multiplets<TopSemiTagger>(event);
-    Print(Severity::debug, "Number of Semi Tops", triplets_semi.size());
+    Debug("Number of Semi Tops", triplets_semi.size());
 
 //     std::vector<Triplet> FinaltripletsSemi;
 //     for (const auto tripletSemi : tripletsSemi) if (tripletSemi.singlet().pt() > pre_cuts / 2) FinaltripletsSemi.emplace_back(tripletSemi);
 
     std::vector<Triplet> triplets_hadronic = top_hadronic_reader_.Multiplets<TopHadronicTagger>(event);
-    Print(Severity::debug, "Number of Hadronic Tops", triplets_hadronic.size());
+    Debug("Number of Hadronic Tops", triplets_hadronic.size());
 
     std::vector<Triplet> FinaltripletsHadronic;
     Jets TopParticles = event.Partons().GenParticles();
@@ -48,11 +49,11 @@ int HeavyHiggsSemiTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
     TopParticles = RemoveIfWrongParticle(TopParticles, TopHadId);
     fastjet::PseudoJet TopQuark;
     if (TopParticles.size() == 1) TopQuark = TopParticles.front();
-    else Print(Severity::error, "Where is the Top?", TopParticles.size());
+    else Error("Where is the Top?", TopParticles.size());
     if (tag == Tag::signal) {
       for (const auto & triplet : triplets_hadronic) if (triplet.Jet().delta_R(TopQuark) < DetectorGeometry().JetConeSize) FinaltripletsHadronic.emplace_back(triplet);
     } else FinaltripletsHadronic = triplets_hadronic;
-    Print(Severity::debug, "Number of truth Hadronic Tops", FinaltripletsHadronic.size());
+    Debug("Number of truth Hadronic Tops", FinaltripletsHadronic.size());
 
     std::vector<Sextet > sextets;
     for (const auto & triplet_semi : triplets_semi)

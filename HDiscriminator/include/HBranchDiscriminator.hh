@@ -1,5 +1,4 @@
-#ifndef BranchDiscriminator_hh
-#define BranchDiscriminator_hh
+#pragma once
 
 #include "TObject.h"
 #include "Rtypes.h"
@@ -152,5 +151,3 @@ private:
 };
 
 }
-
-#endif

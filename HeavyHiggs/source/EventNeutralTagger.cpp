@@ -1,4 +1,5 @@
 #include "EventNeutralTagger.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
@@ -8,7 +9,7 @@ namespace heavyhiggs {
 EventNeutralTagger::EventNeutralTagger()
 {
     //   DebugLevel = Severity::debug;
-    Print(Severity::notification , "Constructor");
+    Note("Constructor");
     set_tagger_name("EventNeutral");
     bottom_reader_.SetTagger(bottom_tagger_);
     signature_neutral_reader_.SetTagger(signature_neutral_tagger_);
@@ -17,7 +18,7 @@ EventNeutralTagger::EventNeutralTagger()
 
 int EventNeutralTagger::Train(Event &event, const Tag tag)
 {
-    Print(Severity::information, "event Tags");
+    Info("event Tags");
 
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
     Jets leptons = event.Leptons().leptons();
@@ -35,7 +36,7 @@ int EventNeutralTagger::Train(Event &event, const Tag tag)
 
 std::vector<MultipletEvent<Octet62>> EventNeutralTagger::Multiplets(Event &event, const TMVA::Reader &reader)
 {
-    Print(Severity::information, "event Tags");
+    Info("event Tags");
     std::vector<Octet62> octets = signature_neutral_reader_.Multiplets<SignatureNeutralTagger>(event);
 
 
@@ -51,7 +52,7 @@ std::vector<MultipletEvent<Octet62>> EventNeutralTagger::Multiplets(Event &event
 
     std::sort(multiplet_events.begin(), multiplet_events.end());
     if (multiplet_events.size() > 1) multiplet_events.erase(multiplet_events.begin() + 1, multiplet_events.end());
-    Print(Severity::information, "event Number", multiplet_events.size(), jets.size());
+    Info("event Number", multiplet_events.size(), jets.size());
     return multiplet_events;
 }
 

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Quartet.hh"
 #include "TopSemiTagger.hh"
+#include "Quartet.hh"
 #include "Branch.hh"
 
 namespace analysis
@@ -23,12 +23,6 @@ public:
     int Train(Event &event, PreCuts &pre_cuts, const Tag tag);
 
     std::vector<Quartet31> Multiplets(Event& event, PreCuts &pre_cuts, const TMVA::Reader& reader);
-
-protected:
-
-    virtual  std::string ClassName() const {
-        return "ChargedHiggsSemiTagger";
-    }
 
 private:
 

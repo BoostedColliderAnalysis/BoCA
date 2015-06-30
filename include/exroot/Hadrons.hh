@@ -26,12 +26,6 @@ public:
      */
     bool Jets(const JetDetail jet_detail);
 
-private:
-
-     std::string NameSpaceName() const {
-        return "exroot";
-    }
-
 };
 
 }

@@ -71,16 +71,6 @@ public:
 
     int Multiplets(analysis::Event &event, const TMVA::Reader &reader);
 
-protected:
-
-    virtual  std::string NameSpaceName() const {
-      return "hbottomsumtagger";
-    }
-
-    virtual  std::string ClassName() const {
-        return "EventBottomTagger";
-    }
-
 private:
 
     void DefineVariables();

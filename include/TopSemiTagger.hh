@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Triplet.hh"
 #include "BottomTagger.hh"
+#include "Triplet.hh"
 #include "WSemiTagger.hh"
 
 namespace analysis
@@ -28,12 +28,6 @@ public:
 
     int TopSemiId(Event &event) {
         return sgn(w_semi_tagger_.WSemiId(event)) * to_int(Id::top);
-    }
-
-protected:
-
-    virtual  std::string ClassName() const {
-        return "TopSemiTagger";
     }
 
 private:

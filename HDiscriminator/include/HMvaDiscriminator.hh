@@ -51,10 +51,6 @@ private:
 
     void DefineVariables();
 
-    virtual  std::string ClassName() const {
-        return "HiggsCPV: HMva";
-    }
-
 };
 
 }

@@ -1,4 +1,5 @@
 #include "EventFusionTagger.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
@@ -8,7 +9,7 @@ namespace heavyhiggs {
 EventFusionTagger::EventFusionTagger()
 {
     //   DebugLevel = Severity::debug;
-    Print(Severity::notification , "Constructor");
+    Note("Constructor");
     set_tagger_name("EventFusion");
     bottom_reader_.SetTagger(bottom_tagger_);
     heavy_higgs_semi_reader_.SetTagger(heavy_higgs_semi_tagger_);
@@ -17,7 +18,7 @@ EventFusionTagger::EventFusionTagger()
 
 int EventFusionTagger::Train(Event &event, const Tag tag)
 {
-    Print(Severity::information, "event Tags");
+    Info("event Tags");
 
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
     Jets leptons = event.Leptons().leptons();
@@ -31,7 +32,7 @@ int EventFusionTagger::Train(Event &event, const Tag tag)
     fastjet::PseudoJet HiggsBoson;
     if (tag == Tag::signal) {
         if (HiggsParticles.size() == 1) HiggsBoson = HiggsParticles.front();
-        else Print(Severity::error, "Where is the Higgs?", HiggsParticles.size());
+        else Error("Where is the Higgs?", HiggsParticles.size());
         std::sort(sextets.begin(), sextets.end(), MinDeltaRTo(HiggsParticles.front()));
         if (sextets.size() > 1) sextets.erase(sextets.begin() + 1, sextets.end());
     }
@@ -40,7 +41,7 @@ int EventFusionTagger::Train(Event &event, const Tag tag)
     if (sextets.empty()) return 0;
 
     if (tag == Tag::signal && sextets.size() > 1) {
-        Print(Severity::error, "more than one event", sextets.size());
+        Error("more than one event", sextets.size());
         std::sort(sextets.begin(), sextets.end());
         sextets.erase(sextets.begin() + 1, sextets.end());
     }
@@ -54,7 +55,7 @@ int EventFusionTagger::Train(Event &event, const Tag tag)
 
 std::vector<MultipletEvent<Sextet>> EventFusionTagger::Multiplets(Event &event, TMVA::Reader &reader)
 {
-  Print(Severity::information, "event Tags");
+  Info("event Tags");
   std::vector<Sextet> sextets = heavy_higgs_semi_reader_.Multiplets<HeavyHiggsSemiTagger>(event);
 
   Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);

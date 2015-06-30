@@ -35,12 +35,6 @@ public:
       return Multiplets(event, pre_cuts, reader);
     }
 
-protected:
-
-    virtual  std::string ClassName() const {
-        return "TopPartnerLeptonicTagger";
-    }
-
 private:
 
     TopLeptonicTagger top_tagger_;

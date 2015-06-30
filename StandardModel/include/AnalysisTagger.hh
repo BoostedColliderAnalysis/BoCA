@@ -40,8 +40,6 @@ protected:
 
     virtual std::string FilePath() const;
 
-    virtual std::string NameSpaceName() const;
-
     virtual void NewSignalFile(const Process process);
 
     virtual void NewBackgroundFile(const Process process);

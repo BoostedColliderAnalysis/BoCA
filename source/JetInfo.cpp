@@ -1,6 +1,7 @@
 #include "JetInfo.hh"
 
 #include "Predicate.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
@@ -90,7 +91,7 @@ struct AccuPt {
 
 JetInfo::JetInfo()
 {
-    Print(Severity::debug, "Constructor");
+    Debug("Constructor");
 }
 
 JetInfo::JetInfo(const float bdt)
@@ -160,11 +161,11 @@ void JetInfo::AddConstituents(const std::vector<Constituent> &constituents)
 void JetInfo::AddDaughter(const int daughter)
 {
     if (!constituents().empty()) {
-        Print(Severity::error, "constituents", constituents().size(), constituents().front().family().particle().Id);
+        Error("constituents", constituents().size(), constituents().front().family().particle().Id);
         constituents().front().family().AddDaughter(daughter);
         return;
     }
-    Print(Severity::error, "No constituent");
+    Error("No constituent");
 }
 
 std::vector<Constituent> JetInfo::constituents() const
@@ -184,39 +185,39 @@ int JetInfo::VertexNumber() const
 
 void JetInfo::AddFamily(const Family &family, const float weight)
 {
-    Print(Severity::debug, "Add constituent", family.particle().Id, family.mother_1().Id, weight);
+    Debug("Add constituent", family.particle().Id, family.mother_1().Id, weight);
     family_fractions_[family] += weight;
 }
 
 void JetInfo::ExtractFamilyFraction()
 {
-    Print(Severity::information, "Extract Family Fraction");
+    Info("Extract Family Fraction");
     for (const auto & constituent : constituents()) family_fractions_[constituent.family()] += constituent.Momentum().Pt();
 }
 
 Family JetInfo::MaximalFamily()
 {
-    Print(Severity::debug, "Maximal Id");
+    Debug("Maximal Id");
     return std::max_element(family_fractions_.begin(), family_fractions_.end(), SortPairs())->first;
 }
 
 void JetInfo::AddParticle(const int constituent_id, const float weight)
 {
-    Print(Severity::debug, "Add constituent", constituent_id, weight);
+    Debug("Add constituent", constituent_id, weight);
     id_fractions_[constituent_id] += weight;
-    Print(Severity::detailed, "Saved Weight", id_fractions_[constituent_id]);
+    Detail("Saved Weight", id_fractions_[constituent_id]);
 }
 
 void JetInfo::AddParticle(const Id constituent_id, const float weight)
 {
-  Print(Severity::debug, "Add constituent", Name(constituent_id), weight);
+  Debug("Add constituent", Name(constituent_id), weight);
   id_fractions_[int(constituent_id)] += weight;
-  Print(Severity::detailed, "Saved Weight", id_fractions_[int(constituent_id)]);
+  Detail("Saved Weight", id_fractions_[int(constituent_id)]);
 }
 
 void JetInfo::ExtractFraction(const int id)
 {
-    Print(Severity::information, "Extract Fraction", id);
+    Info("Extract Fraction", id);
     ExtractFamilyFraction();
     for (const auto & pair : family_fractions_) {
         if (pair.first.particle().Id == id || pair.first.mother_1().Id == id) AddParticle(id, pair.second);
@@ -227,7 +228,7 @@ void JetInfo::ExtractFraction(const int id)
 
 void JetInfo::ExtractFraction(const int id, const int mother_id)
 {
-    Print(Severity::information, "Extract Fraction", id, mother_id);
+    Info("Extract Fraction", id, mother_id);
     for (const auto & pair : family_fractions_) {
         if (std::abs(pair.first.particle().Id) == id && std::abs(pair.first.mother_1().Id) == mother_id) AddParticle(pair.first.particle().Id, pair.second);
         else AddParticle(Id::isr, pair.second);
@@ -236,7 +237,7 @@ void JetInfo::ExtractFraction(const int id, const int mother_id)
 
 void JetInfo::ExtractAbsFraction(const int id)
 {
-    Print(Severity::information, "Extract Fraction", id);
+    Info("Extract Fraction", id);
     ExtractFamilyFraction();
     for (const auto & pair : family_fractions_) {
         if (std::abs(pair.first.particle().Id) == id || std::abs(pair.first.mother_1().Id) == id) AddParticle(id, pair.second);
@@ -246,17 +247,17 @@ void JetInfo::ExtractAbsFraction(const int id)
 
 float JetInfo::GetWeightSum() const
 {
-    Print(Severity::debug, "Weight Sum", id_fractions_.size());
+    Debug("Weight Sum", id_fractions_.size());
     float weight_sum = std::accumulate(begin(id_fractions_), end(id_fractions_), 0.0, [](const float previous, const std::pair<int, float> &pair) {
         return (previous + pair.second);
     });
-    Print(Severity::detailed, "Weight Sum", weight_sum);
+    Detail("Weight Sum", weight_sum);
     return weight_sum;
 }
 
 float JetInfo::Fraction(const int id) const
 {
-    Print(Severity::information, "Fraction", id);
+    Info("Fraction", id);
     if (!id_fractions_.count(id)) return 0;
     if (GetWeightSum() == 0)   return 0;
     return (id_fractions_.at(id) / GetWeightSum());
@@ -264,7 +265,7 @@ float JetInfo::Fraction(const int id) const
 
 float JetInfo::MaximalFraction() const
 {
-    Print(Severity::information, "Maximal Fraction");
+    Info("Maximal Fraction");
     std::pair<int, float> maximal_weight = *std::max_element(id_fractions_.begin(), id_fractions_.end(), SortPairs());
     if (GetWeightSum() == 0) return 0;
     else return (maximal_weight.second / GetWeightSum());
@@ -272,30 +273,30 @@ float JetInfo::MaximalFraction() const
 
 int JetInfo::MaximalId() const
 {
-    Print(Severity::debug, "Maximal Id");
+    Debug("Maximal Id");
     return std::max_element(id_fractions_.begin(), id_fractions_.end(), SortPairs())->first;
 }
 
 void JetInfo::PrintAllInfos(const Severity severity) const
 {
-    Print(Severity::debug, "Print All Infos");
-    for (auto pair = id_fractions_.begin(); pair != id_fractions_.end(); ++pair) {
-        if (GetWeightSum() == 0) Print(severity, "Jet Fraction", Name((*pair).first), 0);
-        else Print(severity, "Jet Fraction", Name((*pair).first), (*pair).second / GetWeightSum());
-    }
+    Debug("Print All Infos");
+//     for (auto pair = id_fractions_.begin(); pair != id_fractions_.end(); ++pair) {
+//         if (GetWeightSum() == 0) Print(severity, "Jet Fraction", Name((*pair).first), 0);
+//         else Print(severity, "Jet Fraction", Name((*pair).first), (*pair).second / GetWeightSum());
+//     }
 }
 
 void JetInfo::PrintAllconstituentInfos(const Severity severity) const
 {
-    Print(Severity::debug, "Print All Family Infos");
-    for (const auto constituent : constituents())
-        Print(severity, "Jet Fraction", Name(constituent.family().particle().Id), Name(constituent.family().mother_1().Id), constituent.family().particle().Momentum.Pt(), constituent.family().mother_1().Momentum.Pt());
+    Debug("Print All Family Infos");
+//     for (const auto constituent : constituents())
+//         Print(severity, "Jet Fraction", Name(constituent.family().particle().Id), Name(constituent.family().mother_1().Id), constituent.family().particle().Momentum.Pt(), constituent.family().mother_1().Momentum.Pt());
 }
 void JetInfo::PrintAllFamInfos(const Severity severity) const
 {
-    Print(Severity::debug, "Print All Family Infos");
-    for (const auto & family_fraction : family_fractions_)
-        Print(severity, "Family Fraction", Name(family_fraction.first.particle().Id), Name(family_fraction.first.mother_1().Id), family_fraction.first.particle().Momentum.Pt(), family_fraction.first.mother_1().Momentum.Pt());
+    Debug("Print All Family Infos");
+//     for (const auto & family_fraction : family_fractions_)
+//         Print(severity, "Family Fraction", Name(family_fraction.first.particle().Id), Name(family_fraction.first.mother_1().Id), family_fraction.first.particle().Momentum.Pt(), family_fraction.first.mother_1().Momentum.Pt());
 }
 
 fastjet::PseudoJet JetInfo::VertexJet() const
@@ -310,7 +311,7 @@ fastjet::PseudoJet JetInfo::VertexJet() const
 
 float JetInfo::SumDisplacement() const
 {
-    Print(Severity::debug, "Jet Displacement");
+    Debug("Jet Displacement");
     if (constituents_.empty()) return 0;
     std::vector <Constituent > vertices = ApplyVertexResolution();
     return std::accumulate(vertices.rbegin(), vertices.rend(), 0, AccuPerpDistance());
@@ -318,7 +319,7 @@ float JetInfo::SumDisplacement() const
 
 float JetInfo::MeanDisplacement() const
 {
-    Print(Severity::debug, "Jet Displacement");
+    Debug("Jet Displacement");
     if (constituents_.empty()) return 0;
     std::vector <Constituent > vertices = ApplyVertexResolution();
     if (vertices.empty()) return 0;
@@ -328,7 +329,7 @@ float JetInfo::MeanDisplacement() const
 
 float JetInfo::MaxDisplacement() const
 {
-    Print(Severity::debug, "Jet Displacement");
+    Debug("Jet Displacement");
     if (constituents_.empty()) return 0;
     std::vector <Constituent > vertices = ApplyVertexResolution();
     if (vertices.empty()) return 0;
@@ -338,17 +339,17 @@ float JetInfo::MaxDisplacement() const
 
 float JetInfo::VertexMass() const
 {
-    Print(Severity::debug, "Vertex Mass");
+    Debug("Vertex Mass");
     std::vector <Constituent > vertices = ApplyVertexResolution();
     const float vertex_mass = std::accumulate(vertices.begin(), vertices.end(), Constituent()).Momentum().M();
-    Print(Severity::debug, "Vertex Mass", vertex_mass);
+    Debug("Vertex Mass", vertex_mass);
     if (vertex_mass < detector_geometry_.VertexMassMin) return 0;
     return vertex_mass;
 }
 
 float JetInfo::VertexEnergy() const
 {
-    Print(Severity::debug, "Energy Fraction");
+    Debug("Energy Fraction");
     std::vector <Constituent > vertices = ApplyVertexResolution();
     const float vertex_energy = std::accumulate(vertices.begin(), vertices.end(), Constituent()).Momentum().E();
     return vertex_energy;
@@ -356,12 +357,12 @@ float JetInfo::VertexEnergy() const
 
 std::vector<Constituent> JetInfo::ApplyVertexResolution() const
 {
-    Print(Severity::debug, "Apply Vertex Resolution");
+    Debug("Apply Vertex Resolution");
     std::vector <Constituent > displaced_constituents;
-    Print(Severity::debug, "Vertex Number", constituents().size());
+    Debug("Vertex Number", constituents().size());
     if (constituents().empty()) return displaced_constituents;
     for (const auto & constituent : constituents()) if (constituent.Position().Vect().Perp() > detector_geometry_.TrackerDistanceMin && constituent.Position().Vect().Perp() < detector_geometry_.TrackerDistanceMax && std::abs(constituent.Momentum().Rapidity()) < detector_geometry_.TrackerEtaMax) displaced_constituents.emplace_back(constituent);
-    Print(Severity::debug, "Real Vertex Number", displaced_constituents.size());
+    Debug("Real Vertex Number", displaced_constituents.size());
     return displaced_constituents;
 }
 
@@ -438,7 +439,7 @@ float JetInfo::TrackMass() const
 
 int JetInfo::Charge() const
 {
-    Print(Severity::debug, "Charge");
+    Debug("Charge");
     std::vector <Constituent > vertices = constituents();
     int charge = std::accumulate(vertices.begin(), vertices.end(), 0, [](int charge, const Constituent & constituent) {
         return charge + constituent.charge();

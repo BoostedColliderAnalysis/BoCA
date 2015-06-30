@@ -1,4 +1,5 @@
 #include "exroot/Hadrons.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
@@ -8,7 +9,7 @@ namespace exroot
 
 Jets Hadrons::Jets()
 {
-    Print(Severity::information, "Jets", clones_arrays().JetSum());
+    Info(clones_arrays().JetSum());
     analysis::Jets jets;
     for (const int JetNumber : Range(clones_arrays().JetSum())) {
         ::exroot::Jet &jet = static_cast<::exroot::Jet &>(clones_arrays().Jet(JetNumber));

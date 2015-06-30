@@ -17,22 +17,22 @@ namespace analysis
 Analysis::Analysis(Tagger &tagger) : tagger_(tagger)
 {
 //   debug_level_ = Severity::debug;
-    Print(Severity::notification, "Constructor");
+    Note("Constructor");
 }
 
 void Analysis::AnalysisLoop(const Stage stage)
 {
-    Print(Severity::notification, "Analysis Loop");
+    Note("Analysis Loop");
     mkdir(ProjectName().c_str(), 0700);
     if (stage == Stage::reader) reader_.SetTagger(tagger_);
     tagger_.clear_tree_names();
     for (const auto & tag : std::vector<Tag> {Tag::signal, Tag::background}) {
-        Print(Severity::notification, "Analysing Mva Sample", Name(tag));
+        Note("Analysing Mva Sample", Name(tag));
         TFile export_file(ExportName(stage, tag).c_str(), "Recreate");
         files_.clear();
         SetFiles(tag);
         for (auto & file : Files(tag)) {
-            Print(Severity::notification, "Analysing File", file.tree_name());
+            Note("Analysing File", file.tree_name());
             ClonesArrays clones_arrays = file.clones_arrays();
             Event event = file.event();
             bool analysis_empty = true;
@@ -67,7 +67,7 @@ void Analysis::AnalysisLoop(const Stage stage)
                 if (object_sum >= EventNumberMax()) break;
 //                 progress_bar.Update(event_number);
             }
-            Print(Severity::error, "All events analysed", info_branch.EventNumber);
+            Error("All events analysed", info_branch.EventNumber);
 //             progress_bar.Finish();
             if (!analysis_empty) tree_writer.Write();
         }
@@ -88,13 +88,13 @@ InfoBranch Analysis::FillInfoBranch(const exroot::TreeReader &tree_reader, const
 
 std::string Analysis::ExportName(const Stage stage, const Tag tag) const
 {
-    Print(Severity::notification, "Export File", tagger_.name(stage, tag));
+    Note("Export File", tagger_.name(stage, tag));
     return ProjectName() + "/" + tagger_.name(stage, tag) + FileSuffix();
 }
 
 exroot::TreeWriter Analysis::TreeWriter(TFile &export_file, const std::string &export_tree_name, Stage stage)
 {
-    Print(Severity::notification, "Tree Writer", export_tree_name.c_str());
+    Note("Tree Writer", export_tree_name.c_str());
     exroot::TreeWriter tree_writer(&export_file, export_tree_name.c_str());
     tagger_.SetTreeBranch(tree_writer, stage);
     return tree_writer;
@@ -102,7 +102,7 @@ exroot::TreeWriter Analysis::TreeWriter(TFile &export_file, const std::string &e
 
 int Analysis::RunAnalysis(Event &event, const Stage stage, const Tag tag)
 {
-    Print(Severity::information, "Analysis");
+    Info("Analysis");
     switch (stage) {
     case Stage::trainer :
         return tagger_.Train(event, pre_cuts_, tag);
@@ -115,9 +115,23 @@ int Analysis::RunAnalysis(Event &event, const Stage stage, const Tag tag)
 
 bool Analysis::Missing(const std::string &name) const
 {
-    Print(Severity::error, "Missing", name);
+    Error("Missing", name);
     struct stat buffer;
     return (stat(name.c_str(), &buffer) != 0);
+}
+std::vector< File > Analysis::Files(const Tag tag)
+{
+    Error("Files", Name(tag));
+    return files_;
+}
+void Analysis::SetFiles(const Tag tag)
+{
+    Error("Set Files", "should be subclassed", Name(tag));
+}
+int Analysis::PassPreCut(Event &)
+{
+    Error("Apply pre cut", "no pre cut applied");
+    return 1;
 }
 
 }

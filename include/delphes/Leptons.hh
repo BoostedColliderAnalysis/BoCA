@@ -23,12 +23,6 @@ public:
 
     analysis::Jets Muons();
 
-protected:
-
-     std::string NameSpaceName() const {
-        return "delphes";
-    }
-
 private:
 
     analysis::Jets Electrons(JetDetail jet_detail);

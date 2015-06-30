@@ -1,5 +1,4 @@
-#ifndef HAnalysisBottomSumTagger_hh
-#define HAnalysisBottomSumTagger_hh
+#pragma once
 
 #include <sys/stat.h>
 #include <string>
@@ -52,16 +51,6 @@ using analysis::Analysis::Analysis;
         return  ProductionChannelName(ProductionChannel()) + DetectorName(Detector())  + "_" + std::to_string(Mass()) + "GeV";
     }
 
-protected:
-
-    virtual  std::string NameSpaceName() const {
-        return "hbottomsumtagger";
-    }
-
-    virtual  std::string ClassName() const {
-        return "HAnalysis";
-    }
-
 private:
 
     enum ProcessType {bb, cc, jj, qq, gg, Hbb, ttbb, ttcc, ttjj, ttqq, ttgg, bbbb, bbjj, bbcc, bbqq, bbgg};
@@ -98,7 +87,7 @@ private:
         case LE :
             return "LE";
         default:
-          Print(analysis::Severity::error, "Detector Name", "unhandeld case");
+          Error("Detector Name", "unhandeld case");
             return "";
         }
     }
@@ -115,7 +104,7 @@ private:
         case Simple :
             return "";
         default:
-            Print(analysis::Severity::error, "ProductionChannelName", "unhandeld case");
+            Error("ProductionChannelName", "unhandeld case");
             return "";
         }
     }
@@ -129,7 +118,7 @@ private:
         case Associated :
           return analysis::Id::gluon;
         default:
-          Print(analysis::Severity::error, "MotherId", "unhandeld case");
+          Error("MotherId", "unhandeld case");
             return analysis::Id::empty;
         }
     }
@@ -169,7 +158,7 @@ private:
         case ttgg:
             return "ttgg";
         default:
-          Print(analysis::Severity::error, "ProcessName", "unhandeld case");
+          Error("ProcessName", "unhandeld case");
             return "";
         }
     }
@@ -246,5 +235,3 @@ private:
 
 };
 }
-#endif
-

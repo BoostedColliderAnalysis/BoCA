@@ -2,17 +2,18 @@
 
 #include "fastjet/ClusterSequence.hh"
 #include "HEPTopTagger.hh"
+#include "Debug.hh"
 
 namespace analysis {
 
 TopHadronicHep::TopHadronicHep()
 {
-    Print(Severity::notification, "Constructor");
+    Note("Constructor");
 }
 
-Jets TopHadronicHep::Tops(std::vector< fastjet::PseudoJet > &e_flows)
+Jets TopHadronicHep::Tops(Jets &e_flows)
 {
-    Print(Severity::information, "Tagging Top");
+    Info("Tagging Top");
 //     float CellRap = 0.1;
 //     Jets hadrons;
 //     ifstream fin("sample_event.dat", ifstream::in);

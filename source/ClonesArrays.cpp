@@ -2,6 +2,7 @@
 
 #include "TClonesArray.h"
 #include "TObjArray.h"
+#include "Debug.hh"
 
 namespace analysis
 {
@@ -45,7 +46,7 @@ std::string ClonesArrays::BranchName(const Branch branch) const
     case Branch::tau:
         return "Tau";
     default :
-        Print(Severity::error, "Unnmaed branch");
+        Error("Unnmaed branch");
         return "";
     }
 }
@@ -71,26 +72,26 @@ std::vector<Branch> ClonesArrays::Branches() const
 
 void ClonesArrays::UseBranches(exroot::TreeReader &tree_reader)
 {
-    Print(Severity::debug, "Use TreeBrancheses");
+    Debug("Use TreeBrancheses");
     for (const auto & branch : Branches()) clones_arrays_[branch] = tree_reader.UseBranch(BranchName(branch).c_str());
 }
 
 TClonesArray &ClonesArrays::ClonesArray(const Branch branch) const
 {
-    Print(Severity::debug, "Clones Array", BranchName(branch));
-    if (!clones_arrays_.at(branch)) Print(Severity::error, "Not in branch", BranchName(branch));
+    Debug("Clones Array", BranchName(branch));
+    if (!clones_arrays_.at(branch)) Error("Not in branch", BranchName(branch));
     return *clones_arrays_.at(branch);
 }
 
 TObject &ClonesArrays::Object(const Branch branch, const int number) const
 {
-    Print(Severity::debug, "Object", BranchName(branch), number);
+    Debug("Object", BranchName(branch), number);
     return *ClonesArray(branch).At(number);
 }
 
 int ClonesArrays::EntrySum(const Branch branch) const
 {
-    Print(Severity::debug, "Sum", BranchName(branch), ClonesArray(branch).GetEntriesFast());
+    Debug("Sum", BranchName(branch), ClonesArray(branch).GetEntriesFast());
     return ClonesArray(branch).GetEntriesFast();
 }
 

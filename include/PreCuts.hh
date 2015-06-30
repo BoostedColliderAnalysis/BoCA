@@ -1,12 +1,13 @@
 #pragma once
 
 #include <map>
-#include "Object.hh"
+#include "Global.hh"
+
 
 namespace analysis
 {
 
-class PreCuts : public analysis::Object
+class PreCuts
 {
 public:
     void SetPtLowerCut(const Id id, const float value) {

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Decuplet.hh"
 #include "TopPartnerHadronicTagger.hh"
 #include "TopPartnerSemiTagger.hh"
 #include "BranchesTopPartner.hh"
+#include "Decuplet.hh"
 
 namespace analysis
 {
@@ -25,12 +25,6 @@ public:
     int Train(Event &event, PreCuts &pre_cuts, const Tag tag);
 
     std::vector<Decuplet55> Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
-
-protected:
-
-    virtual  std::string ClassName() const {
-        return "TopPartnerPairTagger";
-    }
 
 private:
 

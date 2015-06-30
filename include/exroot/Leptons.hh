@@ -22,14 +22,6 @@ public:
 
     analysis::Jets Muons();
 
-protected:
-
-     std::string NameSpaceName() const {
-        return "exroot";
-    }
-
-private:
-
 };
 
 }

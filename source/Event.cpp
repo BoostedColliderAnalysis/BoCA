@@ -5,12 +5,13 @@
 #include "exroot/Leptons.hh"
 #include "exroot/Hadrons.hh"
 #include "exroot/Partons.hh"
+#include "Debug.hh"
 
 namespace analysis {
 
 Event::Event(const Source source)
 {
-    Print(Severity::notification, "Constructor");
+    Note("Constructor");
     source_ = source;
     switch (source_) {
     case Source::delphes :
@@ -30,7 +31,7 @@ Event::Event(const Source source)
 
 Event::~Event()
 {
-    Print(Severity::notification, "Destructor");
+    Note("Destructor");
     switch (source_) {
     case Source::delphes :
         delete partons_;
@@ -49,7 +50,7 @@ Event::~Event()
 
 void Event::NewEvent(const ClonesArrays &clones_arrays)
 {
-    Print(Severity::information, "New event");
+    Info("New event");
     switch (source_) {
     case Source::delphes :
         partons_->NewEvent(clones_arrays);

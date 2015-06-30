@@ -26,12 +26,6 @@ public:
 
     Decay WDecay() const;
 
-protected:
-
-    virtual  std::string ClassName() const {
-        return "AnalysisW";
-    }
-
 private:
 
     void SetFiles(const Tag tag);

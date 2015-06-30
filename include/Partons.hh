@@ -23,14 +23,6 @@ public:
 
     virtual Jets GenParticles() const = 0;
 
-protected:
-
-    virtual  std::string ClassName() const {
-        return ("Partons");
-    }
-
-private:
-
 };
 
 }

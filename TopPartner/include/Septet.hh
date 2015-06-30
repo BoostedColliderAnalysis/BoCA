@@ -23,14 +23,6 @@ public:
         return Multiplet2();
     }
 
-protected:
-
-    virtual  std::string ClassName() const {
-        return "Septet";
-    }
-
-private:
-
 };
 
 }

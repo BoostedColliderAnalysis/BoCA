@@ -1,5 +1,4 @@
-#ifndef HAnalysisJetProperties_hh
-#define HAnalysisJetProperties_hh
+#pragma once
 
 #include "Analysis.hh"
 // #include "HEventDelphes.hh"
@@ -7,7 +6,6 @@
 
 #include "HJetPropertiesBranch.hh"
 #include "SubStructure.hh"
-
 #include "fastjet/tools/Pruner.hh"
 #include "fastjet/tools/CASubJetTagger.hh"
 
@@ -20,11 +18,6 @@ public:
 
     const std::set<analysis::Id> HeavyParticles = {analysis::Id::top, analysis::Id::CP_violating_higgs, analysis::Id::higgs};
 
-     std::string ClassName() const {
-
-        return "HiggsCPV: jet_tag";
-
-    };
 
 };
 
@@ -184,14 +177,5 @@ private:
 
      analysis::Strings GetStudyNames() const;
 
-    virtual  std::string ClassName() const {
-
-        return ("HAnalysisJetProperties");
-
-    };
 
 };
-
-
-#endif
-

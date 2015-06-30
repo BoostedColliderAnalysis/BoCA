@@ -1,10 +1,11 @@
 #include "Singlet.hh"
+#include "Debug.hh"
 
 namespace analysis {
 
 Singlet::Singlet(const fastjet::PseudoJet &jet)
 {
-    Print(Severity::information, "Constructor");
+    Info("Constructor");
     jet_ = jet;
 }
 
@@ -20,13 +21,13 @@ bool Singlet::Overlap(const Singlet &singlet) const
 
 float Singlet::Radius(const fastjet::PseudoJet &jet) const
 {
-    Print(Severity::information, "Delta R");
+    Info("Delta R");
     if (!jet.has_constituents()) return 0;
     float delta_r = 0;
     for (const auto & constituent : jet.constituents()) {
         const float constituent_delta_r = jet.delta_R(constituent);
         if (constituent_delta_r > 100) continue;
-        Print(Severity::debug, "Delta R", constituent_delta_r);
+        Debug("Delta R", constituent_delta_r);
         if (constituent_delta_r > delta_r) delta_r = constituent_delta_r;
     }
     return delta_r;
@@ -34,7 +35,7 @@ float Singlet::Radius(const fastjet::PseudoJet &jet) const
 
 float Singlet::Spread(const fastjet::PseudoJet &jet) const
 {
-    Print(Severity::information, "spread");
+    Info("spread");
     if (!jet.has_constituents()) return 0;
     float delta_r = Radius(jet);
     if (delta_r == 0) return 0;

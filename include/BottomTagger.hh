@@ -47,12 +47,6 @@ public:
      */
     Jets SubMultiplet(const fastjet::PseudoJet &jet, const TMVA::Reader &reader, const int sub_jet_number);
 
-protected:
-
-    virtual  std::string ClassName() const {
-        return "BottomTagger";
-    }
-
 private:
 
     Jets Multiplets(const Jets &jets, PreCuts &pre_cuts, const TMVA::Reader &reader);

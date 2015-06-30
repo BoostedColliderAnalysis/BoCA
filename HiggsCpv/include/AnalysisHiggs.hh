@@ -46,10 +46,6 @@ protected:
         return "~/Projects/HiggsCpv/Analysis/";
     }
 
-    virtual  std::string NameSpaceName() const {
-        return "higgscpv";
-    }
-
 private:
 
     int PassPreCut(Event &event);

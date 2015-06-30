@@ -1,6 +1,7 @@
 #include "Debug.hh"
 
-namespace analysis{
+namespace analysis
+{
 
 std::string Shorten(const std::string &pretty_function, std::size_t brake)
 {
@@ -36,14 +37,19 @@ std::string FunctionName(const std::string &pretty_function)
     return Shorten(pretty_function, bracket);
 }
 
-std::string FileName(const std::string &file)
+std::string FileName2(const std::string &file)
 {
     return file.rfind('/') ? file.substr(file.rfind('/') + 1) : file;
 }
 
-void LogBase(const std::string &file, const int line, const std::string &NameSpace, const std::string &Class, const std::string &function)
+void Log0(const std::string &file, const int line, const std::string &NameSpace, const std::string &Class, const std::string &function, bool final)
 {
-    std::cout << Column(20, file) <<  Column(5, line) << Column(10, NameSpace) << Column(15, Class) << Column(10, function);
+    std::cout << Column(25, file) <<  Column(5, line) << Column(15, NameSpace) << Column(15, Class) << Column(10, function);
+    if (final) std::cout << std::endl;
+}
+void LogVariable(const std::string &variable, const fastjet::PseudoJet jet)
+{
+    std::cout << Column(15, jet.px()) << Column(15, jet.px()) << Column(15, jet.pz()) << Column(15, jet.e());
 }
 
 }

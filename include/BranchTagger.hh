@@ -143,7 +143,7 @@ protected:
     }
 
     virtual void DefineVariables() {
-        Print(Severity::information , "Define Variables");
+//         Info("Define Variables");
         ClearObservables();
         AddVariables();
         AddSpectators();
@@ -171,7 +171,7 @@ private:
 
     template<typename Multiplet>
     void FillBranch(const Multiplet &multiplet) {
-        Print(Severity::information, "Fill Branch");
+//         Info("Fill Branch");
         branch_.Fill(multiplet);
     }
 

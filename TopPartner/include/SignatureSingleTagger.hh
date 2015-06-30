@@ -25,12 +25,6 @@ public:
 
     std::vector<Decuplet73> Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
-protected:
-
-    virtual  std::string ClassName() const {
-        return "SignatureSingleTagger";
-    }
-
 private:
 
     TopPartnerHiggsPairTagger top_partner_higgs_pair_tagger_;

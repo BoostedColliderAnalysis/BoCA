@@ -1,12 +1,12 @@
 #pragma once
 
 #include "libconfig.h++"
-#include "Object.hh"
+
 
 namespace analysis
 {
 
-class Configuration : public Object
+class Configuration
 {
 
 public:

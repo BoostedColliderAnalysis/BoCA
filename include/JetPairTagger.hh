@@ -22,12 +22,6 @@ public:
 
     std::vector<Doublet> Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
-protected:
-
-    virtual  std::string ClassName() const {
-        return "JetPairTagger";
-    }
-
 private:
 
     void DefineVariables();

@@ -1,6 +1,8 @@
 #pragma once
 
-#include "Object.hh"
+
+#include "Global.hh"
+
 
 namespace analysis {
 
@@ -16,7 +18,7 @@ struct Momentum {
  * @brief subjet and constituent calculations
  *
  */
-class SubStructure : public Object
+class SubStructure
 {
 
 public:
@@ -104,12 +106,6 @@ public:
      float GetDeltaR() const {
         return DeltaR;
     }
-
-protected:
-
-  virtual  std::string ClassName() const {
-    return "SubStructure";
-  }
 
 private:
 

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Sextet.hh"
 #include "TopSemiTagger.hh"
+#include "Sextet.hh"
 #include "TopHadronicTagger.hh"
 #include "Branch.hh"
 
@@ -24,12 +24,6 @@ public:
     int Train(Event &event, PreCuts &pre_cuts, const Tag tag);
 
     std::vector<Sextet> Multiplets(Event& event, PreCuts &pre_cuts, const TMVA::Reader& reader);
-
-protected:
-
-    virtual  std::string ClassName() const {
-        return "HeavyHiggsSemiTagger";
-    }
 
 private:
 

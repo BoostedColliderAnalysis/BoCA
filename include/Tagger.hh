@@ -18,7 +18,7 @@ enum class Stage
  * @brief Prepares multivariant analysis
  *
  */
-class Tagger : public Object
+class Tagger
 {
 
 public:
@@ -90,10 +90,6 @@ public:
 protected:
 
     virtual void DefineVariables() = 0;
-
-    virtual  std::string ClassName() const {
-        return "Tagger";
-    }
 
     Observable NewObservable(float &value, const std::string &title) const;
 

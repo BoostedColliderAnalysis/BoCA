@@ -38,16 +38,6 @@ public:
         return Multiplets(event, pre_cuts, reader);
     }
 
-protected:
-
-    virtual  std::string NameSpaceName() const {
-        return "toppartner";
-    }
-
-    virtual  std::string ClassName() const {
-        return "EventSingleTagger";
-    }
-
 private:
 
     TopPartnerLeptonicPairTagger signature_tagger_;
