@@ -1,8 +1,8 @@
-# pragma once
+#pragma once
 
-# include  "exroot/ExRootAnalysis.hh"
-# include "ClonesArrays.hh"
-# include "Event.hh"
+#include  "exroot/ExRootAnalysis.hh"
+#include "ClonesArrays.hh"
+#include "Event.hh"
 
 namespace analysis{
 
@@ -86,7 +86,7 @@ public:
     float mass() const {
         return mass_;
     }
-    ClonesArrays::Source source() const {
+    Source source() const {
         return source_;
     }
 
@@ -130,7 +130,7 @@ private:
 
     std::string nice_name_;
 
-    ClonesArrays::Source source_ = ClonesArrays::ClonesArrays::kDelphes;
+    Source source_ = Source::delphes;
 
     TChain *chain_ = NULL;
 

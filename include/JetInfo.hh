@@ -1,21 +1,25 @@
-# pragma once
+#pragma once
 
-# include <map>
-# include <unordered_map>
+#include <map>
+#include <unordered_map>
 
-# include "fastjet/JetDefinition.hh"
+#include "fastjet/JetDefinition.hh"
 
-# include "Identification.hh"
-# include "Constituent.hh"
-# include "delphes/Delphes.hh"
+#include "Identification.hh"
+#include "Constituent.hh"
+#include "delphes/Delphes.hh"
 
 namespace analysis
 {
 
+enum class JetType
+{
+    jet, gen_jet, e_flow_jet
+};
+
 class DetectorGeometry
 {
 public:
-    enum JetType {kJet, kGenJet, kEFlowJet};
     DetectorGeometry();
     float JetMinPt;
     float JetConeSize;
@@ -67,10 +71,10 @@ public:
 
     JetInfo(const std::vector<Constituent> &constituents);
 
-    JetInfo operator+(const JetInfo &jet_info){
-      JetInfo result;
-      result.AddConstituents(jet_info.constituents());
-      return result;
+    JetInfo operator+(const JetInfo &jet_info) {
+        JetInfo result;
+        result.AddConstituents(jet_info.constituents());
+        return result;
     }
 
     void AddConstituent(const Constituent &constituent);
@@ -144,15 +148,15 @@ public:
     }
 
     void SetTauTag(const bool tau_tag) {
-      tau_tag_ = tau_tag;
+        tau_tag_ = tau_tag;
     }
 
     bool TauTag() const {
-      return tau_tag_;
+        return tau_tag_;
     }
 
     void SetCharge(const int charge) {
-      charge_ = charge;
+        charge_ = charge;
     }
 
     int Charge() const;
@@ -161,7 +165,7 @@ public:
 
 protected:
 
-     std::string ClassName() const {
+    std::string ClassName() const {
         return "JetInfo";
     }
 
@@ -196,9 +200,7 @@ private:
  *
  */
 struct SortByBdt {
-     bool operator()(const fastjet::PseudoJet &jet_1, const fastjet::PseudoJet &jet_2) {
-        return (jet_1.user_info<analysis::JetInfo>().Bdt() > jet_2.user_info<analysis::JetInfo>().Bdt());
-    }
+    bool operator()(const fastjet::PseudoJet &jet_1, const fastjet::PseudoJet &jet_2);
 };
 
 }

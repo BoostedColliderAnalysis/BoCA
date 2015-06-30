@@ -1,6 +1,6 @@
-# pragma once
+#pragma once
 
-# include "Singlet.hh"
+#include "Singlet.hh"
 
 namespace analysis
 {

@@ -1,5 +1,5 @@
-# include "HMvaDiscriminator.hh"
-# include "Factory.hh"
+#include "HMvaDiscriminator.hh"
+#include "Factory.hh"
 
 int main()
 {

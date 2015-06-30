@@ -1,5 +1,5 @@
-# include "AnalysisPair.hh"
-# include "Predicate.hh"
+#include "AnalysisPair.hh"
+#include "Predicate.hh"
 
 // hpairtagger::Analysis::Analysis()
 // {
@@ -209,7 +209,7 @@ void fusionpair::Analysis::SetTrees()
 //
 // }
 
-// int fusionpair::Analysis::RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const analysis::Tag tag)
+// int fusionpair::Analysis::RunAnalysis(analysis::Event &event, const analysis::Stage stage, const analysis::Tag tag)
 // {
 //     Print(Severity::information, "Analysis", stage, tag);
 //     ++event_sum_;
@@ -229,9 +229,9 @@ void fusionpair::Analysis::SetTrees()
 //     }
 
 //     switch (stage) {
-//       case analysis::Tagger::kTrainer :
+//       case analysis::Stage::trainer :
 //         return tagger_.Train(event, tag);
-//       case analysis::Tagger::kReader:
+//       case analysis::Stage::reader:
 //         return tagger_.GetBdt(event, tag);
 //     }
 // }

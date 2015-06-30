@@ -1,13 +1,14 @@
-# pragma once
+#pragma once
 
-# include <iostream>
-# include <iomanip>
-# include <cmath>
-# include <vector>
+#include <iostream>
+#include <iomanip>
+#include <cmath>
+#include <vector>
+// #include "Debug.hh"
 
-# include "TLorentzVector.h"
+#include "TLorentzVector.h"
 
-# include "fastjet/PseudoJet.hh"
+#include "fastjet/PseudoJet.hh"
 
 /**
  * @brief analysis namespace containing the general analysis and SM taggers
@@ -123,11 +124,11 @@ enum class Id
     heavy_higgs = 35,
     CP_odd_higgs = 36,
     charged_higgs = 37,
-    Any = 86,
-    Isr = 87,
-    Marker = 88,
-    MixedJet = 90,
-    Cluster = 91,
+    any = 86,
+    isr = 87,
+    marker = 88,
+    mixed_jet = 90,
+    cluster = 91,
     string = 92,
     Pi0Meson = 111,
     Rho0Meson = 113,
@@ -166,8 +167,7 @@ enum class Id
 };
 
 template <typename Enumeration>
-auto to_int(Enumeration const value)
--> typename std::underlying_type<Enumeration>::type {
+auto to_int(Enumeration const value) -> typename std::underlying_type<Enumeration>::type {
     return static_cast<typename std::underlying_type<Enumeration>::type>(value);
 }
 
@@ -176,5 +176,19 @@ std::string Name(const int id);
 std::string Name(const Id id);
 
 float Mass(const Id id);
+
+
+
+/**
+ * @brief Initial user index
+ *
+ */
+static const int EmptyUserIndex = -1;
+
+/**
+ * @brief Position outside of a vector
+ *
+ */
+static const int EmptyPosition = -1;
 
 }

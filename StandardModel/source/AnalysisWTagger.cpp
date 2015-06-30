@@ -1,4 +1,4 @@
-# include "AnalysisWTagger.hh"
+#include "AnalysisWTagger.hh"
 
 namespace analysis
 {
@@ -26,8 +26,8 @@ void AnalysisW::SetFiles(const Tag tag)
         NewSignalFile(ww);
         break;
     case Tag::background :
-        NewBackgroundFile(ttlep);
-        NewBackgroundFile(tthad);
+        NewBackgroundFile(tt_lep);
+        NewBackgroundFile(tt_had);
         NewBackgroundFile(hh);
         NewBackgroundFile(zz);
         NewBackgroundFile(bb);

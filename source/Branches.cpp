@@ -1,20 +1,20 @@
-# include "Branches.hh"
+#include "Branches.hh"
 
-// # include <algorithm>
+// #include <algorithm>
 
 namespace analysis
 {
 
-Branch::~Branch() {}
+BaseBranch::~BaseBranch() {}
 
-float Branch::InitialValue()
+float BaseBranch::InitialValue()
 {
     return -11.1111111; // should be non integer
     // this must be identical to the initial value in htag
     // FIXME remove the copy of the magic number
 }
 
-Observables Branch::Join(const Observables &observables_1, const Observables &observables_2)
+Observables BaseBranch::Join(const Observables &observables_1, const Observables &observables_2)
 {
     Observables joined;
     joined.reserve(observables_1.size() + observables_2.size());

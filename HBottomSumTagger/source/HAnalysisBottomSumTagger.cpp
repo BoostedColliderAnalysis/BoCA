@@ -1,4 +1,4 @@
-# include "HAnalysisBottomSumTagger.hh"
+#include "HAnalysisBottomSumTagger.hh"
 
 // hbottomsumtagger::HAnalysis::HAnalysis()
 // {
@@ -262,7 +262,7 @@ void hbottomsumtagger::HAnalysis::SetTrees()
 //
 // }
 
-// int hbottomsumtagger::HAnalysis::RunAnalysis(analysis::Event &, const analysis::Tagger::Stage , const Tag )
+// int hbottomsumtagger::HAnalysis::RunAnalysis(analysis::Event &, const analysis::Stage , const Tag )
 // {
 //     Print(Severity::information, "Analysis");
 //     ++event_sum_;

@@ -1,29 +1,9 @@
-# pragma once
+#pragma once
 
-# include "Global.hh"
+#include "Global.hh"
 
 namespace analysis
 {
-
-//    std::string ClassName(const std::string &pretty_function)  {
-//     std::size_t colons = pretty_function.find("::");
-//     if (colons == std::string::npos) return "::";
-//     std::size_t begin = pretty_function.substr(0, colons).rfind(" ") + 1;
-//     std::size_t end = colons - begin;
-//     return pretty_function.substr(begin, end);
-//   }
-//
-  //   #define __CLASS_NAME__ ClassName(__PRETTY_FUNCTION__)
-//
-//    std::string MethodName(const std::string &pretty_function)  {
-//     std::size_t colons = pretty_function.find("::");
-//     std::size_t begin = pretty_function.substr(0, colons).rfind(" ") + 1;
-//     std::size_t end = pretty_function.rfind("(") - begin;
-//     return pretty_function.substr(begin, end) + "()";
-//   }
-//
-  //   #define __METHOD_NAME__ MethodName(__PRETTY_FUNCTION__)
-
 /**
  * @brief general base class for Analysis
  *
@@ -37,14 +17,15 @@ public:
 
     Object();
 
-     void Print(const Severity severity, const std::string &description) const;
+//     void Print(const Severity severity, const std::string &description,const std::string class_name = __CLASS_NAME__,const std::string method_name = __func__) const;
+    void Print(const Severity severity, const std::string &description) const;
 
     /**
      * @brief Print a debug messages
      *
      */
     template<typename Value>
-     void Print(const Severity severity, const std::string &description, const Value value) const {
+    void Print(const Severity severity, const std::string &description, const Value value) const {
         if (severity > debug_level_) return;
         Printer(description);
         std::cout << " " << value << std::endl;
@@ -55,7 +36,7 @@ public:
      *
      */
     template<typename Value, typename Value2>
-     void Print(const Severity severity, const std::string &description, const Value value, const Value2 value2) const {
+    void Print(const Severity severity, const std::string &description, const Value value, const Value2 value2) const {
         if (severity > debug_level_) return;
         const char Separator = ' ';
         const int FunctionWidth = 10;
@@ -70,7 +51,7 @@ public:
      *
      */
     template<typename Value, typename Value2, typename Value3>
-     void Print(const Severity severity, const std::string &description, const Value value, const Value2 value2, const Value3 value3) const {
+    void Print(const Severity severity, const std::string &description, const Value value, const Value2 value2, const Value3 value3) const {
         if (severity > debug_level_) return;
         const char Separator = ' ';
         const int FunctionWidth = 15;
@@ -82,7 +63,7 @@ public:
     }
 
     template<typename Value, typename Value2, typename Value3, typename Value4>
-     void Print(const Severity severity, const std::string &description, const Value value, const Value2 value2, const Value3 value3, const Value4 value4) const {
+    void Print(const Severity severity, const std::string &description, const Value value, const Value2 value2, const Value3 value3, const Value4 value4) const {
         if (severity > debug_level_) return;
         const char Separator = ' ';
         const int FunctionWidth = 15;
@@ -94,7 +75,7 @@ public:
         std::cout << std::endl;
     }
 
-     void Print(const Severity severity, const std::string &description, const fastjet::PseudoJet &Jet) const;
+    void Print(const Severity severity, const std::string &description, const fastjet::PseudoJet &Jet) const;
 
     void Print(const Severity severity, const std::string &description, float momentum[]) const;
 
@@ -120,18 +101,6 @@ protected:
      */
     Severity debug_level_;
 
-    /**
-     * @brief Initial user index
-     *
-     */
-    static const int EmptyUserIndex = -1;
-
-    /**
-     * @brief Position outside of a vector
-     *
-     */
-    static const int EmptyPosition = -1;
-
 private:
 
     /**
@@ -141,6 +110,8 @@ private:
      * @return void
      */
     void Printer(const std::string &Description) const;
+
+    void Printer(const std::string &name_space_name, const std::string &class_name, const std::string &Description) const;
 
 };
 

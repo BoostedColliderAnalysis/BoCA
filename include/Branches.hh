@@ -1,36 +1,36 @@
-# pragma once
+#pragma once
 
-# include "TObject.h"
-# include "Rtypes.h"
+#include "TObject.h"
+#include "Rtypes.h"
 
 namespace analysis
 {
 
 typedef std::pair<float &, std::string> ObservablePair;
 typedef std::vector<ObservablePair> Observables;
-# define STRING(s) #s
-# define PAIR(x) ObservablePair(x,STRING(x))
+#define STRING(s) #s
+#define PAIR(x) ObservablePair(x,STRING(x))
 
 /**
  * @brief Basic tree branches
  *
  */
-class Branch : public TObject
+class BaseBranch : public TObject
 {
 public:
-    virtual ~Branch();
+    virtual ~BaseBranch();
 protected:
     static float InitialValue();
     static Observables Join(const Observables &observables_1, const Observables &observables_2);
 private:
-    ClassDef(Branch, 1)
+    ClassDef(BaseBranch, 1)
 };
 
 /**
  * @brief Basic tree branches
  *
  */
-class InfoBranch : public Branch
+class InfoBranch : public BaseBranch
 {
 public:
     InfoBranch();
@@ -44,7 +44,7 @@ private:
     ClassDef(InfoBranch, 1)
 };
 
-class ResultBranch : public Branch
+class ResultBranch : public BaseBranch
 {
 public:
     ResultBranch();

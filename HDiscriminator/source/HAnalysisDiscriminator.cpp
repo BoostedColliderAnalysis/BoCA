@@ -1,5 +1,5 @@
-# include "HAnalysisDiscriminator.hh"
-# include "Predicate.hh"
+#include "HAnalysisDiscriminator.hh"
+#include "Predicate.hh"
 
 // hcpvhiggs::HAnalysis::HAnalysis()
 // {
@@ -114,7 +114,7 @@ void hcpvhiggs::HAnalysis::NewBranches(exroot::TreeWriter *NewTreeWriter)
 //         RadiationParticles.find(std::abs(id)) != end(RadiationParticles) &&
 //         HeavyParticles.find(std::abs(BranchId)) == end(HeavyParticles)
 //     ) {
-//         BranchId = Id::Isr;
+//         BranchId = Id::isr;
 //     } else if (
 //         HeavyParticles.find(std::abs(id)) != end(HeavyParticles) &&
 //         HeavyParticles.find(std::abs(BranchId)) == end(HeavyParticles)

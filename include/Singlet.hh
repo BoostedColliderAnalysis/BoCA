@@ -1,6 +1,6 @@
-# pragma once
+#pragma once
 
-# include "JetInfo.hh"
+#include "JetInfo.hh"
 
 namespace analysis
 {

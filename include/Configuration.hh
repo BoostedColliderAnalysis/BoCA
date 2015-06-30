@@ -1,7 +1,7 @@
-# pragma once
+#pragma once
 
-# include "libconfig.h++"
-# include "Object.hh"
+#include "libconfig.h++"
+#include "Object.hh"
 
 namespace analysis
 {

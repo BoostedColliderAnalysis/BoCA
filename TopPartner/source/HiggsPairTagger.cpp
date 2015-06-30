@@ -1,4 +1,4 @@
-# include "HiggsPairTagger.hh"
+#include "HiggsPairTagger.hh"
 
 namespace analysis
 {

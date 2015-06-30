@@ -1,7 +1,7 @@
-# pragma once
+#pragma once
 
-# include "../Hadrons.hh"
-# include "TClonesArray.h"
+#include "../Hadrons.hh"
+#include "TClonesArray.h"
 
 namespace analysis
 {
@@ -27,11 +27,11 @@ public:
     analysis::Jets Jets() {
         NewEvent(*clones_arrays_);
         switch (DetectorGeometry().jet_type) {
-        case DetectorGeometry::kJet :
-          return DelphesJets(kStructure);
-        case DetectorGeometry::kGenJet :
+        case JetType::jet :
+          return DelphesJets(JetDetail::structure);
+        case JetType::gen_jet :
             return GenJets();
-        case DetectorGeometry::kEFlowJet :
+        case JetType::e_flow_jet :
           return ClusteredJets();
         }
     }
@@ -54,7 +54,7 @@ private:
 
     analysis::Jets ClusteredJets();
 
-    analysis::Jets DelphesJets(const FourVector::JetDetail jet_detail);
+    analysis::Jets DelphesJets(const JetDetail jet_detail);
 
     analysis::Jets EFlowJets(const JetDetail jet_detail);
 
@@ -93,9 +93,9 @@ private:
 
     analysis::Jets EFlowMuon(const JetDetail);
 
-    fastjet::PseudoJet StructuredJet(const ::delphes::Jet &JetClone, const FourVector::JetDetail jet_detail);
+    fastjet::PseudoJet StructuredJet(const ::delphes::Jet &JetClone, const JetDetail jet_detail);
 
-    fastjet::PseudoJet ConstituentJet(TObject &Object, const analysis::FourVector::JetDetail jet_detail, const analysis::Constituent::SubDetector Detector = Constituent::kNone);
+    fastjet::PseudoJet ConstituentJet(TObject &Object, const JetDetail jet_detail, const SubDetector sub_detector = SubDetector::none);
 
 };
 

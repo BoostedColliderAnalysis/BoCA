@@ -1,10 +1,10 @@
-# pragma once
+#pragma once
 
-# include "Tagger.hh"
-# include "Event.hh"
-# include "Branches.hh"
-# include "TGraph.h"
-# include "TLegend.h"
+#include "Tagger.hh"
+#include "Event.hh"
+#include "Branches.hh"
+#include "TGraph.h"
+#include "TLegend.h"
 
 namespace analysis
 {
@@ -151,6 +151,10 @@ private:
     }
 
     int ColorCode(const int number) const;
+
+    std::string ExportName() const{
+      return tagger().analysis_name() + "/" + tagger().analysis_name() + "-" + tagger().name();
+    }
 
 };
 

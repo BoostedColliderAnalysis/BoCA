@@ -1,6 +1,6 @@
-# include "JetInfo.hh"
+#include "JetInfo.hh"
 
-# include "Predicate.hh"
+#include "Predicate.hh"
 
 namespace analysis
 {
@@ -34,7 +34,7 @@ DetectorGeometry::DetectorGeometry()
         VertexMassMin = 0.1;
         JetDefinition = fastjet::JetDefinition(fastjet::antikt_algorithm, JetConeSize);
         SubJetDefinition = fastjet::JetDefinition(fastjet::kt_algorithm, JetConeSize);
-        jet_type = kJet;
+        jet_type = JetType::jet;
     case Spp:
         JetMinPt = 40;
         LeptonMinPt = 20;
@@ -47,8 +47,8 @@ DetectorGeometry::DetectorGeometry()
         VertexMassMin = 0.1;
         JetDefinition = fastjet::JetDefinition(fastjet::antikt_algorithm, JetConeSize);
         SubJetDefinition = fastjet::JetDefinition(fastjet::kt_algorithm, JetConeSize);
-       jet_type = kJet;
-//         jet_type = kEFlowJet;
+        //        jet_type = JetType::jet;
+        jet_type = JetType::e_flow_jet;
     }
 }
 
@@ -61,18 +61,18 @@ struct AccuPerpDistance {
 
 struct MaxPerpDistance {
      bool operator()(const Constituent &constituent_1, const Constituent &constituent_2) const {
-        return (constituent_1.Position().Vect().Perp() > constituent_2.Position().Vect().Perp());
+        return constituent_1.Position().Vect().Perp() > constituent_2.Position().Vect().Perp();
     }
 };
 
 struct WrongDetector {
-    WrongDetector(const Constituent::SubDetector sub_detector) {
-        this->sub_detector_ = sub_detector;
+    WrongDetector(const SubDetector sub_detector) {
+        sub_detector_ = sub_detector;
     }
     bool operator()(const Constituent &constituent) {
-        return (constituent.sub_detector() != sub_detector_);
+        return constituent.sub_detector() != sub_detector_;
     }
-    Constituent::SubDetector sub_detector_;
+    SubDetector sub_detector_;
 };
 
 struct MaxConstPt {
@@ -230,7 +230,7 @@ void JetInfo::ExtractFraction(const int id, const int mother_id)
     Print(Severity::information, "Extract Fraction", id, mother_id);
     for (const auto & pair : family_fractions_) {
         if (std::abs(pair.first.particle().Id) == id && std::abs(pair.first.mother_1().Id) == mother_id) AddParticle(pair.first.particle().Id, pair.second);
-        else AddParticle(Id::Isr, pair.second);
+        else AddParticle(Id::isr, pair.second);
     }
 }
 
@@ -369,7 +369,7 @@ float JetInfo::ElectroMagneticRadius(const fastjet::PseudoJet &jet) const
 {
     float energy = 0;
     float weight = 0;
-    for (const auto & constituent : constituents()) if (constituent.sub_detector() == Constituent::kPhoton) {
+    for (const auto & constituent : constituents()) if (constituent.sub_detector() == SubDetector::photon) {
             energy += constituent.Momentum().Et();
             weight += constituent.Momentum().Et() * jet.delta_R(fastjet::PseudoJet(constituent.Momentum()));
         }
@@ -381,7 +381,7 @@ float JetInfo::TrackRadius(const fastjet::PseudoJet &jet) const
 {
     float energy = 0;
     float weight = 0;
-    for (const auto & constituent : constituents()) if (constituent.sub_detector() == Constituent::kTrack) {
+    for (const auto & constituent : constituents()) if (constituent.sub_detector() == SubDetector::track) {
             energy += constituent.Momentum().Et();
             weight += constituent.Momentum().Et() * jet.delta_R(fastjet::PseudoJet(constituent.Momentum()));
         }
@@ -392,7 +392,7 @@ float JetInfo::TrackRadius(const fastjet::PseudoJet &jet) const
 float JetInfo::LeadingTrackMomentumFraction() const
 {
     std::vector<Constituent> consts = constituents();
-    consts.erase(std::remove_if(consts.begin(), consts.end(), WrongDetector(Constituent::kTrack)), consts.end());
+    consts.erase(std::remove_if(consts.begin(), consts.end(), WrongDetector(SubDetector::track)), consts.end());
     std::sort(consts.begin(), consts.end(), MaxConstPt());
     float sum = std::accumulate(consts.rbegin(), consts.rend(), 0, AccuPt());
     return consts.front().Momentum().Pt() / sum;
@@ -402,7 +402,7 @@ float JetInfo::CoreEnergyFraction(const fastjet::PseudoJet &jet) const
 {
     float energy = 0;
     float core_energy = 0;
-    for (const auto & constituent : constituents()) if (constituent.sub_detector() == Constituent::kPhoton) {
+    for (const auto & constituent : constituents()) if (constituent.sub_detector() == SubDetector::photon) {
             energy += constituent.Momentum().Et();
             if (jet.delta_R(fastjet::PseudoJet(constituent.Momentum())) < 0.2) core_energy += constituent.Momentum().Et();
         }
@@ -416,7 +416,7 @@ float JetInfo::ElectroMagneticFraction() const
     float energy = 0;
     for (const auto & constituent : constituents()) {
         energy += constituent.Momentum().Et();
-        if (constituent.sub_detector() == Constituent::kPhoton) em_energy += constituent.Momentum().Et();
+        if (constituent.sub_detector() == SubDetector::photon) em_energy += constituent.Momentum().Et();
     }
     if (energy == 0) return 0;
     else return em_energy / energy;
@@ -425,14 +425,14 @@ float JetInfo::ElectroMagneticFraction() const
 float JetInfo::ClusterMass() const
 {
     fastjet::PseudoJet jet;
-    for (const auto & constituent : constituents()) if (constituent.sub_detector() == Constituent::kPhoton) jet += constituent.Momentum();
+    for (const auto & constituent : constituents()) if (constituent.sub_detector() == SubDetector::photon) jet += constituent.Momentum();
     return jet.m();
 }
 
 float JetInfo::TrackMass() const
 {
     fastjet::PseudoJet jet;
-    for (const auto & constituent : constituents()) if (constituent.sub_detector() == Constituent::kTrack) jet += constituent.Momentum();
+    for (const auto & constituent : constituents()) if (constituent.sub_detector() == SubDetector::track) jet += constituent.Momentum();
     return jet.m();
 }
 
@@ -444,6 +444,11 @@ int JetInfo::Charge() const
         return charge + constituent.charge();
     });
     return charge;
+}
+
+bool SortByBdt::operator()(const fastjet::PseudoJet &jet_1, const fastjet::PseudoJet &jet_2)
+{
+    return (jet_1.user_info<analysis::JetInfo>().Bdt() > jet_2.user_info<analysis::JetInfo>().Bdt());
 }
 
 }

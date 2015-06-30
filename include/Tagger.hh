@@ -1,12 +1,18 @@
-# pragma once
+#pragma once
 
-# include "TMVA/Reader.h"
-# include "Event.hh"
-# include "Observable.hh"
-# include "PreCuts.hh"
+#include "TMVA/Reader.h"
+#include "Event.hh"
+#include "Observable.hh"
+#include "PreCuts.hh"
 
 namespace analysis
 {
+
+enum class Stage
+{
+    trainer,
+    reader
+};
 
 /**
  * @brief Prepares multivariant analysis
@@ -16,11 +22,6 @@ class Tagger : public Object
 {
 
 public:
-
-    enum Stage {
-        kTrainer,
-        kReader
-    };
 
     Tagger();
 
@@ -32,7 +33,7 @@ public:
 
     void set_tagger_name(const std::string &tagger_name);
 
-    std::string tagger_name() const;
+    std::string name() const;
 
     std::string factory_name() const;
 
@@ -81,8 +82,6 @@ public:
     virtual int Train(analysis::Event &, PreCuts &, const Tag);
 
     Jets SubJets(const fastjet::PseudoJet &jet, const int sub_jet_number);
-
-    fastjet::PseudoJet GetMissingEt(analysis::Event &event);
 
     virtual float ReadBdt(const TClonesArray &, const int) const = 0;
 
@@ -135,7 +134,7 @@ private:
      * @brief Name of the Tagger
      *
      */
-    std::string tagger_name_;
+    std::string name_;
 
     /**
      * @brief Names of the Signal Files

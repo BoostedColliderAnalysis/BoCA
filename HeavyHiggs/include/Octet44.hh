@@ -1,6 +1,6 @@
-# pragma once
+#pragma once
 
-# include "Quartet31.hh"
+#include "Quartet.hh"
 
 namespace analysis
 {

@@ -1,4 +1,4 @@
-# include "Constituent.hh"
+#include "Constituent.hh"
 
 namespace analysis {
 
@@ -36,14 +36,14 @@ Constituent::Constituent(const TLorentzVector &momentum)
     momentum_ = momentum;
 }
 
-Constituent::Constituent(const TLorentzVector &momentum, const analysis::Constituent::SubDetector sub_detector, const float charge)
+Constituent::Constituent(const TLorentzVector &momentum, const SubDetector sub_detector, const float charge)
 {
     momentum_ = momentum;
     sub_detector_ = sub_detector;
     charge_ = charge;
 }
 
-Constituent::Constituent(const TLorentzVector &momentum, const analysis::Constituent::SubDetector sub_detector)
+Constituent::Constituent(const TLorentzVector &momentum, const SubDetector sub_detector)
 {
   momentum_ = momentum;
   sub_detector_ = sub_detector;
@@ -97,7 +97,7 @@ void Constituent::SetDetector(const SubDetector detector)
     sub_detector_ = detector;
 }
 
-Constituent::SubDetector Constituent::sub_detector() const
+SubDetector Constituent::sub_detector() const
 {
     return sub_detector_;
 }

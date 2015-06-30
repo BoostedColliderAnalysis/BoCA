@@ -1,8 +1,8 @@
-# pragma once
+#pragma once
 
-# include "Configuration.hh"
-# include "File.hh"
-# include "Reader.hh"
+#include "Configuration.hh"
+#include "File.hh"
+#include "Reader.hh"
 
 namespace analysis
 {
@@ -22,7 +22,7 @@ public:
      */
     Analysis(Tagger &tagger);
 
-    void AnalysisLoop(const Tagger::Stage stage);
+    void AnalysisLoop(const Stage stage);
 
     virtual std::vector<File> Files(const Tag tag) {
         Print(Severity::error, "Files", Name(tag));
@@ -33,7 +33,7 @@ public:
         configuration_ = configuration;
     }
 
-    std::string ExportName(const Tagger::Stage stage, const Tag tag) const;
+    std::string ExportName(const Stage stage, const Tag tag) const;
 
     void PrepareFiles(){
       files_.clear();
@@ -48,7 +48,7 @@ protected:
         Print(Severity::error, "Set Files", "should be subclassed", Name(tag));
     }
 
-    exroot::TreeWriter TreeWriter(TFile &export_file, const std::string &export_tree_name, Tagger::Stage stage);
+    exroot::TreeWriter TreeWriter(TFile &export_file, const std::string &export_tree_name, Stage stage);
 
 
     InfoBranch FillInfoBranch(const exroot::TreeReader &tree_reader, const analysis::File &file);
@@ -145,7 +145,7 @@ protected:
         return 1;
     }
 
-    int RunAnalysis(Event &event, const Tagger::Stage stage, const Tag tag);
+    int RunAnalysis(Event &event, const Stage stage, const Tag tag);
 
     PreCuts &pre_cuts() {
         return pre_cuts_;
@@ -154,6 +154,8 @@ protected:
     Tagger &tagger(){
       return tagger_;
     }
+
+    bool Missing(const std::string& name) const;
 
 private:
 

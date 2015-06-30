@@ -1,6 +1,6 @@
-# pragma once
+#pragma once
 
-# include "Analysis.hh"
+#include "Analysis.hh"
 
 /**
  * @brief Namespace for the fusion pair analysis
@@ -228,7 +228,7 @@ private:
 
 //     void NewBranches(exroot::TreeWriter &NewTreeWriter, const analysis::Analysis::HTagger Tagger);
 
-//     int RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const analysis::Tag tag);
+//     int RunAnalysis(analysis::Event &event, const analysis::Stage stage, const analysis::Tag tag);
 
 //     bool GetBottomTag(analysis::Event &event, const analysis::Tag Tag);
 //     bool GetBottomReader(analysis::Event &event, const analysis::Tag Tag);

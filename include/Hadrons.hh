@@ -1,7 +1,7 @@
-# pragma once
+#pragma once
 
-# include "FourVector.hh"
-# include "Predicate.hh"
+#include "FourVector.hh"
+#include "Predicate.hh"
 
 namespace analysis
 {

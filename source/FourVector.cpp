@@ -1,9 +1,28 @@
-# include "FourVector.hh"
+#include "FourVector.hh"
 
-# include "TClonesArray.h"
-# include "Predicate.hh"
+#include "TClonesArray.h"
+#include "Predicate.hh"
 
-namespace analysis {
+namespace analysis
+{
+
+std::string Name(const analysis::JetDetail jet_detail)
+{
+    switch (jet_detail) {
+    case JetDetail::plain:
+        return  "Plain";
+    case JetDetail:: tagging:
+        return  "Tagging";
+    case JetDetail:: isolation:
+        return  "Isolation";
+    case JetDetail:: structure:
+        return  "Structure";
+    case JetDetail:: tagging_isolation:
+        return  "Tagging Isolation";
+    case JetDetail:: tagging_structure:
+        return  "Tagging Structure";
+    }
+}
 
 FourVector::FourVector() :
     check_four_vectors_(1),
@@ -128,7 +147,7 @@ Family FourVector::BranchFamily(const TObject &object)
     const int Position = clones_arrays().ParticleClonesArray().IndexOf(&object);
     if (Position == EmptyPosition) return family;
     family = BranchFamily(family, Position);
-    if (family.mother_1().Id == to_int(Id::empty)) family = Family(family.particle().Position, Id::Isr, family.mother_1().Position, Id::Isr);
+    if (family.mother_1().Id == to_int(Id::empty)) family = Family(family.particle().Position, Id::isr, family.mother_1().Position, Id::isr);
 //       Print(Severity::error, "Truth Level Tagging Failed");
     for (auto & Node : topology_) if (Node.Marker()) Node = family;
     //
@@ -143,7 +162,7 @@ Family FourVector::BranchFamily(Family &family, int Position)
     if (
         jet_tag().HeavyParticles.find(static_cast<Id>(std::abs(topology_.at(Position).mother_1().Id))) != end(jet_tag().HeavyParticles) ||
         jet_tag().HeavyParticles.find(static_cast<Id>(std::abs(topology_.at(Position).particle().Id))) != end(jet_tag().HeavyParticles) ||
-        topology_.at(Position).particle().Id == to_int(Id::Isr)
+        topology_.at(Position).particle().Id == to_int(Id::isr)
     ) {
         return topology_.at(Position);
     }
@@ -156,7 +175,7 @@ Family FourVector::BranchFamily(Family &family, int Position)
         if (
             jet_tag().HeavyParticles.find(static_cast<Id>(std::abs(topology_.at(Position).mother_1().Id))) != end(jet_tag().HeavyParticles) ||
             jet_tag().HeavyParticles.find(static_cast<Id>(std::abs(topology_.at(Position).particle().Id))) != end(jet_tag().HeavyParticles) ||
-            topology_.at(Position).particle().Id == to_int(Id::Isr)
+            topology_.at(Position).particle().Id == to_int(Id::isr)
         ) {
             return topology_.at(Position);
         }
@@ -166,7 +185,7 @@ Family FourVector::BranchFamily(Family &family, int Position)
             return topology_.at(Position);
         }
         topology_.at(Position).SetMarker();
-//         if (Position < 3) return Family(Position, Id::Isr, EmptyPosition, Id::Isr);
+//         if (Position < 3) return Family(Position, Id::isr, EmptyPosition, Id::isr);
         ::delphes::GenParticle &particle = static_cast<::delphes::GenParticle &>(clones_arrays().Particle(Position));
 //         const int Status = ParticleClone.Status;
         int M1Id = to_int(Id::empty);
@@ -195,7 +214,7 @@ Family FourVector::BranchFamily(Family &family, int Position)
                         Family NewFamily = BranchFamily(family, Counter);
                         jet_info.AddFamily(NewFamily, NewFamily.Pt());
                         Print(Severity::debug, "StringPart", Counter, Name(family.particle().Id));
-//                         if (std::abs(BranchFamily.particle().Id) == Id::Isr) return BranchFamily;
+//                         if (std::abs(BranchFamily.particle().Id) == Id::isr) return BranchFamily;
                     }
                     jet_info.PrintAllFamInfos(Severity::debug);
                     if (jet_info.FamilyFractions().size() > 1) {
@@ -277,3 +296,5 @@ std::string FourVector::PrintParticle(const int Position) const
 }
 
 }
+
+
