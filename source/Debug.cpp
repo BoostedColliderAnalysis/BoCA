@@ -18,14 +18,14 @@ std::string Shorten2(const std::string &pretty_function, std::size_t brake)
     return (colons == std::string::npos) ? "::" : Shorten(pretty_function, colons);
 }
 
-std::string NameSpaceName2(const std::string &pretty_function)
+std::string NameSpaceName(const std::string &pretty_function)
 {
     std::size_t bracket = pretty_function.find("(");
     std::size_t colons = pretty_function.substr(0, bracket).rfind("::");
     return Shorten2(pretty_function, colons);
 }
 
-std::string ClassName2(const std::string &pretty_function)
+std::string ClassName(const std::string &pretty_function)
 {
     std::size_t bracket = pretty_function.find("(");
     return Shorten2(pretty_function, bracket);
@@ -37,7 +37,7 @@ std::string FunctionName(const std::string &pretty_function)
     return Shorten(pretty_function, bracket);
 }
 
-std::string FileName2(const std::string &file)
+std::string FileName(const std::string &file)
 {
     return file.rfind('/') ? file.substr(file.rfind('/') + 1) : file;
 }

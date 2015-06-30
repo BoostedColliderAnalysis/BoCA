@@ -12,7 +12,6 @@ namespace higgscpv
 
 TopLeptonicPairTagger::TopLeptonicPairTagger()
 {
-//     debug_level_ = Severity::debug;
     Note("Constructor");
     set_tagger_name("TopLeptonicPair");
     top_leptonic_reader_.SetTagger(top_leptonic_tagger_);

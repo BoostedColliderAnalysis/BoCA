@@ -6,12 +6,6 @@
 namespace analysis
 {
 
-WimpMass::WimpMass()
-{
-//     debug_level_ = Severity::debug;
-    Debug("Constructor");
-}
-
 void WimpMass::Momentum(double momentum[4], const fastjet::PseudoJet &jet)
 {
     momentum[0] = jet.E();

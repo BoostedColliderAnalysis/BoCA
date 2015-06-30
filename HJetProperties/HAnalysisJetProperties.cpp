@@ -3,20 +3,6 @@
 #include "Predicate.hh"
 #include "Debug.hh"
 
-// hjetproperties::HAnalysis::HAnalysis()
-// {
-//
-//     Note("Constructor");
-//
-//     //jet_tag = new analysis::JetTag();
-//
-//     sub_structure = new analysis::SubStructure();
-//
-//     //     DebugLevel = 4;
-//
-// }
-
-
 analysis::Strings hjetproperties::HAnalysis::GetStudyNames() const
 {
     //     return {"Higgs", "Top", "Isr"};

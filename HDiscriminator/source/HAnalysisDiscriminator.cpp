@@ -2,18 +2,6 @@
 #include "Predicate.hh"
 #include "Debug.hh"
 
-// hcpvhiggs::HAnalysis::HAnalysis()
-// {
-//
-//     Note("Constructor");
-//
-//     //jet_tag = new analysis::JetTag();
-//
-//     sub_structure = new analysis::SubStructure();
-//
-// //     DebugLevel = 3;
-//
-// }
 
 hcpvhiggs::HAnalysis::~HAnalysis()
 {

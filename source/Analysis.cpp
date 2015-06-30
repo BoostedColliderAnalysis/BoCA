@@ -16,7 +16,6 @@ namespace analysis
 // HAnalysis::HAnalysis(const std::string &ConfigName) : config_(ConfigName)
 Analysis::Analysis(Tagger &tagger) : tagger_(tagger)
 {
-//   debug_level_ = Severity::debug;
     Note("Constructor");
 }
 
@@ -40,7 +39,7 @@ void Analysis::AnalysisLoop(const Stage stage)
             exroot::TreeBranch &tree_branch = *tree_writer.NewBranch(tagger_.weight_branch_name().c_str(), InfoBranch::Class());
             exroot::TreeReader tree_reader = file.TreeReader();
             clones_arrays.UseBranches(tree_reader);
-            //             exroot:ProgressBar progress_bar(std::min((int)tree_reader.GetEntries(), EventNumberMax());
+//             exroot::ProgressBar progress_bar(std::min((int)tree_reader.GetEntries(), EventNumberMax()));
             int object_sum = 0;
             int pre_cut_sum = 0;
             InfoBranch info_branch = FillInfoBranch(tree_reader, file);

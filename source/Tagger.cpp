@@ -15,12 +15,6 @@ namespace analysis
 
 std::string Tagger::analysis_name_;
 
-Tagger::Tagger()
-{
-//     DebugLevel = Severity::debug;
-    Info("Constructor");
-}
-
 Observable Tagger::NewObservable(float &value, const std::string &title) const
 {
     Info("New Observable", title);

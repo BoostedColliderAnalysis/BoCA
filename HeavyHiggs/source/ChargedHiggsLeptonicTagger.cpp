@@ -9,8 +9,6 @@ namespace heavyhiggs
 
 ChargedHiggsLeptonicTagger::ChargedHiggsLeptonicTagger()
 {
-//     DebugLevel = Severity::debug;
-
     Note("Constructor");
     set_tagger_name("ChargedHiggsLeptonic");
     bottom_reader_.SetTagger(bottom_tagger_);

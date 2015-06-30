@@ -30,7 +30,6 @@ FourVector::FourVector() :
     check_value_(0.00001),
     mass_check_value_(1)
 {
-//     DebugLevel = Severity::debug;
     Info("Constructor");
 }
 

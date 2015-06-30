@@ -4,12 +4,6 @@
 namespace analysis
 {
 
-GlobalObservables::GlobalObservables()
-{
-//     debug_level_ = Severity::debug;
-    Info("Constructor");
-}
-
 void GlobalObservables::SetEvent(Event &event, const analysis::Jets &jets)
 {
     leptons_ = event.Leptons().leptons();

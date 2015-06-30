@@ -8,7 +8,6 @@ namespace toppartner {
 
 SignatureTagger::SignatureTagger()
 {
-//         DebugLevel = Severity::detailed;
     Note("Constructor");
     set_tagger_name("Signature");
     top_partner_pair_reader_.SetTagger(top_partner_pair_tagger_);

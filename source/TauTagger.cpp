@@ -8,7 +8,6 @@ namespace analysis {
 
 TauTagger::TauTagger()
 {
-//     DebugLevel = Severity::debug;
     Info("Constructor");
     set_tagger_name("Tau");
     DefineVariables();

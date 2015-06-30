@@ -12,33 +12,7 @@ hcpvhiggs::HMva::HMva()
 
     set_tagger_name("Higgs");
 
-//     SignalNames = {"Higgs"};
 
-//     BackgroundNames = {"Top", "Jet"};
-//         BackgroundNames = {"Top","Jet"};
-
-//     TestName = "Test";
-
-//     SignalTreeNames = {"even", "mix", "odd"};
-//         SignalTreeVector = {"even"};
-
-//     BackgroundTreeNames = {"background", "even", "mix", "odd"};
-//         BackgroundTreeVector = {"even"};
-
-//     TestTreeNames = {"background","even", "mix", "odd"};
-//         TestTreeVector = {"even"};
-
-//     SetBranchName("Candidate");
-
-//     SpectatorBranchName = "Lepton";
-
-//     WeightBranchName = "Info";
-
-//     SignalEfficiency = 0.5;
-
-//     Luminosity = 3000; // fb
-
-//     DoLatex = 1;
 
     Candidate = new HCandidateBranch();
 
@@ -51,7 +25,7 @@ hcpvhiggs::HMva::HMva()
 hcpvhiggs::HMva::~HMva()
 {
 
-  Note("Constructor");
+  Note("Destructor");
 
     delete Candidate;
 

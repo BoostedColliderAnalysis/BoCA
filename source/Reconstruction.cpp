@@ -8,12 +8,6 @@
 
 namespace analysis {
 
-Reconstruction::Reconstruction()
-{
-    Note("Constructor");
-//     DebugLevel = 4;
-}
-
 void Reconstruction::NewEvent()
 {
     Info("New event");

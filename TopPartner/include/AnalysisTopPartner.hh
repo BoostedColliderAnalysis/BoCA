@@ -23,6 +23,7 @@ public:
   void RunNormal();
 
   void RunFull();
+  
   void RunFullTagger();
 
   Analysis(Tagger &tagger);

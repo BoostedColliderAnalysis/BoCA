@@ -13,8 +13,6 @@ class Partons : public FourVector
 
 public:
 
-    Partons();
-
     virtual ~Partons(){};
 
     void NewEvent(const analysis::ClonesArrays &clones_arrays);

@@ -14,16 +14,6 @@ class Discriminator : public Reconstruction
 
 public:
 
-    /**
-     * @brief Constructor
-     *
-     */
-    Discriminator();
-
-    /**
-     * @brief Get Fat Higgs Jets
-     *
-     */
     Jets GetCandidateJets(const Jets &, const float);
 
     Jets GetCandidateJetsForced(const Jets &, const float);

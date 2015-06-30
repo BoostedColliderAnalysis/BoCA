@@ -18,12 +18,6 @@ class Hadrons : public analysis::Hadrons
 
 public:
 
-    /**
-     * @brief constructor
-     *
-     */
-    Hadrons();
-
     analysis::Jets Jets() {
         NewEvent(*clones_arrays_);
         switch (DetectorGeometry().jet_type) {

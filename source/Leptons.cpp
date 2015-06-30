@@ -4,12 +4,6 @@
 
 namespace analysis {
 
-Leptons::Leptons()
-{
-//   DebugLevel=Severity::debug;
-    Note("Constructor");
-}
-
 Leptons::~Leptons()
 {
     Note("Destructor");

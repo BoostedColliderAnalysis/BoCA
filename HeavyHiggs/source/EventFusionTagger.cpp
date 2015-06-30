@@ -8,7 +8,6 @@ namespace heavyhiggs {
 
 EventFusionTagger::EventFusionTagger()
 {
-    //   DebugLevel = Severity::debug;
     Note("Constructor");
     set_tagger_name("EventFusion");
     bottom_reader_.SetTagger(bottom_tagger_);

@@ -11,7 +11,6 @@ namespace standardmodel
 
 Analysis::Analysis(Tagger &tagger) : analysis::Analysis::Analysis(tagger)
 {
-//   DebugLevel = Severity::debug;
     Note("Constructor");
     this->tagger().set_analysis_name(ProjectName());
 }

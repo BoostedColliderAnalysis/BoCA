@@ -16,12 +16,6 @@ class JetTag
 public:
 
     /**
-     * @brief Constructor
-     *
-     */
-    JetTag();
-
-    /**
      * @brief decide on the branch id based on the former branch id and the particle id
      *
      */

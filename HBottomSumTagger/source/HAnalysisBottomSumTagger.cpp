@@ -1,34 +1,6 @@
 #include "HAnalysisBottomSumTagger.hh"
 #include "Debug.hh"
 
-// hbottomsumtagger::HAnalysis::HAnalysis()
-// {
-//     //     DebugLevel = analysis::Severity::debug;
-//     Note("Constructor");
-//     BottomTagger.SetAnalysisName(ProjectName());
-//     eventBottomSumTagger.SetAnalysisName(ProjectName());
-//     mkdir(ProjectName().c_str(), 0700);
-// }
-
-// std::string hbottomsumtagger::HAnalysis::StudyName(const analysis::HAnalysis::HTagger Tagger) const
-// {
-//     Note("Study Names", Tagger);
-//
-//     switch (Tagger) {
-//     case  BottomTagger :
-//         return "Bottom";
-//     case  HBottomReader :
-//         return "BottomReader";
-//     case  JetPairTagger :
-//         return "eventBottom";
-//     case  HJetPairReader :
-//         return "eventBottomReader";
-//     default :
-//         Error("unexpected TaggerName", Tagger);
-//         return "";
-//     }
-// }
-
 std::vector<analysis::File> hbottomsumtagger::HAnalysis::Files(const analysis::Tag tag)
 {
   Note("Set File Vector", Name(tag));

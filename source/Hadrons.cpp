@@ -3,12 +3,6 @@
 
 namespace analysis {
 
-Hadrons::Hadrons()
-{
-//     DebugLevel = Severity::debug;
-    Note("Constructor");
-}
-
 void Hadrons::NewEvent(const ClonesArrays &clones_arrays)
 {
     Info("New event");

@@ -36,13 +36,11 @@ std::vector<int> Result::CutIntegral() const
 
 Reader::Reader()
 {
-//     debug_level_ = Severity::debug;
     Info("Constructor");
 }
 
 Reader::Reader(Tagger &tagger)
 {
-//     debug_level_ = Severity::debug;
     Info("Constructor with tagger");
     SetTagger(tagger);
 }
