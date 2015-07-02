@@ -9,7 +9,7 @@ namespace analysis
 
 AnalysisBottom::AnalysisBottom(Tagger &tagger) : analysis::standardmodel::Analysis::Analysis(tagger)
 {
-    Note("Constructor");
+    Note();
     this->tagger().set_analysis_name(ProjectName());
     pre_cuts().SetPtLowerCut(Id::bottom, LowerPtCut());
     pre_cuts().SetPtUpperCut(Id::bottom, UpperPtCut());
@@ -20,7 +20,7 @@ AnalysisBottom::AnalysisBottom(Tagger &tagger) : analysis::standardmodel::Analys
 
 void AnalysisBottom::SetFiles(const Tag tag)
 {
-    Note("Set File Vector", Name(tag));
+    Note(Name(tag));
 
     switch (tag) {
     case Tag::signal :
@@ -58,14 +58,14 @@ std::string AnalysisBottom::ProductionChannelName(const ProductionChannel produc
 
 int AnalysisBottom::PassPreCut(Event &event)
 {
-    Info("pass pre cut");
+    Info();
     Jets jets = event.Hadrons().Jets();
     jets = remove_if_not_in_pt_window(jets, LowerPtCut(), UpperPtCut());
     return jets.size();
 }
 std::string AnalysisBottom::ProjectName() const
 {
-    return  ProductionChannelName(production_channel()) + ColliderName(collider_type()) + "_" + std::to_string(MadGraphCut()) + "GeV";
+    return  ProductionChannelName(production_channel()) + ColliderName(collider_type()) + "_" + std::to_string(MadGraphCut()) + "GeV-test";
 }
 AnalysisBottom::ProductionChannel AnalysisBottom::production_channel() const
 {

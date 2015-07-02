@@ -1,9 +1,9 @@
 #include "AnalysisHiggs.hh"
-#include "Debug.hh"
 
 #include "TSystem.h"
 #include "Factory.hh"
 #include "../include/EventTagger.hh"
+#include "Debug.hh"
 
 void RunTagger(analysis::Tagger &tagger, analysis::Stage stage)
 {

@@ -9,7 +9,7 @@ namespace analysis {
 
 Factory::Factory(Tagger &tagger) : tagger_(tagger) , factory_(tagger.name(), output_file(), factory_options())
 {
-    Note("Constructor");
+    Note();
     AddVariables();
     PrepareTrainingAndTestTree(GetTrees());
     BookMethods();
@@ -114,6 +114,7 @@ void Factory::BookMethods()
 {
     Note("Book Methods");
     const std::string bdt_options = "NTrees=1000:MinNodeSize=2.5%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=20";
+//     const std::string bdt_options = "!H:!V:NTrees=1000:MinNodeSize=1.5%:BoostType=Grad:Shrinkage=0.10:UseBaggedGrad:UseRandomisedTrees:GradBaggingFraction=0.5:nCuts=20:MaxDepth=4";
     //:CreateMVAPdfs:DoBoostMonitor";
     factory().BookMethod(TMVA::Types::kBDT, tagger().bdt_method_name(), bdt_options);
 }

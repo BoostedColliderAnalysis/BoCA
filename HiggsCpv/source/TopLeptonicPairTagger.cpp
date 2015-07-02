@@ -12,7 +12,7 @@ namespace higgscpv
 
 TopLeptonicPairTagger::TopLeptonicPairTagger()
 {
-    Note("Constructor");
+    Note();
     set_tagger_name("TopLeptonicPair");
     top_leptonic_reader_.SetTagger(top_leptonic_tagger_);
     DefineVariables();

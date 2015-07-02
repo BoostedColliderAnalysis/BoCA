@@ -6,7 +6,7 @@
 hcpvhiggs::HMva::HMva()
 {
 
-  Note("Constructor");
+  Note();
 
 //     DebugLevel = 4;
 

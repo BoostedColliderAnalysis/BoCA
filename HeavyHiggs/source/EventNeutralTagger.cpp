@@ -8,7 +8,7 @@ namespace heavyhiggs {
 
 EventNeutralTagger::EventNeutralTagger()
 {
-    Note("Constructor");
+    Note();
     set_tagger_name("EventNeutral");
     bottom_reader_.SetTagger(bottom_tagger_);
     signature_neutral_reader_.SetTagger(signature_neutral_tagger_);

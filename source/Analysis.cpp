@@ -16,12 +16,12 @@ namespace analysis
 // HAnalysis::HAnalysis(const std::string &ConfigName) : config_(ConfigName)
 Analysis::Analysis(Tagger &tagger) : tagger_(tagger)
 {
-    Note("Constructor");
+    Note();
 }
 
 void Analysis::AnalysisLoop(const Stage stage)
 {
-    Note("Analysis Loop");
+    Note();
     mkdir(ProjectName().c_str(), 0700);
     if (stage == Stage::reader) reader_.SetTagger(tagger_);
     tagger_.clear_tree_names();
@@ -31,7 +31,7 @@ void Analysis::AnalysisLoop(const Stage stage)
         files_.clear();
         SetFiles(tag);
         for (auto & file : Files(tag)) {
-            Note("Analysing File", file.tree_name());
+            Note(file.tree_name());
             ClonesArrays clones_arrays = file.clones_arrays();
             Event event = file.event();
             bool analysis_empty = true;
@@ -87,13 +87,13 @@ InfoBranch Analysis::FillInfoBranch(const exroot::TreeReader &tree_reader, const
 
 std::string Analysis::ExportName(const Stage stage, const Tag tag) const
 {
-    Note("Export File", tagger_.name(stage, tag));
+    Note(tagger_.name(stage, tag));
     return ProjectName() + "/" + tagger_.name(stage, tag) + FileSuffix();
 }
 
 exroot::TreeWriter Analysis::TreeWriter(TFile &export_file, const std::string &export_tree_name, Stage stage)
 {
-    Note("Tree Writer", export_tree_name.c_str());
+    Note(export_tree_name.c_str());
     exroot::TreeWriter tree_writer(&export_file, export_tree_name.c_str());
     tagger_.SetTreeBranch(tree_writer, stage);
     return tree_writer;
@@ -101,7 +101,7 @@ exroot::TreeWriter Analysis::TreeWriter(TFile &export_file, const std::string &e
 
 int Analysis::RunAnalysis(Event &event, const Stage stage, const Tag tag)
 {
-    Info("Analysis");
+    Info();
     switch (stage) {
     case Stage::trainer :
         return tagger_.Train(event, pre_cuts_, tag);
@@ -114,22 +114,22 @@ int Analysis::RunAnalysis(Event &event, const Stage stage, const Tag tag)
 
 bool Analysis::Missing(const std::string &name) const
 {
-    Error("Missing", name);
+    Error(name);
     struct stat buffer;
     return (stat(name.c_str(), &buffer) != 0);
 }
 std::vector< File > Analysis::Files(const Tag tag)
 {
-    Error("Files", Name(tag));
+    Error(Name(tag));
     return files_;
 }
 void Analysis::SetFiles(const Tag tag)
 {
-    Error("Set Files", "should be subclassed", Name(tag));
+    Error("should be subclassed", Name(tag));
 }
 int Analysis::PassPreCut(Event &)
 {
-    Error("Apply pre cut", "no pre cut applied");
+    Error("no pre cut applied");
     return 1;
 }
 

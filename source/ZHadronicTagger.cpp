@@ -6,7 +6,7 @@ namespace analysis
 
 ZHadronicTagger::ZHadronicTagger()
 {
-    Note("Constructor");
+    Note();
     set_tagger_name("ZHadronic");
     bottom_reader_.SetTagger(bottom_tagger_);
     DefineVariables();

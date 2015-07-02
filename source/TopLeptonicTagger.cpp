@@ -6,7 +6,7 @@ namespace analysis
 
 TopLeptonicTagger::TopLeptonicTagger()
 {
-    Note("Constructor");
+    Note();
     set_tagger_name("TopLeptonic");
     bottom_reader_.SetTagger(bottom_tagger_);
     top_mass_window = 80;

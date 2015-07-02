@@ -35,7 +35,7 @@ int BottomTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
 bool BottomTagger::Problematic(const fastjet::PseudoJet &jet, PreCuts &pre_cuts, const Tag tag) const
 {
     if (Problematic(jet, pre_cuts)) return true;
-    if (tag == Tag::signal && jet.user_info<JetInfo>().SumDisplacement() == 0) return true;
+//     if (tag == Tag::signal && jet.user_info<JetInfo>().SumDisplacement() == 0) return true;
 //     if (jet.user_info<JetInfo>().Tag() != tag) return true;
     return false;
 }

@@ -11,7 +11,7 @@ namespace analysis {
 
 Event::Event(const Source source)
 {
-    Note("Constructor");
+    Note();
     source_ = source;
     switch (source_) {
     case Source::delphes :

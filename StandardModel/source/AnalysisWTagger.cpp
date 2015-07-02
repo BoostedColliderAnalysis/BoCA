@@ -9,7 +9,7 @@ namespace standardmodel
 
 AnalysisW::AnalysisW(Tagger &tagger) : analysis::standardmodel::Analysis::Analysis(tagger)
 {
-    Note("Constructor");
+    Note();
     this->tagger().set_analysis_name(ProjectName());
     pre_cuts().SetPtLowerCut(Id::W, LowerPtCut());
     pre_cuts().SetPtUpperCut(Id::W, UpperPtCut());

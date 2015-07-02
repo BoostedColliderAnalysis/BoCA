@@ -8,7 +8,7 @@ namespace analysis
 
 ChargedHiggsSemiTagger::ChargedHiggsSemiTagger()
 {
-    Note("Constructor");
+    Note();
     set_tagger_name("ChargedHiggsSemi");
     DefineVariables();
 }
