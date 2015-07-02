@@ -27,7 +27,7 @@ Jets Leptons::Electrons(JetDetail jet_detail) const
         } else electron_jet.set_user_info(new JetInfo(int(electron.Charge)));
         electrons.emplace_back(electron_jet);
     }
-    PrintTruthLevel(Severity::debug);
+//     PrintTruthLevel(Severity::debug);
     return electrons;
 }
 
@@ -50,7 +50,7 @@ Jets Leptons::Muons(JetDetail jet_detail) const
         } else muon_jet.set_user_info(new JetInfo(int(muon.Charge)));
         muons.emplace_back(muon_jet);
     }
-    PrintTruthLevel(Severity::debug);
+//     PrintTruthLevel(Severity::debug);
     return muons;
 }
 

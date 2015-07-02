@@ -32,9 +32,7 @@ protected:
 
   void SetFiles(const Tag tag);
 
-   std::string ProjectName() const {
-    return  "TopPartner";
-  }
+   std::string ProjectName() const;
 
   std::string ProcessName();
 
@@ -42,13 +40,9 @@ protected:
    * @brief Maximal number of Entries to analyse
    *
    */
-   int EventNumberMax() const {
-    return 1000;
-  }
+   int EventNumberMax() const;
 
-  virtual  std::string FilePath() const {
-    return "~/Projects/TopPartner/Analysis/";
-  }
+  virtual  std::string FilePath() const;
 
 
 private:

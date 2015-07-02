@@ -28,12 +28,12 @@ int HeavyHiggsTauTagger::Train(const Event &event, const Tag tag)
     Jets TauParticles = event.Partons().GenParticles();
     TauParticles = RemoveIfWrongAbsParticle(TauParticles, Id::tau);
 //     TauParticles.erase(std::remove_if(TauParticles.begin(), TauParticles.end(), WrongAbsId(Id::tau)), TauParticles.end());
-    Check(TauParticles.size() != 1, TauParticles.size());
+    Check(TauParticles.size() == 1, TauParticles.size());
 
     Jets HiggsParticles = event.Partons().GenParticles();
     HiggsParticles = RemoveIfWrongAbsParticle(HiggsParticles, Id::charged_higgs);
 //     HiggsParticles.erase(std::remove_if(HiggsParticles.begin(), HiggsParticles.end(), WrongAbsId(Id::charged_higgs)), HiggsParticles.end());
-    Check(HiggsParticles.size() != 1, HiggsParticles.size());
+    Check(HiggsParticles.size() == 1, HiggsParticles.size());
 
     for (const auto & Particle : TauParticles) {
         std::sort(jets.begin(), jets.end(), MinDeltaRTo(Particle));
