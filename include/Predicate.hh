@@ -118,14 +118,8 @@ bool FindInVector(const std::vector<Element> vector, const Element element)
     return (std::find(vector.begin(), vector.end(), element) != vector.end());
 }
 
-// template<typename Predicate>
-// Jets FindIf(const Jets &jets){
-//   return std::find_if(jets.begin(),jets.end(),Predicate);
-// }
-
-
 /**
- * @brief Get a fastjet::PseudoJet from a TLorentzVector
+ * @brief create a fastjet::PseudoJet from a TLorentzVector
  *
  */
 fastjet::PseudoJet PseudoJet(const TLorentzVector &vector);

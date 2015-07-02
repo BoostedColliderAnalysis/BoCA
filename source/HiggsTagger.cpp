@@ -69,7 +69,7 @@ bool HiggsTagger::Problematic(const Doublet &doublet, PreCuts &pre_cuts)
 
 std::vector<Doublet>  HiggsTagger::Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
-    Info("Higgs Bdt");
+    Info();
     Jets jets =  bottom_reader_.Multiplets<BottomTagger>(event);
     std::vector< Doublet > doublets;
     for (auto jet_1 = jets.begin(); jet_1 != jets.end(); ++jet_1) {

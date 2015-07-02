@@ -41,7 +41,7 @@ Jets Hadrons::DelphesJets(const JetDetail jet_detail) const
             Error("unhandeled case");
         }
     }
-    PrintTruthLevel(Severity::debug);
+//     PrintTruthLevel(Severity::debug);
     return jets;
 }
 
@@ -112,7 +112,7 @@ Jets Hadrons::EFlowJets(const JetDetail jet_detail) const
     if (FindInVector(clones_arrays().Branches(), Branch::e_flow_neutral_hadron)) e_flow_jets = Join(e_flow_jets, EFlowHadron(jet_detail));
     if (FindInVector(clones_arrays().Branches(), Branch::e_flow_muon)) e_flow_jets = Join(e_flow_jets, EFlowMuon(jet_detail));
     Debug("Number of EFlow Jet", e_flow_jets.size());
-    PrintTruthLevel(Severity::detailed);
+//     PrintTruthLevel(Severity::detailed);
     return e_flow_jets;
 }
 
