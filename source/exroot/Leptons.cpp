@@ -8,7 +8,7 @@ namespace analysis
 namespace exroot
 {
 
-Jets Leptons::Electrons()
+Jets Leptons::Electrons() const
 {
     Info("Electrons");
     Jets electrons;
@@ -21,7 +21,7 @@ Jets Leptons::Electrons()
     return electrons;
 }
 
-Jets Leptons::Muons()
+Jets Leptons::Muons() const
 {
     Info("Muons");
     Jets muons;

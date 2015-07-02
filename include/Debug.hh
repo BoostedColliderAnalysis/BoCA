@@ -7,8 +7,9 @@
 #include <iostream>
 #include "fastjet/PseudoJet.hh"
 
-#pragma clang diagnostic ignored "-Wgnu-zero-variadic-macro-arguments"
+// FIXME do we really want to write non standard compliant code?
 #pragma GCC diagnostic ignored "-Wgnu-zero-variadic-macro-arguments"
+#pragma clang diagnostic ignored "-Wgnu-zero-variadic-macro-arguments"
 
 #ifndef NDEBUG
 #define NOTIFICATION

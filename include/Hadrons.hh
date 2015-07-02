@@ -22,11 +22,11 @@ public:
      */
     void NewEvent(const ClonesArrays &clones_arrays);
 
-    virtual analysis::Jets Jets() = 0;
+    virtual analysis::Jets Jets() const = 0;
 
-    virtual float ScalarHt();
+    virtual float ScalarHt() const;
 
-    virtual fastjet::PseudoJet MissingEt();
+    virtual fastjet::PseudoJet MissingEt() const;
 
 protected:
 

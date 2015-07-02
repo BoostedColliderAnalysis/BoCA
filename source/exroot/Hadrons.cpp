@@ -7,7 +7,7 @@ namespace analysis
 namespace exroot
 {
 
-Jets Hadrons::Jets()
+Jets Hadrons::Jets() const
 {
     Info(clones_arrays().JetSum());
     analysis::Jets jets;

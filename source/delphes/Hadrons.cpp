@@ -10,7 +10,7 @@ namespace analysis
 namespace delphes
 {
 
-Jets Hadrons::DelphesJets(const JetDetail jet_detail)
+Jets Hadrons::DelphesJets(const JetDetail jet_detail) const
 {
     Info(clones_arrays().JetSum());
     analysis::Jets jets;
@@ -45,7 +45,7 @@ Jets Hadrons::DelphesJets(const JetDetail jet_detail)
     return jets;
 }
 
-fastjet::PseudoJet Hadrons::StructuredJet(const ::delphes::Jet &jet, const JetDetail jet_detail)
+fastjet::PseudoJet Hadrons::StructuredJet(const ::delphes::Jet &jet, const JetDetail jet_detail) const
 {
     Info();
     analysis::Jets constituent_jets;
@@ -62,7 +62,7 @@ fastjet::PseudoJet Hadrons::StructuredJet(const ::delphes::Jet &jet, const JetDe
     return Jet;
 }
 
-fastjet::PseudoJet Hadrons::ConstituentJet(TObject &object, const analysis::JetDetail jet_detail, const analysis::SubDetector sub_detector)
+fastjet::PseudoJet Hadrons::ConstituentJet(TObject &object, const analysis::JetDetail jet_detail, const analysis::SubDetector sub_detector) const
 {
     Debug(object.ClassName());
     fastjet::PseudoJet jet;
@@ -102,7 +102,7 @@ fastjet::PseudoJet Hadrons::ConstituentJet(TObject &object, const analysis::JetD
     return jet;
 }
 
-Jets Hadrons::EFlowJets(const JetDetail jet_detail)
+Jets Hadrons::EFlowJets(const JetDetail jet_detail) const
 {
     analysis::Jets e_flow_jets;
     Debug(clones_arrays().EFlowTrackSum(), Name(jet_detail));
@@ -116,7 +116,7 @@ Jets Hadrons::EFlowJets(const JetDetail jet_detail)
     return e_flow_jets;
 }
 
-Jets Hadrons::EFlowTrack(const JetDetail jet_detail)
+Jets Hadrons::EFlowTrack(const JetDetail jet_detail) const
 {
     analysis::Jets e_flow_jets;
     Debug(clones_arrays().EFlowTrackSum());
@@ -142,7 +142,7 @@ Jets Hadrons::EFlowTrack(const JetDetail jet_detail)
     return e_flow_jets;
 }
 
-Jets Hadrons::EFlowPhoton(const JetDetail jet_detail)
+Jets Hadrons::EFlowPhoton(const JetDetail jet_detail) const
 {
     Debug(clones_arrays().EFlowPhotonSum());
     analysis::Jets e_flow_jets;
@@ -163,7 +163,7 @@ Jets Hadrons::EFlowPhoton(const JetDetail jet_detail)
     return e_flow_jets;
 }
 
-Jets Hadrons::EFlowHadron(const JetDetail jet_detail)
+Jets Hadrons::EFlowHadron(const JetDetail jet_detail) const
 {
     Debug(clones_arrays().EFlowNeutralHadronSum());
     analysis::Jets e_flow_jets;
@@ -182,7 +182,7 @@ Jets Hadrons::EFlowHadron(const JetDetail jet_detail)
     return e_flow_jets;
 }
 
-Jets Hadrons::EFlowMuon(const JetDetail jet_detail)
+Jets Hadrons::EFlowMuon(const JetDetail jet_detail) const
 {
     Debug(clones_arrays().EFlowMuonSum());
     analysis::Jets e_flow_jets;
@@ -204,7 +204,7 @@ Jets Hadrons::EFlowMuon(const JetDetail jet_detail)
     return e_flow_jets;
 }
 
-Jets Hadrons::GenJets()
+Jets Hadrons::GenJets() const
 {
     Info(clones_arrays().GenJetSum());
     analysis::Jets gen_jets;
@@ -212,21 +212,21 @@ Jets Hadrons::GenJets()
     return gen_jets;
 }
 
-float Hadrons::ScalarHt()
+float Hadrons::ScalarHt() const
 {
     Info();
     return static_cast<::delphes::ScalarHT &>(clones_arrays().ScalarHt()).HT;
 }
 
-fastjet::PseudoJet Hadrons::MissingEt()
+fastjet::PseudoJet Hadrons::MissingEt() const
 {
     Info();
     return analysis::PseudoJet(static_cast<::delphes::MissingET &>(clones_arrays().MissingEt()).P4());
 }
 
-Jets Hadrons::GranulatedJets(const analysis::Jets &e_flow_jets)
+Jets Hadrons::GranulatedJets(const analysis::Jets &e_flow_jets) const
 {
-    if (e_flow_jets.empty()) return e_flow_jets;
+  if (e_flow_jets.empty()) return e_flow_jets;
     // start of granularization of the hadronic calorimeter to redefine hadrons
     analysis::Jets sorted_jets = sorted_by_pt(e_flow_jets);
     analysis::Jets jets;
@@ -266,7 +266,7 @@ Jets Hadrons::GranulatedJets(const analysis::Jets &e_flow_jets)
     return jets;
 }
 
-Jets Hadrons::ClusteredJets()
+Jets Hadrons::ClusteredJets() const
 {
     DetectorGeometry detector_geometry;
 //     fastjet::ClusterSequence &cluster_sequence = *new fastjet::ClusterSequence(GranulatedJets(EFlowJets(JetDetail::structure)), detector_geometry.JetDefinition);
@@ -288,7 +288,7 @@ Jets Hadrons::ClusteredJets()
     return jets;
 }
 
-Jets Hadrons::UniqueJets()
+Jets Hadrons::UniqueJets() const
 {
     Info();
     analysis::Jets jets;
@@ -305,7 +305,7 @@ Jets Hadrons::UniqueJets()
     return jets;
 }
 
-analysis::Jets Hadrons::UniqueConstituents(TObject &object, std::vector<TObject *> leptons)
+analysis::Jets Hadrons::UniqueConstituents(TObject &object, std::vector<TObject *> leptons) const
 {
     analysis::Jets constituents;
     if (object.IsA() == ::delphes::GenParticle::Class()) {
