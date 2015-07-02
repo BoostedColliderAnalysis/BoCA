@@ -17,10 +17,10 @@ class Leptons : public analysis::Leptons
 
 public:
 
-    analysis::Jets Electrons();
+    analysis::Jets Electrons() const;
 
 
-    analysis::Jets Muons();
+    analysis::Jets Muons() const;
 
 };
 

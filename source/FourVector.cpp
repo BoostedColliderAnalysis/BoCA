@@ -35,6 +35,7 @@ FourVector::FourVector() :
 
 void FourVector::NewEvent(const ClonesArrays &clones_arrays)
 {
+    std::vector<Family>topology_;
     clones_arrays_ = &clones_arrays;
     topology_.assign(clones_arrays_->ParticleSum(), Family(Id::empty));
     Info("Topology", topology_.size());
@@ -136,9 +137,10 @@ fastjet::PseudoJet FourVector::PseudoJet(const exroot::Tau &Particle) const
     return analysis::PseudoJet(LorentzVectorByMass(Particle, Mass(Id::tau)));
 }
 
-Family FourVector::BranchFamily(const TObject &object)
+Family FourVector::BranchFamily(const TObject &object) const
 {
-    Info("Mother Id", clones_arrays().ParticleSum());
+  std::vector<Family>topology_;
+    Error("Code is disabled", clones_arrays().ParticleSum());
     Family family;
     if (object.IsA() != ::delphes::GenParticle::Class()/* || Object == 0*/) {
         Error("Object is", object.ClassName());
@@ -149,16 +151,17 @@ Family FourVector::BranchFamily(const TObject &object)
     family = BranchFamily(family, Position);
     if (family.mother_1().Id == to_int(Id::empty)) family = Family(family.particle().Position, Id::isr, family.mother_1().Position, Id::isr);
 //       Error("Truth Level Tagging Failed");
-    for (auto & Node : topology_) if (Node.Marker()) Node = family;
+    for (auto & node : topology_) if (node.Marker()) node = family;
     //
     Debug("Branch Family", Name(family.particle().Id), Name(family.mother_1().Id));
     if (family.particle().Id == to_int(Id::empty) || family.mother_1().Id == to_int(Id::empty)) Error(Name(family.particle().Id), Name(family.mother_1().Id));
     return family;
 }
 
-Family FourVector::BranchFamily(Family &family, int Position)
+Family FourVector::BranchFamily(Family &family, int Position) const
 {
-    Info("Branch Family ", Name(family.particle().Id), Position);
+  std::vector<Family>topology_;
+    Info("Code is disabled", Name(family.particle().Id), Position);
     if (
         jet_tag().HeavyParticles.find(static_cast<Id>(std::abs(topology_.at(Position).mother_1().Id))) != end(jet_tag().HeavyParticles) ||
         jet_tag().HeavyParticles.find(static_cast<Id>(std::abs(topology_.at(Position).particle().Id))) != end(jet_tag().HeavyParticles) ||
@@ -241,6 +244,8 @@ Family FourVector::BranchFamily(Family &family, int Position)
 
 void FourVector::PrintTruthLevel(const analysis::Severity severity) const
 {
+  std::vector<Family>topology_;
+  Error("Code is disabled");
     if (to_int(severity) <= 0) {
         PrintCell("Position");
         PrintCell("Top Part");

@@ -116,14 +116,14 @@ protected:
     fastjet::PseudoJet PseudoJet(const exroot::Photon &Particle) const;
     fastjet::PseudoJet PseudoJet(const exroot::Tau &Particle) const;
 
-    Family BranchFamily(const TObject &object);
+    Family BranchFamily(const TObject &object) const;
 
-    Family BranchFamily(Family &BranchId, int Position);
+    Family BranchFamily(Family &BranchId, int Position) const;
 //     fastjet::PseudoJet PseudoJet(const MissingET & Particle) const;
 
-    template<typename TData>
-    void PrintCell(TData const Data) const {
-        std::cout << std::right << std::setw(9) << std::setfill(' ') << Data;
+    template<typename Data>
+    void PrintCell(Data const data) const {
+        std::cout << std::right << std::setw(9) << std::setfill(' ') << data;
     }
 
     void PrintTruthLevel(const Severity severity) const;
@@ -140,7 +140,7 @@ protected:
      */
     const ClonesArrays *clones_arrays_;
 
-    std::vector<Family> topology_;
+//     std::vector<Family> topology_;
 
     int source_;
 

@@ -15,7 +15,7 @@ void Leptons::NewEvent(const ClonesArrays &clones_arrays)
     FourVector::NewEvent(clones_arrays);
 }
 
-Jets Leptons::leptons()
+Jets Leptons::leptons() const 
 {
     Info();
     return Join(Electrons(), Muons());

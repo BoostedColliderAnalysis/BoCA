@@ -18,11 +18,11 @@ public:
 
     void NewEvent(const ClonesArrays &clones_arrays);
 
-    Jets leptons();
+    Jets leptons() const;
 
-    virtual analysis::Jets Electrons() = 0;
+    virtual analysis::Jets Electrons() const = 0;
 
-    virtual analysis::Jets Muons() = 0;
+    virtual analysis::Jets Muons() const = 0;
 
 };
 

@@ -9,13 +9,13 @@ void Hadrons::NewEvent(const ClonesArrays &clones_arrays)
     FourVector::NewEvent(clones_arrays);
 }
 
-float Hadrons::ScalarHt()
+float Hadrons::ScalarHt() const
 {
     Error("No Scalar Ht");
     return 0;
 }
 
-fastjet::PseudoJet Hadrons::MissingEt()
+fastjet::PseudoJet Hadrons::MissingEt() const
 {
     Error("No Mising Et");
     return fastjet::PseudoJet{};

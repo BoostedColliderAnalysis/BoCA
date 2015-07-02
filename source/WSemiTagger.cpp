@@ -88,7 +88,7 @@ std::vector<Doublet> WSemiTagger::ReconstructNeutrino(const Doublet &doublet)con
         return ReconstructNeutrino(mod_doublet);
     }
 
-    if (radicant == 0) Error("Radicant exactly zero", "implement this case!");
+    Check(radicant == 0,"Radicant exactly zero", "implement this case!");
 
     const float sqrt = std::sqrt(radicant);
 
@@ -121,7 +121,7 @@ Jets WSemiTagger::WSemiDaughters(const analysis::Event &event)
     Jets w_daughters = event.Partons().GenParticles();
 //     w_daughters = RemoveIfSoft(w_daughters, DetectorGeometry().JetMinPt);
     w_daughters = RemoveIfWrongAbsMother(w_daughters, Id::W);
-    if (w_daughters.size() != 4) Error("Where is the W 1?", w_daughters.size());
+    Check(w_daughters.size() != 4, "Where is the W 1?", w_daughters.size());
 
     w_daughters = RemoveIfQuark(w_daughters);
     if (w_daughters.size() != 2) Error("Where is the W 2?", w_daughters.size());
