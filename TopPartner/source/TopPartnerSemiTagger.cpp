@@ -9,7 +9,7 @@ namespace toppartner
 
 TopPartnerSemiTagger::TopPartnerSemiTagger()
 {
-    Note("Constructor");
+    Note();
     set_tagger_name("TopPartnerSemi");
     top_reader_.SetTagger(top_tagger_);
     z_hadronic_reader_.SetTagger(z_hadronic_tagger);

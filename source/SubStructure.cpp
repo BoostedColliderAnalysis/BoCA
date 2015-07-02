@@ -9,7 +9,7 @@ namespace analysis {
 
 SubStructure::SubStructure()
 {
-    Note("Constructor");
+    Note();
 //   Shift = 1;
 }
 

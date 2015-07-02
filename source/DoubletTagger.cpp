@@ -13,7 +13,7 @@ template <class DoubletBranch>
 DoubletTagger<DoubletBranch>::DoubletTagger()
 {
 //     DebugLevel = Severity::debug;
-    Note("Constructor");
+    Note();
     set_tagger_name("WHadronic");
     doublet_mass_window_ = 20;
     bottom_reader_.SetTagger(bottom_tagger_);

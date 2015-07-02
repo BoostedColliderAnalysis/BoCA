@@ -9,7 +9,7 @@ namespace toppartner
 
 HiggsPairTagger::HiggsPairTagger()
 {
-    Note("Constructor");
+    Note();
     set_tagger_name("HiggsPairPair");
     higgs_reader_.SetTagger(higgs_tagger_);
     DefineVariables();

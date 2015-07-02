@@ -9,7 +9,7 @@ namespace heavyhiggs
 
 HeavyHiggsTauTagger::HeavyHiggsTauTagger()
 {
-    Note("Constructor");
+    Note();
     set_tagger_name("HeavyHiggsTau");
     tau_reader_.SetTagger(tau_tagger_);
     DefineVariables();

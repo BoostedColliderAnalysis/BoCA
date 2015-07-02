@@ -6,7 +6,7 @@ namespace analysis
 
 WHadronicTagger::WHadronicTagger()
 {
-    Note("Constructor");
+    Note();
     set_tagger_name("WHadronic");
     w_mass_window_ = 20;
     bottom_reader_.SetTagger(bottom_tagger_);

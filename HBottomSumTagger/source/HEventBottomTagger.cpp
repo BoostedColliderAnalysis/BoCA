@@ -4,7 +4,7 @@
 
 hbottomsumtagger::EventBottomTagger::EventBottomTagger()
 {
-  Note("Constructor");
+  Note();
     set_tagger_name("eventBottom");
     DefineVariables();
     bottom_reader_.SetTagger(bottom_tagger_);

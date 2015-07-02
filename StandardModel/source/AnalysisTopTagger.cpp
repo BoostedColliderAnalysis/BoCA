@@ -1,4 +1,5 @@
 #include "AnalysisTopTagger.hh"
+#include "delphes/Hadrons.hh"
 #include "Debug.hh"
 
 namespace analysis
@@ -9,7 +10,7 @@ namespace standardmodel
 
 TopAnalysis::TopAnalysis(Tagger &tagger) : analysis::standardmodel::Analysis::Analysis(tagger)
 {
-    Note("Constructor");
+    Note();
     this->tagger().set_analysis_name(ProjectName());
     pre_cuts().SetPtLowerCut(Id::top, LowerPtCut());
     pre_cuts().SetPtUpperCut(Id::top, UpperPtCut());
@@ -21,13 +22,13 @@ TopAnalysis::TopAnalysis(Tagger &tagger) : analysis::standardmodel::Analysis::An
 
 std::string TopAnalysis::ProjectName() const
 {
-    return  "TopTagger-" + ColliderName(collider_type()) + "-" + std::to_string(LowerPtCut()) + "GeV-" + ProcessName(tt) + "-" + DecayName(TopDecay()) + "-sorted";
+    return  "TopTagger-" + ColliderName(collider_type()) + "-" + std::to_string(LowerPtCut()) + "GeV-" + ProcessName(tt) + "-" + DecayName(TopDecay()) + "-Double";
 }
 
 Decay TopAnalysis::TopDecay() const
 {
-            return Decay::hadronic;
-//     return Decay::leptonic;
+//             return Decay::hadronic;
+    return Decay::leptonic;
     //         return Decay::semi;
 
 }
@@ -67,12 +68,14 @@ void TopAnalysis::SetFiles(const Tag tag)
         if (tagger().name() != "WHadronic") NewBackgroundFile(ww);
         break;
     }
-
 }
 
 int TopAnalysis::PassPreCut(Event &event)
 {
     Info("pass pre cut");
+
+    static_cast<::analysis::delphes::Hadrons&>(event.Hadrons()).UniqueJets();
+
     Jets particles = fastjet::sorted_by_pt(event.Partons().GenParticles());
 //     particles = fastjet::sorted_by_pt(copy_if_abs_particle(particles, Id::top));
 //     if (particles.empty()) return 1;

@@ -9,7 +9,7 @@ namespace higgscpv
 
 Analysis::Analysis(Tagger &tagger) : analysis::Analysis::Analysis(tagger)
 {
-    Note("Constructor");
+    Note();
     this->tagger().set_analysis_name(ProjectName());
 }
 

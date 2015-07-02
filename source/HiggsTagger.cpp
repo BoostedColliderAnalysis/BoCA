@@ -6,7 +6,7 @@ namespace analysis
 
 HiggsTagger::HiggsTagger()
 {
-    Note("Constructor");
+    Note();
     set_tagger_name("Higgs");
     bottom_reader_.SetTagger(bottom_tagger_);
     DefineVariables();

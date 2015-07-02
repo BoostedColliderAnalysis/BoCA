@@ -9,7 +9,7 @@ namespace toppartner
 
 TopPartnerLeptonicTagger::TopPartnerLeptonicTagger()
 {
-    Note("Constructor");
+    Note();
     set_tagger_name("TopPartnerLeptonic");
     top_reader_.SetTagger(top_tagger_);
     z_hadronic_reader_.SetTagger(z_hadronic_tagger);

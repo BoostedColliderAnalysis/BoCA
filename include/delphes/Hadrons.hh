@@ -34,9 +34,12 @@ public:
 
     fastjet::PseudoJet MissingEt();
 
+    analysis::Jets UniqueJets();
+
+
 private:
 
-    void DoubleCounting();
+    analysis::Jets UniqueConstituents(TObject &object, std::vector<TObject *> leptons);
 
     analysis::Jets GranulatedJets(const analysis::Jets &jets);
 
@@ -64,7 +67,7 @@ private:
 
 
     template<typename Particle, typename EFlow>
-    bool GetIsolation(const EFlow &e_flow, const TClonesArray &clones_array) const {
+    bool Isolation(const EFlow &e_flow, const TClonesArray &clones_array) const {
         bool Isolated = true;
         for (int particle_number = 0; particle_number < clones_array.GetEntriesFast(); ++particle_number) {
             Particle &particle = static_cast<Particle &>(*clones_array.At(particle_number));

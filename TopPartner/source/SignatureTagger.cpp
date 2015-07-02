@@ -8,7 +8,7 @@ namespace toppartner {
 
 SignatureTagger::SignatureTagger()
 {
-    Note("Constructor");
+    Note();
     set_tagger_name("Signature");
     top_partner_pair_reader_.SetTagger(top_partner_pair_tagger_);
     higgs_pair_reader_.SetTagger(higgs_pair_tagger);

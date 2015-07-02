@@ -9,10 +9,10 @@
 #include "TLine.h"
 #include "TStyle.h"
 #include "TH1F.h"
-#include "Debug.hh"
 
 // #include "TMVA/Reader.h"
 #include "TMVA/MethodCuts.h"
+#include "Debug.hh"
 
 namespace analysis
 {
@@ -36,7 +36,7 @@ std::vector<int> Result::CutIntegral() const
 
 Reader::Reader()
 {
-    Info("Constructor");
+    Info();
 }
 
 Reader::Reader(Tagger &tagger)
@@ -47,7 +47,7 @@ Reader::Reader(Tagger &tagger)
 
 void Reader::SetTagger(Tagger &tagger)
 {
-    Note("SetMva");
+    Note();
     tagger_ = &tagger;
     AddVariable();
     BookMva();
@@ -55,7 +55,7 @@ void Reader::SetTagger(Tagger &tagger)
 
 void Reader::AddVariable()
 {
-    Note("Add Variable");
+    Note();
     const std::string default_options = "!Color:Silent";
     for (auto & observable : tagger().observables()) reader().AddVariable(observable.expression(), observable.value());
     for (auto & spectator : tagger().spectators()) reader().AddSpectator(spectator.expression(), spectator.value());
@@ -64,7 +64,7 @@ void Reader::AddVariable()
 
 void Reader::BookMva()
 {
-    Note("Book Mva");
+    Note();
     const std::string bdt_weight_file = tagger().analysis_name() + "/" + tagger().bdt_weight_name();
     Note("Opening Weight File", bdt_weight_file);
     reader().BookMVA(tagger().bdt_method_name(), bdt_weight_file);
@@ -72,7 +72,7 @@ void Reader::BookMva()
 
 float Reader::Bdt() const
 {
-    Info("Bdt");
+    Info();
     return const_cast<TMVA::Reader &>(reader_).EvaluateMVA(tagger().bdt_method_name()) + 1;
 }
 
@@ -103,7 +103,7 @@ Results Reader::ExportFile() const
 std::vector<Result> Reader::Export(TFile &export_file, const std::string &file_name, const Strings &treename) const
 {
     TFile file(file_name.c_str(), "Read");
-    Error("Open Signal File", file_name, treename.size());
+    Error(file_name, treename.size());
 
     std::vector<Result> results;
     for (const auto & tree_name : treename) results.emplace_back(BdtResult(file, tree_name, export_file));
@@ -122,7 +122,7 @@ TLegend Reader::Legend(float x_min, float y_max, float width, float height, cons
 
 void Reader::PlotHistograms(const Results &results)
 {
-    Error("PlotHistograms");
+    Error();
     gStyle->SetOptStat("");
 
     TCanvas canvas;
@@ -181,7 +181,7 @@ void Reader::PlotHistograms(const Results &results)
 
 void Reader::PlotMultiGraph(const Results &results)
 {
-    Error("PlotMultiGraph");
+    Error();
     TCanvas canvas;
     TMultiGraph multi_graph;
     std::vector<TGraph> graphs;
@@ -212,7 +212,7 @@ void Reader::PlotMultiGraph(const Results &results)
 
 void Reader::TaggingEfficiency()
 {
-    Note("Tagging Efficiency");
+    Note();
 
     Results results = ExportFile();
 
@@ -223,7 +223,7 @@ void Reader::TaggingEfficiency()
 
 void Reader::OptimalSignificance()
 {
-    Note("Mva Loop");
+    Note();
     std::stringstream TableHeader;
     TableHeader << "\n\\begin{table}\n\\centering\n\\begin{tabular}{rlll}\n\\toprule\n";
 
@@ -357,7 +357,7 @@ void Reader::OptimalSignificance()
 
 Result Reader::BdtResult(TFile &file, const std::string &tree_name, TFile &export_file) const
 {
-    Note("Apply Bdt", tree_name);
+    Note(tree_name);
     const float Luminosity = 3000; // 3000 fb-1
 
     Error("Open Tree", tree_name);
@@ -411,7 +411,7 @@ Result Reader::BdtDistribution(exroot::TreeReader &tree_reader, const std::strin
 
 InfoBranch Reader::InfoBranch(TFile &file, const std::string &tree_name) const
 {
-    Note("Info Branch", tree_name);
+    Note(tree_name);
     exroot::TreeReader tree_reader(static_cast<TTree *>(file.Get(tree_name.c_str())));
     Error("Info Branch", tree_name, tagger().weight_branch_name());
     TClonesArray &clones_array = *tree_reader.UseBranch(tagger().weight_branch_name().c_str());
@@ -423,7 +423,7 @@ InfoBranch Reader::InfoBranch(TFile &file, const std::string &tree_name) const
 
 void Reader::LatexHeader(std::ofstream &latex_file) const
 {
-    Note("LaTeX Header");
+    Note();
     const std::string file_name = tagger().analysis_name() + "/" + tagger().analysis_name() + ".tex";
     latex_file.open(file_name);
     latex_file << "\\documentclass[a4paper,10pt]{article}\n\n"
@@ -445,7 +445,7 @@ void Reader::LatexHeader(std::ofstream &latex_file) const
 
 void Reader::LatexFooter(ofstream &latex_file) const
 {
-    Note("LaTeX Footer");
+    Note();
     latex_file << "\n\\end{document}\n";
     latex_file.close();
 }

@@ -6,7 +6,7 @@ namespace analysis
 
 TopSemiTagger::TopSemiTagger()
 {
-    Note("Constructor");
+    Note();
     set_tagger_name("TopSemi");
     top_mass_window_ = (Mass(Id::top) - Mass(Id::W)) / 2;
     bottom_reader_.SetTagger(bottom_tagger_);
