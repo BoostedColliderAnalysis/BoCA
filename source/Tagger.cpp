@@ -200,12 +200,12 @@ std::string Tagger::signal_name() const
 {
     return name_;
 }
-int Tagger::GetBdt(Event &, PreCuts &, const TMVA::Reader &)
+int Tagger::GetBdt(const Event &, PreCuts &, const TMVA::Reader &)
 {
     Error("should be subclassed");
     return 0;
 }
-int Tagger::Train(Event &, PreCuts &, const Tag)
+int Tagger::Train(const Event &, PreCuts &, const Tag)
 {
     Error("Should be subclassed");
     return 0;

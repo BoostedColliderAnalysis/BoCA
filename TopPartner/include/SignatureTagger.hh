@@ -21,9 +21,9 @@ public:
 
     SignatureTagger();
 
-    int Train(Event &event, PreCuts &pre_cuts, const Tag tag);
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag);
 
-    std::vector<Quattuordecuplet> Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
+    std::vector<Quattuordecuplet> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
 private:
 

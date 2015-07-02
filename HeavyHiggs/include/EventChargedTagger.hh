@@ -25,9 +25,9 @@ public:
     */
     EventChargedTagger();
 
-    int Train(Event &event, const Tag tag);
+    int Train(const Event &event, const Tag tag);
 
-    std::vector<MultipletEvent<Octet44>> Multiplets(Event &event, const TMVA::Reader &reader);
+    std::vector<MultipletEvent<Octet44>> Multiplets(const Event &event, const TMVA::Reader &reader);
 
 private:
 

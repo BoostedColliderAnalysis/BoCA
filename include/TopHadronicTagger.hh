@@ -17,17 +17,17 @@ public:
 
     TopHadronicTagger();
 
-    int Train(Event &event, PreCuts &pre_cuts, const Tag tag);
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag);
 
-    int TopHadronicId(Event &event) const {
+    int TopHadronicId(const Event &event) const {
         return sgn(w_hadronic_tagger_.WHadronicId(event)) * to_int(Id::top);
     }
 
-    int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
         return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
     }
 
-    std::vector<analysis::Triplet> Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
+    std::vector<analysis::Triplet> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
 private:
 
@@ -39,7 +39,7 @@ private:
 
     std::vector< analysis::Triplet > Triplets(const Doublet &doublet, const Jets &jets, const Jets &leptons, PreCuts &pre_cuts, const Tag tag);
 
-    std::vector<analysis::Triplet> Multiplets(Event &event, const TMVA::Reader &reader) {
+    std::vector<analysis::Triplet> Multiplets(const Event &event, const TMVA::Reader &reader) {
         PreCuts pre_cuts;
         return Multiplets(event, pre_cuts, reader);
     }

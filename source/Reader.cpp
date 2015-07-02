@@ -76,7 +76,7 @@ float Reader::Bdt() const
     return const_cast<TMVA::Reader &>(reader_).EvaluateMVA(tagger().bdt_method_name()) + 1;
 }
 
-int Reader::GetBdt(analysis::Event &event, analysis::PreCuts &pre_cuts) const
+int Reader::GetBdt(const Event &event, analysis::PreCuts &pre_cuts) const
 {
     if (!tagger_) Error("what is wrong with the tagger?");
     return tagger().GetBdt(event, pre_cuts, reader_);

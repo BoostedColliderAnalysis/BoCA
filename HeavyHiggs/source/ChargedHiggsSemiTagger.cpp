@@ -13,7 +13,7 @@ ChargedHiggsSemiTagger::ChargedHiggsSemiTagger()
     DefineVariables();
 }
 
-int ChargedHiggsSemiTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
+int ChargedHiggsSemiTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag)
 {
     Info("Higgs Tags");
 
@@ -78,7 +78,7 @@ int ChargedHiggsSemiTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag
     return SaveEntries(quartets);
 }
 
-std::vector<Quartet31>  ChargedHiggsSemiTagger::Multiplets(analysis::Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader)
+std::vector<Quartet31>  ChargedHiggsSemiTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
   Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
   std::vector<Triplet> triplets = top_semi_reader_.Multiplets<TopSemiTagger>(event);

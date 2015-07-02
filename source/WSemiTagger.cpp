@@ -12,7 +12,7 @@ WSemiTagger::WSemiTagger()
     DefineVariables();
 }
 
-int WSemiTagger::Train(Event &event, PreCuts &, const Tag tag)
+int WSemiTagger::Train(const Event &event, PreCuts &, const Tag tag)
 {
     Info("Train");
     Jets Particles = event.Partons().GenParticles();
@@ -44,7 +44,7 @@ int WSemiTagger::Train(Event &event, PreCuts &, const Tag tag)
     return SaveEntries(doublets);
 }
 
-std::vector<Doublet>  WSemiTagger::Multiplets(analysis::Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader)
+std::vector<Doublet>  WSemiTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
   Info("Triple Bdt");
   Jets Particles = event.Partons().GenParticles();
@@ -116,7 +116,7 @@ std::vector<Doublet> WSemiTagger::ReconstructNeutrino(const Doublet &doublet)con
 
 }
 
-Jets WSemiTagger::WSemiDaughters(Event &event)
+Jets WSemiTagger::WSemiDaughters(const analysis::Event &event)
 {
     Jets w_daughters = event.Partons().GenParticles();
 //     w_daughters = RemoveIfSoft(w_daughters, DetectorGeometry().JetMinPt);

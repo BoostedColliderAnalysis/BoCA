@@ -6,18 +6,18 @@ namespace analysis {
 
 Leptons::~Leptons()
 {
-    Note("Destructor");
+    Note();
 }
 
 void Leptons::NewEvent(const ClonesArrays &clones_arrays)
 {
-    Info("New event");
+    Info();
     FourVector::NewEvent(clones_arrays);
 }
 
 Jets Leptons::leptons()
 {
-    Info("Lepton Jets");
+    Info();
     return Join(Electrons(), Muons());
 }
 

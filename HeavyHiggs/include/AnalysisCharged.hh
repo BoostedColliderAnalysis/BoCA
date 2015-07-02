@@ -72,7 +72,7 @@ private:
 
     std::string ProcessName(const HProcessType Process) const;
 
-    int PassPreCut(Event &event);
+    int PassPreCut(const Event &event);
 
 };
 

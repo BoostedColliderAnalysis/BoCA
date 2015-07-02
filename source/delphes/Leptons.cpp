@@ -10,13 +10,13 @@ namespace delphes
 
 Jets Leptons::Electrons()
 {
-    Info("Electrons", clones_arrays().ElectronSum());
+    Info(clones_arrays().ElectronSum());
     return Electrons(JetDetail::plain);
 }
 
 Jets Leptons::Electrons(JetDetail jet_detail)
 {
-    Info("Electrons", clones_arrays().ElectronSum());
+    Info(clones_arrays().ElectronSum());
     Jets electrons;
     for (int ElectronNumber : Range(clones_arrays().ElectronSum())) {
         ::Electron &electron = static_cast<::Electron &>(clones_arrays().Electron(ElectronNumber));
@@ -33,13 +33,13 @@ Jets Leptons::Electrons(JetDetail jet_detail)
 
 Jets Leptons::Muons()
 {
-    Info("Muons", clones_arrays().MuonSum());
+    Info(clones_arrays().MuonSum());
     return Muons(JetDetail::plain);
 }
 
 Jets Leptons::Muons(JetDetail jet_detail)
 {
-    Info("Muons", clones_arrays().MuonSum());
+    Info(clones_arrays().MuonSum());
     Jets muons;
     for (int MuonNumber : Range(clones_arrays().MuonSum())) {
         ::Muon &muon = static_cast<::Muon &>(clones_arrays().Muon(MuonNumber));

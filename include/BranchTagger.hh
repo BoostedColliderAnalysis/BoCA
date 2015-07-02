@@ -114,7 +114,7 @@ protected:
         return jets.size();
     }
 
-//     int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
+//     int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
 //       return SaveEntries(Multiplets(event,pre_cuts, reader));
 //     }
 
@@ -149,9 +149,9 @@ protected:
         AddSpectators();
     }
 
-//     auto Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
+//     auto Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
 //
-//     int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
+//     int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
 //       return SaveEntries(Multiplets(event, pre_cuts, reader));
 //     }
 

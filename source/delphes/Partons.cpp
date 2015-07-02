@@ -20,12 +20,13 @@ Jets Partons::GenParticles() const
 
 Jets Partons::Particles(const Status min_status) const
 {
+    Info();
     Jets particles;
     Info(clones_arrays().ParticleSum());
     for (const int ParticleNumber : Range(clones_arrays().ParticleSum())) {
         ::delphes::GenParticle &particle = static_cast<::delphes::GenParticle &>(clones_arrays().Particle(ParticleNumber));
         if (particle.Status < to_int(min_status)) break;
-        Detail("Particles ID", particle.PID);
+        Detail(particle.PID);
         int MotherId = to_int(Id::empty);
         int Mother2Id = to_int(Id::empty);
         if (particle.M1 != EmptyPosition) {
@@ -36,7 +37,6 @@ Jets Partons::Particles(const Status min_status) const
             ::delphes::GenParticle &mother = static_cast<::delphes::GenParticle &>(clones_arrays().Particle(particle.M2));
             Mother2Id = mother.PID;
         }
-        Info("Particles Status", "Generator");
         Family family(particle.PID, MotherId, Mother2Id);
         Constituent constituent(particle.P4(), family);
         fastjet::PseudoJet jet = analysis::PseudoJet(constituent.Momentum());

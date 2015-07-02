@@ -31,7 +31,7 @@ Event::Event(const Source source)
 
 Event::~Event()
 {
-    Note("Destructor");
+    Note();
     switch (source_) {
     case Source::delphes :
         delete partons_;
@@ -50,7 +50,7 @@ Event::~Event()
 
 void Event::NewEvent(const ClonesArrays &clones_arrays)
 {
-    Info("New event");
+    Info();
     switch (source_) {
     case Source::delphes :
         partons_->NewEvent(clones_arrays);

@@ -34,7 +34,7 @@ private:
 
     void SetFiles(const Tag Tag);
 
-    int PassPreCut(Event &event);
+    int PassPreCut(const Event &event);
 
 };
 

@@ -12,7 +12,7 @@ ZHadronicTagger::ZHadronicTagger()
     DefineVariables();
 }
 
-int ZHadronicTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
+int ZHadronicTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag)
 {
     Info("ZHadronic Tag");
     Jets jets =  bottom_reader_.Multiplets<BottomTagger>(event);
@@ -62,7 +62,7 @@ bool ZHadronicTagger::Problematic(const Doublet &doublet, PreCuts &pre_cuts)
 }
 
 
-std::vector<Doublet>  ZHadronicTagger::Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
+std::vector<Doublet>  ZHadronicTagger::Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
     Info("ZHadronic Bdt");
     Jets jets =  bottom_reader_.Multiplets<BottomTagger>(event);

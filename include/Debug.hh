@@ -7,10 +7,12 @@
 #include <iostream>
 #include "fastjet/PseudoJet.hh"
 
+#pragma clang diagnostic ignored "-Wgnu-zero-variadic-macro-arguments"
+#pragma GCC diagnostic ignored "-Wgnu-zero-variadic-macro-arguments"
+
 #ifndef NDEBUG
 #define NOTIFICATION
 #endif
-#pragma clang diagnostic ignored "-Wgnu-zero-variadic-macro-arguments"
 
 namespace analysis
 {
@@ -53,11 +55,7 @@ void LogVariable(const std::string &variable, const Value &value)
   std::cout << Column(ValueLength(), variable) << Column(ValueLength(), value);
 }
 
-// template<>
-// void LogVariable(const std::string &variable, const std::string &value);
-
-// template<>
-void LogVariable(const std::string &variable, const char * value);
+void LogVariable(const std::string &, const char *value);
 
 template<>
 void LogVariable(const std::string &variable, const fastjet::PseudoJet &jet);

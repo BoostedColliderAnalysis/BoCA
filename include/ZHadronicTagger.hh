@@ -18,15 +18,15 @@ public:
 
     ZHadronicTagger();
 
-    int Train(Event &event, PreCuts &pre_cuts, const Tag tag);
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag);
 
-    std::vector< Doublet > Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
+    std::vector< Doublet > Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
-    int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
         return SaveEntries(Multiplets(event, pre_cuts, reader), 2);
     }
 
-    auto Multiplets(Event &event, const TMVA::Reader &reader) {
+    auto Multiplets(const Event &event, const TMVA::Reader &reader) {
         PreCuts pre_cuts;
         return Multiplets(event, pre_cuts, reader);
     }

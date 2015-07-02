@@ -75,9 +75,9 @@ public:
 
     std::string signal_name() const;
 
-    virtual int GetBdt(Event &, PreCuts &, const TMVA::Reader &);
+    virtual int GetBdt(const Event &, PreCuts &, const TMVA::Reader &);
 
-    virtual int Train(analysis::Event &, PreCuts &, const Tag);
+    virtual int Train(const Event &, PreCuts &, const Tag);
 
     Jets SubJets(const fastjet::PseudoJet &jet, const int sub_jet_number);
 

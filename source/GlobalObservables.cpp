@@ -4,7 +4,7 @@
 namespace analysis
 {
 
-void GlobalObservables::SetEvent(Event &event, const analysis::Jets &jets)
+void GlobalObservables::SetEvent(const analysis::Event &event, const analysis::Jets &jets)
 {
     leptons_ = event.Leptons().leptons();
     scalar_ht_ = event.Hadrons().ScalarHt();

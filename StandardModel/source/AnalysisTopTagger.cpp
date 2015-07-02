@@ -47,7 +47,7 @@ std::string TopAnalysis::DecayName(const Decay decay) const
 
 void TopAnalysis::SetFiles(const Tag tag)
 {
-    Note("Set File Vector", Name(tag));
+    Note(Name(tag));
     switch (tag) {
     case Tag::signal :
         if (TopDecay() == Decay::hadronic || tagger().name() == "Bottom") NewSignalFile(tt_had);
@@ -70,11 +70,11 @@ void TopAnalysis::SetFiles(const Tag tag)
     }
 }
 
-int TopAnalysis::PassPreCut(Event &event)
+int TopAnalysis::PassPreCut(const Event &event)
 {
-    Info("pass pre cut");
+    Info();
 
-    static_cast<::analysis::delphes::Hadrons&>(event.Hadrons()).UniqueJets();
+//     static_cast<::analysis::delphes::Hadrons&>(event.Hadrons()).UniqueJets();
 
     Jets particles = fastjet::sorted_by_pt(event.Partons().GenParticles());
 //     particles = fastjet::sorted_by_pt(copy_if_abs_particle(particles, Id::top));
