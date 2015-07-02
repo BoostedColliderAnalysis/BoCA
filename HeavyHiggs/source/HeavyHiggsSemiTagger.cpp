@@ -16,7 +16,7 @@ HeavyHiggsSemiTagger::HeavyHiggsSemiTagger()
     DefineVariables();
 }
 
-int HeavyHiggsSemiTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
+int HeavyHiggsSemiTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag)
 {
     Info("Higgs Tags");
 
@@ -74,7 +74,7 @@ int HeavyHiggsSemiTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
     return SaveEntries(sextets);
 }
 
-std::vector<Sextet>  HeavyHiggsSemiTagger::Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
+std::vector<Sextet>  HeavyHiggsSemiTagger::Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
     std::vector<Triplet> triplets_semi = top_semi_reader_.Multiplets<TopSemiTagger>(event);
     std::vector<Triplet> triplets_hadronic = top_hadronic_reader_.Multiplets<TopHadronicTagger>(event);

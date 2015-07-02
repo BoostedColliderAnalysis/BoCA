@@ -21,9 +21,9 @@ public:
 
     ChargedHiggsLeptonicTagger();
 
-    int Train(analysis::Event &event, const analysis::Tag tag);
+    int Train(const Event &event, const analysis::Tag tag);
 
-    std::vector<analysis::Triplet> Multiplets(analysis::Event &event, const TMVA::Reader &reader);
+    std::vector<analysis::Triplet> Multiplets(const Event &event, const TMVA::Reader &reader);
 
 private:
 

@@ -38,7 +38,7 @@ void AnalysisW::SetFiles(const Tag tag)
     }
 }
 
-int AnalysisW::PassPreCut(Event &event)
+int AnalysisW::PassPreCut(const Event &event)
 {
     Info("pass pre cut");
 //     Jets particles = event.Partons().GenParticles();

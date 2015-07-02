@@ -16,7 +16,7 @@ class MultipletEvent : public analysis::Multiplet<Multiplet_1, analysis::Singlet
 
 public:
 
-    MultipletEvent(const Multiplet_1 &multiplet, Event &event, Jets &jets) {
+    MultipletEvent(const Multiplet_1 &multiplet, const Event &event, Jets &jets) {
         analysis::Multiplet<Multiplet_1, analysis::Singlet>::SetMultiplet1(multiplet);
         global_observables_.SetEvent(event,jets);
         Jets unique_jets;

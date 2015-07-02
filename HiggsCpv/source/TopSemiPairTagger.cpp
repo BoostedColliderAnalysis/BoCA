@@ -16,7 +16,7 @@ TopSemiPairTagger::TopSemiPairTagger()
     DefineVariables();
 }
 
-int TopSemiPairTagger::Train(Event &event, const Tag tag)
+int TopSemiPairTagger::Train(const Event &event, const Tag tag)
 {
     Info("W Tags");
     std::vector<Triplet> triplets_hadronic = top_hadronic_reader_.Multiplets<TopHadronicTagger>(event);
@@ -62,7 +62,7 @@ int TopSemiPairTagger::Train(Event &event, const Tag tag)
     return SaveEntries(sextets);
 }
 
-std::vector< Sextet > TopSemiPairTagger::Multiplets(Event& event, const TMVA::Reader& reader)
+std::vector< Sextet > TopSemiPairTagger::Multiplets(const Event& event, const TMVA::Reader& reader)
 {
     std::vector<Triplet> triplets_semi = top_semi_reader_.Multiplets<TopSemiTagger>(event);
     std::vector<Triplet> triplets_hadronic = top_hadronic_reader_.Multiplets<TopHadronicTagger>(event);

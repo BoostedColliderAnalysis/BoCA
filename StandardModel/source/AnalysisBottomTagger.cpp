@@ -56,7 +56,7 @@ std::string AnalysisBottom::ProductionChannelName(const ProductionChannel produc
     }
 }
 
-int AnalysisBottom::PassPreCut(Event &event)
+int AnalysisBottom::PassPreCut(const Event &event)
 {
     Info();
     Jets jets = event.Hadrons().Jets();
@@ -65,7 +65,7 @@ int AnalysisBottom::PassPreCut(Event &event)
 }
 std::string AnalysisBottom::ProjectName() const
 {
-    return  ProductionChannelName(production_channel()) + ColliderName(collider_type()) + "_" + std::to_string(MadGraphCut()) + "GeV-test";
+    return  ProductionChannelName(production_channel()) + ColliderName(collider_type()) + "_" + std::to_string(MadGraphCut()) + "GeV-new";
 }
 AnalysisBottom::ProductionChannel AnalysisBottom::production_channel() const
 {

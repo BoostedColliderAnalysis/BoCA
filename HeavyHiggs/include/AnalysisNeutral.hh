@@ -94,7 +94,7 @@ private:
     std::string ProcessName(const ProcessType Process) const;
 
 
-    int PassPreCut(Event &event);
+    int PassPreCut(const Event &event);
 
 };
 

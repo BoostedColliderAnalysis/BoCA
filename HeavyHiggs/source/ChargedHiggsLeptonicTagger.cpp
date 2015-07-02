@@ -16,7 +16,7 @@ ChargedHiggsLeptonicTagger::ChargedHiggsLeptonicTagger()
     DefineVariables();
 }
 
-int ChargedHiggsLeptonicTagger::Train(Event &event, const Tag tag)
+int ChargedHiggsLeptonicTagger::Train(const Event &event, const Tag tag)
 {
     Info("Higgs Tags");
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
@@ -50,7 +50,7 @@ int ChargedHiggsLeptonicTagger::Train(Event &event, const Tag tag)
     return SaveEntries(triplets);
 }
 
-std::vector<Triplet>  ChargedHiggsLeptonicTagger::Multiplets(Event &event, const TMVA::Reader &reader)
+std::vector<Triplet>  ChargedHiggsLeptonicTagger::Multiplets(const Event &event, const TMVA::Reader &reader)
 {
     Info("Bdt");
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);

@@ -97,7 +97,7 @@ void AnalysisFusion::SetTrees()
 
 }
 
-int AnalysisFusion::PassPreCut(Event &event)
+int AnalysisFusion::PassPreCut(const Event &event)
 {
     Info("pass pre cut");
 //     if (object_number_ > EventNumberMax()) return 0;

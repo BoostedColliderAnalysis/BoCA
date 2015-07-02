@@ -17,7 +17,7 @@ HeavyHiggsLeptonicTagger::HeavyHiggsLeptonicTagger()
     DefineVariables();
 }
 
-int HeavyHiggsLeptonicTagger::Train(Event &event, const Tag tag)
+int HeavyHiggsLeptonicTagger::Train(const Event &event, const Tag tag)
 {
     Info("Higgs Tags");
 
@@ -51,7 +51,7 @@ int HeavyHiggsLeptonicTagger::Train(Event &event, const Tag tag)
     return SaveEntries(sextets);
 }
 
-std::vector<Sextet>  HeavyHiggsLeptonicTagger::Multiplets(Event &event, const TMVA::Reader &reader)
+std::vector<Sextet>  HeavyHiggsLeptonicTagger::Multiplets(const Event &event, const TMVA::Reader &reader)
 {
     Info("Bdt");
     std::vector<Doublet> doublets = top_leptonic_reader_.Multiplets<TopLeptonicTagger>(event);

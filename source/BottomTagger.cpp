@@ -11,9 +11,9 @@ BottomTagger::BottomTagger()
     DefineVariables();
 }
 
-int BottomTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
+int BottomTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag)
 {
-    Info("Bottom Tag", Name(tag));
+    Info(Name(tag));
 
     Jets jets = event.Hadrons().Jets();
     Info("Number Jets", jets.size());
@@ -52,7 +52,7 @@ bool BottomTagger::Problematic(const fastjet::PseudoJet &jet, PreCuts &pre_cuts)
 
 Jets BottomTagger::CleanJets(Jets &jets, PreCuts &pre_cuts, const Tag tag)
 {
-    Info("Clean Jets", jets.size());
+    Info(jets.size());
 
     if (jets.empty()) return jets;
     Jets clean_jets;
@@ -60,13 +60,13 @@ Jets BottomTagger::CleanJets(Jets &jets, PreCuts &pre_cuts, const Tag tag)
         if (Problematic(jet, pre_cuts, tag)) continue;
         clean_jets.emplace_back(jet);
     }
-    Info("Jets", clean_jets.size());
+    Info(clean_jets.size());
     return clean_jets;
 }
 
 Jets BottomTagger::TrainOnSubJets(const Jets &jets, PreCuts &pre_cuts, const Tag tag, const int sub_jet_number)
 {
-    Debug("Sub Jets", sub_jet_number);
+    Debug(sub_jet_number);
     Jets sub_jets = SubJets(jets, sub_jet_number);
     return CleanJets(sub_jets, pre_cuts, tag);
 }
@@ -78,9 +78,9 @@ Jets BottomTagger::SubJets(const Jets &jets, const int sub_jet_number)
     return subjets;
 }
 
-Jets BottomTagger::Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
+Jets BottomTagger::Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
-    Info("Jet Bdt");
+    Info();
     return Multiplets(event.Hadrons().Jets(), pre_cuts, reader);
 }
 
@@ -121,7 +121,7 @@ Jets BottomTagger::SubMultiplet(const fastjet::PseudoJet &jet, const TMVA::Reade
     return jets;
 }
 
-int BottomTagger::GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
+int BottomTagger::GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
     Jets jets = event.Hadrons().Jets();
     Jets bottoms = Multiplets(jets, pre_cuts, reader);

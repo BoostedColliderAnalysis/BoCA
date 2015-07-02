@@ -26,9 +26,9 @@ public:
     */
     SignatureChargedTagger();
 
-    int Train(Event &event, PreCuts &pre_cuts, const Tag tag);
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag);
 
-    std::vector<Octet44> Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
+    std::vector<Octet44> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
 private:
 

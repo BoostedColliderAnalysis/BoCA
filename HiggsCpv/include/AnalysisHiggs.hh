@@ -48,7 +48,7 @@ protected:
 
 private:
 
-    int PassPreCut(Event &event);
+    int PassPreCut(const Event &event);
 
 };
 

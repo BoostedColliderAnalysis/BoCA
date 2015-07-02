@@ -12,7 +12,7 @@ HiggsTagger::HiggsTagger()
     DefineVariables();
 }
 
-int HiggsTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
+int HiggsTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag)
 {
     Info(Name(tag));
     Jets jets =  bottom_reader_.Multiplets<BottomTagger>(event);
@@ -67,7 +67,7 @@ bool HiggsTagger::Problematic(const Doublet &doublet, PreCuts &pre_cuts)
     return false;
 }
 
-std::vector<Doublet>  HiggsTagger::Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
+std::vector<Doublet>  HiggsTagger::Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
     Info("Higgs Bdt");
     Jets jets =  bottom_reader_.Multiplets<BottomTagger>(event);

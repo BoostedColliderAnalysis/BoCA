@@ -16,7 +16,7 @@ TopPartnerPairTagger::TopPartnerPairTagger()
     DefineVariables();
 }
 
-int TopPartnerPairTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
+int TopPartnerPairTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag)
 {
     Info("Higgs Tags");
     std::vector< Quintet> quintets_1 = top_partner_hadronic_reader_.Multiplets<TopPartnerHadronicTagger>(event);
@@ -34,7 +34,7 @@ int TopPartnerPairTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
     return SaveEntries(decuplets);
 }
 
-std::vector<Decuplet55> TopPartnerPairTagger::Multiplets(analysis::Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader)
+std::vector<Decuplet55> TopPartnerPairTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
   std::vector< Quintet> quintets_1 = top_partner_hadronic_reader_.Multiplets<TopPartnerHadronicTagger>(event);
   std::vector< Quintet> quintets_2 = top_partner_semi_reader_.Multiplets<TopPartnerSemiTagger>(event);

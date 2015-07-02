@@ -16,7 +16,7 @@ EventTagger::EventTagger()
     DefineVariables();
 }
 
-int EventTagger::Train(Event &event, PreCuts &, const Tag tag)
+int EventTagger::Train(const Event &event, PreCuts &, const Tag tag)
 {
   Info("Train");
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
@@ -31,7 +31,7 @@ int EventTagger::Train(Event &event, PreCuts &, const Tag tag)
     return SaveEntries(ReduceResult(multipletevents, 1));
 }
 
-std::vector< MultipletEvent< Octet62 > > EventTagger::Multiplets(Event &event, PreCuts &, const TMVA::Reader &reader)
+std::vector< MultipletEvent< Octet62 > > EventTagger::Multiplets(const Event &event, PreCuts &, const TMVA::Reader &reader)
 {
   Info("Multiplets");
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);

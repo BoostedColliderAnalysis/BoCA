@@ -82,7 +82,7 @@ public:
 
     void PlotHistograms(const analysis::Results &results);
 
-    int GetBdt(Event &event, PreCuts &pre_cuts) const;
+    int GetBdt(const analysis::Event &event, analysis::PreCuts &pre_cuts) const;
 
     template <typename Tagger, typename Input>
     auto Multiplets(Input &input) const {

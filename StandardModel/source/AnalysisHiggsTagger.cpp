@@ -48,7 +48,7 @@ void AnalysisHiggs::SetFiles(const Tag tag)
 
 }
 
-int AnalysisHiggs::PassPreCut(Event &event)
+int AnalysisHiggs::PassPreCut(const Event &event)
 {
     Info("pass pre cut");
 

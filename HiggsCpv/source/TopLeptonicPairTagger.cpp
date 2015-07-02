@@ -18,7 +18,7 @@ TopLeptonicPairTagger::TopLeptonicPairTagger()
     DefineVariables();
 }
 
-int TopLeptonicPairTagger::Train(Event &event, PreCuts &, const Tag tag)
+int TopLeptonicPairTagger::Train(const Event &event, PreCuts &, const Tag tag)
 {
     Info("Top Leptonic Pair Tagger Tags");
     std::vector<Doublet> doublets = top_leptonic_reader_.Multiplets<TopLeptonicTagger>(event);
@@ -53,7 +53,7 @@ int TopLeptonicPairTagger::Train(Event &event, PreCuts &, const Tag tag)
     return SaveEntries(sextets);
 }
 
-std::vector< Sextet > TopLeptonicPairTagger::Multiplets(Event &event, PreCuts &, const TMVA::Reader &reader)
+std::vector< Sextet > TopLeptonicPairTagger::Multiplets(const Event &event, PreCuts &, const TMVA::Reader &reader)
 {
     std::vector<Doublet> doublets = top_leptonic_reader_.Multiplets<TopLeptonicTagger>(event);
     Info("Doublets", doublets.size());

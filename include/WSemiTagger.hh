@@ -17,21 +17,21 @@ public:
 
     WSemiTagger();
 
-    int Train(Event &event, PreCuts &, const Tag tag);
+    int Train(const Event &event, PreCuts &, const Tag tag);
 
-    std::vector<Doublet> Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
+    std::vector<Doublet> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
-    int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
       return SaveEntries(Multiplets(event,pre_cuts, reader));
     }
 
-    int WSemiId(Event &event) {
+    int WSemiId(const Event &event) {
         return WSemiId(WSemiDaughters(event));
     }
 
 private:
 
-    Jets WSemiDaughters(Event &event);
+    Jets WSemiDaughters(const Event &event);
 
     int WSemiId(const Jets &jets);
 

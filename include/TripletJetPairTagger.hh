@@ -17,9 +17,9 @@ public:
 
     TripletJetPairTagger();
 
-    int Train(Event &event, PreCuts &pre_cuts, const Tag tag);
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag);
 
-    std::vector< Quartet31 > Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
+    std::vector< Quartet31 > Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
 private:
 

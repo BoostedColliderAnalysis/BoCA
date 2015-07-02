@@ -18,23 +18,23 @@ public:
 
     DoubletTagger();
 
-    int Train(Event &event, const Tag Tag) {
+    int Train(const Event &event, const Tag Tag) {
         PreCuts pre_cuts;
         return Train(event, pre_cuts, Tag);
     }
 
-    int Train(Event &event, PreCuts &pre_cuts, const Tag Tag);
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag Tag);
 
-    virtual int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
+    virtual int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
         return SaveEntries(Multiplets(event, reader));
     }
 
-    virtual int GetBdt(Event &event, const TMVA::Reader &reader) {
+    virtual int GetBdt(const Event &event, const TMVA::Reader &reader) {
         PreCuts pre_cuts;
         return GetBdt(event, pre_cuts, reader);
     }
 
-    std::vector<Doublet> Multiplets(Event &event, const TMVA::Reader &reader);
+    std::vector<Doublet> Multiplets(const Event &event, const TMVA::Reader &reader);
 
     std::vector<Doublet> Multiplets(const Jets &jets, const TMVA::Reader &reader);
 

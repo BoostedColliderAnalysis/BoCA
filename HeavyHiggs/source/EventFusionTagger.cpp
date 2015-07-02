@@ -15,7 +15,7 @@ EventFusionTagger::EventFusionTagger()
     DefineVariables();
 }
 
-int EventFusionTagger::Train(Event &event, const Tag tag)
+int EventFusionTagger::Train(const Event &event, const Tag tag)
 {
     Info("event Tags");
 
@@ -52,7 +52,7 @@ int EventFusionTagger::Train(Event &event, const Tag tag)
     return SaveEntries(sextet_events);
 }
 
-std::vector<MultipletEvent<Sextet>> EventFusionTagger::Multiplets(Event &event, TMVA::Reader &reader)
+std::vector<MultipletEvent<Sextet>> EventFusionTagger::Multiplets(const Event &event, TMVA::Reader &reader)
 {
   Info("event Tags");
   std::vector<Sextet> sextets = heavy_higgs_semi_reader_.Multiplets<HeavyHiggsSemiTagger>(event);

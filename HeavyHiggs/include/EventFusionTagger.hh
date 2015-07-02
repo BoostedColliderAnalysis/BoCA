@@ -25,9 +25,9 @@ public:
     */
     EventFusionTagger();
 
-    int Train(Event &event, const Tag tag);
+    int Train(const Event &event, const Tag tag);
 
-    std::vector< MultipletEvent<Sextet> > Multiplets(Event &event, TMVA::Reader &reader);
+    std::vector< MultipletEvent<Sextet> > Multiplets(const Event &event, TMVA::Reader &reader);
 
 private:
 

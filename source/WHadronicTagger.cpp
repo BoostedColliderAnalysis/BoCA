@@ -13,7 +13,7 @@ WHadronicTagger::WHadronicTagger()
     DefineVariables();
 }
 
-int WHadronicTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
+int WHadronicTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag)
 {
     Info("W Tags");
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
@@ -82,7 +82,7 @@ int WHadronicTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
 }
 
 
-Jets WHadronicTagger::WDaughters(Event &event) const
+Jets WHadronicTagger::WDaughters(const analysis::Event &event) const
 {
     Jets w_daughters = event.Partons().GenParticles();
     w_daughters = CopyIfAbsMother(w_daughters, Id::W);
@@ -124,7 +124,7 @@ bool WHadronicTagger::Problematic(const Doublet &doublet, PreCuts &pre_cuts)
     return false;
 }
 
-std::vector<Doublet> WHadronicTagger::Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
+std::vector<Doublet> WHadronicTagger::Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
     Info("doublet Bdt");
 
@@ -272,7 +272,7 @@ Doublet WHadronicTagger::Multiplet(const fastjet::PseudoJet &jet, const TMVA::Re
     }
 }
 
-int WHadronicTagger::WHadronicId(Event &event) const
+int WHadronicTagger::WHadronicId(const analysis::Event &event) const
 {
     return WHadronicId(WDaughters(event));
 }
@@ -297,7 +297,7 @@ Doublet WHadronicTagger::Multiplet(const fastjet::PseudoJet &jet_1, const fastje
     }
 }
 
-int WHadronicTagger::GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
+int WHadronicTagger::GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
     return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
 }

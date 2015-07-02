@@ -21,19 +21,19 @@ public:
     /**
      * @brief Train the bottom tagger with pre cuts
      */
-    int Train(Event &event, PreCuts &pre_cuts, const Tag tag);
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag);
 
     /**
      * @brief Return all jets of the event with bottom bdt value considering pre cuts
      *
      */
-    Jets Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
+    Jets Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
     /**
      * @brief Save all jets with bottom bdt value condidering pre cuts
      *
      */
-    int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
     /**
      * @brief calculate bottom bdt for given jet
