@@ -25,15 +25,15 @@ public:
     */
     EventTagger();
 
-    int Train(analysis::Event &event, analysis::PreCuts &, const analysis::Tag tag);
+    int Train(const Event &event, analysis::PreCuts &, const analysis::Tag tag);
 
-    std::vector<MultipletEvent<Octet62>> Multiplets(Event &event,PreCuts &pre_cuts, const TMVA::Reader &reader);
+    std::vector<MultipletEvent<Octet62>> Multiplets(const Event &event,PreCuts &pre_cuts, const TMVA::Reader &reader);
 
-    int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
       return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
-    auto Multiplets(Event &event, const TMVA::Reader &reader) {
+    auto Multiplets(const Event &event, const TMVA::Reader &reader) {
       PreCuts pre_cuts;
       return Multiplets(event, pre_cuts, reader);
     }

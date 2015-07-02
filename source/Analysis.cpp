@@ -99,7 +99,7 @@ exroot::TreeWriter Analysis::TreeWriter(TFile &export_file, const std::string &e
     return tree_writer;
 }
 
-int Analysis::RunAnalysis(Event &event, const Stage stage, const Tag tag)
+int Analysis::RunAnalysis(const Event &event, const Stage stage, const Tag tag)
 {
     Info();
     switch (stage) {
@@ -127,7 +127,7 @@ void Analysis::SetFiles(const Tag tag)
 {
     Error("should be subclassed", Name(tag));
 }
-int Analysis::PassPreCut(Event &)
+int Analysis::PassPreCut(const Event &)
 {
     Error("no pre cut applied");
     return 1;

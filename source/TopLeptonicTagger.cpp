@@ -13,7 +13,7 @@ TopLeptonicTagger::TopLeptonicTagger()
     DefineVariables();
 }
 
-int TopLeptonicTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
+int TopLeptonicTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag)
 {
     Info("Train");
     do_fake_leptons = true;
@@ -52,7 +52,7 @@ bool TopLeptonicTagger::Problematic(const Doublet &doublet, PreCuts &pre_cuts) c
     return false;
 }
 
-Jets TopLeptonicTagger::Particles(Event &event) const
+Jets TopLeptonicTagger::Particles(const Event &event) const
 {
     Jets particles = event.Partons().GenParticles();
     return copy_if_abs_particle(particles, Id::top);
@@ -73,7 +73,7 @@ bool TopLeptonicTagger::Problematic(const analysis::Doublet &doublet, analysis::
     return false;
 }
 
-std::vector<Doublet> TopLeptonicTagger::Multiplets(analysis::Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader)
+std::vector<Doublet> TopLeptonicTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
     Info("Bdt");
     std::vector<Doublet> doublets;

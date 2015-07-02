@@ -18,9 +18,9 @@ public:
 
     WHadronicTagger();
 
-    int Train(Event &event, PreCuts &pre_cuts, const Tag Tag);
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag Tag);
 
-    virtual int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
+    virtual int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
     std::vector<Doublet> Multiplets(const Jets &jets, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
@@ -30,11 +30,11 @@ public:
 
     Doublet SubMultiplet(const fastjet::PseudoJet &jet, const TMVA::Reader &reader);
 
-    int WHadronicId(Event &event) const;
+    int WHadronicId(const Event &event) const;
 
 private:
 
-    std::vector<Doublet> Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
+    std::vector<Doublet> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
     std::vector<Doublet> Multiplets3(const Jets &jets, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
@@ -58,7 +58,7 @@ private:
 
     Reader bottom_reader_;
 
-    Jets WDaughters(Event &event) const;
+    Jets WDaughters(const Event &event) const;
 
     int WHadronicId(const Jets &jets) const;
 

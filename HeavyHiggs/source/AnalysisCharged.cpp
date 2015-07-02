@@ -93,7 +93,7 @@ void AnalysisCharged::SetTrees()
 
 }
 
-int AnalysisCharged::PassPreCut(Event &event)
+int AnalysisCharged::PassPreCut(const Event &event)
 {
     Info("pass pre cut");
     Jets Particles = event.Partons().GenParticles();

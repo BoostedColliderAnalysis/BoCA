@@ -15,7 +15,7 @@ EventNeutralTagger::EventNeutralTagger()
     DefineVariables();
 }
 
-int EventNeutralTagger::Train(Event &event, const Tag tag)
+int EventNeutralTagger::Train(const Event &event, const Tag tag)
 {
     Info("event Tags");
 
@@ -33,7 +33,7 @@ int EventNeutralTagger::Train(Event &event, const Tag tag)
     return SaveEntries(events);
 }
 
-std::vector<MultipletEvent<Octet62>> EventNeutralTagger::Multiplets(Event &event, const TMVA::Reader &reader)
+std::vector<MultipletEvent<Octet62>> EventNeutralTagger::Multiplets(const Event &event, const TMVA::Reader &reader)
 {
     Info("event Tags");
     std::vector<Octet62> octets = signature_neutral_reader_.Multiplets<SignatureNeutralTagger>(event);

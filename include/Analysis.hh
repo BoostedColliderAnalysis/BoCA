@@ -131,9 +131,9 @@ protected:
         return name + "-run_01";
     }
 
-    virtual int PassPreCut(Event &);
+    virtual int PassPreCut(const Event &);
 
-    int RunAnalysis(Event &event, const Stage stage, const Tag tag);
+    int RunAnalysis(const Event &event, const Stage stage, const Tag tag);
 
     PreCuts &pre_cuts() {
         return pre_cuts_;

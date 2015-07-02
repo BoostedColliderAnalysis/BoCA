@@ -58,15 +58,10 @@ void Log(const std::string &file, const int line, const std::string &NameSpace, 
 
 void LogVariable(const std::string &variable, const fastjet::PseudoJet jet)
 {
-    std::cout << Column(ValueLength(), jet.px()) << Column(ValueLength(), jet.px()) << Column(ValueLength(), jet.pz()) << Column(ValueLength(), jet.e());
+  std::cout << Column(ValueLength(), variable) << Column(ValueLength(), jet.px()) << Column(ValueLength(), jet.px()) << Column(ValueLength(), jet.pz()) << Column(ValueLength(), jet.e());
 }
 
-// void LogVariable(const std::string &variable, const std::string &value)
-// {
-//     std::cout << Column(15, value);
-// }
-
-void LogVariable(const std::string &variable, const char *value)
+void LogVariable(const std::string &, const char *value)
 {
     std::cout << Column(ValueLength(), value);
 }

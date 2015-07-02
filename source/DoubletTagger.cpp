@@ -38,7 +38,7 @@ void DoubletTagger<DoubletBranch>::DefineVariables()
 }
 
 template <class DoubletBranch>
-int DoubletTagger<DoubletBranch>::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
+int DoubletTagger<DoubletBranch>::Train(const Event &event, PreCuts &pre_cuts, const Tag tag)
 {
     Info("Doublet Tags");
     std::vector<Doublet> doublets;
@@ -46,7 +46,7 @@ int DoubletTagger<DoubletBranch>::Train(Event &event, PreCuts &pre_cuts, const T
 }
 
 template <class DoubletBranch>
-std::vector<Doublet> DoubletTagger<DoubletBranch>::Multiplets(Event &event, const TMVA::Reader &reader)
+std::vector<Doublet> DoubletTagger<DoubletBranch>::Multiplets(const Event &event, const TMVA::Reader &reader)
 {
     Info("doublet Bdt");
 

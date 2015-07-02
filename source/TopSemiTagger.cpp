@@ -14,7 +14,7 @@ TopSemiTagger::TopSemiTagger()
     DefineVariables();
 }
 
-int TopSemiTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
+int TopSemiTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag)
 {
     Info("Top Tags");
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
@@ -68,7 +68,7 @@ bool TopSemiTagger::Problematic(const Triplet &triplet, PreCuts &pre_cuts, const
     return false;
 }
 
-std::vector<Triplet>  TopSemiTagger::Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
+std::vector<Triplet>  TopSemiTagger::Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
     Info("Bdt");
 

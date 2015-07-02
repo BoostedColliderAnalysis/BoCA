@@ -5,19 +5,19 @@ namespace analysis {
 
 void Hadrons::NewEvent(const ClonesArrays &clones_arrays)
 {
-    Info("New event");
+    Info();
     FourVector::NewEvent(clones_arrays);
 }
 
 float Hadrons::ScalarHt()
 {
-    Error("Scalar Ht", "No Scalar Ht");
+    Error("No Scalar Ht");
     return 0;
 }
 
 fastjet::PseudoJet Hadrons::MissingEt()
 {
-    Error("Missing Et", "No Mising Et");
+    Error("No Mising Et");
     return fastjet::PseudoJet{};
 }
 

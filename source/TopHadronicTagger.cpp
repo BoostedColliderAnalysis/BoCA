@@ -18,7 +18,7 @@ TopHadronicTagger::TopHadronicTagger()
     DefineVariables();
 }
 
-int TopHadronicTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
+int TopHadronicTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag)
 {
     Info("Train");
 
@@ -185,7 +185,7 @@ bool TopHadronicTagger::Problematic(const analysis::Triplet &triplet, PreCuts &p
     return false;
 }
 
-std::vector<Triplet> TopHadronicTagger::Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
+std::vector<Triplet> TopHadronicTagger::Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
     std::vector<analysis::Triplet> triplets;

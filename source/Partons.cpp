@@ -5,7 +5,7 @@
 namespace analysis {
 
 void Partons::NewEvent(const ClonesArrays &clones_arrays) {
-    Info("New event");
+    Info();
     FourVector::NewEvent(clones_arrays);
 }
 

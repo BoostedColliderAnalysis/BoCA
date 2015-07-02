@@ -38,7 +38,7 @@ void AnalysisZ::SetFiles(const Tag tag)
 
 }
 
-int AnalysisZ::PassPreCut(Event &event)
+int AnalysisZ::PassPreCut(const Event &event)
 {
     Info("pass pre cut");
     Jets leptons = fastjet::sorted_by_pt(event.Leptons().leptons());

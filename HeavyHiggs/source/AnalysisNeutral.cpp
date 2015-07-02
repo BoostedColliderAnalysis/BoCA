@@ -94,7 +94,7 @@ void AnalysisNeutral::SetTrees()
 
 }
 
-int AnalysisNeutral::PassPreCut(Event &event)
+int AnalysisNeutral::PassPreCut(const Event &event)
 {
     Info("pass pre cut");
     Jets Particles = event.Partons().GenParticles();

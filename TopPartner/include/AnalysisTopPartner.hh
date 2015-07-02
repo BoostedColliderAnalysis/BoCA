@@ -23,7 +23,7 @@ public:
   void RunNormal();
 
   void RunFull();
-  
+
   void RunFullTagger();
 
   Analysis(Tagger &tagger);
@@ -53,7 +53,7 @@ protected:
 
 private:
 
-  int PassPreCut(Event &event);
+  int PassPreCut(const Event &event);
 
   void RunTagger(analysis::Stage stage);
 

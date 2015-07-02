@@ -15,7 +15,7 @@ SignatureTagger::SignatureTagger()
     DefineVariables();
 }
 
-int SignatureTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
+int SignatureTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag)
 {
     Info("Higgs Tags");
     std::vector< Decuplet55> decuplets = top_partner_pair_reader_.Multiplets<TopPartnerPairTagger>(event);
@@ -32,7 +32,7 @@ int SignatureTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
     return SaveEntries(quattuordecuplets);
 }
 
-std::vector< Quattuordecuplet > SignatureTagger::Multiplets(analysis::Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader)
+std::vector< Quattuordecuplet > SignatureTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
     std::vector< Decuplet55> decuplets = top_partner_pair_reader_.Multiplets<TopPartnerPairTagger>(event);
     std::vector< Quartet22> quartets = higgs_pair_reader_.Multiplets<HiggsPairTagger>(event);

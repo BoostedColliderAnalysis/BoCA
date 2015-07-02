@@ -18,11 +18,11 @@ public:
 
     TopLeptonicTagger();
 
-    int Train(analysis::Event &event, PreCuts &pre_cuts, const analysis::Tag tag);
+    int Train(const Event &event, PreCuts &pre_cuts, const analysis::Tag tag);
 
-    std::vector< Doublet> Multiplets(analysis::Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader);
+    std::vector< Doublet> Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader);
 
-    int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
         do_fake_leptons = true;
         return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
 //         return SaveEntries(Multiplets(event, pre_cuts, reader), Particles(event).size());
@@ -34,9 +34,9 @@ public:
 
     fastjet::PseudoJet FakeLepton(const fastjet::PseudoJet &jet) const;
 
-    Jets Particles(Event &event) const;
+    Jets Particles(const analysis::Event &event) const;
 
-    auto Multiplets(Event &event, const TMVA::Reader &reader) {
+    auto Multiplets(const Event &event, const TMVA::Reader &reader) {
         PreCuts pre_cuts;
         return Multiplets(event, pre_cuts, reader);
     }
