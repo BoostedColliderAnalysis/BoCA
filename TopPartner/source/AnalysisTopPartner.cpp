@@ -20,6 +20,12 @@ std::string Analysis::ProcessName()
     return "toppartner";
 }
 
+std::string Analysis::ProjectName() const
+{
+  return  "TopPartner-tt";
+}
+
+
 void Analysis::SetFiles(const Tag tag)
 {
     Note("Set Files");
@@ -31,14 +37,15 @@ void Analysis::SetFiles(const Tag tag)
         break;
     case Tag::background :
 //         NewBackgroundFile("pp-ttbb-bbbbjjlv");
-        NewBackgroundFile("pp-tthjj-bbbbjjjjlv");
+//         NewBackgroundFile("pp-tthjj-bbbbjjjjlv");
+        NewBackgroundFile("tt_inc-LE-0GeV_0");
         break;
     }
 }
 
 int Analysis::PassPreCut(const Event &event)
 {
-    Info("pass pre cut");
+    Info();
     return 1;
 }
 
@@ -99,6 +106,14 @@ std::string Analysis::PathName(const std::string &file_name) const
 {
     Error(file_name);
     return ProjectName() + "/" + file_name + ".root";
+}
+int Analysis::EventNumberMax() const
+{
+    return 1000;
+}
+std::string Analysis::FilePath() const
+{
+    return "~/Projects/TopPartner/Analysis/";
 }
 
 }

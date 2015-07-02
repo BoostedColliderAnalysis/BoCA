@@ -78,7 +78,7 @@ float Reader::Bdt() const
 
 int Reader::GetBdt(const Event &event, analysis::PreCuts &pre_cuts) const
 {
-    Check(!tagger_, "what is wrong with the tagger?");
+    Check(tagger_, "what is wrong with the tagger?");
     return tagger().GetBdt(event, pre_cuts, reader_);
 }
 
@@ -392,7 +392,7 @@ Result Reader::BdtDistribution(exroot::TreeReader &tree_reader, const std::strin
         for (const int entry : Range(event_clones_array.GetEntriesFast())) {
             float bdt_value = tagger().ReadBdt(event_clones_array, entry);
             result.bdt.emplace_back(bdt_value);
-            Check(bdt_value < 0 || bdt_value > 2, "Bdt Value" , bdt_value);
+            Check(bdt_value > 0 && bdt_value < 2, "Bdt Value" , bdt_value);
             static_cast<ResultBranch &>(*result_branch.NewEntry()).Bdt = bdt_value;
 //             Note("Bdt Distribution", BdtValue,std::floor(BdtValue * result.steps / 2) - 1);
             int bin = std::floor(bdt_value * result.steps / 2) - 1;
