@@ -6,7 +6,7 @@ namespace analysis {
 
 TripletJetPairTagger::TripletJetPairTagger()
 {
-    Note("Constructor");
+    Note();
     set_tagger_name("TripletJetJetPair");
     bottom_reader_.SetTagger(bottom_tagger_);
     top_hadronic_reader_.SetTagger(top_hadronic_tagger);

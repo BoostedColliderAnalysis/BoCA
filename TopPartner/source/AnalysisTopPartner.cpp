@@ -11,7 +11,7 @@ namespace toppartner
 
 Analysis::Analysis(Tagger &tagger) : analysis::Analysis::Analysis(tagger)
 {
-    Note("Constructor");
+    Note();
     this->tagger().set_analysis_name(ProjectName());
 }
 
@@ -97,7 +97,7 @@ void Analysis::RunReaderTagger()
 
 std::string Analysis::PathName(const std::string &file_name) const
 {
-    Error("Path Name", file_name);
+    Error(file_name);
     return ProjectName() + "/" + file_name + ".root";
 }
 

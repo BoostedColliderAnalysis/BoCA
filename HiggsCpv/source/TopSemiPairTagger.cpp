@@ -9,7 +9,7 @@ namespace higgscpv {
 
 TopSemiPairTagger::TopSemiPairTagger()
 {
-    Note("Constructor");
+    Note();
     set_tagger_name("TripletJetJetPair");
     top_semi_reader_.SetTagger(top_semi_tagger_);
     top_hadronic_reader_.SetTagger(top_hadronic_tagger);

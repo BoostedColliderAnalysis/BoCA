@@ -185,7 +185,7 @@ private:
 
     bool tau_tag_ = 0;
 
-    int charge_ = 0;
+    int charge_ = LargeNumber();
 
 };
 

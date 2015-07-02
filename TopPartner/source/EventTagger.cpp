@@ -8,7 +8,7 @@ namespace toppartner
 
 EventTagger::EventTagger()
 {
-    Note("Constructor");
+    Note();
     set_tagger_name("Event");
     signature_reader_.SetTagger(signature_tagger_);
     bottom_reader_.SetTagger(bottom_tagger_);

@@ -11,7 +11,7 @@ namespace standardmodel
 
 Analysis::Analysis(Tagger &tagger) : analysis::Analysis::Analysis(tagger)
 {
-    Note("Constructor");
+    Note();
     this->tagger().set_analysis_name(ProjectName());
 }
 
@@ -65,7 +65,7 @@ std::string Analysis::ColliderName(const Collider collider) const
 
 void Analysis::SetFiles(const Tag tag)
 {
-    Note("Set File Vector", Name(tag));
+    Note(Name(tag));
 }
 
 std::string Analysis::NiceName(const Process process) const
@@ -255,13 +255,13 @@ void Analysis::RunReader()
 
 std::string Analysis::PathName(const std::string &file_name) const
 {
-    Error("Path Name", file_name);
+    Error(file_name);
     return ProjectName() + "/" + file_name + ".root";
 }
 
 bool Analysis::Missing(const std::string &name) const
 {
-    Error("Missing", name);
+    Error(name);
     struct stat buffer;
     return (stat(name.c_str(), &buffer) != 0);
 }

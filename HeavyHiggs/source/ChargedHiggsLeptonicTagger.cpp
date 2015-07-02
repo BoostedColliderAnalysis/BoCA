@@ -9,7 +9,7 @@ namespace heavyhiggs
 
 ChargedHiggsLeptonicTagger::ChargedHiggsLeptonicTagger()
 {
-    Note("Constructor");
+    Note();
     set_tagger_name("ChargedHiggsLeptonic");
     bottom_reader_.SetTagger(bottom_tagger_);
     top_leptonic_reader_.SetTagger(top_leptonic_tagger_);

@@ -8,7 +8,7 @@ namespace heavyhiggs {
 
 EventFusionTagger::EventFusionTagger()
 {
-    Note("Constructor");
+    Note();
     set_tagger_name("EventFusion");
     bottom_reader_.SetTagger(bottom_tagger_);
     heavy_higgs_semi_reader_.SetTagger(heavy_higgs_semi_tagger_);

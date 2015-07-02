@@ -9,7 +9,7 @@ namespace heavyhiggs
 
 HeavyHiggsSemiTagger::HeavyHiggsSemiTagger()
 {
-    Note("Constructor");
+    Note();
     set_tagger_name("HeavyHiggsSemi");
     top_hadronic_reader_.SetTagger(top_hadronic_tagger);
     top_semi_reader_.SetTagger(top_semi_tagger);

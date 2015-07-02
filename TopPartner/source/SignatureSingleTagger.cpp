@@ -9,7 +9,7 @@ namespace toppartner
 
 SignatureSingleTagger::SignatureSingleTagger()
 {
-    Note("Constructor");
+    Note();
     set_tagger_name("SignatureSingle");
     top_partner_higgs_pair_reader_.SetTagger(top_partner_higgs_pair_tagger_);
     top_hadronic_reader_.SetTagger(top_hadronic_tagger_);

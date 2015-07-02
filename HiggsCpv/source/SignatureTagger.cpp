@@ -9,7 +9,7 @@ namespace higgscpv
 
 SignatureTagger::SignatureTagger()
 {
-    Note("Constructor");
+    Note();
     set_tagger_name("Signature");
     higgs_reader_.SetTagger(higgs_tagger_);
     triplet_pair_reader_.SetTagger(triplet_pair_tagger_);

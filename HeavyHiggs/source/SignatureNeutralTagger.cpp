@@ -9,7 +9,7 @@ namespace heavyhiggs
 
 SignatureNeutralTagger::SignatureNeutralTagger()
 {
-    Note("Constructor");
+    Note();
     set_tagger_name("SignatureNeutral");
     heavy_higgs_semi_reader_.SetTagger(heavy_higgs_semi_tagger_);
     jet_pair_reader_.SetTagger(jet_pair_tagger_);

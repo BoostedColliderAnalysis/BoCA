@@ -9,7 +9,7 @@ namespace heavyhiggs
 
 AnalysisNeutral::AnalysisNeutral(Tagger &tagger) : Analysis::Analysis(tagger)
 {
-    Note("Constructor");
+    Note();
     this->tagger().set_analysis_name(ProjectName());
 }
 

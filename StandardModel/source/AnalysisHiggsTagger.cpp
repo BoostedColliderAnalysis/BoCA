@@ -9,7 +9,7 @@ namespace standardmodel
 
 AnalysisHiggs::AnalysisHiggs(Tagger &tagger) : analysis::standardmodel::Analysis::Analysis(tagger)
 {
-    Note("Constructor");
+    Note();
     this->tagger().set_analysis_name(ProjectName());
     pre_cuts().SetPtLowerCut(Id::higgs, LowerPtCut());
     pre_cuts().SetPtUpperCut(Id::higgs, UpperPtCut());

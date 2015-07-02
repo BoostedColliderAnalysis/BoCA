@@ -9,7 +9,7 @@ namespace toppartner
 
 TopPartnerPairTagger::TopPartnerPairTagger()
 {
-    Note("Constructor");
+    Note();
     set_tagger_name("TopPartnerPairTagger");
     top_partner_hadronic_reader_.SetTagger(top_partner_hadronic_tagger_);
     top_partner_semi_reader_.SetTagger(top_partner_semi_tagger_);
