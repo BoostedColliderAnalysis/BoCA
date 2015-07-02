@@ -17,9 +17,9 @@ class Hadrons : public analysis::Hadrons
 {
 
 public:
+//         NewEvent(*clones_arrays_);
 
-    analysis::Jets Jets() {
-        NewEvent(*clones_arrays_);
+    analysis::Jets Jets() const {
         switch (DetectorGeometry().jet_type) {
         case JetType::jet :
           return DelphesJets(JetDetail::structure);
@@ -30,29 +30,29 @@ public:
         }
     }
 
-    float ScalarHt();
+    float ScalarHt() const;
 
-    fastjet::PseudoJet MissingEt();
+    fastjet::PseudoJet MissingEt()const;
 
-    analysis::Jets UniqueJets();
+    analysis::Jets UniqueJets() const;
 
 
 private:
 
-    analysis::Jets UniqueConstituents(TObject &object, std::vector<TObject *> leptons);
+    analysis::Jets UniqueConstituents(TObject &object, std::vector< TObject * > leptons) const;
 
-    analysis::Jets GranulatedJets(const analysis::Jets &jets);
+    analysis::Jets GranulatedJets(const analysis::Jets &jets) const;
 
-    analysis::Jets ClusteredJets();
+    analysis::Jets ClusteredJets() const;
 
-    analysis::Jets DelphesJets(const JetDetail jet_detail);
+    analysis::Jets DelphesJets(const analysis::JetDetail jet_detail) const;
 
-    analysis::Jets EFlowJets(const JetDetail jet_detail);
+    analysis::Jets EFlowJets(const JetDetail jet_detail) const;
 
-    analysis::Jets GenJets();
+    analysis::Jets GenJets() const;
 
     template <typename Clone>
-    JetInfo JetId(const Clone &clone) {
+    JetInfo JetId(const Clone &clone) const {
 //         Detail("Jet Id", clone.Particles.GetEntriesFast());
         JetInfo jet_info;
 //         if(clone.IsA() == ::delphes::Jet::Class()) jet_info.SetDelphesTags(clone);
@@ -76,17 +76,17 @@ private:
         return Isolated;
     }
 
-    analysis::Jets EFlowTrack(const JetDetail);
+    analysis::Jets EFlowTrack(const JetDetail) const;
 
-    analysis::Jets EFlowPhoton(const JetDetail);
+    analysis::Jets EFlowPhoton(const JetDetail) const;
 
-    analysis::Jets EFlowHadron(const JetDetail);
+    analysis::Jets EFlowHadron(const JetDetail) const;
 
-    analysis::Jets EFlowMuon(const JetDetail);
+    analysis::Jets EFlowMuon(const analysis::JetDetail jet_detail) const;
 
-    fastjet::PseudoJet StructuredJet(const ::delphes::Jet &JetClone, const JetDetail jet_detail);
+    fastjet::PseudoJet StructuredJet(const ::delphes::Jet &jet, const analysis::JetDetail jet_detail) const;
 
-    fastjet::PseudoJet ConstituentJet(TObject &Object, const JetDetail jet_detail, const SubDetector sub_detector = SubDetector::none);
+    fastjet::PseudoJet ConstituentJet(TObject &Object, const JetDetail jet_detail, const SubDetector sub_detector = SubDetector::none) const;
 
 };
 

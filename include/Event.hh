@@ -22,16 +22,16 @@ public:
 
     void NewEvent(const ClonesArrays &clones_arrays);
 
-    analysis::Hadrons &Hadrons() const {
+    const analysis::Hadrons &Hadrons() const {
         return *hadrons_;
     }
 
-    analysis::Leptons &Leptons() const {
+    const analysis::Leptons &Leptons() const {
         return *leptons_;
     }
 
 
-    analysis::Partons &Partons() const {
+    const analysis::Partons &Partons() const {
         return *partons_;
     }
 

@@ -8,13 +8,13 @@ namespace analysis
 namespace delphes
 {
 
-Jets Leptons::Electrons()
+Jets Leptons::Electrons() const
 {
     Info(clones_arrays().ElectronSum());
     return Electrons(JetDetail::plain);
 }
 
-Jets Leptons::Electrons(JetDetail jet_detail)
+Jets Leptons::Electrons(JetDetail jet_detail) const
 {
     Info(clones_arrays().ElectronSum());
     Jets electrons;
@@ -31,13 +31,13 @@ Jets Leptons::Electrons(JetDetail jet_detail)
     return electrons;
 }
 
-Jets Leptons::Muons()
+Jets Leptons::Muons() const
 {
     Info(clones_arrays().MuonSum());
     return Muons(JetDetail::plain);
 }
 
-Jets Leptons::Muons(JetDetail jet_detail)
+Jets Leptons::Muons(JetDetail jet_detail) const
 {
     Info(clones_arrays().MuonSum());
     Jets muons;
