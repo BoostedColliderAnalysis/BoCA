@@ -27,7 +27,7 @@ int BottomTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag)
 
     Jets particles = event.Partons().Particles();
     Jets bottoms = copy_if_abs_particle(particles, Id::bottom);
-    bottoms = RemoveIfSoft(bottoms, DetectorGeometry().JetMinPt);
+    bottoms = RemoveIfSoft(bottoms, DetectorGeometry().JetMinPt());
     Info("Particle size", bottoms.size());
     return SaveEntries(BestMatches(final_jets, bottoms, tag));
 }

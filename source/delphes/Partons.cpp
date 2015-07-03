@@ -1,5 +1,7 @@
 #include "delphes/Partons.hh"
+#include "delphes/Delphes.hh"
 #include "Predicate.hh"
+#include "JetInfo.hh"
 #include "Debug.hh"
 
 namespace analysis

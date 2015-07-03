@@ -1,5 +1,5 @@
 #include "Predicate.hh"
-#include "Global.hh"
+#include "JetInfo.hh"
 
 namespace analysis
 {
@@ -426,7 +426,7 @@ Jets RemoveIfNot5Quarks(const Jets &jets)
 //         particle_ = particle;
 //     }
 //     bool operator()(const fastjet::PseudoJet &jet) {
-//         return (jet.delta_R(particle_) < detector_geometry_.JetConeSize);
+//         return (jet.delta_R(particle_) < detector_geometry_.JetConeSize());
 //     }
 //     fastjet::PseudoJet particle_;
 //     DetectorGeometry detector_geometry_;

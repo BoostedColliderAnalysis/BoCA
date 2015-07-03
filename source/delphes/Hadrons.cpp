@@ -234,10 +234,10 @@ Jets Hadrons::GranulatedJets(const analysis::Jets &e_flow_jets) const
     for (const auto & e_flow_jet : sorted_jets) {
         bool is_new_jet = false;
         for (std::size_t j = 0; j < jets.size(); ++j) {
-            const float cell_diff_rap = std::abs(e_flow_jet.pseudorapidity() - jets[j].pseudorapidity()) / DetectorGeometry().MinCellResolution;
+            const float cell_diff_rap = std::abs(e_flow_jet.pseudorapidity() - jets[j].pseudorapidity()) / DetectorGeometry().MinCellResolution();
             float cell_diff_phi = std::abs(e_flow_jet.phi() - jets[j].phi());
             if (cell_diff_phi > M_PI) cell_diff_phi = 2 * M_PI - cell_diff_phi;
-            cell_diff_phi /= DetectorGeometry().MinCellResolution;
+            cell_diff_phi /= DetectorGeometry().MinCellResolution();
             if (cell_diff_rap < 1 && cell_diff_phi < 1) {
                 is_new_jet = true;
                 const float total_energy  = e_flow_jet.e() + jets[j].e();
@@ -262,16 +262,15 @@ Jets Hadrons::GranulatedJets(const analysis::Jets &e_flow_jets) const
             jets = sorted_by_pt(jets);
         }
     }
-    jets = RemoveIfSoft(jets, DetectorGeometry().MinCellPt);
+    jets = RemoveIfSoft(jets, DetectorGeometry().MinCellPt());
     return jets;
 }
 
 Jets Hadrons::ClusteredJets() const
 {
-    DetectorGeometry detector_geometry;
-//     fastjet::ClusterSequence &cluster_sequence = *new fastjet::ClusterSequence(GranulatedJets(EFlowJets(JetDetail::structure)), detector_geometry.JetDefinition);
-    fastjet::ClusterSequence &cluster_sequence = *new fastjet::ClusterSequence(EFlowJets(JetDetail::structure), detector_geometry.JetDefinition);
-    analysis::Jets jets = fastjet::sorted_by_pt(cluster_sequence.inclusive_jets(detector_geometry.JetMinPt));
+  //     fastjet::ClusterSequence &cluster_sequence = *new fastjet::ClusterSequence(GranulatedJets(EFlowJets(JetDetail::structure)), DetectorGeometry().JetDefinition());
+  fastjet::ClusterSequence &cluster_sequence = *new fastjet::ClusterSequence(EFlowJets(JetDetail::structure), DetectorGeometry().JetDefinition());
+  analysis::Jets jets = fastjet::sorted_by_pt(cluster_sequence.inclusive_jets(DetectorGeometry().JetMinPt()));
     if (jets.empty()) {
         delete &cluster_sequence;
         return jets;

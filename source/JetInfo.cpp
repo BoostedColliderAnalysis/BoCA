@@ -6,53 +6,6 @@
 namespace analysis
 {
 
-/**
- * @brief Constructor
- *
- *
- * choose HDetectorType according to LHC or 100TeV
- *
- * LHC: CMS
- * 100TeV: Spp
- *
- */
-
-
-DetectorGeometry::DetectorGeometry()
-{
-    DetectorType detector_type = Spp;
-//     DetectorType detector_type = CMS;
-    switch (detector_type) {
-    case CMS :
-        JetMinPt = 20;
-        LeptonMinPt = 10;
-        JetConeSize = 0.5;
-        MinCellResolution = .1;
-        MinCellPt = .5;
-        TrackerEtaMax = 2.5;
-        TrackerDistanceMin = 0.1;
-        TrackerDistanceMax = 1000;
-        VertexMassMin = 0.1;
-        JetDefinition = fastjet::JetDefinition(fastjet::antikt_algorithm, JetConeSize);
-        SubJetDefinition = fastjet::JetDefinition(fastjet::kt_algorithm, JetConeSize);
-        jet_type = JetType::jet;
-    case Spp:
-        JetMinPt = 40;
-        LeptonMinPt = 20;
-        JetConeSize = 0.5;
-        MinCellResolution = .1;
-        MinCellPt = .5;
-        TrackerEtaMax = 3.5;
-        TrackerDistanceMin = 0.1;
-        TrackerDistanceMax = 1000;
-        VertexMassMin = 0.1;
-        JetDefinition = fastjet::JetDefinition(fastjet::antikt_algorithm, JetConeSize);
-        SubJetDefinition = fastjet::JetDefinition(fastjet::kt_algorithm, JetConeSize);
-               jet_type = JetType::jet;
-//         jet_type = JetType::e_flow_jet;
-    }
-}
-
 struct AccuPerpDistance {
     float operator()(float result, const Constituent &constituent) {
         return (result + constituent.Position().Vect().Perp());
@@ -343,7 +296,7 @@ float JetInfo::VertexMass() const
     std::vector <Constituent > vertices = ApplyVertexResolution();
     const float vertex_mass = std::accumulate(vertices.begin(), vertices.end(), Constituent()).Momentum().M();
     Debug("Vertex Mass", vertex_mass);
-    if (vertex_mass < detector_geometry_.VertexMassMin) return 0;
+    if (vertex_mass < DetectorGeometry().VertexMassMin()) return 0;
     return vertex_mass;
 }
 
@@ -361,7 +314,7 @@ std::vector<Constituent> JetInfo::ApplyVertexResolution() const
     std::vector <Constituent > displaced_constituents;
     Debug("Vertex Number", constituents().size());
     if (constituents().empty()) return displaced_constituents;
-    for (const auto & constituent : constituents()) if (constituent.Position().Vect().Perp() > detector_geometry_.TrackerDistanceMin && constituent.Position().Vect().Perp() < detector_geometry_.TrackerDistanceMax && std::abs(constituent.Momentum().Rapidity()) < detector_geometry_.TrackerEtaMax) displaced_constituents.emplace_back(constituent);
+    for (const auto & constituent : constituents()) if (constituent.Position().Vect().Perp() > DetectorGeometry().TrackerDistanceMin() && constituent.Position().Vect().Perp() < DetectorGeometry().TrackerDistanceMax() && std::abs(constituent.Momentum().Rapidity()) < DetectorGeometry().TrackerEtaMax()) displaced_constituents.emplace_back(constituent);
     Debug("Real Vertex Number", displaced_constituents.size());
     return displaced_constituents;
 }

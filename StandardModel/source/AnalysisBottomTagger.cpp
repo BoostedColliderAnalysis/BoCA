@@ -13,8 +13,7 @@ AnalysisBottom::AnalysisBottom(Tagger &tagger) : analysis::standardmodel::Analys
     this->tagger().set_analysis_name(ProjectName());
     pre_cuts().SetPtLowerCut(Id::bottom, LowerPtCut());
     pre_cuts().SetPtUpperCut(Id::bottom, UpperPtCut());
-    DetectorGeometry detector_geometry;
-    pre_cuts().SetTrackerMaxEta(Id::bottom, detector_geometry.TrackerEtaMax);
+    pre_cuts().SetTrackerMaxEta(Id::bottom, DetectorGeometry().TrackerEtaMax());
     pre_cuts().SetSubJets(false);
 }
 

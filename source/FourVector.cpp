@@ -3,6 +3,8 @@
 #include "TClonesArray.h"
 #include "Predicate.hh"
 #include "Debug.hh"
+#include "delphes/Delphes.hh"
+#include "JetInfo.hh"
 
 namespace analysis
 {

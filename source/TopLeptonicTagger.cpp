@@ -41,7 +41,7 @@ int TopLeptonicTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag ta
 
 fastjet::PseudoJet TopLeptonicTagger::FakeLepton(const fastjet::PseudoJet &jet) const
 {
-    return fastjet::PseudoJet(jet.px(), jet.py(), jet.pz(), jet.e()) / jet.pt() * DetectorGeometry().LeptonMinPt;
+    return fastjet::PseudoJet(jet.px(), jet.py(), jet.pz(), jet.e()) / jet.pt() * DetectorGeometry().LeptonMinPt();
 }
 
 bool TopLeptonicTagger::Problematic(const Doublet &doublet, PreCuts &pre_cuts) const
@@ -63,7 +63,7 @@ bool TopLeptonicTagger::Problematic(const analysis::Doublet &doublet, analysis::
     if (Problematic(doublet, pre_cuts)) return true;
     switch (tag) {
     case Tag::signal :
-        if (doublet.Singlet1().Jet().pt() <= DetectorGeometry().LeptonMinPt) return true;
+        if (doublet.Singlet1().Jet().pt() <= DetectorGeometry().LeptonMinPt()) return true;
         if (std::abs(doublet.Jet().m() - Mass(Id::top) + 40) > top_mass_window) return true;
         break;
     case Tag::background :

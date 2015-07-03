@@ -16,8 +16,8 @@ AnalysisHiggs::AnalysisHiggs(Tagger &tagger) : analysis::standardmodel::Analysis
     pre_cuts().SetPtLowerCut(Id::bottom, LowerPtCut() / 5);
     pre_cuts().SetPtUpperCut(Id::bottom, UpperPtCut() / 5);
     pre_cuts().SetMassUpperCut(Id::higgs, 250);
-    pre_cuts().SetTrackerMaxEta(Id::higgs, DetectorGeometry().TrackerEtaMax);
-    pre_cuts().SetTrackerMaxEta(Id::bottom, DetectorGeometry().TrackerEtaMax);
+    pre_cuts().SetTrackerMaxEta(Id::higgs, DetectorGeometry().TrackerEtaMax());
+    pre_cuts().SetTrackerMaxEta(Id::bottom, DetectorGeometry().TrackerEtaMax());
 }
 std::string AnalysisHiggs::ProjectName() const
 {

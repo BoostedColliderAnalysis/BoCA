@@ -7,7 +7,7 @@ namespace analysis
 {
 
 /**
- * @brief An evnt composed of a multiplet an a singlet made up from the remaining jets
+ * @brief An event composed of a multiplet an a singlet made up from the remaining jets
  *
  */
 template <typename Multiplet_1>

@@ -244,7 +244,7 @@ void fusionpair::Analysis::SetTrees()
 //
 //     for (const auto & Particle : Particles) {
 //         std::sort(jets.begin(), jets.end(), MinDeltaR(Particle));
-//         if (jets.front().delta_R(Particle) < BottomTagger.detector_geometry().JetConeSize) {
+//         if (jets.front().delta_R(Particle) < BottomTagger.detector_geometry().JetConeSize()) {
 //             static_cast<analysis::JetInfo *>(jets.front().user_info_shared_ptr().get())->SetTag(Signal);
 //         }
 //     }
@@ -306,7 +306,7 @@ void fusionpair::Analysis::SetTrees()
 //
 // //     for (const auto & Particle : Particles) {
 // //         std::sort(jets.begin(), jets.end(), MinDeltaR(Particle));
-// //         if (jets.front().delta_R(Particle) < BottomTagger.detector_geometry().JetConeSize) {
+// //         if (jets.front().delta_R(Particle) < BottomTagger.detector_geometry().JetConeSize()) {
 // //             static_cast<analysis::JetInfo *>(jets.front().user_info_shared_ptr().get())->SetTag(Signal);
 // //             FilteredJets.emplace_back(jets.front()); // WRONG MUST BE REMOVED
 // //         }

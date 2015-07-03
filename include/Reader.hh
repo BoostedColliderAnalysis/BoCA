@@ -3,7 +3,6 @@
 #include "Tagger.hh"
 #include "Event.hh"
 #include "Branches.hh"
-#include "TGraph.h"
 #include "TLegend.h"
 
 namespace analysis

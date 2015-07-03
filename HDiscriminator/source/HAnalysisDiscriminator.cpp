@@ -1,6 +1,7 @@
 #include "HAnalysisDiscriminator.hh"
 #include "Predicate.hh"
 #include "Debug.hh"
+#include "JetInfo.hh"
 
 
 hcpvhiggs::HAnalysis::~HAnalysis()
