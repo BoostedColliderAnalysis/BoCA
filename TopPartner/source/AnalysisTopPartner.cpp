@@ -28,7 +28,7 @@ std::string Analysis::ProjectName() const
 
 void Analysis::SetFiles(const Tag tag)
 {
-    Note("Set Files");
+    Note();
     switch (tag) {
     case Tag::signal :
 //         NewSignalFile("pp-Tth-bbbbjjjjlv");

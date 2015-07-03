@@ -2,6 +2,7 @@
 
 #include "../Hadrons.hh"
 #include "TClonesArray.h"
+#include "JetInfo.hh"
 
 namespace analysis
 {
@@ -20,7 +21,7 @@ public:
 //         NewEvent(*clones_arrays_);
 
     analysis::Jets Jets() const {
-        switch (DetectorGeometry().jet_type) {
+        switch (DetectorGeometry().jet_type()) {
         case JetType::jet :
           return DelphesJets(JetDetail::structure);
         case JetType::gen_jet :

@@ -49,7 +49,6 @@ Reader.cpp
 
 Tagger.cpp
 BranchTagger.cpp
-WimpMass.cpp
 TauTagger.cpp
 BottomTagger.cpp
 # DoubletTagger.cpp
@@ -64,7 +63,12 @@ JetPairTagger.cpp
 TripletJetPairTagger.cpp
 )
 HLibrary(Tagger TaggerSources)
-add_dependencies(Tagger WimpMass)
+
+set(WimpSources
+WimpMass.cpp
+)
+HLibrary(Wimp WimpSources)
+add_dependencies(Wimp WimpMass)
 
 set(AnalysisSources
 Configuration.cpp
@@ -72,6 +76,7 @@ Analysis.cpp
 Family.cpp
 Constituent.cpp
 JetTag.cpp
+DetectorGeometry.cpp
 JetInfo.cpp
 Reconstruction.cpp
 Discriminator.cpp

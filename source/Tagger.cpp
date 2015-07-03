@@ -41,7 +41,7 @@ Jets Tagger::SubJets(const fastjet::PseudoJet &jet, const int sub_jet_number)
     Jets pieces;
     if (!jet.has_pieces()) return pieces;
     if (!jet.has_user_info<JetInfo>()) return pieces;
-    fastjet::ClusterSequence &cluster_sequence = *new fastjet::ClusterSequence(jet.constituents(), DetectorGeometry().SubJetDefinition);
+    fastjet::ClusterSequence &cluster_sequence = *new fastjet::ClusterSequence(jet.constituents(), DetectorGeometry().SubJetDefinition());
     for (auto & piece : cluster_sequence.exclusive_jets_up_to(sub_jet_number)) {
         std::vector<Constituent> constituents;
         for (const auto & constituent : piece.constituents()) {
@@ -210,25 +210,12 @@ int Tagger::Train(const Event &, PreCuts &, const Tag)
     Error("Should be subclassed");
     return 0;
 }
-// float Tagger::GetBranches(Event &, Stage, const Tag)
-// {
-//     Error("get branches", "Should be subclassed", "should be deleted");
-//     return 0;
-// }
 
-// DetectorGeometry Tagger::detector_geometry() const
-// {
-//     return detector_geometry_;
-// }
 void Tagger::SetTreeBranch(exroot::TreeWriter &tree_writer, const Stage stage)
 {
     tree_branch_ = tree_writer.NewBranch(name(stage).c_str(), &Class());
 }
-// float Tagger::Bdt(Event &, const TMVA::Reader &) const
-// {
-//     Error("Bdt", "should be subclassed");
-//     return 0;
-// }
+
 void Tagger::AddVariable(float &value, const std::string &title)
 {
     variables_.emplace_back(NewObservable(value, title));

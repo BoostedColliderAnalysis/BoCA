@@ -9,6 +9,7 @@
 #include "TLine.h"
 #include "TStyle.h"
 #include "TH1F.h"
+#include "TGraph.h"
 
 // #include "TMVA/Reader.h"
 #include "TMVA/MethodCuts.h"

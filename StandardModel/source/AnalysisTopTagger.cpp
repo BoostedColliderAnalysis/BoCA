@@ -15,7 +15,7 @@ TopAnalysis::TopAnalysis(Tagger &tagger) : analysis::standardmodel::Analysis::An
     pre_cuts().SetPtLowerCut(Id::top, LowerPtCut());
     pre_cuts().SetPtUpperCut(Id::top, UpperPtCut());
     pre_cuts().SetMassUpperCut(Id::top, 400);
-    pre_cuts().SetTrackerMaxEta(Id::top, DetectorGeometry().TrackerEtaMax);
+    pre_cuts().SetTrackerMaxEta(Id::top, DetectorGeometry().TrackerEtaMax());
     pre_cuts().SetPtLowerCut(Id::bottom, LowerPtCut() / 5);
     pre_cuts().SetPtLowerCut(Id::W, LowerPtCut() / 5);
 }

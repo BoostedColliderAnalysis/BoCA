@@ -30,10 +30,6 @@ public:
 
 protected:
 
-//     DetectorGeometry &detector_geometry() {
-//         return detector_geometry_;
-//     }
-
     template<typename Particle_1, typename Particle_2>
     bool CheckIsolation(const Particle_1 &particle_1, const Particle_2 &particle_2, const float delta_r_isolation_max) const {
         bool isolated = false;
@@ -46,10 +42,6 @@ protected:
         const float delta_r_isolation_max = 0; // TODO decide on best value
         return CheckIsolation(particle_1, particle_2, delta_r_isolation_max);
     }
-
-private:
-
-//     DetectorGeometry detector_geometry_;
 
 };
 
