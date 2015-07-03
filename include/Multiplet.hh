@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Singlet.hh"
+#include "DetectorGeometry.hh"
 
 namespace analysis
 {
@@ -63,7 +64,7 @@ public:
     }
 
     bool Coincides(const fastjet::PseudoJet &jet)const {
-        return (Jet().delta_R(jet) < DetectorGeometry().JetConeSize);
+        return (Jet().delta_R(jet) < DetectorGeometry().JetConeSize());
     }
 
     // TODO clean this mess up; and figure out why the cases are necessary
@@ -107,7 +108,7 @@ public:
     float DeltaR() const {
         float delta_r = Multiplet1().Jet().delta_R(Multiplet2().Jet());
         if (std::abs(delta_r) > 100) delta_r = 0;
-//         if (delta_r < DetectorGeometry().MinCellResolution) delta_r = Singlet(Jet()).DeltaR();
+//         if (delta_r < DetectorGeometry().MinCellResolution()) delta_r = Singlet(Jet()).DeltaR();
         return delta_r;
     }
 
@@ -120,7 +121,7 @@ public:
     }
 
     float Rho() const {
-        if (Jet().pt() < DetectorGeometry().MinCellPt || DeltaR() < DetectorGeometry().MinCellResolution) return 0;
+        if (Jet().pt() < DetectorGeometry().MinCellPt() || DeltaR() < DetectorGeometry().MinCellResolution()) return 0;
         return Jet().m() / Jet().pt() / DeltaR() * 2;
     }
 

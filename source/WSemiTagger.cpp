@@ -119,7 +119,7 @@ std::vector<Doublet> WSemiTagger::ReconstructNeutrino(const Doublet &doublet)con
 Jets WSemiTagger::WSemiDaughters(const analysis::Event &event)
 {
     Jets w_daughters = event.Partons().GenParticles();
-//     w_daughters = RemoveIfSoft(w_daughters, DetectorGeometry().JetMinPt);
+//     w_daughters = RemoveIfSoft(w_daughters, DetectorGeometry().JetMinPt());
     w_daughters = RemoveIfWrongAbsMother(w_daughters, Id::W);
     Check(w_daughters.size() == 4, "Where is the W 1?", w_daughters.size());
 

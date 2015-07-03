@@ -3,7 +3,7 @@
 #include <map>
 #include <unordered_map>
 
-#include "fastjet/JetDefinition.hh"
+// #include "fastjet/JetDefinition.hh"
 
 #include "Identification.hh"
 #include "Constituent.hh"
@@ -11,32 +11,6 @@
 
 namespace analysis
 {
-
-enum class JetType
-{
-    jet, gen_jet, e_flow_jet
-};
-
-class DetectorGeometry
-{
-public:
-    DetectorGeometry();
-    float JetMinPt;
-    float JetConeSize;
-    float MinCellPt;
-    float MinCellResolution;
-    float TrackerEtaMax;
-    float JetRadiusParameter;
-    fastjet::JetDefinition JetDefinition;
-    fastjet::JetDefinition SubJetDefinition;
-    float TrackerDistanceMin;
-    float TrackerDistanceMax;
-    float VertexMassMin;
-    float LeptonMinPt;
-    JetType jet_type;
-private:
-    enum DetectorType {CMS, Spp};
-};
 
 /**
  * @brief Jet infos subclassed from Fastjet
@@ -164,8 +138,6 @@ public:
     void SetDelphesTags(const ::delphes::Jet &jet);
 
 private:
-
-    DetectorGeometry detector_geometry_;
 
     void AddParticle(const int constituent_id, const float weight);
 

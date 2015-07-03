@@ -1,7 +1,7 @@
 #pragma once
 
-// #include <algorithm>
-#include "JetInfo.hh"
+#include "DetectorGeometry.hh"
+#include "Global.hh"
 
 namespace analysis
 {
@@ -171,12 +171,12 @@ struct Close {
     }
     template <typename Multiplet>
     bool operator()(const Multiplet &multiplet) {
-        return (multiplet.Jet().delta_R(particle_) < detector_geometry_.JetConeSize
+        return (multiplet.Jet().delta_R(particle_) < detector_geometry_.JetConeSize()
 //         & multiplet.Jet().delta_R(particle_) < multiplet.Radius()
         );
     }
     bool operator()(const fastjet::PseudoJet &jet) {
-        return (jet.delta_R(particle_) < detector_geometry_.JetConeSize);
+        return (jet.delta_R(particle_) < detector_geometry_.JetConeSize());
     }
     fastjet::PseudoJet particle_;
     DetectorGeometry detector_geometry_;
@@ -188,10 +188,10 @@ struct Close2 {
   }
   template <typename Multiplet>
   bool operator()(const Multiplet &multiplet) {
-    return (multiplet.Jet().delta_R(particle_) < detector_geometry_.JetConeSize);
+    return (multiplet.Jet().delta_R(particle_) < detector_geometry_.JetConeSize());
   }
   bool operator()(const fastjet::PseudoJet &jet) {
-    return (jet.delta_R(particle_) < detector_geometry_.JetConeSize);
+    return (jet.delta_R(particle_) < detector_geometry_.JetConeSize());
   }
   fastjet::PseudoJet particle_;
   DetectorGeometry detector_geometry_;

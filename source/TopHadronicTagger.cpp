@@ -165,7 +165,7 @@ bool TopHadronicTagger::Problematic(const analysis::Triplet &triplet, PreCuts &p
         if ((triplet.Rho() < 0.5 || triplet.Rho() > 2) && triplet.Rho() > 0) return true;
 //         if (triplet.Doublet().Bdt() < 1) return true;
 //         if (triplet.Singlet().Bdt() < 1) return true;
-//         if (triplet.pt() > DetectorGeometry().LeptonMinPt) return true;
+//         if (triplet.pt() > DetectorGeometry().LeptonMinPt()) return true;
         break;
     }
     case Tag::background :
@@ -181,7 +181,7 @@ bool TopHadronicTagger::Problematic(const analysis::Triplet &triplet, PreCuts &p
     if (pre_cuts.PtUpperCut(Id::top) > 0 && triplet.Jet().pt() > pre_cuts.PtUpperCut(Id::top)) return true;
     if (pre_cuts.MassUpperCut(Id::top) > 0 && pre_cuts.MassUpperCut(Id::top) < triplet.Jet().m()) return true;
 //     if (triplet.Doublet().IsEmpty()) return true;
-//     if (triplet.DeltaR() < DetectorGeometry().MinCellResolution && triplet.DeltaR() > 0) return true;
+//     if (triplet.DeltaR() < DetectorGeometry().MinCellResolution() && triplet.DeltaR() > 0) return true;
     return false;
 }
 

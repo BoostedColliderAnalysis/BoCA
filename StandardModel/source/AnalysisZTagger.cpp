@@ -14,8 +14,7 @@ AnalysisZ::AnalysisZ(Tagger &tagger) : analysis::standardmodel::Analysis::Analys
     pre_cuts().SetPtLowerCut(Id::Z, LowerPtCut());
     pre_cuts().SetPtUpperCut(Id::Z, UpperPtCut());
     pre_cuts().SetMassUpperCut(Id::Z, 200);
-//     DetectorGeometry detector_geometry;
-//     pre_cuts().SetTrackerMaxEta(Id::Z, detector_geometry.TrackerEtaMax);
+    //     pre_cuts().SetTrackerMaxEta(Id::Z, DetectorGeometry().TrackerEtaMax);
 }
 
 void AnalysisZ::SetFiles(const Tag tag)

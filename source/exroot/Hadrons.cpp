@@ -1,5 +1,6 @@
 #include "exroot/Hadrons.hh"
 #include "Debug.hh"
+#include "JetInfo.hh"
 
 namespace analysis
 {

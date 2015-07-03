@@ -54,7 +54,7 @@ int TripletJetPairTagger::Train(const Event &event, analysis::PreCuts &pre_cuts,
     std::vector<Triplet> Finaltriplets;
     switch(tag) {
     case Tag::signal :
-      for (const auto & triplet : triplets) if (triplet.Jet().delta_R(TopParticles.front()) < DetectorGeometry().JetConeSize) Finaltriplets.emplace_back(triplet);
+      for (const auto & triplet : triplets) if (triplet.Jet().delta_R(TopParticles.front()) < DetectorGeometry().JetConeSize()) Finaltriplets.emplace_back(triplet);
         break;
     case Tag::background :
         Finaltriplets = triplets;
@@ -71,7 +71,7 @@ int TripletJetPairTagger::Train(const Event &event, analysis::PreCuts &pre_cuts,
     Jets FinalJets;
     switch (tag) {
     case  Tag::signal :
-      for (const auto & Jet : jets) if (Jet.delta_R(BottomParticles.front()) < DetectorGeometry().JetConeSize) FinalJets.emplace_back(Jet);
+      for (const auto & Jet : jets) if (Jet.delta_R(BottomParticles.front()) < DetectorGeometry().JetConeSize()) FinalJets.emplace_back(Jet);
         break;
     case Tag::background :
         FinalJets = jets;
