@@ -1,5 +1,5 @@
 # HInclude(../include)
-HInclude(${PROJECT_SOURCE_DIR}/source)
+HInclude(./source)
 
 add_subdirectory(exroot)
 add_subdirectory(delphes)

@@ -1,5 +1,5 @@
 # HInclude(.)
-HInclude(${PROJECT_SOURCE_DIR}/HJetProperties)
+HSource(.)
 
 HDictionary(HJetPropertiesBranch HJetPropertiesBranch.cpp HJetPropertiesLinkDef.hh)
 
