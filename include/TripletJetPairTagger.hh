@@ -1,7 +1,7 @@
-# pragma once
+#pragma once
 
-# include "Quartet31.hh"
-# include "TopHadronicTagger.hh"
+#include "TopHadronicTagger.hh"
+#include "Quartet.hh"
 
 namespace analysis
 {
@@ -17,15 +17,9 @@ public:
 
     TripletJetPairTagger();
 
-    int Train(Event &event, PreCuts &pre_cuts, const Tag tag);
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag);
 
-    std::vector< Quartet31 > Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
-
-protected:
-
-    virtual inline std::string ClassName() const {
-        return "TripletJetPairTagger";
-    }
+    std::vector< Quartet31 > Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
 private:
 

@@ -1,28 +1,30 @@
-# pragma once
+#pragma once
 
-# include "TMVA/Reader.h"
-# include "Event.hh"
-# include "Observable.hh"
-# include "PreCuts.hh"
+#include "TMVA/Reader.h"
+#include "Event.hh"
+#include "Observable.hh"
+#include "PreCuts.hh"
+#include "Identification.hh"
 
 namespace analysis
 {
+
+enum class Stage
+{
+    trainer,
+    reader
+};
+
+std::string Name(const Stage stage);
 
 /**
  * @brief Prepares multivariant analysis
  *
  */
-class Tagger : public Object
+class Tagger
 {
 
 public:
-
-    enum Stage {
-        kTrainer,
-        kReader
-    };
-
-    Tagger();
 
     void AddSignalTreeName(const std::string signal_tree_name);
 
@@ -32,15 +34,19 @@ public:
 
     void set_tagger_name(const std::string &tagger_name);
 
-    std::string tagger_name() const;
+    std::string name() const;
 
     std::string factory_name() const;
+
+    std::string export_name() const;
 
     std::string signal_file_name(const Stage stage) const;
 
     std::string background_file_name(const Stage stage) const;
 
     std::string reader_name() const;
+
+    std::string reader(const std::string &name) const;
 
     std::string name(const Stage stage) const;
 
@@ -68,37 +74,29 @@ public:
 
     std::string bdt_method_name() const;
 
+    std::string bdt_weight_name() const;
+
     std::string weight_branch_name() const;
 
     std::string background_name() const;
 
+    std::string background(const std::string &name) const;
+
     std::string signal_name() const;
 
-    virtual int GetBdt(Event &, PreCuts &, const TMVA::Reader &);
+    virtual int GetBdt(const Event &, PreCuts &, const TMVA::Reader &);
 
-    virtual int Train(analysis::Event &, PreCuts &, const Tag);
-
-//     virtual float GetBranches(analysis::Event &, Stage , const Tag);
+    virtual int Train(const Event &, PreCuts &, const Tag);
 
     Jets SubJets(const fastjet::PseudoJet &jet, const int sub_jet_number);
 
-    fastjet::PseudoJet GetMissingEt(analysis::Event &event);
-
     virtual float ReadBdt(const TClonesArray &, const int) const = 0;
 
-    DetectorGeometry detector_geometry() const;
-
     void SetTreeBranch(exroot::TreeWriter &tree_writer, const Stage stage);
-
-//     virtual float Bdt(Event &, const TMVA::Reader &) const;
 
 protected:
 
     virtual void DefineVariables() = 0;
-
-    virtual inline std::string ClassName() const {
-        return "Tagger";
-    }
 
     Observable NewObservable(float &value, const std::string &title) const;
 
@@ -110,7 +108,7 @@ protected:
 
     void AddSpectator(float &value, const std::string &title);
 
-    void ClearVectors();
+    void ClearObservables();
 
     virtual int max_combi() const;
 
@@ -123,6 +121,10 @@ protected:
 
 private:
 
+    /**
+     * @brief Tree Branch pointer saving the results
+     *
+     */
     exroot::TreeBranch *tree_branch_;
 
     /**
@@ -132,15 +134,13 @@ private:
     static std::string analysis_name_;
 
     /**
-     * @brief Name of the Analysis
+     * @brief Name of the Tagger
      *
      */
-    std::string tagger_name_;
-
-    TCut cut_;
+    std::string name_;
 
     /**
-     * @brief Name of the Signal File
+     * @brief Names of the Signal Files
      *
      */
     Strings signal_file_names_;
@@ -151,15 +151,29 @@ private:
      */
     Strings background_file_names_;
 
+    /**
+     * @brief Names of the backgrund trees
+     *
+     */
     Strings background_tree_names_;
 
+    /**
+     * @brief Names of the signal trees
+     *
+     */
     Strings signal_tree_names_;
 
+    /**
+     * @brief variables for the analysis
+     *
+     */
     std::vector<Observable> variables_;
 
+    /**
+     * @brief spectators for the analysis
+     *
+     */
     std::vector<Observable> spectators_;
-
-    DetectorGeometry detector_geometry_;
 
 };
 

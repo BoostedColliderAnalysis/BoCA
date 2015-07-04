@@ -1,4 +1,4 @@
-# include "DoubletTagger.hh"
+#include "DoubletTagger.hh"
 
 namespace analysis {
 
@@ -12,8 +12,8 @@ void TemporaryFunction ()
 template <class DoubletBranch>
 DoubletTagger<DoubletBranch>::DoubletTagger()
 {
-//     DebugLevel = Object::kDebug;
-    Print(kNotification, "Constructor");
+//     DebugLevel = Severity::debug;
+    Note();
     set_tagger_name("WHadronic");
     doublet_mass_window_ = 20;
     bottom_reader_.SetTagger(bottom_tagger_);
@@ -23,7 +23,7 @@ DoubletTagger<DoubletBranch>::DoubletTagger()
 template <class DoubletBranch>
 void DoubletTagger<DoubletBranch>::DefineVariables()
 {
-    Print(kNotification , "Define Variables");
+    Note("Define Variables");
     AddVariable(branch().Mass, "Mass");
     AddVariable(branch().Rap, "Rap");
     AddVariable(branch().Phi, "Phi");
@@ -38,17 +38,17 @@ void DoubletTagger<DoubletBranch>::DefineVariables()
 }
 
 template <class DoubletBranch>
-int DoubletTagger<DoubletBranch>::Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag)
+int DoubletTagger<DoubletBranch>::Train(const Event &event, PreCuts &pre_cuts, const Tag tag)
 {
-    Print(kInformation, "Doublet Tags");
+    Info("Doublet Tags");
     std::vector<Doublet> doublets;
     return SaveEntries<DoubletBranch>(doublets);
 }
 
 template <class DoubletBranch>
-std::vector<Doublet> DoubletTagger<DoubletBranch>::Multiplets(Event &event, const TMVA::Reader &reader)
+std::vector<Doublet> DoubletTagger<DoubletBranch>::Multiplets(const Event &event, const TMVA::Reader &reader)
 {
-    Print(kInformation, "doublet Bdt");
+    Info("doublet Bdt");
 
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
 
@@ -75,7 +75,7 @@ std::vector<Doublet> DoubletTagger<DoubletBranch>::Multiplets(Event &event, cons
 template <class DoubletBranch>
 std::vector<Doublet> DoubletTagger<DoubletBranch>::Multiplets(const Jets &jets, const TMVA::Reader &reader)
 {
-    Print(kInformation, "doublet Bdt");
+    Info("doublet Bdt");
 
     // W in 2 jets
     std::vector<Doublet>  doublets;
@@ -92,7 +92,7 @@ std::vector<Doublet> DoubletTagger<DoubletBranch>::Multiplets(const Jets &jets, 
 template <class DoubletBranch>
 std::vector<Doublet> DoubletTagger<DoubletBranch>::Multiplets(const Jets &jets, const TMVA::Reader &reader, const int sub_jet_number)
 {
-    Print(kInformation, "doublet Bdt");
+    Info("doublet Bdt");
 
     std::vector<Doublet>  doublets;
     for (const auto & jet : jets) {
@@ -108,7 +108,7 @@ std::vector<Doublet> DoubletTagger<DoubletBranch>::Multiplets(const Jets &jets, 
 template <class DoubletBranch>
 std::vector<Doublet> DoubletTagger<DoubletBranch>::Multiplet(const fastjet::PseudoJet &jet_1, const fastjet::PseudoJet &jet_2, const TMVA::Reader &reader)
 {
-    Print(kInformation, "doublet Bdt");
+    Info("doublet Bdt");
     Doublet doublet(jet_1, jet_2);
     if (doublet.DeltaR() < detector_geometry().MinCellResolution) return std::vector<Doublet>{};
     return Multiplet(doublet,reader);
@@ -117,7 +117,7 @@ std::vector<Doublet> DoubletTagger<DoubletBranch>::Multiplet(const fastjet::Pseu
 template <class DoubletBranch>
 std::vector<Doublet> DoubletTagger<DoubletBranch>::Multiplet(const fastjet::PseudoJet &jet, const TMVA::Reader &reader)
 {
-    Print(kInformation, "doublet Bdt");
+    Info("doublet Bdt");
     Jets subjets = SubJets(jet, 2);
     if (subjets.empty()) return std::vector<Doublet>{};
     Doublet doublet;
@@ -129,9 +129,9 @@ std::vector<Doublet> DoubletTagger<DoubletBranch>::Multiplet(const fastjet::Pseu
 template <class DoubletBranch>
 std::vector<Doublet> DoubletTagger<DoubletBranch>::Multiplet(Doublet &doublet, const TMVA::Reader &reader)
 {
-  Print(kInformation, "doublet Bdt");
+  Info("doublet Bdt");
   std::vector<Doublet>  doublets;
-  if (std::abs(doublet.Jet().m() - Mass(WId)) > doublet_mass_window_) return doublets;
+  if (std::abs(doublet.Jet().m() - Mass(Id::W)) > doublet_mass_window_) return doublets;
   branch() = branch<DoubletBranch>(doublet);
   doublet.SetBdt(Bdt(reader));
   doublets.emplace_back(doublet);

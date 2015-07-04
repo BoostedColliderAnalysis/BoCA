@@ -1,13 +1,17 @@
 
 # set path to dependencies
-set(MadGraphDir ~/Development/MadGraph)
+
+# set(MadGraphDir ~/madness/MadGraph) # Ying Ying
+set(MadGraphDir ~/Development/MadGraph) # Jan
+
 set(ExRootDir ${MadGraphDir}/ExRootAnalysis)
 set(DelphesDir ${MadGraphDir}/Delphes)
 
 find_library(
   ExRootLibrary
   NAMES ExRootAnalysis
-  HINTS ${ExRootDir}/lib
+#   HINTS ${ExRootDir}/lib # old
+  HINTS ${ExRootDir} # new
 )
 HInclude(${ExRootDir} SYSTEM)
 HLinkLibraries(${ExRootLibrary})

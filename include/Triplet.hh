@@ -1,6 +1,6 @@
-# pragma once
+#pragma once
 
-# include "Doublet.hh"
+#include "Doublet.hh"
 
 namespace analysis
 {
@@ -98,29 +98,33 @@ public:
 
     using Multiplet<analysis::Doublet, analysis::Singlet>::Multiplet;
 
-    analysis::Doublet Doublet() const;
+    analysis::Doublet &Doublet() const;
 
     fastjet::PseudoJet SingletJet() const;
 
-    analysis::Singlet Singlet() const;
+    analysis::Singlet &Singlet() const;
 
     void set_sub_jettiness(const SubJettiness &sub_jettiness) {
         sub_jettiness_ = sub_jettiness;
+    }
+
+    float pt() const {
+        return pt_;
+    }
+
+    void set_pt(const float &pt) {
+        pt_ = pt;
     }
 
     SubJettiness sub_jettiness() const {
         return sub_jettiness_;
     }
 
-protected:
-
-    virtual inline std::string ClassName() const {
-        return "Triplet";
-    }
-
 private:
 
     SubJettiness sub_jettiness_;
+
+    float pt_;
 
 };
 

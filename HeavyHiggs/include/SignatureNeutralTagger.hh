@@ -1,8 +1,8 @@
-# pragma once
+#pragma once
 
-# include "HeavyHiggsSemiTagger.hh"
-# include "JetPairTagger.hh"
-# include "Octet62.hh"
+#include "HeavyHiggsSemiTagger.hh"
+#include "JetPairTagger.hh"
+#include "Octet62.hh"
 
 namespace analysis
 {
@@ -25,19 +25,9 @@ public:
     */
     SignatureNeutralTagger();
 
-    int Train(Event &event, PreCuts &pre_cuts, const Tag tag);
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag);
 
-    std::vector< Octet62 > Multiplets(Event& event, PreCuts &pre_cuts, const TMVA::Reader& reader);
-
-protected:
-
-    virtual inline std::string NameSpaceName() const {
-        return "heavyhiggs";
-    }
-
-    virtual inline std::string ClassName() const {
-        return "SignatureNeutralTagger";
-    }
+    std::vector< Octet62 > Multiplets(const Event& event, PreCuts &pre_cuts, const TMVA::Reader& reader);
 
 private:
 

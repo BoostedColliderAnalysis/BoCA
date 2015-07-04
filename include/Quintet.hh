@@ -1,6 +1,6 @@
-# pragma once
+#pragma once
 
-# include "Triplet.hh"
+#include "Triplet.hh"
 
 namespace analysis
 {
@@ -12,19 +12,9 @@ public:
 
     using Multiplet<analysis::Triplet, analysis::Doublet>::Multiplet;
 
-    analysis::Doublet Doublet()const;
+    analysis::Doublet & Doublet() const;
 
-    analysis::Triplet Triplet()const;
-
-//     bool Overlap() const;
-
-protected:
-
-    virtual inline std::string ClassName() const {
-        return "Quintet";
-    }
-
-private:
+    analysis::Triplet & Triplet() const;
 
 };
 

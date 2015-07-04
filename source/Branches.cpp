@@ -1,14 +1,36 @@
-# include "Branches.hh"
+#include "Branches.hh"
 
-ClassImp(analysis::Branch)
+// #include <algorithm>
 
-analysis::Branch::Branch() {}
+namespace analysis
+{
 
-analysis::Branch::~Branch() {}
+BaseBranch::~BaseBranch() {}
 
-ClassImp(analysis::InfoBranch)
+float BaseBranch::InitialValue()
+{
+    return -11.1111111; // should be non integer
+    // this must be identical to the initial value in htag
+    // FIXME remove the copy of the magic number
+}
 
-analysis::InfoBranch::InfoBranch()
+Observables BaseBranch::Join(const Observables &observables_1, const Observables &observables_2)
+{
+    Observables joined;
+    joined.reserve(observables_1.size() + observables_2.size());
+    joined.insert(joined.end(), observables_1.begin(), observables_1.end());
+    joined.insert(joined.end(), observables_2.begin(), observables_2.end());
+    return joined;
+}
+
+float BottomBase::InValue()
+{
+    return -11.1111111; // should be non integer
+    // this must be identical to the initial value in htag
+    // FIXME remove the copy of the magic number
+}
+
+InfoBranch::InfoBranch()
 {
     Crosssection = InitialValue();
     CrosssectionError = InitialValue();
@@ -18,27 +40,23 @@ analysis::InfoBranch::InfoBranch()
     Name = "";
 }
 
-ClassImp(analysis::EventBranch)
-
-analysis::EventBranch::EventBranch()
+ResultBranch::ResultBranch()
 {
-  LeptonNumber = int(InitialValue());
-  JetNumber = int(InitialValue());
-  BottomNumber = int(InitialValue());
-  MissingEt = InitialValue();
-  ScalarHt = InitialValue();
-
-  LeptonHt = InitialValue();
-  JetMass = InitialValue();
-  JetPt = InitialValue();
-  JetHt = InitialValue();
-  JetRap = InitialValue();
-  JetPhi = InitialValue();
+    Bdt = InitialValue();
+    Tag = int(InitialValue());
 }
 
-ClassImp(analysis::ParticleBranch)
+Observables ResultBranch::Variables()
+{
+    return {};
+}
 
-analysis::ParticleBranch::ParticleBranch()
+Observables ResultBranch::Spectators()
+{
+    return {PAIR(Tag), PAIR(Bdt)};
+}
+
+ParticleBranch::ParticleBranch()
 {
     Mass = InitialValue();
     Pt = InitialValue();
@@ -47,34 +65,51 @@ analysis::ParticleBranch::ParticleBranch()
     Charge = int(InitialValue());
 }
 
-ClassImp(analysis::ResultBranch)
-
-analysis::ResultBranch::ResultBranch()
+Observables ParticleBranch::Variables()
 {
-    Bdt = InitialValue();
-    Tag = int(InitialValue());
+    return Join(ResultBranch::Variables(), {PAIR(Mass)});
 }
 
-
-ClassImp(analysis::BottomBranch)
-
-analysis::BottomBranch::BottomBranch()
+Observables ParticleBranch::Spectators()
 {
-    VertexMass = InitialValue();
-    MaxDisplacement = InitialValue();
-    MeanDisplacement = InitialValue();
-    SumDisplacement = InitialValue();
-    Multipliticity = int(InitialValue());
-    DeltaR = InitialValue();
-    Spread = InitialValue();
-    VertexDeltaR = InitialValue();
-    VertexSpread = InitialValue();
-    EnergyFraction = InitialValue();
+    return Join(ResultBranch::Spectators(), {PAIR(Charge), PAIR(Pt), PAIR(Rap), PAIR(Phi)});
 }
 
-ClassImp(analysis::TauBranch)
+BottomBase::BottomBase()
+{
+    VertexMass = InValue();
+    MaxDisplacement = InValue();
+    MeanDisplacement = InValue();
+    SumDisplacement = InValue();
+    Multipliticity = int(InValue());
+    Radius = InValue();
+    Spread = InValue();
+    VertexRadius = InValue();
+    VertexSpread = InValue();
+    EnergyFraction = InValue();
+}
 
-analysis::TauBranch::TauBranch()
+Observables BottomBase::Variables()
+{
+    return {PAIR(VertexMass), PAIR(MaxDisplacement), PAIR(MeanDisplacement), PAIR(SumDisplacement), PAIR(Multipliticity), PAIR(Radius), PAIR(Spread), PAIR(VertexRadius), PAIR(VertexSpread), PAIR(EnergyFraction)};
+}
+
+Observables BottomBase::Spectators()
+{
+    return {};
+}
+
+Observables BottomBranch::Variables()
+{
+    return Join(ParticleBranch::Variables(), BottomBase::Variables());
+}
+
+Observables BottomBranch::Spectators()
+{
+    return Join(ParticleBranch::Spectators(), BottomBase::Variables());
+}
+
+TauBranch::TauBranch()
 {
     EmRadius = InitialValue();
     TrackRadius = InitialValue();
@@ -87,9 +122,17 @@ analysis::TauBranch::TauBranch()
     TrtHtFraction = InitialValue();
 }
 
-ClassImp(analysis::PairBranch)
+Observables TauBranch::Variables()
+{
+    return Join(ParticleBranch::Variables(), {PAIR(EmRadius), PAIR(TrackRadius), PAIR(MomentumFraction), PAIR(CoreEnergyFraction), PAIR(EmFraction), PAIR(ClusterMass), PAIR(TrackMass), PAIR(FlightPath), PAIR(TrtHtFraction)});
+}
 
-analysis::PairBranch::PairBranch()
+Observables TauBranch::Spectators()
+{
+    return ParticleBranch::Spectators();
+}
+
+PairBranch::PairBranch()
 {
     Ht = InitialValue();
     DeltaPt = InitialValue();
@@ -102,20 +145,28 @@ analysis::PairBranch::PairBranch()
     Bdt2 = InitialValue();
 }
 
-ClassImp(analysis::MultiBranch)
+Observables PairBranch::Variables()
+{
+    return Join(ParticleBranch::Variables(), {PAIR(Ht), PAIR(DeltaPt), PAIR(DeltaM), PAIR(DeltaRap), PAIR(DeltaPhi), PAIR(DeltaR), PAIR(Rho), PAIR(Bdt1), PAIR(Bdt2)});
+   //return Join(ParticleBranch::Variables(), {PAIR(Ht), PAIR(DeltaPt), PAIR(DeltaM), PAIR(DeltaRap), PAIR(DeltaPhi), PAIR(DeltaR), PAIR(Rho)});
+}
 
-analysis::MultiBranch::MultiBranch()
+Observables PairBranch::Spectators()
+{
+    return ParticleBranch::Spectators();
+}
+
+MultiBranch::MultiBranch()
 {
     DeltaHt = InitialValue();
 }
 
-ClassImp(analysis::WHadronicBranch)
+Observables MultiBranch::Variables()
+{
+    return Join(PairBranch::Variables(), {PAIR(DeltaHt)});
+}
 
-ClassImp(analysis::ZHadronicBranch)
-
-ClassImp(analysis::JetPairBranch)
-
-analysis::JetPairBranch::JetPairBranch()
+JetPairBranch::JetPairBranch()
 {
     DeltaM = InitialValue();
     Jet1Mass = InitialValue();
@@ -140,9 +191,7 @@ analysis::JetPairBranch::JetPairBranch()
     BdtRatio24 = InitialValue();
 }
 
-ClassImp(analysis::TripletJetPairBranch)
-
-analysis::TripletJetPairBranch::TripletJetPairBranch()
+TripletJetPairBranch::TripletJetPairBranch()
 {
     BottomMass = InitialValue();
     BottomPt = InitialValue();
@@ -158,20 +207,28 @@ analysis::TripletJetPairBranch::TripletJetPairBranch()
     TopBTag = InitialValue();
 }
 
-ClassImp(analysis::WSemiBranch)
+Observables TripletJetPairBranch::Variables()
+{
+    return Join(PairBranch::Variables(), {PAIR(BottomPt), PAIR(BottomRap), PAIR(BottomPhi), PAIR(BottomMass), PAIR(TopPt), PAIR(TopRap), PAIR(TopPhi), PAIR(TopMass), PAIR(TopBdt)});
+}
 
-analysis::WSemiBranch::WSemiBranch()
+WSemiBranch::WSemiBranch()
 {
     NeutrinoPt = InitialValue();
     LeptonPt = InitialValue();
 }
 
-ClassImp(analysis::TopHadronicBranch)
-
-analysis::TopHadronicBranch::TopHadronicBranch()
+Observables WSemiBranch::Variables()
 {
-    BottomPt = InitialValue();
-    WPt = InitialValue();
+    return Join(ParticleBranch::Variables(), {PAIR(Ht), PAIR(DeltaPt), PAIR(DeltaM), PAIR(DeltaRap), PAIR(DeltaPhi), PAIR(DeltaR), PAIR(Rho), PAIR(LeptonPt), PAIR(NeutrinoPt)});
+}
+
+TopHadronicBranch::TopHadronicBranch()
+{
+//   std::cout << "we are here" << std::endl;
+    BottomMass = InitialValue();
+    WMass = InitialValue();
+    LeptonPt = InitialValue();
 //     Tau1_1 = InitialValue();
 //     Tau2_1 = InitialValue();
 //     Tau3_1 = InitialValue();
@@ -184,27 +241,56 @@ analysis::TopHadronicBranch::TopHadronicBranch()
 //     Tau32_2 = InitialValue();
 }
 
-ClassImp(analysis::TopSemiBranch)
+Observables TopHadronicBranch::Variables()
+{
+    return  Join(Join(BottomBase::Variables(), ParticleBranch::Variables()), {PAIR(Bdt2), PAIR(LeptonPt)});
+    return Join(Join(MultiBranch::Variables(), BottomBase::Variables()), {PAIR(BottomMass), PAIR(WMass), PAIR(LeptonPt)});
+//     observables.erase(std::unique(observables.begin(), observables.end()), observables.end());
+}
 
-analysis::TopSemiBranch::TopSemiBranch()
+Observables TopHadronicBranch::Spectators()
+{
+    return Join(MultiBranch::Spectators(), BottomBase::Spectators());
+}
+
+TopSemiBranch::TopSemiBranch()
 {
     BottomPt = InitialValue();
     WPt = InitialValue();
 }
 
-ClassImp(analysis::TopLeptonicBranch)
+Observables TopSemiBranch::Variables()
+{
+    return Join(MultiBranch::Variables(), {PAIR(BottomPt), PAIR(WPt)});
+}
 
-analysis::TopLeptonicBranch::TopLeptonicBranch()
+TopLeptonicBranch::TopLeptonicBranch()
 {
     BottomPt = InitialValue();
     LeptonPt = InitialValue();
 }
 
-ClassImp(analysis::HiggsBranch)
+Observables TopLeptonicBranch::Variables()
+{
+    return  Join(Join(BottomBase::Variables(), ParticleBranch::Variables()), {PAIR(Ht), PAIR(DeltaPt), PAIR(DeltaM), PAIR(DeltaRap), PAIR(DeltaPhi), PAIR(DeltaR), PAIR(Rho), PAIR(Bdt1), PAIR(BottomPt), PAIR(LeptonPt)});
+}
 
-ClassImp(analysis::EventBottomTaggerBranch)
+Observables TopLeptonicBranch::Spectators()
+{
+    return Join(PairBranch::Spectators(), BottomBase::Spectators());
+}
 
-analysis::EventBottomTaggerBranch::EventBottomTaggerBranch()
+Observables HiggsBranch::Variables()
+{
+  return Join(PairBranch::Variables(), BottomBase::Variables());
+}
+
+Observables HiggsBranch::Spectators()
+{
+  return Join(PairBranch::Spectators(), BottomBase::Spectators());
+}
+
+EventBottomTaggerBranch::EventBottomTaggerBranch()
 {
     BottomBdt1 = InitialValue();
     BottomBdt2 = InitialValue();
@@ -219,22 +305,25 @@ analysis::EventBottomTaggerBranch::EventBottomTaggerBranch()
     BottomBdt1234 = InitialValue();
 }
 
-ClassImp(analysis::HTopLeptonBranch)
-
-analysis::HTopLeptonBranch::HTopLeptonBranch()
+EventBranch::EventBranch()
 {
-    VertexMass = InitialValue();
-    MaxDisplacement = InitialValue();
-    MeanDisplacement = InitialValue();
-    SumDisplacement = InitialValue();
-    Multipliticity = int(InitialValue());
-    DeltaR = InitialValue();
-    Spread = InitialValue();
-    VertexDeltaR = InitialValue();
-    VertexSpread = InitialValue();
-    EnergyFraction = InitialValue();
+    LeptonNumber = int(InitialValue());
+    JetNumber = int(InitialValue());
+    BottomNumber = int(InitialValue());
+    MissingEt = InitialValue();
+    ScalarHt = InitialValue();
+
+    LeptonHt = InitialValue();
     JetMass = InitialValue();
-    LeptonPt = InitialValue();
-    WBdt = InitialValue();
-    BBdt = InitialValue();
+    JetPt = InitialValue();
+    JetHt = InitialValue();
+    JetRap = InitialValue();
+    JetPhi = InitialValue();
+}
+
+Observables EventBranch::Variables()
+{
+    return Join(MultiBranch::Variables(), {PAIR(LeptonNumber), PAIR(JetNumber), PAIR(BottomNumber), PAIR(MissingEt), PAIR(ScalarHt), PAIR(LeptonHt), PAIR(JetMass), PAIR(JetPt), PAIR(JetHt), PAIR(JetRap), PAIR(JetPhi)});
+}
+
 }

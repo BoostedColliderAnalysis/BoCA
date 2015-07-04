@@ -1,16 +1,18 @@
-# include "Singlet.hh"
+#include "Singlet.hh"
+#include "Debug.hh"
+#include "DetectorGeometry.hh"
 
 namespace analysis {
 
 Singlet::Singlet(const fastjet::PseudoJet &jet)
 {
-    Print(kInformation, "Constructor");
+    Info("Constructor");
     jet_ = jet;
 }
 
 bool Singlet::Overlap(const fastjet::PseudoJet &jet) const
 {
-    return (Jet().delta_R(jet) < DetectorGeometry().JetConeSize);
+    return (Jet().delta_R(jet) < DetectorGeometry().JetConeSize());
 }
 
 bool Singlet::Overlap(const Singlet &singlet) const
@@ -18,15 +20,15 @@ bool Singlet::Overlap(const Singlet &singlet) const
     return Overlap(singlet.Jet());
 }
 
-float Singlet::DeltaR(const fastjet::PseudoJet &jet) const
+float Singlet::Radius(const fastjet::PseudoJet &jet) const
 {
-    Print(kInformation, "Delta R");
+    Info("Delta R");
     if (!jet.has_constituents()) return 0;
     float delta_r = 0;
     for (const auto & constituent : jet.constituents()) {
         const float constituent_delta_r = jet.delta_R(constituent);
         if (constituent_delta_r > 100) continue;
-        Print(kDebug, "Delta R", constituent_delta_r);
+        Debug("Delta R", constituent_delta_r);
         if (constituent_delta_r > delta_r) delta_r = constituent_delta_r;
     }
     return delta_r;
@@ -34,9 +36,9 @@ float Singlet::DeltaR(const fastjet::PseudoJet &jet) const
 
 float Singlet::Spread(const fastjet::PseudoJet &jet) const
 {
-    Print(kInformation, "spread");
+    Info("spread");
     if (!jet.has_constituents()) return 0;
-    float delta_r = DeltaR(jet);
+    float delta_r = Radius(jet);
     if (delta_r == 0) return 0;
     float spread = 0;
     for (const auto & constituent : jet.constituents()) {
@@ -54,14 +56,14 @@ void Singlet::SetBdt(const float bdt)
 
 const JetInfo &Singlet::UserInfo() const
 {
-    if (!Jet().has_user_info<JetInfo>()) return JetInfo(); // FIXME dirty remove again!
+    if (!Jet().has_user_info<JetInfo>()) return jet_info_;
     return Jet().user_info<JetInfo>();
 }
 
 float Singlet::log(const float number) const
 {
     if (number > 0) return std::log10(number);
-    else return std::log10(DetectorGeometry().TrackerDistanceMin / 10);
+    else return std::log10(DetectorGeometry().TrackerDistanceMin() / 10);
 }
 
 }

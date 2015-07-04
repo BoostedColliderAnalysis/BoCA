@@ -1,13 +1,16 @@
-# include "Analysis.hh"
+#include "Analysis.hh"
 
-# include <sys/stat.h>
+#include <sys/stat.h>
 
-# include "TTree.h"
+#include "TTree.h"
 
-# include "exroot/ExRootAnalysis.hh"
+#include "exroot/ExRootAnalysis.hh"
 
-# include "Branches.hh"
-# include "Event.hh"
+#include "Branches.hh"
+#include "Plot.hh"
+#include "Event.hh"
+#include "Factory.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
@@ -15,23 +18,22 @@ namespace analysis
 // HAnalysis::HAnalysis(const std::string &ConfigName) : config_(ConfigName)
 Analysis::Analysis(Tagger &tagger) : tagger_(tagger)
 {
-//   debug_level_ = kDebug;
-    Print(kNotification, "Constructor");
+    Note(tagger.name());
 }
 
-void Analysis::AnalysisLoop(const Tagger::Stage stage)
+void Analysis::AnalysisLoop(const Stage stage)
 {
-    Print(kNotification, "Analysis Loop");
+    Note(Name(stage));
     mkdir(ProjectName().c_str(), 0700);
-    if (stage == Tagger::kReader) reader_.SetTagger(tagger_);
+    if (stage == Stage::reader) reader_.SetTagger(tagger_);
     tagger_.clear_tree_names();
-    for (const auto & tag : std::vector<Tag> {kSignal, kBackground}) {
-        Print(kNotification, "Analysing Mva Sample", tag);
+    for (const auto & tag : std::vector<Tag> {Tag::signal, Tag::background}) {
+        Note("Analysing Mva Sample", Name(tag));
         TFile export_file(ExportName(stage, tag).c_str(), "Recreate");
         files_.clear();
         SetFiles(tag);
         for (auto & file : Files(tag)) {
-            Print(kNotification, "Analysing File", file.tree_name());
+            Note(file.tree_name());
             ClonesArrays clones_arrays = file.clones_arrays();
             Event event = file.event();
             bool analysis_empty = true;
@@ -39,11 +41,13 @@ void Analysis::AnalysisLoop(const Tagger::Stage stage)
             exroot::TreeBranch &tree_branch = *tree_writer.NewBranch(tagger_.weight_branch_name().c_str(), InfoBranch::Class());
             exroot::TreeReader tree_reader = file.TreeReader();
             clones_arrays.UseBranches(tree_reader);
-//             exroot:ProgressBar progress_bar(eventSum(tree_reader));
+//             exroot::ProgressBar progress_bar(std::min((int)tree_reader.GetEntries(), EventNumberMax()));
             int object_sum = 0;
             int pre_cut_sum = 0;
             InfoBranch info_branch = FillInfoBranch(tree_reader, file);
-            for (const int event_number : Range(tree_reader.GetEntries())) {
+            int initial_number = 0;
+            if (stage == Stage::reader) initial_number = std::min((int)tree_reader.GetEntries(), EventNumberMax()); // TODO fix corner cases
+            for (int event_number = initial_number; event_number < tree_reader.GetEntries(); ++event_number) {
                 tree_reader.ReadEntry(event_number);
                 event.NewEvent(clones_arrays);
                 event.SetMass(file.mass());
@@ -56,6 +60,7 @@ void Analysis::AnalysisLoop(const Tagger::Stage stage)
                         info_branch.PreCutNumber = event_number;
                         analysis_empty = false;
                         static_cast<InfoBranch &>(*tree_branch.NewEntry()) = info_branch;
+//                         dynamic_cast<InfoBranch &>(*tree_branch.NewEntry()) = info_branch;
                         tree_writer.Fill();
                     }
                 }
@@ -63,7 +68,7 @@ void Analysis::AnalysisLoop(const Tagger::Stage stage)
                 if (object_sum >= EventNumberMax()) break;
 //                 progress_bar.Update(event_number);
             }
-            Print(kError, "All events analysed", info_branch.EventNumber);
+            Error("All events analysed", info_branch.EventNumber);
 //             progress_bar.Finish();
             if (!analysis_empty) tree_writer.Write();
         }
@@ -82,30 +87,220 @@ InfoBranch Analysis::FillInfoBranch(const exroot::TreeReader &tree_reader, const
     return info_branch;
 }
 
-std::string Analysis::ExportName(const Tagger::Stage stage, const Tag tag) const
+std::string Analysis::ExportName(const Stage stage, const Tag tag) const
 {
-    Print(kNotification, "Export File", tagger_.name(stage, tag));
+    Note(tagger_.name(stage, tag));
     return ProjectName() + "/" + tagger_.name(stage, tag) + FileSuffix();
 }
 
-exroot::TreeWriter Analysis::TreeWriter(TFile &export_file, const std::string &export_tree_name, Tagger::Stage stage)
+exroot::TreeWriter Analysis::TreeWriter(TFile &export_file, const std::string &export_tree_name, Stage stage)
 {
-    Print(kNotification, "Tree Writer", export_tree_name.c_str());
+    Note(export_tree_name.c_str());
     exroot::TreeWriter tree_writer(&export_file, export_tree_name.c_str());
     tagger_.SetTreeBranch(tree_writer, stage);
     return tree_writer;
 }
 
-int Analysis::RunAnalysis(Event &event, const Tagger::Stage stage, const Tag tag)
+int Analysis::RunAnalysis(const Event &event, const Stage stage, const Tag tag)
 {
-    Print(kInformation, "Analysis");
+    Info();
     switch (stage) {
-    case Tagger::kTrainer :
+    case Stage::trainer :
         return tagger_.Train(event, pre_cuts_, tag);
-    case Tagger::kReader :
-        return reader_.GetBdt(event, pre_cuts_);
+    case Stage::reader :
+        return reader_.Bdt(event, pre_cuts_);
     default :
         return 0;
+    }
+}
+
+bool Analysis::Missing(const std::string &name) const
+{
+    Error(name);
+    struct stat buffer;
+    return (stat(name.c_str(), &buffer) != 0);
+}
+
+std::vector< File > Analysis::Files(const Tag tag)
+{
+    Error(Name(tag));
+    return files_;
+}
+
+void Analysis::SetFiles(const Tag tag)
+{
+    Error("should be subclassed", Name(tag));
+}
+
+int Analysis::PassPreCut(const Event &)
+{
+    Error("no pre cut applied");
+    return 1;
+}
+
+void Analysis::SetConfig(const Configuration &configuration)
+{
+    configuration_ = configuration;
+}
+
+void Analysis::PrepareFiles()
+{
+    files_.clear();
+    tagger_.clear_tree_names();
+    SetFiles(analysis::Tag::signal);
+    SetFiles(analysis::Tag::background);
+}
+
+std::string Analysis::ProjectName() const
+{
+    return "ProjectName";
+}
+
+int Analysis::EventNumberMax() const
+{
+    return 100000;
+}
+
+std::string Analysis::ProcessName() const
+{
+    return "Process";
+}
+
+void Analysis::NewSignalFile(const std::string &name, const std::string &nice_name)
+{
+    files_.emplace_back(get_file(name, nice_name));
+    tagger_.AddSignalTreeName(TreeName(name));
+}
+
+void Analysis::NewBackgroundFile(const std::string &name, const std::string &nice_name)
+{
+    files_.emplace_back(get_file(name, nice_name));
+    tagger_.AddBackgroundTreeName(TreeName(name));
+}
+
+void Analysis::NewSignalFile(const std::string &name, const float crosssection)
+{
+    files_.emplace_back(get_file(name, crosssection));
+    tagger_.AddSignalTreeName(TreeName(name));
+}
+
+void Analysis::NewBackgroundFile(const std::string &name, const float crosssection)
+{
+    files_.emplace_back(get_file(name, crosssection));
+    tagger_.AddBackgroundTreeName(TreeName(name));
+}
+
+File Analysis::get_file(const std::string &name, const std::string &nice_name) const
+{
+    return File(name, FilePath(), FileSuffix(), nice_name);
+}
+
+File Analysis::get_file(const std::string &name, const float crosssection) const
+{
+    return File(name, FilePath(), FileSuffix(), crosssection);
+}
+
+std::string Analysis::FileName(const std::string &name) const
+{
+    return ProcessName() + "_" + std::to_string(PreCut()) + "GeV";
+}
+
+std::string Analysis::TreeName(const std::string &name) const
+{
+    return name + "-run_01";
+}
+
+PreCuts &Analysis::pre_cuts()
+{
+    return pre_cuts_;
+}
+
+Tagger &Analysis::tagger()
+{
+    return tagger_;
+}
+
+std::string Analysis::FileSuffix() const
+{
+    return ".root";
+}
+
+std::string Analysis::FilePath() const
+{
+    return "~/Projects/";
+}
+
+int Analysis::BackgroundFileNumber() const
+{
+    return configuration_.BackgroundFileNumber();
+}
+
+int Analysis::PreCut() const
+{
+    return configuration_.PreCut();
+}
+
+int Analysis::Mass() const
+{
+    return configuration_.Mass();
+}
+
+void Analysis::RunFast()
+{
+    RunTagger(analysis::Stage::trainer);
+    RunFactory();
+}
+
+void Analysis::RunNormal()
+{
+    RunFast();
+    RunTagger(analysis::Stage::reader);
+}
+
+void Analysis::RunFullSignificance()
+{
+    RunNormal();
+    RunSignificance();
+}
+
+void Analysis::RunFullEfficiency()
+{
+    RunNormal();
+    RunEfficiency();
+}
+
+std::string Analysis::PathName(const std::string &file_name) const
+{
+    Error(file_name);
+    return ProjectName() + "/" + file_name + ".root";
+}
+
+void Analysis::RunTagger(Stage stage)
+{
+    if (Missing(PathName(tagger().name(stage)))) AnalysisLoop(stage);
+}
+
+void Analysis::RunFactory()
+{
+    PrepareFiles();
+    if (Missing(PathName(tagger().factory_name()))) analysis::Factory factory(tagger());
+}
+
+void Analysis::RunSignificance()
+{
+    PrepareFiles();
+    if (Missing(PathName(tagger().export_name()))) {
+        analysis::Plot plot(tagger());
+        plot.OptimalSignificance();
+    }
+}
+
+void Analysis::RunEfficiency()
+{
+  PrepareFiles();
+  if (Missing(PathName(tagger().export_name()))) {
+        analysis::Plot plot(tagger());
+        plot.TaggingEfficiency();
     }
 }
 

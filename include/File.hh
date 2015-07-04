@@ -1,8 +1,8 @@
-# pragma once
+#pragma once
 
-# include  "exroot/ExRootAnalysis.hh"
-# include "ClonesArrays.hh"
-# include "Event.hh"
+#include  "exroot/ExRootAnalysis.hh"
+#include "ClonesArrays.hh"
+#include "Event.hh"
 
 namespace analysis{
 
@@ -12,7 +12,7 @@ namespace analysis{
  * ProcessFolder has to be set
  *
  */
-class File : public Object
+class File
 {
 
 public:
@@ -86,7 +86,7 @@ public:
     float mass() const {
         return mass_;
     }
-    ClonesArrays::Source source() const {
+    Source source() const {
         return source_;
     }
 
@@ -103,10 +103,6 @@ protected:
     void  SetVariables();
 
     std::string MadGraphFilePath() const;
-
-    virtual inline std::string ClassName() const {
-        return "File";
-    }
 
 private:
 
@@ -130,7 +126,7 @@ private:
 
     std::string nice_name_;
 
-    ClonesArrays::Source source_ = ClonesArrays::ClonesArrays::kDelphes;
+    Source source_ = Source::delphes;
 
     TChain *chain_ = NULL;
 

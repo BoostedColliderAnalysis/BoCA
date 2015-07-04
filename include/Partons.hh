@@ -1,6 +1,6 @@
-# pragma once
+#pragma once
 
-# include "FourVector.hh"
+#include "FourVector.hh"
 
 namespace analysis {
 
@@ -13,8 +13,6 @@ class Partons : public FourVector
 
 public:
 
-    Partons();
-
     virtual ~Partons(){};
 
     void NewEvent(const analysis::ClonesArrays &clones_arrays);
@@ -22,14 +20,6 @@ public:
     virtual Jets Particles() const = 0;
 
     virtual Jets GenParticles() const = 0;
-
-protected:
-
-    virtual inline std::string ClassName() const {
-        return ("Partons");
-    }
-
-private:
 
 };
 

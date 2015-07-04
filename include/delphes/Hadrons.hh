@@ -1,7 +1,8 @@
-# pragma once
+#pragma once
 
-# include "../Hadrons.hh"
-# include "TClonesArray.h"
+#include "../Hadrons.hh"
+#include "TClonesArray.h"
+#include "JetInfo.hh"
 
 namespace analysis
 {
@@ -17,66 +18,57 @@ class Hadrons : public analysis::Hadrons
 {
 
 public:
+//         NewEvent(*clones_arrays_);
 
-    /**
-     * @brief constructor
-     *
-     */
-    Hadrons();
-
-    analysis::Jets Jets() {
-        NewEvent(*clones_arrays_);
-        switch (DetectorGeometry().jet_type) {
-        case DetectorGeometry::kJet :
-          return DelphesJets(kStructure);
-        case DetectorGeometry::kGenJet :
+    analysis::Jets Jets() const {
+        switch (DetectorGeometry().jet_type()) {
+        case JetType::jet :
+          return DelphesJets(JetDetail::structure);
+        case JetType::gen_jet :
             return GenJets();
-        case DetectorGeometry::kEFlowJet :
+        case JetType::e_flow_jet :
           return ClusteredJets();
         }
     }
 
-    float ScalarHt();
+    float ScalarHt() const;
 
-    fastjet::PseudoJet MissingEt();
+    fastjet::PseudoJet MissingEt()const;
 
-protected:
+    analysis::Jets UniqueJets() const;
 
-    inline std::string NameSpaceName() const {
-        return "delphes";
-    }
 
 private:
 
-    void DoubleCounting();
+    analysis::Jets UniqueConstituents(TObject &object, std::vector< TObject * > leptons) const;
 
-    analysis::Jets GranulatedJets(const analysis::Jets &jets);
+    analysis::Jets GranulatedJets(const analysis::Jets &jets) const;
 
-    analysis::Jets ClusteredJets();
+    analysis::Jets ClusteredJets() const;
 
-    analysis::Jets DelphesJets(const FourVector::JetDetail jet_detail);
+    analysis::Jets DelphesJets(const analysis::JetDetail jet_detail) const;
 
-    analysis::Jets EFlowJets(const JetDetail jet_detail);
+    analysis::Jets EFlowJets(const JetDetail jet_detail) const;
 
-    analysis::Jets GenJets();
+    analysis::Jets GenJets() const;
 
     template <typename Clone>
-    JetInfo JetId(const Clone &clone) {
-        Print(kDetailed, "Jet Id", clone.Particles.GetEntriesFast());
+    JetInfo JetId(const Clone &clone) const {
+//         Detail("Jet Id", clone.Particles.GetEntriesFast());
         JetInfo jet_info;
 //         if(clone.IsA() == ::delphes::Jet::Class()) jet_info.SetDelphesTags(clone);
         for (const int ParticleNumber : Range(clone.Particles.GetEntriesFast())) {
             const Family family = BranchFamily(*clone.Particles.At(ParticleNumber));
-            Print(kDebug, "MotherId", family.particle().Id, family.mother_1().Id);
-            jet_info.Addconstituent(Constituent(const_cast<Clone &>(clone).P4(), family));
+//             Debug("MotherId", family.particle().Id, family.mother_1().Id);
+            jet_info.AddConstituent(Constituent(const_cast<Clone &>(clone).P4(), family));
         }
-        jet_info.PrintAllInfos(kDebug);
+        jet_info.PrintAllInfos(Severity::debug);
         return jet_info;
     }
 
 
     template<typename Particle, typename EFlow>
-    bool GetIsolation(const EFlow &e_flow, const TClonesArray &clones_array) const {
+    bool Isolation(const EFlow &e_flow, const TClonesArray &clones_array) const {
         bool Isolated = true;
         for (int particle_number = 0; particle_number < clones_array.GetEntriesFast(); ++particle_number) {
             Particle &particle = static_cast<Particle &>(*clones_array.At(particle_number));
@@ -85,17 +77,17 @@ private:
         return Isolated;
     }
 
-    analysis::Jets EFlowTrack(const JetDetail);
+    analysis::Jets EFlowTrack(const JetDetail) const;
 
-    analysis::Jets EFlowPhoton(const JetDetail);
+    analysis::Jets EFlowPhoton(const JetDetail) const;
 
-    analysis::Jets EFlowHadron(const JetDetail);
+    analysis::Jets EFlowHadron(const JetDetail) const;
 
-    analysis::Jets EFlowMuon(const JetDetail);
+    analysis::Jets EFlowMuon(const analysis::JetDetail jet_detail) const;
 
-    fastjet::PseudoJet StructuredJet(const ::delphes::Jet &JetClone, const FourVector::JetDetail jet_detail);
+    fastjet::PseudoJet StructuredJet(const ::delphes::Jet &jet, const analysis::JetDetail jet_detail) const;
 
-    fastjet::PseudoJet ConstituentJet(const TObject &Object, const FourVector::JetDetail jet_detail, const Constituent::SubDetector Detector = Constituent::kNone);
+    fastjet::PseudoJet ConstituentJet(TObject &Object, const JetDetail jet_detail, const SubDetector sub_detector = SubDetector::none) const;
 
 };
 

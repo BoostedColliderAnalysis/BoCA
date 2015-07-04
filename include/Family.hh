@@ -1,6 +1,6 @@
-# pragma once
+#pragma once
 
-# include "Object.hh"
+#include "Global.hh"
 
 namespace analysis {
 
@@ -14,22 +14,32 @@ struct Particle {
 
 };
 
-class Family : public Object
+class Family
 {
 
 public:
 
     Family();
 
-    Family(const int particle_id);
+    Family(const int id);
 
-    Family(const int particle_id, const int mother_id);
+    Family(const Id id);
 
-    Family(const int particle_id, const int mother_1_id, const int mother_2_id);
+//     Family(const int id, const int mother_id);
 
-    Family(const int particle_position, const int particle_id, const int mother_position, const int mother_id);
+    Family(const Id id, const Id mother_id);
 
-    Family(const TLorentzVector &particle, const TLorentzVector &mother, const int particle_position, const int particle_id, const int mother_position, const int mother_id);
+    Family(const int id, const int mother_1_id, const int mother_2_id);
+
+    Family(const Id id, const Id mother_1_id, const Id mother_2_id);
+
+//     Family(const int particle_position, const int id, const int mother_position, const int mother_id);
+
+    Family(const int particle_position, const Id id, const int mother_position, const Id mother_id);
+
+    Family(const TLorentzVector &particle, const TLorentzVector &mother, const int particle_position, const int id, const int mother_position, const int mother_id);
+
+//     Family(const TLorentzVector &particle, const TLorentzVector &mother, const int particle_position, const Id id, const int mother_position, const Id mother_id);
 
     bool operator==(const Family &family) const;
 

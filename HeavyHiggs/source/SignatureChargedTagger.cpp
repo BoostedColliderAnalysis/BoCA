@@ -1,4 +1,5 @@
-# include "SignatureChargedTagger.hh"
+#include "SignatureChargedTagger.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
@@ -8,23 +9,22 @@ namespace heavyhiggs
 
 SignatureChargedTagger::SignatureChargedTagger()
 {
-//       DebugLevel = kDetailed;
-    Print(kInformation , "Constructor");
+    Info("Constructor");
     set_tagger_name("ChargedSignatureSemi");
     DefineVariables();
 }
 
-int SignatureChargedTagger::Train(analysis::Event &event, analysis::PreCuts &pre_cuts, const analysis::Object::Tag tag)
+int SignatureChargedTagger::Train(const Event &event, analysis::PreCuts &pre_cuts, const analysis::Tag tag)
 {
-    Print(kInformation, "event Tags");
+    Info("event Tags");
 
     std::vector<Quartet31> higgs_quartets = charged_higgs_semi_reader_.Multiplets<ChargedHiggsSemiTagger>(event);
 
     Jets HiggsParticles = event.Partons().GenParticles();
-    HiggsParticles = RemoveIfWrongAbsParticle(HiggsParticles, ChargedHiggsId);
-    if (tag == kSignal && HiggsParticles.size() != 1) Print(kError, "Where is the Higgs?");
+    HiggsParticles = RemoveIfWrongAbsParticle(HiggsParticles, Id::charged_higgs);
+    if (tag == Tag::signal && HiggsParticles.size() != 1) Error("Where is the Higgs?");
     std::sort(higgs_quartets.begin(), higgs_quartets.end(), MinDeltaRTo(HiggsParticles.front()));
-    if (tag == kSignal && higgs_quartets.size() > 1) higgs_quartets.erase(higgs_quartets.begin() + 1, higgs_quartets.end());
+    if (tag == Tag::signal && higgs_quartets.size() > 1) higgs_quartets.erase(higgs_quartets.begin() + 1, higgs_quartets.end());
 
     std::vector<Quartet31> jet_quartets = triplet_jet_pair_reader_.Multiplets<TripletJetPairTagger>(event);
 
@@ -40,9 +40,9 @@ int SignatureChargedTagger::Train(analysis::Event &event, analysis::PreCuts &pre
 }
 
 
-std::vector<Octet44> SignatureChargedTagger::Multiplets(analysis::Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader)
+std::vector<Octet44> SignatureChargedTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
-    Print(kInformation, "Bdt");
+    Info("Bdt");
 
     std::vector<Quartet31> higgs_quartets = charged_higgs_semi_reader_.Multiplets<ChargedHiggsSemiTagger>(event);
     std::vector<Quartet31> jet_quartets = triplet_jet_pair_reader_.Multiplets<TripletJetPairTagger>(event);

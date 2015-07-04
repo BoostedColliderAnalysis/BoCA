@@ -1,60 +1,93 @@
-# include "TopLeptonicTagger.hh"
+#include "TopLeptonicTagger.hh"
+#include "Debug.hh"
 
-namespace analysis {
+namespace analysis
+{
 
 TopLeptonicTagger::TopLeptonicTagger()
 {
-    //     debug_level_ = kDebug;
-    Print(kNotification, "Constructor");
+    Note();
     set_tagger_name("TopLeptonic");
     bottom_reader_.SetTagger(bottom_tagger_);
-    top_mass_window = std::abs(Mass(TopId) - Mass(HiggsId));
+    top_mass_window = 80;
     DefineVariables();
 }
 
-int TopLeptonicTagger::Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag)
+int TopLeptonicTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag)
 {
-    Print(kInformation, "Train");
-    std::size_t number_of_tops = 2;
-    Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
-    Print(kInformation, "Jet Number", jets.size());
+    Info("Train");
+    do_fake_leptons = true;
+    Jets jets = fastjet::sorted_by_pt(bottom_reader_.Multiplets<BottomTagger>(event));
+    if (jets.empty()) return 0;
+    Info("Jet Number", jets.size());
 
     Jets leptons = event.Leptons().leptons();
-    Print(kInformation, "Lepton Number", leptons.size());
+    if (do_fake_leptons && leptons.empty()) leptons.emplace_back(FakeLepton(jets.front()));
+    Info("Lepton Number", leptons.size());
 
     std::vector<Doublet> doublets;
-    for (const auto & lepton : leptons)
-        for (const auto & jet : jets) {
+    for (const auto & jet : jets) {
+        for (const auto & lepton : leptons) {
             Doublet doublet(jet, lepton);
-//             if (tag == kSignal && std::abs(doublet.Jet().m() - Mass(TopId)) > top_mass_window) continue;
-            if (tag == kSignal && doublet.Jet().m() < 20) continue;
+            if (Problematic(doublet, pre_cuts, tag)) continue;
             doublets.emplace_back(doublet);
         }
-    Print(kInformation, "Number JetPairs", doublets.size());
-
-    Jets particles = event.Partons().GenParticles();
-    Jets tops = copy_if_abs_particle(particles, TopId);
-    switch (tag) {
-    case kSignal :
-        doublets = BestMatch(doublets, tops);
-        break;
-    case kBackground  :
-        doublets = RemoveBestMatch(doublets, tops);
-        break;
     }
-    return SaveEntries(doublets);
+
+    Info("Number doublets", doublets.size());
+    Jets tops = Particles(event);
+    return SaveEntries(BestMatches(doublets, tops, tag));
 }
 
-std::vector<Doublet> TopLeptonicTagger::Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
+fastjet::PseudoJet TopLeptonicTagger::FakeLepton(const fastjet::PseudoJet &jet) const
 {
-    Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
-    Jets leptons = event.Leptons().leptons();
-    Print(kInformation, "Bdt");
+    return fastjet::PseudoJet(jet.px(), jet.py(), jet.pz(), jet.e()) / jet.pt() * DetectorGeometry().LeptonMinPt();
+}
+
+bool TopLeptonicTagger::Problematic(const Doublet &doublet, PreCuts &pre_cuts) const
+{
+    if (pre_cuts.PtLowerCut(Id::top) > 0 && doublet.Jet().pt() < pre_cuts.PtLowerCut(Id::top)) return true;
+    if (pre_cuts.PtUpperCut(Id::top) > 0 && doublet.Jet().pt() > pre_cuts.PtUpperCut(Id::top)) return true;
+    if (pre_cuts.MassUpperCut(Id::top) > 0 && doublet.Jet().m() > pre_cuts.MassUpperCut(Id::top)) return true;
+    return false;
+}
+
+Jets TopLeptonicTagger::Particles(const Event &event) const
+{
+    Jets particles = event.Partons().GenParticles();
+    return copy_if_abs_particle(particles, Id::top);
+}
+
+bool TopLeptonicTagger::Problematic(const analysis::Doublet &doublet, analysis::PreCuts &pre_cuts, const analysis::Tag tag) const
+{
+    if (Problematic(doublet, pre_cuts)) return true;
+    switch (tag) {
+    case Tag::signal :
+        if (doublet.Singlet1().Jet().pt() <= DetectorGeometry().LeptonMinPt()) return true;
+        if (std::abs(doublet.Jet().m() - Mass(Id::top) + 40) > top_mass_window) return true;
+        break;
+    case Tag::background :
+        break;
+    }
+
+    return false;
+}
+
+std::vector<Doublet> TopLeptonicTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader)
+{
+    Info("Bdt");
     std::vector<Doublet> doublets;
-    for (const auto & lepton : leptons) {
-        for (const auto & jet : jets) {
+    Jets jets = fastjet::sorted_by_pt(bottom_reader_.Multiplets<BottomTagger>(event));
+    if (jets.empty()) return doublets;
+    Jets leptons = event.Leptons().leptons();
+    Debug("jets and Leptons", jets.size(), leptons.size());
+    if (do_fake_leptons && leptons.empty()) leptons.emplace_back(FakeLepton(jets.front()));
+
+    for (const auto & jet : jets) {
+        for (const auto & lepton : leptons) {
             Doublet doublet(jet, lepton);
-            doublet.SetBdt(Bdt(doublet,reader));
+            if (Problematic(doublet, pre_cuts)) continue;
+            doublet.SetBdt(Bdt(doublet, reader));
             doublets.emplace_back(doublet);
         }
     }

@@ -1,12 +1,13 @@
-# include "Quintet.hh"
+#include "Quintet.hh"
 
 namespace analysis {
 
-Triplet Quintet::Triplet()const {
+Triplet &Quintet::Triplet() const {
   return Multiplet1();
 }
 
-Doublet Quintet::Doublet()const {
+Doublet &Quintet::Doublet() const
+{
   return Multiplet2();
 }
 

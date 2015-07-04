@@ -1,6 +1,6 @@
-# pragma once
+#pragma once
 
-# include "Triplet.hh"
+#include "Triplet.hh"
 
 namespace analysis
 {
@@ -16,73 +16,65 @@ public:
 
     using Multiplet<Triplet,Triplet>::Multiplet;
 
-    Triplet Triplet1() const;
+    Triplet & Triplet1() const;
 
-    Triplet Triplet2() const;
+    Triplet & Triplet2() const;
 
-    inline float HardTopPt() const {
+     float HardTopPt() const {
         return std::max(Triplet1().Jet().pt(), Triplet2().Jet().pt());
     }
 
-    inline float SoftTopPt() const {
+     float SoftTopPt() const {
         return std::min(Triplet1().Jet().pt(), Triplet2().Jet().pt());
     }
 
-    inline float GetLargertripletDeltaR() const {
+     float GetLargertripletDeltaR() const {
         return std::max(Triplet1().DeltaR(), Triplet2().DeltaR());
     }
 
-    inline float GetSmallertripletDeltaR() const {
+     float GetSmallertripletDeltaR() const {
         return std::min(Triplet1().DeltaR(), Triplet2().DeltaR());
     }
 
-    inline float GetLargertripletDeltaRap() const {
+     float GetLargertripletDeltaRap() const {
         return std::max(Triplet1().DeltaRap(), Triplet2().DeltaRap());
     }
 
-    inline float GetSmallertripletDeltaRap() const {
+     float GetSmallertripletDeltaRap() const {
         return std::min(Triplet1().DeltaRap(), Triplet2().DeltaRap());
     }
 
-    inline float GetLargerTripleDeltaPhi() const {
+     float GetLargerTripleDeltaPhi() const {
         return std::max(std::abs(Triplet1().DeltaPhi()), std::abs(Triplet2().DeltaPhi()));
     }
 
-    inline float GetSmallertripletDeltaPhi() const {
+     float GetSmallertripletDeltaPhi() const {
         return std::min(std::abs(Triplet1().DeltaPhi()), std::abs(Triplet2().DeltaPhi()));
     }
 
-    inline float GetBetterTripleMass(const ParticleId particle_id)const {
-        return std::min(Triplet1().MassDifferenceTo(particle_id), Triplet2().MassDifferenceTo(particle_id));
+     float GetBetterTripleMass(const Id id)const {
+        return std::min(Triplet1().MassDifferenceTo(id), Triplet2().MassDifferenceTo(id));
     }
 
-    inline float GetWorseTripleMass(const ParticleId particle_id)const {
-        return std::max(Triplet1().MassDifferenceTo(particle_id), Triplet2().MassDifferenceTo(particle_id));
+     float GetWorseTripleMass(const Id id)const {
+        return std::max(Triplet1().MassDifferenceTo(id), Triplet2().MassDifferenceTo(id));
     }
 
-    inline float GetBetterPairMass(const ParticleId particle_id)const {
-        return std::min(Triplet1().Doublet().MassDifferenceTo(particle_id), Triplet2().Doublet().MassDifferenceTo(particle_id));
+     float GetBetterPairMass(const Id id)const {
+        return std::min(Triplet1().Doublet().MassDifferenceTo(id), Triplet2().Doublet().MassDifferenceTo(id));
     }
 
-    inline float GetWorsePairMass(const ParticleId particle_id)const {
-        return std::max(Triplet1().Doublet().MassDifferenceTo(particle_id), Triplet2().Doublet().MassDifferenceTo(particle_id));
+     float GetWorsePairMass(const Id id)const {
+        return std::max(Triplet1().Doublet().MassDifferenceTo(id), Triplet2().Doublet().MassDifferenceTo(id));
     }
 
-    inline float GetBetterJetMass(const ParticleId particle_id)const {
-        return std::min(Triplet1().MassDifferenceTo(particle_id), Triplet2().MassDifferenceTo(particle_id));
+     float GetBetterJetMass(const Id id)const {
+        return std::min(Triplet1().MassDifferenceTo(id), Triplet2().MassDifferenceTo(id));
     }
 
-    inline float GetWorseJetMass(const ParticleId particle_id)const {
-        return std::max(Triplet1().MassDifferenceTo(particle_id), Triplet2().MassDifferenceTo(particle_id));
+     float GetWorseJetMass(const Id id)const {
+        return std::max(Triplet1().MassDifferenceTo(id), Triplet2().MassDifferenceTo(id));
     }
-
-protected:
-
-    virtual inline std::string ClassName() const {
-        return "Sextet";
-    }
-
-private:
 
 };
 

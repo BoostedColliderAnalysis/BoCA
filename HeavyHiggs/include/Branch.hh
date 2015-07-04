@@ -1,6 +1,6 @@
-# pragma once
+#pragma once
 
-# include "Branches.hh"
+#include "Branches.hh"
 
 namespace analysis
 {
@@ -74,7 +74,7 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class HHeavyHiggsHadronicBranch : public Branch
+class HHeavyHiggsHadronicBranch : public BaseBranch
 {
 
 public:
@@ -154,7 +154,7 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class HChargedHiggsHadronicBranch : public Branch
+class HChargedHiggsHadronicBranch : public BaseBranch
 {
 
 public:
@@ -227,7 +227,7 @@ public:
         TopDeltaRap = multiplet.DeltaRap();
         TopDeltaPhi = multiplet.DeltaPhi();
         TopBdt = multiplet.Bdt();
-        HeavyHiggsTag = multiplet.Tag();
+        HeavyHiggsTag = int(multiplet.Tag());
     }
 
     Observables Variables() {

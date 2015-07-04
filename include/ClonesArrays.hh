@@ -1,26 +1,33 @@
-# pragma once
+#pragma once
 
-# include "TObject.h"
+#include "TObject.h"
 
-# include  "exroot/ExRootAnalysis.hh"
-# include "Object.hh"
+#include "exroot/ExRootAnalysis.hh"
 
-namespace analysis {
+
+namespace analysis
+{
+
+enum class Branch
+{
+    particle, photon, electron, muon, jet, missing_et, track, tower, e_flow_track, e_flow_photon, e_flow_neutral_hadron, e_flow_muon, gen_jet, scalar_ht, tau
+};
+
+enum class Source
+{
+    delphes, pgs, parton
+};
 
 /**
- * @brief Base class for loading the Branches into ClonesArrays
+ * @brief Base class for loading the TreeBrancheses into ClonesArrays
  *
  */
-class ClonesArrays : public Object
+class ClonesArrays
 {
 
 public:
 
-    enum Source {kDelphes, kPgs, kParton};
-
     ClonesArrays(const Source source);
-
-    enum Branch {kParticle, kPhoton, kElectron, kMuon, kJet, kMissingEt, kTrack, kTower, kEFlowTrack, kEflowPhoton, kEFlowNeutralHadron, kEFlowMuon, kGenJet, kScalarHt, kTau};
 
     std::string BranchName(const Branch branch) const;
 
@@ -36,215 +43,208 @@ public:
 
     int EntrySum(const Branch branch) const;
 
-    inline int ParticleSum() const {
-        return EntrySum(kParticle);
+    int ParticleSum() const {
+        return EntrySum(Branch::particle);
     }
 
-    inline int TrackSum() const {
-        return EntrySum(kTrack);
+    int TrackSum() const {
+        return EntrySum(Branch::track);
     }
 
-    inline int TowerSum() const {
-        return EntrySum(kTower);
+    int TowerSum() const {
+        return EntrySum(Branch::tower);
     }
 
-    inline int EFlowTrackSum() const {
-        return EntrySum(kEFlowTrack);
+    int EFlowTrackSum() const {
+        return EntrySum(Branch::e_flow_track);
     }
 
-    inline int GenJetSum() const {
-        return EntrySum(kGenJet);
+    int GenJetSum() const {
+        return EntrySum(Branch::gen_jet);
     }
 
-    inline int JetSum() const {
-        return EntrySum(kJet);
+    int JetSum() const {
+        return EntrySum(Branch::jet);
     }
 
-    inline int ElectronSum() const {
-        return EntrySum(kElectron);
+    int ElectronSum() const {
+        return EntrySum(Branch::electron);
     }
 
-    inline int MuonSum() const {
-        return EntrySum(kMuon);
+    int MuonSum() const {
+        return EntrySum(Branch::muon);
     }
 
-    inline int PhotonSum() const {
-        return EntrySum(kPhoton);
+    int PhotonSum() const {
+        return EntrySum(Branch::photon);
     }
 
-    inline int EFlowPhotonSum() const {
-        return EntrySum(kEflowPhoton);
+    int EFlowPhotonSum() const {
+        return EntrySum(Branch::e_flow_photon);
     }
 
-    inline int EFlowNeutralHadronSum() const {
-        return EntrySum(kEFlowNeutralHadron);
+    int EFlowNeutralHadronSum() const {
+        return EntrySum(Branch::e_flow_neutral_hadron);
     }
 
-    inline int EFlowMuonSum() const {
-        return EntrySum(kEFlowMuon);
+    int EFlowMuonSum() const {
+        return EntrySum(Branch::e_flow_muon);
     }
 
-    inline int TauSum() const {
-        return EntrySum(kTau);
+    int TauSum() const {
+        return EntrySum(Branch::tau);
     }
 
     /**
      * @brief Particle Clones Array
      *
      */
-    inline TClonesArray &ParticleClonesArray() const {
-        return ClonesArray(kParticle);
+    TClonesArray &ParticleClonesArray() const {
+        return ClonesArray(Branch::particle);
     }
 
     /**
      * @brief Electron Clones Array
      *
      */
-    inline TClonesArray &ElectronClonesArray() const {
-        return ClonesArray(kElectron);
+    TClonesArray &ElectronClonesArray() const {
+        return ClonesArray(Branch::electron);
     }
 
     /**
      * @brief Muon Clones Array
      *
      */
-    inline TClonesArray &MuonClonesArray() const {
-        return ClonesArray(kMuon);
+    TClonesArray &MuonClonesArray() const {
+        return ClonesArray(Branch::muon);
     }
 
     /**
      * @brief Photon Clones Array
      *
      */
-    inline TClonesArray &PhotonClonesArray() const {
-        return ClonesArray(kPhoton);
+    TClonesArray &PhotonClonesArray() const {
+        return ClonesArray(Branch::photon);
     }
 
     /**
      * @brief Particle Clones Array
      *
      */
-    inline TObject &Particle(const int number) const {
-        return Object(kParticle, number);
+    TObject &Particle(const int number) const {
+        return Object(Branch::particle, number);
     }
 
     /**
      * @brief Track Clones Array
      *
      */
-    inline TObject &Track(const int number) const {
-        return Object(kTrack, number);
+    TObject &Track(const int number) const {
+        return Object(Branch::track, number);
     }
 
     /**
      * @brief Tower Clones Array
      *
      */
-    inline TObject &Tower(const int number) const {
-        return Object(kTower, number);
+    TObject &Tower(const int number) const {
+        return Object(Branch::tower, number);
     }
 
     /**
      * @brief EFlow Track Clones Array
      *
      */
-    inline TObject &EFlowTrack(const int number) const {
-        return Object(kEFlowTrack, number);
+    TObject &EFlowTrack(const int number) const {
+        return Object(Branch::e_flow_track, number);
     }
 
     /**
      * @brief GenJet Clones Array
      *
      */
-    inline TObject &GenJet(const int number) const {
-        return Object(kGenJet, number);
+    TObject &GenJet(const int number) const {
+        return Object(Branch::gen_jet, number);
     }
 
     /**
      * @brief Jet Clones Array
      *
      */
-    inline TObject &Jet(const int number) const {
-        return Object(kJet, number);
+    TObject &Jet(const int number) const {
+        return Object(Branch::jet, number);
     }
 
     /**
      * @brief Electron Clones Array
      *
      */
-    inline TObject &Electron(const int number) const {
-        return Object(kElectron, number);
+    TObject &Electron(const int number) const {
+        return Object(Branch::electron, number);
     }
 
     /**
      * @brief Muon Clones Array
      *
      */
-    inline TObject &Muon(const int number) const {
-        return Object(kMuon, number);
+    TObject &Muon(const int number) const {
+        return Object(Branch::muon, number);
     }
 
     /**
      * @brief Missing ET Clones Array
      *
      */
-    inline TObject &MissingEt() const {
-        return Object(kMissingEt, 0);
+    TObject &MissingEt() const {
+        return Object(Branch::missing_et, 0);
     }
 
     /**
      * @brief Scalar HT Clones Array
      *
      */
-    inline TObject &ScalarHt() const {
-        return Object(kScalarHt, 0);
+    TObject &ScalarHt() const {
+        return Object(Branch::scalar_ht, 0);
     }
 
     /**
      * @brief Photon Clones Array
      *
      */
-    inline TObject &Photon(const int number) const {
-        return Object(kPhoton, number);
+    TObject &Photon(const int number) const {
+        return Object(Branch::photon, number);
     }
 
     /**
      * @brief EFlow Photon Clones Array
      *
      */
-    inline TObject &EFlowPhoton(const int number) const {
-        return Object(kEflowPhoton, number);
+    TObject &EFlowPhoton(const int number) const {
+        return Object(Branch::e_flow_photon, number);
     }
 
     /**
      * @brief EFlow Neutral Hadron Clones Array
      *
      */
-    inline TObject &EFlowNeutralHadron(const int number) const {
-        return Object(kEFlowNeutralHadron, number);
+    TObject &EFlowNeutralHadron(const int number) const {
+        return Object(Branch::e_flow_neutral_hadron, number);
     }
 
     /**
      * @brief EFlow Muon Clones Array
      *
      */
-    inline TObject &EFlowMuon(const int number) const {
-        return Object(kEFlowMuon, number);
+    TObject &EFlowMuon(const int number) const {
+        return Object(Branch::e_flow_muon, number);
     }
 
     /**
      * @brief EFlow Neutral Hadron Clones Array
      *
      */
-    inline TObject &Tau(const int number) const {
-        return Object(kTau, number);
-    }
-
-protected:
-
-
-    virtual inline std::string ClassName() const {
-        return "ClonesArrays";
+    TObject &Tau(const int number) const {
+        return Object(Branch::tau, number);
     }
 
 private:

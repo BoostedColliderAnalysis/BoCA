@@ -1,9 +1,10 @@
-# pragma once
+#pragma once
 
-# include "SignatureSingleTagger.hh"
-# include "MultipletEvent.hh"
+#include "TopPartnerLeptonicPairTagger.hh"
+#include "MultipletEvent.hh"
 
-namespace analysis {
+namespace analysis
+{
 
 namespace toppartner
 {
@@ -24,32 +25,22 @@ public:
     */
     EventSingleTagger();
 
-    int Train(Event &event,PreCuts &pre_cuts, const Object::Tag tag);
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag);
 
-    std::vector<MultipletEvent<Decuplet73>> Multiplets(Event &event,PreCuts &pre_cuts, const TMVA::Reader &reader);
+    std::vector<MultipletEvent<Nonet>> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
-    int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
-      return SaveEntries(Multiplets(event, pre_cuts, reader));
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
+        return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
-    auto Multiplets(Event &event, const TMVA::Reader &reader) {
-      PreCuts pre_cuts;
-      return Multiplets(event, pre_cuts, reader);
-    }
-
-protected:
-
-    virtual inline std::string NameSpaceName() const {
-      return "toppartner";
-    }
-
-    virtual inline std::string ClassName() const {
-      return "EventSingleTagger";
+    auto Multiplets(const Event &event, const TMVA::Reader &reader) {
+        PreCuts pre_cuts;
+        return Multiplets(event, pre_cuts, reader);
     }
 
 private:
 
-    SignatureSingleTagger signature_tagger_;
+    TopPartnerLeptonicPairTagger signature_tagger_;
 
     Reader signature_reader_;
 

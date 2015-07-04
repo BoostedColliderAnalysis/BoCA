@@ -1,7 +1,7 @@
-# pragma once
+#pragma once
 
-# include "Multiplet.hh"
-# include "Singlet.hh"
+#include "Multiplet.hh"
+#include "Singlet.hh"
 
 namespace analysis {
 
@@ -40,29 +40,23 @@ public:
 
     using Multiplet<Singlet,Singlet>::Multiplet;
 
-    fastjet::PseudoJet SingletJet1()const;
+    fastjet::PseudoJet SingletJet1() const;
 
-    fastjet::PseudoJet SingletJet2()const;
+    fastjet::PseudoJet SingletJet2() const;
 
-    Singlet Singlet1()const;
+    Singlet &Singlet1() const;
 
-    Singlet Singlet2()const;
+    Singlet &Singlet2() const;
 
     float PullAngle1() const;
 
     float PullAngle2() const;
 
-    inline float PullAngle() const {
+     float PullAngle() const {
         return PullAngle1() * PullAngle2();
     }
 
     std::vector< Kinematics > Constituents() const;
-
-protected:
-
-    virtual inline std::string ClassName() const {
-        return "Doublet";
-    }
 
 private:
 

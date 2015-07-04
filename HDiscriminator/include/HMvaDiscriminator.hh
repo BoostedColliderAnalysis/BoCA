@@ -1,8 +1,8 @@
-# pragma once
+#pragma once
 
 
-# include "Tagger.hh"
-# include "HBranchDiscriminator.hh"
+#include "Tagger.hh"
+#include "HBranchDiscriminator.hh"
 
 
 namespace hcpvhiggs
@@ -50,10 +50,6 @@ private:
     }
 
     void DefineVariables();
-
-    virtual inline std::string ClassName() const {
-        return "HiggsCPV: HMva";
-    }
 
 };
 

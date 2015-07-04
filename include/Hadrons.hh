@@ -1,7 +1,7 @@
-# pragma once
+#pragma once
 
-# include "FourVector.hh"
-# include "Predicate.hh"
+#include "FourVector.hh"
+#include "Predicate.hh"
 
 namespace analysis
 {
@@ -15,12 +15,6 @@ class Hadrons : public FourVector
 
 public:
 
-    /**
-     * @brief constructor
-     *
-     */
-    Hadrons();
-
     virtual ~Hadrons() {};
 
     /**
@@ -28,17 +22,13 @@ public:
      */
     void NewEvent(const ClonesArrays &clones_arrays);
 
-    virtual analysis::Jets Jets() = 0;
+    virtual analysis::Jets Jets() const = 0;
 
-    virtual float ScalarHt();
+    virtual float ScalarHt() const;
 
-    virtual fastjet::PseudoJet MissingEt();
+    virtual fastjet::PseudoJet MissingEt() const;
 
 protected:
-
-//     DetectorGeometry &detector_geometry() {
-//         return detector_geometry_;
-//     }
 
     template<typename Particle_1, typename Particle_2>
     bool CheckIsolation(const Particle_1 &particle_1, const Particle_2 &particle_2, const float delta_r_isolation_max) const {
@@ -52,14 +42,6 @@ protected:
         const float delta_r_isolation_max = 0; // TODO decide on best value
         return CheckIsolation(particle_1, particle_2, delta_r_isolation_max);
     }
-
-    virtual inline std::string ClassName() const {
-        return "Hadrons";
-    };
-
-private:
-
-//     DetectorGeometry detector_geometry_;
 
 };
 

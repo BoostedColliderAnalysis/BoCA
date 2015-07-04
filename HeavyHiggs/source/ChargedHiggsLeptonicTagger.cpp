@@ -1,4 +1,5 @@
-# include "ChargedHiggsLeptonicTagger.hh"
+#include "ChargedHiggsLeptonicTagger.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
@@ -8,22 +9,20 @@ namespace heavyhiggs
 
 ChargedHiggsLeptonicTagger::ChargedHiggsLeptonicTagger()
 {
-//     DebugLevel = Object::kDebug;
-
-    Print(kNotification, "Constructor");
+    Note();
     set_tagger_name("ChargedHiggsLeptonic");
     bottom_reader_.SetTagger(bottom_tagger_);
     top_leptonic_reader_.SetTagger(top_leptonic_tagger_);
     DefineVariables();
 }
 
-int ChargedHiggsLeptonicTagger::Train(Event &event, const Object::Tag tag)
+int ChargedHiggsLeptonicTagger::Train(const Event &event, const Tag tag)
 {
-    Print(kInformation, "Higgs Tags");
+    Info("Higgs Tags");
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
 
     std::vector<Doublet> doublets = top_leptonic_reader_.Multiplets<TopLeptonicTagger>(event);
-    Print(kInformation, "Number of doublets", doublets.size());
+    Info("Number of doublets", doublets.size());
 
     std::vector<Triplet> triplets;
     for (const auto & doublet : doublets) {
@@ -39,11 +38,11 @@ int ChargedHiggsLeptonicTagger::Train(Event &event, const Object::Tag tag)
 //             }
         }
     }
-    Print(kInformation, "Numeber of triplets", triplets.size());
+    Info("Numeber of triplets", triplets.size());
 
 
-    if (tag == kSignal && triplets.size() > 1) {
-        Print(kError, "Higgs Candidates", triplets.size());
+    if (tag == Tag::signal && triplets.size() > 1) {
+        Error("Higgs Candidates", triplets.size());
         std::sort(triplets.begin(), triplets.end());
         triplets.erase(triplets.begin() + 1, triplets.end());
     }
@@ -51,9 +50,9 @@ int ChargedHiggsLeptonicTagger::Train(Event &event, const Object::Tag tag)
     return SaveEntries(triplets);
 }
 
-std::vector<Triplet>  ChargedHiggsLeptonicTagger::Multiplets(Event &event, const TMVA::Reader &reader)
+std::vector<Triplet>  ChargedHiggsLeptonicTagger::Multiplets(const Event &event, const TMVA::Reader &reader)
 {
-    Print(kInformation, "Bdt");
+    Info("Bdt");
     Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
     std::vector<Doublet> doublets = top_leptonic_reader_.Multiplets<TopLeptonicTagger>(event);
 

@@ -1,13 +1,15 @@
-# include "AnalysisTopPartner.hh"
+#include "AnalysisTopPartner.hh"
+#include "Debug.hh"
 
-namespace analysis {
+namespace analysis
+{
 
 namespace toppartner
 {
 
 Analysis::Analysis(Tagger &tagger) : analysis::Analysis::Analysis(tagger)
 {
-    Print(kNotification, "Constructor");
+    Note();
     this->tagger().set_analysis_name(ProjectName());
 }
 
@@ -16,28 +18,54 @@ std::string Analysis::ProcessName()
     return "toppartner";
 }
 
+std::string Analysis::ProjectName() const
+{
+    return  "TopPartner_"+ std::to_string(PreCut()) + "GeV";
+}
+
+int toppartner::Analysis::PreCut() const
+{
+ return 100;
+}
+
+
 void Analysis::SetFiles(const Tag tag)
 {
-    Print(kNotification, "Set Files");
+    Note();
     switch (tag) {
-    case kSignal :
-      NewSignalFile("pp-Tth-bbbbjjjjlv");
-//         NewSignalFile("pp-ttx0-bbbbllnunu-0", 0.008937);
-//         NewSignalFile("pp-ttx0-bbbbllnunu-0.5", 0.01193);
+    case Tag::signal :
+//         NewSignalFile("pp-Tth-bbbbjjjjlv");
+        NewSignalFile("pp-TThh-bbbbbbjjlv");
+//         if(tagger().name() == "Bottom") NewSignalFile("pp-ttbbj-bbbbjjlv");
         break;
-    case kBackground :
-      NewBackgroundFile("pp-Tth-bbbbjjjjlv");
+    case Tag::background :
+//         NewBackgroundFile("pp-ttbb-bbbbjjlv");
+//       NewBackgroundFile("pp-tthjj-bbbbjjjjlv);
+      NewBackgroundFile("pp-tthjj-bbbbjjjjlv_" + std::to_string(PreCut()) +"GeV");
+//         NewBackgroundFile("tt_inc-LE-0GeV_0");
         break;
     }
 }
 
-int Analysis::PassPreCut(Event &event)
+int Analysis::PassPreCut(const Event &event)
 {
-    Print(kInformation, "pass pre cut");
-//   Jets particles = event.Partons().GenParticles();
-//   Jets tops = fastjet::sorted_by_pt(copy_if_abs_particle(particles, TopId));
-//   remove_if_not_in_pt_window(tops, PreCut(), UpperCut());
+    Info();
+    Jets particles = event.Partons().GenParticles();
+    particles = RemoveIfSoft(particles, PreCut());
+    Jets tops = copy_if_abs_particle(particles, Id::top);
+    Jets higgs = copy_if_abs_particle(particles, Id::higgs);
+    if (tops.size() < 2 || higgs.size() < 1) return 0;
     return 1;
+}
+
+int Analysis::EventNumberMax() const
+{
+    return 1000;
+}
+
+std::string Analysis::FilePath() const
+{
+    return "~/Projects/TopPartner/Analysis/";
 }
 
 }

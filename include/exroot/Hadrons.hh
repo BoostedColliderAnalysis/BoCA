@@ -1,6 +1,6 @@
-# pragma once
+#pragma once
 
-# include "../Hadrons.hh"
+#include "../Hadrons.hh"
 
 namespace analysis
 {
@@ -17,7 +17,7 @@ class Hadrons : public analysis::Hadrons
 
 public:
 
-  analysis::Jets Jets();
+  analysis::Jets Jets() const;
 
     /**
      * @brief AnalyseJet calls AnalyseEFlow
@@ -25,12 +25,6 @@ public:
      * @return void
      */
     bool Jets(const JetDetail jet_detail);
-
-private:
-
-    inline std::string NameSpaceName() const {
-        return "exroot";
-    }
 
 };
 

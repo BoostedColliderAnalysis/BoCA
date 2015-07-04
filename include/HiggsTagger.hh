@@ -1,8 +1,8 @@
-# pragma once
+#pragma once
 
-# include "Doublet.hh"
-# include "BottomTagger.hh"
-# include "Reader.hh"
+#include "BottomTagger.hh"
+#include "Doublet.hh"
+#include "Reader.hh"
 
 namespace analysis
 {
@@ -18,23 +18,19 @@ public:
 
     HiggsTagger();
 
-    int Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag);
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag);
 
-    std::vector< Doublet > Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
+    std::vector< Doublet > Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
-    int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
         return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
     }
 
 protected:
 
-    virtual inline std::string ClassName() const {
-        return "HiggsTagger";
-    }
-
 private:
 
-    bool Problematic(const Doublet &doublet, PreCuts &pre_cuts, const Object::Tag tag);
+    bool Problematic(const Doublet &doublet, PreCuts &pre_cuts, const Tag tag);
 
     bool Problematic(const Doublet &doublet, PreCuts &pre_cuts);
 

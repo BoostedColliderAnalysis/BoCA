@@ -1,6 +1,6 @@
-# pragma once
+#pragma once
 
-# include "Analysis.hh"
+#include "Analysis.hh"
 
 namespace analysis
 {
@@ -23,9 +23,9 @@ public:
 
     Analysis(Tagger &tagger);
 
-    void SetFiles(const Object::Tag tag);
+    void SetFiles(const Tag tag);
 
-    inline std::string ProjectName() const {
+     std::string ProjectName() const {
         return  "HiggsCpv";
     }
 
@@ -35,24 +35,20 @@ public:
      * @brief Maximal number of Entries to analyse
      *
      */
-    inline int EventNumberMax() const {
+     int EventNumberMax() const {
         return 1000;
     }
 
 protected:
 
 
-    virtual inline std::string FilePath() const {
+    virtual  std::string FilePath() const {
         return "~/Projects/HiggsCpv/Analysis/";
-    }
-
-    virtual inline std::string NameSpaceName() const {
-        return "higgscpv";
     }
 
 private:
 
-    int PassPreCut(Event &event);
+    int PassPreCut(const Event &event);
 
 };
 

@@ -1,4 +1,5 @@
-# include "SignatureSingleTagger.hh"
+#include "SignatureSingleTagger.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
@@ -8,17 +9,16 @@ namespace toppartner
 
 SignatureSingleTagger::SignatureSingleTagger()
 {
-//         DebugLevel = Object::kDetailed;
-    Print(kNotification, "Constructor");
+    Note();
     set_tagger_name("SignatureSingle");
     top_partner_higgs_pair_reader_.SetTagger(top_partner_higgs_pair_tagger_);
     top_hadronic_reader_.SetTagger(top_hadronic_tagger_);
     DefineVariables();
 }
 
-int SignatureSingleTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
+int SignatureSingleTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag)
 {
-    Print(kInformation, "Higgs Tags");
+    Info("Higgs Tags");
     std::vector< Septet> septets = top_partner_higgs_pair_reader_.Multiplets<TopPartnerHiggsPairTagger>(event);
     std::vector< Triplet> triplets = top_hadronic_reader_.Multiplets<TopHadronicTagger>(event);
     std::vector< Decuplet73 > decuplets;
@@ -34,7 +34,7 @@ int SignatureSingleTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
     return SaveEntries(decuplets);
 }
 
-std::vector<Decuplet73> SignatureSingleTagger::Multiplets(analysis::Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader)
+std::vector<Decuplet73> SignatureSingleTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
   std::vector< Septet> septets = top_partner_higgs_pair_reader_.Multiplets<TopPartnerHiggsPairTagger>(event);
   std::vector< Triplet> triplets = top_hadronic_reader_.Multiplets<TopHadronicTagger>(event);

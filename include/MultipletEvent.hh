@@ -1,13 +1,13 @@
-# pragma once
+#pragma once
 
-# include "Multiplet.hh"
-# include "GlobalObservables.hh"
+#include "GlobalObservables.hh"
+#include "Multiplet.hh"
 
 namespace analysis
 {
 
 /**
- * @brief An evnt composed of a multiplet an a singlet made up from the remaining jets
+ * @brief An event composed of a multiplet an a singlet made up from the remaining jets
  *
  */
 template <typename Multiplet_1>
@@ -16,7 +16,7 @@ class MultipletEvent : public analysis::Multiplet<Multiplet_1, analysis::Singlet
 
 public:
 
-    MultipletEvent(const Multiplet_1 &multiplet, Event &event, Jets &jets) {
+    MultipletEvent(const Multiplet_1 &multiplet, const Event &event, Jets &jets) {
         analysis::Multiplet<Multiplet_1, analysis::Singlet>::SetMultiplet1(multiplet);
         global_observables_.SetEvent(event,jets);
         Jets unique_jets;
@@ -37,12 +37,6 @@ public:
       return global_observables_;
     }
 
-protected:
-
-    virtual inline std::string ClassName() const {
-        return "MultipletEvent";
-    }
-
 private:
 
     analysis::GlobalObservables global_observables_;
@@ -50,4 +44,5 @@ private:
 };
 
 }
+
 

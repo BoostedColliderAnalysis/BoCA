@@ -1,11 +1,20 @@
-# pragma once
+#pragma once
 
-# include "Object.hh"
+#include <string>
 
 namespace analysis
 {
 
-class Identification : public Object
+enum class Tag
+{
+    background = 0,
+    signal = 1
+
+};
+
+std::string Name(const Tag tag);
+
+class Identification
 {
 
 public:
@@ -18,13 +27,13 @@ public:
 
     virtual float Bdt() const;
 
-    void SetTag(const int NewTag);
+    void SetTag(const analysis::Tag tag);
 
-    void SetTag(const int tag_1, const int tag_2);
+    void SetTag(const analysis::Tag tag_1, const analysis::Tag tag_2);
 
-    int Tag() const;
+    analysis::Tag Tag() const;
 
-    void SetFlag(const bool NewFlag);
+    void SetFlag(const bool flag);
 
     void SetFlag(const bool flag_1, const bool flag_2);
 
@@ -39,15 +48,15 @@ public:
     }
 
     void SetDegenerate() {
-      degenerate_ = true;
+        degenerate_ = true;
     }
 
     void UnsetDegenerate() {
-      degenerate_ = false;
+        degenerate_ = false;
     }
 
     float initial_value() const {
-        return initial_value_;
+        return -11.1111111; // this must be identical to the initial value in the branch
     }
 
     template<typename Multiplet>
@@ -56,19 +65,11 @@ public:
         return (Bdt() > multiplet.Bdt());
     }
 
-protected:
-
-    virtual inline std::string ClassName() const {
-        return "Identification";
-    }
-
 private:
 
     float bdt_;
 
-    int tag_;
-
-    float initial_value_;
+    analysis::Tag tag_;
 
     bool flag_;
 

@@ -1,53 +1,10 @@
-# include "JetInfo.hh"
+#include "JetInfo.hh"
 
-# include "Predicate.hh"
+#include "Predicate.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
-
-/**
- * @brief Constructor
- *
- *
- * choose HDetectorType according to LHC or 100TeV
- *
- * LHC: CMS
- * 100TeV: Spp
- *
- */
-
-
-DetectorGeometry::DetectorGeometry()
-{
-//     DetectorType detector_type = Spp;
-    DetectorType detector_type = CMS;
-    switch (detector_type) {
-    case CMS :
-        JetMinPt = 20;
-        JetConeSize = 0.5;
-        MinCellResolution = .1;
-        MinCellPt = .5;
-        TrackerEtaMax = 2.5;
-        TrackerDistanceMin = 0.1;
-        TrackerDistanceMax = 1000;
-        VertexMassMin = 0.1;
-        JetDefinition = fastjet::JetDefinition(fastjet::antikt_algorithm, JetConeSize);
-        SubJetDefinition = fastjet::JetDefinition(fastjet::kt_algorithm, JetConeSize);
-        jet_type = kJet;
-    case Spp:
-        JetMinPt = 40;
-        JetConeSize = 0.5;
-        MinCellResolution = .1;
-        MinCellPt = .5;
-        TrackerEtaMax = 3.5;
-        TrackerDistanceMin = 0.1;
-        TrackerDistanceMax = 1000;
-        VertexMassMin = 0.1;
-        JetDefinition = fastjet::JetDefinition(fastjet::antikt_algorithm, JetConeSize);
-        SubJetDefinition = fastjet::JetDefinition(fastjet::kt_algorithm, JetConeSize);
-        jet_type = kJet;
-    }
-}
 
 struct AccuPerpDistance {
     float operator()(float result, const Constituent &constituent) {
@@ -57,19 +14,19 @@ struct AccuPerpDistance {
 };
 
 struct MaxPerpDistance {
-    inline bool operator()(const Constituent &constituent_1, const Constituent &constituent_2) const {
-        return (constituent_1.Position().Vect().Perp() > constituent_2.Position().Vect().Perp());
+     bool operator()(const Constituent &constituent_1, const Constituent &constituent_2) const {
+        return constituent_1.Position().Vect().Perp() > constituent_2.Position().Vect().Perp();
     }
 };
 
 struct WrongDetector {
-    WrongDetector(const Constituent::SubDetector sub_detector) {
-        this->sub_detector_ = sub_detector;
+    WrongDetector(const SubDetector sub_detector) {
+        sub_detector_ = sub_detector;
     }
     bool operator()(const Constituent &constituent) {
-        return (constituent.sub_detector() != sub_detector_);
+        return constituent.sub_detector() != sub_detector_;
     }
-    Constituent::SubDetector sub_detector_;
+    SubDetector sub_detector_;
 };
 
 struct MaxConstPt {
@@ -87,7 +44,7 @@ struct AccuPt {
 
 JetInfo::JetInfo()
 {
-    Print(kDebug, "Constructor");
+    Debug("Constructor");
 }
 
 JetInfo::JetInfo(const float bdt)
@@ -144,12 +101,12 @@ JetInfo::JetInfo(const std::vector<Constituent> &constituents)
     constituents_ = constituents;
 }
 
-void JetInfo::Addconstituent(const Constituent &constituent)
+void JetInfo::AddConstituent(const Constituent &constituent)
 {
     constituents_.emplace_back(constituent);
 }
 
-void JetInfo::Addconstituents(const std::vector<Constituent> &constituents)
+void JetInfo::AddConstituents(const std::vector<Constituent> &constituents)
 {
     constituents_.insert(constituents_.end(), constituents.begin(), constituents.end());
 }
@@ -157,11 +114,11 @@ void JetInfo::Addconstituents(const std::vector<Constituent> &constituents)
 void JetInfo::AddDaughter(const int daughter)
 {
     if (!constituents().empty()) {
-        Print(kError, "constituents", constituents().size(), constituents().front().family().particle().Id);
+        Error("constituents", constituents().size(), constituents().front().family().particle().Id);
         constituents().front().family().AddDaughter(daughter);
         return;
     }
-    Print(kError, "No constituent");
+    Error("No constituent");
 }
 
 std::vector<Constituent> JetInfo::constituents() const
@@ -181,80 +138,87 @@ int JetInfo::VertexNumber() const
 
 void JetInfo::AddFamily(const Family &family, const float weight)
 {
-    Print(kDebug, "Add constituent", family.particle().Id, family.mother_1().Id, weight);
+    Debug("Add constituent", family.particle().Id, family.mother_1().Id, weight);
     family_fractions_[family] += weight;
 }
 
 void JetInfo::ExtractFamilyFraction()
 {
-    Print(kInformation, "Extract Family Fraction");
+    Info("Extract Family Fraction");
     for (const auto & constituent : constituents()) family_fractions_[constituent.family()] += constituent.Momentum().Pt();
 }
 
 Family JetInfo::MaximalFamily()
 {
-    Print(kDebug, "Maximal Id");
+    Debug("Maximal Id");
     return std::max_element(family_fractions_.begin(), family_fractions_.end(), SortPairs())->first;
 }
 
 void JetInfo::AddParticle(const int constituent_id, const float weight)
 {
-    Print(kDebug, "Add constituent", constituent_id, weight);
+    Debug("Add constituent", constituent_id, weight);
     id_fractions_[constituent_id] += weight;
-    Print(kDetailed, "Saved Weight", id_fractions_[constituent_id]);
+    Detail("Saved Weight", id_fractions_[constituent_id]);
 }
 
-void JetInfo::ExtractFraction(const int particle_id)
+void JetInfo::AddParticle(const Id constituent_id, const float weight)
 {
-    Print(kInformation, "Extract Fraction", particle_id);
+  Debug("Add constituent", Name(constituent_id), weight);
+  id_fractions_[int(constituent_id)] += weight;
+  Detail("Saved Weight", id_fractions_[int(constituent_id)]);
+}
+
+void JetInfo::ExtractFraction(const int id)
+{
+    Info("Extract Fraction", id);
     ExtractFamilyFraction();
     for (const auto & pair : family_fractions_) {
-        if (pair.first.particle().Id == particle_id || pair.first.mother_1().Id == particle_id) AddParticle(particle_id, pair.second);
-        else if (pair.first.particle().Id == -particle_id || pair.first.mother_1().Id == -particle_id) AddParticle(-particle_id, pair.second);
+        if (pair.first.particle().Id == id || pair.first.mother_1().Id == id) AddParticle(id, pair.second);
+        else if (pair.first.particle().Id == -id || pair.first.mother_1().Id == -id) AddParticle(-id, pair.second);
         else AddParticle(pair.first.particle().Id, pair.second);
     }
 }
 
-void JetInfo::ExtractFraction(const int particle_id, const int mother_id)
+void JetInfo::ExtractFraction(const int id, const int mother_id)
 {
-    Print(kInformation, "Extract Fraction", particle_id, mother_id);
+    Info("Extract Fraction", id, mother_id);
     for (const auto & pair : family_fractions_) {
-        if (std::abs(pair.first.particle().Id) == particle_id && std::abs(pair.first.mother_1().Id) == mother_id) AddParticle(pair.first.particle().Id, pair.second);
-        else AddParticle(IsrId, pair.second);
+        if (std::abs(pair.first.particle().Id) == id && std::abs(pair.first.mother_1().Id) == mother_id) AddParticle(pair.first.particle().Id, pair.second);
+        else AddParticle(Id::isr, pair.second);
     }
 }
 
-void JetInfo::ExtractAbsFraction(const int particle_id)
+void JetInfo::ExtractAbsFraction(const int id)
 {
-    Print(kInformation, "Extract Fraction", particle_id);
+    Info("Extract Fraction", id);
     ExtractFamilyFraction();
     for (const auto & pair : family_fractions_) {
-        if (std::abs(pair.first.particle().Id) == particle_id || std::abs(pair.first.mother_1().Id) == particle_id) AddParticle(particle_id, pair.second);
+        if (std::abs(pair.first.particle().Id) == id || std::abs(pair.first.mother_1().Id) == id) AddParticle(id, pair.second);
         else AddParticle(pair.first.particle().Id, pair.second);
     }
 }
 
 float JetInfo::GetWeightSum() const
 {
-    Print(kDebug, "Weight Sum", id_fractions_.size());
+    Debug("Weight Sum", id_fractions_.size());
     float weight_sum = std::accumulate(begin(id_fractions_), end(id_fractions_), 0.0, [](const float previous, const std::pair<int, float> &pair) {
         return (previous + pair.second);
     });
-    Print(kDetailed, "Weight Sum", weight_sum);
+    Detail("Weight Sum", weight_sum);
     return weight_sum;
 }
 
-float JetInfo::Fraction(const int particle_id) const
+float JetInfo::Fraction(const int id) const
 {
-    Print(kInformation, "Fraction", particle_id);
-    if (!id_fractions_.count(particle_id)) return 0;
+    Info("Fraction", id);
+    if (!id_fractions_.count(id)) return 0;
     if (GetWeightSum() == 0)   return 0;
-    return (id_fractions_.at(particle_id) / GetWeightSum());
+    return (id_fractions_.at(id) / GetWeightSum());
 }
 
 float JetInfo::MaximalFraction() const
 {
-    Print(kInformation, "Maximal Fraction");
+    Info("Maximal Fraction");
     std::pair<int, float> maximal_weight = *std::max_element(id_fractions_.begin(), id_fractions_.end(), SortPairs());
     if (GetWeightSum() == 0) return 0;
     else return (maximal_weight.second / GetWeightSum());
@@ -262,30 +226,30 @@ float JetInfo::MaximalFraction() const
 
 int JetInfo::MaximalId() const
 {
-    Print(kDebug, "Maximal Id");
+    Debug("Maximal Id");
     return std::max_element(id_fractions_.begin(), id_fractions_.end(), SortPairs())->first;
 }
 
 void JetInfo::PrintAllInfos(const Severity severity) const
 {
-    Print(kDebug, "Print All Infos");
-    for (auto pair = id_fractions_.begin(); pair != id_fractions_.end(); ++pair) {
-        if (GetWeightSum() == 0) Print(severity, "Jet Fraction", Name((*pair).first), 0);
-        else Print(severity, "Jet Fraction", Name((*pair).first), (*pair).second / GetWeightSum());
-    }
+    Debug("Print All Infos");
+//     for (auto pair = id_fractions_.begin(); pair != id_fractions_.end(); ++pair) {
+//         if (GetWeightSum() == 0) Print(severity, "Jet Fraction", Name((*pair).first), 0);
+//         else Print(severity, "Jet Fraction", Name((*pair).first), (*pair).second / GetWeightSum());
+//     }
 }
 
 void JetInfo::PrintAllconstituentInfos(const Severity severity) const
 {
-    Print(kDebug, "Print All Family Infos");
-    for (const auto constituent : constituents())
-        Print(severity, "Jet Fraction", Name(constituent.family().particle().Id), Name(constituent.family().mother_1().Id), constituent.family().particle().Momentum.Pt(), constituent.family().mother_1().Momentum.Pt());
+    Debug("Print All Family Infos");
+//     for (const auto constituent : constituents())
+//         Print(severity, "Jet Fraction", Name(constituent.family().particle().Id), Name(constituent.family().mother_1().Id), constituent.family().particle().Momentum.Pt(), constituent.family().mother_1().Momentum.Pt());
 }
 void JetInfo::PrintAllFamInfos(const Severity severity) const
 {
-    Print(kDebug, "Print All Family Infos");
-    for (const auto & family_fraction : family_fractions_)
-        Print(severity, "Family Fraction", Name(family_fraction.first.particle().Id), Name(family_fraction.first.mother_1().Id), family_fraction.first.particle().Momentum.Pt(), family_fraction.first.mother_1().Momentum.Pt());
+    Debug("Print All Family Infos");
+//     for (const auto & family_fraction : family_fractions_)
+//         Print(severity, "Family Fraction", Name(family_fraction.first.particle().Id), Name(family_fraction.first.mother_1().Id), family_fraction.first.particle().Momentum.Pt(), family_fraction.first.mother_1().Momentum.Pt());
 }
 
 fastjet::PseudoJet JetInfo::VertexJet() const
@@ -300,7 +264,7 @@ fastjet::PseudoJet JetInfo::VertexJet() const
 
 float JetInfo::SumDisplacement() const
 {
-    Print(kDebug, "Jet Displacement");
+    Debug("Jet Displacement");
     if (constituents_.empty()) return 0;
     std::vector <Constituent > vertices = ApplyVertexResolution();
     return std::accumulate(vertices.rbegin(), vertices.rend(), 0, AccuPerpDistance());
@@ -308,7 +272,7 @@ float JetInfo::SumDisplacement() const
 
 float JetInfo::MeanDisplacement() const
 {
-    Print(kDebug, "Jet Displacement");
+    Debug("Jet Displacement");
     if (constituents_.empty()) return 0;
     std::vector <Constituent > vertices = ApplyVertexResolution();
     if (vertices.empty()) return 0;
@@ -318,7 +282,7 @@ float JetInfo::MeanDisplacement() const
 
 float JetInfo::MaxDisplacement() const
 {
-    Print(kDebug, "Jet Displacement");
+    Debug("Jet Displacement");
     if (constituents_.empty()) return 0;
     std::vector <Constituent > vertices = ApplyVertexResolution();
     if (vertices.empty()) return 0;
@@ -328,17 +292,17 @@ float JetInfo::MaxDisplacement() const
 
 float JetInfo::VertexMass() const
 {
-    Print(kDebug, "Vertex Mass");
+    Debug("Vertex Mass");
     std::vector <Constituent > vertices = ApplyVertexResolution();
     const float vertex_mass = std::accumulate(vertices.begin(), vertices.end(), Constituent()).Momentum().M();
-    Print(kDebug, "Vertex Mass", vertex_mass);
-    if (vertex_mass < detector_geometry_.VertexMassMin) return 0;
+    Debug("Vertex Mass", vertex_mass);
+    if (vertex_mass < DetectorGeometry().VertexMassMin()) return 0;
     return vertex_mass;
 }
 
 float JetInfo::VertexEnergy() const
 {
-    Print(kDebug, "Energy Fraction");
+    Debug("Energy Fraction");
     std::vector <Constituent > vertices = ApplyVertexResolution();
     const float vertex_energy = std::accumulate(vertices.begin(), vertices.end(), Constituent()).Momentum().E();
     return vertex_energy;
@@ -346,12 +310,12 @@ float JetInfo::VertexEnergy() const
 
 std::vector<Constituent> JetInfo::ApplyVertexResolution() const
 {
-    Print(kDebug, "Apply Vertex Resolution");
+    Debug("Apply Vertex Resolution");
     std::vector <Constituent > displaced_constituents;
-    Print(kDebug, "Vertex Number", constituents().size());
+    Debug("Vertex Number", constituents().size());
     if (constituents().empty()) return displaced_constituents;
-    for (const auto & constituent : constituents()) if (constituent.Position().Vect().Perp() > detector_geometry_.TrackerDistanceMin && constituent.Position().Vect().Perp() < detector_geometry_.TrackerDistanceMax && std::abs(constituent.Momentum().Rapidity()) < detector_geometry_.TrackerEtaMax) displaced_constituents.emplace_back(constituent);
-    Print(kDebug, "Real Vertex Number", displaced_constituents.size());
+    for (const auto & constituent : constituents()) if (constituent.Position().Vect().Perp() > DetectorGeometry().TrackerDistanceMin() && constituent.Position().Vect().Perp() < DetectorGeometry().TrackerDistanceMax() && std::abs(constituent.Momentum().Rapidity()) < DetectorGeometry().TrackerEtaMax()) displaced_constituents.emplace_back(constituent);
+    Debug("Real Vertex Number", displaced_constituents.size());
     return displaced_constituents;
 }
 
@@ -359,7 +323,7 @@ float JetInfo::ElectroMagneticRadius(const fastjet::PseudoJet &jet) const
 {
     float energy = 0;
     float weight = 0;
-    for (const auto & constituent : constituents()) if (constituent.sub_detector() == Constituent::kPhoton) {
+    for (const auto & constituent : constituents()) if (constituent.sub_detector() == SubDetector::photon) {
             energy += constituent.Momentum().Et();
             weight += constituent.Momentum().Et() * jet.delta_R(fastjet::PseudoJet(constituent.Momentum()));
         }
@@ -371,7 +335,7 @@ float JetInfo::TrackRadius(const fastjet::PseudoJet &jet) const
 {
     float energy = 0;
     float weight = 0;
-    for (const auto & constituent : constituents()) if (constituent.sub_detector() == Constituent::kTrack) {
+    for (const auto & constituent : constituents()) if (constituent.sub_detector() == SubDetector::track) {
             energy += constituent.Momentum().Et();
             weight += constituent.Momentum().Et() * jet.delta_R(fastjet::PseudoJet(constituent.Momentum()));
         }
@@ -382,7 +346,7 @@ float JetInfo::TrackRadius(const fastjet::PseudoJet &jet) const
 float JetInfo::LeadingTrackMomentumFraction() const
 {
     std::vector<Constituent> consts = constituents();
-    consts.erase(std::remove_if(consts.begin(), consts.end(), WrongDetector(Constituent::kTrack)), consts.end());
+    consts.erase(std::remove_if(consts.begin(), consts.end(), WrongDetector(SubDetector::track)), consts.end());
     std::sort(consts.begin(), consts.end(), MaxConstPt());
     float sum = std::accumulate(consts.rbegin(), consts.rend(), 0, AccuPt());
     return consts.front().Momentum().Pt() / sum;
@@ -392,7 +356,7 @@ float JetInfo::CoreEnergyFraction(const fastjet::PseudoJet &jet) const
 {
     float energy = 0;
     float core_energy = 0;
-    for (const auto & constituent : constituents()) if (constituent.sub_detector() == Constituent::kPhoton) {
+    for (const auto & constituent : constituents()) if (constituent.sub_detector() == SubDetector::photon) {
             energy += constituent.Momentum().Et();
             if (jet.delta_R(fastjet::PseudoJet(constituent.Momentum())) < 0.2) core_energy += constituent.Momentum().Et();
         }
@@ -406,7 +370,7 @@ float JetInfo::ElectroMagneticFraction() const
     float energy = 0;
     for (const auto & constituent : constituents()) {
         energy += constituent.Momentum().Et();
-        if (constituent.sub_detector() == Constituent::kPhoton) em_energy += constituent.Momentum().Et();
+        if (constituent.sub_detector() == SubDetector::photon) em_energy += constituent.Momentum().Et();
     }
     if (energy == 0) return 0;
     else return em_energy / energy;
@@ -415,25 +379,37 @@ float JetInfo::ElectroMagneticFraction() const
 float JetInfo::ClusterMass() const
 {
     fastjet::PseudoJet jet;
-    for (const auto & constituent : constituents()) if (constituent.sub_detector() == Constituent::kPhoton) jet += constituent.Momentum();
+    for (const auto & constituent : constituents()) if (constituent.sub_detector() == SubDetector::photon) jet += constituent.Momentum();
     return jet.m();
 }
 
 float JetInfo::TrackMass() const
 {
     fastjet::PseudoJet jet;
-    for (const auto & constituent : constituents()) if (constituent.sub_detector() == Constituent::kTrack) jet += constituent.Momentum();
+    for (const auto & constituent : constituents()) if (constituent.sub_detector() == SubDetector::track) jet += constituent.Momentum();
     return jet.m();
 }
 
 int JetInfo::Charge() const
 {
-    Print(kDebug, "Charge");
+    Debug("Charge");
+    if(charge_ != LargeNumber()) return charge_;
     std::vector <Constituent > vertices = constituents();
-    int charge = std::accumulate(vertices.begin(), vertices.end(), 0, [](int charge, const Constituent& constituent) {
+    int charge = std::accumulate(vertices.begin(), vertices.end(), 0, [](int charge, const Constituent & constituent) {
         return charge + constituent.charge();
     });
     return charge;
+}
+
+bool SortByBdt::operator()(const fastjet::PseudoJet &jet_1, const fastjet::PseudoJet &jet_2)
+{
+    return (jet_1.user_info<analysis::JetInfo>().Bdt() > jet_2.user_info<analysis::JetInfo>().Bdt());
+}
+JetInfo JetInfo::operator+(const JetInfo &jet_info)
+{
+    JetInfo result;
+    result.AddConstituents(jet_info.constituents());
+    return result;
 }
 
 }

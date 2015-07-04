@@ -1,8 +1,9 @@
-# pragma once
+#pragma once
 
-# include "Configuration.hh"
-# include "File.hh"
-# include "Reader.hh"
+#include "File.hh"
+#include "Configuration.hh"
+#include "Reader.hh"
+#include "Branches.hh"
 
 namespace analysis
 {
@@ -11,7 +12,7 @@ namespace analysis
  * @brief Base for all analyses
  *
  */
-class Analysis : public Object
+class Analysis
 {
 
 public:
@@ -22,140 +23,101 @@ public:
      */
     Analysis(Tagger &tagger);
 
-    void AnalysisLoop(const Tagger::Stage stage);
+    void AnalysisLoop(const Stage stage);
 
-    virtual std::vector<File> Files(const Tag tag) {
-        Print(kError, "Files", tag);
-        return files_;
-    }
+    void SetConfig(const Configuration &configuration);
 
-    void SetConfig(const Configuration &configuration) {
-        configuration_ = configuration;
-    }
+    void RunFast();
 
-    std::string ExportName(const Tagger::Stage stage, const Object::Tag tag) const;
+    void RunNormal();
 
-    void PrepareFiles(){
-      files_.clear();
-      tagger_.clear_tree_names();
-      SetFiles(analysis::Object::kSignal);
-      SetFiles(analysis::Object::kBackground);
-    }
+    void RunFullSignificance();
+
+    void RunFullEfficiency();
 
 protected:
 
-    virtual void SetFiles(const Object::Tag tag) {
-        Print(kError, "Set Files", "should be subclassed", tag);
-    }
+    virtual std::vector<File> Files(const Tag tag);
 
-    exroot::TreeWriter TreeWriter(TFile &export_file, const std::string &export_tree_name, Tagger::Stage stage);
+    std::string ExportName(const Stage stage, const Tag tag) const;
+
+    void PrepareFiles();
+
+    virtual void SetFiles(const Tag tag);
+
+    exroot::TreeWriter TreeWriter(TFile &export_file, const std::string &export_tree_name, Stage stage);
 
 
     InfoBranch FillInfoBranch(const exroot::TreeReader &tree_reader, const analysis::File &file);
 
-    virtual inline std::string ProjectName() const {
-        return "ProjectName";
-    }
+    virtual  std::string ProjectName() const;
 
     /**
      * @brief Maximal number of Entries to analyse
      *
      */
-    virtual inline int EventNumberMax() const {
-        return 100000;
-    }
+    virtual  int EventNumberMax() const;
 
-    virtual inline std::string ClassName() const {
-        return "Analysis";
-    }
-
-    virtual inline std::string ProcessName() const {
-        return "Process";
-    }
+    virtual  std::string ProcessName() const;
 
 
     // in GeV
-    inline int Mass() const {
-        return configuration_.Mass();
-    }
+    int Mass() const;
 
     // in GeV
-    inline int PreCut() const {
-        return configuration_.PreCut();
-    }
+    int PreCut() const;
 
-//     inline int EventNumberMax() const {
+//      int EventNumberMax() const {
 //         return configuration_.EventNumberMax();
 //     };
 
-    inline int BackgroundFileNumber() const {
-        return configuration_.BackgroundFileNumber();
-    }
+    int BackgroundFileNumber() const;
 
-//     inline ColliderType collider_type() const {
+//      ColliderType collider_type() const {
 //         return configuration_.collider_type();
 //     }
 
-    virtual inline std::string FilePath() const {
-        return "~/Projects/";
-    }
+    virtual  std::string FilePath() const;
 
-    std::string FileSuffix() const {
-        return ".root";
-    }
+    std::string FileSuffix() const;
 
-    void NewSignalFile(const std::string &name, const std::string &nice_name = " ") {
-        files_.emplace_back(get_file(name, nice_name));
-        tagger_.AddSignalTreeName(TreeName(name));
-    }
+    void NewSignalFile(const std::string &name, const std::string &nice_name = " ");
 
-    void NewBackgroundFile(const std::string &name, const std::string &nice_name = " ") {
-        files_.emplace_back(get_file(name, nice_name));
-        tagger_.AddBackgroundTreeName(TreeName(name));
-    }
+    void NewBackgroundFile(const std::string &name, const std::string &nice_name = " ");
 
-    void NewSignalFile(const std::string &name, const float crosssection) {
-        files_.emplace_back(get_file(name, crosssection));
-        tagger_.AddSignalTreeName(TreeName(name));
-    }
+    void NewSignalFile(const std::string &name, const float crosssection);
 
-    void NewBackgroundFile(const std::string &name, const float crosssection) {
-        files_.emplace_back(get_file(name, crosssection));
-        tagger_.AddBackgroundTreeName(TreeName(name));
-    }
+    void NewBackgroundFile(const std::string &name, const float crosssection);
 
-    inline File get_file(const std::string &name, const std::string &nice_name = " ") const {
-        return File(name, FilePath(), FileSuffix(), nice_name);
-    }
+    File get_file(const std::string &name, const std::string &nice_name = " ") const;
 
-    inline File get_file(const std::string &name, const float crosssection) const {
-        return File(name, FilePath(), FileSuffix(), crosssection);
-    }
+    File get_file(const std::string &name, const float crosssection) const;
 
-    inline std::string FileName(const std::string &name) const {
-        return ProcessName() + "_" + std::to_string(PreCut()) + "GeV";
-    }
+    std::string FileName(const std::string &name) const;
 
-    std::string TreeName(const std::string &name) const {
-        return name + "-run_01";
-    }
+    std::string TreeName(const std::string &name) const;
 
-    virtual int PassPreCut(Event &) {
-        Print(kError, "Apply pre cut", "no pre cut applied");
-        return 1;
-    }
+    virtual int PassPreCut(const Event &);
 
-    int RunAnalysis(Event &event, const Tagger::Stage stage, const Tag tag);
+    int RunAnalysis(const Event &event, const Stage stage, const Tag tag);
 
-    PreCuts &pre_cuts() {
-        return pre_cuts_;
-    }
+    PreCuts &pre_cuts();
 
-    Tagger &tagger(){
-      return tagger_;
-    }
+    Tagger &tagger();
+
+    bool Missing(const std::string &name) const;
 
 private:
+
+    std::string PathName(const std::string &file_name) const;
+
+    void RunTagger(analysis::Stage stage);
+
+    void RunFactory();
+
+    void RunSignificance();
+
+    void RunEfficiency();
 
     Tagger &tagger_;
 

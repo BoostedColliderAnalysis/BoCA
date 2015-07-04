@@ -1,6 +1,6 @@
-# pragma once
+#pragma once
 
-# include "../Leptons.hh"
+#include "../Leptons.hh"
 
 namespace analysis
 {
@@ -17,18 +17,10 @@ class Leptons : public analysis::Leptons
 
 public:
 
-    analysis::Jets Electrons();
+    analysis::Jets Electrons() const;
 
 
-    analysis::Jets Muons();
-
-protected:
-
-    inline std::string NameSpaceName() const {
-        return "exroot";
-    }
-
-private:
+    analysis::Jets Muons() const;
 
 };
 

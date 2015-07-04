@@ -1,17 +1,16 @@
-# ifndef HAnalysisBottomSumTagger_hh
-# define HAnalysisBottomSumTagger_hh
+#pragma once
 
-# include <sys/stat.h>
-# include <string>
+#include <sys/stat.h>
+#include <string>
 
-# include "File.hh"
-# include "Analysis.hh"
-// # include "HEventDelphes.hh"
-# include "Reader.hh"
-# include "Factory.hh"
-# include "JetTag.hh"
+#include "File.hh"
+#include "Analysis.hh"
+// #include "HEventDelphes.hh"
+#include "Reader.hh"
+#include "Factory.hh"
+#include "JetTag.hh"
 
-# include "HEventBottomTagger.hh"
+#include "HEventBottomTagger.hh"
 
 namespace hbottomsumtagger
 {
@@ -46,20 +45,10 @@ using analysis::Analysis::Analysis;
 
     void SetTrees();
 
-    std::vector<analysis::File> Files(const analysis::Object::Tag tag);
+    std::vector<analysis::File> Files(const analysis::Tag tag);
 
-    inline std::string ProjectName() const {
+     std::string ProjectName() const {
         return  ProductionChannelName(ProductionChannel()) + DetectorName(Detector())  + "_" + std::to_string(Mass()) + "GeV";
-    }
-
-protected:
-
-    virtual inline std::string NameSpaceName() const {
-        return "hbottomsumtagger";
-    }
-
-    virtual inline std::string ClassName() const {
-        return "HAnalysis";
     }
 
 private:
@@ -68,7 +57,7 @@ private:
     enum HProductionChannel {DYP, VBF, Associated, Simple};
     enum HDetectorType {LHC, FHC, LE};
 
-    inline int EventNumberMax() const {
+     int EventNumberMax() const {
 //         return 1000000;
 //         return 100000;
         return 10000;
@@ -76,20 +65,20 @@ private:
 //         return 100;
     };
 
-    inline HProductionChannel ProductionChannel() const {
+     HProductionChannel ProductionChannel() const {
 //         return DYP;
         return VBF;
 //         return Associated;
 //         return Simple;
     }
 
-    inline HDetectorType Detector() const {
+     HDetectorType Detector() const {
 //       return LHC;
 //       return FHC;
         return LE;
     }
 
-    inline std::string DetectorName(const HDetectorType DetectorType) const {
+     std::string DetectorName(const HDetectorType DetectorType) const {
         switch (DetectorType) {
         case LHC :
             return "14TeV";
@@ -98,13 +87,13 @@ private:
         case LE :
             return "LE";
         default:
-            Print(kError, "Detector Name", "unhandeld case");
+          Error("Detector Name", "unhandeld case");
             return "";
         }
     }
 
 
-    inline std::string ProductionChannelName(const HProductionChannel NewProductionChannel) const {
+     std::string ProductionChannelName(const HProductionChannel NewProductionChannel) const {
         switch (NewProductionChannel) {
         case Associated :
             return "llbb_";
@@ -115,23 +104,22 @@ private:
         case Simple :
             return "";
         default:
-            Print(kError, "ProductionChannelName", "unhandeld case");
+            Error("ProductionChannelName", "unhandeld case");
             return "";
         }
     }
 
-    inline ParticleId MotherId(const HProductionChannel NewProductionChannel) const {
+     analysis::Id MotherId(const HProductionChannel NewProductionChannel) const {
         switch (NewProductionChannel) {
         case DYP :
-            return ZId;
-//             return GluonId;
+          return analysis::Id::Z;
         case VBF :
-            return BottomId;
+          return analysis::Id::bottom;
         case Associated :
-            return GluonId;
+          return analysis::Id::gluon;
         default:
-            Print(kError, "MotherId", "unhandeld case");
-            return EmptyId;
+          Error("MotherId", "unhandeld case");
+            return analysis::Id::empty;
         }
     }
 
@@ -170,12 +158,12 @@ private:
         case ttgg:
             return "ttgg";
         default:
-            Print(kError, "ProcessName", "unhandeld case");
+          Error("ProcessName", "unhandeld case");
             return "";
         }
     }
 
-    inline int BackgroundFileNumber() const {
+     int BackgroundFileNumber() const {
         return 1;
     }
 
@@ -184,7 +172,7 @@ private:
         return 1;
     }
 
-    inline int Mass() const {
+     int Mass() const {
             return 0;
         //     return 400;
         //     return 600;
@@ -200,11 +188,11 @@ private:
         //         return 10000;
     }
 
-    inline std::string NameString(const ProcessType Process) const {
+     std::string NameString(const ProcessType Process) const {
         return ProductionChannelName(ProductionChannel()) + ProcessName(Process) + "_" + DetectorName(Detector());
     }
 
-    inline analysis::File BackgroundFile(const ProcessType Process) const {
+     analysis::File BackgroundFile(const ProcessType Process) const {
         return BackgroundFile(Process, BackgroundFileNumber());
     }
 
@@ -237,15 +225,13 @@ private:
 
 //     void NewBranches(exroot::TreeWriter &NewTreeWriter, const analysis::HAnalysis::HTagger Tagger);
 
-//     int RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const Tag tag);
+//     int RunAnalysis(analysis::Event &event, const analysis::Stage stage, const Tag tag);
 
-//     bool GetBottomTag(analysis::Event &event, const analysis::Object::Tag Tag);
-//     bool GetBottomReader(analysis::Event &event, const analysis::Object::Tag Tag);
+//     bool GetBottomTag(analysis::Event &event, const analysis::Tag Tag);
+//     bool GetBottomReader(analysis::Event &event, const analysis::Tag Tag);
 //
 //     bool GeteventSemiTag(analysis::Event &event, const Tag Tag);
 //     bool GeteventSemiReader(analysis::Event &event, const Tag Tag);
 
 };
 }
-#endif
-

@@ -1,13 +1,13 @@
-# include "Sextet.hh"
+#include "Sextet.hh"
 
 namespace analysis {
 
-Triplet Sextet::Triplet1() const
+Triplet &Sextet::Triplet1() const
 {
   return Multiplet1();
 }
 
-Triplet Sextet::Triplet2() const
+Triplet &Sextet::Triplet2() const
 {
   return Multiplet2();
 }

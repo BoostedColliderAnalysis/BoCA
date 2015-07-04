@@ -1,8 +1,8 @@
-# pragma once
+#pragma once
 
-# include "Quartet22.hh"
-# include "HiggsTagger.hh"
-# include "BranchesTopPartner.hh"
+#include "Quartet.hh"
+#include "HiggsTagger.hh"
+#include "BranchesTopPartner.hh"
 
 namespace analysis
 {
@@ -21,18 +21,12 @@ public:
 
     HiggsPairTagger();
 
-    int Train(Event &event, PreCuts &pre_cuts, const Object::Tag tag);
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag);
 
-    std::vector<Quartet22> Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
+    std::vector<Quartet22> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
-    int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
         return SaveEntries(Multiplets(event, pre_cuts, reader));
-    }
-
-protected:
-
-    virtual inline std::string ClassName() const {
-        return "HiggsPairTagger";
     }
 
 private:

@@ -1,14 +1,15 @@
-# include "SubStructure.hh"
-# include "Predicate.hh"
-
 #include  "exroot/ExRootAnalysis.hh"
-# include "Branches.hh"
+#include "SubStructure.hh"
+#include "Predicate.hh"
+
+#include "Branches.hh"
+#include "Debug.hh"
 
 namespace analysis {
 
 SubStructure::SubStructure()
 {
-    Print(kNotification, "Constructor");
+    Note();
 //   Shift = 1;
 }
 
@@ -25,17 +26,17 @@ bool SubStructure::GetSubJets(const fastjet::PseudoJet &CandidateJet)
     Jets PieceJets = CandidateJet.pieces();
     PieceJets = SortedByMass(PieceJets);
     if (PieceJets.size() != 2) {
-        Print(kNotification, "Wrong Number of SubJets", PieceJets.size()); // TODO reenable in smarter way
+        Note("Wrong Number of SubJets", PieceJets.size()); // TODO reenable in smarter way
         return 0;
     }
     if (PieceJets.at(0) == PieceJets.at(1)) {
-        Print(kNotification, "Just one Piece Jet");
+        Note("Just one Piece Jet");
         return 0;
     }
     // SubJets
     SubJet1.Mass = PieceJets.at(0).m();
     if (SubJet1.Mass <= 0) {
-        Print(kNotification, "No SubJet 1 Mass", SubJet1.Mass);
+        Note("No SubJet 1 Mass", SubJet1.Mass);
         return 0;
     }
     SubJet2.Mass = PieceJets.at(1).m();
@@ -43,7 +44,7 @@ bool SubStructure::GetSubJets(const fastjet::PseudoJet &CandidateJet)
     SubJet1.Pt = PieceJets.at(0).pt();
     SubJet2.Pt = PieceJets.at(1).pt();
     if (SubJet1.Pt <= 0 || SubJet2.Pt <= 0) {
-        Print(kNotification, "No SubJet Pt");
+        Note("No SubJet Pt");
         return 0;
     }
     Global.DeltaR = PieceJets.at(0).delta_R(PieceJets.at(1));
@@ -61,7 +62,7 @@ bool SubStructure::GetSubJets(const fastjet::PseudoJet &CandidateJet)
     // scale subjet distance to reference value
     const float SubJetDistance = Length(SubJet2.Rap, SubJet2.Phi);
     if (SubJetDistance <= 0) {
-        Print(kNotification, "No SubJet Distance", SubJetDistance);
+        Note("No SubJet Distance", SubJetDistance);
         return 0;
     }
     SubJetRatio =  GetPosDistance() / SubJetDistance;
@@ -71,7 +72,7 @@ bool SubStructure::GetSubJets(const fastjet::PseudoJet &CandidateJet)
 Vectors SubStructure::Getconstituents(const fastjet::PseudoJet &CandidateJet)
 {
     if (CandidateJet.constituents().empty()) {
-        Print(kNotification, "Not enough constituents", CandidateJet.constituents().size());
+        Note("Not enough constituents", CandidateJet.constituents().size());
 //         return 0;
     }
     if (!SubJets) GetSubJets(CandidateJet);
@@ -83,12 +84,12 @@ Vectors SubStructure::Getconstituents(const fastjet::PseudoJet &CandidateJet)
     DeltaR = 0;
     std::vector <TLorentzVector> constituentVectors;
     for (const auto & constituentJet : CandidateJet.constituents()) {
-        if (constituentJet.user_index() != IsrId &&
-                constituentJet.user_index() != CpvHiggsId &&
-                std::abs(constituentJet.user_index()) != TopId &&
-                constituentJet.user_index() != HiggsId
+        if (constituentJet.user_index() != to_int(Id::isr) &&
+                constituentJet.user_index() != to_int(Id::CP_violating_higgs) &&
+                std::abs(constituentJet.user_index()) != to_int(Id::top) &&
+                constituentJet.user_index() != to_int(Id::higgs)
            )
-            Print(kError, "Wrong UserId", constituentJet.user_index());
+            Error("Wrong UserId", constituentJet.user_index());
         const float Distance = constituentJet.delta_R(CandidateJet);
         if (Distance > DeltaR) DeltaR = Distance;
         const float Distance1 = constituentJet.delta_R(CandidateJet.pieces().at(0));
@@ -98,7 +99,7 @@ Vectors SubStructure::Getconstituents(const fastjet::PseudoJet &CandidateJet)
         } else if (Distance2 < Distance1) {
             SubJet2Pt += constituentJet.pt();
         } else {
-            Print(kError, "constituent is exactly in the middle");
+            Error("constituent is exactly in the middle");
         }
         // Get constituent coordinates in Higgs Jet coordinates
         float ConstRap = constituentJet.rap() - CandidateJet.rap();
@@ -135,7 +136,7 @@ bool SubStructure::GetIsolation(const fastjet::PseudoJet &CandidateJet, const Je
     Jets PieceJets = CandidateJet.pieces();
     PieceJets = SortedByMass(PieceJets);
     if (PieceJets.size() != 2) {
-        Print(kNotification, "Wrong Number of SubJets", PieceJets.size());
+        Note("Wrong Number of SubJets", PieceJets.size());
         return 0;
     }
     // Isolation
@@ -145,7 +146,7 @@ bool SubStructure::GetIsolation(const fastjet::PseudoJet &CandidateJet, const Je
     for (const auto & PieceJet : PieceJets) {
         for (const auto & LeptonJet : LeptonJets) {
             const float Distance = LeptonJet.delta_R(PieceJet);
-            Print(kDetailed, "DeltaR", Distance);
+            Detail("DeltaR", Distance);
             if (Distance < IsolationDeltaR) {
                 IsolationDeltaR = Distance;
                 ClosestLepton = LeptonJet;
@@ -166,9 +167,9 @@ bool SubStructure::GetIsolation(const fastjet::PseudoJet &CandidateJet, const Je
 
 float SubStructure::GetDiPolarity(const fastjet::PseudoJet &CandidateJet) const
 {
-    Print(kInformation, "Jing Dipolarity");
+    Info("Jing Dipolarity");
 //     Jets SubJetVector = CandidateJet.pieces();
-//     if (SubJetVector.size() != 2) Print(kError, "not two subjets");
+//     if (SubJetVector.size() != 2) Error("not two subjets");
 //
 //     // Filtering
 //     float ParentCylinderDistance = SubJetVector.at(0).delta_R(SubJetVector.at(1));
@@ -183,7 +184,7 @@ float SubStructure::GetDiPolarity(const fastjet::PseudoJet &CandidateJet) const
 //     Filter FatJetFilter(MassDropJetDefinition, ThreeHardest);
 //     fastjet::PseudoJet FilterJet = FatJetFilter(CandidateJet);
     const Jets SubJetVector = CandidateJet.pieces();
-    if (SubJetVector.size() != 2) Print(kError, "not two subjets");
+    if (SubJetVector.size() != 2) Error("not two subjets");
     float Rap1, Rap2, Phi1, Phi2;
     if (SubJetVector.at(0).rap() < SubJetVector.at(1).rap()) {
         Rap1 = SubJetVector.at(0).rap();

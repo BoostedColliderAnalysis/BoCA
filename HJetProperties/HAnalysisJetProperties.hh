@@ -1,30 +1,23 @@
-# ifndef HAnalysisJetProperties_hh
-# define HAnalysisJetProperties_hh
+#pragma once
 
-# include "Analysis.hh"
-// # include "HEventDelphes.hh"
-# include "File.hh"
+#include "Analysis.hh"
+// #include "HEventDelphes.hh"
+#include "File.hh"
 
-# include "HJetPropertiesBranch.hh"
-# include "SubStructure.hh"
-
-# include "fastjet/tools/Pruner.hh"
-# include "fastjet/tools/CASubJetTagger.hh"
+#include "HJetPropertiesBranch.hh"
+#include "SubStructure.hh"
+#include "fastjet/tools/Pruner.hh"
+#include "fastjet/tools/CASubJetTagger.hh"
 
 class hjetproperties::JetTag : public analysis::JetTag
 {
 
 public:
 
-    int GetBranchId(const int particle_id, int BranchId);
+    int GetBranchId(const int id, int BranchId);
 
-    const std::set<int> HeavyParticles = {TopId, CpvHiggsId, HiggsId};
+    const std::set<analysis::Id> HeavyParticles = {analysis::Id::top, analysis::Id::CP_violating_higgs, analysis::Id::higgs};
 
-    inline std::string ClassName() const {
-
-        return "HiggsCPV: jet_tag";
-
-    };
 
 };
 
@@ -43,11 +36,11 @@ public:
      */
     HAnalysis();
 
-    inline int GeteventnumberMax()const {
+     int GeteventnumberMax()const {
         return 10000;
     };
 
-    inline std::string ProjectName()const {
+     std::string ProjectName()const {
         return "JetProperties";
     }
 
@@ -182,16 +175,7 @@ private:
 
     void CloseFile();
 
-    inline analysis::Strings GetStudyNames() const;
+     analysis::Strings GetStudyNames() const;
 
-    virtual inline std::string ClassName() const {
-
-        return ("HAnalysisJetProperties");
-
-    };
 
 };
-
-
-#endif
-

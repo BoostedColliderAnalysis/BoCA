@@ -1,64 +1,25 @@
-# pragma once
+#pragma once
 
-# include "Tagger.hh"
-# include "Event.hh"
-# include "Branches.hh"
+#include "Tagger.hh"
 
 namespace analysis
 {
-
-class MvaResult : Object
-{
-
-public:
-
-    MvaResult();
-    std::vector<int> CutIntegral(const std::vector< int > &bins) const;
-
-    int steps;
-    std::vector<float> events;
-    std::vector<float> efficiency;
-    std::vector<int> analysis_event_number;
-    std::vector<float> bdt;
-    int event_sum;
-};
 
 /**
  * @brief Presents result of multivariant analysis
  *
  */
-class Reader : public Object
+class Reader
 {
 
 public:
 
-    /**
-     * @brief Default constructor
-     *
-     */
-    Reader();
-
-    /**
-     * @brief Constructor
-     *
-     */
-    Reader(Tagger &tagger);
-
     void SetTagger(Tagger &tagger);
 
-    void TaggingEfficiency();
-
-    void OptimalSignificance();
-
-    float Bdt() const;
-
-    int GetBdt(Event &event, PreCuts &pre_cuts) const {
-        if (!tagger_) Print(kError, "what is wrong with the tagger?");
-        return tagger().GetBdt(event, pre_cuts, reader_);
-    }
+    int Bdt(const analysis::Event &event, analysis::PreCuts &pre_cuts) const;
 
     template <typename Tagger, typename Input>
-    auto Multiplets(Input &input) {
+    auto Multiplets(Input &input) const {
         PreCuts pre_cuts;
         return static_cast<Tagger &>(tagger()).Multiplets(input, pre_cuts, reader_);
     }
@@ -85,18 +46,14 @@ public:
 
     template <typename Tagger, typename Input>
     auto SubMultiplet(Input &input) {
-      return static_cast<Tagger &>(tagger()).SubMultiplet(input, reader_);
-    }
-
-    TMVA::Reader &reader() {
-        return reader_;
-    }
-
-    Tagger &tagger() const {
-        return *tagger_;
+        return static_cast<Tagger &>(tagger()).SubMultiplet(input, reader_);
     }
 
 private:
+
+    const TMVA::Reader &reader() const;
+
+    Tagger &tagger() const;
 
     Tagger *tagger_;
 
@@ -105,22 +62,6 @@ private:
     void BookMva();
 
     void AddVariable();
-
-    analysis::InfoBranch InfoBranch(TFile &file, const std::string &tree_name) const;
-
-    std::vector<int> BdtDistribution(exroot::TreeReader &tree_reader, const std::string &tree_name, TFile &export_file) const;
-
-    MvaResult BdtResult(TFile &file, const std::string &tree_name, TFile &export_file) const;
-
-    void LatexHeader(std::ofstream &latex_file) const;
-
-    void LatexFooter(std::ofstream &latex_file) const;
-
-    inline std::string ClassName() const {
-        return "Reader";
-    }
-
-    int ColorCode(const int number) const;
 
 };
 

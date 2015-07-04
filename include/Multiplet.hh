@@ -1,6 +1,7 @@
-# pragma once
+#pragma once
 
-# include "Singlet.hh"
+#include "Singlet.hh"
+#include "DetectorGeometry.hh"
 
 namespace analysis
 {
@@ -12,7 +13,7 @@ class Multiplet : public Identification
 public:
 
     Multiplet() {
-        empty_ = true;
+//         empty_ = true;
     };
 
     Multiplet(const Multiplet_1 &multiplet_1, const Multiplet_2 &multiplet_2) {
@@ -27,21 +28,21 @@ public:
         multiplet_1_ = multiplet_1;
         multiplet_2_ = multiplet_2;
         SetBdt((multiplet_1_.Bdt() + multiplet_2_.Bdt()) / 2);
-        empty_ = false;
+//         empty_ = false;
     }
 
     void SetJet(const fastjet::PseudoJet &jet) {
         multiplet_1_ = Multiplet_1(jet / 2);
         multiplet_2_ = Multiplet_2(jet / 2);
         SetBdt((multiplet_1_.Bdt() + multiplet_2_.Bdt()) / 2);
-        empty_ = false;
+//         empty_ = false;
     }
 
-    inline Multiplet_1 Multiplet1()const {
+    Multiplet_1 &Multiplet1() const {
         return multiplet_1_;
     }
 
-    inline Multiplet_2 Multiplet2()const {
+    Multiplet_2 &Multiplet2() const {
         return multiplet_2_;
     }
 
@@ -50,7 +51,7 @@ public:
         return (multiplet.Overlap(multiplet_1_) | multiplet.Overlap(multiplet_2_));
     }
 
-    bool Overlap(const Singlet &singlet) const {
+    bool Overlap(const analysis::Singlet &singlet) const {
         return (multiplet_1_.Overlap(singlet) | multiplet_2_.Overlap(singlet));
     }
 
@@ -63,67 +64,84 @@ public:
     }
 
     bool Coincides(const fastjet::PseudoJet &jet)const {
-        return (Jet().delta_R(jet) < DetectorGeometry().JetConeSize);
+        return (Jet().delta_R(jet) < DetectorGeometry().JetConeSize());
     }
 
-    inline fastjet::PseudoJet Jet() const {
-        return Multiplet1().Jet() + Multiplet2().Jet();
+    // TODO clean this mess up; and figure out why the cases are necessary
+    fastjet::PseudoJet ConstituentJet() const {
+        fastjet::PseudoJet jet_1 = Multiplet1().ConstituentJet();
+        fastjet::PseudoJet jet_2 = Multiplet2().ConstituentJet();
+        fastjet::PseudoJet jet;
+        if(jet_1.has_constituents() && jet_2.has_constituents()) jet = fastjet::join(Join(jet_1.constituents(), jet_2.constituents()));
+        else if(jet_1.has_constituents()) jet = fastjet::join(jet_1.constituents());
+        else if(jet_2.has_constituents()) jet = fastjet::join(jet_2.constituents());
+        if (jet_1.has_user_info<JetInfo>() && jet_2.has_user_info<JetInfo>())
+        jet.set_user_info(new JetInfo(Join(jet_1.user_info<JetInfo>().constituents(), jet_2.user_info<JetInfo>().constituents())));
+        else if (jet_1.has_user_info<JetInfo>()) jet.set_user_info(new JetInfo(jet_1.user_info<JetInfo>().constituents()));
+        else if (jet_2.has_user_info<JetInfo>()) jet.set_user_info(new JetInfo(jet_2.user_info<JetInfo>().constituents()));
+        else jet.set_user_info(new JetInfo);
+        return jet;
     }
 
-    inline float DeltaPt() const {
+    fastjet::PseudoJet Jet() const {
+        return fastjet::join(Multiplet1().Jet(), Multiplet2().Jet());
+    }
+
+    float DeltaPt() const {
         return Multiplet1().Jet().pt() - Multiplet2().Jet().pt();
     }
 
-    inline float Ht() const {
+    float Ht() const {
         return Multiplet1().Ht() + Multiplet2().Ht();
     }
 
-    inline float DeltaRap() const {
+    float DeltaRap() const {
         float delta_rap = Multiplet1().Jet().rap() - Multiplet2().Jet().rap();
         if (std::abs(delta_rap) > 100) return 0;
         return delta_rap;
     }
 
-    inline float DeltaPhi() const {
+    float DeltaPhi() const {
         return Multiplet1().Jet().delta_phi_to(Multiplet2().Jet());
     }
 
-    inline float DeltaR() const {
+    float DeltaR() const {
         float delta_r = Multiplet1().Jet().delta_R(Multiplet2().Jet());
-        if (std::abs(delta_r) > 100) return 0;
+        if (std::abs(delta_r) > 100) delta_r = 0;
+//         if (delta_r < DetectorGeometry().MinCellResolution()) delta_r = Singlet(Jet()).DeltaR();
         return delta_r;
     }
 
-    inline float DeltaM() const {
+    float DeltaM() const {
         return Multiplet1().Jet().m() - Multiplet2().Jet().m();
     }
 
-    inline float DeltaHt() const {
+    float DeltaHt() const {
         return Multiplet1().Ht() - Multiplet2().Ht();
     }
 
-    inline float Rho() const {
-        if (Jet().pt() < DetectorGeometry().MinCellPt || DeltaR() < DetectorGeometry().MinCellResolution) return 0;
+    float Rho() const {
+        if (Jet().pt() < DetectorGeometry().MinCellPt() || DeltaR() < DetectorGeometry().MinCellResolution()) return 0;
         return Jet().m() / Jet().pt() / DeltaR() * 2;
     }
 
-    inline float MassDifferenceTo(const ParticleId particle_id) const {
-        return std::abs(Jet().m() - Mass(particle_id));
+    float MassDifferenceTo(const Id id) const {
+        return std::abs(Jet().m() - Mass(id));
     }
 
-    inline int Charge() const {
+    int Charge() const {
         return sgn(Multiplet1().Charge() + Multiplet2().Charge());
     }
 
-    bool IsEmpty() const {
-        return empty_;
+    analysis::Singlet singlet() const {
+        return Singlet(ConstituentJet());
     }
+
+//     bool IsEmpty() const {
+//         return empty_;
+//     }
 
 protected:
-
-    virtual inline std::string ClassName() const {
-        return "Multiplet";
-    }
 
     void SetMultiplet1(const Multiplet_1 multiplet_1) {
         multiplet_1_ = multiplet_1;
@@ -135,11 +153,11 @@ protected:
 
 private:
 
-    Multiplet_1 multiplet_1_;
+    mutable Multiplet_1 multiplet_1_;
 
-    Multiplet_2 multiplet_2_;
+    mutable Multiplet_2 multiplet_2_;
 
-    bool empty_ = false;
+//     bool empty_ = false;
 
 };
 

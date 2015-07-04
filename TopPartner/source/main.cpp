@@ -1,45 +1,10 @@
-# include "AnalysisTopPartner.hh"
+#include "AnalysisTopPartner.hh"
 
-# include "TSystem.h"
-# include "Factory.hh"
-# include "EventTagger.hh"
-# include "EventSingleTagger.hh"
-
-void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
-{
-    analysis::toppartner::Analysis analysis(tagger);
-    const std::string name = tagger.name(stage);
-    analysis.Print(analysis.kError, "Tagger", name);
-
-    std::string file_name = analysis.ProjectName() + "/" + name + ".root";
-    if (gSystem->AccessPathName(file_name.c_str())) analysis.AnalysisLoop(stage);
-}
-
-void RunFactory(analysis::Tagger &tagger)
-{
-    analysis::toppartner::Analysis analysis(tagger);
-    const std::string name = tagger.name(analysis::Tagger::kTrainer);
-    analysis.Print(analysis.kError, "Tagger", name);
-    std::string file_name = analysis.ProjectName() + "/Mva" + name + ".root";
-    if (gSystem->AccessPathName(file_name.c_str())) analysis::Factory factory(tagger);
-}
-
-void RunReader(analysis::Tagger &tagger)
-{
-    analysis::toppartner::Analysis analysis(tagger);
-    const std::string file_name = analysis.ProjectName() + "/" + tagger.tagger_name() + "Bdt.root";
-    if (gSystem->AccessPathName(file_name.c_str())) {
-        analysis::Reader reader(tagger);
-        reader.OptimalSignificance();
-    }
-}
-
-void Run(analysis::Tagger &tagger)
-{
-    RunTagger(tagger, analysis::Tagger::kTrainer);
-    RunFactory(tagger);
-    RunTagger(tagger, analysis::Tagger::kReader);
-}
+// #include "EventTagger.hh"
+#include "EventSingleTagger.hh"
+#include "TopPartnerLeptonicTagger.hh"
+#include "TopPartnerHadronicTagger.hh"
+#include "TopPartnerLeptonicPairTagger.hh"
 
 int main()
 {
@@ -47,58 +12,85 @@ int main()
     bool single = true;
 
     analysis::BottomTagger bottom_tagger;
-    Run(bottom_tagger);
+    analysis::toppartner::Analysis bottom_analysis(bottom_tagger);
+    bottom_analysis.RunNormal();
 
     analysis::HiggsTagger higgs_tagger;
-    Run(higgs_tagger);
+    analysis::toppartner::Analysis higgs_analysis(higgs_tagger);
+    higgs_analysis.RunFullEfficiency();
 
     analysis::WHadronicTagger w_hadronic_tagger;
-    Run(w_hadronic_tagger);
-
-    analysis::WSemiTagger w_semi_tagger;
-    Run(w_semi_tagger);
+    analysis::toppartner::Analysis w_hadronic_analysis(w_hadronic_tagger);
+    w_hadronic_analysis.RunFullEfficiency();
 
     analysis::TopHadronicTagger top_hadronic_tagger;
-    Run(top_hadronic_tagger);
+    analysis::toppartner::Analysis top_hadronic_analysis(top_hadronic_tagger);
+    top_hadronic_analysis.RunFullEfficiency();
 
-    analysis::TopSemiTagger top_semi_tagger;
-    Run(top_semi_tagger);
+//     analysis::WSemiTagger w_semi_tagger;
+//     analysis::toppartner::Analysis w_semi_analysis(w_semi_tagger);
+//     w_semi_analysis.RunFullTagger();
 
-    analysis::ZHadronicTagger z_hadronic_tagger;
-    Run(z_hadronic_tagger);
+//     analysis::TopSemiTagger top_semi_tagger;
+//     analysis::toppartner::Analysis top_semi_analysis(top_semi_tagger);
+//         top_semi_analysis.RunFullTagger();
 
-    analysis::toppartner::TopPartnerSemiTagger top_partner_semi_tagger;
-    Run(top_partner_semi_tagger);
+    analysis::TopLeptonicTagger top_leptonic_tagger;
+    analysis::toppartner::Analysis top_leptonic_analysis(top_leptonic_tagger);
+    top_leptonic_analysis.RunFullEfficiency();
+
+    analysis::toppartner::TopPartnerLeptonicTagger top_partner_leptonic_tagger;
+    analysis::toppartner::Analysis top_partner_leptonic_analysis(top_partner_leptonic_tagger);
+    top_partner_leptonic_analysis.RunFullEfficiency();
+
+        analysis::toppartner::TopPartnerHadronicTagger top_partner_hadronic_tagger;
+        analysis::toppartner::Analysis top_partner_hadronic_analysis(top_partner_hadronic_tagger);
+        top_partner_hadronic_analysis.RunFullEfficiency();
+
+        analysis::toppartner::TopPartnerLeptonicPairTagger top_partner_leptonic_pair_tagger;
+        analysis::toppartner::Analysis top_partner_leptonic_pair_analysis(top_partner_leptonic_pair_tagger);
+        top_partner_leptonic_pair_analysis.RunFullEfficiency();
+
+        analysis::toppartner::EventSingleTagger event_tagger;
+        analysis::toppartner::Analysis event_analysis(event_tagger);
+        event_analysis.RunFullSignificance();
+
+
+//     analysis::ZHadronicTagger z_hadronic_tagger;
+//     analysis::toppartner::Analysis z_hadronic_analysis(z_hadronic_tagger);
+//     z_hadronic_analysis.RunFullTagger();
+
+//     analysis::toppartner::TopPartnerSemiTagger top_partner_semi_tagger;
+//     analysis::toppartner::Analysis top_partner_semi_analysis(top_partner_semi_tagger);
+//     top_partner_semi_analysis.RunFullTagger();
 
     if (single) {
 
-        analysis::toppartner::TopPartnerHiggsPairTagger top_partner_higgs_pair_tagger;
-        Run(top_partner_higgs_pair_tagger);
-
-        analysis::toppartner::SignatureSingleTagger signature_tagger;
-        Run(signature_tagger);
-
-        analysis::toppartner::EventSingleTagger event_tagger;
-        Run(event_tagger);
-        RunReader(event_tagger);
+//         analysis::toppartner::TopPartnerHiggsPairTagger top_partner_higgs_pair_tagger;
+//         analysis::toppartner::Analysis top_partner_higgs_pair_analysis(top_partner_higgs_pair_tagger);
+//         top_partner_higgs_pair_analysis.RunFullTagger();
+//
+//         analysis::toppartner::SignatureSingleTagger signature_tagger;
+//         analysis::toppartner::Analysis signature_analysis(signature_tagger);
+//         signature_analysis.RunFullTagger();
 
     } else {
-
-//         analysis::toppartner::TopPartnerHadronicTagger top_partner_hadronic_tagger;
-//         Run(top_partner_hadronic_tagger);
 //
 //         analysis::toppartner::HiggsPairTagger higgs_pair_tagger;
-//         Run(higgs_pair_tagger);
+//         analysis::toppartner::Analysis higgs_pair_analysis(higgs_pair_tagger);
+//         higgs_pair_analysis.RunFullTagger();
 //
 //         analysis::toppartner::TopPartnerPairTagger top_partner_pair_tagger;
-//         Run(top_partner_pair_tagger);
+//         analysis::toppartner::Analysis top_partner_pair_analysis(top_partner_pair_tagger);
+//         top_partner_pair_analysis.RunFullTagger();
 //
 //         analysis::toppartner::SignatureTagger signature_tagger;
-//         Run(signature_tagger);
+//         analysis::toppartner::Analysis signature_analysis(signature_tagger);
+//         signature_analysis.RunFullTagger();
 //
 //         analysis::toppartner::EventTagger event_tagger;
-//         Run(event_tagger);
-//         RunReader(event_tagger);
+//         analysis::toppartner::Analysis event_analysis(event_tagger);
+//         event_analysis.RunFullTagger();
 
     }
 

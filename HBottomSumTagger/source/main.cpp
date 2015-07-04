@@ -1,12 +1,13 @@
-# include "HAnalysisBottomSumTagger.hh"
-# include "JetPairTagger.hh"
-# include "TSystem.h"
+#include "HAnalysisBottomSumTagger.hh"
+#include "JetPairTagger.hh"
+#include "TSystem.h"
+#include "Debug.hh"
 
-void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
+void RunTagger(analysis::Tagger &tagger, analysis::Stage stage)
 {
     hbottomsumtagger::HAnalysis analysis(tagger);
-    const std::string Name = tagger.tagger_name();
-    analysis.Print(analysis.kError, "Tagger", Name);
+    const std::string Name = tagger.name();
+    Error("Tagger", Name);
 
     std::string FileName = analysis.ProjectName() + "/" + Name + ".root";
     if (gSystem->AccessPathName(FileName.c_str())) analysis.AnalysisLoop(stage);
@@ -29,8 +30,8 @@ void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
     if (gSystem->AccessPathName(FileName.c_str())) {
 //         switch (tagger) {
 //           case analysis::HAnalysis::HJetPairReader: {
-//             Analysis.SetTrees(analysis::HAnalysis::HJetPairReader, analysis::Object::kBackground);
-            analysis::Reader Reader(tagger);
+//             Analysis.SetTrees(analysis::HAnalysis::HJetPairReader, analysis::Tag::background);
+//             analysis::Reader Reader(tagger);
 //             Reader.SimpleMVALoop();
 //             break;
 //         }
@@ -44,11 +45,11 @@ void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
 int main()
 {
   analysis::BottomTagger bottom_tagger;
-  RunTagger(bottom_tagger, analysis::Tagger::kTrainer);
+  RunTagger(bottom_tagger, analysis::Stage::trainer);
 
   analysis::JetPairTagger jet_pair_tagger;
-  RunTagger(jet_pair_tagger, analysis::Tagger::kTrainer);
-  RunTagger(jet_pair_tagger, analysis::Tagger::kReader);
+  RunTagger(jet_pair_tagger, analysis::Stage::trainer);
+  RunTagger(jet_pair_tagger, analysis::Stage::reader);
 
     return 0;
 

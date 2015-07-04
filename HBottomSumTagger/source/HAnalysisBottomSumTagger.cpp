@@ -1,36 +1,9 @@
-# include "HAnalysisBottomSumTagger.hh"
+#include "HAnalysisBottomSumTagger.hh"
+#include "Debug.hh"
 
-// hbottomsumtagger::HAnalysis::HAnalysis()
-// {
-//     //     DebugLevel = analysis::Object::kDebug;
-//     Print(kNotification, "Constructor");
-//     BottomTagger.SetAnalysisName(ProjectName());
-//     eventBottomSumTagger.SetAnalysisName(ProjectName());
-//     mkdir(ProjectName().c_str(), 0700);
-// }
-
-// std::string hbottomsumtagger::HAnalysis::StudyName(const analysis::HAnalysis::HTagger Tagger) const
-// {
-//     Print(kNotification, "Study Names", Tagger);
-//
-//     switch (Tagger) {
-//     case  BottomTagger :
-//         return "Bottom";
-//     case  HBottomReader :
-//         return "BottomReader";
-//     case  JetPairTagger :
-//         return "eventBottom";
-//     case  HJetPairReader :
-//         return "eventBottomReader";
-//     default :
-//         Print(kError, "unexpected TaggerName", Tagger);
-//         return "";
-//     }
-// }
-
-std::vector<analysis::File> hbottomsumtagger::HAnalysis::Files(const analysis::Object::Tag tag)
+std::vector<analysis::File> hbottomsumtagger::HAnalysis::Files(const analysis::Tag tag)
 {
-    Print(kNotification, "Set File Vector", tag);
+  Note("Set File Vector", Name(tag));
 
     std::vector<analysis::File> SignalLeptonicFiles;
     std::vector<analysis::File> BackgroundLeptonicFiles;
@@ -77,53 +50,53 @@ std::vector<analysis::File> hbottomsumtagger::HAnalysis::Files(const analysis::O
 //     switch (Tagger) {
 //     case  BottomTagger :
 //         switch (Tag) {
-//         case Object::kSignal :
+//         case Tag::signal :
 //             NewFiles = SemiFiles;
 //             break;
-//         case Object::kBackground :
+//         case Tag::background :
 //             NewFiles = SemiFiles;
 //             break;
 //         }
 //         break;
 //     case  HBottomReader :
 //         switch (Tag) {
-//         case Object::kSignal :
+//         case Tag::signal :
 //             NewFiles = SignalSemiFiles;
 //             break;
-//         case Object::kBackground :
+//         case Tag::background :
 //             NewFiles = BackgroundSemiFiles;
 //             break;
 //         }
 //         break;
 //     case  JetPairTagger :
 //         switch (Tag) {
-//         case Object::kSignal :
+//         case Tag::signal :
 //             NewFiles = SignalSemiFiles;
 //             break;
-//         case Object::kBackground :
+//         case Tag::background :
 //             NewFiles = BackgroundSemiFiles;
 //             break;
 //         }
 //         break;
 //     case  HJetPairReader :
 //         switch (Tag) {
-//         case Object::kSignal :
+//         case Tag::signal :
 //             NewFiles = SignalSemiFiles;
 //             break;
-//         case Object::kBackground :
+//         case Tag::background :
 //             NewFiles = BackgroundSemiFiles;
 //             break;
 //         }
 //         break;
 //     default:
-//         Print(kError, "Files", "unknown tagger name", Tagger);
+//         Error("Files", "unknown tagger name", Tagger);
 //     }
 
     switch (tag) {
-      case Object::kSignal :
+      case analysis::Tag::signal :
         NewFiles = SignalSemiFiles;
         break;
-      case Object::kBackground :
+      case analysis::Tag::background :
         NewFiles = BackgroundSemiFiles;
         break;
     }
@@ -182,12 +155,12 @@ void hbottomsumtagger::HAnalysis::SetTrees()
 //     case HBottomTagger:
 //         BottomTagger.SetSignalTreeNames(SemiTrees);
 //         BottomTagger.SetBackgroundTreeNames(SemiTrees);
-//         if (Tag == kSignal) {
+//         if (Tag == Tag::signal) {
 //             BottomTagger.SetTagger();
 //         }
 //         break;
 //     case HBottomReader:
-//         if (Tag == kSignal) {
+//         if (Tag == Tag::signal) {
 //             BottomTagger.SetTagger();
 //         }
 //         BottomTagger.SetSignalTreeNames(SemiTrees);
@@ -196,19 +169,19 @@ void hbottomsumtagger::HAnalysis::SetTrees()
 //     case JetPairTagger :
 //         eventBottomSumTagger.SetSignalTreeNames(SignalSemiTrees);
 //         eventBottomSumTagger.SetBackgroundTreeNames(BackgroundSemiTrees);
-//         if (Tag == kSignal) {
+//         if (Tag == Tag::signal) {
 //             eventBottomSumTagger.SetTagger(BottomTagger);
 //         }
 //         break;
 //     case HJetPairReader :
-//         if (Tag == kSignal) {
+//         if (Tag == Tag::signal) {
 //             eventBottomSumTagger.SetTagger(BottomTagger);
 //         }
 //         eventBottomSumTagger.SetSignalTreeNames(SignalSemiTrees);
 //         eventBottomSumTagger.SetBackgroundTreeNames(BackgroundSemiTrees);
 //         break;
 //     default :
-//         Print(kError, "SetTrees", "unhandeled case");
+//         Error("SetTrees", "unhandeled case");
     //     }
 //     tagger_.SetSignalTreeNames(SignalSemiTrees);
 //     tagger_.SetBackgroundTreeNames(BackgroundSemiTrees);
@@ -216,8 +189,8 @@ void hbottomsumtagger::HAnalysis::SetTrees()
 
 // void hbottomsumtagger::HAnalysis::PrepareReader(const analysis::HAnalysis::HTagger Tagger, const Tag Tag)
 // {
-//     Print(kInformation, "Prepare Reader", Tagger);
-//     if (Tag == kBackground) {
+//     Info("Prepare Reader", Tagger);
+//     if (Tag == Tag::background) {
 //         return;
 //     }
 //     switch (Tagger) {
@@ -235,13 +208,13 @@ void hbottomsumtagger::HAnalysis::SetTrees()
 //         eventBottomSumReader.set_tagger(eventBottomSumTagger);
 //         break;
 //     default :
-//         Print(kError, "PrepareReader", "unhandled case");
+//         Error("PrepareReader", "unhandled case");
 //     }
 // }
 
 // void hbottomsumtagger::HAnalysis::NewBranches(exroot::TreeWriter &NewTreeWriter, const analysis::HAnalysis::HTagger Tagger)
 // {
-//     Print(kNotification, "New Branches", Tagger);
+//     Note("New Branches", Tagger);
 //
 //     switch (Tagger) {
 //     case BottomTagger :
@@ -257,14 +230,14 @@ void hbottomsumtagger::HAnalysis::SetTrees()
 //         Branch = NewTreeWriter.NewBranch(StudyName(Tagger).c_str(), EventBottomTaggerBranch::Class());
 //         break;
 //     default :
-//         Print(kError, "No Branch filled");
+//         Error("No Branch filled");
 //     }
 //
 // }
 
-// int hbottomsumtagger::HAnalysis::RunAnalysis(analysis::Event &, const analysis::Tagger::Stage , const Tag )
+// int hbottomsumtagger::HAnalysis::RunAnalysis(analysis::Event &, const analysis::Stage , const Tag )
 // {
-//     Print(kInformation, "Analysis");
+//     Info("Analysis");
 //     ++event_sum_;
 
 //     switch (Tagger) {
@@ -277,7 +250,7 @@ void hbottomsumtagger::HAnalysis::SetTrees()
 //     case HJetPairReader :
 //         return GeteventSemiReader(event, Tag);
 //     default :
-//         Print(kError, "unknown Tagger", Tagger);
+//         Error("unknown Tagger", Tagger);
 //         return 0;
 //     }
 //     tagger_.GetBranches(event,stage,tag);
@@ -287,7 +260,7 @@ void hbottomsumtagger::HAnalysis::SetTrees()
 
 // bool hbottomsumtagger::HAnalysis::GetBottomTag(analysis::Event &event, const Tag Tag)
 // {
-//     Print(kDebug, "Bottom Tag", Tag);
+//     Debug("Bottom Tag", Tag);
 //     std::vector<BottomBranch> Bottoms = BottomTagger.GetBranches(event, Tag);
 //     if (Bottoms.empty()) {
 //         return 0;
@@ -300,25 +273,25 @@ void hbottomsumtagger::HAnalysis::SetTrees()
 //
 // bool hbottomsumtagger::HAnalysis::GetBottomReader(analysis::Event &event, const Tag Tag)
 // {
-//     Print(kDebug, "Bottom Reader", Tag);
+//     Debug("Bottom Reader", Tag);
 //     Jets jets = bottom_tagger_.GetJets(event);
 //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader);
 //     if (jets.empty()) return 0;
 //
 //
 //     Jets Particles = event.Partons().GenParticles();
-//     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(BottomId)), Particles.end());
+//     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(Id::bottom)), Particles.end());
 //
 //     int BNumber=0;
 //     for (const auto & Particle : Particles) {
 //         std::sort(jets.begin(), jets.end(), MinDeltaR(Particle));
-//         if (jets.front().delta_R(Particle) < BottomTagger.detector_geometry().JetConeSize) {
-//             static_cast<analysis::JetInfo *>(jets.front().user_info_shared_ptr().get())->SetTag(kSignal);
+//         if (jets.front().delta_R(Particle) < BottomTagger.detector_geometry().JetConeSize()) {
+//             static_cast<analysis::JetInfo *>(jets.front().user_info_shared_ptr().get())->SetTag(Signal);
 //             ++BNumber;
 //         }
 //     }
 //
-// //     if(Tag == kSignal && BNumber <4 )
+// //     if(Tag == Tag::signal && BNumber <4 )
 //
 //     for (const auto & Jet : jets)  {
 //         if (Tag != Jet.user_info<analysis::JetInfo>().Tag()) {
@@ -335,7 +308,7 @@ void hbottomsumtagger::HAnalysis::SetTrees()
 //
 // bool hbottomsumtagger::HAnalysis::GeteventSemiTag(analysis::Event &event, const Tag Tag)
 // {
-//     Print(kInformation, "event semi", Tag);
+//     Info("event semi", Tag);
 //     std::vector<EventBottomTaggerBranch> Semievents = eventBottomSumTagger.GetBranches(event, Tag);
 //     if (Semievents.empty()) return 0;
 //     for (const auto & Semievent : Semievents) {
@@ -347,7 +320,7 @@ void hbottomsumtagger::HAnalysis::SetTrees()
 //
 // bool hbottomsumtagger::HAnalysis::GeteventSemiReader(analysis::Event &event, const Tag Tag)
 // {
-//     Print(kInformation, "event semi", Tag);
+//     Info("event semi", Tag);
 //
 //     Jets jets = bottom_tagger_.GetJets(event);
 //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader);
@@ -358,14 +331,14 @@ void hbottomsumtagger::HAnalysis::SetTrees()
 // //
 // //     Jets BottomJets;
 // //     Jets Particles = event.Partons().GenParticles();
-// //     Particles = BottomTagger.RemoveIfWrongAbsParticle(Particles,BottomId);
+// //     Particles = BottomTagger.RemoveIfWrongAbsParticle(Particles,Id::bottom);
 // //     for (const auto & Particle : Particles) {
 // //       std::sort(jets.begin(), jets.end(), MinDeltaR(Particle));
-// //       if (jets.front().delta_R(Particle) < BottomTagger.detector_geometry().JetConeSize)
+// //       if (jets.front().delta_R(Particle) < BottomTagger.detector_geometry().JetConeSize())
 // //         BottomJets.emplace_back(jets.front());
 // //     }
 // //
-// //     if (Tag == kSignal && BottomJets.size() < 4) return 0;
+// //     if (Tag == Tag::signal && BottomJets.size() < 4) return 0;
 // //     if (Tag == HBackground && BottomJets.size() < 2) return 0;
 //
 //

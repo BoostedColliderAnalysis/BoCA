@@ -1,8 +1,9 @@
-# pragma once
+#pragma once
 
-# include "Reader.hh"
-# include "Doublet.hh"
-# include "BranchTagger.hh"
+#include "Reader.hh"
+#include "Doublet.hh"
+#include "BranchTagger.hh"
+#include "Branches.hh"
 
 namespace analysis {
 
@@ -17,27 +18,21 @@ public:
 
     WSemiTagger();
 
-    int Train(Event &event, PreCuts &, const Object::Tag tag);
+    int Train(const Event &event, PreCuts &, const Tag tag);
 
-    std::vector<Doublet> Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
+    std::vector<Doublet> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
-    int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
       return SaveEntries(Multiplets(event,pre_cuts, reader));
     }
 
-    int WSemiId(Event &event) {
+    int WSemiId(const Event &event) {
         return WSemiId(WSemiDaughters(event));
-    }
-
-protected:
-
-    virtual inline std::string ClassName() const {
-        return "WSemiTagger";
     }
 
 private:
 
-    Jets WSemiDaughters(Event &event);
+    Jets WSemiDaughters(const Event &event);
 
     int WSemiId(const Jets &jets);
 

@@ -1,9 +1,9 @@
-# pragma once
+#pragma once
 
-# include "Quartet22.hh"
-# include "Sextet.hh"
-# include "TopLeptonicTagger.hh"
-# include "Branch.hh"
+#include "TopLeptonicTagger.hh"
+#include "Quartet.hh"
+#include "Sextet.hh"
+#include "Branch.hh"
 
 namespace analysis
 {
@@ -22,15 +22,9 @@ public:
 
     HeavyHiggsLeptonicTagger();
 
-    int Train(Event &event, const Object::Tag tag);
+    int Train(const Event &event, const Tag tag);
 
-    std::vector<Sextet> Multiplets(Event &event, const TMVA::Reader &reader);
-
-protected:
-
-    virtual inline std::string ClassName() const {
-        return "HeavyHiggsLeptonicTagger";
-    }
+    std::vector<Sextet> Multiplets(const Event &event, const TMVA::Reader &reader);
 
 private:
 

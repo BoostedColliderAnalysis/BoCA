@@ -1,6 +1,6 @@
-# pragma once
+#pragma once
 
-# include "Analysis.hh"
+#include "Analysis.hh"
 
 namespace analysis{
 
@@ -8,7 +8,7 @@ namespace toppartner {
 
 /**
  *
- * @brief HAnalysis subclass defining the HiggsCPV Analysis
+ * @brief Top partner analysis
  *
  * \author Jan Hajer
  *
@@ -18,14 +18,13 @@ class Analysis : public analysis::Analysis
 
 public:
 
-
   Analysis(Tagger &tagger);
 
-  void SetFiles(const Object::Tag tag);
+protected:
 
-  inline std::string ProjectName() const {
-    return  "TopPartner";
-  }
+  void SetFiles(const Tag tag);
+
+   std::string ProjectName() const;
 
   std::string ProcessName();
 
@@ -33,24 +32,16 @@ public:
    * @brief Maximal number of Entries to analyse
    *
    */
-  inline int EventNumberMax() const {
-    return 1000;
-  }
+   int EventNumberMax() const;
 
-protected:
+  virtual  std::string FilePath() const;
 
-
-  virtual inline std::string FilePath() const {
-    return "~/Projects/TopPartner/Analysis/";
-  }
-
-  virtual inline std::string NameSpaceName() const {
-    return "toppartner";
-  }
 
 private:
 
-  int PassPreCut(Event &event);
+  int PreCut() const;
+
+  int PassPreCut(const Event &event);
 
 };
 

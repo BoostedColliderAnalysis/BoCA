@@ -1,8 +1,8 @@
-# pragma once
+#pragma once
 
-# include "Triplet.hh"
-# include "TopLeptonicTagger.hh"
-# include "Branch.hh"
+#include "TopLeptonicTagger.hh"
+#include "Triplet.hh"
+#include "Branch.hh"
 
 namespace analysis
 {
@@ -21,15 +21,9 @@ public:
 
     ChargedHiggsLeptonicTagger();
 
-    int Train(analysis::Event &event, const analysis::Object::Tag tag);
+    int Train(const Event &event, const analysis::Tag tag);
 
-    std::vector<analysis::Triplet> Multiplets(analysis::Event &event, const TMVA::Reader &reader);
-
-protected:
-
-    virtual inline std::string ClassName() const {
-        return "ChargedHiggsLeptonicTagger";
-    }
+    std::vector<analysis::Triplet> Multiplets(const Event &event, const TMVA::Reader &reader);
 
 private:
 

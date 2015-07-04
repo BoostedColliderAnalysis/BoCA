@@ -1,9 +1,9 @@
-# pragma once
+#pragma once
 
-# include "Doublet.hh"
-# include "TauTagger.hh"
-# include "Reader.hh"
-# include "Branch.hh"
+#include "TauTagger.hh"
+#include "Doublet.hh"
+#include "Reader.hh"
+#include "Branch.hh"
 
 namespace analysis
 {
@@ -22,15 +22,9 @@ public:
 
     HeavyHiggsTauTagger();
 
-    int Train(Event &event, const Object::Tag tag);
+    int Train(const Event &event, const Tag tag);
 
-    std::vector<Doublet>  Multiplets(Event &event, const TMVA::Reader &reader);
-
-protected:
-
-    virtual inline std::string ClassName() const {
-        return "HeavyHiggsTauTagger";
-    };
+    std::vector<Doublet>  Multiplets(const Event &event, const TMVA::Reader &reader);
 
 private:
     TauTagger tau_tagger_;

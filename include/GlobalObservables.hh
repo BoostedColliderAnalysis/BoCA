@@ -1,21 +1,19 @@
-# pragma once
+#pragma once
 
-# include "Singlet.hh"
-# include "Event.hh"
-# include "BottomTagger.hh"
-# include "Reader.hh"
+#include "Event.hh"
+#include "Singlet.hh"
+// #include "BottomTagger.hh"
+// #include "Reader.hh"
 
 namespace analysis
 {
 
-class GlobalObservables : Object
+class GlobalObservables
 {
 
 public:
 
-    GlobalObservables();
-
-    void SetEvent(Event &event, const analysis::Jets &jets);
+    void SetEvent(const Event &event, const analysis::Jets &jets);
 
     int LeptonNumber()const;
 
@@ -42,12 +40,6 @@ public:
     analysis::Jets Jets() const;
 
     void SetJets(const analysis::Jets jets);
-
-protected:
-
-  virtual inline std::string ClassName() const {
-    return ("GlobalObservables");
-  }
 
 private:
 

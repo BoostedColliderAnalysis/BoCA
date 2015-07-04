@@ -1,5 +1,8 @@
-# include "delphes/Partons.hh"
-# include "Predicate.hh"
+#include "delphes/Partons.hh"
+#include "delphes/Delphes.hh"
+#include "Predicate.hh"
+#include "JetInfo.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
@@ -7,32 +10,27 @@ namespace analysis
 namespace delphes
 {
 
-Partons::Partons()
-{
-//     DebugLevel = Object::kDebug;
-    Print(kDebug, "Constructor");
-}
-
 Jets Partons::Particles() const
 {
-    return Particles(kStable);
+    return Particles(Status::stable);
 }
 
 Jets Partons::GenParticles() const
 {
-    return Particles(kGenerator);
+  return Particles(Status::generator);
 }
 
-Jets Partons::Particles(const Object::Status min_status) const
+Jets Partons::Particles(const Status min_status) const
 {
+    Info();
     Jets particles;
-    Print(kInformation, "Particles", clones_arrays().ParticleSum());
+    Info(clones_arrays().ParticleSum());
     for (const int ParticleNumber : Range(clones_arrays().ParticleSum())) {
         ::delphes::GenParticle &particle = static_cast<::delphes::GenParticle &>(clones_arrays().Particle(ParticleNumber));
-        if (particle.Status < min_status) break;
-        Print(kDetailed, "Particles ID", particle.PID);
-        int MotherId = EmptyId;
-        int Mother2Id = EmptyId;
+        if (particle.Status < to_int(min_status)) break;
+        Detail(particle.PID);
+        int MotherId = to_int(Id::empty);
+        int Mother2Id = to_int(Id::empty);
         if (particle.M1 != EmptyPosition) {
             ::delphes::GenParticle &mother = static_cast<::delphes::GenParticle &>(clones_arrays().Particle(particle.M1));
             MotherId = mother.PID;
@@ -41,7 +39,6 @@ Jets Partons::Particles(const Object::Status min_status) const
             ::delphes::GenParticle &mother = static_cast<::delphes::GenParticle &>(clones_arrays().Particle(particle.M2));
             Mother2Id = mother.PID;
         }
-        Print(kInformation, "Particles Status", "Generator");
         Family family(particle.PID, MotherId, Mother2Id);
         Constituent constituent(particle.P4(), family);
         fastjet::PseudoJet jet = analysis::PseudoJet(constituent.Momentum());

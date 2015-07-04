@@ -1,7 +1,7 @@
-# pragma once
+#pragma once
 
-# include "MultipletEvent.hh"
-# include "SignatureChargedTagger.hh"
+#include "MultipletEvent.hh"
+#include "SignatureChargedTagger.hh"
 
 namespace analysis
 {
@@ -25,19 +25,9 @@ public:
     */
     EventChargedTagger();
 
-    int Train(Event &event, const Tag tag);
+    int Train(const Event &event, const Tag tag);
 
-    std::vector<MultipletEvent<Octet44>> Multiplets(Event &event, const TMVA::Reader &reader);
-
-protected:
-
-    virtual inline std::string NameSpaceName() const {
-        return "heavyhiggs";
-    }
-
-    virtual inline std::string ClassName() const {
-        return "EventChargedTagger";
-    }
+    std::vector<MultipletEvent<Octet44>> Multiplets(const Event &event, const TMVA::Reader &reader);
 
 private:
 

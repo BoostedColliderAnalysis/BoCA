@@ -1,5 +1,6 @@
-# include "exroot/Partons.hh"
-# include "JetInfo.hh"
+#include "exroot/Partons.hh"
+#include "JetInfo.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
@@ -7,28 +8,23 @@ namespace analysis
 namespace exroot
 {
 
-Partons::Partons()
-{
-    Print(kNotification, "Constructor");
-}
-
 Jets Partons::Particles() const
 {
-    return Particles(kStable);
+    return Particles(Status::stable);
 }
 
 Jets Partons::GenParticles() const
 {
-    return Particles(kGenerator);
+  return Particles(Status::generator);
 }
 
-Jets Partons::Particles(const Object::Status max_status) const
+Jets Partons::Particles(const Status max_status) const
 {
-    Print(kInformation, "Particles", clones_arrays().ParticleSum());
+    Info(clones_arrays().ParticleSum());
     Jets particles;
     for (const int ParticleNumber : Range(clones_arrays().ParticleSum())) {
         TRootLHEFParticle &particle = static_cast<TRootLHEFParticle &>(clones_arrays().Particle(ParticleNumber));
-        if (particle.Status < max_status) break;
+        if (particle.Status < to_int(max_status)) break;
         Family family(particle.PID);
         Constituent constituent(LorentzVector(particle), family);
         fastjet::PseudoJet jet = PseudoJet(particle);

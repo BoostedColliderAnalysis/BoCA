@@ -1,4 +1,6 @@
-# include "exroot/Hadrons.hh"
+#include "exroot/Hadrons.hh"
+#include "Debug.hh"
+#include "JetInfo.hh"
 
 namespace analysis
 {
@@ -6,9 +8,9 @@ namespace analysis
 namespace exroot
 {
 
-Jets Hadrons::Jets()
+Jets Hadrons::Jets() const
 {
-    Print(kInformation, "Jets", clones_arrays().JetSum());
+    Info(clones_arrays().JetSum());
     analysis::Jets jets;
     for (const int JetNumber : Range(clones_arrays().JetSum())) {
         ::exroot::Jet &jet = static_cast<::exroot::Jet &>(clones_arrays().Jet(JetNumber));

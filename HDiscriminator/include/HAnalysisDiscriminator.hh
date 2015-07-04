@@ -1,10 +1,10 @@
-# pragma once
+#pragma once
 
-# include "Analysis.hh"
-# include "File.hh"
-// # include "HEventDelphes.hh"
-# include "HBranchDiscriminator.hh"
-# include "SubStructure.hh"
+#include "Analysis.hh"
+#include "File.hh"
+// #include "HEventDelphes.hh"
+#include "HBranchDiscriminator.hh"
+#include "SubStructure.hh"
 
 
 namespace hcpvhiggs{
@@ -19,15 +19,9 @@ class JetTag : public analysis::JetTag
 
 public:
 
-    int GetBranchId(const int particle_id, int BranchId);
+    int GetBranchId(const int id, int BranchId);
 
-    const std::set<int> HeavyParticles {TopId, CpvHiggsId, HiggsId};
-
-    virtual inline std::string ClassName() const {
-
-        return "HiggsCPV: JetTag";
-
-    };
+    const std::set<analysis::Id> HeavyParticles {analysis::Id::top, analysis::Id::CP_violating_higgs, analysis::Id::higgs};
 
 };
 
@@ -75,13 +69,13 @@ public:
 
 private:
 
-    inline int EventNumberMax() const {
+     int EventNumberMax() const {
 
         return 10000;
 
     };
 
-    inline std::string ProjectName()const {
+     std::string ProjectName()const {
 
         return "Discriminator";
 
@@ -126,13 +120,7 @@ private:
      */
     void NewBranches(exroot::TreeWriter *NewTreeWriter);
 
-    inline analysis::Strings GetStudyNames() const;
-
-    virtual inline std::string ClassName() const {
-
-        return "HiggsCPV: HAnalysis";
-
-    };
+     analysis::Strings GetStudyNames() const;
 
 };
 

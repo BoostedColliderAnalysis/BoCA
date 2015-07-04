@@ -1,11 +1,11 @@
-# pragma once
+#pragma once
 
-# include "Object.hh"
+#include <string>
 
 namespace analysis
 {
 
-class Observable : public Object
+class Observable
 {
 
 public:

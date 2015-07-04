@@ -1,7 +1,7 @@
-# pragma once
+#pragma once
 
-# include "Tagger.hh"
-# include "TMVA/Factory.h"
+#include "Tagger.hh"
+#include "TMVA/Factory.h"
 
 namespace analysis{
 
@@ -9,7 +9,7 @@ namespace analysis{
  * @brief Prepares multivariant analysis
  *
  */
-class Factory : public Object
+class Factory
 {
 
 public:
@@ -45,15 +45,11 @@ private:
      */
     void PrepareTrainingAndTestTree(const int event_number);
 
-    int AddTree(TFile &file, const std::string &tree_name, const Object::Tag tag);
+    int AddTree(TFile &file, const std::string &tree_name, const Tag tag);
 
     TFile *output_file() const;
 
     std::string factory_options();
-
-    inline std::string ClassName() const {
-        return "Factory";
-    }
 
     Tagger &tagger() const {
         return tagger_;

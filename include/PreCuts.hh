@@ -1,52 +1,53 @@
-# pragma once
+#pragma once
 
-# include <map>
-# include "Object.hh"
+#include <map>
+#include "Global.hh"
+
 
 namespace analysis
 {
 
-class PreCuts : public analysis::Object
+class PreCuts
 {
 public:
-    void SetPtLowerCut(const ParticleId particle_id, const float value) {
-        pt_lower_cut_[particle_id] = value;
+    void SetPtLowerCut(const Id id, const float value) {
+        pt_lower_cut_[id] = value;
     }
 
-    float PtLowerCut(const ParticleId particle_id) {
-        return pt_lower_cut_[particle_id];
+    float PtLowerCut(const Id id) {
+        return pt_lower_cut_[id];
     }
 
-    void SetPtUpperCut(const ParticleId particle_id, const float value) {
-        pt_upper_cut_[particle_id] = value;
+    void SetPtUpperCut(const Id id, const float value) {
+        pt_upper_cut_[id] = value;
     }
 
-    float PtUpperCut(const ParticleId particle_id) {
-        return pt_upper_cut_[particle_id];
+    float PtUpperCut(const Id id) {
+        return pt_upper_cut_[id];
     }
 
-    void SetMassLowerCut(const ParticleId particle_id, const float value) {
-      mass_lower_cut_[particle_id] = value;
-    }   
-
-    float MassLowerCut(const ParticleId particle_id) {
-      return mass_lower_cut_[particle_id];
+    void SetMassLowerCut(const Id id, const float value) {
+        mass_lower_cut_[id] = value;
     }
 
-    void SetMassUpperCut(const ParticleId particle_id, const float value) {
-      mass_upper_cut_[particle_id] = value;
+    float MassLowerCut(const Id id) {
+        return mass_lower_cut_[id];
     }
 
-    float MassUpperCut(const ParticleId particle_id) {
-      return mass_upper_cut_[particle_id];
+    void SetMassUpperCut(const Id id, const float value) {
+        mass_upper_cut_[id] = value;
     }
 
-    void SetTrackerMaxEta(const ParticleId particle_id, const float value) {
-        tracker_eta_upper_cut_[particle_id] = value;
+    float MassUpperCut(const Id id) {
+        return mass_upper_cut_[id];
     }
 
-    float TrackerMaxEta(const ParticleId particle_id) {
-        return tracker_eta_upper_cut_[particle_id];
+    void SetTrackerMaxEta(const Id id, const float value) {
+        tracker_eta_upper_cut_[id] = value;
+    }
+
+    float TrackerMaxEta(const Id id) {
+        return tracker_eta_upper_cut_[id];
     }
 
     bool DoSubJets()const {
@@ -58,12 +59,19 @@ public:
     }
 
 private:
-    std::map<ParticleId, float> pt_lower_cut_;
-    std::map<ParticleId, float> pt_upper_cut_;
-    std::map<ParticleId, float> mass_lower_cut_;
-    std::map<ParticleId, float> mass_upper_cut_;
-    std::map<ParticleId, float> tracker_eta_upper_cut_;
+
+    std::map<Id, float> pt_lower_cut_;
+
+    std::map<Id, float> pt_upper_cut_;
+
+    std::map<Id, float> mass_lower_cut_;
+
+    std::map<Id, float> mass_upper_cut_;
+
+    std::map<Id, float> tracker_eta_upper_cut_;
+
     bool do_sub_jets_ = true;
+
 };
 
 

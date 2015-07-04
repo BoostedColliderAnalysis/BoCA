@@ -1,8 +1,8 @@
-# pragma once
+#pragma once
 
-# include "BottomTagger.hh"
-# include "Doublet.hh"
-# include "Reader.hh"
+#include "BottomTagger.hh"
+#include "Doublet.hh"
+#include "Reader.hh"
 
 namespace analysis
 {
@@ -18,15 +18,9 @@ public:
 
     JetPairTagger();
 
-    int Train(Event &event, PreCuts &pre_cuts, const Tag tag);
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag);
 
-    std::vector<Doublet> Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
-
-protected:
-
-    virtual inline std::string ClassName() const {
-        return "JetPairTagger";
-    }
+    std::vector<Doublet> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
 
 private:
 

@@ -1,37 +1,16 @@
-# pragma once
+#pragma once
 
-# include <map>
-# include <unordered_map>
+#include <map>
+#include <unordered_map>
 
-# include "fastjet/JetDefinition.hh"
+// #include "fastjet/JetDefinition.hh"
 
-# include "Identification.hh"
-# include "Constituent.hh"
-# include "delphes/Delphes.hh"
+#include "Identification.hh"
+#include "Constituent.hh"
+#include "delphes/Delphes.hh"
 
 namespace analysis
 {
-
-class DetectorGeometry
-{
-public:
-    enum JetType {kJet, kGenJet, kEFlowJet};
-    DetectorGeometry();
-    float JetMinPt;
-    float JetConeSize;
-    float MinCellPt;
-    float MinCellResolution;
-    float TrackerEtaMax;
-    float JetRadiusParameter;
-    fastjet::JetDefinition JetDefinition;
-    fastjet::JetDefinition SubJetDefinition;
-    float TrackerDistanceMin;
-    float TrackerDistanceMax;
-    float VertexMassMin;
-    JetType jet_type;
-private:
-    enum DetectorType {CMS, Spp};
-};
 
 /**
  * @brief Jet infos subclassed from Fastjet
@@ -66,9 +45,11 @@ public:
 
     JetInfo(const std::vector<Constituent> &constituents);
 
-    void Addconstituent(const Constituent &constituent);
+    JetInfo operator+(const JetInfo &jet_info);
 
-    void Addconstituents(const std::vector<Constituent> &constituents);
+    void AddConstituent(const Constituent &constituent);
+
+    void AddConstituents(const std::vector<Constituent> &constituents);
 
     void AddDaughter(const int daughter);
 
@@ -90,21 +71,21 @@ public:
 
     float VertexEnergy() const;
 
-    void ExtractFraction(const int particle_id);
+    void ExtractFraction(const int id);
 
-    void ExtractAbsFraction(const int particle_id);
+    void ExtractAbsFraction(const int id);
 
-    void ExtractFraction(const int particle_id, const int mother_id);
+    void ExtractFraction(const int id, const int mother_id);
 
-    void PrintAllInfos(const Object::Severity severity) const;
+    void PrintAllInfos(const Severity severity) const;
 
-    void PrintAllconstituentInfos(const Object::Severity severity) const;
+    void PrintAllconstituentInfos(const Severity severity) const;
 
-    void PrintAllFamInfos(const Object::Severity severity) const;
+    void PrintAllFamInfos(const Severity severity) const;
 
     float MaximalFraction() const;
 
-    float Fraction(const int particle_id) const;
+    float Fraction(const int id) const;
 
     int MaximalId() const;
 
@@ -137,32 +118,26 @@ public:
     }
 
     void SetTauTag(const bool tau_tag) {
-      tau_tag_ = tau_tag;
+        tau_tag_ = tau_tag;
     }
 
     bool TauTag() const {
-      return tau_tag_;
+        return tau_tag_;
     }
 
     void SetCharge(const int charge) {
-      charge_ = charge;
+        charge_ = charge;
     }
 
     int Charge() const;
 
     void SetDelphesTags(const ::delphes::Jet &jet);
 
-protected:
-
-    inline std::string ClassName() const {
-        return "JetInfo";
-    }
-
 private:
 
-    DetectorGeometry detector_geometry_;
-
     void AddParticle(const int constituent_id, const float weight);
+
+    void AddParticle(const Id constituent_id, const float weight);
 
     float GetWeightSum() const;
 
@@ -178,7 +153,7 @@ private:
 
     bool tau_tag_ = 0;
 
-    int charge_ = 0;
+    int charge_ = LargeNumber();
 
 };
 
@@ -187,9 +162,7 @@ private:
  *
  */
 struct SortByBdt {
-    inline bool operator()(const fastjet::PseudoJet &jet_1, const fastjet::PseudoJet &jet_2) {
-        return (jet_1.user_info<analysis::JetInfo>().Bdt() > jet_2.user_info<analysis::JetInfo>().Bdt());
-    }
+    bool operator()(const fastjet::PseudoJet &jet_1, const fastjet::PseudoJet &jet_2);
 };
 
 }

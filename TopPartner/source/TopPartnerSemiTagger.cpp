@@ -1,4 +1,5 @@
-# include "TopPartnerSemiTagger.hh"
+#include "TopPartnerSemiTagger.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
@@ -8,17 +9,16 @@ namespace toppartner
 
 TopPartnerSemiTagger::TopPartnerSemiTagger()
 {
-//         DebugLevel = Object::kDetailed;
-    Print(kNotification, "Constructor");
+    Note();
     set_tagger_name("TopPartnerSemi");
     top_reader_.SetTagger(top_tagger_);
     z_hadronic_reader_.SetTagger(z_hadronic_tagger);
     DefineVariables();
 }
 
-int TopPartnerSemiTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
+int TopPartnerSemiTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag)
 {
-    Print(kInformation, "Higgs Tags");
+    Info("Higgs Tags");
     std::vector< Triplet> triplets = top_reader_.Multiplets<TopSemiTagger>(event);
     std::vector< Doublet> doublets = z_hadronic_reader_.Multiplets<ZHadronicTagger>(event);
     std::vector< Quintet > quintets;
@@ -32,7 +32,7 @@ int TopPartnerSemiTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
     return SaveEntries(quintets);
 }
 
-std::vector<Quintet> TopPartnerSemiTagger::Multiplets(analysis::Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader)
+std::vector<Quintet> TopPartnerSemiTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader)
 {
     std::vector< Triplet> triplets = top_reader_.Multiplets<TopSemiTagger>(event);
     std::vector< Doublet> doublets = z_hadronic_reader_.Multiplets<ZHadronicTagger>(event);
