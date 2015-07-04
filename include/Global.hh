@@ -71,11 +71,11 @@ private:
     int iterator_;
 };
 
-template <typename Element>
 /**
  * @brief Join two std::vector
  *
  */
+template <typename Element>
 std::vector<Element> Join(const std::vector<Element> &vector_1, const std::vector<Element> &vector_2)
 {
     std::vector<Element> joined;
@@ -114,7 +114,7 @@ enum class Id
     photon = 22,
     Z = 23,
     W = 24,
-    higgs = 25,
+    higgs = 25, //<Higgs boson
     heavy_higgs = 35,
     CP_odd_higgs = 36,
     charged_higgs = 37,

@@ -1,6 +1,4 @@
 #include "AnalysisTopPartner.hh"
-#include "Factory.hh"
-#include <sys/stat.h>
 #include "Debug.hh"
 
 namespace analysis
@@ -22,7 +20,12 @@ std::string Analysis::ProcessName()
 
 std::string Analysis::ProjectName() const
 {
-  return  "TopPartner-tt";
+    return  "TopPartner_"+ std::to_string(PreCut()) + "GeV";
+}
+
+int toppartner::Analysis::PreCut() const
+{
+ return 100;
 }
 
 
@@ -37,8 +40,9 @@ void Analysis::SetFiles(const Tag tag)
         break;
     case Tag::background :
 //         NewBackgroundFile("pp-ttbb-bbbbjjlv");
-//         NewBackgroundFile("pp-tthjj-bbbbjjjjlv");
-        NewBackgroundFile("tt_inc-LE-0GeV_0");
+//       NewBackgroundFile("pp-tthjj-bbbbjjjjlv);
+      NewBackgroundFile("pp-tthjj-bbbbjjjjlv_" + std::to_string(PreCut()) +"GeV");
+//         NewBackgroundFile("tt_inc-LE-0GeV_0");
         break;
     }
 }
@@ -46,71 +50,19 @@ void Analysis::SetFiles(const Tag tag)
 int Analysis::PassPreCut(const Event &event)
 {
     Info();
+    Jets particles = event.Partons().GenParticles();
+    particles = RemoveIfSoft(particles, PreCut());
+    Jets tops = copy_if_abs_particle(particles, Id::top);
+    Jets higgs = copy_if_abs_particle(particles, Id::higgs);
+    if (tops.size() < 2 || higgs.size() < 1) return 0;
     return 1;
 }
 
-void Analysis::RunFast()
-{
-    RunTagger(analysis::Stage::trainer);
-    RunFactory();
-}
-
-void Analysis::RunNormal()
-{
-    RunFast();
-    RunTagger(analysis::Stage::reader);
-}
-
-void Analysis::RunFull()
-{
-    RunNormal();
-    RunReader();
-}
-
-void Analysis::RunFullTagger()
-{
-    RunNormal();
-    RunReaderTagger();
-}
-
-void Analysis::RunTagger(Stage stage)
-{
-    if (Missing(PathName(tagger().name(stage)))) AnalysisLoop(stage);
-}
-
-void Analysis::RunFactory()
-{
-    PrepareFiles();
-    if (Missing(PathName(tagger().factory_name()))) analysis::Factory factory(tagger());
-}
-
-void Analysis::RunReader()
-{
-    PrepareFiles();
-    if (Missing(PathName(tagger().bdt_weight_name()))) {
-        analysis::Reader reader(tagger());
-        reader.OptimalSignificance();
-    }
-}
-
-void Analysis::RunReaderTagger()
-{
-    PrepareFiles();
-    if (Missing(PathName(tagger().bdt_weight_name()))) {
-        analysis::Reader reader(tagger());
-        reader.TaggingEfficiency();
-    }
-}
-
-std::string Analysis::PathName(const std::string &file_name) const
-{
-    Error(file_name);
-    return ProjectName() + "/" + file_name + ".root";
-}
 int Analysis::EventNumberMax() const
 {
     return 1000;
 }
+
 std::string Analysis::FilePath() const
 {
     return "~/Projects/TopPartner/Analysis/";

@@ -215,58 +215,6 @@ std::string Analysis::BackgroundTree(const standardmodel::Analysis::Process Proc
     return ProcessName(Process) + "_" + std::to_string(LowerPtCut()) + "GeV" + "-run_01";
 }
 
-void Analysis::RunFast()
-{
-    RunTagger(analysis::Stage::trainer);
-    RunFactory();
-}
-
-void Analysis::RunNormal()
-{
-    RunFast();
-    RunTagger(analysis::Stage::reader);
-}
-
-void Analysis::RunFull()
-{
-    RunNormal();
-    RunReader();
-}
-
-void Analysis::RunTagger(Stage stage)
-{
-    if (Missing(PathName(tagger().name(stage)))) AnalysisLoop(stage);
-}
-
-void Analysis::RunFactory()
-{
-    PrepareFiles();
-    if (Missing(PathName(tagger().factory_name()))) analysis::Factory factory(tagger());
-}
-
-void Analysis::RunReader()
-{
-    PrepareFiles();
-    if (Missing(PathName(tagger().bdt_weight_name()))) {
-        analysis::Reader reader(tagger());
-        reader.TaggingEfficiency();
-    }
-}
-
-std::string Analysis::PathName(const std::string &file_name) const
-{
-    Error(file_name);
-    return ProjectName() + "/" + file_name + ".root";
-}
-
-bool Analysis::Missing(const std::string &name) const
-{
-    Error(name);
-    struct stat buffer;
-    return (stat(name.c_str(), &buffer) != 0);
-}
-
-
 }
 
 }

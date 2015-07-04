@@ -15,6 +15,8 @@ enum class Stage
     reader
 };
 
+std::string Name(const Stage stage);
+
 /**
  * @brief Prepares multivariant analysis
  *
@@ -36,11 +38,15 @@ public:
 
     std::string factory_name() const;
 
+    std::string export_name() const;
+
     std::string signal_file_name(const Stage stage) const;
 
     std::string background_file_name(const Stage stage) const;
 
     std::string reader_name() const;
+
+    std::string reader(const std::string &name) const;
 
     std::string name(const Stage stage) const;
 
@@ -73,6 +79,8 @@ public:
     std::string weight_branch_name() const;
 
     std::string background_name() const;
+
+    std::string background(const std::string &name) const;
 
     std::string signal_name() const;
 

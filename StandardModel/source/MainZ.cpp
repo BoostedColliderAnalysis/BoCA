@@ -9,6 +9,6 @@ int main()
 
     analysis::ZHadronicTagger z_hadronic_tagger;
     analysis::standardmodel::AnalysisZ z_hadronic_analysis(z_hadronic_tagger);
-    z_hadronic_analysis.RunFull();
+    z_hadronic_analysis.RunFullEfficiency();
 }
 

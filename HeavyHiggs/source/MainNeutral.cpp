@@ -23,8 +23,8 @@ void RunTagger(analysis::Tagger &tagger, analysis::Stage stage, const analysis::
 
     file_name = analysis.ProjectName() + "/" + name + "Bdt.root";
     if (gSystem->AccessPathName(file_name.c_str())) {
-      analysis::Reader Reader(tagger);
-      Reader.OptimalSignificance();
+//       analysis::Reader Reader(tagger);
+//       Reader.OptimalSignificance();
     }
 }
 
