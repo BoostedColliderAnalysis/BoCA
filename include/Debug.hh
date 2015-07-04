@@ -11,6 +11,7 @@
 #pragma GCC diagnostic ignored "-Wgnu-zero-variadic-macro-arguments"
 #pragma clang diagnostic ignored "-Wgnu-zero-variadic-macro-arguments"
 
+// defined by cmake for debug runs
 #ifndef NDEBUG
 #define NOTIFICATION
 #endif

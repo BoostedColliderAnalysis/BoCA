@@ -405,5 +405,11 @@ bool SortByBdt::operator()(const fastjet::PseudoJet &jet_1, const fastjet::Pseud
 {
     return (jet_1.user_info<analysis::JetInfo>().Bdt() > jet_2.user_info<analysis::JetInfo>().Bdt());
 }
+JetInfo JetInfo::operator+(const JetInfo &jet_info)
+{
+    JetInfo result;
+    result.AddConstituents(jet_info.constituents());
+    return result;
+}
 
 }

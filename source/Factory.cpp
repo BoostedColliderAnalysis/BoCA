@@ -5,11 +5,12 @@
 #include "Branches.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace analysis
+{
 
 Factory::Factory(Tagger &tagger) : tagger_(tagger) , factory_(tagger.name(), output_file(), factory_options())
 {
-    Note();
+    Error();
     AddVariables();
     PrepareTrainingAndTestTree(GetTrees());
     BookMethods();
@@ -25,8 +26,7 @@ std::string Factory::factory_options()
 
 TFile *Factory::output_file() const
 {
-    const std::string factory_name = "Mva" + tagger().name();
-    const std::string file_name = tagger().analysis_name() + "/" + factory_name + ".root";
+    const std::string file_name = tagger().analysis_name() + "/" + tagger().factory_name() + ".root";
     return TFile::Open(file_name.c_str(), "Recreate");
 }
 
@@ -81,8 +81,7 @@ int Factory::AddTree(TFile &file, const std::string &tree_name, const Tag tag)
     exroot::TreeReader &tree_reader = *new exroot::TreeReader(&tree); // FIXME nasty hack with memeory leak; necessary because the tree reader destructor closes the file which makes it invisible for tmva; reimplment in a cleaner way!!
     TClonesArray &clones_array = *tree_reader.UseBranch(tagger().weight_branch_name().c_str());
     tree_reader.ReadEntry(0);
-//     const float crosssection = static_cast<InfoBranch &>(*clones_array.First()).Crosssection / tree_reader.GetEntries(); // this takes care of the multiplicity
-    const float crosssection = dynamic_cast<InfoBranch &>(*clones_array.First()).Crosssection / tree_reader.GetEntries(); // this takes care of the multiplicity
+    const float crosssection = static_cast<InfoBranch &>(*clones_array.First()).Crosssection / tree_reader.GetEntries(); // this takes care of the multiplicity
     Note("Weight", crosssection);
     switch (tag) {
     case Tag::signal :

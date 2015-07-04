@@ -3,6 +3,7 @@
 #include "Reader.hh"
 #include "Doublet.hh"
 #include "BranchTagger.hh"
+#include "Branches.hh"
 
 namespace analysis {
 

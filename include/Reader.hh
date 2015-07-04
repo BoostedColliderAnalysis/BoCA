@@ -1,46 +1,9 @@
 #pragma once
 
 #include "Tagger.hh"
-#include "Event.hh"
-#include "Branches.hh"
-#include "TLegend.h"
 
 namespace analysis
 {
-
-class Result
-{
-
-public:
-
-    Result();
-    std::vector<int> CutIntegral() const;
-
-    int steps;
-    std::vector<float> events;
-    std::vector<float> efficiency;
-    std::vector<int> analysis_event_number;
-    std::vector<float> bdt;
-    std::vector<int> bins;
-    InfoBranch info_branch;
-    int event_sum() {
-//         return info_branch.EventNumber;
-      return event_sum_;
-    }
-    void set_event_sum(const int event_sum) {
-        event_sum_ = event_sum;
-    }
-private:
-    int event_sum_;
-};
-
-struct Results {
-
-public:
-
-    std::vector<Result> signal;
-    std::vector<Result> background;
-};
 
 /**
  * @brief Presents result of multivariant analysis
@@ -51,37 +14,9 @@ class Reader
 
 public:
 
-    /**
-     * @brief Default constructor
-     *
-     */
-    Reader();
-
-    /**
-     * @brief Constructor
-     *
-     */
-    Reader(Tagger &tagger);
-
     void SetTagger(Tagger &tagger);
 
-    void TaggingEfficiency();
-
-    void OptimalSignificance();
-
-    float Bdt() const;
-
-    TLegend Legend(float x_min, float y_max, float width, float height, const std::string &name = "");
-
-    Results ExportFile() const;
-
-    std::vector<Result> Export(TFile &export_file, const std::string &file_name, const analysis::Strings &treename) const;
-
-    void PlotMultiGraph(const analysis::Results &results);
-
-    void PlotHistograms(const analysis::Results &results);
-
-    int GetBdt(const analysis::Event &event, analysis::PreCuts &pre_cuts) const;
+    int Bdt(const analysis::Event &event, analysis::PreCuts &pre_cuts) const;
 
     template <typename Tagger, typename Input>
     auto Multiplets(Input &input) const {
@@ -114,15 +49,11 @@ public:
         return static_cast<Tagger &>(tagger()).SubMultiplet(input, reader_);
     }
 
-    TMVA::Reader &reader() {
-        return reader_;
-    }
-
-    Tagger &tagger() const {
-        return *tagger_;
-    }
-
 private:
+
+    const TMVA::Reader &reader() const;
+
+    Tagger &tagger() const;
 
     Tagger *tagger_;
 
@@ -131,22 +62,6 @@ private:
     void BookMva();
 
     void AddVariable();
-
-    analysis::InfoBranch InfoBranch(TFile &file, const std::string &tree_name) const;
-
-    Result BdtDistribution(exroot::TreeReader &tree_reader, const std::string &tree_name, TFile &export_file) const;
-
-    Result BdtResult(TFile &file, const std::string &tree_name, TFile &export_file) const;
-
-    void LatexHeader(std::ofstream &latex_file) const;
-
-    void LatexFooter(std::ofstream &latex_file) const;
-
-    int ColorCode(const int number) const;
-
-    std::string ExportName() const{
-      return tagger().analysis_name() + "/" + tagger().analysis_name() + "-" + tagger().name();
-    }
 
 };
 

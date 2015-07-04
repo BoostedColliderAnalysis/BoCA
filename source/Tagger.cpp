@@ -71,11 +71,11 @@ std::string Tagger::branch_name() const
     return name_;
 }
 
-void Tagger::set_tagger_name(const std::string &tagger_name)
+void Tagger::set_tagger_name(const std::string &name)
 {
-    name_ = tagger_name;
-    signal_file_names_ = {tagger_name};
-    background_file_names_ = {"Not" + tagger_name};
+    name_ = name;
+    signal_file_names_ = {name};
+    background_file_names_ = {background(name)};
 }
 std::string Tagger::name() const
 {
@@ -85,29 +85,17 @@ std::string Tagger::factory_name() const
 {
     return "Mva" + name();
 }
-std::string Tagger::signal_file_name(const Stage stage) const
+std::string Tagger::export_name() const
 {
-    const std::string file_name = analysis_name() + "/" + signal_name();
-    switch (stage) {
-    case Stage::trainer :
-        return file_name;
-    case Stage::reader :
-        return file_name + "Reader";
-    }
-}
-std::string Tagger::background_file_name(const Stage stage) const
-{
-    const std::string file_name = analysis_name() + "/" + background_name();
-    switch (stage) {
-    case Stage::trainer :
-        return file_name;
-    case Stage::reader :
-        return file_name + "Reader";
-    }
+  return analysis_name() + "-" + name();
 }
 std::string Tagger::reader_name() const
 {
-    return name_ + "Reader";
+    return reader(name_);
+}
+std::string Tagger::reader(const std::string &name) const
+{
+    return name + "Reader";
 }
 std::string Tagger::name(const Stage stage) const
 {
@@ -120,20 +108,32 @@ std::string Tagger::name(const Stage stage) const
 }
 std::string Tagger::name(const Stage stage, const Tag tag) const
 {
-    std::string name;
-    switch (stage) {
-    case Stage::trainer :
-        name = name_;
-        break;
-    case Stage::reader :
-        name = reader_name();
-        break;
-    }
+    std::string name = Tagger::name(stage);
     switch (tag) {
     case Tag::signal :
         return name;
     case Tag::background :
-        return "Not" + name;
+        return background(name);
+    }
+}
+std::string Tagger::signal_file_name(const Stage stage) const
+{
+    const std::string name = analysis_name() + "/" + signal_name();
+    switch (stage) {
+    case Stage::trainer :
+        return name;
+    case Stage::reader :
+        return reader(name);
+    }
+}
+std::string Tagger::background_file_name(const Stage stage) const
+{
+    const std::string name = analysis_name() + "/" + background_name();
+    switch (stage) {
+    case Stage::trainer :
+        return name;
+    case Stage::reader :
+        return reader(name);
     }
 }
 std::string Tagger::analysis_name() const
@@ -184,8 +184,9 @@ std::string Tagger::bdt_method_name() const
     return "Bdt";
 }
 
-std::string Tagger::bdt_weight_name() const{
-  return name() + "_" + bdt_method_name() + ".weights.xml";
+std::string Tagger::bdt_weight_name() const
+{
+    return name() + "_" + bdt_method_name() + ".weights.xml";
 }
 
 std::string Tagger::weight_branch_name() const
@@ -194,7 +195,11 @@ std::string Tagger::weight_branch_name() const
 }
 std::string Tagger::background_name() const
 {
-    return "Not" + name_;
+    return background(name_);
+}
+std::string Tagger::background(const std::string &name) const
+{
+    return "Not" + name;
 }
 std::string Tagger::signal_name() const
 {
@@ -240,6 +245,16 @@ int Tagger::max_combi() const
 exroot::TreeBranch &Tagger::tree_branch()
 {
     return *tree_branch_;
+}
+
+std::string Name(const analysis::Stage stage)
+{
+    switch (stage) {
+    case Stage::trainer :
+        return "Trainer";
+    case Stage::reader :
+        return "Reader";
+    }
 }
 
 }

@@ -31,7 +31,7 @@ void RunTagger(analysis::Tagger &tagger, analysis::Stage stage)
 //         switch (tagger) {
 //           case analysis::HAnalysis::HJetPairReader: {
 //             Analysis.SetTrees(analysis::HAnalysis::HJetPairReader, analysis::Tag::background);
-            analysis::Reader Reader(tagger);
+//             analysis::Reader Reader(tagger);
 //             Reader.SimpleMVALoop();
 //             break;
 //         }

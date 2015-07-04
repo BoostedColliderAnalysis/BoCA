@@ -13,13 +13,13 @@ int main()
       case analysis::standardmodel::Decay::hadronic : {
         analysis::WHadronicTagger w_hadronic_tagger;
         analysis::standardmodel::AnalysisW w_hadronic_analysis(w_hadronic_tagger);
-        w_hadronic_analysis.RunFull();
+        w_hadronic_analysis.RunFullEfficiency();
         break;
     }
       case analysis::standardmodel::Decay::semi : {
         analysis::WSemiTagger w_semi_tagger;
         analysis::standardmodel::AnalysisW w_semi_analysis(w_semi_tagger);
-        w_semi_analysis.RunFull();
+        w_semi_analysis.RunFullEfficiency();
         break;
     }
     }

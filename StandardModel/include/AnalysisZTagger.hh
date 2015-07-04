@@ -5,7 +5,7 @@
 namespace analysis
 {
 
-  namespace standardmodel
+namespace standardmodel
 {
 /**
  *
@@ -26,7 +26,7 @@ private:
 
     void SetFiles(const Tag tag);
 
-     std::string ProjectName() const;
+    std::string ProjectName() const;
 
     int PassPreCut(const Event &event);
 

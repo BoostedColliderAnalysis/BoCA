@@ -32,8 +32,8 @@ void RunTagger(analysis::Tagger &tagger, analysis::Stage stage)
 //         switch (Tagger) {
 //           case analysis::Analysis::HJetPairReader: {
 //             Analysis.SetTrees(analysis::Analysis::HJetPairReader, analysis::Tag::background);
-            analysis::Reader Reader(tagger);
-            Reader.OptimalSignificance();
+//             analysis::Reader Reader(tagger);
+//             Reader.OptimalSignificance();
 //             break;
 //         }
 //         default:

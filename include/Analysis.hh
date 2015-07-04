@@ -3,6 +3,7 @@
 #include "File.hh"
 #include "Configuration.hh"
 #include "Reader.hh"
+#include "Branches.hh"
 
 namespace analysis
 {
@@ -24,22 +25,23 @@ public:
 
     void AnalysisLoop(const Stage stage);
 
-    virtual std::vector<File> Files(const Tag tag);
+    void SetConfig(const Configuration &configuration);
 
-    void SetConfig(const Configuration &configuration) {
-        configuration_ = configuration;
-    }
+    void RunFast();
+
+    void RunNormal();
+
+    void RunFullSignificance();
+
+    void RunFullEfficiency();
+
+protected:
+
+    virtual std::vector<File> Files(const Tag tag);
 
     std::string ExportName(const Stage stage, const Tag tag) const;
 
-    void PrepareFiles(){
-      files_.clear();
-      tagger_.clear_tree_names();
-      SetFiles(analysis::Tag::signal);
-      SetFiles(analysis::Tag::background);
-    }
-
-protected:
+    void PrepareFiles();
 
     virtual void SetFiles(const Tag tag);
 
@@ -48,104 +50,74 @@ protected:
 
     InfoBranch FillInfoBranch(const exroot::TreeReader &tree_reader, const analysis::File &file);
 
-    virtual  std::string ProjectName() const {
-        return "ProjectName";
-    }
+    virtual  std::string ProjectName() const;
 
     /**
      * @brief Maximal number of Entries to analyse
      *
      */
-    virtual  int EventNumberMax() const {
-        return 100000;
-    }
+    virtual  int EventNumberMax() const;
 
-    virtual  std::string ProcessName() const {
-        return "Process";
-    }
+    virtual  std::string ProcessName() const;
 
 
     // in GeV
-     int Mass() const {
-        return configuration_.Mass();
-    }
+    int Mass() const;
 
     // in GeV
-     int PreCut() const {
-        return configuration_.PreCut();
-    }
+    int PreCut() const;
 
 //      int EventNumberMax() const {
 //         return configuration_.EventNumberMax();
 //     };
 
-     int BackgroundFileNumber() const {
-        return configuration_.BackgroundFileNumber();
-    }
+    int BackgroundFileNumber() const;
 
 //      ColliderType collider_type() const {
 //         return configuration_.collider_type();
 //     }
 
-    virtual  std::string FilePath() const {
-        return "~/Projects/";
-    }
+    virtual  std::string FilePath() const;
 
-    std::string FileSuffix() const {
-        return ".root";
-    }
+    std::string FileSuffix() const;
 
-    void NewSignalFile(const std::string &name, const std::string &nice_name = " ") {
-        files_.emplace_back(get_file(name, nice_name));
-        tagger_.AddSignalTreeName(TreeName(name));
-    }
+    void NewSignalFile(const std::string &name, const std::string &nice_name = " ");
 
-    void NewBackgroundFile(const std::string &name, const std::string &nice_name = " ") {
-        files_.emplace_back(get_file(name, nice_name));
-        tagger_.AddBackgroundTreeName(TreeName(name));
-    }
+    void NewBackgroundFile(const std::string &name, const std::string &nice_name = " ");
 
-    void NewSignalFile(const std::string &name, const float crosssection) {
-        files_.emplace_back(get_file(name, crosssection));
-        tagger_.AddSignalTreeName(TreeName(name));
-    }
+    void NewSignalFile(const std::string &name, const float crosssection);
 
-    void NewBackgroundFile(const std::string &name, const float crosssection) {
-        files_.emplace_back(get_file(name, crosssection));
-        tagger_.AddBackgroundTreeName(TreeName(name));
-    }
+    void NewBackgroundFile(const std::string &name, const float crosssection);
 
-     File get_file(const std::string &name, const std::string &nice_name = " ") const {
-        return File(name, FilePath(), FileSuffix(), nice_name);
-    }
+    File get_file(const std::string &name, const std::string &nice_name = " ") const;
 
-     File get_file(const std::string &name, const float crosssection) const {
-        return File(name, FilePath(), FileSuffix(), crosssection);
-    }
+    File get_file(const std::string &name, const float crosssection) const;
 
-     std::string FileName(const std::string &name) const {
-        return ProcessName() + "_" + std::to_string(PreCut()) + "GeV";
-    }
+    std::string FileName(const std::string &name) const;
 
-    std::string TreeName(const std::string &name) const {
-        return name + "-run_01";
-    }
+    std::string TreeName(const std::string &name) const;
 
     virtual int PassPreCut(const Event &);
 
     int RunAnalysis(const Event &event, const Stage stage, const Tag tag);
 
-    PreCuts &pre_cuts() {
-        return pre_cuts_;
-    }
+    PreCuts &pre_cuts();
 
-    Tagger &tagger(){
-      return tagger_;
-    }
+    Tagger &tagger();
 
-    bool Missing(const std::string& name) const;
+    bool Missing(const std::string &name) const;
 
 private:
+
+    std::string PathName(const std::string &file_name) const;
+
+    void RunTagger(analysis::Stage stage);
+
+    void RunFactory();
+
+    void RunSignificance();
+
+    void RunEfficiency();
 
     Tagger &tagger_;
 

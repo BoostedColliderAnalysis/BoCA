@@ -17,15 +17,15 @@ int main()
 
     analysis::HiggsTagger higgs_tagger;
     analysis::toppartner::Analysis higgs_analysis(higgs_tagger);
-    higgs_analysis.RunFullTagger();
+    higgs_analysis.RunFullEfficiency();
 
     analysis::WHadronicTagger w_hadronic_tagger;
     analysis::toppartner::Analysis w_hadronic_analysis(w_hadronic_tagger);
-    w_hadronic_analysis.RunFullTagger();
+    w_hadronic_analysis.RunFullEfficiency();
 
     analysis::TopHadronicTagger top_hadronic_tagger;
     analysis::toppartner::Analysis top_hadronic_analysis(top_hadronic_tagger);
-    top_hadronic_analysis.RunFullTagger();
+    top_hadronic_analysis.RunFullEfficiency();
 
 //     analysis::WSemiTagger w_semi_tagger;
 //     analysis::toppartner::Analysis w_semi_analysis(w_semi_tagger);
@@ -37,23 +37,23 @@ int main()
 
     analysis::TopLeptonicTagger top_leptonic_tagger;
     analysis::toppartner::Analysis top_leptonic_analysis(top_leptonic_tagger);
-    top_leptonic_analysis.RunFullTagger();
+    top_leptonic_analysis.RunFullEfficiency();
 
     analysis::toppartner::TopPartnerLeptonicTagger top_partner_leptonic_tagger;
     analysis::toppartner::Analysis top_partner_leptonic_analysis(top_partner_leptonic_tagger);
-    top_partner_leptonic_analysis.RunFullTagger();
+    top_partner_leptonic_analysis.RunFullEfficiency();
 
         analysis::toppartner::TopPartnerHadronicTagger top_partner_hadronic_tagger;
         analysis::toppartner::Analysis top_partner_hadronic_analysis(top_partner_hadronic_tagger);
-        top_partner_hadronic_analysis.RunFullTagger();
+        top_partner_hadronic_analysis.RunFullEfficiency();
 
         analysis::toppartner::TopPartnerLeptonicPairTagger top_partner_leptonic_pair_tagger;
         analysis::toppartner::Analysis top_partner_leptonic_pair_analysis(top_partner_leptonic_pair_tagger);
-        top_partner_leptonic_pair_analysis.RunFullTagger();
+        top_partner_leptonic_pair_analysis.RunFullEfficiency();
 
         analysis::toppartner::EventSingleTagger event_tagger;
         analysis::toppartner::Analysis event_analysis(event_tagger);
-        event_analysis.RunFullTagger();
+        event_analysis.RunFullSignificance();
 
 
 //     analysis::ZHadronicTagger z_hadronic_tagger;

@@ -17,7 +17,7 @@ int main()
 
         analysis::TopHadronicTagger top_hadronic_tagger;
         analysis::standardmodel::TopAnalysis top_hadronic_analysis(top_hadronic_tagger);
-        top_hadronic_analysis.RunFull();
+        top_hadronic_analysis.RunFullEfficiency();
         break;
     }
     case analysis::standardmodel::Decay::semi : {
@@ -27,13 +27,13 @@ int main()
 
         analysis::TopSemiTagger tops_semi_tagger;
         analysis::standardmodel::TopAnalysis top_semi_analysis(tops_semi_tagger);
-        top_semi_analysis.RunFull();
+        top_semi_analysis.RunFullEfficiency();
         break;
     }
     case analysis::standardmodel::Decay::leptonic : {
         analysis::TopLeptonicTagger tops_leptonic_tagger;
         analysis::standardmodel::TopAnalysis top_leptonic_analysis(tops_leptonic_tagger);
-        top_leptonic_analysis.RunFull();
+        top_leptonic_analysis.RunFullEfficiency();
         break;
     }
     }
