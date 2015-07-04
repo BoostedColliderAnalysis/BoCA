@@ -9,6 +9,6 @@ int main()
 
     analysis::HiggsTagger higgs_tagger;
     analysis::standardmodel::AnalysisHiggs higgs_analysis(higgs_tagger);
-    higgs_analysis.RunFull();
+    higgs_analysis.RunFullEfficiency();
 }
 

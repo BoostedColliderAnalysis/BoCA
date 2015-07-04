@@ -46,6 +46,7 @@ Observable.cpp
 PreCuts.cpp
 Factory.cpp
 Reader.cpp
+Plot.cpp
 
 Tagger.cpp
 BranchTagger.cpp

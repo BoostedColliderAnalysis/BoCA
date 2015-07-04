@@ -18,14 +18,6 @@ class Analysis : public analysis::Analysis
 
 public:
 
-  void RunFast();
-
-  void RunNormal();
-
-  void RunFull();
-
-  void RunFullTagger();
-
   Analysis(Tagger &tagger);
 
 protected:
@@ -47,17 +39,9 @@ protected:
 
 private:
 
+  int PreCut() const;
+
   int PassPreCut(const Event &event);
-
-  void RunTagger(analysis::Stage stage);
-
-  void RunFactory();
-
-  void RunReader();
-
-  void RunReaderTagger();
-
-  std::string PathName(const std::string &file_name) const;
 
 };
 

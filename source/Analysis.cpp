@@ -7,7 +7,9 @@
 #include "exroot/ExRootAnalysis.hh"
 
 #include "Branches.hh"
+#include "Plot.hh"
 #include "Event.hh"
+#include "Factory.hh"
 #include "Debug.hh"
 
 namespace analysis
@@ -16,12 +18,12 @@ namespace analysis
 // HAnalysis::HAnalysis(const std::string &ConfigName) : config_(ConfigName)
 Analysis::Analysis(Tagger &tagger) : tagger_(tagger)
 {
-    Note();
+    Note(tagger.name());
 }
 
 void Analysis::AnalysisLoop(const Stage stage)
 {
-    Note();
+    Note(Name(stage));
     mkdir(ProjectName().c_str(), 0700);
     if (stage == Stage::reader) reader_.SetTagger(tagger_);
     tagger_.clear_tree_names();
@@ -106,7 +108,7 @@ int Analysis::RunAnalysis(const Event &event, const Stage stage, const Tag tag)
     case Stage::trainer :
         return tagger_.Train(event, pre_cuts_, tag);
     case Stage::reader :
-        return reader_.GetBdt(event, pre_cuts_);
+        return reader_.Bdt(event, pre_cuts_);
     default :
         return 0;
     }
@@ -118,19 +120,188 @@ bool Analysis::Missing(const std::string &name) const
     struct stat buffer;
     return (stat(name.c_str(), &buffer) != 0);
 }
+
 std::vector< File > Analysis::Files(const Tag tag)
 {
     Error(Name(tag));
     return files_;
 }
+
 void Analysis::SetFiles(const Tag tag)
 {
     Error("should be subclassed", Name(tag));
 }
+
 int Analysis::PassPreCut(const Event &)
 {
     Error("no pre cut applied");
     return 1;
+}
+
+void Analysis::SetConfig(const Configuration &configuration)
+{
+    configuration_ = configuration;
+}
+
+void Analysis::PrepareFiles()
+{
+    files_.clear();
+    tagger_.clear_tree_names();
+    SetFiles(analysis::Tag::signal);
+    SetFiles(analysis::Tag::background);
+}
+
+std::string Analysis::ProjectName() const
+{
+    return "ProjectName";
+}
+
+int Analysis::EventNumberMax() const
+{
+    return 100000;
+}
+
+std::string Analysis::ProcessName() const
+{
+    return "Process";
+}
+
+void Analysis::NewSignalFile(const std::string &name, const std::string &nice_name)
+{
+    files_.emplace_back(get_file(name, nice_name));
+    tagger_.AddSignalTreeName(TreeName(name));
+}
+
+void Analysis::NewBackgroundFile(const std::string &name, const std::string &nice_name)
+{
+    files_.emplace_back(get_file(name, nice_name));
+    tagger_.AddBackgroundTreeName(TreeName(name));
+}
+
+void Analysis::NewSignalFile(const std::string &name, const float crosssection)
+{
+    files_.emplace_back(get_file(name, crosssection));
+    tagger_.AddSignalTreeName(TreeName(name));
+}
+
+void Analysis::NewBackgroundFile(const std::string &name, const float crosssection)
+{
+    files_.emplace_back(get_file(name, crosssection));
+    tagger_.AddBackgroundTreeName(TreeName(name));
+}
+
+File Analysis::get_file(const std::string &name, const std::string &nice_name) const
+{
+    return File(name, FilePath(), FileSuffix(), nice_name);
+}
+
+File Analysis::get_file(const std::string &name, const float crosssection) const
+{
+    return File(name, FilePath(), FileSuffix(), crosssection);
+}
+
+std::string Analysis::FileName(const std::string &name) const
+{
+    return ProcessName() + "_" + std::to_string(PreCut()) + "GeV";
+}
+
+std::string Analysis::TreeName(const std::string &name) const
+{
+    return name + "-run_01";
+}
+
+PreCuts &Analysis::pre_cuts()
+{
+    return pre_cuts_;
+}
+
+Tagger &Analysis::tagger()
+{
+    return tagger_;
+}
+
+std::string Analysis::FileSuffix() const
+{
+    return ".root";
+}
+
+std::string Analysis::FilePath() const
+{
+    return "~/Projects/";
+}
+
+int Analysis::BackgroundFileNumber() const
+{
+    return configuration_.BackgroundFileNumber();
+}
+
+int Analysis::PreCut() const
+{
+    return configuration_.PreCut();
+}
+
+int Analysis::Mass() const
+{
+    return configuration_.Mass();
+}
+
+void Analysis::RunFast()
+{
+    RunTagger(analysis::Stage::trainer);
+    RunFactory();
+}
+
+void Analysis::RunNormal()
+{
+    RunFast();
+    RunTagger(analysis::Stage::reader);
+}
+
+void Analysis::RunFullSignificance()
+{
+    RunNormal();
+    RunSignificance();
+}
+
+void Analysis::RunFullEfficiency()
+{
+    RunNormal();
+    RunEfficiency();
+}
+
+std::string Analysis::PathName(const std::string &file_name) const
+{
+    Error(file_name);
+    return ProjectName() + "/" + file_name + ".root";
+}
+
+void Analysis::RunTagger(Stage stage)
+{
+    if (Missing(PathName(tagger().name(stage)))) AnalysisLoop(stage);
+}
+
+void Analysis::RunFactory()
+{
+    PrepareFiles();
+    if (Missing(PathName(tagger().factory_name()))) analysis::Factory factory(tagger());
+}
+
+void Analysis::RunSignificance()
+{
+    PrepareFiles();
+    if (Missing(PathName(tagger().export_name()))) {
+        analysis::Plot plot(tagger());
+        plot.OptimalSignificance();
+    }
+}
+
+void Analysis::RunEfficiency()
+{
+  PrepareFiles();
+  if (Missing(PathName(tagger().export_name()))) {
+        analysis::Plot plot(tagger());
+        plot.TaggingEfficiency();
+    }
 }
 
 }

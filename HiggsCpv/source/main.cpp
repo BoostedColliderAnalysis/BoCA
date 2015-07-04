@@ -29,8 +29,8 @@ void RunReader(analysis::Tagger &tagger)
   analysis::higgscpv::Analysis analysis(tagger);
   const std::string file_name = analysis.ProjectName() + "/" + tagger.name() + "Bdt.root";
   if (gSystem->AccessPathName(file_name.c_str())) {
-    analysis::Reader reader(tagger);
-    reader.OptimalSignificance();
+//     analysis::Reader reader(tagger);
+//     reader.OptimalSignificance();
   }
 }
 

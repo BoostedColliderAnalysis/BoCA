@@ -15,14 +15,7 @@ public:
 
     Configuration(const std::string &config_name);
 
-    Configuration &operator=(const Configuration &configuration){
-      this->mass_ = configuration.mass_;
-      this->pre_cut_ = configuration.pre_cut_;
-      this->event_number_max_ = configuration.event_number_max_;
-      this->background_file_number_ = configuration.background_file_number_;
-      this->collider_type_ = configuration.collider_type_;
-      return *this;
-    }
+    Configuration &operator=(const Configuration &configuration);
 
     // in GeV
     int Mass() const;
@@ -71,9 +64,7 @@ private:
 
     ColliderType collider_type_;
 
-    std::string ConfigFile(const std::string &config_name){
-      return config_name + ".cfg";
-    }
+    std::string ConfigFile(const std::string &config_name);
 
 };
 

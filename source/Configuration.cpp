@@ -2,7 +2,8 @@
 
 #include <iostream>
 
-namespace analysis {
+namespace analysis
+{
 
 Configuration::Configuration()
 {
@@ -129,7 +130,7 @@ void Configuration::WriteConfig(const std::string &config_name)
         config().writeFile(ConfigFile(config_name).c_str());
         std::cerr << "New configuration successfully written to: " << ConfigFile(config_name) << std::endl;
     } catch (const libconfig::FileIOException &FileIOException) {
-      std::cerr << "I/O error while writing file: " << ConfigFile(config_name) << std::endl;
+        std::cerr << "I/O error while writing file: " << ConfigFile(config_name) << std::endl;
     }
 }
 
@@ -148,6 +149,19 @@ void Configuration::ReadConfig(const std::string &config_name)
     EventNumberMax_();
     BackgroundFileNumber_();
     ColliderType_();
+}
+Configuration &Configuration::operator=(const Configuration &configuration)
+{
+    this->mass_ = configuration.mass_;
+    this->pre_cut_ = configuration.pre_cut_;
+    this->event_number_max_ = configuration.event_number_max_;
+    this->background_file_number_ = configuration.background_file_number_;
+    this->collider_type_ = configuration.collider_type_;
+    return *this;
+}
+std::string Configuration::ConfigFile(const std::string &config_name)
+{
+    return config_name + ".cfg";
 }
 
 }

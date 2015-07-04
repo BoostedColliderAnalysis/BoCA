@@ -18,14 +18,6 @@ namespace standardmodel
 class Analysis : public analysis::Analysis
 {
 
-public:
-
-    void RunFast();
-
-    void RunNormal();
-
-    void RunFull();
-
 protected:
 
     Analysis(Tagger &tagger);
@@ -73,18 +65,6 @@ protected:
     virtual std::string ProcessName(const Process process) const;
 
     virtual std::string NiceName(const Process process) const;
-
-private:
-
-    void RunTagger(analysis::Stage stage);
-
-    void RunFactory();
-
-    void RunReader();
-
-    std::string PathName(const std::string &file_name) const;
-
-    bool Missing(const std::string& name) const;
 
 };
 
