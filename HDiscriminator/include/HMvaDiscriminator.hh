@@ -4,6 +4,12 @@
 #include "Tagger.hh"
 #include "HBranchDiscriminator.hh"
 
+class ExRootTreeReader;
+namespace exroot
+{
+  typedef ::ExRootTreeReader TreeReader;
+}
+
 
 namespace hcpvhiggs
 {

@@ -25,11 +25,17 @@ public:
     */
     EventBottomTagger();
 
+    int Train(const analysis::Event &event, analysis::PreCuts &pre_cuts, const analysis::Tag tag) const{}
+
     bool TruthLevelCheck(const analysis::Jets &NewJets, const analysis::Event &event, const analysis::Tag Tag);
 
     int Train(const analysis::Event &event, analysis::PreCuts &precuts, const analysis::Tag tag);
 
-    int Multiplets(const analysis::Event &event, analysis::PreCuts &precuts, const TMVA::Reader &);
+    int Multiplets(const analysis::Event &event, analysis::PreCuts &precuts, const TMVA::Reader &) const;
+
+    int GetBdt(const analysis::Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const {
+//       return SaveEntries(Multiplets(event, pre_cuts, reader));
+    }
 
 private:
 

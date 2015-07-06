@@ -60,7 +60,6 @@ void Analysis::AnalysisLoop(const Stage stage)
                         info_branch.PreCutNumber = event_number;
                         analysis_empty = false;
                         static_cast<InfoBranch &>(*tree_branch.NewEntry()) = info_branch;
-//                         dynamic_cast<InfoBranch &>(*tree_branch.NewEntry()) = info_branch;
                         tree_writer.Fill();
                     }
                 }
@@ -166,6 +165,18 @@ std::string Analysis::ProcessName() const
     return "Process";
 }
 
+void Analysis::NewFile(const Tag tag, const std::string &name, const std::string &nice_name)
+{
+    switch (tag) {
+    case Tag::signal :
+        NewSignalFile(name, nice_name);
+        break;
+    case Tag::background :
+        NewBackgroundFile(name, nice_name);
+        break;
+    }
+}
+
 void Analysis::NewSignalFile(const std::string &name, const std::string &nice_name)
 {
     files_.emplace_back(get_file(name, nice_name));
@@ -176,6 +187,18 @@ void Analysis::NewBackgroundFile(const std::string &name, const std::string &nic
 {
     files_.emplace_back(get_file(name, nice_name));
     tagger_.AddBackgroundTreeName(TreeName(name));
+}
+
+void Analysis::NewFile(const Tag tag, const std::string &name, const float crosssection)
+{
+    switch (tag) {
+    case Tag::signal :
+        NewSignalFile(name, crosssection);
+        break;
+    case Tag::background :
+        NewBackgroundFile(name, crosssection);
+        break;
+    }
 }
 
 void Analysis::NewSignalFile(const std::string &name, const float crosssection)
@@ -297,11 +320,13 @@ void Analysis::RunSignificance()
 
 void Analysis::RunEfficiency()
 {
-  PrepareFiles();
-  if (Missing(PathName(tagger().export_name()))) {
+    PrepareFiles();
+    if (Missing(PathName(tagger().export_name()))) {
         analysis::Plot plot(tagger());
         plot.TaggingEfficiency();
     }
 }
 
 }
+
+

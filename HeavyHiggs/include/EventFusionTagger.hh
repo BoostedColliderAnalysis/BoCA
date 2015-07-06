@@ -25,19 +25,19 @@ public:
     */
     EventFusionTagger();
 
-    int Train(const Event &event, const Tag tag);
+    int Train(const Event &event,PreCuts &pre_cuts, const Tag tag) const;
 
     std::vector< MultipletEvent<Sextet> > Multiplets(const Event &event, TMVA::Reader &reader);
 
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const {
+//       return SaveEntries(Multiplets(event, pre_cuts, reader));
+    }
+
 private:
 
-    BottomTagger bottom_tagger_;
+    ReaderTagger<BottomTagger> bottom_reader_;
 
-    HeavyHiggsSemiTagger heavy_higgs_semi_tagger_;
-
-    Reader bottom_reader_;
-
-    Reader heavy_higgs_semi_reader_;
+    ReaderTagger<HeavyHiggsSemiTagger> heavy_higgs_semi_reader_;
 
 };
 

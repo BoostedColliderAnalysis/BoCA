@@ -21,19 +21,19 @@ public:
 
     HeavyHiggsSemiTagger();
 
-    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag);
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const;
 
-    std::vector<Sextet> Multiplets(const Event& event, PreCuts &pre_cuts, const TMVA::Reader& reader);
+    std::vector<Sextet> Multiplets(const Event& event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
+
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const {
+      return SaveEntries(Multiplets(event, pre_cuts, reader));
+    }
 
 private:
 
-    TopHadronicTagger top_hadronic_tagger;
+    ReaderTagger<TopHadronicTagger> top_hadronic_reader_;
 
-    TopSemiTagger top_semi_tagger;
-
-    Reader top_hadronic_reader_;
-
-    Reader top_semi_reader_;
+    ReaderTagger<TopSemiTagger> top_semi_reader_;
 };
 
 }

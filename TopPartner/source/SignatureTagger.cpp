@@ -9,17 +9,15 @@ namespace toppartner {
 SignatureTagger::SignatureTagger()
 {
     Note();
-    set_tagger_name("Signature");
-    top_partner_pair_reader_.SetTagger(top_partner_pair_tagger_);
-    higgs_pair_reader_.SetTagger(higgs_pair_tagger);
+//     set_tagger_name("Signature");
     DefineVariables();
 }
 
-int SignatureTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag)
+int SignatureTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const
 {
     Info("Higgs Tags");
-    std::vector< Decuplet55> decuplets = top_partner_pair_reader_.Multiplets<TopPartnerPairTagger>(event);
-    std::vector< Quartet22> quartets = higgs_pair_reader_.Multiplets<HiggsPairTagger>(event);
+    std::vector< Decuplet55> decuplets = top_partner_pair_reader_.Multiplets(event);
+    std::vector< Quartet22> quartets = higgs_pair_reader_.Multiplets(event);
     std::vector< Quattuordecuplet > quattuordecuplets;
     for (const auto decuplet : decuplets) {
         for (const auto quartet : quartets) {
@@ -32,10 +30,10 @@ int SignatureTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag)
     return SaveEntries(quattuordecuplets);
 }
 
-std::vector< Quattuordecuplet > SignatureTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader)
+std::vector< Quattuordecuplet > SignatureTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const
 {
-    std::vector< Decuplet55> decuplets = top_partner_pair_reader_.Multiplets<TopPartnerPairTagger>(event);
-    std::vector< Quartet22> quartets = higgs_pair_reader_.Multiplets<HiggsPairTagger>(event);
+    std::vector< Decuplet55> decuplets = top_partner_pair_reader_.Multiplets(event);
+    std::vector< Quartet22> quartets = higgs_pair_reader_.Multiplets(event);
     std::vector< Quattuordecuplet > quattuordecuplets;
     for (const auto decuplet : decuplets) {
         for (const auto quartet : quartets) {

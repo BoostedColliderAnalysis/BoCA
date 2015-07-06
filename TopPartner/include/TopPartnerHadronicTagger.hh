@@ -23,11 +23,11 @@ public:
 
     TopPartnerHadronicTagger();
 
-    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag);
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const;
 
-    std::vector<Quintet> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
+    std::vector<Quintet> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
 
-    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const {
       return SaveEntries(Multiplets(event,pre_cuts, reader));
     }
 
@@ -38,13 +38,10 @@ public:
 
 private:
 
-    TopHadronicTagger top_tagger_;
+    ReaderTagger<TopHadronicTagger> top_reader_;
 
-    HiggsTagger z_hadronic_tagger;
-
-    Reader top_reader_;
-
-    Reader z_hadronic_reader_;
+    ReaderTagger<HiggsTagger> z_hadronic_reader_;
+    
 };
 
 }

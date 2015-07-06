@@ -26,19 +26,19 @@ public:
     */
     SignatureChargedTagger();
 
-    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag);
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const;
 
-    std::vector<Octet44> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
+    std::vector<Octet44> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
+
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const {
+      return SaveEntries(Multiplets(event, pre_cuts, reader));
+    }
 
 private:
 
-    ChargedHiggsSemiTagger charged_higgs_semi_tagger_;
+    ReaderTagger<ChargedHiggsSemiTagger> charged_higgs_semi_reader_;
 
-    TripletJetPairTagger triplet_jet_pair_tagger_;
-
-    Reader charged_higgs_semi_reader_;
-
-    Reader triplet_jet_pair_reader_;
+    ReaderTagger<TripletJetPairTagger> triplet_jet_pair_reader_;
 
 
 };

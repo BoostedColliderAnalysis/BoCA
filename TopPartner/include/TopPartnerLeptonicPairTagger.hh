@@ -22,23 +22,20 @@ public:
 
     TopPartnerLeptonicPairTagger();
 
-    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag);
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const;
 
-    std::vector<Nonet> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
+    std::vector<Nonet> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
 
-    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const {
       return SaveEntries(Multiplets(event,pre_cuts, reader));
     }
 
 private:
 
-    TopPartnerHadronicTagger top_partner_hadronic_tagger_;
+    ReaderTagger<TopPartnerHadronicTagger> top_partner_hadronic_reader_;
 
-    TopPartnerLeptonicTagger top_partner_semi_tagger_;
+    ReaderTagger<TopPartnerLeptonicTagger> top_partner_semi_reader_;
 
-    Reader top_partner_hadronic_reader_;
-
-    Reader top_partner_semi_reader_;
 };
 
 }

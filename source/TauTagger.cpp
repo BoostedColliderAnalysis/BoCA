@@ -2,6 +2,7 @@
 
 #include "fastjet/ClusterSequence.hh"
 #include "Singlet.hh"
+#include "Event.hh"
 #include "Debug.hh"
 
 namespace analysis {
@@ -33,7 +34,7 @@ void TauTagger::DefineVariables()
     AddSpectator(branch().Bdt, "Bdt");
 }
 
-int TauTagger::Train(const Event &event, analysis::PreCuts &pre_cuts, const analysis::Tag tag)
+int TauTagger::Train(const Event &event, analysis::PreCuts &pre_cuts, const analysis::Tag tag) const
 {
     Info("Tau Tag", Name(tag));
     Jets jets = event.Hadrons().Jets();
@@ -90,7 +91,7 @@ int TauTagger::Train(const Event &event, analysis::PreCuts &pre_cuts, const anal
 // }
 
 
-Jets TauTagger::CleanJets(Jets &jets, const Jets &Particles, const Tag tag)
+Jets TauTagger::CleanJets(analysis::Jets &jets, const analysis::Jets &Particles, const analysis::Tag tag) const
 {
     Info("Clean Jets");
     for (const auto & Particle : Particles) {
@@ -172,7 +173,7 @@ Jets TauTagger::CleanJets(Jets &jets, const Jets &Particles, const Tag tag)
 //     return GetJetBdt(Pieces, BottomReader);
 // }
 
-Jets TauTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader)
+Jets TauTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const
 {
     Jets final_jets;
     Info("Jet Bdt");

@@ -1,5 +1,6 @@
 #include "TopSemiPairTagger.hh"
 #include "Predicate.hh"
+#include "Event.hh"
 #include "Debug.hh"
 
 namespace analysis
@@ -11,16 +12,14 @@ TopSemiPairTagger::TopSemiPairTagger()
 {
     Note();
     set_tagger_name("TripletJetJetPair");
-    top_semi_reader_.SetTagger(top_semi_tagger_);
-    top_hadronic_reader_.SetTagger(top_hadronic_tagger);
     DefineVariables();
 }
 
 int TopSemiPairTagger::Train(const Event &event, const Tag tag)
 {
     Info("W Tags");
-    std::vector<Triplet> triplets_hadronic = top_hadronic_reader_.Multiplets<TopHadronicTagger>(event);
-    std::vector<Triplet> triplets_semi = top_semi_reader_.Multiplets<TopSemiTagger>(event);
+    std::vector<Triplet> triplets_hadronic = top_hadronic_reader_.Multiplets(event);
+    std::vector<Triplet> triplets_semi = top_semi_reader_.Multiplets(event);
 
     Jets TopParticles = event.Partons().GenParticles();
     TopParticles = RemoveIfWrongAbsFamily(TopParticles, Id::top, Id::gluon);
@@ -62,10 +61,10 @@ int TopSemiPairTagger::Train(const Event &event, const Tag tag)
     return SaveEntries(sextets);
 }
 
-std::vector< Sextet > TopSemiPairTagger::Multiplets(const Event& event, const TMVA::Reader& reader)
+std::vector< Sextet > TopSemiPairTagger::Multiplets(const Event& event, const TMVA::Reader& reader) const
 {
-    std::vector<Triplet> triplets_semi = top_semi_reader_.Multiplets<TopSemiTagger>(event);
-    std::vector<Triplet> triplets_hadronic = top_hadronic_reader_.Multiplets<TopHadronicTagger>(event);
+    std::vector<Triplet> triplets_semi = top_semi_reader_.Multiplets(event);
+    std::vector<Triplet> triplets_hadronic = top_hadronic_reader_.Multiplets(event);
     std::vector<Sextet>  sextets;
     for (const auto & triplet_hadronic : triplets_hadronic)
         for (const auto & triplet_semi : triplets_semi)  {

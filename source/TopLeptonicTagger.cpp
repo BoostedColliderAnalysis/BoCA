@@ -1,4 +1,5 @@
 #include "TopLeptonicTagger.hh"
+#include "Event.hh"
 #include "Debug.hh"
 
 namespace analysis
@@ -8,16 +9,15 @@ TopLeptonicTagger::TopLeptonicTagger()
 {
     Note();
     set_tagger_name("TopLeptonic");
-    bottom_reader_.SetTagger(bottom_tagger_);
     top_mass_window = 80;
     DefineVariables();
 }
 
-int TopLeptonicTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag)
+int TopLeptonicTagger::Train(const Event &event, analysis::PreCuts &pre_cuts, const analysis::Tag tag) const
 {
     Info("Train");
-    do_fake_leptons = true;
-    Jets jets = fastjet::sorted_by_pt(bottom_reader_.Multiplets<BottomTagger>(event));
+    bool do_fake_leptons = false;
+    Jets jets = fastjet::sorted_by_pt(bottom_reader_.Multiplets(event));
     if (jets.empty()) return 0;
     Info("Jet Number", jets.size());
 
@@ -73,11 +73,14 @@ bool TopLeptonicTagger::Problematic(const analysis::Doublet &doublet, analysis::
     return false;
 }
 
-std::vector<Doublet> TopLeptonicTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader)
+std::vector<Doublet> TopLeptonicTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const const
 {
-    Info("Bdt");
+    Info();
+
+    bool do_fake_leptons = false;
+
     std::vector<Doublet> doublets;
-    Jets jets = fastjet::sorted_by_pt(bottom_reader_.Multiplets<BottomTagger>(event));
+    Jets jets = fastjet::sorted_by_pt(bottom_reader_.Multiplets(event));
     if (jets.empty()) return doublets;
     Jets leptons = event.Leptons().leptons();
     Debug("jets and Leptons", jets.size(), leptons.size());

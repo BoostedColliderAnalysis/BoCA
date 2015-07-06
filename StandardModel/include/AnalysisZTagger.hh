@@ -1,6 +1,7 @@
 #pragma once
 
 #include "AnalysisTagger.hh"
+#include "Analysis.cpp"
 
 namespace analysis
 {

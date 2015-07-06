@@ -4,6 +4,14 @@
 #include "TLegend.h"
 #include "Branches.hh"
 
+class ExRootTreeBranch;
+class ExRootTreeReader;
+namespace exroot
+{
+typedef ::ExRootTreeBranch TreeBranch;
+typedef ::ExRootTreeReader TreeReader;
+}
+
 namespace analysis
 {
 

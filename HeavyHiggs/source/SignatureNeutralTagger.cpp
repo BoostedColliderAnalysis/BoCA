@@ -1,4 +1,5 @@
 #include "SignatureNeutralTagger.hh"
+#include "Event.hh"
 #include "Debug.hh"
 
 namespace analysis
@@ -11,16 +12,14 @@ SignatureNeutralTagger::SignatureNeutralTagger()
 {
     Note();
     set_tagger_name("SignatureNeutral");
-    heavy_higgs_semi_reader_.SetTagger(heavy_higgs_semi_tagger_);
-    jet_pair_reader_.SetTagger(jet_pair_tagger_);
     DefineVariables();
 }
 
-int SignatureNeutralTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag)
+int SignatureNeutralTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const
 {
     Info("event Tags");
     float Mass = event.mass();
-    std::vector<Sextet> sextets = heavy_higgs_semi_reader_.Multiplets<HeavyHiggsSemiTagger>(event);
+    std::vector<Sextet> sextets = heavy_higgs_semi_reader_.Multiplets(event);
     if (sextets.empty())Info("No sextets", sextets.size());
 
     Jets HiggsParticles = event.Partons().GenParticles();
@@ -36,7 +35,7 @@ int SignatureNeutralTagger::Train(const Event &event, PreCuts &pre_cuts, const T
         if (sextets.size() > 1) sextets.erase(sextets.begin() + 1, sextets.end());
     }
 
-    std::vector<Doublet> doublets = jet_pair_reader_.Multiplets<JetPairTagger>(event);
+    std::vector<Doublet> doublets = jet_pair_reader_.Multiplets(event);
 
     std::vector<Doublet> Finaldoublets;
     Jets Particles = event.Partons().GenParticles();
@@ -74,12 +73,12 @@ int SignatureNeutralTagger::Train(const Event &event, PreCuts &pre_cuts, const T
 }
 
 
-std::vector<Octet62> SignatureNeutralTagger::Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
+std::vector<Octet62> SignatureNeutralTagger::Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const
 {
     Info("event Tags");
 
-    std::vector<Doublet> doublets = jet_pair_reader_.Multiplets<JetPairTagger>(event);
-    std::vector<Sextet> sextets = heavy_higgs_semi_reader_.Multiplets<HeavyHiggsSemiTagger>(event);
+    std::vector<Doublet> doublets = jet_pair_reader_.Multiplets(event);
+    std::vector<Sextet> sextets = heavy_higgs_semi_reader_.Multiplets(event);
     std::vector<Octet62> octets;
     for (const auto & doublet : doublets) {
         for (const auto & sextet : sextets) {
