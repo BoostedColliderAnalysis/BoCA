@@ -8,7 +8,7 @@ namespace heavyhiggs {
 
 EventChargedTagger::EventChargedTagger()
 {
-    Info("Constructor");
+    Info();
     DefineVariables();
 }
 

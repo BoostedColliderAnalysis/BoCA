@@ -7,7 +7,6 @@ namespace analysis {
 JetPairTagger::JetPairTagger()
 {
     Note();
-    set_tagger_name("JetPair");
     DefineVariables();
 }
 

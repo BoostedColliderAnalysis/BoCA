@@ -26,6 +26,10 @@ public:
         return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
     }
 
+    std::string name() const {
+      return "Higgs";
+    }
+
 protected:
 
 private:

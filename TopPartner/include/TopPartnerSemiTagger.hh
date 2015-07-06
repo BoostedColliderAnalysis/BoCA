@@ -35,6 +35,10 @@ public:
       return Multiplets(event, pre_cuts, reader);
     }
 
+    std::string name() const {
+      return "TopPartnerSemi";
+    }
+
 private:
 
     ReaderTagger<TopSemiTagger> top_reader_;

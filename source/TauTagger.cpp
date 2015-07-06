@@ -9,8 +9,7 @@ namespace analysis {
 
 TauTagger::TauTagger()
 {
-    Info("Constructor");
-    set_tagger_name("Tau");
+    Info();
     DefineVariables();
 }
 

@@ -18,10 +18,6 @@ class EventTagger : public BranchTagger<EventBranch>
 
 public:
 
-    /**
-    * @brief Constructor
-    *
-    */
     EventTagger();
 
     int Train(const Event &event,PreCuts &pre_cuts, const Tag tag) const;
@@ -35,6 +31,10 @@ public:
     auto Multiplets(const Event &event, const TMVA::Reader &reader) {
       PreCuts pre_cuts;
       return Multiplets(event, pre_cuts, reader);
+    }
+
+    std::string name() const {
+      return "Event";
     }
 
 private:

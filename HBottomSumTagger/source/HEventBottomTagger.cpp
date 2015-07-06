@@ -6,9 +6,7 @@
 hbottomsumtagger::EventBottomTagger::EventBottomTagger()
 {
   Note();
-    set_tagger_name("eventBottom");
     DefineVariables();
-    bottom_reader_.SetTagger(bottom_tagger_);
 }
 
 void hbottomsumtagger::EventBottomTagger::DefineVariables()
@@ -33,7 +31,7 @@ int hbottomsumtagger::EventBottomTagger::Train(const analysis::Event &event, ana
 {
   Info("event Tags");
 
-    analysis::Jets jets = bottom_reader_.Multiplets<analysis::BottomTagger>(event);
+    analysis::Jets jets = bottom_reader_.Multiplets(event);
 
 
 //     const int JetNumber = 2;
@@ -93,7 +91,7 @@ bool hbottomsumtagger::EventBottomTagger::TruthLevelCheck(const analysis::Jets &
 int hbottomsumtagger::EventBottomTagger::Multiplets(const analysis::Event &event, analysis::PreCuts &precuts, const TMVA::Reader &) const
 {
   Info("event Tags");
-  analysis::Jets jets = bottom_reader_.Multiplets<analysis::BottomTagger>(event);
+  analysis::Jets jets = bottom_reader_.Multiplets(event);
     std::vector<analysis::EventBranch> eventMultiplets;
 
     analysis::EventBranch eventMultiplet;

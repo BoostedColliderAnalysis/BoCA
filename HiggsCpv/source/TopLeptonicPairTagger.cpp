@@ -14,7 +14,6 @@ namespace higgscpv
 TopLeptonicPairTagger::TopLeptonicPairTagger()
 {
     Note();
-    set_tagger_name("TopLeptonicPair");
     DefineVariables();
 }
 

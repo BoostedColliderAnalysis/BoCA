@@ -1,9 +1,14 @@
 #pragma once
 
-#include "TMVA/Reader.h"
+// #include "TMVA/Reader.h"
+#include "TCut.h"
 #include "Observable.hh"
 #include "Identification.hh"
 #include "fastjet/PseudoJet.hh"
+
+namespace TMVA{
+  class Reader;
+}
 
 class ExRootTreeWriter;
 class ExRootTreeBranch;
@@ -44,9 +49,9 @@ public:
 
     std::string branch_name() const;
 
-    void set_tagger_name(const std::string &tagger_name);
+//     void set_tagger_name(const std::string &tagger_name);
 
-    std::string name() const;
+    virtual std::string name() const = 0;
 
     std::string factory_name() const;
 
@@ -130,6 +135,20 @@ protected:
 
     float Bdt(const TMVA::Reader &reader) const;
 
+    /**
+     * @brief Names of the Signal Files
+     * shoudl be removed is no longer needed
+     *
+     */
+    Strings signal_file_names_;
+
+    /**
+     * @brief Names of the Background Files
+     * should be remove is no longer needed
+     *
+     */
+    Strings background_file_names_;
+
 
 private:
 
@@ -149,19 +168,7 @@ private:
      * @brief Name of the Tagger
      *
      */
-    std::string name_;
-
-    /**
-     * @brief Names of the Signal Files
-     *
-     */
-    Strings signal_file_names_;
-
-    /**
-     * @brief Names of the Background Files
-     *
-     */
-    Strings background_file_names_;
+//     std::string name_;
 
     /**
      * @brief Names of the backgrund trees

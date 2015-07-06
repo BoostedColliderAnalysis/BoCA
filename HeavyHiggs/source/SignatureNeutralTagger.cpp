@@ -11,7 +11,6 @@ namespace heavyhiggs
 SignatureNeutralTagger::SignatureNeutralTagger()
 {
     Note();
-    set_tagger_name("SignatureNeutral");
     DefineVariables();
 }
 

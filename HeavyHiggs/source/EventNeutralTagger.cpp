@@ -9,7 +9,6 @@ namespace heavyhiggs {
 EventNeutralTagger::EventNeutralTagger()
 {
     Note();
-    set_tagger_name("EventNeutral");
     DefineVariables();
 }
 

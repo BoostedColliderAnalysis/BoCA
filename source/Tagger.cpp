@@ -68,19 +68,20 @@ void Tagger::AddBackgroundTreeName(const std::string background_tree_name)
 
 std::string Tagger::branch_name() const
 {
-    return name_;
+    return name();
 }
 
-void Tagger::set_tagger_name(const std::string &name)
-{
-    name_ = name;
-    signal_file_names_ = {name};
-    background_file_names_ = {background(name)};
-}
-std::string Tagger::name() const
-{
-    return name_;
-}
+// void Tagger::set_tagger_name(const std::string &name)
+// {
+//     name() = name;
+//     signal_file_names_ = {name};
+//     background_file_names_ = {background(name)};
+// }
+// std::string Tagger::name() const
+// {
+//   Error("we do not want to end up here");
+//     return "Tagger";
+// }
 std::string Tagger::factory_name() const
 {
     return "Mva" + name();
@@ -91,7 +92,7 @@ std::string Tagger::export_name() const
 }
 std::string Tagger::reader_name() const
 {
-    return reader(name_);
+    return reader(name());
 }
 std::string Tagger::reader(const std::string &name) const
 {
@@ -195,7 +196,7 @@ std::string Tagger::weight_branch_name() const
 }
 std::string Tagger::background_name() const
 {
-    return background(name_);
+    return background(name());
 }
 std::string Tagger::background(const std::string &name) const
 {
@@ -203,7 +204,7 @@ std::string Tagger::background(const std::string &name) const
 }
 std::string Tagger::signal_name() const
 {
-    return name_;
+    return name();
 }
 // int Tagger::GetBdt(const Event &, PreCuts &, const TMVA::Reader &)
 // {

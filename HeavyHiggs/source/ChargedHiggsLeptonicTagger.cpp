@@ -10,7 +10,6 @@ namespace heavyhiggs
 ChargedHiggsLeptonicTagger::ChargedHiggsLeptonicTagger()
 {
     Note();
-    set_tagger_name("ChargedHiggsLeptonic");
     DefineVariables();
 }
 

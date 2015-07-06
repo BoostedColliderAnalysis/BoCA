@@ -45,7 +45,7 @@ protected:
     }
 
     std::string ProjectName() const {
-        return  "TopPartner_" + std::to_string(PreCut()) + "GeV-test";
+        return  "TopPartner_" + std::to_string(PreCut()) + "GeV-test2";
     }
 
     std::string ProcessName() {

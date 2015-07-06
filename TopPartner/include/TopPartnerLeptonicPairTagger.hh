@@ -30,6 +30,10 @@ public:
       return SaveEntries(Multiplets(event,pre_cuts, reader));
     }
 
+    std::string name() const {
+      return "TopPartnerLeptonicPair";
+    }
+
 private:
 
     ReaderTagger<TopPartnerHadronicTagger> top_partner_hadronic_reader_;

@@ -25,6 +25,10 @@ public:
 
     std::vector<Decuplet73> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
 
+    std::string name() const {
+      return "SignatureSingle";
+    }
+
 private:
 
     ReaderTagger<TopPartnerHiggsPairTagger> top_partner_higgs_pair_reader_;

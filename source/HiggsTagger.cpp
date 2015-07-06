@@ -8,7 +8,6 @@ namespace analysis
 HiggsTagger::HiggsTagger()
 {
     Note();
-    set_tagger_name("Higgs");
     DefineVariables();
 }
 

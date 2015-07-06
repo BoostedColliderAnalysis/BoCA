@@ -36,6 +36,10 @@ public:
       return Multiplets(event, pre_cuts, reader);
     }
 
+    std::string name() const {
+      return "TopPartnerHiggsPair";
+    }
+
 private:
 
     ReaderTagger<TopPartnerSemiTagger> top_partner_hadronic_reader_;

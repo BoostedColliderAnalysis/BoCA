@@ -7,7 +7,6 @@ namespace analysis {
 WSemiTagger::WSemiTagger()
 {
     Note();
-    set_tagger_name("WSemi");
     w_mass_window_ = 20;
     DefineVariables();
 }

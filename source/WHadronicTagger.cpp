@@ -8,8 +8,6 @@ namespace analysis
 WHadronicTagger::WHadronicTagger()
 {
     Note();
-    set_tagger_name("WHadronic");
-    w_mass_window_ = 20;
     DefineVariables();
 }
 

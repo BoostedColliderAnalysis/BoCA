@@ -34,6 +34,10 @@ public:
       return Multiplets(event, pre_cuts, reader);
     }
 
+    std::string name() const {
+      return "Signature";
+    }
+
 private:
 
     ReaderTagger<HiggsTagger> higgs_reader_;

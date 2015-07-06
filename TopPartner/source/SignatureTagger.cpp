@@ -9,7 +9,6 @@ namespace toppartner {
 SignatureTagger::SignatureTagger()
 {
     Note();
-//     set_tagger_name("Signature");
     DefineVariables();
 }
 

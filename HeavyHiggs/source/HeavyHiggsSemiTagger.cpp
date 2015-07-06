@@ -11,13 +11,12 @@ namespace heavyhiggs
 HeavyHiggsSemiTagger::HeavyHiggsSemiTagger()
 {
     Note();
-    set_tagger_name("HeavyHiggsSemi");
     DefineVariables();
 }
 
 int HeavyHiggsSemiTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const
 {
-    Info("Higgs Tags");
+    Info();
 
     float Mass = event.mass();
     fastjet::PseudoJet HiggsBoson;

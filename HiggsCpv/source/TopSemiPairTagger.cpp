@@ -11,7 +11,6 @@ namespace higgscpv {
 TopSemiPairTagger::TopSemiPairTagger()
 {
     Note();
-    set_tagger_name("TripletJetJetPair");
     DefineVariables();
 }
 

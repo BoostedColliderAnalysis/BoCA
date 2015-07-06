@@ -19,10 +19,6 @@ class EventFusionTagger : public BranchTagger<EventFusionBranch>
 
 public:
 
-    /**
-    * @brief Constructor
-    *
-    */
     EventFusionTagger();
 
     int Train(const Event &event,PreCuts &pre_cuts, const Tag tag) const;
@@ -31,6 +27,10 @@ public:
 
     int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const {
 //       return SaveEntries(Multiplets(event, pre_cuts, reader));
+    }
+
+    std::string name() const {
+      return "EventFusion";
     }
 
 private:

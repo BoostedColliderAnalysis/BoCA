@@ -8,7 +8,6 @@ namespace analysis {
 TripletJetPairTagger::TripletJetPairTagger()
 {
     Note();
-    set_tagger_name("TripletJetJetPair");
     DefineVariables();
 }
 

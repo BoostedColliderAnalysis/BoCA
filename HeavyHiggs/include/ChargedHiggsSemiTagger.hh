@@ -28,6 +28,10 @@ public:
       return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
+    std::string name() const {
+      return "ChargedHiggsSemi";
+    }
+
 private:
 
     ReaderTagger<BottomTagger> bottom_reader_;

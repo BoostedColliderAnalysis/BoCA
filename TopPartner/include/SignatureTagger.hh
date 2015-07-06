@@ -29,6 +29,10 @@ public:
 //       return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
+    std::string name() const {
+      return "Signature";
+    }
+
 private:
 
     ReaderTagger<TopPartnerPairTagger> top_partner_pair_reader_;

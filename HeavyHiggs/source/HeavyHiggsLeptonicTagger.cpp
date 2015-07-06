@@ -13,7 +13,6 @@ namespace heavyhiggs
 HeavyHiggsLeptonicTagger::HeavyHiggsLeptonicTagger()
 {
     Note();
-    set_tagger_name("HeavyHiggsLeptonic");
     DefineVariables();
 }
 

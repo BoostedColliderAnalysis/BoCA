@@ -10,7 +10,6 @@ namespace toppartner
 TopPartnerSemiTagger::TopPartnerSemiTagger()
 {
     Note();
-    set_tagger_name("TopPartnerSemi");
     DefineVariables();
 }
 
