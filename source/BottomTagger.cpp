@@ -10,7 +10,6 @@ namespace analysis
 BottomTagger::BottomTagger()
 {
     Info();
-    set_tagger_name("Bottom");
     DefineVariables();
 }
 

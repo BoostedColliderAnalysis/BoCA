@@ -2,6 +2,7 @@
 
 #include "Tagger.hh"
 #include "TLegend.h"
+#include "TFile.h"
 #include "Branches.hh"
 
 class ExRootTreeBranch;

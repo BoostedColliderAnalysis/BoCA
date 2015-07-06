@@ -10,13 +10,13 @@ namespace heavyhiggs
 
 SignatureChargedTagger::SignatureChargedTagger()
 {
-    Info("Constructor");
+    Info();
     DefineVariables();
 }
 
 int SignatureChargedTagger::Train(const Event &event, analysis::PreCuts &pre_cuts, const analysis::Tag tag) const
 {
-    Info("event Tags");
+    Info();
 
     std::vector<Quartet31> higgs_quartets = charged_higgs_semi_reader_.Multiplets(event);
 
@@ -42,7 +42,7 @@ int SignatureChargedTagger::Train(const Event &event, analysis::PreCuts &pre_cut
 
 std::vector<Octet44> SignatureChargedTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const
 {
-    Info("Bdt");
+    Info();
 
     std::vector<Quartet31> higgs_quartets = charged_higgs_semi_reader_.Multiplets(event);
     std::vector<Quartet31> jet_quartets = triplet_jet_pair_reader_.Multiplets(event);

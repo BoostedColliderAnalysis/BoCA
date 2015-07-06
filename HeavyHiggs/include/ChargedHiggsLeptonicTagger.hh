@@ -25,6 +25,10 @@ public:
 
     std::vector<analysis::Triplet> Multiplets(const Event &event, const TMVA::Reader &reader) const;
 
+    std::string name() const {
+      return "ChargedHiggsLeptonic";
+    }
+
 private:
 
     analysis::ReaderTagger<analysis::BottomTagger> bottom_reader_;

@@ -11,7 +11,6 @@ namespace analysis
 TopHadronicTagger::TopHadronicTagger()
 {
     Note();
-    set_tagger_name("TopHadronic");
 //     top_mass_window_ = (Mass(Id::top) - Mass(Id::higgs)) / 2;
     top_mass_window_ = 50;
     DefineVariables();

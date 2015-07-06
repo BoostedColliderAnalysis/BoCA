@@ -10,7 +10,6 @@ namespace toppartner
 EventSingleTagger::EventSingleTagger()
 {
     Note();
-    set_tagger_name("EventSingle");
     DefineVariables();
 }
 

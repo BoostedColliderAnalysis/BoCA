@@ -8,7 +8,6 @@ namespace analysis
 ZHadronicTagger::ZHadronicTagger()
 {
     Note();
-    set_tagger_name("ZHadronic");
     DefineVariables();
 }
 

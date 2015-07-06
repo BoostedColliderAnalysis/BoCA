@@ -36,12 +36,16 @@ public:
       return Multiplets(event, pre_cuts, reader);
     }
 
+    std::string name() const {
+      return "TopPartnerHadronic";
+    }
+
 private:
 
     ReaderTagger<TopHadronicTagger> top_reader_;
 
     ReaderTagger<HiggsTagger> z_hadronic_reader_;
-    
+
 };
 
 }

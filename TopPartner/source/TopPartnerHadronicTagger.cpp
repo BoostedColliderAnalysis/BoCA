@@ -11,7 +11,6 @@ namespace toppartner
 TopPartnerHadronicTagger::TopPartnerHadronicTagger()
 {
     Note();
-    set_tagger_name("TopPartnerHadronic");
     DefineVariables();
 }
 

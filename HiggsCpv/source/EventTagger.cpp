@@ -10,7 +10,6 @@ namespace higgscpv
 EventTagger::EventTagger()
 {
     Note();
-    set_tagger_name("Event");
     DefineVariables();
 }
 

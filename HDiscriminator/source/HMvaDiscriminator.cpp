@@ -1,6 +1,7 @@
 #include "HMvaDiscriminator.hh"
 #include  "exroot/ExRootAnalysis.hh"
 #include "TClonesArray.h"
+#include "TMVA/Reader.h"
 #include "Debug.hh"
 
 hcpvhiggs::HMva::HMva()
@@ -10,7 +11,7 @@ hcpvhiggs::HMva::HMva()
 
 //     DebugLevel = 4;
 
-    set_tagger_name("Higgs");
+//     set_tagger_name("Higgs");
 
 
 

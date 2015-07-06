@@ -29,6 +29,10 @@ public:
         return WSemiId(WSemiDaughters(event));
     }
 
+    std::string name() const {
+      return "WSemi";
+    }
+
 private:
 
     Jets WSemiDaughters(const Event &event) const;
@@ -41,7 +45,7 @@ private:
 
     std::vector<Doublet> GetNeutrino(const Doublet &doublet, const Jets &Neutrinos, const Tag Tag)const;
 
-    float w_mass_window_;
+    float w_mass_window_ = 20;
 
 };
 

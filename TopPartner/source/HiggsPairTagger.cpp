@@ -10,7 +10,6 @@ namespace toppartner
 HiggsPairTagger::HiggsPairTagger()
 {
     Note();
-    set_tagger_name("HiggsPairPair");
     DefineVariables();
 }
 

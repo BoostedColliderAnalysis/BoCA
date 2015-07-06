@@ -10,7 +10,6 @@ namespace toppartner
 TopPartnerLeptonicPairTagger::TopPartnerLeptonicPairTagger()
 {
     Note();
-    set_tagger_name("TopPartnerLeptonicPairTagger");
     DefineVariables();
 }
 

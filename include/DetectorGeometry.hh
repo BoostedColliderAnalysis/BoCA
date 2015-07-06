@@ -10,6 +10,11 @@ enum class JetType
     jet, gen_jet, e_flow_jet
 };
 
+enum class DetectorType
+{
+  CMS, Spp
+};
+
 class DetectorGeometry
 {
 public:
@@ -27,7 +32,6 @@ public:
     float LeptonMinPt() const;
     JetType jet_type() const;
 private:
-    enum DetectorType {CMS, Spp};
     DetectorType detector_type() const;
 };
 

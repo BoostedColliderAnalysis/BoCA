@@ -8,7 +8,6 @@ namespace analysis
 TopSemiTagger::TopSemiTagger()
 {
     Note();
-    set_tagger_name("TopSemi");
     top_mass_window_ = (Mass(Id::top) - Mass(Id::W)) / 2;
     DefineVariables();
 }

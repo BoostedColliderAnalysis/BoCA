@@ -29,6 +29,10 @@ public:
       return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
+    std::string name() const {
+      return "HeavyHiggsSemi";
+    }
+
 private:
 
     ReaderTagger<TopHadronicTagger> top_hadronic_reader_;

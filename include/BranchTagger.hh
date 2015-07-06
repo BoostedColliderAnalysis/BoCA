@@ -17,12 +17,13 @@ class BranchTagger : public Tagger
 
 protected:
 
-//     BranchTagger() {
+//   BranchTagger() {
+//       std::cout << this->name() << std::endl;
 //         DefineVariables();
 //     }
 
     template<typename Multiplet>
-    std::vector<Multiplet> ReduceResult(std::vector<Multiplet> &multiplets, const std::size_t max = 4) const{
+    std::vector<Multiplet> ReduceResult(std::vector<Multiplet> &multiplets, const std::size_t max = 4) const {
 //         multiplets.erase(std::remove_if(multiplets.begin(), multiplets.end(), [&](Multiplet & multiplet) {
 //             return multiplet.IsEmpty();
 //         }), multiplets.end());
@@ -32,7 +33,7 @@ protected:
         return multiplets;
     }
 
-    Jets ReduceResult(Jets &jets, const std::size_t max = 4) const{
+    Jets ReduceResult(Jets &jets, const std::size_t max = 4) const {
         if (jets.empty()) return jets;
         std::sort(jets.begin(), jets.end(), SortByBdt());
         jets.erase(jets.begin() + std::min(max, jets.size()), jets.end());
@@ -68,7 +69,7 @@ protected:
     }
 
     template<typename Multiplet>
-    std::vector<Multiplet> BestMatches(std::vector<Multiplet> &multiplets, const Jets &particles, const Tag tag) const{
+    std::vector<Multiplet> BestMatches(std::vector<Multiplet> &multiplets, const Jets &particles, const Tag tag) const {
 //         multiplets.erase(std::remove_if(multiplets.begin(), multiplets.end(), [&](Multiplet & multiplet) {
 //             return multiplet.IsEmpty();
 //         }), multiplets.end());
@@ -151,10 +152,12 @@ protected:
 
 
     virtual void DefineVariables() {
-//         Info("Define Variables");
+//         Info();
         ClearObservables();
         AddVariables();
         AddSpectators();
+            signal_file_names_ = {name()};
+            background_file_names_ = {background(name())};
     }
 
 //     auto Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
@@ -162,6 +165,11 @@ protected:
 //     int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const {
 //       return SaveEntries(Multiplets(event, pre_cuts, reader));
 //     }
+//     virtual std::string name() const = 0;
+//     {
+//         std::cout << "we do not want to end up here" << std::endl;
+//         return "Tagger";
+//     };
 
 private:
 
@@ -179,10 +187,9 @@ private:
 
     template<typename Multiplet>
     void FillBranch(const Multiplet &multiplet) const {
-//         Info("Fill Branch");
+//         Info();
 //         std::cout << "fill" << std::endl;
         branch_.Fill(multiplet);
-//         std::cout << "filled" << std::endl;
     }
 
     /**

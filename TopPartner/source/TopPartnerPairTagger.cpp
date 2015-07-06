@@ -10,7 +10,6 @@ namespace toppartner
 TopPartnerPairTagger::TopPartnerPairTagger()
 {
     Note();
-    set_tagger_name("TopPartnerPairTagger");
     DefineVariables();
 }
 

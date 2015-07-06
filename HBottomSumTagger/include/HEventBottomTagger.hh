@@ -1,7 +1,7 @@
 #pragma once
 
 #include "BottomTagger.hh"
-#include "Reader.hh"
+#include "ReaderTagger.hh"
 #include "Branches.hh"
 #include "PreCuts.hh"
 
@@ -37,13 +37,15 @@ public:
 //       return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
+    std::string name() const {
+      return "EventBottom";
+    }
+
 private:
 
     void DefineVariables();
 
-    analysis::BottomTagger bottom_tagger_;
-
-    analysis::Reader bottom_reader_;
+    analysis::ReaderTagger<analysis::BottomTagger> bottom_reader_;
 
 };
 

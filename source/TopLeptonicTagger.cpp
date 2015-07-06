@@ -8,7 +8,6 @@ namespace analysis
 TopLeptonicTagger::TopLeptonicTagger()
 {
     Note();
-    set_tagger_name("TopLeptonic");
     top_mass_window = 80;
     DefineVariables();
 }

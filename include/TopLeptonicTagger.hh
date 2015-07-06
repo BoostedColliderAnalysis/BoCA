@@ -41,6 +41,10 @@ public:
         return Multiplets(event, pre_cuts, reader);
     }
 
+    std::string name() const {
+      return "TopLeptonic";
+    }
+
 private:
 
     ReaderTagger<BottomTagger> bottom_reader_;

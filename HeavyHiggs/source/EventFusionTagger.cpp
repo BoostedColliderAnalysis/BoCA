@@ -9,7 +9,6 @@ namespace heavyhiggs {
 EventFusionTagger::EventFusionTagger()
 {
     Note();
-    set_tagger_name("EventFusion");
     DefineVariables();
 }
 

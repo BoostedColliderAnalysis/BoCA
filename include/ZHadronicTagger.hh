@@ -31,6 +31,10 @@ public:
         return Multiplets(event, pre_cuts, reader);
     }
 
+    std::string name() const {
+      return "ZHadronic";
+    }
+
 private:
 
     bool Problematic(const Doublet &doublet, PreCuts &pre_cuts, const Tag tag) const;

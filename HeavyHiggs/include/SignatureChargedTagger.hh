@@ -20,10 +20,6 @@ class SignatureChargedTagger : public BranchTagger<OctetChargedBranch>
 
 public:
 
-    /**
-    * @brief Constructor
-    *
-    */
     SignatureChargedTagger();
 
     int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const;
@@ -32,6 +28,10 @@ public:
 
     int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const {
       return SaveEntries(Multiplets(event, pre_cuts, reader));
+    }
+
+    std::string name() const {
+      return "SignatureCharged";
     }
 
 private:

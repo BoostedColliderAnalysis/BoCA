@@ -31,6 +31,10 @@ public:
         return sgn(w_semi_reader_.tagger().WSemiId(event)) * to_int(Id::top);
     }
 
+    std::string name() const {
+      return "TopSemi";
+    }
+
 private:
 
     bool Problematic(const Triplet &triplet, PreCuts &pre_cut, const Tag tag) const;

@@ -29,6 +29,10 @@ public:
 
     std::vector<analysis::Triplet> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
 
+    std::string name() const {
+      return "TopHadronic";
+    }
+
 private:
 
   analysis::Triplet Triplet(const Doublet &doublet, const fastjet::PseudoJet &jet, const Jets &leptons, PreCuts &pre_cuts, const Tag tag) const;

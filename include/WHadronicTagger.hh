@@ -32,6 +32,10 @@ public:
 
     int WHadronicId(const Event &event) const;
 
+    std::string name() const {
+      return "WHadronic";
+    }
+
 private:
 
     std::vector<Doublet> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
@@ -60,7 +64,7 @@ private:
 
     int WHadronicId(const Jets &jets) const;
 
-    float w_mass_window_;
+    float w_mass_window_ = 20;
 };
 
 }

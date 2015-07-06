@@ -29,6 +29,10 @@ public:
         return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
+    std::string name() const {
+      return "HiggsPair";
+    }
+
 private:
 
     ReaderTagger<HiggsTagger> higgs_reader_;
