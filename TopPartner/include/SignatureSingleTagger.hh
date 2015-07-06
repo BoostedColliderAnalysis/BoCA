@@ -21,19 +21,15 @@ public:
 
     SignatureSingleTagger();
 
-    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag);
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const;
 
-    std::vector<Decuplet73> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
+    std::vector<Decuplet73> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
 
 private:
 
-    TopPartnerHiggsPairTagger top_partner_higgs_pair_tagger_;
+    ReaderTagger<TopPartnerHiggsPairTagger> top_partner_higgs_pair_reader_;
 
-    TopHadronicTagger top_hadronic_tagger_;
-
-    Reader top_partner_higgs_pair_reader_;
-
-    Reader top_hadronic_reader_;
+    ReaderTagger<TopHadronicTagger> top_hadronic_reader_;
 };
 
 }

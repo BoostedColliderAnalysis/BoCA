@@ -1,4 +1,5 @@
 #include "HeavyHiggsTauTagger.hh"
+#include "Event.hh"
 #include "Debug.hh"
 
 namespace analysis
@@ -10,8 +11,6 @@ namespace heavyhiggs
 HeavyHiggsTauTagger::HeavyHiggsTauTagger()
 {
     Note();
-    set_tagger_name("HeavyHiggsTau");
-    tau_reader_.SetTagger(tau_tagger_);
     DefineVariables();
 }
 
@@ -20,7 +19,7 @@ int HeavyHiggsTauTagger::Train(const Event &event, const Tag tag)
 
     Info("Top Tags");
 
-    Jets jets = tau_reader_.Multiplets<TauTagger>(event);
+    Jets jets = tau_reader_.Multiplets(event);
     Info("Number Jet", jets.size());
 
     const fastjet::PseudoJet MissingEt = event.Hadrons().MissingEt();
@@ -63,10 +62,10 @@ int HeavyHiggsTauTagger::Train(const Event &event, const Tag tag)
     return SaveEntries(doublets);
 }
 
-std::vector<Doublet>  HeavyHiggsTauTagger::Multiplets(const Event &event, const TMVA::Reader &reader)
+std::vector<Doublet>  HeavyHiggsTauTagger::Multiplets(const Event &event, const TMVA::Reader &reader) const
 {
     Info("Multiplets");
-    Jets jets = tau_reader_.Multiplets<TauTagger>(event);
+    Jets jets = tau_reader_.Multiplets(event);
     Info("Number Jet", jets.size());
     const fastjet::PseudoJet missing_et = event.Hadrons().MissingEt();
     std::vector<Doublet> doublets;

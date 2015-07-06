@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Tagger.hh"
+#include "PreCuts.hh"
 
 namespace analysis
 {

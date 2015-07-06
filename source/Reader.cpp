@@ -1,5 +1,6 @@
 #include "Reader.hh"
 
+// #include "TMVA/IMethod.h"
 #include "Debug.hh"
 
 namespace analysis
@@ -27,6 +28,7 @@ void Reader::BookMva()
     Note();
     const std::string bdt_weight_file = tagger().analysis_name() + "/" + tagger().bdt_weight_name();
     Note("Opening Weight File", bdt_weight_file);
+    //TMVA::IMethod &method = *
     reader_.BookMVA(tagger().bdt_method_name(), bdt_weight_file);
 }
 

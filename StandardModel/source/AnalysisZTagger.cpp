@@ -47,7 +47,7 @@ int AnalysisZ::PassPreCut(const Event &event)
 }
 std::string AnalysisZ::ProjectName() const
 {
-    return  "ZTagger-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV-";
+    return  "ZTagger-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV-test";
 }
 
 }

@@ -25,11 +25,11 @@ public:
     */
     EventTagger();
 
-    int Train(const Event &event, analysis::PreCuts &, const analysis::Tag tag);
+    int Train(const Event &event, analysis::PreCuts &, const analysis::Tag tag) const;
 
-    std::vector<MultipletEvent<Octet62>> Multiplets(const Event &event,PreCuts &pre_cuts, const TMVA::Reader &reader);
+    std::vector<MultipletEvent<Octet62>> Multiplets(const Event &event,PreCuts &pre_cuts, const TMVA::Reader &reader) const;
 
-    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const {
       return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
@@ -40,13 +40,9 @@ public:
 
 private:
 
-    SignatureTagger signature_tagger_;
+    ReaderTagger<SignatureTagger> signature_reader_;
 
-    Reader signature_reader_;
-
-    BottomTagger bottom_tagger_;
-
-    Reader bottom_reader_;
+    ReaderTagger<BottomTagger> bottom_reader_;
 
 };
 

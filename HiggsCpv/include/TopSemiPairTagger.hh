@@ -4,6 +4,7 @@
 #include "TopSemiTagger.hh"
 #include "Sextet.hh"
 #include "BranchesHiggsCpv.hh"
+#include "ReaderTagger.hh"
 
 namespace analysis
 {
@@ -24,17 +25,13 @@ public:
 
     int Train(const Event &event, const Tag tag);
 
-    std::vector<Sextet> Multiplets(const Event &event, const TMVA::Reader &reader);
+    std::vector<Sextet> Multiplets(const Event &event, const TMVA::Reader &reader) const;
 
 private:
 
-    TopSemiTagger top_semi_tagger_;
+    ReaderTagger<TopSemiTagger> top_semi_reader_;
 
-    TopHadronicTagger top_hadronic_tagger;
-
-    Reader top_semi_reader_;
-
-    Reader top_hadronic_reader_;
+    ReaderTagger<TopHadronicTagger> top_hadronic_reader_;
 
 };
 

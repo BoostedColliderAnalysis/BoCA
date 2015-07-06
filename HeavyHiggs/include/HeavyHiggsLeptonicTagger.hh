@@ -24,13 +24,11 @@ public:
 
     int Train(const Event &event, const Tag tag);
 
-    std::vector<Sextet> Multiplets(const Event &event, const TMVA::Reader &reader);
+    std::vector<Sextet> Multiplets(const Event &event, const TMVA::Reader &reader) const;
 
 private:
 
-    TopLeptonicTagger top_leptonic_tagger_;
-
-    Reader top_leptonic_reader_;
+    ReaderTagger<TopLeptonicTagger> top_leptonic_reader_;
 
 };
 

@@ -7,6 +7,8 @@
 namespace analysis
 {
 
+  ClonesArrays::ClonesArrays(){}
+
 ClonesArrays::ClonesArrays(const Source source)
 {
     source_ = source;

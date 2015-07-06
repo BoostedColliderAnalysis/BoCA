@@ -1,5 +1,6 @@
 #include "HEventBottomTagger.hh"
 #include "Doublet.hh"
+#include "Event.hh"
 #include "Debug.hh"
 
 hbottomsumtagger::EventBottomTagger::EventBottomTagger()
@@ -89,7 +90,7 @@ bool hbottomsumtagger::EventBottomTagger::TruthLevelCheck(const analysis::Jets &
     return 1;
 }
 
-int hbottomsumtagger::EventBottomTagger::Multiplets(const analysis::Event &event, analysis::PreCuts &precuts, const TMVA::Reader &)
+int hbottomsumtagger::EventBottomTagger::Multiplets(const analysis::Event &event, analysis::PreCuts &precuts, const TMVA::Reader &) const
 {
   Info("event Tags");
   analysis::Jets jets = bottom_reader_.Multiplets<analysis::BottomTagger>(event);

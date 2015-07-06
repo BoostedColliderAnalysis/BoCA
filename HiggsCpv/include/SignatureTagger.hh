@@ -21,11 +21,11 @@ public:
 
     SignatureTagger();
 
-    int Train(const Event &event, analysis::PreCuts &, const analysis::Tag tag);
+    int Train(const Event &event, analysis::PreCuts &, const analysis::Tag tag) const;
 
-    std::vector< Octet62 > Multiplets(const Event &event, analysis::PreCuts &, const TMVA::Reader &reader);
+    std::vector< Octet62 > Multiplets(const analysis::Event &event, analysis::PreCuts &, const TMVA::Reader &reader) const;
 
-    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const {
       return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
@@ -36,13 +36,9 @@ public:
 
 private:
 
-    HiggsTagger higgs_tagger_;
+    ReaderTagger<HiggsTagger> higgs_reader_;
 
-    TopLeptonicPairTagger triplet_pair_tagger_;
-
-    Reader higgs_reader_;
-
-    Reader triplet_pair_reader_;
+    ReaderTagger<TopLeptonicPairTagger> triplet_pair_reader_;
 
 };
 

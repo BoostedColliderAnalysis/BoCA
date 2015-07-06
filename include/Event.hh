@@ -16,6 +16,8 @@ class Event
 
 public:
 
+    Event();
+
     Event(const Source source);
 
     ~Event();

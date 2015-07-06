@@ -11,16 +11,14 @@ TopPartnerLeptonicPairTagger::TopPartnerLeptonicPairTagger()
 {
     Note();
     set_tagger_name("TopPartnerLeptonicPairTagger");
-    top_partner_hadronic_reader_.SetTagger(top_partner_hadronic_tagger_);
-    top_partner_semi_reader_.SetTagger(top_partner_semi_tagger_);
     DefineVariables();
 }
 
-int TopPartnerLeptonicPairTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag)
+int TopPartnerLeptonicPairTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const
 {
-    Info("Higgs Tags");
-    std::vector< Quintet> quintets = top_partner_hadronic_reader_.Multiplets<TopPartnerHadronicTagger>(event);
-    std::vector< Quartet22> quartets = top_partner_semi_reader_.Multiplets<TopPartnerLeptonicTagger>(event);
+    Info();
+    std::vector< Quintet> quintets = top_partner_hadronic_reader_.Multiplets(event);
+    std::vector< Quartet22> quartets = top_partner_semi_reader_.Multiplets(event);
     std::vector< Nonet > nonets;
     for (const auto quintet :  quintets) {
         for (const auto quartet : quartets) {
@@ -35,10 +33,10 @@ int TopPartnerLeptonicPairTagger::Train(const Event &event, PreCuts &pre_cuts, c
     return SaveEntries(nonets,1);
 }
 
-std::vector<Nonet> TopPartnerLeptonicPairTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader)
+std::vector<Nonet> TopPartnerLeptonicPairTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const const
 {
-  std::vector< Quintet> quintets = top_partner_hadronic_reader_.Multiplets<TopPartnerHadronicTagger>(event);
-  std::vector< Quartet22> quartets = top_partner_semi_reader_.Multiplets<TopPartnerLeptonicTagger>(event);
+  std::vector< Quintet> quintets = top_partner_hadronic_reader_.Multiplets(event);
+  std::vector< Quartet22> quartets = top_partner_semi_reader_.Multiplets(event);
     std::vector< Nonet > nonets;
     for (const auto quintet :  quintets) {
       for (const auto quartet : quartets) {
