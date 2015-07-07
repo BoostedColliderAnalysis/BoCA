@@ -46,7 +46,6 @@ Observable.cpp
 PreCuts.cpp
 Factory.cpp
 Reader.cpp
-ReaderTagger.cpp
 Plot.cpp
 
 Tagger.cpp

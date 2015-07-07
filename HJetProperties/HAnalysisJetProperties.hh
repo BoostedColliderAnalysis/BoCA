@@ -25,7 +25,7 @@ public:
  * @brief Class defining the Disciminator Analysis
  *
  */
-class hjetproperties::HAnalysis : public analysis::Analysis
+class hjetproperties::HAnalysis //: public analysis::Analysis
 {
 
 public:

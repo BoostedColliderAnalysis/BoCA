@@ -2,7 +2,7 @@
 
 #include "BottomTagger.hh"
 #include "Doublet.hh"
-#include "ReaderTagger.hh"
+#include "Reader.hh"
 
 namespace analysis
 {

@@ -223,8 +223,8 @@ private:
     }
 
     analysis::JetTag jet_tag;
-    analysis::Reader BottomReader;
-    analysis::Reader eventBottomSumReader;
+//     analysis::Reader BottomReader;
+//     analysis::Reader eventBottomSumReader;
 
 //     void NewBranches(exroot::TreeWriter &NewTreeWriter, const analysis::HAnalysis::HTagger Tagger);
 

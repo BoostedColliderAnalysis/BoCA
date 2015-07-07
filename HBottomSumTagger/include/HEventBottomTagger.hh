@@ -1,7 +1,7 @@
 #pragma once
 
 #include "BottomTagger.hh"
-#include "ReaderTagger.hh"
+#include "Reader.hh"
 #include "Branches.hh"
 #include "PreCuts.hh"
 

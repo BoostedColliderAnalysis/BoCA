@@ -4,7 +4,7 @@
 #include "TopSemiTagger.hh"
 #include "Sextet.hh"
 #include "BranchesHiggsCpv.hh"
-#include "ReaderTagger.hh"
+#include "Reader.hh"
 
 namespace analysis
 {

@@ -8,7 +8,7 @@ namespace analysis
 namespace standardmodel
 {
 
-enum Production {DYP, VBF, Associated};
+enum class Production {DYP, VBF, Associated};
 
 std::string Name(const Production production_channel);
 
@@ -41,9 +41,9 @@ private:
 
 
     Production production_channel() const {
-        return DYP;
-        //         return VBF;
-        //         return Associated;
+      return Production::DYP;
+      //         return Production::VBF;
+      //         return Production::Associated;
     }
 
     void SetFiles(const Tag tag) {

@@ -10,11 +10,11 @@ namespace standardmodel
 std::string Name(const Production production_channel)
 {
     switch (production_channel) {
-    case Associated :
+      case Production::Associated :
         return "llbb_";
-    case DYP :
+      case Production::DYP :
         return "pp_z_";
-    case VBF :
+      case Production::VBF :
         return "VBF_";
     default:
         return "";

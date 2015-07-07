@@ -1,7 +1,7 @@
 #pragma once
 
 #include "AnalysisBase.hh"
-#include "ReaderTagger.hh"
+#include "Reader.hh"
 #include <sys/stat.h>
 
 namespace analysis
