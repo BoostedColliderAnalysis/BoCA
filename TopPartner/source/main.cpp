@@ -5,31 +5,30 @@
 int main()
 {
     analysis::toppartner::Analysis<analysis::BottomTagger> bottom_analysis;
-    bottom_analysis.RunFast();
+    bottom_analysis.RunFullEfficiency();
 
     analysis::toppartner::Analysis<analysis::HiggsTagger> higgs_analysis;
-    higgs_analysis.RunFast();
+    higgs_analysis.RunFullEfficiency();
 
     analysis::toppartner::Analysis<analysis::WHadronicTagger> w_hadronic_analysis;
-    w_hadronic_analysis.RunFast();
+    w_hadronic_analysis.RunFullEfficiency();
 
     analysis::toppartner::Analysis<analysis::TopHadronicTagger> top_hadronic_analysis;
-    top_hadronic_analysis.RunFast();
+    top_hadronic_analysis.RunFullEfficiency();
 
     analysis::toppartner::Analysis<analysis::TopLeptonicTagger> top_leptonic_analysis;
-    top_leptonic_analysis.RunFast();
+    top_leptonic_analysis.RunFullEfficiency();
 
     analysis::toppartner::Analysis<analysis::toppartner::TopPartnerLeptonicTagger> top_partner_leptonic_analysis;
-    top_partner_leptonic_analysis.RunFast();
+    top_partner_leptonic_analysis.RunFullEfficiency();
 
     analysis::toppartner::Analysis<analysis::toppartner::TopPartnerHadronicTagger> top_partner_hadronic_analysis;
-    top_partner_hadronic_analysis.RunFast();
+    top_partner_hadronic_analysis.RunFullEfficiency();
 
     analysis::toppartner::Analysis<analysis::toppartner::TopPartnerLeptonicPairTagger> top_partner_leptonic_pair_analysis;
-    top_partner_leptonic_pair_analysis.RunFast();
+    top_partner_leptonic_pair_analysis.RunFullEfficiency();
 
-    analysis::toppartner::Analysis<analysis::toppartner::EventSingleTagger > event_analysis;
+    analysis::toppartner::Analysis<analysis::toppartner::EventSingleTagger> event_analysis;
     event_analysis.RunFullSignificance();
-
 }
 
