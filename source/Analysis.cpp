@@ -113,34 +113,11 @@ int Analysis::RunAnalysis(const Event &event, const Stage stage, const Tag tag)
     }
 }
 
-// bool Analysis::Missing(const std::string &name) const
-// {
-//     Error(name);
-//     struct stat buffer;
-//     return (stat(name.c_str(), &buffer) != 0);
-// }
-
-// std::vector< File > Analysis::Files(const Tag tag)
-// {
-//     Error(Name(tag));
-//     return files_;
-// }
-
-// void Analysis::SetFiles(const Tag tag)
-// {
-//     Error("should be subclassed", Name(tag));
-// }
-
 int Analysis::PassPreCut(const Event &)
 {
     Error("no pre cut applied");
     return 1;
 }
-
-// void Analysis::SetConfig(const Configuration &configuration)
-// {
-//     configuration_ = configuration;
-// }
 
 void Analysis::PrepareFiles()
 {
@@ -165,79 +142,6 @@ std::string Analysis::ProcessName() const
     return "Process";
 }
 
-// void Analysis::NewFile(const Tag tag, const std::string &name, const std::string &nice_name)
-// {
-//     switch (tag) {
-//     case Tag::signal :
-//         NewSignalFile(name, nice_name);
-//         break;
-//     case Tag::background :
-//         NewBackgroundFile(name, nice_name);
-//         break;
-//     }
-// }
-//
-// void Analysis::NewSignalFile(const std::string &name, const std::string &nice_name)
-// {
-//     files_.emplace_back(get_file(name, nice_name));
-//     tagger_.AddSignalTreeName(TreeName(name));
-// }
-//
-// void Analysis::NewBackgroundFile(const std::string &name, const std::string &nice_name)
-// {
-//     files_.emplace_back(get_file(name, nice_name));
-//     tagger_.AddBackgroundTreeName(TreeName(name));
-// }
-
-// void Analysis::NewFile(const Tag tag, const std::string &name, const float crosssection)
-// {
-//     switch (tag) {
-//     case Tag::signal :
-//         NewSignalFile(name, crosssection);
-//         break;
-//     case Tag::background :
-//         NewBackgroundFile(name, crosssection);
-//         break;
-//     }
-// }
-//
-// void Analysis::NewSignalFile(const std::string &name, const float crosssection)
-// {
-//     files_.emplace_back(get_file(name, crosssection));
-//     tagger_.AddSignalTreeName(TreeName(name));
-// }
-//
-// void Analysis::NewBackgroundFile(const std::string &name, const float crosssection)
-// {
-//     files_.emplace_back(get_file(name, crosssection));
-//     tagger_.AddBackgroundTreeName(TreeName(name));
-// }
-//
-// File Analysis::get_file(const std::string &name, const std::string &nice_name) const
-// {
-//     return File(name, FilePath(), FileSuffix(), nice_name);
-// }
-//
-// File Analysis::get_file(const std::string &name, const float crosssection) const
-// {
-//     return File(name, FilePath(), FileSuffix(), crosssection);
-// }
-//
-// std::string Analysis::FileName(const std::string &name) const
-// {
-//     return ProcessName() + "_" + std::to_string(PreCut()) + "GeV";
-// }
-//
-// std::string Analysis::TreeName(const std::string &name) const
-// {
-//     return name + "-run_01";
-// }
-
-// PreCuts &Analysis::pre_cuts()
-// {
-//     return pre_cuts_;
-// }
-
 Tagger &Analysis::tagger()
 {
     return tagger_;
@@ -247,16 +151,6 @@ const Tagger &Analysis::tagger() const
 {
   return tagger_;
 }
-
-// std::string Analysis::FileSuffix() const
-// {
-//     return ".root";
-// }
-//
-// std::string Analysis::FilePath() const
-// {
-//     return "~/Projects/";
-// }
 
 int Analysis::BackgroundFileNumber() const
 {
