@@ -3,7 +3,7 @@
 #include "BottomTagger.hh"
 #include "Triplet.hh"
 #include "WSemiTagger.hh"
-#include "ReaderTagger.hh"
+#include "Reader.hh"
 
 namespace analysis
 {

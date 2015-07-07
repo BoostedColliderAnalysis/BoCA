@@ -2,7 +2,7 @@
 
 #include "TauTagger.hh"
 #include "Doublet.hh"
-#include "ReaderTagger.hh"
+#include "Reader.hh"
 #include "Branch.hh"
 
 namespace analysis
