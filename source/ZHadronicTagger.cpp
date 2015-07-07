@@ -24,7 +24,7 @@ int ZHadronicTagger::Train(const Event &event, analysis::PreCuts &pre_cuts, cons
             doublets.emplace_back(doublet);
         }
     }
-    for (const auto jet : jets) {
+    for (const auto &jet : jets) {
         const int sub_jet_number = 2;
         Jets pieces = bottom_reader_.SubMultiplet(jet, sub_jet_number);
         if (pieces.size() < sub_jet_number) continue;
@@ -74,7 +74,7 @@ std::vector<Doublet>  ZHadronicTagger::Multiplets(const Event &event, analysis::
             doublets.emplace_back(doublet);
         }
     }
-    for (const auto jet : jets) {
+    for (const auto &jet : jets) {
         const int sub_jet_number = 2;
         Jets pieces = bottom_reader_.SubMultiplet(jet, sub_jet_number);
         if (pieces.size() < sub_jet_number) continue;

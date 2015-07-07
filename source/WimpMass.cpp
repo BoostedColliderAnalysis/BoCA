@@ -17,7 +17,7 @@ void WimpMass::Momentum(double momentum[4], const fastjet::PseudoJet &jet)
 std::vector<analysis::Sextet> WimpMass::Sextets(const std::vector<Quartet22> &quartets, const fastjet::PseudoJet &missing_et)
 {
     std::vector<analysis::Sextet> sextets;
-    for (const auto quartet : quartets) Join(sextets, Sextets(quartet, missing_et));
+    for (const auto &quartet : quartets) Join(sextets, Sextets(quartet, missing_et));
     return sextets;
 }
 
@@ -97,29 +97,29 @@ std::vector<analysis::Sextet> WimpMass::Sextet(const Quartet22 &quartet, const f
     if (sextets.empty()) return sextets;
 //     if (Neutrinos.size() < 2) return sextets;
 
-    for (const auto & Neutrino : neutrinos) Debug("Neutrino", Neutrino);
+    for (const auto & neutrino : neutrinos) Debug("Neutrino", neutrino);
     Debug("Neutrino Sum", neutrinos[0] + neutrinos[1]);
     Debug("MET", missing_et);
 
     std::map<float, analysis::Sextet> map;
     for (const auto & sextet : sextets) {
-        fastjet::PseudoJet Neutrino1 = sextet.Triplet1().Doublet().SingletJet2();
-        fastjet::PseudoJet Neutrino2 = sextet.Triplet2().Doublet().SingletJet2();
+        fastjet::PseudoJet neutrino_1 = sextet.Triplet1().Doublet().SingletJet2();
+        fastjet::PseudoJet neutrino_2 = sextet.Triplet2().Doublet().SingletJet2();
 
-        std::vector<float> Neutrino1Errors, Neutrino2Errors;
-        for (const auto & Neutrino : neutrinos) {
+        std::vector<float> errors_1, errors_2;
+        for (const auto & neutrino : neutrinos) {
             //             Error("Neutrino Mass", Neutrino.m());
-            Neutrino1Errors.emplace_back((Neutrino + Neutrino1).m());
-            Debug("Neutrino 1 Error", (Neutrino + Neutrino1).m());
-            Neutrino2Errors.emplace_back((Neutrino + Neutrino2).m());
-            Debug("Neutrino 2 Error", (Neutrino + Neutrino2).m());
+            errors_1.emplace_back((neutrino + neutrino_1).m());
+            Debug("Neutrino 1 Error", (neutrino + neutrino_1).m());
+            errors_2.emplace_back((neutrino + neutrino_2).m());
+            Debug("Neutrino 2 Error", (neutrino + neutrino_2).m());
         }
 
-        float Error = LargeNumber();
-        for (const auto Neutrino1Error : Neutrino1Errors)
-            for (const auto Neutrino2Error : Neutrino2Errors) {
-                if (&Neutrino1Error - &Neutrino1Errors[0] == &Neutrino2Error - &Neutrino2Errors[0]) continue;
-                if (Neutrino1Error + Neutrino2Error < Error) Error = Neutrino1Error + Neutrino2Error;
+        float error = LargeNumber();
+        for (const auto &error_1 : errors_1)
+            for (const auto &error_2 : errors_2) {
+                if (&error_1 - &errors_1[0] == &error_2 - &errors_2[0]) continue;
+                if (error_1 + error_2 < error) error = error_1 + error_2;
 
             }
 
@@ -133,7 +133,7 @@ std::vector<analysis::Sextet> WimpMass::Sextet(const Quartet22 &quartet, const f
 //                 if (Neutrino1Errors[i] + Neutrino2Errors[j] < Error) Error = Neutrino1Errors[i] + Neutrino2Errors[j];
 //             }
 //         }
-        map[Error] = sextet;
+        map[error] = sextet;
         Debug("TriplePair Bdt", sextet.Bdt());
     }
 
@@ -142,7 +142,7 @@ std::vector<analysis::Sextet> WimpMass::Sextet(const Quartet22 &quartet, const f
     else map.erase(map.begin());
 
     std::vector<analysis::Sextet> final_sextets;
-    for (const auto pair : map) {
+    for (const auto &pair : map) {
         analysis::Sextet sextet = pair.second;
         final_sextets.emplace_back(sextet);
     }

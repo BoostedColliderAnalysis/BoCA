@@ -27,7 +27,7 @@ int WSemiTagger::Train(const Event &event, analysis::PreCuts &, const analysis::
         for (auto & doublet : post_doublets) {
             if (tag == Tag::signal && std::abs(doublet.Jet().m() - Mass(Id::W)) > w_mass_window_) continue;
             bool in_cone = false;
-            for(const auto w_boson : w_bosons) if (doublet.Coincides(w_boson)) in_cone = true;
+            for(const auto &w_boson : w_bosons) if (doublet.Coincides(w_boson)) in_cone = true;
             switch(tag) {
             case Tag::signal :
               if (!in_cone) continue;

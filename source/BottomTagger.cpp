@@ -91,7 +91,7 @@ Jets BottomTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, c
 Jets BottomTagger::Multiplets(const analysis::Jets &jets, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const
 {
     Jets final_jets;
-    for (const auto jet : jets) {
+    for (const auto &jet : jets) {
         if (Problematic(jet, pre_cuts)) continue;
         final_jets.emplace_back(Multiplet(jet, reader));
     }
@@ -101,7 +101,7 @@ Jets BottomTagger::Multiplets(const analysis::Jets &jets, analysis::PreCuts &pre
 Jets BottomTagger::SubMultiplets(const Jets &jets, PreCuts &pre_cuts, const TMVA::Reader &reader, const std::size_t sub_jet_number) const
 {
     Jets final_jets;
-    for (const auto sub_jet : SubJets(jets, sub_jet_number)) {
+    for (const auto &sub_jet : SubJets(jets, sub_jet_number)) {
         if (Problematic(sub_jet, pre_cuts)) continue;
         final_jets.emplace_back(Multiplet(sub_jet, reader));
     }
@@ -117,7 +117,7 @@ fastjet::PseudoJet BottomTagger::Multiplet(const fastjet::PseudoJet &jet, const 
 Jets BottomTagger::SubMultiplet(const fastjet::PseudoJet &jet, const TMVA::Reader &reader, const int sub_jet_number) const
 {
     Jets jets;
-    for (const auto sub_jet : Tagger::SubJets(jet, sub_jet_number)) {
+    for (const auto &sub_jet : Tagger::SubJets(jet, sub_jet_number)) {
         if (!sub_jet.has_user_info<JetInfo>()) continue;
         if (sub_jet.m() <= 0) continue;
         jets.emplace_back(Multiplet(sub_jet, reader));

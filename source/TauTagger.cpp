@@ -52,7 +52,7 @@ int TauTagger::Train(const Event &event, analysis::PreCuts &pre_cuts, const anal
 //     Jets Pieces2 = GetSubJets(jets, Particles, Tag, 3);
 //     FinalJets.insert(FinalJets.end(), Pieces2.begin(), Pieces2.end());
     std::vector<Singlet> singlets;
-    for (const auto final_jet : final_jets) singlets.emplace_back(Singlet(final_jet));
+    for (const auto &final_jet : final_jets) singlets.emplace_back(Singlet(final_jet));
     return SaveEntries(singlets);
 }
 
@@ -177,7 +177,7 @@ Jets TauTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, cons
     Jets final_jets;
     Info("Jet Bdt");
     Jets jets = event.Hadrons().Jets();
-    for (const auto jet : jets) {
+    for (const auto &jet : jets) {
         if (!jet.has_user_info<JetInfo>()) {
             Error("Jet Bdt", "No Jet Info");
             continue;
