@@ -15,7 +15,7 @@ namespace higgscpv
  * \author Jan Hajer
  *
  */
-class Analysis : public analysis::Analysis
+class Analysis //: public analysis::Analysis
 {
 
 public:

@@ -1,4 +1,4 @@
-#include "AnalysisTopTagger.hh"
+#include "AnalysisTop.hh"
 #include "TopHadronicTagger.hh"
 #include "TopSemiTagger.hh"
 #include "TopLeptonicTagger.hh"

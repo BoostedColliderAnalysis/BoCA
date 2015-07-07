@@ -7,10 +7,10 @@ namespace analysis
 namespace higgscpv
 {
 
-Analysis::Analysis(Tagger &tagger) : analysis::Analysis::Analysis(tagger)
+Analysis::Analysis(Tagger &tagger) //: analysis::Analysis::Analysis(tagger)
 {
     Note();
-    this->tagger().set_analysis_name(ProjectName());
+    //this->tagger().set_analysis_name(ProjectName());
 }
 
 std::string Analysis::ProcessName()
@@ -23,12 +23,12 @@ void Analysis::SetFiles(const Tag tag)
     Note("Set Files");
     switch (tag) {
     case Tag::signal :
-        NewSignalFile("pp-ttx0-bbbbllnunu-1", 0.02071);
+//         NewSignalFile("pp-ttx0-bbbbllnunu-1", 0.02071);
 //         NewSignalFile("pp-ttx0-bbbbllnunu-0", 0.008937);
 //         NewSignalFile("pp-ttx0-bbbbllnunu-0.5", 0.01193);
         break;
     case Tag::background :
-        NewBackgroundFile("pp-ttbb-bbbbllnunu", 3.457);
+//         NewBackgroundFile("pp-ttbb-bbbbllnunu", 3.457);
         break;
     }
 }

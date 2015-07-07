@@ -32,7 +32,7 @@ public:
  * \author Jan Hajer
  *
  */
-class HAnalysis : public analysis::Analysis
+class HAnalysis //: public analysis::Analysis
 {
 
 public:

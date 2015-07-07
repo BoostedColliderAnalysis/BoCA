@@ -1,4 +1,4 @@
-#include "AnalysisZTagger.hh"
+#include "AnalysisZ.hh"
 #include "ZHadronicTagger.hh"
 
 int main()

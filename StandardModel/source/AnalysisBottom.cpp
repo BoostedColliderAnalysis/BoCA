@@ -1,4 +1,4 @@
-#include "AnalysisBottomTagger.hh"
+#include "AnalysisBottom.hh"
 #include "Debug.hh"
 
 namespace analysis

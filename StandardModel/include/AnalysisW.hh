@@ -65,7 +65,7 @@ private:
       return  "WTagger-" + Name(this->collider_type()) + "-" + std::to_string(this->LowerPtCut()) + "GeV-" + Name(Process::tt) + "";
     }
 
-    int PassPreCut(const Event &event) {
+    int PassPreCut(const Event &) {
         //     Jets particles = event.Partons().GenParticles();
         //     Jets w = fastjet::sorted_by_pt(copy_if_abs_particle(particles, Id::W));
         //     remove_if_not_in_pt_window(w, PreCut(), UpperCut());

@@ -22,7 +22,7 @@ namespace hbottomsumtagger
  * @author Jan Hajer
  *
  */
-class HAnalysis : public analysis::Analysis
+class HAnalysis //: public analysis::Analysis
 {
 
 public:
@@ -35,7 +35,7 @@ public:
 
 
 
-using analysis::Analysis::Analysis;
+// using analysis::Analysis::Analysis;
 
     analysis::BottomTagger bottom_tagger_;
 

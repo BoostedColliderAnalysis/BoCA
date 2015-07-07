@@ -1,4 +1,4 @@
-#include "AnalysisHiggsTagger.hh"
+#include "AnalysisHiggs.hh"
 #include "HiggsTagger.hh"
 
 int main()
