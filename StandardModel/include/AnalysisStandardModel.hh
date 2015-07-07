@@ -1,6 +1,6 @@
 #pragma once
 
-#include "AnalysisCopy.hh"
+#include "Analysis.hh"
 
 namespace analysis
 {

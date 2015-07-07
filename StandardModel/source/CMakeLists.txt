@@ -1,11 +1,11 @@
 set(TaggerLibraries
 AnalysisStandardModel.cpp
-AnalysisBottomTagger.cpp
-AnalysisWTagger.cpp
-AnalysisZTagger.cpp
-AnalysisHiggsTagger.cpp
-AnalysisBosonTagger.cpp
-AnalysisTopTagger.cpp
+AnalysisBottom.cpp
+AnalysisW.cpp
+AnalysisZ.cpp
+AnalysisHiggs.cpp
+AnalysisBoson.cpp
+AnalysisTop.cpp
 )
 
 HLibrary(AnalysisTagger TaggerLibraries)

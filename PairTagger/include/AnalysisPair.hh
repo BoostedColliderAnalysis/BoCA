@@ -16,12 +16,12 @@ namespace fusionpair
  * @author Jan Hajer
  *
  */
-class Analysis : public analysis::Analysis
+class Analysis //: public analysis::Analysis
 {
 
 public:
 
-    using analysis::Analysis::Analysis;
+//     using analysis::Analysis::Analysis;
 
 //     analysis::BottomTagger bottom_tagger_;
 //     analysis::JetPairTagger jet_pair_tagger;
@@ -215,8 +215,8 @@ private:
     }
 
     analysis::JetTag jet_tag;
-    analysis::Reader BottomReader;
-    analysis::Reader JetPairReader;
+//     analysis::Reader BottomReader;
+//     analysis::Reader JetPairReader;
 
 //     void NewBranches(exroot::TreeWriter &NewTreeWriter, const analysis::Analysis::HTagger Tagger);
 

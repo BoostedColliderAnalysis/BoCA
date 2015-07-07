@@ -1,6 +1,6 @@
 #pragma once
 
-#include "AnalysisCopy.hh"
+#include "Analysis.hh"
 
 namespace analysis
 {
@@ -27,12 +27,17 @@ public:
 
 protected:
 
+    std::string ProjectName() const {
+        return  std::to_string(PreCut()) + "GeV-no_decay";
+    }
+
     void SetFiles(const Tag tag) {
         switch (tag) {
         case Tag::signal :
             //         NewFile(tag,"pp-Tth-bbbbjjjjlv");
             //         NewFile(tag,"pp-TThh-bbbbbbjjlv");
-            Analysis::NewFile(tag, "pp-TT-tthh-bbbbbbjjlv", Crosssection(tag), NiceName(tag));
+//             Analysis::NewFile(tag, "pp-TT-tthh-bbbbbbjjlv", Crosssection(tag), NiceName(tag));
+          Analysis::NewFile(tag, "pp-TT-tthB-hBbbjjlv", 4.832, NiceName(tag));
             //         if(tagger().name() == "Bottom") NewFile(tag,"pp-ttbbj-bbbbjjlv");
             break;
         case Tag::background :
@@ -42,10 +47,6 @@ protected:
             //         NewFile(tag,"tt_inc-LE-0GeV_0");
             break;
         }
-    }
-
-    std::string ProjectName() const {
-        return  std::to_string(PreCut()) + "GeV";
     }
 
     std::string ProcessName() {

@@ -1,4 +1,4 @@
-#include "AnalysisWTagger.hh"
+#include "AnalysisW.hh"
 #include "WHadronicTagger.hh"
 #include "WSemiTagger.hh"
 
