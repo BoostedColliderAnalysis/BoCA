@@ -4,6 +4,7 @@
 #include "Configuration.hh"
 #include "Reader.hh"
 #include "Branches.hh"
+#include "AnalysisBase.hh"
 
 namespace analysis
 {
@@ -12,7 +13,7 @@ namespace analysis
  * @brief Base for all analyses
  *
  */
-class Analysis
+class Analysis : public AnalysisBase
 {
 
 public:
@@ -25,25 +26,17 @@ public:
 
     void AnalysisLoop(const Stage stage);
 
-    void SetConfig(const Configuration &configuration);
-
-    void RunFast();
-
-    void RunNormal();
-
-    void RunFullSignificance();
-
-    void RunFullEfficiency();
+//     void SetConfig(const Configuration &configuration);
 
 protected:
 
-    virtual std::vector<File> Files(const Tag tag);
+//     virtual std::vector<File> Files(const Tag tag);
 
     std::string ExportName(const Stage stage, const Tag tag) const;
 
     void PrepareFiles();
 
-    virtual void SetFiles(const Tag tag);
+//     virtual void SetFiles(const Tag tag);
 
     exroot::TreeWriter TreeWriter(TFile &export_file, const std::string &export_tree_name, Stage stage);
 
@@ -77,61 +70,55 @@ protected:
 //         return configuration_.collider_type();
 //     }
 
-    virtual  std::string FilePath() const;
+//     virtual  std::string FilePath() const;
 
-    std::string FileSuffix() const;
+//     std::string FileSuffix() const;
 
-    void NewFile(const Tag tag, const std::string &name, const std::string &nice_name = "");
+//     void NewFile(const Tag tag, const std::string &name, const std::string &nice_name = "");
+//
+//     void NewSignalFile(const std::string &name, const std::string &nice_name = "");
+//
+//     void NewBackgroundFile(const std::string &name, const std::string &nice_name = "");
+//
+//     void NewFile(const Tag tag, const std::string &name, const float crosssection);
+//
+//     void NewSignalFile(const std::string &name, const float crosssection);
+//
+//     void NewBackgroundFile(const std::string &name, const float crosssection);
+//
+//     File get_file(const std::string &name, const std::string &nice_name = "") const;
+//
+//     File get_file(const std::string &name, const float crosssection) const;
 
-    void NewSignalFile(const std::string &name, const std::string &nice_name = "");
-
-    void NewBackgroundFile(const std::string &name, const std::string &nice_name = "");
-
-    void NewFile(const Tag tag, const std::string &name, const float crosssection);
-
-    void NewSignalFile(const std::string &name, const float crosssection);
-
-    void NewBackgroundFile(const std::string &name, const float crosssection);
-
-    File get_file(const std::string &name, const std::string &nice_name = "") const;
-
-    File get_file(const std::string &name, const float crosssection) const;
-
-    std::string FileName(const std::string &name) const;
-
-    std::string TreeName(const std::string &name) const;
+//     std::string FileName(const std::string &name) const;
+//
+//     std::string TreeName(const std::string &name) const;
 
     virtual int PassPreCut(const Event &);
 
     int RunAnalysis(const Event &event, const Stage stage, const Tag tag);
 
-    PreCuts &pre_cuts();
+//     PreCuts &pre_cuts();
 
     Tagger &tagger();
 
-    bool Missing(const std::string &name) const;
+    const Tagger &tagger() const;
+
+//     bool Missing(const std::string &name) const;
 
 private:
 
     std::string PathName(const std::string &file_name) const;
 
-    void RunTagger(analysis::Stage stage);
-
-    void RunFactory();
-
-    void RunSignificance();
-
-    void RunEfficiency();
-
     Tagger &tagger_;
 
     Reader reader_;
 
-    PreCuts pre_cuts_;
+//     PreCuts pre_cuts_;
 
-    Configuration configuration_;
+//     Configuration configuration_;
 
-    std::vector<File> files_;
+//     std::vector<File> files_;
 
 };
 

@@ -50,22 +50,22 @@ void TopAnalysis::SetFiles(const Tag tag)
     Note(Name(tag));
     switch (tag) {
     case Tag::signal :
-      if (TopDecay() == Decay::hadronic || tagger().name() == "Bottom") NewSignalFile(Process::tt_had);
-      if (tagger().name() == "Bottom") NewSignalFile(Process::hh);
-      if (tagger().name() == "Bottom") NewSignalFile(Process::bb);
-      if (TopDecay() == Decay::leptonic || tagger().name() == "Bottom") NewSignalFile(Process::tt_lep);
-      if (tagger().name() == "WHadronic") NewSignalFile(Process::ww);
+      if (TopDecay() == Decay::hadronic || tagger().name() == "Bottom") NewFile(tag,Process::tt_had);
+      if (tagger().name() == "Bottom") NewFile(tag,Process::hh);
+      if (tagger().name() == "Bottom") NewFile(tag,Process::bb);
+      if (TopDecay() == Decay::leptonic || tagger().name() == "Bottom") NewFile(tag,Process::tt_lep);
+      if (tagger().name() == "WHadronic") NewFile(tag,Process::ww);
         break;
     case Tag::background :
-      if (TopDecay() == Decay::leptonic && tagger().name() != "Bottom") NewBackgroundFile(Process::tt_had);
-      if (tagger().name() != "Bottom") NewBackgroundFile(Process::hh);
-      if (tagger().name() != "Bottom") NewBackgroundFile(Process::bb);
-      NewBackgroundFile(Process::cc);
-      NewBackgroundFile(Process::gg);
-      NewBackgroundFile(Process::qq);
-      if (TopDecay() == Decay::hadronic && tagger().name() != "Bottom") NewBackgroundFile(Process::tt_lep);
-      NewBackgroundFile(Process::zz);
-      if (tagger().name() != "WHadronic") NewBackgroundFile(Process::ww);
+      if (TopDecay() == Decay::leptonic && tagger().name() != "Bottom") NewFile(tag,Process::tt_had);
+      if (tagger().name() != "Bottom") NewFile(tag,Process::hh);
+      if (tagger().name() != "Bottom") NewFile(tag,Process::bb);
+      NewFile(tag,Process::cc);
+      NewFile(tag,Process::gg);
+      NewFile(tag,Process::qq);
+      if (TopDecay() == Decay::hadronic && tagger().name() != "Bottom") NewFile(tag,Process::tt_lep);
+      NewFile(tag,Process::zz);
+      if (tagger().name() != "WHadronic") NewFile(tag,Process::ww);
         break;
     }
 }

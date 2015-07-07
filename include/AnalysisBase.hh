@@ -89,12 +89,6 @@ protected:
 
     void NewBackgroundFile(const std::string &name, const float crosssection, const std::string &nice_name = "");
 
-//     void NewFile(const Tag tag, const std::string &name, const float crosssection);
-
-//     void NewSignalFile(const std::string &name, const float crosssection);
-
-//     void NewBackgroundFile(const std::string &name, const float crosssection);
-
     File get_file(const std::string &name, const std::string &nice_name = "") const;
 
     File get_file(const std::string &name, const float crosssection, const std::string &nice_name = "") const;
@@ -106,8 +100,6 @@ protected:
     std::string TreeName(const std::string &name) const;
 
     virtual int PassPreCut(const Event &);
-
-//     int RunAnalysis(const Event &event, const Stage stage, const Tag tag);
 
     PreCuts &pre_cuts();
 

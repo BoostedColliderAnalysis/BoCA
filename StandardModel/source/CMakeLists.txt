@@ -5,6 +5,7 @@ AnalysisHiggsTagger.cpp
 AnalysisZTagger.cpp
 AnalysisWTagger.cpp
 AnalysisBottomTagger.cpp
+AnalysisBosonTagger.cpp
 )
 
 HLibrary(AnalysisTagger TaggerLibraries)
@@ -14,4 +15,5 @@ HExecutable(HiggsAnalysis MainHiggs.cpp)
 HExecutable(ZAnalysis MainZ.cpp)
 HExecutable(WAnalysis MainW.cpp)
 HExecutable(BottomAnalysis MainBottom.cpp)
+HExecutable(BosonAnalysis MainBoson.cpp)
 

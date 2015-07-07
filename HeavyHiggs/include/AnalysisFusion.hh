@@ -5,7 +5,8 @@
 namespace analysis
 {
 
-namespace heavyhiggs {
+namespace heavyhiggs
+{
 
 /**
  *
@@ -19,20 +20,15 @@ class AnalysisFusion : public Analysis
 
 public:
 
-      AnalysisFusion(Tagger &tagger);
+    AnalysisFusion(Tagger &tagger);
 
     std::vector<File> Files(const Tag Tag);
 
-     std::string ProcessName() const {
+    std::string ProcessName() const {
         return "Fusion";
     }
 
-     std::string ProjectName() const;
-
-
-//     std::string StudyName(const HAnalysis::Tagger Tagger) const;
-
-//     void PrepareReader(const HAnalysis::HTagger Tagger, const HAnalysis::Tag Tag);
+    std::string ProjectName() const;
 
     void SetTrees();
 
@@ -41,27 +37,23 @@ private:
     enum ProcessType {Hbb, ttbb, ttcc, ttjj, tt, H0};
     enum ColliderType {LHC, FHC, LE};
 
-    // in GeV
-     int Mass() const;
+    int Mass() const;
 
-    // in GeV
-     int PreCut() const;
+    int PreCut() const;
 
-     int EventNumberMax() const;;
+    int EventNumberMax() const;;
 
-     ColliderType collider_type() const;
+    ColliderType collider_type() const;
 
-     int BackgroundFileNumber() const;
+    int BackgroundFileNumber() const;
 
-
-    // in fb
     float SignalCrosssection() const;
 
     float MissingEt();
 
     float LeptonPt();
 
-     File BackgroundFile(const ProcessType Background) const;
+    File BackgroundFile(const ProcessType Background) const;
 
     File BackgroundFile(const ProcessType Background, const int FileSum) const;
 

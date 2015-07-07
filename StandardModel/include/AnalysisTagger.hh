@@ -32,15 +32,13 @@ protected:
 
     Analysis(Tagger &tagger);
 
-    void SetFiles(const Tag tag);
-
     std::string ProjectName() const;
 
     virtual std::string FilePath() const;
 
-    virtual void NewSignalFile(const Process process);
+//     virtual void NewSignalFile(const Process process);
 
-    virtual void NewBackgroundFile(const Process process);
+//     virtual void NewBackgroundFile(const Process process);
 
     virtual std::string FileName(const Process process) const;
 
@@ -60,17 +58,21 @@ protected:
 
     virtual int BackgroundFileNumber() const;
 
-    virtual File BackgroundFile(const Process process) const;
+//     virtual File BackgroundFile(const Process process) const;
 
-    virtual File BackgroundFile(const Process process, const int file_sum) const;
+//     virtual File BackgroundFile(const Process process, const int file_sum) const;
 
-    virtual std::string BackgroundTree(const Process Process) const;
+//     virtual std::string BackgroundTree(const Process Process) const;
 
     virtual std::string ColliderName(const Collider collider) const;
 
     virtual std::string ProcessName(const Process process) const;
 
     virtual std::string NiceName(const Process process) const;
+
+    virtual void NewFile(const Tag tag, const Process process) {
+      analysis::AnalysisBase::NewFile(tag, FileName(process), NiceName(process));
+    }
 
 };
 

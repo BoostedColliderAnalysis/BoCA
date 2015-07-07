@@ -48,7 +48,7 @@ std::vector<File> AnalysisNeutral::Files(const Tag tag)
     std::vector<File> NewFiles;
 
     switch (tag) {
-      case analysis::Tag::signal :
+    case analysis::Tag::signal :
         NewFiles = SignalSemiFiles;
         break;
     case analysis::Tag::background :
@@ -526,6 +526,31 @@ int AnalysisNeutral::Mass() const
 //                 return 12000;
 //                 return 15000;
 //                return 20000;
+}
+AnalysisNeutral::ColliderType AnalysisNeutral::collider_type() const
+{
+    return LHC;
+//       return FHC;
+//        return LE;
+}
+int AnalysisNeutral::EventNumberMax() const
+{
+//            return 10000000;
+//                   return 1000000;
+//         return 100000;
+    return 10000;
+//                 return 1000;
+//                         return 500;
+//                         return 10;
+}
+std::string AnalysisNeutral::ProcessName() const
+{
+    return "Neutral";
+}
+std::string AnalysisNeutral::ProjectName() const
+{
+//        return  ProcessName() + "-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV-" + std::to_string(Mass()) + "GeV-Eta2.5";
+    return  ProcessName() + "-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV-" + std::to_string(Mass()) + "GeV";
 }
 
 }

@@ -1,17 +1,17 @@
-#include "DoubletTagger.hh"
+#include "BosonTagger.hh"
 #include "Event.hh"
 #include "Debug.hh"
 
 namespace analysis
 {
 
-DoubletTagger::DoubletTagger()
+BosonTagger::BosonTagger()
 {
     Note();
     DefineVariables();
 }
 
-int DoubletTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const
+int BosonTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const
 {
     Info(Name(tag));
     Jets jets =  bottom_reader_.Multiplets(event);
@@ -41,15 +41,17 @@ int DoubletTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag) c
     }
     Jets particles = event.Partons().GenParticles();
     Jets higgses = copy_if_abs_particle(particles, Id::higgs, Id::CP_violating_higgs);
-    return SaveEntries(BestMatches(doublets, higgses, tag));
+    Jets vectors = copy_if_abs_particle(particles, Id::W, Id::Z);
+    Jets boson = Join(higgses,vectors);
+    return SaveEntries(BestMatches(doublets, boson, tag));
 }
 
-bool DoubletTagger::Problematic(const Doublet &doublet, PreCuts &pre_cuts, const Tag tag) const
+bool BosonTagger::Problematic(const Doublet &doublet, PreCuts &pre_cuts, const Tag tag) const
 {
     if (Problematic(doublet, pre_cuts)) return true;
     switch (tag) {
     case Tag::signal :
-        if (std::abs(doublet.Jet().m() - (Mass(Id::higgs) + Mass(Id::W))/2) > higgs_mass_window) return true;
+        if (std::abs(doublet.Jet().m() - (Mass(Id::higgs) + Mass(Id::W))/2) > boson_mass_window) return true;
         if ((doublet.Rho() > 2 || doublet.Rho() < 0.5) && doublet.Rho() > 0) return true;
         break;
     case Tag::background :
@@ -58,7 +60,7 @@ bool DoubletTagger::Problematic(const Doublet &doublet, PreCuts &pre_cuts, const
     return false;
 }
 
-bool DoubletTagger::Problematic(const Doublet &doublet, PreCuts &pre_cuts) const
+bool BosonTagger::Problematic(const Doublet &doublet, PreCuts &pre_cuts) const
 {
     if (pre_cuts.PtLowerCut(Id::higgs) > 0 && pre_cuts.PtLowerCut(Id::higgs) > doublet.Jet().pt()) return true;
     if (pre_cuts.PtUpperCut(Id::higgs) > 0 && pre_cuts.PtUpperCut(Id::higgs) < doublet.Jet().pt()) return true;
@@ -66,7 +68,7 @@ bool DoubletTagger::Problematic(const Doublet &doublet, PreCuts &pre_cuts) const
     return false;
 }
 
-std::vector<Doublet>  DoubletTagger::Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const
+std::vector<Doublet>  BosonTagger::Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const
 {
     Info();
     Jets jets =  bottom_reader_.Multiplets(event);

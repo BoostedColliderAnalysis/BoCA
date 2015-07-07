@@ -52,7 +52,7 @@ Plot.cpp
 Tagger.cpp
 TauTagger.cpp
 BottomTagger.cpp
-# DoubletTagger.cpp
+BosonTagger.cpp
 WHadronicTagger.cpp
 WSemiTagger.cpp
 ZHadronicTagger.cpp

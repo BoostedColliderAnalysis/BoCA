@@ -43,7 +43,7 @@ std::string Analysis::ProcessName(const Process process) const
     case Process::zz_bb:
         return "zz_bb";
     default:
-        Error("Process Name", "unhandled case", to_int(process));
+        Error("unhandled case", to_int(process));
         return "";
     }
 }
@@ -58,14 +58,9 @@ std::string Analysis::ColliderName(const Collider collider) const
     case Collider::LE:
         return "LE";
     default:
-        Error("Collider name", "unhandled case", to_int(collider));
+        Error("unhandled case", to_int(collider));
         return "";
     }
-}
-
-void Analysis::SetFiles(const Tag tag)
-{
-    Note(Name(tag));
 }
 
 std::string Analysis::NiceName(const Process process) const
@@ -94,7 +89,7 @@ std::string Analysis::NiceName(const Process process) const
     case Process::tt_lep:
         return "t_{l}";
     default:
-        Error("Nice Name", "unhandled case", ProcessName(process));
+        Error("unhandled case", ProcessName(process));
         return "";
     }
 }
@@ -109,15 +104,15 @@ std::string Analysis::FilePath() const
     return "~/Projects/Tagger/";
 }
 
-void Analysis::NewSignalFile(const Process process)
-{
-    analysis::Analysis::NewSignalFile(FileName(process), NiceName(process));
-}
-
-void Analysis::NewBackgroundFile(const Process process)
-{
-    analysis::Analysis::NewBackgroundFile(FileName(process), NiceName(process));
-}
+// void Analysis::NewSignalFile(const Process process)
+// {
+//     analysis::Analysis::NewSignalFile(FileName(process), NiceName(process));
+// }
+//
+// void Analysis::NewBackgroundFile(const Process process)
+// {
+//     analysis::Analysis::NewBackgroundFile(FileName(process), NiceName(process));
+// }
 
 std::string Analysis::FileName(const Process process) const
 {
@@ -136,6 +131,7 @@ int Analysis::LowerPtCut() const
 
 int standardmodel::Analysis::EventNumberMax() const
 {
+//     return 100;
 //     return 1000;
     return 5000;
 }
@@ -196,24 +192,24 @@ int Analysis::BackgroundFileNumber() const
     //       return 10;
 }
 
-File Analysis::BackgroundFile(const Process process) const
-{
-    return BackgroundFile(process, BackgroundFileNumber());
-}
-
-File Analysis::BackgroundFile(const Process process, const int file_sum) const
-{
-    Strings FileNames;
-    for (int file_number = 0; file_number < file_sum; ++file_number) {
-        FileNames.emplace_back(FileName(process));
-    }
-    return File(FileNames);
-}
-
-std::string Analysis::BackgroundTree(const Process Process) const
-{
-    return ProcessName(Process) + "_" + std::to_string(LowerPtCut()) + "GeV" + "-run_01";
-}
+// File Analysis::BackgroundFile(const Process process) const
+// {
+//     return BackgroundFile(process, BackgroundFileNumber());
+// }
+//
+// File Analysis::BackgroundFile(const Process process, const int file_sum) const
+// {
+//     Strings FileNames;
+//     for (int file_number = 0; file_number < file_sum; ++file_number) {
+//         FileNames.emplace_back(FileName(process));
+//     }
+//     return File(FileNames);
+// }
+//
+// std::string Analysis::BackgroundTree(const Process Process) const
+// {
+//     return ProcessName(Process) + "_" + std::to_string(LowerPtCut()) + "GeV" + "-run_01";
+// }
 
 }
 
