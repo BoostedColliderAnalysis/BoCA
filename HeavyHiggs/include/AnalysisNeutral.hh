@@ -31,57 +31,34 @@ public:
 
     std::vector<File> Files(const Tag tag);
 
-     std::string ProjectName() const {
-//        return  ProcessName() + "-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV-" + std::to_string(Mass()) + "GeV-Eta2.5";
-        return  ProcessName() + "-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV-" + std::to_string(Mass()) + "GeV";
-    }
+    std::string ProjectName() const;
 
-     std::string ProcessName() const {
-        return "Neutral";
-    }
+    std::string ProcessName() const;
 
-    // in GeV
-     int Mass() const;
+    int Mass() const;
 
-    // in GeV
-     int PreCut() const;
+    int PreCut() const;
 
-     int EventNumberMax() const {
-//            return 10000000;
-//                   return 1000000;
-//         return 100000;
-        return 10000;
-//                 return 1000;
-//                         return 500;
-//                         return 10;
-    };
-
-
+    int EventNumberMax() const;;
 
     enum ColliderType {LHC, FHC, LE};
 
-
-     ColliderType collider_type() const {
-        return LHC;
-//       return FHC;
-//        return LE;
-    }
+    ColliderType collider_type() const;
 
     float MissingEt();
 
     float LeptonPt();
 
 
-     int BackgroundFileNumber() const;
+    int BackgroundFileNumber() const;
 
 private:
 
     enum ProcessType {Hbb, ttbb, ttcc, ttjj, tt};
 
-    // in fb
     float SignalCrosssection() const;
 
-     File BackgroundFile(const ProcessType Background) const;
+    File BackgroundFile(const ProcessType Background) const;
 
     File BackgroundFile(const ProcessType Background, const int FileSum) const;
 
@@ -92,7 +69,6 @@ private:
     std::string ColliderName(const ColliderType Collider) const;
 
     std::string ProcessName(const ProcessType Process) const;
-
 
     int PassPreCut(const Event &event);
 

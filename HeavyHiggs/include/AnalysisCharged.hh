@@ -24,13 +24,11 @@ public:
 
     std::vector< File > Files(const Tag tag);
 
-     std::string ProcessName()const {
+    std::string ProcessName()const {
         return "Charged";
     }
 
-     std::string ProjectName() const;
-
-//     std::string StudyName(const HAnalysis::HTagger Tagger) const;
+    std::string ProjectName() const;
 
     void SetTrees();
 
@@ -39,28 +37,24 @@ private:
     enum HProcessType {Htb, ttbb, ttcc, ttjj, tt};
     enum ColliderType {LHC, FHC, LE};
 
-    // in GeV
-     int Mass() const;
+    int Mass() const;
 
-    // in GeV
-     int PreCut() const;
+    int PreCut() const;
 
 
     float MissingEt();
 
     float LeptonPt();
 
-     int EventNumberMax() const;;
+    int EventNumberMax() const;;
 
-     ColliderType collider_type() const;
+    ColliderType collider_type() const;
 
+    int BackgroundFileNumber() const;
 
-     int BackgroundFileNumber() const;
-
-    // in fb
     float SignalCrosssection() const;
 
-     File BackgroundFile(const HProcessType Background) const;
+    File BackgroundFile(const HProcessType Background) const;
 
     File BackgroundFile(const HProcessType Background, const int FileSum) const;
 

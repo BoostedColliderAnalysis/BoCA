@@ -11,12 +11,12 @@ namespace analysis
    * @brief Semi leptonic heavy higgs BDT tagger
    *
    */
-  class DoubletTagger : public BranchTagger<PairBranch>
+  class BosonTagger : public BranchTagger<PairBranch>
   {
 
   public:
 
-    DoubletTagger();
+    BosonTagger();
 
     int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const;
 
@@ -40,7 +40,7 @@ namespace analysis
 
     ReaderTagger<BottomTagger> bottom_reader_;
 
-    float higgs_mass_window = 80;
+    float boson_mass_window = 80;
 
   };
 

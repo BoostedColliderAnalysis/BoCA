@@ -5,6 +5,9 @@
 #include "TFile.h"
 #include "Branches.hh"
 
+class TMultiGraph;
+class TAttLine;
+
 class ExRootTreeBranch;
 class ExRootTreeReader;
 namespace exroot
@@ -86,13 +89,17 @@ private:
 
     float Bdt() const;
 
+    void SetMultiGraph(TMultiGraph &multi_graph) const;
+
+    void SetPlotStyle(TAttLine &att_line, const int index) const;
+
     TLegend Legend(float x_min, float y_max, float width, float height, const std::string &name = "") const;
 
     Results ExportFile() const;
 
     std::vector<Result> Export(TFile &export_file, const std::string &file_name, const analysis::Strings &treename) const;
 
-    void PlotMultiGraph(const analysis::Results &results) const;
+    void PlotAcceptanceGraph(const analysis::Results &results) const;
 
     std::string PlotHistograms(const analysis::Results &results) const;
 

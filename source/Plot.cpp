@@ -40,34 +40,34 @@ std::vector<int> Result::CutIntegral() const
 
 Results::Results()
 {
-  significances.resize(Result().steps, 0);
-  x_values.resize(Result().steps, 0);
+    significances.resize(Result().steps, 0);
+    x_values.resize(Result().steps, 0);
 }
 
 void Results::BestBin()
 {
-  std::vector<float> background_efficiencies(background.size(), 0);
-  int counter = 0;
-  for (const auto& background_number : Range(background.size())) {
-    while (background_efficiencies.at(background_number) == 0 && counter < Result().steps) {
-      best_bin = std::distance(significances.begin(), std::max_element(std::begin(significances), std::end(significances) - counter));
-      background_efficiencies.at(background_number) = background.at(background_number).efficiency.at(best_bin);
-      ++counter;
+    std::vector<float> background_efficiencies(background.size(), 0);
+    int counter = 0;
+    for (const auto & background_number : Range(background.size())) {
+        while (background_efficiencies.at(background_number) == 0 && counter < Result().steps) {
+            best_bin = std::distance(significances.begin(), std::max_element(std::begin(significances), std::end(significances) - counter));
+            background_efficiencies.at(background_number) = background.at(background_number).efficiency.at(best_bin);
+            ++counter;
+        }
     }
-  }
 }
 
 void Results::Significances()
 {
-  for (const auto & signal_results : signal) {
-    for (const int step : Range(Result().steps)) {
-      float background_events = 0;
-      for (const auto & background_result : background) background_events += background_result.events[step];
-      if (signal_results.events[step] + background_events > 0) significances.at(step) = signal_results.events[step] / std::sqrt(signal_results.events[step] + background_events);
-      else significances.at(step) = 0;
-      x_values.at(step) = float(step) * 2 / Result().steps;
+    for (const auto & signal_results : signal) {
+        for (const int step : Range(Result().steps)) {
+            float background_events = 0;
+            for (const auto & background_result : background) background_events += background_result.events[step];
+            if (signal_results.events[step] + background_events > 0) significances.at(step) = signal_results.events[step] / std::sqrt(signal_results.events[step] + background_events);
+            else significances.at(step) = 0;
+            x_values.at(step) = float(step) * 2 / Result().steps;
+        }
     }
-  }
 }
 
 // Plot::Plot()
@@ -154,8 +154,9 @@ std::string Plot::PlotHistograms(const analysis::Results &results) const
     for (const auto & result : results.background)  {
         TH1F histogram(result.info_branch.Name.c_str(), "", 50, x_min * 1.1, x_max * 1.1);
         for (const float & bdt : result.bdt) histogram.Fill(bdt - 1);
-        histogram.SetLineColor(ColorCode(&result - &results.background[0] + 1));
-        histogram.SetLineStyle(&result - &results.background[0] + 2);
+        SetPlotStyle(histogram, &result - &results.background[0] + 1);
+//         histogram.SetLineColor(ColorCode(&result - &results.background[0] + 1));
+//         histogram.SetLineStyle(&result - &results.background[0] + 2);
         histograms.emplace_back(histogram);
         float max = histogram.GetBinContent(histogram.GetMaximumBin());
         if (max > y_max) y_max = max;
@@ -179,35 +180,49 @@ std::string Plot::PlotHistograms(const analysis::Results &results) const
     return efficiency_file_name;
 }
 
-void Plot::PlotMultiGraph(const Results &results) const
+void Plot::PlotAcceptanceGraph(const Results &results) const
 {
     Debug();
-    TCanvas canvas;
-    TMultiGraph multi_graph;
-    std::vector<TGraph> graphs;
-    for (const auto & result : results.background) graphs.emplace_back(TGraph(result.steps, &results.signal.front().efficiency[0], &result.efficiency[0]));
-    Strings nice_names;
-    for (const auto & result : results.background) nice_names.emplace_back(result.info_branch.Name);
-    canvas.SetLogy();
-    TLegend legend = Legend(0.15, 0.85, 0.2, 0.4, results.signal.front().info_branch.Name);
-    for (auto & graph : graphs) {
-        graph.SetLineColor(ColorCode(&graph - &graphs[0]));
-        graph.SetLineStyle(&graph - &graphs[0] + 1);
-        multi_graph.Add(&graph);
-        std::string name = nice_names.at(&graph - &graphs[0]);
-        legend.AddEntry(&graph, name.c_str(), "l");
+    for (const auto & signal_result : results.signal) {
+        TCanvas canvas;
+        TMultiGraph multi_graph;
+        std::vector<TGraph> graphs;
+        for (const auto & result : results.background) graphs.emplace_back(TGraph(result.steps, &signal_result.efficiency[0], &result.efficiency[0]));
+        Strings nice_names;
+        for (const auto & result : results.background) nice_names.emplace_back(result.info_branch.Name);
+        canvas.SetLogy();
+        TLegend legend = Legend(0.15, 0.85, 0.2, 0.4, signal_result.info_branch.Name);
+        for (auto & graph : graphs) {
+          SetPlotStyle(graph, &graph - &graphs[0]);
+//             graph.SetLineColor(ColorCode(&graph - &graphs[0]));
+//             graph.SetLineStyle(&graph - &graphs[0] + 1);
+            multi_graph.Add(&graph);
+            std::string name = nice_names.at(&graph - &graphs[0]);
+            legend.AddEntry(&graph, name.c_str(), "l");
+        }
+        SetMultiGraph(multi_graph);
+        legend.Draw();
+
+        std::string efficiency_file_name = ExportName() + "-" + signal_result.info_branch.Name + "-Acceptance.pdf";
+        canvas.Print(efficiency_file_name.c_str());
     }
+}
+
+void Plot::SetPlotStyle(TAttLine &att_line, const int index) const
+{
+    att_line.SetLineColor(ColorCode(index));
+    att_line.SetLineStyle(index + 1);
+}
+
+void Plot::SetMultiGraph(TMultiGraph &multi_graph) const
+{
     multi_graph.Draw("al");
     multi_graph.GetXaxis()->SetLimits(0.2, 0.9);
     multi_graph.GetXaxis()->SetTitle("Signal acceptance");
     multi_graph.GetYaxis()->SetTitle("Background acceptance");
     multi_graph.SetMaximum(1);
     multi_graph.SetMinimum(0.001);
-//     multi_graph.SetMinimum(0.01);
-    legend.Draw();
-
-    std::string efficiency_file_name = ExportName() + "-Acceptance.pdf";
-    canvas.Print(efficiency_file_name.c_str());
+    //     multi_graph.SetMinimum(0.01);
 }
 
 void Plot::TaggingEfficiency() const
@@ -217,7 +232,7 @@ void Plot::TaggingEfficiency() const
     Results results = ExportFile();
 
     PlotHistograms(results);
-    PlotMultiGraph(results);
+    PlotAcceptanceGraph(results);
 
 }
 
@@ -244,13 +259,13 @@ void Plot::OptimalSignificance() const
     table << "\n \\\\ $p$-value\n  & " << significances.at(best_bin);
     table << "\n \\\\ Efficiency\n  & " << results.signal.front().efficiency.at(best_bin) << "\n  & " << results.signal.front().analysis_event_number.at(best_bin) << "\n  & " << results.signal.front().event_sum() << "\n";
 
-    for (const auto& background : results.background) {
-      table << " \\\\ \\verb|" << tagger().background_tree_names().at(&background - &results.background[0]) << "|\n  & " << background.efficiency.at(best_bin) << "\n  & " << background.analysis_event_number.at(best_bin) << "\n  & " << background.event_sum() << "\n";
+    for (const auto & background : results.background) {
+        table << " \\\\ \\verb|" << tagger().background_tree_names().at(&background - &results.background[0]) << "|\n  & " << background.efficiency.at(best_bin) << "\n  & " << background.analysis_event_number.at(best_bin) << "\n  & " << background.event_sum() << "\n";
     }
 
     std::string efficiency_file_name = PlotEfficiencyGraph(results, x_values, best_bin);
 
-    std::string significance_file_name = PlotSignificanceGraph(results, x_values,significances, best_bin);
+    std::string significance_file_name = PlotSignificanceGraph(results, x_values, significances, best_bin);
 
     std::string bdt_file_name = PlotHistograms(results);
 
@@ -313,7 +328,7 @@ std::string Plot::PlotSignificanceGraph(const Results &results, const std::vecto
 
 Result Plot::BdtResult(TFile &file, const std::string &tree_name, TFile &export_file) const
 {
-  Debug(tree_name);
+    Debug(tree_name);
     const float Luminosity = 3000; // 3000 fb-1
 
     Debug("Open Tree", tree_name);
@@ -335,7 +350,7 @@ Result Plot::BdtResult(TFile &file, const std::string &tree_name, TFile &export_
 
 Result Plot::BdtDistribution(exroot::TreeReader &tree_reader, const std::string &tree_name, TFile &export_file) const
 {
-  Debug("Bdt Distribution", tagger().branch_name());
+    Debug("Bdt Distribution", tagger().branch_name());
     std::string branch_name = tagger().branch_name() + "Reader";
 
     Result result;

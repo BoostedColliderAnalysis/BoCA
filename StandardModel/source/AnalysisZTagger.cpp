@@ -22,16 +22,16 @@ void AnalysisZ::SetFiles(const Tag tag)
     Note("Set File Vector", Name(tag));
     switch (tag) {
     case Tag::signal :
-        NewSignalFile(Process::zz);
+        NewFile(tag,Process::zz);
         break;
     case Tag::background :
-      NewBackgroundFile(Process::tt_had);
-      NewBackgroundFile(Process::hh);
-      NewBackgroundFile(Process::ww);
-      NewBackgroundFile(Process::bb);
-      NewBackgroundFile(Process::cc);
-      NewBackgroundFile(Process::qq);
-      NewBackgroundFile(Process::gg);
+      NewFile(tag,Process::tt_had);
+      NewFile(tag,Process::hh);
+      NewFile(tag,Process::ww);
+      NewFile(tag,Process::bb);
+      NewFile(tag,Process::cc);
+      NewFile(tag,Process::qq);
+      NewFile(tag,Process::gg);
         break;
     }
 

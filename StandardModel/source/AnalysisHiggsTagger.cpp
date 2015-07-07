@@ -29,20 +29,20 @@ void AnalysisHiggs::SetFiles(const Tag tag)
     Note("Set File Vector", Name(tag));
     switch (tag) {
     case Tag::signal :
-        NewSignalFile(Process::hh_bb);
-        if (tagger().name() == "Bottom") NewSignalFile(Process::bb);
-        if (tagger().name() == "Bottom") NewSignalFile(Process::tt_had);
-        if (tagger().name() == "Bottom") NewSignalFile(Process::tt_lep);
+        NewFile(tag, Process::hh_bb);
+        if (tagger().name() == "Bottom") NewFile(tag, Process::bb);
+        if (tagger().name() == "Bottom") NewFile(tag, Process::tt_had);
+        if (tagger().name() == "Bottom") NewFile(tag, Process::tt_lep);
         break;
     case Tag::background :
-      if (tagger().name() != "Bottom") NewBackgroundFile(Process::tt_had);
-      if (tagger().name() != "Bottom") NewBackgroundFile(Process::tt_lep);
-      NewBackgroundFile(Process::zz);
-      NewBackgroundFile(Process::ww);
-      if (tagger().name() != "Bottom") NewBackgroundFile(Process::bb);
-      NewBackgroundFile(Process::cc);
-      NewBackgroundFile(Process::qq);
-      NewBackgroundFile(Process::gg);
+        if (tagger().name() != "Bottom") NewFile(tag, Process::tt_had);
+        if (tagger().name() != "Bottom") NewFile(tag, Process::tt_lep);
+        NewFile(tag, Process::zz);
+        NewFile(tag, Process::ww);
+        if (tagger().name() != "Bottom") NewFile(tag, Process::bb);
+        NewFile(tag, Process::cc);
+        NewFile(tag, Process::qq);
+        NewFile(tag, Process::gg);
         break;
     }
 

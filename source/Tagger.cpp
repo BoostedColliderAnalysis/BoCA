@@ -119,7 +119,7 @@ std::string Tagger::background_file_name(const Stage stage) const
 }
 std::string Tagger::analysis_name() const
 {
-    Error(analysis_name_);
+    Error();
     return analysis_name_;
 }
 std::vector< Observable > Tagger::observables() const
