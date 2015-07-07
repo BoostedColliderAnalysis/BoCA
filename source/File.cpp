@@ -108,6 +108,17 @@ File::File(const std::string &process, const std::string &base_path, const std::
     nice_name_ = nice_name;
 }
 
+File::File(const std::string &process, const std::string &base_path, const std::string &file_suffix, const float crossection, const std::string &nice_name)
+{
+  Debug();
+  SetVariables();
+  process_folders_.emplace_back(process);
+  base_path_ = base_path;
+  file_suffix_ = file_suffix;
+  crossection_ = crossection;
+  nice_name_ = nice_name;
+}
+
 std::string File::file_suffix() const
 {
     switch (source()) {

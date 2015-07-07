@@ -135,21 +135,6 @@ protected:
 
     float Bdt(const TMVA::Reader &reader) const;
 
-//     /**
-//      * @brief Names of the Signal Files
-//      * shoudl be removed is no longer needed
-//      *
-//      */
-//     Strings signal_file_names_;
-//
-//     /**
-//      * @brief Names of the Background Files
-//      * should be remove is no longer needed
-//      *
-//      */
-//     Strings background_file_names_;
-
-
 private:
 
     /**
@@ -163,12 +148,6 @@ private:
      *
      */
     static std::string analysis_name_;
-
-    /**
-     * @brief Name of the Tagger
-     *
-     */
-//     std::string name_;
 
     /**
      * @brief Names of the backgrund trees
