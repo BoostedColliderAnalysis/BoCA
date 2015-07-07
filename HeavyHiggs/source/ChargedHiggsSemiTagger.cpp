@@ -78,7 +78,7 @@ int ChargedHiggsSemiTagger::Train(const Event &event, PreCuts &pre_cuts, const T
     return SaveEntries(quartets);
 }
 
-std::vector<Quartet31>  ChargedHiggsSemiTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const const
+std::vector<Quartet31>  ChargedHiggsSemiTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const
 {
   Jets jets = bottom_reader_.Multiplets(event);
   std::vector<Triplet> triplets = top_semi_reader_.Multiplets(event);

@@ -233,7 +233,7 @@ int hjetproperties::HAnalysis::Analysis(analysis::Event &event, const std::strin
     return 1;
 }
 
-bool hjetproperties::HAnalysis::FillTree(exroot::TreeBranch *const TreeBranch, exroot::TreeBranch *const constituentTreeBranch, const fastjet::PseudoJet &CandidateJet, const analysis::Jets &LeptonJets, const float DeltaR)
+bool hjetproperties::HAnalysis::FillTree(exroot::TreeBranch *const TreeBranch, exroot::TreeBranch *constituentTreeBranch, const fastjet::PseudoJet &CandidateJet, const analysis::Jets &LeptonJets, const float DeltaR)
 {
 //   Debug("Fill Tree", DeltaR);
     if (CandidateJet != 0 && CandidateJet.m() > 0 && DeltaR > 0) {
@@ -292,7 +292,7 @@ bool hjetproperties::HAnalysis::FillTree(exroot::TreeBranch *const TreeBranch, e
     return 0;
 }
 
-bool hjetproperties::HAnalysis::FillTree(exroot::TreeBranch *const TreeBranch, exroot::TreeBranch *const constituentTreeBranch, const fastjet::PseudoJet &Jet, const analysis::Jets &LeptonJets)
+bool hjetproperties::HAnalysis::FillTree(exroot::TreeBranch *const TreeBranch, exroot::TreeBranch *constituentTreeBranch, const fastjet::PseudoJet &Jet, const analysis::Jets &LeptonJets)
 {
     return FillTree(TreeBranch, constituentTreeBranch, Jet, LeptonJets, GetDeltaR(Jet));
 }

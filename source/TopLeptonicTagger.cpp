@@ -72,7 +72,7 @@ bool TopLeptonicTagger::Problematic(const analysis::Doublet &doublet, analysis::
     return false;
 }
 
-std::vector<Doublet> TopLeptonicTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const const
+std::vector<Doublet> TopLeptonicTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const
 {
     Info();
 
