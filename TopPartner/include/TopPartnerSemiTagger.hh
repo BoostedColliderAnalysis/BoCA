@@ -22,11 +22,11 @@ public:
 
     TopPartnerSemiTagger();
 
-    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag);
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const;
 
-    std::vector<Quintet> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
+    std::vector<Quintet> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
 
-    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const {
       return SaveEntries(Multiplets(event,pre_cuts, reader));
     }
 
@@ -35,15 +35,15 @@ public:
       return Multiplets(event, pre_cuts, reader);
     }
 
+    std::string name() const {
+      return "TopPartnerSemi";
+    }
+
 private:
 
-    TopSemiTagger top_tagger_;
+    ReaderTagger<TopSemiTagger> top_reader_;
 
-    ZHadronicTagger z_hadronic_tagger;
-
-    Reader top_reader_;
-
-    Reader z_hadronic_reader_;
+    ReaderTagger<ZHadronicTagger> z_hadronic_reader_;
 };
 
 }

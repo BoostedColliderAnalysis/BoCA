@@ -2,6 +2,7 @@
 #include "Quartet.hh"
 #include "WimpMass.hh"
 #include "Predicate.hh"
+#include "Event.hh"
 #include "Debug.hh"
 
 namespace analysis
@@ -13,15 +14,13 @@ namespace higgscpv
 TopLeptonicPairTagger::TopLeptonicPairTagger()
 {
     Note();
-    set_tagger_name("TopLeptonicPair");
-    top_leptonic_reader_.SetTagger(top_leptonic_tagger_);
     DefineVariables();
 }
 
-int TopLeptonicPairTagger::Train(const Event &event, PreCuts &, const Tag tag)
+int TopLeptonicPairTagger::Train(const Event &event, analysis::PreCuts &, const analysis::Tag tag) const
 {
     Info("Top Leptonic Pair Tagger Tags");
-    std::vector<Doublet> doublets = top_leptonic_reader_.Multiplets<TopLeptonicTagger>(event);
+    std::vector<Doublet> doublets = top_leptonic_reader_.Multiplets(event);
     Debug("Number of Doublets", doublets.size());
 
     Jets particles = event.Partons().GenParticles();
@@ -53,9 +52,9 @@ int TopLeptonicPairTagger::Train(const Event &event, PreCuts &, const Tag tag)
     return SaveEntries(sextets);
 }
 
-std::vector< Sextet > TopLeptonicPairTagger::Multiplets(const Event &event, PreCuts &, const TMVA::Reader &reader)
+std::vector< Sextet > TopLeptonicPairTagger::Multiplets(const Event &event, analysis::PreCuts &, const TMVA::Reader &reader) const
 {
-    std::vector<Doublet> doublets = top_leptonic_reader_.Multiplets<TopLeptonicTagger>(event);
+    std::vector<Doublet> doublets = top_leptonic_reader_.Multiplets(event);
     Info("Doublets", doublets.size());
     std::vector<Sextet>  sextets;
     for (auto doublet1 = doublets.begin(); doublet1 != doublets.end(); ++doublet1)

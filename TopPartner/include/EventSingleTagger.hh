@@ -19,17 +19,13 @@ class EventSingleTagger : public BranchTagger<EventBranch>
 
 public:
 
-    /**
-    * @brief Constructor
-    *
-    */
     EventSingleTagger();
 
-    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag);
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const;
 
-    std::vector<MultipletEvent<Nonet>> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
+    std::vector<MultipletEvent<Nonet>> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
 
-    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const {
         return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
@@ -38,15 +34,15 @@ public:
         return Multiplets(event, pre_cuts, reader);
     }
 
+    std::string name() const {
+      return "EventSingle";
+    }
+
 private:
 
-    TopPartnerLeptonicPairTagger signature_tagger_;
+    ReaderTagger<TopPartnerLeptonicPairTagger> signature_reader_;
 
-    Reader signature_reader_;
-
-    BottomTagger bottom_tagger_;
-
-    Reader bottom_reader_;
+    ReaderTagger<BottomTagger> bottom_reader_;
 
 };
 

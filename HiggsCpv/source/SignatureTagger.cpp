@@ -1,4 +1,5 @@
 #include "../include/SignatureTagger.hh"
+#include "Event.hh"
 #include "Debug.hh"
 
 namespace analysis
@@ -10,22 +11,19 @@ namespace higgscpv
 SignatureTagger::SignatureTagger()
 {
     Note();
-    set_tagger_name("Signature");
-    higgs_reader_.SetTagger(higgs_tagger_);
-    triplet_pair_reader_.SetTagger(triplet_pair_tagger_);
     DefineVariables();
 }
 
-int SignatureTagger::Train(const Event &event, PreCuts &, const Tag tag)
+int SignatureTagger::Train(const Event &event, analysis::PreCuts &, const analysis::Tag tag) const
 {
     Info("Train");
-    std::vector<Sextet> sextets = triplet_pair_reader_.Multiplets<TopLeptonicPairTagger>(event);
+    std::vector<Sextet> sextets = triplet_pair_reader_.Multiplets(event);
     if (sextets.empty()) {
         Info("No sextets", sextets.size());
         return 0;
     }
 
-    std::vector<Doublet> doublets = higgs_reader_.Multiplets<HiggsTagger>(event);
+    std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
     if (doublets.empty()) Info("No doublets", doublets.size());
 
     std::vector<Doublet> final_doublets;
@@ -60,12 +58,12 @@ int SignatureTagger::Train(const Event &event, PreCuts &, const Tag tag)
 }
 
 
-std::vector< Octet62 > SignatureTagger::Multiplets(const Event &event, PreCuts &, const TMVA::Reader &reader)
+std::vector< Octet62 > SignatureTagger::Multiplets(const Event &event, PreCuts &, const TMVA::Reader &reader) const
 {
     Info("Multiplets");
-    std::vector<Doublet> doublets = higgs_reader_.Multiplets<HiggsTagger>(event);
+    std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
     Info("Doublets", doublets.size());
-    std::vector<Sextet> sextets = triplet_pair_reader_.Multiplets<TopLeptonicPairTagger>(event);
+    std::vector<Sextet> sextets = triplet_pair_reader_.Multiplets(event);
     Info("Sextets", sextets.size());
     std::vector<Octet62> octets;
     for (const auto & doublet : doublets) {

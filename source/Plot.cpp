@@ -1,5 +1,8 @@
 #include "Plot.hh"
 
+#include<fstream>
+
+#include "TFile.h"
 #include "TClonesArray.h"
 #include "TPad.h"
 #include "TDirectoryFile.h"
@@ -11,6 +14,8 @@
 #include "TH1F.h"
 #include "TGraph.h"
 
+#include "exroot/ExRootAnalysis.hh"
+#include "Predicate.hh"
 #include "Debug.hh"
 
 namespace analysis
@@ -257,9 +262,13 @@ void Plot::OptimalSignificance() const
     LatexHeader(latex_file);
     latex_file << table.str();
 
-    latex_file << "\n\\begin{figure}\n\\centering\n\\scalebox{0.6}{\\input{" << bdt_file_name << "}}\n\\caption{BDT Distribution.}\n\\end{figure}\n";
-    latex_file << "\n\\begin{figure}\n\\centering\n\\scalebox{0.6}{\\input{" << efficiency_file_name << "}}\n\\caption{Efficiency.}\n\\end{figure}\n";
-    latex_file << "\n\\begin{figure}\n\\centering\n\\scalebox{0.6}{\\input{" << significance_file_name << "}}\n\\caption{Significance.}\n\\end{figure}\n";
+//     latex_file << "\n\\begin{figure}\n\\centering\n\\scalebox{0.6}{\\input{" << bdt_file_name << "}}\n\\caption{BDT Distribution.}\n\\end{figure}\n";
+//     latex_file << "\n\\begin{figure}\n\\centering\n\\scalebox{0.6}{\\input{" << efficiency_file_name << "}}\n\\caption{Efficiency.}\n\\end{figure}\n";
+//     latex_file << "\n\\begin{figure}\n\\centering\n\\scalebox{0.6}{\\input{" << significance_file_name << "}}\n\\caption{Significance.}\n\\end{figure}\n";
+
+    latex_file << "\n\\begin{figure}\n\\centering\n\\includegraphics[width=0.5\\textwidth]{../" << bdt_file_name << "}\n\\caption{BDT Distribution.}\n\\end{figure}\n";
+    latex_file << "\n\\begin{figure}\n\\centering\n\\includegraphics[width=0.5\\textwidth]{../" << efficiency_file_name << "}\n\\caption{Efficiency.}\n\\end{figure}\n";
+    latex_file << "\n\\begin{figure}\n\\centering\n\\includegraphics[width=0.5\\textwidth]{../" << significance_file_name << "}\n\\caption{Significance.}\n\\end{figure}\n";
 
     LatexFooter(latex_file);
 }

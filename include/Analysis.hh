@@ -81,15 +81,19 @@ protected:
 
     std::string FileSuffix() const;
 
-    void NewSignalFile(const std::string &name, const std::string &nice_name = " ");
+    void NewFile(const Tag tag, const std::string &name, const std::string &nice_name = "");
 
-    void NewBackgroundFile(const std::string &name, const std::string &nice_name = " ");
+    void NewSignalFile(const std::string &name, const std::string &nice_name = "");
+
+    void NewBackgroundFile(const std::string &name, const std::string &nice_name = "");
+
+    void NewFile(const Tag tag, const std::string &name, const float crosssection);
 
     void NewSignalFile(const std::string &name, const float crosssection);
 
     void NewBackgroundFile(const std::string &name, const float crosssection);
 
-    File get_file(const std::string &name, const std::string &nice_name = " ") const;
+    File get_file(const std::string &name, const std::string &nice_name = "") const;
 
     File get_file(const std::string &name, const float crosssection) const;
 
@@ -132,3 +136,7 @@ private:
 };
 
 }
+
+
+
+

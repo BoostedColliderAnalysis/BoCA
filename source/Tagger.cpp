@@ -30,13 +30,13 @@ Observable Tagger::NewObservable(float &value, const std::string &title, const s
 
 }
 
-float Tagger::Bdt(const TMVA::Reader &reader)
+float Tagger::Bdt(const TMVA::Reader &reader) const
 {
     Info();
     return const_cast<TMVA::Reader &>(reader).EvaluateMVA(bdt_method_name()) + 1; // get rid of the const cast
 }
 
-Jets Tagger::SubJets(const fastjet::PseudoJet &jet, const int sub_jet_number)
+Jets Tagger::SubJets(const fastjet::PseudoJet &jet, const int sub_jet_number) const
 {
     Jets pieces;
     if (!jet.has_pieces()) return pieces;
@@ -68,19 +68,20 @@ void Tagger::AddBackgroundTreeName(const std::string background_tree_name)
 
 std::string Tagger::branch_name() const
 {
-    return name_;
+    return name();
 }
 
-void Tagger::set_tagger_name(const std::string &name)
-{
-    name_ = name;
-    signal_file_names_ = {name};
-    background_file_names_ = {background(name)};
-}
-std::string Tagger::name() const
-{
-    return name_;
-}
+// void Tagger::set_tagger_name(const std::string &name)
+// {
+//     name() = name;
+//     signal_file_names_ = {name};
+//     background_file_names_ = {background(name)};
+// }
+// std::string Tagger::name() const
+// {
+//   Error("we do not want to end up here");
+//     return "Tagger";
+// }
 std::string Tagger::factory_name() const
 {
     return "Mva" + name();
@@ -91,7 +92,7 @@ std::string Tagger::export_name() const
 }
 std::string Tagger::reader_name() const
 {
-    return reader(name_);
+    return reader(name());
 }
 std::string Tagger::reader(const std::string &name) const
 {
@@ -195,7 +196,7 @@ std::string Tagger::weight_branch_name() const
 }
 std::string Tagger::background_name() const
 {
-    return background(name_);
+    return background(name());
 }
 std::string Tagger::background(const std::string &name) const
 {
@@ -203,18 +204,18 @@ std::string Tagger::background(const std::string &name) const
 }
 std::string Tagger::signal_name() const
 {
-    return name_;
+    return name();
 }
-int Tagger::GetBdt(const Event &, PreCuts &, const TMVA::Reader &)
-{
-    Error("should be subclassed");
-    return 0;
-}
-int Tagger::Train(const Event &, PreCuts &, const Tag)
-{
-    Error("Should be subclassed");
-    return 0;
-}
+// int Tagger::GetBdt(const Event &, PreCuts &, const TMVA::Reader &)
+// {
+//     Error("should be subclassed");
+//     return 0;
+// }
+// int Tagger::Train(const Event &, PreCuts &, const Tag)
+// {
+//     Error("Should be subclassed");
+//     return 0;
+// }
 
 void Tagger::SetTreeBranch(exroot::TreeWriter &tree_writer, const Stage stage)
 {
@@ -242,7 +243,7 @@ int Tagger::max_combi() const
 {
     return 4;
 }
-exroot::TreeBranch &Tagger::tree_branch()
+exroot::TreeBranch &Tagger::tree_branch() const
 {
     return *tree_branch_;
 }

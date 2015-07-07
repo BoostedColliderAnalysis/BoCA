@@ -46,6 +46,7 @@ Observable.cpp
 PreCuts.cpp
 Factory.cpp
 Reader.cpp
+ReaderTagger.cpp
 Plot.cpp
 
 Tagger.cpp
@@ -74,6 +75,7 @@ add_dependencies(Wimp WimpMass)
 set(AnalysisSources
 Configuration.cpp
 Analysis.cpp
+AnalysisBase.cpp
 Family.cpp
 Constituent.cpp
 JetTag.cpp

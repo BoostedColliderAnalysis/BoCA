@@ -10,17 +10,14 @@ namespace higgscpv
 EventTagger::EventTagger()
 {
     Note();
-    set_tagger_name("Event");
-    signature_reader_.SetTagger(signature_tagger_);
-    bottom_reader_.SetTagger(bottom_tagger_);
     DefineVariables();
 }
 
-int EventTagger::Train(const Event &event, PreCuts &, const Tag tag)
+int EventTagger::Train(const analysis::Event &event, analysis::PreCuts &, const analysis::Tag tag) const
 {
   Info("Train");
-    Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
-    std::vector<Octet62> octets = signature_reader_.Multiplets<SignatureTagger>(event);
+    Jets jets = bottom_reader_.Multiplets(event);
+    std::vector<Octet62> octets = signature_reader_.Multiplets(event);
     Info("Octets", octets.size());
     std::vector< MultipletEvent< Octet62 > > multipletevents;
     for (const auto octet : octets) {
@@ -31,11 +28,11 @@ int EventTagger::Train(const Event &event, PreCuts &, const Tag tag)
     return SaveEntries(ReduceResult(multipletevents, 1));
 }
 
-std::vector< MultipletEvent< Octet62 > > EventTagger::Multiplets(const Event &event, PreCuts &, const TMVA::Reader &reader)
+std::vector< MultipletEvent< Octet62 > > EventTagger::Multiplets(const Event &event, PreCuts &, const TMVA::Reader &reader) const
 {
   Info("Multiplets");
-    Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
-    std::vector<Octet62> octets = signature_reader_.Multiplets<SignatureTagger>(event);
+    Jets jets = bottom_reader_.Multiplets(event);
+    std::vector<Octet62> octets = signature_reader_.Multiplets(event);
     std::vector< MultipletEvent< Octet62 > > multiplet_events;
     for (const auto octet : octets) {
         MultipletEvent< Octet62 > multiplet_event(octet, event,jets);

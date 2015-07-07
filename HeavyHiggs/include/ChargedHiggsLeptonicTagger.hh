@@ -23,17 +23,17 @@ public:
 
     int Train(const Event &event, const analysis::Tag tag);
 
-    std::vector<analysis::Triplet> Multiplets(const Event &event, const TMVA::Reader &reader);
+    std::vector<analysis::Triplet> Multiplets(const Event &event, const TMVA::Reader &reader) const;
+
+    std::string name() const {
+      return "ChargedHiggsLeptonic";
+    }
 
 private:
 
-    analysis::BottomTagger bottom_tagger_;
+    analysis::ReaderTagger<analysis::BottomTagger> bottom_reader_;
 
-    analysis::TopLeptonicTagger top_leptonic_tagger_;
-
-    analysis::Reader bottom_reader_;
-
-    analysis::Reader top_leptonic_reader_;
+    analysis::ReaderTagger<analysis::TopLeptonicTagger> top_leptonic_reader_;
 
 };
 

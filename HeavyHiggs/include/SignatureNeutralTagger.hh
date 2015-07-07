@@ -19,27 +19,27 @@ class SignatureNeutralTagger : public BranchTagger<OctetNeutralBranch>
 
 public:
 
-    /**
-    * @brief Constructor
-    *
-    */
     SignatureNeutralTagger();
 
-    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag);
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const;
 
-    std::vector< Octet62 > Multiplets(const Event& event, PreCuts &pre_cuts, const TMVA::Reader& reader);
+    std::vector< Octet62 > Multiplets(const Event& event, PreCuts &pre_cuts, const TMVA::Reader& reader) const;
+
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const {
+      return SaveEntries(Multiplets(event, pre_cuts, reader));
+    }
+
+    std::string name() const {
+      return "SignatureNeutral";
+    }
 
 private:
 
     std::vector<Octet62> GetHeavyHiggsevents(Jets &jets);
 
-    HeavyHiggsSemiTagger heavy_higgs_semi_tagger_;
+    ReaderTagger<HeavyHiggsSemiTagger> heavy_higgs_semi_reader_;
 
-    JetPairTagger jet_pair_tagger_;
-
-    Reader heavy_higgs_semi_reader_;
-
-    Reader jet_pair_reader_;
+    ReaderTagger<JetPairTagger> jet_pair_reader_;
 
 };
 

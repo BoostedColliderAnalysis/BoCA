@@ -33,11 +33,13 @@ public:
      */
 //     HAnalysis();
 
+
+
 using analysis::Analysis::Analysis;
 
     analysis::BottomTagger bottom_tagger_;
 
-    EventBottomTagger eventBottomSumTagger;
+//     EventBottomTagger eventBottomSumTagger;
 
 //     std::string StudyName(const analysis::HAnalysis::HTagger Tagger) const;
 

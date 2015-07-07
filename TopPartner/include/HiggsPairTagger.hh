@@ -21,19 +21,21 @@ public:
 
     HiggsPairTagger();
 
-    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag);
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const;
 
-    std::vector<Quartet22> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
+    std::vector<Quartet22> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
 
-    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const {
         return SaveEntries(Multiplets(event, pre_cuts, reader));
+    }
+
+    std::string name() const {
+      return "HiggsPair";
     }
 
 private:
 
-    HiggsTagger higgs_tagger_;
-
-    Reader higgs_reader_;
+    ReaderTagger<HiggsTagger> higgs_reader_;
 };
 
 }

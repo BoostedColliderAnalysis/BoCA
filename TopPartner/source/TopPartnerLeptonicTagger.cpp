@@ -1,4 +1,5 @@
 #include "TopPartnerLeptonicTagger.hh"
+#include "Event.hh"
 #include "Debug.hh"
 
 namespace analysis
@@ -10,17 +11,14 @@ namespace toppartner
 TopPartnerLeptonicTagger::TopPartnerLeptonicTagger()
 {
     Note();
-    set_tagger_name("TopPartnerLeptonic");
-    top_reader_.SetTagger(top_tagger_);
-    z_hadronic_reader_.SetTagger(z_hadronic_tagger);
     DefineVariables();
 }
 
-int TopPartnerLeptonicTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag)
+int TopPartnerLeptonicTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const
 {
     Info("Higgs Tags");
-    std::vector< Doublet> top_doublets = top_reader_.Multiplets<TopLeptonicTagger>(event);
-    std::vector< Doublet> z_doublets = z_hadronic_reader_.Multiplets<HiggsTagger>(event);
+    std::vector< Doublet> top_doublets = top_reader_.Multiplets(event);
+    std::vector< Doublet> z_doublets = higgs_hadronic_reader_.Multiplets(event);
 //     Debug("top and higgs",top_doublets.size(),z_doublets.size());
     std::vector< Quartet22 > quartets;
     for (const auto & top_doublet : top_doublets)
@@ -35,10 +33,10 @@ int TopPartnerLeptonicTagger::Train(const Event &event, PreCuts &pre_cuts, const
     return SaveEntries(BestMatches(quartets, top_partner, tag), 2);
 }
 
-std::vector<Quartet22> TopPartnerLeptonicTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader)
+std::vector<Quartet22> TopPartnerLeptonicTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const const
 {
-    std::vector< Doublet> top_doublets = top_reader_.Multiplets<TopLeptonicTagger>(event);
-    std::vector< Doublet> z_doublets = z_hadronic_reader_.Multiplets<HiggsTagger>(event);
+    std::vector< Doublet> top_doublets = top_reader_.Multiplets(event);
+    std::vector< Doublet> z_doublets = higgs_hadronic_reader_.Multiplets(event);
     std::vector< Quartet22 > quartets;
     for (const auto & top_doublet : top_doublets)
         for (const auto & z_doublet : z_doublets) {

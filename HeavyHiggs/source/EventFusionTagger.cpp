@@ -9,19 +9,16 @@ namespace heavyhiggs {
 EventFusionTagger::EventFusionTagger()
 {
     Note();
-    set_tagger_name("EventFusion");
-    bottom_reader_.SetTagger(bottom_tagger_);
-    heavy_higgs_semi_reader_.SetTagger(heavy_higgs_semi_tagger_);
     DefineVariables();
 }
 
-int EventFusionTagger::Train(const Event &event, const Tag tag)
+int EventFusionTagger::Train(const Event &event,PreCuts &pre_cuts, const Tag tag) const
 {
     Info("event Tags");
 
-    Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
+    Jets jets = bottom_reader_.Multiplets(event);
     Jets leptons = event.Leptons().leptons();
-    std::vector<Sextet> sextets = heavy_higgs_semi_reader_.Multiplets<HeavyHiggsSemiTagger>(event);
+    std::vector<Sextet> sextets = heavy_higgs_semi_reader_.Multiplets(event);
 
     Jets HiggsParticles = event.Partons().GenParticles();
     Jets Even = RemoveIfWrongAbsFamily(HiggsParticles, Id::heavy_higgs, Id::gluon);
@@ -55,9 +52,9 @@ int EventFusionTagger::Train(const Event &event, const Tag tag)
 std::vector<MultipletEvent<Sextet>> EventFusionTagger::Multiplets(const Event &event, TMVA::Reader &reader)
 {
   Info("event Tags");
-  std::vector<Sextet> sextets = heavy_higgs_semi_reader_.Multiplets<HeavyHiggsSemiTagger>(event);
+  std::vector<Sextet> sextets = heavy_higgs_semi_reader_.Multiplets(event);
 
-  Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
+  Jets jets = bottom_reader_.Multiplets(event);
   Jets Leptons = event.Leptons().leptons();
     std::vector<MultipletEvent<Sextet>> sextet_events;
     for (const auto & sextet : sextets) {
