@@ -37,6 +37,7 @@ void Factory::AddVariables()
 {
     Note("Add Variables");
     TMVA::gConfig().GetIONames().fWeightFileDir = tagger().analysis_name();
+    TMVA::gConfig().GetIONames().fWeightFileExtension = tagger().weight_file_extension();
     for (const auto & observable : tagger().observables())
         factory().AddVariable(observable.expression(), observable.title(), observable.unit(), observable.type());
     for (const auto & spectator : tagger().spectators())
@@ -47,7 +48,8 @@ int Factory::GetTrees()
 {
     Note();
 //     for (const auto & signal_name : tagger().signal_file_names()) {
-    std::string signal_file_name = tagger().analysis_name() + "/" +  tagger().signal_file_name(Stage::trainer) + ".root";
+//     std::string signal_file_name = tagger().analysis_name() + "/" +  tagger().signal_file_name(Stage::trainer) + ".root";
+    std::string signal_file_name = tagger().signal_file_name(Stage::trainer) + ".root";
     Note("Signal", signal_file_name);
     if (gSystem->AccessPathName(signal_file_name.c_str())) Error("File not found", signal_file_name);
     TFile &signal_file = *TFile::Open(signal_file_name.c_str());
@@ -59,7 +61,8 @@ int Factory::GetTrees()
     }
 //     }
 //     for (const auto & background_name : tagger().background_file_names()) {
-    std::string background_file_name = tagger().analysis_name() + "/" + tagger().background_file_name(Stage::trainer) + ".root";
+//     std::string background_file_name = tagger().analysis_name() + "/" + tagger().background_file_name(Stage::trainer) + ".root";
+    std::string background_file_name = tagger().background_file_name(Stage::trainer) + ".root";
     Note("Background", background_file_name);
     if (gSystem->AccessPathName(background_file_name.c_str())) Error("File not found", background_file_name);
     TFile &background_file = *TFile::Open(background_file_name.c_str());

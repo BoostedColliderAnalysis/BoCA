@@ -22,17 +22,17 @@ void AnalysisW::SetFiles(const Tag tag)
     Note("Set File Vector", Name(tag));
     switch (tag) {
     case Tag::signal :
-        NewSignalFile(ww);
+      NewSignalFile(Process::ww);
         break;
     case Tag::background :
-        NewBackgroundFile(tt_lep);
-        NewBackgroundFile(tt_had);
-        NewBackgroundFile(hh);
-        NewBackgroundFile(zz);
-        NewBackgroundFile(bb);
-        NewBackgroundFile(cc);
-        NewBackgroundFile(qq);
-        NewBackgroundFile(gg);
+      NewBackgroundFile(Process::tt_lep);
+      NewBackgroundFile(Process::tt_had);
+      NewBackgroundFile(Process::hh);
+      NewBackgroundFile(Process::zz);
+      NewBackgroundFile(Process::bb);
+      NewBackgroundFile(Process::cc);
+      NewBackgroundFile(Process::qq);
+      NewBackgroundFile(Process::gg);
         break;
     }
 }
@@ -52,7 +52,7 @@ Decay AnalysisW::WDecay() const
 }
 std::string AnalysisW::ProjectName() const
 {
-    return  "WTagger-" + ColliderName(collider_type()) + "-" + std::to_string(LowerPtCut()) + "GeV-" + ProcessName(tt) + "";
+  return  "WTagger-" + ColliderName(collider_type()) + "-" + std::to_string(LowerPtCut()) + "GeV-" + ProcessName(Process::tt) + "";
 }
 
 }

@@ -16,7 +16,6 @@ Decuplet.cpp
 Quattuordecuplet.cpp
 EventTagger.cpp
 EventSingleTagger.cpp
-AnalysisTopPartner.cpp
 )
 HLibrary(AnalysisTopPartner AnalysisSources)
 

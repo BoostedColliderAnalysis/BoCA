@@ -8,8 +8,6 @@ namespace analysis
 
 typedef std::pair<float &, std::string> ObservablePair;
 typedef std::vector<ObservablePair> Observables;
-#define STRING(s) #s
-#define PAIR(x) ObservablePair(x,STRING(x))
 
 /**
  * @brief Basic tree branches

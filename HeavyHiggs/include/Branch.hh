@@ -2,6 +2,9 @@
 
 #include "Branches.hh"
 
+#define STRING(s) #s
+#define PAIR(x) ObservablePair(x,STRING(x))
+
 namespace analysis
 {
 

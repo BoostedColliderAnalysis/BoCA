@@ -29,20 +29,20 @@ void AnalysisHiggs::SetFiles(const Tag tag)
     Note("Set File Vector", Name(tag));
     switch (tag) {
     case Tag::signal :
-        NewSignalFile(hh_bb);
-        if (tagger().name() == "Bottom") NewSignalFile(bb);
-        if (tagger().name() == "Bottom") NewSignalFile(tt_had);
-        if (tagger().name() == "Bottom") NewSignalFile(tt_lep);
+        NewSignalFile(Process::hh_bb);
+        if (tagger().name() == "Bottom") NewSignalFile(Process::bb);
+        if (tagger().name() == "Bottom") NewSignalFile(Process::tt_had);
+        if (tagger().name() == "Bottom") NewSignalFile(Process::tt_lep);
         break;
     case Tag::background :
-        if (tagger().name() != "Bottom") NewBackgroundFile(tt_had);
-        if (tagger().name() != "Bottom") NewBackgroundFile(tt_lep);
-        NewBackgroundFile(zz);
-        NewBackgroundFile(ww);
-        if (tagger().name() != "Bottom") NewBackgroundFile(bb);
-        NewBackgroundFile(cc);
-        NewBackgroundFile(qq);
-        NewBackgroundFile(gg);
+      if (tagger().name() != "Bottom") NewBackgroundFile(Process::tt_had);
+      if (tagger().name() != "Bottom") NewBackgroundFile(Process::tt_lep);
+      NewBackgroundFile(Process::zz);
+      NewBackgroundFile(Process::ww);
+      if (tagger().name() != "Bottom") NewBackgroundFile(Process::bb);
+      NewBackgroundFile(Process::cc);
+      NewBackgroundFile(Process::qq);
+      NewBackgroundFile(Process::gg);
         break;
     }
 

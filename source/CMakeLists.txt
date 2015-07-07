@@ -50,7 +50,6 @@ ReaderTagger.cpp
 Plot.cpp
 
 Tagger.cpp
-BranchTagger.cpp
 TauTagger.cpp
 BottomTagger.cpp
 # DoubletTagger.cpp

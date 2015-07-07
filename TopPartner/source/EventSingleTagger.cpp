@@ -15,11 +15,11 @@ EventSingleTagger::EventSingleTagger()
 
 int EventSingleTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const
 {
-    Info("Train");
+    Info();
     Jets jets = bottom_reader_.Multiplets(event);
     std::vector<Nonet> nonets = signature_reader_.Multiplets(event);
     std::vector< MultipletEvent< Nonet > > multipletevents;
-    for (const auto &nonet : nonets) {
+    for (const auto & nonet : nonets) {
         MultipletEvent< Nonet > multipletevent(nonet, event, jets);
         multipletevent.SetTag(tag);
         multipletevents.emplace_back(multipletevent);
@@ -29,11 +29,11 @@ int EventSingleTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag ta
 
 std::vector< MultipletEvent< Nonet > > EventSingleTagger::Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const
 {
-    Info("Multiplets");
+    Info();
     Jets jets = bottom_reader_.Multiplets(event);
     std::vector<Nonet> nonets = signature_reader_.Multiplets(event);
     std::vector< MultipletEvent< Nonet > > multiplet_events;
-    for (const auto &nonet : nonets) {
+    for (const auto & nonet : nonets) {
         MultipletEvent< Nonet > multiplet_event(nonet, event, jets);
         multiplet_event.SetBdt(Bdt(multiplet_event, reader));
         multiplet_events.emplace_back(multiplet_event);

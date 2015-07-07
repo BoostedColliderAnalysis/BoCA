@@ -91,6 +91,8 @@ public:
 
     std::string bdt_weight_name() const;
 
+    std::string weight_file_extension() const;
+
     std::string weight_branch_name() const;
 
     std::string background_name() const;
@@ -98,6 +100,8 @@ public:
     std::string background(const std::string &name) const;
 
     std::string signal_name() const;
+
+    std::string signal(const std::string &name) const;
 
     virtual int GetBdt(const Event &, PreCuts &, const TMVA::Reader &) const = 0;
 

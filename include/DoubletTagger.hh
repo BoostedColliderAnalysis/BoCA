@@ -4,57 +4,44 @@
 #include "Doublet.hh"
 #include "ReaderTagger.hh"
 
-namespace analysis {
-
-/**
- * @brief W BDT tagger
- *
- */
-// template <typename DoubletBranch>
-class DoubletTagger : public BranchTagger<DoubletBranch>
+namespace analysis
 {
 
-public:
+  /**
+   * @brief Semi leptonic heavy higgs BDT tagger
+   *
+   */
+  class DoubletTagger : public BranchTagger<PairBranch>
+  {
+
+  public:
 
     DoubletTagger();
 
-    int Train(const Event &event, const Tag Tag) {
-        PreCuts pre_cuts;
-        return Train(event, pre_cuts, Tag);
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const;
+
+    std::vector< Doublet > Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
+
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const {
+      return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
     }
 
-    int Train(const Event &event, PreCuts &pre_cuts, const Tag Tag);
-
-    virtual int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const {
-        return SaveEntries(Multiplets(event, reader));
+    std::string name() const {
+      return "Boson";
     }
 
-    virtual int GetBdt(const Event &event, const TMVA::Reader &reader) {
-        PreCuts pre_cuts;
-        return GetBdt(event, pre_cuts, reader);
-    }
+  protected:
 
-    std::vector<Doublet> Multiplets(const Event &event, const TMVA::Reader &reader) const;
+  private:
 
-    std::vector<Doublet> Multiplets(const Jets &jets, const TMVA::Reader &reader) const;
+    bool Problematic(const Doublet &doublet, PreCuts &pre_cuts, const Tag tag) const;
 
-    std::vector<Doublet> Multiplet(const fastjet::PseudoJet &jet_1, const fastjet::PseudoJet &jet_2, const TMVA::Reader &reader) const;
-
-    std::vector<Doublet> Multiplet(const fastjet::PseudoJet &jet, const TMVA::Reader &reader) const;
-
-private:
-
-  std::vector<analysis::Doublet> Multiplet(analysis::Doublet &doublet, const TMVA::Reader &reader) const;
-
-    std::vector<Doublet> Multiplets(const Jets &jets, const TMVA::Reader &reader, const int sub_jet_number);
+    bool Problematic(const Doublet &doublet, PreCuts &pre_cuts) const;
 
     ReaderTagger<BottomTagger> bottom_reader_;
 
-    void DefineVariables();
+    float higgs_mass_window = 80;
 
-    DoubletBranch branch_;
-
-    float doublet_mass_window_;
-};
+  };
 
 }
