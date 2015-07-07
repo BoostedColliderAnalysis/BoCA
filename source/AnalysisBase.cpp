@@ -56,10 +56,10 @@ std::vector< File > AnalysisBase::Files(const Tag tag)
     return files_;
 }
 
-void AnalysisBase::SetFiles(const Tag tag)
-{
-    Error("should be subclassed", Name(tag));
-}
+// void AnalysisBase::SetFiles(const Tag tag)
+// {
+//     Error("should be subclassed", Name(tag));
+// }
 
 int AnalysisBase::PassPreCut(const Event &)
 {
@@ -143,30 +143,6 @@ void AnalysisBase::NewBackgroundFile(const std::string &name, const float crosss
   tagger().AddBackgroundTreeName(TreeName(name));
 }
 
-// void AnalysisBase::NewFile(const Tag tag, const std::string &name, const float crosssection)
-// {
-//     switch (tag) {
-//     case Tag::signal :
-//         NewSignalFile(name, crosssection);
-//         break;
-//     case Tag::background :
-//         NewBackgroundFile(name, crosssection);
-//         break;
-//     }
-// }
-
-// void AnalysisBase::NewSignalFile(const std::string &name, const float crosssection)
-// {
-//     files_.emplace_back(get_file(name, crosssection));
-//     tagger().AddSignalTreeName(TreeName(name));
-// }
-
-// void AnalysisBase::NewBackgroundFile(const std::string &name, const float crosssection)
-// {
-//     files_.emplace_back(get_file(name, crosssection));
-//     tagger().AddBackgroundTreeName(TreeName(name));
-// }
-
 File AnalysisBase::get_file(const std::string &name, const std::string &nice_name) const
 {
     return File(name, FilePath(), FileSuffix(), nice_name);
@@ -175,11 +151,6 @@ File AnalysisBase::get_file(const std::string &name, const std::string &nice_nam
 File AnalysisBase::get_file(const std::string &name, const float crosssection, const std::string &nice_name) const
 {
   return File(name, FilePath(), FileSuffix(), crosssection, nice_name);
-}
-
-File AnalysisBase::get_file(const std::string &name, const float crosssection) const
-{
-    return File(name, FilePath(), FileSuffix(), crosssection);
 }
 
 std::string AnalysisBase::FileName(const std::string &name) const
@@ -196,11 +167,6 @@ PreCuts &AnalysisBase::pre_cuts()
 {
     return pre_cuts_;
 }
-
-//   Tagger &AnalysisBase::tagger()
-//   {
-//     return tagger_;
-//   }
 
 std::string AnalysisBase::FileSuffix() const
 {
@@ -250,7 +216,6 @@ void AnalysisBase::ClearFiles()
  files_.clear();
 }
 
-
 void AnalysisBase::RunFullEfficiency()
 {
     RunNormal();
@@ -293,5 +258,3 @@ void AnalysisBase::RunEfficiency()
 }
 
 }
-
-

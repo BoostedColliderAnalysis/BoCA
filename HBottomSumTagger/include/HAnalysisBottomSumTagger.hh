@@ -54,6 +54,7 @@ using analysis::Analysis::Analysis;
     }
 
 private:
+  void SetFiles(const analysis::Tag tag){};
 
     enum ProcessType {bb, cc, jj, qq, gg, Hbb, ttbb, ttcc, ttjj, ttqq, ttgg, bbbb, bbjj, bbcc, bbqq, bbgg};
     enum HProductionChannel {DYP, VBF, Associated, Simple};

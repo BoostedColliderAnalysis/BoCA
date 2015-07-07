@@ -42,10 +42,6 @@ protected:
         this->tagger().set_analysis_name(ProjectName());
     }
 
-//     Analysis(Tagger &tagger) : analysis::Analysis::Analysis(tagger) {
-//         this->tagger().set_analysis_name(ProjectName());
-//     }
-
     std::string ProjectName() const {
         return Name(collider_type()) + "-" + std::to_string(LowerPtCut()) + "GeV";
     }
