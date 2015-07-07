@@ -14,7 +14,7 @@ namespace analysis
  *
  */
 template<typename Tagger>
-class AnalysisTagger : public Analysis<Tagger>
+class AnalysisTagger : public Analysis
 {
 
 public:

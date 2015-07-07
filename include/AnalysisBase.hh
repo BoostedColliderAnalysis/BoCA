@@ -39,7 +39,7 @@ protected:
 
     void PrepareFiles();
 
-    virtual void SetFiles(const Tag tag);
+    virtual void SetFiles(const Tag tag) = 0;
 
     exroot::TreeWriter TreeWriter(TFile &export_file, const std::string &export_tree_name, Stage stage);
 
@@ -92,8 +92,6 @@ protected:
     File get_file(const std::string &name, const std::string &nice_name = "") const;
 
     File get_file(const std::string &name, const float crosssection, const std::string &nice_name = "") const;
-
-    File get_file(const std::string &name, const float crosssection) const;
 
     std::string FileName(const std::string &name) const;
 
