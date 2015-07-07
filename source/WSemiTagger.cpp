@@ -1,5 +1,5 @@
 #include "WSemiTagger.hh"
-#include "Reader.hh"
+#include "Event.hh"
 #include "Debug.hh"
 
 namespace analysis {
@@ -7,12 +7,11 @@ namespace analysis {
 WSemiTagger::WSemiTagger()
 {
     Note();
-    set_tagger_name("WSemi");
     w_mass_window_ = 20;
     DefineVariables();
 }
 
-int WSemiTagger::Train(const Event &event, PreCuts &, const Tag tag)
+int WSemiTagger::Train(const Event &event, analysis::PreCuts &, const analysis::Tag tag) const
 {
     Info("Train");
     Jets Particles = event.Partons().GenParticles();
@@ -44,7 +43,7 @@ int WSemiTagger::Train(const Event &event, PreCuts &, const Tag tag)
     return SaveEntries(doublets);
 }
 
-std::vector<Doublet>  WSemiTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader)
+std::vector<Doublet>  WSemiTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const const
 {
   Info("Triple Bdt");
   Jets Particles = event.Partons().GenParticles();
@@ -116,7 +115,7 @@ std::vector<Doublet> WSemiTagger::ReconstructNeutrino(const Doublet &doublet)con
 
 }
 
-Jets WSemiTagger::WSemiDaughters(const analysis::Event &event)
+Jets WSemiTagger::WSemiDaughters(const Event &event) const
 {
     Jets w_daughters = event.Partons().GenParticles();
 //     w_daughters = RemoveIfSoft(w_daughters, DetectorGeometry().JetMinPt());
@@ -129,7 +128,7 @@ Jets WSemiTagger::WSemiDaughters(const analysis::Event &event)
     return w_daughters;
 }
 
-int WSemiTagger::WSemiId(const Jets &jets)
+int WSemiTagger::WSemiId(const Jets &jets) const
 {
     if (jets.empty()) return to_int(Id::W);
     else return jets.front().user_info<JetInfo>().constituents().front().family().mother_1().Id;

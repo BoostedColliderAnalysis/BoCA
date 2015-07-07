@@ -19,25 +19,25 @@ class EventNeutralTagger : public BranchTagger<EventNeutralBranch>
 
 public:
 
-    /**
-    * @brief Constructor
-    *
-    */
     EventNeutralTagger();
 
-    int Train(const Event &event, const Tag tag);
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const;
 
-    std::vector< MultipletEvent< Octet62 > > Multiplets(const Event &event, const TMVA::Reader &reader);
+    std::vector< MultipletEvent< Octet62 > > Multiplets(const Event &event, const TMVA::Reader &reader) const;
+
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const {
+//       return SaveEntries(Multiplets(event, pre_cuts, reader));
+    }
+
+    std::string name() const {
+      return "EventNeutral";
+    }
 
 private:
 
-    SignatureNeutralTagger signature_neutral_tagger_;
+    ReaderTagger<SignatureNeutralTagger> signature_neutral_reader_;
 
-    Reader signature_neutral_reader_;
-
-    BottomTagger bottom_tagger_;
-
-    Reader bottom_reader_;
+    ReaderTagger<BottomTagger> bottom_reader_;
 
 };
 

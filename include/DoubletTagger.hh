@@ -2,7 +2,7 @@
 
 #include "BottomTagger.hh"
 #include "Doublet.hh"
-#include "Reader.hh"
+#include "ReaderTagger.hh"
 
 namespace analysis {
 
@@ -25,7 +25,7 @@ public:
 
     int Train(const Event &event, PreCuts &pre_cuts, const Tag Tag);
 
-    virtual int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
+    virtual int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const {
         return SaveEntries(Multiplets(event, reader));
     }
 
@@ -34,27 +34,21 @@ public:
         return GetBdt(event, pre_cuts, reader);
     }
 
-    std::vector<Doublet> Multiplets(const Event &event, const TMVA::Reader &reader);
+    std::vector<Doublet> Multiplets(const Event &event, const TMVA::Reader &reader) const;
 
-    std::vector<Doublet> Multiplets(const Jets &jets, const TMVA::Reader &reader);
+    std::vector<Doublet> Multiplets(const Jets &jets, const TMVA::Reader &reader) const;
 
-    std::vector<Doublet> Multiplet(const fastjet::PseudoJet &jet_1, const fastjet::PseudoJet &jet_2, const TMVA::Reader &reader);
+    std::vector<Doublet> Multiplet(const fastjet::PseudoJet &jet_1, const fastjet::PseudoJet &jet_2, const TMVA::Reader &reader) const;
 
-    std::vector<Doublet> Multiplet(const fastjet::PseudoJet &jet, const TMVA::Reader &reader);
+    std::vector<Doublet> Multiplet(const fastjet::PseudoJet &jet, const TMVA::Reader &reader) const;
 
 private:
 
-  std::vector<analysis::Doublet> Multiplet(analysis::Doublet &doublet, const TMVA::Reader &reader);
+  std::vector<analysis::Doublet> Multiplet(analysis::Doublet &doublet, const TMVA::Reader &reader) const;
 
     std::vector<Doublet> Multiplets(const Jets &jets, const TMVA::Reader &reader, const int sub_jet_number);
 
-    BottomTagger bottom_tagger_;
-
-    Reader bottom_reader_;
-
-//     TClass &Class() const {
-//         return *DoubletBranch::Class();
-//     }
+    ReaderTagger<BottomTagger> bottom_reader_;
 
     void DefineVariables();
 

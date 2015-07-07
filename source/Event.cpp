@@ -7,7 +7,10 @@
 #include "exroot/Partons.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace analysis
+{
+
+Event::Event() {}
 
 Event::Event(const Source source)
 {

@@ -1,4 +1,5 @@
 #include "JetPairTagger.hh"
+#include "Event.hh"
 #include "Debug.hh"
 
 namespace analysis {
@@ -6,7 +7,6 @@ namespace analysis {
 JetPairTagger::JetPairTagger()
 {
     Note();
-    set_tagger_name("JetPair");
     DefineVariables();
 }
 
@@ -54,10 +54,10 @@ void JetPairTagger::DefineVariables()
 
 }
 
-int JetPairTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag)
+int JetPairTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const
 {
     Info("Jet Pair Tags");
-    Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
+    Jets jets = bottom_reader_.Multiplets(event);
     Debug("Number of Jets", jets.size());
 
     Jets BdtJets = jets;
@@ -113,9 +113,9 @@ int JetPairTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag)
 
 }
 
-std::vector<Doublet>  JetPairTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader)
+std::vector<Doublet>  JetPairTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const
 {
-    Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
+    Jets jets = bottom_reader_.Multiplets(event);
     std::vector<Doublet>  doublets;
     for (auto Jet1 = jets.begin(); Jet1 != jets.end(); ++Jet1)
         for (auto Jet2 = Jet1 + 1; Jet2 != jets.end(); ++Jet2) {

@@ -22,13 +22,13 @@ TopAnalysis::TopAnalysis(Tagger &tagger) : analysis::standardmodel::Analysis::An
 
 std::string TopAnalysis::ProjectName() const
 {
-    return  "TopTagger-" + ColliderName(collider_type()) + "-" + std::to_string(LowerPtCut()) + "GeV-" + ProcessName(tt) + "-" + DecayName(TopDecay()) + "-Double";
+    return  "TopTagger-" + ColliderName(collider_type()) + "-" + std::to_string(LowerPtCut()) + "GeV-" + ProcessName(tt) + "-" + DecayName(TopDecay()) + "-test";
 }
 
 Decay TopAnalysis::TopDecay() const
 {
-//             return Decay::hadronic;
-    return Decay::leptonic;
+            return Decay::hadronic;
+//     return Decay::leptonic;
     //         return Decay::semi;
 
 }

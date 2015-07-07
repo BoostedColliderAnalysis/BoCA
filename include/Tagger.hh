@@ -1,13 +1,30 @@
 #pragma once
 
-#include "TMVA/Reader.h"
-#include "Event.hh"
+// #include "TMVA/Reader.h"
+#include "TCut.h"
 #include "Observable.hh"
-#include "PreCuts.hh"
 #include "Identification.hh"
+#include "fastjet/PseudoJet.hh"
+
+namespace TMVA{
+  class Reader;
+}
+
+class ExRootTreeWriter;
+class ExRootTreeBranch;
+namespace exroot
+{
+typedef ::ExRootTreeWriter TreeWriter;
+typedef ::ExRootTreeBranch TreeBranch;
+}
 
 namespace analysis
 {
+
+class Event;
+class PreCuts;
+typedef std::vector<std::string> Strings;
+typedef std::vector<fastjet::PseudoJet> Jets;
 
 enum class Stage
 {
@@ -32,9 +49,9 @@ public:
 
     std::string branch_name() const;
 
-    void set_tagger_name(const std::string &tagger_name);
+//     void set_tagger_name(const std::string &tagger_name);
 
-    std::string name() const;
+    virtual std::string name() const = 0;
 
     std::string factory_name() const;
 
@@ -84,11 +101,11 @@ public:
 
     std::string signal_name() const;
 
-    virtual int GetBdt(const Event &, PreCuts &, const TMVA::Reader &);
+    virtual int GetBdt(const Event &, PreCuts &, const TMVA::Reader &) const = 0;
 
-    virtual int Train(const Event &, PreCuts &, const Tag);
+    virtual int Train(const Event &, PreCuts &, const Tag) const = 0;
 
-    Jets SubJets(const fastjet::PseudoJet &jet, const int sub_jet_number);
+    Jets SubJets(const fastjet::PseudoJet &jet, const int sub_jet_number) const;
 
     virtual float ReadBdt(const TClonesArray &, const int) const = 0;
 
@@ -114,9 +131,23 @@ protected:
 
     virtual TClass &Class() const = 0;
 
-    exroot::TreeBranch &tree_branch();
+    exroot::TreeBranch &tree_branch() const;
 
-    float Bdt(const TMVA::Reader &reader);
+    float Bdt(const TMVA::Reader &reader) const;
+
+    /**
+     * @brief Names of the Signal Files
+     * shoudl be removed is no longer needed
+     *
+     */
+    Strings signal_file_names_;
+
+    /**
+     * @brief Names of the Background Files
+     * should be remove is no longer needed
+     *
+     */
+    Strings background_file_names_;
 
 
 private:
@@ -137,19 +168,7 @@ private:
      * @brief Name of the Tagger
      *
      */
-    std::string name_;
-
-    /**
-     * @brief Names of the Signal Files
-     *
-     */
-    Strings signal_file_names_;
-
-    /**
-     * @brief Names of the Background Files
-     *
-     */
-    Strings background_file_names_;
+//     std::string name_;
 
     /**
      * @brief Names of the backgrund trees

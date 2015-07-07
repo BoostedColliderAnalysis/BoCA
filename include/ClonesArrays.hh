@@ -27,6 +27,8 @@ class ClonesArrays
 
 public:
 
+    ClonesArrays();
+
     ClonesArrays(const Source source);
 
     std::string BranchName(const Branch branch) const;

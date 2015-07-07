@@ -11,14 +11,14 @@ namespace analysis
 
 File::File()
 {
-    Debug("Constructor");
+    Debug();
     SetVariables();
     file_suffix_ = file_suffix();
 }
 
 File::File(const std::string &process)
 {
-    Debug("Constructor");
+    Debug();
     SetVariables();
     process_folders_.emplace_back(process);
     file_suffix_ = file_suffix();
@@ -26,7 +26,7 @@ File::File(const std::string &process)
 
 File::File(const std::string &process, const float crosssection)
 {
-    Debug("Constructor");
+    Debug();
     SetVariables();
     process_folders_.emplace_back(process);
     crossection_ = crosssection;
@@ -35,7 +35,7 @@ File::File(const std::string &process, const float crosssection)
 
 File::File(const std::string &process, const float crosssection, const float mass)
 {
-    Debug("Constructor");
+    Debug();
     SetVariables();
     process_folders_.emplace_back(process);
     crossection_ = crosssection;
@@ -45,7 +45,7 @@ File::File(const std::string &process, const float crosssection, const float mas
 
 File::File(const Strings &processes)
 {
-    Debug("Constructor");
+    Debug();
     SetVariables();
     process_folders_ = Join(process_folders_, processes);
     file_suffix_ = file_suffix();
@@ -53,7 +53,7 @@ File::File(const Strings &processes)
 
 File::File(const Strings &processes, const float crosssection)
 {
-    Debug("Constructor");
+    Debug();
     SetVariables();
     process_folders_ = Join(process_folders_, processes);
     crossection_ = crosssection;
@@ -62,7 +62,7 @@ File::File(const Strings &processes, const float crosssection)
 
 File::File(const Strings &processes, const float crosssection, const float mass)
 {
-    Debug("Constructor");
+    Debug();
     SetVariables();
     process_folders_ = Join(process_folders_, processes);
     crossection_ = crosssection;
@@ -72,7 +72,7 @@ File::File(const Strings &processes, const float crosssection, const float mass)
 
 File::File(const std::string &process, const std::string &run_folder)
 {
-    Debug("Constructor");
+    Debug();
     SetVariables();
     process_folders_.emplace_back(process);
     run_folder_ = run_folder;
@@ -81,7 +81,7 @@ File::File(const std::string &process, const std::string &run_folder)
 
 File::File(const std::string &process, const std::string &base_path, const std::string &file_suffix, const float crosssection)
 {
-    Debug("Constructor");
+    Debug();
     SetVariables();
     process_folders_.emplace_back(process);
     base_path_ = base_path;
@@ -91,7 +91,7 @@ File::File(const std::string &process, const std::string &base_path, const std::
 
 File::File(const std::string &process, const std::string &base_path, const std::string &file_suffix)
 {
-    Debug("Constructor");
+    Debug();
     SetVariables();
     process_folders_.emplace_back(process);
     base_path_ = base_path;
@@ -100,7 +100,7 @@ File::File(const std::string &process, const std::string &base_path, const std::
 
 File::File(const std::string &process, const std::string &base_path, const std::string &file_suffix, const std::string &nice_name)
 {
-    Debug("Constructor");
+    Debug();
     SetVariables();
     process_folders_.emplace_back(process);
     base_path_ = base_path;
@@ -150,14 +150,14 @@ std::string File::MadGraphFilePath() const
 
 void File::SetVariables()
 {
-    Info("Set Variables");
+    Info();
     run_folder_ = "run_01";
     tag_name_ = "tag_1";
 }
 
 Strings File::Paths() const
 {
-    Info("FilePath");
+    Info();
     Strings FilePaths;
     for (const auto & process_folder : process_folders_) FilePaths.emplace_back(base_path_ + process_folder + file_suffix_);
     return FilePaths;
@@ -165,7 +165,7 @@ Strings File::Paths() const
 
 exroot::TreeReader File::TreeReader()
 {
-    Note("Tree Reader", Paths().front());
+    Note(Paths().front());
     chain_ = new TChain(tree_name().c_str());
     for (const auto & path : Paths()) chain_->Add(path.c_str());
     return exroot::TreeReader(chain_);
@@ -173,20 +173,20 @@ exroot::TreeReader File::TreeReader()
 
 ClonesArrays File::clones_arrays()
 {
-    Note("Clones Arrays");
+    Note();
     return ClonesArrays(source());
 }
 
 
 Event File::event()
 {
-    Note("event");
+    Note();
     return Event(source());
 }
 
 File::~File()
 {
-    Debug("Destructor");
+    Debug();
     delete chain_;
 }
 

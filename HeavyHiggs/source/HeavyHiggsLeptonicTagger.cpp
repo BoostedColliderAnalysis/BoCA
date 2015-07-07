@@ -1,6 +1,7 @@
 #include "HeavyHiggsLeptonicTagger.hh"
 #include "WimpMass.hh"
 #include "Predicate.hh"
+#include "Event.hh"
 #include "Debug.hh"
 
 namespace analysis
@@ -12,8 +13,6 @@ namespace heavyhiggs
 HeavyHiggsLeptonicTagger::HeavyHiggsLeptonicTagger()
 {
     Note();
-    set_tagger_name("HeavyHiggsLeptonic");
-    top_leptonic_reader_.SetTagger(top_leptonic_tagger_);
     DefineVariables();
 }
 
@@ -23,7 +22,7 @@ int HeavyHiggsLeptonicTagger::Train(const Event &event, const Tag tag)
 
     float mass = event.mass();
 
-    std::vector<Doublet> doublets = top_leptonic_reader_.Multiplets<TopLeptonicTagger>(event);
+    std::vector<Doublet> doublets = top_leptonic_reader_.Multiplets(event);
 
     fastjet::PseudoJet missing_et = event.Hadrons().MissingEt();
     Jets particles = event.Partons().GenParticles();
@@ -51,10 +50,10 @@ int HeavyHiggsLeptonicTagger::Train(const Event &event, const Tag tag)
     return SaveEntries(sextets);
 }
 
-std::vector<Sextet>  HeavyHiggsLeptonicTagger::Multiplets(const Event &event, const TMVA::Reader &reader)
+std::vector<Sextet>  HeavyHiggsLeptonicTagger::Multiplets(const Event &event, const TMVA::Reader &reader) const
 {
     Info("Bdt");
-    std::vector<Doublet> doublets = top_leptonic_reader_.Multiplets<TopLeptonicTagger>(event);
+    std::vector<Doublet> doublets = top_leptonic_reader_.Multiplets(event);
     fastjet::PseudoJet missing_et = event.Hadrons().MissingEt();
 
     std::vector<Sextet> sextets;

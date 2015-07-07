@@ -2,7 +2,7 @@
 
 #include "TauTagger.hh"
 #include "Doublet.hh"
-#include "Reader.hh"
+#include "ReaderTagger.hh"
 #include "Branch.hh"
 
 namespace analysis
@@ -24,12 +24,11 @@ public:
 
     int Train(const Event &event, const Tag tag);
 
-    std::vector<Doublet>  Multiplets(const Event &event, const TMVA::Reader &reader);
+    std::vector<Doublet>  Multiplets(const Event &event, const TMVA::Reader &reader) const;
 
 private:
-    TauTagger tau_tagger_;
 
-    Reader tau_reader_;
+    ReaderTagger<TauTagger> tau_reader_;
 
 };
 

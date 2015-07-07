@@ -1,4 +1,5 @@
 #include "TopSemiTagger.hh"
+#include "Event.hh"
 #include "Debug.hh"
 
 namespace analysis
@@ -7,21 +8,18 @@ namespace analysis
 TopSemiTagger::TopSemiTagger()
 {
     Note();
-    set_tagger_name("TopSemi");
     top_mass_window_ = (Mass(Id::top) - Mass(Id::W)) / 2;
-    bottom_reader_.SetTagger(bottom_tagger_);
-    w_semi_reader_.SetTagger(w_semi_tagger_);
     DefineVariables();
 }
 
-int TopSemiTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag)
+int TopSemiTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const
 {
     Info("Top Tags");
-    Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
+    Jets jets = bottom_reader_.Multiplets(event);
 
     std::vector<Triplet> triplets;
     if (!boost_) {
-        std::vector<Doublet> doublets = w_semi_reader_.Multiplets<WSemiTagger>(event);
+        std::vector<Doublet> doublets = w_semi_reader_.Multiplets(event);
         Note("doublet number", doublets.size());
         for (const auto & jet : jets) {
             for (const auto & doublet : doublets) {
@@ -52,7 +50,7 @@ int TopSemiTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag)
 }
 
 
-bool TopSemiTagger::Problematic(const Triplet &triplet, PreCuts &pre_cuts, const Tag tag)
+bool TopSemiTagger::Problematic(const Triplet &triplet, PreCuts &pre_cuts, const Tag tag) const
 {
     Info("Problematic");
     if (pre_cuts.PtLowerCut(Id::top) > 0 && triplet.Jet().pt() <  pre_cuts.PtLowerCut(Id::top)) return true;
@@ -68,12 +66,12 @@ bool TopSemiTagger::Problematic(const Triplet &triplet, PreCuts &pre_cuts, const
     return false;
 }
 
-std::vector<Triplet>  TopSemiTagger::Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
+std::vector<Triplet>  TopSemiTagger::Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const const
 {
     Info("Bdt");
 
-    Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
-    std::vector<Doublet> doublets = w_semi_reader_.Multiplets<WSemiTagger>(event);
+    Jets jets = bottom_reader_.Multiplets(event);
+    std::vector<Doublet> doublets = w_semi_reader_.Multiplets(event);
 
     std::vector<Triplet> triplets;
     if (!boost_) {

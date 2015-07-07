@@ -1,5 +1,6 @@
 #include "TripletJetPairTagger.hh"
 #include "Predicate.hh"
+#include "Event.hh"
 #include "Debug.hh"
 
 namespace analysis {
@@ -7,17 +8,14 @@ namespace analysis {
 TripletJetPairTagger::TripletJetPairTagger()
 {
     Note();
-    set_tagger_name("TripletJetJetPair");
-    bottom_reader_.SetTagger(bottom_tagger_);
-    top_hadronic_reader_.SetTagger(top_hadronic_tagger);
     DefineVariables();
 }
 
-int TripletJetPairTagger::Train(const Event &event, analysis::PreCuts &pre_cuts, const analysis::Tag tag)
+int TripletJetPairTagger::Train(const analysis::Event &event, analysis::PreCuts &pre_cuts, const analysis::Tag tag) const
 {
     Info("W Tags");
-    Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
-    std::vector<Triplet> triplets = top_hadronic_reader_.Multiplets<TopHadronicTagger>(event);
+    Jets jets = bottom_reader_.Multiplets(event);
+    std::vector<Triplet> triplets = top_hadronic_reader_.Multiplets(event);
 //     Jets jets = GetJets(event);
     //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader); // TODO reenable this
 //     std::vector<Doublet> doublets = WTagger.GetBdt(jets, WReader);
@@ -111,10 +109,10 @@ int TripletJetPairTagger::Train(const Event &event, analysis::PreCuts &pre_cuts,
 
 }
 
-std::vector<Quartet31>  TripletJetPairTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader)
+std::vector<Quartet31>  TripletJetPairTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const
 {
-    Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
-    std::vector<Triplet> triplets = top_hadronic_reader_.Multiplets<TopHadronicTagger>(event);
+    Jets jets = bottom_reader_.Multiplets(event);
+    std::vector<Triplet> triplets = top_hadronic_reader_.Multiplets(event);
     std::vector<Quartet31>  quartets;
     for (const auto & triplet : triplets)
         for (const auto & Jet : jets)  {

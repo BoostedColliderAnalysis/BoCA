@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Tagger.hh"
+#include "PreCuts.hh"
+#include "TMVA/Reader.h"
 
 namespace analysis
 {

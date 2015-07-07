@@ -10,18 +10,15 @@ namespace heavyhiggs
 ChargedHiggsLeptonicTagger::ChargedHiggsLeptonicTagger()
 {
     Note();
-    set_tagger_name("ChargedHiggsLeptonic");
-    bottom_reader_.SetTagger(bottom_tagger_);
-    top_leptonic_reader_.SetTagger(top_leptonic_tagger_);
     DefineVariables();
 }
 
 int ChargedHiggsLeptonicTagger::Train(const Event &event, const Tag tag)
 {
     Info("Higgs Tags");
-    Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
+    Jets jets = bottom_reader_.Multiplets(event);
 
-    std::vector<Doublet> doublets = top_leptonic_reader_.Multiplets<TopLeptonicTagger>(event);
+    std::vector<Doublet> doublets = top_leptonic_reader_.Multiplets(event);
     Info("Number of doublets", doublets.size());
 
     std::vector<Triplet> triplets;
@@ -50,11 +47,11 @@ int ChargedHiggsLeptonicTagger::Train(const Event &event, const Tag tag)
     return SaveEntries(triplets);
 }
 
-std::vector<Triplet>  ChargedHiggsLeptonicTagger::Multiplets(const Event &event, const TMVA::Reader &reader)
+std::vector<Triplet>  ChargedHiggsLeptonicTagger::Multiplets(const Event &event, const TMVA::Reader &reader) const
 {
     Info("Bdt");
-    Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
-    std::vector<Doublet> doublets = top_leptonic_reader_.Multiplets<TopLeptonicTagger>(event);
+    Jets jets = bottom_reader_.Multiplets(event);
+    std::vector<Doublet> doublets = top_leptonic_reader_.Multiplets(event);
 
     std::vector<Triplet> triplets;
     for (const auto & doublet : doublets) {
