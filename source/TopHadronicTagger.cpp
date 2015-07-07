@@ -183,7 +183,7 @@ bool TopHadronicTagger::Problematic(const analysis::Triplet &triplet, PreCuts &p
     return false;
 }
 
-std::vector<Triplet> TopHadronicTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const const
+std::vector<Triplet> TopHadronicTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const
 {
     Jets jets = bottom_reader_.Multiplets(event);
     std::vector<analysis::Triplet> triplets;

@@ -37,17 +37,17 @@ void hcpvhiggs::HMva::DefineVariables()
 
   Note("Define Variables");
 
-    AddVariable(Candidate->Mass, "Mass", "m_j");
-    AddVariable(Candidate->Pt, "Pt", "p^T_j");
-    AddVariable(Candidate->Rap, "Rap","\\eta_j");
-    AddVariable(Candidate->Phi, "Phi","\\phi_j");
+    AddVariable(Candidate->Mass, "Mass");
+    AddVariable(Candidate->Pt, "Pt");
+    AddVariable(Candidate->Rap, "Rap");
+    AddVariable(Candidate->Phi, "Phi");
 
-    AddVariable(Candidate->DeltaR, "DeltaR","Delta R");
-    AddVariable(Candidate->SubJetsDeltaR, "SubJetsDeltaR","\\Delta R(j_1,j_2)");
-    AddVariable(Candidate->Asymmetry, "Asymmetry","A");
-    AddVariable(Candidate->DiPolarity, "DiPolarity","P");
+    AddVariable(Candidate->DeltaR, "DeltaR");
+    AddVariable(Candidate->SubJetsDeltaR, "SubJetsDeltaR");
+    AddVariable(Candidate->Asymmetry, "Asymmetry");
+    AddVariable(Candidate->DiPolarity, "DiPolarity");
 
-    AddVariable(Candidate->SubJet1Mass, "SubJet1Mass", "m_{j_1}");
+    AddVariable(Candidate->SubJet1Mass, "SubJet1Mass");
     AddVariable(Candidate->SubJet1Pt, "SubJet1Pt");
     AddVariable(Candidate->SubJet1DeltaR,"SubJet1DeltaR");
 

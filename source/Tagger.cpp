@@ -19,15 +19,7 @@ Observable Tagger::NewObservable(float &value, const std::string &title) const
 {
     Info(title);
     const std::string expression = branch_name() + "." + title;
-    return Observable(value, expression, title, "", "");
-}
-
-Observable Tagger::NewObservable(float &value, const std::string &title, const std::string &latex) const
-{
-    Info(title);
-    const std::string expression = branch_name() + "." + title;
-    return Observable(value, expression, title, "", latex);
-
+    return Observable(value, expression, title, "");
 }
 
 float Tagger::Bdt(const TMVA::Reader &reader) const
@@ -194,10 +186,6 @@ void Tagger::SetTreeBranch(exroot::TreeWriter &tree_writer, const Stage stage)
 void Tagger::AddVariable(float &value, const std::string &title)
 {
     variables_.emplace_back(NewObservable(value, title));
-}
-void Tagger::AddVariable(float &value, const std::string &title, const std::string &latex)
-{
-    variables_.emplace_back(NewObservable(value, title, latex));
 }
 void Tagger::AddSpectator(float &value, const std::string &title)
 {

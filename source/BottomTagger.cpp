@@ -82,7 +82,7 @@ Jets BottomTagger::SubJets(const analysis::Jets &jets, const int sub_jet_number)
     return subjets;
 }
 
-Jets BottomTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const const
+Jets BottomTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const
 {
     Info();
     return Multiplets(event.Hadrons().Jets(), pre_cuts, reader);

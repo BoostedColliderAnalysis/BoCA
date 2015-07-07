@@ -61,7 +61,7 @@ bool ZHadronicTagger::Problematic(const analysis::Doublet &doublet, analysis::Pr
 }
 
 
-std::vector<Doublet>  ZHadronicTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const const
+std::vector<Doublet>  ZHadronicTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const
 {
     Info("ZHadronic Bdt");
     Jets jets =  bottom_reader_.Multiplets(event);
