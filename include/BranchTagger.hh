@@ -156,8 +156,8 @@ protected:
         ClearObservables();
         AddVariables();
         AddSpectators();
-            signal_file_names_ = {name()};
-            background_file_names_ = {background(name())};
+//             signal_file_names_ = {name()};
+//             background_file_names_ = {background(name())};
     }
 
 //     auto Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;

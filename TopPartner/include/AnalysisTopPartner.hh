@@ -32,13 +32,13 @@ protected:
         case Tag::signal :
             //         NewFile(tag,"pp-Tth-bbbbjjjjlv");
             //         NewFile(tag,"pp-TThh-bbbbbbjjlv");
-            Analysis::NewFile(tag, "pp-TT-tthh-bbbbbbjjlv", Crosssection(tag));
+            Analysis::NewFile(tag, "pp-TT-tthh-bbbbbbjjlv", Crosssection(tag), NiceName(tag));
             //         if(tagger().name() == "Bottom") NewFile(tag,"pp-ttbbj-bbbbjjlv");
             break;
         case Tag::background :
             //         NewFile(tag,"pp-ttbb-bbbbjjlv");
             //       NewFile(tag,"pp-tthjj-bbbbjjjjlv);
-            Analysis::NewFile(tag, "pp-tthjj-bbbbjjjjlv_" + std::to_string(PreCut()) + "GeV", Crosssection(tag));
+            Analysis::NewFile(tag, "pp-tthjj-bbbbjjjjlv_" + std::to_string(PreCut()) + "GeV", Crosssection(tag), NiceName(tag));
             //         NewFile(tag,"tt_inc-LE-0GeV_0");
             break;
         }
@@ -104,12 +104,12 @@ private:
     }
 
     std::string NiceName(const Tag tag) const {
-      switch (tag) {
+        switch (tag) {
         case Tag::signal :
-          return "TT";
+            return "TT";
         case Tag::background :
-          return "tthjj (" + PreCut() + " GeV)";
-      }
+            return "tthjj (" + PreCut() + " GeV)";
+        }
 
     }
 

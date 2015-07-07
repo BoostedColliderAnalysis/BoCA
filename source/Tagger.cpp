@@ -150,10 +150,10 @@ std::vector< Observable > Tagger::spectators() const
 {
     return spectators_;
 }
-Strings Tagger::signal_file_names() const
-{
-    return signal_file_names_;
-}
+// Strings Tagger::signal_file_names() const
+// {
+//     return signal_file_names_;
+// }
 Strings Tagger::signal_tree_names() const
 {
     return signal_tree_names_;
@@ -163,10 +163,10 @@ void Tagger::clear_tree_names()
     signal_tree_names_.clear();
     background_tree_names_.clear();
 }
-Strings Tagger::background_file_names() const
-{
-    return background_file_names_;
-}
+// Strings Tagger::background_file_names() const
+// {
+//     return background_file_names_;
+// }
 Strings Tagger::background_tree_names() const
 {
     return background_tree_names_;

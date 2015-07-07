@@ -45,31 +45,31 @@ void Factory::AddVariables()
 
 int Factory::GetTrees()
 {
-    Note("Trees");
+    Note();
+//     for (const auto & signal_name : tagger().signal_file_names()) {
+    std::string signal_file_name = tagger().analysis_name() + "/" +  tagger().signal_file_name(Stage::trainer) + ".root";
+    Note("Signal", signal_file_name);
+    if (gSystem->AccessPathName(signal_file_name.c_str())) Error("File not found", signal_file_name);
+    TFile &signal_file = *TFile::Open(signal_file_name.c_str());
+    Note("Signal File", signal_file.GetName(), tagger().signal_tree_names().size());
     int signal_number = 0;
-    for (const auto & signal_name : tagger().signal_file_names()) {
-        Note("Signal", signal_name);
-        std::string signal_file_name = tagger().analysis_name() + "/" + signal_name + ".root";
-        if (gSystem->AccessPathName(signal_file_name.c_str())) Error("File not found", signal_file_name);
-        TFile &signal_file = *TFile::Open(signal_file_name.c_str());
-        Note("Signal File", signal_file.GetName(), tagger().signal_tree_names().size());
-        for (int tree_number : Range(tagger().signal_tree_names().size())) {
-            Note("signal Tree Name", tagger().signal_tree_names()[tree_number]);
-            signal_number += AddTree(signal_file, tagger().signal_tree_names()[tree_number], Tag::signal);
-        }
+    for (int tree_number : Range(tagger().signal_tree_names().size())) {
+        Note("signal Tree Name", tagger().signal_tree_names()[tree_number]);
+        signal_number += AddTree(signal_file, tagger().signal_tree_names()[tree_number], Tag::signal);
     }
+//     }
+//     for (const auto & background_name : tagger().background_file_names()) {
+    std::string background_file_name = tagger().analysis_name() + "/" + tagger().background_file_name(Stage::trainer) + ".root";
+    Note("Background", background_file_name);
+    if (gSystem->AccessPathName(background_file_name.c_str())) Error("File not found", background_file_name);
+    TFile &background_file = *TFile::Open(background_file_name.c_str());
+    Note("Background File", background_file.GetName(), tagger().background_tree_names().size());
     int background_number = 0;
-    for (const auto & background_name : tagger().background_file_names()) {
-        Note("Background", background_name);
-        std::string background_file_name = tagger().analysis_name() + "/" + background_name + ".root";
-        if (gSystem->AccessPathName(background_file_name.c_str())) Error("File not found", background_file_name);
-        TFile &background_file = *TFile::Open(background_file_name.c_str());
-        Note("Background File", background_file.GetName(), tagger().background_tree_names().size());
-        for (const auto & background_tree_name : tagger().background_tree_names()) {
-            Note("Background Tree Name", background_tree_name);
-            background_number += AddTree(background_file, background_tree_name, Tag::background);
-        }
+    for (const auto & background_tree_name : tagger().background_tree_names()) {
+        Note("Background Tree Name", background_tree_name);
+        background_number += AddTree(background_file, background_tree_name, Tag::background);
     }
+//     }
     Error("event Numbers", signal_number, background_number);
     return std::min(signal_number, background_number) / 2;
 }
