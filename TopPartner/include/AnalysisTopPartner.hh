@@ -108,7 +108,7 @@ private:
         case Tag::signal :
             return "TT";
         case Tag::background :
-            return "tthjj (" + PreCut() + " GeV)";
+            return "tthjj (" + std::to_string(PreCut()) + " GeV)";
         }
 
     }

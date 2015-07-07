@@ -70,18 +70,6 @@ std::string Tagger::branch_name() const
 {
     return name();
 }
-
-// void Tagger::set_tagger_name(const std::string &name)
-// {
-//     name() = name;
-//     signal_file_names_ = {name};
-//     background_file_names_ = {background(name)};
-// }
-// std::string Tagger::name() const
-// {
-//   Error("we do not want to end up here");
-//     return "Tagger";
-// }
 std::string Tagger::factory_name() const
 {
     return "Mva" + name();
@@ -150,10 +138,6 @@ std::vector< Observable > Tagger::spectators() const
 {
     return spectators_;
 }
-// Strings Tagger::signal_file_names() const
-// {
-//     return signal_file_names_;
-// }
 Strings Tagger::signal_tree_names() const
 {
     return signal_tree_names_;
@@ -163,10 +147,6 @@ void Tagger::clear_tree_names()
     signal_tree_names_.clear();
     background_tree_names_.clear();
 }
-// Strings Tagger::background_file_names() const
-// {
-//     return background_file_names_;
-// }
 Strings Tagger::background_tree_names() const
 {
     return background_tree_names_;
@@ -206,17 +186,6 @@ std::string Tagger::signal_name() const
 {
     return name();
 }
-// int Tagger::GetBdt(const Event &, PreCuts &, const TMVA::Reader &)
-// {
-//     Error("should be subclassed");
-//     return 0;
-// }
-// int Tagger::Train(const Event &, PreCuts &, const Tag)
-// {
-//     Error("Should be subclassed");
-//     return 0;
-// }
-
 void Tagger::SetTreeBranch(exroot::TreeWriter &tree_writer, const Stage stage)
 {
     tree_branch_ = tree_writer.NewBranch(name(stage).c_str(), &Class());
