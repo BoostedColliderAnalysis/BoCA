@@ -19,8 +19,8 @@ int SignatureSingleTagger::Train(const Event &event, PreCuts &pre_cuts, const Ta
     std::vector< Septet> septets = top_partner_higgs_pair_reader_.Multiplets(event);
     std::vector< Triplet> triplets = top_hadronic_reader_.Multiplets(event);
     std::vector< Decuplet73 > decuplets;
-    for (const auto septet :  septets) {
-        for (const auto triplet : triplets) {
+    for (const auto &septet :  septets) {
+        for (const auto &triplet : triplets) {
             Decuplet73 decuplet(septet, triplet);
             if (decuplet.Overlap()) continue;
             decuplet.SetTag(tag);
@@ -36,8 +36,8 @@ std::vector<Decuplet73> SignatureSingleTagger::Multiplets(const Event &event, an
   std::vector< Septet> septets = top_partner_higgs_pair_reader_.Multiplets(event);
   std::vector< Triplet> triplets = top_hadronic_reader_.Multiplets(event);
     std::vector< Decuplet73 > decuplets;
-    for (const auto septet :  septets) {
-      for (const auto triplet : triplets) {
+    for (const auto &septet :  septets) {
+      for (const auto &triplet : triplets) {
             Decuplet73 decuplet(septet, triplet);
             if (decuplet.Overlap()) continue;
             decuplet.SetBdt(Bdt(decuplet,reader));

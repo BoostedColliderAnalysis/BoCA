@@ -19,7 +19,7 @@ int EventTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag) con
     std::vector<Quattuordecuplet> octets = signature_reader_.Multiplets(event);
     Info("Octets", octets.size());
     std::vector< MultipletEvent< Quattuordecuplet > > multipletevents;
-    for (const auto octet : octets) {
+    for (const auto &octet : octets) {
         MultipletEvent< Quattuordecuplet > multipletevent(octet, event, jets);
         multipletevent.SetTag(tag);
         multipletevents.emplace_back(multipletevent);
@@ -33,7 +33,7 @@ std::vector< MultipletEvent< Quattuordecuplet > > EventTagger::Multiplets(const 
     Jets jets = bottom_reader_.Multiplets(event);
     std::vector<Quattuordecuplet> octets = signature_reader_.Multiplets(event);
     std::vector< MultipletEvent< Quattuordecuplet > > multiplet_events;
-    for (const auto octet : octets) {
+    for (const auto &octet : octets) {
         MultipletEvent< Quattuordecuplet > multiplet_event(octet, event,jets);
         multiplet_event.SetBdt(Bdt(multiplet_event,reader));
         multiplet_events.emplace_back(multiplet_event);

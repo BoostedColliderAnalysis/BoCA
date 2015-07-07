@@ -20,7 +20,7 @@ public:
         analysis::Multiplet<Multiplet_1, analysis::Singlet>::SetMultiplet1(multiplet);
         global_observables_.SetEvent(event,jets);
         Jets unique_jets;
-        for (const auto jet : jets) if (!analysis::Multiplet<Multiplet_1, analysis::Singlet>::Multiplet1().Overlap(jet)) unique_jets.emplace_back(jet);
+        for (const auto &jet : jets) if (!analysis::Multiplet<Multiplet_1, analysis::Singlet>::Multiplet1().Overlap(jet)) unique_jets.emplace_back(jet);
         global_observables_.SetJets(unique_jets);
         analysis::Multiplet<Multiplet_1, analysis::Singlet>::SetMultiplet2(global_observables_.Singlet());
     }

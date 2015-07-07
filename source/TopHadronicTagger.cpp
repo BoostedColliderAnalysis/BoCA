@@ -148,7 +148,7 @@ Triplet TopHadronicTagger::Triplet(analysis::Triplet &triplet, const analysis::J
 float TopHadronicTagger::LeptonPt(const analysis::Triplet &triplet, const analysis::Jets &leptons) const
 {
     float pt = 0;
-    for (const auto lepton : leptons) if (Close2(lepton)(triplet) && lepton.pt() > pt) pt = lepton.pt();
+    for (const auto &lepton : leptons) if (Close2(lepton)(triplet) && lepton.pt() > pt) pt = lepton.pt();
     return pt;
 }
 

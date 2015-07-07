@@ -18,8 +18,8 @@ int SignatureTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag)
     std::vector< Decuplet55> decuplets = top_partner_pair_reader_.Multiplets(event);
     std::vector< Quartet22> quartets = higgs_pair_reader_.Multiplets(event);
     std::vector< Quattuordecuplet > quattuordecuplets;
-    for (const auto decuplet : decuplets) {
-        for (const auto quartet : quartets) {
+    for (const auto &decuplet : decuplets) {
+        for (const auto &quartet : quartets) {
             Quattuordecuplet quattuordecuplet(decuplet, quartet);
             if (quattuordecuplet.Overlap()) continue;
             quattuordecuplet.SetTag(tag);
@@ -34,8 +34,8 @@ std::vector< Quattuordecuplet > SignatureTagger::Multiplets(const Event &event, 
     std::vector< Decuplet55> decuplets = top_partner_pair_reader_.Multiplets(event);
     std::vector< Quartet22> quartets = higgs_pair_reader_.Multiplets(event);
     std::vector< Quattuordecuplet > quattuordecuplets;
-    for (const auto decuplet : decuplets) {
-        for (const auto quartet : quartets) {
+    for (const auto &decuplet : decuplets) {
+        for (const auto &quartet : quartets) {
             Quattuordecuplet quattuordecuplet(decuplet, quartet);
             if (quattuordecuplet.Overlap()) continue;
             if (quattuordecuplet.Overlap()) continue;
