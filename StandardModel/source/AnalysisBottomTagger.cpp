@@ -23,19 +23,19 @@ void AnalysisBottom::SetFiles(const Tag tag)
 
     switch (tag) {
     case Tag::signal :
-        NewSignalFile(bb);
-//     NewSignalFile(tt);
-//     NewBackgroundFile(bb);
+      NewSignalFile(Process::bb);
+      //     NewSignalFile(Process::tt);
+      //     NewBackgroundFile(Process::bb);
         break;
     case Tag::background :
-        NewBackgroundFile(cc);
-//     NewBackgroundFile(tt);
-//     NewBackgroundFile(ttcc);
-//     NewBackgroundFile(ttjj);
-        NewBackgroundFile(qq);
-        NewBackgroundFile(gg);
-//     NewBackgroundFile(hh);
-        NewBackgroundFile(ww);
+      NewBackgroundFile(Process::cc);
+      //     NewBackgroundFile(Process::tt);
+      //     NewBackgroundFile(Process::ttcc);
+      //     NewBackgroundFile(Process::ttjj);
+      NewBackgroundFile(Process::qq);
+      NewBackgroundFile(Process::gg);
+      //     NewBackgroundFile(Process::hh);
+      NewBackgroundFile(Process::ww);
         break;
     }
 

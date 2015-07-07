@@ -159,7 +159,13 @@ std::string Tagger::bdt_method_name() const
 
 std::string Tagger::bdt_weight_name() const
 {
-    return name() + "_" + bdt_method_name() + ".weights.xml";
+  return name() + "_" + bdt_method_name() + "." + weight_file_extension() + ".xml";
+}
+
+std::string Tagger::weight_file_extension() const
+{
+  return "weights";
+  return "";
 }
 
 std::string Tagger::weight_branch_name() const
@@ -170,13 +176,18 @@ std::string Tagger::background_name() const
 {
     return background(name());
 }
+std::string Tagger::signal_name() const
+{
+  return signal(name());
+}
+std::string Tagger::signal(const std::string &name) const
+{
+  return name;
+}
 std::string Tagger::background(const std::string &name) const
 {
     return "Not" + name;
-}
-std::string Tagger::signal_name() const
-{
-    return name();
+    return name + "BG";
 }
 void Tagger::SetTreeBranch(exroot::TreeWriter &tree_writer, const Stage stage)
 {

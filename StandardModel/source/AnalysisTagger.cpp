@@ -1,4 +1,4 @@
-#include "AnalysisTagger.hh"
+#include "../include/AnalysisTagger.hh"
 #include "Factory.hh"
 #include <sys/stat.h>
 #include "Debug.hh"
@@ -18,32 +18,32 @@ Analysis::Analysis(Tagger &tagger) : analysis::Analysis::Analysis(tagger)
 std::string Analysis::ProcessName(const Process process) const
 {
     switch (process) {
-    case tt:
+    case Process::tt:
         return "tt";
-    case tt_lep:
+    case Process::tt_lep:
         return "tt_leptonic";
-    case tt_had:
+    case Process::tt_had:
         return "tt_hadronic";
-    case bb:
+    case Process::bb:
         return "bb";
-    case cc:
+    case Process::cc:
         return "cc";
-    case qq:
+    case Process::qq:
         return "qq";
-    case gg:
+    case Process::gg:
         return "gg";
-    case hh:
+    case Process::hh:
         return "hh";
-    case hh_bb:
+    case Process::hh_bb:
         return "hh_bb";
-    case ww:
+    case Process::ww:
         return "ww";
-    case zz:
+    case Process::zz:
         return "zz";
-    case zz_bb:
+    case Process::zz_bb:
         return "zz_bb";
     default:
-        Error("Process Name", "unhandled case", process);
+        Error("Process Name", "unhandled case", to_int(process));
         return "";
     }
 }
@@ -51,14 +51,14 @@ std::string Analysis::ProcessName(const Process process) const
 std::string Analysis::ColliderName(const Collider collider) const
 {
     switch (collider) {
-    case LHC :
+    case Collider::LHC :
         return "14TeV";
-    case FHC:
+    case Collider::FHC:
         return "100TeV";
-    case LE:
+    case Collider::LE:
         return "LE";
     default:
-        Error("Collider name", "unhandled case", collider);
+        Error("Collider name", "unhandled case", to_int(collider));
         return "";
     }
 }
@@ -71,30 +71,30 @@ void Analysis::SetFiles(const Tag tag)
 std::string Analysis::NiceName(const Process process) const
 {
     switch (process) {
-    case bb:
+    case Process::bb:
         return "b";
-    case cc:
+    case Process::cc:
         return "c";
-    case qq:
+    case Process::qq:
         return "q";
-    case gg:
+    case Process::gg:
         return "g";
-    case hh:
+    case Process::hh:
         return "h";
-    case hh_bb:
+    case Process::hh_bb:
         return "h|_{b}";
-    case ww:
+    case Process::ww:
         return "W";
-    case zz:
+    case Process::zz:
         return "Z";
-    case zz_bb:
+    case Process::zz_bb:
         return "Z|_{b}";
-    case tt_had:
+    case Process::tt_had:
         return "t_{h}";
-    case tt_lep:
+    case Process::tt_lep:
         return "t_{l}";
     default:
-        Error("Nice Name", "unhandled case", process);
+        Error("Nice Name", "unhandled case", ProcessName(process));
         return "";
     }
 }
@@ -109,17 +109,17 @@ std::string Analysis::FilePath() const
     return "~/Projects/Tagger/";
 }
 
-void Analysis::NewSignalFile(const standardmodel::Analysis::Process process)
+void Analysis::NewSignalFile(const Process process)
 {
     analysis::Analysis::NewSignalFile(FileName(process), NiceName(process));
 }
 
-void Analysis::NewBackgroundFile(const standardmodel::Analysis::Process process)
+void Analysis::NewBackgroundFile(const Process process)
 {
     analysis::Analysis::NewBackgroundFile(FileName(process), NiceName(process));
 }
 
-std::string Analysis::FileName(const standardmodel::Analysis::Process process) const
+std::string Analysis::FileName(const Process process) const
 {
     return ProcessName(process) + "_" + std::to_string(MadGraphCut()) + "GeV";
 }
@@ -180,11 +180,11 @@ int Analysis::UpperQuarkCut() const
 }
 
 
-standardmodel::Analysis::Collider Analysis::collider_type() const
+Collider Analysis::collider_type() const
 {
-    //       return LHC;
-    //       return FHC;
-    return LE;
+    //       return Collider::LHC;
+    //       return Collider::FHC;
+    return Collider::LE;
 }
 
 int Analysis::BackgroundFileNumber() const
@@ -196,12 +196,12 @@ int Analysis::BackgroundFileNumber() const
     //       return 10;
 }
 
-File Analysis::BackgroundFile(const standardmodel::Analysis::Process process) const
+File Analysis::BackgroundFile(const Process process) const
 {
     return BackgroundFile(process, BackgroundFileNumber());
 }
 
-File Analysis::BackgroundFile(const standardmodel::Analysis::Process process, const int file_sum) const
+File Analysis::BackgroundFile(const Process process, const int file_sum) const
 {
     Strings FileNames;
     for (int file_number = 0; file_number < file_sum; ++file_number) {
@@ -210,7 +210,7 @@ File Analysis::BackgroundFile(const standardmodel::Analysis::Process process, co
     return File(FileNames);
 }
 
-std::string Analysis::BackgroundTree(const standardmodel::Analysis::Process Process) const
+std::string Analysis::BackgroundTree(const Process Process) const
 {
     return ProcessName(Process) + "_" + std::to_string(LowerPtCut()) + "GeV" + "-run_01";
 }

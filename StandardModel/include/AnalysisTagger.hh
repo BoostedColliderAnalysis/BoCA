@@ -8,6 +8,16 @@ namespace analysis
 namespace standardmodel
 {
 
+enum class Process
+{
+    tt, tt_lep, tt_had, hh, hh_bb, zz, zz_bb, ww, bb, cc, qq, gg
+};
+
+enum class Collider
+{
+    LHC, FHC, LE
+};
+
 /**
  *
  * @brief Tagger ananlysis
@@ -25,10 +35,6 @@ protected:
     void SetFiles(const Tag tag);
 
     std::string ProjectName() const;
-
-    enum Process {tt, tt_lep, tt_had, hh, hh_bb, zz, zz_bb, ww, bb, cc, qq, gg};
-
-    enum Collider {LHC, FHC, LE};
 
     virtual std::string FilePath() const;
 
