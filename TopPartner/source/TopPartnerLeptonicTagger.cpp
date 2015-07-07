@@ -33,7 +33,7 @@ int TopPartnerLeptonicTagger::Train(const Event &event, PreCuts &pre_cuts, const
     return SaveEntries(BestMatches(quartets, top_partner, tag), 2);
 }
 
-std::vector<Quartet22> TopPartnerLeptonicTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const const
+std::vector<Quartet22> TopPartnerLeptonicTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const
 {
     std::vector< Doublet> top_doublets = top_reader_.Multiplets(event);
     std::vector< Doublet> z_doublets = higgs_hadronic_reader_.Multiplets(event);
