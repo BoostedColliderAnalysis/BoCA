@@ -31,7 +31,7 @@ int TopPartnerLeptonicPairTagger::Train(const Event &event, PreCuts &pre_cuts, c
     return SaveEntries(nonets,1);
 }
 
-std::vector<Nonet> TopPartnerLeptonicPairTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const const
+std::vector<Nonet> TopPartnerLeptonicPairTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const
 {
   Info();
   std::vector< Quintet> quintets = top_partner_hadronic_reader_.Multiplets(event);
@@ -47,8 +47,6 @@ std::vector<Nonet> TopPartnerLeptonicPairTagger::Multiplets(const Event &event, 
     }
     return ReduceResult(nonets);
 }
-std::vector<Nonet> TopPartnerLeptonicPairTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const const
-
 
 }
 

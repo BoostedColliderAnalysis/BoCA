@@ -66,7 +66,7 @@ bool HiggsTagger::Problematic(const Doublet &doublet, PreCuts &pre_cuts) const
     return false;
 }
 
-std::vector<Doublet>  HiggsTagger::Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const const
+std::vector<Doublet>  HiggsTagger::Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const
 {
     Info();
     Jets jets =  bottom_reader_.Multiplets(event);

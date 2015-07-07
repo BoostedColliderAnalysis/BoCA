@@ -5,11 +5,9 @@
 #include "TClonesArray.h"
 #include "Predicate.hh"
 #include "exroot/ExRootAnalysis.hh"
-// #include "Debug.hh"
 
 namespace analysis
 {
-
 
 template<typename Branch>
 class BranchTagger : public Tagger
@@ -17,16 +15,8 @@ class BranchTagger : public Tagger
 
 protected:
 
-//   BranchTagger() {
-//       std::cout << this->name() << std::endl;
-//         DefineVariables();
-//     }
-
     template<typename Multiplet>
     std::vector<Multiplet> ReduceResult(std::vector<Multiplet> &multiplets, const std::size_t max = 4) const {
-//         multiplets.erase(std::remove_if(multiplets.begin(), multiplets.end(), [&](Multiplet & multiplet) {
-//             return multiplet.IsEmpty();
-//         }), multiplets.end());
         if (multiplets.empty()) return multiplets;
         std::sort(multiplets.begin(), multiplets.end());
         multiplets.erase(multiplets.begin() + std::min(max, multiplets.size()), multiplets.end());
@@ -70,9 +60,6 @@ protected:
 
     template<typename Multiplet>
     std::vector<Multiplet> BestMatches(std::vector<Multiplet> &multiplets, const Jets &particles, const Tag tag) const {
-//         multiplets.erase(std::remove_if(multiplets.begin(), multiplets.end(), [&](Multiplet & multiplet) {
-//             return multiplet.IsEmpty();
-//         }), multiplets.end());
         std::sort(multiplets.begin(), multiplets.end());
         switch (tag) {
         case Tag::signal :
@@ -109,21 +96,14 @@ protected:
     }
 
     int SaveEntries(const std::vector<fastjet::PseudoJet> &jets, std::size_t max = LargeNumber()) const {
-//       std::cout << jets.size() << std::endl;
         if (jets.empty()) return 0;
         const int sum = std::min(jets.size(), max);
         for (int counter = 0 ; counter < sum; ++counter) {
             FillBranch(Singlet(jets.at(counter)));
-//             std::cout << "new entry 1 " << Branch.Mass << std::endl;
             static_cast<Branch &>(*tree_branch().NewEntry()) = branch();
-//             std::cout << "new entry 2" << std::endl;
         }
         return jets.size();
     }
-
-//     int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const {
-//       return SaveEntries(Multiplets(event,pre_cuts, reader));
-//     }
 
     TClass &Class() const {
         return *Branch::Class();
@@ -131,11 +111,6 @@ protected:
 
     Branch &branch() const {
         return branch_;
-    }
-
-    float ReadBdt(const TClonesArray &clones_array, const int entry) const {
-        return static_cast<Branch &>(*clones_array.At(entry)).Bdt;
-//         return dynamic_cast<Branch &>(*clones_array.At(entry)).Bdt;
     }
 
     template<typename Multiplet>
@@ -149,46 +124,28 @@ protected:
         return Tagger::Bdt(reader);
     }
 
-
-
     virtual void DefineVariables() {
-//         Info();
         ClearObservables();
         AddVariables();
         AddSpectators();
-//             signal_file_names_ = {name()};
-//             background_file_names_ = {background(name())};
     }
-
-//     auto Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
-//
-//     int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const {
-//       return SaveEntries(Multiplets(event, pre_cuts, reader));
-//     }
-//     virtual std::string name() const = 0;
-//     {
-//         std::cout << "we do not want to end up here" << std::endl;
-//         return "Tagger";
-//     };
 
 private:
 
+    float ReadBdt(const TClonesArray &clones_array, const int entry) const {
+        return static_cast<Branch &>(*clones_array.At(entry)).Bdt;
+    }
+
     void AddVariables() {
-        for (auto & variable : branch().Variables()) {
-            AddVariable(variable.first, variable.second);
-        }
+        for (const auto & variable : branch().Variables()) AddVariable(variable.first, variable.second);
     }
 
     void AddSpectators() {
-        for (auto & spectator : branch().Spectators()) {
-            AddSpectator(spectator.first, spectator.second);
-        }
+        for (const auto & spectator : branch().Spectators()) AddSpectator(spectator.first, spectator.second);
     }
 
     template<typename Multiplet>
     void FillBranch(const Multiplet &multiplet) const {
-//         Info();
-//         std::cout << "fill" << std::endl;
         branch_.Fill(multiplet);
     }
 

@@ -49,8 +49,6 @@ public:
 
     std::string branch_name() const;
 
-//     void set_tagger_name(const std::string &tagger_name);
-
     virtual std::string name() const = 0;
 
     std::string factory_name() const;
@@ -117,11 +115,7 @@ protected:
 
     Observable NewObservable(float &value, const std::string &title) const;
 
-    Observable NewObservable(float &value, const std::string &title, const std::string &latex) const;
-
     void AddVariable(float &value, const std::string &title);
-
-    void AddVariable(float &value, const std::string &title, const std::string &latex);
 
     void AddSpectator(float &value, const std::string &title);
 
