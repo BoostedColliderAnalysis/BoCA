@@ -1,12 +1,16 @@
 #pragma once
 
-#include "AnalysisTagger.hh"
+#include "AnalysisStandardModel.hh"
 
 namespace analysis
 {
 
-  namespace standardmodel
+namespace standardmodel
 {
+
+enum Production {DYP, VBF, Associated};
+
+std::string Name(const Production production_channel);
 
 /**
  *
@@ -15,26 +19,59 @@ namespace analysis
  * @author Jan Hajer
  *
  */
-class AnalysisBottom : public analysis::standardmodel::Analysis
+template<typename Tagger>
+class AnalysisBottom : public analysis::standardmodel::AnalysisStandardModel<Tagger>
 {
 
 public:
 
-    AnalysisBottom(Tagger &tagger);
+    AnalysisBottom() {
+        this->tagger().set_analysis_name(ProjectName());
+        this->pre_cuts().SetPtLowerCut(Id::bottom, this->LowerPtCut());
+        this->pre_cuts().SetPtUpperCut(Id::bottom, this->UpperPtCut());
+        this->pre_cuts().SetTrackerMaxEta(Id::bottom, DetectorGeometry().TrackerEtaMax());
+        this->pre_cuts().SetSubJets(false);
+    }
 
 private:
 
-    enum ProductionChannel {DYP, VBF, Associated};
+    std::string ProjectName() const {
+      return  Name(production_channel()) + Name(this->collider_type()) + "_" + std::to_string(this->MadGraphCut()) + "GeV-new";
+    }
 
-    ProductionChannel production_channel() const;
 
-    std::string ProjectName() const;
+    Production production_channel() const {
+        return DYP;
+        //         return VBF;
+        //         return Associated;
+    }
 
-    std::string ProductionChannelName(const ProductionChannel production_channel) const;
+    void SetFiles(const Tag tag) {
+        switch (tag) {
+        case Tag::signal :
+          this->NewFile(tag, Process::bb);
+            //     NewFile(tag,Process::tt);
+            //     NewFile(tag,Process::bb);
+            break;
+        case Tag::background :
+          this->NewFile(tag, Process::cc);
+            //     NewFile(tag,Process::tt);
+            //     NewFile(tag,Process::ttcc);
+            //     NewFile(tag,Process::ttjj);
+          this->NewFile(tag, Process::qq);
+          this->NewFile(tag, Process::gg);
+            //     NewFile(tag,Process::hh);
+          this->NewFile(tag, Process::ww);
+            break;
+        }
 
-    void SetFiles(const Tag Tag);
+    }
 
-    int PassPreCut(const Event &event);
+    int PassPreCut(const Event &event) {
+        Jets jets = event.Hadrons().Jets();
+        jets = remove_if_not_in_pt_window(jets, this->LowerPtCut(), this->UpperPtCut());
+        return jets.size();
+    }
 
 };
 
