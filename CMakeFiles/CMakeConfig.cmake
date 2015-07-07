@@ -41,7 +41,7 @@ macro(HSource source_directory)
     CACHE INTERNAL SourceDirectory FORCE
   )
   include_directories(${ARGV1} ${IncludeDirectory})
-endmacro(HInclude)
+endmacro(HSource)
 
 macro(HLibrary library_name library_source)
   message("Library:      ${library_name} <- ${${library_source}} ${ARGV2}")
