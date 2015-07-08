@@ -8,7 +8,10 @@ namespace analysis
 namespace standardmodel
 {
 
-enum class Production {DYP, VBF, Associated};
+enum class Production
+{
+    DYP, VBF, Associated
+};
 
 std::string Name(const Production production_channel);
 
@@ -35,39 +38,39 @@ public:
 
 private:
 
-    std::string ProjectName() const {
-      return  Name(production_channel()) + Name(this->collider_type()) + "_" + std::to_string(this->MadGraphCut()) + "GeV-new";
+    std::string ProjectName() const final {
+        return  Name(production_channel()) + Name(this->collider_type()) + "_" + std::to_string(this->MadGraphCut()) + "GeV-new";
     }
 
 
     Production production_channel() const {
-      return Production::DYP;
-      //         return Production::VBF;
-      //         return Production::Associated;
+        return Production::DYP;
+        //         return Production::VBF;
+        //         return Production::Associated;
     }
 
-    void SetFiles(const Tag tag) {
+    void SetFiles(const Tag tag) final {
         switch (tag) {
         case Tag::signal :
-          this->NewFile(tag, Process::bb);
+            this->NewFile(tag, Process::bb);
             //     NewFile(tag,Process::tt);
             //     NewFile(tag,Process::bb);
             break;
         case Tag::background :
-          this->NewFile(tag, Process::cc);
+            this->NewFile(tag, Process::cc);
             //     NewFile(tag,Process::tt);
             //     NewFile(tag,Process::ttcc);
             //     NewFile(tag,Process::ttjj);
-          this->NewFile(tag, Process::qq);
-          this->NewFile(tag, Process::gg);
+            this->NewFile(tag, Process::qq);
+            this->NewFile(tag, Process::gg);
             //     NewFile(tag,Process::hh);
-          this->NewFile(tag, Process::ww);
+            this->NewFile(tag, Process::ww);
             break;
         }
 
     }
 
-    int PassPreCut(const Event &event) {
+    int PassPreCut(const Event &event) const final {
         Jets jets = event.Hadrons().Jets();
         jets = remove_if_not_in_pt_window(jets, this->LowerPtCut(), this->UpperPtCut());
         return jets.size();

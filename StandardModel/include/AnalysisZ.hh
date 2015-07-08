@@ -31,7 +31,7 @@ public:
 
 private:
 
-    void SetFiles(const Tag tag) {
+    void SetFiles(const Tag tag) final {
         switch (tag) {
         case Tag::signal :
           this->NewFile(tag, Process::zz);
@@ -48,11 +48,11 @@ private:
         }
     }
 
-    std::string ProjectName() const {
+    std::string ProjectName() const final {
       return  "ZTagger-" + Name(this->collider_type()) + "-" + std::to_string(this->PreCut()) + "GeV-test";
     }
 
-    int PassPreCut(const Event &event) {
+    int PassPreCut(const Event &event) const final {
         Jets leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
         if (leptons.empty()) return 1;
         if (leptons.front().pt() < 80) return 1;

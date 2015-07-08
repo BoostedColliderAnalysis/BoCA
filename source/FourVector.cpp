@@ -296,9 +296,9 @@ void FourVector::PrintTruthLevel(const analysis::Severity severity) const
     }
 }
 
-std::string FourVector::PrintParticle(const int Position) const
+std::string FourVector::PrintParticle(const int position) const
 {
-    if (Position != -1) return Name(static_cast<::delphes::GenParticle &>(clones_arrays().Particle(Position)).PID);
+    if (position != -1) return Name(static_cast<::delphes::GenParticle &>(clones_arrays().Particle(position)).PID);
     else return " ";
 }
 

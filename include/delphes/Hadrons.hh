@@ -18,9 +18,8 @@ class Hadrons : public analysis::Hadrons
 {
 
 public:
-//         NewEvent(*clones_arrays_);
 
-    analysis::Jets Jets() const {
+    analysis::Jets Jets() const final {
         switch (DetectorGeometry().jet_type()) {
         case JetType::jet :
           return DelphesJets(JetDetail::structure);
@@ -31,9 +30,9 @@ public:
         }
     }
 
-    float ScalarHt() const;
+    float ScalarHt() const final;
 
-    fastjet::PseudoJet MissingEt()const;
+    fastjet::PseudoJet MissingEt() const final;
 
     analysis::Jets UniqueJets() const;
 
@@ -57,8 +56,8 @@ private:
 //         Detail("Jet Id", clone.Particles.GetEntriesFast());
         JetInfo jet_info;
 //         if(clone.IsA() == ::delphes::Jet::Class()) jet_info.SetDelphesTags(clone);
-        for (const int ParticleNumber : Range(clone.Particles.GetEntriesFast())) {
-            const Family family = BranchFamily(*clone.Particles.At(ParticleNumber));
+        for (const int particle_number : Range(clone.Particles.GetEntriesFast())) {
+            const Family family = BranchFamily(*clone.Particles.At(particle_number));
 //             Debug("MotherId", family.particle().Id, family.mother_1().Id);
             jet_info.AddConstituent(Constituent(const_cast<Clone &>(clone).P4(), family));
         }

@@ -30,7 +30,7 @@ public:
         this->tagger().set_analysis_name(ProjectName());
     }
 
-    void SetFiles(const Tag tag) {
+    void SetFiles(const Tag tag) final {
         switch (tag) {
         case Tag::signal :
             this->NewFile(tag, Process::Hbb);
@@ -41,7 +41,7 @@ public:
         }
     }
 
-    std::string ProjectName() const {
+    std::string ProjectName() const final {
         //        return  ProcessName() + "-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV-" + std::to_string(Mass()) + "GeV-Eta2.5";
         return  ProcessName() + "-" + Name(this->collider_type()) + "-" + std::to_string(this->PreCut()) + "GeV-" + std::to_string(this->Mass()) + "GeV";
     };
@@ -103,11 +103,11 @@ private:
         }
     }
 
-    std::string ProcessName() const {
+    std::string ProcessName() const override {
         return "Neutral";
     }
 
-    int PassPreCut(const Event &event) {
+    int PassPreCut(const Event &event) const override {
         Jets Particles = event.Partons().GenParticles();
         Jets Tops = RemoveIfWrongAbsParticle(Particles, Id::top);
         if (Tops.size() != 2) {

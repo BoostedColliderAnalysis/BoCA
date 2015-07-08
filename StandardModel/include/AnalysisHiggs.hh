@@ -33,34 +33,34 @@ public:
 
 private:
 
-    void SetFiles(const Tag tag) {
+    void SetFiles(const Tag tag) final {
         switch (tag) {
         case Tag::signal :
-          this->NewFile(tag, Process::hh_bb);
-          if (this->tagger().name() == "Bottom") this->NewFile(tag, Process::bb);
-          if (this->tagger().name() == "Bottom") this->NewFile(tag, Process::tt_had);
-          if (this->tagger().name() == "Bottom") this->NewFile(tag, Process::tt_lep);
+            this->NewFile(tag, Process::hh_bb);
+            if (this->tagger().name() == "Bottom") this->NewFile(tag, Process::bb);
+            if (this->tagger().name() == "Bottom") this->NewFile(tag, Process::tt_had);
+            if (this->tagger().name() == "Bottom") this->NewFile(tag, Process::tt_lep);
             break;
         case Tag::background :
-          if (this->tagger().name() != "Bottom") this->NewFile(tag, Process::tt_had);
-          if (this->tagger().name() != "Bottom") this->NewFile(tag, Process::tt_lep);
-          this->NewFile(tag, Process::zz);
-          this->NewFile(tag, Process::ww);
-          if (this->tagger().name() != "Bottom") this->NewFile(tag, Process::bb);
-          this->NewFile(tag, Process::cc);
-          this->NewFile(tag, Process::qq);
-          this->NewFile(tag, Process::gg);
+            if (this->tagger().name() != "Bottom") this->NewFile(tag, Process::tt_had);
+            if (this->tagger().name() != "Bottom") this->NewFile(tag, Process::tt_lep);
+            this->NewFile(tag, Process::zz);
+            this->NewFile(tag, Process::ww);
+            if (this->tagger().name() != "Bottom") this->NewFile(tag, Process::bb);
+            this->NewFile(tag, Process::cc);
+            this->NewFile(tag, Process::qq);
+            this->NewFile(tag, Process::gg);
             break;
         }
 
     }
 
-    std::string ProjectName() const {
-      return  "HiggsTagger-" + Name(this->collider_type()) + "-" + std::to_string(this->LowerPtCut()) + "GeV-bb";
+    std::string ProjectName() const final {
+        return  "HiggsTagger-" + Name(this->collider_type()) + "-" + std::to_string(this->LowerPtCut()) + "GeV-bb";
     }
 
 
-    int PassPreCut(const Event &event) {
+    int PassPreCut(const Event &event) const final {
         Jets jets = fastjet::sorted_by_pt(event.Hadrons().Jets());
         if (jets.empty()) return 0;
         if (jets.front().pt() < this->LowerPtCut()) return 0;

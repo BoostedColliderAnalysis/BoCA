@@ -32,7 +32,7 @@ public:
 
     int WHadronicId(const Event &event) const;
 
-    std::string name() const {
+    std::string name() const final {
       return "WHadronic";
     }
 

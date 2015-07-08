@@ -105,7 +105,7 @@ protected:
         return jets.size();
     }
 
-    TClass &Class() const {
+    TClass &Class() const final {
         return *Branch::Class();
     }
 
@@ -124,7 +124,7 @@ protected:
         return Tagger::Bdt(reader);
     }
 
-    virtual void DefineVariables() {
+    void DefineVariables() override {
         ClearObservables();
         AddVariables();
         AddSpectators();
@@ -132,7 +132,7 @@ protected:
 
 private:
 
-    float ReadBdt(const TClonesArray &clones_array, const int entry) const {
+    float ReadBdt(const TClonesArray &clones_array, const int entry) const final {
         return static_cast<Branch &>(*clones_array.At(entry)).Bdt;
     }
 

@@ -50,7 +50,7 @@ public:
         return tracker_eta_upper_cut_[id];
     }
 
-    bool DoSubJets()const {
+    bool DoSubJets() const {
         return do_sub_jets_;
     }
 

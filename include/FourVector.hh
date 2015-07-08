@@ -144,7 +144,7 @@ protected:
 
     int source_;
 
-    JetTag &jet_tag()const {
+    JetTag &jet_tag() const {
         return *jet_tag_;
     }
 

@@ -17,19 +17,19 @@ public:
 
     TopHadronicTagger();
 
-    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const;
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const final;
 
     int TopHadronicId(const Event &event) const {
         return sgn(w_hadronic_reader_.tagger().WHadronicId(event)) * to_int(Id::top);
     }
 
-    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const {
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
         return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
     }
 
     std::vector<analysis::Triplet> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
 
-    std::string name() const {
+    std::string name() const final {
       return "TopHadronic";
     }
 

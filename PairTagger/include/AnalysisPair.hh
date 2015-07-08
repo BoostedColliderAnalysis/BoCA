@@ -34,7 +34,7 @@ public:
 
     std::vector<analysis::File> Files(const analysis::Tag tag);
 
-    void SetFiles(const analysis::Tag tag){};
+    void SetFiles(const analysis::Tag tag) {};
 
      std::string ProjectName() const {
         return  DetectorName(Detector()) + "-eta3.5";
@@ -47,7 +47,7 @@ private:
     enum HProductionChannel {DYP, VBF, Associated};
     enum HDetectorType {LHC, FHC, LE};
 
-     int EventNumberMax() const {
+     long EventNumberMax() const {
 //         return 1000000;
 //         return 100000;
         return 10000;

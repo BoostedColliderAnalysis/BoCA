@@ -54,13 +54,13 @@ public:
     }
 
 private:
-  void SetFiles(const analysis::Tag tag){};
+  void SetFiles(const analysis::Tag tag) {};
 
     enum ProcessType {bb, cc, jj, qq, gg, Hbb, ttbb, ttcc, ttjj, ttqq, ttgg, bbbb, bbjj, bbcc, bbqq, bbgg};
     enum HProductionChannel {DYP, VBF, Associated, Simple};
     enum HDetectorType {LHC, FHC, LE};
 
-     int EventNumberMax() const {
+     long EventNumberMax() const {
 //         return 1000000;
 //         return 100000;
         return 10000;

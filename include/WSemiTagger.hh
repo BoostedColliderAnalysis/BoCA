@@ -21,7 +21,7 @@ public:
 
     std::vector<Doublet> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
 
-    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const {
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
       return SaveEntries(Multiplets(event,pre_cuts, reader));
     }
 
@@ -29,7 +29,7 @@ public:
         return WSemiId(WSemiDaughters(event));
     }
 
-    std::string name() const {
+    std::string name() const final {
       return "WSemi";
     }
 
@@ -41,9 +41,9 @@ private:
 
     Tag GetTag(const Doublet &doublet) const;
 
-    std::vector< Doublet > ReconstructNeutrino(const Doublet &doublet)const;
+    std::vector< Doublet > ReconstructNeutrino(const Doublet &doublet) const;
 
-    std::vector<Doublet> GetNeutrino(const Doublet &doublet, const Jets &Neutrinos, const Tag Tag)const;
+    std::vector<Doublet> GetNeutrino(const Doublet &doublet, const Jets &Neutrinos, const Tag Tag) const;
 
     float w_mass_window_ = 20;
 

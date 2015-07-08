@@ -84,7 +84,7 @@ public:
 
     TCut cut() const;
 
-    virtual void set_analysis_name(const std::string &analysis_name);
+    void set_analysis_name(const std::string &analysis_name);
 
     std::string bdt_method_name() const;
 

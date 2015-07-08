@@ -35,20 +35,20 @@ public:
      * @brief Maximal number of Entries to analyse
      *
      */
-     int EventNumberMax() const {
+     long EventNumberMax() const {
         return 1000;
     }
 
 protected:
 
 
-    virtual  std::string FilePath() const {
+    std::string FilePath() const {
         return "~/Projects/HiggsCpv/Analysis/";
     }
 
 private:
 
-    int PassPreCut(const Event &event);
+    int PassPreCut(const Event &event) const;
 
 };
 

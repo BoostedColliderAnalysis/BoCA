@@ -16,11 +16,11 @@ public:
 
   using Multiplet<analysis::Quintet, analysis::Quartet22>::Multiplet;
 
-   analysis::Quintet Quintet()const {
+   analysis::Quintet Quintet() const {
         return Multiplet1();
     }
 
-     Quartet22 Quartet()const {
+     Quartet22 Quartet() const {
         return Multiplet2();
     }
 

@@ -22,8 +22,8 @@ Jets Partons::Particles(const Status max_status) const
 {
     Info(clones_arrays().ParticleSum());
     Jets particles;
-    for (const int ParticleNumber : Range(clones_arrays().ParticleSum())) {
-        TRootLHEFParticle &particle = static_cast<TRootLHEFParticle &>(clones_arrays().Particle(ParticleNumber));
+    for (const int particle_number : Range(clones_arrays().ParticleSum())) {
+        TRootLHEFParticle &particle = static_cast<TRootLHEFParticle &>(clones_arrays().Particle(particle_number));
         if (particle.Status < to_int(max_status)) break;
         Family family(particle.PID);
         Constituent constituent(LorentzVector(particle), family);
