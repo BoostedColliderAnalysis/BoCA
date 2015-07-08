@@ -25,7 +25,7 @@ public:
         this->tagger().set_analysis_name(ProjectName());
     }
 
-    void SetFiles(const Tag tag) {
+    void SetFiles(const Tag tag) final {
         switch (tag) {
         case Tag::signal :
             this->NewFile(tag, Process::Htb);
@@ -36,11 +36,11 @@ public:
         }
     }
 
-    std::string ProcessName()const {
+    std::string ProcessName() const {
         return "Charged";
     }
 
-    std::string ProjectName() const {
+    std::string ProjectName() const final {
         return  ProcessName() + "-" + Name(this->collider_type()) + "-" + std::to_string(this->PreCut()) + "GeV-" + std::to_string(this->Mass()) + "GeV";
     }
 
@@ -104,7 +104,7 @@ private:
         }
     }
 
-    int PassPreCut(const Event &event) {
+    int PassPreCut(const Event &event) const {
 //         Info("pass pre cut");
         Jets Particles = event.Partons().GenParticles();
         Jets Quarks = fastjet::sorted_by_pt(RemoveIfNot5Quarks(Particles));

@@ -27,7 +27,7 @@ public:
 
     std::vector<Sextet> Multiplets(const Event &event, const TMVA::Reader &reader) const;
 
-    std::string name() const {
+    std::string name() const final {
       return "TripletJetJetPair";
     }
 

@@ -44,7 +44,7 @@ void Factory::AddVariables()
         factory().AddSpectator(spectator.expression(), spectator.title(), spectator.unit(), spectator.type());
 }
 
-int Factory::GetTrees()
+long Factory::GetTrees()
 {
     Note();
 //     for (const auto & signal_name : tagger().signal_file_names()) {
@@ -54,7 +54,7 @@ int Factory::GetTrees()
     if (gSystem->AccessPathName(signal_file_name.c_str())) Error("File not found", signal_file_name);
     TFile &signal_file = *TFile::Open(signal_file_name.c_str());
     Note("Signal File", signal_file.GetName(), tagger().signal_tree_names().size());
-    int signal_number = 0;
+    long signal_number = 0;
     for (int tree_number : Range(tagger().signal_tree_names().size())) {
         Note("signal Tree Name", tagger().signal_tree_names()[tree_number]);
         signal_number += AddTree(signal_file, tagger().signal_tree_names()[tree_number], Tag::signal);
@@ -67,17 +67,17 @@ int Factory::GetTrees()
     if (gSystem->AccessPathName(background_file_name.c_str())) Error("File not found", background_file_name);
     TFile &background_file = *TFile::Open(background_file_name.c_str());
     Note("Background File", background_file.GetName(), tagger().background_tree_names().size());
-    int background_number = 0;
+    long background_number = 0;
     for (const auto & background_tree_name : tagger().background_tree_names()) {
         Note("Background Tree Name", background_tree_name);
         background_number += AddTree(background_file, background_tree_name, Tag::background);
     }
 //     }
-    Error("event Numbers", signal_number, background_number);
+    Error(signal_number, background_number);
     return std::min(signal_number, background_number) / 2;
 }
 
-int Factory::AddTree(TFile &file, const std::string &tree_name, const Tag tag)
+long Factory::AddTree(TFile &file, const std::string &tree_name, const Tag tag)
 {
     Error("Add Tree", tree_name);
     if (!file.GetListOfKeys()->Contains(tree_name.c_str()))return 0;
@@ -97,7 +97,7 @@ int Factory::AddTree(TFile &file, const std::string &tree_name, const Tag tag)
         factory().AddBackgroundTree(&tree, crosssection);
         break;
     }
-    int entries = 0;
+    long entries = 0;
     TClonesArray &event_clones_array = *tree_reader.UseBranch(tagger().branch_name().c_str());
     for (int entry = 0; entry < tree_reader.GetEntries(); ++entry) {
         tree_reader.ReadEntry(entry);
@@ -106,7 +106,7 @@ int Factory::AddTree(TFile &file, const std::string &tree_name, const Tag tag)
     return entries;
 }
 
-void Factory::PrepareTrainingAndTestTree(const int event_number)
+void Factory::PrepareTrainingAndTestTree(const long event_number)
 {
     Error("PrepareTrainingAndTestTree");
     std::string number_options = "nTrain_Background=" + std::to_string(event_number) + ":nTest_Background=" + std::to_string(event_number) + ":nTrain_Signal=" + std::to_string(event_number) + ":nTest_Signal=" + std::to_string(event_number);

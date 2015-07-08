@@ -116,7 +116,7 @@ Jets CopyIfAbsParticle(const Jets &jets, const Id id_1, const Id id_2);
 
 Jets copy_if_neutrino(const Jets &jets);
 
-Jets copy_if_particle(const Jets &jets, const int id);
+Jets CopyIfParticle(const Jets &jets, const int id);
 
 Jets remove_if_particle(const Jets &jets, const int id);
 

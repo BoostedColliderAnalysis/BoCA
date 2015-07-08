@@ -3,12 +3,12 @@
 namespace analysis
 {
 
-Doublet &Quartet22::Doublet1()const
+Doublet &Quartet22::Doublet1() const
 {
     return Multiplet1();
 }
 
-Doublet &Quartet22::Doublet2()const
+Doublet &Quartet22::Doublet2() const
 {
     return Multiplet2();
 }
@@ -16,11 +16,6 @@ Doublet &Quartet22::Doublet2()const
 Triplet &Quartet31::Triplet() const
 {
     return Multiplet1();
-}
-
-fastjet::PseudoJet Quartet31::SingletJet() const
-{
-    return Multiplet2().Jet();
 }
 
 Singlet &Quartet31::Singlet() const

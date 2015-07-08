@@ -37,7 +37,7 @@ public:
 //       return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
-    std::string name() const {
+    std::string name() const final {
       return "EventBottom";
     }
 

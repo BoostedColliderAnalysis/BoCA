@@ -42,15 +42,6 @@ class AnalysisHeavyHiggs : public Analysis<Tagger>
 
 public:
 
-  AnalysisHeavyHiggs() {
-    this->tagger().set_analysis_name(ProjectName());
-  }
-
-    std::string ProjectName() const {
-        //        return  ProcessName() + "-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV-" + std::to_string(Mass()) + "GeV-Eta2.5";
-        return  this->ProcessName() + "-" + Name(collider_type()) + "-" + std::to_string(PreCut()) + "GeV-" + std::to_string(Mass()) + "GeV";
-    };
-
     int Mass() const {
         //     return 300;
         //     return 400;
@@ -115,7 +106,7 @@ public:
         }
     };
 
-    int EventNumberMax() const {
+    long EventNumberMax() const override {
         //            return 10000000;
         //                   return 1000000;
         //         return 100000;
@@ -131,7 +122,7 @@ public:
         //        return LE;
     };
 
-    float MissingEt() {
+    float MissingEt() const {
         switch (collider_type()) {
         case Collider::LHC :
             return 30;
@@ -142,7 +133,7 @@ public:
         }
     };
 
-    float LeptonPt() {
+    float LeptonPt() const {
         switch (collider_type()) {
         case Collider::LHC :
             return 50;
@@ -168,9 +159,9 @@ public:
         case Collider::LE:
             switch (PreCut()) {
             case 0 :
-              return 3564 * 2 * 1000;
+                return 3564 * 2 * 1000;
             case 300 :
-              return 178.1 * 2 * 1000;
+                return 178.1 * 2 * 1000;
             case 1000 :
                 return 1.532 * 2 * 1000;
             case 1500 :
@@ -178,7 +169,7 @@ public:
             case 2000 :
                 return 0.09014 * 2 * 1000;
             case 2500 :
-              return 0.0222 * 2 * 1000;
+                return 0.0222 * 2 * 1000;
             default:
                 std::cout << "unhandled case" << std::endl;
                 return 1;
@@ -186,53 +177,52 @@ public:
         }
     }
 
-    int BackgroundFileNumber() const
-    {
-      switch (collider_type()) {
+    int BackgroundFileNumber() const {
+        switch (collider_type()) {
         case Collider::LHC :
-          switch (PreCut()) {
+            switch (PreCut()) {
             case  0 :
-              return 127;
+                return 127;
             case  250 :
-              return 41;
-              //                 return 1; // < this must be removed !!
+                return 41;
+                //                 return 1; // < this must be removed !!
             default :
-              return 1;
-          }
-            case Collider::LE :
-              switch (PreCut()) {
-                case  0 :
-                  return 118;
-                  //                 return 1; // < this must be removed !!
-                case  100 :
-                  return 15;
-                case  250 :
-                  return 15;
-                case  300 :
-                  return 110;
-                  //                 return 1; // < this must be removed !!
-                case  1000 :
-                  return 32;
-                case  1500 :
-                  return 34;
-                case  2000 :
-                  return 26;
-                case  2500 :
-                  return 11;
-                default :
-                  return 1;
-              }
-                default :
-                  return 1;
-      }
+                return 1;
+            }
+        case Collider::LE :
+            switch (PreCut()) {
+            case  0 :
+                return 118;
+                //                 return 1; // < this must be removed !!
+            case  100 :
+                return 15;
+            case  250 :
+                return 15;
+            case  300 :
+                return 110;
+                //                 return 1; // < this must be removed !!
+            case  1000 :
+                return 32;
+            case  1500 :
+                return 34;
+            case  2000 :
+                return 26;
+            case  2500 :
+                return 11;
+            default :
+                return 1;
+            }
+        default :
+            return 1;
+        }
     }
 
     virtual void NewFile(const Tag tag, const Process process) {
-      analysis::AnalysisBase::NewFile(tag, FileName(process), NiceName(process));
+        analysis::AnalysisBase::NewFile(tag, FileName(process), NiceName(process));
     }
 
     virtual std::string FileName(const Process process) const {
-      return Name(process) + "_" + std::to_string(PreCut()) + "GeV";
+        return Name(process) + "_" + std::to_string(PreCut()) + "GeV";
     }
 
 private:

@@ -27,11 +27,11 @@ public:
 
 protected:
 
-    std::string ProjectName() const {
+    std::string ProjectName() const final {
         return  std::to_string(PreCut()) + "GeV-test2";
     }
 
-    void SetFiles(const Tag tag) {
+    void SetFiles(const Tag tag) final {
         switch (tag) {
         case Tag::signal :
             //         NewFile(tag,"pp-Tth-bbbbjjjjlv");
@@ -54,12 +54,12 @@ protected:
         return "toppartner";
     }
 
-    int EventNumberMax() const {
+    long EventNumberMax() const override {
         return 3000;
         return 1000;
     }
 
-    virtual  std::string FilePath() const {
+    std::string FilePath() const final {
         return "~/Projects/TopPartner/Analysis/";
     }
 
@@ -74,7 +74,7 @@ private:
         return 2000;
     }
 
-    int PassPreCut(const Event &event) {
+    int PassPreCut(const Event &event) const {
         Jets particles = event.Partons().GenParticles();
         particles = RemoveIfSoft(particles, PreCut());
         Jets tops = CopyIfAbsParticle(particles, Id::top);

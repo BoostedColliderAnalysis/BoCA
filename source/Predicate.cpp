@@ -292,7 +292,7 @@ struct IsId {
     int id_;
 };
 
-Jets copy_if_particle(const Jets &jets, const int id)
+Jets CopyIfParticle(const Jets &jets, const int id)
 {
     Jets final_jets(jets.size());
     auto iterator = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), IsId(id));

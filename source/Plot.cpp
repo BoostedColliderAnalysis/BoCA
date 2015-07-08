@@ -357,10 +357,10 @@ Result Plot::BdtDistribution(exroot::TreeReader &tree_reader, const std::string 
     TClonesArray &event_clones_array = *tree_reader.UseBranch(branch_name.c_str());
     exroot::TreeWriter tree_writer(&export_file, tree_name.c_str());
     exroot::TreeBranch &result_branch = *tree_writer.NewBranch(branch_name.c_str(), ResultBranch::Class());
-    int entries = 0;
+    long entries = 0;
     for (const int event_number : Range(tree_reader.GetEntries())) {
         tree_reader.ReadEntry(event_number);
-        for (const int entry : Range(event_clones_array.GetEntriesFast())) {
+        for (const auto & entry : Range(event_clones_array.GetEntriesFast())) {
             float bdt_value = tagger().ReadBdt(event_clones_array, entry);
             result.bdt.emplace_back(bdt_value);
             Check(bdt_value > 0 && bdt_value < 2, "Bdt Value" , bdt_value);
@@ -549,7 +549,7 @@ int Result::event_sum() const
 //         return info_branch.EventNumber;
     return event_sum_;
 }
-void Result::set_event_sum(const int event_sum)
+void Result::set_event_sum(const long event_sum)
 {
     event_sum_ = event_sum;
 }

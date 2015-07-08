@@ -13,9 +13,4 @@ Singlet &Triplet::Singlet() const
     return Multiplet2();
 }
 
-fastjet::PseudoJet Triplet::SingletJet() const
-{
-    return Multiplet2().Jet();
-}
-
 }

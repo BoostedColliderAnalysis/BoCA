@@ -22,15 +22,15 @@ public:
 
     SignatureChargedTagger();
 
-    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const;
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const final;
 
     std::vector<Octet44> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
 
-    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const {
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
       return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
-    std::string name() const {
+    std::string name() const final {
       return "SignatureCharged";
     }
 

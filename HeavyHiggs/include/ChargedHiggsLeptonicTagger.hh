@@ -25,7 +25,7 @@ public:
 
     std::vector<analysis::Triplet> Multiplets(const Event &event, const TMVA::Reader &reader) const;
 
-    std::string name() const {
+    std::string name() const final {
       return "ChargedHiggsLeptonic";
     }
 

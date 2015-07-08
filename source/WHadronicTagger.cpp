@@ -71,10 +71,11 @@ int WHadronicTagger::Train(const Event &event, analysis::PreCuts &pre_cuts, cons
         doublets.emplace_back(doublet);
     }
 
-//     Jets w_hadronic_daughters = WDaughters(event);
-//     int w_hadronic_id = WHadronicId(w_hadronic_daughters);
+    int w_hadronic_id = WHadronicId(event);
     Jets particles = event.Partons().Particles();
-    Jets w_particles = CopyIfAbsParticle(particles, Id::W);
+    Jets w_particles;
+    if (w_hadronic_id != 0) w_particles = CopyIfParticle(particles, w_hadronic_id);
+    else w_particles = CopyIfAbsParticle(particles, Id::W);
     w_particles = RemoveIfSoft(w_particles, DetectorGeometry().JetMinPt());
     return SaveEntries(BestMatches(doublets, w_particles, Tag));
 }
@@ -84,17 +85,27 @@ Jets WHadronicTagger::WDaughters(const analysis::Event &event) const
 {
     Jets w_daughters = event.Partons().GenParticles();
     w_daughters = CopyIfAbsMother(w_daughters, Id::W);
-    Info("W daughters", w_daughters.size());
+    Info(w_daughters.size());
 
     w_daughters = CopyIfQuark(w_daughters);
-    Info("hadronic W daughters", w_daughters.size());
+    Info(w_daughters.size());
     return w_daughters;
 }
 
 int WHadronicTagger::WHadronicId(const Jets &jets) const
 {
-    if (jets.empty()) return to_int(Id::W);
-    else return jets.front().user_info<JetInfo>().constituents().front().family().mother_1().Id;
+    if (jets.empty()) return 0;
+    int sign;
+    bool first = true;
+    bool just_one = true;
+    for (const auto jet : jets) {
+        int id = jet.user_info<JetInfo>().constituents().front().family().mother_1().Id;
+        if (first) sign = sgn(id);
+        else if (sign != sgn(id)) just_one = false;
+        first = false;
+    }
+    if (just_one) return sign * to_int(Id::W);
+    return 0;
 }
 
 bool WHadronicTagger::Problematic(const Doublet &doublet, PreCuts &pre_cuts, const Tag tag) const

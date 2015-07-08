@@ -20,7 +20,7 @@ std::string Analysis::ProcessName()
 
 void Analysis::SetFiles(const Tag tag)
 {
-    Note("Set Files");
+    Note();
     switch (tag) {
     case Tag::signal :
 //         NewSignalFile("pp-ttx0-bbbbllnunu-1", 0.02071);
@@ -33,9 +33,9 @@ void Analysis::SetFiles(const Tag tag)
     }
 }
 
-int Analysis::PassPreCut(const Event &event)
+int Analysis::PassPreCut(const analysis::Event &event) const
 {
-    Info("pass pre cut");
+    Info();
 //   Jets particles = event.Partons().GenParticles();
 //   Jets tops = fastjet::sorted_by_pt(CopyIfAbsParticle(particles, Id::top));
 //   remove_if_not_in_pt_window(tops, PreCut(), UpperCut());

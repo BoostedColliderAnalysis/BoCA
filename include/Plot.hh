@@ -35,7 +35,7 @@ public:
     std::vector<int> bins;
     InfoBranch info_branch;
     int event_sum() const;
-    void set_event_sum(const int event_sum);
+    void set_event_sum(const long int event_sum);
 private:
     int event_sum_;
 };

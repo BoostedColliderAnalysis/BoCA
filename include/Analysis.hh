@@ -47,7 +47,7 @@ public:
         if (!analysis_empty_) tree_writer_.Write();
     }
 
-    void UseBranches(File &file, const std::string &name, int event_number_max) {
+    void UseBranches(File &file, const std::string &name, long event_number_max) {
         tree_branch_ = tree_writer_.NewBranch(name.c_str(), InfoBranch::Class());
         tree_reader_ = file.TreeReader();
         clones_arrays_.UseBranches(tree_reader_);
@@ -69,12 +69,12 @@ public:
         tree_writer_.Fill();
     }
 
-    InfoBranch FillInfoBranch(const exroot::TreeReader &tree_reader, const File &file, int event_number_max) {
+    InfoBranch FillInfoBranch(const exroot::TreeReader &tree_reader, const File &file, long event_number_max) {
         InfoBranch info_branch;
         info_branch.Crosssection = file.crosssection();
         info_branch.CrosssectionError = file.crosssection_error();
         info_branch.Mass = file.mass();
-        info_branch.EventNumber = std::min((int)tree_reader.GetEntries(), event_number_max);
+        info_branch.EventNumber = std::min((long)tree_reader.GetEntries(), event_number_max);
         info_branch.Name = file.nice_name();
         return info_branch;
     }
@@ -90,7 +90,7 @@ public:
     Event &event() {
         return event_;
     }
-    int &object_sum() {
+    long &object_sum() {
         return object_sum_;
     }
     int event_number_ = 0;
@@ -102,7 +102,7 @@ private:
     Event event_;
     InfoBranch info_branch_;
     int pre_cut_sum_ = 0;
-    int object_sum_ = 0;
+    long object_sum_ = 0;
     bool analysis_empty_ = true;
 };
 
@@ -116,7 +116,7 @@ class Analysis : public AnalysisBase
 
 public:
 
-    void AnalysisLoop(const Stage stage) {
+    void AnalysisLoop(const Stage stage) final {
         mkdir(ProjectName().c_str(), 0700);
         Reader<Tagger> reader(stage);
         tagger_.clear_tree_names();
@@ -138,7 +138,7 @@ protected:
         Trees trees(in_and_export);
         SetTreeBranch(in_and_export.stage(), trees.tree_writer(), reader);
         trees.UseBranches(in_and_export.file(), tagger_.weight_branch_name(), EventNumberMax());
-        if (in_and_export.stage() == Stage::reader) trees.event_number_ = std::min((int)trees.tree_reader().GetEntries(), EventNumberMax()) / 2; // TODO fix corner cases
+        if (in_and_export.stage() == Stage::reader) trees.event_number_ = std::min((long)trees.tree_reader().GetEntries(), EventNumberMax()) / 2; // TODO fix corner cases
         for (; trees.event_number_ < trees.tree_reader().GetEntries(); ++trees.event_number_) {
             DoAnalysis(in_and_export, trees, reader);
             if (trees.object_sum() >= EventNumberMax()) break;
@@ -178,11 +178,11 @@ protected:
         }
     }
 
-    const Tagger &tagger() const {
+    const Tagger &tagger() const final {
         return tagger_;
     }
 
-    Tagger &tagger() {
+    Tagger &tagger() final {
         return tagger_;
     }
 

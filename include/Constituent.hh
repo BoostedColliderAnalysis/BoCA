@@ -51,7 +51,7 @@ public:
 
     SubDetector sub_detector() const;
 
-    int charge()const;
+    int charge() const;
 
     void set_charge(const int charge);
 

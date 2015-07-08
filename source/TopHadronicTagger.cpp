@@ -96,9 +96,11 @@ int TopHadronicTagger::Train(const Event &event, analysis::PreCuts &pre_cuts, co
         }
     }
 
-    //     int had_top_id = TopHadronicId(event);
+    int top_hadronic_id = TopHadronicId(event);
     Jets particles = event.Partons().GenParticles();
-    Jets top_particles = CopyIfAbsParticle(particles, Id::top);
+    Jets top_particles;
+    if (top_hadronic_id != 0) top_particles = CopyIfParticle(particles, top_hadronic_id);
+    else top_particles = CopyIfAbsParticle(particles, Id::top);
     return SaveEntries(BestMatches(triplets, top_particles, tag));
 }
 
@@ -295,9 +297,9 @@ Triplet TopHadronicTagger::Multiplet(analysis::Triplet &triplet, const  Jets &le
 void TopHadronicTagger::NSubJettiness(analysis::Triplet &triplet) const
 {
     return;
-    if (triplet.Degenerate()) triplet.set_sub_jettiness(NSubJettiness(triplet.SingletJet() * 2));
+    if (triplet.Degenerate()) triplet.set_sub_jettiness(NSubJettiness(triplet.Singlet().Jet() * 2));
     else if (triplet.Doublet().Degenerate()) triplet.set_sub_jettiness(NSubJettiness(triplet.Doublet().SingletJet1() * 2));
-    else triplet.set_sub_jettiness(NSubJettiness(fastjet::join(fastjet::join(triplet.SingletJet(), triplet.Doublet().SingletJet1()), triplet.Doublet().SingletJet2())));
+    else triplet.set_sub_jettiness(NSubJettiness(fastjet::join(fastjet::join(triplet.Singlet().Jet(), triplet.Doublet().SingletJet1()), triplet.Doublet().SingletJet2())));
 }
 
 SubJettiness TopHadronicTagger::NSubJettiness(const fastjet::PseudoJet &jet) const

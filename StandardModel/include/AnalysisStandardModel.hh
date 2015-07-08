@@ -38,23 +38,21 @@ class AnalysisStandardModel : public Analysis<Tagger>
 
 protected:
 
-    AnalysisStandardModel() {
-        this->tagger().set_analysis_name(ProjectName());
+    long EventNumberMax() const override {
+//             return 100;
+        //     return 1000;
+        return 5000;
     }
 
-    std::string ProjectName() const {
-        return Name(collider_type()) + "-" + std::to_string(LowerPtCut()) + "GeV";
-    }
-
-    virtual std::string FilePath() const {
-        return "~/Projects/Tagger/";
-    }
-
-    virtual std::string FileName(const Process process) const {
+    std::string FileName(const Process process) const {
         return Name(process) + "_" + std::to_string(MadGraphCut()) + "GeV";
     }
 
-    virtual int LowerPtCut() const {
+    std::string FilePath() const final {
+      return "~/Projects/Tagger/";
+    }
+
+    int LowerPtCut() const {
         //         return 350;
         //         return 700;
         //         return 800;
@@ -63,7 +61,7 @@ protected:
         //     return 1200;
     }
 
-    virtual int UpperPtCut() const {
+    int UpperPtCut() const {
         switch (LowerPtCut()) {
         case 700 :
             return 1000;
@@ -76,7 +74,7 @@ protected:
         }
     }
 
-    virtual int MadGraphCut() const {
+    int MadGraphCut() const {
         switch (LowerPtCut()) {
         case 500:
             return 500;
@@ -89,27 +87,21 @@ protected:
         }
     }
 
-    virtual int LowerQuarkCut() const {
+    int LowerQuarkCut() const {
         return LowerPtCut() * 0.9;
     }
 
-    virtual int UpperQuarkCut() const {
+    int UpperQuarkCut() const {
         return UpperPtCut() * 1.1;
     }
 
-    virtual int EventNumberMax() const {
-        //     return 100;
-        //     return 1000;
-        return 5000;
-    }
-
-    virtual Collider collider_type() const {
+    Collider collider_type() const {
         //       return Collider::LHC;
         //       return Collider::FHC;
         return Collider::LE;
     }
 
-    virtual int BackgroundFileNumber() const {
+    int BackgroundFileNumber() const {
         return 1;
         //         return 2;
         //       return 4;
@@ -117,7 +109,7 @@ protected:
         //       return 10;
     }
 
-    virtual void NewFile(const Tag tag, const Process process) {
+    void NewFile(const Tag tag, const Process process) {
         analysis::AnalysisBase::NewFile(tag, FileName(process), NiceName(process));
     }
 

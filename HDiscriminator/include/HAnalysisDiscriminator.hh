@@ -69,13 +69,13 @@ public:
 
 private:
 
-     int EventNumberMax() const {
+     long EventNumberMax() const {
 
         return 10000;
 
     };
 
-     std::string ProjectName()const {
+     std::string ProjectName() const {
 
         return "Discriminator";
 

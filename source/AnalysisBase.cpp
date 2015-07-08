@@ -11,8 +11,6 @@
 #include "Event.hh"
 #include "Factory.hh"
 
-#define DEBUG
-
 #include "Debug.hh"
 
 namespace analysis
@@ -24,7 +22,7 @@ InfoBranch AnalysisBase::FillInfoBranch(const exroot::TreeReader &tree_reader, c
     info_branch.Crosssection = file.crosssection();
     info_branch.CrosssectionError = file.crosssection_error();
     info_branch.Mass = file.mass();
-    info_branch.EventNumber = std::min((int)tree_reader.GetEntries(), EventNumberMax());
+    info_branch.EventNumber = std::min((long)tree_reader.GetEntries(), EventNumberMax());
     info_branch.Name = file.nice_name();
     return info_branch;
 }
@@ -39,7 +37,6 @@ exroot::TreeWriter AnalysisBase::TreeWriter(TFile &export_file, const std::strin
 {
     Note(export_tree_name.c_str());
     exroot::TreeWriter tree_writer(&export_file, export_tree_name.c_str());
-//     tagger().SetTreeBranch(tree_writer, stage);
     return tree_writer;
 }
 
@@ -56,21 +53,11 @@ std::vector< File > AnalysisBase::Files(const Tag tag)
     return files_;
 }
 
-// void AnalysisBase::SetFiles(const Tag tag)
-// {
-//     Error("should be subclassed", Name(tag));
-// }
-
-int AnalysisBase::PassPreCut(const Event &)
+int AnalysisBase::PassPreCut(const analysis::Event &) const
 {
     Error("no pre cut applied");
     return 1;
 }
-
-// void AnalysisBase::SetConfig(const Configuration &configuration)
-// {
-//     configuration_ = configuration;
-// }
 
 void AnalysisBase::PrepareFiles()
 {
@@ -85,7 +72,7 @@ std::string AnalysisBase::ProjectName() const
     return "ProjectName";
 }
 
-int AnalysisBase::EventNumberMax() const
+long AnalysisBase::EventNumberMax() const
 {
     return 100000;
 }
@@ -225,7 +212,7 @@ void AnalysisBase::RunFullEfficiency()
 std::string AnalysisBase::PathName(const std::string &file_name) const
 {
     Error(file_name);
-    return ProjectName() + "/" + file_name + ".root";
+    return ProjectName() + "/" + file_name + FileSuffix();
 }
 
 void AnalysisBase::RunTagger(Stage stage)

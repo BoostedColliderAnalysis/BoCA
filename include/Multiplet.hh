@@ -63,7 +63,7 @@ public:
         return multiplet_1_.Overlap(multiplet_2_);
     }
 
-    bool Coincides(const fastjet::PseudoJet &jet)const {
+    bool Coincides(const fastjet::PseudoJet &jet) const {
         return (Jet().delta_R(jet) < DetectorGeometry().JetConeSize());
     }
 

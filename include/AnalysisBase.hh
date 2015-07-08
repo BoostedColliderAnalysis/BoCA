@@ -33,7 +33,7 @@ protected:
 
   void ClearFiles();
 
-    virtual std::vector<File> Files(const Tag tag);
+    std::vector<File> Files(const Tag tag);
 
     std::string ExportName(const Stage stage, const Tag tag) const;
 
@@ -46,16 +46,15 @@ protected:
 
     InfoBranch FillInfoBranch(const exroot::TreeReader &tree_reader, const analysis::File &file);
 
-    virtual  std::string ProjectName() const;
+    virtual std::string ProjectName() const;
 
     /**
      * @brief Maximal number of Entries to analyse
      *
      */
-    virtual  int EventNumberMax() const;
+    virtual long EventNumberMax() const;
 
-    virtual  std::string ProcessName() const;
-
+    virtual std::string ProcessName() const;
 
     // in GeV
     int Mass() const;
@@ -73,7 +72,7 @@ protected:
     //         return configuration_.collider_type();
     //     }
 
-    virtual  std::string FilePath() const;
+    virtual std::string FilePath() const;
 
     std::string FileSuffix() const;
 
@@ -97,7 +96,7 @@ protected:
 
     std::string TreeName(const std::string &name) const;
 
-    virtual int PassPreCut(const Event &);
+    virtual int PassPreCut(const Event &) const;
 
     PreCuts &pre_cuts();
 

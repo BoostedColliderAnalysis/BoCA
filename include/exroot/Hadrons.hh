@@ -17,7 +17,7 @@ class Hadrons : public analysis::Hadrons
 
 public:
 
-  analysis::Jets Jets() const;
+  analysis::Jets Jets() const final;
 
     /**
      * @brief AnalyseJet calls AnalyseEFlow

@@ -21,11 +21,11 @@ public:
 
     std::vector< Quartet31 > Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
 
-    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const {
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
       return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
-    std::string name() const {
+    std::string name() const final {
       return "TripletJetJetPair";
     }
 

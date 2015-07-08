@@ -16,7 +16,7 @@ int WSemiTagger::Train(const Event &event, analysis::PreCuts &, const analysis::
     Info("Train");
     Jets Particles = event.Partons().GenParticles();
     int w_semi_id = WSemiId(event);
-    Jets w_bosons = copy_if_particle(Particles, w_semi_id);
+    Jets w_bosons = CopyIfParticle(Particles, w_semi_id);
     Jets leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
     if (leptons.size() > w_bosons.size()) leptons.erase(leptons.begin() + w_bosons.size(), leptons.end());
     const fastjet::PseudoJet missing_et = event.Hadrons().MissingEt();
@@ -48,7 +48,7 @@ std::vector<Doublet>  WSemiTagger::Multiplets(const Event &event, analysis::PreC
   Info("Triple Bdt");
   Jets Particles = event.Partons().GenParticles();
   int w_semi_id = WSemiId(event);
-  Jets w_bosons = copy_if_particle(Particles, w_semi_id);
+  Jets w_bosons = CopyIfParticle(Particles, w_semi_id);
     Jets leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
     if (leptons.size() > w_bosons.size()) leptons.erase(leptons.begin() + w_bosons.size(), leptons.end());
 
@@ -65,7 +65,7 @@ std::vector<Doublet>  WSemiTagger::Multiplets(const Event &event, analysis::PreC
     return ReduceResult(doublets);
 }
 
-std::vector<Doublet> WSemiTagger::ReconstructNeutrino(const Doublet &doublet)const
+std::vector<Doublet> WSemiTagger::ReconstructNeutrino(const Doublet &doublet) const
 {
 
     Info("Neutrinos");

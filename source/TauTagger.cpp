@@ -13,27 +13,7 @@ TauTagger::TauTagger()
     DefineVariables();
 }
 
-void TauTagger::DefineVariables()
-{
-    Info("Define Variables");
-    AddVariable(branch().Mass, "Mass");
-    AddVariable(branch().Pt, "Pt");
-    AddVariable(branch().Rap, "Rap");
-    AddVariable(branch().Phi, "Phi");
-    AddVariable(branch().EmRadius, "EmRadius");
-    AddVariable(branch().TrackRadius, "TrackRadius");
-//     AddObservable(Branch.MomentumFraction, "MomentumFraction");
-    AddVariable(branch().CoreEnergyFraction, "CoreEnergyFraction");
-    AddSpectator(branch().EmFraction, "EmFraction");
-    AddVariable(branch().ClusterMass, "ClusterMass");
-    AddVariable(branch().TrackMass, "TrackMass");
-    AddVariable(branch().FlightPath, "FlightPath");
-    AddSpectator(branch().TrtHtFraction, "TrtHtFraction");
-    AddSpectator(branch().Tag, "Tag");
-    AddSpectator(branch().Bdt, "Bdt");
-}
-
-int TauTagger::Train(const Event &event, analysis::PreCuts &pre_cuts, const analysis::Tag tag) const
+int TauTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const
 {
     Info("Tau Tag", Name(tag));
     Jets jets = event.Hadrons().Jets();

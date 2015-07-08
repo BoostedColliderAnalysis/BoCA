@@ -115,7 +115,7 @@ void Family::UnSetMarker() {
   marker_ = false;
 }
 
-bool Family::Marker()const {
+bool Family::Marker() const {
   return marker_;
 }
 
