@@ -20,7 +20,7 @@ std::string Name(const Production production_channel);
  *
  */
 template<typename Tagger>
-class AnalysisBottom : public analysis::standardmodel::AnalysisStandardModel<Tagger>
+class AnalysisBottom : public AnalysisStandardModel<Tagger>
 {
 
 public:

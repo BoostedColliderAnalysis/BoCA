@@ -37,9 +37,9 @@ private:
 
     std::vector<Octet62> GetHeavyHiggsevents(Jets &jets);
 
-    ReaderTagger<HeavyHiggsSemiTagger> heavy_higgs_semi_reader_;
+    Reader<HeavyHiggsSemiTagger> heavy_higgs_semi_reader_;
 
-    ReaderTagger<JetPairTagger> jet_pair_reader_;
+    Reader<JetPairTagger> jet_pair_reader_;
 
 };
 

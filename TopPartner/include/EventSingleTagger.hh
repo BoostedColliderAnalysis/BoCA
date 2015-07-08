@@ -40,9 +40,9 @@ public:
 
 private:
 
-    ReaderTagger<TopPartnerLeptonicPairTagger> signature_reader_;
+    Reader<TopPartnerLeptonicPairTagger> signature_reader_;
 
-    ReaderTagger<BottomTagger> bottom_reader_;
+    Reader<BottomTagger> bottom_reader_;
 
 };
 

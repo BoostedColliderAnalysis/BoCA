@@ -35,9 +35,9 @@ public:
 
 private:
 
-    ReaderTagger<BottomTagger> bottom_reader_;
+    Reader<BottomTagger> bottom_reader_;
 
-    ReaderTagger<HeavyHiggsSemiTagger> heavy_higgs_semi_reader_;
+    Reader<HeavyHiggsSemiTagger> heavy_higgs_semi_reader_;
 
 };
 

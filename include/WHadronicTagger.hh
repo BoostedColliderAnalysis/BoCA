@@ -58,7 +58,7 @@ private:
 
     std::vector<Doublet> SubMultiplets2(const analysis::Jets &jets, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const;
 
-    ReaderTagger<BottomTagger> bottom_reader_;
+    Reader<BottomTagger> bottom_reader_;
 
     Jets WDaughters(const Event &event) const;
 

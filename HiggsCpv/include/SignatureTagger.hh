@@ -40,9 +40,9 @@ public:
 
 private:
 
-    ReaderTagger<HiggsTagger> higgs_reader_;
+    Reader<HiggsTagger> higgs_reader_;
 
-    ReaderTagger<TopLeptonicPairTagger> triplet_pair_reader_;
+    Reader<TopLeptonicPairTagger> triplet_pair_reader_;
 
 };
 

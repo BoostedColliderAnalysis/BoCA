@@ -46,11 +46,7 @@ public:
         return  ProcessName() + "-" + Name(this->collider_type()) + "-" + std::to_string(this->PreCut()) + "GeV-" + std::to_string(this->Mass()) + "GeV";
     };
 
-
-
 private:
-
-    enum ProcessType {Hbb, ttbb, ttcc, ttjj, tt};
 
     float SignalCrosssection() const {
         switch (this->collider_type()) {

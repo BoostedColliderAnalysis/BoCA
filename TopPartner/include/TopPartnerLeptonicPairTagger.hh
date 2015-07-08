@@ -12,7 +12,7 @@ namespace toppartner
 {
 
 /**
- * @brief Semi leptonic heavy higgs BDT tagger
+ * @brief top partner pair tagger
  *
  */
 class TopPartnerLeptonicPairTagger : public BranchTagger<MultiBranch>
@@ -36,9 +36,9 @@ public:
 
 private:
 
-    ReaderTagger<TopPartnerHadronicTagger> top_partner_hadronic_reader_;
+    Reader<TopPartnerHadronicTagger> top_partner_hadronic_reader_;
 
-    ReaderTagger<TopPartnerLeptonicTagger> top_partner_semi_reader_;
+    Reader<TopPartnerLeptonicTagger> top_partner_semi_reader_;
 
 };
 

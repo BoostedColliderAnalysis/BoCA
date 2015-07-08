@@ -2,8 +2,7 @@
 
 #include "Quintet.hh"
 #include "TopHadronicTagger.hh"
-// #include "ZHadronicTagger.hh"
-#include "HiggsTagger.hh"
+#include "BosonTagger.hh"
 #include "BranchesTopPartner.hh"
 
 namespace analysis
@@ -42,9 +41,9 @@ public:
 
 private:
 
-    ReaderTagger<TopHadronicTagger> top_reader_;
+    Reader<TopHadronicTagger> top_reader_;
 
-    ReaderTagger<HiggsTagger> z_hadronic_reader_;
+    Reader<BosonTagger> boson_reader_;
 
 };
 

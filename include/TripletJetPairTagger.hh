@@ -31,9 +31,9 @@ public:
 
 private:
 
-    ReaderTagger<BottomTagger> bottom_reader_;
+    Reader<BottomTagger> bottom_reader_;
 
-    ReaderTagger<TopHadronicTagger> top_hadronic_reader_;
+    Reader<TopHadronicTagger> top_hadronic_reader_;
 
 };
 

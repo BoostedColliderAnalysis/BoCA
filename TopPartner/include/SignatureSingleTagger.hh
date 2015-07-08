@@ -31,9 +31,9 @@ public:
 
 private:
 
-    ReaderTagger<TopPartnerHiggsPairTagger> top_partner_higgs_pair_reader_;
+    Reader<TopPartnerHiggsPairTagger> top_partner_higgs_pair_reader_;
 
-    ReaderTagger<TopHadronicTagger> top_hadronic_reader_;
+    Reader<TopHadronicTagger> top_hadronic_reader_;
 };
 
 }

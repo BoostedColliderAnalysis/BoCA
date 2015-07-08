@@ -40,9 +40,9 @@ public:
 
 private:
 
-    ReaderTagger<SignatureTagger> signature_reader_;
+    Reader<SignatureTagger> signature_reader_;
 
-    ReaderTagger<BottomTagger> bottom_reader_;
+    Reader<BottomTagger> bottom_reader_;
 
 };
 

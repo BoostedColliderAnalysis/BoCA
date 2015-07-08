@@ -44,7 +44,7 @@ int TopSemiTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag) c
     }
 
     Jets top_particles = event.Partons().GenParticles();
-    top_particles = copy_if_abs_particle(top_particles, Id(TopSemiId(event)));
+    top_particles = CopyIfAbsParticle(top_particles, Id(TopSemiId(event)));
     Note("Number of semi tops", top_particles.size());
     return SaveEntries(BestMatches(triplets,top_particles,tag));
 }

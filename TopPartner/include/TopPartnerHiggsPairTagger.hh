@@ -42,9 +42,9 @@ public:
 
 private:
 
-    ReaderTagger<TopPartnerSemiTagger> top_partner_hadronic_reader_;
+    Reader<TopPartnerSemiTagger> top_partner_hadronic_reader_;
 
-    ReaderTagger<HiggsTagger> higgs_reader_;
+    Reader<HiggsTagger> higgs_reader_;
 };
 
 }

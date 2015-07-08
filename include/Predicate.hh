@@ -20,12 +20,26 @@ struct MinDeltaRTo {
     fastjet::PseudoJet jet_;
 };
 
+template<typename Multiplet>
+std::vector<Multiplet> SortedByMinDeltaRTo(std::vector<Multiplet> &multiplets, const fastjet::PseudoJet &jet)
+{
+    std::sort(multiplets.begin(), multiplets.end(), MinDeltaRTo(jet));
+    return multiplets;
+}
+
 struct MaxDeltaRap {
     template <typename Multiplet>
     bool operator()(const Multiplet &multiplet_1, const Multiplet &multiplet_2) {
         return (multiplet_1.DeltaRap() > multiplet_2.DeltaRap());
     }
 };
+
+template <class Multiplet>
+std::vector<Multiplet> SortByMaxDeltaRap(std::vector<Multiplet> &multiplets)
+{
+    std::sort(multiplets.begin(), multiplets.end(), MaxDeltaRap());
+    return multiplets;
+}
 
 struct SortByMassTo {
     SortByMassTo(const float mass) {
@@ -38,40 +52,12 @@ struct SortByMassTo {
     float mass_;
 };
 
-template<typename Multiplet>
-std::vector<Multiplet> SortedByMinDeltaRTo(std::vector<Multiplet> &multiplets, const fastjet::PseudoJet &jet)
-{
-    std::sort(multiplets.begin(), multiplets.end(), MinDeltaRTo(jet));
-    return multiplets;
-}
-
-struct SortPairs {
-    template <typename Template>
-    bool operator()(const std::pair<Template, float> &pair_1, const std::pair<Template, float> &pair_2) {
-        return (pair_1.second < pair_2.second);
-    }
-};
-
 template <class Multiplet>
-std::vector<Multiplet> SortByMaxDeltaRap(std::vector<Multiplet> &multiplets)
+std::vector<Multiplet> SortedByMassTo(std::vector<Multiplet> &multiplets, const float mass)
 {
-    std::sort(multiplets.begin(), multiplets.end(), MaxDeltaRap());
+    std::sort(multiplets.begin(), multiplets.end(), SortByMassTo(mass));
     return multiplets;
 }
-
-template <class HMultiplet>
-std::vector<HMultiplet> SortedByMassTo(std::vector<HMultiplet> &Multiplets, const float Mass)
-{
-    std::sort(Multiplets.begin(), Multiplets.end(), SortByMassTo(Mass));
-    return Multiplets;
-}
-
-// template <class HMultiplet>
-//  std::vector<HMultiplet> SortedByMassTo(std::vector<HMultiplet> &Multiplets, const Object::Id id )
-// {
-//   return SortedByMassTo(Multiplets,Object::Mass(id));
-// }
-
 
 struct SortByMass {
     template <typename Multiplet>
@@ -124,9 +110,9 @@ bool FindInVector(const std::vector<Element> vector, const Element element)
  */
 fastjet::PseudoJet PseudoJet(const TLorentzVector &vector);
 
-Jets copy_if_abs_particle(const Jets &jets, const Id id);
+Jets CopyIfAbsParticle(const Jets &jets, const Id id);
 
-Jets copy_if_abs_particle(const Jets &jets, const Id id_1, const Id id_2);
+Jets CopyIfAbsParticle(const Jets &jets, const Id id_1, const Id id_2);
 
 Jets copy_if_neutrino(const Jets &jets);
 
@@ -144,15 +130,15 @@ Jets RemoveIfWrongAbsStepFamily(const Jets &jets, const int id , const int mothe
 
 Jets RemoveIfWrongAbsStepMother(const Jets &jets, const int mother_2_id);
 
-Jets RemoveIfWrongParticle(const Jets &NewJets, const int id);
+Jets RemoveIfWrongParticle(const Jets &jets, const int id);
 
-Jets RemoveIfWrongAbsParticle(const Jets &NewJets, const Id id);
+Jets RemoveIfWrongAbsParticle(const Jets &jets, const Id id);
 
-Jets RemoveIfWrongAbsMother(const Jets &NewJets, const Id MotherId);
+Jets RemoveIfWrongAbsMother(const Jets &jets, const Id mother_id);
 
-Jets CopyIfAbsMother(const analysis::Jets &jets, const Id mother_id);
+Jets CopyIfAbsMother(const Jets &jets, const Id mother_id);
 
-Jets RemoveIfAbsMother(const analysis::Jets &NewJets, const analysis::Id MotherId);
+Jets RemoveIfAbsMother(const Jets &jets, const Id mother_id);
 
 Jets RemoveIfLetpons(const Jets &jets);
 
@@ -173,7 +159,7 @@ struct Close {
     bool operator()(const Multiplet &multiplet) {
         return (multiplet.Jet().delta_R(particle_) < detector_geometry_.JetConeSize()
 //         & multiplet.Jet().delta_R(particle_) < multiplet.Radius()
-        );
+               );
     }
     bool operator()(const fastjet::PseudoJet &jet) {
         return (jet.delta_R(particle_) < detector_geometry_.JetConeSize());
@@ -183,18 +169,18 @@ struct Close {
 };
 
 struct Close2 {
-  Close2(const fastjet::PseudoJet &particle) {
-    particle_ = particle;
-  }
-  template <typename Multiplet>
-  bool operator()(const Multiplet &multiplet) {
-    return (multiplet.Jet().delta_R(particle_) < detector_geometry_.JetConeSize());
-  }
-  bool operator()(const fastjet::PseudoJet &jet) {
-    return (jet.delta_R(particle_) < detector_geometry_.JetConeSize());
-  }
-  fastjet::PseudoJet particle_;
-  DetectorGeometry detector_geometry_;
+    Close2(const fastjet::PseudoJet &particle) {
+        particle_ = particle;
+    }
+    template <typename Multiplet>
+    bool operator()(const Multiplet &multiplet) {
+        return (multiplet.Jet().delta_R(particle_) < detector_geometry_.JetConeSize());
+    }
+    bool operator()(const fastjet::PseudoJet &jet) {
+        return (jet.delta_R(particle_) < detector_geometry_.JetConeSize());
+    }
+    fastjet::PseudoJet particle_;
+    DetectorGeometry detector_geometry_;
 };
 
 template <typename Multiplet>

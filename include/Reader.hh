@@ -8,21 +8,22 @@ namespace analysis
 {
 
 /**
- * @brief Presents result of multivariant analysis
+ * @brief read results of multivariant analysis
+ * wrapper for TMVA::Reader class
  *
  */
 template<typename Tagger>
-class ReaderTagger
+class Reader
 {
 
 public:
 
-    ReaderTagger() {
+    Reader() {
         AddVariable();
         BookMva();
     }
 
-    ReaderTagger(const Stage stage) {
+    Reader(const Stage stage) {
         switch (stage) {
         case Stage::trainer :
             break;
@@ -43,18 +44,18 @@ public:
         return tagger_.Multiplets(input, pre_cuts, reader_);
     }
 
-    template <typename Input1, typename Input2>
-    auto Multiplets(Input1 &input_1, Input2 &input_2) {
-        return tagger_.Multiplets(input_1, input_2, reader_);
-    }
+//     template <typename Input1, typename Input2>
+//     auto Multiplets(Input1 &input_1, Input2 &input_2) const {
+//         return tagger_.Multiplets(input_1, input_2, reader_);
+//     }
 
     template <typename Input>
-    auto Multiplet(Input &input) {
+    auto Multiplet(Input &input) const {
         return tagger_.Multiplet(input, reader_);
     }
 
     template <typename Input1, typename Input2>
-    auto Multiplet(Input1 &input_1, Input2 &input_2) {
+    auto Multiplet(Input1 &input_1, Input2 &input_2) const {
         return tagger_.Multiplet(input_1, input_2, reader_);
     }
 
@@ -78,7 +79,6 @@ private:
     const TMVA::Reader &reader() const {
         return reader_;
     }
-
 
     TMVA::Reader reader_;
 

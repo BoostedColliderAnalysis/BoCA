@@ -41,9 +41,9 @@ public:
 
 private:
 
-    ReaderTagger<TopLeptonicTagger> top_reader_;
+    Reader<TopLeptonicTagger> top_reader_;
 
-    ReaderTagger<HiggsTagger> higgs_hadronic_reader_;
+    Reader<HiggsTagger> higgs_hadronic_reader_;
 };
 
 }

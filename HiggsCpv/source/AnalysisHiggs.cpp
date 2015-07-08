@@ -37,7 +37,7 @@ int Analysis::PassPreCut(const Event &event)
 {
     Info("pass pre cut");
 //   Jets particles = event.Partons().GenParticles();
-//   Jets tops = fastjet::sorted_by_pt(copy_if_abs_particle(particles, Id::top));
+//   Jets tops = fastjet::sorted_by_pt(CopyIfAbsParticle(particles, Id::top));
 //   remove_if_not_in_pt_window(tops, PreCut(), UpperCut());
     return 1;
 }

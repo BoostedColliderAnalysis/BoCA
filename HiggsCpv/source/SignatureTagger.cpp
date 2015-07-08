@@ -30,8 +30,8 @@ int SignatureTagger::Train(const Event &event, analysis::PreCuts &, const analys
     switch (tag) {
     case Tag::signal : {
         Jets HiggsParticles = event.Partons().GenParticles();
-        Jets Even = copy_if_abs_particle(HiggsParticles, Id::higgs);
-        Jets Odd = copy_if_abs_particle(HiggsParticles, Id::CP_violating_higgs);
+        Jets Even = CopyIfAbsParticle(HiggsParticles, Id::higgs);
+        Jets Odd = CopyIfAbsParticle(HiggsParticles, Id::CP_violating_higgs);
         HiggsParticles = Join(Even, Odd);
         final_doublets = CopyIfClose(doublets, HiggsParticles);
         break;

@@ -34,7 +34,7 @@ int ZHadronicTagger::Train(const Event &event, analysis::PreCuts &pre_cuts, cons
         doublets.emplace_back(doublet);
     }
     Jets particles = event.Partons().GenParticles();
-    Jets z_particles = copy_if_abs_particle(particles, Id::Z);
+    Jets z_particles = CopyIfAbsParticle(particles, Id::Z);
     return SaveEntries(BestMatches(doublets, z_particles,tag));
 }
 

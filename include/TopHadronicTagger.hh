@@ -66,9 +66,9 @@ private:
 
     float LeptonPt(const analysis::Triplet &triplet, const Jets &leptons) const;
 
-    ReaderTagger<BottomTagger> bottom_reader_;
+    Reader<BottomTagger> bottom_reader_;
 
-    ReaderTagger<WHadronicTagger> w_hadronic_reader_;
+    Reader<WHadronicTagger> w_hadronic_reader_;
 
     float top_mass_window_ ;
 

@@ -148,6 +148,13 @@ void JetInfo::ExtractFamilyFraction()
     for (const auto & constituent : constituents()) family_fractions_[constituent.family()] += constituent.Momentum().Pt();
 }
 
+struct SortPairs {
+  template <typename Template>
+  bool operator()(const std::pair<Template, float> &pair_1, const std::pair<Template, float> &pair_2) {
+    return (pair_1.second < pair_2.second);
+  }
+};
+
 Family JetInfo::MaximalFamily()
 {
     Debug("Maximal Id");

@@ -23,29 +23,33 @@ std::string Name(const Decay decay);
  *
  */
 template<typename Tagger>
-class TopAnalysis : public analysis::standardmodel::AnalysisStandardModel<Tagger>
+class TopAnalysis : public AnalysisStandardModel<Tagger>
 {
 
 public:
 
     TopAnalysis() {
         this->tagger().set_analysis_name(ProjectName());
-        AnalysisBase::pre_cuts().SetPtLowerCut(Id::top, this->LowerPtCut());
-        AnalysisBase::pre_cuts().SetPtUpperCut(Id::top, this->UpperPtCut());
-        AnalysisBase::pre_cuts().SetMassUpperCut(Id::top, 400);
-        AnalysisBase::pre_cuts().SetTrackerMaxEta(Id::top, DetectorGeometry().TrackerEtaMax());
-        AnalysisBase::pre_cuts().SetPtLowerCut(Id::bottom, this->LowerPtCut() / 5);
-        AnalysisBase::pre_cuts().SetPtLowerCut(Id::W, this->LowerPtCut() / 5);
+        this->pre_cuts().SetPtLowerCut(Id::top, this->LowerPtCut());
+        this->pre_cuts().SetPtUpperCut(Id::top, this->UpperPtCut());
+        this->pre_cuts().SetMassUpperCut(Id::top, 400);
+        this->pre_cuts().SetTrackerMaxEta(Id::top, DetectorGeometry().TrackerEtaMax());
+        this->pre_cuts().SetPtLowerCut(Id::bottom, this->LowerPtCut() / 5);
+        this->pre_cuts().SetPtLowerCut(Id::W, this->LowerPtCut() / 5);
     }
 
     Decay TopDecay() const {
         return Decay::hadronic;
         //     return Decay::leptonic;
-        //         return Decay::semi;
+        //     return Decay::semi;
 
     }
 
 private:
+
+    std::string ProjectName() const {
+      return  Name(this->collider_type()) + "-" + std::to_string(this->LowerPtCut()) + "GeV-" + Name(Process::tt) + "-" + Name(TopDecay()) + "-test";
+    }
 
     void SetFiles(const Tag tag) {
         switch (tag) {
@@ -70,15 +74,11 @@ private:
         }
     }
 
-    std::string ProjectName() const {
-      return  "TopTagger-" + Name(this->collider_type()) + "-" + std::to_string(this->LowerPtCut()) + "GeV-" + Name(Process::tt) + "-" + Name(TopDecay()) + "-test";
-    }
-
     int PassPreCut(const Event &event) {
       //static_cast<::analysis::delphes::Hadrons&>(event.Hadrons()).UniqueJets();
 
         Jets particles = fastjet::sorted_by_pt(event.Partons().GenParticles());
-        //     particles = fastjet::sorted_by_pt(copy_if_abs_particle(particles, Id::top));
+        //     particles = fastjet::sorted_by_pt(CopyIfAbsParticle(particles, Id::top));
         //     if (particles.empty()) return 1;
         //     if (particles.size() == 1) Error("just one top");
         if ((particles.at(0).pt() > this->LowerQuarkCut() && particles.at(0).pt() < this->UpperQuarkCut()) && (particles.at(1).pt() > this->LowerQuarkCut() &&  particles.at(1).pt() < this->UpperQuarkCut())) return 1;

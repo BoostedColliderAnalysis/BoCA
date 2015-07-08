@@ -28,7 +28,7 @@ public:
 protected:
 
     std::string ProjectName() const {
-        return  std::to_string(PreCut()) + "GeV-no_decay";
+        return  std::to_string(PreCut()) + "GeV-test2";
     }
 
     void SetFiles(const Tag tag) {
@@ -37,7 +37,8 @@ protected:
             //         NewFile(tag,"pp-Tth-bbbbjjjjlv");
             //         NewFile(tag,"pp-TThh-bbbbbbjjlv");
 //             Analysis::NewFile(tag, "pp-TT-tthh-bbbbbbjjlv", Crosssection(tag), NiceName(tag));
-          Analysis::NewFile(tag, "pp-TT-tthB-hBbbjjlv", 4.832, NiceName(tag));
+//           Analysis::NewFile(tag, "pp-TT-tthB-hBbbjjlv", 4.832, NiceName(tag));
+          Analysis::NewFile(tag, "pp-TT-tthB-bbbbjjjjlv", 0.264, NiceName(tag));
             //         if(tagger().name() == "Bottom") NewFile(tag,"pp-ttbbj-bbbbjjlv");
             break;
         case Tag::background :
@@ -65,8 +66,8 @@ protected:
 private:
 
     int PreCut() const {
-        return 0;
         return 200;
+        return 0;
     }
 
     int Mass() const {
@@ -76,8 +77,8 @@ private:
     int PassPreCut(const Event &event) {
         Jets particles = event.Partons().GenParticles();
         particles = RemoveIfSoft(particles, PreCut());
-        Jets tops = copy_if_abs_particle(particles, Id::top);
-        Jets higgs = copy_if_abs_particle(particles, Id::higgs);
+        Jets tops = CopyIfAbsParticle(particles, Id::top);
+        Jets higgs = CopyIfAbsParticle(particles, Id::higgs);
         if (tops.size() < 2 || higgs.size() < 1) return 0;
         return 1;
     }

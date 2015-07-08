@@ -15,7 +15,7 @@ namespace standardmodel
  *
  */
 template<typename Tagger>
-class AnalysisHiggs : public analysis::standardmodel::AnalysisStandardModel<Tagger>
+class AnalysisHiggs : public AnalysisStandardModel<Tagger>
 {
 
 public:

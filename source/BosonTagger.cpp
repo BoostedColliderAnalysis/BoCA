@@ -40,10 +40,12 @@ int BosonTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag) con
         doublets.emplace_back(doublet);
     }
     Jets particles = event.Partons().GenParticles();
-    Jets higgses = copy_if_abs_particle(particles, Id::higgs, Id::CP_violating_higgs);
-    Jets vectors = copy_if_abs_particle(particles, Id::W, Id::Z);
-    Jets boson = Join(higgses,vectors);
-    return SaveEntries(BestMatches(doublets, boson, tag));
+    Jets higgses = CopyIfAbsParticle(particles, Id::higgs, Id::CP_violating_higgs);
+    Jets vectors = CopyIfAbsParticle(particles, Id::W, Id::Z);
+    Jets bosons;// = Join(higgses,vectors);
+    if(vectors.empty()) bosons = higgses;
+    else bosons = vectors;
+    return SaveEntries(BestMatches(doublets, bosons, tag));
 }
 
 bool BosonTagger::Problematic(const Doublet &doublet, PreCuts &pre_cuts, const Tag tag) const

@@ -34,9 +34,9 @@ public:
 
 private:
 
-    ReaderTagger<BottomTagger> bottom_reader_;
+    Reader<BottomTagger> bottom_reader_;
 
-    ReaderTagger<TopSemiTagger> top_semi_reader_;
+    Reader<TopSemiTagger> top_semi_reader_;
 };
 
 }

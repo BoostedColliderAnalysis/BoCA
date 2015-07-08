@@ -40,7 +40,7 @@ public:
 
 private:
 
-    ReaderTagger<TopLeptonicTagger> top_leptonic_reader_;
+    Reader<TopLeptonicTagger> top_leptonic_reader_;
 
 };
 

@@ -43,9 +43,9 @@ private:
 
     float top_mass_window_;
 
-    ReaderTagger<BottomTagger> bottom_reader_;
+    Reader<BottomTagger> bottom_reader_;
 
-    ReaderTagger<WSemiTagger> w_semi_reader_;
+    Reader<WSemiTagger> w_semi_reader_;
 
 };
 

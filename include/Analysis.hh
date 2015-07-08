@@ -118,7 +118,7 @@ public:
 
     void AnalysisLoop(const Stage stage) {
         mkdir(ProjectName().c_str(), 0700);
-        ReaderTagger<Tagger> reader(stage);
+        Reader<Tagger> reader(stage);
         tagger_.clear_tree_names();
         for (const auto & tag : std::vector<Tag> {Tag::signal, Tag::background}) {
             InAndExport in_and_export(ExportName(stage, tag), stage, tag);
@@ -134,7 +134,7 @@ public:
 
 protected:
 
-    void AnalyseFile(InAndExport &in_and_export, ReaderTagger<Tagger> &reader) {
+    void AnalyseFile(InAndExport &in_and_export, Reader<Tagger> &reader) {
         Trees trees(in_and_export);
         SetTreeBranch(in_and_export.stage(), trees.tree_writer(), reader);
         trees.UseBranches(in_and_export.file(), tagger_.weight_branch_name(), EventNumberMax());
@@ -146,7 +146,7 @@ protected:
         trees.WriteTree();
     }
 
-    void SetTreeBranch(const Stage &stage, exroot::TreeWriter &tree_writer, ReaderTagger<Tagger> &reader) {
+    void SetTreeBranch(const Stage &stage, exroot::TreeWriter &tree_writer, Reader<Tagger> &reader) {
         switch (stage) {
         case Stage::trainer :
             tagger_.SetTreeBranch(tree_writer, stage);
@@ -157,7 +157,7 @@ protected:
         }
     }
 
-    void DoAnalysis(InAndExport &in_and_export, Trees &trees, ReaderTagger<Tagger> &reader) {
+    void DoAnalysis(InAndExport &in_and_export, Trees &trees, Reader<Tagger> &reader) {
         trees.NewEvent(in_and_export.file().mass());
         int pre_cut = PassPreCut(trees.event());
         if (pre_cut > 0) {
@@ -167,7 +167,7 @@ protected:
         trees.tree_writer().Clear();
     }
 
-    int RunAnalysis(const Event &event, const ReaderTagger<Tagger> &reader, const Stage stage, const Tag tag) {
+    int RunAnalysis(const Event &event, const Reader<Tagger> &reader, const Stage stage, const Tag tag) {
         switch (stage) {
         case Stage::trainer :
             return tagger_.Train(event, pre_cuts(), tag);
