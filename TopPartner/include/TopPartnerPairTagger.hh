@@ -36,9 +36,9 @@ public:
 
 private:
 
-    ReaderTagger<TopPartnerHadronicTagger> top_partner_hadronic_reader_;
+    Reader<TopPartnerHadronicTagger> top_partner_hadronic_reader_;
 
-    ReaderTagger<TopPartnerSemiTagger> top_partner_semi_reader_;
+    Reader<TopPartnerSemiTagger> top_partner_semi_reader_;
 };
 
 }

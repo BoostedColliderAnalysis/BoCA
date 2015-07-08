@@ -23,7 +23,7 @@ std::string WName(const Decay decay);
  *
  */
 template <typename Tagger>
-class AnalysisW : public analysis::standardmodel::AnalysisStandardModel<Tagger>
+class AnalysisW : public AnalysisStandardModel<Tagger>
 {
 
 public:
@@ -67,7 +67,7 @@ private:
 
     int PassPreCut(const Event &) {
         //     Jets particles = event.Partons().GenParticles();
-        //     Jets w = fastjet::sorted_by_pt(copy_if_abs_particle(particles, Id::W));
+        //     Jets w = fastjet::sorted_by_pt(CopyIfAbsParticle(particles, Id::W));
         //     remove_if_not_in_pt_window(w, PreCut(), UpperCut());
         return 1;
     }

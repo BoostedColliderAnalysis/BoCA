@@ -28,7 +28,7 @@ int TopPartnerLeptonicTagger::Train(const Event &event, PreCuts &pre_cuts, const
             quartet.SetTag(tag);
             quartets.emplace_back(quartet);
         }
-    Jets top_partner = copy_if_abs_particle(event.Partons().GenParticles(), Id::top_partner);
+    Jets top_partner = CopyIfAbsParticle(event.Partons().GenParticles(), Id::top_partner);
 //     Debug("top partner",quartets.size(),top_partner.size());
     return SaveEntries(BestMatches(quartets, top_partner, tag), 2);
 }

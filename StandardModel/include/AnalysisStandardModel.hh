@@ -33,7 +33,7 @@ std::string Name(const Collider collider);
  *
  */
 template<typename Tagger>
-class AnalysisStandardModel : public analysis::Analysis<Tagger>
+class AnalysisStandardModel : public Analysis<Tagger>
 {
 
 protected:

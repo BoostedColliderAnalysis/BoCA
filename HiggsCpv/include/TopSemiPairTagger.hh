@@ -33,9 +33,9 @@ public:
 
 private:
 
-    ReaderTagger<TopSemiTagger> top_semi_reader_;
+    Reader<TopSemiTagger> top_semi_reader_;
 
-    ReaderTagger<TopHadronicTagger> top_hadronic_reader_;
+    Reader<TopHadronicTagger> top_hadronic_reader_;
 
 };
 

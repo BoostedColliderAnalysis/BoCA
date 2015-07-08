@@ -74,7 +74,7 @@ int WHadronicTagger::Train(const Event &event, analysis::PreCuts &pre_cuts, cons
 //     Jets w_hadronic_daughters = WDaughters(event);
 //     int w_hadronic_id = WHadronicId(w_hadronic_daughters);
     Jets particles = event.Partons().Particles();
-    Jets w_particles = copy_if_abs_particle(particles, Id::W);
+    Jets w_particles = CopyIfAbsParticle(particles, Id::W);
     w_particles = RemoveIfSoft(w_particles, DetectorGeometry().JetMinPt());
     return SaveEntries(BestMatches(doublets, w_particles, Tag));
 }

@@ -13,6 +13,9 @@ int main()
     analysis::toppartner::Analysis<analysis::WHadronicTagger> w_hadronic_analysis;
     w_hadronic_analysis.RunFullEfficiency();
 
+    analysis::toppartner::Analysis<analysis::BosonTagger> boson_analysis;
+    boson_analysis.RunFullEfficiency();
+
     analysis::toppartner::Analysis<analysis::TopHadronicTagger> top_hadronic_analysis;
     top_hadronic_analysis.RunFullEfficiency();
 

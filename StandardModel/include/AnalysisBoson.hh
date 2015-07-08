@@ -15,7 +15,7 @@ namespace analysis
  *
  */
 template<typename Tagger>
-class AnalysisBoson : public analysis::standardmodel::AnalysisStandardModel<Tagger>
+class AnalysisBoson : public AnalysisStandardModel<Tagger>
 {
 
 public:

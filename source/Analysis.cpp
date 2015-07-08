@@ -27,7 +27,7 @@
 //     Note(Name(stage));
 //     mkdir(ProjectName().c_str(), 0700);
 // //     if (stage == Stage::reader) reader_.SetTagger(tagger_);
-//     ReaderTagger<tagger_> reader(stage);
+//     Reader<tagger_> reader(stage);
 //     tagger_.clear_tree_names();
 //     for (const auto & tag : std::vector<Tag> {Tag::signal, Tag::background}) {
 //         Note("Analysing Mva Sample", Name(tag));
@@ -102,7 +102,7 @@
 //     return tree_writer;
 // }
 //
-// // int Analysis::RunAnalysis(const Event &event,const ReaderTagger<Tagger> reader, const Stage stage, const Tag tag)
+// // int Analysis::RunAnalysis(const Event &event,const Reader<Tagger> reader, const Stage stage, const Tag tag)
 // // {
 // //     Info();
 // //     switch (stage) {

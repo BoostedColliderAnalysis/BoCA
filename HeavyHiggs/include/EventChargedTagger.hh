@@ -35,9 +35,9 @@ public:
 
 private:
 
-    ReaderTagger<BottomTagger> bottom_reader_;
+    Reader<BottomTagger> bottom_reader_;
 
-    ReaderTagger<SignatureChargedTagger> signature_semi_reader_;
+    Reader<SignatureChargedTagger> signature_semi_reader_;
 
 };
 

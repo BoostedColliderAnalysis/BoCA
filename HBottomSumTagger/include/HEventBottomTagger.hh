@@ -45,7 +45,7 @@ private:
 
     void DefineVariables();
 
-    analysis::ReaderTagger<analysis::BottomTagger> bottom_reader_;
+    analysis::Reader<analysis::BottomTagger> bottom_reader_;
 
 };
 

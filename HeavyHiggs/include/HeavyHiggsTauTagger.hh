@@ -28,7 +28,7 @@ public:
 
 private:
 
-    ReaderTagger<TauTagger> tau_reader_;
+    Reader<TauTagger> tau_reader_;
 
 };
 

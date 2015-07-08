@@ -38,7 +38,7 @@ namespace analysis
 
     bool Problematic(const Doublet &doublet, PreCuts &pre_cuts) const;
 
-    ReaderTagger<BottomTagger> bottom_reader_;
+    Reader<BottomTagger> bottom_reader_;
 
     float boson_mass_window = 80;
 

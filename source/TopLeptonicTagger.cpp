@@ -54,7 +54,7 @@ bool TopLeptonicTagger::Problematic(const Doublet &doublet, PreCuts &pre_cuts) c
 Jets TopLeptonicTagger::Particles(const Event &event) const
 {
     Jets particles = event.Partons().GenParticles();
-    return copy_if_abs_particle(particles, Id::top);
+    return CopyIfAbsParticle(particles, Id::top);
 }
 
 bool TopLeptonicTagger::Problematic(const analysis::Doublet &doublet, analysis::PreCuts &pre_cuts, const analysis::Tag tag) const
@@ -82,7 +82,7 @@ std::vector<Doublet> TopLeptonicTagger::Multiplets(const Event &event, analysis:
     Jets jets = fastjet::sorted_by_pt(bottom_reader_.Multiplets(event));
     if (jets.empty()) return doublets;
     Jets leptons = event.Leptons().leptons();
-    Debug("jets and Leptons", jets.size(), leptons.size());
+    Debug(jets.size(), leptons.size());
     if (do_fake_leptons && leptons.empty()) leptons.emplace_back(FakeLepton(jets.front()));
 
     for (const auto & jet : jets) {

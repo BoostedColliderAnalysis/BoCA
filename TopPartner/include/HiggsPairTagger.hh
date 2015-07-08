@@ -35,7 +35,7 @@ public:
 
 private:
 
-    ReaderTagger<HiggsTagger> higgs_reader_;
+    Reader<HiggsTagger> higgs_reader_;
 };
 
 }

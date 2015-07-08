@@ -35,9 +35,9 @@ public:
 
 private:
 
-    ReaderTagger<TopPartnerPairTagger> top_partner_pair_reader_;
+    Reader<TopPartnerPairTagger> top_partner_pair_reader_;
 
-    ReaderTagger<HiggsPairTagger> higgs_pair_reader_;
+    Reader<HiggsPairTagger> higgs_pair_reader_;
 };
 
 }

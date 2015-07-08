@@ -36,9 +36,9 @@ public:
 
 private:
 
-    ReaderTagger<ChargedHiggsSemiTagger> charged_higgs_semi_reader_;
+    Reader<ChargedHiggsSemiTagger> charged_higgs_semi_reader_;
 
-    ReaderTagger<TripletJetPairTagger> triplet_jet_pair_reader_;
+    Reader<TripletJetPairTagger> triplet_jet_pair_reader_;
 
 
 };

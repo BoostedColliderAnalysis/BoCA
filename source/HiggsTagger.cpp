@@ -40,7 +40,7 @@ int HiggsTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag) con
       doublets.emplace_back(doublet);
     }
     Jets particles = event.Partons().GenParticles();
-    Jets higgses = copy_if_abs_particle(particles, Id::higgs, Id::CP_violating_higgs);
+    Jets higgses = CopyIfAbsParticle(particles, Id::higgs, Id::CP_violating_higgs);
     return SaveEntries(BestMatches(doublets, higgses,tag));
 }
 

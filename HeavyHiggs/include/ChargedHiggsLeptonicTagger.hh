@@ -31,9 +31,9 @@ public:
 
 private:
 
-    analysis::ReaderTagger<analysis::BottomTagger> bottom_reader_;
+    analysis::Reader<analysis::BottomTagger> bottom_reader_;
 
-    analysis::ReaderTagger<analysis::TopLeptonicTagger> top_leptonic_reader_;
+    analysis::Reader<analysis::TopLeptonicTagger> top_leptonic_reader_;
 
 };
 
