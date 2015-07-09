@@ -2,9 +2,6 @@ set(TaggerLibraries
 AnalysisStandardModel.cpp
 AnalysisBottom.cpp
 AnalysisW.cpp
-AnalysisZ.cpp
-AnalysisHiggs.cpp
-AnalysisBoson.cpp
 AnalysisTop.cpp
 )
 
