@@ -69,9 +69,7 @@ public:
         return Global.Phi;
     }
 
-     float GetconstituentDeltaR() const {
-        return Length(Global.Rap, Global.Phi);
-    }
+     float GetconstituentDeltaR() const;
 
      float GetconstituentAngle() const {
         return atan2(Global.Phi, Global.Rap);
@@ -125,9 +123,7 @@ private:
         return (2 * Shift);
     }
 
-     float GetPosDistance() const {
-        return Length(GetPosition2Rap(), 0);
-    }
+     float GetPosDistance() const;
 
     float SubJetRatio;
 

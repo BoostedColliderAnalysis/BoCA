@@ -3,7 +3,7 @@
 #include <map>
 #include <unordered_map>
 
-// #include "fastjet/JetDefinition.hh"
+#include "fastjet/PseudoJet.hh"
 
 #include "Identification.hh"
 #include "Constituent.hh"

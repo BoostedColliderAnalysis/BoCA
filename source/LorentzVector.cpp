@@ -1,38 +1,21 @@
-// #include "TClass.h"
-// #include "TError.h"
 #include "LorentzVector.hh"
 #include "TLorentzVector.h"
-// #include "TLorentzRotation.h"
 #include <iostream>
-// #include <cmath>
-// #include <algorithm>
 
 namespace analysis
 {
 
-LorentzVector::LorentzVector()
-    : p_(), e_(0.0) {}
+LorentzVector::LorentzVector() : p_(), e_(0.0) {}
 
-LorentzVector::LorentzVector(float x, float y, float z, float t)
-    : p_(x, y, z), e_(t) {}
+LorentzVector::LorentzVector(float x, float y, float z, float t) : p_(x, y, z), e_(t) {}
 
-LorentzVector::LorentzVector(const float *x0)
-    : p_(x0), e_(x0[3]) {}
+LorentzVector::LorentzVector(const float *x0) : p_(x0), e_(x0[3]) {}
 
-// LorentzVector::LorentzVector(const float *x0)
-//     : p_(x0), e_(x0[3]) {}
-
-LorentzVector::LorentzVector(const Vector3 &p, float e)
-    : p_(p), e_(e) {}
-
-// LorentzVector::LorentzVector(const LorentzVector &p)  :// TObject(p),
-//     p_(p.Vect()), e_(p.T()) {}
-
-// LorentzVector::~LorentzVector()  {}
+LorentzVector::LorentzVector(const Vector3 &p, float e) : p_(p), e_(e) {}
 
 float LorentzVector::operator()(int i) const
 {
-    //dereferencing operator const
+//dereferencing operator const
     switch (i) {
     case kX:
     case kY:
@@ -41,7 +24,7 @@ float LorentzVector::operator()(int i) const
     case kT:
         return e_;
     default:
-        //         Error("operator()()", "bad index (%d) returning 0", i);
+// Error("operator()()", "bad index (%d) returning 0", i);
         std::cout << "Error" << std::endl;
     }
     return 0.;
@@ -49,7 +32,7 @@ float LorentzVector::operator()(int i) const
 
 float &LorentzVector::operator()(int i)
 {
-    //dereferencing operator
+//dereferencing operator
     switch (i) {
     case kX:
     case kY:
@@ -58,7 +41,7 @@ float &LorentzVector::operator()(int i)
     case kT:
         return e_;
     default:
-        //         Error("operator()()", "bad index (%d) returning &e_", i);
+// Error("operator()()", "bad index (%d) returning &e_", i);
         std::cout << "Error" << std::endl;
     }
     return e_;
@@ -66,7 +49,7 @@ float &LorentzVector::operator()(int i)
 
 void LorentzVector::Boost(float bx, float by, float bz)
 {
-    //Boost this Lorentz vector
+//Boost this Lorentz vector
     float b2 = bx * bx + by * by + bz * bz;
     float gamma = 1.0 / std::sqrt(1.0 - b2);
     float bp = bx * X() + by * Y() + bz * Z();
@@ -80,7 +63,7 @@ void LorentzVector::Boost(float bx, float by, float bz)
 
 float LorentzVector::Rapidity() const
 {
-    //return rapidity
+//return rapidity
     return 0.5 * log((E() + Pz()) / (E() - Pz()));
 }
 void LorentzVector::operator=(const TLorentzVector &lorentzvector)
@@ -90,10 +73,8 @@ void LorentzVector::operator=(const TLorentzVector &lorentzvector)
 }
 void LorentzVector::SetXYZM(float x, float y, float z, float m)
 {
-    if (m  >= 0)
-        SetXYZT(x, y, z, std::sqrt(x * x + y * y + z * z + m * m));
-    else
-        SetXYZT(x, y, z, std::sqrt(std::max((x * x + y * y + z * z - m * m), float(0))));
+    if (m >= 0) SetXYZT(x, y, z, std::sqrt(x * x + y * y + z * z + m * m));
+    else SetXYZT(x, y, z, std::sqrt(std::max((x * x + y * y + z * z - m * m), float(0))));
 }
 void LorentzVector::SetPtEtaPhiM(float pt, float eta, float phi, float m)
 {
@@ -193,15 +174,15 @@ float LorentzVector::Pz() const
 {
     return Z();
 }
-float LorentzVector::P()  const
+float LorentzVector::P() const
 {
     return p_.Mag();
 }
-float LorentzVector::E()  const
+float LorentzVector::E() const
 {
     return T();
 }
-float LorentzVector::Energy()  const
+float LorentzVector::Energy() const
 {
     return T();
 }
@@ -269,7 +250,7 @@ void LorentzVector::SetRho(float rho)
     p_.SetMag(rho);
 }
 
-void LorentzVector::SetXYZT(float  x, float  y, float  z, float t)
+void LorentzVector::SetXYZT(float x, float y, float z, float t)
 {
     p_.SetXYZ(x, y, z);
     SetT(t);
@@ -280,34 +261,13 @@ void LorentzVector::SetPxPyPzE(float px, float py, float pz, float e)
     SetXYZT(px, py, pz, e);
 }
 
-// void LorentzVector::SetXYZM(float  x, float  y, float  z, float m);
-
-//  void LorentzVector::SetPtEtaPhiM(float pt, float eta, float phi, float m);
-
-//  void LorentzVector::SetPtEtaPhiE(float pt, float eta, float phi, float e);
-
-//  void LorentzVector::GetXYZT(float *carray) const;
-
-//  void LorentzVector::GetXYZT(float *carray) const
-// {
-//     p_.GetXYZ(carray);
-//     carray[3] = e_;
-// }
-
 float &LorentzVector::operator [](int i)
 {
     return (*this)(i);
 }
-float   LorentzVector::operator [](int i) const
+float LorentzVector::operator [](int i) const
 {
     return (*this)(i);
-}
-
-LorentzVector &LorentzVector::operator = (const LorentzVector &q)
-{
-    p_ = q.Vect();
-    e_ = q.T();
-    return *this;
 }
 
 LorentzVector LorentzVector::operator + (const LorentzVector &q) const
@@ -366,7 +326,7 @@ float LorentzVector::Perp2() const
     return p_.Perp2();
 }
 
-float LorentzVector::Perp()  const
+float LorentzVector::Perp() const
 {
     return p_.Perp();
 }
@@ -402,12 +362,6 @@ float LorentzVector::Et2() const
     return pt2 == 0 ? 0 : E() * E() * pt2 / (pt2 + Z() * Z());
 }
 
-//  float LorentzVector::Et() const;
-
-// float LorentzVector::Et2(const Vector3 &v) const;
-
-// float LorentzVector::Et(const Vector3 &v) const;
-
 float LorentzVector::DeltaPhi(const LorentzVector &v) const
 {
     return Vector2::Phi_mpi_pi(Phi() - v.Phi());
@@ -417,7 +371,6 @@ float LorentzVector::Eta() const
 {
     return PseudoRapidity();
 }
-// float LorentzVector::DeltaR(const LorentzVector &v) const;
 
 float LorentzVector::DrEtaPhi(const LorentzVector &v) const
 {
@@ -440,7 +393,7 @@ float LorentzVector::Mag2() const
     return T() * T() - p_.Mag2();
 }
 
-//  float LorentzVector::Mag() const;
+// float LorentzVector::Mag() const;
 
 float LorentzVector::M2() const
 {
@@ -456,14 +409,10 @@ float LorentzVector::Mt2() const
     return E() * E() - Z() * Z();
 }
 
-// float LorentzVector::Mt() const;
-
 float LorentzVector::Beta() const
 {
     return p_.Mag() / e_;
 }
-
-// float LorentzVector::Gamma() const;
 
 void LorentzVector::SetVectMag(const Vector3 &spatial, float magnitude)
 {
@@ -488,8 +437,8 @@ float LorentzVector::operator * (const LorentzVector &q) const
 //Member functions Plus() and Minus() return the positive and negative
 //light-cone components:
 //
-//  float pcone = v.Plus();
-//  float mcone = v.Minus();
+// float pcone = v.Plus();
+// float mcone = v.Minus();
 //
 //CAVEAT: The values returned are T{+,-}Z. It is known that some authors
 //find it easier to define these components as (T{+,-}Z)/sqrt(2). Thus
@@ -541,72 +490,9 @@ void LorentzVector::RotateUz(Vector3 &newUzVector)
     p_.RotateUz(newUzVector);
 }
 
-//  void LorentzVector::Rotate(float a, const Vector3 &v)
-// {
-//     p_.Rotate(a, v);
-// }
-
-//  LorentzVector &LorentzVector::operator *= (const TRotation &m)
-// {
-//     p_ *= m;
-//     return *this;
-// }
-//
-//  LorentzVector &LorentzVector::Transform(const TRotation &m)
-// {
-//     p_.Transform(m);
-//     return *this;
-// }
-
 LorentzVector operator * (float a, const LorentzVector &p)
 {
     return LorentzVector(a * p.X(), a * p.Y(), a * p.Z(), a * p.T());
 }
-
-// LorentzVector &LorentzVector::operator *= (const TLorentzRotation &m)
-// {
-//     //multiply this Lorentzvector by m
-//     return *this = m.VectorMultiplication(*this);
-// }
-//
-// LorentzVector &LorentzVector::Transform(const TLorentzRotation &m)
-// {
-//     //Transform this Lorentzvector
-//     return *this = m.VectorMultiplication(*this);
-// }
-
-// void LorentzVector::Streamer(TBuffer &R__b)
-// {
-//     // Stream an object of class LorentzVector.
-//     float x, y, z;
-//     UInt_t R__s, R__c;
-//     if (R__b.IsReading()) {
-//         Version_t R__v = R__b.ReadVersion(&R__s, &R__c);
-//         if (R__v > 3) {
-//             R__b.ReadClassBuffer(LorentzVector::Class(), this, R__v, R__s, R__c);
-//             return;
-//         }
-//         //====process old versions before automatic schema evolution
-//         if (R__v != 2) TObject::Streamer(R__b);
-//         R__b >> x;
-//         R__b >> y;
-//         R__b >> z;
-//         p_.SetXYZ(x, y, z);
-//         R__b >> e_;
-//         R__b.CheckByteCount(R__s, R__c, LorentzVector::IsA());
-//     } else {
-//         R__b.WriteClassBuffer(LorentzVector::Class(), this);
-//     }
-// }
-
-
-//______________________________________________________________________________
-// void LorentzVector::Print(Option_t *) const
-// {
-//     // Print the TLorentz vector components as (x,y,z,t) and (P,eta,phi,E) representations
-//     Printf("(x,y,z,t)=(%f,%f,%f,%f) (P,eta,phi,E)=(%f,%f,%f,%f)",
-//            p_.x(), p_.y(), p_.z(), e_,
-//            P(), Eta(), Phi(), e_);
-// }
 
 }

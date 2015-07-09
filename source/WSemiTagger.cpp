@@ -6,14 +6,14 @@ namespace analysis {
 
 WSemiTagger::WSemiTagger()
 {
-    Note();
+    Info();
     w_mass_window_ = 20;
     DefineVariables();
 }
 
 int WSemiTagger::Train(const Event &event, analysis::PreCuts &, const analysis::Tag tag) const
 {
-    Info("Train");
+    Info();
     Jets Particles = event.Partons().GenParticles();
     int w_semi_id = WSemiId(event);
     Jets w_bosons = CopyIfParticle(Particles, w_semi_id);
@@ -45,7 +45,7 @@ int WSemiTagger::Train(const Event &event, analysis::PreCuts &, const analysis::
 
 std::vector<Doublet>  WSemiTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const
 {
-  Info("Triple Bdt");
+  Info();
   Jets Particles = event.Partons().GenParticles();
   int w_semi_id = WSemiId(event);
   Jets w_bosons = CopyIfParticle(Particles, w_semi_id);
@@ -68,7 +68,7 @@ std::vector<Doublet>  WSemiTagger::Multiplets(const Event &event, analysis::PreC
 std::vector<Doublet> WSemiTagger::ReconstructNeutrino(const Doublet &doublet) const
 {
 
-    Info("Neutrinos");
+    Info();
     const fastjet::PseudoJet lepton = doublet.SingletJet1();
     const fastjet::PseudoJet missing_et = doublet.SingletJet2();
 
@@ -118,20 +118,26 @@ std::vector<Doublet> WSemiTagger::ReconstructNeutrino(const Doublet &doublet) co
 Jets WSemiTagger::WSemiDaughters(const Event &event) const
 {
     Jets w_daughters = event.Partons().GenParticles();
-//     w_daughters = RemoveIfSoft(w_daughters, DetectorGeometry().JetMinPt());
+    w_daughters = RemoveIfSoft(w_daughters, DetectorGeometry().JetMinPt());
     w_daughters = RemoveIfWrongAbsMother(w_daughters, Id::W);
-    Check(w_daughters.size() == 4, "Where is the W 1?", w_daughters.size());
-
     w_daughters = RemoveIfQuark(w_daughters);
-    if (w_daughters.size() != 2) Error("Where is the W 2?", w_daughters.size());
-    else Info(Name(w_daughters.at(0).user_info<JetInfo>().constituents().front().family().particle().id()), Name(w_daughters.at(1).user_info<JetInfo>().constituents().front().family().particle().id()), Name(w_daughters.at(0).user_info<JetInfo>().constituents().front().family().mother_1().id()), Name(w_daughters.at(1).user_info<JetInfo>().constituents().front().family().mother_1().id()));
     return w_daughters;
 }
 
 int WSemiTagger::WSemiId(const Jets &jets) const
 {
-    if (jets.empty()) return to_int(Id::W);
-    else return jets.front().user_info<JetInfo>().constituents().front().family().mother_1().id();
+  if (jets.empty()) return 0;
+  int sign;
+  bool first = true;
+  bool just_one = true;
+  for (const auto jet : jets) {
+    int id = jet.user_info<JetInfo>().constituents().front().family().mother_1().id();
+    if (first) sign = sgn(id);
+    else if (sign != sgn(id)) just_one = false;
+    first = false;
+  }
+  if (just_one) return sign * to_int(Id::W);
+  return 0;
 }
 
 }

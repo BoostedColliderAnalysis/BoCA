@@ -31,13 +31,13 @@ int TopHadronicTagger::Train(const Event &event, analysis::PreCuts &pre_cuts, co
     std::vector<Doublet> doublets = w_hadronic_reader_.Multiplets(jets);
     triplets = Triplets(doublets, jets, leptons, pre_cuts, tag);
 
-    Info("2 Jet form one top" , triplets.size());
-    ordered_pairs(jets, triplets, [&](const auto & jet_1, const auto & jet_2) {
-        Doublet piece_doublet = w_hadronic_reader_.SubMultiplet(jet_1);
-        return Triplet(piece_doublet, jet_2, leptons, pre_cuts, tag);
-    });
-
     for (const auto & jet : jets) {
+
+        Info("2 Jet form one top" , triplets.size());
+        try {
+            Doublet piece_doublet = w_hadronic_reader_.SubMultiplet(jet);
+            triplets = Join(triplets, Triplets(piece_doublet, jets, leptons, pre_cuts,tag));
+        } catch (const char *message) {}
 
         Info("1 jet forms one top", triplets.size());
         analysis::Triplet triplet(jet);
@@ -58,11 +58,7 @@ int TopHadronicTagger::Train(const Event &event, analysis::PreCuts &pre_cuts, co
             auto piece_2 = pieces.at((i + 1) % sub_jet_number);
             try {
                 Doublet doublet = w_hadronic_reader_.Multiplet(piece_2);
-                try {
-                    triplets.emplace_back(Triplet(doublet, piece_1, leptons, pre_cuts, tag));
-                } catch (const char *message) {
-                    continue;
-                }
+                triplets.emplace_back(Triplet(doublet, piece_1, leptons, pre_cuts, tag));
             } catch (const char *message) {
                 continue;
             }
@@ -78,11 +74,7 @@ int TopHadronicTagger::Train(const Event &event, analysis::PreCuts &pre_cuts, co
             auto piece_3 = pieces.at((i + 2) % sub_jet_number);
             try {
                 Doublet doublet = w_hadronic_reader_.Multiplet(piece_2, piece_3);
-                try {
-                    triplets.emplace_back(Triplet(doublet, piece_1, leptons, pre_cuts, tag));
-                } catch (const char *message) {
-                    continue;
-                }
+                triplets.emplace_back(Triplet(doublet, piece_1, leptons, pre_cuts, tag));
             } catch (const char *message) {
                 continue;
             }
@@ -199,14 +191,18 @@ std::vector<Triplet> TopHadronicTagger::Multiplets(const Event &event, analysis:
     for (const auto & jet : jets) {
 
         Info("2 Jet form one top" , triplets.size());
-        Doublet piece_doublet = w_hadronic_reader_.SubMultiplet(jet);
-        triplets = Join(triplets, Multiplets(piece_doublet, jets, leptons, pre_cuts, reader));
+        try {
+            Doublet piece_doublet = w_hadronic_reader_.SubMultiplet(jet);
+            triplets = Join(triplets, Multiplets(piece_doublet, jets, leptons, pre_cuts, reader));
+        } catch (const char *message) {}
 
         Info("1 jet forms one top", triplets.size());
         analysis::Triplet triplet(jet);
         if (Problematic(triplet, pre_cuts)) continue; // Check if potential topjet otherwise next jet
         triplet.Doublet().SetBdt(1);
-        triplets.emplace_back(Multiplet(triplet, leptons, pre_cuts, reader));
+        try {
+            triplets.emplace_back(Multiplet(triplet, leptons, pre_cuts, reader));
+        } catch (const char *message) {}
 
         Info("2 sub jets forms one top" , triplets.size());
         std::size_t sub_jet_number = 2;
@@ -332,3 +328,11 @@ SubJettiness TopHadronicTagger::NSubJettiness(const fastjet::PseudoJet &jet) con
 
 }
 
+
+//     Info("2 Jet form one top" , triplets.size());
+//     ordered_pairs(jets, triplets, [&](const auto & jet_1, const auto & jet_2) {
+//         try {
+//             Doublet piece_doublet = w_hadronic_reader_.SubMultiplet(jet_1);
+//             return Triplet(piece_doublet, jet_2, leptons, pre_cuts, tag);
+//         } catch (const char *message) {}
+//     });

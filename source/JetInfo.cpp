@@ -1,8 +1,8 @@
 #include "JetInfo.hh"
 
 #include "Predicate.hh"
-#include "Debug.hh"
 #include "delphes/Delphes.hh"
+#include "Debug.hh"
 
 namespace analysis
 {

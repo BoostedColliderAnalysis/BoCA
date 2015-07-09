@@ -2,6 +2,7 @@
 
 #include "DetectorGeometry.hh"
 #include "Global.hh"
+#include "LorentzVector.hh"
 
 namespace analysis
 {
@@ -269,6 +270,36 @@ void unordered_pairs(const Container &container, Function function)
             function(*element_1, *element_2);
         }
     }
+}
+
+template <typename Value>
+int sgn(const Value value)
+{
+  return (Value(0) < value) - (value < Value(0));
+}
+
+
+/**
+ * @brief Calcualte distance in eta phi space
+ *
+ */
+float Distance(const float rapidity_1, const float phi_1, const float rapidity_2, const float phi_2);
+
+/**
+ * @brief Calcualte distance from center in eta phi space
+ *
+ */
+float Length(const float rapidity, const float phi);
+
+/**
+ * @brief Take care of phi angles around pi
+ *
+ */
+float DeltaPhi(const float phi_1, const float phi_2);
+
+template <typename Enumeration>
+auto to_int(Enumeration const value) -> typename std::underlying_type<Enumeration>::type {
+  return static_cast<typename std::underlying_type<Enumeration>::type>(value);
 }
 
 }
