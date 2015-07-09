@@ -31,6 +31,12 @@ Constituent::Constituent(const TLorentzVector &momentum, const Family &family)
     family_ = family;
 }
 
+Constituent::Constituent(const LorentzVector &momentum, const Family &family)
+{
+  momentum_ = momentum;
+  family_ = family;
+}
+
 Constituent::Constituent(const TLorentzVector &momentum)
 {
     momentum_ = momentum;
@@ -69,12 +75,12 @@ void Constituent::SetFamily(const Family &family)
     family_ = family;
 }
 
-TLorentzVector Constituent::Position() const
+LorentzVector Constituent::Position() const
 {
     return position_;
 }
 
-TLorentzVector Constituent::Momentum() const
+LorentzVector Constituent::Momentum() const
 {
     return momentum_;
 }
@@ -84,12 +90,12 @@ Family Constituent::family() const
     return family_;
 }
 
-Constituent Constituent::operator+(Constituent &constituent)
+Constituent Constituent::operator+(const Constituent &constituent)
 {
-    constituent.position_ += this->position_;
-    constituent.momentum_ += this->momentum_;
-    constituent.charge_ += this->charge_;
-    return constituent;
+    position_ += constituent.position_;
+    momentum_ += constituent.momentum_;
+    charge_ += constituent.charge_;
+    return *this;
 }
 
 void Constituent::SetDetector(const SubDetector detector)

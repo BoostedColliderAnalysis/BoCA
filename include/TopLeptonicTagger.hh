@@ -2,7 +2,7 @@
 
 #include "BottomTagger.hh"
 #include "Doublet.hh"
-#include "ReaderTagger.hh"
+#include "Reader.hh"
 
 namespace analysis
 {
@@ -22,7 +22,7 @@ public:
 
     std::vector< Doublet> Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const;
 
-    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const {
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
 //         do_fake_leptons = true;
         return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
 //         return SaveEntries(Multiplets(event, pre_cuts, reader), Particles(event).size());
@@ -41,13 +41,13 @@ public:
         return Multiplets(event, pre_cuts, reader);
     }
 
-    std::string name() const {
+    std::string name() const final {
       return "TopLeptonic";
     }
 
 private:
 
-    ReaderTagger<BottomTagger> bottom_reader_;
+    Reader<BottomTagger> bottom_reader_;
 
     float top_mass_window;
 

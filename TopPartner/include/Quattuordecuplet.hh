@@ -16,11 +16,11 @@ public:
 
     using Multiplet<toppartner::Decuplet55, Quartet22>::Multiplet;
 
-     toppartner::Decuplet55 Decuplet()const {
+     toppartner::Decuplet55 Decuplet() const {
         return Multiplet1();
     }
 
-     Quartet22 Quartet()const {
+     Quartet22 Quartet() const {
         return Multiplet2();
     }
 

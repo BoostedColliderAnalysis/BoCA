@@ -8,8 +8,6 @@ namespace analysis
 
 typedef std::pair<float &, std::string> ObservablePair;
 typedef std::vector<ObservablePair> Observables;
-#define STRING(s) #s
-#define PAIR(x) ObservablePair(x,STRING(x))
 
 /**
  * @brief Basic tree branches
@@ -333,11 +331,11 @@ public:
     template<typename Multiplet>
     void Fill(const Multiplet &multiplet) {
         PairBranch::Fill(multiplet);
-        BottomPt = multiplet.SingletJet().pt();
+        BottomPt = multiplet.Singlet().Jet().pt();
 //         BottomRap = std::abs(multiplet.Singlet().rap());
-        BottomRap = multiplet.SingletJet().rap();
-        BottomPhi = multiplet.SingletJet().phi();
-        BottomMass = multiplet.SingletJet().m();
+        BottomRap = multiplet.Singlet().Jet().rap();
+        BottomPhi = multiplet.Singlet().Jet().phi();
+        BottomMass = multiplet.Singlet().Jet().m();
 //         BottomBdt = multiplet.Singlet().user_info<JetInfo>().Bdt();
         TopPt = multiplet.Triplet().Jet().pt();
 //         TopRap = std::abs(multiplet.Triplet().Jet().rap());
@@ -390,7 +388,7 @@ public:
     void Fill(const Multiplet &multiplet) {
         MultiBranch::Fill(multiplet);
         BottomBase::Fill(multiplet);
-        BottomMass = multiplet.SingletJet().m();
+        BottomMass = multiplet.Singlet().Jet().m();
         WMass = multiplet.Doublet().Jet().m();
         LeptonPt = multiplet.pt();
     }
@@ -438,7 +436,7 @@ public:
     template<typename Multiplet>
     void Fill(const Multiplet &multiplet) {
         MultiBranch::Fill(multiplet);
-        BottomPt = multiplet.SingletJet().pt();
+        BottomPt = multiplet.Singlet().Jet().pt();
         WPt = multiplet.Doublet().Jet().pt();
     }
     Observables Variables();

@@ -3,11 +3,15 @@
 #include <map>
 #include <unordered_map>
 
-// #include "fastjet/JetDefinition.hh"
+#include "fastjet/PseudoJet.hh"
 
 #include "Identification.hh"
 #include "Constituent.hh"
-#include "delphes/Delphes.hh"
+
+class Jet;
+namespace delphes{
+  typedef ::Jet Jet;
+}
 
 namespace analysis
 {
@@ -45,7 +49,9 @@ public:
 
     JetInfo(const std::vector<Constituent> &constituents);
 
-    JetInfo operator+(const JetInfo &jet_info);
+    JetInfo(const std::vector<Constituent> &constituents, const std::vector<Constituent> &dispalced_constituents);
+
+//     JetInfo operator+(const JetInfo &jet_info);
 
     void AddConstituent(const Constituent &constituent);
 
@@ -54,6 +60,8 @@ public:
     void AddDaughter(const int daughter);
 
     std::vector<Constituent> constituents() const;
+
+    std::vector<Constituent> displaced_constituents() const;
 
     std::unordered_map<Family, float> FamilyFractions();
 
@@ -141,9 +149,13 @@ private:
 
     float GetWeightSum() const;
 
-    std::vector<Constituent> ApplyVertexResolution() const;
+    std::vector<Constituent> ApplyVertexResolution(std::vector< Constituent > constituents) const;
+
+    bool VertexResultion(const Constituent &constituent) const;
 
     std::vector<Constituent> constituents_;
+
+    std::vector<Constituent> displaced_constituents_;
 
     std::unordered_map<Family, float> family_fractions_;
 

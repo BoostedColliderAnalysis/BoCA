@@ -25,6 +25,8 @@ public:
 
     Constituent(const TLorentzVector &momentum, const Family &family);
 
+    Constituent(const LorentzVector &momentum, const Family &family);
+
     Constituent(const TLorentzVector &momentum);
 
     Constituent(const TLorentzVector &momentum, const SubDetector sub_detector, const float charge);
@@ -39,19 +41,19 @@ public:
 
     void SetFamily(const Family &family);
 
-    TLorentzVector Position() const;
+    LorentzVector Position() const;
 
-    TLorentzVector Momentum() const;
+    LorentzVector Momentum() const;
 
     Family family() const;
 
-    Constituent operator+(Constituent &constituent);
+    Constituent operator+(const Constituent &constituent);
 
     void SetDetector(const SubDetector sub_detector);
 
     SubDetector sub_detector() const;
 
-    int charge()const;
+    int charge() const;
 
     void set_charge(const int charge);
 
@@ -59,9 +61,9 @@ private:
 
     SubDetector sub_detector_ = SubDetector::none;
 
-    TLorentzVector position_;
+    LorentzVector position_;
 
-    TLorentzVector momentum_;
+    LorentzVector momentum_;
 
     analysis::Family family_;
 

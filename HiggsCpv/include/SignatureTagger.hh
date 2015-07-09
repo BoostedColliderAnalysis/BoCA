@@ -25,7 +25,7 @@ public:
 
     std::vector< Octet62 > Multiplets(const analysis::Event &event, analysis::PreCuts &, const TMVA::Reader &reader) const;
 
-    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const {
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
       return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
@@ -34,15 +34,15 @@ public:
       return Multiplets(event, pre_cuts, reader);
     }
 
-    std::string name() const {
+    std::string name() const final {
       return "Signature";
     }
 
 private:
 
-    ReaderTagger<HiggsTagger> higgs_reader_;
+    Reader<HiggsTagger> higgs_reader_;
 
-    ReaderTagger<TopLeptonicPairTagger> triplet_pair_reader_;
+    Reader<TopLeptonicPairTagger> triplet_pair_reader_;
 
 };
 

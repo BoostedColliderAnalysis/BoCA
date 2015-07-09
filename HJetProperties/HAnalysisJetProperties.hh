@@ -25,7 +25,7 @@ public:
  * @brief Class defining the Disciminator Analysis
  *
  */
-class hjetproperties::HAnalysis : public analysis::Analysis
+class hjetproperties::HAnalysis //: public analysis::Analysis
 {
 
 public:
@@ -36,11 +36,11 @@ public:
      */
     HAnalysis();
 
-     int GeteventnumberMax()const {
+     int GeteventnumberMax() const {
         return 10000;
     };
 
-     std::string ProjectName()const {
+     std::string ProjectName() const {
         return "JetProperties";
     }
 

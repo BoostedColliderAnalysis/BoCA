@@ -23,11 +23,11 @@ public:
 
     TopPartnerHiggsPairTagger();
 
-    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const;
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const final;
 
     std::vector<Septet> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
 
-    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const {
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
       return SaveEntries(Multiplets(event,pre_cuts, reader));
     }
 
@@ -36,15 +36,15 @@ public:
       return Multiplets(event, pre_cuts, reader);
     }
 
-    std::string name() const {
+    std::string name() const final {
       return "TopPartnerHiggsPair";
     }
 
 private:
 
-    ReaderTagger<TopPartnerSemiTagger> top_partner_hadronic_reader_;
+    Reader<TopPartnerSemiTagger> top_partner_hadronic_reader_;
 
-    ReaderTagger<HiggsTagger> higgs_reader_;
+    Reader<HiggsTagger> higgs_reader_;
 };
 
 }

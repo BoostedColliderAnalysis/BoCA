@@ -2,8 +2,7 @@
 
 #include "Quintet.hh"
 #include "TopHadronicTagger.hh"
-// #include "ZHadronicTagger.hh"
-#include "HiggsTagger.hh"
+#include "BosonTagger.hh"
 #include "BranchesTopPartner.hh"
 
 namespace analysis
@@ -23,11 +22,11 @@ public:
 
     TopPartnerHadronicTagger();
 
-    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const;
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const final;
 
     std::vector<Quintet> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
 
-    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const {
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
       return SaveEntries(Multiplets(event,pre_cuts, reader));
     }
 
@@ -36,15 +35,15 @@ public:
       return Multiplets(event, pre_cuts, reader);
     }
 
-    std::string name() const {
+    std::string name() const final {
       return "TopPartnerHadronic";
     }
 
 private:
 
-    ReaderTagger<TopHadronicTagger> top_reader_;
+    Reader<TopHadronicTagger> top_reader_;
 
-    ReaderTagger<HiggsTagger> z_hadronic_reader_;
+    Reader<BosonTagger> boson_reader_;
 
 };
 

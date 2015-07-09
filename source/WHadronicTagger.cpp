@@ -71,10 +71,11 @@ int WHadronicTagger::Train(const Event &event, analysis::PreCuts &pre_cuts, cons
         doublets.emplace_back(doublet);
     }
 
-//     Jets w_hadronic_daughters = WDaughters(event);
-//     int w_hadronic_id = WHadronicId(w_hadronic_daughters);
+    int w_hadronic_id = WHadronicId(event);
     Jets particles = event.Partons().Particles();
-    Jets w_particles = copy_if_abs_particle(particles, Id::W);
+    Jets w_particles;
+    if (w_hadronic_id != 0) w_particles = CopyIfParticle(particles, w_hadronic_id);
+    else w_particles = CopyIfAbsParticle(particles, Id::W);
     w_particles = RemoveIfSoft(w_particles, DetectorGeometry().JetMinPt());
     return SaveEntries(BestMatches(doublets, w_particles, Tag));
 }
@@ -84,17 +85,27 @@ Jets WHadronicTagger::WDaughters(const analysis::Event &event) const
 {
     Jets w_daughters = event.Partons().GenParticles();
     w_daughters = CopyIfAbsMother(w_daughters, Id::W);
-    Info("W daughters", w_daughters.size());
+    Info(w_daughters.size());
 
     w_daughters = CopyIfQuark(w_daughters);
-    Info("hadronic W daughters", w_daughters.size());
+    Info(w_daughters.size());
     return w_daughters;
 }
 
 int WHadronicTagger::WHadronicId(const Jets &jets) const
 {
-    if (jets.empty()) return to_int(Id::W);
-    else return jets.front().user_info<JetInfo>().constituents().front().family().mother_1().Id;
+    if (jets.empty()) return 0;
+    int sign;
+    bool first = true;
+    bool just_one = true;
+    for (const auto jet : jets) {
+        int id = jet.user_info<JetInfo>().constituents().front().family().mother_1().id();
+        if (first) sign = sgn(id);
+        else if (sign != sgn(id)) just_one = false;
+        first = false;
+    }
+    if (just_one) return sign * to_int(Id::W);
+    return 0;
 }
 
 bool WHadronicTagger::Problematic(const Doublet &doublet, PreCuts &pre_cuts, const Tag tag) const
@@ -124,7 +135,7 @@ bool WHadronicTagger::Problematic(const Doublet &doublet, PreCuts &pre_cuts) con
 
 std::vector<Doublet> WHadronicTagger::Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const
 {
-    Info("doublet Bdt");
+    Info();
 
     Jets jets = bottom_reader_.Multiplets(event);
     std::vector<Doublet> doublets;
@@ -149,7 +160,7 @@ std::vector<Doublet> WHadronicTagger::Multiplets(const Event &event, PreCuts &pr
 
 std::vector<Doublet> WHadronicTagger::Multiplets(const Jets &jets, PreCuts &pre_cuts, const TMVA::Reader &reader) const
 {
-    Info("doublet Bdt");
+    Info();
     std::vector<Doublet>  doublets;
     for (auto Jet1 = jets.begin(); Jet1 != jets.end(); ++Jet1) {
         for (auto Jet2 = Jet1 + 1; Jet2 != jets.end(); ++Jet2) {
@@ -165,7 +176,7 @@ std::vector<Doublet> WHadronicTagger::Multiplets(const Jets &jets, PreCuts &pre_
 
 std::vector<Doublet> WHadronicTagger::Multiplets3(const Jets &jets, PreCuts &pre_cuts, const TMVA::Reader &reader) const
 {
-    Info("doublet Bdt");
+    Info();
     std::vector<Doublet>  doublets;
     for (auto Jet1 = jets.begin(); Jet1 != jets.end(); ++Jet1) {
         try {
@@ -179,7 +190,7 @@ std::vector<Doublet> WHadronicTagger::Multiplets3(const Jets &jets, PreCuts &pre
 
 std::vector<Doublet> WHadronicTagger::SubMultiplets(const Jets &jets, PreCuts &pre_cuts, const TMVA::Reader &reader, const std::size_t sub_jet_number) const
 {
-    Info("doublet Bdt");
+    Info();
     std::vector<Doublet>  doublets;
     for (const auto & jet : jets) {
         Jets pieces = bottom_reader_.SubMultiplet(jet, sub_jet_number);
@@ -199,7 +210,7 @@ std::vector<Doublet> WHadronicTagger::SubMultiplets(const Jets &jets, PreCuts &p
 
 std::vector<Doublet> WHadronicTagger::SubMultiplets2(const Jets &jets, PreCuts &pre_cuts, const TMVA::Reader &reader) const
 {
-    Info("doublet Bdt");
+    Info();
     int sub_jet_number = 2;
     std::vector<Doublet>  doublets;
     for (const auto & jet : jets) {
@@ -217,7 +228,7 @@ std::vector<Doublet> WHadronicTagger::SubMultiplets2(const Jets &jets, PreCuts &
 
 Doublet WHadronicTagger::SubMultiplet(const fastjet::PseudoJet &jet, PreCuts &pre_cuts, const TMVA::Reader &reader) const
 {
-    Info("doublet Bdt");
+    Info();
     Jets pieces = bottom_reader_.SubMultiplet(jet, 2);
     Doublet doublet;
     if (pieces.empty()) return doublet;
@@ -232,7 +243,7 @@ Doublet WHadronicTagger::SubMultiplet(const fastjet::PseudoJet &jet, PreCuts &pr
 
 Doublet WHadronicTagger::Multiplet(const fastjet::PseudoJet &jet_1, const fastjet::PseudoJet &jet_2, PreCuts &pre_cuts, const TMVA::Reader &reader) const
 {
-    Info("doublet Bdt");
+    Info();
     Doublet doublet(jet_1, jet_2);
     try {
         return Multiplet(doublet, pre_cuts, reader);
@@ -243,7 +254,7 @@ Doublet WHadronicTagger::Multiplet(const fastjet::PseudoJet &jet_1, const fastje
 
 Doublet WHadronicTagger::Multiplet(const fastjet::PseudoJet &jet, PreCuts &pre_cuts, const TMVA::Reader &reader) const
 {
-    Info("doublet Bdt");
+    Info();
     Doublet doublet(jet);
     try {
         return Multiplet(doublet, pre_cuts, reader);
@@ -254,7 +265,7 @@ Doublet WHadronicTagger::Multiplet(const fastjet::PseudoJet &jet, PreCuts &pre_c
 
 Doublet WHadronicTagger::Multiplet(Doublet &doublet, PreCuts &pre_cuts, const TMVA::Reader &reader) const
 {
-    Info("doublet Bdt");
+    Info();
     if (Problematic(doublet, pre_cuts)) throw "W hadronic doublet problem";
     doublet.SetBdt(Bdt(doublet, reader));
     return doublet;

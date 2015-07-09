@@ -1,6 +1,6 @@
 #pragma once
 
-#include "TObject.h"
+// #include "TObject.h"
 
 #include "exroot/ExRootAnalysis.hh"
 
@@ -41,7 +41,7 @@ public:
 
     TClonesArray &ClonesArray(const Branch branch) const;
 
-    TObject &Object(const Branch branch, const int number) const;
+    TObject &Object(const analysis::Branch branch, const int number) const;
 
     int EntrySum(const Branch branch) const;
 

@@ -35,7 +35,7 @@ int HeavyHiggsSemiTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag
     Debug("Number of Semi Tops", triplets_semi.size());
 
 //     std::vector<Triplet> FinaltripletsSemi;
-//     for (const auto tripletSemi : tripletsSemi) if (tripletSemi.singlet().pt() > pre_cuts / 2) FinaltripletsSemi.emplace_back(tripletSemi);
+//     for (const auto &tripletSemi : tripletsSemi) if (tripletSemi.singlet().pt() > pre_cuts / 2) FinaltripletsSemi.emplace_back(tripletSemi);
 
     std::vector<Triplet> triplets_hadronic = top_hadronic_reader_.Multiplets(event);
     Debug("Number of Hadronic Tops", triplets_hadronic.size());

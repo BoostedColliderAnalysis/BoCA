@@ -28,12 +28,12 @@ int TopPartnerLeptonicTagger::Train(const Event &event, PreCuts &pre_cuts, const
             quartet.SetTag(tag);
             quartets.emplace_back(quartet);
         }
-    Jets top_partner = copy_if_abs_particle(event.Partons().GenParticles(), Id::top_partner);
+    Jets top_partner = CopyIfAbsParticle(event.Partons().GenParticles(), Id::top_partner);
 //     Debug("top partner",quartets.size(),top_partner.size());
     return SaveEntries(BestMatches(quartets, top_partner, tag), 2);
 }
 
-std::vector<Quartet22> TopPartnerLeptonicTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const const
+std::vector<Quartet22> TopPartnerLeptonicTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const
 {
     std::vector< Doublet> top_doublets = top_reader_.Multiplets(event);
     std::vector< Doublet> z_doublets = higgs_hadronic_reader_.Multiplets(event);

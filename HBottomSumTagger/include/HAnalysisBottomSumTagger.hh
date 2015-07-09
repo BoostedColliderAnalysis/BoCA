@@ -22,7 +22,7 @@ namespace hbottomsumtagger
  * @author Jan Hajer
  *
  */
-class HAnalysis : public analysis::Analysis
+class HAnalysis //: public analysis::Analysis
 {
 
 public:
@@ -35,7 +35,7 @@ public:
 
 
 
-using analysis::Analysis::Analysis;
+// using analysis::Analysis::Analysis;
 
     analysis::BottomTagger bottom_tagger_;
 
@@ -54,12 +54,13 @@ using analysis::Analysis::Analysis;
     }
 
 private:
+  void SetFiles(const analysis::Tag tag) {};
 
     enum ProcessType {bb, cc, jj, qq, gg, Hbb, ttbb, ttcc, ttjj, ttqq, ttgg, bbbb, bbjj, bbcc, bbqq, bbgg};
     enum HProductionChannel {DYP, VBF, Associated, Simple};
     enum HDetectorType {LHC, FHC, LE};
 
-     int EventNumberMax() const {
+     long EventNumberMax() const {
 //         return 1000000;
 //         return 100000;
         return 10000;
@@ -222,8 +223,8 @@ private:
     }
 
     analysis::JetTag jet_tag;
-    analysis::Reader BottomReader;
-    analysis::Reader eventBottomSumReader;
+//     analysis::Reader BottomReader;
+//     analysis::Reader eventBottomSumReader;
 
 //     void NewBranches(exroot::TreeWriter &NewTreeWriter, const analysis::HAnalysis::HTagger Tagger);
 

@@ -2,7 +2,7 @@
 
 #include "BottomTagger.hh"
 #include "Doublet.hh"
-#include "ReaderTagger.hh"
+#include "Reader.hh"
 
 namespace analysis
 {
@@ -18,15 +18,15 @@ public:
 
     HiggsTagger();
 
-    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const;
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const final;
 
     std::vector< Doublet > Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
 
-    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const {
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
         return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
     }
 
-    std::string name() const {
+    std::string name() const final {
       return "Higgs";
     }
 
@@ -38,7 +38,7 @@ private:
 
     bool Problematic(const Doublet &doublet, PreCuts &pre_cuts) const;
 
-    ReaderTagger<BottomTagger> bottom_reader_;
+    Reader<BottomTagger> bottom_reader_;
 
     float higgs_mass_window = 40;
 

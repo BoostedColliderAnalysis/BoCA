@@ -17,10 +17,9 @@ class Leptons : public analysis::Leptons
 
 public:
 
-    analysis::Jets Electrons() const;
+    analysis::Jets Electrons() const final;
 
-
-    analysis::Jets Muons() const;
+    analysis::Jets Muons() const final;
 
 };
 

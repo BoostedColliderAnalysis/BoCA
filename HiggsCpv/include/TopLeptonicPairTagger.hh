@@ -25,7 +25,7 @@ public:
 
     std::vector<Sextet> Multiplets(const Event &event, analysis::PreCuts &, const TMVA::Reader &reader) const;
 
-    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const {
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
         return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
@@ -34,13 +34,13 @@ public:
         return Multiplets(event, pre_cuts, reader);
     }
 
-    std::string name() const {
+    std::string name() const final {
       return "TopLeptonicPair";
     }
 
 private:
 
-    ReaderTagger<TopLeptonicTagger> top_leptonic_reader_;
+    Reader<TopLeptonicTagger> top_leptonic_reader_;
 
 };
 

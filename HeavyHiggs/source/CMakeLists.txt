@@ -12,6 +12,7 @@ SignatureChargedTagger.cpp
 EventNeutralTagger.cpp
 EventChargedTagger.cpp
 EventFusionTagger.cpp
+AnalysisHeavyHiggs.cpp
 AnalysisNeutral.cpp
 AnalysisCharged.cpp
 AnalysisFusion.cpp

@@ -52,27 +52,27 @@ public:
         return std::min(std::abs(Triplet1().DeltaPhi()), std::abs(Triplet2().DeltaPhi()));
     }
 
-     float GetBetterTripleMass(const Id id)const {
+     float GetBetterTripleMass(const Id id) const {
         return std::min(Triplet1().MassDifferenceTo(id), Triplet2().MassDifferenceTo(id));
     }
 
-     float GetWorseTripleMass(const Id id)const {
+     float GetWorseTripleMass(const Id id) const {
         return std::max(Triplet1().MassDifferenceTo(id), Triplet2().MassDifferenceTo(id));
     }
 
-     float GetBetterPairMass(const Id id)const {
+     float GetBetterPairMass(const Id id) const {
         return std::min(Triplet1().Doublet().MassDifferenceTo(id), Triplet2().Doublet().MassDifferenceTo(id));
     }
 
-     float GetWorsePairMass(const Id id)const {
+     float GetWorsePairMass(const Id id) const {
         return std::max(Triplet1().Doublet().MassDifferenceTo(id), Triplet2().Doublet().MassDifferenceTo(id));
     }
 
-     float GetBetterJetMass(const Id id)const {
+     float GetBetterJetMass(const Id id) const {
         return std::min(Triplet1().MassDifferenceTo(id), Triplet2().MassDifferenceTo(id));
     }
 
-     float GetWorseJetMass(const Id id)const {
+     float GetWorseJetMass(const Id id) const {
         return std::max(Triplet1().MassDifferenceTo(id), Triplet2().MassDifferenceTo(id));
     }
 
