@@ -1,5 +1,6 @@
-#include "Predicate.hh"
 #include "JetInfo.hh"
+#include "Predicate.hh"
+#include "TLorentzVector.h"
 
 namespace analysis
 {
@@ -477,6 +478,31 @@ Jets RemoveIfSoft(const Jets &jets, const float pt_min)
     return quarks;
 }
 
+float Distance(const float rapidity_1, const float phi_1, const float rapidity_2, const float phi_2)
+{
+  return std::sqrt(std::pow((rapidity_2 - rapidity_1), 2) + std::pow(DeltaPhi(phi_2, phi_1), 2));
+}
+
+float Length(const float rapidity, const float phi)
+{
+  return std::sqrt(std::pow(rapidity, 2) + std::pow(phi, 2));
+}
+
+float DeltaPhi(const float phi_1, const float phi_2)
+{
+  float delta_phi = phi_1 - phi_2;
+  while (std::abs(delta_phi) > M_PI) {
+    if (delta_phi < - M_PI) {
+      delta_phi += 2 * M_PI;
+    } else if (delta_phi > M_PI) {
+      delta_phi -= 2 * M_PI;
+    } else {
+      //       Error("Delta Phi", delta_phi);
+      break;
+    }
+  }
+  return delta_phi;
+}
 
 }
 

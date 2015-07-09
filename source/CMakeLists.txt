@@ -81,6 +81,7 @@ set(AnalysisSources
 Configuration.cpp
 Analysis.cpp
 AnalysisBase.cpp
+Particle.cpp
 Family.cpp
 Constituent.cpp
 JetTag.cpp

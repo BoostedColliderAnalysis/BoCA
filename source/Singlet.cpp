@@ -1,6 +1,7 @@
 #include "Singlet.hh"
-#include "Debug.hh"
 #include "DetectorGeometry.hh"
+#include "Predicate.hh"
+#include "Debug.hh"
 
 namespace analysis {
 
@@ -66,6 +67,11 @@ float Singlet::log(const float number) const
 {
     if (number > 0) return std::log10(number);
     else return std::log10(DetectorGeometry().TrackerDistanceMin() / 10);
+}
+int Singlet::Charge() const
+{
+//       return UserInfo().Charge();
+    return sgn(UserInfo().Charge());
 }
 
 }

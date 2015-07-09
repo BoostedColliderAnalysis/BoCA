@@ -246,5 +246,13 @@ float SubStructure::GetDiPolarity(const fastjet::PseudoJet &CandidateJet) const
     return DiPolarity;
     //     return (DiPolarity / constituentSum * 10000);
 }
+float SubStructure::GetconstituentDeltaR() const
+{
+    return Length(Global.Rap, Global.Phi);
+}
+float SubStructure::GetPosDistance() const
+{
+    return Length(GetPosition2Rap(), 0);
+}
 
 }

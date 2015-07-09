@@ -1,131 +1,204 @@
 #include "Vector2.hh"
 #include <cmath>
 
-float const  kPI        = M_PI;
-float const  kTWOPI     = 2.*kPI;
+namespace analysis
+{
 
-// ClassImp(Vector2)
+float const kPI = M_PI;
+float const kTWOPI = 2.*kPI;
 
-namespace analysis {
-
-//______________________________________________________________________________
 Vector2::Vector2()
 {
-   //constructor
-   x_ = 0.;
-   y_ = 0.;
+//constructor
+    x_ = 0.;
+    y_ = 0.;
 }
 
-//______________________________________________________________________________
 Vector2::Vector2(float *v)
 {
-   //constructor
-   x_ = v[0];
-   y_ = v[1];
+//constructor
+    x_ = v[0];
+    y_ = v[1];
 }
 
-//______________________________________________________________________________
 Vector2::Vector2(float x0, float y0)
 {
-   //constructor
-   x_ = x0;
-   y_ = y0;
+//constructor
+    x_ = x0;
+    y_ = y0;
 }
 
-//______________________________________________________________________________
-// Vector2::~Vector2()
-// {
-// }
-
-//______________________________________________________________________________
 float Vector2::Mod() const
 {
-   // return modulo of this vector
-   return std::sqrt(x_*x_+y_*y_);
+// return modulo of this vector
+    return std::sqrt(x_ * x_ + y_ * y_);
 }
 
-//______________________________________________________________________________
 Vector2 Vector2::Unit() const
 {
-   // return module normalized to 1
-   return (Mod2()) ? *this/Mod() : Vector2();
+// return module normalized to 1
+    return (Mod2()) ? *this / Mod() : Vector2();
 }
 
-//______________________________________________________________________________
 float Vector2::Phi() const
 {
-   // return vector phi
-   return M_PI+std::atan2(-y_,-x_);
+// return vector phi
+    return M_PI + std::atan2(-y_, -x_);
 }
 
-//______________________________________________________________________________
-float Vector2::Phi_0_2pi(float x) {
-   // (static function) returns phi angle in the interval [0,2*PI)
-   if(std::isnan(x)){
-//       gROOT->Error("Vector2::Phi_0_2pi","function called with NaN");
-      return x;
-   }
-   while (x >= kTWOPI) x -= kTWOPI;
-   while (x <     0.)  x += kTWOPI;
-   return x;
-}
-
-//______________________________________________________________________________
-float Vector2::Phi_mpi_pi(float x) {
-   // (static function) returns phi angle in the interval [-PI,PI)
-  if(std::isnan(x)){
-//       gROOT->Error("Vector2::Phi_mpi_pi","function called with NaN");
-      return x;
-   }
-   while (x >= kPI) x -= kTWOPI;
-   while (x < -kPI) x += kTWOPI;
-   return x;
-}
-
-//______________________________________________________________________________
-Vector2 Vector2::Rotate (float phi) const
+float Vector2::Phi_0_2pi(float x)
 {
-   //rotation by phi
-   return Vector2( x_*std::cos(phi)-y_*std::sin(phi), x_*std::sin(phi)+y_*std::cos(phi) );
+// (static function) returns phi angle in the interval [0,2*PI)
+    if (std::isnan(x)) {
+// gROOT->Error("Vector2::Phi_0_2pi","function called with NaN");
+        return x;
+    }
+    while (x >= kTWOPI) x -= kTWOPI;
+    while (x < 0.) x += kTWOPI;
+    return x;
 }
 
-//______________________________________________________________________________
+float Vector2::Phi_mpi_pi(float x)
+{
+// (static function) returns phi angle in the interval [-PI,PI)
+    if (std::isnan(x)) {
+// gROOT->Error("Vector2::Phi_mpi_pi","function called with NaN");
+        return x;
+    }
+    while (x >= kPI) x -= kTWOPI;
+    while (x < -kPI) x += kTWOPI;
+    return x;
+}
+
+Vector2 Vector2::Rotate(float phi) const
+{
+//rotation by phi
+    return Vector2(x_ * std::cos(phi) - y_ * std::sin(phi), x_ * std::sin(phi) + y_ * std::cos(phi));
+}
+
 void Vector2::SetMagPhi(float mag, float phi)
 {
-   //set vector using mag and phi
-   float amag = std::abs(mag);
-   x_ = amag * std::cos(phi);
-   y_ = amag * std::sin(phi);
+//set vector using mag and phi
+    float amag = std::abs(mag);
+    x_ = amag * std::cos(phi);
+    y_ = amag * std::sin(phi);
 }
-//______________________________________________________________________________
-// void Vector2::Streamer(TBuffer &R__b)
-// {
-//    // Stream an object of class Vector2.
-//
-//    if (R__b.IsReading()) {
-//       UInt_t R__s, R__c;
-//       Version_t R__v = R__b.ReadVersion(&R__s, &R__c);
-//       if (R__v > 2) {
-//          R__b.ReadClassBuffer(Vector2::Class(), this, R__v, R__s, R__c);
-//          return;
-//       }
-//       //====process old versions before automatic schema evolution
-//       if (R__v < 2) TObject::Streamer(R__b);
-//       R__b >> x_;
-//       R__b >> y_;
-//       R__b.CheckByteCount(R__s, R__c, Vector2::IsA());
-//       //====end of old versions
-//
-//    } else {
-//       R__b.WriteClassBuffer(Vector2::Class(),this);
-//    }
-// }
 
-// void Vector2::Print(Option_t*)const
-// {
-//    //print vector parameters
-//    Printf("%s %s (x,y)=(%f,%f) (rho,phi)=(%f,%f)",GetName(),GetTitle(),X(),Y(),
-//                                           Mod(),Phi()*TMath::RadToDeg());
-// }
+// unary operators
+Vector2 &Vector2::operator += (Vector2 const &v)
+{
+    x_ += v.x_;
+    y_ += v.y_;
+    return *this;
+}
+
+Vector2 &Vector2::operator -= (Vector2 const &v)
+{
+    x_ -= v.x_;
+    y_ -= v.y_;
+    return *this;
+}
+
+// scalar product of 2 2-vectors
+float Vector2::operator *= (const Vector2 &v)
+{
+    return (x_ * v.x_ + y_ * v.y_);
+}
+
+Vector2 &Vector2::operator *= (float s)
+{
+    x_ *= s;
+    y_ *= s;
+    return *this;
+}
+Vector2 &Vector2::operator /= (float s)
+{
+    x_ /= s;
+    y_ /= s;
+    return *this;
+}
+
+// binary operators
+Vector2 operator + (const Vector2 &v1, const Vector2 &v2)
+{
+    return Vector2(v1.x_ + v2.x_, v1.y_ + v2.y_);
+}
+
+Vector2 operator + (const Vector2 &v1, float bias)
+{
+    return Vector2(v1.x_ + bias, v1.y_ + bias);
+}
+
+Vector2 operator + (float bias, const Vector2 &v1)
+{
+    return Vector2(v1.x_ + bias, v1.y_ + bias);
+}
+
+Vector2 operator - (const Vector2 &v1, const Vector2 &v2)
+{
+    return Vector2(v1.x_ - v2.x_, v1.y_ - v2.y_);
+}
+
+Vector2 operator - (const Vector2 &v1, float bias)
+{
+    return Vector2(v1.x_ - bias, v1.y_ - bias);
+}
+
+Vector2 operator * (const Vector2 &v, float s)
+{
+    return Vector2(v.x_ * s, v.y_ * s);
+}
+
+Vector2 operator * (float s, const Vector2 &v)
+{
+    return Vector2(v.x_ * s, v.y_ * s);
+}
+
+float operator * (const Vector2 &v1, const Vector2 &v2)
+{
+    return v1.x_ * v2.x_ + v1.y_ * v2.y_;
+}
+
+Vector2 operator / (const Vector2 &v, float s)
+{
+    return Vector2(v.x_ / s, v.y_ / s);
+}
+
+float operator ^ (const Vector2 &v1, const Vector2 &v2)
+{
+    return v1.x_ * v2.y_ - v1.y_ * v2.x_;
+}
+
+float Vector2::DeltaPhi(const Vector2 &v) const
+{
+    return Phi_mpi_pi(Phi() - v.Phi());
+}
+
+Vector2 Vector2::Ort() const
+{
+    return Unit();
+}
+
+Vector2 Vector2::Proj(const Vector2 &v) const
+{
+    return v * (((*this) * v) / v.Mod2());
+}
+
+Vector2 Vector2::Norm(const Vector2 &v) const
+{
+    return *this - Proj(v);
+}
+
+// setters
+void Vector2::Set(const Vector2 &v)
+{
+    x_ = v.x_;
+    y_ = v.y_;
+}
+void Vector2::Set(float x0, float y0)
+{
+    x_ = x0 ;
+    y_ = y0 ;
+}
 
 }

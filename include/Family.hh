@@ -1,60 +1,9 @@
 #pragma once
 
-#include "Global.hh"
+#include "Particle.hh"
 
 namespace analysis
 {
-
-struct Particle {
-
-public:
-
-    Particle() {}
-
-    Particle(const int id) {
-        id_ = id;
-    }
-
-    Particle(const Id id) {
-        id_ = to_int(id);
-    }
-
-    Particle(const Id id, const int position) {
-        id_ = to_int(id);
-        position_ = position;
-    }
-
-    Particle(const LorentzVector &momentum, const int id, const int position) {
-        id_ = id;
-        position_ = position;
-    }
-
-    Particle(const TLorentzVector &momentum, const int id, const int position) {
-      id_ = id;
-      position_ = position;
-    }
-
-    LorentzVector momentum()const {
-        return momentum_;
-    }
-
-    int position()const {
-        return position_;
-    }
-
-    int id()const {
-        return id_;
-    }
-
-private:
-
-    LorentzVector momentum_;
-
-    int position_ = EmptyPosition;
-
-    int id_ = to_int(Id::empty);
-
-};
 
 class Family
 {
