@@ -82,7 +82,7 @@ Vectors SubStructure::Getconstituents(const fastjet::PseudoJet &CandidateJet)
     float SubJet1Pt = 0;
     float SubJet2Pt = 0;
     DeltaR = 0;
-    std::vector <TLorentzVector> constituentVectors;
+    std::vector <LorentzVector> constituentVectors;
     for (const auto & constituentJet : CandidateJet.constituents()) {
         if (constituentJet.user_index() != to_int(Id::isr) &&
                 constituentJet.user_index() != to_int(Id::CP_violating_higgs) &&
@@ -115,7 +115,7 @@ Vectors SubStructure::Getconstituents(const fastjet::PseudoJet &CandidateJet)
         const float ObservablePhi = ConstRap * sin(Theta) - ConstPhi * cos(Theta);
         // move subjet2 to (1,0)
         ObservableRap -= Shift;
-        const TLorentzVector constituentVector(constituentJet.pt(),ObservableRap,ObservablePhi,constituentJet.e());
+        const LorentzVector constituentVector(constituentJet.pt(),ObservableRap,ObservablePhi,constituentJet.e());
         constituentVectors.emplace_back(constituentVector);
 //         ParticleBranch *constituent = static_cast<ParticleBranch *>(constituentBranch->NewEntry());
 //         constituent->Rap = ObservableRap;

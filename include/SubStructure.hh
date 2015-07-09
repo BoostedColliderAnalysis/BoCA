@@ -27,7 +27,7 @@ public:
 
     bool GetSubJets(const fastjet::PseudoJet &);
 
-    std::vector< TLorentzVector > Getconstituents(const fastjet::PseudoJet &CandidateJet);
+    Vectors Getconstituents(const fastjet::PseudoJet &CandidateJet);
 
     bool GetIsolation(const fastjet::PseudoJet& CandidateJet, const Jets& LeptonJets);
 

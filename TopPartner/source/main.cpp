@@ -1,6 +1,7 @@
 #include "AnalysisTopPartner.hh"
 
 #include "EventSingleTagger.hh"
+#include "Predicate.hh"
 
 int main()
 {

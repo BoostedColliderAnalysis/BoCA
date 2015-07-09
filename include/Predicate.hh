@@ -85,7 +85,7 @@ struct SortByPt {
     bool operator()(const fastjet::PseudoJet &jet_1, const fastjet::PseudoJet &jet_2) {
         return jet_1.pt() > jet_2.pt();
     }
-    bool operator()(const TLorentzVector &lorentz_vector_1, const TLorentzVector &lorentz_vector_2) {
+    bool operator()(const LorentzVector &lorentz_vector_1, const LorentzVector &lorentz_vector_2) {
         return (lorentz_vector_1.Pt() > lorentz_vector_2.Pt());
     }
 
@@ -105,10 +105,12 @@ bool FindInVector(const std::vector<Element> vector, const Element element)
 }
 
 /**
- * @brief create a fastjet::PseudoJet from a TLorentzVector
+ * @brief create a fastjet::PseudoJet from a LorentzVector
  *
  */
 fastjet::PseudoJet PseudoJet(const TLorentzVector &vector);
+
+fastjet::PseudoJet PseudoJet(const LorentzVector &vector);
 
 Jets CopyIfAbsParticle(const Jets &jets, const Id id);
 
@@ -198,6 +200,75 @@ std::vector<Multiplet> CopyIfClose(const std::vector<Multiplet> &multiplets, con
     std::vector<Multiplet> final_multiplets;
     for (const auto & particle : particles) for (const auto & multiplet : multiplets) if (Close(particle)(multiplet)) final_multiplets.emplace_back(multiplet);
     return final_multiplets;
+}
+
+/**
+ * @brief provides an integer with the necessary information to work with range based for loop
+ *
+ */
+class Range
+{
+public:
+    Range(const int sum) : last_(sum), iterator_(0) {}
+
+    const Range &begin() const {
+        return *this;
+    }
+    const Range &end() const {
+        return *this;
+    }
+    bool operator!=(const Range &) const {
+        return iterator_ < last_;
+    }
+    void operator++() {
+        ++iterator_;
+    }
+    int operator*() const {
+        return iterator_;
+    }
+private:
+    int last_;
+    int iterator_;
+};
+
+/**
+ * @brief Join two std::vector
+ *
+ */
+template <typename Element>
+std::vector<Element> Join(const std::vector<Element> &vector_1, const std::vector<Element> &vector_2)
+{
+    std::vector<Element> joined;
+    joined.reserve(vector_1.size() + vector_2.size());
+    joined.insert(joined.end(), vector_1.begin(), vector_1.end());
+    joined.insert(joined.end(), vector_2.begin(), vector_2.end());
+    return joined;
+}
+
+template<typename Container, typename Function, typename Result>
+auto ordered_pairs(const Container &container, Result &result, Function function)
+{
+    for (auto element_1 = container.begin(); element_1 != container.end() - 1; ++element_1) {
+        for (auto element_2 = std::next(element_1); element_2 != container.end(); ++element_2) {
+            try {
+                result.emplace_back(function(*element_1, *element_2));
+            } catch (const char *message) {}
+            try {
+                result.emplace_back(function(*element_2, *element_1));
+            } catch (const char *message) {}
+        }
+    }
+    return result;
+}
+
+template<typename Container, typename Function>
+void unordered_pairs(const Container &container, Function function)
+{
+    for (auto element_1 = container.begin(); element_1 != container.end() - 1; ++element_1) {
+        for (auto element_2 = std::next(element_1); element_2 != container.end(); ++element_2) {
+            function(*element_1, *element_2);
+        }
+    }
 }
 
 }

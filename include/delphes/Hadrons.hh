@@ -58,7 +58,7 @@ private:
 //         if(clone.IsA() == ::delphes::Jet::Class()) jet_info.SetDelphesTags(clone);
         for (const int particle_number : Range(clone.Particles.GetEntriesFast())) {
             const Family family = BranchFamily(*clone.Particles.At(particle_number));
-//             Debug("MotherId", family.particle().Id, family.mother_1().Id);
+//             Debug("MotherId", family.particle().id(), family.mother_1().id());
             jet_info.AddConstituent(Constituent(const_cast<Clone &>(clone).P4(), family));
         }
         jet_info.PrintAllInfos(Severity::debug);

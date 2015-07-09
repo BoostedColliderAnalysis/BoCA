@@ -124,14 +124,14 @@ Jets WSemiTagger::WSemiDaughters(const Event &event) const
 
     w_daughters = RemoveIfQuark(w_daughters);
     if (w_daughters.size() != 2) Error("Where is the W 2?", w_daughters.size());
-    else Info(Name(w_daughters.at(0).user_info<JetInfo>().constituents().front().family().particle().Id), Name(w_daughters.at(1).user_info<JetInfo>().constituents().front().family().particle().Id), Name(w_daughters.at(0).user_info<JetInfo>().constituents().front().family().mother_1().Id), Name(w_daughters.at(1).user_info<JetInfo>().constituents().front().family().mother_1().Id));
+    else Info(Name(w_daughters.at(0).user_info<JetInfo>().constituents().front().family().particle().id()), Name(w_daughters.at(1).user_info<JetInfo>().constituents().front().family().particle().id()), Name(w_daughters.at(0).user_info<JetInfo>().constituents().front().family().mother_1().id()), Name(w_daughters.at(1).user_info<JetInfo>().constituents().front().family().mother_1().id()));
     return w_daughters;
 }
 
 int WSemiTagger::WSemiId(const Jets &jets) const
 {
     if (jets.empty()) return to_int(Id::W);
-    else return jets.front().user_info<JetInfo>().constituents().front().family().mother_1().Id;
+    else return jets.front().user_info<JetInfo>().constituents().front().family().mother_1().id();
 }
 
 }
