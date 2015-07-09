@@ -6,6 +6,13 @@ add_subdirectory(delphes)
 
 HDictionary(Branches Branches.cpp ../include/LinkDef.hh)
 
+set(VectorSources
+Vector2.cpp
+Vector3.cpp
+LorentzVector.cpp
+)
+HLibrary(Vector VectorSources)
+
 set(EventSources
 Global.cpp
 Debug.cpp
@@ -46,14 +53,12 @@ Observable.cpp
 PreCuts.cpp
 Factory.cpp
 Reader.cpp
-ReaderTagger.cpp
 Plot.cpp
 
 Tagger.cpp
-BranchTagger.cpp
 TauTagger.cpp
 BottomTagger.cpp
-# DoubletTagger.cpp
+BosonTagger.cpp
 WHadronicTagger.cpp
 WSemiTagger.cpp
 ZHadronicTagger.cpp
@@ -76,6 +81,7 @@ set(AnalysisSources
 Configuration.cpp
 Analysis.cpp
 AnalysisBase.cpp
+Particle.cpp
 Family.cpp
 Constituent.cpp
 JetTag.cpp

@@ -21,11 +21,11 @@ public:
 
     EventSingleTagger();
 
-    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const;
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const final;
 
     std::vector<MultipletEvent<Nonet>> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
 
-    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const {
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
         return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
@@ -34,15 +34,15 @@ public:
         return Multiplets(event, pre_cuts, reader);
     }
 
-    std::string name() const {
+    std::string name() const final {
       return "EventSingle";
     }
 
 private:
 
-    ReaderTagger<TopPartnerLeptonicPairTagger> signature_reader_;
+    Reader<TopPartnerLeptonicPairTagger> signature_reader_;
 
-    ReaderTagger<BottomTagger> bottom_reader_;
+    Reader<BottomTagger> bottom_reader_;
 
 };
 

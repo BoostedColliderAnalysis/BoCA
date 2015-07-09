@@ -17,25 +17,25 @@ public:
 
     TopHadronicTagger();
 
-    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const;
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const final;
 
     int TopHadronicId(const Event &event) const {
         return sgn(w_hadronic_reader_.tagger().WHadronicId(event)) * to_int(Id::top);
     }
 
-    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const {
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
         return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
     }
 
     std::vector<analysis::Triplet> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
 
-    std::string name() const {
+    std::string name() const final {
       return "TopHadronic";
     }
 
 private:
 
-  analysis::Triplet Triplet(const Doublet &doublet, const fastjet::PseudoJet &jet, const Jets &leptons, PreCuts &pre_cuts, const Tag tag) const;
+  analysis::Triplet Triplet(const Doublet &doublet, const fastjet::PseudoJet &jet, const Jets &leptons, PreCuts &pre_cuts, const Tag tag, const bool check_overlap = false) const;
 
   analysis::Triplet Triplet(analysis::Triplet &triplet, const analysis::Jets &leptons, analysis::PreCuts &pre_cuts, const analysis::Tag tag) const;
 
@@ -52,7 +52,7 @@ private:
 
     std::vector<analysis::Triplet>  Multiplets(const Doublet &doublet, const Jets &jets, const Jets &leptons, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
 
-    analysis::Triplet Multiplet(const Doublet &doublet, const fastjet::PseudoJet &jet, const Jets &leptons, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
+    analysis::Triplet Multiplet(const Doublet &doublet, const fastjet::PseudoJet &jet, const Jets &leptons, PreCuts &pre_cuts, const TMVA::Reader &reader, const bool check_overlap = false) const;
 
     analysis::Triplet Multiplet(analysis::Triplet &triplet, const Jets &leptons, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
 
@@ -66,12 +66,12 @@ private:
 
     float LeptonPt(const analysis::Triplet &triplet, const Jets &leptons) const;
 
-    ReaderTagger<BottomTagger> bottom_reader_;
+    Reader<BottomTagger> bottom_reader_;
 
-    ReaderTagger<WHadronicTagger> w_hadronic_reader_;
+    Reader<WHadronicTagger> w_hadronic_reader_;
 
     float top_mass_window_ ;
-
+    
 };
 
 }

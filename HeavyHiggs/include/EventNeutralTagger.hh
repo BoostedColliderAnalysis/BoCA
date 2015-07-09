@@ -21,23 +21,23 @@ public:
 
     EventNeutralTagger();
 
-    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const;
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const final;
 
     std::vector< MultipletEvent< Octet62 > > Multiplets(const Event &event, const TMVA::Reader &reader) const;
 
-    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const {
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
 //       return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
-    std::string name() const {
+    std::string name() const final {
       return "EventNeutral";
     }
 
 private:
 
-    ReaderTagger<SignatureNeutralTagger> signature_neutral_reader_;
+    Reader<SignatureNeutralTagger> signature_neutral_reader_;
 
-    ReaderTagger<BottomTagger> bottom_reader_;
+    Reader<BottomTagger> bottom_reader_;
 
 };
 

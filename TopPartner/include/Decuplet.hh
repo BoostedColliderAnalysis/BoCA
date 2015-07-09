@@ -14,11 +14,11 @@ public:
 
     using Multiplet<Quintet, Quintet>::Multiplet;
 
-     Quintet Quintet1()const {
+     Quintet Quintet1() const {
         return Multiplet1();
     }
 
-     Quintet Quintet2()const {
+     Quintet Quintet2() const {
         return Multiplet2();
     }
 
@@ -31,11 +31,11 @@ public:
 
   using Multiplet<Septet, Triplet>::Multiplet;
 
-   Septet Quintet1()const {
+   Septet Quintet1() const {
     return Multiplet1();
   }
 
-   Triplet Quintet2()const {
+   Triplet Quintet2() const {
     return Multiplet2();
   }
 

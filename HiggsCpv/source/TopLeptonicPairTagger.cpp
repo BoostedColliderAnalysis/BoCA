@@ -24,7 +24,7 @@ int TopLeptonicPairTagger::Train(const Event &event, analysis::PreCuts &, const 
     Debug("Number of Doublets", doublets.size());
 
     Jets particles = event.Partons().GenParticles();
-    Jets top_particles = copy_if_abs_particle(particles, Id::top);
+    Jets top_particles = CopyIfAbsParticle(particles, Id::top);
     Jets neutrinos = copy_if_neutrino(particles);
     if (top_particles.size() != 2 && tag == Tag::signal) Error("Number of Tops?", particles.size());
 

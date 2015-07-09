@@ -19,8 +19,8 @@ int TopPartnerHiggsPairTagger::Train(const Event &event, PreCuts &pre_cuts, cons
     std::vector< Quintet> quintets = top_partner_hadronic_reader_.Multiplets(event);
     std::vector< Doublet> doublets = higgs_reader_.Multiplets(event);
     std::vector< Septet > septets;
-    for (const auto quintet :  quintets) {
-        for (const auto doublet : doublets) {
+    for (const auto &quintet :  quintets) {
+        for (const auto &doublet : doublets) {
             Septet septet(quintet, doublet);
             if (septet.Overlap()) continue;
             septet.SetTag(tag);
@@ -36,8 +36,8 @@ std::vector<Septet> TopPartnerHiggsPairTagger::Multiplets(const Event &event, an
   std::vector< Quintet> quintets = top_partner_hadronic_reader_.Multiplets(event);
   std::vector< Doublet> doublets = higgs_reader_.Multiplets(event);
     std::vector< Septet > septets;
-    for (const auto quintet :  quintets) {
-      for (const auto doublet : doublets) {
+    for (const auto &quintet :  quintets) {
+      for (const auto &doublet : doublets) {
             Septet septet(quintet, doublet);
             if (septet.Overlap()) continue;
             septet.SetBdt(Bdt(septet,reader));

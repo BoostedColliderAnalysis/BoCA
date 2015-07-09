@@ -3,7 +3,7 @@
 #include "BottomTagger.hh"
 #include "Triplet.hh"
 #include "WSemiTagger.hh"
-#include "ReaderTagger.hh"
+#include "Reader.hh"
 
 namespace analysis
 {
@@ -19,9 +19,9 @@ public:
 
     TopSemiTagger();
 
-    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const;
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const final;
 
-    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const {
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
         return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
@@ -31,7 +31,7 @@ public:
         return sgn(w_semi_reader_.tagger().WSemiId(event)) * to_int(Id::top);
     }
 
-    std::string name() const {
+    std::string name() const final {
       return "TopSemi";
     }
 
@@ -43,9 +43,9 @@ private:
 
     float top_mass_window_;
 
-    ReaderTagger<BottomTagger> bottom_reader_;
+    Reader<BottomTagger> bottom_reader_;
 
-    ReaderTagger<WSemiTagger> w_semi_reader_;
+    Reader<WSemiTagger> w_semi_reader_;
 
 };
 

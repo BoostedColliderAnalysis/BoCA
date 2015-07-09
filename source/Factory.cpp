@@ -37,44 +37,47 @@ void Factory::AddVariables()
 {
     Note("Add Variables");
     TMVA::gConfig().GetIONames().fWeightFileDir = tagger().analysis_name();
+    TMVA::gConfig().GetIONames().fWeightFileExtension = tagger().weight_file_extension();
     for (const auto & observable : tagger().observables())
         factory().AddVariable(observable.expression(), observable.title(), observable.unit(), observable.type());
     for (const auto & spectator : tagger().spectators())
         factory().AddSpectator(spectator.expression(), spectator.title(), spectator.unit(), spectator.type());
 }
 
-int Factory::GetTrees()
+long Factory::GetTrees()
 {
-    Note("Trees");
-    int signal_number = 0;
-    for (const auto & signal_name : tagger().signal_file_names()) {
-        Note("Signal", signal_name);
-        std::string signal_file_name = tagger().analysis_name() + "/" + signal_name + ".root";
-        if (gSystem->AccessPathName(signal_file_name.c_str())) Error("File not found", signal_file_name);
-        TFile &signal_file = *TFile::Open(signal_file_name.c_str());
-        Note("Signal File", signal_file.GetName(), tagger().signal_tree_names().size());
-        for (int tree_number : Range(tagger().signal_tree_names().size())) {
-            Note("signal Tree Name", tagger().signal_tree_names()[tree_number]);
-            signal_number += AddTree(signal_file, tagger().signal_tree_names()[tree_number], Tag::signal);
-        }
+    Note();
+//     for (const auto & signal_name : tagger().signal_file_names()) {
+//     std::string signal_file_name = tagger().analysis_name() + "/" +  tagger().signal_file_name(Stage::trainer) + ".root";
+    std::string signal_file_name = tagger().signal_file_name(Stage::trainer) + ".root";
+    Note("Signal", signal_file_name);
+    if (gSystem->AccessPathName(signal_file_name.c_str())) Error("File not found", signal_file_name);
+    TFile &signal_file = *TFile::Open(signal_file_name.c_str());
+    Note("Signal File", signal_file.GetName(), tagger().signal_tree_names().size());
+    long signal_number = 0;
+    for (int tree_number : Range(tagger().signal_tree_names().size())) {
+        Note("signal Tree Name", tagger().signal_tree_names()[tree_number]);
+        signal_number += AddTree(signal_file, tagger().signal_tree_names()[tree_number], Tag::signal);
     }
-    int background_number = 0;
-    for (const auto & background_name : tagger().background_file_names()) {
-        Note("Background", background_name);
-        std::string background_file_name = tagger().analysis_name() + "/" + background_name + ".root";
-        if (gSystem->AccessPathName(background_file_name.c_str())) Error("File not found", background_file_name);
-        TFile &background_file = *TFile::Open(background_file_name.c_str());
-        Note("Background File", background_file.GetName(), tagger().background_tree_names().size());
-        for (const auto & background_tree_name : tagger().background_tree_names()) {
-            Note("Background Tree Name", background_tree_name);
-            background_number += AddTree(background_file, background_tree_name, Tag::background);
-        }
+//     }
+//     for (const auto & background_name : tagger().background_file_names()) {
+//     std::string background_file_name = tagger().analysis_name() + "/" + tagger().background_file_name(Stage::trainer) + ".root";
+    std::string background_file_name = tagger().background_file_name(Stage::trainer) + ".root";
+    Note("Background", background_file_name);
+    if (gSystem->AccessPathName(background_file_name.c_str())) Error("File not found", background_file_name);
+    TFile &background_file = *TFile::Open(background_file_name.c_str());
+    Note("Background File", background_file.GetName(), tagger().background_tree_names().size());
+    long background_number = 0;
+    for (const auto & background_tree_name : tagger().background_tree_names()) {
+        Note("Background Tree Name", background_tree_name);
+        background_number += AddTree(background_file, background_tree_name, Tag::background);
     }
-    Error("event Numbers", signal_number, background_number);
+//     }
+    Error(signal_number, background_number);
     return std::min(signal_number, background_number) / 2;
 }
 
-int Factory::AddTree(TFile &file, const std::string &tree_name, const Tag tag)
+long Factory::AddTree(TFile &file, const std::string &tree_name, const Tag tag)
 {
     Error("Add Tree", tree_name);
     if (!file.GetListOfKeys()->Contains(tree_name.c_str()))return 0;
@@ -94,7 +97,7 @@ int Factory::AddTree(TFile &file, const std::string &tree_name, const Tag tag)
         factory().AddBackgroundTree(&tree, crosssection);
         break;
     }
-    int entries = 0;
+    long entries = 0;
     TClonesArray &event_clones_array = *tree_reader.UseBranch(tagger().branch_name().c_str());
     for (int entry = 0; entry < tree_reader.GetEntries(); ++entry) {
         tree_reader.ReadEntry(entry);
@@ -103,7 +106,7 @@ int Factory::AddTree(TFile &file, const std::string &tree_name, const Tag tag)
     return entries;
 }
 
-void Factory::PrepareTrainingAndTestTree(const int event_number)
+void Factory::PrepareTrainingAndTestTree(const long event_number)
 {
     Error("PrepareTrainingAndTestTree");
     std::string number_options = "nTrain_Background=" + std::to_string(event_number) + ":nTest_Background=" + std::to_string(event_number) + ":nTrain_Signal=" + std::to_string(event_number) + ":nTest_Signal=" + std::to_string(event_number);
@@ -116,7 +119,8 @@ void Factory::BookMethods()
 {
     Note("Book Methods");
 //     const std::string bdt_options = "NTrees=1000:MinNodeSize=2.5%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=20";
-    const std::string bdt_options = "NTrees=1000:MinNodeSize=2.5%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=20:VarTransform=Decorrelate";
+    const std::string bdt_options = "NTrees=1000:MinNodeSize=2.5%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=20";
+    //:VarTransform=D
 //     const std::string bdt_options = "!H:!V:NTrees=1000:MinNodeSize=1.5%:BoostType=Grad:Shrinkage=0.10:UseBaggedGrad:UseRandomisedTrees:GradBaggingFraction=0.5:nCuts=20:MaxDepth=4";
     //:CreateMVAPdfs:DoBoostMonitor";
     factory().BookMethod(TMVA::Types::kBDT, tagger().bdt_method_name(), bdt_options);

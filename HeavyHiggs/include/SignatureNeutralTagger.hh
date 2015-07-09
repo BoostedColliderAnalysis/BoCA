@@ -21,15 +21,15 @@ public:
 
     SignatureNeutralTagger();
 
-    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const;
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const final;
 
     std::vector< Octet62 > Multiplets(const Event& event, PreCuts &pre_cuts, const TMVA::Reader& reader) const;
 
-    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const {
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
       return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
-    std::string name() const {
+    std::string name() const final {
       return "SignatureNeutral";
     }
 
@@ -37,9 +37,9 @@ private:
 
     std::vector<Octet62> GetHeavyHiggsevents(Jets &jets);
 
-    ReaderTagger<HeavyHiggsSemiTagger> heavy_higgs_semi_reader_;
+    Reader<HeavyHiggsSemiTagger> heavy_higgs_semi_reader_;
 
-    ReaderTagger<JetPairTagger> jet_pair_reader_;
+    Reader<JetPairTagger> jet_pair_reader_;
 
 };
 

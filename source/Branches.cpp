@@ -1,6 +1,7 @@
 #include "Branches.hh"
 
-// #include <algorithm>
+#define STRING(s) #s
+#define PAIR(x) ObservablePair(x,STRING(x))
 
 namespace analysis
 {
@@ -226,8 +227,8 @@ Observables WSemiBranch::Variables()
 TopHadronicBranch::TopHadronicBranch()
 {
 //   std::cout << "we are here" << std::endl;
-    BottomMass = InitialValue();
-    WMass = InitialValue();
+//     BottomMass = InitialValue();
+//     WMass = InitialValue();
     LeptonPt = InitialValue();
 //     Tau1_1 = InitialValue();
 //     Tau2_1 = InitialValue();
@@ -243,9 +244,9 @@ TopHadronicBranch::TopHadronicBranch()
 
 Observables TopHadronicBranch::Variables()
 {
+    return Join(Join(MultiBranch::Variables(), BottomBase::Variables()), {PAIR(LeptonPt)});
     return  Join(Join(BottomBase::Variables(), ParticleBranch::Variables()), {PAIR(Bdt2), PAIR(LeptonPt)});
     return Join(Join(MultiBranch::Variables(), BottomBase::Variables()), {PAIR(BottomMass), PAIR(WMass), PAIR(LeptonPt)});
-//     observables.erase(std::unique(observables.begin(), observables.end()), observables.end());
 }
 
 Observables TopHadronicBranch::Spectators()

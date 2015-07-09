@@ -17,21 +17,19 @@ public:
 
     TauTagger();
 
-    int Train(const Event &event, PreCuts &pre_cuts, const analysis::Tag tag) const;
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const final;
 
     Jets Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
 
-    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const {
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
       return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
-    std::string name() const {
+    std::string name() const final {
       return "Tau";
     }
 
 private:
-
-    void DefineVariables();
 
     Jets CleanJets(analysis::Jets &jets, const analysis::Jets &Particles, const analysis::Tag tag) const;
 

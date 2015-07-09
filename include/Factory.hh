@@ -37,15 +37,15 @@ private:
      * @brief Get Trees
      *
      */
-    int GetTrees();
+    long GetTrees();
 
     /**
      * @brief Prepare Trainig and Test Trees
      *
      */
-    void PrepareTrainingAndTestTree(const int event_number);
+    void PrepareTrainingAndTestTree(const long event_number);
 
-    int AddTree(TFile &file, const std::string &tree_name, const Tag tag);
+    long AddTree(TFile &file, const std::string &tree_name, const analysis::Tag tag);
 
     TFile *output_file() const;
 

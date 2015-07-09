@@ -41,6 +41,8 @@ public:
 
     File(const std::string &process, const std::string &run_folder, const std::string &file_suffix, const std::string &nice_name);
 
+    File(const std::string &process, const std::string &run_folder, const std::string &file_suffix, const float crossection, const std::string &nice_name);
+
     File(const std::string &process, const std::string &run_folder, const std::string &file_suffix, const float crosssection);
 
     /**

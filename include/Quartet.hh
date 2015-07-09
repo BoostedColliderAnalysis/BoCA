@@ -12,9 +12,9 @@ public:
 
     using Multiplet<Doublet, Doublet>::Multiplet;
 
-    Doublet &Doublet1()const;
+    Doublet &Doublet1() const;
 
-    Doublet &Doublet2()const;
+    Doublet &Doublet2() const;
 
 };
 
@@ -26,8 +26,6 @@ public:
     using Multiplet<analysis::Triplet, analysis::Singlet>::Multiplet;
 
     analysis::Triplet &Triplet() const;
-
-    fastjet::PseudoJet SingletJet() const;
 
     analysis::Singlet &Singlet() const;
 

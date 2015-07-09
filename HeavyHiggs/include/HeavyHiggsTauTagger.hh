@@ -2,7 +2,7 @@
 
 #include "TauTagger.hh"
 #include "Doublet.hh"
-#include "ReaderTagger.hh"
+#include "Reader.hh"
 #include "Branch.hh"
 
 namespace analysis
@@ -28,7 +28,7 @@ public:
 
 private:
 
-    ReaderTagger<TauTagger> tau_reader_;
+    Reader<TauTagger> tau_reader_;
 
 };
 

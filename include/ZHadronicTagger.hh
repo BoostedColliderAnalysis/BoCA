@@ -2,7 +2,7 @@
 
 #include "BottomTagger.hh"
 #include "Doublet.hh"
-#include "ReaderTagger.hh"
+#include "Reader.hh"
 
 namespace analysis
 {
@@ -18,11 +18,11 @@ public:
 
     ZHadronicTagger();
 
-    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const;
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const final;
 
     std::vector< Doublet > Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
 
-    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const {
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
         return SaveEntries(Multiplets(event, pre_cuts, reader), 2);
     }
 
@@ -31,7 +31,7 @@ public:
         return Multiplets(event, pre_cuts, reader);
     }
 
-    std::string name() const {
+    std::string name() const final {
       return "ZHadronic";
     }
 
@@ -41,7 +41,7 @@ private:
 
     bool Problematic(const Doublet &doublet, PreCuts &pre_cuts) const;
 
-    ReaderTagger<BottomTagger> bottom_reader_;
+    Reader<BottomTagger> bottom_reader_;
 
     float z_mass_window = 20;
 

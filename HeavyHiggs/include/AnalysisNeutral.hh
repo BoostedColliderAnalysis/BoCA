@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Analysis.hh"
+#include "AnalysisHeavyHiggs.hh"
 
 namespace analysis
 {
@@ -20,81 +20,111 @@ namespace heavyhiggs
  * @author Jan Hajer
  *
  */
-class AnalysisNeutral : public Analysis
+template<typename Tagger>
+class AnalysisNeutral : public AnalysisHeavyHiggs<Tagger>
 {
 
 public:
 
-    AnalysisNeutral(Tagger &tagger);
-
-    void SetTrees();
-
-    std::vector<File> Files(const Tag tag);
-
-     std::string ProjectName() const {
-//        return  ProcessName() + "-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV-" + std::to_string(Mass()) + "GeV-Eta2.5";
-        return  ProcessName() + "-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV-" + std::to_string(Mass()) + "GeV";
+    AnalysisNeutral() {
+        this->tagger().set_analysis_name(ProjectName());
     }
 
-     std::string ProcessName() const {
-        return "Neutral";
+    void SetFiles(const Tag tag) final {
+        switch (tag) {
+        case Tag::signal :
+            this->NewFile(tag, Process::Hbb);
+            break;
+        case Tag::background :
+            this->NewFile(tag, Process::tt);
+            break;
+        }
     }
 
-    // in GeV
-     int Mass() const;
-
-    // in GeV
-     int PreCut() const;
-
-     int EventNumberMax() const {
-//            return 10000000;
-//                   return 1000000;
-//         return 100000;
-        return 10000;
-//                 return 1000;
-//                         return 500;
-//                         return 10;
+    std::string ProjectName() const final {
+        //        return  ProcessName() + "-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV-" + std::to_string(Mass()) + "GeV-Eta2.5";
+        return  ProcessName() + "-" + Name(this->collider_type()) + "-" + std::to_string(this->PreCut()) + "GeV-" + std::to_string(this->Mass()) + "GeV";
     };
-
-
-
-    enum ColliderType {LHC, FHC, LE};
-
-
-     ColliderType collider_type() const {
-        return LHC;
-//       return FHC;
-//        return LE;
-    }
-
-    float MissingEt();
-
-    float LeptonPt();
-
-
-     int BackgroundFileNumber() const;
 
 private:
 
-    enum ProcessType {Hbb, ttbb, ttcc, ttjj, tt};
+    float SignalCrosssection() const {
+        switch (this->collider_type()) {
+        case Collider::LHC:
+            switch (this->Mass()) {
+            case 500:
+                return 25.528929726502543;
+            case 1000:
+                return 1.2783507034600217;
+            case 2000:
+                return 0.021907574118663196;
+            default:
+                Error("Signal Crosssection", "unhandled case");
+                return 1;
+            } ;
+        case Collider::FHC:
+        case Collider::LE:
+            switch (this->Mass()) {
+            case 500:
+                return 973.5805772514352;
+            case 1000:
+                return 123.02005671222373;
+            case 1500:
+                return 28.624904980998327;
+            case 2000:
+                return 9.485582085140349;
+            case 3000:
+                return 1.7540841248835577;
+            case 4000:
+                return 0.4851939478031553;
+            case 5000:
+                return 0.16696738296715652;
+            case 6000:
+                return 0.06731697180862359;
+            case 7000:
+                return 0.029372932414373627;
+            case 8000:
+                return 0.014255221936825225;
+            case 10000:
+                return 0.0038428602375120795;
+            case 12000:
+                return 0.0012219523755405267;
+            case 15000:
+                return 0.00026507004708327343;
+            case 20000:
+                return 0.000028218388829563033;
+            default:
+                Error("Signal Crosssection", "unhandled case");
+                return 1;
+            }
+        default:
+            Error("Signal Crosssection", "unhandled case");
+            return 1;
+        }
+    }
 
-    // in fb
-    float SignalCrosssection() const;
+    std::string ProcessName() const override {
+        return "Neutral";
+    }
 
-     File BackgroundFile(const ProcessType Background) const;
+    int PassPreCut(const Event &event) const override {
+        Jets Particles = event.Partons().GenParticles();
+        Jets Tops = RemoveIfWrongAbsParticle(Particles, Id::top);
+        if (Tops.size() != 2) {
+            return 0;
+        } else {
+            if (Tops.at(0).pt() < this->PreCut()) return 0;
+            if (Tops.at(1).pt() < this->PreCut()) return 0;
+        }
 
-    File BackgroundFile(const ProcessType Background, const int FileSum) const;
-
-    std::string BackgroundTree(const ProcessType Process) const;
-
-    float BackgroundCrosssection(const ProcessType Process) const;
-
-    std::string ColliderName(const ColliderType Collider) const;
-
-    std::string ProcessName(const ProcessType Process) const;
-
-
-    int PassPreCut(const Event &event);
+        if (event.Hadrons().MissingEt().pt() < this->MissingEt()) return 0;
+        Jets Leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
+        if (Leptons.empty()) return 0;
+        if (Leptons.front().pt() < this->LeptonPt()) return 0;
+        Jets jets = event.Hadrons().Jets();
+        if (jets.size() < 4) return 0;
+        return 1;
+    }
 
 };
 

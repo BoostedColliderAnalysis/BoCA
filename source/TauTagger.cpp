@@ -13,27 +13,7 @@ TauTagger::TauTagger()
     DefineVariables();
 }
 
-void TauTagger::DefineVariables()
-{
-    Info("Define Variables");
-    AddVariable(branch().Mass, "Mass");
-    AddVariable(branch().Pt, "Pt");
-    AddVariable(branch().Rap, "Rap");
-    AddVariable(branch().Phi, "Phi");
-    AddVariable(branch().EmRadius, "EmRadius");
-    AddVariable(branch().TrackRadius, "TrackRadius");
-//     AddObservable(Branch.MomentumFraction, "MomentumFraction");
-    AddVariable(branch().CoreEnergyFraction, "CoreEnergyFraction");
-    AddSpectator(branch().EmFraction, "EmFraction");
-    AddVariable(branch().ClusterMass, "ClusterMass");
-    AddVariable(branch().TrackMass, "TrackMass");
-    AddVariable(branch().FlightPath, "FlightPath");
-    AddSpectator(branch().TrtHtFraction, "TrtHtFraction");
-    AddSpectator(branch().Tag, "Tag");
-    AddSpectator(branch().Bdt, "Bdt");
-}
-
-int TauTagger::Train(const Event &event, analysis::PreCuts &pre_cuts, const analysis::Tag tag) const
+int TauTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const
 {
     Info("Tau Tag", Name(tag));
     Jets jets = event.Hadrons().Jets();
@@ -52,7 +32,7 @@ int TauTagger::Train(const Event &event, analysis::PreCuts &pre_cuts, const anal
 //     Jets Pieces2 = GetSubJets(jets, Particles, Tag, 3);
 //     FinalJets.insert(FinalJets.end(), Pieces2.begin(), Pieces2.end());
     std::vector<Singlet> singlets;
-    for (const auto final_jet : final_jets) singlets.emplace_back(Singlet(final_jet));
+    for (const auto &final_jet : final_jets) singlets.emplace_back(Singlet(final_jet));
     return SaveEntries(singlets);
 }
 
@@ -177,7 +157,7 @@ Jets TauTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, cons
     Jets final_jets;
     Info("Jet Bdt");
     Jets jets = event.Hadrons().Jets();
-    for (const auto jet : jets) {
+    for (const auto &jet : jets) {
         if (!jet.has_user_info<JetInfo>()) {
             Error("Jet Bdt", "No Jet Info");
             continue;

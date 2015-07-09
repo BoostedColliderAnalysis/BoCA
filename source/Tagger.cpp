@@ -19,15 +19,7 @@ Observable Tagger::NewObservable(float &value, const std::string &title) const
 {
     Info(title);
     const std::string expression = branch_name() + "." + title;
-    return Observable(value, expression, title, "", "");
-}
-
-Observable Tagger::NewObservable(float &value, const std::string &title, const std::string &latex) const
-{
-    Info(title);
-    const std::string expression = branch_name() + "." + title;
-    return Observable(value, expression, title, "", latex);
-
+    return Observable(value, expression, title, "");
 }
 
 float Tagger::Bdt(const TMVA::Reader &reader) const
@@ -70,18 +62,6 @@ std::string Tagger::branch_name() const
 {
     return name();
 }
-
-// void Tagger::set_tagger_name(const std::string &name)
-// {
-//     name() = name;
-//     signal_file_names_ = {name};
-//     background_file_names_ = {background(name)};
-// }
-// std::string Tagger::name() const
-// {
-//   Error("we do not want to end up here");
-//     return "Tagger";
-// }
 std::string Tagger::factory_name() const
 {
     return "Mva" + name();
@@ -139,7 +119,7 @@ std::string Tagger::background_file_name(const Stage stage) const
 }
 std::string Tagger::analysis_name() const
 {
-    Error(analysis_name_);
+    Error();
     return analysis_name_;
 }
 std::vector< Observable > Tagger::observables() const
@@ -150,10 +130,6 @@ std::vector< Observable > Tagger::spectators() const
 {
     return spectators_;
 }
-Strings Tagger::signal_file_names() const
-{
-    return signal_file_names_;
-}
 Strings Tagger::signal_tree_names() const
 {
     return signal_tree_names_;
@@ -162,10 +138,6 @@ void Tagger::clear_tree_names()
 {
     signal_tree_names_.clear();
     background_tree_names_.clear();
-}
-Strings Tagger::background_file_names() const
-{
-    return background_file_names_;
 }
 Strings Tagger::background_tree_names() const
 {
@@ -187,7 +159,13 @@ std::string Tagger::bdt_method_name() const
 
 std::string Tagger::bdt_weight_name() const
 {
-    return name() + "_" + bdt_method_name() + ".weights.xml";
+  return name() + "_" + bdt_method_name() + "." + weight_file_extension() + ".xml";
+}
+
+std::string Tagger::weight_file_extension() const
+{
+  return "weights";
+  return "";
 }
 
 std::string Tagger::weight_branch_name() const
@@ -198,25 +176,19 @@ std::string Tagger::background_name() const
 {
     return background(name());
 }
+std::string Tagger::signal_name() const
+{
+  return signal(name());
+}
+std::string Tagger::signal(const std::string &name) const
+{
+  return name;
+}
 std::string Tagger::background(const std::string &name) const
 {
     return "Not" + name;
+    return name + "BG";
 }
-std::string Tagger::signal_name() const
-{
-    return name();
-}
-// int Tagger::GetBdt(const Event &, PreCuts &, const TMVA::Reader &)
-// {
-//     Error("should be subclassed");
-//     return 0;
-// }
-// int Tagger::Train(const Event &, PreCuts &, const Tag)
-// {
-//     Error("Should be subclassed");
-//     return 0;
-// }
-
 void Tagger::SetTreeBranch(exroot::TreeWriter &tree_writer, const Stage stage)
 {
     tree_branch_ = tree_writer.NewBranch(name(stage).c_str(), &Class());
@@ -225,10 +197,6 @@ void Tagger::SetTreeBranch(exroot::TreeWriter &tree_writer, const Stage stage)
 void Tagger::AddVariable(float &value, const std::string &title)
 {
     variables_.emplace_back(NewObservable(value, title));
-}
-void Tagger::AddVariable(float &value, const std::string &title, const std::string &latex)
-{
-    variables_.emplace_back(NewObservable(value, title, latex));
 }
 void Tagger::AddSpectator(float &value, const std::string &title)
 {

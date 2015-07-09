@@ -1,18 +1,9 @@
 #pragma once
 
-#include "Global.hh"
+#include "Particle.hh"
 
-namespace analysis {
-
-struct Particle {
-
-    TLorentzVector Momentum;
-
-    int Position;
-
-    int Id;
-
-};
+namespace analysis
+{
 
 class Family
 {
@@ -37,9 +28,9 @@ public:
 
     Family(const int particle_position, const Id id, const int mother_position, const Id mother_id);
 
-    Family(const TLorentzVector &particle, const TLorentzVector &mother, const int particle_position, const int id, const int mother_position, const int mother_id);
+    Family(const TLorentzVector &particle, const LorentzVector &mother, const int particle_position, const int id, const int mother_position, const int mother_id);
 
-//     Family(const TLorentzVector &particle, const TLorentzVector &mother, const int particle_position, const Id id, const int mother_position, const Id mother_id);
+//     Family(const LorentzVector &particle, const LorentzVector &mother, const int particle_position, const Id id, const int mother_position, const Id mother_id);
 
     bool operator==(const Family &family) const;
 
@@ -67,7 +58,7 @@ public:
         return pt_;
     }
 
-protected:
+private:
 
     Particle particle_;
 
@@ -75,11 +66,11 @@ protected:
 
     Particle mother_2_;
 
-    std::vector<int> daughter_ids_;
+    std::vector<int> daughter_ids_;//(2);
 
-    float pt_;
+    float pt_ = 0;
 
-    bool marker_;
+    bool marker_ = false;
 
 };
 
@@ -92,8 +83,8 @@ template <>
 struct hash<analysis::Family> {
     std::size_t operator()(const analysis::Family &Family) const {
 
-        return ((std::hash<int>()(Family.particle().Id)
-                 ^ (std::hash<int>()(Family.mother_1().Id) << 1)) >> 1)
+        return ((std::hash<int>()(Family.particle().id())
+                 ^ (std::hash<int>()(Family.mother_1().id()) << 1)) >> 1)
                //                ^ (std::hash<int>()(Family.mother_2().Id) << 1)
                ;
     }

@@ -4,7 +4,7 @@
 #include "TopSemiTagger.hh"
 #include "Sextet.hh"
 #include "BranchesHiggsCpv.hh"
-#include "ReaderTagger.hh"
+#include "Reader.hh"
 
 namespace analysis
 {
@@ -27,15 +27,15 @@ public:
 
     std::vector<Sextet> Multiplets(const Event &event, const TMVA::Reader &reader) const;
 
-    std::string name() const {
+    std::string name() const final {
       return "TripletJetJetPair";
     }
 
 private:
 
-    ReaderTagger<TopSemiTagger> top_semi_reader_;
+    Reader<TopSemiTagger> top_semi_reader_;
 
-    ReaderTagger<TopHadronicTagger> top_hadronic_reader_;
+    Reader<TopHadronicTagger> top_hadronic_reader_;
 
 };
 

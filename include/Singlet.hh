@@ -22,7 +22,7 @@ public:
         return jet_;
     }
 
-    fastjet::PseudoJet &ConstituentJet() const {
+    fastjet::PseudoJet &EffectiveJet() const {
         return jet_;
     }
 
@@ -110,7 +110,7 @@ public:
         return UserInfo().Tag();
     }
 
-    float Bdt() const {
+    float Bdt() const final {
         return UserInfo().Bdt();
     }
 
@@ -118,7 +118,7 @@ public:
         return Jet().pt();
     }
 
-    void SetBdt(const float bdt);
+    void SetBdt(const float bdt) final;
 
     float Rapidity() const {
         float rap = Jet().rap();
@@ -126,18 +126,15 @@ public:
         return rap;
     }
 
-    int Charge()const {
-//       return UserInfo().Charge();
-        return sgn(UserInfo().Charge());
-    }
+    int Charge() const;
 
     Singlet singlet() const {
         return *this;
     }
 
-private:
-
     const JetInfo &UserInfo() const;
+
+private:
 
     float log(const float number) const;
 

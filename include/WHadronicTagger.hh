@@ -2,7 +2,7 @@
 
 #include "BottomTagger.hh"
 #include "Doublet.hh"
-#include "ReaderTagger.hh"
+#include "Reader.hh"
 
 namespace analysis
 {
@@ -32,7 +32,7 @@ public:
 
     int WHadronicId(const Event &event) const;
 
-    std::string name() const {
+    std::string name() const final {
       return "WHadronic";
     }
 
@@ -58,7 +58,7 @@ private:
 
     std::vector<Doublet> SubMultiplets2(const analysis::Jets &jets, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const;
 
-    ReaderTagger<BottomTagger> bottom_reader_;
+    Reader<BottomTagger> bottom_reader_;
 
     Jets WDaughters(const Event &event) const;
 

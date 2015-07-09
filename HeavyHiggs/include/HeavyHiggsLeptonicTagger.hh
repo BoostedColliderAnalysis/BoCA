@@ -26,13 +26,13 @@ public:
 
     std::vector<Sextet> Multiplets(const Event &event, const TMVA::Reader &reader) const;
 
-    std::string name() const {
+    std::string name() const final {
       return "HeavyHiggsLeptonic";
     }
 
 private:
 
-    ReaderTagger<TopLeptonicTagger> top_leptonic_reader_;
+    Reader<TopLeptonicTagger> top_leptonic_reader_;
 
 };
 

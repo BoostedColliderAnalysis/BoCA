@@ -1,6 +1,5 @@
 #pragma once
 
-// #include "TMVA/Reader.h"
 #include "TCut.h"
 #include "Observable.hh"
 #include "Identification.hh"
@@ -49,8 +48,6 @@ public:
 
     std::string branch_name() const;
 
-//     void set_tagger_name(const std::string &tagger_name);
-
     virtual std::string name() const = 0;
 
     std::string factory_name() const;
@@ -87,11 +84,13 @@ public:
 
     TCut cut() const;
 
-    virtual void set_analysis_name(const std::string &analysis_name);
+    static void set_analysis_name(const std::string &analysis_name);
 
     std::string bdt_method_name() const;
 
     std::string bdt_weight_name() const;
+
+    std::string weight_file_extension() const;
 
     std::string weight_branch_name() const;
 
@@ -100,6 +99,8 @@ public:
     std::string background(const std::string &name) const;
 
     std::string signal_name() const;
+
+    std::string signal(const std::string &name) const;
 
     virtual int GetBdt(const Event &, PreCuts &, const TMVA::Reader &) const = 0;
 
@@ -117,11 +118,7 @@ protected:
 
     Observable NewObservable(float &value, const std::string &title) const;
 
-    Observable NewObservable(float &value, const std::string &title, const std::string &latex) const;
-
     void AddVariable(float &value, const std::string &title);
-
-    void AddVariable(float &value, const std::string &title, const std::string &latex);
 
     void AddSpectator(float &value, const std::string &title);
 
@@ -134,21 +131,6 @@ protected:
     exroot::TreeBranch &tree_branch() const;
 
     float Bdt(const TMVA::Reader &reader) const;
-
-    /**
-     * @brief Names of the Signal Files
-     * shoudl be removed is no longer needed
-     *
-     */
-    Strings signal_file_names_;
-
-    /**
-     * @brief Names of the Background Files
-     * should be remove is no longer needed
-     *
-     */
-    Strings background_file_names_;
-
 
 private:
 
@@ -163,12 +145,6 @@ private:
      *
      */
     static std::string analysis_name_;
-
-    /**
-     * @brief Name of the Tagger
-     *
-     */
-//     std::string name_;
 
     /**
      * @brief Names of the backgrund trees

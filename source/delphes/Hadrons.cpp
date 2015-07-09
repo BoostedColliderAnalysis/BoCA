@@ -1,7 +1,8 @@
+#include "delphes/Hadrons.hh"
 #include "fastjet/ClusterSequence.hh"
 
-#include "delphes/Hadrons.hh"
 #include "Predicate.hh"
+#include "delphes/Delphes.hh"
 #include "Debug.hh"
 
 namespace analysis
@@ -14,9 +15,9 @@ Jets Hadrons::DelphesJets(const JetDetail jet_detail) const
 {
     Info(clones_arrays().JetSum());
     analysis::Jets jets;
-    for (const int JetNumber : Range(clones_arrays().JetSum())) {
-        Detail("Jet Number", JetNumber);
-        ::delphes::Jet &jet = static_cast<::delphes::Jet &>(clones_arrays().Jet(JetNumber));
+    for (const int jet_number : Range(clones_arrays().JetSum())) {
+        Detail(jet_number);
+        ::delphes::Jet &jet = static_cast<::delphes::Jet &>(clones_arrays().Jet(jet_number));
         switch (jet_detail) {
         case JetDetail::plain: {
             fastjet::PseudoJet Jet = analysis::PseudoJet(jet.P4());
@@ -167,12 +168,12 @@ Jets Hadrons::EFlowHadron(const JetDetail jet_detail) const
 {
     Debug(clones_arrays().EFlowNeutralHadronSum());
     analysis::Jets e_flow_jets;
-    for (const int HadronNumber : Range(clones_arrays().EFlowNeutralHadronSum())) {
+    for (const int hadron_number : Range(clones_arrays().EFlowNeutralHadronSum())) {
         if (jet_detail == JetDetail::tagging_structure || jet_detail == JetDetail::structure) {
-            e_flow_jets.emplace_back(ConstituentJet(clones_arrays().EFlowNeutralHadron(HadronNumber), jet_detail, SubDetector::tower));
+            e_flow_jets.emplace_back(ConstituentJet(clones_arrays().EFlowNeutralHadron(hadron_number), jet_detail, SubDetector::tower));
             continue;
         }
-        ::delphes::Tower &e_flow_hadron = static_cast<::delphes::Tower &>(clones_arrays().EFlowNeutralHadron(HadronNumber));
+        ::delphes::Tower &e_flow_hadron = static_cast<::delphes::Tower &>(clones_arrays().EFlowNeutralHadron(hadron_number));
         e_flow_jets.emplace_back(analysis::PseudoJet(e_flow_hadron.P4()));
         if (jet_detail == JetDetail::tagging || jet_detail ==  JetDetail::tagging_isolation) {
             e_flow_jets.back().set_user_info(new JetInfo(JetId(e_flow_hadron)));
@@ -208,7 +209,7 @@ Jets Hadrons::GenJets() const
 {
     Info(clones_arrays().GenJetSum());
     analysis::Jets gen_jets;
-    for (const int GenJetNumber : Range(clones_arrays().GenJetSum())) gen_jets.emplace_back(analysis::PseudoJet(static_cast<::delphes::Jet &>(clones_arrays().GenJet(GenJetNumber)).P4()));
+    for (const int jet_number : Range(clones_arrays().GenJetSum())) gen_jets.emplace_back(analysis::PseudoJet(static_cast<::delphes::Jet &>(clones_arrays().GenJet(jet_number)).P4()));
     return gen_jets;
 }
 

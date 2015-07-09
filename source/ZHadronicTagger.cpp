@@ -24,7 +24,7 @@ int ZHadronicTagger::Train(const Event &event, analysis::PreCuts &pre_cuts, cons
             doublets.emplace_back(doublet);
         }
     }
-    for (const auto jet : jets) {
+    for (const auto &jet : jets) {
         const int sub_jet_number = 2;
         Jets pieces = bottom_reader_.SubMultiplet(jet, sub_jet_number);
         if (pieces.size() < sub_jet_number) continue;
@@ -34,7 +34,7 @@ int ZHadronicTagger::Train(const Event &event, analysis::PreCuts &pre_cuts, cons
         doublets.emplace_back(doublet);
     }
     Jets particles = event.Partons().GenParticles();
-    Jets z_particles = copy_if_abs_particle(particles, Id::Z);
+    Jets z_particles = CopyIfAbsParticle(particles, Id::Z);
     return SaveEntries(BestMatches(doublets, z_particles,tag));
 }
 
@@ -61,7 +61,7 @@ bool ZHadronicTagger::Problematic(const analysis::Doublet &doublet, analysis::Pr
 }
 
 
-std::vector<Doublet>  ZHadronicTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const const
+std::vector<Doublet>  ZHadronicTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const
 {
     Info("ZHadronic Bdt");
     Jets jets =  bottom_reader_.Multiplets(event);
@@ -74,7 +74,7 @@ std::vector<Doublet>  ZHadronicTagger::Multiplets(const Event &event, analysis::
             doublets.emplace_back(doublet);
         }
     }
-    for (const auto jet : jets) {
+    for (const auto &jet : jets) {
         const int sub_jet_number = 2;
         Jets pieces = bottom_reader_.SubMultiplet(jet, sub_jet_number);
         if (pieces.size() < sub_jet_number) continue;

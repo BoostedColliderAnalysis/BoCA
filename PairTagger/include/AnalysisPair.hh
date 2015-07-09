@@ -16,12 +16,12 @@ namespace fusionpair
  * @author Jan Hajer
  *
  */
-class Analysis : public analysis::Analysis
+class Analysis //: public analysis::Analysis
 {
 
 public:
 
-    using analysis::Analysis::Analysis;
+//     using analysis::Analysis::Analysis;
 
 //     analysis::BottomTagger bottom_tagger_;
 //     analysis::JetPairTagger jet_pair_tagger;
@@ -34,6 +34,8 @@ public:
 
     std::vector<analysis::File> Files(const analysis::Tag tag);
 
+    void SetFiles(const analysis::Tag tag) {};
+
      std::string ProjectName() const {
         return  DetectorName(Detector()) + "-eta3.5";
 //         return  ProductionChannelName(ProductionChannel()) + DetectorName(Detector())  + "_" + std::to_string(Mass()) + "GeV";
@@ -45,7 +47,7 @@ private:
     enum HProductionChannel {DYP, VBF, Associated};
     enum HDetectorType {LHC, FHC, LE};
 
-     int EventNumberMax() const {
+     long EventNumberMax() const {
 //         return 1000000;
 //         return 100000;
         return 10000;
@@ -213,8 +215,8 @@ private:
     }
 
     analysis::JetTag jet_tag;
-    analysis::Reader BottomReader;
-    analysis::Reader JetPairReader;
+//     analysis::Reader BottomReader;
+//     analysis::Reader JetPairReader;
 
 //     void NewBranches(exroot::TreeWriter &NewTreeWriter, const analysis::Analysis::HTagger Tagger);
 

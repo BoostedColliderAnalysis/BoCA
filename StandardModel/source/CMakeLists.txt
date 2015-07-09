@@ -1,17 +1,15 @@
 set(TaggerLibraries
-AnalysisTagger.cpp
-AnalysisTopTagger.cpp
-AnalysisHiggsTagger.cpp
-AnalysisZTagger.cpp
-AnalysisWTagger.cpp
-AnalysisBottomTagger.cpp
+AnalysisStandardModel.cpp
+AnalysisBottom.cpp
+AnalysisW.cpp
+AnalysisTop.cpp
 )
 
 HLibrary(AnalysisTagger TaggerLibraries)
 
-HExecutable(TopAnalysis MainTop.cpp)
-HExecutable(HiggsAnalysis MainHiggs.cpp)
-HExecutable(ZAnalysis MainZ.cpp)
-HExecutable(WAnalysis MainW.cpp)
 HExecutable(BottomAnalysis MainBottom.cpp)
-
+HExecutable(WAnalysis MainW.cpp)
+HExecutable(ZAnalysis MainZ.cpp)
+HExecutable(HiggsAnalysis MainHiggs.cpp)
+HExecutable(BosonAnalysis MainBoson.cpp)
+HExecutable(TopAnalysis MainTop.cpp)

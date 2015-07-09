@@ -19,7 +19,7 @@ public:
 
     using analysis::Multiplet<analysis::Quartet31, analysis::Quartet31>::Multiplet;
 
-     analysis::Quartet31 Quartet1()const {
+     analysis::Quartet31 Quartet1() const {
         return Multiplet1();
     }
 
@@ -28,11 +28,11 @@ public:
     }
 
      float BottomBdt() const {
-        return Quartet1().SingletJet().user_info<analysis::JetInfo>().Bdt() + Quartet1().Triplet().SingletJet().user_info<analysis::JetInfo>().Bdt() + Quartet2().SingletJet().user_info<analysis::JetInfo>().Bdt() + Quartet2().Triplet().SingletJet().user_info<analysis::JetInfo>().Bdt();
+        return Quartet1().Singlet().UserInfo().Bdt() + Quartet1().Triplet().Singlet().UserInfo().Bdt() + Quartet2().Singlet().UserInfo().Bdt() + Quartet2().Triplet().Singlet().UserInfo().Bdt();
     }
 
      float PairBottomBdt() const {
-        return Quartet2().SingletJet().user_info<analysis::JetInfo>().Bdt() + Quartet2().Triplet().SingletJet().user_info<analysis::JetInfo>().Bdt();
+        return Quartet2().Singlet().UserInfo().Bdt() + Quartet2().Triplet().Singlet().UserInfo().Bdt();
     }
 
 };
