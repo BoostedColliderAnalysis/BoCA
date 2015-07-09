@@ -23,27 +23,27 @@ public:
 
     Vector3();
 
-    // The constructor.
+// The constructor.
     Vector3(float x, float y, float z);
 
-    // Constructors from an array
+// Constructors from an array
     Vector3(const float *);
 
-    // Get components by index (Geant4).
+// Get components by index (Geant4).
     float operator()(int) const;
     float operator [](int) const;
 
-    // Set components by index.
+// Set components by index.
     float &operator()(int);
     float &operator [](int);
 
-    // The components in cartesian coordinate system.
-    float x()  const;
-    float y()  const;
-    float z()  const;
-    float X()  const;
-    float Y()  const;
-    float Z()  const;
+// The components in cartesian coordinate system.
+    float x() const;
+    float y() const;
+    float z() const;
+    float X() const;
+    float Y() const;
+    float Z() const;
     float Px() const;
     float Py() const;
     float Pz() const;
@@ -52,51 +52,51 @@ public:
     void SetY(float);
     void SetZ(float);
     void SetXYZ(float x, float y, float z);
-    void        SetPtEtaPhi(float pt, float eta, float phi);
-    void        SetPtThetaPhi(float pt, float theta, float phi);
+    void SetPtEtaPhi(float pt, float eta, float phi);
+    void SetPtThetaPhi(float pt, float theta, float phi);
 
-    // Get the components into an array
-    // not checked!
+// Get the components into an array
+// not checked!
     void GetXYZ(float *carray) const;
 
-    // The azimuth angle. returns phi from -pi to pi
+// The azimuth angle. returns phi from -pi to pi
     float Phi() const;
 
-    // The polar angle.
+// The polar angle.
     float Theta() const;
 
-    // Cosine of the polar angle.
+// Cosine of the polar angle.
     float CosTheta() const;
 
-    // The magnitude squared (rho^2 in spherical coordinate system).
+// The magnitude squared (rho^2 in spherical coordinate system).
     float Mag2() const;
 
-    // The magnitude (rho in spherical coordinate system).
+// The magnitude (rho in spherical coordinate system).
     float Mag() const;
 
-    // Set phi keeping mag and theta constant (BaBar).
+// Set phi keeping mag and theta constant (BaBar).
     void SetPhi(float);
 
-    // Set theta keeping mag and phi constant (BaBar).
+// Set theta keeping mag and phi constant (BaBar).
     void SetTheta(float);
 
-    // Set magnitude keeping theta and phi constant (BaBar).
+// Set magnitude keeping theta and phi constant (BaBar).
     void SetMag(float);
 
-    // The transverse component squared (R^2 in cylindrical coordinate system).
+// The transverse component squared (R^2 in cylindrical coordinate system).
     float Perp2() const;
 
-    // The transverse component (R in cylindrical coordinate system).
+// The transverse component (R in cylindrical coordinate system).
     float Pt() const;
     float Perp() const;
 
-    // Set the transverse component keeping phi and z constant.
+// Set the transverse component keeping phi and z constant.
     void SetPerp(float);
 
-    // The transverse component w.r.t. given axis squared.
+// The transverse component w.r.t. given axis squared.
     float Perp2(const Vector3 &) const;
 
-    // The transverse component w.r.t. given axis.
+// The transverse component w.r.t. given axis.
     float Pt(const Vector3 &) const;
     float Perp(const Vector3 &) const;
 
@@ -106,59 +106,59 @@ public:
     Vector2 EtaPhiVector() const;
     void SetMagThetaPhi(float mag, float theta, float phi);
 
-    // Comparisons (Geant4).
+// Comparisons (Geant4).
     bool operator == (const Vector3 &) const;
     bool operator != (const Vector3 &) const;
 
-    // Addition.
+// Addition.
     Vector3 &operator += (const Vector3 &);
 
-    // Subtraction.
+// Subtraction.
     Vector3 &operator -= (const Vector3 &);
 
-    // Unary minus.
+// Unary minus.
     Vector3 operator - () const;
 
-    // Scaling with real numbers.
+// Scaling with real numbers.
     Vector3 &operator *= (float);
 
-    // Unit vector parallel to this.
+// Unit vector parallel to this.
     Vector3 Unit() const;
 
-    // Vector orthogonal to this (Geant4).
+// Vector orthogonal to this (Geant4).
     Vector3 Orthogonal() const;
 
-    // Scalar product.
+// Scalar product.
     float Dot(const Vector3 &) const;
 
-    // Cross product.
+// Cross product.
     Vector3 Cross(const Vector3 &) const;
 
-    // The angle w.r.t. another 3-vector.
+// The angle w.r.t. another 3-vector.
     float Angle(const Vector3 &) const;
 
-    // Returns the pseudo-rapidity, i.e. -ln(tan(theta/2))
+// Returns the pseudo-rapidity, i.e. -ln(tan(theta/2))
     float PseudoRapidity() const;
 
     float Eta() const;
 
-    // Rotates the Hep3Vector around the x-axis.
+// Rotates the Hep3Vector around the x-axis.
     void RotateX(float);
 
-    // Rotates the Hep3Vector around the y-axis.
+// Rotates the Hep3Vector around the y-axis.
     void RotateY(float);
 
-    // Rotates the Hep3Vector around the z-axis.
+// Rotates the Hep3Vector around the z-axis.
     void RotateZ(float);
 
-    // Rotates reference frame from Uz to newUz (unit vector) (Geant4).
+// Rotates reference frame from Uz to newUz (unit vector) (Geant4).
     void RotateUz(const Vector3 &);
 
     Vector2 XYvector() const;
 
 private:
 
-    // The components.
+// The components.
     float x_, y_, z_;
 
 };

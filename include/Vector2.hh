@@ -12,19 +12,17 @@ class Vector2
 
 private:
 
-    float x_; // components of the vector
+    // components of the vector
+    float x_;
     float y_;
 
 public:
-
-    typedef float Scalar; // to be able to use it with the ROOT::Math::VectorUtil functions
 
     Vector2();
     Vector2(float *s);
     Vector2(float x0, float y0);
 
     // unary operators
-    Vector2 &operator = (Vector2 const &v);
     Vector2 &operator += (Vector2 const &v);
     Vector2 &operator -= (Vector2 const &v);
     float operator *= (Vector2 const &v);
