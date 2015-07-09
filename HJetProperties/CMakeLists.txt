@@ -1,4 +1,4 @@
-# HInclude(.)
+HInclude(.)
 HSource(.)
 
 HDictionary(HJetPropertiesBranch HJetPropertiesBranch.cpp HJetPropertiesLinkDef.hh)
