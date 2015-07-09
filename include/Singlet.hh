@@ -22,7 +22,7 @@ public:
         return jet_;
     }
 
-    fastjet::PseudoJet &ConstituentJet() const {
+    fastjet::PseudoJet &EffectiveJet() const {
         return jet_;
     }
 

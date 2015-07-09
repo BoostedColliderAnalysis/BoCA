@@ -1,5 +1,6 @@
 #include "exroot/Leptons.hh"
 #include "JetInfo.hh"
+#include "Predicate.hh"
 #include "Debug.hh"
 
 namespace analysis
@@ -10,7 +11,7 @@ namespace exroot
 
 Jets Leptons::Electrons() const
 {
-    Info("Electrons");
+    Info();
     Jets electrons;
     for (const int electron_number : Range(clones_arrays().ElectronSum())) {
         ::exroot::Electron electron = static_cast<::exroot::Electron &>(clones_arrays().Electron(electron_number));
@@ -23,7 +24,7 @@ Jets Leptons::Electrons() const
 
 Jets Leptons::Muons() const
 {
-    Info("Muons");
+    Info();
     Jets muons;
     for (const int muon_number : Range(clones_arrays().MuonSum())) {
       ::exroot::Muon &muon = static_cast<::exroot::Muon &>(clones_arrays().Muon(muon_number));

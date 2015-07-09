@@ -1,8 +1,8 @@
 #pragma once
 
+#include <iomanip>
 #include "ClonesArrays.hh"
 #include "JetTag.hh"
-#include <iomanip>
 
 namespace analysis
 {
@@ -43,9 +43,9 @@ protected:
     void NewEvent(const ClonesArrays &clones_arrays);
 
     template<typename Particle>
-    TLorentzVector LorentzVectorByEnergy(const Particle &particle) const {
+    analysis::LorentzVector LorentzVectorByEnergy(const Particle &particle) const {
 //         Debug("Lorentz Vector by Energy");
-        TLorentzVector vector;
+        analysis::LorentzVector vector;
         const float Pt = particle.PT;
         const float Eta = particle.Eta;
         const float Phi = particle.Phi;
@@ -61,9 +61,9 @@ protected:
     }
 
     template<typename Particle>
-    TLorentzVector LorentzVectorByMass(const Particle &particle, const float mass) const {
+    analysis::LorentzVector LorentzVectorByMass(const Particle &particle, const float mass) const {
 //         Debug("Lorentz Vector by Mass");
-        TLorentzVector LorentzVector;
+        analysis::LorentzVector LorentzVector;
         const float Pt = particle.PT;
         const float Eta = particle.Eta;
         const float Phi = particle.Phi;
@@ -77,10 +77,10 @@ protected:
     }
 
     template<typename Particle>
-    TLorentzVector LorentzVectorByMass(const Particle &particle) const {
+    analysis::LorentzVector LorentzVectorByMass(const Particle &particle) const {
 //         Debug("Lorentz Vector by Mass");
         const float Mass = particle.Mass;
-        const TLorentzVector LorentzVector = LorentzVectorByMass(particle, Mass);
+        const analysis::LorentzVector LorentzVector = LorentzVectorByMass(particle, Mass);
         if (check_four_vectors_) {
 //             if (LorentzVector.M() - Mass > mass_check_value_) Error(Mass, LorentzVector.M());
         }
@@ -88,25 +88,25 @@ protected:
     }
 
     template<typename Particle>
-    TLorentzVector LorentzVectorByM(const Particle &particle) const {
+    analysis::LorentzVector LorentzVectorByM(const Particle &particle) const {
 //         Debug("Lorentz Vector by Mass");
         const float Mass = particle.M;
-        const TLorentzVector LorentzVector = LorentzVectorByMass(particle, Mass);
+        const analysis::LorentzVector LorentzVector = LorentzVectorByMass(particle, Mass);
         if (check_four_vectors_) {
 //             if (LorentzVector.M() - Mass > mass_check_value_) Error(Mass, LorentzVector.M());
         }
         return LorentzVector;
     }
-//     TLorentzVector LorentzVector(const MissingET *const Particle) const;
+//     analysis::LorentzVector LorentzVector(const MissingET *const Particle) const;
 
-    TLorentzVector LorentzVector(const exroot::Electron &Particle) const;
-    TLorentzVector LorentzVector(const exroot::GenJet &Particle) const;
-    TLorentzVector LorentzVector(const exroot::GenParticle &Particle) const;
-    TLorentzVector LorentzVector(const exroot::Jet &Particle) const;
-    TLorentzVector LorentzVector(const exroot::LHEFParticle &Particle) const;
-    TLorentzVector LorentzVector(const exroot::Muon &Particle) const;
-    TLorentzVector LorentzVector(const exroot::Photon &Particle) const;
-    TLorentzVector LorentzVector(const exroot::Tau &Particle) const;
+    analysis::LorentzVector LorentzVector(const exroot::Electron &Particle) const;
+    analysis::LorentzVector LorentzVector(const exroot::GenJet &Particle) const;
+    analysis::LorentzVector LorentzVector(const exroot::GenParticle &Particle) const;
+    analysis::LorentzVector LorentzVector(const exroot::Jet &Particle) const;
+    analysis::LorentzVector LorentzVector(const exroot::LHEFParticle &Particle) const;
+    analysis::LorentzVector LorentzVector(const exroot::Muon &Particle) const;
+    analysis::LorentzVector LorentzVector(const exroot::Photon &Particle) const;
+    analysis::LorentzVector LorentzVector(const exroot::Tau &Particle) const;
     fastjet::PseudoJet PseudoJet(const exroot::Electron &Particle) const;
     fastjet::PseudoJet PseudoJet(const exroot::GenJet &Particle) const;
     fastjet::PseudoJet PseudoJet(const exroot::GenParticle &Particle) const;

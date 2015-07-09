@@ -2,15 +2,57 @@
 
 #include "Global.hh"
 
-namespace analysis {
+namespace analysis
+{
 
 struct Particle {
 
-    TLorentzVector Momentum;
+public:
 
-    int Position;
+    Particle() {}
 
-    int Id;
+    Particle(const int id) {
+        id_ = id;
+    }
+
+    Particle(const Id id) {
+        id_ = to_int(id);
+    }
+
+    Particle(const Id id, const int position) {
+        id_ = to_int(id);
+        position_ = position;
+    }
+
+    Particle(const LorentzVector &momentum, const int id, const int position) {
+        id_ = id;
+        position_ = position;
+    }
+
+    Particle(const TLorentzVector &momentum, const int id, const int position) {
+      id_ = id;
+      position_ = position;
+    }
+
+    LorentzVector momentum()const {
+        return momentum_;
+    }
+
+    int position()const {
+        return position_;
+    }
+
+    int id()const {
+        return id_;
+    }
+
+private:
+
+    LorentzVector momentum_;
+
+    int position_ = EmptyPosition;
+
+    int id_ = to_int(Id::empty);
 
 };
 
@@ -37,9 +79,9 @@ public:
 
     Family(const int particle_position, const Id id, const int mother_position, const Id mother_id);
 
-    Family(const TLorentzVector &particle, const TLorentzVector &mother, const int particle_position, const int id, const int mother_position, const int mother_id);
+    Family(const TLorentzVector &particle, const LorentzVector &mother, const int particle_position, const int id, const int mother_position, const int mother_id);
 
-//     Family(const TLorentzVector &particle, const TLorentzVector &mother, const int particle_position, const Id id, const int mother_position, const Id mother_id);
+//     Family(const LorentzVector &particle, const LorentzVector &mother, const int particle_position, const Id id, const int mother_position, const Id mother_id);
 
     bool operator==(const Family &family) const;
 
@@ -67,7 +109,7 @@ public:
         return pt_;
     }
 
-protected:
+private:
 
     Particle particle_;
 
@@ -75,11 +117,11 @@ protected:
 
     Particle mother_2_;
 
-    std::vector<int> daughter_ids_;
+    std::vector<int> daughter_ids_;//(2);
 
-    float pt_;
+    float pt_ = 0;
 
-    bool marker_;
+    bool marker_ = false;
 
 };
 
@@ -92,8 +134,8 @@ template <>
 struct hash<analysis::Family> {
     std::size_t operator()(const analysis::Family &Family) const {
 
-        return ((std::hash<int>()(Family.particle().Id)
-                 ^ (std::hash<int>()(Family.mother_1().Id) << 1)) >> 1)
+        return ((std::hash<int>()(Family.particle().id())
+                 ^ (std::hash<int>()(Family.mother_1().id()) << 1)) >> 1)
                //                ^ (std::hash<int>()(Family.mother_2().Id) << 1)
                ;
     }

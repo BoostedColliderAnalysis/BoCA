@@ -44,8 +44,8 @@ struct WrongId {
         id_ = id;
     }
     bool operator()(const fastjet::PseudoJet &jet) {
-        return (jet.user_info<JetInfo>().constituents().front().family().particle().Id != id_);
-        return (jet.user_info<JetInfo>().constituents().front().family().particle().Id != id_);
+        return (jet.user_info<JetInfo>().constituents().front().family().particle().id() != id_);
+        return (jet.user_info<JetInfo>().constituents().front().family().particle().id() != id_);
     }
     int id_;
 };
@@ -57,7 +57,7 @@ struct WrongAbsId {
     bool operator()(const fastjet::PseudoJet &Jet) {
         JetInfo jet_info = Jet.user_info<JetInfo>();
         Family family = jet_info.constituents().front().family();
-        return (std::abs(family.particle().Id) != to_int(id_));
+        return (std::abs(family.particle().id()) != to_int(id_));
     }
     Id id_;
 };
@@ -70,21 +70,21 @@ struct WrongAbsPairId {
     bool operator()(const fastjet::PseudoJet &Jet) {
         JetInfo jet_info = Jet.user_info<JetInfo>();
         Family family = jet_info.constituents().front().family();
-        return (std::abs(family.particle().Id) != id_1_ && std::abs(family.particle().Id) != id_2_);
+        return (std::abs(family.particle().id()) != id_1_ && std::abs(family.particle().id()) != id_2_);
     }
     int id_1_;
     int id_2_;
 };
 
 struct WrongAbsFamily {
-  WrongAbsFamily(const Id id, const Id moterh_id) {
+    WrongAbsFamily(const Id id, const Id moterh_id) {
         id_ = id;
         mother_id_ = moterh_id;
     }
     bool operator()(const fastjet::PseudoJet &Jet) {
         JetInfo jet_info = Jet.user_info<JetInfo>();
         Family family = jet_info.constituents().front().family();
-        return (std::abs(family.particle().Id) != to_int(id_) || std::abs(family.mother_1().Id) != to_int(mother_id_));
+        return (std::abs(family.particle().id()) != to_int(id_) || std::abs(family.mother_1().id()) != to_int(mother_id_));
     }
     Id id_;
     Id mother_id_;
@@ -98,7 +98,7 @@ struct WrongFamily {
     bool operator()(const fastjet::PseudoJet &Jet) {
         JetInfo jet_info = Jet.user_info<JetInfo>();
         Family family = jet_info.constituents().front().family();
-        return (family.particle().Id != id_ || family.mother_1().Id != mother_id_);
+        return (family.particle().id() != id_ || family.mother_1().id() != mother_id_);
     }
     int id_;
     int mother_id_;
@@ -111,7 +111,7 @@ struct WrongMother {
     bool operator()(const fastjet::PseudoJet &Jet) {
         JetInfo jet_info = Jet.user_info<JetInfo>();
         Family family = jet_info.constituents().front().family();
-        return family.mother_1().Id != mother_id_;
+        return family.mother_1().id() != mother_id_;
     }
     int mother_id_;
 };
@@ -123,7 +123,7 @@ struct WrongAbsMother {
     bool operator()(const fastjet::PseudoJet &Jet) {
         JetInfo jet_info = Jet.user_info<JetInfo>();
         Family family = jet_info.constituents().front().family();
-        return std::abs(family.mother_1().Id) != to_int(mother_id_);
+        return std::abs(family.mother_1().id()) != to_int(mother_id_);
     }
     Id mother_id_;
 };
@@ -135,7 +135,7 @@ struct AbsMother {
     bool operator()(const fastjet::PseudoJet &Jet) {
         JetInfo jet_info = Jet.user_info<JetInfo>();
         Family family = jet_info.constituents().front().family();
-        return std::abs(family.mother_1().Id) == to_int(mother_id_);
+        return std::abs(family.mother_1().id()) == to_int(mother_id_);
     }
     Id mother_id_;
 };
@@ -148,7 +148,7 @@ struct WrongAbsStepFamily {
     bool operator()(const fastjet::PseudoJet &Jet) {
         JetInfo jet_info = Jet.user_info<JetInfo>();
         Family family = jet_info.constituents().front().family();
-        return (std::abs(family.particle().Id) != id_ || std::abs(family.mother_2().Id) != mother_2_id_);
+        return (std::abs(family.particle().id()) != id_ || std::abs(family.mother_2().id()) != mother_2_id_);
     }
     int mother_2_id_;
     int id_;
@@ -161,7 +161,7 @@ struct WrongAbsStepMother {
     bool operator()(const fastjet::PseudoJet &Jet) {
         JetInfo jet_info = Jet.user_info<JetInfo>();
         Family family = jet_info.constituents().front().family();
-        return std::abs(family.mother_2().Id) != mother_2_id_;
+        return std::abs(family.mother_2().id()) != mother_2_id_;
     }
     int mother_2_id_;
 };
@@ -170,12 +170,12 @@ struct WrongLeptons {
     bool operator()(const fastjet::PseudoJet &Jet) {
         JetInfo jet_info = Jet.user_info<JetInfo>();
         Family family = jet_info.constituents().front().family();
-        return (std::abs(family.particle().Id) == to_int(Id::electron) ||
-                std::abs(family.particle().Id) == to_int(Id::muon) ||
-                std::abs(family.particle().Id) == to_int(Id::tau) ||
-                std::abs(family.particle().Id) == to_int(Id::tau_neutrino) ||
-                std::abs(family.particle().Id) == to_int(Id::muon_neutrino) ||
-                std::abs(family.particle().Id) == to_int(Id::electron_neutrino)
+        return (std::abs(family.particle().id()) == to_int(Id::electron) ||
+                std::abs(family.particle().id()) == to_int(Id::muon) ||
+                std::abs(family.particle().id()) == to_int(Id::tau) ||
+                std::abs(family.particle().id()) == to_int(Id::tau_neutrino) ||
+                std::abs(family.particle().id()) == to_int(Id::muon_neutrino) ||
+                std::abs(family.particle().id()) == to_int(Id::electron_neutrino)
                );
     }
 };
@@ -183,12 +183,12 @@ struct WrongLeptons {
 struct IsQuark {
     bool operator()(const fastjet::PseudoJet &jet) {
         Family family = jet.user_info<JetInfo>().constituents().front().family();
-        return (std::abs(family.particle().Id) == to_int(Id::up) ||
-                std::abs(family.particle().Id) == to_int(Id::down) ||
-                std::abs(family.particle().Id) == to_int(Id::charm) ||
-                std::abs(family.particle().Id) == to_int(Id::strange) ||
-                std::abs(family.particle().Id) == to_int(Id::bottom) ||
-                std::abs(family.particle().Id) == to_int(Id::top)
+        return (std::abs(family.particle().id()) == to_int(Id::up) ||
+                std::abs(family.particle().id()) == to_int(Id::down) ||
+                std::abs(family.particle().id()) == to_int(Id::charm) ||
+                std::abs(family.particle().id()) == to_int(Id::strange) ||
+                std::abs(family.particle().id()) == to_int(Id::bottom) ||
+                std::abs(family.particle().id()) == to_int(Id::top)
                );
     }
 };
@@ -219,32 +219,15 @@ struct SmallDistance {
 
 struct Not5Quark {
     bool operator()(const fastjet::PseudoJet &Jet) {
-        const int id = Jet.user_info<JetInfo>().constituents().front().family().particle().Id;
+        const int id = Jet.user_info<JetInfo>().constituents().front().family().particle().id();
         return !(std::abs(id) == to_int(Id::up) || std::abs(id) == to_int(Id::down) || std::abs(id) == to_int(Id::charm) || std::abs(id) == to_int(Id::strange) || std::abs(id) == to_int(Id::bottom));
     }
-};
-
-struct AbsId {
-    AbsId(const Id id_1) {
-        id_1_ = id_1;
-        id_2_ = id_1;
-    }
-    AbsId(const Id id_1, const Id id_2) {
-        id_1_ = id_1;
-        id_2_ = id_2;
-    }
-    bool operator()(const fastjet::PseudoJet &Jet) {
-        int id = std::abs(Jet.user_info<JetInfo>().constituents().front().family().particle().Id);
-        return (id == to_int(id_1_) | id == to_int(id_2_));
-    }
-    Id id_1_;
-    Id id_2_;
 };
 
 
 struct IsNeutrino {
     bool operator()(const fastjet::PseudoJet &jet) {
-        const int id = jet.user_info<JetInfo>().constituents().front().family().particle().Id;
+        const int id = jet.user_info<JetInfo>().constituents().front().family().particle().id();
         return (id == to_int(Id::electron_neutrino) | id == to_int(Id::muon_neutrino) | id == to_int(Id::tau_neutrino));
     }
 };
@@ -257,9 +240,36 @@ fastjet::PseudoJet PseudoJet(const TLorentzVector &vector)
     return fastjet::PseudoJet(vector.Px(), vector.Py(), vector.Pz(), vector.E());
 }
 
+fastjet::PseudoJet PseudoJet(const LorentzVector &vector)
+{
+  // construct a pseudojet from explicit components
+  // PseudoJet(const double px, const double py, const double pz, const double E);
+  return fastjet::PseudoJet(vector.Px(), vector.Py(), vector.Pz(), vector.E());
+}
+
+struct AbsId {
+    AbsId(const Id id_1) {
+        id_1_ = id_1;
+        id_2_ = id_1;
+    }
+    AbsId(const Id id_1, const Id id_2) {
+        id_1_ = id_1;
+        id_2_ = id_2;
+    }
+    bool operator()(const fastjet::PseudoJet &jet) {
+//         std::vector<Constituent> constituents = jet.user_info<JetInfo>().constituents();
+//         if(constituents.empty())
+        int id = std::abs(jet.user_info<JetInfo>().constituents().front().family().particle().id());
+        return (id == to_int(id_1_) | id == to_int(id_2_));
+    }
+    Id id_1_;
+    Id id_2_;
+};
+
 Jets CopyIfAbsParticle(const Jets &jets, const Id id)
 {
-    Jets final_jets(jets.size());;
+    if (jets.empty()) return jets;
+    Jets final_jets(jets.size());
     auto iterator = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), AbsId(id));
     final_jets.resize(std::distance(final_jets.begin(), iterator));
     return final_jets;
@@ -267,6 +277,7 @@ Jets CopyIfAbsParticle(const Jets &jets, const Id id)
 
 Jets CopyIfAbsParticle(const Jets &jets, const Id id_1, const Id id_2)
 {
+    if (jets.empty()) return jets;
     Jets final_jets(jets.size());;
     auto iterator = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), AbsId(id_1, id_2));
     final_jets.resize(std::distance(final_jets.begin(), iterator));
@@ -276,6 +287,7 @@ Jets CopyIfAbsParticle(const Jets &jets, const Id id_1, const Id id_2)
 
 Jets copy_if_neutrino(const Jets &jets)
 {
+    if (jets.empty()) return jets;
     Jets final_jets(jets.size());;
     auto iterator = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), IsNeutrino());
     final_jets.resize(std::distance(final_jets.begin(), iterator));
@@ -283,17 +295,18 @@ Jets copy_if_neutrino(const Jets &jets)
 }
 
 struct IsId {
-  IsId(const int id) {
+    IsId(const int id) {
         id_ = id;
     }
     bool operator()(const fastjet::PseudoJet &Jet) {
-        return (Jet.user_info<JetInfo>().constituents().front().family().particle().Id == id_);
+        return (Jet.user_info<JetInfo>().constituents().front().family().particle().id() == id_);
     }
     int id_;
 };
 
 Jets CopyIfParticle(const Jets &jets, const int id)
 {
+    if (jets.empty()) return jets;
     Jets final_jets(jets.size());
     auto iterator = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), IsId(id));
     final_jets.resize(std::distance(final_jets.begin(), iterator));
@@ -302,6 +315,7 @@ Jets CopyIfParticle(const Jets &jets, const int id)
 
 Jets remove_if_particle(const Jets &jets, const int id)
 {
+    if (jets.empty()) return jets;
     Jets jets_ = jets;
     jets_.erase(std::remove_if(jets_.begin(), jets_.end(), IsId(id)), jets_.end());
     return jets;
@@ -322,12 +336,14 @@ struct NotInPtWindow {
 
 Jets remove_if_not_in_pt_window(Jets &jets, const float lower_cut, const float upper_cut)
 {
+    if (jets.empty()) return jets;
     jets.erase(std::remove_if(jets.begin(), jets.end(), NotInPtWindow(lower_cut, upper_cut)), jets.end());
     return jets;
 }
 
 Jets RemoveIfWrongAbsFamily(const Jets &jets, const Id id, Id mother_id)
 {
+    if (jets.empty()) return jets;
     Jets jets_ = jets;
     jets_.erase(std::remove_if(jets_.begin(), jets_.end(), WrongAbsFamily(id, mother_id)), jets_.end());
     return jets_;
@@ -335,6 +351,7 @@ Jets RemoveIfWrongAbsFamily(const Jets &jets, const Id id, Id mother_id)
 
 Jets RemoveIfWrongFamily(const Jets &jets, const int id, int mother_id)
 {
+    if (jets.empty()) return jets;
     Jets jets_ = jets;
     jets_.erase(std::remove_if(jets_.begin(), jets_.end(), WrongFamily(id, mother_id)), jets_.end());
     return jets_;
@@ -342,6 +359,7 @@ Jets RemoveIfWrongFamily(const Jets &jets, const int id, int mother_id)
 
 Jets RemoveIfWrongAbsStepFamily(const Jets &jets, const int id , const int mother_2_id)
 {
+    if (jets.empty()) return jets;
     Jets jets_ = jets;
     jets_.erase(std::remove_if(jets_.begin(), jets_.end(), WrongAbsStepFamily(id, mother_2_id)), jets_.end());
     return jets_;
@@ -349,6 +367,7 @@ Jets RemoveIfWrongAbsStepFamily(const Jets &jets, const int id , const int mothe
 
 Jets RemoveIfWrongAbsStepMother(const Jets &jets, const int mother_2_id)
 {
+    if (jets.empty()) return jets;
     Jets jets_ = jets;
     jets_.erase(std::remove_if(jets_.begin(), jets_.end(), WrongAbsStepMother(mother_2_id)), jets_.end());
     return jets_;
@@ -356,6 +375,7 @@ Jets RemoveIfWrongAbsStepMother(const Jets &jets, const int mother_2_id)
 
 Jets RemoveIfWrongParticle(const Jets &jets, const int id)
 {
+    if (jets.empty()) return jets;
     Jets jets_ = jets;
     jets_.erase(std::remove_if(jets_.begin(), jets_.end(), WrongId(id)), jets_.end());
     return jets_;
@@ -363,6 +383,7 @@ Jets RemoveIfWrongParticle(const Jets &jets, const int id)
 
 Jets RemoveIfWrongAbsParticle(const Jets &jets, const Id id)
 {
+    if (jets.empty()) return jets;
     Jets jets_ = jets;
     jets_.erase(std::remove_if(jets_.begin(), jets_.end(), WrongAbsId(id)), jets_.end());
     return jets_;
@@ -370,6 +391,7 @@ Jets RemoveIfWrongAbsParticle(const Jets &jets, const Id id)
 
 Jets RemoveIfWrongAbsMother(const Jets &jets, const Id mother_id)
 {
+    if (jets.empty()) return jets;
     Jets jets_ = jets;
     jets_.erase(std::remove_if(jets_.begin(), jets_.end(), WrongAbsMother(mother_id)), jets_.end());
     return jets_;

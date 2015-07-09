@@ -2,8 +2,9 @@
 
 #include <vector>
 
-#include "TLorentzVector.h"
 #include "fastjet/PseudoJet.hh"
+#include "TLorentzVector.h"
+#include "LorentzVector.hh"
 
 /**
  * @brief analysis namespace containing the general analysis and SM taggers
@@ -12,8 +13,108 @@
 namespace analysis
 {
 
+// // dropin replacement for the slow TLorentzVector classes
+// class Vector3
+// {
+//
+// public:
+//
+//     float Pt() const {
+//         return Perp();
+//     };
+//
+//     float Perp() const {
+//         return std::sqrt(std::pow(x_, 2) + std::pow(y_, 2));
+//     }
+//
+//     void SetXYZ(float x, float y, float z) {
+//         x_ = x;
+//         y_ = y;
+//         z_ = z;
+//     }
+//
+//     void operator=(const TVector3 &vector){
+//       x_ = vector.X();
+//       y_ = vector.Y();
+//       z_ = vector.Z();
+//     }
+//
+// private:
+//
+//     float x_, y_, z_;
+//
+// };
+//
+//
+// class LorentzVector
+// {
+//
+// public:
+//
+//     float Perp() const {
+//         return vector_.Perp();
+//     }
+//
+//     float Pt() const {
+//         return Perp();
+//     }
+//
+//     void SetPtEtaPhiE(float pt, float eta, float phi, float e) {
+//         pt = std::abs(pt);
+//         SetXYZT(pt * std::cos(phi), pt * std::sin(phi), pt * std::sinh(eta) , e);
+//     }
+//
+//     void SetXYZT(float  x, float  y, float  z, float t) {
+//         vector_.SetXYZ(x, y, z);
+//         SetT(t);
+//     }
+//
+//     void SetPtEtaPhiM(float pt, float eta, float phi, float m) {
+//         pt = std::abs(pt);
+//         SetXYZM(pt * std::cos(phi), pt * std::sin(phi), pt * std::sinh(eta) , m);
+//     }
+//
+//     void SetXYZM(float  x, float  y, float  z, float m) {
+//         if (m  >= 0) SetXYZT(x, y, z, std::sqrt(std::pow(x, 2) + std::pow(y, 2) + std::pow(z, 2) + std::pow(m, 2)));
+//         else SetXYZT(x, y, z, std::sqrt(std::max((std::pow(x, 2) + std::pow(y, 2) + std::pow(z, 2) - std::pow(m, 2)), 0.)));
+//     }
+//
+//     void SetT(float t) {
+//         t_ = t;
+//     }
+//
+//     void operator=(const TLorentzVector &lorentzvector){
+//       vector_ = lorentzvector.Vect();
+//       t_ = lorentzvector.T();
+//     }
+//
+//     float Px() const { return X(); }
+//     float Py() const { return Y(); }
+//     float Pz() const { return Z(); }
+//     float P()  const { return vector_.Mag(); }
+//     float E()  const { return T(); }
+//
+//     float X() const { return vector_.X(); }
+//     float Y() const { return vector_.Y(); }
+//     float Z() const { return vector_.Z(); }
+//     float T() const { return fE; }
+//
+// private:
+//
+//     Vector3 vector_;
+//
+//     float t_;
+//
+// };
+
+
+
+
+
+
+
 typedef std::vector<fastjet::PseudoJet> Jets;
-typedef std::vector<TLorentzVector> Vectors;
+typedef std::vector<LorentzVector> Vectors;
 typedef std::vector<std::string> Strings;
 
 template <typename Value>
@@ -41,49 +142,6 @@ float Length(const float rapidity, const float phi);
  *
  */
 float DeltaPhi(const float phi_1, const float phi_2);
-
-/**
- * @brief provides an integer with the necessary information to work with range based for loop
- *
- */
-class Range
-{
-public:
-    Range(const int sum) : last_(sum), iterator_(0) {}
-
-    const Range &begin() const {
-        return *this;
-    }
-    const Range &end() const {
-        return *this;
-    }
-    bool operator!=(const Range &) const {
-        return iterator_ < last_;
-    }
-    void operator++() {
-        ++iterator_;
-    }
-    int operator*() const {
-        return iterator_;
-    }
-private:
-    int last_;
-    int iterator_;
-};
-
-/**
- * @brief Join two std::vector
- *
- */
-template <typename Element>
-std::vector<Element> Join(const std::vector<Element> &vector_1, const std::vector<Element> &vector_2)
-{
-    std::vector<Element> joined;
-    joined.reserve(vector_1.size() + vector_2.size());
-    joined.insert(joined.end(), vector_1.begin(), vector_1.end());
-    joined.insert(joined.end(), vector_2.begin(), vector_2.end());
-    return joined;
-}
 
 enum class Severity
 {

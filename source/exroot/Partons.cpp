@@ -1,5 +1,6 @@
 #include "exroot/Partons.hh"
 #include "JetInfo.hh"
+#include "Predicate.hh"
 #include "Debug.hh"
 
 namespace analysis

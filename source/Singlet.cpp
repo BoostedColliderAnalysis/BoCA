@@ -38,14 +38,16 @@ float Singlet::Spread(const fastjet::PseudoJet &jet) const
 {
     Info();
     if (!jet.has_constituents()) return 0;
-    float delta_r = Radius(jet);
-    if (delta_r == 0) return 0;
+//     float delta_r = Radius(jet);
+    float delta_r = 0;
     float spread = 0;
     for (const auto & constituent : jet.constituents()) {
         const float constituent_delta_r = jet.delta_R(constituent);
         if (constituent_delta_r > 100) continue;
         spread += constituent_delta_r * constituent.pt();
+        if (constituent_delta_r > delta_r) delta_r = constituent_delta_r;
     }
+    if (delta_r == 0) return 0;
     return spread / jet.pt() / delta_r;
 }
 

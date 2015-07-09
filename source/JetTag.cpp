@@ -22,26 +22,26 @@ int JetTag::GetBranchId(const int id, int branch_id)
 
 Family JetTag::BranchFamily(const Family &node_family, Family &branch_family)
 {
-    Debug("Branch Id", Name(node_family.particle().Id), Name(node_family.mother_1().Id), Name(branch_family.particle().Id));
+    Debug("Branch Id", Name(node_family.particle().id()), Name(node_family.mother_1().id()), Name(branch_family.particle().id()));
     if (
-        HeavyParticles.find(static_cast<Id>(std::abs(node_family.particle().Id))) != end(HeavyParticles)
-        && HeavyParticles.find(static_cast<Id>(std::abs(branch_family.particle().Id))) == end(HeavyParticles)
-        && HeavyParticles.find(static_cast<Id>(std::abs(branch_family.mother_1().Id))) == end(HeavyParticles)
+        HeavyParticles.find(static_cast<Id>(std::abs(node_family.particle().id()))) != end(HeavyParticles)
+        && HeavyParticles.find(static_cast<Id>(std::abs(branch_family.particle().id()))) == end(HeavyParticles)
+        && HeavyParticles.find(static_cast<Id>(std::abs(branch_family.mother_1().id()))) == end(HeavyParticles)
     ) {
         branch_family = node_family;
     } else if (
-        HeavyParticles.find(static_cast<Id>(std::abs(node_family.mother_1().Id))) != end(HeavyParticles)
-        && HeavyParticles.find(static_cast<Id>(std::abs(branch_family.mother_1().Id))) == end(HeavyParticles)
-        && HeavyParticles.find(static_cast<Id>(std::abs(branch_family.particle().Id))) == end(HeavyParticles)
+        HeavyParticles.find(static_cast<Id>(std::abs(node_family.mother_1().id()))) != end(HeavyParticles)
+        && HeavyParticles.find(static_cast<Id>(std::abs(branch_family.mother_1().id()))) == end(HeavyParticles)
+        && HeavyParticles.find(static_cast<Id>(std::abs(branch_family.particle().id()))) == end(HeavyParticles)
     ) {
         branch_family = node_family;
     } else if (
-        RadiationParticles.find(static_cast<Id>(std::abs(node_family.mother_1().Id))) != end(RadiationParticles)
-        || RadiationParticles.find(static_cast<Id>(std::abs(node_family.particle().Id))) != end(RadiationParticles)
+        RadiationParticles.find(static_cast<Id>(std::abs(node_family.mother_1().id()))) != end(RadiationParticles)
+        || RadiationParticles.find(static_cast<Id>(std::abs(node_family.particle().id()))) != end(RadiationParticles)
     ) {
-        branch_family = Family(node_family.particle().Position,Id::isr,node_family.mother_1().Position,Id::isr);
+        branch_family = Family(node_family.particle().position(),Id::isr,node_family.mother_1().position(),Id::isr);
     }
-    Debug("Branch Id", Name(branch_family.particle().Id));
+    Debug("Branch Id", Name(branch_family.particle().id()));
     return branch_family;
 }
 

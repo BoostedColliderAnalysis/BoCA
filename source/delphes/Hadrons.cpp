@@ -1,7 +1,8 @@
+#include "delphes/Hadrons.hh"
 #include "fastjet/ClusterSequence.hh"
 
-#include "delphes/Hadrons.hh"
 #include "Predicate.hh"
+#include "delphes/Delphes.hh"
 #include "Debug.hh"
 
 namespace analysis
