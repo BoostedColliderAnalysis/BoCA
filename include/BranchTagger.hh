@@ -109,7 +109,7 @@ protected:
         return *Branch::Class();
     }
 
-    Branch &branch() const {
+    const Branch &branch() const final {
         return branch_;
     }
 
@@ -130,11 +130,27 @@ protected:
         AddSpectators();
     }
 
+    Branch &branch() {
+      return branch_;
+    }
+
 private:
 
     float ReadBdt(const TClonesArray &clones_array, const int entry) const final {
         return static_cast<Branch &>(*clones_array.At(entry)).Bdt;
     }
+
+//     auto PlotPoints(){
+//       std::vector<PlotPoint> points;
+//       unordered_pairs(branch().Variables(), points, [&](const ObservablePair & variable_1, const ObservablePair & variable_2) {
+//         PlotPoint plot_point;
+//         std::string leave_name_1 = branch_name() + "." + variable_1.second;
+//         plot_point.x = static_cast<Branch &>(*clones_array.At(entry)).leave_name_1;
+//         std::string leave_name_2 = branch_name() + "." + variable_2.second;
+//         plot_point.y = static_cast<Branch &>(*clones_array.At(entry)).leave_name_2;
+//         return plot_point;
+//       });
+//     }
 
     void AddVariables() {
         for (const auto & variable : branch().Variables()) AddVariable(variable.first, variable.second);

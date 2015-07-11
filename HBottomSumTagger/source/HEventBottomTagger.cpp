@@ -27,7 +27,7 @@ void hbottomsumtagger::EventBottomTagger::DefineVariables()
     AddSpectator(branch().Tag, "Tag");
 }
 
-int hbottomsumtagger::EventBottomTagger::Train(const analysis::Event &event, analysis::PreCuts &precuts, const analysis::Tag tag)
+int hbottomsumtagger::EventBottomTagger::Train(const analysis::Event &event, analysis::PreCuts &, const analysis::Tag tag)
 {
   Info("event Tags");
 
@@ -88,7 +88,7 @@ bool hbottomsumtagger::EventBottomTagger::TruthLevelCheck(const analysis::Jets &
     return 1;
 }
 
-int hbottomsumtagger::EventBottomTagger::Multiplets(const analysis::Event &event, analysis::PreCuts &precuts, const TMVA::Reader &) const
+std::vector<analysis::EventBranch> hbottomsumtagger::EventBottomTagger::Multiplets(const analysis::Event &event, analysis::PreCuts &, const TMVA::Reader &) const
 {
   Info("event Tags");
   analysis::Jets jets = bottom_reader_.Multiplets(event);
@@ -99,5 +99,5 @@ int hbottomsumtagger::EventBottomTagger::Multiplets(const analysis::Event &event
 //     eventMultiplet.SetBdt(Bdt(eventMultiplet,reader));
     eventMultiplets.emplace_back(eventMultiplet);
 //     return ReduceResult(eventMultiplets);
-    return 0;
+    return eventMultiplets;
 }

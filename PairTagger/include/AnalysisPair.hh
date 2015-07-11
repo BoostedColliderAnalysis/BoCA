@@ -34,7 +34,7 @@ public:
 
     std::vector<analysis::File> Files(const analysis::Tag tag);
 
-    void SetFiles(const analysis::Tag tag) {};
+    void SetFiles(const analysis::Tag ) {};
 
      std::string ProjectName() const {
         return  DetectorName(Detector()) + "-eta3.5";

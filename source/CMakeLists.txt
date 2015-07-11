@@ -7,7 +7,6 @@ add_subdirectory(delphes)
 HDictionary(Branches Branches.cpp ../include/LinkDef.hh)
 
 set(VectorSources
-Vector2.cpp
 Vector3.cpp
 LorentzVector.cpp
 )

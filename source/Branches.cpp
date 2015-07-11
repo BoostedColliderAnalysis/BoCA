@@ -1,4 +1,6 @@
 #include "Branches.hh"
+#include "TColor.h"
+#include "TStyle.h"
 
 #define STRING(s) #s
 #define PAIR(x) ObservablePair(x,STRING(x))
@@ -149,7 +151,7 @@ PairBranch::PairBranch()
 Observables PairBranch::Variables()
 {
     return Join(ParticleBranch::Variables(), {PAIR(Ht), PAIR(DeltaPt), PAIR(DeltaM), PAIR(DeltaRap), PAIR(DeltaPhi), PAIR(DeltaR), PAIR(Rho), PAIR(Bdt1), PAIR(Bdt2)});
-   //return Join(ParticleBranch::Variables(), {PAIR(Ht), PAIR(DeltaPt), PAIR(DeltaM), PAIR(DeltaRap), PAIR(DeltaPhi), PAIR(DeltaR), PAIR(Rho)});
+    //return Join(ParticleBranch::Variables(), {PAIR(Ht), PAIR(DeltaPt), PAIR(DeltaM), PAIR(DeltaRap), PAIR(DeltaPhi), PAIR(DeltaR), PAIR(Rho)});
 }
 
 Observables PairBranch::Spectators()
@@ -283,12 +285,12 @@ Observables TopLeptonicBranch::Spectators()
 
 Observables HiggsBranch::Variables()
 {
-  return Join(PairBranch::Variables(), BottomBase::Variables());
+    return Join(PairBranch::Variables(), BottomBase::Variables());
 }
 
 Observables HiggsBranch::Spectators()
 {
-  return Join(PairBranch::Spectators(), BottomBase::Spectators());
+    return Join(PairBranch::Spectators(), BottomBase::Spectators());
 }
 
 EventBottomTaggerBranch::EventBottomTaggerBranch()
@@ -327,4 +329,50 @@ Observables EventBranch::Variables()
     return Join(MultiBranch::Variables(), {PAIR(LeptonNumber), PAIR(JetNumber), PAIR(BottomNumber), PAIR(MissingEt), PAIR(ScalarHt), PAIR(LeptonHt), PAIR(JetMass), PAIR(JetPt), PAIR(JetHt), PAIR(JetRap), PAIR(JetPhi)});
 }
 
+void Red()
+{
+    static int  colors[50];
+    static bool initialized = false;
+
+
+    double red[2]    = { 1.00, 1.00};
+    double green[2]  = { 1.00, 0.00};
+    double blue[2]   = { 1.00, 0.00};
+    double length[2] = { 0.00, 1.00};
+    float opacity = 0.7;
+
+    if (!initialized) {
+        int color_table = TColor::CreateGradientColorTable(2, length, red, green, blue, 50, opacity);
+        for (int step = 0; step < 50; step++) colors[step] = color_table + step;
+        initialized = true;
+        return;
+    }
+    gStyle->SetPalette(50, colors);
 }
+
+void Blue()
+{
+    static int  colors[50];
+    static bool initialized = false;
+
+    double red[2]    = { 1.00, 0.00};
+    double green[2]  = { 1.00, 0.00};
+    double blue[2]   = { 1.00, 1.00};
+    double length[2] = { 0.00, 1.00 };
+    float opacity = 0.7;
+
+    if (!initialized) {
+        int color_table = TColor::CreateGradientColorTable(2, length, red, green, blue, 50, opacity);
+        for (int step = 0; step < 50; step++) colors[step] = color_table + step;
+        initialized = true;
+        return;
+    }
+    gStyle->SetPalette(50, colors);
+}
+
+
+
+}
+
+
+

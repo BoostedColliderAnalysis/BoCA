@@ -29,6 +29,7 @@ int main()
 
         analysis::toppartner::Analysis<analysis::toppartner::TopPartnerHadronicTagger> top_partner_hadronic_analysis;
         top_partner_hadronic_analysis.RunFullEfficiency();
+        top_partner_hadronic_analysis.RunPlots();
 
         analysis::toppartner::Analysis<analysis::toppartner::TopPartnerLeptonicPairTagger> top_partner_leptonic_pair_analysis;
         top_partner_leptonic_pair_analysis.RunFullEfficiency();

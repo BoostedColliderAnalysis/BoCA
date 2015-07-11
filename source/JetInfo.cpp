@@ -218,7 +218,7 @@ int JetInfo::MaximalId() const
     return std::max_element(id_fractions_.begin(), id_fractions_.end(), SortPairs())->first;
 }
 
-void JetInfo::PrintAllInfos(const Severity severity) const
+void JetInfo::PrintAllInfos(const Severity ) const
 {
     Debug();
 //     for (auto pair = id_fractions_.begin(); pair != id_fractions_.end(); ++pair) {
@@ -227,13 +227,13 @@ void JetInfo::PrintAllInfos(const Severity severity) const
 //     }
 }
 
-void JetInfo::PrintAllconstituentInfos(const Severity severity) const
+void JetInfo::PrintAllconstituentInfos(const Severity ) const
 {
     Debug();
 //     for (const auto &constituent : constituents())
 //         Print(severity, "Jet Fraction", Name(constituent.family().particle().id()), Name(constituent.family().mother_1().id()), constituent.family().particle().Momentum.Pt(), constituent.family().mother_1().Momentum.Pt());
 }
-void JetInfo::PrintAllFamInfos(const Severity severity) const
+void JetInfo::PrintAllFamInfos(const Severity ) const
 {
     Debug();
 //     for (const auto & family_fraction : family_fractions_)
@@ -309,10 +309,9 @@ float JetInfo::VertexEnergy() const
 
 std::vector<Constituent> JetInfo::ApplyVertexResolution(std::vector<Constituent> constituents) const
 {
-    Debug();
+    Debug(constituents.size());
     if (constituents.empty()) return constituents;
     std::vector <Constituent > displaced_constituents;
-    Debug(constituents.size());
     for (const auto & constituent : constituents) if (VertexResultion(constituent)) displaced_constituents.emplace_back(constituent);
     Debug(displaced_constituents.size());
     return displaced_constituents;
@@ -321,11 +320,10 @@ std::vector<Constituent> JetInfo::ApplyVertexResolution(std::vector<Constituent>
 bool JetInfo::VertexResultion(const Constituent &constituent) const
 {
     Debug();
-    if (constituent.Position().Vect().Perp() > DetectorGeometry().TrackerDistanceMin() && constituent.Position().Vect().Perp() < DetectorGeometry().TrackerDistanceMax() && std::abs(constituent.Momentum().Rapidity()) < DetectorGeometry().TrackerEtaMax()) return true;
-    return false;
+    return (constituent.Position().Vect().Perp() > DetectorGeometry().TrackerDistanceMin() & constituent.Position().Vect().Perp() < DetectorGeometry().TrackerDistanceMax() & std::abs(constituent.Momentum().Rapidity()) < DetectorGeometry().TrackerEtaMax());
 }
 
-float JetInfo::ElectroMagneticRadius(const fastjet::PseudoJet &jet) const
+       float JetInfo::ElectroMagneticRadius(const fastjet::PseudoJet &jet) const
 {
     float energy = 0;
     float weight = 0;

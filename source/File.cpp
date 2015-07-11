@@ -188,7 +188,6 @@ ClonesArrays File::clones_arrays()
     return ClonesArrays(source());
 }
 
-
 Event File::event()
 {
     Note();

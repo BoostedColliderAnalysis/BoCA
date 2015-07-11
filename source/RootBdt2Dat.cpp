@@ -106,3 +106,60 @@ int main(int ArgumentNumber, char *ArgumentVector[])
     return 0;
 }
 
+
+
+
+// void BdtData(std::string Name,std::string Name2)
+// {
+//
+//   std::string file_name = "Mva" + Name + ".root";
+//   if (Name2 == "") Name2 = Name;
+//
+//   std::string branch_name = Name + "." + Name2 + "Tag";
+//
+//   TFile file(file_name.c_str(), "READ");
+//   if (file.IsZombie()) {
+//     std::cout << "Error opening file.  " << file_name << std::cout;
+//     std::cout << "Perhaps file not there or not closed correctly" << std::endl;
+//     return;
+//   }
+//   TTree &tree = static_cast<TTree &>(*file.Get("TestTree"));
+//
+//   float bdt, tag;
+//   tree.SetBranchAddress("Bdt", &bdt);
+//   tree.SetBranchAddress(branch_name.c_str(), &tag);
+//
+//   TH1F signal("Signal", "", 100, -1, 1);
+//   TH1F background("Background", "", 100, -1, 1);
+//
+//   for (int entry = 0; entry < tree.GetEntries(); ++entry) {
+//     tree.GetEntry(entry);
+//     if (tag)signal->Fill(bdt);
+//     else background->Fill(bdt);
+//   }
+//
+//   //     File.GetObject(BranchName, Signal);
+//   if (!signal) {
+//     std::cout << "Sorry, histogram " << branch_name << " not found in file" << std::endl;
+//     return (1);
+//   }
+//
+//   //     char OutputFileName[500];
+//   std::string output_file_name = Name + ".dat";
+//   //     snprintf(OutputFileName.c_str(), sizeof(OutputFileName), "%s.hist", Signal->GetName());
+//   FILE *output_file;
+//   output_file = fopen(output_file_name.c_str(), "w");
+//   std::cout << "Making output file: " << output_file_name << std::endl;
+//   fprintf(output_file, "%s\t%s\t%d\n", file_name.c_str(), branch_name.c_str(), signal->GetNbinsX());
+//   for (int bin = 1; bin <= signal->GetNbinsX(); ++bin) {
+//     fprintf(output_file, "%g\t%g\t%g\n",
+//             signal -> GetBinCenter(Bin),
+//             signal -> GetBinContent(Bin),
+//             background -> GetBinContent(Bin)
+//     );
+//   }
+//   fclose(output_file);
+//   std::cout << "Output complete" << std::endl;
+//   return ;
+// }
+

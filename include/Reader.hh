@@ -72,9 +72,14 @@ public:
     const Tagger &tagger() const {
         return tagger_;
     }
-    Tagger tagger_;
+
+    Tagger &tagger() {
+      return tagger_;
+    }
 
 private:
+
+    Tagger tagger_;
 
     const TMVA::Reader &reader() const {
         return reader_;
