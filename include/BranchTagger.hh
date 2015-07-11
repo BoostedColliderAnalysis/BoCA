@@ -153,11 +153,11 @@ private:
 //     }
 
     void AddVariables() {
-        for (const auto & variable : branch().Variables()) AddVariable(variable.first, variable.second);
+        for (const auto & variable : branch().Variables()) AddVariable(variable.value(), variable.name());
     }
 
     void AddSpectators() {
-        for (const auto & spectator : branch().Spectators()) AddSpectator(spectator.first, spectator.second);
+        for (const auto & spectator : branch().Spectators()) AddSpectator(spectator.value(), spectator.name());
     }
 
     template<typename Multiplet>

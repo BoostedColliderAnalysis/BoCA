@@ -594,8 +594,8 @@ void Plot::DoPlot(const std::vector<std::vector<PlotPoint>> &signal, const std::
 
 
     std::vector<std::pair<std::string, std::string>> names;
-    unordered_pairs(tagger().branch().Variables(), names, [&](const ObservablePair & variable_1, const ObservablePair & variable_2) {
-        return std::make_pair(variable_1.second, variable_2.second);
+    unordered_pairs(tagger().branch().Variables(), names, [&](const Obs & variable_1, const Obs & variable_2) {
+        return std::make_pair(variable_1.nice_name(), variable_2.nice_name());
     });
 
     Error(signal.size());
@@ -685,8 +685,8 @@ std::vector<std::vector<PlotPoint>> Plot::PlotResult(TFile &file, const std::str
 
     std::vector<std::vector<PlotPoint>> plots;
 
-    unordered_pairs(tagger().branch().Variables(), plots, [&](const ObservablePair & variable_1, const ObservablePair & variable_2) {
-        return ReadTree(tree, variable_1.second, variable_2.second);
+    unordered_pairs(tagger().branch().Variables(), plots, [&](const Obs& variable_1, const Obs& variable_2) {
+        return ReadTree(tree, variable_1.name(), variable_2.name());
     });
     Debug(plots.size(), tagger().branch().Variables().size());
     return plots;

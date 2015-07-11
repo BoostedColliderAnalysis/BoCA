@@ -6,8 +6,29 @@
 namespace analysis
 {
 
-typedef std::pair<float &, std::string> ObservablePair;
-typedef std::vector<ObservablePair> Observables;
+// typedef std::pair<float &, std::string> ObservablePair;
+
+class Obs {
+public:
+    Obs(float &value, const std::string& name, const std::string &nice_name) : value_(&value) {
+        name_ = name;
+        nice_name_ = nice_name;
+    }
+    float & value()const {
+        return *value_;
+    }
+    std::string name()const {
+        return name_;
+    }
+    std::string nice_name()const {
+        return nice_name_;
+    }
+private:
+    float * value_;
+    std::string name_;
+    std::string nice_name_;
+};
+typedef std::vector<Obs> Observables;
 
 /**
  * @brief Basic tree branches
