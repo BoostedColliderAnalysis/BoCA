@@ -16,7 +16,9 @@ Particle::Particle(const LorentzVector &momentum, const int id, const int positi
 {
     id_ = id;
     position_ = position;
+    momentum_ = momentum;
 }
+
 Particle::Particle(const Id id, const int position)
 {
     id_ = to_int(id);
@@ -26,6 +28,7 @@ Particle::Particle(const TLorentzVector &momentum, const int id, const int posit
 {
     id_ = id;
     position_ = position;
+    momentum_ = momentum;
 }
 LorentzVector Particle::momentum() const
 {

@@ -4,6 +4,7 @@
 #include "Observable.hh"
 #include "Identification.hh"
 #include "fastjet/PseudoJet.hh"
+#include "Branches.hh"
 
 namespace TMVA{
   class Reader;
@@ -111,6 +112,10 @@ public:
     virtual float ReadBdt(const TClonesArray &, const int) const = 0;
 
     void SetTreeBranch(exroot::TreeWriter &tree_writer, const Stage stage);
+
+    virtual const ResultBranch &branch() const = 0;
+
+    virtual ResultBranch &branch() = 0;
 
 protected:
 

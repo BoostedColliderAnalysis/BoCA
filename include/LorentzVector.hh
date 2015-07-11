@@ -8,7 +8,7 @@ namespace analysis
 {
 
 /**
- * @brief Copy of root::TLorentzVector in order to get rid of TObject
+ * @brief Copy of root::TLorentzVector in order to get rid of TObject which makes it unsuitable for heavy usage
  *
  */
 class LorentzVector
@@ -154,7 +154,7 @@ public:
     float DeltaPhi(const LorentzVector &) const;
     float DeltaR(const LorentzVector &) const;
     float DrEtaPhi(const LorentzVector &) const;
-    Vector2 EtaPhiVector();
+//     Vector2 EtaPhiVector();
 
 // Angle wrt. another vector.
     float Angle(const Vector3 &v) const;

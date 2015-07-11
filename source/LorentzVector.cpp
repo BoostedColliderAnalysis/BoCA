@@ -5,6 +5,12 @@
 namespace analysis
 {
 
+void LorentzVector::operator=(const TLorentzVector &lorentzvector)
+{
+    p_ = lorentzvector.Vect();
+    e_ = lorentzvector.T();
+}
+
 LorentzVector::LorentzVector() : p_(), e_(0.0) {}
 
 LorentzVector::LorentzVector(float x, float y, float z, float t) : p_(x, y, z), e_(t) {}
@@ -64,12 +70,7 @@ void LorentzVector::Boost(float bx, float by, float bz)
 float LorentzVector::Rapidity() const
 {
 //return rapidity
-    return 0.5 * log((E() + Pz()) / (E() - Pz()));
-}
-void LorentzVector::operator=(const TLorentzVector &lorentzvector)
-{
-    p_ = lorentzvector.Vect();
-    e_ = lorentzvector.T();
+    return 0.5 * std::log((E() + Pz()) / (E() - Pz()));
 }
 void LorentzVector::SetXYZM(float x, float y, float z, float m)
 {
@@ -110,7 +111,7 @@ float LorentzVector::Et(const Vector3 &v) const
 float LorentzVector::DeltaR(const LorentzVector &v) const
 {
     float deta = Eta() - v.Eta();
-    float dphi = Vector2::Phi_mpi_pi(Phi() - v.Phi());
+    float dphi = TVector2::Phi_mpi_pi(Phi() - v.Phi());
     return std::sqrt(deta * deta + dphi * dphi);
 }
 float LorentzVector::Mag() const
@@ -364,7 +365,7 @@ float LorentzVector::Et2() const
 
 float LorentzVector::DeltaPhi(const LorentzVector &v) const
 {
-    return Vector2::Phi_mpi_pi(Phi() - v.Phi());
+    return TVector2::Phi_mpi_pi(Phi() - v.Phi());
 }
 
 float LorentzVector::Eta() const
@@ -377,10 +378,10 @@ float LorentzVector::DrEtaPhi(const LorentzVector &v) const
     return DeltaR(v);
 }
 
-Vector2 LorentzVector::EtaPhiVector()
-{
-    return Vector2(Eta(), Phi());
-}
+// Vector2 LorentzVector::EtaPhiVector()
+// {
+//     return Vector2(Eta(), Phi());
+// }
 
 
 float LorentzVector::Angle(const Vector3 &v) const
