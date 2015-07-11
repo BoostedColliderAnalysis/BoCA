@@ -37,10 +37,10 @@ public:
     std::vector<float> bdt;
     std::vector<int> bins;
     InfoBranch info_branch;
-    int event_sum() const;
+    long event_sum() const;
     void set_event_sum(const long int event_sum);
 private:
-    int event_sum_;
+    long event_sum_;
 };
 
 struct Results {

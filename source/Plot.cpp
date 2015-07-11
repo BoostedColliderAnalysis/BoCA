@@ -558,7 +558,8 @@ std::string Plot::ExportName() const
 {
     return tagger().analysis_name() + "/" + tagger().export_name();
 }
-int Result::event_sum() const
+
+long Result::event_sum() const
 {
 // return info_branch.EventNumber;
     return event_sum_;
@@ -567,10 +568,6 @@ void Result::set_event_sum(const long event_sum)
 {
     event_sum_ = event_sum;
 }
-
-
-
-
 
 void Plot::InputFiles() const
 {
@@ -655,13 +652,14 @@ void Plot::SetHist(TH2F &histogram, const std::vector< analysis::PlotPoint > &da
 //     histogram.Draw("same");
     histogram.SetXTitle(pair.first.c_str());
     histogram.SetYTitle(pair.second.c_str());
+    histogram.SetTitle(tagger().name().c_str());
     histogram.SetContour(20);
     if (signal) {
-      histogram.GetListOfFunctions()->Add(new TExec("exec1", "analysis::Blue();"));
+        histogram.GetListOfFunctions()->Add(new TExec("exec1", "analysis::Blue();"));
 //       histogram.SetMarkerColor(kBlue);
 //       histogram.SetLineColor(kBlue);
     } else {
-      histogram.GetListOfFunctions()->Add(new TExec("exec2", "analysis::Red();"));
+        histogram.GetListOfFunctions()->Add(new TExec("exec2", "analysis::Red();"));
 //         histogram.SetMarkerColor(kRed);
 //         histogram.SetLineColor(kRed);
     }
@@ -681,7 +679,7 @@ std::vector<std::vector<std::vector<PlotPoint>>> Plot::Import(const std::string 
 
 std::vector<std::vector<PlotPoint>> Plot::PlotResult(TFile &file, const std::string &tree_name) const
 {
-    Error(tree_name);
+    Debug(tree_name);
     TTree &tree = static_cast<TTree &>(*file.Get(tree_name.c_str()));
     tree.SetMakeClass(1);
 
@@ -690,8 +688,7 @@ std::vector<std::vector<PlotPoint>> Plot::PlotResult(TFile &file, const std::str
     unordered_pairs(tagger().branch().Variables(), plots, [&](const ObservablePair & variable_1, const ObservablePair & variable_2) {
         return ReadTree(tree, variable_1.second, variable_2.second);
     });
-    Error(plots.size(), tagger().branch().Variables().size());
-// for (const auto points : plots) Debug(points.size());
+    Debug(plots.size(), tagger().branch().Variables().size());
     return plots;
 }
 
