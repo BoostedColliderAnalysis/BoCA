@@ -78,7 +78,6 @@ add_dependencies(Wimp WimpMass)
 
 set(AnalysisSources
 Configuration.cpp
-Analysis.cpp
 AnalysisBase.cpp
 Particle.cpp
 Family.cpp
