@@ -25,16 +25,17 @@ public:
     */
     EventBottomTagger();
 
-    int Train(const analysis::Event &event, analysis::PreCuts &pre_cuts, const analysis::Tag tag) const{}
+    int Train(const analysis::Event &, analysis::PreCuts &, const analysis::Tag ) const{return 1;}
 
     bool TruthLevelCheck(const analysis::Jets &NewJets, const analysis::Event &event, const analysis::Tag Tag);
 
     int Train(const analysis::Event &event, analysis::PreCuts &precuts, const analysis::Tag tag);
 
-    int Multiplets(const analysis::Event &event, analysis::PreCuts &precuts, const TMVA::Reader &) const;
+    std::vector< analysis::EventBranch > Multiplets(const analysis::Event &event, analysis::PreCuts &, const TMVA::Reader &) const;
 
-    int GetBdt(const analysis::Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const {
+    int GetBdt(const analysis::Event &, analysis::PreCuts &, const TMVA::Reader &) const {
 //       return SaveEntries(Multiplets(event, pre_cuts, reader));
+      return 1;
     }
 
     std::string name() const final {

@@ -43,7 +43,7 @@ int WSemiTagger::Train(const Event &event, analysis::PreCuts &, const analysis::
     return SaveEntries(doublets);
 }
 
-std::vector<Doublet>  WSemiTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const
+std::vector<Doublet>  WSemiTagger::Multiplets(const Event &event, analysis::PreCuts &, const TMVA::Reader &reader) const
 {
   Info();
   Jets Particles = event.Partons().GenParticles();

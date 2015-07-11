@@ -7,7 +7,6 @@ add_subdirectory(delphes)
 HDictionary(Branches ./Branches.cpp ../include/LinkDef.hh)
 
 set(VectorSources
-Vector2.cpp
 Vector3.cpp
 LorentzVector.cpp
 )
@@ -79,7 +78,6 @@ add_dependencies(Wimp WimpMass)
 
 set(AnalysisSources
 Configuration.cpp
-Analysis.cpp
 AnalysisBase.cpp
 Particle.cpp
 Family.cpp

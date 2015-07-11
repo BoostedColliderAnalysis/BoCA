@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Vector2.hh"
+// #include "Vector2.hh"
 
 typedef float Float_t;
 class TVector3;
@@ -103,7 +103,7 @@ public:
     float DeltaPhi(const Vector3 &) const;
     float DeltaR(const Vector3 &) const;
     float DrEtaPhi(const Vector3 &) const;
-    Vector2 EtaPhiVector() const;
+//     Vector2 EtaPhiVector() const;
     void SetMagThetaPhi(float mag, float theta, float phi);
 
 // Comparisons (Geant4).
@@ -154,7 +154,7 @@ public:
 // Rotates reference frame from Uz to newUz (unit vector) (Geant4).
     void RotateUz(const Vector3 &);
 
-    Vector2 XYvector() const;
+//     Vector2 XYvector() const;
 
 private:
 

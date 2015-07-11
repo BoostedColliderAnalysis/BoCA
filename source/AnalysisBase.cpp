@@ -16,24 +16,13 @@
 namespace analysis
 {
 
-InfoBranch AnalysisBase::FillInfoBranch(const exroot::TreeReader &tree_reader, const File &file)
-{
-    InfoBranch info_branch;
-    info_branch.Crosssection = file.crosssection();
-    info_branch.CrosssectionError = file.crosssection_error();
-    info_branch.Mass = file.mass();
-    info_branch.EventNumber = std::min((long)tree_reader.GetEntries(), EventNumberMax());
-    info_branch.Name = file.nice_name();
-    return info_branch;
-}
-
 std::string AnalysisBase::ExportName(const Stage stage, const Tag tag) const
 {
     Note(tagger().name(stage, tag));
     return ProjectName() + "/" + tagger().name(stage, tag) + FileSuffix();
 }
 
-exroot::TreeWriter AnalysisBase::TreeWriter(TFile &export_file, const std::string &export_tree_name, Stage stage)
+exroot::TreeWriter AnalysisBase::TreeWriter(TFile &export_file, const std::string &export_tree_name, Stage )
 {
     Note(export_tree_name.c_str());
     exroot::TreeWriter tree_writer(&export_file, export_tree_name.c_str());
@@ -47,7 +36,7 @@ bool AnalysisBase::Missing(const std::string &name) const
     return (stat(name.c_str(), &buffer) != 0);
 }
 
-std::vector< File > AnalysisBase::Files(const Tag tag)
+std::vector<analysis::File> AnalysisBase::files(const Tag tag)
 {
     Error(Name(tag));
     return files_;
@@ -108,39 +97,39 @@ void AnalysisBase::NewFile(const Tag tag, const std::string &name, const std::st
 
 void AnalysisBase::NewSignalFile(const std::string &name, const std::string &nice_name)
 {
-    files_.emplace_back(get_file(name, nice_name));
+  files_.emplace_back(File(name, nice_name));
     tagger().AddSignalTreeName(TreeName(name));
 }
 
 void AnalysisBase::NewBackgroundFile(const std::string &name, const std::string &nice_name)
 {
-    files_.emplace_back(get_file(name, nice_name));
+  files_.emplace_back(File(name, nice_name));
     tagger().AddBackgroundTreeName(TreeName(name));
 }
 
 void AnalysisBase::NewSignalFile(const std::string &name, const float crosssection, const std::string &nice_name)
 {
-  files_.emplace_back(get_file(name, crosssection, nice_name));
+  files_.emplace_back(File(name, crosssection, nice_name));
   tagger().AddSignalTreeName(TreeName(name));
 }
 
 void AnalysisBase::NewBackgroundFile(const std::string &name, const float crosssection, const std::string &nice_name)
 {
-  files_.emplace_back(get_file(name, crosssection, nice_name));
+  files_.emplace_back(File(name, crosssection, nice_name));
   tagger().AddBackgroundTreeName(TreeName(name));
 }
 
-File AnalysisBase::get_file(const std::string &name, const std::string &nice_name) const
+analysis::File AnalysisBase::File(const std::string &name, const std::string &nice_name) const
 {
-    return File(name, FilePath(), FileSuffix(), nice_name);
+  return analysis::File(name, FilePath(), FileSuffix(), nice_name);
 }
 
-File AnalysisBase::get_file(const std::string &name, const float crosssection, const std::string &nice_name) const
+analysis::File AnalysisBase::File(const std::string &name, const float crosssection, const std::string &nice_name) const
 {
-  return File(name, FilePath(), FileSuffix(), crosssection, nice_name);
+  return analysis::File(name, FilePath(), FileSuffix(), crosssection, nice_name);
 }
 
-std::string AnalysisBase::FileName(const std::string &name) const
+std::string AnalysisBase::FileName(const std::string &) const
 {
     return ProcessName() + "_" + std::to_string(PreCut()) + "GeV";
 }
@@ -168,16 +157,19 @@ std::string AnalysisBase::FilePath() const
 int AnalysisBase::BackgroundFileNumber() const
 {
 //     return configuration_.BackgroundFileNumber();
+  return 1;
 }
 
 int AnalysisBase::PreCut() const
 {
 //     return configuration_.PreCut();
+  return 0;
 }
 
 int AnalysisBase::Mass() const
 {
 //     return configuration_.Mass();
+  return 1;
 }
 
 void AnalysisBase::RunFast()
@@ -209,10 +201,10 @@ void AnalysisBase::RunFullEfficiency()
     RunEfficiency();
 }
 
-std::string AnalysisBase::PathName(const std::string &file_name) const
+std::string AnalysisBase::PathName(const std::string &file_name, const std::string &suffix) const
 {
     Error(file_name);
-    return ProjectName() + "/" + file_name + FileSuffix();
+    return ProjectName() + "/" + file_name + suffix;
 }
 
 void AnalysisBase::RunTagger(Stage stage)
@@ -220,11 +212,18 @@ void AnalysisBase::RunTagger(Stage stage)
     if (Missing(PathName(tagger().name(stage)))) AnalysisLoop(stage);
 }
 
+// void AnalysisBase::RunFactory()
+// {
+//     PrepareFiles();
+//     if (Missing(PathName(tagger().factory_name()))) analysis::Factory factory(tagger());
+// }
+
 void AnalysisBase::RunFactory()
 {
-    PrepareFiles();
-    if (Missing(PathName(tagger().factory_name()))) analysis::Factory factory(tagger());
+  PrepareFiles();
+  if (Missing(PathName(tagger().bdt_weight_name(),""))) analysis::Factory factory(tagger());
 }
+
 
 void AnalysisBase::RunSignificance()
 {
@@ -242,6 +241,15 @@ void AnalysisBase::RunEfficiency()
         analysis::Plot plot(tagger());
         plot.TaggingEfficiency();
     }
+}
+
+void AnalysisBase::RunPlots()
+{
+  PrepareFiles();
+//   if (Missing(PathName(tagger().export_name()))) {
+    analysis::Plot plot(tagger());
+    plot.InputFiles();
+//   }
 }
 
 }

@@ -6,9 +6,14 @@
 namespace analysis
 {
 
+void Vector3::operator=(const TVector3 &vector)
+{
+    x_ = vector.X();
+    y_ = vector.Y();
+    z_ = vector.Z();
+}
 
 Vector3::Vector3() : x_(0.0), y_(0.0), z_(0.0) {}
-
 
 Vector3::Vector3(float xx, float yy, float zz) : x_(xx), y_(yy), z_(zz) {}
 
@@ -248,12 +253,6 @@ Vector3 operator * (const TMatrix &m, const Vector3 &v)
                    m(1, 0) * v.X() + m(1, 1) * v.Y() + m(1, 2) * v.Z(),
                    m(2, 0) * v.X() + m(2, 1) * v.Y() + m(2, 2) * v.Z());
 }
-void Vector3::operator=(const TVector3 &vector)
-{
-    x_ = vector.X();
-    y_ = vector.Y();
-    z_ = vector.Z();
-}
 
 float &Vector3::operator[](int i)
 {
@@ -450,7 +449,7 @@ void Vector3::SetPerp(float r)
 
 float Vector3::DeltaPhi(const Vector3 &v) const
 {
-    return Vector2::Phi_mpi_pi(Phi() - v.Phi());
+    return TVector2::Phi_mpi_pi(Phi() - v.Phi());
 }
 
 float Vector3::Eta() const
@@ -463,14 +462,14 @@ float Vector3::DrEtaPhi(const Vector3 &v) const
     return DeltaR(v);
 }
 
-Vector2 Vector3::EtaPhiVector() const
-{
-    return Vector2(Eta(), Phi());
-}
-
-Vector2 Vector3::XYvector() const
-{
-    return Vector2(x_, y_);
-}
+// Vector2 Vector3::EtaPhiVector() const
+// {
+//     return Vector2(Eta(), Phi());
+// }
+//
+// Vector2 Vector3::XYvector() const
+// {
+//     return Vector2(x_, y_);
+// }
 
 }

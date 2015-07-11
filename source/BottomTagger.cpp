@@ -36,7 +36,7 @@ int BottomTagger::Train(const Event &event, analysis::PreCuts &pre_cuts, const a
     return SaveEntries(BestMatches(final_jets, bottoms, tag));
 }
 
-bool BottomTagger::Problematic(const fastjet::PseudoJet &jet, PreCuts &pre_cuts, const Tag tag) const
+bool BottomTagger::Problematic(const fastjet::PseudoJet &jet, PreCuts &pre_cuts, const Tag ) const
 {
     if (Problematic(jet, pre_cuts)) return true;
 //     if (tag == Tag::signal && jet.user_info<JetInfo>().SumDisplacement() == 0) return true;
