@@ -535,4 +535,8 @@ private:
     ClassDef(EventBranch, 1)
 };
 
+void Red();
+
+void Blue();
+
 }

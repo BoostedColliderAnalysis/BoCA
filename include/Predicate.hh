@@ -246,7 +246,7 @@ std::vector<Element> Join(const std::vector<Element> &vector_1, const std::vecto
     return joined;
 }
 
-template<typename Container, typename Function, typename Result>
+template<typename Container, typename Result, typename Function>
 auto ordered_pairs(const Container &container, Result &result, Function function)
 {
     for (auto element_1 = container.begin(); element_1 != container.end() - 1; ++element_1) {
@@ -262,14 +262,15 @@ auto ordered_pairs(const Container &container, Result &result, Function function
     return result;
 }
 
-template<typename Container, typename Function>
-void unordered_pairs(const Container &container, Function function)
+template<typename Container, typename Result, typename Function>
+auto unordered_pairs(const Container &container, Result &result, Function function)
 {
     for (auto element_1 = container.begin(); element_1 != container.end() - 1; ++element_1) {
         for (auto element_2 = std::next(element_1); element_2 != container.end(); ++element_2) {
-            function(*element_1, *element_2);
+            result.emplace_back(function(*element_1, *element_2));
         }
     }
+    return result;
 }
 
 template <typename Value>

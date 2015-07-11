@@ -57,6 +57,12 @@ void LogVariable(const std::string &variable, const Value &value)
   std::cout << Column(ValueLength(), variable) << Column(ValueLength(), value);
 }
 
+template<typename Value>
+void LogVariable(const std::string &variable, const std::vector<Value> &values)
+{
+  for(const auto &value : values) LogVariable(variable, values);
+}
+
 void LogVariable(const std::string &, const char *value);
 
 template<>

@@ -54,7 +54,7 @@ void JetPairTagger::DefineVariables()
 
 }
 
-int JetPairTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const
+int JetPairTagger::Train(const Event &event, PreCuts &, const Tag tag) const
 {
     Info("Jet Pair Tags");
     Jets jets = bottom_reader_.Multiplets(event);
@@ -113,7 +113,7 @@ int JetPairTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag) c
 
 }
 
-std::vector<Doublet>  JetPairTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const
+std::vector<Doublet>  JetPairTagger::Multiplets(const Event &event, analysis::PreCuts &, const TMVA::Reader &reader) const
 {
     Jets jets = bottom_reader_.Multiplets(event);
     std::vector<Doublet>  doublets;

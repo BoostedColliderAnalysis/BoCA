@@ -7,6 +7,9 @@
 
 class TMultiGraph;
 class TAttLine;
+class TTree;
+class TH2F;
+class TExec;
 
 class ExRootTreeBranch;
 class ExRootTreeReader;
@@ -44,7 +47,7 @@ struct Results {
 
 public:
 
-  Results();
+    Results();
 
     std::vector<Result> signal;
     std::vector<Result> background;
@@ -58,6 +61,50 @@ public:
 
 
 
+};
+
+
+
+
+struct PlotPoint {
+    float x;
+    float y;
+};
+
+class Plot2d
+{
+public:
+  void operator =(std::vector<PlotPoint> &points){points_=points;}
+    void NewPoint(const PlotPoint &plot_point) {
+        points_.emplace_back(plot_point);
+    }
+    const std::vector<PlotPoint> &points()const {
+        return points_;
+    }
+private:
+    std::vector<PlotPoint> points_;
+};
+
+class Plots
+{
+public:
+    Plots(const int size) {
+        plots_.resize(size);
+    }
+//     Plot2d &At(const int i) {
+//       std::cout<< plots_.size() << " " << i << std::endl;
+//         return plots_.at(i);
+//     }
+std::vector<Plot2d> &plots() {
+      return plots_;
+    }
+private:
+    std::vector<Plot2d> plots_;
+};
+
+struct PlotResults {
+  std::vector<std::vector<std::vector<PlotPoint>>> signal;
+  std::vector<std::vector<std::vector<PlotPoint>>> background;
 };
 
 /**
@@ -85,7 +132,24 @@ public:
 
     void OptimalSignificance() const;
 
+    void InputFiles() const;
+
+    void DoPlot(const std::vector< std::vector< analysis::PlotPoint > > &signal, const std::vector< std::vector< analysis::PlotPoint > > &background) const;
+
+    void Plotting(const std::vector< analysis::PlotPoint > &signal, const std::vector< analysis::PlotPoint > &background, const std::pair< std::string, std::string > &pair) const;
+
+    void SetHist(TH2F &histogram, const std::vector< analysis::PlotPoint > &data, const std::pair< std::string, std::string > &pair, const bool signal) const;
+
 private:
+
+
+
+    std::vector< std::vector< std::vector< PlotPoint > > > Import(const std::string &file_name, const analysis::Strings &treename) const;
+
+    std::vector<std::vector<PlotPoint>> PlotResult(TFile &file, const std::string &tree_name) const;
+
+    std::vector<PlotPoint> ReadTree(TTree &tree, const std::string &leaf_1, const std::string &leaf_2) const;
+
 
     float Bdt() const;
 

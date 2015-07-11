@@ -2,16 +2,17 @@
 
 #include "AnalysisBase.hh"
 #include "Reader.hh"
+#include "Branches.hh"
 #include <sys/stat.h>
 
 namespace analysis
 {
 
-class InAndExport
+class Files
 {
 public:
 
-    InAndExport(const std::string name, Stage stage, Tag tag) : export_file_ {name.c_str(), "Recreate"} {
+    Files(const std::string name, Stage stage, Tag tag) : export_file_ {name.c_str(), "Recreate"} {
         stage_ = stage;
         tag_ = tag;
     }
@@ -41,7 +42,7 @@ class Trees
 {
 public:
 
-    Trees(InAndExport &in_and_export) : clones_arrays_(in_and_export.file().clones_arrays()), event_(in_and_export.file().event()), tree_writer_(exroot::TreeWriter(&(in_and_export.export_file()), in_and_export.file().Title().c_str())) {}
+    Trees(Files &files) : clones_arrays_(files.file().clones_arrays()), event_(files.file().event()), tree_writer_(exroot::TreeWriter(&(files.export_file()), files.file().Title().c_str())) {}
 
     void WriteTree() {
         if (!analysis_empty_) tree_writer_.Write();
@@ -121,26 +122,26 @@ public:
         Reader<Tagger> reader(stage);
         tagger_.clear_tree_names();
         for (const auto & tag : std::vector<Tag> {Tag::signal, Tag::background}) {
-            InAndExport in_and_export(ExportName(stage, tag), stage, tag);
+            Files files(ExportName(stage, tag), stage, tag);
             ClearFiles();
             SetFiles(tag);
-            for (auto & file : Files(tag)) {
-                in_and_export.file(file);
-                AnalyseFile(in_and_export, reader);
+            for (auto & file : this->files(tag)) {
+                files.file(file);
+                AnalyseFile(files, reader);
             }
-            in_and_export.export_file().Close();
+            files.export_file().Close();
         }
     }
 
 protected:
 
-    void AnalyseFile(InAndExport &in_and_export, Reader<Tagger> &reader) {
-        Trees trees(in_and_export);
-        SetTreeBranch(in_and_export.stage(), trees.tree_writer(), reader);
-        trees.UseBranches(in_and_export.file(), tagger_.weight_branch_name(), EventNumberMax());
-        if (in_and_export.stage() == Stage::reader) trees.event_number_ = std::min((long)trees.tree_reader().GetEntries(), EventNumberMax()) / 2; // TODO fix corner cases
+    void AnalyseFile(Files &files, Reader<Tagger> &reader) {
+        Trees trees(files);
+        SetTreeBranch(files.stage(), trees.tree_writer(), reader);
+        trees.UseBranches(files.file(), tagger_.weight_branch_name(), EventNumberMax());
+        if (files.stage() == Stage::reader) trees.event_number_ = std::min((long)trees.tree_reader().GetEntries(), EventNumberMax()) / 2; // TODO fix corner cases
         for (; trees.event_number_ < trees.tree_reader().GetEntries(); ++trees.event_number_) {
-            DoAnalysis(in_and_export, trees, reader);
+            DoAnalysis(files, trees, reader);
             if (trees.object_sum() >= EventNumberMax()) break;
         }
         trees.WriteTree();
@@ -152,17 +153,17 @@ protected:
             tagger_.SetTreeBranch(tree_writer, stage);
             break;
         case Stage::reader :
-            reader.tagger_.SetTreeBranch(tree_writer, stage);
+            reader.tagger().SetTreeBranch(tree_writer, stage);
             break;
         }
     }
 
-    void DoAnalysis(InAndExport &in_and_export, Trees &trees, Reader<Tagger> &reader) {
-        trees.NewEvent(in_and_export.file().mass());
+    void DoAnalysis(Files &files, Trees &trees, Reader<Tagger> &reader) {
+        trees.NewEvent(files.file().mass());
         int pre_cut = PassPreCut(trees.event());
         if (pre_cut > 0) {
             trees.AddPreCut(pre_cut);
-            trees.SaveAnalysis(RunAnalysis(trees.event(), reader, in_and_export.stage(), in_and_export.tag()));
+            trees.SaveAnalysis(RunAnalysis(trees.event(), reader, files.stage(), files.tag()));
         }
         trees.tree_writer().Clear();
     }
