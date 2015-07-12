@@ -589,7 +589,7 @@ void Plot::InputFiles() const
 
 }
 
-void Plot::DoPlot(const std::vector<std::vector<PlotPoint>> &signal, const std::vector<std::vector<PlotPoint>> &background) const
+void Plot::DoPlot(const std::vector<std::vector<PlotPoint>> &signals, const std::vector<std::vector<PlotPoint>> &backgrounds) const
 {
 
 
@@ -598,45 +598,112 @@ void Plot::DoPlot(const std::vector<std::vector<PlotPoint>> &signal, const std::
         return std::make_pair(variable_1.second, variable_2.second);
     });
 
-    Error(signal.size());
-    for (const auto & sg : signal) {
-        int index = &sg - &signal[0];
+    Error(signals.size());
+    for (const auto & signal : signals) {
+        int index = &signal - &signals[0];
         Error(index);
-        auto bg = background.at(index);
+        auto background = backgrounds.at(index);
         auto pair = names.at(index);
-        Plotting(sg, bg, pair);
+        Plotting(signal, background, pair);
     }
+
 }
+
+
+// float stddev(std::vector<float> v)
+// {
+//     float sum = std::accumulate(v.begin(), v.end(), 0.0);
+//     float mean = sum / v.size();
+//     std::vector<float> diff(v.size());
+//     std::transform(v.begin(), v.end(), diff.begin(), std::bind2nd(std::minus<float>(), mean));
+//     float sq_sum = std::inner_product(diff.begin(), diff.end(), diff.begin(), 0.0);
+//     float stdev = std::sqrt(sq_sum / v.size());
+//     return stdev;
+// }
+
+
 
 void Plot::Plotting(const std::vector<PlotPoint> &signal, const std::vector<PlotPoint> &background, const std::pair<std::string, std::string> &pair) const
 {
     TCanvas canvas;
-    auto signal_x_minmax = std::minmax_element(signal.begin(), signal.end(), [](PlotPoint a, PlotPoint b) {
+
+    std::vector<PlotPoint> xsignal = CoreVector(signal, [](PlotPoint a, PlotPoint b) {
         return a.x < b.x;
     });
-    auto signal_y_minmax = std::minmax_element(signal.begin(), signal.end(), [](PlotPoint a, PlotPoint b) {
-        return a.y < b.y;
-    });
-    auto background_x_minmax = std::minmax_element(background.begin(), background.end(), [](PlotPoint a, PlotPoint b) {
-        return a.x < b.x;
-    });
-    auto background_y_minmax = std::minmax_element(background.begin(), background.end(), [](PlotPoint a, PlotPoint b) {
-        return a.y < b.y;
+    std::vector<PlotPoint> ysignal = CoreVector(signal, [](PlotPoint a, PlotPoint b) {
+      return a.y < b.y;
     });
 
-    float x_min = std::min((*signal_x_minmax.first).x, (*background_x_minmax.first).x);
-    float x_max = std::max((*signal_x_minmax.second).x, (*background_x_minmax.second).x);
-    float y_min = std::min((*signal_y_minmax.first).y, (*background_y_minmax.first).y);
-    float y_max = std::max((*signal_y_minmax.second).y, (*background_y_minmax.second).y);
+    std::vector<PlotPoint> xbackground = CoreVector(background, [](PlotPoint a, PlotPoint b) {
+      return a.x < b.x;
+    });
+    std::vector<PlotPoint> ybackground = CoreVector(background, [](PlotPoint a, PlotPoint b) {
+      return a.y < b.y;
+    });
+
+
+//     int cut_off = 100;
+//
+//     std::vector<PlotPoint> xsignal = signal;
+//     std::sort(xsignal.begin(), xsignal.end(), [](PlotPoint a, PlotPoint b) {
+//         return a.x < b.x;
+//     });
+//     xsignal.erase(xsignal.begin(), xsignal.begin() + cut_off);
+//     xsignal.erase(xsignal.end() - cut_off, xsignal.end());
+//
+//     std::vector<PlotPoint> ysignal = signal;
+//     std::sort(ysignal.begin(), ysignal.end(), [](PlotPoint a, PlotPoint b) {
+//         return a.y < b.y;
+//     });
+//     ysignal.erase(ysignal.begin(), ysignal.begin() + cut_off);
+//     ysignal.erase(ysignal.end() - cut_off, ysignal.end());
+//
+//     std::vector<PlotPoint> xbackground = background;
+//     std::sort(xbackground.begin(), xbackground.end(), [](PlotPoint a, PlotPoint b) {
+//         return a.x < b.x;
+//     });
+//     xbackground.erase(xbackground.begin(), xbackground.begin() + cut_off);
+//     xbackground.erase(xbackground.end() - cut_off, xbackground.end());
+//
+//     std::vector<PlotPoint> ybackground = background;
+//     std::sort(ybackground.begin(), ybackground.end(), [](PlotPoint a, PlotPoint b) {
+//         return a.y < b.y;
+//     });
+//     ybackground.erase(ybackground.begin(), ybackground.begin() + cut_off);
+//     ybackground.erase(ybackground.end() - cut_off, ybackground.end());
+
+
+    float x_min = std::min(xsignal.front().x, xbackground.front().x);
+    float x_max = std::max(xsignal.back().x, xbackground.back().x);
+    float y_min = std::min(ysignal.front().y, ybackground.front().y);
+    float y_max = std::max(ysignal.back().y, ybackground.back().y);
+
+//     auto signal_x_minmax = std::minmax_element(signal.begin(), signal.end(), [](PlotPoint a, PlotPoint b) {
+//         return a.x < b.x;
+//     });
+//     auto signal_y_minmax = std::minmax_element(signal.begin(), signal.end(), [](PlotPoint a, PlotPoint b) {
+//         return a.y < b.y;
+//     });
+//     auto background_x_minmax = std::minmax_element(background.begin(), background.end(), [](PlotPoint a, PlotPoint b) {
+//         return a.x < b.x;
+//     });
+//     auto background_y_minmax = std::minmax_element(background.begin(), background.end(), [](PlotPoint a, PlotPoint b) {
+//         return a.y < b.y;
+//     });
+//
+//     float x_min = std::min((*signal_x_minmax.first).x, (*background_x_minmax.first).x);
+//     float x_max = std::max((*signal_x_minmax.second).x, (*background_x_minmax.second).x);
+//     float y_min = std::min((*signal_y_minmax.first).y, (*background_y_minmax.first).y);
+//     float y_max = std::max((*signal_y_minmax.second).y, (*background_y_minmax.second).y);
 
     const int bin_number = 20;
     gStyle->SetOptStat("");
 
-    TH2F signal_histogram("", "", bin_number, x_min, x_max, bin_number, y_min, y_max);
-    SetHist(signal_histogram, signal, pair, true);
-
     TH2F background_histogram("", "", bin_number, x_min, x_max, bin_number, y_min, y_max);
     SetHist(background_histogram, background, pair, false);
+
+    TH2F signal_histogram("", "", bin_number, x_min, x_max, bin_number, y_min, y_max);
+    SetHist(signal_histogram, signal, pair, true);
 
     mkdir(ExportName().c_str(), 0700);
     std::string file_name = ExportName() + "/" + tagger().export_name() + "-" + pair.first + "-" + pair.second + ".pdf";
