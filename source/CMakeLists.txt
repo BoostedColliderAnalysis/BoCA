@@ -1,10 +1,10 @@
-HInclude(${PROJECT_SOURCE_DIR}/include)
-HInclude(${PROJECT_SOURCE_DIR}/source)
+HInclude(../include)
+HInclude(.)
 
 add_subdirectory(exroot)
 add_subdirectory(delphes)
 
-HDictionary(Branches Branches.cpp ../include/LinkDef.hh)
+HDictionary(Branches ./Branches.cpp ../include/LinkDef.hh)
 
 set(VectorSources
 Vector3.cpp
