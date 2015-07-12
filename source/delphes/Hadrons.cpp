@@ -284,7 +284,9 @@ Jets Hadrons::GranulatedJets(const analysis::Jets &e_flow_jets)
 Jets Hadrons::ClusteredJets()
 {
     DetectorGeometry detector_geometry;
-    fastjet::ClusterSequence &cluster_sequence = *new fastjet::ClusterSequence(GranulatedJets(EFlowJets(kStructure)), detector_geometry.JetDefinition);
+//     fastjet::ClusterSequence &cluster_sequence = *new fastjet::ClusterSequence(EFlowJets(kStructure), detector_geometry.JetDefinition);
+         fastjet::ClusterSequence &cluster_sequence = *new fastjet::ClusterSequence(GranulatedJets(EFlowJets(kStructure)), detector_geometry.JetDefinition);
+
     analysis::Jets jets = fastjet::sorted_by_pt(cluster_sequence.inclusive_jets(detector_geometry.JetMinPt));
     if (jets.empty()) {
         delete &cluster_sequence;

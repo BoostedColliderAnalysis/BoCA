@@ -13,7 +13,7 @@ TopAnalysis::TopAnalysis(Tagger &tagger) : analysis::standardmodel::Analysis::An
     this->tagger().set_analysis_name(ProjectName());
     pre_cuts().SetPtLowerCut(Id::top, LowerPtCut());
     pre_cuts().SetPtUpperCut(Id::top, UpperPtCut());
-    pre_cuts().SetMassUpperCut(Id::top, 400);
+    pre_cuts().SetMassUpperCut(Id::top, 1200);
     pre_cuts().SetTrackerMaxEta(Id::top, DetectorGeometry().TrackerEtaMax);
     pre_cuts().SetPtLowerCut(Id::bottom, LowerPtCut() / 5);
     pre_cuts().SetPtLowerCut(Id::W, LowerPtCut() / 5);
@@ -26,7 +26,7 @@ std::string TopAnalysis::ClassName() const
 
 std::string TopAnalysis::ProjectName() const
 {
-    return  "TopTagger-" + ColliderName(collider_type()) + "-" + std::to_string(LowerPtCut()) + "GeV-" + ProcessName(tt) + "-" + DecayName(TopDecay()) + "";
+    return  "TopTagger-" + ColliderName(collider_type()) + "-" + std::to_string(LowerPtCut()) + "GeV-" + "-test3";//ProcessName(tt) + "-" + DecayName(TopDecay()) + "";
 }
 
 Decay TopAnalysis::TopDecay() const
@@ -58,13 +58,15 @@ void TopAnalysis::SetFiles(const Tag tag)
         if (TopDecay() == Decay::leptonic || tagger().tagger_name() == "Bottom") NewSignalFile(ttlep);
         if (tagger().tagger_name() == "Bottom") NewSignalFile(hh);
         if (tagger().tagger_name() == "Bottom") NewSignalFile(bb);
+ 	if (tagger().tagger_name() == "Bottom") NewSignalFile(zz_bb);
         if (tagger().tagger_name() == "WHadronic") NewSignalFile(ww);
         break;
     case Tag::background :
         if (TopDecay() == Decay::hadronic && tagger().tagger_name() != "Bottom") NewBackgroundFile(ttlep);
         if (TopDecay() == Decay::leptonic && tagger().tagger_name() != "Bottom") NewBackgroundFile(tthad);
         if (tagger().tagger_name() != "Bottom") NewBackgroundFile(hh);
-  //      NewBackgroundFile(zz);
+ 	if (tagger().tagger_name() != "Bottom") NewBackgroundFile(zz_bb);
+        NewBackgroundFile(zz);
         if (tagger().tagger_name() != "WHadronic") NewBackgroundFile(ww);
         if (tagger().tagger_name() != "Bottom") NewBackgroundFile(bb);
         NewBackgroundFile(cc);

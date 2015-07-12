@@ -28,12 +28,7 @@ public:
 //         return SaveEntries(Multiplets(event, pre_cuts, reader), Particles(event).size());
     }
 
-    bool Problematic(const Doublet &doublet, PreCuts &pre_cuts, const Tag tag) const;
-
-    bool Problematic(const Doublet &doublet, PreCuts &pre_cuts) const;
-
-    fastjet::PseudoJet FakeLepton(const fastjet::PseudoJet &jet) const;
-
+    std::vector<Doublet> Clean_Doublets(const std::vector< Doublet > &Doublets, PreCuts &pre_cuts);
     Jets Particles(Event &event) const;
 
     auto Multiplets(Event &event, const TMVA::Reader &reader) {

@@ -36,8 +36,12 @@ std::string Analysis::ProcessName(const Process process) const
         return "hh";
     case ww:
         return "ww";
+    case hh_complete:
+      return "hh_complete";
     case zz:
         return "zz";
+    case zz_bb:
+        return "zz_bb";
     default:
         Print(Severity::error, "Process Name", "unhandled case", process);
         return "";
@@ -81,6 +85,8 @@ std::string Analysis::NiceName(const Process process) const
         return "W";
     case zz:
         return "Z";
+    case zz_bb:
+	return "Z_bb";
     case tthad:
         return "t_{h}";
     case ttlep:
@@ -126,7 +132,7 @@ int Analysis::LowerPtCut() const
 //         return 350;
 //         return 700;
 //         return 800;
-//     return 500;
+//       return 500;
     return 1000;
 //     return 1200;
 }

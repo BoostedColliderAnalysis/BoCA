@@ -47,9 +47,8 @@ DetectorGeometry::DetectorGeometry()
         VertexMassMin = 0.1;
         JetDefinition = fastjet::JetDefinition(fastjet::antikt_algorithm, JetConeSize);
         SubJetDefinition = fastjet::JetDefinition(fastjet::kt_algorithm, JetConeSize);
-
-  //      jet_type = kJet;
-        jet_type = kEFlowJet;
+	jet_type=kJet;
+// 	jet_type=kEFlowJet;
 
     }
 }
@@ -441,6 +440,7 @@ float JetInfo::TrackMass() const
 int JetInfo::Charge() const
 {
     Print(Severity::debug, "Charge");
+    if(charge_ != LargeNumber())return charge_;
     std::vector <Constituent > vertices = constituents();
     int charge = std::accumulate(vertices.begin(), vertices.end(), 0, [](int charge, const Constituent & constituent) {
         return charge + constituent.charge();

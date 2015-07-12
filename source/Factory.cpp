@@ -106,7 +106,7 @@ void Factory::PrepareTrainingAndTestTree(const int event_number)
     Print(Severity::error , "PrepareTrainingAndTestTree");
     std::string number_options = "nTrain_Background=" + std::to_string(event_number) + ":nTest_Background=" + std::to_string(event_number) + ":nTrain_Signal=" + std::to_string(event_number) + ":nTest_Signal=" + std::to_string(event_number);
 //     std::string TrainingAndTestOptions = "nTrain_Signal=0:nTrain_Background=0:SplitMode=Random:NormMode=Numevents:!V";
-    const std::string training_and_test_options = number_options + "";
+    const std::string training_and_test_options = number_options + "MixMode=Block";
     factory().PrepareTrainingAndTestTree(tagger().cut(), tagger().cut(), training_and_test_options);
 }
 

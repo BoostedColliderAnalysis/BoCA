@@ -28,6 +28,7 @@ public:
      *
      */
     FourVector();
+    enum JetDetail {kPlain, kTagging, kIsolation, kStructure, kTaggingIsolation, kTaggingStructure};
 
 protected:
 
@@ -143,7 +144,7 @@ protected:
         jet_tag_ = &jet_tag;
     }
 
-    enum JetDetail {kPlain, kTagging, kIsolation, kStructure, kTaggingIsolation, kTaggingStructure};
+
 
     const bool check_four_vectors_;
 

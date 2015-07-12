@@ -43,7 +43,9 @@ void Analysis::AnalysisLoop(const Tagger::Stage stage)
             int object_sum = 0;
             int pre_cut_sum = 0;
             InfoBranch info_branch = FillInfoBranch(tree_reader, file);
-            for (const int event_number : Range(tree_reader.GetEntries())) {
+	    int initial_number = 0;
+// 	    if (stage==Tagger::kReader) initial_number = std::min((int)tree_reader.GetEntries(), EventNumberMax());   // TODO fix corner cases
+            for (int event_number = initial_number; event_number< tree_reader.GetEntries();++event_number) {
                 tree_reader.ReadEntry(event_number);
                 event.NewEvent(clones_arrays);
                 event.SetMass(file.mass());

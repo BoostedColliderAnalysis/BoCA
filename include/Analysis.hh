@@ -103,6 +103,10 @@ protected:
     std::string FileSuffix() const {
         return ".root";
     }
+    
+    void ClearFiles(){
+	files_.clear();      
+    }
 
     void NewSignalFile(const std::string &name, const std::string &nice_name = " ") {
         files_.emplace_back(get_file(name, nice_name));
