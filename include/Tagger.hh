@@ -117,6 +117,10 @@ public:
 
     virtual ResultBranch &branch() = 0;
 
+    virtual std::string NiceName() const {
+      return name();
+    }
+
 protected:
 
     virtual void DefineVariables() = 0;

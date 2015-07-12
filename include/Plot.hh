@@ -4,6 +4,7 @@
 #include "TLegend.h"
 #include "TFile.h"
 #include "Branches.hh"
+#include <functional>
 
 class TMultiGraph;
 class TAttLine;
@@ -66,47 +67,23 @@ public:
 
 
 
-struct PlotPoint {
+struct Point2d {
     float x;
     float y;
 };
 
-class Plot2d
-{
-public:
-    void operator =(std::vector<PlotPoint> &points) {
-        points_ = points;
-    }
-    void NewPoint(const PlotPoint &plot_point) {
-        points_.emplace_back(plot_point);
-    }
-    const std::vector<PlotPoint> &points()const {
-        return points_;
-    }
-private:
-    std::vector<PlotPoint> points_;
+struct Plot2d {
+    std::vector<Point2d> points;
+    std::string name_x;
+    std::string name_y;
+    std::string nice_name_x;
+    std::string nice_name_y;
+    std::string name;
 };
 
-class Plots
-{
-public:
-    Plots(const int size) {
-        plots_.resize(size);
-    }
-//     Plot2d &At(const int i) {
-//       std::cout<< plots_.size() << " " << i << std::endl;
-//         return plots_.at(i);
-//     }
-    std::vector<Plot2d> &plots() {
-        return plots_;
-    }
-private:
-    std::vector<Plot2d> plots_;
-};
-
-struct PlotResults {
-    std::vector<std::vector<std::vector<PlotPoint>>> signal;
-    std::vector<std::vector<std::vector<PlotPoint>>> background;
+struct Plots {
+    analysis::InfoBranch info_branch;
+    std::vector<Plot2d> plots;
 };
 
 /**
@@ -136,21 +113,19 @@ public:
 
     void InputFiles() const;
 
-    void DoPlot(const std::vector< std::vector< analysis::PlotPoint > > &signals, const std::vector< std::vector< analysis::PlotPoint > > &backgrounds) const;
+    void DoPlot(analysis::Plots &signals, const analysis::Plots &backgrounds) const;
 
-    void Plotting(const std::vector< analysis::PlotPoint > &signal, const std::vector< analysis::PlotPoint > &background, const std::pair< std::string, std::string > &pair) const;
+    void Plotting(const analysis::Plot2d &signal, const analysis::Plot2d &background) const;
 
-    void SetHist(TH2F &histogram, const std::vector< analysis::PlotPoint > &data, const std::pair< std::string, std::string > &pair, const bool signal) const;
+    void SetHist(TH2F &histogram, const analysis::Plot2d &data, const bool signal) const;
 
 private:
 
+    std::vector< Plots > Import(const std::string &file_name, const analysis::Strings &treename) const;
 
+    Plots PlotResult(TFile &file, const std::string &tree_name) const;
 
-    std::vector< std::vector< std::vector< PlotPoint > > > Import(const std::string &file_name, const analysis::Strings &treename) const;
-
-    std::vector<std::vector<PlotPoint>> PlotResult(TFile &file, const std::string &tree_name) const;
-
-    std::vector<PlotPoint> ReadTree(TTree &tree, const std::string &leaf_1, const std::string &leaf_2) const;
+    Plot2d ReadTree(TTree &tree, const std::string &leaf_1, const std::string &leaf_2) const;
 
 
     float Bdt() const;
@@ -193,18 +168,7 @@ private:
 
     std::string ExportName() const;
 
-    template <typename Test>
-    std::vector<PlotPoint> CoreVector(const std::vector<PlotPoint> &points, Test test) const {
-        int cut_off = 100;
-        std::vector<PlotPoint> vector = points;
-        if(vector.size() < 2 * cut_off) return vector;
-        std::sort(vector.begin(), vector.end(), [&](PlotPoint a, PlotPoint b) {
-            return test(a,b);
-        });
-        vector.erase(vector.begin(), vector.begin() + cut_off);
-        vector.erase(vector.end() - cut_off, vector.end());
-        return vector;
-    }
+    Plot2d CoreVector(const Plot2d &points, std::function<bool(Point2d, Point2d)> function) const;
 
 };
 

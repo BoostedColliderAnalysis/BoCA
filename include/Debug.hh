@@ -114,9 +114,7 @@ void Log(const std::string &file, const int line, const std::string &name_space,
 
 #define LOG0() ::analysis::Log(NAMES)
 
-#define STRING(x) #x
-
-#define PAIR(value) STRING(value), value
+#define PAIR(value) #value, value
 
 #define LOG1(value) ::analysis::Log(NAMES, PAIR(value))
 
