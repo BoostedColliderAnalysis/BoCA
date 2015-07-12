@@ -1,4 +1,4 @@
-HInclude(${PROJECT_SOURCE_DIR}/HDiscriminator/include)
-HInclude(${PROJECT_SOURCE_DIR}/HDiscriminator/source)
+HInclude(./include)
+HSource(./source)
 
 add_subdirectory(source)
