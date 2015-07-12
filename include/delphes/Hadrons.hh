@@ -35,6 +35,9 @@ public:
           return ClusteredJets();
         }
     }
+    analysis::Jets ClusteredJets();
+
+    analysis::Jets DelphesJets(const FourVector::JetDetail jet_detail);
 
     float ScalarHt();
 
@@ -52,9 +55,9 @@ private:
 
     analysis::Jets GranulatedJets(const analysis::Jets &jets);
 
-    analysis::Jets ClusteredJets();
-
-    analysis::Jets DelphesJets(const FourVector::JetDetail jet_detail);
+//     analysis::Jets ClusteredJets();
+// 
+//     analysis::Jets DelphesJets(const FourVector::JetDetail jet_detail);
 
     analysis::Jets EFlowJets(const JetDetail jet_detail);
 

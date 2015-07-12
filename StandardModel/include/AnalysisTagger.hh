@@ -34,7 +34,7 @@ protected:
 
     std::string ProjectName() const;
 
-    enum Process {tt, ttlep, tthad, hh, zz, ww, bb, cc, qq, gg};
+    enum Process {tt, ttlep, tthad, hh, hh_complete, zz, zz_bb, ww, bb, cc, qq, gg};
 
     enum Collider {LHC, FHC, LE};
 
