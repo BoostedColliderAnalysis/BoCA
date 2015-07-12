@@ -74,7 +74,9 @@ struct PlotPoint {
 class Plot2d
 {
 public:
-  void operator =(std::vector<PlotPoint> &points){points_=points;}
+    void operator =(std::vector<PlotPoint> &points) {
+        points_ = points;
+    }
     void NewPoint(const PlotPoint &plot_point) {
         points_.emplace_back(plot_point);
     }
@@ -95,16 +97,16 @@ public:
 //       std::cout<< plots_.size() << " " << i << std::endl;
 //         return plots_.at(i);
 //     }
-std::vector<Plot2d> &plots() {
-      return plots_;
+    std::vector<Plot2d> &plots() {
+        return plots_;
     }
 private:
     std::vector<Plot2d> plots_;
 };
 
 struct PlotResults {
-  std::vector<std::vector<std::vector<PlotPoint>>> signal;
-  std::vector<std::vector<std::vector<PlotPoint>>> background;
+    std::vector<std::vector<std::vector<PlotPoint>>> signal;
+    std::vector<std::vector<std::vector<PlotPoint>>> background;
 };
 
 /**
@@ -134,7 +136,7 @@ public:
 
     void InputFiles() const;
 
-    void DoPlot(const std::vector< std::vector< analysis::PlotPoint > > &signal, const std::vector< std::vector< analysis::PlotPoint > > &background) const;
+    void DoPlot(const std::vector< std::vector< analysis::PlotPoint > > &signals, const std::vector< std::vector< analysis::PlotPoint > > &backgrounds) const;
 
     void Plotting(const std::vector< analysis::PlotPoint > &signal, const std::vector< analysis::PlotPoint > &background, const std::pair< std::string, std::string > &pair) const;
 
@@ -190,6 +192,19 @@ private:
     int ColorCode(const int number) const;
 
     std::string ExportName() const;
+
+    template <typename Test>
+    std::vector<PlotPoint> CoreVector(const std::vector<PlotPoint> &points, Test test) const {
+        int cut_off = 100;
+        std::vector<PlotPoint> vector = points;
+        if(vector.size() < 2 * cut_off) return vector;
+        std::sort(vector.begin(), vector.end(), [&](PlotPoint a, PlotPoint b) {
+            return test(a,b);
+        });
+        vector.erase(vector.begin(), vector.begin() + cut_off);
+        vector.erase(vector.end() - cut_off, vector.end());
+        return vector;
+    }
 
 };
 
