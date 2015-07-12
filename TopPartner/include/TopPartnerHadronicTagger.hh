@@ -39,6 +39,10 @@ public:
       return "TopPartnerHadronic";
     }
 
+    std::string NiceName() const final {
+      return "#tilde t_{h}";
+    }
+
 private:
 
     Reader<TopHadronicTagger> top_reader_;

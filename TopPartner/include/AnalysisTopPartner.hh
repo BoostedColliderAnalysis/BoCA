@@ -114,7 +114,7 @@ private:
     std::string NiceName(const Tag tag) const {
         switch (tag) {
         case Tag::signal :
-            return "TT";
+          return "#tilde t_{h}#tilde t_{l}";
         case Tag::background :
             return "tthjj (" + std::to_string(PreCut()) + " GeV)";
         }
