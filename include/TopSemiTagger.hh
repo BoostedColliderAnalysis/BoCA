@@ -31,7 +31,7 @@ public:
         return sgn(w_semi_reader_.tagger().WSemiId(event)) * to_int(Id::top);
     }
 
-    std::string name() const final {
+    std::string Name() const final {
       return "TopSemi";
     }
 

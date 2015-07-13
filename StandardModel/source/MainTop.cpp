@@ -15,6 +15,7 @@ int main()
 
         analysis::standardmodel::TopAnalysis<analysis::TopHadronicTagger> top_hadronic_analysis;
         top_hadronic_analysis.RunFullEfficiency();
+        top_hadronic_analysis.RunPlots();
         break;
     }
     case analysis::standardmodel::Decay::semi : {

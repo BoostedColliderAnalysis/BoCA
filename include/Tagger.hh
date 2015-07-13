@@ -49,7 +49,7 @@ public:
 
     std::string branch_name() const;
 
-    virtual std::string name() const = 0;
+    virtual std::string Name() const = 0;
 
     std::string factory_name() const;
 
@@ -63,13 +63,13 @@ public:
 
     std::string reader(const std::string &name) const;
 
-    std::string name(const Stage stage) const;
+    std::string Name(const Stage stage) const;
 
-    std::string name(const Stage stage, const Tag tag) const;
+    std::string Name(const Stage stage, const Tag tag) const;
 
     std::string analysis_name() const;
 
-    std::vector<Observable> observables() const;
+    std::vector<Observable> variables() const;
 
     std::vector<Observable> spectators() const;
 
@@ -77,7 +77,7 @@ public:
 
     Strings signal_tree_names() const;
 
-    void clear_tree_names();
+    void ClearTreeNames();
 
     Strings background_file_names() const;
 
@@ -117,9 +117,7 @@ public:
 
     virtual ResultBranch &branch() = 0;
 
-    virtual std::string NiceName() const {
-      return name();
-    }
+    virtual std::string NiceName() const;
 
 protected:
 
@@ -133,7 +131,7 @@ protected:
 
     void ClearObservables();
 
-    virtual int max_combi() const;
+    virtual int CandidatesMax() const;
 
     virtual TClass &Class() const = 0;
 
