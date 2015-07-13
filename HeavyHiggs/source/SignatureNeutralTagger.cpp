@@ -1,4 +1,6 @@
-# include "SignatureNeutralTagger.hh"
+#include "SignatureNeutralTagger.hh"
+#include "Event.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
@@ -8,20 +10,16 @@ namespace heavyhiggs
 
 SignatureNeutralTagger::SignatureNeutralTagger()
 {
-    //   DebugLevel = Severity::debug;
-    Print(Severity::notification , "Constructor");
-    set_tagger_name("SignatureNeutral");
-    heavy_higgs_semi_reader_.SetTagger(heavy_higgs_semi_tagger_);
-    jet_pair_reader_.SetTagger(jet_pair_tagger_);
+    Note();
     DefineVariables();
 }
 
-int SignatureNeutralTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
+int SignatureNeutralTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const
 {
-    Print(Severity::information, "event Tags");
+    Info("event Tags");
     float Mass = event.mass();
-    std::vector<Sextet> sextets = heavy_higgs_semi_reader_.Multiplets<HeavyHiggsSemiTagger>(event);
-    if (sextets.empty())Print(Severity::information, "No sextets", sextets.size());
+    std::vector<Sextet> sextets = heavy_higgs_semi_reader_.Multiplets(event);
+    if (sextets.empty())Info("No sextets", sextets.size());
 
     Jets HiggsParticles = event.Partons().GenParticles();
     Jets Even = RemoveIfWrongAbsFamily(HiggsParticles, Id::heavy_higgs, Id::gluon);
@@ -31,12 +29,12 @@ int SignatureNeutralTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag
     fastjet::PseudoJet HiggsBoson;
     if (tag == Tag::signal) {
         if (HiggsParticles.size() == 1) HiggsBoson = HiggsParticles.front();
-        else Print(Severity::error, "Where is the Higgs?", HiggsParticles.size());
+        else Error("Where is the Higgs?", HiggsParticles.size());
         std::sort(sextets.begin(), sextets.end(), MinDeltaRTo(HiggsParticles.front()));
         if (sextets.size() > 1) sextets.erase(sextets.begin() + 1, sextets.end());
     }
 
-    std::vector<Doublet> doublets = jet_pair_reader_.Multiplets<JetPairTagger>(event);
+    std::vector<Doublet> doublets = jet_pair_reader_.Multiplets(event);
 
     std::vector<Doublet> Finaldoublets;
     Jets Particles = event.Partons().GenParticles();
@@ -44,7 +42,7 @@ int SignatureNeutralTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag
         Particles = RemoveIfWrongAbsFamily(Particles, Id::bottom, Id::gluon);
         if (Particles.size() == 2) {
             for (const auto & doublet : doublets) {
-              if ((doublet.SingletJet1().delta_R(Particles.at(0)) < DetectorGeometry().JetConeSize && doublet.SingletJet2().delta_R(Particles.at(1)) < DetectorGeometry().JetConeSize) || (doublet.SingletJet1().delta_R(Particles.at(1)) < DetectorGeometry().JetConeSize && doublet.SingletJet2().delta_R(Particles.at(0)) < DetectorGeometry().JetConeSize)) Finaldoublets.emplace_back(doublet);
+              if ((doublet.SingletJet1().delta_R(Particles.at(0)) < DetectorGeometry().JetConeSize() && doublet.SingletJet2().delta_R(Particles.at(1)) < DetectorGeometry().JetConeSize()) || (doublet.SingletJet1().delta_R(Particles.at(1)) < DetectorGeometry().JetConeSize() && doublet.SingletJet2().delta_R(Particles.at(0)) < DetectorGeometry().JetConeSize())) Finaldoublets.emplace_back(doublet);
             }
         }
     }
@@ -61,10 +59,10 @@ int SignatureNeutralTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag
             octets.emplace_back(octet);
         }
     }
-    if (octets.empty())Print(Severity::information, "No octets", octets.size());
+    if (octets.empty())Info("No octets", octets.size());
 
     if (tag == Tag::signal && octets.size() > 1) {
-        Print(Severity::information, "more than one event", octets.size());
+        Info("more than one event", octets.size());
         std::sort(octets.begin(), octets.end());
         octets.erase(octets.begin() + 1, octets.end());
     }
@@ -74,12 +72,12 @@ int SignatureNeutralTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag
 }
 
 
-std::vector<Octet62> SignatureNeutralTagger::Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
+std::vector<Octet62> SignatureNeutralTagger::Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const
 {
-    Print(Severity::information, "event Tags");
+    Info("event Tags");
 
-    std::vector<Doublet> doublets = jet_pair_reader_.Multiplets<JetPairTagger>(event);
-    std::vector<Sextet> sextets = heavy_higgs_semi_reader_.Multiplets<HeavyHiggsSemiTagger>(event);
+    std::vector<Doublet> doublets = jet_pair_reader_.Multiplets(event);
+    std::vector<Sextet> sextets = heavy_higgs_semi_reader_.Multiplets(event);
     std::vector<Octet62> octets;
     for (const auto & doublet : doublets) {
         for (const auto & sextet : sextets) {

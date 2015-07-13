@@ -1,7 +1,7 @@
-# pragma once
+#pragma once
 
-# include "MultipletEvent.hh"
-# include "SignatureChargedTagger.hh"
+#include "MultipletEvent.hh"
+#include "SignatureChargedTagger.hh"
 
 namespace analysis
 {
@@ -19,35 +19,25 @@ class EventChargedTagger : public BranchTagger<EventChargedBranch>
 
 public:
 
-    /**
-    * @brief Constructor
-    *
-    */
     EventChargedTagger();
 
-    int Train(Event &event, const Tag tag);
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const final;
 
-    std::vector<MultipletEvent<Octet44>> Multiplets(Event &event, const TMVA::Reader &reader);
+    std::vector<MultipletEvent<Octet44>> Multiplets(const Event &event, const TMVA::Reader &reader) const;
 
-protected:
-
-    virtual  std::string NameSpaceName() const {
-        return "heavyhiggs";
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
+//       return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
-    virtual  std::string ClassName() const {
-        return "EventChargedTagger";
+    std::string name() const final {
+      return "EventCharged";
     }
 
 private:
 
-    BottomTagger bottom_tagger_;
+    Reader<BottomTagger> bottom_reader_;
 
-    SignatureChargedTagger signature_semi_tagger_;
-
-    Reader bottom_reader_;
-
-    Reader signature_semi_reader_;
+    Reader<SignatureChargedTagger> signature_semi_reader_;
 
 };
 

@@ -1,6 +1,6 @@
-# pragma once
+#pragma once
 
-# include "Triplet.hh"
+#include "Triplet.hh"
 
 namespace analysis
 {
@@ -15,14 +15,6 @@ public:
     analysis::Doublet & Doublet() const;
 
     analysis::Triplet & Triplet() const;
-
-protected:
-
-    virtual  std::string ClassName() const {
-        return "Quintet";
-    }
-
-private:
 
 };
 

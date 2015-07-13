@@ -1,23 +1,22 @@
-# include "WSemiTagger.hh"
-# include "Reader.hh"
+#include "WSemiTagger.hh"
+#include "Event.hh"
+#include "Debug.hh"
 
 namespace analysis {
 
 WSemiTagger::WSemiTagger()
 {
-//     DebugLevel = Severity::debug;
-    Print(Severity::notification, "Constructor");
-    set_tagger_name("WSemi");
+    Info();
     w_mass_window_ = 20;
     DefineVariables();
 }
 
-int WSemiTagger::Train(Event &event, PreCuts &, const Tag tag)
+int WSemiTagger::Train(const Event &event, analysis::PreCuts &, const analysis::Tag tag) const
 {
-    Print(Severity::information, "Train");
+    Info();
     Jets Particles = event.Partons().GenParticles();
     int w_semi_id = WSemiId(event);
-    Jets w_bosons = copy_if_particle(Particles, w_semi_id);
+    Jets w_bosons = CopyIfParticle(Particles, w_semi_id);
     Jets leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
     if (leptons.size() > w_bosons.size()) leptons.erase(leptons.begin() + w_bosons.size(), leptons.end());
     const fastjet::PseudoJet missing_et = event.Hadrons().MissingEt();
@@ -28,7 +27,7 @@ int WSemiTagger::Train(Event &event, PreCuts &, const Tag tag)
         for (auto & doublet : post_doublets) {
             if (tag == Tag::signal && std::abs(doublet.Jet().m() - Mass(Id::W)) > w_mass_window_) continue;
             bool in_cone = false;
-            for(const auto w_boson : w_bosons) if (doublet.Coincides(w_boson)) in_cone = true;
+            for(const auto &w_boson : w_bosons) if (doublet.Coincides(w_boson)) in_cone = true;
             switch(tag) {
             case Tag::signal :
               if (!in_cone) continue;
@@ -44,12 +43,12 @@ int WSemiTagger::Train(Event &event, PreCuts &, const Tag tag)
     return SaveEntries(doublets);
 }
 
-std::vector<Doublet>  WSemiTagger::Multiplets(analysis::Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader)
+std::vector<Doublet>  WSemiTagger::Multiplets(const Event &event, analysis::PreCuts &, const TMVA::Reader &reader) const
 {
-  Print(Severity::information, "Triple Bdt");
+  Info();
   Jets Particles = event.Partons().GenParticles();
   int w_semi_id = WSemiId(event);
-  Jets w_bosons = copy_if_particle(Particles, w_semi_id);
+  Jets w_bosons = CopyIfParticle(Particles, w_semi_id);
     Jets leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
     if (leptons.size() > w_bosons.size()) leptons.erase(leptons.begin() + w_bosons.size(), leptons.end());
 
@@ -66,10 +65,10 @@ std::vector<Doublet>  WSemiTagger::Multiplets(analysis::Event &event, analysis::
     return ReduceResult(doublets);
 }
 
-std::vector<Doublet> WSemiTagger::ReconstructNeutrino(const Doublet &doublet)const
+std::vector<Doublet> WSemiTagger::ReconstructNeutrino(const Doublet &doublet) const
 {
 
-    Print(Severity::information, "Neutrinos");
+    Info();
     const fastjet::PseudoJet lepton = doublet.SingletJet1();
     const fastjet::PseudoJet missing_et = doublet.SingletJet2();
 
@@ -81,21 +80,21 @@ std::vector<Doublet> WSemiTagger::ReconstructNeutrino(const Doublet &doublet)con
     const double radicant = std::pow(lepton.pz(), 2) * (std::pow(linear_term, 2) -  lepton_square * missing_et_square);
 
     if (radicant < 0) {
-        Print(Severity::information, "Imaginary root", "move missing et towards lepton");
+        Info("Imaginary root", "move missing et towards lepton");
         Doublet mod_doublet(lepton, missing_et + 0.1 * (lepton - missing_et));
         mod_doublet.SetFlag(true);
         mod_doublet.SetTag(doublet.Tag());
         return ReconstructNeutrino(mod_doublet);
     }
 
-    if (radicant == 0) Print(Severity::error, "Radicant exactly zero", "implement this case!");
+    Check(radicant != 0,"Radicant exactly zero", "implement this case!");
 
     const float sqrt = std::sqrt(radicant);
 
     const float neutrino_1_e = (lepton.e() * linear_term - sqrt) / lepton_square;
     const float neutrino_1_pz = (std::pow(lepton.pz(), 2) * linear_term - lepton.e() * sqrt) / lepton.pz() / lepton_square;
     fastjet::PseudoJet neutrino_1(missing_et.px(), missing_et.py(), neutrino_1_pz, neutrino_1_e);
-    Print(Severity::debug, "Neutrnio 1", neutrino_1);
+    Debug("Neutrnio 1", neutrino_1);
     Doublet doublet1(lepton, neutrino_1);
     doublet1.SetTag(doublet.Tag());
     doublet1.SetFlag(doublet.Flag());
@@ -103,7 +102,7 @@ std::vector<Doublet> WSemiTagger::ReconstructNeutrino(const Doublet &doublet)con
     const float neutrino_2_e = (lepton.e() * linear_term + sqrt) / lepton_square;
     const float neutrino_2_pz = (std::pow(lepton.pz(), 2) * linear_term + lepton.e() * sqrt) / lepton.pz() / lepton_square;
     fastjet::PseudoJet neutrino_2(missing_et.px(), missing_et.py(), neutrino_2_pz, neutrino_2_e);
-    Print(Severity::debug, "Neutrino 2", neutrino_2);
+    Debug("Neutrino 2", neutrino_2);
     Doublet doublet2(lepton, neutrino_2);
     doublet2.SetTag(doublet.Tag());
     doublet2.SetFlag(doublet.Flag());
@@ -116,22 +115,29 @@ std::vector<Doublet> WSemiTagger::ReconstructNeutrino(const Doublet &doublet)con
 
 }
 
-Jets WSemiTagger::WSemiDaughters(Event &event)
+Jets WSemiTagger::WSemiDaughters(const Event &event) const
 {
     Jets w_daughters = event.Partons().GenParticles();
+    w_daughters = RemoveIfSoft(w_daughters, DetectorGeometry().JetMinPt());
     w_daughters = RemoveIfWrongAbsMother(w_daughters, Id::W);
-    if (w_daughters.size() != 4) Print(Severity::error, "Where is the W 1?", w_daughters.size());
-
     w_daughters = RemoveIfQuark(w_daughters);
-    if (w_daughters.size() != 2) Print(Severity::error, "Where is the W 2?", w_daughters.size());
-    else Print(Severity::information, "W Daughters", Name(w_daughters.at(0).user_info<JetInfo>().constituents().front().family().particle().Id), Name(w_daughters.at(1).user_info<JetInfo>().constituents().front().family().particle().Id), Name(w_daughters.at(0).user_info<JetInfo>().constituents().front().family().mother_1().Id), Name(w_daughters.at(1).user_info<JetInfo>().constituents().front().family().mother_1().Id));
     return w_daughters;
 }
 
-int WSemiTagger::WSemiId(const Jets &jets)
+int WSemiTagger::WSemiId(const Jets &jets) const
 {
-    if (jets.empty()) return to_int(Id::W);
-    else return jets.front().user_info<JetInfo>().constituents().front().family().mother_1().Id;
+  if (jets.empty()) return 0;
+  int sign;
+  bool first = true;
+  bool just_one = true;
+  for (const auto jet : jets) {
+    int id = jet.user_info<JetInfo>().constituents().front().family().mother_1().id();
+    if (first) sign = sgn(id);
+    else if (sign != sgn(id)) just_one = false;
+    first = false;
+  }
+  if (just_one) return sign * to_int(Id::W);
+  return 0;
 }
 
 }

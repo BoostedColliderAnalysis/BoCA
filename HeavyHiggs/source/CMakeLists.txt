@@ -12,12 +12,16 @@ SignatureChargedTagger.cpp
 EventNeutralTagger.cpp
 EventChargedTagger.cpp
 EventFusionTagger.cpp
+EventNeutralFourTopTagger.cpp
+AnalysisHeavyHiggs.cpp
 AnalysisNeutral.cpp
 AnalysisCharged.cpp
 AnalysisFusion.cpp
+AnalysisNeutralFourTop.cpp
 )
 HLibrary(AnalysisHeavyHiggs AnalysisSources)
 
 HExecutable(HeavyHiggsNeutral MainNeutral.cpp)
 HExecutable(HeavyHiggsCharged MainCharged.cpp)
 HExecutable(HeavyHiggsFusion MainFusion.cpp)
+hExecutable(HeavyHiggsNeutralFourTop MainNeutralFourTop.cpp)

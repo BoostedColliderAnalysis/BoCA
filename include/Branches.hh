@@ -1,36 +1,55 @@
-# pragma once
+#pragma once
 
-# include "TObject.h"
-# include "Rtypes.h"
+#include "TObject.h"
+#include "Rtypes.h"
 
 namespace analysis
 {
 
-typedef std::pair<float &, std::string> ObservablePair;
-typedef std::vector<ObservablePair> Observables;
-# define STRING(s) #s
-# define PAIR(x) ObservablePair(x,STRING(x))
+// typedef std::pair<float &, std::string> ObservablePair;
+
+class Obs {
+public:
+    Obs(float &value, const std::string& name, const std::string &nice_name) : value_(&value) {
+        name_ = name;
+        nice_name_ = nice_name;
+    }
+    float & value()const {
+        return *value_;
+    }
+    std::string name()const {
+        return name_;
+    }
+    std::string nice_name()const {
+        return nice_name_;
+    }
+private:
+    float * value_;
+    std::string name_;
+    std::string nice_name_;
+};
+typedef std::vector<Obs> Observables;
 
 /**
  * @brief Basic tree branches
  *
  */
-class Branch : public TObject
+class BaseBranch : public TObject
 {
 public:
-    virtual ~Branch();
+    virtual ~BaseBranch();
 protected:
     static float InitialValue();
     static Observables Join(const Observables &observables_1, const Observables &observables_2);
 private:
-    ClassDef(Branch, 1)
+    ClassDef(BaseBranch, 1)
 };
 
 /**
  * @brief Basic tree branches
  *
  */
-class InfoBranch : public Branch
+class InfoBranch : public BaseBranch
 {
 public:
     InfoBranch();
@@ -44,7 +63,7 @@ private:
     ClassDef(InfoBranch, 1)
 };
 
-class ResultBranch : public Branch
+class ResultBranch : public BaseBranch
 {
 public:
     ResultBranch();
@@ -333,11 +352,11 @@ public:
     template<typename Multiplet>
     void Fill(const Multiplet &multiplet) {
         PairBranch::Fill(multiplet);
-        BottomPt = multiplet.SingletJet().pt();
+        BottomPt = multiplet.Singlet().Jet().pt();
 //         BottomRap = std::abs(multiplet.Singlet().rap());
-        BottomRap = multiplet.SingletJet().rap();
-        BottomPhi = multiplet.SingletJet().phi();
-        BottomMass = multiplet.SingletJet().m();
+        BottomRap = multiplet.Singlet().Jet().rap();
+        BottomPhi = multiplet.Singlet().Jet().phi();
+        BottomMass = multiplet.Singlet().Jet().m();
 //         BottomBdt = multiplet.Singlet().user_info<JetInfo>().Bdt();
         TopPt = multiplet.Triplet().Jet().pt();
 //         TopRap = std::abs(multiplet.Triplet().Jet().rap());
@@ -390,7 +409,7 @@ public:
     void Fill(const Multiplet &multiplet) {
         MultiBranch::Fill(multiplet);
         BottomBase::Fill(multiplet);
-        BottomMass = multiplet.SingletJet().m();
+        BottomMass = multiplet.Singlet().Jet().m();
         WMass = multiplet.Doublet().Jet().m();
         LeptonPt = multiplet.pt();
     }
@@ -438,7 +457,7 @@ public:
     template<typename Multiplet>
     void Fill(const Multiplet &multiplet) {
         MultiBranch::Fill(multiplet);
-        BottomPt = multiplet.SingletJet().pt();
+        BottomPt = multiplet.Singlet().Jet().pt();
         WPt = multiplet.Doublet().Jet().pt();
     }
     Observables Variables();
@@ -536,5 +555,9 @@ public:
 private:
     ClassDef(EventBranch, 1)
 };
+
+void Red();
+
+void Blue();
 
 }

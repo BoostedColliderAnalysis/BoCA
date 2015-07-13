@@ -1,94 +1,27 @@
-# pragma once
+#pragma once
 
-# include <iostream>
-# include <iomanip>
-# include <cmath>
-# include <vector>
+#include <vector>
+#include <string>
 
-# include "TLorentzVector.h"
-
-# include "fastjet/PseudoJet.hh"
+namespace fastjet
+{
+class PseudoJet;
+}
 
 /**
  * @brief analysis namespace containing the general analysis and SM taggers
  *
  */
-
 namespace analysis
 {
 
+class LorentzVector;
+
 typedef std::vector<fastjet::PseudoJet> Jets;
-typedef std::vector<TLorentzVector> Vectors;
+typedef std::vector<LorentzVector> Vectors;
 typedef std::vector<std::string> Strings;
 
-template <typename Value>
-int sgn(const Value value)
-{
-    return (Value(0) < value) - (value < Value(0));
-}
 
-int LargeNumber();
-
-/**
- * @brief Calcualte distance in eta phi space
- *
- */
-float Distance(const float rapidity_1, const float phi_1, const float rapidity_2, const float phi_2);
-
-/**
- * @brief Calcualte distance from center in eta phi space
- *
- */
-float Length(const float rapidity, const float phi);
-
-/**
- * @brief Take care of phi angles around pi
- *
- */
-float DeltaPhi(const float phi_1, const float phi_2);
-
-/**
- * @brief provides an integer with the necessary information to work with range based for loop
- *
- */
-class Range
-{
-public:
-    Range(const int sum) : last_(sum), iterator_(0) {}
-
-    const Range &begin() const {
-        return *this;
-    }
-    const Range &end() const {
-        return *this;
-    }
-    bool operator!=(const Range &) const {
-        return iterator_ < last_;
-    }
-    void operator++() {
-        ++iterator_;
-    }
-    int operator*() const {
-        return iterator_;
-    }
-private:
-    int last_;
-    int iterator_;
-};
-
-template <typename Element>
-/**
- * @brief Join two std::vector
- *
- */
-std::vector<Element> Join(const std::vector<Element> &vector_1, const std::vector<Element> &vector_2)
-{
-    std::vector<Element> joined;
-    joined.reserve(vector_1.size() + vector_2.size());
-    joined.insert(joined.end(), vector_1.begin(), vector_1.end());
-    joined.insert(joined.end(), vector_2.begin(), vector_2.end());
-    return joined;
-}
 
 enum class Severity
 {
@@ -119,15 +52,15 @@ enum class Id
     photon = 22,
     Z = 23,
     W = 24,
-    higgs = 25,
+    higgs = 25, //<Higgs boson
     heavy_higgs = 35,
     CP_odd_higgs = 36,
     charged_higgs = 37,
-    Any = 86,
-    Isr = 87,
-    Marker = 88,
-    MixedJet = 90,
-    Cluster = 91,
+    any = 86,
+    isr = 87,
+    marker = 88,
+    mixed_jet = 90,
+    cluster = 91,
     string = 92,
     Pi0Meson = 111,
     Rho0Meson = 113,
@@ -165,16 +98,25 @@ enum class Id
     CP_violating_higgs = 5000000
 };
 
-template <typename Enumeration>
-auto to_int(Enumeration const value)
--> typename std::underlying_type<Enumeration>::type {
-    return static_cast<typename std::underlying_type<Enumeration>::type>(value);
-}
-
 std::string Name(const int id);
 
 std::string Name(const Id id);
 
 float Mass(const Id id);
+
+/**
+ * @brief Initial user index
+ *
+ */
+static const int EmptyUserIndex = -1;
+
+/**
+ * @brief Position outside of a vector
+ *
+ */
+static const int EmptyPosition = -1;
+
+
+int LargeNumber();
 
 }

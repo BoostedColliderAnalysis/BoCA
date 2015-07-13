@@ -1,38 +1,20 @@
-# pragma once
+#pragma once
 
-# include <map>
-# include <unordered_map>
+#include <map>
+#include <unordered_map>
 
-# include "fastjet/JetDefinition.hh"
+#include "fastjet/PseudoJet.hh"
 
-# include "Identification.hh"
-# include "Constituent.hh"
-# include "delphes/Delphes.hh"
+#include "Identification.hh"
+#include "Constituent.hh"
+
+class Jet;
+namespace delphes{
+  typedef ::Jet Jet;
+}
 
 namespace analysis
 {
-
-class DetectorGeometry
-{
-public:
-    enum JetType {kJet, kGenJet, kEFlowJet};
-    DetectorGeometry();
-    float JetMinPt;
-    float JetConeSize;
-    float MinCellPt;
-    float MinCellResolution;
-    float TrackerEtaMax;
-    float JetRadiusParameter;
-    fastjet::JetDefinition JetDefinition;
-    fastjet::JetDefinition SubJetDefinition;
-    float TrackerDistanceMin;
-    float TrackerDistanceMax;
-    float VertexMassMin;
-    float LeptonMinPt;
-    JetType jet_type;
-private:
-    enum DetectorType {CMS, Spp};
-};
 
 /**
  * @brief Jet infos subclassed from Fastjet
@@ -67,11 +49,9 @@ public:
 
     JetInfo(const std::vector<Constituent> &constituents);
 
-    JetInfo operator+(const JetInfo &jet_info){
-      JetInfo result;
-      result.AddConstituents(jet_info.constituents());
-      return result;
-    }
+    JetInfo(const std::vector<Constituent> &constituents, const std::vector<Constituent> &dispalced_constituents);
+
+//     JetInfo operator+(const JetInfo &jet_info);
 
     void AddConstituent(const Constituent &constituent);
 
@@ -80,6 +60,8 @@ public:
     void AddDaughter(const int daughter);
 
     std::vector<Constituent> constituents() const;
+
+    std::vector<Constituent> displaced_constituents() const;
 
     std::unordered_map<Family, float> FamilyFractions();
 
@@ -144,30 +126,22 @@ public:
     }
 
     void SetTauTag(const bool tau_tag) {
-      tau_tag_ = tau_tag;
+        tau_tag_ = tau_tag;
     }
 
     bool TauTag() const {
-      return tau_tag_;
+        return tau_tag_;
     }
 
     void SetCharge(const int charge) {
-      charge_ = charge;
+        charge_ = charge;
     }
 
     int Charge() const;
 
     void SetDelphesTags(const ::delphes::Jet &jet);
 
-protected:
-
-     std::string ClassName() const {
-        return "JetInfo";
-    }
-
 private:
-
-    DetectorGeometry detector_geometry_;
 
     void AddParticle(const int constituent_id, const float weight);
 
@@ -175,9 +149,13 @@ private:
 
     float GetWeightSum() const;
 
-    std::vector<Constituent> ApplyVertexResolution() const;
+    std::vector<Constituent> ApplyVertexResolution(std::vector< Constituent > constituents) const;
+
+    bool VertexResultion(const Constituent &constituent) const;
 
     std::vector<Constituent> constituents_;
+
+    std::vector<Constituent> displaced_constituents_;
 
     std::unordered_map<Family, float> family_fractions_;
 
@@ -196,9 +174,7 @@ private:
  *
  */
 struct SortByBdt {
-     bool operator()(const fastjet::PseudoJet &jet_1, const fastjet::PseudoJet &jet_2) {
-        return (jet_1.user_info<analysis::JetInfo>().Bdt() > jet_2.user_info<analysis::JetInfo>().Bdt());
-    }
+    bool operator()(const fastjet::PseudoJet &jet_1, const fastjet::PseudoJet &jet_2);
 };
 
 }

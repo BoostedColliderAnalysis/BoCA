@@ -1,7 +1,7 @@
-# pragma once
+#pragma once
 
-# include "MultipletEvent.hh"
-# include "SignatureNeutralTagger.hh"
+#include "MultipletEvent.hh"
+#include "SignatureNeutralTagger.hh"
 
 namespace analysis
 {
@@ -19,35 +19,25 @@ class EventNeutralTagger : public BranchTagger<EventNeutralBranch>
 
 public:
 
-    /**
-    * @brief Constructor
-    *
-    */
     EventNeutralTagger();
 
-    int Train(Event &event, const Tag tag);
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const final;
 
-    std::vector< MultipletEvent< Octet62 > > Multiplets(Event &event, const TMVA::Reader &reader);
+    std::vector< MultipletEvent< Octet62 > > Multiplets(const Event &event, const TMVA::Reader &reader) const;
 
-protected:
-
-    virtual  std::string NameSpaceName() const {
-        return "heavyhiggs";
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
+//       return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
-    virtual  std::string ClassName() const {
-        return "EventNeutralTagger";
+    std::string name() const final {
+      return "EventNeutral";
     }
 
 private:
 
-    SignatureNeutralTagger signature_neutral_tagger_;
+    Reader<SignatureNeutralTagger> signature_neutral_reader_;
 
-    Reader signature_neutral_reader_;
-
-    BottomTagger bottom_tagger_;
-
-    Reader bottom_reader_;
+    Reader<BottomTagger> bottom_reader_;
 
 };
 

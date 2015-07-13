@@ -1,7 +1,7 @@
-# pragma once
+#pragma once
 
-# include "Quartet31.hh"
-# include "TopHadronicTagger.hh"
+#include "TopHadronicTagger.hh"
+#include "Quartet.hh"
 
 namespace analysis
 {
@@ -17,25 +17,23 @@ public:
 
     TripletJetPairTagger();
 
-    int Train(Event &event, PreCuts &pre_cuts, const Tag tag);
+    int Train(const analysis::Event &event, analysis::PreCuts &pre_cuts, const analysis::Tag tag) const;
 
-    std::vector< Quartet31 > Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
+    std::vector< Quartet31 > Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
 
-protected:
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
+      return SaveEntries(Multiplets(event, pre_cuts, reader));
+    }
 
-    virtual  std::string ClassName() const {
-        return "TripletJetPairTagger";
+    std::string name() const final {
+      return "TripletJetJetPair";
     }
 
 private:
 
-    BottomTagger bottom_tagger_;
+    Reader<BottomTagger> bottom_reader_;
 
-    TopHadronicTagger top_hadronic_tagger;
-
-    Reader bottom_reader_;
-
-    Reader top_hadronic_reader_;
+    Reader<TopHadronicTagger> top_hadronic_reader_;
 
 };
 

@@ -1,8 +1,8 @@
-# pragma once
+#pragma once
 
-# include "BottomTagger.hh"
-# include "Doublet.hh"
-# include "Reader.hh"
+#include "BottomTagger.hh"
+#include "Doublet.hh"
+#include "Reader.hh"
 
 namespace analysis
 {
@@ -18,23 +18,23 @@ public:
 
     JetPairTagger();
 
-    int Train(Event &event, PreCuts &pre_cuts, const Tag tag);
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const final;
 
-    std::vector<Doublet> Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
+    std::vector<Doublet> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
 
-protected:
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
+      return SaveEntries(Multiplets(event, pre_cuts, reader));
+    }
 
-    virtual  std::string ClassName() const {
-        return "JetPairTagger";
+    std::string name() const final {
+      return "JetPair";
     }
 
 private:
 
     void DefineVariables();
 
-    BottomTagger bottom_tagger_;
-
-    Reader bottom_reader_;
+    Reader<BottomTagger> bottom_reader_;
 
 };
 

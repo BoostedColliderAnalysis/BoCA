@@ -1,7 +1,7 @@
-# pragma once
+#pragma once
 
-# include "Multiplet.hh"
-# include "Singlet.hh"
+#include "Multiplet.hh"
+#include "Singlet.hh"
 
 namespace analysis {
 
@@ -57,12 +57,6 @@ public:
     }
 
     std::vector< Kinematics > Constituents() const;
-
-protected:
-
-    virtual  std::string ClassName() const {
-        return "Doublet";
-    }
 
 private:
 

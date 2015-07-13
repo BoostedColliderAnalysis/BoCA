@@ -7,9 +7,19 @@ project(Analysis CXX)
 # Load some basic macros which are needed later on
 include(CMakeFiles/CMakeConfig.cmake)
 
+
+if( NOT CMAKE_BUILD_TYPE )
+set( CMAKE_BUILD_TYPE Debug CACHE STRING "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel." FORCE )
+endif()
+
+# set(CMAKE_CONFIGURATION_TYPES Debug Release)
+
 # set c++ flags
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -Wall -Wextra -pedantic -Wpointer-arith -fPIC -O3")
-#  -fno-stack-protector
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -g")
+
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0 -Wall -Wextra -pedantic -Wpointer-arith")
+
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3")
 
 # target_compile_features(foo
 # PUBLIC
@@ -47,7 +57,7 @@ HLinkLibraries(${LIBCONFIGPP_LIBRARIES})
 add_subdirectory(source)
 
 add_subdirectory(StandardModel)
-add_subdirectory(EFlow)
+# add_subdirectory(EFlow)
 add_subdirectory(PairTagger)
 add_subdirectory(HBottomSumTagger)
 add_subdirectory(HDiscriminator)

@@ -1,21 +1,20 @@
-# include "ZHadronicTagger.hh"
+#include "ZHadronicTagger.hh"
+#include "Event.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
 
 ZHadronicTagger::ZHadronicTagger()
 {
-    //         DebugLevel = Severity::detailed;
-    Print(Severity::notification, "Constructor");
-    set_tagger_name("ZHadronic");
-    bottom_reader_.SetTagger(bottom_tagger_);
+    Note();
     DefineVariables();
 }
 
-int ZHadronicTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
+int ZHadronicTagger::Train(const Event &event, analysis::PreCuts &pre_cuts, const analysis::Tag tag) const
 {
-    Print(Severity::information, "ZHadronic Tag");
-    Jets jets =  bottom_reader_.Multiplets<BottomTagger>(event);
+    Info("ZHadronic Tag");
+    Jets jets =  bottom_reader_.Multiplets(event);
     std::vector< Doublet > doublets;
     for (auto jet_1 = jets.begin(); jet_1 != jets.end(); ++jet_1) {
         for (auto jet_2 = jet_1 + 1; jet_2 != jets.end(); ++jet_2) {
@@ -25,9 +24,9 @@ int ZHadronicTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
             doublets.emplace_back(doublet);
         }
     }
-    for (const auto jet : jets) {
+    for (const auto &jet : jets) {
         const int sub_jet_number = 2;
-        Jets pieces = bottom_reader_.SubMultiplet<BottomTagger>(jet, sub_jet_number);
+        Jets pieces = bottom_reader_.SubMultiplet(jet, sub_jet_number);
         if (pieces.size() < sub_jet_number) continue;
         Doublet doublet(pieces.at(0), pieces.at(1));
         if (Problematic(doublet, pre_cuts, tag)) continue;
@@ -35,11 +34,11 @@ int ZHadronicTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
         doublets.emplace_back(doublet);
     }
     Jets particles = event.Partons().GenParticles();
-    Jets z_particles = copy_if_abs_particle(particles, Id::Z);
+    Jets z_particles = CopyIfAbsParticle(particles, Id::Z);
     return SaveEntries(BestMatches(doublets, z_particles,tag));
 }
 
-bool ZHadronicTagger::Problematic(const Doublet &doublet, PreCuts &pre_cuts, const Tag tag)
+bool ZHadronicTagger::Problematic(const analysis::Doublet &doublet, analysis::PreCuts &pre_cuts, const analysis::Tag tag) const
 {
     if (Problematic(doublet, pre_cuts)) return true;
     switch (tag) {
@@ -53,7 +52,7 @@ bool ZHadronicTagger::Problematic(const Doublet &doublet, PreCuts &pre_cuts, con
     return false;
 }
 
-bool ZHadronicTagger::Problematic(const Doublet &doublet, PreCuts &pre_cuts)
+bool ZHadronicTagger::Problematic(const analysis::Doublet &doublet, analysis::PreCuts &pre_cuts) const
 {
     if (pre_cuts.PtLowerCut(Id::Z) > 0 && pre_cuts.PtLowerCut(Id::Z) > doublet.Jet().pt()) return true;
     if (pre_cuts.PtUpperCut(Id::Z) > 0 && pre_cuts.PtUpperCut(Id::Z) < doublet.Jet().pt()) return true;
@@ -62,10 +61,10 @@ bool ZHadronicTagger::Problematic(const Doublet &doublet, PreCuts &pre_cuts)
 }
 
 
-std::vector<Doublet>  ZHadronicTagger::Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
+std::vector<Doublet>  ZHadronicTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const
 {
-    Print(Severity::information, "ZHadronic Bdt");
-    Jets jets =  bottom_reader_.Multiplets<BottomTagger>(event);
+    Info("ZHadronic Bdt");
+    Jets jets =  bottom_reader_.Multiplets(event);
     std::vector< Doublet > doublets;
     for (auto jet_1 = jets.begin(); jet_1 != jets.end(); ++jet_1) {
         for (auto jet_2 = jet_1 + 1; jet_2 != jets.end(); ++jet_2) {
@@ -75,9 +74,9 @@ std::vector<Doublet>  ZHadronicTagger::Multiplets(Event &event, PreCuts &pre_cut
             doublets.emplace_back(doublet);
         }
     }
-    for (const auto jet : jets) {
+    for (const auto &jet : jets) {
         const int sub_jet_number = 2;
-        Jets pieces = bottom_reader_.SubMultiplet<BottomTagger>(jet, sub_jet_number);
+        Jets pieces = bottom_reader_.SubMultiplet(jet, sub_jet_number);
         if (pieces.size() < sub_jet_number) continue;
         Doublet doublet(pieces.at(0), pieces.at(1));
         if (Problematic(doublet, pre_cuts)) continue;

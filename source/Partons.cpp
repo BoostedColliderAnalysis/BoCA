@@ -1,15 +1,11 @@
-# include "Partons.hh"
-# include "Predicate.hh"
+#include "Partons.hh"
+#include "Predicate.hh"
+#include "Debug.hh"
 
 namespace analysis {
 
-Partons::Partons()
-{
-    Print(Severity::notification,"Constructor");
-}
-
 void Partons::NewEvent(const ClonesArrays &clones_arrays) {
-    Print(Severity::information,"New event");
+    Info();
     FourVector::NewEvent(clones_arrays);
 }
 

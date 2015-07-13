@@ -1,24 +1,25 @@
-# include "AnalysisHiggs.hh"
+#include "AnalysisHiggsCpv.hh"
 
-# include "TSystem.h"
-# include "Factory.hh"
-# include "../include/EventTagger.hh"
+#include "TSystem.h"
+#include "Factory.hh"
+#include "../include/EventTagger.hh"
+#include "Debug.hh"
 
-void RunTagger(analysis::Tagger &tagger, analysis::Tagger::Stage stage)
+void RunTagger(analysis::Tagger &tagger, analysis::Stage stage)
 {
-  analysis::higgscpv::Analysis analysis(tagger);
-  const std::string name = tagger.name(stage);
-  analysis.Print(analysis::Severity::error, "Tagger", name);
-
-  std::string file_name = analysis.ProjectName() + "/" + name + ".root";
-  if (gSystem->AccessPathName(file_name.c_str())) analysis.AnalysisLoop(stage);
+//   analysis::higgscpv::Analysis analysis(tagger);
+//   const std::string name = tagger.name(stage);
+//   Error("Tagger", name);
+//
+//   std::string file_name = analysis.ProjectName() + "/" + name + ".root";
+//   if (gSystem->AccessPathName(file_name.c_str())) analysis.AnalysisLoop(stage);
 }
 
 void RunFactory(analysis::Tagger &tagger)
 {
   analysis::higgscpv::Analysis analysis(tagger);
-  const std::string name = tagger.name(analysis::Tagger::kTrainer);
-  analysis.Print(analysis::Severity::error, "Tagger", name);
+  const std::string name = tagger.name(analysis::Stage::trainer);
+  Error("Tagger", name);
   std::string file_name = analysis.ProjectName() + "/Mva" + name + ".root";
   if (gSystem->AccessPathName(file_name.c_str())) analysis::Factory factory(tagger);
 }
@@ -26,44 +27,44 @@ void RunFactory(analysis::Tagger &tagger)
 void RunReader(analysis::Tagger &tagger)
 {
   analysis::higgscpv::Analysis analysis(tagger);
-  const std::string file_name = analysis.ProjectName() + "/" + tagger.tagger_name() + "Bdt.root";
+  const std::string file_name = analysis.ProjectName() + "/" + tagger.name() + "Bdt.root";
   if (gSystem->AccessPathName(file_name.c_str())) {
-    analysis::Reader reader(tagger);
-    reader.OptimalSignificance();
+//     analysis::Reader reader(tagger);
+//     reader.OptimalSignificance();
   }
 }
 
 int main()
 {
   analysis::BottomTagger bottom_tagger;
-  RunTagger(bottom_tagger, analysis::Tagger::kTrainer);
+  RunTagger(bottom_tagger, analysis::Stage::trainer);
   RunFactory(bottom_tagger);
-  RunTagger(bottom_tagger, analysis::Tagger::kReader);
+  RunTagger(bottom_tagger, analysis::Stage::reader);
 
   analysis::TopLeptonicTagger top_leptonic_tagger;
-  RunTagger(top_leptonic_tagger, analysis::Tagger::kTrainer);
+  RunTagger(top_leptonic_tagger, analysis::Stage::trainer);
   RunFactory(top_leptonic_tagger);
-  RunTagger(top_leptonic_tagger, analysis::Tagger::kReader);
+  RunTagger(top_leptonic_tagger, analysis::Stage::reader);
 
   analysis::HiggsTagger higgs_tagger;
-  RunTagger(higgs_tagger, analysis::Tagger::kTrainer);
+  RunTagger(higgs_tagger, analysis::Stage::trainer);
   RunFactory(higgs_tagger);
-  RunTagger(higgs_tagger, analysis::Tagger::kReader);
+  RunTagger(higgs_tagger, analysis::Stage::reader);
 
   analysis::higgscpv::TopLeptonicPairTagger jet_pair_tagger;
-  RunTagger(jet_pair_tagger, analysis::Tagger::kTrainer);
+  RunTagger(jet_pair_tagger, analysis::Stage::trainer);
   RunFactory(jet_pair_tagger);
-  RunTagger(jet_pair_tagger, analysis::Tagger::kReader);
+  RunTagger(jet_pair_tagger, analysis::Stage::reader);
 
   analysis::higgscpv::SignatureTagger signature_semi_tagger;
-  RunTagger(signature_semi_tagger, analysis::Tagger::kTrainer);
+  RunTagger(signature_semi_tagger, analysis::Stage::trainer);
   RunFactory(signature_semi_tagger);
-  RunTagger(signature_semi_tagger, analysis::Tagger::kReader);
+  RunTagger(signature_semi_tagger, analysis::Stage::reader);
 
   analysis::higgscpv::EventTagger event_semi_tagger;
-  RunTagger(event_semi_tagger, analysis::Tagger::kTrainer);
+  RunTagger(event_semi_tagger, analysis::Stage::trainer);
   RunFactory(event_semi_tagger);
-  RunTagger(event_semi_tagger, analysis::Tagger::kReader);
+  RunTagger(event_semi_tagger, analysis::Stage::reader);
   RunReader(event_semi_tagger);
 
 }

@@ -1,10 +1,10 @@
-# pragma once
+#pragma once
 
-# include "Septet.hh"
-# include "TopPartnerSemiTagger.hh"
-// # include "TopPartnerLeptonicTagger.hh"
-# include "HiggsTagger.hh"
-# include "BranchesTopPartner.hh"
+#include "Septet.hh"
+#include "TopPartnerSemiTagger.hh"
+// #include "TopPartnerLeptonicTagger.hh"
+#include "HiggsTagger.hh"
+#include "BranchesTopPartner.hh"
 
 namespace analysis
 {
@@ -23,35 +23,28 @@ public:
 
     TopPartnerHiggsPairTagger();
 
-    int Train(Event &event, PreCuts &pre_cuts, const Tag tag);
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const final;
 
-    std::vector<Septet> Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
+    std::vector<Septet> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
 
-    int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
       return SaveEntries(Multiplets(event,pre_cuts, reader));
     }
 
-    auto Multiplets(Event &event, const TMVA::Reader &reader){
+    auto Multiplets(const Event &event, const TMVA::Reader &reader){
       PreCuts pre_cuts;
       return Multiplets(event, pre_cuts, reader);
     }
 
-protected:
-
-    virtual  std::string ClassName() const {
-        return "TopPartnerHiggsPairTagger";
+    std::string name() const final {
+      return "TopPartnerHiggsPair";
     }
 
 private:
 
-    TopPartnerSemiTagger top_partner_hadronic_tagger_;
-//     TopPartnerLeptonicTagger top_partner_hadronic_tagger_;
+    Reader<TopPartnerSemiTagger> top_partner_hadronic_reader_;
 
-    HiggsTagger higgs_tagger_;
-
-    Reader top_partner_hadronic_reader_;
-
-    Reader higgs_reader_;
+    Reader<HiggsTagger> higgs_reader_;
 };
 
 }

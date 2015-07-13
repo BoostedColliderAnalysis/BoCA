@@ -1,4 +1,5 @@
-# include "Doublet.hh"
+#include "Doublet.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
@@ -25,7 +26,7 @@ Singlet & Doublet::Singlet2() const
 
 std::vector<Kinematics> Doublet::Constituents(const fastjet::PseudoJet &jet, const float jet_ratio, const float theta, const float shift) const
 {
-    Print(Severity::information, "constituents", jet_ratio, theta);
+    Info("constituents", jet_ratio, theta);
     const float Cut = 2. / jet_ratio;
     const float Cut1 = 1. / jet_ratio;
     std::vector<Kinematics> Newconstituents;
@@ -35,8 +36,8 @@ std::vector<Kinematics> Doublet::Constituents(const fastjet::PseudoJet &jet, con
         // Get constituent coordinates in Jet coordinates
         const float ConstRap = constituentJet.rap() - jet.rap();
         const float ConstPhi = analysis::DeltaPhi(constituentJet.phi_std(), jet.phi_std());
-        if (ConstPhi > Cut) Print(Severity::error, "phi", "too big");
-        if (ConstRap > Cut) Print(Severity::error, "eta", "too big");
+        if (ConstPhi > Cut) Error("phi", "too big");
+        if (ConstRap > Cut) Error("eta", "too big");
         // rotate constituent according to other jet
         float ObservableRap = ConstRap * cos(theta) + ConstPhi * sin(theta);
         float ObservablePhi = ConstRap * sin(theta) - ConstPhi * cos(theta);
@@ -45,35 +46,16 @@ std::vector<Kinematics> Doublet::Constituents(const fastjet::PseudoJet &jet, con
         ObservablePhi *= jet_ratio;
         // move jet to (+-1,0)
         ObservableRap -= shift;
-        Print(Severity::debug, "eta", ObservableRap);
+        Debug("eta", ObservableRap);
         Kinematics constituent(constituentJet.pt(), ObservableRap, ObservablePhi);
         Newconstituents.emplace_back(constituent);
     }
     return Newconstituents;
 }
 
-// void Doublet::SetSinglets(const fastjet::PseudoJet &singlet_1, const fastjet::PseudoJet &singlet_2)
-// {
-//     Print(Severity::information, "Constructor");
-//     multiplet_1_ = singlet_1;
-//     multiplet_2_ = singlet_2;
-//     SetBdt(SubMultiplet1().Bdt(), SubMultiplet2().Bdt());
-// }
-//
-// void Doublet::SetSinglets(const fastjet::PseudoJet &singlet)
-// {
-//     Print(Severity::information, "Constructor");
-//     multiplet_1_ = singlet / 2;
-//     multiplet_2_ = singlet / 2;
-//     SetDegenerate();
-//     if (singlet.has_user_info<JetInfo>() && singlet.user_info<JetInfo>().Bdt() != initial_value()) SetBdt(singlet.user_info<JetInfo>().Bdt());
-//     else SetBdt(0);
-//     if (singlet.has_user_info<JetInfo>() && singlet.user_info<JetInfo>().Tag() != initial_value()) SetTag(singlet.user_info<JetInfo>().Tag());
-// }
-
 float Doublet::ReferenceAngle(const fastjet::PseudoJet &NewJet, const fastjet::PseudoJet &ReferenceJet) const
 {
-    Print(Severity::information, "ReferenceAngle");
+    Info("ReferenceAngle");
     const float Rap = NewJet.rap() - ReferenceJet.rap();
     const float Phi = NewJet.delta_phi_to(ReferenceJet);
     return std::atan2(-Phi, -Rap);
@@ -82,7 +64,7 @@ float Doublet::ReferenceAngle(const fastjet::PseudoJet &NewJet, const fastjet::P
 
 float Doublet::PullAngle1() const
 {
-    Print(Severity::information, "PullAngle1");
+    Info("PullAngle1");
     const float pull = Pull(SingletJet1());
     const float reference_angle = ReferenceAngle(SingletJet1(), SingletJet2());
     return analysis::DeltaPhi(pull, reference_angle);
@@ -90,17 +72,17 @@ float Doublet::PullAngle1() const
 
 float Doublet::PullAngle2() const
 {
-    Print(Severity::information, "PullAngle2");
+    Info("PullAngle2");
     const float pull = Pull(SingletJet2());
     const float reference_angle = ReferenceAngle(SingletJet2(), SingletJet1());
-    Print(Severity::debug, "Pull", pull, reference_angle, analysis::DeltaPhi(pull, reference_angle));
+    Debug("Pull", pull, reference_angle, analysis::DeltaPhi(pull, reference_angle));
     return analysis::DeltaPhi(pull, reference_angle);
 }
 
 
 float Doublet::Pull(const fastjet::PseudoJet &NewJet) const
 {
-    Print(Severity::information, "Pull");
+    Info("Pull");
     float Rap = 0;
     float Phi = 0;
     for (const auto & constituent : NewJet.constituents()) {
@@ -118,9 +100,9 @@ float Doublet::Pull(const fastjet::PseudoJet &NewJet) const
 
 std::vector<Kinematics> Doublet::Constituents() const
 {
-    Print(Severity::information, "constituents");
+    Info("constituents");
     if (SingletJet1().constituents().empty() || SingletJet2().constituents().empty()) {
-        Print(Severity::notification, "Not enough constituents", SingletJet1().constituents().size(), SingletJet2().constituents().size());
+        Note("Not enough constituents", SingletJet1().constituents().size(), SingletJet2().constituents().size());
         //         return 0;
     }
     const float Shift = 1;

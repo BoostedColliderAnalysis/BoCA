@@ -1,4 +1,5 @@
-# include "TopPartnerHiggsPairTagger.hh"
+#include "TopPartnerHiggsPairTagger.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
@@ -8,22 +9,18 @@ namespace toppartner
 
 TopPartnerHiggsPairTagger::TopPartnerHiggsPairTagger()
 {
-//         DebugLevel = Severity::detailed;
-    Print(Severity::notification, "Constructor");
-    set_tagger_name("TopPartnerHiggsPairTagger");
-    top_partner_hadronic_reader_.SetTagger(top_partner_hadronic_tagger_);
-    higgs_reader_.SetTagger(higgs_tagger_);
+    Note();
     DefineVariables();
 }
 
-int TopPartnerHiggsPairTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
+int TopPartnerHiggsPairTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const
 {
-    Print(Severity::information, "Higgs Tags");
-    std::vector< Quintet> quintets = top_partner_hadronic_reader_.Multiplets<TopPartnerSemiTagger>(event);
-    std::vector< Doublet> doublets = higgs_reader_.Multiplets<HiggsTagger>(event);
+    Info("Higgs Tags");
+    std::vector< Quintet> quintets = top_partner_hadronic_reader_.Multiplets(event);
+    std::vector< Doublet> doublets = higgs_reader_.Multiplets(event);
     std::vector< Septet > septets;
-    for (const auto quintet :  quintets) {
-        for (const auto doublet : doublets) {
+    for (const auto &quintet :  quintets) {
+        for (const auto &doublet : doublets) {
             Septet septet(quintet, doublet);
             if (septet.Overlap()) continue;
             septet.SetTag(tag);
@@ -34,13 +31,13 @@ int TopPartnerHiggsPairTagger::Train(Event &event, PreCuts &pre_cuts, const Tag 
     return SaveEntries(septets);
 }
 
-std::vector<Septet> TopPartnerHiggsPairTagger::Multiplets(analysis::Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader)
+std::vector<Septet> TopPartnerHiggsPairTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const
 {
-  std::vector< Quintet> quintets = top_partner_hadronic_reader_.Multiplets<TopPartnerSemiTagger>(event);
-  std::vector< Doublet> doublets = higgs_reader_.Multiplets<HiggsTagger>(event);
+  std::vector< Quintet> quintets = top_partner_hadronic_reader_.Multiplets(event);
+  std::vector< Doublet> doublets = higgs_reader_.Multiplets(event);
     std::vector< Septet > septets;
-    for (const auto quintet :  quintets) {
-      for (const auto doublet : doublets) {
+    for (const auto &quintet :  quintets) {
+      for (const auto &doublet : doublets) {
             Septet septet(quintet, doublet);
             if (septet.Overlap()) continue;
             septet.SetBdt(Bdt(septet,reader));

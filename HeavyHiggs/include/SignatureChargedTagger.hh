@@ -1,8 +1,8 @@
-# pragma once
+#pragma once
 
-# include "ChargedHiggsSemiTagger.hh"
-# include "TripletJetPairTagger.hh"
-# include "Octet44.hh"
+#include "ChargedHiggsSemiTagger.hh"
+#include "TripletJetPairTagger.hh"
+#include "Octet44.hh"
 
 namespace analysis
 {
@@ -20,35 +20,25 @@ class SignatureChargedTagger : public BranchTagger<OctetChargedBranch>
 
 public:
 
-    /**
-    * @brief Constructor
-    *
-    */
     SignatureChargedTagger();
 
-    int Train(Event &event, PreCuts &pre_cuts, const Tag tag);
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const final;
 
-    std::vector<Octet44> Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
+    std::vector<Octet44> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
 
-protected:
-
-    virtual  std::string NameSpaceName() const {
-        return "heavyhiggs";
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
+      return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
-    virtual  std::string ClassName() const {
-        return "SignatureChargedTagger";
+    std::string name() const final {
+      return "SignatureCharged";
     }
 
 private:
 
-    ChargedHiggsSemiTagger charged_higgs_semi_tagger_;
+    Reader<ChargedHiggsSemiTagger> charged_higgs_semi_reader_;
 
-    TripletJetPairTagger triplet_jet_pair_tagger_;
-
-    Reader charged_higgs_semi_reader_;
-
-    Reader triplet_jet_pair_reader_;
+    Reader<TripletJetPairTagger> triplet_jet_pair_reader_;
 
 
 };

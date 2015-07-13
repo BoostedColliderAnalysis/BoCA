@@ -1,8 +1,8 @@
-# pragma once
+#pragma once
 
-# include "Doublet.hh"
-# include "BottomTagger.hh"
-# include "Reader.hh"
+#include "BottomTagger.hh"
+#include "Doublet.hh"
+#include "Reader.hh"
 
 namespace analysis
 {
@@ -18,29 +18,27 @@ public:
 
     HiggsTagger();
 
-    int Train(Event &event, PreCuts &pre_cuts, const Tag tag);
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const final;
 
-    std::vector< Doublet > Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
+    std::vector< Doublet > Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
 
-    int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
         return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
+    }
+
+    std::string name() const final {
+      return "Higgs";
     }
 
 protected:
 
-    virtual  std::string ClassName() const {
-        return "HiggsTagger";
-    }
-
 private:
 
-    bool Problematic(const Doublet &doublet, PreCuts &pre_cuts, const Tag tag);
+    bool Problematic(const Doublet &doublet, PreCuts &pre_cuts, const Tag tag) const;
 
-    bool Problematic(const Doublet &doublet, PreCuts &pre_cuts);
+    bool Problematic(const Doublet &doublet, PreCuts &pre_cuts) const;
 
-    BottomTagger bottom_tagger_;
-
-    Reader bottom_reader_;
+    Reader<BottomTagger> bottom_reader_;
 
     float higgs_mass_window = 40;
 

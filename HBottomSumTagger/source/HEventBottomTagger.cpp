@@ -1,18 +1,17 @@
-# include "HEventBottomTagger.hh"
-# include "Doublet.hh"
+#include "HEventBottomTagger.hh"
+#include "Doublet.hh"
+#include "Event.hh"
+#include "Debug.hh"
 
 hbottomsumtagger::EventBottomTagger::EventBottomTagger()
 {
-    //   DebugLevel = Severity::debug;
-  Print(analysis::Severity::notification , "Constructor");
-    set_tagger_name("eventBottom");
+  Note();
     DefineVariables();
-    bottom_reader_.SetTagger(bottom_tagger_);
 }
 
 void hbottomsumtagger::EventBottomTagger::DefineVariables()
 {
-  Print(analysis::Severity::notification , "Define Variables");
+  Note("Define Variables");
     AddVariable(branch().BottomBdt1, "BottomBdt1");
     AddVariable(branch().BottomBdt2, "BottomBdt2");
     AddVariable(branch().BottomBdt3, "BottomBdt3");
@@ -28,11 +27,11 @@ void hbottomsumtagger::EventBottomTagger::DefineVariables()
     AddSpectator(branch().Tag, "Tag");
 }
 
-int hbottomsumtagger::EventBottomTagger::Train(analysis::Event &event, const analysis::Tag tag)
+int hbottomsumtagger::EventBottomTagger::Train(const analysis::Event &event, analysis::PreCuts &, const analysis::Tag tag)
 {
-  Print(analysis::Severity::information, "event Tags");
+  Info("event Tags");
 
-    analysis::Jets jets = bottom_reader_.Multiplets<analysis::BottomTagger>(event);
+    analysis::Jets jets = bottom_reader_.Multiplets(event);
 
 
 //     const int JetNumber = 2;
@@ -44,7 +43,7 @@ int hbottomsumtagger::EventBottomTagger::Train(analysis::Event &event, const ana
 //     Particles = RemoveIfWrongAbsParticle(Particles, Id::bottom);
 //     for (const auto & Particle : Particles) {
 //         std::sort(jets.begin(), jets.end(), MinDeltaR(Particle));
-//         if (jets.front().delta_R(Particle) < detector_geometry().JetConeSize)
+//         if (jets.front().delta_R(Particle) < detector_geometry().JetConeSize())
 //             BottomJets.emplace_back(jets.front());
 //     }
 //
@@ -65,7 +64,7 @@ int hbottomsumtagger::EventBottomTagger::Train(analysis::Event &event, const ana
     return 0;
 }
 
-bool hbottomsumtagger::EventBottomTagger::TruthLevelCheck(const analysis::Jets &NewJets,analysis::Event &event, const analysis::Tag Tag)
+bool hbottomsumtagger::EventBottomTagger::TruthLevelCheck(const analysis::Jets &NewJets,const analysis::Event &event, const analysis::Tag Tag)
 {
     const unsigned JetNumber = 2;
     const unsigned SignalBottomNumber = 2;
@@ -79,7 +78,7 @@ bool hbottomsumtagger::EventBottomTagger::TruthLevelCheck(const analysis::Jets &
     Particles = RemoveIfWrongAbsParticle(Particles, analysis::Id::bottom);
     for (const auto & Particle : Particles) {
         std::sort(jets.begin(), jets.end(), analysis::MinDeltaRTo(Particle));
-        if (jets.front().delta_R(Particle) < analysis::DetectorGeometry().JetConeSize)
+        if (jets.front().delta_R(Particle) < analysis::DetectorGeometry().JetConeSize())
             BottomJets.emplace_back(jets.front());
     }
 
@@ -89,10 +88,10 @@ bool hbottomsumtagger::EventBottomTagger::TruthLevelCheck(const analysis::Jets &
     return 1;
 }
 
-int hbottomsumtagger::EventBottomTagger::Multiplets(analysis::Event &event, const TMVA::Reader &)
+std::vector<analysis::EventBranch> hbottomsumtagger::EventBottomTagger::Multiplets(const analysis::Event &event, analysis::PreCuts &, const TMVA::Reader &) const
 {
-  Print(analysis::Severity::information, "event Tags");
-  analysis::Jets jets = bottom_reader_.Multiplets<analysis::BottomTagger>(event);
+  Info("event Tags");
+  analysis::Jets jets = bottom_reader_.Multiplets(event);
     std::vector<analysis::EventBranch> eventMultiplets;
 
     analysis::EventBranch eventMultiplet;
@@ -100,5 +99,5 @@ int hbottomsumtagger::EventBottomTagger::Multiplets(analysis::Event &event, cons
 //     eventMultiplet.SetBdt(Bdt(eventMultiplet,reader));
     eventMultiplets.emplace_back(eventMultiplet);
 //     return ReduceResult(eventMultiplets);
-    return 0;
+    return eventMultiplets;
 }

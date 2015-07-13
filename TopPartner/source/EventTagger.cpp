@@ -1,4 +1,5 @@
-# include "../include/EventTagger.hh"
+#include "../include/EventTagger.hh"
+#include "Debug.hh"
 
 namespace analysis {
 
@@ -7,22 +8,18 @@ namespace toppartner
 
 EventTagger::EventTagger()
 {
-    Print(Severity::notification , "Constructor");
-//     debug_level_ = Severity::debug;
-    set_tagger_name("Event");
-    signature_reader_.SetTagger(signature_tagger_);
-    bottom_reader_.SetTagger(bottom_tagger_);
+    Note();
     DefineVariables();
 }
 
-int EventTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
+int EventTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const
 {
-  Print(Severity::information, "Train");
-    Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
-    std::vector<Quattuordecuplet> octets = signature_reader_.Multiplets<SignatureTagger>(event);
-    Print(Severity::information, "Octets", octets.size());
+  Info("Train");
+    Jets jets = bottom_reader_.Multiplets(event);
+    std::vector<Quattuordecuplet> octets = signature_reader_.Multiplets(event);
+    Info("Octets", octets.size());
     std::vector< MultipletEvent< Quattuordecuplet > > multipletevents;
-    for (const auto octet : octets) {
+    for (const auto &octet : octets) {
         MultipletEvent< Quattuordecuplet > multipletevent(octet, event, jets);
         multipletevent.SetTag(tag);
         multipletevents.emplace_back(multipletevent);
@@ -30,13 +27,13 @@ int EventTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
     return SaveEntries(ReduceResult(multipletevents, 1));
 }
 
-std::vector< MultipletEvent< Quattuordecuplet > > EventTagger::Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
+std::vector< MultipletEvent< Quattuordecuplet > > EventTagger::Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const
 {
-  Print(Severity::information, "Multiplets");
-    Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
-    std::vector<Quattuordecuplet> octets = signature_reader_.Multiplets<SignatureTagger>(event);
+  Info("Multiplets");
+    Jets jets = bottom_reader_.Multiplets(event);
+    std::vector<Quattuordecuplet> octets = signature_reader_.Multiplets(event);
     std::vector< MultipletEvent< Quattuordecuplet > > multiplet_events;
-    for (const auto octet : octets) {
+    for (const auto &octet : octets) {
         MultipletEvent< Quattuordecuplet > multiplet_event(octet, event,jets);
         multiplet_event.SetBdt(Bdt(multiplet_event,reader));
         multiplet_events.emplace_back(multiplet_event);

@@ -1,6 +1,8 @@
-# pragma once
+#pragma once
 
-# include "Singlet.hh"
+#include "Singlet.hh"
+#include "DetectorGeometry.hh"
+#include "Predicate.hh"
 
 namespace analysis
 {
@@ -62,23 +64,27 @@ public:
         return multiplet_1_.Overlap(multiplet_2_);
     }
 
-    bool Coincides(const fastjet::PseudoJet &jet)const {
-        return (Jet().delta_R(jet) < DetectorGeometry().JetConeSize);
+    bool Coincides(const fastjet::PseudoJet &jet) const {
+        return (Jet().delta_R(jet) < DetectorGeometry().JetConeSize());
     }
 
     // TODO clean this mess up; and figure out why the cases are necessary
-    fastjet::PseudoJet ConstituentJet() const {
-        fastjet::PseudoJet jet_1 = Multiplet1().ConstituentJet();
-        fastjet::PseudoJet jet_2 = Multiplet2().ConstituentJet();
-        fastjet::PseudoJet jet;
-        if(jet_1.has_constituents() && jet_2.has_constituents()) jet = fastjet::join(Join(jet_1.constituents(), jet_2.constituents()));
-        else if(jet_1.has_constituents()) jet = fastjet::join(jet_1.constituents());
-        else if(jet_2.has_constituents()) jet = fastjet::join(jet_2.constituents());
+    fastjet::PseudoJet EffectiveJet() const {
+        fastjet::PseudoJet jet = Jet();
+        fastjet::PseudoJet jet_1 = Multiplet1().EffectiveJet();
+        fastjet::PseudoJet jet_2 = Multiplet2().EffectiveJet();
         if (jet_1.has_user_info<JetInfo>() && jet_2.has_user_info<JetInfo>())
-        jet.set_user_info(new JetInfo(Join(jet_1.user_info<JetInfo>().constituents(), jet_2.user_info<JetInfo>().constituents())));
-        else if (jet_1.has_user_info<JetInfo>()) jet.set_user_info(new JetInfo(jet_1.user_info<JetInfo>().constituents()));
-        else if (jet_2.has_user_info<JetInfo>()) jet.set_user_info(new JetInfo(jet_2.user_info<JetInfo>().constituents()));
-        else jet.set_user_info(new JetInfo);
+            jet.set_user_info(new JetInfo(Join(jet_1.user_info<JetInfo>().constituents(), jet_2.user_info<JetInfo>().constituents()), Join(jet_1.user_info<JetInfo>().displaced_constituents(), jet_2.user_info<JetInfo>().displaced_constituents())));
+        else if (jet_1.has_user_info<JetInfo>()) jet.set_user_info(new JetInfo(jet_1.user_info<JetInfo>().constituents(), jet_1.user_info<JetInfo>().displaced_constituents()));
+        else if (jet_2.has_user_info<JetInfo>()) jet.set_user_info(new JetInfo(jet_2.user_info<JetInfo>().constituents(), jet_2.user_info<JetInfo>().displaced_constituents()));
+//         if(jet_1.has_constituents() && jet_2.has_constituents()) jet = fastjet::join(Join(jet_1.constituents(), jet_2.constituents()));
+//         else if(jet_1.has_constituents()) jet = fastjet::join(jet_1.constituents());
+//         else if(jet_2.has_constituents()) jet = fastjet::join(jet_2.constituents());
+//         if (jet_1.has_user_info<JetInfo>() && jet_2.has_user_info<JetInfo>())
+//         jet.set_user_info(new JetInfo(Join(jet_1.user_info<JetInfo>().constituents(), jet_2.user_info<JetInfo>().constituents())));
+//         else if (jet_1.has_user_info<JetInfo>()) jet.set_user_info(new JetInfo(jet_1.user_info<JetInfo>().constituents()));
+//         else if (jet_2.has_user_info<JetInfo>()) jet.set_user_info(new JetInfo(jet_2.user_info<JetInfo>().constituents()));
+//         else jet.set_user_info(new JetInfo);
         return jet;
     }
 
@@ -107,7 +113,7 @@ public:
     float DeltaR() const {
         float delta_r = Multiplet1().Jet().delta_R(Multiplet2().Jet());
         if (std::abs(delta_r) > 100) delta_r = 0;
-//         if (delta_r < DetectorGeometry().MinCellResolution) delta_r = Singlet(Jet()).DeltaR();
+//         if (delta_r < DetectorGeometry().MinCellResolution()) delta_r = Singlet(Jet()).DeltaR();
         return delta_r;
     }
 
@@ -120,7 +126,7 @@ public:
     }
 
     float Rho() const {
-        if (Jet().pt() < DetectorGeometry().MinCellPt || DeltaR() < DetectorGeometry().MinCellResolution) return 0;
+        if (Jet().pt() < DetectorGeometry().MinCellPt() || DeltaR() < DetectorGeometry().MinCellResolution()) return 0;
         return Jet().m() / Jet().pt() / DeltaR() * 2;
     }
 
@@ -133,7 +139,7 @@ public:
     }
 
     analysis::Singlet singlet() const {
-        return Singlet(ConstituentJet());
+        return Singlet(EffectiveJet());
     }
 
 //     bool IsEmpty() const {
@@ -141,10 +147,6 @@ public:
 //     }
 
 protected:
-
-    virtual  std::string ClassName() const {
-        return "Multiplet";
-    }
 
     void SetMultiplet1(const Multiplet_1 multiplet_1) {
         multiplet_1_ = multiplet_1;

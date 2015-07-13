@@ -1,4 +1,4 @@
-# include "Branch.hh"
+#include "Branch.hh"
 
 
 ClassImp(analysis::heavyhiggs::HeavyHiggsLeptonicBranch)
@@ -94,6 +94,30 @@ analysis::heavyhiggs::HeavyHiggsTauBranch::HeavyHiggsTauBranch()
 ClassImp(analysis::heavyhiggs::EventNeutralBranch)
 
 analysis::heavyhiggs::EventNeutralBranch::EventNeutralBranch()
+{
+    HiggsMass = InitialValue();
+    HiggsBdt = InitialValue();
+    SignatureBdt = InitialValue();
+    BottomBdt = InitialValue();
+    PairBottomBdt = InitialValue();
+    HardTopPt = InitialValue();
+    SoftTopPt = InitialValue();
+    BottomBdt1 = InitialValue();
+    BottomBdt2 = InitialValue();
+    BottomBdt3 = InitialValue();
+    BottomBdt4 = InitialValue();
+    BottomBdt5 = InitialValue();
+    BottomBdt6 = InitialValue();
+    BottomBdt7 = InitialValue();
+    BottomBdt8 = InitialValue();
+    BottomBdt12 = InitialValue();
+    BottomBdt34 = InitialValue();
+    BottomBdt56 = InitialValue();
+    BottomBdt78 = InitialValue();
+}
+ClassImp(analysis::heavyhiggs::EventNeutralFourTopBranch)
+
+analysis::heavyhiggs::EventNeutralFourTopBranch::EventNeutralFourTopBranch()
 {
     HiggsMass = InitialValue();
     HiggsBdt = InitialValue();

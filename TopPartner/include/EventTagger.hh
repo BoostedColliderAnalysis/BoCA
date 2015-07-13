@@ -1,7 +1,7 @@
-# pragma once
+#pragma once
 
-# include "SignatureTagger.hh"
-# include "MultipletEvent.hh"
+#include "SignatureTagger.hh"
+#include "MultipletEvent.hh"
 
 namespace analysis {
 
@@ -18,44 +18,30 @@ class EventTagger : public BranchTagger<EventBranch>
 
 public:
 
-    /**
-    * @brief Constructor
-    *
-    */
     EventTagger();
 
-    int Train(Event &event,PreCuts &pre_cuts, const Tag tag);
+    int Train(const Event &event,PreCuts &pre_cuts, const Tag tag) const;
 
-    std::vector<MultipletEvent<Quattuordecuplet>> Multiplets(Event &event,PreCuts &pre_cuts, const TMVA::Reader &reader);
+    std::vector<MultipletEvent<Quattuordecuplet>> Multiplets(const Event &event,PreCuts &pre_cuts, const TMVA::Reader &reader) const;
 
-    int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
       return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
-    auto Multiplets(Event &event, const TMVA::Reader &reader) {
+    auto Multiplets(const Event &event, const TMVA::Reader &reader) {
       PreCuts pre_cuts;
       return Multiplets(event, pre_cuts, reader);
     }
 
-protected:
-
-    virtual  std::string NameSpaceName() const {
-      return "toppartner";
-    }
-
-    virtual  std::string ClassName() const {
-      return "EventTagger";
+    std::string name() const final {
+      return "Event";
     }
 
 private:
 
-    SignatureTagger signature_tagger_;
+    Reader<SignatureTagger> signature_reader_;
 
-    Reader signature_reader_;
-
-    BottomTagger bottom_tagger_;
-
-    Reader bottom_reader_;
+    Reader<BottomTagger> bottom_reader_;
 
 };
 

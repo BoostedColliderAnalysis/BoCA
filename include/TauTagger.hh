@@ -1,7 +1,7 @@
-# pragma once
+#pragma once
 
-# include "BranchTagger.hh"
-# include "Branches.hh"
+#include "BranchTagger.hh"
+#include "Branches.hh"
 
 namespace analysis
 {
@@ -17,21 +17,21 @@ public:
 
     TauTagger();
 
-    int Train(analysis::Event &event, PreCuts &pre_cuts, const analysis::Tag tag);
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const final;
 
-    Jets Multiplets(analysis::Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
+    Jets Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
 
-protected:
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
+      return SaveEntries(Multiplets(event, pre_cuts, reader));
+    }
 
-    virtual  std::string ClassName() const {
-        return "TauTagger";
+    std::string name() const final {
+      return "Tau";
     }
 
 private:
 
-    void DefineVariables();
-
-    Jets CleanJets(Jets &jets, const Jets &Particles, const analysis::Tag Tag);
+    Jets CleanJets(analysis::Jets &jets, const analysis::Jets &Particles, const analysis::Tag tag) const;
 
 };
 

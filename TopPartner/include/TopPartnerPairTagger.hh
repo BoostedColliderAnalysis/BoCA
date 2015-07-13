@@ -1,9 +1,9 @@
-# pragma once
+#pragma once
 
-# include "Decuplet.hh"
-# include "TopPartnerHadronicTagger.hh"
-# include "TopPartnerSemiTagger.hh"
-# include "BranchesTopPartner.hh"
+#include "TopPartnerHadronicTagger.hh"
+#include "TopPartnerSemiTagger.hh"
+#include "BranchesTopPartner.hh"
+#include "Decuplet.hh"
 
 namespace analysis
 {
@@ -22,25 +22,23 @@ public:
 
     TopPartnerPairTagger();
 
-    int Train(Event &event, PreCuts &pre_cuts, const Tag tag);
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const final;
 
-    std::vector<Decuplet55> Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
+    std::vector<Decuplet55> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
 
-protected:
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
+      return SaveEntries(Multiplets(event, pre_cuts, reader));
+    }
 
-    virtual  std::string ClassName() const {
-        return "TopPartnerPairTagger";
+    std::string name() const final {
+      return "TopPartnerPair";
     }
 
 private:
 
-    TopPartnerHadronicTagger top_partner_hadronic_tagger_;
+    Reader<TopPartnerHadronicTagger> top_partner_hadronic_reader_;
 
-    TopPartnerSemiTagger top_partner_semi_tagger_;
-
-    Reader top_partner_hadronic_reader_;
-
-    Reader top_partner_semi_reader_;
+    Reader<TopPartnerSemiTagger> top_partner_semi_reader_;
 };
 
 }

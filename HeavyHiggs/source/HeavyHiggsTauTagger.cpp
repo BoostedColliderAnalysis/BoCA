@@ -1,4 +1,6 @@
-# include "HeavyHiggsTauTagger.hh"
+#include "HeavyHiggsTauTagger.hh"
+#include "Event.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
@@ -8,32 +10,29 @@ namespace heavyhiggs
 
 HeavyHiggsTauTagger::HeavyHiggsTauTagger()
 {
-//     DebugLevel = Severity::debug;
-    Print(Severity::notification, "Constructor");
-    set_tagger_name("HeavyHiggsTau");
-    tau_reader_.SetTagger(tau_tagger_);
+    Note();
     DefineVariables();
 }
 
-int HeavyHiggsTauTagger::Train(Event &event, const Tag tag)
+int HeavyHiggsTauTagger::Train(const Event &event, const Tag tag)
 {
 
-    Print(Severity::information, "Top Tags");
+    Info("Top Tags");
 
-    Jets jets = tau_reader_.Multiplets<TauTagger>(event);
-    Print(Severity::information, "Number Jet", jets.size());
+    Jets jets = tau_reader_.Multiplets(event);
+    Info("Number Jet", jets.size());
 
     const fastjet::PseudoJet MissingEt = event.Hadrons().MissingEt();
 
     Jets TauParticles = event.Partons().GenParticles();
     TauParticles = RemoveIfWrongAbsParticle(TauParticles, Id::tau);
 //     TauParticles.erase(std::remove_if(TauParticles.begin(), TauParticles.end(), WrongAbsId(Id::tau)), TauParticles.end());
-    if (TauParticles.size() != 1) Print(Severity::error, "Where is the Tau?", TauParticles.size());
+    Check(TauParticles.size() == 1, TauParticles.size());
 
     Jets HiggsParticles = event.Partons().GenParticles();
     HiggsParticles = RemoveIfWrongAbsParticle(HiggsParticles, Id::charged_higgs);
 //     HiggsParticles.erase(std::remove_if(HiggsParticles.begin(), HiggsParticles.end(), WrongAbsId(Id::charged_higgs)), HiggsParticles.end());
-    if (HiggsParticles.size() != 1) Print(Severity::error, "Where is the Higgs?", HiggsParticles.size());
+    Check(HiggsParticles.size() == 1, HiggsParticles.size());
 
     for (const auto & Particle : TauParticles) {
         std::sort(jets.begin(), jets.end(), MinDeltaRTo(Particle));
@@ -59,15 +58,15 @@ int HeavyHiggsTauTagger::Train(Event &event, const Tag tag)
         doublets.emplace_back(Predoublet);
 //         }
     }
-    Print(Severity::information, "Number doublets", doublets.size());
+    Info("Number doublets", doublets.size());
     return SaveEntries(doublets);
 }
 
-std::vector<Doublet>  HeavyHiggsTauTagger::Multiplets(Event &event, const TMVA::Reader &reader)
+std::vector<Doublet>  HeavyHiggsTauTagger::Multiplets(const Event &event, const TMVA::Reader &reader) const
 {
-    Print(Severity::information, "Multiplets");
-    Jets jets = tau_reader_.Multiplets<TauTagger>(event);
-    Print(Severity::information, "Number Jet", jets.size());
+    Info("Multiplets");
+    Jets jets = tau_reader_.Multiplets(event);
+    Info("Number Jet", jets.size());
     const fastjet::PseudoJet missing_et = event.Hadrons().MissingEt();
     std::vector<Doublet> doublets;
     for (const auto & jet : jets)  {

@@ -1,4 +1,5 @@
-# include "EventChargedTagger.hh"
+#include "EventChargedTagger.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
@@ -7,21 +8,17 @@ namespace heavyhiggs {
 
 EventChargedTagger::EventChargedTagger()
 {
-//       DebugLevel = Severity::debug;
-    Print(Severity::information , "Constructor");
-    set_tagger_name("ChargedeventSemi");
-    bottom_reader_.SetTagger(bottom_tagger_);
-    signature_semi_reader_.SetTagger(signature_semi_tagger_);
+    Info();
     DefineVariables();
 }
 
-int EventChargedTagger::Train(Event &event, const Tag tag)
+int EventChargedTagger::Train(const analysis::Event &event, analysis::PreCuts &pre_cuts, const analysis::Tag tag) const
 {
-    Print(Severity::information, "event Tags");
+    Info("event Tags");
 
-    Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
+    Jets jets = bottom_reader_.Multiplets(event);
     Jets Leptons = event.Leptons().leptons();
-    std::vector<Octet44> octets = signature_semi_reader_.Multiplets<SignatureChargedTagger>(event);
+    std::vector<Octet44> octets = signature_semi_reader_.Multiplets(event);
 
     std::vector<MultipletEvent<Octet44>> events;
     for (const auto & octet : octets) {
@@ -33,11 +30,11 @@ int EventChargedTagger::Train(Event &event, const Tag tag)
 }
 
 
-std::vector<MultipletEvent<Octet44>> EventChargedTagger::Multiplets(Event &event, const TMVA::Reader &reader)
+std::vector<MultipletEvent<Octet44>> EventChargedTagger::Multiplets(const Event &event, const TMVA::Reader &reader) const
 {
-  Print(Severity::information, "event Tags");
-  Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
-    std::vector<Octet44> octets = signature_semi_reader_.Multiplets<SignatureChargedTagger>(event);
+  Info("event Tags");
+  Jets jets = bottom_reader_.Multiplets(event);
+    std::vector<Octet44> octets = signature_semi_reader_.Multiplets(event);
     std::vector<MultipletEvent<Octet44>> multiplet_events;
     for (auto & octet : octets) {
         MultipletEvent<Octet44> multiplet_event(octet, event,jets);

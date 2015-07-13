@@ -1,4 +1,5 @@
-# include "../include/EventTagger.hh"
+#include "../include/EventTagger.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
@@ -8,22 +9,18 @@ namespace higgscpv
 
 EventTagger::EventTagger()
 {
-    Print(Severity::notification , "Constructor");
-//     debug_level_ = Severity::debug;
-    set_tagger_name("Event");
-    signature_reader_.SetTagger(signature_tagger_);
-    bottom_reader_.SetTagger(bottom_tagger_);
+    Note();
     DefineVariables();
 }
 
-int EventTagger::Train(Event &event, PreCuts &, const Tag tag)
+int EventTagger::Train(const analysis::Event &event, analysis::PreCuts &, const analysis::Tag tag) const
 {
-  Print(Severity::information, "Train");
-    Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
-    std::vector<Octet62> octets = signature_reader_.Multiplets<SignatureTagger>(event);
-    Print(Severity::information, "Octets", octets.size());
+  Info("Train");
+    Jets jets = bottom_reader_.Multiplets(event);
+    std::vector<Octet62> octets = signature_reader_.Multiplets(event);
+    Info("Octets", octets.size());
     std::vector< MultipletEvent< Octet62 > > multipletevents;
-    for (const auto octet : octets) {
+    for (const auto &octet : octets) {
         MultipletEvent< Octet62 > multipletevent(octet, event, jets);
         multipletevent.SetTag(tag);
         multipletevents.emplace_back(multipletevent);
@@ -31,13 +28,13 @@ int EventTagger::Train(Event &event, PreCuts &, const Tag tag)
     return SaveEntries(ReduceResult(multipletevents, 1));
 }
 
-std::vector< MultipletEvent< Octet62 > > EventTagger::Multiplets(Event &event, PreCuts &, const TMVA::Reader &reader)
+std::vector< MultipletEvent< Octet62 > > EventTagger::Multiplets(const Event &event, PreCuts &, const TMVA::Reader &reader) const
 {
-  Print(Severity::information, "Multiplets");
-    Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
-    std::vector<Octet62> octets = signature_reader_.Multiplets<SignatureTagger>(event);
+  Info("Multiplets");
+    Jets jets = bottom_reader_.Multiplets(event);
+    std::vector<Octet62> octets = signature_reader_.Multiplets(event);
     std::vector< MultipletEvent< Octet62 > > multiplet_events;
-    for (const auto octet : octets) {
+    for (const auto &octet : octets) {
         MultipletEvent< Octet62 > multiplet_event(octet, event,jets);
         multiplet_event.SetBdt(Bdt(multiplet_event,reader));
         multiplet_events.emplace_back(multiplet_event);

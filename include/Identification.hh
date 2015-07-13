@@ -1,6 +1,6 @@
-# pragma once
+#pragma once
 
-# include "Object.hh"
+#include <string>
 
 namespace analysis
 {
@@ -14,7 +14,7 @@ enum class Tag
 
 std::string Name(const Tag tag);
 
-class Identification : public Object
+class Identification
 {
 
 public:
@@ -59,16 +59,16 @@ public:
         return -11.1111111; // this must be identical to the initial value in the branch
     }
 
-    template<typename Multiplet>
-    bool operator < (const Multiplet &multiplet) const {
-        // largest bdt in front
-        return (Bdt() > multiplet.Bdt());
-    }
+//     template<typename Multiplet>
+//     bool operator < (const Multiplet &multiplet) const {
+//         // largest bdt in front
+//         return (Bdt() > multiplet.Bdt());
+//     }
 
-protected:
-
-    virtual  std::string ClassName() const {
-        return "Identification";
+//     template<typename Multiplet>
+bool operator < (const Identification &multiplet) const {
+      // largest bdt in front
+      return (Bdt() > multiplet.Bdt());
     }
 
 private:

@@ -1,3 +1,4 @@
+HInclude(../../include/exroot)
 set(EventExRootSources
 Partons.cpp
 Leptons.cpp

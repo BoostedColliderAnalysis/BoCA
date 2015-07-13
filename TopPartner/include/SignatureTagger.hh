@@ -1,8 +1,8 @@
-# pragma once
+#pragma once
 
-# include "Quattuordecuplet.hh"
-# include "TopPartnerPairTagger.hh"
-# include "HiggsPairTagger.hh"
+#include "TopPartnerPairTagger.hh"
+#include "HiggsPairTagger.hh"
+#include "Quattuordecuplet.hh"
 
 namespace analysis
 {
@@ -21,25 +21,23 @@ public:
 
     SignatureTagger();
 
-    int Train(Event &event, PreCuts &pre_cuts, const Tag tag);
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const final;
 
-    std::vector<Quattuordecuplet> Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
+    std::vector<Quattuordecuplet> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
 
-protected:
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
+      return SaveEntries(Multiplets(event, pre_cuts, reader));
+    }
 
-    virtual  std::string ClassName() const {
-      return "SignatureTagger";
+    std::string name() const final {
+      return "Signature";
     }
 
 private:
 
-    TopPartnerPairTagger top_partner_pair_tagger_;
+    Reader<TopPartnerPairTagger> top_partner_pair_reader_;
 
-    HiggsPairTagger higgs_pair_tagger;
-
-    Reader top_partner_pair_reader_;
-
-    Reader higgs_pair_reader_;
+    Reader<HiggsPairTagger> higgs_pair_reader_;
 };
 
 }

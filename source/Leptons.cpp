@@ -1,28 +1,23 @@
-# include "Leptons.hh"
-# include "Predicate.hh"
+#include "Leptons.hh"
+#include "Predicate.hh"
+#include "Debug.hh"
 
 namespace analysis {
 
-Leptons::Leptons()
-{
-//   DebugLevel=Severity::debug;
-    Print(Severity::notification, "Constructor");
-}
-
 Leptons::~Leptons()
 {
-    Print(Severity::notification, "Destructor");
+    Note();
 }
 
 void Leptons::NewEvent(const ClonesArrays &clones_arrays)
 {
-    Print(Severity::information, "New event");
+    Info();
     FourVector::NewEvent(clones_arrays);
 }
 
-Jets Leptons::leptons()
+Jets Leptons::leptons() const
 {
-    Print(Severity::information, "Lepton Jets");
+    Info();
     return Join(Electrons(), Muons());
 }
 

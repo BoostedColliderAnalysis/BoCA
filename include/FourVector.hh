@@ -1,7 +1,9 @@
-# pragma once
+#pragma once
 
-# include "ClonesArrays.hh"
-# include "JetTag.hh"
+#include <iomanip>
+#include <iostream>
+#include "ClonesArrays.hh"
+#include "JetTag.hh"
 
 namespace analysis
 {
@@ -14,11 +16,19 @@ enum class Status
     generator = 3
 };
 
+
+enum class JetDetail
+{
+    plain, tagging, isolation, structure, tagging_isolation, tagging_structure
+};
+
+std::string Name(const JetDetail jet_detail);
+
 /**
  * @brief converts Clones to LorentzVectors and fastjet::PseudoJets
  *
  */
-class FourVector : virtual public Object
+class FourVector
 {
 
 public:
@@ -28,77 +38,76 @@ public:
      *
      */
     FourVector();
-    enum JetDetail {kPlain, kTagging, kIsolation, kStructure, kTaggingIsolation, kTaggingStructure};
 
 protected:
 
     void NewEvent(const ClonesArrays &clones_arrays);
 
     template<typename Particle>
-    TLorentzVector LorentzVectorByEnergy(const Particle &particle) const {
-        Print(Severity::debug, "Lorentz Vector by Energy");
-        TLorentzVector vector;
+    analysis::LorentzVector LorentzVectorByEnergy(const Particle &particle) const {
+//         Debug("Lorentz Vector by Energy");
+        analysis::LorentzVector vector;
         const float Pt = particle.PT;
         const float Eta = particle.Eta;
         const float Phi = particle.Phi;
         const float Energy = particle.E;
         vector.SetPtEtaPhiE(Pt, Eta, Phi, Energy);
-        if (check_four_vectors_) {
-            if (vector.Pt() - Pt > check_value_) Print(Severity::error, "Pt", Pt, vector.Pt());
-            if (vector.Eta() - Eta > check_value_) Print(Severity::error, "Eta", Eta, vector.Eta());
-            if (vector.Phi() - Phi > check_value_) Print(Severity::error, "Phi", Phi, vector.Phi());
-            if (vector.E() - Energy > check_value_) Print(Severity::error, "Energy", Energy, vector.E());
-        }
+//         if (check_four_vectors_) {
+//             if (vector.Pt() - Pt > check_value_) Error(Pt, vector.Pt());
+//             if (vector.Eta() - Eta > check_value_) Error(Eta, vector.Eta());
+//             if (vector.Phi() - Phi > check_value_) Error(Phi, vector.Phi());
+//             if (vector.E() - Energy > check_value_) Error(Energy, vector.E());
+//         }
         return vector;
     }
 
     template<typename Particle>
-    TLorentzVector LorentzVectorByMass(const Particle &particle, const float mass) const {
-        Print(Severity::debug, "Lorentz Vector by Mass");
-        TLorentzVector LorentzVector;
+    analysis::LorentzVector LorentzVectorByMass(const Particle &particle, const float mass) const {
+//         Debug("Lorentz Vector by Mass");
+        analysis::LorentzVector LorentzVector;
         const float Pt = particle.PT;
         const float Eta = particle.Eta;
         const float Phi = particle.Phi;
         LorentzVector.SetPtEtaPhiM(Pt, Eta, Phi, mass);
-        if (check_four_vectors_) {
-            if (LorentzVector.Pt() - Pt > check_value_) Print(Severity::error, "Pt", Pt, LorentzVector.Pt());
-            if (LorentzVector.Eta() - Eta > check_value_) Print(Severity::error, "Eta", Eta, LorentzVector.Eta());
-            if (LorentzVector.Phi() - Phi > check_value_) Print(Severity::error, "Phi", Phi, LorentzVector.Phi());
-        }
+// //         if (check_four_vectors_) {
+// //             if (LorentzVector.Pt() - Pt > check_value_) Error(Pt, LorentzVector.Pt());
+// //             if (LorentzVector.Eta() - Eta > check_value_) Error(Eta, LorentzVector.Eta());
+// //             if (LorentzVector.Phi() - Phi > check_value_) Error(Phi, LorentzVector.Phi());
+// //         }
         return LorentzVector;
     }
 
     template<typename Particle>
-    TLorentzVector LorentzVectorByMass(const Particle &particle) const {
-        Print(Severity::debug, "Lorentz Vector by Mass");
+    analysis::LorentzVector LorentzVectorByMass(const Particle &particle) const {
+//         Debug("Lorentz Vector by Mass");
         const float Mass = particle.Mass;
-        const TLorentzVector LorentzVector = LorentzVectorByMass(particle, Mass);
+        const analysis::LorentzVector LorentzVector = LorentzVectorByMass(particle, Mass);
         if (check_four_vectors_) {
-            if (LorentzVector.M() - Mass > mass_check_value_) Print(Severity::error, "Mass", Mass, LorentzVector.M());
+//             if (LorentzVector.M() - Mass > mass_check_value_) Error(Mass, LorentzVector.M());
         }
         return LorentzVector;
     }
 
     template<typename Particle>
-    TLorentzVector LorentzVectorByM(const Particle &particle) const {
-        Print(Severity::debug, "Lorentz Vector by Mass");
+    analysis::LorentzVector LorentzVectorByM(const Particle &particle) const {
+//         Debug("Lorentz Vector by Mass");
         const float Mass = particle.M;
-        const TLorentzVector LorentzVector = LorentzVectorByMass(particle, Mass);
+        const analysis::LorentzVector LorentzVector = LorentzVectorByMass(particle, Mass);
         if (check_four_vectors_) {
-            if (LorentzVector.M() - Mass > mass_check_value_) Print(Severity::error, "Mass", Mass, LorentzVector.M());
+//             if (LorentzVector.M() - Mass > mass_check_value_) Error(Mass, LorentzVector.M());
         }
         return LorentzVector;
     }
-//     TLorentzVector LorentzVector(const MissingET *const Particle) const;
+//     analysis::LorentzVector LorentzVector(const MissingET *const Particle) const;
 
-    TLorentzVector LorentzVector(const exroot::Electron &Particle) const;
-    TLorentzVector LorentzVector(const exroot::GenJet &Particle) const;
-    TLorentzVector LorentzVector(const exroot::GenParticle &Particle) const;
-    TLorentzVector LorentzVector(const exroot::Jet &Particle) const;
-    TLorentzVector LorentzVector(const exroot::LHEFParticle &Particle) const;
-    TLorentzVector LorentzVector(const exroot::Muon &Particle) const;
-    TLorentzVector LorentzVector(const exroot::Photon &Particle) const;
-    TLorentzVector LorentzVector(const exroot::Tau &Particle) const;
+    analysis::LorentzVector LorentzVector(const exroot::Electron &Particle) const;
+    analysis::LorentzVector LorentzVector(const exroot::GenJet &Particle) const;
+    analysis::LorentzVector LorentzVector(const exroot::GenParticle &Particle) const;
+    analysis::LorentzVector LorentzVector(const exroot::Jet &Particle) const;
+    analysis::LorentzVector LorentzVector(const exroot::LHEFParticle &Particle) const;
+    analysis::LorentzVector LorentzVector(const exroot::Muon &Particle) const;
+    analysis::LorentzVector LorentzVector(const exroot::Photon &Particle) const;
+    analysis::LorentzVector LorentzVector(const exroot::Tau &Particle) const;
     fastjet::PseudoJet PseudoJet(const exroot::Electron &Particle) const;
     fastjet::PseudoJet PseudoJet(const exroot::GenJet &Particle) const;
     fastjet::PseudoJet PseudoJet(const exroot::GenParticle &Particle) const;
@@ -108,14 +117,14 @@ protected:
     fastjet::PseudoJet PseudoJet(const exroot::Photon &Particle) const;
     fastjet::PseudoJet PseudoJet(const exroot::Tau &Particle) const;
 
-    Family BranchFamily(const TObject &object);
+    Family BranchFamily(const TObject &object) const;
 
-    Family BranchFamily(Family &BranchId, int Position);
+    Family BranchFamily(Family &BranchId, int Position) const;
 //     fastjet::PseudoJet PseudoJet(const MissingET & Particle) const;
 
-    template<typename TData>
-    void PrintCell(TData const Data) const {
-        std::cout << std::right << std::setw(9) << std::setfill(' ') << Data;
+    template<typename Data>
+    void PrintCell(Data const data) const {
+        std::cout << std::right << std::setw(9) << std::setfill(' ') << data;
     }
 
     void PrintTruthLevel(const Severity severity) const;
@@ -132,11 +141,11 @@ protected:
      */
     const ClonesArrays *clones_arrays_;
 
-    std::vector<Family> topology_;
+//     std::vector<Family> topology_;
 
     int source_;
 
-    JetTag &jet_tag()const {
+    JetTag &jet_tag() const {
         return *jet_tag_;
     }
 
@@ -144,17 +153,11 @@ protected:
         jet_tag_ = &jet_tag;
     }
 
-
-
     const bool check_four_vectors_;
 
     const float check_value_;
 
     const float mass_check_value_;
-
-    virtual  std::string ClassName() const {
-        return "FourVector";
-    }
 
 private:
 

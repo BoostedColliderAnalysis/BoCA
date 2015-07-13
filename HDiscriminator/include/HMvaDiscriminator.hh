@@ -1,8 +1,15 @@
-# pragma once
+#pragma once
 
 
-# include "Tagger.hh"
-# include "HBranchDiscriminator.hh"
+#include "Tagger.hh"
+#include "TFile.h"
+#include "HBranchDiscriminator.hh"
+
+class ExRootTreeReader;
+namespace exroot
+{
+  typedef ::ExRootTreeReader TreeReader;
+}
 
 
 namespace hcpvhiggs
@@ -50,10 +57,6 @@ private:
     }
 
     void DefineVariables();
-
-    virtual  std::string ClassName() const {
-        return "HiggsCPV: HMva";
-    }
 
 };
 

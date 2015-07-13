@@ -1,6 +1,6 @@
-# pragma once
+#pragma once
 
-# include "Object.hh"
+#include "Global.hh"
 
 namespace analysis {
 
@@ -16,7 +16,7 @@ struct Momentum {
  * @brief subjet and constituent calculations
  *
  */
-class SubStructure : public Object
+class SubStructure
 {
 
 public:
@@ -27,7 +27,7 @@ public:
 
     bool GetSubJets(const fastjet::PseudoJet &);
 
-    std::vector< TLorentzVector > Getconstituents(const fastjet::PseudoJet &CandidateJet);
+    Vectors Getconstituents(const fastjet::PseudoJet &CandidateJet);
 
     bool GetIsolation(const fastjet::PseudoJet& CandidateJet, const Jets& LeptonJets);
 
@@ -69,9 +69,7 @@ public:
         return Global.Phi;
     }
 
-     float GetconstituentDeltaR() const {
-        return Length(Global.Rap, Global.Phi);
-    }
+     float GetconstituentDeltaR() const;
 
      float GetconstituentAngle() const {
         return atan2(Global.Phi, Global.Rap);
@@ -105,12 +103,6 @@ public:
         return DeltaR;
     }
 
-protected:
-
-  virtual  std::string ClassName() const {
-    return "SubStructure";
-  }
-
 private:
 
     float Asymmetry;
@@ -131,9 +123,7 @@ private:
         return (2 * Shift);
     }
 
-     float GetPosDistance() const {
-        return Length(GetPosition2Rap(), 0);
-    }
+     float GetPosDistance() const;
 
     float SubJetRatio;
 

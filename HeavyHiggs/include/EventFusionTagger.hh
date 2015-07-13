@@ -1,7 +1,7 @@
-# pragma once
+#pragma once
 
-# include "HeavyHiggsSemiTagger.hh"
-# include "MultipletEvent.hh"
+#include "HeavyHiggsSemiTagger.hh"
+#include "MultipletEvent.hh"
 
 namespace analysis
 {
@@ -19,35 +19,25 @@ class EventFusionTagger : public BranchTagger<EventFusionBranch>
 
 public:
 
-    /**
-    * @brief Constructor
-    *
-    */
     EventFusionTagger();
 
-    int Train(Event &event, const Tag tag);
+    int Train(const Event &event,PreCuts &pre_cuts, const Tag tag) const;
 
-    std::vector< MultipletEvent<Sextet> > Multiplets(Event &event, TMVA::Reader &reader);
+    std::vector< MultipletEvent<Sextet> > Multiplets(const Event &event, TMVA::Reader &reader);
 
-protected:
-
-    virtual  std::string NameSpaceName() const {
-        return "heavyhiggs";
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
+//       return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
-    virtual  std::string ClassName() const {
-        return "EventFusionTagger";
+    std::string name() const final {
+      return "EventFusion";
     }
 
 private:
 
-    BottomTagger bottom_tagger_;
+    Reader<BottomTagger> bottom_reader_;
 
-    HeavyHiggsSemiTagger heavy_higgs_semi_tagger_;
-
-    Reader bottom_reader_;
-
-    Reader heavy_higgs_semi_reader_;
+    Reader<HeavyHiggsSemiTagger> heavy_higgs_semi_reader_;
 
 };
 

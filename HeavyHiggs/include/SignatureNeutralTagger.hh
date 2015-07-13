@@ -1,8 +1,8 @@
-# pragma once
+#pragma once
 
-# include "HeavyHiggsSemiTagger.hh"
-# include "JetPairTagger.hh"
-# include "Octet62.hh"
+#include "HeavyHiggsSemiTagger.hh"
+#include "JetPairTagger.hh"
+#include "Octet62.hh"
 
 namespace analysis
 {
@@ -19,37 +19,27 @@ class SignatureNeutralTagger : public BranchTagger<OctetNeutralBranch>
 
 public:
 
-    /**
-    * @brief Constructor
-    *
-    */
     SignatureNeutralTagger();
 
-    int Train(Event &event, PreCuts &pre_cuts, const Tag tag);
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const final;
 
-    std::vector< Octet62 > Multiplets(Event& event, PreCuts &pre_cuts, const TMVA::Reader& reader);
+    std::vector< Octet62 > Multiplets(const Event& event, PreCuts &pre_cuts, const TMVA::Reader& reader) const;
 
-protected:
-
-    virtual  std::string NameSpaceName() const {
-        return "heavyhiggs";
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
+      return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
-    virtual  std::string ClassName() const {
-        return "SignatureNeutralTagger";
+    std::string name() const final {
+      return "SignatureNeutral";
     }
 
 private:
 
     std::vector<Octet62> GetHeavyHiggsevents(Jets &jets);
 
-    HeavyHiggsSemiTagger heavy_higgs_semi_tagger_;
+    Reader<HeavyHiggsSemiTagger> heavy_higgs_semi_reader_;
 
-    JetPairTagger jet_pair_tagger_;
-
-    Reader heavy_higgs_semi_reader_;
-
-    Reader jet_pair_reader_;
+    Reader<JetPairTagger> jet_pair_reader_;
 
 };
 

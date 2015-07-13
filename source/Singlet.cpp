@@ -1,16 +1,19 @@
-# include "Singlet.hh"
+#include "Singlet.hh"
+#include "DetectorGeometry.hh"
+#include "Predicate.hh"
+#include "Debug.hh"
 
 namespace analysis {
 
 Singlet::Singlet(const fastjet::PseudoJet &jet)
 {
-    Print(Severity::information, "Constructor");
+    Info();
     jet_ = jet;
 }
 
 bool Singlet::Overlap(const fastjet::PseudoJet &jet) const
 {
-    return (Jet().delta_R(jet) < DetectorGeometry().JetConeSize);
+    return (Jet().delta_R(jet) < DetectorGeometry().JetConeSize());
 }
 
 bool Singlet::Overlap(const Singlet &singlet) const
@@ -20,13 +23,13 @@ bool Singlet::Overlap(const Singlet &singlet) const
 
 float Singlet::Radius(const fastjet::PseudoJet &jet) const
 {
-    Print(Severity::information, "Delta R");
+    Info();
     if (!jet.has_constituents()) return 0;
     float delta_r = 0;
     for (const auto & constituent : jet.constituents()) {
         const float constituent_delta_r = jet.delta_R(constituent);
         if (constituent_delta_r > 100) continue;
-        Print(Severity::debug, "Delta R", constituent_delta_r);
+        Debug(constituent_delta_r);
         if (constituent_delta_r > delta_r) delta_r = constituent_delta_r;
     }
     return delta_r;
@@ -34,16 +37,18 @@ float Singlet::Radius(const fastjet::PseudoJet &jet) const
 
 float Singlet::Spread(const fastjet::PseudoJet &jet) const
 {
-    Print(Severity::information, "spread");
+    Info();
     if (!jet.has_constituents()) return 0;
-    float delta_r = Radius(jet);
-    if (delta_r == 0) return 0;
+//     float delta_r = Radius(jet);
+    float delta_r = 0;
     float spread = 0;
     for (const auto & constituent : jet.constituents()) {
         const float constituent_delta_r = jet.delta_R(constituent);
         if (constituent_delta_r > 100) continue;
         spread += constituent_delta_r * constituent.pt();
+        if (constituent_delta_r > delta_r) delta_r = constituent_delta_r;
     }
+    if (delta_r == 0) return 0;
     return spread / jet.pt() / delta_r;
 }
 
@@ -61,7 +66,12 @@ const JetInfo &Singlet::UserInfo() const
 float Singlet::log(const float number) const
 {
     if (number > 0) return std::log10(number);
-    else return std::log10(DetectorGeometry().TrackerDistanceMin / 10);
+    else return std::log10(DetectorGeometry().TrackerDistanceMin() / 10);
+}
+int Singlet::Charge() const
+{
+//       return UserInfo().Charge();
+    return sgn(UserInfo().Charge());
 }
 
 }

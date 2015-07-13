@@ -1,44 +1,41 @@
-# include "EventSingleTagger.hh"
+#include "EventSingleTagger.hh"
+#include "Debug.hh"
 
-namespace analysis {
+namespace analysis
+{
 
 namespace toppartner
 {
 
 EventSingleTagger::EventSingleTagger()
 {
-    Print(Severity::notification , "Constructor");
-//     debug_level_ = Severity::debug;
-    set_tagger_name("EventSingle");
-    signature_reader_.SetTagger(signature_tagger_);
-    bottom_reader_.SetTagger(bottom_tagger_);
+    Note();
     DefineVariables();
 }
 
-int EventSingleTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
+int EventSingleTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const
 {
-  Print(Severity::information, "Train");
-    Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
-    std::vector<Decuplet73> decuplets = signature_reader_.Multiplets<SignatureSingleTagger>(event);
-    Print(Severity::information, "Octets", decuplets.size());
-    std::vector< MultipletEvent< Decuplet73 > > multipletevents;
-    for (const auto decuplet : decuplets) {
-        MultipletEvent< Decuplet73 > multipletevent(decuplet, event, jets);
+    Info();
+    Jets jets = bottom_reader_.Multiplets(event);
+    std::vector<Nonet> nonets = signature_reader_.Multiplets(event);
+    std::vector< MultipletEvent< Nonet > > multipletevents;
+    for (const auto & nonet : nonets) {
+        MultipletEvent< Nonet > multipletevent(nonet, event, jets);
         multipletevent.SetTag(tag);
         multipletevents.emplace_back(multipletevent);
     }
     return SaveEntries(ReduceResult(multipletevents, 1));
 }
 
-std::vector< MultipletEvent< Decuplet73 > > EventSingleTagger::Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader)
+std::vector< MultipletEvent< Nonet > > EventSingleTagger::Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const
 {
-  Print(Severity::information, "Multiplets");
-    Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
-    std::vector<Decuplet73> decuplets = signature_reader_.Multiplets<SignatureSingleTagger>(event);
-    std::vector< MultipletEvent< Decuplet73 > > multiplet_events;
-    for (const auto decuplet : decuplets) {
-        MultipletEvent< Decuplet73 > multiplet_event(decuplet, event,jets);
-        multiplet_event.SetBdt(Bdt(multiplet_event,reader));
+    Info();
+    Jets jets = bottom_reader_.Multiplets(event);
+    std::vector<Nonet> nonets = signature_reader_.Multiplets(event);
+    std::vector< MultipletEvent< Nonet > > multiplet_events;
+    for (const auto & nonet : nonets) {
+        MultipletEvent< Nonet > multiplet_event(nonet, event, jets);
+        multiplet_event.SetBdt(Bdt(multiplet_event, reader));
         multiplet_events.emplace_back(multiplet_event);
     }
     return ReduceResult(multiplet_events);

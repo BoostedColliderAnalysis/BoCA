@@ -1,9 +1,9 @@
-# pragma once
+#pragma once
 
-# include "Sextet.hh"
-# include "TopSemiTagger.hh"
-# include "TopHadronicTagger.hh"
-# include "Branch.hh"
+#include "TopSemiTagger.hh"
+#include "Sextet.hh"
+#include "TopHadronicTagger.hh"
+#include "Branch.hh"
 
 namespace analysis
 {
@@ -21,25 +21,23 @@ public:
 
     HeavyHiggsSemiTagger();
 
-    int Train(Event &event, PreCuts &pre_cuts, const Tag tag);
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const final;
 
-    std::vector<Sextet> Multiplets(Event& event, PreCuts &pre_cuts, const TMVA::Reader& reader);
+    std::vector<Sextet> Multiplets(const Event& event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
 
-protected:
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
+      return SaveEntries(Multiplets(event, pre_cuts, reader));
+    }
 
-    virtual  std::string ClassName() const {
-        return "HeavyHiggsSemiTagger";
+    std::string name() const final {
+      return "HeavyHiggsSemi";
     }
 
 private:
 
-    TopHadronicTagger top_hadronic_tagger;
+    Reader<TopHadronicTagger> top_hadronic_reader_;
 
-    TopSemiTagger top_semi_tagger;
-
-    Reader top_hadronic_reader_;
-
-    Reader top_semi_reader_;
+    Reader<TopSemiTagger> top_semi_reader_;
 };
 
 }
