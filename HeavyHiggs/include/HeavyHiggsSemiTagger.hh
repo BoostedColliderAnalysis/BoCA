@@ -1,6 +1,6 @@
 #pragma once
 
-#include "TopSemiTagger.hh"
+#include "TopLeptonicTagger.hh"
 #include "Sextet.hh"
 #include "TopHadronicTagger.hh"
 #include "Branch.hh"
@@ -37,7 +37,7 @@ private:
 
     Reader<TopHadronicTagger> top_hadronic_reader_;
 
-    Reader<TopSemiTagger> top_semi_reader_;
+    Reader<TopLeptonicTagger> top_leptonic_reader_;
 };
 
 }
