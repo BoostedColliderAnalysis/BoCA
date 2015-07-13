@@ -8,13 +8,14 @@ namespace analysis
 
 // typedef std::pair<float &, std::string> ObservablePair;
 
-class Obs {
+class Obs
+{
 public:
-    Obs(float &value, const std::string& name, const std::string &nice_name) : value_(&value) {
+    Obs(float &value, const std::string &name, const std::string &nice_name) : value_(&value) {
         name_ = name;
         nice_name_ = nice_name;
     }
-    float & value()const {
+    float &value()const {
         return *value_;
     }
     std::string name()const {
@@ -24,7 +25,7 @@ public:
         return nice_name_;
     }
 private:
-    float * value_;
+    float *value_;
     std::string name_;
     std::string nice_name_;
 };
@@ -434,8 +435,8 @@ public:
     void Fill(const Multiplet &multiplet) {
         PairBranch::Fill(multiplet);
         BottomBase::Fill(multiplet);
-        BottomPt = multiplet.SingletJet1().pt();
-        LeptonPt = multiplet.SingletJet2().pt();
+        BottomPt = multiplet.Singlet().Jet().pt();
+        LeptonPt = multiplet.Doublet().Jet().pt(); // FIXME what is with the case of W
     }
     Observables Variables();
     Observables Spectators();
@@ -556,8 +557,13 @@ private:
     ClassDef(EventBranch, 1)
 };
 
-void Red();
-
-void Blue();
+class Color
+{
+public:
+    void Red();
+    void Blue();
+    void Heat();
+    std::vector<int> Table(std::vector<double> &length, std::vector<double> &red, std::vector<double> &green, std::vector<double> &blue);
+};
 
 }

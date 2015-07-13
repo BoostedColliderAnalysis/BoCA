@@ -251,12 +251,8 @@ auto ordered_pairs(const Container &container, Result &result, Function function
 {
     for (auto element_1 = container.begin(); element_1 != container.end() - 1; ++element_1) {
         for (auto element_2 = std::next(element_1); element_2 != container.end(); ++element_2) {
-            try {
-                result.emplace_back(function(*element_1, *element_2));
-            } catch (const char *message) {}
-            try {
-                result.emplace_back(function(*element_2, *element_1));
-            } catch (const char *message) {}
+            result.emplace_back(function(*element_1, *element_2));
+            result.emplace_back(function(*element_2, *element_1));
         }
     }
     return result;
@@ -273,10 +269,21 @@ auto unordered_pairs(const Container &container, Result &result, Function functi
     return result;
 }
 
+template<typename Container1, typename Container2, typename Result, typename Function>
+auto pairs(const Container1 &container_1, const Container1 &container_2, Result &result, Function function)
+{
+    for (const auto element_1 : container_1) {
+        for (const auto element_2 : container_2) {
+            result.emplace_back(function(element_1, element_2));
+        }
+    }
+    return result;
+}
+
 template <typename Value>
 int sgn(const Value value)
 {
-  return (Value(0) < value) - (value < Value(0));
+    return (Value(0) < value) - (value < Value(0));
 }
 
 
@@ -300,7 +307,7 @@ float DeltaPhi(const float phi_1, const float phi_2);
 
 template <typename Enumeration>
 auto to_int(Enumeration const value) -> typename std::underlying_type<Enumeration>::type {
-  return static_cast<typename std::underlying_type<Enumeration>::type>(value);
+    return static_cast<typename std::underlying_type<Enumeration>::type>(value);
 }
 
 }

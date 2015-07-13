@@ -218,11 +218,16 @@ public:
     }
 
     virtual void NewFile(const Tag tag, const Process process) {
-        analysis::AnalysisBase::NewFile(tag, FileName(process), NiceName(process));
+        analysis::AnalysisBase::NewFile(tag, FileName(tag, process), NiceName(process));
     }
 
-    virtual std::string FileName(const Process process) const {
-        return Name(process) + "_" + std::to_string(PreCut()) + "GeV";
+    virtual std::string FileName(const Tag tag, const Process process) const {
+      switch(tag){
+        case Tag::signal :
+          return Name(process) + "_" + std::to_string(Mass()) + "GeV";
+        case Tag::background :
+          return Name(process) + "_" + std::to_string(PreCut()) + "GeV";
+      }
     }
 
 private:

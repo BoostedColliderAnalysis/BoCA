@@ -9,7 +9,8 @@
 class TMultiGraph;
 class TAttLine;
 class TTree;
-class TH2F;
+class TH2;
+class TProfile2D;
 class TExec;
 
 class ExRootTreeBranch;
@@ -70,6 +71,7 @@ public:
 struct Point2d {
     float x;
     float y;
+    float z;
 };
 
 struct Plot2d {
@@ -79,11 +81,13 @@ struct Plot2d {
     std::string nice_name_x;
     std::string nice_name_y;
     std::string name;
+    std::string tree_name;
 };
 
 struct Plots {
-    analysis::InfoBranch info_branch;
     std::vector<Plot2d> plots;
+    analysis::InfoBranch info_branch;
+    std::string name;
 };
 
 /**
@@ -113,11 +117,13 @@ public:
 
     void InputFiles() const;
 
-    void DoPlot(analysis::Plots &signals, const analysis::Plots &backgrounds) const;
+    void DoPlot(analysis::Plots &signals, analysis::Plots &backgrounds) const;
 
     void Plotting(const analysis::Plot2d &signal, const analysis::Plot2d &background) const;
 
-    void SetHist(TH2F &histogram, const analysis::Plot2d &data, const bool signal) const;
+    void SetHistogram(TH2 &histogram, const analysis::Plot2d &plot, const EColor color, TExec &exec) const;
+
+    void SetProfile(TProfile2D &histogram, const analysis::Plot2d &signal, const analysis::Plot2d &background) const;
 
 private:
 
@@ -127,6 +133,9 @@ private:
 
     Plot2d ReadTree(TTree &tree, const std::string &leaf_1, const std::string &leaf_2) const;
 
+    void PlotHistogram(const analysis::Plot2d &signal, const analysis::Plot2d &background, const float x_min, const float x_max, const float y_min, const float y_max) const;
+
+    void PlotProfile(const analysis::Plot2d &signal, const analysis::Plot2d &background, const float x_min, const float x_max, const float y_min, const float y_max) const;
 
     float Bdt() const;
 
@@ -168,7 +177,7 @@ private:
 
     std::string ExportName() const;
 
-    Plot2d CoreVector(const Plot2d &points, std::function<bool(Point2d, Point2d)> function) const;
+    Plot2d CoreVector(const Plot2d &points, std::function<bool(Point2d&, Point2d&)> function) const;
 
 };
 

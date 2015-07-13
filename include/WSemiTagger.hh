@@ -29,7 +29,7 @@ public:
         return WSemiId(WSemiDaughters(event));
     }
 
-    std::string name() const final {
+    std::string Name() const final {
       return "WSemi";
     }
 

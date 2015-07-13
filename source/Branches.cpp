@@ -100,7 +100,7 @@ BottomBase::BottomBase()
 
 Observables BottomBase::Variables()
 {
-    return {OBS(VertexMass), OBS(MaxDisplacement), OBS(MeanDisplacement), OBS(SumDisplacement), OBS(Multipliticity), OBS(Radius), OBS(Spread), OBS(VertexRadius), OBS(VertexSpread), OBS(EnergyFraction)};
+    return {OBS(VertexMass, "m_{V}"), OBS(MaxDisplacement, "#Delta d_{max}"), OBS(MeanDisplacement, "#Delta d_{mean}"), OBS(SumDisplacement, "#Delta d_{sum}"), OBS(Multipliticity, "n_{V}"), OBS(Radius, "r"), OBS(Spread, "s"), OBS(VertexRadius, "r_{V}"), OBS(VertexSpread, "s_{V}"), OBS(EnergyFraction, "f_{E}")};
 }
 
 Observables BottomBase::Spectators()
@@ -336,7 +336,7 @@ Observables EventBranch::Variables()
 }
 
 #define GRANULARITY 50
-void Red()
+void Color::Red()
 {
     int granularity = GRANULARITY;
     static int colors[GRANULARITY];
@@ -347,7 +347,7 @@ void Red()
     double green[] = { 1, 0};
     double blue[] = { 1, 0};
     double length[] = { 0, 1};
-    float opacity = 0.7;
+    float opacity = 1;
 
     if (!initialized) {
         int color_table = TColor::CreateGradientColorTable(sizeof(length) / sizeof(length[0]), length, red, green, blue, granularity, opacity);
@@ -358,7 +358,7 @@ void Red()
     gStyle->SetPalette(granularity, colors);
 }
 
-void Blue()
+void Color::Blue()
 {
     int granularity = GRANULARITY;
     static int colors[GRANULARITY];
@@ -368,7 +368,7 @@ void Blue()
     double green[] = { 1, 0};
     double blue[] = { 1, 1};
     double length[] = { 0, 1 };
-    float opacity = 0.7;
+    float opacity = 1;
 
     if (!initialized) {
         int color_table = TColor::CreateGradientColorTable(sizeof(length) / sizeof(length[0]), length, red, green, blue, granularity, opacity);
@@ -379,4 +379,34 @@ void Blue()
     gStyle->SetPalette(granularity, colors);
 }
 
+void Color::Heat()
+{
+    static std::vector<int> colors;
+    static bool initialized = false;
+
+    std::vector<double> length = { 0.00, 0.34, 0.61, 0.84, 1.00 };
+    std::vector<double> red   = { 0.00, 0.00, 0.87, 1.00, 0.51 };
+    std::vector<double> green = { 0.00, 0.81, 1.00, 0.20, 0.00 };
+    std::vector<double> blue  = { 0.51, 1.00, 0.12, 0.00, 0.00 };
+
+    if (!initialized) {
+        colors = Table(length, red, green, blue);
+        initialized = true;
+        return;
+    }
+    gStyle->SetPalette(colors.size(), &colors[0]);
+
 }
+
+std::vector<int> Color::Table(std::vector<double> &length, std::vector<double> &red, std::vector<double> &green, std::vector<double> &blue)
+{
+    std::vector<int> colors(50);
+
+    int color_table = TColor::CreateGradientColorTable(length.size(), &length[0], &red[0], &green[0], &blue[0], colors.size());
+    for (int step = 0; step < colors.size(); step++) colors[step] = color_table + step;
+//     for (const int color : colors) colors[color] = color_table + color;
+    return colors;
+}
+
+}
+

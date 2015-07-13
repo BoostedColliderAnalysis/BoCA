@@ -15,17 +15,10 @@
 #include "TStyle.h"
 #include "TH1F.h"
 #include "TH2F.h"
+#include "TProfile2D.h"
 #include "TGraph.h"
-#include "TLeaf.h"
 #include "TColor.h"
 #include "TExec.h"
-
-
-#include "TBranchElement.h"
-// #include "TBranchMap.h"
-#include "TFolder.h"
-#include "TInterpreter.h"
-
 
 #include "exroot/ExRootAnalysis.hh"
 #include "Predicate.hh"
@@ -95,6 +88,7 @@ Plot::Plot(Tagger &tagger)
 {
     Debug("Constructor with tagger");
     tagger_ = &tagger;
+    gStyle->SetOptStat("");
 }
 
 Results Plot::ExportFile() const
@@ -138,7 +132,6 @@ TLegend Plot::Legend(float x_min, float y_max, float width, float height, const 
 std::string Plot::PlotHistograms(const analysis::Results &results) const
 {
     Debug();
-    gStyle->SetOptStat("");
 
     TCanvas canvas;
     std::vector<TH1F> histograms;
@@ -572,28 +565,33 @@ void Result::set_event_sum(const long event_sum)
 void Plot::InputFiles() const
 {
 
-//     PlotResults results;
-
     std::string signal_file_name = tagger().analysis_name() + "/" + tagger().signal_name() + "Reader.root";
-    Debug(signal_file_name,tagger().signal_tree_names().size());
+    Debug(signal_file_name, tagger().signal_tree_names().size());
     std::vector<Plots> signals = Import(signal_file_name, tagger().signal_tree_names());
 
     std::string background_file_name = tagger().analysis_name() + "/" + tagger().background_name() + "Reader.root";
-    Debug(background_file_name,tagger().background_tree_names().size());
+    Debug(background_file_name, tagger().background_tree_names().size());
     std::vector<Plots> backgrounds = Import(background_file_name, tagger().background_tree_names());
 
-    for (auto & signal : signals) {
-        auto background = backgrounds.at(&signal - &signals[0]);
-        DoPlot(signal,background);
+        Plots bg = backgrounds.front();
+    if (backgrounds.size() > 1) {
+        bg = std::accumulate(backgrounds.begin() + 1, backgrounds.end(), bg, [](Plots & sum, const Plots & elem) {
+          for (const auto & plot : elem.plots) sum.plots.at(&plot - &elem.plots[0]).points = Join(sum.plots.at(&plot - &elem.plots[0]).points, plot.points);
+            return sum;
+        });
     }
+
+//     for (auto & background : backgrounds) bg += background;
+
+    for (auto & signal : signals) DoPlot(signal, bg);
 
 }
 
-void Plot::DoPlot(Plots &signals, const Plots &backgrounds) const
+void Plot::DoPlot(Plots &signals, Plots &backgrounds) const
 {
     std::vector<std::pair<std::string, std::string>> nice_names;
     unordered_pairs(tagger().branch().Variables(), nice_names, [&](const Obs & variable_1, const Obs & variable_2) {
-      return std::make_pair(variable_1.nice_name(), variable_2.nice_name());
+        return std::make_pair(variable_1.nice_name(), variable_2.nice_name());
     });
 
     std::vector<std::pair<std::string, std::string>> names;
@@ -604,37 +602,36 @@ void Plot::DoPlot(Plots &signals, const Plots &backgrounds) const
     for (auto & signal : signals.plots) {
         int index = &signal - &signals.plots[0];
         auto background = backgrounds.plots.at(index);
-        signal.nice_name_x = nice_names.at(index).first;
-        signal.nice_name_y = nice_names.at(index).second;
-        background.nice_name_x = nice_names.at(index).first;
-        background.nice_name_y = nice_names.at(index).second;
         signal.name_x = names.at(index).first;
         signal.name_y = names.at(index).second;
         signal.name = signals.info_branch.Name;
+        signal.nice_name_x = nice_names.at(index).first;
+        signal.nice_name_y = nice_names.at(index).second;
+        signal.tree_name = signals.name;
+        background.nice_name_x = nice_names.at(index).first;
+        background.nice_name_y = nice_names.at(index).second;
         background.name = backgrounds.info_branch.Name;
         background.name_x = names.at(index).first;
         background.name_y = names.at(index).second;
+        background.tree_name = backgrounds.name;
         Plotting(signal, background);
     }
-
 }
 
 void Plot::Plotting(const Plot2d &signal, const Plot2d &background) const
 {
-    TCanvas canvas;
-    canvas.SetRightMargin(0.2);
 
-    Plot2d signal_x = CoreVector(signal, [](Point2d a, Point2d b) {
+    Plot2d signal_x = CoreVector(signal, [](Point2d & a, Point2d & b) {
         return a.x < b.x;
     });
-    Plot2d signal_y = CoreVector(signal, [](Point2d a, Point2d b) {
+    Plot2d signal_y = CoreVector(signal, [](Point2d & a, Point2d & b) {
         return a.y < b.y;
     });
 
-    Plot2d background_x = CoreVector(background, [](Point2d a, Point2d b) {
+    Plot2d background_x = CoreVector(background, [](Point2d & a, Point2d & b) {
         return a.x < b.x;
     });
-    Plot2d background_y = CoreVector(background, [](Point2d a, Point2d b) {
+    Plot2d background_y = CoreVector(background, [](Point2d & a, Point2d & b) {
         return a.y < b.y;
     });
 
@@ -643,48 +640,94 @@ void Plot::Plotting(const Plot2d &signal, const Plot2d &background) const
     float y_min = std::min(signal_y.points.front().y, background_y.points.front().y);
     float y_max = std::max(signal_y.points.back().y, background_y.points.back().y);
 
+    PlotHistogram(signal, background, x_min, x_max, y_min, y_max);
+    PlotProfile(signal, background, x_min, x_max, y_min, y_max);
+}
+
+void Plot::PlotHistogram(const Plot2d &signal, const Plot2d &background, const float x_min, const float x_max, const float y_min, const float y_max)const
+{
+    TCanvas canvas;
+    canvas.SetBottomMargin(0.15);
+    TLegend legend = Legend(0.3, 0.1, 0.3, 0.1);
+    legend.SetNColumns(2);
+    legend.SetColumnSeparation(0.2);
     const int bin_number = 20;
-    gStyle->SetOptStat("");
-    TLegend legend = Legend(0.8, 0.5, 0.2, 0.2);
 
-    TH2F signal_histogram("", "", bin_number, x_min, x_max, bin_number, y_min, y_max);
-    SetHist(signal_histogram, signal, true);
-    legend.AddEntry(&signal_histogram, signal.name.c_str(), "l");
-
-    TH2F background_histogram("", "", bin_number, x_min, x_max, bin_number, y_min, y_max);
-    SetHist(background_histogram, background, false);
+    TExec exec_1;
+    TH2F background_histogram("", tagger().NiceName().c_str(), bin_number, x_min, x_max, bin_number, y_min, y_max);
+    SetHistogram(background_histogram, background, kRed, exec_1);
     legend.AddEntry(&background_histogram, background.name.c_str(), "l");
+
+    TExec exec_2;
+    TH2F signal_histogram("", tagger().NiceName().c_str(), bin_number, x_min, x_max, bin_number, y_min, y_max);
+    SetHistogram(signal_histogram, signal, kBlue, exec_2);
+    legend.AddEntry(&signal_histogram, signal.name.c_str(), "l");
 
     legend.Draw();
 
     mkdir(ExportName().c_str(), 0700);
-    std::string file_name = ExportName() + "/" + tagger().export_name() + "-" + signal.name_x + "-" + signal.name_y + ".pdf";
+    std::string file_name = ExportName() + "/" + "Hist-" + background.tree_name + "-" + signal.name_x + "-" + signal.name_y + ".png";
     canvas.Print(file_name.c_str());
-    Error(file_name);
+}
+
+void Plot::PlotProfile(const Plot2d &signal, const Plot2d &background, const float x_min, const float x_max, const float y_min, const float y_max)const
+{
+    TCanvas canvas;
+
+    const int bin_number = 30;
+    TProfile2D test("", tagger().NiceName().c_str(), bin_number, x_min, x_max, bin_number, y_min, y_max);
+    SetProfile(test, signal, background);
+
+    mkdir(ExportName().c_str(), 0700);
+    std::string file_name = ExportName() + "/" + "Prof-" + background.tree_name + "-" + signal.name_x + "-" + signal.name_y + ".png";
+    canvas.Print(file_name.c_str());
+}
+
+void Plot::SetHistogram(TH2 &histogram, const Plot2d &plot, const EColor color, TExec &exec) const
+{
+
+    std::string options = "cont1 same";
+    histogram.Draw(options.c_str());
+    for (const auto & point : plot.points) histogram.Fill(point.x, point.y);
+    histogram.SetXTitle(plot.nice_name_x.c_str());
+    histogram.SetYTitle(plot.nice_name_y.c_str());
+    histogram.SetContour(20);
+    switch (color) {
+    case kRed :
+        exec.SetAction("analysis::Color().Red();");
+        break;
+    case kBlue :
+        exec.SetAction("analysis::Color().Blue();");
+        break;
+    default:
+        Error("unsupported color");
+    }
+    exec.Draw();
+    histogram.SetMarkerColor(color);
+    histogram.SetLineColor(color);
+    histogram.Draw(options.c_str());
 }
 
 
-
-void Plot::SetHist(TH2F &histogram, const Plot2d &data, const bool signal) const
+void Plot::SetProfile(TProfile2D &histogram, const Plot2d &signal, const Plot2d &background) const
 {
-    for (const auto & point : data.points) histogram.Fill(point.x, point.y);
-//     histogram.Draw();
-    histogram.SetXTitle(data.nice_name_x.c_str());
-    histogram.SetYTitle(data.nice_name_y.c_str());
-    histogram.SetTitle(tagger().NiceName().c_str());
-    histogram.SetContour(20);
-    if (signal) {
-        //TODO probably a mild memory leak
-        //FIXME why do we have to swap the colors when we plot more than one graph?
-        histogram.GetListOfFunctions()->Add(new TExec("exec1", "analysis::Red();"));
-        histogram.SetMarkerColor(kBlue);
-        histogram.SetLineColor(kBlue);
-    } else {
-        histogram.GetListOfFunctions()->Add(new TExec("exec2", "analysis::Blue();"));
-        histogram.SetMarkerColor(kRed);
-        histogram.SetLineColor(kRed);
-    }
-    histogram.Draw("cont1 same");
+    float max = (*std::max_element(signal.points.begin(), signal.points.end(), [](Point2d  a, Point2d  b) {
+        return a.z < b.z;
+    })).z;
+    float min = (*std::min_element(background.points.begin(), background.points.end(), [](Point2d  a, Point2d  b) {
+        return a.z < b.z;
+    })).z;
+    for (const auto & point : signal.points) histogram.Fill(point.x, point.y, point.z);
+    for (const auto & point : background.points) histogram.Fill(point.x, point.y, point.z);
+    Color().Heat();
+    histogram.SetXTitle(signal.nice_name_x.c_str());
+    histogram.SetYTitle(signal.nice_name_y.c_str());
+    histogram.SetMaximum(max);
+    histogram.SetMinimum(min);
+    histogram.SetContour(30);
+    histogram.SetMarkerColor(kRed);
+    histogram.SetLineColor(kRed);
+    histogram.Draw("colz");
 }
 
 std::vector<Plots> Plot::Import(const std::string &file_name, const Strings &treename) const
@@ -709,6 +752,7 @@ Plots Plot::PlotResult(TFile &file, const std::string &tree_name) const
     unordered_pairs(tagger().branch().Variables(), plots.plots, [&](const Obs & variable_1, const Obs & variable_2) {
         return ReadTree(tree, variable_1.name(), variable_2.name());
     });
+    plots.name = tree_name;
     Debug(plots.plots.size(), tagger().branch().Variables().size());
     return plots;
 }
@@ -743,6 +787,12 @@ Plot2d Plot::ReadTree(TTree &tree, const std::string &leaf_1, const std::string 
     float leaf_values_2[branch_size_max];
     tree.SetBranchAddress(leaf_name_2.c_str(), leaf_values_2);
 
+    std::string bdt_name = branch_name + ".Bdt";
+    Debug(bdt_name.c_str());
+    tree.SetBranchStatus(bdt_name.c_str(), 1);
+    float bdt_values[branch_size_max];
+    tree.SetBranchAddress(bdt_name.c_str(), bdt_values);
+
     Plot2d points;
     for (const auto & entry : Range(tree.GetEntries())) {
         Debug(tree.GetEntries(), entry);
@@ -751,6 +801,7 @@ Plot2d Plot::ReadTree(TTree &tree, const std::string &leaf_1, const std::string 
             Point2d point;
             point.x = leaf_values_1[element];
             point.y = leaf_values_2[element];
+            point.z = bdt_values[element];
             Debug(point.x, point.y);
             points.points.emplace_back(point);
         }
@@ -758,13 +809,14 @@ Plot2d Plot::ReadTree(TTree &tree, const std::string &leaf_1, const std::string 
     return points;
 }
 
-Plot2d Plot::CoreVector(const Plot2d &points, std::function< bool (Point2d, Point2d)> function) const
+Plot2d Plot::CoreVector(const Plot2d &points, std::function< bool (Point2d &, Point2d &)> function) const
 {
     Plot2d plot = points;
-    int cut_off = plot.points.size() / 25;
-    std::sort(plot.points.begin(), plot.points.end(), [&](Point2d a, Point2d b) {
+    // TODO sorting the whole vector if you just want to get rid of the extrem values might not be the fastest solution
+    std::sort(plot.points.begin(), plot.points.end(), [&](Point2d & a, Point2d & b) {
         return function(a, b);
     });
+    int cut_off = plot.points.size() / 25;
     plot.points.erase(plot.points.begin(), plot.points.begin() + cut_off);
     plot.points.erase(plot.points.end() - cut_off, plot.points.end());
     return plot;

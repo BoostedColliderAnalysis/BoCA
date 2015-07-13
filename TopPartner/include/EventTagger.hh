@@ -33,7 +33,7 @@ public:
       return Multiplets(event, pre_cuts, reader);
     }
 
-    std::string name() const final {
+    std::string Name() const final {
       return "Event";
     }
 
