@@ -1,8 +1,8 @@
-# pragma once
+#pragma once
 
-# include "Partons.hh"
-# include "Leptons.hh"
-# include "Hadrons.hh"
+#include "Partons.hh"
+#include "Leptons.hh"
+#include "Hadrons.hh"
 
 namespace analysis
 {
@@ -11,27 +11,29 @@ namespace analysis
  * @brief Base class for the event Topology
  *
  */
-class Event : public Object
+class Event
 {
 
 public:
 
-    Event(const ClonesArrays::Source source);
+    Event();
+
+    Event(const Source source);
 
     ~Event();
 
     void NewEvent(const ClonesArrays &clones_arrays);
 
-    analysis::Hadrons &Hadrons() const {
+    const analysis::Hadrons &Hadrons() const {
         return *hadrons_;
     }
 
-    analysis::Leptons &Leptons() const {
+    const analysis::Leptons &Leptons() const {
         return *leptons_;
     }
 
 
-    analysis::Partons &Partons() const {
+    const analysis::Partons &Partons() const {
         return *partons_;
     }
 
@@ -41,12 +43,6 @@ public:
 
     void SetMass(const float mass) {
         mass_ = mass;
-    }
-
-protected:
-
-    virtual  std::string ClassName() const {
-        return "Event";
     }
 
 private:
@@ -69,7 +65,7 @@ private:
      */
     analysis::Hadrons *hadrons_ = NULL;
 
-    ClonesArrays::Source source_;
+    Source source_;
 
     float mass_;
 

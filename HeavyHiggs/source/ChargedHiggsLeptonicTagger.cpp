@@ -1,4 +1,5 @@
-# include "ChargedHiggsLeptonicTagger.hh"
+#include "ChargedHiggsLeptonicTagger.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
@@ -8,22 +9,17 @@ namespace heavyhiggs
 
 ChargedHiggsLeptonicTagger::ChargedHiggsLeptonicTagger()
 {
-//     DebugLevel = Severity::debug;
-
-    Print(Severity::notification, "Constructor");
-    set_tagger_name("ChargedHiggsLeptonic");
-    bottom_reader_.SetTagger(bottom_tagger_);
-    top_leptonic_reader_.SetTagger(top_leptonic_tagger_);
+    Note();
     DefineVariables();
 }
 
-int ChargedHiggsLeptonicTagger::Train(Event &event, const Tag tag)
+int ChargedHiggsLeptonicTagger::Train(const Event &event, const Tag tag)
 {
-    Print(Severity::information, "Higgs Tags");
-    Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
+    Info("Higgs Tags");
+    Jets jets = bottom_reader_.Multiplets(event);
 
-    std::vector<Doublet> doublets = top_leptonic_reader_.Multiplets<TopLeptonicTagger>(event);
-    Print(Severity::information, "Number of doublets", doublets.size());
+    std::vector<Doublet> doublets = top_leptonic_reader_.Multiplets(event);
+    Info("Number of doublets", doublets.size());
 
     std::vector<Triplet> triplets;
     for (const auto & doublet : doublets) {
@@ -39,11 +35,11 @@ int ChargedHiggsLeptonicTagger::Train(Event &event, const Tag tag)
 //             }
         }
     }
-    Print(Severity::information, "Numeber of triplets", triplets.size());
+    Info("Numeber of triplets", triplets.size());
 
 
     if (tag == Tag::signal && triplets.size() > 1) {
-        Print(Severity::error, "Higgs Candidates", triplets.size());
+        Error("Higgs Candidates", triplets.size());
         std::sort(triplets.begin(), triplets.end());
         triplets.erase(triplets.begin() + 1, triplets.end());
     }
@@ -51,11 +47,11 @@ int ChargedHiggsLeptonicTagger::Train(Event &event, const Tag tag)
     return SaveEntries(triplets);
 }
 
-std::vector<Triplet>  ChargedHiggsLeptonicTagger::Multiplets(Event &event, const TMVA::Reader &reader)
+std::vector<Triplet>  ChargedHiggsLeptonicTagger::Multiplets(const Event &event, const TMVA::Reader &reader) const
 {
-    Print(Severity::information, "Bdt");
-    Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
-    std::vector<Doublet> doublets = top_leptonic_reader_.Multiplets<TopLeptonicTagger>(event);
+    Info("Bdt");
+    Jets jets = bottom_reader_.Multiplets(event);
+    std::vector<Doublet> doublets = top_leptonic_reader_.Multiplets(event);
 
     std::vector<Triplet> triplets;
     for (const auto & doublet : doublets) {

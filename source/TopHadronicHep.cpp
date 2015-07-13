@@ -1,18 +1,14 @@
-# include "TopHadronicHep.hh"
+#include "TopHadronicHep.hh"
 
-# include "fastjet/ClusterSequence.hh"
-# include "HEPTopTagger.hh"
+#include "fastjet/ClusterSequence.hh"
+#include "HEPTopTagger.hh"
+#include "Debug.hh"
 
 namespace analysis {
 
-TopHadronicHep::TopHadronicHep()
+Jets TopHadronicHep::Tops(Jets &e_flows)
 {
-    Print(Severity::notification, "Constructor");
-}
-
-Jets TopHadronicHep::Tops(std::vector< fastjet::PseudoJet > &e_flows)
-{
-    Print(Severity::information, "Tagging Top");
+    Info("Tagging Top");
 //     float CellRap = 0.1;
 //     Jets hadrons;
 //     ifstream fin("sample_event.dat", ifstream::in);
@@ -42,7 +38,7 @@ Jets TopHadronicHep::Tops(std::vector< fastjet::PseudoJet > &e_flows)
 //         TopTagger.get_info();
 //         if (TopTagger.is_masscut_passed())
         {
-            std::cout << "### masscut_passed ###" << std::endl;
+            std::cout << "###masscut_passed ###" << std::endl;
             fastjet::PseudoJet top = top_tagger.top_candidate();
 //             fastjet::PseudoJet b = TopTagger.top_subjets().at(0);
 //             fastjet::PseudoJet W1 = TopTagger.top_subjets().at(1);

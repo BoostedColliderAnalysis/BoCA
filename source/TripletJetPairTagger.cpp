@@ -1,28 +1,27 @@
-# include "TripletJetPairTagger.hh"
-# include "Predicate.hh"
+#include "TripletJetPairTagger.hh"
+#include "Predicate.hh"
+#include "Event.hh"
+#include "Debug.hh"
 
 namespace analysis {
 
 TripletJetPairTagger::TripletJetPairTagger()
 {
-    Print(Severity::notification, "Constructor");
-    set_tagger_name("TripletJetJetPair");
-    bottom_reader_.SetTagger(bottom_tagger_);
-    top_hadronic_reader_.SetTagger(top_hadronic_tagger);
+    Note();
     DefineVariables();
 }
 
-int TripletJetPairTagger::Train(analysis::Event &event, analysis::PreCuts &pre_cuts, const analysis::Tag tag)
+int TripletJetPairTagger::Train(const analysis::Event &event, analysis::PreCuts &, const analysis::Tag tag) const
 {
-    Print(Severity::information, "W Tags");
-    Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
-    std::vector<Triplet> triplets = top_hadronic_reader_.Multiplets<TopHadronicTagger>(event);
+    Info("W Tags");
+    Jets jets = bottom_reader_.Multiplets(event);
+    std::vector<Triplet> triplets = top_hadronic_reader_.Multiplets(event);
 //     Jets jets = GetJets(event);
     //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader); // TODO reenable this
 //     std::vector<Doublet> doublets = WTagger.GetBdt(jets, WReader);
     //     std::vector<Triplet> triplets = top_hadronic_tagger.GetBdt(doublets, jets, TopHadronicReader);
 //     std::vector<Triplet> triplets = top_hadronic_tagger.GetBdt(jets, top_hadronic_reader_, WTagger, WReader, bottom_tagger_, bottom_reader_);
-    Print(Severity::debug, "Number of Hadronic Tops", triplets.size());
+    Debug("Number of Hadronic Tops", triplets.size());
 
 //     for (const auto & Jet : jets) {
 //         Jets Pieces = WTagger.GetSubJets(Jet, 2);
@@ -48,12 +47,12 @@ int TripletJetPairTagger::Train(analysis::Event &event, analysis::PreCuts &pre_c
 
     Jets TopParticles = event.Partons().GenParticles();
     TopParticles = RemoveIfWrongAbsFamily(TopParticles, Id::top, Id::gluon);
-    if (TopParticles.size() != 1 && tag == Tag::signal) Print(Severity::error, "Where is the Top?", TopParticles.size());
+    if (TopParticles.size() != 1 && tag == Tag::signal) Error("Where is the Top?", TopParticles.size());
 
     std::vector<Triplet> Finaltriplets;
     switch(tag) {
     case Tag::signal :
-      for (const auto & triplet : triplets) if (triplet.Jet().delta_R(TopParticles.front()) < DetectorGeometry().JetConeSize) Finaltriplets.emplace_back(triplet);
+      for (const auto & triplet : triplets) if (triplet.Jet().delta_R(TopParticles.front()) < DetectorGeometry().JetConeSize()) Finaltriplets.emplace_back(triplet);
         break;
     case Tag::background :
         Finaltriplets = triplets;
@@ -65,12 +64,12 @@ int TripletJetPairTagger::Train(analysis::Event &event, analysis::PreCuts &pre_c
 
     Jets BottomParticles = event.Partons().GenParticles();
     BottomParticles = RemoveIfWrongAbsFamily(BottomParticles, Id::bottom, Id::gluon);
-    if (BottomParticles.size() != 1 && tag == Tag::signal) Print(Severity::error, "Where is the Bottom?", BottomParticles.size());
+    if (BottomParticles.size() != 1 && tag == Tag::signal) Error("Where is the Bottom?", BottomParticles.size());
 
     Jets FinalJets;
     switch (tag) {
     case  Tag::signal :
-      for (const auto & Jet : jets) if (Jet.delta_R(BottomParticles.front()) < DetectorGeometry().JetConeSize) FinalJets.emplace_back(Jet);
+      for (const auto & Jet : jets) if (Jet.delta_R(BottomParticles.front()) < DetectorGeometry().JetConeSize()) FinalJets.emplace_back(Jet);
         break;
     case Tag::background :
         FinalJets = jets;
@@ -93,7 +92,7 @@ int TripletJetPairTagger::Train(analysis::Event &event, analysis::PreCuts &pre_c
             quartets.emplace_back(quartet);
         }
 
-    Print(Severity::debug, "Number of Jet Pairs", quartets.size());
+    Debug("Number of Jet Pairs", quartets.size());
 
     if (tag == Tag::signal && quartets.size() > 1) {
         quartets = SortByMaxDeltaRap(quartets);
@@ -110,10 +109,10 @@ int TripletJetPairTagger::Train(analysis::Event &event, analysis::PreCuts &pre_c
 
 }
 
-std::vector<Quartet31>  TripletJetPairTagger::Multiplets(analysis::Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader)
+std::vector<Quartet31>  TripletJetPairTagger::Multiplets(const Event &event, analysis::PreCuts &, const TMVA::Reader &reader) const
 {
-    Jets jets = bottom_reader_.Multiplets<BottomTagger>(event);
-    std::vector<Triplet> triplets = top_hadronic_reader_.Multiplets<TopHadronicTagger>(event);
+    Jets jets = bottom_reader_.Multiplets(event);
+    std::vector<Triplet> triplets = top_hadronic_reader_.Multiplets(event);
     std::vector<Quartet31>  quartets;
     for (const auto & triplet : triplets)
         for (const auto & Jet : jets)  {

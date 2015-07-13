@@ -1,28 +1,32 @@
-# include "Event.hh"
-# include "delphes/Partons.hh"
-# include "delphes/Leptons.hh"
-# include "delphes/Hadrons.hh"
-# include "exroot/Leptons.hh"
-# include "exroot/Hadrons.hh"
-# include "exroot/Partons.hh"
+#include "Event.hh"
+#include "delphes/Partons.hh"
+#include "delphes/Leptons.hh"
+#include "delphes/Hadrons.hh"
+#include "exroot/Leptons.hh"
+#include "exroot/Hadrons.hh"
+#include "exroot/Partons.hh"
+#include "Debug.hh"
 
-namespace analysis {
-
-Event::Event(const ClonesArrays::Source source)
+namespace analysis
 {
-    Print(Severity::notification, "Constructor");
+
+Event::Event() {}
+
+Event::Event(const Source source)
+{
+    Note();
     source_ = source;
     switch (source_) {
-    case ClonesArrays::kDelphes :
+    case Source::delphes :
         partons_ = new delphes::Partons();
         hadrons_ = new delphes::Hadrons();
         leptons_ = new delphes::Leptons();
         break;
-    case ClonesArrays::kPgs :
+    case Source::pgs :
         leptons_ = new exroot::Leptons();
         hadrons_ = new exroot::Hadrons();
         break;
-    case ClonesArrays::kParton :
+    case Source::parton :
         partons_ = new exroot::Partons();
         break;
     }
@@ -30,18 +34,18 @@ Event::Event(const ClonesArrays::Source source)
 
 Event::~Event()
 {
-    Print(Severity::notification, "Destructor");
+    Note();
     switch (source_) {
-    case ClonesArrays::kDelphes :
+    case Source::delphes :
         delete partons_;
         delete leptons_;
         delete hadrons_;
         break;
-    case ClonesArrays::kPgs :
+    case Source::pgs :
         delete leptons_;
         delete hadrons_;
         break;
-    case ClonesArrays::kParton:
+    case Source::parton:
         delete partons_;
         break;
     }
@@ -49,18 +53,18 @@ Event::~Event()
 
 void Event::NewEvent(const ClonesArrays &clones_arrays)
 {
-    Print(Severity::information, "New event");
+    Info();
     switch (source_) {
-    case ClonesArrays::kDelphes :
+    case Source::delphes :
         partons_->NewEvent(clones_arrays);
         hadrons_->NewEvent(clones_arrays);
         leptons_->NewEvent(clones_arrays);
         break;
-    case ClonesArrays::kPgs :
+    case Source::pgs :
         hadrons_->NewEvent(clones_arrays);
         leptons_->NewEvent(clones_arrays);
         break;
-    case ClonesArrays::kParton:
+    case Source::parton:
         partons_->NewEvent(clones_arrays);
         break;
     }

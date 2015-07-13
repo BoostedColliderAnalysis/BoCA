@@ -1,6 +1,17 @@
-# pragma once
+#pragma once
 
-# include "Branches.hh"
+#include "Branches.hh"
+
+#define STRING(s) #s
+
+#define PAIR1(value) Obs(value, STRING(value), STRING(value))
+#define PAIR2(value, string) Obs(value, STRING(value), string)
+
+#define ARGUMENTS(arg1, arg2, arg, ...) arg
+#define PAIRCHOOSER(...) ARGUMENTS(__VA_ARGS__, PAIR2, PAIR1, )
+
+#define PAIR(...) PAIRCHOOSER(__VA_ARGS__)(__VA_ARGS__)
+// #define PAIR(x) ObservablePair(x,STRING(x))
 
 namespace analysis
 {
@@ -74,7 +85,7 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class HHeavyHiggsHadronicBranch : public Branch
+class HHeavyHiggsHadronicBranch : public BaseBranch
 {
 
 public:
@@ -154,7 +165,7 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class HChargedHiggsHadronicBranch : public Branch
+class HChargedHiggsHadronicBranch : public BaseBranch
 {
 
 public:
@@ -345,6 +356,73 @@ public:
 private:
 
     ClassDef(EventNeutralBranch, 1)
+
+};
+class EventNeutralFourTopBranch : public EventBranch
+{
+
+public:
+
+EventNeutralFourTopBranch();
+
+    float HiggsMass;
+    float PairRap;
+    float HiggsBdt;
+    float SignatureBdt;
+    float BottomBdt;
+    float PairBottomBdt;
+
+    float HardTopPt;
+    float SoftTopPt;
+
+    float BottomBdt1;
+    float BottomBdt2;
+    float BottomBdt3;
+    float BottomBdt4;
+    float BottomBdt5;
+    float BottomBdt6;
+    float BottomBdt7;
+    float BottomBdt8;
+    float BottomBdt12;
+    float BottomBdt34;
+    float BottomBdt56;
+    float BottomBdt78;
+
+    template<typename Multiplet>
+    void Fill(const Multiplet &multiplet) {
+        EventBranch::Fill(multiplet);
+        HiggsMass = multiplet.Multiplet().Sextet().Jet().m();
+        HiggsBdt = multiplet.Multiplet().Sextet().Bdt();
+        SignatureBdt = multiplet.Multiplet().Bdt();
+        PairRap = multiplet.Multiplet().Doublet().DeltaRap();
+        BottomBdt = multiplet.Multiplet().BottomBdt();
+        PairBottomBdt = multiplet.Multiplet().PairBottomBdt();
+
+        HardTopPt = multiplet.Multiplet().Sextet().HardTopPt();
+        SoftTopPt = multiplet.Multiplet().Sextet().SoftTopPt();
+
+        BottomBdt1 = multiplet.GlobalObservables().BottomBdt(1);
+        BottomBdt2 = multiplet.GlobalObservables().BottomBdt(2);
+        BottomBdt3 = multiplet.GlobalObservables().BottomBdt(3);
+        BottomBdt4 = multiplet.GlobalObservables().BottomBdt(4);
+        BottomBdt5 = multiplet.GlobalObservables().BottomBdt(5);
+        BottomBdt6 = multiplet.GlobalObservables().BottomBdt(6);
+        BottomBdt7 = multiplet.GlobalObservables().BottomBdt(7);
+        BottomBdt8 = multiplet.GlobalObservables().BottomBdt(8);
+        BottomBdt12 = multiplet.GlobalObservables().BottomBdt(1, 2);
+        BottomBdt34 = multiplet.GlobalObservables().BottomBdt(3, 4);
+        BottomBdt56 = multiplet.GlobalObservables().BottomBdt(5, 6);
+        BottomBdt78 = multiplet.GlobalObservables().BottomBdt(7, 8);
+
+    }
+
+    Observables Variables() {
+        return Join(EventBranch::Variables(), {PAIR(HiggsMass), PAIR(HiggsBdt), PAIR(SignatureBdt), PAIR(PairRap), PAIR(BottomBdt), PAIR(BottomBdt1), PAIR(BottomBdt2), PAIR(BottomBdt3), PAIR(BottomBdt4), PAIR(BottomBdt5), PAIR(BottomBdt6), PAIR(BottomBdt7), PAIR(BottomBdt8), PAIR(BottomBdt12), PAIR(BottomBdt34), PAIR(BottomBdt56), PAIR(BottomBdt78)});
+    }
+
+private:
+
+    ClassDef(EventNeutralFourTopBranch, 1)
 
 };
 

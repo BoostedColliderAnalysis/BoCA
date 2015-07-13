@@ -1,10 +1,10 @@
-# pragma once
+#pragma once
 
-# include "Analysis.hh"
-# include "File.hh"
-// # include "HEventDelphes.hh"
-# include "HBranchDiscriminator.hh"
-# include "SubStructure.hh"
+#include "Analysis.hh"
+#include "File.hh"
+// #include "HEventDelphes.hh"
+#include "HBranchDiscriminator.hh"
+#include "SubStructure.hh"
 
 
 namespace hcpvhiggs{
@@ -23,12 +23,6 @@ public:
 
     const std::set<analysis::Id> HeavyParticles {analysis::Id::top, analysis::Id::CP_violating_higgs, analysis::Id::higgs};
 
-    virtual  std::string ClassName() const {
-
-        return "HiggsCPV: JetTag";
-
-    };
-
 };
 
 /**
@@ -38,7 +32,7 @@ public:
  * \author Jan Hajer
  *
  */
-class HAnalysis : public analysis::Analysis
+class HAnalysis //: public analysis::Analysis
 {
 
 public:
@@ -75,13 +69,13 @@ public:
 
 private:
 
-     int EventNumberMax() const {
+     long EventNumberMax() const {
 
         return 10000;
 
     };
 
-     std::string ProjectName()const {
+     std::string ProjectName() const {
 
         return "Discriminator";
 
@@ -127,12 +121,6 @@ private:
     void NewBranches(exroot::TreeWriter *NewTreeWriter);
 
      analysis::Strings GetStudyNames() const;
-
-    virtual  std::string ClassName() const {
-
-        return "HiggsCPV: HAnalysis";
-
-    };
 
 };
 

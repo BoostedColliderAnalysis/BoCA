@@ -1,6 +1,6 @@
-# pragma once
+#pragma once
 
-# include "Analysis.hh"
+#include "Analysis.hh"
 
 /**
  * @brief Namespace for the fusion pair analysis
@@ -16,12 +16,12 @@ namespace fusionpair
  * @author Jan Hajer
  *
  */
-class Analysis : public analysis::Analysis
+class Analysis //: public analysis::Analysis
 {
 
 public:
 
-    using analysis::Analysis::Analysis;
+//     using analysis::Analysis::Analysis;
 
 //     analysis::BottomTagger bottom_tagger_;
 //     analysis::JetPairTagger jet_pair_tagger;
@@ -34,19 +34,11 @@ public:
 
     std::vector<analysis::File> Files(const analysis::Tag tag);
 
+    void SetFiles(const analysis::Tag ) {};
+
      std::string ProjectName() const {
         return  DetectorName(Detector()) + "-eta3.5";
 //         return  ProductionChannelName(ProductionChannel()) + DetectorName(Detector())  + "_" + std::to_string(Mass()) + "GeV";
-    }
-
-protected:
-
-    virtual  std::string NameSpaceName() const {
-        return "pairtagger";
-    }
-
-    virtual  std::string ClassName() const {
-        return "Analysis";
     }
 
 private:
@@ -55,7 +47,7 @@ private:
     enum HProductionChannel {DYP, VBF, Associated};
     enum HDetectorType {LHC, FHC, LE};
 
-     int EventNumberMax() const {
+     long EventNumberMax() const {
 //         return 1000000;
 //         return 100000;
         return 10000;
@@ -84,7 +76,7 @@ private:
         case LE :
             return "LE";
         default:
-            Print(analysis::Severity::error, "Detector Name", "unhandeld case");
+            Error("Detector Name", "unhandeld case");
             return "";
         }
     }
@@ -99,7 +91,7 @@ private:
         case VBF :
             return "VBF_";
         default:
-          Print(analysis::Severity::error, "ProductionChannelName", "unhandeld case");
+          Error("ProductionChannelName", "unhandeld case");
             return "";
         }
     }
@@ -114,7 +106,7 @@ private:
         case Associated :
           return analysis::Id::gluon;
         default:
-          Print(analysis::Severity::error, "MotherId", "unhandeld case");
+          Error("MotherId", "unhandeld case");
             return analysis::Id::empty;
         }
     }
@@ -144,7 +136,7 @@ private:
         case ttgg:
             return "ttgg";
         default:
-          Print(analysis::Severity::error, "ProcessName", "unhandeld case");
+          Error("ProcessName", "unhandeld case");
             return "";
         }
     }
@@ -223,12 +215,12 @@ private:
     }
 
     analysis::JetTag jet_tag;
-    analysis::Reader BottomReader;
-    analysis::Reader JetPairReader;
+//     analysis::Reader BottomReader;
+//     analysis::Reader JetPairReader;
 
 //     void NewBranches(exroot::TreeWriter &NewTreeWriter, const analysis::Analysis::HTagger Tagger);
 
-//     int RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const analysis::Tag tag);
+//     int RunAnalysis(analysis::Event &event, const analysis::Stage stage, const analysis::Tag tag);
 
 //     bool GetBottomTag(analysis::Event &event, const analysis::Tag Tag);
 //     bool GetBottomReader(analysis::Event &event, const analysis::Tag Tag);

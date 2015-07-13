@@ -1,4 +1,6 @@
-# include "exroot/Hadrons.hh"
+#include "exroot/Hadrons.hh"
+#include "Debug.hh"
+#include "JetInfo.hh"
 
 namespace analysis
 {
@@ -6,12 +8,12 @@ namespace analysis
 namespace exroot
 {
 
-Jets Hadrons::Jets()
+Jets Hadrons::Jets() const
 {
-    Print(Severity::information, "Jets", clones_arrays().JetSum());
+    Info(clones_arrays().JetSum());
     analysis::Jets jets;
-    for (const int JetNumber : Range(clones_arrays().JetSum())) {
-        ::exroot::Jet &jet = static_cast<::exroot::Jet &>(clones_arrays().Jet(JetNumber));
+    for (const int jet_number : Range(clones_arrays().JetSum())) {
+        ::exroot::Jet &jet = static_cast<::exroot::Jet &>(clones_arrays().Jet(jet_number));
         fastjet::PseudoJet pseudo_jet = PseudoJet(jet);
         pseudo_jet.set_user_info(new JetInfo(bool(jet.BTag)));
         jets.emplace_back(pseudo_jet);

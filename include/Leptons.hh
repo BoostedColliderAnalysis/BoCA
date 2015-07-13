@@ -1,6 +1,6 @@
-# pragma once
+#pragma once
 
-# include "FourVector.hh"
+#include "FourVector.hh"
 
 namespace analysis
 {
@@ -14,25 +14,15 @@ class Leptons : public FourVector
 
 public:
 
-    Leptons();
-
     virtual ~Leptons();
 
     void NewEvent(const ClonesArrays &clones_arrays);
 
-    Jets leptons();
+    Jets leptons() const;
 
-    virtual analysis::Jets Electrons() = 0;
+    virtual analysis::Jets Electrons() const = 0;
 
-    virtual analysis::Jets Muons() = 0;
-
-protected:
-
-private:
-
-    virtual  std::string ClassName() const {
-        return ("Leptons");
-    }
+    virtual analysis::Jets Muons() const = 0;
 
 };
 

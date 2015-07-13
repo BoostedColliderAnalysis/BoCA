@@ -1,8 +1,8 @@
-# pragma once
+#pragma once
 
-# include <set>
+#include <set>
 
-# include "Family.hh"
+#include "Family.hh"
 
 namespace analysis{
 
@@ -10,16 +10,10 @@ namespace analysis{
  * @brief defines how to tag a jet
  *
  */
-class JetTag : public Object
+class JetTag
 {
 
 public:
-
-    /**
-     * @brief Constructor
-     *
-     */
-    JetTag();
 
     /**
      * @brief decide on the branch id based on the former branch id and the particle id
@@ -39,12 +33,6 @@ protected:
      *
      */
     std::set<Id> RadiationParticles {Id::proton};
-
-private:
-
-    virtual  std::string ClassName() const {
-        return "JetTag";
-    };
 
 };
 

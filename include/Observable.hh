@@ -1,18 +1,18 @@
-# pragma once
+#pragma once
 
-# include "Object.hh"
+#include <string>
 
 namespace analysis
 {
 
-class Observable : public Object
+class Observable
 {
 
 public:
 
-    Observable(float &value, const std::string &expression, const std::string &title, const std::string &unit, const std::string &latex);
+    Observable(float &value, const std::string &expression, const std::string &title, const std::string &unit);
 
-    float *value() const;
+    float &value() const;
 
     std::string expression() const;
 
@@ -32,7 +32,7 @@ private:
 
     char type_;
 
-    float *value_;
+    float &value_;
 
 };
 

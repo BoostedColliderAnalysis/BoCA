@@ -1,8 +1,8 @@
-# pragma once
+#pragma once
 
-# include "Decuplet.hh"
-# include "TopPartnerHiggsPairTagger.hh"
-# include "TopHadronicTagger.hh"
+#include "Decuplet.hh"
+#include "TopPartnerHiggsPairTagger.hh"
+#include "TopHadronicTagger.hh"
 
 namespace analysis
 {
@@ -21,25 +21,19 @@ public:
 
     SignatureSingleTagger();
 
-    int Train(Event &event, PreCuts &pre_cuts, const Tag tag);
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const final;
 
-    std::vector<Decuplet73> Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
+    std::vector<Decuplet73> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
 
-protected:
-
-    virtual  std::string ClassName() const {
-        return "SignatureSingleTagger";
+    std::string name() const final {
+      return "SignatureSingle";
     }
 
 private:
 
-    TopPartnerHiggsPairTagger top_partner_higgs_pair_tagger_;
+    Reader<TopPartnerHiggsPairTagger> top_partner_higgs_pair_reader_;
 
-    TopHadronicTagger top_hadronic_tagger_;
-
-    Reader top_partner_higgs_pair_reader_;
-
-    Reader top_hadronic_reader_;
+    Reader<TopHadronicTagger> top_hadronic_reader_;
 };
 
 }

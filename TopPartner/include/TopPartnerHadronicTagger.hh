@@ -1,9 +1,9 @@
-# pragma once
+#pragma once
 
-# include "Quintet.hh"
-# include "TopHadronicTagger.hh"
-# include "ZHadronicTagger.hh"
-# include "BranchesTopPartner.hh"
+#include "Quintet.hh"
+#include "TopHadronicTagger.hh"
+#include "BosonTagger.hh"
+#include "BranchesTopPartner.hh"
 
 namespace analysis
 {
@@ -22,34 +22,29 @@ public:
 
     TopPartnerHadronicTagger();
 
-    int Train(Event &event, PreCuts &pre_cuts, const Tag tag);
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const final;
 
-    std::vector<Quintet> Multiplets(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader);
+    std::vector<Quintet> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
 
-    int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
       return SaveEntries(Multiplets(event,pre_cuts, reader));
     }
 
-    auto Multiplets(Event &event, const TMVA::Reader &reader){
+    auto Multiplets(const Event &event, const TMVA::Reader &reader){
       PreCuts pre_cuts;
       return Multiplets(event, pre_cuts, reader);
     }
 
-protected:
-
-    virtual  std::string ClassName() const {
-        return "TopPartnerHadronicTagger";
+    std::string name() const final {
+      return "TopPartnerHadronic";
     }
 
 private:
 
-    TopHadronicTagger top_tagger_;
+    Reader<TopHadronicTagger> top_reader_;
 
-    ZHadronicTagger z_hadronic_tagger;
+    Reader<BosonTagger> boson_reader_;
 
-    Reader top_reader_;
-
-    Reader z_hadronic_reader_;
 };
 
 }

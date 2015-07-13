@@ -1,28 +1,47 @@
-# pragma once
+#pragma once
 
-# include "TMVA/Reader.h"
-# include "Event.hh"
-# include "Observable.hh"
-# include "PreCuts.hh"
+#include "TCut.h"
+#include "Observable.hh"
+#include "Identification.hh"
+#include "fastjet/PseudoJet.hh"
+#include "Branches.hh"
+
+namespace TMVA{
+  class Reader;
+}
+
+class ExRootTreeWriter;
+class ExRootTreeBranch;
+namespace exroot
+{
+typedef ::ExRootTreeWriter TreeWriter;
+typedef ::ExRootTreeBranch TreeBranch;
+}
 
 namespace analysis
 {
+
+class Event;
+class PreCuts;
+typedef std::vector<std::string> Strings;
+typedef std::vector<fastjet::PseudoJet> Jets;
+
+enum class Stage
+{
+    trainer,
+    reader
+};
+
+std::string Name(const Stage stage);
 
 /**
  * @brief Prepares multivariant analysis
  *
  */
-class Tagger : public Object
+class Tagger
 {
 
 public:
-
-    enum Stage {
-        kTrainer,
-        kReader
-    };
-
-    Tagger();
 
     void AddSignalTreeName(const std::string signal_tree_name);
 
@@ -30,17 +49,19 @@ public:
 
     std::string branch_name() const;
 
-    void set_tagger_name(const std::string &tagger_name);
-
-    std::string tagger_name() const;
+    virtual std::string name() const = 0;
 
     std::string factory_name() const;
+
+    std::string export_name() const;
 
     std::string signal_file_name(const Stage stage) const;
 
     std::string background_file_name(const Stage stage) const;
 
     std::string reader_name() const;
+
+    std::string reader(const std::string &name) const;
 
     std::string name(const Stage stage) const;
 
@@ -64,45 +85,45 @@ public:
 
     TCut cut() const;
 
-    virtual void set_analysis_name(const std::string &analysis_name);
+    static void set_analysis_name(const std::string &analysis_name);
 
     std::string bdt_method_name() const;
 
     std::string bdt_weight_name() const;
 
+    std::string weight_file_extension() const;
+
     std::string weight_branch_name() const;
 
     std::string background_name() const;
 
+    std::string background(const std::string &name) const;
+
     std::string signal_name() const;
 
-    virtual int GetBdt(Event &, PreCuts &, const TMVA::Reader &);
+    std::string signal(const std::string &name) const;
 
-    virtual int Train(analysis::Event &, PreCuts &, const Tag);
+    virtual int GetBdt(const Event &, PreCuts &, const TMVA::Reader &) const = 0;
 
-    Jets SubJets(const fastjet::PseudoJet &jet, const int sub_jet_number);
+    virtual int Train(const Event &, PreCuts &, const Tag) const = 0;
 
-    fastjet::PseudoJet GetMissingEt(analysis::Event &event);
+    Jets SubJets(const fastjet::PseudoJet &jet, const int sub_jet_number) const;
 
     virtual float ReadBdt(const TClonesArray &, const int) const = 0;
 
     void SetTreeBranch(exroot::TreeWriter &tree_writer, const Stage stage);
 
+    virtual const ResultBranch &branch() const = 0;
+
+    virtual ResultBranch &branch() = 0;
+
 protected:
 
     virtual void DefineVariables() = 0;
 
-    virtual  std::string ClassName() const {
-        return "Tagger";
-    }
-
     Observable NewObservable(float &value, const std::string &title) const;
 
-    Observable NewObservable(float &value, const std::string &title, const std::string &latex) const;
-
     void AddVariable(float &value, const std::string &title);
-
-    void AddVariable(float &value, const std::string &title, const std::string &latex);
 
     void AddSpectator(float &value, const std::string &title);
 
@@ -112,10 +133,9 @@ protected:
 
     virtual TClass &Class() const = 0;
 
-    exroot::TreeBranch &tree_branch();
+    exroot::TreeBranch &tree_branch() const;
 
-    float Bdt(const TMVA::Reader &reader);
-
+    float Bdt(const TMVA::Reader &reader) const;
 
 private:
 
@@ -130,24 +150,6 @@ private:
      *
      */
     static std::string analysis_name_;
-
-    /**
-     * @brief Name of the Tagger
-     *
-     */
-    std::string tagger_name_;
-
-    /**
-     * @brief Names of the Signal Files
-     *
-     */
-    Strings signal_file_names_;
-
-    /**
-     * @brief Names of the Background Files
-     *
-     */
-    Strings background_file_names_;
 
     /**
      * @brief Names of the backgrund trees

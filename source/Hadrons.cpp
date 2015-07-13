@@ -1,28 +1,23 @@
-# include "Hadrons.hh"
+#include "Hadrons.hh"
+#include "Debug.hh"
 
 namespace analysis {
 
-Hadrons::Hadrons()
-{
-//     DebugLevel = Severity::debug;
-    Print(Severity::notification, "Constructor");
-}
-
 void Hadrons::NewEvent(const ClonesArrays &clones_arrays)
 {
-    Print(Severity::information, "New event");
+    Info();
     FourVector::NewEvent(clones_arrays);
 }
 
-float Hadrons::ScalarHt()
+float Hadrons::ScalarHt() const
 {
-    Print(Severity::error, "Scalar Ht", "No Scalar Ht");
+    Error("No Scalar Ht");
     return 0;
 }
 
-fastjet::PseudoJet Hadrons::MissingEt()
+fastjet::PseudoJet Hadrons::MissingEt() const
 {
-    Print(Severity::error, "Missing Et", "No Mising Et");
+    Error("No Mising Et");
     return fastjet::PseudoJet{};
 }
 

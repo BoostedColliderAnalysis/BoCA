@@ -1,4 +1,5 @@
-# include "HiggsPairTagger.hh"
+#include "HiggsPairTagger.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
@@ -8,17 +9,14 @@ namespace toppartner
 
 HiggsPairTagger::HiggsPairTagger()
 {
-//         DebugLevel = Severity::detailed;
-    Print(Severity::notification, "Constructor");
-    set_tagger_name("HiggsPairPair");
-    higgs_reader_.SetTagger(higgs_tagger_);
+    Note();
     DefineVariables();
 }
 
-int HiggsPairTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
+int HiggsPairTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const
 {
-    Print(Severity::information, "Higgs Tags");
-    std::vector< Doublet> doublets = higgs_reader_.Multiplets<HiggsTagger>(event);
+    Info("Higgs Tags");
+    std::vector< Doublet> doublets = higgs_reader_.Multiplets(event);
     std::vector< Quartet22 > quartets;
     for (auto doublet_1 = doublets.begin(); doublet_1 != doublets.end(); ++doublet_1) {
         for (auto doublet_2 = doublet_1 + 1; doublet_2 != doublets.end(); ++doublet_2) {
@@ -32,9 +30,9 @@ int HiggsPairTagger::Train(Event &event, PreCuts &pre_cuts, const Tag tag)
     return SaveEntries(quartets);
 }
 
-std::vector<Quartet22> HiggsPairTagger::Multiplets(analysis::Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader)
+std::vector<Quartet22> HiggsPairTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const
 {
-    std::vector< Doublet> doublets = higgs_reader_.Multiplets<HiggsTagger>(event);
+    std::vector< Doublet> doublets = higgs_reader_.Multiplets(event);
     std::vector< Quartet22 > quartets;
     for (auto doublet_1 = doublets.begin(); doublet_1 != doublets.end(); ++doublet_1) {
         for (auto doublet_2 = doublet_1 + 1; doublet_2 != doublets.end(); ++doublet_2) {

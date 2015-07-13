@@ -1,6 +1,6 @@
-# pragma once
+#pragma once
 
-# include "../Partons.hh"
+#include "../Partons.hh"
 
 namespace analysis
 {
@@ -17,19 +17,13 @@ class Partons : public analysis::Partons
 
 public:
 
-    Partons();
+    Jets Particles() const final;
 
-    Jets Particles() const;
-
-    Jets GenParticles() const;
+    Jets GenParticles() const final;
 
 private:
 
     Jets Particles(const Status max_status) const;
-
-     std::string NameSpaceName() const {
-        return "exroot";
-    }
 
 };
 

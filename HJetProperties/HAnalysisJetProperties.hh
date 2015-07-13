@@ -1,15 +1,13 @@
-# ifndef HAnalysisJetProperties_hh
-# define HAnalysisJetProperties_hh
+#pragma once
 
-# include "Analysis.hh"
-// # include "HEventDelphes.hh"
-# include "File.hh"
+#include "Analysis.hh"
+// #include "HEventDelphes.hh"
+#include "File.hh"
 
-# include "HJetPropertiesBranch.hh"
-# include "SubStructure.hh"
-
-# include "fastjet/tools/Pruner.hh"
-# include "fastjet/tools/CASubJetTagger.hh"
+#include "HJetPropertiesBranch.hh"
+#include "SubStructure.hh"
+#include "fastjet/tools/Pruner.hh"
+#include "fastjet/tools/CASubJetTagger.hh"
 
 class hjetproperties::JetTag : public analysis::JetTag
 {
@@ -20,11 +18,6 @@ public:
 
     const std::set<analysis::Id> HeavyParticles = {analysis::Id::top, analysis::Id::CP_violating_higgs, analysis::Id::higgs};
 
-     std::string ClassName() const {
-
-        return "HiggsCPV: jet_tag";
-
-    };
 
 };
 
@@ -32,7 +25,7 @@ public:
  * @brief Class defining the Disciminator Analysis
  *
  */
-class hjetproperties::HAnalysis : public analysis::Analysis
+class hjetproperties::HAnalysis //: public analysis::Analysis
 {
 
 public:
@@ -43,11 +36,11 @@ public:
      */
     HAnalysis();
 
-     int GeteventnumberMax()const {
+     int GeteventnumberMax() const {
         return 10000;
     };
 
-     std::string ProjectName()const {
+     std::string ProjectName() const {
         return "JetProperties";
     }
 
@@ -184,14 +177,5 @@ private:
 
      analysis::Strings GetStudyNames() const;
 
-    virtual  std::string ClassName() const {
-
-        return ("HAnalysisJetProperties");
-
-    };
 
 };
-
-
-#endif
-

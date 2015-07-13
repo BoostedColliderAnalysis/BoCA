@@ -1,6 +1,6 @@
-# pragma once
+#pragma once
 
-# include "Analysis.hh"
+#include "Analysis.hh"
 
 namespace analysis
 {
@@ -15,7 +15,7 @@ namespace higgscpv
  * \author Jan Hajer
  *
  */
-class Analysis : public analysis::Analysis
+class Analysis //: public analysis::Analysis
 {
 
 public:
@@ -35,24 +35,20 @@ public:
      * @brief Maximal number of Entries to analyse
      *
      */
-     int EventNumberMax() const {
+     long EventNumberMax() const {
         return 1000;
     }
 
 protected:
 
 
-    virtual  std::string FilePath() const {
+    std::string FilePath() const {
         return "~/Projects/HiggsCpv/Analysis/";
-    }
-
-    virtual  std::string NameSpaceName() const {
-        return "higgscpv";
     }
 
 private:
 
-    int PassPreCut(Event &event);
+    int PassPreCut(const Event &event) const;
 
 };
 

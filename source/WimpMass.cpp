@@ -1,15 +1,10 @@
-# include "WimpMass.hh"
-# include "WIMPMASS.h"
-# include "Predicate.hh"
+#include "WimpMass.hh"
+#include "WIMPMASS.h"
+#include "Predicate.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
-
-WimpMass::WimpMass()
-{
-//     debug_level_ = Severity::debug;
-    Print(Severity::debug, "Constructor");
-}
 
 void WimpMass::Momentum(double momentum[4], const fastjet::PseudoJet &jet)
 {
@@ -22,13 +17,13 @@ void WimpMass::Momentum(double momentum[4], const fastjet::PseudoJet &jet)
 std::vector<analysis::Sextet> WimpMass::Sextets(const std::vector<Quartet22> &quartets, const fastjet::PseudoJet &missing_et)
 {
     std::vector<analysis::Sextet> sextets;
-    for (const auto quartet : quartets) Join(sextets, Sextets(quartet, missing_et));
+    for (const auto &quartet : quartets) Join(sextets, Sextets(quartet, missing_et));
     return sextets;
 }
 
 std::vector<analysis::Sextet> WimpMass::Sextets(const Quartet22 &quartet, const fastjet::PseudoJet &missing_et)
 {
-    Print(Severity::information, "Triple Pairs");
+    Info("Triple Pairs");
 
     event22 structure;
 
@@ -38,22 +33,22 @@ std::vector<analysis::Sextet> WimpMass::Sextets(const Quartet22 &quartet, const 
     Momentum(structure.p6, quartet.Doublet2().SingletJet1());
     Momentum(structure.pmiss, missing_et);
 
-    Print(Severity::debug, "Lepton 1 (p3)", PseudoJet(structure.p3));
-    Print(Severity::debug, "Lepton 2 (p4)" , PseudoJet(structure.p4));
-    Print(Severity::debug, "Jet 1 (p5)" , PseudoJet(structure.p5));
-    Print(Severity::debug, "Jet 2 (p6)" , PseudoJet(structure.p6));
-    Print(Severity::debug, "PMiss" , PseudoJet(structure.pmiss));
+    Debug("Lepton 1 (p3)", PseudoJet(structure.p3));
+    Debug("Lepton 2 (p4)" , PseudoJet(structure.p4));
+    Debug("Jet 1 (p5)" , PseudoJet(structure.p5));
+    Debug("Jet 2 (p6)" , PseudoJet(structure.p6));
+    Debug("PMiss" , PseudoJet(structure.pmiss));
 
     double momentum_1[4][4], momentum_2[4][4];
     int solution_sum;
     solve22(structure, Mass(Id::electron_neutrino), Mass(Id::W), Mass(Id::top), solution_sum, momentum_1, momentum_2);
-    Print(Severity::debug, "Number solutions", solution_sum);
+    Debug("Number solutions", solution_sum);
 
     std::vector<analysis::Sextet> sextets;
     for (const int solution_number : Range(solution_sum)) {
-        Print(Severity::debug, "Solution ", solution_number);
-        Print(Severity::debug, "Neutrino 1 (p1)" , PseudoJet(momentum_1[solution_number]));
-        Print(Severity::debug, "Neutrino 2 (p2)" , PseudoJet(momentum_2[solution_number]));
+        Debug("Solution ", solution_number);
+        Debug("Neutrino 1 (p1)" , PseudoJet(momentum_1[solution_number]));
+        Debug("Neutrino 2 (p2)" , PseudoJet(momentum_2[solution_number]));
 
         Doublet doublet_1(quartet.Doublet1().SingletJet2(), PseudoJet(momentum_1[solution_number]));
         if (doublet_1.Jet().m() <= 0) continue;
@@ -73,15 +68,15 @@ std::vector<analysis::Sextet> WimpMass::Sextets(const Quartet22 &quartet, const 
         sextet.SetBdt(quartet.Bdt());
         sextets.emplace_back(sextet);
 
-        Print(Severity::debug, "TriplePair Bdt", sextet.Bdt(), quartet.Bdt());
-        //         Print(Severity::debug, "Neutrino masses", Jet1.m(), Jet2.m());
-        Print(Severity::debug, "W masses", (PseudoJet(momentum_1[solution_number]) + quartet.Doublet1().SingletJet2()).m(), (PseudoJet(momentum_2[solution_number]) + quartet.Doublet2().SingletJet2()).m());
-        Print(Severity::debug, "top masses", (PseudoJet(momentum_1[solution_number]) + quartet.Doublet1().SingletJet2() + quartet.Doublet1().SingletJet1()).m(), (PseudoJet(momentum_2[solution_number]) + quartet.Doublet2().SingletJet2() + quartet.Doublet2().SingletJet1()).m());
-        //         Print(Severity::debug, "Higg mass", (Jet1 + Pair1.PseudoJet2() + Pair1.PseudoJet1() + Jet2 + Pair2.PseudoJet2() + Pair1.PseudoJet1()).m());
+        Debug("TriplePair Bdt", sextet.Bdt(), quartet.Bdt());
+        //         Debug("Neutrino masses", Jet1.m(), Jet2.m());
+        Debug("W masses", (PseudoJet(momentum_1[solution_number]) + quartet.Doublet1().SingletJet2()).m(), (PseudoJet(momentum_2[solution_number]) + quartet.Doublet2().SingletJet2()).m());
+        Debug("top masses", (PseudoJet(momentum_1[solution_number]) + quartet.Doublet1().SingletJet2() + quartet.Doublet1().SingletJet1()).m(), (PseudoJet(momentum_2[solution_number]) + quartet.Doublet2().SingletJet2() + quartet.Doublet2().SingletJet1()).m());
+        //         Debug("Higg mass", (Jet1 + Pair1.PseudoJet2() + Pair1.PseudoJet1() + Jet2 + Pair2.PseudoJet2() + Pair1.PseudoJet1()).m());
     }
     if (solution_sum == 0) {
 //         if (counter_ == 10) {
-//             Print(Severity::error, "No Solution", counter_);
+//             Error("No Solution", counter_);
 //             return sextets;
 //         }
 //         ++counter_;
@@ -94,37 +89,37 @@ std::vector<analysis::Sextet> WimpMass::Sextets(const Quartet22 &quartet, const 
 
 std::vector<analysis::Sextet> WimpMass::Sextet(const Quartet22 &quartet, const fastjet::PseudoJet &missing_et, const Jets &neutrinos, const Tag tag)
 {
-    Print(Severity::information, "Triple Pair");
+    Info("Triple Pair");
 
     std::vector<analysis::Sextet> sextets = Sextets(quartet, missing_et);
-    Print(Severity::debug, "Number Solutions", sextets.size());
+    Debug("Number Solutions", sextets.size());
 
     if (sextets.empty()) return sextets;
 //     if (Neutrinos.size() < 2) return sextets;
 
-    for (const auto & Neutrino : neutrinos) Print(Severity::debug, "Neutrino", Neutrino);
-    Print(Severity::debug, "Neutrino Sum", neutrinos[0] + neutrinos[1]);
-    Print(Severity::debug, "MET", missing_et);
+    for (const auto & neutrino : neutrinos) Debug("Neutrino", neutrino);
+    Debug("Neutrino Sum", neutrinos[0] + neutrinos[1]);
+    Debug("MET", missing_et);
 
     std::map<float, analysis::Sextet> map;
     for (const auto & sextet : sextets) {
-        fastjet::PseudoJet Neutrino1 = sextet.Triplet1().Doublet().SingletJet2();
-        fastjet::PseudoJet Neutrino2 = sextet.Triplet2().Doublet().SingletJet2();
+        fastjet::PseudoJet neutrino_1 = sextet.Triplet1().Doublet().SingletJet2();
+        fastjet::PseudoJet neutrino_2 = sextet.Triplet2().Doublet().SingletJet2();
 
-        std::vector<float> Neutrino1Errors, Neutrino2Errors;
-        for (const auto & Neutrino : neutrinos) {
-            //             Print(Severity::error, "Neutrino Mass", Neutrino.m());
-            Neutrino1Errors.emplace_back((Neutrino + Neutrino1).m());
-            Print(Severity::debug, "Neutrino 1 Error", (Neutrino + Neutrino1).m());
-            Neutrino2Errors.emplace_back((Neutrino + Neutrino2).m());
-            Print(Severity::debug, "Neutrino 2 Error", (Neutrino + Neutrino2).m());
+        std::vector<float> errors_1, errors_2;
+        for (const auto & neutrino : neutrinos) {
+            //             Error("Neutrino Mass", Neutrino.m());
+            errors_1.emplace_back((neutrino + neutrino_1).m());
+            Debug("Neutrino 1 Error", (neutrino + neutrino_1).m());
+            errors_2.emplace_back((neutrino + neutrino_2).m());
+            Debug("Neutrino 2 Error", (neutrino + neutrino_2).m());
         }
 
-        float Error = LargeNumber();
-        for (const auto Neutrino1Error : Neutrino1Errors)
-            for (const auto Neutrino2Error : Neutrino2Errors) {
-                if (&Neutrino1Error - &Neutrino1Errors[0] == &Neutrino2Error - &Neutrino2Errors[0]) continue;
-                if (Neutrino1Error + Neutrino2Error < Error) Error = Neutrino1Error + Neutrino2Error;
+        float error = LargeNumber();
+        for (const auto &error_1 : errors_1)
+            for (const auto &error_2 : errors_2) {
+                if (&error_1 - &errors_1[0] == &error_2 - &errors_2[0]) continue;
+                if (error_1 + error_2 < error) error = error_1 + error_2;
 
             }
 
@@ -138,16 +133,16 @@ std::vector<analysis::Sextet> WimpMass::Sextet(const Quartet22 &quartet, const f
 //                 if (Neutrino1Errors[i] + Neutrino2Errors[j] < Error) Error = Neutrino1Errors[i] + Neutrino2Errors[j];
 //             }
 //         }
-        map[Error] = sextet;
-        Print(Severity::debug, "TriplePair Bdt", sextet.Bdt());
+        map[error] = sextet;
+        Debug("TriplePair Bdt", sextet.Bdt());
     }
 
-    for (const auto & pair : map) Print(Severity::debug, "Neutrino Error Sum", pair.first);
+    for (const auto & pair : map) Debug("Neutrino Error Sum", pair.first);
     if (tag == Tag::signal) map.erase(std::next(map.begin()), map.end());
     else map.erase(map.begin());
 
     std::vector<analysis::Sextet> final_sextets;
-    for (const auto pair : map) {
+    for (const auto &pair : map) {
         analysis::Sextet sextet = pair.second;
         final_sextets.emplace_back(sextet);
     }

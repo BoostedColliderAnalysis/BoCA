@@ -1,5 +1,5 @@
-
-HDictionary(HBranchDiscriminator HBranchDiscriminator.cpp ../include/HDiscriminatorLinkDef.hh)
+hinclude(.)
+HDictionary(HBranchDiscriminator ./HBranchDiscriminator.cpp ../include/HDiscriminatorLinkDef.hh)
 
 set(DiscriminatorLib
 HAnalysisDiscriminator.cpp

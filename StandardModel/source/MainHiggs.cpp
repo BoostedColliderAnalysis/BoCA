@@ -1,14 +1,12 @@
-# include "AnalysisHiggsTagger.hh"
-# include "HiggsTagger.hh"
+#include "AnalysisHiggs.hh"
+#include "HiggsTagger.hh"
 
 int main()
 {
-    analysis::BottomTagger bottom_tagger;
-    analysis::standardmodel::AnalysisHiggs bottom_analysis(bottom_tagger);
+    analysis::standardmodel::AnalysisHiggs<analysis::BottomTagger> bottom_analysis;
     bottom_analysis.RunFast();
 
-    analysis::HiggsTagger higgs_tagger;
-    analysis::standardmodel::AnalysisHiggs higgs_analysis(higgs_tagger);
-    higgs_analysis.RunFull();
+    analysis::standardmodel::AnalysisHiggs<analysis::HiggsTagger> higgs_analysis;
+    higgs_analysis.RunFullEfficiency();
 }
 

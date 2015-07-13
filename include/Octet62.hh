@@ -1,6 +1,6 @@
-# pragma once
+#pragma once
 
-# include "Sextet.hh"
+#include "Sextet.hh"
 
 namespace analysis
 {
@@ -33,7 +33,7 @@ public:
     }
 
      float BottomBdt() const {
-        return Doublet().SingletJet1().user_info<JetInfo>().Bdt() + Doublet().SingletJet2().user_info<JetInfo>().Bdt() + Sextet().Triplet1().SingletJet().user_info<JetInfo>().Bdt() + Sextet().Triplet2().SingletJet().user_info<JetInfo>().Bdt();
+        return Doublet().SingletJet1().user_info<JetInfo>().Bdt() + Doublet().SingletJet2().user_info<JetInfo>().Bdt() + Sextet().Triplet1().Singlet().Jet().user_info<JetInfo>().Bdt() + Sextet().Triplet2().Singlet().Jet().user_info<JetInfo>().Bdt();
     }
 
      float PairBottomBdt() const {
@@ -71,14 +71,6 @@ public:
      float GetDeltaPt2() const {
         return (Sextet().Jet().pt() - Doublet().SingletJet2().pt());
     }
-
-protected:
-
-    virtual  std::string ClassName() const {
-        return "Octet62";
-    }
-
-private:
 
 };
 

@@ -1,4 +1,6 @@
-# include "TopPartnerHadronicTagger.hh"
+#include "TopPartnerHadronicTagger.hh"
+#include "Event.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
@@ -8,19 +10,15 @@ namespace toppartner
 
 TopPartnerHadronicTagger::TopPartnerHadronicTagger()
 {
-//         DebugLevel = Severity::detailed;
-    Print(Severity::notification, "Constructor");
-    set_tagger_name("TopPartnerHadronic");
-    top_reader_.SetTagger(top_tagger_);
-    z_hadronic_reader_.SetTagger(z_hadronic_tagger);
+    Note();
     DefineVariables();
 }
 
-int TopPartnerHadronicTagger::Train(Event &event,  PreCuts &pre_cuts, const Tag tag)
+int TopPartnerHadronicTagger::Train(const Event &event,  PreCuts &pre_cuts, const Tag tag) const
 {
-    Print(Severity::information, "Higgs Tags");
-    std::vector< Triplet> triplets = top_reader_.Multiplets<TopHadronicTagger>(event);
-    std::vector< Doublet> doublets = z_hadronic_reader_.Multiplets<ZHadronicTagger>(event);
+    Info();
+    std::vector< Triplet> triplets = top_reader_.Multiplets(event);
+    std::vector< Doublet> doublets = boson_reader_.Multiplets(event);
     std::vector< Quintet > quintets;
     for (const auto & doublet : doublets)
         for (const auto & triplet : triplets) {
@@ -29,13 +27,14 @@ int TopPartnerHadronicTagger::Train(Event &event,  PreCuts &pre_cuts, const Tag 
             quintet.SetTag(tag);
             quintets.emplace_back(quintet);
         }
-    return SaveEntries(quintets);
+    Jets top_partner = CopyIfAbsParticle(event.Partons().GenParticles(), Id::top_partner);
+    return SaveEntries(BestMatches(quintets, top_partner, tag), 1);
 }
 
-std::vector<Quintet> TopPartnerHadronicTagger::Multiplets(analysis::Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader)
+std::vector<Quintet> TopPartnerHadronicTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const
 {
-    std::vector< Triplet> triplets = top_reader_.Multiplets<TopHadronicTagger>(event);
-    std::vector< Doublet> doublets = z_hadronic_reader_.Multiplets<ZHadronicTagger>(event);
+    std::vector< Triplet> triplets = top_reader_.Multiplets(event);
+    std::vector< Doublet> doublets = boson_reader_.Multiplets(event);
     std::vector< Quintet > quintets;
     for (const auto & doublet : doublets)
         for (const auto & triplet : triplets) {

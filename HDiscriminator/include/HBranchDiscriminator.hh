@@ -1,9 +1,8 @@
-# ifndef BranchDiscriminator_hh
-# define BranchDiscriminator_hh
+#pragma once
 
-# include "TObject.h"
-# include "Rtypes.h"
-# include "TGenericClassInfo.h"
+#include "TObject.h"
+#include "Rtypes.h"
+#include "TGenericClassInfo.h"
 
 namespace hcpvhiggs{
 
@@ -152,5 +151,3 @@ private:
 };
 
 }
-
-# endif

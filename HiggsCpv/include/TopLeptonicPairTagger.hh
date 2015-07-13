@@ -1,8 +1,8 @@
-# pragma once
+#pragma once
 
-# include "Sextet.hh"
-# include "TopLeptonicTagger.hh"
-# include "BranchesHiggsCpv.hh"
+#include "TopLeptonicTagger.hh"
+#include "Sextet.hh"
+#include "BranchesHiggsCpv.hh"
 
 namespace analysis
 {
@@ -21,34 +21,26 @@ public:
 
     TopLeptonicPairTagger();
 
-    int Train(analysis::Event &event, analysis::PreCuts &, const analysis::Tag tag);
+    int Train(const Event &event, analysis::PreCuts &, const analysis::Tag tag) const;
 
-    std::vector<Sextet> Multiplets(analysis::Event &event, analysis::PreCuts &, const TMVA::Reader &reader);
+    std::vector<Sextet> Multiplets(const Event &event, analysis::PreCuts &, const TMVA::Reader &reader) const;
 
-    int GetBdt(Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) {
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
         return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
-    auto Multiplets(Event &event, const TMVA::Reader &reader) {
+    auto Multiplets(const Event &event, const TMVA::Reader &reader) {
         PreCuts pre_cuts;
         return Multiplets(event, pre_cuts, reader);
     }
 
-protected:
-
-    virtual  std::string NameSpaceName() const {
-        return "higgscpv";
-    }
-
-    virtual  std::string ClassName() const {
-        return "TopLeptonicPairTagger";
+    std::string name() const final {
+      return "TopLeptonicPair";
     }
 
 private:
 
-    TopLeptonicTagger top_leptonic_tagger_;
-
-    Reader top_leptonic_reader_;
+    Reader<TopLeptonicTagger> top_leptonic_reader_;
 
 };
 

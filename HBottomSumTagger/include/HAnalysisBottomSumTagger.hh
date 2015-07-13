@@ -1,17 +1,16 @@
-# ifndef HAnalysisBottomSumTagger_hh
-# define HAnalysisBottomSumTagger_hh
+#pragma once
 
-# include <sys/stat.h>
-# include <string>
+#include <sys/stat.h>
+#include <string>
 
-# include "File.hh"
-# include "Analysis.hh"
-// # include "HEventDelphes.hh"
-# include "Reader.hh"
-# include "Factory.hh"
-# include "JetTag.hh"
+#include "File.hh"
+#include "Analysis.hh"
+// #include "HEventDelphes.hh"
+#include "Reader.hh"
+#include "Factory.hh"
+#include "JetTag.hh"
 
-# include "HEventBottomTagger.hh"
+#include "HEventBottomTagger.hh"
 
 namespace hbottomsumtagger
 {
@@ -23,7 +22,7 @@ namespace hbottomsumtagger
  * @author Jan Hajer
  *
  */
-class HAnalysis : public analysis::Analysis
+class HAnalysis //: public analysis::Analysis
 {
 
 public:
@@ -34,11 +33,13 @@ public:
      */
 //     HAnalysis();
 
-using analysis::Analysis::Analysis;
+
+
+// using analysis::Analysis::Analysis;
 
     analysis::BottomTagger bottom_tagger_;
 
-    EventBottomTagger eventBottomSumTagger;
+//     EventBottomTagger eventBottomSumTagger;
 
 //     std::string StudyName(const analysis::HAnalysis::HTagger Tagger) const;
 
@@ -52,23 +53,14 @@ using analysis::Analysis::Analysis;
         return  ProductionChannelName(ProductionChannel()) + DetectorName(Detector())  + "_" + std::to_string(Mass()) + "GeV";
     }
 
-protected:
-
-    virtual  std::string NameSpaceName() const {
-        return "hbottomsumtagger";
-    }
-
-    virtual  std::string ClassName() const {
-        return "HAnalysis";
-    }
-
 private:
+  void SetFiles(const analysis::Tag tag) {};
 
     enum ProcessType {bb, cc, jj, qq, gg, Hbb, ttbb, ttcc, ttjj, ttqq, ttgg, bbbb, bbjj, bbcc, bbqq, bbgg};
     enum HProductionChannel {DYP, VBF, Associated, Simple};
     enum HDetectorType {LHC, FHC, LE};
 
-     int EventNumberMax() const {
+     long EventNumberMax() const {
 //         return 1000000;
 //         return 100000;
         return 10000;
@@ -98,7 +90,7 @@ private:
         case LE :
             return "LE";
         default:
-          Print(analysis::Severity::error, "Detector Name", "unhandeld case");
+          Error("Detector Name", "unhandeld case");
             return "";
         }
     }
@@ -115,7 +107,7 @@ private:
         case Simple :
             return "";
         default:
-            Print(analysis::Severity::error, "ProductionChannelName", "unhandeld case");
+            Error("ProductionChannelName", "unhandeld case");
             return "";
         }
     }
@@ -129,7 +121,7 @@ private:
         case Associated :
           return analysis::Id::gluon;
         default:
-          Print(analysis::Severity::error, "MotherId", "unhandeld case");
+          Error("MotherId", "unhandeld case");
             return analysis::Id::empty;
         }
     }
@@ -169,7 +161,7 @@ private:
         case ttgg:
             return "ttgg";
         default:
-          Print(analysis::Severity::error, "ProcessName", "unhandeld case");
+          Error("ProcessName", "unhandeld case");
             return "";
         }
     }
@@ -231,12 +223,12 @@ private:
     }
 
     analysis::JetTag jet_tag;
-    analysis::Reader BottomReader;
-    analysis::Reader eventBottomSumReader;
+//     analysis::Reader BottomReader;
+//     analysis::Reader eventBottomSumReader;
 
 //     void NewBranches(exroot::TreeWriter &NewTreeWriter, const analysis::HAnalysis::HTagger Tagger);
 
-//     int RunAnalysis(analysis::Event &event, const analysis::Tagger::Stage stage, const Tag tag);
+//     int RunAnalysis(analysis::Event &event, const analysis::Stage stage, const Tag tag);
 
 //     bool GetBottomTag(analysis::Event &event, const analysis::Tag Tag);
 //     bool GetBottomReader(analysis::Event &event, const analysis::Tag Tag);
@@ -246,5 +238,3 @@ private:
 
 };
 }
-#endif
-

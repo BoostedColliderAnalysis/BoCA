@@ -1,8 +1,8 @@
-# pragma once
+#pragma once
 
-# include "Quartet31.hh"
-# include "TopSemiTagger.hh"
-# include "Branch.hh"
+#include "TopSemiTagger.hh"
+#include "Quartet.hh"
+#include "Branch.hh"
 
 namespace analysis
 {
@@ -20,25 +20,23 @@ public:
 
     ChargedHiggsSemiTagger();
 
-    int Train(Event &event, PreCuts &pre_cuts, const Tag tag);
+    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const final;
 
-    std::vector<Quartet31> Multiplets(Event& event, PreCuts &pre_cuts, const TMVA::Reader& reader);
+    std::vector<Quartet31> Multiplets(const Event& event, PreCuts &pre_cuts, const TMVA::Reader& reader) const;
 
-protected:
+    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
+      return SaveEntries(Multiplets(event, pre_cuts, reader));
+    }
 
-    virtual  std::string ClassName() const {
-        return "ChargedHiggsSemiTagger";
+    std::string name() const final {
+      return "ChargedHiggsSemi";
     }
 
 private:
 
-    BottomTagger bottom_tagger_;
+    Reader<BottomTagger> bottom_reader_;
 
-    TopSemiTagger top_semi_tagger_;
-
-    Reader bottom_reader_;
-
-    Reader top_semi_reader_;
+    Reader<TopSemiTagger> top_semi_reader_;
 };
 
 }

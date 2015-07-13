@@ -1,12 +1,13 @@
-# pragma once
+#pragma once
 
-# include <map>
-# include "Object.hh"
+#include <map>
+#include "Global.hh"
+
 
 namespace analysis
 {
 
-class PreCuts : public analysis::Object
+class PreCuts
 {
 public:
     void SetPtLowerCut(const Id id, const float value) {
@@ -26,19 +27,19 @@ public:
     }
 
     void SetMassLowerCut(const Id id, const float value) {
-      mass_lower_cut_[id] = value;
-    }   
+        mass_lower_cut_[id] = value;
+    }
 
     float MassLowerCut(const Id id) {
-      return mass_lower_cut_[id];
+        return mass_lower_cut_[id];
     }
 
     void SetMassUpperCut(const Id id, const float value) {
-      mass_upper_cut_[id] = value;
+        mass_upper_cut_[id] = value;
     }
 
     float MassUpperCut(const Id id) {
-      return mass_upper_cut_[id];
+        return mass_upper_cut_[id];
     }
 
     void SetTrackerMaxEta(const Id id, const float value) {
@@ -49,7 +50,7 @@ public:
         return tracker_eta_upper_cut_[id];
     }
 
-    bool DoSubJets()const {
+    bool DoSubJets() const {
         return do_sub_jets_;
     }
 
@@ -58,12 +59,19 @@ public:
     }
 
 private:
+
     std::map<Id, float> pt_lower_cut_;
+
     std::map<Id, float> pt_upper_cut_;
+
     std::map<Id, float> mass_lower_cut_;
+
     std::map<Id, float> mass_upper_cut_;
+
     std::map<Id, float> tracker_eta_upper_cut_;
+
     bool do_sub_jets_ = true;
+
 };
 
 

@@ -1,16 +1,13 @@
-# include "exroot/Partons.hh"
-# include "JetInfo.hh"
+#include "../exroot/Partons.hh"
+#include "JetInfo.hh"
+#include "Predicate.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
 
 namespace exroot
 {
-
-Partons::Partons()
-{
-    Print(Severity::notification, "Constructor");
-}
 
 Jets Partons::Particles() const
 {
@@ -24,10 +21,10 @@ Jets Partons::GenParticles() const
 
 Jets Partons::Particles(const Status max_status) const
 {
-    Print(Severity::information, "Particles", clones_arrays().ParticleSum());
+    Info(clones_arrays().ParticleSum());
     Jets particles;
-    for (const int ParticleNumber : Range(clones_arrays().ParticleSum())) {
-        TRootLHEFParticle &particle = static_cast<TRootLHEFParticle &>(clones_arrays().Particle(ParticleNumber));
+    for (const int particle_number : Range(clones_arrays().ParticleSum())) {
+        TRootLHEFParticle &particle = static_cast<TRootLHEFParticle &>(clones_arrays().Particle(particle_number));
         if (particle.Status < to_int(max_status)) break;
         Family family(particle.PID);
         Constituent constituent(LorentzVector(particle), family);

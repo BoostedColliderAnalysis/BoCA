@@ -22,15 +22,26 @@ set(LibraryProperties
 
 #define macros
 macro(HInclude include_directory)
-get_filename_component(result ${include_directory} ABSOLUTE)
+  get_filename_component(result ${include_directory} ABSOLUTE)
   message("Include:      ${result}")
   set(IncludeDirectory
     ${IncludeDirectory}
-    ${include_directory}
+    ${result}
     CACHE INTERNAL IncludeDirectory FORCE
   )
   include_directories(${ARGV1} ${IncludeDirectory})
 endmacro(HInclude)
+
+macro(HSource source_directory)
+  get_filename_component(result ${source_directory} ABSOLUTE)
+  message("Source:      ${result}")
+  set(SourceDirectory
+    ${SourceDirectory}
+    ${result}
+    CACHE INTERNAL SourceDirectory FORCE
+  )
+#   include_directories(${ARGV1} ${IncludeDirectory})
+endmacro(HSource)
 
 macro(HLibrary library_name library_source)
   message("Library:      ${library_name} <- ${${library_source}} ${ARGV2}")
@@ -51,6 +62,7 @@ endmacro(HExecutable)
 macro(HDictionary dictionary_name dictionary_source link_def)
   message("Dictionary:   ${dictionary_name} <- ${dictionary_source} & ${link_def}")
   set(dictionary ${dictionary_name}Dict.cpp)
+  set(includedir ${IncludeDirectory} ${SourceDirectory})
   ROOT_GENERATE_DICTIONARY("${dictionary_source}" "${link_def}" "${dictionary}" "${IncludeDirectory}")
   HLibrary(${dictionary_name} dictionary ${ARGV3})
 endmacro(HDictionary)

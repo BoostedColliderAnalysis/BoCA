@@ -1,13 +1,13 @@
-# pragma once
+#pragma once
 
-# include "Multiplet.hh"
-# include "GlobalObservables.hh"
+#include "GlobalObservables.hh"
+#include "Multiplet.hh"
 
 namespace analysis
 {
 
 /**
- * @brief An evnt composed of a multiplet an a singlet made up from the remaining jets
+ * @brief An event composed of a multiplet an a singlet made up from the remaining jets
  *
  */
 template <typename Multiplet_1>
@@ -16,13 +16,14 @@ class MultipletEvent : public analysis::Multiplet<Multiplet_1, analysis::Singlet
 
 public:
 
-    MultipletEvent(const Multiplet_1 &multiplet, Event &event, Jets &jets) {
-        analysis::Multiplet<Multiplet_1, analysis::Singlet>::SetMultiplet1(multiplet);
+    MultipletEvent(const Multiplet_1 &multiplet, const Event &event, Jets &jets) {
+//         analysis::Multiplet<Multiplet_1, analysis::Singlet>::SetMultiplet1(multiplet);
         global_observables_.SetEvent(event,jets);
         Jets unique_jets;
-        for (const auto jet : jets) if (!analysis::Multiplet<Multiplet_1, analysis::Singlet>::Multiplet1().Overlap(jet)) unique_jets.emplace_back(jet);
+        for (const auto &jet : jets) if (!analysis::Multiplet<Multiplet_1, analysis::Singlet>::Multiplet1().Overlap(jet)) unique_jets.emplace_back(jet);
         global_observables_.SetJets(unique_jets);
-        analysis::Multiplet<Multiplet_1, analysis::Singlet>::SetMultiplet2(global_observables_.Singlet());
+//         analysis::Multiplet<Multiplet_1, analysis::Singlet>::SetMultiplet2(global_observables_.Singlet());
+        analysis::Multiplet<Multiplet_1, analysis::Singlet>::SetMultiplets(multiplet,global_observables_.Singlet());
     }
 
     Multiplet_1 Multiplet() const {
@@ -37,12 +38,6 @@ public:
       return global_observables_;
     }
 
-protected:
-
-    virtual  std::string ClassName() const {
-        return "MultipletEvent";
-    }
-
 private:
 
     analysis::GlobalObservables global_observables_;
@@ -50,4 +45,5 @@ private:
 };
 
 }
+
 

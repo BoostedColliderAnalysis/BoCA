@@ -1,4 +1,4 @@
 HInclude(./include)
-HInclude(${PROJECT_SOURCE_DIR}/Tagger/source)
+HSource(./source)
 
 add_subdirectory(source)
