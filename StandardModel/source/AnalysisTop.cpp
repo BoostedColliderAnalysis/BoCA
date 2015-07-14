@@ -14,8 +14,6 @@ std::string Name(const Decay decay)
         return "hadronic";
     case Decay::leptonic :
         return "leptonic";
-    case Decay::semi :
-        return "semi";
     }
 }
 

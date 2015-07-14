@@ -1,7 +1,7 @@
 #pragma once
 
 #include "BottomTagger.hh"
-#include "WSemiTagger.hh"
+#include "WLeptonicTagger.hh"
 #include "Triplet.hh"
 #include "Reader.hh"
 
@@ -43,14 +43,18 @@ public:
     }
 
     std::string Name() const final {
-      return "TopLeptonic";
+        return "TopLeptonic";
+    }
+
+    int TopLeptonicId(const Event &event) const {
+        return sgn(w_leptonic_reader_.tagger().WLeptonicId(event)) * to_int(Id::top);
     }
 
 private:
 
-  Reader<BottomTagger> bottom_reader_;
+    Reader<BottomTagger> bottom_reader_;
 
-  Reader<WSemiTagger> w_semi_reader_;
+    Reader<WLeptonicTagger> w_leptonic_reader_;
 
     float top_mass_window;
 

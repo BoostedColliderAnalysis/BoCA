@@ -10,7 +10,7 @@ namespace standardmodel
 
 enum class Decay
 {
-    semi, hadronic
+    leptonic, hadronic
 };
 
 std::string WName(const Decay decay);
@@ -38,7 +38,7 @@ public:
 
     Decay WDecay() const {
         return Decay::hadronic;
-        //         return Decay::semi;
+        //         return Decay::leptonic;
     }
 
 private:

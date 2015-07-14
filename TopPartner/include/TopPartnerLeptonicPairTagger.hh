@@ -38,7 +38,7 @@ private:
 
     Reader<TopPartnerHadronicTagger> top_partner_hadronic_reader_;
 
-    Reader<TopPartnerLeptonicTagger> top_partner_semi_reader_;
+    Reader<TopPartnerLeptonicTagger> top_partner_leptonic_reader_;
 
 };
 

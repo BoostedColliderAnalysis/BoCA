@@ -1,6 +1,6 @@
 #pragma once
 
-#include "TopSemiTagger.hh"
+#include "TopLeptonicTagger.hh"
 #include "ZHadronicTagger.hh"
 #include "Quintet.hh"
 #include "BranchesTopPartner.hh"
@@ -27,21 +27,21 @@ public:
     std::vector<Quintet> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
 
     int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
-      return SaveEntries(Multiplets(event,pre_cuts, reader));
+        return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
-    auto Multiplets(const Event &event, const TMVA::Reader &reader){
-      PreCuts pre_cuts;
-      return Multiplets(event, pre_cuts, reader);
+    auto Multiplets(const Event &event, const TMVA::Reader &reader) {
+        PreCuts pre_cuts;
+        return Multiplets(event, pre_cuts, reader);
     }
 
     std::string Name() const final {
-      return "TopPartnerSemi";
+        return "TopPartnerSemi";
     }
 
 private:
 
-    Reader<TopSemiTagger> top_reader_;
+    Reader<TopLeptonicTagger> top_reader_;
 
     Reader<ZHadronicTagger> z_hadronic_reader_;
 };

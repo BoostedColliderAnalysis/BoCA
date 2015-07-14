@@ -17,7 +17,7 @@ int TopPartnerLeptonicPairTagger::Train(const Event &event, PreCuts &pre_cuts, c
 {
     Info();
     std::vector< Quintet> quintets = top_partner_hadronic_reader_.Multiplets(event);
-    std::vector< Quartet22> quartets = top_partner_semi_reader_.Multiplets(event);
+    std::vector< Quartet22> quartets = top_partner_leptonic_reader_.Multiplets(event);
     std::vector< Nonet > nonets;
     for (const auto & quintet :  quintets) {
         for (const auto & quartet : quartets) {
@@ -35,7 +35,7 @@ std::vector<Nonet> TopPartnerLeptonicPairTagger::Multiplets(const Event &event, 
 {
   Info();
   std::vector< Quintet> quintets = top_partner_hadronic_reader_.Multiplets(event);
-  std::vector< Quartet22> quartets = top_partner_semi_reader_.Multiplets(event);
+  std::vector< Quartet22> quartets = top_partner_leptonic_reader_.Multiplets(event);
     std::vector< Nonet > nonets;
     for (const auto & quintet :  quintets) {
       for (const auto & quartet : quartets) {

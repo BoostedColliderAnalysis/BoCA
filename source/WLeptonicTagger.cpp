@@ -1,22 +1,22 @@
-#include "WSemiTagger.hh"
+#include "WLeptonicTagger.hh"
 #include "Event.hh"
 #include "Debug.hh"
 
 namespace analysis {
 
-WSemiTagger::WSemiTagger()
+WLeptonicTagger::WLeptonicTagger()
 {
     Info();
     w_mass_window_ = 20;
     DefineVariables();
 }
 
-int WSemiTagger::Train(const Event &event, analysis::PreCuts &, const analysis::Tag tag) const
+int WLeptonicTagger::Train(const Event &event, analysis::PreCuts &, const analysis::Tag tag) const
 {
     Info();
     Jets Particles = event.Partons().GenParticles();
-    int w_semi_id = WSemiId(event);
-    Jets w_bosons = CopyIfParticle(Particles, w_semi_id);
+    int w_leptonic_id = WLeptonicId(event);
+    Jets w_bosons = CopyIfParticle(Particles, w_leptonic_id);
     Jets leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
     if (leptons.size() > w_bosons.size()) leptons.erase(leptons.begin() + w_bosons.size(), leptons.end());
     const fastjet::PseudoJet missing_et = event.Hadrons().MissingEt();
@@ -43,12 +43,12 @@ int WSemiTagger::Train(const Event &event, analysis::PreCuts &, const analysis::
     return SaveEntries(doublets);
 }
 
-std::vector<Doublet>  WSemiTagger::Multiplets(const Event &event, analysis::PreCuts &, const TMVA::Reader &reader) const
+std::vector<Doublet>  WLeptonicTagger::Multiplets(const Event &event, analysis::PreCuts &, const TMVA::Reader &reader) const
 {
   Info();
   Jets Particles = event.Partons().GenParticles();
-  int w_semi_id = WSemiId(event);
-  Jets w_bosons = CopyIfParticle(Particles, w_semi_id);
+  int w_leptonic_id = WLeptonicId(event);
+  Jets w_bosons = CopyIfParticle(Particles, w_leptonic_id);
     Jets leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
     if (leptons.size() > w_bosons.size()) leptons.erase(leptons.begin() + w_bosons.size(), leptons.end());
 
@@ -65,7 +65,7 @@ std::vector<Doublet>  WSemiTagger::Multiplets(const Event &event, analysis::PreC
     return ReduceResult(doublets);
 }
 
-std::vector<Doublet> WSemiTagger::ReconstructNeutrino(const Doublet &doublet) const
+std::vector<Doublet> WLeptonicTagger::ReconstructNeutrino(const Doublet &doublet) const
 {
 
     Info();
@@ -115,7 +115,7 @@ std::vector<Doublet> WSemiTagger::ReconstructNeutrino(const Doublet &doublet) co
 
 }
 
-Jets WSemiTagger::WSemiDaughters(const Event &event) const
+Jets WLeptonicTagger::WLeptonicDaughters(const Event &event) const
 {
     Jets w_daughters = event.Partons().GenParticles();
     w_daughters = RemoveIfSoft(w_daughters, DetectorGeometry().JetMinPt());
@@ -124,7 +124,7 @@ Jets WSemiTagger::WSemiDaughters(const Event &event) const
     return w_daughters;
 }
 
-int WSemiTagger::WSemiId(const Jets &jets) const
+int WLeptonicTagger::WLeptonicId(const Jets &jets) const
 {
   if (jets.empty()) return 0;
   int sign;

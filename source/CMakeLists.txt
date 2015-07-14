@@ -59,11 +59,10 @@ TauTagger.cpp
 BottomTagger.cpp
 BosonTagger.cpp
 WHadronicTagger.cpp
-WSemiTagger.cpp
+WLeptonicTagger.cpp
 ZHadronicTagger.cpp
 HiggsTagger.cpp
 TopHadronicTagger.cpp
-TopSemiTagger.cpp
 TopLeptonicTagger.cpp
 JetPairTagger.cpp
 TripletJetPairTagger.cpp
