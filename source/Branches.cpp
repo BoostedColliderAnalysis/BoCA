@@ -14,6 +14,27 @@
 namespace analysis
 {
 
+Obs::Obs(float &value, const std::string &name, const std::string &nice_name) : value_(&value)
+{
+    name_ = name;
+    nice_name_ = nice_name;
+}
+
+float &Obs::value()const
+{
+    return *value_;
+}
+
+std::string Obs::name()const
+{
+    return name_;
+}
+
+std::string Obs::nice_name()const
+{
+    return nice_name_;
+}
+
 BaseBranch::~BaseBranch() {}
 
 float BaseBranch::InitialValue()
@@ -262,17 +283,6 @@ Observables TopHadronicBranch::Spectators()
     return Join(MultiBranch::Spectators(), BottomBase::Spectators());
 }
 
-TopSemiBranch::TopSemiBranch()
-{
-    BottomPt = InitialValue();
-    WPt = InitialValue();
-}
-
-Observables TopSemiBranch::Variables()
-{
-    return Join(MultiBranch::Variables(), {OBS(BottomPt), OBS(WPt)});
-}
-
 TopLeptonicBranch::TopLeptonicBranch()
 {
     BottomPt = InitialValue();
@@ -281,7 +291,7 @@ TopLeptonicBranch::TopLeptonicBranch()
 
 Observables TopLeptonicBranch::Variables()
 {
-    return  Join(Join(BottomBase::Variables(), ParticleBranch::Variables()), {OBS(Ht), OBS(DeltaPt), OBS(DeltaM), OBS(DeltaRap), OBS(DeltaPhi), OBS(DeltaR), OBS(Rho), OBS(Bdt1), OBS(BottomPt), OBS(LeptonPt)});
+    return  Join(Join(BottomBase::Variables(), ParticleBranch::Variables()), {OBS(Ht), OBS(DeltaPt), OBS(DeltaM), OBS(DeltaRap), OBS(DeltaPhi), OBS(DeltaR), OBS(Rho), OBS(Bdt2), OBS(BottomPt), OBS(LeptonPt)});
 }
 
 Observables TopLeptonicBranch::Spectators()

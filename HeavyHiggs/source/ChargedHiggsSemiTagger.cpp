@@ -13,7 +13,7 @@ ChargedHiggsSemiTagger::ChargedHiggsSemiTagger()
     DefineVariables();
 }
 
-int ChargedHiggsSemiTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const
+int ChargedHiggsSemiTagger::Train(const Event &event, PreCuts &, const Tag tag) const
 {
     Info("Higgs Tags");
 
@@ -29,13 +29,13 @@ int ChargedHiggsSemiTagger::Train(const Event &event, PreCuts &pre_cuts, const T
     }
 
     Jets jets = bottom_reader_.Multiplets(event);
-    std::vector<Triplet> triplets = top_semi_reader_.Multiplets(event);
+    std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
 
 
 //     int WSemiId = w_semi_tagger.WSemiId(event);
     Jets TopParticles = event.Partons().GenParticles();
 //     int TopSemiId = sgn(WSemiId) * std::abs(Id::top);
-    int TopSemiId = top_semi_reader_.tagger().TopLeptonicId(event);
+    int TopSemiId = top_leptonic_reader_.tagger().TopLeptonicId(event);
     TopParticles = RemoveIfWrongParticle(TopParticles, TopSemiId);
     fastjet::PseudoJet TopQuark;
     if (TopParticles.size() == 1) TopQuark = TopParticles.front();
@@ -78,10 +78,10 @@ int ChargedHiggsSemiTagger::Train(const Event &event, PreCuts &pre_cuts, const T
     return SaveEntries(quartets);
 }
 
-std::vector<Quartet31>  ChargedHiggsSemiTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const
+std::vector<Quartet31> ChargedHiggsSemiTagger::Multiplets(const Event &event, analysis::PreCuts &, const TMVA::Reader &reader) const
 {
   Jets jets = bottom_reader_.Multiplets(event);
-  std::vector<Triplet> triplets = top_semi_reader_.Multiplets(event);
+  std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
 
     std::vector<Quartet31> quartets;
     for (const auto & triplet : triplets)

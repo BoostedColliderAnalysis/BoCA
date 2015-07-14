@@ -2,11 +2,9 @@ HDictionary(BranchTopPartner BranchesTopPartner.cpp ../include/LinkDefTopPartner
 
 set(AnalysisSources
 TopPartnerHadronicTagger.cpp
-TopPartnerSemiTagger.cpp
 TopPartnerLeptonicTagger.cpp
 HiggsPairTagger.cpp
 TopPartnerPairTagger.cpp
-TopPartnerLeptonicPairTagger.cpp
 TopPartnerHiggsPairTagger.cpp
 SignatureTagger.cpp
 SignatureSingleTagger.cpp

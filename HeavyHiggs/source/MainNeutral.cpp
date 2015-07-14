@@ -21,14 +21,14 @@ int main()
     analysis::heavyhiggs::AnalysisNeutral<analysis::TopLeptonicTagger> tops_leptonic_analysis;
     tops_leptonic_analysis.RunFast();
 
-    analysis::heavyhiggs::AnalysisNeutral<analysis::heavyhiggs::HeavyHiggsSemiTagger> heavy_higgs_leptonic_analysis;
-    heavy_higgs_leptonic_analysis.RunFast();
+    analysis::heavyhiggs::AnalysisNeutral<analysis::heavyhiggs::HeavyHiggsSemiTagger> heavy_higgs_semi_analysis;
+    heavy_higgs_semi_analysis.RunFast();
 
-    analysis::heavyhiggs::AnalysisNeutral<analysis::heavyhiggs::SignatureNeutralTagger> signature_leptonic_analysis;
-    signature_leptonic_analysis.RunFast();
+    analysis::heavyhiggs::AnalysisNeutral<analysis::heavyhiggs::SignatureNeutralTagger> signature_semi_analysis;
+    signature_semi_analysis.RunFast();
 
-    analysis::heavyhiggs::AnalysisNeutral<analysis::heavyhiggs::EventNeutralTagger> event_leptonic_analysis;
-    event_leptonic_analysis.RunFullSignificance();
+    analysis::heavyhiggs::AnalysisNeutral<analysis::heavyhiggs::EventNeutralTagger> event_semi_analysis;
+    event_semi_analysis.RunFullSignificance();
 
 }
 
