@@ -1,7 +1,5 @@
 #include "AnalysisTopPartner.hh"
-
 #include "EventSingleTagger.hh"
-#include "Predicate.hh"
 
 int main()
 {
@@ -36,11 +34,11 @@ int main()
 
         analysis::toppartner::Analysis<analysis::toppartner::TopPartnerPairTagger> top_partner_leptonic_pair_analysis;
         top_partner_leptonic_pair_analysis.RunFullEfficiency();
-        top_partner_hadronic_analysis.RunPlots();
+        top_partner_leptonic_pair_analysis.RunPlots();
 
         analysis::toppartner::Analysis<analysis::toppartner::EventSingleTagger> event_analysis;
         event_analysis.RunFullSignificance();
-        top_partner_hadronic_analysis.RunPlots();
+        event_analysis.RunPlots();
     } catch (const char *message) {
         std::cout << message << std::endl;
     }

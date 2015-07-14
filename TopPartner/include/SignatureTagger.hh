@@ -26,11 +26,11 @@ public:
     std::vector<Quattuordecuplet> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
 
     int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
-      return SaveEntries(Multiplets(event, pre_cuts, reader));
+        return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
     std::string Name() const final {
-      return "Signature";
+        return "Signature";
     }
 
 private:

@@ -38,7 +38,7 @@ std::vector<Quintet> TopPartnerLeptonicTagger::Multiplets(const Event &event, an
         for (const auto & triplet : triplets) {
             Quintet quintet(triplet, doublet);
             if (quintet.Overlap()) continue;
-            quintet.SetBdt(Bdt(quintet,reader));
+            quintet.SetBdt(Bdt(quintet, reader));
             quintets.emplace_back(quintet);
         }
     return ReduceResult(quintets);

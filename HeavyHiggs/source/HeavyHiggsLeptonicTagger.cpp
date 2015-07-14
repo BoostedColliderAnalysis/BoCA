@@ -18,59 +18,59 @@ HeavyHiggsLeptonicTagger::HeavyHiggsLeptonicTagger()
 
 int HeavyHiggsLeptonicTagger::Train(const Event &event, const Tag tag)
 {
-    Info("Higgs Tags");
+    Info();
 
-//     float mass = event.mass();
-//
-//     std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
-//
-//     fastjet::PseudoJet missing_et = event.Hadrons().MissingEt();
-//     Jets particles = event.Partons().GenParticles();
-//     Jets neutrinos = copy_if_neutrino(particles);
-//
-//     Info("Number of doublets", doublets.size());
-//
-//     std::vector<Sextet> sextets;
-//     for (const auto & doublet1 : triplets) {
-//         for (const auto & doublet2 : triplets) {
-//             Quartet22 quartet(doublet1, doublet2);
-//             if (quartet.Overlap())continue;
-//             std::vector<Sextet> Presextets;
-//             WimpMass wimp_mass;
-//             Presextets = wimp_mass.Sextet(quartet, missing_et, neutrinos, tag);
-//             for (const auto & sextet : Presextets) {
-//                 if (tag == Tag::signal && sextet.Jet().m() < mass / 2)continue;
-//                 sextets.emplace_back(sextet);
-//             }
-//         }
-//     }
-//     Info("Numeber of sextets", sextets.size());
-//
-//     if (tag == Tag::signal) sextets = BestMass(sextets, mass);
-//     return SaveEntries(sextets);
+    float mass = event.mass();
+
+    std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
+
+    fastjet::PseudoJet missing_et = event.Hadrons().MissingEt();
+    Jets particles = event.Partons().GenParticles();
+    Jets neutrinos = copy_if_neutrino(particles);
+
+    Info(triplets.size());
+
+    std::vector<Sextet> sextets;
+    for (const auto & triplet_1 : triplets) {
+        for (const auto & triplet_2 : triplets) {
+            Quartet22 quartet(Doublet(triplet_1.Singlet().Jet(), triplet_1.Doublet().Jet()), Doublet(triplet_2.Singlet().Jet(), triplet_2.Doublet().Jet()));
+            if (quartet.Overlap())continue;
+            std::vector<Sextet> Presextets;
+            WimpMass wimp_mass;
+            Presextets = wimp_mass.Sextet(quartet, missing_et, neutrinos, tag);
+            for (const auto & sextet : Presextets) {
+                if (tag == Tag::signal && sextet.Jet().m() < mass / 2)continue;
+                sextets.emplace_back(sextet);
+            }
+        }
+    }
+    Info(sextets.size());
+
+    if (tag == Tag::signal) sextets = BestMass(sextets, mass);
+    return SaveEntries(sextets);
 }
 
 std::vector<Sextet>  HeavyHiggsLeptonicTagger::Multiplets(const Event &event, const TMVA::Reader &reader) const
 {
-//     Info("Bdt");
-//     std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
-//     fastjet::PseudoJet missing_et = event.Hadrons().MissingEt();
-//
-//     std::vector<Sextet> sextets;
-//     for (const auto & doublet1 : triplets) {
-//         for (const auto & doublet2 : triplets) {
-//             Quartet22 quartet(doublet1, doublet2);
-//             if (quartet.Overlap()) continue;
-//             std::vector<Sextet> pre_sextets;
-//             WimpMass wimp_mass;
-//             pre_sextets = wimp_mass.Sextets(quartet, missing_et);
-//             for (auto & sextet : pre_sextets) {
-//                 sextet.SetBdt(Bdt(sextet, reader));
-//                 sextets.emplace_back(sextet);
-//             }
-//         }
-//     }
-//     return ReduceResult(sextets);
+    Info();
+    std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
+    fastjet::PseudoJet missing_et = event.Hadrons().MissingEt();
+
+    std::vector<Sextet> sextets;
+    for (const auto & triplet_1 : triplets) {
+        for (const auto & triplet_2 : triplets) {
+            Quartet22 quartet(Doublet(triplet_1.Singlet().Jet(), triplet_1.Doublet().Jet()), Doublet(triplet_2.Singlet().Jet(), triplet_2.Doublet().Jet()));
+            if (quartet.Overlap()) continue;
+            std::vector<Sextet> pre_sextets;
+            WimpMass wimp_mass;
+            pre_sextets = wimp_mass.Sextets(quartet, missing_et);
+            for (auto & sextet : pre_sextets) {
+                sextet.SetBdt(Bdt(sextet, reader));
+                sextets.emplace_back(sextet);
+            }
+        }
+    }
+    return ReduceResult(sextets);
 }
 
 }
