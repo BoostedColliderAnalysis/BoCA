@@ -81,6 +81,7 @@ public:
         info_branch.Mass = file.mass();
         info_branch.EventNumber = std::min((long)tree_reader.GetEntries(), event_number_max);
         info_branch.Name = file.nice_name();
+//         info_branch.NiceName = file.nice_name();
         return info_branch;
     }
     void AddPreCut(const int number) {

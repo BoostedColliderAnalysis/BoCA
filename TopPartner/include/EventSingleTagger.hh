@@ -1,6 +1,6 @@
 #pragma once
 
-#include "TopPartnerLeptonicPairTagger.hh"
+#include "TopPartnerPairTagger.hh"
 #include "MultipletEvent.hh"
 
 namespace analysis
@@ -23,7 +23,7 @@ public:
 
     int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const final;
 
-    std::vector<MultipletEvent<Nonet>> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
+    std::vector<MultipletEvent<Decuplet55>> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
 
     int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
         return SaveEntries(Multiplets(event, pre_cuts, reader));
@@ -40,7 +40,7 @@ public:
 
 private:
 
-    Reader<TopPartnerLeptonicPairTagger> signature_reader_;
+    Reader<TopPartnerPairTagger> signature_reader_;
 
     Reader<BottomTagger> bottom_reader_;
 

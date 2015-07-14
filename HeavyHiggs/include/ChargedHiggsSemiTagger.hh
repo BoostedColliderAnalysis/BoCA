@@ -36,7 +36,7 @@ private:
 
     Reader<BottomTagger> bottom_reader_;
 
-    Reader<TopLeptonicTagger> top_semi_reader_;
+    Reader<TopLeptonicTagger> top_leptonic_reader_;
 };
 
 }

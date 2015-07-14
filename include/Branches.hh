@@ -11,19 +11,10 @@ namespace analysis
 class Obs
 {
 public:
-    Obs(float &value, const std::string &name, const std::string &nice_name) : value_(&value) {
-        name_ = name;
-        nice_name_ = nice_name;
-    }
-    float &value()const {
-        return *value_;
-    }
-    std::string name()const {
-        return name_;
-    }
-    std::string nice_name()const {
-        return nice_name_;
-    }
+    Obs(float &value, const std::string &name, const std::string &nice_name);
+    float &value()const;
+    std::string name()const;
+    std::string nice_name()const;
 private:
     float *value_;
     std::string name_;
@@ -442,28 +433,6 @@ public:
     Observables Spectators();
 private:
     ClassDef(TopLeptonicBranch, 1)
-};
-
-/**
- *
- * @brief Top tagger root tree structure
- *
- */
-class TopSemiBranch : public MultiBranch
-{
-public:
-    TopSemiBranch();
-    float BottomPt;
-    float WPt;
-    template<typename Multiplet>
-    void Fill(const Multiplet &multiplet) {
-        MultiBranch::Fill(multiplet);
-        BottomPt = multiplet.Singlet().Jet().pt();
-        WPt = multiplet.Doublet().Jet().pt();
-    }
-    Observables Variables();
-private:
-    ClassDef(TopSemiBranch, 1)
 };
 
 /**

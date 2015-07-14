@@ -28,7 +28,7 @@ public:
 protected:
 
     std::string ProjectName() const final {
-        return  std::to_string(PreCut()) + "GeV";
+        return  std::to_string(PreCut()) + "GeV-leptonic";
     }
 
     void SetFiles(const Tag tag) final {

@@ -212,7 +212,7 @@ void Plot::PlotAcceptanceGraph(const Results &results) const
         SetMultiGraph(multi_graph);
         legend.Draw();
 
-        std::string efficiency_file_name = ExportName() + "-" + signal_result.info_branch.Name + "-Acceptance.pdf";
+        std::string efficiency_file_name = ExportName() + "-Acceptance.pdf";
         canvas.Print(efficiency_file_name.c_str());
     }
 }

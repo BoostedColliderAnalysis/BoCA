@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Quartet.hh"
 #include "TopLeptonicTagger.hh"
 #include "HiggsTagger.hh"
+#include "Quintet.hh"
 #include "BranchesTopPartner.hh"
 
 namespace analysis
@@ -24,24 +24,24 @@ public:
 
     int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const final;
 
-    std::vector< Quartet22 > Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const;
+    std::vector<Quintet> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
 
     int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
-      return SaveEntries(Multiplets(event,pre_cuts, reader));
+        return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
-    auto Multiplets(const Event &event, const TMVA::Reader &reader){
-      PreCuts pre_cuts;
-      return Multiplets(event, pre_cuts, reader);
+    auto Multiplets(const Event &event, const TMVA::Reader &reader) {
+        PreCuts pre_cuts;
+        return Multiplets(event, pre_cuts, reader);
     }
 
     std::string Name() const final {
-      return "TopPartnerLeptonic";
+        return "TopPartnerSemi";
     }
 
 private:
 
-    Reader<TopLeptonicTagger> top_reader_;
+    Reader<TopLeptonicTagger> top_leptonic_reader_;
 
     Reader<HiggsTagger> higgs_hadronic_reader_;
 };
