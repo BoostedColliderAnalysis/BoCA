@@ -10,12 +10,12 @@ namespace analysis {
  * @brief Semi leptonic top BDT tagger
  *
  */
-class WSemiTagger : public BranchTagger<WSemiBranch>
+class WLeptonicTagger : public BranchTagger<WSemiBranch>
 {
 
 public:
 
-    WSemiTagger();
+    WLeptonicTagger();
 
     int Train(const Event &event, PreCuts &, const Tag tag) const;
 
@@ -25,19 +25,19 @@ public:
       return SaveEntries(Multiplets(event,pre_cuts, reader));
     }
 
-    int WSemiId(const Event &event) const {
-        return WSemiId(WSemiDaughters(event));
+    int WLeptonicId(const Event &event) const {
+        return WLeptonicId(WLeptonicDaughters(event));
     }
 
     std::string Name() const final {
-      return "WSemi";
+      return "WLeptonic";
     }
 
 private:
 
-    Jets WSemiDaughters(const Event &event) const;
+    Jets WLeptonicDaughters(const Event &event) const;
 
-    int WSemiId(const Jets &jets) const;
+    int WLeptonicId(const Jets &jets) const;
 
     Tag GetTag(const Doublet &doublet) const;
 

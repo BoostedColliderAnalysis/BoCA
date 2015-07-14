@@ -9,13 +9,13 @@ int main()
     analysis::heavyhiggs::AnalysisCharged<analysis::WHadronicTagger> w_hadronic_analysis;
     w_hadronic_analysis.RunFast();
 
-    analysis::heavyhiggs::AnalysisCharged<analysis::WSemiTagger> w_semi_analysis;
+    analysis::heavyhiggs::AnalysisCharged<analysis::WLeptonicTagger> w_semi_analysis;
     w_semi_analysis.RunFast();
 
     analysis::heavyhiggs::AnalysisCharged<analysis::TopHadronicTagger> top_hadronic_analysis;
     top_hadronic_analysis.RunFast();
 
-    analysis::heavyhiggs::AnalysisCharged<analysis::TopSemiTagger> tops_semi_analysis;
+    analysis::heavyhiggs::AnalysisCharged<analysis::TopLeptonicTagger> tops_semi_analysis;
     tops_semi_analysis.RunFast();
 
     analysis::heavyhiggs::AnalysisCharged<analysis::heavyhiggs::ChargedHiggsSemiTagger> heavy_higgs_semi_analysis;

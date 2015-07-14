@@ -1,6 +1,6 @@
 #include "AnalysisW.hh"
 #include "WHadronicTagger.hh"
-#include "WSemiTagger.hh"
+#include "WLeptonicTagger.hh"
 
 int main()
 {
@@ -13,9 +13,9 @@ int main()
         w_hadronic_analysis.RunFullEfficiency();
         break;
     }
-    case analysis::standardmodel::Decay::semi : {
-        analysis::standardmodel::AnalysisW<analysis::WSemiTagger> w_semi_analysis;
-        w_semi_analysis.RunFullEfficiency();
+    case analysis::standardmodel::Decay::leptonic : {
+        analysis::standardmodel::AnalysisW<analysis::WLeptonicTagger> w_leptonic_analysis;
+        w_leptonic_analysis.RunFullEfficiency();
         break;
     }
     }

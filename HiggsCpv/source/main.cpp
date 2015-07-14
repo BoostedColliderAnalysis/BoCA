@@ -56,16 +56,16 @@ int main()
   RunFactory(jet_pair_tagger);
   RunTagger(jet_pair_tagger, analysis::Stage::reader);
 
-  analysis::higgscpv::SignatureTagger signature_semi_tagger;
-  RunTagger(signature_semi_tagger, analysis::Stage::trainer);
-  RunFactory(signature_semi_tagger);
-  RunTagger(signature_semi_tagger, analysis::Stage::reader);
+  analysis::higgscpv::SignatureTagger signature_leptonic_tagger;
+  RunTagger(signature_leptonic_tagger, analysis::Stage::trainer);
+  RunFactory(signature_leptonic_tagger);
+  RunTagger(signature_leptonic_tagger, analysis::Stage::reader);
 
-  analysis::higgscpv::EventTagger event_semi_tagger;
-  RunTagger(event_semi_tagger, analysis::Stage::trainer);
-  RunFactory(event_semi_tagger);
-  RunTagger(event_semi_tagger, analysis::Stage::reader);
-  RunReader(event_semi_tagger);
+  analysis::higgscpv::EventTagger event_leptonic_tagger;
+  RunTagger(event_leptonic_tagger, analysis::Stage::trainer);
+  RunFactory(event_leptonic_tagger);
+  RunTagger(event_leptonic_tagger, analysis::Stage::reader);
+  RunReader(event_leptonic_tagger);
 
 }
 

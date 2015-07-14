@@ -1,6 +1,6 @@
 #include "TopLeptonicTagger.hh"
 #include "Event.hh"
-#include "WSemiTagger.hh"
+#include "WLeptonicTagger.hh"
 #include "Debug.hh"
 
 namespace analysis
@@ -27,7 +27,7 @@ int TopLeptonicTagger::Train(const Event &event, analysis::PreCuts &pre_cuts, co
 
     std::vector<Doublet> doublets;
     if (use_w_) {
-      doublets = w_semi_reader_.Multiplets(event);
+      doublets = w_leptonic_reader_.Multiplets(event);
     } else {
         Jets leptons = event.Leptons().leptons();
         for (const auto & lepton : leptons) doublets.emplace_back(Doublet(lepton));
@@ -63,8 +63,8 @@ bool TopLeptonicTagger::Problematic(const Triplet &triplet, PreCuts &pre_cuts) c
 Jets TopLeptonicTagger::Particles(const Event &event) const
 {
     Jets particles = event.Partons().GenParticles();
-    int w_semi_id = WSemiTagger().WSemiId(event);
-    int top_leptonic_id = sgn(w_semi_id) * to_int(Id::top);
+    int w_leptonic_id = WLeptonicTagger().WLeptonicId(event);
+    int top_leptonic_id = sgn(w_leptonic_id) * to_int(Id::top);
     return CopyIfParticle(particles, top_leptonic_id);
 }
 
@@ -99,7 +99,7 @@ std::vector<Triplet> TopLeptonicTagger::Multiplets(const Event &event, analysis:
 
     std::vector<Doublet> doublets;
     if (use_w_) {
-      doublets = w_semi_reader_.Multiplets(event);
+      doublets = w_leptonic_reader_.Multiplets(event);
     } else {
       Jets leptons = event.Leptons().leptons();
       for (const auto & lepton : leptons) doublets.emplace_back(Doublet(lepton));
