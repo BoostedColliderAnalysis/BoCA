@@ -694,10 +694,10 @@ void Plot::SetHistogram(TH2 &histogram, const Plot2d &plot, const EColor color, 
     histogram.SetContour(20);
     switch (color) {
     case kRed :
-        exec.SetAction("analysis::Color().Red();");
+        exec.SetAction("analysis::Color().Blue();");
         break;
     case kBlue :
-        exec.SetAction("analysis::Color().Blue();");
+        exec.SetAction("analysis::Color().Red();");
         break;
     default:
         Error("unsupported color");

@@ -4,7 +4,8 @@
 namespace analysis
 {
 
-namespace toppartner {
+namespace toppartner
+{
 
 SignatureTagger::SignatureTagger()
 {
@@ -12,34 +13,29 @@ SignatureTagger::SignatureTagger()
     DefineVariables();
 }
 
-int SignatureTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const
+int SignatureTagger::Train(const Event &event, PreCuts &, const Tag tag) const
 {
-    Info("Higgs Tags");
-    std::vector< Decuplet55> decuplets = top_partner_pair_reader_.Multiplets(event);
-    std::vector< Quartet22> quartets = higgs_pair_reader_.Multiplets(event);
-    std::vector< Quattuordecuplet > quattuordecuplets;
-    for (const auto &decuplet : decuplets) {
-        for (const auto &quartet : quartets) {
-            Quattuordecuplet quattuordecuplet(decuplet, quartet);
-            if (quattuordecuplet.Overlap()) continue;
-            quattuordecuplet.SetTag(tag);
-            quattuordecuplets.emplace_back(quattuordecuplet);
-        }
-    }
+    Info();
+    std::vector< Quattuordecuplet > quattuordecuplets = pairs(top_partner_pair_reader_.Multiplets(event), higgs_pair_reader_.Multiplets(event), [tag](const Decuplet55 & decuplet, const Quartet22 & quartet) {
+        Quattuordecuplet quattuordecuplet(decuplet, quartet);
+        if (quattuordecuplet.Overlap()) throw "overlap";
+        quattuordecuplet.SetTag(tag);
+        return quattuordecuplet;
+    });
     return SaveEntries(quattuordecuplets);
 }
 
-std::vector< Quattuordecuplet > SignatureTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const
+std::vector< Quattuordecuplet > SignatureTagger::Multiplets(const Event &event, analysis::PreCuts &, const TMVA::Reader &reader) const
 {
+    Info();
     std::vector< Decuplet55> decuplets = top_partner_pair_reader_.Multiplets(event);
     std::vector< Quartet22> quartets = higgs_pair_reader_.Multiplets(event);
     std::vector< Quattuordecuplet > quattuordecuplets;
-    for (const auto &decuplet : decuplets) {
-        for (const auto &quartet : quartets) {
+    for (const auto & decuplet : decuplets) {
+        for (const auto & quartet : quartets) {
             Quattuordecuplet quattuordecuplet(decuplet, quartet);
             if (quattuordecuplet.Overlap()) continue;
-            if (quattuordecuplet.Overlap()) continue;
-            quattuordecuplet.SetBdt(Bdt(quattuordecuplet,reader));
+            quattuordecuplet.SetBdt(Bdt(quattuordecuplet, reader));
             quattuordecuplets.emplace_back(quattuordecuplet);
         }
     }
@@ -49,3 +45,6 @@ std::vector< Quattuordecuplet > SignatureTagger::Multiplets(const Event &event, 
 }
 
 }
+
+
+
