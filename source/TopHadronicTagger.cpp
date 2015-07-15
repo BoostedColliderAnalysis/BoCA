@@ -151,7 +151,7 @@ bool TopHadronicTagger::Problematic(const analysis::Triplet &triplet, analysis::
         if ((triplet.Rho() < 0.5 || triplet.Rho() > 2) && triplet.Rho() > 0) return true;
 //         if (triplet.Doublet().Bdt() < 1) return true;
 //         if (triplet.Singlet().Bdt() < 1) return true;
-//         if (triplet.pt() > DetectorGeometry().LeptonMinPt()) return true;
+//         if (triplet.pt() > DetectorGeometry::LeptonMinPt()) return true;
         break;
     }
     case Tag::background :
@@ -167,7 +167,7 @@ bool TopHadronicTagger::Problematic(const analysis::Triplet &triplet, PreCuts &p
     if (pre_cuts.PtUpperCut(Id::top) > 0 && triplet.Jet().pt() > pre_cuts.PtUpperCut(Id::top)) return true;
     if (pre_cuts.MassUpperCut(Id::top) > 0 && pre_cuts.MassUpperCut(Id::top) < triplet.Jet().m()) return true;
 //     if (triplet.Doublet().IsEmpty()) return true;
-//     if (triplet.DeltaR() < DetectorGeometry().MinCellResolution() && triplet.DeltaR() > 0) return true;
+//     if (triplet.DeltaR() < DetectorGeometry::MinCellResolution() && triplet.DeltaR() > 0) return true;
 
     // FIXME the top tagger is very slow, due to many calls of Bdt(), therfore we have to reduce the number of candidates
     if (std::abs(triplet.Jet().m() - Mass(Id::top)) > 2 * top_mass_window_) return true;

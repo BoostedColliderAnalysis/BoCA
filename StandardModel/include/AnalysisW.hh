@@ -33,7 +33,7 @@ public:
         this->pre_cuts().SetPtLowerCut(Id::W, this->LowerPtCut());
         this->pre_cuts().SetPtUpperCut(Id::W, this->UpperPtCut());
         this->pre_cuts().SetMassUpperCut(Id::W, 200);
-        //     pre_cuts().SetTrackerMaxEta(Id::top, DetectorGeometry().TrackerEtaMax);
+        //     pre_cuts().SetTrackerMaxEta(Id::top, DetectorGeometry::TrackerEtaMax);
     }
 
     Decay WDecay() const {

@@ -31,7 +31,7 @@ int BottomTagger::Train(const Event &event, analysis::PreCuts &pre_cuts, const a
     Jets bottoms = CopyIfAbsParticle(particles, Id::bottom);
 //     Jets tops = CopyIfAbsParticle(particles, Id::top);
 //     Jets higgs = CopyIfAbsParticle(particles, Id::higgs);
-    bottoms = RemoveIfSoft(bottoms, DetectorGeometry().JetMinPt());
+    bottoms = RemoveIfSoft(bottoms, DetectorGeometry::JetMinPt());
     Info(bottoms.size());
     return SaveEntries(BestMatches(final_jets, bottoms, tag));
 }

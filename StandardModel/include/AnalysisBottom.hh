@@ -32,7 +32,7 @@ public:
         this->tagger().set_analysis_name(ProjectName());
         this->pre_cuts().SetPtLowerCut(Id::bottom, this->LowerPtCut());
         this->pre_cuts().SetPtUpperCut(Id::bottom, this->UpperPtCut());
-        this->pre_cuts().SetTrackerMaxEta(Id::bottom, DetectorGeometry().TrackerEtaMax());
+        this->pre_cuts().SetTrackerMaxEta(Id::bottom, DetectorGeometry::TrackerEtaMax());
         this->pre_cuts().SetSubJets(false);
     }
 

@@ -18,21 +18,21 @@ enum class DetectorType
 class DetectorGeometry
 {
 public:
-    float JetMinPt() const;
-    float JetConeSize() const;
-    float MinCellPt() const;
-    float MinCellResolution() const;
-    float TrackerEtaMax() const;
-//     float JetRadiusParameter() const;
-    fastjet::JetDefinition JetDefinition() const;
-    fastjet::JetDefinition SubJetDefinition() const;
-    float TrackerDistanceMin() const;
-    float TrackerDistanceMax() const;
-    float VertexMassMin() const;
-    float LeptonMinPt() const;
-    JetType jet_type() const;
+    static float JetMinPt();
+    static float JetConeSize();
+    static float MinCellPt();
+    static float MinCellResolution();
+    static float TrackerEtaMax();
+//     static float JetRadiusParameter();
+    static fastjet::JetDefinition JetDefinition();
+    static fastjet::JetDefinition SubJetDefinition();
+    static float TrackerDistanceMin();
+    static float TrackerDistanceMax();
+    static float VertexMassMin();
+    static float LeptonMinPt();
+    static JetType jet_type();
 private:
-    DetectorType detector_type() const;
+    static DetectorType detector_type();
 };
 
 }

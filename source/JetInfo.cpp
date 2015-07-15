@@ -295,7 +295,7 @@ float JetInfo::VertexMass() const
 //     std::vector <Constituent > vertices = ApplyVertexResolution();
     const float vertex_mass = std::accumulate(displaced_constituents_.begin(), displaced_constituents_.end(), Constituent()).Momentum().M();
     Debug(vertex_mass);
-    if (vertex_mass < DetectorGeometry().VertexMassMin()) return 0;
+    if (vertex_mass < DetectorGeometry::VertexMassMin()) return 0;
     return vertex_mass;
 }
 
@@ -320,7 +320,7 @@ std::vector<Constituent> JetInfo::ApplyVertexResolution(std::vector<Constituent>
 bool JetInfo::VertexResultion(const Constituent &constituent) const
 {
     Debug();
-    return (constituent.Position().Vect().Perp() > DetectorGeometry().TrackerDistanceMin() & constituent.Position().Vect().Perp() < DetectorGeometry().TrackerDistanceMax() & std::abs(constituent.Momentum().Rapidity()) < DetectorGeometry().TrackerEtaMax());
+    return (constituent.Position().Vect().Perp() > DetectorGeometry::TrackerDistanceMin() & constituent.Position().Vect().Perp() < DetectorGeometry::TrackerDistanceMax() & std::abs(constituent.Momentum().Rapidity()) < DetectorGeometry::TrackerEtaMax());
 }
 
        float JetInfo::ElectroMagneticRadius(const fastjet::PseudoJet &jet) const

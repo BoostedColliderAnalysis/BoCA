@@ -13,7 +13,7 @@ Singlet::Singlet(const fastjet::PseudoJet &jet)
 
 bool Singlet::Overlap(const fastjet::PseudoJet &jet) const
 {
-    return (Jet().delta_R(jet) < DetectorGeometry().JetConeSize());
+    return (Jet().delta_R(jet) < DetectorGeometry::JetConeSize());
 }
 
 bool Singlet::Overlap(const Singlet &singlet) const
@@ -66,7 +66,7 @@ const JetInfo &Singlet::UserInfo() const
 float Singlet::log(const float number) const
 {
     if (number > 0) return std::log10(number);
-    else return std::log10(DetectorGeometry().TrackerDistanceMin() / 10);
+    else return std::log10(DetectorGeometry::TrackerDistanceMin() / 10);
 }
 int Singlet::Charge() const
 {
