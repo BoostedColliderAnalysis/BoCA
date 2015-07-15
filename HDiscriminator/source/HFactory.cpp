@@ -1,9 +1,9 @@
-# include "HMvaDiscriminator.hh"
-# include "HFactory.hh"
+#include "HMvaDiscriminator.hh"
+#include "Factory.hh"
 
 int main()
 {
-  hcpvhiggs::HMva Mva;
-  hanalysis::HFactory Factory(Mva);
-  return 0;
+//   hcpvhiggs::HMva Mva;
+//   analysis::Factory Factory(Mva);
+//   return 0;
 }

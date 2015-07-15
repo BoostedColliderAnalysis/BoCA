@@ -1,30 +1,23 @@
-# ifndef HAnalysisJetProperties_hh
-# define HAnalysisJetProperties_hh
+#pragma once
 
-# include "HAnalysis.hh"
-# include "HEventDelphes.hh"
-# include "HFileDelphes.hh"
+#include "Analysis.hh"
+// #include "HEventDelphes.hh"
+#include "File.hh"
 
-# include "HJetPropertiesBranch.hh"
-# include "HSubStructure.hh"
+#include "HJetPropertiesBranch.hh"
+#include "SubStructure.hh"
+#include "fastjet/tools/Pruner.hh"
+#include "fastjet/tools/CASubJetTagger.hh"
 
-# include "fastjet/tools/Pruner.hh"
-# include "fastjet/tools/CASubJetTagger.hh"
-
-class hjetproperties::HJetTag : public hanalysis::HJetTag
+class hjetproperties::JetTag : public analysis::JetTag
 {
 
 public:
 
-    int GetBranchId(const int ParticleId, int BranchId);
+    int GetBranchId(const int id, int BranchId);
 
-    const std::set<int> HeavyParticles = {TopId, CpvHiggsId, HiggsId};
+    const std::set<analysis::Id> HeavyParticles = {analysis::Id::top, analysis::Id::CP_violating_higgs, analysis::Id::higgs};
 
-    inline std::string ClassName() const {
-
-        return "HiggsCPV: JetTag";
-
-    };
 
 };
 
@@ -32,7 +25,7 @@ public:
  * @brief Class defining the Disciminator Analysis
  *
  */
-class hjetproperties::HAnalysis : public hanalysis::HAnalysis
+class hjetproperties::HAnalysis //: public analysis::Analysis
 {
 
 public:
@@ -43,17 +36,11 @@ public:
      */
     HAnalysis();
 
-    /**
-     * @brief Constructor
-     *
-     */
-    ~HAnalysis();
-
-    inline int GetEventnumberMax()const {
+     int GeteventnumberMax() const {
         return 10000;
     };
 
-    inline std::string ProjectName()const {
+     std::string ProjectName() const {
         return "JetProperties";
     }
 
@@ -61,143 +48,134 @@ public:
      * @brief Branch to write Lepton info into
      *
      */
-    ExRootTreeBranch *LeptonBranch;
+    exroot::TreeBranch *LeptonBranch;
 
     /**
      * @brief Branch to write Higgs info into
      *
      */
-    ExRootTreeBranch *EventBranch;
+    exroot::TreeBranch *eventBranch;
 
     /**
      * @brief Branch to write Higgs info into
      *
      */
-    ExRootTreeBranch *ParticleBranch;
-    ExRootTreeBranch *ParticleConstituentBranch;
+    exroot::TreeBranch *particle_branch;
+    exroot::TreeBranch *ParticleconstituentBranch;
 
     /**
      * @brief Branch to write Lepton info into
      *
      */
-    ExRootTreeBranch *TrimmedBranch;
-    ExRootTreeBranch *TrimmedConstituentBranch;
+    exroot::TreeBranch *TrimmedBranch;
+    exroot::TreeBranch *TrimmedconstituentBranch;
 
     /**
-     * @brief Branch to write Constituent info into
+     * @brief Branch to write constituent info into
      *
      */
-    ExRootTreeBranch *AktFatJetBranch;
-    ExRootTreeBranch *AktFatJetConstituentBranch;
+    exroot::TreeBranch *AktFatJetBranch;
+    exroot::TreeBranch *AktFatJetconstituentBranch;
 
     /**
-     * @brief Branch to write Constituent info into
+     * @brief Branch to write constituent info into
      *
      */
-    ExRootTreeBranch *AktMassDropBranch;
-    ExRootTreeBranch *AktMassDropConstituentBranch;
+    exroot::TreeBranch *AktMassDropBranch;
+    exroot::TreeBranch *AktMassDropconstituentBranch;
 
-    ExRootTreeBranch *AktPrunerBranch;
-    ExRootTreeBranch *AktPrunerConstituentBranch;
+    exroot::TreeBranch *AktPrunerBranch;
+    exroot::TreeBranch *AktPrunerconstituentBranch;
 
     /**
-     * @brief Branch to write Constituent info into
+     * @brief Branch to write constituent info into
      *
      */
-    ExRootTreeBranch *CAFatJetBranch;
-    ExRootTreeBranch *CAFatJetConstituentBranch;
+    exroot::TreeBranch *CAFatJetBranch;
+    exroot::TreeBranch *CAFatJetconstituentBranch;
 
     /**
-     * @brief Branch to write Constituent info into
+     * @brief Branch to write constituent info into
      *
      */
-    ExRootTreeBranch *CAMassDropBranch;
-    ExRootTreeBranch *CAMassDropConstituentBranch;
+    exroot::TreeBranch *CAMassDropBranch;
+    exroot::TreeBranch *CAMassDropconstituentBranch;
 
-    ExRootTreeBranch *CAPrunerBranch;
-    ExRootTreeBranch *CAPrunerConstituentBranch;
+    exroot::TreeBranch *CAPrunerBranch;
+    exroot::TreeBranch *CAPrunerconstituentBranch;
 
-    ExRootTreeBranch *CASJTBranch;
-    ExRootTreeBranch *CASJTConstituentBranch;
+    exroot::TreeBranch *CASJTBranch;
+    exroot::TreeBranch *CASJTconstituentBranch;
 
 
     /**
-     * @brief Branch to write Constituent info into
+     * @brief Branch to write constituent info into
      *
      */
-    ExRootTreeBranch *ConstituentBranch;
+    exroot::TreeBranch *constituentBranch;
 
 private:
 
 
-    hanalysis::HJetTag JetTag;
+    analysis::JetTag jet_tag;
 
-    hanalysis::HSubStructure *SubStructure;
+    analysis::SubStructure sub_structure;
 
 
-    bool FillTree(ExRootTreeBranch *const, ExRootTreeBranch *const, const fastjet::PseudoJet &Jet, const HJets &, const float DeltaR);
+    bool FillTree(exroot::TreeBranch *const, exroot::TreeBranch *const, const fastjet::PseudoJet &Jet, const analysis::Jets &, const float DeltaR);
 
-    bool FillTree(ExRootTreeBranch *const, ExRootTreeBranch *const, const fastjet::PseudoJet &Jet, const HJets &);
+    bool FillTree(exroot::TreeBranch *const, exroot::TreeBranch *const, const fastjet::PseudoJet &Jet, const analysis::Jets &);
 
     float GetDeltaR(const fastjet::PseudoJet &Jet);
 
     /**
      * @brief Lepton calculations
      *
-     * @param Event ...
+     * @param event ...
      * @return std::vector< fastjet::PseudoJet, std::allocator< void > >
      */
-    HJets Leptons(hanalysis::HEvent &Event);
+    analysis::Jets Leptons(analysis::Event &event);
 
     /**
      * @brief Lepton calculations
      *
-     * @param Event ...
+     * @param event ...
      * @return std::vector< fastjet::PseudoJet, std::allocator< void > >
      */
-    //     HJets Leptons();
+    //     Jets Leptons();
 
-    //     JetTag *HJetTag;
+    //     jet_tag *JetTag;
 
     /**
      * @brief Lepton event counter
      *
      */
-    int LeptonEventCounter;
+    int LeptoneventCounter;
 
     /**
      * @brief Main Analysis function
      *
      * @return void
      */
-    bool Analysis(hanalysis::HEvent &Event, const std::string &StudyName);
+    int Analysis(analysis::Event &event, const std::string &StudyName);
 
     /**
      * @brief prepares the std::vector describing the input root files
      *
      * @return void
      */
-    std::vector< hanalysis::HFile* > GetFiles(const std::string &StudyName);
+    std::vector< analysis::File* > GetFiles(const std::string &StudyName);
 
     /**
      * @brief New Analysis
      *
      * @return void
      */
-    void NewBranches(ExRootTreeWriter *TreeWriter);
+    void NewBranches(exroot::TreeWriter *TreeWriter);
 
     void CloseFile();
 
-    inline HStrings GetStudyNames() const;
+     analysis::Strings GetStudyNames() const;
 
-    virtual inline std::string ClassName() const {
-
-        return ("HAnalysisJetProperties");
-
-    };
 
 };
-
-
-#endif
-

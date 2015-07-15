@@ -5,7 +5,7 @@ This code performs BDT analyses based on root files originating from MadGraph / 
 ## Dependencies
 
 * ROOT
-* MadGraph with installed ExRootAnalysis and Delphes 
+* MadGraph with installed ExRootAnalysis and Delphes
 * fastjet
 * fastjet contrib (must be compiled with `CXXFLAGS=-fPIC`)
 * libconfig
@@ -38,5 +38,4 @@ make
 * use standard library when possible
 * avoid heap allocation (`new`)
 * prefer references `&` over pointers `*`
-* follow [these naming conventions](
-[https://google-styleguide.googlecode.com/svn/trunk/cppguide.html#Naming](https://google-styleguide.googlecode.com/svn/trunk/cppguide.html#Naming))
+* follow [these naming conventions]([https://google-styleguide.googlecode.com/svn/trunk/cppguide.html#Naming](https://google-styleguide.googlecode.com/svn/trunk/cppguide.html#Naming))

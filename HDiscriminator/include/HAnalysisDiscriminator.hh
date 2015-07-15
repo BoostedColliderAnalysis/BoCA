@@ -1,31 +1,27 @@
-# ifndef __HAnalysisDiscriminator_hh__
-# define __HAnalysisDiscriminator_hh__
+#pragma once
 
-# include "HAnalysis.hh"
-# include "HFileDelphes.hh"
-# include "HEventDelphes.hh"
-# include "HBranchDiscriminator.hh"
-# include "HSubStructure.hh"
+#include "Analysis.hh"
+#include "File.hh"
+// #include "HEventDelphes.hh"
+#include "HBranchDiscriminator.hh"
+#include "SubStructure.hh"
+
+
+namespace hcpvhiggs{
 
 /**
  *
- * @brief HJetTag subclass for HDiscriminator
+ * @brief JetTag subclass for Discriminator
  *
  */
-class hcpvhiggs::HJetTag : public hanalysis::HJetTag
+class JetTag : public analysis::JetTag
 {
 
 public:
 
-    int GetBranchId(const int ParticleId, int BranchId);
+    int GetBranchId(const int id, int BranchId);
 
-    const std::set<int> HeavyParticles {TopId, CpvHiggsId, HiggsId};
-
-    virtual inline std::string ClassName() const {
-
-        return "HiggsCPV: HJetTag";
-
-    };
+    const std::set<analysis::Id> HeavyParticles {analysis::Id::top, analysis::Id::CP_violating_higgs, analysis::Id::higgs};
 
 };
 
@@ -36,7 +32,7 @@ public:
  * \author Jan Hajer
  *
  */
-class hcpvhiggs::HAnalysis : public hanalysis::HAnalysis
+class HAnalysis //: public analysis::Analysis
 {
 
 public:
@@ -57,83 +53,75 @@ public:
      * @brief Branch to write Higgs info into
      *
      */
-    ExRootTreeBranch *CandidateBranch;
+    exroot::TreeBranch *CandidateBranch;
 
     /**
      * @brief Branch to write Lepton info into
      *
      */
-    ExRootTreeBranch *LeptonBranch;
+    exroot::TreeBranch *LeptonBranch;
 
     /**
-     * @brief Branch to write Constituent info into
+     * @brief Branch to write constituent info into
      *
      */
-    ExRootTreeBranch *ConstituentBranch;
+    exroot::TreeBranch *constituentBranch;
 
 private:
 
-    inline int EventNumberMax() const {
+     long EventNumberMax() const {
 
         return 10000;
 
     };
 
-    inline std::string ProjectName()const {
+     std::string ProjectName() const {
 
         return "Discriminator";
 
     };
 
-    hanalysis::HJetTag  JetTag;
+    analysis::JetTag  jet_tag;
 
-    hanalysis::HSubStructure * SubStructure;
+    analysis::SubStructure * sub_structure;
 
     /**
      * @brief Lepton calculations
      *
-     * @param Event ...
+     * @param event ...
      * @return std::vector< fastjet::PseudoJet, std::allocator< void > >
      */
-    HJets GetLeptonJets(hanalysis::HEvent &Event);
+    analysis::Jets GetLeptonJets(analysis::Event &event);
 
     /**
      * @brief Lepton event counter
      *
      */
-    int LeptonEventCounter;
+    int LeptoneventCounter;
 
     /**
      * @brief Main Analysis function
      *
      * @return void
      */
-    bool Analysis(hanalysis::HEvent &Event, const std::string &Study);
+    int RunAnalysis(analysis::Event &event, const std::string &Study);
 
     /**
      * @brief prepares the std::vector describing the input root files
      *
      * @return void
      */
-    std::vector<hanalysis::HFile * > GetFiles(const std::string &Name);
+    std::vector<analysis::File * > GetFiles(const std::string &Name);
 
     /**
      * @brief New Analysis
      *
      * @return void
      */
-    void NewBranches(ExRootTreeWriter *NewTreeWriter);
+    void NewBranches(exroot::TreeWriter *NewTreeWriter);
 
-    inline HStrings GetStudyNames() const;
-
-    virtual inline std::string ClassName() const {
-
-        return "HiggsCPV: HAnalysis";
-
-    };
+     analysis::Strings GetStudyNames() const;
 
 };
 
-#endif
-
-
+}

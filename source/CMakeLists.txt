@@ -1,102 +1,91 @@
-HInclude(${PROJECT_SOURCE_DIR}/source)
-# HInclude(".")
+HInclude(../include)
+HInclude(.)
 
-HDictionary(HBranch HBranch.cpp ../include/HLinkDef.hh)
+add_subdirectory(exroot)
+add_subdirectory(delphes)
+
+HDictionary(Branches ./Branches.cpp ../include/LinkDef.hh)
+
+set(VectorSources
+Vector3.cpp
+LorentzVector.cpp
+)
+HLibrary(Vector VectorSources)
 
 set(EventSources
-HObject.cpp
-HFourVector.cpp
-HFile.cpp
-HClonesArray.cpp
-HEvent.cpp
-HParticle.cpp
-HLepton.cpp
-HJet.cpp
+Global.cpp
+Debug.cpp
 Predicate.cpp
+File.cpp
+ClonesArrays.cpp
+Event.cpp
+FourVector.cpp
+Partons.cpp
+Leptons.cpp
+Hadrons.cpp
 )
-HLibrary(HEvent "${EventSources}" PARENT_SCOPE)
+HLibrary(Event EventSources)
 
-set(PartonEventSources
-HEventParton.cpp
-HParticleParton.cpp
-HFileParton.cpp
+set(MultipletSources
+Identification.cpp
+Multiplet.cpp
+Singlet.cpp
+Doublet.cpp
+Triplet.cpp
+Quartet.cpp
+Quintet.cpp
+Sextet.cpp
+Octet62.cpp
+GlobalObservables.cpp
+MultipletEvent.cpp
 )
-HLibrary(HPartonEvent "${PartonEventSources}" PARENT_SCOPE)
-
-set(PgsEventSources
-HFilePgs.cpp
-HEventPgs.cpp
-HLeptonPgs.cpp
-HJetPgs.cpp
-)
-HLibrary(HPgsEvent "${PgsEventSources}" PARENT_SCOPE)
-
-set(DelphesEventSources
-HFileDelphes.cpp
-HEventDelphes.cpp
-HParticleDelphes.cpp
-HLeptonDelphes.cpp
-HJetDelphes.cpp
-)
-HLibrary(HDelphesEvent "${DelphesEventSources}" PARENT_SCOPE)
-
-
-
-set(WrapperSources
-HTag.cpp
-HTagPrivate.cpp
-HDoublet.cpp
-HTriplet.cpp
-HQuartet.cpp
-HQuartet31.cpp
-HSextet.cpp
-)
-HLibrary(HContainer "${WrapperSources}" PARENT_SCOPE)
-
-
+HLibrary(Multiplets MultipletSources)
 
 set(HepTaggerSource
-HTopTagger.cpp
+TopHadronicHep.cpp
 )
-HLibrary(HepTagger "${HepTaggerSource}" PARENT_SCOPE)
+HLibrary(HepTagger HepTaggerSource)
 add_dependencies(HepTagger HepTopTagger)
 
-set(AnalysisSources
-HAnalysis.cpp
-HJetTag.cpp
-HJetInfo.cpp
-HReconstruction.cpp
-HDiscriminator.cpp
-HHiggsTagger.cpp
-# HTopTagger.cpp
-# HEPTopTagger.cpp
-# HSuperStructure.cpp
-HSubStructure.cpp
+set(TaggerSources
+Observable.cpp
+PreCuts.cpp
+Factory.cpp
+Reader.cpp
+Plot.cpp
 
-HMva.cpp
-HFactory.cpp
-HReader.cpp
-
-HBottomTagger.cpp
-HTauTagger.cpp
-HWTagger.cpp
-HWSemiTagger.cpp
-HJetPairTagger.cpp
-HChargedJetPairTagger.cpp
-HTopHadronicTagger.cpp
-HTopLeptonicTagger.cpp
-HTopSemiTagger.cpp
-HMvaHiggsTagger.cpp
-HHeavyHiggsLeptonicTagger.cpp
-HHeavyHiggsHadronicTagger.cpp
-HHeavyHiggsSemiTagger.cpp
-HHeavyHiggsTauTagger.cpp
-HChargedHiggsSemiTagger.cpp
-HChargedHiggsHadronicTagger.cpp
-HChargedHiggsLeptonicTagger.cpp
-
-# Wrapper.cpp
-# topology22.cpp
+Tagger.cpp
+TauTagger.cpp
+BottomTagger.cpp
+BosonTagger.cpp
+WHadronicTagger.cpp
+WLeptonicTagger.cpp
+ZHadronicTagger.cpp
+HiggsTagger.cpp
+TopHadronicTagger.cpp
+TopLeptonicTagger.cpp
+JetPairTagger.cpp
+TripletJetPairTagger.cpp
 )
-HLibrary(HAnalysis "${AnalysisSources}" PARENT_SCOPE)
-add_dependencies(HAnalysis HWimpMass)
+HLibrary(Tagger TaggerSources)
+
+set(WimpSources
+WimpMass.cpp
+)
+HLibrary(Wimp WimpSources)
+add_dependencies(Wimp WimpMass)
+
+set(AnalysisSources
+Configuration.cpp
+AnalysisBase.cpp
+Particle.cpp
+Family.cpp
+Constituent.cpp
+JetTag.cpp
+DetectorGeometry.cpp
+JetInfo.cpp
+Reconstruction.cpp
+Discriminator.cpp
+SubStructure.cpp
+)
+HLibrary(Analysis AnalysisSources)

@@ -1,16 +1,15 @@
-# ifndef HJetPropertiesBranch_hh
-# define HJetPropertiesBranch_hh
+#pragma once
 
-# include "TObject.h"
-# include "Rtypes.h"
-# include "TGenericClassInfo.h"
+#include "TObject.h"
+#include "Rtypes.h"
+#include "TGenericClassInfo.h"
 
 namespace hjetproperties{
 
     class HAnalysis;
-    class HJetTag;
+    class JetTag;
     class HCandidateBranch;
-    class HConstituentBranch;
+    class ConstituentBranch;
     class HLeptonBranch;
 
 }
@@ -79,7 +78,7 @@ private:
  * @brief Class for saving leptons to root
  *
  */
-class hjetproperties::HConstituentBranch : public TObject
+class hjetproperties::ConstituentBranch : public TObject
 {
 
 public:
@@ -89,15 +88,15 @@ public:
   float Pt;
   int Id;
 
-  HConstituentBranch();
+  ConstituentBranch();
 
-  virtual ~HConstituentBranch();
+  virtual ~ConstituentBranch();
 
 private:
 
   void reset();
 
-  ClassDef(HConstituentBranch, 1)
+  ClassDef(ConstituentBranch, 1)
 
 };
 
@@ -127,5 +126,3 @@ private:
     ClassDef(HLeptonBranch, 1)
 
 };
-
-# endif

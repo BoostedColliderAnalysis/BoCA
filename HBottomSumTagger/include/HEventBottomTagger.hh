@@ -1,60 +1,20 @@
-# ifndef HEventBottomTagger_hh
-# define HEventBottomTagger_hh
+#pragma once
 
-# include "HBottomTagger.hh"
-# include "HTag.hh"
+#include "BottomTagger.hh"
+#include "Reader.hh"
+#include "Branches.hh"
+#include "PreCuts.hh"
 
 namespace hbottomsumtagger
 {
 
-class HEventBottomMultiplet : public hanalysis::HTag
-{
-public:
-
-//     float Bdt() const {
-//       float bdt =0;
-//       for (int i = 1; i < 6; ++i) bdt += TotalBottomBdt(i);
-//       return bdt;
-//     }
-
-
-    inline float TotalBottomBdt(const unsigned Number) const {
-        if (JetsM.size() < Number) return 0;
-        return JetsM.at(Number - 1).user_info<hanalysis::HJetInfo>().Bdt();
-    }
-
-    inline float TotalBottomBdt(const unsigned Number1, const unsigned Number2) const {
-        return TotalBottomBdt(Number1) + TotalBottomBdt(Number2);
-    }
-
-    inline float TotalBottomBdt(const unsigned Number1, const unsigned Number2, const unsigned Number3) const {
-      return TotalBottomBdt(Number1) + TotalBottomBdt(Number2) + TotalBottomBdt(Number3);
-    }
-
-    inline float TotalBottomBdt(const unsigned Number1, const unsigned Number2,const unsigned Number3, const unsigned Number4) const {
-      return TotalBottomBdt(Number1) + TotalBottomBdt(Number2) + TotalBottomBdt(Number3) + TotalBottomBdt(Number4);
-    }
-
-    void SetJets(const HJets &NewJets) {
-        JetsM = NewJets;
-        float bdt = 0;
-        for (int i = 1; i < 6; ++i) bdt += TotalBottomBdt(i);
-        SetBdt(bdt);
-    }
-
-private:
-
-    HJets JetsM;
-
-};
-
 
 /**
  *
- * @brief Event BDT for semi leptonic heavy higgs
+ * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class HEventBottomTagger : public hanalysis::HMva
+class EventBottomTagger : public analysis::BranchTagger<analysis::EventBottomTaggerBranch>
 {
 
 public:
@@ -63,46 +23,31 @@ public:
     * @brief Constructor
     *
     */
-    HEventBottomTagger();
+    EventBottomTagger();
 
-    bool TruthLevelCheck(const HJets &NewJets, hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
+    int Train(const analysis::Event &, analysis::PreCuts &, const analysis::Tag ) const{return 1;}
 
-    void SetTagger(const hanalysis::HBottomTagger &NewBottomTagger);
+    bool TruthLevelCheck(const analysis::Jets &NewJets, const analysis::Event &event, const analysis::Tag Tag);
 
-    std::vector<HEventBottomTaggerBranch> GetBranches(hanalysis::HEvent &Event, const hanalysis::HObject::HTag Tag);
+    int Train(const analysis::Event &event, analysis::PreCuts &precuts, const analysis::Tag tag);
 
-    std::vector<HEventBottomMultiplet> GetBdt(const HJets &Jets, const hanalysis::HReader &EventSemiReader);
+    std::vector< analysis::EventBranch > Multiplets(const analysis::Event &event, analysis::PreCuts &, const TMVA::Reader &) const;
 
-//     std::vector<int> ApplyBdt2(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile);
-
-    float ReadBdt(const TClonesArray &EventClonesArray, const int Entry);
-
-    HEventBottomTaggerBranch GetBranch(const hbottomsumtagger::HEventBottomMultiplet &Event) const;
-
-    hanalysis::HBottomTagger BottomTagger;
-
-    hanalysis::HReader BottomReader;
-
-
-protected:
-
-    virtual inline std::string NameSpaceName() const {
-        return "hheavyhiggs";
+    int GetBdt(const analysis::Event &, analysis::PreCuts &, const TMVA::Reader &) const {
+//       return SaveEntries(Multiplets(event, pre_cuts, reader));
+      return 1;
     }
 
-    virtual inline std::string ClassName() const {
-        return "HHEventBottomTagger";
+    std::string Name() const final {
+      return "EventBottom";
     }
 
 private:
 
     void DefineVariables();
 
-//     std::vector<HOctet> GetHeavyHiggsEvents(HJets &Jets);
-
-    HEventBottomTaggerBranch Branch;
-    hanalysis::HJetTag JetTag;
+    analysis::Reader<analysis::BottomTagger> bottom_reader_;
 
 };
+
 }
-# endif

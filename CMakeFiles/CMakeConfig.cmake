@@ -1,47 +1,15 @@
-# set c++ flags
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -pedantic -Wpointer-arith -fno-stack-protector -O3 -fPIC")
-# -Wcast-qual -Woverloaded-virtual
-# -fno-stack-protector
-# -g -rdynamic-Wshadow
-
-#C set build type to debug
+# set build type to debug
 # set(CMAKE_BUILD_TYPE Debug)
 
-# Load some basic macros which are needed later on
-include(CMakeFiles/FindROOT.cmake)
-include(CMakeFiles/Findfastjet.cmake)
-include(CMakeFiles/FindLibConfig.cmake)
-# find_package(Doxygen)
-
-# set path to dependencies
-set(MadGraphDir ~/Development/MadGraph)
-set(ExRootDir ${MadGraphDir}/ExRootAnalysis)
-set(DelphesDir ${MadGraphDir}/Delphes)
-
-
-SET(CMAKE_INSTALL_PREFIX ~)
-
-
-# find external libraries
-find_library(
-  ExRootLibrary
-  NAMES ExRootAnalysis
-  HINTS ${ExRootDir}/lib
-)
-
-find_library(
-  DelphesLibrary
-  NAMES Delphes
-  HINTS ${DelphesDir}
-)
-
+# set(CMAKE_INSTALL_PREFIX ~)
+unset(LinkLibraries CACHE)
 # set library and excecutable destination
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # set library versions
 set(MajorVersion 0)
-set(MinorVersion 0)
+set(MinorVersion 1)
 set(PatchVersion 0)
 set(Version ${MajorVersion}.${MinorVersion}.${PatchVersion})
 set(LibraryProperties
@@ -52,50 +20,58 @@ set(LibraryProperties
   LINKER_LANGUAGE CXX
 )
 
-# define macros
-macro(HInclude HDirectory)
-set(IncludeDirectory
-  ${IncludeDirectory}
-  ${HDirectory}
-)
-#   list(APPEND ${IncludeDirectory} ${HDirectory})
+#define macros
+macro(HInclude include_directory)
+  get_filename_component(result ${include_directory} ABSOLUTE)
+  message("Include:      ${result}")
+  set(IncludeDirectory
+    ${IncludeDirectory}
+    ${result}
+    CACHE INTERNAL IncludeDirectory FORCE
+  )
   include_directories(${ARGV1} ${IncludeDirectory})
 endmacro(HInclude)
 
-macro(HLibrary HName HSource)
-  add_library(${HName} SHARED ${HSource})
-  target_link_libraries(${HName} ${LinkLibraries})
-  set_target_properties(${HName} PROPERTIES ${LibraryProperties})
-  install(TARGETS ${HName} DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
-  set(LinkLibraries ${LinkLibraries} ${HName})
-#   list(APPEND ${LinkLibraries} ${HName})
-  set(LinkLibraries ${LinkLibraries} ${ARGV2})
+macro(HSource source_directory)
+  get_filename_component(result ${source_directory} ABSOLUTE)
+  message("Source:      ${result}")
+  set(SourceDirectory
+    ${SourceDirectory}
+    ${result}
+    CACHE INTERNAL SourceDirectory FORCE
+  )
+#   include_directories(${ARGV1} ${IncludeDirectory})
+endmacro(HSource)
+
+macro(HLibrary library_name library_source)
+  message("Library:      ${library_name} <- ${${library_source}} ${ARGV2}")
+  add_library(${library_name} SHARED ${${library_source}})
+  target_link_libraries(${library_name} ${LinkLibraries})
+  set_target_properties(${library_name} PROPERTIES ${LibraryProperties})
+  install(TARGETS ${library_name} DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+  HLinkLibraries(${library_name})
+#   HLinkLibraries(${ARGV2})
 endmacro(HLibrary)
 
-macro(HDictionary HName HSource HLinkDef)
-  set(HDictionary ${HName}Dict.cpp)
-  ROOT_GENERATE_DICTIONARY("${HSource}" "${HLinkDef}" "${HDictionary}" "${IncludeDirectory}")
-  HLibrary(${HName} ${HDictionary} ${ARGV3})
-endmacro(HDictionary)
-
-macro(HExecutable HName HSource)
-  add_executable(${HName} ${HSource})
-  target_link_libraries(${HName} ${LinkLibraries})
+macro(HExecutable executable_name executable_source)
+  message("Executable:   ${executable_name} <- ${executable_source}")
+  add_executable(${executable_name} ${executable_source})
+  target_link_libraries(${executable_name} ${LinkLibraries})
 endmacro(HExecutable)
 
-set(Directory
-  ${ROOT_INCLUDE_DIR}
-  ${ExRootDir}
-  ${DelphesDir}
-#   ${LIBCONFIG_INCLUDE_DIR}
-)
-HInclude("${Directory}" SYSTEM)
+macro(HDictionary dictionary_name dictionary_source link_def)
+  message("Dictionary:   ${dictionary_name} <- ${dictionary_source} & ${link_def}")
+  set(dictionary ${dictionary_name}Dict.cpp)
+  set(includedir ${IncludeDirectory} ${SourceDirectory})
+  ROOT_GENERATE_DICTIONARY("${dictionary_source}" "${link_def}" "${dictionary}" "${IncludeDirectory}")
+  HLibrary(${dictionary_name} dictionary ${ARGV3})
+endmacro(HDictionary)
 
-set(LinkLibraries
-  ${LIBCONFIGPP_LIBRARIES}
-  ${ROOT_LIBRARIES}
-  TMVA
-  ${fastjet_LIBRARIES}
-  ${DelphesLibrary}
-  ${ExRootLibrary}
+macro(HLinkLibraries link_library_source)
+  message("Link Library: ${link_library_source}")
+  set(LinkLibraries
+  ${LinkLibraries}
+  ${link_library_source}
+  CACHE INTERNAL LinkLibraries FORCE
 )
+endmacro(HLinkLibraries)

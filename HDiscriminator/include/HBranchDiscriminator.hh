@@ -1,25 +1,10 @@
-# ifndef HBranchDiscriminator_hh
-# define HBranchDiscriminator_hh
+#pragma once
 
-# include "TObject.h"
-# include "Rtypes.h"
-# include "TGenericClassInfo.h"
+#include "TObject.h"
+#include "Rtypes.h"
+#include "TGenericClassInfo.h"
 
 namespace hcpvhiggs{
-
-  class HDiscriminator;
-  class HJetTag;
-  class JetHJetTag;
-  class HAnalysis;
-  class HBranchDiscriminator;
-  class HJetDiscriminator;
-  class HMva;
-  class HCandidateBranch;
-  class HLeptonBranch;
-  class HConstituentBranch;
-  class HJetPropertiesBranch;
-
-}
 
 /**
  * \class HCandidateBranch
@@ -27,7 +12,7 @@ namespace hcpvhiggs{
  * @brief Class for saving reconstructed candidates to root
  *
  */
-class hcpvhiggs::HCandidateBranch : public TObject
+class HCandidateBranch : public TObject
 {
 
 public:
@@ -88,7 +73,7 @@ private:
 * @brief Class for saving leptons to root
 *
 */
-class hcpvhiggs::HLeptonBranch : public TObject
+class HLeptonBranch : public TObject
 {
 
 public:
@@ -115,7 +100,7 @@ private:
  * @brief Class for saving leptons to root
  *
  */
-class hcpvhiggs::HConstituentBranch : public TObject
+class ConstituentBranch : public TObject
 {
 
 public:
@@ -125,15 +110,15 @@ public:
     float Pt;
     int Id;
 
-    HConstituentBranch();
+    ConstituentBranch();
 
-    virtual ~HConstituentBranch();
+    virtual ~ConstituentBranch();
 
 private:
 
     void reset();
 
-    ClassDef(HConstituentBranch, 1)
+    ClassDef(ConstituentBranch, 1)
 
 };
 
@@ -142,7 +127,7 @@ private:
  * @brief Class for saving leptons to root
  *
  */
-class hcpvhiggs::HJetPropertiesBranch : public TObject
+class HJetPropertiesBranch : public TObject
 {
 
 public:
@@ -165,5 +150,4 @@ private:
 
 };
 
-
-# endif
+}

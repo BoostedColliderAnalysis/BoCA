@@ -1,4 +1,4 @@
-# include "HBranchDiscriminator.hh"
+#include "HBranchDiscriminator.hh"
 
 ClassImp(hcpvhiggs::HCandidateBranch)
 
@@ -81,18 +81,18 @@ void hcpvhiggs::HLeptonBranch::reset()
 }
 
 
-ClassImp(hcpvhiggs::HConstituentBranch)
+ClassImp(hcpvhiggs::ConstituentBranch)
 
-hcpvhiggs::HConstituentBranch::HConstituentBranch()
+hcpvhiggs::ConstituentBranch::ConstituentBranch()
 {
 
   reset();
 
 }
 
-hcpvhiggs::HConstituentBranch::~HConstituentBranch() {}
+hcpvhiggs::ConstituentBranch::~ConstituentBranch() {}
 
-void hcpvhiggs::HConstituentBranch::reset()
+void hcpvhiggs::ConstituentBranch::reset()
 {
 
   int InitialValue = -100;
@@ -130,4 +130,4 @@ void hcpvhiggs::HJetPropertiesBranch::reset()
 }
 
 
-ClassImp(hcpvhiggs::HConstituentBranch)
+ClassImp(hcpvhiggs::ConstituentBranch)

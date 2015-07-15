@@ -1,42 +1,19 @@
-# include "HMvaDiscriminator.hh"
-# include "ExRootAnalysis/ExRootTreeWriter.h"
+#include "HMvaDiscriminator.hh"
+#include  "exroot/ExRootAnalysis.hh"
+#include "TClonesArray.h"
+#include "TMVA/Reader.h"
+#include "Debug.hh"
 
 hcpvhiggs::HMva::HMva()
 {
 
-    Print(HNotification , "Constructor");
+  Note();
 
 //     DebugLevel = 4;
 
-    SetTaggerName("Higgs");
+//     set_tagger_name("Higgs");
 
-//     SignalNames = {"Higgs"};
 
-//     BackgroundNames = {"Top", "Jet"};
-//         BackgroundNames = {"Top","Jet"};
-
-//     TestName = "Test";
-
-//     SignalTreeNames = {"even", "mix", "odd"};
-//         SignalTreeVector = {"even"};
-
-//     BackgroundTreeNames = {"background", "even", "mix", "odd"};
-//         BackgroundTreeVector = {"even"};
-
-//     TestTreeNames = {"background","even", "mix", "odd"};
-//         TestTreeVector = {"even"};
-
-//     SetBranchName("Candidate");
-
-//     SpectatorBranchName = "Lepton";
-
-//     WeightBranchName = "Info";
-
-//     SignalEfficiency = 0.5;
-
-//     Luminosity = 3000; // fb
-
-//     DoLatex = 1;
 
     Candidate = new HCandidateBranch();
 
@@ -49,7 +26,7 @@ hcpvhiggs::HMva::HMva()
 hcpvhiggs::HMva::~HMva()
 {
 
-    Print(HNotification , "Constructor");
+  Note("Destructor");
 
     delete Candidate;
 
@@ -58,61 +35,61 @@ hcpvhiggs::HMva::~HMva()
 void hcpvhiggs::HMva::DefineVariables()
 {
 
-    Print(HNotification , "Define Variables");
+  Note("Define Variables");
 
-    AddObservable(Candidate->Mass, "Mass", "m_j");
-    AddObservable(Candidate->Pt, "Pt", "p^T_j");
-    AddObservable(Candidate->Rap, "Rap","\\eta_j");
-    AddObservable(Candidate->Phi, "Phi","\\phi_j");
+    AddVariable(Candidate->Mass, "Mass");
+    AddVariable(Candidate->Pt, "Pt");
+    AddVariable(Candidate->Rap, "Rap");
+    AddVariable(Candidate->Phi, "Phi");
 
-    AddObservable(Candidate->DeltaR, "DeltaR","Delta R");
-    AddObservable(Candidate->SubJetsDeltaR, "SubJetsDeltaR","\\Delta R(j_1,j_2)");
-    AddObservable(Candidate->Asymmetry, "Asymmetry","A");
-    AddObservable(Candidate->DiPolarity, "DiPolarity","P");
+    AddVariable(Candidate->DeltaR, "DeltaR");
+    AddVariable(Candidate->SubJetsDeltaR, "SubJetsDeltaR");
+    AddVariable(Candidate->Asymmetry, "Asymmetry");
+    AddVariable(Candidate->DiPolarity, "DiPolarity");
 
-    AddObservable(Candidate->SubJet1Mass, "SubJet1Mass", "m_{j_1}");
-    AddObservable(Candidate->SubJet1Pt, "SubJet1Pt");
-    AddObservable(Candidate->SubJet1DeltaR,"SubJet1DeltaR");
+    AddVariable(Candidate->SubJet1Mass, "SubJet1Mass");
+    AddVariable(Candidate->SubJet1Pt, "SubJet1Pt");
+    AddVariable(Candidate->SubJet1DeltaR,"SubJet1DeltaR");
 
-    AddObservable(Candidate->SubJet2Mass, "SubJet2Mass");
-    AddObservable(Candidate->SubJet2Pt, "SubJet2Pt");
-    AddObservable(Candidate->SubJet2DeltaR,"SubJet2DeltaR");
+    AddVariable(Candidate->SubJet2Mass, "SubJet2Mass");
+    AddVariable(Candidate->SubJet2Pt, "SubJet2Pt");
+    AddVariable(Candidate->SubJet2DeltaR,"SubJet2DeltaR");
 
-    AddObservable(Candidate->ConstRap,  "ConstRap");
-    AddObservable(Candidate->ConstPhi,  "ConstPhi");
-    AddObservable(Candidate->ConstDeltaR, "ConstDeltaR");
-    AddObservable(Candidate->ConstAngle, "ConstAngle");
+    AddVariable(Candidate->ConstRap,  "ConstRap");
+    AddVariable(Candidate->ConstPhi,  "ConstPhi");
+    AddVariable(Candidate->ConstDeltaR, "ConstDeltaR");
+    AddVariable(Candidate->ConstAngle, "ConstAngle");
 
-    AddObservable(Candidate->IsolationRap, "IsolationRap");
-    AddObservable(Candidate->IsolationPhi, "IsolationPhi");
-    AddObservable(Candidate->IsolationDeltaR, "IsolationDeltaR");
-    AddObservable(Candidate->IsolationAngle, "IsolationAngle");
-    AddObservable(Candidate->IsolationPt, "IsolationPt");
+    AddVariable(Candidate->IsolationRap, "IsolationRap");
+    AddVariable(Candidate->IsolationPhi, "IsolationPhi");
+    AddVariable(Candidate->IsolationDeltaR, "IsolationDeltaR");
+    AddVariable(Candidate->IsolationAngle, "IsolationAngle");
+    AddVariable(Candidate->IsolationPt, "IsolationPt");
 
     AddSpectator(Candidate->HiggsTag, "HiggsTag");
     AddSpectator(Candidate->TopTag, "TopTag");
 
-    Print(HNotification,"Variables defined");
+    Note("Variables defined");
 
 }
 
 
-void hcpvhiggs::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, const TMVA::Reader &Reader)
+void hcpvhiggs::HMva::ApplyBdt(const exroot::TreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, const TMVA::Reader &Reader)
 {
-  Print(HNotification, "Apply Bdt");
+  Note("Apply Bdt");
 
-  const TClonesArray *const CandidateClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(GetBranchName().c_str());
-//   const TClonesArray *const SpectatorClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(SpectatorBranchName.c_str());
+  const TClonesArray *const CandidateClonesArray = const_cast<exroot::TreeReader *>(TreeReader)->UseBranch(branch_name().c_str());
+//   const TClonesArray *const SpectatorClonesArray = const_cast<exroot::TreeReader *>(TreeReader)->UseBranch(SpectatorBranchName.c_str());
 
-  ExRootTreeWriter *TreeWriter = new ExRootTreeWriter(const_cast<TFile *>(ExportFile), TreeName.c_str());
-  ExRootTreeBranch *CandidateBranch = TreeWriter->NewBranch(GetBranchName().c_str(), HCandidateBranch::Class());
-//   ExRootTreeBranch *LeptonBranch = TreeWriter->NewBranch(SpectatorBranchName.c_str(), HLeptonBranch::Class());
+  exroot::TreeWriter *TreeWriter = new exroot::TreeWriter(const_cast<TFile *>(ExportFile), TreeName.c_str());
+  exroot::TreeBranch *CandidateBranch = TreeWriter->NewBranch(branch_name().c_str(), HCandidateBranch::Class());
+//   exroot::TreeBranch *LeptonBranch = TreeWriter->NewBranch(SpectatorBranchName.c_str(), HLeptonBranch::Class());
 
-  const int EventSum = const_cast<ExRootTreeReader *>(TreeReader)->GetEntries();
+  const int eventSum = const_cast<exroot::TreeReader *>(TreeReader)->GetEntries();
 
-  for (int EventNumber = 0; EventNumber < EventSum; ++EventNumber) {
+  for (int eventNumber = 0; eventNumber < eventSum; ++eventNumber) {
 
-    const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(EventNumber);
+    const_cast<exroot::TreeReader *>(TreeReader)->ReadEntry(eventNumber);
 
     for (int CandidateNumber = 0; CandidateNumber < CandidateClonesArray->GetEntriesFast(); ++CandidateNumber) {
 
@@ -122,15 +99,15 @@ void hcpvhiggs::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const s
 
       (*ExportCandidate) = *Candidate;
 
-      const float BdtEvaluation = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(BdtMethodName());
+      const float BdtEvaluation = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(bdt_method_name());
 
       float SigEff;
       const int StepSize = 50;
       for (SigEff = 0; SigEff < StepSize; ++SigEff) {
 
-        bool CutEvaluation = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(GetCutMethodName(), SigEff / StepSize);
+//         bool CutEvaluation = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(GetCutMethodName(), SigEff / StepSize);
 
-        if (CutEvaluation) break;
+//         if (CutEvaluation) break;
 
       }
 
@@ -162,50 +139,50 @@ void hcpvhiggs::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const s
 }
 
 
-// HReaderStruct hcpvhiggs::HMva::CutLoop(const ExRootTreeReader *const TreeReader, HReaderStruct &ReaderStruct)
+// ReaderStruct hcpvhiggs::HMva::CutLoop(const exroot::TreeReader *const TreeReader, ReaderStruct &ReaderStruct)
 // {
 //
-//   Print(HNotification, "Cut Loop");
+//   Note("Cut Loop");
 //
 //   int ObservableSum = Observables.size();
 //
-//   Print(HNotification,"Observables",Observables.size());
+//   Note("Observables",Observables.size());
 //
 //   ReaderStruct.HiggsSum = 0;
 //   ReaderStruct.TopSum = 0;
 //   ReaderStruct.FatJetSum = 0;
 //
-//   ReaderStruct.TopEventSum = 0;
-//   ReaderStruct.HiggsEventSum = 0;
+//   ReaderStruct.TopeventSum = 0;
+//   ReaderStruct.HiggseventSum = 0;
 //
-//   ReaderStruct.EventVector.assign(ObservableSum, 0);
-//   ReaderStruct.TopEventVector.assign(ObservableSum, 0);
-//   ReaderStruct.HiggsEventVector.assign(ObservableSum, 0);
+//   ReaderStruct.eventVector.assign(ObservableSum, 0);
+//   ReaderStruct.TopeventVector.assign(ObservableSum, 0);
+//   ReaderStruct.HiggseventVector.assign(ObservableSum, 0);
 //   ReaderStruct.CutFlowVector.assign(ObservableSum, 0);
 //   ReaderStruct.FatJetVector.assign(ObservableSum, 0);
 //   ReaderStruct.HiggsVector.assign(ObservableSum, 0);
 //   ReaderStruct.TopVector.assign(ObservableSum, 0);
 //
-//   Print(HInformation,"Vectors assigned");
+//   Info("Vectors assigned");
 //
-//   const TClonesArray *const ClonesArray = const_cast<ExRootTreeReader *>(TreeReader)->UseBranch(EventBranchName.c_str());
+//   const TClonesArray *const ClonesArray = const_cast<exroot::TreeReader *>(TreeReader)->UseBranch(eventBranchName.c_str());
 //
 //
-//   const int EventSum = const_cast<ExRootTreeReader *>(TreeReader)->GetEntries();
-//   for (int EventNumber = 0; EventNumber < EventSum; ++EventNumber) {
-//       Print(HDebug,"Event Loop");
+//   const int eventSum = const_cast<exroot::TreeReader *>(TreeReader)->GetEntries();
+//   for (int eventNumber = 0; eventNumber < eventSum; ++eventNumber) {
+//       Debug("event Loop");
 //
-//     const_cast<ExRootTreeReader *>(TreeReader)->ReadEntry(EventNumber);
+//     const_cast<exroot::TreeReader *>(TreeReader)->ReadEntry(eventNumber);
 //
-//     std::vector<bool> CandidateEventCut(ObservableSum, 1);
-//     std::vector<bool> TopEventCut(ObservableSum, 1);
-//     std::vector<bool> HiggsEventCut(ObservableSum, 1);
+//     std::vector<bool> CandidateeventCut(ObservableSum, 1);
+//     std::vector<bool> TopeventCut(ObservableSum, 1);
+//     std::vector<bool> HiggseventCut(ObservableSum, 1);
 //     bool HasHiggs = 0;;
 //     bool HasTop = 0;
 //
 //     for (int CandidateNumber = 0; CandidateNumber < ClonesArray->GetEntriesFast(); ++CandidateNumber) {
 //
-//         Print(HDebug,"Candidate Loop");
+//         Debug("Candidate Loop");
 //       ++ReaderStruct.FatJetSum;
 //
 //       if (Candidate->TopTag) {
@@ -227,41 +204,41 @@ void hcpvhiggs::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const s
 //       bool ParticleCut = 0;
 //       for (int ObservableNumber = 0; ObservableNumber < ObservableSum; ++ObservableNumber) {
 //
-//           Print(HDebug,"Observable Loop");
+//           Debug("Observable Loop");
 //
-//           Print(HDebug,"Error",ReaderStruct.CutsMin[ObservableNumber]);
+//           Debug("Error",ReaderStruct.CutsMin[ObservableNumber]);
 //
 //         if (*Observables[ObservableNumber].GetValue() < ReaderStruct.CutsMin[ObservableNumber]
 //             || *Observables[ObservableNumber].GetValue() > ReaderStruct.CutsMax[ObservableNumber]) {
 //
-//             Print(HDebug,"we are here",1);
+//             Debug("we are here",1);
 //
 //             ParticleCut = 1;
 //
 //           } else {
 //
-//               Print(HDebug,"we are here",2);
+//               Debug("we are here",2);
 //             ++ReaderStruct.CutFlowVector[ObservableNumber];
 //
 //           }
-//             Print(HDebug,"Struct filled");
+//             Debug("Struct filled");
 //
 //           if (!ParticleCut) {
 //
 //             ++ReaderStruct.FatJetVector[ObservableNumber];
-//             CandidateEventCut[ObservableNumber] = 0;
+//             CandidateeventCut[ObservableNumber] = 0;
 //
 //             if (Candidate->TopTag) {
 //
 //               ++ReaderStruct.TopVector[ObservableNumber];
-//               TopEventCut[ObservableNumber] = 0;
+//               TopeventCut[ObservableNumber] = 0;
 //
 //             }
 //
 //             if (Candidate->HiggsTag) {
 //
 //               ++ReaderStruct.HiggsVector[ObservableNumber];
-//               HiggsEventCut[ObservableNumber] = 0;
+//               HiggseventCut[ObservableNumber] = 0;
 //
 //             }
 //
@@ -271,16 +248,16 @@ void hcpvhiggs::HMva::ApplyBdt(const ExRootTreeReader *const TreeReader, const s
 //
 //     }
 //
-//     if (HasHiggs) ++ReaderStruct.HiggsEventSum;
-//     if (HasTop) ++ReaderStruct.TopEventSum;
+//     if (HasHiggs) ++ReaderStruct.HiggseventSum;
+//     if (HasTop) ++ReaderStruct.TopeventSum;
 //
 //     for (int ObservableNumber = 0; ObservableNumber < ObservableSum; ++ObservableNumber) {
 //
-//       if (!CandidateEventCut[ObservableNumber]) {
+//       if (!CandidateeventCut[ObservableNumber]) {
 //
-//         ++ReaderStruct.EventVector[ObservableNumber];
-//         if (!HiggsEventCut[ObservableNumber]) ++ReaderStruct.HiggsEventVector[ObservableNumber];
-//         if (!TopEventCut[ObservableNumber]) ++ReaderStruct.TopEventVector[ObservableNumber];
+//         ++ReaderStruct.eventVector[ObservableNumber];
+//         if (!HiggseventCut[ObservableNumber]) ++ReaderStruct.HiggseventVector[ObservableNumber];
+//         if (!TopeventCut[ObservableNumber]) ++ReaderStruct.TopeventVector[ObservableNumber];
 //
 //       }
 //
