@@ -13,13 +13,13 @@ find_library(
 #   HINTS ${ExRootDir}/lib # old
   HINTS ${ExRootDir} # new
 )
-HInclude(${ExRootDir} SYSTEM)
-HLinkLibraries(${ExRootLibrary})
+add_include_path(${ExRootDir} SYSTEM)
+add_libraries(${ExRootLibrary})
 
 find_library(
   DelphesLibrary
   NAMES Delphes
   HINTS ${DelphesDir}
 )
-HInclude(${DelphesDir} SYSTEM)
-HLinkLibraries(${DelphesLibrary})
+add_include_path(${DelphesDir} SYSTEM)
+add_libraries(${DelphesLibrary})

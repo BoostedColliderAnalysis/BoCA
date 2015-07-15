@@ -1,16 +1,14 @@
-HInclude(../include)
-HInclude(.)
-
 add_subdirectory(exroot)
 add_subdirectory(delphes)
 
-HDictionary(Branches ./Branches.cpp ../include/LinkDef.hh)
+add_include_path(../include)
+create_dictionary(Branches ./Branches.cpp ../include/LinkDef.hh)
 
 set(VectorSources
 Vector3.cpp
 LorentzVector.cpp
 )
-HLibrary(Vector VectorSources)
+create_library(Vector VectorSources)
 
 set(EventSources
 Global.cpp
@@ -24,7 +22,7 @@ Partons.cpp
 Leptons.cpp
 Hadrons.cpp
 )
-HLibrary(Event EventSources)
+create_library(Event EventSources)
 
 set(MultipletSources
 Identification.cpp
@@ -39,12 +37,12 @@ Octet62.cpp
 GlobalObservables.cpp
 MultipletEvent.cpp
 )
-HLibrary(Multiplets MultipletSources)
+create_library(Multiplets MultipletSources)
 
 set(HepTaggerSource
 TopHadronicHep.cpp
 )
-HLibrary(HepTagger HepTaggerSource)
+create_library(HepTagger HepTaggerSource)
 add_dependencies(HepTagger HepTopTagger)
 
 set(TaggerSources
@@ -67,12 +65,12 @@ TopLeptonicTagger.cpp
 JetPairTagger.cpp
 TripletJetPairTagger.cpp
 )
-HLibrary(Tagger TaggerSources)
+create_library(Tagger TaggerSources)
 
 set(WimpSources
 WimpMass.cpp
 )
-HLibrary(Wimp WimpSources)
+create_library(Wimp WimpSources)
 add_dependencies(Wimp WimpMass)
 
 set(AnalysisSources
@@ -88,4 +86,4 @@ Reconstruction.cpp
 Discriminator.cpp
 SubStructure.cpp
 )
-HLibrary(Analysis AnalysisSources)
+create_library(Analysis AnalysisSources)

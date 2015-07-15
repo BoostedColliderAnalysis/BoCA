@@ -1,4 +1,4 @@
 set(PairLib  AnalysisPair.cpp)
-HLibrary(AnalysisPair PairLib)
+create_library(AnalysisPair PairLib)
 
-HExecutable(PairTagger main.cpp)
+create_executable(PairTagger main.cpp)
