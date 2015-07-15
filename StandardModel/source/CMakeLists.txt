@@ -5,11 +5,11 @@ AnalysisW.cpp
 AnalysisTop.cpp
 )
 
-HLibrary(AnalysisTagger TaggerLibraries)
+create_library(AnalysisTagger TaggerLibraries)
 
-HExecutable(BottomAnalysis MainBottom.cpp)
-HExecutable(WAnalysis MainW.cpp)
-HExecutable(ZAnalysis MainZ.cpp)
-HExecutable(HiggsAnalysis MainHiggs.cpp)
-HExecutable(BosonAnalysis MainBoson.cpp)
-HExecutable(TopAnalysis MainTop.cpp)
+create_executable(BottomAnalysis MainBottom.cpp)
+create_executable(WAnalysis MainW.cpp)
+create_executable(ZAnalysis MainZ.cpp)
+create_executable(HiggsAnalysis MainHiggs.cpp)
+create_executable(BosonAnalysis MainBoson.cpp)
+create_executable(TopAnalysis MainTop.cpp)

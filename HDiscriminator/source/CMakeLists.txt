@@ -1,12 +1,12 @@
-hinclude(.)
-HDictionary(HBranchDiscriminator ./HBranchDiscriminator.cpp ../include/HDiscriminatorLinkDef.hh)
+add_include_path(.)
+create_dictionary(HBranchDiscriminator ./HBranchDiscriminator.cpp ../include/HDiscriminatorLinkDef.hh)
 
 set(DiscriminatorLib
 HAnalysisDiscriminator.cpp
 HMvaDiscriminator.cpp
 )
-HLibrary(HAnalysisDiscriminator DiscriminatorLib)
+create_library(HAnalysisDiscriminator DiscriminatorLib)
 
-HExecutable(HDiscriminator main.cpp)
-HExecutable(HFactoryDiscriminator HFactory.cpp)
-HExecutable(HReaderDiscriminator Reader.cpp)
+create_executable(HDiscriminator main.cpp)
+create_executable(HFactoryDiscriminator HFactory.cpp)
+create_executable(HReaderDiscriminator Reader.cpp)

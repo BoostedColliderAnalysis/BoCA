@@ -31,14 +31,14 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3")
 
 # ROOT
 include(CMakeFiles/FindROOT.cmake)
-HInclude(${ROOT_INCLUDE_DIR})
-HLinkLibraries(${ROOT_LIBRARIES})
-HLinkLibraries(TMVA)
+add_include_path(${ROOT_INCLUDE_DIR})
+add_libraries(${ROOT_LIBRARIES})
+add_libraries(TMVA)
 
 # FastJet
 include(CMakeFiles/Findfastjet.cmake)
-HLinkLibraries(${fastjet_LIBRARIES})
-HLinkLibraries(Nsubjettiness)
+add_libraries(${fastjet_LIBRARIES})
+add_libraries(Nsubjettiness)
 
 # Download external projects
 include(CMakeFiles/External.cmake)
@@ -48,7 +48,7 @@ include(CMakeFiles/FindMadGraph.cmake)
 
 # libConfig
 include(CMakeFiles/FindLibConfig.cmake)
-HLinkLibraries(${LIBCONFIGPP_LIBRARIES})
+add_libraries(${LIBCONFIGPP_LIBRARIES})
 
 # Doxygen
 # include(CMakeFiles/UseDoxygen.cmake)
@@ -63,5 +63,5 @@ add_subdirectory(HDiscriminator)
 add_subdirectory(HiggsCpv)
 add_subdirectory(HeavyHiggs)
 add_subdirectory(TopPartner)
-add_subdirectory(HJetProperties)
+# add_subdirectory(HJetProperties)
 

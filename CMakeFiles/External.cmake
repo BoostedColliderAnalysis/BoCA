@@ -28,8 +28,8 @@ INSTALL_COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/External/WimpMass/e
 )
 
 ExternalProject_Get_Property(WimpMass SOURCE_DIR)
-HInclude(${SOURCE_DIR}/WIMPMASS)
-HLinkLibraries(${CMAKE_BINARY_DIR}/WimpMass/lib/libWimpMass.so)
+add_include_path(${SOURCE_DIR}/WIMPMASS)
+add_libraries(${CMAKE_BINARY_DIR}/WimpMass/lib/libWimpMass.so)
 
 ExternalProject_Add(HepTopTagger
 URL http://www.thphys.uni-heidelberg.de/~plehn/includes/heptoptagger/heptop_v1.0.tar.gz
@@ -45,4 +45,4 @@ INSTALL_COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/External/HepTopTagg
 )
 
 ExternalProject_Get_Property(HepTopTagger SOURCE_DIR)
-HInclude(${SOURCE_DIR})
+add_include_path(${SOURCE_DIR})
