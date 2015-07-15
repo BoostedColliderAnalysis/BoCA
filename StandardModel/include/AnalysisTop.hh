@@ -48,28 +48,28 @@ public:
 private:
 
     std::string ProjectName() const final {
-        return  Name(this->collider_type()) + "-" + std::to_string(this->LowerPtCut()) + "GeV-" + Name(Process::tt) + "-" + Name(TopDecay()) + "-triplet-mod";
+        return  Name(this->collider_type()) + "-" + std::to_string(this->LowerPtCut()) + "GeV-" + Name(Process::tt) + "-" + Name(TopDecay()) + "-triplet";
     }
 
     void SetFiles(const Tag tag) final {
         switch (tag) {
         case Tag::signal :
-            if (TopDecay() == Decay::hadronic || this->tagger().name() == "Bottom") this->NewFile(tag, Process::tt_had);
-            if (this->tagger().name() == "Bottom") this->NewFile(tag, Process::hh);
-            if (this->tagger().name() == "Bottom") this->NewFile(tag, Process::bb);
-            if (TopDecay() == Decay::leptonic || this->tagger().name() == "Bottom") this->NewFile(tag, Process::tt_lep);
-            if (this->tagger().name() == "WHadronic") this->NewFile(tag, Process::ww);
+            if (TopDecay() == Decay::hadronic || this->tagger().Name() == "Bottom") this->NewFile(tag, Process::tt_had);
+            if (this->tagger().Name() == "Bottom") this->NewFile(tag, Process::hh);
+            if (this->tagger().Name() == "Bottom") this->NewFile(tag, Process::bb);
+            if (TopDecay() == Decay::leptonic || this->tagger().Name() == "Bottom") this->NewFile(tag, Process::tt_lep);
+            if (this->tagger().Name() == "WHadronic") this->NewFile(tag, Process::ww);
             break;
         case Tag::background :
-            if (TopDecay() == Decay::leptonic && this->tagger().name() != "Bottom") this->NewFile(tag, Process::tt_had);
-            if (this->tagger().name() != "Bottom") this->NewFile(tag, Process::hh);
-            if (this->tagger().name() != "Bottom") this->NewFile(tag, Process::bb);
+            if (TopDecay() == Decay::leptonic && this->tagger().Name() != "Bottom") this->NewFile(tag, Process::tt_had);
+            if (this->tagger().Name() != "Bottom") this->NewFile(tag, Process::hh);
+            if (this->tagger().Name() != "Bottom") this->NewFile(tag, Process::bb);
             this->NewFile(tag, Process::cc);
             this->NewFile(tag, Process::gg);
             this->NewFile(tag, Process::qq);
-            if (TopDecay() == Decay::hadronic && this->tagger().name() != "Bottom") this->NewFile(tag, Process::tt_lep);
+            if (TopDecay() == Decay::hadronic && this->tagger().Name() != "Bottom") this->NewFile(tag, Process::tt_lep);
             this->NewFile(tag, Process::zz);
-            if (this->tagger().name() != "WHadronic") this->NewFile(tag, Process::ww);
+            if (this->tagger().Name() != "WHadronic") this->NewFile(tag, Process::ww);
             break;
         }
     }

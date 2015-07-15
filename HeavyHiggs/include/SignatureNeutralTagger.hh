@@ -1,6 +1,7 @@
 #pragma once
 
 #include "HeavyHiggsSemiTagger.hh"
+#include "HeavyHiggsSemiTagger.hh"
 #include "JetPairTagger.hh"
 #include "Octet62.hh"
 
@@ -29,7 +30,7 @@ public:
       return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
-    std::string name() const final {
+    std::string Name() const final {
       return "SignatureNeutral";
     }
 

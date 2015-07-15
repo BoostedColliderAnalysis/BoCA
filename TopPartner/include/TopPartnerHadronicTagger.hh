@@ -35,8 +35,12 @@ public:
       return Multiplets(event, pre_cuts, reader);
     }
 
-    std::string name() const final {
+    std::string Name() const final {
       return "TopPartnerHadronic";
+    }
+
+    std::string NiceName() const final {
+      return "#tilde t_{h}";
     }
 
 private:

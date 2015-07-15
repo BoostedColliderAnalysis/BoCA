@@ -130,7 +130,7 @@ protected:
         AddSpectators();
     }
 
-    Branch &branch() {
+    Branch &branch() override {
       return branch_;
     }
 

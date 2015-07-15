@@ -142,17 +142,17 @@ struct AbsMother {
 };
 
 struct WrongAbsStepFamily {
-    WrongAbsStepFamily(const int id, const int mother_2_id) {
+    WrongAbsStepFamily(const Id id, const Id mother_2_id) {
         mother_2_id_ = mother_2_id;
         id_ = id;
     }
     bool operator()(const fastjet::PseudoJet &Jet) {
         JetInfo jet_info = Jet.user_info<JetInfo>();
         Family family = jet_info.constituents().front().family();
-        return (std::abs(family.particle().id()) != id_ || std::abs(family.mother_2().id()) != mother_2_id_);
+        return (std::abs(family.particle().id()) != to_int(id_) || std::abs(family.mother_2().id()) != to_int(mother_2_id_));
     }
-    int mother_2_id_;
-    int id_;
+    Id mother_2_id_;
+    Id id_;
 };
 
 struct WrongAbsStepMother {
@@ -358,7 +358,7 @@ Jets RemoveIfWrongFamily(const Jets &jets, const int id, int mother_id)
     return jets_;
 }
 
-Jets RemoveIfWrongAbsStepFamily(const Jets &jets, const int id , const int mother_2_id)
+Jets RemoveIfWrongAbsStepFamily(const Jets &jets, const Id id , const Id mother_2_id)
 {
     if (jets.empty()) return jets;
     Jets jets_ = jets;
@@ -406,6 +406,7 @@ Jets CopyIfAbsMother(const Jets &jets, const Id mother_id)
     final_jets.resize(std::distance(final_jets.begin(), jet));
     return final_jets;
 }
+
 
 Jets RemoveIfAbsMother(const Jets &jets, const Id mother_id)
 {

@@ -25,7 +25,7 @@ public:
 
     std::vector<Decuplet73> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
 
-    std::string name() const final {
+    std::string Name() const final {
       return "SignatureSingle";
     }
 

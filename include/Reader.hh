@@ -94,7 +94,7 @@ private:
     }
 
     void AddVariable() {
-        for (auto & observable : tagger_.observables()) reader_.AddVariable(observable.expression(), &observable.value());
+        for (auto & observable : tagger_.variables()) reader_.AddVariable(observable.expression(), &observable.value());
         for (auto & spectator : tagger_.spectators()) reader_.AddSpectator(spectator.expression(), &spectator.value());
     }
 

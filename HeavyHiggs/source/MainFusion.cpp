@@ -15,7 +15,7 @@ int main()
     analysis::heavyhiggs::AnalysisFusion<analysis::TopHadronicTagger> top_hadronic_analysis;
     top_hadronic_analysis.RunFast();
 
-    analysis::heavyhiggs::AnalysisFusion<analysis::TopSemiTagger> tops_semi_analysis;
+    analysis::heavyhiggs::AnalysisFusion<analysis::TopLeptonicTagger> tops_semi_analysis;
     tops_semi_analysis.RunFast();
 
     analysis::heavyhiggs::AnalysisFusion<analysis::heavyhiggs::HeavyHiggsSemiTagger> heavy_higgs_semi_analysis;

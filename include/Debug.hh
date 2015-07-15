@@ -114,9 +114,7 @@ void Log(const std::string &file, const int line, const std::string &name_space,
 
 #define LOG0() ::analysis::Log(NAMES)
 
-#define STRING(x) #x
-
-#define PAIR(value) STRING(value), value
+#define PAIR(value) #value, value
 
 #define LOG1(value) ::analysis::Log(NAMES, PAIR(value))
 
@@ -136,28 +134,39 @@ void Log(const std::string &file, const int line, const std::string &name_space,
 
 #define Error(...) ALIVE(__VA_ARGS__)
 
+#ifdef NDEBUG
 #define Note(...) DEAD(__VA_ARGS__)
 #define Info(...) DEAD(__VA_ARGS__)
 #define Debug(...) DEAD(__VA_ARGS__)
 #define Detail(...) DEAD(__VA_ARGS__)
-
+#else
 #ifdef NOTIFICATION
 #define Note(...) ALIVE(__VA_ARGS__)
-#endif
+#define Info(...) DEAD(__VA_ARGS__)
+#define Debug(...) DEAD(__VA_ARGS__)
+#define Detail(...) DEAD(__VA_ARGS__)
+#else
 #ifdef INFORMATION
 #define Note(...) ALIVE(__VA_ARGS__)
 #define Info(...) ALIVE(__VA_ARGS__)
-#endif
+#define Debug(...) DEAD(__VA_ARGS__)
+#define Detail(...) DEAD(__VA_ARGS__)
+#else
 #ifdef DEBUG
 #define Note(...) ALIVE(__VA_ARGS__)
 #define Info(...) ALIVE(__VA_ARGS__)
 #define Debug(...) ALIVE(__VA_ARGS__)
-#endif
+#define Detail(...) DEAD(__VA_ARGS__)
+#else
 #ifdef DETAILED
 #define Note(...) ALIVE(__VA_ARGS__)
 #define Info(...) ALIVE(__VA_ARGS__)
 #define Debug(...) ALIVE(__VA_ARGS__)
 #define Detail(...) ALIVE(__VA_ARGS__)
+#endif
+#endif
+#endif
+#endif
 #endif
 
 #define Check(condition, ...) if(!(condition)) { ALIVE(__VA_ARGS__); }

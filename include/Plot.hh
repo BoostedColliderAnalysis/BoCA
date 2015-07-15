@@ -4,11 +4,13 @@
 #include "TLegend.h"
 #include "TFile.h"
 #include "Branches.hh"
+#include <functional>
 
 class TMultiGraph;
 class TAttLine;
 class TTree;
-class TH2F;
+class TH2;
+class TProfile2D;
 class TExec;
 
 class ExRootTreeBranch;
@@ -66,45 +68,26 @@ public:
 
 
 
-struct PlotPoint {
+struct Point2d {
     float x;
     float y;
+    float z;
 };
 
-class Plot2d
-{
-public:
-  void operator =(std::vector<PlotPoint> &points){points_=points;}
-    void NewPoint(const PlotPoint &plot_point) {
-        points_.emplace_back(plot_point);
-    }
-    const std::vector<PlotPoint> &points()const {
-        return points_;
-    }
-private:
-    std::vector<PlotPoint> points_;
+struct Plot2d {
+    std::vector<Point2d> points;
+    std::string name_x;
+    std::string name_y;
+    std::string nice_name_x;
+    std::string nice_name_y;
+    std::string name;
+    std::string tree_name;
 };
 
-class Plots
-{
-public:
-    Plots(const int size) {
-        plots_.resize(size);
-    }
-//     Plot2d &At(const int i) {
-//       std::cout<< plots_.size() << " " << i << std::endl;
-//         return plots_.at(i);
-//     }
-std::vector<Plot2d> &plots() {
-      return plots_;
-    }
-private:
-    std::vector<Plot2d> plots_;
-};
-
-struct PlotResults {
-  std::vector<std::vector<std::vector<PlotPoint>>> signal;
-  std::vector<std::vector<std::vector<PlotPoint>>> background;
+struct Plots {
+    std::vector<Plot2d> plots;
+    analysis::InfoBranch info_branch;
+    std::string name;
 };
 
 /**
@@ -134,22 +117,25 @@ public:
 
     void InputFiles() const;
 
-    void DoPlot(const std::vector< std::vector< analysis::PlotPoint > > &signal, const std::vector< std::vector< analysis::PlotPoint > > &background) const;
+    void DoPlot(analysis::Plots &signals, analysis::Plots &backgrounds) const;
 
-    void Plotting(const std::vector< analysis::PlotPoint > &signal, const std::vector< analysis::PlotPoint > &background, const std::pair< std::string, std::string > &pair) const;
+    void Plotting(const analysis::Plot2d &signal, const analysis::Plot2d &background) const;
 
-    void SetHist(TH2F &histogram, const std::vector< analysis::PlotPoint > &data, const std::pair< std::string, std::string > &pair, const bool signal) const;
+    void SetHistogram(TH2 &histogram, const analysis::Plot2d &plot, const EColor color, TExec &exec) const;
+
+    void SetProfile(TProfile2D &histogram, const analysis::Plot2d &signal, const analysis::Plot2d &background) const;
 
 private:
 
+    std::vector< Plots > Import(const std::string &file_name, const analysis::Strings &treename) const;
 
+    Plots PlotResult(TFile &file, const std::string &tree_name) const;
 
-    std::vector< std::vector< std::vector< PlotPoint > > > Import(const std::string &file_name, const analysis::Strings &treename) const;
+    Plot2d ReadTree(TTree &tree, const std::string &leaf_1, const std::string &leaf_2) const;
 
-    std::vector<std::vector<PlotPoint>> PlotResult(TFile &file, const std::string &tree_name) const;
+    void PlotHistogram(const analysis::Plot2d &signal, const analysis::Plot2d &background, const float x_min, const float x_max, const float y_min, const float y_max) const;
 
-    std::vector<PlotPoint> ReadTree(TTree &tree, const std::string &leaf_1, const std::string &leaf_2) const;
-
+    void PlotProfile(const analysis::Plot2d &signal, const analysis::Plot2d &background, const float x_min, const float x_max, const float y_min, const float y_max) const;
 
     float Bdt() const;
 
@@ -190,6 +176,8 @@ private:
     int ColorCode(const int number) const;
 
     std::string ExportName() const;
+
+    Plot2d CoreVector(const Plot2d &points, std::function<bool(Point2d&, Point2d&)> function) const;
 
 };
 

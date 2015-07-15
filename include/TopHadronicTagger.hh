@@ -29,8 +29,12 @@ public:
 
     std::vector<analysis::Triplet> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
 
-    std::string name() const final {
+    std::string Name() const final {
       return "TopHadronic";
+    }
+
+    std::string NiceName() const final {
+      return "t_{h}";
     }
 
 private:
@@ -71,7 +75,7 @@ private:
     Reader<WHadronicTagger> w_hadronic_reader_;
 
     float top_mass_window_ ;
-    
+
 };
 
 }

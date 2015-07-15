@@ -18,14 +18,14 @@ int ChargedHiggsLeptonicTagger::Train(const Event &event, const Tag tag)
     Info("Higgs Tags");
     Jets jets = bottom_reader_.Multiplets(event);
 
-    std::vector<Doublet> doublets = top_leptonic_reader_.Multiplets(event);
-    Info("Number of doublets", doublets.size());
-
+    std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
+    Info(triplets.size());
+/*
     std::vector<Triplet> triplets;
-    for (const auto & doublet : doublets) {
+    for (const auto & triplet : triplets) {
         for (const auto & Jet : jets)  {
-            if (doublet.SingletJet1() == Jet) continue;
-            Triplet triplet(doublet, Jet);
+            if (triplet.SingletJet1() == Jet) continue;
+            Triplet triplet(triplet, Jet);
 //             triplet.SetTag(GetTag(triplet));
             if (triplet.Tag() != tag) continue;
 //             std::vector<Quartet31> Prequartets;
@@ -44,30 +44,30 @@ int ChargedHiggsLeptonicTagger::Train(const Event &event, const Tag tag)
         triplets.erase(triplets.begin() + 1, triplets.end());
     }
 
-    return SaveEntries(triplets);
+    return SaveEntries(triplets);*/
 }
 
 std::vector<Triplet>  ChargedHiggsLeptonicTagger::Multiplets(const Event &event, const TMVA::Reader &reader) const
 {
     Info("Bdt");
-    Jets jets = bottom_reader_.Multiplets(event);
-    std::vector<Doublet> doublets = top_leptonic_reader_.Multiplets(event);
-
-    std::vector<Triplet> triplets;
-    for (const auto & doublet : doublets) {
-        for (const auto & jet : jets)  {
-            if (doublet.SingletJet1() == jet) continue;
-            Triplet triplet(doublet, jet);
-//             triplet.SetTag(GetTag(triplet));
-//             std::vector<Quartet31> Prequartets;
-//             Prequartets = Getquartets(quartet, MissingEt);
-//             for (auto & quartet : Prequartets) {
-            triplet.SetBdt(Bdt(triplet, reader));
-            triplets.emplace_back(triplet);
-//             }
-        }
-    }
-    return ReduceResult(triplets);
+//     Jets jets = bottom_reader_.Multiplets(event);
+//     std::vector<Doublet> doublets = top_leptonic_reader_.Multiplets(event);
+//
+//     std::vector<Triplet> triplets;
+//     for (const auto & doublet : doublets) {
+//         for (const auto & jet : jets)  {
+//             if (doublet.SingletJet1() == jet) continue;
+//             Triplet triplet(doublet, jet);
+// //             triplet.SetTag(GetTag(triplet));
+// //             std::vector<Quartet31> Prequartets;
+// //             Prequartets = Getquartets(quartet, MissingEt);
+// //             for (auto & quartet : Prequartets) {
+//             triplet.SetBdt(Bdt(triplet, reader));
+//             triplets.emplace_back(triplet);
+// //             }
+//         }
+//     }
+//     return ReduceResult(triplets);
 }
 
 }
