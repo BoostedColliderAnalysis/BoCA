@@ -111,7 +111,7 @@ BottomBase::BottomBase()
     MaxDisplacement = InValue();
     MeanDisplacement = InValue();
     SumDisplacement = InValue();
-    Multipliticity = int(InValue());
+    Multiplicity = int(InValue());
     Radius = InValue();
     Spread = InValue();
     VertexRadius = InValue();
@@ -121,7 +121,7 @@ BottomBase::BottomBase()
 
 Observables BottomBase::Variables()
 {
-    return {OBS(VertexMass, "m_{V}"), OBS(MaxDisplacement, "#Delta d_{max}"), OBS(MeanDisplacement, "#Delta d_{mean}"), OBS(SumDisplacement, "#Delta d_{sum}"), OBS(Multipliticity, "n_{V}"), OBS(Radius, "r"), OBS(Spread, "s"), OBS(VertexRadius, "r_{V}"), OBS(VertexSpread, "s_{V}"), OBS(EnergyFraction, "f_{E}")};
+    return {OBS(VertexMass, "m_{V}"), OBS(MaxDisplacement, "log(#Delta d_{max})"), OBS(MeanDisplacement, "log(#Delta d_{mean})"), OBS(SumDisplacement, "log(#Delta d_{sum})"), OBS(Multiplicity, "n_{V}"), OBS(Radius, "r"), OBS(Spread, "s"), OBS(VertexRadius, "r_{V}"), OBS(VertexSpread, "s_{V}"), OBS(EnergyFraction, "f_{E}")};
 }
 
 Observables BottomBase::Spectators()
