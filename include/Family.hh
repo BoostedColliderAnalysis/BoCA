@@ -16,21 +16,17 @@ public:
 
     Family(const Id id);
 
-//     Family(const int id, const int mother_id);
-
     Family(const Id id, const Id mother_id);
 
     Family(const int id, const int mother_1_id, const int mother_2_id);
 
     Family(const Id id, const Id mother_1_id, const Id mother_2_id);
 
-//     Family(const int particle_position, const int id, const int mother_position, const int mother_id);
+    Family(const Id id, const Id mother_1_id, const Id mother_2_id, const Id grand_mother_id);
 
     Family(const int particle_position, const Id id, const int mother_position, const Id mother_id);
 
     Family(const TLorentzVector &particle, const LorentzVector &mother, const int particle_position, const int id, const int mother_position, const int mother_id);
-
-//     Family(const LorentzVector &particle, const LorentzVector &mother, const int particle_position, const Id id, const int mother_position, const Id mother_id);
 
     bool operator==(const Family &family) const;
 
@@ -54,6 +50,10 @@ public:
         return mother_2_;
     }
 
+    Particle grand_mother() const {
+        return grand_mother_;
+    }
+
     float Pt() const {
         return pt_;
     }
@@ -65,6 +65,8 @@ private:
     Particle mother_1_;
 
     Particle mother_2_;
+
+    Particle grand_mother_;
 
     std::vector<int> daughter_ids_;//(2);
 

@@ -2,7 +2,8 @@
 #include "Event.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace analysis
+{
 
 JetPairTagger::JetPairTagger()
 {
@@ -67,7 +68,7 @@ int JetPairTagger::Train(const Event &event, PreCuts &, const Tag tag) const
 
     Jets BottomJets;
     Jets Bottoms = Particle_2Bottom(event, tag);
-    
+
     Debug("Number of Bottoms", Bottoms.size());
     if (tag == Tag::signal) { // THIS SHOULD BE ENABLED AGAIN
         for (const auto & Bottom : Bottoms) {
@@ -78,7 +79,7 @@ int JetPairTagger::Train(const Event &event, PreCuts &, const Tag tag) const
             if (jets.size() > 1) jets.erase(jets.begin());
         }
     } else if (tag == Tag::background) BottomJets = jets; // THIS SHOULD BE ENABLED AGAIN
-    
+
     std::vector<Doublet> doublets;
     for (auto jet1 = BottomJets.begin(); jet1 != BottomJets.end(); ++jet1)
         for (auto jet2 = jet1 + 1; jet2 != BottomJets.end(); ++jet2) {
@@ -100,21 +101,21 @@ int JetPairTagger::Train(const Event &event, PreCuts &, const Tag tag) const
 
 }
 
-Jets JetPairTagger::Particle_2Bottom(const Event &event, const Tag tag) const 
+Jets JetPairTagger::Particle_2Bottom(const Event &event, const Tag tag) const
 {
-  Jets Particles = event.Partons().GenParticles();
-  Id MotherId = Id::gluon;
-  Jets Final_Particles;
-  Jets temp_Particles;
-  if (tag == Tag::signal) {
-    temp_Particles = RemoveIfWrongAbsStepMother(Particles, Id::bottom, MotherId);  //FIXME StepMother
-    Final_Particles = RemoveIfWrongAbsFamily(Particles, Id::bottom, MotherId);
-    Final_Particles.insert(Final_Particles.begin(), temp_Particles.begin(), temp_Particles.end());   
-  }
-  if (
-    tag == Tag::signal &&  // THIS SHOULD BE ENABLED AGAIN
-    Final_Particles.size()!= 2) Error("Where is the quark pair?", Final_Particles.size());
-  return Final_Particles;
+    Jets Particles = event.Partons().GenParticles();
+    Jets final_particles;
+    Jets temp_Particles;
+    if (tag == Tag::signal) {
+        temp_Particles = RemoveIfAbsGrandFamily(Particles, Id::bottom, Id::heavy_higgs);
+        temp_Particles = RemoveIfAbsGrandFamily(Particles, Id::bottom, Id::CP_odd_higgs);
+        final_particles = RemoveIfWrongAbsFamily(Particles, Id::bottom, Id::gluon);
+        final_particles.insert(final_particles.begin(), temp_Particles.begin(), temp_Particles.end());
+    }
+    if (
+        tag == Tag::signal &&  // THIS SHOULD BE ENABLED AGAIN
+        final_particles.size() != 2) Error("Where is the quark pair?", final_particles.size());
+    return final_particles;
 }
 std::vector<Doublet>  JetPairTagger::Multiplets(const Event &event, analysis::PreCuts &, const TMVA::Reader &reader) const
 {
@@ -125,7 +126,7 @@ std::vector<Doublet>  JetPairTagger::Multiplets(const Event &event, analysis::Pr
             Doublet doublet;
             if (std::abs((*Jet1).rap()) > std::abs((*Jet2).rap())) doublet.SetMultiplets(*Jet1, *Jet2);
             else doublet.SetMultiplets(*Jet2, *Jet1);
-            doublet.SetBdt(Bdt(doublet,reader));
+            doublet.SetBdt(Bdt(doublet, reader));
             doublets.emplace_back(doublet);
         }
     return ReduceResult(doublets);
