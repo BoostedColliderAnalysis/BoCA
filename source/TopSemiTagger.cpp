@@ -66,7 +66,7 @@ bool TopSemiTagger::Problematic(const Triplet &triplet, PreCuts &pre_cuts, const
     return false;
 }
 
-std::vector<Triplet>  TopSemiTagger::Multiplets(const Event &event, PreCuts &, const TMVA::Reader &reader) const
+std::vector<Triplet>  TopSemiTagger::Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const
 {
     Info("Bdt");
 
@@ -96,3 +96,5 @@ std::vector<Triplet>  TopSemiTagger::Multiplets(const Event &event, PreCuts &, c
 }
 
 }
+
+

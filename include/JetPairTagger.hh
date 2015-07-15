@@ -26,9 +26,12 @@ public:
       return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
-    std::string name() const final {
+    std::string Name() const final {
       return "JetPair";
     }
+    
+    
+    Jets Particle_2Bottom(const Event &event, const Tag tag) const;
 
 private:
 

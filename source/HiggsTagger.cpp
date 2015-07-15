@@ -13,7 +13,7 @@ HiggsTagger::HiggsTagger()
 
 int HiggsTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const
 {
-    Info(Name(tag));
+  Info(analysis::Name(tag));
     Jets jets =  bottom_reader_.Multiplets(event);
     std::vector< Doublet > doublets;
     for (auto jet_1 = jets.begin(); jet_1 != jets.end(); ++jet_1) {

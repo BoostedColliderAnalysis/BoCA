@@ -1,7 +1,8 @@
 #pragma once
 
 #include "BottomTagger.hh"
-#include "Doublet.hh"
+#include "WSemiTagger.hh"
+#include "Triplet.hh"
 #include "Reader.hh"
 
 namespace analysis
@@ -20,7 +21,7 @@ public:
 
     int Train(const Event &event, PreCuts &pre_cuts, const analysis::Tag tag) const;
 
-    std::vector< Doublet> Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const;
+    std::vector< Triplet> Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const;
 
     int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
 //         do_fake_leptons = true;
@@ -28,9 +29,9 @@ public:
 //         return SaveEntries(Multiplets(event, pre_cuts, reader), Particles(event).size());
     }
 
-    bool Problematic(const Doublet &doublet, PreCuts &pre_cuts, const Tag tag) const;
+    bool Problematic(const Triplet &triplet, PreCuts &pre_cuts, const Tag tag) const;
 
-    bool Problematic(const Doublet &doublet, PreCuts &pre_cuts) const;
+    bool Problematic(const Triplet &triplet, PreCuts &pre_cuts) const;
 
     fastjet::PseudoJet FakeLepton(const fastjet::PseudoJet &jet) const;
 
@@ -41,17 +42,19 @@ public:
         return Multiplets(event, pre_cuts, reader);
     }
 
-    std::string name() const final {
+    std::string Name() const final {
       return "TopLeptonic";
     }
 
 private:
 
-    Reader<BottomTagger> bottom_reader_;
+  Reader<BottomTagger> bottom_reader_;
+
+  Reader<WSemiTagger> w_semi_reader_;
 
     float top_mass_window;
 
-//     bool do_fake_leptons_ = false;
+    bool use_w_ = false;
 
 };
 

@@ -38,7 +38,7 @@ public:
       return 1;
     }
 
-    std::string name() const final {
+    std::string Name() const final {
       return "EventBottom";
     }
 

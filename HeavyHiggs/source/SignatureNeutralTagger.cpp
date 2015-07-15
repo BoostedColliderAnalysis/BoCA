@@ -21,25 +21,14 @@ int SignatureNeutralTagger::Train(const Event &event, PreCuts &pre_cuts, const T
     std::vector<Sextet> sextets = heavy_higgs_semi_reader_.Multiplets(event);
     if (sextets.empty())Info("No sextets", sextets.size());
 
-    Jets HiggsParticles = event.Partons().GenParticles();
-    Jets Even = RemoveIfWrongAbsFamily(HiggsParticles, Id::heavy_higgs, Id::gluon);
-    Jets Odd = RemoveIfWrongAbsFamily(HiggsParticles, Id::CP_odd_higgs, Id::gluon);
-    HiggsParticles = Even;
-    HiggsParticles.insert(HiggsParticles.end(), Odd.begin(), Odd.end());
-    fastjet::PseudoJet HiggsBoson;
-    if (tag == Tag::signal) {
-        if (HiggsParticles.size() == 1) HiggsBoson = HiggsParticles.front();
-        else Error("Where is the Higgs?", HiggsParticles.size());
-        std::sort(sextets.begin(), sextets.end(), MinDeltaRTo(HiggsParticles.front()));
-        if (sextets.size() > 1) sextets.erase(sextets.begin() + 1, sextets.end());
-    }
-
+    Jets HiggsBoson = heavy_higgs_semi_reader_.tagger().Particle_Higgs(event, tag);
+    sextets=BestMatches(sextets, HiggsBoson, tag);
+    
     std::vector<Doublet> doublets = jet_pair_reader_.Multiplets(event);
 
     std::vector<Doublet> Finaldoublets;
-    Jets Particles = event.Partons().GenParticles();
+    Jets Particles = jet_pair_reader_.tagger().Particle_2Bottom(event, tag);  //Write a function to get the jet pair
     if (tag == Tag::signal) {
-        Particles = RemoveIfWrongAbsFamily(Particles, Id::bottom, Id::gluon);
         if (Particles.size() == 2) {
             for (const auto & doublet : doublets) {
               if ((doublet.SingletJet1().delta_R(Particles.at(0)) < DetectorGeometry().JetConeSize() && doublet.SingletJet2().delta_R(Particles.at(1)) < DetectorGeometry().JetConeSize()) || (doublet.SingletJet1().delta_R(Particles.at(1)) < DetectorGeometry().JetConeSize() && doublet.SingletJet2().delta_R(Particles.at(0)) < DetectorGeometry().JetConeSize())) Finaldoublets.emplace_back(doublet);

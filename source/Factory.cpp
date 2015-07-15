@@ -11,7 +11,7 @@
 namespace analysis
 {
 
-Factory::Factory(Tagger &tagger) : tagger_(tagger) , factory_(tagger.name(), output_file(), factory_options())
+Factory::Factory(Tagger &tagger) : tagger_(tagger) , factory_(tagger.Name(), output_file(), factory_options())
 {
     Error();
     AddVariables();
@@ -38,7 +38,7 @@ void Factory::AddVariables()
     Note("Add Variables");
     TMVA::gConfig().GetIONames().fWeightFileDir = tagger().analysis_name();
     TMVA::gConfig().GetIONames().fWeightFileExtension = tagger().weight_file_extension();
-    for (const auto & observable : tagger().observables())
+    for (const auto & observable : tagger().variables())
         factory().AddVariable(observable.expression(), observable.title(), observable.unit(), observable.type());
     for (const auto & spectator : tagger().spectators())
         factory().AddSpectator(spectator.expression(), spectator.title(), spectator.unit(), spectator.type());

@@ -18,8 +18,8 @@ namespace analysis
 
 std::string AnalysisBase::ExportName(const Stage stage, const Tag tag) const
 {
-    Note(tagger().name(stage, tag));
-    return ProjectName() + "/" + tagger().name(stage, tag) + FileSuffix();
+    Note(tagger().Name(stage, tag));
+    return ProjectName() + "/" + tagger().Name(stage, tag) + FileSuffix();
 }
 
 exroot::TreeWriter AnalysisBase::TreeWriter(TFile &export_file, const std::string &export_tree_name, Stage )
@@ -51,7 +51,7 @@ int AnalysisBase::PassPreCut(const analysis::Event &) const
 void AnalysisBase::PrepareFiles()
 {
     files_.clear();
-    tagger().clear_tree_names();
+    tagger().ClearTreeNames();
     SetFiles(analysis::Tag::signal);
     SetFiles(analysis::Tag::background);
 }
@@ -209,7 +209,7 @@ std::string AnalysisBase::PathName(const std::string &file_name, const std::stri
 
 void AnalysisBase::RunTagger(Stage stage)
 {
-    if (Missing(PathName(tagger().name(stage)))) AnalysisLoop(stage);
+    if (Missing(PathName(tagger().Name(stage)))) AnalysisLoop(stage);
 }
 
 // void AnalysisBase::RunFactory()

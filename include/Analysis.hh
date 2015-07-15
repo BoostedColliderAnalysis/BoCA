@@ -42,7 +42,11 @@ class Trees
 {
 public:
 
-    Trees(Files &files) : clones_arrays_(files.file().clones_arrays()), event_(files.file().event()), tree_writer_(exroot::TreeWriter(&(files.export_file()), files.file().Title().c_str())) {}
+    Trees(Files &files) :
+    clones_arrays_(files.file().clones_arrays()),
+    event_(files.file().event()),
+    tree_writer_(exroot::TreeWriter(&(files.export_file()), files.file().Title().c_str())
+    ) {}
 
     void WriteTree() {
         if (!analysis_empty_) tree_writer_.Write();
@@ -80,7 +84,7 @@ public:
         return info_branch;
     }
     void AddPreCut(const int number) {
-        return pre_cut_sum_ += number;
+        pre_cut_sum_ += number;
     }
     exroot::TreeReader &tree_reader() {
         return tree_reader_;
@@ -121,7 +125,7 @@ public:
     void AnalysisLoop(const Stage stage) final {
         mkdir(ProjectName().c_str(), 0700);
         Reader<Tagger> reader(stage);
-        tagger_.clear_tree_names();
+        tagger_.ClearTreeNames();
         for (const auto & tag : std::vector<Tag> {Tag::signal, Tag::background}) {
             Files files(ExportName(stage, tag), stage, tag);
             ClearFiles();

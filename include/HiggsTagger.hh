@@ -26,7 +26,7 @@ public:
         return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
     }
 
-    std::string name() const final {
+    std::string Name() const final {
       return "Higgs";
     }
 

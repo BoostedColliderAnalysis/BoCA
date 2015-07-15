@@ -1,19 +1,15 @@
 #include "Branches.hh"
 #include "TColor.h"
 #include "TStyle.h"
-// #include <stdlib.h>
 
-#define STRING(s) #s
-
-#define PAIR1(value) Obs(value, STRING(value), STRING(value))
-#define PAIR2(value, string) Obs(value, STRING(value), string)
+#define OBS1(value) Obs(value, #value, #value)
+#define OBS2(value, string) Obs(value, #value, string)
 
 #define ARGUMENTS(arg1, arg2, arg, ...) arg
-#define PAIRCHOOSER(...) ARGUMENTS(__VA_ARGS__, PAIR2, PAIR1, )
+#define OBSCHOOSE(...) ARGUMENTS(__VA_ARGS__, OBS2, OBS1,)
 
-#define PAIR(...) PAIRCHOOSER(__VA_ARGS__)(__VA_ARGS__)
+#define OBS(...) OBSCHOOSE(__VA_ARGS__)(__VA_ARGS__)
 
-// #define PAIR(x) Obs(x,STRING(x))
 
 namespace analysis
 {
@@ -66,7 +62,7 @@ Observables ResultBranch::Variables()
 
 Observables ResultBranch::Spectators()
 {
-    return {PAIR(Tag), PAIR(Bdt)};
+    return {OBS(Tag), OBS(Bdt)};
 }
 
 ParticleBranch::ParticleBranch()
@@ -80,12 +76,12 @@ ParticleBranch::ParticleBranch()
 
 Observables ParticleBranch::Variables()
 {
-    return Join(ResultBranch::Variables(), {PAIR(Mass,"m")});
+    return Join(ResultBranch::Variables(), {OBS(Mass, "m")});
 }
 
 Observables ParticleBranch::Spectators()
 {
-    return Join(ResultBranch::Spectators(), {PAIR(Charge), PAIR(Pt), PAIR(Rap), PAIR(Phi)});
+    return Join(ResultBranch::Spectators(), {OBS(Charge), OBS(Pt), OBS(Rap), OBS(Phi)});
 }
 
 BottomBase::BottomBase()
@@ -104,7 +100,7 @@ BottomBase::BottomBase()
 
 Observables BottomBase::Variables()
 {
-    return {PAIR(VertexMass), PAIR(MaxDisplacement), PAIR(MeanDisplacement), PAIR(SumDisplacement), PAIR(Multipliticity), PAIR(Radius), PAIR(Spread), PAIR(VertexRadius), PAIR(VertexSpread), PAIR(EnergyFraction)};
+    return {OBS(VertexMass, "m_{V}"), OBS(MaxDisplacement, "#Delta d_{max}"), OBS(MeanDisplacement, "#Delta d_{mean}"), OBS(SumDisplacement, "#Delta d_{sum}"), OBS(Multipliticity, "n_{V}"), OBS(Radius, "r"), OBS(Spread, "s"), OBS(VertexRadius, "r_{V}"), OBS(VertexSpread, "s_{V}"), OBS(EnergyFraction, "f_{E}")};
 }
 
 Observables BottomBase::Spectators()
@@ -137,7 +133,7 @@ TauBranch::TauBranch()
 
 Observables TauBranch::Variables()
 {
-    return Join(ParticleBranch::Variables(), {PAIR(EmRadius), PAIR(TrackRadius), PAIR(MomentumFraction), PAIR(CoreEnergyFraction), PAIR(EmFraction), PAIR(ClusterMass), PAIR(TrackMass), PAIR(FlightPath), PAIR(TrtHtFraction)});
+    return Join(ParticleBranch::Variables(), {OBS(EmRadius), OBS(TrackRadius), OBS(MomentumFraction), OBS(CoreEnergyFraction), OBS(EmFraction), OBS(ClusterMass), OBS(TrackMass), OBS(FlightPath), OBS(TrtHtFraction)});
 }
 
 Observables TauBranch::Spectators()
@@ -160,8 +156,8 @@ PairBranch::PairBranch()
 
 Observables PairBranch::Variables()
 {
-    return Join(ParticleBranch::Variables(), {PAIR(Ht,"H_{T}"), PAIR(DeltaPt,"#Delta P_{T}"), PAIR(DeltaM, "#Delta m"), PAIR(DeltaRap,"#Delta #eta"), PAIR(DeltaPhi,"#Delta #phi"), PAIR(DeltaR,"#Delta R"), PAIR(Rho,"#rho"), PAIR(Bdt1,"BDT_{1}"), PAIR(Bdt2,"BDT_{2}")});
-    //return Join(ParticleBranch::Variables(), {PAIR(Ht), PAIR(DeltaPt), PAIR(DeltaM), PAIR(DeltaRap), PAIR(DeltaPhi), PAIR(DeltaR), PAIR(Rho)});
+    return Join(ParticleBranch::Variables(), {OBS(Ht, "H_{T}"), OBS(DeltaPt, "#Delta P_{T}"), OBS(DeltaM, "#Delta m"), OBS(DeltaRap, "#Delta #eta"), OBS(DeltaPhi, "#Delta #phi"), OBS(DeltaR, "#Delta R"), OBS(Rho, "#rho"), OBS(Bdt1, "BDT_{1}"), OBS(Bdt2, "BDT_{2}")});
+    //return Join(ParticleBranch::Variables(), {OBS(Ht), OBS(DeltaPt), OBS(DeltaM), OBS(DeltaRap), OBS(DeltaPhi), OBS(DeltaR), OBS(Rho)});
 }
 
 Observables PairBranch::Spectators()
@@ -176,7 +172,7 @@ MultiBranch::MultiBranch()
 
 Observables MultiBranch::Variables()
 {
-    return Join(PairBranch::Variables(), {PAIR(DeltaHt,"#Delta H_{T}")});
+    return Join(PairBranch::Variables(), {OBS(DeltaHt, "#Delta H_{T}")});
 }
 
 JetPairBranch::JetPairBranch()
@@ -222,7 +218,7 @@ TripletJetPairBranch::TripletJetPairBranch()
 
 Observables TripletJetPairBranch::Variables()
 {
-    return Join(PairBranch::Variables(), {PAIR(BottomPt), PAIR(BottomRap), PAIR(BottomPhi), PAIR(BottomMass), PAIR(TopPt), PAIR(TopRap), PAIR(TopPhi), PAIR(TopMass), PAIR(TopBdt)});
+    return Join(PairBranch::Variables(), {OBS(BottomPt), OBS(BottomRap), OBS(BottomPhi), OBS(BottomMass), OBS(TopPt), OBS(TopRap), OBS(TopPhi), OBS(TopMass), OBS(TopBdt)});
 }
 
 WSemiBranch::WSemiBranch()
@@ -233,7 +229,7 @@ WSemiBranch::WSemiBranch()
 
 Observables WSemiBranch::Variables()
 {
-    return Join(ParticleBranch::Variables(), {PAIR(Ht), PAIR(DeltaPt), PAIR(DeltaM), PAIR(DeltaRap), PAIR(DeltaPhi), PAIR(DeltaR), PAIR(Rho), PAIR(LeptonPt), PAIR(NeutrinoPt)});
+    return Join(ParticleBranch::Variables(), {OBS(Ht), OBS(DeltaPt), OBS(DeltaM), OBS(DeltaRap), OBS(DeltaPhi), OBS(DeltaR), OBS(Rho), OBS(LeptonPt), OBS(NeutrinoPt)});
 }
 
 TopHadronicBranch::TopHadronicBranch()
@@ -256,9 +252,9 @@ TopHadronicBranch::TopHadronicBranch()
 
 Observables TopHadronicBranch::Variables()
 {
-    return Join(Join(MultiBranch::Variables(), BottomBase::Variables()), {PAIR(LeptonPt)});
-    return  Join(Join(BottomBase::Variables(), ParticleBranch::Variables()), {PAIR(Bdt2), PAIR(LeptonPt)});
-    return Join(Join(MultiBranch::Variables(), BottomBase::Variables()), {PAIR(BottomMass), PAIR(WMass), PAIR(LeptonPt)});
+    return Join(Join(MultiBranch::Variables(), BottomBase::Variables()), {OBS(LeptonPt)});
+    return  Join(Join(BottomBase::Variables(), ParticleBranch::Variables()), {OBS(Bdt2), OBS(LeptonPt)});
+    return Join(Join(MultiBranch::Variables(), BottomBase::Variables()), {OBS(BottomMass), OBS(WMass), OBS(LeptonPt)});
 }
 
 Observables TopHadronicBranch::Spectators()
@@ -274,7 +270,7 @@ TopSemiBranch::TopSemiBranch()
 
 Observables TopSemiBranch::Variables()
 {
-    return Join(MultiBranch::Variables(), {PAIR(BottomPt), PAIR(WPt)});
+    return Join(MultiBranch::Variables(), {OBS(BottomPt), OBS(WPt)});
 }
 
 TopLeptonicBranch::TopLeptonicBranch()
@@ -285,7 +281,7 @@ TopLeptonicBranch::TopLeptonicBranch()
 
 Observables TopLeptonicBranch::Variables()
 {
-    return  Join(Join(BottomBase::Variables(), ParticleBranch::Variables()), {PAIR(Ht), PAIR(DeltaPt), PAIR(DeltaM), PAIR(DeltaRap), PAIR(DeltaPhi), PAIR(DeltaR), PAIR(Rho), PAIR(Bdt1), PAIR(BottomPt), PAIR(LeptonPt)});
+    return  Join(Join(BottomBase::Variables(), ParticleBranch::Variables()), {OBS(Ht), OBS(DeltaPt), OBS(DeltaM), OBS(DeltaRap), OBS(DeltaPhi), OBS(DeltaR), OBS(Rho), OBS(Bdt1), OBS(BottomPt), OBS(LeptonPt)});
 }
 
 Observables TopLeptonicBranch::Spectators()
@@ -336,42 +332,22 @@ EventBranch::EventBranch()
 
 Observables EventBranch::Variables()
 {
-    return Join(MultiBranch::Variables(), {PAIR(LeptonNumber), PAIR(JetNumber), PAIR(BottomNumber), PAIR(MissingEt), PAIR(ScalarHt), PAIR(LeptonHt), PAIR(JetMass), PAIR(JetPt), PAIR(JetHt), PAIR(JetRap), PAIR(JetPhi)});
-}
-
-void Red()
-{
-    static int colors[50];
-    static bool initialized = false;
-
-
-    double red[2] = { 0.1, 1};
-    double green[2] = { 1, 0};
-    double blue[2] = { 1, 0};
-    double length[2] = { 0, 1};
-    float opacity = 0.7;
-
-    if (!initialized) {
-        int color_table = TColor::CreateGradientColorTable(2, length, red, green, blue, 50, opacity);
-        for (int step = 0; step < 50; step++) colors[step] = color_table + step;
-        initialized = true;
-        return;
-    }
-    gStyle->SetPalette(50, colors);
+    return Join(MultiBranch::Variables(), {OBS(LeptonNumber), OBS(JetNumber), OBS(BottomNumber), OBS(MissingEt), OBS(ScalarHt), OBS(LeptonHt), OBS(JetMass), OBS(JetPt), OBS(JetHt), OBS(JetRap), OBS(JetPhi)});
 }
 
 #define GRANULARITY 50
-void Blue()
+void Color::Red()
 {
     int granularity = GRANULARITY;
     static int colors[GRANULARITY];
     static bool initialized = false;
 
-    double red[] = { 1, 0};
+
+    double red[] = { 1, 1};
     double green[] = { 1, 0};
-    double blue[] = { 0.1, 1};
-    double length[] = { 0, 1 };
-    float opacity = 0.7;
+    double blue[] = { 1, 0};
+    double length[] = { 0, 1};
+    float opacity = 1;
 
     if (!initialized) {
         int color_table = TColor::CreateGradientColorTable(sizeof(length) / sizeof(length[0]), length, red, green, blue, granularity, opacity);
@@ -382,4 +358,55 @@ void Blue()
     gStyle->SetPalette(granularity, colors);
 }
 
+void Color::Blue()
+{
+    int granularity = GRANULARITY;
+    static int colors[GRANULARITY];
+    static bool initialized = false;
+
+    double red[] = { 1, 0};
+    double green[] = { 1, 0};
+    double blue[] = { 1, 1};
+    double length[] = { 0, 1 };
+    float opacity = 1;
+
+    if (!initialized) {
+        int color_table = TColor::CreateGradientColorTable(sizeof(length) / sizeof(length[0]), length, red, green, blue, granularity, opacity);
+        for (int step = 0; step < granularity; step++) colors[step] = color_table + step;
+        initialized = true;
+        return;
+    }
+    gStyle->SetPalette(granularity, colors);
 }
+
+void Color::Heat()
+{
+    static std::vector<int> colors;
+    static bool initialized = false;
+
+    std::vector<double> length = { 0.00, 0.34, 0.61, 0.84, 1.00 };
+    std::vector<double> red   = { 0.00, 0.00, 0.87, 1.00, 0.51 };
+    std::vector<double> green = { 0.00, 0.81, 1.00, 0.20, 0.00 };
+    std::vector<double> blue  = { 0.51, 1.00, 0.12, 0.00, 0.00 };
+
+    if (!initialized) {
+        colors = Table(length, red, green, blue);
+        initialized = true;
+        return;
+    }
+    gStyle->SetPalette(colors.size(), &colors[0]);
+
+}
+
+std::vector<int> Color::Table(std::vector<double> &length, std::vector<double> &red, std::vector<double> &green, std::vector<double> &blue)
+{
+    std::vector<int> colors(50);
+
+    int color_table = TColor::CreateGradientColorTable(length.size(), &length[0], &red[0], &green[0], &blue[0], colors.size());
+    for (int step = 0; step < colors.size(); step++) colors[step] = color_table + step;
+//     for (const int color : colors) colors[color] = color_table + color;
+    return colors;
+}
+
+}
+

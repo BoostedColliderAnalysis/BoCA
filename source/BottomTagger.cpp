@@ -15,7 +15,7 @@ BottomTagger::BottomTagger()
 
 int BottomTagger::Train(const Event &event, analysis::PreCuts &pre_cuts, const analysis::Tag tag) const
 {
-    Info(Name(tag));
+  Info(analysis::Name(tag));
 
     Jets jets = event.Hadrons().Jets();
     Info(jets.size());
