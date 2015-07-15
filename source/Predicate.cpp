@@ -155,6 +155,20 @@ struct WrongAbsStepFamily {
     Id id_;
 };
 
+struct WrongGrandFamily {
+  WrongAbsStepFamily(const Id id, const Id grand_mother_id) {
+    grand_mother_id_ = grand_mother_id;
+    id_ = id;
+  }
+  bool operator()(const fastjet::PseudoJet &Jet) {
+    JetInfo jet_info = Jet.user_info<JetInfo>();
+    Family family = jet_info.constituents().front().family();
+    return (std::abs(family.particle().id()) != to_int(id_) || std::abs(family.grand_mother().id()) == to_int(grand_mother_id_));
+  }
+  Id grand_mother_id_;
+  Id id_;
+};
+
 struct WrongAbsStepMother {
     WrongAbsStepMother(const int mother_2_id) {
         mother_2_id_ = mother_2_id;
@@ -364,6 +378,14 @@ Jets RemoveIfWrongAbsStepFamily(const Jets &jets, const Id id , const Id mother_
     Jets jets_ = jets;
     jets_.erase(std::remove_if(jets_.begin(), jets_.end(), WrongAbsStepFamily(id, mother_2_id)), jets_.end());
     return jets_;
+}
+
+Jets RemoveIfAbsGrandFamily(const Jets &jets, const Id id , const Id grand_mother_id)
+{
+  if (jets.empty()) return jets;
+  Jets jets_ = jets;
+  jets_.erase(std::remove_if(jets_.begin(), jets_.end(), WrongGrandFamily(id, grand_mother_id)), jets_.end());
+  return jets_;
 }
 
 Jets RemoveIfWrongAbsStepMother(const Jets &jets, const int mother_2_id)

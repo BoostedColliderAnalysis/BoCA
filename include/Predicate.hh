@@ -129,8 +129,22 @@ Jets RemoveIfWrongAbsFamily(const Jets &jets, const Id id, Id mother_id);
 
 Jets RemoveIfWrongFamily(const Jets &jets, const int id, int mother_id);
 
+/**
+ * @brief returns only particles with the correct id and mother 2 id
+ *
+ */
 Jets RemoveIfWrongAbsStepFamily(const Jets &jets, const Id id , const Id mother_2_id);
 
+/**
+ * @brief returns only particles with the correct id and non fitting grand mother id
+ *
+ */
+Jets RemoveIfAbsGrandFamily(const Jets &jets, const Id id , const Id grand_mother_id);
+
+/**
+ * @brief returns only particles with the correct mother 2 id
+ *
+ */
 Jets RemoveIfWrongAbsStepMother(const Jets &jets, const int mother_2_id);
 
 Jets RemoveIfWrongParticle(const Jets &jets, const int id);
