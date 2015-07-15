@@ -33,7 +33,7 @@ public:
         this->pre_cuts().SetPtLowerCut(Id::top, this->LowerPtCut());
         this->pre_cuts().SetPtUpperCut(Id::top, this->UpperPtCut());
         this->pre_cuts().SetMassUpperCut(Id::top, 400);
-        this->pre_cuts().SetTrackerMaxEta(Id::top, DetectorGeometry().TrackerEtaMax());
+        this->pre_cuts().SetTrackerMaxEta(Id::top, DetectorGeometry::TrackerEtaMax());
         this->pre_cuts().SetPtLowerCut(Id::bottom, this->LowerPtCut() / 5);
         this->pre_cuts().SetPtLowerCut(Id::W, this->LowerPtCut() / 5);
     }

@@ -118,7 +118,7 @@ std::vector<Doublet> WLeptonicTagger::ReconstructNeutrino(const Doublet &doublet
 Jets WLeptonicTagger::WLeptonicDaughters(const Event &event) const
 {
     Jets w_daughters = event.Partons().GenParticles();
-    w_daughters = RemoveIfSoft(w_daughters, DetectorGeometry().JetMinPt());
+    w_daughters = RemoveIfSoft(w_daughters, DetectorGeometry::JetMinPt());
     w_daughters = RemoveIfWrongAbsMother(w_daughters, Id::W);
     w_daughters = RemoveIfQuark(w_daughters);
     return w_daughters;

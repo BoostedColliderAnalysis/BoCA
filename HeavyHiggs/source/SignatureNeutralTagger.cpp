@@ -42,7 +42,7 @@ int SignatureNeutralTagger::Train(const Event &event, PreCuts &pre_cuts, const T
         Particles = RemoveIfWrongAbsFamily(Particles, Id::bottom, Id::gluon);
         if (Particles.size() == 2) {
             for (const auto & doublet : doublets) {
-              if ((doublet.SingletJet1().delta_R(Particles.at(0)) < DetectorGeometry().JetConeSize() && doublet.SingletJet2().delta_R(Particles.at(1)) < DetectorGeometry().JetConeSize()) || (doublet.SingletJet1().delta_R(Particles.at(1)) < DetectorGeometry().JetConeSize() && doublet.SingletJet2().delta_R(Particles.at(0)) < DetectorGeometry().JetConeSize())) Finaldoublets.emplace_back(doublet);
+              if ((doublet.SingletJet1().delta_R(Particles.at(0)) < DetectorGeometry::JetConeSize() && doublet.SingletJet2().delta_R(Particles.at(1)) < DetectorGeometry::JetConeSize()) || (doublet.SingletJet1().delta_R(Particles.at(1)) < DetectorGeometry::JetConeSize() && doublet.SingletJet2().delta_R(Particles.at(0)) < DetectorGeometry::JetConeSize())) Finaldoublets.emplace_back(doublet);
             }
         }
     }

@@ -19,7 +19,8 @@ This code performs BDT analyses based on root files originating from MadGraph / 
 mkdir build
 cd build
 cmake ..
-make
+make # for external dependencies
+make # for the actual program
 ```
 
 ## Git commands

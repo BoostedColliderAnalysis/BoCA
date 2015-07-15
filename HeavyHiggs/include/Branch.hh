@@ -2,17 +2,6 @@
 
 #include "Branches.hh"
 
-#define STRING(s) #s
-
-#define PAIR1(value) Obs(value, STRING(value), STRING(value))
-#define PAIR2(value, string) Obs(value, STRING(value), string)
-
-#define ARGUMENTS(arg1, arg2, arg, ...) arg
-#define PAIRCHOOSER(...) ARGUMENTS(__VA_ARGS__, PAIR2, PAIR1, )
-
-#define PAIR(...) PAIRCHOOSER(__VA_ARGS__)(__VA_ARGS__)
-// #define PAIR(x) ObservablePair(x,STRING(x))
-
 namespace analysis
 {
 
@@ -71,9 +60,7 @@ public:
 
     }
 
-    Observables Variables() {
-        return Join(ParticleBranch::Variables(), {PAIR(LargerWDeltaR), PAIR(LargerWDeltaRap), PAIR(LargerWDeltaPhi), PAIR(SmallerWDeltaR), PAIR(SmallerWDeltaRap), PAIR(SmallerWDeltaPhi), PAIR(LargerNeutrinoDeltaR), PAIR(LargerNeutrinoDeltaRap), PAIR(LargerNeutrinoDeltaPhi), PAIR(SmallerNeutrinoDeltaR), PAIR(SmallerNeutrinoDeltaRap), PAIR(SmallerNeutrinoDeltaPhi)});
-    }
+    Observables Variables();
 private:
 
     ClassDef(HeavyHiggsLeptonicBranch, 1)
@@ -150,9 +137,7 @@ public:
         MultiBranch::Fill(multiplet);
         Flag = multiplet.Flag();
     }
-    virtual Observables Spectators() {
-        return Join(ParticleBranch::Spectators(), {PAIR(Flag)});
-    }
+    virtual Observables Spectators();
 
 private:
 
@@ -241,12 +226,8 @@ public:
         HeavyHiggsTag = int(multiplet.Tag());
     }
 
-    Observables Variables() {
-        return Join(ParticleBranch::Variables(), {PAIR(HeavyHiggsMass), PAIR(HeavyHiggsPt), PAIR(TopDeltaR), PAIR(TopDeltaRap), PAIR(TopDeltaPhi), PAIR(TopBdt)});
-    }
-    virtual Observables Spectators() {
-        return Join(ParticleBranch::Spectators(), {PAIR(HeavyHiggsTag)});
-    }
+    Observables Variables();
+    virtual Observables Spectators();
 
 private:
 
@@ -276,9 +257,7 @@ public:
         NeutrinoPt = multiplet.SingletJet2().pt();
     }
 
-    Observables Variables() {
-        return Join(ParticleBranch::Variables(), {PAIR(LeptonPt), PAIR(NeutrinoPt)});
-    }
+    Observables Variables();
 
 private:
 
@@ -349,9 +328,7 @@ public:
 
     }
 
-    Observables Variables() {
-        return Join(EventBranch::Variables(), {PAIR(HiggsMass), PAIR(HiggsBdt), PAIR(SignatureBdt), PAIR(PairRap), PAIR(BottomBdt), PAIR(PairBottomBdt), PAIR(BottomBdt1), PAIR(BottomBdt2), PAIR(BottomBdt3), PAIR(BottomBdt4), PAIR(BottomBdt5), PAIR(BottomBdt6), PAIR(BottomBdt7), PAIR(BottomBdt8), PAIR(BottomBdt12), PAIR(BottomBdt34), PAIR(BottomBdt56), PAIR(BottomBdt78)});
-    }
+    Observables Variables();
 
 private:
 
@@ -381,9 +358,7 @@ public:
         HiggsMass = multiplet.Jet().m();
     }
 
-    Observables Variables() {
-        return Join(EventBranch::Variables(), {PAIR(HiggsMass)});
-    }
+    Observables Variables();
 
 
 private:
@@ -427,9 +402,7 @@ public:
         PairRap = multiplet.Doublet().DeltaRap();
     }
 
-    Observables Variables() {
-      return Join(MultiBranch::Variables(), {PAIR(HiggsMass), PAIR(HiggsBdt), PAIR(PairBdt), PAIR(PairRap), PAIR(BottomBdt), PAIR(HardTopPt), PAIR(SoftTopPt), PAIR(PairBottomBdt)});
-    }
+    Observables Variables();
 
 
 private:
@@ -470,9 +443,7 @@ public:
         PairRap = multiplet.Quartet2().DeltaRap();
     }
 
-    Observables Variables() {
-      return Join(MultiBranch::Variables(), {PAIR(HiggsMass), PAIR(HiggsBdt), PAIR(PairBdt), PAIR(PairRap), PAIR(BottomBdt), PAIR(PairBottomBdt)});
-    }
+    Observables Variables();
 
 private:
 
@@ -542,9 +513,7 @@ public:
         LeptonHt = multiplet.GlobalObservables().LeptonHt();
     }
 
-    Observables Variables() {
-        return Join(EventBranch::Variables(), {PAIR(HiggsMass), PAIR(HiggsBdt), PAIR(SignatureBdt), PAIR(PairRap), PAIR(BottomBdt), PAIR(PairBottomBdt), PAIR(BottomBdt1), PAIR(BottomBdt2), PAIR(BottomBdt3), PAIR(BottomBdt4), PAIR(BottomBdt5), PAIR(BottomBdt6), PAIR(BottomBdt7), PAIR(BottomBdt8), PAIR(BottomBdt12), PAIR(BottomBdt34), PAIR(BottomBdt56), PAIR(BottomBdt78)});
-    }
+    Observables Variables();
 
 private:
 

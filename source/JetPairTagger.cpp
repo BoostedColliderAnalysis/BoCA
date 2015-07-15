@@ -80,7 +80,7 @@ int JetPairTagger::Train(const Event &event, PreCuts &, const Tag tag) const
     if (tag == Tag::signal) { // THIS SHOULD BE ENABLED AGAIN
         for (const auto & Particle : Particles) {
             jets = SortedByMinDeltaRTo(jets, Particle);
-            if (jets.front().delta_R(Particle) > DetectorGeometry().JetConeSize()) continue;
+            if (jets.front().delta_R(Particle) > DetectorGeometry::JetConeSize()) continue;
 
             BottomJets.emplace_back(jets.front());
             if (jets.size() > 1) jets.erase(jets.begin());
@@ -124,7 +124,7 @@ std::vector<Doublet>  JetPairTagger::Multiplets(const Event &event, analysis::Pr
             else doublet.SetMultiplets(*Jet2, *Jet1);
 //             for (const auto & Jet : jets)  if (Jet != *Jet1 && Jet != *Jet2) doublet.AddRestJet(Jet);
 //             if (doublet.RestJets().size() != jets.size() - 2) Error("to many jets in the rest jet vector");
-            //             if (std::abs(doublet.DeltaRap()) < DetectorGeometry().JetConeSize()) continue;
+            //             if (std::abs(doublet.DeltaRap()) < DetectorGeometry::JetConeSize()) continue;
             doublet.SetBdt(Bdt(doublet,reader));
             doublets.emplace_back(doublet);
         }

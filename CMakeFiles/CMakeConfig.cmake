@@ -1,12 +1,10 @@
-# set build type to debug
-# set(CMAKE_BUILD_TYPE Debug)
-
-# set(CMAKE_INSTALL_PREFIX ~)
 unset(link_libraries CACHE)
 unset(include_directories CACHE)
+
 # set library and excecutable destination
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+# set(CMAKE_INSTALL_PREFIX ~)
 
 # set library versions
 set(major_version 0)
@@ -58,8 +56,8 @@ endmacro(create_dictionary)
 macro(add_libraries link_library_sources)
   message("Link Library: ${link_library_sources}")
   set(link_libraries
-  ${link_libraries}
-  ${link_library_sources}
-  CACHE INTERNAL link_libraries FORCE
+    ${link_libraries}
+    ${link_library_sources}
+    CACHE INTERNAL link_libraries FORCE
   )
 endmacro(add_libraries)
