@@ -103,7 +103,8 @@ private:
 
 /**
  *
- * @brief Bottom tagger root tree structure base class (this construct is necessary because root can not handel virtual inheritance needed for the resulution of the dreaded diamond)
+ * @brief Bottom tagger root tree structure base class
+ * (this construct is necessary because root can not handel virtual inheritance needed for the resulution of the dreaded diamond)
  *
  */
 class BottomBase
@@ -114,7 +115,7 @@ public:
     float MaxDisplacement;
     float MeanDisplacement;
     float SumDisplacement;
-    float Multipliticity;
+    float Multiplicity;
     float Radius;
     float Spread;
     float VertexRadius;
@@ -130,7 +131,7 @@ public:
         MaxDisplacement = singlet.MaxDisplacement();
         MeanDisplacement = singlet.MeanDisplacement();
         SumDisplacement = singlet.SumDisplacement();
-        Multipliticity = singlet.Multiplicity();
+        Multiplicity = singlet.Multiplicity();
         Radius = singlet.Radius();
         Spread = singlet.Spread();
         VertexRadius = singlet.VertexRadius();

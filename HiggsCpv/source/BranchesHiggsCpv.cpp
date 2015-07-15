@@ -1,5 +1,13 @@
 #include "BranchesHiggsCpv.hh"
 
+#define PAIR1(value) Obs(value, #value, #value)
+#define PAIR2(value, string) Obs(value, #value, string)
+
+#define ARGUMENTS(arg1, arg2, arg, ...) arg
+#define PAIRCHOOSER(...) ARGUMENTS(__VA_ARGS__, PAIR2, PAIR1, )
+
+#define PAIR(...) PAIRCHOOSER(__VA_ARGS__)(__VA_ARGS__)
+
 ClassImp(analysis::higgscpv::SignatureLeptonicBranch)
 
 analysis::higgscpv::SignatureLeptonicBranch::SignatureLeptonicBranch()
@@ -81,3 +89,18 @@ analysis::higgscpv::QuartetPairBranch::QuartetPairBranch()
   TopBdt = InitialValue();
   TopBTag = InitialValue();
 }
+namespace analysis
+{
+namespace higgscpv
+{
+Observables SignatureLeptonicBranch::Variables()
+{
+    return Join(MultiBranch::Variables(), {PAIR(BottomBdt), PAIR(PairBottomBdt), PAIR(HardTopPt), PAIR(SoftTopPt), PAIR(HiggsMass), PAIR(PairRap)});
+}
+Observables TripletPairBranch::Variables()
+{
+    return Join(PairBranch::Variables(), {PAIR(BottomPt), PAIR(BottomRap), PAIR(BottomPhi), PAIR(BottomMass), PAIR(TopPt), PAIR(TopRap), PAIR(TopPhi), PAIR(TopMass), PAIR(TopBdt)});
+}
+}
+}
+

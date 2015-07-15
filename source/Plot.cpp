@@ -23,6 +23,7 @@
 #include "exroot/ExRootAnalysis.hh"
 #include "Predicate.hh"
 #include "Branches.hh"
+#define DEBUG
 #include "Debug.hh"
 
 
@@ -184,7 +185,7 @@ std::string Plot::PlotHistograms(const analysis::Results &results) const
     }
     legend.Draw();
 
-    const std::string efficiency_file_name = ExportName() + "-Bdt.pdf";
+    const std::string efficiency_file_name = ExportName() + "-Bdt" + ExportFileSuffix();
     canvas.Print(efficiency_file_name.c_str());
     return efficiency_file_name;
 }
@@ -212,7 +213,7 @@ void Plot::PlotAcceptanceGraph(const Results &results) const
         SetMultiGraph(multi_graph);
         legend.Draw();
 
-        std::string efficiency_file_name = ExportName() + "-Acceptance.pdf";
+        std::string efficiency_file_name = ExportName() + "-Acceptance" + ExportFileSuffix();
         canvas.Print(efficiency_file_name.c_str());
     }
 }
@@ -313,7 +314,7 @@ std::string Plot::PlotEfficiencyGraph(const Results &results, const std::vector<
     TLine line(float(best_bin) * 2 / signal_results.steps, multi_graph.GetYaxis()->GetXmin(), float(best_bin) * 2 / signal_results.steps, multi_graph.GetYaxis()->GetXmax());
     line.SetLineStyle(2);
     line.Draw();
-    const std::string file_name = ExportName() + "-Efficiency.pdf";
+    const std::string file_name = ExportName() + "-Efficiency" + ExportFileSuffix();
     canvas.Print(file_name.c_str());
     return file_name;
 }
@@ -329,7 +330,7 @@ std::string Plot::PlotSignificanceGraph(const Results &results, const std::vecto
     TLine line(float(best_bin) * 2 / signal_results.steps, gPad->GetUymin(), float(best_bin) * 2 / signal_results.steps, gPad->GetUymax());
     line.SetLineStyle(2);
     line.Draw();
-    const std::string file_name = ExportName() + "-Significance.pdf";
+    const std::string file_name = ExportName() + "-Significance" + ExportFileSuffix();
     canvas.Print(file_name.c_str());
     return file_name;
 }
@@ -562,7 +563,7 @@ void Result::set_event_sum(const long event_sum)
     event_sum_ = event_sum;
 }
 
-void Plot::InputFiles() const
+void Plot::RunPlots() const
 {
 
     std::string signal_file_name = tagger().analysis_name() + "/" + tagger().signal_name() + "Reader.root";
@@ -573,18 +574,15 @@ void Plot::InputFiles() const
     Debug(background_file_name, tagger().background_tree_names().size());
     std::vector<Plots> backgrounds = Import(background_file_name, tagger().background_tree_names());
 
-        Plots bg = backgrounds.front();
+    Plots bg = backgrounds.front();
     if (backgrounds.size() > 1) {
         bg = std::accumulate(backgrounds.begin() + 1, backgrounds.end(), bg, [](Plots & sum, const Plots & elem) {
-          for (const auto & plot : elem.plots) sum.plots.at(&plot - &elem.plots[0]).points = Join(sum.plots.at(&plot - &elem.plots[0]).points, plot.points);
+            for (const auto & plot : elem.plots) sum.plots.at(&plot - &elem.plots[0]).points = Join(sum.plots.at(&plot - &elem.plots[0]).points, plot.points);
             return sum;
         });
+        bg.name = "background";
     }
-
-//     for (auto & background : backgrounds) bg += background;
-
     for (auto & signal : signals) DoPlot(signal, bg);
-
 }
 
 void Plot::DoPlot(Plots &signals, Plots &backgrounds) const
@@ -666,20 +664,21 @@ void Plot::PlotHistogram(const Plot2d &signal, const Plot2d &background, const f
     legend.Draw();
 
     mkdir(ExportName().c_str(), 0700);
-    std::string file_name = ExportName() + "/" + "Hist-" + background.tree_name + "-" + signal.name_x + "-" + signal.name_y + ".png";
+    std::string file_name = ExportName() + "/" + "Hist-" + background.tree_name + "-" + signal.name_x + "-" + signal.name_y + ExportFileSuffix();
     canvas.Print(file_name.c_str());
 }
 
 void Plot::PlotProfile(const Plot2d &signal, const Plot2d &background, const float x_min, const float x_max, const float y_min, const float y_max)const
 {
     TCanvas canvas;
+    canvas.SetRightMargin(0.15);
 
     const int bin_number = 30;
     TProfile2D test("", tagger().NiceName().c_str(), bin_number, x_min, x_max, bin_number, y_min, y_max);
     SetProfile(test, signal, background);
 
     mkdir(ExportName().c_str(), 0700);
-    std::string file_name = ExportName() + "/" + "Prof-" + background.tree_name + "-" + signal.name_x + "-" + signal.name_y + ".png";
+    std::string file_name = ExportName() + "/" + "Prof-" + background.tree_name + "-" + signal.name_x + "-" + signal.name_y + ExportFileSuffix();
     canvas.Print(file_name.c_str());
 }
 
@@ -694,6 +693,7 @@ void Plot::SetHistogram(TH2 &histogram, const Plot2d &plot, const EColor color, 
     histogram.SetContour(20);
     switch (color) {
     case kRed :
+      // FIXME why do these function have to be reversed?
         exec.SetAction("analysis::Color().Blue();");
         break;
     case kBlue :
@@ -722,6 +722,7 @@ void Plot::SetProfile(TProfile2D &histogram, const Plot2d &signal, const Plot2d 
     Color().Heat();
     histogram.SetXTitle(signal.nice_name_x.c_str());
     histogram.SetYTitle(signal.nice_name_y.c_str());
+    histogram.SetZTitle("BDT");
     histogram.SetMaximum(max);
     histogram.SetMinimum(min);
     histogram.SetContour(30);

@@ -20,6 +20,8 @@ Factory::Factory(Tagger &tagger) : tagger_(tagger) , factory_(tagger.Name(), out
     factory().TrainAllMethods();
     factory().TestAllMethods();
     factory().EvaluateAllMethods();
+    std::vecotr<double> importances = static_cast<TMVA::MethodBDT &>(*factory().GetMethod()).GetVariableImportance();
+    for(const auto & importance : importances) Error(importance);
 }
 
 std::string Factory::factory_options()

@@ -74,12 +74,12 @@ Arguments=
 Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x04\x00\x00\x00\x10\x00A\x00n\x00a\x00l\x00y\x00s\x00i\x00s\x00\x00\x00\x14\x00T\x00o\x00p\x00P\x00a\x00r\x00t\x00n\x00e\x00r\x00\x00\x00\x0c\x00s\x00o\x00u\x00r\x00c\x00e\x00\x00\x00\x14\x00T\x00o\x00p\x00P\x00a\x00r\x00t\x00n\x00e\x00r)
 Dependency Action=Build
 EnvironmentGroup=
-Executable=file:///home/hajer/Analysis/
+Executable=file:///home/hajer/Analysis/build/bin/TopPartner
 External Terminal=konsole --noclose --workdir %workdir -e %exe
-Project Target=Analysis,TopPartner,source,TopPartner
+Project Target=
 Use External Terminal=false
 Working Directory=file:///home/hajer/Projects/TopPartner/Analysis/
-isExecutable=false
+isExecutable=true
 
 [Launch][Launch Configuration 3]
 Configured Launch Modes=execute
@@ -92,12 +92,12 @@ Arguments=
 Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x04\x00\x00\x00\x10\x00A\x00n\x00a\x00l\x00y\x00s\x00i\x00s\x00\x00\x00\x1a\x00S\x00t\x00a\x00n\x00d\x00a\x00r\x00d\x00M\x00o\x00d\x00e\x00l\x00\x00\x00\x0c\x00s\x00o\x00u\x00r\x00c\x00e\x00\x00\x00\x1c\x00B\x00o\x00t\x00t\x00o\x00m\x00A\x00n\x00a\x00l\x00y\x00s\x00i\x00s)
 Dependency Action=Build
 EnvironmentGroup=
-Executable=file:///home/hajer/Analysis/
+Executable=file:///home/hajer/Analysis/build/bin/BottomAnalysis
 External Terminal=konsole --noclose --workdir %workdir -e %exe
-Project Target=Analysis,StandardModel,source,BottomAnalysis
+Project Target=Analysis,HBottomSumTagger,source,HBottomSumTagger
 Use External Terminal=false
 Working Directory=file:///home/hajer/Projects/Tagger/Bottom/
-isExecutable=false
+isExecutable=true
 
 [Launch][Launch Configuration 4]
 Configured Launch Modes=execute
