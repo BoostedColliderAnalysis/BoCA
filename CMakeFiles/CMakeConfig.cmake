@@ -3,7 +3,7 @@
 
 # set(CMAKE_INSTALL_PREFIX ~)
 unset(link_libraries CACHE)
-unset(include_directory CACHE)
+unset(include_directories CACHE)
 # set library and excecutable destination
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
@@ -25,12 +25,12 @@ set(library_properties
 macro(add_include_path relative_directory)
   get_filename_component(absolute_directory ${relative_directory} ABSOLUTE)
   message("Include:      ${absolute_directory}")
-  set(include_directory
-    ${include_directory}
+  set(include_directories
+    ${include_directories}
     ${absolute_directory}
-    CACHE INTERNAL include_directory FORCE
+    CACHE INTERNAL include_directories FORCE
   )
-  include_directories(${ARGV1} ${include_directory})
+  include_directories(${ARGV1} ${include_directories})
 endmacro(add_include_path)
 
 macro(create_library library_name library_sources)
@@ -51,7 +51,7 @@ endmacro(create_executable)
 macro(create_dictionary dictionary_name dictionary_source link_def)
   message("Dictionary:   ${dictionary_name} <- ${dictionary_source} & ${link_def}")
   set(dictionary_file ${dictionary_name}Dict.cpp)
-  ROOT_GENERATE_DICTIONARY("../source/${dictionary_source}" "${link_def}" "${dictionary_file}" "${include_directory}")
+  ROOT_GENERATE_DICTIONARY("../source/${dictionary_source}" "${link_def}" "${dictionary_file}" "${include_directories}")
   create_library(${dictionary_name} dictionary_file ${ARGV3})
 endmacro(create_dictionary)
 
