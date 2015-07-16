@@ -44,7 +44,6 @@ add_libraries(${LIBCONFIGPP_LIBRARIES})
 add_subdirectory(source)
 
 add_subdirectory(StandardModel)
-# add_subdirectory(EFlow)
 add_subdirectory(PairTagger)
 add_subdirectory(HBottomSumTagger)
 add_subdirectory(HDiscriminator)
