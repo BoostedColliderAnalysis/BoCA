@@ -28,6 +28,11 @@ Family::Family(const int id, const int mother_1_id, const int mother_2_id) : par
     daughter_ids_.reserve(2);
 }
 
+Family::Family(const int id, const int mother_1_id, const int mother_2_id, const int grand_mother_id) : particle_(Particle(id)), mother_1_(Particle(mother_1_id)), mother_2_(Particle(mother_2_id)), grand_mother_(Particle(grand_mother_id))
+{
+  daughter_ids_.reserve(2);
+}
+
 Family::Family(const Id id, const Id mother_1_id, const Id mother_2_id) : particle_(Particle(id)), mother_1_(Particle(mother_1_id)), mother_2_(Particle(mother_2_id))
 {
     daughter_ids_.reserve(2);

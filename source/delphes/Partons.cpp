@@ -44,7 +44,7 @@ Jets Partons::Particles(const Status min_status) const
             ::delphes::GenParticle &mother = static_cast<::delphes::GenParticle &>(clones_arrays().Particle(particle.M2));
             mother_2_id = mother.PID;
         }
-        Family family(particle.PID, mother_id, mother_2_id);
+        Family family(particle.PID, mother_id, mother_2_id, grand_mother_id);
         Constituent constituent(particle.P4(), family);
         fastjet::PseudoJet jet = analysis::PseudoJet(constituent.Momentum());
         jet.set_user_info(new JetInfo(constituent));
