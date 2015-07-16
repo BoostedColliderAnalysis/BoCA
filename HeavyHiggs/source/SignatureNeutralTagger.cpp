@@ -29,7 +29,7 @@ int SignatureNeutralTagger::Train(const Event &event, PreCuts &pre_cuts, const T
     case Tag::signal :
         if (bottoms.size() == 2) {
             for (const auto & doublet : doublets) {
-                if ((doublet.SingletJet1().delta_R(Particles.at(0)) < DetectorGeometry::JetConeSize() && doublet.SingletJet2().delta_R(Particles.at(1)) < DetectorGeometry::JetConeSize()) || (doublet.SingletJet1().delta_R(Particles.at(1)) < DetectorGeometry::JetConeSize() && doublet.SingletJet2().delta_R(Particles.at(0)) < DetectorGeometry::JetConeSize())) final_doublets.emplace_back(doublet);
+              if ((doublet.SingletJet1().delta_R(bottoms.at(0)) < DetectorGeometry::JetConeSize() && doublet.SingletJet2().delta_R(bottoms.at(1)) < DetectorGeometry::JetConeSize()) || (doublet.SingletJet1().delta_R(bottoms.at(1)) < DetectorGeometry::JetConeSize() && doublet.SingletJet2().delta_R(bottoms.at(0)) < DetectorGeometry::JetConeSize())) final_doublets.emplace_back(doublet);
             }
         }
         break;
