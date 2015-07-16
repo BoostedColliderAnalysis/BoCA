@@ -198,27 +198,33 @@ Observables MultiBranch::Variables()
 
 JetPairBranch::JetPairBranch()
 {
-    DeltaM = InitialValue();
+//     DeltaM = InitialValue();
     Jet1Mass = InitialValue();
     Jet1Pt = InitialValue();
     Jet1Rap = InitialValue();
     Jet1Phi = InitialValue();
-    Jet1Bdt = InitialValue();
-    Jet1BTag = InitialValue();
+//     Jet1Bdt = InitialValue();
+//     Jet1BTag = InitialValue();
     Jet2Mass = InitialValue();
     Jet2Pt = InitialValue();
     Jet2Rap = InitialValue();
     Jet2Phi = InitialValue();
-    Jet2Bdt = InitialValue();
-    Jet2BTag = InitialValue();
-    BdtRatio11 = InitialValue();
-    BdtRatio12 = InitialValue();
-    BdtRatio13 = InitialValue();
-    BdtRatio14 = InitialValue();
-    BdtRatio21 = InitialValue();
-    BdtRatio22 = InitialValue();
-    BdtRatio23 = InitialValue();
-    BdtRatio24 = InitialValue();
+//     Jet2Bdt = InitialValue();
+//     Jet2BTag = InitialValue();
+//     BdtRatio11 = InitialValue();
+//     BdtRatio12 = InitialValue();
+//     BdtRatio13 = InitialValue();
+//     BdtRatio14 = InitialValue();
+//     BdtRatio21 = InitialValue();
+//     BdtRatio22 = InitialValue();
+//     BdtRatio23 = InitialValue();
+//     BdtRatio24 = InitialValue();
+}
+
+
+Observables JetPairBranch::Variables()
+{
+  return Join(PairBranch::Variables(), {OBS(Jet1Mass),OBS(Jet1Pt),OBS(Jet1Rap),OBS(Jet1Phi),OBS(Jet2Mass),OBS(Jet2Pt),OBS(Jet2Rap),OBS(Jet2Phi)});
 }
 
 TripletJetPairBranch::TripletJetPairBranch()

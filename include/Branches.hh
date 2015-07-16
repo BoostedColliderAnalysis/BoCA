@@ -280,43 +280,35 @@ class JetPairBranch : public PairBranch
 {
 public:
     JetPairBranch();
-    float DeltaM;
     float Jet1Mass;
     float Jet1Pt;
     float Jet1Rap;
     float Jet1Phi;
-    float Jet1Bdt;
-    float Jet1BTag;
     float Jet2Mass;
     float Jet2Pt;
     float Jet2Rap;
     float Jet2Phi;
-    float Jet2Bdt;
-    float Jet2BTag;
-    float BdtRatio11;
-    float BdtRatio12;
-    float BdtRatio13;
-    float BdtRatio14;
-    float BdtRatio21;
-    float BdtRatio22;
-    float BdtRatio23;
-    float BdtRatio24;
+//     float BdtRatio11;
+//     float BdtRatio12;
+//     float BdtRatio13;
+//     float BdtRatio14;
+//     float BdtRatio21;
+//     float BdtRatio22;
+//     float BdtRatio23;
+//     float BdtRatio24;
     template<typename Multiplet>
     void Fill(const Multiplet &multiplet) {
         PairBranch::Fill(multiplet);
-        DeltaM = multiplet.DeltaM();
         Jet1Pt = multiplet.SingletJet1().pt();
-//         Jet1Rap = std::abs(multiplet.SingletJet1().rap());
         Jet1Rap = multiplet.SingletJet1().rap();
         Jet1Phi = multiplet.SingletJet1().phi();
         Jet1Mass = multiplet.SingletJet1().m();
-//         Jet1Bdt = multiplet.SingletJet1().user_info<JetInfo>().Bdt();
         Jet2Pt = multiplet.SingletJet2().pt();
-//         Jet2Rap = std::abs(multiplet.SingletJet2().rap());
         Jet2Rap = multiplet.SingletJet2().rap();
         Jet2Phi = multiplet.SingletJet2().phi();
         Jet2Mass = multiplet.SingletJet2().m();
     }
+    Observables Variables();
 private:
     ClassDef(JetPairBranch, 1)
 };

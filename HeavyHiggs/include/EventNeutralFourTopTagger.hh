@@ -26,7 +26,7 @@ public:
     std::vector< MultipletEvent< Octet62 > > Multiplets(const Event &event, const TMVA::Reader &reader) const;
 
     int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
-//       return SaveEntries(Multiplets(event, pre_cuts, reader));
+      return SaveEntries(Multiplets(event, reader));
     }
 
     std::string Name() const final {

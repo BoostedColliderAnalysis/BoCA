@@ -156,17 +156,17 @@ struct WrongAbsStepFamily {
 };
 
 struct WrongGrandFamily {
-    WrongGrandFamily(const Id id, const Id grand_mother_id) {
-        grand_mother_id_ = grand_mother_id;
-        id_ = id;
-    }
-    bool operator()(const fastjet::PseudoJet &Jet) {
-        JetInfo jet_info = Jet.user_info<JetInfo>();
-        Family family = jet_info.constituents().front().family();
-        return (std::abs(family.particle().id()) != to_int(id_) || std::abs(family.grand_mother().id()) == to_int(grand_mother_id_));
-    }
-    Id grand_mother_id_;
-    Id id_;
+  WrongGrandFamily(const Id id, const Id grand_mother_id) {
+    grand_mother_id_ = grand_mother_id;
+    id_ = id;
+  }
+  bool operator()(const fastjet::PseudoJet &Jet) {
+    JetInfo jet_info = Jet.user_info<JetInfo>();
+    Family family = jet_info.constituents().front().family();
+    return (std::abs(family.particle().id()) != to_int(id_) || std::abs(family.grand_mother().id()) == to_int(grand_mother_id_));
+  }
+  Id grand_mother_id_;
+  Id id_;
 };
 
 struct WrongAbsStepMother {
