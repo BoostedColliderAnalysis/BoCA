@@ -4,7 +4,7 @@ message("Project: HepTopTagger")
 
 include(CMakeFiles/CMakeConfig.cmake)
 include(CMakeFiles/Findfastjet.cmake)
-HLinkLibraries(${fastjet_LIBRARIES})
+add_libraries(${fastjet_LIBRARIES})
 
-HInclude(${PROJECT_SOURCE_DIR})
-HExecutable(TopTagger example_toptagger.cc)
+add_include_path(${PROJECT_SOURCE_DIR})
+create_executable(TopTagger example_toptagger.cc)

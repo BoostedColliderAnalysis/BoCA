@@ -6,6 +6,7 @@
 #include "TFile.h"
 #include "Branches.hh"
 #include "Predicate.hh"
+#include "TMVA/MethodBDT.h"
 #include "Debug.hh"
 
 namespace analysis
@@ -16,7 +17,10 @@ Factory::Factory(Tagger &tagger) : tagger_(tagger) , factory_(tagger.Name(), out
     Error();
     AddVariables();
     PrepareTrainingAndTestTree(GetTrees());
+//     TMVA::MethodBDT & method =
     BookMethods();
+//     std::vector<double> importances = method.GetVariableImportance();
+//     for(const auto & importance : importances) Error(importance);
     factory().TrainAllMethods();
     factory().TestAllMethods();
     factory().EvaluateAllMethods();
@@ -50,10 +54,10 @@ long Factory::GetTrees()
 //     for (const auto & signal_name : tagger().signal_file_names()) {
 //     std::string signal_file_name = tagger().analysis_name() + "/" +  tagger().signal_file_name(Stage::trainer) + ".root";
     std::string signal_file_name = tagger().signal_file_name(Stage::trainer) + ".root";
-    Note("Signal", signal_file_name);
+    Note(signal_file_name);
     if (gSystem->AccessPathName(signal_file_name.c_str())) Error("File not found", signal_file_name);
     TFile &signal_file = *TFile::Open(signal_file_name.c_str());
-    Note("Signal File", signal_file.GetName(), tagger().signal_tree_names().size());
+    Note(signal_file.GetName(), tagger().signal_tree_names().size());
     long signal_number = 0;
     for (int tree_number : Range(tagger().signal_tree_names().size())) {
         Note("signal Tree Name", tagger().signal_tree_names()[tree_number]);
@@ -63,13 +67,13 @@ long Factory::GetTrees()
 //     for (const auto & background_name : tagger().background_file_names()) {
 //     std::string background_file_name = tagger().analysis_name() + "/" + tagger().background_file_name(Stage::trainer) + ".root";
     std::string background_file_name = tagger().background_file_name(Stage::trainer) + ".root";
-    Note("Background", background_file_name);
+    Note(background_file_name);
     if (gSystem->AccessPathName(background_file_name.c_str())) Error("File not found", background_file_name);
     TFile &background_file = *TFile::Open(background_file_name.c_str());
-    Note("Background File", background_file.GetName(), tagger().background_tree_names().size());
+    Note(background_file.GetName(), tagger().background_tree_names().size());
     long background_number = 0;
     for (const auto & background_tree_name : tagger().background_tree_names()) {
-        Note("Background Tree Name", background_tree_name);
+        Note(background_tree_name);
         background_number += AddTree(background_file, background_tree_name, Tag::background);
     }
 //     }
@@ -79,7 +83,7 @@ long Factory::GetTrees()
 
 long Factory::AddTree(TFile &file, const std::string &tree_name, const Tag tag)
 {
-    Error("Add Tree", tree_name);
+    Error(tree_name);
     if (!file.GetListOfKeys()->Contains(tree_name.c_str()))return 0;
     TTree &tree = static_cast<TTree &>(*file.Get(tree_name.c_str()));
     Error("Branch Name", tagger().branch_name().c_str());
@@ -115,15 +119,16 @@ void Factory::PrepareTrainingAndTestTree(const long event_number)
     factory().PrepareTrainingAndTestTree(tagger().cut(), tagger().cut(), training_and_test_options);
 }
 
-void Factory::BookMethods()
+TMVA::MethodBDT &Factory::BookMethods()
 {
-    Note("Book Methods");
+    Note();
 //     const std::string bdt_options = "NTrees=1000:MinNodeSize=2.5%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=20";
     const std::string bdt_options = "NTrees=1000:MinNodeSize=2.5%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=20";
     //:VarTransform=D
 //     const std::string bdt_options = "!H:!V:NTrees=1000:MinNodeSize=1.5%:BoostType=Grad:Shrinkage=0.10:UseBaggedGrad:UseRandomisedTrees:GradBaggingFraction=0.5:nCuts=20:MaxDepth=4";
     //:CreateMVAPdfs:DoBoostMonitor";
-    factory().BookMethod(TMVA::Types::kBDT, tagger().bdt_method_name(), bdt_options);
+    return dynamic_cast<TMVA::MethodBDT &>(*factory().BookMethod(TMVA::Types::kBDT, tagger().bdt_method_name(), bdt_options));
+
 }
 
 }

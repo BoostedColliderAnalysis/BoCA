@@ -19,21 +19,13 @@ public:
 
     using analysis::Multiplet<analysis::Quartet31, analysis::Quartet31>::Multiplet;
 
-     analysis::Quartet31 Quartet1() const {
-        return Multiplet1();
-    }
+    analysis::Quartet31 Quartet1() const;
 
-     analysis::Quartet31 Quartet2() const {
-        return Multiplet2();
-    }
+    analysis::Quartet31 Quartet2() const;
 
-     float BottomBdt() const {
-        return Quartet1().Singlet().UserInfo().Bdt() + Quartet1().Triplet().Singlet().UserInfo().Bdt() + Quartet2().Singlet().UserInfo().Bdt() + Quartet2().Triplet().Singlet().UserInfo().Bdt();
-    }
+    float BottomBdt() const;
 
-     float PairBottomBdt() const {
-        return Quartet2().Singlet().UserInfo().Bdt() + Quartet2().Triplet().Singlet().UserInfo().Bdt();
-    }
+    float PairBottomBdt() const;
 
 };
 

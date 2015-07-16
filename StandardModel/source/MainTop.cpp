@@ -1,6 +1,5 @@
 #include "AnalysisTop.hh"
 #include "TopHadronicTagger.hh"
-#include "TopSemiTagger.hh"
 #include "TopLeptonicTagger.hh"
 
 int main()
@@ -16,14 +15,6 @@ int main()
         analysis::standardmodel::TopAnalysis<analysis::TopHadronicTagger> top_hadronic_analysis;
         top_hadronic_analysis.RunFullEfficiency();
         top_hadronic_analysis.RunPlots();
-        break;
-    }
-    case analysis::standardmodel::Decay::semi : {
-        analysis::standardmodel::TopAnalysis<analysis::WSemiTagger> w_semi_analysis;
-        w_semi_analysis.RunFast();
-
-        analysis::standardmodel::TopAnalysis<analysis::TopSemiTagger> top_semi_analysis;
-        top_semi_analysis.RunFullEfficiency();
         break;
     }
     case analysis::standardmodel::Decay::leptonic : {

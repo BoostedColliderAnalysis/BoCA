@@ -156,17 +156,17 @@ struct WrongAbsStepFamily {
 };
 
 struct WrongGrandFamily {
-  WrongAbsStepFamily(const Id id, const Id grand_mother_id) {
-    grand_mother_id_ = grand_mother_id;
-    id_ = id;
-  }
-  bool operator()(const fastjet::PseudoJet &Jet) {
-    JetInfo jet_info = Jet.user_info<JetInfo>();
-    Family family = jet_info.constituents().front().family();
-    return (std::abs(family.particle().id()) != to_int(id_) || std::abs(family.grand_mother().id()) == to_int(grand_mother_id_));
-  }
-  Id grand_mother_id_;
-  Id id_;
+    WrongGrandFamily(const Id id, const Id grand_mother_id) {
+        grand_mother_id_ = grand_mother_id;
+        id_ = id;
+    }
+    bool operator()(const fastjet::PseudoJet &Jet) {
+        JetInfo jet_info = Jet.user_info<JetInfo>();
+        Family family = jet_info.constituents().front().family();
+        return (std::abs(family.particle().id()) != to_int(id_) || std::abs(family.grand_mother().id()) == to_int(grand_mother_id_));
+    }
+    Id grand_mother_id_;
+    Id id_;
 };
 
 struct WrongAbsStepMother {
@@ -257,9 +257,9 @@ fastjet::PseudoJet PseudoJet(const TLorentzVector &vector)
 
 fastjet::PseudoJet PseudoJet(const LorentzVector &vector)
 {
-  // construct a pseudojet from explicit components
-  // PseudoJet(const double px, const double py, const double pz, const double E);
-  return fastjet::PseudoJet(vector.Px(), vector.Py(), vector.Pz(), vector.E());
+    // construct a pseudojet from explicit components
+    // PseudoJet(const double px, const double py, const double pz, const double E);
+    return fastjet::PseudoJet(vector.Px(), vector.Py(), vector.Pz(), vector.E());
 }
 
 struct AbsId {
@@ -382,10 +382,10 @@ Jets RemoveIfWrongAbsStepFamily(const Jets &jets, const Id id , const Id mother_
 
 Jets RemoveIfAbsGrandFamily(const Jets &jets, const Id id , const Id grand_mother_id)
 {
-  if (jets.empty()) return jets;
-  Jets jets_ = jets;
-  jets_.erase(std::remove_if(jets_.begin(), jets_.end(), WrongGrandFamily(id, grand_mother_id)), jets_.end());
-  return jets_;
+    if (jets.empty()) return jets;
+    Jets jets_ = jets;
+    jets_.erase(std::remove_if(jets_.begin(), jets_.end(), WrongGrandFamily(id, grand_mother_id)), jets_.end());
+    return jets_;
 }
 
 Jets RemoveIfWrongAbsStepMother(const Jets &jets, const int mother_2_id)
@@ -503,28 +503,28 @@ Jets RemoveIfSoft(const Jets &jets, const float pt_min)
 
 float Distance(const float rapidity_1, const float phi_1, const float rapidity_2, const float phi_2)
 {
-  return std::sqrt(std::pow((rapidity_2 - rapidity_1), 2) + std::pow(DeltaPhi(phi_2, phi_1), 2));
+    return std::sqrt(std::pow((rapidity_2 - rapidity_1), 2) + std::pow(DeltaPhi(phi_2, phi_1), 2));
 }
 
 float Length(const float rapidity, const float phi)
 {
-  return std::sqrt(std::pow(rapidity, 2) + std::pow(phi, 2));
+    return std::sqrt(std::pow(rapidity, 2) + std::pow(phi, 2));
 }
 
 float DeltaPhi(const float phi_1, const float phi_2)
 {
-  float delta_phi = phi_1 - phi_2;
-  while (std::abs(delta_phi) > M_PI) {
-    if (delta_phi < - M_PI) {
-      delta_phi += 2 * M_PI;
-    } else if (delta_phi > M_PI) {
-      delta_phi -= 2 * M_PI;
-    } else {
-      //       Error("Delta Phi", delta_phi);
-      break;
+    float delta_phi = phi_1 - phi_2;
+    while (std::abs(delta_phi) > M_PI) {
+        if (delta_phi < - M_PI) {
+            delta_phi += 2 * M_PI;
+        } else if (delta_phi > M_PI) {
+            delta_phi -= 2 * M_PI;
+        } else {
+            //       Error("Delta Phi", delta_phi);
+            break;
+        }
     }
-  }
-  return delta_phi;
+    return delta_phi;
 }
 
 }

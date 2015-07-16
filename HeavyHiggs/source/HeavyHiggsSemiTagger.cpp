@@ -32,7 +32,7 @@ int HeavyHiggsSemiTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag
             sextet.SetTag(tag);
             sextets.emplace_back(sextet);
         }
-        
+
     return SaveEntries(BestMatches(sextets, HiggsBoson, tag));
 }
 

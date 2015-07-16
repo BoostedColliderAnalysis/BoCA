@@ -33,7 +33,7 @@ Jets Tagger::SubJets(const fastjet::PseudoJet &jet, const int sub_jet_number) co
     Jets pieces;
     if (!jet.has_pieces()) return pieces;
     if (!jet.has_user_info<JetInfo>()) return pieces;
-    fastjet::ClusterSequence &cluster_sequence = *new fastjet::ClusterSequence(jet.constituents(), DetectorGeometry().SubJetDefinition());
+    fastjet::ClusterSequence &cluster_sequence = *new fastjet::ClusterSequence(jet.constituents(), DetectorGeometry::SubJetDefinition());
     for (auto & piece : cluster_sequence.exclusive_jets_up_to(sub_jet_number)) {
         std::vector<Constituent> constituents;
         for (const auto & constituent : piece.constituents()) {

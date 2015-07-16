@@ -4,9 +4,9 @@ message("Project: WimpMass")
 
 include(CMakeFiles/CMakeConfig.cmake)
 include(CMakeFiles/FindROOT.cmake)
-HInclude(${ROOT_INCLUDE_DIR})
-HLinkLibraries(${ROOT_LIBRARIES})
+add_include_path(${ROOT_INCLUDE_DIR})
+add_libraries(${ROOT_LIBRARIES})
 
-HInclude(${PROJECT_SOURCE_DIR}/WIMPMASS/)
+add_include_path(${PROJECT_SOURCE_DIR}/WIMPMASS/)
 add_subdirectory(src)
 add_subdirectory(examples)

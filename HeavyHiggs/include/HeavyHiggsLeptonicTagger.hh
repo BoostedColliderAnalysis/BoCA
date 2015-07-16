@@ -1,7 +1,6 @@
 #pragma once
 
 #include "TopLeptonicTagger.hh"
-#include "Quartet.hh"
 #include "Sextet.hh"
 #include "Branch.hh"
 

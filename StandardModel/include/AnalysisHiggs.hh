@@ -27,8 +27,8 @@ public:
         this->pre_cuts().SetPtLowerCut(Id::bottom, this->LowerPtCut() / 5);
         this->pre_cuts().SetPtUpperCut(Id::bottom, this->UpperPtCut() / 5);
         this->pre_cuts().SetMassUpperCut(Id::higgs, 250);
-        this->pre_cuts().SetTrackerMaxEta(Id::higgs, DetectorGeometry().TrackerEtaMax());
-        this->pre_cuts().SetTrackerMaxEta(Id::bottom, DetectorGeometry().TrackerEtaMax());
+        this->pre_cuts().SetTrackerMaxEta(Id::higgs, DetectorGeometry::TrackerEtaMax());
+        this->pre_cuts().SetTrackerMaxEta(Id::bottom, DetectorGeometry::TrackerEtaMax());
     }
 
 private:

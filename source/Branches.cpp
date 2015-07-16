@@ -6,13 +6,34 @@
 #define OBS2(value, string) Obs(value, #value, string)
 
 #define ARGUMENTS(arg1, arg2, arg, ...) arg
-#define OBSCHOOSE(...) ARGUMENTS(__VA_ARGS__, OBS2, OBS1,)
+#define OBSERVABLES(...) ARGUMENTS(__VA_ARGS__, OBS2, OBS1,)
 
-#define OBS(...) OBSCHOOSE(__VA_ARGS__)(__VA_ARGS__)
+#define OBS(...) OBSERVABLES(__VA_ARGS__)(__VA_ARGS__)
 
 
 namespace analysis
 {
+
+Obs::Obs(float &value, const std::string &name, const std::string &nice_name) : value_(&value)
+{
+    name_ = name;
+    nice_name_ = nice_name;
+}
+
+float &Obs::value()const
+{
+    return *value_;
+}
+
+std::string Obs::name()const
+{
+    return name_;
+}
+
+std::string Obs::nice_name()const
+{
+    return nice_name_;
+}
 
 BaseBranch::~BaseBranch() {}
 
@@ -90,7 +111,7 @@ BottomBase::BottomBase()
     MaxDisplacement = InValue();
     MeanDisplacement = InValue();
     SumDisplacement = InValue();
-    Multipliticity = int(InValue());
+    Multiplicity = int(InValue());
     Radius = InValue();
     Spread = InValue();
     VertexRadius = InValue();
@@ -100,7 +121,7 @@ BottomBase::BottomBase()
 
 Observables BottomBase::Variables()
 {
-    return {OBS(VertexMass, "m_{V}"), OBS(MaxDisplacement, "#Delta d_{max}"), OBS(MeanDisplacement, "#Delta d_{mean}"), OBS(SumDisplacement, "#Delta d_{sum}"), OBS(Multipliticity, "n_{V}"), OBS(Radius, "r"), OBS(Spread, "s"), OBS(VertexRadius, "r_{V}"), OBS(VertexSpread, "s_{V}"), OBS(EnergyFraction, "f_{E}")};
+    return {OBS(VertexMass, "m_{V}"), OBS(MaxDisplacement, "log(#Delta d_{max})"), OBS(MeanDisplacement, "log(#Delta d_{mean})"), OBS(SumDisplacement, "log(#Delta d_{sum})"), OBS(Multiplicity, "n_{V}"), OBS(Radius, "r"), OBS(Spread, "s"), OBS(VertexRadius, "r_{V}"), OBS(VertexSpread, "s_{V}"), OBS(EnergyFraction, "f_{E}")};
 }
 
 Observables BottomBase::Spectators()
@@ -262,17 +283,6 @@ Observables TopHadronicBranch::Spectators()
     return Join(MultiBranch::Spectators(), BottomBase::Spectators());
 }
 
-TopSemiBranch::TopSemiBranch()
-{
-    BottomPt = InitialValue();
-    WPt = InitialValue();
-}
-
-Observables TopSemiBranch::Variables()
-{
-    return Join(MultiBranch::Variables(), {OBS(BottomPt), OBS(WPt)});
-}
-
 TopLeptonicBranch::TopLeptonicBranch()
 {
     BottomPt = InitialValue();
@@ -281,7 +291,7 @@ TopLeptonicBranch::TopLeptonicBranch()
 
 Observables TopLeptonicBranch::Variables()
 {
-    return  Join(Join(BottomBase::Variables(), ParticleBranch::Variables()), {OBS(Ht), OBS(DeltaPt), OBS(DeltaM), OBS(DeltaRap), OBS(DeltaPhi), OBS(DeltaR), OBS(Rho), OBS(Bdt1), OBS(BottomPt), OBS(LeptonPt)});
+    return  Join(Join(BottomBase::Variables(), ParticleBranch::Variables()), {OBS(Ht), OBS(DeltaPt), OBS(DeltaM), OBS(DeltaRap), OBS(DeltaPhi), OBS(DeltaR), OBS(Rho), OBS(Bdt2), OBS(BottomPt), OBS(LeptonPt)});
 }
 
 Observables TopLeptonicBranch::Spectators()
@@ -335,76 +345,60 @@ Observables EventBranch::Variables()
     return Join(MultiBranch::Variables(), {OBS(LeptonNumber), OBS(JetNumber), OBS(BottomNumber), OBS(MissingEt), OBS(ScalarHt), OBS(LeptonHt), OBS(JetMass), OBS(JetPt), OBS(JetHt), OBS(JetRap), OBS(JetPhi)});
 }
 
-#define GRANULARITY 50
 void Color::Red()
 {
-    int granularity = GRANULARITY;
-    static int colors[GRANULARITY];
+
+    std::vector<double> red = { 1, 1};
+    std::vector<double> green = { 1, 0};
+    std::vector<double> blue = { 1, 0};
+    std::vector<double> length = { 0, 1};
+
+    static std::vector<int> colors;
     static bool initialized = false;
-
-
-    double red[] = { 1, 1};
-    double green[] = { 1, 0};
-    double blue[] = { 1, 0};
-    double length[] = { 0, 1};
-    float opacity = 1;
-
     if (!initialized) {
-        int color_table = TColor::CreateGradientColorTable(sizeof(length) / sizeof(length[0]), length, red, green, blue, granularity, opacity);
-        for (int step = 0; step < granularity; step++) colors[step] = color_table + step;
+        colors = Table(length, red, green, blue);
         initialized = true;
-        return;
-    }
-    gStyle->SetPalette(granularity, colors);
+    } else gStyle->SetPalette(colors.size(), &colors[0]);
 }
 
 void Color::Blue()
 {
-    int granularity = GRANULARITY;
-    static int colors[GRANULARITY];
+
+    std::vector<double> red = { 1, 0};
+    std::vector<double> green = { 1, 0};
+    std::vector<double> blue = { 1, 1};
+    std::vector<double> length = { 0, 1 };
+
+    static std::vector<int> colors;
     static bool initialized = false;
-
-    double red[] = { 1, 0};
-    double green[] = { 1, 0};
-    double blue[] = { 1, 1};
-    double length[] = { 0, 1 };
-    float opacity = 1;
-
     if (!initialized) {
-        int color_table = TColor::CreateGradientColorTable(sizeof(length) / sizeof(length[0]), length, red, green, blue, granularity, opacity);
-        for (int step = 0; step < granularity; step++) colors[step] = color_table + step;
+        colors = Table(length, red, green, blue);
         initialized = true;
-        return;
-    }
-    gStyle->SetPalette(granularity, colors);
+    } else gStyle->SetPalette(colors.size(), &colors[0]);
 }
 
 void Color::Heat()
 {
+    std::vector<double> length = { 0.00, 0.34, 0.61, 0.84, 1.00 };
+    std::vector<double> red = { 0.00, 0.00, 0.87, 1.00, 0.51 };
+    std::vector<double> green = { 0.00, 0.81, 1.00, 0.20, 0.00 };
+    std::vector<double> blue = { 0.51, 1.00, 0.12, 0.00, 0.00 };
+
     static std::vector<int> colors;
     static bool initialized = false;
-
-    std::vector<double> length = { 0.00, 0.34, 0.61, 0.84, 1.00 };
-    std::vector<double> red   = { 0.00, 0.00, 0.87, 1.00, 0.51 };
-    std::vector<double> green = { 0.00, 0.81, 1.00, 0.20, 0.00 };
-    std::vector<double> blue  = { 0.51, 1.00, 0.12, 0.00, 0.00 };
-
     if (!initialized) {
         colors = Table(length, red, green, blue);
         initialized = true;
         return;
-    }
-    gStyle->SetPalette(colors.size(), &colors[0]);
-
+    } else gStyle->SetPalette(colors.size(), &colors[0]);
 }
 
 std::vector<int> Color::Table(std::vector<double> &length, std::vector<double> &red, std::vector<double> &green, std::vector<double> &blue)
 {
     std::vector<int> colors(50);
-
     int color_table = TColor::CreateGradientColorTable(length.size(), &length[0], &red[0], &green[0], &blue[0], colors.size());
-    for (int step = 0; step < colors.size(); step++) colors[step] = color_table + step;
-//     for (const int color : colors) colors[color] = color_table + color;
+    for (std::size_t step = 0; step < colors.size(); step++) colors[step] = color_table + step;
+    //     for (const int &color : colors) colors[color] = color_table + &color - &colors[0];
     return colors;
 }
 

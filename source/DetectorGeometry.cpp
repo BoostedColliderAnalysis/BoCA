@@ -15,13 +15,13 @@ namespace analysis
  *
  */
 
-DetectorType DetectorGeometry::detector_type() const
+DetectorType DetectorGeometry::detector_type()
 {
 //     return DetectorType::CMS;
     return DetectorType::Spp;
 }
 
-float DetectorGeometry::JetMinPt() const
+float DetectorGeometry::JetMinPt()
 {
     switch (detector_type()) {
     case DetectorType::CMS:
@@ -30,7 +30,7 @@ float DetectorGeometry::JetMinPt() const
         return 40;
     }
 }
-float DetectorGeometry::JetConeSize() const
+float DetectorGeometry::JetConeSize()
 {
     switch (detector_type()) {
     case DetectorType::CMS:
@@ -39,7 +39,7 @@ float DetectorGeometry::JetConeSize() const
         return 0.5;
     }
 }
-float DetectorGeometry::MinCellPt() const
+float DetectorGeometry::MinCellPt()
 {
     switch (detector_type()) {
     case DetectorType::CMS:
@@ -48,7 +48,7 @@ float DetectorGeometry::MinCellPt() const
         return .5;
     }
 }
-float DetectorGeometry::MinCellResolution() const
+float DetectorGeometry::MinCellResolution()
 {
     switch (detector_type()) {
     case DetectorType::CMS:
@@ -57,7 +57,7 @@ float DetectorGeometry::MinCellResolution() const
         return.1 ;
     }
 }
-float DetectorGeometry::TrackerEtaMax() const
+float DetectorGeometry::TrackerEtaMax()
 {
     switch (detector_type()) {
     case DetectorType::CMS:
@@ -66,7 +66,7 @@ float DetectorGeometry::TrackerEtaMax() const
         return 3.5;
     }
 }
-// float DetectorGeometry::JetRadiusParameter() const
+// float DetectorGeometry::JetRadiusParameter()
 // {
 //     switch (detector_type()) {
 //     case DetectorType::CMS:
@@ -75,7 +75,7 @@ float DetectorGeometry::TrackerEtaMax() const
 //         return ;
 //     }
 // }
-fastjet::JetDefinition DetectorGeometry::JetDefinition() const
+fastjet::JetDefinition DetectorGeometry::JetDefinition()
 {
     switch (detector_type()) {
     case DetectorType::CMS:
@@ -84,7 +84,7 @@ fastjet::JetDefinition DetectorGeometry::JetDefinition() const
         return fastjet::JetDefinition(fastjet::antikt_algorithm, JetConeSize());
     }
 }
-fastjet::JetDefinition DetectorGeometry::SubJetDefinition() const
+fastjet::JetDefinition DetectorGeometry::SubJetDefinition()
 {
     switch (detector_type()) {
     case DetectorType::CMS:
@@ -93,7 +93,7 @@ fastjet::JetDefinition DetectorGeometry::SubJetDefinition() const
         return fastjet::JetDefinition(fastjet::kt_algorithm, JetConeSize());
     }
 }
-float DetectorGeometry::TrackerDistanceMin() const
+float DetectorGeometry::TrackerDistanceMin()
 {
     switch (detector_type()) {
     case DetectorType::CMS:
@@ -102,7 +102,7 @@ float DetectorGeometry::TrackerDistanceMin() const
         return 0.1;
     }
 }
-float DetectorGeometry::TrackerDistanceMax() const
+float DetectorGeometry::TrackerDistanceMax()
 {
     switch (detector_type()) {
     case DetectorType::CMS:
@@ -111,7 +111,7 @@ float DetectorGeometry::TrackerDistanceMax() const
         return 1000;
     }
 }
-float DetectorGeometry::VertexMassMin() const
+float DetectorGeometry::VertexMassMin()
 {
     switch (detector_type()) {
     case DetectorType::CMS:
@@ -120,7 +120,7 @@ float DetectorGeometry::VertexMassMin() const
         return 0.1;
     }
 }
-float DetectorGeometry::LeptonMinPt() const
+float DetectorGeometry::LeptonMinPt()
 {
     switch (detector_type()) {
     case DetectorType::CMS:
@@ -129,7 +129,7 @@ float DetectorGeometry::LeptonMinPt() const
         return 20;
     }
 }
-JetType DetectorGeometry::jet_type() const
+JetType DetectorGeometry::jet_type()
 {
     switch (detector_type()) {
     case DetectorType::CMS:

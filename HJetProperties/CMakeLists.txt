@@ -1,9 +1,9 @@
-HInclude(.)
+add_include_path(.)
 HSource(.)
 
-HDictionary(HJetPropertiesBranch HJetPropertiesBranch.cpp HJetPropertiesLinkDef.hh)
+create_dictionary(HJetPropertiesBranch HJetPropertiesBranch.cpp HJetPropertiesLinkDef.hh)
 
 set(PropLib HAnalysisJetProperties.cpp)
-HLibrary(HAnalysisJetProperties PropLib)
+create_library(HAnalysisJetProperties PropLib)
 
-HExecutable(HJetProperties main.cpp)
+create_executable(HJetProperties main.cpp)
