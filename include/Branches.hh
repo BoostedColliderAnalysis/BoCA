@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+#include <string>
 #include "TObject.h"
 #include "Rtypes.h"
 

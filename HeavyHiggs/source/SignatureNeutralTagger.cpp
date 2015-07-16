@@ -14,7 +14,7 @@ SignatureNeutralTagger::SignatureNeutralTagger()
     DefineVariables();
 }
 
-int SignatureNeutralTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const
+int SignatureNeutralTagger::Train(const Event &event, PreCuts &, const Tag tag) const
 {
     Info();
     Jets higgs = heavy_higgs_semi_reader_.tagger().HiggsParticle(event, tag);
@@ -22,7 +22,7 @@ int SignatureNeutralTagger::Train(const Event &event, PreCuts &pre_cuts, const T
     sextets = BestMatches(sextets, higgs, tag);
 
     std::vector<Doublet> doublets = jet_pair_reader_.Multiplets(event);
-    Jets bottoms = jet_pair_reader_.tagger().BottomPair(event, tag);  //Write a function to get the jet pair
+    Jets bottoms = jet_pair_reader_.tagger().BottomPair(event, tag);
     std::vector<Doublet> final_doublets;
 
     switch (tag) {
@@ -57,7 +57,7 @@ int SignatureNeutralTagger::Train(const Event &event, PreCuts &pre_cuts, const T
 }
 
 
-std::vector<Octet62> SignatureNeutralTagger::Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const
+std::vector<Octet62> SignatureNeutralTagger::Multiplets(const Event &event, PreCuts &, const TMVA::Reader &reader) const
 {
     Info();
     std::vector<Doublet> doublets = jet_pair_reader_.Multiplets(event);
