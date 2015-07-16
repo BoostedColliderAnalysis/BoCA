@@ -13,9 +13,7 @@ class Multiplet : public Identification
 
 public:
 
-    Multiplet() {
-//         empty_ = true;
-    };
+    Multiplet() {};
 
     Multiplet(const Multiplet_1 &multiplet_1, const Multiplet_2 &multiplet_2) {
         SetMultiplets(multiplet_1, multiplet_2);
@@ -29,14 +27,12 @@ public:
         multiplet_1_ = multiplet_1;
         multiplet_2_ = multiplet_2;
         SetBdt((multiplet_1_.Bdt() + multiplet_2_.Bdt()) / 2);
-//         empty_ = false;
     }
 
     void SetJet(const fastjet::PseudoJet &jet) {
         multiplet_1_ = Multiplet_1(jet / 2);
         multiplet_2_ = Multiplet_2(jet / 2);
         SetBdt((multiplet_1_.Bdt() + multiplet_2_.Bdt()) / 2);
-//         empty_ = false;
     }
 
     Multiplet_1 &Multiplet1() const {
@@ -142,10 +138,6 @@ public:
         return Singlet(EffectiveJet());
     }
 
-//     bool IsEmpty() const {
-//         return empty_;
-//     }
-
 protected:
 
     void SetMultiplet1(const Multiplet_1 multiplet_1) {
@@ -161,8 +153,6 @@ private:
     mutable Multiplet_1 multiplet_1_;
 
     mutable Multiplet_2 multiplet_2_;
-
-//     bool empty_ = false;
 
 };
 
