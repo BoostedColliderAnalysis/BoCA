@@ -1,7 +1,5 @@
 #include "AnalysisTopPartner.hh"
-
 #include "EventSingleTagger.hh"
-#include "Predicate.hh"
 
 int main()
 {
@@ -14,6 +12,9 @@ int main()
 
         analysis::toppartner::Analysis<analysis::WHadronicTagger> w_hadronic_analysis;
         w_hadronic_analysis.RunFullEfficiency();
+
+        analysis::toppartner::Analysis<analysis::WLeptonicTagger> w_leptonic_analysis;
+        w_leptonic_analysis.RunFullEfficiency();
 
         analysis::toppartner::Analysis<analysis::BosonTagger> boson_analysis;
         boson_analysis.RunFullEfficiency();
@@ -31,11 +32,13 @@ int main()
         top_partner_hadronic_analysis.RunFullEfficiency();
         top_partner_hadronic_analysis.RunPlots();
 
-        analysis::toppartner::Analysis<analysis::toppartner::TopPartnerLeptonicPairTagger> top_partner_leptonic_pair_analysis;
+        analysis::toppartner::Analysis<analysis::toppartner::TopPartnerPairTagger> top_partner_leptonic_pair_analysis;
         top_partner_leptonic_pair_analysis.RunFullEfficiency();
+        top_partner_leptonic_pair_analysis.RunPlots();
 
         analysis::toppartner::Analysis<analysis::toppartner::EventSingleTagger> event_analysis;
         event_analysis.RunFullSignificance();
+        event_analysis.RunPlots();
     } catch (const char *message) {
         std::cout << message << std::endl;
     }

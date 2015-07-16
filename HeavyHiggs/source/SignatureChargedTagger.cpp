@@ -14,7 +14,7 @@ SignatureChargedTagger::SignatureChargedTagger()
     DefineVariables();
 }
 
-int SignatureChargedTagger::Train(const Event &event, analysis::PreCuts &pre_cuts, const analysis::Tag tag) const
+int SignatureChargedTagger::Train(const Event &event, analysis::PreCuts &, const analysis::Tag tag) const
 {
     Info();
 
@@ -40,7 +40,7 @@ int SignatureChargedTagger::Train(const Event &event, analysis::PreCuts &pre_cut
 }
 
 
-std::vector<Octet44> SignatureChargedTagger::Multiplets(const Event &event, analysis::PreCuts &pre_cuts, const TMVA::Reader &reader) const
+std::vector<Octet44> SignatureChargedTagger::Multiplets(const Event &event, analysis::PreCuts &, const TMVA::Reader &reader) const
 {
     Info();
 

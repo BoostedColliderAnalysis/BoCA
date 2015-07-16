@@ -3,6 +3,6 @@ set(AnalysisSources
 HEventBottomTagger.cpp
 HAnalysisBottomSumTagger.cpp
 )
-HLibrary(HAnalysisBottomSumTagger AnalysisSources)
+create_library(HAnalysisBottomSumTagger AnalysisSources)
 
-HExecutable(HBottomSumTagger main.cpp)
+create_executable(HBottomSumTagger main.cpp)

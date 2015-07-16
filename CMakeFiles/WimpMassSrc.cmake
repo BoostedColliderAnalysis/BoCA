@@ -1,5 +1,5 @@
-set(WimpMassSources
+set(wimp_mass_sources
 topology22.cpp
 topology33.cpp
 )
-HLibrary(WimpMass WimpMassSources)
+create_library(WimpMass wimp_mass_sources)

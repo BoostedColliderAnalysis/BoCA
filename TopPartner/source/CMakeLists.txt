@@ -1,12 +1,10 @@
-HDictionary(BranchTopPartner BranchesTopPartner.cpp ../include/LinkDefTopPartner.hh)
+create_dictionary(BranchTopPartner BranchesTopPartner.cpp ../include/LinkDefTopPartner.hh)
 
 set(AnalysisSources
 TopPartnerHadronicTagger.cpp
-TopPartnerSemiTagger.cpp
 TopPartnerLeptonicTagger.cpp
 HiggsPairTagger.cpp
 TopPartnerPairTagger.cpp
-TopPartnerLeptonicPairTagger.cpp
 TopPartnerHiggsPairTagger.cpp
 SignatureTagger.cpp
 SignatureSingleTagger.cpp
@@ -17,6 +15,6 @@ Quattuordecuplet.cpp
 EventTagger.cpp
 EventSingleTagger.cpp
 )
-HLibrary(AnalysisTopPartner AnalysisSources)
+create_library(AnalysisTopPartner AnalysisSources)
 
-HExecutable(TopPartner main.cpp)
+create_executable(TopPartner main.cpp)

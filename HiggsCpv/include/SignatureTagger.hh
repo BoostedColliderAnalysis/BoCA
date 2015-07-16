@@ -11,7 +11,7 @@ namespace higgscpv {
 
 /**
  *
- * @brief event BDT for semi leptonic heavy higgs
+ * @brief event BDT for
  *
  */
 class SignatureTagger : public BranchTagger<SignatureLeptonicBranch>

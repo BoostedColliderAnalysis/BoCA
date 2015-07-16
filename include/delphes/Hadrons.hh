@@ -20,7 +20,7 @@ class Hadrons : public analysis::Hadrons
 public:
 
     analysis::Jets Jets() const final {
-        switch (DetectorGeometry().jet_type()) {
+        switch (DetectorGeometry::jet_type()) {
         case JetType::jet :
           return DelphesJets(JetDetail::structure);
         case JetType::gen_jet :

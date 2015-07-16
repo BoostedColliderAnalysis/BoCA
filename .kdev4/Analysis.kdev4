@@ -1,0 +1,142 @@
+[Buildset]
+BuildItems=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x01\x00\x00\x00\x10\x00A\x00n\x00a\x00l\x00y\x00s\x00i\x00s)
+
+[CMake]
+Build Directory Count=1
+Current Build Directory Index=0
+ProjectRootRelative=./
+
+[CMake][CMake Build Directory 0]
+Build Directory Path=file:///home/hajer/Analysis/build
+Build Type=Debug
+CMake Binary=file:///usr/bin/cmake
+Environment Profile=
+Extra Arguments=
+Install Directory=file:///usr/local
+
+[CustomDefinesAndIncludes][ProjectPath0]
+Defines=\x00\x00\x00\x00
+Includes=\x00\x00\x00\x01\x00\x00\x00R\x00/\x00h\x00o\x00m\x00e\x00/\x00h\x00a\x00j\x00e\x00r\x00/\x00D\x00e\x00v\x00e\x00l\x00o\x00p\x00m\x00e\x00n\x00t\x00/\x00M\x00a\x00d\x00G\x00r\x00a\x00p\x00h\x00/\x00D\x00e\x00l\x00p\x00h\x00e\x00s\x00/
+Path=.
+
+[Defines And Includes][Compiler]
+Name=GCC
+Path=gcc
+Type=GCC
+
+[Launch]
+Launch Configurations=Launch Configuration 0,Launch Configuration 1,Launch Configuration 2,Launch Configuration 3,Launch Configuration 4,Launch Configuration 5
+
+[Launch][Launch Configuration 0]
+Configured Launch Modes=execute
+Configured Launchers=nativeAppLauncher
+Name=TopAnalysis
+Type=Native Application
+
+[Launch][Launch Configuration 0][Data]
+Arguments=
+Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x04\x00\x00\x00\x10\x00A\x00n\x00a\x00l\x00y\x00s\x00i\x00s\x00\x00\x00\x1a\x00S\x00t\x00a\x00n\x00d\x00a\x00r\x00d\x00M\x00o\x00d\x00e\x00l\x00\x00\x00\x0c\x00s\x00o\x00u\x00r\x00c\x00e\x00\x00\x00\x16\x00T\x00o\x00p\x00A\x00n\x00a\x00l\x00y\x00s\x00i\x00s)
+Dependency Action=Build
+EnvironmentGroup=
+Executable=file:///home/hajer/Analysis/
+External Terminal=konsole --noclose --workdir %workdir -e %exe
+Project Target=Analysis,StandardModel,source,TopAnalysis
+Use External Terminal=false
+Working Directory=file:///home/hajer/Projects/Tagger/Top/
+isExecutable=false
+
+[Launch][Launch Configuration 1]
+Configured Launch Modes=execute
+Configured Launchers=nativeAppLauncher
+Name=HiggsAnalysis
+Type=Native Application
+
+[Launch][Launch Configuration 1][Data]
+Arguments=
+Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x04\x00\x00\x00\x10\x00A\x00n\x00a\x00l\x00y\x00s\x00i\x00s\x00\x00\x00\x1a\x00S\x00t\x00a\x00n\x00d\x00a\x00r\x00d\x00M\x00o\x00d\x00e\x00l\x00\x00\x00\x0c\x00s\x00o\x00u\x00r\x00c\x00e\x00\x00\x00\x1a\x00H\x00i\x00g\x00g\x00s\x00A\x00n\x00a\x00l\x00y\x00s\x00i\x00s)
+Dependency Action=Build
+EnvironmentGroup=
+Executable=file:///home/hajer/Analysis/
+External Terminal=konsole --noclose --workdir %workdir -e %exe
+Project Target=Analysis,StandardModel,source,HiggsAnalysis
+Use External Terminal=false
+Working Directory=file:///home/hajer/Projects/Tagger/Higgs/
+isExecutable=false
+
+[Launch][Launch Configuration 2]
+Configured Launch Modes=execute
+Configured Launchers=nativeAppLauncher
+Name=TopPartner
+Type=Native Application
+
+[Launch][Launch Configuration 2][Data]
+Arguments=
+Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x04\x00\x00\x00\x10\x00A\x00n\x00a\x00l\x00y\x00s\x00i\x00s\x00\x00\x00\x14\x00T\x00o\x00p\x00P\x00a\x00r\x00t\x00n\x00e\x00r\x00\x00\x00\x0c\x00s\x00o\x00u\x00r\x00c\x00e\x00\x00\x00\x14\x00T\x00o\x00p\x00P\x00a\x00r\x00t\x00n\x00e\x00r)
+Dependency Action=Build
+EnvironmentGroup=
+Executable=file:///home/hajer/Analysis/build/bin/TopPartner
+External Terminal=konsole --noclose --workdir %workdir -e %exe
+Project Target=
+Use External Terminal=false
+Working Directory=file:///home/hajer/Projects/TopPartner/Analysis/
+isExecutable=true
+
+[Launch][Launch Configuration 3]
+Configured Launch Modes=execute
+Configured Launchers=nativeAppLauncher
+Name=BottomAnalysis
+Type=Native Application
+
+[Launch][Launch Configuration 3][Data]
+Arguments=
+Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x04\x00\x00\x00\x10\x00A\x00n\x00a\x00l\x00y\x00s\x00i\x00s\x00\x00\x00\x1a\x00S\x00t\x00a\x00n\x00d\x00a\x00r\x00d\x00M\x00o\x00d\x00e\x00l\x00\x00\x00\x0c\x00s\x00o\x00u\x00r\x00c\x00e\x00\x00\x00\x1c\x00B\x00o\x00t\x00t\x00o\x00m\x00A\x00n\x00a\x00l\x00y\x00s\x00i\x00s)
+Dependency Action=Build
+EnvironmentGroup=
+Executable=file:///home/hajer/Analysis/build/bin/BottomAnalysis
+External Terminal=konsole --noclose --workdir %workdir -e %exe
+Project Target=Analysis,HBottomSumTagger,source,HBottomSumTagger
+Use External Terminal=false
+Working Directory=file:///home/hajer/Projects/Tagger/Bottom/
+isExecutable=true
+
+[Launch][Launch Configuration 4]
+Configured Launch Modes=execute
+Configured Launchers=nativeAppLauncher
+Name=ZAnalysis
+Type=Native Application
+
+[Launch][Launch Configuration 4][Data]
+Arguments=
+Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x04\x00\x00\x00\x10\x00A\x00n\x00a\x00l\x00y\x00s\x00i\x00s\x00\x00\x00\x1a\x00S\x00t\x00a\x00n\x00d\x00a\x00r\x00d\x00M\x00o\x00d\x00e\x00l\x00\x00\x00\x0c\x00s\x00o\x00u\x00r\x00c\x00e\x00\x00\x00\x12\x00Z\x00A\x00n\x00a\x00l\x00y\x00s\x00i\x00s)
+Dependency Action=Build
+EnvironmentGroup=
+Executable=file:///home/hajer/Analysis/
+External Terminal=konsole --noclose --workdir %workdir -e %exe
+Project Target=Analysis,StandardModel,source,ZAnalysis
+Use External Terminal=false
+Working Directory=file:///home/hajer/Projects/Tagger/Z
+isExecutable=false
+
+[Launch][Launch Configuration 5]
+Configured Launch Modes=execute
+Configured Launchers=nativeAppLauncher
+Name=BosonAnalysis
+Type=Native Application
+
+[Launch][Launch Configuration 5][Data]
+Arguments=
+Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x04\x00\x00\x00\x10\x00A\x00n\x00a\x00l\x00y\x00s\x00i\x00s\x00\x00\x00\x1a\x00S\x00t\x00a\x00n\x00d\x00a\x00r\x00d\x00M\x00o\x00d\x00e\x00l\x00\x00\x00\x0c\x00s\x00o\x00u\x00r\x00c\x00e\x00\x00\x00\x1a\x00B\x00o\x00s\x00o\x00n\x00A\x00n\x00a\x00l\x00y\x00s\x00i\x00s)
+Dependency Action=Build
+EnvironmentGroup=
+Executable=file:///home/hajer/Analysis/build/bin/BosonAnalysis
+External Terminal=konsole --noclose --workdir %workdir -e %exe
+Project Target=Analysis,StandardModel,source,BosonAnalysis
+Use External Terminal=false
+Working Directory=file:///home/hajer/Projects/Tagger/Boson
+isExecutable=true
+
+[MakeBuilder]
+Number Of Jobs=8
+
+[Project]
+VersionControlSupport=kdevgit

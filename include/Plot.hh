@@ -115,7 +115,7 @@ public:
 
     void OptimalSignificance() const;
 
-    void InputFiles() const;
+    void RunPlots() const;
 
     void DoPlot(analysis::Plots &signals, analysis::Plots &backgrounds) const;
 
@@ -178,6 +178,10 @@ private:
     std::string ExportName() const;
 
     Plot2d CoreVector(const Plot2d &points, std::function<bool(Point2d&, Point2d&)> function) const;
+
+    std::string ExportFileSuffix() const {
+      return ".png";
+    }
 
 };
 

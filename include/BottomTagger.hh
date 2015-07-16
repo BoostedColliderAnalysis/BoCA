@@ -51,6 +51,10 @@ public:
         return "Bottom";
     }
 
+    std::string NiceName() const final {
+      return "b";
+    }
+
 private:
 
     Jets Multiplets(const Jets &jets, PreCuts &pre_cuts, const TMVA::Reader &reader) const;

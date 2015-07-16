@@ -1,77 +1,63 @@
-# set build type to debug
-# set(CMAKE_BUILD_TYPE Debug)
+unset(link_libraries CACHE)
+unset(include_directories CACHE)
 
-# set(CMAKE_INSTALL_PREFIX ~)
-unset(LinkLibraries CACHE)
 # set library and excecutable destination
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+# set(CMAKE_INSTALL_PREFIX ~)
 
 # set library versions
-set(MajorVersion 0)
-set(MinorVersion 1)
-set(PatchVersion 0)
-set(Version ${MajorVersion}.${MinorVersion}.${PatchVersion})
-set(LibraryProperties
-  ${LibraryProperties}
-  VERSION ${Version}
-  SOVERSION ${MajorVersion}
+set(major_version 0)
+set(minor_version 1)
+set(patch_version 0)
+set(version ${major_version}.${minor_version}.${patch_version})
+set(library_properties
+  ${library_properties}
+  VERSION ${version}
+  SOVERSION ${major_version}
   SUFFIX .so
   LINKER_LANGUAGE CXX
 )
 
 #define macros
-macro(HInclude include_directory)
-  get_filename_component(result ${include_directory} ABSOLUTE)
-  message("Include:      ${result}")
-  set(IncludeDirectory
-    ${IncludeDirectory}
-    ${result}
-    CACHE INTERNAL IncludeDirectory FORCE
+macro(add_include_path relative_directory)
+  get_filename_component(absolute_directory ${relative_directory} ABSOLUTE)
+  message("Include:      ${absolute_directory}")
+  set(include_directories
+    ${include_directories}
+    ${absolute_directory}
+    CACHE INTERNAL include_directories FORCE
   )
-  include_directories(${ARGV1} ${IncludeDirectory})
-endmacro(HInclude)
+  include_directories(${ARGV1} ${include_directories})
+endmacro(add_include_path)
 
-macro(HSource source_directory)
-  get_filename_component(result ${source_directory} ABSOLUTE)
-  message("Source:      ${result}")
-  set(SourceDirectory
-    ${SourceDirectory}
-    ${result}
-    CACHE INTERNAL SourceDirectory FORCE
-  )
-#   include_directories(${ARGV1} ${IncludeDirectory})
-endmacro(HSource)
-
-macro(HLibrary library_name library_source)
-  message("Library:      ${library_name} <- ${${library_source}} ${ARGV2}")
-  add_library(${library_name} SHARED ${${library_source}})
-  target_link_libraries(${library_name} ${LinkLibraries})
-  set_target_properties(${library_name} PROPERTIES ${LibraryProperties})
+macro(create_library library_name library_sources)
+  message("Library:      ${library_name} <- ${${library_sources}} ${ARGV2}")
+  add_library(${library_name} SHARED ${${library_sources}})
+  target_link_libraries(${library_name} ${link_libraries})
+  set_target_properties(${library_name} PROPERTIES ${library_properties})
   install(TARGETS ${library_name} DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
-  HLinkLibraries(${library_name})
-#   HLinkLibraries(${ARGV2})
-endmacro(HLibrary)
+  add_libraries(${library_name})
+endmacro(create_library)
 
-macro(HExecutable executable_name executable_source)
+macro(create_executable executable_name executable_source)
   message("Executable:   ${executable_name} <- ${executable_source}")
   add_executable(${executable_name} ${executable_source})
-  target_link_libraries(${executable_name} ${LinkLibraries})
-endmacro(HExecutable)
+  target_link_libraries(${executable_name} ${link_libraries})
+endmacro(create_executable)
 
-macro(HDictionary dictionary_name dictionary_source link_def)
+macro(create_dictionary dictionary_name dictionary_source link_def)
   message("Dictionary:   ${dictionary_name} <- ${dictionary_source} & ${link_def}")
-  set(dictionary ${dictionary_name}Dict.cpp)
-  set(includedir ${IncludeDirectory} ${SourceDirectory})
-  ROOT_GENERATE_DICTIONARY("${dictionary_source}" "${link_def}" "${dictionary}" "${IncludeDirectory}")
-  HLibrary(${dictionary_name} dictionary ${ARGV3})
-endmacro(HDictionary)
+  set(dictionary_file ${dictionary_name}Dict.cpp)
+  ROOT_GENERATE_DICTIONARY("../source/${dictionary_source}" "${link_def}" "${dictionary_file}" "${include_directories}")
+  create_library(${dictionary_name} dictionary_file ${ARGV3})
+endmacro(create_dictionary)
 
-macro(HLinkLibraries link_library_source)
-  message("Link Library: ${link_library_source}")
-  set(LinkLibraries
-  ${LinkLibraries}
-  ${link_library_source}
-  CACHE INTERNAL LinkLibraries FORCE
-)
-endmacro(HLinkLibraries)
+macro(add_libraries link_library_sources)
+  message("Link Library: ${link_library_sources}")
+  set(link_libraries
+    ${link_libraries}
+    ${link_library_sources}
+    CACHE INTERNAL link_libraries FORCE
+  )
+endmacro(add_libraries)

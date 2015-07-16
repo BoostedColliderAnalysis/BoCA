@@ -3,6 +3,7 @@
 #include "DetectorGeometry.hh"
 #include "Global.hh"
 #include "LorentzVector.hh"
+#include <functional>
 
 namespace analysis
 {
@@ -283,15 +284,22 @@ auto unordered_pairs(const Container &container, Result &result, Function functi
     return result;
 }
 
-template<typename Container1, typename Container2, typename Result, typename Function>
-auto pairs(const Container1 &container_1, const Container1 &container_2, Result &result, Function function)
+template < typename Element1,
+         typename Element2,
+         typename Function,
+         typename Element3 = typename std::result_of<Function&(Element1, Element2)>::type
+         >
+auto pairs(const std::vector<Element1> &container_1, const std::vector<Element2> &container_2, Function function)
 {
+    std::vector<Element3> container_3;
     for (const auto element_1 : container_1) {
         for (const auto element_2 : container_2) {
-            result.emplace_back(function(element_1, element_2));
+            try {
+                container_3.emplace_back(function(element_1, element_2));
+            } catch (...) {}
         }
     }
-    return result;
+    return container_3;
 }
 
 template <typename Value>

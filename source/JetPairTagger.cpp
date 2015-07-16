@@ -73,8 +73,7 @@ int JetPairTagger::Train(const Event &event, PreCuts &, const Tag tag) const
     if (tag == Tag::signal) { // THIS SHOULD BE ENABLED AGAIN
         for (const auto & Bottom : Bottoms) {
             jets = SortedByMinDeltaRTo(jets, Bottom);
-            if (jets.front().delta_R(Bottom) > DetectorGeometry().JetConeSize()) continue;
-
+            if (jets.front().delta_R(Bottom) > DetectorGeometry::JetConeSize()) continue;
             BottomJets.emplace_back(jets.front());
             if (jets.size() > 1) jets.erase(jets.begin());
         }

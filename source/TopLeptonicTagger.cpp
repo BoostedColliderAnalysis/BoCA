@@ -1,6 +1,6 @@
 #include "TopLeptonicTagger.hh"
 #include "Event.hh"
-#include "WSemiTagger.hh"
+#include "WLeptonicTagger.hh"
 #include "Debug.hh"
 
 namespace analysis
@@ -27,7 +27,7 @@ int TopLeptonicTagger::Train(const Event &event, analysis::PreCuts &pre_cuts, co
 
     std::vector<Doublet> doublets;
     if (use_w_) {
-      doublets = w_semi_reader_.Multiplets(event);
+        doublets = w_leptonic_reader_.Multiplets(event);
     } else {
         Jets leptons = event.Leptons().leptons();
         for (const auto & lepton : leptons) doublets.emplace_back(Doublet(lepton));
@@ -35,22 +35,22 @@ int TopLeptonicTagger::Train(const Event &event, analysis::PreCuts &pre_cuts, co
 
     std::vector<Triplet> triplets;
     for (const auto & jet : jets) {
-      for (const auto & doublet : doublets) {
+        for (const auto & doublet : doublets) {
             Triplet triplet(doublet, jet);
             if (Problematic(triplet, pre_cuts, tag)) continue;
             triplets.emplace_back(triplet);
         }
-   }
-    
+    }
+
     Info(triplets.size());
-    
+
     Jets tops = Particles(event);
     return SaveEntries(BestMatches(triplets, tops, tag));
 }
 
 fastjet::PseudoJet TopLeptonicTagger::FakeLepton(const fastjet::PseudoJet &jet) const
 {
-    return fastjet::PseudoJet(jet.px(), jet.py(), jet.pz(), jet.e()) / jet.pt() * DetectorGeometry().LeptonMinPt();
+    return fastjet::PseudoJet(jet.px(), jet.py(), jet.pz(), jet.e()) / jet.pt() * DetectorGeometry::LeptonMinPt();
 }
 
 bool TopLeptonicTagger::Problematic(const Triplet &triplet, PreCuts &pre_cuts) const
@@ -64,16 +64,18 @@ bool TopLeptonicTagger::Problematic(const Triplet &triplet, PreCuts &pre_cuts) c
 Jets TopLeptonicTagger::Particles(const Event &event) const
 {
     Jets particles = event.Partons().GenParticles();
-    Jets leptons=fastjet::sorted_by_pt(event.Leptons().leptons());
+    Jets leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
     int lepton_charge;
-    if(leptons.size()==0) lepton_charge=1;
-    else
-    {
-      lepton_charge=leptons.at(0).user_info<JetInfo>().Charge(); 
-      Info(lepton_charge);
-    }    
-    Jets tops=CopyIfParticle(particles, to_int(Id::top)*lepton_charge);
+    if (leptons.size() == 0) lepton_charge = 1;
+    else {
+        lepton_charge = leptons.at(0).user_info<JetInfo>().Charge();
+        Info(lepton_charge);
+    }
+    Jets tops = CopyIfParticle(particles, to_int(Id::top) * lepton_charge);
     return tops;
+//         int w_leptonic_id = WLeptonicTagger().WLeptonicId(event);
+//     int top_leptonic_id = sgn(w_leptonic_id) * to_int(Id::top);
+//     return CopyIfParticle(particles, top_leptonic_id);
 }
 
 bool TopLeptonicTagger::Problematic(const analysis::Triplet &triplet, analysis::PreCuts &pre_cuts, const analysis::Tag tag) const
@@ -81,8 +83,8 @@ bool TopLeptonicTagger::Problematic(const analysis::Triplet &triplet, analysis::
     if (Problematic(triplet, pre_cuts)) return true;
     switch (tag) {
     case Tag::signal :
-        if (use_w_ && triplet.Doublet().Singlet1().Jet().pt() <= DetectorGeometry().LeptonMinPt()) return true;
-        if (!use_w_ && triplet.Doublet().Jet().pt() <= DetectorGeometry().LeptonMinPt()) return true;
+        if (use_w_ && triplet.Doublet().Singlet1().Jet().pt() <= DetectorGeometry::LeptonMinPt()) return true;
+        if (!use_w_ && triplet.Doublet().Jet().pt() <= DetectorGeometry::LeptonMinPt()) return true;
 //         if (std::abs(triplet.Jet().m() - Mass(Id::top) + 40) > top_mass_window) return true;
         break;
     case Tag::background :
@@ -107,15 +109,15 @@ std::vector<Triplet> TopLeptonicTagger::Multiplets(const Event &event, analysis:
 
     std::vector<Doublet> doublets;
     if (use_w_) {
-      doublets = w_semi_reader_.Multiplets(event);
+        doublets = w_leptonic_reader_.Multiplets(event);
     } else {
-      Jets leptons = event.Leptons().leptons();
-      for (const auto & lepton : leptons) doublets.emplace_back(Doublet(lepton));
+        Jets leptons = event.Leptons().leptons();
+        for (const auto & lepton : leptons) doublets.emplace_back(Doublet(lepton));
     }
 
     for (const auto & jet : jets) {
         for (const auto & doublet : doublets) {
-            Triplet triplet(doublet,jet);
+            Triplet triplet(doublet, jet);
             if (Problematic(triplet, pre_cuts)) continue;
             triplet.SetBdt(Bdt(triplet, reader));
             triplets.emplace_back(triplet);

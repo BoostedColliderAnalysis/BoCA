@@ -76,7 +76,7 @@ int WHadronicTagger::Train(const Event &event, analysis::PreCuts &pre_cuts, cons
     Jets w_particles;
     if (w_hadronic_id != 0) w_particles = CopyIfParticle(particles, w_hadronic_id);
     else w_particles = CopyIfAbsParticle(particles, Id::W);
-    w_particles = RemoveIfSoft(w_particles, DetectorGeometry().JetMinPt());
+    w_particles = RemoveIfSoft(w_particles, DetectorGeometry::JetMinPt());
     return SaveEntries(BestMatches(doublets, w_particles, Tag));
 }
 
@@ -129,7 +129,7 @@ bool WHadronicTagger::Problematic(const Doublet &doublet, PreCuts &pre_cuts) con
     if (pre_cuts.PtLowerCut(Id::W) > 0 && pre_cuts.PtLowerCut(Id::W) > doublet.Jet().pt()) return true;
     if (pre_cuts.PtUpperCut(Id::W) > 0 && pre_cuts.PtUpperCut(Id::W) < doublet.Jet().pt()) return true;
     if (pre_cuts.MassUpperCut(Id::W) > 0 && pre_cuts.MassUpperCut(Id::W) < doublet.Jet().m()) return true;
-    if (doublet.DeltaR() < DetectorGeometry().MinCellResolution() && doublet.DeltaR() > 0) return true;
+    if (doublet.DeltaR() < DetectorGeometry::MinCellResolution() && doublet.DeltaR() > 0) return true;
     return false;
 }
 

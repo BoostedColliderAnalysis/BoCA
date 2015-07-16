@@ -228,19 +228,19 @@ void AnalysisBase::RunFactory()
 void AnalysisBase::RunSignificance()
 {
     PrepareFiles();
-    if (Missing(PathName(tagger().export_name()))) {
+//     if (Missing(PathName(tagger().export_name()))) {
         analysis::Plot plot(tagger());
         plot.OptimalSignificance();
-    }
+//     }
 }
 
 void AnalysisBase::RunEfficiency()
 {
     PrepareFiles();
-    if (Missing(PathName(tagger().export_name()))) {
+//     if (Missing(PathName(tagger().export_name()))) {
         analysis::Plot plot(tagger());
         plot.TaggingEfficiency();
-    }
+//     }
 }
 
 void AnalysisBase::RunPlots()
@@ -248,7 +248,7 @@ void AnalysisBase::RunPlots()
   PrepareFiles();
 //   if (Missing(PathName(tagger().export_name()))) {
     analysis::Plot plot(tagger());
-    plot.InputFiles();
+    plot.RunPlots();
 //   }
 }
 
