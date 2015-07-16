@@ -22,6 +22,8 @@ public:
 
     Family(const Id id, const Id mother_1_id, const Id mother_2_id);
 
+    Family(const int id, const int mother_1_id, const int mother_2_id, const int grand_mother_id);
+    
     Family(const Id id, const Id mother_1_id, const Id mother_2_id, const Id grand_mother_id);
 
     Family(const int particle_position, const Id id, const int mother_position, const Id mother_id);
