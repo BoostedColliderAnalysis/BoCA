@@ -35,8 +35,6 @@ public:
 
 private:
 
-    void DefineVariables();
-
     Reader<BottomTagger> bottom_reader_;
 
 };

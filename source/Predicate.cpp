@@ -156,7 +156,7 @@ struct WrongAbsStepFamily {
 };
 
 struct WrongGrandFamily {
-  WrongAbsStepFamily(const Id id, const Id grand_mother_id) {
+  WrongGrandFamily(const Id id, const Id grand_mother_id) {
     grand_mother_id_ = grand_mother_id;
     id_ = id;
   }
