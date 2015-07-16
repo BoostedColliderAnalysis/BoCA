@@ -20,17 +20,17 @@ int SignatureNeutralTagger::Train(const Event &event, PreCuts &pre_cuts, const T
     float Mass = event.mass();
     std::vector<Sextet> sextets = heavy_higgs_semi_reader_.Multiplets(event);
 
-    Jets HiggsBoson = heavy_higgs_semi_reader_.tagger().Particle_Higgs(event, tag);
+    Jets HiggsBoson = heavy_higgs_semi_reader_.tagger().HiggsParticle(event, tag);
     sextets=BestMatches(sextets, HiggsBoson, tag);
-    
+
 //     if (!sextets.empty()) Error("higgs sextets exists?");
-    
-    
+
+
     std::vector<Doublet> doublets = jet_pair_reader_.Multiplets(event);
 
     std::vector<Doublet> Finaldoublets;
     Jets Particles = jet_pair_reader_.tagger().Particle_2Bottom(event, tag);  //Write a function to get the jet pair
-    
+
     if (tag == Tag::signal) {
         if (Particles.size() == 2) {
             for (const auto & doublet : doublets) {
@@ -39,7 +39,7 @@ int SignatureNeutralTagger::Train(const Event &event, PreCuts &pre_cuts, const T
         }
     }
     if (tag == Tag::background) Finaldoublets = doublets;
- 
+
     std::vector<Octet62> octets;
     for (const auto & doublet : Finaldoublets) {
         for (const auto & sextet : sextets) {
@@ -58,7 +58,7 @@ int SignatureNeutralTagger::Train(const Event &event, PreCuts &pre_cuts, const T
         std::sort(octets.begin(), octets.end());
         octets.erase(octets.begin() + 1, octets.end());
     }
-    
+
     return SaveEntries(octets);
 
 }

@@ -1,11 +1,9 @@
 #pragma once
 
-#include "TopLeptonicTagger.hh"
-#include "Sextet.hh"
-#include "TopHadronicTagger.hh"
 #include "Branch.hh"
-#include "Event.hh"
-#include "Debug.hh"
+#include "TopLeptonicTagger.hh"
+#include "TopHadronicTagger.hh"
+#include "Sextet.hh"
 
 namespace analysis
 {
@@ -36,9 +34,9 @@ public:
         return "HeavyHiggsSemi";
     }
 
-    Jets Particles_Top(const Event &event, int charge) const;
+    Jets TopParticles(const Event &event, int charge) const;
 
-    Jets Particle_Higgs(const Event &event, const Tag tag) const;
+    Jets HiggsParticle(const Event &event, const Tag tag) const;
 
     std::vector<Triplet> FinalTriplet(const Event &event, const Tag tag, int charge) const;
 
