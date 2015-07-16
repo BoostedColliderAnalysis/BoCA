@@ -3,6 +3,11 @@
 #include "Tagger.hh"
 #include "TMVA/Factory.h"
 
+namespace TMVA{
+  class MethodBDT;
+}
+
+
 namespace analysis{
 
 /**
@@ -26,7 +31,7 @@ private:
      * @brief Book MVA methods
      *
      */
-    void BookMethods();
+    TMVA::MethodBDT & BookMethods();
 
     /**
      * @brief Add Variables
