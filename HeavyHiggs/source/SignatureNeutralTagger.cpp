@@ -29,7 +29,7 @@ int SignatureNeutralTagger::Train(const Event &event, PreCuts &pre_cuts, const T
     std::vector<Doublet> doublets = jet_pair_reader_.Multiplets(event);
 
     std::vector<Doublet> Finaldoublets;
-    Jets Particles = jet_pair_reader_.tagger().Particle_2Bottom(event, tag);  //Write a function to get the jet pair
+    Jets Particles = jet_pair_reader_.tagger().BottomPair(event, tag);  //Write a function to get the jet pair
 
     if (tag == Tag::signal) {
         if (Particles.size() == 2) {

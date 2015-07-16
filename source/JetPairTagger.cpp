@@ -52,7 +52,7 @@ int JetPairTagger::Train(const Event &event, PreCuts &, const Tag tag) const
 
 }
 
-Jets JetPairTagger::Particle_2Bottom(const Event &event, const Tag tag) const
+Jets JetPairTagger::BottomPair(const Event &event, const Tag tag) const
 {
     Jets particles = event.Partons().GenParticles();
     Jets final_particles;

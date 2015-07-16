@@ -29,9 +29,8 @@ public:
     std::string Name() const final {
       return "JetPair";
     }
-    
-    
-    Jets Particle_2Bottom(const Event &event, const Tag tag) const;
+
+    Jets BottomPair(const Event &event, const Tag tag) const;
 
 private:
 
