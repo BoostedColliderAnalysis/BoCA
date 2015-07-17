@@ -11,7 +11,9 @@ class GlobalObservables
 
 public:
 
-    void SetEvent(const Event &event, const analysis::Jets &jets);
+  void SetEvent(const Event &event, const analysis::Jets &jets);
+  
+  void SetEvent(const Event &event);
 
     int LeptonNumber() const;
 

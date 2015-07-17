@@ -114,7 +114,7 @@ public:
         //                 return 1000;
         //                         return 500;
         //                         return 10;
-    };;
+    };
 
     Collider collider_type() const {
 //         return Collider::LHC;
@@ -221,6 +221,10 @@ public:
         analysis::AnalysisBase::NewFile(tag, FileName(process, tag), NiceName(process));
     }
 
+    virtual void NewFile(const Tag tag, const float crosssection, const Process process) {
+      analysis::AnalysisBase::NewFile(tag, FileName(process, tag), crosssection, NiceName(process));
+    }
+    
     virtual std::string FileName(const Process process, const Tag tag) const {
       switch(tag){
 	case Tag::signal:

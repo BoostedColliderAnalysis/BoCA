@@ -50,17 +50,17 @@ std::vector<Sextet>  HeavyHiggsSemiTagger::Multiplets(const Event &event, PreCut
 std::vector< Triplet > HeavyHiggsSemiTagger::FinalTriplet(const Event &event, const Tag tag, int charge) const
 {
     std::vector<Triplet> triplets;
-    Jets tops;
     switch (charge) {
     case 1:
         triplets = top_leptonic_reader_.Multiplets(event);
-        tops = TopParticles(event, 1);
+        break;
     case -1:
         triplets = top_hadronic_reader_.Multiplets(event);
-        tops = TopParticles(event, -1);
+        break;
     default:
         Error("not a charge");
     }
+    Jets tops = TopParticles(event, charge);
     return BestMatches(triplets, tops, tag);
 }
 

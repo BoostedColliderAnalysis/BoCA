@@ -17,7 +17,6 @@ AnalysisHeavyHiggs.cpp
 AnalysisNeutral.cpp
 AnalysisCharged.cpp
 AnalysisFusion.cpp
-AnalysisNeutralFourTop.cpp
 )
 create_library(AnalysisHeavyHiggs AnalysisSources)
 
