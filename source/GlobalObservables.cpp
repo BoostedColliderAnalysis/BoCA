@@ -4,12 +4,17 @@
 namespace analysis
 {
 
-void GlobalObservables::SetEvent(const analysis::Event &event, const analysis::Jets &jets)
+void GlobalObservables::SetEvent(const analysis::Event &event, const analysis::Jets &)
 {
     leptons_ = event.Leptons().leptons();
     scalar_ht_ = event.Hadrons().ScalarHt();
     missing_et_ = event.Hadrons().MissingEt().pt();
-    jets_ = jets;
+}
+void GlobalObservables::SetEvent(const analysis::Event &event)
+{
+  leptons_ = event.Leptons().leptons();
+  scalar_ht_ = event.Hadrons().ScalarHt();
+  missing_et_ = event.Hadrons().MissingEt().pt();
 }
 
 int GlobalObservables::LeptonNumber() const

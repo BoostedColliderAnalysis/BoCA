@@ -69,6 +69,7 @@ public:
         if (object_number == 0) return;
         object_sum_ += object_number;
         info_branch_.PreCutNumber = event_number_;
+        info_branch_.EventNumber = event_number_2_;
         analysis_empty_ = false;
         static_cast<InfoBranch &>(*tree_branch_->NewEntry()) = info_branch_;
         tree_writer_.Fill();
@@ -79,7 +80,8 @@ public:
         info_branch.Crosssection = file.crosssection();
         info_branch.CrosssectionError = file.crosssection_error();
         info_branch.Mass = file.mass();
-        info_branch.EventNumber = std::min((long)tree_reader.GetEntries(), event_number_max);
+//         info_branch.EventNumber = std::min((long)tree_reader.GetEntries(), event_number_max);
+//         info_branch.EventNumber = event_number_2_;
         info_branch.Name = file.nice_name();
 //         info_branch.NiceName = file.nice_name();
         return info_branch;
@@ -101,6 +103,7 @@ public:
         return object_sum_;
     }
     int event_number_ = 0;
+    int event_number_2_ = 0;
 private:
     exroot::TreeReader tree_reader_;
     exroot::TreeBranch *tree_branch_;
@@ -148,6 +151,7 @@ protected:
         trees.UseBranches(files.file(), tagger_.weight_branch_name(), EventNumberMax());
         if (files.stage() == Stage::reader) trees.event_number_ = std::min((long)trees.tree_reader().GetEntries(), EventNumberMax()) / 2; // TODO fix corner cases
         for (; trees.event_number_ < trees.tree_reader().GetEntries(); ++trees.event_number_) {
+          ++trees.event_number_2_;
             DoAnalysis(files, trees, reader);
             if (trees.object_sum() >= EventNumberMax()) break;
         }

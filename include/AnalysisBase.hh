@@ -83,7 +83,7 @@ protected:
     std::string TreeName(const std::string &name) const;
 
     virtual int PassPreCut(const Event &) const;
-
+      
     PreCuts &pre_cuts();
 
     virtual const Tagger &tagger() const = 0;
