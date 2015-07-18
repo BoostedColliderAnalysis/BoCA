@@ -35,12 +35,12 @@ public:
 
     float BottomBdt() const
     {
-        return Doublet().SingletJet1().user_info<JetInfo>().Bdt() + Doublet().SingletJet2().user_info<JetInfo>().Bdt() + Sextet().Triplet1().Singlet().Jet().user_info<JetInfo>().Bdt() + Sextet().Triplet2().Singlet().Jet().user_info<JetInfo>().Bdt();
+        return (Doublet().SingletJet1().user_info<JetInfo>().Bdt() + Doublet().SingletJet2().user_info<JetInfo>().Bdt() + Sextet().Triplet1().Singlet().Jet().user_info<JetInfo>().Bdt() + Sextet().Triplet2().Singlet().Jet().user_info<JetInfo>().Bdt())/4;
     }
 
     float PairBottomBdt() const
     {
-        return Doublet().SingletJet1().user_info<JetInfo>().Bdt() + Doublet().SingletJet2().user_info<JetInfo>().Bdt();
+        return (Doublet().SingletJet1().user_info<JetInfo>().Bdt() + Doublet().SingletJet2().user_info<JetInfo>().Bdt())/2;
     }
 
     float GetDeltaR1() const

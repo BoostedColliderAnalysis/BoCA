@@ -71,15 +71,15 @@ std::string Name(const Id id)
         return "String";
     case Id::mixed_jet:
         return "MixJet";
-    case Id::Pi0Meson:
+    case Id::pi0:
         return "pi0";
-    case Id::Rho0Meson:
+    case Id::rho0:
         return "rho0";
-    case Id::K0LMeson:
+    case Id::K0L:
         return "K0l";
-    case Id::Pion:
+    case Id::pion:
         return "pi";
-    case Id::RhoMeson:
+    case Id::rho:
         return "rho";
     case Id::RapMeson:
         return "eta";
@@ -175,11 +175,11 @@ float Mass(const Id id)
         return 80.39;
     case Id::higgs:
         return 125;
-    case Id::Pi0Meson:
+    case Id::pi0:
         return 0.13498;
-    case Id::Pion:
+    case Id::pion:
         return 0.13957;
-    case Id::RhoMeson:
+    case Id::rho:
         return 0.77549;
     case Id::RapMeson:
         return 0.54785;

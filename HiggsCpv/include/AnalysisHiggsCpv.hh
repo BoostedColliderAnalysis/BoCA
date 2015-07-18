@@ -27,11 +27,11 @@ public:
         switch (tag) {
             case Tag::signal :
                 //         NewSignalFile("pp-ttx0-bbbbllnunu-1", 0.02071);
-                //         NewSignalFile("pp-ttx0-bbbbllnunu-0", 0.008937);
+                this->NewFile(tag,"pp-ttx0-bbbbllnunu-0", 0.008937);
                 //         NewSignalFile("pp-ttx0-bbbbllnunu-0.5", 0.01193);
                 break;
             case Tag::background :
-                //         NewBackgroundFile("pp-ttbb-bbbbllnunu", 3.457);
+                this->NewFile(tag,"pp-ttbb-bbbbllnunu", 3.457);
                 break;
         }
     }
@@ -52,6 +52,7 @@ public:
      */
     long EventNumberMax() const
     {
+        return 5000;
         return 1000;
     }
 

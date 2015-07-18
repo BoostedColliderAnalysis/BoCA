@@ -15,25 +15,12 @@ SignatureTagger::SignatureTagger()
 int SignatureTagger::Train(const Event& event, analysis::PreCuts&, const analysis::Tag tag) const
 {
     Info();
-    std::vector<Sextet> sextets = triplet_pair_reader_.Multiplets(event);
-    if (sextets.empty()) return 0;
+    std::vector<Sextet> sextets = triplet_pair_reader_.tagger().TruthLevel(event,triplet_pair_reader_.Multiplets(event),tag);
+    Debug(sextets.size());
     std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
-    if (doublets.empty()) Info("No doublets", doublets.size());
-    std::vector<Doublet> final_doublets;
-    switch (tag) {
-    case Tag::signal : {
-        Jets higgs = event.Partons().GenParticles();
-        Jets even = CopyIfParticle(higgs, Id::higgs);
-        Jets odd = CopyIfParticle(higgs, Id::CP_violating_higgs);
-        higgs = Join(even, odd);
-        final_doublets = CopyIfClose(doublets, higgs);
-        break;
-    }
-    case Tag::background :
-        final_doublets = doublets;
-        break;
-    }
-    if (final_doublets.empty()) return 0;
+    Jets higgses = CopyIfParticles(event.Partons().GenParticles(), Id::higgs, Id::CP_violating_higgs);
+    std::vector<Doublet> final_doublets = BestMatches(doublets,higgses,tag);
+    Debug(final_doublets.size());
     std::vector<Octet62> octets;
     for (const auto& doublet : final_doublets) {
         for (const auto& sextet : sextets) {
@@ -43,7 +30,8 @@ int SignatureTagger::Train(const Event& event, analysis::PreCuts&, const analysi
             octets.emplace_back(octet);
         }
     }
-    if (octets.empty()) Info("No octets", octets.size());
+//     if (tag == Tag::signal && octets.size() != 1)
+Debug(octets.size());
     if (tag == Tag::signal) octets = ReduceResult(octets, 1);
     return SaveEntries(octets);
 }

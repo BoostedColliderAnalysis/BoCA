@@ -70,7 +70,7 @@ public:
 
     bool Coincides(const fastjet::PseudoJet& jet) const
     {
-        return (Close(jet)(Jet()));
+        return Close(jet)(Jet());
     }
 
     // TODO clean this mess up; and figure out why the cases are necessary
