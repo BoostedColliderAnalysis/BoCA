@@ -2,21 +2,17 @@
 
 #include "fastjet/JetDefinition.hh"
 
-namespace analysis
-{
+namespace analysis {
 
-enum class JetType
-{
+enum class JetType {
     jet, gen_jet, e_flow_jet
 };
 
-enum class DetectorType
-{
-  CMS, Spp
+enum class DetectorType {
+    CMS, Spp
 };
 
-class DetectorGeometry
-{
+class DetectorGeometry {
 public:
     static float JetMinPt();
     static float JetConeSize();

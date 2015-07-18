@@ -3,19 +3,17 @@
 #include "libconfig.h++"
 
 
-namespace analysis
-{
+namespace analysis {
 
-class Configuration
-{
+class Configuration {
 
 public:
 
     Configuration();
 
-    Configuration(const std::string &config_name);
+    Configuration(const std::string& config_name);
 
-    Configuration &operator=(const Configuration &configuration);
+    Configuration& operator=(const Configuration& configuration);
 
     // in GeV
     int Mass() const;
@@ -44,14 +42,15 @@ private:
 
     ColliderType ColliderType_();
 
-    void WriteConfig(const std::string &config_name);
+    void WriteConfig(const std::string& config_name);
 
-    void ReadConfig(const std::string &config_name);
+    void ReadConfig(const std::string& config_name);
 
     libconfig::Config config_;
 
-    libconfig::Config &config(){
-      return config_;
+    libconfig::Config& config()
+    {
+        return config_;
     }
 
     int mass_;
@@ -64,7 +63,7 @@ private:
 
     ColliderType collider_type_;
 
-    std::string ConfigFile(const std::string &config_name);
+    std::string ConfigFile(const std::string& config_name);
 
 };
 

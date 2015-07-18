@@ -31,7 +31,6 @@ int main()
         analysis::toppartner::Analysis<analysis::toppartner::TopPartnerHadronicTagger> top_partner_hadronic_analysis;
         top_partner_hadronic_analysis.RunFullEfficiency();
         top_partner_hadronic_analysis.RunPlots();
-
         analysis::toppartner::Analysis<analysis::toppartner::TopPartnerPairTagger> top_partner_leptonic_pair_analysis;
         top_partner_leptonic_pair_analysis.RunFullEfficiency();
         top_partner_leptonic_pair_analysis.RunPlots();
@@ -39,7 +38,7 @@ int main()
         analysis::toppartner::Analysis<analysis::toppartner::EventSingleTagger> event_analysis;
         event_analysis.RunFullSignificance();
         event_analysis.RunPlots();
-    } catch (const char *message) {
+    } catch (const char* message) {
         std::cout << message << std::endl;
     }
 }

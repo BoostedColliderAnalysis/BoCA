@@ -2,11 +2,9 @@
 
 #include "Analysis.hh"
 
-namespace analysis
-{
+namespace analysis {
 
-namespace higgscpv
-{
+namespace higgscpv {
 
 /**
  *
@@ -15,40 +13,65 @@ namespace higgscpv
  * \author Jan Hajer
  *
  */
-class Analysis //: public analysis::Analysis
-{
+template <typename Tagger>
+class Analysis : public analysis::Analysis<Tagger> {
 
 public:
 
+    Analysis(){
+        this->tagger().set_analysis_name(ProjectName());
+    }
 
-    Analysis(Tagger &tagger);
+    void SetFiles(const Tag tag)
+    {
+        switch (tag) {
+            case Tag::signal :
+                //         NewSignalFile("pp-ttx0-bbbbllnunu-1", 0.02071);
+                //         NewSignalFile("pp-ttx0-bbbbllnunu-0", 0.008937);
+                //         NewSignalFile("pp-ttx0-bbbbllnunu-0.5", 0.01193);
+                break;
+            case Tag::background :
+                //         NewBackgroundFile("pp-ttbb-bbbbllnunu", 3.457);
+                break;
+        }
+    }
 
-    void SetFiles(const Tag tag);
-
-     std::string ProjectName() const {
+    std::string ProjectName() const
+    {
         return  "HiggsCpv";
     }
 
-    std::string ProcessName();
+    std::string ProcessName()
+    {
+        return "higgscpv";
+    }
 
     /**
      * @brief Maximal number of Entries to analyse
      *
      */
-     long EventNumberMax() const {
+    long EventNumberMax() const
+    {
         return 1000;
     }
 
 protected:
 
 
-    std::string FilePath() const {
+    std::string FilePath() const
+    {
         return "~/Projects/HiggsCpv/Analysis/";
     }
 
 private:
 
-    int PassPreCut(const Event &event) const;
+    int PassPreCut(const Event& event) const
+    {
+        //   Jets particles = event.Partons().GenParticles();
+        //   Jets tops = fastjet::sorted_by_pt(CopyIfParticle(particles, Id::top));
+        //   remove_if_not_in_pt_window(tops, PreCut(), UpperCut());
+        return 1;
+    }
 
 };
 

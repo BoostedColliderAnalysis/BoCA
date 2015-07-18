@@ -3,24 +3,23 @@
 #include "Quintet.hh"
 #include "Quartet.hh"
 
-namespace analysis
-{
+namespace analysis {
 
-namespace toppartner
-{
+namespace toppartner {
 
-  class Nonet : public Multiplet<analysis::Quintet, analysis::Quartet22>
-{
+class Nonet : public Multiplet<analysis::Quintet, analysis::Quartet22> {
 
 public:
 
-  using Multiplet<analysis::Quintet, analysis::Quartet22>::Multiplet;
+    using Multiplet<analysis::Quintet, analysis::Quartet22>::Multiplet;
 
-   analysis::Quintet Quintet() const {
+    analysis::Quintet Quintet() const
+    {
         return Multiplet1();
     }
 
-     Quartet22 Quartet() const {
+    Quartet22 Quartet() const
+    {
         return Multiplet2();
     }
 

@@ -1,6 +1,5 @@
 #include "Decuplet.hh"
 
-namespace analysis
-{
+namespace analysis {
 namespace toppartner {}
 }

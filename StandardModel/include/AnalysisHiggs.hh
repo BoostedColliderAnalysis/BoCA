@@ -2,11 +2,9 @@
 
 #include "AnalysisStandardModel.hh"
 
-namespace analysis
-{
+namespace analysis {
 
-namespace standardmodel
-{
+namespace standardmodel {
 /**
  *
  * @brief Higgs tagger analysis
@@ -15,12 +13,12 @@ namespace standardmodel
  *
  */
 template<typename Tagger>
-class AnalysisHiggs : public AnalysisStandardModel<Tagger>
-{
+class AnalysisHiggs : public AnalysisStandardModel<Tagger> {
 
 public:
 
-    AnalysisHiggs() {
+    AnalysisHiggs()
+    {
         this->tagger().set_analysis_name(ProjectName());
         this->pre_cuts().SetPtLowerCut(Id::higgs, this->LowerPtCut());
         this->pre_cuts().SetPtUpperCut(Id::higgs, this->UpperPtCut());
@@ -34,19 +32,26 @@ public:
 private:
 
     void SetFiles(const Tag tag) final {
-        switch (tag) {
+        switch (tag)
+        {
         case Tag::signal :
             this->NewFile(tag, Process::hh_bb);
-            if (this->tagger().Name() == "Bottom") this->NewFile(tag, Process::bb);
-            if (this->tagger().Name() == "Bottom") this->NewFile(tag, Process::tt_had);
-            if (this->tagger().Name() == "Bottom") this->NewFile(tag, Process::tt_lep);
+            if (this->tagger().Name() == "Bottom")
+                this->NewFile(tag, Process::bb);
+            if (this->tagger().Name() == "Bottom")
+                this->NewFile(tag, Process::tt_had);
+            if (this->tagger().Name() == "Bottom")
+                this->NewFile(tag, Process::tt_lep);
             break;
         case Tag::background :
-            if (this->tagger().Name() != "Bottom") this->NewFile(tag, Process::tt_had);
-            if (this->tagger().Name() != "Bottom") this->NewFile(tag, Process::tt_lep);
+            if (this->tagger().Name() != "Bottom")
+                this->NewFile(tag, Process::tt_had);
+            if (this->tagger().Name() != "Bottom")
+                this->NewFile(tag, Process::tt_lep);
             this->NewFile(tag, Process::zz);
             this->NewFile(tag, Process::ww);
-            if (this->tagger().Name() != "Bottom") this->NewFile(tag, Process::bb);
+            if (this->tagger().Name() != "Bottom")
+                this->NewFile(tag, Process::bb);
             this->NewFile(tag, Process::cc);
             this->NewFile(tag, Process::qq);
             this->NewFile(tag, Process::gg);
@@ -55,19 +60,22 @@ private:
 
     }
 
-    std::string ProjectName() const final {
+    std::string ProjectName() const final
+    {
         return  "HiggsTagger-" + Name(this->collider_type()) + "-" + std::to_string(this->LowerPtCut()) + "GeV-bb";
     }
 
 
-    int PassPreCut(const Event &event) const final {
+    int PassPreCut(const Event& event) const final
+    {
         Jets jets = fastjet::sorted_by_pt(event.Hadrons().Jets());
-        if (jets.empty()) return 0;
-        if (jets.front().pt() < this->LowerPtCut()) return 0;
-
+        if (jets.empty())
+            return 0;
+        if (jets.front().pt() < this->LowerPtCut())
+            return 0;
         Jets particles = fastjet::sorted_by_pt(event.Partons().GenParticles());
-        if ((particles.at(0).pt() > this->LowerQuarkCut() && particles.at(0).pt() < this->UpperQuarkCut()) && (particles.at(1).pt() > this->LowerQuarkCut() &&  particles.at(1).pt() < this->UpperQuarkCut())) return 1;
-
+        if ((particles.at(0).pt() > this->LowerQuarkCut() && particles.at(0).pt() < this->UpperQuarkCut()) && (particles.at(1).pt() > this->LowerQuarkCut() &&  particles.at(1).pt() < this->UpperQuarkCut()))
+            return 1;
         return 0;
     }
 

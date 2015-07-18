@@ -1,7 +1,6 @@
 #include "Identification.hh"
 
-namespace analysis
-{
+namespace analysis {
 
 std::string Name(const Tag tag)
 {
@@ -19,7 +18,6 @@ Identification::Identification()
     tag_ = analysis::Tag::background;
     flag_ = false;
     degenerate_ = false;
-
 }
 
 void Identification::SetBdt(const float bdt)
@@ -44,8 +42,10 @@ void Identification::SetTag(const analysis::Tag tag)
 
 void Identification::SetTag(const analysis::Tag tag_1, const analysis::Tag tag_2)
 {
-    if (tag_1 == analysis::Tag::signal || tag_2 == analysis::Tag::signal) tag_ = analysis::Tag::signal;
-    else tag_ = analysis::Tag::background;
+    if (tag_1 == analysis::Tag::signal || tag_2 == analysis::Tag::signal)
+        tag_ = analysis::Tag::signal;
+    else
+        tag_ = analysis::Tag::background;
 }
 
 analysis::Tag Identification::Tag() const

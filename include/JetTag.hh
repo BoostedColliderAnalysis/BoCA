@@ -4,14 +4,13 @@
 
 #include "Family.hh"
 
-namespace analysis{
+namespace analysis {
 
 /**
  * @brief defines how to tag a jet
  *
  */
-class JetTag
-{
+class JetTag {
 
 public:
 

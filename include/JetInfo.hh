@@ -9,19 +9,17 @@
 #include "Constituent.hh"
 
 class Jet;
-namespace delphes{
-  typedef ::Jet Jet;
+namespace delphes {
+typedef ::Jet Jet;
 }
 
-namespace analysis
-{
+namespace analysis {
 
 /**
  * @brief Jet infos subclassed from Fastjet
  *
  */
-class JetInfo: public Identification, public fastjet::PseudoJet::UserInfoBase
-{
+class JetInfo: public Identification, public fastjet::PseudoJet::UserInfoBase {
 
 public:
 
@@ -33,7 +31,7 @@ public:
 
     JetInfo(const float bdt);
 
-    JetInfo(const ::delphes::Jet &jet);
+    JetInfo(const ::delphes::Jet& jet);
 
     JetInfo(const bool b_tag);
 
@@ -43,19 +41,19 @@ public:
 
     JetInfo(const int charge);
 
-    JetInfo(const Constituent &constituent);
+    JetInfo(const Constituent& constituent);
 
-    JetInfo(const Constituent &constituent, const int charge);
+    JetInfo(const Constituent& constituent, const int charge);
 
-    JetInfo(const std::vector<Constituent> &constituents);
+    JetInfo(const std::vector<Constituent>& constituents);
 
-    JetInfo(const std::vector<Constituent> &constituents, const std::vector<Constituent> &dispalced_constituents);
+    JetInfo(const std::vector<Constituent>& constituents, const std::vector<Constituent>& dispalced_constituents);
 
 //     JetInfo operator+(const JetInfo &jet_info);
 
-    void AddConstituent(const Constituent &constituent);
+    void AddConstituent(const Constituent& constituent);
 
-    void AddConstituents(const std::vector<Constituent> &constituents);
+    void AddConstituents(const std::vector<Constituent>& constituents);
 
     void AddDaughter(const int daughter);
 
@@ -97,19 +95,19 @@ public:
 
     int MaximalId() const;
 
-    void AddFamily(const Family &family, const float weight);
+    void AddFamily(const Family& family, const float weight);
 
     void ExtractFamilyFraction();
 
     Family MaximalFamily();
 
-    float ElectroMagneticRadius(const fastjet::PseudoJet &jet) const;
+    float ElectroMagneticRadius(const fastjet::PseudoJet& jet) const;
 
-    float TrackRadius(const fastjet::PseudoJet &jet) const;
+    float TrackRadius(const fastjet::PseudoJet& jet) const;
 
     float LeadingTrackMomentumFraction() const;
 
-    float CoreEnergyFraction(const fastjet::PseudoJet &jet) const;
+    float CoreEnergyFraction(const fastjet::PseudoJet& jet) const;
 
     float ElectroMagneticFraction() const;
 
@@ -117,29 +115,36 @@ public:
 
     float TrackMass() const;
 
-    void SetBTag(const bool b_tag) {
+    void SetBTag(const bool b_tag)
+    {
         b_tag_ = b_tag;
     }
 
-    bool BTag() const {
+    bool BTag() const
+    {
         return b_tag_;
     }
 
-    void SetTauTag(const bool tau_tag) {
+    void SetTauTag(const bool tau_tag)
+    {
         tau_tag_ = tau_tag;
     }
 
-    bool TauTag() const {
+    bool TauTag() const
+    {
         return tau_tag_;
     }
 
-    void SetCharge(const int charge) {
+    void SetCharge(const int charge)
+    {
         charge_ = charge;
     }
 
     int Charge() const;
 
-    void SetDelphesTags(const ::delphes::Jet &jet);
+    void SetDelphesTags(const ::delphes::Jet& jet);
+
+    void SecondayVertex() const;
 
 private:
 
@@ -149,9 +154,9 @@ private:
 
     float GetWeightSum() const;
 
-    std::vector<Constituent> ApplyVertexResolution(std::vector< Constituent > constituents) const;
+    std::vector<Constituent> ApplyVertexResolution(std::vector<Constituent> constituents) const;
 
-    bool VertexResultion(const Constituent &constituent) const;
+    bool VertexResultion(const Constituent& constituent) const;
 
     std::vector<Constituent> constituents_;
 
@@ -174,7 +179,7 @@ private:
  *
  */
 struct SortByBdt {
-    bool operator()(const fastjet::PseudoJet &jet_1, const fastjet::PseudoJet &jet_2);
+    bool operator()(const fastjet::PseudoJet& jet_1, const fastjet::PseudoJet& jet_2);
 };
 
 }

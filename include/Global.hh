@@ -3,8 +3,7 @@
 #include <vector>
 #include <string>
 
-namespace fastjet
-{
+namespace fastjet {
 class PseudoJet;
 }
 
@@ -12,8 +11,7 @@ class PseudoJet;
  * @brief analysis namespace containing the general analysis and SM taggers
  *
  */
-namespace analysis
-{
+namespace analysis {
 
 class LorentzVector;
 
@@ -23,8 +21,7 @@ typedef std::vector<std::string> Strings;
 
 
 
-enum class Severity
-{
+enum class Severity {
     error,
     notification,
     information,
@@ -32,8 +29,7 @@ enum class Severity
     detailed
 };
 
-enum class Id
-{
+enum class Id {
     empty = 0,
     down = 1,
     up = 2,
