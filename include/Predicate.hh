@@ -1,12 +1,114 @@
 #pragma once
 
-#include "DetectorGeometry.hh"
-#include "Global.hh"
-#include "LorentzVector.hh"
-#include "Constituent.hh"
 #include <functional>
+#include "Global.hh"
+#include "DetectorGeometry.hh"
+#include "Constituent.hh"
 
 namespace analysis {
+
+/**
+ * @brief create a fastjet::PseudoJet from a LorentzVector
+ *
+ */
+fastjet::PseudoJet PseudoJet(const TLorentzVector& vector);
+
+fastjet::PseudoJet PseudoJet(const LorentzVector& vector);
+
+Jets CopyIfParticle(const Jets& jets, const Id id);
+
+Jets CopyIfParticles(const Jets& jets, const Id id_1, const Id id_2);
+
+Jets CopyIfNeutrino(const Jets& jets);
+
+Jets CopyIfExactParticle(const Jets& jets, const int id);
+
+Jets RemoveIfExactParticle(const Jets& jets, const int id);
+
+Jets RemoveIfOutsidePtWindow(Jets& jets, const float lower_cut, const float upper_cut);
+
+Jets CopyIfFamily(const Jets& jets, const Id id, Id mother_id);
+
+/**
+ * @brief returns only particles with the correct id and non fitting grand mother id
+ *
+ */
+Jets RemoveIfGrandFamily(const Jets& jets, const Id id , const Id grand_mother_id);
+
+Jets CopyIfParticle(const Jets& jets, const Id id);
+
+Jets RemoveIfParticle(const Jets& jets, const Id id);
+
+Jets CopyIfMother(const Jets& jets, const Id mother_id);
+
+Jets RemoveIfMother(const Jets& jets, const Id mother_id);
+
+Jets RemoveIfLetpon(const Jets& jets);
+
+Jets RemoveIfQuark(const Jets& jets);
+
+Jets CopyIfQuark(const Jets& jets);
+
+Jets CopyIf5Quark(const Jets& jets);
+
+Jets RemoveIfSoft(const Jets& jets, const float pt_min);
+
+
+/**
+ * @brief Calcualte distance in eta phi space
+ *
+ */
+float Distance(const float rapidity_1, const float phi_1, const float rapidity_2, const float phi_2);
+
+/**
+ * @brief Calcualte distance from center in eta phi space
+ *
+ */
+float Length(const float rapidity, const float phi);
+
+/**
+ * @brief Take care of phi angles around pi
+ *
+ */
+float DeltaPhi(const float phi_1, const float phi_2);
+
+struct Close {
+    Close(const fastjet::PseudoJet& particle)
+    {
+        particle_ = particle;
+    }
+    template <typename Multiplet>
+    bool operator()(const Multiplet& multiplet)
+    {
+        return (multiplet.Jet().delta_R(particle_) < detector_geometry_.JetConeSize());
+    }
+    bool operator()(const fastjet::PseudoJet& jet)
+    {
+        return (jet.delta_R(particle_) < detector_geometry_.JetConeSize());
+    }
+    fastjet::PseudoJet particle_;
+    DetectorGeometry detector_geometry_;
+};
+
+template <typename Multiplet>
+std::vector<Multiplet> RemoveIfClose(const std::vector<Multiplet>& jets, const Jets& particles)
+{
+    std::vector<Multiplet> quarks = jets;
+    for (const auto& particle : particles)
+        quarks.erase(std::remove_if(quarks.begin(), quarks.end(), Close(particle)), quarks.end());
+    return quarks;
+}
+
+template <typename Multiplet>
+std::vector<Multiplet> CopyIfClose(const std::vector<Multiplet>& multiplets, const Jets& particles)
+{
+    if (multiplets.empty())
+        return multiplets;
+    std::vector<Multiplet> final_multiplets;
+    for (const auto& particle : particles) for (const auto& multiplet : multiplets) if (Close(particle)(multiplet))
+                final_multiplets.emplace_back(multiplet);
+    return final_multiplets;
+}
 
 struct MinDeltaRTo {
     MinDeltaRTo(const fastjet::PseudoJet& jet)
@@ -130,91 +232,6 @@ bool FindInVector(const std::vector<Element> vector, const Element element)
 }
 
 /**
- * @brief create a fastjet::PseudoJet from a LorentzVector
- *
- */
-fastjet::PseudoJet PseudoJet(const TLorentzVector& vector);
-
-fastjet::PseudoJet PseudoJet(const LorentzVector& vector);
-
-Jets CopyIfParticle(const Jets& jets, const Id id);
-
-Jets CopyIfParticles(const Jets& jets, const Id id_1, const Id id_2);
-
-Jets CopyIfNeutrino(const Jets& jets);
-
-Jets CopyIfExactParticle(const Jets& jets, const int id);
-
-Jets RemoveIfExactParticle(const Jets& jets, const int id);
-
-Jets RemoveIfOutsidePtWindow(Jets& jets, const float lower_cut, const float upper_cut);
-
-Jets CopyIfFamily(const Jets& jets, const Id id, Id mother_id);
-
-/**
- * @brief returns only particles with the correct id and non fitting grand mother id
- *
- */
-Jets RemoveIfGrandFamily(const Jets& jets, const Id id , const Id grand_mother_id);
-
-Jets CopyIfParticle(const Jets& jets, const Id id);
-
-Jets RemoveIfParticle(const Jets& jets, const Id id);
-
-Jets CopyIfMother(const Jets& jets, const Id mother_id);
-
-Jets RemoveIfMother(const Jets& jets, const Id mother_id);
-
-Jets RemoveIfLetpon(const Jets& jets);
-
-Jets RemoveIfQuark(const Jets& jets);
-
-Jets CopyIfQuark(const Jets& jets);
-
-Jets CopyIf5Quark(const Jets& jets);
-
-Jets RemoveIfSoft(const Jets& jets, const float pt_min);
-
-
-struct Close {
-    Close(const fastjet::PseudoJet& particle)
-    {
-        particle_ = particle;
-    }
-    template <typename Multiplet>
-    bool operator()(const Multiplet& multiplet)
-    {
-        return (multiplet.Jet().delta_R(particle_) < detector_geometry_.JetConeSize());
-    }
-    bool operator()(const fastjet::PseudoJet& jet)
-    {
-        return (jet.delta_R(particle_) < detector_geometry_.JetConeSize());
-    }
-    fastjet::PseudoJet particle_;
-    DetectorGeometry detector_geometry_;
-};
-
-template <typename Multiplet>
-std::vector<Multiplet> RemoveIfClose(const std::vector<Multiplet>& jets, const Jets& particles)
-{
-    std::vector<Multiplet> quarks = jets;
-    for (const auto& particle : particles)
-        quarks.erase(std::remove_if(quarks.begin(), quarks.end(), Close(particle)), quarks.end());
-    return quarks;
-}
-
-template <typename Multiplet>
-std::vector<Multiplet> CopyIfClose(const std::vector<Multiplet>& multiplets, const Jets& particles)
-{
-    if (multiplets.empty())
-        return multiplets;
-    std::vector<Multiplet> final_multiplets;
-    for (const auto& particle : particles) for (const auto& multiplet : multiplets) if (Close(particle)(multiplet))
-                final_multiplets.emplace_back(multiplet);
-    return final_multiplets;
-}
-
-/**
  * @brief provides an integer with the necessary information to work with range based for loop
  *
  */
@@ -306,25 +323,6 @@ int sgn(const Value value)
 {
     return (Value(0) < value) - (value < Value(0));
 }
-
-
-/**
- * @brief Calcualte distance in eta phi space
- *
- */
-float Distance(const float rapidity_1, const float phi_1, const float rapidity_2, const float phi_2);
-
-/**
- * @brief Calcualte distance from center in eta phi space
- *
- */
-float Length(const float rapidity, const float phi);
-
-/**
- * @brief Take care of phi angles around pi
- *
- */
-float DeltaPhi(const float phi_1, const float phi_2);
 
 template <typename Enumeration>
 auto to_int(Enumeration const value) -> typename std::underlying_type<Enumeration>::type {

@@ -18,8 +18,7 @@ int HiggsTagger::Train(const Event& event, PreCuts& pre_cuts, const Tag tag) con
     for (auto jet_1 = jets.begin(); jet_1 != jets.end(); ++jet_1) {
         for (auto jet_2 = jet_1 + 1; jet_2 != jets.end(); ++jet_2) {
             Doublet doublet(*jet_1, *jet_2);
-            if (Problematic(doublet, pre_cuts, tag))
-                continue;
+            if (Problematic(doublet, pre_cuts, tag)) continue;
             doublet.SetTag(tag);
             doublets.emplace_back(doublet);
         }
@@ -27,23 +26,19 @@ int HiggsTagger::Train(const Event& event, PreCuts& pre_cuts, const Tag tag) con
     for (const auto& jet : jets) {
         const int sub_jet_number = 2;
         Jets pieces = bottom_reader_.SubMultiplet(jet, sub_jet_number);
-        if (pieces.size() < sub_jet_number)
-            continue;
+        if (pieces.size() < sub_jet_number) continue;
         Doublet doublet(pieces.at(0), pieces.at(1));
-        if (Problematic(doublet, pre_cuts, tag))
-            continue;
+        if (Problematic(doublet, pre_cuts, tag)) continue;
         doublet.SetTag(tag);
         doublets.emplace_back(doublet);
     }
     for (const auto& jet : jets) {
         Doublet doublet(jet);
-        if (Problematic(doublet, pre_cuts, tag))
-            continue;
+        if (Problematic(doublet, pre_cuts, tag)) continue;
         doublet.SetTag(tag);
         doublets.emplace_back(doublet);
     }
-    Jets particles = event.Partons().GenParticles();
-    Jets higgses = CopyIfParticles(particles, Id::higgs, Id::CP_violating_higgs);
+    Jets higgses = CopyIfParticles(event.Partons().GenParticles(), Id::higgs, Id::CP_violating_higgs);
     return SaveEntries(BestMatches(doublets, higgses, tag));
 }
 

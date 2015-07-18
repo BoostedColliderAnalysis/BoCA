@@ -38,6 +38,8 @@ public:
         return "TopLeptonicPair";
     }
 
+    std::vector<Sextet> TruthLevel(const analysis::Event& event, std::vector< analysis::Sextet > sextets, const analysis::Tag tag) const;
+
 private:
 
     Reader<TopLeptonicTagger> top_leptonic_reader_;

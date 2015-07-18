@@ -5,10 +5,19 @@
 int main()
 {
     analysis::higgscpv::Analysis<analysis::BottomTagger> bottom_analysis;
-    bottom_analysis.RunFullEfficiency();
+    bottom_analysis.RunNormal();
+
+    analysis::higgscpv::Analysis<analysis::WLeptonicTagger> w_leptonic_analysis;
+    w_leptonic_analysis.RunNormal();
 
     analysis::higgscpv::Analysis<analysis::TopLeptonicTagger> top_leptonic_analysis;
-    top_leptonic_analysis.RunFullEfficiency();
+    top_leptonic_analysis.RunNormal();
+
+//     analysis::higgscpv::Analysis<analysis::WHadronicTagger> w_hadronic_analysis;
+    //     w_hadronic_analysis.RunNormal();
+//
+//     analysis::higgscpv::Analysis<analysis::TopHadronicTagger> top_hadronic_analysis;
+    //     top_hadronic_analysis.RunNormal();
 
     analysis::higgscpv::Analysis<analysis::HiggsTagger> higgs_analysis;
     higgs_analysis.RunFullEfficiency();
@@ -18,8 +27,9 @@ int main()
 
     analysis::higgscpv::Analysis<analysis::higgscpv::SignatureTagger> signature_leptonic_analysis;
     signature_leptonic_analysis.RunFullEfficiency();
+    signature_leptonic_analysis.RunPlots();
 
     analysis::higgscpv::Analysis<analysis::higgscpv::EventTagger> event_leptonic_analysis;
-    event_leptonic_analysis.RunFullEfficiency();
+    event_leptonic_analysis.RunFullSignificance();
 }
 

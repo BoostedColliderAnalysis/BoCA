@@ -17,8 +17,7 @@ int BottomTagger::Train(const Event& event, analysis::PreCuts& pre_cuts, const a
     Info(analysis::Name(tag));
     Jets jets = event.Hadrons().Jets();
     Info(jets.size());
-    if (jets.empty())
-        return 0;
+    if (jets.empty()) return 0;
     Jets final_jets = CleanJets(jets, pre_cuts, tag);
     if (pre_cuts.DoSubJets()) {
         final_jets = Join(final_jets, TrainOnSubJets(jets, pre_cuts, tag, 2));
@@ -26,8 +25,6 @@ int BottomTagger::Train(const Event& event, analysis::PreCuts& pre_cuts, const a
     }
     Jets particles = event.Partons().Particles();
     Jets bottoms = CopyIfParticle(particles, Id::bottom);
-//     Jets tops = CopyIfParticle(particles, Id::top);
-//     Jets higgs = CopyIfParticle(particles, Id::higgs);
     bottoms = RemoveIfSoft(bottoms, DetectorGeometry::JetMinPt());
     Info(bottoms.size());
     return SaveEntries(BestMatches(final_jets, bottoms, tag));
@@ -35,8 +32,7 @@ int BottomTagger::Train(const Event& event, analysis::PreCuts& pre_cuts, const a
 
 bool BottomTagger::Problematic(const fastjet::PseudoJet& jet, PreCuts& pre_cuts, const Tag) const
 {
-    if (Problematic(jet, pre_cuts))
-        return true;
+    if (Problematic(jet, pre_cuts)) return true;
 //     if (tag == Tag::signal && jet.user_info<JetInfo>().SumDisplacement() == 0) return true;
 //     if (jet.user_info<JetInfo>().Tag() != tag) return true;
     return false;
@@ -44,28 +40,21 @@ bool BottomTagger::Problematic(const fastjet::PseudoJet& jet, PreCuts& pre_cuts,
 
 bool BottomTagger::Problematic(const fastjet::PseudoJet& jet, PreCuts& pre_cuts) const
 {
-    if (!jet.has_user_info<JetInfo>())
-        return true;
-    if (pre_cuts.PtLowerCut(Id::bottom) > 0 && jet.pt() < pre_cuts.PtLowerCut(Id::bottom))
-        return true;
-    if (pre_cuts.PtUpperCut(Id::bottom) > 0 && jet.pt() > pre_cuts.PtUpperCut(Id::bottom))
-        return true;
-    if (pre_cuts.TrackerMaxEta(Id::bottom) > 0 && std::abs(jet.rap()) > pre_cuts.TrackerMaxEta(Id::bottom))
-        return true;
-    if (jet.m() < 0)
-        return true;
+    if (!jet.has_user_info<JetInfo>()) return true;
+    if (pre_cuts.PtLowerCut(Id::bottom) > 0 && jet.pt() < pre_cuts.PtLowerCut(Id::bottom)) return true;
+    if (pre_cuts.PtUpperCut(Id::bottom) > 0 && jet.pt() > pre_cuts.PtUpperCut(Id::bottom)) return true;
+    if (pre_cuts.TrackerMaxEta(Id::bottom) > 0 && std::abs(jet.rap()) > pre_cuts.TrackerMaxEta(Id::bottom)) return true;
+    if (jet.m() < 0) return true;
     return false;
 }
 
 Jets BottomTagger::CleanJets(analysis::Jets& jets, analysis::PreCuts& pre_cuts, const analysis::Tag tag) const
 {
     Info(jets.size());
-    if (jets.empty())
-        return jets;
+    if (jets.empty()) return jets;
     Jets clean_jets;
     for (const auto& jet : jets) {
-        if (Problematic(jet, pre_cuts, tag))
-            continue;
+        if (Problematic(jet, pre_cuts, tag)) continue;
         clean_jets.emplace_back(jet);
     }
     Info(clean_jets.size());

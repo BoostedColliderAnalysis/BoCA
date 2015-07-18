@@ -282,7 +282,9 @@ Jets CopyIf5Quark(const Jets& jets)
 Jets RemoveIfSoft(const Jets& jets, const float pt_min)
 {
     Jets quarks = jets;
-    quarks.erase(std::remove_if(quarks.begin(), quarks.end(), [&](const fastjet::PseudoJet& jet){return (jet.pt() < pt_min);}), quarks.end());
+    quarks.erase(std::remove_if(quarks.begin(), quarks.end(), [&](const fastjet::PseudoJet& jet){
+        return jet.pt() < pt_min;
+    }), quarks.end());
     return quarks;
 }
 
