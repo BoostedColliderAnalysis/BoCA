@@ -4,29 +4,27 @@
 #include "TopPartnerHiggsPairTagger.hh"
 #include "TopHadronicTagger.hh"
 
-namespace analysis
-{
+namespace analysis {
 
-namespace toppartner
-{
+namespace toppartner {
 
 /**
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class SignatureSingleTagger : public BranchTagger<SignatureBranch>
-{
+class SignatureSingleTagger : public BranchTagger<SignatureBranch> {
 
 public:
 
     SignatureSingleTagger();
 
-    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const final;
+    int Train(const Event& event, PreCuts& pre_cuts, const Tag tag) const final;
 
-    std::vector<Decuplet73> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
+    std::vector<Decuplet73> Multiplets(const Event& event, PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 
-    std::string Name() const final {
-      return "SignatureSingle";
+    std::string Name() const final
+    {
+        return "SignatureSingle";
     }
 
 private:

@@ -1,7 +1,6 @@
 #include "Global.hh"
 
-namespace analysis
-{
+namespace analysis {
 
 int LargeNumber()
 {
@@ -11,14 +10,15 @@ int LargeNumber()
 std::string Name(const int id)
 {
     std::string sign = "";
-    if (id < 0) sign = "-";
+    if (id < 0)
+        sign = "-";
     return sign + Name(Id(id));
 }
 
 std::string Name(const Id id)
 {
     switch (id) {
-        //     case Id::empty: return "Empty";
+    //     case Id::empty: return "Empty";
     case Id::down:
         return "d";
     case Id::up:

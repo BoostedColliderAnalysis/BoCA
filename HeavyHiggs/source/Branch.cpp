@@ -205,10 +205,8 @@ analysis::heavyhiggs::EventChargedBranch::EventChargedBranch()
     BottomBdt56 = InitialValue();
     BottomBdt78 = InitialValue();
 }
-namespace analysis
-{
-namespace heavyhiggs
-{
+namespace analysis {
+namespace heavyhiggs {
 analysis::Observables HeavyHiggsLeptonicBranch::Variables()
 {
     return Join(ParticleBranch::Variables(), {PAIR(LargerWDeltaR), PAIR(LargerWDeltaRap), PAIR(LargerWDeltaPhi), PAIR(SmallerWDeltaR), PAIR(SmallerWDeltaRap), PAIR(SmallerWDeltaPhi), PAIR(LargerNeutrinoDeltaR), PAIR(LargerNeutrinoDeltaRap), PAIR(LargerNeutrinoDeltaPhi), PAIR(SmallerNeutrinoDeltaR), PAIR(SmallerNeutrinoDeltaRap), PAIR(SmallerNeutrinoDeltaPhi)});

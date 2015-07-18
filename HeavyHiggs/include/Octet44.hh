@@ -2,18 +2,15 @@
 
 #include "Quartet.hh"
 
-namespace analysis
-{
+namespace analysis {
 
-namespace heavyhiggs
-{
+namespace heavyhiggs {
 
 /**
  * @brief An octet composed of two quartets
  *
  */
-class Octet44 : public analysis::Multiplet<analysis::Quartet31, analysis::Quartet31>
-{
+class Octet44 : public analysis::Multiplet<analysis::Quartet31, analysis::Quartet31> {
 
 public:
 

@@ -2,18 +2,15 @@
 
 #include "../Partons.hh"
 
-namespace analysis
-{
+namespace analysis {
 
-namespace delphes
-{
+namespace delphes {
 
 /**
  * @brief delphes particles
  *
  */
-class Partons  : public analysis::Partons
-{
+class Partons  : public analysis::Partons {
 
 public:
 

@@ -18,7 +18,7 @@ void SubStructure::NewEvent()
     SubJets = 0;
 }
 
-bool SubStructure::GetSubJets(const fastjet::PseudoJet &CandidateJet)
+bool SubStructure::GetSubJets(const fastjet::PseudoJet& CandidateJet)
 {
     SubJets = 1;
     Global.Mass = CandidateJet.m();
@@ -40,7 +40,8 @@ bool SubStructure::GetSubJets(const fastjet::PseudoJet &CandidateJet)
         return 0;
     }
     SubJet2.Mass = PieceJets.at(1).m();
-    if (SubJet2.Mass <= 0) SubJet2.Mass = 0;
+    if (SubJet2.Mass <= 0)
+        SubJet2.Mass = 0;
     SubJet1.Pt = PieceJets.at(0).pt();
     SubJet2.Pt = PieceJets.at(1).pt();
     if (SubJet1.Pt <= 0 || SubJet2.Pt <= 0) {
@@ -69,13 +70,14 @@ bool SubStructure::GetSubJets(const fastjet::PseudoJet &CandidateJet)
     return 1;
 }
 
-Vectors SubStructure::Getconstituents(const fastjet::PseudoJet &CandidateJet)
+Vectors SubStructure::Getconstituents(const fastjet::PseudoJet& CandidateJet)
 {
     if (CandidateJet.constituents().empty()) {
         Note("Not enough constituents", CandidateJet.constituents().size());
 //         return 0;
     }
-    if (!SubJets) GetSubJets(CandidateJet);
+    if (!SubJets)
+        GetSubJets(CandidateJet);
     const float Theta = atan2(SubJet2.Phi, SubJet2.Rap);
     float SumInverseRap = 0;
     float SumInversePhi = 0;
@@ -83,7 +85,7 @@ Vectors SubStructure::Getconstituents(const fastjet::PseudoJet &CandidateJet)
     float SubJet2Pt = 0;
     DeltaR = 0;
     std::vector <LorentzVector> constituentVectors;
-    for (const auto & constituentJet : CandidateJet.constituents()) {
+    for (const auto& constituentJet : CandidateJet.constituents()) {
         if (constituentJet.user_index() != to_int(Id::isr) &&
                 constituentJet.user_index() != to_int(Id::CP_violating_higgs) &&
                 std::abs(constituentJet.user_index()) != to_int(Id::top) &&
@@ -91,16 +93,16 @@ Vectors SubStructure::Getconstituents(const fastjet::PseudoJet &CandidateJet)
            )
             Error("Wrong UserId", constituentJet.user_index());
         const float Distance = constituentJet.delta_R(CandidateJet);
-        if (Distance > DeltaR) DeltaR = Distance;
+        if (Distance > DeltaR)
+            DeltaR = Distance;
         const float Distance1 = constituentJet.delta_R(CandidateJet.pieces().at(0));
         const float Distance2 = constituentJet.delta_R(CandidateJet.pieces().at(1));
-        if (Distance1 < Distance2) {
+        if (Distance1 < Distance2)
             SubJet1Pt += constituentJet.pt();
-        } else if (Distance2 < Distance1) {
+        else if (Distance2 < Distance1)
             SubJet2Pt += constituentJet.pt();
-        } else {
+        else
             Error("constituent is exactly in the middle");
-        }
         // Get constituent coordinates in Higgs Jet coordinates
         float ConstRap = constituentJet.rap() - CandidateJet.rap();
         float ConstPhi = constituentJet.delta_phi_to(CandidateJet);
@@ -115,7 +117,7 @@ Vectors SubStructure::Getconstituents(const fastjet::PseudoJet &CandidateJet)
         const float ObservablePhi = ConstRap * sin(Theta) - ConstPhi * cos(Theta);
         // move subjet2 to (1,0)
         ObservableRap -= Shift;
-        const LorentzVector constituentVector(constituentJet.pt(),ObservableRap,ObservablePhi,constituentJet.e());
+        const LorentzVector constituentVector(constituentJet.pt(), ObservableRap, ObservablePhi, constituentJet.e());
         constituentVectors.emplace_back(constituentVector);
 //         ParticleBranch *constituent = static_cast<ParticleBranch *>(constituentBranch->NewEntry());
 //         constituent->Rap = ObservableRap;
@@ -130,7 +132,7 @@ Vectors SubStructure::Getconstituents(const fastjet::PseudoJet &CandidateJet)
     return constituentVectors;
 }
 
-bool SubStructure::GetIsolation(const fastjet::PseudoJet &CandidateJet, const Jets &LeptonJets)
+bool SubStructure::GetIsolation(const fastjet::PseudoJet& CandidateJet, const Jets& LeptonJets)
 {
     // Get Position of SubJets
     Jets PieceJets = CandidateJet.pieces();
@@ -143,8 +145,8 @@ bool SubStructure::GetIsolation(const fastjet::PseudoJet &CandidateJet, const Je
     float IsolationDeltaR = LargeNumber();
     fastjet::PseudoJet ClosestLepton;
     fastjet::PseudoJet ClosestPiece;
-    for (const auto & PieceJet : PieceJets) {
-        for (const auto & LeptonJet : LeptonJets) {
+    for (const auto& PieceJet : PieceJets) {
+        for (const auto& LeptonJet : LeptonJets) {
             const float Distance = LeptonJet.delta_R(PieceJet);
             Detail("DeltaR", Distance);
             if (Distance < IsolationDeltaR) {
@@ -165,7 +167,7 @@ bool SubStructure::GetIsolation(const fastjet::PseudoJet &CandidateJet, const Je
 
 
 
-float SubStructure::GetDiPolarity(const fastjet::PseudoJet &CandidateJet) const
+float SubStructure::GetDiPolarity(const fastjet::PseudoJet& CandidateJet) const
 {
     Info("Jing Dipolarity");
 //     Jets SubJetVector = CandidateJet.pieces();
@@ -184,7 +186,8 @@ float SubStructure::GetDiPolarity(const fastjet::PseudoJet &CandidateJet) const
 //     Filter FatJetFilter(MassDropJetDefinition, ThreeHardest);
 //     fastjet::PseudoJet FilterJet = FatJetFilter(CandidateJet);
     const Jets SubJetVector = CandidateJet.pieces();
-    if (SubJetVector.size() != 2) Error("not two subjets");
+    if (SubJetVector.size() != 2)
+        Error("not two subjets");
     float Rap1, Rap2, Phi1, Phi2;
     if (SubJetVector.at(0).rap() < SubJetVector.at(1).rap()) {
         Rap1 = SubJetVector.at(0).rap();
@@ -199,7 +202,7 @@ float SubStructure::GetDiPolarity(const fastjet::PseudoJet &CandidateJet) const
     }
     float DeltaR12 = SubJetVector.at(0).delta_R(SubJetVector.at(1));
     float DiPolarity = 0;
-    for (const auto & constituent : CandidateJet.constituents()) {
+    for (const auto& constituent : CandidateJet.constituents()) {
         const float constituentRap = constituent.rap();
         float constituentPhi = constituent.phi_std();
         const float DeltaPhi = Phi2 - Phi1;
@@ -212,26 +215,23 @@ float SubStructure::GetDiPolarity(const fastjet::PseudoJet &CandidateJet) const
         float Phi3 = - (DeltaRap * RapPhi + DeltaPhi * DeltaRap * constituentRap - DeltaPhi * DeltaPhi * constituentPhi) / (DeltaPhi * DeltaPhi + DeltaRap * DeltaRap);
         float DeltaR1;
         if ((Rap3 >= Rap1 && Rap3 <= Rap2 && Phi3 >= Phi1 && Phi3 <= Phi2)
-                || (Rap3 >= Rap1 && Rap3 <= Rap2 && Phi3 >= Phi2 && Phi3 <= Phi1)) {
+                || (Rap3 >= Rap1 && Rap3 <= Rap2 && Phi3 >= Phi2 && Phi3 <= Phi1))
             DeltaR1 = constituentDeltaR3;
-        } else {
+        else
             DeltaR1 = std::min(constituentDeltaR1, constituentDeltaR2);
-        }
-        if (constituentPhi < 0) {
+        if (constituentPhi < 0)
             constituentPhi = constituentPhi + 2 * TMath::Pi();
-        } else {
+        else
             constituentPhi = constituentPhi - 2 * TMath::Pi();
-        }
         Rap3 = - (DeltaPhi * RapPhi - DeltaRap * DeltaRap * constituentRap + DeltaPhi * DeltaRap * constituentPhi) / (DeltaPhi * DeltaPhi + DeltaRap * DeltaRap);
         Phi3 = - (DeltaRap * RapPhi + DeltaPhi * DeltaRap * constituentRap - DeltaPhi * DeltaPhi * constituentPhi) / (DeltaPhi * DeltaPhi + DeltaRap * DeltaRap);
         const float ConstituntDeltaR4 = std::abs(DeltaPhi * constituentRap + DeltaRap * constituentPhi + RapPhi) / sqrt(pow(DeltaPhi, 2) + pow(DeltaRap, 2));
         float DeltaR2;
         if ((Rap3 >= Rap1 && Rap3 <= Rap2 && Phi3 >= Phi1 && Phi3 <= Phi2)
-                || (Rap3 >= Rap1 && Rap3 <= Rap2 && Phi3 >= Phi2 && Phi3 <= Phi1)) {
+                || (Rap3 >= Rap1 && Rap3 <= Rap2 && Phi3 >= Phi2 && Phi3 <= Phi1))
             DeltaR2 = ConstituntDeltaR4;
-        } else {
+        else
             DeltaR2 = std::min(constituentDeltaR1, constituentDeltaR2);
-        }
         const float Distance = std::min(DeltaR1, DeltaR2);
         const float ConeSize = sqrt(2);
         if (constituentDeltaR1 < DeltaR12 / ConeSize || constituentDeltaR2 < DeltaR12 / ConeSize) {

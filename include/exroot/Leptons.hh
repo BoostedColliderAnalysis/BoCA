@@ -2,18 +2,15 @@
 
 #include "../Leptons.hh"
 
-namespace analysis
-{
+namespace analysis {
 
-namespace exroot
-{
+namespace exroot {
 
 /**
  * @brief PGS leptons
  *
  */
-class Leptons : public analysis::Leptons
-{
+class Leptons : public analysis::Leptons {
 
 public:
 

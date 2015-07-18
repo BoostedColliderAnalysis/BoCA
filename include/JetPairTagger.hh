@@ -4,33 +4,33 @@
 #include "Doublet.hh"
 #include "Reader.hh"
 
-namespace analysis
-{
+namespace analysis {
 
 /**
  * @brief JetPair BDT tagger
  *
  */
-class JetPairTagger : public BranchTagger<JetPairBranch>
-{
+class JetPairTagger : public BranchTagger<JetPairBranch> {
 
 public:
 
     JetPairTagger();
 
-    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const final;
+    int Train(const Event& event, PreCuts& pre_cuts, const Tag tag) const final;
 
-    std::vector<Doublet> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
+    std::vector<Doublet> Multiplets(const Event& event, PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 
-    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
-      return SaveEntries(Multiplets(event, pre_cuts, reader));
+    int GetBdt(const Event& event, PreCuts& pre_cuts, const TMVA::Reader& reader) const  final
+    {
+        return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
-    std::string Name() const final {
-      return "JetPair";
+    std::string Name() const final
+    {
+        return "JetPair";
     }
 
-    Jets BottomPair(const Event &event, const Tag tag) const;
+    Jets BottomPair(const Event& event, const Tag tag) const;
 
 private:
 

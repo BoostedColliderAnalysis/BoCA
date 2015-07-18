@@ -4,10 +4,9 @@
 #include "TObjArray.h"
 #include "Debug.hh"
 
-namespace analysis
-{
+namespace analysis {
 
-  ClonesArrays::ClonesArrays(){}
+ClonesArrays::ClonesArrays() {}
 
 ClonesArrays::ClonesArrays(const Source source)
 {
@@ -72,20 +71,22 @@ std::vector<Branch> ClonesArrays::Branches() const
     }
 }
 
-void ClonesArrays::UseBranches(exroot::TreeReader &tree_reader)
+void ClonesArrays::UseBranches(exroot::TreeReader& tree_reader)
 {
     Debug("Use TreeBrancheses");
-    for (const auto & branch : Branches()) clones_arrays_[branch] = tree_reader.UseBranch(BranchName(branch).c_str());
+    for (const auto& branch : Branches())
+        clones_arrays_[branch] = tree_reader.UseBranch(BranchName(branch).c_str());
 }
 
-TClonesArray &ClonesArrays::ClonesArray(const Branch branch) const
+TClonesArray& ClonesArrays::ClonesArray(const Branch branch) const
 {
     Debug("Clones Array", BranchName(branch));
-    if (!clones_arrays_.at(branch)) Error("Not in branch", BranchName(branch));
+    if (!clones_arrays_.at(branch))
+        Error("Not in branch", BranchName(branch));
     return *clones_arrays_.at(branch);
 }
 
-TObject &ClonesArrays::Object(const Branch branch, const int number) const
+TObject& ClonesArrays::Object(const Branch branch, const int number) const
 {
     Debug("Object", BranchName(branch), number);
     return *ClonesArray(branch).At(number);

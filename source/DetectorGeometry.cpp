@@ -1,8 +1,7 @@
 #include "DetectorGeometry.hh"
 #include "Debug.hh"
 
-namespace analysis
-{
+namespace analysis {
 
 /**
  * @brief Constructor

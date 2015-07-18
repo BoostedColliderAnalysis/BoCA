@@ -1,10 +1,8 @@
 #include "AnalysisFusion.hh"
 
-namespace analysis
-{
+namespace analysis {
 
-namespace heavyhiggs
-{
+namespace heavyhiggs {
 
 }
 

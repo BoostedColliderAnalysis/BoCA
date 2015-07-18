@@ -1,10 +1,8 @@
 #include "Octet44.hh"
 
-namespace analysis
-{
+namespace analysis {
 
-namespace heavyhiggs
-{
+namespace heavyhiggs {
 
 float Octet44::BottomBdt() const
 {

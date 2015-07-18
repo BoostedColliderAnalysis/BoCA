@@ -2,18 +2,15 @@
 
 #include "../Partons.hh"
 
-namespace analysis
-{
+namespace analysis {
 
-namespace exroot
-{
+namespace exroot {
 
 /**
  * @brief MadGraph particles
  *
  */
-class Partons : public analysis::Partons
-{
+class Partons : public analysis::Partons {
 
 public:
 

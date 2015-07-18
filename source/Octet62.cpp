@@ -2,14 +2,14 @@
 
 namespace analysis {
 
-Sextet &Octet62::Sextet() const
+Sextet& Octet62::Sextet() const
 {
-  return Multiplet1();
+    return Multiplet1();
 }
 
-Doublet &Octet62::Doublet() const
+Doublet& Octet62::Doublet() const
 {
-  return Multiplet2();
+    return Multiplet2();
 }
 
 }

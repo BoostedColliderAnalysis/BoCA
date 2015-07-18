@@ -4,16 +4,14 @@
 
 #include "Doublet.hh"
 
-namespace analysis
-{
+namespace analysis {
 
 /**
  * @brief Namespace for the heavy higgs analyses
  *
  */
 
-namespace heavyhiggs
-{
+namespace heavyhiggs {
 
 /**
  *
@@ -23,18 +21,19 @@ namespace heavyhiggs
  *
  */
 template<typename Tagger>
-class AnalysisNeutralFourTop : public AnalysisHeavyHiggs<Tagger>
-{
+class AnalysisNeutralFourTop : public AnalysisHeavyHiggs<Tagger> {
 
 public:
 
-    AnalysisNeutralFourTop() {
+    AnalysisNeutralFourTop()
+    {
         this->tagger().set_analysis_name(ProjectName());
-	this->pre_cuts().SetPtLowerCut(Id::top,100);
+        this->pre_cuts().SetPtLowerCut(Id::top, 100);
     }
 
     void SetFiles(const Tag tag) final {
-        switch (tag) {
+        switch (tag)
+        {
         case Tag::signal :
             this->NewFile(tag, Process::Htt);
             break;
@@ -44,15 +43,17 @@ public:
         }
     }
 
-    std::string ProjectName() const final {
+    std::string ProjectName() const final
+    {
         //        return  ProcessName() + "-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV-" + std::to_string(Mass()) + "GeV-Eta2.5";
-        return  ProcessName() + "-" + Name(this->collider_type()) + "-"+ std::to_string(this->Mass()) + "GeV";
+        return  ProcessName() + "-" + Name(this->collider_type()) + "-" + std::to_string(this->Mass()) + "GeV";
     };
-    
+
 
 private:
 
-    float SignalCrosssection() const {
+    float SignalCrosssection() const
+    {
         switch (this->collider_type()) {
         case Collider::LHC:
             switch (this->Mass()) {
@@ -107,29 +108,35 @@ private:
         }
     }
 
-    std::string ProcessName() const override {
+    std::string ProcessName() const override
+    {
         return "NeutralFourTop";
     }
 
-    int PassPreCut(const Event &event) const override {
+    int PassPreCut(const Event& event) const override
+    {
         Jets Particles = event.Partons().GenParticles();
-        Jets Tops = RemoveIfWrongAbsParticle(Particles, Id::top);
+        Jets Tops = CopyIfParticle(Particles, Id::top);
 //         if (Tops.size() != 2) {
 //             return 0;
 //         } else {
 //             if (Tops.at(0).pt() < this->PreCut()) return 0;
 //             if (Tops.at(1).pt() < this->PreCut()) return 0;
 //         }
-	
-        if (event.Hadrons().MissingEt().pt() < this->MissingEt()) return 0;
+        if (event.Hadrons().MissingEt().pt() < this->MissingEt())
+            return 0;
         Jets Leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
-        if (Leptons.size() < 2) return 0;
-        if (Leptons.at(0).pt() < this->LeptonPt()) return 0;
-	if (Leptons.at(1).pt() < this->LeptonPt()) return 0;
-	if (Leptons.at(0).user_info<JetInfo>().Charge() != Leptons.at(1).user_info<JetInfo>().Charge()) return 0;
-	
+        if (Leptons.size() < 2)
+            return 0;
+        if (Leptons.at(0).pt() < this->LeptonPt())
+            return 0;
+        if (Leptons.at(1).pt() < this->LeptonPt())
+            return 0;
+        if (Leptons.at(0).user_info<JetInfo>().Charge() != Leptons.at(1).user_info<JetInfo>().Charge())
+            return 0;
         Jets jets = event.Hadrons().Jets();
-        if (jets.size() < 4) return 0;
+        if (jets.size() < 4)
+            return 0;
         return 1;
     }
 

@@ -4,15 +4,13 @@
 // #include "Configuration.hh"
 #include "Reader.hh"
 
-namespace analysis
-{
+namespace analysis {
 
 /**
  * @brief Base for all analyses
  *
  */
-class AnalysisBase
-{
+class AnalysisBase {
 
 public:
 
@@ -40,7 +38,7 @@ protected:
 
     virtual void SetFiles(const Tag tag) = 0;
 
-    exroot::TreeWriter TreeWriter(TFile &export_file, const std::string &export_tree_name, Stage stage);
+    exroot::TreeWriter TreeWriter(TFile& export_file, const std::string& export_tree_name, Stage stage);
 
     virtual std::string ProjectName() const;
 
@@ -70,43 +68,43 @@ protected:
 
     virtual std::string FilePath() const;
 
-    void NewFile(const Tag tag, const std::string &name, const std::string &nice_name = "");
+    void NewFile(const Tag tag, const std::string& name, const std::string& nice_name = "");
 
-    void NewFile(const Tag tag, const std::string &name, const float crosssection, const std::string &nice_name = "");
+    void NewFile(const Tag tag, const std::string& name, const float crosssection, const std::string& nice_name = "");
 
-    analysis::File File(const std::string &name, const float crosssection, const std::string &nice_name = "") const;
+    analysis::File File(const std::string& name, const float crosssection, const std::string& nice_name = "") const;
 
-    analysis::File File(const std::string &name, const std::string &nice_name = "") const;
+    analysis::File File(const std::string& name, const std::string& nice_name = "") const;
 
-    std::string FileName(const std::string &name) const;
+    std::string FileName(const std::string& name) const;
 
-    std::string TreeName(const std::string &name) const;
+    std::string TreeName(const std::string& name) const;
 
-    virtual int PassPreCut(const Event &) const;
+    virtual int PassPreCut(const Event&) const;
 
-    PreCuts &pre_cuts();
+    PreCuts& pre_cuts();
 
-    virtual const Tagger &tagger() const = 0;
+    virtual const Tagger& tagger() const = 0;
 
-    virtual Tagger &tagger() = 0;
+    virtual Tagger& tagger() = 0;
 
 private:
 
     std::string FileSuffix() const;
 
-    void NewSignalFile(const std::string &name, const std::string &nice_name = "");
+    void NewSignalFile(const std::string& name, const std::string& nice_name = "");
 
-    void NewSignalFile(const std::string &name, const float crosssection, const std::string &nice_name = "");
+    void NewSignalFile(const std::string& name, const float crosssection, const std::string& nice_name = "");
 
-    void NewBackgroundFile(const std::string &name, const std::string &nice_name = "");
+    void NewBackgroundFile(const std::string& name, const std::string& nice_name = "");
 
-    void NewBackgroundFile(const std::string &name, const float crosssection, const std::string &nice_name = "");
+    void NewBackgroundFile(const std::string& name, const float crosssection, const std::string& nice_name = "");
 
-    bool Missing(const std::string &name) const;
+    bool Missing(const std::string& name) const;
 
     virtual void AnalysisLoop(const Stage stage) = 0;
 
-    std::string PathName(const std::string &file_name, const std::string &suffix = ".root") const;
+    std::string PathName(const std::string& file_name, const std::string& suffix = ".root") const;
 
     void RunTagger(Stage stage);
 

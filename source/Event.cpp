@@ -7,8 +7,7 @@
 #include "exroot/Partons.hh"
 #include "Debug.hh"
 
-namespace analysis
-{
+namespace analysis {
 
 Event::Event() {}
 
@@ -51,7 +50,7 @@ Event::~Event()
     }
 }
 
-void Event::NewEvent(const ClonesArrays &clones_arrays)
+void Event::NewEvent(const ClonesArrays& clones_arrays)
 {
     Info();
     switch (source_) {

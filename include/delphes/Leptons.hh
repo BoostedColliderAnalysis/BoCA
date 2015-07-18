@@ -2,18 +2,15 @@
 
 #include "../Leptons.hh"
 
-namespace analysis
-{
+namespace analysis {
 
-namespace delphes
-{
+namespace delphes {
 
 /**
  * @brief Delphes leptons
  *
  */
-class Leptons : public analysis::Leptons
-{
+class Leptons : public analysis::Leptons {
 
 public:
 

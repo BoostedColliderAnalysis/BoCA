@@ -3,19 +3,18 @@
 #include "Tagger.hh"
 #include "TMVA/Factory.h"
 
-namespace TMVA{
-  class MethodBDT;
+namespace TMVA {
+class MethodBDT;
 }
 
 
-namespace analysis{
+namespace analysis {
 
 /**
  * @brief Prepares multivariant analysis
  *
  */
-class Factory
-{
+class Factory {
 
 public:
 
@@ -23,7 +22,7 @@ public:
      * @brief Constructor
      *
      */
-    Factory(Tagger &tagger);
+    Factory(Tagger& tagger);
 
 private:
 
@@ -31,7 +30,7 @@ private:
      * @brief Book MVA methods
      *
      */
-    TMVA::MethodBDT & BookMethods();
+    TMVA::MethodBDT& BookMethods();
 
     /**
      * @brief Add Variables
@@ -50,21 +49,23 @@ private:
      */
     void PrepareTrainingAndTestTree(const long event_number);
 
-    long AddTree(TFile &file, const std::string &tree_name, const analysis::Tag tag);
+    long AddTree(TFile& file, const std::string& tree_name, const analysis::Tag tag);
 
-    TFile *output_file() const;
+    TFile* output_file() const;
 
     std::string factory_options();
 
-    Tagger &tagger() const {
+    Tagger& tagger() const
+    {
         return tagger_;
     }
 
-    TMVA::Factory &factory() {
+    TMVA::Factory& factory()
+    {
         return factory_;
     }
 
-    Tagger &tagger_;
+    Tagger& tagger_;
 
     TMVA::Factory factory_;
 
