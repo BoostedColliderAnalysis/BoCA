@@ -143,39 +143,51 @@ public:
             return 0;
         }
     };
-
-    float BackgroundCrosssection(const Process process) const {
-        switch (collider_type()) {
+    
+    
+    float BackgroundCrosssection() const {
+      switch (this->collider_type()) {
         case Collider::LHC :
-            switch (PreCut()) {
-            case 0 :
-                return 97.54 * 2 * 1000;
-            case 250 :
-                return 5.698 * 2 * 1000;
-            default :
-                std::cout << "unhandled case" << std::endl;
-                return 1;
-            }
+          return 0.1765;
         case Collider::LE:
-            switch (PreCut()) {
-            case 0 :
-                return 3564 * 2 * 1000;
-            case 300 :
-                return 178.1 * 2 * 1000;
-            case 1000 :
-                return 1.532 * 2 * 1000;
-            case 1500 :
-                return 0.2447 * 2 * 1000;
-            case 2000 :
-                return 0.09014 * 2 * 1000;
-            case 2500 :
-                return 0.0222 * 2 * 1000;
-            default:
-                std::cout << "unhandled case" << std::endl;
-                return 1;
-            }
-        }
+          return 1.4316;
+        default:
+          return 1;
+      }
     }
+
+//     float BackgroundCrosssection(const Process process) const {
+//         switch (collider_type()) {
+//         case Collider::LHC :
+//             switch (PreCut()) {
+//             case 0 :
+//                 return 97.54 * 2 * 1000;
+//             case 250 :
+//                 return 5.698 * 2 * 1000;
+//             default :
+//                 std::cout << "unhandled case" << std::endl;
+//                 return 1;
+//             }
+//         case Collider::LE:
+//             switch (PreCut()) {
+//             case 0 :
+//                 return 3564 * 2 * 1000;
+//             case 300 :
+//                 return 178.1 * 2 * 1000;
+//             case 1000 :
+//                 return 1.532 * 2 * 1000;
+//             case 1500 :
+//                 return 0.2447 * 2 * 1000;
+//             case 2000 :
+//                 return 0.09014 * 2 * 1000;
+//             case 2500 :
+//                 return 0.0222 * 2 * 1000;
+//             default:
+//                 std::cout << "unhandled case" << std::endl;
+//                 return 1;
+//             }
+//         }
+//     }
 
     int BackgroundFileNumber() const {
         switch (collider_type()) {

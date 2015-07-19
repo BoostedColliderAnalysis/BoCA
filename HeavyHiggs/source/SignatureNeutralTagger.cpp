@@ -22,16 +22,16 @@ int SignatureNeutralTagger::Train(const Event &event, PreCuts &pre_cuts, const T
     sextets = BestMatches(sextets, higgs, tag);
 
     std::vector<Doublet> doublets = jet_pair_reader_.Multiplets(event);
-    Jets bottoms = jet_pair_reader_.tagger().BottomPair(event, tag);  //Write a function to get the jet pair
+    Jets bottoms = fastjet::sorted_by_pt(jet_pair_reader_.tagger().BottomPair(event, tag));
     std::vector<Doublet> final_doublets;
 
     switch (tag) {
     case Tag::signal :
-        if (bottoms.size() == 2) {
+        if (bottoms.size() >= 2) {
             for (const auto & doublet : doublets) {
               if ((doublet.SingletJet1().delta_R(bottoms.at(0)) < DetectorGeometry::JetConeSize() && doublet.SingletJet2().delta_R(bottoms.at(1)) < DetectorGeometry::JetConeSize()) || (doublet.SingletJet1().delta_R(bottoms.at(1)) < DetectorGeometry::JetConeSize() && doublet.SingletJet2().delta_R(bottoms.at(0)) < DetectorGeometry::JetConeSize())) final_doublets.emplace_back(doublet);
             }
-        }
+        } 
         break;
     case Tag::background :
         final_doublets = doublets;
@@ -53,6 +53,8 @@ int SignatureNeutralTagger::Train(const Event &event, PreCuts &pre_cuts, const T
         std::sort(octets.begin(), octets.end());
         octets.erase(octets.begin() + 1, octets.end());
     }
+//     Error(octets.size(), doublets.size(), sextets.size());
+    
     return SaveEntries(octets);
 }
 
@@ -71,6 +73,7 @@ std::vector<Octet62> SignatureNeutralTagger::Multiplets(const Event &event, PreC
             octets.emplace_back(octet);
         }
     }
+//     if(octets.size()==0)Error(octets.size(), doublets.size(), sextets.size());
     return ReduceResult(octets);
 }
 

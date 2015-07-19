@@ -35,7 +35,6 @@ std::vector<MultipletEvent<Octet62>> EventNeutralFourTopTagger::Multiplets(const
 {
     Info();
     std::vector<Octet62> octets = signature_neutral_reader_.Multiplets(event);
-
     Jets jets = bottom_reader_.Multiplets(event);
     Jets Leptons = event.Leptons().leptons();
 
