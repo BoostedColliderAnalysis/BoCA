@@ -102,12 +102,16 @@ std::vector<Multiplet> RemoveIfClose(const std::vector<Multiplet>& jets, const J
 template <typename Multiplet>
 std::vector<Multiplet> CopyIfClose(const std::vector<Multiplet>& multiplets, const Jets& particles)
 {
-    if (multiplets.empty())
-        return multiplets;
+    if (multiplets.empty()) return multiplets;
     std::vector<Multiplet> final_multiplets;
-    for (const auto& particle : particles) for (const auto& multiplet : multiplets) if (Close(particle)(multiplet))
-                final_multiplets.emplace_back(multiplet);
+    for (const auto& particle : particles) for (const auto& multiplet : multiplets) if (Close(particle)(multiplet)) final_multiplets.emplace_back(multiplet);
     return final_multiplets;
+
+//     if (multiplets.empty()) return multiplets;
+//     std::vector<Multiplet> final_multiplets(multiplets.size());
+//     auto multiplet = std::copy_if(multiplets.begin(), multiplets.end(), final_multiplets.begin(), Close(particle)(multiplet));
+//     final_multiplets.resize(std::distance(final_multiplets.begin(), multiplet));
+//     return final_multiplets;
 }
 
 struct MinDeltaRTo {
