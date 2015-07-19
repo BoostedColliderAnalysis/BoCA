@@ -325,24 +325,24 @@ Result Plot::BdtResult(TFile& file, const std::string& tree_name, TFile& export_
 {
     Debug(tree_name);
     const float Luminosity = 3000; // 3000 fb-1
-    Debug("Open Tree", tree_name);
+    Debug(tree_name);
     exroot::TreeReader tree_reader(static_cast<TTree*>(file.Get(tree_name.c_str())));
     Result result = BdtDistribution(tree_reader, tree_name, export_file);
     result.info_branch = InfoBranch(file, tree_name);
     std::vector<int> Integral = result.CutIntegral();
-    for (int step = 0; step < result.steps; ++step) {
+    for (const auto& step : Range(result.steps)) {
         result.events[step] = float(Integral[step]) / float(result.event_sum()) * result.info_branch.Crosssection * Luminosity;
         result.efficiency[step] = float(Integral[step]) / float(result.event_sum());
         result.analysis_event_number[step] = Integral[step];
         // result.bdt[step] = bins[step];
-        Debug("Result", result.efficiency[step], result.events[step]);
+        Debug(result.efficiency[step], result.events[step]);
     }
     return result;
 }
 
 Result Plot::BdtDistribution(exroot::TreeReader& tree_reader, const std::string& tree_name, TFile& export_file) const
 {
-    Debug("Bdt Distribution", tagger().branch_name());
+    Debug(tagger().branch_name());
     std::string branch_name = tagger().branch_name() + "Reader";
     Result result;
     TClonesArray& event_clones_array = *tree_reader.UseBranch(branch_name.c_str());

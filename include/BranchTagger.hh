@@ -55,8 +55,7 @@ protected:
     template<typename Multiplet>
     std::vector<Multiplet> BestMatch(std::vector<Multiplet>& multiplets, const Jets& particles) const
     {
-        if (multiplets.size() <= particles.size())
-            return multiplets;
+        if (multiplets.size() <= particles.size()) return multiplets;
         return CopyIfClose(multiplets, particles);
     }
 

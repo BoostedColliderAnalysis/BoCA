@@ -38,8 +38,7 @@ int SignatureNeutralTagger::Train(const Event& event, PreCuts&, const Tag tag) c
     for (const auto& doublet : final_doublets) {
         for (const auto& sextet : sextets) {
             Octet62 octet(sextet, doublet);
-            if (octet.Overlap())
-                continue;
+            if (octet.Overlap()) continue;
             octet.SetTag(tag);
             octets.emplace_back(octet);
         }
@@ -62,8 +61,7 @@ std::vector<Octet62> SignatureNeutralTagger::Multiplets(const Event& event, PreC
     for (const auto& doublet : doublets) {
         for (const auto& sextet : sextets) {
             Octet62 octet(sextet, doublet);
-            if (octet.Overlap())
-                continue;
+            if (octet.Overlap()) continue;
             octet.SetBdt(Bdt(octet, reader));
             octets.emplace_back(octet);
         }
@@ -74,3 +72,9 @@ std::vector<Octet62> SignatureNeutralTagger::Multiplets(const Event& event, PreC
 }
 
 }
+
+
+
+
+
+

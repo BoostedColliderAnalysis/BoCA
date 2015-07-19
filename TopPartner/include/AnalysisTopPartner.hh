@@ -27,7 +27,7 @@ protected:
 
     std::string ProjectName() const final
     {
-        return  std::to_string(PreCut()) + "GeV-leptonic";
+        return  std::to_string(PreCut()) + "GeV-JJ";
     }
 
     void SetFiles(const Tag tag) final {
@@ -36,15 +36,16 @@ protected:
         case Tag::signal :
             //         NewFile(tag,"pp-Tth-bbbbjjjjlv");
             //         NewFile(tag,"pp-TThh-bbbbbbjjlv");
-//             Analysis::NewFile(tag, "pp-TT-tthh-bbbbbbjjlv", Crosssection(tag), NiceName(tag));
-//           Analysis::NewFile(tag, "pp-TT-tthB-hBbbjjlv", 4.832, NiceName(tag));
-            Analysis::NewFile(tag, "pp-TT-tthB-bbbbjjjjlv", 0.264, NiceName(tag));
+            //             this->NewFile(tag, "pp-TT-tthh-bbbbbbjjlv", Crosssection(tag), NiceName(tag));
+            //           this->NewFile(tag, "pp-TT-tthB-hBbbjjlv", 4.832, NiceName(tag));
+            this->NewFile(tag, "pp-TT-tthB-bbbbjjjjlv", 0.264 * 1000, NiceName(tag));
             //         if(tagger().name() == "Bottom") NewFile(tag,"pp-ttbbj-bbbbjjlv");
             break;
         case Tag::background :
             //         NewFile(tag,"pp-ttbb-bbbbjjlv");
             //       NewFile(tag,"pp-tthjj-bbbbjjjjlv);
-            Analysis::NewFile(tag, "pp-tthjj-bbbbjjjjlv_" + std::to_string(PreCut()) + "GeV", Crosssection(tag), NiceName(tag));
+            //             this->NewFile(tag, "pp-tthjj-bbbbjjjjlv_" + std::to_string(PreCut()) + "GeV", Crosssection(tag), NiceName(tag));
+            this->NewFile(tag, "PP-ttBJJ-" + std::to_string(PreCut()) + "GeV", 0.1754 * 1000, "ttB(jj)|_{200 GeV}");
             //         NewFile(tag,"tt_inc-LE-0GeV_0");
             break;
         }
@@ -88,8 +89,7 @@ private:
         particles = RemoveIfSoft(particles, PreCut());
         Jets tops = CopyIfParticle(particles, Id::top);
         Jets higgs = CopyIfParticle(particles, Id::higgs);
-        if (tops.size() < 2 || higgs.size() < 1)
-            return 0;
+        if (tops.size() < 2 || higgs.size() < 1) return 0;
         return 1;
     }
 
