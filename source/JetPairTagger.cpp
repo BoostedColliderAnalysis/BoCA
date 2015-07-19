@@ -29,8 +29,10 @@ int JetPairTagger::Train(const Event &event, PreCuts &, const Tag tag) const
             if (jets.front().delta_R(Bottom) > DetectorGeometry::JetConeSize()) continue;
             bottom_jets.emplace_back(jets.front());
         }
+        break;
     case Tag::background :
-        bottom_jets = jets;
+      bottom_jets = jets;
+      break;
     }
 
     std::vector<Doublet> doublets;
@@ -55,11 +57,10 @@ Jets JetPairTagger::BottomPair(const Event &event, const Tag tag) const
 {
     if (tag == Tag::background) return Jets {};
     Jets particles = event.Partons().GenParticles();
-    Jets bottoms = RemoveIfWrongAbsFamily(particles, Id::bottom, Id::gluon);
     Jets bottom_not_from_even = RemoveIfAbsGrandFamily(particles, Id::bottom, Id::heavy_higgs);
     Jets bottom_not_from_higgs = RemoveIfAbsGrandFamily(bottom_not_from_even, Id::bottom, Id::CP_odd_higgs);
-    return Join(bottoms, bottom_not_from_higgs);
-//     if (tag == Tag::signal && final_particles.size() > 2) Error("Where is the quark pair?", final_particles.at(0).user_info<JetInfo>().constituents().front().family().grand_mother().id());
+    if (bottom_not_from_higgs.size()!=2) Error(bottom_not_from_higgs.size());
+    return bottom_not_from_higgs;
 }
 
 std::vector<Doublet>  JetPairTagger::Multiplets(const Event &event, analysis::PreCuts &, const TMVA::Reader &reader) const

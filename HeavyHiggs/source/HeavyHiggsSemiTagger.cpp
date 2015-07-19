@@ -22,13 +22,15 @@ int HeavyHiggsSemiTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag
     std::vector<Triplet> triplets_leptonic = FinalTriplet(event, tag, 1);
 
     std::vector<Sextet > sextets;
-    for (const auto & triplet_leptonic : triplets_leptonic)
+    for (const auto & triplet_leptonic : triplets_leptonic){
         for (const auto & triplet_hadronic : triplets_hadronic) {
             Sextet sextet(triplet_leptonic, triplet_hadronic);
             if (sextet.Overlap()) continue;
             sextet.SetTag(tag);
             sextets.emplace_back(sextet);
         }
+    }
+//     Error(sextets.size(), triplets_hadronic.size(), triplets_leptonic.size());
     return SaveEntries(BestMatches(sextets, higgs_boson, tag));
 }
 
@@ -37,13 +39,15 @@ std::vector<Sextet>  HeavyHiggsSemiTagger::Multiplets(const Event &event, PreCut
     std::vector<Triplet> triplets_leptonic = top_leptonic_reader_.Multiplets(event);
     std::vector<Triplet> triplets_hadronic = top_hadronic_reader_.Multiplets(event);
     std::vector<Sextet > sextets;
-    for (const auto & triplet_leptonic : triplets_leptonic)
+    for (const auto & triplet_leptonic : triplets_leptonic){
         for (const auto & triplet_hadronic : triplets_hadronic) {
             Sextet sextet(triplet_leptonic, triplet_hadronic);
             if (sextet.Overlap()) continue;
             sextet.SetBdt(Bdt(sextet, reader));
             sextets.emplace_back(sextet);
         }
+    }
+        
     return ReduceResult(sextets);
 }
 
@@ -60,6 +64,7 @@ std::vector< Triplet > HeavyHiggsSemiTagger::FinalTriplet(const Event &event, co
     default:
         Error("not a charge");
     }
+//     Error(triplets.size());
     Jets tops = TopParticles(event, charge);
     return BestMatches(triplets, tops, tag);
 }
@@ -68,9 +73,11 @@ Jets HeavyHiggsSemiTagger::HiggsParticle(const Event &event, const Tag tag) cons
 {
     if (tag == Tag::background) return Jets {};
     Jets particles = event.Partons().GenParticles();
-    Jets even = RemoveIfWrongAbsFamily(particles, Id::heavy_higgs, Id::gluon);
-    Jets odd = RemoveIfWrongAbsFamily(particles, Id::CP_odd_higgs, Id::gluon);
-    return  Join(even, odd);
+    Jets even = RemoveIfWrongAbsParticle(particles, Id::heavy_higgs);
+    Jets odd = RemoveIfWrongAbsParticle(particles, Id::CP_odd_higgs);
+    Jets higgs = Join(even, odd);
+    if(higgs.size()!=1)Error(higgs.size());
+    return  higgs;
 }
 
 Jets HeavyHiggsSemiTagger::TopParticles(const Event &event, int charge) const

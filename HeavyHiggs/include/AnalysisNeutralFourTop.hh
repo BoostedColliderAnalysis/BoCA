@@ -30,7 +30,7 @@ public:
 
     AnalysisNeutralFourTop() {
         this->tagger().set_analysis_name(ProjectName());
-	this->pre_cuts().SetPtLowerCut(Id::top,100);
+// 	this->pre_cuts().SetPtLowerCut(Id::top,100);
     }
 
     void SetFiles(const Tag tag) final {
@@ -39,7 +39,7 @@ public:
             this->NewFile(tag, SignalCrosssection(), Process::Htt);
             break;
         case Tag::background :
-            this->NewFile(tag, BackgroundCrosssection(), Process::tttt);
+            this->NewFile(tag, this->BackgroundCrosssection(), Process::tttt);
             break;
         }
     }
@@ -79,7 +79,7 @@ public:
                 case 4000:
                   return 0.4851939478031553;
                 case 5000:
-                  return 0.0003560;
+                  return 0.1499;
                 case 6000:
                   return 0.06731697180862359;
                 case 7000:
@@ -103,17 +103,7 @@ public:
                   return 1;
       }
     }
-    
-    float BackgroundCrosssection() const {
-      switch (this->collider_type()) {
-        case Collider::LHC :
-          return 0.1765;
-        case Collider::LE:
-          return 1.4316;
-        default:
-          return 1;
-      }
-    }
+
 
 private:
 
@@ -134,10 +124,15 @@ private:
         if (event.Hadrons().MissingEt().pt() < this->MissingEt()) return 0;
         Jets Leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
         if (Leptons.size() < 2) return 0;
-        if (Leptons.at(0).pt() < this->LeptonPt()) return 0;
-	if (Leptons.at(1).pt() < this->LeptonPt()) return 0;
-	if (Leptons.at(0).user_info<JetInfo>().Charge() != Leptons.at(1).user_info<JetInfo>().Charge()) return 0;
-	
+//      if (Leptons.at(0).pt() < this->LeptonPt()) return 0;
+// 	if (Leptons.at(1).pt() < this->LeptonPt()) return 0;
+        int positive_lepton=0;
+        int negative_lepton=0;
+        for(const auto & lepton : Leptons){
+          if(lepton.pt()>this->LeptonPt()&&lepton.user_info<JetInfo>().Charge()>0)positive_lepton++;
+          if(lepton.pt()>this->LeptonPt()&&lepton.user_info<JetInfo>().Charge()<0)negative_lepton++;
+        }
+	if (positive_lepton<2&&negative_lepton<2) return 0;	
         Jets jets = event.Hadrons().Jets();
         if (jets.size() < 4) return 0;
         return 1;

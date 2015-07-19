@@ -123,6 +123,7 @@ std::vector<Triplet> TopLeptonicTagger::Multiplets(const Event &event, analysis:
             triplets.emplace_back(triplet);
         }
     }
+//     Error(triplets.size());
     return ReduceResult(triplets);
 }
 

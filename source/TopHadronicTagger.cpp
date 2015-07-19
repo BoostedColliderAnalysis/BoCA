@@ -231,7 +231,7 @@ std::vector<Triplet> TopHadronicTagger::Multiplets(const Event &event, analysis:
             } catch (const char *message) {}
         }
     }
-
+//     Error(triplets.size());    
     return ReduceResult(triplets);
 }
 
