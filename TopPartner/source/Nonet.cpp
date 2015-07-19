@@ -1,7 +1,6 @@
 #include "Nonet.hh"
 
 
-namespace analysis
-{
+namespace analysis {
 namespace toppartner {}
 }

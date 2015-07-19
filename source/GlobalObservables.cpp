@@ -1,16 +1,16 @@
 #include "GlobalObservables.hh"
 #include "Debug.hh"
 
-namespace analysis
-{
+namespace analysis {
 
-void GlobalObservables::SetEvent(const analysis::Event &event, const analysis::Jets &)
+void GlobalObservables::SetEvent(const analysis::Event& event, const analysis::Jets&)
 {
     leptons_ = event.Leptons().leptons();
     scalar_ht_ = event.Hadrons().ScalarHt();
     missing_et_ = event.Hadrons().MissingEt().pt();
 }
-void GlobalObservables::SetEvent(const analysis::Event &event)
+
+void GlobalObservables::SetEvent(const analysis::Event& event)
 {
   leptons_ = event.Leptons().leptons();
   scalar_ht_ = event.Hadrons().ScalarHt();
@@ -33,14 +33,16 @@ int GlobalObservables::BottomNumber() const
 {
     Info("Bottom Number");
     analysis::Jets bottoms;
-    for (const auto &jet : Jets()) if (jet.user_info<JetInfo>().Bdt() > 1) bottoms.emplace_back(jet);
+    for (const auto& jet : Jets()) if (jet.user_info<JetInfo>().Bdt() > 1)
+            bottoms.emplace_back(jet);
     return bottoms.size();
 }
 
 float GlobalObservables::BottomBdt() const
 {
     Info("Bottom Bdt");
-    if (Jets().empty()) return 0;
+    if (Jets().empty())
+        return 0;
     return std::accumulate(jets_.begin(), jets_.end(), 0., [](float bdt, const fastjet::PseudoJet & jet) {
         return bdt + jet.user_info<JetInfo>().Bdt();
     }) / JetNumber();
@@ -49,15 +51,18 @@ float GlobalObservables::BottomBdt() const
 float GlobalObservables::BottomBdt(const int number) const
 {
     Info("Bottom Bdt");
-    if (number > JetNumber()) return 0;
+    if (number > JetNumber())
+        return 0;
     return Jets().at(number - 1).user_info<JetInfo>().Bdt();
 }
 
 float GlobalObservables::BottomBdt(const int number_1, const int number_2) const
 {
     Info("Bottom Bdt");
-    if (number_1 > JetNumber()) return 0;
-    if (number_2 > JetNumber()) return 0;
+    if (number_1 > JetNumber())
+        return 0;
+    if (number_2 > JetNumber())
+        return 0;
     return (Jets().at(number_1 - 1).user_info<JetInfo>().Bdt() + Jets().at(number_2 - 1).user_info<JetInfo>().Bdt()) / 2;
 }
 
@@ -70,7 +75,8 @@ float GlobalObservables::ScalarHt() const
 float GlobalObservables::LeptonHt() const
 {
     Info("Lepton Ht");
-    if (leptons_.empty()) return 0;
+    if (leptons_.empty())
+        return 0;
     return std::accumulate(leptons_.begin(), leptons_.end(), 0., [](float ht, const fastjet::PseudoJet & lepton) {
         return ht + lepton.pt();
     });
@@ -79,7 +85,8 @@ float GlobalObservables::LeptonHt() const
 float GlobalObservables::JetHt() const
 {
     Info("Jet Ht");
-    if (Jets().empty()) return 0;
+    if (Jets().empty())
+        return 0;
     return std::accumulate(jets_.begin(), jets_.end(), 0., [](float ht, const fastjet::PseudoJet & jet) {
         return ht + jet.pt();
     });

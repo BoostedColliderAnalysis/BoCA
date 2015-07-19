@@ -1,6 +1,5 @@
 #include "Quattuordecuplet.hh"
 
-namespace analysis
-{
+namespace analysis {
 namespace toppartner {}
 }

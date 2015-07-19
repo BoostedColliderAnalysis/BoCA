@@ -2,21 +2,19 @@
 
 #include "FourVector.hh"
 
-namespace analysis
-{
+namespace analysis {
 
 /**
  * @brief calculation regarding leptons
  *
  */
-class Leptons : public FourVector
-{
+class Leptons : public FourVector {
 
 public:
 
     virtual ~Leptons();
 
-    void NewEvent(const ClonesArrays &clones_arrays);
+    void NewEvent(const ClonesArrays& clones_arrays);
 
     Jets leptons() const;
 

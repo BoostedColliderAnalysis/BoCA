@@ -2,14 +2,11 @@
 
 #include "AnalysisStandardModel.hh"
 
-namespace analysis
-{
+namespace analysis {
 
-namespace standardmodel
-{
+namespace standardmodel {
 
-enum class Production
-{
+enum class Production {
     DYP, VBF, Associated
 };
 
@@ -23,12 +20,12 @@ std::string Name(const Production production_channel);
  *
  */
 template<typename Tagger>
-class AnalysisBottom : public AnalysisStandardModel<Tagger>
-{
+class AnalysisBottom : public AnalysisStandardModel<Tagger> {
 
 public:
 
-    AnalysisBottom() {
+    AnalysisBottom()
+    {
         this->tagger().set_analysis_name(ProjectName());
         this->pre_cuts().SetPtLowerCut(Id::bottom, this->LowerPtCut());
         this->pre_cuts().SetPtUpperCut(Id::bottom, this->UpperPtCut());
@@ -38,19 +35,22 @@ public:
 
 private:
 
-    std::string ProjectName() const final {
+    std::string ProjectName() const final
+    {
         return  Name(production_channel()) + Name(this->collider_type()) + "_" + std::to_string(this->MadGraphCut()) + "GeV-new";
     }
 
 
-    Production production_channel() const {
+    Production production_channel() const
+    {
         return Production::DYP;
         //         return Production::VBF;
         //         return Production::Associated;
     }
 
     void SetFiles(const Tag tag) final {
-        switch (tag) {
+        switch (tag)
+        {
         case Tag::signal :
             this->NewFile(tag, Process::bb);
             //     NewFile(tag,Process::tt);
@@ -70,9 +70,10 @@ private:
 
     }
 
-    int PassPreCut(const Event &event) const final {
+    int PassPreCut(const Event& event) const final
+    {
         Jets jets = event.Hadrons().Jets();
-        jets = remove_if_not_in_pt_window(jets, this->LowerPtCut(), this->UpperPtCut());
+        jets = RemoveIfOutsidePtWindow(jets, this->LowerPtCut(), this->UpperPtCut());
         return jets.size();
     }
 

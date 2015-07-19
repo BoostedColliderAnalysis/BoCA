@@ -4,32 +4,31 @@
 #include "HiggsPairTagger.hh"
 #include "Quattuordecuplet.hh"
 
-namespace analysis
-{
+namespace analysis {
 
-namespace toppartner
-{
+namespace toppartner {
 
 /**
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class SignatureTagger : public BranchTagger<SignatureBranch>
-{
+class SignatureTagger : public BranchTagger<SignatureBranch> {
 
 public:
 
     SignatureTagger();
 
-    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const final;
+    int Train(const Event& event, PreCuts& pre_cuts, const Tag tag) const final;
 
-    std::vector<Quattuordecuplet> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
+    std::vector<Quattuordecuplet> Multiplets(const Event& event, PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 
-    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
+    int GetBdt(const Event& event, PreCuts& pre_cuts, const TMVA::Reader& reader) const  final
+    {
         return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
-    std::string Name() const final {
+    std::string Name() const final
+    {
         return "Signature";
     }
 

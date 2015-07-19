@@ -1,11 +1,9 @@
 #include "AnalysisW.hh"
 #include "Debug.hh"
 
-namespace analysis
-{
+namespace analysis {
 
-namespace standardmodel
-{
+namespace standardmodel {
 
 std::string WName(const Decay decay)
 {

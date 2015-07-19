@@ -3,17 +3,15 @@
 #include "Event.hh"
 #include "Singlet.hh"
 
-namespace analysis
-{
+namespace analysis {
 
-class GlobalObservables
-{
+class GlobalObservables {
 
 public:
 
-  void SetEvent(const Event &event, const analysis::Jets &jets);
-  
-  void SetEvent(const Event &event);
+    void SetEvent(const Event& event, const analysis::Jets& jets);
+
+    void SetEvent(const Event& event);
 
     int LeptonNumber() const;
 

@@ -12,12 +12,12 @@ ClassImp(analysis::higgscpv::SignatureLeptonicBranch)
 
 analysis::higgscpv::SignatureLeptonicBranch::SignatureLeptonicBranch()
 {
-  HiggsMass = InitialValue();
-  PairRap = InitialValue();
-  BottomBdt = InitialValue();
-  PairBottomBdt = InitialValue();
-  HardTopPt = InitialValue();
-  SoftTopPt = InitialValue();
+    HiggsMass = InitialValue();
+    PairRap = InitialValue();
+    BottomBdt = InitialValue();
+    PairBottomBdt = InitialValue();
+    HardTopPt = InitialValue();
+    SoftTopPt = InitialValue();
 }
 
 ClassImp(analysis::higgscpv::OctetBranch)
@@ -37,7 +37,7 @@ analysis::higgscpv::OctetBranch::OctetBranch()
 
 ClassImp(analysis::higgscpv::EventBranch)
 
-analysis::higgscpv::EventBranch::EventBranch(){}
+analysis::higgscpv::EventBranch::EventBranch() {}
 
 ClassImp(analysis::higgscpv::HLeptonBranch)
 
@@ -52,7 +52,7 @@ analysis::higgscpv::HLeptonBranch::HLeptonBranch()
 
 ClassImp(analysis::higgscpv::TopLeptonicPairBranch)
 
-analysis::higgscpv::TopLeptonicPairBranch::TopLeptonicPairBranch(){}
+analysis::higgscpv::TopLeptonicPairBranch::TopLeptonicPairBranch() {}
 
 ClassImp(analysis::higgscpv::TripletPairBranch)
 
@@ -76,23 +76,21 @@ ClassImp(analysis::higgscpv::QuartetPairBranch)
 
 analysis::higgscpv::QuartetPairBranch::QuartetPairBranch()
 {
-  BottomMass = InitialValue();
-  BottomPt = InitialValue();
-  BottomRap = InitialValue();
-  BottomPhi = InitialValue();
-  BottomBdt = InitialValue();
-  BottomBTag = InitialValue();
-  TopMass = InitialValue();
-  TopPt = InitialValue();
-  TopRap = InitialValue();
-  TopPhi = InitialValue();
-  TopBdt = InitialValue();
-  TopBTag = InitialValue();
+    BottomMass = InitialValue();
+    BottomPt = InitialValue();
+    BottomRap = InitialValue();
+    BottomPhi = InitialValue();
+    BottomBdt = InitialValue();
+    BottomBTag = InitialValue();
+    TopMass = InitialValue();
+    TopPt = InitialValue();
+    TopRap = InitialValue();
+    TopPhi = InitialValue();
+    TopBdt = InitialValue();
+    TopBTag = InitialValue();
 }
-namespace analysis
-{
-namespace higgscpv
-{
+namespace analysis {
+namespace higgscpv {
 Observables SignatureLeptonicBranch::Variables()
 {
     return Join(MultiBranch::Variables(), {PAIR(BottomBdt), PAIR(PairBottomBdt), PAIR(HardTopPt), PAIR(SoftTopPt), PAIR(HiggsMass), PAIR(PairRap)});

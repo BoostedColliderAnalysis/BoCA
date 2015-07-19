@@ -11,16 +11,15 @@
 #define OBS(...) OBSERVABLES(__VA_ARGS__)(__VA_ARGS__)
 
 
-namespace analysis
-{
+namespace analysis {
 
-Obs::Obs(float &value, const std::string &name, const std::string &nice_name) : value_(&value)
+Obs::Obs(float& value, const std::string& name, const std::string& nice_name) : value_(&value)
 {
     name_ = name;
     nice_name_ = nice_name;
 }
 
-float &Obs::value()const
+float& Obs::value()const
 {
     return *value_;
 }
@@ -44,7 +43,7 @@ float BaseBranch::InitialValue()
     // FIXME remove the copy of the magic number
 }
 
-Observables BaseBranch::Join(const Observables &observables_1, const Observables &observables_2)
+Observables BaseBranch::Join(const Observables& observables_1, const Observables& observables_2)
 {
     Observables joined;
     joined.reserve(observables_1.size() + observables_2.size());
@@ -224,7 +223,7 @@ JetPairBranch::JetPairBranch()
 
 Observables JetPairBranch::Variables()
 {
-  return Join(PairBranch::Variables(), {OBS(Jet1Mass),OBS(Jet1Pt),OBS(Jet1Rap),OBS(Jet1Phi),OBS(Jet2Mass),OBS(Jet2Pt),OBS(Jet2Rap),OBS(Jet2Phi)});
+    return Join(PairBranch::Variables(), {OBS(Jet1Mass), OBS(Jet1Pt), OBS(Jet1Rap), OBS(Jet1Phi), OBS(Jet2Mass), OBS(Jet2Pt), OBS(Jet2Rap), OBS(Jet2Phi)});
 }
 
 TripletJetPairBranch::TripletJetPairBranch()
@@ -337,7 +336,6 @@ EventBranch::EventBranch()
     BottomNumber = int(InitialValue());
     MissingEt = InitialValue();
     ScalarHt = InitialValue();
-
     LeptonHt = InitialValue();
     JetMass = InitialValue();
     JetPt = InitialValue();
@@ -353,34 +351,32 @@ Observables EventBranch::Variables()
 
 void Color::Red()
 {
-
     std::vector<double> red = { 1, 1};
     std::vector<double> green = { 1, 0};
     std::vector<double> blue = { 1, 0};
     std::vector<double> length = { 0, 1};
-
     static std::vector<int> colors;
     static bool initialized = false;
     if (!initialized) {
         colors = Table(length, red, green, blue);
         initialized = true;
-    } else gStyle->SetPalette(colors.size(), &colors[0]);
+    } else
+        gStyle->SetPalette(colors.size(), &colors[0]);
 }
 
 void Color::Blue()
 {
-
     std::vector<double> red = { 1, 0};
     std::vector<double> green = { 1, 0};
     std::vector<double> blue = { 1, 1};
     std::vector<double> length = { 0, 1 };
-
     static std::vector<int> colors;
     static bool initialized = false;
     if (!initialized) {
         colors = Table(length, red, green, blue);
         initialized = true;
-    } else gStyle->SetPalette(colors.size(), &colors[0]);
+    } else
+        gStyle->SetPalette(colors.size(), &colors[0]);
 }
 
 void Color::Heat()
@@ -389,21 +385,22 @@ void Color::Heat()
     std::vector<double> red = { 0.00, 0.00, 0.87, 1.00, 0.51 };
     std::vector<double> green = { 0.00, 0.81, 1.00, 0.20, 0.00 };
     std::vector<double> blue = { 0.51, 1.00, 0.12, 0.00, 0.00 };
-
     static std::vector<int> colors;
     static bool initialized = false;
     if (!initialized) {
         colors = Table(length, red, green, blue);
         initialized = true;
         return;
-    } else gStyle->SetPalette(colors.size(), &colors[0]);
+    } else
+        gStyle->SetPalette(colors.size(), &colors[0]);
 }
 
-std::vector<int> Color::Table(std::vector<double> &length, std::vector<double> &red, std::vector<double> &green, std::vector<double> &blue)
+std::vector<int> Color::Table(std::vector<double>& length, std::vector<double>& red, std::vector<double>& green, std::vector<double>& blue)
 {
     std::vector<int> colors(50);
     int color_table = TColor::CreateGradientColorTable(length.size(), &length[0], &red[0], &green[0], &blue[0], colors.size());
-    for (std::size_t step = 0; step < colors.size(); step++) colors[step] = color_table + step;
+    for (std::size_t step = 0; step < colors.size(); step++)
+        colors[step] = color_table + step;
     //     for (const int &color : colors) colors[color] = color_table + &color - &colors[0];
     return colors;
 }

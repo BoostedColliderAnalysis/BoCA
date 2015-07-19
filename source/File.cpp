@@ -6,8 +6,7 @@
 #include "Predicate.hh"
 #include "Debug.hh"
 
-namespace analysis
-{
+namespace analysis {
 
 File::File()
 {
@@ -16,7 +15,7 @@ File::File()
     file_suffix_ = file_suffix();
 }
 
-File::File(const std::string &process)
+File::File(const std::string& process)
 {
     Debug();
     SetVariables();
@@ -24,7 +23,7 @@ File::File(const std::string &process)
     file_suffix_ = file_suffix();
 }
 
-File::File(const std::string &process, const float crosssection)
+File::File(const std::string& process, const float crosssection)
 {
     Debug();
     SetVariables();
@@ -33,7 +32,7 @@ File::File(const std::string &process, const float crosssection)
     file_suffix_ = file_suffix();
 }
 
-File::File(const std::string &process, const float crosssection, const float mass)
+File::File(const std::string& process, const float crosssection, const float mass)
 {
     Debug();
     SetVariables();
@@ -43,7 +42,7 @@ File::File(const std::string &process, const float crosssection, const float mas
     file_suffix_ = file_suffix();
 }
 
-File::File(const Strings &processes)
+File::File(const Strings& processes)
 {
     Debug();
     SetVariables();
@@ -51,7 +50,7 @@ File::File(const Strings &processes)
     file_suffix_ = file_suffix();
 }
 
-File::File(const Strings &processes, const float crosssection)
+File::File(const Strings& processes, const float crosssection)
 {
     Debug();
     SetVariables();
@@ -60,7 +59,7 @@ File::File(const Strings &processes, const float crosssection)
     file_suffix_ = file_suffix();
 }
 
-File::File(const Strings &processes, const float crosssection, const float mass)
+File::File(const Strings& processes, const float crosssection, const float mass)
 {
     Debug();
     SetVariables();
@@ -70,7 +69,7 @@ File::File(const Strings &processes, const float crosssection, const float mass)
     file_suffix_ = file_suffix();
 }
 
-File::File(const std::string &process, const std::string &run_folder)
+File::File(const std::string& process, const std::string& run_folder)
 {
     Debug();
     SetVariables();
@@ -79,7 +78,7 @@ File::File(const std::string &process, const std::string &run_folder)
     file_suffix_ = file_suffix();
 }
 
-File::File(const std::string &process, const std::string &base_path, const std::string &file_suffix, const float crosssection)
+File::File(const std::string& process, const std::string& base_path, const std::string& file_suffix, const float crosssection)
 {
     Debug();
     SetVariables();
@@ -89,7 +88,7 @@ File::File(const std::string &process, const std::string &base_path, const std::
     crossection_ = crosssection;
 }
 
-File::File(const std::string &process, const std::string &base_path, const std::string &file_suffix)
+File::File(const std::string& process, const std::string& base_path, const std::string& file_suffix)
 {
     Debug();
     SetVariables();
@@ -98,7 +97,7 @@ File::File(const std::string &process, const std::string &base_path, const std::
     file_suffix_ = file_suffix;
 }
 
-File::File(const std::string &process, const std::string &base_path, const std::string &file_suffix, const std::string &nice_name)
+File::File(const std::string& process, const std::string& base_path, const std::string& file_suffix, const std::string& nice_name)
 {
     Debug();
     SetVariables();
@@ -108,15 +107,15 @@ File::File(const std::string &process, const std::string &base_path, const std::
     nice_name_ = nice_name;
 }
 
-File::File(const std::string &process, const std::string &base_path, const std::string &file_suffix, const float crossection, const std::string &nice_name)
+File::File(const std::string& process, const std::string& base_path, const std::string& file_suffix, const float crossection, const std::string& nice_name)
 {
-  Debug();
-  SetVariables();
-  process_folders_.emplace_back(process);
-  base_path_ = base_path;
-  file_suffix_ = file_suffix;
-  crossection_ = crossection;
-  nice_name_ = nice_name;
+    Debug();
+    SetVariables();
+    process_folders_.emplace_back(process);
+    base_path_ = base_path;
+    file_suffix_ = file_suffix;
+    crossection_ = crossection;
+    nice_name_ = nice_name;
 }
 
 std::string File::file_suffix() const
@@ -170,7 +169,8 @@ Strings File::Paths() const
 {
     Info();
     Strings FilePaths;
-    for (const auto & process_folder : process_folders_) FilePaths.emplace_back(base_path_ + process_folder + file_suffix_);
+    for (const auto& process_folder : process_folders_)
+        FilePaths.emplace_back(base_path_ + process_folder + file_suffix_);
     return FilePaths;
 }
 
@@ -178,7 +178,8 @@ exroot::TreeReader File::TreeReader()
 {
     Note(Paths().front());
     chain_ = new TChain(tree_name().c_str());
-    for (const auto & path : Paths()) chain_->Add(path.c_str());
+    for (const auto& path : Paths())
+        chain_->Add(path.c_str());
     return exroot::TreeReader(chain_);
 }
 

@@ -4,13 +4,13 @@
 #include "Rtypes.h"
 #include "TGenericClassInfo.h"
 
-namespace hjetproperties{
+namespace hjetproperties {
 
-    class HAnalysis;
-    class JetTag;
-    class HCandidateBranch;
-    class ConstituentBranch;
-    class HLeptonBranch;
+class HAnalysis;
+class JetTag;
+class HCandidateBranch;
+class ConstituentBranch;
+class HLeptonBranch;
 
 }
 
@@ -18,8 +18,7 @@ namespace hjetproperties{
  * @brief Class for saving leptons to root
  *
  */
-class hjetproperties::HCandidateBranch : public TObject
-{
+class hjetproperties::HCandidateBranch : public TObject {
 
 public:
 
@@ -78,25 +77,24 @@ private:
  * @brief Class for saving leptons to root
  *
  */
-class hjetproperties::ConstituentBranch : public TObject
-{
+class hjetproperties::ConstituentBranch : public TObject {
 
 public:
 
-  float Rap;
-  float Phi;
-  float Pt;
-  int Id;
+    float Rap;
+    float Phi;
+    float Pt;
+    int Id;
 
-  ConstituentBranch();
+    ConstituentBranch();
 
-  virtual ~ConstituentBranch();
+    virtual ~ConstituentBranch();
 
 private:
 
-  void reset();
+    void reset();
 
-  ClassDef(ConstituentBranch, 1)
+    ClassDef(ConstituentBranch, 1)
 
 };
 
@@ -104,8 +102,7 @@ private:
  * @brief Class for saving leptons to root
  *
  */
-class hjetproperties::HLeptonBranch : public TObject
-{
+class hjetproperties::HLeptonBranch : public TObject {
 
 public:
 

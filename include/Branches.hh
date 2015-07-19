@@ -1,22 +1,22 @@
 #pragma once
 
+#include <vector>
+#include <string>
 #include "TObject.h"
 #include "Rtypes.h"
 
-namespace analysis
-{
+namespace analysis {
 
 // typedef std::pair<float &, std::string> ObservablePair;
 
-class Obs
-{
+class Obs {
 public:
-    Obs(float &value, const std::string &name, const std::string &nice_name);
-    float &value()const;
+    Obs(float& value, const std::string& name, const std::string& nice_name);
+    float& value()const;
     std::string name()const;
     std::string nice_name()const;
 private:
-    float *value_;
+    float* value_;
     std::string name_;
     std::string nice_name_;
 };
@@ -26,13 +26,12 @@ typedef std::vector<Obs> Observables;
  * @brief Basic tree branches
  *
  */
-class BaseBranch : public TObject
-{
+class BaseBranch : public TObject {
 public:
     virtual ~BaseBranch();
 protected:
     static float InitialValue();
-    static Observables Join(const Observables &observables_1, const Observables &observables_2);
+    static Observables Join(const Observables& observables_1, const Observables& observables_2);
 private:
     ClassDef(BaseBranch, 1)
 };
@@ -41,8 +40,7 @@ private:
  * @brief Basic tree branches
  *
  */
-class InfoBranch : public BaseBranch
-{
+class InfoBranch : public BaseBranch {
 public:
     InfoBranch();
     float Crosssection;
@@ -55,14 +53,14 @@ private:
     ClassDef(InfoBranch, 1)
 };
 
-class ResultBranch : public BaseBranch
-{
+class ResultBranch : public BaseBranch {
 public:
     ResultBranch();
     float Bdt;
     float Tag;
     template<typename Multiplet>
-    void Fill(const Multiplet &multiplet) {
+    void Fill(const Multiplet& multiplet)
+    {
         Tag = int(multiplet.Tag());
         Bdt = multiplet.Bdt();
     }
@@ -76,8 +74,7 @@ private:
  * @brief Class for saving event informations to root
  *
  */
-class ParticleBranch : public ResultBranch
-{
+class ParticleBranch : public ResultBranch {
 public:
     ParticleBranch();
     float Mass;
@@ -86,7 +83,8 @@ public:
     float Phi;
     float Charge;
     template<typename Multiplet>
-    void Fill(const Multiplet &multiplet) {
+    void Fill(const Multiplet& multiplet)
+    {
         ResultBranch::Fill(multiplet);
         Mass = multiplet.Jet().m();
         Pt = multiplet.Jet().pt();
@@ -107,8 +105,7 @@ private:
  * (this construct is necessary because root can not handel virtual inheritance needed for the resulution of the dreaded diamond)
  *
  */
-class BottomBase
-{
+class BottomBase {
 public:
     BottomBase();
     float VertexMass;
@@ -122,11 +119,13 @@ public:
     float VertexSpread;
     float EnergyFraction;
     template<typename Multiplet>
-    void Fill(const Multiplet &multiplet) {
+    void Fill(const Multiplet& multiplet)
+    {
         Fill2(multiplet.singlet());
     }
     template<typename Singlet>
-    void Fill2(const Singlet &singlet) {
+    void Fill2(const Singlet& singlet)
+    {
         VertexMass = singlet.VertexMass();
         MaxDisplacement = singlet.MaxDisplacement();
         MeanDisplacement = singlet.MeanDisplacement();
@@ -151,13 +150,13 @@ private:
  * @brief Bottom tagger root tree structure
  *
  */
-class BottomBranch : public ParticleBranch, public BottomBase
-{
+class BottomBranch : public ParticleBranch, public BottomBase {
 public:
     Observables Variables();
     Observables Spectators();
     template<typename Multiplet>
-    void Fill(const Multiplet &multiplet) {
+    void Fill(const Multiplet& multiplet)
+    {
         ParticleBranch::Fill(multiplet);
         BottomBase::Fill(multiplet);
     }
@@ -170,8 +169,7 @@ private:
  * @brief Tau tagger root tree structure
  *
  */
-class TauBranch : public ParticleBranch
-{
+class TauBranch : public ParticleBranch {
 public:
     TauBranch();
     float EmRadius;
@@ -184,7 +182,8 @@ public:
     float FlightPath;
     float TrtHtFraction;
     template<typename Multiplet>
-    void Fill(const Multiplet &multiplet) {
+    void Fill(const Multiplet& multiplet)
+    {
         ParticleBranch::Fill(multiplet);
         EmRadius = multiplet.EmRadius();
         TrackRadius = multiplet.TrackRadius();
@@ -203,8 +202,7 @@ private:
 };
 
 
-class PairBranch : public ParticleBranch
-{
+class PairBranch : public ParticleBranch {
 public:
     PairBranch();
     float Ht;
@@ -217,7 +215,8 @@ public:
     float Bdt1;
     float Bdt2;
     template<typename Multiplet>
-    void Fill(const Multiplet &multiplet) {
+    void Fill(const Multiplet& multiplet)
+    {
         ParticleBranch::Fill(multiplet);
         Ht = multiplet.Ht();
         DeltaPt = multiplet.DeltaPt();
@@ -236,13 +235,13 @@ private:
 };
 
 
-class MultiBranch : public PairBranch
-{
+class MultiBranch : public PairBranch {
 public:
     MultiBranch();
     float DeltaHt;
     template<typename Multiplet>
-    void Fill(const Multiplet &multiplet) {
+    void Fill(const Multiplet& multiplet)
+    {
         PairBranch::Fill(multiplet);
         DeltaHt = multiplet.DeltaHt();
     }
@@ -256,8 +255,7 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class WHadronicBranch : public PairBranch
-{
+class WHadronicBranch : public PairBranch {
     ClassDef(WHadronicBranch, 1)
 };
 
@@ -266,8 +264,7 @@ class WHadronicBranch : public PairBranch
  * @brief Z tagger root tree structure
  *
  */
-class ZHadronicBranch : public PairBranch
-{
+class ZHadronicBranch : public PairBranch {
     ClassDef(ZHadronicBranch, 1)
 };
 
@@ -276,8 +273,7 @@ class ZHadronicBranch : public PairBranch
  * @brief Higgs tagger root tree structure
  *
  */
-class JetPairBranch : public PairBranch
-{
+class JetPairBranch : public PairBranch {
 public:
     JetPairBranch();
     float Jet1Mass;
@@ -297,7 +293,8 @@ public:
 //     float BdtRatio23;
 //     float BdtRatio24;
     template<typename Multiplet>
-    void Fill(const Multiplet &multiplet) {
+    void Fill(const Multiplet& multiplet)
+    {
         PairBranch::Fill(multiplet);
         Jet1Pt = multiplet.SingletJet1().pt();
         Jet1Rap = multiplet.SingletJet1().rap();
@@ -318,8 +315,7 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class TripletJetPairBranch : public PairBranch
-{
+class TripletJetPairBranch : public PairBranch {
 public:
     TripletJetPairBranch();
     float BottomMass;
@@ -335,7 +331,8 @@ public:
     float TopBdt;
     float TopBTag;
     template<typename Multiplet>
-    void Fill(const Multiplet &multiplet) {
+    void Fill(const Multiplet& multiplet)
+    {
         PairBranch::Fill(multiplet);
         BottomPt = multiplet.Singlet().Jet().pt();
 //         BottomRap = std::abs(multiplet.Singlet().rap());
@@ -360,14 +357,14 @@ private:
  * @brief Top tagger root tree structure
  *
  */
-class WSemiBranch : public PairBranch
-{
+class WSemiBranch : public PairBranch {
 public:
     WSemiBranch();
     float LeptonPt;
     float NeutrinoPt;
     template<typename Multiplet>
-    void Fill(const Multiplet &multiplet) {
+    void Fill(const Multiplet& multiplet)
+    {
         PairBranch::Fill(multiplet);
         LeptonPt = multiplet.SingletJet1().pt();
         NeutrinoPt = multiplet.SingletJet2().pt();
@@ -383,15 +380,15 @@ private:
  * @brief Top tagger root tree structure
  *
  */
-class TopHadronicBranch : public MultiBranch, public BottomBase
-{
+class TopHadronicBranch : public MultiBranch, public BottomBase {
 public:
     TopHadronicBranch();
     float BottomMass;
     float WMass;
     float LeptonPt;
     template<typename Multiplet>
-    void Fill(const Multiplet &multiplet) {
+    void Fill(const Multiplet& multiplet)
+    {
         MultiBranch::Fill(multiplet);
         BottomBase::Fill(multiplet);
         BottomMass = multiplet.Singlet().Jet().m();
@@ -409,14 +406,14 @@ private:
  * @brief Top tagger root tree structure
  *
  */
-class TopLeptonicBranch : public PairBranch, public BottomBase
-{
+class TopLeptonicBranch : public PairBranch, public BottomBase {
 public:
     TopLeptonicBranch();
     float BottomPt;
     float LeptonPt;
     template<typename Multiplet>
-    void Fill(const Multiplet &multiplet) {
+    void Fill(const Multiplet& multiplet)
+    {
         PairBranch::Fill(multiplet);
         BottomBase::Fill(multiplet);
         BottomPt = multiplet.Singlet().Jet().pt();
@@ -433,11 +430,11 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class HiggsBranch : public PairBranch, public BottomBase
-{
+class HiggsBranch : public PairBranch, public BottomBase {
 public:
     template<typename Multiplet>
-    void Fill(const Multiplet &multiplet) {
+    void Fill(const Multiplet& multiplet)
+    {
         PairBranch::Fill(multiplet);
         BottomBase::Fill(multiplet);
     }
@@ -448,8 +445,7 @@ private:
 };
 
 
-class EventBottomTaggerBranch : public ResultBranch
-{
+class EventBottomTaggerBranch : public ResultBranch {
 
 public:
 
@@ -481,8 +477,7 @@ private:
  * @brief Class for saving event informations to root
  *
  */
-class EventBranch : public MultiBranch
-{
+class EventBranch : public MultiBranch {
 public:
     EventBranch();
 
@@ -500,7 +495,8 @@ public:
     float JetPhi;
 
     template<typename Multiplet>
-    void Fill(const Multiplet &multiplet) {
+    void Fill(const Multiplet& multiplet)
+    {
         analysis::MultiBranch::Fill(multiplet);
         LeptonNumber = multiplet.GlobalObservables().LeptonNumber();
         JetNumber = multiplet.GlobalObservables().JetNumber();
@@ -519,13 +515,12 @@ private:
     ClassDef(EventBranch, 1)
 };
 
-class Color
-{
+class Color {
 public:
     void Red();
     void Blue();
     void Heat();
-    std::vector<int> Table(std::vector<double> &length, std::vector<double> &red, std::vector<double> &green, std::vector<double> &blue);
+    std::vector<int> Table(std::vector<double>& length, std::vector<double>& red, std::vector<double>& green, std::vector<double>& blue);
 };
 
 }
