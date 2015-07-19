@@ -4,15 +4,13 @@
 
 class TLorentzVector;
 
-namespace analysis
-{
+namespace analysis {
 
 /**
  * @brief Copy of root::TLorentzVector in order to get rid of TObject which makes it unsuitable for heavy usage
  *
  */
-class LorentzVector
-{
+class LorentzVector {
 
 private:
 
@@ -24,7 +22,7 @@ private:
 
 public:
 
-    void operator=(const TLorentzVector &lorentzvector);
+    void operator=(const TLorentzVector& lorentzvector);
 
 // Safe indexing of the coordinates when using with matrices, arrays, etc.
     enum { kX = 0, kY = 1, kZ = 2, kT = 3, kNUM_COORDINATES = 4, kSIZE = kNUM_COORDINATES };
@@ -35,10 +33,10 @@ public:
     LorentzVector(float x, float y, float z, float t);
 
 // Constructor from an array, not checked!
-    LorentzVector(const float *carray);
+    LorentzVector(const float* carray);
 
 // Constructor giving a 3-Vector and a time component.
-    LorentzVector(const Vector3 &vector3, float t);
+    LorentzVector(const Vector3& vector3, float t);
 
 // Get position and time.
     float X() const;
@@ -70,7 +68,7 @@ public:
     Vector3 Vect() const ;
 
 // Set spatial component.
-    void SetVect(const Vector3 &vect3);
+    void SetVect(const Vector3& vect3);
 
 // Get spatial vector components in spherical coordinate system.
     float Theta() const;
@@ -93,34 +91,34 @@ public:
 
 // Getters into an arry
 // no checking!
-    void GetXYZT(float *carray) const;
+    void GetXYZT(float* carray) const;
 
 // Get components by index.
     float operator()(int i) const;
     float operator [](int i) const;
 
 // Set components by index.
-    float &operator()(int i);
-    float &operator [](int i);
+    float& operator()(int i);
+    float& operator [](int i);
 
 // Additions.
-    LorentzVector operator + (const LorentzVector &) const;
-    LorentzVector &operator += (const LorentzVector &);
+    LorentzVector operator + (const LorentzVector&) const;
+    LorentzVector& operator += (const LorentzVector&);
 
 // Subtractions.
-    LorentzVector operator - (const LorentzVector &) const;
-    LorentzVector &operator -= (const LorentzVector &);
+    LorentzVector operator - (const LorentzVector&) const;
+    LorentzVector& operator -= (const LorentzVector&);
 
 // Unary minus.
     LorentzVector operator - () const;
 
 // Scaling with real numbers.
     LorentzVector operator * (float a) const;
-    LorentzVector &operator *= (float a);
+    LorentzVector& operator *= (float a);
 
 // Comparisons.
-    bool operator == (const LorentzVector &) const;
-    bool operator != (const LorentzVector &) const;
+    bool operator == (const LorentzVector&) const;
+    bool operator != (const LorentzVector&) const;
 
 // Transverse component of the spatial vector squared.
     float Perp2() const;
@@ -133,11 +131,11 @@ public:
     void SetPerp(float);
 
 // Transverse component of the spatial vector w.r.t. given axis squared.
-    float Perp2(const Vector3 &v) const;
+    float Perp2(const Vector3& v) const;
 
 // Transverse component of the spatial vector w.r.t. given axis.
-    float Pt(const Vector3 &v) const;
-    float Perp(const Vector3 &v) const;
+    float Pt(const Vector3& v) const;
+    float Perp(const Vector3& v) const;
 
 // Transverse energy squared.
     float Et2() const;
@@ -146,18 +144,18 @@ public:
     float Et() const;
 
 // Transverse energy w.r.t. given axis squared.
-    float Et2(const Vector3 &) const;
+    float Et2(const Vector3&) const;
 
 // Transverse energy w.r.t. given axis.
-    float Et(const Vector3 &) const;
+    float Et(const Vector3&) const;
 
-    float DeltaPhi(const LorentzVector &) const;
-    float DeltaR(const LorentzVector &) const;
-    float DrEtaPhi(const LorentzVector &) const;
+    float DeltaPhi(const LorentzVector&) const;
+    float DeltaR(const LorentzVector&) const;
+    float DrEtaPhi(const LorentzVector&) const;
 //     Vector2 EtaPhiVector();
 
 // Angle wrt. another vector.
-    float Angle(const Vector3 &v) const;
+    float Angle(const Vector3& v) const;
 
 // Invariant mass squared.
     float Mag2() const;
@@ -177,12 +175,12 @@ public:
     float Gamma() const;
 
 // Scalar product.
-    float Dot(const LorentzVector &) const;
-    float operator * (const LorentzVector &) const;
+    float Dot(const LorentzVector&) const;
+    float operator * (const LorentzVector&) const;
 
 // Copy spatial coordinates, and set energy = sqrt(mass^2 + spatial^2)
-    void SetVectMag(const Vector3 &spatial, float magnitude);
-    void SetVectM(const Vector3 &spatial, float mass);
+    void SetVectMag(const Vector3& spatial, float magnitude);
+    void SetVectM(const Vector3& spatial, float mass);
 
 // Returns t +/- z.
 // Related to the positive/negative light-cone component,
@@ -195,7 +193,7 @@ public:
 
 // Lorentz boost.
     void Boost(float, float, float);
-    void Boost(const Vector3 &);
+    void Boost(const Vector3&);
 
 // Returns the rapidity, i.e. 0.5*ln((E+pz)/(E-pz))
     float Rapidity() const;
@@ -214,10 +212,10 @@ public:
     void RotateZ(float angle);
 
 // Rotates the reference frame from Uz to newUz (unit vector).
-    void RotateUz(Vector3 &newUzVector);
+    void RotateUz(Vector3& newUzVector);
 
 };
 
-LorentzVector operator * (float a, const LorentzVector &);
+LorentzVector operator * (float a, const LorentzVector&);
 
 }

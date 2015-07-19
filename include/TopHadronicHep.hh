@@ -8,8 +8,7 @@ namespace analysis {
  * @brief prepares the data for the top tagger
  *
  */
-class TopHadronicHep
-{
+class TopHadronicHep {
 
 public:
 
@@ -17,7 +16,7 @@ public:
      * @brief tagges the tops
      *
      */
-    Jets Tops(Jets &e_flows);
+    Jets Tops(Jets& e_flows);
 
 private:
 
@@ -25,7 +24,7 @@ private:
      * @brief Calculates Vector of granulated Jets
      *
      */
-    Jets GranulatedJets(analysis::Jets &e_flows);
+    Jets GranulatedJets(analysis::Jets& e_flows);
 
 };
 

@@ -1,0 +1,10 @@
+--style=stroustrup
+--remove-brackets
+##--keep-one-line-statements
+--indent=spaces
+--pad-oper
+--align-pointer=type
+--remove-brackets
+--close-templates
+--suffix=none
+--delete-empty-lines

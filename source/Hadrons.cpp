@@ -3,7 +3,7 @@
 
 namespace analysis {
 
-void Hadrons::NewEvent(const ClonesArrays &clones_arrays)
+void Hadrons::NewEvent(const ClonesArrays& clones_arrays)
 {
     Info();
     FourVector::NewEvent(clones_arrays);
@@ -18,7 +18,7 @@ float Hadrons::ScalarHt() const
 fastjet::PseudoJet Hadrons::MissingEt() const
 {
     Error("No Mising Et");
-    return fastjet::PseudoJet{};
+    return fastjet::PseudoJet {};
 }
 
 }

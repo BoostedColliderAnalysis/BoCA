@@ -1,7 +1,6 @@
 #include "Family.hh"
 
-namespace analysis
-{
+namespace analysis {
 
 Family::Family()
 {
@@ -30,7 +29,7 @@ Family::Family(const int id, const int mother_1_id, const int mother_2_id) : par
 
 Family::Family(const int id, const int mother_1_id, const int mother_2_id, const int grand_mother_id) : particle_(Particle(id)), mother_1_(Particle(mother_1_id)), mother_2_(Particle(mother_2_id)), grand_mother_(Particle(grand_mother_id))
 {
-  daughter_ids_.reserve(2);
+    daughter_ids_.reserve(2);
 }
 
 Family::Family(const Id id, const Id mother_1_id, const Id mother_2_id) : particle_(Particle(id)), mother_1_(Particle(mother_1_id)), mother_2_(Particle(mother_2_id))
@@ -40,7 +39,7 @@ Family::Family(const Id id, const Id mother_1_id, const Id mother_2_id) : partic
 
 Family::Family(const Id id, const Id mother_1_id, const Id mother_2_id, const Id grand_mother_id) : particle_(Particle(id)), mother_1_(Particle(mother_1_id)), mother_2_(Particle(mother_2_id)), grand_mother_(Particle(grand_mother_id))
 {
-  daughter_ids_.reserve(2);
+    daughter_ids_.reserve(2);
 }
 
 Family::Family(const int particle_position, const Id id, const int mother_position, const Id mother_id) : particle_(Particle(id, particle_position)), mother_1_(Particle(mother_id, mother_position))
@@ -48,12 +47,12 @@ Family::Family(const int particle_position, const Id id, const int mother_positi
     daughter_ids_.reserve(2);
 }
 
-Family::Family(const TLorentzVector &particle, const LorentzVector &mother, const int particle_position, const int id, const int mother_position, const int mother_id) : particle_(Particle(particle, id, particle_position)), mother_1_(Particle(mother, mother_id, mother_position))
+Family::Family(const TLorentzVector& particle, const LorentzVector& mother, const int particle_position, const int id, const int mother_position, const int mother_id) : particle_(Particle(particle, id, particle_position)), mother_1_(Particle(mother, mother_id, mother_position))
 {
     daughter_ids_.reserve(2);
 }
 
-bool Family::operator==(const Family &family) const
+bool Family::operator==(const Family& family) const
 {
     return (particle_.id() == family.particle().id() && mother_1_.id() == family.mother_1().id() && daughter_ids_ == family.daughter_ids_);
 }

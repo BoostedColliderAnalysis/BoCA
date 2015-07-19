@@ -6,136 +6,89 @@
 
 hcpvhiggs::HMva::HMva()
 {
-
-  Note();
-
+    Note();
 //     DebugLevel = 4;
-
 //     set_tagger_name("Higgs");
-
-
-
     Candidate = new HCandidateBranch();
-
     DefineVariables();
-
 //     Cut = "Candidate.SubJet1Pt>0&&Candidate.SubJet2Pt>0&&Candidate.IsolationPt>0";
-
 }
 
 hcpvhiggs::HMva::~HMva()
 {
-
-  Note("Destructor");
-
+    Note("Destructor");
     delete Candidate;
-
 }
 
 void hcpvhiggs::HMva::DefineVariables()
 {
-
-  Note("Define Variables");
-
+    Note("Define Variables");
     AddVariable(Candidate->Mass, "Mass");
     AddVariable(Candidate->Pt, "Pt");
     AddVariable(Candidate->Rap, "Rap");
     AddVariable(Candidate->Phi, "Phi");
-
     AddVariable(Candidate->DeltaR, "DeltaR");
     AddVariable(Candidate->SubJetsDeltaR, "SubJetsDeltaR");
     AddVariable(Candidate->Asymmetry, "Asymmetry");
     AddVariable(Candidate->DiPolarity, "DiPolarity");
-
     AddVariable(Candidate->SubJet1Mass, "SubJet1Mass");
     AddVariable(Candidate->SubJet1Pt, "SubJet1Pt");
-    AddVariable(Candidate->SubJet1DeltaR,"SubJet1DeltaR");
-
+    AddVariable(Candidate->SubJet1DeltaR, "SubJet1DeltaR");
     AddVariable(Candidate->SubJet2Mass, "SubJet2Mass");
     AddVariable(Candidate->SubJet2Pt, "SubJet2Pt");
-    AddVariable(Candidate->SubJet2DeltaR,"SubJet2DeltaR");
-
+    AddVariable(Candidate->SubJet2DeltaR, "SubJet2DeltaR");
     AddVariable(Candidate->ConstRap,  "ConstRap");
     AddVariable(Candidate->ConstPhi,  "ConstPhi");
     AddVariable(Candidate->ConstDeltaR, "ConstDeltaR");
     AddVariable(Candidate->ConstAngle, "ConstAngle");
-
     AddVariable(Candidate->IsolationRap, "IsolationRap");
     AddVariable(Candidate->IsolationPhi, "IsolationPhi");
     AddVariable(Candidate->IsolationDeltaR, "IsolationDeltaR");
     AddVariable(Candidate->IsolationAngle, "IsolationAngle");
     AddVariable(Candidate->IsolationPt, "IsolationPt");
-
     AddSpectator(Candidate->HiggsTag, "HiggsTag");
     AddSpectator(Candidate->TopTag, "TopTag");
-
     Note("Variables defined");
-
 }
 
 
-void hcpvhiggs::HMva::ApplyBdt(const exroot::TreeReader *const TreeReader, const std::string TreeName, const TFile *const ExportFile, const TMVA::Reader &Reader)
+void hcpvhiggs::HMva::ApplyBdt(const exroot::TreeReader* const TreeReader, const std::string TreeName, const TFile* const ExportFile, const TMVA::Reader& Reader)
 {
-  Note("Apply Bdt");
-
-  const TClonesArray *const CandidateClonesArray = const_cast<exroot::TreeReader *>(TreeReader)->UseBranch(branch_name().c_str());
+    Note("Apply Bdt");
+    const TClonesArray* const CandidateClonesArray = const_cast<exroot::TreeReader*>(TreeReader)->UseBranch(branch_name().c_str());
 //   const TClonesArray *const SpectatorClonesArray = const_cast<exroot::TreeReader *>(TreeReader)->UseBranch(SpectatorBranchName.c_str());
-
-  exroot::TreeWriter *TreeWriter = new exroot::TreeWriter(const_cast<TFile *>(ExportFile), TreeName.c_str());
-  exroot::TreeBranch *CandidateBranch = TreeWriter->NewBranch(branch_name().c_str(), HCandidateBranch::Class());
+    exroot::TreeWriter* TreeWriter = new exroot::TreeWriter(const_cast<TFile*>(ExportFile), TreeName.c_str());
+    exroot::TreeBranch* CandidateBranch = TreeWriter->NewBranch(branch_name().c_str(), HCandidateBranch::Class());
 //   exroot::TreeBranch *LeptonBranch = TreeWriter->NewBranch(SpectatorBranchName.c_str(), HLeptonBranch::Class());
-
-  const int eventSum = const_cast<exroot::TreeReader *>(TreeReader)->GetEntries();
-
-  for (int eventNumber = 0; eventNumber < eventSum; ++eventNumber) {
-
-    const_cast<exroot::TreeReader *>(TreeReader)->ReadEntry(eventNumber);
-
-    for (int CandidateNumber = 0; CandidateNumber < CandidateClonesArray->GetEntriesFast(); ++CandidateNumber) {
-
-      (*Candidate) = *((HCandidateBranch *) CandidateClonesArray->At(CandidateNumber));
-
-      HCandidateBranch *ExportCandidate = static_cast<HCandidateBranch *>(CandidateBranch->NewEntry());
-
-      (*ExportCandidate) = *Candidate;
-
-      const float BdtEvaluation = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(bdt_method_name());
-
-      float SigEff;
-      const int StepSize = 50;
-      for (SigEff = 0; SigEff < StepSize; ++SigEff) {
-
+    const int eventSum = const_cast<exroot::TreeReader*>(TreeReader)->GetEntries();
+    for (int eventNumber = 0; eventNumber < eventSum; ++eventNumber) {
+        const_cast<exroot::TreeReader*>(TreeReader)->ReadEntry(eventNumber);
+        for (int CandidateNumber = 0; CandidateNumber < CandidateClonesArray->GetEntriesFast(); ++CandidateNumber) {
+            (*Candidate) = *((HCandidateBranch*) CandidateClonesArray->At(CandidateNumber));
+            HCandidateBranch* ExportCandidate = static_cast<HCandidateBranch*>(CandidateBranch->NewEntry());
+            (*ExportCandidate) = *Candidate;
+            const float BdtEvaluation = const_cast<TMVA::Reader*>(&Reader)->EvaluateMVA(bdt_method_name());
+            float SigEff;
+            const int StepSize = 50;
+            for (SigEff = 0; SigEff < StepSize; ++SigEff) {
 //         bool CutEvaluation = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(GetCutMethodName(), SigEff / StepSize);
-
 //         if (CutEvaluation) break;
-
-      }
-
-      ExportCandidate->JetBdtTag = BdtEvaluation;
-      ExportCandidate->JetCutSigEff = SigEff / StepSize;
-
-      ExportCandidate->TopBdtTag = BdtEvaluation;
-      ExportCandidate->TopCutSigEff = SigEff / StepSize;
-
-    }
-
+            }
+            ExportCandidate->JetBdtTag = BdtEvaluation;
+            ExportCandidate->JetCutSigEff = SigEff / StepSize;
+            ExportCandidate->TopBdtTag = BdtEvaluation;
+            ExportCandidate->TopCutSigEff = SigEff / StepSize;
+        }
 //     for (int CandidateNumber = 0; CandidateNumber < SpectatorClonesArray->GetEntriesFast(); ++CandidateNumber) {
-
 //       HLeptonBranch *Lepton = (HLeptonBranch *) SpectatorClonesArray->At(CandidateNumber);
-
 //       HLeptonBranch *ExportLepton = static_cast<HLeptonBranch *>(LeptonBranch->NewEntry());
 //       (*ExportLepton) = *Lepton;
-
 //     }
-
-    TreeWriter->Fill();
-    TreeWriter->Clear();
-
-  }
-
-  TreeWriter->Write();
-  delete TreeWriter;
-
+        TreeWriter->Fill();
+        TreeWriter->Clear();
+    }
+    TreeWriter->Write();
+    delete TreeWriter;
 }
 
 

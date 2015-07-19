@@ -4,32 +4,32 @@
 #include "Quartet.hh"
 #include "Branch.hh"
 
-namespace analysis
-{
+namespace analysis {
 
-namespace heavyhiggs{
+namespace heavyhiggs {
 
 /**
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class ChargedHiggsSemiTagger : public BranchTagger<ChargedHiggsSemiBranch>
-{
+class ChargedHiggsSemiTagger : public BranchTagger<ChargedHiggsSemiBranch> {
 
 public:
 
     ChargedHiggsSemiTagger();
 
-    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const final;
+    int Train(const Event& event, PreCuts& pre_cuts, const Tag tag) const final;
 
-    std::vector<Quartet31> Multiplets(const Event& event, PreCuts &pre_cuts, const TMVA::Reader& reader) const;
+    std::vector<Quartet31> Multiplets(const Event& event, PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 
-    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
-      return SaveEntries(Multiplets(event, pre_cuts, reader));
+    int GetBdt(const Event& event, PreCuts& pre_cuts, const TMVA::Reader& reader) const  final
+    {
+        return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
-    std::string Name() const final {
-      return "ChargedHiggsSemi";
+    std::string Name() const final
+    {
+        return "ChargedHiggsSemi";
     }
 
 private:

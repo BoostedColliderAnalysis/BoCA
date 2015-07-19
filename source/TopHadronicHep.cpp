@@ -6,7 +6,7 @@
 
 namespace analysis {
 
-Jets TopHadronicHep::Tops(Jets &e_flows)
+Jets TopHadronicHep::Tops(Jets& e_flows)
 {
     Info("Tagging Top");
 //     float CellRap = 0.1;
@@ -24,7 +24,7 @@ Jets TopHadronicHep::Tops(Jets &e_flows)
     Jets jets = sorted_by_pt(cluster_sequence.inclusive_jets(pt_min));
 //     unsigned candsizesum = 0;
     Jets tops;
-    for (const auto & jet : jets) {
+    for (const auto& jet : jets) {
 //         const float topmass = 172.3;
 //         const float wmass = 80.4;
 //         HEPTopTagger TopTagger(ClusterSequence, Jet, topmass, wmass);
@@ -52,7 +52,7 @@ Jets TopHadronicHep::Tops(Jets &e_flows)
     return tops;
 }
 
-Jets TopHadronicHep::GranulatedJets(Jets &e_flows)
+Jets TopHadronicHep::GranulatedJets(Jets& e_flows)
 {
     // start of granularization of the hadronic calorimeter to redefine hadrons
     const float CellDeltaRap = 0.1;
@@ -68,7 +68,8 @@ Jets TopHadronicHep::GranulatedJets(Jets &e_flows)
         for (unsigned j = 0; j < granulated_jets.size(); ++j) {
             const float CellDiffRap = std::abs(e_flows[i].pseudorapidity() - granulated_jets[j].pseudorapidity()) / CellDeltaRap;
             float CellDiffPhi = std::abs(e_flows[i].phi() - granulated_jets[j].phi());
-            if (CellDiffPhi > M_PI) CellDiffPhi = 2 * M_PI - CellDiffPhi;
+            if (CellDiffPhi > M_PI)
+                CellDiffPhi = 2 * M_PI - CellDiffPhi;
             CellDiffPhi = CellDiffPhi / CellDeltaPhi;
             if (CellDiffRap < 1 && CellDiffPhi < 1) {
                 NewJet = 1;
