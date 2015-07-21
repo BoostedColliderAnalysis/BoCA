@@ -27,7 +27,7 @@ class Result {
 public:
 
     Result();
-    std::vector<int> CutIntegral() const;
+    std::vector<int> Integral() const;
 
     int steps;
     std::vector<float> events;
@@ -57,6 +57,10 @@ public:
     void Significances();
 
     void BestBin();
+
+    float XValue(const float value) const {
+      return value * 2 / Result().steps - 1;
+    }
 
 
 
@@ -180,6 +184,18 @@ private:
     {
         return ".png";
     }
+
+//     float RoundToDigits(const float Value) const;
+//
+//     float RoundError(const float Value) const;
+//
+//     float RoundToDigits(const float Value, const int Digits) const;
+//
+//     float RoundToError(const float Value, const float Error) const;
+
+    float FloorToDigits(const float value, const int digits = 2) const;
+
+    float CeilToDigits(const float value, const int digits = 2) const;
 
 };
 
