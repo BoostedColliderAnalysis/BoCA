@@ -32,7 +32,7 @@ struct IsParticle {
     bool operator()(const fastjet::PseudoJet& jet)
     {
         int id = std::abs(jet.user_info<JetInfo>().constituents().front().family().particle().id());
-        return (id == to_int(id_1_) | id == to_int(id_2_));
+        return (id == to_int(id_1_) || id == to_int(id_2_));
     }
     Id id_1_;
     Id id_2_;
@@ -91,7 +91,7 @@ struct IsNeutrino {
     bool operator()(const fastjet::PseudoJet& jet)
     {
         const int id = jet.user_info<JetInfo>().constituents().front().family().particle().id();
-        return (id == to_int(Id::electron_neutrino) | id == to_int(Id::muon_neutrino) | id == to_int(Id::tau_neutrino));
+        return (id == to_int(Id::electron_neutrino) || id == to_int(Id::muon_neutrino) || id == to_int(Id::tau_neutrino));
     }
 };
 
@@ -100,8 +100,8 @@ Jets CopyIfNeutrino(const Jets& jets)
     if (jets.empty())
         return jets;
     Jets final_jets(jets.size());
-    auto iterator = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), IsNeutrino());
-    final_jets.resize(std::distance(final_jets.begin(), iterator));
+    auto jet = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), IsNeutrino());
+    final_jets.resize(std::distance(final_jets.begin(), jet));
     return final_jets;
 }
 
@@ -159,7 +159,8 @@ struct IsGrandFamily {
     bool operator()(const fastjet::PseudoJet& Jet)
     {
         Family family = Jet.user_info<JetInfo>().constituents().front().family();
-        return (std::abs(family.particle().id()) != to_int(id_) || std::abs(family.grand_mother().id()) == to_int(grand_mother_id_));
+        if(std::abs(family.particle().id()) != to_int(id_)) return true;
+        return (std::abs(family.grand_mother().id()) == to_int(grand_mother_id_));
     }
     Id grand_mother_id_;
     Id id_;

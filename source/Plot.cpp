@@ -39,12 +39,11 @@ Result::Result()
     bins.resize(steps, 0);
 }
 
-std::vector<int> Result::CutIntegral() const
+std::vector<int> Result::Integral() const
 {
     std::vector<int> integrals(steps, 0);
     integrals.at(steps - 1) = bins.at(steps - 1);
-    for (int step = steps - 2; step >= 0; --step)
-        integrals.at(step) = integrals.at(step + 1) + bins.at(step);
+    for (int step = steps - 2; step >= 0; --step) integrals.at(step) = integrals.at(step + 1) + bins.at(step);
     return integrals;
 }
 
@@ -72,13 +71,10 @@ void Results::Significances()
     for (const auto& signal_results : signal) {
         for (const int step : Range(Result().steps)) {
             float background_events = 0;
-            for (const auto& background_result : background)
-                background_events += background_result.events[step];
-            if (signal_results.events[step] + background_events > 0)
-                significances.at(step) = signal_results.events[step] / std::sqrt(signal_results.events[step] + background_events);
-            else
-                significances.at(step) = 0;
-            x_values.at(step) = float(step) * 2 / Result().steps;
+            for (const auto& background_result : background) background_events += background_result.events[step];
+            if (signal_results.events[step] + background_events > 0) significances.at(step) = signal_results.events[step] / std::sqrt(signal_results.events[step] + background_events);
+            else significances.at(step) = 0;
+            x_values.at(step) = XValue(step);
         }
     }
 }
@@ -121,8 +117,7 @@ std::vector<Result> Plot::Export(TFile& export_file, const std::string& file_nam
 TLegend Plot::Legend(float x_min, float y_max, float width, float height, const std::string& name) const
 {
     TLegend legend(x_min, y_max - height, x_min + width, y_max);
-    if (name != "")
-        legend.SetHeader(name.c_str());
+    if (name != "") legend.SetHeader(name.c_str());
     legend.SetBorderSize(0);
     legend.SetFillStyle(0);
     return legend;
@@ -138,30 +133,27 @@ std::string Plot::PlotHistograms(const analysis::Results& results) const
     for (const auto& result : results.background) {
         float min = *std::min_element(result.bdt.begin(), result.bdt.end());
         min -= 1;
-        if (min < x_min)
-            x_min = min;
+        if (min < x_min) x_min = min;
     }
     float x_max = 0;
     for (const auto& result : results.signal) {
         float max = *std::max_element(result.bdt.begin(), result.bdt.end());
         max -= 1;
-        if (max > x_max)
-            x_max = max;
+        if (max > x_max) x_max = max;
     }
     float y_max = 0;
     for (const auto& result : results.signal) {
-        TH1F histogram(result.info_branch.Name.c_str(), "", 50, x_min * 1.1, x_max * 1.1);
-        for (const float& bdt : result.bdt)
-            histogram.Fill(bdt - 1);
+        TH1F histogram(result.info_branch.Name.c_str(), "", 50, FloorToDigits(x_min,1), CeilToDigits(x_max,1));
+        for (const float& bdt : result.bdt) histogram.Fill(bdt - 1);
+        if (histogram.Integral() != 0)  histogram.Scale(1 / histogram.Integral());
         float max = histogram.GetBinContent(histogram.GetMaximumBin());
-        if (max > y_max)
-            y_max = max;
+        if (max > y_max) y_max = max;
         histograms.emplace_back(histogram);
     }
     for (const auto& result : results.background) {
-        TH1F histogram(result.info_branch.Name.c_str(), "", 50, x_min * 1.1, x_max * 1.1);
-        for (const float& bdt : result.bdt)
-            histogram.Fill(bdt - 1);
+        TH1F histogram(result.info_branch.Name.c_str(), "", 50, FloorToDigits(x_min,1), CeilToDigits(x_max,1));
+        for (const float& bdt : result.bdt) histogram.Fill(bdt - 1);
+        if (histogram.Integral() != 0)  histogram.Scale(1 / histogram.Integral());
         SetPlotStyle(histogram, &result - &results.background[0] + 1);
         // histogram.SetLineColor(ColorCode(&result - &results.background[0] + 1));
         // histogram.SetLineStyle(&result - &results.background[0] + 2);
@@ -176,7 +168,7 @@ std::string Plot::PlotHistograms(const analysis::Results& results) const
     for (const auto& result : results.background)
         nice_names.emplace_back(result.info_branch.Name);
     for (auto& histogram : histograms) {
-        histogram.SetAxisRange(0, y_max * 1.05, "Y");
+        histogram.SetAxisRange(0, CeilToDigits(y_max), "Y");
         histogram.GetXaxis()->SetTitle("BDT");
         histogram.GetYaxis()->SetTitle("N");
         std::string name = nice_names.at(&histogram - &histograms[0]);
@@ -258,7 +250,7 @@ void Plot::OptimalSignificance() const
     table << table_header.str();
     table << " Mass\n" << " & " << results.signal.front().info_branch.Mass;
     table << "\n \\\\ \\midrule\n";
-    table << " BDT-cut\n" << " & " << float(best_bin) * 2 / Result().steps;
+    table << " BDT-cut\n" << " & " << results.XValue(best_bin);
     table << "\n \\\\ $p$-value\n & " << significances.at(best_bin);
     table << "\n \\\\ Efficiency\n & " << results.signal.front().efficiency.at(best_bin) << "\n & " << results.signal.front().analysis_event_number.at(best_bin) << "\n & " << results.signal.front().event_sum() << "\n";
     for (const auto& background : results.background)
@@ -296,7 +288,8 @@ std::string Plot::PlotEfficiencyGraph(const Results& results, const std::vector<
     graph.SetLineColor(kRed);
     multi_graph.Add(&graph);
     multi_graph.Draw("al");
-    TLine line(float(best_bin) * 2 / signal_results.steps, multi_graph.GetYaxis()->GetXmin(), float(best_bin) * 2 / signal_results.steps, multi_graph.GetYaxis()->GetXmax());
+    multi_graph.GetXaxis()->SetLimits(-1,1);
+    TLine line(results.XValue(best_bin), multi_graph.GetYaxis()->GetXmin(), results.XValue(best_bin), multi_graph.GetYaxis()->GetXmax());
     line.SetLineStyle(2);
     line.Draw();
     const std::string file_name = ExportName() + "-Efficiency" + ExportFileSuffix();
@@ -311,8 +304,9 @@ std::string Plot::PlotSignificanceGraph(const Results& results, const std::vecto
     TGraph graph(signal_results.steps, &x_values[0], &significances[0]);
     graph.SetTitle("");
     graph.Draw("al");
+    graph.GetXaxis()->SetLimits(-1,1);
     canvas.Update();
-    TLine line(float(best_bin) * 2 / signal_results.steps, gPad->GetUymin(), float(best_bin) * 2 / signal_results.steps, gPad->GetUymax());
+    TLine line(results.XValue(best_bin), gPad->GetUymin(), results.XValue(best_bin), gPad->GetUymax());
     line.SetLineStyle(2);
     line.Draw();
     const std::string file_name = ExportName() + "-Significance" + ExportFileSuffix();
@@ -329,11 +323,11 @@ Result Plot::BdtResult(TFile& file, const std::string& tree_name, TFile& export_
     exroot::TreeReader tree_reader(static_cast<TTree*>(file.Get(tree_name.c_str())));
     Result result = BdtDistribution(tree_reader, tree_name, export_file);
     result.info_branch = InfoBranch(file, tree_name);
-    std::vector<int> Integral = result.CutIntegral();
+    std::vector<int> integral = result.Integral();
     for (const auto& step : Range(result.steps)) {
-        result.events[step] = float(Integral[step]) / float(result.info_branch.EventNumber) * result.info_branch.Crosssection * Luminosity;
-        result.efficiency[step] = float(Integral[step]) / float(result.info_branch.EventNumber);
-        result.analysis_event_number[step] = Integral[step];
+        result.events[step] = float(integral[step]) / float(result.info_branch.EventNumber) * result.info_branch.Crosssection * Luminosity;
+        result.efficiency[step] = float(integral[step]) / float(result.info_branch.EventNumber);
+        result.analysis_event_number[step] = integral[step];
         Debug(result.efficiency[step], result.events[step]);
     }
     return result;
@@ -374,7 +368,7 @@ InfoBranch Plot::InfoBranch(TFile& file, const std::string& tree_name) const
 {
     Debug(tree_name);
     exroot::TreeReader tree_reader(static_cast<TTree*>(file.Get(tree_name.c_str())));
-    Debug("Info Branch", tree_name, tagger().weight_branch_name());
+    Debug(tree_name, tagger().weight_branch_name());
     TClonesArray &clones_array = *tree_reader.UseBranch(tagger().weight_branch_name().c_str());
     tree_reader.ReadEntry(tree_reader.GetEntries() - 1);
     return dynamic_cast<analysis::InfoBranch &>(*clones_array.At(clones_array.GetEntriesFast() - 1));
@@ -459,7 +453,7 @@ void Plot::LatexFooter(std::ofstream& latex_file) const
 // }
 // return Error;
 // }
-//
+
 // float Plot::RoundToDigits(const float Value) const
 // {
 // return RoundToDigits(Value, 3);
@@ -473,7 +467,7 @@ void Plot::LatexFooter(std::ofstream& latex_file) const
 //
 // float Plot::RoundToDigits(const float Value, const int Digits) const
 // {
-// Debug("Round To Digits");
+// Debug();
 // if (Value == 0 || Value != Value) {
 // return 0;
 // } else {
@@ -484,7 +478,7 @@ void Plot::LatexFooter(std::ofstream& latex_file) const
 //
 // float Plot::RoundToError(const float Value, const float Error) const
 // {
-// Debug("Round To Digits");
+// Debug();
 // if (Value == 0) {
 // return 0;
 // } else {
@@ -492,6 +486,27 @@ void Plot::LatexFooter(std::ofstream& latex_file) const
 // return (round(Value * Factor) / Factor);
 // }
 // }
+
+
+float Plot::FloorToDigits(const float value, const int digits) const
+{
+  if (value == 0 || value != value) {
+    return 0;
+  } else {
+    const float factor = std::pow(10.0, digits - std::ceil(std::log10(std::abs(value))));
+    return std::floor(value * factor) / factor;
+  }
+}
+
+float Plot::CeilToDigits(const float value, const int digits) const
+{
+  if (value == 0 || value != value) {
+    return 0;
+  } else {
+    const float factor = std::pow(10.0, digits - std::ceil(std::log10(std::abs(value))));
+    return std::ceil(value * factor) / factor;
+  }
+}
 
 int Plot::ColorCode(const int number) const
 {

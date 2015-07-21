@@ -36,7 +36,7 @@ std::vector<MultipletEvent<Decuplet55>> EventSingleTagger::Multiplets(const anal
         multiplet_event.SetBdt(Bdt(multiplet_event, reader));
         multiplet_events.emplace_back(multiplet_event);
     }
-    return ReduceResult(multiplet_events);
+    return ReduceResult(multiplet_events,1);
 }
 
 }

@@ -48,7 +48,7 @@ public:
         clones_arrays_(files.file().clones_arrays()),
         event_(files.file().event()),
         tree_writer_(exroot::TreeWriter(&(files.export_file()), files.file().Title().c_str())
-                    ) {}
+        ) {}
 
     void WriteTree()
     {
@@ -66,18 +66,16 @@ public:
 
     void NewEvent(const int mass)
     {
-        tree_reader_.ReadEntry(event_number_);
+        tree_reader_.ReadEntry(entry);
         event_.NewEvent(clones_arrays_);
         event_.SetMass(mass);
     }
 
     void SaveAnalysis(const int object_number)
     {
-        if (object_number == 0)
-            return;
+        if (object_number == 0) return;
         object_sum_ += object_number;
-        info_branch_.PreCutNumber = event_number_;
-        info_branch_.EventNumber = event_number_2_;
+        info_branch_.EventNumber = event_number_;
         analysis_empty_ = false;
         static_cast<InfoBranch&>(*tree_branch_->NewEntry()) = info_branch_;
         tree_writer_.Fill();
@@ -94,10 +92,6 @@ public:
         info_branch.Name = file.nice_name();
 //         info_branch.NiceName = file.nice_name();
         return info_branch;
-    }
-    void AddPreCut(const int number)
-    {
-        pre_cut_sum_ += number;
     }
     exroot::TreeReader& tree_reader()
     {
@@ -116,8 +110,8 @@ public:
     {
         return object_sum_;
     }
-    int event_number_ = 0;
-    int event_number_2_ = 0;
+    long entry = 0;
+    long event_number_ = 0;
 private:
     exroot::TreeReader tree_reader_;
     exroot::TreeBranch* tree_branch_;
@@ -125,7 +119,6 @@ private:
     ClonesArrays clones_arrays_;
     Event event_;
     InfoBranch info_branch_;
-    int pre_cut_sum_ = 0;
     long object_sum_ = 0;
     bool analysis_empty_ = true;
 };
@@ -165,13 +158,12 @@ protected:
         SetTreeBranch(files.stage(), trees.tree_writer(), reader);
         trees.UseBranches(files.file(), tagger_.weight_branch_name(), EventNumberMax());
         if (files.stage() == Stage::reader) {
-            trees.event_number_ = std::min((long)trees.tree_reader().GetEntries(), EventNumberMax()) / 2;    // TODO fix corner cases
+            trees.entry = std::min((long)trees.tree_reader().GetEntries(), EventNumberMax()) / 2;    // TODO fix corner cases
         }
-        for (; trees.event_number_ < trees.tree_reader().GetEntries(); ++trees.event_number_) {
-          ++trees.event_number_2_;
+        for (; trees.entry < trees.tree_reader().GetEntries(); ++trees.entry) {
+            ++trees.event_number_;
             DoAnalysis(files, trees, reader);
-            if (trees.object_sum() >= EventNumberMax())
-                break;
+            if (trees.object_sum() >= EventNumberMax()) break;
         }
         trees.WriteTree();
     }
@@ -192,10 +184,7 @@ protected:
     {
         trees.NewEvent(files.file().mass());
         int pre_cut = PassPreCut(trees.event());
-        if (pre_cut > 0) {
-            trees.AddPreCut(pre_cut);
-            trees.SaveAnalysis(RunAnalysis(trees.event(), reader, files.stage(), files.tag()));
-        }
+        if (pre_cut > 0) trees.SaveAnalysis(RunAnalysis(trees.event(), reader, files.stage(), files.tag()));
         trees.tree_writer().Clear();
     }
 
