@@ -6,6 +6,7 @@ TopPartnerLeptonicTagger.cpp
 HiggsPairTagger.cpp
 TopPartnerPairTagger.cpp
 TopPartnerHiggsPairTagger.cpp
+TopPartnerTopPairTagger.cpp
 SignatureTagger.cpp
 SignatureSingleTagger.cpp
 Septet.cpp

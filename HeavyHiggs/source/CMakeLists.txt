@@ -1,7 +1,6 @@
 create_dictionary(BranchHeavyHiggs Branch.cpp ../include/LinkDefHeavyHiggs.hh)
 
 set(AnalysisSources
-Octet44.cpp
 HeavyHiggsLeptonicTagger.cpp
 HeavyHiggsSemiTagger.cpp
 HeavyHiggsTauTagger.cpp
