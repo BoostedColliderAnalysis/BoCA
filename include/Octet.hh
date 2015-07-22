@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Sextet.hh"
+#include "Quintet.hh"
+#include "Quartet.hh"
 
 namespace analysis {
 
@@ -69,6 +71,42 @@ public:
     float GetDeltaPt2() const {
         return (Sextet().Jet().pt() - Doublet().SingletJet2().pt());
     }
+
+};
+
+/**
+ * @brief An octet composed of two quartets
+ *
+ */
+class Octet44 : public analysis::Multiplet<analysis::Quartet31, analysis::Quartet31> {
+
+public:
+
+  using analysis::Multiplet<analysis::Quartet31, analysis::Quartet31>::Multiplet;
+
+  analysis::Quartet31 Quartet1() const;
+
+  analysis::Quartet31 Quartet2() const;
+
+  float BottomBdt() const;
+
+  float PairBottomBdt() const;
+
+};
+
+/**
+ * @brief An octet composed of two quartets
+ *
+ */
+class Octet53 : public analysis::Multiplet<analysis::Quintet, analysis::Triplet> {
+
+public:
+
+  using analysis::Multiplet<analysis::Quintet, analysis::Triplet>::Multiplet;
+
+  analysis::Quintet& Quintet() const;
+
+  analysis::Triplet& Triplet() const;
 
 };
 

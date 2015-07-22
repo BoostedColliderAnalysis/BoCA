@@ -3,7 +3,7 @@
 #include "HeavyHiggsSemiTagger.hh"
 #include "HeavyHiggsSemiTagger.hh"
 #include "JetPairTagger.hh"
-#include "Octet62.hh"
+#include "Octet.hh"
 
 namespace analysis {
 

@@ -2,7 +2,7 @@
 
 #include "HiggsTagger.hh"
 #include "TopLeptonicPairTagger.hh"
-#include "Octet62.hh"
+#include "Octet.hh"
 
 namespace analysis {
 

@@ -37,7 +37,7 @@ Triplet.cpp
 Quartet.cpp
 Quintet.cpp
 Sextet.cpp
-Octet62.cpp
+Octet.cpp
 GlobalObservables.cpp
 )
 create_library(Multiplets multiplet_sources)
