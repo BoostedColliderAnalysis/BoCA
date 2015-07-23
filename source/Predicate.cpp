@@ -106,7 +106,7 @@ Jets CopyIfNeutrino(const Jets& jets)
 }
 
 struct OutsidePtWindow {
-    OutsidePtWindow(const float lower_cut, const float upper_cut)
+    OutsidePtWindow(float lower_cut, float upper_cut)
     {
         lower_cut_ = lower_cut;
         upper_cut_ = upper_cut;
@@ -119,7 +119,7 @@ struct OutsidePtWindow {
     float upper_cut_;
 };
 
-Jets RemoveIfOutsidePtWindow(Jets& jets, const float lower_cut, const float upper_cut)
+Jets RemoveIfOutsidePtWindow(Jets& jets, float lower_cut, float upper_cut)
 {
     if (jets.empty()) return jets;
     jets.erase(std::remove_if(jets.begin(), jets.end(), OutsidePtWindow(lower_cut, upper_cut)), jets.end());
@@ -295,7 +295,7 @@ Jets CopyIf5Quark(const Jets& jets)
     return final_jets;
 }
 
-Jets RemoveIfSoft(const Jets& jets, const float pt_min)
+Jets RemoveIfSoft(const Jets& jets, float pt_min)
 {
     Jets quarks = jets;
     quarks.erase(std::remove_if(quarks.begin(), quarks.end(), [&](const fastjet::PseudoJet& jet){
@@ -304,17 +304,17 @@ Jets RemoveIfSoft(const Jets& jets, const float pt_min)
     return quarks;
 }
 
-float Distance(const float rapidity_1, const float phi_1, const float rapidity_2, const float phi_2)
+float Distance(float rapidity_1, float phi_1, float rapidity_2, float phi_2)
 {
     return std::sqrt(std::pow((rapidity_2 - rapidity_1), 2) + std::pow(DeltaPhi(phi_2, phi_1), 2));
 }
 
-float Length(const float rapidity, const float phi)
+float Length(float rapidity, float phi)
 {
     return std::sqrt(std::pow(rapidity, 2) + std::pow(phi, 2));
 }
 
-float DeltaPhi(const float phi_1, const float phi_2)
+float DeltaPhi(float phi_1, float phi_2)
 {
     float delta_phi = phi_1 - phi_2;
     while (std::abs(delta_phi) > M_PI) {

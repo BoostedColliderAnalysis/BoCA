@@ -9,7 +9,7 @@ class Kinematics {
 
 public:
 
-    Kinematics(const float pt, const float rap, const float phi)
+    Kinematics(float pt, float rap, float phi)
     {
         pt_ = pt;
         rap_ = rap;
@@ -63,7 +63,7 @@ public:
 
 private:
 
-    std::vector<Kinematics> Constituents(const fastjet::PseudoJet& jet, const float jet_ratio, const float theta, const float shift) const;
+    std::vector<Kinematics> Constituents(const fastjet::PseudoJet& jet, float jet_ratio, float theta, float shift) const;
 
     float ReferenceAngle(const fastjet::PseudoJet& jet, const fastjet::PseudoJet& reference_jet) const;
 

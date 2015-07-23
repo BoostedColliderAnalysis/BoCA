@@ -70,7 +70,7 @@ std::string AnalysisBase::ProcessName() const
     return "Process";
 }
 
-void AnalysisBase::NewFile(const Tag tag, const std::string& name, const float crosssection, const std::string& nice_name)
+void AnalysisBase::NewFile(const Tag tag, const std::string& name, float crosssection, const std::string& nice_name)
 {
     switch (tag) {
     case Tag::signal :
@@ -106,13 +106,13 @@ void AnalysisBase::NewBackgroundFile(const std::string& name, const std::string&
     tagger().AddBackgroundTreeName(TreeName(name));
 }
 
-void AnalysisBase::NewSignalFile(const std::string& name, const float crosssection, const std::string& nice_name)
+void AnalysisBase::NewSignalFile(const std::string& name, float crosssection, const std::string& nice_name)
 {
     files_.emplace_back(File(name, crosssection, nice_name));
     tagger().AddSignalTreeName(TreeName(name));
 }
 
-void AnalysisBase::NewBackgroundFile(const std::string& name, const float crosssection, const std::string& nice_name)
+void AnalysisBase::NewBackgroundFile(const std::string& name, float crosssection, const std::string& nice_name)
 {
     files_.emplace_back(File(name, crosssection, nice_name));
     tagger().AddBackgroundTreeName(TreeName(name));
@@ -123,7 +123,7 @@ analysis::File AnalysisBase::File(const std::string& name, const std::string& ni
     return analysis::File(name, FilePath(), FileSuffix(), nice_name);
 }
 
-analysis::File AnalysisBase::File(const std::string& name, const float crosssection, const std::string& nice_name) const
+analysis::File AnalysisBase::File(const std::string& name, float crosssection, const std::string& nice_name) const
 {
     return analysis::File(name, FilePath(), FileSuffix(), crosssection, nice_name);
 }

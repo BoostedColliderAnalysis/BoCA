@@ -70,9 +70,9 @@ protected:
 
     void NewFile(const Tag tag, const std::string& name, const std::string& nice_name = "");
 
-    void NewFile(const Tag tag, const std::string& name, const float crosssection, const std::string& nice_name = "");
+    void NewFile(const Tag tag, const std::string& name, float crosssection, const std::string& nice_name = "");
 
-    analysis::File File(const std::string& name, const float crosssection, const std::string& nice_name = "") const;
+    analysis::File File(const std::string& name, float crosssection, const std::string& nice_name = "") const;
 
     analysis::File File(const std::string& name, const std::string& nice_name = "") const;
 
@@ -94,11 +94,11 @@ private:
 
     void NewSignalFile(const std::string& name, const std::string& nice_name = "");
 
-    void NewSignalFile(const std::string& name, const float crosssection, const std::string& nice_name = "");
+    void NewSignalFile(const std::string& name, float crosssection, const std::string& nice_name = "");
 
     void NewBackgroundFile(const std::string& name, const std::string& nice_name = "");
 
-    void NewBackgroundFile(const std::string& name, const float crosssection, const std::string& nice_name = "");
+    void NewBackgroundFile(const std::string& name, float crosssection, const std::string& nice_name = "");
 
     bool Missing(const std::string& name) const;
 

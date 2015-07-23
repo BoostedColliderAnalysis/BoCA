@@ -318,7 +318,7 @@ std::string Plot::PlotSignificanceGraph(const Results& results, const std::vecto
 Result Plot::BdtResult(TFile& file, const std::string& tree_name, TFile& export_file) const
 {
     Debug(tree_name);
-    const float Luminosity = 3000; // 3000 fb-1
+    float Luminosity = 3000; // 3000 fb-1
     Debug(tree_name);
     exroot::TreeReader tree_reader(static_cast<TTree*>(file.Get(tree_name.c_str())));
     Result result = BdtDistribution(tree_reader, tree_name, export_file);
@@ -404,7 +404,7 @@ void Plot::LatexFooter(std::ofstream& latex_file) const
     latex_file.close();
 }
 
-// float Plot::GetRatio(const float Nominator, const float Denummertor) const
+// float Plot::GetRatio(float Nominator, float Denummertor) const
 // {
 // float Ratio;
 // if (Denummertor > 0) {
@@ -416,7 +416,7 @@ void Plot::LatexFooter(std::ofstream& latex_file) const
 // }
 //
 //
-// float Plot::GetScaling(const float events, int Particles) const
+// float Plot::GetScaling(float events, int Particles) const
 // {
 // Debug("Scaling");
 // float Scaling;
@@ -428,21 +428,21 @@ void Plot::LatexFooter(std::ofstream& latex_file) const
 // return Scaling;
 // }
 //
-// float Plot::GetLuminosity(const float Number) const
+// float Plot::GetLuminosity(float Number) const
 // {
 // Debug("Luminosity");
 // float Luminosity = Number / CrosssectionScaled;
 // return Luminosity;
 // }
 //
-// float Plot::GetLuminosityError(const float Number) const
+// float Plot::GetLuminosityError(float Number) const
 // {
 // Debug("Luminosity Error");
 // float LuminosityError = GetError(Number) / CrosssectionScaled + Number / CrosssectionNorm * LuminosityScalingError + GetLuminosity(Number) * CrosssectionNormRelError;
 // return LuminosityError;
 // }
 //
-// float Plot::GetError(const float Value) const
+// float Plot::GetError(float Value) const
 // {
 // Debug("Error");
 // float Error;
@@ -454,56 +454,56 @@ void Plot::LatexFooter(std::ofstream& latex_file) const
 // return Error;
 // }
 
-// float Plot::RoundToDigits(const float Value) const
+// float Plot::RoundToDigits(float Value) const
 // {
 // return RoundToDigits(Value, 3);
 // }
 //
-// float Plot::RoundError(const float Value) const
+// float Plot::RoundError(float Value) const
 // {
 // return RoundToDigits(Value, 2);
 // }
 //
 //
-// float Plot::RoundToDigits(const float Value, int Digits) const
+// float Plot::RoundToDigits(float Value, int Digits) const
 // {
 // Debug();
 // if (Value == 0 || Value != Value) {
 // return 0;
 // } else {
-// const float Factor = std::pow(10.0, Digits - ceil(log10(std::abs(Value))));
+// float Factor = std::pow(10.0, Digits - ceil(log10(std::abs(Value))));
 // return (round(Value * Factor) / Factor);
 // }
 // }
 //
-// float Plot::RoundToError(const float Value, const float Error) const
+// float Plot::RoundToError(float Value, float Error) const
 // {
 // Debug();
 // if (Value == 0) {
 // return 0;
 // } else {
-// const float Factor = std::pow(10.0, 2 - ceil(log10(std::abs(Error))));
+// float Factor = std::pow(10.0, 2 - ceil(log10(std::abs(Error))));
 // return (round(Value * Factor) / Factor);
 // }
 // }
 
 
-float Plot::FloorToDigits(const float value, int digits) const
+float Plot::FloorToDigits(float value, int digits) const
 {
   if (value == 0 || value != value) {
     return 0;
   } else {
-    const float factor = std::pow(10.0, digits - std::ceil(std::log10(std::abs(value))));
+    float factor = std::pow(10.0, digits - std::ceil(std::log10(std::abs(value))));
     return std::floor(value * factor) / factor;
   }
 }
 
-float Plot::CeilToDigits(const float value, int digits) const
+float Plot::CeilToDigits(float value, int digits) const
 {
   if (value == 0 || value != value) {
     return 0;
   } else {
-    const float factor = std::pow(10.0, digits - std::ceil(std::log10(std::abs(value))));
+    float factor = std::pow(10.0, digits - std::ceil(std::log10(std::abs(value))));
     return std::ceil(value * factor) / factor;
   }
 }
@@ -631,7 +631,7 @@ void Plot::Plotting(const Plot2d& signal, const Plot2d& background) const
     PlotProfile(signal, background, x_min, x_max, y_min, y_max);
 }
 
-void Plot::PlotHistogram(const Plot2d& signal, const Plot2d& background, const float x_min, const float x_max, const float y_min, const float y_max)const
+void Plot::PlotHistogram(const Plot2d& signal, const Plot2d& background, float x_min, float x_max, float y_min, float y_max)const
 {
     TCanvas canvas;
     canvas.SetBottomMargin(0.15);
@@ -653,7 +653,7 @@ void Plot::PlotHistogram(const Plot2d& signal, const Plot2d& background, const f
     canvas.Print(file_name.c_str());
 }
 
-void Plot::PlotProfile(const Plot2d& signal, const Plot2d& background, const float x_min, const float x_max, const float y_min, const float y_max)const
+void Plot::PlotProfile(const Plot2d& signal, const Plot2d& background, float x_min, float x_max, float y_min, float y_max)const
 {
     TCanvas canvas;
     canvas.SetRightMargin(0.15);
@@ -755,7 +755,7 @@ Plot2d Plot::ReadTree(TTree& tree, const std::string& leaf_1, const std::string&
     tree.SetBranchStatus(size_name.c_str(), 1);
     int branch_size = 0;
     tree.SetBranchAddress(size_name.c_str(), &branch_size);
-    int branch_size_max = 200; // TODO is there a cleaner way?
+    std::size_t branch_size_max = 200; // TODO is there a cleaner way?
     std::string leaf_name_1 = branch_name + "." + leaf_1;
     Debug(leaf_name_1.c_str());
     tree.SetBranchStatus(leaf_name_1.c_str(), 1);

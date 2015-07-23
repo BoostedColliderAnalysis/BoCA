@@ -20,12 +20,12 @@ Identification::Identification()
     degenerate_ = false;
 }
 
-void Identification::SetBdt(const float bdt)
+void Identification::SetBdt(float bdt)
 {
     bdt_ = bdt;
 }
 
-void Identification::SetBdt(const float bdt_1, const float bdt_2)
+void Identification::SetBdt(float bdt_1, float bdt_2)
 {
     bdt_ = (bdt_1 + bdt_2) / 2;
 }

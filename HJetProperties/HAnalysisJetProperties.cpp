@@ -151,7 +151,7 @@ int hjetproperties::HAnalysis::Analysis(analysis::Event& event, const std::strin
         }
         std::map<float, fastjet::PseudoJet>::iterator JetPair = JetMap.end();
         --JetPair;
-        const float MaxRadius = (*JetPair).first;
+        float MaxRadius = (*JetPair).first;
         Info("MaxRadius", MaxRadius);
         FillTree(particle_branch, ParticleconstituentBranch, CandidateJet, LeptonJets, MaxRadius);
         float CandidatePt = 0;
@@ -233,7 +233,7 @@ int hjetproperties::HAnalysis::Analysis(analysis::Event& event, const std::strin
     return 1;
 }
 
-bool hjetproperties::HAnalysis::FillTree(exroot::TreeBranch* const TreeBranch, exroot::TreeBranch* constituentTreeBranch, const fastjet::PseudoJet& CandidateJet, const analysis::Jets& LeptonJets, const float DeltaR)
+bool hjetproperties::HAnalysis::FillTree(exroot::TreeBranch* const TreeBranch, exroot::TreeBranch* constituentTreeBranch, const fastjet::PseudoJet& CandidateJet, const analysis::Jets& LeptonJets, float DeltaR)
 {
 //   Debug("Fill Tree", DeltaR);
     if (CandidateJet != 0 && CandidateJet.m() > 0 && DeltaR > 0) {
@@ -305,7 +305,7 @@ float hjetproperties::HAnalysis::GetDeltaR(const fastjet::PseudoJet& Jet)
     float DeltaR = 0;
     if (Jet.has_constituents()) {
         for (const auto& constituent : Jet.constituents()) {
-            const float ConstDistance = Jet.delta_R(constituent);
+            float ConstDistance = Jet.delta_R(constituent);
             if (ConstDistance > DeltaR)
                 DeltaR = ConstDistance;
         }

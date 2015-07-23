@@ -122,7 +122,7 @@ private:
     analysis::SubStructure sub_structure;
 
 
-    bool FillTree(exroot::TreeBranch* const, exroot::TreeBranch* const, const fastjet::PseudoJet& Jet, const analysis::Jets&, const float DeltaR);
+    bool FillTree(exroot::TreeBranch* const, exroot::TreeBranch* const, const fastjet::PseudoJet& Jet, const analysis::Jets&, float DeltaR);
 
     bool FillTree(exroot::TreeBranch* const, exroot::TreeBranch* const, const fastjet::PseudoJet& Jet, const analysis::Jets&);
 

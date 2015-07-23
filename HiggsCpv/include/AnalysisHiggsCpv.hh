@@ -44,7 +44,7 @@ public:
         return  "HiggsCpv-1";
     }
 
-    std::string ProcessName() {
+    std::string ProcessName() const final {
         return "higgscpv";
     }
 

@@ -43,7 +43,7 @@ public:
         return mass_;
     }
 
-    void SetMass(const float mass)
+    void SetMass(float mass)
     {
         mass_ = mass;
     }

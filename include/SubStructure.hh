@@ -133,7 +133,7 @@ private:
 
     Momentum Isolation;
 
-    const float Shift = 1;
+    float Shift = 1;
 
     float GetPosition2Rap() const
     {

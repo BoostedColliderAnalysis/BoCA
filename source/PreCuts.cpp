@@ -2,7 +2,7 @@
 
 namespace analysis {
 
-void PreCuts::SetPtLowerCut(const Id id, const float value)
+void PreCuts::SetPtLowerCut(const Id id, float value)
 {
     pt_lower_cut_.emplace(id, value);
 }
@@ -14,7 +14,7 @@ float PreCuts::PtLowerCut(const Id id) const
         return 0;
     }
 }
-void PreCuts::SetPtUpperCut(const Id id, const float value)
+void PreCuts::SetPtUpperCut(const Id id, float value)
 {
     pt_upper_cut_.emplace(id, value);
 }
@@ -26,7 +26,7 @@ float PreCuts::PtUpperCut(const analysis::Id id) const
         return 0;
     }
 }
-void PreCuts::SetMassLowerCut(const Id id, const float value)
+void PreCuts::SetMassLowerCut(const Id id, float value)
 {
     mass_lower_cut_.emplace(id, value);
 }
@@ -38,7 +38,7 @@ float PreCuts::MassLowerCut(const Id id) const
         return 0;
     }
 }
-void PreCuts::SetMassUpperCut(const Id id, const float value)
+void PreCuts::SetMassUpperCut(const Id id, float value)
 {
     mass_upper_cut_.emplace(id, value);
 }
@@ -50,7 +50,7 @@ float PreCuts::MassUpperCut(const Id id) const
         return 0;
     }
 }
-void PreCuts::SetTrackerMaxEta(const Id id, const float value)
+void PreCuts::SetTrackerMaxEta(const Id id, float value)
 {
     tracker_eta_upper_cut_.emplace(id, value);
 }

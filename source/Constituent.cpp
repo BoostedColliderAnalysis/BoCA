@@ -17,7 +17,7 @@ Constituent::Constituent(const TLorentzVector& momentum, const TLorentzVector& p
     position_ = position;
 }
 
-Constituent::Constituent(const TLorentzVector& momentum, const TLorentzVector& position, const SubDetector sub_detector, const float charge)
+Constituent::Constituent(const TLorentzVector& momentum, const TLorentzVector& position, const SubDetector sub_detector, float charge)
 {
     momentum_ = momentum;
     position_ = position;
@@ -42,7 +42,7 @@ Constituent::Constituent(const TLorentzVector& momentum)
     momentum_ = momentum;
 }
 
-Constituent::Constituent(const TLorentzVector& momentum, const SubDetector sub_detector, const float charge)
+Constituent::Constituent(const TLorentzVector& momentum, const SubDetector sub_detector, float charge)
 {
     momentum_ = momentum;
     sub_detector_ = sub_detector;
@@ -60,7 +60,7 @@ void Constituent::SetPosition(const TLorentzVector& position)
     position_ = position;
 }
 
-void Constituent::SetPosition(const float x, const float y, const float z, const float t)
+void Constituent::SetPosition(float x, float y, float z, float t)
 {
     position_.SetXYZT(x, y, z, t);
 }

@@ -58,7 +58,7 @@ public:
 
     void BestBin();
 
-    float XValue(const float value) const {
+    float XValue(float value) const {
       return value * 2 / Result().steps - 1;
     }
 
@@ -133,9 +133,9 @@ private:
 
     Plot2d ReadTree(TTree& tree, const std::string& leaf_1, const std::string& leaf_2) const;
 
-    void PlotHistogram(const analysis::Plot2d& signal, const analysis::Plot2d& background, const float x_min, const float x_max, const float y_min, const float y_max) const;
+    void PlotHistogram(const analysis::Plot2d& signal, const analysis::Plot2d& background, float x_min, float x_max, float y_min, float y_max) const;
 
-    void PlotProfile(const analysis::Plot2d& signal, const analysis::Plot2d& background, const float x_min, const float x_max, const float y_min, const float y_max) const;
+    void PlotProfile(const analysis::Plot2d& signal, const analysis::Plot2d& background, float x_min, float x_max, float y_min, float y_max) const;
 
     float Bdt() const;
 
@@ -185,17 +185,17 @@ private:
         return ".png";
     }
 
-//     float RoundToDigits(const float Value) const;
+//     float RoundToDigits(float Value) const;
 //
-//     float RoundError(const float Value) const;
+//     float RoundError(float Value) const;
 //
-//     float RoundToDigits(const float Value, int Digits) const;
+//     float RoundToDigits(float Value, int Digits) const;
 //
-//     float RoundToError(const float Value, const float Error) const;
+//     float RoundToError(float Value, float Error) const;
 
-    float FloorToDigits(const float value, int digits = 2) const;
+    float FloorToDigits(float value, int digits = 2) const;
 
-    float CeilToDigits(const float value, int digits = 2) const;
+    float CeilToDigits(float value, int digits = 2) const;
 
 };
 
