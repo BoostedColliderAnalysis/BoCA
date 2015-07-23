@@ -2,39 +2,39 @@
 
 namespace analysis {
 
-std::string Shorten(const std::string& pretty_function, std::size_t brake)
+std::string Shorten(const std::string& pretty_function, size_t brake)
 {
-    std::size_t begin1 = pretty_function.substr(0, brake).rfind(" ") + 1;
-    std::size_t begin2 = pretty_function.substr(0, brake).rfind("::") + 1; // TODO should be +2 but corner case prevents it, hence the hack in the second last line
-    std::size_t begin = std::max(begin1, begin2);
-    std::size_t end = brake - begin;
+    size_t begin1 = pretty_function.substr(0, brake).rfind(" ") + 1;
+    size_t begin2 = pretty_function.substr(0, brake).rfind("::") + 1; // TODO should be +2 but corner case prevents it, hence the hack in the second last line
+    size_t begin = std::max(begin1, begin2);
+    size_t end = brake - begin;
     std::string name = pretty_function.substr(begin, end);
     name.erase(std::remove(name.begin(), name.end(), ':'), name.end());
     return name;
 }
 
-std::string Shorten2(const std::string& pretty_function, std::size_t brake)
+std::string Shorten2(const std::string& pretty_function, size_t brake)
 {
-    std::size_t colons = pretty_function.substr(0, brake).rfind("::");
+    size_t colons = pretty_function.substr(0, brake).rfind("::");
     return (colons == std::string::npos) ? "::" : Shorten(pretty_function, colons);
 }
 
 std::string NameSpaceName(const std::string& pretty_function)
 {
-    std::size_t bracket = pretty_function.find("(");
-    std::size_t colons = pretty_function.substr(0, bracket).rfind("::");
+    size_t bracket = pretty_function.find("(");
+    size_t colons = pretty_function.substr(0, bracket).rfind("::");
     return Shorten2(pretty_function, colons);
 }
 
 std::string ClassName(const std::string& pretty_function)
 {
-    std::size_t bracket = pretty_function.find("(");
+    size_t bracket = pretty_function.find("(");
     return Shorten2(pretty_function, bracket);
 }
 
 std::string FunctionName(const std::string& pretty_function)
 {
-    std::size_t bracket = pretty_function.find("(");
+    size_t bracket = pretty_function.find("(");
     return Shorten(pretty_function, bracket);
 }
 

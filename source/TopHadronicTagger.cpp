@@ -43,11 +43,11 @@ int TopHadronicTagger::Train(const Event& event, const analysis::PreCuts& pre_cu
             continue;
         }
         Info("2 sub jets forms one top" , triplets.size());
-        std::size_t sub_jet_number = 2;
+        size_t sub_jet_number = 2;
         Jets pieces = bottom_reader_.SubMultiplet(jet, sub_jet_number);
         if (pieces.size() < sub_jet_number)
             continue;
-        for (std::size_t i = 0; i < pieces.size(); ++i) {
+        for (size_t i = 0; i < pieces.size(); ++i) {
             auto piece_1 = pieces.at(i);
             auto piece_2 = pieces.at((i + 1) % sub_jet_number);
             try {
@@ -62,7 +62,7 @@ int TopHadronicTagger::Train(const Event& event, const analysis::PreCuts& pre_cu
         pieces = bottom_reader_.SubMultiplet(jet, sub_jet_number);
         if (pieces.size() < sub_jet_number)
             continue;
-        for (std::size_t i = 0; i < pieces.size(); ++i) {
+        for (size_t i = 0; i < pieces.size(); ++i) {
             auto piece_1 = pieces.at(i);
             auto piece_2 = pieces.at((i + 1) % sub_jet_number);
             auto piece_3 = pieces.at((i + 2) % sub_jet_number);
@@ -199,11 +199,11 @@ std::vector<Triplet> TopHadronicTagger::Multiplets(const Event& event, const ana
             triplets.emplace_back(Multiplet(triplet, leptons, pre_cuts, reader));
         } catch (const char* message) {}
         Info("2 sub jets forms one top" , triplets.size());
-        std::size_t sub_jet_number = 2;
+        size_t sub_jet_number = 2;
         Jets pieces = bottom_reader_.SubMultiplet(jet, sub_jet_number);
         if (pieces.size() < sub_jet_number)
             continue;
-        for (std::size_t i = 0; i < pieces.size(); ++i) {
+        for (size_t i = 0; i < pieces.size(); ++i) {
             auto piece_1 = pieces.at(i);
             auto piece_2 = pieces.at((i + 1) % sub_jet_number);
             try {
@@ -216,7 +216,7 @@ std::vector<Triplet> TopHadronicTagger::Multiplets(const Event& event, const ana
         pieces = bottom_reader_.SubMultiplet(jet, sub_jet_number);
         if (pieces.size() < sub_jet_number)
             continue;
-        for (std::size_t i = 0; i < pieces.size(); ++i) {
+        for (size_t i = 0; i < pieces.size(); ++i) {
             auto piece_1 = pieces.at(i);
             auto piece_2 = pieces.at((i + 1) % sub_jet_number);
             auto piece_3 = pieces.at((i + 2) % sub_jet_number);

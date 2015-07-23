@@ -27,7 +27,7 @@ int WHadronicTagger::Train(const Event& event, const analysis::PreCuts& pre_cuts
     }
     Info("2 of 2 sub jets form one W");
     for (const auto& jet : jets) {
-        int sub_jet_number = 2;
+        size_t sub_jet_number = 2;
         Jets pieces = bottom_reader_.SubMultiplet(jet, sub_jet_number);
         if (pieces.size() < sub_jet_number)
             continue;
@@ -38,7 +38,7 @@ int WHadronicTagger::Train(const Event& event, const analysis::PreCuts& pre_cuts
     }
     Info("2 of 3 sub jets forms one W");
     for (const auto& jet : jets) {
-        int sub_jet_number = 3;
+        size_t sub_jet_number = 3;
         Jets pieces = bottom_reader_.SubMultiplet(jet, sub_jet_number);
         if (pieces.size() < sub_jet_number)
             continue;
@@ -54,7 +54,7 @@ int WHadronicTagger::Train(const Event& event, const analysis::PreCuts& pre_cuts
     // FIXME this one seems to cause problems!!!
     Info("1 of 2 sub jets forms one W");
     for (const auto& jet : jets) {
-        int sub_jet_number = 2;
+        size_t sub_jet_number = 2;
         Jets pieces = bottom_reader_.SubMultiplet(jet, sub_jet_number);
         if (pieces.size() < sub_jet_number)
             continue;
@@ -196,7 +196,7 @@ std::vector<Doublet> WHadronicTagger::Multiplets3(const Jets& jets, const PreCut
     return doublets;
 }
 
-std::vector<Doublet> WHadronicTagger::SubMultiplets(const Jets& jets, const PreCuts& pre_cuts, const TMVA::Reader& reader, const std::size_t sub_jet_number) const
+std::vector<Doublet> WHadronicTagger::SubMultiplets(const Jets& jets, const PreCuts& pre_cuts, const TMVA::Reader& reader, const size_t sub_jet_number) const
 {
     Info();
     std::vector<Doublet>  doublets;
@@ -220,7 +220,7 @@ std::vector<Doublet> WHadronicTagger::SubMultiplets(const Jets& jets, const PreC
 std::vector<Doublet> WHadronicTagger::SubMultiplets2(const Jets& jets, const PreCuts& pre_cuts, const TMVA::Reader& reader) const
 {
     Info();
-    int sub_jet_number = 2;
+    size_t sub_jet_number = 2;
     std::vector<Doublet>  doublets;
     for (const auto& jet : jets) {
         Jets pieces = bottom_reader_.SubMultiplet(jet, sub_jet_number);

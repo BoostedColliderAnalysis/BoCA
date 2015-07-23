@@ -18,9 +18,9 @@
 
 namespace analysis {
 
-std::string Shorten(const std::string& pretty_function, std::size_t brake);
+std::string Shorten(const std::string& pretty_function, size_t brake);
 
-std::string Shorten2(const std::string& pretty_function, std::size_t brake);
+std::string Shorten2(const std::string& pretty_function, size_t brake);
 
 std::string NameSpaceName(const std::string& pretty_function);
 

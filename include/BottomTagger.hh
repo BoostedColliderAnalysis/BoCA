@@ -59,7 +59,7 @@ private:
 
     Jets Multiplets(const Jets& jets, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 
-    Jets SubMultiplets(const analysis::Jets& jets, const analysis::PreCuts& pre_cuts, const TMVA::Reader& reader, const std::size_t sub_jet_number) const;
+    Jets SubMultiplets(const analysis::Jets& jets, const analysis::PreCuts& pre_cuts, const TMVA::Reader& reader, const size_t sub_jet_number) const;
 
     Jets Multiplets(const Jets& jets, const TMVA::Reader& reader) const;
 

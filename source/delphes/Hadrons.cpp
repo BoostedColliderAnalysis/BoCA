@@ -248,7 +248,7 @@ Jets Hadrons::GranulatedJets(const analysis::Jets& e_flow_jets) const
     jets.emplace_back(sorted_jets.front());
     for (const auto& e_flow_jet : sorted_jets) {
         bool is_new_jet = false;
-        for (std::size_t j = 0; j < jets.size(); ++j) {
+        for (size_t j = 0; j < jets.size(); ++j) {
             float cell_diff_rap = std::abs(e_flow_jet.pseudorapidity() - jets[j].pseudorapidity()) / DetectorGeometry::MinCellResolution();
             float cell_diff_phi = std::abs(e_flow_jet.phi() - jets[j].phi());
             if (cell_diff_phi > M_PI)
