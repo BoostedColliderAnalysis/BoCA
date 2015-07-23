@@ -20,7 +20,7 @@ public:
 
     AnalysisZ()
     {
-        this->tagger().set_analysis_name(ProjectName());
+        this->set_tagger_analysis_name(ProjectName());
         this->pre_cuts().SetPtLowerCut(Id::Z, this->LowerPtCut());
         this->pre_cuts().SetPtUpperCut(Id::Z, this->UpperPtCut());
         this->pre_cuts().SetMassUpperCut(Id::Z, 200);

@@ -157,6 +157,10 @@ protected:
         return tagger_;
     }
 
+    void set_tagger_analysis_name(const std::string& name){
+      tagger().set_analysis_name(name);
+    }
+
     Tagger& tagger() final {
         return tagger_;
     }
@@ -186,7 +190,7 @@ private:
             tagger_.SetTreeBranch(tree_writer, stage);
             break;
         case Stage::reader :
-            reader.tagger().SetTreeBranch(tree_writer, stage);
+            reader.SetTreeBranch(tree_writer, stage);
             break;
         }
     }

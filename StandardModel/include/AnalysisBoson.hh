@@ -19,7 +19,7 @@ public:
 
     AnalysisBoson()
     {
-        this->tagger().set_analysis_name(ProjectName());
+        this->set_tagger_analysis_name(ProjectName());
         this->pre_cuts().SetPtLowerCut(Id::higgs, this->LowerPtCut());
         this->pre_cuts().SetPtUpperCut(Id::higgs, this->UpperPtCut());
         this->pre_cuts().SetPtLowerCut(Id::bottom, this->LowerPtCut() / 5);
