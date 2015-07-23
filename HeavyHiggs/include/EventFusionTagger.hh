@@ -18,11 +18,11 @@ public:
 
     EventFusionTagger();
 
-    int Train(const Event& event, PreCuts& pre_cuts, const Tag tag) const;
+    int Train(const Event& event, const PreCuts& pre_cuts, const Tag tag) const;
 
     std::vector<MultipletEvent<Sextet>> Multiplets(const Event& event, TMVA::Reader& reader);
 
-    int GetBdt(const Event& event, PreCuts& pre_cuts, const TMVA::Reader& reader) const  final
+    int GetBdt(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const  final
     {
 //       return SaveEntries(Multiplets(event, pre_cuts, reader));
     }

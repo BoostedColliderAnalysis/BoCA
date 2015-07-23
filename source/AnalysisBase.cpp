@@ -206,10 +206,9 @@ std::string AnalysisBase::PathName(const std::string& file_name, const std::stri
     return ProjectName() + "/" + file_name + suffix;
 }
 
-void AnalysisBase::RunTagger(Stage stage)
+void AnalysisBase::RunTagger(const Stage stage)
 {
-    if (Missing(PathName(tagger().Name(stage))))
-        AnalysisLoop(stage);
+    if (Missing(PathName(tagger().Name(stage)))) AnalysisLoop(stage);
 }
 
 // void AnalysisBase::RunFactory()
@@ -221,8 +220,7 @@ void AnalysisBase::RunTagger(Stage stage)
 void AnalysisBase::RunFactory()
 {
     PrepareFiles();
-    if (Missing(PathName(tagger().bdt_weight_name(), "")))
-        analysis::Factory factory(tagger());
+    if (Missing(PathName(tagger().bdt_weight_name(), ""))) analysis::Factory factory(tagger());
 }
 
 

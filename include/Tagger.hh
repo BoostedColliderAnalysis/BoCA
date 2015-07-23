@@ -99,9 +99,9 @@ public:
 
     std::string signal(const std::string& name) const;
 
-    virtual int GetBdt(const Event&, PreCuts&, const TMVA::Reader&) const = 0;
+    virtual int GetBdt(const Event&, const PreCuts&, const TMVA::Reader&) const = 0;
 
-    virtual int Train(const Event&, PreCuts&, const Tag) const = 0;
+    virtual int Train(const Event&, const PreCuts&, const Tag) const = 0;
 
     Jets SubJets(const fastjet::PseudoJet& jet, const int sub_jet_number) const;
 

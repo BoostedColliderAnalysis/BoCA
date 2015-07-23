@@ -10,7 +10,7 @@ BosonTagger::BosonTagger()
     DefineVariables();
 }
 
-int BosonTagger::Train(const Event& event, PreCuts& pre_cuts, const Tag tag) const
+int BosonTagger::Train(const Event& event, const PreCuts& pre_cuts, const Tag tag) const
 {
     Info(analysis::Name(tag));
     Jets jets =  bottom_reader_.Multiplets(event);
@@ -47,7 +47,7 @@ int BosonTagger::Train(const Event& event, PreCuts& pre_cuts, const Tag tag) con
     return SaveEntries(BestMatches(doublets, bosons, tag));
 }
 
-bool BosonTagger::Problematic(const Doublet& doublet, PreCuts& pre_cuts, const Tag tag) const
+bool BosonTagger::Problematic(const Doublet& doublet, const PreCuts& pre_cuts, const Tag tag) const
 {
     if (Problematic(doublet, pre_cuts)) return true;
     switch (tag) {
@@ -63,7 +63,7 @@ bool BosonTagger::Problematic(const Doublet& doublet, PreCuts& pre_cuts, const T
     return false;
 }
 
-bool BosonTagger::Problematic(const Doublet& doublet, PreCuts& pre_cuts) const
+bool BosonTagger::Problematic(const Doublet& doublet, const PreCuts& pre_cuts) const
 {
     if (pre_cuts.PtLowerCut(Id::higgs) > 0 && pre_cuts.PtLowerCut(Id::higgs) > doublet.Jet().pt()) return true;
     if (pre_cuts.PtUpperCut(Id::higgs) > 0 && pre_cuts.PtUpperCut(Id::higgs) < doublet.Jet().pt()) return true;
@@ -71,7 +71,7 @@ bool BosonTagger::Problematic(const Doublet& doublet, PreCuts& pre_cuts) const
     return false;
 }
 
-std::vector<Doublet>  BosonTagger::Multiplets(const Event& event, PreCuts& pre_cuts, const TMVA::Reader& reader) const
+std::vector<Doublet>  BosonTagger::Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const
 {
     Info();
     Jets jets =  bottom_reader_.Multiplets(event);

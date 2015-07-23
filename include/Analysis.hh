@@ -18,7 +18,7 @@ public:
     {
         return export_file_;
     }
-    File& file()
+    File& file() const
     {
         return *file_;
     }
@@ -81,7 +81,7 @@ public:
         tree_writer_.Fill();
     }
 
-    InfoBranch FillInfoBranch(const exroot::TreeReader& tree_reader, const File& file, long int event_number_max)
+    InfoBranch FillInfoBranch(const exroot::TreeReader& tree_reader, const File& file, const long event_number_max)
     {
         InfoBranch info_branch;
         info_branch.Crosssection = file.crosssection();
@@ -152,6 +152,17 @@ public:
 
 protected:
 
+    const Tagger& tagger() const final
+    {
+        return tagger_;
+    }
+
+    Tagger& tagger() final {
+        return tagger_;
+    }
+
+private:
+
     void AnalyseFile(Files& files, Reader<Tagger>& reader)
     {
         Trees trees(files);
@@ -180,7 +191,7 @@ protected:
         }
     }
 
-    void DoAnalysis(Files& files, Trees& trees, Reader<Tagger>& reader)
+    void DoAnalysis(const Files& files, Trees& trees, const Reader<Tagger>& reader)
     {
         trees.NewEvent(files.file().mass());
         int pre_cut = PassPreCut(trees.event());
@@ -199,17 +210,6 @@ protected:
             return 0;
         }
     }
-
-    const Tagger& tagger() const final
-    {
-        return tagger_;
-    }
-
-    Tagger& tagger() final {
-        return tagger_;
-    }
-
-private:
 
     Tagger tagger_;
 

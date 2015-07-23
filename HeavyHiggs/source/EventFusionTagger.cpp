@@ -11,7 +11,7 @@ EventFusionTagger::EventFusionTagger()
     DefineVariables();
 }
 
-int EventFusionTagger::Train(const Event& event, PreCuts& pre_cuts, const Tag tag) const
+int EventFusionTagger::Train(const Event& event, const PreCuts& pre_cuts, const Tag tag) const
 {
     Info("event Tags");
     Jets jets = bottom_reader_.Multiplets(event);

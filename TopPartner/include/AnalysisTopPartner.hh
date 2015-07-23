@@ -91,6 +91,10 @@ private:
         particles = RemoveIfSoft(particles, PreCut());
         Jets tops = CopyIfParticle(particles, Id::top);
         Jets higgs = CopyIfParticle(particles, Id::higgs);
+
+        Jets tchannel = RemoveIfMother(higgs,Id::top);
+        tchannel = RemoveIfMother(tchannel,Id::top_partner);
+
         Jets vectors = CopyIfParticles(particles, Id::Z, Id::W);
         if (tops.size() < 2 || (higgs.size() < 1 && vectors.size() < 1)) return 0;
         return 1;

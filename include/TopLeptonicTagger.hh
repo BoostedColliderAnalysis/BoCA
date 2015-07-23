@@ -17,20 +17,20 @@ public:
 
     TopLeptonicTagger();
 
-    int Train(const Event& event, PreCuts& pre_cuts, const analysis::Tag tag) const;
+    int Train(const Event& event, const PreCuts& pre_cuts, const analysis::Tag tag) const;
 
-    std::vector<Triplet> Multiplets(const Event& event, analysis::PreCuts& pre_cuts, const TMVA::Reader& reader) const;
+    std::vector<Triplet> Multiplets(const Event& event, const analysis::PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 
-    int GetBdt(const Event& event, PreCuts& pre_cuts, const TMVA::Reader& reader) const  final
+    int GetBdt(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const  final
     {
 //         do_fake_leptons = true;
         return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
 //         return SaveEntries(Multiplets(event, pre_cuts, reader), Particles(event).size());
     }
 
-    bool Problematic(const Triplet& triplet, PreCuts& pre_cuts, const Tag tag) const;
+    bool Problematic(const Triplet& triplet, const PreCuts& pre_cuts, const Tag tag) const;
 
-    bool Problematic(const Triplet& triplet, PreCuts& pre_cuts) const;
+    bool Problematic(const Triplet& triplet, const PreCuts& pre_cuts) const;
 
     fastjet::PseudoJet FakeLepton(const fastjet::PseudoJet& jet) const;
 

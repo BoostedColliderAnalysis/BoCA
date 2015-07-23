@@ -34,7 +34,7 @@ public:
         }
     }
 
-    int Bdt(const analysis::Event& event, analysis::PreCuts& pre_cuts) const
+    int Bdt(const analysis::Event& event, const analysis::PreCuts& pre_cuts) const
     {
         return tagger_.GetBdt(event, pre_cuts, reader_);
     }

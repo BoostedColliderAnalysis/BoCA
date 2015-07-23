@@ -4,69 +4,35 @@
 #include "Global.hh"
 
 
-namespace analysis {
+namespace analysis
+{
 
-class PreCuts {
+class PreCuts
+{
 public:
-    void SetPtLowerCut(const Id id, const float value)
-    {
-        pt_lower_cut_[id] = value;
-    }
+    void SetPtLowerCut(const Id id, const float value);
 
-    float PtLowerCut(const Id id)
-    {
-        return pt_lower_cut_[id];
-    }
+    float PtLowerCut(const Id id) const;
 
-    void SetPtUpperCut(const Id id, const float value)
-    {
-        pt_upper_cut_[id] = value;
-    }
+    void SetPtUpperCut(const Id id, const float value);
 
-    float PtUpperCut(const Id id)
-    {
-        return pt_upper_cut_[id];
-    }
+    float PtUpperCut(const Id id) const;
 
-    void SetMassLowerCut(const Id id, const float value)
-    {
-        mass_lower_cut_[id] = value;
-    }
+    void SetMassLowerCut(const Id id, const float value);
 
-    float MassLowerCut(const Id id)
-    {
-        return mass_lower_cut_[id];
-    }
+    float MassLowerCut(const Id id) const;
 
-    void SetMassUpperCut(const Id id, const float value)
-    {
-        mass_upper_cut_[id] = value;
-    }
+    void SetMassUpperCut(const Id id, const float value);
 
-    float MassUpperCut(const Id id)
-    {
-        return mass_upper_cut_[id];
-    }
+    float MassUpperCut(const Id id) const;
 
-    void SetTrackerMaxEta(const Id id, const float value)
-    {
-        tracker_eta_upper_cut_[id] = value;
-    }
+    void SetTrackerMaxEta(const Id id, const float value);
 
-    float TrackerMaxEta(const Id id)
-    {
-        return tracker_eta_upper_cut_[id];
-    }
+    float TrackerMaxEta(const Id id) const;
 
-    bool DoSubJets() const
-    {
-        return do_sub_jets_;
-    }
+    bool DoSubJets() const;
 
-    void SetSubJets(const bool do_sub_jets)
-    {
-        do_sub_jets_ = do_sub_jets;
-    }
+    void SetSubJets(const bool do_sub_jets);
 
 private:
 

@@ -27,8 +27,10 @@ public:
     static float VertexMassMin();
     static float LeptonMinPt();
     static JetType jet_type();
+    static void set_detector_type(const DetectorType detector_type);
 private:
     static DetectorType detector_type();
+    static DetectorType detector_type_;
 };
 
 }

@@ -19,11 +19,11 @@ public:
 
     TopPartnerLeptonicTagger();
 
-    int Train(const Event& event, PreCuts& pre_cuts, const Tag tag) const final;
+    int Train(const Event& event, const PreCuts& pre_cuts, const Tag tag) const final;
 
-    std::vector<Quintet> Multiplets(const Event& event, PreCuts& pre_cuts, const TMVA::Reader& reader) const;
+    std::vector<Quintet> Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 
-    int GetBdt(const Event& event, PreCuts& pre_cuts, const TMVA::Reader& reader) const  final
+    int GetBdt(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const  final
     {
         return SaveEntries(Multiplets(event, pre_cuts, reader));
     }

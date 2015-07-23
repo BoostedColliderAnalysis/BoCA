@@ -10,7 +10,7 @@ JetPairTagger::JetPairTagger()
     DefineVariables();
 }
 
-int JetPairTagger::Train(const Event& event, PreCuts&, const Tag tag) const
+int JetPairTagger::Train(const Event& event, const PreCuts&, const Tag tag) const
 {
     Info();
     Jets jets = bottom_reader_.Multiplets(event);
@@ -45,7 +45,7 @@ Jets JetPairTagger::BottomPair(const Event& event, const Tag tag) const
     return bottom_not_from_higgs;
 }
 
-std::vector<Doublet> JetPairTagger::Multiplets(const Event& event, analysis::PreCuts&, const TMVA::Reader& reader) const
+std::vector<Doublet> JetPairTagger::Multiplets(const Event& event, const analysis::PreCuts&, const TMVA::Reader& reader) const
 {
     Jets jets = bottom_reader_.Multiplets(event);
     std::vector<Doublet>  doublets;
