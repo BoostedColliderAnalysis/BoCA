@@ -11,7 +11,7 @@ TripletJetPairTagger::TripletJetPairTagger()
     DefineVariables();
 }
 
-int TripletJetPairTagger::Train(const analysis::Event& event, const analysis::PreCuts&, const analysis::Tag tag) const
+int TripletJetPairTagger::Train(const analysis::Event& event, const analysis::PreCuts&, Tag tag) const
 {
     Info("W Tags");
     Jets jets = bottom_reader_.Multiplets(event);

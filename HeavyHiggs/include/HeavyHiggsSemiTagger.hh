@@ -19,7 +19,7 @@ public:
 
     HeavyHiggsSemiTagger();
 
-    int Train(const Event& event, const PreCuts& pre_cuts, const Tag tag) const final;
+    int Train(const Event& event, const PreCuts& pre_cuts,  Tag tag) const final;
 
     std::vector<Sextet> Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 
@@ -35,9 +35,9 @@ public:
 
     Jets TopParticles(const Event& event, int charge) const;
 
-    Jets HiggsParticle(const Event& event, const Tag tag) const;
+    Jets HiggsParticle(const Event& event,  Tag tag) const;
 
-    std::vector<Triplet> FinalTriplet(const Event& event, const Tag tag, int charge) const;
+    std::vector<Triplet> FinalTriplet(const Event& event,  Tag tag, int charge) const;
 
 private:
 

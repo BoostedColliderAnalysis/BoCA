@@ -27,7 +27,7 @@ void hbottomsumtagger::EventBottomTagger::DefineVariables()
     AddSpectator(branch().Tag, "Tag");
 }
 
-int hbottomsumtagger::EventBottomTagger::Train(const analysis::Event& event, const analysis::PreCuts&, const analysis::Tag tag)
+int hbottomsumtagger::EventBottomTagger::Train(const analysis::Event& event, const analysis::PreCuts&, analysis::Tag tag)
 {
     Info("event Tags");
     analysis::Jets jets = bottom_reader_.Multiplets(event);
@@ -57,7 +57,7 @@ int hbottomsumtagger::EventBottomTagger::Train(const analysis::Event& event, con
     return 0;
 }
 
-bool hbottomsumtagger::EventBottomTagger::TruthLevelCheck(const analysis::Jets& NewJets, const analysis::Event& event, const analysis::Tag Tag)
+bool hbottomsumtagger::EventBottomTagger::TruthLevelCheck(const analysis::Jets& NewJets, const analysis::Event& event, analysis::Tag tag)
 {
     const unsigned JetNumber = 2;
     const unsigned SignalBottomNumber = 2;
@@ -73,9 +73,9 @@ bool hbottomsumtagger::EventBottomTagger::TruthLevelCheck(const analysis::Jets& 
         if (jets.front().delta_R(Particle) < analysis::DetectorGeometry::JetConeSize())
             BottomJets.emplace_back(jets.front());
     }
-    if (Tag == analysis::Tag::signal && BottomJets.size() < SignalBottomNumber)
+    if (tag == analysis::Tag::signal && BottomJets.size() < SignalBottomNumber)
         return 0;
-    if (Tag == analysis::Tag::background && BottomJets.size() <= BackgroundBottomNumber)
+    if (tag == analysis::Tag::background && BottomJets.size() <= BackgroundBottomNumber)
         return 0;
     return 1;
 }

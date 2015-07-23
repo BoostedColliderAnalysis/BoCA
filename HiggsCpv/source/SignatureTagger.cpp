@@ -12,7 +12,7 @@ SignatureTagger::SignatureTagger()
     DefineVariables();
 }
 
-int SignatureTagger::Train(const Event& event, const analysis::PreCuts&, const analysis::Tag tag) const
+int SignatureTagger::Train(const Event& event, const analysis::PreCuts&, Tag tag) const
 {
     Info();
     std::vector<Sextet> sextets = triplet_pair_reader_.tagger().TruthLevel(event,triplet_pair_reader_.Multiplets(event),tag);

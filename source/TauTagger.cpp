@@ -13,7 +13,7 @@ TauTagger::TauTagger()
     DefineVariables();
 }
 
-int TauTagger::Train(const Event& event, const PreCuts&, const Tag tag) const
+int TauTagger::Train(const Event& event, const PreCuts&,  Tag tag) const
 {
     Info(analysis::Name(tag));
     Jets jets = event.Hadrons().Jets();
@@ -71,7 +71,7 @@ int TauTagger::Train(const Event& event, const PreCuts&, const Tag tag) const
 // }
 
 
-Jets TauTagger::CleanJets(analysis::Jets& jets, const analysis::Jets& Particles, const analysis::Tag tag) const
+Jets TauTagger::CleanJets(analysis::Jets& jets, const analysis::Jets& Particles, Tag tag) const
 {
     Info("Clean Jets");
     for (const auto& Particle : Particles) {

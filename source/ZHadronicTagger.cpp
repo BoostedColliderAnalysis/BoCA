@@ -10,7 +10,7 @@ ZHadronicTagger::ZHadronicTagger()
     DefineVariables();
 }
 
-int ZHadronicTagger::Train(const Event& event, const analysis::PreCuts& pre_cuts, const analysis::Tag tag) const
+int ZHadronicTagger::Train(const Event& event, const analysis::PreCuts& pre_cuts, Tag tag) const
 {
     Info("ZHadronic Tag");
     Jets jets =  bottom_reader_.Multiplets(event);
@@ -40,7 +40,7 @@ int ZHadronicTagger::Train(const Event& event, const analysis::PreCuts& pre_cuts
     return SaveEntries(BestMatches(doublets, z_particles, tag));
 }
 
-bool ZHadronicTagger::Problematic(const analysis::Doublet& doublet, const analysis::PreCuts& pre_cuts, const analysis::Tag tag) const
+bool ZHadronicTagger::Problematic(const analysis::Doublet& doublet, const analysis::PreCuts& pre_cuts, Tag tag) const
 {
     if (Problematic(doublet, pre_cuts))
         return true;

@@ -11,7 +11,7 @@ TopPartnerHiggsPairTagger::TopPartnerHiggsPairTagger()
     DefineVariables();
 }
 
-int TopPartnerHiggsPairTagger::Train(const Event& event, const PreCuts& pre_cuts, const Tag tag) const
+int TopPartnerHiggsPairTagger::Train(const Event& event, const PreCuts& pre_cuts,  Tag tag) const
 {
     Info();
     std::vector<Quintet> quintets = top_partner_hadronic_reader_.Multiplets(event);

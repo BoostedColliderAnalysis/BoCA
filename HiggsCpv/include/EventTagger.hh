@@ -18,7 +18,7 @@ public:
 
     EventTagger();
 
-    int Train(const Event& event, const analysis::PreCuts&, const analysis::Tag tag) const;
+    int Train(const Event& event, const analysis::PreCuts&, Tag tag) const;
 
     std::vector<MultipletEvent<Octet62>> Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 

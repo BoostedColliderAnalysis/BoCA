@@ -20,7 +20,7 @@ public:
 
     TopSemiPairTagger();
 
-    int Train(const Event& event, const PreCuts& pre_cuts, const Tag tag) const final;
+    int Train(const Event& event, const PreCuts& pre_cuts,  Tag tag) const final;
 
     std::vector<Sextet> Multiplets(const Event& event, const TMVA::Reader& reader) const;
 

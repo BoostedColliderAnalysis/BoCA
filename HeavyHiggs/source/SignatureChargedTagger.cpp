@@ -12,7 +12,7 @@ SignatureChargedTagger::SignatureChargedTagger()
     DefineVariables();
 }
 
-int SignatureChargedTagger::Train(const Event& event, const analysis::PreCuts&, const analysis::Tag tag) const
+int SignatureChargedTagger::Train(const Event& event, const analysis::PreCuts&, Tag tag) const
 {
     Info();
     std::vector<Quartet31> higgs_quartets = charged_higgs_semi_reader_.Multiplets(event);

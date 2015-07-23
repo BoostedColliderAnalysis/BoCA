@@ -19,7 +19,7 @@ public:
 
     HeavyHiggsTauTagger();
 
-    int Train(const Event& event, const PreCuts& pre_cuts, const Tag tag);
+    int Train(const Event& event, const PreCuts& pre_cuts,  Tag tag) const final;
 
     std::vector<Doublet>  Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 

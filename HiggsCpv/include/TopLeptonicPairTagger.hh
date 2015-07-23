@@ -18,7 +18,7 @@ public:
 
     TopLeptonicPairTagger();
 
-    int Train(const Event& event, const analysis::PreCuts&, const analysis::Tag tag) const;
+    int Train(const Event& event, const analysis::PreCuts&, Tag tag) const;
 
     std::vector<Sextet> Multiplets(const Event& event, const analysis::PreCuts&, const TMVA::Reader& reader) const;
 
@@ -38,7 +38,7 @@ public:
         return "TopLeptonicPair";
     }
 
-    std::vector<Sextet> TruthLevel(const analysis::Event& event, std::vector< analysis::Sextet > sextets, const analysis::Tag tag) const;
+    std::vector<Sextet> TruthLevel(const analysis::Event& event, std::vector< analysis::Sextet > sextets, Tag tag) const;
 
 private:
 

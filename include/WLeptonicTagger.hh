@@ -16,7 +16,7 @@ public:
 
     WLeptonicTagger();
 
-    int Train(const Event& event, const PreCuts&, const Tag tag) const;
+    int Train(const Event& event, const PreCuts&,  Tag tag) const;
 
     std::vector<Doublet> Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 
