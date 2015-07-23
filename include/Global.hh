@@ -94,7 +94,7 @@ enum class Id {
     CP_violating_higgs = 5000000
 };
 
-std::string Name(const int id);
+std::string Name(int id);
 
 std::string Name(const Id id);
 
@@ -104,13 +104,13 @@ float Mass(const Id id);
  * @brief Initial user index
  *
  */
-static const int EmptyUserIndex = -1;
+static int EmptyUserIndex = -1;
 
 /**
  * @brief Position outside of a vector
  *
  */
-static const int EmptyPosition = -1;
+static int EmptyPosition = -1;
 
 
 int LargeNumber();

@@ -69,7 +69,7 @@ void Results::BestBin()
 void Results::Significances()
 {
     for (const auto& signal_results : signal) {
-        for (const int step : Range(Result().steps)) {
+        for (int step : Range(Result().steps)) {
             float background_events = 0;
             for (const auto& background_result : background) background_events += background_result.events[step];
             if (signal_results.events[step] + background_events > 0) significances.at(step) = signal_results.events[step] / std::sqrt(signal_results.events[step] + background_events);
@@ -210,7 +210,7 @@ void Plot::PlotAcceptanceGraph(const Results& results) const
     }
 }
 
-void Plot::SetPlotStyle(TAttLine& att_line, const int index) const
+void Plot::SetPlotStyle(TAttLine& att_line, int index) const
 {
     att_line.SetLineColor(ColorCode(index));
     att_line.SetLineStyle(index + 1);
@@ -273,7 +273,7 @@ void Plot::OptimalSignificance() const
     LatexFooter(latex_file);
 }
 
-std::string Plot::PlotEfficiencyGraph(const Results& results, const std::vector<float>& x_values, const int best_bin) const
+std::string Plot::PlotEfficiencyGraph(const Results& results, const std::vector<float>& x_values, int best_bin) const
 {
     Result signal_results = results.signal.front();
     TCanvas canvas;
@@ -297,7 +297,7 @@ std::string Plot::PlotEfficiencyGraph(const Results& results, const std::vector<
     return file_name;
 }
 
-std::string Plot::PlotSignificanceGraph(const Results& results, const std::vector<float>& x_values, const std::vector<float>& significances, const int best_bin) const
+std::string Plot::PlotSignificanceGraph(const Results& results, const std::vector<float>& x_values, const std::vector<float>& significances, int best_bin) const
 {
     Result signal_results = results.signal.front();
     TCanvas canvas;
@@ -342,7 +342,7 @@ Result Plot::BdtDistribution(exroot::TreeReader& tree_reader, const std::string&
     exroot::TreeWriter tree_writer(&export_file, tree_name.c_str());
     exroot::TreeBranch& result_branch = *tree_writer.NewBranch(branch_name.c_str(), ResultBranch::Class());
     long entries = 0;
-    for (const int event_number : Range(tree_reader.GetEntries())) {
+    for (int event_number : Range(tree_reader.GetEntries())) {
         tree_reader.ReadEntry(event_number);
         for (const auto& entry : Range(event_clones_array.GetEntriesFast())) {
             float bdt_value = tagger().ReadBdt(event_clones_array, entry);
@@ -416,7 +416,7 @@ void Plot::LatexFooter(std::ofstream& latex_file) const
 // }
 //
 //
-// float Plot::GetScaling(const float events, const int Particles) const
+// float Plot::GetScaling(const float events, int Particles) const
 // {
 // Debug("Scaling");
 // float Scaling;
@@ -465,7 +465,7 @@ void Plot::LatexFooter(std::ofstream& latex_file) const
 // }
 //
 //
-// float Plot::RoundToDigits(const float Value, const int Digits) const
+// float Plot::RoundToDigits(const float Value, int Digits) const
 // {
 // Debug();
 // if (Value == 0 || Value != Value) {
@@ -488,7 +488,7 @@ void Plot::LatexFooter(std::ofstream& latex_file) const
 // }
 
 
-float Plot::FloorToDigits(const float value, const int digits) const
+float Plot::FloorToDigits(const float value, int digits) const
 {
   if (value == 0 || value != value) {
     return 0;
@@ -498,7 +498,7 @@ float Plot::FloorToDigits(const float value, const int digits) const
   }
 }
 
-float Plot::CeilToDigits(const float value, const int digits) const
+float Plot::CeilToDigits(const float value, int digits) const
 {
   if (value == 0 || value != value) {
     return 0;
@@ -508,7 +508,7 @@ float Plot::CeilToDigits(const float value, const int digits) const
   }
 }
 
-int Plot::ColorCode(const int number) const
+int Plot::ColorCode(int number) const
 {
     switch (number) {
     case 0 :
@@ -638,7 +638,7 @@ void Plot::PlotHistogram(const Plot2d& signal, const Plot2d& background, const f
     TLegend legend = Legend(0.3, 0.1, 0.3, 0.1);
     legend.SetNColumns(2);
     legend.SetColumnSeparation(0.2);
-    const int bin_number = 20;
+    int bin_number = 20;
     TExec exec_1;
     TH2F background_histogram("", tagger().NiceName().c_str(), bin_number, x_min, x_max, bin_number, y_min, y_max);
     SetHistogram(background_histogram, background, kRed, exec_1);
@@ -657,7 +657,7 @@ void Plot::PlotProfile(const Plot2d& signal, const Plot2d& background, const flo
 {
     TCanvas canvas;
     canvas.SetRightMargin(0.15);
-    const int bin_number = 30;
+    int bin_number = 30;
     TProfile2D test("", tagger().NiceName().c_str(), bin_number, x_min, x_max, bin_number, y_min, y_max);
     SetProfile(test, signal, background);
     mkdir(ExportName().c_str(), 0700);
@@ -755,7 +755,7 @@ Plot2d Plot::ReadTree(TTree& tree, const std::string& leaf_1, const std::string&
     tree.SetBranchStatus(size_name.c_str(), 1);
     int branch_size = 0;
     tree.SetBranchAddress(size_name.c_str(), &branch_size);
-    const int branch_size_max = 200; // TODO is there a cleaner way?
+    int branch_size_max = 200; // TODO is there a cleaner way?
     std::string leaf_name_1 = branch_name + "." + leaf_1;
     Debug(leaf_name_1.c_str());
     tree.SetBranchStatus(leaf_name_1.c_str(), 1);

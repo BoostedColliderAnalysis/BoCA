@@ -12,15 +12,15 @@ public:
 
     Particle() {}
 
-    Particle(const int id);
+    Particle(int id);
 
     Particle(const Id id);
 
-    Particle(const Id id, const int position);
+    Particle(const Id id, int position);
 
-    Particle(const LorentzVector& momentum, const int id, const int position);
+    Particle(const LorentzVector& momentum, int id, int position);
 
-    Particle(const TLorentzVector& momentum, const int id, const int position);
+    Particle(const TLorentzVector& momentum, int id, int position);
 
     LorentzVector momentum()const;
 

@@ -48,7 +48,7 @@ float GlobalObservables::BottomBdt() const
     }) / JetNumber();
 }
 
-float GlobalObservables::BottomBdt(const int number) const
+float GlobalObservables::BottomBdt(int number) const
 {
     Info("Bottom Bdt");
     if (number > JetNumber())
@@ -56,7 +56,7 @@ float GlobalObservables::BottomBdt(const int number) const
     return Jets().at(number - 1).user_info<JetInfo>().Bdt();
 }
 
-float GlobalObservables::BottomBdt(const int number_1, const int number_2) const
+float GlobalObservables::BottomBdt(int number_1, int number_2) const
 {
     Info("Bottom Bdt");
     if (number_1 > JetNumber())

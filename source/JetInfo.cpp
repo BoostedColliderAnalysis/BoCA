@@ -32,7 +32,7 @@ JetInfo::JetInfo(const bool b_tag)
     SetBTag(b_tag);
 }
 
-// JetInfo::JetInfo(const bool b_tag, const int charge)
+// JetInfo::JetInfo(const bool b_tag, int charge)
 // {
 //   SetBTag(b_tag);
 //   SetCharge(charge);
@@ -44,7 +44,7 @@ JetInfo::JetInfo(const bool b_tag, const bool tau_tag)
     SetTauTag(tau_tag);
 }
 
-JetInfo::JetInfo(const int charge)
+JetInfo::JetInfo(int charge)
 {
     SetCharge(charge);
 }
@@ -56,7 +56,7 @@ JetInfo::JetInfo(const Constituent& constituent)
         displaced_constituents_.emplace_back(constituent);
 }
 
-JetInfo::JetInfo(const Constituent& constituent, const int charge)
+JetInfo::JetInfo(const Constituent& constituent, int charge)
 {
     constituents_.emplace_back(constituent);
     if (VertexResultion(constituent))
@@ -88,7 +88,7 @@ void JetInfo::AddConstituents(const std::vector<Constituent>& constituents)
     displaced_constituents_ = Join(displaced_constituents_, ApplyVertexResolution(constituents));
 }
 
-void JetInfo::AddDaughter(const int daughter)
+void JetInfo::AddDaughter(int daughter)
 {
     if (!constituents().empty()) {
         Error(constituents().size(), constituents().front().family().particle().id());
@@ -146,7 +146,7 @@ Family JetInfo::MaximalFamily()
     return std::max_element(family_fractions_.begin(), family_fractions_.end(), SortPairs())->first;
 }
 
-void JetInfo::AddParticle(const int constituent_id, const float weight)
+void JetInfo::AddParticle(int constituent_id, const float weight)
 {
     Debug(constituent_id, weight);
     id_fractions_[constituent_id] += weight;
@@ -160,7 +160,7 @@ void JetInfo::AddParticle(const Id constituent_id, const float weight)
     Detail(id_fractions_[int(constituent_id)]);
 }
 
-void JetInfo::ExtractFraction(const int id)
+void JetInfo::ExtractFraction(int id)
 {
     Info(id);
     ExtractFamilyFraction();
@@ -174,7 +174,7 @@ void JetInfo::ExtractFraction(const int id)
     }
 }
 
-void JetInfo::ExtractFraction(const int id, const int mother_id)
+void JetInfo::ExtractFraction(int id, int mother_id)
 {
     Info(id, mother_id);
     for (const auto& pair : family_fractions_) {
@@ -185,7 +185,7 @@ void JetInfo::ExtractFraction(const int id, const int mother_id)
     }
 }
 
-void JetInfo::ExtractAbsFraction(const int id)
+void JetInfo::ExtractAbsFraction(int id)
 {
     Info(id);
     ExtractFamilyFraction();
@@ -207,7 +207,7 @@ float JetInfo::GetWeightSum() const
     return weight_sum;
 }
 
-float JetInfo::Fraction(const int id) const
+float JetInfo::Fraction(int id) const
 {
     Info(id);
     if (!id_fractions_.count(id))

@@ -21,9 +21,9 @@ Jets CopyIfParticles(const Jets& jets, const Id id_1, const Id id_2);
 
 Jets CopyIfNeutrino(const Jets& jets);
 
-Jets CopyIfExactParticle(const Jets& jets, const int id);
+Jets CopyIfExactParticle(const Jets& jets, int id);
 
-Jets RemoveIfExactParticle(const Jets& jets, const int id);
+Jets RemoveIfExactParticle(const Jets& jets, int id);
 
 Jets RemoveIfOutsidePtWindow(Jets& jets, const float lower_cut, const float upper_cut);
 
@@ -243,7 +243,7 @@ bool FindInVector(const std::vector<Element> vector, const Element element)
  */
 class Range {
 public:
-    Range(const int sum) : last_(sum), iterator_(0) {}
+    Range(int sum) : last_(sum), iterator_(0) {}
 
     const Range& begin() const
     {

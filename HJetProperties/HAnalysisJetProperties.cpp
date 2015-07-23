@@ -68,7 +68,7 @@ void hjetproperties::HAnalysis::CloseFile()
     Note("Close File");
 }
 
-// int hjetproperties::JetTag::GetBranchId(const int id, int BranchId)
+// int hjetproperties::JetTag::GetBranchId(int id, int BranchId)
 // {
 //
 //     Debug("Branch Id", id);

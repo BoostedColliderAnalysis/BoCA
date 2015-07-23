@@ -23,7 +23,7 @@ Jets Partons::Particles(const Status min_status) const
     Info();
     Jets particles;
     Info(clones_arrays().ParticleSum());
-    for (const int particle_number : Range(clones_arrays().ParticleSum())) {
+    for (int particle_number : Range(clones_arrays().ParticleSum())) {
         ::delphes::GenParticle& particle = static_cast<::delphes::GenParticle&>(clones_arrays().Particle(particle_number));
         if (particle.Status < to_int(min_status))
             break;

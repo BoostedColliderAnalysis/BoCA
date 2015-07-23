@@ -31,9 +31,9 @@ int hbottomsumtagger::EventBottomTagger::Train(const analysis::Event& event, con
 {
     Info("event Tags");
     analysis::Jets jets = bottom_reader_.Multiplets(event);
-//     const int JetNumber = 2;
-//     const int SignalBottomNumber = 2;
-//     const int BackgroundBottomNumber = 0;
+//     int JetNumber = 2;
+//     int SignalBottomNumber = 2;
+//     int BackgroundBottomNumber = 0;
 //     if (jets.size() < JetNumber) return eventSemiBranches;
 //     Jets BottomJets;
 //     Jets Particles = event.Partons().GenParticles();

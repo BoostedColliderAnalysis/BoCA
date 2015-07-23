@@ -57,7 +57,7 @@ Jets CopyIfParticles(const Jets& jets, const Id id_1, const Id id_2)
 }
 
 struct IsExactParticle {
-    IsExactParticle(const int id)
+    IsExactParticle(int id)
     {
         id_ = id;
     }
@@ -68,7 +68,7 @@ struct IsExactParticle {
     int id_;
 };
 
-Jets CopyIfExactParticle(const Jets& jets, const int id)
+Jets CopyIfExactParticle(const Jets& jets, int id)
 {
     if (jets.empty())
         return jets;
@@ -78,7 +78,7 @@ Jets CopyIfExactParticle(const Jets& jets, const int id)
     return final_jets;
 }
 
-Jets RemoveIfExactParticle(const Jets& jets, const int id)
+Jets RemoveIfExactParticle(const Jets& jets, int id)
 {
     if (jets.empty())
         return jets;
@@ -90,7 +90,7 @@ Jets RemoveIfExactParticle(const Jets& jets, const int id)
 struct IsNeutrino {
     bool operator()(const fastjet::PseudoJet& jet)
     {
-        const int id = jet.user_info<JetInfo>().constituents().front().family().particle().id();
+        int id = jet.user_info<JetInfo>().constituents().front().family().particle().id();
         return (id == to_int(Id::electron_neutrino) || id == to_int(Id::muon_neutrino) || id == to_int(Id::tau_neutrino));
     }
 };
@@ -281,7 +281,7 @@ Jets CopyIfQuark(const Jets& jets)
 struct Is5Quark {
     bool operator()(const fastjet::PseudoJet& jet)
     {
-        const int id = jet.user_info<JetInfo>().constituents().front().family().particle().id();
+        int id = jet.user_info<JetInfo>().constituents().front().family().particle().id();
         return (std::abs(id) == to_int(Id::up) || std::abs(id) == to_int(Id::down) || std::abs(id) == to_int(Id::charm) || std::abs(id) == to_int(Id::strange) || std::abs(id) == to_int(Id::bottom));
     }
 };

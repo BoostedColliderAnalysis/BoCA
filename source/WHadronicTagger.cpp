@@ -27,7 +27,7 @@ int WHadronicTagger::Train(const Event& event, const analysis::PreCuts& pre_cuts
     }
     Info("2 of 2 sub jets form one W");
     for (const auto& jet : jets) {
-        const int sub_jet_number = 2;
+        int sub_jet_number = 2;
         Jets pieces = bottom_reader_.SubMultiplet(jet, sub_jet_number);
         if (pieces.size() < sub_jet_number)
             continue;
@@ -38,7 +38,7 @@ int WHadronicTagger::Train(const Event& event, const analysis::PreCuts& pre_cuts
     }
     Info("2 of 3 sub jets forms one W");
     for (const auto& jet : jets) {
-        const int sub_jet_number = 3;
+        int sub_jet_number = 3;
         Jets pieces = bottom_reader_.SubMultiplet(jet, sub_jet_number);
         if (pieces.size() < sub_jet_number)
             continue;
@@ -54,7 +54,7 @@ int WHadronicTagger::Train(const Event& event, const analysis::PreCuts& pre_cuts
     // FIXME this one seems to cause problems!!!
     Info("1 of 2 sub jets forms one W");
     for (const auto& jet : jets) {
-        const int sub_jet_number = 2;
+        int sub_jet_number = 2;
         Jets pieces = bottom_reader_.SubMultiplet(jet, sub_jet_number);
         if (pieces.size() < sub_jet_number)
             continue;

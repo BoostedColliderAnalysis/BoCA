@@ -64,7 +64,7 @@ public:
     }
 
     template <typename Input>
-    auto SubMultiplet(Input& input, const int number) const
+    auto SubMultiplet(Input& input, int number) const
     {
         return tagger_.SubMultiplet(input, reader_, number);
     }

@@ -24,7 +24,7 @@ int BosonTagger::Train(const Event& event, const PreCuts& pre_cuts, const Tag ta
         }
     }
     for (const auto& jet : jets) {
-        const int sub_jet_number = 2;
+        int sub_jet_number = 2;
         Jets pieces = bottom_reader_.SubMultiplet(jet, sub_jet_number);
         if (pieces.size() < sub_jet_number) continue;
         Doublet doublet(pieces.at(0), pieces.at(1));
@@ -85,7 +85,7 @@ std::vector<Doublet>  BosonTagger::Multiplets(const Event& event, const PreCuts&
         }
     }
     for (const auto& jet : jets) {
-        const int sub_jet_number = 2;
+        int sub_jet_number = 2;
         Jets pieces = bottom_reader_.SubMultiplet(jet, sub_jet_number);
         if (pieces.size() < sub_jet_number) continue;
         Doublet doublet(pieces.at(0), pieces.at(1));

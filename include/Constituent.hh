@@ -52,7 +52,7 @@ public:
 
     int charge() const;
 
-    void set_charge(const int charge);
+    void set_charge(int charge);
 
 private:
 

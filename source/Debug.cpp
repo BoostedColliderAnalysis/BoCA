@@ -49,7 +49,7 @@ int ValueLength()
     return 20;
 }
 
-void Log(const std::string& file, const int line, const std::string& NameSpace, const std::string& Class, const std::string& function, bool final)
+void Log(const std::string& file, int line, const std::string& NameSpace, const std::string& Class, const std::string& function, bool final)
 {
     std::cout << Column(25, file) << ColumnRight(3, line) << " " << Column(15, NameSpace) << Column(18, Class) << Column(20, function);
     if (final)

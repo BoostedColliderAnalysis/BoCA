@@ -37,7 +37,7 @@ public:
 
     TClonesArray& ClonesArray(const Branch branch) const;
 
-    TObject& Object(const analysis::Branch branch, const int number) const;
+    TObject& Object(const analysis::Branch branch, int number) const;
 
     int EntrySum(const Branch branch) const;
 
@@ -146,7 +146,7 @@ public:
      * @brief Particle Clones Array
      *
      */
-    TObject& Particle(const int number) const
+    TObject& Particle(int number) const
     {
         return Object(Branch::particle, number);
     }
@@ -155,7 +155,7 @@ public:
      * @brief Track Clones Array
      *
      */
-    TObject& Track(const int number) const
+    TObject& Track(int number) const
     {
         return Object(Branch::track, number);
     }
@@ -164,7 +164,7 @@ public:
      * @brief Tower Clones Array
      *
      */
-    TObject& Tower(const int number) const
+    TObject& Tower(int number) const
     {
         return Object(Branch::tower, number);
     }
@@ -173,7 +173,7 @@ public:
      * @brief EFlow Track Clones Array
      *
      */
-    TObject& EFlowTrack(const int number) const
+    TObject& EFlowTrack(int number) const
     {
         return Object(Branch::e_flow_track, number);
     }
@@ -182,7 +182,7 @@ public:
      * @brief GenJet Clones Array
      *
      */
-    TObject& GenJet(const int number) const
+    TObject& GenJet(int number) const
     {
         return Object(Branch::gen_jet, number);
     }
@@ -191,7 +191,7 @@ public:
      * @brief Jet Clones Array
      *
      */
-    TObject& Jet(const int number) const
+    TObject& Jet(int number) const
     {
         return Object(Branch::jet, number);
     }
@@ -200,7 +200,7 @@ public:
      * @brief Electron Clones Array
      *
      */
-    TObject& Electron(const int number) const
+    TObject& Electron(int number) const
     {
         return Object(Branch::electron, number);
     }
@@ -209,7 +209,7 @@ public:
      * @brief Muon Clones Array
      *
      */
-    TObject& Muon(const int number) const
+    TObject& Muon(int number) const
     {
         return Object(Branch::muon, number);
     }
@@ -236,7 +236,7 @@ public:
      * @brief Photon Clones Array
      *
      */
-    TObject& Photon(const int number) const
+    TObject& Photon(int number) const
     {
         return Object(Branch::photon, number);
     }
@@ -245,7 +245,7 @@ public:
      * @brief EFlow Photon Clones Array
      *
      */
-    TObject& EFlowPhoton(const int number) const
+    TObject& EFlowPhoton(int number) const
     {
         return Object(Branch::e_flow_photon, number);
     }
@@ -254,7 +254,7 @@ public:
      * @brief EFlow Neutral Hadron Clones Array
      *
      */
-    TObject& EFlowNeutralHadron(const int number) const
+    TObject& EFlowNeutralHadron(int number) const
     {
         return Object(Branch::e_flow_neutral_hadron, number);
     }
@@ -263,7 +263,7 @@ public:
      * @brief EFlow Muon Clones Array
      *
      */
-    TObject& EFlowMuon(const int number) const
+    TObject& EFlowMuon(int number) const
     {
         return Object(Branch::e_flow_muon, number);
     }
@@ -272,7 +272,7 @@ public:
      * @brief EFlow Neutral Hadron Clones Array
      *
      */
-    TObject& Tau(const int number) const
+    TObject& Tau(int number) const
     {
         return Object(Branch::tau, number);
     }

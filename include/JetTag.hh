@@ -18,7 +18,7 @@ public:
      * @brief decide on the branch id based on the former branch id and the particle id
      *
      */
-    virtual int GetBranchId(const int id, int branch_id);
+    virtual int GetBranchId(int id, int branch_id);
 
     Family BranchFamily(const Family& node_family, Family& branch_family);
 
