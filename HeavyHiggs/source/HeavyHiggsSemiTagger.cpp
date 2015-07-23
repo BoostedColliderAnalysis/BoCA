@@ -12,7 +12,7 @@ HeavyHiggsSemiTagger::HeavyHiggsSemiTagger()
     DefineVariables();
 }
 
-int HeavyHiggsSemiTagger::Train(const Event& event, const PreCuts& pre_cuts, const Tag tag) const
+int HeavyHiggsSemiTagger::Train(const Event& event, const PreCuts&, const Tag tag) const
 {
     Info();
     Jets higgs_boson = HiggsParticle(event, tag);
@@ -31,7 +31,7 @@ int HeavyHiggsSemiTagger::Train(const Event& event, const PreCuts& pre_cuts, con
     return SaveEntries(BestMatches(sextets, higgs_boson, tag));
 }
 
-std::vector<Sextet>  HeavyHiggsSemiTagger::Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const
+std::vector<Sextet>  HeavyHiggsSemiTagger::Multiplets(const Event& event, const PreCuts&, const TMVA::Reader& reader) const
 {
     std::vector<Triplet> triplets_leptonic = top_leptonic_reader_.Multiplets(event);
     std::vector<Triplet> triplets_hadronic = top_hadronic_reader_.Multiplets(event);

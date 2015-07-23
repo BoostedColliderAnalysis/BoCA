@@ -14,7 +14,7 @@ HeavyHiggsLeptonicTagger::HeavyHiggsLeptonicTagger()
     DefineVariables();
 }
 
-int HeavyHiggsLeptonicTagger::Train(const Event& event, const Tag tag)
+int HeavyHiggsLeptonicTagger::Train(const Event& event, const PreCuts&, const Tag tag)
 {
     Info();
     float mass = event.mass();

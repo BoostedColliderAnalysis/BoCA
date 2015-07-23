@@ -14,7 +14,7 @@ class BranchTagger : public Tagger {
 protected:
 
     template<typename Multiplet>
-    std::vector<Multiplet> ReduceResult(std::vector<Multiplet>& multiplets, const std::size_t max = 4) const
+    std::vector<Multiplet> ReduceResult(std::vector<Multiplet>& multiplets, const size_t max = 4) const
     {
         if (multiplets.empty())
             return multiplets;
@@ -23,7 +23,7 @@ protected:
         return multiplets;
     }
 
-    Jets ReduceResult(Jets& jets, const std::size_t max = 4) const
+    Jets ReduceResult(Jets& jets, const size_t max = 4) const
     {
         if (jets.empty())
             return jets;
@@ -33,7 +33,7 @@ protected:
     }
 
     template<typename Multiplet>
-    std::vector<Multiplet> BestMass(std::vector<Multiplet>& multiplets, float mass, const std::size_t number = 1) const
+    std::vector<Multiplet> BestMass(std::vector<Multiplet>& multiplets, float mass, const size_t number = 1) const
     {
         if (multiplets.size() <= number)
             return multiplets;
@@ -43,7 +43,7 @@ protected:
     }
 
     template<typename Multiplet>
-    std::vector<Multiplet> BestRapidity(std::vector<Multiplet>& multiplets, const std::size_t number = 1) const
+    std::vector<Multiplet> BestRapidity(std::vector<Multiplet>& multiplets, const size_t number = 1) const
     {
         if (multiplets.size() <= number)
             return multiplets;
@@ -94,7 +94,7 @@ protected:
     }
 
     template<typename Multiplet>
-    int SaveEntries(const std::vector<Multiplet>& multiplets, std::size_t max = LargeNumber()) const
+    int SaveEntries(const std::vector<Multiplet>& multiplets, size_t max = LargeNumber()) const
     {
         if (multiplets.empty()) return 0;
 //         std::sort(multiplets.begin(),multiplets.end());
@@ -106,7 +106,7 @@ protected:
         return sum;
     }
 
-    int SaveEntries(const std::vector<fastjet::PseudoJet>& jets, std::size_t max = LargeNumber()) const
+    int SaveEntries(const std::vector<fastjet::PseudoJet>& jets, size_t max = LargeNumber()) const
     {
         if (jets.empty()) return 0;
         int sum = std::min(jets.size(), max);

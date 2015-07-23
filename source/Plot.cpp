@@ -755,7 +755,7 @@ Plot2d Plot::ReadTree(TTree& tree, const std::string& leaf_1, const std::string&
     tree.SetBranchStatus(size_name.c_str(), 1);
     int branch_size = 0;
     tree.SetBranchAddress(size_name.c_str(), &branch_size);
-    std::size_t branch_size_max = 200; // TODO is there a cleaner way?
+    size_t branch_size_max = 200; // TODO is there a cleaner way?
     std::string leaf_name_1 = branch_name + "." + leaf_1;
     Debug(leaf_name_1.c_str());
     tree.SetBranchStatus(leaf_name_1.c_str(), 1);

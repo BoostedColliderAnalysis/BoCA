@@ -12,7 +12,7 @@ HeavyHiggsTauTagger::HeavyHiggsTauTagger()
     DefineVariables();
 }
 
-int HeavyHiggsTauTagger::Train(const Event& event, const Tag tag)
+int HeavyHiggsTauTagger::Train(const Event& event, const PreCuts&, const Tag tag)
 {
     Info("Top Tags");
     Jets jets = tau_reader_.Multiplets(event);
@@ -55,7 +55,7 @@ int HeavyHiggsTauTagger::Train(const Event& event, const Tag tag)
     return SaveEntries(doublets);
 }
 
-std::vector<Doublet>  HeavyHiggsTauTagger::Multiplets(const Event& event, const TMVA::Reader& reader) const
+std::vector<Doublet>  HeavyHiggsTauTagger::Multiplets(const Event& event, const PreCuts&, const TMVA::Reader& reader) const
 {
     Info("Multiplets");
     Jets jets = tau_reader_.Multiplets(event);

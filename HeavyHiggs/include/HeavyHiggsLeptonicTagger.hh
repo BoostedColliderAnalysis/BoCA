@@ -18,7 +18,7 @@ public:
 
     HeavyHiggsLeptonicTagger();
 
-    int Train(const Event& event, const Tag tag);
+    int Train(const Event& event, const PreCuts& pre_cuts, const Tag tag);
 
     std::vector<Sextet> Multiplets(const Event& event, const TMVA::Reader& reader) const;
 

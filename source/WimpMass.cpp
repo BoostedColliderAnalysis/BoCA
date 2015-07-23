@@ -114,13 +114,13 @@ std::vector<analysis::Sextet> WimpMass::Sextet(const Quartet22& quartet, const f
                 if (error_1 + error_2 < error)
                     error = error_1 + error_2;
             }
-//         for (std::size_t i = 0; i < Neutrino1Errors.size(); ++i) {
-//             for (std::size_t j = i + 1; j < Neutrino2Errors.size(); ++j) {
+//         for (size_t i = 0; i < Neutrino1Errors.size(); ++i) {
+//             for (size_t j = i + 1; j < Neutrino2Errors.size(); ++j) {
 //                 if (Neutrino1Errors[i] + Neutrino2Errors[j] < Error) Error = Neutrino1Errors[i] + Neutrino2Errors[j];
 //             }
 //         }
-//         for (std::size_t j = 0; j < Neutrino2Errors.size(); ++j) {
-//             for (std::size_t i = j + 1; i < Neutrino1Errors.size(); ++i) {
+//         for (size_t j = 0; j < Neutrino2Errors.size(); ++j) {
+//             for (size_t i = j + 1; i < Neutrino1Errors.size(); ++i) {
 //                 if (Neutrino1Errors[i] + Neutrino2Errors[j] < Error) Error = Neutrino1Errors[i] + Neutrino2Errors[j];
 //             }
 //         }

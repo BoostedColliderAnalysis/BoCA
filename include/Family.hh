@@ -87,7 +87,7 @@ namespace std {
 
 template <>
 struct hash<analysis::Family> {
-    std::size_t operator()(const analysis::Family& Family) const
+    size_t operator()(const analysis::Family& Family) const
     {
         return ((std::hash<int>()(Family.particle().id())
                  ^ (std::hash<int>()(Family.mother_1().id()) << 1)) >> 1)
