@@ -147,7 +147,7 @@ Family FourVector::BranchFamily(const TObject& object) const
         Error("Object is", object.ClassName());
         return family;
     }
-    const int Position = clones_arrays().ParticleClonesArray().IndexOf(&object);
+    int Position = clones_arrays().ParticleClonesArray().IndexOf(&object);
     if (Position == EmptyPosition)
         return family;
     family = BranchFamily(family, Position);
@@ -192,7 +192,7 @@ Family FourVector::BranchFamily(Family& family, int Position) const
         topology_.at(Position).SetMarker();
 //         if (Position < 3) return Family(Position, Id::isr, EmptyPosition, Id::isr);
         ::delphes::GenParticle& particle = static_cast<::delphes::GenParticle&>(clones_arrays().Particle(Position));
-//         const int Status = ParticleClone.Status;
+//         int Status = ParticleClone.Status;
         int M1Id = to_int(Id::empty);
         int Mother1Status = to_int(Status::none);
         analysis::LorentzVector MotherVector;
@@ -270,8 +270,8 @@ void FourVector::PrintTruthLevel(const analysis::Severity severity) const
         PrintCell("Py");
         PrintCell("Pz");
         std::cout << std::endl;
-        //         for (const int Position : HRange(clones_arrays().GetParticleSum())) {
-        for (const int Position : Range(30)) {
+        //         for (int Position : HRange(clones_arrays().GetParticleSum())) {
+        for (int Position : Range(30)) {
             ::delphes::GenParticle& Particle = static_cast<::delphes::GenParticle&>(clones_arrays().Particle(Position));
             PrintCell(Position);
             PrintCell(Name(topology_.at(Position).particle().id()));
@@ -297,7 +297,7 @@ void FourVector::PrintTruthLevel(const analysis::Severity severity) const
     }
 }
 
-std::string FourVector::PrintParticle(const int position) const
+std::string FourVector::PrintParticle(int position) const
 {
     if (position != -1)
         return Name(static_cast<::delphes::GenParticle&>(clones_arrays().Particle(position)).PID);

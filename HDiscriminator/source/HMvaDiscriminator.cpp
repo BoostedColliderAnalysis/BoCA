@@ -60,7 +60,7 @@ void hcpvhiggs::HMva::ApplyBdt(const exroot::TreeReader* const TreeReader, const
     exroot::TreeWriter* TreeWriter = new exroot::TreeWriter(const_cast<TFile*>(ExportFile), TreeName.c_str());
     exroot::TreeBranch* CandidateBranch = TreeWriter->NewBranch(branch_name().c_str(), HCandidateBranch::Class());
 //   exroot::TreeBranch *LeptonBranch = TreeWriter->NewBranch(SpectatorBranchName.c_str(), HLeptonBranch::Class());
-    const int eventSum = const_cast<exroot::TreeReader*>(TreeReader)->GetEntries();
+    int eventSum = const_cast<exroot::TreeReader*>(TreeReader)->GetEntries();
     for (int eventNumber = 0; eventNumber < eventSum; ++eventNumber) {
         const_cast<exroot::TreeReader*>(TreeReader)->ReadEntry(eventNumber);
         for (int CandidateNumber = 0; CandidateNumber < CandidateClonesArray->GetEntriesFast(); ++CandidateNumber) {
@@ -69,7 +69,7 @@ void hcpvhiggs::HMva::ApplyBdt(const exroot::TreeReader* const TreeReader, const
             (*ExportCandidate) = *Candidate;
             const float BdtEvaluation = const_cast<TMVA::Reader*>(&Reader)->EvaluateMVA(bdt_method_name());
             float SigEff;
-            const int StepSize = 50;
+            int StepSize = 50;
             for (SigEff = 0; SigEff < StepSize; ++SigEff) {
 //         bool CutEvaluation = const_cast<TMVA::Reader *>(&Reader)->EvaluateMVA(GetCutMethodName(), SigEff / StepSize);
 //         if (CutEvaluation) break;
@@ -121,7 +121,7 @@ void hcpvhiggs::HMva::ApplyBdt(const exroot::TreeReader* const TreeReader, const
 //   const TClonesArray *const ClonesArray = const_cast<exroot::TreeReader *>(TreeReader)->UseBranch(eventBranchName.c_str());
 //
 //
-//   const int eventSum = const_cast<exroot::TreeReader *>(TreeReader)->GetEntries();
+//   int eventSum = const_cast<exroot::TreeReader *>(TreeReader)->GetEntries();
 //   for (int eventNumber = 0; eventNumber < eventSum; ++eventNumber) {
 //       Debug("event Loop");
 //

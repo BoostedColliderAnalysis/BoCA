@@ -65,7 +65,7 @@ void hcpvhiggs::HAnalysis::NewBranches(exroot::TreeWriter* NewTreeWriter)
 }
 
 
-// int hcpvhiggs::JetTag::GetBranchId(const int id, int BranchId)
+// int hcpvhiggs::JetTag::GetBranchId(int id, int BranchId)
 // {
 //
 // //     if (HeavyParticles.find(std::abs(BranchId)) != end(HeavyParticles)) DebugLevel =4;

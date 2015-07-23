@@ -103,7 +103,7 @@ public:
 
     virtual int Train(const Event&, const PreCuts&, const Tag) const = 0;
 
-    Jets SubJets(const fastjet::PseudoJet& jet, const int sub_jet_number) const;
+    Jets SubJets(const fastjet::PseudoJet& jet, int sub_jet_number) const;
 
     virtual float ReadBdt(const TClonesArray&, const int) const = 0;
 

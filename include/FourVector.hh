@@ -130,7 +130,7 @@ protected:
 
     void PrintTruthLevel(const Severity severity) const;
 
-    std::string PrintParticle(const int Position) const;
+    std::string PrintParticle(int Position) const;
 
     const ClonesArrays& clones_arrays() const
     {

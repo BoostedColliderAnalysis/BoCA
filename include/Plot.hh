@@ -141,7 +141,7 @@ private:
 
     void SetMultiGraph(TMultiGraph& multi_graph) const;
 
-    void SetPlotStyle(TAttLine& att_line, const int index) const;
+    void SetPlotStyle(TAttLine& att_line, int index) const;
 
     TLegend Legend(float x_min, float y_max, float width, float height, const std::string& name = "") const;
 
@@ -166,15 +166,15 @@ private:
 
     Result BdtResult(TFile& file, const std::string& tree_name, TFile& export_file) const;
 
-    std::string PlotEfficiencyGraph(const analysis::Results& results, const std::vector<float>& x_values, const int best_bin) const;
+    std::string PlotEfficiencyGraph(const analysis::Results& results, const std::vector<float>& x_values, int best_bin) const;
 
-    std::string PlotSignificanceGraph(const Results& results, const std::vector<float>& x_values, const std::vector<float>& significances, const int best_bin) const;
+    std::string PlotSignificanceGraph(const Results& results, const std::vector<float>& x_values, const std::vector<float>& significances, int best_bin) const;
 
     void LatexHeader(std::ofstream& latex_file) const;
 
     void LatexFooter(std::ofstream& latex_file) const;
 
-    int ColorCode(const int number) const;
+    int ColorCode(int number) const;
 
     std::string ExportName() const;
 
@@ -189,13 +189,13 @@ private:
 //
 //     float RoundError(const float Value) const;
 //
-//     float RoundToDigits(const float Value, const int Digits) const;
+//     float RoundToDigits(const float Value, int Digits) const;
 //
 //     float RoundToError(const float Value, const float Error) const;
 
-    float FloorToDigits(const float value, const int digits = 2) const;
+    float FloorToDigits(const float value, int digits = 2) const;
 
-    float CeilToDigits(const float value, const int digits = 2) const;
+    float CeilToDigits(const float value, int digits = 2) const;
 
 };
 

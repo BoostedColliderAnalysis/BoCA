@@ -37,7 +37,7 @@ int TauTagger::Train(const Event& event, const PreCuts&, const Tag tag) const
     return SaveEntries(singlets);
 }
 
-// Jets TauTagger::GetSubJets(const Jets &jets, const Jets &Particles, const Tag Tag, const int SubJetNumber)
+// Jets TauTagger::GetSubJets(const Jets &jets, const Jets &Particles, const Tag Tag, int SubJetNumber)
 // {
 //     Info("Sub Jets");
 //     Jets Pieces;
@@ -120,7 +120,7 @@ Jets TauTagger::CleanJets(analysis::Jets& jets, const analysis::Jets& Particles,
 //     return NewJets;
 // }
 
-// Jets TauTagger::GetSubBdt(const Jets &jets, const Reader &BottomReader, const int SubJetNumber)
+// Jets TauTagger::GetSubBdt(const Jets &jets, const Reader &BottomReader, int SubJetNumber)
 // {
 //     Info("Sub Bdt");
 //     Jets Pieces;

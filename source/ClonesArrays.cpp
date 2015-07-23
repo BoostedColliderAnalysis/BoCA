@@ -86,7 +86,7 @@ TClonesArray& ClonesArrays::ClonesArray(const Branch branch) const
     return *clones_arrays_.at(branch);
 }
 
-TObject& ClonesArrays::Object(const Branch branch, const int number) const
+TObject& ClonesArrays::Object(const Branch branch, int number) const
 {
     Debug("Object", BranchName(branch), number);
     return *ClonesArray(branch).At(number);

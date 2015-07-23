@@ -98,7 +98,7 @@ protected:
     {
         if (multiplets.empty()) return 0;
 //         std::sort(multiplets.begin(),multiplets.end());
-        const int sum = std::min(multiplets.size(), max);
+        int sum = std::min(multiplets.size(), max);
         for (int counter = 0 ; counter < sum; ++counter) {
             FillBranch(multiplets.at(counter));
             static_cast<Branch&>(*tree_branch().NewEntry()) = branch();
@@ -109,7 +109,7 @@ protected:
     int SaveEntries(const std::vector<fastjet::PseudoJet>& jets, std::size_t max = LargeNumber()) const
     {
         if (jets.empty()) return 0;
-        const int sum = std::min(jets.size(), max);
+        int sum = std::min(jets.size(), max);
         for (int counter = 0 ; counter < sum; ++counter) {
             FillBranch(Singlet(jets.at(counter)));
             static_cast<Branch&>(*tree_branch().NewEntry()) = branch();
@@ -154,7 +154,7 @@ protected:
 
 private:
 
-    float ReadBdt(const TClonesArray& clones_array, const int entry) const final
+    float ReadBdt(const TClonesArray& clones_array, int entry) const final
     {
         return static_cast<Branch&>(*clones_array.At(entry)).Bdt;
     }

@@ -61,14 +61,14 @@ Jets BottomTagger::CleanJets(analysis::Jets& jets, const analysis::PreCuts& pre_
     return clean_jets;
 }
 
-Jets BottomTagger::TrainOnSubJets(const analysis::Jets& jets, const analysis::PreCuts& pre_cuts, const analysis::Tag tag, const int sub_jet_number) const
+Jets BottomTagger::TrainOnSubJets(const analysis::Jets& jets, const analysis::PreCuts& pre_cuts, const analysis::Tag tag, int sub_jet_number) const
 {
     Debug(sub_jet_number);
     Jets sub_jets = SubJets(jets, sub_jet_number);
     return CleanJets(sub_jets, pre_cuts, tag);
 }
 
-Jets BottomTagger::SubJets(const analysis::Jets& jets, const int sub_jet_number) const
+Jets BottomTagger::SubJets(const analysis::Jets& jets, int sub_jet_number) const
 {
     Jets subjets;
     for (const auto& jet : jets)
@@ -110,7 +110,7 @@ fastjet::PseudoJet BottomTagger::Multiplet(const fastjet::PseudoJet& jet, const 
     return jet;
 }
 
-Jets BottomTagger::SubMultiplet(const fastjet::PseudoJet& jet, const TMVA::Reader& reader, const int sub_jet_number) const
+Jets BottomTagger::SubMultiplet(const fastjet::PseudoJet& jet, const TMVA::Reader& reader, int sub_jet_number) const
 {
     Jets jets;
     for (const auto& sub_jet : Tagger::SubJets(jet, sub_jet_number)) {

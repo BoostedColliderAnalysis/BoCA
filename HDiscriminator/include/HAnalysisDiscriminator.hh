@@ -18,7 +18,7 @@ class JetTag : public analysis::JetTag {
 
 public:
 
-    int GetBranchId(const int id, int BranchId);
+    int GetBranchId(int id, int BranchId);
 
     const std::set<analysis::Id> HeavyParticles {analysis::Id::top, analysis::Id::CP_violating_higgs, analysis::Id::higgs};
 

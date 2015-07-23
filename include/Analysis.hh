@@ -64,14 +64,14 @@ public:
         info_branch_ = FillInfoBranch(file);
     }
 
-    void NewEvent(const int mass)
+    void NewEvent(int mass)
     {
         tree_reader_.ReadEntry(entry);
         event_.NewEvent(clones_arrays_);
         event_.SetMass(mass);
     }
 
-    void SaveAnalysis(const int object_number)
+    void SaveAnalysis(int object_number)
     {
         if (object_number == 0) return;
         object_sum_ += object_number;

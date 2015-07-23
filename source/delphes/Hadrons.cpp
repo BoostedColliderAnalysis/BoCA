@@ -13,7 +13,7 @@ Jets Hadrons::DelphesJets(const JetDetail jet_detail) const
 {
     Info(clones_arrays().JetSum());
     analysis::Jets jets;
-    for (const int jet_number : Range(clones_arrays().JetSum())) {
+    for (int jet_number : Range(clones_arrays().JetSum())) {
         Detail(jet_number);
         ::delphes::Jet& jet = static_cast<::delphes::Jet&>(clones_arrays().Jet(jet_number));
         switch (jet_detail) {
@@ -50,7 +50,7 @@ fastjet::PseudoJet Hadrons::StructuredJet(const ::delphes::Jet& jet, const JetDe
     analysis::Jets constituent_jets;
     std::vector<Constituent> constituents;
     JetInfo* jet_info = new JetInfo(bool(jet.BTag), jet.Charge);
-    for (const int constituentNumber : Range(jet.Constituents.GetEntriesFast())) {
+    for (int constituentNumber : Range(jet.Constituents.GetEntriesFast())) {
         if (!jet.Constituents.At(constituentNumber))
             continue;
         fastjet::PseudoJet constituent = ConstituentJet(*jet.Constituents.At(constituentNumber), jet_detail);
@@ -128,7 +128,7 @@ Jets Hadrons::EFlowTrack(const JetDetail jet_detail) const
 {
     analysis::Jets e_flow_jets;
     Debug(clones_arrays().EFlowTrackSum());
-    for (const int e_flow_track_number : Range(clones_arrays().EFlowTrackSum())) {
+    for (int e_flow_track_number : Range(clones_arrays().EFlowTrackSum())) {
         if (jet_detail == JetDetail::tagging_structure || jet_detail == JetDetail::structure) {
             e_flow_jets.emplace_back(ConstituentJet(clones_arrays().EFlowTrack(e_flow_track_number), jet_detail, SubDetector::track));
             continue;
@@ -158,7 +158,7 @@ Jets Hadrons::EFlowPhoton(const JetDetail jet_detail) const
     analysis::Jets e_flow_jets;
     if (clones_arrays().PhotonSum() > 0)
         Debug("Number of Photons", clones_arrays().PhotonSum());
-    for (const int e_flow_photon_number : Range(clones_arrays().EFlowPhotonSum())) {
+    for (int e_flow_photon_number : Range(clones_arrays().EFlowPhotonSum())) {
         if (jet_detail == JetDetail::tagging_structure || jet_detail == JetDetail::structure) {
             e_flow_jets.emplace_back(ConstituentJet(clones_arrays().EFlowPhoton(e_flow_photon_number), jet_detail, SubDetector::photon));
             continue;
@@ -179,7 +179,7 @@ Jets Hadrons::EFlowHadron(const JetDetail jet_detail) const
 {
     Debug(clones_arrays().EFlowNeutralHadronSum());
     analysis::Jets e_flow_jets;
-    for (const int hadron_number : Range(clones_arrays().EFlowNeutralHadronSum())) {
+    for (int hadron_number : Range(clones_arrays().EFlowNeutralHadronSum())) {
         if (jet_detail == JetDetail::tagging_structure || jet_detail == JetDetail::structure) {
             e_flow_jets.emplace_back(ConstituentJet(clones_arrays().EFlowNeutralHadron(hadron_number), jet_detail, SubDetector::tower));
             continue;
@@ -198,7 +198,7 @@ Jets Hadrons::EFlowMuon(const JetDetail jet_detail) const
 {
     Debug(clones_arrays().EFlowMuonSum());
     analysis::Jets e_flow_jets;
-    for (const int muon_number : Range(clones_arrays().EFlowMuonSum())) {
+    for (int muon_number : Range(clones_arrays().EFlowMuonSum())) {
         if (jet_detail == JetDetail::tagging_structure || jet_detail == JetDetail::structure) {
 //             if (!clones_arrays().GetEFlowMuon(muon_number)) continue;
             e_flow_jets.emplace_back(ConstituentJet(clones_arrays().EFlowMuon(muon_number), jet_detail, SubDetector::muon));
@@ -221,7 +221,7 @@ Jets Hadrons::GenJets() const
 {
     Info(clones_arrays().GenJetSum());
     analysis::Jets gen_jets;
-    for (const int jet_number : Range(clones_arrays().GenJetSum()))
+    for (int jet_number : Range(clones_arrays().GenJetSum()))
         gen_jets.emplace_back(analysis::PseudoJet(static_cast<::delphes::Jet&>(clones_arrays().GenJet(jet_number)).P4()));
     return gen_jets;
 }
@@ -308,14 +308,14 @@ Jets Hadrons::UniqueJets() const
     Info();
     analysis::Jets jets;
     std::vector<TObject*> leptons;
-    for (const int electron_number : Range(clones_arrays().ElectronSum()))
+    for (int electron_number : Range(clones_arrays().ElectronSum()))
         leptons.emplace_back(static_cast<::delphes::Electron&>(clones_arrays().Electron(electron_number)).Particle.GetObject());
-    for (const int muon_number : Range(clones_arrays().MuonSum()))
+    for (int muon_number : Range(clones_arrays().MuonSum()))
         leptons.emplace_back(static_cast<::delphes::Muon&>(clones_arrays().Muon(muon_number)).Particle.GetObject());
-    for (const int jet_number : Range(clones_arrays().JetSum())) {
+    for (int jet_number : Range(clones_arrays().JetSum())) {
         analysis::Jets constituents;
         ::delphes::Jet& jet = static_cast<::delphes::Jet&>(clones_arrays().Jet(jet_number));
-        for (const int constituent_number : Range(jet.Constituents.GetEntriesFast()))
+        for (int constituent_number : Range(jet.Constituents.GetEntriesFast()))
             constituents = Join(constituents, UniqueConstituents(*jet.Constituents.At(constituent_number), leptons));
         jets.emplace_back(fastjet::join(constituents));
     }
@@ -335,7 +335,7 @@ analysis::Jets Hadrons::UniqueConstituents(TObject& object, std::vector<TObject*
                 constituents.emplace_back(analysis::PseudoJet(track.P4()));
     } else if (object.IsA() == ::delphes::Tower::Class()) {
         ::delphes::Tower& tower = static_cast<::delphes::Tower&>(object);
-        for (const int particle_number : Range(tower.Particles.GetEntriesFast()))
+        for (int particle_number : Range(tower.Particles.GetEntriesFast()))
             constituents = Join(constituents, UniqueConstituents(*tower.Particles.At(particle_number), leptons));
     } else if (object.IsA() == ::delphes::Muon::Class()) {
         ::delphes::Muon& muon = static_cast<::delphes::Muon&>(object);

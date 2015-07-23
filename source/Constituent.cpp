@@ -108,7 +108,7 @@ SubDetector Constituent::sub_detector() const
     return sub_detector_;
 }
 
-void Constituent::set_charge(const int charge)
+void Constituent::set_charge(int charge)
 {
     charge_ = charge;
 }

@@ -43,7 +43,7 @@ public:
      * @brief calculate bottom bdt for subjets of given jet
      *
      */
-    Jets SubMultiplet(const fastjet::PseudoJet& jet, const TMVA::Reader& reader, const int sub_jet_number) const;
+    Jets SubMultiplet(const fastjet::PseudoJet& jet, const TMVA::Reader& reader, int sub_jet_number) const;
 
     std::string Name() const final
     {
@@ -69,9 +69,9 @@ private:
 
     bool Problematic(const fastjet::PseudoJet& jet, const analysis::PreCuts& pre_cuts) const;
 
-    Jets SubJets(const Jets& jets, const int sub_jet_number) const;
+    Jets SubJets(const Jets& jets, int sub_jet_number) const;
 
-    Jets TrainOnSubJets(const Jets& jets, const PreCuts& pre_cuts, const Tag tag, const int sub_jet_number) const;
+    Jets TrainOnSubJets(const Jets& jets, const PreCuts& pre_cuts, const Tag tag, int sub_jet_number) const;
 
 };
 

@@ -27,7 +27,7 @@ float Tagger::Bdt(const TMVA::Reader& reader) const
     return const_cast<TMVA::Reader&>(reader).EvaluateMVA(bdt_method_name()) + 1;  // TODO get rid of the const cast
 }
 
-Jets Tagger::SubJets(const fastjet::PseudoJet& jet, const int sub_jet_number) const
+Jets Tagger::SubJets(const fastjet::PseudoJet& jet, int sub_jet_number) const
 {
     Jets pieces;
     if (!jet.has_pieces())
