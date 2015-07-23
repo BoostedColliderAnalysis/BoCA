@@ -16,7 +16,7 @@ public:
 
     ZHadronicTagger();
 
-    int Train(const Event& event, const PreCuts& pre_cuts, const Tag tag) const final;
+    int Train(const Event& event, const PreCuts& pre_cuts,  Tag tag) const final;
 
     std::vector<Doublet> Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 
@@ -38,7 +38,7 @@ public:
 
 private:
 
-    bool Problematic(const Doublet& doublet, const PreCuts& pre_cuts, const Tag tag) const;
+    bool Problematic(const Doublet& doublet, const PreCuts& pre_cuts,  Tag tag) const;
 
     bool Problematic(const Doublet& doublet, const PreCuts& pre_cuts) const;
 

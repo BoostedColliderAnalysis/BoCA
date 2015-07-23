@@ -28,9 +28,9 @@ public:
         return 1;
     }
 
-    bool TruthLevelCheck(const analysis::Jets& NewJets, const analysis::Event& event, const analysis::Tag Tag);
+    bool TruthLevelCheck(const analysis::Jets& NewJets, const analysis::Event& event, analysis::Tag tag);
 
-    int Train(const analysis::Event& event, const analysis::PreCuts& precuts, const analysis::Tag tag);
+    int Train(const analysis::Event& event, const analysis::PreCuts& precuts, analysis::Tag tag);
 
     std::vector<analysis::EventBranch> Multiplets(const analysis::Event& event, const analysis::PreCuts&, const TMVA::Reader&) const;
 

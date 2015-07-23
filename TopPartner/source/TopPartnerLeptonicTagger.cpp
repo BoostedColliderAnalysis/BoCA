@@ -11,7 +11,7 @@ TopPartnerLeptonicTagger::TopPartnerLeptonicTagger()
     DefineVariables();
 }
 
-int TopPartnerLeptonicTagger::Train(const Event& event, const PreCuts& pre_cuts, const Tag tag) const
+int TopPartnerLeptonicTagger::Train(const Event& event, const PreCuts& pre_cuts,  Tag tag) const
 {
     Info("Higgs Tags");
     std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);

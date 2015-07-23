@@ -12,7 +12,7 @@ TopPartnerHadronicTagger::TopPartnerHadronicTagger()
     DefineVariables();
 }
 
-int TopPartnerHadronicTagger::Train(const Event& event, const PreCuts& pre_cuts, const Tag tag) const
+int TopPartnerHadronicTagger::Train(const Event& event, const PreCuts& pre_cuts,  Tag tag) const
 {
     Info();
     std::vector<Triplet> triplets = top_reader_.Multiplets(event);

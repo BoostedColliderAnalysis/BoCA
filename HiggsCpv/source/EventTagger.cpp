@@ -11,7 +11,7 @@ EventTagger::EventTagger()
     DefineVariables();
 }
 
-int EventTagger::Train(const analysis::Event& event, const analysis::PreCuts&, const analysis::Tag tag) const
+int EventTagger::Train(const analysis::Event& event, const analysis::PreCuts&, Tag tag) const
 {
     Info("Train");
     Jets jets = bottom_reader_.Multiplets(event);

@@ -67,7 +67,7 @@ protected:
     }
 
     template<typename Multiplet>
-    std::vector<Multiplet> BestMatches(std::vector<Multiplet>& multiplets, const Jets& particles, const Tag tag) const
+    std::vector<Multiplet> BestMatches(std::vector<Multiplet>& multiplets, const Jets& particles,  Tag tag) const
     {
         std::sort(multiplets.begin(), multiplets.end());
         switch (tag) {
@@ -80,7 +80,7 @@ protected:
         }
     }
 
-    Jets BestMatches(Jets& jets, const Jets& particles, const Tag tag) const
+    Jets BestMatches(Jets& jets, const Jets& particles,  Tag tag) const
     {
         std::sort(jets.begin(), jets.end(), SortByBdt());
         switch (tag) {

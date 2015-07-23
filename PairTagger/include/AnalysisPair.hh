@@ -240,15 +240,15 @@ private:
 
 //     void NewBranches(exroot::TreeWriter &NewTreeWriter, const analysis::Analysis::HTagger Tagger);
 
-//     int RunAnalysis(analysis::Event &event, const analysis::Stage stage, const analysis::Tag tag);
+//     int RunAnalysis(analysis::Event &event, const analysis::Stage stage, Tag tag);
 
-//     bool GetBottomTag(analysis::Event &event, const analysis::Tag Tag);
-//     bool GetBottomReader(analysis::Event &event, const analysis::Tag Tag);
+//     bool GetBottomTag(analysis::Event &event, Tag tag);
+//     bool GetBottomReader(analysis::Event &event, Tag tag);
 //
-//     bool GetJetPairTag(analysis::Event &event, const analysis::Tag Tag);
-//     bool GetJetPairReader(analysis::Event &event, const analysis::Tag Tag);
+//     bool GetJetPairTag(analysis::Event &event, Tag tag);
+//     bool GetJetPairReader(analysis::Event &event, Tag tag);
 //
-//     bool GetTag(analysis::Event &event, const analysis::Tag tag);
+//     bool GetTag(analysis::Event &event, Tag tag);
 
 };
 }

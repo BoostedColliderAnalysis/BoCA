@@ -10,7 +10,7 @@ WHadronicTagger::WHadronicTagger()
     DefineVariables();
 }
 
-int WHadronicTagger::Train(const Event& event, const analysis::PreCuts& pre_cuts, const analysis::Tag Tag) const
+int WHadronicTagger::Train(const Event& event, const analysis::PreCuts& pre_cuts, Tag tag) const
 {
     Info("W Tags");
     Jets jets = bottom_reader_.Multiplets(event);
@@ -20,7 +20,7 @@ int WHadronicTagger::Train(const Event& event, const analysis::PreCuts& pre_cuts
     for (auto jet1 = jets.begin(); jet1 != jets.end(); ++jet1) {
         for (auto jet2 = jet1 + 1; jet2 != jets.end(); ++jet2) {
             Doublet doublet(*jet1, *jet2);
-            if (Problematic(doublet, pre_cuts, Tag))
+            if (Problematic(doublet, pre_cuts, tag))
                 continue;
             doublets.emplace_back(doublet);
         }
@@ -32,7 +32,7 @@ int WHadronicTagger::Train(const Event& event, const analysis::PreCuts& pre_cuts
         if (pieces.size() < sub_jet_number)
             continue;
         Doublet doublet(pieces.at(0), pieces.at(1));
-        if (Problematic(doublet, pre_cuts, Tag))
+        if (Problematic(doublet, pre_cuts, tag))
             continue;
         doublets.emplace_back(doublet);
     }
@@ -45,7 +45,7 @@ int WHadronicTagger::Train(const Event& event, const analysis::PreCuts& pre_cuts
         for (auto piece1 = pieces.begin(); piece1 != pieces.end(); ++piece1) {
             for (auto piece2 = piece1 + 1; piece2 != pieces.end(); ++piece2) {
                 Doublet doublet(*piece1, *piece2);
-                if (Problematic(doublet, pre_cuts, Tag))
+                if (Problematic(doublet, pre_cuts, tag))
                     continue;
                 doublets.emplace_back(doublet);
             }
@@ -60,7 +60,7 @@ int WHadronicTagger::Train(const Event& event, const analysis::PreCuts& pre_cuts
             continue;
         for (const auto& piece : pieces) {
             Doublet doublet(piece);
-            if (Problematic(doublet, pre_cuts, Tag))
+            if (Problematic(doublet, pre_cuts, tag))
                 continue;
             doublets.emplace_back(doublet);
         }
@@ -68,7 +68,7 @@ int WHadronicTagger::Train(const Event& event, const analysis::PreCuts& pre_cuts
     Info("1 jet forms one W");
     for (const auto& jet : jets) {
         Doublet doublet(jet);
-        if (Problematic(doublet, pre_cuts, Tag))
+        if (Problematic(doublet, pre_cuts, tag))
             continue;
         doublets.emplace_back(doublet);
     }
@@ -80,7 +80,7 @@ int WHadronicTagger::Train(const Event& event, const analysis::PreCuts& pre_cuts
     else
         w_particles = CopyIfParticle(particles, Id::W);
     w_particles = RemoveIfSoft(w_particles, DetectorGeometry::JetMinPt());
-    return SaveEntries(BestMatches(doublets, w_particles, Tag));
+    return SaveEntries(BestMatches(doublets, w_particles, tag));
 }
 
 
@@ -114,7 +114,7 @@ int WHadronicTagger::WHadronicId(const Jets& jets) const
     return 0;
 }
 
-bool WHadronicTagger::Problematic(const Doublet& doublet, const PreCuts& pre_cuts, const Tag tag) const
+bool WHadronicTagger::Problematic(const Doublet& doublet, const PreCuts& pre_cuts,  Tag tag) const
 {
     if (Problematic(doublet, pre_cuts))
         return true;

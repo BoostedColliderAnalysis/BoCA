@@ -12,7 +12,7 @@ ChargedHiggsSemiTagger::ChargedHiggsSemiTagger()
     DefineVariables();
 }
 
-int ChargedHiggsSemiTagger::Train(const Event& event, const PreCuts&, const Tag tag) const
+int ChargedHiggsSemiTagger::Train(const Event& event, const PreCuts&,  Tag tag) const
 {
     Info();
     float mass = event.mass();

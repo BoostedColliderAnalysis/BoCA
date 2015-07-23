@@ -12,7 +12,7 @@ SignatureNeutralTagger::SignatureNeutralTagger()
     DefineVariables();
 }
 
-int SignatureNeutralTagger::Train(const Event& event, const PreCuts&, const Tag tag) const
+int SignatureNeutralTagger::Train(const Event& event, const PreCuts&,  Tag tag) const
 {
     Info();
     Jets higgs = heavy_higgs_semi_reader_.tagger().HiggsParticle(event, tag);

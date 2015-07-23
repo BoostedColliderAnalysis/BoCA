@@ -15,7 +15,7 @@ TopLeptonicPairTagger::TopLeptonicPairTagger()
     DefineVariables();
 }
 
-int TopLeptonicPairTagger::Train(const Event& event, const analysis::PreCuts&, const analysis::Tag tag) const
+int TopLeptonicPairTagger::Train(const Event& event, const analysis::PreCuts&, Tag tag) const
 {
     Info();
     std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
@@ -43,7 +43,7 @@ int TopLeptonicPairTagger::Train(const Event& event, const analysis::PreCuts&, c
     return SaveEntries(sextets);
 }
 
-std::vector<Sextet> TopLeptonicPairTagger::TruthLevel(const Event& event, std::vector<Sextet> sextets, const Tag tag) const{
+std::vector<Sextet> TopLeptonicPairTagger::TruthLevel(const Event& event, std::vector<Sextet> sextets,  Tag tag) const{
     switch(tag){
         case Tag::signal :{
     Jets tops = CopyIfParticle(event.Partons().GenParticles(), Id::top);

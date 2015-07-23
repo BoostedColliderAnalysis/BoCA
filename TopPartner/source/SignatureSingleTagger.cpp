@@ -12,7 +12,7 @@ SignatureSingleTagger::SignatureSingleTagger()
     DefineVariables();
 }
 
-int SignatureSingleTagger::Train(const Event& event, const PreCuts& pre_cuts, const Tag tag) const
+int SignatureSingleTagger::Train(const Event& event, const PreCuts& pre_cuts,  Tag tag) const
 {
     Info();
     std::vector<Octet53> octets = pair_reader_.Multiplets(event);

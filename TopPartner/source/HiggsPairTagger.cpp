@@ -11,7 +11,7 @@ HiggsPairTagger::HiggsPairTagger()
     DefineVariables();
 }
 
-int HiggsPairTagger::Train(const Event& event, const PreCuts& pre_cuts, const Tag tag) const
+int HiggsPairTagger::Train(const Event& event, const PreCuts& pre_cuts,  Tag tag) const
 {
     Info("Higgs Tags");
     std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);

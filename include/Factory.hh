@@ -49,7 +49,7 @@ private:
      */
     void PrepareTrainingAndTestTree(const long event_number);
 
-    long AddTree(TFile& file, const std::string& tree_name, const analysis::Tag tag);
+    long AddTree(TFile& file, const std::string& tree_name, Tag tag);
 
     TFile* output_file() const;
 

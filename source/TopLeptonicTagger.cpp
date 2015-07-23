@@ -12,7 +12,7 @@ TopLeptonicTagger::TopLeptonicTagger()
     DefineVariables();
 }
 
-int TopLeptonicTagger::Train(const Event& event, const analysis::PreCuts& pre_cuts, const analysis::Tag tag) const
+int TopLeptonicTagger::Train(const Event& event, const analysis::PreCuts& pre_cuts, Tag tag) const
 {
     Info();
     bool do_fake_leptons = false;
@@ -70,7 +70,7 @@ Jets TopLeptonicTagger::Particles(const Event& event) const
 //     return CopyIfExactParticle(particles, top_leptonic_id);
 }
 
-bool TopLeptonicTagger::Problematic(const analysis::Triplet& triplet, const analysis::PreCuts& pre_cuts, const analysis::Tag tag) const
+bool TopLeptonicTagger::Problematic(const analysis::Triplet& triplet, const analysis::PreCuts& pre_cuts, Tag tag) const
 {
     if (Problematic(triplet, pre_cuts)) return true;
     switch (tag) {

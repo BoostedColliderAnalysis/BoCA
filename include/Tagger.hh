@@ -61,7 +61,7 @@ public:
 
     std::string Name(const Stage stage) const;
 
-    std::string Name(const Stage stage, const Tag tag) const;
+    std::string Name(const Stage stage,  Tag tag) const;
 
     std::string analysis_name() const;
 

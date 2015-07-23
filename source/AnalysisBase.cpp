@@ -15,7 +15,7 @@
 
 namespace analysis {
 
-std::string AnalysisBase::ExportName(const Stage stage, const Tag tag) const
+std::string AnalysisBase::ExportName(const Stage stage,  Tag tag) const
 {
     Note(tagger().Name(stage, tag));
     return ProjectName() + "/" + tagger().Name(stage, tag) + FileSuffix();

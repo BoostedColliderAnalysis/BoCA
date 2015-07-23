@@ -12,7 +12,7 @@ BottomTagger::BottomTagger()
     DefineVariables();
 }
 
-int BottomTagger::Train(const Event& event, const analysis::PreCuts& pre_cuts, const analysis::Tag tag) const
+int BottomTagger::Train(const Event& event, const analysis::PreCuts& pre_cuts, Tag tag) const
 {
     Info(analysis::Name(tag));
     Jets jets = event.Hadrons().Jets();
@@ -48,7 +48,7 @@ bool BottomTagger::Problematic(const fastjet::PseudoJet& jet, const PreCuts& pre
     return false;
 }
 
-Jets BottomTagger::CleanJets(analysis::Jets& jets, const analysis::PreCuts& pre_cuts, const analysis::Tag tag) const
+Jets BottomTagger::CleanJets(analysis::Jets& jets, const analysis::PreCuts& pre_cuts, Tag tag) const
 {
     Info(jets.size());
     if (jets.empty()) return jets;
@@ -61,7 +61,7 @@ Jets BottomTagger::CleanJets(analysis::Jets& jets, const analysis::PreCuts& pre_
     return clean_jets;
 }
 
-Jets BottomTagger::TrainOnSubJets(const analysis::Jets& jets, const analysis::PreCuts& pre_cuts, const analysis::Tag tag, int sub_jet_number) const
+Jets BottomTagger::TrainOnSubJets(const analysis::Jets& jets, const analysis::PreCuts& pre_cuts, Tag tag, int sub_jet_number) const
 {
     Debug(sub_jet_number);
     Jets sub_jets = SubJets(jets, sub_jet_number);

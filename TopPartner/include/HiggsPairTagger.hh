@@ -18,7 +18,7 @@ public:
 
     HiggsPairTagger();
 
-    int Train(const Event& event, const PreCuts& pre_cuts, const Tag tag) const final;
+    int Train(const Event& event, const PreCuts& pre_cuts,  Tag tag) const final;
 
     std::vector<Quartet22> Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 

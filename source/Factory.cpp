@@ -82,7 +82,7 @@ long Factory::GetTrees()
     return std::min(signal_number, background_number) / 2;
 }
 
-long Factory::AddTree(TFile& file, const std::string& tree_name, const Tag tag)
+long Factory::AddTree(TFile& file, const std::string& tree_name,  Tag tag)
 {
     Error(tree_name);
     if (!file.GetListOfKeys()->Contains(tree_name.c_str()))

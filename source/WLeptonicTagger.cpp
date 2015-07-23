@@ -11,7 +11,7 @@ WLeptonicTagger::WLeptonicTagger()
     DefineVariables();
 }
 
-int WLeptonicTagger::Train(const Event& event, const analysis::PreCuts&, const analysis::Tag tag) const
+int WLeptonicTagger::Train(const Event& event, const analysis::PreCuts&, Tag tag) const
 {
     Info();
     Jets Particles = event.Partons().GenParticles();

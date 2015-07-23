@@ -159,7 +159,7 @@ void fusionpair::Analysis::SetTrees()
 //
 // }
 
-// int fusionpair::Analysis::RunAnalysis(analysis::Event &event, const analysis::Stage stage, const analysis::Tag tag)
+// int fusionpair::Analysis::RunAnalysis(analysis::Event &event, const analysis::Stage stage, Tag tag)
 // {
 //     Info("Analysis", stage, tag);
 //     ++event_sum_;
@@ -187,7 +187,7 @@ void fusionpair::Analysis::SetTrees()
 // }
 
 
-// bool hpairtagger::Analysis::GetTag(analysis::Event &event, const Tag tag)
+// bool hpairtagger::Analysis::GetTag(analysis::Event &event,  Tag tag)
 // {
 //   Debug("Bottom Tag", Name(tag));
 //   return tagger_.GetBranches(event, tag);

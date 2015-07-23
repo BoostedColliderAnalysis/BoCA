@@ -15,7 +15,7 @@ TopHadronicTagger::TopHadronicTagger()
     DefineVariables();
 }
 
-int TopHadronicTagger::Train(const Event& event, const analysis::PreCuts& pre_cuts, const analysis::Tag tag) const
+int TopHadronicTagger::Train(const Event& event, const analysis::PreCuts& pre_cuts, Tag tag) const
 {
     Info();
     Jets jets = bottom_reader_.Multiplets(event);
@@ -84,7 +84,7 @@ int TopHadronicTagger::Train(const Event& event, const analysis::PreCuts& pre_cu
     return SaveEntries(BestMatches(triplets, top_particles, tag));
 }
 
-std::vector<Triplet> TopHadronicTagger::Triplets(const std::vector<analysis::Doublet>& doublets, const analysis::Jets& jets, const analysis::Jets& leptons, const analysis::PreCuts& pre_cuts, const analysis::Tag tag) const
+std::vector<Triplet> TopHadronicTagger::Triplets(const std::vector<analysis::Doublet>& doublets, const analysis::Jets& jets, const analysis::Jets& leptons, const analysis::PreCuts& pre_cuts, Tag tag) const
 {
     Info(doublets.size());
     std::vector<analysis::Triplet> triplets;
@@ -94,7 +94,7 @@ std::vector<Triplet> TopHadronicTagger::Triplets(const std::vector<analysis::Dou
     return triplets;
 }
 
-std::vector<Triplet> TopHadronicTagger::Triplets(const analysis::Doublet& doublet, const analysis::Jets& jets, const analysis::Jets& leptons, const analysis::PreCuts& pre_cuts, const analysis::Tag tag) const
+std::vector<Triplet> TopHadronicTagger::Triplets(const analysis::Doublet& doublet, const analysis::Jets& jets, const analysis::Jets& leptons, const analysis::PreCuts& pre_cuts, Tag tag) const
 {
     Info(jets.size());
     std::vector<analysis::Triplet> triplets;
@@ -109,7 +109,7 @@ std::vector<Triplet> TopHadronicTagger::Triplets(const analysis::Doublet& double
     return triplets;
 }
 
-Triplet TopHadronicTagger::Triplet(const analysis::Doublet& doublet, const fastjet::PseudoJet& jet, const analysis::Jets& leptons, const analysis::PreCuts& pre_cuts, const analysis::Tag tag, const bool check_overlap) const
+Triplet TopHadronicTagger::Triplet(const analysis::Doublet& doublet, const fastjet::PseudoJet& jet, const analysis::Jets& leptons, const analysis::PreCuts& pre_cuts, Tag tag, const bool check_overlap) const
 {
     analysis::Triplet triplet(doublet, jet);
     if (check_overlap && triplet.Overlap()) throw "top hadronic triplet problem";
@@ -120,7 +120,7 @@ Triplet TopHadronicTagger::Triplet(const analysis::Doublet& doublet, const fastj
     }
 }
 
-Triplet TopHadronicTagger::Triplet(analysis::Triplet& triplet, const analysis::Jets& leptons, const analysis::PreCuts& pre_cuts, const analysis::Tag tag) const
+Triplet TopHadronicTagger::Triplet(analysis::Triplet& triplet, const analysis::Jets& leptons, const analysis::PreCuts& pre_cuts, Tag tag) const
 {
     triplet.set_pt(LeptonPt(triplet, leptons));
     if (Problematic(triplet, pre_cuts, tag)) throw "top hadronic triplet problem";
@@ -136,7 +136,7 @@ float TopHadronicTagger::LeptonPt(const analysis::Triplet& triplet, const analys
     return pt;
 }
 
-bool TopHadronicTagger::Problematic(const analysis::Triplet& triplet, const analysis::PreCuts& pre_cuts, const analysis::Tag tag) const
+bool TopHadronicTagger::Problematic(const analysis::Triplet& triplet, const analysis::PreCuts& pre_cuts, Tag tag) const
 {
     Info();
     if (Problematic(triplet, pre_cuts))

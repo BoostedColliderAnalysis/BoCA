@@ -10,7 +10,7 @@ BosonTagger::BosonTagger()
     DefineVariables();
 }
 
-int BosonTagger::Train(const Event& event, const PreCuts& pre_cuts, const Tag tag) const
+int BosonTagger::Train(const Event& event, const PreCuts& pre_cuts,  Tag tag) const
 {
     Info(analysis::Name(tag));
     Jets jets =  bottom_reader_.Multiplets(event);
@@ -47,7 +47,7 @@ int BosonTagger::Train(const Event& event, const PreCuts& pre_cuts, const Tag ta
     return SaveEntries(BestMatches(doublets, bosons, tag));
 }
 
-bool BosonTagger::Problematic(const Doublet& doublet, const PreCuts& pre_cuts, const Tag tag) const
+bool BosonTagger::Problematic(const Doublet& doublet, const PreCuts& pre_cuts,  Tag tag) const
 {
     if (Problematic(doublet, pre_cuts)) return true;
     switch (tag) {

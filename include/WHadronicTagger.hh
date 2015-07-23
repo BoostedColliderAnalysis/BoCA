@@ -47,7 +47,7 @@ private:
 
     Doublet SubMultiplet(const fastjet::PseudoJet& jet, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 
-    bool Problematic(const analysis::Doublet& doublet, const analysis::PreCuts& pre_cuts, const analysis::Tag tag) const;
+    bool Problematic(const analysis::Doublet& doublet, const analysis::PreCuts& pre_cuts, Tag tag) const;
 
     bool Problematic(const analysis::Doublet& doublet, const analysis::PreCuts& pre_cuts) const;
 

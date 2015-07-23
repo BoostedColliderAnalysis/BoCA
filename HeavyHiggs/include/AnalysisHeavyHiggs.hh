@@ -208,7 +208,7 @@ public:
       analysis::AnalysisBase::NewFile(tag, FileName(process, tag), crosssection, NiceName(process));
     }
 
-    virtual std::string FileName(const Process process, const Tag tag) const {
+    virtual std::string FileName(const Process process,  Tag tag) const {
       switch(tag){
 	case Tag::signal:
         return Name(process) + "_" + std::to_string(Mass()) + "GeV_" + Name(collider_type());
