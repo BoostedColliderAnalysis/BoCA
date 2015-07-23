@@ -26,7 +26,7 @@ public:
 
     TopAnalysis()
     {
-        this->tagger().set_analysis_name(ProjectName());
+        this->set_tagger_analysis_name(ProjectName());
         this->pre_cuts().SetPtLowerCut(Id::top, this->LowerPtCut());
         this->pre_cuts().SetPtUpperCut(Id::top, this->UpperPtCut());
         this->pre_cuts().SetMassUpperCut(Id::top, 400);

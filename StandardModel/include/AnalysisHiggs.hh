@@ -19,7 +19,7 @@ public:
 
     AnalysisHiggs()
     {
-        this->tagger().set_analysis_name(ProjectName());
+        this->set_tagger_analysis_name(ProjectName());
         this->pre_cuts().SetPtLowerCut(Id::higgs, this->LowerPtCut());
         this->pre_cuts().SetPtUpperCut(Id::higgs, this->UpperPtCut());
         this->pre_cuts().SetPtLowerCut(Id::bottom, this->LowerPtCut() / 5);
@@ -36,22 +36,16 @@ private:
         {
         case Tag::signal :
             this->NewFile(tag, Process::hh_bb);
-            if (this->tagger().Name() == "Bottom")
-                this->NewFile(tag, Process::bb);
-            if (this->tagger().Name() == "Bottom")
-                this->NewFile(tag, Process::tt_had);
-            if (this->tagger().Name() == "Bottom")
-                this->NewFile(tag, Process::tt_lep);
+            if (this->tagger().Name() == "Bottom") this->NewFile(tag, Process::bb);
+            if (this->tagger().Name() == "Bottom") this->NewFile(tag, Process::tt_had);
+            if (this->tagger().Name() == "Bottom") this->NewFile(tag, Process::tt_lep);
             break;
         case Tag::background :
-            if (this->tagger().Name() != "Bottom")
-                this->NewFile(tag, Process::tt_had);
-            if (this->tagger().Name() != "Bottom")
-                this->NewFile(tag, Process::tt_lep);
+            if (this->tagger().Name() != "Bottom") this->NewFile(tag, Process::tt_had);
+            if (this->tagger().Name() != "Bottom") this->NewFile(tag, Process::tt_lep);
             this->NewFile(tag, Process::zz);
             this->NewFile(tag, Process::ww);
-            if (this->tagger().Name() != "Bottom")
-                this->NewFile(tag, Process::bb);
+            if (this->tagger().Name() != "Bottom") this->NewFile(tag, Process::bb);
             this->NewFile(tag, Process::cc);
             this->NewFile(tag, Process::qq);
             this->NewFile(tag, Process::gg);

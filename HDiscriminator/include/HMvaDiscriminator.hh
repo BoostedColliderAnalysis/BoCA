@@ -38,10 +38,10 @@ public:
 
     void ApplyBdt(const exroot::TreeReader* const, const std::string, const TFile* const, const TMVA::Reader&);
 
-    float GetBdt(TObject*, const TMVA::Reader&)
-    {
-        return 0;
-    };
+//     float GetBdt(TObject*, const TMVA::Reader&)
+//     {
+//         return 0;
+//     };
 
 protected:
 

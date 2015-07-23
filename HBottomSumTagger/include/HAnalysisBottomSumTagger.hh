@@ -53,7 +53,7 @@ public:
     }
 
 private:
-    void SetFiles(const analysis::Tag tag) {};
+    void SetFiles(const analysis::Tag ) {};
 
     enum ProcessType {bb, cc, jj, qq, gg, Hbb, ttbb, ttcc, ttjj, ttqq, ttgg, bbbb, bbjj, bbcc, bbqq, bbgg};
     enum HProductionChannel {DYP, VBF, Associated, Simple};

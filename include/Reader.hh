@@ -8,7 +8,7 @@ namespace analysis {
 
 /**
  * @brief read results of multivariant analysis
- * wrapper for TMVA::Reader class
+ * wrapper for TMVA::Reader
  *
  */
 template<typename Tagger>
@@ -80,12 +80,17 @@ public:
         return tagger_;
     }
 
+    void SetTreeBranch(exroot::TreeWriter& tree_writer,const Stage stage)
+    {
+       tagger().SetTreeBranch(tree_writer, stage);
+    }
+
+private:
+
     Tagger& tagger()
     {
         return tagger_;
     }
-
-private:
 
     Tagger tagger_;
 
@@ -105,10 +110,8 @@ private:
 
     void AddVariable()
     {
-        for (auto& observable : tagger_.variables())
-            reader_.AddVariable(observable.expression(), &observable.value());
-        for (auto& spectator : tagger_.spectators())
-            reader_.AddSpectator(spectator.expression(), &spectator.value());
+        for (auto& observable : tagger_.variables()) reader_.AddVariable(observable.expression(), &observable.value());
+        for (auto& spectator : tagger_.spectators()) reader_.AddSpectator(spectator.expression(), &spectator.value());
     }
 
 };

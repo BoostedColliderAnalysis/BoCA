@@ -3,7 +3,7 @@
 #include "TSystem.h"
 #include "Debug.hh"
 
-void RunTagger(analysis::Tagger& tagger, analysis::Stage stage)
+void RunTagger(analysis::Tagger& , analysis::Stage )
 {
 //     hbottomsumtagger::HAnalysis analysis(tagger);
 //     const std::string Name = tagger.name();

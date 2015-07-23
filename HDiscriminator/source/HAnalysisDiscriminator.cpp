@@ -220,7 +220,7 @@ int hcpvhiggs::HAnalysis::RunAnalysis(analysis::Event& event, const std::string&
 //         Debug("Isolation", Candidate->IsolationDeltaR);
         analysis::Vectors constituentVectors = sub_structure->Getconstituents(CandidateJet);
         for (const auto& constituentVector : constituentVectors) {
-            analysis::ParticleBranch* constituent ;//= static_cast<analysis::ParticleBranch *>(constituentBranch->NewEntry());
+            analysis::ParticleBranch* constituent = nullptr;//= static_cast<analysis::ParticleBranch *>(constituentBranch->NewEntry());
             constituent->Rap = constituentVector.Rapidity();
             constituent->Phi = constituentVector.Phi();
             constituent->Pt = constituentVector.Pt();
@@ -240,7 +240,7 @@ int hcpvhiggs::HAnalysis::RunAnalysis(analysis::Event& event, const std::string&
 }
 
 
-analysis::Jets hcpvhiggs::HAnalysis::GetLeptonJets(analysis::Event& event)
+analysis::Jets hcpvhiggs::HAnalysis::GetLeptonJets(analysis::Event& )
 {
 // Lepton Stuff
     std::vector<float> LeptonRap, LeptonPhi;
