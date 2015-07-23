@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SignatureSingleTagger.hh"
+#include "TopPartnerPairTagger.hh"
 #include "MultipletEvent.hh"
 
 namespace analysis {
@@ -12,15 +12,15 @@ namespace toppartner {
  * @brief Prepares multivariant analysis
  *
  */
-class EventSingleTagger : public BranchTagger<EventBranch> {
+class EventPairTagger : public BranchTagger<EventBranch> {
 
 public:
 
-    EventSingleTagger();
+    EventPairTagger();
 
     int Train(const Event& event, const PreCuts& pre_cuts, const Tag tag) const final;
 
-    std::vector<MultipletEvent<Decuplet82>> Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
+    std::vector<MultipletEvent<Decuplet55>> Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 
     int GetBdt(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const  final
     {
@@ -40,7 +40,7 @@ public:
 
 private:
 
-    Reader<SignatureSingleTagger> signature_reader_;
+    Reader<TopPartnerPairTagger> signature_reader_;
 
     Reader<BottomTagger> bottom_reader_;
 

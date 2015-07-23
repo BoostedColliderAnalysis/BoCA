@@ -45,10 +45,10 @@ class Trees {
 public:
 
     Trees(Files& files) :
+        tree_writer_(exroot::TreeWriter(&(files.export_file()), files.file().Title().c_str())),
         clones_arrays_(files.file().clones_arrays()),
-        event_(files.file().event()),
-        tree_writer_(exroot::TreeWriter(&(files.export_file()), files.file().Title().c_str())
-        ) {}
+        event_(files.file().event())
+        {}
 
     void WriteTree()
     {
@@ -56,12 +56,12 @@ public:
             tree_writer_.Write();
     }
 
-    void UseBranches(File& file, const std::string& name, long event_number_max)
+    void UseBranches(File& file, const std::string& name)
     {
         tree_branch_ = tree_writer_.NewBranch(name.c_str(), InfoBranch::Class());
         tree_reader_ = file.TreeReader();
         clones_arrays_.UseBranches(tree_reader_);
-        info_branch_ = FillInfoBranch(tree_reader_, file, event_number_max);
+        info_branch_ = FillInfoBranch(file);
     }
 
     void NewEvent(const int mass)
@@ -81,7 +81,7 @@ public:
         tree_writer_.Fill();
     }
 
-    InfoBranch FillInfoBranch(const exroot::TreeReader& tree_reader, const File& file, const long event_number_max)
+    InfoBranch FillInfoBranch(const File& file)
     {
         InfoBranch info_branch;
         info_branch.Crosssection = file.crosssection();
@@ -167,7 +167,7 @@ private:
     {
         Trees trees(files);
         SetTreeBranch(files.stage(), trees.tree_writer(), reader);
-        trees.UseBranches(files.file(), tagger_.weight_branch_name(), EventNumberMax());
+        trees.UseBranches(files.file(), tagger_.weight_branch_name());
         if (files.stage() == Stage::reader) {
             trees.entry = std::min((long)trees.tree_reader().GetEntries(), EventNumberMax()) / 2;    // TODO fix corner cases
         }

@@ -52,7 +52,7 @@ protected:
         }
     }
 
-    std::string ProcessName()
+    std::string ProcessName() const final
     {
         return "toppartner";
     }
@@ -85,7 +85,7 @@ private:
         return 2000;
     }
 
-    int PassPreCut(const Event& event) const
+    int PassPreCut(const Event& event) const final
     {
         Jets particles = event.Partons().GenParticles();
         particles = RemoveIfSoft(particles, PreCut());

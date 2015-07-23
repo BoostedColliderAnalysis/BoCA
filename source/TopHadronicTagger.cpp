@@ -112,8 +112,7 @@ std::vector<Triplet> TopHadronicTagger::Triplets(const analysis::Doublet& double
 Triplet TopHadronicTagger::Triplet(const analysis::Doublet& doublet, const fastjet::PseudoJet& jet, const analysis::Jets& leptons, const analysis::PreCuts& pre_cuts, const analysis::Tag tag, const bool check_overlap) const
 {
     analysis::Triplet triplet(doublet, jet);
-    if (check_overlap && triplet.Overlap())
-        throw "top hadronic triplet problem";
+    if (check_overlap && triplet.Overlap()) throw "top hadronic triplet problem";
     try {
         return Triplet(triplet, leptons, pre_cuts, tag);
     } catch (const char* message) {
@@ -124,8 +123,7 @@ Triplet TopHadronicTagger::Triplet(const analysis::Doublet& doublet, const fastj
 Triplet TopHadronicTagger::Triplet(analysis::Triplet& triplet, const analysis::Jets& leptons, const analysis::PreCuts& pre_cuts, const analysis::Tag tag) const
 {
     triplet.set_pt(LeptonPt(triplet, leptons));
-    if (Problematic(triplet, pre_cuts, tag))
-        throw "top hadronic triplet problem";
+    if (Problematic(triplet, pre_cuts, tag)) throw "top hadronic triplet problem";
     NSubJettiness(triplet);
     triplet.SetTag(tag);
     return triplet;
@@ -134,8 +132,7 @@ Triplet TopHadronicTagger::Triplet(analysis::Triplet& triplet, const analysis::J
 float TopHadronicTagger::LeptonPt(const analysis::Triplet& triplet, const analysis::Jets& leptons) const
 {
     float pt = 0;
-    for (const auto& lepton : leptons) if (Close(lepton)(triplet) && lepton.pt() > pt)
-            pt = lepton.pt();
+    for (const auto& lepton : leptons) if (Close(lepton)(triplet) && lepton.pt() > pt) pt = lepton.pt();
     return pt;
 }
 
@@ -171,7 +168,6 @@ bool TopHadronicTagger::Problematic(const analysis::Triplet& triplet, const PreC
         return true;
     if (pre_cuts.MassUpperCut(Id::top) > 0 && pre_cuts.MassUpperCut(Id::top) < triplet.Jet().m())
         return true;
-//     if (triplet.Doublet().IsEmpty()) return true;
 //     if (triplet.DeltaR() < DetectorGeometry::MinCellResolution() && triplet.DeltaR() > 0) return true;
     // FIXME the top tagger is very slow, due to many calls of Bdt(), therfore we have to reduce the number of candidates
     if (std::abs(triplet.Jet().m() - Mass(Id::top)) > 2 * top_mass_window_) return true;
