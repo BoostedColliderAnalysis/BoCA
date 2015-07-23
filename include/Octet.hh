@@ -84,9 +84,9 @@ public:
 
   using analysis::Multiplet<analysis::Quartet31, analysis::Quartet31>::Multiplet;
 
-  analysis::Quartet31 Quartet1() const;
+  analysis::Quartet31& Quartet1() const;
 
-  analysis::Quartet31 Quartet2() const;
+  analysis::Quartet31& Quartet2() const;
 
   float BottomBdt() const;
 

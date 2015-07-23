@@ -62,8 +62,7 @@ protected:
     template<typename Multiplet>
     std::vector<Multiplet> RemoveBestMatch(std::vector<Multiplet>& multiplets, const Jets& particles) const
     {
-        if (multiplets.size() <= particles.size())
-            return multiplets;
+        if (multiplets.size() <= particles.size()) return multiplets;
         return RemoveIfClose(multiplets, particles);
     }
 
@@ -97,8 +96,7 @@ protected:
     template<typename Multiplet>
     int SaveEntries(const std::vector<Multiplet>& multiplets, std::size_t max = LargeNumber()) const
     {
-        if (multiplets.empty())
-            return 0;
+        if (multiplets.empty()) return 0;
 //         std::sort(multiplets.begin(),multiplets.end());
         const int sum = std::min(multiplets.size(), max);
         for (int counter = 0 ; counter < sum; ++counter) {
@@ -110,8 +108,7 @@ protected:
 
     int SaveEntries(const std::vector<fastjet::PseudoJet>& jets, std::size_t max = LargeNumber()) const
     {
-        if (jets.empty())
-            return 0;
+        if (jets.empty()) return 0;
         const int sum = std::min(jets.size(), max);
         for (int counter = 0 ; counter < sum; ++counter) {
             FillBranch(Singlet(jets.at(counter)));
@@ -162,18 +159,6 @@ private:
         return static_cast<Branch&>(*clones_array.At(entry)).Bdt;
     }
 
-//     auto PlotPoints(){
-//       std::vector<PlotPoint> points;
-//       unordered_pairs(branch().Variables(), points, [&](const ObservablePair & variable_1, const ObservablePair & variable_2) {
-//         PlotPoint plot_point;
-//         std::string leave_name_1 = branch_name() + "." + variable_1.second;
-//         plot_point.x = static_cast<Branch &>(*clones_array.At(entry)).leave_name_1;
-//         std::string leave_name_2 = branch_name() + "." + variable_2.second;
-//         plot_point.y = static_cast<Branch &>(*clones_array.At(entry)).leave_name_2;
-//         return plot_point;
-//       });
-//     }
-
     void AddVariables()
     {
         for (const auto& variable : branch().Variables())
@@ -193,7 +178,7 @@ private:
     }
 
     /**
-     * @brief Branch saving the analysis results
+     * @brief Branch storing the analysis results
      *
      */
     mutable Branch branch_;

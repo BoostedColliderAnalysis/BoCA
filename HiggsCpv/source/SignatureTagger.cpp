@@ -12,7 +12,7 @@ SignatureTagger::SignatureTagger()
     DefineVariables();
 }
 
-int SignatureTagger::Train(const Event& event, analysis::PreCuts&, const analysis::Tag tag) const
+int SignatureTagger::Train(const Event& event, const analysis::PreCuts&, const analysis::Tag tag) const
 {
     Info();
     std::vector<Sextet> sextets = triplet_pair_reader_.tagger().TruthLevel(event,triplet_pair_reader_.Multiplets(event),tag);
@@ -36,7 +36,7 @@ Debug(octets.size());
     return SaveEntries(octets);
 }
 
-std::vector<Octet62> SignatureTagger::Multiplets(const Event& event, PreCuts&, const TMVA::Reader& reader) const
+std::vector<Octet62> SignatureTagger::Multiplets(const Event& event, const PreCuts&, const TMVA::Reader& reader) const
 {
     Info();
     std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);

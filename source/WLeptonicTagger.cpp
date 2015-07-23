@@ -11,7 +11,7 @@ WLeptonicTagger::WLeptonicTagger()
     DefineVariables();
 }
 
-int WLeptonicTagger::Train(const Event& event, analysis::PreCuts&, const analysis::Tag tag) const
+int WLeptonicTagger::Train(const Event& event, const analysis::PreCuts&, const analysis::Tag tag) const
 {
     Info();
     Jets Particles = event.Partons().GenParticles();
@@ -48,7 +48,7 @@ int WLeptonicTagger::Train(const Event& event, analysis::PreCuts&, const analysi
     return SaveEntries(doublets);
 }
 
-std::vector<Doublet>  WLeptonicTagger::Multiplets(const Event& event, analysis::PreCuts&, const TMVA::Reader& reader) const
+std::vector<Doublet>  WLeptonicTagger::Multiplets(const Event& event, const analysis::PreCuts&, const TMVA::Reader& reader) const
 {
     Info();
     Jets Particles = event.Partons().GenParticles();

@@ -11,7 +11,7 @@ EventNeutralTagger::EventNeutralTagger()
     DefineVariables();
 }
 
-int EventNeutralTagger::Train(const analysis::Event& event, PreCuts& pre_cuts, const analysis::Tag tag) const
+int EventNeutralTagger::Train(const analysis::Event& event, const PreCuts& pre_cuts, const analysis::Tag tag) const
 {
     Info("event Tags");
     Jets jets = bottom_reader_.Multiplets(event);

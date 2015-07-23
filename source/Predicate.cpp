@@ -212,6 +212,21 @@ Jets RemoveIfMother(const Jets& jets, const Id mother_id)
     return jets_;
 }
 
+struct IsSingleMother {
+  bool operator()(const fastjet::PseudoJet& Jet)
+  {
+    Family family = Jet.user_info<JetInfo>().constituents().front().family();
+    return std::abs(family.mother_2().id()) == to_int(Id::empty);
+  }
+};
+
+Jets RemoveIfSingleMother(const Jets& jets)
+{
+  Jets jets_ = jets;
+  jets_.erase(std::remove_if(jets_.begin(), jets_.end(), IsSingleMother()), jets_.end());
+  return jets_;
+}
+
 struct IsLepton {
     bool operator()(const fastjet::PseudoJet& jet)
     {

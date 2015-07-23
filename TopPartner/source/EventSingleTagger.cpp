@@ -11,7 +11,7 @@ EventSingleTagger::EventSingleTagger()
     DefineVariables();
 }
 
-int EventSingleTagger::Train(const Event& event, PreCuts& pre_cuts, const Tag tag) const
+int EventSingleTagger::Train(const Event& event, const PreCuts& pre_cuts, const Tag tag) const
 {
     Info();
     Jets jets = bottom_reader_.Multiplets(event);
@@ -25,7 +25,7 @@ int EventSingleTagger::Train(const Event& event, PreCuts& pre_cuts, const Tag ta
     return SaveEntries(ReduceResult(multipletevents, 1));
 }
 
-std::vector<MultipletEvent<Decuplet55>> EventSingleTagger::Multiplets(const analysis::Event& event, analysis::PreCuts& pre_cuts, const TMVA::Reader& reader) const
+std::vector<MultipletEvent<Decuplet55>> EventSingleTagger::Multiplets(const analysis::Event& event, const analysis::PreCuts& pre_cuts, const TMVA::Reader& reader) const
 {
     Info();
     Jets jets = bottom_reader_.Multiplets(event);

@@ -11,7 +11,7 @@ EventNeutralFourTopTagger::EventNeutralFourTopTagger()
     DefineVariables();
 }
 
-int EventNeutralFourTopTagger::Train(const analysis::Event& event, PreCuts& pre_cuts, const analysis::Tag tag) const
+int EventNeutralFourTopTagger::Train(const analysis::Event& event, const PreCuts& pre_cuts, const analysis::Tag tag) const
 {
     Info();
     Jets jets = bottom_reader_.Multiplets(event);

@@ -106,7 +106,7 @@ private:
 
     std::string PathName(const std::string& file_name, const std::string& suffix = ".root") const;
 
-    void RunTagger(Stage stage);
+    void RunTagger(const analysis::Stage stage);
 
     void RunFactory();
 

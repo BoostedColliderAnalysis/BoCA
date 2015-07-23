@@ -19,19 +19,19 @@ public:
     /**
      * @brief Train the bottom tagger with pre cuts
      */
-    int Train(const Event& event, PreCuts& pre_cuts, const Tag tag) const final;
+    int Train(const Event& event, const PreCuts& pre_cuts, const Tag tag) const final;
 
     /**
      * @brief Return all jets of the event with bottom bdt value considering pre cuts
      *
      */
-    Jets Multiplets(const Event& event, PreCuts& pre_cuts, const TMVA::Reader& reader) const;
+    Jets Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 
     /**
      * @brief Save all jets with bottom bdt value condidering pre cuts
      *
      */
-    int GetBdt(const Event& event, PreCuts& pre_cuts, const TMVA::Reader& reader) const;
+    int GetBdt(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 
     /**
      * @brief calculate bottom bdt for given jet
@@ -57,21 +57,21 @@ public:
 
 private:
 
-    Jets Multiplets(const Jets& jets, PreCuts& pre_cuts, const TMVA::Reader& reader) const;
+    Jets Multiplets(const Jets& jets, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 
-    Jets SubMultiplets(const analysis::Jets& jets, analysis::PreCuts& pre_cuts, const TMVA::Reader& reader, const std::size_t sub_jet_number) const;
+    Jets SubMultiplets(const analysis::Jets& jets, const analysis::PreCuts& pre_cuts, const TMVA::Reader& reader, const std::size_t sub_jet_number) const;
 
     Jets Multiplets(const Jets& jets, const TMVA::Reader& reader) const;
 
-    Jets CleanJets(Jets& jets, PreCuts& pre_cuts, const Tag tag) const;
+    Jets CleanJets(Jets& jets, const PreCuts& pre_cuts, const Tag tag) const;
 
-    bool Problematic(const fastjet::PseudoJet& jet, analysis::PreCuts& pre_cuts, const analysis::Tag tag) const;
+    bool Problematic(const fastjet::PseudoJet& jet, const analysis::PreCuts& pre_cuts, const analysis::Tag tag) const;
 
-    bool Problematic(const fastjet::PseudoJet& jet, analysis::PreCuts& pre_cuts) const;
+    bool Problematic(const fastjet::PseudoJet& jet, const analysis::PreCuts& pre_cuts) const;
 
     Jets SubJets(const Jets& jets, const int sub_jet_number) const;
 
-    Jets TrainOnSubJets(const Jets& jets, PreCuts& pre_cuts, const Tag tag, const int sub_jet_number) const;
+    Jets TrainOnSubJets(const Jets& jets, const PreCuts& pre_cuts, const Tag tag, const int sub_jet_number) const;
 
 };
 

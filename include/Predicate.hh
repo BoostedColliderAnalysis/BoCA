@@ -43,6 +43,8 @@ Jets CopyIfMother(const Jets& jets, const Id mother_id);
 
 Jets RemoveIfMother(const Jets& jets, const Id mother_id);
 
+Jets RemoveIfSingleMother(const Jets& jets);
+
 Jets RemoveIfLetpon(const Jets& jets);
 
 Jets RemoveIfQuark(const Jets& jets);

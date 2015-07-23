@@ -11,7 +11,7 @@ TopPartnerPairTagger::TopPartnerPairTagger()
     DefineVariables();
 }
 
-int TopPartnerPairTagger::Train(const Event& event, PreCuts& pre_cuts, const Tag tag) const
+int TopPartnerPairTagger::Train(const Event& event, const PreCuts& pre_cuts, const Tag tag) const
 {
     Info();
     std::vector<Quintet> quintets_1 = top_partner_hadronic_reader_.Multiplets(event);
@@ -29,7 +29,7 @@ int TopPartnerPairTagger::Train(const Event& event, PreCuts& pre_cuts, const Tag
     return SaveEntries(decuplets);
 }
 
-std::vector<Decuplet55> TopPartnerPairTagger::Multiplets(const Event& event, analysis::PreCuts& pre_cuts, const TMVA::Reader& reader) const
+std::vector<Decuplet55> TopPartnerPairTagger::Multiplets(const Event& event, const analysis::PreCuts& pre_cuts, const TMVA::Reader& reader) const
 {
     Info();
     std::vector<Quintet> quintets_1 = top_partner_hadronic_reader_.Multiplets(event);
