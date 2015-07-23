@@ -28,7 +28,7 @@ float Singlet::Radius(const fastjet::PseudoJet& jet) const
         return 0;
     float delta_r = 0;
     for (const auto& constituent : jet.constituents()) {
-        const float constituent_delta_r = jet.delta_R(constituent);
+        float constituent_delta_r = jet.delta_R(constituent);
         if (constituent_delta_r > 100)
             continue;
         Debug(constituent_delta_r);
@@ -47,7 +47,7 @@ float Singlet::Spread(const fastjet::PseudoJet& jet) const
     float delta_r = 0;
     float spread = 0;
     for (const auto& constituent : jet.constituents()) {
-        const float constituent_delta_r = jet.delta_R(constituent);
+        float constituent_delta_r = jet.delta_R(constituent);
         if (constituent_delta_r > 100)
             continue;
         spread += constituent_delta_r * constituent.pt();
@@ -59,7 +59,7 @@ float Singlet::Spread(const fastjet::PseudoJet& jet) const
     return spread / jet.pt() / delta_r;
 }
 
-void Singlet::SetBdt(const float bdt)
+void Singlet::SetBdt(float bdt)
 {
     if (jet_.has_user_info<JetInfo>())
         static_cast<JetInfo&>(*jet_.user_info_shared_ptr().get()).SetBdt(bdt);
@@ -72,7 +72,7 @@ const JetInfo& Singlet::UserInfo() const
     return Jet().user_info<JetInfo>();
 }
 
-float Singlet::log(const float number) const
+float Singlet::log(float number) const
 {
     if (number > 0)
         return std::log10(number);

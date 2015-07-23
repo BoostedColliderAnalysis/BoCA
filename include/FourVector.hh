@@ -44,10 +44,10 @@ protected:
     {
 //         Debug("Lorentz Vector by Energy");
         analysis::LorentzVector vector;
-        const float Pt = particle.PT;
-        const float Eta = particle.Eta;
-        const float Phi = particle.Phi;
-        const float Energy = particle.E;
+        float Pt = particle.PT;
+        float Eta = particle.Eta;
+        float Phi = particle.Phi;
+        float Energy = particle.E;
         vector.SetPtEtaPhiE(Pt, Eta, Phi, Energy);
 //         if (check_four_vectors_) {
 //             if (vector.Pt() - Pt > check_value_) Error(Pt, vector.Pt());
@@ -59,13 +59,13 @@ protected:
     }
 
     template<typename Particle>
-    analysis::LorentzVector LorentzVectorByMass(const Particle& particle, const float mass) const
+    analysis::LorentzVector LorentzVectorByMass(const Particle& particle, float mass) const
     {
 //         Debug("Lorentz Vector by Mass");
         analysis::LorentzVector LorentzVector;
-        const float Pt = particle.PT;
-        const float Eta = particle.Eta;
-        const float Phi = particle.Phi;
+        float Pt = particle.PT;
+        float Eta = particle.Eta;
+        float Phi = particle.Phi;
         LorentzVector.SetPtEtaPhiM(Pt, Eta, Phi, mass);
 // //         if (check_four_vectors_) {
 // //             if (LorentzVector.Pt() - Pt > check_value_) Error(Pt, LorentzVector.Pt());
@@ -79,7 +79,7 @@ protected:
     analysis::LorentzVector LorentzVectorByMass(const Particle& particle) const
     {
 //         Debug("Lorentz Vector by Mass");
-        const float Mass = particle.Mass;
+        float Mass = particle.Mass;
         const analysis::LorentzVector LorentzVector = LorentzVectorByMass(particle, Mass);
         if (check_four_vectors_) {
 //             if (LorentzVector.M() - Mass > mass_check_value_) Error(Mass, LorentzVector.M());
@@ -91,7 +91,7 @@ protected:
     analysis::LorentzVector LorentzVectorByM(const Particle& particle) const
     {
 //         Debug("Lorentz Vector by Mass");
-        const float Mass = particle.M;
+        float Mass = particle.M;
         const analysis::LorentzVector LorentzVector = LorentzVectorByMass(particle, Mass);
         if (check_four_vectors_) {
 //             if (LorentzVector.M() - Mass > mass_check_value_) Error(Mass, LorentzVector.M());
@@ -159,9 +159,9 @@ protected:
 
     const bool check_four_vectors_;
 
-    const float check_value_;
+    float check_value_;
 
-    const float mass_check_value_;
+    float mass_check_value_;
 
 private:
 

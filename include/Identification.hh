@@ -18,9 +18,9 @@ public:
 
     Identification();
 
-    virtual void SetBdt(const float bdt);
+    virtual void SetBdt(float bdt);
 
-    void SetBdt(const float bdt_1, const float bdt_2);
+    void SetBdt(float bdt_1, float bdt_2);
 
     virtual float Bdt() const;
 

@@ -10,23 +10,23 @@ namespace analysis
 class PreCuts
 {
 public:
-    void SetPtLowerCut(const Id id, const float value);
+    void SetPtLowerCut(const Id id, float value);
 
     float PtLowerCut(const Id id) const;
 
-    void SetPtUpperCut(const Id id, const float value);
+    void SetPtUpperCut(const Id id, float value);
 
     float PtUpperCut(const Id id) const;
 
-    void SetMassLowerCut(const Id id, const float value);
+    void SetMassLowerCut(const Id id, float value);
 
     float MassLowerCut(const Id id) const;
 
-    void SetMassUpperCut(const Id id, const float value);
+    void SetMassUpperCut(const Id id, float value);
 
     float MassUpperCut(const Id id) const;
 
-    void SetTrackerMaxEta(const Id id, const float value);
+    void SetTrackerMaxEta(const Id id, float value);
 
     float TrackerMaxEta(const Id id) const;
 

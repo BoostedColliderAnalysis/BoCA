@@ -61,7 +61,7 @@ bool SubStructure::GetSubJets(const fastjet::PseudoJet& CandidateJet)
     SubJet2.Rap -= SubJet1.Rap;
     SubJet2.Phi -= SubJet1.Phi;
     // scale subjet distance to reference value
-    const float SubJetDistance = Length(SubJet2.Rap, SubJet2.Phi);
+    float SubJetDistance = Length(SubJet2.Rap, SubJet2.Phi);
     if (SubJetDistance <= 0) {
         Note("No SubJet Distance", SubJetDistance);
         return 0;
@@ -78,7 +78,7 @@ Vectors SubStructure::Getconstituents(const fastjet::PseudoJet& CandidateJet)
     }
     if (!SubJets)
         GetSubJets(CandidateJet);
-    const float Theta = atan2(SubJet2.Phi, SubJet2.Rap);
+    float Theta = atan2(SubJet2.Phi, SubJet2.Rap);
     float SumInverseRap = 0;
     float SumInversePhi = 0;
     float SubJet1Pt = 0;
@@ -92,11 +92,11 @@ Vectors SubStructure::Getconstituents(const fastjet::PseudoJet& CandidateJet)
                 constituentJet.user_index() != to_int(Id::higgs)
            )
             Error("Wrong UserId", constituentJet.user_index());
-        const float Distance = constituentJet.delta_R(CandidateJet);
+        float Distance = constituentJet.delta_R(CandidateJet);
         if (Distance > DeltaR)
             DeltaR = Distance;
-        const float Distance1 = constituentJet.delta_R(CandidateJet.pieces().at(0));
-        const float Distance2 = constituentJet.delta_R(CandidateJet.pieces().at(1));
+        float Distance1 = constituentJet.delta_R(CandidateJet.pieces().at(0));
+        float Distance2 = constituentJet.delta_R(CandidateJet.pieces().at(1));
         if (Distance1 < Distance2)
             SubJet1Pt += constituentJet.pt();
         else if (Distance2 < Distance1)
@@ -114,7 +114,7 @@ Vectors SubStructure::Getconstituents(const fastjet::PseudoJet& CandidateJet)
         ConstPhi *= SubJetRatio;
         // rotate constituent according to subjet2
         float ObservableRap = ConstRap * cos(Theta) + ConstPhi * sin(Theta);
-        const float ObservablePhi = ConstRap * sin(Theta) - ConstPhi * cos(Theta);
+        float ObservablePhi = ConstRap * sin(Theta) - ConstPhi * cos(Theta);
         // move subjet2 to (1,0)
         ObservableRap -= Shift;
         const LorentzVector constituentVector(constituentJet.pt(), ObservableRap, ObservablePhi, constituentJet.e());
@@ -147,7 +147,7 @@ bool SubStructure::GetIsolation(const fastjet::PseudoJet& CandidateJet, const Je
     fastjet::PseudoJet ClosestPiece;
     for (const auto& PieceJet : PieceJets) {
         for (const auto& LeptonJet : LeptonJets) {
-            const float Distance = LeptonJet.delta_R(PieceJet);
+            float Distance = LeptonJet.delta_R(PieceJet);
             Detail("DeltaR", Distance);
             if (Distance < IsolationDeltaR) {
                 IsolationDeltaR = Distance;
@@ -203,14 +203,14 @@ float SubStructure::GetDiPolarity(const fastjet::PseudoJet& CandidateJet) const
     float DeltaR12 = SubJetVector.at(0).delta_R(SubJetVector.at(1));
     float DiPolarity = 0;
     for (const auto& constituent : CandidateJet.constituents()) {
-        const float constituentRap = constituent.rap();
+        float constituentRap = constituent.rap();
         float constituentPhi = constituent.phi_std();
-        const float DeltaPhi = Phi2 - Phi1;
-        const float DeltaRap = -(Rap2 - Rap1);
-        const float RapPhi = Rap2 * Phi1 - Rap1 * Phi2;
-        const float constituentDeltaR1 = constituent.delta_R(SubJetVector.at(0));
-        const float constituentDeltaR2 = constituent.delta_R(SubJetVector.at(1));
-        const float constituentDeltaR3 = std::abs(DeltaPhi * constituentRap + DeltaRap * constituentPhi + RapPhi) / sqrt(pow(DeltaPhi, 2) + pow(DeltaRap, 2));
+        float DeltaPhi = Phi2 - Phi1;
+        float DeltaRap = -(Rap2 - Rap1);
+        float RapPhi = Rap2 * Phi1 - Rap1 * Phi2;
+        float constituentDeltaR1 = constituent.delta_R(SubJetVector.at(0));
+        float constituentDeltaR2 = constituent.delta_R(SubJetVector.at(1));
+        float constituentDeltaR3 = std::abs(DeltaPhi * constituentRap + DeltaRap * constituentPhi + RapPhi) / sqrt(pow(DeltaPhi, 2) + pow(DeltaRap, 2));
         float Rap3 = - (DeltaPhi * RapPhi - DeltaRap * DeltaRap * constituentRap + DeltaPhi * DeltaRap * constituentPhi) / (DeltaPhi * DeltaPhi + DeltaRap * DeltaRap);
         float Phi3 = - (DeltaRap * RapPhi + DeltaPhi * DeltaRap * constituentRap - DeltaPhi * DeltaPhi * constituentPhi) / (DeltaPhi * DeltaPhi + DeltaRap * DeltaRap);
         float DeltaR1;
@@ -225,21 +225,21 @@ float SubStructure::GetDiPolarity(const fastjet::PseudoJet& CandidateJet) const
             constituentPhi = constituentPhi - 2 * TMath::Pi();
         Rap3 = - (DeltaPhi * RapPhi - DeltaRap * DeltaRap * constituentRap + DeltaPhi * DeltaRap * constituentPhi) / (DeltaPhi * DeltaPhi + DeltaRap * DeltaRap);
         Phi3 = - (DeltaRap * RapPhi + DeltaPhi * DeltaRap * constituentRap - DeltaPhi * DeltaPhi * constituentPhi) / (DeltaPhi * DeltaPhi + DeltaRap * DeltaRap);
-        const float ConstituntDeltaR4 = std::abs(DeltaPhi * constituentRap + DeltaRap * constituentPhi + RapPhi) / sqrt(pow(DeltaPhi, 2) + pow(DeltaRap, 2));
+        float ConstituntDeltaR4 = std::abs(DeltaPhi * constituentRap + DeltaRap * constituentPhi + RapPhi) / sqrt(pow(DeltaPhi, 2) + pow(DeltaRap, 2));
         float DeltaR2;
         if ((Rap3 >= Rap1 && Rap3 <= Rap2 && Phi3 >= Phi1 && Phi3 <= Phi2)
                 || (Rap3 >= Rap1 && Rap3 <= Rap2 && Phi3 >= Phi2 && Phi3 <= Phi1))
             DeltaR2 = ConstituntDeltaR4;
         else
             DeltaR2 = std::min(constituentDeltaR1, constituentDeltaR2);
-        const float Distance = std::min(DeltaR1, DeltaR2);
-        const float ConeSize = sqrt(2);
+        float Distance = std::min(DeltaR1, DeltaR2);
+        float ConeSize = sqrt(2);
         if (constituentDeltaR1 < DeltaR12 / ConeSize || constituentDeltaR2 < DeltaR12 / ConeSize) {
-            const float deltar = Distance / DeltaR12;
+            float deltar = Distance / DeltaR12;
             //         float ConstDelR1 = constituentDeltaR1 / DeltaR12;
             //         float ConstDelR2 = constituentDeltaR2 / DeltaR12;
             //         float PtRatio =  constituent.perp() / HiggsJet.perp();
-            const float PtRatio =  constituent.pt() / CandidateJet.pt();
+            float PtRatio =  constituent.pt() / CandidateJet.pt();
             DiPolarity += PtRatio * pow(deltar, 2);
         }
     }

@@ -93,7 +93,7 @@ long Factory::AddTree(TFile& file, const std::string& tree_name, const Tag tag)
     exroot::TreeReader& tree_reader = *new exroot::TreeReader(&tree); // FIXME nasty hack with memeory leak; necessary because the tree reader destructor closes the file which makes it invisible for tmva; reimplment in a cleaner way!!
     TClonesArray& clones_array = *tree_reader.UseBranch(tagger().weight_branch_name().c_str());
     tree_reader.ReadEntry(0);
-    const float crosssection = static_cast<InfoBranch&>(*clones_array.First()).Crosssection / tree_reader.GetEntries();  // this takes care of the multiplicity
+    float crosssection = static_cast<InfoBranch&>(*clones_array.First()).Crosssection / tree_reader.GetEntries();  // this takes care of the multiplicity
     Note("Weight", crosssection);
     switch (tag) {
     case Tag::signal :

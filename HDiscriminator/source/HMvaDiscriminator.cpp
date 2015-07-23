@@ -67,7 +67,7 @@ void hcpvhiggs::HMva::ApplyBdt(const exroot::TreeReader* const TreeReader, const
             (*Candidate) = *((HCandidateBranch*) CandidateClonesArray->At(CandidateNumber));
             HCandidateBranch* ExportCandidate = static_cast<HCandidateBranch*>(CandidateBranch->NewEntry());
             (*ExportCandidate) = *Candidate;
-            const float BdtEvaluation = const_cast<TMVA::Reader*>(&Reader)->EvaluateMVA(bdt_method_name());
+            float BdtEvaluation = const_cast<TMVA::Reader*>(&Reader)->EvaluateMVA(bdt_method_name());
             float SigEff;
             int StepSize = 50;
             for (SigEff = 0; SigEff < StepSize; ++SigEff) {

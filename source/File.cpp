@@ -23,7 +23,7 @@ File::File(const std::string& process)
     file_suffix_ = file_suffix();
 }
 
-File::File(const std::string& process, const float crosssection)
+File::File(const std::string& process, float crosssection)
 {
     Debug();
     SetVariables();
@@ -32,7 +32,7 @@ File::File(const std::string& process, const float crosssection)
     file_suffix_ = file_suffix();
 }
 
-File::File(const std::string& process, const float crosssection, const float mass)
+File::File(const std::string& process, float crosssection, float mass)
 {
     Debug();
     SetVariables();
@@ -50,7 +50,7 @@ File::File(const Strings& processes)
     file_suffix_ = file_suffix();
 }
 
-File::File(const Strings& processes, const float crosssection)
+File::File(const Strings& processes, float crosssection)
 {
     Debug();
     SetVariables();
@@ -59,7 +59,7 @@ File::File(const Strings& processes, const float crosssection)
     file_suffix_ = file_suffix();
 }
 
-File::File(const Strings& processes, const float crosssection, const float mass)
+File::File(const Strings& processes, float crosssection, float mass)
 {
     Debug();
     SetVariables();
@@ -78,7 +78,7 @@ File::File(const std::string& process, const std::string& run_folder)
     file_suffix_ = file_suffix();
 }
 
-File::File(const std::string& process, const std::string& base_path, const std::string& file_suffix, const float crosssection)
+File::File(const std::string& process, const std::string& base_path, const std::string& file_suffix, float crosssection)
 {
     Debug();
     SetVariables();
@@ -107,7 +107,7 @@ File::File(const std::string& process, const std::string& base_path, const std::
     nice_name_ = nice_name;
 }
 
-File::File(const std::string& process, const std::string& base_path, const std::string& file_suffix, const float crossection, const std::string& nice_name)
+File::File(const std::string& process, const std::string& base_path, const std::string& file_suffix, float crossection, const std::string& nice_name)
 {
     Debug();
     SetVariables();

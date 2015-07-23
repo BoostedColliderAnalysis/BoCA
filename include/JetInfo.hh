@@ -29,7 +29,7 @@ public:
      */
     JetInfo();
 
-    JetInfo(const float bdt);
+    JetInfo(float bdt);
 
     JetInfo(const ::delphes::Jet& jet);
 
@@ -95,7 +95,7 @@ public:
 
     int MaximalId() const;
 
-    void AddFamily(const Family& family, const float weight);
+    void AddFamily(const Family& family, float weight);
 
     void ExtractFamilyFraction();
 
@@ -148,9 +148,9 @@ public:
 
 private:
 
-    void AddParticle(int constituent_id, const float weight);
+    void AddParticle(int constituent_id, float weight);
 
-    void AddParticle(const Id constituent_id, const float weight);
+    void AddParticle(const Id constituent_id, float weight);
 
     float GetWeightSum() const;
 

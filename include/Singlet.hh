@@ -140,7 +140,7 @@ public:
         return Jet().pt();
     }
 
-    void SetBdt(const float bdt) final;
+    void SetBdt(float bdt) final;
 
     float Rapidity() const
     {
@@ -161,7 +161,7 @@ public:
 
 private:
 
-    float log(const float number) const;
+    float log(float number) const;
 
     float Radius(const fastjet::PseudoJet& jet) const;
 

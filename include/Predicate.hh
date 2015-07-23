@@ -25,7 +25,7 @@ Jets CopyIfExactParticle(const Jets& jets, int id);
 
 Jets RemoveIfExactParticle(const Jets& jets, int id);
 
-Jets RemoveIfOutsidePtWindow(Jets& jets, const float lower_cut, const float upper_cut);
+Jets RemoveIfOutsidePtWindow(Jets& jets, float lower_cut, float upper_cut);
 
 Jets CopyIfFamily(const Jets& jets, const Id id, Id mother_id);
 
@@ -53,26 +53,26 @@ Jets CopyIfQuark(const Jets& jets);
 
 Jets CopyIf5Quark(const Jets& jets);
 
-Jets RemoveIfSoft(const Jets& jets, const float pt_min);
+Jets RemoveIfSoft(const Jets& jets, float pt_min);
 
 
 /**
  * @brief Calcualte distance in eta phi space
  *
  */
-float Distance(const float rapidity_1, const float phi_1, const float rapidity_2, const float phi_2);
+float Distance(float rapidity_1, float phi_1, float rapidity_2, float phi_2);
 
 /**
  * @brief Calcualte distance from center in eta phi space
  *
  */
-float Length(const float rapidity, const float phi);
+float Length(float rapidity, float phi);
 
 /**
  * @brief Take care of phi angles around pi
  *
  */
-float DeltaPhi(const float phi_1, const float phi_2);
+float DeltaPhi(float phi_1, float phi_2);
 
 struct Close {
     Close(const fastjet::PseudoJet& particle)
@@ -156,7 +156,7 @@ std::vector<Multiplet> SortByMaxDeltaRap(std::vector<Multiplet>& multiplets)
 }
 
 struct SortByMassTo {
-    SortByMassTo(const float mass)
+    SortByMassTo(float mass)
     {
         mass_ = mass;
     }
@@ -169,7 +169,7 @@ struct SortByMassTo {
 };
 
 template <class Multiplet>
-std::vector<Multiplet> SortedByMassTo(std::vector<Multiplet>& multiplets, const float mass)
+std::vector<Multiplet> SortedByMassTo(std::vector<Multiplet>& multiplets, float mass)
 {
     std::sort(multiplets.begin(), multiplets.end(), SortByMassTo(mass));
     return multiplets;

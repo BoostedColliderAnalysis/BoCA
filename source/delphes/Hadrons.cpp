@@ -249,18 +249,18 @@ Jets Hadrons::GranulatedJets(const analysis::Jets& e_flow_jets) const
     for (const auto& e_flow_jet : sorted_jets) {
         bool is_new_jet = false;
         for (std::size_t j = 0; j < jets.size(); ++j) {
-            const float cell_diff_rap = std::abs(e_flow_jet.pseudorapidity() - jets[j].pseudorapidity()) / DetectorGeometry::MinCellResolution();
+            float cell_diff_rap = std::abs(e_flow_jet.pseudorapidity() - jets[j].pseudorapidity()) / DetectorGeometry::MinCellResolution();
             float cell_diff_phi = std::abs(e_flow_jet.phi() - jets[j].phi());
             if (cell_diff_phi > M_PI)
                 cell_diff_phi = 2 * M_PI - cell_diff_phi;
             cell_diff_phi /= DetectorGeometry::MinCellResolution();
             if (cell_diff_rap < 1 && cell_diff_phi < 1) {
                 is_new_jet = true;
-                const float total_energy  = e_flow_jet.e() + jets[j].e();
-                const float rescale_factor = std::sqrt(std::pow(e_flow_jet.px() + jets[j].px(), 2) + std::pow(e_flow_jet.py() + jets[j].py(), 2) + pow(e_flow_jet.pz() + jets[j].pz(), 2));
-                const float rescaled_px = total_energy * (e_flow_jet.px() + jets[j].px()) / rescale_factor;
-                const float rescaled_py = total_energy * (e_flow_jet.py() + jets[j].py()) / rescale_factor;
-                const float rescaled_pz = total_energy * (e_flow_jet.pz() + jets[j].pz()) / rescale_factor;
+                float total_energy  = e_flow_jet.e() + jets[j].e();
+                float rescale_factor = std::sqrt(std::pow(e_flow_jet.px() + jets[j].px(), 2) + std::pow(e_flow_jet.py() + jets[j].py(), 2) + pow(e_flow_jet.pz() + jets[j].pz(), 2));
+                float rescaled_px = total_energy * (e_flow_jet.px() + jets[j].px()) / rescale_factor;
+                float rescaled_py = total_energy * (e_flow_jet.py() + jets[j].py()) / rescale_factor;
+                float rescaled_pz = total_energy * (e_flow_jet.pz() + jets[j].pz()) / rescale_factor;
                 fastjet::PseudoJet combined_jet(rescaled_px, rescaled_py, rescaled_pz, total_energy);
                 std::vector<Constituent> combined_constituents;
                 std::vector<Constituent> constituents = e_flow_jet.user_info<JetInfo>().constituents();
