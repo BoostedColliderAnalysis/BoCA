@@ -14,6 +14,7 @@ Nonet.cpp
 Decuplet.cpp
 Quattuordecuplet.cpp
 EventTagger.cpp
+EventPairTagger.cpp
 EventSingleTagger.cpp
 )
 create_library(AnalysisTopPartner AnalysisSources)
