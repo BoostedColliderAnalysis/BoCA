@@ -52,7 +52,7 @@ void hcpvhiggs::HMva::DefineVariables()
 }
 
 
-void hcpvhiggs::HMva::ApplyBdt(const exroot::TreeReader* const TreeReader, const std::string TreeName, const TFile* const ExportFile, const TMVA::Reader& Reader)
+void hcpvhiggs::HMva::ApplyBdt(const exroot::TreeReader* const TreeReader, const std::string&TreeName, const TFile* const ExportFile, const TMVA::Reader& Reader)
 {
     Note("Apply Bdt");
     const TClonesArray* const CandidateClonesArray = const_cast<exroot::TreeReader*>(TreeReader)->UseBranch(branch_name().c_str());

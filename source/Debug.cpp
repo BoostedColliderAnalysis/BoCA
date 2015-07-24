@@ -40,7 +40,7 @@ std::string FunctionName(const std::string& pretty_function)
 
 std::string FileName(const std::string& file)
 {
-    const std::string name = file.rfind('/') ? file.substr(file.rfind('/') + 1) : file;
+    std::string name = file.rfind('/') ? file.substr(file.rfind('/') + 1) : file;
     return name.substr(0, name.find('.'));
 }
 

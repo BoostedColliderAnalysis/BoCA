@@ -83,11 +83,21 @@ TVector2 Singlet::Pull() const
     return vector;
 }
 
+/**
+ * @brief calculate Reference vector for other - this
+ * @return TVector2 reference vector
+ *
+ */
 TVector2 Singlet::Reference(const fastjet::PseudoJet& vector) const
 {
   return TVector2(vector.rap() - jet_.rap(), jet_.delta_phi_to(vector));
 }
 
+/**
+ * @brief calculate Reference vector for other - this
+ * @return TVector2 reference vector
+ *
+ */
 TVector2 Singlet::Reference(const Singlet& vector) const
 {
     return Reference(vector.Jet());
