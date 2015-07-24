@@ -30,13 +30,13 @@ protected:
 
     void ClearFiles();
 
-    std::vector<analysis::File> files(const Tag tag);
+    std::vector<analysis::File> files(Tag tag);
 
     std::string ExportName(Stage stage,  Tag tag) const;
 
     void PrepareFiles();
 
-    virtual void SetFiles(const Tag tag) = 0;
+    virtual void SetFiles(Tag tag) = 0;
 
     exroot::TreeWriter TreeWriter(TFile& export_file, const std::string& export_tree_name, Stage stage);
 
@@ -68,9 +68,9 @@ protected:
 
     virtual std::string FilePath() const;
 
-    void NewFile(const Tag tag, const std::string& name, const std::string& nice_name = "");
+    void NewFile(Tag tag, const std::string& name, const std::string& nice_name = "");
 
-    void NewFile(const Tag tag, const std::string& name, float crosssection, const std::string& nice_name = "");
+    void NewFile(Tag tag, const std::string& name, float crosssection, const std::string& nice_name = "");
 
     analysis::File File(const std::string& name, float crosssection, const std::string& nice_name = "") const;
 

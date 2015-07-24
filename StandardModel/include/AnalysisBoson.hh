@@ -36,7 +36,7 @@ private:
         return  Name(this->collider_type()) + "-" + std::to_string(this->LowerPtCut()) + "GeV-bb";
     }
 
-    void SetFiles(const Tag tag) final {
+    void SetFiles(Tag tag) final {
         switch (tag)
         {
         case Tag::signal :

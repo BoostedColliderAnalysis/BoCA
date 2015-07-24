@@ -27,7 +27,7 @@ public:
         DetectorGeometry::set_detector_type(DetectorType::CMS);
     }
 
-    void SetFiles(const Tag tag) {
+    void SetFiles(Tag tag) {
         switch (tag) {
         case Tag::signal :
             //         NewSignalFile("pp-ttx0-bbbbllnunu-1", 0.02071);

@@ -199,12 +199,12 @@ public:
         }
     }
 
-    virtual void NewFile(const Tag tag, const Process process)
+    virtual void NewFile(Tag tag, const Process process)
     {
         analysis::AnalysisBase::NewFile(tag, FileName(process, tag), NiceName(process));
     }
 
-    virtual void NewFile(const Tag tag, float crosssection, const Process process) {
+    virtual void NewFile(Tag tag, float crosssection, const Process process) {
       analysis::AnalysisBase::NewFile(tag, FileName(process, tag), crosssection, NiceName(process));
     }
 

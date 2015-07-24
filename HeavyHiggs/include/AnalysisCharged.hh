@@ -23,7 +23,7 @@ public:
         this->tagger().set_analysis_name(ProjectName());
     }
 
-    void SetFiles(const Tag tag) final {
+    void SetFiles(Tag tag) final {
         switch (tag)
         {
         case Tag::signal :

@@ -10,7 +10,7 @@ enum class Tag {
 
 };
 
-std::string Name(const Tag tag);
+std::string Name(Tag tag);
 
 class Identification {
 
