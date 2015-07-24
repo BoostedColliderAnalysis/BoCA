@@ -74,6 +74,8 @@ float Length(float rapidity, float phi);
  */
 float DeltaPhi(float phi_1, float phi_2);
 
+float RestrictPhi(float phi);
+
 struct Close {
     Close(const fastjet::PseudoJet& particle)
     {
