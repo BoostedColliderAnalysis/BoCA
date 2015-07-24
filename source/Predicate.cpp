@@ -7,14 +7,14 @@ namespace analysis {
 fastjet::PseudoJet PseudoJet(const TLorentzVector& vector)
 {
     // construct a pseudojet from explicit components
-    // PseudoJet(const double px, const double py, const double pz, const double E);
+    // PseudoJet(double px, double py, double pz, double E);
     return fastjet::PseudoJet(vector.Px(), vector.Py(), vector.Pz(), vector.E());
 }
 
 fastjet::PseudoJet PseudoJet(const LorentzVector& vector)
 {
     // construct a pseudojet from explicit components
-    // PseudoJet(const double px, const double py, const double pz, const double E);
+    // PseudoJet(double px, double py, double pz, double E);
     return fastjet::PseudoJet(vector.Px(), vector.Py(), vector.Pz(), vector.E());
 }
 

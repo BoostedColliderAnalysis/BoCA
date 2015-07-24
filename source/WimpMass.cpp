@@ -82,7 +82,7 @@ std::vector<analysis::Sextet> WimpMass::Sextets(const Quartet22& quartet, const 
     return sextets;
 }
 
-std::vector<analysis::Sextet> WimpMass::Sextet(const Quartet22& quartet, const fastjet::PseudoJet& missing_et, const Jets& neutrinos,  Tag tag)
+std::vector<analysis::Sextet> WimpMass::Sextet(const Quartet22& quartet, const fastjet::PseudoJet& missing_et, const Jets& neutrinos, Tag tag)
 {
     Info("Triple Pair");
     std::vector<analysis::Sextet> sextets = Sextets(quartet, missing_et);

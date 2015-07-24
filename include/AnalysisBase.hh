@@ -32,7 +32,7 @@ protected:
 
     std::vector<analysis::File> files(Tag tag);
 
-    std::string ExportName(Stage stage,  Tag tag) const;
+    std::string ExportName(Stage stage, Tag tag) const;
 
     void PrepareFiles();
 

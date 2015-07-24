@@ -89,7 +89,7 @@ std::string Tagger::Name(Stage stage) const
         return reader_name();
     }
 }
-std::string Tagger::Name(Stage stage,  Tag tag) const
+std::string Tagger::Name(Stage stage, Tag tag) const
 {
     std::string name = Tagger::Name(stage);
     switch (tag) {

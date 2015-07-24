@@ -13,7 +13,7 @@ TauTagger::TauTagger()
     DefineVariables();
 }
 
-int TauTagger::Train(const Event& event, const PreCuts&,  Tag tag) const
+int TauTagger::Train(const Event& event, const PreCuts&, Tag tag) const
 {
     Info(analysis::Name(tag));
     Jets jets = event.Hadrons().Jets();

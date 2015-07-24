@@ -203,7 +203,7 @@ private:
         trees.tree_writer().Clear();
     }
 
-    int RunAnalysis(const Event& event, const Reader<Tagger>& reader, Stage stage,  Tag tag)
+    int RunAnalysis(const Event& event, const Reader<Tagger>& reader, Stage stage, Tag tag)
     {
         switch (stage) {
         case Stage::trainer :

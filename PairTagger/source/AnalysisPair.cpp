@@ -187,7 +187,7 @@ void fusionpair::Analysis::SetTrees()
 // }
 
 
-// bool hpairtagger::Analysis::GetTag(analysis::Event &event,  Tag tag)
+// bool hpairtagger::Analysis::GetTag(analysis::Event &event, Tag tag)
 // {
 //   Debug("Bottom Tag", Name(tag));
 //   return tagger_.GetBranches(event, tag);
