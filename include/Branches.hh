@@ -213,6 +213,9 @@ public:
     float Rho;
     float Bdt1;
     float Bdt2;
+    float Pull;
+    float DeltaPull;
+    float Dipolarity;
     template<typename Multiplet>
     void Fill(const Multiplet& multiplet)
     {
@@ -226,6 +229,9 @@ public:
         Rho = multiplet.Rho();
         Bdt1 = multiplet.Multiplet1().Bdt();
         Bdt2 = multiplet.Multiplet2().Bdt();
+        Pull = multiplet.PullSum();
+        DeltaPull = multiplet.PullDifference();
+        Dipolarity = multiplet.Dipolarity();
     }
     Observables Variables();
     Observables Spectators();
@@ -432,17 +438,11 @@ private:
 class HiggsBranch : public PairBranch, public BottomBase {
 public:
     HiggsBranch();
-    float Pull;
-    float PullDiff;
-    float Dipol;
     template<typename Multiplet>
     void Fill(const Multiplet& multiplet)
     {
         PairBranch::Fill(multiplet);
         BottomBase::Fill(multiplet);
-        PullDiff = multiplet.PullDifference();
-        Pull = multiplet.PullSum();
-        Dipol = multiplet.Dipolarity();
     }
     Observables Variables();
     Observables Spectators();

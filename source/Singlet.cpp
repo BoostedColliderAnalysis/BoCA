@@ -98,10 +98,10 @@ TVector2 Singlet::Reference(const fastjet::PseudoJet& vector) const
  * @return TVector2 reference vector
  *
  */
-TVector2 Singlet::Reference(const Singlet& vector) const
-{
-    return Reference(vector.Jet());
-}
+// TVector2 Singlet::Reference(const Singlet& vector) const
+// {
+//     return Reference(vector.Jet());
+// }
 
 float Singlet::Rapidity() const
 {

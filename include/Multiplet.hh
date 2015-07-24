@@ -102,8 +102,7 @@ public:
 
     float DeltaRap() const {
         float delta_rap = Multiplet1().Jet().rap() - Multiplet2().Jet().rap();
-        if (std::abs(delta_rap) > 100)
-            return 0;
+        if (std::abs(delta_rap) > 100) return 0;
         return delta_rap;
     }
 
@@ -113,8 +112,7 @@ public:
 
     float DeltaR() const {
         float delta_r = Multiplet1().Jet().delta_R(Multiplet2().Jet());
-        if (std::abs(delta_r) > 100)
-            delta_r = 0;
+        if (std::abs(delta_r) > 100) delta_r = 0;
 //         if (delta_r < DetectorGeometry::MinCellResolution()) delta_r = Singlet(Jet()).DeltaR();
         return delta_r;
     }
@@ -145,6 +143,65 @@ public:
         return Singlet(EffectiveJet());
     }
 
+    TVector2 Pull(){
+      return singlet().Pull();
+    }
+
+    float Pull1() const
+    {
+      TVector2 pull = Multiplet1().Pull() - Multiplet1().Reference(Multiplet2().Jet());
+      return std::atan2(pull.Y(), pull.X());
+    }
+
+    float Pull2() const
+    {
+      TVector2 pull = Multiplet2().Pull() - Multiplet2().Reference(Multiplet1().Jet());
+      return std::atan2(pull.Y(), pull.X());
+    }
+
+    float PullDifference() const
+    {
+      return RestrictPhi(::analysis::DeltaPhi(Pull1(), Pull2()) - M_PI);
+    }
+
+    float PullSum() const
+    {
+      return RestrictPhi(Pull1() + Pull2());
+    }
+
+    float Dipolarity() const
+    {
+      if (DeltaR() == 0) return 0;
+      fastjet::PseudoJet jet = EffectiveJet();
+      if (jet.pt() == 0) return 0;
+      float dipolarity = 0;
+      for (const auto & constituent : jet.constituents()) {
+        if (constituent.pt() > jet.pt()) continue;
+
+        float phi = constituent.phi_std();
+        float distance_1 = Distance(TVector2(constituent.rap(), phi));
+
+        if (phi < 0) phi += 2 * M_PI;
+        else  phi -= 2 * M_PI;
+        float distance_2 =  Distance(TVector2(constituent.rap(), phi));
+
+        float distance = std::min(distance_1, distance_2);
+        if (distance > DeltaR()) continue;
+        dipolarity += constituent.pt() * std::pow(distance, 2);
+      }
+      return dipolarity / jet.pt() / std::pow(DeltaR(), 2);
+    }
+
+    /**
+     * @brief calculate Reference vector for other - this
+     * @return TVector2 reference vector
+     *
+     */
+    TVector2 Reference(const fastjet::PseudoJet& vector) const
+    {
+      return TVector2(vector.rap() - Jet().rap(), Jet().delta_phi_to(vector));
+    }
+
 protected:
 
     void SetMultiplet1(const Multiplet_1 multiplet_1) {
@@ -160,6 +217,13 @@ private:
     mutable Multiplet_1 multiplet_1_;
 
     mutable Multiplet_2 multiplet_2_;
+
+    float Distance(const TVector2& point_0) const
+    {
+      TVector2 point_1(Multiplet1().Jet().rap(), Multiplet1().Jet().phi_std());
+      TVector2 point_2(Multiplet2().Jet().rap(), Multiplet2().Jet().phi_std());
+      return std::abs(point_2.Y() - point_1.Y() * point_0.X() - (point_2.X() - point_1.X()) * point_0.Y() + point_2.X() * point_1.Y() - point_2.Y() * point_1.X()) / DeltaR();
+    }
 
 };
 
