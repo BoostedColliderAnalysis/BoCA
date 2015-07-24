@@ -80,7 +80,7 @@ std::string Tagger::reader(const std::string& name) const
 {
     return name + "Reader";
 }
-std::string Tagger::Name(const Stage stage) const
+std::string Tagger::Name(Stage stage) const
 {
     switch (stage) {
     case Stage::trainer :
@@ -89,7 +89,7 @@ std::string Tagger::Name(const Stage stage) const
         return reader_name();
     }
 }
-std::string Tagger::Name(const Stage stage,  Tag tag) const
+std::string Tagger::Name(Stage stage,  Tag tag) const
 {
     std::string name = Tagger::Name(stage);
     switch (tag) {
@@ -99,7 +99,7 @@ std::string Tagger::Name(const Stage stage,  Tag tag) const
         return background(name);
     }
 }
-std::string Tagger::signal_file_name(const Stage stage) const
+std::string Tagger::signal_file_name(Stage stage) const
 {
     const std::string name = analysis_name() + "/" + signal_name();
     switch (stage) {
@@ -109,7 +109,7 @@ std::string Tagger::signal_file_name(const Stage stage) const
         return reader(name);
     }
 }
-std::string Tagger::background_file_name(const Stage stage) const
+std::string Tagger::background_file_name(Stage stage) const
 {
     const std::string name = analysis_name() + "/" + background_name();
     switch (stage) {
@@ -191,7 +191,7 @@ std::string Tagger::background(const std::string& name) const
     return "Not" + name;
     return name + "BG";
 }
-void Tagger::SetTreeBranch(exroot::TreeWriter& tree_writer, const Stage stage)
+void Tagger::SetTreeBranch(exroot::TreeWriter& tree_writer, Stage stage)
 {
     tree_branch_ = tree_writer.NewBranch(Name(stage).c_str(), &Class());
 }

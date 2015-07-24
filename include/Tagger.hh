@@ -29,7 +29,7 @@ enum class Stage {
     reader
 };
 
-std::string Name(const Stage stage);
+std::string Name(Stage stage);
 
 /**
  * @brief Prepares multivariant analysis
@@ -51,17 +51,17 @@ public:
 
     std::string export_name() const;
 
-    std::string signal_file_name(const Stage stage) const;
+    std::string signal_file_name(Stage stage) const;
 
-    std::string background_file_name(const Stage stage) const;
+    std::string background_file_name(Stage stage) const;
 
     std::string reader_name() const;
 
     std::string reader(const std::string& name) const;
 
-    std::string Name(const Stage stage) const;
+    std::string Name(Stage stage) const;
 
-    std::string Name(const Stage stage,  Tag tag) const;
+    std::string Name(Stage stage,  Tag tag) const;
 
     std::string analysis_name() const;
 
@@ -107,7 +107,7 @@ public:
 
     virtual float ReadBdt(const TClonesArray&, const int) const = 0;
 
-    void SetTreeBranch(exroot::TreeWriter& tree_writer, const Stage stage);
+    void SetTreeBranch(exroot::TreeWriter& tree_writer, Stage stage);
 
     virtual const ResultBranch& branch() const = 0;
 
