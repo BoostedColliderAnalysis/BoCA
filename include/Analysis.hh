@@ -132,7 +132,7 @@ class Analysis : public AnalysisBase {
 
 public:
 
-    void AnalysisLoop(const Stage stage) final {
+    void AnalysisLoop(Stage stage) final {
         mkdir(ProjectName().c_str(), 0700);
         Reader<Tagger> reader(stage);
         tagger_.ClearTreeNames();
@@ -203,7 +203,7 @@ private:
         trees.tree_writer().Clear();
     }
 
-    int RunAnalysis(const Event& event, const Reader<Tagger>& reader, const Stage stage,  Tag tag)
+    int RunAnalysis(const Event& event, const Reader<Tagger>& reader, Stage stage,  Tag tag)
     {
         switch (stage) {
         case Stage::trainer :

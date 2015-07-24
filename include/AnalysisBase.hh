@@ -32,7 +32,7 @@ protected:
 
     std::vector<analysis::File> files(const Tag tag);
 
-    std::string ExportName(const Stage stage,  Tag tag) const;
+    std::string ExportName(Stage stage,  Tag tag) const;
 
     void PrepareFiles();
 
@@ -102,7 +102,7 @@ private:
 
     bool Missing(const std::string& name) const;
 
-    virtual void AnalysisLoop(const Stage stage) = 0;
+    virtual void AnalysisLoop(Stage stage) = 0;
 
     std::string PathName(const std::string& file_name, const std::string& suffix = ".root") const;
 

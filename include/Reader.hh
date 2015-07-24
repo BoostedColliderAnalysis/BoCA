@@ -22,7 +22,7 @@ public:
         BookMva();
     }
 
-    Reader(const Stage stage)
+    Reader(Stage stage)
     {
         switch (stage) {
         case Stage::trainer :
@@ -80,7 +80,7 @@ public:
         return tagger_;
     }
 
-    void SetTreeBranch(exroot::TreeWriter& tree_writer,const Stage stage)
+    void SetTreeBranch(exroot::TreeWriter& tree_writer,Stage stage)
     {
        tagger().SetTreeBranch(tree_writer, stage);
     }
