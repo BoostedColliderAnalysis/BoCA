@@ -53,8 +53,8 @@ public:
      *
      */
     long EventNumberMax() const final {
-        return 5000;
         return 1000;
+        return 5000;
     }
 
 protected:

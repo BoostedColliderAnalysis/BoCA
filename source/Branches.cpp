@@ -305,11 +305,12 @@ Observables TopLeptonicBranch::Spectators()
 HiggsBranch::HiggsBranch(){
   PullDiff = InitialValue();
   Pull = InitialValue();
+  Dipol = InitialValue();
 }
 
 Observables HiggsBranch::Variables()
 {
-  return Join(Join(PairBranch::Variables(), BottomBase::Variables()),{OBS(Pull,"#theta"),OBS(PullDiff,"#Delta #theta")});
+  return Join(Join(PairBranch::Variables(), BottomBase::Variables()),{OBS(Pull,"#theta"),OBS(PullDiff,"#Delta #theta"),OBS(Dipol,"D")});
 }
 
 Observables HiggsBranch::Spectators()

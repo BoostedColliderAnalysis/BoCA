@@ -38,4 +38,66 @@ float Doublet::PullSum() const
     return RestrictPhi(Pull1() + Pull2());
 }
 
+float Doublet::Dipolarity() const
+{
+    float dipolarity = 0;
+    for (const auto & constituent : Jet().constituents()) {
+
+        float eta_0 = constituent.eta();
+        float phi_0 = constituent.phi_std();
+
+        float eta_1, eta_2, phi_1, phi_2;
+        if (Multiplet1().Jet().eta() < Multiplet2().Jet().eta()) {
+            eta_1 = Multiplet1().Jet().eta();
+            phi_1 = Multiplet1().Jet().phi_std();
+            eta_2 = Multiplet2().Jet().eta();
+            phi_2 = Multiplet2().Jet().phi_std();
+        } else {
+            eta_1 = Multiplet2().Jet().eta();
+            phi_1 = Multiplet2().Jet().phi_std();
+            eta_2 = Multiplet1().Jet().eta();
+            phi_2 = Multiplet1().Jet().phi_std();
+        }
+
+        float delta_phi = phi_2 - phi_1;
+        float delta_eta = -(eta_2 - eta_1);
+        float delta_eta_phi = eta_2 * phi_1 - eta_1 * phi_2;
+
+        float delta_r_1 = constituent.delta_R(Multiplet1().Jet());
+        float delta_r_2 = constituent.delta_R(Multiplet2().Jet());
+        float eta3 = - (delta_phi * delta_eta_phi - delta_eta * delta_eta * eta_0 + delta_phi * delta_eta * phi_0) / (delta_phi * delta_phi + delta_eta * delta_eta);
+        float phi3 = - (delta_eta * delta_eta_phi + delta_phi * delta_eta * eta_0 - delta_phi * delta_phi * phi_0) / (delta_phi * delta_phi + delta_eta * delta_eta);
+
+        float delta_r_temp_1;
+        if ((eta3 >= eta_1 && eta3 <= eta_2 && phi3 >= phi_1 && phi3 <= phi_2) || (eta3 >= eta_1 && eta3 <= eta_2 && phi3 >= phi_2 && phi3 <= phi_1)) {
+            float delta_r_3 = std::abs(delta_phi * eta_0 + delta_eta * phi_0 + delta_eta_phi) / std::sqrt(pow(delta_phi, 2) + std::pow(delta_eta, 2));
+            delta_r_temp_1 = delta_r_3;
+        } else delta_r_temp_1 = std::min(delta_r_1, delta_r_2);
+
+        if (phi_0 < 0) phi_0 = phi_0 + 2 * M_PI;
+        else  phi_0 = phi_0 - 2 * M_PI;
+
+        eta3 =  - (delta_phi * delta_eta_phi - delta_eta * delta_eta * eta_0 + delta_phi * delta_eta * phi_0) / (delta_phi * delta_phi + delta_eta * delta_eta);
+        phi3  =  - (delta_eta * delta_eta_phi + delta_phi * delta_eta * eta_0 - delta_phi * delta_phi * phi_0) / (delta_phi * delta_phi + delta_eta * delta_eta);
+
+
+        float delta_r_temp_2;
+        if ((eta3 >= eta_1 && eta3 <= eta_2 && phi3 >= phi_1 && phi3 <= phi_2) || (eta3 >= eta_1 && eta3 <= eta_2 && phi3 >= phi_2 && phi3 <= phi_1)) {
+            float delta_r_4 = std::abs(delta_phi * eta_0 + delta_eta * phi_0 + delta_eta_phi) / std::sqrt(pow(delta_phi, 2) + std::pow(delta_eta, 2));
+            delta_r_temp_2 = delta_r_4;
+        } else  delta_r_temp_2 = std::min(delta_r_1, delta_r_2);
+
+        float delta_r = std::min(delta_r_temp_1, delta_r_temp_2);
+
+        if (delta_r_1 < DeltaR() / std::sqrt(2) || delta_r_2 < DeltaR() / std::sqrt(2)) dipolarity += 1. / std::pow(DeltaR(), 2) * constituent.perp() / Jet().perp() * std::pow(delta_r, 2);
+
+    }
+    if (dipolarity > 1) Error(DeltaR(), dipolarity);
+    return dipolarity;
+
 }
+
+}
+
+
+

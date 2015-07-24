@@ -434,6 +434,7 @@ public:
     HiggsBranch();
     float Pull;
     float PullDiff;
+    float Dipol;
     template<typename Multiplet>
     void Fill(const Multiplet& multiplet)
     {
@@ -441,6 +442,7 @@ public:
         BottomBase::Fill(multiplet);
         PullDiff = multiplet.PullDifference();
         Pull = multiplet.PullSum();
+        Dipol = multiplet.Dipolarity();
     }
     Observables Variables();
     Observables Spectators();
