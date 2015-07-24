@@ -37,7 +37,7 @@ public:
     std::vector<int> bins;
     InfoBranch info_branch;
     long event_sum() const;
-    void set_event_sum(const long int event_sum);
+    void set_event_sum(long int event_sum);
 private:
     long event_sum_;
 };
@@ -121,7 +121,7 @@ public:
 
     void Plotting(const analysis::Plot2d& signal, const analysis::Plot2d& background) const;
 
-    void SetHistogram(TH2& histogram, const analysis::Plot2d& plot, const EColor color, TExec& exec) const;
+    void SetHistogram(TH2& histogram, const analysis::Plot2d& plot, EColor color, TExec& exec) const;
 
     void SetProfile(TProfile2D& histogram, const analysis::Plot2d& signal, const analysis::Plot2d& background) const;
 

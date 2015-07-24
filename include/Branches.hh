@@ -12,9 +12,9 @@ namespace analysis {
 class Obs {
 public:
     Obs(float& value, const std::string& name, const std::string& nice_name);
-    float& value()const;
-    std::string name()const;
-    std::string nice_name()const;
+    float& value() const;
+    std::string name() const;
+    std::string nice_name() const;
 private:
     float* value_;
     std::string name_;

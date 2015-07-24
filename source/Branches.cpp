@@ -19,17 +19,17 @@ Obs::Obs(float& value, const std::string& name, const std::string& nice_name) : 
     nice_name_ = nice_name;
 }
 
-float& Obs::value()const
+float& Obs::value() const
 {
     return *value_;
 }
 
-std::string Obs::name()const
+std::string Obs::name() const
 {
     return name_;
 }
 
-std::string Obs::nice_name()const
+std::string Obs::nice_name() const
 {
     return nice_name_;
 }
