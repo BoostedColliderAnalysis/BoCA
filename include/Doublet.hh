@@ -20,6 +20,8 @@ public:
 
     float PullSum() const;
 
+    float Dipolarity() const;
+
 private:
 
     float Pull1() const;
