@@ -79,7 +79,7 @@ std::vector<Doublet> WLeptonicTagger::ReconstructNeutrino(const Doublet& doublet
     float linear_term = (std::pow(Mass(Id::W), 2) - lepton.m2()) / 2 + missing_et.px() * lepton.px() + missing_et.py() * lepton.py();
     float lepton_square = std::pow(lepton.e(), 2) - std::pow(lepton.pz(), 2);
     float missing_et_square = std::pow(missing_et.px(), 2) + std::pow(missing_et.py(), 2);
-    const double radicant = std::pow(lepton.pz(), 2) * (std::pow(linear_term, 2) -  lepton_square * missing_et_square);
+    double radicant = std::pow(lepton.pz(), 2) * (std::pow(linear_term, 2) -  lepton_square * missing_et_square);
     if (radicant < 0) {
         Info("Imaginary root", "move missing et towards lepton");
         Doublet mod_doublet(lepton, missing_et + 0.1 * (lepton - missing_et));

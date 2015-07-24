@@ -15,7 +15,7 @@ public:
 
     TauTagger();
 
-    int Train(const Event& event, const PreCuts& pre_cuts,  Tag tag) const final;
+    int Train(const Event& event, const PreCuts& pre_cuts, Tag tag) const final;
 
     Jets Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 

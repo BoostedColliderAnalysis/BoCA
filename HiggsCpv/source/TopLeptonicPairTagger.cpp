@@ -43,7 +43,7 @@ int TopLeptonicPairTagger::Train(const Event& event, const analysis::PreCuts&, T
     return SaveEntries(sextets);
 }
 
-std::vector<Sextet> TopLeptonicPairTagger::TruthLevel(const Event& event, std::vector<Sextet> sextets,  Tag tag) const{
+std::vector<Sextet> TopLeptonicPairTagger::TruthLevel(const Event& event, std::vector<Sextet> sextets, Tag tag) const{
     switch(tag){
         case Tag::signal :{
     Jets tops = CopyIfParticle(event.Partons().GenParticles(), Id::top);

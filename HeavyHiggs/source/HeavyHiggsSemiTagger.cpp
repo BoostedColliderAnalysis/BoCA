@@ -12,7 +12,7 @@ HeavyHiggsSemiTagger::HeavyHiggsSemiTagger()
     DefineVariables();
 }
 
-int HeavyHiggsSemiTagger::Train(const Event& event, const PreCuts&,  Tag tag) const
+int HeavyHiggsSemiTagger::Train(const Event& event, const PreCuts&, Tag tag) const
 {
     Info();
     Jets higgs_boson = HiggsParticle(event, tag);
@@ -47,7 +47,7 @@ std::vector<Sextet>  HeavyHiggsSemiTagger::Multiplets(const Event& event, const 
     return ReduceResult(sextets);
 }
 
-std::vector<Triplet> HeavyHiggsSemiTagger::FinalTriplet(const Event& event,  Tag tag, int charge) const
+std::vector<Triplet> HeavyHiggsSemiTagger::FinalTriplet(const Event& event, Tag tag, int charge) const
 {
     std::vector<Triplet> triplets;
     switch (charge) {
@@ -65,7 +65,7 @@ std::vector<Triplet> HeavyHiggsSemiTagger::FinalTriplet(const Event& event,  Tag
     return BestMatches(triplets, tops, tag);
 }
 
-Jets HeavyHiggsSemiTagger::HiggsParticle(const Event& event,  Tag tag) const
+Jets HeavyHiggsSemiTagger::HiggsParticle(const Event& event, Tag tag) const
 {
     if (tag == Tag::background) return Jets {};
     Jets particles = event.Partons().GenParticles();

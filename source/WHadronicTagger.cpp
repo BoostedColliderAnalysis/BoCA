@@ -114,7 +114,7 @@ int WHadronicTagger::WHadronicId(const Jets& jets) const
     return 0;
 }
 
-bool WHadronicTagger::Problematic(const Doublet& doublet, const PreCuts& pre_cuts,  Tag tag) const
+bool WHadronicTagger::Problematic(const Doublet& doublet, const PreCuts& pre_cuts, Tag tag) const
 {
     if (Problematic(doublet, pre_cuts))
         return true;
@@ -196,7 +196,7 @@ std::vector<Doublet> WHadronicTagger::Multiplets3(const Jets& jets, const PreCut
     return doublets;
 }
 
-std::vector<Doublet> WHadronicTagger::SubMultiplets(const Jets& jets, const PreCuts& pre_cuts, const TMVA::Reader& reader, const size_t sub_jet_number) const
+std::vector<Doublet> WHadronicTagger::SubMultiplets(const Jets& jets, const PreCuts& pre_cuts, const TMVA::Reader& reader, size_t sub_jet_number) const
 {
     Info();
     std::vector<Doublet>  doublets;

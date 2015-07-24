@@ -289,8 +289,8 @@ SubJettiness TopHadronicTagger::NSubJettiness(const fastjet::PseudoJet& jet) con
     Info();
     fastjet::contrib::OnePass_WTA_KT_Axes axis_mode_1;
     fastjet::contrib::OnePass_KT_Axes axis_mode_2;
-    const double beta_1 = 1.0;
-    const double beta_2 = 2.0;
+    double beta_1 = 1.0;
+    double beta_2 = 2.0;
     fastjet::contrib::UnnormalizedMeasure unnormalized_measure_1(beta_1);
     fastjet::contrib::UnnormalizedMeasure unnormalized_measure_2(beta_2);
 //

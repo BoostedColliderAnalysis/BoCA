@@ -10,7 +10,7 @@ HiggsTagger::HiggsTagger()
     DefineVariables();
 }
 
-int HiggsTagger::Train(const Event& event, const PreCuts& pre_cuts,  Tag tag) const
+int HiggsTagger::Train(const Event& event, const PreCuts& pre_cuts, Tag tag) const
 {
     Info(analysis::Name(tag));
     Jets jets =  bottom_reader_.Multiplets(event);
@@ -42,7 +42,7 @@ int HiggsTagger::Train(const Event& event, const PreCuts& pre_cuts,  Tag tag) co
     return SaveEntries(BestMatches(doublets, higgses, tag));
 }
 
-bool HiggsTagger::Problematic(const Doublet& doublet, const PreCuts& pre_cuts,  Tag tag) const
+bool HiggsTagger::Problematic(const Doublet& doublet, const PreCuts& pre_cuts, Tag tag) const
 {
     if (Problematic(doublet, pre_cuts)) return true;
     switch (tag) {

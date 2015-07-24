@@ -28,7 +28,8 @@
 
 
 
-namespace analysis {
+namespace analysis
+{
 
 Result::Result()
 {
@@ -143,16 +144,16 @@ std::string Plot::PlotHistograms(const analysis::Results& results) const
     }
     float y_max = 0;
     for (const auto& result : results.signal) {
-        TH1F histogram(result.info_branch.Name.c_str(), "", 50, FloorToDigits(x_min,1), CeilToDigits(x_max,1));
-        for (const float& bdt : result.bdt) histogram.Fill(bdt - 1);
+        TH1F histogram(result.info_branch.Name.c_str(), "", 50, FloorToDigits(x_min, 1), CeilToDigits(x_max, 1));
+        for (const float & bdt : result.bdt) histogram.Fill(bdt - 1);
         if (histogram.Integral() != 0)  histogram.Scale(1 / histogram.Integral());
         float max = histogram.GetBinContent(histogram.GetMaximumBin());
         if (max > y_max) y_max = max;
         histograms.emplace_back(histogram);
     }
     for (const auto& result : results.background) {
-        TH1F histogram(result.info_branch.Name.c_str(), "", 50, FloorToDigits(x_min,1), CeilToDigits(x_max,1));
-        for (const float& bdt : result.bdt) histogram.Fill(bdt - 1);
+        TH1F histogram(result.info_branch.Name.c_str(), "", 50, FloorToDigits(x_min, 1), CeilToDigits(x_max, 1));
+        for (const float & bdt : result.bdt) histogram.Fill(bdt - 1);
         if (histogram.Integral() != 0)  histogram.Scale(1 / histogram.Integral());
         SetPlotStyle(histogram, &result - &results.background[0] + 1);
         // histogram.SetLineColor(ColorCode(&result - &results.background[0] + 1));
@@ -288,7 +289,7 @@ std::string Plot::PlotEfficiencyGraph(const Results& results, const std::vector<
     graph.SetLineColor(kRed);
     multi_graph.Add(&graph);
     multi_graph.Draw("al");
-    multi_graph.GetXaxis()->SetLimits(-1,1);
+    multi_graph.GetXaxis()->SetLimits(-1, 1);
     TLine line(results.XValue(best_bin), multi_graph.GetYaxis()->GetXmin(), results.XValue(best_bin), multi_graph.GetYaxis()->GetXmax());
     line.SetLineStyle(2);
     line.Draw();
@@ -304,7 +305,7 @@ std::string Plot::PlotSignificanceGraph(const Results& results, const std::vecto
     TGraph graph(signal_results.steps, &x_values[0], &significances[0]);
     graph.SetTitle("");
     graph.Draw("al");
-    graph.GetXaxis()->SetLimits(-1,1);
+    graph.GetXaxis()->SetLimits(-1, 1);
     canvas.Update();
     TLine line(results.XValue(best_bin), gPad->GetUymin(), results.XValue(best_bin), gPad->GetUymax());
     line.SetLineStyle(2);
@@ -369,9 +370,9 @@ InfoBranch Plot::InfoBranch(TFile& file, const std::string& tree_name) const
     Debug(tree_name);
     exroot::TreeReader tree_reader(static_cast<TTree*>(file.Get(tree_name.c_str())));
     Debug(tree_name, tagger().weight_branch_name());
-    TClonesArray &clones_array = *tree_reader.UseBranch(tagger().weight_branch_name().c_str());
+    TClonesArray& clones_array = *tree_reader.UseBranch(tagger().weight_branch_name().c_str());
     tree_reader.ReadEntry(tree_reader.GetEntries() - 1);
-    return dynamic_cast<analysis::InfoBranch &>(*clones_array.At(clones_array.GetEntriesFast() - 1));
+    return dynamic_cast<analysis::InfoBranch&>(*clones_array.At(clones_array.GetEntriesFast() - 1));
 }
 
 
@@ -490,22 +491,22 @@ void Plot::LatexFooter(std::ofstream& latex_file) const
 
 float Plot::FloorToDigits(float value, int digits) const
 {
-  if (value == 0 || value != value) {
-    return 0;
-  } else {
-    float factor = std::pow(10.0, digits - std::ceil(std::log10(std::abs(value))));
-    return std::floor(value * factor) / factor;
-  }
+    if (value == 0 || value != value) {
+        return 0;
+    } else {
+        float factor = std::pow(10.0, digits - std::ceil(std::log10(std::abs(value))));
+        return std::floor(value * factor) / factor;
+    }
 }
 
 float Plot::CeilToDigits(float value, int digits) const
 {
-  if (value == 0 || value != value) {
-    return 0;
-  } else {
-    float factor = std::pow(10.0, digits - std::ceil(std::log10(std::abs(value))));
-    return std::ceil(value * factor) / factor;
-  }
+    if (value == 0 || value != value) {
+        return 0;
+    } else {
+        float factor = std::pow(10.0, digits - std::ceil(std::log10(std::abs(value))));
+        return std::ceil(value * factor) / factor;
+    }
 }
 
 int Plot::ColorCode(int number) const
@@ -721,8 +722,7 @@ std::vector<Plots> Plot::Import(const std::string& file_name, const Strings& tre
     TFile file(file_name.c_str(), "Read");
     Debug(file_name, treename.size());
     std::vector<Plots> results;
-    for (const auto& tree_name : treename)
-        results.emplace_back(PlotResult(file, tree_name));
+    for (const auto& tree_name : treename) results.emplace_back(PlotResult(file, tree_name));
     return results;
 }
 
@@ -746,40 +746,48 @@ Plot2d Plot::ReadTree(TTree& tree, const std::string& leaf_1, const std::string&
     tree.SetBranchStatus("*", 0);
     std::string branch_name = tagger().branch_name() + "Reader";
     Debug(branch_name);
+
     tree.SetBranchStatus(branch_name.c_str(), 1);
     int branch_value = 0;
     tree.SetBranchAddress(branch_name.c_str(), &branch_value);
     Debug(branch_name.c_str());
+
     std::string size_name = branch_name + "_size";
     Debug(size_name.c_str());
     tree.SetBranchStatus(size_name.c_str(), 1);
     int branch_size = 0;
     tree.SetBranchAddress(size_name.c_str(), &branch_size);
-    size_t branch_size_max = 200; // TODO is there a cleaner way?
+
     std::string leaf_name_1 = branch_name + "." + leaf_1;
     Debug(leaf_name_1.c_str());
     tree.SetBranchStatus(leaf_name_1.c_str(), 1);
-    float leaf_values_1[branch_size_max];
-    tree.SetBranchAddress(leaf_name_1.c_str(), leaf_values_1);
+    std::vector<float> leaf_values_1;
+    tree.SetBranchAddress(leaf_name_1.c_str(), &leaf_values_1[0]);
+
     std::string leaf_name_2 = branch_name + "." + leaf_2;
     Debug(leaf_name_2.c_str());
     tree.SetBranchStatus(leaf_name_2.c_str(), 1);
-    float leaf_values_2[branch_size_max];
-    tree.SetBranchAddress(leaf_name_2.c_str(), leaf_values_2);
+    std::vector<float> leaf_values_2;
+    tree.SetBranchAddress(leaf_name_2.c_str(), &leaf_values_2[0]);
+
     std::string bdt_name = branch_name + ".Bdt";
     Debug(bdt_name.c_str());
     tree.SetBranchStatus(bdt_name.c_str(), 1);
-    float bdt_values[branch_size_max];
-    tree.SetBranchAddress(bdt_name.c_str(), bdt_values);
+    std::vector<float> bdt_values;
+    tree.SetBranchAddress(bdt_name.c_str(), &bdt_values[0]);
+
     Plot2d points;
     for (const auto& entry : Range(tree.GetEntries())) {
         Debug(tree.GetEntries(), entry);
         tree.GetEntry(entry);
+        leaf_values_1.resize(branch_size);
+        leaf_values_2.resize(branch_size);
+        bdt_values.resize(branch_size);
         for (const auto& element : Range(branch_size)) {
             Point2d point;
-            point.x = leaf_values_1[element];
-            point.y = leaf_values_2[element];
-            point.z = bdt_values[element];
+            point.x = leaf_values_1.at(element);
+            point.y = leaf_values_2.at(element);
+            point.z = bdt_values.at(element);
             Debug(point.x, point.y);
             points.points.emplace_back(point);
         }
@@ -791,7 +799,7 @@ Plot2d Plot::CoreVector(const Plot2d& points, std::function<bool (Point2d&, Poin
 {
     Plot2d plot = points;
     // TODO sorting the whole vector if you just want to get rid of the extrem values might not be the fastest solution
-    std::sort(plot.points.begin(), plot.points.end(), [&](Point2d & a, Point2d & b) {
+    std::sort(plot.points.begin(), plot.points.end(), [&](Point2d& a, Point2d& b) {
         return function(a, b);
     });
     int cut_off = plot.points.size() / 25;

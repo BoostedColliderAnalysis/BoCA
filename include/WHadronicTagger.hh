@@ -53,7 +53,7 @@ private:
 
     Doublet Multiplet(analysis::Doublet& doublet, const analysis::PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 
-    std::vector<Doublet> SubMultiplets(const analysis::Jets& jets, const analysis::PreCuts& pre_cuts, const TMVA::Reader& reader, const size_t sub_jet_number) const;
+    std::vector<Doublet> SubMultiplets(const analysis::Jets& jets, const analysis::PreCuts& pre_cuts, const TMVA::Reader& reader, size_t sub_jet_number) const;
 
     std::vector<Doublet> SubMultiplets2(const analysis::Jets& jets, const analysis::PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 

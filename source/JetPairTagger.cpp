@@ -10,7 +10,7 @@ JetPairTagger::JetPairTagger()
     DefineVariables();
 }
 
-int JetPairTagger::Train(const Event& event, const PreCuts&,  Tag tag) const
+int JetPairTagger::Train(const Event& event, const PreCuts&, Tag tag) const
 {
     Info();
     Jets jets = bottom_reader_.Multiplets(event);
@@ -36,7 +36,7 @@ int JetPairTagger::Train(const Event& event, const PreCuts&,  Tag tag) const
     return SaveEntries(doublets);
 }
 
-Jets JetPairTagger::BottomPair(const Event& event,  Tag tag) const
+Jets JetPairTagger::BottomPair(const Event& event, Tag tag) const
 {
     if (tag == Tag::background) return Jets {};
     Jets particles = event.Partons().GenParticles();

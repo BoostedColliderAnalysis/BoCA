@@ -12,7 +12,7 @@ SignatureSingleTagger::SignatureSingleTagger()
     DefineVariables();
 }
 
-int SignatureSingleTagger::Train(const Event& event, const PreCuts& pre_cuts,  Tag tag) const
+int SignatureSingleTagger::Train(const Event& event, const PreCuts&, Tag tag) const
 {
     Info();
     std::vector<Octet53> octets = pair_reader_.Multiplets(event);
@@ -29,7 +29,7 @@ int SignatureSingleTagger::Train(const Event& event, const PreCuts& pre_cuts,  T
     return SaveEntries(decuplets);
 }
 
-std::vector<Decuplet82> SignatureSingleTagger::Multiplets(const Event& event, const analysis::PreCuts& pre_cuts, const TMVA::Reader& reader) const
+std::vector<Decuplet82> SignatureSingleTagger::Multiplets(const Event& event, const analysis::PreCuts&, const TMVA::Reader& reader) const
 {
     Info();
     std::vector<Octet53> octets = pair_reader_.Multiplets(event);

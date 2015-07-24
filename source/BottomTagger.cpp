@@ -93,7 +93,7 @@ Jets BottomTagger::Multiplets(const analysis::Jets& jets, const analysis::PreCut
     return final_jets;
 }
 
-Jets BottomTagger::SubMultiplets(const Jets& jets, const PreCuts& pre_cuts, const TMVA::Reader& reader, const size_t sub_jet_number) const
+Jets BottomTagger::SubMultiplets(const Jets& jets, const PreCuts& pre_cuts, const TMVA::Reader& reader, size_t sub_jet_number) const
 {
     Jets final_jets;
     for (const auto& sub_jet : SubJets(jets, sub_jet_number)) {

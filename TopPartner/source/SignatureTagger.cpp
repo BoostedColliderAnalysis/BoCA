@@ -11,7 +11,7 @@ SignatureTagger::SignatureTagger()
     DefineVariables();
 }
 
-int SignatureTagger::Train(const Event& event, const PreCuts&,  Tag tag) const
+int SignatureTagger::Train(const Event& event, const PreCuts&, Tag tag) const
 {
     Info();
     std::vector<Quattuordecuplet> quattuordecuplets = pairs(top_partner_pair_reader_.Multiplets(event), higgs_pair_reader_.Multiplets(event), [tag](const Decuplet55 & decuplet, const Quartet22 & quartet) {

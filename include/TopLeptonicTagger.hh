@@ -28,7 +28,7 @@ public:
 //         return SaveEntries(Multiplets(event, pre_cuts, reader), Particles(event).size());
     }
 
-    bool Problematic(const Triplet& triplet, const PreCuts& pre_cuts,  Tag tag) const;
+    bool Problematic(const Triplet& triplet, const PreCuts& pre_cuts, Tag tag) const;
 
     bool Problematic(const Triplet& triplet, const PreCuts& pre_cuts) const;
 

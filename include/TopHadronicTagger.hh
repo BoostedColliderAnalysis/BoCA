@@ -15,7 +15,7 @@ public:
 
     TopHadronicTagger();
 
-    int Train(const Event& event, const PreCuts& pre_cuts,  Tag tag) const final;
+    int Train(const Event& event, const PreCuts& pre_cuts, Tag tag) const final;
 
     int TopHadronicId(const Event& event) const
     {
@@ -41,13 +41,13 @@ public:
 
 private:
 
-    analysis::Triplet Triplet(const Doublet& doublet, const fastjet::PseudoJet& jet, const Jets& leptons, const PreCuts& pre_cuts,  Tag tag, const bool check_overlap = false) const;
+    analysis::Triplet Triplet(const Doublet& doublet, const fastjet::PseudoJet& jet, const Jets& leptons, const PreCuts& pre_cuts, Tag tag, const bool check_overlap = false) const;
 
     analysis::Triplet Triplet(analysis::Triplet& triplet, const analysis::Jets& leptons, const analysis::PreCuts& pre_cuts, Tag tag) const;
 
-    std::vector<analysis::Triplet> Triplets(const std::vector<Doublet>& doublets, const Jets& jets, const Jets& leptons, const PreCuts& pre_cuts,  Tag tag) const;
+    std::vector<analysis::Triplet> Triplets(const std::vector<Doublet>& doublets, const Jets& jets, const Jets& leptons, const PreCuts& pre_cuts, Tag tag) const;
 
-    std::vector<analysis::Triplet> Triplets(const Doublet& doublet, const Jets& jets, const Jets& leptons, const PreCuts& pre_cuts,  Tag tag) const;
+    std::vector<analysis::Triplet> Triplets(const Doublet& doublet, const Jets& jets, const Jets& leptons, const PreCuts& pre_cuts, Tag tag) const;
 
     std::vector<analysis::Triplet> Multiplets(const Event& event, const TMVA::Reader& reader) const
     {
@@ -63,7 +63,7 @@ private:
 
     analysis::Triplet Multiplet(analysis::Triplet& triplet, const Jets& leptons, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 
-    bool Problematic(const analysis::Triplet& triplet, const PreCuts& pre_cuts,  Tag tag) const;
+    bool Problematic(const analysis::Triplet& triplet, const PreCuts& pre_cuts, Tag tag) const;
 
     bool Problematic(const analysis::Triplet& triplet, const PreCuts& pre_cuts) const;
 

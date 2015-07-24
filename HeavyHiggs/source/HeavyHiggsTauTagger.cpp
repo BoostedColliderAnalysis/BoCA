@@ -12,7 +12,7 @@ HeavyHiggsTauTagger::HeavyHiggsTauTagger()
     DefineVariables();
 }
 
-int HeavyHiggsTauTagger::Train(const Event& event, const PreCuts&,  Tag tag) const
+int HeavyHiggsTauTagger::Train(const Event& event, const PreCuts&, Tag tag) const
 {
     Info("Top Tags");
     Jets jets = tau_reader_.Multiplets(event);

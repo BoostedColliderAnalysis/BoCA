@@ -14,7 +14,7 @@ class BranchTagger : public Tagger {
 protected:
 
     template<typename Multiplet>
-    std::vector<Multiplet> ReduceResult(std::vector<Multiplet>& multiplets, const size_t max = 4) const
+    std::vector<Multiplet> ReduceResult(std::vector<Multiplet>& multiplets, size_t max = 4) const
     {
         if (multiplets.empty())
             return multiplets;
@@ -23,7 +23,7 @@ protected:
         return multiplets;
     }
 
-    Jets ReduceResult(Jets& jets, const size_t max = 4) const
+    Jets ReduceResult(Jets& jets, size_t max = 4) const
     {
         if (jets.empty())
             return jets;
@@ -33,7 +33,7 @@ protected:
     }
 
     template<typename Multiplet>
-    std::vector<Multiplet> BestMass(std::vector<Multiplet>& multiplets, float mass, const size_t number = 1) const
+    std::vector<Multiplet> BestMass(std::vector<Multiplet>& multiplets, float mass, size_t number = 1) const
     {
         if (multiplets.size() <= number)
             return multiplets;
@@ -43,7 +43,7 @@ protected:
     }
 
     template<typename Multiplet>
-    std::vector<Multiplet> BestRapidity(std::vector<Multiplet>& multiplets, const size_t number = 1) const
+    std::vector<Multiplet> BestRapidity(std::vector<Multiplet>& multiplets, size_t number = 1) const
     {
         if (multiplets.size() <= number)
             return multiplets;
@@ -67,7 +67,7 @@ protected:
     }
 
     template<typename Multiplet>
-    std::vector<Multiplet> BestMatches(std::vector<Multiplet>& multiplets, const Jets& particles,  Tag tag) const
+    std::vector<Multiplet> BestMatches(std::vector<Multiplet>& multiplets, const Jets& particles, Tag tag) const
     {
         std::sort(multiplets.begin(), multiplets.end());
         switch (tag) {
@@ -80,7 +80,7 @@ protected:
         }
     }
 
-    Jets BestMatches(Jets& jets, const Jets& particles,  Tag tag) const
+    Jets BestMatches(Jets& jets, const Jets& particles, Tag tag) const
     {
         std::sort(jets.begin(), jets.end(), SortByBdt());
         switch (tag) {
