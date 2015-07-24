@@ -33,43 +33,43 @@ public:
     }
 
     float BottomBdt() const {
-        return (Doublet().SingletJet1().user_info<JetInfo>().Bdt() + Doublet().SingletJet2().user_info<JetInfo>().Bdt() + Sextet().Triplet1().Singlet().Jet().user_info<JetInfo>().Bdt() + Sextet().Triplet2().Singlet().Jet().user_info<JetInfo>().Bdt()) / 4;
+        return (Doublet().Singlet1().Jet().user_info<JetInfo>().Bdt() + Doublet().Singlet2().Jet().user_info<JetInfo>().Bdt() + Sextet().Triplet1().Singlet().Jet().user_info<JetInfo>().Bdt() + Sextet().Triplet2().Singlet().Jet().user_info<JetInfo>().Bdt()) / 4;
     }
 
     float PairBottomBdt() const {
-        return (Doublet().SingletJet1().user_info<JetInfo>().Bdt() + Doublet().SingletJet2().user_info<JetInfo>().Bdt()) / 2;
+        return (Doublet().Singlet1().Jet().user_info<JetInfo>().Bdt() + Doublet().Singlet2().Jet().user_info<JetInfo>().Bdt()) / 2;
     }
 
     float GetDeltaR1() const {
-        return Sextet().Jet().delta_R(Doublet().SingletJet1());
+        return Sextet().Jet().delta_R(Doublet().Singlet1().Jet());
     }
 
     float GetDeltaR2() const {
-        return Sextet().Jet().delta_R(Doublet().SingletJet2());
+        return Sextet().Jet().delta_R(Doublet().Singlet2().Jet());
     }
 
     float GetDeltaPhi1() const {
-        return Sextet().Jet().delta_phi_to(Doublet().SingletJet1());
+        return Sextet().Jet().delta_phi_to(Doublet().Singlet1().Jet());
     }
 
     float GetDeltaPhi2() const {
-        return Sextet().Jet().delta_phi_to(Doublet().SingletJet2());
+        return Sextet().Jet().delta_phi_to(Doublet().Singlet2().Jet());
     }
 
     float GetDeltaRap1() const {
-        return (Sextet().Jet().rap() - Doublet().SingletJet1().rap());
+        return (Sextet().Jet().rap() - Doublet().Singlet1().Jet().rap());
     }
 
     float GetDeltaRap2() const {
-        return (Sextet().Jet().rap() - Doublet().SingletJet2().rap());
+        return (Sextet().Jet().rap() - Doublet().Singlet2().Jet().rap());
     }
 
     float GetDeltaPt1() const {
-        return (Sextet().Jet().pt() - Doublet().SingletJet1().pt());
+        return (Sextet().Jet().pt() - Doublet().Singlet1().Jet().pt());
     }
 
     float GetDeltaPt2() const {
-        return (Sextet().Jet().pt() - Doublet().SingletJet2().pt());
+        return (Sextet().Jet().pt() - Doublet().Singlet2().Jet().pt());
     }
 
 };

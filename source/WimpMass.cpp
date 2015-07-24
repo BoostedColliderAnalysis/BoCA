@@ -25,10 +25,10 @@ std::vector<analysis::Sextet> WimpMass::Sextets(const Quartet22& quartet, const 
 {
     Info("Triple Pairs");
     event22 structure;
-    Momentum(structure.p3, quartet.Doublet1().SingletJet2());
-    Momentum(structure.p4, quartet.Doublet2().SingletJet2());
-    Momentum(structure.p5, quartet.Doublet1().SingletJet1());
-    Momentum(structure.p6, quartet.Doublet2().SingletJet1());
+    Momentum(structure.p3, quartet.Doublet1().Singlet2().Jet());
+    Momentum(structure.p4, quartet.Doublet2().Singlet2().Jet());
+    Momentum(structure.p5, quartet.Doublet1().Singlet1().Jet());
+    Momentum(structure.p6, quartet.Doublet2().Singlet1().Jet());
     Momentum(structure.pmiss, missing_et);
     Debug("Lepton 1 (p3)", PseudoJet(structure.p3));
     Debug("Lepton 2 (p4)" , PseudoJet(structure.p4));
@@ -44,17 +44,17 @@ std::vector<analysis::Sextet> WimpMass::Sextets(const Quartet22& quartet, const 
         Debug("Solution ", solution_number);
         Debug("Neutrino 1 (p1)" , PseudoJet(momentum_1[solution_number]));
         Debug("Neutrino 2 (p2)" , PseudoJet(momentum_2[solution_number]));
-        Doublet doublet_1(quartet.Doublet1().SingletJet2(), PseudoJet(momentum_1[solution_number]));
+        Doublet doublet_1(quartet.Doublet1().Singlet2().Jet(), PseudoJet(momentum_1[solution_number]));
         if (doublet_1.Jet().m() <= 0)
             continue;
-        Doublet doublet_2(quartet.Doublet2().SingletJet2(), PseudoJet(momentum_2[solution_number]));
+        Doublet doublet_2(quartet.Doublet2().Singlet2().Jet(), PseudoJet(momentum_2[solution_number]));
         if (doublet_2.Jet().m() <= 0)
             continue;
-        Triplet triplet_1(doublet_1, quartet.Doublet1().SingletJet1());
+        Triplet triplet_1(doublet_1, quartet.Doublet1().Singlet1().Jet());
         if (triplet_1.Jet().m() <= 0)
             continue;
         triplet_1.SetBdt(quartet.Doublet1().Bdt());
-        Triplet triplet_2(doublet_2, quartet.Doublet2().SingletJet1());
+        Triplet triplet_2(doublet_2, quartet.Doublet2().Singlet1().Jet());
         if (triplet_2.Jet().m() <= 0)
             continue;
         triplet_2.SetBdt(quartet.Doublet2().Bdt());
@@ -66,8 +66,8 @@ std::vector<analysis::Sextet> WimpMass::Sextets(const Quartet22& quartet, const 
         sextets.emplace_back(sextet);
         Debug("TriplePair Bdt", sextet.Bdt(), quartet.Bdt());
         //         Debug("Neutrino masses", Jet1.m(), Jet2.m());
-        Debug("W masses", (PseudoJet(momentum_1[solution_number]) + quartet.Doublet1().SingletJet2()).m(), (PseudoJet(momentum_2[solution_number]) + quartet.Doublet2().SingletJet2()).m());
-        Debug("top masses", (PseudoJet(momentum_1[solution_number]) + quartet.Doublet1().SingletJet2() + quartet.Doublet1().SingletJet1()).m(), (PseudoJet(momentum_2[solution_number]) + quartet.Doublet2().SingletJet2() + quartet.Doublet2().SingletJet1()).m());
+        Debug("W masses", (PseudoJet(momentum_1[solution_number]) + quartet.Doublet1().Singlet2().Jet()).m(), (PseudoJet(momentum_2[solution_number]) + quartet.Doublet2().Singlet2().Jet()).m());
+        Debug("top masses", (PseudoJet(momentum_1[solution_number]) + quartet.Doublet1().Singlet2().Jet() + quartet.Doublet1().Singlet1().Jet()).m(), (PseudoJet(momentum_2[solution_number]) + quartet.Doublet2().Singlet2().Jet() + quartet.Doublet2().Singlet1().Jet()).m());
         //         Debug("Higg mass", (Jet1 + Pair1.PseudoJet2() + Pair1.PseudoJet1() + Jet2 + Pair2.PseudoJet2() + Pair1.PseudoJet1()).m());
     }
     if (solution_sum == 0) {
@@ -96,8 +96,8 @@ std::vector<analysis::Sextet> WimpMass::Sextet(const Quartet22& quartet, const f
     Debug("MET", missing_et);
     std::map<float, analysis::Sextet> map;
     for (const auto& sextet : sextets) {
-        fastjet::PseudoJet neutrino_1 = sextet.Triplet1().Doublet().SingletJet2();
-        fastjet::PseudoJet neutrino_2 = sextet.Triplet2().Doublet().SingletJet2();
+        fastjet::PseudoJet neutrino_1 = sextet.Triplet1().Doublet().Singlet2().Jet();
+        fastjet::PseudoJet neutrino_2 = sextet.Triplet2().Doublet().Singlet2().Jet();
         std::vector<float> errors_1, errors_2;
         for (const auto& neutrino : neutrinos) {
             //             Error("Neutrino Mass", Neutrino.m());
@@ -147,9 +147,9 @@ std::vector<analysis::Sextet> WimpMass::Sextet(const Quartet22& quartet, const f
 
 Sextet WimpMass::Fake(const Quartet22& quartet) const
 {
-    Triplet triplet_1(Doublet(quartet.Doublet1().SingletJet2()), quartet.Doublet1().SingletJet1());
+    Triplet triplet_1(Doublet(quartet.Doublet1().Singlet2().Jet()), quartet.Doublet1().Singlet1().Jet());
     triplet_1.SetBdt(quartet.Doublet1().Bdt());
-    Triplet triplet_2(Doublet(quartet.Doublet2().SingletJet2()), quartet.Doublet2().SingletJet1());
+    Triplet triplet_2(Doublet(quartet.Doublet2().Singlet2().Jet()), quartet.Doublet2().Singlet1().Jet());
     triplet_2.SetBdt(quartet.Doublet2().Bdt());
     return analysis::Sextet(triplet_1, triplet_2);
 }

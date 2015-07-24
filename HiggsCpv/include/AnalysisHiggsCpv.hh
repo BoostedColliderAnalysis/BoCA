@@ -41,7 +41,7 @@ public:
     }
 
     std::string ProjectName() const final {
-        return  "HiggsCpv-1";
+        return  "CPV";
     }
 
     std::string ProcessName() const final {
@@ -53,8 +53,8 @@ public:
      *
      */
     long EventNumberMax() const final {
-        return 5000;
         return 1000;
+        return 5000;
     }
 
 protected:

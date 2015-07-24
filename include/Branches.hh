@@ -295,14 +295,14 @@ public:
     void Fill(const Multiplet& multiplet)
     {
         PairBranch::Fill(multiplet);
-        Jet1Pt = multiplet.SingletJet1().pt();
-        Jet1Rap = multiplet.SingletJet1().rap();
-        Jet1Phi = multiplet.SingletJet1().phi();
-        Jet1Mass = multiplet.SingletJet1().m();
-        Jet2Pt = multiplet.SingletJet2().pt();
-        Jet2Rap = multiplet.SingletJet2().rap();
-        Jet2Phi = multiplet.SingletJet2().phi();
-        Jet2Mass = multiplet.SingletJet2().m();
+        Jet1Pt = multiplet.Singlet1().Jet().pt();
+        Jet1Rap = multiplet.Singlet1().Jet().rap();
+        Jet1Phi = multiplet.Singlet1().Jet().phi();
+        Jet1Mass = multiplet.Singlet1().Jet().m();
+        Jet2Pt = multiplet.Singlet2().Jet().pt();
+        Jet2Rap = multiplet.Singlet2().Jet().rap();
+        Jet2Phi = multiplet.Singlet2().Jet().phi();
+        Jet2Mass = multiplet.Singlet2().Jet().m();
     }
     Observables Variables();
 private:
@@ -365,8 +365,8 @@ public:
     void Fill(const Multiplet& multiplet)
     {
         PairBranch::Fill(multiplet);
-        LeptonPt = multiplet.SingletJet1().pt();
-        NeutrinoPt = multiplet.SingletJet2().pt();
+        LeptonPt = multiplet.Singlet1().Jet().pt();
+        NeutrinoPt = multiplet.Singlet2().Jet().pt();
     }
     Observables Variables();
 private:
@@ -431,11 +431,18 @@ private:
  */
 class HiggsBranch : public PairBranch, public BottomBase {
 public:
+    HiggsBranch();
+    float Pull1;
+    float Pull2;
+    float Pull;
     template<typename Multiplet>
     void Fill(const Multiplet& multiplet)
     {
         PairBranch::Fill(multiplet);
         BottomBase::Fill(multiplet);
+        Pull1 = multiplet.Pull1();
+        Pull2 = multiplet.Pull2();
+        Pull = multiplet.PullDifference();
     }
     Observables Variables();
     Observables Spectators();

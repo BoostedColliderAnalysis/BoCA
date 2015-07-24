@@ -10,7 +10,6 @@
 
 #define OBS(...) OBSERVABLES(__VA_ARGS__)(__VA_ARGS__)
 
-
 namespace analysis {
 
 Obs::Obs(float& value, const std::string& name, const std::string& nice_name) : value_(&value)
@@ -303,9 +302,15 @@ Observables TopLeptonicBranch::Spectators()
     return Join(PairBranch::Spectators(), BottomBase::Spectators());
 }
 
+HiggsBranch::HiggsBranch(){
+  Pull1 = InitialValue();
+  Pull2 = InitialValue();
+  Pull = InitialValue();
+}
+
 Observables HiggsBranch::Variables()
 {
-    return Join(PairBranch::Variables(), BottomBase::Variables());
+  return Join(Join(PairBranch::Variables(), BottomBase::Variables()),{OBS(Pull1,"#theta_{1}"),OBS(Pull2,"#theta_{2}"),OBS(Pull,"#theta")});
 }
 
 Observables HiggsBranch::Spectators()
@@ -398,8 +403,7 @@ std::vector<int> Color::Table(std::vector<double>& length, std::vector<double>& 
 {
     std::vector<int> colors(50);
     int color_table = TColor::CreateGradientColorTable(length.size(), &length[0], &red[0], &green[0], &blue[0], colors.size());
-    for (size_t step = 0; step < colors.size(); step++)
-        colors[step] = color_table + step;
+    for (size_t step = 0; step < colors.size(); step++) colors[step] = color_table + step;
     //     for (int &color : colors) colors[color] = color_table + &color - &colors[0];
     return colors;
 }

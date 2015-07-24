@@ -348,7 +348,7 @@ Result Plot::BdtDistribution(exroot::TreeReader& tree_reader, const std::string&
         for (const auto& entry : Range(event_clones_array.GetEntriesFast())) {
             float bdt_value = tagger().ReadBdt(event_clones_array, entry);
             result.bdt.emplace_back(bdt_value);
-            Check(bdt_value > 0 && bdt_value < 2, "Bdt Value" , bdt_value);
+//             Check((bdt_value > 0 && bdt_value < 2), bdt_value);
             static_cast<ResultBranch&>(*result_branch.NewEntry()).Bdt = bdt_value;
             int bin = std::floor(bdt_value * result.steps / 2) - 1;
             if (bin == -1) {
@@ -761,34 +761,34 @@ Plot2d Plot::ReadTree(TTree& tree, const std::string& leaf_1, const std::string&
     std::string leaf_name_1 = branch_name + "." + leaf_1;
     Debug(leaf_name_1.c_str());
     tree.SetBranchStatus(leaf_name_1.c_str(), 1);
-    std::vector<float> leaf_values_1;
+    std::vector<float> leaf_values_1(200);
     tree.SetBranchAddress(leaf_name_1.c_str(), &leaf_values_1[0]);
 
     std::string leaf_name_2 = branch_name + "." + leaf_2;
     Debug(leaf_name_2.c_str());
     tree.SetBranchStatus(leaf_name_2.c_str(), 1);
-    std::vector<float> leaf_values_2;
+    std::vector<float> leaf_values_2(200);
     tree.SetBranchAddress(leaf_name_2.c_str(), &leaf_values_2[0]);
 
     std::string bdt_name = branch_name + ".Bdt";
     Debug(bdt_name.c_str());
     tree.SetBranchStatus(bdt_name.c_str(), 1);
-    std::vector<float> bdt_values;
+    std::vector<float> bdt_values(200);
     tree.SetBranchAddress(bdt_name.c_str(), &bdt_values[0]);
 
     Plot2d points;
     for (const auto& entry : Range(tree.GetEntries())) {
         Debug(tree.GetEntries(), entry);
         tree.GetEntry(entry);
-        leaf_values_1.resize(branch_size);
-        leaf_values_2.resize(branch_size);
-        bdt_values.resize(branch_size);
+//         leaf_values_1.resize(branch_size);
+//         leaf_values_2.resize(branch_size);
+//         bdt_values.resize(branch_size);
         for (const auto& element : Range(branch_size)) {
             Point2d point;
             point.x = leaf_values_1.at(element);
             point.y = leaf_values_2.at(element);
             point.z = bdt_values.at(element);
-            Debug(point.x, point.y);
+            Debug(point.x, point.y, point.z);
             points.points.emplace_back(point);
         }
     }
