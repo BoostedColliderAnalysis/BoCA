@@ -22,11 +22,11 @@ public:
 
     Particle(const TLorentzVector& momentum, int id, int position);
 
-    LorentzVector momentum()const;
+    LorentzVector momentum() const;
 
-    int position()const;
+    int position() const;
 
-    int id()const;
+    int id() const;
 
 private:
 

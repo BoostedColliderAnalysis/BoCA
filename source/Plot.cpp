@@ -72,8 +72,8 @@ void Results::Significances()
     for (const auto& signal_results : signal) {
         for (int step : Range(Result().steps)) {
             float background_events = 0;
-            for (const auto& background_result : background) background_events += background_result.events[step];
-            if (signal_results.events[step] + background_events > 0) significances.at(step) = signal_results.events[step] / std::sqrt(signal_results.events[step] + background_events);
+            for (const auto& background_result : background) background_events += background_result.events.at(step);
+            if (signal_results.events.at(step) + background_events > 0) significances.at(step) = signal_results.events.at(step) / std::sqrt(signal_results.events.at(step) + background_events);
             else significances.at(step) = 0;
             x_values.at(step) = XValue(step);
         }
@@ -326,10 +326,10 @@ Result Plot::BdtResult(TFile& file, const std::string& tree_name, TFile& export_
     result.info_branch = InfoBranch(file, tree_name);
     std::vector<int> integral = result.Integral();
     for (const auto& step : Range(result.steps)) {
-        result.events[step] = float(integral[step]) / float(result.info_branch.EventNumber) * result.info_branch.Crosssection * Luminosity;
-        result.efficiency[step] = float(integral[step]) / float(result.info_branch.EventNumber);
-        result.analysis_event_number[step] = integral[step];
-        Debug(result.efficiency[step], result.events[step]);
+        result.events.at(step) = float(integral.at(step)) / float(result.info_branch.EventNumber) * result.info_branch.Crosssection * Luminosity;
+        result.efficiency.at(step) = float(integral.at(step)) / float(result.info_branch.EventNumber);
+        result.analysis_event_number.at(step) = integral.at(step);
+        Debug(result.efficiency.at(step), result.events.at(step));
     }
     return result;
 }
@@ -555,7 +555,7 @@ long Result::event_sum() const
     // return info_branch.EventNumber;
     return event_sum_;
 }
-void Result::set_event_sum(const long event_sum)
+void Result::set_event_sum(long event_sum)
 {
     event_sum_ = event_sum;
 }
@@ -632,7 +632,7 @@ void Plot::Plotting(const Plot2d& signal, const Plot2d& background) const
     PlotProfile(signal, background, x_min, x_max, y_min, y_max);
 }
 
-void Plot::PlotHistogram(const Plot2d& signal, const Plot2d& background, float x_min, float x_max, float y_min, float y_max)const
+void Plot::PlotHistogram(const Plot2d& signal, const Plot2d& background, float x_min, float x_max, float y_min, float y_max) const
 {
     TCanvas canvas;
     canvas.SetBottomMargin(0.15);
@@ -654,7 +654,7 @@ void Plot::PlotHistogram(const Plot2d& signal, const Plot2d& background, float x
     canvas.Print(file_name.c_str());
 }
 
-void Plot::PlotProfile(const Plot2d& signal, const Plot2d& background, float x_min, float x_max, float y_min, float y_max)const
+void Plot::PlotProfile(const Plot2d& signal, const Plot2d& background, float x_min, float x_max, float y_min, float y_max) const
 {
     TCanvas canvas;
     canvas.SetRightMargin(0.15);
@@ -666,7 +666,7 @@ void Plot::PlotProfile(const Plot2d& signal, const Plot2d& background, float x_m
     canvas.Print(file_name.c_str());
 }
 
-void Plot::SetHistogram(TH2& histogram, const Plot2d& plot, const EColor color, TExec& exec) const
+void Plot::SetHistogram(TH2& histogram, const Plot2d& plot, EColor color, TExec& exec) const
 {
     std::string options = "cont1 same";
     histogram.Draw(options.c_str());

@@ -47,7 +47,7 @@ private:
      * @brief Prepare Trainig and Test Trees
      *
      */
-    void PrepareTrainingAndTestTree(const long event_number);
+    void PrepareTrainingAndTestTree(long event_number);
 
     long AddTree(TFile& file, const std::string& tree_name, Tag tag);
 

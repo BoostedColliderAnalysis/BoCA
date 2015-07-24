@@ -27,7 +27,7 @@ public:
         DetectorGeometry::set_detector_type(DetectorType::CMS);
     }
 
-    void SetFiles(Tag tag) {
+    void SetFiles(Tag tag) final {
         switch (tag) {
         case Tag::signal :
             //         NewSignalFile("pp-ttx0-bbbbllnunu-1", 0.02071);
@@ -40,7 +40,7 @@ public:
         }
     }
 
-    std::string ProjectName() const {
+    std::string ProjectName() const final {
         return  "HiggsCpv-1";
     }
 
@@ -52,7 +52,7 @@ public:
      * @brief Maximal number of Entries to analyse
      *
      */
-    long EventNumberMax() const {
+    long EventNumberMax() const final {
         return 5000;
         return 1000;
     }
@@ -60,13 +60,13 @@ public:
 protected:
 
 
-    std::string FilePath() const {
+    std::string FilePath() const final {
         return "~/Projects/HiggsCpv/Analysis/";
     }
 
 private:
 
-    int PassPreCut(const Event& event) const {
+    int PassPreCut(const Event& event) const final {
         Jets particles = event.Partons().GenParticles();
         Jets higgs = CopyIfParticle(particles, Id::CP_violating_higgs);
         if(higgs.empty()) return 1;

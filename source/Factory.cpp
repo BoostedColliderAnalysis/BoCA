@@ -112,7 +112,7 @@ long Factory::AddTree(TFile& file, const std::string& tree_name, Tag tag)
     return entries;
 }
 
-void Factory::PrepareTrainingAndTestTree(const long event_number)
+void Factory::PrepareTrainingAndTestTree(long event_number)
 {
     Error("PrepareTrainingAndTestTree");
     std::string number_options = "nTrain_Background=" + std::to_string(event_number) + ":nTest_Background=" + std::to_string(event_number) + ":nTrain_Signal=" + std::to_string(event_number) + ":nTest_Signal=" + std::to_string(event_number);
