@@ -155,6 +155,8 @@ public:
 
     TVector2 Reference(const fastjet::PseudoJet& reference) const;
 
+    TVector2 Reference(const Singlet& reference) const;
+
 private:
 
     float log(float number) const;

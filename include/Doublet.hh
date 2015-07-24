@@ -16,13 +16,15 @@ public:
 
     Singlet& Singlet2() const;
 
+    float PullDifference() const;
+
+    float PullSum() const;
+
+private:
+
     float Pull1() const;
 
     float Pull2() const;
-
-    float PullDifference() const;
-
-private:
 
 };
 

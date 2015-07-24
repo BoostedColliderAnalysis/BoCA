@@ -1,6 +1,7 @@
 #include "JetInfo.hh"
 #include "Predicate.hh"
 #include "TLorentzVector.h"
+#include "Debug.hh"
 
 namespace analysis {
 
@@ -316,16 +317,16 @@ float Length(float rapidity, float phi)
 
 float DeltaPhi(float phi_1, float phi_2)
 {
-    float delta_phi = phi_1 - phi_2;
-    while (std::abs(delta_phi) > M_PI) {
-        if (delta_phi < - M_PI) delta_phi += 2 * M_PI;
-        else if (delta_phi > M_PI) delta_phi -= 2 * M_PI;
-        else {
-            //       Error("Delta Phi", delta_phi);
-            break;
-        }
-    }
-    return delta_phi;
+    return RestrictPhi(phi_1 - phi_2);
+}
+
+float RestrictPhi(float phi){
+  while (std::abs(phi) > M_PI) {
+    if (phi < - M_PI) phi += 2 * M_PI;
+    else if (phi > M_PI) phi -= 2 * M_PI;
+    else Error(phi);
+  }
+  return phi;
 }
 
 }

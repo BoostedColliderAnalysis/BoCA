@@ -432,17 +432,15 @@ private:
 class HiggsBranch : public PairBranch, public BottomBase {
 public:
     HiggsBranch();
-    float Pull1;
-    float Pull2;
     float Pull;
+    float PullDiff;
     template<typename Multiplet>
     void Fill(const Multiplet& multiplet)
     {
         PairBranch::Fill(multiplet);
         BottomBase::Fill(multiplet);
-        Pull1 = multiplet.Pull1();
-        Pull2 = multiplet.Pull2();
-        Pull = multiplet.PullDifference();
+        PullDiff = multiplet.PullDifference();
+        Pull = multiplet.PullSum();
     }
     Observables Variables();
     Observables Spectators();

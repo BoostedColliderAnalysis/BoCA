@@ -24,16 +24,13 @@ bool Singlet::Overlap(const Singlet& singlet) const
 float Singlet::Radius(const fastjet::PseudoJet& jet) const
 {
     Info();
-    if (!jet.has_constituents())
-        return 0;
+    if (!jet.has_constituents()) return 0;
     float delta_r = 0;
     for (const auto& constituent : jet.constituents()) {
         float constituent_delta_r = jet.delta_R(constituent);
-        if (constituent_delta_r > 100)
-            continue;
+        if (constituent_delta_r > 100) continue;
         Debug(constituent_delta_r);
-        if (constituent_delta_r > delta_r)
-            delta_r = constituent_delta_r;
+        if (constituent_delta_r > delta_r) delta_r = constituent_delta_r;
     }
     return delta_r;
 }
@@ -48,62 +45,61 @@ float Singlet::Spread(const fastjet::PseudoJet& jet) const
     float spread = 0;
     for (const auto& constituent : jet.constituents()) {
         float constituent_delta_r = jet.delta_R(constituent);
-        if (constituent_delta_r > 100)
-            continue;
+        if (constituent_delta_r > 100) continue;
         spread += constituent_delta_r * constituent.pt();
-        if (constituent_delta_r > delta_r)
-            delta_r = constituent_delta_r;
+        if (constituent_delta_r > delta_r) delta_r = constituent_delta_r;
     }
-    if (delta_r == 0)
-        return 0;
+    if (delta_r == 0) return 0;
     return spread / jet.pt() / delta_r;
 }
 
 void Singlet::SetBdt(float bdt)
 {
-    if (jet_.has_user_info<JetInfo>())
-        static_cast<JetInfo&>(*jet_.user_info_shared_ptr().get()).SetBdt(bdt);
+    if (jet_.has_user_info<JetInfo>()) static_cast<JetInfo&>(*jet_.user_info_shared_ptr().get()).SetBdt(bdt);
 }
 
 const JetInfo& Singlet::UserInfo() const
 {
-    if (!Jet().has_user_info<JetInfo>())
-        return jet_info_;
+    if (!Jet().has_user_info<JetInfo>()) return jet_info_;
     return Jet().user_info<JetInfo>();
 }
 
 float Singlet::log(float number) const
 {
-    if (number > 0)
-        return std::log10(number);
-    else
-        return std::log10(DetectorGeometry::TrackerDistanceMin() / 10);
+    if (number > 0) return std::log10(number);
+    else return std::log10(DetectorGeometry::TrackerDistanceMin() / 10);
 }
+
 int Singlet::Charge() const
 {
 //       return UserInfo().Charge();
     return sgn(UserInfo().Charge());
 }
+
 TVector2 Singlet::Pull() const
 {
     TVector2 vector;
-    for (const auto & constituent : jet_.constituents()) {
-        float factor = constituent.pt() / jet_.pt() * constituent.delta_R(jet_);
-        vector += factor * Reference(constituent);
-    }
+    for (const auto & constituent : jet_.constituents()) vector += Reference(constituent) * constituent.pt() / jet_.pt() * constituent.delta_R(jet_);
     return vector;
 }
-TVector2 Singlet::Reference(const fastjet::PseudoJet& reference) const
+
+TVector2 Singlet::Reference(const fastjet::PseudoJet& vector) const
 {
-    return TVector2(jet_.rap() - reference.rap(), reference.delta_phi_to(jet_));
+  return TVector2(vector.rap() - jet_.rap(), jet_.delta_phi_to(vector));
 }
+
+TVector2 Singlet::Reference(const Singlet& vector) const
+{
+    return Reference(vector.Jet());
+}
+
 float Singlet::Rapidity() const
 {
-    float rap = Jet().rap();
-    if (rap > 100)
-        return 0;
-    return rap;
+    if (Jet().rap() == fastjet::pseudojet_invalid_rap) return 0;
+    if (Jet().rap() > 100) return 0;
+    return Jet().rap();
 }
+
 Singlet Singlet::singlet() const
 {
     return *this;
