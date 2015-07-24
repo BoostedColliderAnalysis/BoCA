@@ -170,11 +170,14 @@ PairBranch::PairBranch()
     Rho = InitialValue();
     Bdt1 = InitialValue();
     Bdt2 = InitialValue();
+    DeltaPull = InitialValue();
+    Pull = InitialValue();
+    Dipolarity = InitialValue();
 }
 
 Observables PairBranch::Variables()
 {
-    return Join(ParticleBranch::Variables(), {OBS(Ht, "H_{T}"), OBS(DeltaPt, "#Delta P_{T}"), OBS(DeltaM, "#Delta m"), OBS(DeltaRap, "#Delta #eta"), OBS(DeltaPhi, "#Delta #phi"), OBS(DeltaR, "#Delta R"), OBS(Rho, "#rho"), OBS(Bdt1, "BDT_{1}"), OBS(Bdt2, "BDT_{2}")});
+  return Join(ParticleBranch::Variables(), {OBS(Ht, "H_{T}"), OBS(DeltaPt, "#Delta P_{T}"), OBS(DeltaM, "#Delta m"), OBS(DeltaRap, "#Delta #eta"), OBS(DeltaPhi, "#Delta #phi"), OBS(DeltaR, "#Delta R"), OBS(Rho, "#rho"), OBS(Bdt1, "BDT_{1}"), OBS(Bdt2, "BDT_{2}"),OBS(Pull,"#theta"),OBS(DeltaPull,"#Delta #theta"),OBS(Dipolarity,"D")});
     //return Join(ParticleBranch::Variables(), {OBS(Ht), OBS(DeltaPt), OBS(DeltaM), OBS(DeltaRap), OBS(DeltaPhi), OBS(DeltaR), OBS(Rho)});
 }
 
@@ -302,15 +305,11 @@ Observables TopLeptonicBranch::Spectators()
     return Join(PairBranch::Spectators(), BottomBase::Spectators());
 }
 
-HiggsBranch::HiggsBranch(){
-  PullDiff = InitialValue();
-  Pull = InitialValue();
-  Dipol = InitialValue();
-}
+HiggsBranch::HiggsBranch(){}
 
 Observables HiggsBranch::Variables()
 {
-  return Join(Join(PairBranch::Variables(), BottomBase::Variables()),{OBS(Pull,"#theta"),OBS(PullDiff,"#Delta #theta"),OBS(Dipol,"D")});
+  return Join(PairBranch::Variables(), BottomBase::Variables());
 }
 
 Observables HiggsBranch::Spectators()
