@@ -121,7 +121,7 @@ protected:
         //       return 10;
     }
 
-    void NewFile(const Tag tag, const Process process)
+    void NewFile(Tag tag, const Process process)
     {
         analysis::AnalysisBase::NewFile(tag, FileName(process), NiceName(process));
     }

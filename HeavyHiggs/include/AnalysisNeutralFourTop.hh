@@ -31,7 +31,7 @@ public:
 // 	this->pre_cuts().SetPtLowerCut(Id::top,100);
     }
 
-    void SetFiles(const Tag tag) final {
+    void SetFiles(Tag tag) final {
         switch (tag)
         {
         case Tag::signal :

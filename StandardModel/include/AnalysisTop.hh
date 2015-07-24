@@ -48,7 +48,7 @@ private:
         return  Name(this->collider_type()) + "-" + std::to_string(this->LowerPtCut()) + "GeV-" + Name(Process::tt) + "-" + Name(TopDecay()) + "-test2";
     }
 
-    void SetFiles(const Tag tag) final {
+    void SetFiles(Tag tag) final {
         switch (tag)
         {
         case Tag::signal :

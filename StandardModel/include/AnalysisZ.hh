@@ -29,7 +29,7 @@ public:
 
 private:
 
-    void SetFiles(const Tag tag) final {
+    void SetFiles(Tag tag) final {
         switch (tag)
         {
         case Tag::signal :

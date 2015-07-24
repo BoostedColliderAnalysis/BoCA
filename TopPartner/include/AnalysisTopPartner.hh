@@ -30,7 +30,7 @@ protected:
         return  std::to_string(PreCut()) + "GeV-hB";
     }
 
-    void SetFiles(const Tag tag) final {
+    void SetFiles(Tag tag) final {
         switch (tag)
         {
         case Tag::signal :
@@ -100,7 +100,7 @@ private:
         return 1;
     }
 
-    float Crosssection(const Tag tag) const
+    float Crosssection(Tag tag) const
     {
         switch (tag) {
         case Tag::signal :
@@ -128,7 +128,7 @@ private:
         }
     }
 
-    std::string NiceName(const Tag tag) const
+    std::string NiceName(Tag tag) const
     {
         switch (tag) {
         case Tag::signal :

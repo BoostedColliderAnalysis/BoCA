@@ -2,7 +2,7 @@
 
 namespace analysis {
 
-std::string Name(const Tag tag)
+std::string Name(Tag tag)
 {
     switch (tag) {
     case  Tag::signal:

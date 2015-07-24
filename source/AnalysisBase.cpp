@@ -35,7 +35,7 @@ bool AnalysisBase::Missing(const std::string& name) const
     return (stat(name.c_str(), &buffer) != 0);
 }
 
-std::vector<analysis::File> AnalysisBase::files(const Tag tag)
+std::vector<analysis::File> AnalysisBase::files(Tag tag)
 {
     Error(Name(tag));
     return files_;
@@ -70,7 +70,7 @@ std::string AnalysisBase::ProcessName() const
     return "Process";
 }
 
-void AnalysisBase::NewFile(const Tag tag, const std::string& name, float crosssection, const std::string& nice_name)
+void AnalysisBase::NewFile(Tag tag, const std::string& name, float crosssection, const std::string& nice_name)
 {
     switch (tag) {
     case Tag::signal :
@@ -82,7 +82,7 @@ void AnalysisBase::NewFile(const Tag tag, const std::string& name, float crossse
     }
 }
 
-void AnalysisBase::NewFile(const Tag tag, const std::string& name, const std::string& nice_name)
+void AnalysisBase::NewFile(Tag tag, const std::string& name, const std::string& nice_name)
 {
     switch (tag) {
     case Tag::signal :
