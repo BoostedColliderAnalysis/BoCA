@@ -39,9 +39,9 @@ class Tagger {
 
 public:
 
-    void AddSignalTreeName(const std::string signal_tree_name);
+    void AddSignalTreeName(const std::string& signal_tree_name);
 
-    void AddBackgroundTreeName(const std::string background_tree_name);
+    void AddBackgroundTreeName(const std::string& background_tree_name);
 
     std::string branch_name() const;
 

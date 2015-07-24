@@ -36,7 +36,7 @@ public:
 
 //     ReaderStruct CutLoop(const exroot::TreeReader * const, ReaderStruct&);
 
-    void ApplyBdt(const exroot::TreeReader* const, const std::string, const TFile* const, const TMVA::Reader&);
+    void ApplyBdt(const exroot::TreeReader* const TreeReader, const std::string& TreeName, const TFile* const ExportFile, const TMVA::Reader& Reader);
 
 //     float GetBdt(TObject*, const TMVA::Reader&)
 //     {

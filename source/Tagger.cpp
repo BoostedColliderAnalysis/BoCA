@@ -17,7 +17,7 @@ std::string Tagger::analysis_name_;
 Observable Tagger::NewObservable(float& value, const std::string& title) const
 {
     Info(title);
-    const std::string expression = branch_name() + "." + title;
+    std::string expression = branch_name() + "." + title;
     return Observable(value, expression, title, "");
 }
 
@@ -50,12 +50,12 @@ Jets Tagger::SubJets(const fastjet::PseudoJet& jet, int sub_jet_number) const
     return pieces;
 }
 
-void Tagger::AddSignalTreeName(const std::string signal_tree_name)
+void Tagger::AddSignalTreeName(const std::string& signal_tree_name)
 {
     signal_tree_names_.emplace_back(signal_tree_name);
 }
 
-void Tagger::AddBackgroundTreeName(const std::string background_tree_name)
+void Tagger::AddBackgroundTreeName(const std::string& background_tree_name)
 {
     background_tree_names_.emplace_back(background_tree_name);
 }
@@ -101,7 +101,7 @@ std::string Tagger::Name(Stage stage, Tag tag) const
 }
 std::string Tagger::signal_file_name(Stage stage) const
 {
-    const std::string name = analysis_name() + "/" + signal_name();
+    std::string name = analysis_name() + "/" + signal_name();
     switch (stage) {
     case Stage::trainer :
         return name;
@@ -111,7 +111,7 @@ std::string Tagger::signal_file_name(Stage stage) const
 }
 std::string Tagger::background_file_name(Stage stage) const
 {
-    const std::string name = analysis_name() + "/" + background_name();
+    std::string name = analysis_name() + "/" + background_name();
     switch (stage) {
     case Stage::trainer :
         return name;

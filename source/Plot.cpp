@@ -177,7 +177,7 @@ std::string Plot::PlotHistograms(const analysis::Results& results) const
         histogram.Draw("same");
     }
     legend.Draw();
-    const std::string efficiency_file_name = ExportName() + "-Bdt" + ExportFileSuffix();
+    std::string efficiency_file_name = ExportName() + "-Bdt" + ExportFileSuffix();
     canvas.Print(efficiency_file_name.c_str());
     return efficiency_file_name;
 }
@@ -293,7 +293,7 @@ std::string Plot::PlotEfficiencyGraph(const Results& results, const std::vector<
     TLine line(results.XValue(best_bin), multi_graph.GetYaxis()->GetXmin(), results.XValue(best_bin), multi_graph.GetYaxis()->GetXmax());
     line.SetLineStyle(2);
     line.Draw();
-    const std::string file_name = ExportName() + "-Efficiency" + ExportFileSuffix();
+    std::string file_name = ExportName() + "-Efficiency" + ExportFileSuffix();
     canvas.Print(file_name.c_str());
     return file_name;
 }
@@ -310,7 +310,7 @@ std::string Plot::PlotSignificanceGraph(const Results& results, const std::vecto
     TLine line(results.XValue(best_bin), gPad->GetUymin(), results.XValue(best_bin), gPad->GetUymax());
     line.SetLineStyle(2);
     line.Draw();
-    const std::string file_name = ExportName() + "-Significance" + ExportFileSuffix();
+    std::string file_name = ExportName() + "-Significance" + ExportFileSuffix();
     canvas.Print(file_name.c_str());
     return file_name;
 }
@@ -379,7 +379,7 @@ InfoBranch Plot::InfoBranch(TFile& file, const std::string& tree_name) const
 void Plot::LatexHeader(std::ofstream& latex_file) const
 {
     Debug();
-    const std::string file_name = tagger().analysis_name() + "/" + tagger().analysis_name() + ".tex";
+    std::string file_name = tagger().analysis_name() + "/" + tagger().analysis_name() + ".tex";
     latex_file.open(file_name);
     latex_file << "\\documentclass[a4paper,10pt]{article}\n\n"
                << "\\usepackage{booktabs}\n"
@@ -610,18 +610,18 @@ void Plot::DoPlot(Plots& signals, Plots& backgrounds) const
     }
 }
 
-void Plot::Plotting(const Plot2d& signal, const Plot2d& background) const
+void Plot::Plotting(const Plot3d& signal, const Plot3d& background) const
 {
-    Plot2d signal_x = CoreVector(signal, [](Point2d & a, Point2d & b) {
+    Plot3d signal_x = CoreVector(signal, [](Point3d & a, Point3d & b) {
         return a.x < b.x;
     });
-    Plot2d signal_y = CoreVector(signal, [](Point2d & a, Point2d & b) {
+    Plot3d signal_y = CoreVector(signal, [](Point3d & a, Point3d & b) {
         return a.y < b.y;
     });
-    Plot2d background_x = CoreVector(background, [](Point2d & a, Point2d & b) {
+    Plot3d background_x = CoreVector(background, [](Point3d & a, Point3d & b) {
         return a.x < b.x;
     });
-    Plot2d background_y = CoreVector(background, [](Point2d & a, Point2d & b) {
+    Plot3d background_y = CoreVector(background, [](Point3d & a, Point3d & b) {
         return a.y < b.y;
     });
     float x_min = std::min(signal_x.points.front().x, background_x.points.front().x);
@@ -632,7 +632,7 @@ void Plot::Plotting(const Plot2d& signal, const Plot2d& background) const
     PlotProfile(signal, background, x_min, x_max, y_min, y_max);
 }
 
-void Plot::PlotHistogram(const Plot2d& signal, const Plot2d& background, float x_min, float x_max, float y_min, float y_max) const
+void Plot::PlotHistogram(const Plot3d& signal, const Plot3d& background, float x_min, float x_max, float y_min, float y_max) const
 {
     TCanvas canvas;
     canvas.SetBottomMargin(0.15);
@@ -654,7 +654,7 @@ void Plot::PlotHistogram(const Plot2d& signal, const Plot2d& background, float x
     canvas.Print(file_name.c_str());
 }
 
-void Plot::PlotProfile(const Plot2d& signal, const Plot2d& background, float x_min, float x_max, float y_min, float y_max) const
+void Plot::PlotProfile(const Plot3d& signal, const Plot3d& background, float x_min, float x_max, float y_min, float y_max) const
 {
     TCanvas canvas;
     canvas.SetRightMargin(0.15);
@@ -666,7 +666,7 @@ void Plot::PlotProfile(const Plot2d& signal, const Plot2d& background, float x_m
     canvas.Print(file_name.c_str());
 }
 
-void Plot::SetHistogram(TH2& histogram, const Plot2d& plot, EColor color, TExec& exec) const
+void Plot::SetHistogram(TH2& histogram, const Plot3d& plot, EColor color, TExec& exec) const
 {
     std::string options = "cont1 same";
     histogram.Draw(options.c_str());
@@ -693,12 +693,12 @@ void Plot::SetHistogram(TH2& histogram, const Plot2d& plot, EColor color, TExec&
 }
 
 
-void Plot::SetProfile(TProfile2D& histogram, const Plot2d& signal, const Plot2d& background) const
+void Plot::SetProfile(TProfile2D& histogram, const Plot3d& signal, const Plot3d& background) const
 {
-    float max = (*std::max_element(signal.points.begin(), signal.points.end(), [](Point2d  a, Point2d  b) {
+    float max = (*std::max_element(signal.points.begin(), signal.points.end(), [](Point3d  a, Point3d  b) {
         return a.z < b.z;
     })).z;
-    float min = (*std::min_element(background.points.begin(), background.points.end(), [](Point2d  a, Point2d  b) {
+    float min = (*std::min_element(background.points.begin(), background.points.end(), [](Point3d  a, Point3d  b) {
         return a.z < b.z;
     })).z;
     for (const auto& point : signal.points)
@@ -741,7 +741,7 @@ Plots Plot::PlotResult(TFile& file, const std::string& tree_name) const
     return plots;
 }
 
-Plot2d Plot::ReadTree(TTree& tree, const std::string& leaf_1, const std::string& leaf_2) const
+Plot3d Plot::ReadTree(TTree& tree, const std::string& leaf_1, const std::string& leaf_2) const
 {
     tree.SetBranchStatus("*", 0);
     std::string branch_name = tagger().branch_name() + "Reader";
@@ -776,15 +776,12 @@ Plot2d Plot::ReadTree(TTree& tree, const std::string& leaf_1, const std::string&
     std::vector<float> bdt_values(200);
     tree.SetBranchAddress(bdt_name.c_str(), &bdt_values[0]);
 
-    Plot2d points;
+    Plot3d points;
     for (const auto& entry : Range(tree.GetEntries())) {
         Debug(tree.GetEntries(), entry);
         tree.GetEntry(entry);
-//         leaf_values_1.resize(branch_size);
-//         leaf_values_2.resize(branch_size);
-//         bdt_values.resize(branch_size);
         for (const auto& element : Range(branch_size)) {
-            Point2d point;
+            Point3d point;
             point.x = leaf_values_1.at(element);
             point.y = leaf_values_2.at(element);
             point.z = bdt_values.at(element);
@@ -795,11 +792,11 @@ Plot2d Plot::ReadTree(TTree& tree, const std::string& leaf_1, const std::string&
     return points;
 }
 
-Plot2d Plot::CoreVector(const Plot2d& points, std::function<bool (Point2d&, Point2d&)> function) const
+Plot3d Plot::CoreVector(const Plot3d& points, std::function<bool (Point3d&, Point3d&)> function) const
 {
-    Plot2d plot = points;
+    Plot3d plot = points;
     // TODO sorting the whole vector if you just want to get rid of the extrem values might not be the fastest solution
-    std::sort(plot.points.begin(), plot.points.end(), [&](Point2d& a, Point2d& b) {
+    std::sort(plot.points.begin(), plot.points.end(), [&](Point3d& a, Point3d& b) {
         return function(a, b);
     });
     int cut_off = plot.points.size() / 25;

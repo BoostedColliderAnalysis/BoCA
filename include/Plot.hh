@@ -28,7 +28,6 @@ public:
 
     Result();
     std::vector<int> Integral() const;
-
     int steps;
     std::vector<float> events;
     std::vector<float> efficiency;
@@ -48,12 +47,6 @@ public:
 
     Results();
 
-    std::vector<Result> signal;
-    std::vector<Result> background;
-    std::vector<float> significances;
-    std::vector<float> x_values;
-    int best_bin = 0;
-
     void Significances();
 
     void BestBin();
@@ -62,21 +55,21 @@ public:
       return value * 2 / Result().steps - 1;
     }
 
-
-
+    std::vector<Result> signal;
+    std::vector<Result> background;
+    std::vector<float> significances;
+    std::vector<float> x_values;
+    int best_bin = 0;
 };
 
-
-
-
-struct Point2d {
+struct Point3d {
     float x;
     float y;
     float z;
 };
 
-struct Plot2d {
-    std::vector<Point2d> points;
+struct Plot3d {
+    std::vector<Point3d> points;
     std::string name_x;
     std::string name_y;
     std::string nice_name_x;
@@ -86,7 +79,7 @@ struct Plot2d {
 };
 
 struct Plots {
-    std::vector<Plot2d> plots;
+    std::vector<Plot3d> plots;
     analysis::InfoBranch info_branch;
     std::string name;
 };
@@ -119,11 +112,11 @@ public:
 
     void DoPlot(analysis::Plots& signals, analysis::Plots& backgrounds) const;
 
-    void Plotting(const analysis::Plot2d& signal, const analysis::Plot2d& background) const;
+    void Plotting(const analysis::Plot3d& signal, const analysis::Plot3d& background) const;
 
-    void SetHistogram(TH2& histogram, const analysis::Plot2d& plot, EColor color, TExec& exec) const;
+    void SetHistogram(TH2& histogram, const analysis::Plot3d& plot, EColor color, TExec& exec) const;
 
-    void SetProfile(TProfile2D& histogram, const analysis::Plot2d& signal, const analysis::Plot2d& background) const;
+    void SetProfile(TProfile2D& histogram, const analysis::Plot3d& signal, const analysis::Plot3d& background) const;
 
 private:
 
@@ -131,11 +124,11 @@ private:
 
     Plots PlotResult(TFile& file, const std::string& tree_name) const;
 
-    Plot2d ReadTree(TTree& tree, const std::string& leaf_1, const std::string& leaf_2) const;
+    Plot3d ReadTree(TTree& tree, const std::string& leaf_1, const std::string& leaf_2) const;
 
-    void PlotHistogram(const analysis::Plot2d& signal, const analysis::Plot2d& background, float x_min, float x_max, float y_min, float y_max) const;
+    void PlotHistogram(const analysis::Plot3d& signal, const analysis::Plot3d& background, float x_min, float x_max, float y_min, float y_max) const;
 
-    void PlotProfile(const analysis::Plot2d& signal, const analysis::Plot2d& background, float x_min, float x_max, float y_min, float y_max) const;
+    void PlotProfile(const analysis::Plot3d& signal, const analysis::Plot3d& background, float x_min, float x_max, float y_min, float y_max) const;
 
     float Bdt() const;
 
@@ -178,7 +171,7 @@ private:
 
     std::string ExportName() const;
 
-    Plot2d CoreVector(const Plot2d& points, std::function<bool(Point2d&, Point2d&)> function) const;
+    Plot3d CoreVector(const Plot3d& points, std::function<bool(Point3d&, Point3d&)> function) const;
 
     std::string ExportFileSuffix() const
     {

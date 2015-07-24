@@ -7,7 +7,7 @@
 void RunTagger(analysis::Tagger& , analysis::Stage )
 {
 //     fusionpair::Analysis analysis(tagger);
-//     const std::string Name = tagger.name();
+//     std::string Name = tagger.name();
 //     Error("Tagger", Name);
 //
 //     std::string FileName = analysis.ProjectName() + "/" + Name + ".root";

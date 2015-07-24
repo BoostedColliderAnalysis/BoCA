@@ -32,7 +32,7 @@ std::string Factory::factory_options()
 
 TFile* Factory::output_file() const
 {
-    const std::string file_name = tagger().analysis_name() + "/" + tagger().factory_name() + ".root";
+    std::string file_name = tagger().analysis_name() + "/" + tagger().factory_name() + ".root";
     return TFile::Open(file_name.c_str(), "Recreate");
 }
 
@@ -117,17 +117,17 @@ void Factory::PrepareTrainingAndTestTree(long event_number)
     Error("PrepareTrainingAndTestTree");
     std::string number_options = "nTrain_Background=" + std::to_string(event_number) + ":nTest_Background=" + std::to_string(event_number) + ":nTrain_Signal=" + std::to_string(event_number) + ":nTest_Signal=" + std::to_string(event_number);
 //     std::string TrainingAndTestOptions = "nTrain_Signal=0:nTrain_Background=0:SplitMode=Random:NormMode=Numevents:!V";
-    const std::string training_and_test_options = number_options + "SplitMode=Block";
+    std::string training_and_test_options = number_options + "SplitMode=Block";
     factory().PrepareTrainingAndTestTree(tagger().cut(), tagger().cut(), training_and_test_options);
 }
 
 TMVA::MethodBDT& Factory::BookMethods()
 {
     Note();
-//     const std::string bdt_options = "NTrees=1000:MinNodeSize=2.5%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=20";
-    const std::string bdt_options = "NTrees=1000:MinNodeSize=2.5%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=20";
+//     std::string bdt_options = "NTrees=1000:MinNodeSize=2.5%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=20";
+    std::string bdt_options = "NTrees=1000:MinNodeSize=2.5%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=20";
     //:VarTransform=D
-//     const std::string bdt_options = "!H:!V:NTrees=1000:MinNodeSize=1.5%:BoostType=Grad:Shrinkage=0.10:UseBaggedGrad:UseRandomisedTrees:GradBaggingFraction=0.5:nCuts=20:MaxDepth=4";
+//     std::string bdt_options = "!H:!V:NTrees=1000:MinNodeSize=1.5%:BoostType=Grad:Shrinkage=0.10:UseBaggedGrad:UseRandomisedTrees:GradBaggingFraction=0.5:nCuts=20:MaxDepth=4";
     //:CreateMVAPdfs:DoBoostMonitor";
     return dynamic_cast<TMVA::MethodBDT&>(*factory().BookMethod(TMVA::Types::kBDT, tagger().bdt_method_name(), bdt_options));
 }

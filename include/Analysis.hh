@@ -10,7 +10,7 @@ namespace analysis {
 class Files {
 public:
 
-    Files(const std::string name, Stage stage, Tag tag) : export_file_ {name.c_str(), "Recreate"} {
+    Files(std::string name, Stage stage, Tag tag) : export_file_ {name.c_str(), "Recreate"} {
         stage_ = stage;
         tag_ = tag;
     }
