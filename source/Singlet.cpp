@@ -84,5 +84,29 @@ int Singlet::Charge() const
 //       return UserInfo().Charge();
     return sgn(UserInfo().Charge());
 }
+TVector2 Singlet::Pull() const
+{
+    TVector2 vector;
+    for (const auto & constituent : jet_.constituents()) {
+        float factor = constituent.pt() / jet_.pt() * constituent.delta_R(jet_);
+        vector += factor * Reference(constituent);
+    }
+    return vector;
+}
+TVector2 Singlet::Reference(const fastjet::PseudoJet& reference) const
+{
+    return TVector2(jet_.rap() - reference.rap(), reference.delta_phi_to(jet_));
+}
+float Singlet::Rapidity() const
+{
+    float rap = Jet().rap();
+    if (rap > 100)
+        return 0;
+    return rap;
+}
+Singlet Singlet::singlet() const
+{
+    return *this;
+}
 
 }

@@ -74,8 +74,8 @@ std::vector<Doublet>  WLeptonicTagger::Multiplets(const Event& event, const anal
 std::vector<Doublet> WLeptonicTagger::ReconstructNeutrino(const Doublet& doublet) const
 {
     Info();
-    const fastjet::PseudoJet lepton = doublet.SingletJet1();
-    const fastjet::PseudoJet missing_et = doublet.SingletJet2();
+    const fastjet::PseudoJet lepton = doublet.Singlet1().Jet();
+    const fastjet::PseudoJet missing_et = doublet.Singlet2().Jet();
     float linear_term = (std::pow(Mass(Id::W), 2) - lepton.m2()) / 2 + missing_et.px() * lepton.px() + missing_et.py() * lepton.py();
     float lepton_square = std::pow(lepton.e(), 2) - std::pow(lepton.pz(), 2);
     float missing_et_square = std::pow(missing_et.px(), 2) + std::pow(missing_et.py(), 2);

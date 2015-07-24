@@ -244,8 +244,8 @@ public:
     void Fill(const Multiplet& multiplet)
     {
         PairBranch::Fill(multiplet);
-        LeptonPt = multiplet.SingletJet1().pt();
-        NeutrinoPt = multiplet.SingletJet2().pt();
+        LeptonPt = multiplet.Singlet1().Jet().pt();
+        NeutrinoPt = multiplet.Singlet2().Jet().pt();
     }
 
     Observables Variables();

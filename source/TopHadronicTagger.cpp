@@ -279,9 +279,9 @@ void TopHadronicTagger::NSubJettiness(analysis::Triplet& triplet) const
     if (triplet.Degenerate())
         triplet.set_sub_jettiness(NSubJettiness(triplet.Singlet().Jet() * 2));
     else if (triplet.Doublet().Degenerate())
-        triplet.set_sub_jettiness(NSubJettiness(triplet.Doublet().SingletJet1() * 2));
+        triplet.set_sub_jettiness(NSubJettiness(triplet.Doublet().Singlet1().Jet() * 2));
     else
-        triplet.set_sub_jettiness(NSubJettiness(fastjet::join(fastjet::join(triplet.Singlet().Jet(), triplet.Doublet().SingletJet1()), triplet.Doublet().SingletJet2())));
+        triplet.set_sub_jettiness(NSubJettiness(fastjet::join(fastjet::join(triplet.Singlet().Jet(), triplet.Doublet().Singlet1().Jet()), triplet.Doublet().Singlet2().Jet())));
 }
 
 SubJettiness TopHadronicTagger::NSubJettiness(const fastjet::PseudoJet& jet) const

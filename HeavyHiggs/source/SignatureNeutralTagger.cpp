@@ -25,7 +25,7 @@ int SignatureNeutralTagger::Train(const Event& event, const PreCuts&, Tag tag) c
     case Tag::signal :
         if (bottoms.size() == 2) {
             for (const auto& doublet : doublets) {
-                if ((Close(bottoms.at(0))(doublet.SingletJet1()) && Close(bottoms.at(1))(doublet.SingletJet2())) || (Close(bottoms.at(1))(doublet.SingletJet1()) && Close(bottoms.at(0))(doublet.SingletJet2()))) final_doublets.emplace_back(doublet);
+                if ((Close(bottoms.at(0))(doublet.Singlet1().Jet()) && Close(bottoms.at(1))(doublet.Singlet2().Jet())) || (Close(bottoms.at(1))(doublet.Singlet1().Jet()) && Close(bottoms.at(0))(doublet.Singlet2().Jet()))) final_doublets.emplace_back(doublet);
             }
         }
         break;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "JetInfo.hh"
+#include "TVector2.h"
 
 namespace analysis {
 
@@ -142,22 +143,17 @@ public:
 
     void SetBdt(float bdt) final;
 
-    float Rapidity() const
-    {
-        float rap = Jet().rap();
-        if (rap > 100)
-            return 0;
-        return rap;
-    }
+    float Rapidity() const;
 
     int Charge() const;
 
-    Singlet singlet() const
-    {
-        return *this;
-    }
+    Singlet singlet() const;
 
     const JetInfo& UserInfo() const;
+
+    TVector2 Pull() const;
+
+    TVector2 Reference(const fastjet::PseudoJet& reference) const;
 
 private:
 
