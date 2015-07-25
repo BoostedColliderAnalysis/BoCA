@@ -1,4 +1,5 @@
 #include "Global.hh"
+#include "Predicate.hh"
 
 namespace analysis {
 
@@ -10,12 +11,11 @@ int LargeNumber()
 std::string Name(int id)
 {
     std::string sign = "";
-    if (id < 0)
-        sign = "-";
+    if (id < 0) sign = "-";
     return sign + Name(Id(id));
 }
 
-std::string Name(const Id id)
+std::string Name(Id id)
 {
     switch (id) {
     //     case Id::empty: return "Empty";
@@ -140,11 +140,11 @@ std::string Name(const Id id)
     case Id::CP_violating_higgs:
         return "h";
     default:
-        return std::to_string(int(id));
+        return std::to_string(to_int(id));
     }
 }
 
-float Mass(const Id id)
+float Mass(Id id)
 {
     switch (id) {
     case Id::strange:

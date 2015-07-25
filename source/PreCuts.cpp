@@ -2,11 +2,11 @@
 
 namespace analysis {
 
-void PreCuts::SetPtLowerCut(const Id id, float value)
+void PreCuts::SetPtLowerCut(Id id, float value)
 {
     pt_lower_cut_.emplace(id, value);
 }
-float PreCuts::PtLowerCut(const Id id) const
+float PreCuts::PtLowerCut(Id id) const
 {
     try {
         return pt_lower_cut_.at(id);
@@ -14,7 +14,7 @@ float PreCuts::PtLowerCut(const Id id) const
         return 0;
     }
 }
-void PreCuts::SetPtUpperCut(const Id id, float value)
+void PreCuts::SetPtUpperCut(Id id, float value)
 {
     pt_upper_cut_.emplace(id, value);
 }
@@ -26,11 +26,11 @@ float PreCuts::PtUpperCut(const analysis::Id id) const
         return 0;
     }
 }
-void PreCuts::SetMassLowerCut(const Id id, float value)
+void PreCuts::SetMassLowerCut(Id id, float value)
 {
     mass_lower_cut_.emplace(id, value);
 }
-float PreCuts::MassLowerCut(const Id id) const
+float PreCuts::MassLowerCut(Id id) const
 {
     try {
         return mass_lower_cut_.at(id);
@@ -38,11 +38,11 @@ float PreCuts::MassLowerCut(const Id id) const
         return 0;
     }
 }
-void PreCuts::SetMassUpperCut(const Id id, float value)
+void PreCuts::SetMassUpperCut(Id id, float value)
 {
     mass_upper_cut_.emplace(id, value);
 }
-float PreCuts::MassUpperCut(const Id id) const
+float PreCuts::MassUpperCut(Id id) const
 {
     try {
         return mass_upper_cut_.at(id);
@@ -50,11 +50,11 @@ float PreCuts::MassUpperCut(const Id id) const
         return 0;
     }
 }
-void PreCuts::SetTrackerMaxEta(const Id id, float value)
+void PreCuts::SetTrackerMaxEta(Id id, float value)
 {
     tracker_eta_upper_cut_.emplace(id, value);
 }
-float PreCuts::TrackerMaxEta(const Id id) const
+float PreCuts::TrackerMaxEta(Id id) const
 {
     try {
         return tracker_eta_upper_cut_.at(id);

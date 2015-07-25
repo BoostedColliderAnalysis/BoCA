@@ -96,9 +96,9 @@ enum class Id {
 
 std::string Name(int id);
 
-std::string Name(const Id id);
+std::string Name(Id id);
 
-float Mass(const Id id);
+float Mass(Id id);
 
 /**
  * @brief Initial user index

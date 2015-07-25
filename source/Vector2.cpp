@@ -2,6 +2,8 @@
 #include <cmath>
 #include "Debug.hh"
 
+namespace analysis {
+
 Vector2::Vector2()
 {
 //constructor
@@ -197,8 +199,30 @@ void Vector2::Set(float x0, float y0)
     fX = x0 ;
     fY = y0 ;
 }
+float Vector2::Mod2() const
+{
+    return fX * fX + fY * fY;
+}
+float Vector2::Px() const
+{
+    return fX;
+}
+float Vector2::Py() const
+{
+    return fY;
+}
+float Vector2::X() const
+{
+    return fX;
+}
+float Vector2::Y() const
+{
+    return fY;
+}
 // void Vector2::Set(float x0, float y0)
 // {
 //     fX = x0 ;
 //     fY = y0 ;
 // }
+
+}

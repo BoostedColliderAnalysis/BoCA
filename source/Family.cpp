@@ -12,12 +12,12 @@ Family::Family(int id) : particle_(Particle(id)), mother_1_(Particle(id))
     daughter_ids_.reserve(2);
 }
 
-Family::Family(const Id id) : particle_(Particle(id)), mother_1_(Particle(id))
+Family::Family(Id id) : particle_(Particle(id)), mother_1_(Particle(id))
 {
     daughter_ids_.reserve(2);
 }
 
-Family::Family(const Id id, const Id mother_id) : particle_(Particle(id)), mother_1_(Particle(mother_id))
+Family::Family(Id id, Id mother_id) : particle_(Particle(id)), mother_1_(Particle(mother_id))
 {
     daughter_ids_.reserve(2);
 }
@@ -32,17 +32,17 @@ Family::Family(int id, int mother_1_id, int mother_2_id, int grand_mother_id) : 
     daughter_ids_.reserve(2);
 }
 
-Family::Family(const Id id, const Id mother_1_id, const Id mother_2_id) : particle_(Particle(id)), mother_1_(Particle(mother_1_id)), mother_2_(Particle(mother_2_id))
+Family::Family(Id id, Id mother_1_id, Id mother_2_id) : particle_(Particle(id)), mother_1_(Particle(mother_1_id)), mother_2_(Particle(mother_2_id))
 {
     daughter_ids_.reserve(2);
 }
 
-Family::Family(const Id id, const Id mother_1_id, const Id mother_2_id, const Id grand_mother_id) : particle_(Particle(id)), mother_1_(Particle(mother_1_id)), mother_2_(Particle(mother_2_id)), grand_mother_(Particle(grand_mother_id))
+Family::Family(Id id, Id mother_1_id, Id mother_2_id, Id grand_mother_id) : particle_(Particle(id)), mother_1_(Particle(mother_1_id)), mother_2_(Particle(mother_2_id)), grand_mother_(Particle(grand_mother_id))
 {
     daughter_ids_.reserve(2);
 }
 
-Family::Family(int particle_position, const Id id, int mother_position, const Id mother_id) : particle_(Particle(id, particle_position)), mother_1_(Particle(mother_id, mother_position))
+Family::Family(int particle_position, Id id, int mother_position, Id mother_id) : particle_(Particle(id, particle_position)), mother_1_(Particle(mother_id, mother_position))
 {
     daughter_ids_.reserve(2);
 }

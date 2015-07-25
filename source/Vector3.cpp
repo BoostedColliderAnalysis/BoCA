@@ -1,8 +1,8 @@
 #include "Vector3.hh"
 #include "Vector2.hh"
 #include <cmath>
-#include <iostream>
 #include "TVector3.h"
+#include "Debug.hh"
 
 namespace analysis {
 
@@ -30,8 +30,7 @@ float Vector3::operator()(int i) const
     case 2:
         return z_;
     default:
-// Error("operator()(i)", "bad index (%d) returning 0",i);
-        std::cout << "Error" << std::endl;
+    Error("bad index (%d) returning 0",i);
     }
     return 0.;
 }
@@ -47,8 +46,7 @@ float& Vector3::operator()(int i)
     case 2:
         return z_;
     default:
-// Error("operator()(i)", "bad index (%d) returning &x_",i);
-        std::cout << "Error" << std::endl;
+        Error("bad index (%d) returning &x_",i);
     }
     return x_;
 }

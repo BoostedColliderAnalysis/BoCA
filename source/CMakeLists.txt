@@ -86,7 +86,6 @@ DetectorGeometry.cpp
 JetInfo.cpp
 Reconstruction.cpp
 Discriminator.cpp
-SubStructure.cpp
 Plot.cpp
 )
 create_library(Analysis analysis_sources)

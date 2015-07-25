@@ -173,7 +173,7 @@ private:
         SetTreeBranch(files.stage(), trees.tree_writer(), reader);
         trees.UseBranches(files.file(), tagger_.weight_branch_name());
         if (files.stage() == Stage::reader) {
-            trees.entry = std::min((long)trees.tree_reader().GetEntries(), EventNumberMax()) / 2;    // TODO fix corner cases
+            trees.entry = std::min(long(trees.tree_reader().GetEntries()), EventNumberMax()) / 2;    // TODO fix corner cases
         }
         for (; trees.entry < trees.tree_reader().GetEntries(); ++trees.entry) {
             ++trees.event_number_;

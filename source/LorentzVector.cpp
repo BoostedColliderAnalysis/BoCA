@@ -1,7 +1,7 @@
 #include "LorentzVector.hh"
 #include "Vector2.hh"
 #include "TLorentzVector.h"
-#include <iostream>
+#include "Debug.hh"
 
 namespace analysis {
 
@@ -30,8 +30,7 @@ float LorentzVector::operator()(int i) const
     case kT:
         return e_;
     default:
-// Error("operator()()", "bad index (%d) returning 0", i);
-        std::cout << "Error" << std::endl;
+        Error("bad index (%d) returning 0", i);
     }
     return 0.;
 }
@@ -47,8 +46,7 @@ float& LorentzVector::operator()(int i)
     case kT:
         return e_;
     default:
-// Error("operator()()", "bad index (%d) returning &e_", i);
-        std::cout << "Error" << std::endl;
+        Error("bad index (%d) returning &e_", i);
     }
     return e_;
 }

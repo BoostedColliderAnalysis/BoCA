@@ -150,7 +150,7 @@ private:
 
     void AddParticle(int constituent_id, float weight);
 
-    void AddParticle(const Id constituent_id, float weight);
+    void AddParticle(Id constituent_id, float weight);
 
     float GetWeightSum() const;
 
