@@ -153,19 +153,15 @@ public:
         return Singlet(EffectiveJet());
     }
 
-    Vector2 Pull(){
-      return singlet().Pull();
-    }
-
     float Pull1() const
     {
-      Vector2 pull = Multiplet1().Pull() - Multiplet1().Reference(Multiplet2().Jet());
+      Vector2 pull = Multiplet1().singlet().Pull() - Multiplet1().Reference(Multiplet2().Jet());
       return std::atan2(pull.Y(), pull.X());
     }
 
     float Pull2() const
     {
-      Vector2 pull = Multiplet2().Pull() - Multiplet2().Reference(Multiplet1().Jet());
+      Vector2 pull = Multiplet2().singlet().Pull() - Multiplet2().Reference(Multiplet1().Jet());
       return std::atan2(pull.Y(), pull.X());
     }
 

@@ -145,7 +145,7 @@ std::string Plot::PlotHistograms(const analysis::Results& results) const
     float y_max = 0;
     for (const auto& result : results.signal) {
         TH1F histogram(result.info_branch.Name.c_str(), "", 50, FloorToDigits(x_min, 1), CeilToDigits(x_max, 1));
-        for (const float & bdt : result.bdt) histogram.Fill(bdt - 1);
+        for (const auto& bdt : result.bdt) histogram.Fill(bdt - 1);
         if (histogram.Integral() != 0)  histogram.Scale(1 / histogram.Integral());
         float max = histogram.GetBinContent(histogram.GetMaximumBin());
         if (max > y_max) y_max = max;
@@ -153,7 +153,7 @@ std::string Plot::PlotHistograms(const analysis::Results& results) const
     }
     for (const auto& result : results.background) {
         TH1F histogram(result.info_branch.Name.c_str(), "", 50, FloorToDigits(x_min, 1), CeilToDigits(x_max, 1));
-        for (const float & bdt : result.bdt) histogram.Fill(bdt - 1);
+        for (const auto& bdt : result.bdt) histogram.Fill(bdt - 1);
         if (histogram.Integral() != 0)  histogram.Scale(1 / histogram.Integral());
         SetPlotStyle(histogram, &result - &results.background[0] + 1);
         // histogram.SetLineColor(ColorCode(&result - &results.background[0] + 1));
@@ -568,27 +568,24 @@ void Plot::RunPlots() const
     std::string background_file_name = tagger().analysis_name() + "/" + tagger().background_name() + "Reader.root";
     Debug(background_file_name, tagger().background_tree_names().size());
     std::vector<Plots> backgrounds = Import(background_file_name, tagger().background_tree_names());
-    Plots bg = backgrounds.front();
+    Plots background = backgrounds.front();
     if (backgrounds.size() > 1) {
-        bg = std::accumulate(backgrounds.begin() + 1, backgrounds.end(), bg, [](Plots & sum, const Plots & elem) {
+        background = std::accumulate(backgrounds.begin() + 1, backgrounds.end(), background, [](Plots & sum, const Plots & elem) {
             for (const auto& plot : elem.plots)
                 sum.plots.at(&plot - &elem.plots[0]).points = Join(sum.plots.at(&plot - &elem.plots[0]).points, plot.points);
             return sum;
         });
-        bg.name = "background";
+        background.name = "background";
     }
-    for (auto& signal : signals)
-        DoPlot(signal, bg);
+    for (auto& signal : signals) DoPlot(signal, background);
 }
 
 void Plot::DoPlot(Plots& signals, Plots& backgrounds) const
 {
-    std::vector<std::pair<std::string, std::string>> nice_names;
-    unordered_pairs(tagger().branch().Variables(), nice_names, [&](const Obs & variable_1, const Obs & variable_2) {
+    std::vector<std::pair<std::string, std::string>> nice_names = unordered_pairs(tagger().branch().Variables(), [&](const Obs & variable_1, const Obs & variable_2) {
         return std::make_pair(variable_1.nice_name(), variable_2.nice_name());
     });
-    std::vector<std::pair<std::string, std::string>> names;
-    unordered_pairs(tagger().branch().Variables(), names, [&](const Obs & variable_1, const Obs & variable_2) {
+    std::vector<std::pair<std::string, std::string>> names = unordered_pairs(tagger().branch().Variables(), [&](const Obs & variable_1, const Obs & variable_2) {
         return std::make_pair(variable_1.name(), variable_2.name());
     });
     for (auto& signal : signals.plots) {
@@ -733,7 +730,7 @@ Plots Plot::PlotResult(TFile& file, const std::string& tree_name) const
     plots.info_branch = InfoBranch(file, tree_name);
     TTree& tree = static_cast<TTree&>(*file.Get(tree_name.c_str()));
     tree.SetMakeClass(1);
-    unordered_pairs(tagger().branch().Variables(), plots.plots, [&](const Obs & variable_1, const Obs & variable_2) {
+    plots.plots = unordered_pairs(tagger().branch().Variables(), [&](const Obs & variable_1, const Obs & variable_2) {
         return ReadTree(tree, variable_1.name(), variable_2.name());
     });
     plots.name = tree_name;
@@ -758,22 +755,23 @@ Plot3d Plot::ReadTree(TTree& tree, const std::string& leaf_1, const std::string&
     int branch_size = 0;
     tree.SetBranchAddress(size_name.c_str(), &branch_size);
 
+    size_t max_value = 200;
     std::string leaf_name_1 = branch_name + "." + leaf_1;
     Debug(leaf_name_1.c_str());
     tree.SetBranchStatus(leaf_name_1.c_str(), 1);
-    std::vector<float> leaf_values_1(200);
+    std::vector<float> leaf_values_1(max_value);
     tree.SetBranchAddress(leaf_name_1.c_str(), &leaf_values_1[0]);
 
     std::string leaf_name_2 = branch_name + "." + leaf_2;
     Debug(leaf_name_2.c_str());
     tree.SetBranchStatus(leaf_name_2.c_str(), 1);
-    std::vector<float> leaf_values_2(200);
+    std::vector<float> leaf_values_2(max_value);
     tree.SetBranchAddress(leaf_name_2.c_str(), &leaf_values_2[0]);
 
     std::string bdt_name = branch_name + ".Bdt";
     Debug(bdt_name.c_str());
     tree.SetBranchStatus(bdt_name.c_str(), 1);
-    std::vector<float> bdt_values(200);
+    std::vector<float> bdt_values(max_value);
     tree.SetBranchAddress(bdt_name.c_str(), &bdt_values[0]);
 
     Plot3d points;

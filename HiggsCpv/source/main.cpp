@@ -1,6 +1,8 @@
 #include "AnalysisHiggsCpv.hh"
 
 #include "../include/EventTagger.hh"
+#include "Predicate.hh"
+#include "Debug.hh"
 
 int main()
 {

@@ -173,3 +173,4 @@ void Log(const std::string& file, int line, const std::string& name_space, const
 #endif
 
 #define Check(condition, ...) if(!(condition)) { ALIVE(__VA_ARGS__); }
+// #define DebugCheck(condition, ...) if(!(condition)) { Debug(__VA_ARGS__); }

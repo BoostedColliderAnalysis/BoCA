@@ -8,7 +8,7 @@ ProjectRootRelative=./
 
 [CMake][CMake Build Directory 0]
 Build Directory Path=file:///home/hajer/Analysis/build
-Build Type=Debug
+Build Type=Release
 CMake Binary=file:///usr/bin/cmake
 Environment Profile=
 Extra Arguments=
@@ -20,9 +20,9 @@ Includes=\x00\x00\x00\x01\x00\x00\x00R\x00/\x00h\x00o\x00m\x00e\x00/\x00h\x00a\x
 Path=.
 
 [Defines And Includes][Compiler]
-Name=GCC
-Path=gcc
-Type=GCC
+Name=Clang
+Path=clang
+Type=Clang
 
 [Launch]
 Launch Configurations=Launch Configuration 0,Launch Configuration 1,Launch Configuration 2,Launch Configuration 3
