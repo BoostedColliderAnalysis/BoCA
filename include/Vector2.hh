@@ -1,5 +1,12 @@
 #pragma once
 
+namespace analysis {
+
+  /**
+   * @brief Copy of root::TVector2 in order to get rid of TObject
+   *
+   */
+
 class Vector2
 {
 
@@ -42,23 +49,13 @@ public:
 
 // other member functions
 
-    float Mod2() const {
-        return fX * fX + fY * fY;
-    };
+    float Mod2() const;
     float Mod() const;
 
-    float Px() const {
-        return fX;
-    };
-    float Py() const {
-        return fY;
-    };
-    float X() const {
-        return fX;
-    };
-    float Y() const {
-        return fY;
-    };
+    float Px() const;
+    float Py() const;
+    float X() const;
+    float Y() const;
 
 // phi() is defined in [0,TWOPI]
 
@@ -90,3 +87,4 @@ public:
 
 };
 
+}

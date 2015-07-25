@@ -7,7 +7,7 @@ Particle::Particle(int id)
 {
     id_ = id;
 }
-Particle::Particle(const Id id)
+Particle::Particle(Id id)
 {
     id_ = to_int(id);
 }
@@ -18,7 +18,7 @@ Particle::Particle(const LorentzVector& momentum, int id, int position)
     momentum_ = momentum;
 }
 
-Particle::Particle(const Id id, int position)
+Particle::Particle(Id id, int position)
 {
     id_ = to_int(id);
     position_ = position;

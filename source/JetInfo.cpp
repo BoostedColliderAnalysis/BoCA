@@ -153,7 +153,7 @@ void JetInfo::AddParticle(int constituent_id, float weight)
     Detail(id_fractions_[constituent_id]);
 }
 
-void JetInfo::AddParticle(const Id constituent_id, float weight)
+void JetInfo::AddParticle(Id constituent_id, float weight)
 {
     Debug(Name(constituent_id), weight);
     id_fractions_[int(constituent_id)] += weight;

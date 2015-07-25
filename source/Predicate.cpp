@@ -20,12 +20,12 @@ fastjet::PseudoJet PseudoJet(const LorentzVector& vector)
 }
 
 struct IsParticle {
-    IsParticle(const Id id_1)
+    IsParticle(Id id_1)
     {
         id_1_ = id_1;
         id_2_ = id_1;
     }
-    IsParticle(const Id id_1, const Id id_2)
+    IsParticle(Id id_1, Id id_2)
     {
         id_1_ = id_1;
         id_2_ = id_2;
@@ -39,7 +39,7 @@ struct IsParticle {
     Id id_2_;
 };
 
-Jets CopyIfParticle(const Jets& jets, const Id id)
+Jets CopyIfParticle(const Jets& jets, Id id)
 {
     if (jets.empty()) return jets;
     Jets final_jets(jets.size());
@@ -48,7 +48,7 @@ Jets CopyIfParticle(const Jets& jets, const Id id)
     return final_jets;
 }
 
-Jets CopyIfParticles(const Jets& jets, const Id id_1, const Id id_2)
+Jets CopyIfParticles(const Jets& jets, Id id_1, Id id_2)
 {
     if (jets.empty()) return jets;
     Jets final_jets(jets.size());
@@ -128,7 +128,7 @@ Jets RemoveIfOutsidePtWindow(Jets& jets, float lower_cut, float upper_cut)
 }
 
 struct IsFamily {
-    IsFamily(const Id id, const Id moterh_id)
+    IsFamily(Id id, Id moterh_id)
     {
         id_ = id;
         mother_id_ = moterh_id;
@@ -142,7 +142,7 @@ struct IsFamily {
     Id mother_id_;
 };
 
-Jets CopyIfFamily(const Jets& jets, const Id id, Id mother_id)
+Jets CopyIfFamily(const Jets& jets, Id id, Id mother_id)
 {
     if (jets.empty()) return jets;
     Jets final_jets(jets.size());
@@ -152,7 +152,7 @@ Jets CopyIfFamily(const Jets& jets, const Id id, Id mother_id)
 }
 
 struct IsGrandFamily {
-    IsGrandFamily(const Id id, const Id grand_mother_id)
+    IsGrandFamily(Id id, Id grand_mother_id)
     {
         grand_mother_id_ = grand_mother_id;
         id_ = id;
@@ -167,7 +167,7 @@ struct IsGrandFamily {
     Id id_;
 };
 
-Jets RemoveIfGrandFamily(const Jets& jets, const Id id , const Id grand_mother_id)
+Jets RemoveIfGrandFamily(const Jets& jets, Id id , Id grand_mother_id)
 {
     if (jets.empty()) return jets;
     Jets jets_ = jets;
@@ -175,7 +175,7 @@ Jets RemoveIfGrandFamily(const Jets& jets, const Id id , const Id grand_mother_i
     return jets_;
 }
 
-Jets RemoveIfParticle(const Jets& jets, const Id id)
+Jets RemoveIfParticle(const Jets& jets, Id id)
 {
     if (jets.empty()) return jets;
     Jets jets_ = jets;
@@ -184,7 +184,7 @@ Jets RemoveIfParticle(const Jets& jets, const Id id)
 }
 
 struct HasMother {
-    HasMother(const Id mother_id)
+    HasMother(Id mother_id)
     {
         mother_id_ = mother_id;
     }
@@ -196,7 +196,7 @@ struct HasMother {
     Id mother_id_;
 };
 
-Jets CopyIfMother(const Jets& jets, const Id mother_id)
+Jets CopyIfMother(const Jets& jets, Id mother_id)
 {
     if (jets.empty()) return jets;
     Jets final_jets(jets.size());
@@ -206,7 +206,7 @@ Jets CopyIfMother(const Jets& jets, const Id mother_id)
 }
 
 
-Jets RemoveIfMother(const Jets& jets, const Id mother_id)
+Jets RemoveIfMother(const Jets& jets, Id mother_id)
 {
     Jets jets_ = jets;
     jets_.erase(std::remove_if(jets_.begin(), jets_.end(), HasMother(mother_id)), jets_.end());

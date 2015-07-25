@@ -141,7 +141,7 @@ public:
         return Jet().m() / Jet().pt() / DeltaR() * 2;
     }
 
-    float MassDifferenceTo(const Id id) const {
+    float MassDifferenceTo(Id id) const {
         return std::abs(Jet().m() - Mass(id));
     }
 

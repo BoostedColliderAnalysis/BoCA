@@ -15,9 +15,9 @@ fastjet::PseudoJet PseudoJet(const TLorentzVector& vector);
 
 fastjet::PseudoJet PseudoJet(const LorentzVector& vector);
 
-Jets CopyIfParticle(const Jets& jets, const Id id);
+Jets CopyIfParticle(const Jets& jets, Id id);
 
-Jets CopyIfParticles(const Jets& jets, const Id id_1, const Id id_2);
+Jets CopyIfParticles(const Jets& jets, Id id_1, Id id_2);
 
 Jets CopyIfNeutrino(const Jets& jets);
 
@@ -27,21 +27,21 @@ Jets RemoveIfExactParticle(const Jets& jets, int id);
 
 Jets RemoveIfOutsidePtWindow(Jets& jets, float lower_cut, float upper_cut);
 
-Jets CopyIfFamily(const Jets& jets, const Id id, Id mother_id);
+Jets CopyIfFamily(const Jets& jets, Id id, Id mother_id);
 
 /**
  * @brief returns only particles with the correct id and non fitting grand mother id
  *
  */
-Jets RemoveIfGrandFamily(const Jets& jets, const Id id , const Id grand_mother_id);
+Jets RemoveIfGrandFamily(const Jets& jets, Id id , Id grand_mother_id);
 
-Jets CopyIfParticle(const Jets& jets, const Id id);
+Jets CopyIfParticle(const Jets& jets, Id id);
 
-Jets RemoveIfParticle(const Jets& jets, const Id id);
+Jets RemoveIfParticle(const Jets& jets, Id id);
 
-Jets CopyIfMother(const Jets& jets, const Id mother_id);
+Jets CopyIfMother(const Jets& jets, Id mother_id);
 
-Jets RemoveIfMother(const Jets& jets, const Id mother_id);
+Jets RemoveIfMother(const Jets& jets, Id mother_id);
 
 Jets RemoveIfSingleMother(const Jets& jets);
 
