@@ -86,9 +86,9 @@ protected:
 
     virtual const Tagger& tagger() const = 0;
 
-    virtual Tagger& tagger() = 0;
-
 private:
+
+    virtual Tagger& tagger() = 0;
 
     std::string FileSuffix() const;
 

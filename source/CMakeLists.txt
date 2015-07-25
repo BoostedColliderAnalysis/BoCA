@@ -2,7 +2,7 @@ add_subdirectory(exroot)
 add_subdirectory(delphes)
 
 add_include_path(../include)
-create_dictionary(Branches ./Branches.cpp ../include/LinkDef.hh)
+create_dictionary(Branches Branches.cpp ../include/LinkDef.hh)
 
 set(vector_sources
 Vector2.cpp
