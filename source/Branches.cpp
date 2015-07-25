@@ -297,7 +297,7 @@ TopLeptonicBranch::TopLeptonicBranch()
 
 Observables TopLeptonicBranch::Variables()
 {
-    return  Join(Join(BottomBase::Variables(), ParticleBranch::Variables()), {OBS(Ht), OBS(DeltaPt), OBS(DeltaM), OBS(DeltaRap), OBS(DeltaPhi), OBS(DeltaR), OBS(Rho), OBS(Bdt2), OBS(BottomPt), OBS(LeptonPt)});
+  return  Join(Join(BottomBase::Variables(), ParticleBranch::Variables()), {OBS(Ht), OBS(DeltaPt), OBS(DeltaM), OBS(DeltaRap), OBS(DeltaPhi), OBS(DeltaR), OBS(Rho), OBS(Bdt2), OBS(BottomPt), OBS(LeptonPt),OBS(Pull,"#theta"),OBS(DeltaPull,"#Delta #theta"),OBS(Dipolarity,"D")});
 }
 
 Observables TopLeptonicBranch::Spectators()

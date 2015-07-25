@@ -5,6 +5,7 @@ add_include_path(../include)
 create_dictionary(Branches ./Branches.cpp ../include/LinkDef.hh)
 
 set(vector_sources
+Vector2.cpp
 Vector3.cpp
 LorentzVector.cpp
 )

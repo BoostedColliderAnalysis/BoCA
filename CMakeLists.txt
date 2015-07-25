@@ -5,9 +5,9 @@ project(Analysis CXX)
 include(CMakeFiles/CMakeConfig.cmake)
 
 # set build type to debug
-if( NOT CMAKE_BUILD_TYPE )
-set( CMAKE_BUILD_TYPE Debug CACHE STRING "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel." FORCE )
-endif()
+# if( NOT CMAKE_BUILD_TYPE )
+set( CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel." FORCE )
+# endif()
 
 # set c++ flags
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -g")

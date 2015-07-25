@@ -1,7 +1,7 @@
 #pragma once
 
 #include "JetInfo.hh"
-#include "TVector2.h"
+#include "Vector2.hh"
 
 namespace analysis {
 
@@ -151,11 +151,11 @@ public:
 
     const JetInfo& UserInfo() const;
 
-    TVector2 Pull() const;
+    Vector2 Pull() const;
 
-    TVector2 Reference(const fastjet::PseudoJet& reference) const;
+    Vector2 Reference(const fastjet::PseudoJet& reference) const;
 
-//     TVector2 Reference(const Singlet& reference) const;
+//     Vector2 Reference(const Singlet& reference) const;
 
 private:
 

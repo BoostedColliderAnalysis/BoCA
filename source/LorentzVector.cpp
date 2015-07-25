@@ -1,4 +1,5 @@
 #include "LorentzVector.hh"
+#include "Vector2.hh"
 #include "TLorentzVector.h"
 #include <iostream>
 
@@ -111,7 +112,7 @@ float LorentzVector::Et(const Vector3& v) const
 float LorentzVector::DeltaR(const LorentzVector& v) const
 {
     float deta = Eta() - v.Eta();
-    float dphi = TVector2::Phi_mpi_pi(Phi() - v.Phi());
+    float dphi = Vector2::Phi_mpi_pi(Phi() - v.Phi());
     return std::sqrt(deta * deta + dphi * dphi);
 }
 float LorentzVector::Mag() const
@@ -365,7 +366,7 @@ float LorentzVector::Et2() const
 
 float LorentzVector::DeltaPhi(const LorentzVector& v) const
 {
-    return TVector2::Phi_mpi_pi(Phi() - v.Phi());
+    return Vector2::Phi_mpi_pi(Phi() - v.Phi());
 }
 
 float LorentzVector::Eta() const

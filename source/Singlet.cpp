@@ -76,29 +76,30 @@ int Singlet::Charge() const
     return sgn(UserInfo().Charge());
 }
 
-TVector2 Singlet::Pull() const
+Vector2 Singlet::Pull() const
 {
-    TVector2 vector;
+    if(!jet_.has_constituents()) return Vector2();
+    Vector2 vector;
     for (const auto & constituent : jet_.constituents()) vector += Reference(constituent) * constituent.pt() / jet_.pt() * constituent.delta_R(jet_);
     return vector;
 }
 
 /**
  * @brief calculate Reference vector for other - this
- * @return TVector2 reference vector
+ * @return Vector2 reference vector
  *
  */
-TVector2 Singlet::Reference(const fastjet::PseudoJet& vector) const
+Vector2 Singlet::Reference(const fastjet::PseudoJet& vector) const
 {
-  return TVector2(vector.rap() - jet_.rap(), jet_.delta_phi_to(vector));
+  return Vector2(vector.rap() - jet_.rap(), jet_.delta_phi_to(vector));
 }
 
 /**
  * @brief calculate Reference vector for other - this
- * @return TVector2 reference vector
+ * @return Vector2 reference vector
  *
  */
-// TVector2 Singlet::Reference(const Singlet& vector) const
+// Vector2 Singlet::Reference(const Singlet& vector) const
 // {
 //     return Reference(vector.Jet());
 // }
