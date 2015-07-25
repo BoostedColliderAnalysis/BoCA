@@ -152,8 +152,7 @@ public:
 
 protected:
 
-    const Tagger& tagger() const final
-    {
+    const Tagger& tagger() const final {
         return tagger_;
     }
 
@@ -183,7 +182,7 @@ private:
         trees.WriteTree();
     }
 
-    void SetTreeBranch(const Stage& stage, exroot::TreeWriter& tree_writer, Reader<Tagger>& reader)
+    void SetTreeBranch(Stage stage, exroot::TreeWriter& tree_writer, Reader<Tagger>& reader)
     {
         switch (stage) {
         case Stage::trainer :
