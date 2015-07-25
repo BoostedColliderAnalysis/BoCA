@@ -1,4 +1,5 @@
 #include "Vector3.hh"
+#include "Vector2.hh"
 #include <cmath>
 #include <iostream>
 #include "TVector3.h"
@@ -212,7 +213,7 @@ float Vector3::DeltaR(const Vector3& v) const
 {
 //return deltaR with respect to v
     float deta = Eta() - v.Eta();
-    float dphi = TVector2::Phi_mpi_pi(Phi() - v.Phi());
+    float dphi = Vector2::Phi_mpi_pi(Phi() - v.Phi());
     return std::sqrt(deta * deta + dphi * dphi);
 }
 
@@ -453,7 +454,7 @@ void Vector3::SetPerp(float r)
 
 float Vector3::DeltaPhi(const Vector3& v) const
 {
-    return TVector2::Phi_mpi_pi(Phi() - v.Phi());
+    return Vector2::Phi_mpi_pi(Phi() - v.Phi());
 }
 
 float Vector3::Eta() const

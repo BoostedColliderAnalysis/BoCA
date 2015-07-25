@@ -66,8 +66,13 @@ public:
         return Close(jet)(Jet());
     }
 
-    // TODO clean this mess up; and figure out why the cases are necessary
+    /**
+     * @brief join the constituents of the multiplets to one jet
+     *
+     * @return fastjet::PseudoJet
+     */
     fastjet::PseudoJet EffectiveJet() const {
+    // TODO clean this mess up; and figure out why the cases are necessary
         fastjet::PseudoJet jet = Jet();
         fastjet::PseudoJet jet_1 = Multiplet1().EffectiveJet();
         fastjet::PseudoJet jet_2 = Multiplet2().EffectiveJet();
@@ -88,6 +93,11 @@ public:
         return jet;
     }
 
+    /**
+     * @brief join the pieces of the multiplets to one jet
+     *
+     * @return fastjet::PseudoJet
+     */
     fastjet::PseudoJet Jet() const {
         return fastjet::join(Multiplet1().Jet(), Multiplet2().Jet());
     }
@@ -143,19 +153,19 @@ public:
         return Singlet(EffectiveJet());
     }
 
-    TVector2 Pull(){
+    Vector2 Pull(){
       return singlet().Pull();
     }
 
     float Pull1() const
     {
-      TVector2 pull = Multiplet1().Pull() - Multiplet1().Reference(Multiplet2().Jet());
+      Vector2 pull = Multiplet1().Pull() - Multiplet1().Reference(Multiplet2().Jet());
       return std::atan2(pull.Y(), pull.X());
     }
 
     float Pull2() const
     {
-      TVector2 pull = Multiplet2().Pull() - Multiplet2().Reference(Multiplet1().Jet());
+      Vector2 pull = Multiplet2().Pull() - Multiplet2().Reference(Multiplet1().Jet());
       return std::atan2(pull.Y(), pull.X());
     }
 
@@ -175,15 +185,16 @@ public:
       fastjet::PseudoJet jet = EffectiveJet();
       if (jet.pt() == 0) return 0;
       float dipolarity = 0;
+      if(!jet.has_constituents()) return 0;
       for (const auto & constituent : jet.constituents()) {
         if (constituent.pt() > jet.pt()) continue;
 
         float phi = constituent.phi_std();
-        float distance_1 = Distance(TVector2(constituent.rap(), phi));
+        float distance_1 = Distance(Vector2(constituent.rap(), phi));
 
         if (phi < 0) phi += 2 * M_PI;
         else  phi -= 2 * M_PI;
-        float distance_2 =  Distance(TVector2(constituent.rap(), phi));
+        float distance_2 =  Distance(Vector2(constituent.rap(), phi));
 
         float distance = std::min(distance_1, distance_2);
         if (distance > DeltaR()) continue;
@@ -194,12 +205,12 @@ public:
 
     /**
      * @brief calculate Reference vector for other - this
-     * @return TVector2 reference vector
+     * @return Vector2 reference vector
      *
      */
-    TVector2 Reference(const fastjet::PseudoJet& vector) const
+    Vector2 Reference(const fastjet::PseudoJet& vector) const
     {
-      return TVector2(vector.rap() - Jet().rap(), Jet().delta_phi_to(vector));
+      return Vector2(vector.rap() - Jet().rap(), Jet().delta_phi_to(vector));
     }
 
 protected:
@@ -218,10 +229,10 @@ private:
 
     mutable Multiplet_2 multiplet_2_;
 
-    float Distance(const TVector2& point_0) const
+    float Distance(const Vector2& point_0) const
     {
-      TVector2 point_1(Multiplet1().Jet().rap(), Multiplet1().Jet().phi_std());
-      TVector2 point_2(Multiplet2().Jet().rap(), Multiplet2().Jet().phi_std());
+      Vector2 point_1(Multiplet1().Jet().rap(), Multiplet1().Jet().phi_std());
+      Vector2 point_2(Multiplet2().Jet().rap(), Multiplet2().Jet().phi_std());
       return std::abs(point_2.Y() - point_1.Y() * point_0.X() - (point_2.X() - point_1.X()) * point_0.Y() + point_2.X() * point_1.Y() - point_2.Y() * point_1.X()) / DeltaR();
     }
 

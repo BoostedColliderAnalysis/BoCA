@@ -127,14 +127,11 @@ int WLeptonicTagger::WLeptonicId(const Jets& jets) const
     bool just_one = true;
     for (const auto jet : jets) {
         int id = jet.user_info<JetInfo>().constituents().front().family().mother_1().id();
-        if (first)
-            sign = sgn(id);
-        else if (sign != sgn(id))
-            just_one = false;
+        if (first) sign = sgn(id);
+        else if (sign != sgn(id)) just_one = false;
         first = false;
     }
-    if (just_one)
-        return sign * to_int(Id::W);
+    if (just_one) return sign * to_int(Id::W);
     return 0;
 }
 
