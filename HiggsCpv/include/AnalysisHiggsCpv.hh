@@ -41,7 +41,7 @@ public:
     }
 
     std::string ProjectName() const final {
-        return  "CPV-2";
+        return  "CPV-3";
     }
 
     std::string ProcessName() const final {
@@ -53,8 +53,8 @@ public:
      *
      */
     long EventNumberMax() const final {
-        return 1000;
         return 5000;
+        return 1000;
     }
 
 protected:
