@@ -31,7 +31,6 @@ create_library(Event event_sources)
 
 set(multiplet_sources
 Identification.cpp
-MultipletBase.cpp
 Singlet.cpp
 Doublet.cpp
 Triplet.cpp
