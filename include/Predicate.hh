@@ -232,26 +232,28 @@ bool FindInVector(const std::vector<Element> vector, const Element element)
 class Range
 {
 public:
-    Range(int sum) : last_(sum), iterator_(0) {}
+  Range(int sum) : last_(sum), iterator_(0) {}
 
-    const Range& begin() const {
-        return *this;
-    }
-    const Range& end() const {
-        return *this;
-    }
-    bool operator!=(const Range&) const {
-        return iterator_ < last_;
-    }
-    void operator++() {
-        ++iterator_;
-    }
-    int operator*() const {
-        return iterator_;
-    }
+  Range(int low, int sum) : last_(sum), iterator_(low) {}
+
+  const Range& begin() const {
+    return *this;
+  }
+  const Range& end() const {
+    return *this;
+  }
+  bool operator!=(const Range&) const {
+    return iterator_ < last_;
+  }
+  void operator++() {
+    ++iterator_;
+  }
+  int operator*() const {
+    return iterator_;
+  }
 private:
-    int last_;
-    int iterator_;
+  int last_;
+  int iterator_;
 };
 
 /**

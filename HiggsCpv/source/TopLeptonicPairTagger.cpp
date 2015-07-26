@@ -30,8 +30,10 @@ int TopLeptonicPairTagger::Train(const Event& event, const analysis::PreCuts&, T
     std::vector<Triplet> final_triplets = BestMatches(triplets, top_particles, tag);
 //     Check(final_triplets.size()==2, final_triplets.size());
     std::vector<Sextet> sextets = unordered_pairs(final_triplets, [](const Triplet & triplet_1, const Triplet & triplet_2) {
-        Quartet22 quartet(Doublet(triplet_1.Singlet().Jet(), triplet_1.Doublet().Jet()), Doublet(triplet_2.Singlet().Jet(), triplet_2.Doublet().Jet()));
+      Quartet22 quartet(Doublet(triplet_1.Singlet().Jet(), triplet_1.Doublet().Jet()), Doublet(triplet_2.Singlet().Jet(), triplet_2.Doublet().Jet()));
         if (quartet.Overlap()) throw "overlap";
+      quartet.Doublet1().SetBdt(triplet_1.Bdt());
+      quartet.Doublet2().SetBdt(triplet_2.Bdt());
         WimpMass wimp_mass;
         //             sextets = Join(sextets, wimp_mass.Sextet(quartet, event.Hadrons().MissingEt(), neutrinos, tag));
         return wimp_mass.Fake(quartet);
@@ -71,6 +73,8 @@ std::vector<Sextet> TopLeptonicPairTagger::Multiplets(const Event& event, const 
     std::vector<Sextet>  sextets = unordered_pairs(triplets, [&](const Triplet & triplet_1, const Triplet & triplet_2) {
         Quartet22 quartet(Doublet(triplet_1.Singlet().Jet(), triplet_1.Doublet().Jet()), Doublet(triplet_2.Singlet().Jet(), triplet_2.Doublet().Jet()));
         if (quartet.Overlap()) throw "overlap";
+        quartet.Doublet1().SetBdt(triplet_1.Bdt());
+        quartet.Doublet2().SetBdt(triplet_2.Bdt());
         WimpMass wimp_mass;
 //             for (auto sextet : wimp_mass.Sextets(quartet, event.Hadrons().MissingEt())) {
         Sextet sextet = wimp_mass.Fake(quartet);

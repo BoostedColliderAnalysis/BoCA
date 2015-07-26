@@ -32,14 +32,13 @@ std::string Factory::factory_options()
 
 TFile* Factory::output_file() const
 {
-    std::string file_name = tagger().analysis_name() + "/" + tagger().factory_name() + ".root";
-    return TFile::Open(file_name.c_str(), "Recreate");
+    return TFile::Open(tagger().FactoryFileName().c_str(), "Recreate");
 }
 
 void Factory::AddVariables()
 {
     Note("Add Variables");
-    TMVA::gConfig().GetIONames().fWeightFileDir = tagger().analysis_name();
+    TMVA::gConfig().GetIONames().fWeightFileDir = tagger().AnalysisName();
     TMVA::gConfig().GetIONames().fWeightFileExtension = tagger().weight_file_extension();
     for (const auto& observable : tagger().variables())
         factory().AddVariable(observable.expression(), observable.title(), observable.unit(), observable.type());
@@ -50,34 +49,26 @@ void Factory::AddVariables()
 long Factory::GetTrees()
 {
     Note();
-//     for (const auto & signal_name : tagger().signal_file_names()) {
-//     std::string signal_file_name = tagger().analysis_name() + "/" +  tagger().signal_file_name(Stage::trainer) + ".root";
-    std::string signal_file_name = tagger().signal_file_name(Stage::trainer) + ".root";
-    Note(signal_file_name);
-    if (gSystem->AccessPathName(signal_file_name.c_str()))
-        Error("File not found", signal_file_name);
-    TFile& signal_file = *TFile::Open(signal_file_name.c_str());
+    Note(tagger().SignalFileName(Stage::trainer));
+    if (gSystem->AccessPathName(tagger().SignalFileName(Stage::trainer).c_str()))
+      Error("File not found", tagger().SignalFileName(Stage::trainer));
+    TFile& signal_file = *TFile::Open(tagger().SignalFileName(Stage::trainer).c_str());
     Note(signal_file.GetName(), tagger().signal_tree_names().size());
     long signal_number = 0;
-    for (int tree_number : Range(tagger().signal_tree_names().size())) {
+    for (const auto& tree_number : Range(tagger().signal_tree_names().size())) {
         Note("signal Tree Name", tagger().signal_tree_names()[tree_number]);
         signal_number += AddTree(signal_file, tagger().signal_tree_names()[tree_number], Tag::signal);
     }
-//     }
-//     for (const auto & background_name : tagger().background_file_names()) {
-//     std::string background_file_name = tagger().analysis_name() + "/" + tagger().background_file_name(Stage::trainer) + ".root";
-    std::string background_file_name = tagger().background_file_name(Stage::trainer) + ".root";
-    Note(background_file_name);
-    if (gSystem->AccessPathName(background_file_name.c_str()))
-        Error("File not found", background_file_name);
-    TFile& background_file = *TFile::Open(background_file_name.c_str());
+    Note(tagger().BackgroundFileName(Stage::trainer));
+    if (gSystem->AccessPathName(tagger().BackgroundFileName(Stage::trainer).c_str()))
+      Error("File not found", tagger().BackgroundFileName(Stage::trainer));
+    TFile& background_file = *TFile::Open(tagger().BackgroundFileName(Stage::trainer).c_str());
     Note(background_file.GetName(), tagger().background_tree_names().size());
     long background_number = 0;
     for (const auto& background_tree_name : tagger().background_tree_names()) {
         Note(background_tree_name);
         background_number += AddTree(background_file, background_tree_name, Tag::background);
     }
-//     }
     Error(signal_number, background_number);
     return std::min(signal_number, background_number) / 2;
 }
@@ -88,8 +79,8 @@ long Factory::AddTree(TFile& file, const std::string& tree_name, Tag tag)
     if (!file.GetListOfKeys()->Contains(tree_name.c_str()))
         return 0;
     TTree& tree = static_cast<TTree&>(*file.Get(tree_name.c_str()));
-    Error("Branch Name", tagger().branch_name().c_str());
-    tree.GetBranch(tagger().branch_name().c_str());
+    Error("Branch Name", tagger().BranchName(Stage::trainer).c_str());
+    tree.GetBranch(tagger().BranchName(Stage::trainer).c_str());
     exroot::TreeReader& tree_reader = *new exroot::TreeReader(&tree); // FIXME nasty hack with memeory leak; necessary because the tree reader destructor closes the file which makes it invisible for tmva; reimplment in a cleaner way!!
     TClonesArray& clones_array = *tree_reader.UseBranch(tagger().weight_branch_name().c_str());
     tree_reader.ReadEntry(0);
@@ -104,8 +95,8 @@ long Factory::AddTree(TFile& file, const std::string& tree_name, Tag tag)
         break;
     }
     long entries = 0;
-    TClonesArray& event_clones_array = *tree_reader.UseBranch(tagger().branch_name().c_str());
-    for (int entry = 0; entry < tree_reader.GetEntries(); ++entry) {
+    TClonesArray& event_clones_array = *tree_reader.UseBranch(tagger().BranchName(Stage::trainer).c_str());
+    for (const auto& entry : Range(tree_reader.GetEntries())) {
         tree_reader.ReadEntry(entry);
         entries += event_clones_array.GetEntries();
     }

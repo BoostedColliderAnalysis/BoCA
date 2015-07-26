@@ -98,8 +98,8 @@ protected:
     {
         if (multiplets.empty()) return 0;
 //         std::sort(multiplets.begin(),multiplets.end());
-        int sum = std::min(multiplets.size(), max);
-        for (int counter = 0 ; counter < sum; ++counter) {
+        auto sum = std::min(multiplets.size(), max);
+        for (const auto& counter : Range(sum)) {
             FillBranch(multiplets.at(counter));
             static_cast<Branch&>(*tree_branch().NewEntry()) = branch();
         }
@@ -109,8 +109,7 @@ protected:
     int SaveEntries(const std::vector<fastjet::PseudoJet>& jets, size_t max = LargeNumber()) const
     {
         if (jets.empty()) return 0;
-        int sum = std::min(jets.size(), max);
-        for (int counter = 0 ; counter < sum; ++counter) {
+        for (const auto& counter : Range(std::min(jets.size(), max))) {
             FillBranch(Singlet(jets.at(counter)));
             static_cast<Branch&>(*tree_branch().NewEntry()) = branch();
         }

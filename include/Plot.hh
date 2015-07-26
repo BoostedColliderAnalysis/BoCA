@@ -110,9 +110,9 @@ public:
 
     void RunPlots() const;
 
-    void DoPlot(analysis::Plots& signals, analysis::Plots& backgrounds) const;
+    void DoPlot(analysis::Plots& signals, analysis::Plots& backgrounds, analysis::Stage stage) const;
 
-    void Plotting(const analysis::Plot3d& signal, const analysis::Plot3d& background) const;
+    void Plotting(const analysis::Plot3d& signal, const analysis::Plot3d& background, analysis::Stage stage) const;
 
     void SetHistogram(TH2& histogram, const analysis::Plot3d& plot, EColor color, TExec& exec) const;
 
@@ -120,11 +120,11 @@ public:
 
 private:
 
-    std::vector<Plots> Import(const std::string& file_name, const analysis::Strings& treename) const;
+    std::vector<Plots> Import(const std::string& file_name, const analysis::Strings& treename, analysis::Stage stage) const;
 
-    Plots PlotResult(TFile& file, const std::string& tree_name) const;
+    Plots PlotResult(TFile& file, const std::string& tree_name, analysis::Stage stage) const;
 
-    Plot3d ReadTree(TTree& tree, const std::string& leaf_1, const std::string& leaf_2) const;
+    Plot3d ReadTree(TTree& tree, const std::string& leaf_1, const std::string& leaf_2, analysis::Stage stage) const;
 
     void PlotHistogram(const analysis::Plot3d& signal, const analysis::Plot3d& background, float x_min, float x_max, float y_min, float y_max) const;
 
@@ -169,8 +169,6 @@ private:
 
     int ColorCode(int number) const;
 
-    std::string ExportName() const;
-
     Plot3d CoreVector(const Plot3d& points, std::function<bool(Point3d&, Point3d&)> function) const;
 
     std::string ExportFileSuffix() const
@@ -189,6 +187,11 @@ private:
     float FloorToDigits(float value, int digits = 2) const;
 
     float CeilToDigits(float value, int digits = 2) const;
+
+    std::string Reader()const{
+      return "";
+      return "Reader";
+    }
 
 };
 

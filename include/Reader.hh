@@ -103,9 +103,8 @@ private:
 
     void BookMva()
     {
-        std::string bdt_weight_file = tagger_.analysis_name() + "/" + tagger_.bdt_weight_name();
         //TMVA::IMethod &method = *
-        reader_.BookMVA(tagger_.bdt_method_name(), bdt_weight_file);
+        reader_.BookMVA(tagger_.bdt_method_name(), tagger_.BdtWeightFileName());
     }
 
     void AddVariable()
