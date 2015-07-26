@@ -116,4 +116,9 @@ Singlet Singlet::singlet() const
     return *this;
 }
 
+Singlet Singlet::singlet(Structure) const
+{
+  return *this;
+}
+
 }

@@ -88,6 +88,12 @@ void JetInfo::AddConstituents(const std::vector<Constituent>& constituents)
     displaced_constituents_ = Join(displaced_constituents_, ApplyVertexResolution(constituents));
 }
 
+void JetInfo::SetConstituents(const std::vector<Constituent>& constituents)
+{
+  constituents_ = constituents;
+  displaced_constituents_ = ApplyVertexResolution(constituents);
+}
+
 void JetInfo::AddDaughter(int daughter)
 {
     if (!constituents().empty()) {

@@ -55,6 +55,8 @@ public:
 
     void AddConstituents(const std::vector<Constituent>& constituents);
 
+    void SetConstituents(const std::vector<Constituent>& constituents);
+
     void AddDaughter(int daughter);
 
     std::vector<Constituent> constituents() const;

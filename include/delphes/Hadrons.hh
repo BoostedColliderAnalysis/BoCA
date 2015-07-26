@@ -27,9 +27,6 @@ public:
             return ClusteredJets();
         }
     }
-    analysis::Jets ClusteredJets();
-
-    analysis::Jets DelphesJets(const JetDetail jet_detail);
 
     float ScalarHt() const final;
 
@@ -46,25 +43,21 @@ private:
 
     analysis::Jets ClusteredJets() const;
 
-    analysis::Jets DelphesJets(const analysis::JetDetail jet_detail) const;
+    analysis::Jets DelphesJets(JetDetail jet_detail) const;
 
-    analysis::Jets EFlowJets(const JetDetail jet_detail) const;
+    analysis::Jets EFlowJets(JetDetail jet_detail) const;
 
     analysis::Jets GenJets() const;
 
     template <typename Clone>
-    JetInfo JetId(const Clone& clone) const
+    std::vector<Constituent> JetId(const Clone& clone) const
     {
-//         Detail("Jet Id", clone.Particles.GetEntriesFast());
-        JetInfo jet_info;
-//         if(clone.IsA() == ::delphes::Jet::Class()) jet_info.SetDelphesTags(clone);
+        std::vector<Constituent> constituents;
         for (int particle_number : Range(clone.Particles.GetEntriesFast())) {
-            const Family family = BranchFamily(*clone.Particles.At(particle_number));
-//             Debug("MotherId", family.particle().id(), family.mother_1().id());
-            jet_info.AddConstituent(Constituent(const_cast<Clone&>(clone).P4(), family));
+            Family family = BranchFamily(*clone.Particles.At(particle_number));
+            constituents.emplace_back(Constituent(const_cast<Clone&>(clone).P4(), family));
         }
-        jet_info.PrintAllInfos(Severity::debug);
-        return jet_info;
+        return constituents;
     }
 
 
@@ -85,11 +78,11 @@ private:
 
     analysis::Jets EFlowHadron(const JetDetail) const;
 
-    analysis::Jets EFlowMuon(const analysis::JetDetail jet_detail) const;
+    analysis::Jets EFlowMuon(JetDetail jet_detail) const;
 
-    fastjet::PseudoJet StructuredJet(const ::delphes::Jet& jet, const analysis::JetDetail jet_detail) const;
+    fastjet::PseudoJet StructuredJet(const ::delphes::Jet& jet, JetDetail jet_detail) const;
 
-    fastjet::PseudoJet ConstituentJet(TObject& Object, const JetDetail jet_detail, const SubDetector sub_detector = SubDetector::none) const;
+    fastjet::PseudoJet ConstituentJet(TObject& Object, JetDetail jet_detail, const SubDetector sub_detector = SubDetector::none) const;
 
 };
 
