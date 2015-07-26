@@ -9,7 +9,7 @@ namespace analysis
 
 enum class Structure
 {
-    plain = 1 << 0,
+    plain = 1,
     constituents = 1 << 1,
     vertices = 1 << 2
 };
@@ -146,6 +146,11 @@ public:
 
     Vector2 Pull() const;
 
+    /**
+     * @brief calculate Reference vector for other - this
+     * @return Vector2 reference vector
+     *
+     */
     Vector2 Reference(const fastjet::PseudoJet& reference) const;
 
 private:

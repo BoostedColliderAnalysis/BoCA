@@ -38,8 +38,7 @@ float Singlet::Radius(const fastjet::PseudoJet& jet) const
 float Singlet::Spread(const fastjet::PseudoJet& jet) const
 {
     Info();
-    if (!jet.has_constituents())
-        return 0;
+    if (!jet.has_constituents()) return 0;
 //     float delta_r = Radius(jet);
     float delta_r = 0;
     float spread = 0;
@@ -84,25 +83,10 @@ Vector2 Singlet::Pull() const
     return vector;
 }
 
-/**
- * @brief calculate Reference vector for other - this
- * @return Vector2 reference vector
- *
- */
 Vector2 Singlet::Reference(const fastjet::PseudoJet& vector) const
 {
   return Vector2(vector.rap() - jet_.rap(), jet_.delta_phi_to(vector));
 }
-
-/**
- * @brief calculate Reference vector for other - this
- * @return Vector2 reference vector
- *
- */
-// Vector2 Singlet::Reference(const Singlet& vector) const
-// {
-//     return Reference(vector.Jet());
-// }
 
 float Singlet::Rapidity() const
 {
