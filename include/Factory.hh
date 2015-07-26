@@ -30,7 +30,7 @@ private:
      * @brief Book MVA methods
      *
      */
-    TMVA::MethodBDT& BookMethods();
+    TMVA::MethodBDT& BookMethod(TMVA::Types::EMVA mva);
 
     /**
      * @brief Add Variables

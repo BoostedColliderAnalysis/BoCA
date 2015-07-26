@@ -19,7 +19,7 @@ public:
     Reader()
     {
         AddVariable();
-        BookMva();
+        BookMva(TMVA::Types::EMVA::kBDT);
     }
 
     Reader(Stage stage)
@@ -29,7 +29,7 @@ public:
             break;
         case Stage::reader :
             AddVariable();
-            BookMva();
+            BookMva(TMVA::Types::EMVA::kBDT);
             break;
         }
     }
@@ -40,7 +40,7 @@ public:
     }
 
     template <typename Input>
-    auto Multiplets(Input& input) const
+    auto Multiplets(const Input& input) const
     {
         PreCuts pre_cuts;
         return tagger_.Multiplets(input, pre_cuts, reader_);
@@ -52,25 +52,25 @@ public:
 //     }
 
     template <typename Input>
-    auto Multiplet(Input& input) const
+    auto Multiplet(const Input& input) const
     {
         return tagger_.Multiplet(input, reader_);
     }
 
     template <typename Input1, typename Input2>
-    auto Multiplet(Input1& input_1, Input2& input_2) const
+    auto Multiplet(const Input1& input_1, const Input2& input_2) const
     {
         return tagger_.Multiplet(input_1, input_2, reader_);
     }
 
     template <typename Input>
-    auto SubMultiplet(Input& input, int number) const
+    auto SubMultiplet(const Input& input, int number) const
     {
         return tagger_.SubMultiplet(input, reader_, number);
     }
 
     template <typename Input>
-    auto SubMultiplet(Input& input) const
+    auto SubMultiplet(const Input& input) const
     {
         return tagger_.SubMultiplet(input, reader_);
     }
@@ -101,10 +101,10 @@ private:
 
     TMVA::Reader reader_;
 
-    void BookMva()
+    void BookMva(TMVA::Types::EMVA mva)
     {
         //TMVA::IMethod &method = *
-        reader_.BookMVA(tagger_.BdtMethodName(), tagger_.BdtWeightFileName());
+      reader_.BookMVA(tagger_.MethodName(mva), tagger_.WeightFileName(mva));
     }
 
     void AddVariable()

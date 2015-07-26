@@ -96,19 +96,17 @@ Results Plot::ExportFile() const
 {
     TFile export_file(tagger().ExportFileName().c_str(), "Recreate");
     Results results;
-    results.signal = Export(export_file, tagger().SignalFileName(Stage::reader), tagger().SignalTreeNames());
-    results.background = Export(export_file, tagger().BackgroundFileName(Stage::reader), tagger().BackgroundTreeNames());
+    results.signal = Export(export_file, Tag::signal);
+    results.background = Export(export_file, Tag::background);
     export_file.Close();
     return results;
 }
 
-std::vector<Result> Plot::Export(TFile& export_file, const std::string& file_name, const Strings& treename) const
+std::vector<Result> Plot::Export(TFile& export_file, Tag tag) const
 {
-    TFile file(file_name.c_str(), "Read");
-    Debug(file_name, treename.size());
+    TFile file(tagger().FileName(Stage::reader,tag).c_str(), "Read");
     std::vector<Result> results;
-    for (const auto& tree_name : treename)
-        results.emplace_back(BdtResult(file, tree_name, export_file));
+    for (const auto& tree_name : tagger().TreeNames(tag)) results.emplace_back(BdtResult(file, tree_name, export_file));
     return results;
 }
 
@@ -369,9 +367,8 @@ InfoBranch Plot::InfoBranch(TFile& file, const std::string& tree_name) const
     Debug(tree_name, tagger().WeightBranchName());
     TClonesArray& clones_array = *tree_reader.UseBranch(tagger().WeightBranchName().c_str());
     tree_reader.ReadEntry(tree_reader.GetEntries() - 1);
-    return dynamic_cast<analysis::InfoBranch&>(*clones_array.At(clones_array.GetEntriesFast() - 1));
+    return static_cast<analysis::InfoBranch&>(*clones_array.At(clones_array.GetEntriesFast() - 1));
 }
-
 
 void Plot::LatexHeader(std::ofstream& latex_file) const
 {
@@ -573,10 +570,10 @@ void Plot::RunPlots() const
 
 void Plot::DoPlot(Plots& signals, Plots& backgrounds, Stage stage) const
 {
-    std::vector<std::pair<std::string, std::string>> nice_names = unordered_pairs(tagger().branch().Variables(), [&](const Obs & variable_1, const Obs & variable_2) {
+    std::vector<std::pair<std::string, std::string>> nice_names = unordered_pairs(tagger().Branch().Variables(), [&](const Obs & variable_1, const Obs & variable_2) {
         return std::make_pair(variable_1.nice_name(), variable_2.nice_name());
     });
-    std::vector<std::pair<std::string, std::string>> names = unordered_pairs(tagger().branch().Variables(), [&](const Obs & variable_1, const Obs & variable_2) {
+    std::vector<std::pair<std::string, std::string>> names = unordered_pairs(tagger().Branch().Variables(), [&](const Obs & variable_1, const Obs & variable_2) {
         return std::make_pair(variable_1.name(), variable_2.name());
     });
     for (auto& signal : signals.plots) {
@@ -726,11 +723,11 @@ Plots Plot::PlotResult(TFile& file, const std::string& tree_name, Stage stage) c
     plots.info_branch = InfoBranch(file, tree_name);
     TTree& tree = static_cast<TTree&>(*file.Get(tree_name.c_str()));
     tree.SetMakeClass(1);
-    plots.plots = unordered_pairs(tagger().branch().Variables(), [&](const Obs & variable_1, const Obs & variable_2) {
+    plots.plots = unordered_pairs(tagger().Branch().Variables(), [&](const Obs & variable_1, const Obs & variable_2) {
         return ReadTree(tree, variable_1.name(), variable_2.name(), stage);
     });
     plots.name = tree_name;
-    Debug(plots.plots.size(), tagger().branch().Variables().size());
+    Debug(plots.plots.size(), tagger().Branch().Variables().size());
     return plots;
 }
 

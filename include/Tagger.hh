@@ -1,6 +1,7 @@
 #pragma once
 
 #include "TCut.h"
+#include "TMVA/Types.h"
 #include "Observable.hh"
 #include "Identification.hh"
 #include "fastjet/PseudoJet.hh"
@@ -51,11 +52,9 @@ public:
 
     Strings BackgroundTreeNames() const;
 
+    Strings TreeNames(Tag tag) const;
+
     virtual std::string Name() const = 0;
-
-    std::string Name(Stage stage) const;
-
-    std::string Name(Stage stage, Tag tag) const;
 
     std::string BranchName(Stage stage) const;
 
@@ -63,15 +62,19 @@ public:
 
     std::string ExportFileName() const;
 
+    std::string ExportFileName(Stage stage, Tag tag) const;
+
     std::string ExportFolderName() const;
+
+    std::string FileName(Stage stage, Tag tag) const;
 
     std::string SignalFileName(Stage stage) const;
 
     std::string BackgroundFileName(Stage stage) const;
 
-    std::string BdtMethodName() const;
+    std::string MethodName(TMVA::Types::EMVA mva) const;
 
-    std::string BdtWeightFileName() const;
+    std::string WeightFileName(TMVA::Types::EMVA mva) const;
 
     std::string WeightFileExtension() const;
 
@@ -80,8 +83,6 @@ public:
     virtual int GetBdt(const Event&, const PreCuts&, const TMVA::Reader&) const = 0;
 
     virtual int Train(const Event&, const PreCuts&, const Tag) const = 0;
-
-    Jets SubJets(const fastjet::PseudoJet& jet, int sub_jet_number) const;
 
     virtual float ReadBdt(const TClonesArray&, const int) const = 0;
 
@@ -97,9 +98,11 @@ public:
 
     static void SetAnalysisName(const std::string& analysis_name);
 
-    virtual const ResultBranch& branch() const = 0;
+    virtual const ResultBranch& Branch() const = 0;
 
 protected:
+
+    Jets SubJets(const fastjet::PseudoJet& jet, int sub_jet_number) const;
 
     virtual void DefineVariables() = 0;
 
@@ -111,25 +114,23 @@ protected:
 
     void ClearObservables();
 
-    virtual int CandidatesMax() const;
-
     virtual TClass& Class() const = 0;
 
-    exroot::TreeBranch& tree_branch() const;
+    exroot::TreeBranch& TreeBranch() const;
 
     float Bdt(const TMVA::Reader& reader) const;
 
 private:
 
   std::string Root() const;
-  
+
   std::string PathName(const std::string& file_name, const std::string& suffix = ".root") const;
 
     std::string ReaderName() const;
 
     std::string ReaderName(const std::string& name) const;
 
-    std::string BdtWeightName() const;
+    std::string WeightName(TMVA::Types::EMVA mva) const;
 
     std::string BackgroundName() const;
 
@@ -142,6 +143,10 @@ private:
     std::string FactoryName() const;
 
     std::string ExportName() const;
+
+    std::string Name(Stage stage, Tag tag) const;
+
+    std::string Name(Stage stage) const;
 
     /**
      * @brief Tree Branch pointer saving the results

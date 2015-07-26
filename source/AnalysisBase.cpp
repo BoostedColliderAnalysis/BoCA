@@ -15,12 +15,6 @@
 
 namespace analysis {
 
-std::string AnalysisBase::ExportName(Stage stage, Tag tag) const
-{
-    Note(tagger().Name(stage, tag));
-    return ProjectName() + "/" + tagger().Name(stage, tag) + FileSuffix();
-}
-
 exroot::TreeWriter AnalysisBase::TreeWriter(TFile& export_file, const std::string& export_tree_name, Stage)
 {
     Note(export_tree_name.c_str());
@@ -214,7 +208,7 @@ void AnalysisBase::RunTagger(Stage stage)
 void AnalysisBase::RunFactory()
 {
     PrepareFiles();
-    if (Missing(tagger().BdtWeightFileName())) analysis::Factory factory(tagger());
+    if (Missing(tagger().WeightFileName(TMVA::Types::EMVA::kBDT))) analysis::Factory factory(tagger());
 }
 
 
