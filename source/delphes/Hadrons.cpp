@@ -15,7 +15,7 @@ namespace delphes
 Jets Hadrons::DelphesJets(JetDetail jet_detail) const
 {
     Debug(clones_arrays().JetSum(),Name(jet_detail));
-//     if (jet_detail == JetDetail::tagging) jet_detail |= JetDetail::plain;
+    if (jet_detail == JetDetail::tagging) jet_detail |= JetDetail::plain;
     analysis::Jets jets;
     for (int jet_number : Range(clones_arrays().JetSum())) {
         Detail(jet_number);
@@ -37,12 +37,10 @@ Jets Hadrons::DelphesJets(JetDetail jet_detail) const
             case JetDetail::isolation:
                 break;
             default:
-              break;
+                break;
             }
         });
     }
-//     Name(jet_detail);
-//     for(const auto jet : jets) Error(jet.constituents().size());
     return jets;
 }
 
@@ -106,15 +104,11 @@ Jets Hadrons::EFlowJets(JetDetail jet_detail) const
 {
     analysis::Jets e_flow_jets;
     Debug(clones_arrays().EFlowTrackSum(), Name(jet_detail));
-    if (FindInVector(clones_arrays().Branches(), Branch::e_flow_track))
-        e_flow_jets = Join(e_flow_jets, EFlowTrack(jet_detail));
+    if (FindInVector(clones_arrays().Branches(), Branch::e_flow_track)) e_flow_jets = Join(e_flow_jets, EFlowTrack(jet_detail));
     Debug(e_flow_jets.size());
-    if (FindInVector(clones_arrays().Branches(), Branch::e_flow_photon))
-        e_flow_jets = Join(e_flow_jets, EFlowPhoton(jet_detail));
-    if (FindInVector(clones_arrays().Branches(), Branch::e_flow_neutral_hadron))
-        e_flow_jets = Join(e_flow_jets, EFlowHadron(jet_detail));
-    if (FindInVector(clones_arrays().Branches(), Branch::e_flow_muon))
-        e_flow_jets = Join(e_flow_jets, EFlowMuon(jet_detail));
+    if (FindInVector(clones_arrays().Branches(), Branch::e_flow_photon)) e_flow_jets = Join(e_flow_jets, EFlowPhoton(jet_detail));
+    if (FindInVector(clones_arrays().Branches(), Branch::e_flow_neutral_hadron)) e_flow_jets = Join(e_flow_jets, EFlowHadron(jet_detail));
+    if (FindInVector(clones_arrays().Branches(), Branch::e_flow_muon)) e_flow_jets = Join(e_flow_jets, EFlowMuon(jet_detail));
     Debug(e_flow_jets.size());
 //     PrintTruthLevel(Severity::detailed);
     return e_flow_jets;
@@ -288,9 +282,6 @@ analysis::Jets Hadrons::UniqueConstituents(TObject& object, std::vector<TObject*
         Error("Unkonw Jet constituent", object.ClassName());
     return constituents;
 }
-
-
-
 
 }
 

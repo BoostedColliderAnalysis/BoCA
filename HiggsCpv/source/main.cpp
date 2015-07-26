@@ -8,13 +8,6 @@
 
 int main()
 {
-
-//   auto test = analysis::JetDetail::plain | analysis::JetDetail::tagging | analysis::JetDetail::isolation;
-
-//   std::string name = analysis::Name(test);
-
-//   Error(name);
-
     analysis::higgscpv::Analysis<analysis::BottomTagger> bottom_analysis;
     bottom_analysis.RunNormal();
 
