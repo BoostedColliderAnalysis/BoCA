@@ -23,7 +23,7 @@
 #include "exroot/ExRootAnalysis.hh"
 #include "Predicate.hh"
 #include "Branches.hh"
-#define DEBUG
+// #define DEBUG
 #include "Debug.hh"
 
 
@@ -70,7 +70,7 @@ void Results::BestBin()
 void Results::Significances()
 {
     for (const auto& signal_results : signal) {
-        for (int step : Range(Result().steps)) {
+      for (const auto& step : Range(Result().steps)) {
             float background_events = 0;
             for (const auto& background_result : background) background_events += background_result.events.at(step);
             if (signal_results.events.at(step) + background_events > 0) significances.at(step) = signal_results.events.at(step) / std::sqrt(signal_results.events.at(step) + background_events);
@@ -94,13 +94,10 @@ Plot::Plot(Tagger& tagger)
 
 Results Plot::ExportFile() const
 {
-    std::string export_file_name = ExportName() + ".root";
-    TFile export_file(export_file_name.c_str(), "Recreate");
+    TFile export_file(tagger().ExportFileName().c_str(), "Recreate");
     Results results;
-    std::string signal_file_name = tagger().analysis_name() + "/" + tagger().signal_name() + "Reader.root";
-    results.signal = Export(export_file, signal_file_name, tagger().signal_tree_names());
-    std::string background_file_name = tagger().analysis_name() + "/" + tagger().background_name() + "Reader.root";
-    results.background = Export(export_file, background_file_name, tagger().background_tree_names());
+    results.signal = Export(export_file, tagger().SignalFileName(Stage::reader), tagger().signal_tree_names());
+    results.background = Export(export_file, tagger().BackgroundFileName(Stage::reader), tagger().background_tree_names());
     export_file.Close();
     return results;
 }
@@ -177,7 +174,7 @@ std::string Plot::PlotHistograms(const analysis::Results& results) const
         histogram.Draw("same");
     }
     legend.Draw();
-    std::string efficiency_file_name = ExportName() + "-Bdt" + ExportFileSuffix();
+    std::string efficiency_file_name = tagger().ExportFolderName() + "-Bdt" + ExportFileSuffix();
     canvas.Print(efficiency_file_name.c_str());
     return efficiency_file_name;
 }
@@ -206,7 +203,7 @@ void Plot::PlotAcceptanceGraph(const Results& results) const
         }
         SetMultiGraph(multi_graph);
         legend.Draw();
-        std::string efficiency_file_name = ExportName() + "-Acceptance" + ExportFileSuffix();
+        std::string efficiency_file_name = tagger().ExportFolderName() + "-Acceptance" + ExportFileSuffix();
         canvas.Print(efficiency_file_name.c_str());
     }
 }
@@ -293,7 +290,7 @@ std::string Plot::PlotEfficiencyGraph(const Results& results, const std::vector<
     TLine line(results.XValue(best_bin), multi_graph.GetYaxis()->GetXmin(), results.XValue(best_bin), multi_graph.GetYaxis()->GetXmax());
     line.SetLineStyle(2);
     line.Draw();
-    std::string file_name = ExportName() + "-Efficiency" + ExportFileSuffix();
+    std::string file_name = tagger().ExportFolderName() + "-Efficiency" + ExportFileSuffix();
     canvas.Print(file_name.c_str());
     return file_name;
 }
@@ -310,7 +307,7 @@ std::string Plot::PlotSignificanceGraph(const Results& results, const std::vecto
     TLine line(results.XValue(best_bin), gPad->GetUymin(), results.XValue(best_bin), gPad->GetUymax());
     line.SetLineStyle(2);
     line.Draw();
-    std::string file_name = ExportName() + "-Significance" + ExportFileSuffix();
+    std::string file_name = tagger().ExportFolderName() + "-Significance" + ExportFileSuffix();
     canvas.Print(file_name.c_str());
     return file_name;
 }
@@ -336,14 +333,14 @@ Result Plot::BdtResult(TFile& file, const std::string& tree_name, TFile& export_
 
 Result Plot::BdtDistribution(exroot::TreeReader& tree_reader, const std::string& tree_name, TFile& export_file) const
 {
-    Debug(tagger().branch_name());
-    std::string branch_name = tagger().branch_name() + "Reader";
+    Debug(tagger().BranchName(Stage::reader));
+    std::string branch_name = tagger().BranchName(Stage::reader);
     Result result;
     TClonesArray& event_clones_array = *tree_reader.UseBranch(branch_name.c_str());
     exroot::TreeWriter tree_writer(&export_file, tree_name.c_str());
     exroot::TreeBranch& result_branch = *tree_writer.NewBranch(branch_name.c_str(), ResultBranch::Class());
     long entries = 0;
-    for (int event_number : Range(tree_reader.GetEntries())) {
+    for (const auto& event_number : Range(tree_reader.GetEntries())) {
         tree_reader.ReadEntry(event_number);
         for (const auto& entry : Range(event_clones_array.GetEntriesFast())) {
             float bdt_value = tagger().ReadBdt(event_clones_array, entry);
@@ -379,7 +376,7 @@ InfoBranch Plot::InfoBranch(TFile& file, const std::string& tree_name) const
 void Plot::LatexHeader(std::ofstream& latex_file) const
 {
     Debug();
-    std::string file_name = tagger().analysis_name() + "/" + tagger().analysis_name() + ".tex";
+    std::string file_name = tagger().ExportFolderName() + ".tex";
     latex_file.open(file_name);
     latex_file << "\\documentclass[a4paper,10pt]{article}\n\n"
                << "\\usepackage{booktabs}\n"
@@ -545,11 +542,6 @@ int Plot::ColorCode(int number) const
     }
 }
 
-std::string Plot::ExportName() const
-{
-    return tagger().analysis_name() + "/" + tagger().export_name();
-}
-
 long Result::event_sum() const
 {
     // return info_branch.EventNumber;
@@ -562,25 +554,24 @@ void Result::set_event_sum(long event_sum)
 
 void Plot::RunPlots() const
 {
-    std::string signal_file_name = tagger().analysis_name() + "/" + tagger().signal_name() + "Reader.root";
-    Debug(signal_file_name, tagger().signal_tree_names().size());
-    std::vector<Plots> signals = Import(signal_file_name, tagger().signal_tree_names());
-    std::string background_file_name = tagger().analysis_name() + "/" + tagger().background_name() + "Reader.root";
-    Debug(background_file_name, tagger().background_tree_names().size());
-    std::vector<Plots> backgrounds = Import(background_file_name, tagger().background_tree_names());
+  for(const auto& stage : std::vector<Stage>{Stage::trainer,Stage::reader}){
+    Debug(tagger().SignalFileName(stage), tagger().signal_tree_names().size());
+    std::vector<Plots> signals = Import(tagger().SignalFileName(stage), tagger().signal_tree_names(), stage);
+    Debug(tagger().BackgroundFileName(stage), tagger().background_tree_names().size());
+    std::vector<Plots> backgrounds = Import(tagger().BackgroundFileName(stage), tagger().background_tree_names(), stage);
     Plots background = backgrounds.front();
     if (backgrounds.size() > 1) {
         background = std::accumulate(backgrounds.begin() + 1, backgrounds.end(), background, [](Plots & sum, const Plots & elem) {
-            for (const auto& plot : elem.plots)
-                sum.plots.at(&plot - &elem.plots[0]).points = Join(sum.plots.at(&plot - &elem.plots[0]).points, plot.points);
+            for (const auto& plot : elem.plots) sum.plots.at(&plot - &elem.plots[0]).points = Join(sum.plots.at(&plot - &elem.plots[0]).points, plot.points);
             return sum;
         });
         background.name = "background";
     }
-    for (auto& signal : signals) DoPlot(signal, background);
+    for (auto& signal : signals) DoPlot(signal, background, stage);
+  }
 }
 
-void Plot::DoPlot(Plots& signals, Plots& backgrounds) const
+void Plot::DoPlot(Plots& signals, Plots& backgrounds, Stage stage) const
 {
     std::vector<std::pair<std::string, std::string>> nice_names = unordered_pairs(tagger().branch().Variables(), [&](const Obs & variable_1, const Obs & variable_2) {
         return std::make_pair(variable_1.nice_name(), variable_2.nice_name());
@@ -603,11 +594,11 @@ void Plot::DoPlot(Plots& signals, Plots& backgrounds) const
         background.name_x = names.at(index).first;
         background.name_y = names.at(index).second;
         background.tree_name = backgrounds.name;
-        Plotting(signal, background);
+        Plotting(signal, background, stage);
     }
 }
 
-void Plot::Plotting(const Plot3d& signal, const Plot3d& background) const
+void Plot::Plotting(const Plot3d& signal, const Plot3d& background, Stage stage) const
 {
     Plot3d signal_x = CoreVector(signal, [](Point3d & a, Point3d & b) {
         return a.x < b.x;
@@ -625,8 +616,12 @@ void Plot::Plotting(const Plot3d& signal, const Plot3d& background) const
     float x_max = std::max(signal_x.points.back().x, background_x.points.back().x);
     float y_min = std::min(signal_y.points.front().y, background_y.points.front().y);
     float y_max = std::max(signal_y.points.back().y, background_y.points.back().y);
+    switch(stage) {
+      case Stage::trainer :
     PlotHistogram(signal, background, x_min, x_max, y_min, y_max);
+      case Stage::reader :
     PlotProfile(signal, background, x_min, x_max, y_min, y_max);
+    }
 }
 
 void Plot::PlotHistogram(const Plot3d& signal, const Plot3d& background, float x_min, float x_max, float y_min, float y_max) const
@@ -639,15 +634,17 @@ void Plot::PlotHistogram(const Plot3d& signal, const Plot3d& background, float x
     int bin_number = 20;
     TExec exec_1;
     TH2F background_histogram("", tagger().NiceName().c_str(), bin_number, x_min, x_max, bin_number, y_min, y_max);
-    SetHistogram(background_histogram, background, kRed, exec_1);
-    legend.AddEntry(&background_histogram, background.name.c_str(), "l");
+    SetHistogram(background_histogram, background, kBlue, exec_1);
+//     legend.AddEntry(&background_histogram, background.name.c_str(), "l");
     TExec exec_2;
     TH2F signal_histogram("", tagger().NiceName().c_str(), bin_number, x_min, x_max, bin_number, y_min, y_max);
-    SetHistogram(signal_histogram, signal, kBlue, exec_2);
-    legend.AddEntry(&signal_histogram, signal.name.c_str(), "l");
+    SetHistogram(signal_histogram, signal, kRed, exec_2);
+//     legend.AddEntry(&signal_histogram, signal.name.c_str(), "l");
+    legend.AddEntry(&signal_histogram, "Signal", "l");
+    legend.AddEntry(&background_histogram, "Background", "l");
     legend.Draw();
-    mkdir(ExportName().c_str(), 0700);
-    std::string file_name = ExportName() + "/" + "Hist-" + background.tree_name + "-" + signal.name_x + "-" + signal.name_y + ExportFileSuffix();
+    mkdir(tagger().ExportFolderName().c_str(), 0700);
+    std::string file_name = tagger().ExportFolderName() + "/" + "Hist-" + background.tree_name + "-" + signal.name_x + "-" + signal.name_y + ExportFileSuffix();
     canvas.Print(file_name.c_str());
 }
 
@@ -658,8 +655,8 @@ void Plot::PlotProfile(const Plot3d& signal, const Plot3d& background, float x_m
     int bin_number = 30;
     TProfile2D test("", tagger().NiceName().c_str(), bin_number, x_min, x_max, bin_number, y_min, y_max);
     SetProfile(test, signal, background);
-    mkdir(ExportName().c_str(), 0700);
-    std::string file_name = ExportName() + "/" + "Prof-" + background.tree_name + "-" + signal.name_x + "-" + signal.name_y + ExportFileSuffix();
+    mkdir(tagger().ExportFolderName().c_str(), 0700);
+    std::string file_name = tagger().ExportFolderName() + "/" + "Prof-" + background.tree_name + "-" + signal.name_x + "-" + signal.name_y + ExportFileSuffix();
     canvas.Print(file_name.c_str());
 }
 
@@ -667,18 +664,17 @@ void Plot::SetHistogram(TH2& histogram, const Plot3d& plot, EColor color, TExec&
 {
     std::string options = "cont1 same";
     histogram.Draw(options.c_str());
-    for (const auto& point : plot.points)
-        histogram.Fill(point.x, point.y);
+    for (const auto& point : plot.points) histogram.Fill(point.x, point.y);
     histogram.SetXTitle(plot.nice_name_x.c_str());
     histogram.SetYTitle(plot.nice_name_y.c_str());
     histogram.SetContour(20);
     switch (color) {
     case kRed :
         // FIXME why do these function have to be reversed?
-        exec.SetAction("analysis::Color().Blue();");
+        exec.SetAction("analysis::Color().Red();");
         break;
     case kBlue :
-        exec.SetAction("analysis::Color().Red();");
+        exec.SetAction("analysis::Color().Blue();");
         break;
     default:
         Error("unsupported color");
@@ -714,16 +710,16 @@ void Plot::SetProfile(TProfile2D& histogram, const Plot3d& signal, const Plot3d&
     histogram.Draw("colz");
 }
 
-std::vector<Plots> Plot::Import(const std::string& file_name, const Strings& treename) const
+std::vector<Plots> Plot::Import(const std::string& file_name, const Strings& treename, Stage stage) const
 {
     TFile file(file_name.c_str(), "Read");
     Debug(file_name, treename.size());
     std::vector<Plots> results;
-    for (const auto& tree_name : treename) results.emplace_back(PlotResult(file, tree_name));
+    for (const auto& tree_name : treename) results.emplace_back(PlotResult(file, tree_name, stage));
     return results;
 }
 
-Plots Plot::PlotResult(TFile& file, const std::string& tree_name) const
+Plots Plot::PlotResult(TFile& file, const std::string& tree_name, Stage stage) const
 {
     Debug(tree_name);
     Plots plots;
@@ -731,17 +727,17 @@ Plots Plot::PlotResult(TFile& file, const std::string& tree_name) const
     TTree& tree = static_cast<TTree&>(*file.Get(tree_name.c_str()));
     tree.SetMakeClass(1);
     plots.plots = unordered_pairs(tagger().branch().Variables(), [&](const Obs & variable_1, const Obs & variable_2) {
-        return ReadTree(tree, variable_1.name(), variable_2.name());
+        return ReadTree(tree, variable_1.name(), variable_2.name(), stage);
     });
     plots.name = tree_name;
     Debug(plots.plots.size(), tagger().branch().Variables().size());
     return plots;
 }
 
-Plot3d Plot::ReadTree(TTree& tree, const std::string& leaf_1, const std::string& leaf_2) const
+Plot3d Plot::ReadTree(TTree& tree, const std::string& leaf_1, const std::string& leaf_2, Stage stage) const
 {
     tree.SetBranchStatus("*", 0);
-    std::string branch_name = tagger().branch_name() + "Reader";
+    std::string branch_name = tagger().BranchName(stage);
     Debug(branch_name);
 
     tree.SetBranchStatus(branch_name.c_str(), 1);

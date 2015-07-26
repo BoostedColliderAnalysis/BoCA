@@ -1,9 +1,14 @@
 #pragma once
 
-// #include "TObject.h"
+#include <vector>
+#include <map>
 
-#include "exroot/ExRootAnalysis.hh"
-
+class ExRootTreeReader;
+namespace exroot{
+  typedef ::ExRootTreeReader TreeReader;
+}
+class TClonesArray;
+class TObject;
 
 namespace analysis {
 
@@ -25,9 +30,9 @@ public:
 
     ClonesArrays();
 
-    ClonesArrays(const Source source);
+    ClonesArrays(Source source);
 
-    std::string BranchName(const Branch branch) const;
+    std::string BranchName(Branch branch) const;
 
     Source source() const;
 
@@ -35,11 +40,11 @@ public:
 
     void UseBranches(exroot::TreeReader& tree_reader);
 
-    TClonesArray& ClonesArray(const Branch branch) const;
+    TClonesArray& ClonesArray(Branch branch) const;
 
-    TObject& Object(const analysis::Branch branch, int number) const;
+    TObject& Object(Branch branch, int number) const;
 
-    int EntrySum(const Branch branch) const;
+    int EntrySum(Branch branch) const;
 
     int ParticleSum() const
     {

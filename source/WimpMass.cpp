@@ -40,7 +40,7 @@ std::vector<analysis::Sextet> WimpMass::Sextets(const Quartet22& quartet, const 
     solve22(structure, Mass(Id::electron_neutrino), Mass(Id::W), Mass(Id::top), solution_sum, momentum_1, momentum_2);
     Debug("Number solutions", solution_sum);
     std::vector<analysis::Sextet> sextets;
-    for (int solution_number : Range(solution_sum)) {
+    for (const auto& solution_number : Range(solution_sum)) {
         Debug("Solution ", solution_number);
         Debug("Neutrino 1 (p1)" , PseudoJet(momentum_1[solution_number]));
         Debug("Neutrino 2 (p2)" , PseudoJet(momentum_2[solution_number]));

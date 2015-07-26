@@ -1,23 +1,29 @@
 #pragma once
 
 #include "../Hadrons.hh"
-#include "TClonesArray.h"
-#include "JetInfo.hh"
 
-namespace analysis {
+class Jet;
+namespace delphes
+{
+typedef ::Jet Jet;
+}
 
-namespace delphes {
+namespace analysis
+{
+
+namespace delphes
+{
 
 /**
  * @brief Delphes jets
  *
  */
-class Hadrons : public analysis::Hadrons {
+class Hadrons : public analysis::Hadrons
+{
 
 public:
 
-    analysis::Jets Jets() const final
-    {
+    analysis::Jets Jets() const final {
         switch (DetectorGeometry::jet_type()) {
         case JetType::jet :
             return DelphesJets(JetDetail::structure);
@@ -50,26 +56,34 @@ private:
     analysis::Jets GenJets() const;
 
     template <typename Clone>
-    std::vector<Constituent> JetId(const Clone& clone) const
-    {
+    std::vector<Constituent> JetId(const Clone& clone) const {
         std::vector<Constituent> constituents;
-        for (int particle_number : Range(clone.Particles.GetEntriesFast())) {
+        for (const auto& particle_number : Range(clone.Particles.GetEntriesFast())) {
             Family family = BranchFamily(*clone.Particles.At(particle_number));
             constituents.emplace_back(Constituent(const_cast<Clone&>(clone).P4(), family));
         }
         return constituents;
     }
 
+//     template<typename Particle, typename EFlow>
+//     bool Isolation(const EFlow& e_flow, const TClonesArray& clones_array) const
+//     {
+//         bool Isolated = true;
+//         for (const auto& particle_number = 0; particle_number < clones_array.GetEntriesFast(); ++particle_number) {
+//             Particle& particle = static_cast<Particle&>(*clones_array.At(particle_number));
+//             Isolated = CheckIsolation(e_flow, particle);
+//         }
+//         return Isolated;
+//     }
 
     template<typename Particle, typename EFlow>
-    bool Isolation(const EFlow& e_flow, const TClonesArray& clones_array) const
-    {
-        bool Isolated = true;
-        for (int particle_number = 0; particle_number < clones_array.GetEntriesFast(); ++particle_number) {
-            Particle& particle = static_cast<Particle&>(*clones_array.At(particle_number));
-            Isolated = CheckIsolation(e_flow, particle);
+    bool Isolation(const EFlow& e_flow, Branch branch) const {
+        bool isolated = true;
+        for (const auto& particle_number : Range(clones_arrays().EntrySum(branch))) {
+            Particle& particle = static_cast<Particle&>(clones_arrays().Object(branch, particle_number));
+            isolated = CheckIsolation(e_flow, particle);
         }
-        return Isolated;
+        return isolated;
     }
 
     analysis::Jets EFlowTrack(const JetDetail) const;

@@ -2,9 +2,32 @@
 
 #include <iomanip>
 #include <iostream>
+
 #include "ClonesArrays.hh"
 #include "JetTag.hh"
 #include "Flag.hh"
+
+class TRootLHEFParticle;
+class TRootGenParticle;
+class TRootGenJet;
+class TRootMissingET;
+class TRootPhoton;
+class TRootElectron;
+class TRootMuon;
+class TRootTau;
+class TRootJet;
+
+namespace exroot {
+  typedef ::TRootLHEFParticle LHEFParticle;
+  typedef ::TRootGenParticle GenParticle;
+  typedef ::TRootGenJet GenJet;
+  typedef ::TRootMissingET MissingET;
+  typedef ::TRootPhoton Photon;
+  typedef ::TRootElectron Electron;
+  typedef ::TRootMuon Muon;
+  typedef ::TRootTau Tau;
+  typedef ::TRootJet Jet;
+}
 
 namespace analysis {
 
@@ -16,6 +39,10 @@ enum class Status {
 };
 
 
+/**
+ * @brief flags defining to which level of detail jets should be analyzed
+ *
+ */
 enum class JetDetail {
     plain = 1,
     structure = 1 << 1,

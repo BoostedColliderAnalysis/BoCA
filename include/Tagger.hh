@@ -43,27 +43,27 @@ public:
 
     void AddBackgroundTreeName(const std::string& background_tree_name);
 
-    std::string branch_name() const;
+    std::string BranchName(Stage stage) const;
 
     virtual std::string Name() const = 0;
 
-    std::string factory_name() const;
+    std::string FactoryName() const;
 
-    std::string export_name() const;
+    std::string FactoryFileName() const;
 
-    std::string signal_file_name(Stage stage) const;
+    std::string ExportName() const;
 
-    std::string background_file_name(Stage stage) const;
+    std::string ExportFileName() const;
 
-    std::string reader_name() const;
+    std::string ExportFolderName() const;
 
-    std::string reader(const std::string& name) const;
+    std::string SignalFileName(Stage stage) const;
+
+    std::string BackgroundFileName(Stage stage) const;
 
     std::string Name(Stage stage) const;
 
     std::string Name(Stage stage, Tag tag) const;
-
-    std::string analysis_name() const;
 
     std::vector<Observable> variables() const;
 
@@ -86,6 +86,8 @@ public:
     std::string bdt_method_name() const;
 
     std::string bdt_weight_name() const;
+
+    std::string BdtWeightFileName() const;
 
     std::string weight_file_extension() const;
 
@@ -115,6 +117,8 @@ public:
 
     virtual std::string NiceName() const;
 
+    std::string AnalysisName() const;
+
 protected:
 
     virtual void DefineVariables() = 0;
@@ -136,6 +140,12 @@ protected:
     float Bdt(const TMVA::Reader& reader) const;
 
 private:
+
+  std::string Root() const;
+
+  std::string ReaderName() const;
+
+  std::string ReaderName(const std::string& name) const;
 
     /**
      * @brief Tree Branch pointer saving the results

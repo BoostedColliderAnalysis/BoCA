@@ -2,9 +2,10 @@
 
 #include "TClonesArray.h"
 #include "Predicate.hh"
-#include "Debug.hh"
 #include "delphes/Delphes.hh"
+#include "exroot/ExRootAnalysis.hh"
 #include "JetInfo.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
@@ -51,49 +52,49 @@ void FourVector::NewEvent(const ClonesArrays& clones_arrays)
 
 LorentzVector FourVector::LorentzVector(const exroot::Electron& Particle) const
 {
-    Debug("Lorentz Vector", "Electron");
+    Debug("Electron");
     return LorentzVectorByMass(Particle, Mass(Id::electron));
 }
 
 LorentzVector FourVector::LorentzVector(const exroot::GenJet& Particle) const
 {
-    Debug("Lorentz Vector", "GenJet");
+    Debug("GenJet");
     return LorentzVectorByMass(Particle);
 }
 
 LorentzVector FourVector::LorentzVector(const exroot::GenParticle& Particle) const
 {
-    Debug("Lorentz Vector", "GenParticle");
+    Debug("GenParticle");
     return LorentzVectorByEnergy(Particle);
 }
 
 LorentzVector FourVector::LorentzVector(const exroot::Jet& Particle) const
 {
-    Debug("Lorentz Vector", "Jet");
+    Debug("Jet");
     return LorentzVectorByMass(Particle);
 }
 
 LorentzVector FourVector::LorentzVector(const exroot::LHEFParticle& Particle) const
 {
-    Debug("Lorentz Vector", "LHEFParticle");
+    Debug("LHEFParticle");
     return LorentzVectorByM(Particle);
 }
 
 LorentzVector FourVector::LorentzVector(const exroot::Muon& Particle) const
 {
-    Debug("Lorentz Vector", "Muon");
+    Debug("Muon");
     return LorentzVectorByMass(Particle, Mass(Id::muon));
 }
 
 LorentzVector FourVector::LorentzVector(const exroot::Photon& Particle) const
 {
-    Debug("Lorentz Vector", "Photon");
+    Debug("Photon");
     return LorentzVectorByMass(Particle, Mass(Id::photon));
 }
 
 LorentzVector FourVector::LorentzVector(const exroot::Tau& Particle) const
 {
-    Debug("Lorentz Vector", "Tau");
+    Debug("Tau");
     return LorentzVectorByMass(Particle, Mass(Id::tau));
 }
 
@@ -222,18 +223,17 @@ Family FourVector::BranchFamily(Family& family, int Position) const
                 if (particle.M1 < particle.M2) {
                     Debug("String", Position, particle.M1, particle.M2);
                     JetInfo jet_info;
-//                     for (int Counter = ParticleClone.M2; Counter >= ParticleClone.M1; --Counter) {
-                    for (int Counter = particle.M1; Counter <= particle.M2; ++Counter) {
+                    //                     for (const auto& Counter = ParticleClone.M2; Counter >= ParticleClone.M1; --Counter) {
+                    for (const auto& counter : Range(particle.M1,particle.M2)) {
 //                         BranchFamily = BranchFamily(BranchFamily, Counter);
-                        Family NewFamily = BranchFamily(family, Counter);
+                        Family NewFamily = BranchFamily(family, counter);
                         jet_info.AddFamily(NewFamily, NewFamily.Pt());
-                        Debug("StringPart", Counter, Name(family.particle().id()));
+                        Debug("StringPart", counter, Name(family.particle().id()));
 //                         if (std::abs(BranchFamily.particle().id()) == Id::isr) return BranchFamily;
                     }
                     jet_info.PrintAllFamInfos(Severity::debug);
                     if (jet_info.FamilyFractions().size() > 1) {
-                        for (int Counter = particle.M1; Counter <= particle.M2; ++Counter)
-                            topology_.at(Counter).UnSetMarker();
+                      for (const auto& counter : Range(particle.M1,particle.M2)) topology_.at(counter).UnSetMarker();
                         Debug("To many String fractions");
                     };
                     family = jet_info.MaximalFamily();
@@ -277,8 +277,8 @@ void FourVector::PrintTruthLevel(const analysis::Severity severity) const
         PrintCell("Py");
         PrintCell("Pz");
         std::cout << std::endl;
-        //         for (int Position : HRange(clones_arrays().GetParticleSum())) {
-        for (int Position : Range(30)) {
+        //         for (const auto& Position : HRange(clones_arrays().GetParticleSum())) {
+        for (const auto& Position : Range(30)) {
             ::delphes::GenParticle& Particle = static_cast<::delphes::GenParticle&>(clones_arrays().Particle(Position));
             PrintCell(Position);
             PrintCell(Name(topology_.at(Position).particle().id()));
