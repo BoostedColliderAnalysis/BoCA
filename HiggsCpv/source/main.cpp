@@ -2,10 +2,19 @@
 
 #include "../include/EventTagger.hh"
 #include "Predicate.hh"
+#include "Flag.hh"
 #include "Debug.hh"
+#include "FourVector.hh"
 
 int main()
 {
+
+//   auto test = analysis::JetDetail::plain | analysis::JetDetail::tagging | analysis::JetDetail::isolation;
+
+//   std::string name = analysis::Name(test);
+
+//   Error(name);
+
     analysis::higgscpv::Analysis<analysis::BottomTagger> bottom_analysis;
     bottom_analysis.RunNormal();
 

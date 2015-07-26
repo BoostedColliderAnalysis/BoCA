@@ -38,7 +38,9 @@ include(CMakeFiles/FindLibConfig.cmake)
 add_libraries(${LIBCONFIGPP_LIBRARIES})
 
 # Doxygen
-# include(CMakeFiles/UseDoxygen.cmake)
+if(CMAKE_BUILD_TYPE EQUAL "Release")
+include(CMakeFiles/UseDoxygen.cmake)
+endif()
 
 # Libraries
 add_subdirectory(source)

@@ -41,7 +41,7 @@ public:
     }
 
     std::string ProjectName() const final {
-        return  "CPV-3";
+        return  "CPV-4";
     }
 
     std::string ProcessName() const final {

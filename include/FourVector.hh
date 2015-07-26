@@ -4,6 +4,7 @@
 #include <iostream>
 #include "ClonesArrays.hh"
 #include "JetTag.hh"
+#include "Flag.hh"
 
 namespace analysis {
 
@@ -16,10 +17,18 @@ enum class Status {
 
 
 enum class JetDetail {
-    plain, tagging, isolation, structure, tagging_isolation, tagging_structure
+    plain = 1 << 0,
+    structure = 1 << 1,
+    tagging = 1 << 2,
+    isolation = 1 << 3,
 };
 
-std::string Name(const JetDetail jet_detail);
+template<>
+struct enable_bitmask_operators<JetDetail> {
+  static const bool enable = true;
+};
+
+std::string Name(JetDetail jet_detail);
 
 /**
  * @brief converts Clones to LorentzVectors and fastjet::PseudoJets

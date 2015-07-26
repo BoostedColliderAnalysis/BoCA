@@ -14,11 +14,11 @@ public:
 
     Constituent();
 
-    Constituent(const TLorentzVector& momentum, const TLorentzVector& position, const Family& family);
+    Constituent(const TLorentzVector& momentum, const LorentzVector& position, const Family& family);
 
-    Constituent(const TLorentzVector& momentum, const TLorentzVector& position);
+    Constituent(const TLorentzVector& momentum, const LorentzVector& position);
 
-    Constituent(const TLorentzVector& momentum, const TLorentzVector& position, const SubDetector sub_detector, float charge = 0);
+    Constituent(const TLorentzVector& momentum, const LorentzVector& position, const SubDetector sub_detector, float charge = 0);
 
     Constituent(const TLorentzVector& momentum, const Family& family);
 

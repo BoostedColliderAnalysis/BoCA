@@ -26,15 +26,15 @@ public:
     void SetMultiplets(const Multiplet_1& multiplet_1, const Multiplet_2& multiplet_2) {
         multiplet_1_ = multiplet_1;
         multiplet_2_ = multiplet_2;
-        if (multiplet_1.Bdt() != initial_value() && multiplet_2.Bdt() != initial_value()) SetBdt((multiplet_1.Bdt() + multiplet_2.Bdt()) / 2);
-        else if (multiplet_1.Bdt() != initial_value()) SetBdt(multiplet_1.Bdt());
-        else if (multiplet_2.Bdt() != initial_value()) SetBdt(multiplet_2.Bdt());
+//         if (multiplet_1.Bdt() != initial_value() && multiplet_2.Bdt() != initial_value()) SetBdt((multiplet_1.Bdt() + multiplet_2.Bdt()) / 2);
+//         else if (multiplet_1.Bdt() != initial_value()) SetBdt(multiplet_1.Bdt());
+//         else if (multiplet_2.Bdt() != initial_value()) SetBdt(multiplet_2.Bdt());
     }
 
     void SetJet(const fastjet::PseudoJet& jet) {
         multiplet_1_ = Multiplet_1(jet / 2);
         multiplet_2_ = Multiplet_2(jet / 2);
-        SetBdt((multiplet_1_.Bdt() + multiplet_2_.Bdt()) / 2);
+//         SetBdt((multiplet_1_.Bdt() + multiplet_2_.Bdt()) / 2);
     }
 
     Multiplet_1& Multiplet1() const {
@@ -67,39 +67,40 @@ public:
     }
 
     /**
-     * @brief join the constituents of the multiplets to one jet
-     *
-     * @return fastjet::PseudoJet
-     */
-    fastjet::PseudoJet EffectiveJet() const {
-    // TODO clean this mess up; and figure out why the cases are necessary
-        fastjet::PseudoJet jet = Jet();
-        fastjet::PseudoJet jet_1 = Multiplet1().EffectiveJet();
-        fastjet::PseudoJet jet_2 = Multiplet2().EffectiveJet();
-        if (jet_1.has_user_info<JetInfo>() && jet_2.has_user_info<JetInfo>())
-            jet.set_user_info(new JetInfo(Join(jet_1.user_info<JetInfo>().constituents(), jet_2.user_info<JetInfo>().constituents()), Join(jet_1.user_info<JetInfo>().displaced_constituents(), jet_2.user_info<JetInfo>().displaced_constituents())));
-        else if (jet_1.has_user_info<JetInfo>())
-            jet.set_user_info(new JetInfo(jet_1.user_info<JetInfo>().constituents(), jet_1.user_info<JetInfo>().displaced_constituents()));
-        else if (jet_2.has_user_info<JetInfo>())
-            jet.set_user_info(new JetInfo(jet_2.user_info<JetInfo>().constituents(), jet_2.user_info<JetInfo>().displaced_constituents()));
-//         if(jet_1.has_constituents() && jet_2.has_constituents()) jet = fastjet::join(Join(jet_1.constituents(), jet_2.constituents()));
-//         else if(jet_1.has_constituents()) jet = fastjet::join(jet_1.constituents());
-//         else if(jet_2.has_constituents()) jet = fastjet::join(jet_2.constituents());
-//         if (jet_1.has_user_info<JetInfo>() && jet_2.has_user_info<JetInfo>())
-//         jet.set_user_info(new JetInfo(Join(jet_1.user_info<JetInfo>().constituents(), jet_2.user_info<JetInfo>().constituents())));
-//         else if (jet_1.has_user_info<JetInfo>()) jet.set_user_info(new JetInfo(jet_1.user_info<JetInfo>().constituents()));
-//         else if (jet_2.has_user_info<JetInfo>()) jet.set_user_info(new JetInfo(jet_2.user_info<JetInfo>().constituents()));
-//         else jet.set_user_info(new JetInfo);
-        return jet;
-    }
-
-    /**
      * @brief join the pieces of the multiplets to one jet
      *
      * @return fastjet::PseudoJet
      */
+    fastjet::PseudoJet Jet(Structure structure) const {
+        if (structure == Structure::vertices) structure |= Structure::plain;
+        fastjet::PseudoJet jet;
+        fastjet::PseudoJet jet_1 = Multiplet1().Jet(structure);
+        fastjet::PseudoJet jet_2 = Multiplet2().Jet(structure);
+        if (is(structure, Structure::plain)) jet = fastjet::join(jet_1, jet_2);
+        if (is(structure, Structure::constituents)) {
+            Jets constituents;
+            if (jet_1.has_constituents()) constituents = Join(constituents, jet_1.constituents());
+            if (jet_2.has_constituents()) constituents = Join(constituents, jet_2.constituents());
+            jet = fastjet::join(constituents);
+        }
+        if (is(structure, Structure::vertices)) {
+            std::vector<Constituent> constituents;
+            std::vector<Constituent> displaced_constituents;
+            if (jet_1.has_user_info<JetInfo>()) {
+                constituents = Join(constituents, jet_1.user_info<JetInfo>().constituents());
+                displaced_constituents = Join(displaced_constituents, jet_1.user_info<JetInfo>().displaced_constituents());
+            }
+            if (jet_2.has_user_info<JetInfo>()) {
+                constituents = Join(constituents, jet_2.user_info<JetInfo>().constituents());
+                displaced_constituents = Join(displaced_constituents, jet_2.user_info<JetInfo>().displaced_constituents());
+            }
+            jet.set_user_info(new JetInfo(constituents, displaced_constituents));
+        }
+        return jet;
+    }
+
     fastjet::PseudoJet Jet() const {
-        return fastjet::join(Multiplet1().Jet(), Multiplet2().Jet());
+        return Jet(Structure::plain);
     }
 
     float DeltaPt() const {
@@ -149,54 +150,53 @@ public:
         return sgn(Multiplet1().Charge() + Multiplet2().Charge());
     }
 
+    analysis::Singlet singlet(Structure structure) const {
+        return Singlet(Jet(structure));
+    }
+
     analysis::Singlet singlet() const {
-        return Singlet(EffectiveJet());
+      return Singlet(Jet(Structure::vertices));
     }
 
-    float Pull1() const
-    {
-      Vector2 pull = Multiplet1().singlet().Pull() - Multiplet1().Reference(Multiplet2().Jet());
-      return std::atan2(pull.Y(), pull.X());
+    float Pull1() const {
+        Vector2 pull = Multiplet1().singlet(Structure::constituents).Pull() - Multiplet1().Reference(Multiplet2().Jet());
+        return std::atan2(pull.Y(), pull.X());
     }
 
-    float Pull2() const
-    {
-      Vector2 pull = Multiplet2().singlet().Pull() - Multiplet2().Reference(Multiplet1().Jet());
-      return std::atan2(pull.Y(), pull.X());
+    float Pull2() const {
+        Vector2 pull = Multiplet2().singlet(Structure::constituents).Pull() - Multiplet2().Reference(Multiplet1().Jet());
+        return std::atan2(pull.Y(), pull.X());
     }
 
-    float PullDifference() const
-    {
-      return RestrictPhi(::analysis::DeltaPhi(Pull1(), Pull2()) - M_PI);
+    float PullDifference() const {
+        return RestrictPhi(::analysis::DeltaPhi(Pull1(), Pull2()) - M_PI);
     }
 
-    float PullSum() const
-    {
-      return RestrictPhi(Pull1() + Pull2());
+    float PullSum() const {
+        return RestrictPhi(Pull1() + Pull2());
     }
 
-    float Dipolarity() const
-    {
-      if (DeltaR() == 0) return 0;
-      fastjet::PseudoJet jet = EffectiveJet();
-      if (jet.pt() == 0) return 0;
-      float dipolarity = 0;
-      if(!jet.has_constituents()) return 0;
-      for (const auto & constituent : jet.constituents()) {
-        if (constituent.pt() > jet.pt()) continue;
+    float Dipolarity() const {
+        if (DeltaR() == 0) return 0;
+        fastjet::PseudoJet jet = Jet(Structure::constituents);
+        if (jet.pt() == 0) return 0;
+        float dipolarity = 0;
+        if (!jet.has_constituents()) return 0;
+        for (const auto & constituent : jet.constituents()) {
+            if (constituent.pt() > jet.pt()) continue;
 
-        float phi = constituent.phi_std();
-        float distance_1 = Distance(Vector2(constituent.rap(), phi));
+            float phi = constituent.phi_std();
+            float distance_1 = Distance(Vector2(constituent.rap(), phi));
 
-        if (phi < 0) phi += 2 * M_PI;
-        else  phi -= 2 * M_PI;
-        float distance_2 =  Distance(Vector2(constituent.rap(), phi));
+            if (phi < 0) phi += 2 * M_PI;
+            else  phi -= 2 * M_PI;
+            float distance_2 =  Distance(Vector2(constituent.rap(), phi));
 
-        float distance = std::min(distance_1, distance_2);
-        if (distance > DeltaR()) continue;
-        dipolarity += constituent.pt() * std::pow(distance, 2);
-      }
-      return dipolarity / jet.pt() / std::pow(DeltaR(), 2);
+            float distance = std::min(distance_1, distance_2);
+            if (distance > DeltaR()) continue;
+            dipolarity += constituent.pt() * std::pow(distance, 2);
+        }
+        return dipolarity / jet.pt() / std::pow(DeltaR(), 2);
     }
 
     /**
@@ -204,9 +204,8 @@ public:
      * @return Vector2 reference vector
      *
      */
-    Vector2 Reference(const fastjet::PseudoJet& vector) const
-    {
-      return Vector2(vector.rap() - Jet().rap(), Jet().delta_phi_to(vector));
+    Vector2 Reference(const fastjet::PseudoJet& vector) const {
+        return Vector2(vector.rap() - Jet().rap(), Jet().delta_phi_to(vector));
     }
 
 protected:
@@ -225,11 +224,10 @@ private:
 
     mutable Multiplet_2 multiplet_2_;
 
-    float Distance(const Vector2& point_0) const
-    {
-      Vector2 point_1(Multiplet1().Jet().rap(), Multiplet1().Jet().phi_std());
-      Vector2 point_2(Multiplet2().Jet().rap(), Multiplet2().Jet().phi_std());
-      return std::abs(point_2.Y() - point_1.Y() * point_0.X() - (point_2.X() - point_1.X()) * point_0.Y() + point_2.X() * point_1.Y() - point_2.Y() * point_1.X()) / DeltaR();
+    float Distance(const Vector2& point_0) const {
+        Vector2 point_1(Multiplet1().Jet().rap(), Multiplet1().Jet().phi_std());
+        Vector2 point_2(Multiplet2().Jet().rap(), Multiplet2().Jet().phi_std());
+        return std::abs(point_2.Y() - point_1.Y() * point_0.X() - (point_2.X() - point_1.X()) * point_0.Y() + point_2.X() * point_1.Y() - point_2.Y() * point_1.X()) / DeltaR();
     }
 
 };

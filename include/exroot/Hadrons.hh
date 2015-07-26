@@ -21,7 +21,7 @@ public:
      *
      * @return void
      */
-    bool Jets(const JetDetail jet_detail);
+    bool Jets(JetDetail jet_detail);
 
 };
 

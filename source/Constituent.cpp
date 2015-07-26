@@ -4,20 +4,20 @@ namespace analysis {
 
 Constituent::Constituent() {};
 
-Constituent::Constituent(const TLorentzVector& momentum, const TLorentzVector& position, const Family& family)
+Constituent::Constituent(const TLorentzVector& momentum, const analysis::LorentzVector& position, const analysis::Family& family)
 {
     momentum_ = momentum;
     position_ = position;
     family_ = family;
 }
 
-Constituent::Constituent(const TLorentzVector& momentum, const TLorentzVector& position)
+Constituent::Constituent(const TLorentzVector& momentum, const analysis::LorentzVector& position)
 {
     momentum_ = momentum;
     position_ = position;
 }
 
-Constituent::Constituent(const TLorentzVector& momentum, const TLorentzVector& position, const SubDetector sub_detector, float charge)
+Constituent::Constituent(const TLorentzVector& momentum, const analysis::LorentzVector& position, const analysis::SubDetector sub_detector, float charge)
 {
     momentum_ = momentum;
     position_ = position;

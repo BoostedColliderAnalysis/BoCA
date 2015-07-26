@@ -6,24 +6,31 @@
 #include "delphes/Delphes.hh"
 #include "JetInfo.hh"
 
-namespace analysis {
-
-std::string Name(const analysis::JetDetail jet_detail)
+namespace analysis
 {
-    switch (jet_detail) {
-    case JetDetail::plain:
-        return  "Plain";
-    case JetDetail:: tagging:
-        return  "Tagging";
-    case JetDetail:: isolation:
-        return  "Isolation";
-    case JetDetail:: structure:
-        return  "Structure";
-    case JetDetail:: tagging_isolation:
-        return  "Tagging Isolation";
-    case JetDetail:: tagging_structure:
-        return  "Tagging Structure";
-    }
+
+std::string Name(JetDetail jet_detail)
+{
+    std::string name;
+    FlagSwitch(jet_detail, [&](JetDetail jet_detail) {
+        switch (jet_detail) {
+        case JetDetail::plain:
+            name += "Plain";
+            break;
+        case JetDetail::tagging:
+            name += "Tagging";
+            break;
+        case JetDetail::isolation:
+            name += "Isolation";
+            break;
+        case JetDetail::structure:
+            name += "Structure";
+            break;
+        default :
+            name += "";
+        }
+    });
+    return name;
 }
 
 FourVector::FourVector() :
@@ -38,7 +45,7 @@ void FourVector::NewEvent(const ClonesArrays& clones_arrays)
 {
     std::vector<Family>topology_;
     clones_arrays_ = &clones_arrays;
-    topology_.assign(clones_arrays_->ParticleSum(), Family(Id::empty));
+    topology_.assign(clones_arrays.ParticleSum(), Family(Id::empty));
     Info("Topology", topology_.size());
 }
 
@@ -154,7 +161,7 @@ Family FourVector::BranchFamily(const TObject& object) const
     if (family.mother_1().id() == to_int(Id::empty))
         family = Family(family.particle().position(), Id::isr, family.mother_1().position(), Id::isr);
 //       Error("Truth Level Tagging Failed");
-    for (auto& node : topology_) if (node.Marker())
+    for (auto & node : topology_) if (node.Marker())
             node = family;
     //
     Debug("Branch Family", Name(family.particle().id()), Name(family.mother_1().id()));
