@@ -104,8 +104,6 @@ private:
 
     virtual void AnalysisLoop(Stage stage) = 0;
 
-    std::string PathName(const std::string& file_name, const std::string& suffix = ".root") const;
-
     void RunTagger(const analysis::Stage stage);
 
     void RunFactory();

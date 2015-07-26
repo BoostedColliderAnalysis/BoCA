@@ -200,34 +200,28 @@ void AnalysisBase::RunFullEfficiency()
     RunEfficiency();
 }
 
-std::string AnalysisBase::PathName(const std::string& file_name, const std::string& suffix) const
-{
-    Error(file_name);
-    return ProjectName() + "/" + file_name + suffix;
-}
-
 void AnalysisBase::RunTagger(Stage stage)
 {
-    if (Missing(PathName(tagger().Name(stage)))) AnalysisLoop(stage);
+  if (Missing(tagger().SignalFileName(stage))) AnalysisLoop(stage);
 }
 
 // void AnalysisBase::RunFactory()
 // {
 //     PrepareFiles();
-//     if (Missing(PathName(tagger().factory_name()))) analysis::Factory factory(tagger());
+//     if (Missing(tagger().FactoryFileName())) analysis::Factory factory(tagger());
 // }
 
 void AnalysisBase::RunFactory()
 {
     PrepareFiles();
-    if (Missing(PathName(tagger().bdt_weight_name(), ""))) analysis::Factory factory(tagger());
+    if (Missing(tagger().BdtWeightFileName())) analysis::Factory factory(tagger());
 }
 
 
 void AnalysisBase::RunSignificance()
 {
     PrepareFiles();
-//     if (Missing(PathName(tagger().export_name()))) {
+    //     if (Missing(tagger().ExportFileName())) {
     analysis::Plot plot(tagger());
     plot.OptimalSignificance();
 //     }
@@ -236,7 +230,7 @@ void AnalysisBase::RunSignificance()
 void AnalysisBase::RunEfficiency()
 {
     PrepareFiles();
-//     if (Missing(PathName(tagger().export_name()))) {
+    //     if (Missing(tagger().ExportFileName())) {
     analysis::Plot plot(tagger());
     plot.TaggingEfficiency();
 //     }
@@ -245,7 +239,7 @@ void AnalysisBase::RunEfficiency()
 void AnalysisBase::RunPlots()
 {
     PrepareFiles();
-//   if (Missing(PathName(tagger().export_name()))) {
+    //   if (Missing(tagger().ExportFileName())) {
     analysis::Plot plot(tagger());
     plot.RunPlots();
 //   }

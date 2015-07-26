@@ -25,7 +25,7 @@ public:
 
     AnalysisNeutral()
     {
-        this->tagger().set_analysis_name(ProjectName());
+        this->tagger().SetAnalysisName(ProjectName());
     }
 
     void SetFiles(Tag tag) final {

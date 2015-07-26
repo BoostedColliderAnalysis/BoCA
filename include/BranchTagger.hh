@@ -11,7 +11,17 @@ namespace analysis {
 template<typename Branch>
 class BranchTagger : public Tagger {
 
+  const Branch& branch() const final
+  {
+    return branch_;
+  }
+
 protected:
+
+  Branch& branch()
+  {
+    return branch_;
+  }
 
     template<typename Multiplet>
     std::vector<Multiplet> ReduceResult(std::vector<Multiplet>& multiplets, size_t max = 4) const
@@ -25,8 +35,7 @@ protected:
 
     Jets ReduceResult(Jets& jets, size_t max = 4) const
     {
-        if (jets.empty())
-            return jets;
+        if (jets.empty()) return jets;
         std::sort(jets.begin(), jets.end(), SortByBdt());
         jets.erase(jets.begin() + std::min(max, jets.size()), jets.end());
         return jets;
@@ -35,8 +44,7 @@ protected:
     template<typename Multiplet>
     std::vector<Multiplet> BestMass(std::vector<Multiplet>& multiplets, float mass, size_t number = 1) const
     {
-        if (multiplets.size() <= number)
-            return multiplets;
+        if (multiplets.size() <= number) return multiplets;
         multiplets = SortedByMassTo(multiplets, mass);
         multiplets.erase(multiplets.begin() + number, multiplets.end());
         return multiplets;
@@ -45,8 +53,7 @@ protected:
     template<typename Multiplet>
     std::vector<Multiplet> BestRapidity(std::vector<Multiplet>& multiplets, size_t number = 1) const
     {
-        if (multiplets.size() <= number)
-            return multiplets;
+        if (multiplets.size() <= number) return multiplets;
         multiplets = SortByMaxDeltaRap(multiplets);
         multiplets.erase(multiplets.begin() + number, multiplets.end());
         return multiplets;
@@ -121,11 +128,6 @@ protected:
         return *Branch::Class();
     }
 
-    const Branch& branch() const final
-    {
-        return branch_;
-    }
-
     template<typename Multiplet>
     float Bdt(const Multiplet& multiplet, const TMVA::Reader& reader) const
     {
@@ -144,11 +146,6 @@ protected:
         ClearObservables();
         AddVariables();
         AddSpectators();
-    }
-
-    Branch& branch() override
-    {
-        return branch_;
     }
 
 private:

@@ -39,10 +39,10 @@ void Factory::AddVariables()
 {
     Note("Add Variables");
     TMVA::gConfig().GetIONames().fWeightFileDir = tagger().AnalysisName();
-    TMVA::gConfig().GetIONames().fWeightFileExtension = tagger().weight_file_extension();
-    for (const auto& observable : tagger().variables())
+    TMVA::gConfig().GetIONames().fWeightFileExtension = tagger().WeightFileExtension();
+    for (const auto& observable : tagger().Variables())
         factory().AddVariable(observable.expression(), observable.title(), observable.unit(), observable.type());
-    for (const auto& spectator : tagger().spectators())
+    for (const auto& spectator : tagger().Spectators())
         factory().AddSpectator(spectator.expression(), spectator.title(), spectator.unit(), spectator.type());
 }
 
@@ -53,19 +53,19 @@ long Factory::GetTrees()
     if (gSystem->AccessPathName(tagger().SignalFileName(Stage::trainer).c_str()))
       Error("File not found", tagger().SignalFileName(Stage::trainer));
     TFile& signal_file = *TFile::Open(tagger().SignalFileName(Stage::trainer).c_str());
-    Note(signal_file.GetName(), tagger().signal_tree_names().size());
+    Note(signal_file.GetName(), tagger().SignalTreeNames().size());
     long signal_number = 0;
-    for (const auto& tree_number : Range(tagger().signal_tree_names().size())) {
-        Note("signal Tree Name", tagger().signal_tree_names()[tree_number]);
-        signal_number += AddTree(signal_file, tagger().signal_tree_names()[tree_number], Tag::signal);
+    for (const auto& tree_number : Range(tagger().SignalTreeNames().size())) {
+      Note("signal Tree Name", tagger().SignalTreeNames().at(tree_number));
+        signal_number += AddTree(signal_file, tagger().SignalTreeNames().at(tree_number), Tag::signal);
     }
     Note(tagger().BackgroundFileName(Stage::trainer));
     if (gSystem->AccessPathName(tagger().BackgroundFileName(Stage::trainer).c_str()))
       Error("File not found", tagger().BackgroundFileName(Stage::trainer));
     TFile& background_file = *TFile::Open(tagger().BackgroundFileName(Stage::trainer).c_str());
-    Note(background_file.GetName(), tagger().background_tree_names().size());
+    Note(background_file.GetName(), tagger().BackgroundFileName(Stage::trainer));
     long background_number = 0;
-    for (const auto& background_tree_name : tagger().background_tree_names()) {
+    for (const auto& background_tree_name : tagger().BackgroundTreeNames()) {
         Note(background_tree_name);
         background_number += AddTree(background_file, background_tree_name, Tag::background);
     }
@@ -82,7 +82,7 @@ long Factory::AddTree(TFile& file, const std::string& tree_name, Tag tag)
     Error("Branch Name", tagger().BranchName(Stage::trainer).c_str());
     tree.GetBranch(tagger().BranchName(Stage::trainer).c_str());
     exroot::TreeReader& tree_reader = *new exroot::TreeReader(&tree); // FIXME nasty hack with memeory leak; necessary because the tree reader destructor closes the file which makes it invisible for tmva; reimplment in a cleaner way!!
-    TClonesArray& clones_array = *tree_reader.UseBranch(tagger().weight_branch_name().c_str());
+    TClonesArray& clones_array = *tree_reader.UseBranch(tagger().WeightBranchName().c_str());
     tree_reader.ReadEntry(0);
     float crosssection = static_cast<InfoBranch&>(*clones_array.First()).Crosssection / tree_reader.GetEntries();  // this takes care of the multiplicity
     Note("Weight", crosssection);
@@ -109,7 +109,7 @@ void Factory::PrepareTrainingAndTestTree(long event_number)
     std::string number_options = "nTrain_Background=" + std::to_string(event_number) + ":nTest_Background=" + std::to_string(event_number) + ":nTrain_Signal=" + std::to_string(event_number) + ":nTest_Signal=" + std::to_string(event_number);
 //     std::string TrainingAndTestOptions = "nTrain_Signal=0:nTrain_Background=0:SplitMode=Random:NormMode=Numevents:!V";
     std::string training_and_test_options = number_options + "SplitMode=Block";
-    factory().PrepareTrainingAndTestTree(tagger().cut(), tagger().cut(), training_and_test_options);
+    factory().PrepareTrainingAndTestTree(tagger().Cut(), tagger().Cut(), training_and_test_options);
 }
 
 TMVA::MethodBDT& Factory::BookMethods()
@@ -120,7 +120,7 @@ TMVA::MethodBDT& Factory::BookMethods()
     //:VarTransform=D
 //     std::string bdt_options = "!H:!V:NTrees=1000:MinNodeSize=1.5%:BoostType=Grad:Shrinkage=0.10:UseBaggedGrad:UseRandomisedTrees:GradBaggingFraction=0.5:nCuts=20:MaxDepth=4";
     //:CreateMVAPdfs:DoBoostMonitor";
-    return dynamic_cast<TMVA::MethodBDT&>(*factory().BookMethod(TMVA::Types::kBDT, tagger().bdt_method_name(), bdt_options));
+    return dynamic_cast<TMVA::MethodBDT&>(*factory().BookMethod(TMVA::Types::kBDT, tagger().BdtMethodName(), bdt_options));
 }
 
 }

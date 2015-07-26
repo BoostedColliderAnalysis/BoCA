@@ -31,7 +31,7 @@ public:
         HiggsMass = multiplet.Doublet().Jet().m();
         PairRap = multiplet.Sextet().DeltaRap();
     }
-    Observables Variables();
+    Observables Variables() const;
 
 private:
     ClassDef(SignatureLeptonicBranch, 1)
@@ -170,7 +170,7 @@ public:
         TopMass = multiplet.Triplet2().Jet().m();
         TopBdt = multiplet.Triplet2().Bdt();
     }
-    Observables Variables();
+    Observables Variables() const;
 private:
     ClassDef(TripletPairBranch, 1)
 };

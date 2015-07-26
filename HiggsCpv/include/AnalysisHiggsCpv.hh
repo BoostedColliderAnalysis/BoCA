@@ -23,7 +23,7 @@ class Analysis : public analysis::Analysis<Tagger>
 public:
 
     Analysis() {
-        this->tagger().set_analysis_name(ProjectName());
+        this->tagger().SetAnalysisName(ProjectName());
         DetectorGeometry::set_detector_type(DetectorType::CMS);
     }
 
