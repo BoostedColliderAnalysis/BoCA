@@ -43,15 +43,23 @@ public:
 
     void AddBackgroundTreeName(const std::string& background_tree_name);
 
-    std::string BranchName(Stage stage) const;
+    std::vector<Observable> Variables() const;
+
+    std::vector<Observable> Spectators() const;
+
+    Strings SignalTreeNames() const;
+
+    Strings BackgroundTreeNames() const;
 
     virtual std::string Name() const = 0;
 
-    std::string FactoryName() const;
+    std::string Name(Stage stage) const;
+
+    std::string Name(Stage stage, Tag tag) const;
+
+    std::string BranchName(Stage stage) const;
 
     std::string FactoryFileName() const;
-
-    std::string ExportName() const;
 
     std::string ExportFileName() const;
 
@@ -61,45 +69,13 @@ public:
 
     std::string BackgroundFileName(Stage stage) const;
 
-    std::string Name(Stage stage) const;
-
-    std::string Name(Stage stage, Tag tag) const;
-
-    std::vector<Observable> variables() const;
-
-    std::vector<Observable> spectators() const;
-
-    Strings signal_file_names() const;
-
-    Strings signal_tree_names() const;
-
-    void ClearTreeNames();
-
-    Strings background_file_names() const;
-
-    Strings background_tree_names() const;
-
-    TCut cut() const;
-
-    static void set_analysis_name(const std::string& analysis_name);
-
-    std::string bdt_method_name() const;
-
-    std::string bdt_weight_name() const;
+    std::string BdtMethodName() const;
 
     std::string BdtWeightFileName() const;
 
-    std::string weight_file_extension() const;
+    std::string WeightFileExtension() const;
 
-    std::string weight_branch_name() const;
-
-    std::string background_name() const;
-
-    std::string background(const std::string& name) const;
-
-    std::string signal_name() const;
-
-    std::string signal(const std::string& name) const;
+    std::string WeightBranchName() const;
 
     virtual int GetBdt(const Event&, const PreCuts&, const TMVA::Reader&) const = 0;
 
@@ -111,13 +87,17 @@ public:
 
     void SetTreeBranch(exroot::TreeWriter& tree_writer, Stage stage);
 
-    virtual const ResultBranch& branch() const = 0;
-
-    virtual ResultBranch& branch() = 0;
-
     virtual std::string NiceName() const;
 
     std::string AnalysisName() const;
+
+    void ClearTreeNames();
+
+    TCut Cut() const;
+
+    static void SetAnalysisName(const std::string& analysis_name);
+
+    virtual const ResultBranch& branch() const = 0;
 
 protected:
 
@@ -142,10 +122,26 @@ protected:
 private:
 
   std::string Root() const;
+  
+  std::string PathName(const std::string& file_name, const std::string& suffix = ".root") const;
 
-  std::string ReaderName() const;
+    std::string ReaderName() const;
 
-  std::string ReaderName(const std::string& name) const;
+    std::string ReaderName(const std::string& name) const;
+
+    std::string BdtWeightName() const;
+
+    std::string BackgroundName() const;
+
+    std::string BackgroundName(const std::string& name) const;
+
+    std::string SignalName() const;
+
+    std::string SignalName(const std::string& name) const;
+
+    std::string FactoryName() const;
+
+    std::string ExportName() const;
 
     /**
      * @brief Tree Branch pointer saving the results

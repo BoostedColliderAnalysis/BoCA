@@ -24,7 +24,7 @@ Observable Tagger::NewObservable(float& value, const std::string& title) const
 float Tagger::Bdt(const TMVA::Reader& reader) const
 {
     Info();
-    return const_cast<TMVA::Reader&>(reader).EvaluateMVA(bdt_method_name()) + 1;  // TODO get rid of the const cast
+    return const_cast<TMVA::Reader&>(reader).EvaluateMVA(BdtMethodName()) + 1;  // TODO get rid of the const cast
 }
 
 Jets Tagger::SubJets(const fastjet::PseudoJet& jet, int sub_jet_number) const
@@ -38,8 +38,7 @@ Jets Tagger::SubJets(const fastjet::PseudoJet& jet, int sub_jet_number) const
     for (auto& piece : cluster_sequence.exclusive_jets_up_to(sub_jet_number)) {
         std::vector<Constituent> constituents;
         for (const auto& constituent : piece.constituents()) {
-            if (!constituent.has_user_info<JetInfo>())
-                continue;
+            if (!constituent.has_user_info<JetInfo>()) continue;
             std::vector<Constituent> piece_constituents = constituent.user_info<JetInfo>().constituents();
             constituents = Join(constituents, piece_constituents);
         }
@@ -62,7 +61,7 @@ void Tagger::AddBackgroundTreeName(const std::string& background_tree_name)
 
 std::string Tagger::BranchName(Stage stage) const
 {
-  return Name(stage);
+    return Name(stage);
 }
 
 std::string Tagger::FactoryName() const
@@ -72,7 +71,7 @@ std::string Tagger::FactoryName() const
 
 std::string Tagger::FactoryFileName() const
 {
-  return AnalysisName() + "/" + FactoryName() + Root();
+  return PathName(FactoryName());
 }
 
 std::string Tagger::ExportName() const
@@ -81,13 +80,12 @@ std::string Tagger::ExportName() const
 }
 std::string Tagger::ExportFileName() const
 {
-  return AnalysisName() + "/" + ExportName() + Root();
+  return PathName(ExportName());
 }
 std::string Tagger::ExportFolderName() const
 {
-  return AnalysisName() + "/" + ExportName();
+    return AnalysisName() + "/" + ExportName();
 }
-
 std::string Tagger::ReaderName() const
 {
     return ReaderName(Name());
@@ -112,12 +110,12 @@ std::string Tagger::Name(Stage stage, Tag tag) const
     case Tag::signal :
         return name;
     case Tag::background :
-        return background(name);
+        return BackgroundName(name);
     }
 }
 std::string Tagger::SignalFileName(Stage stage) const
 {
-    std::string name = AnalysisName() + "/" + signal_name();
+    std::string name = AnalysisName() + "/" + SignalName();
     switch (stage) {
     case Stage::trainer :
         return name + Root();
@@ -127,12 +125,12 @@ std::string Tagger::SignalFileName(Stage stage) const
 }
 std::string Tagger::BackgroundFileName(Stage stage) const
 {
-    std::string name = AnalysisName() + "/" + background_name();
+    std::string name = AnalysisName() + "/" + BackgroundName();
     switch (stage) {
     case Stage::trainer :
-      return name + Root();
+        return name + Root();
     case Stage::reader :
-      return ReaderName(name) + Root();
+        return ReaderName(name) + Root();
     }
 }
 std::string Tagger::AnalysisName() const
@@ -140,15 +138,15 @@ std::string Tagger::AnalysisName() const
     Debug();
     return analysis_name_;
 }
-std::vector<Observable> Tagger::variables() const
+std::vector<Observable> Tagger::Variables() const
 {
     return variables_;
 }
-std::vector<Observable> Tagger::spectators() const
+std::vector<Observable> Tagger::Spectators() const
 {
     return spectators_;
 }
-Strings Tagger::signal_tree_names() const
+Strings Tagger::SignalTreeNames() const
 {
     return signal_tree_names_;
 }
@@ -157,58 +155,58 @@ void Tagger::ClearTreeNames()
     signal_tree_names_.clear();
     background_tree_names_.clear();
 }
-Strings Tagger::background_tree_names() const
+Strings Tagger::BackgroundTreeNames() const
 {
     return background_tree_names_;
 }
-TCut Tagger::cut() const
+TCut Tagger::Cut() const
 {
     return TCut();
 }
-void Tagger::set_analysis_name(const std::string& analysis_name)
+void Tagger::SetAnalysisName(const std::string& analysis_name)
 {
     analysis_name_ = analysis_name;
 }
 
-std::string Tagger::bdt_method_name() const
+std::string Tagger::BdtMethodName() const
 {
     return "Bdt";
 }
 
-std::string Tagger::bdt_weight_name() const
+std::string Tagger::BdtWeightName() const
 {
-    return Name() + "_" + bdt_method_name() + "." + weight_file_extension() + ".xml";
+    return Name() + "_" + BdtMethodName() + "." + WeightFileExtension() + ".xml";
 }
 
 std::string Tagger::BdtWeightFileName() const
 {
-  return AnalysisName() + "/" + bdt_weight_name();
+    return AnalysisName() + "/" + BdtWeightName();
 }
 
-std::string Tagger::weight_file_extension() const
+std::string Tagger::WeightFileExtension() const
 {
     return "weights";
     return "";
 }
 
-std::string Tagger::weight_branch_name() const
+std::string Tagger::WeightBranchName() const
 {
     return "Info";
 }
-std::string Tagger::background_name() const
+std::string Tagger::BackgroundName() const
 {
-    return background(Name());
+    return BackgroundName(Name());
 }
-std::string Tagger::signal_name() const
+std::string Tagger::SignalName() const
 {
-    return signal(Name());
+    return SignalName(Name());
 }
-std::string Tagger::signal(const std::string& name) const
+std::string Tagger::SignalName(const std::string& name) const
 {
-  return name;
-  return name + "SG";
+    return name;
+    return name + "SG";
 }
-std::string Tagger::background(const std::string& name) const
+std::string Tagger::BackgroundName(const std::string& name) const
 {
     return "Not" + name;
     return name + "BG";
@@ -257,6 +255,12 @@ std::string Tagger::NiceName() const
 std::string Tagger::Root() const
 {
     return ".root";
+}
+
+std::string Tagger::PathName(const std::string& file_name, const std::string& suffix) const
+{
+  Error(file_name);
+  return AnalysisName() + "/" + file_name + suffix;
 }
 
 }

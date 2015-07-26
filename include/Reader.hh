@@ -104,13 +104,13 @@ private:
     void BookMva()
     {
         //TMVA::IMethod &method = *
-        reader_.BookMVA(tagger_.bdt_method_name(), tagger_.BdtWeightFileName());
+        reader_.BookMVA(tagger_.BdtMethodName(), tagger_.BdtWeightFileName());
     }
 
     void AddVariable()
     {
-        for (auto& observable : tagger_.variables()) reader_.AddVariable(observable.expression(), &observable.value());
-        for (auto& spectator : tagger_.spectators()) reader_.AddSpectator(spectator.expression(), &spectator.value());
+        for (auto& observable : tagger_.Variables()) reader_.AddVariable(observable.expression(), &observable.value());
+        for (auto& spectator : tagger_.Spectators()) reader_.AddSpectator(spectator.expression(), &spectator.value());
     }
 
 };

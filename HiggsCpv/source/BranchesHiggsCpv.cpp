@@ -91,11 +91,11 @@ analysis::higgscpv::QuartetPairBranch::QuartetPairBranch()
 }
 namespace analysis {
 namespace higgscpv {
-Observables SignatureLeptonicBranch::Variables()
+Observables SignatureLeptonicBranch::Variables() const
 {
     return Join(MultiBranch::Variables(), {PAIR(BottomBdt), PAIR(PairBottomBdt), PAIR(HardTopPt), PAIR(SoftTopPt), PAIR(HiggsMass), PAIR(PairRap)});
 }
-Observables TripletPairBranch::Variables()
+Observables TripletPairBranch::Variables() const
 {
     return Join(PairBranch::Variables(), {PAIR(BottomPt), PAIR(BottomRap), PAIR(BottomPhi), PAIR(BottomMass), PAIR(TopPt), PAIR(TopRap), PAIR(TopPhi), PAIR(TopMass), PAIR(TopBdt)});
 }

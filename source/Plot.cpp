@@ -96,8 +96,8 @@ Results Plot::ExportFile() const
 {
     TFile export_file(tagger().ExportFileName().c_str(), "Recreate");
     Results results;
-    results.signal = Export(export_file, tagger().SignalFileName(Stage::reader), tagger().signal_tree_names());
-    results.background = Export(export_file, tagger().BackgroundFileName(Stage::reader), tagger().background_tree_names());
+    results.signal = Export(export_file, tagger().SignalFileName(Stage::reader), tagger().SignalTreeNames());
+    results.background = Export(export_file, tagger().BackgroundFileName(Stage::reader), tagger().BackgroundTreeNames());
     export_file.Close();
     return results;
 }
@@ -252,7 +252,7 @@ void Plot::OptimalSignificance() const
     table << "\n \\\\ $p$-value\n & " << significances.at(best_bin);
     table << "\n \\\\ Efficiency\n & " << results.signal.front().efficiency.at(best_bin) << "\n & " << results.signal.front().analysis_event_number.at(best_bin) << "\n & " << results.signal.front().event_sum() << "\n";
     for (const auto& background : results.background)
-        table << " \\\\ \\verb|" << tagger().background_tree_names().at(&background - &results.background[0]) << "|\n & " << background.efficiency.at(best_bin) << "\n & " << background.analysis_event_number.at(best_bin) << "\n & " << background.event_sum() << "\n";
+        table << " \\\\ \\verb|" << tagger().BackgroundTreeNames().at(&background - &results.background[0]) << "|\n & " << background.efficiency.at(best_bin) << "\n & " << background.analysis_event_number.at(best_bin) << "\n & " << background.event_sum() << "\n";
     std::string efficiency_file_name = PlotEfficiencyGraph(results, x_values, best_bin);
     std::string significance_file_name = PlotSignificanceGraph(results, x_values, significances, best_bin);
     std::string bdt_file_name = PlotHistograms(results);
@@ -366,8 +366,8 @@ InfoBranch Plot::InfoBranch(TFile& file, const std::string& tree_name) const
 {
     Debug(tree_name);
     exroot::TreeReader tree_reader(static_cast<TTree*>(file.Get(tree_name.c_str())));
-    Debug(tree_name, tagger().weight_branch_name());
-    TClonesArray& clones_array = *tree_reader.UseBranch(tagger().weight_branch_name().c_str());
+    Debug(tree_name, tagger().WeightBranchName());
+    TClonesArray& clones_array = *tree_reader.UseBranch(tagger().WeightBranchName().c_str());
     tree_reader.ReadEntry(tree_reader.GetEntries() - 1);
     return dynamic_cast<analysis::InfoBranch&>(*clones_array.At(clones_array.GetEntriesFast() - 1));
 }
@@ -555,10 +555,10 @@ void Result::set_event_sum(long event_sum)
 void Plot::RunPlots() const
 {
   for(const auto& stage : std::vector<Stage>{Stage::trainer,Stage::reader}){
-    Debug(tagger().SignalFileName(stage), tagger().signal_tree_names().size());
-    std::vector<Plots> signals = Import(tagger().SignalFileName(stage), tagger().signal_tree_names(), stage);
-    Debug(tagger().BackgroundFileName(stage), tagger().background_tree_names().size());
-    std::vector<Plots> backgrounds = Import(tagger().BackgroundFileName(stage), tagger().background_tree_names(), stage);
+    Debug(tagger().SignalFileName(stage), tagger().SignalTreeNames().size());
+    std::vector<Plots> signals = Import(tagger().SignalFileName(stage), tagger().SignalTreeNames(), stage);
+    Debug(tagger().BackgroundFileName(stage), tagger().BackgroundTreeNames().size());
+    std::vector<Plots> backgrounds = Import(tagger().BackgroundFileName(stage), tagger().BackgroundTreeNames(), stage);
     Plots background = backgrounds.front();
     if (backgrounds.size() > 1) {
         background = std::accumulate(backgrounds.begin() + 1, backgrounds.end(), background, [](Plots & sum, const Plots & elem) {

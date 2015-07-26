@@ -12,7 +12,7 @@
 
 namespace analysis {
 
-Obs::Obs(float& value, const std::string& name, const std::string& nice_name) : value_(&value)
+Obs::Obs(const float& value, const std::string& name, const std::string& nice_name) : value_(&const_cast<float&>(value))
 {
     name_ = name;
     nice_name_ = nice_name;
@@ -73,12 +73,12 @@ ResultBranch::ResultBranch()
     Tag = int(InitialValue());
 }
 
-Observables ResultBranch::Variables()
+Observables ResultBranch::Variables() const
 {
     return {};
 }
 
-Observables ResultBranch::Spectators()
+Observables ResultBranch::Spectators() const
 {
     return {OBS(Tag), OBS(Bdt)};
 }
@@ -92,12 +92,12 @@ ParticleBranch::ParticleBranch()
     Charge = int(InitialValue());
 }
 
-Observables ParticleBranch::Variables()
+Observables ParticleBranch::Variables() const
 {
     return Join(ResultBranch::Variables(), {OBS(Mass, "m")});
 }
 
-Observables ParticleBranch::Spectators()
+Observables ParticleBranch::Spectators() const
 {
     return Join(ResultBranch::Spectators(), {OBS(Charge), OBS(Pt), OBS(Rap), OBS(Phi)});
 }
@@ -116,22 +116,22 @@ BottomBase::BottomBase()
     EnergyFraction = InValue();
 }
 
-Observables BottomBase::Variables()
+Observables BottomBase::Variables() const
 {
     return {OBS(VertexMass, "m_{V}"), OBS(MaxDisplacement, "log(#Delta d_{max})"), OBS(MeanDisplacement, "log(#Delta d_{mean})"), OBS(SumDisplacement, "log(#Delta d_{sum})"), OBS(Multiplicity, "n_{V}"), OBS(Radius, "r"), OBS(Spread, "s"), OBS(VertexRadius, "r_{V}"), OBS(VertexSpread, "s_{V}"), OBS(EnergyFraction, "f_{E}")};
 }
 
-Observables BottomBase::Spectators()
+Observables BottomBase::Spectators() const
 {
     return {};
 }
 
-Observables BottomBranch::Variables()
+Observables BottomBranch::Variables() const
 {
     return Join(ParticleBranch::Variables(), BottomBase::Variables());
 }
 
-Observables BottomBranch::Spectators()
+Observables BottomBranch::Spectators() const
 {
     return Join(ParticleBranch::Spectators(), BottomBase::Variables());
 }
@@ -149,12 +149,12 @@ TauBranch::TauBranch()
     TrtHtFraction = InitialValue();
 }
 
-Observables TauBranch::Variables()
+Observables TauBranch::Variables() const
 {
     return Join(ParticleBranch::Variables(), {OBS(EmRadius), OBS(TrackRadius), OBS(MomentumFraction), OBS(CoreEnergyFraction), OBS(EmFraction), OBS(ClusterMass), OBS(TrackMass), OBS(FlightPath), OBS(TrtHtFraction)});
 }
 
-Observables TauBranch::Spectators()
+Observables TauBranch::Spectators() const
 {
     return ParticleBranch::Spectators();
 }
@@ -175,13 +175,13 @@ PairBranch::PairBranch()
     Dipolarity = InitialValue();
 }
 
-Observables PairBranch::Variables()
+Observables PairBranch::Variables() const
 {
   return Join(ParticleBranch::Variables(), {OBS(Ht, "H_{T}"), OBS(DeltaPt, "#Delta P_{T}"), OBS(DeltaM, "#Delta m"), OBS(DeltaRap, "#Delta #eta"), OBS(DeltaPhi, "#Delta #phi"), OBS(DeltaR, "#Delta R"), OBS(Rho, "#rho"), OBS(Bdt1, "BDT_{1}"), OBS(Bdt2, "BDT_{2}"),OBS(Pull,"#theta"),OBS(DeltaPull,"#Delta #theta"),OBS(Dipolarity,"D")});
-    //return Join(ParticleBranch::Variables(), {OBS(Ht), OBS(DeltaPt), OBS(DeltaM), OBS(DeltaRap), OBS(DeltaPhi), OBS(DeltaR), OBS(Rho)});
+    //return Join(ParticleBranch::Variables() {OBS(Ht), OBS(DeltaPt), OBS(DeltaM), OBS(DeltaRap), OBS(DeltaPhi), OBS(DeltaR), OBS(Rho)});
 }
 
-Observables PairBranch::Spectators()
+Observables PairBranch::Spectators() const
 {
     return ParticleBranch::Spectators();
 }
@@ -191,7 +191,7 @@ MultiBranch::MultiBranch()
     DeltaHt = InitialValue();
 }
 
-Observables MultiBranch::Variables()
+Observables MultiBranch::Variables() const
 {
     return Join(PairBranch::Variables(), {OBS(DeltaHt, "#Delta H_{T}")});
 }
@@ -222,7 +222,7 @@ JetPairBranch::JetPairBranch()
 }
 
 
-Observables JetPairBranch::Variables()
+Observables JetPairBranch::Variables() const
 {
     return Join(PairBranch::Variables(), {OBS(Jet1Mass), OBS(Jet1Pt), OBS(Jet1Rap), OBS(Jet1Phi), OBS(Jet2Mass), OBS(Jet2Pt), OBS(Jet2Rap), OBS(Jet2Phi)});
 }
@@ -243,7 +243,7 @@ TripletJetPairBranch::TripletJetPairBranch()
     TopBTag = InitialValue();
 }
 
-Observables TripletJetPairBranch::Variables()
+Observables TripletJetPairBranch::Variables() const
 {
     return Join(PairBranch::Variables(), {OBS(BottomPt), OBS(BottomRap), OBS(BottomPhi), OBS(BottomMass), OBS(TopPt), OBS(TopRap), OBS(TopPhi), OBS(TopMass), OBS(TopBdt)});
 }
@@ -254,7 +254,7 @@ WSemiBranch::WSemiBranch()
     LeptonPt = InitialValue();
 }
 
-Observables WSemiBranch::Variables()
+Observables WSemiBranch::Variables() const
 {
     return Join(ParticleBranch::Variables(), {OBS(Ht), OBS(DeltaPt), OBS(DeltaM), OBS(DeltaRap), OBS(DeltaPhi), OBS(DeltaR), OBS(Rho), OBS(LeptonPt), OBS(NeutrinoPt)});
 }
@@ -277,14 +277,14 @@ TopHadronicBranch::TopHadronicBranch()
 //     Tau32_2 = InitialValue();
 }
 
-Observables TopHadronicBranch::Variables()
+Observables TopHadronicBranch::Variables() const
 {
     return Join(Join(MultiBranch::Variables(), BottomBase::Variables()), {OBS(LeptonPt)});
     return  Join(Join(BottomBase::Variables(), ParticleBranch::Variables()), {OBS(Bdt2), OBS(LeptonPt)});
     return Join(Join(MultiBranch::Variables(), BottomBase::Variables()), {OBS(BottomMass), OBS(WMass), OBS(LeptonPt)});
 }
 
-Observables TopHadronicBranch::Spectators()
+Observables TopHadronicBranch::Spectators() const
 {
     return Join(MultiBranch::Spectators(), BottomBase::Spectators());
 }
@@ -295,24 +295,24 @@ TopLeptonicBranch::TopLeptonicBranch()
     LeptonPt = InitialValue();
 }
 
-Observables TopLeptonicBranch::Variables()
+Observables TopLeptonicBranch::Variables() const
 {
   return  Join(Join(BottomBase::Variables(), ParticleBranch::Variables()), {OBS(Ht), OBS(DeltaPt), OBS(DeltaM), OBS(DeltaRap), OBS(DeltaPhi), OBS(DeltaR), OBS(Rho), OBS(Bdt2), OBS(BottomPt), OBS(LeptonPt),OBS(Pull,"#theta"),OBS(DeltaPull,"#Delta #theta"),OBS(Dipolarity,"D")});
 }
 
-Observables TopLeptonicBranch::Spectators()
+Observables TopLeptonicBranch::Spectators() const
 {
     return Join(PairBranch::Spectators(), BottomBase::Spectators());
 }
 
 HiggsBranch::HiggsBranch(){}
 
-Observables HiggsBranch::Variables()
+Observables HiggsBranch::Variables() const
 {
   return Join(PairBranch::Variables(), BottomBase::Variables());
 }
 
-Observables HiggsBranch::Spectators()
+Observables HiggsBranch::Spectators() const
 {
     return Join(PairBranch::Spectators(), BottomBase::Spectators());
 }
@@ -347,7 +347,7 @@ EventBranch::EventBranch()
     JetPhi = InitialValue();
 }
 
-Observables EventBranch::Variables()
+Observables EventBranch::Variables() const
 {
     return Join(MultiBranch::Variables(), {OBS(LeptonNumber), OBS(JetNumber), OBS(BottomNumber), OBS(MissingEt), OBS(ScalarHt), OBS(LeptonHt), OBS(JetMass), OBS(JetPt), OBS(JetHt), OBS(JetRap), OBS(JetPhi)});
 }

@@ -53,7 +53,7 @@ public:
         SmallerNeutrinoDeltaPhi = multiplet.GetSmallertripletDeltaPhi();
     }
 
-    Observables Variables();
+    Observables Variables() const;
 private:
 
     ClassDef(HeavyHiggsLeptonicBranch, 1)
@@ -129,7 +129,7 @@ public:
         MultiBranch::Fill(multiplet);
         Flag = multiplet.Flag();
     }
-    virtual Observables Spectators();
+    virtual Observables Spectators() const;
 
 private:
 
@@ -217,8 +217,8 @@ public:
         HeavyHiggsTag = int(multiplet.Tag());
     }
 
-    Observables Variables();
-    virtual Observables Spectators();
+    Observables Variables() const;
+    Observables Spectators() const;
 
 private:
 
@@ -248,7 +248,7 @@ public:
         NeutrinoPt = multiplet.Singlet2().Jet().pt();
     }
 
-    Observables Variables();
+    Observables Variables() const;
 
 private:
 
@@ -316,7 +316,7 @@ public:
         BottomBdt78 = multiplet.GlobalObservables().BottomBdt(7, 8);
     }
 
-    Observables Variables();
+    Observables Variables() const;
 
 private:
 
@@ -378,7 +378,7 @@ public:
         BottomBdt78 = multiplet.GlobalObservables().BottomBdt(7, 8);
     }
 
-    Observables Variables();
+    Observables Variables() const;
 
 private:
 
@@ -408,7 +408,7 @@ public:
         HiggsMass = multiplet.Jet().m();
     }
 
-    Observables Variables();
+    Observables Variables() const;
 
 
 private:
@@ -452,9 +452,7 @@ public:
         PairRap = multiplet.Doublet().DeltaRap();
     }
 
-    Observables Variables();
-
-
+    Observables Variables()const;
 private:
 
     ClassDef(OctetNeutralBranch, 1)
@@ -492,7 +490,7 @@ public:
         PairRap = multiplet.Quartet2().DeltaRap();
     }
 
-    Observables Variables();
+    Observables Variables() const;
 
 private:
 
@@ -559,7 +557,7 @@ public:
         LeptonHt = multiplet.GlobalObservables().LeptonHt();
     }
 
-    Observables Variables();
+    Observables Variables() const;
 
 private:
 

@@ -157,7 +157,7 @@ protected:
     }
 
     void set_tagger_analysis_name(const std::string& name){
-      tagger().set_analysis_name(name);
+      tagger().SetAnalysisName(name);
     }
 
     Tagger& tagger() final {
@@ -170,7 +170,7 @@ private:
     {
         Trees trees(files);
         SetTreeBranch(files.stage(), trees.tree_writer(), reader);
-        trees.UseBranches(files.file(), tagger_.weight_branch_name());
+        trees.UseBranches(files.file(), tagger_.WeightBranchName());
         if (files.stage() == Stage::reader) {
             trees.entry = std::min(long(trees.tree_reader().GetEntries()), EventNumberMax()) / 2;    // TODO fix corner cases
         }

@@ -27,7 +27,7 @@ public:
 
     AnalysisNeutralFourTop()
     {
-        this->tagger().set_analysis_name(ProjectName());
+        this->tagger().SetAnalysisName(ProjectName());
 // 	this->pre_cuts().SetPtLowerCut(Id::top,100);
     }
 
