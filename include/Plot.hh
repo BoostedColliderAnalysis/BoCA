@@ -140,7 +140,7 @@ private:
 
     Results ExportFile() const;
 
-    std::vector<Result> Export(TFile& export_file, const std::string& file_name, const analysis::Strings& treename) const;
+    std::vector<Result> Export(TFile& export_file, analysis::Tag tag) const;
 
     void PlotAcceptanceGraph(const analysis::Results& results) const;
 

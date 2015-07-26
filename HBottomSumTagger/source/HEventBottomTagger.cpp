@@ -12,19 +12,19 @@ hbottomsumtagger::EventBottomTagger::EventBottomTagger()
 void hbottomsumtagger::EventBottomTagger::DefineVariables()
 {
     Note("Define Variables");
-    AddVariable(branch().BottomBdt1, "BottomBdt1");
-    AddVariable(branch().BottomBdt2, "BottomBdt2");
-    AddVariable(branch().BottomBdt3, "BottomBdt3");
-    AddVariable(branch().BottomBdt4, "BottomBdt4");
-    AddVariable(branch().BottomBdt5, "BottomBdt5");
-    AddVariable(branch().BottomBdt6, "BottomBdt6");
-    AddVariable(branch().BottomBdt12, "BottomBdt12");
-    AddVariable(branch().BottomBdt34, "BottomBdt34");
-    AddVariable(branch().BottomBdt56, "BottomBdt56");
-    AddVariable(branch().BottomBdt123, "BottomBdt123");
-    AddVariable(branch().BottomBdt1234, "BottomBdt1234");
-    AddVariable(branch().Bdt, "Bdt");
-    AddSpectator(branch().Tag, "Tag");
+    AddVariable(Branch().BottomBdt1, "BottomBdt1");
+    AddVariable(Branch().BottomBdt2, "BottomBdt2");
+    AddVariable(Branch().BottomBdt3, "BottomBdt3");
+    AddVariable(Branch().BottomBdt4, "BottomBdt4");
+    AddVariable(Branch().BottomBdt5, "BottomBdt5");
+    AddVariable(Branch().BottomBdt6, "BottomBdt6");
+    AddVariable(Branch().BottomBdt12, "BottomBdt12");
+    AddVariable(Branch().BottomBdt34, "BottomBdt34");
+    AddVariable(Branch().BottomBdt56, "BottomBdt56");
+    AddVariable(Branch().BottomBdt123, "BottomBdt123");
+    AddVariable(Branch().BottomBdt1234, "BottomBdt1234");
+    AddVariable(Branch().Bdt, "Bdt");
+    AddSpectator(Branch().Tag, "Tag");
 }
 
 int hbottomsumtagger::EventBottomTagger::Train(const analysis::Event& event, const analysis::PreCuts&, analysis::Tag tag)

@@ -138,7 +138,7 @@ public:
         tagger_.ClearTreeNames();
         for (const auto& tag : std::vector<Tag> {Tag::signal, Tag::background})
         {
-            Files files(ExportName(stage, tag), stage, tag);
+            Files files(tagger().ExportFileName(stage, tag), stage, tag);
             ClearFiles();
             SetFiles(tag);
             for (auto& file : this->files(tag)) {

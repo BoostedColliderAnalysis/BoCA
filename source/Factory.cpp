@@ -17,7 +17,7 @@ Factory::Factory(Tagger& tagger) : tagger_(tagger) , factory_(tagger.Name(), out
     AddVariables();
     PrepareTrainingAndTestTree(GetTrees());
 //     TMVA::MethodBDT & method =
-    BookMethods();
+    BookMethod(TMVA::Types::EMVA::kBDT);
 //     std::vector<double> importances = method.GetVariableImportance();
 //     for(const auto & importance : importances) Error(importance);
     factory().TrainAllMethods();
@@ -37,7 +37,7 @@ TFile* Factory::output_file() const
 
 void Factory::AddVariables()
 {
-    Note("Add Variables");
+    Note();
     TMVA::gConfig().GetIONames().fWeightFileDir = tagger().AnalysisName();
     TMVA::gConfig().GetIONames().fWeightFileExtension = tagger().WeightFileExtension();
     for (const auto& observable : tagger().Variables())
@@ -112,7 +112,7 @@ void Factory::PrepareTrainingAndTestTree(long event_number)
     factory().PrepareTrainingAndTestTree(tagger().Cut(), tagger().Cut(), training_and_test_options);
 }
 
-TMVA::MethodBDT& Factory::BookMethods()
+TMVA::MethodBDT& Factory::BookMethod(TMVA::Types::EMVA mva)
 {
     Note();
 //     std::string bdt_options = "NTrees=1000:MinNodeSize=2.5%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=20";
@@ -120,7 +120,7 @@ TMVA::MethodBDT& Factory::BookMethods()
     //:VarTransform=D
 //     std::string bdt_options = "!H:!V:NTrees=1000:MinNodeSize=1.5%:BoostType=Grad:Shrinkage=0.10:UseBaggedGrad:UseRandomisedTrees:GradBaggingFraction=0.5:nCuts=20:MaxDepth=4";
     //:CreateMVAPdfs:DoBoostMonitor";
-    return dynamic_cast<TMVA::MethodBDT&>(*factory().BookMethod(TMVA::Types::kBDT, tagger().BdtMethodName(), bdt_options));
+    return static_cast<TMVA::MethodBDT&>(*factory().BookMethod(mva, tagger().MethodName(mva), bdt_options));
 }
 
 }

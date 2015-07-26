@@ -48,6 +48,7 @@ public:
 private:
 
     void DefineVariables();
+    void branch();
 
     analysis::Reader<analysis::BottomTagger> bottom_reader_;
 

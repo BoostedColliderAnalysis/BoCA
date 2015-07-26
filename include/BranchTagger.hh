@@ -8,17 +8,17 @@
 
 namespace analysis {
 
-template<typename Branch>
+template<typename FileBranch>
 class BranchTagger : public Tagger {
 
-  const Branch& branch() const final
+  const FileBranch& Branch() const final
   {
     return branch_;
   }
 
 protected:
 
-  Branch& branch()
+  FileBranch& Branch()
   {
     return branch_;
   }
@@ -26,8 +26,7 @@ protected:
     template<typename Multiplet>
     std::vector<Multiplet> ReduceResult(std::vector<Multiplet>& multiplets, size_t max = 4) const
     {
-        if (multiplets.empty())
-            return multiplets;
+        if (multiplets.empty()) return multiplets;
         std::sort(multiplets.begin(), multiplets.end());
         multiplets.erase(multiplets.begin() + std::min(max, multiplets.size()), multiplets.end());
         return multiplets;
@@ -108,7 +107,7 @@ protected:
         auto sum = std::min(multiplets.size(), max);
         for (const auto& counter : Range(sum)) {
             FillBranch(multiplets.at(counter));
-            static_cast<Branch&>(*tree_branch().NewEntry()) = branch();
+            static_cast<FileBranch&>(*TreeBranch().NewEntry()) = Branch();
         }
         return sum;
     }
@@ -118,14 +117,14 @@ protected:
         if (jets.empty()) return 0;
         for (const auto& counter : Range(std::min(jets.size(), max))) {
             FillBranch(Singlet(jets.at(counter)));
-            static_cast<Branch&>(*tree_branch().NewEntry()) = branch();
+            static_cast<FileBranch&>(*TreeBranch().NewEntry()) = Branch();
         }
         return jets.size();
     }
 
     TClass& Class() const final
     {
-        return *Branch::Class();
+        return *FileBranch::Class();
     }
 
     template<typename Multiplet>
@@ -152,18 +151,18 @@ private:
 
     float ReadBdt(const TClonesArray& clones_array, int entry) const final
     {
-        return static_cast<Branch&>(*clones_array.At(entry)).Bdt;
+        return static_cast<FileBranch&>(*clones_array.At(entry)).Bdt;
     }
 
     void AddVariables()
     {
-        for (const auto& variable : branch().Variables())
+        for (const auto& variable : Branch().Variables())
             AddVariable(variable.value(), variable.name());
     }
 
     void AddSpectators()
     {
-        for (const auto& spectator : branch().Spectators())
+        for (const auto& spectator : Branch().Spectators())
             AddSpectator(spectator.value(), spectator.name());
     }
 
@@ -177,7 +176,7 @@ private:
      * @brief Branch storing the analysis results
      *
      */
-    mutable Branch branch_;
+    mutable FileBranch branch_;
 };
 
 }

@@ -32,8 +32,6 @@ protected:
 
     std::vector<analysis::File> files(Tag tag);
 
-    std::string ExportName(Stage stage, Tag tag) const;
-
     void PrepareFiles();
 
     virtual void SetFiles(Tag tag) = 0;

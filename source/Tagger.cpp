@@ -24,7 +24,7 @@ Observable Tagger::NewObservable(float& value, const std::string& title) const
 float Tagger::Bdt(const TMVA::Reader& reader) const
 {
     Info();
-    return const_cast<TMVA::Reader&>(reader).EvaluateMVA(BdtMethodName()) + 1;  // TODO get rid of the const cast
+    return const_cast<TMVA::Reader&>(reader).EvaluateMVA(MethodName(TMVA::Types::EMVA::kBDT)) + 1;  // TODO get rid of the const cast
 }
 
 Jets Tagger::SubJets(const fastjet::PseudoJet& jet, int sub_jet_number) const
@@ -71,7 +71,12 @@ std::string Tagger::FactoryName() const
 
 std::string Tagger::FactoryFileName() const
 {
-  return PathName(FactoryName());
+    return PathName(FactoryName());
+}
+
+std::string Tagger::ExportFileName(Stage stage, Tag tag) const
+{
+    return PathName(Name(stage, tag));
 }
 
 std::string Tagger::ExportName() const
@@ -80,7 +85,7 @@ std::string Tagger::ExportName() const
 }
 std::string Tagger::ExportFileName() const
 {
-  return PathName(ExportName());
+    return PathName(ExportName());
 }
 std::string Tagger::ExportFolderName() const
 {
@@ -113,6 +118,17 @@ std::string Tagger::Name(Stage stage, Tag tag) const
         return BackgroundName(name);
     }
 }
+
+std::string Tagger::FileName(Stage stage, Tag tag) const
+{
+  switch (tag) {
+    case Tag::signal :
+      return SignalFileName(stage);
+    case Tag::background :
+      return BackgroundFileName(stage);
+  }
+}
+
 std::string Tagger::SignalFileName(Stage stage) const
 {
     std::string name = AnalysisName() + "/" + SignalName();
@@ -159,6 +175,16 @@ Strings Tagger::BackgroundTreeNames() const
 {
     return background_tree_names_;
 }
+Strings Tagger::TreeNames(Tag tag) const
+{
+  switch(tag){
+    case Tag::signal :
+      return SignalTreeNames();
+    case Tag::background :
+      return BackgroundTreeNames();
+  }
+}
+
 TCut Tagger::Cut() const
 {
     return TCut();
@@ -168,19 +194,24 @@ void Tagger::SetAnalysisName(const std::string& analysis_name)
     analysis_name_ = analysis_name;
 }
 
-std::string Tagger::BdtMethodName() const
+std::string Tagger::MethodName(TMVA::Types::EMVA mva) const
 {
-    return "Bdt";
+    switch(mva) {
+    case TMVA::Types::EMVA::kBDT :
+        return "Bdt";
+    default :
+        return "";
+    }
 }
 
-std::string Tagger::BdtWeightName() const
+std::string Tagger::WeightName(TMVA::Types::EMVA mva) const
 {
-    return Name() + "_" + BdtMethodName() + "." + WeightFileExtension() + ".xml";
+    return Name() + "_" + MethodName(mva) + "." + WeightFileExtension() + ".xml";
 }
 
-std::string Tagger::BdtWeightFileName() const
+std::string Tagger::WeightFileName(TMVA::Types::EMVA mva) const
 {
-    return AnalysisName() + "/" + BdtWeightName();
+    return AnalysisName() + "/" + WeightName(mva);
 }
 
 std::string Tagger::WeightFileExtension() const
@@ -229,11 +260,8 @@ void Tagger::ClearObservables()
     variables_.clear();
     spectators_.clear();
 }
-int Tagger::CandidatesMax() const
-{
-    return 4;
-}
-exroot::TreeBranch& Tagger::tree_branch() const
+
+exroot::TreeBranch& Tagger::TreeBranch() const
 {
     return *tree_branch_;
 }
@@ -259,8 +287,8 @@ std::string Tagger::Root() const
 
 std::string Tagger::PathName(const std::string& file_name, const std::string& suffix) const
 {
-  Error(file_name);
-  return AnalysisName() + "/" + file_name + suffix;
+    Error(file_name);
+    return AnalysisName() + "/" + file_name + suffix;
 }
 
 }

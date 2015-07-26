@@ -112,9 +112,7 @@ std::vector<Quartet31>  TripletJetPairTagger::Multiplets(const Event& event, con
             quartet.SetBdt(Bdt(quartet, reader));
             quartets.emplace_back(quartet);
         }
-    std::sort(quartets.begin(), quartets.end());
-    quartets.erase(quartets.begin() + std::min(CandidatesMax(), int(quartets.size())), quartets.end());
-    return quartets;
+    return ReduceResult(quartets);
 }
 
 }
