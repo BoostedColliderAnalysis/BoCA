@@ -102,7 +102,7 @@ public:
      * @brief Constructor
      *
      */
-    Plot(Tagger& tagger);
+    Plot(analysis::Tagger& tagger);
 
     void TaggingEfficiency() const;
 
@@ -120,7 +120,7 @@ public:
 
 private:
 
-    std::vector<Plots> Import(const std::string& file_name, const analysis::Strings& treename, analysis::Stage stage) const;
+    std::vector<Plots> Import(analysis::Stage stage, analysis::Tag tag) const;
 
     Plots PlotResult(TFile& file, const std::string& tree_name, analysis::Stage stage) const;
 
@@ -146,12 +146,12 @@ private:
 
     std::string PlotHistograms(const analysis::Results& results) const;
 
-    Tagger& tagger() const
+    analysis::Tagger& Tagger() const
     {
         return *tagger_;
     }
 
-    Tagger* tagger_;
+    analysis::Tagger* tagger_;
 
     analysis::InfoBranch InfoBranch(TFile& file, const std::string& tree_name) const;
 

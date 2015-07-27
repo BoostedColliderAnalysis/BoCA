@@ -15,11 +15,11 @@ SignatureNeutralTagger::SignatureNeutralTagger()
 int SignatureNeutralTagger::Train(const Event& event, const PreCuts&, Tag tag) const
 {
     Info();
-    Jets higgs = heavy_higgs_semi_reader_.tagger().HiggsParticle(event, tag);
+    Jets higgs = heavy_higgs_semi_reader_.Tagger().HiggsParticle(event, tag);
     std::vector<Sextet> sextets = heavy_higgs_semi_reader_.Multiplets(event);
     sextets = BestMatches(sextets, higgs, tag);
     std::vector<Doublet> doublets = jet_pair_reader_.Multiplets(event);
-    Jets bottoms = fastjet::sorted_by_pt(jet_pair_reader_.tagger().BottomPair(event, tag));
+    Jets bottoms = fastjet::sorted_by_pt(jet_pair_reader_.Tagger().BottomPair(event, tag));
     std::vector<Doublet> final_doublets;
     switch (tag) {
     case Tag::signal :
