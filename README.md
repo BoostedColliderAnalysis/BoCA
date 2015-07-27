@@ -25,9 +25,9 @@ make # for the actual program
 
 ## Usage
 
-Each analysis need a dedicated `Analysis` class, a set of `Tagger` classess and a `main.cpp` file.
+Each analysis needs a dedicated `Analysis` class, a set of `Tagger` classess and a `main.cpp` file.
 The `Analysis` class contains the global information of the analysis, such as file names, path names, variables names.
-Each `Tagger` class reconstructs a specific signature, every analysis needs at least one dedicated `Tagger`.
+Every `Tagger` class reconstructs or tags one specific particle or signature. Each analysis needs at least one dedicated `Tagger`.
 The `main.cpp` defines the order in which each `Tagger` is passed to the `Analysis`.
 
 ## Git commands
