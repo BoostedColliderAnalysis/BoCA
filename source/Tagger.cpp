@@ -25,7 +25,7 @@ Observable Tagger::NewObservable(float& value, const std::string& title) const
 float Tagger::Bdt(const TMVA::Reader& reader) const
 {
     Info();
-    return const_cast<TMVA::Reader&>(reader).EvaluateMVA(MethodName(TMVA::Types::EMVA::kBDT)) + 1;  // TODO get rid of the const cast
+    return const_cast<TMVA::Reader&>(reader).EvaluateMVA(MethodName(TMVA::Types::EMVA::kBDT));  // TODO get rid of the const cast
 }
 
 Jets Tagger::SubJets(const fastjet::PseudoJet& jet, int sub_jet_number) const

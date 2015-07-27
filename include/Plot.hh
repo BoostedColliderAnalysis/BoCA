@@ -62,14 +62,14 @@ public:
     int best_bin = 0;
 };
 
-struct Point3d {
+struct Point {
     float x;
     float y;
     float z;
 };
 
 struct Plot3d {
-    std::vector<Point3d> points;
+    std::vector<Point> points;
     std::string name_x;
     std::string name_y;
     std::string nice_name_x;
@@ -126,9 +126,9 @@ private:
 
     Plot3d ReadTree(TTree& tree, const std::string& leaf_1, const std::string& leaf_2, analysis::Stage stage) const;
 
-    void PlotHistogram(const analysis::Plot3d& signal, const analysis::Plot3d& background, float x_min, float x_max, float y_min, float y_max) const;
+    void PlotHistogram(const analysis::Plot3d& signal, const analysis::Plot3d& background, const analysis::Point& min, const analysis::Point& max) const;
 
-    void PlotProfile(const analysis::Plot3d& signal, const analysis::Plot3d& background, float x_min, float x_max, float y_min, float y_max) const;
+    void PlotProfile(const analysis::Plot3d& signal, const analysis::Plot3d& background, const analysis::Point& min, const analysis::Point& max) const;
 
     float Bdt() const;
 
@@ -169,7 +169,7 @@ private:
 
     int ColorCode(int number) const;
 
-    Plot3d CoreVector(const Plot3d& points, std::function<bool(Point3d&, Point3d&)> function) const;
+    Plot3d CoreVector(const Plot3d& points, std::function<bool(Point&, Point&)> function) const;
 
     std::string ExportFileSuffix() const
     {

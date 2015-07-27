@@ -32,8 +32,10 @@ The `main.cpp` defines the order in which each `Tagger` is passed to the `Analys
 
 ## Git commands
 
-* download from server `git pull`
-* save changes `git commit -a`
+* initial download of the project `git clone https://janhajer@bitbucket.org/janhajer/analysis.git`
+* downloading update from the server `git pull`
+* save changes of specific files `git commit FILES`
+* save changes in to all files `git commit -a`
 * upload changes to server `git push`
 * change branches `git checkout BRANCH`
 * create new branch `git checkout -b NEWBRANCH`
