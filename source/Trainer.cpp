@@ -17,10 +17,7 @@ Trainer::Trainer(analysis::Tagger& tagger) : tagger_(tagger) , factory_(tagger.N
     Error();
     AddVariables();
     PrepareTrainingAndTestTree(GetTrees());
-//     TMVA::MethodBDT & method =
     BookMethod(TMVA::Types::EMVA::kBDT);
-//     std::vector<double> importances = method.GetVariableImportance();
-//     for(const auto & importance : importances) Error(importance);
     Factory().TrainAllMethods();
     Factory().TestAllMethods();
     Factory().EvaluateAllMethods();
@@ -53,8 +50,6 @@ long Trainer::GetTrees()
 
 long Trainer::GetTree(Tag tag)
 {
-    Note(Tagger().FileName(Stage::trainer, tag));
-    if (gSystem->AccessPathName(Tagger().FileName(Stage::trainer, tag).c_str())) Error("File not found", Tagger().FileName(Stage::trainer, tag));
     long number = 0;
     for (const auto & tree_name : Tagger().TreeNames(tag)) {
         Note(tree_name);
@@ -66,8 +61,9 @@ long Trainer::GetTree(Tag tag)
 long Trainer::AddTree(const std::string& tree_name, Tag tag)
 {
     Error(tree_name);
-    TTree& tree =Tree(tree_name, tag);
-    float weight = Weight(tree_name, tag);
+    TTree& tree = Tree(tree_name, tag);
+    exroot::TreeReader tree_reader = TreeReader(tree_name, tag);
+    float weight = Weight(tree_reader);
     Note(weight);
     switch (tag) {
     case Tag::signal :
@@ -77,13 +73,17 @@ long Trainer::AddTree(const std::string& tree_name, Tag tag)
         Factory().AddBackgroundTree(&tree, weight);
         break;
     }
-    return Entries(tree_name, tag);
+    return Entries(tree_reader);
 }
 
-long Trainer::Entries(const std::string& tree_name, Tag tag)
+exroot::TreeReader Trainer::TreeReader(const std::string& tree_name, Tag tag)
 {
-    TTree& tree =Tree(tree_name, tag);
-    exroot::TreeReader tree_reader = exroot::TreeReader(&tree);
+    TTree& tree = Tree(tree_name, tag);
+    return exroot::TreeReader(&tree);
+}
+
+long Trainer::Entries(exroot::TreeReader& tree_reader)
+{
     long entries = 0;
     TClonesArray& event_clones_array = *tree_reader.UseBranch(Tagger().BranchName(Stage::trainer).c_str());
     for (const auto & entry : Range(tree_reader.GetEntries())) {
@@ -93,17 +93,17 @@ long Trainer::Entries(const std::string& tree_name, Tag tag)
     return entries;
 }
 
-float Trainer::Weight(const std::string& tree_name, Tag tag)
+float Trainer::Weight(exroot::TreeReader& tree_reader)
 {
-    TTree& tree = Tree(tree_name, tag);
-    exroot::TreeReader tree_reader = exroot::TreeReader(&tree);
     TClonesArray& clones_array = *tree_reader.UseBranch(Tagger().WeightBranchName().c_str());
     tree_reader.ReadEntry(0);
-    return static_cast<InfoBranch&>(*clones_array.First()).Crosssection / tree_reader.GetEntries();  // this takes care of the multiplicity
+    return static_cast<InfoBranch&>(*clones_array.First()).Crosssection / tree_reader.GetEntries();
 }
 
 TTree& Trainer::Tree(const std::string& tree_name, Tag tag)
 {
+    Note(Tagger().FileName(Stage::trainer, tag));
+    if (gSystem->AccessPathName(Tagger().FileName(Stage::trainer, tag).c_str())) Error("File not found", Tagger().FileName(Stage::trainer, tag));
     TFile& file = *TFile::Open(Tagger().FileName(Stage::trainer, tag).c_str());
     if (!file.GetListOfKeys()->Contains(tree_name.c_str())) Error("no tree");
     TTree& tree = static_cast<TTree&>(*file.Get(tree_name.c_str()));
