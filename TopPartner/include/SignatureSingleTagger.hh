@@ -1,39 +1,47 @@
 #pragma once
 
 #include "Decuplet.hh"
-#include "TopPartnerHiggsPairTagger.hh"
-#include "TopHadronicTagger.hh"
+#include "TopPartnerTopPairTagger.hh"
+#include "HiggsTagger.hh"
 
-namespace analysis
-{
+namespace analysis {
 
-namespace toppartner
-{
+namespace toppartner {
 
 /**
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class SignatureSingleTagger : public BranchTagger<SignatureBranch>
-{
+class SignatureSingleTagger : public BranchTagger<SignatureBranch> {
 
 public:
 
     SignatureSingleTagger();
 
-    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const final;
+    int Train(const Event& event, const PreCuts& pre_cuts, Tag tag) const final;
 
-    std::vector<Decuplet73> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
+    int GetBdt(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const  final
+    {
+      return SaveEntries(Multiplets(event, pre_cuts, reader));
+    }
 
-    std::string Name() const final {
-      return "SignatureSingle";
+    std::vector<Decuplet82> Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
+
+    std::string Name() const final
+    {
+        return "SignatureSingle";
+    }
+
+    std::string NiceName() const final
+    {
+      return "Tth";
     }
 
 private:
 
-    Reader<TopPartnerHiggsPairTagger> top_partner_higgs_pair_reader_;
+    Reader<TopPartnerTopPairTagger> pair_reader_;
 
-    Reader<TopHadronicTagger> top_hadronic_reader_;
+    Reader<HiggsTagger> higgs_reader_;
 };
 
 }

@@ -1,12 +1,11 @@
 #pragma once
 
-#include "TopLeptonicTagger.hh"
-#include "Sextet.hh"
-#include "TopHadronicTagger.hh"
 #include "Branch.hh"
+#include "TopLeptonicTagger.hh"
+#include "TopHadronicTagger.hh"
+#include "Sextet.hh"
 
-namespace analysis
-{
+namespace analysis {
 
 namespace heavyhiggs {
 
@@ -14,24 +13,31 @@ namespace heavyhiggs {
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class HeavyHiggsSemiTagger : public BranchTagger<HeavyHiggsSemiBranch>
-{
+class HeavyHiggsSemiTagger : public BranchTagger<HeavyHiggsSemiBranch> {
 
 public:
 
     HeavyHiggsSemiTagger();
 
-    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const final;
+    int Train(const Event& event, const PreCuts& pre_cuts, Tag tag) const final;
 
-    std::vector<Sextet> Multiplets(const Event& event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
+    std::vector<Sextet> Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 
-    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
-      return SaveEntries(Multiplets(event, pre_cuts, reader));
+    int GetBdt(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const  final
+    {
+        return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
-    std::string Name() const final {
-      return "HeavyHiggsSemi";
+    std::string Name() const final
+    {
+        return "HeavyHiggsSemi";
     }
+
+    Jets TopParticles(const Event& event, int charge) const;
+
+    Jets HiggsParticle(const Event& event, Tag tag) const;
+
+    std::vector<Triplet> FinalTriplet(const Event& event, Tag tag, int charge) const;
 
 private:
 

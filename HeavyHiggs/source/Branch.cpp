@@ -1,9 +1,11 @@
 #include "Branch.hh"
+#include "Pair.hh"
 
+namespace analysis {
 
-ClassImp(analysis::heavyhiggs::HeavyHiggsLeptonicBranch)
+namespace heavyhiggs {
 
-analysis::heavyhiggs::HeavyHiggsLeptonicBranch::HeavyHiggsLeptonicBranch()
+HeavyHiggsLeptonicBranch::HeavyHiggsLeptonicBranch()
 {
     LargerWDeltaRap = InitialValue();
     LargerWDeltaPhi = InitialValue();
@@ -19,47 +21,14 @@ analysis::heavyhiggs::HeavyHiggsLeptonicBranch::HeavyHiggsLeptonicBranch()
     SmallerNeutrinoDeltaR = InitialValue();
 }
 
-ClassImp(analysis::heavyhiggs::HHeavyHiggsHadronicBranch)
+HeavyHiggsSemiBranch::HeavyHiggsSemiBranch() {}
 
-analysis::heavyhiggs::HHeavyHiggsHadronicBranch::HHeavyHiggsHadronicBranch()
-{
-    HeavyHiggsMass = InitialValue();
-    HeavyHiggsPt = InitialValue();
-    TopDeltaRap = InitialValue();
-    TopDeltaPhi = InitialValue();
-    TopDeltaR = InitialValue();
-    TopBdt = InitialValue();
-    HeavyHiggsTag = int(InitialValue());
-}
-
-ClassImp(analysis::heavyhiggs::HeavyHiggsSemiBranch)
-
-analysis::heavyhiggs::HeavyHiggsSemiBranch::HeavyHiggsSemiBranch() {}
-
-ClassImp(analysis::heavyhiggs::ChargedHiggsSemiBranch)
-
-analysis::heavyhiggs::ChargedHiggsSemiBranch::ChargedHiggsSemiBranch()
+ChargedHiggsSemiBranch::ChargedHiggsSemiBranch()
 {
     Flag = int(InitialValue());
 }
 
-ClassImp(analysis::heavyhiggs::HChargedHiggsHadronicBranch)
-
-analysis::heavyhiggs::HChargedHiggsHadronicBranch::HChargedHiggsHadronicBranch()
-{
-    HeavyHiggsMass = InitialValue();
-    HeavyHiggsPt = InitialValue();
-    TopDeltaRap = InitialValue();
-    TopDeltaPhi = InitialValue();
-    TopDeltaR = InitialValue();
-    TopBdt = InitialValue();
-    HeavyHiggsTag = int(InitialValue());
-}
-
-
-ClassImp(analysis::heavyhiggs::ChargedHiggsLeptonicBranch)
-
-analysis::heavyhiggs::ChargedHiggsLeptonicBranch::ChargedHiggsLeptonicBranch()
+ChargedHiggsLeptonicBranch::ChargedHiggsLeptonicBranch()
 {
     HeavyHiggsMass = InitialValue();
     HeavyHiggsPt = InitialValue();
@@ -82,18 +51,13 @@ analysis::heavyhiggs::ChargedHiggsLeptonicBranch::ChargedHiggsLeptonicBranch()
     HeavyHiggsTag = int(InitialValue());
 }
 
-
-ClassImp(analysis::heavyhiggs::HeavyHiggsTauBranch)
-
-analysis::heavyhiggs::HeavyHiggsTauBranch::HeavyHiggsTauBranch()
+HeavyHiggsTauBranch::HeavyHiggsTauBranch()
 {
     NeutrinoPt = InitialValue();
     LeptonPt = InitialValue();
 }
 
-ClassImp(analysis::heavyhiggs::EventNeutralBranch)
-
-analysis::heavyhiggs::EventNeutralBranch::EventNeutralBranch()
+EventNeutralBranch::EventNeutralBranch()
 {
     HiggsMass = InitialValue();
     HiggsBdt = InitialValue();
@@ -116,17 +80,35 @@ analysis::heavyhiggs::EventNeutralBranch::EventNeutralBranch()
     BottomBdt78 = InitialValue();
 }
 
-ClassImp(analysis::heavyhiggs::EventFusionBranch)
+EventNeutralFourTopBranch::EventNeutralFourTopBranch()
+{
+    HiggsMass = InitialValue();
+    HiggsBdt = InitialValue();
+    SignatureBdt = InitialValue();
+    BottomBdt = InitialValue();
+    PairBottomBdt = InitialValue();
+    HardTopPt = InitialValue();
+    SoftTopPt = InitialValue();
+    BottomBdt1 = InitialValue();
+    BottomBdt2 = InitialValue();
+    BottomBdt3 = InitialValue();
+    BottomBdt4 = InitialValue();
+    BottomBdt5 = InitialValue();
+    BottomBdt6 = InitialValue();
+    BottomBdt7 = InitialValue();
+    BottomBdt8 = InitialValue();
+    BottomBdt12 = InitialValue();
+    BottomBdt34 = InitialValue();
+    BottomBdt56 = InitialValue();
+    BottomBdt78 = InitialValue();
+}
 
-analysis::heavyhiggs::EventFusionBranch::EventFusionBranch()
+EventFusionBranch::EventFusionBranch()
 {
     HiggsMass = InitialValue();
 }
 
-
-ClassImp(analysis::heavyhiggs::OctetNeutralBranch)
-
-analysis::heavyhiggs::OctetNeutralBranch::OctetNeutralBranch()
+OctetNeutralBranch::OctetNeutralBranch()
 {
     HiggsMass = InitialValue();
     PairRap = InitialValue();
@@ -138,10 +120,7 @@ analysis::heavyhiggs::OctetNeutralBranch::OctetNeutralBranch()
     SoftTopPt = InitialValue();
 }
 
-
-ClassImp(analysis::heavyhiggs::OctetChargedBranch)
-
-analysis::heavyhiggs::OctetChargedBranch::OctetChargedBranch()
+OctetChargedBranch::OctetChargedBranch()
 {
     HiggsMass = InitialValue();
     PairRap = InitialValue();
@@ -151,9 +130,7 @@ analysis::heavyhiggs::OctetChargedBranch::OctetChargedBranch()
     PairBdt = InitialValue();
 }
 
-ClassImp(analysis::heavyhiggs::EventChargedBranch)
-
-analysis::heavyhiggs::EventChargedBranch::EventChargedBranch()
+EventChargedBranch::EventChargedBranch()
 {
     HiggsMass = InitialValue();
     PairRap = InitialValue();
@@ -174,3 +151,52 @@ analysis::heavyhiggs::EventChargedBranch::EventChargedBranch()
     BottomBdt56 = InitialValue();
     BottomBdt78 = InitialValue();
 }
+
+
+analysis::Observables HeavyHiggsLeptonicBranch::Variables() const
+{
+    return Join(ParticleBranch::Variables(), {PAIR(LargerWDeltaR), PAIR(LargerWDeltaRap), PAIR(LargerWDeltaPhi), PAIR(SmallerWDeltaR), PAIR(SmallerWDeltaRap), PAIR(SmallerWDeltaPhi), PAIR(LargerNeutrinoDeltaR), PAIR(LargerNeutrinoDeltaRap), PAIR(LargerNeutrinoDeltaPhi), PAIR(SmallerNeutrinoDeltaR), PAIR(SmallerNeutrinoDeltaRap), PAIR(SmallerNeutrinoDeltaPhi)});
+}
+Observables ChargedHiggsLeptonicBranch::Variables() const
+{
+    return Join(ParticleBranch::Variables(), {PAIR(HeavyHiggsMass), PAIR(HeavyHiggsPt), PAIR(TopDeltaR), PAIR(TopDeltaRap), PAIR(TopDeltaPhi), PAIR(TopBdt)});
+}
+Observables ChargedHiggsLeptonicBranch::Spectators() const
+{
+    return Join(ParticleBranch::Spectators(), {PAIR(HeavyHiggsTag)});
+}
+Observables HeavyHiggsTauBranch::Variables() const
+{
+    return Join(ParticleBranch::Variables(), {PAIR(LeptonPt), PAIR(NeutrinoPt)});
+}
+Observables EventNeutralBranch::Variables() const
+{
+    return Join(EventBranch::Variables(), {PAIR(HiggsMass), PAIR(HiggsBdt), PAIR(SignatureBdt), PAIR(PairRap), PAIR(BottomBdt), PAIR(PairBottomBdt), PAIR(BottomBdt1), PAIR(BottomBdt2), PAIR(BottomBdt3), PAIR(BottomBdt4), PAIR(BottomBdt5), PAIR(BottomBdt6), PAIR(BottomBdt7), PAIR(BottomBdt8), PAIR(BottomBdt12), PAIR(BottomBdt34), PAIR(BottomBdt56), PAIR(BottomBdt78)});
+}
+Observables EventFusionBranch::Variables() const
+{
+    return Join(EventBranch::Variables(), {PAIR(HiggsMass)});
+}
+Observables OctetNeutralBranch::Variables() const
+{
+    return Join(MultiBranch::Variables(), {PAIR(HiggsMass), PAIR(HiggsBdt), PAIR(PairBdt), PAIR(PairRap), PAIR(BottomBdt), PAIR(HardTopPt), PAIR(SoftTopPt), PAIR(PairBottomBdt)});
+}
+Observables OctetChargedBranch::Variables() const
+{
+    return Join(MultiBranch::Variables(), {PAIR(HiggsMass), PAIR(HiggsBdt), PAIR(PairBdt), PAIR(PairRap), PAIR(BottomBdt), PAIR(PairBottomBdt)});
+}
+Observables EventChargedBranch::Variables() const
+{
+    return Join(EventBranch::Variables(), {PAIR(HiggsMass), PAIR(HiggsBdt), PAIR(SignatureBdt), PAIR(PairRap), PAIR(BottomBdt), PAIR(PairBottomBdt), PAIR(BottomBdt1), PAIR(BottomBdt2), PAIR(BottomBdt3), PAIR(BottomBdt4), PAIR(BottomBdt5), PAIR(BottomBdt6), PAIR(BottomBdt7), PAIR(BottomBdt8), PAIR(BottomBdt12), PAIR(BottomBdt34), PAIR(BottomBdt56), PAIR(BottomBdt78)});
+}
+Observables ChargedHiggsSemiBranch::Spectators() const
+{
+    return Join(ParticleBranch::Spectators(), {PAIR(Flag)});
+}
+Observables EventNeutralFourTopBranch::Variables() const
+{
+    return Join(EventBranch::Variables(), {PAIR(HiggsMass), PAIR(HiggsBdt), PAIR(SignatureBdt), PAIR(PairRap), PAIR(BottomBdt), PAIR(BottomBdt1), PAIR(BottomBdt2), PAIR(BottomBdt3), PAIR(BottomBdt4), PAIR(BottomBdt5), PAIR(BottomBdt6), PAIR(BottomBdt7), PAIR(BottomBdt8), PAIR(BottomBdt12), PAIR(BottomBdt34), PAIR(BottomBdt56), PAIR(BottomBdt78)});
+}
+}
+}
+

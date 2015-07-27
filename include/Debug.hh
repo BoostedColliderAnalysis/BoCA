@@ -16,23 +16,22 @@
 #define NOTIFICATION
 #endif
 
-namespace analysis
-{
+namespace analysis {
 
-std::string Shorten(const std::string &pretty_function, std::size_t brake);
+std::string Shorten(const std::string& pretty_function, size_t brake);
 
-std::string Shorten2(const std::string &pretty_function, std::size_t brake);
+std::string Shorten2(const std::string& pretty_function, size_t brake);
 
-std::string NameSpaceName(const std::string &pretty_function);
+std::string NameSpaceName(const std::string& pretty_function);
 
-std::string ClassName(const std::string &pretty_function);
+std::string ClassName(const std::string& pretty_function);
 
-std::string FunctionName(const std::string &pretty_function);
+std::string FunctionName(const std::string& pretty_function);
 
-std::string FileName(const std::string &file);
+std::string FileName(const std::string& file);
 
 template<typename Value>
-std::string Column(const int width, const Value &message)
+std::string Column(int width, const Value& message)
 {
     std::stringstream ss;
     ss << std::left << std::setw(width) << std::setfill(' ') << message;
@@ -40,60 +39,64 @@ std::string Column(const int width, const Value &message)
 }
 
 template<typename Value>
-std::string ColumnRight(const int width, const Value &message)
+std::string ColumnRight(int width, const Value& message)
 {
-  std::stringstream ss;
-  ss << std::right << std::setw(width) << std::setfill(' ') << message;
-  return ss.str();
+    std::stringstream ss;
+    ss << std::right << std::setw(width) << std::setfill(' ') << message;
+    return ss.str();
 }
 
 int ValueLength();
 
-void Log(const std::string &file, const int line, const std::string &name_space, const std::string &class_name, const std::string &function, bool final = true);
+void Log(const std::string& file, int line, const std::string& name_space, const std::string& class_name, const std::string& function, bool final = true);
 
 template<typename Value>
-void LogVariable(const std::string &variable, const Value &value)
+void LogVariable(const std::string& variable, const Value& value)
 {
-  std::cout << Column(ValueLength(), variable) << Column(ValueLength(), value);
+    std::cout << Column(ValueLength(), variable) << Column(ValueLength(), value);
 }
 
 template<typename Value>
-void LogVariable(const std::string &variable, const std::vector<Value> &values)
+void LogVariable(const std::string& variable, const std::vector<Value>& values)
 {
-  for(const auto &value : values) LogVariable(variable, values);
+    for (const auto& value : values)
+        LogVariable(variable, values);
 }
 
-void LogVariable(const std::string &, const char *value);
+void LogVariable(const std::string&, const char* value);
 
 template<>
-void LogVariable(const std::string &variable, const fastjet::PseudoJet &jet);
+void LogVariable(const std::string& variable, const fastjet::PseudoJet& jet);
 
 template<typename Value>
-void Log(const std::string &file, const int line, const std::string &name_space, const std::string &class_name, const std::string &function, const std::string &variable = "", const Value value = 0, bool final = true)
+void Log(const std::string& file, int line, const std::string& name_space, const std::string& class_name, const std::string& function, const std::string& variable = "", const Value value = 0, bool final = true)
 {
     Log(file, line, name_space, class_name, function, false);
     LogVariable(variable, value);
-    if (final) std::cout << std::endl;
+    if (final)
+        std::cout << std::endl;
 }
 
 template<typename Value, typename Value2>
-void Log(const std::string &file, const int line, const std::string &name_space, const std::string &class_name, const std::string &function, const std::string &variable, const Value value, const std::string &variable2, const Value2 value2, bool final = true)
+void Log(const std::string& file, int line, const std::string& name_space, const std::string& class_name, const std::string& function, const std::string& variable, const Value value, const std::string& variable2, const Value2 value2, bool final = true)
 {
     Log(file, line, name_space, class_name, function, variable, value, false);
     LogVariable(variable2, value2);
-    if (final) std::cout << std::endl;
+    if (final)
+        std::cout << std::endl;
 }
 
 template<typename Value, typename Value2, typename Value3>
-void Log(const std::string &file, const int line, const std::string &name_space, const std::string &class_name, const std::string &function, const std::string &variable, const Value value, const std::string &variable2, const Value2 value2, const std::string &variable3, const Value3 value3, bool final = true)
+void Log(const std::string& file, int line, const std::string& name_space, const std::string& class_name, const std::string& function, const std::string& variable, const Value value, const std::string& variable2, const Value2 value2, const std::string& variable3, const Value3 value3, bool final = true)
 {
     Log(file, line, name_space, class_name, function, variable, value, variable2, value2, false);
     LogVariable(variable3, value3);
-    if (final) std::cout << std::endl;
+    if (final)
+        std::cout << std::endl;
 }
 
 template<typename Value, typename Value2, typename Value3, typename Value4>
-void Log(const std::string &file, const int line, const std::string &name_space, const std::string &class_name, const std::string &function, const std::string &variable, const Value value, const std::string &variable2, const Value2 value2, const std::string &variable3, const Value3 value3, const std::string &variable4, const Value4 value4)
+void Log(const std::string& file, int line, const std::string& name_space, const std::string& class_name, const std::string& function, const std::string& variable, const Value value, const std::string& variable2, const Value2 value2, const std::string& variable3, const Value3 value3, const std::string& variable4, const Value4 value4)
 {
     Log(file, line, name_space, class_name, function, variable, value, variable2, value2, variable3, value3, false);
     LogVariable(variable4, value4);
@@ -170,4 +173,4 @@ void Log(const std::string &file, const int line, const std::string &name_space,
 #endif
 
 #define Check(condition, ...) if(!(condition)) { ALIVE(__VA_ARGS__); }
-
+// #define DebugCheck(condition, ...) if(!(condition)) { Debug(__VA_ARGS__); }

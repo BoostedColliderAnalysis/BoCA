@@ -2,44 +2,41 @@
 
 #include "Family.hh"
 
-namespace analysis
-{
+namespace analysis {
 
-enum class SubDetector
-{
+enum class SubDetector {
     none, gen_particle, track, photon, tower, muon
 };
 
-class Constituent
-{
+class Constituent {
 
 public:
 
     Constituent();
 
-    Constituent(const TLorentzVector &momentum, const TLorentzVector &position, const Family &family);
+    Constituent(const TLorentzVector& momentum, const LorentzVector& position, const Family& family);
 
-    Constituent(const TLorentzVector &momentum, const TLorentzVector &position);
+    Constituent(const TLorentzVector& momentum, const LorentzVector& position);
 
-    Constituent(const TLorentzVector &momentum, const TLorentzVector &position, const SubDetector sub_detector, const float charge = 0);
+    Constituent(const TLorentzVector& momentum, const LorentzVector& position, const SubDetector sub_detector, float charge = 0);
 
-    Constituent(const TLorentzVector &momentum, const Family &family);
+    Constituent(const TLorentzVector& momentum, const Family& family);
 
-    Constituent(const LorentzVector &momentum, const Family &family);
+    Constituent(const LorentzVector& momentum, const Family& family);
 
-    Constituent(const TLorentzVector &momentum);
+    Constituent(const TLorentzVector& momentum);
 
-    Constituent(const TLorentzVector &momentum, const SubDetector sub_detector, const float charge);
+    Constituent(const TLorentzVector& momentum, const SubDetector sub_detector, float charge);
 
-    Constituent(const TLorentzVector &momentum, const SubDetector sub_detector);
+    Constituent(const TLorentzVector& momentum, const SubDetector sub_detector);
 
-    void SetPosition(const TLorentzVector &position);
+    void SetPosition(const TLorentzVector& position);
 
-    void SetPosition(const float x, const float y, const float z, const float t);
+    void SetPosition(float x, float y, float z, float t);
 
-    void SetMomentum(const TLorentzVector &momentum);
+    void SetMomentum(const TLorentzVector& momentum);
 
-    void SetFamily(const Family &family);
+    void SetFamily(const Family& family);
 
     LorentzVector Position() const;
 
@@ -47,7 +44,7 @@ public:
 
     Family family() const;
 
-    Constituent operator+(const Constituent &constituent);
+    Constituent operator+(const Constituent& constituent);
 
     void SetDetector(const SubDetector sub_detector);
 
@@ -55,7 +52,7 @@ public:
 
     int charge() const;
 
-    void set_charge(const int charge);
+    void set_charge(int charge);
 
 private:
 

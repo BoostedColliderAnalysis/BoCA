@@ -1,20 +1,18 @@
 #include "AnalysisBottom.hh"
 #include "Debug.hh"
 
-namespace analysis
-{
+namespace analysis {
 
-namespace standardmodel
-{
+namespace standardmodel {
 
 std::string Name(const Production production_channel)
 {
     switch (production_channel) {
-      case Production::Associated :
+    case Production::Associated :
         return "llbb_";
-      case Production::DYP :
+    case Production::DYP :
         return "pp_z_";
-      case Production::VBF :
+    case Production::VBF :
         return "VBF_";
     default:
         return "";

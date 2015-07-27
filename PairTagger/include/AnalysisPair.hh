@@ -6,8 +6,7 @@
  * @brief Namespace for the fusion pair analysis
  *
  */
-namespace fusionpair
-{
+namespace fusionpair {
 
 /**
  *
@@ -16,8 +15,7 @@ namespace fusionpair
  * @author Jan Hajer
  *
  */
-class Analysis //: public analysis::Analysis
-{
+class Analysis { //: public analysis::Analysis
 
 public:
 
@@ -34,9 +32,10 @@ public:
 
     std::vector<analysis::File> Files(const analysis::Tag tag);
 
-    void SetFiles(const analysis::Tag ) {};
+    void SetFiles(const analysis::Tag) {};
 
-     std::string ProjectName() const {
+    std::string ProjectName() const
+    {
         return  DetectorName(Detector()) + "-eta3.5";
 //         return  ProductionChannelName(ProductionChannel()) + DetectorName(Detector())  + "_" + std::to_string(Mass()) + "GeV";
     }
@@ -47,7 +46,8 @@ private:
     enum HProductionChannel {DYP, VBF, Associated};
     enum HDetectorType {LHC, FHC, LE};
 
-     long EventNumberMax() const {
+    long EventNumberMax() const
+    {
 //         return 1000000;
 //         return 100000;
         return 10000;
@@ -55,19 +55,22 @@ private:
 //         return 100;
     };
 
-     HProductionChannel ProductionChannel() const {
+    HProductionChannel ProductionChannel() const
+    {
 //         return DYP;
         return VBF;
 //         return Associated;
     }
 
-     HDetectorType Detector() const {
+    HDetectorType Detector() const
+    {
 //       return LHC;
 //       return FHC;
         return LE;
     }
 
-     std::string DetectorName(const HDetectorType DetectorType) const {
+    std::string DetectorName(const HDetectorType DetectorType) const
+    {
         switch (DetectorType) {
         case LHC :
             return "14TeV";
@@ -82,7 +85,8 @@ private:
     }
 
 
-     std::string ProductionChannelName(const HProductionChannel NewProductionChannel) const {
+    std::string ProductionChannelName(const HProductionChannel NewProductionChannel) const
+    {
         switch (NewProductionChannel) {
         case Associated :
             return "llbb_";
@@ -91,27 +95,29 @@ private:
         case VBF :
             return "VBF_";
         default:
-          Error("ProductionChannelName", "unhandeld case");
+            Error("ProductionChannelName", "unhandeld case");
             return "";
         }
     }
 
-     analysis::Id MotherId(const HProductionChannel NewProductionChannel) const {
+    analysis::Id MotherId(const HProductionChannel NewProductionChannel) const
+    {
         switch (NewProductionChannel) {
         case DYP :
-          return analysis::Id::Z;
+            return analysis::Id::Z;
 //             return Id::gluon;
         case VBF :
-          return analysis::Id::bottom;
+            return analysis::Id::bottom;
         case Associated :
-          return analysis::Id::gluon;
+            return analysis::Id::gluon;
         default:
-          Error("MotherId", "unhandeld case");
+            Error("MotherId", "unhandeld case");
             return analysis::Id::empty;
         }
     }
 
-    std::string ProcessName(const ProcessType Process) const {
+    std::string ProcessName(const ProcessType Process) const
+    {
         switch (Process) {
         case bb :
             return "bb";
@@ -136,21 +142,24 @@ private:
         case ttgg:
             return "ttgg";
         default:
-          Error("ProcessName", "unhandeld case");
+            Error("ProcessName", "unhandeld case");
             return "";
         }
     }
 
-     int BackgroundFileNumber() const {
+    int BackgroundFileNumber() const
+    {
         return 1;
     }
 
     // in fb
-    float SignalCrosssection() const {
+    float SignalCrosssection() const
+    {
         return 1;
     }
 
-     int Mass() const {
+    int Mass() const
+    {
         //     return 400;
         //     return 600;
 //               return 1000;
@@ -165,52 +174,63 @@ private:
         //         return 10000;
     }
 
-     std::string NameString(const ProcessType Process) const {
+    std::string NameString(const ProcessType Process) const
+    {
         return ProductionChannelName(ProductionChannel()) + ProcessName(Process) + "_" + DetectorName(Detector());
     }
 
-     std::string NameString(const ProcessType Process, const HProductionChannel ProductionChannel) const {
+    std::string NameString(const ProcessType Process, const HProductionChannel ProductionChannel) const
+    {
         return ProductionChannelName(ProductionChannel) + ProcessName(Process) + "_" + DetectorName(Detector());
     }
 
-     analysis::File BackgroundFile(const ProcessType Process, const HProductionChannel ProductionChannel) const {
+    analysis::File BackgroundFile(const ProcessType Process, const HProductionChannel ProductionChannel) const
+    {
         return BackgroundFile(Process, BackgroundFileNumber(), ProductionChannel);
     }
 
-     analysis::File BackgroundFile(const ProcessType Process) const {
+    analysis::File BackgroundFile(const ProcessType Process) const
+    {
         return BackgroundFile(Process, BackgroundFileNumber());
     }
 
-    analysis::File BackgroundFile(const ProcessType Process, const int) const {
-      analysis::Strings FileNames;
+    analysis::File BackgroundFile(const ProcessType Process, const int) const
+    {
+        analysis::Strings FileNames;
         FileNames.emplace_back(NameString(Process));
         return analysis::File(FileNames , BackgroundCrosssection(Process));
     }
 
-    analysis::File BackgroundFile(const ProcessType Process, const int, const HProductionChannel ProductionChannel) const {
-      analysis::Strings FileNames;
+    analysis::File BackgroundFile(const ProcessType Process, const int, const HProductionChannel ProductionChannel) const
+    {
+        analysis::Strings FileNames;
         FileNames.emplace_back(NameString(Process, ProductionChannel));
         return analysis::File(FileNames , BackgroundCrosssection(Process));
     }
 
 
-    std:: string SignalName(const ProcessType Process) {
+    std:: string SignalName(const ProcessType Process)
+    {
         return  NameString(Process) + "_" + std::to_string(Mass()) + "GeV";
     }
 
-    std::string TreeName(const ProcessType Process) const {
+    std::string TreeName(const ProcessType Process) const
+    {
         return NameString(Process) + "-run_01";
     }
 
-    std::string TreeName(const ProcessType Process, HProductionChannel ProductionChannel) const {
+    std::string TreeName(const ProcessType Process, HProductionChannel ProductionChannel) const
+    {
         return NameString(Process, ProductionChannel) + "-run_01";
     }
 
-    std:: string SignalTreeName(const ProcessType Process) {
+    std:: string SignalTreeName(const ProcessType Process)
+    {
         return  NameString(Process) + "_" + std::to_string(Mass()) + "GeV" + "-run_01";
     }
 
-    float BackgroundCrosssection(const ProcessType) const {
+    float BackgroundCrosssection(const ProcessType) const
+    {
         return 1;
     }
 
@@ -220,15 +240,15 @@ private:
 
 //     void NewBranches(exroot::TreeWriter &NewTreeWriter, const analysis::Analysis::HTagger Tagger);
 
-//     int RunAnalysis(analysis::Event &event, const analysis::Stage stage, const analysis::Tag tag);
+//     int RunAnalysis(analysis::Event &event, const analysis::Stage stage, Tag tag);
 
-//     bool GetBottomTag(analysis::Event &event, const analysis::Tag Tag);
-//     bool GetBottomReader(analysis::Event &event, const analysis::Tag Tag);
+//     bool GetBottomTag(analysis::Event &event, Tag tag);
+//     bool GetBottomReader(analysis::Event &event, Tag tag);
 //
-//     bool GetJetPairTag(analysis::Event &event, const analysis::Tag Tag);
-//     bool GetJetPairReader(analysis::Event &event, const analysis::Tag Tag);
+//     bool GetJetPairTag(analysis::Event &event, Tag tag);
+//     bool GetJetPairReader(analysis::Event &event, Tag tag);
 //
-//     bool GetTag(analysis::Event &event, const analysis::Tag tag);
+//     bool GetTag(analysis::Event &event, Tag tag);
 
 };
 }

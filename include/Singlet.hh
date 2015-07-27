@@ -1,9 +1,23 @@
 #pragma once
 
 #include "JetInfo.hh"
+#include "Vector2.hh"
+#include "Flag.hh"
 
 namespace analysis
 {
+
+enum class Structure
+{
+    plain = 1,
+    constituents = 1 << 1,
+    vertices = 1 << 2
+};
+
+template<>
+struct Flag<Structure> {
+    static const bool enable = true;
+};
 
 /**
  * @brief Thin wrapper to make fastjet::PseudoJet behave like a Multiplet. Additionally this class astracts away the JetInfo user_info().
@@ -16,19 +30,19 @@ public:
 
     Singlet() {};
 
-    Singlet(const fastjet::PseudoJet &jet);
+    Singlet(const fastjet::PseudoJet& jet);
 
-    fastjet::PseudoJet &Jet() const {
+    fastjet::PseudoJet& Jet(Structure) const {
         return jet_;
     }
 
-    fastjet::PseudoJet &EffectiveJet() const {
+    fastjet::PseudoJet& Jet() const {
         return jet_;
     }
 
-    bool Overlap(const fastjet::PseudoJet &jet) const;
+    bool Overlap(const fastjet::PseudoJet& jet) const;
 
-    bool Overlap(const Singlet &singlet) const;
+    bool Overlap(const Singlet& singlet) const;
 
     float VertexMass() const {
         return UserInfo().VertexMass();
@@ -118,29 +132,34 @@ public:
         return Jet().pt();
     }
 
-    void SetBdt(const float bdt) final;
+    void SetBdt(float bdt) final;
 
-    float Rapidity() const {
-        float rap = Jet().rap();
-        if (rap > 100) return 0;
-        return rap;
-    }
+    float Rapidity() const;
 
     int Charge() const;
 
-    Singlet singlet() const {
-        return *this;
-    }
+    Singlet singlet() const;
 
-    const JetInfo &UserInfo() const;
+    Singlet singlet(Structure structure) const;
+
+    const JetInfo& UserInfo() const;
+
+    Vector2 Pull() const;
+
+    /**
+     * @brief calculate Reference vector for other - this
+     * @return Vector2 reference vector
+     *
+     */
+    Vector2 Reference(const fastjet::PseudoJet& reference) const;
 
 private:
 
-    float log(const float number) const;
+    float log(float number) const;
 
-    float Radius(const fastjet::PseudoJet &jet) const;
+    float Radius(const fastjet::PseudoJet& jet) const;
 
-    float Spread(const fastjet::PseudoJet &jet) const;
+    float Spread(const fastjet::PseudoJet& jet) const;
 
     mutable fastjet::PseudoJet jet_;
 

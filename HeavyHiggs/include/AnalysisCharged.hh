@@ -2,11 +2,9 @@
 
 #include "AnalysisHeavyHiggs.hh"
 
-namespace analysis
-{
+namespace analysis {
 
-namespace heavyhiggs
-{
+namespace heavyhiggs {
 
 /**
  *
@@ -16,17 +14,18 @@ namespace heavyhiggs
  *
  */
 template<typename Tagger>
-class AnalysisCharged : public AnalysisHeavyHiggs<Tagger>
-{
+class AnalysisCharged : public AnalysisHeavyHiggs<Tagger> {
 
 public:
 
-    AnalysisCharged() {
-        this->tagger().set_analysis_name(ProjectName());
+    AnalysisCharged()
+    {
+        this->tagger().SetAnalysisName(ProjectName());
     }
 
-    void SetFiles(const Tag tag) final {
-        switch (tag) {
+    void SetFiles(Tag tag) final {
+        switch (tag)
+        {
         case Tag::signal :
             this->NewFile(tag, Process::Htb);
             break;
@@ -36,17 +35,20 @@ public:
         }
     }
 
-    std::string ProcessName() const {
+    std::string ProcessName() const
+    {
         return "Charged";
     }
 
-    std::string ProjectName() const final {
+    std::string ProjectName() const final
+    {
         return  ProcessName() + "-" + Name(this->collider_type()) + "-" + std::to_string(this->PreCut()) + "GeV-" + std::to_string(this->Mass()) + "GeV";
     }
 
 private:
 
-    float SignalCrosssection() const {
+    float SignalCrosssection() const
+    {
         switch (this->collider_type()) {
         case Collider::LHC:
             switch (this->Mass()) {
@@ -104,35 +106,39 @@ private:
         }
     }
 
-    int PassPreCut(const Event &event) const {
+    int PassPreCut(const Event& event, Tag) const
+    {
 //         Info("pass pre cut");
         Jets Particles = event.Partons().GenParticles();
-        Jets Quarks = fastjet::sorted_by_pt(RemoveIfNot5Quarks(Particles));
-        Quarks = fastjet::sorted_by_pt(RemoveIfAbsMother(Quarks, Id::top));
+        Jets Quarks = fastjet::sorted_by_pt(CopyIf5Quark(Particles));
+        Quarks = fastjet::sorted_by_pt(RemoveIfMother(Quarks, Id::top));
         if (Quarks.empty()) {
             //       if (Tag == Tag::signal && PreCut() > 0 && !(Tagger == BottomTagger || Tagger == HBottomReader))
             //       if (PreCut() > 0)
 //             Error("Not enough bottom quarks", Quarks.size());
             return 0;
-        } else if (Quarks.front().pt() < this->PreCut()) return 0;
-
-
-        Jets TopQuarks = fastjet::sorted_by_pt(RemoveIfWrongAbsParticle(Particles, Id::top));
+        } else if (Quarks.front().pt() < this->PreCut())
+            return 0;
+        Jets TopQuarks = fastjet::sorted_by_pt(CopyIfParticle(Particles, Id::top));
         if (TopQuarks.size() != 2) {
 //             Error("Not enough top quarks", TopQuarks.size());
             return 0;
-        } else if (TopQuarks.front().pt() < this->PreCut()) return 0;
-
-
-        if (event.Hadrons().MissingEt().pt() < this->MissingEt()) return 0;
+        } else if (TopQuarks.front().pt() < this->PreCut())
+            return 0;
+        if (event.Hadrons().MissingEt().pt() < this->MissingEt())
+            return 0;
         Jets Leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
-        if (Leptons.empty()) return 0;
-        if (Leptons.front().pt() < this->LeptonPt()) return 0;
+        if (Leptons.empty())
+            return 0;
+        if (Leptons.front().pt() < this->LeptonPt())
+            return 0;
         Jets jets = event.Hadrons().Jets();
-        if (jets.size() < 4) return 0;
+        if (jets.size() < 4)
+            return 0;
         return 1;
     }
-    int BackgroundFileNumber() const {
+    int BackgroundFileNumber() const
+    {
         switch (this->collider_type()) {
         case Collider::LHC :
             switch (this->PreCut()) {
@@ -154,10 +160,10 @@ private:
                 return 19;
             case 300 :
                 return 61; // < should be switched on
-                //                 return 1;
+            //                 return 1;
             case 0 :
                 return 118; // < should be switched on
-                //                 return 1;
+            //                 return 1;
             default :
                 return 1;
             }
@@ -166,7 +172,8 @@ private:
         }
     }
 
-    float BackgroundCrosssection(const Process process) const {
+    float BackgroundCrosssection(const Process) const
+    {
         switch (this->collider_type()) {
         case Collider::LHC :
             switch (this->PreCut()) {

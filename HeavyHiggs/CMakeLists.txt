@@ -1,4 +1,2 @@
-HInclude(${PROJECT_SOURCE_DIR}/HeavyHiggs/include)
-HInclude(${PROJECT_SOURCE_DIR}/HeavyHiggs/source)
-
+add_include_path(include)
 add_subdirectory(source)

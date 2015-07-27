@@ -1,0 +1,78 @@
+[Buildset]
+BuildItems=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x01\x00\x00\x00\x10\x00a\x00n\x00a\x00l\x00y\x00s\x00i\x00s)
+
+[CMake]
+Build Directory Count=1
+Current Build Directory Index=0
+ProjectRootRelative=./
+
+[CMake][CMake Build Directory 0]
+Build Directory Path=file:///home/toodles/madness/analysis/build
+Build Type=Debug
+CMake Binary=file:///usr/bin/cmake
+Environment Profile=
+Extra Arguments=
+Install Directory=file:///usr/local
+
+[Launch]
+Launch Configurations=Launch Configuration 0,Launch Configuration 1,Launch Configuration 2
+
+[Launch][Launch Configuration 0]
+Configured Launch Modes=execute
+Configured Launchers=nativeAppLauncher
+Name=TopTagger
+Type=Native Application
+
+[Launch][Launch Configuration 0][Data]
+Arguments=
+Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x00)
+Dependency Action=Nothing
+EnvironmentGroup=default
+Executable=file:///home/toodles/madness/analysis/
+External Terminal=konsole --noclose --workdir %workdir -e %exe
+Project Target=analysis,StandardModel,source,TopAnalysis
+Use External Terminal=false
+Working Directory=file:///home/toodles/Projects/Tagger/Top/
+isExecutable=false
+
+[Launch][Launch Configuration 1]
+Configured Launch Modes=execute
+Configured Launchers=nativeAppLauncher
+Name=HiggsAnalysis
+Type=Native Application
+
+[Launch][Launch Configuration 1][Data]
+Arguments=
+Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x04\x00\x00\x00\x10\x00a\x00n\x00a\x00l\x00y\x00s\x00i\x00s\x00\x00\x00\x1a\x00S\x00t\x00a\x00n\x00d\x00a\x00r\x00d\x00M\x00o\x00d\x00e\x00l\x00\x00\x00\x0c\x00s\x00o\x00u\x00r\x00c\x00e\x00\x00\x00\x1a\x00H\x00i\x00g\x00g\x00s\x00A\x00n\x00a\x00l\x00y\x00s\x00i\x00s)
+Dependency Action=Build
+EnvironmentGroup=default
+Executable=file:///home/toodles/madness/analysis/
+External Terminal=konsole --noclose --workdir %workdir -e %exe
+Project Target=analysis,StandardModel,source,HiggsAnalysis
+Use External Terminal=false
+Working Directory=
+isExecutable=false
+
+[Launch][Launch Configuration 2]
+Configured Launch Modes=execute
+Configured Launchers=nativeAppLauncher
+Name=HeavyHiggsNeutralFourTop
+Type=Native Application
+
+[Launch][Launch Configuration 2][Data]
+Arguments=
+Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x04\x00\x00\x00\x10\x00a\x00n\x00a\x00l\x00y\x00s\x00i\x00s\x00\x00\x00\x14\x00H\x00e\x00a\x00v\x00y\x00H\x00i\x00g\x00g\x00s\x00\x00\x00\x0c\x00s\x00o\x00u\x00r\x00c\x00e\x00\x00\x000\x00H\x00e\x00a\x00v\x00y\x00H\x00i\x00g\x00g\x00s\x00N\x00e\x00u\x00t\x00r\x00a\x00l\x00F\x00o\x00u\x00r\x00T\x00o\x00p)
+Dependency Action=Build
+EnvironmentGroup=default
+Executable=file:///home/toodles/madness/analysis/
+External Terminal=konsole --noclose --workdir %workdir -e %exe
+Project Target=analysis,HeavyHiggs,source,HeavyHiggsNeutralFourTop
+Use External Terminal=false
+Working Directory=Projects/Tagger/HeavyHiggs/
+isExecutable=false
+
+[MakeBuilder]
+Number Of Jobs=6
+
+[Project]
+VersionControlSupport=kdevgit

@@ -2,10 +2,9 @@
 
 #include "HiggsTagger.hh"
 #include "TopLeptonicPairTagger.hh"
-#include "Octet62.hh"
+#include "Octet.hh"
 
-namespace analysis
-{
+namespace analysis {
 
 namespace higgscpv {
 
@@ -14,28 +13,30 @@ namespace higgscpv {
  * @brief event BDT for
  *
  */
-class SignatureTagger : public BranchTagger<SignatureLeptonicBranch>
-{
+class SignatureTagger : public BranchTagger<SignatureLeptonicBranch> {
 
 public:
 
     SignatureTagger();
 
-    int Train(const Event &event, analysis::PreCuts &, const analysis::Tag tag) const;
+    int Train(const Event& event, const analysis::PreCuts&, Tag tag) const;
 
-    std::vector< Octet62 > Multiplets(const analysis::Event &event, analysis::PreCuts &, const TMVA::Reader &reader) const;
+    std::vector<Octet62> Multiplets(const analysis::Event& event, const analysis::PreCuts&, const TMVA::Reader& reader) const;
 
-    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
-      return SaveEntries(Multiplets(event, pre_cuts, reader));
+    int GetBdt(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const  final
+    {
+        return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
-    auto Multiplets(const Event &event, const TMVA::Reader &reader) {
-      PreCuts pre_cuts;
-      return Multiplets(event, pre_cuts, reader);
+    auto Multiplets(const Event& event, const TMVA::Reader& reader)
+    {
+        PreCuts pre_cuts;
+        return Multiplets(event, pre_cuts, reader);
     }
 
-    std::string Name() const final {
-      return "Signature";
+    std::string Name() const final
+    {
+        return "Signature";
     }
 
 private:

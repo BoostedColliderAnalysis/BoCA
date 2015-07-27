@@ -4,15 +4,13 @@
 #include "Leptons.hh"
 #include "Hadrons.hh"
 
-namespace analysis
-{
+namespace analysis {
 
 /**
  * @brief Base class for the event Topology
  *
  */
-class Event
-{
+class Event {
 
 public:
 
@@ -22,26 +20,31 @@ public:
 
     ~Event();
 
-    void NewEvent(const ClonesArrays &clones_arrays);
+    void NewEvent(const ClonesArrays& clones_arrays);
 
-    const analysis::Hadrons &Hadrons() const {
+    const analysis::Hadrons& Hadrons() const
+    {
         return *hadrons_;
     }
 
-    const analysis::Leptons &Leptons() const {
+    const analysis::Leptons& Leptons() const
+    {
         return *leptons_;
     }
 
 
-    const analysis::Partons &Partons() const {
+    const analysis::Partons& Partons() const
+    {
         return *partons_;
     }
 
-    float mass() const {
+    float mass() const
+    {
         return mass_;
     }
 
-    void SetMass(const float mass) {
+    void SetMass(float mass)
+    {
         mass_ = mass;
     }
 
@@ -51,19 +54,19 @@ private:
      * @brief Particles
      *
      */
-    analysis::Partons *partons_ = NULL;
+    analysis::Partons* partons_ = NULL;
 
     /**
      * @brief Leptons
      *
      */
-    analysis::Leptons *leptons_ = NULL;
+    analysis::Leptons* leptons_ = NULL;
 
     /**
      * @brief Jets
      *
      */
-    analysis::Hadrons *hadrons_ = NULL;
+    analysis::Hadrons* hadrons_ = NULL;
 
     Source source_;
 

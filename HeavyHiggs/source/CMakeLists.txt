@@ -1,7 +1,6 @@
-HDictionary(BranchHeavyHiggs Branch.cpp ../include/LinkDefHeavyHiggs.hh)
+create_dictionary(BranchHeavyHiggs Branch.cpp ../include/LinkDefHeavyHiggs.hh)
 
 set(AnalysisSources
-Octet44.cpp
 HeavyHiggsLeptonicTagger.cpp
 HeavyHiggsSemiTagger.cpp
 HeavyHiggsTauTagger.cpp
@@ -12,13 +11,15 @@ SignatureChargedTagger.cpp
 EventNeutralTagger.cpp
 EventChargedTagger.cpp
 EventFusionTagger.cpp
+EventNeutralFourTopTagger.cpp
 AnalysisHeavyHiggs.cpp
 AnalysisNeutral.cpp
 AnalysisCharged.cpp
 AnalysisFusion.cpp
 )
-HLibrary(AnalysisHeavyHiggs AnalysisSources)
+create_library(AnalysisHeavyHiggs AnalysisSources)
 
-HExecutable(HeavyHiggsNeutral MainNeutral.cpp)
-HExecutable(HeavyHiggsCharged MainCharged.cpp)
-HExecutable(HeavyHiggsFusion MainFusion.cpp)
+create_executable(HeavyHiggsNeutral MainNeutral.cpp)
+create_executable(HeavyHiggsCharged MainCharged.cpp)
+create_executable(HeavyHiggsFusion MainFusion.cpp)
+create_executable(HeavyHiggsNeutralFourTop MainNeutralFourTop.cpp)

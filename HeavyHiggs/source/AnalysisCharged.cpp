@@ -1,11 +1,9 @@
 #include "AnalysisCharged.hh"
 #include "Debug.hh"
 
-namespace analysis
-{
+namespace analysis {
 
-namespace heavyhiggs
-{
+namespace heavyhiggs {
 
 }
 

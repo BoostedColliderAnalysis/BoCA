@@ -1,13 +1,15 @@
 #pragma once
 
 #include "TCut.h"
+#include "TMVA/Types.h"
 #include "Observable.hh"
 #include "Identification.hh"
 #include "fastjet/PseudoJet.hh"
 #include "Branches.hh"
 
-namespace TMVA{
-  class Reader;
+namespace TMVA
+{
+class Reader;
 }
 
 class ExRootTreeWriter;
@@ -32,7 +34,7 @@ enum class Stage
     reader
 };
 
-std::string Name(const Stage stage);
+std::string Name(Stage stage);
 
 /**
  * @brief Prepares multivariant analysis
@@ -43,109 +45,116 @@ class Tagger
 
 public:
 
-    void AddSignalTreeName(const std::string signal_tree_name);
-
-    void AddBackgroundTreeName(const std::string background_tree_name);
-
-    std::string branch_name() const;
-
     virtual std::string Name() const = 0;
 
-    std::string factory_name() const;
+    virtual int GetBdt(const Event&, const PreCuts&, const TMVA::Reader&) const = 0;
 
-    std::string export_name() const;
+    virtual int Train(const Event&, const PreCuts&, const Tag) const = 0;
 
-    std::string signal_file_name(const Stage stage) const;
+    virtual float ReadBdt(const TClonesArray&, const int) const = 0;
 
-    std::string background_file_name(const Stage stage) const;
+    virtual const ResultBranch& Branch() const = 0;
 
-    std::string reader_name() const;
+    static void SetAnalysisName(const std::string& analysis_name);
 
-    std::string reader(const std::string &name) const;
+    std::vector<Observable> Variables() const;
 
-    std::string Name(const Stage stage) const;
+    std::vector<Observable> Spectators() const;
 
-    std::string Name(const Stage stage, const Tag tag) const;
+    Strings TreeNames(Tag tag) const;
 
-    std::string analysis_name() const;
-
-    std::vector<Observable> variables() const;
-
-    std::vector<Observable> spectators() const;
-
-    Strings signal_file_names() const;
-
-    Strings signal_tree_names() const;
-
-    void ClearTreeNames();
-
-    Strings background_file_names() const;
-
-    Strings background_tree_names() const;
-
-    TCut cut() const;
-
-    static void set_analysis_name(const std::string &analysis_name);
-
-    std::string bdt_method_name() const;
-
-    std::string bdt_weight_name() const;
-
-    std::string weight_file_extension() const;
-
-    std::string weight_branch_name() const;
-
-    std::string background_name() const;
-
-    std::string background(const std::string &name) const;
-
-    std::string signal_name() const;
-
-    std::string signal(const std::string &name) const;
-
-    virtual int GetBdt(const Event &, PreCuts &, const TMVA::Reader &) const = 0;
-
-    virtual int Train(const Event &, PreCuts &, const Tag) const = 0;
-
-    Jets SubJets(const fastjet::PseudoJet &jet, const int sub_jet_number) const;
-
-    virtual float ReadBdt(const TClonesArray &, const int) const = 0;
-
-    void SetTreeBranch(exroot::TreeWriter &tree_writer, const Stage stage);
-
-    virtual const ResultBranch &branch() const = 0;
-
-    virtual ResultBranch &branch() = 0;
+    TCut Cut() const;
 
     virtual std::string NiceName() const;
 
+    std::string AnalysisName() const;
+
+    std::string BranchName(Stage stage) const;
+
+    std::string FactoryFileName() const;
+
+    std::string ExportFileName() const;
+
+    std::string ExportFileName(Stage stage, Tag tag) const;
+
+    std::string ExportFolderName() const;
+
+    std::string FileName(Stage stage, Tag tag) const;
+
+    std::string MethodName(TMVA::Types::EMVA mva) const;
+
+    std::string WeightFileName(TMVA::Types::EMVA mva) const;
+
+    std::string WeightFileExtension() const;
+
+    std::string WeightBranchName() const;
+
+    void AddTreeName(const std::string& signal_tree_name, Tag tag);
+
+    void SetTreeBranch(exroot::TreeWriter& tree_writer, Stage stage);
+
+    void ClearTreeNames();
+
 protected:
+
+    virtual TClass& Class() const = 0;
 
     virtual void DefineVariables() = 0;
 
-    Observable NewObservable(float &value, const std::string &title) const;
+    Jets SubJets(const fastjet::PseudoJet& jet, int sub_jet_number) const;
 
-    void AddVariable(float &value, const std::string &title);
+    Observable NewObservable(float& value, const std::string& title) const;
 
-    void AddSpectator(float &value, const std::string &title);
+    void AddVariable(float& value, const std::string& title);
+
+    void AddSpectator(float& value, const std::string& title);
 
     void ClearObservables();
 
-    virtual int CandidatesMax() const;
+    exroot::TreeBranch& TreeBranch() const;
 
-    virtual TClass &Class() const = 0;
-
-    exroot::TreeBranch &tree_branch() const;
-
-    float Bdt(const TMVA::Reader &reader) const;
+    float Bdt(const TMVA::Reader& reader) const;
 
 private:
+
+    std::string SignalFileName(Stage stage) const;
+
+    std::string BackgroundFileName(Stage stage) const;
+
+    std::string Root() const;
+
+    std::string PathName(const std::string& file_name, const std::string& suffix = ".root") const;
+
+    std::string ReaderName() const;
+
+    std::string ReaderName(const std::string& name) const;
+
+    std::string WeightName(TMVA::Types::EMVA mva) const;
+
+    std::string BackgroundName() const;
+
+    std::string BackgroundName(const std::string& name) const;
+
+    std::string SignalName() const;
+
+    std::string SignalName(const std::string& name) const;
+
+    std::string TrainerName() const;
+
+    std::string ExportName() const;
+
+    std::string Name(Stage stage, Tag tag) const;
+
+    std::string Name(Stage stage) const;
+
+    std::string BranchName(Stage stage, Tag tag) const;
+    
 
     /**
      * @brief Tree Branch pointer saving the results
      *
      */
-    exroot::TreeBranch *tree_branch_;
+    exroot::TreeBranch* tree_branch_;
 
     /**
      * @brief Name of the Analysis

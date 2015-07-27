@@ -1,12 +1,11 @@
-HDictionary(BranchesHiggsCpv BranchesHiggsCpv.cpp ../include/LinkDefHiggsCpv.hh)
+create_dictionary(BranchesHiggsCpv BranchesHiggsCpv.cpp ../include/LinkDefHiggsCpv.hh)
 
 set(LibrarySources
 TopSemiPairTagger.cpp
 TopLeptonicPairTagger.cpp
 SignatureTagger.cpp
 EventTagger.cpp
-AnalysisHiggsCpv.cpp
 )
-HLibrary(HiggsCpvTagger LibrarySources)
+create_library(HiggsCpvTagger LibrarySources)
 
-HExecutable(HiggsCpv ./main.cpp)
+create_executable(HiggsCpv ./main.cpp)

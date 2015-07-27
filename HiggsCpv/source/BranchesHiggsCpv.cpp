@@ -1,20 +1,20 @@
 #include "BranchesHiggsCpv.hh"
+#include "Pair.hh"
 
-ClassImp(analysis::higgscpv::SignatureLeptonicBranch)
+namespace analysis {
+namespace higgscpv {
 
-analysis::higgscpv::SignatureLeptonicBranch::SignatureLeptonicBranch()
+SignatureLeptonicBranch::SignatureLeptonicBranch()
 {
-  HiggsMass = InitialValue();
-  PairRap = InitialValue();
-  BottomBdt = InitialValue();
-  PairBottomBdt = InitialValue();
-  HardTopPt = InitialValue();
-  SoftTopPt = InitialValue();
+    HiggsMass = InitialValue();
+    PairRap = InitialValue();
+    BottomBdt = InitialValue();
+    PairBottomBdt = InitialValue();
+    HardTopPt = InitialValue();
+    SoftTopPt = InitialValue();
 }
 
-ClassImp(analysis::higgscpv::OctetBranch)
-
-analysis::higgscpv::OctetBranch::OctetBranch()
+OctetBranch::OctetBranch()
 {
     HiggsMass = InitialValue();
     PairRap = InitialValue();
@@ -26,29 +26,11 @@ analysis::higgscpv::OctetBranch::OctetBranch()
     SoftTopPt = InitialValue();
 }
 
+EventBranch::EventBranch() {}
 
-ClassImp(analysis::higgscpv::EventBranch)
+TopLeptonicPairBranch::TopLeptonicPairBranch() {}
 
-analysis::higgscpv::EventBranch::EventBranch(){}
-
-ClassImp(analysis::higgscpv::HLeptonBranch)
-
-analysis::higgscpv::HLeptonBranch::HLeptonBranch()
-{
-    Mass = InitialValue();
-    Pt = InitialValue();
-    Rap = InitialValue();
-    Phi = InitialValue();
-    Charge = int(InitialValue());
-}
-
-ClassImp(analysis::higgscpv::TopLeptonicPairBranch)
-
-analysis::higgscpv::TopLeptonicPairBranch::TopLeptonicPairBranch(){}
-
-ClassImp(analysis::higgscpv::TripletPairBranch)
-
-analysis::higgscpv::TripletPairBranch::TripletPairBranch()
+TripletPairBranch::TripletPairBranch()
 {
     BottomMass = InitialValue();
     BottomPt = InitialValue();
@@ -64,20 +46,29 @@ analysis::higgscpv::TripletPairBranch::TripletPairBranch()
     TopBTag = InitialValue();
 }
 
-ClassImp(analysis::higgscpv::QuartetPairBranch)
-
-analysis::higgscpv::QuartetPairBranch::QuartetPairBranch()
+QuartetPairBranch::QuartetPairBranch()
 {
-  BottomMass = InitialValue();
-  BottomPt = InitialValue();
-  BottomRap = InitialValue();
-  BottomPhi = InitialValue();
-  BottomBdt = InitialValue();
-  BottomBTag = InitialValue();
-  TopMass = InitialValue();
-  TopPt = InitialValue();
-  TopRap = InitialValue();
-  TopPhi = InitialValue();
-  TopBdt = InitialValue();
-  TopBTag = InitialValue();
+    BottomMass = InitialValue();
+    BottomPt = InitialValue();
+    BottomRap = InitialValue();
+    BottomPhi = InitialValue();
+    BottomBdt = InitialValue();
+    BottomBTag = InitialValue();
+    TopMass = InitialValue();
+    TopPt = InitialValue();
+    TopRap = InitialValue();
+    TopPhi = InitialValue();
+    TopBdt = InitialValue();
+    TopBTag = InitialValue();
 }
+Observables SignatureLeptonicBranch::Variables() const
+{
+    return Join(MultiBranch::Variables(), {PAIR(BottomBdt), PAIR(PairBottomBdt), PAIR(HardTopPt), PAIR(SoftTopPt), PAIR(HiggsMass), PAIR(PairRap)});
+}
+Observables TripletPairBranch::Variables() const
+{
+    return Join(PairBranch::Variables(), {PAIR(BottomPt), PAIR(BottomRap), PAIR(BottomPhi), PAIR(BottomMass), PAIR(TopPt), PAIR(TopRap), PAIR(TopPhi), PAIR(TopMass), PAIR(TopBdt)});
+}
+}
+}
+

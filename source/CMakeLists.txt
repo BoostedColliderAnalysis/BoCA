@@ -1,21 +1,24 @@
-HInclude(../include)
-HInclude(.)
-
 add_subdirectory(exroot)
 add_subdirectory(delphes)
 
-HDictionary(Branches ./Branches.cpp ../include/LinkDef.hh)
+add_include_path(../include)
+create_dictionary(Branches Branches.cpp ../include/LinkDef.hh)
 
-set(VectorSources
+set(vector_sources
+Vector2.cpp
 Vector3.cpp
 LorentzVector.cpp
 )
-HLibrary(Vector VectorSources)
+create_library(Vector vector_sources)
 
-set(EventSources
+set(global_sources
 Global.cpp
 Debug.cpp
 Predicate.cpp
+)
+create_library(Global global_sources)
+
+set(event_sources
 File.cpp
 ClonesArrays.cpp
 Event.cpp
@@ -24,36 +27,28 @@ Partons.cpp
 Leptons.cpp
 Hadrons.cpp
 )
-HLibrary(Event EventSources)
+create_library(Event event_sources)
 
-set(MultipletSources
+set(multiplet_sources
 Identification.cpp
-Multiplet.cpp
 Singlet.cpp
 Doublet.cpp
 Triplet.cpp
 Quartet.cpp
 Quintet.cpp
 Sextet.cpp
-Octet62.cpp
+Octet.cpp
 GlobalObservables.cpp
-MultipletEvent.cpp
 )
-HLibrary(Multiplets MultipletSources)
+create_library(Multiplets multiplet_sources)
 
-set(HepTaggerSource
+set(hep_tagger_source
 TopHadronicHep.cpp
 )
-HLibrary(HepTagger HepTaggerSource)
+create_library(HepTagger hep_tagger_source)
 add_dependencies(HepTagger HepTopTagger)
 
-set(TaggerSources
-Observable.cpp
-PreCuts.cpp
-Factory.cpp
-Reader.cpp
-Plot.cpp
-
+set(tagger_sources
 Tagger.cpp
 TauTagger.cpp
 BottomTagger.cpp
@@ -66,18 +61,23 @@ TopHadronicTagger.cpp
 TopLeptonicTagger.cpp
 JetPairTagger.cpp
 TripletJetPairTagger.cpp
+Observable.cpp
+PreCuts.cpp
+Trainer.cpp
+Reader.cpp
 )
-HLibrary(Tagger TaggerSources)
+create_library(Tagger tagger_sources)
 
-set(WimpSources
+set(wimp_sources
 WimpMass.cpp
 )
-HLibrary(Wimp WimpSources)
+create_library(Wimp wimp_sources)
 add_dependencies(Wimp WimpMass)
 
-set(AnalysisSources
+set(analysis_sources
 Configuration.cpp
 AnalysisBase.cpp
+Trees.cpp
 Particle.cpp
 Family.cpp
 Constituent.cpp
@@ -86,6 +86,6 @@ DetectorGeometry.cpp
 JetInfo.cpp
 Reconstruction.cpp
 Discriminator.cpp
-SubStructure.cpp
+Plot.cpp
 )
-HLibrary(Analysis AnalysisSources)
+create_library(Analysis analysis_sources)

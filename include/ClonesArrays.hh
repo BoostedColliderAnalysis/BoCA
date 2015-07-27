@@ -1,20 +1,22 @@
 #pragma once
 
-// #include "TObject.h"
+#include <vector>
+#include <map>
 
-#include "exroot/ExRootAnalysis.hh"
+class ExRootTreeReader;
+namespace exroot{
+  typedef ::ExRootTreeReader TreeReader;
+}
+class TClonesArray;
+class TObject;
 
+namespace analysis {
 
-namespace analysis
-{
-
-enum class Branch
-{
+enum class Branch {
     particle, photon, electron, muon, jet, missing_et, track, tower, e_flow_track, e_flow_photon, e_flow_neutral_hadron, e_flow_muon, gen_jet, scalar_ht, tau
 };
 
-enum class Source
-{
+enum class Source {
     delphes, pgs, parton
 };
 
@@ -22,78 +24,90 @@ enum class Source
  * @brief Base class for loading the TreeBrancheses into ClonesArrays
  *
  */
-class ClonesArrays
-{
+class ClonesArrays {
 
 public:
 
     ClonesArrays();
 
-    ClonesArrays(const Source source);
+    ClonesArrays(Source source);
 
-    std::string BranchName(const Branch branch) const;
+    std::string BranchName(Branch branch) const;
 
     Source source() const;
 
     std::vector<Branch> Branches() const;
 
-    void UseBranches(exroot::TreeReader &tree_reader);
+    void UseBranches(exroot::TreeReader& tree_reader);
 
-    TClonesArray &ClonesArray(const Branch branch) const;
+    TClonesArray& ClonesArray(Branch branch) const;
 
-    TObject &Object(const analysis::Branch branch, const int number) const;
+    TObject& Object(Branch branch, int number) const;
 
-    int EntrySum(const Branch branch) const;
+    int EntrySum(Branch branch) const;
 
-    int ParticleSum() const {
+    int ParticleSum() const
+    {
         return EntrySum(Branch::particle);
     }
 
-    int TrackSum() const {
+    int TrackSum() const
+    {
         return EntrySum(Branch::track);
     }
 
-    int TowerSum() const {
+    int TowerSum() const
+    {
         return EntrySum(Branch::tower);
     }
 
-    int EFlowTrackSum() const {
+    int EFlowTrackSum() const
+    {
         return EntrySum(Branch::e_flow_track);
     }
 
-    int GenJetSum() const {
+    int GenJetSum() const
+    {
         return EntrySum(Branch::gen_jet);
     }
 
-    int JetSum() const {
+    int JetSum() const
+    {
         return EntrySum(Branch::jet);
     }
 
-    int ElectronSum() const {
+    int ElectronSum() const
+    {
         return EntrySum(Branch::electron);
     }
 
-    int MuonSum() const {
+    int MuonSum() const
+    {
         return EntrySum(Branch::muon);
     }
 
-    int PhotonSum() const {
+    int PhotonSum() const
+    {
         return EntrySum(Branch::photon);
     }
 
-    int EFlowPhotonSum() const {
+    int EFlowPhotonSum() const
+    {
         return EntrySum(Branch::e_flow_photon);
     }
 
-    int EFlowNeutralHadronSum() const {
+    int EFlowNeutralHadronSum() const
+    {
         return EntrySum(Branch::e_flow_neutral_hadron);
     }
 
-    int EFlowMuonSum() const {
+    int EFlowMuonSum() const
+    {
         return EntrySum(Branch::e_flow_muon);
     }
 
-    int TauSum() const {
+    int TauSum() const
+    {
         return EntrySum(Branch::tau);
     }
 
@@ -101,7 +115,8 @@ public:
      * @brief Particle Clones Array
      *
      */
-    TClonesArray &ParticleClonesArray() const {
+    TClonesArray& ParticleClonesArray() const
+    {
         return ClonesArray(Branch::particle);
     }
 
@@ -109,7 +124,8 @@ public:
      * @brief Electron Clones Array
      *
      */
-    TClonesArray &ElectronClonesArray() const {
+    TClonesArray& ElectronClonesArray() const
+    {
         return ClonesArray(Branch::electron);
     }
 
@@ -117,7 +133,8 @@ public:
      * @brief Muon Clones Array
      *
      */
-    TClonesArray &MuonClonesArray() const {
+    TClonesArray& MuonClonesArray() const
+    {
         return ClonesArray(Branch::muon);
     }
 
@@ -125,7 +142,8 @@ public:
      * @brief Photon Clones Array
      *
      */
-    TClonesArray &PhotonClonesArray() const {
+    TClonesArray& PhotonClonesArray() const
+    {
         return ClonesArray(Branch::photon);
     }
 
@@ -133,7 +151,8 @@ public:
      * @brief Particle Clones Array
      *
      */
-    TObject &Particle(const int number) const {
+    TObject& Particle(int number) const
+    {
         return Object(Branch::particle, number);
     }
 
@@ -141,7 +160,8 @@ public:
      * @brief Track Clones Array
      *
      */
-    TObject &Track(const int number) const {
+    TObject& Track(int number) const
+    {
         return Object(Branch::track, number);
     }
 
@@ -149,7 +169,8 @@ public:
      * @brief Tower Clones Array
      *
      */
-    TObject &Tower(const int number) const {
+    TObject& Tower(int number) const
+    {
         return Object(Branch::tower, number);
     }
 
@@ -157,7 +178,8 @@ public:
      * @brief EFlow Track Clones Array
      *
      */
-    TObject &EFlowTrack(const int number) const {
+    TObject& EFlowTrack(int number) const
+    {
         return Object(Branch::e_flow_track, number);
     }
 
@@ -165,7 +187,8 @@ public:
      * @brief GenJet Clones Array
      *
      */
-    TObject &GenJet(const int number) const {
+    TObject& GenJet(int number) const
+    {
         return Object(Branch::gen_jet, number);
     }
 
@@ -173,7 +196,8 @@ public:
      * @brief Jet Clones Array
      *
      */
-    TObject &Jet(const int number) const {
+    TObject& Jet(int number) const
+    {
         return Object(Branch::jet, number);
     }
 
@@ -181,7 +205,8 @@ public:
      * @brief Electron Clones Array
      *
      */
-    TObject &Electron(const int number) const {
+    TObject& Electron(int number) const
+    {
         return Object(Branch::electron, number);
     }
 
@@ -189,7 +214,8 @@ public:
      * @brief Muon Clones Array
      *
      */
-    TObject &Muon(const int number) const {
+    TObject& Muon(int number) const
+    {
         return Object(Branch::muon, number);
     }
 
@@ -197,7 +223,8 @@ public:
      * @brief Missing ET Clones Array
      *
      */
-    TObject &MissingEt() const {
+    TObject& MissingEt() const
+    {
         return Object(Branch::missing_et, 0);
     }
 
@@ -205,7 +232,8 @@ public:
      * @brief Scalar HT Clones Array
      *
      */
-    TObject &ScalarHt() const {
+    TObject& ScalarHt() const
+    {
         return Object(Branch::scalar_ht, 0);
     }
 
@@ -213,7 +241,8 @@ public:
      * @brief Photon Clones Array
      *
      */
-    TObject &Photon(const int number) const {
+    TObject& Photon(int number) const
+    {
         return Object(Branch::photon, number);
     }
 
@@ -221,7 +250,8 @@ public:
      * @brief EFlow Photon Clones Array
      *
      */
-    TObject &EFlowPhoton(const int number) const {
+    TObject& EFlowPhoton(int number) const
+    {
         return Object(Branch::e_flow_photon, number);
     }
 
@@ -229,7 +259,8 @@ public:
      * @brief EFlow Neutral Hadron Clones Array
      *
      */
-    TObject &EFlowNeutralHadron(const int number) const {
+    TObject& EFlowNeutralHadron(int number) const
+    {
         return Object(Branch::e_flow_neutral_hadron, number);
     }
 
@@ -237,7 +268,8 @@ public:
      * @brief EFlow Muon Clones Array
      *
      */
-    TObject &EFlowMuon(const int number) const {
+    TObject& EFlowMuon(int number) const
+    {
         return Object(Branch::e_flow_muon, number);
     }
 
@@ -245,13 +277,14 @@ public:
      * @brief EFlow Neutral Hadron Clones Array
      *
      */
-    TObject &Tau(const int number) const {
+    TObject& Tau(int number) const
+    {
         return Object(Branch::tau, number);
     }
 
 private:
 
-    std::map<Branch, TClonesArray *> clones_arrays_;
+    std::map<Branch, TClonesArray*> clones_arrays_;
 
     Source source_;
 

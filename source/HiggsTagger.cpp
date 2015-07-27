@@ -2,8 +2,7 @@
 #include "Event.hh"
 #include "Debug.hh"
 
-namespace analysis
-{
+namespace analysis {
 
 HiggsTagger::HiggsTagger()
 {
@@ -11,11 +10,11 @@ HiggsTagger::HiggsTagger()
     DefineVariables();
 }
 
-int HiggsTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const
+int HiggsTagger::Train(const Event& event, const PreCuts& pre_cuts, Tag tag) const
 {
-  Info(analysis::Name(tag));
+    Info(analysis::Name(tag));
     Jets jets =  bottom_reader_.Multiplets(event);
-    std::vector< Doublet > doublets;
+    std::vector<Doublet> doublets;
     for (auto jet_1 = jets.begin(); jet_1 != jets.end(); ++jet_1) {
         for (auto jet_2 = jet_1 + 1; jet_2 != jets.end(); ++jet_2) {
             Doublet doublet(*jet_1, *jet_2);
@@ -24,8 +23,8 @@ int HiggsTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag) con
             doublets.emplace_back(doublet);
         }
     }
-    for (const auto &jet : jets) {
-        const int sub_jet_number = 2;
+    for (const auto& jet : jets) {
+        size_t sub_jet_number = 2;
         Jets pieces = bottom_reader_.SubMultiplet(jet, sub_jet_number);
         if (pieces.size() < sub_jet_number) continue;
         Doublet doublet(pieces.at(0), pieces.at(1));
@@ -33,18 +32,17 @@ int HiggsTagger::Train(const Event &event, PreCuts &pre_cuts, const Tag tag) con
         doublet.SetTag(tag);
         doublets.emplace_back(doublet);
     }
-    for (const auto &jet : jets) {
-      Doublet doublet(jet);
-      if (Problematic(doublet, pre_cuts, tag)) continue;
-      doublet.SetTag(tag);
-      doublets.emplace_back(doublet);
+    for (const auto& jet : jets) {
+        Doublet doublet(jet);
+        if (Problematic(doublet, pre_cuts, tag)) continue;
+        doublet.SetTag(tag);
+        doublets.emplace_back(doublet);
     }
-    Jets particles = event.Partons().GenParticles();
-    Jets higgses = CopyIfAbsParticle(particles, Id::higgs, Id::CP_violating_higgs);
-    return SaveEntries(BestMatches(doublets, higgses,tag));
+    Jets higgses = CopyIfParticles(event.Partons().GenParticles(), Id::higgs, Id::CP_violating_higgs);
+    return SaveEntries(BestMatches(doublets, higgses, tag));
 }
 
-bool HiggsTagger::Problematic(const Doublet &doublet, PreCuts &pre_cuts, const Tag tag) const
+bool HiggsTagger::Problematic(const Doublet& doublet, const PreCuts& pre_cuts, Tag tag) const
 {
     if (Problematic(doublet, pre_cuts)) return true;
     switch (tag) {
@@ -58,7 +56,7 @@ bool HiggsTagger::Problematic(const Doublet &doublet, PreCuts &pre_cuts, const T
     return false;
 }
 
-bool HiggsTagger::Problematic(const Doublet &doublet, PreCuts &pre_cuts) const
+bool HiggsTagger::Problematic(const Doublet& doublet, const PreCuts& pre_cuts) const
 {
     if (pre_cuts.PtLowerCut(Id::higgs) > 0 && pre_cuts.PtLowerCut(Id::higgs) > doublet.Jet().pt()) return true;
     if (pre_cuts.PtUpperCut(Id::higgs) > 0 && pre_cuts.PtUpperCut(Id::higgs) < doublet.Jet().pt()) return true;
@@ -66,11 +64,11 @@ bool HiggsTagger::Problematic(const Doublet &doublet, PreCuts &pre_cuts) const
     return false;
 }
 
-std::vector<Doublet>  HiggsTagger::Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const
+std::vector<Doublet>  HiggsTagger::Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const
 {
     Info();
     Jets jets =  bottom_reader_.Multiplets(event);
-    std::vector< Doublet > doublets;
+    std::vector<Doublet> doublets;
     for (auto jet_1 = jets.begin(); jet_1 != jets.end(); ++jet_1) {
         for (auto jet_2 = jet_1 + 1; jet_2 != jets.end(); ++jet_2) {
             Doublet doublet(*jet_1, *jet_2);
@@ -79,8 +77,8 @@ std::vector<Doublet>  HiggsTagger::Multiplets(const Event &event, PreCuts &pre_c
             doublets.emplace_back(doublet);
         }
     }
-    for (const auto &jet : jets) {
-        const int sub_jet_number = 2;
+    for (const auto& jet : jets) {
+        size_t sub_jet_number = 2;
         Jets pieces = bottom_reader_.SubMultiplet(jet, sub_jet_number);
         if (pieces.size() < sub_jet_number) continue;
         Doublet doublet(pieces.at(0), pieces.at(1));
@@ -88,11 +86,11 @@ std::vector<Doublet>  HiggsTagger::Multiplets(const Event &event, PreCuts &pre_c
         doublet.SetBdt(Bdt(doublet, reader));
         doublets.emplace_back(doublet);
     }
-    for (const auto &jet : jets) {
-      Doublet doublet(jet);
-      if (Problematic(doublet, pre_cuts)) continue;
-      doublet.SetBdt(Bdt(doublet, reader));
-      doublets.emplace_back(doublet);
+    for (const auto& jet : jets) {
+        Doublet doublet(jet);
+        if (Problematic(doublet, pre_cuts)) continue;
+        doublet.SetBdt(Bdt(doublet, reader));
+        doublets.emplace_back(doublet);
     }
     return ReduceResult(doublets);
 }

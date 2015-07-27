@@ -3,8 +3,7 @@
 #include <vector>
 #include <string>
 
-namespace fastjet
-{
+namespace fastjet {
 class PseudoJet;
 }
 
@@ -12,8 +11,7 @@ class PseudoJet;
  * @brief analysis namespace containing the general analysis and SM taggers
  *
  */
-namespace analysis
-{
+namespace analysis {
 
 class LorentzVector;
 
@@ -23,8 +21,7 @@ typedef std::vector<std::string> Strings;
 
 
 
-enum class Severity
-{
+enum class Severity {
     error,
     notification,
     information,
@@ -32,8 +29,7 @@ enum class Severity
     detailed
 };
 
-enum class Id
-{
+enum class Id {
     empty = 0,
     down = 1,
     up = 2,
@@ -62,11 +58,11 @@ enum class Id
     mixed_jet = 90,
     cluster = 91,
     string = 92,
-    Pi0Meson = 111,
-    Rho0Meson = 113,
-    K0LMeson = 130,
-    Pion = 211,
-    RhoMeson = 213,
+    pi0 = 111,
+    rho0 = 113,
+    K0L = 130,
+    pion = 211,
+    rho = 213,
     RapMeson = 221,
     OmegaMeson = 223,
     K0SMeson = 310,
@@ -98,23 +94,23 @@ enum class Id
     CP_violating_higgs = 5000000
 };
 
-std::string Name(const int id);
+std::string Name(int id);
 
-std::string Name(const Id id);
+std::string Name(Id id);
 
-float Mass(const Id id);
+float Mass(Id id);
 
 /**
  * @brief Initial user index
  *
  */
-static const int EmptyUserIndex = -1;
+static int EmptyUserIndex = -1;
 
 /**
  * @brief Position outside of a vector
  *
  */
-static const int EmptyPosition = -1;
+static int EmptyPosition = -1;
 
 
 int LargeNumber();

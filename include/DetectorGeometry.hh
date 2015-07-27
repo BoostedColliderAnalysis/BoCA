@@ -2,37 +2,46 @@
 
 #include "fastjet/JetDefinition.hh"
 
-namespace analysis
-{
+namespace analysis {
 
-enum class JetType
-{
-    jet, gen_jet, e_flow_jet
+  /**
+   * @brief JetType indicates which type of jet is going to be used
+   *
+   */
+  enum class JetType {
+    jet, //< usual Delphse Jet
+    gen_jet, //<  Delphes GenJet
+    e_flow_jet //< Jet formed from the eflow Variables according to the parameter set in DetectorGeometry
 };
 
-enum class DetectorType
-{
-  CMS, Spp
+/**
+ * @brief Detector type indicates which kind of detector geometry is going to be used
+ *
+ */
+enum class DetectorType {
+    CMS, //< default LHC detector
+    Spp //<  default detector for a 100TeV collider
 };
 
-class DetectorGeometry
-{
+class DetectorGeometry {
 public:
-    float JetMinPt() const;
-    float JetConeSize() const;
-    float MinCellPt() const;
-    float MinCellResolution() const;
-    float TrackerEtaMax() const;
-//     float JetRadiusParameter() const;
-    fastjet::JetDefinition JetDefinition() const;
-    fastjet::JetDefinition SubJetDefinition() const;
-    float TrackerDistanceMin() const;
-    float TrackerDistanceMax() const;
-    float VertexMassMin() const;
-    float LeptonMinPt() const;
-    JetType jet_type() const;
+    static float JetMinPt();
+    static float JetConeSize();
+    static float MinCellPt();
+    static float MinCellResolution();
+    static float TrackerEtaMax();
+//     static float JetRadiusParameter();
+    static fastjet::JetDefinition JetDefinition();
+    static fastjet::JetDefinition SubJetDefinition();
+    static float TrackerDistanceMin();
+    static float TrackerDistanceMax();
+    static float VertexMassMin();
+    static float LeptonMinPt();
+    static JetType jet_type();
+    static void set_detector_type(const DetectorType detector_type);
 private:
-    DetectorType detector_type() const;
+    static DetectorType detector_type();
+    static DetectorType detector_type_;
 };
 
 }

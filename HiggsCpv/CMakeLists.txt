@@ -1,4 +1,2 @@
-HInclude(${PROJECT_SOURCE_DIR}/HiggsCpv/include)
-HInclude(${PROJECT_SOURCE_DIR}/HiggsCpv/source)
-
+add_include_path(include)
 add_subdirectory(source)

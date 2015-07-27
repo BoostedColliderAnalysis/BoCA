@@ -2,11 +2,9 @@
 
 #include "AnalysisHeavyHiggs.hh"
 
-namespace analysis
-{
+namespace analysis {
 
-namespace heavyhiggs
-{
+namespace heavyhiggs {
 
 /**
  *
@@ -16,17 +14,18 @@ namespace heavyhiggs
  *
  */
 template<typename Tagger>
-class AnalysisFusion : public AnalysisHeavyHiggs<Tagger>
-{
+class AnalysisFusion : public AnalysisHeavyHiggs<Tagger> {
 
 public:
 
-    AnalysisFusion() {
-        this->tagger().set_analysis_name(ProjectName());
+    AnalysisFusion()
+    {
+        this->tagger().SetAnalysisName(ProjectName());
     }
 
-    void SetFiles(const Tag tag) final {
-        switch (tag) {
+    void SetFiles(Tag tag) final {
+        switch (tag)
+        {
         case Tag::signal :
             this->NewFile(tag, Process::H0);
             break;
@@ -36,28 +35,31 @@ public:
         }
     }
 
-    std::string ProcessName() const override {
+    std::string ProcessName() const override
+    {
         return "Fusion";
     }
 
-    std::string ProjectName() const final {
-      return  ProcessName() + "-" + Name(this->collider_type()) + "-" + std::to_string(this->PreCut()) + "GeV-" + std::to_string(this->Mass()) + "GeV";
+    std::string ProjectName() const final
+    {
+        return  ProcessName() + "-" + Name(this->collider_type()) + "-" + std::to_string(this->PreCut()) + "GeV-" + std::to_string(this->Mass()) + "GeV";
     }
 
 private:
 
-    int BackgroundFileNumber() const {
-      switch (this->collider_type()) {
+    int BackgroundFileNumber() const
+    {
+        switch (this->collider_type()) {
         case Collider::LHC :
-          switch (this->PreCut()) {
+            switch (this->PreCut()) {
             case  0 :
                 return 79;
-                //                 return 1; // < this must be removed !!
+            //                 return 1; // < this must be removed !!
             case  250 :
                 return 41;
             }
         case Collider::LE :
-          switch (this->PreCut()) {
+            switch (this->PreCut()) {
             case  0 :
                 //                   return 98;
                 return 1; // < this must be removed !!
@@ -84,10 +86,11 @@ private:
         }
     };
 
-    float SignalCrosssection() const {
-      switch (this->collider_type()) {
+    float SignalCrosssection() const
+    {
+        switch (this->collider_type()) {
         case Collider::LHC:
-          switch (this->Mass()) {
+            switch (this->Mass()) {
             case 400 :
                 return 1463.1219866990498;
             case 500:
@@ -105,8 +108,8 @@ private:
                 return 1;
             } ;
         case Collider::LE:
-          switch (this->Mass()) {
-                // tan beta = 2
+            switch (this->Mass()) {
+            // tan beta = 2
             case 400 :
                 return 48385.16604388162;
             case 500 :
@@ -149,23 +152,29 @@ private:
         }
     }
 
-    int PassPreCut(const Event &event) const {
+    int PassPreCut(const Event& event, Tag) const final
+    {
         Jets Particles = event.Partons().GenParticles();
-        Particles = RemoveIfWrongAbsParticle(Particles, Id::top);
+        Particles = CopyIfParticle(Particles, Id::top);
         if (Particles.size() != 2) {
 //             Error("Not enough top quarks", Particles.size());
             return 0;
         } else {
-            if (Particles.at(0).pt() < this->PreCut()) return 0;
-            if (Particles.at(1).pt() < this->PreCut()) return 0;
+            if (Particles.at(0).pt() < this->PreCut())
+                return 0;
+            if (Particles.at(1).pt() < this->PreCut())
+                return 0;
         }
-
-        if (event.Hadrons().MissingEt().pt() < this->MissingEt()) return 0;
+        if (event.Hadrons().MissingEt().pt() < this->MissingEt())
+            return 0;
         Jets Leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
-        if (Leptons.empty()) return 0;
-        if (Leptons.front().pt() < this->LeptonPt()) return 0;
+        if (Leptons.empty())
+            return 0;
+        if (Leptons.front().pt() < this->LeptonPt())
+            return 0;
         Jets jets = event.Hadrons().Jets();
-        if (jets.size() < 4) return 0;
+        if (jets.size() < 4)
+            return 0;
         return 1;
     }
 

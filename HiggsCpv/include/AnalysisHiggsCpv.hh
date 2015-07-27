@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Analysis.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
@@ -15,40 +16,64 @@ namespace higgscpv
  * \author Jan Hajer
  *
  */
-class Analysis //: public analysis::Analysis
+template <typename Tagger>
+class Analysis : public analysis::Analysis<Tagger>
 {
 
 public:
 
-
-    Analysis(Tagger &tagger);
-
-    void SetFiles(const Tag tag);
-
-     std::string ProjectName() const {
-        return  "HiggsCpv";
+    Analysis() {
+        this->tagger().SetAnalysisName(ProjectName());
+        DetectorGeometry::set_detector_type(DetectorType::CMS);
     }
 
-    std::string ProcessName();
+    void SetFiles(Tag tag) final {
+        switch (tag) {
+        case Tag::signal :
+            //         NewSignalFile("pp-ttx0-bbbbllnunu-1", 0.02071);
+            this->NewFile(tag, "pp-ttx0-bbbbllnunu-1", 0.008937);
+            //         NewSignalFile("pp-ttx0-bbbbllnunu-0.5", 0.01193);
+            break;
+        case Tag::background :
+            this->NewFile(tag, "pp-ttbb-bbbbllnunu", 3.457);
+            break;
+        }
+    }
+
+    std::string ProjectName() const final {
+        return  "CPV-4";
+    }
+
+    std::string ProcessName() const final {
+        return "higgscpv";
+    }
 
     /**
      * @brief Maximal number of Entries to analyse
      *
      */
-     long EventNumberMax() const {
+    long EventNumberMax() const final {
+        return 10000;
+        return 5000;
         return 1000;
     }
 
 protected:
 
 
-    std::string FilePath() const {
+    std::string FilePath() const final {
         return "~/Projects/HiggsCpv/Analysis/";
     }
 
 private:
 
-    int PassPreCut(const Event &event) const;
+  int PassPreCut(const Event& event, Tag) const final {
+        Jets particles = event.Partons().GenParticles();
+        Jets higgs = CopyIfParticle(particles, Id::CP_violating_higgs);
+        if(higgs.empty()) return 1;
+        higgs = RemoveIfSingleMother(higgs);
+        return higgs.size();
+    }
 
 };
 

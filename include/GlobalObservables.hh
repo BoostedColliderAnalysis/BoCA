@@ -3,15 +3,15 @@
 #include "Event.hh"
 #include "Singlet.hh"
 
-namespace analysis
-{
+namespace analysis {
 
-class GlobalObservables
-{
+class GlobalObservables {
 
 public:
 
-    void SetEvent(const Event &event, const analysis::Jets &jets);
+    void SetEvent(const Event& event, const analysis::Jets& jets);
+
+    void SetEvent(const Event& event);
 
     int LeptonNumber() const;
 
@@ -21,9 +21,9 @@ public:
 
     float BottomBdt() const;
 
-    float BottomBdt(const int number) const;
+    float BottomBdt(int number) const;
 
-    float BottomBdt(const int number_1, const int number_2) const;
+    float BottomBdt(int number_1, int number_2) const;
 
     float ScalarHt() const;
 

@@ -4,29 +4,27 @@
 #include "Sextet.hh"
 #include "Branch.hh"
 
-namespace analysis
-{
+namespace analysis {
 
-namespace heavyhiggs
-{
+namespace heavyhiggs {
 
 /**
  * @brief Leptonic heavy higgs BDT tagger
  *
  */
-class HeavyHiggsLeptonicTagger : public BranchTagger<HeavyHiggsLeptonicBranch>
-{
+class HeavyHiggsLeptonicTagger : public BranchTagger<HeavyHiggsLeptonicBranch> {
 
 public:
 
     HeavyHiggsLeptonicTagger();
 
-    int Train(const Event &event, const Tag tag);
+    int Train(const Event& event, const PreCuts& pre_cuts, Tag tag) const final;
 
-    std::vector<Sextet> Multiplets(const Event &event, const TMVA::Reader &reader) const;
+    std::vector<Sextet> Multiplets(const Event& event, const TMVA::Reader& reader) const;
 
-    std::string Name() const final {
-      return "HeavyHiggsLeptonic";
+    std::string Name() const final
+    {
+        return "HeavyHiggsLeptonic";
     }
 
 private:

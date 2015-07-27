@@ -13,17 +13,17 @@ TauTagger::TauTagger()
     DefineVariables();
 }
 
-int TauTagger::Train(const Event &event, PreCuts &, const Tag tag) const
+int TauTagger::Train(const Event& event, const PreCuts&, Tag tag) const
 {
-  Info(analysis::Name(tag));
+    Info(analysis::Name(tag));
     Jets jets = event.Hadrons().Jets();
     Info("Number Jets", jets.size());
     Jets Particles = event.Partons().GenParticles();
-    Particles = RemoveIfWrongAbsParticle(Particles, Id::tau);
+    Particles = CopyIfParticle(Particles, Id::tau);
 //     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(Id::tau)), Particles.end());
 //     if(Particles.size()!=1)
     Info("Tau Partilces", Particles.size());
-    Jets final_jets = CleanJets(jets, Particles,tag);
+    Jets final_jets = CleanJets(jets, Particles, tag);
 //     if(FinalJets.size()!=1)
     Info("Tau Jets", final_jets.size());
 //     Jets Pieces = GetSubJets(jets, Particles, Tag, 2);
@@ -32,11 +32,12 @@ int TauTagger::Train(const Event &event, PreCuts &, const Tag tag) const
 //     Jets Pieces2 = GetSubJets(jets, Particles, Tag, 3);
 //     FinalJets.insert(FinalJets.end(), Pieces2.begin(), Pieces2.end());
     std::vector<Singlet> singlets;
-    for (const auto &final_jet : final_jets) singlets.emplace_back(Singlet(final_jet));
+    for (const auto& final_jet : final_jets)
+        singlets.emplace_back(Singlet(final_jet));
     return SaveEntries(singlets);
 }
 
-// Jets TauTagger::GetSubJets(const Jets &jets, const Jets &Particles, const Tag Tag, const int SubJetNumber)
+// Jets TauTagger::GetSubJets(const Jets &jets, const Jets &Particles, const Tag Tag, int SubJetNumber)
 // {
 //     Info("Sub Jets");
 //     Jets Pieces;
@@ -70,15 +71,16 @@ int TauTagger::Train(const Event &event, PreCuts &, const Tag tag) const
 // }
 
 
-Jets TauTagger::CleanJets(analysis::Jets &jets, const analysis::Jets &Particles, const analysis::Tag tag) const
+Jets TauTagger::CleanJets(analysis::Jets& jets, const analysis::Jets& Particles, Tag tag) const
 {
     Info("Clean Jets");
-    for (const auto & Particle : Particles) {
+    for (const auto& Particle : Particles) {
         std::sort(jets.begin(), jets.end(), MinDeltaRTo(Particle));
-        if (jets.front().delta_R(Particle) < 0.4) static_cast<JetInfo *>(jets.front().user_info_shared_ptr().get())->SetTag(Tag::signal);
+        if (jets.front().delta_R(Particle) < 0.4)
+            static_cast<JetInfo*>(jets.front().user_info_shared_ptr().get())->SetTag(Tag::signal);
     }
     Jets NewCleanJets;
-    for (const auto & Jet : jets) {
+    for (const auto& Jet : jets) {
         if (!Jet.has_user_info<JetInfo>()) {
             Error("Clean Jets", "No Jet Info");
             continue;
@@ -118,7 +120,7 @@ Jets TauTagger::CleanJets(analysis::Jets &jets, const analysis::Jets &Particles,
 //     return NewJets;
 // }
 
-// Jets TauTagger::GetSubBdt(const Jets &jets, const Reader &BottomReader, const int SubJetNumber)
+// Jets TauTagger::GetSubBdt(const Jets &jets, const Reader &BottomReader, int SubJetNumber)
 // {
 //     Info("Sub Bdt");
 //     Jets Pieces;
@@ -152,12 +154,12 @@ Jets TauTagger::CleanJets(analysis::Jets &jets, const analysis::Jets &Particles,
 //     return GetJetBdt(Pieces, BottomReader);
 // }
 
-Jets TauTagger::Multiplets(const Event &event, analysis::PreCuts &, const TMVA::Reader &reader) const
+Jets TauTagger::Multiplets(const Event& event, const analysis::PreCuts&, const TMVA::Reader& reader) const
 {
     Jets final_jets;
     Info("Jet Bdt");
     Jets jets = event.Hadrons().Jets();
-    for (const auto &jet : jets) {
+    for (const auto& jet : jets) {
         if (!jet.has_user_info<JetInfo>()) {
             Error("Jet Bdt", "No Jet Info");
             continue;
@@ -166,7 +168,7 @@ Jets TauTagger::Multiplets(const Event &event, analysis::PreCuts &, const TMVA::
 //             Info("Empty Piece");
 //             continue;
 //         }
-        static_cast<JetInfo &>(*jet.user_info_shared_ptr().get()).SetBdt(Bdt(jet,reader));
+        static_cast<JetInfo&>(*jet.user_info_shared_ptr().get()).SetBdt(Bdt(jet, reader));
         final_jets.emplace_back(jet);
     }
     return final_jets;

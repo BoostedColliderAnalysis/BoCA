@@ -4,100 +4,77 @@
 
 std::vector<analysis::File> fusionpair::Analysis::Files(const analysis::Tag tag)
 {
-  Note("Set File Vector", Name(tag));
-
+    Note("Set File Vector", Name(tag));
     std::vector<analysis::File> SignalLeptonicFiles;
     std::vector<analysis::File> BackgroundLeptonicFiles;
     std::vector<analysis::File> SignalSemiFiles;
     std::vector<analysis::File> BackgroundSemiFiles;
-
-
-    SignalSemiFiles.emplace_back(BackgroundFile(bb,VBF));
+    SignalSemiFiles.emplace_back(BackgroundFile(bb, VBF));
 //     SignalSemiFiles.emplace_back(analysis::File(NameString(bb), SignalCrosssection()));
 //     SignalSemiFiles.emplace_back(analysis::File(SignalName(Hbb), SignalCrosssection()));
-
-    BackgroundSemiFiles.emplace_back(BackgroundFile(bb,DYP));
-    BackgroundSemiFiles.emplace_back(BackgroundFile(cc,DYP));
-    BackgroundSemiFiles.emplace_back(BackgroundFile(cc,VBF));
-    BackgroundSemiFiles.emplace_back(BackgroundFile(jj,DYP));
-    BackgroundSemiFiles.emplace_back(BackgroundFile(jj,VBF));
+    BackgroundSemiFiles.emplace_back(BackgroundFile(bb, DYP));
+    BackgroundSemiFiles.emplace_back(BackgroundFile(cc, DYP));
+    BackgroundSemiFiles.emplace_back(BackgroundFile(cc, VBF));
+    BackgroundSemiFiles.emplace_back(BackgroundFile(jj, DYP));
+    BackgroundSemiFiles.emplace_back(BackgroundFile(jj, VBF));
 //     BackgroundSemiFiles.emplace_back(BackgroundFile(ttbb));
 //     BackgroundSemiFiles.emplace_back(BackgroundFile(ttcc));
 //     BackgroundSemiFiles.emplace_back(BackgroundFile(ttjj));
 //     BackgroundSemiFiles.emplace_back(BackgroundFile(ttqq));
 //     BackgroundSemiFiles.emplace_back(BackgroundFile(ttgg));
-
     std::vector<analysis::File> SignalHadronicFiles;
-
     std::vector<analysis::File> BackgroundHadronicFiles;
-
     std::vector<analysis::File> LeptonicFiles = analysis::Join(SignalLeptonicFiles, BackgroundLeptonicFiles);
     std::vector<analysis::File> HadronicFiles = analysis::Join(SignalHadronicFiles, BackgroundHadronicFiles);
     std::vector<analysis::File> SemiFiles = analysis::Join(SignalSemiFiles, BackgroundSemiFiles);
-
     std::vector<analysis::File> NotLeptonicFiles = analysis::Join(HadronicFiles, SemiFiles);
     std::vector<analysis::File> CombinedFiles = analysis::Join(NotLeptonicFiles, LeptonicFiles);
-
     std::vector<analysis::File> NonLeptonicSignalFiles = analysis::Join(SignalLeptonicFiles, SignalSemiFiles);
     std::vector<analysis::File> CombinedSignalFiles = analysis::Join(SignalHadronicFiles, NonLeptonicSignalFiles);
-
     std::vector<analysis::File> NewFiles;
-
-        switch (tag) {
-          case analysis::Tag::signal :
-            NewFiles = SignalSemiFiles;
-            break;
-          case analysis::Tag::background :
-            NewFiles = BackgroundSemiFiles;
-            break;
-        }
-
-
+    switch (tag) {
+    case analysis::Tag::signal :
+        NewFiles = SignalSemiFiles;
+        break;
+    case analysis::Tag::background :
+        NewFiles = BackgroundSemiFiles;
+        break;
+    }
 //     NewFiles.front().SetBasePath("~/Projects/PairTagging/");
 //     NewFiles.front().set_file_suffix(".root");
     SetTrees();
 //     PrepareReader(Tagger, tag);
     return NewFiles;
-
 }
 
 
 void fusionpair::Analysis::SetTrees()
 {
-
-  analysis::Strings SignalLeptonicTrees {};
-  analysis::Strings BackgroundLeptonicTrees {};
-
-
-
-  analysis::Strings SignalSemiTrees {
-      TreeName(bb,VBF),
+    analysis::Strings SignalLeptonicTrees {};
+    analysis::Strings BackgroundLeptonicTrees {};
+    analysis::Strings SignalSemiTrees {
+        TreeName(bb, VBF),
 //       SignalTreeName(Hbb)
     };
-
     analysis::Strings BackgroundSemiTrees {
-        TreeName(bb,DYP),
-        TreeName(cc,VBF),
-        TreeName(cc,DYP),
-        TreeName(jj,VBF),
-        TreeName(jj,DYP),
+        TreeName(bb, DYP),
+        TreeName(cc, VBF),
+        TreeName(cc, DYP),
+        TreeName(jj, VBF),
+        TreeName(jj, DYP),
 //         TreeName(ttbb),
 //         TreeName(ttcc),
 //         TreeName(ttjj),
 //         TreeName(ttgg),
 //         TreeName(ttqq)
     };
-
     analysis::Strings SignalHadronicTree {};
     analysis::Strings BackgroundHadronicTrees {};
-
     analysis::Strings LeptonicTrees = analysis::Join(SignalLeptonicTrees, BackgroundLeptonicTrees);
     analysis::Strings HadronicTrees = analysis::Join(SignalHadronicTree, BackgroundHadronicTrees);
     analysis::Strings SemiTrees = analysis::Join(SignalSemiTrees, BackgroundSemiTrees);
-
     analysis::Strings NotLeptonicTrees = analysis::Join(HadronicTrees, SemiTrees);
     analysis::Strings CombinedTrees = analysis::Join(NotLeptonicTrees, LeptonicTrees);
-
 //     switch (Tagger) {
 //     case HBottomTagger:
 //         BottomTagger.SetSignalTreeNames(SemiTrees);
@@ -182,7 +159,7 @@ void fusionpair::Analysis::SetTrees()
 //
 // }
 
-// int fusionpair::Analysis::RunAnalysis(analysis::Event &event, const analysis::Stage stage, const analysis::Tag tag)
+// int fusionpair::Analysis::RunAnalysis(analysis::Event &event, const analysis::Stage stage, Tag tag)
 // {
 //     Info("Analysis", stage, tag);
 //     ++event_sum_;
@@ -210,7 +187,7 @@ void fusionpair::Analysis::SetTrees()
 // }
 
 
-// bool hpairtagger::Analysis::GetTag(analysis::Event &event, const Tag tag)
+// bool hpairtagger::Analysis::GetTag(analysis::Event &event, Tag tag)
 // {
 //   Debug("Bottom Tag", Name(tag));
 //   return tagger_.GetBranches(event, tag);
@@ -288,7 +265,7 @@ void fusionpair::Analysis::SetTrees()
 // //     Jets FilteredJets; // WRONG MUST BE REMOVED
 //     Jets Particles = event.Partons().GenParticles();
 //     if (Tag == Tag::signal) {
-// //         Particles = BottomTagger.RemoveIfWrongAbsFamily(Particles, Id::bottom, MotherId(ProductionChannel()));
+// //         Particles = BottomTagger.CopyIfFamily(Particles, Id::bottom, MotherId(ProductionChannel()));
 //     }
 //     if (
 // // ProductionChannel() == Associated &&

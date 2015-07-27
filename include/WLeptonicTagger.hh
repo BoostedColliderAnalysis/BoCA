@@ -10,40 +10,42 @@ namespace analysis {
  * @brief Semi leptonic top BDT tagger
  *
  */
-class WLeptonicTagger : public BranchTagger<WSemiBranch>
-{
+class WLeptonicTagger : public BranchTagger<WSemiBranch> {
 
 public:
 
     WLeptonicTagger();
 
-    int Train(const Event &event, PreCuts &, const Tag tag) const;
+    int Train(const Event& event, const PreCuts&, Tag tag) const;
 
-    std::vector<Doublet> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
+    std::vector<Doublet> Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 
-    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
-      return SaveEntries(Multiplets(event,pre_cuts, reader));
+    int GetBdt(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const  final
+    {
+        return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
-    int WLeptonicId(const Event &event) const {
+    int WLeptonicId(const Event& event) const
+    {
         return WLeptonicId(WLeptonicDaughters(event));
     }
 
-    std::string Name() const final {
-      return "WLeptonic";
+    std::string Name() const final
+    {
+        return "WLeptonic";
     }
 
 private:
 
-    Jets WLeptonicDaughters(const Event &event) const;
+    Jets WLeptonicDaughters(const Event& event) const;
 
-    int WLeptonicId(const Jets &jets) const;
+    int WLeptonicId(const Jets& jets) const;
 
-    Tag GetTag(const Doublet &doublet) const;
+    Tag GetTag(const Doublet& doublet) const;
 
-    std::vector< Doublet > ReconstructNeutrino(const Doublet &doublet) const;
+    std::vector<Doublet> ReconstructNeutrino(const Doublet& doublet) const;
 
-    std::vector<Doublet> GetNeutrino(const Doublet &doublet, const Jets &Neutrinos, const Tag Tag) const;
+    std::vector<Doublet> GetNeutrino(const Doublet& doublet, const Jets& Neutrinos, const Tag Tag) const;
 
     float w_mass_window_ = 20;
 

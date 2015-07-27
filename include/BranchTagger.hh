@@ -9,21 +9,29 @@
 namespace analysis
 {
 
-template<typename Branch>
+template<typename BranchTemplate>
 class BranchTagger : public Tagger
 {
 
+    const BranchTemplate& Branch() const final {
+        return branch_;
+    }
+
 protected:
 
+    BranchTemplate& Branch() {
+        return branch_;
+    }
+
     template<typename Multiplet>
-    std::vector<Multiplet> ReduceResult(std::vector<Multiplet> &multiplets, const std::size_t max = 4) const {
+    std::vector<Multiplet> ReduceResult(std::vector<Multiplet>& multiplets, size_t max = 4) const {
         if (multiplets.empty()) return multiplets;
         std::sort(multiplets.begin(), multiplets.end());
         multiplets.erase(multiplets.begin() + std::min(max, multiplets.size()), multiplets.end());
         return multiplets;
     }
 
-    Jets ReduceResult(Jets &jets, const std::size_t max = 4) const {
+    Jets ReduceResult(Jets& jets, size_t max = 4) const {
         if (jets.empty()) return jets;
         std::sort(jets.begin(), jets.end(), SortByBdt());
         jets.erase(jets.begin() + std::min(max, jets.size()), jets.end());
@@ -31,7 +39,7 @@ protected:
     }
 
     template<typename Multiplet>
-    std::vector<Multiplet> BestMass(std::vector<Multiplet> &multiplets, const float mass, const std::size_t number = 1) const {
+    std::vector<Multiplet> BestMass(std::vector<Multiplet>& multiplets, float mass, size_t number = 1) const {
         if (multiplets.size() <= number) return multiplets;
         multiplets = SortedByMassTo(multiplets, mass);
         multiplets.erase(multiplets.begin() + number, multiplets.end());
@@ -39,7 +47,7 @@ protected:
     }
 
     template<typename Multiplet>
-    std::vector<Multiplet> BestRapidity(std::vector<Multiplet> &multiplets, const std::size_t number = 1) const {
+    std::vector<Multiplet> BestRapidity(std::vector<Multiplet>& multiplets, size_t number = 1) const {
         if (multiplets.size() <= number) return multiplets;
         multiplets = SortByMaxDeltaRap(multiplets);
         multiplets.erase(multiplets.begin() + number, multiplets.end());
@@ -47,19 +55,19 @@ protected:
     }
 
     template<typename Multiplet>
-    std::vector<Multiplet> BestMatch(std::vector<Multiplet> &multiplets, const Jets &particles) const {
+    std::vector<Multiplet> BestMatch(std::vector<Multiplet>& multiplets, const Jets& particles) const {
         if (multiplets.size() <= particles.size()) return multiplets;
         return CopyIfClose(multiplets, particles);
     }
 
     template<typename Multiplet>
-    std::vector<Multiplet> RemoveBestMatch(std::vector<Multiplet> &multiplets, const Jets &particles) const {
+    std::vector<Multiplet> RemoveBestMatch(std::vector<Multiplet>& multiplets, const Jets& particles) const {
         if (multiplets.size() <= particles.size()) return multiplets;
         return RemoveIfClose(multiplets, particles);
     }
 
     template<typename Multiplet>
-    std::vector<Multiplet> BestMatches(std::vector<Multiplet> &multiplets, const Jets &particles, const Tag tag) const {
+    std::vector<Multiplet> BestMatches(std::vector<Multiplet>& multiplets, const Jets& particles, Tag tag) const {
         std::sort(multiplets.begin(), multiplets.end());
         switch (tag) {
         case Tag::signal :
@@ -71,7 +79,7 @@ protected:
         }
     }
 
-    Jets BestMatches(Jets &jets, const Jets &particles, const Tag tag) const {
+    Jets BestMatches(Jets& jets, const Jets& particles, Tag tag) const {
         std::sort(jets.begin(), jets.end(), SortByBdt());
         switch (tag) {
         case Tag::signal :
@@ -84,42 +92,37 @@ protected:
     }
 
     template<typename Multiplet>
-    int SaveEntries(const std::vector<Multiplet> &multiplets, std::size_t max = LargeNumber()) const {
+    int SaveEntries(const std::vector<Multiplet>& multiplets, size_t max = LargeNumber()) const {
         if (multiplets.empty()) return 0;
 //         std::sort(multiplets.begin(),multiplets.end());
-        const int sum = std::min(multiplets.size(), max);
-        for (int counter = 0 ; counter < sum; ++counter) {
+        auto sum = std::min(multiplets.size(), max);
+        for (const auto & counter : Range(sum)) {
             FillBranch(multiplets.at(counter));
-            static_cast<Branch &>(*tree_branch().NewEntry()) = branch();
+            static_cast<BranchTemplate&>(*TreeBranch().NewEntry()) = Branch();
         }
         return sum;
     }
 
-    int SaveEntries(const std::vector<fastjet::PseudoJet> &jets, std::size_t max = LargeNumber()) const {
+    int SaveEntries(const std::vector<fastjet::PseudoJet>& jets, size_t max = LargeNumber()) const {
         if (jets.empty()) return 0;
-        const int sum = std::min(jets.size(), max);
-        for (int counter = 0 ; counter < sum; ++counter) {
+        for (const auto & counter : Range(std::min(jets.size(), max))) {
             FillBranch(Singlet(jets.at(counter)));
-            static_cast<Branch &>(*tree_branch().NewEntry()) = branch();
+            static_cast<BranchTemplate&>(*TreeBranch().NewEntry()) = Branch();
         }
         return jets.size();
     }
 
-    TClass &Class() const final {
-        return *Branch::Class();
-    }
-
-    const Branch &branch() const final {
-        return branch_;
+    TClass& Class() const final {
+        return *BranchTemplate::Class();
     }
 
     template<typename Multiplet>
-    float Bdt(const Multiplet &multiplet, const TMVA::Reader &reader) const {
+    float Bdt(const Multiplet& multiplet, const TMVA::Reader& reader) const {
         FillBranch(multiplet);
         return Tagger::Bdt(reader);
     }
 
-    float Bdt(const fastjet::PseudoJet &jet, const TMVA::Reader &reader) const {
+    float Bdt(const fastjet::PseudoJet& jet, const TMVA::Reader& reader) const {
         FillBranch(Singlet(jet));
         return Tagger::Bdt(reader);
     }
@@ -130,46 +133,30 @@ protected:
         AddSpectators();
     }
 
-    Branch &branch() override {
-      return branch_;
-    }
-
 private:
 
-    float ReadBdt(const TClonesArray &clones_array, const int entry) const final {
-        return static_cast<Branch &>(*clones_array.At(entry)).Bdt;
+    float ReadBdt(const TClonesArray& clones_array, int entry) const final {
+        return static_cast<BranchTemplate&>(*clones_array.At(entry)).Bdt;
     }
 
-//     auto PlotPoints(){
-//       std::vector<PlotPoint> points;
-//       unordered_pairs(branch().Variables(), points, [&](const ObservablePair & variable_1, const ObservablePair & variable_2) {
-//         PlotPoint plot_point;
-//         std::string leave_name_1 = branch_name() + "." + variable_1.second;
-//         plot_point.x = static_cast<Branch &>(*clones_array.At(entry)).leave_name_1;
-//         std::string leave_name_2 = branch_name() + "." + variable_2.second;
-//         plot_point.y = static_cast<Branch &>(*clones_array.At(entry)).leave_name_2;
-//         return plot_point;
-//       });
-//     }
-
     void AddVariables() {
-        for (const auto & variable : branch().Variables()) AddVariable(variable.value(), variable.name());
+        for (const auto & variable : Branch().Variables()) AddVariable(variable.value(), variable.name());
     }
 
     void AddSpectators() {
-        for (const auto & spectator : branch().Spectators()) AddSpectator(spectator.value(), spectator.name());
+        for (const auto & spectator : Branch().Spectators()) AddSpectator(spectator.value(), spectator.name());
     }
 
     template<typename Multiplet>
-    void FillBranch(const Multiplet &multiplet) const {
+    void FillBranch(const Multiplet& multiplet) const {
         branch_.Fill(multiplet);
     }
 
     /**
-     * @brief Branch saving the analysis results
+     * @brief Branch storing the analysis results
      *
      */
-    mutable Branch branch_;
+    mutable BranchTemplate branch_;
 };
 
 }

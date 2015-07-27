@@ -1,24 +1,24 @@
 #include "Global.hh"
+#include "Predicate.hh"
 
-namespace analysis
-{
+namespace analysis {
 
 int LargeNumber()
 {
     return 999999999;
 }
 
-std::string Name(const int id)
+std::string Name(int id)
 {
     std::string sign = "";
     if (id < 0) sign = "-";
     return sign + Name(Id(id));
 }
 
-std::string Name(const Id id)
+std::string Name(Id id)
 {
     switch (id) {
-        //     case Id::empty: return "Empty";
+    //     case Id::empty: return "Empty";
     case Id::down:
         return "d";
     case Id::up:
@@ -71,15 +71,15 @@ std::string Name(const Id id)
         return "String";
     case Id::mixed_jet:
         return "MixJet";
-    case Id::Pi0Meson:
+    case Id::pi0:
         return "pi0";
-    case Id::Rho0Meson:
+    case Id::rho0:
         return "rho0";
-    case Id::K0LMeson:
+    case Id::K0L:
         return "K0l";
-    case Id::Pion:
+    case Id::pion:
         return "pi";
-    case Id::RhoMeson:
+    case Id::rho:
         return "rho";
     case Id::RapMeson:
         return "eta";
@@ -140,11 +140,11 @@ std::string Name(const Id id)
     case Id::CP_violating_higgs:
         return "h";
     default:
-        return std::to_string(int(id));
+        return std::to_string(to_int(id));
     }
 }
 
-float Mass(const Id id)
+float Mass(Id id)
 {
     switch (id) {
     case Id::strange:
@@ -175,11 +175,11 @@ float Mass(const Id id)
         return 80.39;
     case Id::higgs:
         return 125;
-    case Id::Pi0Meson:
+    case Id::pi0:
         return 0.13498;
-    case Id::Pion:
+    case Id::pion:
         return 0.13957;
-    case Id::RhoMeson:
+    case Id::rho:
         return 0.77549;
     case Id::RapMeson:
         return 0.54785;
