@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer <jan@hajer.com>
+ */
 #pragma once
 
 #include <sys/stat.h>
@@ -10,7 +13,14 @@
 namespace analysis {
 
 /**
- * @brief Base for analyses
+ * @brief Analysis provides main analysis loops and logic.
+ * @details This class has to be subclassed for each analysis.
+ * The subclasses have to be instantiated with a Tagger as template argument.
+ * Subclasses should be templated classes.
+ * @author Jan Hajer
+ * @copyright Copyright (C) 2015 Jan Hajer <jan@hajer.com>
+ * @date 2015
+ * @license GPL 3+
  *
  */
 template<typename Tagger>
@@ -18,7 +28,13 @@ class Analysis : public AnalysisBase {
 
 public:
 
-    void AnalysisLoop(Stage stage) final {
+  /**
+   * @brief Main analysis loop which has to be called by main.cpp
+   *
+   * @param reader
+   * @return void
+   */
+  void AnalysisLoop(Stage stage) final {
         mkdir(ProjectName().c_str(), 0700);
         Reader<Tagger> reader(stage);
         tagger().ClearTreeNames();
@@ -35,24 +51,42 @@ public:
         }
     }
 
-
 protected:
 
-    const Tagger& tagger() const final {
+  /**
+   * @brief getter for Tagger
+   *
+   * @return const analysis::Tagger&
+   */
+  const Tagger& tagger() const final {
         return tagger_;
     }
 
+    /**
+     * @brief setter for AnalysisName of Tagger
+     * @details must be set in each analysis in order for Tagger to know about the folder structure
+     *
+     */
     void set_tagger_analysis_name(const std::string& name){
       tagger().SetAnalysisName(name);
     }
 
+    /**
+     * @brief getter for Tagger
+     *
+     * @return analysis::Tagger&
+     */
     Tagger& tagger() final {
         return tagger_;
     }
 
 private:
 
-    void AnalyseFile(Files& files, Reader<Tagger>& reader)
+  /**
+   * @brief Analysis performed on each file
+   *
+   */
+  void AnalyseFile(Files& files, Reader<Tagger>& reader)
     {
         Trees trees(files);
         SetTreeBranch(files.stage(), trees.tree_writer(), reader);
@@ -69,6 +103,10 @@ private:
         trees.WriteTree();
     }
 
+    /**
+     * @brief Set exroot::TreeBranch of exroot::TreeWriter to the pointer in the right Tagger
+     *
+     */
     void SetTreeBranch(Stage stage, exroot::TreeWriter& tree_writer, Reader<Tagger>& reader)
     {
         switch (stage) {
@@ -81,6 +119,10 @@ private:
         }
     }
 
+    /**
+     * @brief Checks for PreCuts and saves the results of each analysis.
+     *
+     */
     void DoAnalysis(const Files& files, Trees& trees, const Reader<Tagger>& reader)
     {
         trees.NewEvent(files.file().mass());
@@ -89,6 +131,11 @@ private:
         trees.tree_writer().Clear();
     }
 
+    /**
+     * @brief Starts the analysis on each Event
+     *
+     * @return int number of safed objects
+     */
     int RunAnalysis(const Event& event, const Reader<Tagger>& reader, Stage stage, Tag tag)
     {
         switch (stage) {
@@ -101,6 +148,10 @@ private:
         }
     }
 
+    /**
+     * @brief Tagger template
+     *
+     */
     Tagger tagger_;
 
 };

@@ -63,8 +63,8 @@ Jets TopHadronicHep::GranulatedJets(Jets& e_flows)
     granulated_jets.clear();
     e_flows = sorted_by_pt(e_flows);
     granulated_jets.emplace_back(e_flows[0]);
-    for (unsigned i = 1; i < e_flows.size(); ++i) {
-        int NewJet = 0;
+    for (size_t i = 1; i < e_flows.size(); ++i) {
+        int jet = 0;
         for (unsigned j = 0; j < granulated_jets.size(); ++j) {
             float CellDiffRap = std::abs(e_flows[i].pseudorapidity() - granulated_jets[j].pseudorapidity()) / CellDeltaRap;
             float CellDiffPhi = std::abs(e_flows[i].phi() - granulated_jets[j].phi());
@@ -72,7 +72,7 @@ Jets TopHadronicHep::GranulatedJets(Jets& e_flows)
                 CellDiffPhi = 2 * M_PI - CellDiffPhi;
             CellDiffPhi = CellDiffPhi / CellDeltaPhi;
             if (CellDiffRap < 1 && CellDiffPhi < 1) {
-                NewJet = 1;
+                jet = 1;
                 float TotalEnergy  = e_flows[i].e() + granulated_jets[j].e();
                 float RescaleFactor = sqrt(pow(e_flows[i].px() + granulated_jets[j].px(), 2) + pow(e_flows[i].py() + granulated_jets[j].py(), 2) + pow(e_flows[i].pz() + granulated_jets[j].pz(), 2));
                 float RescaledPx = TotalEnergy * (e_flows[i].px() + granulated_jets[j].px()) / RescaleFactor;
@@ -85,7 +85,7 @@ Jets TopHadronicHep::GranulatedJets(Jets& e_flows)
                 break;
             }
         }
-        if (NewJet != 1) {
+        if (jet != 1) {
             granulated_jets.emplace_back(e_flows[i]);
             granulated_jets = sorted_by_pt(granulated_jets);
         }
