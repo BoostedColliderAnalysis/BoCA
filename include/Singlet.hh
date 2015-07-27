@@ -15,7 +15,7 @@ enum class Structure
 };
 
 template<>
-struct enable_bitmask_operators<Structure> {
+struct Flag<Structure> {
     static const bool enable = true;
 };
 

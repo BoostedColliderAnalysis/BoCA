@@ -5,12 +5,12 @@ namespace analysis
 {
 
 template<typename Enum>
-struct enable_bitmask_operators {
+struct Flag {
     static const bool enable = false;
 };
 
 template <typename Enum, typename Type>
-using Return = typename std::enable_if<enable_bitmask_operators<Enum>::enable, Type>;
+using Return = typename std::enable_if<Flag<Enum>::enable, Type>;
 
 template<typename Enum>
 typename Return<Enum,typename std::underlying_type<Enum>::type>::type

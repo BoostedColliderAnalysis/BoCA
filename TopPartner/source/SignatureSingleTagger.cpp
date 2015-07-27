@@ -2,9 +2,11 @@
 #include "Event.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace analysis
+{
 
-namespace toppartner {
+namespace toppartner
+{
 
 SignatureSingleTagger::SignatureSingleTagger()
 {
@@ -15,34 +17,24 @@ SignatureSingleTagger::SignatureSingleTagger()
 int SignatureSingleTagger::Train(const Event& event, const PreCuts&, Tag tag) const
 {
     Info();
-    std::vector<Octet53> octets = pair_reader_.Multiplets(event);
-    std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
-    std::vector<Decuplet82> decuplets;
-    for (const auto& octet :  octets) {
-        for (const auto& doublet : doublets) {
-            Decuplet82 decuplet(octet, doublet);
-            if (decuplet.Overlap()) continue;
-            decuplet.SetTag(tag);
-            decuplets.emplace_back(decuplet);
-        }
-    }
+    std::vector<Decuplet82> decuplets = pairs(pair_reader_.Multiplets(event), higgs_reader_.Multiplets(event), [tag](const Octet53 & octet, const Doublet & doublet) {
+        Decuplet82 decuplet(octet, doublet);
+        if (decuplet.Overlap()) throw "overlap";
+        decuplet.SetTag(tag);
+        return decuplet;
+    });
     return SaveEntries(decuplets);
 }
 
 std::vector<Decuplet82> SignatureSingleTagger::Multiplets(const Event& event, const analysis::PreCuts&, const TMVA::Reader& reader) const
 {
     Info();
-    std::vector<Octet53> octets = pair_reader_.Multiplets(event);
-    std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
-    std::vector<Decuplet82> decuplets;
-    for (const auto& octet :  octets) {
-        for (const auto& doublet : doublets) {
+    std::vector<Decuplet82> decuplets = pairs(pair_reader_.Multiplets(event), higgs_reader_.Multiplets(event), [&](const Octet53 & octet, const Doublet & doublet){
             Decuplet82 decuplet(octet, doublet);
-            if (decuplet.Overlap()) continue;
+            if (decuplet.Overlap()) throw "overlap";
             decuplet.SetBdt(Bdt(decuplet, reader));
-            decuplets.emplace_back(decuplet);
-        }
-    }
+            return decuplet;
+        });
     return ReduceResult(decuplets);
 }
 

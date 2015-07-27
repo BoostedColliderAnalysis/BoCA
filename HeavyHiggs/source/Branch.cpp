@@ -1,12 +1,5 @@
 #include "Branch.hh"
-
-#define PAIR1(value) Obs(value, #value, #value)
-#define PAIR2(value, string) Obs(value, #value, string)
-
-#define ARGUMENTS(arg1, arg2, arg, ...) arg
-#define PAIRCHOOSER(...) ARGUMENTS(__VA_ARGS__, PAIR2, PAIR1, )
-
-#define PAIR(...) PAIRCHOOSER(__VA_ARGS__)(__VA_ARGS__)
+#include "Pair.hh"
 
 namespace analysis {
 
@@ -28,33 +21,11 @@ HeavyHiggsLeptonicBranch::HeavyHiggsLeptonicBranch()
     SmallerNeutrinoDeltaR = InitialValue();
 }
 
-HHeavyHiggsHadronicBranch::HHeavyHiggsHadronicBranch()
-{
-    HeavyHiggsMass = InitialValue();
-    HeavyHiggsPt = InitialValue();
-    TopDeltaRap = InitialValue();
-    TopDeltaPhi = InitialValue();
-    TopDeltaR = InitialValue();
-    TopBdt = InitialValue();
-    HeavyHiggsTag = int(InitialValue());
-}
-
 HeavyHiggsSemiBranch::HeavyHiggsSemiBranch() {}
 
 ChargedHiggsSemiBranch::ChargedHiggsSemiBranch()
 {
     Flag = int(InitialValue());
-}
-
-HChargedHiggsHadronicBranch::HChargedHiggsHadronicBranch()
-{
-    HeavyHiggsMass = InitialValue();
-    HeavyHiggsPt = InitialValue();
-    TopDeltaRap = InitialValue();
-    TopDeltaPhi = InitialValue();
-    TopDeltaR = InitialValue();
-    TopBdt = InitialValue();
-    HeavyHiggsTag = int(InitialValue());
 }
 
 ChargedHiggsLeptonicBranch::ChargedHiggsLeptonicBranch()

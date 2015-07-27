@@ -1,16 +1,10 @@
 #include "BranchesHiggsCpv.hh"
+#include "Pair.hh"
 
-#define PAIR1(value) Obs(value, #value, #value)
-#define PAIR2(value, string) Obs(value, #value, string)
+namespace analysis {
+namespace higgscpv {
 
-#define ARGUMENTS(arg1, arg2, arg, ...) arg
-#define PAIRCHOOSER(...) ARGUMENTS(__VA_ARGS__, PAIR2, PAIR1, )
-
-#define PAIR(...) PAIRCHOOSER(__VA_ARGS__)(__VA_ARGS__)
-
-ClassImp(analysis::higgscpv::SignatureLeptonicBranch)
-
-analysis::higgscpv::SignatureLeptonicBranch::SignatureLeptonicBranch()
+SignatureLeptonicBranch::SignatureLeptonicBranch()
 {
     HiggsMass = InitialValue();
     PairRap = InitialValue();
@@ -20,9 +14,7 @@ analysis::higgscpv::SignatureLeptonicBranch::SignatureLeptonicBranch()
     SoftTopPt = InitialValue();
 }
 
-ClassImp(analysis::higgscpv::OctetBranch)
-
-analysis::higgscpv::OctetBranch::OctetBranch()
+OctetBranch::OctetBranch()
 {
     HiggsMass = InitialValue();
     PairRap = InitialValue();
@@ -34,29 +26,11 @@ analysis::higgscpv::OctetBranch::OctetBranch()
     SoftTopPt = InitialValue();
 }
 
+EventBranch::EventBranch() {}
 
-ClassImp(analysis::higgscpv::EventBranch)
+TopLeptonicPairBranch::TopLeptonicPairBranch() {}
 
-analysis::higgscpv::EventBranch::EventBranch() {}
-
-ClassImp(analysis::higgscpv::HLeptonBranch)
-
-analysis::higgscpv::HLeptonBranch::HLeptonBranch()
-{
-    Mass = InitialValue();
-    Pt = InitialValue();
-    Rap = InitialValue();
-    Phi = InitialValue();
-    Charge = int(InitialValue());
-}
-
-ClassImp(analysis::higgscpv::TopLeptonicPairBranch)
-
-analysis::higgscpv::TopLeptonicPairBranch::TopLeptonicPairBranch() {}
-
-ClassImp(analysis::higgscpv::TripletPairBranch)
-
-analysis::higgscpv::TripletPairBranch::TripletPairBranch()
+TripletPairBranch::TripletPairBranch()
 {
     BottomMass = InitialValue();
     BottomPt = InitialValue();
@@ -72,9 +46,7 @@ analysis::higgscpv::TripletPairBranch::TripletPairBranch()
     TopBTag = InitialValue();
 }
 
-ClassImp(analysis::higgscpv::QuartetPairBranch)
-
-analysis::higgscpv::QuartetPairBranch::QuartetPairBranch()
+QuartetPairBranch::QuartetPairBranch()
 {
     BottomMass = InitialValue();
     BottomPt = InitialValue();
@@ -89,8 +61,6 @@ analysis::higgscpv::QuartetPairBranch::QuartetPairBranch()
     TopBdt = InitialValue();
     TopBTag = InitialValue();
 }
-namespace analysis {
-namespace higgscpv {
 Observables SignatureLeptonicBranch::Variables() const
 {
     return Join(MultiBranch::Variables(), {PAIR(BottomBdt), PAIR(PairBottomBdt), PAIR(HardTopPt), PAIR(SoftTopPt), PAIR(HiggsMass), PAIR(PairRap)});

@@ -92,30 +92,6 @@ private:
 
 };
 
-
-/**
- * @brief lepton tree structure
- *
- */
-class HLeptonBranch : public analysis::BaseBranch {
-
-public:
-
-    HLeptonBranch();
-
-    float Mass;
-    float Pt;
-    float Rap;
-    float Phi;
-    float Charge;
-
-private:
-
-    ClassDef(HLeptonBranch, 1)
-
-};
-
-
 /**
  *
  * @brief Higgs tagger root tree structure

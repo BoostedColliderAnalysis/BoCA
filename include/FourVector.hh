@@ -51,7 +51,7 @@ enum class JetDetail {
 };
 
 template<>
-struct enable_bitmask_operators<JetDetail> {
+struct Flag<JetDetail> {
   static const bool enable = true;
 };
 

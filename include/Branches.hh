@@ -450,35 +450,6 @@ private:
     ClassDef(HiggsBranch, 1)
 };
 
-
-class EventBottomTaggerBranch : public ResultBranch {
-
-public:
-
-    EventBottomTaggerBranch();
-
-    float BottomBdt1;
-    float BottomBdt2;
-    float BottomBdt3;
-    float BottomBdt4;
-    float BottomBdt5;
-    float BottomBdt6;
-    float BottomBdt7;
-
-    float BottomBdt12;
-    float BottomBdt34;
-    float BottomBdt56;
-
-    float BottomBdt123;
-    float BottomBdt1234;
-
-
-private:
-
-    ClassDef(EventBottomTaggerBranch, 1)
-
-};
-
 /**
  * @brief Class for saving event informations to root
  *

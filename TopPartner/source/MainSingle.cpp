@@ -4,6 +4,7 @@
 int main()
 {
     try {
+
         analysis::toppartner::Analysis<analysis::BottomTagger> bottom_analysis;
         bottom_analysis.RunNormal();
 

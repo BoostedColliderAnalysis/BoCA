@@ -2,7 +2,6 @@
 
 #include "../include/EventTagger.hh"
 #include "Predicate.hh"
-#include "Flag.hh"
 #include "Debug.hh"
 #include "FourVector.hh"
 
