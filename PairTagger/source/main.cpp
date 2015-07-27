@@ -1,7 +1,7 @@
 #include "AnalysisPair.hh"
 #include "TSystem.h"
 #include "JetPairTagger.hh"
-#include "Factory.hh"
+#include "Trainer.hh"
 #include "Debug.hh"
 
 void RunTagger(analysis::Tagger& , analysis::Stage )

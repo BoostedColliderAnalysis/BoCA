@@ -7,7 +7,7 @@
 #include "Analysis.hh"
 // #include "HEventDelphes.hh"
 #include "Reader.hh"
-#include "Factory.hh"
+#include "Trainer.hh"
 #include "JetTag.hh"
 
 #include "HEventBottomTagger.hh"

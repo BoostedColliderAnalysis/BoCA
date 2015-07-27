@@ -104,7 +104,7 @@ private:
 
     void RunTagger(const analysis::Stage stage);
 
-    void RunFactory();
+    void RunTrainer();
 
     void RunSignificance();
 

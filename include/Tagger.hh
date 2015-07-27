@@ -140,7 +140,7 @@ private:
 
     std::string SignalName(const std::string& name) const;
 
-    std::string FactoryName() const;
+    std::string TrainerName() const;
 
     std::string ExportName() const;
 
