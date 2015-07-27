@@ -4,11 +4,11 @@ This code performs BDT analyses based on root files originating from MadGraph / 
 
 ## Dependencies
 
-* ROOT
-* MadGraph with installed ExRootAnalysis and Delphes
-* fastjet
-* fastjet contrib (must be compiled with `CXXFLAGS=-fPIC`)
-* libconfig
+* `ROOT`
+* `MadGraph` with installed `ExRootAnalysis` and `Delphes`
+* `fastjet`
+* `fastjet contrib` (must be compiled with `CXXFLAGS=-fPIC`)
+* `libconfig`
 
 ## Installation
 
@@ -27,7 +27,7 @@ make # for the actual program
 
 Each analysis needs a dedicated `Analysis` class, a set of `Tagger` classess and a `main.cpp` file.
 The `Analysis` class contains the global information of the analysis, such as file names, path names, variables names etc.
-Every `Tagger` class reconstructs or tags one specific particle or signature. Each analysis needs at least one dedicated `Tagger`.
+Every `Tagger` class tags or reconstructs one specific particle or signature. Each analysis needs at least one dedicated `Tagger`.
 The `main.cpp` defines the order in which each `Tagger` is passed to the `Analysis`.
 
 ## Git commands
