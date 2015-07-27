@@ -2,9 +2,7 @@
 #include "TSystem.h"
 #include "TMVA/Config.h"
 #include "TClonesArray.h"
-#include "exroot/ExRootAnalysis.hh"
 #include "TFile.h"
-#include "Branches.hh"
 #include "Predicate.hh"
 #include "TMVA/MethodBDT.h"
 #include "Debug.hh"
@@ -51,16 +49,13 @@ long Trainer::GetTrees()
 long Trainer::GetTree(Tag tag)
 {
     long number = 0;
-    for (const auto & tree_name : Tagger().TreeNames(tag)) {
-        Note(tree_name);
-        number += AddTree(tree_name, tag);
-    }
+    for (const auto & tree_name : Tagger().TreeNames(tag)) number += AddTree(tree_name, tag);
     return number;
 }
 
 long Trainer::AddTree(const std::string& tree_name, Tag tag)
 {
-    Error(tree_name);
+    Debug(tree_name, Name(tag));
     TTree& tree = Tree(tree_name, tag);
     exroot::TreeReader tree_reader = TreeReader(tree_name, tag);
     float weight = Weight(tree_reader);
@@ -78,17 +73,16 @@ long Trainer::AddTree(const std::string& tree_name, Tag tag)
 
 exroot::TreeReader Trainer::TreeReader(const std::string& tree_name, Tag tag)
 {
-    TTree& tree = Tree(tree_name, tag);
-    return exroot::TreeReader(&tree);
+   return exroot::TreeReader(&Tree(tree_name, tag));
 }
 
 long Trainer::Entries(exroot::TreeReader& tree_reader)
 {
     long entries = 0;
-    TClonesArray& event_clones_array = *tree_reader.UseBranch(Tagger().BranchName(Stage::trainer).c_str());
+    TClonesArray& clones_array = *tree_reader.UseBranch(Tagger().BranchName(Stage::trainer).c_str());
     for (const auto & entry : Range(tree_reader.GetEntries())) {
         tree_reader.ReadEntry(entry);
-        entries += event_clones_array.GetEntries();
+        entries += clones_array.GetEntries();
     }
     return entries;
 }
@@ -106,10 +100,7 @@ TTree& Trainer::Tree(const std::string& tree_name, Tag tag)
     if (gSystem->AccessPathName(Tagger().FileName(Stage::trainer, tag).c_str())) Error("File not found", Tagger().FileName(Stage::trainer, tag));
     TFile& file = *TFile::Open(Tagger().FileName(Stage::trainer, tag).c_str());
     if (!file.GetListOfKeys()->Contains(tree_name.c_str())) Error("no tree");
-    TTree& tree = static_cast<TTree&>(*file.Get(tree_name.c_str()));
-    Error(Tagger().BranchName(Stage::trainer).c_str());
-    tree.GetBranch(Tagger().BranchName(Stage::trainer).c_str());
-    return tree;
+    return static_cast<TTree&>(*file.Get(tree_name.c_str()));
 }
 
 void Trainer::PrepareTrainingAndTestTree(long event_number)
