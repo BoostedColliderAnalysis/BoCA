@@ -20,3 +20,4 @@ EventSingleTagger.cpp
 create_library(AnalysisTopPartner AnalysisSources)
 
 create_executable(TopPartner main.cpp)
+create_executable(TopPartnerSingle MainSingle.cpp)
