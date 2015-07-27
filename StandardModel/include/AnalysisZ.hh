@@ -52,7 +52,7 @@ private:
         return  "ZTagger-" + Name(this->collider_type()) + "-" + std::to_string(this->PreCut()) + "GeV-test";
     }
 
-    int PassPreCut(const Event& event) const final
+    int PassPreCut(const Event& event, Tag) const final
     {
         Jets leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
         if (leptons.empty())

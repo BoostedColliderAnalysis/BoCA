@@ -152,7 +152,7 @@ private:
         }
     }
 
-    int PassPreCut(const Event& event) const final
+    int PassPreCut(const Event& event, Tag) const final
     {
         Jets Particles = event.Partons().GenParticles();
         Particles = CopyIfParticle(Particles, Id::top);

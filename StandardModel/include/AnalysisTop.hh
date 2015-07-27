@@ -72,7 +72,7 @@ private:
         }
     }
 
-    int PassPreCut(const Event& event) const final
+    int PassPreCut(const Event& event, Tag) const final
     {
         //static_cast<::analysis::delphes::Hadrons&>(event.Hadrons()).UniqueJets();
         Jets particles = fastjet::sorted_by_pt(event.Partons().GenParticles());

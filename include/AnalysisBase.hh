@@ -78,7 +78,7 @@ protected:
 
     std::string TreeName(const std::string& name) const;
 
-    virtual int PassPreCut(const Event&) const;
+    virtual int PassPreCut(const Event&, Tag tag) const = 0;
 
     PreCuts& pre_cuts();
 

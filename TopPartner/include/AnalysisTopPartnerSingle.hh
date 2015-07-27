@@ -78,7 +78,7 @@ private:
         return 2000;
     }
 
-    int PassPreCut(const Event& event) const final
+    int PassPreCut(const Event& event, Tag) const final
     {
         Jets particles = event.Partons().GenParticles();
         particles = RemoveIfSoft(particles, PreCut());
