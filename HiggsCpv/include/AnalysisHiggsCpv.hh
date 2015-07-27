@@ -53,6 +53,7 @@ public:
      *
      */
     long EventNumberMax() const final {
+        return 10000;
         return 5000;
         return 1000;
     }

@@ -63,7 +63,7 @@ JetPairTagger.cpp
 TripletJetPairTagger.cpp
 Observable.cpp
 PreCuts.cpp
-Factory.cpp
+Trainer.cpp
 Reader.cpp
 )
 create_library(Tagger tagger_sources)

@@ -14,7 +14,7 @@ namespace analysis {
  * @brief Prepares multivariant analysis
  *
  */
-class Factory {
+class Trainer {
 
 public:
 
@@ -22,7 +22,7 @@ public:
      * @brief Constructor
      *
      */
-    Factory(Tagger& tagger);
+    Trainer(analysis::Tagger& tagger);
 
 private:
 
@@ -43,6 +43,8 @@ private:
      */
     long GetTrees();
 
+    long GetTree(Tag tag);
+
     /**
      * @brief Prepare Trainig and Test Trees
      *
@@ -51,21 +53,23 @@ private:
 
     long AddTree(TFile& file, const std::string& tree_name, Tag tag);
 
-    TFile* output_file() const;
+    TFile* OutputFile() const;
 
-    std::string factory_options();
+    std::string FactoryOptions();
 
-    Tagger& tagger() const
+    std::string MethodOptions(TMVA::Types::EMVA mva);
+
+    analysis::Tagger& Tagger() const
     {
         return tagger_;
     }
 
-    TMVA::Factory& factory()
+    TMVA::Factory& Factory()
     {
         return factory_;
     }
 
-    Tagger& tagger_;
+    analysis::Tagger& tagger_;
 
     TMVA::Factory factory_;
 

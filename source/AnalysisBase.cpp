@@ -9,7 +9,7 @@
 #include "Branches.hh"
 #include "Plot.hh"
 #include "Event.hh"
-#include "Factory.hh"
+#include "Trainer.hh"
 
 #include "Debug.hh"
 
@@ -29,13 +29,13 @@ bool AnalysisBase::Missing(const std::string& name) const
     return (stat(name.c_str(), &buffer) != 0);
 }
 
-std::vector<analysis::File> AnalysisBase::files(Tag tag)
+std::vector<File> AnalysisBase::files(Tag tag)
 {
     Error(Name(tag));
     return files_;
 }
 
-int AnalysisBase::PassPreCut(const analysis::Event&) const
+int AnalysisBase::PassPreCut(const Event&) const
 {
     Error("no pre cut applied");
     return 1;
@@ -45,8 +45,8 @@ void AnalysisBase::PrepareFiles()
 {
     files_.clear();
     tagger().ClearTreeNames();
-    SetFiles(analysis::Tag::signal);
-    SetFiles(analysis::Tag::background);
+    SetFiles(Tag::signal);
+    SetFiles(Tag::background);
 }
 
 std::string AnalysisBase::ProjectName() const
@@ -112,14 +112,14 @@ void AnalysisBase::NewBackgroundFile(const std::string& name, float crosssection
     tagger().AddBackgroundTreeName(TreeName(name));
 }
 
-analysis::File AnalysisBase::File(const std::string& name, const std::string& nice_name) const
+File AnalysisBase::File(const std::string& name, const std::string& nice_name) const
 {
     return analysis::File(name, FilePath(), FileSuffix(), nice_name);
 }
 
-analysis::File AnalysisBase::File(const std::string& name, float crosssection, const std::string& nice_name) const
+File AnalysisBase::File(const std::string& name, float crosssection, const std::string& nice_name) const
 {
-    return analysis::File(name, FilePath(), FileSuffix(), crosssection, nice_name);
+  return analysis::File(name, FilePath(), FileSuffix(), crosssection, nice_name);
 }
 
 std::string AnalysisBase::FileName(const std::string&) const
@@ -167,14 +167,14 @@ int AnalysisBase::Mass() const
 
 void AnalysisBase::RunFast()
 {
-    RunTagger(analysis::Stage::trainer);
-    RunFactory();
+    RunTagger(Stage::trainer);
+    RunTrainer();
 }
 
 void AnalysisBase::RunNormal()
 {
     RunFast();
-    RunTagger(analysis::Stage::reader);
+    RunTagger(Stage::reader);
 }
 
 void AnalysisBase::RunFullSignificance()
@@ -199,16 +199,10 @@ void AnalysisBase::RunTagger(Stage stage)
   if (Missing(tagger().SignalFileName(stage))) AnalysisLoop(stage);
 }
 
-// void AnalysisBase::RunFactory()
-// {
-//     PrepareFiles();
-//     if (Missing(tagger().FactoryFileName())) analysis::Factory factory(tagger());
-// }
-
-void AnalysisBase::RunFactory()
+void AnalysisBase::RunTrainer()
 {
     PrepareFiles();
-    if (Missing(tagger().WeightFileName(TMVA::Types::EMVA::kBDT))) analysis::Factory factory(tagger());
+    if (Missing(tagger().WeightFileName(TMVA::Types::EMVA::kBDT))) Trainer trainer(tagger());
 }
 
 
@@ -216,7 +210,7 @@ void AnalysisBase::RunSignificance()
 {
     PrepareFiles();
     //     if (Missing(tagger().ExportFileName())) {
-    analysis::Plot plot(tagger());
+    Plot plot(tagger());
     plot.OptimalSignificance();
 //     }
 }
@@ -225,7 +219,7 @@ void AnalysisBase::RunEfficiency()
 {
     PrepareFiles();
     //     if (Missing(tagger().ExportFileName())) {
-    analysis::Plot plot(tagger());
+    Plot plot(tagger());
     plot.TaggingEfficiency();
 //     }
 }
@@ -234,7 +228,7 @@ void AnalysisBase::RunPlots()
 {
     PrepareFiles();
     //   if (Missing(tagger().ExportFileName())) {
-    analysis::Plot plot(tagger());
+    Plot plot(tagger());
     plot.RunPlots();
 //   }
 }

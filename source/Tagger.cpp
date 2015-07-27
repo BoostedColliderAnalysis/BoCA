@@ -64,14 +64,14 @@ std::string Tagger::BranchName(Stage stage) const
     return Name(stage);
 }
 
-std::string Tagger::FactoryName() const
+std::string Tagger::TrainerName() const
 {
     return "Mva" + Name();
 }
 
 std::string Tagger::FactoryFileName() const
 {
-    return PathName(FactoryName());
+    return PathName(TrainerName());
 }
 
 std::string Tagger::ExportFileName(Stage stage, Tag tag) const
