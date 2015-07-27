@@ -343,9 +343,8 @@ Result Plot::BdtDistribution(exroot::TreeReader& tree_reader, const std::string&
         for (const auto& entry : Range(event_clones_array.GetEntriesFast())) {
             float bdt_value = Tagger().ReadBdt(event_clones_array, entry);
             result.bdt.emplace_back(bdt_value);
-//             Check((bdt_value > 0 && bdt_value < 2), bdt_value);
             static_cast<ResultBranch&>(*result_branch.NewEntry()).Bdt = bdt_value;
-            int bin = std::floor(bdt_value * result.steps / 2) - 1;
+            int bin = std::floor((bdt_value + 1)* result.steps / 2) - 1;
             if (bin == -1) bin = 0;    // FIXME clean this up
             ++result.bins.at(bin);
             ++entries;
@@ -595,31 +594,35 @@ void Plot::DoPlot(Plots& signals, Plots& backgrounds, Stage stage) const
 
 void Plot::Plotting(const Plot3d& signal, const Plot3d& background, Stage stage) const
 {
-    Plot3d signal_x = CoreVector(signal, [](Point3d & a, Point3d & b) {
+    Plot3d signal_x = CoreVector(signal, [](Point & a, Point & b) {
         return a.x < b.x;
     });
-    Plot3d signal_y = CoreVector(signal, [](Point3d & a, Point3d & b) {
+    Plot3d signal_y = CoreVector(signal, [](Point & a, Point & b) {
         return a.y < b.y;
     });
-    Plot3d background_x = CoreVector(background, [](Point3d & a, Point3d & b) {
+    Plot3d background_x = CoreVector(background, [](Point & a, Point & b) {
         return a.x < b.x;
     });
-    Plot3d background_y = CoreVector(background, [](Point3d & a, Point3d & b) {
+    Plot3d background_y = CoreVector(background, [](Point & a, Point & b) {
         return a.y < b.y;
     });
-    float x_min = std::min(signal_x.points.front().x, background_x.points.front().x);
-    float x_max = std::max(signal_x.points.back().x, background_x.points.back().x);
-    float y_min = std::min(signal_y.points.front().y, background_y.points.front().y);
-    float y_max = std::max(signal_y.points.back().y, background_y.points.back().y);
+    Point min;
+    min.x = std::min(signal_x.points.front().x, background_x.points.front().x);
+    min.y = std::min(signal_y.points.front().y, background_y.points.front().y);
+    Point max;
+    max.x = std::max(signal_x.points.back().x, background_x.points.back().x);
+    max.y = std::max(signal_y.points.back().y, background_y.points.back().y);
     switch(stage) {
       case Stage::trainer :
-    PlotHistogram(signal, background, x_min, x_max, y_min, y_max);
+    PlotHistogram(signal, background, min, max);
+      break;
       case Stage::reader :
-    PlotProfile(signal, background, x_min, x_max, y_min, y_max);
+    PlotProfile(signal, background, min, max);
+    break;
     }
 }
 
-void Plot::PlotHistogram(const Plot3d& signal, const Plot3d& background, float x_min, float x_max, float y_min, float y_max) const
+void Plot::PlotHistogram(const Plot3d& signal, const Plot3d& background,const Point& min,const Point& max) const
 {
     TCanvas canvas;
     canvas.SetBottomMargin(0.15);
@@ -628,11 +631,11 @@ void Plot::PlotHistogram(const Plot3d& signal, const Plot3d& background, float x
     legend.SetColumnSeparation(0.2);
     int bin_number = 20;
     TExec exec_1;
-    TH2F background_histogram("", Tagger().NiceName().c_str(), bin_number, x_min, x_max, bin_number, y_min, y_max);
+    TH2F background_histogram("", Tagger().NiceName().c_str(), bin_number, min.x, max.x, bin_number, min.y, max.y);
     SetHistogram(background_histogram, background, kBlue, exec_1);
 //     legend.AddEntry(&background_histogram, background.name.c_str(), "l");
     TExec exec_2;
-    TH2F signal_histogram("", Tagger().NiceName().c_str(), bin_number, x_min, x_max, bin_number, y_min, y_max);
+    TH2F signal_histogram("", Tagger().NiceName().c_str(), bin_number, min.x, max.x, bin_number, min.y, max.y);
     SetHistogram(signal_histogram, signal, kRed, exec_2);
 //     legend.AddEntry(&signal_histogram, signal.name.c_str(), "l");
     legend.AddEntry(&signal_histogram, "Signal", "l");
@@ -643,12 +646,12 @@ void Plot::PlotHistogram(const Plot3d& signal, const Plot3d& background, float x
     canvas.Print(file_name.c_str());
 }
 
-void Plot::PlotProfile(const Plot3d& signal, const Plot3d& background, float x_min, float x_max, float y_min, float y_max) const
+void Plot::PlotProfile(const Plot3d& signal, const Plot3d& background,const Point& min,const Point& max) const
 {
     TCanvas canvas;
     canvas.SetRightMargin(0.15);
     int bin_number = 30;
-    TProfile2D test("", Tagger().NiceName().c_str(), bin_number, x_min, x_max, bin_number, y_min, y_max);
+    TProfile2D test("", Tagger().NiceName().c_str(), bin_number, min.x, max.x, bin_number, min.y, max.y);
     SetProfile(test, signal, background);
     mkdir(Tagger().ExportFolderName().c_str(), 0700);
     std::string file_name = Tagger().ExportFolderName() + "/" + "Prof-" + background.tree_name + "-" + signal.name_x + "-" + signal.name_y + ExportFileSuffix();
@@ -683,10 +686,10 @@ void Plot::SetHistogram(TH2& histogram, const Plot3d& plot, EColor color, TExec&
 
 void Plot::SetProfile(TProfile2D& histogram, const Plot3d& signal, const Plot3d& background) const
 {
-    float max = (*std::max_element(signal.points.begin(), signal.points.end(), [](Point3d  a, Point3d  b) {
+    float max = (*std::max_element(signal.points.begin(), signal.points.end(), [](Point  a, Point  b) {
         return a.z < b.z;
     })).z;
-    float min = (*std::min_element(background.points.begin(), background.points.end(), [](Point3d  a, Point3d  b) {
+    float min = (*std::min_element(background.points.begin(), background.points.end(), [](Point  a, Point  b) {
         return a.z < b.z;
     })).z;
     for (const auto& point : signal.points)
@@ -770,7 +773,7 @@ Plot3d Plot::ReadTree(TTree& tree, const std::string& leaf_1, const std::string&
         Debug(tree.GetEntries(), entry);
         tree.GetEntry(entry);
         for (const auto& element : Range(branch_size)) {
-            Point3d point;
+            Point point;
             point.x = leaf_values_1.at(element);
             point.y = leaf_values_2.at(element);
             point.z = bdt_values.at(element);
@@ -781,11 +784,11 @@ Plot3d Plot::ReadTree(TTree& tree, const std::string& leaf_1, const std::string&
     return points;
 }
 
-Plot3d Plot::CoreVector(const Plot3d& points, std::function<bool (Point3d&, Point3d&)> function) const
+Plot3d Plot::CoreVector(const Plot3d& points, std::function<bool (Point&, Point&)> function) const
 {
     Plot3d plot = points;
     // TODO sorting the whole vector if you just want to get rid of the extrem values might not be the fastest solution
-    std::sort(plot.points.begin(), plot.points.end(), [&](Point3d& a, Point3d& b) {
+    std::sort(plot.points.begin(), plot.points.end(), [&](Point& a, Point& b) {
         return function(a, b);
     });
     int cut_off = plot.points.size() / 25;

@@ -5,6 +5,7 @@
 #include "Reader.hh"
 #include "Branches.hh"
 #include "Trees.hh"
+#include "Debug.hh"
 
 namespace analysis {
 
@@ -20,7 +21,7 @@ public:
     void AnalysisLoop(Stage stage) final {
         mkdir(ProjectName().c_str(), 0700);
         Reader<Tagger> reader(stage);
-        tagger_.ClearTreeNames();
+        tagger().ClearTreeNames();
         for (const auto& tag : std::vector<Tag> {Tag::signal, Tag::background})
         {
             Files files(tagger().ExportFileName(stage, tag), stage, tag);
@@ -55,7 +56,7 @@ private:
     {
         Trees trees(files);
         SetTreeBranch(files.stage(), trees.tree_writer(), reader);
-        trees.UseBranches(files.file(), tagger_.WeightBranchName());
+        trees.UseBranches(files.file(), tagger().WeightBranchName());
         if (files.stage() == Stage::reader) {
             trees.entry = std::min(long(trees.tree_reader().GetEntries()), EventNumberMax()) / 2;    // TODO fix corner cases
         }
@@ -64,6 +65,7 @@ private:
             DoAnalysis(files, trees, reader);
             if (trees.object_sum() >= EventNumberMax()) break;
         }
+        if(trees.event_number_ == trees.tree_reader().GetEntries()) Error("All Events used",trees.event_number_);
         trees.WriteTree();
     }
 
@@ -71,7 +73,7 @@ private:
     {
         switch (stage) {
         case Stage::trainer :
-            tagger_.SetTreeBranch(tree_writer, stage);
+            tagger().SetTreeBranch(tree_writer, stage);
             break;
         case Stage::reader :
             reader.SetTreeBranch(tree_writer, stage);

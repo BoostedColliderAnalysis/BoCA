@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Analysis.hh"
+#include "Debug.hh"
 
 namespace analysis {
 
@@ -78,17 +79,15 @@ private:
         return 2000;
     }
 
-    int PassPreCut(const Event& event, Tag) const final
+    int PassPreCut(const Event& event, Tag tag) const final
     {
         Jets particles = event.Partons().GenParticles();
         particles = RemoveIfSoft(particles, PreCut());
         Jets tops = CopyIfParticle(particles, Id::top);
         Jets higgs = CopyIfParticle(particles, Id::higgs);
-
-        Jets tchannel = RemoveIfMother(higgs,Id::top);
-        tchannel = RemoveIfMother(tchannel,Id::top_partner);
-
         Jets vectors = CopyIfParticles(particles, Id::Z, Id::W);
+        Jets partner = CopyIfParticle(particles, Id::top_partner);
+        if(tag == Tag::signal && partner.size() != 1) return 0;
         if (tops.size() < 2 || (higgs.size() < 1 && vectors.size() < 1)) return 0;
         return 1;
     }
