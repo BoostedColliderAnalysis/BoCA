@@ -11,7 +11,7 @@ namespace analysis {
  * wrapper for TMVA::Reader
  *
  */
-template<typename Tagger>
+template<typename TaggerTemplate>
 class Reader {
 
 public:
@@ -36,67 +36,72 @@ public:
 
     int Bdt(const analysis::Event& event, const analysis::PreCuts& pre_cuts) const
     {
-        return tagger_.GetBdt(event, pre_cuts, reader_);
+        return Tagger().GetBdt(event, pre_cuts, reader());
     }
 
     template <typename Input>
     auto Multiplets(const Input& input) const
     {
         PreCuts pre_cuts;
-        return tagger_.Multiplets(input, pre_cuts, reader_);
+        return Tagger().Multiplets(input, pre_cuts, reader());
     }
 
 //     template <typename Input1, typename Input2>
 //     auto Multiplets(Input1 &input_1, Input2 &input_2) const {
-//         return tagger_.Multiplets(input_1, input_2, reader_);
+//         return Tagger().Multiplets(input_1, input_2, reader());
 //     }
 
     template <typename Input>
     auto Multiplet(const Input& input) const
     {
-        return tagger_.Multiplet(input, reader_);
+        return Tagger().Multiplet(input, reader());
     }
 
     template <typename Input1, typename Input2>
     auto Multiplet(const Input1& input_1, const Input2& input_2) const
     {
-        return tagger_.Multiplet(input_1, input_2, reader_);
+        return Tagger().Multiplet(input_1, input_2, reader());
     }
 
     template <typename Input>
     auto SubMultiplet(const Input& input, int number) const
     {
-        return tagger_.SubMultiplet(input, reader_, number);
+        return Tagger().SubMultiplet(input, reader(), number);
     }
 
     template <typename Input>
     auto SubMultiplet(const Input& input) const
     {
-        return tagger_.SubMultiplet(input, reader_);
+        return Tagger().SubMultiplet(input, reader());
     }
 
-    const Tagger& tagger() const
+    const TaggerTemplate& Tagger() const
     {
-        return tagger_;
+      return tagger_;
     }
 
     void SetTreeBranch(exroot::TreeWriter& tree_writer,Stage stage)
     {
-       tagger().SetTreeBranch(tree_writer, stage);
+       Tagger().SetTreeBranch(tree_writer, stage);
     }
 
 private:
 
-    Tagger& tagger()
+    TaggerTemplate& Tagger()
     {
-        return tagger_;
+      return tagger_;
     }
 
-    Tagger tagger_;
+    TaggerTemplate tagger_;
 
     const TMVA::Reader& reader() const
     {
-        return reader_;
+      return reader_;
+    }
+
+    TMVA::Reader& reader()
+    {
+      return reader_;
     }
 
     TMVA::Reader reader_;
@@ -104,13 +109,13 @@ private:
     void BookMva(TMVA::Types::EMVA mva)
     {
         //TMVA::IMethod &method = *
-      reader_.BookMVA(tagger_.MethodName(mva), tagger_.WeightFileName(mva));
+      reader().BookMVA(Tagger().MethodName(mva), Tagger().WeightFileName(mva));
     }
 
     void AddVariable()
     {
-        for (auto& observable : tagger_.Variables()) reader_.AddVariable(observable.expression(), &observable.value());
-        for (auto& spectator : tagger_.Spectators()) reader_.AddSpectator(spectator.expression(), &spectator.value());
+        for (const auto& observable : Tagger().Variables()) reader().AddVariable(observable.expression(), &observable.value());
+        for (const auto& spectator : Tagger().Spectators()) reader().AddSpectator(spectator.expression(), &spectator.value());
     }
 
 };

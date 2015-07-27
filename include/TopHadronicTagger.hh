@@ -19,7 +19,7 @@ public:
 
     int TopHadronicId(const Event& event) const
     {
-        return sgn(w_hadronic_reader_.tagger().WHadronicId(event)) * to_int(Id::top);
+        return sgn(w_hadronic_reader_.Tagger().WHadronicId(event)) * to_int(Id::top);
     }
 
     int GetBdt(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const  final

@@ -51,7 +51,13 @@ private:
      */
     void PrepareTrainingAndTestTree(long event_number);
 
-    long AddTree(TFile& file, const std::string& tree_name, Tag tag);
+    long AddTree(const std::string& tree_name, analysis::Tag tag);
+
+    long Entries(const std::string& tree_name, Tag tag);
+
+    float Weight(const std::string& tree_name, analysis::Tag tag);
+
+    TTree &Tree(const std::string& tree_name, analysis::Tag tag);
 
     TFile* OutputFile() const;
 

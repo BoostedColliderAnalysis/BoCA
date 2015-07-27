@@ -66,50 +66,14 @@ std::string AnalysisBase::ProcessName() const
 
 void AnalysisBase::NewFile(Tag tag, const std::string& name, float crosssection, const std::string& nice_name)
 {
-    switch (tag) {
-    case Tag::signal :
-        NewSignalFile(name, crosssection, nice_name);
-        break;
-    case Tag::background :
-        NewBackgroundFile(name, crosssection, nice_name);
-        break;
-    }
+  files_.emplace_back(File(name, crosssection, nice_name));
+  tagger().AddTreeName(TreeName(name),tag);
 }
 
 void AnalysisBase::NewFile(Tag tag, const std::string& name, const std::string& nice_name)
 {
-    switch (tag) {
-    case Tag::signal :
-        NewSignalFile(name, nice_name);
-        break;
-    case Tag::background :
-        NewBackgroundFile(name, nice_name);
-        break;
-    }
-}
-
-void AnalysisBase::NewSignalFile(const std::string& name, const std::string& nice_name)
-{
-    files_.emplace_back(File(name, nice_name));
-    tagger().AddSignalTreeName(TreeName(name));
-}
-
-void AnalysisBase::NewBackgroundFile(const std::string& name, const std::string& nice_name)
-{
-    files_.emplace_back(File(name, nice_name));
-    tagger().AddBackgroundTreeName(TreeName(name));
-}
-
-void AnalysisBase::NewSignalFile(const std::string& name, float crosssection, const std::string& nice_name)
-{
-    files_.emplace_back(File(name, crosssection, nice_name));
-    tagger().AddSignalTreeName(TreeName(name));
-}
-
-void AnalysisBase::NewBackgroundFile(const std::string& name, float crosssection, const std::string& nice_name)
-{
-    files_.emplace_back(File(name, crosssection, nice_name));
-    tagger().AddBackgroundTreeName(TreeName(name));
+  files_.emplace_back(File(name, nice_name));
+  tagger().AddTreeName(TreeName(name),tag);
 }
 
 File AnalysisBase::File(const std::string& name, const std::string& nice_name) const
@@ -196,7 +160,7 @@ void AnalysisBase::RunFullEfficiency()
 
 void AnalysisBase::RunTagger(Stage stage)
 {
-  if (Missing(tagger().SignalFileName(stage))) AnalysisLoop(stage);
+  if (Missing(tagger().FileName(stage,Tag::signal))) AnalysisLoop(stage);
 }
 
 void AnalysisBase::RunTrainer()

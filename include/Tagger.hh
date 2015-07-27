@@ -7,25 +7,29 @@
 #include "fastjet/PseudoJet.hh"
 #include "Branches.hh"
 
-namespace TMVA {
+namespace TMVA
+{
 class Reader;
 }
 
 class ExRootTreeWriter;
 class ExRootTreeBranch;
-namespace exroot {
+namespace exroot
+{
 typedef ::ExRootTreeWriter TreeWriter;
 typedef ::ExRootTreeBranch TreeBranch;
 }
 
-namespace analysis {
+namespace analysis
+{
 
 class Event;
 class PreCuts;
 typedef std::vector<std::string> Strings;
 typedef std::vector<fastjet::PseudoJet> Jets;
 
-enum class Stage {
+enum class Stage
+{
     trainer,
     reader
 };
@@ -36,25 +40,34 @@ std::string Name(Stage stage);
  * @brief Prepares multivariant analysis
  *
  */
-class Tagger {
+class Tagger
+{
 
 public:
 
-    void AddSignalTreeName(const std::string& signal_tree_name);
+    virtual std::string Name() const = 0;
 
-    void AddBackgroundTreeName(const std::string& background_tree_name);
+    virtual int GetBdt(const Event&, const PreCuts&, const TMVA::Reader&) const = 0;
+
+    virtual int Train(const Event&, const PreCuts&, const Tag) const = 0;
+
+    virtual float ReadBdt(const TClonesArray&, const int) const = 0;
+
+    virtual const ResultBranch& Branch() const = 0;
+
+    static void SetAnalysisName(const std::string& analysis_name);
 
     std::vector<Observable> Variables() const;
 
     std::vector<Observable> Spectators() const;
 
-    Strings SignalTreeNames() const;
-
-    Strings BackgroundTreeNames() const;
-
     Strings TreeNames(Tag tag) const;
 
-    virtual std::string Name() const = 0;
+    TCut Cut() const;
+
+    virtual std::string NiceName() const;
+
+    std::string AnalysisName() const;
 
     std::string BranchName(Stage stage) const;
 
@@ -68,10 +81,6 @@ public:
 
     std::string FileName(Stage stage, Tag tag) const;
 
-    std::string SignalFileName(Stage stage) const;
-
-    std::string BackgroundFileName(Stage stage) const;
-
     std::string MethodName(TMVA::Types::EMVA mva) const;
 
     std::string WeightFileName(TMVA::Types::EMVA mva) const;
@@ -80,31 +89,19 @@ public:
 
     std::string WeightBranchName() const;
 
-    virtual int GetBdt(const Event&, const PreCuts&, const TMVA::Reader&) const = 0;
-
-    virtual int Train(const Event&, const PreCuts&, const Tag) const = 0;
-
-    virtual float ReadBdt(const TClonesArray&, const int) const = 0;
+    void AddTreeName(const std::string& signal_tree_name, Tag tag);
 
     void SetTreeBranch(exroot::TreeWriter& tree_writer, Stage stage);
 
-    virtual std::string NiceName() const;
-
-    std::string AnalysisName() const;
-
     void ClearTreeNames();
-
-    TCut Cut() const;
-
-    static void SetAnalysisName(const std::string& analysis_name);
-
-    virtual const ResultBranch& Branch() const = 0;
 
 protected:
 
-    Jets SubJets(const fastjet::PseudoJet& jet, int sub_jet_number) const;
+    virtual TClass& Class() const = 0;
 
     virtual void DefineVariables() = 0;
+
+    Jets SubJets(const fastjet::PseudoJet& jet, int sub_jet_number) const;
 
     Observable NewObservable(float& value, const std::string& title) const;
 
@@ -114,17 +111,19 @@ protected:
 
     void ClearObservables();
 
-    virtual TClass& Class() const = 0;
-
     exroot::TreeBranch& TreeBranch() const;
 
     float Bdt(const TMVA::Reader& reader) const;
 
 private:
 
-  std::string Root() const;
+    std::string SignalFileName(Stage stage) const;
 
-  std::string PathName(const std::string& file_name, const std::string& suffix = ".root") const;
+    std::string BackgroundFileName(Stage stage) const;
+
+    std::string Root() const;
+
+    std::string PathName(const std::string& file_name, const std::string& suffix = ".root") const;
 
     std::string ReaderName() const;
 
@@ -147,6 +146,9 @@ private:
     std::string Name(Stage stage, Tag tag) const;
 
     std::string Name(Stage stage) const;
+
+    std::string BranchName(Stage stage, Tag tag) const;
+    
 
     /**
      * @brief Tree Branch pointer saving the results

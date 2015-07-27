@@ -32,7 +32,7 @@ int ChargedHiggsSemiTagger::Train(const Event& event, const PreCuts&, Tag tag) c
 //     int WSemiId = w_semi_tagger.WSemiId(event);
     Jets TopParticles = event.Partons().GenParticles();
 //     int TopSemiId = sgn(WSemiId) * std::abs(Id::top);
-    int TopSemiId = top_leptonic_reader_.tagger().TopLeptonicId(event);
+    int TopSemiId = top_leptonic_reader_.Tagger().TopLeptonicId(event);
     TopParticles = CopyIfExactParticle(TopParticles, TopSemiId);
     fastjet::PseudoJet TopQuark;
     if (TopParticles.size() == 1)

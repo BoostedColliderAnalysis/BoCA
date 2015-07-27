@@ -49,7 +49,7 @@ public:
 
     int TopLeptonicId(const Event& event) const
     {
-        return sgn(w_leptonic_reader_.tagger().WLeptonicId(event)) * to_int(Id::top);
+        return sgn(w_leptonic_reader_.Tagger().WLeptonicId(event)) * to_int(Id::top);
     }
 
 private:

@@ -90,14 +90,6 @@ private:
 
     std::string FileSuffix() const;
 
-    void NewSignalFile(const std::string& name, const std::string& nice_name = "");
-
-    void NewSignalFile(const std::string& name, float crosssection, const std::string& nice_name = "");
-
-    void NewBackgroundFile(const std::string& name, const std::string& nice_name = "");
-
-    void NewBackgroundFile(const std::string& name, float crosssection, const std::string& nice_name = "");
-
     bool Missing(const std::string& name) const;
 
     virtual void AnalysisLoop(Stage stage) = 0;

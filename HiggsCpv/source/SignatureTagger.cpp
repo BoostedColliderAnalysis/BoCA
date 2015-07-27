@@ -15,7 +15,7 @@ SignatureTagger::SignatureTagger()
 int SignatureTagger::Train(const Event& event, const analysis::PreCuts&, Tag tag) const
 {
     Info();
-    std::vector<Sextet> sextets = triplet_pair_reader_.tagger().TruthLevel(event,triplet_pair_reader_.Multiplets(event),tag);
+    std::vector<Sextet> sextets = triplet_pair_reader_.Tagger().TruthLevel(event,triplet_pair_reader_.Multiplets(event),tag);
     Debug(sextets.size());
     std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
     Jets higgses = CopyIfParticles(event.Partons().GenParticles(), Id::higgs, Id::CP_violating_higgs);
