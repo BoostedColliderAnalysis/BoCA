@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Tagger.hh"
+#include "exroot/ExRootAnalysis.hh"
 #include "TMVA/Factory.h"
 
 namespace TMVA {
@@ -53,11 +54,13 @@ private:
 
     long AddTree(const std::string& tree_name, analysis::Tag tag);
 
-    long Entries(const std::string& tree_name, Tag tag);
+    long Entries(exroot::TreeReader& tree_reader);
 
-    float Weight(const std::string& tree_name, analysis::Tag tag);
+    float Weight(exroot::TreeReader& tree_reader);
 
     TTree &Tree(const std::string& tree_name, analysis::Tag tag);
+
+    exroot::TreeReader TreeReader(const std::string& tree_name, Tag tag);
 
     TFile* OutputFile() const;
 
