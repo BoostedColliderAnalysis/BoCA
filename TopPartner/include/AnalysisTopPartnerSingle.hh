@@ -34,20 +34,12 @@ protected:
         switch (tag)
         {
         case Tag::signal :
-            //         NewFile(tag,"pp-Tth-bbbbjjjjlv");
-            //         NewFile(tag,"pp-TThh-bbbbbbjjlv");
-            //             this->NewFile(tag, "pp-TT-tthh-bbbbbbjjlv", Crosssection(tag), NiceName(tag));
-            //           this->NewFile(tag, "pp-TT-tthB-hBbbjjlv", 4.832, NiceName(tag));
-          this->NewFile(tag, "pp-Tth-ttBh-Bhbbjjlv", 2*0.04332 * 1000, NiceName(tag));
-            //         if(tagger().name() == "Bottom") NewFile(tag,"pp-ttbbj-bbbbjjlv");
+          this->NewFile(tag, "pp-Tth-ttBh-Bhbbjjlv", 2*0.04332 * 1000, "Tth");
             break;
         case Tag::background :
-            //         NewFile(tag,"pp-ttbb-bbbbjjlv");
-            //       NewFile(tag,"pp-tthjj-bbbbjjjjlv);
-            //             this->NewFile(tag, "pp-tthjj-bbbbjjjjlv_" + std::to_string(PreCut()) + "GeV", Crosssection(tag), NiceName(tag));
           this->NewFile(tag, "PP-ttBJJ-" + std::to_string(PreCut()) + "GeV", 2*0.1754 * 1000, "ttB(jj)|_{200 GeV}");
-          this->NewFile(tag, "PP-tthB-" + std::to_string(PreCut()) + "GeV", 2*0.02535 * 1000, "ttB(jj)|_{200 GeV}");
-            this->NewFile(tag, "pp-TT-tthB-bbbbjjjjlv", 2*0.264 * 1000, NiceName(tag));
+          this->NewFile(tag, "PP-tthB-" + std::to_string(PreCut()) + "GeV", 2*0.02535 * 1000, "tthB(jj)|_{200 GeV}");
+            this->NewFile(tag, "pp-TT-tthB-bbbbjjjjlv", 2*0.264 * 1000, "TT");
             //         NewFile(tag,"tt_inc-LE-0GeV_0");
             break;
         }

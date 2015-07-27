@@ -65,34 +65,6 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class HHeavyHiggsHadronicBranch : public BaseBranch {
-
-public:
-
-    HHeavyHiggsHadronicBranch();
-
-    float HeavyHiggsMass;
-    float HeavyHiggsPt;
-
-    float TopDeltaRap;
-    float TopDeltaPhi;
-    float TopDeltaR;
-
-    float TopBdt;
-
-    float HeavyHiggsTag;
-
-private:
-
-    ClassDef(HHeavyHiggsHadronicBranch, 1)
-
-};
-
-/**
- *
- * @brief Higgs tagger root tree structure
- *
- */
 class HeavyHiggsSemiBranch : public MultiBranch {
 
 public:
@@ -134,34 +106,6 @@ public:
 private:
 
     ClassDef(ChargedHiggsSemiBranch, 1)
-
-};
-
-/**
- *
- * @brief Higgs tagger root tree structure
- *
- */
-class HChargedHiggsHadronicBranch : public BaseBranch {
-
-public:
-
-    HChargedHiggsHadronicBranch();
-
-    float HeavyHiggsMass;
-    float HeavyHiggsPt;
-
-    float TopDeltaRap;
-    float TopDeltaPhi;
-    float TopDeltaR;
-
-    float TopBdt;
-
-    float HeavyHiggsTag;
-
-private:
-
-    ClassDef(HChargedHiggsHadronicBranch, 1)
 
 };
 

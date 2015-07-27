@@ -32,6 +32,11 @@ public:
         return "SignatureSingle";
     }
 
+    std::string NiceName() const final
+    {
+      return "Tth";
+    }
+
 private:
 
     Reader<TopPartnerTopPairTagger> pair_reader_;
