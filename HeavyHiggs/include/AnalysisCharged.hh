@@ -106,7 +106,7 @@ private:
         }
     }
 
-    int PassPreCut(const Event& event) const
+    int PassPreCut(const Event& event, Tag) const
     {
 //         Info("pass pre cut");
         Jets Particles = event.Partons().GenParticles();

@@ -60,7 +60,7 @@ private:
     }
 
 
-    int PassPreCut(const Event& event) const final
+    int PassPreCut(const Event& event, Tag) const final
     {
         Jets jets = fastjet::sorted_by_pt(event.Hadrons().Jets());
         if (jets.empty())

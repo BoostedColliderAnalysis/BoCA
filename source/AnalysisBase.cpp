@@ -35,12 +35,6 @@ std::vector<File> AnalysisBase::files(Tag tag)
     return files_;
 }
 
-int AnalysisBase::PassPreCut(const Event&) const
-{
-    Error("no pre cut applied");
-    return 1;
-}
-
 void AnalysisBase::PrepareFiles()
 {
     files_.clear();

@@ -67,7 +67,7 @@ protected:
 
 private:
 
-    int PassPreCut(const Event& event) const final {
+  int PassPreCut(const Event& event, Tag) const final {
         Jets particles = event.Partons().GenParticles();
         Jets higgs = CopyIfParticle(particles, Id::CP_violating_higgs);
         if(higgs.empty()) return 1;
