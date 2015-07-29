@@ -7,7 +7,7 @@ namespace toppartner {
 
 SignatureTagger::SignatureTagger()
 {
-    Note();
+  Info();
     DefineVariables();
 }
 

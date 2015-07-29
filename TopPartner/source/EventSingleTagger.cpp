@@ -7,7 +7,7 @@ namespace toppartner {
 
 EventSingleTagger::EventSingleTagger()
 {
-    Note();
+  Info();
     DefineVariables();
 }
 

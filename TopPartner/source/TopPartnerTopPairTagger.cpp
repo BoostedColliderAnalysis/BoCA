@@ -7,7 +7,7 @@ namespace toppartner {
 
 TopPartnerTopPairTagger::TopPartnerTopPairTagger()
 {
-    Note();
+  Info();
     DefineVariables();
 }
 

@@ -8,7 +8,7 @@ namespace heavyhiggs {
 
 ChargedHiggsSemiTagger::ChargedHiggsSemiTagger()
 {
-    Note();
+  Info();
     DefineVariables();
 }
 

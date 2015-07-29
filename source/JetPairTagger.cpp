@@ -6,7 +6,7 @@ namespace analysis {
 
 JetPairTagger::JetPairTagger()
 {
-    Note();
+  Info();
     DefineVariables();
 }
 

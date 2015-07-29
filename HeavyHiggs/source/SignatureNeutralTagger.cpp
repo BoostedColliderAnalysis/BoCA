@@ -8,7 +8,7 @@ namespace heavyhiggs {
 
 SignatureNeutralTagger::SignatureNeutralTagger()
 {
-    Note();
+  Info();
     DefineVariables();
 }
 

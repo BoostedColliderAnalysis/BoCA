@@ -8,7 +8,7 @@ namespace heavyhiggs {
 
 HeavyHiggsTauTagger::HeavyHiggsTauTagger()
 {
-    Note();
+  Info();
     DefineVariables();
 }
 

@@ -7,7 +7,7 @@ namespace heavyhiggs {
 
 EventNeutralFourTopTagger::EventNeutralFourTopTagger()
 {
-    Note();
+  Info();
     DefineVariables();
 }
 

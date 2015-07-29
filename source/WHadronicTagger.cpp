@@ -6,7 +6,7 @@ namespace analysis {
 
 WHadronicTagger::WHadronicTagger()
 {
-    Note();
+    Info();
     DefineVariables();
 }
 

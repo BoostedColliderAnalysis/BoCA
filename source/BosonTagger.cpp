@@ -6,7 +6,7 @@ namespace analysis {
 
 BosonTagger::BosonTagger()
 {
-    Note();
+  Info();
     DefineVariables();
 }
 
