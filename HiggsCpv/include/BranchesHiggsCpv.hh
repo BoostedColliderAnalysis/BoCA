@@ -96,6 +96,7 @@ public:
         analysis::EventBranch::Fill(multiplet);
     }
     Observables Variables() const;
+    Observables Spectators() const;
 
 private:
 

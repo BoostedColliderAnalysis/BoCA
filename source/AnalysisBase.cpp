@@ -24,7 +24,7 @@ exroot::TreeWriter AnalysisBase::TreeWriter(TFile& export_file, const std::strin
 
 bool AnalysisBase::Missing(const std::string& name) const
 {
-    Error(name);
+    Note(name);
     struct stat buffer;
     return (stat(name.c_str(), &buffer) != 0);
 }
