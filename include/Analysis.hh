@@ -34,7 +34,7 @@ public:
    * @param reader
    * @return void
    */
-  void AnalysisLoop(Stage stage) final {
+  void AnalysisLoop(Stage stage) final override {
         mkdir(ProjectName().c_str(), 0700);
         Reader<Tagger> reader(stage);
         tagger().ClearTreeNames();
@@ -58,9 +58,7 @@ protected:
    *
    * @return const analysis::Tagger&
    */
-  const Tagger& tagger() const final {
-        return tagger_;
-    }
+  const Tagger &tagger() const final override { return tagger_; }
 
     /**
      * @brief setter for AnalysisName of Tagger
@@ -76,9 +74,7 @@ protected:
      *
      * @return analysis::Tagger&
      */
-    Tagger& tagger() final {
-        return tagger_;
-    }
+    Tagger &tagger() final override { return tagger_; }
 
 private:
 

@@ -13,8 +13,7 @@ namespace exroot {
 class Hadrons : public analysis::Hadrons {
 
 public:
-
-    analysis::Jets Jets() const final;
+  analysis::Jets Jets() const final override;
 
     /**
      * @brief AnalyseJet calls AnalyseEFlow

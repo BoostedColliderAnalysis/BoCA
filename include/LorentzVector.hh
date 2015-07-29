@@ -49,7 +49,7 @@ public:
     LorentzVector(const float* carray);
 
 // Constructor giving a 3-Vector and a time component.
-    LorentzVector(const Vector3& vector3, float t);
+    LorentzVector(Vector3 vector3, float t);
 
 // Get position and time.
     float X() const;

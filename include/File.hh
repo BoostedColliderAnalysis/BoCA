@@ -137,8 +137,7 @@ private:
 
     Source source_ = Source::delphes;
 
-    TChain* chain_ = NULL;
-
+    TChain *chain_ = nullptr;
 };
 
 }

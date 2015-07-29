@@ -51,7 +51,7 @@ fastjet::PseudoJet Hadrons::StructuredJet(const ::delphes::Jet& jet, JetDetail j
     Info();
     analysis::Jets constituent_jets;
     std::vector<Constituent> constituents;
-    JetInfo* jet_info = new JetInfo(bool(jet.BTag), jet.Charge);
+    auto jet_info = new JetInfo(bool(jet.BTag), jet.Charge);
     for (const auto& constituentNumber : Range(jet.Constituents.GetEntriesFast())) {
         if (!jet.Constituents.At(constituentNumber))
             continue;
@@ -68,7 +68,7 @@ fastjet::PseudoJet Hadrons::ConstituentJet(TObject& object, JetDetail jet_detail
 {
     Debug(object.ClassName());
     fastjet::PseudoJet jet;
-    JetInfo* jet_info = new JetInfo();
+    auto jet_info = new JetInfo();
     if (object.IsA() == ::delphes::GenParticle::Class()) {
         ::delphes::GenParticle& particle = static_cast<::delphes::GenParticle&>(object);
         analysis::LorentzVector position(particle.X, particle.Y, particle.Z, particle.T);

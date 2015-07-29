@@ -17,7 +17,7 @@ LorentzVector::LorentzVector(float x, float y, float z, float t) : p_(x, y, z), 
 
 LorentzVector::LorentzVector(const float* x0) : p_(x0), e_(x0[3]) {}
 
-LorentzVector::LorentzVector(const Vector3& p, float e) : p_(p), e_(e) {}
+LorentzVector::LorentzVector(Vector3 p, float e) : p_(std::move(p)), e_(e) {}
 
 float LorentzVector::operator()(int i) const
 {

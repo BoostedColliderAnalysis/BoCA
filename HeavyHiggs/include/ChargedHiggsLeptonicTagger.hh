@@ -18,14 +18,12 @@ public:
 
     ChargedHiggsLeptonicTagger();
 
-    int Train(const Event& event, const PreCuts& pre_cuts, Tag tag) const final;
+    int Train(const Event &event, const PreCuts &pre_cuts,
+              Tag tag) const final override;
 
     std::vector<analysis::Triplet> Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 
-    std::string Name() const final
-    {
-        return "ChargedHiggsLeptonic";
-    }
+    std::string Name() const final override { return "ChargedHiggsLeptonic"; }
 
 private:
 

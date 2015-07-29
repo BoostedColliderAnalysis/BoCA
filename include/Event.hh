@@ -54,19 +54,19 @@ private:
      * @brief Particles
      *
      */
-    analysis::Partons* partons_ = NULL;
+  analysis::Partons *partons_ = nullptr;
 
     /**
      * @brief Leptons
      *
      */
-    analysis::Leptons* leptons_ = NULL;
+  analysis::Leptons *leptons_ = nullptr;
 
     /**
      * @brief Jets
      *
      */
-    analysis::Hadrons* hadrons_ = NULL;
+  analysis::Hadrons *hadrons_ = nullptr;
 
     Source source_;
 

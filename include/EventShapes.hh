@@ -449,16 +449,12 @@ protected:
      * Make a simple clone of this object.  @return a pointer to the new
      * object.
      */
-    virtual ThePEG::IBPtr clone() const {
-        return new_ptr(*this);
-    }
+  virtual ThePEG::IBPtr clone() const override { return new_ptr(*this); }
 
     /** Make a clone of this object, possibly modifying the cloned object
      * to make it sane.  @return a pointer to the new object.
      */
-    virtual ThePEG::IBPtr fullclone() const {
-        return new_ptr(*this);
-    }
+  virtual ThePEG::IBPtr fullclone() const override { return new_ptr(*this); }
     //@}
 
 private:

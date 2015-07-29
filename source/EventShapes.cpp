@@ -35,20 +35,20 @@ void EventShapes::calcHemisphereMasses()
 {
     ThePEG::Lorentz5Momentum pos, neg;
     ThePEG::Energy pden(ThePEG::ZERO), epos(ThePEG::ZERO), eneg(ThePEG::ZERO);
-    for (unsigned int ix = 0; ix < _pv.size(); ++ix) {
-        if (_pv[ix].vect() * thrustAxis() > ThePEG::ZERO) {
-            pos  += _pv[ix];
+    for (auto &elem : _pv) {
+      if (elem.vect() * thrustAxis() > ThePEG::ZERO) {
+        pos += elem;
             // can be replaced with, once perp() is giving non-nan results
             //      for nearly parallel vectors.
             // epos += _pv[ix].perp(thrustAxis());
-            epos += _pv[ix].vect().cross(thrustAxis()).mag();
+        epos += elem.vect().cross(thrustAxis()).mag();
         } else {
-            neg  += _pv[ix];
+          neg += elem;
             // see above
             //      eneg += _pv[ix].perp(thrustAxis());
-            eneg += _pv[ix].vect().cross(thrustAxis()).mag();
+          eneg += elem.vect().cross(thrustAxis()).mag();
         }
-        pden += _pv[ix].vect().mag();
+        pden += elem.vect().mag();
     }
     // denominator and masses
     ThePEG::Energy2 den(sqr(pos.e() + neg.e()));
@@ -91,9 +91,9 @@ std::vector<double> EventShapes::eigenvalues(const double T[3][3])
         // get solutions
         double alpha = acos(-q / 2.*sqrt(-27. / (p * p * p))) / 3.;
         double w = ThePEG::sqrt(-4.*p / 3.);
-        lambda.push_back(w * cos(alpha) - b / 3.);
-        lambda.push_back(-w * cos(alpha + M_PI / 3.) - b / 3.);
-        lambda.push_back(-w * cos(alpha - M_PI / 3.) - b / 3.);
+        lambda.push_back(w * std::cos(alpha) - b / 3.);
+        lambda.push_back(-w * std::cos(alpha + M_PI / 3.) - b / 3.);
+        lambda.push_back(-w * std::cos(alpha - M_PI / 3.) - b / 3.);
     }
 
     // sort according to size of eigenvalues
@@ -149,9 +149,9 @@ void EventShapes::diagonalizeTensors(bool linear, bool cmboost)
 {
     // initialize
     double Theta[3][3];
-    for (int i = 0; i < 3; ++i) {
+    for (auto &elem : Theta) {
         for (int j = 0; j < 3; ++j) {
-            Theta[i][j] = 0.0;
+          elem[j] = 0.0;
         }
     }
     double sum = 0.;
@@ -162,14 +162,14 @@ void EventShapes::diagonalizeTensors(bool linear, bool cmboost)
     ThePEG::Lorentz5Momentum pcm = ThePEG::Lorentz5Momentum();
     ThePEG::Boost beta;
     if (cmboost) {
-        for (unsigned int ix = 0; ix < _pv.size(); ++ix) {
-            pcm += _pv[ix];
+      for (auto &elem : _pv) {
+        pcm += elem;
         }
         beta = pcm.findBoostToCM();
     }
     // get Theta_ij
-    for (unsigned int ix = 0; ix < _pv.size(); ++ix) {
-        ThePEG::Lorentz5Momentum dum(_pv[ix]);
+    for (auto &elem : _pv) {
+      ThePEG::Lorentz5Momentum dum(elem);
         if (cmboost) {
             dum.boost(beta);
         }
@@ -193,9 +193,9 @@ void EventShapes::diagonalizeTensors(bool linear, bool cmboost)
             }
         }
     }
-    for (int i = 0; i < 3; ++i) {
+    for (auto &elem : Theta) {
         for (int j = 0; j < 3; ++j) {
-            Theta[i][j] /= sum;
+          elem[j] /= sum;
         }
     }
 
@@ -234,8 +234,8 @@ void EventShapes::calculateThrust()
     // thrust
     std::vector<ThePEG::Momentum3> p;
     ThePEG::Energy psum = ThePEG::ZERO;
-    for (unsigned int l = 0; l < _pv.size(); ++l) {
-        p.push_back(_pv[l].vect());
+    for (auto &elem : _pv) {
+      p.push_back(elem.vect());
         psum += p.back().mag();
     }
 
@@ -297,8 +297,8 @@ void EventShapes::calculateThrust()
         ThePEG::Energy eval = ThePEG::ZERO;
         axis = _thrustAxis[0].cross(_thrustAxis[1]);
         _thrustAxis.push_back(axis);
-        for (unsigned int l = 0; l < _pv.size(); ++l)
-            eval += abs(axis * _pv[l].vect());
+        for (auto &elem : _pv)
+          eval += abs(axis * elem.vect());
         _thrust.push_back(eval / psum);
     } else {
         _thrust.push_back(-1.0);
@@ -331,12 +331,11 @@ void EventShapes::calcT(const std::vector<ThePEG::Momentum3>& p, ThePEG::Energy2
             cpm.push_back(ptot - p[j] + p[k]);
             cpm.push_back(ptot + p[j] - p[k]);
             cpm.push_back(ptot + p[j] + p[k]);
-            for (std::vector<ThePEG::Momentum3>::iterator it = cpm.begin();
-                    it != cpm.end(); ++it) {
-                tval = it->mag2();
+            for (auto &elem : cpm) {
+              tval = elem.mag2();
                 if (tval > t) {
                     t = tval;
-                    taxis = it->unit();
+                    taxis = elem.unit();
                 }
             }
         }
@@ -364,12 +363,11 @@ void EventShapes::calcM(const std::vector<ThePEG::Momentum3>& p, ThePEG::Energy2
         cpm.clear();
         cpm.push_back(ptot - p[j]);
         cpm.push_back(ptot + p[j]);
-        for (std::vector<ThePEG::Momentum3>::iterator it = cpm.begin();
-                it != cpm.end(); ++it) {
-            mval = it->mag2();
+        for (auto &elem : cpm) {
+          mval = elem.mag2();
             if (mval > m) {
                 m = mval;
-                maxis = it->unit();
+                maxis = elem.unit();
             }
         }
     }
@@ -378,8 +376,8 @@ void EventShapes::calcM(const std::vector<ThePEG::Momentum3>& p, ThePEG::Energy2
 void EventShapes::bookEEC(std::vector<double>& hi)
 {
     // hi is the histogram.  It is understood that hi.front() contains
-    // the bin [-1 < cos(chi) < -1+delta] and hi.back() the bin [1-delta
-    // < cos(chi) < 1].  Here, delta = 2/hi.size().
+    // the bin [-1 < std::cos(chi) < -1+delta] and hi.back() the bin [1-delta
+    // < std::cos(chi) < 1].  Here, delta = 2/hi.size().
     ThePEG::Energy Evis(ThePEG::ZERO);
     for (unsigned int bin = 0; bin < hi.size(); ++bin) {
         double delta = 2. / hi.size();
@@ -388,7 +386,7 @@ void EventShapes::bookEEC(std::vector<double>& hi)
             for (unsigned int i = 0; i < _pv.size() - 1; ++i) {
                 Evis += _pv[i].e();
                 for (unsigned int j = i + 1; j < _pv.size(); ++j) {
-                    double diff = abs(coschi - cos(_pv[i].vect().angle(_pv[j].vect())));
+                    double diff = std::abs(coschi - std::cos(_pv[i].vect().angle(_pv[j].vect())));
                     if (delta > diff)
                         hi[bin] += _pv[i].e() * _pv[j].e() / ThePEG::MeV2;
                 }

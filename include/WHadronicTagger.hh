@@ -16,9 +16,11 @@ public:
 
     WHadronicTagger();
 
-    int Train(const Event& event, const PreCuts& pre_cuts, const Tag Tag) const;
+    int Train(const Event &event, const PreCuts &pre_cuts,
+              const Tag Tag) const override;
 
-    virtual int GetBdt(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
+    virtual int GetBdt(const Event &event, const PreCuts &pre_cuts,
+                       const TMVA::Reader &reader) const override;
 
     std::vector<Doublet> Multiplets(const Jets& jets, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 
@@ -30,10 +32,7 @@ public:
 
     int WHadronicId(const Event& event) const;
 
-    std::string Name() const final
-    {
-        return "WHadronic";
-    }
+    std::string Name() const final override { return "WHadronic"; }
 
 private:
 

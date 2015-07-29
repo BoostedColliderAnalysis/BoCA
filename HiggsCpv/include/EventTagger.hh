@@ -18,12 +18,13 @@ public:
 
     EventTagger();
 
-    int Train(const Event& event, const analysis::PreCuts&, Tag tag) const;
+    int Train(const Event &event, const analysis::PreCuts &,
+              Tag tag) const override;
 
     std::vector<MultipletEvent<Octet62>> Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 
-    int GetBdt(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const  final
-    {
+    int GetBdt(const Event &event, const PreCuts &pre_cuts,
+               const TMVA::Reader &reader) const final override {
         return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
@@ -33,10 +34,7 @@ public:
         return Multiplets(event, pre_cuts, reader);
     }
 
-    std::string Name() const final
-    {
-        return "Event";
-    }
+    std::string Name() const final override { return "Event"; }
 
 private:
 
