@@ -8,7 +8,7 @@ namespace higgscpv {
 
 SignatureTagger::SignatureTagger()
 {
-    Note();
+  Info();
     DefineVariables();
 }
 

@@ -8,7 +8,7 @@ namespace toppartner {
 
 TopPartnerHadronicTagger::TopPartnerHadronicTagger()
 {
-    Note();
+  Info();
     DefineVariables();
 }
 

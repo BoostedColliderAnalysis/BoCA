@@ -7,7 +7,7 @@ namespace toppartner {
 
 TopPartnerLeptonicTagger::TopPartnerLeptonicTagger()
 {
-    Note();
+  Info();
     DefineVariables();
 }
 

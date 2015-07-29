@@ -9,7 +9,7 @@ namespace higgscpv {
 
 TopSemiPairTagger::TopSemiPairTagger()
 {
-    Note();
+  Info();
     DefineVariables();
 }
 

@@ -7,7 +7,7 @@ namespace heavyhiggs {
 
 ChargedHiggsLeptonicTagger::ChargedHiggsLeptonicTagger()
 {
-    Note();
+  Info();
     DefineVariables();
 }
 

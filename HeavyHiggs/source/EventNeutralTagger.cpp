@@ -7,7 +7,7 @@ namespace heavyhiggs {
 
 EventNeutralTagger::EventNeutralTagger()
 {
-    Note();
+  Info();
     DefineVariables();
 }
 

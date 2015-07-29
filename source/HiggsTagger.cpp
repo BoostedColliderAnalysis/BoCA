@@ -6,7 +6,7 @@ namespace analysis {
 
 HiggsTagger::HiggsTagger()
 {
-    Note();
+  Info();
     DefineVariables();
 }
 

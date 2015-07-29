@@ -13,7 +13,7 @@ namespace higgscpv
 
 TopLeptonicPairTagger::TopLeptonicPairTagger()
 {
-    Note();
+  Info();
     DefineVariables();
 }
 

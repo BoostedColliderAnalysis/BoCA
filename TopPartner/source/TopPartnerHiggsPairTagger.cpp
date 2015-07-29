@@ -7,7 +7,7 @@ namespace toppartner {
 
 TopPartnerHiggsPairTagger::TopPartnerHiggsPairTagger()
 {
-    Note();
+  Info();
     DefineVariables();
 }
 

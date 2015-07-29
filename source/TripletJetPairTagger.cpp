@@ -7,7 +7,7 @@ namespace analysis {
 
 TripletJetPairTagger::TripletJetPairTagger()
 {
-    Note();
+  Info();
     DefineVariables();
 }
 

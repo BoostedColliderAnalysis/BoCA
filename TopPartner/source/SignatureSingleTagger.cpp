@@ -10,7 +10,7 @@ namespace toppartner
 
 SignatureSingleTagger::SignatureSingleTagger()
 {
-    Note();
+  Info();
     DefineVariables();
 }
 
