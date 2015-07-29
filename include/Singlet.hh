@@ -128,15 +128,13 @@ public:
         return UserInfo().Tag();
     }
 
-    float Bdt() const final {
-        return UserInfo().Bdt();
-    }
+    float Bdt() const final override { return UserInfo().Bdt(); }
 
     float Ht() const {
         return Jet().pt();
     }
 
-    void SetBdt(float bdt) final;
+    void SetBdt(float bdt) final override;
 
     float Rapidity() const;
 

@@ -54,6 +54,7 @@ public:
     }
 
     Observables Variables() const;
+
 private:
 
     ClassDef(HeavyHiggsLeptonicBranch, 1)
@@ -354,7 +355,6 @@ public:
 
     Observables Variables() const;
 
-
 private:
 
     ClassDef(EventFusionBranch, 1)
@@ -396,7 +396,8 @@ public:
         PairRap = multiplet.Doublet().DeltaRap();
     }
 
-    Observables Variables()const;
+    Observables Variables() const;
+
 private:
 
     ClassDef(OctetNeutralBranch, 1)

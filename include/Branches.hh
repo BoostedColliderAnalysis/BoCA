@@ -93,6 +93,7 @@ public:
     }
     Observables Variables() const;
     Observables Spectators() const;
+
 private:
     ClassDef(ParticleBranch, 1)
 };
@@ -151,8 +152,8 @@ private:
  */
 class BottomBranch : public ParticleBranch, public BottomBase {
 public:
-    Observables Variables() const;
-    Observables Spectators() const;
+  Observables Variables() const;
+  Observables Spectators() const;
     template<typename Multiplet>
     void Fill(const Multiplet& multiplet)
     {
@@ -196,6 +197,7 @@ public:
     }
     Observables Variables() const;
     Observables Spectators() const;
+
 private:
     ClassDef(TauBranch, 1)
 };
@@ -235,6 +237,7 @@ public:
     }
     Observables Variables() const;
     Observables Spectators() const;
+
 private:
     ClassDef(PairBranch, 1)
 };
@@ -251,6 +254,7 @@ public:
         DeltaHt = multiplet.DeltaHt();
     }
     Observables Variables() const;
+
 private:
     ClassDef(MultiBranch, 1)
 };
@@ -311,6 +315,7 @@ public:
         Jet2Mass = multiplet.Singlet2().Jet().m();
     }
     Observables Variables() const;
+
 private:
     ClassDef(JetPairBranch, 1)
 };
@@ -353,6 +358,7 @@ public:
         TopBdt = multiplet.Triplet().Bdt();
     }
     Observables Variables() const;
+
 private:
     ClassDef(TripletJetPairBranch, 1)
 };
@@ -375,6 +381,7 @@ public:
         NeutrinoPt = multiplet.Singlet2().Jet().pt();
     }
     Observables Variables() const;
+
 private:
     ClassDef(WSemiBranch, 1)
 };
@@ -402,6 +409,7 @@ public:
     }
     Observables Variables() const;
     Observables Spectators() const;
+
 private:
     ClassDef(TopHadronicBranch, 1)
 };
@@ -426,6 +434,7 @@ public:
     }
     Observables Variables() const;
     Observables Spectators() const;
+
 private:
     ClassDef(TopLeptonicBranch, 1)
 };
@@ -446,6 +455,7 @@ public:
     }
     Observables Variables() const;
     Observables Spectators() const;
+
 private:
     ClassDef(HiggsBranch, 1)
 };
@@ -488,6 +498,7 @@ public:
         JetPhi = multiplet.Singlet().Jet().phi();
     }
     Observables Variables() const;
+
 private:
     ClassDef(EventBranch, 1)
 };

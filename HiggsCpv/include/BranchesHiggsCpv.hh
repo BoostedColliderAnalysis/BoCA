@@ -159,6 +159,7 @@ public:
         TopBdt = multiplet.Triplet2().Bdt();
     }
     Observables Variables() const;
+
 private:
     ClassDef(TripletPairBranch, 1)
 };

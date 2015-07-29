@@ -186,9 +186,9 @@ std::vector<Doublet> WHadronicTagger::Multiplets3(const Jets& jets, const PreCut
 {
     Info();
     std::vector<Doublet>  doublets;
-    for (auto Jet1 = jets.begin(); Jet1 != jets.end(); ++Jet1) {
+    for (const auto &jet : jets) {
         try {
-            doublets.emplace_back(Multiplet(*Jet1, pre_cuts, reader));
+          doublets.emplace_back(Multiplet(jet, pre_cuts, reader));
         } catch (const char* message) {
             continue;
         }
@@ -224,9 +224,9 @@ std::vector<Doublet> WHadronicTagger::SubMultiplets2(const Jets& jets, const Pre
     std::vector<Doublet>  doublets;
     for (const auto& jet : jets) {
         Jets pieces = bottom_reader_.SubMultiplet(jet, sub_jet_number);
-        for (auto piece1 = pieces.begin(); piece1 != pieces.end(); ++piece1) {
+        for (auto &piece : pieces) {
             try {
-                doublets.emplace_back(Multiplet(*piece1, pre_cuts, reader));
+              doublets.emplace_back(Multiplet(piece, pre_cuts, reader));
             }  catch (const char* message) {
                 continue;
             }

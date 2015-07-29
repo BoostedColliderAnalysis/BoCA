@@ -13,9 +13,7 @@ template<typename BranchTemplate>
 class BranchTagger : public Tagger
 {
 
-    const BranchTemplate& Branch() const final {
-        return branch_;
-    }
+  const BranchTemplate &Branch() const final override { return branch_; }
 
 protected:
 
@@ -112,9 +110,7 @@ protected:
         return jets.size();
     }
 
-    TClass& Class() const final {
-        return *BranchTemplate::Class();
-    }
+    TClass &Class() const final override { return *BranchTemplate::Class(); }
 
     template<typename Multiplet>
     float Bdt(const Multiplet& multiplet, const TMVA::Reader& reader) const {
@@ -134,8 +130,8 @@ protected:
     }
 
 private:
-
-    float ReadBdt(const TClonesArray& clones_array, int entry) const final {
+  float ReadBdt(const TClonesArray &clones_array,
+                int entry) const final override {
         return static_cast<BranchTemplate&>(*clones_array.At(entry)).Bdt;
     }
 
