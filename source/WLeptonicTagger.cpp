@@ -76,10 +76,10 @@ std::vector<Doublet> WLeptonicTagger::ReconstructNeutrino(const Doublet& doublet
     Info();
     const fastjet::PseudoJet lepton = doublet.Singlet1().Jet();
     const fastjet::PseudoJet missing_et = doublet.Singlet2().Jet();
-    float linear_term = (std::pow(Mass(Id::W), 2) - lepton.m2()) / 2 + missing_et.px() * lepton.px() + missing_et.py() * lepton.py();
-    float lepton_square = std::pow(lepton.e(), 2) - std::pow(lepton.pz(), 2);
-    float missing_et_square = std::pow(missing_et.px(), 2) + std::pow(missing_et.py(), 2);
-    double radicant = std::pow(lepton.pz(), 2) * (std::pow(linear_term, 2) -  lepton_square * missing_et_square);
+    float linear_term = (sqr(Mass(Id::W)) - lepton.m2()) / 2 + missing_et.px() * lepton.px() + missing_et.py() * lepton.py();
+    float lepton_square = sqr(lepton.e()) - sqr(lepton.pz());
+    float missing_et_square = sqr(missing_et.px()) + sqr(missing_et.py());
+    double radicant = sqr(lepton.pz()) * (sqr(linear_term) -  lepton_square * missing_et_square);
     if (radicant < 0) {
         Info("Imaginary root", "move missing et towards lepton");
         Doublet mod_doublet(lepton, missing_et + 0.1 * (lepton - missing_et));
@@ -90,14 +90,14 @@ std::vector<Doublet> WLeptonicTagger::ReconstructNeutrino(const Doublet& doublet
     Check(radicant != 0, "Radicant exactly zero", "implement this case!");
     float sqrt = std::sqrt(radicant);
     float neutrino_1_e = (lepton.e() * linear_term - sqrt) / lepton_square;
-    float neutrino_1_pz = (std::pow(lepton.pz(), 2) * linear_term - lepton.e() * sqrt) / lepton.pz() / lepton_square;
+    float neutrino_1_pz = (sqr(lepton.pz()) * linear_term - lepton.e() * sqrt) / lepton.pz() / lepton_square;
     fastjet::PseudoJet neutrino_1(missing_et.px(), missing_et.py(), neutrino_1_pz, neutrino_1_e);
     Debug("Neutrnio 1", neutrino_1);
     Doublet doublet1(lepton, neutrino_1);
     doublet1.SetTag(doublet.Tag());
     doublet1.SetFlag(doublet.Flag());
     float neutrino_2_e = (lepton.e() * linear_term + sqrt) / lepton_square;
-    float neutrino_2_pz = (std::pow(lepton.pz(), 2) * linear_term + lepton.e() * sqrt) / lepton.pz() / lepton_square;
+    float neutrino_2_pz = (sqr(lepton.pz()) * linear_term + lepton.e() * sqrt) / lepton.pz() / lepton_square;
     fastjet::PseudoJet neutrino_2(missing_et.px(), missing_et.py(), neutrino_2_pz, neutrino_2_e);
     Debug("Neutrino 2", neutrino_2);
     Doublet doublet2(lepton, neutrino_2);

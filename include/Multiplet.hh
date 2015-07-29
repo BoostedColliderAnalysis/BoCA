@@ -173,7 +173,7 @@ public:
     }
 
     float PullDifference() const {
-        return RestrictPhi(::analysis::DeltaPhi(Pull1(), Pull2()) - M_PI);
+        return RestrictPhi(analysis::DeltaPhi(Pull1(), Pull2()) - M_PI);
     }
 
     float PullSum() const {
@@ -198,9 +198,9 @@ public:
 
             float distance = std::min(distance_1, distance_2);
             if (distance > DeltaR()) continue;
-            dipolarity += constituent.pt() * std::pow(distance, 2);
+            dipolarity += constituent.pt() * sqr(distance);
         }
-        return dipolarity / jet.pt() / std::pow(DeltaR(), 2);
+        return dipolarity / jet.pt() / sqr(DeltaR());
     }
 
     /**

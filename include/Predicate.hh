@@ -317,9 +317,15 @@ auto pairs(const std::vector<Element1>& container_1, const std::vector<Element2>
 }
 
 template <typename Value>
-int sgn(const Value value)
+int sgn(Value value)
 {
     return (Value(0) < value) - (value < Value(0));
+}
+
+template <typename Value>
+Value sqr(Value value)
+{
+  return value * value;
 }
 
 template <typename Enumeration>
