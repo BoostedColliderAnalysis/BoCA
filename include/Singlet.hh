@@ -40,6 +40,10 @@ public:
         return jet_;
     }
 
+    analysis::Jets Jets() const{
+      return {Jet()};
+    }
+
     bool Overlap(const fastjet::PseudoJet& jet) const;
 
     bool Overlap(const Singlet& singlet) const;

@@ -19,19 +19,19 @@ void GlobalObservables::SetEvent(const analysis::Event& event)
 
 int GlobalObservables::LeptonNumber() const
 {
-    Info("Lepton Number");
+    Info();
     return leptons_.size();
 }
 
 int GlobalObservables::JetNumber() const
 {
-    Info("Jet Number");
+    Info();
     return Jets().size();
 }
 
 int GlobalObservables::BottomNumber() const
 {
-    Info("Bottom Number");
+    Info();
     analysis::Jets bottoms;
     for (const auto& jet : Jets()) if (jet.user_info<JetInfo>().Bdt() > 1)
             bottoms.emplace_back(jet);
@@ -40,7 +40,7 @@ int GlobalObservables::BottomNumber() const
 
 float GlobalObservables::BottomBdt() const
 {
-    Info("Bottom Bdt");
+    Info();
     if (Jets().empty())
         return 0;
     return std::accumulate(jets_.begin(), jets_.end(), 0., [](float bdt, const fastjet::PseudoJet & jet) {
@@ -50,7 +50,7 @@ float GlobalObservables::BottomBdt() const
 
 float GlobalObservables::BottomBdt(int number) const
 {
-    Info("Bottom Bdt");
+    Info();
     if (number > JetNumber())
         return 0;
     return Jets().at(number - 1).user_info<JetInfo>().Bdt();
@@ -58,7 +58,7 @@ float GlobalObservables::BottomBdt(int number) const
 
 float GlobalObservables::BottomBdt(int number_1, int number_2) const
 {
-    Info("Bottom Bdt");
+    Info();
     if (number_1 > JetNumber())
         return 0;
     if (number_2 > JetNumber())
@@ -68,13 +68,13 @@ float GlobalObservables::BottomBdt(int number_1, int number_2) const
 
 float GlobalObservables::ScalarHt() const
 {
-    Info("Scalar Ht");
+    Info();
     return scalar_ht_;
 }
 
 float GlobalObservables::LeptonHt() const
 {
-    Info("Lepton Ht");
+    Info();
     if (leptons_.empty())
         return 0;
     return std::accumulate(leptons_.begin(), leptons_.end(), 0., [](float ht, const fastjet::PseudoJet & lepton) {
@@ -84,7 +84,7 @@ float GlobalObservables::LeptonHt() const
 
 float GlobalObservables::JetHt() const
 {
-    Info("Jet Ht");
+    Info();
     if (Jets().empty())
         return 0;
     return std::accumulate(jets_.begin(), jets_.end(), 0., [](float ht, const fastjet::PseudoJet & jet) {
@@ -94,13 +94,13 @@ float GlobalObservables::JetHt() const
 
 float GlobalObservables::MissingEt() const
 {
-    Info("Mising et");
+    Info();
     return missing_et_;
 }
 
 Singlet GlobalObservables::Singlet() const
 {
-    Info("Singlet");
+    Info();
     fastjet::PseudoJet jet(fastjet::join(Jets()));
     jet.set_user_info(new JetInfo(BottomBdt()));
     return analysis::Singlet(jet);
@@ -108,13 +108,13 @@ Singlet GlobalObservables::Singlet() const
 
 Jets GlobalObservables::Jets() const
 {
-    Info("Jets");
+    Info();
     return jets_;
 }
 
 void GlobalObservables::SetJets(const analysis::Jets jets)
 {
-    Info("Set Jets");
+    Info();
     jets_ = jets;
 }
 

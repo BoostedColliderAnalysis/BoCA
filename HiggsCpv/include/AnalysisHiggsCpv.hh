@@ -1,5 +1,6 @@
 #pragma once
 
+#include "EventShapes.hh"
 #include "Analysis.hh"
 #include "Debug.hh"
 
@@ -30,18 +31,20 @@ public:
     void SetFiles(Tag tag) final {
         switch (tag) {
         case Tag::signal :
-            //         NewSignalFile("pp-ttx0-bbbbllnunu-1", 0.02071);
-            this->NewFile(tag, "pp-ttx0-bbbbllnunu-1", 0.008937);
-            //         NewSignalFile("pp-ttx0-bbbbllnunu-0.5", 0.01193);
+            this->NewFile(tag, "pp-tth", 0.02267);
+            //         this->NewFile(tag, "pp-ttx0-bbbbllnunu-1", 0.02071);
+//             this->NewFile(tag, "pp-ttx0-bbbbllnunu-1", 0.008937);
+            //         this->NewFile(tag, "pp-ttx0-bbbbllnunu-0.5", 0.01193);
             break;
         case Tag::background :
-            this->NewFile(tag, "pp-ttbb-bbbbllnunu", 3.457);
+            this->NewFile(tag, "pp-ttbb", 0.1266);
+//             this->NewFile(tag, "pp-ttbb-bbbbllnunu", 3.457);
             break;
         }
     }
 
     std::string ProjectName() const final {
-        return  "CPV-4";
+        return  "CPV-new";
     }
 
     std::string ProcessName() const final {
@@ -53,9 +56,10 @@ public:
      *
      */
     long EventNumberMax() const final {
+        return 1000;
         return 10000;
         return 5000;
-        return 1000;
+        return 100;
     }
 
 protected:
@@ -67,10 +71,12 @@ protected:
 
 private:
 
-  int PassPreCut(const Event& event, Tag) const final {
-        Jets particles = event.Partons().GenParticles();
-        Jets higgs = CopyIfParticle(particles, Id::CP_violating_higgs);
-        if(higgs.empty()) return 1;
+    int PassPreCut(const Event& event, Tag) const final {
+//         Jets jets = event.Hadrons().Jets();
+
+        Jets gen_particles = event.Partons().GenParticles();
+        Jets higgs = CopyIfParticle(gen_particles, Id::CP_violating_higgs);
+        if (higgs.empty()) return 1;
         higgs = RemoveIfSingleMother(higgs);
         return higgs.size();
     }

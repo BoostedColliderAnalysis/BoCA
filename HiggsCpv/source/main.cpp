@@ -2,8 +2,8 @@
 
 #include "../include/EventTagger.hh"
 #include "Predicate.hh"
-#include "Debug.hh"
 #include "FourVector.hh"
+#include "Debug.hh"
 
 int main()
 {

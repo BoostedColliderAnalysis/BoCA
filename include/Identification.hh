@@ -24,7 +24,7 @@ public:
 
     virtual float Bdt() const;
 
-    void SetTag(const analysis::Tag tag);
+    void SetTag(Tag tag);
 
     void SetTag(analysis::Tag tag_1, analysis::Tag tag_2);
 
@@ -67,7 +67,6 @@ public:
 //         return (Bdt() > multiplet.Bdt());
 //     }
 
-//     template<typename Multiplet>
     bool operator < (const Identification& multiplet) const
     {
         // largest bdt in front

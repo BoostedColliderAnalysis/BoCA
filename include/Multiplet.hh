@@ -26,15 +26,15 @@ public:
     void SetMultiplets(const Multiplet_1& multiplet_1, const Multiplet_2& multiplet_2) {
         multiplet_1_ = multiplet_1;
         multiplet_2_ = multiplet_2;
-//         if (multiplet_1.Bdt() != initial_value() && multiplet_2.Bdt() != initial_value()) SetBdt((multiplet_1.Bdt() + multiplet_2.Bdt()) / 2);
-//         else if (multiplet_1.Bdt() != initial_value()) SetBdt(multiplet_1.Bdt());
-//         else if (multiplet_2.Bdt() != initial_value()) SetBdt(multiplet_2.Bdt());
+        if (multiplet_1.Bdt() != initial_value() && multiplet_2.Bdt() != initial_value()) SetBdt(multiplet_1.Bdt(), multiplet_2.Bdt());
+        else if (multiplet_1.Bdt() != initial_value()) SetBdt(multiplet_1.Bdt());
+        else if (multiplet_2.Bdt() != initial_value()) SetBdt(multiplet_2.Bdt());
     }
 
     void SetJet(const fastjet::PseudoJet& jet) {
         multiplet_1_ = Multiplet_1(jet / 2);
         multiplet_2_ = Multiplet_2(jet / 2);
-//         SetBdt((multiplet_1_.Bdt() + multiplet_2_.Bdt()) / 2);
+        SetBdt((multiplet_1_.Bdt() + multiplet_2_.Bdt()) / 2);
     }
 
     Multiplet_1& Multiplet1() const {
@@ -78,7 +78,7 @@ public:
         fastjet::PseudoJet jet_2 = Multiplet2().Jet(structure);
         if (is(structure, Structure::plain)) jet = fastjet::join(jet_1, jet_2);
         if (is(structure, Structure::constituents)) {
-            Jets constituents;
+            analysis::Jets constituents;
             if (jet_1.has_constituents()) constituents = Join(constituents, jet_1.constituents());
             if (jet_2.has_constituents()) constituents = Join(constituents, jet_2.constituents());
             jet = fastjet::join(constituents);
@@ -97,6 +97,10 @@ public:
             jet.set_user_info(new JetInfo(constituents, displaced_constituents));
         }
         return jet;
+    }
+
+    analysis::Jets Jets() const{
+      return Join(Multiplet1().Jets(),Multiplet2().Jets());
     }
 
     fastjet::PseudoJet Jet() const {

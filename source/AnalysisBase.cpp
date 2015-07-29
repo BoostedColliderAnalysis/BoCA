@@ -90,9 +90,14 @@ std::string AnalysisBase::TreeName(const std::string& name) const
     return name + "-run_01";
 }
 
-PreCuts& AnalysisBase::pre_cuts()
+const PreCuts& AnalysisBase::pre_cuts() const
 {
     return pre_cuts_;
+}
+
+PreCuts& AnalysisBase::pre_cuts()
+{
+  return pre_cuts_;
 }
 
 std::string AnalysisBase::FileSuffix() const
@@ -167,28 +172,28 @@ void AnalysisBase::RunTrainer()
 void AnalysisBase::RunSignificance()
 {
     PrepareFiles();
-    //     if (Missing(tagger().ExportFileName())) {
-    Plot plot(tagger());
-    plot.OptimalSignificance();
-//     }
+    if (Missing(tagger().ExportFileName())) {
+      Plot plot(tagger());
+      plot.OptimalSignificance();
+    }
 }
 
 void AnalysisBase::RunEfficiency()
 {
     PrepareFiles();
-    //     if (Missing(tagger().ExportFileName())) {
-    Plot plot(tagger());
-    plot.TaggingEfficiency();
-//     }
+    if (Missing(tagger().ExportFileName())) {
+      Plot plot(tagger());
+      plot.TaggingEfficiency();
+    }
 }
 
 void AnalysisBase::RunPlots()
 {
     PrepareFiles();
-    //   if (Missing(tagger().ExportFileName())) {
+    if (Missing(tagger().ExportFolderName())) {
     Plot plot(tagger());
     plot.RunPlots();
-//   }
+  }
 }
 
 }

@@ -269,7 +269,7 @@ exroot::TreeBranch& Tagger::TreeBranch() const
     return *tree_branch_;
 }
 
-std::string Name(const analysis::Stage stage)
+std::string Name(Stage stage)
 {
     switch (stage) {
     case Stage::trainer :
@@ -290,7 +290,7 @@ std::string Tagger::Root() const
 
 std::string Tagger::PathName(const std::string& file_name, const std::string& suffix) const
 {
-    Error(file_name);
+    Debug(file_name);
     return AnalysisName() + "/" + file_name + suffix;
 }
 
