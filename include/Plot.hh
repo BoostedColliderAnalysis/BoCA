@@ -3,6 +3,7 @@
 #include "Tagger.hh"
 #include "TLegend.h"
 #include "TFile.h"
+#include "TH1F.h"
 #include "Branches.hh"
 #include <functional>
 
@@ -63,6 +64,9 @@ public:
 };
 
 struct Point {
+  Point(){
+    x=0;y=0;z=0;
+  }
     float x;
     float y;
     float z;
@@ -141,6 +145,8 @@ private:
     Results ExportFile() const;
 
     std::vector<Result> Export(TFile& export_file, analysis::Tag tag) const;
+
+    TH1F Histogram(const analysis::Result& result, analysis::Point& max, analysis::Point& min, int index) const;
 
     void PlotAcceptanceGraph(const analysis::Results& results) const;
 

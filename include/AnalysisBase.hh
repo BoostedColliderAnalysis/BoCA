@@ -80,6 +80,8 @@ protected:
 
     virtual int PassPreCut(const Event&, Tag tag) const = 0;
 
+    const PreCuts& pre_cuts() const;
+
     PreCuts& pre_cuts();
 
     virtual const Tagger& tagger() const = 0;

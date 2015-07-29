@@ -20,16 +20,26 @@ public:
     float PairBottomBdt;
     float HardTopPt;
     float SoftTopPt;
+    float Sphericity;
+    float Aplanarity;
     template<typename Multiplet>
     void Fill(const Multiplet& multiplet)
     {
-        analysis::MultiBranch::Fill(multiplet);
-        BottomBdt = multiplet.BottomBdt();
-        PairBottomBdt = multiplet.PairBottomBdt();
-        HardTopPt = multiplet.Sextet().HardTopPt();
-        SoftTopPt = multiplet.Sextet().SoftTopPt();
-        HiggsMass = multiplet.Doublet().Jet().m();
-        PairRap = multiplet.Sextet().DeltaRap();
+      analysis::MultiBranch::Fill(multiplet.Multiplet());
+      BottomBdt = multiplet.Multiplet().BottomBdt();
+      PairBottomBdt = multiplet.Multiplet().PairBottomBdt();
+      HardTopPt = multiplet.Multiplet().Sextet().HardTopPt();
+      SoftTopPt = multiplet.Multiplet().Sextet().SoftTopPt();
+      HiggsMass = multiplet.Multiplet().Doublet().Jet().m();
+      PairRap = multiplet.Multiplet().Sextet().DeltaRap();
+      Aplanarity = multiplet.EventShape().Aplanarity();
+      Sphericity = multiplet.EventShape().Sphericity();
+//         BottomBdt = multiplet.BottomBdt();
+//         PairBottomBdt = multiplet.PairBottomBdt();
+//         HardTopPt = multiplet.Sextet().HardTopPt();
+//         SoftTopPt = multiplet.Sextet().SoftTopPt();
+//         HiggsMass = multiplet.Doublet().Jet().m();
+//         PairRap = multiplet.Sextet().DeltaRap();
     }
     Observables Variables() const;
 
@@ -85,6 +95,7 @@ public:
     {
         analysis::EventBranch::Fill(multiplet);
     }
+    Observables Variables() const;
 
 private:
 

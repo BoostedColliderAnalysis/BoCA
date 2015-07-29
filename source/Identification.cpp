@@ -35,12 +35,12 @@ float Identification::Bdt() const
     return bdt_;
 }
 
-void Identification::SetTag(const analysis::Tag tag)
+void Identification::SetTag(enum Tag tag)
 {
     tag_ = tag;
 }
 
-void Identification::SetTag(analysis::Tag tag_1, analysis::Tag tag_2)
+void Identification::SetTag(enum Tag tag_1, enum Tag tag_2)
 {
     if (tag_1 == analysis::Tag::signal || tag_2 == analysis::Tag::signal)
         tag_ = analysis::Tag::signal;
@@ -61,7 +61,7 @@ void Identification::SetFlag(const bool flag)
 
 void Identification::SetFlag(const bool flag_1, const bool flag_2)
 {
-    flag_ = flag_1 & flag_2;
+    flag_ = flag_1 && flag_2;
 }
 
 bool Identification::Flag() const

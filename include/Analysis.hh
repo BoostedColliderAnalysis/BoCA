@@ -8,7 +8,7 @@
 #include "Reader.hh"
 #include "Branches.hh"
 #include "Trees.hh"
-#include "Debug.hh"
+// #include "Debug.hh"
 
 namespace analysis {
 
@@ -99,7 +99,7 @@ private:
             DoAnalysis(files, trees, reader);
             if (trees.object_sum() >= EventNumberMax()) break;
         }
-        if(trees.event_number_ == trees.tree_reader().GetEntries()) Error("All Events used",trees.event_number_);
+        if(trees.event_number_ == trees.tree_reader().GetEntries()) std::cout << "All Events used" << " " << trees.event_number_ << std::endl;
         trees.WriteTree();
     }
 
@@ -123,7 +123,7 @@ private:
      * @brief Checks for PreCuts and saves the results of each analysis.
      *
      */
-    void DoAnalysis(const Files& files, Trees& trees, const Reader<Tagger>& reader)
+    void DoAnalysis(const Files& files, Trees& trees, const Reader<Tagger>& reader) const
     {
         trees.NewEvent(files.file().mass());
         int pre_cut = PassPreCut(trees.event(), files.tag());
@@ -136,7 +136,7 @@ private:
      *
      * @return int number of safed objects
      */
-    int RunAnalysis(const Event& event, const Reader<Tagger>& reader, Stage stage, Tag tag)
+    int RunAnalysis(const Event& event, const Reader<Tagger>& reader, Stage stage, Tag tag) const
     {
         switch (stage) {
         case Stage::trainer :

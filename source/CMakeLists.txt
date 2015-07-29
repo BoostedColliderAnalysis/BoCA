@@ -8,6 +8,8 @@ set(vector_sources
 Vector2.cpp
 Vector3.cpp
 LorentzVector.cpp
+EventShapes.cpp
+EventShape.cpp
 )
 create_library(Vector vector_sources)
 

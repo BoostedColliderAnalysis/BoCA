@@ -65,7 +65,7 @@ void LogVariable(const std::string& variable, const std::vector<Value>& values)
 
 void LogVariable(const std::string&, const char* value);
 
-template<>
+// template<>
 void LogVariable(const std::string& variable, const fastjet::PseudoJet& jet);
 
 template<typename Value>

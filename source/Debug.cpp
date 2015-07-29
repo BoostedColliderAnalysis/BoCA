@@ -56,9 +56,9 @@ void Log(const std::string& file, int line, const std::string& NameSpace, const 
         std::cout << std::endl;
 }
 
-void LogVariable(const std::string& variable, const fastjet::PseudoJet jet)
+void LogVariable(const std::string& variable, const fastjet::PseudoJet& jet)
 {
-    std::cout << Column(ValueLength(), variable) << Column(ValueLength(), jet.px()) << Column(ValueLength(), jet.px()) << Column(ValueLength(), jet.pz()) << Column(ValueLength(), jet.e());
+    std::cout << Column(ValueLength(), variable) << Column(ValueLength(), jet.px()) << Column(ValueLength(), jet.py()) << Column(ValueLength(), jet.pz()) << Column(ValueLength(), jet.e());
 }
 
 void LogVariable(const std::string&, const char* value)

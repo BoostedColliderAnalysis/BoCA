@@ -12,6 +12,8 @@ SignatureLeptonicBranch::SignatureLeptonicBranch()
     PairBottomBdt = InitialValue();
     HardTopPt = InitialValue();
     SoftTopPt = InitialValue();
+    Aplanarity = InitialValue();
+    Sphericity = InitialValue();
 }
 
 OctetBranch::OctetBranch()
@@ -63,11 +65,15 @@ QuartetPairBranch::QuartetPairBranch()
 }
 Observables SignatureLeptonicBranch::Variables() const
 {
-    return Join(MultiBranch::Variables(), {PAIR(BottomBdt), PAIR(PairBottomBdt), PAIR(HardTopPt), PAIR(SoftTopPt), PAIR(HiggsMass), PAIR(PairRap)});
+    return Join(MultiBranch::Variables(), {PAIR(BottomBdt), PAIR(PairBottomBdt), PAIR(HardTopPt), PAIR(SoftTopPt), PAIR(HiggsMass), PAIR(PairRap), PAIR(Aplanarity), PAIR(Sphericity)});
 }
 Observables TripletPairBranch::Variables() const
 {
     return Join(PairBranch::Variables(), {PAIR(BottomPt), PAIR(BottomRap), PAIR(BottomPhi), PAIR(BottomMass), PAIR(TopPt), PAIR(TopRap), PAIR(TopPhi), PAIR(TopMass), PAIR(TopBdt)});
+}
+Observables EventBranch::Variables() const
+{
+  return Join(MultiBranch::Variables(), {PAIR(JetNumber), PAIR(MissingEt), PAIR(ScalarHt), PAIR(LeptonHt), PAIR(JetMass), PAIR(JetPt), PAIR(JetHt), PAIR(JetRap), PAIR(JetPhi)});
 }
 }
 }
