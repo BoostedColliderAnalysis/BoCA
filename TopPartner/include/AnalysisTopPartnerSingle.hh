@@ -28,7 +28,7 @@ protected:
 
     std::string ProjectName() const final
     {
-      return  ProcessName() + "-" +std::to_string(PreCut()) + "GeV-hB";
+      return  ProcessName() + "-" +std::to_string(PreCut()) + "GeV-hB-test";
     }
 
     void SetFiles(Tag tag) final {
@@ -53,12 +53,12 @@ protected:
 
     long EventNumberMax() const override
     {
-        return 1000;
         return 5000;
+        return 1000;
         return 3000;
+        return 500;
         return 100;
         return 10;
-        return 500;
     }
 
     std::string FilePath() const final

@@ -6,7 +6,7 @@ namespace analysis {
 
 ZHadronicTagger::ZHadronicTagger()
 {
-  Info();
+    Info();
     DefineVariables();
 }
 
