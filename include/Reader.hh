@@ -16,13 +16,13 @@ class Reader {
 
 public:
 
-    Reader()
+    Reader() : reader_(Options())
     {
         AddVariable();
         BookMva(TMVA::Types::EMVA::kBDT);
     }
 
-    Reader(Stage stage)
+    Reader(Stage stage) : reader_(Options())
     {
         switch (stage) {
         case Stage::trainer :
@@ -86,6 +86,10 @@ public:
     }
 
 private:
+
+    std::string Options() const{
+      return "!V:!color:Silent";
+    }
 
     TaggerTemplate& Tagger()
     {

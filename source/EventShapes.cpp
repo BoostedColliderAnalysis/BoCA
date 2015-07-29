@@ -35,18 +35,18 @@ void EventShapes::calcHemisphereMasses()
 {
     ThePEG::Lorentz5Momentum pos, neg;
     ThePEG::Energy pden(ThePEG::ZERO), epos(ThePEG::ZERO), eneg(ThePEG::ZERO);
-    for (auto &elem : _pv) {
-      if (elem.vect() * thrustAxis() > ThePEG::ZERO) {
-        pos += elem;
+    for (auto & elem : _pv) {
+        if (elem.vect() * thrustAxis() > ThePEG::ZERO) {
+            pos += elem;
             // can be replaced with, once perp() is giving non-nan results
             //      for nearly parallel vectors.
             // epos += _pv[ix].perp(thrustAxis());
-        epos += elem.vect().cross(thrustAxis()).mag();
+            epos += elem.vect().cross(thrustAxis()).mag();
         } else {
-          neg += elem;
+            neg += elem;
             // see above
             //      eneg += _pv[ix].perp(thrustAxis());
-          eneg += elem.vect().cross(thrustAxis()).mag();
+            eneg += elem.vect().cross(thrustAxis()).mag();
         }
         pden += elem.vect().mag();
     }
@@ -149,9 +149,9 @@ void EventShapes::diagonalizeTensors(bool linear, bool cmboost)
 {
     // initialize
     double Theta[3][3];
-    for (auto &elem : Theta) {
+    for (auto & elem : Theta) {
         for (int j = 0; j < 3; ++j) {
-          elem[j] = 0.0;
+            elem[j] = 0.0;
         }
     }
     double sum = 0.;
@@ -162,14 +162,14 @@ void EventShapes::diagonalizeTensors(bool linear, bool cmboost)
     ThePEG::Lorentz5Momentum pcm = ThePEG::Lorentz5Momentum();
     ThePEG::Boost beta;
     if (cmboost) {
-      for (auto &elem : _pv) {
-        pcm += elem;
+        for (auto & elem : _pv) {
+            pcm += elem;
         }
         beta = pcm.findBoostToCM();
     }
     // get Theta_ij
-    for (auto &elem : _pv) {
-      ThePEG::Lorentz5Momentum dum(elem);
+    for (auto & elem : _pv) {
+        ThePEG::Lorentz5Momentum dum(elem);
         if (cmboost) {
             dum.boost(beta);
         }
@@ -193,9 +193,9 @@ void EventShapes::diagonalizeTensors(bool linear, bool cmboost)
             }
         }
     }
-    for (auto &elem : Theta) {
+    for (auto & elem : Theta) {
         for (int j = 0; j < 3; ++j) {
-          elem[j] /= sum;
+            elem[j] /= sum;
         }
     }
 
@@ -234,8 +234,8 @@ void EventShapes::calculateThrust()
     // thrust
     std::vector<ThePEG::Momentum3> p;
     ThePEG::Energy psum = ThePEG::ZERO;
-    for (auto &elem : _pv) {
-      p.push_back(elem.vect());
+    for (auto & elem : _pv) {
+        p.push_back(elem.vect());
         psum += p.back().mag();
     }
 
@@ -297,8 +297,8 @@ void EventShapes::calculateThrust()
         ThePEG::Energy eval = ThePEG::ZERO;
         axis = _thrustAxis[0].cross(_thrustAxis[1]);
         _thrustAxis.push_back(axis);
-        for (auto &elem : _pv)
-          eval += abs(axis * elem.vect());
+        for (auto & elem : _pv)
+            eval += abs(axis * elem.vect());
         _thrust.push_back(eval / psum);
     } else {
         _thrust.push_back(-1.0);
@@ -331,8 +331,8 @@ void EventShapes::calcT(const std::vector<ThePEG::Momentum3>& p, ThePEG::Energy2
             cpm.push_back(ptot - p[j] + p[k]);
             cpm.push_back(ptot + p[j] - p[k]);
             cpm.push_back(ptot + p[j] + p[k]);
-            for (auto &elem : cpm) {
-              tval = elem.mag2();
+            for (auto & elem : cpm) {
+                tval = elem.mag2();
                 if (tval > t) {
                     t = tval;
                     taxis = elem.unit();
@@ -363,8 +363,8 @@ void EventShapes::calcM(const std::vector<ThePEG::Momentum3>& p, ThePEG::Energy2
         cpm.clear();
         cpm.push_back(ptot - p[j]);
         cpm.push_back(ptot + p[j]);
-        for (auto &elem : cpm) {
-          mval = elem.mag2();
+        for (auto & elem : cpm) {
+            mval = elem.mag2();
             if (mval > m) {
                 m = mval;
                 maxis = elem.unit();

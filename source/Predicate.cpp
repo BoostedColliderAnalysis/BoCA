@@ -307,12 +307,12 @@ Jets RemoveIfSoft(const Jets& jets, float pt_min)
 
 float Distance(float rapidity_1, float phi_1, float rapidity_2, float phi_2)
 {
-    return std::sqrt(std::pow((rapidity_2 - rapidity_1), 2) + std::pow(DeltaPhi(phi_2, phi_1), 2));
+    return std::sqrt(sqr(rapidity_2 - rapidity_1) + sqr(DeltaPhi(phi_2, phi_1)));
 }
 
 float Length(float rapidity, float phi)
 {
-    return std::sqrt(std::pow(rapidity, 2) + std::pow(phi, 2));
+    return std::sqrt(sqr(rapidity) + sqr(phi));
 }
 
 float DeltaPhi(float phi_1, float phi_2)
