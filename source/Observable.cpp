@@ -1,18 +1,19 @@
 #include "Observable.hh"
 
-namespace analysis
-{
+namespace analysis {
 
-Observable::Observable(float &value, const std::string &expression, const std::string &title, const std::string &unit) : value_(value)
+Observable::Observable(float& value, const std::string& expression, const std::string& title, const std::string& unit) : value_(value)
 {
     expression_ = expression;
     title_ = title;
     unit_ = unit;
-    if (value == int(value)) type_ = 'I';
-    else type_ = 'F';
+    if (value == int(value))
+        type_ = 'I';
+    else
+        type_ = 'F';
 }
 
-float &Observable::value() const
+float& Observable::value() const
 {
     return value_;
 }

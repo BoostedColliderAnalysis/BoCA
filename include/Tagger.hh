@@ -6,28 +6,25 @@
 #include "fastjet/PseudoJet.hh"
 #include "Branches.hh"
 
-namespace TMVA{
-  class Reader;
+namespace TMVA {
+class Reader;
 }
 
 class ExRootTreeWriter;
 class ExRootTreeBranch;
-namespace exroot
-{
+namespace exroot {
 typedef ::ExRootTreeWriter TreeWriter;
 typedef ::ExRootTreeBranch TreeBranch;
 }
 
-namespace analysis
-{
+namespace analysis {
 
 class Event;
 class PreCuts;
 typedef std::vector<std::string> Strings;
 typedef std::vector<fastjet::PseudoJet> Jets;
 
-enum class Stage
-{
+enum class Stage {
     trainer,
     reader
 };
@@ -38,8 +35,7 @@ std::string Name(const Stage stage);
  * @brief Prepares multivariant analysis
  *
  */
-class Tagger
-{
+class Tagger {
 
 public:
 
@@ -61,7 +57,7 @@ public:
 
     std::string reader_name() const;
 
-    std::string reader(const std::string &name) const;
+    std::string reader(const std::string& name) const;
 
     std::string Name(const Stage stage) const;
 
@@ -85,7 +81,7 @@ public:
 
     TCut cut() const;
 
-    static void set_analysis_name(const std::string &analysis_name);
+    static void set_analysis_name(const std::string& analysis_name);
 
     std::string bdt_method_name() const;
 
@@ -97,25 +93,25 @@ public:
 
     std::string background_name() const;
 
-    std::string background(const std::string &name) const;
+    std::string background(const std::string& name) const;
 
     std::string signal_name() const;
 
-    std::string signal(const std::string &name) const;
+    std::string signal(const std::string& name) const;
 
-    virtual int GetBdt(const Event &, PreCuts &, const TMVA::Reader &) const = 0;
+    virtual int GetBdt(const Event&, PreCuts&, const TMVA::Reader&) const = 0;
 
-    virtual int Train(const Event &, PreCuts &, const Tag) const = 0;
+    virtual int Train(const Event&, PreCuts&, const Tag) const = 0;
 
-    Jets SubJets(const fastjet::PseudoJet &jet, const int sub_jet_number) const;
+    Jets SubJets(const fastjet::PseudoJet& jet, const int sub_jet_number) const;
 
-    virtual float ReadBdt(const TClonesArray &, const int) const = 0;
+    virtual float ReadBdt(const TClonesArray&, const int) const = 0;
 
-    void SetTreeBranch(exroot::TreeWriter &tree_writer, const Stage stage);
+    void SetTreeBranch(exroot::TreeWriter& tree_writer, const Stage stage);
 
-    virtual const ResultBranch &branch() const = 0;
+    virtual const ResultBranch& branch() const = 0;
 
-    virtual ResultBranch &branch() = 0;
+    virtual ResultBranch& branch() = 0;
 
     virtual std::string NiceName() const;
 
@@ -123,21 +119,21 @@ protected:
 
     virtual void DefineVariables() = 0;
 
-    Observable NewObservable(float &value, const std::string &title) const;
+    Observable NewObservable(float& value, const std::string& title) const;
 
-    void AddVariable(float &value, const std::string &title);
+    void AddVariable(float& value, const std::string& title);
 
-    void AddSpectator(float &value, const std::string &title);
+    void AddSpectator(float& value, const std::string& title);
 
     void ClearObservables();
 
     virtual int CandidatesMax() const;
 
-    virtual TClass &Class() const = 0;
+    virtual TClass& Class() const = 0;
 
-    exroot::TreeBranch &tree_branch() const;
+    exroot::TreeBranch& tree_branch() const;
 
-    float Bdt(const TMVA::Reader &reader) const;
+    float Bdt(const TMVA::Reader& reader) const;
 
 private:
 
@@ -145,7 +141,7 @@ private:
      * @brief Tree Branch pointer saving the results
      *
      */
-    exroot::TreeBranch *tree_branch_;
+    exroot::TreeBranch* tree_branch_;
 
     /**
      * @brief Name of the Analysis

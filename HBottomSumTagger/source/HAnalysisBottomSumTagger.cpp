@@ -3,20 +3,16 @@
 
 std::vector<analysis::File> hbottomsumtagger::HAnalysis::Files(const analysis::Tag tag)
 {
-  Note("Set File Vector", Name(tag));
-
+    Note("Set File Vector", Name(tag));
     std::vector<analysis::File> SignalLeptonicFiles;
     std::vector<analysis::File> BackgroundLeptonicFiles;
     std::vector<analysis::File> SignalSemiFiles;
     std::vector<analysis::File> BackgroundSemiFiles;
-
-
 //     SignalSemiFiles.emplace_back(analysis::File(NameString(bb), SignalCrosssection()));
 //     SignalSemiFiles.emplace_back(analysis::File(SignalName(Hbb), SignalCrosssection()));
 //     SignalSemiFiles.emplace_back(BackgroundFile(ttbb));
     SignalSemiFiles.emplace_back(BackgroundFile(bb));
 //     SignalSemiFiles.emplace_back(BackgroundFile(bbbb));
-
 //     BackgroundSemiFiles.emplace_back(BackgroundFile(bb));
     BackgroundSemiFiles.emplace_back(BackgroundFile(cc));
     BackgroundSemiFiles.emplace_back(BackgroundFile(gg));
@@ -30,23 +26,16 @@ std::vector<analysis::File> hbottomsumtagger::HAnalysis::Files(const analysis::T
 //     BackgroundSemiFiles.emplace_back(BackgroundFile(ttjj));
 //     BackgroundSemiFiles.emplace_back(BackgroundFile(ttqq));
 //     BackgroundSemiFiles.emplace_back(BackgroundFile(ttgg));
-
     std::vector<analysis::File> SignalHadronicFiles;
-
     std::vector<analysis::File> BackgroundHadronicFiles;
-
     std::vector<analysis::File> LeptonicFiles = analysis::Join(SignalLeptonicFiles, BackgroundLeptonicFiles);
     std::vector<analysis::File> HadronicFiles = analysis::Join(SignalHadronicFiles, BackgroundHadronicFiles);
     std::vector<analysis::File> SemiFiles = analysis::Join(SignalSemiFiles, BackgroundSemiFiles);
-
     std::vector<analysis::File> NotLeptonicFiles = analysis::Join(HadronicFiles, SemiFiles);
     std::vector<analysis::File> CombinedFiles = analysis::Join(NotLeptonicFiles, LeptonicFiles);
-
     std::vector<analysis::File> NonLeptonicSignalFiles = analysis::Join(SignalLeptonicFiles, SignalSemiFiles);
     std::vector<analysis::File> CombinedSignalFiles = analysis::Join(SignalHadronicFiles, NonLeptonicSignalFiles);
-
     std::vector<analysis::File> NewFiles;
-
 //     switch (Tagger) {
 //     case  BottomTagger :
 //         switch (Tag) {
@@ -91,40 +80,32 @@ std::vector<analysis::File> hbottomsumtagger::HAnalysis::Files(const analysis::T
 //     default:
 //         Error("Files", "unknown tagger name", Tagger);
 //     }
-
     switch (tag) {
-      case analysis::Tag::signal :
+    case analysis::Tag::signal :
         NewFiles = SignalSemiFiles;
         break;
-      case analysis::Tag::background :
+    case analysis::Tag::background :
         NewFiles = BackgroundSemiFiles;
         break;
     }
-
 //     NewFiles.front().SetBasePath("~/Projects/MultiBTagging/");
 //     NewFiles.front().set_file_suffix(".root");
     SetTrees();
 //     PrepareReader(Tagger, tag);
     return NewFiles;
-
 }
 
 
 void hbottomsumtagger::HAnalysis::SetTrees()
 {
-
-  analysis::Strings SignalLeptonicTrees {};
-  analysis::Strings BackgroundLeptonicTrees {};
-
-
-
-  analysis::Strings SignalSemiTrees {
+    analysis::Strings SignalLeptonicTrees {};
+    analysis::Strings BackgroundLeptonicTrees {};
+    analysis::Strings SignalSemiTrees {
 //         TreeName(bbbb)
 //         TreeName(ttbb)
 //         SignalTreeName(Hbb)
         TreeName(bb),
     };
-
     analysis::Strings BackgroundSemiTrees {
 //         TreeName(bb),
         TreeName(cc),
@@ -140,17 +121,13 @@ void hbottomsumtagger::HAnalysis::SetTrees()
 //         TreeName(ttgg),
 //         TreeName(ttqq)
     };
-
     analysis::Strings SignalHadronicTree {};
     analysis::Strings BackgroundHadronicTrees {};
-
     analysis::Strings LeptonicTrees = analysis::Join(SignalLeptonicTrees, BackgroundLeptonicTrees);
     analysis::Strings HadronicTrees = analysis::Join(SignalHadronicTree, BackgroundHadronicTrees);
     analysis::Strings SemiTrees = analysis::Join(SignalSemiTrees, BackgroundSemiTrees);
-
     analysis::Strings NotLeptonicTrees = analysis::Join(HadronicTrees, SemiTrees);
     analysis::Strings CombinedTrees = analysis::Join(NotLeptonicTrees, LeptonicTrees);
-
 //     switch (Tagger) {
 //     case HBottomTagger:
 //         BottomTagger.SetSignalTreeNames(SemiTrees);
@@ -331,7 +308,7 @@ void hbottomsumtagger::HAnalysis::SetTrees()
 // //
 // //     Jets BottomJets;
 // //     Jets Particles = event.Partons().GenParticles();
-// //     Particles = BottomTagger.RemoveIfWrongAbsParticle(Particles,Id::bottom);
+// //     Particles = BottomTagger.CopyIfParticle(Particles,Id::bottom);
 // //     for (const auto & Particle : Particles) {
 // //       std::sort(jets.begin(), jets.end(), MinDeltaR(Particle));
 // //       if (jets.front().delta_R(Particle) < BottomTagger.detector_geometry().JetConeSize())

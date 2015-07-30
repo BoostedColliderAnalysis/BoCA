@@ -4,34 +4,33 @@
 #include "TripletJetPairTagger.hh"
 #include "Octet44.hh"
 
-namespace analysis
-{
+namespace analysis {
 
-namespace heavyhiggs
-{
+namespace heavyhiggs {
 
 /**
  *
  * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class SignatureChargedTagger : public BranchTagger<OctetChargedBranch>
-{
+class SignatureChargedTagger : public BranchTagger<OctetChargedBranch> {
 
 public:
 
     SignatureChargedTagger();
 
-    int Train(const Event &event, PreCuts &pre_cuts, const Tag tag) const final;
+    int Train(const Event& event, PreCuts& pre_cuts, const Tag tag) const final;
 
-    std::vector<Octet44> Multiplets(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const;
+    std::vector<Octet44> Multiplets(const Event& event, PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 
-    int GetBdt(const Event &event, PreCuts &pre_cuts, const TMVA::Reader &reader) const  final {
-      return SaveEntries(Multiplets(event, pre_cuts, reader));
+    int GetBdt(const Event& event, PreCuts& pre_cuts, const TMVA::Reader& reader) const  final
+    {
+        return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
-    std::string Name() const final {
-      return "SignatureCharged";
+    std::string Name() const final
+    {
+        return "SignatureCharged";
     }
 
 private:

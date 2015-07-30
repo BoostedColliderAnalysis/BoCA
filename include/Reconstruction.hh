@@ -4,15 +4,13 @@
 #include "Global.hh"
 
 
-namespace analysis
-{
+namespace analysis {
 
 /**
  * @brief FastJet calculations
  *
  */
-class Reconstruction
-{
+class Reconstruction {
 
 public:
 
@@ -24,38 +22,38 @@ protected:
      * @brief Get vecto of all fatjets
      *
      */
-    Jets GetFatJets(const Jets &) const;
+    Jets GetFatJets(const Jets&) const;
 
     /**
      * @brief Get vecto of all fatjets
      *
      */
-    Jets GetFatJets(const Jets &, const fastjet::JetDefinition &) const;
+    Jets GetFatJets(const Jets&, const fastjet::JetDefinition&) const;
 
-    Jets GetMassDropJets(const Jets &) const;
+    Jets GetMassDropJets(const Jets&) const;
 
     /**
      * @brief Get mass drop jet
      *
      */
-    fastjet::PseudoJet GetMassDropJet(const fastjet::PseudoJet &) const;
+    fastjet::PseudoJet GetMassDropJet(const fastjet::PseudoJet&) const;
 
-    fastjet::PseudoJet GetMassDropJet(const fastjet::PseudoJet &, const float, const float) const;
+    fastjet::PseudoJet GetMassDropJet(const fastjet::PseudoJet&, const float, const float) const;
 
 
-    Jets GetSubjet_taggedJets(const Jets &FatJets) const;
+    Jets GetSubjet_taggedJets(const Jets& FatJets) const;
 
-    fastjet::PseudoJet GetSubjet_taggedJet(const fastjet::PseudoJet &FatJet) const;
+    fastjet::PseudoJet GetSubjet_taggedJet(const fastjet::PseudoJet& FatJet) const;
 
     /**
      * @brief Filter Jets
      *
      */
-    fastjet::PseudoJet GetFilteredJet(const fastjet::PseudoJet &);
+    fastjet::PseudoJet GetFilteredJet(const fastjet::PseudoJet&);
 
-    static bool JetIsBad(const fastjet::PseudoJet &Jet);
+    static bool JetIsBad(const fastjet::PseudoJet& Jet);
 
-    Jets GetFatjet_tag(Jets &);
+    Jets GetFatjet_tag(Jets&);
 
 };
 

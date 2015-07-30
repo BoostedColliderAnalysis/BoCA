@@ -7,19 +7,17 @@ class TVector3;
 template<class Element> class TMatrixT;
 typedef TMatrixT<Float_t> TMatrix;
 
-namespace analysis
-{
+namespace analysis {
 
 /**
  * @brief Copy of root::TVector3 in order to get rid of TObject
  *
  */
-class Vector3
-{
+class Vector3 {
 
 public:
 
-    void operator=(const TVector3 &vector);
+    void operator=(const TVector3& vector);
 
     Vector3();
 
@@ -27,15 +25,15 @@ public:
     Vector3(float x, float y, float z);
 
 // Constructors from an array
-    Vector3(const float *);
+    Vector3(const float*);
 
 // Get components by index (Geant4).
     float operator()(int) const;
     float operator [](int) const;
 
 // Set components by index.
-    float &operator()(int);
-    float &operator [](int);
+    float& operator()(int);
+    float& operator [](int);
 
 // The components in cartesian coordinate system.
     float x() const;
@@ -57,7 +55,7 @@ public:
 
 // Get the components into an array
 // not checked!
-    void GetXYZ(float *carray) const;
+    void GetXYZ(float* carray) const;
 
 // The azimuth angle. returns phi from -pi to pi
     float Phi() const;
@@ -94,33 +92,33 @@ public:
     void SetPerp(float);
 
 // The transverse component w.r.t. given axis squared.
-    float Perp2(const Vector3 &) const;
+    float Perp2(const Vector3&) const;
 
 // The transverse component w.r.t. given axis.
-    float Pt(const Vector3 &) const;
-    float Perp(const Vector3 &) const;
+    float Pt(const Vector3&) const;
+    float Perp(const Vector3&) const;
 
-    float DeltaPhi(const Vector3 &) const;
-    float DeltaR(const Vector3 &) const;
-    float DrEtaPhi(const Vector3 &) const;
+    float DeltaPhi(const Vector3&) const;
+    float DeltaR(const Vector3&) const;
+    float DrEtaPhi(const Vector3&) const;
 //     Vector2 EtaPhiVector() const;
     void SetMagThetaPhi(float mag, float theta, float phi);
 
 // Comparisons (Geant4).
-    bool operator == (const Vector3 &) const;
-    bool operator != (const Vector3 &) const;
+    bool operator == (const Vector3&) const;
+    bool operator != (const Vector3&) const;
 
 // Addition.
-    Vector3 &operator += (const Vector3 &);
+    Vector3& operator += (const Vector3&);
 
 // Subtraction.
-    Vector3 &operator -= (const Vector3 &);
+    Vector3& operator -= (const Vector3&);
 
 // Unary minus.
     Vector3 operator - () const;
 
 // Scaling with real numbers.
-    Vector3 &operator *= (float);
+    Vector3& operator *= (float);
 
 // Unit vector parallel to this.
     Vector3 Unit() const;
@@ -129,13 +127,13 @@ public:
     Vector3 Orthogonal() const;
 
 // Scalar product.
-    float Dot(const Vector3 &) const;
+    float Dot(const Vector3&) const;
 
 // Cross product.
-    Vector3 Cross(const Vector3 &) const;
+    Vector3 Cross(const Vector3&) const;
 
 // The angle w.r.t. another 3-vector.
-    float Angle(const Vector3 &) const;
+    float Angle(const Vector3&) const;
 
 // Returns the pseudo-rapidity, i.e. -ln(tan(theta/2))
     float PseudoRapidity() const;
@@ -152,7 +150,7 @@ public:
     void RotateZ(float);
 
 // Rotates reference frame from Uz to newUz (unit vector) (Geant4).
-    void RotateUz(const Vector3 &);
+    void RotateUz(const Vector3&);
 
 //     Vector2 XYvector() const;
 
@@ -164,19 +162,19 @@ private:
 };
 
 // Addition of 3-vectors.
-Vector3 operator + (const Vector3 &, const Vector3 &);
+Vector3 operator + (const Vector3&, const Vector3&);
 
 // Subtraction of 3-vectors.
-Vector3 operator - (const Vector3 &, const Vector3 &);
+Vector3 operator - (const Vector3&, const Vector3&);
 
 // Scalar product of 3-vectors.
-float operator * (const Vector3 &, const Vector3 &);
+float operator * (const Vector3&, const Vector3&);
 
 // Scaling of 3-vectors with a real number
-Vector3 operator * (const Vector3 &, float a);
-Vector3 operator * (float a, const Vector3 &);
+Vector3 operator * (const Vector3&, float a);
+Vector3 operator * (float a, const Vector3&);
 
-Vector3 operator * (const TMatrix &, const Vector3 &);
+Vector3 operator * (const TMatrix&, const Vector3&);
 
 }
 

@@ -4,8 +4,7 @@
 #include "LorentzVector.hh"
 class TLorentzVector;
 
-namespace analysis
-{
+namespace analysis {
 
 class Particle {
 
@@ -19,9 +18,9 @@ public:
 
     Particle(const Id id, const int position);
 
-    Particle(const LorentzVector &momentum, const int id, const int position);
+    Particle(const LorentzVector& momentum, const int id, const int position);
 
-    Particle(const TLorentzVector &momentum, const int id, const int position);
+    Particle(const TLorentzVector& momentum, const int id, const int position);
 
     LorentzVector momentum()const;
 

@@ -1,8 +1,7 @@
 #include "Doublet.hh"
 #include "Debug.hh"
 
-namespace analysis
-{
+namespace analysis {
 
 fastjet::PseudoJet Doublet::SingletJet1() const
 {
@@ -14,30 +13,34 @@ fastjet::PseudoJet Doublet::SingletJet2() const
     return Multiplet2().Jet();
 }
 
-Singlet & Doublet::Singlet1() const
+Singlet& Doublet::Singlet1() const
 {
     return Multiplet1();
 }
 
-Singlet & Doublet::Singlet2() const
+Singlet& Doublet::Singlet2() const
 {
     return Multiplet2();
 }
 
-std::vector<Kinematics> Doublet::Constituents(const fastjet::PseudoJet &jet, const float jet_ratio, const float theta, const float shift) const
+std::vector<Kinematics> Doublet::Constituents(const fastjet::PseudoJet& jet, const float jet_ratio, const float theta, const float shift) const
 {
     Info("constituents", jet_ratio, theta);
     const float Cut = 2. / jet_ratio;
     const float Cut1 = 1. / jet_ratio;
     std::vector<Kinematics> Newconstituents;
-    for (const auto & constituentJet : jet.constituents()) {
-        if (jet.delta_R(constituentJet) > Cut) continue;
-        if (jet.delta_R(constituentJet) < Cut1) continue;
+    for (const auto& constituentJet : jet.constituents()) {
+        if (jet.delta_R(constituentJet) > Cut)
+            continue;
+        if (jet.delta_R(constituentJet) < Cut1)
+            continue;
         // Get constituent coordinates in Jet coordinates
         const float ConstRap = constituentJet.rap() - jet.rap();
         const float ConstPhi = analysis::DeltaPhi(constituentJet.phi_std(), jet.phi_std());
-        if (ConstPhi > Cut) Error("phi", "too big");
-        if (ConstRap > Cut) Error("eta", "too big");
+        if (ConstPhi > Cut)
+            Error("phi", "too big");
+        if (ConstRap > Cut)
+            Error("eta", "too big");
         // rotate constituent according to other jet
         float ObservableRap = ConstRap * cos(theta) + ConstPhi * sin(theta);
         float ObservablePhi = ConstRap * sin(theta) - ConstPhi * cos(theta);
@@ -53,7 +56,7 @@ std::vector<Kinematics> Doublet::Constituents(const fastjet::PseudoJet &jet, con
     return Newconstituents;
 }
 
-float Doublet::ReferenceAngle(const fastjet::PseudoJet &NewJet, const fastjet::PseudoJet &ReferenceJet) const
+float Doublet::ReferenceAngle(const fastjet::PseudoJet& NewJet, const fastjet::PseudoJet& ReferenceJet) const
 {
     Info("ReferenceAngle");
     const float Rap = NewJet.rap() - ReferenceJet.rap();
@@ -80,12 +83,12 @@ float Doublet::PullAngle2() const
 }
 
 
-float Doublet::Pull(const fastjet::PseudoJet &NewJet) const
+float Doublet::Pull(const fastjet::PseudoJet& NewJet) const
 {
     Info("Pull");
     float Rap = 0;
     float Phi = 0;
-    for (const auto & constituent : NewJet.constituents()) {
+    for (const auto& constituent : NewJet.constituents()) {
         const float NewDeltaRap = constituent.rap() - NewJet.rap();
         const float NewDeltaPhi = analysis::DeltaPhi(constituent.phi_std(), NewJet.phi_std());
         const float NewDeltaR = std::sqrt(std::pow(NewDeltaRap, 2) + std::pow(NewDeltaPhi, 2));

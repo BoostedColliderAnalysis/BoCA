@@ -1,11 +1,9 @@
 #include "AnalysisHeavyHiggs.hh"
 #include "Debug.hh"
 
-namespace analysis
-{
+namespace analysis {
 
-namespace heavyhiggs
-{
+namespace heavyhiggs {
 
 std::string Name(const Collider collider)
 {
@@ -26,17 +24,17 @@ std::string Name(const Process process)
 {
     switch (process) {
     case Process::Hbb:
-      return "H0bb-ljbbbb";
+        return "H0bb-ljbbbb";
     case Process::Htt:
       return "Htt-lljjbbbb";
     case Process::Htwb:
       return "Htwb-lljjbbbb";
     case Process::H0:
-      return "H0-ljbb";
+        return "H0-ljbb";
     case Process::Htb:
-      return "H+tb-ljbbbb";
+        return "H+tb-ljbbbb";
     case Process::tt:
-      return "tt_inc";
+        return "tt_inc";
     case Process::tttt:
       return "tttt";
     case Process::ttwwbb:
@@ -44,7 +42,7 @@ std::string Name(const Process process)
     case Process::ttwbb:
       return "ttwbb";
     case Process::tt2:
-      return "tt_inc+";
+        return "tt_inc+";
     default:
         Error("unhandled case");
         return "";
@@ -53,9 +51,9 @@ std::string Name(const Process process)
 
 std::string NiceName(const Process process)
 {
-  switch (process) {
+    switch (process) {
     case Process::Hbb:
-      return "Hbb";
+        return "Hbb";
     case Process::Htt:
       return "Htt";
     case Process::Htwb:
@@ -65,19 +63,19 @@ std::string NiceName(const Process process)
     case Process::ttwbb:
       return "ttwbb";
     case Process::H0:
-      return "H";
+        return "H";
     case Process::Htb:
-      return "H+-tb";
+        return "H+-tb";
     case Process::tt:
-      return "tt";
+        return "tt";
     case Process::tttt:
-      return "tttt";
+        return "tttt";
     case Process::tt2:
-      return "tt";
+        return "tt";
     default:
-      Error("unhandled case");
-      return "";
-  }
+        Error("unhandled case");
+        return "";
+    }
 }
 
 }
