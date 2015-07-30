@@ -13,10 +13,9 @@ namespace delphes {
 class Partons  : public analysis::Partons {
 
 public:
+  Jets Particles() const final;
 
-    Jets Particles() const final;
-
-    Jets GenParticles() const final;
+  Jets GenParticles() const final;
 
 private:
 

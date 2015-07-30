@@ -10,36 +10,34 @@
 #include "Analysis.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace analysis
+{
 
 std::string Tagger::analysis_name_;
 
 Observable Tagger::NewObservable(float& value, const std::string& title) const
 {
     Info(title);
-    const std::string expression = branch_name() + "." + title;
+    std::string expression = BranchName(Stage::trainer) + "." + title;
     return Observable(value, expression, title, "");
 }
 
 float Tagger::Bdt(const TMVA::Reader& reader) const
 {
     Info();
-    return const_cast<TMVA::Reader&>(reader).EvaluateMVA(bdt_method_name()) + 1;  // TODO get rid of the const cast
+    return const_cast<TMVA::Reader&>(reader).EvaluateMVA(MethodName(TMVA::Types::EMVA::kBDT));  // TODO get rid of the const cast
 }
 
-Jets Tagger::SubJets(const fastjet::PseudoJet& jet, const int sub_jet_number) const
+Jets Tagger::SubJets(const fastjet::PseudoJet& jet, int sub_jet_number) const
 {
     Jets pieces;
-    if (!jet.has_pieces())
-        return pieces;
-    if (!jet.has_user_info<JetInfo>())
-        return pieces;
+    if (!jet.has_pieces()) return pieces;
+    if (!jet.has_user_info<JetInfo>()) return pieces;
     fastjet::ClusterSequence& cluster_sequence = *new fastjet::ClusterSequence(jet.constituents(), DetectorGeometry::SubJetDefinition());
-    for (auto& piece : cluster_sequence.exclusive_jets_up_to(sub_jet_number)) {
+    for (auto & piece : cluster_sequence.exclusive_jets_up_to(sub_jet_number)) {
         std::vector<Constituent> constituents;
-        for (const auto& constituent : piece.constituents()) {
-            if (!constituent.has_user_info<JetInfo>())
-                continue;
+        for (const auto & constituent : piece.constituents()) {
+            if (!constituent.has_user_info<JetInfo>()) continue;
             std::vector<Constituent> piece_constituents = constituent.user_info<JetInfo>().constituents();
             constituents = Join(constituents, piece_constituents);
         }
@@ -50,148 +48,204 @@ Jets Tagger::SubJets(const fastjet::PseudoJet& jet, const int sub_jet_number) co
     return pieces;
 }
 
-void Tagger::AddSignalTreeName(const std::string signal_tree_name)
+void Tagger::AddTreeName(const std::string& tree_name, Tag tag)
 {
-    signal_tree_names_.emplace_back(signal_tree_name);
+    switch (tag) {
+    case Tag::signal : signal_tree_names_.emplace_back(tree_name);
+        break;
+    case Tag::background : background_tree_names_.emplace_back(tree_name);
+        break;
+    }
 }
 
-void Tagger::AddBackgroundTreeName(const std::string background_tree_name)
+std::string Tagger::BranchName(Stage stage) const
 {
-    background_tree_names_.emplace_back(background_tree_name);
+    return Name(stage);
 }
 
-std::string Tagger::branch_name() const
+std::string Tagger::BranchName(Stage stage, Tag tag) const
 {
-    return Name();
+    return Name(stage, tag);
 }
-std::string Tagger::factory_name() const
+
+std::string Tagger::TrainerName() const
 {
     return "Mva" + Name();
 }
-std::string Tagger::export_name() const
+
+std::string Tagger::FactoryFileName() const
 {
-    return analysis_name() + "-" + Name();
+    return PathName(TrainerName());
 }
-std::string Tagger::reader_name() const
+
+std::string Tagger::ExportFileName(Stage stage, Tag tag) const
 {
-    return reader(Name());
+    return PathName(Name(stage, tag));
 }
-std::string Tagger::reader(const std::string& name) const
+
+std::string Tagger::ExportName() const
+{
+    return AnalysisName() + "-" + Name();
+}
+std::string Tagger::ExportFileName() const
+{
+    return PathName(ExportName());
+}
+std::string Tagger::ExportFolderName() const
+{
+    return AnalysisName() + "/" + ExportName();
+}
+std::string Tagger::ReaderName() const
+{
+    return ReaderName(Name());
+}
+std::string Tagger::ReaderName(const std::string& name) const
 {
     return name + "Reader";
 }
-std::string Tagger::Name(const Stage stage) const
+std::string Tagger::Name(Stage stage) const
 {
     switch (stage) {
     case Stage::trainer :
         return Name();
     case Stage::reader :
-        return reader_name();
+        return ReaderName();
     }
 }
-std::string Tagger::Name(const Stage stage, const Tag tag) const
+std::string Tagger::Name(Stage stage, Tag tag) const
 {
     std::string name = Tagger::Name(stage);
     switch (tag) {
     case Tag::signal :
         return name;
     case Tag::background :
-        return background(name);
+        return BackgroundName(name);
     }
 }
-std::string Tagger::signal_file_name(const Stage stage) const
+
+std::string Tagger::FileName(Stage stage, Tag tag) const
 {
-    const std::string name = analysis_name() + "/" + signal_name();
+    switch (tag) {
+    case Tag::signal :
+        return SignalFileName(stage);
+    case Tag::background :
+        return BackgroundFileName(stage);
+    }
+}
+
+std::string Tagger::SignalFileName(Stage stage) const
+{
+    std::string name = SignalName();
     switch (stage) {
     case Stage::trainer :
-        return name;
+        break;
     case Stage::reader :
-        return reader(name);
+        name = ReaderName(name);
+        break;
     }
+    return PathName(name);
 }
-std::string Tagger::background_file_name(const Stage stage) const
+std::string Tagger::BackgroundFileName(Stage stage) const
 {
-    const std::string name = analysis_name() + "/" + background_name();
+    std::string name = BackgroundName();
     switch (stage) {
     case Stage::trainer :
-        return name;
+//          TrainerName(name);
+        break;
     case Stage::reader :
-        return reader(name);
+        name = ReaderName(name);
+        break;
     }
+    return PathName(name);
 }
-std::string Tagger::analysis_name() const
+std::string Tagger::AnalysisName() const
 {
     Debug();
     return analysis_name_;
 }
-std::vector<Observable> Tagger::variables() const
+std::vector<Observable> Tagger::Variables() const
 {
     return variables_;
 }
-std::vector<Observable> Tagger::spectators() const
+std::vector<Observable> Tagger::Spectators() const
 {
     return spectators_;
 }
-Strings Tagger::signal_tree_names() const
-{
-    return signal_tree_names_;
-}
+
 void Tagger::ClearTreeNames()
 {
     signal_tree_names_.clear();
     background_tree_names_.clear();
 }
-Strings Tagger::background_tree_names() const
+
+Strings Tagger::TreeNames(Tag tag) const
 {
-    return background_tree_names_;
+    switch (tag) {
+    case Tag::signal :
+        return signal_tree_names_;
+    case Tag::background :
+        return background_tree_names_;
+    }
 }
-TCut Tagger::cut() const
+
+TCut Tagger::Cut() const
 {
     return TCut();
 }
-void Tagger::set_analysis_name(const std::string& analysis_name)
+void Tagger::SetAnalysisName(const std::string& analysis_name)
 {
     analysis_name_ = analysis_name;
 }
 
-std::string Tagger::bdt_method_name() const
+std::string Tagger::MethodName(TMVA::Types::EMVA mva) const
 {
-    return "Bdt";
+    switch (mva) {
+    case TMVA::Types::EMVA::kBDT :
+        return "Bdt";
+    default :
+        return "";
+    }
 }
 
-std::string Tagger::bdt_weight_name() const
+std::string Tagger::WeightName(TMVA::Types::EMVA mva) const
 {
-    return Name() + "_" + bdt_method_name() + "." + weight_file_extension() + ".xml";
+    return Name() + "_" + MethodName(mva) + "." + WeightFileExtension();
 }
 
-std::string Tagger::weight_file_extension() const
+std::string Tagger::WeightFileName(TMVA::Types::EMVA mva) const
+{
+    return PathName(WeightName(mva), ".xml");
+}
+
+std::string Tagger::WeightFileExtension() const
 {
     return "weights";
     return "";
 }
 
-std::string Tagger::weight_branch_name() const
+std::string Tagger::WeightBranchName() const
 {
     return "Info";
 }
-std::string Tagger::background_name() const
+std::string Tagger::BackgroundName() const
 {
-    return background(Name());
+    return BackgroundName(Name());
 }
-std::string Tagger::signal_name() const
+std::string Tagger::SignalName() const
 {
-    return signal(Name());
+    return SignalName(Name());
 }
-std::string Tagger::signal(const std::string& name) const
+std::string Tagger::SignalName(const std::string& name) const
 {
     return name;
+    return name + "SG";
 }
-std::string Tagger::background(const std::string& name) const
+std::string Tagger::BackgroundName(const std::string& name) const
 {
     return "Not" + name;
     return name + "BG";
 }
-void Tagger::SetTreeBranch(exroot::TreeWriter& tree_writer, const Stage stage)
+void Tagger::SetTreeBranch(exroot::TreeWriter& tree_writer, Stage stage)
 {
     tree_branch_ = tree_writer.NewBranch(Name(stage).c_str(), &Class());
 }
@@ -209,16 +263,13 @@ void Tagger::ClearObservables()
     variables_.clear();
     spectators_.clear();
 }
-int Tagger::CandidatesMax() const
-{
-    return 4;
-}
-exroot::TreeBranch& Tagger::tree_branch() const
+
+exroot::TreeBranch& Tagger::TreeBranch() const
 {
     return *tree_branch_;
 }
 
-std::string Name(const analysis::Stage stage)
+std::string Name(Stage stage)
 {
     switch (stage) {
     case Stage::trainer :
@@ -230,6 +281,17 @@ std::string Name(const analysis::Stage stage)
 std::string Tagger::NiceName() const
 {
     return Name();
+}
+
+std::string Tagger::Root() const
+{
+    return ".root";
+}
+
+std::string Tagger::PathName(const std::string& file_name, const std::string& suffix) const
+{
+    Debug(file_name);
+    return AnalysisName() + "/" + file_name + suffix;
 }
 
 }

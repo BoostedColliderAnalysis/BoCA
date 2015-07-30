@@ -53,38 +53,11 @@ public:
         SmallerNeutrinoDeltaPhi = multiplet.GetSmallertripletDeltaPhi();
     }
 
-    Observables Variables();
+    Observables Variables() const;
+
 private:
 
     ClassDef(HeavyHiggsLeptonicBranch, 1)
-
-};
-
-/**
- *
- * @brief Higgs tagger root tree structure
- *
- */
-class HHeavyHiggsHadronicBranch : public BaseBranch {
-
-public:
-
-    HHeavyHiggsHadronicBranch();
-
-    float HeavyHiggsMass;
-    float HeavyHiggsPt;
-
-    float TopDeltaRap;
-    float TopDeltaPhi;
-    float TopDeltaR;
-
-    float TopBdt;
-
-    float HeavyHiggsTag;
-
-private:
-
-    ClassDef(HHeavyHiggsHadronicBranch, 1)
 
 };
 
@@ -129,39 +102,11 @@ public:
         MultiBranch::Fill(multiplet);
         Flag = multiplet.Flag();
     }
-    virtual Observables Spectators();
+    virtual Observables Spectators() const;
 
 private:
 
     ClassDef(ChargedHiggsSemiBranch, 1)
-
-};
-
-/**
- *
- * @brief Higgs tagger root tree structure
- *
- */
-class HChargedHiggsHadronicBranch : public BaseBranch {
-
-public:
-
-    HChargedHiggsHadronicBranch();
-
-    float HeavyHiggsMass;
-    float HeavyHiggsPt;
-
-    float TopDeltaRap;
-    float TopDeltaPhi;
-    float TopDeltaR;
-
-    float TopBdt;
-
-    float HeavyHiggsTag;
-
-private:
-
-    ClassDef(HChargedHiggsHadronicBranch, 1)
 
 };
 
@@ -217,8 +162,8 @@ public:
         HeavyHiggsTag = int(multiplet.Tag());
     }
 
-    Observables Variables();
-    virtual Observables Spectators();
+    Observables Variables() const;
+    Observables Spectators() const;
 
 private:
 
@@ -244,11 +189,11 @@ public:
     void Fill(const Multiplet& multiplet)
     {
         PairBranch::Fill(multiplet);
-        LeptonPt = multiplet.SingletJet1().pt();
-        NeutrinoPt = multiplet.SingletJet2().pt();
+        LeptonPt = multiplet.Singlet1().Jet().pt();
+        NeutrinoPt = multiplet.Singlet2().Jet().pt();
     }
 
-    Observables Variables();
+    Observables Variables() const;
 
 private:
 
@@ -316,7 +261,7 @@ public:
         BottomBdt78 = multiplet.GlobalObservables().BottomBdt(7, 8);
     }
 
-    Observables Variables();
+    Observables Variables() const;
 
 private:
 
@@ -378,7 +323,7 @@ public:
         BottomBdt78 = multiplet.GlobalObservables().BottomBdt(7, 8);
     }
 
-    Observables Variables();
+    Observables Variables() const;
 
 private:
 
@@ -408,8 +353,7 @@ public:
         HiggsMass = multiplet.Jet().m();
     }
 
-    Observables Variables();
-
+    Observables Variables() const;
 
 private:
 
@@ -452,8 +396,7 @@ public:
         PairRap = multiplet.Doublet().DeltaRap();
     }
 
-    Observables Variables();
-
+    Observables Variables() const;
 
 private:
 
@@ -492,7 +435,7 @@ public:
         PairRap = multiplet.Quartet2().DeltaRap();
     }
 
-    Observables Variables();
+    Observables Variables() const;
 
 private:
 
@@ -559,7 +502,7 @@ public:
         LeptonHt = multiplet.GlobalObservables().LeptonHt();
     }
 
-    Observables Variables();
+    Observables Variables() const;
 
 private:
 

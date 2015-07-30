@@ -8,9 +8,9 @@ CREATE_SUBDIRS         = YES
 
 EXTRACT_ALL            = YES
 
-EXTRACT_PRIVATE        = NO
+EXTRACT_PRIVATE        = YES
 
-EXTRACT_STATIC         = NO
+EXTRACT_STATIC         = YES
 
 EXTRACT_LOCAL_CLASSES  = YES
 
@@ -103,3 +103,5 @@ DOT_MULTI_TARGETS      = NO
 DOT_CLEANUP            = YES
 
 SEARCHENGINE           = YES
+
+ALIASES += "license=@par License:\n"

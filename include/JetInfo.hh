@@ -29,21 +29,21 @@ public:
      */
     JetInfo();
 
-    JetInfo(const float bdt);
+    JetInfo(float bdt);
 
     JetInfo(const ::delphes::Jet& jet);
 
     JetInfo(const bool b_tag);
 
-//     JetInfo(const bool b_tag, const int charge);
+//     JetInfo(const bool b_tag, int charge);
 
     JetInfo(const bool b_tag, const bool tau_tag);
 
-    JetInfo(const int charge);
+    JetInfo(int charge);
 
     JetInfo(const Constituent& constituent);
 
-    JetInfo(const Constituent& constituent, const int charge);
+    JetInfo(const Constituent& constituent, int charge);
 
     JetInfo(const std::vector<Constituent>& constituents);
 
@@ -55,7 +55,9 @@ public:
 
     void AddConstituents(const std::vector<Constituent>& constituents);
 
-    void AddDaughter(const int daughter);
+    void SetConstituents(const std::vector<Constituent>& constituents);
+
+    void AddDaughter(int daughter);
 
     std::vector<Constituent> constituents() const;
 
@@ -77,11 +79,11 @@ public:
 
     float VertexEnergy() const;
 
-    void ExtractFraction(const int id);
+    void ExtractFraction(int id);
 
-    void ExtractAbsFraction(const int id);
+    void ExtractAbsFraction(int id);
 
-    void ExtractFraction(const int id, const int mother_id);
+    void ExtractFraction(int id, int mother_id);
 
     void PrintAllInfos(const Severity severity) const;
 
@@ -91,11 +93,11 @@ public:
 
     float MaximalFraction() const;
 
-    float Fraction(const int id) const;
+    float Fraction(int id) const;
 
     int MaximalId() const;
 
-    void AddFamily(const Family& family, const float weight);
+    void AddFamily(const Family& family, float weight);
 
     void ExtractFamilyFraction();
 
@@ -135,7 +137,7 @@ public:
         return tau_tag_;
     }
 
-    void SetCharge(const int charge)
+    void SetCharge(int charge)
     {
         charge_ = charge;
     }
@@ -148,9 +150,9 @@ public:
 
 private:
 
-    void AddParticle(const int constituent_id, const float weight);
+    void AddParticle(int constituent_id, float weight);
 
-    void AddParticle(const Id constituent_id, const float weight);
+    void AddParticle(Id constituent_id, float weight);
 
     float GetWeightSum() const;
 

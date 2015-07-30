@@ -15,8 +15,6 @@ class TopPartnerBranch : public MultiBranch {
 
 public:
 
-    TopPartnerBranch();
-
     template<typename Multiplet>
     void Fill(const Multiplet& multiplet)
     {
@@ -38,8 +36,6 @@ class HiggsPairBranch : public MultiBranch {
 
 public:
 
-    HiggsPairBranch();
-
     template<typename Multiplet>
     void Fill(const Multiplet& multiplet)
     {
@@ -56,8 +52,6 @@ class SignatureBranch : public MultiBranch {
 
 public:
 
-    SignatureBranch();
-
     template<typename Multiplet>
     void Fill(const Multiplet& multiplet)
     {
@@ -73,14 +67,13 @@ private:
 class EventBranch : public analysis::EventBranch {
 
 public:
-
-    EventBranch();
-
     template<typename Multiplet>
     void Fill(const Multiplet& multiplet)
     {
         analysis::EventBranch::Fill(multiplet);
     }
+    Observables Variables() const;
+    Observables Spectators() const;
 
 private:
 

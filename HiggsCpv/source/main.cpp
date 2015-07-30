@@ -1,6 +1,9 @@
 #include "AnalysisHiggsCpv.hh"
 
 #include "../include/EventTagger.hh"
+#include "Predicate.hh"
+#include "FourVector.hh"
+#include "Debug.hh"
 
 int main()
 {
@@ -21,9 +24,11 @@ int main()
 
     analysis::higgscpv::Analysis<analysis::HiggsTagger> higgs_analysis;
     higgs_analysis.RunFullEfficiency();
+    higgs_analysis.RunPlots();
 
     analysis::higgscpv::Analysis<analysis::higgscpv::TopLeptonicPairTagger> jet_pair_analysis;
     jet_pair_analysis.RunFullEfficiency();
+    jet_pair_analysis.RunPlots();
 
     analysis::higgscpv::Analysis<analysis::higgscpv::SignatureTagger> signature_leptonic_analysis;
     signature_leptonic_analysis.RunFullEfficiency();

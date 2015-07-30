@@ -1,7 +1,8 @@
 #include "Vector3.hh"
+#include "Vector2.hh"
 #include <cmath>
-#include <iostream>
 #include "TVector3.h"
+#include "Debug.hh"
 
 namespace analysis {
 
@@ -29,8 +30,7 @@ float Vector3::operator()(int i) const
     case 2:
         return z_;
     default:
-// Error("operator()(i)", "bad index (%d) returning 0",i);
-        std::cout << "Error" << std::endl;
+    Error("bad index (%d) returning 0",i);
     }
     return 0.;
 }
@@ -46,8 +46,7 @@ float& Vector3::operator()(int i)
     case 2:
         return z_;
     default:
-// Error("operator()(i)", "bad index (%d) returning &x_",i);
-        std::cout << "Error" << std::endl;
+        Error("bad index (%d) returning &x_",i);
     }
     return x_;
 }
@@ -212,7 +211,7 @@ float Vector3::DeltaR(const Vector3& v) const
 {
 //return deltaR with respect to v
     float deta = Eta() - v.Eta();
-    float dphi = TVector2::Phi_mpi_pi(Phi() - v.Phi());
+    float dphi = Vector2::Phi_mpi_pi(Phi() - v.Phi());
     return std::sqrt(deta * deta + dphi * dphi);
 }
 
@@ -453,7 +452,7 @@ void Vector3::SetPerp(float r)
 
 float Vector3::DeltaPhi(const Vector3& v) const
 {
-    return TVector2::Phi_mpi_pi(Phi() - v.Phi());
+    return Vector2::Phi_mpi_pi(Phi() - v.Phi());
 }
 
 float Vector3::Eta() const

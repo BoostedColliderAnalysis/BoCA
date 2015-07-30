@@ -1,13 +1,13 @@
 #include "AnalysisPair.hh"
 #include "TSystem.h"
 #include "JetPairTagger.hh"
-#include "Factory.hh"
+#include "Trainer.hh"
 #include "Debug.hh"
 
-void RunTagger(analysis::Tagger& tagger, analysis::Stage stage)
+void RunTagger(analysis::Tagger& , analysis::Stage )
 {
 //     fusionpair::Analysis analysis(tagger);
-//     const std::string Name = tagger.name();
+//     std::string Name = tagger.name();
 //     Error("Tagger", Name);
 //
 //     std::string FileName = analysis.ProjectName() + "/" + Name + ".root";

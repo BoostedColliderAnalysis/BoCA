@@ -2,7 +2,7 @@
 
 #include "ChargedHiggsSemiTagger.hh"
 #include "TripletJetPairTagger.hh"
-#include "Octet44.hh"
+#include "Octet.hh"
 
 namespace analysis {
 
@@ -19,19 +19,17 @@ public:
 
     SignatureChargedTagger();
 
-    int Train(const Event& event, PreCuts& pre_cuts, const Tag tag) const final;
+    int Train(const Event &event, const PreCuts &pre_cuts,
+              Tag tag) const final;
 
-    std::vector<Octet44> Multiplets(const Event& event, PreCuts& pre_cuts, const TMVA::Reader& reader) const;
+    std::vector<Octet44> Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 
-    int GetBdt(const Event& event, PreCuts& pre_cuts, const TMVA::Reader& reader) const  final
-    {
+    int GetBdt(const Event &event, const PreCuts &pre_cuts,
+               const TMVA::Reader &reader) const final {
         return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
-    std::string Name() const final
-    {
-        return "SignatureCharged";
-    }
+    std::string Name() const final { return "SignatureCharged"; }
 
 private:
 

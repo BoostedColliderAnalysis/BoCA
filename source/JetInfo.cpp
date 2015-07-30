@@ -11,7 +11,7 @@ JetInfo::JetInfo()
     Debug();
 }
 
-JetInfo::JetInfo(const float bdt)
+JetInfo::JetInfo(float bdt)
 {
     SetBdt(bdt);
 }
@@ -32,7 +32,7 @@ JetInfo::JetInfo(const bool b_tag)
     SetBTag(b_tag);
 }
 
-// JetInfo::JetInfo(const bool b_tag, const int charge)
+// JetInfo::JetInfo(const bool b_tag, int charge)
 // {
 //   SetBTag(b_tag);
 //   SetCharge(charge);
@@ -44,7 +44,7 @@ JetInfo::JetInfo(const bool b_tag, const bool tau_tag)
     SetTauTag(tau_tag);
 }
 
-JetInfo::JetInfo(const int charge)
+JetInfo::JetInfo(int charge)
 {
     SetCharge(charge);
 }
@@ -56,7 +56,7 @@ JetInfo::JetInfo(const Constituent& constituent)
         displaced_constituents_.emplace_back(constituent);
 }
 
-JetInfo::JetInfo(const Constituent& constituent, const int charge)
+JetInfo::JetInfo(const Constituent& constituent, int charge)
 {
     constituents_.emplace_back(constituent);
     if (VertexResultion(constituent))
@@ -88,7 +88,13 @@ void JetInfo::AddConstituents(const std::vector<Constituent>& constituents)
     displaced_constituents_ = Join(displaced_constituents_, ApplyVertexResolution(constituents));
 }
 
-void JetInfo::AddDaughter(const int daughter)
+void JetInfo::SetConstituents(const std::vector<Constituent>& constituents)
+{
+  constituents_ = constituents;
+  displaced_constituents_ = ApplyVertexResolution(constituents);
+}
+
+void JetInfo::AddDaughter(int daughter)
 {
     if (!constituents().empty()) {
         Error(constituents().size(), constituents().front().family().particle().id());
@@ -119,7 +125,7 @@ int JetInfo::VertexNumber() const
 //     return ApplyVertexResolution().size();
 }
 
-void JetInfo::AddFamily(const Family& family, const float weight)
+void JetInfo::AddFamily(const Family& family, float weight)
 {
     Debug(family.particle().id(), family.mother_1().id(), weight);
     family_fractions_[family] += weight;
@@ -146,21 +152,21 @@ Family JetInfo::MaximalFamily()
     return std::max_element(family_fractions_.begin(), family_fractions_.end(), SortPairs())->first;
 }
 
-void JetInfo::AddParticle(const int constituent_id, const float weight)
+void JetInfo::AddParticle(int constituent_id, float weight)
 {
     Debug(constituent_id, weight);
     id_fractions_[constituent_id] += weight;
     Detail(id_fractions_[constituent_id]);
 }
 
-void JetInfo::AddParticle(const Id constituent_id, const float weight)
+void JetInfo::AddParticle(Id constituent_id, float weight)
 {
     Debug(Name(constituent_id), weight);
     id_fractions_[int(constituent_id)] += weight;
     Detail(id_fractions_[int(constituent_id)]);
 }
 
-void JetInfo::ExtractFraction(const int id)
+void JetInfo::ExtractFraction(int id)
 {
     Info(id);
     ExtractFamilyFraction();
@@ -174,7 +180,7 @@ void JetInfo::ExtractFraction(const int id)
     }
 }
 
-void JetInfo::ExtractFraction(const int id, const int mother_id)
+void JetInfo::ExtractFraction(int id, int mother_id)
 {
     Info(id, mother_id);
     for (const auto& pair : family_fractions_) {
@@ -185,7 +191,7 @@ void JetInfo::ExtractFraction(const int id, const int mother_id)
     }
 }
 
-void JetInfo::ExtractAbsFraction(const int id)
+void JetInfo::ExtractAbsFraction(int id)
 {
     Info(id);
     ExtractFamilyFraction();
@@ -200,14 +206,14 @@ void JetInfo::ExtractAbsFraction(const int id)
 float JetInfo::GetWeightSum() const
 {
     Debug(id_fractions_.size());
-    float weight_sum = std::accumulate(begin(id_fractions_), end(id_fractions_), 0.0, [](const float previous, const std::pair<int, float>& pair) {
+    float weight_sum = std::accumulate(begin(id_fractions_), end(id_fractions_), 0.0, [](float previous, const std::pair<int, float>& pair) {
         return (previous + pair.second);
     });
     Detail(weight_sum);
     return weight_sum;
 }
 
-float JetInfo::Fraction(const int id) const
+float JetInfo::Fraction(int id) const
 {
     Info(id);
     if (!id_fractions_.count(id))
@@ -284,7 +290,7 @@ float JetInfo::MeanDisplacement() const
     Debug("Jet Displacement");
     if (displaced_constituents_.empty())
         return 0;
-    const float sum = std::accumulate(displaced_constituents_.rbegin(), displaced_constituents_.rend(), 0, AccuPerpDistance());
+    float sum = std::accumulate(displaced_constituents_.rbegin(), displaced_constituents_.rend(), 0, AccuPerpDistance());
     return sum / displaced_constituents_.size();
 }
 
@@ -306,7 +312,7 @@ float JetInfo::MaxDisplacement() const
 float JetInfo::VertexMass() const
 {
     Debug();
-    const float vertex_mass = std::accumulate(displaced_constituents_.begin(), displaced_constituents_.end(), Constituent()).Momentum().M();
+    float vertex_mass = std::accumulate(displaced_constituents_.begin(), displaced_constituents_.end(), Constituent()).Momentum().M();
     Debug(vertex_mass);
     if (vertex_mass < DetectorGeometry::VertexMassMin())
         return 0;
@@ -316,7 +322,7 @@ float JetInfo::VertexMass() const
 float JetInfo::VertexEnergy() const
 {
     Debug();
-    const float vertex_energy = std::accumulate(displaced_constituents_.begin(), displaced_constituents_.end(), Constituent()).Momentum().E();
+    float vertex_energy = std::accumulate(displaced_constituents_.begin(), displaced_constituents_.end(), Constituent()).Momentum().E();
     return vertex_energy;
 }
 

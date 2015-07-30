@@ -23,7 +23,7 @@ File::File(const std::string& process)
     file_suffix_ = file_suffix();
 }
 
-File::File(const std::string& process, const float crosssection)
+File::File(const std::string& process, float crosssection)
 {
     Debug();
     SetVariables();
@@ -32,7 +32,7 @@ File::File(const std::string& process, const float crosssection)
     file_suffix_ = file_suffix();
 }
 
-File::File(const std::string& process, const float crosssection, const float mass)
+File::File(const std::string& process, float crosssection, float mass)
 {
     Debug();
     SetVariables();
@@ -50,7 +50,7 @@ File::File(const Strings& processes)
     file_suffix_ = file_suffix();
 }
 
-File::File(const Strings& processes, const float crosssection)
+File::File(const Strings& processes, float crosssection)
 {
     Debug();
     SetVariables();
@@ -59,7 +59,7 @@ File::File(const Strings& processes, const float crosssection)
     file_suffix_ = file_suffix();
 }
 
-File::File(const Strings& processes, const float crosssection, const float mass)
+File::File(const Strings& processes, float crosssection, float mass)
 {
     Debug();
     SetVariables();
@@ -78,7 +78,7 @@ File::File(const std::string& process, const std::string& run_folder)
     file_suffix_ = file_suffix();
 }
 
-File::File(const std::string& process, const std::string& base_path, const std::string& file_suffix, const float crosssection)
+File::File(const std::string& process, const std::string& base_path, const std::string& file_suffix, float crosssection)
 {
     Debug();
     SetVariables();
@@ -107,7 +107,7 @@ File::File(const std::string& process, const std::string& base_path, const std::
     nice_name_ = nice_name;
 }
 
-File::File(const std::string& process, const std::string& base_path, const std::string& file_suffix, const float crossection, const std::string& nice_name)
+File::File(const std::string& process, const std::string& base_path, const std::string& file_suffix, float crossection, const std::string& nice_name)
 {
     Debug();
     SetVariables();
@@ -176,10 +176,9 @@ Strings File::Paths() const
 
 exroot::TreeReader File::TreeReader()
 {
-    Note(Paths().front());
+    for(const auto path : Paths()) Note(path);
     chain_ = new TChain(tree_name().c_str());
-    for (const auto& path : Paths())
-        chain_->Add(path.c_str());
+    for (const auto& path : Paths())chain_->Add(path.c_str());
     return exroot::TreeReader(chain_);
 }
 
