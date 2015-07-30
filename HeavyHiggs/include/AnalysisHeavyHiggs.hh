@@ -15,7 +15,7 @@ namespace heavyhiggs
 
 enum class Process
 {
-    H0, Hbb, Htt, Htb, tt, tt2, tttt
+    H0, Hbb, Htt, Htb, tt, tt2, tttt, tttb, ttwbb, ttwcc, Htwb, ttwwbb
 };
 
 enum class Collider
@@ -54,8 +54,8 @@ public:
 //                 return 2000;
         //            return 3000;
         //         return 4000;
-                        return 5000;
-        //                return 6000;
+//                         return 5000;
+                       return 7000;
         //             return 7000;
         //         return 8000;
         //             return 9000;
@@ -144,17 +144,17 @@ public:
         }
     };
     
-    
-    float BackgroundCrosssection() const {
-      switch (this->collider_type()) {
+    float BottomPt() const {
+      switch (collider_type()) {
         case Collider::LHC :
-          return 0.1765;
-        case Collider::LE:
-          return 1.4316;
-        default:
-          return 1;
+          return 20;
+        case Collider::LE :
+          return 40;
+        default :
+          return 0;
       }
-    }
+    };
+    
 
 //     float BackgroundCrosssection(const Process process) const {
 //         switch (collider_type()) {

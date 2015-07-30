@@ -69,15 +69,18 @@ void Results::BestBin()
 
 void Results::Significances()
 {
-    for (const auto & signal_results : signal) {
         for (const int step : Range(Result().steps)) {
-            float background_events = 0;
+          
+          float signal_events = 0;
+            for (const auto & signal_results : signal) signal_events += signal_results.events[step];
+            
+          float background_events = 0;
             for (const auto & background_result : background) background_events += background_result.events[step];
-            if (signal_results.events[step] + background_events > 0) significances.at(step) = signal_results.events[step] / std::sqrt(signal_results.events[step] + background_events);
+            
+            if (signal_events + background_events > 0) significances.at(step) = signal_events / std::sqrt(signal_events + background_events);
             else significances.at(step) = 0;
             x_values.at(step) = float(step) * 2 / Result().steps;
-        }
-    }
+        }   
 }
 
 // Plot::Plot()
@@ -156,15 +159,16 @@ std::string Plot::PlotHistograms(const analysis::Results &results) const
     for (const auto & result : results.signal) {
         TH1F histogram(result.info_branch.Name.c_str(), "", 50, x_min * 1.1, x_max * 1.1);
         for (const float & bdt : result.bdt) histogram.Fill(bdt - 1);
+        SetPlotStyle(histogram, &result - &results.signal[0] + 1);
+        histograms.emplace_back(histogram);
         float max = histogram.GetBinContent(histogram.GetMaximumBin());
         if (max > y_max) y_max = max;
-        histograms.emplace_back(histogram);
     }
 
     for (const auto & result : results.background) {
         TH1F histogram(result.info_branch.Name.c_str(), "", 50, x_min * 1.1, x_max * 1.1);
         for (const float & bdt : result.bdt) histogram.Fill(bdt - 1);
-        SetPlotStyle(histogram, &result - &results.background[0] + 1);
+        SetPlotStyle(histogram, &result - &results.background[0] + 5);
         // histogram.SetLineColor(ColorCode(&result - &results.background[0] + 1));
         // histogram.SetLineStyle(&result - &results.background[0] + 2);
         histograms.emplace_back(histogram);
@@ -300,18 +304,31 @@ void Plot::OptimalSignificance() const
 
 std::string Plot::PlotEfficiencyGraph(const Results &results, const std::vector<float> &x_values, const int best_bin) const
 {
-    Result signal_results = results.signal.front();
     TCanvas canvas;
     canvas.SetLogy();
     TMultiGraph multi_graph;
-    std::vector<TGraph> rejection_graphs;
-    for (const auto & background_result : results.background) rejection_graphs.emplace_back(TGraph(background_result.steps, &x_values[0], &background_result.efficiency[0]));
-    for (auto & rejection_graph : rejection_graphs) multi_graph.Add(&rejection_graph);
-    TGraph graph(signal_results.steps, &x_values[0], &signal_results.efficiency[0]);
-    graph.SetLineColor(kRed);
-    multi_graph.Add(&graph);
+    TLegend legend = Legend(0.15, 0.65, 0.2, 0.4);
+    Strings nice_names;
+    std::vector<TGraph> graphs;  
+    for (const auto & background_result : results.background){
+      nice_names.emplace_back(background_result.info_branch.Name);
+      graphs.emplace_back(TGraph(background_result.steps, &x_values[0], &background_result.efficiency[0]));   
+    }
+   
+    for (const auto & signal : results.signal) {
+      nice_names.emplace_back(signal.info_branch.Name);
+      graphs.emplace_back(TGraph(signal.steps, &x_values[0], &signal.efficiency[0]));
+    }
+
+    for (auto & graph : graphs) {
+      SetPlotStyle(graph, &graph - &graphs[0]);
+      multi_graph.Add(&graph);
+      std::string name = nice_names.at(&graph - &graphs[0]);
+      legend.AddEntry(&graph, name.c_str(), "l");
+    }
     multi_graph.Draw("al");
-    TLine line(float(best_bin) * 2 / signal_results.steps, multi_graph.GetYaxis()->GetXmin(), float(best_bin) * 2 / signal_results.steps, multi_graph.GetYaxis()->GetXmax());
+    legend.Draw();
+    TLine line(float(best_bin) * 2 / Result().steps, multi_graph.GetYaxis()->GetXmin(), float(best_bin) * 2 / Result().steps, multi_graph.GetYaxis()->GetXmax());
     line.SetLineStyle(2);
     line.Draw();
     const std::string file_name = ExportName() + "-Efficiency" + ExportFileSuffix();
@@ -376,7 +393,7 @@ Result Plot::BdtDistribution(exroot::TreeReader &tree_reader, const std::string 
         for (const auto & entry : Range(event_clones_array.GetEntriesFast())) {
             float bdt_value = tagger().ReadBdt(event_clones_array, entry);
             result.bdt.emplace_back(bdt_value);
-            Check(bdt_value > 0 && bdt_value < 2, "Bdt Value" , bdt_value);
+            Check(bdt_value >= 0 && bdt_value <= 2, bdt_value);
             static_cast<ResultBranch &>(*result_branch.NewEntry()).Bdt = bdt_value;
             int bin = std::floor(bdt_value * result.steps / 2) - 1;
             if (bin == -1) bin = 0; // FIXME clean this up

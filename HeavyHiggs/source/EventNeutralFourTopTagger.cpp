@@ -28,7 +28,8 @@ int EventNeutralFourTopTagger::Train(const analysis::Event &event, PreCuts &pre_
         octetevent.SetTag(tag);
         events.emplace_back(octetevent);
     }
-    return SaveEntries(events);
+    std::sort(events.begin(),events.end());
+    return SaveEntries(events, 1);
 }
 
 std::vector<MultipletEvent<Octet62>> EventNeutralFourTopTagger::Multiplets(const Event &event, const TMVA::Reader &reader) const

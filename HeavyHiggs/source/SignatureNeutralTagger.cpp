@@ -27,11 +27,12 @@ int SignatureNeutralTagger::Train(const Event &event, PreCuts &pre_cuts, const T
 
     switch (tag) {
     case Tag::signal :
-        if (bottoms.size() >= 2) {
+        if (bottoms.size() == 2) {
             for (const auto & doublet : doublets) {
+//               Error(doublet.SingletJet1().rap(), doublet.SingletJet2().rap());
               if ((doublet.SingletJet1().delta_R(bottoms.at(0)) < DetectorGeometry::JetConeSize() && doublet.SingletJet2().delta_R(bottoms.at(1)) < DetectorGeometry::JetConeSize()) || (doublet.SingletJet1().delta_R(bottoms.at(1)) < DetectorGeometry::JetConeSize() && doublet.SingletJet2().delta_R(bottoms.at(0)) < DetectorGeometry::JetConeSize())) final_doublets.emplace_back(doublet);
             }
-        } 
+        }
         break;
     case Tag::background :
         final_doublets = doublets;
@@ -47,14 +48,15 @@ int SignatureNeutralTagger::Train(const Event &event, PreCuts &pre_cuts, const T
             octets.emplace_back(octet);
         }
     }
-
+//     Error(final_doublets.size());
+//     if(tag == Tag::signal&&sextets.size()!=0&&final_doublets.size()!=0) Error("overlap!!", octets.size(), doublets.size(), sextets.size());
+    
     if (tag == Tag::signal && octets.size() > 1) {
         Info(octets.size());
         std::sort(octets.begin(), octets.end());
         octets.erase(octets.begin() + 1, octets.end());
     }
-//     Error(octets.size(), doublets.size(), sextets.size());
-    
+ 
     return SaveEntries(octets);
 }
 
