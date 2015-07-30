@@ -13,9 +13,9 @@ namespace exroot {
 class Partons : public analysis::Partons {
 
 public:
-  Jets Particles() const final override;
+  Jets Particles() const final;
 
-  Jets GenParticles() const final override;
+  Jets GenParticles() const final;
 
 private:
 

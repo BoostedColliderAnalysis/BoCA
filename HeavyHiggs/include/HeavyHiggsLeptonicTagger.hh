@@ -19,11 +19,11 @@ public:
     HeavyHiggsLeptonicTagger();
 
     int Train(const Event &event, const PreCuts &pre_cuts,
-              Tag tag) const final override;
+              Tag tag) const final;
 
     std::vector<Sextet> Multiplets(const Event& event, const TMVA::Reader& reader) const;
 
-    std::string Name() const final override { return "HeavyHiggsLeptonic"; }
+    std::string Name() const final { return "HeavyHiggsLeptonic"; }
 
 private:
 

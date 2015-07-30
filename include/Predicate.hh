@@ -273,7 +273,11 @@ std::vector<Element> Join(const std::vector<Element>& vector_1, const std::vecto
 template < typename Element,
          typename Function,
          typename Result = typename std::result_of<Function&(Element, Element)>::type >
-auto ordered_pairs(const std::vector<Element>& container, Function function)
+         /**
+          * @brief forms all \f$(n^2 - n)\f$ ordered pairs of vector elements, applies to them the function and returns a vector of its results
+          *
+          */
+         auto ordered_pairs(const std::vector<Element>& container, Function function)
 {
     std::vector<Result> results;
     for (auto element_1 = container.begin(); element_1 != container.end(); ++element_1) {
@@ -290,6 +294,10 @@ auto ordered_pairs(const std::vector<Element>& container, Function function)
 }
 
 template < typename Element, typename Function, typename Result = typename std::result_of<Function&(Element, Element)>::type >
+/**
+ * @brief forms all \f$(n^2 - n) / 2\f$ unordered pairs, applies to them the function and returns a vector of its results
+ *
+ */
 auto unordered_pairs(const std::vector<Element>& container, Function function)
 {
     std::vector<Result> results;
@@ -303,6 +311,10 @@ auto unordered_pairs(const std::vector<Element>& container, Function function)
 }
 
 template < typename Element1, typename Element2, typename Function, typename Result = typename std::result_of<Function&(Element1, Element2)>::type >
+/**
+ * @brief forms all \f$n^2\f$ pairs of the elements in the two containers, applies the function and returns a vector of its elements
+ *
+ */
 auto pairs(const std::vector<Element1>& container_1, const std::vector<Element2>& container_2, Function function)
 {
     std::vector<Result> results;
@@ -317,12 +329,20 @@ auto pairs(const std::vector<Element1>& container_1, const std::vector<Element2>
 }
 
 template <typename Value>
+/**
+ * @brief derives the sign of the value
+ *
+ */
 int sgn(Value value)
 {
     return (Value(0) < value) - (value < Value(0));
 }
 
 template <typename Value>
+/**
+ * @brief derives the square of the value
+ *
+ */
 Value sqr(Value value)
 {
   return value * value;

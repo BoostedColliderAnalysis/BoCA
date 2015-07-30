@@ -16,7 +16,7 @@ public:
     TopHadronicTagger();
 
     int Train(const Event &event, const PreCuts &pre_cuts,
-              Tag tag) const final override;
+              Tag tag) const final;
 
     int TopHadronicId(const Event& event) const
     {
@@ -24,15 +24,15 @@ public:
     }
 
     int GetBdt(const Event &event, const PreCuts &pre_cuts,
-               const TMVA::Reader &reader) const final override {
+               const TMVA::Reader &reader) const final {
         return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
     }
 
     std::vector<analysis::Triplet> Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 
-    std::string Name() const final override { return "TopHadronic"; }
+    std::string Name() const final { return "TopHadronic"; }
 
-    std::string NiceName() const final override { return "t_{h}"; }
+    std::string NiceName() const final { return "t_{h}"; }
 
 private:
 

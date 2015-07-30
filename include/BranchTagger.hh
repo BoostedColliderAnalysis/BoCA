@@ -13,7 +13,7 @@ template<typename BranchTemplate>
 class BranchTagger : public Tagger
 {
 
-  const BranchTemplate &Branch() const final override { return branch_; }
+  const BranchTemplate &Branch() const final { return branch_; }
 
 protected:
 
@@ -92,7 +92,7 @@ protected:
     template<typename Multiplet>
     int SaveEntries(const std::vector<Multiplet>& multiplets, size_t max = LargeNumber()) const {
         if (multiplets.empty()) return 0;
-//         std::sort(multiplets.begin(),multiplets.end());
+//         if(multiplets.size() > 1) std::sort(multiplets.begin(),multiplets.end());
         auto sum = std::min(multiplets.size(), max);
         for (const auto & counter : Range(sum)) {
             FillBranch(multiplets.at(counter));
@@ -110,7 +110,7 @@ protected:
         return jets.size();
     }
 
-    TClass &Class() const final override { return *BranchTemplate::Class(); }
+    TClass &Class() const final { return *BranchTemplate::Class(); }
 
     template<typename Multiplet>
     float Bdt(const Multiplet& multiplet, const TMVA::Reader& reader) const {
@@ -131,7 +131,7 @@ protected:
 
 private:
   float ReadBdt(const TClonesArray &clones_array,
-                int entry) const final override {
+                int entry) const final {
         return static_cast<BranchTemplate&>(*clones_array.At(entry)).Bdt;
     }
 

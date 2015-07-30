@@ -19,18 +19,18 @@ public:
     SignatureSingleTagger();
 
     int Train(const Event &event, const PreCuts &pre_cuts,
-              Tag tag) const final override;
+              Tag tag) const final;
 
     int GetBdt(const Event &event, const PreCuts &pre_cuts,
-               const TMVA::Reader &reader) const final override {
+               const TMVA::Reader &reader) const final {
       return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
     std::vector<Decuplet82> Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 
-    std::string Name() const final override { return "SignatureSingle"; }
+    std::string Name() const final { return "SignatureSingle"; }
 
-    std::string NiceName() const final override { return "Tth"; }
+    std::string NiceName() const final { return "Tth"; }
 
 private:
 

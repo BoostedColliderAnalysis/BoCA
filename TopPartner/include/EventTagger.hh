@@ -24,7 +24,7 @@ public:
     std::vector<MultipletEvent<Quattuordecuplet>> Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 
     int GetBdt(const Event &event, const PreCuts &pre_cuts,
-               const TMVA::Reader &reader) const final override {
+               const TMVA::Reader &reader) const final {
         return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
@@ -34,7 +34,7 @@ public:
         return Multiplets(event, pre_cuts, reader);
     }
 
-    std::string Name() const final override { return "Event"; }
+    std::string Name() const final { return "Event"; }
 
 private:
 

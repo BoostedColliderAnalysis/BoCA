@@ -13,9 +13,9 @@ namespace exroot {
 class Leptons : public analysis::Leptons {
 
 public:
-  analysis::Jets Electrons() const final override;
+  analysis::Jets Electrons() const final;
 
-  analysis::Jets Muons() const final override;
+  analysis::Jets Muons() const final;
 };
 
 }

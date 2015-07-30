@@ -52,10 +52,9 @@ fastjet::PseudoJet Hadrons::StructuredJet(const ::delphes::Jet& jet, JetDetail j
     analysis::Jets constituent_jets;
     std::vector<Constituent> constituents;
     auto jet_info = new JetInfo(bool(jet.BTag), jet.Charge);
-    for (const auto& constituentNumber : Range(jet.Constituents.GetEntriesFast())) {
-        if (!jet.Constituents.At(constituentNumber))
-            continue;
-        fastjet::PseudoJet constituent = ConstituentJet(*jet.Constituents.At(constituentNumber), jet_detail);
+    for (const auto& constituent_number : Range(jet.Constituents.GetEntriesFast())) {
+        if (!jet.Constituents.At(constituent_number)) continue;
+        fastjet::PseudoJet constituent = ConstituentJet(*jet.Constituents.At(constituent_number), jet_detail);
         jet_info->AddConstituents(constituent.user_info<JetInfo>().constituents());
         constituent_jets.emplace_back(constituent);
     }
