@@ -141,8 +141,7 @@ public:
     }
 
     float Rho() const {
-        if (Jet().pt() < DetectorGeometry::MinCellPt() || DeltaR() < DetectorGeometry::MinCellResolution())
-            return 0;
+        if (Jet().pt() < DetectorGeometry::MinCellPt() || DeltaR() < DetectorGeometry::MinCellResolution()) return 0;
         return Jet().m() / Jet().pt() / DeltaR() * 2;
     }
 
@@ -173,11 +172,11 @@ public:
     }
 
     float PullDifference() const {
-        return RestrictPhi(analysis::DeltaPhi(Pull1(), Pull2()) - M_PI);
+        return RestrictPhi(analysis::DeltaPhi(Pull1(), Pull2()) - M_PI) / M_PI;
     }
 
     float PullSum() const {
-        return RestrictPhi(Pull1() + Pull2());
+        return RestrictPhi(Pull1() + Pull2()) / M_PI;
     }
 
     float Dipolarity() const {

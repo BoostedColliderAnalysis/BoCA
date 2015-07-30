@@ -19,16 +19,16 @@ public:
     EventNeutralTagger();
 
     int Train(const Event &event, const PreCuts &pre_cuts,
-              Tag tag) const final override;
+              Tag tag) const final;
 
     std::vector<MultipletEvent<Octet62>> Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 
     int GetBdt(const Event &event, const PreCuts &pre_cuts,
-               const TMVA::Reader &reader) const final override {
+               const TMVA::Reader &reader) const final {
       return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
-    std::string Name() const final override { return "EventNeutral"; }
+    std::string Name() const final { return "EventNeutral"; }
 
 private:
 

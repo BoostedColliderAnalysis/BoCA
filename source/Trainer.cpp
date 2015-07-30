@@ -23,7 +23,7 @@ Trainer::Trainer(analysis::Tagger& tagger) : tagger_(tagger) , factory_(tagger.N
 
 std::string Trainer::FactoryOptions()
 {
-    return "!Color:!Silent";
+    return "!Color:!Silent:V:!DrawProgressBar";
 }
 
 TFile* Trainer::OutputFile() const

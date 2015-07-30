@@ -32,7 +32,7 @@ public:
 
     int WHadronicId(const Event& event) const;
 
-    std::string Name() const final override { return "WHadronic"; }
+    std::string Name() const final { return "WHadronic"; }
 
 private:
 

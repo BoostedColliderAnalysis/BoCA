@@ -22,7 +22,7 @@ class Hadrons : public analysis::Hadrons
 {
 
 public:
-  analysis::Jets Jets() const final override {
+  analysis::Jets Jets() const final {
         switch (DetectorGeometry::jet_type()) {
         case JetType::jet :
             return DelphesJets(JetDetail::structure);
@@ -33,9 +33,9 @@ public:
         }
     }
 
-    float ScalarHt() const final override;
+    float ScalarHt() const final;
 
-    fastjet::PseudoJet MissingEt() const final override;
+    fastjet::PseudoJet MissingEt() const final;
 
     analysis::Jets UniqueJets() const;
 

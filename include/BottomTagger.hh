@@ -20,7 +20,7 @@ public:
      * @brief Train the bottom tagger with pre cuts
      */
     int Train(const Event &event, const PreCuts &pre_cuts,
-              Tag tag) const final override;
+              Tag tag) const final;
 
     /**
      * @brief Return all jets of the event with bottom bdt value considering pre cuts
@@ -47,9 +47,9 @@ public:
      */
     Jets SubMultiplet(const fastjet::PseudoJet& jet, const TMVA::Reader& reader, int sub_jet_number) const;
 
-    std::string Name() const final override { return "Bottom"; }
+    std::string Name() const final { return "Bottom"; }
 
-    std::string NiceName() const final override { return "b"; }
+    std::string NiceName() const final { return "b"; }
 
 private:
 

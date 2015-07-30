@@ -2,6 +2,8 @@
 
 #include "Global.hh"
 #include "LorentzVector.hh"
+// #include "Predicate.hh"
+
 class TLorentzVector;
 
 namespace analysis {
@@ -34,7 +36,7 @@ private:
 
     int position_ = EmptyPosition;
 
-    int id_;
+    int id_ = int(Id::empty);
 
 };
 
