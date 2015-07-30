@@ -2,11 +2,9 @@
 
 #include <string>
 
-namespace analysis
-{
+namespace analysis {
 
-enum class Tag
-{
+enum class Tag {
     background = 0,
     signal = 1
 
@@ -14,8 +12,7 @@ enum class Tag
 
 std::string Name(const Tag tag);
 
-class Identification
-{
+class Identification {
 
 public:
 
@@ -39,23 +36,28 @@ public:
 
     bool Flag() const;
 
-    bool Degenerate() const {
+    bool Degenerate() const
+    {
         return degenerate_;
     }
 
-    void SetDegenerate(const bool degenerate) {
+    void SetDegenerate(const bool degenerate)
+    {
         degenerate_ = degenerate;
     }
 
-    void SetDegenerate() {
+    void SetDegenerate()
+    {
         degenerate_ = true;
     }
 
-    void UnsetDegenerate() {
+    void UnsetDegenerate()
+    {
         degenerate_ = false;
     }
 
-    float initial_value() const {
+    float initial_value() const
+    {
         return -11.1111111; // this must be identical to the initial value in the branch
     }
 
@@ -66,9 +68,10 @@ public:
 //     }
 
 //     template<typename Multiplet>
-bool operator < (const Identification &multiplet) const {
-      // largest bdt in front
-      return (Bdt() > multiplet.Bdt());
+    bool operator < (const Identification& multiplet) const
+    {
+        // largest bdt in front
+        return (Bdt() > multiplet.Bdt());
     }
 
 private:

@@ -9,16 +9,15 @@ namespace analysis {
  *
  *
  */
-class Discriminator : public Reconstruction
-{
+class Discriminator : public Reconstruction {
 
 public:
 
-    Jets GetCandidateJets(const Jets &, const float);
+    Jets GetCandidateJets(const Jets&, const float);
 
-    Jets GetCandidateJetsForced(const Jets &, const float);
+    Jets GetCandidateJetsForced(const Jets&, const float);
 
-    static bool JetIsBad(const fastjet::PseudoJet &Jet);
+    static bool JetIsBad(const fastjet::PseudoJet& Jet);
 
 };
 

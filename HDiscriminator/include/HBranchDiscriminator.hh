@@ -4,7 +4,7 @@
 #include "Rtypes.h"
 #include "TGenericClassInfo.h"
 
-namespace hcpvhiggs{
+namespace hcpvhiggs {
 
 /**
  * \class HCandidateBranch
@@ -12,8 +12,7 @@ namespace hcpvhiggs{
  * @brief Class for saving reconstructed candidates to root
  *
  */
-class HCandidateBranch : public TObject
-{
+class HCandidateBranch : public TObject {
 
 public:
 
@@ -73,8 +72,7 @@ private:
 * @brief Class for saving leptons to root
 *
 */
-class HLeptonBranch : public TObject
-{
+class HLeptonBranch : public TObject {
 
 public:
 
@@ -100,8 +98,7 @@ private:
  * @brief Class for saving leptons to root
  *
  */
-class ConstituentBranch : public TObject
-{
+class ConstituentBranch : public TObject {
 
 public:
 
@@ -127,8 +124,7 @@ private:
  * @brief Class for saving leptons to root
  *
  */
-class HJetPropertiesBranch : public TObject
-{
+class HJetPropertiesBranch : public TObject {
 
 public:
 

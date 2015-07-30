@@ -7,15 +7,14 @@
 #include "SubStructure.hh"
 
 
-namespace hcpvhiggs{
+namespace hcpvhiggs {
 
 /**
  *
  * @brief JetTag subclass for Discriminator
  *
  */
-class JetTag : public analysis::JetTag
-{
+class JetTag : public analysis::JetTag {
 
 public:
 
@@ -32,8 +31,7 @@ public:
  * \author Jan Hajer
  *
  */
-class HAnalysis //: public analysis::Analysis
-{
+class HAnalysis { //: public analysis::Analysis
 
 public:
 
@@ -53,37 +51,35 @@ public:
      * @brief Branch to write Higgs info into
      *
      */
-    exroot::TreeBranch *CandidateBranch;
+    exroot::TreeBranch* CandidateBranch;
 
     /**
      * @brief Branch to write Lepton info into
      *
      */
-    exroot::TreeBranch *LeptonBranch;
+    exroot::TreeBranch* LeptonBranch;
 
     /**
      * @brief Branch to write constituent info into
      *
      */
-    exroot::TreeBranch *constituentBranch;
+    exroot::TreeBranch* constituentBranch;
 
 private:
 
-     long EventNumberMax() const {
-
+    long EventNumberMax() const
+    {
         return 10000;
-
     };
 
-     std::string ProjectName() const {
-
+    std::string ProjectName() const
+    {
         return "Discriminator";
-
     };
 
     analysis::JetTag  jet_tag;
 
-    analysis::SubStructure * sub_structure;
+    analysis::SubStructure* sub_structure;
 
     /**
      * @brief Lepton calculations
@@ -91,7 +87,7 @@ private:
      * @param event ...
      * @return std::vector< fastjet::PseudoJet, std::allocator< void > >
      */
-    analysis::Jets GetLeptonJets(analysis::Event &event);
+    analysis::Jets GetLeptonJets(analysis::Event& event);
 
     /**
      * @brief Lepton event counter
@@ -104,23 +100,23 @@ private:
      *
      * @return void
      */
-    int RunAnalysis(analysis::Event &event, const std::string &Study);
+    int RunAnalysis(analysis::Event& event, const std::string& Study);
 
     /**
      * @brief prepares the std::vector describing the input root files
      *
      * @return void
      */
-    std::vector<analysis::File * > GetFiles(const std::string &Name);
+    std::vector<analysis::File*> GetFiles(const std::string& Name);
 
     /**
      * @brief New Analysis
      *
      * @return void
      */
-    void NewBranches(exroot::TreeWriter *NewTreeWriter);
+    void NewBranches(exroot::TreeWriter* NewTreeWriter);
 
-     analysis::Strings GetStudyNames() const;
+    analysis::Strings GetStudyNames() const;
 
 };
 

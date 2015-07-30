@@ -1,7 +1,6 @@
 #include "Septet.hh"
 
 
-namespace analysis
-{
+namespace analysis {
 namespace toppartner {}
 }

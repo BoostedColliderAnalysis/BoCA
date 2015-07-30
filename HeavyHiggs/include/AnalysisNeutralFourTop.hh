@@ -4,16 +4,14 @@
 
 #include "Doublet.hh"
 
-namespace analysis
-{
+namespace analysis {
 
 /**
  * @brief Namespace for the heavy higgs analyses
  *
  */
 
-namespace heavyhiggs
-{
+namespace heavyhiggs {
 
 /**
  *
@@ -23,18 +21,19 @@ namespace heavyhiggs
  *
  */
 template<typename Tagger>
-class AnalysisNeutralFourTop : public AnalysisHeavyHiggs<Tagger>
-{
+class AnalysisNeutralFourTop : public AnalysisHeavyHiggs<Tagger> {
 
 public:
 
-    AnalysisNeutralFourTop() {
+    AnalysisNeutralFourTop()
+    {
         this->tagger().set_analysis_name(ProjectName());
 // 	this->pre_cuts().SetPtLowerCut(Id::top,100);
     }
 
     void SetFiles(const Tag tag) final {
-        switch (tag) {
+        switch (tag)
+        {
         case Tag::signal :
             this->NewFile(tag, SignalCrosssection(Process::Htt), Process::Htt);
             this->NewFile(tag, SignalCrosssection(Process::Htwb), Process::Htwb);
@@ -46,12 +45,14 @@ public:
         }
     }
 
-    std::string ProjectName() const final {
+    std::string ProjectName() const final
+    {
         //        return  ProcessName() + "-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV-" + std::to_string(Mass()) + "GeV-Eta2.5";
-        return  ProcessName() + "-" + Name(this->collider_type()) + "-"+ std::to_string(this->Mass()) + "GeV";
+        return  ProcessName() + "-" + Name(this->collider_type()) + "-" + std::to_string(this->Mass()) + "GeV";
     };
-    
+ 
     float SignalCrosssection(const Process process) const {
+
       switch (this->collider_type()) {
         case Collider::LHC:
           switch(process){
@@ -186,15 +187,16 @@ public:
     }
     
 
-
 private:
 
     std::string ProcessName() const override {
         return "NeutralFourTop";
     }
 
-    int PassPreCut(const Event &event) const override {
+    int PassPreCut(const Event& event) const override
+    {
         Jets Particles = event.Partons().GenParticles();
+
         Jets Tops = RemoveIfWrongAbsParticle(Particles, Id::top);
         Jets Bottoms = RemoveIfWrongAbsParticle(Particles, Id::bottom);
 //         if(Bottoms.size() < 4) return 0;
@@ -215,10 +217,13 @@ private:
           if(lepton.pt()>this->LeptonPt()&&lepton.user_info<JetInfo>().Charge()>0)positive_lepton++;
           if(lepton.pt()>this->LeptonPt()&&lepton.user_info<JetInfo>().Charge()<0)negative_lepton++;
         }
+
 	if (positive_lepton<2&&negative_lepton<2) return 0;	
         if ((positive_lepton+negative_lepton)>2) return 0;
+
         Jets jets = event.Hadrons().Jets();
-        if (jets.size() < 4) return 0;
+        if (jets.size() < 4)
+            return 0;
         return 1;
     }
 

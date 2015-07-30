@@ -8,14 +8,13 @@ namespace analysis {
  * @brief particles for HAnalysis
  *
  */
-class Partons : public FourVector
-{
+class Partons : public FourVector {
 
 public:
 
-    virtual ~Partons(){};
+    virtual ~Partons() {};
 
-    void NewEvent(const analysis::ClonesArrays &clones_arrays);
+    void NewEvent(const analysis::ClonesArrays& clones_arrays);
 
     virtual Jets Particles() const = 0;
 

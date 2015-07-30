@@ -5,26 +5,23 @@
 #include "Reader.hh"
 #include "Branch.hh"
 
-namespace analysis
-{
+namespace analysis {
 
-namespace heavyhiggs
-{
+namespace heavyhiggs {
 
 /**
  * @brief Semi leptonic top BDT tagger
  *
  */
-class HeavyHiggsTauTagger : public BranchTagger<HeavyHiggsTauBranch>
-{
+class HeavyHiggsTauTagger : public BranchTagger<HeavyHiggsTauBranch> {
 
 public:
 
     HeavyHiggsTauTagger();
 
-    int Train(const Event &event, const Tag tag);
+    int Train(const Event& event, const Tag tag);
 
-    std::vector<Doublet>  Multiplets(const Event &event, const TMVA::Reader &reader) const;
+    std::vector<Doublet>  Multiplets(const Event& event, const TMVA::Reader& reader) const;
 
 private:
 

@@ -6,7 +6,6 @@ int main()
 {
     analysis::standardmodel::AnalysisW<analysis::BottomTagger> bottom_analysis;
     bottom_analysis.RunFast();
-
     switch (bottom_analysis.WDecay()) {
     case analysis::standardmodel::Decay::hadronic : {
         analysis::standardmodel::AnalysisW<analysis::WHadronicTagger> w_hadronic_analysis;

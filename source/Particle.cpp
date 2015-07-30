@@ -1,8 +1,7 @@
 #include "Particle.hh"
 #include "Predicate.hh"
 
-namespace analysis
-{
+namespace analysis {
 
 Particle::Particle(const int id)
 {
@@ -12,7 +11,7 @@ Particle::Particle(const Id id)
 {
     id_ = to_int(id);
 }
-Particle::Particle(const LorentzVector &momentum, const int id, const int position)
+Particle::Particle(const LorentzVector& momentum, const int id, const int position)
 {
     id_ = id;
     position_ = position;
@@ -24,7 +23,7 @@ Particle::Particle(const Id id, const int position)
     id_ = to_int(id);
     position_ = position;
 }
-Particle::Particle(const TLorentzVector &momentum, const int id, const int position)
+Particle::Particle(const TLorentzVector& momentum, const int id, const int position)
 {
     id_ = id;
     position_ = position;

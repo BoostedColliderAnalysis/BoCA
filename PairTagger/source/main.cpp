@@ -4,7 +4,7 @@
 #include "Factory.hh"
 #include "Debug.hh"
 
-void RunTagger(analysis::Tagger &tagger, analysis::Stage stage)
+void RunTagger(analysis::Tagger& tagger, analysis::Stage stage)
 {
 //     fusionpair::Analysis analysis(tagger);
 //     const std::string Name = tagger.name();
@@ -45,14 +45,11 @@ void RunTagger(analysis::Tagger &tagger, analysis::Stage stage)
 
 int main()
 {
-  analysis::BottomTagger bottom_tagger;
+    analysis::BottomTagger bottom_tagger;
     RunTagger(bottom_tagger, analysis::Stage::trainer);
     RunTagger(bottom_tagger, analysis::Stage::reader);
-
     analysis::JetPairTagger jet_pair_tagger;
     RunTagger(jet_pair_tagger, analysis::Stage::trainer);
     RunTagger(jet_pair_tagger, analysis::Stage::reader);
-
     return 0;
-
 }

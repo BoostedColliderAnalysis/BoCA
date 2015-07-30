@@ -3,10 +3,9 @@
 #include <iostream>
 #include "TVector3.h"
 
-namespace analysis
-{
+namespace analysis {
 
-void Vector3::operator=(const TVector3 &vector)
+void Vector3::operator=(const TVector3& vector)
 {
     x_ = vector.X();
     y_ = vector.Y();
@@ -17,7 +16,7 @@ Vector3::Vector3() : x_(0.0), y_(0.0), z_(0.0) {}
 
 Vector3::Vector3(float xx, float yy, float zz) : x_(xx), y_(yy), z_(zz) {}
 
-Vector3::Vector3(const float *x0) : x_(x0[0]), y_(x0[1]), z_(x0[2]) {}
+Vector3::Vector3(const float* x0) : x_(x0[0]), y_(x0[1]), z_(x0[2]) {}
 
 float Vector3::operator()(int i) const
 {
@@ -36,7 +35,7 @@ float Vector3::operator()(int i) const
     return 0.;
 }
 
-float &Vector3::operator()(int i)
+float& Vector3::operator()(int i)
 {
 //dereferencing operator
     switch (i) {
@@ -53,16 +52,18 @@ float &Vector3::operator()(int i)
     return x_;
 }
 
-float Vector3::Angle(const Vector3 &q) const
+float Vector3::Angle(const Vector3& q) const
 {
 // return the angle w.r.t. another 3-vector
     float ptot2 = Mag2() * q.Mag2();
-    if (ptot2 <= 0) {
+    if (ptot2 <= 0)
         return 0.0;
-    } else {
+    else {
         float arg = Dot(q) / std::sqrt(ptot2);
-        if (arg > 1.0) arg = 1.0;
-        if (arg < -1.0) arg = -1.0;
+        if (arg > 1.0)
+            arg = 1.0;
+        if (arg < -1.0)
+            arg = -1.0;
         return std::acos(arg);
     }
 }
@@ -80,7 +81,7 @@ float Vector3::Perp() const
     return std::sqrt(Perp2());
 }
 
-float Vector3::Perp(const Vector3 &p) const
+float Vector3::Perp(const Vector3& p) const
 {
 //return the transverse component (R in cylindrical coordinate system)
     return std::sqrt(Perp2(p));
@@ -137,15 +138,13 @@ void Vector3::RotateZ(float angle)
     y_ = s * xx + c * y_;
 }
 
-void Vector3::RotateUz(const Vector3 &NewUzVector)
+void Vector3::RotateUz(const Vector3& NewUzVector)
 {
 // NewUzVector must be normalized !
-
     float u1 = NewUzVector.x_;
     float u2 = NewUzVector.y_;
     float u3 = NewUzVector.z_;
     float up = u1 * u1 + u2 * u2;
-
     if (up) {
         up = std::sqrt(up);
         float px = x_, py = y_, pz = z_;
@@ -155,7 +154,7 @@ void Vector3::RotateUz(const Vector3 &NewUzVector)
     } else if (u3 < 0.) {
         x_ = -x_; // phi=0 teta=pi
         z_ = -z_;
-    } else {};
+    } else ;
 }
 
 float Vector3::PseudoRapidity() const
@@ -164,11 +163,15 @@ float Vector3::PseudoRapidity() const
 //return 0.5*log( (m+z_)/(m-z_) );
 // guard against Pt=0
     double cosTheta = CosTheta();
-    if (cosTheta * cosTheta < 1) return -0.5 * std::log((1.0 - cosTheta) / (1.0 + cosTheta));
-    if (z_ == 0) return 0;
+    if (cosTheta * cosTheta < 1)
+        return -0.5 * std::log((1.0 - cosTheta) / (1.0 + cosTheta));
+    if (z_ == 0)
+        return 0;
 // Warning("PseudoRapidity","transvers momentum = 0! return +/- 10e10");
-    if (z_ > 0) return 10e10;
-    else return -10e10;
+    if (z_ > 0)
+        return 10e10;
+    else
+        return -10e10;
 }
 
 void Vector3::SetPtEtaPhi(float pt, float eta, float phi)
@@ -205,7 +208,7 @@ void Vector3::SetPhi(float ph)
     SetY(xy * std::sin(ph));
 }
 
-float Vector3::DeltaR(const Vector3 &v) const
+float Vector3::DeltaR(const Vector3& v) const
 {
 //return deltaR with respect to v
     float deta = Eta() - v.Eta();
@@ -222,39 +225,39 @@ void Vector3::SetMagThetaPhi(float mag, float theta, float phi)
     z_ = amag * std::cos(theta);
 }
 
-Vector3 operator + (const Vector3 &a, const Vector3 &b)
+Vector3 operator + (const Vector3& a, const Vector3& b)
 {
     return Vector3(a.X() + b.X(), a.Y() + b.Y(), a.Z() + b.Z());
 }
 
-Vector3 operator - (const Vector3 &a, const Vector3 &b)
+Vector3 operator - (const Vector3& a, const Vector3& b)
 {
     return Vector3(a.X() - b.X(), a.Y() - b.Y(), a.Z() - b.Z());
 }
 
-Vector3 operator * (const Vector3 &p, float a)
+Vector3 operator * (const Vector3& p, float a)
 {
     return Vector3(a * p.X(), a * p.Y(), a * p.Z());
 }
 
-Vector3 operator * (float a, const Vector3 &p)
+Vector3 operator * (float a, const Vector3& p)
 {
     return Vector3(a * p.X(), a * p.Y(), a * p.Z());
 }
 
-float operator * (const Vector3 &a, const Vector3 &b)
+float operator * (const Vector3& a, const Vector3& b)
 {
     return a.Dot(b);
 }
 
-Vector3 operator * (const TMatrix &m, const Vector3 &v)
+Vector3 operator * (const TMatrix& m, const Vector3& v)
 {
     return Vector3(m(0, 0) * v.X() + m(0, 1) * v.Y() + m(0, 2) * v.Z(),
                    m(1, 0) * v.X() + m(1, 1) * v.Y() + m(1, 2) * v.Z(),
                    m(2, 0) * v.X() + m(2, 1) * v.Y() + m(2, 2) * v.Z());
 }
 
-float &Vector3::operator[](int i)
+float& Vector3::operator[](int i)
 {
     return operator()(i);
 }
@@ -320,24 +323,24 @@ void Vector3::SetXYZ(float xx, float yy, float zz)
     z_ = zz;
 }
 
-void Vector3::GetXYZ(float *carray) const
+void Vector3::GetXYZ(float* carray) const
 {
     carray[0] = x_;
     carray[1] = y_;
     carray[2] = z_;
 }
 
-bool Vector3::operator == (const Vector3 &v) const
+bool Vector3::operator == (const Vector3& v) const
 {
     return (v.x_ == x_ && v.y_ == y_ && v.z_ == z_) ? true : false;
 }
 
-bool Vector3::operator != (const Vector3 &v) const
+bool Vector3::operator != (const Vector3& v) const
 {
     return (v.x_ != x_ || v.y_ != y_ || v.z_ != z_) ? true : false;
 }
 
-Vector3 &Vector3::operator += (const Vector3 &p)
+Vector3& Vector3::operator += (const Vector3& p)
 {
     x_ += p.x_;
     y_ += p.y_;
@@ -345,7 +348,7 @@ Vector3 &Vector3::operator += (const Vector3 &p)
     return *this;
 }
 
-Vector3 &Vector3::operator -= (const Vector3 &p)
+Vector3& Vector3::operator -= (const Vector3& p)
 {
     x_ -= p.x_;
     y_ -= p.y_;
@@ -358,7 +361,7 @@ Vector3 Vector3::operator - () const
     return Vector3(-x_, -y_, -z_);
 }
 
-Vector3 &Vector3::operator *= (float a)
+Vector3& Vector3::operator *= (float a)
 {
     x_ *= a;
     y_ *= a;
@@ -366,12 +369,12 @@ Vector3 &Vector3::operator *= (float a)
     return *this;
 }
 
-float Vector3::Dot(const Vector3 &p) const
+float Vector3::Dot(const Vector3& p) const
 {
     return x_ * p.x_ + y_ * p.y_ + z_ * p.z_;
 }
 
-Vector3 Vector3::Cross(const Vector3 &p) const
+Vector3 Vector3::Cross(const Vector3& p) const
 {
     return Vector3(y_ * p.z_ - p.y_ * z_, z_ * p.x_ - p.z_ * x_, x_ * p.y_ - p.x_ * y_);
 }
@@ -386,11 +389,10 @@ Vector3 Vector3::Orthogonal() const
     float xx = x_ < 0.0 ? -x_ : x_;
     float yy = y_ < 0.0 ? -y_ : y_;
     float zz = z_ < 0.0 ? -z_ : z_;
-    if (xx < yy) {
+    if (xx < yy)
         return xx < zz ? Vector3(0, z_, -y_) : Vector3(y_, -x_, 0);
-    } else {
+    else
         return yy < zz ? Vector3(-z_, 0, x_) : Vector3(y_, -x_, 0);
-    }
 }
 
 float Vector3::Perp2() const
@@ -404,17 +406,19 @@ float Vector3::Pt() const
     return Perp();
 }
 
-float Vector3::Perp2(const Vector3 &p) const
+float Vector3::Perp2(const Vector3& p) const
 {
     float tot = p.Mag2();
     float ss = Dot(p);
     float per = Mag2();
-    if (tot > 0.0) per -= ss * ss / tot;
-    if (per < 0) per = 0;
+    if (tot > 0.0)
+        per -= ss * ss / tot;
+    if (per < 0)
+        per = 0;
     return per;
 }
 
-float Vector3::Pt(const Vector3 &p) const
+float Vector3::Pt(const Vector3& p) const
 {
     return Perp(p);
 }
@@ -447,7 +451,7 @@ void Vector3::SetPerp(float r)
     }
 }
 
-float Vector3::DeltaPhi(const Vector3 &v) const
+float Vector3::DeltaPhi(const Vector3& v) const
 {
     return TVector2::Phi_mpi_pi(Phi() - v.Phi());
 }
@@ -457,7 +461,7 @@ float Vector3::Eta() const
     return PseudoRapidity();
 }
 
-float Vector3::DrEtaPhi(const Vector3 &v) const
+float Vector3::DrEtaPhi(const Vector3& v) const
 {
     return DeltaR(v);
 }
