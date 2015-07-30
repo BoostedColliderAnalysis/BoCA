@@ -18,19 +18,17 @@ public:
 
     EventFusionTagger();
 
-    int Train(const Event& event, PreCuts& pre_cuts, const Tag tag) const;
+    int Train(const Event &event, const PreCuts &pre_cuts,
+              Tag tag) const override;
 
-    std::vector<MultipletEvent<Sextet>> Multiplets(const Event& event, TMVA::Reader& reader);
+    std::vector<MultipletEvent<Sextet>> Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 
-    int GetBdt(const Event& event, PreCuts& pre_cuts, const TMVA::Reader& reader) const  final
-    {
-//       return SaveEntries(Multiplets(event, pre_cuts, reader));
+    int GetBdt(const Event &event, const PreCuts &pre_cuts,
+               const TMVA::Reader &reader) const final {
+      return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
-    std::string Name() const final
-    {
-        return "EventFusion";
-    }
+    std::string Name() const final { return "EventFusion"; }
 
 private:
 

@@ -26,7 +26,7 @@ public:
 
     TopAnalysis()
     {
-        this->tagger().set_analysis_name(ProjectName());
+        this->set_tagger_analysis_name(ProjectName());
         this->pre_cuts().SetPtLowerCut(Id::top, this->LowerPtCut());
         this->pre_cuts().SetPtUpperCut(Id::top, this->UpperPtCut());
         this->pre_cuts().SetMassUpperCut(Id::top, 400);
@@ -45,44 +45,34 @@ private:
 
     std::string ProjectName() const final
     {
-        return  Name(this->collider_type()) + "-" + std::to_string(this->LowerPtCut()) + "GeV-" + Name(Process::tt) + "-" + Name(TopDecay()) + "-triplet";
+        return  Name(this->collider_type()) + "-" + std::to_string(this->LowerPtCut()) + "GeV-" + Name(Process::tt) + "-" + Name(TopDecay()) + "-test2";
     }
 
-    void SetFiles(const Tag tag) final {
+    void SetFiles(Tag tag) final {
         switch (tag)
         {
         case Tag::signal :
-            if (TopDecay() == Decay::hadronic || this->tagger().Name() == "Bottom")
-                this->NewFile(tag, Process::tt_had);
-            if (this->tagger().Name() == "Bottom")
-                this->NewFile(tag, Process::hh);
-            if (this->tagger().Name() == "Bottom")
-                this->NewFile(tag, Process::bb);
-            if (TopDecay() == Decay::leptonic || this->tagger().Name() == "Bottom")
-                this->NewFile(tag, Process::tt_lep);
-            if (this->tagger().Name() == "WHadronic")
-                this->NewFile(tag, Process::ww);
+            if (TopDecay() == Decay::hadronic || this->tagger().Name() == "Bottom") this->NewFile(tag, Process::tt_had);
+            if (this->tagger().Name() == "Bottom") this->NewFile(tag, Process::hh);
+            if (this->tagger().Name() == "Bottom") this->NewFile(tag, Process::bb);
+            if (TopDecay() == Decay::leptonic || this->tagger().Name() == "Bottom") this->NewFile(tag, Process::tt_lep);
+            if (this->tagger().Name() == "WHadronic") this->NewFile(tag, Process::ww);
             break;
         case Tag::background :
-            if (TopDecay() == Decay::leptonic && this->tagger().Name() != "Bottom")
-                this->NewFile(tag, Process::tt_had);
-            if (this->tagger().Name() != "Bottom")
-                this->NewFile(tag, Process::hh);
-            if (this->tagger().Name() != "Bottom")
-                this->NewFile(tag, Process::bb);
+            if (TopDecay() == Decay::leptonic && this->tagger().Name() != "Bottom") this->NewFile(tag, Process::tt_had);
+            if (this->tagger().Name() != "Bottom") this->NewFile(tag, Process::hh);
+            if (this->tagger().Name() != "Bottom") this->NewFile(tag, Process::bb);
             this->NewFile(tag, Process::cc);
             this->NewFile(tag, Process::gg);
             this->NewFile(tag, Process::qq);
-            if (TopDecay() == Decay::hadronic && this->tagger().Name() != "Bottom")
-                this->NewFile(tag, Process::tt_lep);
+            if (TopDecay() == Decay::hadronic && this->tagger().Name() != "Bottom") this->NewFile(tag, Process::tt_lep);
             this->NewFile(tag, Process::zz);
-            if (this->tagger().Name() != "WHadronic")
-                this->NewFile(tag, Process::ww);
+            if (this->tagger().Name() != "WHadronic") this->NewFile(tag, Process::ww);
             break;
         }
     }
 
-    int PassPreCut(const Event& event) const final
+    int PassPreCut(const Event& event, Tag) const final
     {
         //static_cast<::analysis::delphes::Hadrons&>(event.Hadrons()).UniqueJets();
         Jets particles = fastjet::sorted_by_pt(event.Partons().GenParticles());

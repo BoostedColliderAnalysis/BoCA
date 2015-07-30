@@ -7,11 +7,11 @@ namespace analysis {
 
 TripletJetPairTagger::TripletJetPairTagger()
 {
-    Note();
+  Info();
     DefineVariables();
 }
 
-int TripletJetPairTagger::Train(const analysis::Event& event, analysis::PreCuts&, const analysis::Tag tag) const
+int TripletJetPairTagger::Train(const analysis::Event& event, const analysis::PreCuts&, Tag tag) const
 {
     Info("W Tags");
     Jets jets = bottom_reader_.Multiplets(event);
@@ -99,7 +99,7 @@ int TripletJetPairTagger::Train(const analysis::Event& event, analysis::PreCuts&
 //     return JetPairBranches;
 }
 
-std::vector<Quartet31>  TripletJetPairTagger::Multiplets(const Event& event, analysis::PreCuts&, const TMVA::Reader& reader) const
+std::vector<Quartet31>  TripletJetPairTagger::Multiplets(const Event& event, const analysis::PreCuts&, const TMVA::Reader& reader) const
 {
     Jets jets = bottom_reader_.Multiplets(event);
     std::vector<Triplet> triplets = top_hadronic_reader_.Multiplets(event);
@@ -112,9 +112,7 @@ std::vector<Quartet31>  TripletJetPairTagger::Multiplets(const Event& event, ana
             quartet.SetBdt(Bdt(quartet, reader));
             quartets.emplace_back(quartet);
         }
-    std::sort(quartets.begin(), quartets.end());
-    quartets.erase(quartets.begin() + std::min(CandidatesMax(), int(quartets.size())), quartets.end());
-    return quartets;
+    return ReduceResult(quartets);
 }
 
 }

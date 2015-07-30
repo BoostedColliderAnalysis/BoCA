@@ -20,10 +20,10 @@ public:
 
     AnalysisCharged()
     {
-        this->tagger().set_analysis_name(ProjectName());
+        this->tagger().SetAnalysisName(ProjectName());
     }
 
-    void SetFiles(const Tag tag) final {
+    void SetFiles(Tag tag) final {
         switch (tag)
         {
         case Tag::signal :
@@ -106,7 +106,7 @@ private:
         }
     }
 
-    int PassPreCut(const Event& event) const
+    int PassPreCut(const Event& event, Tag) const
     {
 //         Info("pass pre cut");
         Jets Particles = event.Partons().GenParticles();
@@ -172,7 +172,7 @@ private:
         }
     }
 
-    float BackgroundCrosssection(const Process process) const
+    float BackgroundCrosssection(const Process) const
     {
         switch (this->collider_type()) {
         case Collider::LHC :

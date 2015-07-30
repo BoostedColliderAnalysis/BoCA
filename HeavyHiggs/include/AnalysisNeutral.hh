@@ -25,10 +25,10 @@ public:
 
     AnalysisNeutral()
     {
-        this->tagger().set_analysis_name(ProjectName());
+        this->tagger().SetAnalysisName(ProjectName());
     }
 
-    void SetFiles(const Tag tag) final {
+    void SetFiles(Tag tag) final {
         switch (tag)
         {
         case Tag::signal :
@@ -109,7 +109,7 @@ private:
         return "Neutral";
     }
 
-    int PassPreCut(const Event& event) const override
+    int PassPreCut(const Event& event, Tag) const override
     {
         Jets Particles = event.Partons().GenParticles();
         Jets Tops = CopyIfParticle(Particles, Id::top);

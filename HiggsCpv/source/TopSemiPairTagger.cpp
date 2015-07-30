@@ -9,11 +9,11 @@ namespace higgscpv {
 
 TopSemiPairTagger::TopSemiPairTagger()
 {
-    Note();
+  Info();
     DefineVariables();
 }
 
-int TopSemiPairTagger::Train(const Event& event, const Tag tag)
+int TopSemiPairTagger::Train(const analysis::Event& event, const analysis::PreCuts&, Tag tag) const
 {
     Info();
     std::vector<Triplet> triplets_hadronic = top_hadronic_reader_.Multiplets(event);

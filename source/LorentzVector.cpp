@@ -1,6 +1,7 @@
 #include "LorentzVector.hh"
+#include "Vector2.hh"
 #include "TLorentzVector.h"
-#include <iostream>
+#include "Debug.hh"
 
 namespace analysis {
 
@@ -16,7 +17,7 @@ LorentzVector::LorentzVector(float x, float y, float z, float t) : p_(x, y, z), 
 
 LorentzVector::LorentzVector(const float* x0) : p_(x0), e_(x0[3]) {}
 
-LorentzVector::LorentzVector(const Vector3& p, float e) : p_(p), e_(e) {}
+LorentzVector::LorentzVector(Vector3 p, float e) : p_(std::move(p)), e_(e) {}
 
 float LorentzVector::operator()(int i) const
 {
@@ -29,8 +30,7 @@ float LorentzVector::operator()(int i) const
     case kT:
         return e_;
     default:
-// Error("operator()()", "bad index (%d) returning 0", i);
-        std::cout << "Error" << std::endl;
+        Error("bad index (%d) returning 0", i);
     }
     return 0.;
 }
@@ -46,8 +46,7 @@ float& LorentzVector::operator()(int i)
     case kT:
         return e_;
     default:
-// Error("operator()()", "bad index (%d) returning &e_", i);
-        std::cout << "Error" << std::endl;
+        Error("bad index (%d) returning &e_", i);
     }
     return e_;
 }
@@ -111,7 +110,7 @@ float LorentzVector::Et(const Vector3& v) const
 float LorentzVector::DeltaR(const LorentzVector& v) const
 {
     float deta = Eta() - v.Eta();
-    float dphi = TVector2::Phi_mpi_pi(Phi() - v.Phi());
+    float dphi = Vector2::Phi_mpi_pi(Phi() - v.Phi());
     return std::sqrt(deta * deta + dphi * dphi);
 }
 float LorentzVector::Mag() const
@@ -365,7 +364,7 @@ float LorentzVector::Et2() const
 
 float LorentzVector::DeltaPhi(const LorentzVector& v) const
 {
-    return TVector2::Phi_mpi_pi(Phi() - v.Phi());
+    return Vector2::Phi_mpi_pi(Phi() - v.Phi());
 }
 
 float LorentzVector::Eta() const

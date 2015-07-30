@@ -30,13 +30,11 @@ protected:
 
     void ClearFiles();
 
-    std::vector<analysis::File> files(const Tag tag);
-
-    std::string ExportName(const Stage stage, const Tag tag) const;
+    std::vector<analysis::File> files(Tag tag);
 
     void PrepareFiles();
 
-    virtual void SetFiles(const Tag tag) = 0;
+    virtual void SetFiles(Tag tag) = 0;
 
     exroot::TreeWriter TreeWriter(TFile& export_file, const std::string& export_tree_name, Stage stage);
 
@@ -68,11 +66,11 @@ protected:
 
     virtual std::string FilePath() const;
 
-    void NewFile(const Tag tag, const std::string& name, const std::string& nice_name = "");
+    void NewFile(Tag tag, const std::string& name, const std::string& nice_name = "");
 
-    void NewFile(const Tag tag, const std::string& name, const float crosssection, const std::string& nice_name = "");
+    void NewFile(Tag tag, const std::string& name, float crosssection, const std::string& nice_name = "");
 
-    analysis::File File(const std::string& name, const float crosssection, const std::string& nice_name = "") const;
+    analysis::File File(const std::string& name, float crosssection, const std::string& nice_name = "") const;
 
     analysis::File File(const std::string& name, const std::string& nice_name = "") const;
 
@@ -80,35 +78,27 @@ protected:
 
     std::string TreeName(const std::string& name) const;
 
-    virtual int PassPreCut(const Event&) const;
+    virtual int PassPreCut(const Event&, Tag tag) const = 0;
+
+    const PreCuts& pre_cuts() const;
 
     PreCuts& pre_cuts();
 
     virtual const Tagger& tagger() const = 0;
 
-    virtual Tagger& tagger() = 0;
-
 private:
+
+    virtual Tagger& tagger() = 0;
 
     std::string FileSuffix() const;
 
-    void NewSignalFile(const std::string& name, const std::string& nice_name = "");
-
-    void NewSignalFile(const std::string& name, const float crosssection, const std::string& nice_name = "");
-
-    void NewBackgroundFile(const std::string& name, const std::string& nice_name = "");
-
-    void NewBackgroundFile(const std::string& name, const float crosssection, const std::string& nice_name = "");
-
     bool Missing(const std::string& name) const;
 
-    virtual void AnalysisLoop(const Stage stage) = 0;
+    virtual void AnalysisLoop(Stage stage) = 0;
 
-    std::string PathName(const std::string& file_name, const std::string& suffix = ".root") const;
+    void RunTagger(const analysis::Stage stage);
 
-    void RunTagger(Stage stage);
-
-    void RunFactory();
+    void RunTrainer();
 
     void RunSignificance();
 

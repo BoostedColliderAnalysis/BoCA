@@ -20,10 +20,10 @@ public:
 
     AnalysisFusion()
     {
-        this->tagger().set_analysis_name(ProjectName());
+        this->tagger().SetAnalysisName(ProjectName());
     }
 
-    void SetFiles(const Tag tag) final {
+    void SetFiles(Tag tag) final {
         switch (tag)
         {
         case Tag::signal :
@@ -152,7 +152,7 @@ private:
         }
     }
 
-    int PassPreCut(const Event& event) const
+    int PassPreCut(const Event& event, Tag) const final
     {
         Jets Particles = event.Partons().GenParticles();
         Particles = CopyIfParticle(Particles, Id::top);

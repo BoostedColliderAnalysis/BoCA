@@ -2,18 +2,19 @@
 
 #include "TClonesArray.h"
 #include "TObjArray.h"
+#include "exroot/ExRootAnalysis.hh"
 #include "Debug.hh"
 
 namespace analysis {
 
 ClonesArrays::ClonesArrays() {}
 
-ClonesArrays::ClonesArrays(const Source source)
+ClonesArrays::ClonesArrays(Source source)
 {
     source_ = source;
 }
 
-std::string ClonesArrays::BranchName(const Branch branch) const
+std::string ClonesArrays::BranchName(Branch branch) const
 {
     switch (branch) {
     case Branch::particle:
@@ -47,7 +48,7 @@ std::string ClonesArrays::BranchName(const Branch branch) const
     case Branch::tau:
         return "Tau";
     default :
-        Error("Unnmaed branch");
+        Error("Unnamed branch");
         return "";
     }
 }
@@ -74,25 +75,24 @@ std::vector<Branch> ClonesArrays::Branches() const
 void ClonesArrays::UseBranches(exroot::TreeReader& tree_reader)
 {
     Debug("Use TreeBrancheses");
-    for (const auto& branch : Branches())
-        clones_arrays_[branch] = tree_reader.UseBranch(BranchName(branch).c_str());
+    for (const auto& branch : Branches()) clones_arrays_[branch] = tree_reader.UseBranch(BranchName(branch).c_str());
 }
 
-TClonesArray& ClonesArrays::ClonesArray(const Branch branch) const
+TClonesArray& ClonesArrays::ClonesArray(Branch branch) const
 {
     Debug("Clones Array", BranchName(branch));
-    if (!clones_arrays_.at(branch))
-        Error("Not in branch", BranchName(branch));
+    if (!clones_arrays_.at(branch)) Error("Not in branch", BranchName(branch));
     return *clones_arrays_.at(branch);
 }
 
-TObject& ClonesArrays::Object(const Branch branch, const int number) const
+TObject& ClonesArrays::Object(Branch branch, int number) const
 {
     Debug("Object", BranchName(branch), number);
+    if (!ClonesArray(branch).At(number)) Error("Not in branch", BranchName(branch));
     return *ClonesArray(branch).At(number);
 }
 
-int ClonesArrays::EntrySum(const Branch branch) const
+int ClonesArrays::EntrySum(Branch branch) const
 {
     Debug("Sum", BranchName(branch), ClonesArray(branch).GetEntriesFast());
     return ClonesArray(branch).GetEntriesFast();

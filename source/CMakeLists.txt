@@ -2,11 +2,14 @@ add_subdirectory(exroot)
 add_subdirectory(delphes)
 
 add_include_path(../include)
-create_dictionary(Branches ./Branches.cpp ../include/LinkDef.hh)
+create_dictionary(Branches Branches.cpp ../include/LinkDef.hh)
 
 set(vector_sources
+Vector2.cpp
 Vector3.cpp
 LorentzVector.cpp
+EventShapes.cpp
+EventShape.cpp
 )
 create_library(Vector vector_sources)
 
@@ -30,14 +33,13 @@ create_library(Event event_sources)
 
 set(multiplet_sources
 Identification.cpp
-Multiplet.cpp
 Singlet.cpp
 Doublet.cpp
 Triplet.cpp
 Quartet.cpp
 Quintet.cpp
 Sextet.cpp
-Octet62.cpp
+Octet.cpp
 GlobalObservables.cpp
 )
 create_library(Multiplets multiplet_sources)
@@ -63,8 +65,7 @@ JetPairTagger.cpp
 TripletJetPairTagger.cpp
 Observable.cpp
 PreCuts.cpp
-Factory.cpp
-Reader.cpp
+Trainer.cpp
 )
 create_library(Tagger tagger_sources)
 
@@ -77,6 +78,7 @@ add_dependencies(Wimp WimpMass)
 set(analysis_sources
 Configuration.cpp
 AnalysisBase.cpp
+Trees.cpp
 Particle.cpp
 Family.cpp
 Constituent.cpp
@@ -85,7 +87,6 @@ DetectorGeometry.cpp
 JetInfo.cpp
 Reconstruction.cpp
 Discriminator.cpp
-SubStructure.cpp
 Plot.cpp
 )
 create_library(Analysis analysis_sources)

@@ -5,7 +5,6 @@ TopSemiPairTagger.cpp
 TopLeptonicPairTagger.cpp
 SignatureTagger.cpp
 EventTagger.cpp
-AnalysisHiggsCpv.cpp
 )
 create_library(HiggsCpvTagger LibrarySources)
 

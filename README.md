@@ -13,8 +13,8 @@ This code performs BDT analyses based on root files originating from MadGraph / 
 ## Installation
 
 * the following is tested on recent ubuntu installations
-* edit MadGraph path in FindMadGraph.cmake
-* if you are using a ROOT version other than the system version edit the ROOT path in FindROOT.cmake
+* edit `MadGraph` path in `FindMadGraph.cmake`
+* if you are using a `ROOT` version other than the system version edit the `ROOT` path in `FindROOT.cmake`
 ```
 mkdir build
 cd build
@@ -23,10 +23,19 @@ make # for external dependencies
 make # for the actual program
 ```
 
+## Usage
+
+Each analysis need a dedicated `Analysis` class, a set of `Tagger` classess and a `main.cpp` file.
+The `Analysis` class contains the global information of the analysis, such as file names, path names, variables names.
+Each `Tagger` class reconstructs a specific signature, every analysis needs at least one dedicated `Tagger`.
+The `main.cpp` defines the order in which each `Tagger` is passed to the `Analysis`.
+
 ## Git commands
 
-* download from server `git pull`
-* save changes `git commit -a`
+* initial download of the project `git clone https://janhajer@bitbucket.org/janhajer/analysis.git`
+* downloading update from the server `git pull`
+* save changes of specific files `git commit FILES`
+* save changes in to all files `git commit -a`
 * upload changes to server `git push`
 * change branches `git checkout BRANCH`
 * create new branch `git checkout -b NEWBRANCH`
@@ -39,4 +48,4 @@ make # for the actual program
 * use standard library when possible
 * avoid heap allocation (`new`)
 * prefer references `&` over pointers `*`
-* follow [these naming conventions]([https://google-styleguide.googlecode.com/svn/trunk/cppguide.html#Naming](https://google-styleguide.googlecode.com/svn/trunk/cppguide.html#Naming))
+* follow [these naming conventions](https://google-styleguide.googlecode.com/svn/trunk/cppguide.html#Naming)

@@ -3,6 +3,7 @@
 #include "Tagger.hh"
 #include "TLegend.h"
 #include "TFile.h"
+#include "TH1F.h"
 #include "Branches.hh"
 #include <functional>
 
@@ -27,8 +28,7 @@ class Result {
 public:
 
     Result();
-    std::vector<int> CutIntegral() const;
-
+    std::vector<int> Integral() const;
     int steps;
     std::vector<float> events;
     std::vector<float> efficiency;
@@ -37,7 +37,7 @@ public:
     std::vector<int> bins;
     InfoBranch info_branch;
     long event_sum() const;
-    void set_event_sum(const long int event_sum);
+    void set_event_sum(long int event_sum);
 private:
     long event_sum_;
 };
@@ -48,31 +48,32 @@ public:
 
     Results();
 
+    void Significances();
+
+    void BestBin();
+
+    float XValue(float value) const {
+      return value * 2 / Result().steps - 1;
+    }
+
     std::vector<Result> signal;
     std::vector<Result> background;
     std::vector<float> significances;
     std::vector<float> x_values;
     int best_bin = 0;
-
-    void Significances();
-
-    void BestBin();
-
-
-
 };
 
-
-
-
-struct Point2d {
+struct Point {
+  Point(){
+    x=0;y=0;z=0;
+  }
     float x;
     float y;
     float z;
 };
 
-struct Plot2d {
-    std::vector<Point2d> points;
+struct Plot3d {
+    std::vector<Point> points;
     std::string name_x;
     std::string name_y;
     std::string nice_name_x;
@@ -82,7 +83,7 @@ struct Plot2d {
 };
 
 struct Plots {
-    std::vector<Plot2d> plots;
+    std::vector<Plot3d> plots;
     analysis::InfoBranch info_branch;
     std::string name;
 };
@@ -105,7 +106,7 @@ public:
      * @brief Constructor
      *
      */
-    Plot(Tagger& tagger);
+    Plot(analysis::Tagger& tagger);
 
     void TaggingEfficiency() const;
 
@@ -113,48 +114,50 @@ public:
 
     void RunPlots() const;
 
-    void DoPlot(analysis::Plots& signals, analysis::Plots& backgrounds) const;
+    void DoPlot(analysis::Plots& signals, analysis::Plots& backgrounds, analysis::Stage stage) const;
 
-    void Plotting(const analysis::Plot2d& signal, const analysis::Plot2d& background) const;
+    void Plotting(const analysis::Plot3d& signal, const analysis::Plot3d& background, analysis::Stage stage) const;
 
-    void SetHistogram(TH2& histogram, const analysis::Plot2d& plot, const EColor color, TExec& exec) const;
+    void SetHistogram(TH2& histogram, const analysis::Plot3d& plot, EColor color, TExec& exec) const;
 
-    void SetProfile(TProfile2D& histogram, const analysis::Plot2d& signal, const analysis::Plot2d& background) const;
+    void SetProfile(TProfile2D& histogram, const analysis::Plot3d& signal, const analysis::Plot3d& background) const;
 
 private:
 
-    std::vector<Plots> Import(const std::string& file_name, const analysis::Strings& treename) const;
+    std::vector<Plots> Import(analysis::Stage stage, analysis::Tag tag) const;
 
-    Plots PlotResult(TFile& file, const std::string& tree_name) const;
+    Plots PlotResult(TFile& file, const std::string& tree_name, analysis::Stage stage) const;
 
-    Plot2d ReadTree(TTree& tree, const std::string& leaf_1, const std::string& leaf_2) const;
+    Plot3d ReadTree(TTree& tree, const std::string& leaf_1, const std::string& leaf_2, analysis::Stage stage) const;
 
-    void PlotHistogram(const analysis::Plot2d& signal, const analysis::Plot2d& background, const float x_min, const float x_max, const float y_min, const float y_max) const;
+    void PlotHistogram(const analysis::Plot3d& signal, const analysis::Plot3d& background, const analysis::Point& min, const analysis::Point& max) const;
 
-    void PlotProfile(const analysis::Plot2d& signal, const analysis::Plot2d& background, const float x_min, const float x_max, const float y_min, const float y_max) const;
+    void PlotProfile(const analysis::Plot3d& signal, const analysis::Plot3d& background, const analysis::Point& min, const analysis::Point& max) const;
 
     float Bdt() const;
 
     void SetMultiGraph(TMultiGraph& multi_graph) const;
 
-    void SetPlotStyle(TAttLine& att_line, const int index) const;
+    void SetPlotStyle(TAttLine& att_line, int index) const;
 
     TLegend Legend(float x_min, float y_max, float width, float height, const std::string& name = "") const;
 
     Results ExportFile() const;
 
-    std::vector<Result> Export(TFile& export_file, const std::string& file_name, const analysis::Strings& treename) const;
+    std::vector<Result> Export(TFile& export_file, analysis::Tag tag) const;
+
+    TH1F Histogram(const analysis::Result& result, analysis::Point& max, analysis::Point& min, int index) const;
 
     void PlotAcceptanceGraph(const analysis::Results& results) const;
 
     std::string PlotHistograms(const analysis::Results& results) const;
 
-    Tagger& tagger() const
+    analysis::Tagger& Tagger() const
     {
         return *tagger_;
     }
 
-    Tagger* tagger_;
+    analysis::Tagger* tagger_;
 
     analysis::InfoBranch InfoBranch(TFile& file, const std::string& tree_name) const;
 
@@ -162,23 +165,38 @@ private:
 
     Result BdtResult(TFile& file, const std::string& tree_name, TFile& export_file) const;
 
-    std::string PlotEfficiencyGraph(const analysis::Results& results, const std::vector<float>& x_values, const int best_bin) const;
+    std::string PlotEfficiencyGraph(const analysis::Results& results, const std::vector<float>& x_values, int best_bin) const;
 
-    std::string PlotSignificanceGraph(const Results& results, const std::vector<float>& x_values, const std::vector<float>& significances, const int best_bin) const;
+    std::string PlotSignificanceGraph(const Results& results, const std::vector<float>& x_values, const std::vector<float>& significances, int best_bin) const;
 
     void LatexHeader(std::ofstream& latex_file) const;
 
     void LatexFooter(std::ofstream& latex_file) const;
 
-    int ColorCode(const int number) const;
+    int ColorCode(int number) const;
 
-    std::string ExportName() const;
-
-    Plot2d CoreVector(const Plot2d& points, std::function<bool(Point2d&, Point2d&)> function) const;
+    Plot3d CoreVector(const Plot3d& points, std::function<bool(Point&, Point&)> function) const;
 
     std::string ExportFileSuffix() const
     {
         return ".png";
+    }
+
+//     float RoundToDigits(float Value) const;
+//
+//     float RoundError(float Value) const;
+//
+//     float RoundToDigits(float Value, int Digits) const;
+//
+//     float RoundToError(float Value, float Error) const;
+
+    float FloorToDigits(float value, int digits = 2) const;
+
+    float CeilToDigits(float value, int digits = 2) const;
+
+    std::string Reader()const{
+      return "";
+      return "Reader";
     }
 
 };

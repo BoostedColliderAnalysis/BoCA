@@ -4,12 +4,23 @@
 
 namespace analysis {
 
-enum class JetType {
-    jet, gen_jet, e_flow_jet
+  /**
+   * @brief JetType indicates which type of jet is going to be used
+   *
+   */
+  enum class JetType {
+    jet, //< usual Delphse Jet
+    gen_jet, //<  Delphes GenJet
+    e_flow_jet //< Jet formed from the eflow Variables according to the parameter set in DetectorGeometry
 };
 
+/**
+ * @brief Detector type indicates which kind of detector geometry is going to be used
+ *
+ */
 enum class DetectorType {
-    CMS, Spp
+    CMS, //< default LHC detector
+    Spp //<  default detector for a 100TeV collider
 };
 
 class DetectorGeometry {
@@ -27,8 +38,10 @@ public:
     static float VertexMassMin();
     static float LeptonMinPt();
     static JetType jet_type();
+    static void set_detector_type(const DetectorType detector_type);
 private:
     static DetectorType detector_type();
+    static DetectorType detector_type_;
 };
 
 }

@@ -14,11 +14,11 @@ public:
 
     Constituent();
 
-    Constituent(const TLorentzVector& momentum, const TLorentzVector& position, const Family& family);
+    Constituent(const TLorentzVector& momentum, const LorentzVector& position, const Family& family);
 
-    Constituent(const TLorentzVector& momentum, const TLorentzVector& position);
+    Constituent(const TLorentzVector& momentum, const LorentzVector& position);
 
-    Constituent(const TLorentzVector& momentum, const TLorentzVector& position, const SubDetector sub_detector, const float charge = 0);
+    Constituent(const TLorentzVector& momentum, const LorentzVector& position, const SubDetector sub_detector, float charge = 0);
 
     Constituent(const TLorentzVector& momentum, const Family& family);
 
@@ -26,13 +26,13 @@ public:
 
     Constituent(const TLorentzVector& momentum);
 
-    Constituent(const TLorentzVector& momentum, const SubDetector sub_detector, const float charge);
+    Constituent(const TLorentzVector& momentum, const SubDetector sub_detector, float charge);
 
     Constituent(const TLorentzVector& momentum, const SubDetector sub_detector);
 
     void SetPosition(const TLorentzVector& position);
 
-    void SetPosition(const float x, const float y, const float z, const float t);
+    void SetPosition(float x, float y, float z, float t);
 
     void SetMomentum(const TLorentzVector& momentum);
 
@@ -52,7 +52,7 @@ public:
 
     int charge() const;
 
-    void set_charge(const int charge);
+    void set_charge(int charge);
 
 private:
 
