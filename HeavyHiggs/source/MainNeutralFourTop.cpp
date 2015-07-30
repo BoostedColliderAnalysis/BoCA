@@ -4,7 +4,7 @@
 int main()
 {
     analysis::heavyhiggs::AnalysisNeutralFourTop<analysis::BottomTagger> bottom_analysis;
-    bottom_analysis.RunFast();
+    bottom_analysis.RunNormal();
 
     analysis::heavyhiggs::AnalysisNeutralFourTop<analysis::JetPairTagger> jet_pair_analysis;
     jet_pair_analysis.RunNormal();

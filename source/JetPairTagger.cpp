@@ -27,14 +27,22 @@ int JetPairTagger::Train(const Event &event, PreCuts &, const Tag tag) const
         for (const auto & Bottom : bottoms) {
             jets = SortedByMinDeltaRTo(jets, Bottom);
             if (jets.front().delta_R(Bottom) > DetectorGeometry::JetConeSize()) continue;
-            bottom_jets.emplace_back(jets.front());
+            if (jets.at(1).delta_R(Bottom) > DetectorGeometry::JetConeSize()) 
+            {
+              bottom_jets.emplace_back(jets.front());
+            }
+            else
+            {
+              if(jets.at(0).m()<jets.at(1).m()) bottom_jets.emplace_back(jets.at(0));
+              else bottom_jets.emplace_back(jets.at(1));
+            }
         }
         break;
     case Tag::background :
       bottom_jets = jets;
       break;
     }
-
+//     if(tag==Tag::signal&&bottom_jets.size()<2)Error(bottoms.at(0).pt(), bottoms.at(1).pt(), bottom_jets.size());
     std::vector<Doublet> doublets;
     for (auto jet1 = bottom_jets.begin(); jet1 != bottom_jets.end(); ++jet1)
         for (auto jet2 = jet1 + 1; jet2 != bottom_jets.end(); ++jet2) {
@@ -44,13 +52,12 @@ int JetPairTagger::Train(const Event &event, PreCuts &, const Tag tag) const
             doublets.emplace_back(doublet);
         }
     Debug(doublets.size());
-
     if (tag == Tag::signal && doublets.size() > 1) {
         Error(doublets.size());
         doublets = SortByMaxDeltaRap(doublets);
         if (doublets.size() > 1) doublets.erase(doublets.begin() + 1, doublets.end());
     }
-    return SaveEntries(doublets);
+    return SaveEntries(doublets,1);
 }
 
 Jets JetPairTagger::BottomPair(const Event &event, const Tag tag) const
@@ -75,7 +82,7 @@ std::vector<Doublet>  JetPairTagger::Multiplets(const Event &event, analysis::Pr
             doublet.SetBdt(Bdt(doublet, reader));
             doublets.emplace_back(doublet);
         }
-    return ReduceResult(doublets);
+    return ReduceResult(doublets, 6);
 }
 
 }

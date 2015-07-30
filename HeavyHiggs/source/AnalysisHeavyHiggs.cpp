@@ -29,6 +29,8 @@ std::string Name(const Process process)
       return "H0bb-ljbbbb";
     case Process::Htt:
       return "Htt-lljjbbbb";
+    case Process::Htwb:
+      return "Htwb-lljjbbbb";
     case Process::H0:
       return "H0-ljbb";
     case Process::Htb:
@@ -37,6 +39,10 @@ std::string Name(const Process process)
       return "tt_inc";
     case Process::tttt:
       return "tttt";
+    case Process::ttwwbb:
+      return "ttwwbb";
+    case Process::ttwbb:
+      return "ttwbb";
     case Process::tt2:
       return "tt_inc+";
     default:
@@ -52,6 +58,12 @@ std::string NiceName(const Process process)
       return "Hbb";
     case Process::Htt:
       return "Htt";
+    case Process::Htwb:
+      return "Htwb";
+    case Process::ttwwbb:
+      return "ttwwbb";
+    case Process::ttwbb:
+      return "ttwbb";
     case Process::H0:
       return "H";
     case Process::Htb:
