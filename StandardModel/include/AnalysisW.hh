@@ -26,7 +26,7 @@ public:
 
     AnalysisW()
     {
-        this->tagger().set_analysis_name(ProjectName());
+        this->set_tagger_analysis_name(ProjectName());
         this->pre_cuts().SetPtLowerCut(Id::W, this->LowerPtCut());
         this->pre_cuts().SetPtUpperCut(Id::W, this->UpperPtCut());
         this->pre_cuts().SetMassUpperCut(Id::W, 200);
@@ -41,7 +41,7 @@ public:
 
 private:
 
-    void SetFiles(const Tag tag) final {
+    void SetFiles(Tag tag) final {
         switch (tag)
         {
         case Tag::signal :
@@ -65,7 +65,7 @@ private:
         return  "WTagger-" + Name(this->collider_type()) + "-" + std::to_string(this->LowerPtCut()) + "GeV-" + Name(Process::tt) + "";
     }
 
-    int PassPreCut(const Event&) const final
+    int PassPreCut(const Event&, Tag) const final
     {
         //     Jets particles = event.Partons().GenParticles();
         //     Jets w = fastjet::sorted_by_pt(CopyIfParticle(particles, Id::W));

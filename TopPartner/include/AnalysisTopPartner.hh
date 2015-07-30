@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Analysis.hh"
+#include "Debug.hh"
 
 namespace analysis {
 
@@ -20,17 +21,17 @@ public:
 
     Analysis()
     {
-        this->tagger().set_analysis_name(ProjectName());
+        this->tagger().SetAnalysisName(ProjectName());
     }
 
 protected:
 
     std::string ProjectName() const final
     {
-        return  std::to_string(PreCut()) + "GeV-JJ";
+        return  std::to_string(PreCut()) + "GeV-hB";
     }
 
-    void SetFiles(const Tag tag) final {
+    void SetFiles(Tag tag) final {
         switch (tag)
         {
         case Tag::signal :
@@ -38,26 +39,28 @@ protected:
             //         NewFile(tag,"pp-TThh-bbbbbbjjlv");
             //             this->NewFile(tag, "pp-TT-tthh-bbbbbbjjlv", Crosssection(tag), NiceName(tag));
             //           this->NewFile(tag, "pp-TT-tthB-hBbbjjlv", 4.832, NiceName(tag));
-            this->NewFile(tag, "pp-TT-tthB-bbbbjjjjlv", 0.264 * 1000, NiceName(tag));
+            this->NewFile(tag, "pp-TT-tthB-bbbbjjjjlv", 2*0.264 * 1000, NiceName(tag));
             //         if(tagger().name() == "Bottom") NewFile(tag,"pp-ttbbj-bbbbjjlv");
             break;
         case Tag::background :
             //         NewFile(tag,"pp-ttbb-bbbbjjlv");
             //       NewFile(tag,"pp-tthjj-bbbbjjjjlv);
             //             this->NewFile(tag, "pp-tthjj-bbbbjjjjlv_" + std::to_string(PreCut()) + "GeV", Crosssection(tag), NiceName(tag));
-            this->NewFile(tag, "PP-ttBJJ-" + std::to_string(PreCut()) + "GeV", 0.1754 * 1000, "ttB(jj)|_{200 GeV}");
+          this->NewFile(tag, "PP-ttBJJ-" + std::to_string(PreCut()) + "GeV", 2*0.1754 * 1000, "ttB(jj)|_{200 GeV}");
+          this->NewFile(tag, "PP-tthB-" + std::to_string(PreCut()) + "GeV", 2*0.02535 * 1000, "ttB(jj)|_{200 GeV}");
             //         NewFile(tag,"tt_inc-LE-0GeV_0");
             break;
         }
     }
 
-    std::string ProcessName()
+    std::string ProcessName() const final
     {
         return "toppartner";
     }
 
     long EventNumberMax() const override
     {
+        return 5000;
         return 3000;
         return 1000;
         return 100;
@@ -83,17 +86,25 @@ private:
         return 2000;
     }
 
-    int PassPreCut(const Event& event) const
+    int PassPreCut(const Event& event, Tag) const final
     {
         Jets particles = event.Partons().GenParticles();
         particles = RemoveIfSoft(particles, PreCut());
         Jets tops = CopyIfParticle(particles, Id::top);
         Jets higgs = CopyIfParticle(particles, Id::higgs);
-        if (tops.size() < 2 || higgs.size() < 1) return 0;
+        Jets vectors = CopyIfParticles(particles, Id::Z, Id::W);
+        Jets partner = CopyIfParticle(particles, Id::top_partner);
+
+//         Jets tchannel = RemoveIfMother(higgs,Id::top);
+//         tchannel = RemoveIfMother(tchannel,Id::top_partner);
+
+        Error(partner.size());
+
+        if (tops.size() < 2 || (higgs.size() < 1 && vectors.size() < 1)) return 0;
         return 1;
     }
 
-    float Crosssection(const Tag tag) const
+    float Crosssection(Tag tag) const
     {
         switch (tag) {
         case Tag::signal :
@@ -121,7 +132,7 @@ private:
         }
     }
 
-    std::string NiceName(const Tag tag) const
+    std::string NiceName(Tag tag) const
     {
         switch (tag) {
         case Tag::signal :

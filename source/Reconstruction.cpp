@@ -17,7 +17,7 @@ void Reconstruction::NewEvent()
 Jets Reconstruction::GetFatJets(const Jets& EFlowJets) const
 {
     // FatJetCylinderDistanceMax = Jing: 1.4; fastjet: 1.2; paper: 1.2
-    const float DeltaR = 1.2;
+    float DeltaR = 1.2;
     const fastjet::JetAlgorithm FatJetAlgorithm = fastjet::cambridge_algorithm;
     const fastjet::JetDefinition FatJetDefinition(FatJetAlgorithm, DeltaR);
     return GetFatJets(EFlowJets, FatJetDefinition);
@@ -26,9 +26,10 @@ Jets Reconstruction::GetFatJets(const Jets& EFlowJets) const
 Jets Reconstruction::GetFatJets(const Jets& EFlowJets, const fastjet::JetDefinition& FatJetDefinition) const
 {
     Info("Fat Jet Vector", FatJetDefinition.R());
-    fastjet::ClusterSequence* const FatJetClusterSequence = new fastjet::ClusterSequence(EFlowJets, FatJetDefinition);
+    auto const FatJetClusterSequence =
+        new fastjet::ClusterSequence(EFlowJets, FatJetDefinition);
     // FatJetPtMin = Jing: 40; fastjet: 0
-    const float FatJetPtMin = 0;
+    float FatJetPtMin = 0;
     const Jets FatJets = FatJetClusterSequence->inclusive_jets(FatJetPtMin);
     if (FatJets.empty())
         delete FatJetClusterSequence;
@@ -51,15 +52,15 @@ fastjet::PseudoJet Reconstruction::GetMassDropJet(const fastjet::PseudoJet& FatJ
 {
 //     Debug("Mass Drop Jet");
     //     MassDropMin = Jing: 0.667; fastjet: 0.67; Paper: 0.67
-    const float MassDropMin = 0.67;
+    float MassDropMin = 0.67;
     //     AsymmetryCut = Jing: 0.09; fastjet: 0.09; paper: 0.09
-    const float AsymmetryCut = 0.09;
+    float AsymmetryCut = 0.09;
     return GetMassDropJet(FatJet, MassDropMin, AsymmetryCut);
 }
 
 
 
-fastjet::PseudoJet Reconstruction::GetMassDropJet(const fastjet::PseudoJet& FatJet, const float MassDropMin, const float AsymmetryCut) const
+fastjet::PseudoJet Reconstruction::GetMassDropJet(const fastjet::PseudoJet& FatJet, float MassDropMin, float AsymmetryCut) const
 {
     Debug("Mass Drop Jet");
     const fastjet::MassDropTagger FatJetMassDroppTagger(MassDropMin, AsymmetryCut);

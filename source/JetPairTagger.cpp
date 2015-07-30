@@ -6,16 +6,15 @@ namespace analysis {
 
 JetPairTagger::JetPairTagger()
 {
-    Note();
+  Info();
     DefineVariables();
 }
 
-int JetPairTagger::Train(const Event& event, PreCuts&, const Tag tag) const
+int JetPairTagger::Train(const Event& event, const PreCuts&, Tag tag) const
 {
     Info();
     Jets jets = bottom_reader_.Multiplets(event);
-    if (jets.empty())
-        return 0;
+    if (jets.empty()) return 0;
     Debug(jets.size());
     Jets bottoms = BottomPair(event, tag);
     Debug(bottoms.size());
@@ -25,7 +24,7 @@ int JetPairTagger::Train(const Event& event, PreCuts&, const Tag tag) const
         for (const auto& bottom : bottoms) {
             jets = SortedByMinDeltaRTo(jets, bottom);
             if (Close(jets.at(0))(bottom)) continue;
-            if (Close(jets.at(1))(bottom)) 
+            if (Close(jets.at(1))(bottom))
             {
               bottom_jets.emplace_back(jets.front());
             }
@@ -40,27 +39,25 @@ int JetPairTagger::Train(const Event& event, PreCuts&, const Tag tag) const
       bottom_jets = jets;
       break;
     }
+//     Jets bottom_jets = BestMatches(jets,bottoms,tag);
     std::vector<Doublet> doublets;
     for (auto jet1 = bottom_jets.begin(); jet1 != bottom_jets.end(); ++jet1)
         for (auto jet2 = jet1 + 1; jet2 != bottom_jets.end(); ++jet2) {
             Doublet doublet;
-            if (std::abs((*jet1).rap()) > std::abs((*jet2).rap()))
-                doublet.SetMultiplets(*jet1, *jet2);
-            else
-                doublet.SetMultiplets(*jet2, *jet1);
+            if (std::abs((*jet1).rap()) > std::abs((*jet2).rap())) doublet.SetMultiplets(*jet1, *jet2);
+            else doublet.SetMultiplets(*jet2, *jet1);
             doublets.emplace_back(doublet);
         }
     Debug(doublets.size());
     if (tag == Tag::signal && doublets.size() > 1) {
         Error(doublets.size());
         doublets = SortByMaxDeltaRap(doublets);
-        if (doublets.size() > 1)
-            doublets.erase(doublets.begin() + 1, doublets.end());
+        if (doublets.size() > 1) doublets.erase(doublets.begin() + 1, doublets.end());
     }
     return SaveEntries(doublets,1);
 }
 
-Jets JetPairTagger::BottomPair(const Event& event, const Tag tag) const
+Jets JetPairTagger::BottomPair(const Event& event, Tag tag) const
 {
     if (tag == Tag::background) return Jets {};
     Jets particles = event.Partons().GenParticles();
@@ -69,7 +66,7 @@ Jets JetPairTagger::BottomPair(const Event& event, const Tag tag) const
     return bottom_not_from_higgs;
 }
 
-std::vector<Doublet>  JetPairTagger::Multiplets(const Event& event, analysis::PreCuts&, const TMVA::Reader& reader) const
+std::vector<Doublet> JetPairTagger::Multiplets(const Event& event, const analysis::PreCuts&, const TMVA::Reader& reader) const
 {
     Jets jets = bottom_reader_.Multiplets(event);
     std::vector<Doublet>  doublets;

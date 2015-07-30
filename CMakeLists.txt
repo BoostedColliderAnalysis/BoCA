@@ -6,13 +6,13 @@ include(CMakeFiles/CMakeConfig.cmake)
 
 # set build type to debug
 if( NOT CMAKE_BUILD_TYPE )
-set( CMAKE_BUILD_TYPE Debug CACHE STRING "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel." FORCE )
+set( CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel." FORCE )
 endif()
 
 # set c++ flags
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -g")
 
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0 -Wall -Wextra -pedantic -Wpointer-arith")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0 -Wall -Wextra -pedantic -Wpointer-arith -Wold-style-cast")
 
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3")
 
@@ -37,18 +37,20 @@ include(CMakeFiles/FindMadGraph.cmake)
 include(CMakeFiles/FindLibConfig.cmake)
 add_libraries(${LIBCONFIGPP_LIBRARIES})
 
+# the PEG
+include(CMakeFiles/FindThePeg.cmake)
+add_libraries(${THEPEG_LIBRARY})
+
 # Doxygen
-# include(CMakeFiles/UseDoxygen.cmake)
+if(CMAKE_BUILD_TYPE MATCHES "Release")
+include(CMakeFiles/UseDoxygen.cmake)
+endif()
 
 # Libraries
 add_subdirectory(source)
 
 add_subdirectory(StandardModel)
 add_subdirectory(PairTagger)
-add_subdirectory(HBottomSumTagger)
-add_subdirectory(HDiscriminator)
 add_subdirectory(HiggsCpv)
 add_subdirectory(HeavyHiggs)
 add_subdirectory(TopPartner)
-# add_subdirectory(HJetProperties)
-

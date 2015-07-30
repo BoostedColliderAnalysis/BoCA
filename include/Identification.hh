@@ -10,7 +10,7 @@ enum class Tag {
 
 };
 
-std::string Name(const Tag tag);
+std::string Name(Tag tag);
 
 class Identification {
 
@@ -18,15 +18,15 @@ public:
 
     Identification();
 
-    virtual void SetBdt(const float bdt);
+    virtual void SetBdt(float bdt);
 
-    void SetBdt(const float bdt_1, const float bdt_2);
+    void SetBdt(float bdt_1, float bdt_2);
 
     virtual float Bdt() const;
 
-    void SetTag(const analysis::Tag tag);
+    void SetTag(Tag tag);
 
-    void SetTag(const analysis::Tag tag_1, const analysis::Tag tag_2);
+    void SetTag(analysis::Tag tag_1, analysis::Tag tag_2);
 
     analysis::Tag Tag() const;
 
@@ -67,7 +67,6 @@ public:
 //         return (Bdt() > multiplet.Bdt());
 //     }
 
-//     template<typename Multiplet>
     bool operator < (const Identification& multiplet) const
     {
         // largest bdt in front

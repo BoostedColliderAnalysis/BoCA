@@ -2,8 +2,32 @@
 
 #include <iomanip>
 #include <iostream>
+
 #include "ClonesArrays.hh"
 #include "JetTag.hh"
+#include "Flag.hh"
+
+class TRootLHEFParticle;
+class TRootGenParticle;
+class TRootGenJet;
+class TRootMissingET;
+class TRootPhoton;
+class TRootElectron;
+class TRootMuon;
+class TRootTau;
+class TRootJet;
+
+namespace exroot {
+  typedef ::TRootLHEFParticle LHEFParticle;
+  typedef ::TRootGenParticle GenParticle;
+  typedef ::TRootGenJet GenJet;
+  typedef ::TRootMissingET MissingET;
+  typedef ::TRootPhoton Photon;
+  typedef ::TRootElectron Electron;
+  typedef ::TRootMuon Muon;
+  typedef ::TRootTau Tau;
+  typedef ::TRootJet Jet;
+}
 
 namespace analysis {
 
@@ -15,11 +39,23 @@ enum class Status {
 };
 
 
+/**
+ * @brief flags defining to which level of detail jets should be analyzed
+ *
+ */
 enum class JetDetail {
-    plain, tagging, isolation, structure, tagging_isolation, tagging_structure
+    plain = 1,
+    structure = 1 << 1,
+    tagging = 1 << 2,
+    isolation = 1 << 3,
 };
 
-std::string Name(const JetDetail jet_detail);
+template<>
+struct Flag<JetDetail> {
+  static const bool enable = true;
+};
+
+std::string Name(JetDetail jet_detail);
 
 /**
  * @brief converts Clones to LorentzVectors and fastjet::PseudoJets
@@ -44,10 +80,10 @@ protected:
     {
 //         Debug("Lorentz Vector by Energy");
         analysis::LorentzVector vector;
-        const float Pt = particle.PT;
-        const float Eta = particle.Eta;
-        const float Phi = particle.Phi;
-        const float Energy = particle.E;
+        float Pt = particle.PT;
+        float Eta = particle.Eta;
+        float Phi = particle.Phi;
+        float Energy = particle.E;
         vector.SetPtEtaPhiE(Pt, Eta, Phi, Energy);
 //         if (check_four_vectors_) {
 //             if (vector.Pt() - Pt > check_value_) Error(Pt, vector.Pt());
@@ -59,13 +95,13 @@ protected:
     }
 
     template<typename Particle>
-    analysis::LorentzVector LorentzVectorByMass(const Particle& particle, const float mass) const
+    analysis::LorentzVector LorentzVectorByMass(const Particle& particle, float mass) const
     {
 //         Debug("Lorentz Vector by Mass");
         analysis::LorentzVector LorentzVector;
-        const float Pt = particle.PT;
-        const float Eta = particle.Eta;
-        const float Phi = particle.Phi;
+        float Pt = particle.PT;
+        float Eta = particle.Eta;
+        float Phi = particle.Phi;
         LorentzVector.SetPtEtaPhiM(Pt, Eta, Phi, mass);
 // //         if (check_four_vectors_) {
 // //             if (LorentzVector.Pt() - Pt > check_value_) Error(Pt, LorentzVector.Pt());
@@ -79,7 +115,7 @@ protected:
     analysis::LorentzVector LorentzVectorByMass(const Particle& particle) const
     {
 //         Debug("Lorentz Vector by Mass");
-        const float Mass = particle.Mass;
+        float Mass = particle.Mass;
         const analysis::LorentzVector LorentzVector = LorentzVectorByMass(particle, Mass);
         if (check_four_vectors_) {
 //             if (LorentzVector.M() - Mass > mass_check_value_) Error(Mass, LorentzVector.M());
@@ -91,7 +127,7 @@ protected:
     analysis::LorentzVector LorentzVectorByM(const Particle& particle) const
     {
 //         Debug("Lorentz Vector by Mass");
-        const float Mass = particle.M;
+        float Mass = particle.M;
         const analysis::LorentzVector LorentzVector = LorentzVectorByMass(particle, Mass);
         if (check_four_vectors_) {
 //             if (LorentzVector.M() - Mass > mass_check_value_) Error(Mass, LorentzVector.M());
@@ -130,7 +166,7 @@ protected:
 
     void PrintTruthLevel(const Severity severity) const;
 
-    std::string PrintParticle(const int Position) const;
+    std::string PrintParticle(int Position) const;
 
     const ClonesArrays& clones_arrays() const
     {
@@ -159,9 +195,9 @@ protected:
 
     const bool check_four_vectors_;
 
-    const float check_value_;
+    float check_value_;
 
-    const float mass_check_value_;
+    float mass_check_value_;
 
 private:
 

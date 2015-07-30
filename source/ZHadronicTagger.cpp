@@ -6,11 +6,11 @@ namespace analysis {
 
 ZHadronicTagger::ZHadronicTagger()
 {
-    Note();
+    Info();
     DefineVariables();
 }
 
-int ZHadronicTagger::Train(const Event& event, analysis::PreCuts& pre_cuts, const analysis::Tag tag) const
+int ZHadronicTagger::Train(const Event& event, const analysis::PreCuts& pre_cuts, Tag tag) const
 {
     Info("ZHadronic Tag");
     Jets jets =  bottom_reader_.Multiplets(event);
@@ -25,7 +25,7 @@ int ZHadronicTagger::Train(const Event& event, analysis::PreCuts& pre_cuts, cons
         }
     }
     for (const auto& jet : jets) {
-        const int sub_jet_number = 2;
+        size_t sub_jet_number = 2;
         Jets pieces = bottom_reader_.SubMultiplet(jet, sub_jet_number);
         if (pieces.size() < sub_jet_number)
             continue;
@@ -40,7 +40,7 @@ int ZHadronicTagger::Train(const Event& event, analysis::PreCuts& pre_cuts, cons
     return SaveEntries(BestMatches(doublets, z_particles, tag));
 }
 
-bool ZHadronicTagger::Problematic(const analysis::Doublet& doublet, analysis::PreCuts& pre_cuts, const analysis::Tag tag) const
+bool ZHadronicTagger::Problematic(const analysis::Doublet& doublet, const analysis::PreCuts& pre_cuts, Tag tag) const
 {
     if (Problematic(doublet, pre_cuts))
         return true;
@@ -57,7 +57,7 @@ bool ZHadronicTagger::Problematic(const analysis::Doublet& doublet, analysis::Pr
     return false;
 }
 
-bool ZHadronicTagger::Problematic(const analysis::Doublet& doublet, analysis::PreCuts& pre_cuts) const
+bool ZHadronicTagger::Problematic(const analysis::Doublet& doublet, const analysis::PreCuts& pre_cuts) const
 {
     if (pre_cuts.PtLowerCut(Id::Z) > 0 && pre_cuts.PtLowerCut(Id::Z) > doublet.Jet().pt())
         return true;
@@ -69,7 +69,7 @@ bool ZHadronicTagger::Problematic(const analysis::Doublet& doublet, analysis::Pr
 }
 
 
-std::vector<Doublet>  ZHadronicTagger::Multiplets(const Event& event, analysis::PreCuts& pre_cuts, const TMVA::Reader& reader) const
+std::vector<Doublet>  ZHadronicTagger::Multiplets(const Event& event, const analysis::PreCuts& pre_cuts, const TMVA::Reader& reader) const
 {
     Info("ZHadronic Bdt");
     Jets jets =  bottom_reader_.Multiplets(event);
@@ -84,7 +84,7 @@ std::vector<Doublet>  ZHadronicTagger::Multiplets(const Event& event, analysis::
         }
     }
     for (const auto& jet : jets) {
-        const int sub_jet_number = 2;
+        size_t sub_jet_number = 2;
         Jets pieces = bottom_reader_.SubMultiplet(jet, sub_jet_number);
         if (pieces.size() < sub_jet_number)
             continue;

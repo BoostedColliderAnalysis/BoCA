@@ -20,7 +20,7 @@ public:
 
     AnalysisZ()
     {
-        this->tagger().set_analysis_name(ProjectName());
+        this->set_tagger_analysis_name(ProjectName());
         this->pre_cuts().SetPtLowerCut(Id::Z, this->LowerPtCut());
         this->pre_cuts().SetPtUpperCut(Id::Z, this->UpperPtCut());
         this->pre_cuts().SetMassUpperCut(Id::Z, 200);
@@ -29,7 +29,7 @@ public:
 
 private:
 
-    void SetFiles(const Tag tag) final {
+    void SetFiles(Tag tag) final {
         switch (tag)
         {
         case Tag::signal :
@@ -52,7 +52,7 @@ private:
         return  "ZTagger-" + Name(this->collider_type()) + "-" + std::to_string(this->PreCut()) + "GeV-test";
     }
 
-    int PassPreCut(const Event& event) const final
+    int PassPreCut(const Event& event, Tag) const final
     {
         Jets leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
         if (leptons.empty())

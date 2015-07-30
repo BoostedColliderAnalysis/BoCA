@@ -10,11 +10,11 @@ namespace heavyhiggs {
 
 HeavyHiggsLeptonicTagger::HeavyHiggsLeptonicTagger()
 {
-    Note();
+  Info();
     DefineVariables();
 }
 
-int HeavyHiggsLeptonicTagger::Train(const Event& event, const Tag tag)
+int HeavyHiggsLeptonicTagger::Train(const Event& event, const PreCuts&, Tag tag) const
 {
     Info();
     float mass = event.mass();

@@ -4,7 +4,7 @@
 
 namespace analysis {
 
-int JetTag::GetBranchId(const int id, int branch_id)
+int JetTag::GetBranchId(int id, int branch_id)
 {
     Debug(Name(id), Name(branch_id));
     if (

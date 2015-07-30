@@ -1,17 +1,22 @@
 #include "BranchesTopPartner.hh"
+#include "Pair.hh"
 
-ClassImp(analysis::toppartner::TopPartnerBranch)
+namespace analysis
+{
 
-analysis::toppartner::TopPartnerBranch::TopPartnerBranch() {}
+namespace toppartner
+{
 
-ClassImp(analysis::toppartner::HiggsPairBranch)
+Observables EventBranch::Variables() const
+{
+    return Join(MultiBranch::Variables(), {PAIR(LeptonNumber), PAIR(JetNumber), PAIR(MissingEt), PAIR(ScalarHt), PAIR(LeptonHt), PAIR(JetMass), PAIR(JetPt), PAIR(JetHt), PAIR(JetRap), PAIR(JetPhi)});
+}
 
-analysis::toppartner::HiggsPairBranch::HiggsPairBranch() {}
+Observables EventBranch::Spectators() const
+{
+  return Join(MultiBranch::Spectators(), {PAIR(BottomNumber)});
+}
 
-ClassImp(analysis::toppartner::SignatureBranch)
+}
 
-analysis::toppartner::SignatureBranch::SignatureBranch() {}
-
-ClassImp(analysis::toppartner::EventBranch)
-
-analysis::toppartner::EventBranch::EventBranch() {}
+}

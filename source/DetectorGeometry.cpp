@@ -14,10 +14,18 @@ namespace analysis {
  *
  */
 
+DetectorType DetectorGeometry::detector_type_ = DetectorType::Spp;
+
+void DetectorGeometry::set_detector_type(const DetectorType detector_type)
+{
+  detector_type_ = detector_type;
+}
+
 DetectorType DetectorGeometry::detector_type()
 {
+  return detector_type_;
 //     return DetectorType::CMS;
-    return DetectorType::Spp;
+//     return DetectorType::Spp;
 }
 
 float DetectorGeometry::JetMinPt()
@@ -33,7 +41,7 @@ float DetectorGeometry::JetConeSize()
 {
     switch (detector_type()) {
     case DetectorType::CMS:
-        return 0.5;
+        return 0.4;
     case DetectorType::Spp:
         return 0.5;
     }
