@@ -197,8 +197,8 @@ private:
     {
         Jets Particles = event.Partons().GenParticles();
 
-        Jets Tops = RemoveIfWrongAbsParticle(Particles, Id::top);
-        Jets Bottoms = RemoveIfWrongAbsParticle(Particles, Id::bottom);
+        Jets Tops = CopyIfParticle(Particles, Id::top);
+        Jets Bottoms = CopyIfParticle(Particles, Id::bottom);
 //         if(Bottoms.size() < 4) return 0;
 //         
 //         if (Bottoms.at(0).pt() < this->BottomPt()) return 0;
