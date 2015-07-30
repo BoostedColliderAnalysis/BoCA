@@ -7,11 +7,11 @@ namespace heavyhiggs {
 
 EventNeutralTagger::EventNeutralTagger()
 {
-    Note();
+  Info();
     DefineVariables();
 }
 
-int EventNeutralTagger::Train(const analysis::Event& event, PreCuts& pre_cuts, const analysis::Tag tag) const
+int EventNeutralTagger::Train(const analysis::Event& event, const PreCuts&, Tag tag) const
 {
     Info("event Tags");
     Jets jets = bottom_reader_.Multiplets(event);
@@ -26,7 +26,7 @@ int EventNeutralTagger::Train(const analysis::Event& event, PreCuts& pre_cuts, c
     return SaveEntries(events);
 }
 
-std::vector<MultipletEvent<Octet62>> EventNeutralTagger::Multiplets(const Event& event, const TMVA::Reader& reader) const
+std::vector<MultipletEvent<Octet62>> EventNeutralTagger::Multiplets(const analysis::Event& event, const analysis::PreCuts&, const TMVA::Reader& reader) const
 {
     Info("event Tags");
     std::vector<Octet62> octets = signature_neutral_reader_.Multiplets(event);

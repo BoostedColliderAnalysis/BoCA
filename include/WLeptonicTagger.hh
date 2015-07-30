@@ -16,12 +16,12 @@ public:
 
     WLeptonicTagger();
 
-    int Train(const Event& event, PreCuts&, const Tag tag) const;
+    int Train(const Event &event, const PreCuts &, Tag tag) const override;
 
-    std::vector<Doublet> Multiplets(const Event& event, PreCuts& pre_cuts, const TMVA::Reader& reader) const;
+    std::vector<Doublet> Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 
-    int GetBdt(const Event& event, PreCuts& pre_cuts, const TMVA::Reader& reader) const  final
-    {
+    int GetBdt(const Event &event, const PreCuts &pre_cuts,
+               const TMVA::Reader &reader) const final {
         return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
@@ -30,10 +30,7 @@ public:
         return WLeptonicId(WLeptonicDaughters(event));
     }
 
-    std::string Name() const final
-    {
-        return "WLeptonic";
-    }
+    std::string Name() const final { return "WLeptonic"; }
 
 private:
 

@@ -13,15 +13,14 @@ namespace exroot {
 class Hadrons : public analysis::Hadrons {
 
 public:
-
-    analysis::Jets Jets() const final;
+  analysis::Jets Jets() const final;
 
     /**
      * @brief AnalyseJet calls AnalyseEFlow
      *
      * @return void
      */
-    bool Jets(const JetDetail jet_detail);
+    bool Jets(JetDetail jet_detail);
 
 };
 

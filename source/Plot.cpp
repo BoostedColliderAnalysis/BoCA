@@ -13,7 +13,6 @@
 #include "TMultiGraph.h"
 #include "TLine.h"
 #include "TStyle.h"
-#include "TH1F.h"
 #include "TH2F.h"
 #include "TProfile2D.h"
 #include "TGraph.h"
@@ -23,12 +22,11 @@
 #include "exroot/ExRootAnalysis.hh"
 #include "Predicate.hh"
 #include "Branches.hh"
-#define DEBUG
+// #define DEBUG
 #include "Debug.hh"
 
-
-
-namespace analysis {
+namespace analysis
+{
 
 Result::Result()
 {
@@ -39,12 +37,11 @@ Result::Result()
     bins.resize(steps, 0);
 }
 
-std::vector<int> Result::CutIntegral() const
+std::vector<int> Result::Integral() const
 {
     std::vector<int> integrals(steps, 0);
     integrals.at(steps - 1) = bins.at(steps - 1);
-    for (int step = steps - 2; step >= 0; --step)
-        integrals.at(step) = integrals.at(step + 1) + bins.at(step);
+    for (int step = steps - 2; step >= 0; --step) integrals.at(step) = integrals.at(step + 1) + bins.at(step);
     return integrals;
 }
 
@@ -56,12 +53,12 @@ Results::Results()
 
 void Results::BestBin()
 {
-    std::vector<float> background_efficiencies(background.size(), 0);
+    std::vector<float> efficiencies(background.size(), 0);
     int counter = 0;
-    for (const auto& background_number : Range(background.size())) {
-        while (background_efficiencies.at(background_number) == 0 && counter < Result().steps) {
+    for (const auto & number : Range(background.size())) {
+        while (efficiencies.at(number) == 0 && counter < Result().steps) {
             best_bin = std::distance(significances.begin(), std::max_element(std::begin(significances), std::end(significances) - counter));
-            background_efficiencies.at(background_number) = background.at(background_number).efficiency.at(best_bin);
+            efficiencies.at(number) = background.at(number).efficiency.at(best_bin);
             ++counter;
         }
     }
@@ -70,59 +67,50 @@ void Results::BestBin()
 void Results::Significances()
 {
         for (const int step : Range(Result().steps)) {
-          
+
           float signal_events = 0;
             for (const auto & signal_results : signal) signal_events += signal_results.events[step];
-            
+
           float background_events = 0;
             for (const auto & background_result : background) background_events += background_result.events[step];
-            
+
             if (signal_events + background_events > 0) significances.at(step) = signal_events / std::sqrt(signal_events + background_events);
             else significances.at(step) = 0;
-            x_values.at(step) = float(step) * 2 / Result().steps;
-        }   
+            x_values.at(step) = XValue(step);
+        }
 }
 
-// Plot::Plot()
-// {
-// Debug();
-// }
-
-Plot::Plot(Tagger& tagger)
+Plot::Plot(analysis::Tagger& tagger)
 {
-    Debug("Constructor with tagger");
+    Debug();
     tagger_ = &tagger;
     gStyle->SetOptStat("");
 }
 
 Results Plot::ExportFile() const
 {
-    std::string export_file_name = ExportName() + ".root";
-    TFile export_file(export_file_name.c_str(), "Recreate");
+    TFile export_file(Tagger().ExportFileName().c_str(), "Recreate");
     Results results;
-    std::string signal_file_name = tagger().analysis_name() + "/" + tagger().signal_name() + "Reader.root";
-    results.signal = Export(export_file, signal_file_name, tagger().signal_tree_names());
-    std::string background_file_name = tagger().analysis_name() + "/" + tagger().background_name() + "Reader.root";
-    results.background = Export(export_file, background_file_name, tagger().background_tree_names());
+    results.signal = Export(export_file, Tag::signal);
+    results.background = Export(export_file, Tag::background);
     export_file.Close();
     return results;
 }
 
-std::vector<Result> Plot::Export(TFile& export_file, const std::string& file_name, const Strings& treename) const
+std::vector<Result> Plot::Export(TFile& export_file, Tag tag) const
 {
+    std::string file_name = Tagger().FileName(Stage::reader, tag);
+    Debug(file_name);
     TFile file(file_name.c_str(), "Read");
-    Debug(file_name, treename.size());
     std::vector<Result> results;
-    for (const auto& tree_name : treename)
-        results.emplace_back(BdtResult(file, tree_name, export_file));
+    for (const auto & tree_name : Tagger().TreeNames(tag)) results.emplace_back(BdtResult(file, tree_name, export_file));
     return results;
 }
 
 TLegend Plot::Legend(float x_min, float y_max, float width, float height, const std::string& name) const
 {
     TLegend legend(x_min, y_max - height, x_min + width, y_max);
-    if (name != "")
-        legend.SetHeader(name.c_str());
+    if (name != "") legend.SetHeader(name.c_str());
     legend.SetBorderSize(0);
     legend.SetFillStyle(0);
     return legend;
@@ -134,47 +122,23 @@ std::string Plot::PlotHistograms(const analysis::Results& results) const
     TCanvas canvas;
     std::vector<TH1F> histograms;
     TLegend legend = Legend(0.15, 0.85, 0.2, 0.4);
-    float x_min = 0;
-    for (const auto& result : results.background) {
-        float min = *std::min_element(result.bdt.begin(), result.bdt.end());
-        min -= 1;
-        if (min < x_min)
-            x_min = min;
+    Point min;
+    for (const auto & result : results.background) {
+        float min_0 = *std::min_element(result.bdt.begin(), result.bdt.end());
+        if (min_0 < min.x) min.x = min_0;
     }
-    float x_max = 0;
-    for (const auto& result : results.signal) {
-        float max = *std::max_element(result.bdt.begin(), result.bdt.end());
-        max -= 1;
-        if (max > x_max)
-            x_max = max;
+    Point max;
+    for (const auto & result : results.signal) {
+        float max_0 = *std::max_element(result.bdt.begin(), result.bdt.end());
+        if (max_0 > max.x) max.x = max_0;
     }
-    float y_max = 0;
-    for (const auto& result : results.signal) {
-        TH1F histogram(result.info_branch.Name.c_str(), "", 50, x_min * 1.1, x_max * 1.1);
-        for (const float & bdt : result.bdt) histogram.Fill(bdt - 1);
-        SetPlotStyle(histogram, &result - &results.signal[0] + 1);
-        histograms.emplace_back(histogram);
-        float max = histogram.GetBinContent(histogram.GetMaximumBin());
-        if (max > y_max) y_max = max;
-    }
-    for (const auto& result : results.background) {
-        TH1F histogram(result.info_branch.Name.c_str(), "", 50, x_min * 1.1, x_max * 1.1);
-        for (const float & bdt : result.bdt) histogram.Fill(bdt - 1);
-        SetPlotStyle(histogram, &result - &results.background[0] +results.signal.size());
-        // histogram.SetLineColor(ColorCode(&result - &results.background[0] + 1));
-        // histogram.SetLineStyle(&result - &results.background[0] + 2);
-        histograms.emplace_back(histogram);
-        float max = histogram.GetBinContent(histogram.GetMaximumBin());
-        if (max > y_max)
-            y_max = max;
-    }
+    for (const auto & result : results.signal) histograms.emplace_back(Histogram(result, max, min, &result - &results.signal[0]));
+    for (const auto & result : results.background) histograms.emplace_back(Histogram(result, max, min, &result - &results.background[0] + results.signal.size()));
     Strings nice_names;
-    for (const auto& result : results.signal)
-        nice_names.emplace_back(result.info_branch.Name);
-    for (const auto& result : results.background)
-        nice_names.emplace_back(result.info_branch.Name);
-    for (auto& histogram : histograms) {
-        histogram.SetAxisRange(0, y_max * 1.05, "Y");
+    for (const auto & result : results.signal) nice_names.emplace_back(result.info_branch.Name);
+    for (const auto & result : results.background) nice_names.emplace_back(result.info_branch.Name);
+    for (auto & histogram : histograms) {
+        histogram.SetAxisRange(0, CeilToDigits(max.y), "Y");
         histogram.GetXaxis()->SetTitle("BDT");
         histogram.GetYaxis()->SetTitle("N");
         std::string name = nice_names.at(&histogram - &histograms[0]);
@@ -182,41 +146,50 @@ std::string Plot::PlotHistograms(const analysis::Results& results) const
         histogram.Draw("same");
     }
     legend.Draw();
-    const std::string efficiency_file_name = ExportName() + "-Bdt" + ExportFileSuffix();
+    std::string efficiency_file_name = Tagger().ExportFolderName() + "-Bdt" + ExportFileSuffix();
     canvas.Print(efficiency_file_name.c_str());
     return efficiency_file_name;
+}
+
+TH1F Plot::Histogram(const Result& result, Point& max, Point& min, int index) const
+{
+    TH1F histogram(result.info_branch.Name.c_str(), "", 50, FloorToDigits(min.x, 1), CeilToDigits(max.x, 1));
+    for (const auto & bdt : result.bdt) histogram.Fill(bdt);
+    if (histogram.Integral() != 0)  histogram.Scale(1. / histogram.Integral());
+    SetPlotStyle(histogram, index);
+    float max_0 = histogram.GetBinContent(histogram.GetMaximumBin());
+    if (max_0 > max.y) max.y = max_0;
+    return histogram;
 }
 
 void Plot::PlotAcceptanceGraph(const Results& results) const
 {
     Debug();
-    for (const auto& signal_result : results.signal) {
+    for (const auto & signal_result : results.signal) {
         TCanvas canvas;
         TMultiGraph multi_graph;
         std::vector<TGraph> graphs;
-        for (const auto& result : results.background)
+        for (const auto & result : results.background)
             graphs.emplace_back(TGraph(result.steps, &signal_result.efficiency[0], &result.efficiency[0]));
         Strings nice_names;
-        for (const auto& result : results.background)
+        for (const auto & result : results.background)
             nice_names.emplace_back(result.info_branch.Name);
         canvas.SetLogy();
         TLegend legend = Legend(0.15, 0.85, 0.2, 0.4, signal_result.info_branch.Name);
-        for (auto& graph : graphs) {
+        for (auto & graph : graphs) {
             SetPlotStyle(graph, &graph - &graphs[0]);
-            // graph.SetLineColor(ColorCode(&graph - &graphs[0]));
-            // graph.SetLineStyle(&graph - &graphs[0] + 1);
             multi_graph.Add(&graph);
             std::string name = nice_names.at(&graph - &graphs[0]);
             legend.AddEntry(&graph, name.c_str(), "l");
         }
         SetMultiGraph(multi_graph);
         legend.Draw();
-        std::string efficiency_file_name = ExportName() + "-Acceptance" + ExportFileSuffix();
+        std::string efficiency_file_name = Tagger().ExportFolderName() + "-Acceptance" + ExportFileSuffix();
         canvas.Print(efficiency_file_name.c_str());
     }
 }
 
-void Plot::SetPlotStyle(TAttLine& att_line, const int index) const
+void Plot::SetPlotStyle(TAttLine& att_line, int index) const
 {
     att_line.SetLineColor(ColorCode(index));
     att_line.SetLineStyle(index + 1);
@@ -256,11 +229,11 @@ void Plot::OptimalSignificance() const
     table << table_header.str();
     table << " Mass\n" << " & " << results.signal.front().info_branch.Mass;
     table << "\n \\\\ \\midrule\n";
-    table << " BDT-cut\n" << " & " << float(best_bin) * 2 / Result().steps;
+    table << " BDT-cut\n" << " & " << results.XValue(best_bin);
     table << "\n \\\\ $p$-value\n & " << significances.at(best_bin);
     table << "\n \\\\ Efficiency\n & " << results.signal.front().efficiency.at(best_bin) << "\n & " << results.signal.front().analysis_event_number.at(best_bin) << "\n & " << results.signal.front().event_sum() << "\n";
-    for (const auto& background : results.background)
-        table << " \\\\ \\verb|" << tagger().background_tree_names().at(&background - &results.background[0]) << "|\n & " << background.efficiency.at(best_bin) << "\n & " << background.analysis_event_number.at(best_bin) << "\n & " << background.event_sum() << "\n";
+    for (const auto & background : results.background)
+        table << " \\\\ \\verb|" << Tagger().TreeNames(Tag::background).at(&background - &results.background[0]) << "|\n & " << background.efficiency.at(best_bin) << "\n & " << background.analysis_event_number.at(best_bin) << "\n & " << background.event_sum() << "\n";
     std::string efficiency_file_name = PlotEfficiencyGraph(results, x_values, best_bin);
     std::string significance_file_name = PlotSignificanceGraph(results, x_values, significances, best_bin);
     std::string bdt_file_name = PlotHistograms(results);
@@ -279,19 +252,19 @@ void Plot::OptimalSignificance() const
     LatexFooter(latex_file);
 }
 
-std::string Plot::PlotEfficiencyGraph(const Results& results, const std::vector<float>& x_values, const int best_bin) const
+std::string Plot::PlotEfficiencyGraph(const Results& results, const std::vector<float>& x_values, int best_bin) const
 {
     TCanvas canvas;
     canvas.SetLogy();
     TMultiGraph multi_graph;
     TLegend legend = Legend(0.15, 0.65, 0.2, 0.4);
     Strings nice_names;
-    std::vector<TGraph> graphs;  
-    for (const auto & background_result : results.background){
-      nice_names.emplace_back(background_result.info_branch.Name);
-      graphs.emplace_back(TGraph(background_result.steps, &x_values[0], &background_result.efficiency[0]));   
+    std::vector<TGraph> graphs;
+    for (const auto & background : results.background){
+      nice_names.emplace_back(background.info_branch.Name);
+      graphs.emplace_back(TGraph(background.steps, &x_values[0], &background.efficiency[0]));
     }
-   
+
     for (const auto & signal : results.signal) {
       nice_names.emplace_back(signal.info_branch.Name);
       graphs.emplace_back(TGraph(signal.steps, &x_values[0], &signal.efficiency[0]));
@@ -304,27 +277,29 @@ std::string Plot::PlotEfficiencyGraph(const Results& results, const std::vector<
       legend.AddEntry(&graph, name.c_str(), "l");
     }
     multi_graph.Draw("al");
+    multi_graph.GetXaxis()->SetLimits(-1, 1);
     legend.Draw();
-    TLine line(float(best_bin) * 2 / Result().steps, multi_graph.GetYaxis()->GetXmin(), float(best_bin) * 2 / Result().steps, multi_graph.GetYaxis()->GetXmax());
+    TLine line(results.XValue(best_bin), multi_graph.GetYaxis()->GetXmin(), results.XValue(best_bin), multi_graph.GetYaxis()->GetXmax());
     line.SetLineStyle(2);
     line.Draw();
-    const std::string file_name = ExportName() + "-Efficiency" + ExportFileSuffix();
+    std::string file_name = Tagger().ExportFolderName() + "-Efficiency" + ExportFileSuffix();
     canvas.Print(file_name.c_str());
     return file_name;
 }
 
-std::string Plot::PlotSignificanceGraph(const Results& results, const std::vector<float>& x_values, const std::vector<float>& significances, const int best_bin) const
+std::string Plot::PlotSignificanceGraph(const Results& results, const std::vector<float>& x_values, const std::vector<float>& significances, int best_bin) const
 {
     Result signal_results = results.signal.front();
     TCanvas canvas;
     TGraph graph(signal_results.steps, &x_values[0], &significances[0]);
     graph.SetTitle("");
     graph.Draw("al");
+    graph.GetXaxis()->SetLimits(-1, 1);
     canvas.Update();
-    TLine line(float(best_bin) * 2 / signal_results.steps, gPad->GetUymin(), float(best_bin) * 2 / signal_results.steps, gPad->GetUymax());
+    TLine line(results.XValue(best_bin), gPad->GetUymin(), results.XValue(best_bin), gPad->GetUymax());
     line.SetLineStyle(2);
     line.Draw();
-    const std::string file_name = ExportName() + "-Significance" + ExportFileSuffix();
+    std::string file_name = Tagger().ExportFolderName() + "-Significance" + ExportFileSuffix();
     canvas.Print(file_name.c_str());
     return file_name;
 }
@@ -333,41 +308,38 @@ std::string Plot::PlotSignificanceGraph(const Results& results, const std::vecto
 Result Plot::BdtResult(TFile& file, const std::string& tree_name, TFile& export_file) const
 {
     Debug(tree_name);
-    const float Luminosity = 3000; // 3000 fb-1
-    Debug(tree_name);
+    float Luminosity = 3000; // 3000 fb-1
     exroot::TreeReader tree_reader(static_cast<TTree*>(file.Get(tree_name.c_str())));
     Result result = BdtDistribution(tree_reader, tree_name, export_file);
     result.info_branch = InfoBranch(file, tree_name);
-    std::vector<int> Integral = result.CutIntegral();
-    for (const auto& step : Range(result.steps)) {
-        result.events[step] = float(Integral[step]) / float(result.info_branch.EventNumber) * result.info_branch.Crosssection * Luminosity;
-        result.efficiency[step] = float(Integral[step]) / float(result.info_branch.EventNumber);
-        result.analysis_event_number[step] = Integral[step];
-        Debug(result.efficiency[step], result.events[step]);
+    std::vector<int> integral = result.Integral();
+    for (const auto & step : Range(result.steps)) {
+        result.events.at(step) = float(integral.at(step)) / float(result.info_branch.EventNumber) * result.info_branch.Crosssection * Luminosity;
+        result.efficiency.at(step) = float(integral.at(step)) / float(result.info_branch.EventNumber);
+        result.analysis_event_number.at(step) = integral.at(step);
+        Debug(result.efficiency.at(step), result.events.at(step));
     }
     return result;
 }
 
 Result Plot::BdtDistribution(exroot::TreeReader& tree_reader, const std::string& tree_name, TFile& export_file) const
 {
-    Debug(tagger().branch_name());
-    std::string branch_name = tagger().branch_name() + "Reader";
+    std::string branch_name = Tagger().BranchName(Stage::reader);
+    Debug(branch_name);
     Result result;
     TClonesArray& event_clones_array = *tree_reader.UseBranch(branch_name.c_str());
     exroot::TreeWriter tree_writer(&export_file, tree_name.c_str());
     exroot::TreeBranch& result_branch = *tree_writer.NewBranch(branch_name.c_str(), ResultBranch::Class());
     long entries = 0;
-    for (const int event_number : Range(tree_reader.GetEntries())) {
+    for (const auto & event_number : Range(tree_reader.GetEntries())) {
         tree_reader.ReadEntry(event_number);
-        for (const auto& entry : Range(event_clones_array.GetEntriesFast())) {
-            float bdt_value = tagger().ReadBdt(event_clones_array, entry);
+        for (const auto & entry : Range(event_clones_array.GetEntriesFast())) {
+            float bdt_value = Tagger().ReadBdt(event_clones_array, entry);
             result.bdt.emplace_back(bdt_value);
             Check(bdt_value >= 0 && bdt_value <= 2, bdt_value);
             static_cast<ResultBranch &>(*result_branch.NewEntry()).Bdt = bdt_value;
-            int bin = std::floor(bdt_value * result.steps / 2) - 1;
-            if (bin == -1) {
-                bin = 0;    // FIXME clean this up
-            }
+            int bin = std::floor((bdt_value + 1) * result.steps / 2) - 1;
+            if (bin == -1) bin = 0;    // FIXME clean this up
             ++result.bins.at(bin);
             ++entries;
         }
@@ -383,17 +355,16 @@ InfoBranch Plot::InfoBranch(TFile& file, const std::string& tree_name) const
 {
     Debug(tree_name);
     exroot::TreeReader tree_reader(static_cast<TTree*>(file.Get(tree_name.c_str())));
-    Debug("Info Branch", tree_name, tagger().weight_branch_name());
-    TClonesArray &clones_array = *tree_reader.UseBranch(tagger().weight_branch_name().c_str());
+    Debug(tree_name, Tagger().WeightBranchName());
+    TClonesArray& clones_array = *tree_reader.UseBranch(Tagger().WeightBranchName().c_str());
     tree_reader.ReadEntry(tree_reader.GetEntries() - 1);
-    return dynamic_cast<analysis::InfoBranch &>(*clones_array.At(clones_array.GetEntriesFast() - 1));
+    return static_cast<analysis::InfoBranch&>(*clones_array.At(clones_array.GetEntriesFast() - 1));
 }
-
 
 void Plot::LatexHeader(std::ofstream& latex_file) const
 {
     Debug();
-    const std::string file_name = tagger().analysis_name() + "/" + tagger().analysis_name() + ".tex";
+    std::string file_name = Tagger().ExportFolderName() + ".tex";
     latex_file.open(file_name);
     latex_file << "\\documentclass[a4paper,10pt]{article}\n\n"
                << "\\usepackage{booktabs}\n"
@@ -419,7 +390,7 @@ void Plot::LatexFooter(std::ofstream& latex_file) const
     latex_file.close();
 }
 
-// float Plot::GetRatio(const float Nominator, const float Denummertor) const
+// float Plot::GetRatio(float Nominator, float Denummertor) const
 // {
 // float Ratio;
 // if (Denummertor > 0) {
@@ -431,7 +402,7 @@ void Plot::LatexFooter(std::ofstream& latex_file) const
 // }
 //
 //
-// float Plot::GetScaling(const float events, const int Particles) const
+// float Plot::GetScaling(float events, int Particles) const
 // {
 // Debug("Scaling");
 // float Scaling;
@@ -443,21 +414,21 @@ void Plot::LatexFooter(std::ofstream& latex_file) const
 // return Scaling;
 // }
 //
-// float Plot::GetLuminosity(const float Number) const
+// float Plot::GetLuminosity(float Number) const
 // {
 // Debug("Luminosity");
 // float Luminosity = Number / CrosssectionScaled;
 // return Luminosity;
 // }
 //
-// float Plot::GetLuminosityError(const float Number) const
+// float Plot::GetLuminosityError(float Number) const
 // {
 // Debug("Luminosity Error");
 // float LuminosityError = GetError(Number) / CrosssectionScaled + Number / CrosssectionNorm * LuminosityScalingError + GetLuminosity(Number) * CrosssectionNormRelError;
 // return LuminosityError;
 // }
 //
-// float Plot::GetError(const float Value) const
+// float Plot::GetError(float Value) const
 // {
 // Debug("Error");
 // float Error;
@@ -468,41 +439,62 @@ void Plot::LatexFooter(std::ofstream& latex_file) const
 // }
 // return Error;
 // }
-//
-// float Plot::RoundToDigits(const float Value) const
+
+// float Plot::RoundToDigits(float Value) const
 // {
 // return RoundToDigits(Value, 3);
 // }
 //
-// float Plot::RoundError(const float Value) const
+// float Plot::RoundError(float Value) const
 // {
 // return RoundToDigits(Value, 2);
 // }
 //
 //
-// float Plot::RoundToDigits(const float Value, const int Digits) const
+// float Plot::RoundToDigits(float Value, int Digits) const
 // {
-// Debug("Round To Digits");
+// Debug();
 // if (Value == 0 || Value != Value) {
 // return 0;
 // } else {
-// const float Factor = std::pow(10.0, Digits - ceil(log10(std::abs(Value))));
+// float Factor = std::pow(10.0, Digits - ceil(log10(std::abs(Value))));
 // return (round(Value * Factor) / Factor);
 // }
 // }
 //
-// float Plot::RoundToError(const float Value, const float Error) const
+// float Plot::RoundToError(float Value, float Error) const
 // {
-// Debug("Round To Digits");
+// Debug();
 // if (Value == 0) {
 // return 0;
 // } else {
-// const float Factor = std::pow(10.0, 2 - ceil(log10(std::abs(Error))));
+// float Factor = std::pow(10.0, 2 - ceil(log10(std::abs(Error))));
 // return (round(Value * Factor) / Factor);
 // }
 // }
 
-int Plot::ColorCode(const int number) const
+
+float Plot::FloorToDigits(float value, int digits) const
+{
+    if (value == 0 || value != value) {
+        return 0;
+    } else {
+        float factor = std::pow(10.0, digits - std::ceil(std::log10(std::abs(value))));
+        return std::floor(value * factor) / factor;
+    }
+}
+
+float Plot::CeilToDigits(float value, int digits) const
+{
+    if (value == 0 || value != value) {
+        return 0;
+    } else {
+        float factor = std::pow(10.0, digits - std::ceil(std::log10(std::abs(value))));
+        return std::ceil(value * factor) / factor;
+    }
+}
+
+int Plot::ColorCode(int number) const
 {
     switch (number) {
     case 0 :
@@ -538,53 +530,44 @@ int Plot::ColorCode(const int number) const
     }
 }
 
-std::string Plot::ExportName() const
-{
-    return tagger().analysis_name() + "/" + tagger().export_name();
-}
-
 long Result::event_sum() const
 {
     // return info_branch.EventNumber;
     return event_sum_;
 }
-void Result::set_event_sum(const long event_sum)
+void Result::set_event_sum(long event_sum)
 {
     event_sum_ = event_sum;
 }
 
 void Plot::RunPlots() const
 {
-    std::string signal_file_name = tagger().analysis_name() + "/" + tagger().signal_name() + "Reader.root";
-    Debug(signal_file_name, tagger().signal_tree_names().size());
-    std::vector<Plots> signals = Import(signal_file_name, tagger().signal_tree_names());
-    std::string background_file_name = tagger().analysis_name() + "/" + tagger().background_name() + "Reader.root";
-    Debug(background_file_name, tagger().background_tree_names().size());
-    std::vector<Plots> backgrounds = Import(background_file_name, tagger().background_tree_names());
-    Plots bg = backgrounds.front();
-    if (backgrounds.size() > 1) {
-        bg = std::accumulate(backgrounds.begin() + 1, backgrounds.end(), bg, [](Plots & sum, const Plots & elem) {
-            for (const auto& plot : elem.plots)
-                sum.plots.at(&plot - &elem.plots[0]).points = Join(sum.plots.at(&plot - &elem.plots[0]).points, plot.points);
-            return sum;
-        });
-        bg.name = "background";
+    for (const auto & stage : std::vector<Stage> {Stage::trainer, Stage::reader}) {
+        Debug(Tagger().FileName(stage, Tag::signal), Tagger().TreeNames(Tag::signal).size());
+        std::vector<Plots> signals = Import(stage, Tag::signal);
+        Debug(Tagger().FileName(stage, Tag::background), Tagger().TreeNames(Tag::background).size());
+        std::vector<Plots> backgrounds = Import(stage, Tag::background);
+        Plots background = backgrounds.front();
+        if (backgrounds.size() > 1) {
+            background = std::accumulate(backgrounds.begin() + 1, backgrounds.end(), background, [](Plots & sum, const Plots & elem) {
+                for (const auto & plot : elem.plots) sum.plots.at(&plot - &elem.plots[0]).points = Join(sum.plots.at(&plot - &elem.plots[0]).points, plot.points);
+                return sum;
+            });
+            background.name = "background";
+        }
+        for (auto & signal : signals) DoPlot(signal, background, stage);
     }
-    for (auto& signal : signals)
-        DoPlot(signal, bg);
 }
 
-void Plot::DoPlot(Plots& signals, Plots& backgrounds) const
+void Plot::DoPlot(Plots& signals, Plots& backgrounds, Stage stage) const
 {
-    std::vector<std::pair<std::string, std::string>> nice_names;
-    unordered_pairs(tagger().branch().Variables(), nice_names, [&](const Obs & variable_1, const Obs & variable_2) {
+    std::vector<std::pair<std::string, std::string>> nice_names = unordered_pairs(Tagger().Branch().Variables(), [&](const Obs & variable_1, const Obs & variable_2) {
         return std::make_pair(variable_1.nice_name(), variable_2.nice_name());
     });
-    std::vector<std::pair<std::string, std::string>> names;
-    unordered_pairs(tagger().branch().Variables(), names, [&](const Obs & variable_1, const Obs & variable_2) {
+    std::vector<std::pair<std::string, std::string>> names = unordered_pairs(Tagger().Branch().Variables(), [&](const Obs & variable_1, const Obs & variable_2) {
         return std::make_pair(variable_1.name(), variable_2.name());
     });
-    for (auto& signal : signals.plots) {
+    for (auto & signal : signals.plots) {
         int index = &signal - &signals.plots[0];
         auto background = backgrounds.plots.at(index);
         signal.name_x = names.at(index).first;
@@ -599,82 +582,91 @@ void Plot::DoPlot(Plots& signals, Plots& backgrounds) const
         background.name_x = names.at(index).first;
         background.name_y = names.at(index).second;
         background.tree_name = backgrounds.name;
-        Plotting(signal, background);
+        Plotting(signal, background, stage);
     }
 }
 
-void Plot::Plotting(const Plot2d& signal, const Plot2d& background) const
+void Plot::Plotting(const Plot3d& signal, const Plot3d& background, Stage stage) const
 {
-    Plot2d signal_x = CoreVector(signal, [](Point2d & a, Point2d & b) {
+    Plot3d signal_x = CoreVector(signal, [](Point & a, Point & b) {
         return a.x < b.x;
     });
-    Plot2d signal_y = CoreVector(signal, [](Point2d & a, Point2d & b) {
+    Plot3d signal_y = CoreVector(signal, [](Point & a, Point & b) {
         return a.y < b.y;
     });
-    Plot2d background_x = CoreVector(background, [](Point2d & a, Point2d & b) {
+    Plot3d background_x = CoreVector(background, [](Point & a, Point & b) {
         return a.x < b.x;
     });
-    Plot2d background_y = CoreVector(background, [](Point2d & a, Point2d & b) {
+    Plot3d background_y = CoreVector(background, [](Point & a, Point & b) {
         return a.y < b.y;
     });
-    float x_min = std::min(signal_x.points.front().x, background_x.points.front().x);
-    float x_max = std::max(signal_x.points.back().x, background_x.points.back().x);
-    float y_min = std::min(signal_y.points.front().y, background_y.points.front().y);
-    float y_max = std::max(signal_y.points.back().y, background_y.points.back().y);
-    PlotHistogram(signal, background, x_min, x_max, y_min, y_max);
-    PlotProfile(signal, background, x_min, x_max, y_min, y_max);
+    Point min;
+    min.x = std::min(signal_x.points.front().x, background_x.points.front().x);
+    min.y = std::min(signal_y.points.front().y, background_y.points.front().y);
+    Point max;
+    max.x = std::max(signal_x.points.back().x, background_x.points.back().x);
+    max.y = std::max(signal_y.points.back().y, background_y.points.back().y);
+    switch (stage) {
+    case Stage::trainer :
+        PlotHistogram(signal, background, min, max);
+        break;
+    case Stage::reader :
+        PlotProfile(signal, background, min, max);
+        break;
+    }
 }
 
-void Plot::PlotHistogram(const Plot2d& signal, const Plot2d& background, const float x_min, const float x_max, const float y_min, const float y_max)const
+void Plot::PlotHistogram(const Plot3d& signal, const Plot3d& background, const Point& min, const Point& max) const
 {
     TCanvas canvas;
     canvas.SetBottomMargin(0.15);
     TLegend legend = Legend(0.3, 0.1, 0.3, 0.1);
     legend.SetNColumns(2);
     legend.SetColumnSeparation(0.2);
-    const int bin_number = 20;
+    int bin_number = 20;
     TExec exec_1;
-    TH2F background_histogram("", tagger().NiceName().c_str(), bin_number, x_min, x_max, bin_number, y_min, y_max);
-    SetHistogram(background_histogram, background, kRed, exec_1);
-    legend.AddEntry(&background_histogram, background.name.c_str(), "l");
+    TH2F background_histogram("", Tagger().NiceName().c_str(), bin_number, min.x, max.x, bin_number, min.y, max.y);
+    SetHistogram(background_histogram, background, kBlue, exec_1);
+//     legend.AddEntry(&background_histogram, background.name.c_str(), "l");
     TExec exec_2;
-    TH2F signal_histogram("", tagger().NiceName().c_str(), bin_number, x_min, x_max, bin_number, y_min, y_max);
-    SetHistogram(signal_histogram, signal, kBlue, exec_2);
-    legend.AddEntry(&signal_histogram, signal.name.c_str(), "l");
+    TH2F signal_histogram("", Tagger().NiceName().c_str(), bin_number, min.x, max.x, bin_number, min.y, max.y);
+    SetHistogram(signal_histogram, signal, kRed, exec_2);
+//     legend.AddEntry(&signal_histogram, signal.name.c_str(), "l");
+    legend.AddEntry(&signal_histogram, "Signal", "l");
+    legend.AddEntry(&background_histogram, "Background", "l");
     legend.Draw();
-    mkdir(ExportName().c_str(), 0700);
-    std::string file_name = ExportName() + "/" + "Hist-" + background.tree_name + "-" + signal.name_x + "-" + signal.name_y + ExportFileSuffix();
+    mkdir(Tagger().ExportFolderName().c_str(), 0700);
+    std::string file_name = Tagger().ExportFolderName() + "/" + "Hist-" + background.tree_name + "-" + signal.name_x + "-" + signal.name_y + ExportFileSuffix();
     canvas.Print(file_name.c_str());
 }
 
-void Plot::PlotProfile(const Plot2d& signal, const Plot2d& background, const float x_min, const float x_max, const float y_min, const float y_max)const
+void Plot::PlotProfile(const Plot3d& signal, const Plot3d& background, const Point& min, const Point& max) const
 {
     TCanvas canvas;
     canvas.SetRightMargin(0.15);
-    const int bin_number = 30;
-    TProfile2D test("", tagger().NiceName().c_str(), bin_number, x_min, x_max, bin_number, y_min, y_max);
+    int bin_number = 30;
+    TProfile2D test("", Tagger().NiceName().c_str(), bin_number, min.x, max.x, bin_number, min.y, max.y);
     SetProfile(test, signal, background);
-    mkdir(ExportName().c_str(), 0700);
-    std::string file_name = ExportName() + "/" + "Prof-" + background.tree_name + "-" + signal.name_x + "-" + signal.name_y + ExportFileSuffix();
+    mkdir(Tagger().ExportFolderName().c_str(), 0700);
+    std::string file_name = Tagger().ExportFolderName() + "/" + "Prof-" + background.tree_name + "-" + signal.name_x + "-" + signal.name_y + ExportFileSuffix();
     canvas.Print(file_name.c_str());
 }
 
-void Plot::SetHistogram(TH2& histogram, const Plot2d& plot, const EColor color, TExec& exec) const
+void Plot::SetHistogram(TH2& histogram, const Plot3d& plot, EColor color, TExec& exec) const
 {
     std::string options = "cont1 same";
     histogram.Draw(options.c_str());
-    for (const auto& point : plot.points)
-        histogram.Fill(point.x, point.y);
+    for (const auto & point : plot.points) histogram.Fill(point.x, point.y);
     histogram.SetXTitle(plot.nice_name_x.c_str());
     histogram.SetYTitle(plot.nice_name_y.c_str());
     histogram.SetContour(20);
     switch (color) {
     case kRed :
         // FIXME why do these function have to be reversed?
-        exec.SetAction("analysis::Color().Blue();");
+        exec.SetAction("analysis::Color().Red();");
         break;
     case kBlue :
-        exec.SetAction("analysis::Color().Red();");
+        exec.SetAction("analysis::Color().Blue();");
         break;
     default:
         Error("unsupported color");
@@ -686,17 +678,17 @@ void Plot::SetHistogram(TH2& histogram, const Plot2d& plot, const EColor color, 
 }
 
 
-void Plot::SetProfile(TProfile2D& histogram, const Plot2d& signal, const Plot2d& background) const
+void Plot::SetProfile(TProfile2D& histogram, const Plot3d& signal, const Plot3d& background) const
 {
-    float max = (*std::max_element(signal.points.begin(), signal.points.end(), [](Point2d  a, Point2d  b) {
+    float max = (*std::max_element(signal.points.begin(), signal.points.end(), [](Point  a, Point  b) {
         return a.z < b.z;
     })).z;
-    float min = (*std::min_element(background.points.begin(), background.points.end(), [](Point2d  a, Point2d  b) {
+    float min = (*std::min_element(background.points.begin(), background.points.end(), [](Point  a, Point  b) {
         return a.z < b.z;
     })).z;
-    for (const auto& point : signal.points)
+    for (const auto & point : signal.points)
         histogram.Fill(point.x, point.y, point.z);
-    for (const auto& point : background.points)
+    for (const auto & point : background.points)
         histogram.Fill(point.x, point.y, point.z);
     Color().Heat();
     histogram.SetXTitle(signal.nice_name_x.c_str());
@@ -710,82 +702,87 @@ void Plot::SetProfile(TProfile2D& histogram, const Plot2d& signal, const Plot2d&
     histogram.Draw("colz");
 }
 
-std::vector<Plots> Plot::Import(const std::string& file_name, const Strings& treename) const
+std::vector<Plots> Plot::Import(Stage stage, Tag tag) const
 {
-    TFile file(file_name.c_str(), "Read");
-    Debug(file_name, treename.size());
+    Debug(Tagger().FileName(stage, tag), Tagger().TreeNames(tag).size());
+    TFile file(Tagger().FileName(stage, tag).c_str(), "Read");
     std::vector<Plots> results;
-    for (const auto& tree_name : treename)
-        results.emplace_back(PlotResult(file, tree_name));
+    for (const auto & tree_name : Tagger().TreeNames(tag)) results.emplace_back(PlotResult(file, tree_name, stage));
     return results;
 }
 
-Plots Plot::PlotResult(TFile& file, const std::string& tree_name) const
+Plots Plot::PlotResult(TFile& file, const std::string& tree_name, Stage stage) const
 {
     Debug(tree_name);
     Plots plots;
     plots.info_branch = InfoBranch(file, tree_name);
     TTree& tree = static_cast<TTree&>(*file.Get(tree_name.c_str()));
     tree.SetMakeClass(1);
-    unordered_pairs(tagger().branch().Variables(), plots.plots, [&](const Obs & variable_1, const Obs & variable_2) {
-        return ReadTree(tree, variable_1.name(), variable_2.name());
+    plots.plots = unordered_pairs(Tagger().Branch().Variables(), [&](const Obs & variable_1, const Obs & variable_2) {
+        return ReadTree(tree, variable_1.name(), variable_2.name(), stage);
     });
     plots.name = tree_name;
-    Debug(plots.plots.size(), tagger().branch().Variables().size());
+    Debug(plots.plots.size(), Tagger().Branch().Variables().size());
     return plots;
 }
 
-Plot2d Plot::ReadTree(TTree& tree, const std::string& leaf_1, const std::string& leaf_2) const
+Plot3d Plot::ReadTree(TTree& tree, const std::string& leaf_1, const std::string& leaf_2, Stage stage) const
 {
     tree.SetBranchStatus("*", 0);
-    std::string branch_name = tagger().branch_name() + "Reader";
+    std::string branch_name = Tagger().BranchName(stage);
     Debug(branch_name);
+
     tree.SetBranchStatus(branch_name.c_str(), 1);
     int branch_value = 0;
     tree.SetBranchAddress(branch_name.c_str(), &branch_value);
     Debug(branch_name.c_str());
+
     std::string size_name = branch_name + "_size";
     Debug(size_name.c_str());
     tree.SetBranchStatus(size_name.c_str(), 1);
     int branch_size = 0;
     tree.SetBranchAddress(size_name.c_str(), &branch_size);
-    const int branch_size_max = 200; // TODO is there a cleaner way?
+
+    size_t max_value = 200;
     std::string leaf_name_1 = branch_name + "." + leaf_1;
     Debug(leaf_name_1.c_str());
     tree.SetBranchStatus(leaf_name_1.c_str(), 1);
-    float leaf_values_1[branch_size_max];
-    tree.SetBranchAddress(leaf_name_1.c_str(), leaf_values_1);
+    std::vector<float> leaf_values_1(max_value);
+    tree.SetBranchAddress(leaf_name_1.c_str(), &leaf_values_1[0]);
+
     std::string leaf_name_2 = branch_name + "." + leaf_2;
     Debug(leaf_name_2.c_str());
     tree.SetBranchStatus(leaf_name_2.c_str(), 1);
-    float leaf_values_2[branch_size_max];
-    tree.SetBranchAddress(leaf_name_2.c_str(), leaf_values_2);
+    std::vector<float> leaf_values_2(max_value);
+    tree.SetBranchAddress(leaf_name_2.c_str(), &leaf_values_2[0]);
+
     std::string bdt_name = branch_name + ".Bdt";
     Debug(bdt_name.c_str());
     tree.SetBranchStatus(bdt_name.c_str(), 1);
-    float bdt_values[branch_size_max];
-    tree.SetBranchAddress(bdt_name.c_str(), bdt_values);
-    Plot2d points;
-    for (const auto& entry : Range(tree.GetEntries())) {
+    std::vector<float> bdt_values(max_value);
+    tree.SetBranchAddress(bdt_name.c_str(), &bdt_values[0]);
+
+    Plot3d points;
+    for (const auto & entry : Range(tree.GetEntries())) {
         Debug(tree.GetEntries(), entry);
         tree.GetEntry(entry);
-        for (const auto& element : Range(branch_size)) {
-            Point2d point;
-            point.x = leaf_values_1[element];
-            point.y = leaf_values_2[element];
-            point.z = bdt_values[element];
-            Debug(point.x, point.y);
+        for (const auto & element : Range(branch_size)) {
+            Point point;
+            point.x = leaf_values_1.at(element);
+            point.y = leaf_values_2.at(element);
+            point.z = bdt_values.at(element);
+            Debug(point.x, point.y, point.z);
             points.points.emplace_back(point);
         }
     }
     return points;
 }
 
-Plot2d Plot::CoreVector(const Plot2d& points, std::function<bool (Point2d&, Point2d&)> function) const
+Plot3d Plot::CoreVector(const Plot3d& points, std::function<bool (Point&, Point&)> function) const
 {
-    Plot2d plot = points;
+    Plot3d plot = points;
     // TODO sorting the whole vector if you just want to get rid of the extrem values might not be the fastest solution
-    std::sort(plot.points.begin(), plot.points.end(), [&](Point2d & a, Point2d & b) {
+    std::sort(plot.points.begin(), plot.points.end(), [&](Point & a, Point & b) {
         return function(a, b);
     });
     int cut_off = plot.points.size() / 25;

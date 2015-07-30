@@ -2,6 +2,8 @@
 
 #include "Global.hh"
 #include "LorentzVector.hh"
+// #include "Predicate.hh"
+
 class TLorentzVector;
 
 namespace analysis {
@@ -12,21 +14,21 @@ public:
 
     Particle() {}
 
-    Particle(const int id);
+    Particle(int id);
 
-    Particle(const Id id);
+    Particle(Id id);
 
-    Particle(const Id id, const int position);
+    Particle(Id id, int position);
 
-    Particle(const LorentzVector& momentum, const int id, const int position);
+    Particle(const LorentzVector& momentum, int id, int position);
 
-    Particle(const TLorentzVector& momentum, const int id, const int position);
+    Particle(const TLorentzVector& momentum, int id, int position);
 
-    LorentzVector momentum()const;
+    LorentzVector momentum() const;
 
-    int position()const;
+    int position() const;
 
-    int id()const;
+    int id() const;
 
 private:
 
@@ -34,7 +36,7 @@ private:
 
     int position_ = EmptyPosition;
 
-    int id_;
+    int id_ = int(Id::empty);
 
 };
 

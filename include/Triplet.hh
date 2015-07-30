@@ -56,44 +56,44 @@ public:
         return 0;
     }
 
-    void tau1_beta1(const float tau)
+    void tau1_beta1(float tau)
     {
         tau1_beta1_ = tau;
     }
-    void tau2_beta1(const float tau)
+    void tau2_beta1(float tau)
     {
         tau2_beta1_ = tau;
     }
-    void tau3_beta1(const float tau)
+    void tau3_beta1(float tau)
     {
         tau3_beta1_ = tau;
     }
-    void tau21_beta1(const float tau)
+    void tau21_beta1(float tau)
     {
         tau21_beta1_ = tau;
     }
-    void tau32_beta1(const float tau)
+    void tau32_beta1(float tau)
     {
         tau32_beta1_ = tau;
     }
 
-    void tau1_beta2(const float tau)
+    void tau1_beta2(float tau)
     {
         tau1_beta2_ = tau;
     }
-    void tau2_beta2(const float tau)
+    void tau2_beta2(float tau)
     {
         tau2_beta2_ = tau;
     }
-    void tau3_beta2(const float tau)
+    void tau3_beta2(float tau)
     {
         tau3_beta2_ = tau;
     }
-    void tau21_beta2(const float tau)
+    void tau21_beta2(float tau)
     {
         tau21_beta2_ = tau;
     }
-    void tau32_beta2(const float tau)
+    void tau32_beta2(float tau)
     {
         tau32_beta2_ = tau;
     }

@@ -8,11 +8,11 @@ namespace heavyhiggs {
 
 HeavyHiggsSemiTagger::HeavyHiggsSemiTagger()
 {
-    Note();
+  Info();
     DefineVariables();
 }
 
-int HeavyHiggsSemiTagger::Train(const Event& event, PreCuts& pre_cuts, const Tag tag) const
+int HeavyHiggsSemiTagger::Train(const Event& event, const PreCuts&, Tag tag) const
 {
     Info();
     Jets higgs_boson = HiggsParticle(event, tag);
@@ -31,7 +31,7 @@ int HeavyHiggsSemiTagger::Train(const Event& event, PreCuts& pre_cuts, const Tag
     return SaveEntries(BestMatches(sextets, higgs_boson, tag));
 }
 
-std::vector<Sextet>  HeavyHiggsSemiTagger::Multiplets(const Event& event, PreCuts& pre_cuts, const TMVA::Reader& reader) const
+std::vector<Sextet>  HeavyHiggsSemiTagger::Multiplets(const Event& event, const PreCuts&, const TMVA::Reader& reader) const
 {
     std::vector<Triplet> triplets_leptonic = top_leptonic_reader_.Multiplets(event);
     std::vector<Triplet> triplets_hadronic = top_hadronic_reader_.Multiplets(event);
@@ -47,7 +47,7 @@ std::vector<Sextet>  HeavyHiggsSemiTagger::Multiplets(const Event& event, PreCut
     return ReduceResult(sextets);
 }
 
-std::vector<Triplet> HeavyHiggsSemiTagger::FinalTriplet(const Event& event, const Tag tag, int charge) const
+std::vector<Triplet> HeavyHiggsSemiTagger::FinalTriplet(const Event& event, Tag tag, int charge) const
 {
     std::vector<Triplet> triplets;
     switch (charge) {
@@ -65,7 +65,7 @@ std::vector<Triplet> HeavyHiggsSemiTagger::FinalTriplet(const Event& event, cons
     return BestMatches(triplets, tops, tag);
 }
 
-Jets HeavyHiggsSemiTagger::HiggsParticle(const Event& event, const Tag tag) const
+Jets HeavyHiggsSemiTagger::HiggsParticle(const Event& event, Tag tag) const
 {
     if (tag == Tag::background) return Jets {};
     Jets particles = event.Partons().GenParticles();

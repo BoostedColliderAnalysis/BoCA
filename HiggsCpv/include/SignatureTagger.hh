@@ -2,7 +2,8 @@
 
 #include "HiggsTagger.hh"
 #include "TopLeptonicPairTagger.hh"
-#include "Octet62.hh"
+#include "MultipletSignature.hh"
+#include "Octet.hh"
 
 namespace analysis {
 
@@ -19,12 +20,13 @@ public:
 
     SignatureTagger();
 
-    int Train(const Event& event, analysis::PreCuts&, const analysis::Tag tag) const;
+    int Train(const Event &event, const analysis::PreCuts &,
+              Tag tag) const override;
 
-    std::vector<Octet62> Multiplets(const analysis::Event& event, analysis::PreCuts&, const TMVA::Reader& reader) const;
+    std::vector< analysis::MultipletSignature< analysis::Octet62 > > Multiplets(const analysis::Event& event, const analysis::PreCuts&, const TMVA::Reader& reader) const;
 
-    int GetBdt(const Event& event, PreCuts& pre_cuts, const TMVA::Reader& reader) const  final
-    {
+    int GetBdt(const Event &event, const PreCuts &pre_cuts,
+               const TMVA::Reader &reader) const final {
         return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
@@ -34,10 +36,7 @@ public:
         return Multiplets(event, pre_cuts, reader);
     }
 
-    std::string Name() const final
-    {
-        return "Signature";
-    }
+    std::string Name() const final { return "Signature"; }
 
 private:
 

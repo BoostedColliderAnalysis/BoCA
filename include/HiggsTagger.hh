@@ -16,27 +16,25 @@ public:
 
     HiggsTagger();
 
-    int Train(const Event& event, PreCuts& pre_cuts, const Tag tag) const final;
+    int Train(const Event &event, const PreCuts &pre_cuts, Tag tag) const final;
 
-    std::vector<Doublet> Multiplets(const Event& event, PreCuts& pre_cuts, const TMVA::Reader& reader) const;
+    std::vector<Doublet> Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 
-    int GetBdt(const Event& event, PreCuts& pre_cuts, const TMVA::Reader& reader) const  final
-    {
+    int GetBdt(const Event &event, const PreCuts &pre_cuts, const TMVA::Reader &reader) const final {
         return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
     }
 
-    std::string Name() const final
-    {
-        return "Higgs";
-    }
+    std::string Name() const final { return "Higgs"; }
 
 protected:
 
 private:
 
-    bool Problematic(const Doublet& doublet, PreCuts& pre_cuts, const Tag tag) const;
+    bool Problematic(const Doublet& doublet, const PreCuts& pre_cuts, Tag tag) const;
 
-    bool Problematic(const Doublet& doublet, PreCuts& pre_cuts) const;
+    bool Problematic(const Doublet& doublet, const PreCuts& pre_cuts) const;
+
+    Doublet MassDrop(const Doublet& doublet) const;
 
     Reader<BottomTagger> bottom_reader_;
 

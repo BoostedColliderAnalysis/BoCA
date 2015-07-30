@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Analysis.hh"
+#include "Debug.hh"
 
 namespace analysis {
 
@@ -71,6 +72,9 @@ protected:
             return 1500;
         case 500:
             return 1000;
+        default :
+            Error("no pt upper cut");
+            return 0;
         }
     }
 
@@ -84,7 +88,10 @@ protected:
         case 1000 :
             return 1000;
         case 1200 :
-            return 1000;
+          return 1000;
+        default :
+          Error("no madgraph cut");
+          return 0;
         }
     }
 
@@ -114,7 +121,7 @@ protected:
         //       return 10;
     }
 
-    void NewFile(const Tag tag, const Process process)
+    void NewFile(Tag tag, const Process process)
     {
         analysis::AnalysisBase::NewFile(tag, FileName(process), NiceName(process));
     }

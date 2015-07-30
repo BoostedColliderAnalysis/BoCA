@@ -7,11 +7,11 @@ namespace heavyhiggs {
 
 ChargedHiggsLeptonicTagger::ChargedHiggsLeptonicTagger()
 {
-    Note();
+  Info();
     DefineVariables();
 }
 
-int ChargedHiggsLeptonicTagger::Train(const Event& event, const Tag tag)
+int ChargedHiggsLeptonicTagger::Train(const Event& event, const PreCuts&, const Tag) const
 {
     Info("Higgs Tags");
     Jets jets = bottom_reader_.Multiplets(event);
@@ -21,7 +21,7 @@ int ChargedHiggsLeptonicTagger::Train(const Event& event, const Tag tag)
         std::vector<Triplet> triplets;
         for (const auto & triplet : triplets) {
             for (const auto & Jet : jets)  {
-                if (triplet.SingletJet1() == Jet) continue;
+                if (triplet.Singlet1().Jet() == Jet) continue;
                 Triplet triplet(triplet, Jet);
     //             triplet.SetTag(GetTag(triplet));
                 if (triplet.Tag() != tag) continue;
@@ -42,9 +42,10 @@ int ChargedHiggsLeptonicTagger::Train(const Event& event, const Tag tag)
         }
 
         return SaveEntries(triplets);*/
+    return 1;
 }
 
-std::vector<Triplet>  ChargedHiggsLeptonicTagger::Multiplets(const Event& event, const TMVA::Reader& reader) const
+std::vector<Triplet>  ChargedHiggsLeptonicTagger::Multiplets(const Event&, const PreCuts& , const TMVA::Reader&) const
 {
     Info("Bdt");
 //     Jets jets = bottom_reader_.Multiplets(event);
@@ -53,7 +54,7 @@ std::vector<Triplet>  ChargedHiggsLeptonicTagger::Multiplets(const Event& event,
 //     std::vector<Triplet> triplets;
 //     for (const auto & doublet : doublets) {
 //         for (const auto & jet : jets)  {
-//             if (doublet.SingletJet1() == jet) continue;
+//             if (doublet.Singlet1().Jet() == jet) continue;
 //             Triplet triplet(doublet, jet);
 // //             triplet.SetTag(GetTag(triplet));
 // //             std::vector<Quartet31> Prequartets;
@@ -65,6 +66,7 @@ std::vector<Triplet>  ChargedHiggsLeptonicTagger::Multiplets(const Event& event,
 //         }
 //     }
 //     return ReduceResult(triplets);
+    return std::vector<Triplet>{};
 }
 
 }

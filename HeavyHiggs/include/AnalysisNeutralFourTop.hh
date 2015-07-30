@@ -3,6 +3,7 @@
 #include "AnalysisHeavyHiggs.hh"
 
 #include "Doublet.hh"
+#include "Debug.hh"
 
 namespace analysis {
 
@@ -27,11 +28,11 @@ public:
 
     AnalysisNeutralFourTop()
     {
-        this->tagger().set_analysis_name(ProjectName());
+        this->tagger().SetAnalysisName(ProjectName());
 // 	this->pre_cuts().SetPtLowerCut(Id::top,100);
     }
 
-    void SetFiles(const Tag tag) final {
+    void SetFiles(Tag tag) final {
         switch (tag)
         {
         case Tag::signal :
@@ -50,7 +51,7 @@ public:
         //        return  ProcessName() + "-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV-" + std::to_string(Mass()) + "GeV-Eta2.5";
         return  ProcessName() + "-" + Name(this->collider_type()) + "-" + std::to_string(this->Mass()) + "GeV";
     };
- 
+
     float SignalCrosssection(const Process process) const {
 
       switch (this->collider_type()) {
@@ -63,7 +64,7 @@ public:
             case 700:
               return 0.346647;
             case 800:
-              return 0.225386; 
+              return 0.225386;
             case 1000:
               return 0.10028;
             case 1500:
@@ -71,7 +72,7 @@ public:
             case 2000:
               return 0.00345315;
             default:
-              Error("Signal Crosssection", "unhandled case");
+              Error("unhandled case");
               return 1;
            }
          case Process::Htwb:
@@ -81,7 +82,7 @@ public:
              case 700:
                return 1;
              case 800:
-               return 1; 
+               return 1;
              case 1000:
                return 1;
              case 1500:
@@ -89,9 +90,12 @@ public:
              case 2000:
                return 1;
              default:
-               Error("Signal Crosssection", "unhandled case");
+               Error("unhandled case");
                return 1;
-           }  
+           }
+             default:
+               Error("unhandled case");
+               return 1;
           };
             case Collider::FHC:
             case Collider::LE:
@@ -121,7 +125,7 @@ public:
                 case 7000:
                   return 0.026579;
                 default:
-                  Error("Signal Crosssection", "unhandled case");
+                  Error("unhandled case");
                   return 1;
               }
                 case Process::Htwb:
@@ -149,16 +153,19 @@ public:
                 case 7000:
                   return 0.256938;
                 default:
-                  Error("Signal Crosssection", "unhandled case");
+                  Error("unhandled case");
                   return 1;
               }
+                default:
+                  Error("unhandled case");
+                  return 1;
             }
                 default:
-                  Error("Signal Crosssection", "unhandled case");
+                  Error("unhandled case");
                   return 1;
       }
     }
-    
+
     float BackgroundCrosssection(const Process process) const {
       switch (this->collider_type()) {
         case Collider::LHC :
@@ -168,7 +175,7 @@ public:
             case Process::ttwbb:
               return 1;
             default:
-              Error("Background Crosssection", "unhandled case");
+              Error("unhandled case");
               return 1;
           }
         case Collider::LE:
@@ -178,14 +185,15 @@ public:
             case Process::ttwbb:
               return 1.3204;
             default:
-              Error("Background Crosssection","unhandled case");
+              Error("unhandled case");
               return 1;
           }
             default:
+              Error("unhandled case");
               return 1;
       }
     }
-    
+
 
 private:
 
@@ -193,19 +201,19 @@ private:
         return "NeutralFourTop";
     }
 
-    int PassPreCut(const Event& event) const override
+    int PassPreCut(const Event& event, Tag) const override
     {
         Jets Particles = event.Partons().GenParticles();
 
         Jets Tops = CopyIfParticle(Particles, Id::top);
         Jets Bottoms = CopyIfParticle(Particles, Id::bottom);
 //         if(Bottoms.size() < 4) return 0;
-//         
+//
 //         if (Bottoms.at(0).pt() < this->BottomPt()) return 0;
 //         if (Bottoms.at(1).pt() < this->BottomPt()) return 0;
 //         if (Bottoms.at(2).pt() < this->BottomPt()) return 0;
 //         if (Bottoms.at(3).pt() < this->BottomPt()) return 0;
-        
+
         if (event.Hadrons().MissingEt().pt() < this->MissingEt()) return 0;
         Jets Leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
         if (Leptons.size() < 2) return 0;
@@ -218,7 +226,7 @@ private:
           if(lepton.pt()>this->LeptonPt()&&lepton.user_info<JetInfo>().Charge()<0)negative_lepton++;
         }
 
-	if (positive_lepton<2&&negative_lepton<2) return 0;	
+	if (positive_lepton<2&&negative_lepton<2) return 0;
         if ((positive_lepton+negative_lepton)>2) return 0;
 
         Jets jets = event.Hadrons().Jets();

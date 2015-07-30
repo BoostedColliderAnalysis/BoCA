@@ -8,11 +8,11 @@ namespace toppartner {
 
 TopPartnerHadronicTagger::TopPartnerHadronicTagger()
 {
-    Note();
+  Info();
     DefineVariables();
 }
 
-int TopPartnerHadronicTagger::Train(const Event& event,  PreCuts& pre_cuts, const Tag tag) const
+int TopPartnerHadronicTagger::Train(const Event& event, const PreCuts&, Tag tag) const
 {
     Info();
     std::vector<Triplet> triplets = top_reader_.Multiplets(event);
@@ -30,7 +30,7 @@ int TopPartnerHadronicTagger::Train(const Event& event,  PreCuts& pre_cuts, cons
     return SaveEntries(BestMatches(quintets, top_partner, tag), 1);
 }
 
-std::vector<Quintet> TopPartnerHadronicTagger::Multiplets(const Event& event, analysis::PreCuts& pre_cuts, const TMVA::Reader& reader) const
+std::vector<Quintet> TopPartnerHadronicTagger::Multiplets(const Event& event, const analysis::PreCuts&, const TMVA::Reader& reader) const
 {
     std::vector<Triplet> triplets = top_reader_.Multiplets(event);
     std::vector<Doublet> doublets = boson_reader_.Multiplets(event);

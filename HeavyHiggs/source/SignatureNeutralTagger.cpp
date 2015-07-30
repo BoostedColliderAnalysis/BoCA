@@ -8,25 +8,25 @@ namespace heavyhiggs {
 
 SignatureNeutralTagger::SignatureNeutralTagger()
 {
-    Note();
+  Info();
     DefineVariables();
 }
 
-int SignatureNeutralTagger::Train(const Event& event, PreCuts&, const Tag tag) const
+int SignatureNeutralTagger::Train(const Event& event, const PreCuts&, Tag tag) const
 {
     Info();
-    Jets higgs = heavy_higgs_semi_reader_.tagger().HiggsParticle(event, tag);
+    Jets higgs = heavy_higgs_semi_reader_.Tagger().HiggsParticle(event, tag);
     std::vector<Sextet> sextets = heavy_higgs_semi_reader_.Multiplets(event);
     sextets = BestMatches(sextets, higgs, tag);
     std::vector<Doublet> doublets = jet_pair_reader_.Multiplets(event);
-    Jets bottoms = fastjet::sorted_by_pt(jet_pair_reader_.tagger().BottomPair(event, tag));
+    Jets bottoms = fastjet::sorted_by_pt(jet_pair_reader_.Tagger().BottomPair(event, tag));
     std::vector<Doublet> final_doublets;
     switch (tag) {
     case Tag::signal :
         if (bottoms.size() == 2) {
 
             for (const auto& doublet : doublets) {
-                if ((Close(bottoms.at(0))(doublet.SingletJet1()) && Close(bottoms.at(1))(doublet.SingletJet2())) || (Close(bottoms.at(1))(doublet.SingletJet1()) && Close(bottoms.at(0))(doublet.SingletJet2()))) final_doublets.emplace_back(doublet);
+                if ((Close(bottoms.at(0))(doublet.Singlet1().Jet()) && Close(bottoms.at(1))(doublet.Singlet2().Jet())) || (Close(bottoms.at(1))(doublet.Singlet1().Jet()) && Close(bottoms.at(0))(doublet.Singlet2().Jet()))) final_doublets.emplace_back(doublet);
             }
         }
         break;
@@ -54,7 +54,7 @@ int SignatureNeutralTagger::Train(const Event& event, PreCuts&, const Tag tag) c
 }
 
 
-std::vector<Octet62> SignatureNeutralTagger::Multiplets(const Event& event, PreCuts&, const TMVA::Reader& reader) const
+std::vector<Octet62> SignatureNeutralTagger::Multiplets(const Event& event, const PreCuts&, const TMVA::Reader& reader) const
 {
     Info();
     std::vector<Doublet> doublets = jet_pair_reader_.Multiplets(event);

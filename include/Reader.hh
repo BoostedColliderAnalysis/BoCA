@@ -8,107 +8,118 @@ namespace analysis {
 
 /**
  * @brief read results of multivariant analysis
- * wrapper for TMVA::Reader class
+ * wrapper for TMVA::Reader
  *
  */
-template<typename Tagger>
+template<typename TaggerTemplate>
 class Reader {
 
 public:
 
-    Reader()
+    Reader() : reader_(Options())
     {
         AddVariable();
-        BookMva();
+        BookMva(TMVA::Types::EMVA::kBDT);
     }
 
-    Reader(const Stage stage)
+    Reader(Stage stage) : reader_(Options())
     {
         switch (stage) {
         case Stage::trainer :
             break;
         case Stage::reader :
             AddVariable();
-            BookMva();
+            BookMva(TMVA::Types::EMVA::kBDT);
             break;
         }
     }
 
-    int Bdt(const analysis::Event& event, analysis::PreCuts& pre_cuts) const
+    int Bdt(const analysis::Event& event, const analysis::PreCuts& pre_cuts) const
     {
-        return tagger_.GetBdt(event, pre_cuts, reader_);
+        return Tagger().GetBdt(event, pre_cuts, reader());
     }
 
     template <typename Input>
-    auto Multiplets(Input& input) const
+    auto Multiplets(const Input& input) const
     {
         PreCuts pre_cuts;
-        return tagger_.Multiplets(input, pre_cuts, reader_);
+        return Tagger().Multiplets(input, pre_cuts, reader());
     }
 
 //     template <typename Input1, typename Input2>
 //     auto Multiplets(Input1 &input_1, Input2 &input_2) const {
-//         return tagger_.Multiplets(input_1, input_2, reader_);
+//         return Tagger().Multiplets(input_1, input_2, reader());
 //     }
 
     template <typename Input>
-    auto Multiplet(Input& input) const
+    auto Multiplet(const Input& input) const
     {
-        return tagger_.Multiplet(input, reader_);
+        return Tagger().Multiplet(input, reader());
     }
 
     template <typename Input1, typename Input2>
-    auto Multiplet(Input1& input_1, Input2& input_2) const
+    auto Multiplet(const Input1& input_1, const Input2& input_2) const
     {
-        return tagger_.Multiplet(input_1, input_2, reader_);
+        return Tagger().Multiplet(input_1, input_2, reader());
     }
 
     template <typename Input>
-    auto SubMultiplet(Input& input, const int number) const
+    auto SubMultiplet(const Input& input, int number) const
     {
-        return tagger_.SubMultiplet(input, reader_, number);
+        return Tagger().SubMultiplet(input, reader(), number);
     }
 
     template <typename Input>
-    auto SubMultiplet(Input& input) const
+    auto SubMultiplet(const Input& input) const
     {
-        return tagger_.SubMultiplet(input, reader_);
+        return Tagger().SubMultiplet(input, reader());
     }
 
-    const Tagger& tagger() const
+    const TaggerTemplate& Tagger() const
     {
-        return tagger_;
+      return tagger_;
     }
 
-    Tagger& tagger()
+    void SetTreeBranch(exroot::TreeWriter& tree_writer,Stage stage)
     {
-        return tagger_;
+       Tagger().SetTreeBranch(tree_writer, stage);
     }
 
 private:
 
-    Tagger tagger_;
+    std::string Options() const{
+      return "!V:!color:Silent";
+    }
+
+    TaggerTemplate& Tagger()
+    {
+      return tagger_;
+    }
+
+    TaggerTemplate tagger_;
 
     const TMVA::Reader& reader() const
     {
-        return reader_;
+      return reader_;
+    }
+
+    TMVA::Reader& reader()
+    {
+      return reader_;
     }
 
     TMVA::Reader reader_;
 
-    void BookMva()
+    void BookMva(TMVA::Types::EMVA mva)
     {
-        const std::string bdt_weight_file = tagger_.analysis_name() + "/" + tagger_.bdt_weight_name();
         //TMVA::IMethod &method = *
-        reader_.BookMVA(tagger_.bdt_method_name(), bdt_weight_file);
+      reader().BookMVA(Tagger().MethodName(mva), Tagger().WeightFileName(mva));
     }
 
     void AddVariable()
     {
-        for (auto& observable : tagger_.variables())
-            reader_.AddVariable(observable.expression(), &observable.value());
-        for (auto& spectator : tagger_.spectators())
-            reader_.AddSpectator(spectator.expression(), &spectator.value());
+        for (const auto& observable : Tagger().Variables()) reader().AddVariable(observable.expression(), &observable.value());
+        for (const auto& spectator : Tagger().Spectators()) reader().AddSpectator(spectator.expression(), &spectator.value());
     }
 
 };

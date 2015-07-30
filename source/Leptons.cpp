@@ -6,7 +6,7 @@ namespace analysis {
 
 Leptons::~Leptons()
 {
-    Note();
+  Info();
 }
 
 void Leptons::NewEvent(const ClonesArrays& clones_arrays)

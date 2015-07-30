@@ -5,7 +5,8 @@
 #include "DetectorGeometry.hh"
 #include "Constituent.hh"
 
-namespace analysis {
+namespace analysis
+{
 
 /**
  * @brief create a fastjet::PseudoJet from a LorentzVector
@@ -15,33 +16,35 @@ fastjet::PseudoJet PseudoJet(const TLorentzVector& vector);
 
 fastjet::PseudoJet PseudoJet(const LorentzVector& vector);
 
-Jets CopyIfParticle(const Jets& jets, const Id id);
+Jets CopyIfParticle(const Jets& jets, Id id);
 
-Jets CopyIfParticles(const Jets& jets, const Id id_1, const Id id_2);
+Jets CopyIfParticles(const Jets& jets, Id id_1, Id id_2);
 
 Jets CopyIfNeutrino(const Jets& jets);
 
-Jets CopyIfExactParticle(const Jets& jets, const int id);
+Jets CopyIfExactParticle(const Jets& jets, int id);
 
-Jets RemoveIfExactParticle(const Jets& jets, const int id);
+Jets RemoveIfExactParticle(const Jets& jets, int id);
 
-Jets RemoveIfOutsidePtWindow(Jets& jets, const float lower_cut, const float upper_cut);
+Jets RemoveIfOutsidePtWindow(Jets& jets, float lower_cut, float upper_cut);
 
-Jets CopyIfFamily(const Jets& jets, const Id id, Id mother_id);
+Jets CopyIfFamily(const Jets& jets, Id id, Id mother_id);
 
 /**
  * @brief returns only particles with the correct id and non fitting grand mother id
  *
  */
-Jets RemoveIfGrandFamily(const Jets& jets, const Id id , const Id grand_mother_id);
+Jets RemoveIfGrandFamily(const Jets& jets, Id id , Id grand_mother_id);
 
-Jets CopyIfParticle(const Jets& jets, const Id id);
+Jets CopyIfParticle(const Jets& jets, Id id);
 
-Jets RemoveIfParticle(const Jets& jets, const Id id);
+Jets RemoveIfParticle(const Jets& jets, Id id);
 
-Jets CopyIfMother(const Jets& jets, const Id mother_id);
+Jets CopyIfMother(const Jets& jets, Id mother_id);
 
-Jets RemoveIfMother(const Jets& jets, const Id mother_id);
+Jets RemoveIfMother(const Jets& jets, Id mother_id);
+
+Jets RemoveIfSingleMother(const Jets& jets);
 
 Jets RemoveIfLetpon(const Jets& jets);
 
@@ -51,39 +54,38 @@ Jets CopyIfQuark(const Jets& jets);
 
 Jets CopyIf5Quark(const Jets& jets);
 
-Jets RemoveIfSoft(const Jets& jets, const float pt_min);
+Jets RemoveIfSoft(const Jets& jets, float pt_min);
 
 
 /**
  * @brief Calcualte distance in eta phi space
  *
  */
-float Distance(const float rapidity_1, const float phi_1, const float rapidity_2, const float phi_2);
+float Distance(float rapidity_1, float phi_1, float rapidity_2, float phi_2);
 
 /**
  * @brief Calcualte distance from center in eta phi space
  *
  */
-float Length(const float rapidity, const float phi);
+float Length(float rapidity, float phi);
 
 /**
  * @brief Take care of phi angles around pi
  *
  */
-float DeltaPhi(const float phi_1, const float phi_2);
+float DeltaPhi(float phi_1, float phi_2);
+
+float RestrictPhi(float phi);
 
 struct Close {
-    Close(const fastjet::PseudoJet& particle)
-    {
+    Close(const fastjet::PseudoJet& particle) {
         particle_ = particle;
     }
     template <typename Multiplet>
-    bool operator()(const Multiplet& multiplet)
-    {
+    bool operator()(const Multiplet& multiplet) {
         return (multiplet.Jet().delta_R(particle_) < detector_geometry_.JetConeSize());
     }
-    bool operator()(const fastjet::PseudoJet& jet)
-    {
+    bool operator()(const fastjet::PseudoJet& jet) {
         return (jet.delta_R(particle_) < detector_geometry_.JetConeSize());
     }
     fastjet::PseudoJet particle_;
@@ -94,7 +96,7 @@ template <typename Multiplet>
 std::vector<Multiplet> RemoveIfClose(const std::vector<Multiplet>& jets, const Jets& particles)
 {
     std::vector<Multiplet> quarks = jets;
-    for (const auto& particle : particles)
+    for (const auto & particle : particles)
         quarks.erase(std::remove_if(quarks.begin(), quarks.end(), Close(particle)), quarks.end());
     return quarks;
 }
@@ -104,7 +106,7 @@ std::vector<Multiplet> CopyIfClose(const std::vector<Multiplet>& multiplets, con
 {
     if (multiplets.empty()) return multiplets;
     std::vector<Multiplet> final_multiplets;
-    for (const auto& particle : particles) for (const auto& multiplet : multiplets) if (Close(particle)(multiplet)) final_multiplets.emplace_back(multiplet);
+    for (const auto & particle : particles) for (const auto & multiplet : multiplets) if (Close(particle)(multiplet)) final_multiplets.emplace_back(multiplet);
     return final_multiplets;
 
 //     if (multiplets.empty()) return multiplets;
@@ -115,17 +117,14 @@ std::vector<Multiplet> CopyIfClose(const std::vector<Multiplet>& multiplets, con
 }
 
 struct MinDeltaRTo {
-    MinDeltaRTo(const fastjet::PseudoJet& jet)
-    {
+    MinDeltaRTo(const fastjet::PseudoJet& jet) {
         jet_ = jet;
     }
     template <typename Multiplet>
-    bool operator()(const Multiplet& multiplet1, const Multiplet& multiplet2)
-    {
+    bool operator()(const Multiplet& multiplet1, const Multiplet& multiplet2) {
         return multiplet1.Jet().delta_R(jet_)  < multiplet2.Jet().delta_R(jet_);
     }
-    bool operator()(const fastjet::PseudoJet& jet1, const fastjet::PseudoJet& jet2)
-    {
+    bool operator()(const fastjet::PseudoJet& jet1, const fastjet::PseudoJet& jet2) {
         return jet1.delta_R(jet_)  < jet2.delta_R(jet_);
     }
     fastjet::PseudoJet jet_;
@@ -140,8 +139,7 @@ std::vector<Multiplet> SortedByMinDeltaRTo(std::vector<Multiplet>& multiplets, c
 
 struct MaxDeltaRap {
     template <typename Multiplet>
-    bool operator()(const Multiplet& multiplet_1, const Multiplet& multiplet_2)
-    {
+    bool operator()(const Multiplet& multiplet_1, const Multiplet& multiplet_2) {
         return (multiplet_1.DeltaRap() > multiplet_2.DeltaRap());
     }
 };
@@ -154,20 +152,18 @@ std::vector<Multiplet> SortByMaxDeltaRap(std::vector<Multiplet>& multiplets)
 }
 
 struct SortByMassTo {
-    SortByMassTo(const float mass)
-    {
+    SortByMassTo(float mass) {
         mass_ = mass;
     }
     template <typename Multiplet>
-    bool operator()(const Multiplet& Multiplet1, const Multiplet& Multiplet2)
-    {
+    bool operator()(const Multiplet& Multiplet1, const Multiplet& Multiplet2) {
         return std::abs(Multiplet1.Jet().m() - mass_) < std::abs(Multiplet2.Jet().m() - mass_);
     }
     float mass_;
 };
 
 template <class Multiplet>
-std::vector<Multiplet> SortedByMassTo(std::vector<Multiplet>& multiplets, const float mass)
+std::vector<Multiplet> SortedByMassTo(std::vector<Multiplet>& multiplets, float mass)
 {
     std::sort(multiplets.begin(), multiplets.end(), SortByMassTo(mass));
     return multiplets;
@@ -175,12 +171,10 @@ std::vector<Multiplet> SortedByMassTo(std::vector<Multiplet>& multiplets, const 
 
 struct SortByMass {
     template <typename Multiplet>
-    bool operator()(const Multiplet& multiplet_1, const Multiplet& multiplet_2)
-    {
+    bool operator()(const Multiplet& multiplet_1, const Multiplet& multiplet_2) {
         return multiplet_1.Mass() > multiplet_2.Mass();
     }
-    bool operator()(const fastjet::PseudoJet& jet_1, const fastjet::PseudoJet& jet_2)
-    {
+    bool operator()(const fastjet::PseudoJet& jet_1, const fastjet::PseudoJet& jet_2) {
         return jet_1.m() > jet_2.m();
     }
 };
@@ -195,20 +189,16 @@ std::vector<Multiplet> SortedByMass(std::vector<Multiplet>& multiplets)
 
 struct SortByPt {
     template <typename Multiplet>
-    bool operator()(const Multiplet& multiplet_1, const Multiplet& multiplet_2)
-    {
+    bool operator()(const Multiplet& multiplet_1, const Multiplet& multiplet_2) {
         return multiplet_1.Jet().pt() > multiplet_2.Jet().pt();
     }
-    bool operator()(const fastjet::PseudoJet& jet_1, const fastjet::PseudoJet& jet_2)
-    {
+    bool operator()(const fastjet::PseudoJet& jet_1, const fastjet::PseudoJet& jet_2) {
         return jet_1.pt() > jet_2.pt();
     }
-    bool operator()(const LorentzVector& lorentz_vector_1, const LorentzVector& lorentz_vector_2)
-    {
+    bool operator()(const LorentzVector& lorentz_vector_1, const LorentzVector& lorentz_vector_2) {
         return (lorentz_vector_1.Pt() > lorentz_vector_2.Pt());
     }
-    bool operator()(const Constituent& constituent_1, const Constituent& constituent_2)
-    {
+    bool operator()(const Constituent& constituent_1, const Constituent& constituent_2) {
         return (constituent_1.Momentum().Pt() > constituent_2.Momentum().Pt());
     }
 
@@ -239,28 +229,26 @@ bool FindInVector(const std::vector<Element> vector, const Element element)
  * @brief provides an integer with the necessary information to work with range based for loop
  *
  */
-class Range {
+class Range
+{
 public:
-    Range(const int sum) : last_(sum), iterator_(0) {}
+    Range(int sum) : last_(sum), iterator_(0) {}
 
-    const Range& begin() const
-    {
+    Range(int low, int sum) : last_(sum), iterator_(std::max(low - 1, 0)) {}
+
+    const Range& begin() const {
         return *this;
     }
-    const Range& end() const
-    {
+    const Range& end() const {
         return *this;
     }
-    bool operator!=(const Range&) const
-    {
+    bool operator!=(const Range&) const {
         return iterator_ < last_;
     }
-    void operator++()
-    {
+    void operator++() {
         ++iterator_;
     }
-    int operator*() const
-    {
+    int operator*() const {
         return iterator_;
     }
 private:
@@ -282,50 +270,82 @@ std::vector<Element> Join(const std::vector<Element>& vector_1, const std::vecto
     return joined;
 }
 
-template<typename Container, typename Result, typename Function>
-auto ordered_pairs(const Container& container, Result& result, Function function)
+template < typename Element,
+         typename Function,
+         typename Result = typename std::result_of<Function&(Element, Element)>::type >
+         /**
+          * @brief forms all \f$(n^2 - n)\f$ ordered pairs of vector elements, applies to them the function and returns a vector of its results
+          *
+          */
+         auto ordered_pairs(const std::vector<Element>& container, Function function)
 {
-    for (auto element_1 = container.begin(); element_1 != container.end() - 1; ++element_1) {
+    std::vector<Result> results;
+    for (auto element_1 = container.begin(); element_1 != container.end(); ++element_1) {
         for (auto element_2 = std::next(element_1); element_2 != container.end(); ++element_2) {
-            result.emplace_back(function(*element_1, *element_2));
-            result.emplace_back(function(*element_2, *element_1));
-        }
-    }
-    return result;
-}
-
-template<typename Container, typename Result, typename Function>
-auto unordered_pairs(const Container& container, Result& result, Function function)
-{
-    for (auto element_1 = container.begin(); element_1 != container.end() - 1; ++element_1) {
-        for (auto element_2 = std::next(element_1); element_2 != container.end(); ++element_2)
-            result.emplace_back(function(*element_1, *element_2));
-    }
-    return result;
-}
-
-template <typename Element1,
-          typename Element2,
-          typename Function,
-          typename Element3 = typename std::result_of<Function&(Element1, Element2)>::type
-          >
-auto pairs(const std::vector<Element1>& container_1, const std::vector<Element2>& container_2, Function function)
-{
-    std::vector<Element3> container_3;
-    for (const auto element_1 : container_1) {
-        for (const auto element_2 : container_2) {
             try {
-                container_3.emplace_back(function(element_1, element_2));
+                results.emplace_back(function(*element_1, *element_2));
+            } catch (...) {}
+            try {
+                results.emplace_back(function(*element_2, *element_1));
             } catch (...) {}
         }
     }
-    return container_3;
+    return results;
+}
+
+template < typename Element, typename Function, typename Result = typename std::result_of<Function&(Element, Element)>::type >
+/**
+ * @brief forms all \f$(n^2 - n) / 2\f$ unordered pairs, applies to them the function and returns a vector of its results
+ *
+ */
+auto unordered_pairs(const std::vector<Element>& container, Function function)
+{
+    std::vector<Result> results;
+    for (auto element_1 = container.begin(); element_1 != container.end(); ++element_1) {
+        for (auto element_2 = std::next(element_1); element_2 != container.end(); ++element_2)
+            try {
+                results.emplace_back(function(*element_1, *element_2));
+            } catch (...) {}
+    }
+    return results;
+}
+
+template < typename Element1, typename Element2, typename Function, typename Result = typename std::result_of<Function&(Element1, Element2)>::type >
+/**
+ * @brief forms all \f$n^2\f$ pairs of the elements in the two containers, applies the function and returns a vector of its elements
+ *
+ */
+auto pairs(const std::vector<Element1>& container_1, const std::vector<Element2>& container_2, Function function)
+{
+    std::vector<Result> results;
+    for (const auto element_1 : container_1) {
+        for (const auto element_2 : container_2) {
+            try {
+                results.emplace_back(function(element_1, element_2));
+            } catch (...) {}
+        }
+    }
+    return results;
 }
 
 template <typename Value>
-int sgn(const Value value)
+/**
+ * @brief derives the sign of the value
+ *
+ */
+int sgn(Value value)
 {
     return (Value(0) < value) - (value < Value(0));
+}
+
+template <typename Value>
+/**
+ * @brief derives the square of the value
+ *
+ */
+Value sqr(Value value)
+{
+  return value * value;
 }
 
 template <typename Enumeration>

@@ -1,5 +1,5 @@
 #include "AnalysisTopPartner.hh"
-#include "EventSingleTagger.hh"
+#include "EventPairTagger.hh"
 
 int main()
 {
@@ -36,9 +36,10 @@ int main()
         top_partner_pair_analysis.RunFullEfficiency();
         top_partner_pair_analysis.RunPlots();
 
-        analysis::toppartner::Analysis<analysis::toppartner::EventSingleTagger> event_analysis;
+        analysis::toppartner::Analysis<analysis::toppartner::EventPairTagger> event_analysis;
         event_analysis.RunFullSignificance();
         event_analysis.RunPlots();
+
     } catch (const char* message) {
         std::cout << message << std::endl;
     }

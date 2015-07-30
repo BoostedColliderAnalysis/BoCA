@@ -19,7 +19,7 @@ public:
 
     AnalysisBoson()
     {
-        this->tagger().set_analysis_name(ProjectName());
+        this->set_tagger_analysis_name(ProjectName());
         this->pre_cuts().SetPtLowerCut(Id::higgs, this->LowerPtCut());
         this->pre_cuts().SetPtUpperCut(Id::higgs, this->UpperPtCut());
         this->pre_cuts().SetPtLowerCut(Id::bottom, this->LowerPtCut() / 5);
@@ -36,7 +36,7 @@ private:
         return  Name(this->collider_type()) + "-" + std::to_string(this->LowerPtCut()) + "GeV-bb";
     }
 
-    void SetFiles(const Tag tag) final {
+    void SetFiles(Tag tag) final {
         switch (tag)
         {
         case Tag::signal :
@@ -68,7 +68,7 @@ private:
     }
 
 
-    int PassPreCut(const Event& event) const final
+    int PassPreCut(const Event& event, Tag) const final
     {
         Jets jets = fastjet::sorted_by_pt(event.Hadrons().Jets());
         if (jets.empty())
