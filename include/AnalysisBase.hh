@@ -92,7 +92,7 @@ private:
 
     std::string FileSuffix() const;
 
-    bool Missing(const std::string& name) const;
+    bool ExistenceCheck(const std::string& name) const;
 
     virtual void AnalysisLoop(Stage stage) = 0;
 

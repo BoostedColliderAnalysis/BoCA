@@ -33,7 +33,7 @@ int GlobalObservables::BottomNumber() const
 {
     Info();
     analysis::Jets bottoms;
-    for (const auto& jet : Jets()) if (jet.user_info<JetInfo>().Bdt() > 1)
+    for (const auto& jet : Jets()) if (jet.user_info<JetInfo>().Bdt() > 0)
             bottoms.emplace_back(jet);
     return bottoms.size();
 }

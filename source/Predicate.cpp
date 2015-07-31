@@ -33,7 +33,7 @@ struct IsParticle {
     bool operator()(const fastjet::PseudoJet& jet)
     {
         int id = std::abs(jet.user_info<JetInfo>().constituents().front().family().particle().id());
-        return (id == to_int(id_1_) || id == to_int(id_2_));
+        return (std::abs(id) == to_int(id_1_) || std::abs(id) == to_int(id_2_));
     }
     Id id_1_;
     Id id_2_;
@@ -88,90 +88,53 @@ Jets RemoveIfExactParticle(const Jets& jets, int id)
     return jets;
 }
 
-struct IsNeutrino {
-    bool operator()(const fastjet::PseudoJet& jet)
-    {
-        int id = jet.user_info<JetInfo>().constituents().front().family().particle().id();
-        return (id == to_int(Id::electron_neutrino) || id == to_int(Id::muon_neutrino) || id == to_int(Id::tau_neutrino));
-    }
-};
-
 Jets CopyIfNeutrino(const Jets& jets)
 {
     if (jets.empty())
         return jets;
     Jets final_jets(jets.size());
-    auto jet = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), IsNeutrino());
+    auto jet = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), [](const fastjet::PseudoJet& jet)
+        {
+        int id = jet.user_info<JetInfo>().constituents().front().family().particle().id();
+        return (std::abs(id) == to_int(Id::electron_neutrino) || std::abs(id) == to_int(Id::muon_neutrino) || std::abs(id) == to_int(Id::tau_neutrino));
+        });
     final_jets.resize(std::distance(final_jets.begin(), jet));
     return final_jets;
 }
 
-struct OutsidePtWindow {
-    OutsidePtWindow(float lower_cut, float upper_cut)
-    {
-        lower_cut_ = lower_cut;
-        upper_cut_ = upper_cut;
-    }
-    bool operator()(const fastjet::PseudoJet& jet)
-    {
-        return (jet.pt() < lower_cut_ || jet.pt() > upper_cut_);
-    }
-    float lower_cut_;
-    float upper_cut_;
-};
-
 Jets RemoveIfOutsidePtWindow(Jets& jets, float lower_cut, float upper_cut)
 {
     if (jets.empty()) return jets;
-    jets.erase(std::remove_if(jets.begin(), jets.end(), OutsidePtWindow(lower_cut, upper_cut)), jets.end());
+    jets.erase(std::remove_if(jets.begin(), jets.end(), [lower_cut, upper_cut](const fastjet::PseudoJet& jet)
+    {
+      return (jet.pt() < lower_cut || jet.pt() > upper_cut);
+    }), jets.end());
     return jets;
 }
-
-struct IsFamily {
-    IsFamily(Id id, Id moterh_id)
-    {
-        id_ = id;
-        mother_id_ = moterh_id;
-    }
-    bool operator()(const fastjet::PseudoJet& Jet)
-    {
-        Family family = Jet.user_info<JetInfo>().constituents().front().family();
-        return (std::abs(family.particle().id()) == to_int(id_) && std::abs(family.mother_1().id()) == to_int(mother_id_));
-    }
-    Id id_;
-    Id mother_id_;
-};
 
 Jets CopyIfFamily(const Jets& jets, Id id, Id mother_id)
 {
     if (jets.empty()) return jets;
     Jets final_jets(jets.size());
-    auto jet = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), IsFamily(id,mother_id));
+    auto jet = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), [id,mother_id](const fastjet::PseudoJet& Jet)
+    {
+      Family family = Jet.user_info<JetInfo>().constituents().front().family();
+      return (std::abs(family.particle().id()) == to_int(id) && std::abs(family.mother_1().id()) == to_int(mother_id));
+    });
     final_jets.resize(std::distance(final_jets.begin(), jet));
     return final_jets;
 }
-
-struct IsGrandFamily {
-    IsGrandFamily(Id id, Id grand_mother_id)
-    {
-        grand_mother_id_ = grand_mother_id;
-        id_ = id;
-    }
-    bool operator()(const fastjet::PseudoJet& Jet)
-    {
-        Family family = Jet.user_info<JetInfo>().constituents().front().family();
-        if(std::abs(family.particle().id()) != to_int(id_)) return true;
-        return (std::abs(family.grand_mother().id()) == to_int(grand_mother_id_));
-    }
-    Id grand_mother_id_;
-    Id id_;
-};
 
 Jets RemoveIfGrandFamily(const Jets& jets, Id id , Id grand_mother_id)
 {
     if (jets.empty()) return jets;
     Jets jets_ = jets;
-    jets_.erase(std::remove_if(jets_.begin(), jets_.end(), IsGrandFamily(id, grand_mother_id)), jets_.end());
+    jets_.erase(std::remove_if(jets_.begin(), jets_.end(), [id, grand_mother_id](const fastjet::PseudoJet& Jet)
+    {
+      Family family = Jet.user_info<JetInfo>().constituents().front().family();
+      if(std::abs(family.particle().id()) != to_int(id)) return true;
+                               return (std::abs(family.grand_mother().id()) == to_int(grand_mother_id));
+    }), jets_.end());
     return jets_;
 }
 
