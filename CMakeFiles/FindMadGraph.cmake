@@ -1,25 +1,40 @@
+# set path to madgraph folder
+set(
+MadGraphDir
+~/Development/MadGraph
+~/madness/MadGraph
+)
 
-# set path to dependencies
-
-# set(MadGraphDir ~/madness/MadGraph) # Ying Ying
-set(MadGraphDir ~/Development/MadGraph) # Jan
-
-set(ExRootDir ${MadGraphDir}/ExRootAnalysis)
-set(DelphesDir ${MadGraphDir}/Delphes)
+find_path(
+  ExRootDir
+  NAMES ExRootAnalysis/ExRootClasses.h
+  PATHS ${MadGraphDir}
+  PATH_SUFFIXES ExRootAnalysis
+  DOC "Path to ExRoot installed by MadGraph"
+)
+add_include_path(${ExRootDir} SYSTEM)
 
 find_library(
   ExRootLibrary
   NAMES ExRootAnalysis
-#   HINTS ${ExRootDir}/lib # old
-  HINTS ${ExRootDir} # new
+  HINTS ${ExRootDir}
+  DOC "ExRoot library installed by MadGraph"
 )
-add_include_path(${ExRootDir} SYSTEM)
 add_libraries(${ExRootLibrary})
+
+find_path(
+  DelphesDir
+  NAMES classes/DelphesClasses.h
+  PATHS ${MadGraphDir}
+  PATH_SUFFIXES Delphes
+  DOC "Path to Delphes installed by MadGraph"
+)
+add_include_path(${DelphesDir} SYSTEM)
 
 find_library(
   DelphesLibrary
   NAMES Delphes
   HINTS ${DelphesDir}
+  DOC "Delphes library installed by MadGraph"
 )
-add_include_path(${DelphesDir} SYSTEM)
 add_libraries(${DelphesLibrary})
