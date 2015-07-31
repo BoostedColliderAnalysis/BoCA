@@ -146,6 +146,8 @@ public:
 
     void RunPlots() const;
 
+private:
+
     void DoPlot(analysis::Plots& signals, analysis::Plots& backgrounds, analysis::Stage stage) const;
 
     void Plotting(const analysis::Plot3d& signal, const analysis::Plot3d& background, analysis::Stage stage) const;
@@ -154,9 +156,9 @@ public:
 
     void SetProfile(TProfile2D& histogram, const analysis::Plot3d& signal, const analysis::Plot3d& background) const;
 
-private:
+  std::string IncludeGraphic(std::string& file_name, std::string caption) const;
 
-    std::string IncludeGraphic(std::string& file_name, std::string caption) const;
+  void CommmonHist(TH2& histogram, const analysis::Plot3d& signal, EColor color) const;
 
     std::vector<Plots> Import(analysis::Stage stage, analysis::Tag tag) const;
 
