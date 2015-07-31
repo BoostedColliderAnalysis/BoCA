@@ -16,20 +16,23 @@ class TExec;
 
 class ExRootTreeBranch;
 class ExRootTreeReader;
-namespace exroot {
+namespace exroot
+{
 typedef ::ExRootTreeBranch TreeBranch;
 typedef ::ExRootTreeReader TreeReader;
 }
 
-namespace analysis {
+namespace analysis
+{
 
-class Result {
+class Result
+{
 
 public:
 
     Result();
     std::vector<int> Integral() const;
-    int steps;
+    const static int steps = 20000;
     std::vector<float> events;
     std::vector<float> efficiency;
     std::vector<int> analysis_event_number;
@@ -42,7 +45,20 @@ private:
     long event_sum_;
 };
 
-struct Results {
+struct Point {
+    Point() {
+        x = 0;
+        y = 0;
+        z = 0;
+    }
+    float x;
+    float y;
+    float z;
+};
+
+
+class Results
+{
 
 public:
 
@@ -52,8 +68,31 @@ public:
 
     void BestBin();
 
-    float XValue(float value) const {
-      return value * 2 / Result().steps - 1;
+    float XValue(int value) const {
+        return float(value) * 2 / Result::steps - 1;
+    }
+
+    float BestXValue() const {
+      return XValue(best_bin);
+    }
+
+    int XBin(float value) const{
+      return std::floor((value + 1) * Result::steps / 2);
+    }
+
+    void ExtremeXValues() {
+        for (const auto & result : background) {
+            float min_0 = *std::min_element(result.bdt.begin(), result.bdt.end());
+            if (min_0 < min.x) {
+                min.x = min_0;
+            }
+        }
+        for (const auto & result : signal) {
+            float max_0 = *std::max_element(result.bdt.begin(), result.bdt.end());
+            if (max_0 > max.x) {
+                max.x = max_0;
+            }
+        }
     }
 
     std::vector<Result> signal;
@@ -61,17 +100,9 @@ public:
     std::vector<float> significances;
     std::vector<float> x_values;
     int best_bin = 0;
+    Point min;
+    Point max;
 };
-
-struct Point {
-  Point(){
-    x=0;y=0;z=0;
-  }
-    float x;
-    float y;
-    float z;
-};
-
 struct Plot3d {
     std::vector<Point> points;
     std::string name_x;
@@ -92,7 +123,8 @@ struct Plots {
  * @brief Presents result of multivariant analysis
  *
  */
-class Plot {
+class Plot
+{
 
 public:
 
@@ -124,6 +156,8 @@ public:
 
 private:
 
+    std::string IncludeGraphic(std::string& file_name, std::string caption) const;
+
     std::vector<Plots> Import(analysis::Stage stage, analysis::Tag tag) const;
 
     Plots PlotResult(TFile& file, const std::string& tree_name, analysis::Stage stage) const;
@@ -142,18 +176,19 @@ private:
 
     TLegend Legend(float x_min, float y_max, float width, float height, const std::string& name = "") const;
 
-    Results ExportFile() const;
+    Results ReadBdtFiles() const;
 
-    std::vector<Result> Export(TFile& export_file, analysis::Tag tag) const;
+    std::vector<Result> ReadBdtFile(TFile& export_file, analysis::Tag tag) const;
 
     TH1F Histogram(const analysis::Result& result, analysis::Point& max, analysis::Point& min, int index) const;
 
     void PlotAcceptanceGraph(const analysis::Results& results) const;
 
-    std::string PlotHistograms(const analysis::Results& results) const;
+    std::string PlotHistograms(analysis::Results& results) const;
 
-    analysis::Tagger& Tagger() const
-    {
+    void SetHistogram(TH1F& histogram, TLegend& legend, std::string& nice_name, const Point& max) const;
+
+    analysis::Tagger& Tagger() const {
         return *tagger_;
     }
 
@@ -165,9 +200,11 @@ private:
 
     Result BdtResult(TFile& file, const std::string& tree_name, TFile& export_file) const;
 
-    std::string PlotEfficiencyGraph(const analysis::Results& results, const std::vector<float>& x_values, int best_bin) const;
+    std::string Table(const Results& results) const;
 
-    std::string PlotSignificanceGraph(const Results& results, const std::vector<float>& x_values, const std::vector<float>& significances, int best_bin) const;
+    std::string PlotEfficiencyGraph(const analysis::Results& results) const;
+
+    std::string PlotSignificanceGraph(const analysis::Results& results) const;
 
     void LatexHeader(std::ofstream& latex_file) const;
 
@@ -177,8 +214,7 @@ private:
 
     Plot3d CoreVector(const Plot3d& points, std::function<bool(Point&, Point&)> function) const;
 
-    std::string ExportFileSuffix() const
-    {
+    std::string ExportFileSuffix() const {
         return ".png";
     }
 
@@ -194,9 +230,9 @@ private:
 
     float CeilToDigits(float value, int digits = 2) const;
 
-    std::string Reader()const{
-      return "";
-      return "Reader";
+    std::string Reader()const {
+        return "";
+        return "Reader";
     }
 
 };

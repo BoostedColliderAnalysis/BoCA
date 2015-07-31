@@ -49,7 +49,7 @@ std::vector<MultipletSignature<Octet62>> SignatureTagger::Multiplets(const Event
             Octet62 octet(sextet, doublet);
             if (octet.Overlap()) continue;
             MultipletSignature<Octet62> octet_signature(octet);
-            octet.SetBdt(Bdt(octet_signature, reader));
+            octet_signature.SetBdt(Bdt(octet_signature, reader));
             octets.emplace_back(octet_signature);
         }
     }

@@ -22,7 +22,7 @@ exroot::TreeWriter AnalysisBase::TreeWriter(TFile& export_file, const std::strin
     return tree_writer;
 }
 
-bool AnalysisBase::Missing(const std::string& name) const
+bool AnalysisBase::ExistenceCheck(const std::string& name) const
 {
     Note(name);
     struct stat buffer;
@@ -159,20 +159,20 @@ void AnalysisBase::RunFullEfficiency()
 
 void AnalysisBase::RunTagger(Stage stage)
 {
-  if (Missing(tagger().FileName(stage,Tag::signal))) AnalysisLoop(stage);
+  if (ExistenceCheck(tagger().FileName(stage,Tag::signal))) AnalysisLoop(stage);
 }
 
 void AnalysisBase::RunTrainer()
 {
     PrepareFiles();
-    if (Missing(tagger().WeightFileName(TMVA::Types::EMVA::kBDT))) Trainer trainer(tagger());
+    if (ExistenceCheck(tagger().WeightFileName(TMVA::Types::EMVA::kBDT))) Trainer trainer(tagger());
 }
 
 
 void AnalysisBase::RunSignificance()
 {
     PrepareFiles();
-    if (Missing(tagger().ExportFileName())) {
+    if (ExistenceCheck(tagger().ExportFileName())) {
       Plot plot(tagger());
       plot.OptimalSignificance();
     }
@@ -181,7 +181,7 @@ void AnalysisBase::RunSignificance()
 void AnalysisBase::RunEfficiency()
 {
     PrepareFiles();
-    if (Missing(tagger().ExportFileName())) {
+    if (ExistenceCheck(tagger().ExportFileName())) {
       Plot plot(tagger());
       plot.TaggingEfficiency();
     }
@@ -190,7 +190,7 @@ void AnalysisBase::RunEfficiency()
 void AnalysisBase::RunPlots()
 {
     PrepareFiles();
-    if (Missing(tagger().ExportFolderName())) {
+    if (ExistenceCheck(tagger().ExportFolderName())) {
     Plot plot(tagger());
     plot.RunPlots();
   }

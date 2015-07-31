@@ -32,6 +32,7 @@ public:
 protected:
     static float InitialValue();
     static Observables Join(const Observables& observables_1, const Observables& observables_2);
+    static Observables Join(const Observables& observables_1, const Observables& observables_2, const Observables& observables_3);
 private:
     ClassDef(BaseBranch, 1)
 };
@@ -84,7 +85,7 @@ public:
     template<typename Multiplet>
     void Fill(const Multiplet& multiplet)
     {
-        ResultBranch::Fill(multiplet);
+      ResultBranch::Fill(multiplet);
         Mass = multiplet.Jet().m();
         Pt = multiplet.Jet().pt();
         Rap = multiplet.Jet().rap();

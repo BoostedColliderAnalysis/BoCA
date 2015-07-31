@@ -6,6 +6,22 @@ namespace analysis
 namespace higgscpv
 {
 
+  SignatureTTaggerBranch::SignatureTTaggerBranch()
+  {
+    HiggsMass = InitialValue();
+    PairRap = InitialValue();
+    BottomBdt = InitialValue();
+    PairBottomBdt = InitialValue();
+    HardTopPt = InitialValue();
+    SoftTopPt = InitialValue();
+    Aplanarity = InitialValue();
+    Sphericity = InitialValue();
+  }
+  Observables SignatureTTaggerBranch::Variables() const
+  {
+    return Join(MultiBranch::Variables(), {PAIR(BottomBdt), PAIR(PairBottomBdt), PAIR(HardTopPt), PAIR(SoftTopPt), PAIR(HiggsMass), PAIR(PairRap), PAIR(Aplanarity), PAIR(Sphericity)});
+  }
+
 SignatureLeptonicBranch::SignatureLeptonicBranch()
 {
     HiggsMass = InitialValue();
@@ -75,7 +91,7 @@ Observables TripletPairBranch::Variables() const
 }
 Observables EventBranch::Variables() const
 {
-    return Join(MultiBranch::Variables(), {PAIR(JetNumber), PAIR(MissingEt), PAIR(ScalarHt), PAIR(LeptonHt), PAIR(JetMass), PAIR(JetPt), PAIR(JetHt), PAIR(JetRap), PAIR(JetPhi)});
+  return Join(MultiBranch::Variables(), {PAIR(JetNumber), PAIR(BottomNumber), PAIR(MissingEt), PAIR(ScalarHt), PAIR(LeptonHt), PAIR(JetMass), PAIR(JetPt), PAIR(JetHt), PAIR(JetRap), PAIR(JetPhi)});
 }
 Observables EventBranch::Spectators() const
 {
