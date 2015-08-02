@@ -95,7 +95,8 @@ private:
             DoAnalysis(files, trees, reader);
             if (trees.object_sum() >= EventNumberMax()) break;
         }
-        if(trees.event_number_ == trees.tree_reader().GetEntries()) std::cout << "All Events used" << " " << trees.event_number_ << std::endl;
+//         if(trees.event_number_ == trees.tree_reader().GetEntries()) 
+          std::cout << /*All */"Events used: " << trees.event_number_ << "; precuts passed: " << trees.pre_cut_number_ <<  std::endl;
         trees.WriteTree();
     }
 
@@ -123,7 +124,10 @@ private:
     {
         trees.NewEvent(files.file().mass());
         int pre_cut = PassPreCut(trees.event(), files.tag());
-        if (pre_cut > 0) trees.SaveAnalysis(RunAnalysis(trees.event(), reader, files.stage(), files.tag()));
+        if (pre_cut > 0) {
+          ++trees.pre_cut_number_;
+          trees.SaveAnalysis(RunAnalysis(trees.event(), reader, files.stage(), files.tag()));
+        }
         trees.tree_writer().Clear();
     }
 

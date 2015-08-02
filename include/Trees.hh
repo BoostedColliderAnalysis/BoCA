@@ -36,6 +36,7 @@ public:
     long& object_sum();
     long entry = 0;
     long event_number_ = 0;
+    long pre_cut_number_ = 0;
 private:
     exroot::TreeReader tree_reader_;
     exroot::TreeBranch* tree_branch_;

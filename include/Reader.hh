@@ -88,6 +88,7 @@ public:
 private:
 
     std::string Options() const{
+      return "";
       return "!V:!color:Silent";
     }
 

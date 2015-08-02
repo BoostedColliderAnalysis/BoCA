@@ -40,6 +40,8 @@ public:
             this->NewFile(tag, SignalCrosssection(Process::Htwb), Process::Htwb);
             break;
         case Tag::background :
+          if (this->tagger().Name() == "JetPair") this->NewFile(tag, SignalCrosssection(Process::Htt), Process::Htt);
+          if (this->tagger().Name() == "JetPair") this->NewFile(tag, SignalCrosssection(Process::Htwb), Process::Htwb);
             this->NewFile(tag, BackgroundCrosssection(Process::ttwwbb), Process::ttwwbb);
             this->NewFile(tag, BackgroundCrosssection(Process::ttwbb), Process::ttwbb);
             break;
@@ -124,6 +126,10 @@ public:
                   return 0.062513;
                 case 7000:
                   return 0.026579;
+                case 8000:
+                  return 0.0132781;
+                case 10000:
+                  return 0.00380676;
                 default:
                   Error("unhandled case");
                   return 1;
@@ -152,6 +158,10 @@ public:
                   return 0.509747;
                 case 7000:
                   return 0.256938;
+                case 8000:
+                  return 0.148312;
+                case 10000:
+                  return 0.0539546;
                 default:
                   Error("unhandled case");
                   return 1;
@@ -208,7 +218,7 @@ private:
         Jets Tops = CopyIfParticle(Particles, Id::top);
         Jets Bottoms = CopyIfParticle(Particles, Id::bottom);
 //         if(Bottoms.size() < 4) return 0;
-//
+// 
 //         if (Bottoms.at(0).pt() < this->BottomPt()) return 0;
 //         if (Bottoms.at(1).pt() < this->BottomPt()) return 0;
 //         if (Bottoms.at(2).pt() < this->BottomPt()) return 0;
