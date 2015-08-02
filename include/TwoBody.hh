@@ -2,7 +2,6 @@
 
 #include "Singlet.hh"
 #include "Multiplet.hh"
-#include "DetectorGeometry.hh"
 
 namespace analysis
 {
@@ -37,15 +36,23 @@ public:
         SetBdt((multiplet_1_.Bdt() + multiplet_2_.Bdt()) / 2);
     }
 
-    void SetSinglet(){
-      singlet_ = Singlet(Jet(Structure::constituents));
+    void SetSinglet(Structure structure) const {
+      singlet_ = Singlet(Jet(structure));
     }
 
-    Multiplet_1& Multiplet1() const {
+    Multiplet_1& Multiplet1() {
         return multiplet_1_;
     }
 
-    Multiplet_2& Multiplet2() const {
+    const Multiplet_1& Multiplet1() const {
+      return multiplet_1_;
+    }
+
+    Multiplet_2& Multiplet2() {
+      return multiplet_2_;
+    }
+
+    const Multiplet_2& Multiplet2() const {
         return multiplet_2_;
     }
 
@@ -126,7 +133,7 @@ public:
     }
 
     const analysis::Singlet& singlet() const {
-//       return Singlet(Jet(Structure::vertices));
+      SetSinglet(Structure::vertices);
       return singlet_;
     }
 
@@ -158,10 +165,14 @@ protected:
 
 private:
 
-    mutable Multiplet_1 multiplet_1_;
+    Multiplet_1 multiplet_1_;
 
-    mutable Multiplet_2 multiplet_2_;
+    Multiplet_2 multiplet_2_;
 
+    /**
+     * @brief storage for singlet object
+     *
+     */
     mutable Singlet singlet_;
 
 };

@@ -5,12 +5,12 @@
 namespace analysis
 {
 
-Singlet& Doublet::Singlet1() const
+const Singlet& Doublet::Singlet1() const
 {
     return Multiplet1();
 }
 
-Singlet& Doublet::Singlet2() const
+const Singlet& Doublet::Singlet2() const
 {
     return Multiplet2();
 }

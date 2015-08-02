@@ -27,8 +27,8 @@ public:
         return jet_;
     }
 
-    analysis::Jets Jets() const{
-      return {Jet()};
+    analysis::Jets Jets() const {
+        return {Jet()};
     }
 
     bool Overlap(const fastjet::PseudoJet& jet) const;
@@ -115,7 +115,9 @@ public:
         return UserInfo().Tag();
     }
 
-    float Bdt() const final { return UserInfo().Bdt(); }
+    float Bdt() const final {
+        return UserInfo().Bdt();
+    }
 
     float Ht() const {
         return Jet().pt();
@@ -127,23 +129,23 @@ public:
 
     int Charge() const;
 
-    const Singlet &singlet() const;
+    const Singlet& singlet() const;
 
-    const Singlet &singlet(analysis::Structure) const;
+    const Singlet& singlet(analysis::Structure) const;
 
     const Singlet& VertexSinglet() const {
-      return singlet(Structure::vertices);
+        return singlet();
     }
 
     const JetInfo& UserInfo() const;
 
     Vector2 Pull() const;
 
-private:
+    fastjet::PseudoJet& Jet() {
+        return jet_;
+    }
 
-  fastjet::PseudoJet& Jet() {
-    return jet_;
-  }
+private:
 
     float log(float number) const;
 
@@ -151,7 +153,7 @@ private:
 
     float Spread(const fastjet::PseudoJet& jet) const;
 
-    mutable fastjet::PseudoJet jet_;
+    fastjet::PseudoJet jet_;
 
     JetInfo jet_info_;
 

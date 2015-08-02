@@ -12,9 +12,9 @@ public:
 
     using TwoBody<Singlet, Singlet>::TwoBody;
 
-    Singlet& Singlet1() const;
+    const Singlet& Singlet1() const;
 
-    Singlet& Singlet2() const;
+    const Singlet& Singlet2() const;
 
     float Dipolarity2() const;
 

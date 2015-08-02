@@ -13,7 +13,7 @@ Singlet::Singlet(const fastjet::PseudoJet& jet)
 
 bool Singlet::Overlap(const fastjet::PseudoJet& jet) const
 {
-    return (Close(jet)(Jet()));
+    return Close(jet)(Jet());
 }
 
 bool Singlet::Overlap(const Singlet& singlet) const
