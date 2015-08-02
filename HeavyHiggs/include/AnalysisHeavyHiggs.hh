@@ -159,39 +159,25 @@ public:
     
 
 
-    int BackgroundFileNumber() const
+    int FileNumber() const
     {
         switch (collider_type()) {
         case Collider::LHC :
-            switch (PreCut()) {
-            case  0 :
-                return 127;
-            case  250 :
-                return 41;
+            switch (Process) {
+              case  Process::ttwwbb :
+                return 1;
+              case  Process::ttwbb :
+                return 1;
             //                 return 1; // < this must be removed !!
             default :
                 return 1;
             }
         case Collider::LE :
-            switch (PreCut()) {
-            case  0 :
-                return 118;
-            //                 return 1; // < this must be removed !!
-            case  100 :
-                return 15;
-            case  250 :
-                return 15;
-            case  300 :
-                return 110;
-            //                 return 1; // < this must be removed !!
-            case  1000 :
-                return 32;
-            case  1500 :
-                return 34;
-            case  2000 :
-                return 26;
-            case  2500 :
-                return 11;
+            switch (Process) {
+              case  Process::ttwwbb:
+                return 2;
+              case  Process::ttwbb:
+                return 1;
             default :
                 return 1;
             }
@@ -221,16 +207,16 @@ public:
     }
 
     virtual void NewFile(Tag tag, float crosssection, const Process process) {
-      analysis::AnalysisBase::NewFile(tag, FileName(process, tag), crosssection, NiceName(process));
+      for(const auto& file_number : Range(FileNumber())) analysis::AnalysisBase::NewFile(tag, FileName(process, file_number, tag), crosssection, NiceName(process));      
     }
 
-    virtual std::string FileName(const Process process, Tag tag) const {
+    virtual std::string FileName(const Process process, int file_number = 0, Tag tag) const {
       switch(tag){
 	case Tag::signal:
         return Name(process) + Suffix(process)+"_" + Name(collider_type());
-	case Tag::background:
-	  return Name(process) + Suffix(process)+"_" + Name(collider_type());
-	  break;
+        case Tag::background:
+          if(file_number == 0) return Name(process) + Suffix(process)+"_" + Name(collider_type());
+	  return Name(process) + Suffix(process)+"_" + Name(collider_type()) + "_" + std::to_string(file_number);
       }
     }
 
