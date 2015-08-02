@@ -83,11 +83,6 @@ Vector2 Singlet::Pull() const
     return vector;
 }
 
-Vector2 Singlet::Reference(const fastjet::PseudoJet& vector) const
-{
-  return Vector2(vector.rap() - jet_.rap(), jet_.delta_phi_to(vector));
-}
-
 float Singlet::Rapidity() const
 {
     if (Jet().rap() == fastjet::pseudojet_invalid_rap) return 0;

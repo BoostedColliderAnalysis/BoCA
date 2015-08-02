@@ -4,6 +4,7 @@
 #include "Sextet.hh"
 #include "Quintet.hh"
 #include "Quartet.hh"
+#include "Predicate.hh"
 
 namespace analysis {
 
@@ -34,11 +35,11 @@ public:
     }
 
     float BottomBdt() const {
-        return (Doublet().Singlet1().Jet().user_info<JetInfo>().Bdt() + Doublet().Singlet2().Jet().user_info<JetInfo>().Bdt() + Sextet().Triplet1().Singlet().Jet().user_info<JetInfo>().Bdt() + Sextet().Triplet2().Singlet().Jet().user_info<JetInfo>().Bdt()) / 4;
+        return (Doublet().Singlet1().Bdt() + Doublet().Singlet2().Bdt() + Sextet().Triplet1().Singlet().Bdt() + Sextet().Triplet2().Singlet().Bdt()) / 4;
     }
 
     float PairBottomBdt() const {
-        return (Doublet().Singlet1().Jet().user_info<JetInfo>().Bdt() + Doublet().Singlet2().Jet().user_info<JetInfo>().Bdt()) / 2;
+        return (Doublet().Singlet1().Bdt() + Doublet().Singlet2().Bdt()) / 2;
     }
 
     float GetDeltaR1() const {
@@ -140,11 +141,11 @@ public:
   }
 
   float BottomBdt() const {
-    return (Doublet().Singlet1().Jet().user_info<JetInfo>().Bdt() + Doublet().Singlet2().Jet().user_info<JetInfo>().Bdt() + Triplet1().Singlet().Jet().user_info<JetInfo>().Bdt() + Triplet2().Singlet().Jet().user_info<JetInfo>().Bdt()) / 4;
+    return (Doublet().Singlet1().Bdt() + Doublet().Singlet2().Bdt() + Triplet1().Singlet().Bdt() + Triplet2().Singlet().Bdt()) / 4;
   }
 
   float PairBottomBdt() const {
-    return (Doublet().Singlet1().Jet().user_info<JetInfo>().Bdt() + Doublet().Singlet2().Jet().user_info<JetInfo>().Bdt()) / 2;
+    return (Doublet().Singlet1().Bdt() + Doublet().Singlet2().Bdt()) / 2;
   }
 
   float GetDeltaR1() const {

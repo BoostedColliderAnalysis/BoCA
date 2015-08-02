@@ -1,15 +1,14 @@
 #pragma once
 
 #include "Singlet.hh"
-#include "Multiplets.hh"
+#include "Multiplet.hh"
 #include "DetectorGeometry.hh"
-#include "Predicate.hh"
 
 namespace analysis
 {
 
 template <typename Multiplet_1, typename Multiplet_2>
-class TwoBody : public Multiplets
+class TwoBody : public Multiplet
 {
 
 public:
@@ -74,7 +73,7 @@ public:
      */
     fastjet::PseudoJet Jet(Structure structure) const {
         if (structure == Structure::vertices) structure |= Structure::plain;
-        return Multiplets::Jet(Multiplet1().Jet(structure),Multiplet2().Jet(structure),structure);
+        return Multiplet::Jet(Multiplet1().Jet(structure),Multiplet2().Jet(structure),structure);
     }
 
     fastjet::PseudoJet Jet() const {
@@ -90,32 +89,32 @@ public:
     }
 
     float Ht() const {
-        return Multiplets::Ht(Multiplet1(), Multiplet2());
+        return Multiplet::Ht(Multiplet1(), Multiplet2());
     }
 
     float DeltaRap() const {
-      return Multiplets::DeltaRap(Multiplet1(),Multiplet2());
+      return Multiplet::DeltaRap(Multiplet1(),Multiplet2());
     }
 
     float DeltaPhi() const {
-      return Multiplets::DeltaPhi(Multiplet1(),Multiplet2());
+      return Multiplet::DeltaPhi(Multiplet1(),Multiplet2());
     }
 
     float DeltaR() const {
-      return Multiplets::DeltaR(Multiplet1(),Multiplet2());
+      return Multiplet::DeltaR(Multiplet1(),Multiplet2());
     }
 
     float DeltaM() const {
-      return Multiplets::DeltaM(Multiplet1(),Multiplet2());
+      return Multiplet::DeltaM(Multiplet1(),Multiplet2());
     }
 
     float DeltaHt() const {
-      return Multiplets::DeltaHt(Multiplet1(),Multiplet2());
+      return Multiplet::DeltaHt(Multiplet1(),Multiplet2());
     }
 
     float Rho() const
     {
-      return Multiplets::Rho(Multiplet1(),Multiplet2());
+      return Multiplet::Rho(Multiplet1(),Multiplet2());
     }
 
     float MassDifferenceTo(Id id) const {
@@ -123,7 +122,7 @@ public:
     }
 
     int Charge() const {
-        return sgn(Multiplet1().Charge() + Multiplet2().Charge());
+      return Multiplet::Charge(Multiplet1(),Multiplet2());
     }
 
     const analysis::Singlet& singlet() const {
@@ -132,15 +131,15 @@ public:
     }
 
     float PullDifference() const {
-      return Multiplets::PullDifference(Multiplet1(),Multiplet2());
+      return Multiplet::PullDifference(Multiplet1(),Multiplet2());
     }
 
     float PullSum() const {
-      return Multiplets::PullSum(Multiplet1(),Multiplet2());
+      return Multiplet::PullSum(Multiplet1(),Multiplet2());
     }
 
     float Dipolarity() const {
-      return Multiplets::Dipolarity(Multiplet1(),Multiplet2());
+      return Multiplet::Dipolarity(Multiplet1(),Multiplet2());
     }
 
     Singlet VertexSinglet() const {
