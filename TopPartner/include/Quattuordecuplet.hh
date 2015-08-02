@@ -7,11 +7,11 @@ namespace analysis {
 
 namespace toppartner {
 
-class Quattuordecuplet : public Multiplet<toppartner::Decuplet55, Quartet22> {
+class Quattuordecuplet : public TwoBody<toppartner::Decuplet55, Quartet22> {
 
 public:
 
-    using Multiplet<toppartner::Decuplet55, Quartet22>::Multiplet;
+    using TwoBody<toppartner::Decuplet55, Quartet22>::TwoBody;
 
     toppartner::Decuplet55 Decuplet() const
     {

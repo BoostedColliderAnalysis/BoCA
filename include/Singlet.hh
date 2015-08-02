@@ -3,27 +3,16 @@
 #include "JetInfo.hh"
 #include "Vector2.hh"
 #include "Flag.hh"
+#include "Object.hh"
 
 namespace analysis
 {
-
-enum class Structure
-{
-    plain = 1,
-    constituents = 1 << 1,
-    vertices = 1 << 2
-};
-
-template<>
-struct Flag<Structure> {
-    static const bool enable = true;
-};
 
 /**
  * @brief Thin wrapper to make fastjet::PseudoJet behave like a Multiplet. Additionally this class astracts away the JetInfo user_info().
  *
  */
-class Singlet : public Identification
+class Singlet : public Object
 {
 
 public:
@@ -32,12 +21,16 @@ public:
 
     Singlet(const fastjet::PseudoJet& jet);
 
-    fastjet::PseudoJet& Jet(Structure) const {
+    fastjet::PseudoJet Jet(Structure) const {
         return jet_;
     }
 
-    fastjet::PseudoJet& Jet() const {
+    fastjet::PseudoJet Jet() const {
         return jet_;
+    }
+
+    fastjet::PseudoJet& Jet() {
+      return jet_;
     }
 
     analysis::Jets Jets() const{
@@ -140,9 +133,13 @@ public:
 
     int Charge() const;
 
-    Singlet singlet() const;
+    const Singlet &singlet() const;
 
-    Singlet singlet(Structure structure) const;
+    const Singlet &singlet(analysis::Structure) const;
+
+    const Singlet& VertexSinglet() const {
+      return singlet(Structure::vertices);
+    }
 
     const JetInfo& UserInfo() const;
 

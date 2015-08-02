@@ -7,11 +7,11 @@ namespace analysis {
 
 namespace toppartner {
 
-class Nonet : public Multiplet<analysis::Quintet, analysis::Quartet22> {
+class Nonet : public TwoBody<analysis::Quintet, analysis::Quartet22> {
 
 public:
 
-    using Multiplet<analysis::Quintet, analysis::Quartet22>::Multiplet;
+    using TwoBody<analysis::Quintet, analysis::Quartet22>::TwoBody;
 
     analysis::Quintet Quintet() const
     {

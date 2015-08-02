@@ -4,11 +4,11 @@
 
 namespace analysis {
 
-class Quartet22 : public Multiplet<Doublet, Doublet> {
+class Quartet22 : public TwoBody<Doublet, Doublet> {
 
 public:
 
-    using Multiplet<Doublet, Doublet>::Multiplet;
+    using TwoBody<Doublet, Doublet>::TwoBody;
 
     Doublet& Doublet1() const;
 
@@ -16,11 +16,11 @@ public:
 
 };
 
-class Quartet31 : public Multiplet<analysis::Triplet, analysis::Singlet> {
+class Quartet31 : public TwoBody<analysis::Triplet, analysis::Singlet> {
 
 public:
 
-    using Multiplet<analysis::Triplet, analysis::Singlet>::Multiplet;
+    using TwoBody<analysis::Triplet, analysis::Singlet>::TwoBody;
 
     analysis::Triplet& Triplet() const;
 

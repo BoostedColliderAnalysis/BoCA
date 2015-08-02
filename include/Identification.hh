@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include "Flag.hh"
 
 namespace analysis {
 
@@ -11,6 +12,18 @@ enum class Tag {
 };
 
 std::string Name(Tag tag);
+
+enum class Structure
+{
+  plain = 1,
+  constituents = 1 << 1,
+  vertices = 1 << 2
+};
+
+template<>
+struct Flag<Structure> {
+  static const bool enable = true;
+};
 
 class Identification {
 

@@ -1,16 +1,16 @@
 #pragma once
 
-#include "Multiplet.hh"
+#include "TwoBody.hh"
 #include "Singlet.hh"
 #include "Vector2.hh"
 
 namespace analysis {
 
-class Doublet : public Multiplet<Singlet, Singlet> {
+class Doublet : public TwoBody<Singlet, Singlet> {
 
 public:
 
-    using Multiplet<Singlet, Singlet>::Multiplet;
+    using TwoBody<Singlet, Singlet>::TwoBody;
 
     Singlet& Singlet1() const;
 

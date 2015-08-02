@@ -122,7 +122,7 @@ public:
     template<typename Multiplet>
     void Fill(const Multiplet& multiplet)
     {
-        Fill2(multiplet.singlet());
+        Fill2(multiplet.VertexSinglet());
     }
     template<typename Singlet>
     void Fill2(const Singlet& singlet)
