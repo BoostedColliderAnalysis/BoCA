@@ -107,6 +107,16 @@ File::File(const std::string& process, const std::string& base_path, const std::
     nice_name_ = nice_name;
 }
 
+File::File(const Strings& processes, const std::string& base_path, const std::string& file_suffix, const std::string& nice_name)
+{
+  Debug();
+  SetVariables();
+  process_folders_ = Join(process_folders_, processes);
+  base_path_ = base_path;
+  file_suffix_ = file_suffix;
+  nice_name_ = nice_name;
+}
+
 File::File(const std::string& process, const std::string& base_path, const std::string& file_suffix, float crossection, const std::string& nice_name)
 {
     Debug();
@@ -116,6 +126,17 @@ File::File(const std::string& process, const std::string& base_path, const std::
     file_suffix_ = file_suffix;
     crossection_ = crossection;
     nice_name_ = nice_name;
+}
+
+File::File(const Strings& processes, const std::string& base_path, const std::string& file_suffix, float crossection, const std::string& nice_name)
+{
+  Debug();
+  SetVariables();
+  process_folders_ = Join(process_folders_, processes);
+  base_path_ = base_path;
+  file_suffix_ = file_suffix;
+  crossection_ = crossection;
+  nice_name_ = nice_name;
 }
 
 std::string File::file_suffix() const
@@ -169,8 +190,7 @@ Strings File::Paths() const
 {
     Info();
     Strings FilePaths;
-    for (const auto& process_folder : process_folders_)
-        FilePaths.emplace_back(base_path_ + process_folder + file_suffix_);
+    for (const auto& process_folder : process_folders_) FilePaths.emplace_back(base_path_ + process_folder + file_suffix_);
     return FilePaths;
 }
 
@@ -178,7 +198,7 @@ exroot::TreeReader File::TreeReader()
 {
     for(const auto path : Paths()) Note(path);
     chain_ = new TChain(tree_name().c_str());
-    for (const auto& path : Paths())chain_->Add(path.c_str());
+    for (const auto& path : Paths()) chain_->Add(path.c_str());
     return exroot::TreeReader(chain_);
 }
 
