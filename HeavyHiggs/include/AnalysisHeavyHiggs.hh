@@ -207,28 +207,25 @@ public:
     }
 
     virtual void NewFile(Tag tag, float crosssection, const Process process) {
-      for(const auto& file_number : Range(FileNumber(process))) analysis::AnalysisBase::NewFile(tag, FileName(process, file_number, tag), crosssection, NiceName(process));      
+      analysis::AnalysisBase::NewFile(tag, FileName(process, tag), crosssection, NiceName(process));      
     }
 
-    virtual std::string FileName(const Process process, int file_number, Tag tag) const {
+    virtual std::string FileName(const Process process, Tag tag) const {
       switch(tag){
 	case Tag::signal:
         return Name(process) + Suffix(process)+"_" + Name(collider_type());
         case Tag::background:
-          if(file_number == 0) return Name(process) + Suffix(process)+"_" + Name(collider_type());
-	  return Name(process) + Suffix(process)+"_" + Name(collider_type()) + "_" + std::to_string(file_number);
+          if(FileNumber(process) == 1) return Name(process) + Suffix(process)+"_" + Name(collider_type());
+   
+          std::string name[2];
+          for(const auto& file_number : Range(FileNumber(process))){
+            if(file_number==0)name[file_number] = {Name(process) + Suffix(process)+"_" + Name(collider_type())};
+	    else name[file_number]= {Name(process) + Suffix(process)+"_" + Name(collider_type()) + "_" + std::to_string(file_number)};
+          }
+          return name;
       }
     }
-    
-    virtual std::string FileName(const Process process, Tag tag) const {
-      switch(tag){
-        case Tag::signal:
-          return Name(process) + Suffix(process)+"_" + Name(collider_type());
-        case Tag::background:
-          return Name(process) + Suffix(process)+"_" + Name(collider_type());
 
-      }
-    }
 
 private:
 
