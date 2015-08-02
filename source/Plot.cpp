@@ -689,9 +689,9 @@ void Plot::SetProfile(TProfile2D& histogram, const Plot3d& signal, const Plot3d&
     histogram.Draw("colz");
 }
 
-void Plot::CommmonHist(TH2& histogram, const Plot3d& signal, EColor color) const {
-  histogram.SetXTitle(signal.nice_name_x.c_str());
-  histogram.SetYTitle(signal.nice_name_y.c_str());
+void Plot::CommmonHist(TH2& histogram, const Plot3d& plot, EColor color) const {
+  histogram.SetXTitle(plot.nice_name_x.c_str());
+  histogram.SetYTitle(plot.nice_name_y.c_str());
   histogram.SetMarkerColor(color);
   histogram.SetLineColor(color);
 }

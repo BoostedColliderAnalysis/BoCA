@@ -77,8 +77,8 @@ private:
 
     int PreCut() const
     {
-        return 200;
         return 0;
+        return 200;
     }
 
     int Mass() const

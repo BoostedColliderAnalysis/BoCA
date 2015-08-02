@@ -184,13 +184,13 @@ exroot::TreeReader File::TreeReader()
 
 ClonesArrays File::clones_arrays()
 {
-    Note();
+    Info();
     return ClonesArrays(source());
 }
 
 Event File::event()
 {
-    Note();
+    Info();
     return Event(source());
 }
 

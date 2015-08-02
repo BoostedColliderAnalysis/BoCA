@@ -13,7 +13,15 @@
 
 #include "Debug.hh"
 
-namespace analysis {
+namespace analysis
+{
+
+void AnalysisBase::Initialize()
+{
+  Note(tagger().Name());
+  mkdir(ProjectName().c_str(), 0700);
+  tagger().ClearTreeNames();
+}
 
 exroot::TreeWriter AnalysisBase::TreeWriter(TFile& export_file, const std::string& export_tree_name, Stage)
 {
@@ -60,14 +68,14 @@ std::string AnalysisBase::ProcessName() const
 
 void AnalysisBase::NewFile(Tag tag, const std::string& name, float crosssection, const std::string& nice_name)
 {
-  files_.emplace_back(File(name, crosssection, nice_name));
-  tagger().AddTreeName(TreeName(name),tag);
+    files_.emplace_back(File(name, crosssection, nice_name));
+    tagger().AddTreeName(TreeName(name), tag);
 }
 
 void AnalysisBase::NewFile(Tag tag, const std::string& name, const std::string& nice_name)
 {
-  files_.emplace_back(File(name, nice_name));
-  tagger().AddTreeName(TreeName(name),tag);
+    files_.emplace_back(File(name, nice_name));
+    tagger().AddTreeName(TreeName(name), tag);
 }
 
 File AnalysisBase::File(const std::string& name, const std::string& nice_name) const
@@ -77,7 +85,7 @@ File AnalysisBase::File(const std::string& name, const std::string& nice_name) c
 
 File AnalysisBase::File(const std::string& name, float crosssection, const std::string& nice_name) const
 {
-  return analysis::File(name, FilePath(), FileSuffix(), crosssection, nice_name);
+    return analysis::File(name, FilePath(), FileSuffix(), crosssection, nice_name);
 }
 
 std::string AnalysisBase::FileName(const std::string&) const
@@ -97,7 +105,7 @@ const PreCuts& AnalysisBase::pre_cuts() const
 
 PreCuts& AnalysisBase::pre_cuts()
 {
-  return pre_cuts_;
+    return pre_cuts_;
 }
 
 std::string AnalysisBase::FileSuffix() const
@@ -159,7 +167,7 @@ void AnalysisBase::RunFullEfficiency()
 
 void AnalysisBase::RunTagger(Stage stage)
 {
-  if (ExistenceCheck(tagger().FileName(stage,Tag::signal))) AnalysisLoop(stage);
+    if (ExistenceCheck(tagger().FileName(stage, Tag::signal))) AnalysisLoop(stage);
 }
 
 void AnalysisBase::RunTrainer()
@@ -173,8 +181,8 @@ void AnalysisBase::RunSignificance()
 {
     PrepareFiles();
     if (ExistenceCheck(tagger().ExportFileName())) {
-      Plot plot(tagger());
-      plot.OptimalSignificance();
+        Plot plot(tagger());
+        plot.OptimalSignificance();
     }
 }
 
@@ -182,8 +190,8 @@ void AnalysisBase::RunEfficiency()
 {
     PrepareFiles();
     if (ExistenceCheck(tagger().ExportFileName())) {
-      Plot plot(tagger());
-      plot.TaggingEfficiency();
+        Plot plot(tagger());
+        plot.TaggingEfficiency();
     }
 }
 
@@ -191,9 +199,9 @@ void AnalysisBase::RunPlots()
 {
     PrepareFiles();
     if (ExistenceCheck(tagger().ExportFolderName())) {
-    Plot plot(tagger());
-    plot.RunPlots();
-  }
+        Plot plot(tagger());
+        plot.RunPlots();
+    }
 }
 
 }
