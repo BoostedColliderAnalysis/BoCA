@@ -159,11 +159,11 @@ public:
     
 
 
-    int FileNumber() const
+    int FileNumber(const Process process) const
     {
         switch (collider_type()) {
         case Collider::LHC :
-            switch (Process) {
+            switch (process) {
               case  Process::ttwwbb :
                 return 1;
               case  Process::ttwbb :
@@ -173,7 +173,7 @@ public:
                 return 1;
             }
         case Collider::LE :
-            switch (Process) {
+            switch (process) {
               case  Process::ttwwbb:
                 return 2;
               case  Process::ttwbb:
@@ -207,16 +207,26 @@ public:
     }
 
     virtual void NewFile(Tag tag, float crosssection, const Process process) {
-      for(const auto& file_number : Range(FileNumber())) analysis::AnalysisBase::NewFile(tag, FileName(process, file_number, tag), crosssection, NiceName(process));      
+      for(const auto& file_number : Range(FileNumber(process))) analysis::AnalysisBase::NewFile(tag, FileName(process, file_number, tag), crosssection, NiceName(process));      
     }
 
-    virtual std::string FileName(const Process process, int file_number = 0, Tag tag) const {
+    virtual std::string FileName(const Process process, int file_number, Tag tag) const {
       switch(tag){
 	case Tag::signal:
         return Name(process) + Suffix(process)+"_" + Name(collider_type());
         case Tag::background:
           if(file_number == 0) return Name(process) + Suffix(process)+"_" + Name(collider_type());
 	  return Name(process) + Suffix(process)+"_" + Name(collider_type()) + "_" + std::to_string(file_number);
+      }
+    }
+    
+    virtual std::string FileName(const Process process, Tag tag) const {
+      switch(tag){
+        case Tag::signal:
+          return Name(process) + Suffix(process)+"_" + Name(collider_type());
+        case Tag::background:
+          return Name(process) + Suffix(process)+"_" + Name(collider_type());
+
       }
     }
 
