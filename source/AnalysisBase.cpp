@@ -66,26 +66,38 @@ std::string AnalysisBase::ProcessName() const
     return "Process";
 }
 
+void AnalysisBase::NewFile(Tag tag, const Strings& names, float crosssection, const std::string& nice_name)
+{
+    files_.emplace_back(File(names, crosssection, nice_name));
+    tagger().AddTreeName(TreeName(names.front()), tag);
+}
+
+void AnalysisBase::NewFile(Tag tag, const Strings& names, const std::string& nice_name)
+{
+    files_.emplace_back(File(names, nice_name));
+    tagger().AddTreeName(TreeName(names.front()), tag);
+}
+
 void AnalysisBase::NewFile(Tag tag, const std::string& name, float crosssection, const std::string& nice_name)
 {
-    files_.emplace_back(File(name, crosssection, nice_name));
-    tagger().AddTreeName(TreeName(name), tag);
+  files_.emplace_back(File({name}, crosssection, nice_name));
+  tagger().AddTreeName(TreeName(name), tag);
 }
 
 void AnalysisBase::NewFile(Tag tag, const std::string& name, const std::string& nice_name)
 {
-    files_.emplace_back(File(name, nice_name));
-    tagger().AddTreeName(TreeName(name), tag);
+  files_.emplace_back(File({name}, nice_name));
+  tagger().AddTreeName(TreeName(name), tag);
 }
 
-File AnalysisBase::File(const std::string& name, const std::string& nice_name) const
+File AnalysisBase::File(const Strings& names, const std::string& nice_name) const
 {
-    return analysis::File(name, FilePath(), FileSuffix(), nice_name);
+    return analysis::File(names, FilePath(), FileSuffix(), nice_name);
 }
 
-File AnalysisBase::File(const std::string& name, float crosssection, const std::string& nice_name) const
+File AnalysisBase::File(const Strings& names, float crosssection, const std::string& nice_name) const
 {
-    return analysis::File(name, FilePath(), FileSuffix(), crosssection, nice_name);
+    return analysis::File(names, FilePath(), FileSuffix(), crosssection, nice_name);
 }
 
 std::string AnalysisBase::FileName(const std::string&) const
