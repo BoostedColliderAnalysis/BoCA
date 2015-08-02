@@ -124,61 +124,61 @@ public:
 
   const analysis::Doublet& Doublet() const{return Multiplet3();};
 
-  float PairRap() const {
-    return Triplet1().Jet().rap() - Triplet2().Jet().rap();
-  }
-
-  float HbDeltaDeltaR() const {
-    return std::abs(GetDeltaR1() - GetDeltaR2());
-  }
-
-  float HbDeltaDeltaRap() const {
-    return std::abs(GetDeltaRap1() - GetDeltaRap2());
-  }
-
-  float HbDeltaDeltaPhi() const {
-    return ::analysis::DeltaPhi(GetDeltaPhi1(), GetDeltaPhi2());
-  }
-
-  float BottomBdt() const {
-    return (Doublet().Singlet1().Bdt() + Doublet().Singlet2().Bdt() + Triplet1().Singlet().Bdt() + Triplet2().Singlet().Bdt()) / 4;
-  }
-
-  float PairBottomBdt() const {
-    return (Doublet().Singlet1().Bdt() + Doublet().Singlet2().Bdt()) / 2;
-  }
-
-  float GetDeltaR1() const {
-    return Jet().delta_R(Doublet().Singlet1().Jet());
-  }
-
-  float GetDeltaR2() const {
-    return Jet().delta_R(Doublet().Singlet2().Jet());
-  }
-
-  float GetDeltaPhi1() const {
-    return Jet().delta_phi_to(Doublet().Singlet1().Jet());
-  }
-
-  float GetDeltaPhi2() const {
-    return Jet().delta_phi_to(Doublet().Singlet2().Jet());
-  }
-
-  float GetDeltaRap1() const {
-    return (Jet().rap() - Doublet().Singlet1().Jet().rap());
-  }
-
-  float GetDeltaRap2() const {
-    return (Jet().rap() - Doublet().Singlet2().Jet().rap());
-  }
-
-  float GetDeltaPt1() const {
-    return (Jet().pt() - Doublet().Singlet1().Jet().pt());
-  }
-
-  float GetDeltaPt2() const {
-    return (Jet().pt() - Doublet().Singlet2().Jet().pt());
-  }
+//   float PairRap() const {
+//     return Triplet1().Jet().rap() - Triplet2().Jet().rap();
+//   }
+//
+//   float HbDeltaDeltaR() const {
+//     return std::abs(GetDeltaR1() - GetDeltaR2());
+//   }
+//
+//   float HbDeltaDeltaRap() const {
+//     return std::abs(GetDeltaRap1() - GetDeltaRap2());
+//   }
+//
+//   float HbDeltaDeltaPhi() const {
+//     return ::analysis::DeltaPhi(GetDeltaPhi1(), GetDeltaPhi2());
+//   }
+//
+//   float BottomBdt() const {
+//     return (Doublet().Singlet1().Bdt() + Doublet().Singlet2().Bdt() + Triplet1().Singlet().Bdt() + Triplet2().Singlet().Bdt()) / 4;
+//   }
+//
+//   float PairBottomBdt() const {
+//     return (Doublet().Singlet1().Bdt() + Doublet().Singlet2().Bdt()) / 2;
+//   }
+//
+//   float GetDeltaR1() const {
+//     return Jet().delta_R(Doublet().Singlet1().Jet());
+//   }
+//
+//   float GetDeltaR2() const {
+//     return Jet().delta_R(Doublet().Singlet2().Jet());
+//   }
+//
+//   float GetDeltaPhi1() const {
+//     return Jet().delta_phi_to(Doublet().Singlet1().Jet());
+//   }
+//
+//   float GetDeltaPhi2() const {
+//     return Jet().delta_phi_to(Doublet().Singlet2().Jet());
+//   }
+//
+//   float GetDeltaRap1() const {
+//     return (Jet().rap() - Doublet().Singlet1().Jet().rap());
+//   }
+//
+//   float GetDeltaRap2() const {
+//     return (Jet().rap() - Doublet().Singlet2().Jet().rap());
+//   }
+//
+//   float GetDeltaPt1() const {
+//     return (Jet().pt() - Doublet().Singlet1().Jet().pt());
+//   }
+//
+//   float GetDeltaPt2() const {
+//     return (Jet().pt() - Doublet().Singlet2().Jet().pt());
+//   }
 
 };
 

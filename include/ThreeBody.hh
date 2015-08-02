@@ -16,14 +16,14 @@ public:
     ThreeBody() {};
 
     ThreeBody(const Multiplet_1& multiplet_1, const Multiplet_2& multiplet_2, const Multiplet_3& multiplet_3) {
-        SetTChannels(multiplet_1, multiplet_2, multiplet_3);
+        SetMultiplets(multiplet_1, multiplet_2, multiplet_3);
     }
 
     ThreeBody(const fastjet::PseudoJet& jet) {
         SetJet(jet);
     }
 
-    void SetTChannels(const Multiplet_1& multiplet_1, const Multiplet_2& multiplet_2, const Multiplet_3& multiplet_3) {
+    void SetMultiplets(const Multiplet_1& multiplet_1, const Multiplet_2& multiplet_2, const Multiplet_3& multiplet_3) {
         multiplet_1_ = multiplet_1;
         multiplet_2_ = multiplet_2;
         multiplet_3_ = multiplet_3;
@@ -144,6 +144,14 @@ public:
 
     float DeltaRap() const {
         return Multiplet::DeltaRap(Multiplet1(), Multiplet2());
+    }
+
+    float DeltaRap23() const {
+      return Multiplet::DeltaRap(Multiplet2(), Multiplet3());
+    }
+
+    float DeltaRap13() const {
+      return Multiplet::DeltaRap(Multiplet1(), Multiplet3());
     }
 
     float DeltaPhi() const {

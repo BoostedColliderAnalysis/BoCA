@@ -14,26 +14,50 @@ namespace analysis {
     class SignatureTTaggerBranch : public analysis::MultiBranch {
     public:
       SignatureTTaggerBranch();
-      float HiggsMass;
-      float PairRap;
-      float BottomBdt;
-      float PairBottomBdt;
-      float HardTopPt;
-      float SoftTopPt;
+      float Mass12;
+      float Mass23;
+      float Mass13;
+      float DeltaPt23;
+      float DeltaPt13;
+      float Ht12;
+      float Ht23;
+      float Ht13;
+      float DeltaRap23;
+      float DeltaRap13;
+      float DeltaPhi23;
+      float DeltaPhi13;
+      float DeltaR23;
+      float DeltaR13;
+      float DeltaM23;
+      float DeltaM13;
+      float DeltaHt23;
+      float DeltaHt13;
       float Sphericity;
       float Aplanarity;
       template<typename Multiplet>
-      void Fill(const Multiplet& multiplet)
+      void Fill(const Multiplet& signature)
       {
-        analysis::MultiBranch::Fill(multiplet.Multiplet());
-        BottomBdt = multiplet.Multiplet().BottomBdt();
-        PairBottomBdt = multiplet.Multiplet().PairBottomBdt();
-        HardTopPt = multiplet.Multiplet().Triplet1().Jet().pt();
-        SoftTopPt = multiplet.Multiplet().Triplet2().Jet().pt();
-        HiggsMass = multiplet.Multiplet().Doublet().Jet().m();
-        PairRap = multiplet.Multiplet().DeltaRap();
-        Aplanarity = multiplet.EventShape().Aplanarity();
-        Sphericity = multiplet.EventShape().Sphericity();
+        analysis::MultiBranch::Fill(signature.Multiplet());
+        Mass12 = signature.Multiplet().Jet12().m();
+        Mass23 = signature.Multiplet().Jet23().m();
+        Mass13 = signature.Multiplet().Jet13().m();
+        DeltaPt23 = signature.Multiplet().DeltaPt23();
+        DeltaPt13 = signature.Multiplet().DeltaPt13();
+        Ht12 = signature.Multiplet().Ht12();
+        Ht23 = signature.Multiplet().Ht23();
+        Ht13 = signature.Multiplet().Ht13();
+        DeltaRap23 = signature.Multiplet().DeltaRap23();
+        DeltaRap13 = signature.Multiplet().DeltaRap13();
+        DeltaPhi23 = signature.Multiplet().DeltaPhi23();
+        DeltaPhi13 = signature.Multiplet().DeltaPhi13();
+        DeltaR23 = signature.Multiplet().DeltaR23();
+        DeltaR13 = signature.Multiplet().DeltaR13();
+        DeltaM23 = signature.Multiplet().DeltaM23();
+        DeltaM13 = signature.Multiplet().DeltaM13();
+        DeltaHt23 = signature.Multiplet().DeltaHt23();
+        DeltaHt13 = signature.Multiplet().DeltaHt13();
+        Aplanarity = signature.EventShape().Aplanarity();
+        Sphericity = signature.EventShape().Sphericity();
       }
       Observables Variables() const;
 
@@ -58,17 +82,17 @@ public:
     float Sphericity;
     float Aplanarity;
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(const Multiplet& signature)
     {
-      analysis::MultiBranch::Fill(multiplet.Multiplet());
-      BottomBdt = multiplet.Multiplet().BottomBdt();
-      PairBottomBdt = multiplet.Multiplet().PairBottomBdt();
-      HardTopPt = multiplet.Multiplet().Sextet().HardTopPt();
-      SoftTopPt = multiplet.Multiplet().Sextet().SoftTopPt();
-      HiggsMass = multiplet.Multiplet().Doublet().Jet().m();
-      PairRap = multiplet.Multiplet().Sextet().DeltaRap();
-      Aplanarity = multiplet.EventShape().Aplanarity();
-      Sphericity = multiplet.EventShape().Sphericity();
+      analysis::MultiBranch::Fill(signature.Multiplet());
+      BottomBdt = signature.Multiplet().BottomBdt();
+      PairBottomBdt = signature.Multiplet().PairBottomBdt();
+      HardTopPt = signature.Multiplet().Sextet().HardTopPt();
+      SoftTopPt = signature.Multiplet().Sextet().SoftTopPt();
+      HiggsMass = signature.Multiplet().Doublet().Jet().m();
+      PairRap = signature.Multiplet().Sextet().DeltaRap();
+      Aplanarity = signature.EventShape().Aplanarity();
+      Sphericity = signature.EventShape().Sphericity();
 //         BottomBdt = multiplet.BottomBdt();
 //         PairBottomBdt = multiplet.PairBottomBdt();
 //         HardTopPt = multiplet.Sextet().HardTopPt();

@@ -8,18 +8,12 @@ namespace higgscpv
 
   SignatureTTaggerBranch::SignatureTTaggerBranch()
   {
-    HiggsMass = InitialValue();
-    PairRap = InitialValue();
-    BottomBdt = InitialValue();
-    PairBottomBdt = InitialValue();
-    HardTopPt = InitialValue();
-    SoftTopPt = InitialValue();
     Aplanarity = InitialValue();
     Sphericity = InitialValue();
   }
   Observables SignatureTTaggerBranch::Variables() const
   {
-    return Join(MultiBranch::Variables(), {PAIR(BottomBdt), PAIR(PairBottomBdt), PAIR(HardTopPt), PAIR(SoftTopPt), PAIR(HiggsMass), PAIR(PairRap), PAIR(Aplanarity), PAIR(Sphericity)});
+    return Join(MultiBranch::Variables(), {PAIR(Aplanarity), PAIR(Sphericity)});
   }
 
 SignatureLeptonicBranch::SignatureLeptonicBranch()

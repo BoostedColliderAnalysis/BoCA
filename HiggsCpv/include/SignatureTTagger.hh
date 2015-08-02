@@ -38,6 +38,8 @@ public:
 
 private:
 
+  MultipletSignature<Octet332> Signature(const analysis::Triplet& triplet_1, const analysis::Triplet& triplet_2, const analysis::Doublet& doublet) const;
+
     Reader<HiggsTagger> higgs_reader_;
 
     Reader<TopLeptonicTagger> top_tagger_;
