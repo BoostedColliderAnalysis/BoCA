@@ -1,4 +1,4 @@
-#include "Multiplets.hh"
+#include "Multiplet.hh"
 #include "JetInfo.hh"
 #include "Predicate.hh"
 #include "Debug.hh"
@@ -6,13 +6,13 @@
 namespace analysis
 {
 
-Vector2 Multiplets::Pull() const
+Vector2 Multiplet::Pull() const
 {
     Error("do not end up here");
     return Vector2();
 };
 
-fastjet::PseudoJet Multiplets::Jet(const fastjet::PseudoJet& jet_1, const fastjet::PseudoJet& jet_2, Structure structure) const
+fastjet::PseudoJet Multiplet::Jet(const fastjet::PseudoJet& jet_1, const fastjet::PseudoJet& jet_2, Structure structure) const
 {
     if (structure == Structure::vertices) structure |= Structure::plain;
     fastjet::PseudoJet jet;
@@ -39,29 +39,29 @@ fastjet::PseudoJet Multiplets::Jet(const fastjet::PseudoJet& jet_1, const fastje
     return jet;
 }
 
-float Multiplets::DeltaPt(const Multiplets& multiplets_1, const Multiplets& multiplets_2) const
+float Multiplet::DeltaPt(const Multiplet& multiplets_1, const Multiplet& multiplets_2) const
 {
     return multiplets_1.Jet().pt() - multiplets_2.Jet().pt();
 }
 
-float Multiplets::Ht(const Object& multiplets_1, const Object& multiplets_2) const
+float Multiplet::Ht(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const
 {
     return multiplets_1.Ht() + multiplets_2.Ht();
 }
 
-float Multiplets::DeltaRap(const Object& multiplets_1, const Object& multiplets_2) const
+float Multiplet::DeltaRap(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const
 {
     float delta_rap = multiplets_1.Jet().rap() - multiplets_2.Jet().rap();
     if (std::abs(delta_rap) > 100) return 0;
     return delta_rap;
 }
 
-float Multiplets::DeltaPhi(const Object& multiplets_1, const Object& multiplets_2) const
+float Multiplet::DeltaPhi(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const
 {
     return multiplets_1.Jet().delta_phi_to(multiplets_2.Jet());
 }
 
-float Multiplets::DeltaR(const Object& multiplets_1, const Object& multiplets_2) const
+float Multiplet::DeltaR(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const
 {
     float delta_r = multiplets_1.Jet().delta_R(multiplets_2.Jet());
     if (std::abs(delta_r) > 100) delta_r = 0;
@@ -69,39 +69,39 @@ float Multiplets::DeltaR(const Object& multiplets_1, const Object& multiplets_2)
     return delta_r;
 }
 
-float Multiplets::DeltaM(const Object& multiplets_1, const Object& multiplets_2) const
+float Multiplet::DeltaM(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const
 {
     return multiplets_1.Jet().m() - multiplets_2.Jet().m();
 }
 
-float Multiplets::DeltaHt(const Object& multiplets_1, const Object& multiplets_2) const
+float Multiplet::DeltaHt(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const
 {
     return multiplets_1.Ht() - multiplets_2.Ht();
 }
 
-float Multiplets::Rho(const Object& jet_1, const Object& jet_2) const
+float Multiplet::Rho(const MultipletBase& jet_1, const MultipletBase& jet_2) const
 {
     if (Jet(jet_1.Jet(), jet_2.Jet(), Structure::plain).pt() < DetectorGeometry::MinCellPt() || DeltaR(jet_1, jet_2) < DetectorGeometry::MinCellResolution()) return 0;
     return Jet().m() / Jet().pt() / DeltaR(jet_1, jet_2) * 2;
 }
 
-float Multiplets::Pull(const Object& multiplets_1, const Object& multiplets_2) const
+float Multiplet::Pull(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const
 {
     Vector2 pull = multiplets_1.singlet().Pull() - multiplets_1.Reference(multiplets_2.Jet());
     return std::atan2(pull.Y(), pull.X());
 }
 
-float Multiplets::PullDifference(const Object& multiplets_1, const Object& multiplets_2) const
+float Multiplet::PullDifference(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const
 {
     return RestrictPhi(analysis::DeltaPhi(Pull(multiplets_1, multiplets_2), Pull(multiplets_2, multiplets_1)) - M_PI) / M_PI;
 }
 
-float Multiplets::PullSum(const Object& multiplets_1, const Object& multiplets_2) const
+float Multiplet::PullSum(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const
 {
     return RestrictPhi(Pull(multiplets_1, multiplets_2) + Pull(multiplets_2, multiplets_1)) / M_PI;
 }
 
-float Multiplets::Dipolarity(const Object& multiplets_1, const Object& multiplets_2) const
+float Multiplet::Dipolarity(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const
 {
     if (DeltaR(multiplets_1, multiplets_2) == 0) return 0;
     fastjet::PseudoJet jet = Jet(multiplets_1.Jet(Structure::constituents), multiplets_2.Jet(Structure::constituents), Structure::constituents);
@@ -125,16 +125,15 @@ float Multiplets::Dipolarity(const Object& multiplets_1, const Object& multiplet
     return dipolarity / jet.pt() / sqr(DeltaR(multiplets_1, multiplets_2));
 }
 
-Vector2 Multiplets::Reference(const fastjet::PseudoJet& vector) const
-{
-    return Vector2(vector.rap() - Jet().rap(), Jet().delta_phi_to(vector));
-}
-
-float Multiplets::Distance(const Object& multiplets_1, const Object& multiplets_2, const Vector2& point_0) const
+float Multiplet::Distance(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2, const Vector2& point_0) const
 {
     Vector2 point_1(multiplets_1.Jet().rap(), multiplets_1.Jet().phi_std());
     Vector2 point_2(multiplets_2.Jet().rap(), multiplets_2.Jet().phi_std());
     return std::abs(point_2.Y() - point_1.Y() * point_0.X() - (point_2.X() - point_1.X()) * point_0.Y() + point_2.X() * point_1.Y() - point_2.Y() * point_1.X()) / DeltaR(multiplets_1, multiplets_2);
+}
+int Multiplet::Charge(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const
+{
+    return sgn(multiplets_1.Charge() + multiplets_2.Charge());
 }
 
 }

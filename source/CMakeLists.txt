@@ -32,7 +32,7 @@ Hadrons.cpp
 create_library(Event event_sources)
 
 set(multiplet_sources
-Multiplets.cpp
+Multiplet.cpp
 Identification.cpp
 Singlet.cpp
 Doublet.cpp

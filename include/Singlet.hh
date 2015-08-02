@@ -1,9 +1,7 @@
 #pragma once
 
 #include "JetInfo.hh"
-#include "Vector2.hh"
-#include "Flag.hh"
-#include "Object.hh"
+#include "MultipletBase.hh"
 
 namespace analysis
 {
@@ -12,7 +10,7 @@ namespace analysis
  * @brief Thin wrapper to make fastjet::PseudoJet behave like a Multiplet. Additionally this class astracts away the JetInfo user_info().
  *
  */
-class Singlet : public Object
+class Singlet : public MultipletBase
 {
 
 public:
@@ -27,10 +25,6 @@ public:
 
     fastjet::PseudoJet Jet() const {
         return jet_;
-    }
-
-    fastjet::PseudoJet& Jet() {
-      return jet_;
     }
 
     analysis::Jets Jets() const{
@@ -145,14 +139,11 @@ public:
 
     Vector2 Pull() const;
 
-    /**
-     * @brief calculate Reference vector for other - this
-     * @return Vector2 reference vector
-     *
-     */
-    Vector2 Reference(const fastjet::PseudoJet& reference) const;
-
 private:
+
+  fastjet::PseudoJet& Jet() {
+    return jet_;
+  }
 
     float log(float number) const;
 

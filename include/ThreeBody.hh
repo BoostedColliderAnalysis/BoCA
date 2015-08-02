@@ -1,14 +1,13 @@
 #pragma once
 
 #include "Singlet.hh"
-#include "Multiplets.hh"
+#include "Multiplet.hh"
 #include "DetectorGeometry.hh"
-#include "Predicate.hh"
 
 namespace analysis {
 
 template <typename Multiplet_1, typename Multiplet_2, typename Multiplet_3>
-class ThreeBody : public Multiplets {
+class ThreeBody : public Multiplet {
 
 public:
 
@@ -87,22 +86,22 @@ public:
 
     fastjet::PseudoJet Jet(Structure structure) const {
       if (structure == Structure::vertices) structure |= Structure::plain;
-      return Multiplets::Jet(Jet12(structure), Multiplet3().Jet(structure), structure);
+      return Multiplet::Jet(Jet12(structure), Multiplet3().Jet(structure), structure);
     }
 
     fastjet::PseudoJet Jet12(Structure structure) const {
       if (structure == Structure::vertices) structure |= Structure::plain;
-      return Multiplets::Jet(Multiplet1().Jet(structure), Multiplet2().Jet(structure), structure);
+      return Multiplet::Jet(Multiplet1().Jet(structure), Multiplet2().Jet(structure), structure);
     }
 
     fastjet::PseudoJet Jet23(Structure structure) const {
       if (structure == Structure::vertices) structure |= Structure::plain;
-      return Multiplets::Jet(Multiplet2().Jet(structure), Multiplet3().Jet(structure), structure);
+      return Multiplet::Jet(Multiplet2().Jet(structure), Multiplet3().Jet(structure), structure);
     }
 
     fastjet::PseudoJet Jet13(Structure structure) const {
       if (structure == Structure::vertices) structure |= Structure::plain;
-      return Multiplets::Jet(Multiplet1().Jet(structure), Multiplet3().Jet(structure), structure);
+      return Multiplet::Jet(Multiplet1().Jet(structure), Multiplet3().Jet(structure), structure);
     }
 
     fastjet::PseudoJet Jet() const
@@ -130,17 +129,17 @@ public:
 
     float DeltaPt() const
     {
-        return Multiplets::DeltaPt(Multiplet1(),Multiplet2());
+        return Multiplet::DeltaPt(Multiplet1(),Multiplet2());
     }
 
     float DeltaPt23() const
     {
-      return Multiplets::DeltaPt(Multiplet2(),Multiplet3());
+      return Multiplet::DeltaPt(Multiplet2(),Multiplet3());
     }
 
     float DeltaPt13() const
     {
-      return Multiplets::DeltaPt(Multiplet1(),Multiplet3());
+      return Multiplet::DeltaPt(Multiplet1(),Multiplet3());
     }
 
     float Ht() const
@@ -150,102 +149,101 @@ public:
 
     float Ht12() const
     {
-      return Multiplets::Ht(Multiplet1(), Multiplet2());
+      return Multiplet::Ht(Multiplet1(), Multiplet2());
     }
 
     float Ht23() const
     {
-      return Multiplets::Ht(Multiplet2(), Multiplet3());
+      return Multiplet::Ht(Multiplet2(), Multiplet3());
     }
 
     float Ht13() const
     {
-      return Multiplets::Ht(Multiplet1(), Multiplet3());
+      return Multiplet::Ht(Multiplet1(), Multiplet3());
     }
 
     float DeltaRap() const
     {
-      return Multiplets::DeltaRap(Multiplet1(),Multiplet2());
+      return Multiplet::DeltaRap(Multiplet1(),Multiplet2());
     }
 
     float DeltaPhi() const
     {
-      return Multiplets::DeltaPhi(Multiplet1(),Multiplet2());
+      return Multiplet::DeltaPhi(Multiplet1(),Multiplet2());
     }
 
     float DeltaPhi23() const
     {
-      return Multiplets::DeltaPhi(Multiplet2(),Multiplet3());
+      return Multiplet::DeltaPhi(Multiplet2(),Multiplet3());
     }
 
     float DeltaPhi13() const
     {
-      return Multiplets::DeltaPhi(Multiplet1(),Multiplet3());
+      return Multiplet::DeltaPhi(Multiplet1(),Multiplet3());
     }
 
     float DeltaR() const
     {
-      return Multiplets::DeltaR(Multiplet1(),Multiplet2());
+      return Multiplet::DeltaR(Multiplet1(),Multiplet2());
     }
 
     float DeltaR23() const
     {
-      return Multiplets::DeltaR(Multiplet2(),Multiplet3());
+      return Multiplet::DeltaR(Multiplet2(),Multiplet3());
     }
 
     float DeltaR13() const
     {
-      return Multiplets::DeltaR(Multiplet1(),Multiplet3());
+      return Multiplet::DeltaR(Multiplet1(),Multiplet3());
     }
 
     float DeltaM() const
     {
-      return Multiplets::DeltaM(Multiplet1(),Multiplet2());
+      return Multiplet::DeltaM(Multiplet1(),Multiplet2());
     }
 
     float DeltaM23() const
     {
-      return Multiplets::DeltaM(Multiplet2(),Multiplet3());
+      return Multiplet::DeltaM(Multiplet2(),Multiplet3());
     }
 
     float DeltaM13() const
     {
-      return Multiplets::DeltaM(Multiplet1(),Multiplet3());
+      return Multiplet::DeltaM(Multiplet1(),Multiplet3());
     }
 
     float DeltaHt() const
     {
-      return Multiplets::DeltaHt(Multiplet1(),Multiplet2());
+      return Multiplet::DeltaHt(Multiplet1(),Multiplet2());
     }
 
     float DeltaHt23() const
     {
-      return Multiplets::DeltaHt(Multiplet2(),Multiplet3());
+      return Multiplet::DeltaHt(Multiplet2(),Multiplet3());
     }
 
     float DeltaHt13() const
     {
-      return Multiplets::DeltaHt(Multiplet1(),Multiplet3());
+      return Multiplet::DeltaHt(Multiplet1(),Multiplet3());
     }
 
     float Rho() const
     {
-      return Multiplets::Rho(Multiplet1(),Multiplet2());
+      return Multiplet::Rho(Multiplet1(),Multiplet2());
     }
 
     float Rho23() const
     {
-      return Multiplets::Rho(Multiplet2(),Multiplet3());
+      return Multiplet::Rho(Multiplet2(),Multiplet3());
     }
 
     float Rho13() const
     {
-      return Multiplets::Rho(Multiplet1(),Multiplet3());
+      return Multiplet::Rho(Multiplet1(),Multiplet3());
     }
 
-    int Charge() const
-    {
-      return sgn(Multiplet1().Charge() + Multiplet2().Charge() + Multiplet3().Charge());
+    int Charge() const {
+      return Multiplet::Charge(Multiplet1(),Multiplet2());
     }
 
     const analysis::Singlet &singlet(Structure) const {
@@ -253,40 +251,40 @@ public:
     }
 
     float PullDifference() const {
-      return Multiplets::PullDifference(Multiplet1(),Multiplet2());
+      return Multiplet::PullDifference(Multiplet1(),Multiplet2());
     }
 
     float PullSum() const {
-      return Multiplets::PullSum(Multiplet1(),Multiplet2());
+      return Multiplet::PullSum(Multiplet1(),Multiplet2());
     }
 
 
     float PullSum23() const {
-      return Multiplets::PullSum(Multiplet2(),Multiplet3());
+      return Multiplet::PullSum(Multiplet2(),Multiplet3());
     }
 
     float PullDifference23() const {
-      return Multiplets::PullDifference(Multiplet2(),Multiplet3());
+      return Multiplet::PullDifference(Multiplet2(),Multiplet3());
     }
 
     float PullSum13() const {
-      return Multiplets::PullSum(Multiplet1(),Multiplet3());
+      return Multiplet::PullSum(Multiplet1(),Multiplet3());
     }
 
     float PullDifference13() const {
-      return Multiplets::PullDifference(Multiplet1(),Multiplet3());
+      return Multiplet::PullDifference(Multiplet1(),Multiplet3());
     }
 
     float Dipolarity() const {
-      return Multiplets::Dipolarity(Multiplet1(),Multiplet2());
+      return Multiplet::Dipolarity(Multiplet1(),Multiplet2());
     }
 
     float Dipolarity23() const {
-      return Multiplets::Dipolarity(Multiplet2(),Multiplet3());
+      return Multiplet::Dipolarity(Multiplet2(),Multiplet3());
     }
 
     float Dipolarity13() const {
-      return Multiplets::Dipolarity(Multiplet1(),Multiplet3());
+      return Multiplet::Dipolarity(Multiplet1(),Multiplet3());
     }
 
 protected:
