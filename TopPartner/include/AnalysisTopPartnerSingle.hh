@@ -103,12 +103,12 @@ private:
         case Process::TT : return 2 * 0.264 * 1000;
         case Process::ttBjj :
             switch (PreCut()) {
-              case 0 : return 2 * 1.669 * 1000;
+            case 0 : return 2 * 1.669 * 1000;
             case 200 : return 2 * 0.1754 * 1000;
             }
         case Process::tthBjj :
             switch (PreCut()) {
-              case 0 : return 2 * 0.02535 * 1000;
+            case 0 : return 2 * 0.02535 * 1000;
             case 200 : return 2 * 0.02535 * 1000;
             }
         }
@@ -119,11 +119,11 @@ private:
         case Process::TT :
             return "#tilde t_{h}#tilde t_{l}";
         case Process::ttBjj :
-            return "ttBjj";
+            return "t_{l}t_{h}Bjj";
         case Process::tthBjj :
-            return "tthBjj";
+            return "t_{l}t_{h}hBjj";
         case Process::Tth :
-            return "Tth";
+            return "#tilde t_{l}t_{h}h";
         }
 //         (" + std::to_string(PreCut()) + " GeV)";
     }

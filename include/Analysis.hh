@@ -3,12 +3,10 @@
  */
 #pragma once
 
-#include <sys/stat.h>
 #include "AnalysisBase.hh"
 #include "Reader.hh"
 #include "Branches.hh"
 #include "Trees.hh"
-// #include "Debug.hh"
 
 namespace analysis {
 
@@ -35,16 +33,15 @@ public:
    * @return void
    */
   void AnalysisLoop(Stage stage) final {
-        mkdir(ProjectName().c_str(), 0700);
+        Initialize();
         Reader<Tagger> reader(stage);
-        tagger().ClearTreeNames();
         for (const auto& tag : std::vector<Tag> {Tag::signal, Tag::background})
         {
             Files files(tagger().ExportFileName(stage, tag), stage, tag);
             ClearFiles();
             SetFiles(tag);
             for (auto& file : this->files(tag)) {
-                files.file(file);
+                files.set_file(file);
                 AnalyseFile(files, reader);
             }
             files.export_file().Close();
