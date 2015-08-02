@@ -29,6 +29,9 @@ public:
     std::string Name() const final { return "JetPair"; }
 
     Jets BottomPair(const Event& event, Tag tag) const;
+    bool CheckIfBadBottom(const analysis::Doublet& doublet, const Jets& jets) const;
+    Jets HiggsParticle(const Event& event, Tag tag) const;
+
 
 private:
 
