@@ -2,22 +2,32 @@
 
 namespace analysis {
 
-Doublet& Quartet22::Doublet1() const
+const Doublet& Quartet22::Doublet1() const
 {
     return Multiplet1();
 }
 
-Doublet& Quartet22::Doublet2() const
+const Doublet& Quartet22::Doublet2() const
 {
     return Multiplet2();
 }
 
-Triplet& Quartet31::Triplet() const
+Doublet& Quartet22::Doublet1()
+{
+  return Multiplet1();
+}
+
+Doublet& Quartet22::Doublet2()
+{
+  return Multiplet2();
+}
+
+const Triplet& Quartet31::Triplet() const
 {
     return Multiplet1();
 }
 
-Singlet& Quartet31::Singlet() const
+const Singlet& Quartet31::Singlet() const
 {
     return Multiplet2();
 }

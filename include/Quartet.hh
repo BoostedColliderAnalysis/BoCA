@@ -10,9 +10,13 @@ public:
 
     using TwoBody<Doublet, Doublet>::TwoBody;
 
-    Doublet& Doublet1() const;
+    const Doublet& Doublet1() const;
 
-    Doublet& Doublet2() const;
+    const Doublet& Doublet2() const;
+
+    Doublet& Doublet1();
+
+    Doublet& Doublet2();
 
 };
 
@@ -22,9 +26,9 @@ public:
 
     using TwoBody<analysis::Triplet, analysis::Singlet>::TwoBody;
 
-    analysis::Triplet& Triplet() const;
+    const analysis::Triplet& Triplet() const;
 
-    analysis::Singlet& Singlet() const;
+    const analysis::Singlet& Singlet() const;
 
 };
 

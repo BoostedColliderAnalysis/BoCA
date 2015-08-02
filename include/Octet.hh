@@ -18,9 +18,9 @@ public:
 
     using TwoBody<::analysis::Sextet, ::analysis::Doublet>::TwoBody;
 
-    analysis::Sextet& Sextet() const;
+    const analysis::Sextet& Sextet() const;
 
-    analysis::Doublet& Doublet() const;
+    const analysis::Doublet& Doublet() const;
 
     float HbDeltaDeltaR() const {
         return std::abs(GetDeltaR1() - GetDeltaR2());
@@ -86,9 +86,9 @@ public:
 
   using analysis::TwoBody<analysis::Quartet31, analysis::Quartet31>::TwoBody;
 
-  analysis::Quartet31& Quartet1() const;
+  const analysis::Quartet31& Quartet1() const;
 
-  analysis::Quartet31& Quartet2() const;
+  const analysis::Quartet31& Quartet2() const;
 
   float BottomBdt() const;
 
@@ -106,9 +106,9 @@ public:
 
   using analysis::TwoBody<analysis::Quintet, analysis::Triplet>::TwoBody;
 
-  analysis::Quintet& Quintet() const;
+  const analysis::Quintet& Quintet() const;
 
-  analysis::Triplet& Triplet() const;
+  const analysis::Triplet& Triplet() const;
 
 };
 
@@ -118,11 +118,11 @@ public:
 
   using analysis::ThreeBody<analysis::Triplet,analysis::Triplet,analysis::Doublet>::ThreeBody;
 
-  analysis::Triplet& Triplet1() const{return Multiplet1();};
+  const analysis::Triplet& Triplet1() const{return Multiplet1();};
 
-  analysis::Triplet& Triplet2() const{return Multiplet2();};
+  const analysis::Triplet& Triplet2() const{return Multiplet2();};
 
-  analysis::Doublet& Doublet() const{return Multiplet3();};
+  const analysis::Doublet& Doublet() const{return Multiplet3();};
 
   float PairRap() const {
     return Triplet1().Jet().rap() - Triplet2().Jet().rap();

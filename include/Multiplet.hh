@@ -12,17 +12,17 @@ public:
 
 protected:
 
-    virtual fastjet::PseudoJet Jet(Structure) const override = 0;
-
-    virtual fastjet::PseudoJet Jet() const override = 0;
-
     virtual float Ht() const override = 0;
 
     virtual int Charge() const override = 0;
 
-    Vector2 Pull() const override;
+    virtual fastjet::PseudoJet Jet(Structure) const override = 0;
+
+    virtual fastjet::PseudoJet Jet() const override = 0;
 
     fastjet::PseudoJet Jet(const fastjet::PseudoJet& jet_1, const fastjet::PseudoJet& jet_2, Structure structure) const;
+
+    Vector2 Pull() const override;
 
     float DeltaPt(const Multiplet& multiplets_1, const Multiplet& multiplets_2) const;
 
