@@ -136,6 +136,16 @@ float DetectorGeometry::LeptonMinPt()
         return 20;
     }
 }
+/// in femtobarn
+float DetectorGeometry::Luminosity()
+{
+  switch (detector_type()) {
+    case DetectorType::CMS:
+      return 300;
+    case DetectorType::Spp:
+      return 3000;
+  }
+}
 JetType DetectorGeometry::jet_type()
 {
     switch (detector_type()) {

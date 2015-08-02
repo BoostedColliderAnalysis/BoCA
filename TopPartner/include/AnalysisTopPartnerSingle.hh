@@ -37,18 +37,18 @@ public:
 protected:
 
     std::string ProjectName() const final {
-        return  ProcessName() + "-" + std::to_string(PreCut()) + "GeV-hB-test";
+        return  ProcessName() + "-" + std::to_string(PreCut()) + "GeV-test";
     }
 
     void SetFiles(Tag tag) final {
         switch (tag) {
         case Tag::signal :
-            this->NewFile(tag, "pp-Tth-ttBh-Bhbbjjlv", 2 * 0.04332 * 1000, "Tth");
+            this->NewFile(tag, "pp-Tth-ttBh-Bhbbjjlv", 2 * 0.04332 * 1000, NiceName(Process::Tth));
             break;
         case Tag::background :
-            this->NewFile(tag, "PP-ttBJJ-" + std::to_string(PreCut()) + "GeV", 2 * 0.1754 * 1000, "ttB(jj)|_{200 GeV}");
-            this->NewFile(tag, "PP-tthB-" + std::to_string(PreCut()) + "GeV", 2 * 0.02535 * 1000, "tthB(jj)|_{200 GeV}");
-            this->NewFile(tag, "pp-TT-tthB-bbbbjjjjlv", 2 * 0.264 * 1000, "TT");
+            this->NewFile(tag, "PP-ttBJJ-" + std::to_string(PreCut()) + "GeV", 2 * 0.1754 * 1000, NiceName(Process::ttBjj));
+            this->NewFile(tag, "PP-tthB-" + std::to_string(PreCut()) + "GeV", 2 * 0.02535 * 1000, NiceName(Process::tthBjj));
+            this->NewFile(tag, "pp-TT-tthB-bbbbjjjjlv", 2 * 0.264 * 1000, NiceName(Process::TT));
             break;
         }
     }
@@ -103,24 +103,29 @@ private:
         case Process::TT : return 2 * 0.264 * 1000;
         case Process::ttBjj :
             switch (PreCut()) {
-            case 0 : return 1;
+              case 0 : return 2 * 1.669 * 1000;
             case 200 : return 2 * 0.1754 * 1000;
             }
         case Process::tthBjj :
             switch (PreCut()) {
-            case 0 : return 1;
+              case 0 : return 2 * 0.02535 * 1000;
             case 200 : return 2 * 0.02535 * 1000;
             }
         }
     }
 
-    std::string NiceName(Tag tag) const {
-        switch (tag) {
-        case Tag::signal :
+    std::string NiceName(Process process) const {
+        switch (process) {
+        case Process::TT :
             return "#tilde t_{h}#tilde t_{l}";
-        case Tag::background :
-            return "tthjj (" + std::to_string(PreCut()) + " GeV)";
+        case Process::ttBjj :
+            return "ttBjj";
+        case Process::tthBjj :
+            return "tthBjj";
+        case Process::Tth :
+            return "Tth";
         }
+//         (" + std::to_string(PreCut()) + " GeV)";
     }
 
 };

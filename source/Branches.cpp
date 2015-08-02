@@ -44,6 +44,16 @@ Observables BaseBranch::Join(const Observables& observables_1, const Observables
     return joined;
 }
 
+Observables BaseBranch::Join(const Observables& observables_1, const Observables& observables_2, const Observables& observables_3)
+{
+  Observables joined;
+  joined.reserve(observables_1.size() + observables_2.size() + observables_3.size());
+  joined.insert(joined.end(), observables_1.begin(), observables_1.end());
+  joined.insert(joined.end(), observables_2.begin(), observables_2.end());
+  joined.insert(joined.end(), observables_3.begin(), observables_3.end());
+  return joined;
+}
+
 float BottomBase::InValue()
 {
     return -11.1111111; // should be non integer
@@ -272,9 +282,9 @@ TopHadronicBranch::TopHadronicBranch()
 
 Observables TopHadronicBranch::Variables() const
 {
-    return Join(Join(MultiBranch::Variables(), BottomBase::Variables()), {PAIR(LeptonPt)});
-    return  Join(Join(BottomBase::Variables(), ParticleBranch::Variables()), {PAIR(Bdt2), PAIR(LeptonPt)});
-    return Join(Join(MultiBranch::Variables(), BottomBase::Variables()), {PAIR(BottomMass), PAIR(WMass), PAIR(LeptonPt)});
+    return Join(MultiBranch::Variables(), BottomBase::Variables(), {PAIR(LeptonPt)});
+    return  Join(BottomBase::Variables(), ParticleBranch::Variables(), {PAIR(Bdt2), PAIR(LeptonPt)});
+    return Join(MultiBranch::Variables(), BottomBase::Variables(), {PAIR(BottomMass), PAIR(WMass), PAIR(LeptonPt)});
 }
 
 Observables TopHadronicBranch::Spectators() const
@@ -290,7 +300,7 @@ TopLeptonicBranch::TopLeptonicBranch()
 
 Observables TopLeptonicBranch::Variables() const
 {
-  return  Join(Join(BottomBase::Variables(), ParticleBranch::Variables()), {PAIR(Ht), PAIR(DeltaPt), PAIR(DeltaM), PAIR(DeltaRap), PAIR(DeltaPhi), PAIR(DeltaR), PAIR(Rho), PAIR(Bdt2), PAIR(BottomPt), PAIR(LeptonPt),PAIR(Pull,"#theta"),PAIR(DeltaPull,"#Delta #theta"),PAIR(Dipolarity,"D")});
+  return  Join(BottomBase::Variables(), ParticleBranch::Variables(), {PAIR(Ht), PAIR(DeltaPt), PAIR(DeltaM), PAIR(DeltaRap), PAIR(DeltaPhi), PAIR(DeltaR), PAIR(Rho), PAIR(Bdt2), PAIR(BottomPt), PAIR(LeptonPt),PAIR(Pull,"#theta"),PAIR(DeltaPull,"#Delta #theta"),PAIR(Dipolarity,"D")});
 }
 
 Observables TopLeptonicBranch::Spectators() const

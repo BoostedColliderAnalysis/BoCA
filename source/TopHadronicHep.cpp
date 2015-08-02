@@ -8,7 +8,7 @@ namespace analysis {
 
 Jets TopHadronicHep::Tops(Jets& e_flows)
 {
-    Info("Tagging Top");
+    Info();
 //     float CellRap = 0.1;
 //     Jets hadrons;
 //     ifstream fin("sample_event.dat", ifstream::in);
