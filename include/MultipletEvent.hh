@@ -1,7 +1,7 @@
 #pragma once
 
 #include "GlobalObservables.hh"
-#include "Multiplet.hh"
+#include "TwoBody.hh"
 
 namespace analysis {
 
@@ -10,7 +10,7 @@ namespace analysis {
  *
  */
 template <typename Multiplet_1>
-class MultipletEvent : public analysis::Multiplet<Multiplet_1, analysis::Singlet> {
+class MultipletEvent : public analysis::TwoBody<Multiplet_1, analysis::Singlet> {
 
 public:
 
@@ -19,17 +19,17 @@ public:
         Jets unique_jets;
         for (const auto &jet : jets) if (!multiplet.Overlap(jet)) unique_jets.emplace_back(jet);
         global_observables_.SetJets(unique_jets);
-        analysis::Multiplet<Multiplet_1, analysis::Singlet>::SetMultiplets(multiplet,global_observables_.Singlet());
+        analysis::TwoBody<Multiplet_1, analysis::Singlet>::SetMultiplets(multiplet,global_observables_.Singlet());
     }
 
     Multiplet_1 Multiplet() const
     {
-        return analysis::Multiplet<Multiplet_1, analysis::Singlet>::Multiplet1();
+        return analysis::TwoBody<Multiplet_1, analysis::Singlet>::Multiplet1();
     }
 
     analysis::Singlet Singlet() const
     {
-        return analysis::Multiplet<Multiplet_1, analysis::Singlet>::Multiplet2();
+        return analysis::TwoBody<Multiplet_1, analysis::Singlet>::Multiplet2();
     }
 
     const analysis::GlobalObservables& GlobalObservables() const

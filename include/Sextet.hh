@@ -8,11 +8,11 @@ namespace analysis {
  * @brief A sextet of 2 triplets
  *
  */
-class Sextet : public Multiplet<Triplet, Triplet> {
+class Sextet : public TwoBody<Triplet, Triplet> {
 
 public:
 
-    using Multiplet<Triplet, Triplet>::Multiplet;
+    using TwoBody<Triplet, Triplet>::TwoBody;
 
     Triplet& Triplet1() const;
 

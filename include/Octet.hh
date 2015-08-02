@@ -1,6 +1,6 @@
 #pragma once
 
-#include "TChannel.hh"
+#include "ThreeBody.hh"
 #include "Sextet.hh"
 #include "Quintet.hh"
 #include "Quartet.hh"
@@ -11,11 +11,11 @@ namespace analysis {
  * @brief An octet composed of a sextet an a doublet
  *
  */
-class Octet62 : public Multiplet<::analysis::Sextet, ::analysis::Doublet> {
+class Octet62 : public TwoBody<::analysis::Sextet, ::analysis::Doublet> {
 
 public:
 
-    using Multiplet<::analysis::Sextet, ::analysis::Doublet>::Multiplet;
+    using TwoBody<::analysis::Sextet, ::analysis::Doublet>::TwoBody;
 
     analysis::Sextet& Sextet() const;
 
@@ -79,11 +79,11 @@ public:
  * @brief An octet composed of two quartets
  *
  */
-class Octet44 : public analysis::Multiplet<analysis::Quartet31, analysis::Quartet31> {
+class Octet44 : public analysis::TwoBody<analysis::Quartet31, analysis::Quartet31> {
 
 public:
 
-  using analysis::Multiplet<analysis::Quartet31, analysis::Quartet31>::Multiplet;
+  using analysis::TwoBody<analysis::Quartet31, analysis::Quartet31>::TwoBody;
 
   analysis::Quartet31& Quartet1() const;
 
@@ -99,11 +99,11 @@ public:
  * @brief An octet composed of two quartets
  *
  */
-class Octet53 : public analysis::Multiplet<analysis::Quintet, analysis::Triplet> {
+class Octet53 : public analysis::TwoBody<analysis::Quintet, analysis::Triplet> {
 
 public:
 
-  using analysis::Multiplet<analysis::Quintet, analysis::Triplet>::Multiplet;
+  using analysis::TwoBody<analysis::Quintet, analysis::Triplet>::TwoBody;
 
   analysis::Quintet& Quintet() const;
 
@@ -111,11 +111,11 @@ public:
 
 };
 
-class Octet332 : public analysis::TChannel<analysis::Triplet,analysis::Triplet,analysis::Doublet>{
+class Octet332 : public analysis::ThreeBody<analysis::Triplet,analysis::Triplet,analysis::Doublet>{
 
 public:
 
-  using analysis::TChannel<analysis::Triplet,analysis::Triplet,analysis::Doublet>::TChannel;
+  using analysis::ThreeBody<analysis::Triplet,analysis::Triplet,analysis::Doublet>::ThreeBody;
 
   analysis::Triplet& Triplet1() const{return Multiplet1();};
 

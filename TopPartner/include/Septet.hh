@@ -6,11 +6,11 @@ namespace analysis {
 
 namespace toppartner {
 
-class Septet : public Multiplet<analysis::Quintet, analysis::Doublet> {
+class Septet : public TwoBody<analysis::Quintet, analysis::Doublet> {
 
 public:
 
-    using Multiplet<analysis::Quintet, analysis::Doublet>::Multiplet;
+    using TwoBody<analysis::Quintet, analysis::Doublet>::TwoBody;
 
     analysis::Quintet Quintet() const
     {

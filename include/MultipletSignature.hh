@@ -1,7 +1,7 @@
 #pragma once
 
 #include "EventShape.hh"
-#include "Multiplet.hh"
+#include "TwoBody.hh"
 
 namespace analysis {
 

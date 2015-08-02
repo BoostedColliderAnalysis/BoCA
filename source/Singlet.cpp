@@ -95,12 +95,12 @@ float Singlet::Rapidity() const
     return Jet().rap();
 }
 
-Singlet Singlet::singlet() const
+const Singlet &Singlet::singlet() const
 {
     return *this;
 }
 
-Singlet Singlet::singlet(Structure) const
+const Singlet &Singlet::singlet(Structure) const
 {
   return *this;
 }

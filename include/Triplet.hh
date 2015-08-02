@@ -113,11 +113,11 @@ private:
     float tau32_beta2_;
 };
 
-class Triplet : public Multiplet<analysis::Doublet, analysis::Singlet> {
+class Triplet : public TwoBody<analysis::Doublet, analysis::Singlet> {
 
 public:
 
-    using Multiplet<analysis::Doublet, analysis::Singlet>::Multiplet;
+    using TwoBody<analysis::Doublet, analysis::Singlet>::TwoBody;
 
     analysis::Doublet& Doublet() const;
 
