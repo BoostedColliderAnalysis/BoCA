@@ -9,7 +9,9 @@
 
 // FIXME do we really want to write non standard compliant code?
 #pragma GCC diagnostic ignored "-Wgnu-zero-variadic-macro-arguments"
+#pragma GCC diagnostic ignored "-Wmacro-redefined"
 #pragma clang diagnostic ignored "-Wgnu-zero-variadic-macro-arguments"
+#pragma clang diagnostic ignored "-Wmacro-redefined"
 
 // defined by cmake for debug runs
 #ifndef NDEBUG
@@ -142,35 +144,43 @@ void Log(const std::string& file, int line, const std::string& name_space, const
 #define Info(...) DEAD(__VA_ARGS__)
 #define Debug(...) DEAD(__VA_ARGS__)
 #define Detail(...) DEAD(__VA_ARGS__)
-#else
+// #else
+#endif
+
 #ifdef NOTIFICATION
 #define Note(...) ALIVE(__VA_ARGS__)
 #define Info(...) DEAD(__VA_ARGS__)
 #define Debug(...) DEAD(__VA_ARGS__)
 #define Detail(...) DEAD(__VA_ARGS__)
-#else
+// #else
+#endif
+
 #ifdef INFORMATION
 #define Note(...) ALIVE(__VA_ARGS__)
 #define Info(...) ALIVE(__VA_ARGS__)
 #define Debug(...) DEAD(__VA_ARGS__)
 #define Detail(...) DEAD(__VA_ARGS__)
-#else
+// #else
+#endif
+
 #ifdef DEBUG
 #define Note(...) ALIVE(__VA_ARGS__)
 #define Info(...) ALIVE(__VA_ARGS__)
 #define Debug(...) ALIVE(__VA_ARGS__)
 #define Detail(...) DEAD(__VA_ARGS__)
-#else
+// #else
+#endif
+
 #ifdef DETAILED
 #define Note(...) ALIVE(__VA_ARGS__)
 #define Info(...) ALIVE(__VA_ARGS__)
 #define Debug(...) ALIVE(__VA_ARGS__)
 #define Detail(...) ALIVE(__VA_ARGS__)
 #endif
-#endif
-#endif
-#endif
-#endif
+// #endif
+// #endif
+// #endif
+// #endif
 
 #define Check(condition, ...) if(!(condition)) { ALIVE(__VA_ARGS__); }
 // #define DebugCheck(condition, ...) if(!(condition)) { Debug(__VA_ARGS__); }

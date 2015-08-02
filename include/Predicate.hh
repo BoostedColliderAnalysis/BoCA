@@ -270,6 +270,21 @@ std::vector<Element> Join(const std::vector<Element>& vector_1, const std::vecto
     return joined;
 }
 
+/**
+ * @brief Join two std::vector
+ *
+ */
+template <typename Element>
+std::vector<Element> Join(const std::vector<Element>& vector_1, const std::vector<Element>& vector_2, const std::vector<Element>& vector_3)
+{
+  std::vector<Element> joined;
+  joined.reserve(vector_1.size() + vector_2.size() + vector_3.size());
+  joined.insert(joined.end(), vector_1.begin(), vector_1.end());
+  joined.insert(joined.end(), vector_2.begin(), vector_2.end());
+  joined.insert(joined.end(), vector_3.begin(), vector_3.end());
+  return joined;
+}
+
 template < typename Element,
          typename Function,
          typename Result = typename std::result_of<Function&(Element, Element)>::type >
@@ -326,6 +341,25 @@ auto pairs(const std::vector<Element1>& container_1, const std::vector<Element2>
         }
     }
     return results;
+}
+
+template < typename Element1, typename Element2, typename Function, typename Result = typename std::result_of<Function&(Element1,Element1, Element2)>::type >
+/**
+ * @brief forms all \f$(n^2 - n) / 2\f$ unordered pairs, applies to them the function and returns a vector of its results
+ *
+ */
+auto triples(const std::vector<Element1>& container1, const std::vector<Element2>& container2,Function function)
+{
+  std::vector<Result> results;
+  for (auto element_1 = container1.begin(); element_1 != container1.end(); ++element_1) {
+    for (auto element_2 = std::next(element_1); element_2 != container1.end(); ++element_2)
+      for(const auto element_3 : container2){
+        try {
+          results.emplace_back(function(*element_1, *element_2, element_3));
+       } catch (...) {}
+  }
+  }
+  return results;
 }
 
 template <typename Value>

@@ -62,9 +62,9 @@ public:
      */
     long EventNumberMax() const final {
         return 1000;
+        return 10;
         return 10000;
         return 5000;
-        return 100;
     }
 
 protected:

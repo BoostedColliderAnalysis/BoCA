@@ -4,7 +4,9 @@ set(LibrarySources
 TopSemiPairTagger.cpp
 TopLeptonicPairTagger.cpp
 SignatureTagger.cpp
+SignatureTTagger.cpp
 EventTagger.cpp
+EventTTagger.cpp
 )
 create_library(HiggsCpvTagger LibrarySources)
 

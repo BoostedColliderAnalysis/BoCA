@@ -1,6 +1,7 @@
 #include "AnalysisHiggsCpv.hh"
 
 #include "../include/EventTagger.hh"
+#include "../include/EventTTagger.hh"
 #include "Predicate.hh"
 #include "FourVector.hh"
 #include "Debug.hh"
@@ -36,5 +37,14 @@ int main()
 
     analysis::higgscpv::Analysis<analysis::higgscpv::EventTagger> event_leptonic_analysis;
     event_leptonic_analysis.RunFullSignificance();
+
+    analysis::higgscpv::Analysis<analysis::higgscpv::SignatureTTagger> signature_t_analysis;
+    signature_t_analysis.RunFullEfficiency();
+    signature_t_analysis.RunPlots();
+
+    analysis::higgscpv::Analysis<analysis::higgscpv::EventTTagger> event_t_analysis;
+    event_t_analysis.RunFullSignificance();
+
+
 }
 

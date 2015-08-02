@@ -37,6 +37,7 @@ public:
     static float TrackerDistanceMax();
     static float VertexMassMin();
     static float LeptonMinPt();
+    static float Luminosity();
     static JetType jet_type();
     static void set_detector_type(const DetectorType detector_type);
 private:

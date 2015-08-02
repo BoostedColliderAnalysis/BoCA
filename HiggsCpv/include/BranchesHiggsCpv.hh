@@ -4,7 +4,42 @@
 
 namespace analysis {
 
-namespace higgscpv {
+  namespace higgscpv {
+
+    /**
+     *
+     * @brief Higgs cpv tagger root tree structure
+     *
+     */
+    class SignatureTTaggerBranch : public analysis::MultiBranch {
+    public:
+      SignatureTTaggerBranch();
+      float HiggsMass;
+      float PairRap;
+      float BottomBdt;
+      float PairBottomBdt;
+      float HardTopPt;
+      float SoftTopPt;
+      float Sphericity;
+      float Aplanarity;
+      template<typename Multiplet>
+      void Fill(const Multiplet& multiplet)
+      {
+        analysis::MultiBranch::Fill(multiplet.Multiplet());
+        BottomBdt = multiplet.Multiplet().BottomBdt();
+        PairBottomBdt = multiplet.Multiplet().PairBottomBdt();
+        HardTopPt = multiplet.Multiplet().Triplet1().Jet().pt();
+        SoftTopPt = multiplet.Multiplet().Triplet2().Jet().pt();
+        HiggsMass = multiplet.Multiplet().Doublet().Jet().m();
+        PairRap = multiplet.Multiplet().DeltaRap();
+        Aplanarity = multiplet.EventShape().Aplanarity();
+        Sphericity = multiplet.EventShape().Sphericity();
+      }
+      Observables Variables() const;
+
+    private:
+      ClassDef(SignatureTTaggerBranch, 1)
+    };
 
 /**
  *
