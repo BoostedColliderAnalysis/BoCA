@@ -51,7 +51,7 @@ void EventShapes::calcHemisphereMasses()
         pden += elem.vect().mag();
     }
     // denominator and masses
-    ThePEG::Energy2 den(sqr(pos.e() + neg.e()));
+    ThePEG::Energy2 den(ThePEG::sqr(pos.e() + neg.e()));
     _mPlus = pos.m2() / den;
     _mMinus = neg.m2() / den;
     if (_mPlus < _mMinus) std::swap(_mPlus, _mMinus);
