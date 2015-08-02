@@ -56,7 +56,6 @@ public:
 //                         return 5000;
                        return 7000;
         //         return 8000;
-        //             return 9000;
         //                 return 10000;
         //                 return 12000;
         //                 return 15000;
@@ -200,6 +199,21 @@ public:
             return 1;
         }
     }
+    
+    std::string Suffix(const Process process) const{
+      switch (process) {
+        case Process::Htt:
+          return "_" + std::to_string(Mass()) + "GeV";
+        case Process::Htwb:
+          return "_" + std::to_string(Mass()) + "GeV";
+        case Process::ttwwbb:
+          return "";
+        case Process::ttwbb:
+          return "";
+        default:
+          return "";
+      }
+    }
 
     virtual void NewFile(Tag tag, const Process process)
     {
@@ -213,9 +227,9 @@ public:
     virtual std::string FileName(const Process process, Tag tag) const {
       switch(tag){
 	case Tag::signal:
-        return Name(process) + "_" + std::to_string(Mass()) + "GeV_" + Name(collider_type());
+        return Name(process) + Suffix(process)+"_" + Name(collider_type());
 	case Tag::background:
-	  return Name(process) + "_" + Name(collider_type());
+	  return Name(process) + Suffix(process)+"_" + Name(collider_type());
 	  break;
       }
     }

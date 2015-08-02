@@ -67,9 +67,9 @@ public:
 //         return (Bdt() > multiplet.Bdt());
 //     }
 
+    // largest bdt in front
     bool operator < (const Identification& multiplet) const
     {
-        // largest bdt in front
         return (Bdt() > multiplet.Bdt());
     }
 

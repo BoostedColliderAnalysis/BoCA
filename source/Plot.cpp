@@ -336,7 +336,7 @@ Result Plot::BdtDistribution(exroot::TreeReader& tree_reader, const std::string&
         for (const auto & entry : Range(event_clones_array.GetEntriesFast())) {
             float bdt_value = Tagger().ReadBdt(event_clones_array, entry);
             result.bdt.emplace_back(bdt_value);
-            Check(bdt_value >= 0 && bdt_value <= 2, bdt_value);
+            Check(bdt_value >= -1 && bdt_value <= 1, bdt_value);
             static_cast<ResultBranch &>(*result_branch.NewEntry()).Bdt = bdt_value;
             int bin = std::floor((bdt_value + 1) * result.steps / 2) - 1;
             if (bin == -1) bin = 0;    // FIXME clean this up
