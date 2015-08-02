@@ -14,6 +14,8 @@ class AnalysisBase {
 
 public:
 
+  void Initialize();
+
 //     void SetConfig(const Configuration &configuration);
 
     void RunFast();

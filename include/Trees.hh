@@ -13,7 +13,7 @@ public:
     File& file() const;
     Stage stage() const;
     Tag tag() const;
-    void file(File& file);
+    void set_file(File& file);
 private:
     TFile export_file_;
     File* file_;

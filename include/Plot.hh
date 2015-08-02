@@ -158,7 +158,7 @@ private:
 
   std::string IncludeGraphic(std::string& file_name, std::string caption) const;
 
-  void CommmonHist(TH2& histogram, const analysis::Plot3d& signal, EColor color) const;
+  void CommmonHist(TH2& histogram, const analysis::Plot3d& plot, EColor color) const;
 
     std::vector<Plots> Import(analysis::Stage stage, analysis::Tag tag) const;
 
