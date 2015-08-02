@@ -22,7 +22,7 @@ Tag Files::tag() const
 {
     return tag_;
 }
-void Files::file(File& file)
+void Files::set_file(File& file)
 {
     file_ = &file;
 }

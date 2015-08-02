@@ -13,7 +13,7 @@ Event::Event() {}
 
 Event::Event(const Source source)
 {
-    Note();
+    Info();
     source_ = source;
     switch (source_) {
     case Source::delphes :
@@ -33,7 +33,7 @@ Event::Event(const Source source)
 
 Event::~Event()
 {
-    Note();
+    Info();
     switch (source_) {
     case Source::delphes :
         delete partons_;
