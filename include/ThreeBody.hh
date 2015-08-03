@@ -2,7 +2,6 @@
 
 #include "Singlet.hh"
 #include "Multiplet.hh"
-#include "DetectorGeometry.hh"
 
 namespace analysis
 {
@@ -42,7 +41,7 @@ public:
     }
 
     const analysis::Singlet& singlet() const {
-        if(!has_jet_)SetSinglet(Jet());
+        if (!has_jet_) SetSinglet(Jet());
         return singlet_;
     }
 
@@ -76,19 +75,23 @@ public:
     }
 
     fastjet::PseudoJet Jet() const {
-        return Multiplet::Jet(Jet12(), Multiplet3().Jet());
+        if (!has_jet_) SetResult(Multiplet::Jet(Jet12(), Multiplet3().Jet()));
+        return jet_;
     }
 
     fastjet::PseudoJet Jet12() const {
-        return Multiplet::Jet(Multiplet1().Jet(), Multiplet2().Jet());
+      if (!has_jet_12_) SetResult12(Multiplet::Jet(Multiplet1().Jet(), Multiplet2().Jet()));
+      return jet_12_;
     }
 
     fastjet::PseudoJet Jet23() const {
-        return Multiplet::Jet(Multiplet2().Jet(), Multiplet3().Jet());
+      if (!has_jet_23_) SetResult23(Multiplet::Jet(Multiplet2().Jet(), Multiplet3().Jet()));
+      return jet_23_;
     }
 
     fastjet::PseudoJet Jet13() const {
-        return Multiplet::Jet(Multiplet1().Jet(), Multiplet3().Jet());
+      if (!has_jet_13_) SetResult13(Multiplet::Jet(Multiplet1().Jet(), Multiplet3().Jet()));
+      return jet_13_;
     }
 
     analysis::Jets Jets() const {
@@ -128,11 +131,11 @@ public:
     }
 
     float DeltaRap23() const {
-      return Multiplet::DeltaRap(Multiplet2(), Multiplet3());
+        return Multiplet::DeltaRap(Multiplet2(), Multiplet3());
     }
 
     float DeltaRap13() const {
-      return Multiplet::DeltaRap(Multiplet1(), Multiplet3());
+        return Multiplet::DeltaRap(Multiplet1(), Multiplet3());
     }
 
     float DeltaPhi() const {
@@ -236,6 +239,10 @@ public:
         return Multiplet::Dipolarity(Multiplet1(), Multiplet3());
     }
 
+    float BottomBdt() const final{
+      return (Multiplet1().BottomBdt() + Multiplet2().BottomBdt() + Multiplet3().BottomBdt()) / 3;
+    };
+
 protected:
 
     void SetMultiplet1(const Multiplet_1 multiplet_1) {
@@ -261,24 +268,24 @@ private:
     mutable Singlet singlet_;
 
     void SetResult(const fastjet::PseudoJet& jet) const {
-      jet_ = jet;
-      SetSinglet(jet);
-      has_jet_ = true;
+        jet_ = jet;
+        SetSinglet(jet);
+        has_jet_ = true;
     }
 
     void SetResult12(const fastjet::PseudoJet& jet) const {
-      jet_12_ = jet;
-      has_jet_12_ = true;
+        jet_12_ = jet;
+        has_jet_12_ = true;
     }
 
     void SetResult23(const fastjet::PseudoJet& jet) const {
-      jet_23_ = jet;
-      has_jet_23_ = true;
+        jet_23_ = jet;
+        has_jet_23_ = true;
     }
 
     void SetResult13(const fastjet::PseudoJet& jet) const {
-      jet_13_ = jet;
-      has_jet_13_ = true;
+        jet_13_ = jet;
+        has_jet_13_ = true;
     }
 
     mutable fastjet::PseudoJet jet_;

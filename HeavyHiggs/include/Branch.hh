@@ -244,7 +244,7 @@ public:
         SignatureBdt = event.Multiplet().Bdt();
         PairRap = event.Multiplet().Doublet().DeltaRap();
         BottomBdt = event.Multiplet().BottomBdt();
-        PairBottomBdt = event.Multiplet().PairBottomBdt();
+        PairBottomBdt = event.Multiplet().Doublet().BottomBdt();
         HardTopPt = event.Multiplet().Sextet().HardTopPt();
         SoftTopPt = event.Multiplet().Sextet().SoftTopPt();
         BottomBdt1 = event.GlobalObservables().BottomBdt(1);
@@ -306,7 +306,7 @@ public:
         SignatureBdt = event.Multiplet().Bdt();
         PairRap = event.Multiplet().Doublet().DeltaRap();
         BottomBdt = event.Multiplet().BottomBdt();
-        PairBottomBdt = event.Multiplet().PairBottomBdt();
+        PairBottomBdt = event.Multiplet().Doublet().BottomBdt();
         HardTopPt = event.Multiplet().Sextet().HardTopPt();
         SoftTopPt = event.Multiplet().Sextet().SoftTopPt();
         BottomBdt1 = event.GlobalObservables().BottomBdt(1);
@@ -387,7 +387,7 @@ public:
     {
         MultiBranch::Fill(multiplet);
         BottomBdt = multiplet.BottomBdt();
-        PairBottomBdt = multiplet.PairBottomBdt();
+        PairBottomBdt = multiplet.Doublet().BottomBdt();
         PairBdt = multiplet.Doublet().Bdt();
         HiggsBdt = multiplet.Sextet().Bdt();
         HardTopPt = multiplet.Sextet().HardTopPt();
@@ -428,7 +428,7 @@ public:
     {
         MultiBranch::Fill(multiplet);
         BottomBdt = multiplet.BottomBdt();
-        PairBottomBdt = multiplet.PairBottomBdt();
+        PairBottomBdt = multiplet.Quartet2().BottomBdt();
         HiggsBdt = multiplet.Quartet1().Bdt();
         PairBdt = multiplet.Quartet2().Bdt();
         HiggsMass = multiplet.Quartet1().Jet().m();
@@ -485,7 +485,7 @@ public:
         SignatureBdt = event.Multiplet().Bdt();
         PairRap = event.Multiplet().Quartet2().DeltaRap();
         BottomBdt = event.Multiplet().BottomBdt();
-        PairBottomBdt = event.Multiplet().PairBottomBdt();
+        PairBottomBdt = event.Multiplet().Quartet2().BottomBdt();
         BottomBdt1 = event.GlobalObservables().BottomBdt(1);
         BottomBdt2 = event.GlobalObservables().BottomBdt(2);
         BottomBdt3 = event.GlobalObservables().BottomBdt(3);

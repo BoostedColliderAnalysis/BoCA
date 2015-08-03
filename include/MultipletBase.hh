@@ -19,6 +19,8 @@ public:
 
   virtual int Charge() const = 0;
 
+  virtual float BottomBdt() const = 0;
+
   /**
    * @brief calculate Reference vector for other - this
    * @return Vector2 reference vector

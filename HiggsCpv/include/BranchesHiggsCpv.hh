@@ -86,7 +86,7 @@ public:
     {
       analysis::MultiBranch::Fill(signature.Multiplet());
       BottomBdt = signature.Multiplet().BottomBdt();
-      PairBottomBdt = signature.Multiplet().PairBottomBdt();
+      PairBottomBdt = signature.Multiplet().Doublet().BottomBdt();
       HardTopPt = signature.Multiplet().Sextet().HardTopPt();
       SoftTopPt = signature.Multiplet().Sextet().SoftTopPt();
       HiggsMass = signature.Multiplet().Doublet().Jet().m();

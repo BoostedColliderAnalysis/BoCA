@@ -95,9 +95,4 @@ const Singlet &Singlet::singlet() const
     return *this;
 }
 
-const Singlet &Singlet::singlet(Structure) const
-{
-  return *this;
-}
-
 }

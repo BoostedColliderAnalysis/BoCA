@@ -12,7 +12,7 @@ File::File(const Strings& processes, const std::string& base_path, const std::st
 {
   Debug();
   SetVariables();
-  process_folders_ = Join(process_folders_, processes);
+  process_folders_ = processes;
   base_path_ = base_path;
   file_suffix_ = file_suffix;
   crosssection_ = crosssection;
