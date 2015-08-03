@@ -12,30 +12,27 @@ Vector2 Multiplet::Pull() const
     return Vector2();
 };
 
-fastjet::PseudoJet Multiplet::Jet(const fastjet::PseudoJet& jet_1, const fastjet::PseudoJet& jet_2, Structure structure) const
+fastjet::PseudoJet Multiplet::Jet(const fastjet::PseudoJet& jet_1, const fastjet::PseudoJet& jet_2) const
 {
-    if (structure == Structure::vertices) structure |= Structure::plain;
     fastjet::PseudoJet jet;
-    if (is(structure, Structure::plain)) jet = fastjet::join(jet_1, jet_2);
-    if (is(structure, Structure::constituents)) {
-        analysis::Jets constituents;
-        if (jet_1.has_constituents()) constituents = Join(constituents, jet_1.constituents());
-        if (jet_2.has_constituents()) constituents = Join(constituents, jet_2.constituents());
-        jet = fastjet::join(constituents);
+//     jet = fastjet::join(jet_1, jet_2);
+    analysis::Jets constituents;
+    if (jet_1.has_constituents()) constituents = Join(constituents, jet_1.constituents());
+    if (jet_2.has_constituents()) constituents = Join(constituents, jet_2.constituents());
+    jet = fastjet::join(constituents);
+
+    std::vector<Constituent> vertex_constituents;
+    std::vector<Constituent> displaced_constituents;
+    if (jet_1.has_user_info<JetInfo>()) {
+        vertex_constituents = Join(vertex_constituents, jet_1.user_info<JetInfo>().constituents());
+        displaced_constituents = Join(displaced_constituents, jet_1.user_info<JetInfo>().displaced_constituents());
     }
-    if (is(structure, Structure::vertices)) {
-        std::vector<Constituent> constituents;
-        std::vector<Constituent> displaced_constituents;
-        if (jet_1.has_user_info<JetInfo>()) {
-            constituents = Join(constituents, jet_1.user_info<JetInfo>().constituents());
-            displaced_constituents = Join(displaced_constituents, jet_1.user_info<JetInfo>().displaced_constituents());
-        }
-        if (jet_2.has_user_info<JetInfo>()) {
-            constituents = Join(constituents, jet_2.user_info<JetInfo>().constituents());
-            displaced_constituents = Join(displaced_constituents, jet_2.user_info<JetInfo>().displaced_constituents());
-        }
-        jet.set_user_info(new JetInfo(constituents, displaced_constituents));
+    if (jet_2.has_user_info<JetInfo>()) {
+        vertex_constituents = Join(vertex_constituents, jet_2.user_info<JetInfo>().constituents());
+        displaced_constituents = Join(displaced_constituents, jet_2.user_info<JetInfo>().displaced_constituents());
     }
+    jet.set_user_info(new JetInfo(vertex_constituents, displaced_constituents));
+
     return jet;
 }
 
@@ -81,7 +78,7 @@ float Multiplet::DeltaHt(const MultipletBase& multiplets_1, const MultipletBase&
 
 float Multiplet::Rho(const MultipletBase& jet_1, const MultipletBase& jet_2) const
 {
-    if (Jet(jet_1.Jet(), jet_2.Jet(), Structure::plain).pt() < DetectorGeometry::MinCellPt() || DeltaR(jet_1, jet_2) < DetectorGeometry::MinCellResolution()) return 0;
+    if (Jet(jet_1.Jet(), jet_2.Jet()).pt() < DetectorGeometry::MinCellPt() || DeltaR(jet_1, jet_2) < DetectorGeometry::MinCellResolution()) return 0;
     return Jet().m() / Jet().pt() / DeltaR(jet_1, jet_2) * 2;
 }
 
@@ -104,7 +101,7 @@ float Multiplet::PullSum(const MultipletBase& multiplets_1, const MultipletBase&
 float Multiplet::Dipolarity(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const
 {
     if (DeltaR(multiplets_1, multiplets_2) == 0) return 0;
-    fastjet::PseudoJet jet = Jet(multiplets_1.Jet(Structure::constituents), multiplets_2.Jet(Structure::constituents), Structure::constituents);
+    fastjet::PseudoJet jet = Jet(multiplets_1.Jet(), multiplets_2.Jet());
     if (jet.pt() == 0) return 0;
     float dipolarity = 0;
     if (!jet.has_constituents()) return 0;

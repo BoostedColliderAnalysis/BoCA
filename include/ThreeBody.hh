@@ -37,12 +37,12 @@ public:
         SetBdt((multiplet_1_.Bdt() + multiplet_2_.Bdt() + multiplet_2_.Bdt()) / 3);
     }
 
-    void SetSinglet(Structure structure) const {
-        singlet_ = Singlet(Jet(structure));
+    void SetSinglet(const fastjet::PseudoJet& jet) const {
+        singlet_ = Singlet(jet);
     }
 
     const analysis::Singlet& singlet() const {
-        SetSinglet(Structure::vertices);
+        if(!has_jet_)SetSinglet(Jet());
         return singlet_;
     }
 
@@ -75,39 +75,20 @@ public:
         return multiplet_1_.Overlap(multiplet_2_) || multiplet_1_.Overlap(multiplet_3_) || multiplet_2_.Overlap(multiplet_3_);
     }
 
-    fastjet::PseudoJet Jet(Structure structure) const {
-        if (structure == Structure::vertices) structure |= Structure::plain;
-        return Multiplet::Jet(Jet12(structure), Multiplet3().Jet(structure), structure);
-    }
-
-    fastjet::PseudoJet Jet12(Structure structure) const {
-        if (structure == Structure::vertices) structure |= Structure::plain;
-        return Multiplet::Jet(Multiplet1().Jet(structure), Multiplet2().Jet(structure), structure);
-    }
-
-    fastjet::PseudoJet Jet23(Structure structure) const {
-        if (structure == Structure::vertices) structure |= Structure::plain;
-        return Multiplet::Jet(Multiplet2().Jet(structure), Multiplet3().Jet(structure), structure);
-    }
-
-    fastjet::PseudoJet Jet13(Structure structure) const {
-        if (structure == Structure::vertices) structure |= Structure::plain;
-        return Multiplet::Jet(Multiplet1().Jet(structure), Multiplet3().Jet(structure), structure);
-    }
-
     fastjet::PseudoJet Jet() const {
-        return Jet(Structure::plain);
+        return Multiplet::Jet(Jet12(), Multiplet3().Jet());
     }
+
     fastjet::PseudoJet Jet12() const {
-        return Jet12(Structure::plain);
+        return Multiplet::Jet(Multiplet1().Jet(), Multiplet2().Jet());
     }
 
     fastjet::PseudoJet Jet23() const {
-        return Jet23(Structure::plain);
+        return Multiplet::Jet(Multiplet2().Jet(), Multiplet3().Jet());
     }
 
     fastjet::PseudoJet Jet13() const {
-        return Jet13(Structure::plain);
+        return Multiplet::Jet(Multiplet1().Jet(), Multiplet3().Jet());
     }
 
     analysis::Jets Jets() const {
@@ -278,6 +259,43 @@ private:
     Multiplet_3 multiplet_3_;
 
     mutable Singlet singlet_;
+
+    void SetResult(const fastjet::PseudoJet& jet) const {
+      jet_ = jet;
+      SetSinglet(jet);
+      has_jet_ = true;
+    }
+
+    void SetResult12(const fastjet::PseudoJet& jet) const {
+      jet_12_ = jet;
+      has_jet_12_ = true;
+    }
+
+    void SetResult23(const fastjet::PseudoJet& jet) const {
+      jet_23_ = jet;
+      has_jet_23_ = true;
+    }
+
+    void SetResult13(const fastjet::PseudoJet& jet) const {
+      jet_13_ = jet;
+      has_jet_13_ = true;
+    }
+
+    mutable fastjet::PseudoJet jet_;
+
+    mutable fastjet::PseudoJet jet_12_;
+
+    mutable fastjet::PseudoJet jet_23_;
+
+    mutable fastjet::PseudoJet jet_13_;
+
+    mutable bool has_jet_ = false;
+
+    mutable bool has_jet_12_ = false;
+
+    mutable bool has_jet_23_ = false;
+
+    mutable bool has_jet_13_ = false;
 
 };
 

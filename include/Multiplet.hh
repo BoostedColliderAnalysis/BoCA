@@ -16,11 +16,9 @@ protected:
 
     virtual int Charge() const override = 0;
 
-    virtual fastjet::PseudoJet Jet(Structure) const override = 0;
-
     virtual fastjet::PseudoJet Jet() const override = 0;
 
-    fastjet::PseudoJet Jet(const fastjet::PseudoJet& jet_1, const fastjet::PseudoJet& jet_2, Structure structure) const;
+    fastjet::PseudoJet Jet(const fastjet::PseudoJet& jet_1, const fastjet::PseudoJet& jet_2) const;
 
     Vector2 Pull() const override;
 

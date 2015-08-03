@@ -13,8 +13,6 @@ public:
 
   virtual fastjet::PseudoJet Jet() const = 0;
 
-  virtual fastjet::PseudoJet Jet(Structure) const = 0;
-
   virtual Vector2 Pull() const = 0;
 
   virtual float Ht() const = 0;

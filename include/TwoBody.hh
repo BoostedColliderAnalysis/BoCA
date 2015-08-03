@@ -36,10 +36,6 @@ public:
         SetBdt((multiplet_1_.Bdt() + multiplet_2_.Bdt()) / 2);
     }
 
-    void SetSinglet(Structure structure) const {
-      singlet_ = Singlet(Jet(structure));
-    }
-
     Multiplet_1& Multiplet1() {
         return multiplet_1_;
     }
@@ -78,13 +74,9 @@ public:
      *
      * @return fastjet::PseudoJet
      */
-    fastjet::PseudoJet Jet(Structure structure) const {
-        if (structure == Structure::vertices) structure |= Structure::plain;
-        return Multiplet::Jet(Multiplet1().Jet(structure),Multiplet2().Jet(structure),structure);
-    }
-
     fastjet::PseudoJet Jet() const {
-        return Jet(Structure::plain);
+      if(!has_jet_) SetResult(Multiplet::Jet(Multiplet1().Jet(),Multiplet2().Jet()));
+      return jet_;
     }
 
     analysis::Jets Jets() const{
@@ -133,7 +125,7 @@ public:
     }
 
     const analysis::Singlet& singlet() const {
-      SetSinglet(Structure::vertices);
+      if(!has_jet_)SetSinglet(Jet());
       return singlet_;
     }
 
@@ -147,10 +139,6 @@ public:
 
     float Dipolarity() const {
       return Multiplet::Dipolarity(Multiplet1(),Multiplet2());
-    }
-
-    Singlet VertexSinglet() const {
-      return Singlet(Jet(Structure::vertices));
     }
 
 protected:
@@ -169,11 +157,26 @@ private:
 
     Multiplet_2 multiplet_2_;
 
+    void SetResult(const fastjet::PseudoJet& jet) const {
+      jet_ = jet;
+      SetSinglet(jet);
+      has_jet_ = true;
+    }
+
+    void SetSinglet(const fastjet::PseudoJet& jet) const {
+      singlet_ = Singlet(jet);
+    }
+
+
     /**
      * @brief storage for singlet object
      *
      */
     mutable Singlet singlet_;
+
+    mutable fastjet::PseudoJet jet_;
+
+    mutable bool has_jet_ = false;
 
 };
 

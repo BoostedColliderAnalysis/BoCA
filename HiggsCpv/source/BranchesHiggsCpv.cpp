@@ -8,8 +8,26 @@ namespace higgscpv
 
   SignatureTTaggerBranch::SignatureTTaggerBranch()
   {
-    Aplanarity = InitialValue();
+    Mass12 = InitialValue();
+    Mass23 = InitialValue();
+    Mass13 = InitialValue();
+    DeltaPt23 = InitialValue();
+    DeltaPt13 = InitialValue();
+    Ht12 = InitialValue();
+    Ht23 = InitialValue();
+    Ht13 = InitialValue();
+    DeltaRap23 = InitialValue();
+    DeltaRap13 = InitialValue();
+    DeltaPhi23 = InitialValue();
+    DeltaPhi13 = InitialValue();
+    DeltaR23 = InitialValue();
+    DeltaR13 = InitialValue();
+    DeltaM23 = InitialValue();
+    DeltaM13 = InitialValue();
+    DeltaHt23 = InitialValue();
+    DeltaHt13 = InitialValue();
     Sphericity = InitialValue();
+    Aplanarity = InitialValue();
   }
   Observables SignatureTTaggerBranch::Variables() const
   {

@@ -159,7 +159,7 @@ Doublet HiggsTagger::MassDrop(const Doublet& doublet) const
 {
     FlavourRecombiner flavour_recombiner;
     fastjet::JetDefinition jet_definition(fastjet::cambridge_algorithm, 2 * doublet.DeltaR(), &flavour_recombiner);
-    fastjet::ClusterSequence& cluster_sequence = *new fastjet::ClusterSequence(doublet.Jet(Structure::constituents).constituents(), jet_definition);
+    fastjet::ClusterSequence& cluster_sequence = *new fastjet::ClusterSequence(doublet.Jet().constituents(), jet_definition);
     Jets exclusive_jets = cluster_sequence.exclusive_jets_up_to(1);
     cluster_sequence.delete_self_when_unused();
 
