@@ -8,71 +8,14 @@
 
 namespace analysis {
 
-File::File()
-{
-    Debug();
-    SetVariables();
-    file_suffix_ = file_suffix();
-}
-
-File::File(const std::string& process, const std::string& base_path, const std::string& file_suffix, float crosssection)
-{
-    Debug();
-    SetVariables();
-    process_folders_.emplace_back(process);
-    base_path_ = base_path;
-    file_suffix_ = file_suffix;
-    crossection_ = crosssection;
-}
-
-File::File(const std::string& process, const std::string& base_path, const std::string& file_suffix)
-{
-    Debug();
-    SetVariables();
-    process_folders_.emplace_back(process);
-    base_path_ = base_path;
-    file_suffix_ = file_suffix;
-}
-
-File::File(const std::string& process, const std::string& base_path, const std::string& file_suffix, const std::string& nice_name)
-{
-    Debug();
-    SetVariables();
-    process_folders_.emplace_back(process);
-    base_path_ = base_path;
-    file_suffix_ = file_suffix;
-    nice_name_ = nice_name;
-}
-
-File::File(const Strings& processes, const std::string& base_path, const std::string& file_suffix, const std::string& nice_name)
+File::File(const Strings& processes, const std::string& base_path, const std::string& file_suffix, const std::string& nice_name, float crosssection)
 {
   Debug();
   SetVariables();
   process_folders_ = Join(process_folders_, processes);
   base_path_ = base_path;
   file_suffix_ = file_suffix;
-  nice_name_ = nice_name;
-}
-
-File::File(const std::string& process, const std::string& base_path, const std::string& file_suffix, float crossection, const std::string& nice_name)
-{
-    Debug();
-    SetVariables();
-    process_folders_.emplace_back(process);
-    base_path_ = base_path;
-    file_suffix_ = file_suffix;
-    crossection_ = crossection;
-    nice_name_ = nice_name;
-}
-
-File::File(const Strings& processes, const std::string& base_path, const std::string& file_suffix, float crossection, const std::string& nice_name)
-{
-  Debug();
-  SetVariables();
-  process_folders_ = Join(process_folders_, processes);
-  base_path_ = base_path;
-  file_suffix_ = file_suffix;
-  crossection_ = crossection;
+  crosssection_ = crosssection;
   nice_name_ = nice_name;
 }
 
