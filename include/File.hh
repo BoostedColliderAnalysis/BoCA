@@ -22,20 +22,6 @@ public:
      */
     File();
 
-    File(const std::string& process);
-
-    File(const std::string& process, float crosssection);
-
-    File(const std::string& process, float crosssection, float mass);
-
-    File(const std::string& process, const std::string& run_folder);
-
-    File(const Strings& processes);
-
-    File(const Strings& processes, float crosssection);
-
-    File(const Strings& processes, float crosssection, float mass);
-
     File(const std::string& process, const std::string& run_folder, const std::string& file_suffix);
 
     File(const std::string& process, const std::string& run_folder, const std::string& file_suffix, const std::string& nice_name);

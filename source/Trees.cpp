@@ -1,4 +1,5 @@
 #include "Trees.hh"
+#include "Debug.hh"
 
 namespace analysis
 {
@@ -33,8 +34,9 @@ Trees::Trees(Files& files):
 {}
 void Trees::WriteTree()
 {
-    if (!analysis_empty_)
-        tree_writer_.Write();
+  //         if(event_number_ == tree_reader().GetEntries())
+    Error(event_number_, pre_cut_number_, object_sum_);
+    if (!analysis_empty_) tree_writer_.Write();
 }
 void Trees::UseBranches(File& file, const std::string& name)
 {
