@@ -37,7 +37,7 @@ public:
 protected:
 
     std::string ProjectName() const final {
-        return  ProcessName() + "-" + std::to_string(PreCut()) + "GeV-test";
+        return  ProcessName() + "-" + std::to_string(PreCut()) + "GeV-jet-precut-100";
     }
 
     void SetFiles(Tag tag) final {
@@ -77,11 +77,21 @@ private:
         return 200;
     }
 
+    int JetPreCut() const {
+      return 100;
+      return 0;
+    }
+
     int Mass() const {
         return 2000;
     }
 
     int PassPreCut(const Event& event, Tag tag) const final {
+        Jets jets = fastjet::sorted_by_pt(event.Hadrons().Jets());
+        if(jets.size()<3) return 0;
+        if(jets.at(2).pt() < JetPreCut()) return 0;
+
+
         Jets particles = event.Partons().GenParticles();
         particles = RemoveIfSoft(particles, PreCut());
         Jets tops = CopyIfParticle(particles, Id::top);
