@@ -3,7 +3,6 @@
 #include "Predicate.hh"
 #include "fastjet/tools/MassDropTagger.hh"
 #include "fastjet/tools/Filter.hh"
-#include "fastjet/JetDefinition.hh"
 #include "JetInfo.hh"
 #include "Debug.hh"
 
@@ -139,25 +138,9 @@ std::vector<Doublet>  HiggsTagger::Multiplets(const Event& event, const PreCuts&
     return ReduceResult(doublets);
 }
 
-
-class FlavourRecombiner : public  fastjet::JetDefinition::DefaultRecombiner
-{
-public:
-    FlavourRecombiner(fastjet::RecombinationScheme recombination_scheme = fastjet::E_scheme) : fastjet::JetDefinition::DefaultRecombiner(recombination_scheme) {};
-
-    virtual std::string description() const {
-        return fastjet::JetDefinition::DefaultRecombiner::description() + " (with user info)";
-    }
-    /// recombine jet_1 and jet_2 and put result into jet
-    virtual void recombine(const fastjet::PseudoJet& jet_1, const fastjet::PseudoJet& jet_2, fastjet::PseudoJet& jet) const {
-        fastjet::JetDefinition::DefaultRecombiner::recombine(jet_1, jet_2, jet);
-        jet.set_user_info(new JetInfo(Join(jet_1.user_info<JetInfo>().constituents(), jet_2.user_info<JetInfo>().constituents()), Join(jet_1.user_info<JetInfo>().displaced_constituents(), jet_2.user_info<JetInfo>().displaced_constituents())));
-    }
-};
-
 Doublet HiggsTagger::MassDrop(const Doublet& doublet) const
 {
-    FlavourRecombiner flavour_recombiner;
+    InfoRecombiner flavour_recombiner;
     fastjet::JetDefinition jet_definition(fastjet::cambridge_algorithm, 2 * doublet.DeltaR(), &flavour_recombiner);
     fastjet::ClusterSequence& cluster_sequence = *new fastjet::ClusterSequence(doublet.Jet().constituents(), jet_definition);
     Jets exclusive_jets = cluster_sequence.exclusive_jets_up_to(1);

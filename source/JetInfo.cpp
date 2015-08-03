@@ -269,44 +269,30 @@ fastjet::PseudoJet JetInfo::VertexJet() const
     return fastjet::join(jets);
 }
 
-struct AccuPerpDistance {
-    float operator()(float result, const Constituent& constituent)
-    {
-        return (result + constituent.Position().Vect().Perp());
-    }
-
-};
-
 float JetInfo::SumDisplacement() const
 {
     Debug();
-    if (displaced_constituents_.empty())
-        return 0;
-    return std::accumulate(displaced_constituents_.rbegin(), displaced_constituents_.rend(), 0, AccuPerpDistance());
+    if (displaced_constituents_.empty()) return 0;
+    return std::accumulate(displaced_constituents_.rbegin(), displaced_constituents_.rend(), 0, [](float result, const Constituent& constituent){
+      return (result + constituent.Position().Vect().Perp());
+    });
 }
 
 float JetInfo::MeanDisplacement() const
 {
-    Debug("Jet Displacement");
-    if (displaced_constituents_.empty())
-        return 0;
-    float sum = std::accumulate(displaced_constituents_.rbegin(), displaced_constituents_.rend(), 0, AccuPerpDistance());
-    return sum / displaced_constituents_.size();
+    Debug();
+    if (displaced_constituents_.empty()) return 0;
+    return SumDisplacement() / displaced_constituents_.size();
 }
-
-struct MaxPerpDistance {
-    bool operator()(const Constituent& constituent_1, const Constituent& constituent_2) const
-    {
-        return constituent_1.Position().Vect().Perp() > constituent_2.Position().Vect().Perp();
-    }
-};
 
 float JetInfo::MaxDisplacement() const
 {
     Debug();
     if (displaced_constituents_.empty())
         return 0;
-    return (*std::max_element(displaced_constituents_.begin(), displaced_constituents_.end(), MaxPerpDistance())).Position().Vect().Perp();
+    return (*std::max_element(displaced_constituents_.begin(), displaced_constituents_.end(), [](const Constituent& constituent_1, const Constituent& constituent_2){
+      return constituent_1.Position().Vect().Perp() > constituent_2.Position().Vect().Perp();
+    } )).Position().Vect().Perp();
 }
 
 float JetInfo::VertexMass() const
@@ -384,27 +370,16 @@ struct WrongDetector {
     SubDetector sub_detector_;
 };
 
-struct MaxConstPt {
-    bool operator()(const Constituent& constituent_1, const Constituent& constituent_2)
-    {
-        return (constituent_1.Momentum().Pt() > constituent_2.Momentum().Pt());
-    }
-};
-
-
-struct AccuPt {
-    float operator()(float result, const Constituent& constituent)
-    {
-        return (result + constituent.Momentum().Pt());
-    }
-};
-
 float JetInfo::LeadingTrackMomentumFraction() const
 {
     std::vector<Constituent> consts = constituents();
     consts.erase(std::remove_if(consts.begin(), consts.end(), WrongDetector(SubDetector::track)), consts.end());
-    std::sort(consts.begin(), consts.end(), MaxConstPt());
-    float sum = std::accumulate(consts.rbegin(), consts.rend(), 0, AccuPt());
+    std::sort(consts.begin(), consts.end(), [](const Constituent& constituent_1, const Constituent& constituent_2){
+      return (constituent_1.Momentum().Pt() > constituent_2.Momentum().Pt());
+    });
+    float sum = std::accumulate(consts.rbegin(), consts.rend(), 0, [](float result, const Constituent& constituent){
+      return (result + constituent.Momentum().Pt());
+    });
     return consts.front().Momentum().Pt() / sum;
 }
 
@@ -483,6 +458,19 @@ void JetInfo::SecondayVertex() const
         return (s1.Position().X() < x + radius && s1.Position().X() > x - radius && s1.Position().Y() < y + radius && s1.Position().Y() > y - radius);
     });
     vertices.resize(std::distance(vertices.begin(), it));
+}
+
+InfoRecombiner::InfoRecombiner(fastjet::RecombinationScheme recombination_scheme): fastjet::JetDefinition::DefaultRecombiner(recombination_scheme) {}
+
+std::string InfoRecombiner::description() const
+{
+    return fastjet::JetDefinition::DefaultRecombiner::description() + " (with user info)";
+}
+
+void InfoRecombiner::recombine(const fastjet::PseudoJet& jet_1, const fastjet::PseudoJet& jet_2, fastjet::PseudoJet& jet) const
+{
+    fastjet::JetDefinition::DefaultRecombiner::recombine(jet_1, jet_2, jet);
+    jet.set_user_info(new JetInfo(Join(jet_1.user_info<JetInfo>().constituents(), jet_2.user_info<JetInfo>().constituents()), Join(jet_1.user_info<JetInfo>().displaced_constituents(), jet_2.user_info<JetInfo>().displaced_constituents())));
 }
 
 }
