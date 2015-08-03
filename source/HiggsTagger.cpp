@@ -140,8 +140,8 @@ std::vector<Doublet>  HiggsTagger::Multiplets(const Event& event, const PreCuts&
 
 Doublet HiggsTagger::MassDrop(const Doublet& doublet) const
 {
-    InfoRecombiner flavour_recombiner;
-    fastjet::JetDefinition jet_definition(fastjet::cambridge_algorithm, 2 * doublet.DeltaR(), &flavour_recombiner);
+    InfoRecombiner info_recombiner;
+    fastjet::JetDefinition jet_definition(fastjet::cambridge_algorithm, 2 * doublet.DeltaR(), &info_recombiner);
     fastjet::ClusterSequence& cluster_sequence = *new fastjet::ClusterSequence(doublet.Jet().constituents(), jet_definition);
     Jets exclusive_jets = cluster_sequence.exclusive_jets_up_to(1);
     cluster_sequence.delete_self_when_unused();
@@ -155,7 +155,7 @@ Doublet HiggsTagger::MassDrop(const Doublet& doublet) const
 
     float radius = mass_drop_jet.pieces().at(0).delta_R(mass_drop_jet.pieces().at(1)) / 2;
     size_t sub_jet_number = 3;
-    fastjet::Filter filter(fastjet::JetDefinition(fastjet::cambridge_algorithm, radius, &flavour_recombiner), fastjet::SelectorNHardest(sub_jet_number));
+    fastjet::Filter filter(fastjet::JetDefinition(fastjet::cambridge_algorithm, radius, &info_recombiner), fastjet::SelectorNHardest(sub_jet_number));
     fastjet::PseudoJet filtered_jet = filter(mass_drop_jet);
     if (!filtered_jet.has_pieces()) {
         throw "no pieces";
