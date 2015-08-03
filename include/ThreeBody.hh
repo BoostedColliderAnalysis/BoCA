@@ -265,8 +265,6 @@ private:
 
     Multiplet_3 multiplet_3_;
 
-    mutable Singlet singlet_;
-
     void SetResult(const fastjet::PseudoJet& jet) const {
         jet_ = jet;
         SetSinglet(jet);
@@ -287,6 +285,8 @@ private:
         jet_13_ = jet;
         has_jet_13_ = true;
     }
+
+    mutable Singlet singlet_;
 
     mutable fastjet::PseudoJet jet_;
 

@@ -4,6 +4,7 @@
 #include <unordered_map>
 
 #include "fastjet/PseudoJet.hh"
+#include "fastjet/JetDefinition.hh"
 
 #include "Identification.hh"
 #include "Constituent.hh"
@@ -183,5 +184,16 @@ private:
 struct SortByBdt {
     bool operator()(const fastjet::PseudoJet& jet_1, const fastjet::PseudoJet& jet_2);
 };
+
+class InfoRecombiner : public  fastjet::JetDefinition::DefaultRecombiner
+{
+public:
+  InfoRecombiner(fastjet::RecombinationScheme recombination_scheme = fastjet::E_scheme);
+
+  std::string description() const override;
+  /// recombine jet_1 and jet_2 and put result into jet
+  void recombine(const fastjet::PseudoJet& jet_1, const fastjet::PseudoJet& jet_2, fastjet::PseudoJet& jet) const override;
+};
+
 
 }
