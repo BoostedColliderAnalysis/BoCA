@@ -2,6 +2,7 @@
 
 #include "Singlet.hh"
 #include "Multiplet.hh"
+#include "Predicate.hh"
 
 namespace analysis
 {
@@ -140,6 +141,10 @@ public:
     float Dipolarity() const {
       return Multiplet::Dipolarity(Multiplet1(),Multiplet2());
     }
+
+    float BottomBdt() const final{
+      return Multiplet::BottomBdt(Multiplet1(),Multiplet2());
+    };
 
 protected:
 

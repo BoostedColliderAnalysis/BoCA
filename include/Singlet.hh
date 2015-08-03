@@ -19,10 +19,6 @@ public:
 
     Singlet(const fastjet::PseudoJet& jet);
 
-    fastjet::PseudoJet Jet(Structure) const {
-        return jet_;
-    }
-
     fastjet::PseudoJet Jet() const {
         return jet_;
     }
@@ -116,7 +112,8 @@ public:
     }
 
     float Bdt() const final {
-        return UserInfo().Bdt();
+        if(UserInfo().Bdt() != initial_value()) return UserInfo().Bdt();
+        return 0;
     }
 
     float Ht() const {
@@ -131,18 +128,16 @@ public:
 
     const Singlet& singlet() const;
 
-    const Singlet& singlet(analysis::Structure) const;
-
-    const Singlet& VertexSinglet() const {
-        return singlet();
-    }
-
     const JetInfo& UserInfo() const;
 
     Vector2 Pull() const;
 
     fastjet::PseudoJet& Jet() {
         return jet_;
+    }
+
+    float BottomBdt() const final {
+      return Bdt();
     }
 
 private:

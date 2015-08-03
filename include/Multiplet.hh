@@ -16,6 +16,10 @@ protected:
 
     virtual int Charge() const override = 0;
 
+    virtual float BottomBdt() const override = 0;
+
+    virtual std::vector<fastjet::PseudoJet> Jets() const = 0;
+
     virtual fastjet::PseudoJet Jet() const override = 0;
 
     fastjet::PseudoJet Jet(const fastjet::PseudoJet& jet_1, const fastjet::PseudoJet& jet_2) const;
@@ -45,6 +49,8 @@ protected:
     float Dipolarity(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const;
 
     int Charge(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const;
+
+    float BottomBdt(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const;
 
 private:
 
