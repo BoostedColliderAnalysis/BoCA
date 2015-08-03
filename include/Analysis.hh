@@ -29,8 +29,6 @@ public:
   /**
    * @brief Main analysis loop which has to be called by main.cpp
    *
-   * @param reader
-   * @return void
    */
   void AnalysisLoop(Stage stage) final {
         Initialize();
