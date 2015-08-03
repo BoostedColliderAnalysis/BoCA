@@ -68,14 +68,18 @@ protected:
 
     virtual std::string FilePath() const;
 
-    void NewFile(Tag tag, const std::string& name, const std::string& nice_name = "");
+    void NewFile(analysis::Tag tag, const analysis::Strings& names, const std::string& nice_name = "");
 
-    void NewFile(Tag tag, const std::string& name, float crosssection, const std::string& nice_name = "");
+    void NewFile(analysis::Tag tag, const analysis::Strings& names, float crosssection, const std::string& nice_name = "");
 
-    analysis::File File(const std::string& name, float crosssection, const std::string& nice_name = "") const;
+    analysis::File File(const Strings& names, float crosssection, const std::string& nice_name = "") const;
 
-    analysis::File File(const std::string& name, const std::string& nice_name = "") const;
+    analysis::File File(const Strings& names, const std::string& nice_name = "") const;
 
+    void NewFile(analysis::Tag tag, const std::string& names, const std::string& nice_name = "");
+
+    void NewFile(analysis::Tag tag, const std::string& names, float crosssection, const std::string& nice_name = "");
+    
     std::string FileName(const std::string& name) const;
 
     std::string TreeName(const std::string& name) const;
