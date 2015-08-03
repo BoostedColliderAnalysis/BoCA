@@ -97,7 +97,7 @@ File AnalysisBase::File(const Strings& names, const std::string& nice_name) cons
 
 File AnalysisBase::File(const Strings& names, float crosssection, const std::string& nice_name) const
 {
-    return analysis::File(names, FilePath(), FileSuffix(), crosssection, nice_name);
+    return analysis::File(names, FilePath(), FileSuffix(), nice_name, crosssection);
 }
 
 std::string AnalysisBase::FileName(const std::string&) const

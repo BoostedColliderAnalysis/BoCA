@@ -16,23 +16,7 @@ class File {
 
 public:
 
-    /**
-     * @brief constructor
-     *
-     */
-    File();
-
-    File(const std::string& process, const std::string& run_folder, const std::string& file_suffix);
-
-    File(const std::string& process, const std::string& run_folder, const std::string& file_suffix, const std::string& nice_name);
-
-    File(const Strings& process, const std::string& run_folder, const std::string& file_suffix, const std::string& nice_name);
-
-    File(const std::string& process, const std::string& run_folder, const std::string& file_suffix, float crossection, const std::string& nice_name);
-
-    File(const Strings& processes, const std::string& run_folder, const std::string& file_suffix, float crossection, const std::string& nice_name);
-
-    File(const std::string& process, const std::string& run_folder, const std::string& file_suffix, float crosssection);
+    File(const Strings& processes, const std::string& run_folder, const std::string& file_suffix, const std::string& nice_name = "", float crosssection = 1);
 
     /**
      * @brief destructor
@@ -54,12 +38,12 @@ public:
 
     float crosssection() const
     {
-        return crossection_;
+        return crosssection_;
     }
 
     void set_crosssection(float crosssection)
     {
-        crossection_ = crosssection;
+        crosssection_ = crosssection;
     }
 
     void set_crosssection_error(float crosssection_error)
@@ -115,7 +99,7 @@ private:
 
     std::string tree_name_;
 
-    float crossection_ = 1;
+    float crosssection_ = 1;
 
     float crosssection_error_ = 0;
 
