@@ -26,7 +26,7 @@ protected:
 
     Vector2 Pull() const override;
 
-    float DeltaPt(const Multiplet& multiplets_1, const Multiplet& multiplets_2) const;
+    float DeltaPt(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const;
 
     float Ht(const analysis::MultipletBase& multiplets_1, const analysis::MultipletBase& multiplets_2) const;
 

@@ -33,6 +33,7 @@ struct IsParticle {
     bool operator()(const fastjet::PseudoJet& jet)
     {
         unsigned id = std::abs(jet.user_info<JetInfo>().constituents().front().family().particle().id());
+        Debug(id, to_unsigned(id_1_));
         return (id == to_unsigned(id_1_) || id == to_unsigned(id_2_));
     }
     Id id_1_;
@@ -151,9 +152,9 @@ struct HasMother {
     {
         mother_id_ = mother_id;
     }
-    bool operator()(const fastjet::PseudoJet& Jet)
+    bool operator()(const fastjet::PseudoJet& jet)
     {
-        unsigned id = std::abs(Jet.user_info<JetInfo>().constituents().front().family().mother_1().id());
+        unsigned id = std::abs(jet.user_info<JetInfo>().constituents().front().family().mother_1().id());
         return id == to_unsigned(mother_id_);
     }
     Id mother_id_;
@@ -167,14 +168,24 @@ Jets CopyIfMother(const Jets& jets, Id mother_id)
     final_jets.resize(std::distance(final_jets.begin(), jet));
     return final_jets;
 }
-
-
 Jets RemoveIfMother(const Jets& jets, Id mother_id)
 {
     Jets jets_ = jets;
     jets_.erase(std::remove_if(jets_.begin(), jets_.end(), HasMother(mother_id)), jets_.end());
     return jets_;
 }
+
+Jets CopyIfGrandMother(const Jets& jets, Id grand_mother_id)
+{
+  if (jets.empty()) return jets;
+  Jets final_jets(jets.size());
+  auto jet = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), [&](const fastjet::PseudoJet& jet){
+    return std::abs(jet.user_info<JetInfo>().constituents().front().family().grand_mother().id()) == to_unsigned(grand_mother_id);
+  });
+  final_jets.resize(std::distance(final_jets.begin(), jet));
+  return final_jets;
+}
+
 
 struct IsSingleMother {
   bool operator()(const fastjet::PseudoJet& Jet)

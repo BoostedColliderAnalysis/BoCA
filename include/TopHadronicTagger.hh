@@ -36,7 +36,7 @@ public:
 
 private:
 
-    analysis::Triplet Triplet(const Doublet& doublet, const fastjet::PseudoJet& jet, const Jets& leptons, const PreCuts& pre_cuts, Tag tag, const bool check_overlap = false) const;
+    analysis::Triplet Triplet(const Doublet& doublet, const fastjet::PseudoJet& jet, const Jets& leptons, const PreCuts& pre_cuts, Tag tag, bool check_overlap = false) const;
 
     analysis::Triplet Triplet(analysis::Triplet& triplet, const analysis::Jets& leptons, const analysis::PreCuts& pre_cuts, Tag tag) const;
 
@@ -54,7 +54,7 @@ private:
 
     std::vector<analysis::Triplet>  Multiplets(const Doublet& doublet, const Jets& jets, const Jets& leptons, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 
-    analysis::Triplet Multiplet(const Doublet& doublet, const fastjet::PseudoJet& jet, const Jets& leptons, const PreCuts& pre_cuts, const TMVA::Reader& reader, const bool check_overlap = false) const;
+    analysis::Triplet Multiplet(const Doublet& doublet, const fastjet::PseudoJet& jet, const Jets& leptons, const PreCuts& pre_cuts, const TMVA::Reader& reader, bool check_overlap = false) const;
 
     analysis::Triplet Multiplet(analysis::Triplet& triplet, const Jets& leptons, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 

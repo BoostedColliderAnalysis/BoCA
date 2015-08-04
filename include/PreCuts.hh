@@ -32,7 +32,11 @@ public:
 
     bool DoSubJets() const;
 
-    void SetSubJets(const bool do_sub_jets);
+    void SetSubJets(bool do_sub_jets);
+
+    bool SemiLeptonic() const;
+
+    void SetSemiLeptonic(bool semi_leptonic);
 
 private:
 
@@ -47,6 +51,8 @@ private:
     std::map<Id, float> tracker_eta_upper_cut_;
 
     bool do_sub_jets_ = true;
+
+    bool semi_leptonic_ = true;
 
 };
 

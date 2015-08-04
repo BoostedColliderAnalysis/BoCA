@@ -20,15 +20,15 @@ Underlying(Enum enum_1)
 }
 
 template<typename Enum>
-typename Return<Enum, Enum>::type operator|(Enum enum_1, Enum enum_2)
-{
-    return static_cast<Enum>(Underlying(enum_1) | Underlying(enum_2));
-}
-
-template<typename Enum>
 typename Return<Enum, Enum>::type operator&(Enum enum_1, Enum enum_2)
 {
     return static_cast<Enum>(Underlying(enum_1) & Underlying(enum_2));
+}
+
+template<typename Enum>
+typename Return<Enum, Enum>::type operator|(Enum enum_1, Enum enum_2)
+{
+    return static_cast<Enum>(Underlying(enum_1) | Underlying(enum_2));
 }
 
 template<typename Enum>
@@ -44,16 +44,16 @@ typename Return<Enum, Enum>::type operator~(Enum enum_1)
 }
 
 template<typename Enum>
-typename Return<Enum, Enum&>::type operator|=(Enum& enum_1, Enum enum_2)
+typename Return<Enum, Enum&>::type operator&=(Enum& enum_1, Enum enum_2)
 {
-    enum_1 = static_cast<Enum>(Underlying(enum_1) | Underlying(enum_2));
+    enum_1 = static_cast<Enum>(Underlying(enum_1) & Underlying(enum_2));
     return enum_1;
 }
 
 template<typename Enum>
-typename Return<Enum, Enum&>::type operator&=(Enum& enum_1, Enum enum_2)
+typename Return<Enum, Enum&>::type operator|=(Enum& enum_1, Enum enum_2)
 {
-    enum_1 = static_cast<Enum>(Underlying(enum_1) & Underlying(enum_2));
+    enum_1 = static_cast<Enum>(Underlying(enum_1) | Underlying(enum_2));
     return enum_1;
 }
 

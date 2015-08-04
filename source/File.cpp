@@ -8,7 +8,7 @@
 
 namespace analysis {
 
-File::File(const Strings& processes, const std::string& base_path, const std::string& file_suffix, const std::string& nice_name, float crosssection)
+  File::File(const Strings& processes, const std::string& base_path, const std::string& file_suffix, const std::string& nice_name, float crosssection, float mass)
 {
   Debug();
   SetVariables();
@@ -17,6 +17,7 @@ File::File(const Strings& processes, const std::string& base_path, const std::st
   file_suffix_ = file_suffix;
   crosssection_ = crosssection;
   nice_name_ = nice_name;
+  mass_ = mass;
 }
 
 std::string File::file_suffix() const

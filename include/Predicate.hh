@@ -42,6 +42,8 @@ Jets RemoveIfParticle(const Jets& jets, Id id);
 
 Jets CopyIfMother(const Jets& jets, Id mother_id);
 
+Jets CopyIfGrandMother(const Jets& jets, Id grand_mother_id);
+
 Jets RemoveIfMother(const Jets& jets, Id mother_id);
 
 Jets RemoveIfSingleMother(const Jets& jets);
@@ -223,6 +225,13 @@ template <typename Element>
 bool FindInVector(const std::vector<Element> vector, const Element element)
 {
     return (std::find(vector.begin(), vector.end(), element) != vector.end());
+}
+
+template <typename Multiplet>
+fastjet::PseudoJet ClosestJet(const Jets& jets, const Multiplet& multiplet){
+    return *std::min_element(jets.begin(), jets.end(), [&](const fastjet::PseudoJet& jet_1,const fastjet::PseudoJet& jet_2){
+      return jet_1.delta_R(multiplet.Jet()) < jet_2.delta_R(multiplet.Jet());
+    });
 }
 
 /**

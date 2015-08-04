@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Tagger.hh"
+#include "Identification.hh"
 #include "exroot/ExRootAnalysis.hh"
 #include "TMVA/Factory.h"
 
@@ -8,8 +8,9 @@ namespace TMVA {
 class MethodBDT;
 }
 
-
 namespace analysis {
+
+class Tagger;
 
 /**
  * @brief Prepares multivariant analysis

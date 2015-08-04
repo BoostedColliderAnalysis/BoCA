@@ -5,7 +5,7 @@ namespace analysis {
 
 namespace standardmodel {
 
-std::string Name(const Process process)
+std::string Name(Process process)
 {
     switch (process) {
     case Process::tt:
@@ -38,7 +38,7 @@ std::string Name(const Process process)
     }
 }
 
-std::string Name(const Collider collider)
+std::string Name(Collider collider)
 {
     switch (collider) {
     case Collider::LHC :
@@ -53,7 +53,7 @@ std::string Name(const Collider collider)
     }
 }
 
-std::string NiceName(const Process process)
+std::string NiceName(Process process)
 {
     switch (process) {
     case Process::bb:

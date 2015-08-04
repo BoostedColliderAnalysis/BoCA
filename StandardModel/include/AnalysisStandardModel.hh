@@ -11,16 +11,16 @@ enum class Process {
     tt, tt_lep, tt_had, hh, hh_bb, zz, zz_bb, ww, bb, cc, qq, gg
 };
 
-std::string Name(const Process process);
+std::string Name(Process process);
 
-std::string NiceName(const Process process);
+std::string NiceName(Process process);
 
 
 enum class Collider {
     LHC, FHC, LE
 };
 
-std::string Name(const Collider collider);
+std::string Name(Collider collider);
 
 /**
  *
@@ -41,7 +41,7 @@ protected:
         return 5000;
     }
 
-    std::string FileName(const Process process) const
+    std::string FileName(Process process) const
     {
         return Name(process) + "_" + std::to_string(MadGraphCut()) + "GeV";
     }
@@ -121,7 +121,7 @@ protected:
         //       return 10;
     }
 
-    void NewFile(Tag tag, const Process process)
+    void NewFile(Tag tag, Process process)
     {
         analysis::AnalysisBase::NewFile(tag, FileName(process), NiceName(process));
     }

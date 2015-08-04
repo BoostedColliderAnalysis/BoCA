@@ -35,7 +35,7 @@ public:
 
     fastjet::PseudoJet FakeLepton(const fastjet::PseudoJet& jet) const;
 
-    Jets Particles(const analysis::Event& event) const;
+    Jets Particles(const analysis::Event& event, const PreCuts& pre_cuts) const;
 
     auto Multiplets(const Event& event, const TMVA::Reader& reader) const
     {
@@ -59,6 +59,11 @@ private:
     float top_mass_window;
 
     bool use_w_ = false;
+
+    Stage InitializeLeptonicReader(){
+      if(use_w_) return Stage::reader;
+      else return Stage::trainer;
+    }
 
 };
 

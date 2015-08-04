@@ -25,7 +25,7 @@ public:
     std::vector< MultipletSignature< Octet332 > > Multiplets(const analysis::Event& event, const analysis::PreCuts&, const TMVA::Reader& reader) const;
 
     int GetBdt(const Event &event, const PreCuts &pre_cuts, const TMVA::Reader &reader) const final {
-        return SaveEntries(Multiplets(event, pre_cuts, reader));
+      return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
     }
 
     auto Multiplets(const Event& event, const TMVA::Reader& reader)
@@ -42,7 +42,7 @@ private:
 
     Reader<HiggsTagger> higgs_reader_;
 
-    Reader<TopLeptonicTagger> top_tagger_;
+    Reader<TopLeptonicTagger> top_reader_;
 
 };
 

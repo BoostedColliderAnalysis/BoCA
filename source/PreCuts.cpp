@@ -1,6 +1,7 @@
 #include "PreCuts.hh"
 
-namespace analysis {
+namespace analysis
+{
 
 void PreCuts::SetPtLowerCut(Id id, float value)
 {
@@ -66,8 +67,16 @@ bool PreCuts::DoSubJets() const
 {
     return do_sub_jets_;
 }
-void PreCuts::SetSubJets(const bool do_sub_jets)
+void PreCuts::SetSubJets(bool do_sub_jets)
 {
     do_sub_jets_ = do_sub_jets;
+}
+bool PreCuts::SemiLeptonic() const
+{
+    return semi_leptonic_;
+}
+void PreCuts::SetSemiLeptonic(bool semi_leptonic)
+{
+    semi_leptonic_ = semi_leptonic;
 }
 }

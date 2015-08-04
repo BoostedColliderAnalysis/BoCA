@@ -5,6 +5,7 @@
 #include "TFile.h"
 #include "Predicate.hh"
 #include "TMVA/MethodBDT.h"
+#include "Tagger.hh"
 #include "Debug.hh"
 
 namespace analysis

@@ -1,5 +1,6 @@
 #include "../include/SignatureTTagger.hh"
 #include "Event.hh"
+// #define DEBUG
 #include "Debug.hh"
 
 namespace analysis
@@ -18,13 +19,19 @@ int SignatureTTagger::Train(const Event& event, const analysis::PreCuts&, Tag ta
 {
     Info();
     Jets particles = event.Partons().GenParticles();
-    std::vector<Triplet> triplets = top_tagger_.Multiplets(event);
+    std::vector<Triplet> triplets = top_reader_.Multiplets(event);
+    Debug(triplets.size());
     Jets tops = CopyIfParticle(particles, Id::top);
+    Debug(tops.size());
     std::vector<Triplet> final_triplets = BestMatches(triplets, tops, tag);
+//     std::vector<Triplet> final_triplets = ReduceResult(triplets, 2);
+//     std::vector<Triplet> final_triplets = triplets;
     Debug(final_triplets.size());
 
     std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
+    Debug(doublets.size());
     Jets higgses = CopyIfParticles(particles, Id::higgs, Id::CP_violating_higgs);
+    Debug(higgses.size());
     std::vector<Doublet> final_doublets = BestMatches(doublets, higgses, tag);
     Debug(final_doublets.size());
 
@@ -44,7 +51,7 @@ std::vector<MultipletSignature<Octet332>> SignatureTTagger::Multiplets(const Eve
     Info();
     std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
     Info(doublets.size());
-    std::vector<Triplet> triplets = top_tagger_.Multiplets(event);
+    std::vector<Triplet> triplets = top_reader_.Multiplets(event);
     Info(triplets.size());
     std::vector<MultipletSignature<Octet332>> octets = triples(triplets, doublets, [&](const auto & triplet_1, const auto & triplet_2, const auto & doublet) {
         MultipletSignature<Octet332> octet = Signature(triplet_1, triplet_2, doublet);
@@ -60,7 +67,7 @@ MultipletSignature<Octet332> SignatureTTagger::Signature(const Triplet& triplet_
     if ((triplet_1.Jet() + doublet.Jet()).m() > (triplet_2.Jet() + doublet.Jet()).m()) octet.SetMultiplets(triplet_1, triplet_2, doublet);
     else octet.SetMultiplets(triplet_2, triplet_1, doublet);
     if (octet.Overlap()) throw "overlap";
-    return  MultipletSignature<Octet332>(octet);
+    return MultipletSignature<Octet332>(octet);
 }
 
 }

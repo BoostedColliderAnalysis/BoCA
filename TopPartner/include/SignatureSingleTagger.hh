@@ -1,5 +1,6 @@
 #pragma once
 
+#include <functional>
 #include "Decuplet.hh"
 #include "TopPartnerTopPairTagger.hh"
 #include "HiggsTagger.hh"
@@ -23,7 +24,7 @@ public:
 
     int GetBdt(const Event &event, const PreCuts &pre_cuts,
                const TMVA::Reader &reader) const final {
-      return SaveEntries(Multiplets(event, pre_cuts, reader));
+                 return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
     }
 
     std::vector<Decuplet82> Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
@@ -33,6 +34,8 @@ public:
     std::string NiceName() const final { return "Tth"; }
 
 private:
+
+  std::vector<Decuplet82> Decuplets(const Event& event, const std::function<Decuplet82(Decuplet82&)> &function) const;
 
     Reader<TopPartnerTopPairTagger> pair_reader_;
 

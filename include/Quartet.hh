@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Triplet.hh"
+#include "ThreeBody.hh"
 
 namespace analysis {
 
@@ -29,6 +30,20 @@ public:
     const analysis::Triplet& Triplet() const;
 
     const analysis::Singlet& Singlet() const;
+
+};
+
+class Quartet211 : public ThreeBody<analysis::Doublet, analysis::Singlet, analysis::Singlet> {
+
+public:
+
+  using ThreeBody<analysis::Doublet, analysis::Singlet, analysis::Singlet>::ThreeBody;
+
+  const analysis::Doublet& Doublet() const;
+
+  const analysis::Singlet& Singlet1() const;
+
+  const analysis::Singlet& Singlet2() const;
 
 };
 

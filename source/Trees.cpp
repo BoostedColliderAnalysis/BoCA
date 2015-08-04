@@ -1,4 +1,5 @@
 #include "Trees.hh"
+// #define DEBUG
 #include "Debug.hh"
 
 namespace analysis
@@ -59,6 +60,7 @@ void Trees::SaveAnalysis(int object_number)
     analysis_empty_ = false;
     static_cast<InfoBranch&>(*tree_branch_->NewEntry()) = info_branch_;
     tree_writer_.Fill();
+    Debug(event_number_, pre_cut_number_, object_sum_);
 }
 InfoBranch Trees::FillInfoBranch(const File& file)
 {

@@ -172,7 +172,7 @@ private:
         }
     }
 
-    float BackgroundCrosssection(const Process) const
+    float BackgroundCrosssection(Process) const
     {
         switch (this->collider_type()) {
         case Collider::LHC :
