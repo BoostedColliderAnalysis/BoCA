@@ -14,18 +14,18 @@ Vector2 Multiplet::Pull() const
 
 fastjet::PseudoJet Multiplet::Jet(const fastjet::PseudoJet& jet_1, const fastjet::PseudoJet& jet_2) const
 {
-    fastjet::PseudoJet jet;
-//     jet = fastjet::join(jet_1, jet_2);
     analysis::Jets constituents;
-    if (jet_1.has_constituents()) constituents = Join(constituents, jet_1.constituents());
+    if (jet_1.has_constituents()) constituents = jet_1.constituents();
+    else constituents.push_back(jet_1);
     if (jet_2.has_constituents()) constituents = Join(constituents, jet_2.constituents());
-    jet = fastjet::join(constituents);
+    else constituents.push_back(jet_2);
+    fastjet::PseudoJet jet = fastjet::join(constituents);
 
     std::vector<Constituent> vertex_constituents;
     std::vector<Constituent> displaced_constituents;
     if (jet_1.has_user_info<JetInfo>()) {
-        vertex_constituents = Join(vertex_constituents, jet_1.user_info<JetInfo>().constituents());
-        displaced_constituents = Join(displaced_constituents, jet_1.user_info<JetInfo>().displaced_constituents());
+        vertex_constituents = jet_1.user_info<JetInfo>().constituents();
+        displaced_constituents = jet_1.user_info<JetInfo>().displaced_constituents();
     }
     if (jet_2.has_user_info<JetInfo>()) {
         vertex_constituents = Join(vertex_constituents, jet_2.user_info<JetInfo>().constituents());
@@ -36,9 +36,11 @@ fastjet::PseudoJet Multiplet::Jet(const fastjet::PseudoJet& jet_1, const fastjet
     return jet;
 }
 
-float Multiplet::DeltaPt(const Multiplet& multiplets_1, const Multiplet& multiplets_2) const
+float Multiplet::DeltaPt(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const
 {
-    return multiplets_1.Jet().pt() - multiplets_2.Jet().pt();
+    float delta_pt  = multiplets_1.Jet().pt() - multiplets_2.Jet().pt();
+    if(delta_pt != delta_pt) return 0;
+    return delta_pt;
 }
 
 float Multiplet::Ht(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const

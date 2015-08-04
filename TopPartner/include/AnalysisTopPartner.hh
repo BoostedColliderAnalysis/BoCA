@@ -60,12 +60,12 @@ protected:
 
     long EventNumberMax() const override
     {
+        return 1000;
+        return 500;
         return 5000;
         return 3000;
-        return 1000;
         return 100;
         return 10;
-        return 500;
     }
 
     std::string FilePath() const final

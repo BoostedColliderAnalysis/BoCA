@@ -3,11 +3,12 @@
 #include "WLeptonicTagger.hh"
 #include "Debug.hh"
 
-namespace analysis {
-
-TopLeptonicTagger::TopLeptonicTagger()
+namespace analysis
 {
-  Info();
+
+  TopLeptonicTagger::TopLeptonicTagger() : w_leptonic_reader_(InitializeLeptonicReader())
+{
+    Info();
     top_mass_window = 80;
     DefineVariables();
 }
@@ -20,30 +21,46 @@ int TopLeptonicTagger::Train(const Event& event, const analysis::PreCuts& pre_cu
     if (jets.empty()) return 0;
     Info(jets.size());
     Jets leptons = event.Leptons().leptons();
+    leptons = RemoveIfSoft(leptons,DetectorGeometry::LeptonMinPt());
     if (do_fake_leptons && leptons.empty()) leptons.emplace_back(FakeLepton(jets.front()));
     Info(leptons.size());
     std::vector<Doublet> doublets;
     if (use_w_) doublets = w_leptonic_reader_.Multiplets(event);
-    else {
-        Jets leptons = event.Leptons().leptons();
-        for (const auto& lepton : leptons) doublets.emplace_back(Doublet(lepton));
-    }
+    else for (const auto & lepton : leptons) doublets.emplace_back(Doublet(lepton));
+
+    Debug(jets.size(), doublets.size());
     std::vector<Triplet> triplets;
-    for (const auto& jet : jets) {
-        for (const auto& doublet : doublets) {
+    for (const auto & jet : jets) {
+        for (const auto & doublet : doublets) {
             Triplet triplet(doublet, jet);
             if (Problematic(triplet, pre_cuts, tag)) continue;
+            triplet.SetTag(tag);
             triplets.emplace_back(triplet);
         }
     }
-    Info(triplets.size());
-    Jets tops = Particles(event);
-    return SaveEntries(BestMatches(triplets, tops, tag));
+    Jets tops = Particles(event, pre_cuts);
+    Debug(triplets.size(), tops.size());
+    std::vector<Triplet> matches = BestMatches(triplets, tops, tag);
+    Debug(matches.size());
+    if(tag == Tag::signal && matches.size() > tops.size()) return 0;
+    return SaveEntries(matches);
 }
 
 fastjet::PseudoJet TopLeptonicTagger::FakeLepton(const fastjet::PseudoJet& jet) const
 {
     return fastjet::PseudoJet(jet.px(), jet.py(), jet.pz(), jet.e()) / jet.pt() * DetectorGeometry::LeptonMinPt();
+}
+
+Jets TopLeptonicTagger::Particles(const Event& event, const PreCuts& pre_cuts) const
+{
+    Jets particles = event.Partons().GenParticles();
+    if (pre_cuts.SemiLeptonic()) {
+      Jets leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
+      leptons = RemoveIfSoft(leptons,DetectorGeometry::LeptonMinPt());
+        int lepton_charge = 1;
+        if (!leptons.empty()) lepton_charge = leptons.front().user_info<JetInfo>().Charge();
+        return CopyIfExactParticle(particles, to_int(Id::top) * lepton_charge);
+    } else return CopyIfParticle(particles, Id::top);
 }
 
 bool TopLeptonicTagger::Problematic(const Triplet& triplet, const PreCuts& pre_cuts) const
@@ -54,30 +71,14 @@ bool TopLeptonicTagger::Problematic(const Triplet& triplet, const PreCuts& pre_c
     return false;
 }
 
-Jets TopLeptonicTagger::Particles(const Event& event) const
-{
-    Jets particles = event.Partons().GenParticles();
-    Jets leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
-    int lepton_charge = 1;
-    if (!leptons.empty()) {
-        lepton_charge = leptons.at(0).user_info<JetInfo>().Charge();
-        Info(lepton_charge);
-    }
-    Jets tops = CopyIfExactParticle(particles, to_int(Id::top) * lepton_charge);
-    return tops;
-//         int w_leptonic_id = WLeptonicTagger().WLeptonicId(event);
-//     int top_leptonic_id = sgn(w_leptonic_id) * to_int(Id::top);
-//     return CopyIfExactParticle(particles, top_leptonic_id);
-}
-
 bool TopLeptonicTagger::Problematic(const analysis::Triplet& triplet, const analysis::PreCuts& pre_cuts, Tag tag) const
 {
     if (Problematic(triplet, pre_cuts)) return true;
     switch (tag) {
     case Tag::signal :
-        if (use_w_ && triplet.Doublet().Singlet1().Jet().pt() <= DetectorGeometry::LeptonMinPt()) return true;
-        if (!use_w_ && triplet.Doublet().Jet().pt() <= DetectorGeometry::LeptonMinPt()) return true;
         if (std::abs(triplet.Jet().m() - Mass(Id::top) + 40) > top_mass_window) return true;
+        if (triplet.Singlet().Bdt()<0) return true;
+        if ((triplet.Rho() < 0.5 || triplet.Rho() > 2) && triplet.Rho() > 0) return true;
         break;
     case Tag::background :
         break;
@@ -93,24 +94,20 @@ std::vector<Triplet> TopLeptonicTagger::Multiplets(const Event& event, const ana
     Jets jets = fastjet::sorted_by_pt(bottom_reader_.Multiplets(event));
     if (jets.empty()) return triplets;
     Jets leptons = event.Leptons().leptons();
+    leptons = RemoveIfSoft(leptons,DetectorGeometry::LeptonMinPt());
     Debug(jets.size(), leptons.size());
     if (do_fake_leptons && leptons.empty()) leptons.emplace_back(FakeLepton(jets.front()));
     std::vector<Doublet> doublets;
     if (use_w_) doublets = w_leptonic_reader_.Multiplets(event);
-    else {
-        Jets leptons = event.Leptons().leptons();
-        for (const auto& lepton : leptons)
-            doublets.emplace_back(Doublet(lepton));
-    }
-    for (const auto& jet : jets) {
-        for (const auto& doublet : doublets) {
+    else for (const auto & lepton : leptons) doublets.emplace_back(Doublet(lepton));
+    for (const auto & jet : jets) {
+        for (const auto & doublet : doublets) {
             Triplet triplet(doublet, jet);
             if (Problematic(triplet, pre_cuts)) continue;
             triplet.SetBdt(Bdt(triplet, reader));
             triplets.emplace_back(triplet);
         }
     }
-//     Error(triplets.size());
     return ReduceResult(triplets);
 }
 

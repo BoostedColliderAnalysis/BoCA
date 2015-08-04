@@ -448,11 +448,15 @@ private:
 class HiggsBranch : public PairBranch, public BottomBase {
 public:
     HiggsBranch();
+    float LeptonPt;
+    float LeptonDeltaR;
     template<typename Multiplet>
     void Fill(const Multiplet& multiplet)
     {
         PairBranch::Fill(multiplet);
         BottomBase::Fill(multiplet);
+        LeptonPt = multiplet.LeptonPt;
+        LeptonDeltaR = multiplet.LeptonDeltaR;
     }
     Observables Variables() const;
     Observables Spectators() const;

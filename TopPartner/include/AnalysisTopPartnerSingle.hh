@@ -37,13 +37,14 @@ public:
 protected:
 
     std::string ProjectName() const final {
-        return  ProcessName() + "-" + std::to_string(PreCut()) + "GeV-jet-precut-100";
+        return  ProcessName() + "-" + std::to_string(PreCut()) + "GeV-new-signal";
     }
 
     void SetFiles(Tag tag) final {
         switch (tag) {
         case Tag::signal :
-            this->NewFile(tag, "pp-Tth-ttBh-Bhbbjjlv", 2 * 0.04332 * 1000, NiceName(Process::Tth));
+//             this->NewFile(tag, "pp-Tth-ttBh-Bhbbjjlv", 2 * 0.04332 * 1000, NiceName(Process::Tth));
+          this->NewFile(tag, "PP-Tth-ttBh", 2 * 0.004964 * 1000, NiceName(Process::Tth));
             break;
         case Tag::background :
             this->NewFile(tag, "PP-ttBJJ-" + std::to_string(PreCut()) + "GeV", 2 * 0.1754 * 1000, NiceName(Process::ttBjj));
@@ -58,8 +59,8 @@ protected:
     }
 
     long EventNumberMax() const override {
-        return 5000;
         return 1000;
+        return 5000;
         return 3000;
         return 500;
         return 100;

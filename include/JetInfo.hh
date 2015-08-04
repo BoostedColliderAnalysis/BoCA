@@ -34,11 +34,11 @@ public:
 
     JetInfo(const ::delphes::Jet& jet);
 
-    JetInfo(const bool b_tag);
+    JetInfo(bool b_tag);
 
-//     JetInfo(const bool b_tag, int charge);
+//     JetInfo(bool b_tag, int charge);
 
-    JetInfo(const bool b_tag, const bool tau_tag);
+    JetInfo(bool b_tag, bool tau_tag);
 
     JetInfo(int charge);
 
@@ -118,7 +118,7 @@ public:
 
     float TrackMass() const;
 
-    void SetBTag(const bool b_tag)
+    void SetBTag(bool b_tag)
     {
         b_tag_ = b_tag;
     }
@@ -128,7 +128,7 @@ public:
         return b_tag_;
     }
 
-    void SetTauTag(const bool tau_tag)
+    void SetTauTag(bool tau_tag)
     {
         tau_tag_ = tau_tag;
     }

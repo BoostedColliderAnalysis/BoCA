@@ -9,7 +9,7 @@
 
 // FIXME do we really want to write non standard compliant code?
 #pragma GCC diagnostic ignored "-Wgnu-zero-variadic-macro-arguments"
-#pragma GCC diagnostic ignored "-Wmacro-redefined"
+// #pragma GCC diagnostic ignored "-Wmacro-redefined"
 #pragma clang diagnostic ignored "-Wgnu-zero-variadic-macro-arguments"
 #pragma clang diagnostic ignored "-Wmacro-redefined"
 
@@ -61,8 +61,9 @@ void LogVariable(const std::string& variable, const Value& value)
 template<typename Value>
 void LogVariable(const std::string& variable, const std::vector<Value>& values)
 {
-    for (const auto& value : values)
-        LogVariable(variable, values);
+//     for (const auto& value : values)
+//         LogVariable(variable, values);
+        LogVariable(variable, values.size());
 }
 
 void LogVariable(const std::string&, const char* value);

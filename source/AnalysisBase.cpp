@@ -18,7 +18,7 @@ namespace analysis
 
 void AnalysisBase::Initialize()
 {
-  Note(tagger().Name());
+  Error(tagger().Name());
   mkdir(ProjectName().c_str(), 0700);
   tagger().ClearTreeNames();
 }
@@ -66,9 +66,9 @@ std::string AnalysisBase::ProcessName() const
     return "Process";
 }
 
-void AnalysisBase::NewFile(Tag tag, const Strings& names, float crosssection, const std::string& nice_name)
+void AnalysisBase::NewFile(Tag tag, const Strings& names, float crosssection, const std::string& nice_name, int mass)
 {
-    files_.emplace_back(File(names, crosssection, nice_name));
+    files_.emplace_back(File(names, crosssection, nice_name, mass));
     tagger().AddTreeName(TreeName(names.front()), tag);
 }
 
@@ -78,9 +78,9 @@ void AnalysisBase::NewFile(Tag tag, const Strings& names, const std::string& nic
     tagger().AddTreeName(TreeName(names.front()), tag);
 }
 
-void AnalysisBase::NewFile(Tag tag, const std::string& name, float crosssection, const std::string& nice_name)
+void AnalysisBase::NewFile(Tag tag, const std::string& name, float crosssection, const std::string& nice_name, int mass)
 {
-  files_.emplace_back(File({name}, crosssection, nice_name));
+  files_.emplace_back(File({name}, crosssection, nice_name, mass));
   tagger().AddTreeName(TreeName(name), tag);
 }
 
@@ -95,9 +95,9 @@ File AnalysisBase::File(const Strings& names, const std::string& nice_name) cons
     return analysis::File(names, FilePath(), FileSuffix(), nice_name);
 }
 
-File AnalysisBase::File(const Strings& names, float crosssection, const std::string& nice_name) const
+File AnalysisBase::File(const Strings& names, float crosssection, const std::string& nice_name, int mass) const
 {
-    return analysis::File(names, FilePath(), FileSuffix(), nice_name, crosssection);
+    return analysis::File(names, FilePath(), FileSuffix(), nice_name, crosssection, mass);
 }
 
 std::string AnalysisBase::FileName(const std::string&) const

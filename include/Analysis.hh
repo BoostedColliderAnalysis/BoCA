@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer <jan@hajer.com>
+ * Copyright (C) 2015 Jan Hajer
  */
 #pragma once
 
@@ -16,9 +16,9 @@ namespace analysis {
  * The subclasses have to be instantiated with a Tagger as template argument.
  * Subclasses should be templated classes.
  * @author Jan Hajer
- * @copyright Copyright (C) 2015 Jan Hajer <jan@hajer.com>
+ * @copyright Copyright (C) 2015 Jan Hajer
  * @date 2015
- * @license GPL 3+
+ * @license GPL 3
  *
  */
 template<typename Tagger>
@@ -85,11 +85,14 @@ private:
         if (files.stage() == Stage::reader) {
             trees.entry = std::min(long(trees.tree_reader().GetEntries()), EventNumberMax()) / 2;    // TODO fix corner cases
         }
+//         exroot::ProgressBar progress_bar(std::min(long(trees.tree_reader().GetEntries()), EventNumberMax()));
         for (; trees.entry < trees.tree_reader().GetEntries(); ++trees.entry) {
             ++trees.event_number_;
             DoAnalysis(files, trees, reader);
+//             progress_bar.Update(trees.object_sum());
             if (trees.object_sum() >= EventNumberMax()) break;
         }
+//         progress_bar.Finish();
         trees.WriteTree();
     }
 

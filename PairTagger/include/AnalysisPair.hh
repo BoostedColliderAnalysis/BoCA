@@ -12,6 +12,27 @@ namespace analysis
 namespace fusionpair
 {
 
+enum class Process
+{
+    bb, cc, jj, qq, gg, Hbb, ttbb, ttcc, ttjj, ttqq, ttgg
+};
+
+std::string Name(Process process);
+
+enum class Production
+{
+    DYP, VBF, Associated
+};
+
+std::string Name(Production production_channel);
+
+enum class Detector
+{
+    LHC, FHC, LE
+};
+
+std::string Name(Detector detector_type);
+
 /**
  *
  * @brief Analysis subclass defining the HiggsCPV Analysis
@@ -25,10 +46,6 @@ class Analysis : public analysis::Analysis<Tagger>
 
 public:
 
-    enum ProcessType {bb, cc, jj, qq, gg, Hbb, ttbb, ttcc, ttjj, ttqq, ttgg};
-    enum HProductionChannel {DYP, VBF, Associated};
-    enum HDetectorType {LHC, FHC, LE};
-
     Analysis() {
         this->tagger().SetAnalysisName(ProjectName());
     }
@@ -36,21 +53,21 @@ public:
     void SetFiles(const Tag tag) final {
         switch (tag) {
         case Tag::signal :
-            this->NewFile(tag, bb, VBF);
+            this->NewFile(tag, Process::bb, Production::VBF);
             break;
         case Tag::background :
-            this->NewFile(tag, bb, DYP);
-            this->NewFile(tag, cc, DYP);
-            this->NewFile(tag, cc, VBF);
-            this->NewFile(tag, jj, DYP);
-            this->NewFile(tag, jj, VBF);
+            this->NewFile(tag, Process::bb, Production::DYP);
+            this->NewFile(tag, Process::cc, Production::DYP);
+            this->NewFile(tag, Process::cc, Production::VBF);
+            this->NewFile(tag, Process::jj, Production::DYP);
+            this->NewFile(tag, Process::jj, Production::VBF);
             break;
         }
     }
 
     std::string ProjectName() const {
-        return  DetectorName(Detector()) + "-eta3.5";
-//         return  ProductionChannelName(ProductionChannel()) + DetectorName(Detector())  + "_" + std::to_string(Mass()) + "GeV";
+      return  Name(DetectorType()) + "-eta3.5";
+      //         return  ProductionChannelName(ProductionChannel()) + DetectorName(DetectorType())  + "_" + std::to_string(Mass()) + "GeV";
     }
 
 private:
@@ -63,55 +80,26 @@ private:
 //         return 100;
     };
 
-    HProductionChannel ProductionChannel() const {
-//         return DYP;
-        return VBF;
-//         return Associated;
+    Production ProductionChannel() const {
+        //         return Production::DYP;
+        return Production::VBF;
+        //         return Production::Associated;
     }
 
-    HDetectorType Detector() const {
-//       return LHC;
-//       return FHC;
-        return LE;
+    Detector DetectorType() const {
+        //       return Detector::LHC;
+        //       return Detector::FHC;
+        return Detector::LE;
     }
 
-    std::string DetectorName(const HDetectorType DetectorType) const {
-        switch (DetectorType) {
-        case LHC :
-            return "14TeV";
-        case FHC :
-            return "100TeV";
-        case LE :
-            return "LE";
-        default:
-            Error("Detector Name", "unhandeld case");
-            return "";
-        }
-    }
-
-
-    std::string ProductionChannelName(HProductionChannel NewProductionChannel) const {
-        switch (NewProductionChannel) {
-        case Associated :
-            return "llbb_";
-        case DYP :
-            return "pp_z_";
-        case VBF :
-            return "VBF_";
-        default:
-            Error("ProductionChannelName", "unhandeld case");
-            return "";
-        }
-    }
-
-    Id MotherId(HProductionChannel NewProductionChannel) const {
-        switch (NewProductionChannel) {
-        case DYP :
+    Id MotherId(Production production) const {
+        switch (production) {
+        case Production::DYP :
             return Id::Z;
 //             return Id::gluon;
-        case VBF :
+        case Production::VBF :
             return Id::bottom;
-        case Associated :
+        case Production::Associated :
             return Id::gluon;
         default:
             Error("MotherId", "unhandeld case");
@@ -127,35 +115,6 @@ private:
         return "Fusion Pair";
     }
 
-    std::string ProcessName(ProcessType Process) const {
-        switch (Process) {
-        case bb :
-            return "bb";
-        case cc:
-            return "cc";
-        case jj:
-            return "jj";
-        case qq:
-            return "qq";
-        case gg:
-            return "gg";
-        case Hbb:
-            return "Hbb";
-        case ttbb:
-            return "ttbb";
-        case ttcc:
-            return "ttcc";
-        case ttjj:
-            return "ttjj";
-        case ttqq:
-            return "ttqq";
-        case ttgg:
-            return "ttgg";
-        default:
-            Error("ProcessName", "unhandeld case");
-            return "";
-        }
-    }
 
     int BackgroundFileNumber() const {
         return 1;
@@ -185,57 +144,57 @@ private:
         return "~/Projects/FusionPair/Analysis/";
     }
 
-    void NewFile(Tag tag, ProcessType process, HProductionChannel production) {
+    void NewFile(Tag tag, Process process, Production production) {
         AnalysisBase::NewFile(tag, NameString(process, production));
     }
 
 
-    std::string NameString(ProcessType Process) const {
-        return ProductionChannelName(ProductionChannel()) + ProcessName(Process) + "_" + DetectorName(Detector());
+    std::string NameString(Process process) const {
+      return Name(ProductionChannel()) + Name(process) + "_" + Name(DetectorType());
     }
 
-    std::string NameString(ProcessType Process, HProductionChannel ProductionChannel) const {
-        return ProductionChannelName(ProductionChannel) + ProcessName(Process) + "_" + DetectorName(Detector());
+    std::string NameString(Process process, Production production) const {
+      return Name(production) + Name(process) + "_" + Name(DetectorType());
     }
 
-    File BackgroundFile(ProcessType Process, HProductionChannel ProductionChannel) const {
-        return BackgroundFile(Process, BackgroundFileNumber(), ProductionChannel);
+    File BackgroundFile(Process process, Production production) const {
+        return BackgroundFile(process, BackgroundFileNumber(), production);
     }
 
-    File BackgroundFile(ProcessType Process) const {
-        return BackgroundFile(Process, BackgroundFileNumber());
+    File BackgroundFile(Process process) const {
+        return BackgroundFile(process, BackgroundFileNumber());
     }
 
-    File BackgroundFile(ProcessType Process, const int) const {
-        Strings FileNames;
-        FileNames.emplace_back(NameString(Process));
-        return File(FileNames , BackgroundCrosssection(Process));
+    File BackgroundFile(Process process, const int) const {
+        Strings names;
+        names.emplace_back(NameString(process));
+        return File(names , BackgroundCrosssection(process));
     }
 
-    File BackgroundFile(ProcessType Process, const int, HProductionChannel ProductionChannel) const {
-        Strings FileNames;
-        FileNames.emplace_back(NameString(Process, ProductionChannel));
-        return File(FileNames , BackgroundCrosssection(Process));
+    File BackgroundFile(Process process, const int, Production production) const {
+        Strings names;
+        names.emplace_back(NameString(process, production));
+        return File(names , BackgroundCrosssection(process));
     }
 
 
-    std:: string SignalName(ProcessType Process) {
-        return  NameString(Process) + "_" + std::to_string(Mass()) + "GeV";
+    std:: string SignalName(Process process) {
+      return  NameString(process) + "_" + std::to_string(Mass()) + "GeV";
     }
 
-    std::string TreeName(ProcessType Process) const {
-        return NameString(Process) + "-run_01";
+    std::string TreeName(Process process) const {
+      return NameString(process) + "-run_01";
     }
 
-    std::string TreeName(ProcessType Process, HProductionChannel ProductionChannel) const {
-        return NameString(Process, ProductionChannel) + "-run_01";
+    std::string TreeName(Process process, Production production) const {
+      return NameString(process, production) + "-run_01";
     }
 
-    std:: string SignalTreeName(ProcessType Process) {
-        return  NameString(Process) + "_" + std::to_string(Mass()) + "GeV" + "-run_01";
+    std:: string SignalTreeName(Process process) {
+      return  NameString(process) + "_" + std::to_string(Mass()) + "GeV" + "-run_01";
     }
 
-    float BackgroundCrosssection(ProcessType) const {
+    float BackgroundCrosssection(Process) const {
         return 1;
     }
 

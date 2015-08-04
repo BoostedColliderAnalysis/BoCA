@@ -16,7 +16,7 @@ class File {
 
 public:
 
-    File(const Strings& processes, const std::string& run_folder, const std::string& file_suffix, const std::string& nice_name = "", float crosssection = 1);
+  File(const Strings& processes, const std::string& run_folder, const std::string& file_suffix, const std::string& nice_name = "", float crosssection = 1, float mass = 0);
 
     /**
      * @brief destructor
@@ -41,20 +41,20 @@ public:
         return crosssection_;
     }
 
-    void set_crosssection(float crosssection)
-    {
-        crosssection_ = crosssection;
-    }
-
-    void set_crosssection_error(float crosssection_error)
-    {
-        crosssection_error_ = crosssection_error;
-    }
-
-    void set_mass(float mass)
-    {
-        mass_ = mass;
-    }
+//     void set_crosssection(float crosssection)
+//     {
+//         crosssection_ = crosssection;
+//     }
+//
+//     void set_crosssection_error(float crosssection_error)
+//     {
+//         crosssection_error_ = crosssection_error;
+//     }
+//
+//     void set_mass(float mass)
+//     {
+//         mass_ = mass;
+//     }
 
     std::string file_suffix() const;
 

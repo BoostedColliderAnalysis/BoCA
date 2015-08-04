@@ -32,4 +32,19 @@ const Singlet& Quartet31::Singlet() const
     return Multiplet2();
 }
 
+const Doublet& Quartet211::Doublet() const
+{
+  return Multiplet1();
+}
+
+const Singlet& Quartet211::Singlet1() const
+{
+  return Multiplet2();
+}
+
+const Singlet& Quartet211::Singlet2() const
+{
+  return Multiplet3();
+}
+
 }

@@ -193,7 +193,7 @@ protected:
         jet_tag_ = &jet_tag;
     }
 
-    const bool check_four_vectors_;
+    bool check_four_vectors_;
 
     float check_value_;
 

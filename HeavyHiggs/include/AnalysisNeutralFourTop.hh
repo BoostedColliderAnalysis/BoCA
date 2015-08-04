@@ -54,7 +54,7 @@ public:
         return  ProcessName() + "-" + Name(this->collider_type()) + "-" + std::to_string(this->Mass()) + "GeV";
     };
 
-    float SignalCrosssection(const Process process) const {
+    float SignalCrosssection(Process process) const {
 
       switch (this->collider_type()) {
         case Collider::LHC:
@@ -176,7 +176,7 @@ public:
       }
     }
 
-    float BackgroundCrosssection(const Process process) const {
+    float BackgroundCrosssection(Process process) const {
       switch (this->collider_type()) {
         case Collider::LHC :
           switch(process){

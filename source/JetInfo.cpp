@@ -27,18 +27,18 @@ JetInfo::JetInfo(const ::delphes::Jet& jet)
     SetDelphesTags(jet);
 }
 
-JetInfo::JetInfo(const bool b_tag)
+JetInfo::JetInfo(bool b_tag)
 {
     SetBTag(b_tag);
 }
 
-// JetInfo::JetInfo(const bool b_tag, int charge)
+// JetInfo::JetInfo(bool b_tag, int charge)
 // {
 //   SetBTag(b_tag);
 //   SetCharge(charge);
 // }
 
-JetInfo::JetInfo(const bool b_tag, const bool tau_tag)
+JetInfo::JetInfo(bool b_tag, bool tau_tag)
 {
     SetBTag(b_tag);
     SetTauTag(tau_tag);
@@ -298,7 +298,9 @@ float JetInfo::MaxDisplacement() const
 float JetInfo::VertexMass() const
 {
     Debug();
-    float vertex_mass = std::accumulate(displaced_constituents_.begin(), displaced_constituents_.end(), Constituent()).Momentum().M();
+    float vertex_mass = std::accumulate(displaced_constituents_.begin(), displaced_constituents_.end(), LorentzVector(),[](const LorentzVector& momentum,const Constituent &constituent){
+      return momentum + constituent.Momentum();
+    }).M();
     Debug(vertex_mass);
     if (vertex_mass < DetectorGeometry::VertexMassMin())
         return 0;
