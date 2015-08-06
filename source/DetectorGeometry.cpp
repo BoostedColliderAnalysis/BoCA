@@ -100,6 +100,7 @@ fastjet::JetDefinition DetectorGeometry::SubJetDefinition()
         return fastjet::JetDefinition(fastjet::kt_algorithm, JetConeSize());
     }
 }
+
 float DetectorGeometry::TrackerDistanceMin()
 {
     switch (detector_type()) {

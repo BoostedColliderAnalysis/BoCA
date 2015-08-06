@@ -36,8 +36,6 @@ private:
 
     Doublet MassDrop(const Doublet& doublet) const;
 
-    fastjet::PseudoJet FilteredSubJet(fastjet::PseudoJet& jet) const;
-
     std::vector<Doublet> SetClosestLepton(const Event& event, std::vector<Doublet>& doublets) const;
 
     Doublet SetClosestLepton(Doublet& doublet, const Jets& leptons) const;

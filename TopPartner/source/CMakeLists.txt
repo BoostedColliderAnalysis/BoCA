@@ -13,11 +13,12 @@ Septet.cpp
 Nonet.cpp
 Decuplet.cpp
 Quattuordecuplet.cpp
-EventTagger.cpp
-EventPairTagger.cpp
 EventSingleTagger.cpp
+EventPairTagger.cpp
+EventEffectiveTagger.cpp
 )
 create_library(AnalysisTopPartner AnalysisSources)
 
-create_executable(TopPartner main.cpp)
 create_executable(TopPartnerSingle MainSingle.cpp)
+create_executable(TopPartnerPair MainPair.cpp)
+create_executable(TopPartnerEffective MainEffective.cpp)

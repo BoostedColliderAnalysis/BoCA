@@ -22,11 +22,12 @@ protected:
     }
 
     template<typename Multiplet>
-    std::vector<Multiplet> ReduceResult(std::vector<Multiplet>& multiplets, size_t max = 4) const {
+    std::vector<Multiplet> ReduceResult(const std::vector<Multiplet>& multiplets, size_t max = 4) const {
         if (multiplets.empty()) return multiplets;
-        std::sort(multiplets.begin(), multiplets.end());
-        multiplets.erase(multiplets.begin() + std::min(max, multiplets.size()), multiplets.end());
-        return multiplets;
+        std::vector<Multiplet> copy = multiplets;
+        std::sort(copy.begin(), copy.end());
+        copy.erase(copy.begin() + std::min(max, copy.size()), copy.end());
+        return copy;
     }
 
     Jets ReduceResult(Jets& jets, size_t max = 4) const {

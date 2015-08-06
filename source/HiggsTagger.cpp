@@ -4,6 +4,7 @@
 #include "fastjet/tools/MassDropTagger.hh"
 #include "fastjet/tools/Filter.hh"
 #include "JetInfo.hh"
+#include "InfoRecombiner.hh"
 #include "Debug.hh"
 
 namespace analysis
@@ -162,8 +163,8 @@ Doublet HiggsTagger::MassDrop(const Doublet& doublet) const
     InfoRecombiner info_recombiner;
     fastjet::JetDefinition jet_definition(fastjet::cambridge_algorithm, doublet.DeltaR() + 2 * DetectorGeometry::JetConeSize(), &info_recombiner);
     fastjet::ClusterSequence& cluster_sequence = *new fastjet::ClusterSequence(doublet.Jet().constituents(), jet_definition);
-    int jet_number = 1;
-    Jets exclusive_jets = cluster_sequence.exclusive_jets(jet_number);
+    unsigned jet_number = 1;
+    Jets exclusive_jets = cluster_sequence.exclusive_jets(int(jet_number));
     Check(exclusive_jets.size() == jet_number);
     cluster_sequence.delete_self_when_unused();
 
@@ -179,27 +180,11 @@ Doublet HiggsTagger::MassDrop(const Doublet& doublet) const
     if (!filtered_jet.has_pieces()) throw "no pieces";
     Jets pieces = fastjet::sorted_by_pt(filtered_jet.pieces());
     if (pieces.size() < 2) throw "no enough pieces";
-    fastjet::PseudoJet jet_1 = FilteredSubJet(pieces.at(0));
-    fastjet::PseudoJet jet_2 = FilteredSubJet(pieces.at(1));
+    fastjet::PseudoJet jet_1 = pieces.at(0);
+    fastjet::PseudoJet jet_2 = pieces.at(1);
 
     Doublet filtered_doublet(bottom_reader_.Multiplet(jet_1), bottom_reader_.Multiplet(jet_2));
     return filtered_doublet;
 }
 
-fastjet::PseudoJet HiggsTagger::FilteredSubJet(fastjet::PseudoJet& jet) const{
-
-  if (!jet.has_constituents()) throw "no constituents";
-  std::vector<Constituent> constituents;
-  for (const auto & constituent : jet.constituents()) {
-    if (!constituent.has_user_info<JetInfo>()) continue;
-    constituents = Join(constituents, constituent.user_info<JetInfo>().constituents());
-  }
-  if (constituents.empty()) throw "no constituents";
-  jet.set_user_info(new JetInfo(constituents));
-  return jet;
 }
-
-
-}
-
-

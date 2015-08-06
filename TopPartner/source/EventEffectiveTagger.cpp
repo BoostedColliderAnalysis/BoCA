@@ -1,17 +1,17 @@
-#include "../include/EventTagger.hh"
+#include "EventEffectiveTagger.hh"
 #include "Debug.hh"
 
 namespace analysis {
 
 namespace toppartner {
 
-EventTagger::EventTagger()
+EventEffectiveTagger::EventEffectiveTagger()
 {
   Info();
     DefineVariables();
 }
 
-int EventTagger::Train(const Event& event, const PreCuts&, Tag tag) const
+int EventEffectiveTagger::Train(const Event& event, const PreCuts&, Tag tag) const
 {
     Info("Train");
     Jets jets = bottom_reader_.Multiplets(event);
@@ -26,7 +26,7 @@ int EventTagger::Train(const Event& event, const PreCuts&, Tag tag) const
     return SaveEntries(ReduceResult(multipletevents, 1));
 }
 
-std::vector<MultipletEvent<Quattuordecuplet>> EventTagger::Multiplets(const Event& event, const PreCuts&, const TMVA::Reader& reader) const
+std::vector<MultipletEvent<Quattuordecuplet>> EventEffectiveTagger::Multiplets(const Event& event, const PreCuts&, const TMVA::Reader& reader) const
 {
     Info("Multiplets");
     Jets jets = bottom_reader_.Multiplets(event);

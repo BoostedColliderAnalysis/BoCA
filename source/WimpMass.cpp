@@ -1,3 +1,4 @@
+#include <map>
 #include "WimpMass.hh"
 #include "WIMPMASS.h"
 #include "Predicate.hh"

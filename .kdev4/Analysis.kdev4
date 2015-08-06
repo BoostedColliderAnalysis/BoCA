@@ -25,7 +25,7 @@ Path=clang
 Type=Clang
 
 [Launch]
-Launch Configurations=Launch Configuration 0,Launch Configuration 1,Launch Configuration 2,Launch Configuration 3,Launch Configuration 4
+Launch Configurations=Launch Configuration 0,Launch Configuration 1,Launch Configuration 2,Launch Configuration 3,Launch Configuration 4,Launch Configuration 5
 
 [Launch][Launch Configuration 0]
 Configured Launch Modes=execute
@@ -115,6 +115,24 @@ External Terminal=konsole --noclose --workdir %workdir -e %exe
 Project Target=Analysis,TopPartner,source,TopPartnerSingle
 Use External Terminal=false
 Working Directory=file:///home/hajer/Projects/TopPartner/Analysis
+isExecutable=true
+
+[Launch][Launch Configuration 5]
+Configured Launch Modes=execute
+Configured Launchers=nativeAppLauncher
+Name=TopPartnerEffective
+Type=Native Application
+
+[Launch][Launch Configuration 5][Data]
+Arguments=
+Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x04\x00\x00\x00\x10\x00A\x00n\x00a\x00l\x00y\x00s\x00i\x00s\x00\x00\x00\x14\x00T\x00o\x00p\x00P\x00a\x00r\x00t\x00n\x00e\x00r\x00\x00\x00\x0c\x00s\x00o\x00u\x00r\x00c\x00e\x00\x00\x00&\x00T\x00o\x00p\x00P\x00a\x00r\x00t\x00n\x00e\x00r\x00E\x00f\x00f\x00e\x00c\x00t\x00i\x00v\x00e)
+Dependency Action=Build
+EnvironmentGroup=
+Executable=file:///home/hajer/Analysis/build/bin/TopPartnerEffective
+External Terminal=konsole --noclose --workdir %workdir -e %exe
+Project Target=Analysis,TopPartner,source,TopPartnerEffective
+Use External Terminal=false
+Working Directory=file:///home/hajer/Projects/TopPartner/Analysis/
 isExecutable=true
 
 [MakeBuilder]

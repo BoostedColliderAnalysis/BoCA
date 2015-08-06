@@ -4,7 +4,7 @@
 #include "Predicate.hh"
 #include "delphes/Delphes.hh"
 #include "exroot/ExRootAnalysis.hh"
-#include "JetInfo.hh"
+#include "JetInfoFamily.hh"
 #include "Debug.hh"
 
 namespace analysis
@@ -222,7 +222,7 @@ Family FourVector::BranchFamily(Family& family, int Position) const
             if (particle.PID == to_int(Id::string)) {
                 if (particle.M1 < particle.M2) {
                     Debug("String", Position, particle.M1, particle.M2);
-                    JetInfo jet_info;
+                    JetInfoFamily jet_info;
                     //                     for (const auto& Counter = ParticleClone.M2; Counter >= ParticleClone.M1; --Counter) {
                     for (const auto& counter : Range(particle.M1,particle.M2)) {
 //                         BranchFamily = BranchFamily(BranchFamily, Counter);

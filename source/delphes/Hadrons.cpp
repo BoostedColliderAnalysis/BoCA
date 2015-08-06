@@ -5,6 +5,7 @@
 
 #include "delphes/Hadrons.hh"
 #include "JetInfo.hh"
+#include "InfoRecombiner.hh"
 #include "Predicate.hh"
 #include "Debug.hh"
 
@@ -51,15 +52,13 @@ fastjet::PseudoJet Hadrons::StructuredJet(const ::delphes::Jet& jet, JetDetail j
     Info();
     analysis::Jets constituent_jets;
     std::vector<Constituent> constituents;
-    auto jet_info = new JetInfo(bool(jet.BTag), jet.Charge);
     for (const auto& constituent_number : Range(jet.Constituents.GetEntriesFast())) {
         if (!jet.Constituents.At(constituent_number)) continue;
         fastjet::PseudoJet constituent = ConstituentJet(*jet.Constituents.At(constituent_number), jet_detail);
-        jet_info->AddConstituents(constituent.user_info<JetInfo>().constituents());
         constituent_jets.emplace_back(constituent);
     }
-    fastjet::PseudoJet Jet = fastjet::join(constituent_jets);
-    Jet.set_user_info(jet_info);
+    fastjet::PseudoJet Jet = fastjet::join(constituent_jets, InfoRecombiner());
+    static_cast<JetInfo &>(*Jet.user_info_shared_ptr().get()).SetDelphesTags(jet);
     return Jet;
 }
 
@@ -79,6 +78,7 @@ fastjet::PseudoJet Hadrons::ConstituentJet(TObject& object, JetDetail jet_detail
         ::delphes::Track& track = static_cast<::delphes::Track&>(object);
         analysis::LorentzVector position(track.X, track.Y, track.Z, track.T);
         Constituent constituent(track.P4(), position, SubDetector::track, track.Charge);
+//         Error(position.Perp());
         if (is(jet_detail, JetDetail::tagging)) constituent.SetFamily(BranchFamily(*track.Particle.GetObject()));
         jet = analysis::PseudoJet(track.P4());
         jet_info->AddConstituent(constituent);
@@ -97,6 +97,7 @@ fastjet::PseudoJet Hadrons::ConstituentJet(TObject& object, JetDetail jet_detail
         jet = analysis::PseudoJet(muon.P4());
         jet_info->AddConstituent(constituent);
     } else Error("Unkonw Jet constituent", object.ClassName());
+//     Error(jet_info->MeanDisplacement());
     jet.set_user_info(jet_info);
     return jet;
 }
@@ -227,22 +228,15 @@ fastjet::PseudoJet Hadrons::MissingEt() const
 
 Jets Hadrons::ClusteredJets() const
 {
+    InfoRecombiner info_recombiner;
     //     fastjet::ClusterSequence &cluster_sequence = *new fastjet::ClusterSequence(GranulatedJets(EFlowJets(JetDetail::structure)), DetectorGeometry::JetDefinition());
-    fastjet::ClusterSequence& cluster_sequence = *new fastjet::ClusterSequence(EFlowJets(JetDetail::structure), DetectorGeometry::JetDefinition());
+    fastjet::ClusterSequence& cluster_sequence = *new fastjet::ClusterSequence(EFlowJets(JetDetail::structure), fastjet::JetDefinition(fastjet::antikt_algorithm, DetectorGeometry::JetConeSize(), &info_recombiner));
     analysis::Jets jets = fastjet::sorted_by_pt(cluster_sequence.inclusive_jets(DetectorGeometry::JetMinPt()));
     if (jets.empty()) {
         delete &cluster_sequence;
         return jets;
     }
     cluster_sequence.delete_self_when_unused();
-    for (auto & jet : jets)  {
-        std::vector<Constituent> constituents;
-        for (const auto & constituent : jet.constituents()) {
-            std::vector<Constituent> jet_constituents = constituent.user_info<JetInfo>().constituents();
-            constituents = Join(constituents, jet_constituents);
-        }
-        jet.set_user_info(new JetInfo(constituents));
-    }
     return jets;
 }
 
@@ -259,7 +253,7 @@ Jets Hadrons::UniqueJets() const
         analysis::Jets constituents;
         ::delphes::Jet& jet = static_cast<::delphes::Jet&>(clones_arrays().Jet(jet_number));
         for (const auto& constituent_number : Range(jet.Constituents.GetEntriesFast())) constituents = Join(constituents, UniqueConstituents(*jet.Constituents.At(constituent_number), leptons));
-        jets.emplace_back(fastjet::join(constituents));
+        jets.emplace_back(fastjet::join(constituents, InfoRecombiner()));
     }
     return jets;
 }

@@ -86,6 +86,8 @@ Constituent.cpp
 JetTag.cpp
 DetectorGeometry.cpp
 JetInfo.cpp
+InfoRecombiner.cpp
+JetInfoFamily.cpp
 Reconstruction.cpp
 Discriminator.cpp
 Plot.cpp
