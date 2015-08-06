@@ -14,6 +14,8 @@ typedef ::Jet Jet;
 namespace analysis
 {
 
+typedef std::vector<fastjet::PseudoJet> Jets;
+
 /**
  * @brief Jet infos subclassed from Fastjet
  *
@@ -123,7 +125,7 @@ private:
 
     bool tau_tag_ = 0;
 
-    int charge_ = LargeNumber();
+    int charge_;
 
 };
 
@@ -134,5 +136,7 @@ private:
 struct SortByBdt {
   bool operator()(const fastjet::PseudoJet& jet_1, const fastjet::PseudoJet& jet_2);
 };
+
+Jets SortedByBdt(Jets jets);
 
 }

@@ -1,6 +1,6 @@
 #include "JetInfoFamily.hh"
 
-#include "Predicate.hh"
+#include "Types.hh"
 #include "delphes/Delphes.hh"
 #include "Debug.hh"
 

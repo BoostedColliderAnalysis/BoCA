@@ -1,6 +1,7 @@
 #pragma once
 
 #include "AnalysisHeavyHiggs.hh"
+#include "Vector.hh"
 
 namespace analysis {
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <map>
-#include "Global.hh"
+#include "Particles.hh"
 
 
 namespace analysis

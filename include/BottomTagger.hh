@@ -32,8 +32,7 @@ public:
      * @brief Save all jets with bottom bdt value condidering pre cuts
      *
      */
-    int GetBdt(const Event &event, const PreCuts &pre_cuts,
-               const TMVA::Reader &reader) const override;
+    int GetBdt(const Event &event, const PreCuts &pre_cuts, const TMVA::Reader &reader) const override;
 
     /**
      * @brief calculate bottom bdt for given jet

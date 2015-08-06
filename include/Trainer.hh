@@ -24,7 +24,7 @@ public:
      * @brief Constructor
      *
      */
-    Trainer(analysis::Tagger& tagger);
+    Trainer(analysis::Tagger& tagger, TMVA::Types::EMVA mva);
 
 private:
 

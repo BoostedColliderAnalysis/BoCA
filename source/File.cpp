@@ -3,7 +3,7 @@
 #include "TFile.h"
 #include "TTree.h"
 
-#include "Predicate.hh"
+#include "Types.hh"
 #include "Debug.hh"
 
 namespace analysis {

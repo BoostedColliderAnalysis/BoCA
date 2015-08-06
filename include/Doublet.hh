@@ -2,7 +2,6 @@
 
 #include "TwoBody.hh"
 #include "Singlet.hh"
-#include "Vector2.hh"
 
 namespace analysis {
 

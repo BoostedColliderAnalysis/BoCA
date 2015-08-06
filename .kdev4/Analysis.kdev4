@@ -25,7 +25,7 @@ Path=clang
 Type=Clang
 
 [Launch]
-Launch Configurations=Launch Configuration 0,Launch Configuration 1,Launch Configuration 2,Launch Configuration 3,Launch Configuration 4,Launch Configuration 5
+Launch Configurations=Launch Configuration 0,Launch Configuration 1,Launch Configuration 3,Launch Configuration 4,Launch Configuration 5,Launch Configuration 6,Launch Configuration 7,Launch Configuration 2
 
 [Launch][Launch Configuration 0]
 Configured Launch Modes=execute
@@ -66,19 +66,19 @@ isExecutable=false
 [Launch][Launch Configuration 2]
 Configured Launch Modes=execute
 Configured Launchers=nativeAppLauncher
-Name=TopPartner
+Name=TopPartnerPair
 Type=Native Application
 
 [Launch][Launch Configuration 2][Data]
 Arguments=
-Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x04\x00\x00\x00\x10\x00A\x00n\x00a\x00l\x00y\x00s\x00i\x00s\x00\x00\x00\x14\x00T\x00o\x00p\x00P\x00a\x00r\x00t\x00n\x00e\x00r\x00\x00\x00\x0c\x00s\x00o\x00u\x00r\x00c\x00e\x00\x00\x00\x14\x00T\x00o\x00p\x00P\x00a\x00r\x00t\x00n\x00e\x00r)
+Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x04\x00\x00\x00\x10\x00A\x00n\x00a\x00l\x00y\x00s\x00i\x00s\x00\x00\x00\x14\x00T\x00o\x00p\x00P\x00a\x00r\x00t\x00n\x00e\x00r\x00\x00\x00\x0c\x00s\x00o\x00u\x00r\x00c\x00e\x00\x00\x00\x1c\x00T\x00o\x00p\x00P\x00a\x00r\x00t\x00n\x00e\x00r\x00P\x00a\x00i\x00r)
 Dependency Action=Build
 EnvironmentGroup=
 Executable=file:///home/hajer/Analysis/
 External Terminal=konsole --noclose --workdir %workdir -e %exe
-Project Target=Analysis,TopPartner,source,TopPartner
+Project Target=Analysis,TopPartner,source,TopPartnerPair
 Use External Terminal=false
-Working Directory=file:///home/hajer/Projects/TopPartner/Analysis
+Working Directory=file:///home/hajer/Projects/TopPartner/Analysis/
 isExecutable=false
 
 [Launch][Launch Configuration 3]
@@ -134,6 +134,42 @@ Project Target=Analysis,TopPartner,source,TopPartnerEffective
 Use External Terminal=false
 Working Directory=file:///home/hajer/Projects/TopPartner/Analysis/
 isExecutable=true
+
+[Launch][Launch Configuration 6]
+Configured Launch Modes=execute
+Configured Launchers=nativeAppLauncher
+Name=WAnalysis
+Type=Native Application
+
+[Launch][Launch Configuration 6][Data]
+Arguments=
+Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x04\x00\x00\x00\x10\x00A\x00n\x00a\x00l\x00y\x00s\x00i\x00s\x00\x00\x00\x1a\x00S\x00t\x00a\x00n\x00d\x00a\x00r\x00d\x00M\x00o\x00d\x00e\x00l\x00\x00\x00\x0c\x00s\x00o\x00u\x00r\x00c\x00e\x00\x00\x00\x12\x00W\x00A\x00n\x00a\x00l\x00y\x00s\x00i\x00s)
+Dependency Action=Build
+EnvironmentGroup=
+Executable=file:///home/hajer/Analysis/
+External Terminal=konsole --noclose --workdir %workdir -e %exe
+Project Target=Analysis,StandardModel,source,WAnalysis
+Use External Terminal=false
+Working Directory=file:///home/hajer/Projects/Tagger/W/
+isExecutable=false
+
+[Launch][Launch Configuration 7]
+Configured Launch Modes=execute
+Configured Launchers=nativeAppLauncher
+Name=HiggsAnalysis
+Type=Native Application
+
+[Launch][Launch Configuration 7][Data]
+Arguments=
+Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x04\x00\x00\x00\x10\x00A\x00n\x00a\x00l\x00y\x00s\x00i\x00s\x00\x00\x00\x1a\x00S\x00t\x00a\x00n\x00d\x00a\x00r\x00d\x00M\x00o\x00d\x00e\x00l\x00\x00\x00\x0c\x00s\x00o\x00u\x00r\x00c\x00e\x00\x00\x00\x1a\x00H\x00i\x00g\x00g\x00s\x00A\x00n\x00a\x00l\x00y\x00s\x00i\x00s)
+Dependency Action=Build
+EnvironmentGroup=
+Executable=file:///home/hajer/Analysis/
+External Terminal=konsole --noclose --workdir %workdir -e %exe
+Project Target=Analysis,StandardModel,source,HiggsAnalysis
+Use External Terminal=false
+Working Directory=file:///home/hajer/Projects/Tagger/Higgs/
+isExecutable=false
 
 [MakeBuilder]
 Number Of Jobs=8

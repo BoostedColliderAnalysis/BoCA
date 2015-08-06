@@ -12,11 +12,11 @@ namespace toppartner {
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class SignatureTagger : public BranchTagger<SignatureBranch> {
+class SignatureEffectiveTagger : public BranchTagger<SignatureBranch> {
 
 public:
 
-    SignatureTagger();
+    SignatureEffectiveTagger();
 
     int Train(const Event &event, const PreCuts &pre_cuts,
               Tag tag) const final;

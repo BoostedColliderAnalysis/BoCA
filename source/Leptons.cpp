@@ -1,5 +1,6 @@
 #include "Leptons.hh"
-#include "Predicate.hh"
+
+#include "Vector.hh"
 #include "Debug.hh"
 
 namespace analysis {

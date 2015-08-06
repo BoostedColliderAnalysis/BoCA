@@ -3,7 +3,7 @@
 #include "../include/EventTagger.hh"
 #include "../include/EventTTagger.hh"
 #include "SignatureLeptonTagger.hh"
-#include "Predicate.hh"
+#include "Types.hh"
 #include "FourVector.hh"
 #include "Debug.hh"
 

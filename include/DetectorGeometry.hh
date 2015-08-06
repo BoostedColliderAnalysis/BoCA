@@ -1,6 +1,5 @@
 #pragma once
 
-#include "fastjet/JetDefinition.hh"
 #include "InfoRecombiner.hh"
 
 namespace analysis {

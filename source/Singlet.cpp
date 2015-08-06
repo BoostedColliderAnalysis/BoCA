@@ -1,6 +1,8 @@
 #include "Singlet.hh"
+
 #include "DetectorGeometry.hh"
-#include "Predicate.hh"
+#include "Vector.hh"
+#include "Math.hh"
 #include "Debug.hh"
 
 namespace analysis {

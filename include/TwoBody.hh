@@ -2,7 +2,7 @@
 
 #include "Singlet.hh"
 #include "Multiplet.hh"
-#include "Predicate.hh"
+#include "Vector.hh"
 
 namespace analysis
 {

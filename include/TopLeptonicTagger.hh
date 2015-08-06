@@ -45,10 +45,7 @@ public:
 
     std::string Name() const final { return "TopLeptonic"; }
 
-    int TopLeptonicId(const Event& event) const
-    {
-        return sgn(w_leptonic_reader_.Tagger().WLeptonicId(event)) * to_int(Id::top);
-    }
+    int TopLeptonicId(const Event& event) const;
 
 private:
 

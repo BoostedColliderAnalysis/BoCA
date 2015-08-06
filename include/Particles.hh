@@ -1,33 +1,11 @@
 #pragma once
 
-#include <vector>
 #include <string>
-
-namespace fastjet {
-class PseudoJet;
-}
-
 /**
  * @brief analysis namespace containing the general analysis and SM taggers
  *
  */
 namespace analysis {
-
-class LorentzVector;
-
-typedef std::vector<fastjet::PseudoJet> Jets;
-typedef std::vector<LorentzVector> Vectors;
-typedef std::vector<std::string> Strings;
-
-
-
-enum class Severity {
-    error,
-    notification,
-    information,
-    debug,
-    detailed
-};
 
 enum class Id {
     empty = 0,
@@ -111,8 +89,5 @@ static int EmptyUserIndex = -1;
  *
  */
 static int EmptyPosition = -1;
-
-
-int LargeNumber();
 
 }

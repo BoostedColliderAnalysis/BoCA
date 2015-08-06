@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Analysis.hh"
+#include "Vector.hh"
 
 namespace analysis
 {

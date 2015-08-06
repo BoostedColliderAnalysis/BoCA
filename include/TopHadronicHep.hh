@@ -1,8 +1,14 @@
 #pragma once
 
-#include "Global.hh"
+#include <vector>
+
+namespace fastjet{
+class PseudoJet;
+}
 
 namespace analysis {
+
+typedef std::vector<fastjet::PseudoJet> Jets;
 
 /**
  * @brief prepares the data for the top tagger

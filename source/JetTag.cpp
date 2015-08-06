@@ -1,5 +1,5 @@
 #include "JetTag.hh"
-#include "Predicate.hh"
+#include "Types.hh"
 #include "Debug.hh"
 
 namespace analysis {
