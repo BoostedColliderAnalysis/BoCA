@@ -88,7 +88,7 @@ int TripletJetPairTagger::Train(const analysis::Event& event, const analysis::Pr
         }
     Debug("Number of Jet Pairs", quartets.size());
     if (tag == Tag::signal && quartets.size() > 1) {
-        quartets = SortByMaxDeltaRap(quartets);
+        quartets = SortedByMaxDeltaRap(quartets);
 //         std::sort(quartets.begin(), quartets.end(), SortedByDeltaRap());
         if (quartets.size() > 1)
             quartets.erase(quartets.begin() + 1, quartets.end());

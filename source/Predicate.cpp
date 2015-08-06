@@ -72,20 +72,17 @@ struct IsExactParticle {
 
 Jets CopyIfExactParticle(const Jets& jets, int id)
 {
-    if (jets.empty())
-        return jets;
+    if (jets.empty()) return jets;
     Jets final_jets(jets.size());
     auto iterator = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), IsExactParticle(id));
     final_jets.resize(std::distance(final_jets.begin(), iterator));
     return final_jets;
 }
 
-Jets RemoveIfExactParticle(const Jets& jets, int id)
+Jets RemoveIfExactParticle(Jets jets, int id)
 {
-    if (jets.empty())
-        return jets;
-    Jets jets_ = jets;
-    jets_.erase(std::remove_if(jets_.begin(), jets_.end(), IsExactParticle(id)), jets_.end());
+    if (jets.empty()) return jets;
+    jets.erase(std::remove_if(jets.begin(), jets.end(), IsExactParticle(id)), jets.end());
     return jets;
 }
 
@@ -103,7 +100,7 @@ Jets CopyIfNeutrino(const Jets& jets)
     return final_jets;
 }
 
-Jets RemoveIfOutsidePtWindow(Jets& jets, float lower_cut, float upper_cut)
+Jets RemoveIfOutsidePtWindow(analysis::Jets jets, float lower_cut, float upper_cut)
 {
     if (jets.empty()) return jets;
     jets.erase(std::remove_if(jets.begin(), jets.end(), [lower_cut, upper_cut](const fastjet::PseudoJet& jet)
@@ -127,26 +124,24 @@ Jets CopyIfFamily(const Jets& jets, Id id, Id mother_id)
     return final_jets;
 }
 
-Jets RemoveIfGrandFamily(const Jets& jets, Id id , Id grand_mother_id)
+Jets RemoveIfGrandFamily(Jets jets, Id id , Id grand_mother_id)
 {
     if (jets.empty()) return jets;
-    Jets jets_ = jets;
-    jets_.erase(std::remove_if(jets_.begin(), jets_.end(), [id, grand_mother_id](const fastjet::PseudoJet& Jet)
+    jets.erase(std::remove_if(jets.begin(), jets.end(), [id, grand_mother_id](const fastjet::PseudoJet& Jet)
     {
       unsigned particle = std::abs(Jet.user_info<JetInfo>().Family().particle().id());
       if(particle != to_unsigned(id)) return true;
       unsigned grand_mother = Jet.user_info<JetInfo>().Family().grand_mother().id();
       return (grand_mother == to_unsigned(grand_mother_id));
-    }), jets_.end());
-    return jets_;
+    }), jets.end());
+    return jets;
 }
 
-Jets RemoveIfParticle(const Jets& jets, Id id)
+Jets RemoveIfParticle(Jets jets, Id id)
 {
     if (jets.empty()) return jets;
-    Jets jets_ = jets;
-    jets_.erase(std::remove_if(jets_.begin(), jets_.end(), IsParticle(id)), jets_.end());
-    return jets_;
+    jets.erase(std::remove_if(jets.begin(), jets.end(), IsParticle(id)), jets.end());
+    return jets;
 }
 
 struct HasMother {
@@ -170,11 +165,10 @@ Jets CopyIfMother(const Jets& jets, Id mother_id)
     final_jets.resize(std::distance(final_jets.begin(), jet));
     return final_jets;
 }
-Jets RemoveIfMother(const Jets& jets, Id mother_id)
+Jets RemoveIfMother(Jets jets, Id mother_id)
 {
-    Jets jets_ = jets;
-    jets_.erase(std::remove_if(jets_.begin(), jets_.end(), HasMother(mother_id)), jets_.end());
-    return jets_;
+    jets.erase(std::remove_if(jets.begin(), jets.end(), HasMother(mother_id)), jets.end());
+    return jets;
 }
 
 Jets CopyIfGrandMother(const Jets& jets, Id grand_mother_id)
@@ -198,11 +192,10 @@ struct IsSingleMother {
   }
 };
 
-Jets RemoveIfSingleMother(const Jets& jets)
+Jets RemoveIfSingleMother(Jets jets)
 {
-  Jets jets_ = jets;
-  jets_.erase(std::remove_if(jets_.begin(), jets_.end(), IsSingleMother()), jets_.end());
-  return jets_;
+  jets.erase(std::remove_if(jets.begin(), jets.end(), IsSingleMother()), jets.end());
+  return jets;
 }
 
 struct IsLepton {
@@ -213,11 +206,10 @@ struct IsLepton {
     }
 };
 
-Jets RemoveIfLetpon(const Jets& jets)
+Jets RemoveIfLetpon(Jets jets)
 {
-    Jets quarks = jets;
-    quarks.erase(std::remove_if(quarks.begin(), quarks.end(), IsLepton()), quarks.end());
-    return quarks;
+    jets.erase(std::remove_if(jets.begin(), jets.end(), IsLepton()), jets.end());
+    return jets;
 }
 
 struct IsQuark {
@@ -228,11 +220,10 @@ struct IsQuark {
     }
 };
 
-Jets RemoveIfQuark(const Jets& jets)
+Jets RemoveIfQuark(Jets jets)
 {
-    Jets leptons = jets;
-    leptons.erase(std::remove_if(leptons.begin(), leptons.end(), IsQuark()), leptons.end());
-    return leptons;
+    jets.erase(std::remove_if(jets.begin(), jets.end(), IsQuark()), jets.end());
+    return jets;
 }
 
 Jets CopyIfQuark(const Jets& jets)
@@ -261,13 +252,12 @@ Jets CopyIf5Quark(const Jets& jets)
     return final_jets;
 }
 
-Jets RemoveIfSoft(const Jets& jets, float pt_min)
+Jets RemoveIfSoft(Jets jets, float pt_min)
 {
-    Jets quarks = jets;
-    quarks.erase(std::remove_if(quarks.begin(), quarks.end(), [&](const fastjet::PseudoJet& jet){
+    jets.erase(std::remove_if(jets.begin(), jets.end(), [&](const fastjet::PseudoJet& jet){
         return jet.pt() < pt_min;
-    }), quarks.end());
-    return quarks;
+    }), jets.end());
+    return jets;
 }
 
 float Distance(float rapidity_1, float phi_1, float rapidity_2, float phi_2)

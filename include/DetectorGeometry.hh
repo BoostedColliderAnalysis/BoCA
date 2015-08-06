@@ -1,6 +1,7 @@
 #pragma once
 
 #include "fastjet/JetDefinition.hh"
+#include "InfoRecombiner.hh"
 
 namespace analysis {
 
@@ -43,6 +44,7 @@ public:
 private:
     static DetectorType detector_type();
     static DetectorType detector_type_;
+    static InfoRecombiner info_recombiner_;
 };
 
 }

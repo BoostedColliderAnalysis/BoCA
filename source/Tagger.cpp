@@ -31,12 +31,14 @@ float Tagger::Bdt(const TMVA::Reader& reader) const
 
 Jets Tagger::SubJets(const fastjet::PseudoJet& jet, int sub_jet_number) const
 {
-    Jets pieces;
-    if (!jet.has_pieces()) return pieces;
-    if (!jet.has_user_info<JetInfo>()) return pieces;
-    InfoRecombiner info_recombiner;
-    fastjet::ClusterSequence& cluster_sequence = *new fastjet::ClusterSequence(jet.constituents(), fastjet::JetDefinition(fastjet::kt_algorithm, DetectorGeometry::JetConeSize(), &info_recombiner));
-    for (auto & piece : cluster_sequence.exclusive_jets_up_to(sub_jet_number)) pieces.emplace_back(piece);
+    if (!jet.has_pieces()) return {};
+    if (!jet.has_user_info<JetInfo>()) return {};
+    fastjet::ClusterSequence& cluster_sequence = *new fastjet::ClusterSequence(jet.constituents(), DetectorGeometry::SubJetDefinition());
+    Jets pieces = cluster_sequence.exclusive_jets_up_to(sub_jet_number);
+    if (pieces.empty()) {
+      delete &cluster_sequence;
+      return pieces;
+    }
     cluster_sequence.delete_self_when_unused();
     return pieces;
 }

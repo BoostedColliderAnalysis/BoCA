@@ -29,7 +29,7 @@ public:
 protected:
 
     std::string ProjectName() const final {
-        return  ProcessName() + "-" + std::to_string(this->PreCut()) + "GeV-full-tc";
+        return  ProcessName() + "-" + std::to_string(this->PreCut()) + "GeV-test-save";
     }
 
     std::string ProcessName() const final {

@@ -24,9 +24,9 @@ Jets CopyIfNeutrino(const Jets& jets);
 
 Jets CopyIfExactParticle(const Jets& jets, int id);
 
-Jets RemoveIfExactParticle(const Jets& jets, int id);
+Jets RemoveIfExactParticle(Jets jets, int id);
 
-Jets RemoveIfOutsidePtWindow(Jets& jets, float lower_cut, float upper_cut);
+Jets RemoveIfOutsidePtWindow(Jets jets, float lower_cut, float upper_cut);
 
 Jets CopyIfFamily(const Jets& jets, Id id, Id mother_id);
 
@@ -34,29 +34,29 @@ Jets CopyIfFamily(const Jets& jets, Id id, Id mother_id);
  * @brief returns only particles with the correct id and non fitting grand mother id
  *
  */
-Jets RemoveIfGrandFamily(const Jets& jets, Id id , Id grand_mother_id);
+Jets RemoveIfGrandFamily(Jets jets, Id id, Id grand_mother_id);
 
 Jets CopyIfParticle(const Jets& jets, Id id);
 
-Jets RemoveIfParticle(const Jets& jets, Id id);
+Jets RemoveIfParticle(Jets jets, Id id);
 
 Jets CopyIfMother(const Jets& jets, Id mother_id);
 
 Jets CopyIfGrandMother(const Jets& jets, Id grand_mother_id);
 
-Jets RemoveIfMother(const Jets& jets, Id mother_id);
+Jets RemoveIfMother(const Jets jets, Id mother_id);
 
-Jets RemoveIfSingleMother(const Jets& jets);
+Jets RemoveIfSingleMother(Jets jets);
 
-Jets RemoveIfLetpon(const Jets& jets);
+Jets RemoveIfLetpon(Jets jets);
 
-Jets RemoveIfQuark(const Jets& jets);
+Jets RemoveIfQuark(Jets jets);
 
 Jets CopyIfQuark(const Jets& jets);
 
 Jets CopyIf5Quark(const Jets& jets);
 
-Jets RemoveIfSoft(const Jets& jets, float pt_min);
+Jets RemoveIfSoft(Jets jets, float pt_min);
 
 
 /**
@@ -95,12 +95,10 @@ struct Close {
 };
 
 template <typename Multiplet>
-std::vector<Multiplet> RemoveIfClose(const std::vector<Multiplet>& jets, const Jets& particles)
+std::vector<Multiplet> RemoveIfClose(std::vector<Multiplet> jets, const Jets& particles)
 {
-    std::vector<Multiplet> quarks = jets;
-    for (const auto & particle : particles)
-        quarks.erase(std::remove_if(quarks.begin(), quarks.end(), Close(particle)), quarks.end());
-    return quarks;
+    for (const auto & particle : particles) jets.erase(std::remove_if(jets.begin(), jets.end(), Close(particle)), jets.end());
+    return jets;
 }
 
 template <typename Multiplet>
@@ -133,7 +131,7 @@ struct MinDeltaRTo {
 };
 
 template<typename Multiplet>
-std::vector<Multiplet> SortedByMinDeltaRTo(std::vector<Multiplet>& multiplets, const fastjet::PseudoJet& jet)
+std::vector<Multiplet> SortedByMinDeltaRTo(std::vector<Multiplet> multiplets, const fastjet::PseudoJet& jet)
 {
     std::sort(multiplets.begin(), multiplets.end(), MinDeltaRTo(jet));
     return multiplets;
@@ -147,7 +145,7 @@ struct MaxDeltaRap {
 };
 
 template <class Multiplet>
-std::vector<Multiplet> SortByMaxDeltaRap(std::vector<Multiplet>& multiplets)
+std::vector<Multiplet> SortedByMaxDeltaRap(std::vector<Multiplet> multiplets)
 {
     std::sort(multiplets.begin(), multiplets.end(), MaxDeltaRap());
     return multiplets;
@@ -165,7 +163,7 @@ struct SortByMassTo {
 };
 
 template <class Multiplet>
-std::vector<Multiplet> SortedByMassTo(std::vector<Multiplet>& multiplets, float mass)
+std::vector<Multiplet> SortedByMassTo(std::vector<Multiplet> multiplets, float mass)
 {
     std::sort(multiplets.begin(), multiplets.end(), SortByMassTo(mass));
     return multiplets;
@@ -182,7 +180,7 @@ struct SortByMass {
 };
 
 template <class Multiplet>
-std::vector<Multiplet> SortedByMass(std::vector<Multiplet>& multiplets)
+std::vector<Multiplet> SortedByMass(std::vector<Multiplet> multiplets)
 {
     std::sort(multiplets.begin(), multiplets.end(), SortByMass());
     return multiplets;
@@ -207,18 +205,10 @@ struct SortByPt {
 };
 
 template <class Multiplet>
-std::vector<Multiplet> SortedByPt(std::vector<Multiplet>& multiplets)
+std::vector<Multiplet> SortedByPt(std::vector<Multiplet> multiplets)
 {
     std::sort(multiplets.begin(), multiplets.end(), SortByPt());
     return multiplets;
-}
-
-template <class Multiplet>
-std::vector<Multiplet> SortedByPt(const std::vector<Multiplet>& multiplets)
-{
-    std::vector<Multiplet> final_multiplets = multiplets;
-    std::sort(final_multiplets.begin(), final_multiplets.end(), SortByPt());
-    return final_multiplets;
 }
 
 template <typename Element>
