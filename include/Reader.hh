@@ -18,8 +18,9 @@ public:
 
     Reader() : reader_(Options())
     {
-        AddVariable();
-        BookMva(TMVA::Types::EMVA::kBDT);
+      Initialize();
+//         AddVariable();
+//         BookMva(TMVA::Types::EMVA::kBDT);
     }
 
     Reader(Stage stage) : reader_(Options())
@@ -28,10 +29,21 @@ public:
         case Stage::trainer :
             break;
         case Stage::reader :
-            AddVariable();
-            BookMva(TMVA::Types::EMVA::kBDT);
+          Initialize();
+//             AddVariable();
+//             BookMva(TMVA::Types::EMVA::kBDT);
             break;
         }
+    }
+
+    void Initialize(){
+      std::streambuf* cout = std::cout.rdbuf();
+      std::ostringstream new_cout;
+      std::cout.rdbuf(new_cout.rdbuf());
+      AddVariable();
+      BookMva(TMVA::Types::EMVA::kBDT);
+      std::cout.rdbuf( cout );
+//       std::cout << new_cout.str();
     }
 
     int Bdt(const analysis::Event& event, const analysis::PreCuts& pre_cuts) const

@@ -1,5 +1,6 @@
 #include "Multiplet.hh"
 #include "JetInfo.hh"
+#include "InfoRecombiner.hh"
 #include "Predicate.hh"
 #include "Debug.hh"
 
@@ -19,20 +20,7 @@ fastjet::PseudoJet Multiplet::Jet(const fastjet::PseudoJet& jet_1, const fastjet
     else constituents.push_back(jet_1);
     if (jet_2.has_constituents()) constituents = Join(constituents, jet_2.constituents());
     else constituents.push_back(jet_2);
-    fastjet::PseudoJet jet = fastjet::join(constituents);
-
-    std::vector<Constituent> vertex_constituents;
-    std::vector<Constituent> displaced_constituents;
-    if (jet_1.has_user_info<JetInfo>()) {
-        vertex_constituents = jet_1.user_info<JetInfo>().constituents();
-        displaced_constituents = jet_1.user_info<JetInfo>().displaced_constituents();
-    }
-    if (jet_2.has_user_info<JetInfo>()) {
-        vertex_constituents = Join(vertex_constituents, jet_2.user_info<JetInfo>().constituents());
-        displaced_constituents = Join(displaced_constituents, jet_2.user_info<JetInfo>().displaced_constituents());
-    }
-    jet.set_user_info(new JetInfo(vertex_constituents, displaced_constituents));
-
+    fastjet::PseudoJet jet = fastjet::join(constituents, InfoRecombiner());
     return jet;
 }
 

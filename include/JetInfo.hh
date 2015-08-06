@@ -1,28 +1,29 @@
 #pragma once
 
-#include <map>
-#include <unordered_map>
-
-#include "fastjet/PseudoJet.hh"
 #include "fastjet/JetDefinition.hh"
 
 #include "Identification.hh"
 #include "Constituent.hh"
 
 class Jet;
-namespace delphes {
+namespace delphes
+{
 typedef ::Jet Jet;
 }
 
-namespace analysis {
+namespace analysis
+{
 
 /**
  * @brief Jet infos subclassed from Fastjet
  *
  */
-class JetInfo: public Identification, public fastjet::PseudoJet::UserInfoBase {
+class JetInfo: public Identification, public fastjet::PseudoJet::UserInfoBase
+{
 
 public:
+
+    friend class InfoRecombiner;
 
     /**
      * @brief Constructor
@@ -34,12 +35,6 @@ public:
 
     JetInfo(const ::delphes::Jet& jet);
 
-    JetInfo(bool b_tag);
-
-//     JetInfo(bool b_tag, int charge);
-
-    JetInfo(bool b_tag, bool tau_tag);
-
     JetInfo(int charge);
 
     JetInfo(const Constituent& constituent);
@@ -48,23 +43,15 @@ public:
 
     JetInfo(const std::vector<Constituent>& constituents);
 
-    JetInfo(const std::vector<Constituent>& constituents, const std::vector<Constituent>& dispalced_constituents);
+    JetInfo operator+(const JetInfo &jet_info);
 
-//     JetInfo operator+(const JetInfo &jet_info);
+    JetInfo& operator+=(const JetInfo &jet_info);
 
     void AddConstituent(const Constituent& constituent);
 
     void AddConstituents(const std::vector<Constituent>& constituents);
 
-    void SetConstituents(const std::vector<Constituent>& constituents);
-
-    void AddDaughter(int daughter);
-
-    std::vector<Constituent> constituents() const;
-
-    std::vector<Constituent> displaced_constituents() const;
-
-    std::unordered_map<Family, float> FamilyFractions();
+    void AddConstituents(const std::vector<Constituent>& constituents, const std::vector<Constituent>& displaced_constituents);
 
     float VertexMass() const;
 
@@ -80,30 +67,6 @@ public:
 
     float VertexEnergy() const;
 
-    void ExtractFraction(int id);
-
-    void ExtractAbsFraction(int id);
-
-    void ExtractFraction(int id, int mother_id);
-
-    void PrintAllInfos(const Severity severity) const;
-
-    void PrintAllconstituentInfos(const Severity severity) const;
-
-    void PrintAllFamInfos(const Severity severity) const;
-
-    float MaximalFraction() const;
-
-    float Fraction(int id) const;
-
-    int MaximalId() const;
-
-    void AddFamily(const Family& family, float weight);
-
-    void ExtractFamilyFraction();
-
-    Family MaximalFamily();
-
     float ElectroMagneticRadius(const fastjet::PseudoJet& jet) const;
 
     float TrackRadius(const fastjet::PseudoJet& jet) const;
@@ -118,44 +81,35 @@ public:
 
     float TrackMass() const;
 
-    void SetBTag(bool b_tag)
-    {
-        b_tag_ = b_tag;
-    }
+    bool BTag() const;
 
-    bool BTag() const
-    {
-        return b_tag_;
-    }
-
-    void SetTauTag(bool tau_tag)
-    {
-        tau_tag_ = tau_tag;
-    }
-
-    bool TauTag() const
-    {
-        return tau_tag_;
-    }
-
-    void SetCharge(int charge)
-    {
-        charge_ = charge;
-    }
+    bool TauTag() const;
 
     int Charge() const;
 
+    analysis::Family Family() const;
+
     void SetDelphesTags(const ::delphes::Jet& jet);
 
-    void SecondayVertex() const;
+    void SetConstituents(const std::vector<Constituent>& constituents);
 
 private:
 
-    void AddParticle(int constituent_id, float weight);
+    JetInfo(const std::vector<Constituent>& constituents, const std::vector<Constituent>& dispalced_constituents);
 
-    void AddParticle(Id constituent_id, float weight);
+    void SetConstituent(const Constituent& constituent);
 
-    float GetWeightSum() const;
+    void SetBTag(bool b_tag);
+
+    void SetTauTag(bool tau_tag);
+
+    void SetCharge(int charge);
+
+    std::vector<Constituent> constituents() const;
+
+    std::vector<Constituent> displaced_constituents() const;
+
+    void SecondayVertex() const;
 
     std::vector<Constituent> ApplyVertexResolution(std::vector<Constituent> constituents) const;
 
@@ -164,10 +118,6 @@ private:
     std::vector<Constituent> constituents_;
 
     std::vector<Constituent> displaced_constituents_;
-
-    std::unordered_map<Family, float> family_fractions_;
-
-    std::map<int, float> id_fractions_;
 
     bool b_tag_ = 0;
 
@@ -182,18 +132,7 @@ private:
  *
  */
 struct SortByBdt {
-    bool operator()(const fastjet::PseudoJet& jet_1, const fastjet::PseudoJet& jet_2);
+  bool operator()(const fastjet::PseudoJet& jet_1, const fastjet::PseudoJet& jet_2);
 };
-
-class InfoRecombiner : public  fastjet::JetDefinition::DefaultRecombiner
-{
-public:
-  InfoRecombiner(fastjet::RecombinationScheme recombination_scheme = fastjet::E_scheme);
-
-  std::string description() const override;
-  /// recombine jet_1 and jet_2 and put result into jet
-  void recombine(const fastjet::PseudoJet& jet_1, const fastjet::PseudoJet& jet_2, fastjet::PseudoJet& jet) const override;
-};
-
 
 }

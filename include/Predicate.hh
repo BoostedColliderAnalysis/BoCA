@@ -397,8 +397,11 @@ auto to_int(Enumeration const value) -> typename std::underlying_type<Enumeratio
 }
 
 template <typename Enumeration>
-auto to_unsigned(Enumeration const value) -> typename std::underlying_type<Enumeration>::type {
-  return static_cast<typename std::make_unsigned<typename std::underlying_type<Enumeration>::type>::type>(value);
+using Unsigned = typename std::make_unsigned<typename std::underlying_type<Enumeration>::type>;
+
+template <typename Enumeration>
+auto to_unsigned(Enumeration const value) -> typename Unsigned<Enumeration>::type {
+  return static_cast<typename Unsigned<Enumeration>::type>(value);
 }
 
 }

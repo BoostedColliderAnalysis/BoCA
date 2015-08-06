@@ -12,11 +12,11 @@ namespace toppartner {
  * @brief Prepares multivariant analysis
  *
  */
-class EventTagger : public BranchTagger<EventBranch> {
+class EventEffectiveTagger : public BranchTagger<EventBranch> {
 
 public:
 
-    EventTagger();
+    EventEffectiveTagger();
 
     int Train(const Event &event, const PreCuts &pre_cuts,
               Tag tag) const override;

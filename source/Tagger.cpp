@@ -6,6 +6,7 @@
 #include "fastjet/ClusterSequence.hh"
 
 #include "JetInfo.hh"
+#include "InfoRecombiner.hh"
 #include "Event.hh"
 #include "Analysis.hh"
 #include "Debug.hh"
@@ -33,17 +34,9 @@ Jets Tagger::SubJets(const fastjet::PseudoJet& jet, int sub_jet_number) const
     Jets pieces;
     if (!jet.has_pieces()) return pieces;
     if (!jet.has_user_info<JetInfo>()) return pieces;
-    fastjet::ClusterSequence& cluster_sequence = *new fastjet::ClusterSequence(jet.constituents(), DetectorGeometry::SubJetDefinition());
-    for (auto & piece : cluster_sequence.exclusive_jets_up_to(sub_jet_number)) {
-        std::vector<Constituent> constituents;
-        for (const auto & constituent : piece.constituents()) {
-            if (!constituent.has_user_info<JetInfo>()) continue;
-            std::vector<Constituent> piece_constituents = constituent.user_info<JetInfo>().constituents();
-            constituents = Join(constituents, piece_constituents);
-        }
-        piece.set_user_info(new JetInfo(constituents));
-        pieces.emplace_back(piece);
-    }
+    InfoRecombiner info_recombiner;
+    fastjet::ClusterSequence& cluster_sequence = *new fastjet::ClusterSequence(jet.constituents(), fastjet::JetDefinition(fastjet::kt_algorithm, DetectorGeometry::JetConeSize(), &info_recombiner));
+    for (auto & piece : cluster_sequence.exclusive_jets_up_to(sub_jet_number)) pieces.emplace_back(piece);
     cluster_sequence.delete_self_when_unused();
     return pieces;
 }
@@ -94,6 +87,10 @@ std::string Tagger::ExportFileName() const
 std::string Tagger::ExportFolderName() const
 {
     return AnalysisName() + "/" + ExportName();
+}
+std::string Tagger::FolderName() const
+{
+  return AnalysisName() + "/" + Name();
 }
 std::string Tagger::ReaderName() const
 {

@@ -29,7 +29,7 @@ int HeavyHiggsTauTagger::Train(const Event& event, const PreCuts&, Tag tag) cons
     for (const auto& Particle : TauParticles) {
         std::sort(jets.begin(), jets.end(), MinDeltaRTo(Particle));
         if (jets.front().delta_R(Particle) < 0.4)
-            static_cast<JetInfo*>(jets.front().user_info_shared_ptr().get())->SetTag(Tag::signal);
+            static_cast<JetInfo&>(*jets.front().user_info_shared_ptr().get()).SetTag(Tag::signal);
     }
     Jets NewCleanJets;
     for (const auto& jet : jets) {

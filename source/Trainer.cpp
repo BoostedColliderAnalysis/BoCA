@@ -1,10 +1,12 @@
 #include "Trainer.hh"
+#include <fstream>
 #include "TSystem.h"
 #include "TMVA/Config.h"
 #include "TClonesArray.h"
 #include "TFile.h"
 #include "Predicate.hh"
 #include "TMVA/MethodBDT.h"
+#include "TMVA/Ranking.h"
 #include "Tagger.hh"
 #include "Debug.hh"
 
@@ -14,16 +16,27 @@ namespace analysis
 Trainer::Trainer(analysis::Tagger& tagger) : tagger_(tagger) , factory_(tagger.Name(), OutputFile(), FactoryOptions())
 {
     Error();
+
+    std::ofstream cout_file(tagger.FolderName() + ".txt");
+    std::streambuf* cout = std::cout.rdbuf();
+    std::cout.rdbuf(cout_file.rdbuf());
+
     AddVariables();
     PrepareTrainingAndTestTree(GetTrees());
-    BookMethod(TMVA::Types::EMVA::kBDT);
+    TMVA::MethodBDT& method = BookMethod(TMVA::Types::EMVA::kBDT);
+//     const TMVA::Ranking& rank = *method.CreateRanking();
+//     rank.SetContext("test");
     Factory().TrainAllMethods();
+//     rank.Print();
     Factory().TestAllMethods();
     Factory().EvaluateAllMethods();
+
+    std::cout.rdbuf(cout);
 }
 
 std::string Trainer::FactoryOptions()
 {
+    return "!Color:!DrawProgressBar";
     return "!Color:!Silent:V:!DrawProgressBar";
 }
 

@@ -79,6 +79,8 @@ public:
 
     std::string ExportFolderName() const;
 
+    std::string FolderName() const;
+
     std::string FileName(Stage stage, Tag tag) const;
 
     std::string MethodName(TMVA::Types::EMVA mva) const;
@@ -115,6 +117,18 @@ protected:
 
     float Bdt(const TMVA::Reader& reader) const;
 
+    template<typename Multiplet>
+    Multiplet SetTag(Multiplet& multiplet, Tag tag) const {
+      multiplet.SetTag(tag);
+      return multiplet;
+    }
+
+    template<typename Multiplet>
+    Multiplet SetBdt(Multiplet& multiplet, const TMVA::Reader& reader) const {
+      multiplet.SetBdt(Bdt(multiplet, reader));
+      return multiplet;
+    }
+
 private:
 
     std::string SignalFileName(Stage stage) const;
@@ -148,7 +162,7 @@ private:
     std::string Name(Stage stage) const;
 
     std::string BranchName(Stage stage, Tag tag) const;
-    
+
 
     /**
      * @brief Tree Branch pointer saving the results
