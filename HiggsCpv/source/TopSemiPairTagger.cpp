@@ -48,7 +48,7 @@ int TopSemiPairTagger::Train(const analysis::Event& event, const analysis::PreCu
         }
     Debug(sextets.size());
     if (tag == Tag::signal && sextets.size() > 1) {
-        sextets = SortByMaxDeltaRap(sextets);
+        sextets = SortedByMaxDeltaRap(sextets);
         if (sextets.size() > 1) sextets.erase(sextets.begin() + 1, sextets.end());
     }
     return SaveEntries(sextets);

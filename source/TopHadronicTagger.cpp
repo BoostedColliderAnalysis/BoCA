@@ -3,6 +3,7 @@
 #include "fastjet/contrib/Nsubjettiness.hh"
 #include "fastjet/contrib/NjettinessDefinition.hh"
 #include "Event.hh"
+#include "InfoRecombiner.hh"
 // #define INFORMATION
 #include "Debug.hh"
 
@@ -285,12 +286,9 @@ Triplet TopHadronicTagger::Multiplet(analysis::Triplet& triplet, const  Jets& le
 void TopHadronicTagger::NSubJettiness(analysis::Triplet& triplet) const
 {
     return;
-    if (triplet.Degenerate())
-        triplet.set_sub_jettiness(NSubJettiness(triplet.Singlet().Jet() * 2));
-    else if (triplet.Doublet().Degenerate())
-        triplet.set_sub_jettiness(NSubJettiness(triplet.Doublet().Singlet1().Jet() * 2));
-    else
-        triplet.set_sub_jettiness(NSubJettiness(fastjet::join(fastjet::join(triplet.Singlet().Jet(), triplet.Doublet().Singlet1().Jet()), triplet.Doublet().Singlet2().Jet())));
+    if (triplet.Degenerate()) triplet.set_sub_jettiness(NSubJettiness(triplet.Singlet().Jet() * 2));
+    else if (triplet.Doublet().Degenerate()) triplet.set_sub_jettiness(NSubJettiness(triplet.Doublet().Singlet1().Jet() * 2));
+    else triplet.set_sub_jettiness(NSubJettiness(fastjet::join(triplet.Singlet().Jet(), triplet.Doublet().Singlet1().Jet(), triplet.Doublet().Singlet2().Jet(),InfoRecombiner())));
 }
 
 SubJettiness TopHadronicTagger::NSubJettiness(const fastjet::PseudoJet& jet) const

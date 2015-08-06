@@ -228,9 +228,7 @@ fastjet::PseudoJet Hadrons::MissingEt() const
 
 Jets Hadrons::ClusteredJets() const
 {
-    InfoRecombiner info_recombiner;
-    //     fastjet::ClusterSequence &cluster_sequence = *new fastjet::ClusterSequence(GranulatedJets(EFlowJets(JetDetail::structure)), DetectorGeometry::JetDefinition());
-    fastjet::ClusterSequence& cluster_sequence = *new fastjet::ClusterSequence(EFlowJets(JetDetail::structure), fastjet::JetDefinition(fastjet::antikt_algorithm, DetectorGeometry::JetConeSize(), &info_recombiner));
+    fastjet::ClusterSequence& cluster_sequence = *new fastjet::ClusterSequence(EFlowJets(JetDetail::structure), DetectorGeometry::JetDefinition());
     analysis::Jets jets = fastjet::sorted_by_pt(cluster_sequence.inclusive_jets(DetectorGeometry::JetMinPt()));
     if (jets.empty()) {
         delete &cluster_sequence;

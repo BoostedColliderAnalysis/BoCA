@@ -20,13 +20,12 @@ int TopPartnerPairTagger::Train(const Event& event, const PreCuts&, Tag tag) con
     for (const auto& quintet_1 :  quintets_1) {
         for (const auto& quintet_2 : quintets_2) {
             Decuplet55 decuplet(quintet_1, quintet_2);
-            if (decuplet.Overlap())
-                continue;
+            if (decuplet.Overlap()) continue;
             decuplet.SetTag(tag);
             decuplets.emplace_back(decuplet);
         }
     }
-    return SaveEntries(decuplets);
+    return SaveEntries(decuplets,1);
 }
 
 std::vector<Decuplet55> TopPartnerPairTagger::Multiplets(const Event& event, const analysis::PreCuts&, const TMVA::Reader& reader) const
@@ -38,8 +37,7 @@ std::vector<Decuplet55> TopPartnerPairTagger::Multiplets(const Event& event, con
     for (const auto& quintet_1 :  quintets_1) {
         for (const auto& quintet_2 : quintets_2) {
             Decuplet55 decuplet(quintet_1, quintet_2);
-            if (decuplet.Overlap())
-                continue;
+            if (decuplet.Overlap()) continue;
             decuplet.SetBdt(Bdt(decuplet, reader));
             decuplets.emplace_back(decuplet);
         }

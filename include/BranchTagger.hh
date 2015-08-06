@@ -22,15 +22,14 @@ protected:
     }
 
     template<typename Multiplet>
-    std::vector<Multiplet> ReduceResult(const std::vector<Multiplet>& multiplets, size_t max = 4) const {
+    std::vector<Multiplet> ReduceResult(std::vector<Multiplet> multiplets, size_t max = 4) const {
         if (multiplets.empty()) return multiplets;
-        std::vector<Multiplet> copy = multiplets;
-        std::sort(copy.begin(), copy.end());
-        copy.erase(copy.begin() + std::min(max, copy.size()), copy.end());
-        return copy;
+        std::sort(multiplets.begin(), multiplets.end());
+        multiplets.erase(multiplets.begin() + std::min(max, multiplets.size()), multiplets.end());
+        return multiplets;
     }
 
-    Jets ReduceResult(Jets& jets, size_t max = 4) const {
+    Jets ReduceResult(Jets jets, size_t max = 4) const {
         if (jets.empty()) return jets;
         std::sort(jets.begin(), jets.end(), SortByBdt());
         jets.erase(jets.begin() + std::min(max, jets.size()), jets.end());
@@ -38,7 +37,7 @@ protected:
     }
 
     template<typename Multiplet>
-    std::vector<Multiplet> BestMass(std::vector<Multiplet>& multiplets, float mass, size_t number = 1) const {
+    std::vector<Multiplet> BestMass(std::vector<Multiplet> multiplets, float mass, size_t number = 1) const {
         if (multiplets.size() <= number) return multiplets;
         multiplets = SortedByMassTo(multiplets, mass);
         multiplets.erase(multiplets.begin() + number, multiplets.end());
@@ -46,27 +45,25 @@ protected:
     }
 
     template<typename Multiplet>
-    std::vector<Multiplet> BestRapidity(std::vector<Multiplet>& multiplets, size_t number = 1) const {
+    std::vector<Multiplet> BestRapidity(std::vector<Multiplet> multiplets, size_t number = 1) const {
         if (multiplets.size() <= number) return multiplets;
-        multiplets = SortByMaxDeltaRap(multiplets);
+        multiplets = SortedByMaxDeltaRap(multiplets);
         multiplets.erase(multiplets.begin() + number, multiplets.end());
         return multiplets;
     }
 
     template<typename Multiplet>
-    std::vector<Multiplet> BestMatch(std::vector<Multiplet>& multiplets, const Jets& particles) const {
-//         if (multiplets.size() <= particles.size()) return multiplets;
+    std::vector<Multiplet> BestMatch(const std::vector<Multiplet>& multiplets, const Jets& particles) const {
         return CopyIfClose(multiplets, particles);
     }
 
     template<typename Multiplet>
-    std::vector<Multiplet> RemoveBestMatch(std::vector<Multiplet>& multiplets, const Jets& particles) const {
-//         if (multiplets.size() <= particles.size()) return multiplets;
+    std::vector<Multiplet> RemoveBestMatch(const std::vector<Multiplet>& multiplets, const Jets& particles) const {
         return RemoveIfClose(multiplets, particles);
     }
 
     template<typename Multiplet>
-    std::vector<Multiplet> BestMatches(std::vector<Multiplet>& multiplets, const Jets& particles, Tag tag) const {
+    std::vector<Multiplet> BestMatches(std::vector<Multiplet> multiplets, const Jets& particles, Tag tag) const {
         std::sort(multiplets.begin(), multiplets.end());
         switch (tag) {
         case Tag::signal :
@@ -78,7 +75,7 @@ protected:
         }
     }
 
-    Jets BestMatches(Jets& jets, const Jets& particles, Tag tag) const {
+    Jets BestMatches(Jets jets, const Jets& particles, Tag tag) const {
         std::sort(jets.begin(), jets.end(), SortByBdt());
         switch (tag) {
         case Tag::signal :
@@ -91,9 +88,9 @@ protected:
     }
 
     template<typename Multiplet>
-    int SaveEntries(const std::vector<Multiplet>& multiplets, size_t max = LargeNumber()) const {
+    int SaveEntries(std::vector<Multiplet> multiplets, size_t max = LargeNumber()) const {
         if (multiplets.empty()) return 0;
-//         if(multiplets.size() > 1) std::sort(multiplets.begin(),multiplets.end());
+        if(multiplets.size() > 1) std::sort(multiplets.begin(),multiplets.end());
         auto sum = std::min(multiplets.size(), max);
         for (const auto & counter : Range(sum)) {
             FillBranch(multiplets.at(counter));
@@ -102,13 +99,15 @@ protected:
         return sum;
     }
 
-    int SaveEntries(const std::vector<fastjet::PseudoJet>& jets, size_t max = LargeNumber()) const {
-        if (jets.empty()) return 0;
-        for (const auto & counter : Range(std::min(jets.size(), max))) {
+    int SaveEntries(std::vector<fastjet::PseudoJet> jets, size_t max = LargeNumber()) const {
+      if (jets.empty()) return 0;
+      if(jets.size() > 1) std::sort(jets.begin(),jets.end(),SortByBdt());
+      auto sum = std::min(jets.size(), max);
+        for (const auto & counter : Range(sum)) {
             FillBranch(Singlet(jets.at(counter)));
             static_cast<BranchTemplate&>(*TreeBranch().NewEntry()) = Branch();
         }
-        return jets.size();
+        return sum;
     }
 
     TClass &Class() const final { return *BranchTemplate::Class(); }
@@ -131,8 +130,7 @@ protected:
     }
 
 private:
-  float ReadBdt(const TClonesArray &clones_array,
-                int entry) const final {
+  float ReadBdt(const TClonesArray &clones_array, int entry) const final {
         return static_cast<BranchTemplate&>(*clones_array.At(entry)).Bdt;
     }
 

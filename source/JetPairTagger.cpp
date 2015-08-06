@@ -41,19 +41,19 @@ int JetPairTagger::Train(const Event &event, const PreCuts &, Tag tag) const
             Doublet doublet;
             if (std::abs((*jet1).rap()) > std::abs((*jet2).rap())) doublet.SetMultiplets(*jet1, *jet2);
             else doublet.SetMultiplets(*jet2, *jet1);
-            
+
             if(bottoms.size()==2&&higgs.size()>0&&tag==Tag::background){
               if(CheckIfBadBottom(doublet, bottoms)) continue;
             }
-            
-            if (doublet.Overlap())continue;            
+
+            if (doublet.Overlap())continue;
             doublet.SetTag(tag);
             doublets.emplace_back(doublet);
         }
     Debug(doublets.size());
     if (tag == Tag::signal && doublets.size() > 1) {
         Error(doublets.size());
-        doublets = SortByMaxDeltaRap(doublets);
+        doublets = SortedByMaxDeltaRap(doublets);
         if (doublets.size() > 1) doublets.erase(doublets.begin() + 1, doublets.end());  //FIXME  sorted by what?
     }
     return SaveEntries(doublets);
@@ -90,7 +90,7 @@ bool JetPairTagger::CheckIfBadBottom(const analysis::Doublet& doublet, const Jet
 {
   if((Close(jets.at(0))(doublet.Singlet1().Jet()) && Close(jets.at(1))(doublet.Singlet2().Jet())) || (Close(jets.at(1))(doublet.Singlet1().Jet()) && Close(jets.at(0))(doublet.Singlet2().Jet())))return true;
   else return false;
-  
+
 }
 
 Jets JetPairTagger::HiggsParticle(const Event& event, Tag tag) const
