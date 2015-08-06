@@ -14,9 +14,11 @@ EventShape.cpp
 create_library(Vector vector_sources)
 
 set(global_sources
-Global.cpp
+Particles.cpp
 Debug.cpp
-Predicate.cpp
+Types.cpp
+Vector.cpp
+Math.cpp
 )
 create_library(Global global_sources)
 

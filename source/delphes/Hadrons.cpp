@@ -1,12 +1,11 @@
-#include "delphes/Delphes.hh"
+#include "delphes/Hadrons.hh"
 
-#include "TClonesArray.h"
 #include "fastjet/ClusterSequence.hh"
 
-#include "delphes/Hadrons.hh"
+#include "delphes/Delphes.hh"
 #include "JetInfo.hh"
 #include "InfoRecombiner.hh"
-#include "Predicate.hh"
+#include "Vector.hh"
 #include "Debug.hh"
 
 namespace analysis

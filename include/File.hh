@@ -6,6 +6,8 @@
 
 namespace analysis {
 
+typedef std::vector<std::string> Strings;
+
 /**
  * @brief Input file infos
  *

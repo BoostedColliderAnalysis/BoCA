@@ -1,6 +1,7 @@
 #include "BottomTagger.hh"
+
 #include "Event.hh"
-#include "Predicate.hh"
+#include "Vector.hh"
 #include "PreCuts.hh"
 #include "Debug.hh"
 

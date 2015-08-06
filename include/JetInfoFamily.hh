@@ -8,6 +8,7 @@
 
 #include "Identification.hh"
 #include "Constituent.hh"
+#include "FourVector.hh"
 
 namespace analysis {
 

@@ -1,7 +1,8 @@
 #include "Multiplet.hh"
-#include "JetInfo.hh"
+
 #include "InfoRecombiner.hh"
-#include "Predicate.hh"
+#include "Vector.hh"
+#include "Math.hh"
 #include "Debug.hh"
 
 namespace analysis

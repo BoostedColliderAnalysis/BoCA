@@ -3,7 +3,10 @@
 #include "Tagger.hh"
 #include "Singlet.hh"
 #include "TClonesArray.h"
-#include "Predicate.hh"
+#include "Sort.hh"
+#include "Vector.hh"
+#include "Math.hh"
+#include "Types.hh"
 #include "exroot/ExRootAnalysis.hh"
 
 namespace analysis
@@ -31,7 +34,7 @@ protected:
 
     Jets ReduceResult(Jets jets, size_t max = 4) const {
         if (jets.empty()) return jets;
-        std::sort(jets.begin(), jets.end(), SortByBdt());
+        jets = SortedByBdt(jets);
         jets.erase(jets.begin() + std::min(max, jets.size()), jets.end());
         return jets;
     }
@@ -76,7 +79,7 @@ protected:
     }
 
     Jets BestMatches(Jets jets, const Jets& particles, Tag tag) const {
-        std::sort(jets.begin(), jets.end(), SortByBdt());
+        jets = SortedByBdt(jets);
         switch (tag) {
         case Tag::signal :
             return BestMatch(jets, particles);
@@ -101,7 +104,7 @@ protected:
 
     int SaveEntries(std::vector<fastjet::PseudoJet> jets, size_t max = LargeNumber()) const {
       if (jets.empty()) return 0;
-      if(jets.size() > 1) std::sort(jets.begin(),jets.end(),SortByBdt());
+      if(jets.size() > 1) jets = SortedByBdt(jets);
       auto sum = std::min(jets.size(), max);
         for (const auto & counter : Range(sum)) {
             FillBranch(Singlet(jets.at(counter)));
@@ -130,6 +133,7 @@ protected:
     }
 
 private:
+
   float ReadBdt(const TClonesArray &clones_array, int entry) const final {
         return static_cast<BranchTemplate&>(*clones_array.At(entry)).Bdt;
     }

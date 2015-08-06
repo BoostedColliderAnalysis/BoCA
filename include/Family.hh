@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include "Particle.hh"
 
 namespace analysis {

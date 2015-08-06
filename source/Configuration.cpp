@@ -36,7 +36,7 @@ int Configuration::BackgroundFileNumber() const
     return background_file_number_;
 }
 
-Configuration::ColliderType Configuration::collider_type() const
+ColliderType Configuration::collider_type() const
 {
     return collider_type_;
 }
@@ -99,16 +99,16 @@ int Configuration::BackgroundFileNumber_()
     return background_file_number_;
 }
 
-Configuration::ColliderType Configuration::ColliderType_()
+ColliderType Configuration::ColliderType_()
 {
     try {
         std::string Collider = config().lookup("ColliderType");
         if (Collider == "LHC")
-            collider_type_ = LHC;
+          collider_type_ = ColliderType::LHC;
         else if (Collider == "LE")
-            collider_type_ = LE;
+          collider_type_ = ColliderType::LE;
         else if (Collider == "FHC")
-            collider_type_ = FHC;
+          collider_type_ = ColliderType::FHC;
     } catch (const libconfig::SettingNotFoundException& SettingNotFoundException) {
         std::cerr << "No 'ColliderType' setting in configuration file." << std::endl;
         throw;
@@ -116,7 +116,7 @@ Configuration::ColliderType Configuration::ColliderType_()
         std::cerr << "'ColliderType' setting has wrong type." << std::endl;
         throw;
     }
-    return LHC;
+    return ColliderType::LHC;
 }
 
 

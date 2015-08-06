@@ -1,4 +1,5 @@
 #include "Trees.hh"
+#include "File.hh"
 // #define DEBUG
 #include "Debug.hh"
 

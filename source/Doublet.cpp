@@ -1,5 +1,6 @@
 #include "Doublet.hh"
-#include "Predicate.hh"
+
+#include "Math.hh"
 #include "Debug.hh"
 
 namespace analysis

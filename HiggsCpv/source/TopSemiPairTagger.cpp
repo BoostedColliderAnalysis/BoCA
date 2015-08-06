@@ -1,5 +1,6 @@
 #include "TopSemiPairTagger.hh"
-#include "Predicate.hh"
+
+#include "Sort.hh"
 #include "Event.hh"
 #include "Debug.hh"
 

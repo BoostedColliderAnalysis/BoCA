@@ -51,21 +51,21 @@ protected:
 
 private:
 
-    int PassPreCut(const Event& event, Tag) const final
+    int PassPreCut(const Event&, Tag) const final
     {
-        Jets particles = event.Partons().GenParticles();
-        particles = RemoveIfSoft(particles, this->PreCut());
-        Jets tops = CopyIfParticle(particles, Id::top);
-        Jets higgs = CopyIfParticle(particles, Id::higgs);
-        Jets vectors = CopyIfParticles(particles, Id::Z, Id::W);
-        Jets partner = CopyIfParticle(particles, Id::top_partner);
+//         Jets particles = event.Partons().GenParticles();
+//         particles = RemoveIfSoft(particles, this->PreCut());
+//         Jets tops = CopyIfParticle(particles, Id::top);
+//         Jets higgs = CopyIfParticle(particles, Id::higgs);
+//         Jets vectors = CopyIfParticles(particles, Id::Z, Id::W);
+//         Jets partner = CopyIfParticle(particles, Id::top_partner);
 
 //         Jets tchannel = RemoveIfMother(higgs,Id::top);
 //         tchannel = RemoveIfMother(tchannel,Id::top_partner);
 
-        Error(partner.size());
+//         Error(partner.size());
 
-        if (tops.size() < 2 || (higgs.size() < 1 && vectors.size() < 1)) return 0;
+//         if (tops.size() < 2 || (higgs.size() < 1 && vectors.size() < 1)) return 0;
         return 1;
     }
 

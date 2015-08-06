@@ -328,6 +328,10 @@ SubJettiness TopHadronicTagger::NSubJettiness(const fastjet::PseudoJet& jet) con
     sub_jettiness.tau32_beta2(n_subjettiness_32_2(jet));
     return sub_jettiness;
 }
+int TopHadronicTagger::TopHadronicId(const Event& event) const
+{
+    return sgn(w_hadronic_reader_.Tagger().WHadronicId(event)) * to_int(Id::top);
+}
 
 }
 

@@ -1,43 +1,37 @@
 #include "Trainer.hh"
-#include <fstream>
-#include "TSystem.h"
-#include "TMVA/Config.h"
+
 #include "TClonesArray.h"
 #include "TFile.h"
-#include "Predicate.hh"
+
+#include "TMVA/Config.h"
 #include "TMVA/MethodBDT.h"
 #include "TMVA/Ranking.h"
+
+#include "Types.hh"
 #include "Tagger.hh"
 #include "Debug.hh"
 
 namespace analysis
 {
 
-Trainer::Trainer(analysis::Tagger& tagger) : tagger_(tagger) , factory_(tagger.Name(), OutputFile(), FactoryOptions())
+  Trainer::Trainer(analysis::Tagger& tagger, TMVA::Types::EMVA mva) : tagger_(tagger) , factory_(tagger.Name(), OutputFile(), FactoryOptions())
 {
     Error();
-
-    std::ofstream cout_file(tagger.FolderName() + ".txt");
-    std::streambuf* cout = std::cout.rdbuf();
-    std::cout.rdbuf(cout_file.rdbuf());
-
     AddVariables();
     PrepareTrainingAndTestTree(GetTrees());
-    TMVA::MethodBDT& method = BookMethod(TMVA::Types::EMVA::kBDT);
+//     TMVA::MethodBDT& method =
+    BookMethod(mva);
 //     const TMVA::Ranking& rank = *method.CreateRanking();
 //     rank.SetContext("test");
     Factory().TrainAllMethods();
 //     rank.Print();
     Factory().TestAllMethods();
     Factory().EvaluateAllMethods();
-
-    std::cout.rdbuf(cout);
 }
 
 std::string Trainer::FactoryOptions()
 {
     return "!Color:!DrawProgressBar";
-    return "!Color:!Silent:V:!DrawProgressBar";
 }
 
 TFile* Trainer::OutputFile() const
@@ -111,7 +105,7 @@ float Trainer::Weight(exroot::TreeReader& tree_reader)
 TTree& Trainer::Tree(const std::string& tree_name, Tag tag)
 {
     Note(Tagger().FileName(Stage::trainer, tag));
-    if (gSystem->AccessPathName(Tagger().FileName(Stage::trainer, tag).c_str())) Error("File not found", Tagger().FileName(Stage::trainer, tag));
+    if (!Exists(Tagger().FileName(Stage::trainer, tag).c_str())) Error("File not found", Tagger().FileName(Stage::trainer, tag));
     TFile& file = *TFile::Open(Tagger().FileName(Stage::trainer, tag).c_str());
     if (!file.GetListOfKeys()->Contains(tree_name.c_str())) Error("no tree");
     return static_cast<TTree&>(*file.Get(tree_name.c_str()));

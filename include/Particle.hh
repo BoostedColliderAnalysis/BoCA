@@ -1,8 +1,7 @@
 #pragma once
 
-#include "Global.hh"
+#include "Particles.hh"
 #include "LorentzVector.hh"
-// #include "Predicate.hh"
 
 class TLorentzVector;
 

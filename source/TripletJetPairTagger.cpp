@@ -1,5 +1,6 @@
 #include "TripletJetPairTagger.hh"
-#include "Predicate.hh"
+// #include "Types.hh"
+#include "Sort.hh"
 #include "Event.hh"
 #include "Debug.hh"
 

@@ -7,7 +7,8 @@ namespace analysis {
 namespace standardmodel {
 
 enum class Decay {
-    leptonic, hadronic
+    leptonic,
+    hadronic
 };
 
 std::string Name(const Decay decay);
@@ -37,15 +38,15 @@ public:
 
     Decay TopDecay() const
     {
-        return Decay::hadronic;
-        //     return Decay::leptonic;
+//         return Decay::hadronic;
+            return Decay::leptonic;
     }
 
 private:
 
     std::string ProjectName() const final
     {
-        return  Name(this->collider_type()) + "-" + std::to_string(this->LowerPtCut()) + "GeV-" + Name(Process::tt) + "-" + Name(TopDecay()) + "-test2";
+        return  Name(this->collider_type()) + "-" + std::to_string(this->LowerPtCut()) + "GeV-" + Name(Process::tt) + "-" + Name(TopDecay()) + "";
     }
 
     void SetFiles(Tag tag) final {

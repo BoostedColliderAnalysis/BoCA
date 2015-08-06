@@ -16,22 +16,16 @@ class Reader {
 
 public:
 
-    Reader() : reader_(Options())
-    {
+    Reader() : reader_(Options()) {
       Initialize();
-//         AddVariable();
-//         BookMva(TMVA::Types::EMVA::kBDT);
     }
 
-    Reader(Stage stage) : reader_(Options())
-    {
+    Reader(Stage stage) : reader_(Options()) {
         switch (stage) {
         case Stage::trainer :
             break;
         case Stage::reader :
           Initialize();
-//             AddVariable();
-//             BookMva(TMVA::Types::EMVA::kBDT);
             break;
         }
     }
@@ -42,8 +36,7 @@ public:
       std::cout.rdbuf(new_cout.rdbuf());
       AddVariable();
       BookMva(TMVA::Types::EMVA::kBDT);
-      std::cout.rdbuf( cout );
-//       std::cout << new_cout.str();
+      std::cout.rdbuf(cout);
     }
 
     int Bdt(const analysis::Event& event, const analysis::PreCuts& pre_cuts) const

@@ -1,6 +1,8 @@
 #pragma once
 
 #include "../Hadrons.hh"
+#include "DetectorGeometry.hh"
+#include "Constituent.hh"
 
 class Jet;
 namespace delphes

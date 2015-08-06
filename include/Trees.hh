@@ -1,5 +1,10 @@
 #pragma once
 
+#include "TFile.h"
+#include "exroot/ExRootAnalysis.hh"
+
+#include "ClonesArrays.hh"
+#include "Event.hh"
 #include "AnalysisBase.hh"
 
 namespace analysis

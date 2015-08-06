@@ -1,7 +1,7 @@
 #include "TopLeptonicPairTagger.hh"
 #include "Quartet.hh"
 #include "WimpMass.hh"
-#include "Predicate.hh"
+#include "Types.hh"
 #include "Event.hh"
 #include "Debug.hh"
 

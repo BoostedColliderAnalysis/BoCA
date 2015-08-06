@@ -1,7 +1,11 @@
-#include <map>
 #include "WimpMass.hh"
+
+#include <map>
+
 #include "WIMPMASS.h"
-#include "Predicate.hh"
+
+#include "Math.hh"
+#include "Types.hh"
 #include "Debug.hh"
 
 namespace analysis {
@@ -92,9 +96,9 @@ std::vector<analysis::Sextet> WimpMass::Sextet(const Quartet22& quartet, const f
         return sextets;
 //     if (Neutrinos.size() < 2) return sextets;
     for (const auto& neutrino : neutrinos)
-        Debug("Neutrino", neutrino);
-    Debug("Neutrino Sum", neutrinos[0] + neutrinos[1]);
-    Debug("MET", missing_et);
+        Debug(neutrino);
+    Debug(neutrinos[0] + neutrinos[1]);
+    Debug(missing_et);
     std::map<float, analysis::Sextet> map;
     for (const auto& sextet : sextets) {
         fastjet::PseudoJet neutrino_1 = sextet.Triplet1().Doublet().Singlet2().Jet();

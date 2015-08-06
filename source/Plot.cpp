@@ -1,6 +1,6 @@
 #include "Plot.hh"
 
-#include<fstream>
+#include <fstream>
 #include <algorithm>
 #include <sys/stat.h>
 
@@ -20,7 +20,8 @@
 #include "TExec.h"
 
 #include "exroot/ExRootAnalysis.hh"
-#include "Predicate.hh"
+#include "Vector.hh"
+#include "Types.hh"
 #include "Branches.hh"
 // #define DEBUG
 #include "Debug.hh"
@@ -772,7 +773,7 @@ Plot3d Plot::ReadTree(TTree& tree, const std::string& leaf_1, const std::string&
     return points;
 }
 
-Plot3d Plot::CoreVector(const Plot3d& points, std::function<bool (Point&, Point&)> function) const
+Plot3d Plot::CoreVector(const Plot3d& points, const std::function<bool (Point&, Point&)>& function) const
 {
     Plot3d plot = points;
     // TODO sorting the whole vector if you just want to get rid of the extrem values might not be the fastest solution
@@ -783,6 +784,25 @@ Plot3d Plot::CoreVector(const Plot3d& points, std::function<bool (Point&, Point&
     plot.points.erase(plot.points.begin(), plot.points.begin() + cut_off);
     plot.points.erase(plot.points.end() - cut_off, plot.points.end());
     return plot;
+}
+int Results::XBin(float value) const
+{
+    return std::floor((value + 1) * Result::steps / 2);
+}
+void Results::ExtremeXValues()
+{
+    for (const auto & result : background) {
+        float min_0 = *std::min_element(result.bdt.begin(), result.bdt.end());
+        if (min_0 < min.x) {
+            min.x = min_0;
+        }
+    }
+    for (const auto & result : signal) {
+        float max_0 = *std::max_element(result.bdt.begin(), result.bdt.end());
+        if (max_0 > max.x) {
+            max.x = max_0;
+        }
+    }
 }
 
 }

@@ -15,16 +15,11 @@ public:
 
     TopHadronicTagger();
 
-    int Train(const Event &event, const PreCuts &pre_cuts,
-              Tag tag) const final;
+    int Train(const Event &event, const PreCuts &pre_cuts, Tag tag) const final;
 
-    int TopHadronicId(const Event& event) const
-    {
-        return sgn(w_hadronic_reader_.Tagger().WHadronicId(event)) * to_int(Id::top);
-    }
+    int TopHadronicId(const Event& event) const;
 
-    int GetBdt(const Event &event, const PreCuts &pre_cuts,
-               const TMVA::Reader &reader) const final {
+    int GetBdt(const Event &event, const PreCuts &pre_cuts, const TMVA::Reader &reader) const final {
         return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
     }
 

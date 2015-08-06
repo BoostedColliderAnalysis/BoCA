@@ -1,6 +1,6 @@
 #include "HiggsTagger.hh"
 #include "Event.hh"
-#include "Predicate.hh"
+#include "Types.hh"
 #include "fastjet/tools/MassDropTagger.hh"
 #include "fastjet/tools/Filter.hh"
 #include "JetInfo.hh"

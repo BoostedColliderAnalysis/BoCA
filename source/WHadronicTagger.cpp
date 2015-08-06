@@ -1,5 +1,7 @@
 #include "WHadronicTagger.hh"
+
 #include "Event.hh"
+#include "Math.hh"
 #include "Debug.hh"
 
 namespace analysis {

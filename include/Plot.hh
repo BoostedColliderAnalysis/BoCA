@@ -1,11 +1,10 @@
 #pragma once
 
+#include <functional>
+
 #include "Tagger.hh"
 #include "TLegend.h"
-#include "TFile.h"
 #include "TH1F.h"
-#include "Branches.hh"
-#include <functional>
 
 class TMultiGraph;
 class TAttLine;
@@ -13,6 +12,7 @@ class TTree;
 class TH2;
 class TProfile2D;
 class TExec;
+class TFile;
 
 class ExRootTreeBranch;
 class ExRootTreeReader;
@@ -24,6 +24,8 @@ typedef ::ExRootTreeReader TreeReader;
 
 namespace analysis
 {
+
+class Tagger;
 
 class Result
 {
@@ -76,24 +78,9 @@ public:
       return XValue(best_bin);
     }
 
-    int XBin(float value) const{
-      return std::floor((value + 1) * Result::steps / 2);
-    }
+    int XBin(float value) const;
 
-    void ExtremeXValues() {
-        for (const auto & result : background) {
-            float min_0 = *std::min_element(result.bdt.begin(), result.bdt.end());
-            if (min_0 < min.x) {
-                min.x = min_0;
-            }
-        }
-        for (const auto & result : signal) {
-            float max_0 = *std::max_element(result.bdt.begin(), result.bdt.end());
-            if (max_0 > max.x) {
-                max.x = max_0;
-            }
-        }
-    }
+    void ExtremeXValues();
 
     std::vector<Result> signal;
     std::vector<Result> background;
@@ -214,7 +201,7 @@ private:
 
     int ColorCode(int number) const;
 
-    Plot3d CoreVector(const Plot3d& points, std::function<bool(Point&, Point&)> function) const;
+    Plot3d CoreVector(const Plot3d& points,const std::function<bool(Point&, Point&)>& function) const;
 
     std::string ExportFileSuffix() const {
         return ".png";

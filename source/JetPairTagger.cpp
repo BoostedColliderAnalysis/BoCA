@@ -1,5 +1,6 @@
 #include "JetPairTagger.hh"
 #include "Event.hh"
+#include "Sort.hh"
 #include "Debug.hh"
 
 namespace analysis

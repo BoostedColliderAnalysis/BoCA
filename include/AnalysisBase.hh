@@ -1,10 +1,13 @@
 #pragma once
 
-#include "File.hh"
-// #include "Configuration.hh"
-#include "Reader.hh"
+#include "Tagger.hh"
+#include "PreCuts.hh"
+
+class TFile;
 
 namespace analysis {
+
+class File;
 
 /**
  * @brief Base for all analyses
@@ -97,8 +100,6 @@ private:
     virtual Tagger& tagger() = 0;
 
     std::string FileSuffix() const;
-
-    bool ExistenceCheck(const std::string& name) const;
 
     virtual void AnalysisLoop(Stage stage) = 0;
 

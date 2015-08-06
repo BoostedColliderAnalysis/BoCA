@@ -1,7 +1,7 @@
 #include "FourVector.hh"
 
 #include "TClonesArray.h"
-#include "Predicate.hh"
+#include "Types.hh"
 #include "delphes/Delphes.hh"
 #include "exroot/ExRootAnalysis.hh"
 #include "JetInfoFamily.hh"

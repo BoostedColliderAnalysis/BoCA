@@ -1,7 +1,7 @@
 #pragma once
 
 #include "FourVector.hh"
-#include "Predicate.hh"
+#include "Types.hh"
 
 namespace analysis
 {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SignatureTagger.hh"
+#include "SignatureEffectiveTagger.hh"
 #include "MultipletEvent.hh"
 
 namespace analysis {
@@ -38,7 +38,7 @@ public:
 
 private:
 
-    Reader<SignatureTagger> signature_reader_;
+    Reader<SignatureEffectiveTagger> signature_reader_;
 
     Reader<BottomTagger> bottom_reader_;
 

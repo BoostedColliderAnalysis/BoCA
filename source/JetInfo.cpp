@@ -1,6 +1,8 @@
 #include "JetInfo.hh"
 
-#include "Predicate.hh"
+#include "Vector.hh"
+#include "Math.hh"
+#include "Types.hh"
 #include "delphes/Delphes.hh"
 #include "Debug.hh"
 
@@ -14,6 +16,7 @@ JetInfo::JetInfo()
 JetInfo::JetInfo(float bdt)
 {
     SetBdt(bdt);
+    SetCharge(LargeNumber());
 }
 
 void JetInfo::SetDelphesTags(const ::delphes::Jet& jet)
@@ -25,7 +28,8 @@ void JetInfo::SetDelphesTags(const ::delphes::Jet& jet)
 
 JetInfo::JetInfo(const ::delphes::Jet& jet)
 {
-    SetDelphesTags(jet);
+  SetDelphesTags(jet);
+  SetCharge(LargeNumber());
 }
 
 JetInfo::JetInfo(int charge)
@@ -46,13 +50,15 @@ JetInfo::JetInfo(const Constituent& constituent, int charge)
 
 JetInfo::JetInfo(const std::vector<Constituent>& constituents)
 {
-    SetConstituents(constituents);
+  SetConstituents(constituents);
+  SetCharge(LargeNumber());
 }
 
 JetInfo::JetInfo(const std::vector<Constituent>& constituents, const std::vector<Constituent>& displaced_constituents)
 {
     constituents_ = constituents;
     displaced_constituents_ = displaced_constituents;
+    SetCharge(LargeNumber());
 }
 
 JetInfo JetInfo::operator+(const JetInfo& jet_info)
@@ -336,6 +342,11 @@ void JetInfo::SecondayVertex() const
 bool SortByBdt::operator()(const fastjet::PseudoJet& jet_1, const fastjet::PseudoJet& jet_2)
 {
     return jet_1.user_info<analysis::JetInfo>().Bdt() > jet_2.user_info<analysis::JetInfo>().Bdt();
+}
+Jets SortedByBdt(Jets jets)
+{
+    std::sort(jets.begin(), jets.end(), SortByBdt());
+    return jets;
 }
 
 }

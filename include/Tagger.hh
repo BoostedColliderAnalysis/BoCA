@@ -1,10 +1,13 @@
 #pragma once
 
 #include "TCut.h"
+
 #include "TMVA/Types.h"
+
+#include "fastjet/PseudoJet.hh"
+
 #include "Observable.hh"
 #include "Identification.hh"
-#include "fastjet/PseudoJet.hh"
 #include "Branches.hh"
 
 namespace TMVA

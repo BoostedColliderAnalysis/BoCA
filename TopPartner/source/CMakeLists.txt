@@ -7,12 +7,12 @@ HiggsPairTagger.cpp
 TopPartnerPairTagger.cpp
 TopPartnerHiggsPairTagger.cpp
 TopPartnerTopPairTagger.cpp
-SignatureTagger.cpp
-SignatureSingleTagger.cpp
 Septet.cpp
 Nonet.cpp
 Decuplet.cpp
 Quattuordecuplet.cpp
+SignatureSingleTagger.cpp
+SignatureEffectiveTagger.cpp
 EventSingleTagger.cpp
 EventPairTagger.cpp
 EventEffectiveTagger.cpp

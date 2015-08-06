@@ -1,14 +1,12 @@
 #include "Tagger.hh"
 
-#include "TObjArray.h"
-#include "TClonesArray.h"
+#include "TMVA/Reader.h"
 
 #include "fastjet/ClusterSequence.hh"
 
+#include "exroot/ExRootAnalysis.hh"
 #include "JetInfo.hh"
-#include "InfoRecombiner.hh"
-#include "Event.hh"
-#include "Analysis.hh"
+#include "DetectorGeometry.hh"
 #include "Debug.hh"
 
 namespace analysis

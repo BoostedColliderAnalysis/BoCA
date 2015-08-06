@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Analysis.hh"
+#include "DetectorGeometry.hh"
 #include "Debug.hh"
 
 namespace analysis {
