@@ -3,8 +3,7 @@
 #include <functional>
 
 #include "Tagger.hh"
-#include "TLegend.h"
-#include "TH1F.h"
+#include "Result.hh"
 
 class TMultiGraph;
 class TAttLine;
@@ -13,6 +12,8 @@ class TH2;
 class TProfile2D;
 class TExec;
 class TFile;
+class TLegend;
+class TH1F;
 
 class ExRootTreeBranch;
 class ExRootTreeReader;
@@ -27,85 +28,6 @@ namespace analysis
 
 class Tagger;
 
-class Result
-{
-
-public:
-
-    Result();
-    std::vector<int> Integral() const;
-    const static int steps = 20000;
-    std::vector<float> events;
-    std::vector<float> efficiency;
-    std::vector<int> analysis_event_number;
-    std::vector<float> bdt;
-    std::vector<int> bins;
-    InfoBranch info_branch;
-    long event_sum() const;
-    void set_event_sum(long int event_sum);
-private:
-    long event_sum_;
-};
-
-struct Point {
-    Point() {
-        x = 0;
-        y = 0;
-        z = 0;
-    }
-    float x;
-    float y;
-    float z;
-};
-
-
-class Results
-{
-
-public:
-
-    Results();
-
-    void Significances();
-
-    void BestBin();
-
-    float XValue(int value) const {
-        return float(value) * 2 / Result::steps - 1;
-    }
-
-    float BestXValue() const {
-      return XValue(best_bin);
-    }
-
-    int XBin(float value) const;
-
-    void ExtremeXValues();
-
-    std::vector<Result> signal;
-    std::vector<Result> background;
-    std::vector<float> significances;
-    std::vector<float> x_values;
-    int best_bin = 0;
-    Point min;
-    Point max;
-};
-struct Plot3d {
-    std::vector<Point> points;
-    std::string name_x;
-    std::string name_y;
-    std::string nice_name_x;
-    std::string nice_name_y;
-    std::string name;
-    std::string tree_name;
-};
-
-struct Plots {
-    std::vector<Plot3d> plots;
-    analysis::InfoBranch info_branch;
-    std::string name;
-};
-
 /**
  * @brief Presents result of multivariant analysis
  *
@@ -114,12 +36,6 @@ class Plot
 {
 
 public:
-
-    /**
-     * @brief Default constructor
-     *
-     */
-//     Plot();
 
     /**
      * @brief Constructor
@@ -143,9 +59,9 @@ private:
 
     void SetProfile(TProfile2D& histogram, const analysis::Plot3d& signal, const analysis::Plot3d& background) const;
 
-  std::string IncludeGraphic(std::string& file_name, std::string caption) const;
+    std::string IncludeGraphic(std::string& file_name, std::string caption) const;
 
-  void CommmonHist(TH2& histogram, const analysis::Plot3d& plot, EColor color) const;
+    void CommmonHist(TH2& histogram, const analysis::Plot3d& plot, EColor color) const;
 
     std::vector<Plots> Import(analysis::Stage stage, analysis::Tag tag) const;
 
@@ -156,8 +72,6 @@ private:
     void PlotHistogram(const analysis::Plot3d& signal, const analysis::Plot3d& background, const analysis::Point& min, const analysis::Point& max) const;
 
     void PlotProfile(const analysis::Plot3d& signal, const analysis::Plot3d& background, const analysis::Point& min, const analysis::Point& max) const;
-
-    float Bdt() const;
 
     void SetMultiGraph(TMultiGraph& multi_graph) const;
 
@@ -177,17 +91,11 @@ private:
 
     void SetHistogram(TH1F& histogram, TLegend& legend, std::string& nice_name, const Point& max) const;
 
-    analysis::Tagger& Tagger() const {
-        return *tagger_;
-    }
-
-    analysis::Tagger* tagger_;
+    analysis::Tagger& Tagger() const;
 
     analysis::InfoBranch InfoBranch(TFile& file, const std::string& tree_name) const;
 
-    Result BdtDistribution(exroot::TreeReader& tree_reader, const std::string& tree_name, TFile& export_file) const;
-
-    Result BdtResult(TFile& file, const std::string& tree_name, TFile& export_file) const;
+    Result BdtDistribution(TFile& file, const std::string& tree_name, TFile& export_file) const;
 
     std::string Table(const Results& results) const;
 
@@ -201,28 +109,13 @@ private:
 
     int ColorCode(int number) const;
 
-    Plot3d CoreVector(const Plot3d& points,const std::function<bool(Point&, Point&)>& function) const;
+    Plot3d CoreVector(const Plot3d& points, const std::function<bool(Point&, Point&)>& function) const;
 
-    std::string ExportFileSuffix() const {
-        return ".png";
-    }
+    std::string ExportFileSuffix() const;
 
-//     float RoundToDigits(float Value) const;
-//
-//     float RoundError(float Value) const;
-//
-//     float RoundToDigits(float Value, int Digits) const;
-//
-//     float RoundToError(float Value, float Error) const;
+    std::string Reader()const;
 
-    float FloorToDigits(float value, int digits = 2) const;
-
-    float CeilToDigits(float value, int digits = 2) const;
-
-    std::string Reader()const {
-        return "";
-        return "Reader";
-    }
+    analysis::Tagger* tagger_;
 
 };
 

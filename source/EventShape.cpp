@@ -1,4 +1,5 @@
 #include "EventShape.hh"
+#include "fastjet/PseudoJet.hh"
 
 namespace analysis {
 

@@ -45,4 +45,16 @@ Value sqr(Value value)
 
 int LargeNumber();
 
+float RoundToDigits(float value);
+
+float RoundError(float value);
+
+float RoundToDigits(float value, int digits);
+
+float RoundToError(float value, float error);
+
+float FloorToDigits(float value, int digits = 2);
+
+float CeilToDigits(float value, int digits = 2);
+
 }
