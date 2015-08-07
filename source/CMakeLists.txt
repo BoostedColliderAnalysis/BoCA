@@ -93,5 +93,6 @@ JetInfoFamily.cpp
 Reconstruction.cpp
 Discriminator.cpp
 Plot.cpp
+Result.cpp
 )
 create_library(Analysis analysis_sources)

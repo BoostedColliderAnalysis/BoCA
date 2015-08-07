@@ -1,5 +1,6 @@
 #include "BosonTagger.hh"
 #include "Event.hh"
+#include "Doublet.hh"
 #include "Debug.hh"
 
 namespace analysis {
@@ -100,6 +101,10 @@ std::vector<Doublet>  BosonTagger::Multiplets(const Event& event, const PreCuts&
         doublets.emplace_back(doublet);
     }
     return ReduceResult(doublets);
+}
+int BosonTagger::GetBdt(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const
+{
+    return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
 }
 
 }

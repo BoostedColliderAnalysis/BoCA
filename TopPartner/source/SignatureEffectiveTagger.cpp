@@ -32,8 +32,7 @@ std::vector<Quattuordecuplet> SignatureEffectiveTagger::Multiplets(const Event& 
     for (const auto& decuplet : decuplets) {
         for (const auto& quartet : quartets) {
             Quattuordecuplet quattuordecuplet(decuplet, quartet);
-            if (quattuordecuplet.Overlap())
-                continue;
+            if (quattuordecuplet.Overlap()) continue;
             quattuordecuplet.SetBdt(Bdt(quattuordecuplet, reader));
             quattuordecuplets.emplace_back(quattuordecuplet);
         }

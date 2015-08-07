@@ -1,6 +1,9 @@
 #pragma once
 #include "EventShapes.hh"
-#include "fastjet/PseudoJet.hh"
+
+namespace fastjet{
+  class PseudoJet;
+}
 
 namespace analysis{
 

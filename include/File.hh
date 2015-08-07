@@ -4,7 +4,8 @@
 #include "ClonesArrays.hh"
 #include "Event.hh"
 
-namespace analysis {
+namespace analysis
+{
 
 typedef std::vector<std::string> Strings;
 
@@ -14,11 +15,12 @@ typedef std::vector<std::string> Strings;
  * ProcessFolder has to be set
  *
  */
-class File {
+class File
+{
 
 public:
 
-  File(const Strings& processes, const std::string& run_folder, const std::string& file_suffix, const std::string& nice_name = "", float crosssection = 1, float mass = 0);
+    File(const Strings& processes, const std::string& run_folder, const std::string& file_suffix, const std::string& nice_name = "", float crosssection = 1, float mass = 0);
 
     /**
      * @brief destructor
@@ -38,8 +40,7 @@ public:
      */
     std::string Title() const;
 
-    float crosssection() const
-    {
+    float crosssection() const {
         return crosssection_;
     }
 
@@ -60,24 +61,20 @@ public:
 
     std::string file_suffix() const;
 
-    float crosssection_error() const
-    {
+    float crosssection_error() const {
         return crosssection_error_;
     }
 
-    float mass() const
-    {
+    float mass() const {
         return mass_;
     }
-    Source source() const
-    {
+    Source source() const {
         return source_;
     }
 
     std::string tree_name() const;
 
-    std::string nice_name() const
-    {
+    std::string nice_name() const {
         return nice_name_;
     }
 
@@ -113,7 +110,7 @@ private:
 
     Source source_ = Source::delphes;
 
-    TChain *chain_ = nullptr;
+    TChain* chain_ = nullptr;
 };
 
 }

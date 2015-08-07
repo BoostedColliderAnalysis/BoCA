@@ -27,11 +27,11 @@ public:
   analysis::Jets Jets() const final {
         switch (DetectorGeometry::jet_type()) {
         case JetType::jet :
-            return DelphesJets(JetDetail::structure);
+            return DelphesJets(JetDetail::structure | JetDetail::isolation);
         case JetType::gen_jet :
             return GenJets();
         case JetType::e_flow_jet :
-            return ClusteredJets();
+            return EFlowJets(JetDetail::structure | JetDetail::isolation);
         }
     }
 
@@ -39,20 +39,20 @@ public:
 
     fastjet::PseudoJet MissingEt() const final;
 
-    analysis::Jets UniqueJets() const;
-
 
 private:
 
-    analysis::Jets UniqueConstituents(TObject& object, std::vector<TObject*> leptons) const;
+//     analysis::Jets UniqueJets() const;
 
-    analysis::Jets GranulatedJets(const analysis::Jets& jets) const;
+//     analysis::Jets UniqueConstituents(TObject& object, const std::vector< TObject* > leptons) const;
 
-    analysis::Jets ClusteredJets() const;
+//     analysis::Jets GranulatedJets(const analysis::Jets& jets) const;
+
+    analysis::Jets EFlowJets(analysis::JetDetail jet_detail) const;
 
     analysis::Jets DelphesJets(JetDetail jet_detail) const;
 
-    analysis::Jets EFlowJets(JetDetail jet_detail) const;
+    analysis::Jets EFlow(JetDetail jet_detail) const;
 
     analysis::Jets GenJets() const;
 
@@ -87,6 +87,10 @@ private:
         return isolated;
     }
 
+//     analysis::Jets Constituents(const TObject& object, const TLorentzVector lorentz_vector, const std::vector< TObject* > leptons) const;
+
+    bool Isolated(const TObject& object, const std::vector<TObject*> leptons) const;
+
     analysis::Jets EFlowTrack(const JetDetail) const;
 
     analysis::Jets EFlowPhoton(const JetDetail) const;
@@ -95,9 +99,9 @@ private:
 
     analysis::Jets EFlowMuon(JetDetail jet_detail) const;
 
-    fastjet::PseudoJet StructuredJet(const ::delphes::Jet& jet, JetDetail jet_detail) const;
+    fastjet::PseudoJet StructuredJet(const ::delphes::Jet& delphes_jet, const std::vector<TObject*> leptons, analysis::JetDetail jet_detail) const;
 
-    fastjet::PseudoJet ConstituentJet(TObject& Object, JetDetail jet_detail, const SubDetector sub_detector = SubDetector::none) const;
+    fastjet::PseudoJet ConstituentJet(TObject& object, JetDetail jet_detail, const SubDetector sub_detector = SubDetector::none, const std::vector<TObject*> leptons = {}) const;
 
 };
 

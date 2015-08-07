@@ -38,7 +38,7 @@ public:
 
     Decay TopDecay() const
     {
-//         return Decay::hadronic;
+        return Decay::hadronic;
             return Decay::leptonic;
     }
 
@@ -46,7 +46,7 @@ private:
 
     std::string ProjectName() const final
     {
-        return  Name(this->collider_type()) + "-" + std::to_string(this->LowerPtCut()) + "GeV-" + Name(Process::tt) + "-" + Name(TopDecay()) + "";
+        return  Name(this->collider_type()) + "-" + std::to_string(this->LowerPtCut()) + "GeV-" + Name(Process::tt) + "-" + Name(TopDecay()) + "-isol";
     }
 
     void SetFiles(Tag tag) final {
