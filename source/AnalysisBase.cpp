@@ -9,7 +9,7 @@
 
 #include "Branches.hh"
 #include "File.hh"
-#include "Plot.hh"
+#include "Plotting.hh"
 #include "Event.hh"
 #include "Trainer.hh"
 #include "Debug.hh"
@@ -194,7 +194,7 @@ void AnalysisBase::RunSignificance()
 {
     PrepareFiles();
     if (!Exists(tagger().ExportFileName())) {
-        Plot plot(tagger());
+        Plotting plot(tagger());
         plot.OptimalSignificance();
     }
 }
@@ -203,7 +203,7 @@ void AnalysisBase::RunEfficiency()
 {
     PrepareFiles();
     if (!Exists(tagger().ExportFileName())) {
-        Plot plot(tagger());
+        Plotting plot(tagger());
         plot.TaggingEfficiency();
     }
 }
@@ -212,7 +212,7 @@ void AnalysisBase::RunPlots()
 {
     PrepareFiles();
     if (!Exists(tagger().ExportFolderName())) {
-        Plot plot(tagger());
+        Plotting plot(tagger());
         plot.RunPlots();
     }
 }

@@ -1,5 +1,6 @@
 #include "GlobalObservables.hh"
 #include "InfoRecombiner.hh"
+#include "Event.hh"
 #include "Debug.hh"
 
 namespace analysis {

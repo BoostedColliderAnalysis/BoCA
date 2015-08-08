@@ -58,6 +58,7 @@ void Trees::SaveAnalysis(int object_number)
     if (object_number == 0) return;
     object_sum_ += object_number;
     info_branch_.EventNumber = event_number_;
+//     info_branch_.PreCutNumber = pre_cut_number_;
     analysis_empty_ = false;
     static_cast<InfoBranch&>(*tree_branch_->NewEntry()) = info_branch_;
     tree_writer_.Fill();

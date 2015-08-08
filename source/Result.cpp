@@ -12,6 +12,7 @@ Result::Result(const InfoBranch& info_branch)
 //     steps = 20000;
     events.resize(steps, 0);
     efficiency.resize(steps, 0);
+    pure_efficiency.resize(steps, 0);
     event_sums.resize(steps, 0);
     bins.resize(steps, 0);
     info_branch_ = info_branch;
@@ -22,7 +23,8 @@ void Result::Calculate()
     event_sums.at(steps - 1) = bins.at(steps - 1);
     for (int step = steps - 2; step >= 0; --step) event_sums.at(step) = event_sums.at(step + 1) + bins.at(step);
     for (const auto & step : Range(steps)) {
-        efficiency.at(step) = float(event_sums.at(step)) / float(info_branch_.EventNumber);
+        efficiency.at(step) = float(event_sums.at(step)) / info_branch_.EventNumber;
+        pure_efficiency.at(step) = float(event_sums.at(step)) / event_sums.at(0);
         events.at(step) = efficiency.at(step) * info_branch_.Crosssection * DetectorGeometry::Luminosity();
         Debug(efficiency.at(step), events.at(step));
     }
@@ -98,11 +100,40 @@ float Results::BestXValue() const
     return XValue(best_bin);
 }
 
-Point::Point()
+int ColorCode(int number)
 {
-    x = 0;
-    y = 0;
-    z = 0;
+  switch (number) {
+    case 0 :
+      return kBlack;
+    case 1 :
+      return kRed;
+    case 2 :
+      return kBlue;
+    case 3 :
+      return kTeal - 5;
+    case 4 :
+      return kPink + 1;
+    case 5 :
+      return kViolet;
+    case 6 :
+      return kOrange;
+    case 7 :
+      return kYellow - 9;
+    case 8 :
+      return kSpring - 5;
+    case 9 :
+      return kGreen + 3;
+    case 10 :
+      return kCyan - 3;
+    case 11 :
+      return kMagenta - 3;
+    case 12 :
+      return kAzure;
+    case 13 :
+      return kGray;
+    default :
+      return kBlack;
+  }
 }
 
 }

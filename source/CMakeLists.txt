@@ -92,7 +92,7 @@ InfoRecombiner.cpp
 JetInfoFamily.cpp
 Reconstruction.cpp
 Discriminator.cpp
-Plot.cpp
+Plotting.cpp
 Result.cpp
 )
 create_library(Analysis analysis_sources)

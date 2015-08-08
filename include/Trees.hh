@@ -5,7 +5,8 @@
 
 #include "ClonesArrays.hh"
 #include "Event.hh"
-#include "AnalysisBase.hh"
+#include "Tagger.hh"
+#include "File.hh"
 
 namespace analysis
 {

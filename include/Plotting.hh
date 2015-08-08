@@ -4,6 +4,7 @@
 
 #include "Tagger.hh"
 #include "Result.hh"
+#include "Flag.hh"
 
 class TMultiGraph;
 class TAttLine;
@@ -14,6 +15,9 @@ class TExec;
 class TFile;
 class TLegend;
 class TH1F;
+class TLine;
+class THStack;
+class TGraph;
 
 class ExRootTreeBranch;
 class ExRootTreeReader;
@@ -26,13 +30,27 @@ typedef ::ExRootTreeReader TreeReader;
 namespace analysis
 {
 
+enum class Orientation
+{
+    center = 1,
+    left = 1<<1,
+    right = 1<<2,
+    top = 1<<3,
+    bottom = 1<<4
+};
+
+template<>
+struct Flag<Orientation> {
+  static const bool enable = true;
+};
+
 class Tagger;
 
 /**
  * @brief Presents result of multivariant analysis
  *
  */
-class Plot
+class Plotting
 {
 
 public:
@@ -41,7 +59,7 @@ public:
      * @brief Constructor
      *
      */
-    Plot(analysis::Tagger& tagger);
+    Plotting(analysis::Tagger& tagger);
 
     void TaggingEfficiency() const;
 
@@ -53,31 +71,35 @@ private:
 
     void DoPlot(analysis::Plots& signals, analysis::Plots& backgrounds, analysis::Stage stage) const;
 
-    void Plotting(const analysis::Plot3d& signal, const analysis::Plot3d& background, analysis::Stage stage) const;
+    void PlotDetails(analysis::Plot& signal, analysis::Plot& background, analysis::Stage stage) const;
 
-    void SetHistogram(TH2& histogram, const analysis::Plot3d& plot, EColor color, TExec& exec) const;
+    void SetHistogram(TH2& histogram, const analysis::Plot& plot, EColor color, TExec& exec) const;
 
-    void SetProfile(TProfile2D& histogram, const analysis::Plot3d& signal, const analysis::Plot3d& background) const;
+    void SetProfile(TProfile2D& histogram, const analysis::Plot& signal, const analysis::Plot& background) const;
 
     std::string IncludeGraphic(std::string& file_name, std::string caption) const;
 
-    void CommmonHist(TH2& histogram, const analysis::Plot3d& plot, EColor color) const;
+    void CommmonHist(TH2& histogram, const analysis::Plot& plot, EColor color) const;
 
     std::vector<Plots> Import(analysis::Stage stage, analysis::Tag tag) const;
 
     Plots PlotResult(TFile& file, const std::string& tree_name, analysis::Stage stage) const;
 
-    Plot3d ReadTree(TTree& tree, const std::string& leaf_1, const std::string& leaf_2, analysis::Stage stage) const;
+    Plot ReadTree(TTree& tree, const std::string& leaf_1, const std::string& leaf_2, analysis::Stage stage) const;
 
-    void PlotHistogram(const analysis::Plot3d& signal, const analysis::Plot3d& background, const analysis::Point& min, const analysis::Point& max) const;
+    void PlotHistogram(const analysis::Plot& signal, const analysis::Plot& background, const analysis::Point& min, const analysis::Point& max) const;
 
-    void PlotProfile(const analysis::Plot3d& signal, const analysis::Plot3d& background, const analysis::Point& min, const analysis::Point& max) const;
+    void PlotProfile(const analysis::Plot& signal, const analysis::Plot& background, const analysis::Point& min, const analysis::Point& max) const;
 
     void SetMultiGraph(TMultiGraph& multi_graph) const;
 
     void SetPlotStyle(TAttLine& att_line, int index) const;
 
-    TLegend Legend(float x_min, float y_max, float width, float height, const std::string& name = "") const;
+    TLegend Legend(float x_min, float y_min, float width, float height, const std::string& title = "") const;
+
+    TLegend Legend(analysis::Orientation orientation, const analysis::Strings& entries, const std::string& title = "") const;
+
+    int Letters(std::vector<Result> result) const;
 
     Results ReadBdtFiles() const;
 
@@ -85,11 +107,15 @@ private:
 
     TH1F Histogram(const analysis::Result& result, analysis::Point& max, analysis::Point& min, int index) const;
 
+    TLine Line(analysis::Results results, float y_min, float y_max) const;
+
+    void AddGraph(TGraph& graph, TMultiGraph& multi_graph, TLegend& legend, const std::string& name, int index) const;
+
     void PlotAcceptanceGraph(const analysis::Results& results) const;
 
     std::string PlotHistograms(analysis::Results& results) const;
 
-    void SetHistogram(TH1F& histogram, TLegend& legend, std::string& nice_name, const Point& max) const;
+    void AddHistogram(THStack& stack, TH1F& histogram, TLegend& legend) const;
 
     analysis::Tagger& Tagger() const;
 
@@ -107,13 +133,9 @@ private:
 
     void LatexFooter(std::ofstream& latex_file) const;
 
-    int ColorCode(int number) const;
-
-    Plot3d CoreVector(const Plot3d& points, const std::function<bool(Point&, Point&)>& function) const;
+    Plot CoreVector(Plot& plot, const std::function<bool(Point&, Point&)>& function) const;
 
     std::string ExportFileSuffix() const;
-
-    std::string Reader()const;
 
     analysis::Tagger* tagger_;
 

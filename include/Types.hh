@@ -6,6 +6,7 @@ namespace fastjet {
   class PseudoJet;
 }
 
+
 class TLorentzVector;
 class LorentzVector;
 

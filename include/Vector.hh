@@ -1,10 +1,7 @@
 #pragma once
 
-// #include <functional>
 #include "Particles.hh"
 #include "DetectorGeometry.hh"
-// #include "Constituent.hh"
-// #include "fastjet/PseudoJet.hh"
 
 namespace analysis
 {

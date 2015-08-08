@@ -4,6 +4,7 @@
 
 #include "WIMPMASS.h"
 
+#include "Quartet.hh"
 #include "Math.hh"
 #include "Types.hh"
 #include "Debug.hh"

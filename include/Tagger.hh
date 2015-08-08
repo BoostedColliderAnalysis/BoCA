@@ -4,8 +4,6 @@
 
 #include "TMVA/Types.h"
 
-#include "fastjet/PseudoJet.hh"
-
 #include "Observable.hh"
 #include "Identification.hh"
 #include "Branches.hh"
@@ -21,6 +19,10 @@ namespace exroot
 {
 typedef ::ExRootTreeWriter TreeWriter;
 typedef ::ExRootTreeBranch TreeBranch;
+}
+
+namespace fastjet{
+  class PseudoJet;
 }
 
 namespace analysis
