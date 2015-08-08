@@ -1,9 +1,10 @@
 #pragma once
 
-#include "Quartet.hh"
 #include "Sextet.hh"
 
 namespace analysis {
+
+class Quartet22;
 
 /**
  * @brief Wrapper for WimpMass class

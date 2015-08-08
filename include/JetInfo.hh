@@ -1,6 +1,6 @@
 #pragma once
 
-#include "fastjet/JetDefinition.hh"
+#include "fastjet/PseudoJet.hh"
 
 #include "Identification.hh"
 #include "Constituent.hh"

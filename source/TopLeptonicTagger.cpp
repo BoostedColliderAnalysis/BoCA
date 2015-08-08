@@ -114,5 +114,10 @@ int TopLeptonicTagger::TopLeptonicId(const Event& event) const
 {
     return sgn(w_leptonic_reader_.Tagger().WLeptonicId(event)) * to_int(Id::top);
 }
+Stage TopLeptonicTagger::InitializeLeptonicReader()
+{
+    if (use_w_) return Stage::reader;
+    else return Stage::trainer;
+}
 
 }

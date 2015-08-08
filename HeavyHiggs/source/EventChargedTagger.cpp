@@ -1,4 +1,5 @@
 #include "EventChargedTagger.hh"
+#include "Event.hh"
 #include "Debug.hh"
 
 namespace analysis {

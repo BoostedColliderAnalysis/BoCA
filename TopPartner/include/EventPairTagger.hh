@@ -36,6 +36,10 @@ public:
       return "EventPair";
     }
 
+    std::string NiceName() const final {
+      return "#tilde t_{h} #tilde t_{l}";
+    }
+
 private:
 
     Reader<TopPartnerPairTagger> signature_reader_;

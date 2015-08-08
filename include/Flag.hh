@@ -1,4 +1,5 @@
 #pragma once
+
 #include<type_traits>
 
 namespace analysis
@@ -13,7 +14,7 @@ template <typename Enum, typename Type>
 using Return = typename std::enable_if<Flag<Enum>::enable, Type>;
 
 template<typename Enum>
-typename Return<Enum,typename std::underlying_type<Enum>::type>::type
+typename Return<Enum, typename std::underlying_type<Enum>::type>::type
 Underlying(Enum enum_1)
 {
     return static_cast<typename std::underlying_type<Enum>::type>(enum_1);

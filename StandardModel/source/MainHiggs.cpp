@@ -7,5 +7,6 @@ int main()
     bottom_analysis.RunFast();
     analysis::standardmodel::AnalysisHiggs<analysis::HiggsTagger> higgs_analysis;
     higgs_analysis.RunFullEfficiency();
+    higgs_analysis.RunPlots();
 }
 

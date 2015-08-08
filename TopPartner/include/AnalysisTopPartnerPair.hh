@@ -3,9 +3,11 @@
 #include "AnalysisTopPartner.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace analysis
+{
 
-namespace toppartner {
+namespace toppartner
+{
 
 /**
  *
@@ -15,44 +17,40 @@ namespace toppartner {
  *
  */
 template<typename Tagger>
-class AnalysisPair : public AnalysisNaturalness<Tagger> {
+class AnalysisPair : public AnalysisNaturalness<Tagger>
+{
 
 public:
 
-    AnalysisPair()
-    {
+    AnalysisPair() {
         this->tagger().SetAnalysisName(ProjectName());
     }
 
 protected:
 
-    std::string ProjectName() const final
-    {
-      return ProcessName() + "-" + std::to_string(this->PreCut()) + "GeV-hB";
+    std::string ProjectName() const final {
+        return ProcessName() + "-" + std::to_string(this->PreCut()) + "GeV-hB";
     }
 
     std::string ProcessName() const final {
-      return "Naturalness-Pair";
+        return "Naturalness-Pair";
     }
 
-
     void SetFiles(Tag tag) final {
-        switch (tag)
-        {
+        switch (tag) {
         case Tag::signal :
-            this->NewFile(tag, Process::TT);
+            this->NewFile(tag, Process::TT, 2000);
             break;
         case Tag::background :
-          this->NewFile(tag, Process::ttBjj);
-          this->NewFile(tag, Process::tthBjj);
+            this->NewFile(tag, Process::ttBjj);
+            this->NewFile(tag, Process::tthBjj);
             break;
         }
     }
 
 private:
 
-    int PassPreCut(const Event&, Tag) const final
-    {
+    int PassPreCut(const Event&, Tag) const final {
 //         Jets particles = event.Partons().GenParticles();
 //         particles = RemoveIfSoft(particles, this->PreCut());
 //         Jets tops = CopyIfParticle(particles, Id::top);

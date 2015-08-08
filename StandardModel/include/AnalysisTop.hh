@@ -2,11 +2,14 @@
 
 #include "AnalysisStandardModel.hh"
 
-namespace analysis {
+namespace analysis
+{
 
-namespace standardmodel {
+namespace standardmodel
+{
 
-enum class Decay {
+enum class Decay
+{
     leptonic,
     hadronic
 };
@@ -21,12 +24,12 @@ std::string Name(const Decay decay);
  *
  */
 template<typename Tagger>
-class TopAnalysis : public AnalysisStandardModel<Tagger> {
+class TopAnalysis : public AnalysisStandardModel<Tagger>
+{
 
 public:
 
-    TopAnalysis()
-    {
+    TopAnalysis() {
         this->set_tagger_analysis_name(ProjectName());
         this->pre_cuts().SetPtLowerCut(Id::top, this->LowerPtCut());
         this->pre_cuts().SetPtUpperCut(Id::top, this->UpperPtCut());
@@ -36,22 +39,19 @@ public:
         this->pre_cuts().SetPtLowerCut(Id::W, this->LowerPtCut() / 5);
     }
 
-    Decay TopDecay() const
-    {
+    Decay TopDecay() const {
+        return Decay::leptonic;
         return Decay::hadronic;
-            return Decay::leptonic;
     }
 
 private:
 
-    std::string ProjectName() const final
-    {
+    std::string ProjectName() const final {
         return  Name(this->collider_type()) + "-" + std::to_string(this->LowerPtCut()) + "GeV-" + Name(Process::tt) + "-" + Name(TopDecay()) + "-isol";
     }
 
     void SetFiles(Tag tag) final {
-        switch (tag)
-        {
+        switch (tag) {
         case Tag::signal :
             if (TopDecay() == Decay::hadronic || this->tagger().Name() == "Bottom") this->NewFile(tag, Process::tt_had);
             if (this->tagger().Name() == "Bottom") this->NewFile(tag, Process::hh);
@@ -73,8 +73,7 @@ private:
         }
     }
 
-    int PassPreCut(const Event& event, Tag) const final
-    {
+    int PassPreCut(const Event& event, Tag) const final {
         //static_cast<::analysis::delphes::Hadrons&>(event.Hadrons()).UniqueJets();
         Jets particles = fastjet::sorted_by_pt(event.Partons().GenParticles());
         //     particles = fastjet::sorted_by_pt(CopyIfParticle(particles, Id::top));

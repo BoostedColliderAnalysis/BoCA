@@ -1,9 +1,10 @@
 #pragma once
 
-#include "Event.hh"
 #include "Singlet.hh"
 
 namespace analysis {
+
+class Event;
 
 class GlobalObservables {
 
