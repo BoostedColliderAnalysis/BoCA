@@ -30,6 +30,11 @@ public:
 
     Doublet SubMultiplet(const fastjet::PseudoJet& jet, const TMVA::Reader& reader) const;
 
+    /**
+     * @brief signed id of the hadronic W, the event contains two hadronic W with opposite sign 0 is returned
+     *
+     */
+
     int WHadronicId(const Event& event) const;
 
     std::string Name() const final { return "WHadronic"; }
@@ -62,7 +67,7 @@ private:
 
     int WHadronicId(const Jets& jets) const;
 
-    float w_mass_window_ = 20;
+    float w_mass_window_ = 40;
 };
 
 }

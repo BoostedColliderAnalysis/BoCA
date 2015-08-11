@@ -301,8 +301,8 @@ void Plotting::SetMultiGraph(TMultiGraph& multi_graph) const
     multi_graph.GetXaxis()->SetTitle("Signal acceptance");
     multi_graph.GetYaxis()->SetTitle("Background acceptance");
     multi_graph.SetMaximum(1);
-    multi_graph.SetMinimum(0.001);
-    // multi_graph.SetMinimum(0.01);
+//     multi_graph.SetMinimum(0.001);
+    multi_graph.SetMinimum(0.01);
 }
 
 std::string Plotting::PlotSignificanceGraph(const Results& results) const
@@ -617,3 +617,4 @@ std::string Plotting::ExportFileSuffix() const
 
 
 }
+

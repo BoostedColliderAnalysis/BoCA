@@ -36,6 +36,14 @@ public:
 //         SingleHiggs(-1);
     }
 
+protected:
+
+private:
+  
+    std::string ProjectName() const final {
+        return  "CPV-jan";
+    }
+
     void SetFiles(Tag tag) final {
         switch (tag) {
         case Tag::signal :
@@ -52,9 +60,6 @@ public:
         }
     }
 
-    std::string ProjectName() const final {
-        return  "CPV-big";
-    }
 
     std::string ProcessName() const final {
         return "higgscpv";
@@ -65,21 +70,12 @@ public:
      *
      */
     long EventNumberMax() const final {
+        return 5000;
         return 10000;
         return 1000;
         return 100;
         return 10;
-        return 5000;
     }
-
-protected:
-
-
-    std::string FilePath() const final {
-        return "~/Projects/HiggsCpv/Analysis/";
-    }
-
-private:
 
     int PassPreCut(const Event& event, Tag) const final {
 //         if(this->tagger().Name() == "WLeptonic") return 0;
@@ -107,6 +103,12 @@ private:
 //         Error(SingleHiggs(), higgs.size());
         return higgs.size();
     }
+
+
+    std::string FilePath() const final {
+        return "~/Projects/HiggsCpv/Analysis/";
+    }
+
 
 //     static int NoHiggs(int zero = -10) {
 //         static int i = -1;

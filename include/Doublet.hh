@@ -17,10 +17,6 @@ public:
 
     float Dipolarity2() const;
 
-    float LeptonPt;
-
-    float LeptonDeltaR;
-
 private:
 
 };

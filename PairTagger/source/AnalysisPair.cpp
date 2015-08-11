@@ -7,9 +7,9 @@ namespace analysis
 namespace fusionpair
 {
 
-std::string Name(Process Process)
+std::string Name(Process process)
 {
-    switch (Process) {
+    switch (process) {
     case Process::bb :
         return "bb";
     case Process::cc:

@@ -62,31 +62,14 @@ int HiggsTagger::Train(const Event& event, const PreCuts& pre_cuts, Tag tag) con
     }
     doublets = SetClosestLepton(event, doublets);
     Jets higgses = CopyIfParticles(event.Partons().GenParticles(), Id::higgs, Id::CP_violating_higgs);
-    std::vector<Doublet> matches = BestMatches(doublets, higgses, tag);
-    if (tag == Tag::signal && matches.size() > higgses.size()) return 0;
-    return SaveEntries(matches);
-}
-
-std::vector<Doublet> HiggsTagger::SetClosestLepton(const Event& event, std::vector<Doublet>& doublets) const {
-  Jets leptons = event.Leptons().leptons();
-  if(leptons.empty()) return doublets;
-  for(auto &doublet : doublets) SetClosestLepton(doublet, leptons);
-  return doublets;
-}
-
-Doublet HiggsTagger::SetClosestLepton(Doublet& doublet, const Jets& leptons) const {
-    if (leptons.empty()) throw "no leptons";
-    auto lepton = ClosestJet(leptons, doublet);
-    doublet.LeptonPt = lepton.pt();
-    doublet.LeptonDeltaR = lepton.delta_R(doublet.Jet());
-    return doublet;
+//     std::vector<Doublet> matches = BestMatches(doublets, higgses, tag);
+//     if (tag == Tag::signal && matches.size() > higgses.size()) return 0;
+    return SaveEntries(doublets, higgses, tag);
 }
 
 bool HiggsTagger::Problematic(const Doublet& doublet, const PreCuts& pre_cuts, Tag tag) const
 {
-    if (Problematic(doublet, pre_cuts)) {
-        return true;
-    }
+    if (Problematic(doublet, pre_cuts)) return true;
     switch (tag) {
     case Tag::signal :
         if (std::abs(doublet.Jet().m() - Mass(Id::higgs)) > higgs_mass_window) return true;

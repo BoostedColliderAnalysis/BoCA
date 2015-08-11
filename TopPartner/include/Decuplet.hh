@@ -29,7 +29,7 @@ class Decuplet73 : public TwoBody<analysis::toppartner::Septet, analysis::Triple
 
 public:
 
-    using TwoBody<Septet, Triplet>::TwoBody;
+  using TwoBody<analysis::toppartner::Septet, analysis::Triplet>::TwoBody;
 
     const analysis::toppartner::Septet& Septet() const
     {

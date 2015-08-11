@@ -4,7 +4,7 @@
 #include "fastjet/contrib/NjettinessDefinition.hh"
 #include "Event.hh"
 #include "InfoRecombiner.hh"
-// #define INFORMATION
+// #define NOTIFICATION
 #include "Debug.hh"
 
 namespace analysis {
@@ -28,6 +28,7 @@ int TopHadronicTagger::Train(const Event& event, const analysis::PreCuts& pre_cu
     Info("3 Jets form one top" , triplets.size());
     std::vector<Doublet> doublets = w_hadronic_reader_.Multiplets(jets);
     triplets = Triplets(doublets, jets, leptons, pre_cuts, tag);
+
     for (const auto& jet : jets) {
 
         Info("2 Jet form one top" , triplets.size());
@@ -37,13 +38,11 @@ int TopHadronicTagger::Train(const Event& event, const analysis::PreCuts& pre_cu
         } catch (const char* message) {}
 
         Info("1 jet forms one top", triplets.size());
-        analysis::Triplet triplet(jet);
-        if (Problematic(triplet, pre_cuts)) {
-            continue;    // Check if potential topjet otherwise next jet
-        }
-        triplet.Doublet().SetBdt(0);
+//         analysis::Triplet triplet(jet);
+//         if (Problematic(triplet, pre_cuts)) continue;    // Check if potential topjet otherwise next jet
+//         triplet.Doublet().SetBdt(0);
         try {
-            triplets.emplace_back(Triplet(triplet, leptons, pre_cuts, tag));
+//             triplets.emplace_back(Triplet(triplet, leptons, pre_cuts, tag));
         } catch (const char* message) {
             continue;
         }
@@ -81,14 +80,14 @@ int TopHadronicTagger::Train(const Event& event, const analysis::PreCuts& pre_cu
             }
         }
     }
+    Note(triplets.size());
     int top_hadronic_id = TopHadronicId(event);
     Jets particles = event.Partons().GenParticles();
     Jets top_particles;
-    if (top_hadronic_id != 0)
-        top_particles = CopyIfExactParticle(particles, top_hadronic_id);
-    else
-        top_particles = CopyIfParticle(particles, Id::top);
-    return SaveEntries(BestMatches(triplets, top_particles, tag));
+    if (top_hadronic_id != to_int(Id::empty)) top_particles = CopyIfExactParticle(particles, top_hadronic_id);
+    else top_particles = CopyIfParticle(particles, Id::top);
+
+    return SaveEntries(triplets, top_particles, tag);
 }
 
 std::vector<Triplet> TopHadronicTagger::Triplets(const std::vector<analysis::Doublet>& doublets, const analysis::Jets& jets, const analysis::Jets& leptons, const analysis::PreCuts& pre_cuts, Tag tag) const
@@ -119,7 +118,7 @@ std::vector<Triplet> TopHadronicTagger::Triplets(const analysis::Doublet& double
 Triplet TopHadronicTagger::Triplet(const analysis::Doublet& doublet, const fastjet::PseudoJet& jet, const analysis::Jets& leptons, const analysis::PreCuts& pre_cuts, Tag tag, bool check_overlap) const
 {
     analysis::Triplet triplet(doublet, jet);
-    if (check_overlap && triplet.Overlap()) throw "top hadronic triplet problem";
+    if (check_overlap && triplet.Overlap()) throw "top hadronic overlap";
     try {
         return Triplet(triplet, leptons, pre_cuts, tag);
     } catch (const char* message) {
@@ -146,14 +145,15 @@ float TopHadronicTagger::LeptonPt(const analysis::Triplet& triplet, const analys
 bool TopHadronicTagger::Problematic(const analysis::Triplet& triplet, const analysis::PreCuts& pre_cuts, Tag tag) const
 {
     Debug();
-    if (Problematic(triplet, pre_cuts))
-        return true;
+    if (Problematic(triplet, pre_cuts)) return true;
     switch (tag) {
     case Tag::signal: {
-        if (std::abs(triplet.Jet().m() - Mass(Id::top)) > top_mass_window_)
-            return true;
-//         if (std::abs(triplet.Doublet().Jet().m() - Mass(Id::W)) > 40) return true;
+
+        if (std::abs(triplet.Jet().m() - Mass(Id::top)) > top_mass_window_) return true;
         if ((triplet.Rho() < 0.5 || triplet.Rho() > 2) && triplet.Rho() > 0) return true;
+
+
+//         if (std::abs(triplet.Doublet().Jet().m() - Mass(Id::W)) > 40) return true;
 //         if (triplet.Doublet().Bdt() < 1) return true;
 //         if (triplet.Singlet().Bdt() < 1) return true;
 //         if (triplet.pt() > DetectorGeometry::LeptonMinPt()) return true;
@@ -170,12 +170,12 @@ bool TopHadronicTagger::Problematic(const analysis::Triplet& triplet, const PreC
     Debug();
     if (pre_cuts.PtLowerCut(Id::top) > 0 && triplet.Jet().pt() < pre_cuts.PtLowerCut(Id::top)) return true;
     if (pre_cuts.PtUpperCut(Id::top) > 0 && triplet.Jet().pt() > pre_cuts.PtUpperCut(Id::top)) return true;
-    if (pre_cuts.MassUpperCut(Id::top) > 0 && pre_cuts.MassUpperCut(Id::top) < triplet.Jet().m()) return true;
+    if (pre_cuts.MassUpperCut(Id::top) > 0 && triplet.Jet().m() > pre_cuts.MassUpperCut(Id::top)) return true;
 //     if (triplet.DeltaR() < DetectorGeometry::MinCellResolution() && triplet.DeltaR() > 0) return true;
 
     // FIXME the top tagger is very slow, due to many calls of Bdt(), therfore we have to reduce the number of candidates
     if (std::abs(triplet.Jet().m() - Mass(Id::top)) > 2 * top_mass_window_) return true;
-    if ((triplet.Rho() < 0.4 || triplet.Rho() > 1.5) && triplet.Rho() > 0) return true;
+    if ((triplet.Rho() < 0.4 || triplet.Rho() > 2) && triplet.Rho() > 0) return true;
     return false;
 }
 
@@ -188,6 +188,7 @@ std::vector<Triplet> TopHadronicTagger::Multiplets(const Event& event, const ana
     Info("3 Jets form one top" , triplets.size());
     std::vector<Doublet> doublets = w_hadronic_reader_.Multiplets(jets);
     triplets = Multiplets(doublets, jets, leptons, pre_cuts, reader);
+
     for (const auto& jet : jets) {
 
         Info("2 Jet form one top" , triplets.size());
@@ -223,8 +224,7 @@ std::vector<Triplet> TopHadronicTagger::Multiplets(const Event& event, const ana
         Info("3 sub jets forms one top" , triplets.size());
         sub_jet_number = 3;
         pieces = bottom_reader_.SubMultiplet(jet, sub_jet_number);
-        if (pieces.size() < sub_jet_number)
-            continue;
+        if (pieces.size() < sub_jet_number) continue;
         for (size_t i = 0; i < pieces.size(); ++i) {
             auto piece_1 = pieces.at(i);
             auto piece_2 = pieces.at((i + 1) % sub_jet_number);

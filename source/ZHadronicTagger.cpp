@@ -12,14 +12,13 @@ ZHadronicTagger::ZHadronicTagger()
 
 int ZHadronicTagger::Train(const Event& event, const analysis::PreCuts& pre_cuts, Tag tag) const
 {
-    Info("ZHadronic Tag");
+    Info();
     Jets jets =  bottom_reader_.Multiplets(event);
     std::vector<Doublet> doublets;
     for (auto jet_1 = jets.begin(); jet_1 != jets.end(); ++jet_1) {
         for (auto jet_2 = jet_1 + 1; jet_2 != jets.end(); ++jet_2) {
             Doublet doublet(*jet_1, *jet_2);
-            if (Problematic(doublet, pre_cuts, tag))
-                continue;
+            if (Problematic(doublet, pre_cuts, tag)) continue;
             doublet.SetTag(tag);
             doublets.emplace_back(doublet);
         }
@@ -30,8 +29,7 @@ int ZHadronicTagger::Train(const Event& event, const analysis::PreCuts& pre_cuts
         if (pieces.size() < sub_jet_number)
             continue;
         Doublet doublet(pieces.at(0), pieces.at(1));
-        if (Problematic(doublet, pre_cuts, tag))
-            continue;
+        if (Problematic(doublet, pre_cuts, tag)) continue;
         doublet.SetTag(tag);
         doublets.emplace_back(doublet);
     }
@@ -46,10 +44,8 @@ bool ZHadronicTagger::Problematic(const analysis::Doublet& doublet, const analys
         return true;
     switch (tag) {
     case Tag::signal :
-        if (std::abs(doublet.Jet().m() - Mass(Id::Z)) > z_mass_window)
-            return true;
-        if ((doublet.Rho() > 2 || doublet.Rho() < 0.5))
-            return true;
+        if (std::abs(doublet.Jet().m() - Mass(Id::Z)) > z_mass_window) return true;
+        if ((doublet.Rho() > 2 || doublet.Rho() < 0.5)) return true;
         break;
     case Tag::background :
         break;
@@ -71,7 +67,7 @@ bool ZHadronicTagger::Problematic(const analysis::Doublet& doublet, const analys
 
 std::vector<Doublet>  ZHadronicTagger::Multiplets(const Event& event, const analysis::PreCuts& pre_cuts, const TMVA::Reader& reader) const
 {
-    Info("ZHadronic Bdt");
+    Info();
     Jets jets =  bottom_reader_.Multiplets(event);
     std::vector<Doublet> doublets;
     for (auto jet_1 = jets.begin(); jet_1 != jets.end(); ++jet_1) {

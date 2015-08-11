@@ -23,7 +23,7 @@ public:
     std::vector<Doublet> Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 
     int GetBdt(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const final {
-        return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
+        return SaveEntries(Multiplets(event, pre_cuts, reader), 2);
     }
 
     std::string Name() const final {
@@ -43,10 +43,6 @@ private:
     bool Problematic(const Doublet& doublet, const PreCuts& pre_cuts) const;
 
     Doublet MassDrop(const Doublet& doublet) const;
-
-    std::vector<Doublet> SetClosestLepton(const Event& event, std::vector<Doublet>& doublets) const;
-
-    Doublet SetClosestLepton(Doublet& doublet, const Jets& leptons) const;
 
     Reader<BottomTagger> bottom_reader_;
 

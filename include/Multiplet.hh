@@ -1,6 +1,7 @@
 #pragma once
 
 #include "MultipletBase.hh"
+#include "Singlet.hh"
 
 namespace analysis
 {
@@ -9,6 +10,10 @@ class Multiplet : public MultipletBase
 {
 
 public:
+
+  float LeptonPt = 0;
+
+  float LeptonDeltaR = 0;
 
 protected:
 
@@ -51,6 +56,27 @@ protected:
     int Charge(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const;
 
     float BottomBdt(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const;
+
+    void SetResult(const fastjet::PseudoJet& jet) const {
+      jet_ = jet;
+      SetSinglet(jet);
+      has_jet_ = true;
+    }
+
+    void SetSinglet(const fastjet::PseudoJet& jet) const {
+      singlet_ = Singlet(jet);
+    }
+
+
+    /**
+     * @brief store intermediate results
+     *
+     */
+    mutable Singlet singlet_;
+
+    mutable fastjet::PseudoJet jet_;
+
+    mutable bool has_jet_ = false;
 
 private:
 

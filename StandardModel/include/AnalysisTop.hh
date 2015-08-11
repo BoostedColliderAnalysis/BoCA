@@ -33,7 +33,7 @@ public:
         this->set_tagger_analysis_name(ProjectName());
         this->pre_cuts().SetPtLowerCut(Id::top, this->LowerPtCut());
         this->pre_cuts().SetPtUpperCut(Id::top, this->UpperPtCut());
-        this->pre_cuts().SetMassUpperCut(Id::top, 400);
+//         this->pre_cuts().SetMassUpperCut(Id::top, 500);
         this->pre_cuts().SetTrackerMaxEta(Id::top, DetectorGeometry::TrackerEtaMax());
         this->pre_cuts().SetPtLowerCut(Id::bottom, this->LowerPtCut() / 5);
         this->pre_cuts().SetPtLowerCut(Id::W, this->LowerPtCut() / 5);
@@ -47,7 +47,7 @@ public:
 private:
 
     std::string ProjectName() const final {
-        return  Name(this->collider_type()) + "-" + std::to_string(this->LowerPtCut()) + "GeV-" + Name(Process::tt) + "-" + Name(TopDecay()) + "-isol";
+        return  Name(this->collider_type()) + "-" + std::to_string(this->LowerPtCut()) + "GeV-" + Name(Process::tt) + "-" + Name(TopDecay()) + "-jan";
     }
 
     void SetFiles(Tag tag) final {
@@ -74,13 +74,8 @@ private:
     }
 
     int PassPreCut(const Event& event, Tag) const final {
-        //static_cast<::analysis::delphes::Hadrons&>(event.Hadrons()).UniqueJets();
         Jets particles = fastjet::sorted_by_pt(event.Partons().GenParticles());
-        //     particles = fastjet::sorted_by_pt(CopyIfParticle(particles, Id::top));
-        //     if (particles.empty()) return 1;
-        //     if (particles.size() == 1) Error("just one top");
-        if ((particles.at(0).pt() > this->LowerQuarkCut() && particles.at(0).pt() < this->UpperQuarkCut()) && (particles.at(1).pt() > this->LowerQuarkCut() &&  particles.at(1).pt() < this->UpperQuarkCut()))
-            return 1;
+        if ((particles.at(0).pt() > this->LowerQuarkCut() && particles.at(0).pt() < this->UpperQuarkCut()) && (particles.at(1).pt() > this->LowerQuarkCut() &&  particles.at(1).pt() < this->UpperQuarkCut())) return 1;
         return 0;
     }
 

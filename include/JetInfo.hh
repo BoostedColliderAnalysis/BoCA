@@ -95,6 +95,14 @@ public:
 
     void SetConstituents(const std::vector<Constituent>& constituents);
 
+    bool SubStructure() const{
+      return sub_structure_;
+    }
+
+    void SetSubStructure(bool sub_structure){
+      sub_structure_ = sub_structure;
+    }
+
 private:
 
     JetInfo(const std::vector<Constituent>& constituents, const std::vector<Constituent>& dispalced_constituents);
@@ -126,6 +134,8 @@ private:
     bool tau_tag_ = 0;
 
     int charge_;
+
+    bool sub_structure_ = true;
 
 };
 
