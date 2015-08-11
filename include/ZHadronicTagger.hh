@@ -21,8 +21,7 @@ public:
 
     std::vector<Doublet> Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 
-    int GetBdt(const Event &event, const PreCuts &pre_cuts,
-               const TMVA::Reader &reader) const final {
+    int GetBdt(const Event &event, const PreCuts &pre_cuts, const TMVA::Reader &reader) const final {
         return SaveEntries(Multiplets(event, pre_cuts, reader), 2);
     }
 
@@ -42,7 +41,7 @@ private:
 
     Reader<BottomTagger> bottom_reader_;
 
-    float z_mass_window = 20;
+    float z_mass_window = 50;
 
 };
 

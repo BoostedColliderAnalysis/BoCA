@@ -7,6 +7,8 @@
 #include "Observable.hh"
 #include "Identification.hh"
 #include "Branches.hh"
+#include "Vector.hh"
+#include "Event.hh"
 
 namespace TMVA
 {
@@ -21,8 +23,9 @@ typedef ::ExRootTreeWriter TreeWriter;
 typedef ::ExRootTreeBranch TreeBranch;
 }
 
-namespace fastjet{
-  class PseudoJet;
+namespace fastjet
+{
+class PseudoJet;
 }
 
 namespace analysis
@@ -124,14 +127,37 @@ protected:
 
     template<typename Multiplet>
     Multiplet SetTag(Multiplet& multiplet, Tag tag) const {
-      multiplet.SetTag(tag);
-      return multiplet;
+        multiplet.SetTag(tag);
+        return multiplet;
     }
 
     template<typename Multiplet>
     Multiplet SetBdt(Multiplet& multiplet, const TMVA::Reader& reader) const {
-      multiplet.SetBdt(Bdt(multiplet, reader));
-      return multiplet;
+        multiplet.SetBdt(Bdt(multiplet, reader));
+        return multiplet;
+    }
+
+    template<typename Multiplet>
+    std::vector<Multiplet> SetClosestLepton(const Event& event, std::vector<Multiplet>& multiplets) const {
+        Jets leptons = event.Leptons().leptons();
+        if (leptons.empty()) return multiplets;
+        for (auto & multiplet : multiplets) {
+            try {
+                SetClosestLepton(multiplet, leptons);
+            } catch (const char*) {
+                continue;
+            }
+        }
+        return multiplets;
+    }
+
+    template<typename Multiplet>
+    Multiplet SetClosestLepton(Multiplet& multiplet, const Jets& leptons) const {
+        if (leptons.empty()) throw "no leptons";
+        auto lepton = ClosestJet(leptons, multiplet);
+        multiplet.LeptonPt = lepton.pt();
+        multiplet.LeptonDeltaR = lepton.delta_R(multiplet.Jet());
+        return multiplet;
     }
 
 private:

@@ -29,7 +29,7 @@ public:
 protected:
 
     std::string ProjectName() const final {
-        return ProcessName() + "-" + std::to_string(this->PreCut()) + "GeV-hB";
+      return ProcessName() + "-" + std::to_string(this->PreCut()) + "GeV-" + std::to_string(this->Mass()) + "GeV" ;
     }
 
     std::string ProcessName() const final {
@@ -39,7 +39,7 @@ protected:
     void SetFiles(Tag tag) final {
         switch (tag) {
         case Tag::signal :
-            this->NewFile(tag, Process::TT, 2000);
+            this->NewFile(tag, Process::TT);
             break;
         case Tag::background :
             this->NewFile(tag, Process::ttBjj);

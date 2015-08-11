@@ -34,6 +34,11 @@ public:
 
 protected:
 
+    int Mass() const {
+      return 10000;
+      return 2000;
+    }
+
     long EventNumberMax() const override {
         return 1000;
         return 5000;
@@ -59,23 +64,19 @@ protected:
         return 0;
     }
 
-    int Mass() const {
-        return 2000;
-    }
-
-    float Crosssection(Process process, int mass = 0) const {
+    float Crosssection(Process process) const {
         float crosssection;
         switch (process) {
         case Process::Tth : crosssection = 0.004964;
             break;
         case Process::TT :
-            switch (mass) {
+          switch (Mass()) {
             case 2000 : crosssection = 0.264;
                 break;
-            case 10000 : crosssection = 0.264;
+            case 10000 : crosssection = 2.485e-05;
                 break;
             default : crosssection = 0;
-                Error("wrong mass", mass);
+            Error("wrong mass", Mass());
             }
             break;
         case Process::ttBjj :
@@ -100,14 +101,16 @@ protected:
         return crosssection * 2 * 1000;
     }
 
-    std::string Name(Process process, int mass = 0) const {
+    std::string Name(Process process) const {
         switch (process) {
         case Process::TT : {
-//             std::string name = "pp-TT-tthB-bbbbjjjjlv";
-            std::string name = "pp-TT-ttBB";
-            switch (mass) {
-            case 2000 : return name + "2000";
-            case 10000 : return name + "10000";
+            std::string name = "pp-TT-tthB-bbbbjjjjlv";
+//             std::string name = "pp-TT-ttBB";
+            switch (Mass()) {
+            case 2000 : return name + "-2000GeV";
+            case 10000 : return name + "-10000GeV";
+            default : return name;
+            Error("wrong mass", Mass());
             }
         }
         case Process::ttBjj : {
@@ -142,12 +145,12 @@ protected:
 //         (" + std::to_string(PreCut()) + " GeV)";
     }
 
+//     void NewFile(Tag tag, Process process) {
+// //         AnalysisBase::NewFile(tag, this->Name(process), this->Crosssection(process), this->NiceName(process));
+//     }
+
     void NewFile(Tag tag, Process process) {
         AnalysisBase::NewFile(tag, this->Name(process), this->Crosssection(process), this->NiceName(process));
-    }
-
-    void NewFile(Tag tag, Process process, int mass) {
-        AnalysisBase::NewFile(tag, this->Name(process, mass), this->Crosssection(process, mass), this->NiceName(process));
     }
 
 };

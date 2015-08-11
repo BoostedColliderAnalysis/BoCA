@@ -40,10 +40,10 @@ int TopLeptonicTagger::Train(const Event& event, const analysis::PreCuts& pre_cu
     }
     Jets tops = Particles(event, pre_cuts);
     Debug(triplets.size(), tops.size());
-    std::vector<Triplet> matches = BestMatches(triplets, tops, tag);
-    Debug(matches.size());
-    if(tag == Tag::signal && matches.size() > tops.size()) return 0;
-    return SaveEntries(matches);
+//     std::vector<Triplet> matches = BestMatches(triplets, tops, tag);
+//     Debug(matches.size());
+//     if(tag == Tag::signal && matches.size() > tops.size()) return 0;
+    return SaveEntries(triplets, tops, tag);
 }
 
 fastjet::PseudoJet TopLeptonicTagger::FakeLepton(const fastjet::PseudoJet& jet) const

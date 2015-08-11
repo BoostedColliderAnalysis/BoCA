@@ -30,6 +30,7 @@ public:
     }
 
     void SetJet(const fastjet::PseudoJet& jet) {
+        static_cast<JetInfo&>(*jet.user_info_shared_ptr().get()).SetSubStructure(false);
         multiplet_1_ = Multiplet_1(jet / 3);
         multiplet_2_ = Multiplet_2(jet / 3);
         multiplet_3_ = Multiplet_3(jet / 3);

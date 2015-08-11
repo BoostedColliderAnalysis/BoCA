@@ -1,6 +1,7 @@
 #include "Multiplet.hh"
 
 #include "InfoRecombiner.hh"
+#include "JetInfo.hh"
 #include "Vector.hh"
 #include "Math.hh"
 #include "Debug.hh"
@@ -17,11 +18,13 @@ Vector2 Multiplet::Pull() const
 fastjet::PseudoJet Multiplet::Jet(const fastjet::PseudoJet& jet_1, const fastjet::PseudoJet& jet_2) const
 {
     analysis::Jets constituents;
-    if (jet_1.has_constituents()) constituents = jet_1.constituents();
-    else constituents.push_back(jet_1);
-    if (jet_2.has_constituents()) constituents = Join(constituents, jet_2.constituents());
-    else constituents.push_back(jet_2);
+    if (jet_1.has_user_info() && jet_1.user_info<JetInfo>().SubStructure() && jet_1.has_constituents()) constituents = jet_1.constituents();
+    else constituents.emplace_back(jet_1);
+    if (jet_2.has_user_info() && jet_2.user_info<JetInfo>().SubStructure() && jet_2.has_constituents()) constituents = Join(constituents, jet_2.constituents());
+    else constituents.emplace_back(jet_2);
+
     fastjet::PseudoJet jet = fastjet::join(constituents, InfoRecombiner());
+    Check(int((jet_1 + jet_2).m()) == int(jet.m()), jet.m(), (jet_1 + jet_2).m(), jet_1.m(), jet_2.m());
     return jet;
 }
 

@@ -32,6 +32,7 @@ public:
     }
 
     void SetJet(const fastjet::PseudoJet& jet) {
+        static_cast<JetInfo&>(*jet.user_info_shared_ptr().get()).SetSubStructure(false);
         multiplet_1_ = Multiplet_1(jet / 2);
         multiplet_2_ = Multiplet_2(jet / 2);
         SetBdt((multiplet_1_.Bdt() + multiplet_2_.Bdt()) / 2);
@@ -42,11 +43,11 @@ public:
     }
 
     const Multiplet_1& Multiplet1() const {
-      return multiplet_1_;
+        return multiplet_1_;
     }
 
     Multiplet_2& Multiplet2() {
-      return multiplet_2_;
+        return multiplet_2_;
     }
 
     const Multiplet_2& Multiplet2() const {
@@ -76,12 +77,12 @@ public:
      * @return fastjet::PseudoJet
      */
     fastjet::PseudoJet Jet() const {
-      if(!has_jet_) SetResult(Multiplet::Jet(Multiplet1().Jet(),Multiplet2().Jet()));
-      return jet_;
+        if (!has_jet_) SetResult(Multiplet::Jet(Multiplet1().Jet(), Multiplet2().Jet()));
+        return jet_;
     }
 
-    analysis::Jets Jets() const{
-      return Join(Multiplet1().Jets(), Multiplet2().Jets());
+    analysis::Jets Jets() const {
+        return Join(Multiplet1().Jets(), Multiplet2().Jets());
     }
 
     float DeltaPt() const {
@@ -93,28 +94,27 @@ public:
     }
 
     float DeltaRap() const {
-      return Multiplet::DeltaRap(Multiplet1(),Multiplet2());
+        return Multiplet::DeltaRap(Multiplet1(), Multiplet2());
     }
 
     float DeltaPhi() const {
-      return Multiplet::DeltaPhi(Multiplet1(),Multiplet2());
+        return Multiplet::DeltaPhi(Multiplet1(), Multiplet2());
     }
 
     float DeltaR() const {
-      return Multiplet::DeltaR(Multiplet1(),Multiplet2());
+        return Multiplet::DeltaR(Multiplet1(), Multiplet2());
     }
 
     float DeltaM() const {
-      return Multiplet::DeltaM(Multiplet1(),Multiplet2());
+        return Multiplet::DeltaM(Multiplet1(), Multiplet2());
     }
 
     float DeltaHt() const {
-      return Multiplet::DeltaHt(Multiplet1(),Multiplet2());
+        return Multiplet::DeltaHt(Multiplet1(), Multiplet2());
     }
 
-    float Rho() const
-    {
-      return Multiplet::Rho(Multiplet1(),Multiplet2());
+    float Rho() const {
+        return Multiplet::Rho(Multiplet1(), Multiplet2());
     }
 
     float MassDifferenceTo(Id id) const {
@@ -122,28 +122,28 @@ public:
     }
 
     int Charge() const {
-      return Multiplet::Charge(Multiplet1(),Multiplet2());
+        return Multiplet::Charge(Multiplet1(), Multiplet2());
     }
 
     const analysis::Singlet& singlet() const {
-      if(!has_jet_)SetSinglet(Jet());
-      return singlet_;
+        if (!has_jet_)SetSinglet(Jet());
+        return singlet_;
     }
 
     float PullDifference() const {
-      return Multiplet::PullDifference(Multiplet1(),Multiplet2());
+        return Multiplet::PullDifference(Multiplet1(), Multiplet2());
     }
 
     float PullSum() const {
-      return Multiplet::PullSum(Multiplet1(),Multiplet2());
+        return Multiplet::PullSum(Multiplet1(), Multiplet2());
     }
 
     float Dipolarity() const {
-      return Multiplet::Dipolarity(Multiplet1(),Multiplet2());
+        return Multiplet::Dipolarity(Multiplet1(), Multiplet2());
     }
 
-    float BottomBdt() const final{
-      return Multiplet::BottomBdt(Multiplet1(),Multiplet2());
+    float BottomBdt() const final {
+        return Multiplet::BottomBdt(Multiplet1(), Multiplet2());
     };
 
 protected:
@@ -161,27 +161,6 @@ private:
     Multiplet_1 multiplet_1_;
 
     Multiplet_2 multiplet_2_;
-
-    void SetResult(const fastjet::PseudoJet& jet) const {
-      jet_ = jet;
-      SetSinglet(jet);
-      has_jet_ = true;
-    }
-
-    void SetSinglet(const fastjet::PseudoJet& jet) const {
-      singlet_ = Singlet(jet);
-    }
-
-
-    /**
-     * @brief storage for singlet object
-     *
-     */
-    mutable Singlet singlet_;
-
-    mutable fastjet::PseudoJet jet_;
-
-    mutable bool has_jet_ = false;
 
 };
 

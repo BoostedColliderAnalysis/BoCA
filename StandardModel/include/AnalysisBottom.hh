@@ -42,7 +42,7 @@ public:
 private:
 
     std::string ProjectName() const final {
-        return  Name(production_channel()) + Name(this->collider_type()) + "_" + std::to_string(this->MadGraphCut()) + "GeV-test";
+        return  Name(production_channel()) + Name(this->collider_type()) + "_" + std::to_string(this->MadGraphCut()) + "GeV-jan";
     }
 
 
