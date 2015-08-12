@@ -2,12 +2,12 @@
 
 namespace analysis {
 
-const Triplet& Sextet::Triplet1() const
+Triplet const& Sextet::Triplet1() const
 {
     return Multiplet1();
 }
 
-const Triplet& Sextet::Triplet2() const
+Triplet const& Sextet::Triplet2() const
 {
     return Multiplet2();
 }

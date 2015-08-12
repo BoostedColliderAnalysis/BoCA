@@ -2,12 +2,12 @@
 
 namespace analysis {
 
-  const Triplet& Quintet::Triplet() const
+  Triplet const& Quintet::Triplet() const
 {
     return Multiplet1();
 }
 
-const Doublet& Quintet::Doublet() const
+Doublet const& Quintet::Doublet() const
 {
     return Multiplet2();
 }

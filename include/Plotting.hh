@@ -83,9 +83,9 @@ private:
 
     std::vector<Plots> Import(analysis::Stage stage, analysis::Tag tag) const;
 
-    Plots PlotResult(TFile& file, const std::string& tree_name, analysis::Stage stage) const;
+    Plots PlotResult(TFile& file, std::string const& tree_name, analysis::Stage stage) const;
 
-    Plot ReadTree(TTree& tree, const std::string& leaf_1, const std::string& leaf_2, analysis::Stage stage) const;
+    Plot ReadTree(TTree& tree, std::string const& leaf_1, std::string const& leaf_2, analysis::Stage stage) const;
 
     void PlotHistogram(const analysis::Plot& signal, const analysis::Plot& background, const analysis::Point& min, const analysis::Point& max) const;
 
@@ -95,9 +95,9 @@ private:
 
     void SetPlotStyle(TAttLine& att_line, int index) const;
 
-    TLegend Legend(float x_min, float y_min, float width, float height, const std::string& title = "") const;
+    TLegend Legend(float x_min, float y_min, float width, float height, std::string const& title = "") const;
 
-    TLegend Legend(analysis::Orientation orientation, const analysis::Strings& entries, const std::string& title = "") const;
+    TLegend Legend(analysis::Orientation orientation, analysis::Strings const& entries, std::string const& title = "") const;
 
     int Letters(std::vector<Result> result) const;
 
@@ -109,7 +109,7 @@ private:
 
     TLine Line(analysis::Results results, float y_min, float y_max) const;
 
-    void AddGraph(TGraph& graph, TMultiGraph& multi_graph, TLegend& legend, const std::string& name, int index) const;
+    void AddGraph(TGraph& graph, TMultiGraph& multi_graph, TLegend& legend, std::string const& name, int index) const;
 
     void PlotAcceptanceGraph(const analysis::Results& results) const;
 
@@ -119,9 +119,9 @@ private:
 
     analysis::Tagger& Tagger() const;
 
-    analysis::InfoBranch InfoBranch(TFile& file, const std::string& tree_name) const;
+    analysis::InfoBranch InfoBranch(TFile& file, std::string const& tree_name) const;
 
-    Result BdtDistribution(TFile& file, const std::string& tree_name, TFile& export_file) const;
+    Result BdtDistribution(TFile& file, std::string const& tree_name, TFile& export_file) const;
 
     std::string Table(const Results& results) const;
 

@@ -73,7 +73,7 @@ private:
 
     }
 
-    int PassPreCut(const Event& event, Tag) const final {
+    int PassPreCut(Event const& event, Tag) const final {
         Jets jets = event.Hadrons().Jets();
         jets = RemoveIfOutsidePtWindow(jets, this->LowerPtCut(), this->UpperPtCut());
         return jets.size();

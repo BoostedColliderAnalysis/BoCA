@@ -10,7 +10,7 @@ std::string InfoRecombiner::description() const
     return fastjet::JetDefinition::DefaultRecombiner::description() + " (with user info)";
 }
 
-void InfoRecombiner::recombine(const fastjet::PseudoJet& jet_1, const fastjet::PseudoJet& jet_2, fastjet::PseudoJet& jet) const
+void InfoRecombiner::recombine(fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2, fastjet::PseudoJet& jet) const
 {
     fastjet::JetDefinition::DefaultRecombiner::recombine(jet_1, jet_2, jet);
     JetInfo jet_info;

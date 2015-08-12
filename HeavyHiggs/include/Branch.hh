@@ -36,7 +36,7 @@ public:
 
 
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(Multiplet const& multiplet)
     {
         PairBranch::Fill(multiplet);
         LargerWDeltaR = multiplet.GetLargertripletDeltaR();
@@ -73,7 +73,7 @@ public:
     HeavyHiggsSemiBranch();
 
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(Multiplet const& multiplet)
     {
         MultiBranch::Fill(multiplet);
     }
@@ -97,7 +97,7 @@ public:
     ChargedHiggsSemiBranch();
 
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(Multiplet const& multiplet)
     {
         MultiBranch::Fill(multiplet);
         Flag = multiplet.Flag();
@@ -150,7 +150,7 @@ public:
 
 
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(Multiplet const& multiplet)
     {
         MultiBranch::Fill(multiplet);
         HeavyHiggsMass = multiplet.Jet().m();
@@ -186,7 +186,7 @@ public:
     float NeutrinoPt;
 
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(Multiplet const& multiplet)
     {
         PairBranch::Fill(multiplet);
         LeptonPt = multiplet.Singlet1().Jet().pt();
@@ -236,7 +236,7 @@ public:
     float BottomBdt78;
 
     template<typename Multiplet>
-    void Fill(const Multiplet& event)
+    void Fill(Multiplet const& event)
     {
         EventBranch::Fill(event);
         HiggsMass = event.Multiplet().Sextet().Jet().m();
@@ -298,7 +298,7 @@ public:
     float BottomBdt78;
 
     template<typename Multiplet>
-    void Fill(const Multiplet& event)
+    void Fill(Multiplet const& event)
     {
         EventBranch::Fill(event);
         HiggsMass = event.Multiplet().Sextet().Jet().m();
@@ -347,7 +347,7 @@ public:
     float HiggsMass;
 
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(Multiplet const& multiplet)
     {
         EventBranch::Fill(multiplet);
         HiggsMass = multiplet.Jet().m();
@@ -383,7 +383,7 @@ public:
     float SoftTopPt;
 
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(Multiplet const& multiplet)
     {
         MultiBranch::Fill(multiplet);
         BottomBdt = multiplet.BottomBdt();
@@ -424,7 +424,7 @@ public:
 
 
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(Multiplet const& multiplet)
     {
         MultiBranch::Fill(multiplet);
         BottomBdt = multiplet.BottomBdt();
@@ -477,7 +477,7 @@ public:
     float BottomBdt78;
 
     template<typename Multiplet>
-    void Fill(const Multiplet& event)
+    void Fill(Multiplet const& event)
     {
         EventBranch::Fill(event);
         HiggsMass = event.Multiplet().Quartet1().Jet().m();

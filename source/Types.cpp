@@ -9,21 +9,21 @@
 
 namespace analysis {
 
-fastjet::PseudoJet PseudoJet(const TLorentzVector& vector)
+fastjet::PseudoJet PseudoJet(TLorentzVector const& vector)
 {
     // construct a pseudojet from explicit components
     // PseudoJet(double px, double py, double pz, double E);
     return fastjet::PseudoJet(vector.Px(), vector.Py(), vector.Pz(), vector.E());
 }
 
-fastjet::PseudoJet PseudoJet(const LorentzVector& vector)
+fastjet::PseudoJet PseudoJet(LorentzVector const& vector)
 {
     // construct a pseudojet from explicit components
     // PseudoJet(double px, double py, double pz, double E);
     return fastjet::PseudoJet(vector.Px(), vector.Py(), vector.Pz(), vector.E());
 }
 
-bool Exists(const std::string& name)
+bool Exists(std::string const& name)
 {
   Note(name);
   struct stat buffer;

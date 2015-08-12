@@ -12,7 +12,7 @@ WLeptonicTagger::WLeptonicTagger()
     DefineVariables();
 }
 
-int WLeptonicTagger::Train(const Event& event, const analysis::PreCuts&, Tag tag) const
+int WLeptonicTagger::Train(Event const& event, analysis::PreCuts const&, Tag tag) const
 {
     Info();
     Jets Particles = event.Partons().GenParticles();
@@ -23,13 +23,13 @@ int WLeptonicTagger::Train(const Event& event, const analysis::PreCuts&, Tag tag
         leptons.erase(leptons.begin() + w_bosons.size(), leptons.end());
     fastjet::PseudoJet missing_et = event.Hadrons().MissingEt();
     std::vector<Doublet> doublets;
-    for (const auto& lepton : leptons) {
+    for (auto const& lepton : leptons) {
         Doublet pre_doublet(lepton, missing_et);
         std::vector<Doublet> post_doublets = ReconstructNeutrino(pre_doublet);
         for (auto& doublet : post_doublets) {
             if (tag == Tag::signal && std::abs(doublet.Jet().m() - Mass(Id::W)) > w_mass_window_) continue;
             bool in_cone = false;
-            for (const auto& w_boson : w_bosons) if (Close(w_boson)(doublet)) in_cone = true;
+            for (auto const& w_boson : w_bosons) if (Close(w_boson)(doublet)) in_cone = true;
             switch (tag) {
             case Tag::signal :
                 if (!in_cone) continue;
@@ -45,7 +45,7 @@ int WLeptonicTagger::Train(const Event& event, const analysis::PreCuts&, Tag tag
     return SaveEntries(doublets);
 }
 
-std::vector<Doublet>  WLeptonicTagger::Multiplets(const Event& event, const analysis::PreCuts&, const TMVA::Reader& reader) const
+std::vector<Doublet>  WLeptonicTagger::Multiplets(Event const& event, analysis::PreCuts const&, TMVA::Reader const& reader) const
 {
     Info();
     Jets Particles = event.Partons().GenParticles();
@@ -54,7 +54,7 @@ std::vector<Doublet>  WLeptonicTagger::Multiplets(const Event& event, const anal
     Jets leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
     if (leptons.size() > w_bosons.size()) leptons.erase(leptons.begin() + w_bosons.size(), leptons.end());
     std::vector<Doublet> doublets;
-    for (const auto& lepton : leptons) {
+    for (auto const& lepton : leptons) {
         Doublet pre_doublet(lepton, event.Hadrons().MissingEt());
         std::vector<Doublet> post_doublets = ReconstructNeutrino(pre_doublet);
         for (auto& doublet : post_doublets) {
@@ -66,7 +66,7 @@ std::vector<Doublet>  WLeptonicTagger::Multiplets(const Event& event, const anal
     return ReduceResult(doublets);
 }
 
-std::vector<Doublet> WLeptonicTagger::ReconstructNeutrino(const Doublet& doublet) const
+std::vector<Doublet> WLeptonicTagger::ReconstructNeutrino(Doublet const& doublet) const
 {
     Info();
     fastjet::PseudoJet lepton = doublet.Singlet1().Jet();
@@ -104,7 +104,7 @@ std::vector<Doublet> WLeptonicTagger::ReconstructNeutrino(const Doublet& doublet
     return doublets;
 }
 
-Jets WLeptonicTagger::WLeptonicDaughters(const Event& event) const
+Jets WLeptonicTagger::WLeptonicDaughters(Event const& event) const
 {
     Jets w_daughters = event.Partons().GenParticles();
     w_daughters = RemoveIfSoft(w_daughters, DetectorGeometry::JetMinPt());
@@ -113,13 +113,13 @@ Jets WLeptonicTagger::WLeptonicDaughters(const Event& event) const
     return w_daughters;
 }
 
-int WLeptonicTagger::WLeptonicId(const Jets& jets) const
+int WLeptonicTagger::WLeptonicId(Jets const& jets) const
 {
     if (jets.empty()) return 0;
     int sign;
     bool first = true;
     bool just_one = true;
-    for (const auto jet : jets) {
+    for (auto const& jet : jets) {
         int id = jet.user_info<JetInfo>().Family().mother_1().id();
         if (first) sign = sgn(id);
         else if (sign != sgn(id)) just_one = false;

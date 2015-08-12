@@ -20,7 +20,7 @@ class File
 
 public:
 
-    File(const Strings& processes, const std::string& run_folder, const std::string& file_suffix, const std::string& nice_name = "", float crosssection = 1, float mass = 0);
+    File(Strings const& processes, std::string const& run_folder, std::string const& file_suffix, std::string const& nice_name = "", float crosssection = 1, float mass = 0);
 
     /**
      * @brief destructor

@@ -39,7 +39,7 @@ public:
       std::cout.rdbuf(cout);
     }
 
-    int Bdt(const analysis::Event& event, const analysis::PreCuts& pre_cuts) const
+    int Bdt(analysis::Event const& event, analysis::PreCuts const& pre_cuts) const
     {
         return Tagger().GetBdt(event, pre_cuts, reader());
     }
@@ -104,7 +104,7 @@ private:
 
     TaggerTemplate tagger_;
 
-    const TMVA::Reader& reader() const
+    TMVA::Reader const& reader() const
     {
       return reader_;
     }
@@ -124,8 +124,8 @@ private:
 
     void AddVariable()
     {
-        for (const auto& observable : Tagger().Variables()) reader().AddVariable(observable.expression(), &observable.value());
-        for (const auto& spectator : Tagger().Spectators()) reader().AddSpectator(spectator.expression(), &spectator.value());
+        for (auto const& observable : Tagger().Variables()) reader().AddVariable(observable.expression(), &observable.value());
+        for (auto const& spectator : Tagger().Spectators()) reader().AddSpectator(spectator.expression(), &spectator.value());
     }
 
 };

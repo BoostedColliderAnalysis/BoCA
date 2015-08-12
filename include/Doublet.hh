@@ -11,9 +11,9 @@ public:
 
     using TwoBody<Singlet, Singlet>::TwoBody;
 
-    const Singlet& Singlet1() const;
+    Singlet const& Singlet1() const;
 
-    const Singlet& Singlet2() const;
+    Singlet const& Singlet2() const;
 
     float Dipolarity2() const;
 

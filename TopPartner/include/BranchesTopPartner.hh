@@ -16,7 +16,7 @@ class TopPartnerBranch : public MultiBranch {
 public:
 
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(Multiplet const& multiplet)
     {
         MultiBranch::Fill(multiplet);
     }
@@ -37,7 +37,7 @@ class HiggsPairBranch : public MultiBranch {
 public:
 
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(Multiplet const& multiplet)
     {
         MultiBranch::Fill(multiplet);
     }
@@ -53,7 +53,7 @@ class SignatureBranch : public MultiBranch {
 public:
 
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(Multiplet const& multiplet)
     {
         MultiBranch::Fill(multiplet);
     }
@@ -68,7 +68,7 @@ class EventBranch : public analysis::EventBranch {
 
 public:
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(Multiplet const& multiplet)
     {
         analysis::EventBranch::Fill(multiplet);
     }

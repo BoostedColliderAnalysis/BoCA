@@ -11,7 +11,7 @@ ChargedHiggsLeptonicTagger::ChargedHiggsLeptonicTagger()
     DefineVariables();
 }
 
-int ChargedHiggsLeptonicTagger::Train(const Event& event, const PreCuts&, const Tag) const
+int ChargedHiggsLeptonicTagger::Train(Event const& event, PreCuts const&, const Tag) const
 {
     Info("Higgs Tags");
     Jets jets = bottom_reader_.Multiplets(event);
@@ -19,8 +19,8 @@ int ChargedHiggsLeptonicTagger::Train(const Event& event, const PreCuts&, const 
     Info(triplets.size());
     /*
         std::vector<Triplet> triplets;
-        for (const auto & triplet : triplets) {
-            for (const auto & Jet : jets)  {
+        for (auto const& triplet : triplets) {
+            for (auto const& Jet : jets)  {
                 if (triplet.Singlet1().Jet() == Jet) continue;
                 Triplet triplet(triplet, Jet);
     //             triplet.SetTag(GetTag(triplet));
@@ -45,15 +45,15 @@ int ChargedHiggsLeptonicTagger::Train(const Event& event, const PreCuts&, const 
     return 1;
 }
 
-std::vector<Triplet>  ChargedHiggsLeptonicTagger::Multiplets(const Event&, const PreCuts& , const TMVA::Reader&) const
+std::vector<Triplet>  ChargedHiggsLeptonicTagger::Multiplets(Event const&, PreCuts const& , TMVA::Reader const&) const
 {
     Info("Bdt");
 //     Jets jets = bottom_reader_.Multiplets(event);
 //     std::vector<Doublet> doublets = top_leptonic_reader_.Multiplets(event);
 //
 //     std::vector<Triplet> triplets;
-//     for (const auto & doublet : doublets) {
-//         for (const auto & jet : jets)  {
+//     for (auto const& doublet : doublets) {
+//         for (auto const& jet : jets)  {
 //             if (doublet.Singlet1().Jet() == jet) continue;
 //             Triplet triplet(doublet, jet);
 // //             triplet.SetTag(GetTag(triplet));

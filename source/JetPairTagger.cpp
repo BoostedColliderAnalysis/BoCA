@@ -12,7 +12,7 @@ JetPairTagger::JetPairTagger()
     DefineVariables();
 }
 
-int JetPairTagger::Train(const Event &event, const PreCuts &, Tag tag) const
+int JetPairTagger::Train(Event const& event, PreCuts const& , Tag tag) const
 {
     Info();
     Jets jets = bottom_reader_.Multiplets(event);
@@ -25,7 +25,7 @@ int JetPairTagger::Train(const Event &event, const PreCuts &, Tag tag) const
     Jets bad_bottom_jets;
     switch (tag) {
     case Tag::signal :
-        for (const auto & bottom : bottoms) {
+        for (auto const& bottom : bottoms) {
             jets = SortedByMinDeltaRTo(jets, bottom);
             if (Close(jets.at(1))(bottom))continue;
             if (Close(jets.at(0))(bottom))bottom_jets.emplace_back(jets.front());
@@ -60,7 +60,7 @@ int JetPairTagger::Train(const Event &event, const PreCuts &, Tag tag) const
     return SaveEntries(doublets);
 }
 
-Jets JetPairTagger::BottomPair(const Event &event, Tag tag) const
+Jets JetPairTagger::BottomPair(Event const& event, Tag tag) const
 {
     if (tag == Tag::background) return Jets {};
     Jets particles = event.Partons().GenParticles();
@@ -69,7 +69,7 @@ Jets JetPairTagger::BottomPair(const Event &event, Tag tag) const
     return bottom_not_from_higgs;
 }
 
-std::vector<Doublet> JetPairTagger::Multiplets(const Event &event, const analysis::PreCuts &, const TMVA::Reader &reader) const
+std::vector<Doublet> JetPairTagger::Multiplets(Event const& event, analysis::PreCuts const&, TMVA::Reader const& reader) const
 {
     Jets jets = bottom_reader_.Multiplets(event);
     std::vector<Doublet>  doublets;
@@ -87,14 +87,14 @@ std::vector<Doublet> JetPairTagger::Multiplets(const Event &event, const analysi
     return ReduceResult(doublets, 6);
 }
 
-bool JetPairTagger::CheckIfBadBottom(const analysis::Doublet& doublet, const Jets& jets)const
+bool JetPairTagger::CheckIfBadBottom(analysis::Doublet const& doublet, Jets const& jets)const
 {
   if((Close(jets.at(0))(doublet.Singlet1().Jet()) && Close(jets.at(1))(doublet.Singlet2().Jet())) || (Close(jets.at(1))(doublet.Singlet1().Jet()) && Close(jets.at(0))(doublet.Singlet2().Jet())))return true;
   else return false;
 
 }
 
-Jets JetPairTagger::HiggsParticle(const Event& event, Tag tag) const
+Jets JetPairTagger::HiggsParticle(Event const& event, Tag tag) const
 {
   if (tag == Tag::background) return Jets {};
   Jets particles = event.Partons().GenParticles();

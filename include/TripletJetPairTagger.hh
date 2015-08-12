@@ -15,13 +15,13 @@ public:
 
     TripletJetPairTagger();
 
-    int Train(const analysis::Event &event, const analysis::PreCuts &pre_cuts,
+    int Train(const analysis::Event &event, analysis::PreCuts const&pre_cuts,
               Tag tag) const override;
 
-    std::vector<Quartet31> Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
+    std::vector<Quartet31> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    int GetBdt(const Event &event, const PreCuts &pre_cuts,
-               const TMVA::Reader &reader) const final {
+    int GetBdt(Event const& event, PreCuts const& pre_cuts,
+               TMVA::Reader const& reader) const final {
                  return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
     }
 

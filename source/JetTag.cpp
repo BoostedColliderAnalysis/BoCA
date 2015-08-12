@@ -20,7 +20,7 @@ int JetTag::GetBranchId(int id, int branch_id)
     return branch_id;
 }
 
-Family JetTag::BranchFamily(const Family& node_family, Family& branch_family)
+Family JetTag::BranchFamily(Family const&node_family, Family& branch_family)
 {
     Debug(Name(node_family.particle().id()), Name(node_family.mother_1().id()), Name(branch_family.particle().id()));
     if (

@@ -12,7 +12,7 @@ SignatureTagger::SignatureTagger()
     DefineVariables();
 }
 
-int SignatureTagger::Train(const Event& event, const analysis::PreCuts&, Tag tag) const
+int SignatureTagger::Train(Event const& event, analysis::PreCuts const&, Tag tag) const
 {
     Info();
     std::vector<Sextet> sextets = triplet_pair_reader_.Tagger().TruthLevel(event,triplet_pair_reader_.Multiplets(event),tag);
@@ -22,8 +22,8 @@ int SignatureTagger::Train(const Event& event, const analysis::PreCuts&, Tag tag
     std::vector<Doublet> final_doublets = BestMatches(doublets,higgses,tag);
     Debug(final_doublets.size());
     std::vector<MultipletSignature<Octet62>> octets;
-    for (const auto& doublet : final_doublets) {
-        for (const auto& sextet : sextets) {
+    for (auto const& doublet : final_doublets) {
+        for (auto const& sextet : sextets) {
             Octet62 octet(sextet, doublet);
             if (octet.Overlap()) continue;
             octet.SetTag(tag);
@@ -36,7 +36,7 @@ int SignatureTagger::Train(const Event& event, const analysis::PreCuts&, Tag tag
     return SaveEntries(octets);
 }
 
-std::vector<MultipletSignature<Octet62>> SignatureTagger::Multiplets(const Event& event, const PreCuts&, const TMVA::Reader& reader) const
+std::vector<MultipletSignature<Octet62>> SignatureTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
 {
     Info();
     std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
@@ -44,8 +44,8 @@ std::vector<MultipletSignature<Octet62>> SignatureTagger::Multiplets(const Event
     std::vector<Sextet> sextets = triplet_pair_reader_.Multiplets(event);
     Info(sextets.size());
     std::vector<MultipletSignature<Octet62>> octets;
-    for (const auto& doublet : doublets) {
-        for (const auto& sextet : sextets) {
+    for (auto const& doublet : doublets) {
+        for (auto const& sextet : sextets) {
             Octet62 octet(sextet, doublet);
             if (octet.Overlap()) continue;
             MultipletSignature<Octet62> octet_signature(octet);

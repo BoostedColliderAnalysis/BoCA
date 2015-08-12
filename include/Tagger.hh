@@ -55,15 +55,15 @@ public:
 
     virtual std::string Name() const = 0;
 
-    virtual int GetBdt(const Event&, const PreCuts&, const TMVA::Reader&) const = 0;
+    virtual int GetBdt(Event const&, PreCuts const&, TMVA::Reader const&) const = 0;
 
-    virtual int Train(const Event&, const PreCuts&, const Tag) const = 0;
+    virtual int Train(Event const&, PreCuts const&, const Tag) const = 0;
 
-    virtual float ReadBdt(const TClonesArray&, const int) const = 0;
+    virtual float ReadBdt(const TClonesArray&, int) const = 0;
 
     virtual const ResultBranch& Branch() const = 0;
 
-    static void SetAnalysisName(const std::string& analysis_name);
+    static void SetAnalysisName(std::string const& analysis_name);
 
     std::vector<Observable> Variables() const;
 
@@ -99,7 +99,7 @@ public:
 
     std::string WeightBranchName() const;
 
-    void AddTreeName(const std::string& signal_tree_name, Tag tag);
+    void AddTreeName(std::string const& signal_tree_name, Tag tag);
 
     void SetTreeBranch(exroot::TreeWriter& tree_writer, Stage stage);
 
@@ -111,19 +111,19 @@ protected:
 
     virtual void DefineVariables() = 0;
 
-    Jets SubJets(const fastjet::PseudoJet& jet, int sub_jet_number) const;
+    Jets SubJets(fastjet::PseudoJet const& jet, int sub_jet_number) const;
 
-    Observable NewObservable(float& value, const std::string& title) const;
+    Observable NewObservable(float& value, std::string const& title) const;
 
-    void AddVariable(float& value, const std::string& title);
+    void AddVariable(float& value, std::string const& title);
 
-    void AddSpectator(float& value, const std::string& title);
+    void AddSpectator(float& value, std::string const& title);
 
     void ClearObservables();
 
     exroot::TreeBranch& TreeBranch() const;
 
-    float Bdt(const TMVA::Reader& reader) const;
+    float Bdt(TMVA::Reader const& reader) const;
 
     template<typename Multiplet>
     Multiplet SetTag(Multiplet& multiplet, Tag tag) const {
@@ -132,19 +132,19 @@ protected:
     }
 
     template<typename Multiplet>
-    Multiplet SetBdt(Multiplet& multiplet, const TMVA::Reader& reader) const {
+    Multiplet SetBdt(Multiplet& multiplet, TMVA::Reader const& reader) const {
         multiplet.SetBdt(Bdt(multiplet, reader));
         return multiplet;
     }
 
     template<typename Multiplet>
-    std::vector<Multiplet> SetClosestLepton(const Event& event, std::vector<Multiplet>& multiplets) const {
+    std::vector<Multiplet> SetClosestLepton(Event const& event, std::vector<Multiplet>& multiplets) const {
         Jets leptons = event.Leptons().leptons();
         if (leptons.empty()) return multiplets;
         for (auto & multiplet : multiplets) {
             try {
                 SetClosestLepton(multiplet, leptons);
-            } catch (const char*) {
+            } catch (char const*) {
                 continue;
             }
         }
@@ -152,7 +152,7 @@ protected:
     }
 
     template<typename Multiplet>
-    Multiplet SetClosestLepton(Multiplet& multiplet, const Jets& leptons) const {
+    Multiplet SetClosestLepton(Multiplet& multiplet, Jets const& leptons) const {
         if (leptons.empty()) throw "no leptons";
         auto lepton = ClosestJet(leptons, multiplet);
         multiplet.LeptonPt = lepton.pt();
@@ -168,21 +168,21 @@ private:
 
     std::string Root() const;
 
-    std::string PathName(const std::string& file_name, const std::string& suffix = ".root") const;
+    std::string PathName(std::string const& file_name, std::string const& suffix = ".root") const;
 
     std::string ReaderName() const;
 
-    std::string ReaderName(const std::string& name) const;
+    std::string ReaderName(std::string const& name) const;
 
     std::string WeightName(TMVA::Types::EMVA mva) const;
 
     std::string BackgroundName() const;
 
-    std::string BackgroundName(const std::string& name) const;
+    std::string BackgroundName(std::string const& name) const;
 
     std::string SignalName() const;
 
-    std::string SignalName(const std::string& name) const;
+    std::string SignalName(std::string const& name) const;
 
     std::string TrainerName() const;
 

@@ -11,14 +11,14 @@ TopPartnerTopPairTagger::TopPartnerTopPairTagger()
     DefineVariables();
 }
 
-int TopPartnerTopPairTagger::Train(const Event& event, const PreCuts&, Tag tag) const
+int TopPartnerTopPairTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
     Info();
     std::vector<Quintet> quintets = top_partner_reader_.Multiplets(event);
     std::vector<Triplet> triplets = top_reader_.Multiplets(event);
     std::vector<Octet53> octets;
-    for (const auto& quintet :  quintets) {
-        for (const auto& triplet : triplets) {
+    for (auto const& quintet :  quintets) {
+        for (auto const& triplet : triplets) {
             Octet53 octet(quintet, triplet);
             if (octet.Overlap())
                 continue;
@@ -29,13 +29,13 @@ int TopPartnerTopPairTagger::Train(const Event& event, const PreCuts&, Tag tag) 
     return SaveEntries(octets);
 }
 
-std::vector<Octet53> TopPartnerTopPairTagger::Multiplets(const Event& event, const analysis::PreCuts&, const TMVA::Reader& reader) const
+std::vector<Octet53> TopPartnerTopPairTagger::Multiplets(Event const& event, analysis::PreCuts const&, TMVA::Reader const& reader) const
 {
     std::vector<Quintet> quintets = top_partner_reader_.Multiplets(event);
     std::vector<Triplet> triplets = top_reader_.Multiplets(event);
     std::vector<Octet53> octets;
-    for (const auto& quintet :  quintets) {
-        for (const auto& triplet : triplets) {
+    for (auto const& quintet :  quintets) {
+        for (auto const& triplet : triplets) {
             Octet53 octet(quintet, triplet);
             if (octet.Overlap()) continue;
             octet.SetBdt(Bdt(octet, reader));

@@ -8,19 +8,19 @@ namespace analysis
 
 typedef std::vector<fastjet::PseudoJet> Jets;
 
-Jets CopyIfParticle(const Jets& jets, Id id);
+Jets CopyIfParticle(Jets const& jets, Id id);
 
-Jets CopyIfParticles(const Jets& jets, Id id_1, Id id_2);
+Jets CopyIfParticles(Jets const& jets, Id id_1, Id id_2);
 
-Jets CopyIfNeutrino(const Jets& jets);
+Jets CopyIfNeutrino(Jets const& jets);
 
-Jets CopyIfExactParticle(const Jets& jets, int id);
+Jets CopyIfExactParticle(Jets const& jets, int id);
 
 Jets RemoveIfExactParticle(Jets jets, int id);
 
 Jets RemoveIfOutsidePtWindow(Jets jets, float lower_cut, float upper_cut);
 
-Jets CopyIfFamily(const Jets& jets, Id id, Id mother_id);
+Jets CopyIfFamily(Jets const& jets, Id id, Id mother_id);
 
 /**
  * @brief returns only particles with the correct id and non fitting grand mother id
@@ -28,13 +28,13 @@ Jets CopyIfFamily(const Jets& jets, Id id, Id mother_id);
  */
 Jets RemoveIfGrandFamily(Jets jets, Id id, Id grand_mother_id);
 
-Jets CopyIfParticle(const Jets& jets, Id id);
+Jets CopyIfParticle(Jets const& jets, Id id);
 
 Jets RemoveIfParticle(Jets jets, Id id);
 
-Jets CopyIfMother(const Jets& jets, Id mother_id);
+Jets CopyIfMother(Jets const& jets, Id mother_id);
 
-Jets CopyIfGrandMother(const Jets& jets, Id grand_mother_id);
+Jets CopyIfGrandMother(Jets const& jets, Id grand_mother_id);
 
 Jets RemoveIfMother(const Jets jets, Id mother_id);
 
@@ -44,21 +44,21 @@ Jets RemoveIfLetpon(Jets jets);
 
 Jets RemoveIfQuark(Jets jets);
 
-Jets CopyIfQuark(const Jets& jets);
+Jets CopyIfQuark(Jets const& jets);
 
-Jets CopyIf5Quark(const Jets& jets);
+Jets CopyIf5Quark(Jets const& jets);
 
 Jets RemoveIfSoft(Jets jets, float pt_min);
 
 struct Close {
-    Close(const fastjet::PseudoJet& particle) {
+    Close(fastjet::PseudoJet const& particle) {
         particle_ = particle;
     }
     template <typename Multiplet>
-    bool operator()(const Multiplet& multiplet) {
+    bool operator()(Multiplet const& multiplet) {
         return (multiplet.Jet().delta_R(particle_) < detector_geometry_.JetConeSize());
     }
-    bool operator()(const fastjet::PseudoJet& jet) {
+    bool operator()(fastjet::PseudoJet const& jet) {
         return (jet.delta_R(particle_) < detector_geometry_.JetConeSize());
     }
     fastjet::PseudoJet particle_;
@@ -66,18 +66,18 @@ struct Close {
 };
 
 template <typename Multiplet>
-std::vector<Multiplet> RemoveIfClose(std::vector<Multiplet> jets, const Jets& particles)
+std::vector<Multiplet> RemoveIfClose(std::vector<Multiplet> jets, Jets const& particles)
 {
-    for (const auto & particle : particles) jets.erase(std::remove_if(jets.begin(), jets.end(), Close(particle)), jets.end());
+    for (auto const& particle : particles) jets.erase(std::remove_if(jets.begin(), jets.end(), Close(particle)), jets.end());
     return jets;
 }
 
 template <typename Multiplet>
-std::vector<Multiplet> CopyIfClose(const std::vector<Multiplet>& multiplets, const Jets& particles)
+std::vector<Multiplet> CopyIfClose(const std::vector<Multiplet>& multiplets, Jets const& particles)
 {
     if (multiplets.empty()) return multiplets;
     std::vector<Multiplet> final_multiplets;
-    for (const auto & particle : particles) for (const auto & multiplet : multiplets) if (Close(particle)(multiplet)) final_multiplets.emplace_back(multiplet);
+    for (auto const& particle : particles) for (auto const& multiplet : multiplets) if (Close(particle)(multiplet)) final_multiplets.emplace_back(multiplet);
     return final_multiplets;
 
 //     if (multiplets.empty()) return multiplets;
@@ -94,8 +94,8 @@ bool FindInVector(const std::vector<Element> vector, const Element element)
 }
 
 template <typename Multiplet>
-fastjet::PseudoJet ClosestJet(const Jets& jets, const Multiplet& multiplet){
-    return *std::min_element(jets.begin(), jets.end(), [&](const fastjet::PseudoJet& jet_1,const fastjet::PseudoJet& jet_2){
+fastjet::PseudoJet ClosestJet(Jets const& jets, Multiplet const& multiplet){
+    return *std::min_element(jets.begin(), jets.end(), [&](fastjet::PseudoJet const& jet_1,fastjet::PseudoJet const& jet_2){
       return jet_1.delta_R(multiplet.Jet()) < jet_2.delta_R(multiplet.Jet());
     });
 }
@@ -177,8 +177,8 @@ template < typename Element1, typename Element2, typename Function, typename Res
 auto pairs(const std::vector<Element1>& container_1, const std::vector<Element2>& container_2, Function function)
 {
     std::vector<Result> results;
-    for (const auto element_1 : container_1) {
-        for (const auto element_2 : container_2) {
+    for (auto const& element_1 : container_1) {
+      for (auto const& element_2 : container_2) {
             try {
                 results.emplace_back(function(element_1, element_2));
             } catch (...) {}
@@ -197,7 +197,7 @@ auto triples(const std::vector<Element1>& container1, const std::vector<Element2
   std::vector<Result> results;
   for (auto element_1 = container1.begin(); element_1 != container1.end(); ++element_1) {
     for (auto element_2 = std::next(element_1); element_2 != container1.end(); ++element_2)
-      for(const auto element_3 : container2){
+      for(auto const& element_3 : container2){
         try {
           results.emplace_back(function(*element_1, *element_2, element_3));
        } catch (...) {}

@@ -5,14 +5,14 @@
 
 namespace analysis {
 
-void GlobalObservables::SetEvent(const analysis::Event& event, const analysis::Jets&)
+void GlobalObservables::SetEvent(analysis::Event const& event, const analysis::Jets&)
 {
     leptons_ = event.Leptons().leptons();
     scalar_ht_ = event.Hadrons().ScalarHt();
     missing_et_ = event.Hadrons().MissingEt().pt();
 }
 
-void GlobalObservables::SetEvent(const analysis::Event& event)
+void GlobalObservables::SetEvent(analysis::Event const& event)
 {
   leptons_ = event.Leptons().leptons();
   scalar_ht_ = event.Hadrons().ScalarHt();
@@ -35,7 +35,7 @@ int GlobalObservables::BottomNumber() const
 {
     Info();
     analysis::Jets bottoms;
-    for (const auto& jet : Jets()) if (jet.user_info<JetInfo>().Bdt() > 0)
+    for (auto const& jet : Jets()) if (jet.user_info<JetInfo>().Bdt() > 0)
             bottoms.emplace_back(jet);
     return bottoms.size();
 }
@@ -45,7 +45,7 @@ float GlobalObservables::BottomBdt() const
     Info();
     if (Jets().empty())
         return 0;
-    return std::accumulate(jets_.begin(), jets_.end(), 0., [](float bdt, const fastjet::PseudoJet & jet) {
+    return std::accumulate(jets_.begin(), jets_.end(), 0., [](float bdt, fastjet::PseudoJet const& jet) {
         return bdt + jet.user_info<JetInfo>().Bdt();
     }) / JetNumber();
 }
@@ -79,7 +79,7 @@ float GlobalObservables::LeptonHt() const
     Info();
     if (leptons_.empty())
         return 0;
-    return std::accumulate(leptons_.begin(), leptons_.end(), 0., [](float ht, const fastjet::PseudoJet & lepton) {
+    return std::accumulate(leptons_.begin(), leptons_.end(), 0., [](float ht, fastjet::PseudoJet const& lepton) {
         return ht + lepton.pt();
     });
 }
@@ -89,7 +89,7 @@ float GlobalObservables::JetHt() const
     Info();
     if (Jets().empty())
         return 0;
-    return std::accumulate(jets_.begin(), jets_.end(), 0., [](float ht, const fastjet::PseudoJet & jet) {
+    return std::accumulate(jets_.begin(), jets_.end(), 0., [](float ht, fastjet::PseudoJet const& jet) {
         return ht + jet.pt();
     });
 }

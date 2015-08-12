@@ -85,11 +85,11 @@ std::vector<Result> Plotting::ReadBdtFile(TFile& export_file, Tag tag) const
     if (!Exists(file_name)) Error("non existent", file_name);
     TFile file(file_name.c_str(), "Read");
     std::vector<Result> results;
-    for (const auto & tree_name : Tagger().TreeNames(tag)) results.emplace_back(BdtDistribution(file, tree_name, export_file));
+    for (auto const& tree_name : Tagger().TreeNames(tag)) results.emplace_back(BdtDistribution(file, tree_name, export_file));
     return results;
 }
 
-Result Plotting::BdtDistribution(TFile& file, const std::string& tree_name, TFile& export_file) const
+Result Plotting::BdtDistribution(TFile& file, std::string const& tree_name, TFile& export_file) const
 {
     std::string branch_name = Tagger().BranchName(Stage::reader);
     Debug(branch_name);
@@ -99,9 +99,9 @@ Result Plotting::BdtDistribution(TFile& file, const std::string& tree_name, TFil
     exroot::TreeWriter tree_writer(&export_file, tree_name.c_str());
     exroot::TreeBranch& result_branch = *tree_writer.NewBranch(branch_name.c_str(), ResultBranch::Class());
     long entries = 0;
-    for (const auto & event_number : Range(tree_reader.GetEntries())) {
+    for (auto const& event_number : Range(tree_reader.GetEntries())) {
         tree_reader.ReadEntry(event_number);
-        for (const auto & entry : Range(clones_array.GetEntriesFast())) {
+        for (auto const& entry : Range(clones_array.GetEntriesFast())) {
             float bdt_value = Tagger().ReadBdt(clones_array, entry);
             Check(bdt_value >= -1 && bdt_value <= 1, bdt_value);
             static_cast<ResultBranch&>(*result_branch.NewEntry()).Bdt = bdt_value;
@@ -116,7 +116,7 @@ Result Plotting::BdtDistribution(TFile& file, const std::string& tree_name, TFil
     return result;
 }
 
-InfoBranch Plotting::InfoBranch(TFile& file, const std::string& tree_name) const
+InfoBranch Plotting::InfoBranch(TFile& file, std::string const& tree_name) const
 {
     Debug(tree_name);
     exroot::TreeReader tree_reader(static_cast<TTree*>(file.Get(tree_name.c_str())));
@@ -133,11 +133,11 @@ std::string Plotting::PlotHistograms(analysis::Results& results) const
     THStack stack("", Tagger().NiceName().c_str());
     std::vector<TH1F> histograms;
     Strings nice_names;
-    for (const auto & result : results.signal) {
+    for (auto const& result : results.signal) {
         histograms.emplace_back(Histogram(result, results.max, results.min, &result - &results.signal[0]));
         nice_names.emplace_back(result.info_branch_.Name);
     }
-    for (const auto & result : results.background) {
+    for (auto const& result : results.background) {
         histograms.emplace_back(Histogram(result, results.max, results.min, &result - &results.background[0] + results.signal.size()));
         nice_names.emplace_back(result.info_branch_.Name);
     }
@@ -157,7 +157,7 @@ std::string Plotting::PlotHistograms(analysis::Results& results) const
 TH1F Plotting::Histogram(const Result& result, Point& max, Point& min, int index) const
 {
     TH1F histogram(result.info_branch_.Name.c_str(), "", 50, FloorToDigits(min.x, 1), CeilToDigits(max.x, 1));
-    for (const auto & bdt : result.bdt) histogram.Fill(bdt);
+    for (auto const& bdt : result.bdt) histogram.Fill(bdt);
     if (histogram.Integral() != 0)  histogram.Scale(1. / histogram.Integral());
     SetPlotStyle(histogram, index);
     float max_0 = histogram.GetBinContent(histogram.GetMaximumBin());
@@ -171,7 +171,7 @@ void Plotting::AddHistogram(THStack& stack, TH1F& histogram, TLegend& legend) co
     legend.AddEntry(&histogram, histogram.GetName(), "l");
 }
 
-TLegend Plotting::Legend(float x_min, float y_min, float width, float height, const std::string& title) const
+TLegend Plotting::Legend(float x_min, float y_min, float width, float height, std::string const& title) const
 {
     TLegend legend(x_min, y_min, x_min + width, y_min + height);
     if (title != "") legend.SetHeader(title.c_str());
@@ -180,7 +180,7 @@ TLegend Plotting::Legend(float x_min, float y_min, float width, float height, co
     return legend;
 }
 
-TLegend Plotting::Legend(Orientation orientation, const Strings& entries, const std::string& title) const
+TLegend Plotting::Legend(Orientation orientation, Strings const& entries, std::string const& title) const
 {
     int letters = std::max_element(entries.begin(), entries.end(), [](const std::string & entry_1, const std::string & entry_2) {
         return entry_1.size() < entry_2.size();
@@ -232,11 +232,11 @@ std::string Plotting::PlotEfficiencyGraph(const Results& results) const
     TMultiGraph multi_graph("", Tagger().NiceName().c_str());
     Strings nice_names;
     std::vector<TGraph> graphs;
-    for (const auto & result : results.signal) {
+    for (auto const& result : results.signal) {
         nice_names.emplace_back(result.info_branch_.Name);
         graphs.emplace_back(TGraph(result.steps, &results.x_values[0], &result.efficiency[0]));
     }
-    for (const auto & result : results.background) {
+    for (auto const& result : results.background) {
         nice_names.emplace_back(result.info_branch_.Name);
         graphs.emplace_back(TGraph(result.steps, &results.x_values[0], &result.efficiency[0]));
     }
@@ -259,7 +259,7 @@ TLine Plotting::Line(Results results, float y_min, float y_max) const
     return line;
 }
 
-void Plotting::AddGraph(TGraph& graph, TMultiGraph& multi_graph, TLegend& legend, const std::string& name, int index) const
+void Plotting::AddGraph(TGraph& graph, TMultiGraph& multi_graph, TLegend& legend, std::string const& name, int index) const
 {
     SetPlotStyle(graph, index);
     multi_graph.Add(&graph);
@@ -269,12 +269,12 @@ void Plotting::AddGraph(TGraph& graph, TMultiGraph& multi_graph, TLegend& legend
 void Plotting::PlotAcceptanceGraph(const Results& results) const
 {
     Debug();
-    for (const auto & signal_result : results.signal) {
+    for (auto const& signal_result : results.signal) {
         TCanvas canvas;
         TMultiGraph multi_graph("", Tagger().NiceName().c_str());
         std::vector<TGraph> graphs;
         Strings nice_names;
-        for (const auto & result : results.background) {
+        for (auto const& result : results.background) {
             graphs.emplace_back(TGraph(result.steps, &signal_result.pure_efficiency[0], &result.pure_efficiency[0]));
             nice_names.emplace_back(result.info_branch_.Name);
         }
@@ -350,8 +350,8 @@ std::string Plotting::Table(const Results& results) const
     table << "\n \\\\ \\midrule\n";
     table << " BDT-cut\n" << " & " << results.BestXValue();
     table << "\n \\\\ $p$-value\n & " << results.significances.at(results.best_bin);
-    for (const auto & result : results.signal) table << " \\\\ \\verb|" << Tagger().TreeNames(Tag::signal).at(&result - &results.signal[0]) << "|\n & " << result.efficiency.at(results.best_bin) << "\n & " << result.event_sums.at(results.best_bin) << "\n & " << result.info_branch_.EventNumber << "\n";
-    for (const auto & result : results.background) table << " \\\\ \\verb|" << Tagger().TreeNames(Tag::background).at(&result - &results.background[0]) << "|\n & " << result.efficiency.at(results.best_bin) << "\n & " << result.event_sums.at(results.best_bin) << "\n & " << result.info_branch_.EventNumber << "\n";
+    for (auto const& result : results.signal) table << " \\\\ \\verb|" << Tagger().TreeNames(Tag::signal).at(&result - &results.signal[0]) << "|\n & " << result.efficiency.at(results.best_bin) << "\n & " << result.event_sums.at(results.best_bin) << "\n & " << result.info_branch_.EventNumber << "\n";
+    for (auto const& result : results.background) table << " \\\\ \\verb|" << Tagger().TreeNames(Tag::background).at(&result - &results.background[0]) << "|\n & " << result.efficiency.at(results.best_bin) << "\n & " << result.event_sums.at(results.best_bin) << "\n & " << result.info_branch_.EventNumber << "\n";
     std::stringstream table_footer;
     table_footer << " \\\\ \\bottomrule\n\\end{tabular}\n\\caption{Significance and efficiencies.}\n\\end{table}\n";
     table << table_footer.str();
@@ -373,7 +373,7 @@ void Plotting::LatexFooter(std::ofstream& latex_file) const
 
 void Plotting::RunPlots() const
 {
-    for (const auto & stage : std::vector<Stage> {Stage::trainer, Stage::reader}) {
+    for (auto const& stage : std::vector<Stage> {Stage::trainer, Stage::reader}) {
         Debug(Tagger().FileName(stage, Tag::signal), Tagger().TreeNames(Tag::signal).size());
         std::vector<Plots> signals = Import(stage, Tag::signal);
         Debug(Tagger().FileName(stage, Tag::background), Tagger().TreeNames(Tag::background).size());
@@ -381,7 +381,7 @@ void Plotting::RunPlots() const
         Plots background = backgrounds.front();
         if (backgrounds.size() > 1) {
             background = std::accumulate(backgrounds.begin() + 1, backgrounds.end(), background, [](Plots & sum, const Plots & elem) {
-                for (const auto & plot : elem.plots) sum.plots.at(&plot - &elem.plots[0]).points = Join(sum.plots.at(&plot - &elem.plots[0]).points, plot.points);
+                for (auto const& plot : elem.plots) sum.plots.at(&plot - &elem.plots[0]).points = Join(sum.plots.at(&plot - &elem.plots[0]).points, plot.points);
                 return sum;
             });
             background.name = "background";
@@ -473,7 +473,7 @@ void Plotting::SetHistogram(TH2& histogram, const Plot& plot, EColor color, TExe
 {
     std::string options = "cont1 same";
     histogram.Draw(options.c_str());
-    for (const auto & point : plot.points) histogram.Fill(point.x, point.y);
+    for (auto const& point : plot.points) histogram.Fill(point.x, point.y);
     histogram.SetContour(20);
     switch (color) {
     case kRed :
@@ -499,8 +499,8 @@ void Plotting::SetProfile(TProfile2D& histogram, const Plot& signal, const Plot&
     float min = (*std::min_element(background.points.begin(), background.points.end(), [](Point  a, Point  b) {
         return a.z < b.z;
     })).z;
-    for (const auto & point : signal.points) histogram.Fill(point.x, point.y, point.z);
-    for (const auto & point : background.points) histogram.Fill(point.x, point.y, point.z);
+    for (auto const& point : signal.points) histogram.Fill(point.x, point.y, point.z);
+    for (auto const& point : background.points) histogram.Fill(point.x, point.y, point.z);
     Color().Heat();
     CommmonHist(histogram, signal, kRed);
     histogram.SetZTitle("BDT");
@@ -523,11 +523,11 @@ std::vector<Plots> Plotting::Import(Stage stage, Tag tag) const
     Debug(Tagger().FileName(stage, tag), Tagger().TreeNames(tag).size());
     TFile file(Tagger().FileName(stage, tag).c_str(), "Read");
     std::vector<Plots> results;
-    for (const auto & tree_name : Tagger().TreeNames(tag)) results.emplace_back(PlotResult(file, tree_name, stage));
+    for (auto const& tree_name : Tagger().TreeNames(tag)) results.emplace_back(PlotResult(file, tree_name, stage));
     return results;
 }
 
-Plots Plotting::PlotResult(TFile& file, const std::string& tree_name, Stage stage) const
+Plots Plotting::PlotResult(TFile& file, std::string const& tree_name, Stage stage) const
 {
     Debug(tree_name);
     Plots plots;
@@ -542,7 +542,7 @@ Plots Plotting::PlotResult(TFile& file, const std::string& tree_name, Stage stag
     return plots;
 }
 
-Plot Plotting::ReadTree(TTree& tree, const std::string& leaf_1, const std::string& leaf_2, Stage stage) const
+Plot Plotting::ReadTree(TTree& tree, std::string const& leaf_1, std::string const& leaf_2, Stage stage) const
 {
     tree.SetBranchStatus("*", 0);
     std::string branch_name = Tagger().BranchName(stage);
@@ -580,10 +580,10 @@ Plot Plotting::ReadTree(TTree& tree, const std::string& leaf_1, const std::strin
     tree.SetBranchAddress(bdt_name.c_str(), &bdt_values[0]);
 
     Plot plot;
-    for (const auto & entry : Range(tree.GetEntries())) {
+    for (auto const& entry : Range(tree.GetEntries())) {
         Debug(tree.GetEntries(), entry);
         tree.GetEntry(entry);
-        for (const auto & element : Range(branch_size)) {
+        for (auto const& element : Range(branch_size)) {
             Point point;
             point.x = leaf_values_1.at(element);
             point.y = leaf_values_2.at(element);

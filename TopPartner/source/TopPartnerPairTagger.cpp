@@ -11,14 +11,14 @@ TopPartnerPairTagger::TopPartnerPairTagger()
     DefineVariables();
 }
 
-int TopPartnerPairTagger::Train(const Event& event, const PreCuts&, Tag tag) const
+int TopPartnerPairTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
     Info();
     std::vector<Quintet> quintets_1 = top_partner_hadronic_reader_.Multiplets(event);
     std::vector<Quintet> quintets_2 = top_partner_leptonic_reader_.Multiplets(event);
     std::vector<Decuplet55> decuplets;
-    for (const auto& quintet_1 :  quintets_1) {
-        for (const auto& quintet_2 : quintets_2) {
+    for (auto const& quintet_1 :  quintets_1) {
+        for (auto const& quintet_2 : quintets_2) {
             Decuplet55 decuplet(quintet_1, quintet_2);
             if (decuplet.Overlap()) continue;
             decuplet.SetTag(tag);
@@ -28,14 +28,14 @@ int TopPartnerPairTagger::Train(const Event& event, const PreCuts&, Tag tag) con
     return SaveEntries(decuplets,1);
 }
 
-std::vector<Decuplet55> TopPartnerPairTagger::Multiplets(const Event& event, const analysis::PreCuts&, const TMVA::Reader& reader) const
+std::vector<Decuplet55> TopPartnerPairTagger::Multiplets(Event const& event, analysis::PreCuts const&, TMVA::Reader const& reader) const
 {
     Info();
     std::vector<Quintet> quintets_1 = top_partner_hadronic_reader_.Multiplets(event);
     std::vector<Quintet> quintets_2 = top_partner_leptonic_reader_.Multiplets(event);
     std::vector<Decuplet55> decuplets;
-    for (const auto& quintet_1 :  quintets_1) {
-        for (const auto& quintet_2 : quintets_2) {
+    for (auto const& quintet_1 :  quintets_1) {
+        for (auto const& quintet_2 : quintets_2) {
             Decuplet55 decuplet(quintet_1, quintet_2);
             if (decuplet.Overlap()) continue;
             decuplet.SetBdt(Bdt(decuplet, reader));

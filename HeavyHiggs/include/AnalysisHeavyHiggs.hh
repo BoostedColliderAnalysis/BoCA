@@ -210,7 +210,7 @@ public:
     Strings FileNames(Process process, Tag tag) const {
         if (FileNumber(process) == 1) return {FileName(process, tag)};
         Strings names;
-        for (const auto & file_number : Range(FileNumber(process))) {
+        for (auto const& file_number : Range(FileNumber(process))) {
             if (file_number == 0) names.emplace_back(FileName(process, tag));
             else names.emplace_back(FileName(process, tag) + "_" + std::to_string(file_number));
         }

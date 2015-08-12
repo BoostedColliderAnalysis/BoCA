@@ -18,7 +18,7 @@ Jets Leptons::Electrons(JetDetail jet_detail) const
 {
     Info(clones_arrays().ElectronSum());
     Jets electrons;
-    for (const auto& ElectronNumber : Range(clones_arrays().ElectronSum())) {
+    for (auto const& ElectronNumber : Range(clones_arrays().ElectronSum())) {
         ::Electron& electron = static_cast<::Electron&>(clones_arrays().Electron(ElectronNumber));
         fastjet::PseudoJet electron_jet = analysis::PseudoJet(electron.P4());
         if (is(jet_detail,JetDetail::tagging)) {
@@ -42,7 +42,7 @@ Jets Leptons::Muons(JetDetail jet_detail) const
 {
     Info(clones_arrays().MuonSum());
     Jets muons;
-    for (const auto& MuonNumber : Range(clones_arrays().MuonSum())) {
+    for (auto const& MuonNumber : Range(clones_arrays().MuonSum())) {
         ::Muon& muon = static_cast<::Muon&>(clones_arrays().Muon(MuonNumber));
         fastjet::PseudoJet muon_jet = analysis::PseudoJet(muon.P4());
         if (is(jet_detail,JetDetail::tagging)) {

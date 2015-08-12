@@ -11,9 +11,9 @@ public:
 
     using TwoBody<Doublet, Doublet>::TwoBody;
 
-    const Doublet& Doublet1() const;
+    Doublet const& Doublet1() const;
 
-    const Doublet& Doublet2() const;
+    Doublet const& Doublet2() const;
 
     Doublet& Doublet1();
 
@@ -27,9 +27,9 @@ public:
 
     using TwoBody<analysis::Triplet, analysis::Singlet>::TwoBody;
 
-    const analysis::Triplet& Triplet() const;
+    analysis::Triplet const& Triplet() const;
 
-    const analysis::Singlet& Singlet() const;
+    analysis::Singlet const& Singlet() const;
 
 };
 
@@ -39,11 +39,11 @@ public:
 
   using ThreeBody<analysis::Doublet, analysis::Singlet, analysis::Singlet>::ThreeBody;
 
-  const analysis::Doublet& Doublet() const;
+  analysis::Doublet const& Doublet() const;
 
-  const analysis::Singlet& Singlet1() const;
+  analysis::Singlet const& Singlet1() const;
 
-  const analysis::Singlet& Singlet2() const;
+  analysis::Singlet const& Singlet2() const;
 
 };
 

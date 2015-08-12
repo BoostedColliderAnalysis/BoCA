@@ -44,7 +44,7 @@ public:
 class Result
 {
 public:
-    Result(const InfoBranch& info_branch);
+    Result(InfoBranch const& info_branch);
     void Calculate();
     int XBin(float value) const;
     void AddBdt(float bdt_value);

@@ -12,34 +12,36 @@ TopPartnerHadronicTagger::TopPartnerHadronicTagger()
     DefineVariables();
 }
 
-int TopPartnerHadronicTagger::Train(const Event& event, const PreCuts&, Tag tag) const
+int TopPartnerHadronicTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
     Info();
     std::vector<Triplet> triplets = top_reader_.Multiplets(event);
+    Error(triplets.size());
     std::vector<Doublet> doublets = boson_reader_.Multiplets(event);
+    Error(doublets.size());
     std::vector<Quintet> quintets;
-    for (const auto& doublet : doublets)
-        for (const auto& triplet : triplets) {
+    for (auto const& doublet : doublets)
+        for (auto const& triplet : triplets) {
             Quintet quintet(triplet, doublet);
-            if (quintet.Overlap())
-                continue;
+            if (quintet.Overlap()) continue;
             quintet.SetTag(tag);
             quintets.emplace_back(quintet);
         }
+    Error(quintets.size());
     Jets top_partner = CopyIfParticle(event.Partons().GenParticles(), Id::top_partner);
+    Error(top_partner.size());
     return SaveEntries(BestMatches(quintets, top_partner, tag), 1);
 }
 
-std::vector<Quintet> TopPartnerHadronicTagger::Multiplets(const Event& event, const analysis::PreCuts&, const TMVA::Reader& reader) const
+std::vector<Quintet> TopPartnerHadronicTagger::Multiplets(Event const& event, analysis::PreCuts const&, TMVA::Reader const& reader) const
 {
     std::vector<Triplet> triplets = top_reader_.Multiplets(event);
     std::vector<Doublet> doublets = boson_reader_.Multiplets(event);
     std::vector<Quintet> quintets;
-    for (const auto& doublet : doublets)
-        for (const auto& triplet : triplets) {
+    for (auto const& doublet : doublets)
+        for (auto const& triplet : triplets) {
             Quintet quintet(triplet, doublet);
-            if (quintet.Overlap())
-                continue;
+            if (quintet.Overlap()) continue;
             quintet.SetBdt(Bdt(quintet, reader));
             quintets.emplace_back(quintet);
         }

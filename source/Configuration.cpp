@@ -9,7 +9,7 @@ Configuration::Configuration()
     ReadConfig("Standard");
 }
 
-Configuration::Configuration(const std::string& config_name)
+Configuration::Configuration(std::string const& config_name)
 {
     ReadConfig(config_name);
 }
@@ -120,7 +120,7 @@ ColliderType Configuration::ColliderType_()
 }
 
 
-void Configuration::WriteConfig(const std::string& config_name)
+void Configuration::WriteConfig(std::string const& config_name)
 {
     libconfig::Setting& root = config().getRoot();
     libconfig::Setting& mass = root.add("Mass",  libconfig::Setting::TypeInt) = 1000;
@@ -136,7 +136,7 @@ void Configuration::WriteConfig(const std::string& config_name)
     }
 }
 
-void Configuration::ReadConfig(const std::string& config_name)
+void Configuration::ReadConfig(std::string const& config_name)
 {
     try {
         config().readFile(ConfigFile(config_name).c_str());
@@ -161,7 +161,7 @@ Configuration& Configuration::operator=(const Configuration& configuration)
     this->collider_type_ = configuration.collider_type_;
     return *this;
 }
-std::string Configuration::ConfigFile(const std::string& config_name)
+std::string Configuration::ConfigFile(std::string const& config_name)
 {
     return config_name + ".cfg";
 }

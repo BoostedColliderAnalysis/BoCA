@@ -12,7 +12,7 @@ ChargedHiggsSemiTagger::ChargedHiggsSemiTagger()
     DefineVariables();
 }
 
-int ChargedHiggsSemiTagger::Train(const Event& event, const PreCuts&, Tag tag) const
+int ChargedHiggsSemiTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
     Info();
     float mass = event.mass();
@@ -42,7 +42,7 @@ int ChargedHiggsSemiTagger::Train(const Event& event, const PreCuts&, Tag tag) c
     std::vector<Triplet> Finaltriplets;
     switch (tag) {
     case Tag::signal:
-        for (const auto& triplet : triplets) if (triplet.Jet().delta_R(TopQuark) < DetectorGeometry::JetConeSize())
+        for (auto const& triplet : triplets) if (triplet.Jet().delta_R(TopQuark) < DetectorGeometry::JetConeSize())
                 Finaltriplets.emplace_back(triplet);
         break;
     case Tag::background :
@@ -59,7 +59,7 @@ int ChargedHiggsSemiTagger::Train(const Event& event, const PreCuts&, Tag tag) c
             BottomQuark = BottomParticles.front();
         else
             Error(BottomParticles.size());
-        for (const auto& Jet : jets)  if (Jet.delta_R(BottomQuark) < DetectorGeometry::JetConeSize())
+        for (auto const& Jet : jets)  if (Jet.delta_R(BottomQuark) < DetectorGeometry::JetConeSize())
                 BottomJets.emplace_back(Jet);
         break;
     }
@@ -68,8 +68,8 @@ int ChargedHiggsSemiTagger::Train(const Event& event, const PreCuts&, Tag tag) c
         break;
     }
     std::vector<Quartet31> quartets;
-    for (const auto& triplet : Finaltriplets)
-        for (const auto& Jet : BottomJets) {
+    for (auto const& triplet : Finaltriplets)
+        for (auto const& Jet : BottomJets) {
             if (triplet.Singlet().Jet().delta_R(Jet) < DetectorGeometry::JetConeSize())
                 continue;
             Quartet31 quartet(triplet, Jet);
@@ -90,13 +90,13 @@ int ChargedHiggsSemiTagger::Train(const Event& event, const PreCuts&, Tag tag) c
     return SaveEntries(quartets);
 }
 
-std::vector<Quartet31> ChargedHiggsSemiTagger::Multiplets(const Event& event, const analysis::PreCuts&, const TMVA::Reader& reader) const
+std::vector<Quartet31> ChargedHiggsSemiTagger::Multiplets(Event const& event, analysis::PreCuts const&, TMVA::Reader const& reader) const
 {
     Jets jets = bottom_reader_.Multiplets(event);
     std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
     std::vector<Quartet31> quartets;
-    for (const auto& triplet : triplets)
-        for (const auto& jet : jets) {
+    for (auto const& triplet : triplets)
+        for (auto const& jet : jets) {
             if (Close(jet)(triplet.Singlet().Jet()))
                 continue;
             Quartet31 quartet(triplet, jet);

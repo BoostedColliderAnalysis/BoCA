@@ -42,7 +42,7 @@ protected:
 
     virtual void SetFiles(Tag tag) = 0;
 
-    exroot::TreeWriter TreeWriter(TFile& export_file, const std::string& export_tree_name, Stage stage);
+    exroot::TreeWriter TreeWriter(TFile& export_file, std::string const& export_tree_name, Stage stage);
 
     virtual std::string ProjectName() const;
 
@@ -72,29 +72,29 @@ protected:
 
     virtual std::string FilePath() const;
 
-    void NewFile(analysis::Tag tag, const analysis::Strings& names, const std::string& nice_name = "");
+    void NewFile(analysis::Tag tag, analysis::Strings const& names, std::string const& nice_name = "");
 
-    void NewFile(analysis::Tag tag, const analysis::Strings& names, float crosssection, const std::string& nice_name = "", int mass = 0);
+    void NewFile(analysis::Tag tag, analysis::Strings const& names, float crosssection, std::string const& nice_name = "", int mass = 0);
 
-    analysis::File File(const Strings& names, float crosssection, const std::string& nice_name = "", int mass = 0) const;
+    analysis::File File(Strings const& names, float crosssection, std::string const& nice_name = "", int mass = 0) const;
 
-    analysis::File File(const Strings& names, const std::string& nice_name = "") const;
+    analysis::File File(Strings const& names, std::string const& nice_name = "") const;
 
-    void NewFile(analysis::Tag tag, const std::string& names, const std::string& nice_name = "");
+    void NewFile(analysis::Tag tag, std::string const& names, std::string const& nice_name = "");
 
-    void NewFile(analysis::Tag tag, const std::string& names, float crosssection, const std::string& nice_name = "", int mass = 0);
+    void NewFile(analysis::Tag tag, std::string const& names, float crosssection, std::string const& nice_name = "", int mass = 0);
 
-    std::string FileName(const std::string& name) const;
+    std::string FileName(std::string const& name) const;
 
-    std::string TreeName(const std::string& name) const;
+    std::string TreeName(std::string const& name) const;
 
-    virtual int PassPreCut(const Event&, Tag tag) const = 0;
+    virtual int PassPreCut(Event const&, Tag tag) const = 0;
 
-    const PreCuts& pre_cuts() const;
+    PreCuts const& pre_cuts() const;
 
     PreCuts& pre_cuts();
 
-    virtual const Tagger& tagger() const = 0;
+    virtual Tagger const& tagger() const = 0;
 
 private:
 
@@ -104,7 +104,7 @@ private:
 
     virtual void AnalysisLoop(Stage stage) = 0;
 
-    void RunTagger(const analysis::Stage stage);
+    void RunTagger(Stage stage);
 
     void RunTrainer();
 

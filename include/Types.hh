@@ -17,11 +17,11 @@ namespace analysis
  * @brief create a fastjet::PseudoJet from a LorentzVector
  *
  */
-fastjet::PseudoJet PseudoJet(const TLorentzVector& vector);
+fastjet::PseudoJet PseudoJet(TLorentzVector const& vector);
 
-fastjet::PseudoJet PseudoJet(const LorentzVector& vector);
+fastjet::PseudoJet PseudoJet(LorentzVector const& vector);
 
-bool Exists(const std::string& name);
+bool Exists(std::string const& name);
 
 
 /**
@@ -35,13 +35,13 @@ public:
 
     Range(int low, int sum) : last_(sum), iterator_(std::max(low - 1, 0)) {}
 
-    const Range& begin() const {
+    Range const& begin() const {
         return *this;
     }
-    const Range& end() const {
+    Range const& end() const {
         return *this;
     }
-    bool operator!=(const Range&) const {
+    bool operator!=(Range const&) const {
         return iterator_ < last_;
     }
     void operator++() {

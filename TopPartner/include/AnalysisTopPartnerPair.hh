@@ -29,7 +29,7 @@ public:
 protected:
 
     std::string ProjectName() const final {
-      return ProcessName() + "-" + std::to_string(this->PreCut()) + "GeV-" + std::to_string(this->Mass()) + "GeV" ;
+      return ProcessName() + "-" + std::to_string(this->PreCut()) + "GeV-" + std::to_string(this->Mass()) + "GeV-test" ;
     }
 
     std::string ProcessName() const final {
@@ -50,7 +50,7 @@ protected:
 
 private:
 
-    int PassPreCut(const Event&, Tag) const final {
+    int PassPreCut(Event const&, Tag) const final {
 //         Jets particles = event.Partons().GenParticles();
 //         particles = RemoveIfSoft(particles, this->PreCut());
 //         Jets tops = CopyIfParticle(particles, Id::top);

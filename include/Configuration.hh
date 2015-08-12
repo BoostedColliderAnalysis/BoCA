@@ -18,7 +18,7 @@ public:
 
     Configuration();
 
-    Configuration(const std::string& config_name);
+    Configuration(std::string const& config_name);
 
     Configuration& operator=(const Configuration& configuration);
 
@@ -48,9 +48,9 @@ private:
 
     ColliderType ColliderType_();
 
-    void WriteConfig(const std::string& config_name);
+    void WriteConfig(std::string const& config_name);
 
-    void ReadConfig(const std::string& config_name);
+    void ReadConfig(std::string const& config_name);
 
     libconfig::Config config_;
 
@@ -68,7 +68,7 @@ private:
 
     ColliderType collider_type_;
 
-    std::string ConfigFile(const std::string& config_name);
+    std::string ConfigFile(std::string const& config_name);
 
 };
 

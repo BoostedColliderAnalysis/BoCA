@@ -24,7 +24,7 @@ void AnalysisBase::Initialize()
   tagger().ClearTreeNames();
 }
 
-exroot::TreeWriter AnalysisBase::TreeWriter(TFile& export_file, const std::string& export_tree_name, Stage)
+exroot::TreeWriter AnalysisBase::TreeWriter(TFile& export_file, std::string const& export_tree_name, Stage)
 {
     Note(export_tree_name.c_str());
     exroot::TreeWriter tree_writer(&export_file, export_tree_name.c_str());
@@ -60,36 +60,36 @@ std::string AnalysisBase::ProcessName() const
     return "Process";
 }
 
-void AnalysisBase::NewFile(Tag tag, const Strings& names, float crosssection, const std::string& nice_name, int mass)
+void AnalysisBase::NewFile(Tag tag, Strings const& names, float crosssection, std::string const& nice_name, int mass)
 {
     files_.emplace_back(File(names, crosssection, nice_name, mass));
     tagger().AddTreeName(TreeName(names.front()), tag);
 }
 
-void AnalysisBase::NewFile(Tag tag, const Strings& names, const std::string& nice_name)
+void AnalysisBase::NewFile(Tag tag, Strings const& names, std::string const& nice_name)
 {
     files_.emplace_back(File(names, nice_name));
     tagger().AddTreeName(TreeName(names.front()), tag);
 }
 
-void AnalysisBase::NewFile(Tag tag, const std::string& name, float crosssection, const std::string& nice_name, int mass)
+void AnalysisBase::NewFile(Tag tag, std::string const& name, float crosssection, std::string const& nice_name, int mass)
 {
   files_.emplace_back(File({name}, crosssection, nice_name, mass));
   tagger().AddTreeName(TreeName(name), tag);
 }
 
-void AnalysisBase::NewFile(Tag tag, const std::string& name, const std::string& nice_name)
+void AnalysisBase::NewFile(Tag tag, std::string const& name, std::string const& nice_name)
 {
   files_.emplace_back(File({name}, nice_name));
   tagger().AddTreeName(TreeName(name), tag);
 }
 
-File AnalysisBase::File(const Strings& names, const std::string& nice_name) const
+File AnalysisBase::File(Strings const& names, std::string const& nice_name) const
 {
     return analysis::File(names, FilePath(), FileSuffix(), nice_name);
 }
 
-File AnalysisBase::File(const Strings& names, float crosssection, const std::string& nice_name, int mass) const
+File AnalysisBase::File(Strings const& names, float crosssection, std::string const& nice_name, int mass) const
 {
     return analysis::File(names, FilePath(), FileSuffix(), nice_name, crosssection, mass);
 }
@@ -99,12 +99,12 @@ std::string AnalysisBase::FileName(const std::string&) const
     return ProcessName() + "_" + std::to_string(PreCut()) + "GeV";
 }
 
-std::string AnalysisBase::TreeName(const std::string& name) const
+std::string AnalysisBase::TreeName(std::string const& name) const
 {
     return name + "-run_01";
 }
 
-const PreCuts& AnalysisBase::pre_cuts() const
+PreCuts const& AnalysisBase::pre_cuts() const
 {
     return pre_cuts_;
 }

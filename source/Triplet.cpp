@@ -2,7 +2,7 @@
 
 namespace analysis {
 
-const Doublet& Triplet::Doublet() const
+Doublet const& Triplet::Doublet() const
 {
     return Multiplet1();
 }
@@ -12,7 +12,7 @@ Doublet& Triplet::Doublet()
   return Multiplet1();
 }
 
-const Singlet& Triplet::Singlet() const
+Singlet const& Triplet::Singlet() const
 {
     return Multiplet2();
 }

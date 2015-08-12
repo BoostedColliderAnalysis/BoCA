@@ -12,7 +12,7 @@ TripletJetPairTagger::TripletJetPairTagger()
     DefineVariables();
 }
 
-int TripletJetPairTagger::Train(const analysis::Event& event, const analysis::PreCuts&, Tag tag) const
+int TripletJetPairTagger::Train(analysis::Event const& event, analysis::PreCuts const&, Tag tag) const
 {
     Info("W Tags");
     Jets jets = bottom_reader_.Multiplets(event);
@@ -23,14 +23,14 @@ int TripletJetPairTagger::Train(const analysis::Event& event, const analysis::Pr
     //     std::vector<Triplet> triplets = top_hadronic_tagger.GetBdt(doublets, jets, TopHadronicReader);
 //     std::vector<Triplet> triplets = top_hadronic_tagger.GetBdt(jets, top_hadronic_reader_, WTagger, WReader, bottom_tagger_, bottom_reader_);
     Debug("Number of Hadronic Tops", triplets.size());
-//     for (const auto & Jet : jets) {
+//     for (auto const& Jet : jets) {
 //         Jets Pieces = WTagger.GetSubJets(Jet, 2);
 //         Pieces = bottom_tagger_.GetJetBdt(Pieces, BottomReader); // TODO reenable this
 //         std::vector<Doublet> Piecedoublets = WTagger.GetBdt(Pieces, WReader);
 //         std::vector<Triplet> Piecetriplets = top_hadronic_tagger.GetBdt(Piecedoublets, jets, top_hadronic_reader_);
 //         triplets.insert(triplets.end(), Piecetriplets.begin(), Piecetriplets.end());
 //     }
-//     for (const auto & Jet : jets) {
+//     for (auto const& Jet : jets) {
 //         Jets Pieces = WTagger.GetSubJets(Jet, 3);
     //         Pieces = bottom_tagger_.GetJetBdt(Pieces, BottomReader); // TODO reenable this
 //         std::vector<Doublet> Piecedoublets = WTagger.GetBdt(Pieces, WReader);
@@ -49,7 +49,7 @@ int TripletJetPairTagger::Train(const analysis::Event& event, const analysis::Pr
     std::vector<Triplet> Finaltriplets;
     switch (tag) {
     case Tag::signal :
-        for (const auto& triplet : triplets) if (Close(TopParticles.front())(triplet.Jet()))
+        for (auto const& triplet : triplets) if (Close(TopParticles.front())(triplet.Jet()))
                 Finaltriplets.emplace_back(triplet);
         break;
     case Tag::background :
@@ -66,7 +66,7 @@ int TripletJetPairTagger::Train(const analysis::Event& event, const analysis::Pr
     Jets FinalJets;
     switch (tag) {
     case  Tag::signal :
-        for (const auto& Jet : jets) if (Close(BottomParticles.front())(Jet))
+        for (auto const& Jet : jets) if (Close(BottomParticles.front())(Jet))
                 FinalJets.emplace_back(Jet);
         break;
     case Tag::background :
@@ -77,8 +77,8 @@ int TripletJetPairTagger::Train(const analysis::Event& event, const analysis::Pr
 //     if (Tag == Tag::signal && triplets.size() > 1) jets.erase(jets.begin() + 1, jets.end());
 //     if (Tag == HBackground && jets.size() > 0) jets.erase(jets.begin());
     std::vector<Quartet31> quartets;
-    for (const auto& triplet : triplets)
-        for (const auto& Jet : jets) {
+    for (auto const& triplet : triplets)
+        for (auto const& Jet : jets) {
             Quartet31 quartet(triplet, Jet);
             if (quartet.Overlap())
                 continue;
@@ -96,17 +96,17 @@ int TripletJetPairTagger::Train(const analysis::Event& event, const analysis::Pr
     }
     return SaveEntries(quartets);
 //     std::vector<TripletJetPairBranch> JetPairBranches;
-//     for (const auto & quartet : quartets) JetPairBranches.emplace_back(GetBranch(quartet));
+//     for (auto const& quartet : quartets) JetPairBranches.emplace_back(GetBranch(quartet));
 //     return JetPairBranches;
 }
 
-std::vector<Quartet31>  TripletJetPairTagger::Multiplets(const Event& event, const analysis::PreCuts&, const TMVA::Reader& reader) const
+std::vector<Quartet31>  TripletJetPairTagger::Multiplets(Event const& event, analysis::PreCuts const&, TMVA::Reader const& reader) const
 {
     Jets jets = bottom_reader_.Multiplets(event);
     std::vector<Triplet> triplets = top_hadronic_reader_.Multiplets(event);
     std::vector<Quartet31>  quartets;
-    for (const auto& triplet : triplets)
-        for (const auto& Jet : jets)  {
+    for (auto const& triplet : triplets)
+        for (auto const& Jet : jets)  {
             Quartet31 quartet(triplet, Jet);
             if (quartet.Overlap())
                 continue;

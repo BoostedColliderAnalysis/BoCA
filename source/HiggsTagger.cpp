@@ -16,19 +16,19 @@ HiggsTagger::HiggsTagger()
     DefineVariables();
 }
 
-int HiggsTagger::Train(const Event& event, const PreCuts& pre_cuts, Tag tag) const
+int HiggsTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const
 {
     Info(analysis::Name(tag));
 //     Jets jets =  bottom_reader_.Multiplets(event);
     Jets jets =  event.Hadrons().Jets();
-    std::vector<Doublet> doublets = unordered_pairs(jets, [&](const fastjet::PseudoJet & jet_1, const fastjet::PseudoJet & jet_2) {
+    std::vector<Doublet> doublets = unordered_pairs(jets, [&](fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2) {
         Doublet doublet(jet_1, jet_2);
         doublet = MassDrop(doublet);
         if (Problematic(doublet, pre_cuts, tag)) throw "problematic";
         doublet.SetTag(tag);
         return doublet;
     });
-    for (const auto & jet : jets) {
+    for (auto const& jet : jets) {
         unsigned sub_jet_number = 2;
 //         Jets pieces = bottom_reader_.SubMultiplet(jet, sub_jet_number);
         Jets pieces = Tagger::SubJets(jet, sub_jet_number);
@@ -47,7 +47,7 @@ int HiggsTagger::Train(const Event& event, const PreCuts& pre_cuts, Tag tag) con
         doublet.SetTag(tag);
         doublets.emplace_back(doublet);
     }
-    for (const auto & jet : jets) {
+    for (auto const& jet : jets) {
         Doublet doublet(jet);
         try {
             doublet = MassDrop(doublet);
@@ -67,7 +67,7 @@ int HiggsTagger::Train(const Event& event, const PreCuts& pre_cuts, Tag tag) con
     return SaveEntries(doublets, higgses, tag);
 }
 
-bool HiggsTagger::Problematic(const Doublet& doublet, const PreCuts& pre_cuts, Tag tag) const
+bool HiggsTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts, Tag tag) const
 {
     if (Problematic(doublet, pre_cuts)) return true;
     switch (tag) {
@@ -82,7 +82,7 @@ bool HiggsTagger::Problematic(const Doublet& doublet, const PreCuts& pre_cuts, T
     return false;
 }
 
-bool HiggsTagger::Problematic(const Doublet& doublet, const PreCuts& pre_cuts) const
+bool HiggsTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts) const
 {
     if (pre_cuts.PtLowerCut(Id::higgs) > 0 && pre_cuts.PtLowerCut(Id::higgs) > doublet.Jet().pt()) return true;
     if (pre_cuts.PtUpperCut(Id::higgs) > 0 && pre_cuts.PtUpperCut(Id::higgs) < doublet.Jet().pt()) return true;
@@ -91,14 +91,14 @@ bool HiggsTagger::Problematic(const Doublet& doublet, const PreCuts& pre_cuts) c
     return false;
 }
 
-std::vector<Doublet> HiggsTagger::Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const
+std::vector<Doublet> HiggsTagger::Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
     Info();
     Jets leptons = event.Leptons().leptons();
     if(leptons.empty()) return {};
 //     Jets jets =  bottom_reader_.Multiplets(event);
     Jets jets =  event.Hadrons().Jets();
-    std::vector<Doublet> doublets = unordered_pairs(jets, [&](const fastjet::PseudoJet & jet_1, const fastjet::PseudoJet & jet_2) {
+    std::vector<Doublet> doublets = unordered_pairs(jets, [&](fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2) {
         Doublet doublet(jet_1, jet_2);
         doublet = MassDrop(doublet);
         if (Problematic(doublet, pre_cuts)) throw "problematic";
@@ -106,7 +106,7 @@ std::vector<Doublet> HiggsTagger::Multiplets(const Event& event, const PreCuts& 
         doublet.SetBdt(Bdt(doublet, reader));
         return doublet;
     });
-    for (const auto & jet : jets) {
+    for (auto const& jet : jets) {
         size_t sub_jet_number = 2;
 //         Jets pieces = bottom_reader_.SubMultiplet(jet, sub_jet_number);
         Jets pieces = Tagger::SubJets(jet, sub_jet_number);
@@ -124,7 +124,7 @@ std::vector<Doublet> HiggsTagger::Multiplets(const Event& event, const PreCuts& 
         doublet.SetBdt(Bdt(doublet, reader));
         doublets.emplace_back(doublet);
     }
-    for (const auto & jet : jets) {
+    for (auto const& jet : jets) {
         Doublet doublet(jet);
         try {
             doublet = MassDrop(doublet);
@@ -141,7 +141,7 @@ std::vector<Doublet> HiggsTagger::Multiplets(const Event& event, const PreCuts& 
     return ReduceResult(doublets);
 }
 
-Doublet HiggsTagger::MassDrop(const Doublet& doublet) const
+Doublet HiggsTagger::MassDrop(Doublet const& doublet) const
 {
     InfoRecombiner info_recombiner;
     fastjet::JetDefinition jet_definition(fastjet::cambridge_algorithm, doublet.DeltaR() + 2 * DetectorGeometry::JetConeSize(), &info_recombiner);

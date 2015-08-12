@@ -19,7 +19,7 @@ public:
         SetMultiplets(multiplet_1, multiplet_2);
     }
 
-    TwoBody(const fastjet::PseudoJet& jet) {
+    TwoBody(fastjet::PseudoJet const& jet) {
         SetJet(jet);
     }
 
@@ -31,7 +31,7 @@ public:
         else if (multiplet_2.Bdt() != initial_value()) SetBdt(multiplet_2.Bdt());
     }
 
-    void SetJet(const fastjet::PseudoJet& jet) {
+    void SetJet(fastjet::PseudoJet const& jet) {
         static_cast<JetInfo&>(*jet.user_info_shared_ptr().get()).SetSubStructure(false);
         multiplet_1_ = Multiplet_1(jet / 2);
         multiplet_2_ = Multiplet_2(jet / 2);
@@ -59,11 +59,11 @@ public:
         return (multiplet.Overlap(multiplet_1_) || multiplet.Overlap(multiplet_2_));
     }
 
-    bool Overlap(const analysis::Singlet& singlet) const {
+    bool Overlap(analysis::Singlet const& singlet) const {
         return (multiplet_1_.Overlap(singlet) || multiplet_2_.Overlap(singlet));
     }
 
-    bool Overlap(const fastjet::PseudoJet& jet) const {
+    bool Overlap(fastjet::PseudoJet const& jet) const {
         return (multiplet_1_.Overlap(jet) || multiplet_2_.Overlap(jet));
     }
 
@@ -125,7 +125,7 @@ public:
         return Multiplet::Charge(Multiplet1(), Multiplet2());
     }
 
-    const analysis::Singlet& singlet() const {
+    analysis::Singlet const& singlet() const {
         if (!has_jet_)SetSinglet(Jet());
         return singlet_;
     }

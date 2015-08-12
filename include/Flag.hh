@@ -73,7 +73,7 @@ typename Return<Enum, Enum&>::type operator<<=(Enum& enum_1, Enum enum_2)
 }
 
 template <typename Enum>
-typename Return<Enum, bool>::type to_bool(Enum const value)
+typename Return<Enum, bool>::type to_bool(Enum value)
 {
     return Underlying(value);
 }

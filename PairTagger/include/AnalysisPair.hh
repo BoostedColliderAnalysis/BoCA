@@ -107,7 +107,7 @@ private:
         }
     }
 
-    int PassPreCut(const Event&, Tag) const {
+    int PassPreCut(Event const&, Tag) const {
         return 1;
     };
 
@@ -165,13 +165,13 @@ private:
         return BackgroundFile(process, BackgroundFileNumber());
     }
 
-    File BackgroundFile(Process process, const int) const {
+    File BackgroundFile(Process process, int) const {
         Strings names;
         names.emplace_back(NameString(process));
         return File(names , BackgroundCrosssection(process));
     }
 
-    File BackgroundFile(Process process, const int, Production production) const {
+    File BackgroundFile(Process process, int, Production production) const {
         Strings names;
         names.emplace_back(NameString(process, production));
         return File(names , BackgroundCrosssection(process));

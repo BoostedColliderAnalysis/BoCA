@@ -15,7 +15,7 @@ Vector2 Multiplet::Pull() const
     return Vector2();
 };
 
-fastjet::PseudoJet Multiplet::Jet(const fastjet::PseudoJet& jet_1, const fastjet::PseudoJet& jet_2) const
+fastjet::PseudoJet Multiplet::Jet(fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2) const
 {
     analysis::Jets constituents;
     if (jet_1.has_user_info() && jet_1.user_info<JetInfo>().SubStructure() && jet_1.has_constituents()) constituents = jet_1.constituents();
@@ -99,7 +99,7 @@ float Multiplet::Dipolarity(const MultipletBase& multiplets_1, const MultipletBa
     if (jet.pt() == 0) return 0;
     float dipolarity = 0;
     if (!jet.has_constituents()) return 0;
-    for (const auto & constituent : jet.constituents()) {
+    for (auto const& constituent : jet.constituents()) {
         if (constituent.pt() > jet.pt()) continue;
 
         float phi = constituent.phi_std();

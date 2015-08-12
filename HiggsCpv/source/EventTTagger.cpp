@@ -13,14 +13,14 @@ EventTagger::EventTagger()
     DefineVariables();
 }
 
-int EventTagger::Train(const analysis::Event& event, const analysis::PreCuts&, Tag tag) const
+int EventTagger::Train(analysis::Event const& event, analysis::PreCuts const&, Tag tag) const
 {
     Info();
     Jets jets = bottom_reader_.Multiplets(event);
     std::vector<MultipletSignature<Octet62>> octets = signature_reader_.Multiplets(event);
     Info(octets.size());
     std::vector<MultipletEvent<Octet62>> multipletevents;
-    for (const auto & octet : octets) {
+    for (auto const& octet : octets) {
         MultipletEvent<Octet62> multipletevent(octet.Multiplet(), event, jets);
         multipletevent.SetTag(tag);
         multipletevents.emplace_back(multipletevent);
@@ -28,13 +28,13 @@ int EventTagger::Train(const analysis::Event& event, const analysis::PreCuts&, T
     return SaveEntries(ReduceResult(multipletevents, 1));
 }
 
-std::vector<MultipletEvent<Octet62>> EventTagger::Multiplets(const Event& event, const PreCuts&, const TMVA::Reader& reader) const
+std::vector<MultipletEvent<Octet62>> EventTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
 {
     Info();
     Jets jets = bottom_reader_.Multiplets(event);
     std::vector<MultipletSignature<Octet62>> octets = signature_reader_.Multiplets(event);
     std::vector<MultipletEvent<Octet62>> multiplet_events;
-    for (const auto & octet : octets) {
+    for (auto const& octet : octets) {
         MultipletEvent<Octet62> multiplet_event(octet.Multiplet(), event, jets);
         multiplet_event.SetBdt(Bdt(multiplet_event, reader));
         multiplet_events.emplace_back(multiplet_event);

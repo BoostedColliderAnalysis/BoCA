@@ -15,7 +15,7 @@ SignatureLeptonTagger::SignatureLeptonTagger()
     DefineVariables();
 }
 
-int SignatureLeptonTagger::Train(const Event& event, const analysis::PreCuts&, Tag tag) const
+int SignatureLeptonTagger::Train(Event const& event, analysis::PreCuts const&, Tag tag) const
 {
     Info();
     Jets leptons = event.Leptons().leptons();
@@ -31,7 +31,7 @@ int SignatureLeptonTagger::Train(const Event& event, const analysis::PreCuts&, T
     Jets higgses = CopyIfParticles(particles, Id::higgs, Id::CP_violating_higgs);
     std::vector<Doublet> final_doublets = BestMatches(doublets, higgses, tag);
 
-    std::vector<MultipletSignature<Quartet211>> quartets = triples(final_leptons, final_doublets, [&](const auto & singlet_1, const auto & singlet_2, const auto & doublet) {
+    std::vector<MultipletSignature<Quartet211>> quartets = triples(final_leptons, final_doublets, [&](auto const& singlet_1, auto const& singlet_2, auto const& doublet) {
         MultipletSignature<Quartet211> quartet = Signature(doublet, singlet_1, singlet_2);
         quartet.SetTag(tag);
         return quartet;
@@ -42,14 +42,14 @@ int SignatureLeptonTagger::Train(const Event& event, const analysis::PreCuts&, T
     return  SaveEntries(quartets);
 }
 
-std::vector<MultipletSignature<Quartet211>> SignatureLeptonTagger::Multiplets(const Event& event, const PreCuts&, const TMVA::Reader& reader) const
+std::vector<MultipletSignature<Quartet211>> SignatureLeptonTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
 {
     Info();
     Jets leptons = event.Leptons().leptons();
     if (leptons.size() < 2) return {};
     std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
     Info(doublets.size());
-    std::vector<MultipletSignature<Quartet211>> quartets = triples(leptons, doublets, [&](const auto & singlet_1, const auto & singlet_2, const auto & doublet) {
+    std::vector<MultipletSignature<Quartet211>> quartets = triples(leptons, doublets, [&](auto const& singlet_1, auto const& singlet_2, auto const& doublet) {
         MultipletSignature<Quartet211> quartet = Signature(doublet, singlet_1, singlet_2);
         quartet.SetBdt(Bdt(quartet, reader));
         return quartet;
@@ -57,7 +57,7 @@ std::vector<MultipletSignature<Quartet211>> SignatureLeptonTagger::Multiplets(co
     return ReduceResult(quartets);
 }
 
-MultipletSignature<Quartet211> SignatureLeptonTagger::Signature(const Doublet& doublet, const Singlet& singlet_1, const Singlet& singlet_2) const
+MultipletSignature<Quartet211> SignatureLeptonTagger::Signature(Doublet const& doublet, Singlet const& singlet_1, Singlet const& singlet_2) const
 {
     Quartet211 quartet;
     if ((doublet.Jet() + singlet_1.Jet()).m() > (doublet.Jet() + singlet_2.Jet()).m()) quartet.SetMultiplets(doublet, singlet_1, singlet_2);

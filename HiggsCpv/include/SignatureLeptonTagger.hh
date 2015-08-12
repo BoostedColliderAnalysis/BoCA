@@ -23,15 +23,15 @@ public:
 
     SignatureLeptonTagger();
 
-    int Train(const Event& event, const analysis::PreCuts&, Tag tag) const override;
+    int Train(Event const& event, analysis::PreCuts const&, Tag tag) const override;
 
-    std::vector< MultipletSignature< Quartet211 > > Multiplets(const analysis::Event& event, const analysis::PreCuts&, const TMVA::Reader& reader) const;
+    std::vector< MultipletSignature< Quartet211 > > Multiplets(analysis::Event const& event, analysis::PreCuts const&, TMVA::Reader const& reader) const;
 
-    int GetBdt(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const final {
+    int GetBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final {
       return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
     }
 
-    auto Multiplets(const Event& event, const TMVA::Reader& reader) {
+    auto Multiplets(Event const& event, TMVA::Reader const& reader) {
         PreCuts pre_cuts;
         return Multiplets(event, pre_cuts, reader);
     }
@@ -42,7 +42,7 @@ public:
 
 private:
 
-    MultipletSignature<Quartet211> Signature(const analysis::Doublet& doublet, const analysis::Singlet& singlet_1, const analysis::Singlet& singlet_2) const;
+    MultipletSignature<Quartet211> Signature(analysis::Doublet const& doublet, analysis::Singlet const& singlet_1, analysis::Singlet const& singlet_2) const;
 
     Reader<HiggsTagger> higgs_reader_;
 

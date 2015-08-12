@@ -22,13 +22,13 @@ public:
 
     SignatureSingleTagger();
 
-    int Train(const Event& event, const PreCuts& pre_cuts, Tag tag) const final;
+    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
 
-    int GetBdt(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const final {
+    int GetBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final {
         return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
     }
 
-    std::vector<Decuplet82> Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
+    std::vector<Decuplet82> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
     std::string Name() const final {
         return "SignatureSingle";
@@ -40,7 +40,7 @@ public:
 
 private:
 
-    std::vector<Decuplet82> Decuplets(const Event& event, const std::function<Decuplet82(Decuplet82&)>& function) const;
+    std::vector<Decuplet82> Decuplets(Event const& event, const std::function<Decuplet82(Decuplet82&)>& function) const;
 
     Reader<TopPartnerTopPairTagger> pair_reader_;
 

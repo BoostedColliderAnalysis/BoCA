@@ -19,9 +19,9 @@ public:
 
     Particle(Id id, int position);
 
-    Particle(const LorentzVector& momentum, int id, int position);
+    Particle(LorentzVector const& momentum, int id, int position);
 
-    Particle(const TLorentzVector& momentum, int id, int position);
+    Particle(TLorentzVector const& momentum, int id, int position);
 
     LorentzVector momentum() const;
 

@@ -1,77 +1,85 @@
 #pragma once
 
+#include <functional>
 #include "WHadronicTagger.hh"
 #include "Triplet.hh"
 
-namespace analysis {
+namespace analysis
+{
 
 /**
  * @brief Hadronic top BDT tagger
  *
  */
-class TopHadronicTagger : public BranchTagger<TopHadronicBranch> {
+class TopHadronicTagger : public BranchTagger<TopHadronicBranch>
+{
 
 public:
 
     TopHadronicTagger();
 
-    int Train(const Event &event, const PreCuts &pre_cuts, Tag tag) const final;
+    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
 
     /**
      * @brief Signed id of hadronic top, if 2 hadronic top with opposite charge are found 0 is returned
      *
      */
-    int TopHadronicId(const Event& event) const;
+    int TopHadronicId(Event const& event) const;
 
-    int GetBdt(const Event &event, const PreCuts &pre_cuts, const TMVA::Reader &reader) const final {
+    int GetBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final {
         return SaveEntries(Multiplets(event, pre_cuts, reader), 2);
     }
 
-    std::vector<analysis::Triplet> Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
+    std::vector<analysis::Triplet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    std::string Name() const final { return "TopHadronic"; }
+    std::string Name() const final {
+        return "TopHadronic";
+    }
 
-    std::string NiceName() const final { return "t_{h}"; }
+    std::string NiceName() const final {
+        return "t_{h}";
+    }
 
 private:
 
-    analysis::Triplet Triplet(const Doublet& doublet, const fastjet::PseudoJet& jet, const Jets& leptons, const PreCuts& pre_cuts, Tag tag, bool check_overlap = false) const;
+    analysis::Triplet Triplet(Doublet const& doublet, fastjet::PseudoJet const& jet, Jets const& leptons, PreCuts const& pre_cuts, Tag tag, bool check_overlap = false) const;
 
-    analysis::Triplet Triplet(analysis::Triplet& triplet, const analysis::Jets& leptons, const analysis::PreCuts& pre_cuts, Tag tag) const;
+    analysis::Triplet Triplet(analysis::Triplet& triplet, analysis::Jets const& leptons, analysis::PreCuts const& pre_cuts, Tag tag) const;
 
-    std::vector<analysis::Triplet> Triplets(const std::vector<Doublet>& doublets, const Jets& jets, const Jets& leptons, const PreCuts& pre_cuts, Tag tag) const;
+    std::vector<analysis::Triplet> Triplets(std::vector<Doublet> const& doublets, Jets const& jets, Jets const& leptons, PreCuts const& pre_cuts, Tag tag) const;
 
-    std::vector<analysis::Triplet> Triplets(const Doublet& doublet, const Jets& jets, const Jets& leptons, const PreCuts& pre_cuts, Tag tag) const;
+    std::vector<analysis::Triplet> Triplets(Doublet const& doublet, Jets const& jets, Jets const& leptons, PreCuts const& pre_cuts, Tag tag) const;
 
-    std::vector<analysis::Triplet> Multiplets(const Event& event, const TMVA::Reader& reader) const
-    {
+    std::vector<analysis::Triplet> Multiplets(Event const& event, TMVA::Reader const& reader) const {
         PreCuts pre_cuts;
         return Multiplets(event, pre_cuts, reader);
     }
 
-    std::vector<analysis::Triplet>  Multiplets(const std::vector<Doublet>& doublets, const Jets& jets, const Jets& leptons, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
+    std::vector<analysis::Triplet>  Multiplets(std::vector<Doublet> const& doublets, Jets const& jets, Jets const& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    std::vector<analysis::Triplet>  Multiplets(const Doublet& doublet, const Jets& jets, const Jets& leptons, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
+    std::vector<analysis::Triplet>  Multiplets(Doublet const& doublet, Jets const& jets, Jets const& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    analysis::Triplet Multiplet(const Doublet& doublet, const fastjet::PseudoJet& jet, const Jets& leptons, const PreCuts& pre_cuts, const TMVA::Reader& reader, bool check_overlap = false) const;
+    analysis::Triplet Multiplet(Doublet const& doublet, fastjet::PseudoJet const& jet, Jets const& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader, bool check_overlap = false) const;
 
-    analysis::Triplet Multiplet(analysis::Triplet& triplet, const Jets& leptons, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
+    analysis::Triplet Multiplet(analysis::Triplet& triplet, Jets const& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    bool Problematic(const analysis::Triplet& triplet, const PreCuts& pre_cuts, Tag tag) const;
+    bool Problematic(analysis::Triplet const& triplet, PreCuts const& pre_cuts, Tag tag) const;
 
-    bool Problematic(const analysis::Triplet& triplet, const PreCuts& pre_cuts) const;
+    bool Problematic(analysis::Triplet const& triplet, PreCuts const& pre_cuts) const;
 
     void NSubJettiness(analysis::Triplet& triplet) const;
 
-    SubJettiness NSubJettiness(const fastjet::PseudoJet& jet) const;
+    SubJettiness NSubJettiness(fastjet::PseudoJet const& jet) const;
 
-    float LeptonPt(const analysis::Triplet& triplet, const Jets& leptons) const;
+    float LeptonPt(analysis::Triplet const& triplet, Jets const& leptons) const;
 
     Reader<BottomTagger> bottom_reader_;
 
     Reader<WHadronicTagger> w_hadronic_reader_;
 
     float top_mass_window_ ;
+
+    std::vector<analysis::Triplet> ordered_triplets(Jets const& jets, unsigned sub_jet_number, std::function<analysis::Triplet(fastjet::PseudoJet const& piece_1, fastjet::PseudoJet const& piece_2, fastjet::PseudoJet const& piece_3)> const& function) const;
 
 };
 

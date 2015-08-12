@@ -52,7 +52,7 @@ protected:
 
 private:
 
-    int PassPreCut(const Event& event, Tag tag) const final {
+    int PassPreCut(Event const& event, Tag tag) const final {
         Jets jets = fastjet::sorted_by_pt(event.Hadrons().Jets());
         if(jets.size() < 3) return 0;
         if(jets.at(2).pt() < this->JetPreCut()) return 0;
