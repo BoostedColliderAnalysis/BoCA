@@ -21,23 +21,16 @@ int HiggsTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) con
     Info(analysis::Name(tag));
     Jets jets =  event.Hadrons().Jets();
     std::vector<Doublet> doublets = unordered_pairs(jets, [&](fastjet::PseudoJet const & jet_1, fastjet::PseudoJet const & jet_2) {
-        Doublet doublet(jet_1, jet_2);
-        return Doublett(doublet, pre_cuts, tag);
+        return Doublett(Doublet(jet_1, jet_2), pre_cuts, tag);
     });
 
     for (auto const & jet : jets) {
-        unsigned sub_jet_number = 2;
-        Jets pieces = Tagger::SubJets(jet, sub_jet_number);
-        if (pieces.size() < sub_jet_number) continue;
-        Doublet doublet(pieces.at(0), pieces.at(1));
         try {
-            doublets.emplace_back(Doublett(doublet, pre_cuts, tag));
+            doublets.emplace_back(Doublett(Doublet(jet), pre_cuts, tag));
         } catch (...) {}
-    }
-    for (auto const & jet : jets) {
-        Doublet doublet(jet);
         try {
-            doublets.emplace_back(Doublett(doublet, pre_cuts, tag));
+            Jets pieces = Tagger::SubJets(jet, 2);
+            doublets.emplace_back(Doublett(Doublet(pieces.at(0), pieces.at(1)), pre_cuts, tag));
         } catch (...) {}
     }
     doublets = SetClosestLepton(event, doublets);
@@ -45,7 +38,7 @@ int HiggsTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) con
     return SaveEntries(doublets, higgses, tag, Id::higgs);
 }
 
-Doublet HiggsTagger::Doublett(Doublet & doublet, PreCuts const& pre_cuts, Tag tag) const
+Doublet HiggsTagger::Doublett(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const
 {
     doublet = MassDrop(doublet);
     if (Problematic(doublet, pre_cuts, tag)) throw "problematic";
@@ -88,17 +81,13 @@ std::vector<Doublet> HiggsTagger::Multiplets(Event const& event, PreCuts const& 
     });
 
     for (auto const & jet : jets) {
-        size_t sub_jet_number = 2;
-        Jets pieces = Tagger::SubJets(jet, sub_jet_number);
-        try {
-            Doublet doublet(pieces.at(0), pieces.at(1));
-            doublets.emplace_back(Multiplet(doublet, leptons, pre_cuts, reader));
-        } catch (...) {}
-    }
-
-    for (auto const & jet : jets) {
         try {
             Doublet doublet(jet);
+            doublets.emplace_back(Multiplet(doublet, leptons, pre_cuts, reader));
+        } catch (...) {}
+        Jets pieces = Tagger::SubJets(jet, 2);
+        try {
+            Doublet doublet(pieces.at(0), pieces.at(1));
             doublets.emplace_back(Multiplet(doublet, leptons, pre_cuts, reader));
         } catch (...) {}
     }
@@ -135,7 +124,7 @@ Doublet HiggsTagger::MassDrop(Doublet const& doublet) const
     fastjet::PseudoJet filtered_jet = filter(mass_drop_jet);
     if (!filtered_jet.has_pieces()) throw "no pieces";
     Jets pieces = fastjet::sorted_by_pt(filtered_jet.pieces());
-    if (pieces.size() < 2) throw "no enough pieces";
+    if (pieces.size() < 2) throw "not enough pieces";
     fastjet::PseudoJet jet_1 = pieces.at(0);
     fastjet::PseudoJet jet_2 = pieces.at(1);
 

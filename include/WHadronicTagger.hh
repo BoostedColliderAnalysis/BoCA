@@ -45,7 +45,9 @@ public:
 
 private:
 
-    std::vector<Doublet> Doublets(Jets const& jets, PreCuts const& pre_cuts, Tag tag) const;
+  std::vector<Doublet> Doublets(Jets const& jets, PreCuts const& pre_cuts, Tag tag) const;
+
+  Doublet Doublett(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const;
 
     std::vector<Doublet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
