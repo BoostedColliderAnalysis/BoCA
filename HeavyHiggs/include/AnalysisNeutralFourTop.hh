@@ -80,17 +80,17 @@ public:
          case Process::Htwb:
            switch (this->Mass()) {
              case 500:
-               return 1;
+               return 0.471031;
              case 700:
-               return 1;
+               return 0.216664;
              case 800:
-               return 1;
+               return 0.150792;
              case 1000:
-               return 1;
+               return 0.0758434;
              case 1500:
-               return 1;
+               return 0.0159789;
              case 2000:
-               return 1;
+               return 0.00384621;
              default:
                Error("unhandled case");
                return 1;
@@ -130,6 +130,8 @@ public:
                   return 0.0132781;
                 case 10000:
                   return 0.00380676;
+                case 12000:
+                  return 0.001245;
                 default:
                   Error("unhandled case");
                   return 1;
@@ -162,6 +164,8 @@ public:
                   return 0.148312;
                 case 10000:
                   return 0.0539546;
+                case 12000:
+                  return 0.0215126;
                 default:
                   Error("unhandled case");
                   return 1;
@@ -181,9 +185,9 @@ public:
         case Collider::LHC :
           switch(process){
             case Process::ttwwbb:
-              return 1;
+              return 2.126;
             case Process::ttwbb:
-              return 1;
+              return 0.13588;
             default:
               Error("unhandled case");
               return 1;
@@ -240,7 +244,7 @@ private:
         if ((positive_lepton+negative_lepton)>2) return 0;
 
         Jets jets = event.Hadrons().Jets();
-        if (jets.size() < 4)
+        if (jets.size() < 6)
             return 0;
         return 1;
     }

@@ -9,7 +9,7 @@ std::string Name(const Collider collider)
 {
     switch (collider) {
     case Collider::LHC :
-        return "14TeV";
+        return "LHC";
     case Collider::FHC:
         return "100TeV";
     case Collider::LE:

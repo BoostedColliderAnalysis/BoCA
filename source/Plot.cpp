@@ -173,7 +173,6 @@ Result Plot::BdtDistribution(exroot::TreeReader& tree_reader, const std::string&
     tree_writer.Fill();
     tree_writer.Clear();
   }
-  result.set_event_sum(entries);
   tree_writer.Write();
   return result;
 }
@@ -363,9 +362,10 @@ std::string Plot::Table(const Results& results) const {
   table << "\n \\\\ \\midrule\n";
   table << " BDT-cut\n" << " & " << results.BestXValue();
   table << "\n \\\\ $p$-value\n & " << results.significances.at(results.best_bin);
-  table << "\n \\\\ Efficiency\n & " << results.signal.front().efficiency.at(results.best_bin) << "\n & " << results.signal.front().analysis_event_number.at(results.best_bin) << "\n & " << results.signal.front().event_sum() << "\n";
+  for (const auto & signal : results.signal)
+    table << " \\\\ \\verb|" << Tagger().TreeNames(Tag::signal).at(&signal - &results.signal[0]) << "|\n & " << signal.efficiency.at(results.best_bin) << "\n & " << signal.analysis_event_number.at(results.best_bin) << "\n & " << signal.info_branch.EventNumber << "\n";
   for (const auto & background : results.background)
-    table << " \\\\ \\verb|" << Tagger().TreeNames(Tag::background).at(&background - &results.background[0]) << "|\n & " << background.efficiency.at(results.best_bin) << "\n & " << background.analysis_event_number.at(results.best_bin) << "\n & " << background.event_sum() << "\n";
+    table << " \\\\ \\verb|" << Tagger().TreeNames(Tag::background).at(&background - &results.background[0]) << "|\n & " << background.efficiency.at(results.best_bin) << "\n & " << background.analysis_event_number.at(results.best_bin) << "\n & " << background.info_branch.EventNumber << "\n";
   std::stringstream table_footer;
   table_footer << " \\\\ \\bottomrule\n\\end{tabular}\n\\caption{Significance and efficiencies.}\n\\end{table}\n";
   table << table_footer.str();
@@ -522,16 +522,6 @@ int Plot::ColorCode(int number) const
     default :
         return kBlack;
     }
-}
-
-long Result::event_sum() const
-{
-    // return info_branch.EventNumber;
-    return event_sum_;
-}
-void Result::set_event_sum(long event_sum)
-{
-    event_sum_ = event_sum;
 }
 
 void Plot::RunPlots() const

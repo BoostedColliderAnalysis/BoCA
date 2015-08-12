@@ -39,10 +39,7 @@ public:
     std::vector<float> bdt;
     std::vector<int> bins;
     InfoBranch info_branch;
-    long event_sum() const;
-    void set_event_sum(long int event_sum);
 private:
-    long event_sum_;
 };
 
 struct Point {
@@ -77,7 +74,7 @@ public:
     }
 
     int XBin(float value) const{
-      return std::floor((value + 1) * Result::steps / 2);
+      return std::floor((value + 1) * (Result::steps - 1) / 2);
     }
 
     void ExtremeXValues() {
