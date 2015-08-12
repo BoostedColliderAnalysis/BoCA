@@ -1,9 +1,19 @@
 #pragma once
 
 #include "Branches.hh"
+#include "Flag.hh"
 
 namespace analysis
 {
+
+
+enum class Font
+{
+    times,
+    helvetica,
+    courier,
+    symbol
+};
 
 struct Point {
     float x = 0;
@@ -21,24 +31,15 @@ struct Plot {
     std::string tree_name;
 };
 
+typedef std::vector<std::pair<std::string, std::string>> Names;
+
 class Plots
 {
 public:
     std::vector<Plot> plots;
     analysis::InfoBranch info_branch;
     std::string name;
-    void SetNames(const std::vector<std::pair<std::string, std::string>>& names, const std::vector<std::pair<std::string, std::string>>& nice_names) {
-        for (auto & plot : plots) {
-            int index = &plot - &plots[0];
-            plot.nice_name_x = nice_names.at(index).first;
-            plot.nice_name_y = nice_names.at(index).second;
-            plot.name = info_branch.Name;
-            plot.name_x = names.at(index).first;
-            plot.name_y = names.at(index).second;
-            plot.tree_name = name;
-        }
-    }
-
+    void SetNames(Names const& names, Names const& nice_names);
 };
 
 class Result
@@ -79,5 +80,11 @@ public:
 };
 
 int ColorCode(int number);
+
+std::string Formula(std::string const& text);
+
+int FontCode(Font font = Font::times, bool italic = false, bool bold = false, int precision = 3);
+
+int FontNumber(Font font = Font::times, bool italic = false, bool bold = false);
 
 }

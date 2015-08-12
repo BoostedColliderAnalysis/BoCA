@@ -18,6 +18,7 @@ class TH1F;
 class TLine;
 class THStack;
 class TGraph;
+class TAxis;
 
 class ExRootTreeBranch;
 class ExRootTreeReader;
@@ -123,7 +124,7 @@ private:
 
     Result BdtDistribution(TFile& file, std::string const& tree_name, TFile& export_file) const;
 
-    std::string Table(const Results& results) const;
+    std::string Table(Results const& results) const;
 
     std::string PlotEfficiencyGraph(const analysis::Results& results) const;
 
@@ -133,11 +134,17 @@ private:
 
     void LatexFooter(std::ofstream& latex_file) const;
 
-    Plot CoreVector(Plot& plot, const std::function<bool(Point&, Point&)>& function) const;
+    Plot CoreVector(Plot& plot, std::function<bool(Point&, Point&)> const& function) const;
 
     std::string ExportFileSuffix() const;
 
     analysis::Tagger* tagger_;
+
+    void SetAxis(TAxis &axis, std::string const& title) const;
+
+    float TextSize() const;
+
+    float LabelSize() const;
 
 };
 

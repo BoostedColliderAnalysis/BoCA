@@ -46,7 +46,7 @@ void JetInfoFamily::ExtractFamilyFraction()
 
 struct SortPairs {
     template <typename Template>
-    bool operator()(const std::pair<Template, float>& pair_1, const std::pair<Template, float>& pair_2)
+    bool operator()(std::pair<Template, float> const& pair_1, std::pair<Template, float> const& pair_2)
     {
         return (pair_1.second < pair_2.second);
     }
@@ -112,7 +112,7 @@ void JetInfoFamily::ExtractAbsFraction(int id)
 float JetInfoFamily::GetWeightSum() const
 {
     Debug(id_fractions_.size());
-    float weight_sum = std::accumulate(begin(id_fractions_), end(id_fractions_), 0.0, [](float previous, const std::pair<int, float>& pair) {
+    float weight_sum = std::accumulate(begin(id_fractions_), end(id_fractions_), 0.0, [](float previous, std::pair<int, float> const& pair) {
         return (previous + pair.second);
     });
     Detail(weight_sum);
@@ -145,7 +145,7 @@ int JetInfoFamily::MaximalId() const
     return std::max_element(id_fractions_.begin(), id_fractions_.end(), SortPairs())->first;
 }
 
-void JetInfoFamily::PrintAllInfos(const Severity) const
+void JetInfoFamily::PrintAllInfos(Severity) const
 {
     Debug();
 //     for (auto pair = id_fractions_.begin(); pair != id_fractions_.end(); ++pair) {
@@ -154,13 +154,13 @@ void JetInfoFamily::PrintAllInfos(const Severity) const
 //     }
 }
 
-void JetInfoFamily::PrintAllconstituentInfos(const Severity) const
+void JetInfoFamily::PrintAllconstituentInfos(Severity) const
 {
     Debug();
 //     for (auto const& constituent : constituents())
 //         Print(severity, "Jet Fraction", Name(constituent.family().particle().id()), Name(constituent.family().mother_1().id()), constituent.family().particle().Momentum.Pt(), constituent.family().mother_1().Momentum.Pt());
 }
-void JetInfoFamily::PrintAllFamInfos(const Severity) const
+void JetInfoFamily::PrintAllFamInfos(Severity) const
 {
     Debug();
 //     for (auto const& family_fraction : family_fractions_)
