@@ -26,30 +26,26 @@ int WHadronicTagger::Train(Event const& event, analysis::PreCuts const& pre_cuts
     for (auto const& jet : jets) {
 
         Info("1 jet forms one W");
-        Doublet doublet(jet);
-        if (Problematic(doublet, pre_cuts, tag)) continue;
-        doublets.emplace_back(doublet);
+        try {
+            doublets.emplace_back(Doublett(Doublet(jet), pre_cuts, tag));
+        } catch (...) {}
 
-         Info("2 sub jets form one W");
-        size_t sub_jet_number = 2;
-        Jets pieces = bottom_reader_.SubMultiplet(jet, sub_jet_number);
-        if (pieces.size() == sub_jet_number) {
-           Info("2 of 2 sub jets form one W");
-            Doublet doublet(pieces.at(0), pieces.at(1));
-            if (!Problematic(doublet, pre_cuts, tag)) doublets.emplace_back(doublet);
+        Info("2 of 2 sub jets form one W");
+        Jets pieces = bottom_reader_.SubMultiplet(jet, 2);
+        try {
+            doublets.emplace_back(Doublett(Doublet(pieces.at(0), pieces.at(1)), pre_cuts, tag));
+        } catch (...) {}
 
-            Info("1 of 2 sub jets forms one W");
-            for (auto const& piece : pieces) {
-                Doublet doublet(piece);
-                if (Problematic(doublet, pre_cuts, tag))continue;
-                doublets.emplace_back(doublet);
-            }
+        Info("1 of 2 sub jets forms one W");
+        for (auto const& piece : pieces) {
+            try {
+                doublets.emplace_back(Doublett(Doublet(piece), pre_cuts, tag));
+            } catch (...) {}
         }
 
         Info("2 of 3 sub jets forms one W");
-        sub_jet_number = 3;
-        pieces = bottom_reader_.SubMultiplet(jet, sub_jet_number);
-        if (pieces.size() == sub_jet_number) doublets = Join(doublets, Doublets(pieces, pre_cuts, tag));
+        pieces = bottom_reader_.SubMultiplet(jet, 3);
+        doublets = Join(doublets, Doublets(pieces, pre_cuts, tag));
 
     }
 
@@ -63,6 +59,12 @@ int WHadronicTagger::Train(Event const& event, analysis::PreCuts const& pre_cuts
     return SaveEntries(BestMatches(doublets, w_particles, tag, Id::W));
 }
 
+Doublet WHadronicTagger::Doublett(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const
+{
+    if (Problematic(doublet, pre_cuts, tag)) throw "problematic";
+    doublet.SetTag(tag);
+    return doublet;
+}
 
 Jets WHadronicTagger::WDaughters(analysis::Event const& event) const
 {
@@ -280,3 +282,4 @@ int WHadronicTagger::GetBdt(Event const& event, PreCuts const& pre_cuts, TMVA::R
 }
 
 }
+

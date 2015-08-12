@@ -23,11 +23,21 @@ public:
 
     int GetBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
 
-    std::string Name() const final { return "Boson"; }
+    std::string Name() const final {
+        return "Boson";
+    }
+
+    std::string Name() const final {
+      return "B";
+    }
 
 protected:
 
 private:
+
+    Doublet Doublett(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const;
+
+    Doublet Multiplet(analysis::Doublet& doublet, const analysis::PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 
     bool Problematic(Doublet const& doublet, PreCuts const& pre_cuts, Tag tag) const;
 
