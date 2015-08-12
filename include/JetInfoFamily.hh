@@ -38,11 +38,11 @@ public:
 
     void ExtractFraction(int id, int mother_id);
 
-    void PrintAllInfos(const Severity severity) const;
+    void PrintAllInfos(Severity severity) const;
 
-    void PrintAllconstituentInfos(const Severity severity) const;
+    void PrintAllconstituentInfos(Severity severity) const;
 
-    void PrintAllFamInfos(const Severity severity) const;
+    void PrintAllFamInfos(Severity severity) const;
 
     float MaximalFraction() const;
 

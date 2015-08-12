@@ -177,7 +177,7 @@ protected:
         std::cout << std::right << std::setw(9) << std::setfill(' ') << data;
     }
 
-    void PrintTruthLevel(const Severity severity) const;
+    void PrintTruthLevel(Severity severity) const;
 
     std::string PrintParticle(int Position) const;
 
