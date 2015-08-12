@@ -31,12 +31,16 @@ public:
     }
 
     std::string NiceName() const final {
-      return "h";
+        return "h";
     }
 
 protected:
 
 private:
+
+    Doublet Multiplet(Doublet& doublet, Jets const& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
+
+    Doublet Doublett(analysis::Doublet& doublet, const analysis::PreCuts& pre_cuts, analysis::Tag tag) const;
 
     bool Problematic(Doublet const& doublet, PreCuts const& pre_cuts, Tag tag) const;
 
