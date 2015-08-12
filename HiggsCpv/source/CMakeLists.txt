@@ -5,6 +5,7 @@ TopSemiPairTagger.cpp
 TopLeptonicPairTagger.cpp
 SignatureTagger.cpp
 SignatureTTagger.cpp
+SignatureLeptonTagger.cpp
 EventTagger.cpp
 EventTTagger.cpp
 )

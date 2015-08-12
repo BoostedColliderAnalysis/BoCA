@@ -1,10 +1,16 @@
 #pragma once
 
-#include "fastjet/JetDefinition.hh"
-#include "Global.hh"
+#include <vector>
+
+namespace fastjet{
+  class PseudoJet;
+  class JetDefinition;
+}
 
 
 namespace analysis {
+
+typedef std::vector<fastjet::PseudoJet> Jets;
 
 /**
  * @brief FastJet calculations

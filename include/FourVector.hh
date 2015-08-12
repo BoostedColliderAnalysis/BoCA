@@ -3,6 +3,8 @@
 #include <iomanip>
 #include <iostream>
 
+#include "fastjet/PseudoJet.hh"
+
 #include "ClonesArrays.hh"
 #include "JetTag.hh"
 #include "Flag.hh"
@@ -30,6 +32,8 @@ namespace exroot {
 }
 
 namespace analysis {
+  
+typedef std::vector<fastjet::PseudoJet> Jets;
 
 enum class Status {
     none = 0,
@@ -53,6 +57,15 @@ enum class JetDetail {
 template<>
 struct Flag<JetDetail> {
   static const bool enable = true;
+};
+
+
+enum class Severity {
+  error,
+  notification,
+  information,
+  debug,
+  detailed
 };
 
 std::string Name(JetDetail jet_detail);
@@ -193,7 +206,7 @@ protected:
         jet_tag_ = &jet_tag;
     }
 
-    const bool check_four_vectors_;
+    bool check_four_vectors_;
 
     float check_value_;
 

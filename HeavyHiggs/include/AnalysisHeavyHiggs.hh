@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Analysis.hh"
+#include "Vector.hh"
 
 namespace analysis
 {
@@ -25,11 +26,11 @@ enum class Collider
     LHC, FHC, LE
 };
 
-std::string Name(const Collider collider);
+std::string Name(Collider collider);
 
-std::string Name(const Process process);
+std::string Name(Process process);
 
-std::string NiceName(const Process process);
+std::string NiceName(Process process);
 
 /**
  *
@@ -158,7 +159,7 @@ public:
 
 
 
-    int FileNumber(const Process process) const {
+    int FileNumber(Process process) const {
         switch (collider_type()) {
         case Collider::LHC :
             switch (process) {
@@ -184,7 +185,7 @@ public:
         }
     }
 
-    std::string Suffix(const Process process) const {
+    std::string Suffix(Process process) const {
         switch (process) {
         case Process::Htt:
             return "_" + std::to_string(Mass()) + "GeV";
@@ -199,15 +200,15 @@ public:
         }
     }
 
-    virtual void NewFile(Tag tag, const Process process) {
+    virtual void NewFile(Tag tag, Process process) {
         analysis::AnalysisBase::NewFile(tag, FileNames(process, tag), NiceName(process));
     }
 
-    virtual void NewFile(Tag tag, float crosssection, const Process process) {
-        analysis::AnalysisBase::NewFile(tag, FileNames(process, tag), crosssection, NiceName(process));
+    virtual void NewFile(Tag tag, float crosssection, Process process) {
+        analysis::AnalysisBase::NewFile(tag, FileNames(process, tag), crosssection, NiceName(process), Mass());
     }
 
-    Strings FileNames(const Process process, Tag tag) const {
+    Strings FileNames(Process process, Tag tag) const {
         if (FileNumber(process) == 1) return {FileName(process, tag)};
         Strings names;
         for (const auto & file_number : Range(FileNumber(process))) {
@@ -217,7 +218,7 @@ public:
         return names;
     }
 
-    virtual std::string FileName(const Process process, Tag tag) const {
+    virtual std::string FileName(Process process, Tag tag) const {
         switch (tag) {
         case Tag::signal:
             return Name(process) + Suffix(process) + "_" + Name(collider_type());

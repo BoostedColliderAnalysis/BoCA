@@ -31,6 +31,11 @@ public:
 
 private:
 
+    std::string ProjectName() const final
+    {
+        return  "HiggsTagger-" + Name(this->collider_type()) + "-" + std::to_string(this->LowerPtCut()) + "GeV-jan";
+    }
+
     void SetFiles(Tag tag) final {
         switch (tag)
         {
@@ -51,25 +56,15 @@ private:
             this->NewFile(tag, Process::gg);
             break;
         }
-
     }
-
-    std::string ProjectName() const final
-    {
-        return  "HiggsTagger-" + Name(this->collider_type()) + "-" + std::to_string(this->LowerPtCut()) + "GeV-bb";
-    }
-
 
     int PassPreCut(const Event& event, Tag) const final
     {
         Jets jets = fastjet::sorted_by_pt(event.Hadrons().Jets());
-        if (jets.empty())
-            return 0;
-        if (jets.front().pt() < this->LowerPtCut())
-            return 0;
+        if (jets.empty()) return 0;
+        if (jets.front().pt() < this->LowerPtCut()) return 0;
         Jets particles = fastjet::sorted_by_pt(event.Partons().GenParticles());
-        if ((particles.at(0).pt() > this->LowerQuarkCut() && particles.at(0).pt() < this->UpperQuarkCut()) && (particles.at(1).pt() > this->LowerQuarkCut() &&  particles.at(1).pt() < this->UpperQuarkCut()))
-            return 1;
+        if ((particles.at(0).pt() > this->LowerQuarkCut() && particles.at(0).pt() < this->UpperQuarkCut()) && (particles.at(1).pt() > this->LowerQuarkCut() &&  particles.at(1).pt() < this->UpperQuarkCut())) return 1;
         return 0;
     }
 

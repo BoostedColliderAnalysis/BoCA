@@ -20,8 +20,7 @@ public:
 
     Jets Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 
-    int GetBdt(const Event &event, const PreCuts &pre_cuts,
-               const TMVA::Reader &reader) const final {
+    int GetBdt(const Event &event, const PreCuts &pre_cuts, const TMVA::Reader &reader) const final {
         return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 

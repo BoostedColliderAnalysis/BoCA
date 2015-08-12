@@ -1,6 +1,7 @@
 #include "BottomTagger.hh"
+
 #include "Event.hh"
-#include "Predicate.hh"
+#include "Vector.hh"
 #include "PreCuts.hh"
 #include "Debug.hh"
 
@@ -27,7 +28,7 @@ int BottomTagger::Train(const Event& event, const analysis::PreCuts& pre_cuts, T
     Jets bottoms = CopyIfParticle(particles, Id::bottom);
     bottoms = RemoveIfSoft(bottoms, DetectorGeometry::JetMinPt());
     Info(bottoms.size());
-    return SaveEntries(BestMatches(final_jets, bottoms, tag));
+    return SaveEntries(final_jets, bottoms, tag);
 }
 
 bool BottomTagger::Problematic(const fastjet::PseudoJet& jet, const PreCuts& pre_cuts, const Tag) const
@@ -35,7 +36,6 @@ bool BottomTagger::Problematic(const fastjet::PseudoJet& jet, const PreCuts& pre
     if (Problematic(jet, pre_cuts)) return true;
 //     if (tag == Tag::signal && jet.user_info<JetInfo>().SumDisplacement() == 0) return true;
     //     if (jet.user_info<JetInfo>().Tag() != tag) return true;
-    if (std::abs(jet.rap()) > DetectorGeometry::TrackerEtaMax()) return true;
     return false;
 }
 
@@ -72,8 +72,7 @@ Jets BottomTagger::TrainOnSubJets(const analysis::Jets& jets, const analysis::Pr
 Jets BottomTagger::SubJets(const analysis::Jets& jets, int sub_jet_number) const
 {
     Jets subjets;
-    for (const auto& jet : jets)
-        subjets = Join(subjets, Tagger::SubJets(jet, sub_jet_number));
+    for (const auto& jet : jets) subjets = Join(subjets, Tagger::SubJets(jet, sub_jet_number));
     return subjets;
 }
 
@@ -98,8 +97,7 @@ Jets BottomTagger::SubMultiplets(const Jets& jets, const PreCuts& pre_cuts, cons
 {
     Jets final_jets;
     for (const auto& sub_jet : SubJets(jets, sub_jet_number)) {
-        if (Problematic(sub_jet, pre_cuts))
-            continue;
+        if (Problematic(sub_jet, pre_cuts)) continue;
         final_jets.emplace_back(Multiplet(sub_jet, reader));
     }
     return final_jets;
@@ -115,10 +113,8 @@ Jets BottomTagger::SubMultiplet(const fastjet::PseudoJet& jet, const TMVA::Reade
 {
     Jets jets;
     for (const auto& sub_jet : Tagger::SubJets(jet, sub_jet_number)) {
-        if (!sub_jet.has_user_info<JetInfo>())
-            continue;
-        if (sub_jet.m() <= 0)
-            continue;
+        if (!sub_jet.has_user_info<JetInfo>()) continue;
+        if (sub_jet.m() <= 0) continue;
         jets.emplace_back(Multiplet(sub_jet, reader));
     }
     return jets;
@@ -130,8 +126,7 @@ int BottomTagger::GetBdt(const Event& event, const analysis::PreCuts& pre_cuts, 
     Jets bottoms = Multiplets(jets, pre_cuts, reader);
     bottoms = Join(bottoms, SubMultiplets(jets, pre_cuts, reader, 2));
     bottoms = Join(bottoms, SubMultiplets(jets, pre_cuts, reader, 3));
-//     return SaveEntries(ReduceResult(bottoms),2);
-    return SaveEntries(bottoms);
+    return SaveEntries(bottoms,2);
 }
 
 Jets BottomTagger::Multiplets(const analysis::Jets& jets, const TMVA::Reader& reader) const

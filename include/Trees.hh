@@ -1,6 +1,12 @@
 #pragma once
 
-#include "AnalysisBase.hh"
+#include "TFile.h"
+#include "exroot/ExRootAnalysis.hh"
+
+#include "ClonesArrays.hh"
+#include "Event.hh"
+#include "Tagger.hh"
+#include "File.hh"
 
 namespace analysis
 {

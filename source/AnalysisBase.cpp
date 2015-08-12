@@ -1,16 +1,17 @@
 #include "AnalysisBase.hh"
 
 #include <sys/stat.h>
+#include <fstream>
 
 #include "TTree.h"
 
 #include "exroot/ExRootAnalysis.hh"
 
 #include "Branches.hh"
-#include "Plot.hh"
+#include "File.hh"
+#include "Plotting.hh"
 #include "Event.hh"
 #include "Trainer.hh"
-
 #include "Debug.hh"
 
 namespace analysis
@@ -18,7 +19,7 @@ namespace analysis
 
 void AnalysisBase::Initialize()
 {
-  Note(tagger().Name());
+  Error(tagger().Name());
   mkdir(ProjectName().c_str(), 0700);
   tagger().ClearTreeNames();
 }
@@ -28,13 +29,6 @@ exroot::TreeWriter AnalysisBase::TreeWriter(TFile& export_file, const std::strin
     Note(export_tree_name.c_str());
     exroot::TreeWriter tree_writer(&export_file, export_tree_name.c_str());
     return tree_writer;
-}
-
-bool AnalysisBase::ExistenceCheck(const std::string& name) const
-{
-    Note(name);
-    struct stat buffer;
-    return (stat(name.c_str(), &buffer) != 0);
 }
 
 std::vector<File> AnalysisBase::files(Tag tag)
@@ -66,9 +60,9 @@ std::string AnalysisBase::ProcessName() const
     return "Process";
 }
 
-void AnalysisBase::NewFile(Tag tag, const Strings& names, float crosssection, const std::string& nice_name)
+void AnalysisBase::NewFile(Tag tag, const Strings& names, float crosssection, const std::string& nice_name, int mass)
 {
-    files_.emplace_back(File(names, crosssection, nice_name));
+    files_.emplace_back(File(names, crosssection, nice_name, mass));
     tagger().AddTreeName(TreeName(names.front()), tag);
 }
 
@@ -78,9 +72,9 @@ void AnalysisBase::NewFile(Tag tag, const Strings& names, const std::string& nic
     tagger().AddTreeName(TreeName(names.front()), tag);
 }
 
-void AnalysisBase::NewFile(Tag tag, const std::string& name, float crosssection, const std::string& nice_name)
+void AnalysisBase::NewFile(Tag tag, const std::string& name, float crosssection, const std::string& nice_name, int mass)
 {
-  files_.emplace_back(File({name}, crosssection, nice_name));
+  files_.emplace_back(File({name}, crosssection, nice_name, mass));
   tagger().AddTreeName(TreeName(name), tag);
 }
 
@@ -95,9 +89,9 @@ File AnalysisBase::File(const Strings& names, const std::string& nice_name) cons
     return analysis::File(names, FilePath(), FileSuffix(), nice_name);
 }
 
-File AnalysisBase::File(const Strings& names, float crosssection, const std::string& nice_name) const
+File AnalysisBase::File(const Strings& names, float crosssection, const std::string& nice_name, int mass) const
 {
-    return analysis::File(names, FilePath(), FileSuffix(), crosssection, nice_name);
+    return analysis::File(names, FilePath(), FileSuffix(), nice_name, crosssection, mass);
 }
 
 std::string AnalysisBase::FileName(const std::string&) const
@@ -179,21 +173,28 @@ void AnalysisBase::RunFullEfficiency()
 
 void AnalysisBase::RunTagger(Stage stage)
 {
-    if (ExistenceCheck(tagger().FileName(stage, Tag::signal))) AnalysisLoop(stage);
+    if (!Exists(tagger().FileName(stage, Tag::signal))) AnalysisLoop(stage);
 }
 
 void AnalysisBase::RunTrainer()
 {
     PrepareFiles();
-    if (ExistenceCheck(tagger().WeightFileName(TMVA::Types::EMVA::kBDT))) Trainer trainer(tagger());
+    TMVA::Types::EMVA mva = TMVA::Types::EMVA::kBDT;
+    if (!Exists(tagger().WeightFileName(mva))){
+      std::ofstream cout_file(tagger().FolderName() + ".txt");
+      std::streambuf* cout = std::cout.rdbuf();
+      std::cout.rdbuf(cout_file.rdbuf());
+      Trainer trainer(tagger(), mva);
+      std::cout.rdbuf(cout);
+    }
 }
 
 
 void AnalysisBase::RunSignificance()
 {
     PrepareFiles();
-    if (ExistenceCheck(tagger().ExportFileName())) {
-        Plot plot(tagger());
+    if (!Exists(tagger().ExportFileName())) {
+        Plotting plot(tagger());
         plot.OptimalSignificance();
     }
 }
@@ -201,8 +202,8 @@ void AnalysisBase::RunSignificance()
 void AnalysisBase::RunEfficiency()
 {
     PrepareFiles();
-    if (ExistenceCheck(tagger().ExportFileName())) {
-        Plot plot(tagger());
+    if (!Exists(tagger().ExportFileName())) {
+        Plotting plot(tagger());
         plot.TaggingEfficiency();
     }
 }
@@ -210,8 +211,8 @@ void AnalysisBase::RunEfficiency()
 void AnalysisBase::RunPlots()
 {
     PrepareFiles();
-    if (ExistenceCheck(tagger().ExportFolderName())) {
-        Plot plot(tagger());
+    if (!Exists(tagger().ExportFolderName())) {
+        Plotting plot(tagger());
         plot.RunPlots();
     }
 }

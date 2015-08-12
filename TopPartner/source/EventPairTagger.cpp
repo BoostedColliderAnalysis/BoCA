@@ -1,4 +1,5 @@
 #include "EventPairTagger.hh"
+#define DEBUG
 #include "Debug.hh"
 
 namespace analysis {
@@ -7,7 +8,7 @@ namespace toppartner {
 
 EventPairTagger::EventPairTagger()
 {
-  Info();
+    Info();
     DefineVariables();
 }
 

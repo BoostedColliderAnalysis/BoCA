@@ -1,10 +1,14 @@
 #pragma once
 
-#include "File.hh"
-// #include "Configuration.hh"
-#include "Reader.hh"
+#include "Tagger.hh"
+#include "Identification.hh"
+#include "PreCuts.hh"
+
+class TFile;
 
 namespace analysis {
+
+class File;
 
 /**
  * @brief Base for all analyses
@@ -70,16 +74,16 @@ protected:
 
     void NewFile(analysis::Tag tag, const analysis::Strings& names, const std::string& nice_name = "");
 
-    void NewFile(analysis::Tag tag, const analysis::Strings& names, float crosssection, const std::string& nice_name = "");
+    void NewFile(analysis::Tag tag, const analysis::Strings& names, float crosssection, const std::string& nice_name = "", int mass = 0);
 
-    analysis::File File(const Strings& names, float crosssection, const std::string& nice_name = "") const;
+    analysis::File File(const Strings& names, float crosssection, const std::string& nice_name = "", int mass = 0) const;
 
     analysis::File File(const Strings& names, const std::string& nice_name = "") const;
 
     void NewFile(analysis::Tag tag, const std::string& names, const std::string& nice_name = "");
 
-    void NewFile(analysis::Tag tag, const std::string& names, float crosssection, const std::string& nice_name = "");
-    
+    void NewFile(analysis::Tag tag, const std::string& names, float crosssection, const std::string& nice_name = "", int mass = 0);
+
     std::string FileName(const std::string& name) const;
 
     std::string TreeName(const std::string& name) const;
@@ -97,8 +101,6 @@ private:
     virtual Tagger& tagger() = 0;
 
     std::string FileSuffix() const;
-
-    bool ExistenceCheck(const std::string& name) const;
 
     virtual void AnalysisLoop(Stage stage) = 0;
 

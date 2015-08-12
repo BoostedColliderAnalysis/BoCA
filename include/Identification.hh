@@ -30,9 +30,9 @@ public:
 
     analysis::Tag Tag() const;
 
-    void SetFlag(const bool flag);
+    void SetFlag(bool flag);
 
-    void SetFlag(const bool flag_1, const bool flag_2);
+    void SetFlag(bool flag_1, bool flag_2);
 
     bool Flag() const;
 
@@ -41,7 +41,7 @@ public:
         return degenerate_;
     }
 
-    void SetDegenerate(const bool degenerate)
+    void SetDegenerate(bool degenerate)
     {
         degenerate_ = degenerate;
     }

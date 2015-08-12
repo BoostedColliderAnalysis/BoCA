@@ -1,6 +1,8 @@
 #include "Singlet.hh"
+
 #include "DetectorGeometry.hh"
-#include "Predicate.hh"
+#include "Vector.hh"
+#include "Math.hh"
 #include "Debug.hh"
 
 namespace analysis {
@@ -13,7 +15,7 @@ Singlet::Singlet(const fastjet::PseudoJet& jet)
 
 bool Singlet::Overlap(const fastjet::PseudoJet& jet) const
 {
-    return (Close(jet)(Jet()));
+    return Close(jet)(Jet());
 }
 
 bool Singlet::Overlap(const Singlet& singlet) const
@@ -83,11 +85,6 @@ Vector2 Singlet::Pull() const
     return vector;
 }
 
-Vector2 Singlet::Reference(const fastjet::PseudoJet& vector) const
-{
-  return Vector2(vector.rap() - jet_.rap(), jet_.delta_phi_to(vector));
-}
-
 float Singlet::Rapidity() const
 {
     if (Jet().rap() == fastjet::pseudojet_invalid_rap) return 0;
@@ -95,14 +92,9 @@ float Singlet::Rapidity() const
     return Jet().rap();
 }
 
-Singlet Singlet::singlet() const
+const Singlet &Singlet::singlet() const
 {
     return *this;
-}
-
-Singlet Singlet::singlet(Structure) const
-{
-  return *this;
 }
 
 }

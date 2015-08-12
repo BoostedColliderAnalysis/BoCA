@@ -15,17 +15,16 @@ public:
 
     TopHadronicTagger();
 
-    int Train(const Event &event, const PreCuts &pre_cuts,
-              Tag tag) const final;
+    int Train(const Event &event, const PreCuts &pre_cuts, Tag tag) const final;
 
-    int TopHadronicId(const Event& event) const
-    {
-        return sgn(w_hadronic_reader_.Tagger().WHadronicId(event)) * to_int(Id::top);
-    }
+    /**
+     * @brief Signed id of hadronic top, if 2 hadronic top with opposite charge are found 0 is returned
+     *
+     */
+    int TopHadronicId(const Event& event) const;
 
-    int GetBdt(const Event &event, const PreCuts &pre_cuts,
-               const TMVA::Reader &reader) const final {
-        return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
+    int GetBdt(const Event &event, const PreCuts &pre_cuts, const TMVA::Reader &reader) const final {
+        return SaveEntries(Multiplets(event, pre_cuts, reader), 2);
     }
 
     std::vector<analysis::Triplet> Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
@@ -36,7 +35,7 @@ public:
 
 private:
 
-    analysis::Triplet Triplet(const Doublet& doublet, const fastjet::PseudoJet& jet, const Jets& leptons, const PreCuts& pre_cuts, Tag tag, const bool check_overlap = false) const;
+    analysis::Triplet Triplet(const Doublet& doublet, const fastjet::PseudoJet& jet, const Jets& leptons, const PreCuts& pre_cuts, Tag tag, bool check_overlap = false) const;
 
     analysis::Triplet Triplet(analysis::Triplet& triplet, const analysis::Jets& leptons, const analysis::PreCuts& pre_cuts, Tag tag) const;
 
@@ -54,7 +53,7 @@ private:
 
     std::vector<analysis::Triplet>  Multiplets(const Doublet& doublet, const Jets& jets, const Jets& leptons, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 
-    analysis::Triplet Multiplet(const Doublet& doublet, const fastjet::PseudoJet& jet, const Jets& leptons, const PreCuts& pre_cuts, const TMVA::Reader& reader, const bool check_overlap = false) const;
+    analysis::Triplet Multiplet(const Doublet& doublet, const fastjet::PseudoJet& jet, const Jets& leptons, const PreCuts& pre_cuts, const TMVA::Reader& reader, bool check_overlap = false) const;
 
     analysis::Triplet Multiplet(analysis::Triplet& triplet, const Jets& leptons, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 

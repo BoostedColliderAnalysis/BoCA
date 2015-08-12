@@ -3,9 +3,16 @@
 #include "libconfig.h++"
 
 
-namespace analysis {
+namespace analysis
+{
 
-class Configuration {
+enum class ColliderType
+{
+    LHC, FHC, LE
+};
+
+class Configuration
+{
 
 public:
 
@@ -25,7 +32,6 @@ public:
 
     int BackgroundFileNumber() const;
 
-    enum ColliderType {LHC, FHC, LE};
 
     ColliderType collider_type() const;
 
@@ -48,8 +54,7 @@ private:
 
     libconfig::Config config_;
 
-    libconfig::Config& config()
-    {
+    libconfig::Config& config() {
         return config_;
     }
 

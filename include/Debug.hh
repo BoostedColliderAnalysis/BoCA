@@ -9,7 +9,7 @@
 
 // FIXME do we really want to write non standard compliant code?
 #pragma GCC diagnostic ignored "-Wgnu-zero-variadic-macro-arguments"
-#pragma GCC diagnostic ignored "-Wmacro-redefined"
+// #pragma GCC diagnostic ignored "-Wmacro-redefined"
 #pragma clang diagnostic ignored "-Wgnu-zero-variadic-macro-arguments"
 #pragma clang diagnostic ignored "-Wmacro-redefined"
 
@@ -61,8 +61,9 @@ void LogVariable(const std::string& variable, const Value& value)
 template<typename Value>
 void LogVariable(const std::string& variable, const std::vector<Value>& values)
 {
-    for (const auto& value : values)
-        LogVariable(variable, values);
+//     for (const auto& value : values)
+//         LogVariable(variable, values);
+        LogVariable(variable, values.size());
 }
 
 void LogVariable(const std::string&, const char* value);
@@ -119,15 +120,15 @@ void Log(const std::string& file, int line, const std::string& name_space, const
 
 #define LOG0() ::analysis::Log(NAMES)
 
-#define PAIR(value) #value, value
+#define NAME(value) #value, value
 
-#define LOG1(value) ::analysis::Log(NAMES, PAIR(value))
+#define LOG1(value1) ::analysis::Log(NAMES, NAME(value1))
 
-#define LOG2(value, value2) ::analysis::Log(NAMES, PAIR(value), PAIR(value2))
+#define LOG2(value, value2) ::analysis::Log(NAMES, NAME(value), NAME(value2))
 
-#define LOG3(value, value2, value3) ::analysis::Log(NAMES, PAIR(value), PAIR(value2), PAIR(value3))
+#define LOG3(value, value2, value3) ::analysis::Log(NAMES, NAME(value), NAME(value2), NAME(value3))
 
-#define LOG4(value, value2, value3, value4) ::analysis::Log(NAMES, PAIR(value), PAIR(value2), PAIR(value3), PAIR(value4))
+#define LOG4(value, value2, value3, value4) ::analysis::Log(NAMES, NAME(value), NAME(value2), NAME(value3), NAME(value4))
 
 #define LOG(arg0, arg1, arg2, arg3, arg4, arg, ...) arg
 
@@ -182,5 +183,5 @@ void Log(const std::string& file, int line, const std::string& name_space, const
 // #endif
 // #endif
 
-#define Check(condition, ...) if(!(condition)) { ALIVE(__VA_ARGS__); }
+#define Check(condition, ...) if(!(condition)) { Error(__VA_ARGS__); }
 // #define DebugCheck(condition, ...) if(!(condition)) { Debug(__VA_ARGS__); }

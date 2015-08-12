@@ -1,7 +1,5 @@
 #pragma once
 
-// #include "Vector2.hh"
-
 typedef float Float_t;
 class TVector3;
 template<class Element> class TMatrixT;

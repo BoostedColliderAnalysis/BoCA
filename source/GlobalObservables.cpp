@@ -1,4 +1,6 @@
 #include "GlobalObservables.hh"
+#include "InfoRecombiner.hh"
+#include "Event.hh"
 #include "Debug.hh"
 
 namespace analysis {
@@ -101,7 +103,7 @@ float GlobalObservables::MissingEt() const
 Singlet GlobalObservables::Singlet() const
 {
     Info();
-    fastjet::PseudoJet jet(fastjet::join(Jets()));
+    fastjet::PseudoJet jet(fastjet::join(Jets(),InfoRecombiner()));
     jet.set_user_info(new JetInfo(BottomBdt()));
     return analysis::Singlet(jet);
 }

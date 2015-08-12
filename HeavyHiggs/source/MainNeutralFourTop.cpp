@@ -4,7 +4,6 @@
 int main()
 {
     analysis::heavyhiggs::AnalysisNeutralFourTop<analysis::BottomTagger> bottom_analysis;
-
     bottom_analysis.RunNormal();
 
 

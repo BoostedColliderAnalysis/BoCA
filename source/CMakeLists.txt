@@ -14,9 +14,11 @@ EventShape.cpp
 create_library(Vector vector_sources)
 
 set(global_sources
-Global.cpp
+Particles.cpp
 Debug.cpp
-Predicate.cpp
+Types.cpp
+Vector.cpp
+Math.cpp
 )
 create_library(Global global_sources)
 
@@ -32,6 +34,7 @@ Hadrons.cpp
 create_library(Event event_sources)
 
 set(multiplet_sources
+Multiplet.cpp
 Identification.cpp
 Singlet.cpp
 Doublet.cpp
@@ -85,8 +88,11 @@ Constituent.cpp
 JetTag.cpp
 DetectorGeometry.cpp
 JetInfo.cpp
+InfoRecombiner.cpp
+JetInfoFamily.cpp
 Reconstruction.cpp
 Discriminator.cpp
-Plot.cpp
+Plotting.cpp
+Result.cpp
 )
 create_library(Analysis analysis_sources)

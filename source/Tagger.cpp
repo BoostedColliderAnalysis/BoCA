@@ -1,13 +1,12 @@
 #include "Tagger.hh"
 
-#include "TObjArray.h"
-#include "TClonesArray.h"
+#include "TMVA/Reader.h"
 
 #include "fastjet/ClusterSequence.hh"
 
+#include "exroot/ExRootAnalysis.hh"
 #include "JetInfo.hh"
-#include "Event.hh"
-#include "Analysis.hh"
+#include "DetectorGeometry.hh"
 #include "Debug.hh"
 
 namespace analysis
@@ -30,19 +29,13 @@ float Tagger::Bdt(const TMVA::Reader& reader) const
 
 Jets Tagger::SubJets(const fastjet::PseudoJet& jet, int sub_jet_number) const
 {
-    Jets pieces;
-    if (!jet.has_pieces()) return pieces;
-    if (!jet.has_user_info<JetInfo>()) return pieces;
+    if (!jet.has_pieces()) return {};
+    if (!jet.has_user_info<JetInfo>()) return {};
     fastjet::ClusterSequence& cluster_sequence = *new fastjet::ClusterSequence(jet.constituents(), DetectorGeometry::SubJetDefinition());
-    for (auto & piece : cluster_sequence.exclusive_jets_up_to(sub_jet_number)) {
-        std::vector<Constituent> constituents;
-        for (const auto & constituent : piece.constituents()) {
-            if (!constituent.has_user_info<JetInfo>()) continue;
-            std::vector<Constituent> piece_constituents = constituent.user_info<JetInfo>().constituents();
-            constituents = Join(constituents, piece_constituents);
-        }
-        piece.set_user_info(new JetInfo(constituents));
-        pieces.emplace_back(piece);
+    Jets pieces = cluster_sequence.exclusive_jets_up_to(sub_jet_number);
+    if (pieces.empty()) {
+      delete &cluster_sequence;
+      return pieces;
     }
     cluster_sequence.delete_self_when_unused();
     return pieces;
@@ -94,6 +87,10 @@ std::string Tagger::ExportFileName() const
 std::string Tagger::ExportFolderName() const
 {
     return AnalysisName() + "/" + ExportName();
+}
+std::string Tagger::FolderName() const
+{
+  return AnalysisName() + "/" + Name();
 }
 std::string Tagger::ReaderName() const
 {

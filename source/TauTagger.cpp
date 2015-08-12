@@ -1,7 +1,8 @@
 #include "TauTagger.hh"
 
-#include "fastjet/ClusterSequence.hh"
 #include "Singlet.hh"
+#include "Sort.hh"
+#include "Vector.hh"
 #include "Event.hh"
 #include "Debug.hh"
 
@@ -44,7 +45,7 @@ Jets TauTagger::CleanJets(analysis::Jets& jets, const analysis::Jets& Particles,
     for (const auto& Particle : Particles) {
         std::sort(jets.begin(), jets.end(), MinDeltaRTo(Particle));
         if (jets.front().delta_R(Particle) < 0.4)
-            static_cast<JetInfo*>(jets.front().user_info_shared_ptr().get())->SetTag(Tag::signal);
+            static_cast<JetInfo&>(*jets.front().user_info_shared_ptr().get()).SetTag(Tag::signal);
     }
     Jets NewCleanJets;
     for (const auto& Jet : jets) {

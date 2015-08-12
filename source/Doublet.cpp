@@ -1,15 +1,17 @@
 #include "Doublet.hh"
+
+#include "Math.hh"
 #include "Debug.hh"
 
 namespace analysis
 {
 
-Singlet& Doublet::Singlet1() const
+const Singlet& Doublet::Singlet1() const
 {
     return Multiplet1();
 }
 
-Singlet& Doublet::Singlet2() const
+const Singlet& Doublet::Singlet2() const
 {
     return Multiplet2();
 }
@@ -17,7 +19,7 @@ Singlet& Doublet::Singlet2() const
 float Doublet::Dipolarity2() const
 {
     float dipolarity = 0;
-    for (const auto & constituent : Jet(Structure::constituents).constituents()) {
+    for (const auto & constituent : Jet().constituents()) {
 
         float eta_0 = constituent.eta();
         float phi_0 = constituent.phi_std();

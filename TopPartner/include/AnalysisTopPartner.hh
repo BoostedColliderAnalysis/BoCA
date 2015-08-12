@@ -1,11 +1,23 @@
 #pragma once
 
 #include "Analysis.hh"
+#include "Vector.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace analysis
+{
 
-namespace toppartner {
+namespace toppartner
+{
+
+enum class Process
+{
+    Tth,
+    TT,
+    ttBjj,
+    tthBjj,
+    TThh
+};
 
 /**
  *
@@ -15,131 +27,130 @@ namespace toppartner {
  *
  */
 template<typename Tagger>
-class Analysis : public analysis::Analysis<Tagger> {
+class AnalysisNaturalness : public analysis::Analysis<Tagger>
+{
 
 public:
 
-    Analysis()
-    {
-        this->tagger().SetAnalysisName(ProjectName());
+protected:
+
+    int Mass() const {
+      return 10000;
+      return 2000;
+    }
+
+    long EventNumberMax() const override {
+        return 1000;
+        return 5000;
+        return 3000;
+        return 500;
+        return 100;
+        return 10;
+    }
+
+    std::string FilePath() const final {
+        return "~/Projects/TopPartner/Analysis/";
     }
 
 protected:
 
-    std::string ProjectName() const final
-    {
-        return  std::to_string(PreCut()) + "GeV-hB";
-    }
-
-    void SetFiles(Tag tag) final {
-        switch (tag)
-        {
-        case Tag::signal :
-            //         NewFile(tag,"pp-Tth-bbbbjjjjlv");
-            //         NewFile(tag,"pp-TThh-bbbbbbjjlv");
-            //             this->NewFile(tag, "pp-TT-tthh-bbbbbbjjlv", Crosssection(tag), NiceName(tag));
-            //           this->NewFile(tag, "pp-TT-tthB-hBbbjjlv", 4.832, NiceName(tag));
-            this->NewFile(tag, "pp-TT-tthB-bbbbjjjjlv", 2*0.264 * 1000, NiceName(tag));
-            //         if(tagger().name() == "Bottom") NewFile(tag,"pp-ttbbj-bbbbjjlv");
-            break;
-        case Tag::background :
-            //         NewFile(tag,"pp-ttbb-bbbbjjlv");
-            //       NewFile(tag,"pp-tthjj-bbbbjjjjlv);
-            //             this->NewFile(tag, "pp-tthjj-bbbbjjjjlv_" + std::to_string(PreCut()) + "GeV", Crosssection(tag), NiceName(tag));
-          this->NewFile(tag, "PP-ttBJJ-" + std::to_string(PreCut()) + "GeV", 2*0.1754 * 1000, "ttB(jj)|_{200 GeV}");
-          this->NewFile(tag, "PP-tthB-" + std::to_string(PreCut()) + "GeV", 2*0.02535 * 1000, "ttB(jj)|_{200 GeV}");
-            //         NewFile(tag,"tt_inc-LE-0GeV_0");
-            break;
-        }
-    }
-
-    std::string ProcessName() const final
-    {
-        return "toppartner";
-    }
-
-    long EventNumberMax() const override
-    {
-        return 5000;
-        return 3000;
-        return 1000;
-        return 100;
-        return 10;
-        return 500;
-    }
-
-    std::string FilePath() const final
-    {
-        return "~/Projects/TopPartner/Analysis/";
-    }
-
-private:
-
-    int PreCut() const
-    {
+    int PreCut() const {
         return 0;
         return 200;
     }
 
-    int Mass() const
-    {
-        return 2000;
+    int JetPreCut() const {
+        return 100;
+        return 0;
     }
 
-    int PassPreCut(const Event& event, Tag) const final
-    {
-        Jets particles = event.Partons().GenParticles();
-        particles = RemoveIfSoft(particles, PreCut());
-        Jets tops = CopyIfParticle(particles, Id::top);
-        Jets higgs = CopyIfParticle(particles, Id::higgs);
-        Jets vectors = CopyIfParticles(particles, Id::Z, Id::W);
-        Jets partner = CopyIfParticle(particles, Id::top_partner);
-
-//         Jets tchannel = RemoveIfMother(higgs,Id::top);
-//         tchannel = RemoveIfMother(tchannel,Id::top_partner);
-
-        Error(partner.size());
-
-        if (tops.size() < 2 || (higgs.size() < 1 && vectors.size() < 1)) return 0;
-        return 1;
+    float Crosssection(Process process) const {
+        float crosssection;
+        switch (process) {
+        case Process::Tth : crosssection = 0.004964;
+            break;
+        case Process::TT :
+          switch (Mass()) {
+            case 2000 : crosssection = 0.264;
+                break;
+            case 10000 : crosssection = 2.485e-05;
+                break;
+            default : crosssection = 0;
+            Error("wrong mass", Mass());
+            }
+            break;
+        case Process::ttBjj :
+            switch (PreCut()) {
+            case 0 : crosssection = 1.669;
+                break;
+            case 200 : crosssection = 0.1754;
+                break;
+            }
+            break;
+        case Process::tthBjj :
+            switch (PreCut()) {
+            case 0 : crosssection = 0.02535;
+                break;
+            case 200 : crosssection = 0.02535;
+                break;
+            }
+            break;
+        case Process::TThh : crosssection = 3.057e-05;
+            break;
+        }
+        return crosssection * 2 * 1000;
     }
 
-    float Crosssection(Tag tag) const
-    {
-        switch (tag) {
-        case Tag::signal :
-            return SignalCrosssection();
-        case Tag::background :
-            return BackgroundCrosssection();
+    std::string Name(Process process) const {
+        switch (process) {
+        case Process::TT : {
+            std::string name = "pp-TT-tthB-bbbbjjjjlv";
+//             std::string name = "pp-TT-ttBB";
+            switch (Mass()) {
+            case 2000 : return name + "-2000GeV";
+            case 10000 : return name + "-10000GeV";
+            default : return name;
+            Error("wrong mass", Mass());
+            }
+        }
+        case Process::ttBjj : {
+            std::string name = "PP-ttBJJ";
+            switch (PreCut()) {
+            case 0 : return name + "-0GeV";
+            case 200 : return name + "-200GeV";
+            }
+        }
+        case Process::tthBjj : {
+            std::string name = "PP-tthB";
+            switch (PreCut()) {
+            case 0 : return name + "-0GeV";
+            case 200 : return name + "-200GeV";
+            }
+        }
+        case Process::Tth : return "PP-Tth-ttBh";
+        case Process::TThh : return "PP-TThh";
+        default: Error("no case");
         }
     }
 
-    float BackgroundCrosssection() const
-    {
-        switch (PreCut()) {
-        case 0 :
-            return 4.119;
-        case 200 :
-            return 0.44;
+    std::string NiceName(Process process) const {
+        switch (process) {
+        case Process::TT : return "#tilde t_{h}#tilde t_{l}";
+        case Process::ttBjj : return "t_{l}t_{h}B^{0}jj";
+        case Process::tthBjj : return "t_{l}t_{h}hB^{0}jj";
+        case Process::Tth : return "#tilde t_{l}t_{h}h";
+        case Process::TThh : return "#tilde t_{l}#tilde t_{h}hh";
+        default: Error("no case");
         }
+//         (" + std::to_string(PreCut()) + " GeV)";
     }
 
-    float SignalCrosssection() const
-    {
-        switch (Mass()) {
-        case 2000 :
-            return 0.001971;
-        }
-    }
+//     void NewFile(Tag tag, Process process) {
+// //         AnalysisBase::NewFile(tag, this->Name(process), this->Crosssection(process), this->NiceName(process));
+//     }
 
-    std::string NiceName(Tag tag) const
-    {
-        switch (tag) {
-        case Tag::signal :
-            return "#tilde t_{h}#tilde t_{l}";
-        case Tag::background :
-            return "tthjj (" + std::to_string(PreCut()) + " GeV)";
-        }
+    void NewFile(Tag tag, Process process) {
+        AnalysisBase::NewFile(tag, this->Name(process), this->Crosssection(process), this->NiceName(process));
     }
 
 };

@@ -16,6 +16,9 @@ namespace analysis {
 
 DetectorType DetectorGeometry::detector_type_ = DetectorType::Spp;
 
+InfoRecombiner DetectorGeometry::info_recombiner_ = InfoRecombiner();
+
+
 void DetectorGeometry::set_detector_type(const DetectorType detector_type)
 {
   detector_type_ = detector_type;
@@ -86,20 +89,21 @@ fastjet::JetDefinition DetectorGeometry::JetDefinition()
 {
     switch (detector_type()) {
     case DetectorType::CMS:
-        return fastjet::JetDefinition(fastjet::antikt_algorithm, JetConeSize());
+      return fastjet::JetDefinition(fastjet::antikt_algorithm, JetConeSize(), &info_recombiner_);
     case DetectorType::Spp:
-        return fastjet::JetDefinition(fastjet::antikt_algorithm, JetConeSize());
+      return fastjet::JetDefinition(fastjet::antikt_algorithm, JetConeSize(), &info_recombiner_);
     }
 }
 fastjet::JetDefinition DetectorGeometry::SubJetDefinition()
 {
     switch (detector_type()) {
     case DetectorType::CMS:
-        return fastjet::JetDefinition(fastjet::kt_algorithm, JetConeSize());
+        return fastjet::JetDefinition(fastjet::kt_algorithm, JetConeSize(), &info_recombiner_);
     case DetectorType::Spp:
-        return fastjet::JetDefinition(fastjet::kt_algorithm, JetConeSize());
+        return fastjet::JetDefinition(fastjet::kt_algorithm, JetConeSize(), &info_recombiner_);
     }
 }
+
 float DetectorGeometry::TrackerDistanceMin()
 {
     switch (detector_type()) {

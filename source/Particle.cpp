@@ -1,5 +1,5 @@
 #include "Particle.hh"
-#include "Predicate.hh"
+#include "Types.hh"
 
 namespace analysis {
 

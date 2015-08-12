@@ -4,15 +4,15 @@
 
 namespace analysis {
 
-class Quintet : public Multiplet<analysis::Triplet, analysis::Doublet> {
+class Quintet : public TwoBody<analysis::Triplet, analysis::Doublet> {
 
 public:
 
-    using Multiplet<analysis::Triplet, analysis::Doublet>::Multiplet;
+    using TwoBody<analysis::Triplet, analysis::Doublet>::TwoBody;
 
-    analysis::Doublet& Doublet() const;
+    const analysis::Doublet& Doublet() const;
 
-    analysis::Triplet& Triplet() const;
+    const analysis::Triplet& Triplet() const;
 
 };
 

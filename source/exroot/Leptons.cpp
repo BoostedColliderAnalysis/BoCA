@@ -1,7 +1,8 @@
-#include "exroot/ExRootAnalysis.hh"
 #include "exroot/Leptons.hh"
+
+#include "exroot/ExRootAnalysis.hh"
 #include "JetInfo.hh"
-#include "Predicate.hh"
+#include "Types.hh"
 #include "Debug.hh"
 
 namespace analysis {

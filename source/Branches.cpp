@@ -308,11 +308,14 @@ Observables TopLeptonicBranch::Spectators() const
     return Join(PairBranch::Spectators(), BottomBase::Spectators());
 }
 
-HiggsBranch::HiggsBranch(){}
+HiggsBranch::HiggsBranch(){
+  LeptonPt = InitialValue();
+  LeptonDeltaR = InitialValue();
+}
 
 Observables HiggsBranch::Variables() const
 {
-  return Join(PairBranch::Variables(), BottomBase::Variables());
+  return Join(PairBranch::Variables(), BottomBase::Variables(),{PAIR(LeptonPt),PAIR(LeptonDeltaR)});
 }
 
 Observables HiggsBranch::Spectators() const

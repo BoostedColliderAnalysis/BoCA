@@ -1,6 +1,7 @@
 #include "delphes/Partons.hh"
+
 #include "delphes/Delphes.hh"
-#include "Predicate.hh"
+#include "Types.hh"
 #include "JetInfo.hh"
 #include "Debug.hh"
 

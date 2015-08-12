@@ -5,7 +5,7 @@ namespace analysis {
 
 namespace heavyhiggs {
 
-std::string Name(const Collider collider)
+std::string Name(Collider collider)
 {
     switch (collider) {
     case Collider::LHC :
@@ -20,7 +20,7 @@ std::string Name(const Collider collider)
     }
 }
 
-std::string Name(const Process process)
+std::string Name(Process process)
 {
     switch (process) {
     case Process::Hbb:
@@ -49,7 +49,7 @@ std::string Name(const Process process)
     }
 }
 
-std::string NiceName(const Process process)
+std::string NiceName(Process process)
 {
     switch (process) {
     case Process::Hbb:

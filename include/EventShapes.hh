@@ -7,54 +7,23 @@
 // details.  Please respect the MCnet academic guidelines, see
 // GUIDELINES for details.
 //
-// #ifndef HERWIG_EventShapes_H
-// #define HERWIG_EventShapes_H
+
 #pragma once
-//
-// This is the declaration of the EventShapes class.
-//
 
 #include "ThePEG/Interface/Interfaced.h"
 #include "ThePEG/Handlers/AnalysisHandler.h"
 #include "ThePEG/Vectors/Lorentz5Vector.h"
 #include "ThePEG/Vectors/ThreeVector.h"
 #include "ThePEG/EventRecord/Particle.h"
-// #include "EventShapes.fh"
-
-
-
-
-
-
-
-
-
-
-// -*- C++ -*-
-//
-// This is the forward declaration of the EventShapes class.
-//
-// #ifndef HERWIG_EventShapes_FH
-// #define HERWIG_EventShapes_FH
-
-#include "ThePEG/Config/Pointers.h"
 
 namespace analysis {
-//   using namespace ThePEG;
 
-  class EventShapes;
-
-  ThePEG_DECLARE_POINTERS(EventShapes,EventShapesPtr);
-
-
-/** \ingroup Analysis
+/**
  *
  * The EventShapes class is designed so that certain event shapes, such
  * as the thrust are only calculated once per event given the speed of
  * the calculation.
  *
- * @see \ref EventShapesInterfaces "The interfaces" defined for
- * EventShapes.
  */
 class EventShapes: public ThePEG::Interfaced
 {
@@ -692,41 +661,3 @@ private:
 };
 
 }
-
-#include "ThePEG/Utilities/ClassTraits.h"
-
-namespace ThePEG
-{
-
-/** @cond TRAITSPECIALIZATIONS */
-
-/** This template specialization informs ThePEG about the
- *  base classes of EventShapes. */
-template <>
-struct BaseClassTrait<analysis::EventShapes, 1> {
-    /** Typedef of the first base class of EventShapes. */
-    typedef Interfaced NthBase;
-};
-
-/** This template specialization informs ThePEG about the name of
- *  the EventShapes class and the shared object where it is defined. */
-template <>
-struct ClassTraits<analysis::EventShapes>
-        : public ClassTraitsBase<analysis::EventShapes> {
-    /** Return a platform-independent class name */
-    static string className() {
-        return "analysis::EventShapes";
-    }
-    /** Return the name(s) of the shared library (or libraries) be loaded to get
-     *  access to the EventShapes class and any other class on which it depends
-     *  (except the base class). */
-    static string library() {
-        return "HwAnalysis.so";
-    }
-};
-
-/** @endcond */
-
-}
-
-// #endif /* HERWIG_EventShapes_H */

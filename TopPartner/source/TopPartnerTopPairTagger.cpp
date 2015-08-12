@@ -37,8 +37,7 @@ std::vector<Octet53> TopPartnerTopPairTagger::Multiplets(const Event& event, con
     for (const auto& quintet :  quintets) {
         for (const auto& triplet : triplets) {
             Octet53 octet(quintet, triplet);
-            if (octet.Overlap())
-                continue;
+            if (octet.Overlap()) continue;
             octet.SetBdt(Bdt(octet, reader));
             octets.emplace_back(octet);
         }

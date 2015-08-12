@@ -1,11 +1,14 @@
 #pragma once
 
 #include "TCut.h"
+
 #include "TMVA/Types.h"
+
 #include "Observable.hh"
 #include "Identification.hh"
-#include "fastjet/PseudoJet.hh"
 #include "Branches.hh"
+#include "Vector.hh"
+#include "Event.hh"
 
 namespace TMVA
 {
@@ -18,6 +21,11 @@ namespace exroot
 {
 typedef ::ExRootTreeWriter TreeWriter;
 typedef ::ExRootTreeBranch TreeBranch;
+}
+
+namespace fastjet
+{
+class PseudoJet;
 }
 
 namespace analysis
@@ -79,6 +87,8 @@ public:
 
     std::string ExportFolderName() const;
 
+    std::string FolderName() const;
+
     std::string FileName(Stage stage, Tag tag) const;
 
     std::string MethodName(TMVA::Types::EMVA mva) const;
@@ -115,6 +125,41 @@ protected:
 
     float Bdt(const TMVA::Reader& reader) const;
 
+    template<typename Multiplet>
+    Multiplet SetTag(Multiplet& multiplet, Tag tag) const {
+        multiplet.SetTag(tag);
+        return multiplet;
+    }
+
+    template<typename Multiplet>
+    Multiplet SetBdt(Multiplet& multiplet, const TMVA::Reader& reader) const {
+        multiplet.SetBdt(Bdt(multiplet, reader));
+        return multiplet;
+    }
+
+    template<typename Multiplet>
+    std::vector<Multiplet> SetClosestLepton(const Event& event, std::vector<Multiplet>& multiplets) const {
+        Jets leptons = event.Leptons().leptons();
+        if (leptons.empty()) return multiplets;
+        for (auto & multiplet : multiplets) {
+            try {
+                SetClosestLepton(multiplet, leptons);
+            } catch (const char*) {
+                continue;
+            }
+        }
+        return multiplets;
+    }
+
+    template<typename Multiplet>
+    Multiplet SetClosestLepton(Multiplet& multiplet, const Jets& leptons) const {
+        if (leptons.empty()) throw "no leptons";
+        auto lepton = ClosestJet(leptons, multiplet);
+        multiplet.LeptonPt = lepton.pt();
+        multiplet.LeptonDeltaR = lepton.delta_R(multiplet.Jet());
+        return multiplet;
+    }
+
 private:
 
     std::string SignalFileName(Stage stage) const;
@@ -148,7 +193,7 @@ private:
     std::string Name(Stage stage) const;
 
     std::string BranchName(Stage stage, Tag tag) const;
-    
+
 
     /**
      * @brief Tree Branch pointer saving the results

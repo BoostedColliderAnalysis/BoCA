@@ -1,12 +1,7 @@
-#include "Global.hh"
-#include "Predicate.hh"
+#include "Particles.hh"
+#include "Types.hh"
 
 namespace analysis {
-
-int LargeNumber()
-{
-    return 999999999;
-}
 
 std::string Name(int id)
 {

@@ -7,54 +7,54 @@ namespace analysis {
 
 namespace toppartner {
 
-class Decuplet55 : public Multiplet<Quintet, Quintet> {
+class Decuplet55 : public TwoBody<Quintet, Quintet> {
 
 public:
 
-    using Multiplet<Quintet, Quintet>::Multiplet;
+    using TwoBody<Quintet, Quintet>::TwoBody;
 
-    Quintet& Quintet1() const
+    const Quintet& Quintet1() const
     {
         return Multiplet1();
     }
 
-    Quintet& Quintet2() const
+    const Quintet& Quintet2() const
     {
         return Multiplet2();
     }
 
 };
 
-class Decuplet73 : public Multiplet<analysis::toppartner::Septet, analysis::Triplet> {
+class Decuplet73 : public TwoBody<analysis::toppartner::Septet, analysis::Triplet> {
 
 public:
 
-    using Multiplet<Septet, Triplet>::Multiplet;
+  using TwoBody<analysis::toppartner::Septet, analysis::Triplet>::TwoBody;
 
-    analysis::toppartner::Septet& Septet() const
+    const analysis::toppartner::Septet& Septet() const
     {
         return Multiplet1();
     }
 
-    analysis::Triplet& Triplet() const
+    const analysis::Triplet& Triplet() const
     {
         return Multiplet2();
     }
 
 };
 
-class Decuplet82 : public Multiplet<Octet53, analysis::Doublet> {
+class Decuplet82 : public TwoBody<Octet53, analysis::Doublet> {
 
 public:
 
-  using Multiplet<Octet53, analysis::Doublet>::Multiplet;
+  using TwoBody<Octet53, analysis::Doublet>::TwoBody;
 
-  Octet53& Octet() const
+  const Octet53& Octet() const
   {
     return Multiplet1();
   }
 
-  analysis::Doublet& Doublet() const
+  const analysis::Doublet& Doublet() const
   {
     return Multiplet2();
   }

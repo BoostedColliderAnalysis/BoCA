@@ -54,12 +54,12 @@ analysis::Tag Identification::Tag() const
 }
 
 
-void Identification::SetFlag(const bool flag)
+void Identification::SetFlag(bool flag)
 {
     flag_ = flag;
 }
 
-void Identification::SetFlag(const bool flag_1, const bool flag_2)
+void Identification::SetFlag(bool flag_1, bool flag_2)
 {
     flag_ = flag_1 && flag_2;
 }

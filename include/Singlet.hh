@@ -1,29 +1,16 @@
 #pragma once
 
 #include "JetInfo.hh"
-#include "Vector2.hh"
-#include "Flag.hh"
+#include "MultipletBase.hh"
 
 namespace analysis
 {
-
-enum class Structure
-{
-    plain = 1,
-    constituents = 1 << 1,
-    vertices = 1 << 2
-};
-
-template<>
-struct Flag<Structure> {
-    static const bool enable = true;
-};
 
 /**
  * @brief Thin wrapper to make fastjet::PseudoJet behave like a Multiplet. Additionally this class astracts away the JetInfo user_info().
  *
  */
-class Singlet : public Identification
+class Singlet : public MultipletBase
 {
 
 public:
@@ -32,16 +19,12 @@ public:
 
     Singlet(const fastjet::PseudoJet& jet);
 
-    fastjet::PseudoJet& Jet(Structure) const {
+    fastjet::PseudoJet Jet() const {
         return jet_;
     }
 
-    fastjet::PseudoJet& Jet() const {
-        return jet_;
-    }
-
-    analysis::Jets Jets() const{
-      return {Jet()};
+    analysis::Jets Jets() const {
+        return {Jet()};
     }
 
     bool Overlap(const fastjet::PseudoJet& jet) const;
@@ -128,7 +111,10 @@ public:
         return UserInfo().Tag();
     }
 
-    float Bdt() const final { return UserInfo().Bdt(); }
+    float Bdt() const final {
+        if(UserInfo().Bdt() != initial_value()) return UserInfo().Bdt();
+        return 0;
+    }
 
     float Ht() const {
         return Jet().pt();
@@ -140,20 +126,19 @@ public:
 
     int Charge() const;
 
-    Singlet singlet() const;
-
-    Singlet singlet(Structure structure) const;
+    const Singlet& singlet() const;
 
     const JetInfo& UserInfo() const;
 
     Vector2 Pull() const;
 
-    /**
-     * @brief calculate Reference vector for other - this
-     * @return Vector2 reference vector
-     *
-     */
-    Vector2 Reference(const fastjet::PseudoJet& reference) const;
+    fastjet::PseudoJet& Jet() {
+        return jet_;
+    }
+
+    float BottomBdt() const final {
+      return Bdt();
+    }
 
 private:
 
@@ -163,7 +148,7 @@ private:
 
     float Spread(const fastjet::PseudoJet& jet) const;
 
-    mutable fastjet::PseudoJet jet_;
+    fastjet::PseudoJet jet_;
 
     JetInfo jet_info_;
 

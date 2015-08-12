@@ -3,7 +3,10 @@
 #include "Tagger.hh"
 #include "Singlet.hh"
 #include "TClonesArray.h"
-#include "Predicate.hh"
+#include "Sort.hh"
+#include "Vector.hh"
+#include "Math.hh"
+#include "Types.hh"
 #include "exroot/ExRootAnalysis.hh"
 
 namespace analysis
@@ -13,7 +16,9 @@ template<typename BranchTemplate>
 class BranchTagger : public Tagger
 {
 
-  const BranchTemplate &Branch() const final { return branch_; }
+    const BranchTemplate& Branch() const final {
+        return branch_;
+    }
 
 protected:
 
@@ -22,22 +27,22 @@ protected:
     }
 
     template<typename Multiplet>
-    std::vector<Multiplet> ReduceResult(std::vector<Multiplet>& multiplets, size_t max = 4) const {
+    std::vector<Multiplet> ReduceResult(std::vector<Multiplet> multiplets, size_t max = 4) const {
         if (multiplets.empty()) return multiplets;
         std::sort(multiplets.begin(), multiplets.end());
         multiplets.erase(multiplets.begin() + std::min(max, multiplets.size()), multiplets.end());
         return multiplets;
     }
 
-    Jets ReduceResult(Jets& jets, size_t max = 4) const {
+    Jets ReduceResult(Jets jets, size_t max = 4) const {
         if (jets.empty()) return jets;
-        std::sort(jets.begin(), jets.end(), SortByBdt());
+        jets = SortedByBdt(jets);
         jets.erase(jets.begin() + std::min(max, jets.size()), jets.end());
         return jets;
     }
 
     template<typename Multiplet>
-    std::vector<Multiplet> BestMass(std::vector<Multiplet>& multiplets, float mass, size_t number = 1) const {
+    std::vector<Multiplet> BestMass(std::vector<Multiplet> multiplets, float mass, size_t number = 1) const {
         if (multiplets.size() <= number) return multiplets;
         multiplets = SortedByMassTo(multiplets, mass);
         multiplets.erase(multiplets.begin() + number, multiplets.end());
@@ -45,27 +50,25 @@ protected:
     }
 
     template<typename Multiplet>
-    std::vector<Multiplet> BestRapidity(std::vector<Multiplet>& multiplets, size_t number = 1) const {
+    std::vector<Multiplet> BestRapidity(std::vector<Multiplet> multiplets, size_t number = 1) const {
         if (multiplets.size() <= number) return multiplets;
-        multiplets = SortByMaxDeltaRap(multiplets);
+        multiplets = SortedByMaxDeltaRap(multiplets);
         multiplets.erase(multiplets.begin() + number, multiplets.end());
         return multiplets;
     }
 
     template<typename Multiplet>
-    std::vector<Multiplet> BestMatch(std::vector<Multiplet>& multiplets, const Jets& particles) const {
-        if (multiplets.size() <= particles.size()) return multiplets;
+    std::vector<Multiplet> BestMatch(const std::vector<Multiplet>& multiplets, const Jets& particles) const {
         return CopyIfClose(multiplets, particles);
     }
 
     template<typename Multiplet>
-    std::vector<Multiplet> RemoveBestMatch(std::vector<Multiplet>& multiplets, const Jets& particles) const {
-        if (multiplets.size() <= particles.size()) return multiplets;
+    std::vector<Multiplet> RemoveBestMatch(const std::vector<Multiplet>& multiplets, const Jets& particles) const {
         return RemoveIfClose(multiplets, particles);
     }
 
     template<typename Multiplet>
-    std::vector<Multiplet> BestMatches(std::vector<Multiplet>& multiplets, const Jets& particles, Tag tag) const {
+    std::vector<Multiplet> BestMatches(std::vector<Multiplet> multiplets, const Jets& particles, Tag tag) const {
         std::sort(multiplets.begin(), multiplets.end());
         switch (tag) {
         case Tag::signal :
@@ -77,8 +80,8 @@ protected:
         }
     }
 
-    Jets BestMatches(Jets& jets, const Jets& particles, Tag tag) const {
-        std::sort(jets.begin(), jets.end(), SortByBdt());
+    Jets BestMatches(Jets jets, const Jets& particles, Tag tag) const {
+        jets = SortedByBdt(jets);
         switch (tag) {
         case Tag::signal :
             return BestMatch(jets, particles);
@@ -90,9 +93,9 @@ protected:
     }
 
     template<typename Multiplet>
-    int SaveEntries(const std::vector<Multiplet>& multiplets, size_t max = LargeNumber()) const {
+    int SaveEntries(std::vector<Multiplet> multiplets, size_t max = LargeNumber()) const {
         if (multiplets.empty()) return 0;
-//         if(multiplets.size() > 1) std::sort(multiplets.begin(),multiplets.end());
+        if (multiplets.size() > 1) std::sort(multiplets.begin(), multiplets.end());
         auto sum = std::min(multiplets.size(), max);
         for (const auto & counter : Range(sum)) {
             FillBranch(multiplets.at(counter));
@@ -101,16 +104,45 @@ protected:
         return sum;
     }
 
-    int SaveEntries(const std::vector<fastjet::PseudoJet>& jets, size_t max = LargeNumber()) const {
+    int SaveEntries(std::vector<fastjet::PseudoJet> jets, size_t max = LargeNumber()) const {
         if (jets.empty()) return 0;
-        for (const auto & counter : Range(std::min(jets.size(), max))) {
+        if (jets.size() > 1) jets = SortedByBdt(jets);
+        auto sum = std::min(jets.size(), max);
+        for (const auto & counter : Range(sum)) {
             FillBranch(Singlet(jets.at(counter)));
             static_cast<BranchTemplate&>(*TreeBranch().NewEntry()) = Branch();
         }
-        return jets.size();
+        return sum;
     }
 
-    TClass &Class() const final { return *BranchTemplate::Class(); }
+    template<typename Multiplet>
+    int SaveEntries(std::vector<Multiplet> multiplets, Jets particles, Tag tag) const {
+        return SaveEntries(BestMatches(multiplets, particles, tag));
+    }
+
+    int SaveEntries(std::vector<fastjet::PseudoJet> jets, Jets particles, Tag tag) const {
+        return SaveEntries(BestMatches(jets, particles, tag));
+    }
+
+//     template<typename Multiplet>
+//     int SaveEntries(const std::vector<Multiplet>& multiplets, const Jets& particles, Id id, Tag tag) const {
+//         Jets type = CopyIfParticle(particles, id);
+//         std::vector<Multiplet> matches = BestMatches(multiplets, type, tag);
+//         if (matches.size() > type.size()) matches = SortedByMassTo(matches, id);
+//         return SaveEntries(std::vector<Multiplet>(matches.begin(), matches.begin() + type.size()), type.size());
+//     }
+//
+//     template<typename Multiplet>
+//     int SaveEntries(const std::vector<Multiplet>& multiplets,const Jets& particles, int id, Tag tag) const {
+//       Jets type = CopyIfExactParticle(particles, id);
+//       std::vector<Multiplet> matches = BestMatches(multiplets, type, tag);
+//       if (matches.size() > type.size()) matches = SortedByMassTo(matches, id);
+//       return SaveEntries(std::vector<Multiplet>(matches.begin(), matches.begin() + type.size()), type.size());
+//     }
+
+    TClass& Class() const final {
+        return *BranchTemplate::Class();
+    }
 
     template<typename Multiplet>
     float Bdt(const Multiplet& multiplet, const TMVA::Reader& reader) const {
@@ -130,8 +162,8 @@ protected:
     }
 
 private:
-  float ReadBdt(const TClonesArray &clones_array,
-                int entry) const final {
+
+    float ReadBdt(const TClonesArray& clones_array, int entry) const final {
         return static_cast<BranchTemplate&>(*clones_array.At(entry)).Bdt;
     }
 

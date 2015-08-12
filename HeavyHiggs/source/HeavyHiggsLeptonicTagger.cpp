@@ -1,6 +1,8 @@
 #include "HeavyHiggsLeptonicTagger.hh"
+
 #include "WimpMass.hh"
-#include "Predicate.hh"
+#include "Quartet.hh"
+#include "Types.hh"
 #include "Event.hh"
 #include "Debug.hh"
 

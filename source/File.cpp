@@ -3,140 +3,21 @@
 #include "TFile.h"
 #include "TTree.h"
 
-#include "Predicate.hh"
+#include "Types.hh"
 #include "Debug.hh"
 
 namespace analysis {
 
-File::File()
-{
-    Debug();
-    SetVariables();
-    file_suffix_ = file_suffix();
-}
-
-File::File(const std::string& process)
-{
-    Debug();
-    SetVariables();
-    process_folders_.emplace_back(process);
-    file_suffix_ = file_suffix();
-}
-
-File::File(const std::string& process, float crosssection)
-{
-    Debug();
-    SetVariables();
-    process_folders_.emplace_back(process);
-    crossection_ = crosssection;
-    file_suffix_ = file_suffix();
-}
-
-File::File(const std::string& process, float crosssection, float mass)
-{
-    Debug();
-    SetVariables();
-    process_folders_.emplace_back(process);
-    crossection_ = crosssection;
-    mass_ = mass;
-    file_suffix_ = file_suffix();
-}
-
-File::File(const Strings& processes)
-{
-    Debug();
-    SetVariables();
-    process_folders_ = Join(process_folders_, processes);
-    file_suffix_ = file_suffix();
-}
-
-File::File(const Strings& processes, float crosssection)
-{
-    Debug();
-    SetVariables();
-    process_folders_ = Join(process_folders_, processes);
-    crossection_ = crosssection;
-    file_suffix_ = file_suffix();
-}
-
-File::File(const Strings& processes, float crosssection, float mass)
-{
-    Debug();
-    SetVariables();
-    process_folders_ = Join(process_folders_, processes);
-    crossection_ = crosssection;
-    mass_ = mass;
-    file_suffix_ = file_suffix();
-}
-
-File::File(const std::string& process, const std::string& run_folder)
-{
-    Debug();
-    SetVariables();
-    process_folders_.emplace_back(process);
-    run_folder_ = run_folder;
-    file_suffix_ = file_suffix();
-}
-
-File::File(const std::string& process, const std::string& base_path, const std::string& file_suffix, float crosssection)
-{
-    Debug();
-    SetVariables();
-    process_folders_.emplace_back(process);
-    base_path_ = base_path;
-    file_suffix_ = file_suffix;
-    crossection_ = crosssection;
-}
-
-File::File(const std::string& process, const std::string& base_path, const std::string& file_suffix)
-{
-    Debug();
-    SetVariables();
-    process_folders_.emplace_back(process);
-    base_path_ = base_path;
-    file_suffix_ = file_suffix;
-}
-
-File::File(const std::string& process, const std::string& base_path, const std::string& file_suffix, const std::string& nice_name)
-{
-    Debug();
-    SetVariables();
-    process_folders_.emplace_back(process);
-    base_path_ = base_path;
-    file_suffix_ = file_suffix;
-    nice_name_ = nice_name;
-}
-
-File::File(const Strings& processes, const std::string& base_path, const std::string& file_suffix, const std::string& nice_name)
+  File::File(const Strings& processes, const std::string& base_path, const std::string& file_suffix, const std::string& nice_name, float crosssection, float mass)
 {
   Debug();
   SetVariables();
-  process_folders_ = Join(process_folders_, processes);
+  process_folders_ = processes;
   base_path_ = base_path;
   file_suffix_ = file_suffix;
+  crosssection_ = crosssection;
   nice_name_ = nice_name;
-}
-
-File::File(const std::string& process, const std::string& base_path, const std::string& file_suffix, float crossection, const std::string& nice_name)
-{
-    Debug();
-    SetVariables();
-    process_folders_.emplace_back(process);
-    base_path_ = base_path;
-    file_suffix_ = file_suffix;
-    crossection_ = crossection;
-    nice_name_ = nice_name;
-}
-
-File::File(const Strings& processes, const std::string& base_path, const std::string& file_suffix, float crossection, const std::string& nice_name)
-{
-  Debug();
-  SetVariables();
-  process_folders_ = Join(process_folders_, processes);
-  base_path_ = base_path;
-  file_suffix_ = file_suffix;
-  crossection_ = crossection;
-  nice_name_ = nice_name;
+  mass_ = mass;
 }
 
 std::string File::file_suffix() const

@@ -41,6 +41,12 @@ public:
 
 private:
 
+    std::string ProjectName() const final
+    {
+        return  "WTagger-" + Name(this->collider_type()) + "-" + std::to_string(this->LowerPtCut()) + "GeV-" + Name(Process::tt) + "-jan";
+    }
+
+
     void SetFiles(Tag tag) final {
         switch (tag)
         {
@@ -59,18 +65,11 @@ private:
             break;
         }
     }
-
-    std::string ProjectName() const final
+    int PassPreCut(const Event& event, Tag) const final
     {
-        return  "WTagger-" + Name(this->collider_type()) + "-" + std::to_string(this->LowerPtCut()) + "GeV-" + Name(Process::tt) + "";
-    }
-
-    int PassPreCut(const Event&, Tag) const final
-    {
-        //     Jets particles = event.Partons().GenParticles();
-        //     Jets w = fastjet::sorted_by_pt(CopyIfParticle(particles, Id::W));
-        //     remove_if_not_in_pt_window(w, PreCut(), UpperCut());
-        return 1;
+      Jets particles = fastjet::sorted_by_pt(event.Partons().GenParticles());
+      if ((particles.at(0).pt() > this->LowerQuarkCut() && particles.at(0).pt() < this->UpperQuarkCut()) && (particles.at(1).pt() > this->LowerQuarkCut() &&  particles.at(1).pt() < this->UpperQuarkCut())) return 1;
+        return 0;
     }
 
 };

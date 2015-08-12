@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Analysis.hh"
+#include "DetectorGeometry.hh"
 #include "Debug.hh"
 
 namespace analysis {
@@ -11,16 +12,16 @@ enum class Process {
     tt, tt_lep, tt_had, hh, hh_bb, zz, zz_bb, ww, bb, cc, qq, gg
 };
 
-std::string Name(const Process process);
+std::string Name(Process process);
 
-std::string NiceName(const Process process);
+std::string NiceName(Process process);
 
 
 enum class Collider {
     LHC, FHC, LE
 };
 
-std::string Name(const Collider collider);
+std::string Name(Collider collider);
 
 /**
  *
@@ -34,23 +35,6 @@ class AnalysisStandardModel : public Analysis<Tagger> {
 
 protected:
 
-    long EventNumberMax() const override
-    {
-//             return 100;
-        //     return 1000;
-        return 5000;
-    }
-
-    std::string FileName(const Process process) const
-    {
-        return Name(process) + "_" + std::to_string(MadGraphCut()) + "GeV";
-    }
-
-    std::string FilePath() const final
-    {
-        return "~/Projects/Tagger/";
-    }
-
     int LowerPtCut() const
     {
         //         return 350;
@@ -59,6 +43,34 @@ protected:
         //     return 500;
         return 1000;
         //     return 1200;
+    }
+
+    long EventNumberMax() const override
+    {
+        return 5000;
+            return 1000;
+            return 100;
+    }
+
+    int BackgroundFileNumber() const
+    {
+        return 1;
+        //         return 2;
+        //       return 4;
+        //       return 5;
+        //       return 10;
+    }
+
+    Collider collider_type() const
+    {
+        //       return Collider::LHC;
+        //       return Collider::FHC;
+        return Collider::LE;
+    }
+
+    std::string FilePath() const final
+    {
+        return "~/Projects/Tagger/";
     }
 
     int UpperPtCut() const
@@ -105,25 +117,14 @@ protected:
         return UpperPtCut() * 1.1;
     }
 
-    Collider collider_type() const
-    {
-        //       return Collider::LHC;
-        //       return Collider::FHC;
-        return Collider::LE;
-    }
-
-    int BackgroundFileNumber() const
-    {
-        return 1;
-        //         return 2;
-        //       return 4;
-        //       return 5;
-        //       return 10;
-    }
-
-    void NewFile(Tag tag, const Process process)
+    void NewFile(Tag tag, Process process)
     {
         analysis::AnalysisBase::NewFile(tag, FileName(process), NiceName(process));
+    }
+
+    std::string FileName(Process process) const
+    {
+        return Name(process) + "_" + std::to_string(MadGraphCut()) + "GeV";
     }
 
 };

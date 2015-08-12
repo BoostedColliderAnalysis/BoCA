@@ -3,6 +3,7 @@
 #include "EventShapes.hh"
 #include "Analysis.hh"
 #include "JetInfo.hh"
+#include "TopLeptonicTagger.hh"
 #include "Debug.hh"
 
 namespace analysis
@@ -27,16 +28,27 @@ public:
     Analysis() {
         this->tagger().SetAnalysisName(ProjectName());
         DetectorGeometry::set_detector_type(DetectorType::CMS);
-//         this->pre_cuts().SetPtLowerCut(Id::higgs,100);
-        NoHiggs(-1);
-        SingleHiggs(-1);
+        this->pre_cuts().SetPtLowerCut(Id::higgs,200);
+        this->pre_cuts().SetMassLowerCut(Id::higgs,105);
+        this->pre_cuts().SetMassUpperCut(Id::higgs,145);
+        this->pre_cuts().SetSemiLeptonic(false);
+//         NoHiggs(-1);
+//         SingleHiggs(-1);
+    }
+
+protected:
+
+private:
+  
+    std::string ProjectName() const final {
+        return  "CPV-jan";
     }
 
     void SetFiles(Tag tag) final {
         switch (tag) {
         case Tag::signal :
-          this->NewFile(tag, "gg-tth", 0.0098);
-//             this->NewFile(tag, "pp-tth", 0.02267);
+//             this->NewFile(tag, "gg-tth", 0.0098);
+            this->NewFile(tag, "pp-tth", 0.02267);
             //         this->NewFile(tag, "pp-ttx0-bbbbllnunu-1", 0.02071);
 //             this->NewFile(tag, "pp-ttx0-bbbbllnunu-1", 0.008937);
             //         this->NewFile(tag, "pp-ttx0-bbbbllnunu-0.5", 0.01193);
@@ -48,9 +60,6 @@ public:
         }
     }
 
-    std::string ProjectName() const final {
-        return  "CPV-gg";
-    }
 
     std::string ProcessName() const final {
         return "higgscpv";
@@ -61,30 +70,30 @@ public:
      *
      */
     long EventNumberMax() const final {
-        return 1000;
-        return 10;
-        return 10000;
         return 5000;
+        return 10000;
+        return 1000;
+        return 100;
+        return 10;
     }
-
-protected:
-
-
-    std::string FilePath() const final {
-        return "~/Projects/HiggsCpv/Analysis/";
-    }
-
-private:
 
     int PassPreCut(const Event& event, Tag) const final {
-      if(this->tagger().Name() == "WLeptonic") return 0;
+//         if(this->tagger().Name() == "WLeptonic") return 0;
+//         if(this->tagger().Name() == "TopLeptonic") static_cast<TopLeptonicTagger&>(this->tagger()).semi_leptonic = false;
+//         Jets leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
+//         if (leptons.size() < 2) return 0;
+//         if (leptons.at(1).pt() < 40) return 0;
 //         Jets jets = event.Hadrons().Jets();
         Jets gen_particles = event.Partons().GenParticles();
-        Jets higgs = CopyIfParticles(gen_particles, Id::CP_violating_higgs,Id::higgs);
+        Jets higgs = CopyIfParticles(gen_particles, Id::CP_violating_higgs, Id::higgs);
         if (higgs.empty()) {
 //         Error(NoHiggs(), higgs.size());
-          return 1;
+            return 1;
         }
+//         if(higgs.front().pt() < 200) return 0;
+//         static int pre_cut=0;
+//         ++pre_cut;
+//         Error(pre_cut);
 //         Particle particle = higgs.front().user_info<JetInfo>().constituents().front().family().particle();
 //         Particle mother1 = higgs.front().user_info<JetInfo>().constituents().front().family().mother_1();
 //         Particle mother2 = higgs.front().user_info<JetInfo>().constituents().front().family().mother_2();
@@ -95,19 +104,25 @@ private:
         return higgs.size();
     }
 
-static int NoHiggs(int zero = -10){
-  static int i = -1;
-  if(zero != -10) i = zero;
-  ++i;
-  return i;
-}
 
-static int SingleHiggs(int zero = -10){
-  static int j = -1;
-  if(zero != -10) j = zero;
-  ++j;
-  return j;
-}
+    std::string FilePath() const final {
+        return "~/Projects/HiggsCpv/Analysis/";
+    }
+
+
+//     static int NoHiggs(int zero = -10) {
+//         static int i = -1;
+//         if (zero != -10) i = zero;
+//         ++i;
+//         return i;
+//     }
+//
+//     static int SingleHiggs(int zero = -10) {
+//         static int j = -1;
+//         if (zero != -10) j = zero;
+//         ++j;
+//         return j;
+//     }
 
 };
 

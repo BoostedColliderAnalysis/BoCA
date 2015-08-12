@@ -1,4 +1,5 @@
 #include "WLeptonicTagger.hh"
+
 #include "Event.hh"
 #include "Debug.hh"
 
@@ -28,7 +29,7 @@ int WLeptonicTagger::Train(const Event& event, const analysis::PreCuts&, Tag tag
         for (auto& doublet : post_doublets) {
             if (tag == Tag::signal && std::abs(doublet.Jet().m() - Mass(Id::W)) > w_mass_window_) continue;
             bool in_cone = false;
-            for (const auto& w_boson : w_bosons) if (doublet.Coincides(w_boson)) in_cone = true;
+            for (const auto& w_boson : w_bosons) if (Close(w_boson)(doublet)) in_cone = true;
             switch (tag) {
             case Tag::signal :
                 if (!in_cone) continue;
@@ -119,7 +120,7 @@ int WLeptonicTagger::WLeptonicId(const Jets& jets) const
     bool first = true;
     bool just_one = true;
     for (const auto jet : jets) {
-        int id = jet.user_info<JetInfo>().constituents().front().family().mother_1().id();
+        int id = jet.user_info<JetInfo>().Family().mother_1().id();
         if (first) sign = sgn(id);
         else if (sign != sgn(id)) just_one = false;
         first = false;
