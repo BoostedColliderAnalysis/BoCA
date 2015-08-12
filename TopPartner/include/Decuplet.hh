@@ -13,12 +13,12 @@ public:
 
     using TwoBody<Quintet, Quintet>::TwoBody;
 
-    const Quintet& Quintet1() const
+    Quintet const& Quintet1() const
     {
         return Multiplet1();
     }
 
-    const Quintet& Quintet2() const
+    Quintet const& Quintet2() const
     {
         return Multiplet2();
     }
@@ -31,12 +31,12 @@ public:
 
   using TwoBody<analysis::toppartner::Septet, analysis::Triplet>::TwoBody;
 
-    const analysis::toppartner::Septet& Septet() const
+    analysis::toppartner::Septet const& Septet() const
     {
         return Multiplet1();
     }
 
-    const analysis::Triplet& Triplet() const
+    analysis::Triplet const& Triplet() const
     {
         return Multiplet2();
     }
@@ -49,12 +49,12 @@ public:
 
   using TwoBody<Octet53, analysis::Doublet>::TwoBody;
 
-  const Octet53& Octet() const
+  Octet53 const& Octet() const
   {
     return Multiplet1();
   }
 
-  const analysis::Doublet& Doublet() const
+  analysis::Doublet const& Doublet() const
   {
     return Multiplet2();
   }

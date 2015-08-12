@@ -35,7 +35,7 @@ private:
 
 public:
 
-    void operator=(const TLorentzVector& lorentzvector);
+    void operator=(TLorentzVector const& lorentzvector);
 
 // Safe indexing of the coordinates when using with matrices, arrays, etc.
     enum { kX = 0, kY = 1, kZ = 2, kT = 3, kNUM_COORDINATES = 4, kSIZE = kNUM_COORDINATES };

@@ -17,7 +17,7 @@ public:
 
     Jets GetCandidateJetsForced(const Jets&, const float);
 
-    static bool JetIsBad(const fastjet::PseudoJet& Jet);
+    static bool JetIsBad(fastjet::PseudoJet const& Jet);
 
 };
 

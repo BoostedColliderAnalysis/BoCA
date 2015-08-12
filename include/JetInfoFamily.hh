@@ -50,7 +50,7 @@ public:
 
     int MaximalId() const;
 
-    void AddFamily(const Family& family, float weight);
+    void AddFamily(Family const& family, float weight);
 
     void ExtractFamilyFraction();
 

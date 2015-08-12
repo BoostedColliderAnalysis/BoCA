@@ -14,10 +14,10 @@ class MultipletEvent : public analysis::TwoBody<Multiplet_1, analysis::Singlet> 
 
 public:
 
-    MultipletEvent(const Multiplet_1& multiplet, const Event& event, Jets& jets) {
+    MultipletEvent(const Multiplet_1& multiplet, Event const& event, Jets& jets) {
         global_observables_.SetEvent(event);
         Jets unique_jets;
-        for (const auto &jet : jets) if (!multiplet.Overlap(jet)) unique_jets.emplace_back(jet);
+        for (auto const& jet : jets) if (!multiplet.Overlap(jet)) unique_jets.emplace_back(jet);
         global_observables_.SetJets(unique_jets);
         analysis::TwoBody<Multiplet_1, analysis::Singlet>::SetMultiplets(multiplet,global_observables_.Singlet());
     }

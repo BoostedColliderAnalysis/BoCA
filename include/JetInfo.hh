@@ -35,25 +35,25 @@ public:
 
     JetInfo(float bdt);
 
-    JetInfo(const ::delphes::Jet& jet);
+    JetInfo(::delphes::Jet const& jet);
 
     JetInfo(int charge);
 
-    JetInfo(const Constituent& constituent);
+    JetInfo(Constituent const& constituent);
 
-    JetInfo(const Constituent& constituent, int charge);
+    JetInfo(Constituent const& constituent, int charge);
 
-    JetInfo(const std::vector<Constituent>& constituents);
+    JetInfo(std::vector<Constituent> const& constituents);
 
     JetInfo operator+(const JetInfo &jet_info);
 
     JetInfo& operator+=(const JetInfo &jet_info);
 
-    void AddConstituent(const Constituent& constituent);
+    void AddConstituent(Constituent const& constituent);
 
-    void AddConstituents(const std::vector<Constituent>& constituents);
+    void AddConstituents(std::vector<Constituent> const& constituents);
 
-    void AddConstituents(const std::vector<Constituent>& constituents, const std::vector<Constituent>& displaced_constituents);
+    void AddConstituents(std::vector<Constituent> const& constituents, std::vector<Constituent> const& displaced_constituents);
 
     float VertexMass() const;
 
@@ -69,13 +69,13 @@ public:
 
     float VertexEnergy() const;
 
-    float ElectroMagneticRadius(const fastjet::PseudoJet& jet) const;
+    float ElectroMagneticRadius(fastjet::PseudoJet const& jet) const;
 
-    float TrackRadius(const fastjet::PseudoJet& jet) const;
+    float TrackRadius(fastjet::PseudoJet const& jet) const;
 
     float LeadingTrackMomentumFraction() const;
 
-    float CoreEnergyFraction(const fastjet::PseudoJet& jet) const;
+    float CoreEnergyFraction(fastjet::PseudoJet const& jet) const;
 
     float ElectroMagneticFraction() const;
 
@@ -91,9 +91,9 @@ public:
 
     analysis::Family Family() const;
 
-    void SetDelphesTags(const ::delphes::Jet& jet);
+    void SetDelphesTags(::delphes::Jet const& jet);
 
-    void SetConstituents(const std::vector<Constituent>& constituents);
+    void SetConstituents(std::vector<Constituent> const& constituents);
 
     bool SubStructure() const{
       return sub_structure_;
@@ -105,9 +105,9 @@ public:
 
 private:
 
-    JetInfo(const std::vector<Constituent>& constituents, const std::vector<Constituent>& dispalced_constituents);
+    JetInfo(std::vector<Constituent> const& constituents, std::vector<Constituent> const& dispalced_constituents);
 
-    void SetConstituent(const Constituent& constituent);
+    void SetConstituent(Constituent const& constituent);
 
     void SetBTag(bool b_tag);
 
@@ -123,7 +123,7 @@ private:
 
     std::vector<Constituent> ApplyVertexResolution(std::vector<Constituent> constituents) const;
 
-    bool VertexResultion(const Constituent& constituent) const;
+    bool VertexResultion(Constituent const& constituent) const;
 
     std::vector<Constituent> constituents_;
 
@@ -138,15 +138,5 @@ private:
     bool sub_structure_ = true;
 
 };
-
-/**
- * @brief sort vector of jets with largest bdt at the front
- *
- */
-struct SortByBdt {
-  bool operator()(const fastjet::PseudoJet& jet_1, const fastjet::PseudoJet& jet_2);
-};
-
-Jets SortedByBdt(Jets jets);
 
 }

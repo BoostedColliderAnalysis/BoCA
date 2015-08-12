@@ -7,7 +7,7 @@
 
 namespace analysis {
 
-Jets Discriminator::GetCandidateJets(const Jets& EFlowJets, float ScalarHt)
+Jets Discriminator::GetCandidateJets(Jets const& EFlowJets, float ScalarHt)
 {
     Info("Tagged Candidate Jets", EFlowJets.size());
     Jets jets;
@@ -28,7 +28,7 @@ Jets Discriminator::GetCandidateJets(const Jets& EFlowJets, float ScalarHt)
 }
 
 
-Jets Discriminator::GetCandidateJetsForced(const Jets& EFlowJets, float ScalarHt)
+Jets Discriminator::GetCandidateJetsForced(Jets const& EFlowJets, float ScalarHt)
 {
     Info("Tagged Candidate Jets", EFlowJets.size());
     Jets jets;
@@ -53,7 +53,7 @@ Jets Discriminator::GetCandidateJetsForced(const Jets& EFlowJets, float ScalarHt
 }
 
 
-bool Discriminator::JetIsBad(const fastjet::PseudoJet& Jet)
+bool Discriminator::JetIsBad(fastjet::PseudoJet const& Jet)
 {
     if (std::abs(Jet.m()) <= 40.) {
         Info("Fat Jet Mass", Jet.m());

@@ -110,7 +110,7 @@ private:
         return "Neutral";
     }
 
-    int PassPreCut(const Event& event, Tag) const override
+    int PassPreCut(Event const& event, Tag) const override
     {
         Jets Particles = event.Partons().GenParticles();
         Jets Tops = CopyIfParticle(Particles, Id::top);

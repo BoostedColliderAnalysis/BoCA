@@ -14,29 +14,29 @@ public:
 
     Constituent();
 
-    Constituent(const TLorentzVector& momentum, const LorentzVector& position, const Family& family);
+    Constituent(TLorentzVector const& momentum, LorentzVector const& position, Family const& family);
 
-    Constituent(const TLorentzVector& momentum, const LorentzVector& position);
+    Constituent(TLorentzVector const& momentum, LorentzVector const& position);
 
-    Constituent(const TLorentzVector& momentum, const LorentzVector& position, const SubDetector sub_detector, float charge = 0);
+    Constituent(TLorentzVector const& momentum, LorentzVector const& position, SubDetector sub_detector, float charge = 0);
 
-    Constituent(const TLorentzVector& momentum, const Family& family);
+    Constituent(TLorentzVector const& momentum, Family const& family);
 
-    Constituent(const LorentzVector& momentum, const Family& family);
+    Constituent(LorentzVector const& momentum, Family const& family);
 
-    Constituent(const TLorentzVector& momentum);
+    Constituent(TLorentzVector const& momentum);
 
-    Constituent(const TLorentzVector& momentum, const SubDetector sub_detector, float charge);
+    Constituent(TLorentzVector const& momentum, SubDetector sub_detector, float charge);
 
-    Constituent(const TLorentzVector& momentum, const SubDetector sub_detector);
+    Constituent(TLorentzVector const& momentum, SubDetector sub_detector);
 
-    void SetPosition(const TLorentzVector& position);
+    void SetPosition(TLorentzVector const& position);
 
     void SetPosition(float x, float y, float z, float t);
 
-    void SetMomentum(const TLorentzVector& momentum);
+    void SetMomentum(TLorentzVector const& momentum);
 
-    void SetFamily(const Family& family);
+    void SetFamily(Family const& family);
 
     LorentzVector Position() const;
 
@@ -44,9 +44,9 @@ public:
 
     Family family() const;
 
-    Constituent operator+(const Constituent& constituent);
+    Constituent operator+(Constituent const& constituent);
 
-    void SetDetector(const SubDetector sub_detector);
+    void SetDetector(SubDetector sub_detector);
 
     SubDetector sub_detector() const;
 

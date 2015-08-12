@@ -8,7 +8,7 @@
 
 namespace analysis {
 
-  File::File(const Strings& processes, const std::string& base_path, const std::string& file_suffix, const std::string& nice_name, float crosssection, float mass)
+  File::File(Strings const& processes, std::string const& base_path, std::string const& file_suffix, std::string const& nice_name, float crosssection, float mass)
 {
   Debug();
   SetVariables();
@@ -71,15 +71,15 @@ Strings File::Paths() const
 {
     Info();
     Strings FilePaths;
-    for (const auto& process_folder : process_folders_) FilePaths.emplace_back(base_path_ + process_folder + file_suffix_);
+    for (auto const& process_folder : process_folders_) FilePaths.emplace_back(base_path_ + process_folder + file_suffix_);
     return FilePaths;
 }
 
 exroot::TreeReader File::TreeReader()
 {
-    for(const auto path : Paths()) Note(path);
+    for(auto const& path : Paths()) Note(path);
     chain_ = new TChain(tree_name().c_str());
-    for (const auto& path : Paths()) chain_->Add(path.c_str());
+    for (auto const& path : Paths()) chain_->Add(path.c_str());
     return exroot::TreeReader(chain_);
 }
 

@@ -19,14 +19,14 @@ JetInfo::JetInfo(float bdt)
     SetCharge(LargeNumber());
 }
 
-void JetInfo::SetDelphesTags(const ::delphes::Jet& jet)
+void JetInfo::SetDelphesTags(::delphes::Jet const& jet)
 {
     SetBTag(jet.BTag);
     SetTauTag(jet.TauTag);
     SetCharge(jet.Charge);
 }
 
-JetInfo::JetInfo(const ::delphes::Jet& jet)
+JetInfo::JetInfo(::delphes::Jet const& jet)
 {
   SetDelphesTags(jet);
   SetCharge(LargeNumber());
@@ -37,31 +37,31 @@ JetInfo::JetInfo(int charge)
     SetCharge(charge);
 }
 
-JetInfo::JetInfo(const Constituent& constituent)
+JetInfo::JetInfo(Constituent const& constituent)
 {
   SetConstituent(constituent);
 }
 
-JetInfo::JetInfo(const Constituent& constituent, int charge)
+JetInfo::JetInfo(Constituent const& constituent, int charge)
 {
     SetConstituent(constituent);
     SetCharge(charge);
 }
 
-JetInfo::JetInfo(const std::vector<Constituent>& constituents)
+JetInfo::JetInfo(std::vector<Constituent> const& constituents)
 {
   SetConstituents(constituents);
   SetCharge(LargeNumber());
 }
 
-JetInfo::JetInfo(const std::vector<Constituent>& constituents, const std::vector<Constituent>& displaced_constituents)
+JetInfo::JetInfo(std::vector<Constituent> const& constituents, std::vector<Constituent> const& displaced_constituents)
 {
     constituents_ = constituents;
     displaced_constituents_ = displaced_constituents;
     SetCharge(LargeNumber());
 }
 
-JetInfo JetInfo::operator+(const JetInfo& jet_info)
+JetInfo JetInfo::operator+(JetInfo const& jet_info)
 {
   JetInfo result(Join(this->constituents(),jet_info.constituents()), Join(this->displaced_constituents(),jet_info.displaced_constituents()));
   result.SetBTag(this->BTag() + jet_info.BTag());
@@ -70,7 +70,7 @@ JetInfo JetInfo::operator+(const JetInfo& jet_info)
   return result;
 }
 
-JetInfo& JetInfo::operator+=(const JetInfo& jet_info)
+JetInfo& JetInfo::operator+=(JetInfo const& jet_info)
 {
   this->AddConstituents(jet_info.constituents(), jet_info.displaced_constituents());
   this->b_tag_+= jet_info.BTag();
@@ -80,31 +80,31 @@ JetInfo& JetInfo::operator+=(const JetInfo& jet_info)
 }
 
 
-void JetInfo::SetConstituent(const Constituent& constituent)
+void JetInfo::SetConstituent(Constituent const& constituent)
 {
   constituents_.emplace_back(constituent);
   if (VertexResultion(constituent)) displaced_constituents_.emplace_back(constituent);
 }
 
-void JetInfo::SetConstituents(const std::vector<Constituent>& constituents)
+void JetInfo::SetConstituents(std::vector<Constituent> const& constituents)
 {
   constituents_ = constituents;
   displaced_constituents_ = ApplyVertexResolution(constituents);
 }
 
-void JetInfo::AddConstituent(const Constituent& constituent)
+void JetInfo::AddConstituent(Constituent const& constituent)
 {
     constituents_.emplace_back(constituent);
     if (VertexResultion(constituent)) displaced_constituents_.emplace_back(constituent);
 }
 
-void JetInfo::AddConstituents(const std::vector<Constituent>& constituents)
+void JetInfo::AddConstituents(std::vector<Constituent> const& constituents)
 {
     constituents_ = Join(constituents_, constituents);
     displaced_constituents_ = Join(displaced_constituents_, ApplyVertexResolution(constituents));
 }
 
-void JetInfo::AddConstituents(const std::vector<Constituent>& constituents, const std::vector<Constituent>& displaced_constituents)
+void JetInfo::AddConstituents(std::vector<Constituent> const& constituents, std::vector<Constituent> const& displaced_constituents)
 {
   constituents_ = Join(constituents_, constituents);
   displaced_constituents_ = Join(displaced_constituents_, displaced_constituents);
@@ -128,7 +128,7 @@ int JetInfo::VertexNumber() const
 fastjet::PseudoJet JetInfo::VertexJet() const
 {
     Jets jets;
-    for (const auto& consituent : displaced_constituents_) jets.emplace_back(PseudoJet(consituent.Momentum()));
+    for (auto const& consituent : displaced_constituents_) jets.emplace_back(PseudoJet(consituent.Momentum()));
     return fastjet::join(jets);
 }
 
@@ -136,7 +136,7 @@ float JetInfo::SumDisplacement() const
 {
     Debug();
     if (displaced_constituents_.empty()) return 0;
-    return std::accumulate(displaced_constituents_.rbegin(), displaced_constituents_.rend(), 0, [](float result, const Constituent& constituent){
+    return std::accumulate(displaced_constituents_.rbegin(), displaced_constituents_.rend(), 0, [](float result, Constituent const& constituent){
       return (result + constituent.Position().Vect().Perp());
     });
 }
@@ -153,7 +153,7 @@ float JetInfo::MaxDisplacement() const
     Debug();
     if (displaced_constituents_.empty())
         return 0;
-    return (*std::max_element(displaced_constituents_.begin(), displaced_constituents_.end(), [](const Constituent& constituent_1, const Constituent& constituent_2){
+    return (*std::max_element(displaced_constituents_.begin(), displaced_constituents_.end(), [](Constituent const& constituent_1, Constituent const& constituent_2){
       return constituent_1.Position().Vect().Perp() > constituent_2.Position().Vect().Perp();
     } )).Position().Vect().Perp();
 }
@@ -161,7 +161,7 @@ float JetInfo::MaxDisplacement() const
 float JetInfo::VertexMass() const
 {
     Debug();
-    float vertex_mass = std::accumulate(displaced_constituents_.begin(), displaced_constituents_.end(), LorentzVector(),[](const LorentzVector& momentum,const Constituent &constituent){
+    float vertex_mass = std::accumulate(displaced_constituents_.begin(), displaced_constituents_.end(), LorentzVector(),[](LorentzVector const& momentum,Constituent const&constituent){
       return momentum + constituent.Momentum();
     }).M();
     Debug(vertex_mass);
@@ -183,22 +183,22 @@ std::vector<Constituent> JetInfo::ApplyVertexResolution(std::vector<Constituent>
     if (constituents.empty())
         return constituents;
     std::vector <Constituent> displaced_constituents;
-    for (const auto& constituent : constituents) if (VertexResultion(constituent)) displaced_constituents.emplace_back(constituent);
+    for (auto const& constituent : constituents) if (VertexResultion(constituent)) displaced_constituents.emplace_back(constituent);
     Debug(displaced_constituents.size());
     return displaced_constituents;
 }
 
-bool JetInfo::VertexResultion(const Constituent& constituent) const
+bool JetInfo::VertexResultion(Constituent const& constituent) const
 {
     Debug(constituent.Position().Perp());
     return (constituent.Position().Vect().Perp() > DetectorGeometry::TrackerDistanceMin() & constituent.Position().Vect().Perp() < DetectorGeometry::TrackerDistanceMax() & std::abs(constituent.Momentum().Rapidity()) < DetectorGeometry::TrackerEtaMax());
 }
 
-float JetInfo::ElectroMagneticRadius(const fastjet::PseudoJet& jet) const
+float JetInfo::ElectroMagneticRadius(fastjet::PseudoJet const& jet) const
 {
     float energy = 0;
     float weight = 0;
-    for (const auto& constituent : constituents()) if (constituent.sub_detector() == SubDetector::photon) {
+    for (auto const& constituent : constituents()) if (constituent.sub_detector() == SubDetector::photon) {
             energy += constituent.Momentum().Et();
             weight += constituent.Momentum().Et() * jet.delta_R(fastjet::PseudoJet(constituent.Momentum()));
         }
@@ -206,11 +206,11 @@ float JetInfo::ElectroMagneticRadius(const fastjet::PseudoJet& jet) const
     else return weight / energy;
 }
 
-float JetInfo::TrackRadius(const fastjet::PseudoJet& jet) const
+float JetInfo::TrackRadius(fastjet::PseudoJet const& jet) const
 {
     float energy = 0;
     float weight = 0;
-    for (const auto& constituent : constituents()) if (constituent.sub_detector() == SubDetector::track) {
+    for (auto const& constituent : constituents()) if (constituent.sub_detector() == SubDetector::track) {
             energy += constituent.Momentum().Et();
             weight += constituent.Momentum().Et() * jet.delta_R(fastjet::PseudoJet(constituent.Momentum()));
         }
@@ -219,11 +219,11 @@ float JetInfo::TrackRadius(const fastjet::PseudoJet& jet) const
 }
 
 struct IsDetector {
-    IsDetector(const SubDetector sub_detector)
+    IsDetector(SubDetector sub_detector)
     {
         sub_detector_ = sub_detector;
     }
-    bool operator()(const Constituent& constituent)
+    bool operator()(Constituent const& constituent)
     {
         return constituent.sub_detector() != sub_detector_;
     }
@@ -234,20 +234,20 @@ float JetInfo::LeadingTrackMomentumFraction() const
 {
     std::vector<Constituent> consts = constituents();
     consts.erase(std::remove_if(consts.begin(), consts.end(), IsDetector(SubDetector::track)), consts.end());
-    std::sort(consts.begin(), consts.end(), [](const Constituent& constituent_1, const Constituent& constituent_2){
+    std::sort(consts.begin(), consts.end(), [](Constituent const& constituent_1, Constituent const& constituent_2){
       return (constituent_1.Momentum().Pt() > constituent_2.Momentum().Pt());
     });
-    float sum = std::accumulate(consts.rbegin(), consts.rend(), 0, [](float result, const Constituent& constituent){
+    float sum = std::accumulate(consts.rbegin(), consts.rend(), 0, [](float result, Constituent const& constituent){
       return (result + constituent.Momentum().Pt());
     });
     return consts.front().Momentum().Pt() / sum;
 }
 
-float JetInfo::CoreEnergyFraction(const fastjet::PseudoJet& jet) const
+float JetInfo::CoreEnergyFraction(fastjet::PseudoJet const& jet) const
 {
     float energy = 0;
     float core_energy = 0;
-    for (const auto& constituent : constituents()) if (constituent.sub_detector() == SubDetector::photon) {
+    for (auto const& constituent : constituents()) if (constituent.sub_detector() == SubDetector::photon) {
             energy += constituent.Momentum().Et();
             if (jet.delta_R(fastjet::PseudoJet(constituent.Momentum())) < 0.2)
                 core_energy += constituent.Momentum().Et();
@@ -262,7 +262,7 @@ float JetInfo::ElectroMagneticFraction() const
 {
     float em_energy = 0;
     float energy = 0;
-    for (const auto& constituent : constituents()) {
+    for (auto const& constituent : constituents()) {
         energy += constituent.Momentum().Et();
         if (constituent.sub_detector() == SubDetector::photon)
             em_energy += constituent.Momentum().Et();
@@ -276,7 +276,7 @@ float JetInfo::ElectroMagneticFraction() const
 float JetInfo::ClusterMass() const
 {
     fastjet::PseudoJet jet;
-    for (const auto& constituent : constituents()) if (constituent.sub_detector() == SubDetector::photon)
+    for (auto const& constituent : constituents()) if (constituent.sub_detector() == SubDetector::photon)
             jet += constituent.Momentum();
     return jet.m();
 }
@@ -284,7 +284,7 @@ float JetInfo::ClusterMass() const
 float JetInfo::TrackMass() const
 {
     fastjet::PseudoJet jet;
-    for (const auto& constituent : constituents()) if (constituent.sub_detector() == SubDetector::track)
+    for (auto const& constituent : constituents()) if (constituent.sub_detector() == SubDetector::track)
             jet += constituent.Momentum();
     return jet.m();
 }
@@ -294,7 +294,7 @@ int JetInfo::Charge() const
     Debug();
     if (charge_ != LargeNumber())
         return charge_;
-    int charge = std::accumulate(constituents_.begin(), constituents_.end(), 0, [](int charge, const Constituent & constituent) {
+    int charge = std::accumulate(constituents_.begin(), constituents_.end(), 0, [](int charge, Constituent const& constituent) {
         return charge + constituent.charge();
     });
     return charge;
@@ -326,27 +326,17 @@ Family JetInfo::Family() const
 
 void JetInfo::SecondayVertex() const
 {
-    auto leading = std::max_element(constituents_.begin(), constituents_.end(), [](const Constituent& consituent_1, const Constituent& constituent_2) {
+    auto leading = std::max_element(constituents_.begin(), constituents_.end(), [](Constituent const& consituent_1, Constituent const& constituent_2) {
         return consituent_1.Momentum().Pt() < constituent_2.Momentum().Pt();
     });
     float x = (*leading).Position().X();
     float y = (*leading).Position().Y();
     float radius = (*leading).Position().Perp() / 2;
     std::vector<Constituent> constituents;
-    auto it = std::copy_if(constituents_.begin(), constituents_.end(), constituents.begin(), [&](const Constituent & constituent) {
+    auto it = std::copy_if(constituents_.begin(), constituents_.end(), constituents.begin(), [&](Constituent const& constituent) {
         return (constituent.Position().X() < x + radius && constituent.Position().X() > x - radius && constituent.Position().Y() < y + radius && constituent.Position().Y() > y - radius);
     });
     constituents.resize(std::distance(constituents.begin(), it));
-}
-
-bool SortByBdt::operator()(const fastjet::PseudoJet& jet_1, const fastjet::PseudoJet& jet_2)
-{
-    return jet_1.user_info<analysis::JetInfo>().Bdt() > jet_2.user_info<analysis::JetInfo>().Bdt();
-}
-Jets SortedByBdt(Jets jets)
-{
-    std::sort(jets.begin(), jets.end(), SortByBdt());
-    return jets;
 }
 
 }

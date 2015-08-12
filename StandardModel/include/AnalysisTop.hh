@@ -73,7 +73,7 @@ private:
         }
     }
 
-    int PassPreCut(const Event& event, Tag) const final {
+    int PassPreCut(Event const& event, Tag) const final {
         Jets particles = fastjet::sorted_by_pt(event.Partons().GenParticles());
         if ((particles.at(0).pt() > this->LowerQuarkCut() && particles.at(0).pt() < this->UpperQuarkCut()) && (particles.at(1).pt() > this->LowerQuarkCut() &&  particles.at(1).pt() < this->UpperQuarkCut())) return 1;
         return 0;

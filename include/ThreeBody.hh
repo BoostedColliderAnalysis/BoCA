@@ -18,7 +18,7 @@ public:
         SetMultiplets(multiplet_1, multiplet_2, multiplet_3);
     }
 
-    ThreeBody(const fastjet::PseudoJet& jet) {
+    ThreeBody(fastjet::PseudoJet const& jet) {
         SetJet(jet);
     }
 
@@ -29,7 +29,7 @@ public:
         SetBdt((multiplet_1_.Bdt() + multiplet_2_.Bdt() + multiplet_3_.Bdt()) / 3);
     }
 
-    void SetJet(const fastjet::PseudoJet& jet) {
+    void SetJet(fastjet::PseudoJet const& jet) {
         static_cast<JetInfo&>(*jet.user_info_shared_ptr().get()).SetSubStructure(false);
         multiplet_1_ = Multiplet_1(jet / 3);
         multiplet_2_ = Multiplet_2(jet / 3);
@@ -37,11 +37,11 @@ public:
         SetBdt((multiplet_1_.Bdt() + multiplet_2_.Bdt() + multiplet_2_.Bdt()) / 3);
     }
 
-    void SetSinglet(const fastjet::PseudoJet& jet) const {
+    void SetSinglet(fastjet::PseudoJet const& jet) const {
         singlet_ = Singlet(jet);
     }
 
-    const analysis::Singlet& singlet() const {
+    analysis::Singlet const& singlet() const {
         if (!has_jet_) SetSinglet(Jet());
         return singlet_;
     }
@@ -59,15 +59,15 @@ public:
     }
 
     template <typename Multiplet>
-    bool Overlap(const Multiplet& multiplet) const {
+    bool Overlap(Multiplet const& multiplet) const {
         return (multiplet.Overlap(multiplet_1_) || multiplet.Overlap(multiplet_2_) || multiplet.Overlap(multiplet_3_));
     }
 
-    bool Overlap(const analysis::Singlet& singlet) const {
+    bool Overlap(analysis::Singlet const& singlet) const {
         return (multiplet_1_.Overlap(singlet) || multiplet_2_.Overlap(singlet) || multiplet_3_.Overlap(singlet));
     }
 
-    bool Overlap(const fastjet::PseudoJet& jet) const {
+    bool Overlap(fastjet::PseudoJet const& jet) const {
         return (multiplet_1_.Overlap(jet) || multiplet_2_.Overlap(jet) || multiplet_3_.Overlap(jet));
     }
 
@@ -266,23 +266,23 @@ private:
 
     Multiplet_3 multiplet_3_;
 
-    void SetResult(const fastjet::PseudoJet& jet) const {
+    void SetResult(fastjet::PseudoJet const& jet) const {
         jet_ = jet;
         SetSinglet(jet);
         has_jet_ = true;
     }
 
-    void SetResult12(const fastjet::PseudoJet& jet) const {
+    void SetResult12(fastjet::PseudoJet const& jet) const {
         jet_12_ = jet;
         has_jet_12_ = true;
     }
 
-    void SetResult23(const fastjet::PseudoJet& jet) const {
+    void SetResult23(fastjet::PseudoJet const& jet) const {
         jet_23_ = jet;
         has_jet_23_ = true;
     }
 
-    void SetResult13(const fastjet::PseudoJet& jet) const {
+    void SetResult13(fastjet::PseudoJet const& jet) const {
         jet_13_ = jet;
         has_jet_13_ = true;
     }

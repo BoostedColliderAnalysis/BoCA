@@ -11,7 +11,7 @@ namespace analysis {
 
 class Obs {
 public:
-    Obs(const float& value, const std::string& name, const std::string& nice_name);
+    Obs(const float& value, std::string const& name, std::string const& nice_name);
     float& value() const;
     std::string name() const;
     std::string nice_name() const;
@@ -59,7 +59,7 @@ public:
     float Bdt;
     float Tag;
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(Multiplet const& multiplet)
     {
         Tag = int(multiplet.Tag());
         Bdt = multiplet.Bdt();
@@ -83,7 +83,7 @@ public:
     float Phi;
     float Charge;
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(Multiplet const& multiplet)
     {
       ResultBranch::Fill(multiplet);
         Mass = multiplet.Jet().m();
@@ -120,12 +120,12 @@ public:
     float VertexSpread;
     float EnergyFraction;
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(Multiplet const& multiplet)
     {
         Fill2(multiplet.singlet());
     }
     template<typename Singlet>
-    void Fill2(const Singlet& singlet)
+    void Fill2(Singlet const& singlet)
     {
         VertexMass = singlet.VertexMass();
         MaxDisplacement = singlet.MaxDisplacement();
@@ -156,7 +156,7 @@ public:
   Observables Variables() const;
   Observables Spectators() const;
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(Multiplet const& multiplet)
     {
         ParticleBranch::Fill(multiplet);
         BottomBase::Fill(multiplet);
@@ -183,7 +183,7 @@ public:
     float FlightPath;
     float TrtHtFraction;
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(Multiplet const& multiplet)
     {
         ParticleBranch::Fill(multiplet);
         EmRadius = multiplet.EmRadius();
@@ -220,7 +220,7 @@ public:
     float DeltaPull;
     float Dipolarity;
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(Multiplet const& multiplet)
     {
         ParticleBranch::Fill(multiplet);
         Ht = multiplet.Ht();
@@ -249,7 +249,7 @@ public:
     MultiBranch();
     float DeltaHt;
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(Multiplet const& multiplet)
     {
         PairBranch::Fill(multiplet);
         DeltaHt = multiplet.DeltaHt();
@@ -303,7 +303,7 @@ public:
 //     float BdtRatio23;
 //     float BdtRatio24;
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(Multiplet const& multiplet)
     {
         PairBranch::Fill(multiplet);
         Jet1Pt = multiplet.Singlet1().Jet().pt();
@@ -342,7 +342,7 @@ public:
     float TopBdt;
     float TopBTag;
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(Multiplet const& multiplet)
     {
         PairBranch::Fill(multiplet);
         BottomPt = multiplet.Singlet().Jet().pt();
@@ -375,7 +375,7 @@ public:
     float LeptonPt;
     float NeutrinoPt;
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(Multiplet const& multiplet)
     {
         PairBranch::Fill(multiplet);
         LeptonPt = multiplet.Singlet1().Jet().pt();
@@ -400,7 +400,7 @@ public:
     float WMass;
     float LeptonPt;
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(Multiplet const& multiplet)
     {
         MultiBranch::Fill(multiplet);
         BottomBase::Fill(multiplet);
@@ -426,7 +426,7 @@ public:
     float BottomPt;
     float LeptonPt;
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(Multiplet const& multiplet)
     {
         PairBranch::Fill(multiplet);
         BottomBase::Fill(multiplet);
@@ -451,7 +451,7 @@ public:
     float LeptonPt;
     float LeptonDeltaR;
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(Multiplet const& multiplet)
     {
         PairBranch::Fill(multiplet);
         BottomBase::Fill(multiplet);
@@ -487,7 +487,7 @@ public:
     float JetPhi;
 
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(Multiplet const& multiplet)
     {
         analysis::MultiBranch::Fill(multiplet);
         LeptonNumber = multiplet.GlobalObservables().LeptonNumber();

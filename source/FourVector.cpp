@@ -146,7 +146,7 @@ fastjet::PseudoJet FourVector::PseudoJet(const exroot::Tau& Particle) const
     return analysis::PseudoJet(LorentzVectorByMass(Particle, Mass(Id::tau)));
 }
 
-Family FourVector::BranchFamily(const TObject& object) const
+Family FourVector::BranchFamily(TObject const& object) const
 {
     Error("Code is disabled", clones_arrays().ParticleSum());
     std::vector<Family>topology_;
@@ -223,8 +223,8 @@ Family FourVector::BranchFamily(Family& family, int Position) const
                 if (particle.M1 < particle.M2) {
                     Debug("String", Position, particle.M1, particle.M2);
                     JetInfoFamily jet_info;
-                    //                     for (const auto& Counter = ParticleClone.M2; Counter >= ParticleClone.M1; --Counter) {
-                    for (const auto& counter : Range(particle.M1,particle.M2)) {
+                    //                     for (auto const& Counter = ParticleClone.M2; Counter >= ParticleClone.M1; --Counter) {
+                    for (auto const& counter : Range(particle.M1,particle.M2)) {
 //                         BranchFamily = BranchFamily(BranchFamily, Counter);
                         Family NewFamily = BranchFamily(family, counter);
                         jet_info.AddFamily(NewFamily, NewFamily.Pt());
@@ -233,7 +233,7 @@ Family FourVector::BranchFamily(Family& family, int Position) const
                     }
                     jet_info.PrintAllFamInfos(Severity::debug);
                     if (jet_info.FamilyFractions().size() > 1) {
-                      for (const auto& counter : Range(particle.M1,particle.M2)) topology_.at(counter).UnSetMarker();
+                      for (auto const& counter : Range(particle.M1,particle.M2)) topology_.at(counter).UnSetMarker();
                         Debug("To many String fractions");
                     };
                     family = jet_info.MaximalFamily();
@@ -277,8 +277,8 @@ void FourVector::PrintTruthLevel(const analysis::Severity severity) const
         PrintCell("Py");
         PrintCell("Pz");
         std::cout << std::endl;
-        //         for (const auto& Position : HRange(clones_arrays().GetParticleSum())) {
-        for (const auto& Position : Range(30)) {
+        //         for (auto const& Position : HRange(clones_arrays().GetParticleSum())) {
+        for (auto const& Position : Range(30)) {
             ::delphes::GenParticle& Particle = static_cast<::delphes::GenParticle&>(clones_arrays().Particle(Position));
             PrintCell(Position);
             PrintCell(Name(topology_.at(Position).particle().id()));

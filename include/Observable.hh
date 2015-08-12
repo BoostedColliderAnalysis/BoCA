@@ -8,7 +8,7 @@ class Observable {
 
 public:
 
-    Observable(float& value, const std::string& expression, const std::string& title, const std::string& unit);
+    Observable(float& value, std::string const& expression, std::string const& title, std::string const& unit);
 
     float& value() const;
 

@@ -11,7 +11,7 @@
 
 namespace analysis {
 
-void WimpMass::Momentum(double momentum[4], const fastjet::PseudoJet& jet)
+void WimpMass::Momentum(double momentum[4], fastjet::PseudoJet const& jet)
 {
     momentum[0] = jet.E();
     momentum[1] = jet.px();
@@ -19,15 +19,15 @@ void WimpMass::Momentum(double momentum[4], const fastjet::PseudoJet& jet)
     momentum[3] = jet.pz();
 }
 
-std::vector<analysis::Sextet> WimpMass::Sextets(const std::vector<Quartet22>& quartets, const fastjet::PseudoJet& missing_et)
+std::vector<analysis::Sextet> WimpMass::Sextets(const std::vector<Quartet22>& quartets, fastjet::PseudoJet const& missing_et)
 {
     std::vector<analysis::Sextet> sextets;
-    for (const auto& quartet : quartets)
+    for (auto const& quartet : quartets)
         Join(sextets, Sextets(quartet, missing_et));
     return sextets;
 }
 
-std::vector<analysis::Sextet> WimpMass::Sextets(const Quartet22& quartet, const fastjet::PseudoJet& missing_et)
+std::vector<analysis::Sextet> WimpMass::Sextets(const Quartet22& quartet, fastjet::PseudoJet const& missing_et)
 {
     Info("Triple Pairs");
     event22 structure;
@@ -46,7 +46,7 @@ std::vector<analysis::Sextet> WimpMass::Sextets(const Quartet22& quartet, const 
     solve22(structure, Mass(Id::electron_neutrino), Mass(Id::W), Mass(Id::top), solution_sum, momentum_1, momentum_2);
     Debug("Number solutions", solution_sum);
     std::vector<analysis::Sextet> sextets;
-    for (const auto& solution_number : Range(solution_sum)) {
+    for (auto const& solution_number : Range(solution_sum)) {
         Debug("Solution ", solution_number);
         Debug("Neutrino 1 (p1)" , PseudoJet(momentum_1[solution_number]));
         Debug("Neutrino 2 (p2)" , PseudoJet(momentum_2[solution_number]));
@@ -88,7 +88,7 @@ std::vector<analysis::Sextet> WimpMass::Sextets(const Quartet22& quartet, const 
     return sextets;
 }
 
-std::vector<analysis::Sextet> WimpMass::Sextet(const Quartet22& quartet, const fastjet::PseudoJet& missing_et, const Jets& neutrinos, Tag tag)
+std::vector<analysis::Sextet> WimpMass::Sextet(const Quartet22& quartet, fastjet::PseudoJet const& missing_et, Jets const& neutrinos, Tag tag)
 {
     Info("Triple Pair");
     std::vector<analysis::Sextet> sextets = Sextets(quartet, missing_et);
@@ -96,16 +96,16 @@ std::vector<analysis::Sextet> WimpMass::Sextet(const Quartet22& quartet, const f
     if (sextets.empty())
         return sextets;
 //     if (Neutrinos.size() < 2) return sextets;
-    for (const auto& neutrino : neutrinos)
+    for (auto const& neutrino : neutrinos)
         Debug(neutrino);
     Debug(neutrinos[0] + neutrinos[1]);
     Debug(missing_et);
     std::map<float, analysis::Sextet> map;
-    for (const auto& sextet : sextets) {
+    for (auto const& sextet : sextets) {
         fastjet::PseudoJet neutrino_1 = sextet.Triplet1().Doublet().Singlet2().Jet();
         fastjet::PseudoJet neutrino_2 = sextet.Triplet2().Doublet().Singlet2().Jet();
         std::vector<float> errors_1, errors_2;
-        for (const auto& neutrino : neutrinos) {
+        for (auto const& neutrino : neutrinos) {
             //             Error("Neutrino Mass", Neutrino.m());
             errors_1.emplace_back((neutrino + neutrino_1).m());
             Debug("Neutrino 1 Error", (neutrino + neutrino_1).m());
@@ -113,8 +113,8 @@ std::vector<analysis::Sextet> WimpMass::Sextet(const Quartet22& quartet, const f
             Debug("Neutrino 2 Error", (neutrino + neutrino_2).m());
         }
         float error = LargeNumber();
-        for (const auto& error_1 : errors_1)
-            for (const auto& error_2 : errors_2) {
+        for (auto const& error_1 : errors_1)
+            for (auto const& error_2 : errors_2) {
                 if (&error_1 - &errors_1[0] == &error_2 - &errors_2[0])
                     continue;
                 if (error_1 + error_2 < error)
@@ -133,14 +133,14 @@ std::vector<analysis::Sextet> WimpMass::Sextet(const Quartet22& quartet, const f
         map[error] = sextet;
         Debug("TriplePair Bdt", sextet.Bdt());
     }
-    for (const auto& pair : map)
+    for (auto const& pair : map)
         Debug("Neutrino Error Sum", pair.first);
     if (tag == Tag::signal)
         map.erase(std::next(map.begin()), map.end());
     else
         map.erase(map.begin());
     std::vector<analysis::Sextet> final_sextets;
-    for (const auto& pair : map) {
+    for (auto const& pair : map) {
         analysis::Sextet sextet = pair.second;
         final_sextets.emplace_back(sextet);
     }

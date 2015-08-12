@@ -17,7 +17,7 @@ public:
 
     Singlet() {};
 
-    Singlet(const fastjet::PseudoJet& jet);
+    Singlet(fastjet::PseudoJet const& jet);
 
     fastjet::PseudoJet Jet() const {
         return jet_;
@@ -27,9 +27,9 @@ public:
         return {Jet()};
     }
 
-    bool Overlap(const fastjet::PseudoJet& jet) const;
+    bool Overlap(fastjet::PseudoJet const& jet) const;
 
-    bool Overlap(const Singlet& singlet) const;
+    bool Overlap(Singlet const& singlet) const;
 
     float VertexMass() const {
         return UserInfo().VertexMass();
@@ -126,9 +126,9 @@ public:
 
     int Charge() const;
 
-    const Singlet& singlet() const;
+    Singlet const& singlet() const;
 
-    const JetInfo& UserInfo() const;
+    JetInfo const& UserInfo() const;
 
     Vector2 Pull() const;
 
@@ -144,9 +144,9 @@ private:
 
     float log(float number) const;
 
-    float Radius(const fastjet::PseudoJet& jet) const;
+    float Radius(fastjet::PseudoJet const& jet) const;
 
-    float Spread(const fastjet::PseudoJet& jet) const;
+    float Spread(fastjet::PseudoJet const& jet) const;
 
     fastjet::PseudoJet jet_;
 

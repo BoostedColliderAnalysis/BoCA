@@ -11,14 +11,14 @@ TopPartnerHiggsPairTagger::TopPartnerHiggsPairTagger()
     DefineVariables();
 }
 
-int TopPartnerHiggsPairTagger::Train(const Event& event, const PreCuts&, Tag tag) const
+int TopPartnerHiggsPairTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
     Info();
     std::vector<Quintet> quintets = top_partner_hadronic_reader_.Multiplets(event);
     std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
     std::vector<Septet> septets;
-    for (const auto& quintet :  quintets) {
-        for (const auto& doublet : doublets) {
+    for (auto const& quintet :  quintets) {
+        for (auto const& doublet : doublets) {
             Septet septet(quintet, doublet);
             if (septet.Overlap())
                 continue;
@@ -29,13 +29,13 @@ int TopPartnerHiggsPairTagger::Train(const Event& event, const PreCuts&, Tag tag
     return SaveEntries(septets);
 }
 
-std::vector<Septet> TopPartnerHiggsPairTagger::Multiplets(const Event& event, const analysis::PreCuts&, const TMVA::Reader& reader) const
+std::vector<Septet> TopPartnerHiggsPairTagger::Multiplets(Event const& event, analysis::PreCuts const&, TMVA::Reader const& reader) const
 {
     std::vector<Quintet> quintets = top_partner_hadronic_reader_.Multiplets(event);
     std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
     std::vector<Septet> septets;
-    for (const auto& quintet :  quintets) {
-        for (const auto& doublet : doublets) {
+    for (auto const& quintet :  quintets) {
+        for (auto const& doublet : doublets) {
             Septet septet(quintet, doublet);
             if (septet.Overlap())
                 continue;

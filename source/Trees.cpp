@@ -40,7 +40,7 @@ void Trees::WriteTree()
     Error(event_number_, pre_cut_number_, object_sum_);
     if (!analysis_empty_) tree_writer_.Write();
 }
-void Trees::UseBranches(File& file, const std::string& name)
+void Trees::UseBranches(File& file, std::string const& name)
 {
     tree_branch_ = tree_writer_.NewBranch(name.c_str(), InfoBranch::Class());
     tree_reader_ = file.TreeReader();

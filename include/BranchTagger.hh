@@ -58,21 +58,24 @@ protected:
     }
 
     template<typename Multiplet>
-    std::vector<Multiplet> BestMatch(const std::vector<Multiplet>& multiplets, const Jets& particles) const {
-        return CopyIfClose(multiplets, particles);
+    std::vector<Multiplet> BestMatch(const std::vector<Multiplet>& multiplets, Jets const& particles, Id id = Id::empty) const {
+        std::vector<Multiplet> close = CopyIfClose(multiplets, particles);
+        close = SortedByBdt(close);
+        if (id != Id::empty) close = SortedByMassTo(close, id);
+        return std::vector<Multiplet>(&close[0], &close[std::min(close.size(), particles.size())]);
     }
 
     template<typename Multiplet>
-    std::vector<Multiplet> RemoveBestMatch(const std::vector<Multiplet>& multiplets, const Jets& particles) const {
+    std::vector<Multiplet> RemoveBestMatch(const std::vector<Multiplet>& multiplets, Jets const& particles) const {
         return RemoveIfClose(multiplets, particles);
     }
 
     template<typename Multiplet>
-    std::vector<Multiplet> BestMatches(std::vector<Multiplet> multiplets, const Jets& particles, Tag tag) const {
+    std::vector<Multiplet> BestMatches(std::vector<Multiplet> multiplets, Jets const& particles, Tag tag, Id id = Id::empty) const {
         std::sort(multiplets.begin(), multiplets.end());
         switch (tag) {
         case Tag::signal :
-            return BestMatch(multiplets, particles);
+            return BestMatch(multiplets, particles, id);
             break;
         case Tag::background  :
             return RemoveBestMatch(multiplets, particles);
@@ -80,11 +83,11 @@ protected:
         }
     }
 
-    Jets BestMatches(Jets jets, const Jets& particles, Tag tag) const {
+    Jets BestMatches(Jets jets, Jets const& particles, Tag tag, Id id = Id::empty) const {
         jets = SortedByBdt(jets);
         switch (tag) {
         case Tag::signal :
-            return BestMatch(jets, particles);
+            return BestMatch(jets, particles, id);
             break;
         case Tag::background  :
             return RemoveBestMatch(jets, particles);
@@ -97,7 +100,7 @@ protected:
         if (multiplets.empty()) return 0;
         if (multiplets.size() > 1) std::sort(multiplets.begin(), multiplets.end());
         auto sum = std::min(multiplets.size(), max);
-        for (const auto & counter : Range(sum)) {
+        for (auto const& counter : Range(sum)) {
             FillBranch(multiplets.at(counter));
             static_cast<BranchTemplate&>(*TreeBranch().NewEntry()) = Branch();
         }
@@ -108,7 +111,7 @@ protected:
         if (jets.empty()) return 0;
         if (jets.size() > 1) jets = SortedByBdt(jets);
         auto sum = std::min(jets.size(), max);
-        for (const auto & counter : Range(sum)) {
+        for (auto const& counter : Range(sum)) {
             FillBranch(Singlet(jets.at(counter)));
             static_cast<BranchTemplate&>(*TreeBranch().NewEntry()) = Branch();
         }
@@ -116,16 +119,12 @@ protected:
     }
 
     template<typename Multiplet>
-    int SaveEntries(std::vector<Multiplet> multiplets, Jets particles, Tag tag) const {
-        return SaveEntries(BestMatches(multiplets, particles, tag));
-    }
-
-    int SaveEntries(std::vector<fastjet::PseudoJet> jets, Jets particles, Tag tag) const {
-        return SaveEntries(BestMatches(jets, particles, tag));
+    int SaveEntries(std::vector<Multiplet> multiplets, Jets particles, Tag tag, Id id = Id::empty) const {
+        return SaveEntries(BestMatches(multiplets, particles, tag, id));
     }
 
 //     template<typename Multiplet>
-//     int SaveEntries(const std::vector<Multiplet>& multiplets, const Jets& particles, Id id, Tag tag) const {
+//     int SaveEntries(const std::vector<Multiplet>& multiplets, Jets const& particles, Id id, Tag tag) const {
 //         Jets type = CopyIfParticle(particles, id);
 //         std::vector<Multiplet> matches = BestMatches(multiplets, type, tag);
 //         if (matches.size() > type.size()) matches = SortedByMassTo(matches, id);
@@ -133,7 +132,7 @@ protected:
 //     }
 //
 //     template<typename Multiplet>
-//     int SaveEntries(const std::vector<Multiplet>& multiplets,const Jets& particles, int id, Tag tag) const {
+//     int SaveEntries(const std::vector<Multiplet>& multiplets,Jets const& particles, int id, Tag tag) const {
 //       Jets type = CopyIfExactParticle(particles, id);
 //       std::vector<Multiplet> matches = BestMatches(multiplets, type, tag);
 //       if (matches.size() > type.size()) matches = SortedByMassTo(matches, id);
@@ -145,12 +144,12 @@ protected:
     }
 
     template<typename Multiplet>
-    float Bdt(const Multiplet& multiplet, const TMVA::Reader& reader) const {
+    float Bdt(Multiplet const& multiplet, TMVA::Reader const& reader) const {
         FillBranch(multiplet);
         return Tagger::Bdt(reader);
     }
 
-    float Bdt(const fastjet::PseudoJet& jet, const TMVA::Reader& reader) const {
+    float Bdt(fastjet::PseudoJet const& jet, TMVA::Reader const& reader) const {
         FillBranch(Singlet(jet));
         return Tagger::Bdt(reader);
     }
@@ -168,15 +167,15 @@ private:
     }
 
     void AddVariables() {
-        for (const auto & variable : Branch().Variables()) AddVariable(variable.value(), variable.name());
+        for (auto const& variable : Branch().Variables()) AddVariable(variable.value(), variable.name());
     }
 
     void AddSpectators() {
-        for (const auto & spectator : Branch().Spectators()) AddSpectator(spectator.value(), spectator.name());
+        for (auto const& spectator : Branch().Spectators()) AddSpectator(spectator.value(), spectator.name());
     }
 
     template<typename Multiplet>
-    void FillBranch(const Multiplet& multiplet) const {
+    void FillBranch(Multiplet const& multiplet) const {
         branch_.Fill(multiplet);
     }
 

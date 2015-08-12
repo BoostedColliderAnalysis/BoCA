@@ -166,7 +166,7 @@ protected:
     fastjet::PseudoJet PseudoJet(const exroot::Photon& Particle) const;
     fastjet::PseudoJet PseudoJet(const exroot::Tau& Particle) const;
 
-    Family BranchFamily(const TObject& object) const;
+    Family BranchFamily(TObject const& object) const;
 
     Family BranchFamily(Family& BranchId, int Position) const;
 //     fastjet::PseudoJet PseudoJet(const MissingET & Particle) const;

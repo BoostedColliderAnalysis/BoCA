@@ -12,14 +12,14 @@ EventChargedTagger::EventChargedTagger()
     DefineVariables();
 }
 
-int EventChargedTagger::Train(const analysis::Event& event, const analysis::PreCuts&, Tag tag) const
+int EventChargedTagger::Train(analysis::Event const& event, analysis::PreCuts const&, Tag tag) const
 {
     Info();
     Jets jets = bottom_reader_.Multiplets(event);
     Jets Leptons = event.Leptons().leptons();
     std::vector<Octet44> octets = signature_semi_reader_.Multiplets(event);
     std::vector<MultipletEvent<Octet44>> events;
-    for (const auto& octet : octets) {
+    for (auto const& octet : octets) {
         MultipletEvent<Octet44> octetevent(octet, event, jets);
         octetevent.SetTag(tag);
         events.emplace_back(octetevent);
@@ -28,7 +28,7 @@ int EventChargedTagger::Train(const analysis::Event& event, const analysis::PreC
 }
 
 
-std::vector<MultipletEvent<Octet44>> EventChargedTagger::Multiplets(const Event& event, const PreCuts&, const TMVA::Reader& reader) const
+std::vector<MultipletEvent<Octet44>> EventChargedTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
 {
     Info();
     Jets jets = bottom_reader_.Multiplets(event);

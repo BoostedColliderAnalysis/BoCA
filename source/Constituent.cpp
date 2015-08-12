@@ -4,20 +4,20 @@ namespace analysis {
 
 Constituent::Constituent() {};
 
-Constituent::Constituent(const TLorentzVector& momentum, const analysis::LorentzVector& position, const analysis::Family& family)
+Constituent::Constituent(TLorentzVector const& momentum, const analysis::LorentzVector& position, const analysis::Family& family)
 {
     momentum_ = momentum;
     position_ = position;
     family_ = family;
 }
 
-Constituent::Constituent(const TLorentzVector& momentum, const analysis::LorentzVector& position)
+Constituent::Constituent(TLorentzVector const& momentum, const analysis::LorentzVector& position)
 {
     momentum_ = momentum;
     position_ = position;
 }
 
-Constituent::Constituent(const TLorentzVector& momentum, const analysis::LorentzVector& position, const analysis::SubDetector sub_detector, float charge)
+Constituent::Constituent(TLorentzVector const& momentum, const analysis::LorentzVector& position, const analysis::SubDetector sub_detector, float charge)
 {
     momentum_ = momentum;
     position_ = position;
@@ -25,37 +25,37 @@ Constituent::Constituent(const TLorentzVector& momentum, const analysis::Lorentz
     charge_ = charge;
 }
 
-Constituent::Constituent(const TLorentzVector& momentum, const Family& family)
+Constituent::Constituent(TLorentzVector const& momentum, Family const& family)
 {
     momentum_ = momentum;
     family_ = family;
 }
 
-Constituent::Constituent(const LorentzVector& momentum, const Family& family)
+Constituent::Constituent(LorentzVector const& momentum, Family const& family)
 {
     momentum_ = momentum;
     family_ = family;
 }
 
-Constituent::Constituent(const TLorentzVector& momentum)
+Constituent::Constituent(TLorentzVector const& momentum)
 {
     momentum_ = momentum;
 }
 
-Constituent::Constituent(const TLorentzVector& momentum, const SubDetector sub_detector, float charge)
+Constituent::Constituent(TLorentzVector const& momentum, SubDetector sub_detector, float charge)
 {
     momentum_ = momentum;
     sub_detector_ = sub_detector;
     charge_ = charge;
 }
 
-Constituent::Constituent(const TLorentzVector& momentum, const SubDetector sub_detector)
+Constituent::Constituent(TLorentzVector const& momentum, SubDetector sub_detector)
 {
     momentum_ = momentum;
     sub_detector_ = sub_detector;
 }
 
-void Constituent::SetPosition(const TLorentzVector& position)
+void Constituent::SetPosition(TLorentzVector const& position)
 {
     position_ = position;
 }
@@ -65,12 +65,12 @@ void Constituent::SetPosition(float x, float y, float z, float t)
     position_.SetXYZT(x, y, z, t);
 }
 
-void Constituent::SetMomentum(const TLorentzVector& momentum)
+void Constituent::SetMomentum(TLorentzVector const& momentum)
 {
     momentum_ = momentum;
 }
 
-void Constituent::SetFamily(const Family& family)
+void Constituent::SetFamily(Family const& family)
 {
     family_ = family;
 }
@@ -90,7 +90,7 @@ Family Constituent::family() const
     return family_;
 }
 
-Constituent Constituent::operator+(const Constituent& constituent)
+Constituent Constituent::operator+(Constituent const& constituent)
 {
     position_ += constituent.position_;
     momentum_ += constituent.momentum_;
@@ -98,7 +98,7 @@ Constituent Constituent::operator+(const Constituent& constituent)
     return *this;
 }
 
-void Constituent::SetDetector(const SubDetector detector)
+void Constituent::SetDetector(SubDetector detector)
 {
     sub_detector_ = detector;
 }

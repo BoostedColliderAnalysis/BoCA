@@ -13,7 +13,7 @@ namespace analysis
     DefineVariables();
 }
 
-int TopLeptonicTagger::Train(const Event& event, const analysis::PreCuts& pre_cuts, Tag tag) const
+int TopLeptonicTagger::Train(Event const& event, analysis::PreCuts const& pre_cuts, Tag tag) const
 {
     Info();
     bool do_fake_leptons = false;
@@ -26,12 +26,12 @@ int TopLeptonicTagger::Train(const Event& event, const analysis::PreCuts& pre_cu
     Info(leptons.size());
     std::vector<Doublet> doublets;
     if (use_w_) doublets = w_leptonic_reader_.Multiplets(event);
-    else for (const auto & lepton : leptons) doublets.emplace_back(Doublet(lepton));
+    else for (auto const& lepton : leptons) doublets.emplace_back(Doublet(lepton));
 
     Debug(jets.size(), doublets.size());
     std::vector<Triplet> triplets;
-    for (const auto & jet : jets) {
-        for (const auto & doublet : doublets) {
+    for (auto const& jet : jets) {
+        for (auto const& doublet : doublets) {
             Triplet triplet(doublet, jet);
             if (Problematic(triplet, pre_cuts, tag)) continue;
             triplet.SetTag(tag);
@@ -46,12 +46,12 @@ int TopLeptonicTagger::Train(const Event& event, const analysis::PreCuts& pre_cu
     return SaveEntries(triplets, tops, tag);
 }
 
-fastjet::PseudoJet TopLeptonicTagger::FakeLepton(const fastjet::PseudoJet& jet) const
+fastjet::PseudoJet TopLeptonicTagger::FakeLepton(fastjet::PseudoJet const& jet) const
 {
     return fastjet::PseudoJet(jet.px(), jet.py(), jet.pz(), jet.e()) / jet.pt() * DetectorGeometry::LeptonMinPt();
 }
 
-Jets TopLeptonicTagger::Particles(const Event& event, const PreCuts& pre_cuts) const
+Jets TopLeptonicTagger::Particles(Event const& event, PreCuts const& pre_cuts) const
 {
     Jets particles = event.Partons().GenParticles();
     if (pre_cuts.SemiLeptonic()) {
@@ -63,7 +63,7 @@ Jets TopLeptonicTagger::Particles(const Event& event, const PreCuts& pre_cuts) c
     } else return CopyIfParticle(particles, Id::top);
 }
 
-bool TopLeptonicTagger::Problematic(const Triplet& triplet, const PreCuts& pre_cuts) const
+bool TopLeptonicTagger::Problematic(Triplet const& triplet, PreCuts const& pre_cuts) const
 {
     if (pre_cuts.PtLowerCut(Id::top) > 0 && triplet.Jet().pt() < pre_cuts.PtLowerCut(Id::top)) return true;
     if (pre_cuts.PtUpperCut(Id::top) > 0 && triplet.Jet().pt() > pre_cuts.PtUpperCut(Id::top)) return true;
@@ -71,7 +71,7 @@ bool TopLeptonicTagger::Problematic(const Triplet& triplet, const PreCuts& pre_c
     return false;
 }
 
-bool TopLeptonicTagger::Problematic(const analysis::Triplet& triplet, const analysis::PreCuts& pre_cuts, Tag tag) const
+bool TopLeptonicTagger::Problematic(analysis::Triplet const& triplet, analysis::PreCuts const& pre_cuts, Tag tag) const
 {
     if (Problematic(triplet, pre_cuts)) return true;
     switch (tag) {
@@ -86,7 +86,7 @@ bool TopLeptonicTagger::Problematic(const analysis::Triplet& triplet, const anal
     return false;
 }
 
-std::vector<Triplet> TopLeptonicTagger::Multiplets(const Event& event, const analysis::PreCuts& pre_cuts, const TMVA::Reader& reader) const
+std::vector<Triplet> TopLeptonicTagger::Multiplets(Event const& event, analysis::PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
     Info();
     bool do_fake_leptons = false;
@@ -99,9 +99,9 @@ std::vector<Triplet> TopLeptonicTagger::Multiplets(const Event& event, const ana
     if (do_fake_leptons && leptons.empty()) leptons.emplace_back(FakeLepton(jets.front()));
     std::vector<Doublet> doublets;
     if (use_w_) doublets = w_leptonic_reader_.Multiplets(event);
-    else for (const auto & lepton : leptons) doublets.emplace_back(Doublet(lepton));
-    for (const auto & jet : jets) {
-        for (const auto & doublet : doublets) {
+    else for (auto const& lepton : leptons) doublets.emplace_back(Doublet(lepton));
+    for (auto const& jet : jets) {
+        for (auto const& doublet : doublets) {
             Triplet triplet(doublet, jet);
             if (Problematic(triplet, pre_cuts)) continue;
             triplet.SetBdt(Bdt(triplet, reader));
@@ -110,7 +110,7 @@ std::vector<Triplet> TopLeptonicTagger::Multiplets(const Event& event, const ana
     }
     return ReduceResult(triplets);
 }
-int TopLeptonicTagger::TopLeptonicId(const Event& event) const
+int TopLeptonicTagger::TopLeptonicId(Event const& event) const
 {
     return sgn(w_leptonic_reader_.Tagger().WLeptonicId(event)) * to_int(Id::top);
 }

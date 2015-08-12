@@ -5,7 +5,7 @@
 
 namespace analysis {
 
-Obs::Obs(const float& value, const std::string& name, const std::string& nice_name) : value_(&const_cast<float&>(value))
+Obs::Obs(const float& value, std::string const& name, std::string const& nice_name) : value_(&const_cast<float&>(value))
 {
     name_ = name;
     nice_name_ = nice_name;
@@ -394,7 +394,7 @@ std::vector<int> Color::Table(std::vector<double>& length, std::vector<double>& 
     std::vector<int> colors(50);
     int color_table = TColor::CreateGradientColorTable(length.size(), &length[0], &red[0], &green[0], &blue[0], colors.size());
     for (size_t step = 0; step < colors.size(); ++step) colors[step] = color_table + step;
-    //     for (const auto &color : colors) colors[color] = color_table + (&color - &colors[0]);
+    //     for (auto const& color : colors) colors[color] = color_table + (&color - &colors[0]);
     return colors;
 }
 

@@ -19,27 +19,27 @@ public:
 
     TopLeptonicTagger();
 // 
-    int Train(const Event& event, const PreCuts& pre_cuts,
+    int Train(Event const& event, PreCuts const& pre_cuts,
               Tag tag) const override;
 
-    std::vector<Triplet> Multiplets(const Event& event, const analysis::PreCuts& pre_cuts, const TMVA::Reader& reader) const;
+    std::vector<Triplet> Multiplets(Event const& event, analysis::PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    int GetBdt(const Event& event, const PreCuts& pre_cuts,
-               const TMVA::Reader& reader) const final {
+    int GetBdt(Event const& event, PreCuts const& pre_cuts,
+               TMVA::Reader const& reader) const final {
 //         do_fake_leptons = true;
         return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
 //         return SaveEntries(Multiplets(event, pre_cuts, reader), Particles(event).size());
     }
 
-    bool Problematic(const Triplet& triplet, const PreCuts& pre_cuts, Tag tag) const;
+    bool Problematic(Triplet const& triplet, PreCuts const& pre_cuts, Tag tag) const;
 
-    bool Problematic(const Triplet& triplet, const PreCuts& pre_cuts) const;
+    bool Problematic(Triplet const& triplet, PreCuts const& pre_cuts) const;
 
-    fastjet::PseudoJet FakeLepton(const fastjet::PseudoJet& jet) const;
+    fastjet::PseudoJet FakeLepton(fastjet::PseudoJet const& jet) const;
 
-    Jets Particles(const analysis::Event& event, const PreCuts& pre_cuts) const;
+    Jets Particles(analysis::Event const& event, PreCuts const& pre_cuts) const;
 
-    auto Multiplets(const Event& event, const TMVA::Reader& reader) const {
+    auto Multiplets(Event const& event, TMVA::Reader const& reader) const {
         PreCuts pre_cuts;
         return Multiplets(event, pre_cuts, reader);
     }
@@ -52,7 +52,7 @@ public:
       return "t_{l}";
     }
 
-    int TopLeptonicId(const Event& event) const;
+    int TopLeptonicId(Event const& event) const;
 
 private:
 

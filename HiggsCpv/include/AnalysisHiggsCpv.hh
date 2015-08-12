@@ -77,7 +77,7 @@ private:
         return 10;
     }
 
-    int PassPreCut(const Event& event, Tag) const final {
+    int PassPreCut(Event const& event, Tag) const final {
 //         if(this->tagger().Name() == "WLeptonic") return 0;
 //         if(this->tagger().Name() == "TopLeptonic") static_cast<TopLeptonicTagger&>(this->tagger()).semi_leptonic = false;
 //         Jets leptons = fastjet::sorted_by_pt(event.Leptons().leptons());

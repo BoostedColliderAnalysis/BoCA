@@ -28,9 +28,9 @@ public:
 
     Family(int particle_position, Id id, int mother_position, Id mother_id);
 
-    Family(const TLorentzVector& particle, const LorentzVector& mother, int particle_position, int id, int mother_position, int mother_id);
+    Family(TLorentzVector const& particle, LorentzVector const& mother, int particle_position, int id, int mother_position, int mother_id);
 
-    bool operator==(const Family& family) const;
+    bool operator==(Family const& family) const;
 
     void AddDaughter(int daughter_id);
 

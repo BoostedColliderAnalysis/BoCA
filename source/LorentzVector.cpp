@@ -5,7 +5,7 @@
 
 namespace analysis {
 
-void LorentzVector::operator=(const TLorentzVector& lorentzvector)
+void LorentzVector::operator=(TLorentzVector const& lorentzvector)
 {
     p_ = lorentzvector.Vect();
     e_ = lorentzvector.T();
@@ -107,7 +107,7 @@ float LorentzVector::Et(const Vector3& v) const
     float etet = Et2(v);
     return E() < 0.0 ? -std::sqrt(etet) : std::sqrt(etet);
 }
-float LorentzVector::DeltaR(const LorentzVector& v) const
+float LorentzVector::DeltaR(LorentzVector const& v) const
 {
     float deta = Eta() - v.Eta();
     float dphi = Vector2::Phi_mpi_pi(Phi() - v.Phi());
@@ -270,24 +270,24 @@ float LorentzVector::operator [](int i) const
     return (*this)(i);
 }
 
-LorentzVector LorentzVector::operator + (const LorentzVector& q) const
+LorentzVector LorentzVector::operator + (LorentzVector const& q) const
 {
     return LorentzVector(p_ + q.Vect(), e_ + q.T());
 }
 
-LorentzVector& LorentzVector::operator += (const LorentzVector& q)
+LorentzVector& LorentzVector::operator += (LorentzVector const& q)
 {
     p_ += q.Vect();
     e_ += q.T();
     return *this;
 }
 
-LorentzVector LorentzVector::operator - (const LorentzVector& q) const
+LorentzVector LorentzVector::operator - (LorentzVector const& q) const
 {
     return LorentzVector(p_ - q.Vect(), e_ - q.T());
 }
 
-LorentzVector& LorentzVector::operator -= (const LorentzVector& q)
+LorentzVector& LorentzVector::operator -= (LorentzVector const& q)
 {
     p_ -= q.Vect();
     e_ -= q.T();
@@ -311,12 +311,12 @@ LorentzVector LorentzVector::operator * (float a) const
     return LorentzVector(a * X(), a * Y(), a * Z(), a * T());
 }
 
-bool LorentzVector::operator == (const LorentzVector& q) const
+bool LorentzVector::operator == (LorentzVector const& q) const
 {
     return (Vect() == q.Vect() && T() == q.T());
 }
 
-bool LorentzVector::operator != (const LorentzVector& q) const
+bool LorentzVector::operator != (LorentzVector const& q) const
 {
     return (Vect() != q.Vect() || T() != q.T());
 }
@@ -362,7 +362,7 @@ float LorentzVector::Et2() const
     return pt2 == 0 ? 0 : E() * E() * pt2 / (pt2 + Z() * Z());
 }
 
-float LorentzVector::DeltaPhi(const LorentzVector& v) const
+float LorentzVector::DeltaPhi(LorentzVector const& v) const
 {
     return Vector2::Phi_mpi_pi(Phi() - v.Phi());
 }
@@ -372,7 +372,7 @@ float LorentzVector::Eta() const
     return PseudoRapidity();
 }
 
-float LorentzVector::DrEtaPhi(const LorentzVector& v) const
+float LorentzVector::DrEtaPhi(LorentzVector const& v) const
 {
     return DeltaR(v);
 }
@@ -424,12 +424,12 @@ void LorentzVector::SetVectM(const Vector3& spatial, float mass)
     SetVectMag(spatial, mass);
 }
 
-float LorentzVector::Dot(const LorentzVector& q) const
+float LorentzVector::Dot(LorentzVector const& q) const
 {
     return T() * q.T() - Z() * q.Z() - Y() * q.Y() - X() * q.X();
 }
 
-float LorentzVector::operator * (const LorentzVector& q) const
+float LorentzVector::operator * (LorentzVector const& q) const
 {
     return Dot(q);
 }
@@ -490,7 +490,7 @@ void LorentzVector::RotateUz(Vector3& newUzVector)
     p_.RotateUz(newUzVector);
 }
 
-LorentzVector operator * (float a, const LorentzVector& p)
+LorentzVector operator * (float a, LorentzVector const& p)
 {
     return LorentzVector(a * p.X(), a * p.Y(), a * p.Z(), a * p.T());
 }

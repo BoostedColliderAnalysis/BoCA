@@ -33,7 +33,7 @@ public:
   void AnalysisLoop(Stage stage) final {
         Initialize();
         Reader<Tagger> reader(stage);
-        for (const auto& tag : std::vector<Tag> {Tag::signal, Tag::background})
+        for (auto const& tag : std::vector<Tag> {Tag::signal, Tag::background})
         {
             Files files(tagger().ExportFileName(stage, tag), stage, tag);
             ClearFiles();
@@ -53,14 +53,14 @@ protected:
    *
    * @return const analysis::Tagger&
    */
-  const Tagger &tagger() const final { return tagger_; }
+  Tagger const&tagger() const final { return tagger_; }
 
     /**
      * @brief setter for AnalysisName of Tagger
      * @details must be set in each analysis in order for Tagger to know about the folder structure
      *
      */
-    void set_tagger_analysis_name(const std::string& name){
+    void set_tagger_analysis_name(std::string const& name){
       tagger().SetAnalysisName(name);
     }
 
@@ -116,7 +116,7 @@ private:
      * @brief Checks for PreCuts and saves the results of each analysis.
      *
      */
-    void DoAnalysis(const Files& files, Trees& trees, const Reader<Tagger>& reader) const
+    void DoAnalysis(Files const& files, Trees& trees, Reader<Tagger> const& reader) const
     {
         trees.NewEvent(files.file().mass());
         int pre_cut = PassPreCut(trees.event(), files.tag());
@@ -132,7 +132,7 @@ private:
      *
      * @return int number of safed objects
      */
-    int RunAnalysis(const Event& event, const Reader<Tagger>& reader, Stage stage, Tag tag) const
+    int RunAnalysis(Event const& event, Reader<Tagger> const& reader, Stage stage, Tag tag) const
     {
         switch (stage) {
         case Stage::trainer :

@@ -19,7 +19,7 @@ public:
 
     const analysis::Sextet& Sextet() const;
 
-    const analysis::Doublet& Doublet() const;
+    analysis::Doublet const& Doublet() const;
 
 //     float BottomBdt() const {
 //         return (Doublet().Singlet1().Bdt() + Doublet().Singlet2().Bdt() + Sextet().Triplet1().Singlet().Bdt() + Sextet().Triplet2().Singlet().Bdt()) / 4;
@@ -59,7 +59,7 @@ public:
 
   const analysis::Quintet& Quintet() const;
 
-  const analysis::Triplet& Triplet() const;
+  analysis::Triplet const& Triplet() const;
 
 };
 
@@ -69,11 +69,11 @@ public:
 
   using analysis::ThreeBody<analysis::Triplet,analysis::Triplet,analysis::Doublet>::ThreeBody;
 
-  const analysis::Triplet& Triplet1() const{return Multiplet1();};
+  analysis::Triplet const& Triplet1() const{return Multiplet1();};
 
-  const analysis::Triplet& Triplet2() const{return Multiplet2();};
+  analysis::Triplet const& Triplet2() const{return Multiplet2();};
 
-  const analysis::Doublet& Doublet() const{return Multiplet3();};
+  analysis::Doublet const& Doublet() const{return Multiplet3();};
 
 };
 

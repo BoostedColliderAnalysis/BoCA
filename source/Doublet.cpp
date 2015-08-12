@@ -6,12 +6,12 @@
 namespace analysis
 {
 
-const Singlet& Doublet::Singlet1() const
+Singlet const& Doublet::Singlet1() const
 {
     return Multiplet1();
 }
 
-const Singlet& Doublet::Singlet2() const
+Singlet const& Doublet::Singlet2() const
 {
     return Multiplet2();
 }
@@ -19,7 +19,7 @@ const Singlet& Doublet::Singlet2() const
 float Doublet::Dipolarity2() const
 {
     float dipolarity = 0;
-    for (const auto & constituent : Jet().constituents()) {
+    for (auto const& constituent : Jet().constituents()) {
 
         float eta_0 = constituent.eta();
         float phi_0 = constituent.phi_std();

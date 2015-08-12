@@ -24,7 +24,7 @@ Jets TopHadronicHep::Tops(Jets& e_flows)
     Jets jets = sorted_by_pt(cluster_sequence.inclusive_jets(pt_min));
 //     unsigned candsizesum = 0;
     Jets tops;
-    for (const auto& jet : jets) {
+    for (auto const& jet : jets) {
 //         float topmass = 172.3;
 //         float wmass = 80.4;
 //         HEPTopTagger TopTagger(ClusterSequence, Jet, topmass, wmass);

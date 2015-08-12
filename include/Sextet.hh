@@ -14,9 +14,9 @@ public:
 
     using TwoBody<Triplet, Triplet>::TwoBody;
 
-    const Triplet& Triplet1() const;
+    Triplet const& Triplet1() const;
 
-    const Triplet& Triplet2() const;
+    Triplet const& Triplet2() const;
 
     float HardTopPt() const
     {

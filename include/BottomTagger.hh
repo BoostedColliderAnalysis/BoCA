@@ -1,7 +1,7 @@
 #pragma once
 
-#include "BranchTagger.hh"
 #include "Branches.hh"
+#include "BranchTagger.hh"
 
 
 namespace analysis {
@@ -19,32 +19,32 @@ public:
     /**
      * @brief Train the bottom tagger with pre cuts
      */
-    int Train(const Event &event, const PreCuts &pre_cuts,
+    int Train(Event const& event, PreCuts const& pre_cuts,
               Tag tag) const final;
 
     /**
      * @brief Return all jets of the event with bottom bdt value considering pre cuts
      *
      */
-    Jets Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
+    Jets Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
     /**
      * @brief Save all jets with bottom bdt value condidering pre cuts
      *
      */
-    int GetBdt(const Event &event, const PreCuts &pre_cuts, const TMVA::Reader &reader) const override;
+    int GetBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
 
     /**
      * @brief calculate bottom bdt for given jet
      *
      */
-    fastjet::PseudoJet Multiplet(const fastjet::PseudoJet& jet, const TMVA::Reader& reader) const;
+    fastjet::PseudoJet Multiplet(fastjet::PseudoJet const& jet, TMVA::Reader const& reader) const;
 
     /**
      * @brief calculate bottom bdt for subjets of given jet
      *
      */
-    Jets SubMultiplet(const fastjet::PseudoJet& jet, const TMVA::Reader& reader, int sub_jet_number) const;
+    Jets SubMultiplet(fastjet::PseudoJet const& jet, TMVA::Reader const& reader, int sub_jet_number) const;
 
     std::string Name() const final { return "Bottom"; }
 
@@ -52,21 +52,21 @@ public:
 
 private:
 
-    Jets Multiplets(const Jets& jets, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
+    Jets Multiplets(Jets const& jets, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    Jets SubMultiplets(const analysis::Jets& jets, const analysis::PreCuts& pre_cuts, const TMVA::Reader& reader, size_t sub_jet_number) const;
+    Jets SubMultiplets(analysis::Jets const& jets, analysis::PreCuts const& pre_cuts, TMVA::Reader const& reader, size_t sub_jet_number) const;
 
-    Jets Multiplets(const Jets& jets, const TMVA::Reader& reader) const;
+    Jets Multiplets(Jets const& jets, TMVA::Reader const& reader) const;
 
-    Jets CleanJets(Jets& jets, const PreCuts& pre_cuts, Tag tag) const;
+    Jets CleanJets(Jets& jets, PreCuts const& pre_cuts, Tag tag) const;
 
-    bool Problematic(const fastjet::PseudoJet& jet, const analysis::PreCuts& pre_cuts, Tag tag) const;
+    bool Problematic(fastjet::PseudoJet const& jet, analysis::PreCuts const& pre_cuts, Tag tag) const;
 
-    bool Problematic(const fastjet::PseudoJet& jet, const analysis::PreCuts& pre_cuts) const;
+    bool Problematic(fastjet::PseudoJet const& jet, analysis::PreCuts const& pre_cuts) const;
 
-    Jets SubJets(const Jets& jets, int sub_jet_number) const;
+    Jets SubJets(Jets const& jets, int sub_jet_number) const;
 
-    Jets TrainOnSubJets(const Jets& jets, const PreCuts& pre_cuts, Tag tag, int sub_jet_number) const;
+    Jets TrainOnSubJets(Jets const& jets, PreCuts const& pre_cuts, Tag tag, int sub_jet_number) const;
 
 };
 

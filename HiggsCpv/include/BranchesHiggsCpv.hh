@@ -50,7 +50,7 @@ public:
     float Sphericity;
     float Aplanarity;
     template<typename Multiplet>
-    void Fill(const Multiplet& signature) {
+    void Fill(Multiplet const& signature) {
         analysis::MultiBranch::Fill(signature.Multiplet());
         Bdt3 = signature.Multiplet().Multiplet3().Bdt();
         Mass12 = signature.Multiplet().Jet12().m();
@@ -133,7 +133,7 @@ public:
     float Sphericity;
     float Aplanarity;
     template<typename Multiplet>
-    void Fill(const Multiplet& signature) {
+    void Fill(Multiplet const& signature) {
         analysis::MultiBranch::Fill(signature.Multiplet());
         Mass12 = signature.Multiplet().Jet12().m();
         Mass23 = signature.Multiplet().Jet23().m();
@@ -191,7 +191,7 @@ public:
     float Sphericity;
     float Aplanarity;
     template<typename Multiplet>
-    void Fill(const Multiplet& signature) {
+    void Fill(Multiplet const& signature) {
         analysis::MultiBranch::Fill(signature.Multiplet());
         BottomBdt = signature.Multiplet().BottomBdt();
         PairBottomBdt = signature.Multiplet().Doublet().BottomBdt();
@@ -232,7 +232,7 @@ public:
     float HardTopPt;
     float SoftTopPt;
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet) {
+    void Fill(Multiplet const& multiplet) {
         analysis::MultiBranch::Fill(multiplet);
         BottomBdt = multiplet.BottomBdt();
         PairBottomBdt = multiplet.PairBottomBdt();
@@ -259,7 +259,7 @@ public:
 
     EventBranch();
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet) {
+    void Fill(Multiplet const& multiplet) {
         analysis::EventBranch::Fill(multiplet);
     }
     Observables Variables() const;
@@ -281,7 +281,7 @@ class TopLeptonicPairBranch : public analysis::MultiBranch
 public:
     TopLeptonicPairBranch();
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet) {
+    void Fill(Multiplet const& multiplet) {
         MultiBranch::Fill(multiplet);
     }
 private:
@@ -310,7 +310,7 @@ public:
     float TopBdt;
     float TopBTag;
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet) {
+    void Fill(Multiplet const& multiplet) {
         PairBranch::Fill(multiplet);
         BottomPt = multiplet.Triplet1().Jet().pt();
         //         BottomRap = std::abs(multiplet.singlet().rap());
@@ -356,7 +356,7 @@ class QuartetPairBranch : public analysis::PairBranch
     float TopBTag;
 
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet) {
+    void Fill(Multiplet const& multiplet) {
         PairBranch::Fill(multiplet);
         BottomPt = multiplet.Doublet1().Jet().pt();
         //         BottomRap = std::abs(multiplet.singlet().rap());

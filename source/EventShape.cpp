@@ -7,7 +7,7 @@ class Peg
 {
 
 public:
-  Peg(const fastjet::PseudoJet& jet) {
+  Peg(fastjet::PseudoJet const& jet) {
     SetMomentum(jet);
     SetPointer();
   }
@@ -20,7 +20,7 @@ public:
     return ThePEG::Lorentz5Momentum(Vector(x, y, z, t) * ThePEG::GeV);
   }
 
-  void SetMomentum(const fastjet::PseudoJet& jet) {
+  void SetMomentum(fastjet::PseudoJet const& jet) {
     momentum = Momentum(jet.px(), jet.py(), jet.pz(), jet.e());
   }
 
@@ -40,19 +40,19 @@ void EventShape::SetJets(const std::vector< fastjet::PseudoJet >& jets)
     std::vector<ThePEG::ParticleData> particle_datas(jets.size());
     std::vector<ThePEG::PPtr> pointers;
     std::vector<ThePEG::Ptr<ThePEG::Particle>::transient_pointer> ptrs;
-    for (const auto & jet : jets) {
+    for (auto const& jet : jets) {
         int i = &jet - &jets[0];
         momenta.emplace_back(ThePEG::Lorentz5Momentum(ThePEG::Lorentz5Vector<double>(jet.px(), jet.py(), jet.pz(), jet.e())* ThePEG::GeV));
         pointers.emplace_back(particle_datas.at(i).produceParticle(momenta.at(i)));
     }
-    for (const auto & pointer : pointers) ptrs.emplace_back(pointer);
+    for (auto const& pointer : pointers) ptrs.emplace_back(pointer);
 
 
 
 //       std::vector<Peg> pegs;
-//       for (const auto & jet : jets) pegs.emplace_back(Peg(jet));
+//       for (auto const& jet : jets) pegs.emplace_back(Peg(jet));
     //         std::vector<ThePEG::Ptr<ThePEG::Particle>::transient_pointer> ptrs;
-    //         for (const auto & peg : pegs)  ptrs.emplace_back(peg.pointer);
+    //         for (auto const& peg : pegs)  ptrs.emplace_back(peg.pointer);
 
 
 //       EventShapes event_shapes;

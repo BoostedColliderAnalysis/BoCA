@@ -211,7 +211,7 @@ private:
         return "NeutralFourTop";
     }
 
-    int PassPreCut(const Event& event, Tag) const override
+    int PassPreCut(Event const& event, Tag) const override
     {
         Jets Particles = event.Partons().GenParticles();
 
@@ -231,7 +231,7 @@ private:
 // 	if (Leptons.at(1).pt() < this->LeptonPt()) return 0;
         int positive_lepton=0;
         int negative_lepton=0;
-        for(const auto & lepton : Leptons){
+        for(auto const& lepton : Leptons){
           if(lepton.pt()>this->LeptonPt()&&lepton.user_info<JetInfo>().Charge()>0)positive_lepton++;
           if(lepton.pt()>this->LeptonPt()&&lepton.user_info<JetInfo>().Charge()<0)negative_lepton++;
         }

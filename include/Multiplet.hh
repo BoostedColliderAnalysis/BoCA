@@ -27,7 +27,7 @@ protected:
 
     virtual fastjet::PseudoJet Jet() const override = 0;
 
-    fastjet::PseudoJet Jet(const fastjet::PseudoJet& jet_1, const fastjet::PseudoJet& jet_2) const;
+    fastjet::PseudoJet Jet(fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2) const;
 
     Vector2 Pull() const override;
 
@@ -57,13 +57,13 @@ protected:
 
     float BottomBdt(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const;
 
-    void SetResult(const fastjet::PseudoJet& jet) const {
+    void SetResult(fastjet::PseudoJet const& jet) const {
       jet_ = jet;
       SetSinglet(jet);
       has_jet_ = true;
     }
 
-    void SetSinglet(const fastjet::PseudoJet& jet) const {
+    void SetSinglet(fastjet::PseudoJet const& jet) const {
       singlet_ = Singlet(jet);
     }
 

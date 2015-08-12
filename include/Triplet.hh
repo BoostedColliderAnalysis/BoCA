@@ -119,11 +119,11 @@ public:
 
     using TwoBody<analysis::Doublet, analysis::Singlet>::TwoBody;
 
-    const analysis::Doublet& Doublet() const;
+    analysis::Doublet const& Doublet() const;
 
     analysis::Doublet& Doublet();
 
-    const analysis::Singlet& Singlet() const;
+    analysis::Singlet const& Singlet() const;
 
     void set_sub_jettiness(const SubJettiness& sub_jettiness)
     {

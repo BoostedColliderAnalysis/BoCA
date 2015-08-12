@@ -13,7 +13,7 @@ BottomTagger::BottomTagger()
     DefineVariables();
 }
 
-int BottomTagger::Train(const Event& event, const analysis::PreCuts& pre_cuts, Tag tag) const
+int BottomTagger::Train(Event const& event, analysis::PreCuts const& pre_cuts, Tag tag) const
 {
     Info(analysis::Name(tag));
     Jets jets = event.Hadrons().Jets();
@@ -31,7 +31,7 @@ int BottomTagger::Train(const Event& event, const analysis::PreCuts& pre_cuts, T
     return SaveEntries(final_jets, bottoms, tag);
 }
 
-bool BottomTagger::Problematic(const fastjet::PseudoJet& jet, const PreCuts& pre_cuts, const Tag) const
+bool BottomTagger::Problematic(fastjet::PseudoJet const& jet, PreCuts const& pre_cuts, const Tag) const
 {
     if (Problematic(jet, pre_cuts)) return true;
 //     if (tag == Tag::signal && jet.user_info<JetInfo>().SumDisplacement() == 0) return true;
@@ -39,7 +39,7 @@ bool BottomTagger::Problematic(const fastjet::PseudoJet& jet, const PreCuts& pre
     return false;
 }
 
-bool BottomTagger::Problematic(const fastjet::PseudoJet& jet, const PreCuts& pre_cuts) const
+bool BottomTagger::Problematic(fastjet::PseudoJet const& jet, PreCuts const& pre_cuts) const
 {
     if (!jet.has_user_info<JetInfo>()) return true;
     if (pre_cuts.PtLowerCut(Id::bottom) > 0 && jet.pt() < pre_cuts.PtLowerCut(Id::bottom)) return true;
@@ -49,12 +49,12 @@ bool BottomTagger::Problematic(const fastjet::PseudoJet& jet, const PreCuts& pre
     return false;
 }
 
-Jets BottomTagger::CleanJets(analysis::Jets& jets, const analysis::PreCuts& pre_cuts, Tag tag) const
+Jets BottomTagger::CleanJets(analysis::Jets& jets, analysis::PreCuts const& pre_cuts, Tag tag) const
 {
     Info(jets.size());
     if (jets.empty()) return jets;
     Jets clean_jets;
-    for (const auto& jet : jets) {
+    for (auto const& jet : jets) {
         if (Problematic(jet, pre_cuts, tag)) continue;
         clean_jets.emplace_back(jet);
     }
@@ -62,30 +62,30 @@ Jets BottomTagger::CleanJets(analysis::Jets& jets, const analysis::PreCuts& pre_
     return clean_jets;
 }
 
-Jets BottomTagger::TrainOnSubJets(const analysis::Jets& jets, const analysis::PreCuts& pre_cuts, Tag tag, int sub_jet_number) const
+Jets BottomTagger::TrainOnSubJets(analysis::Jets const& jets, analysis::PreCuts const& pre_cuts, Tag tag, int sub_jet_number) const
 {
     Debug(sub_jet_number);
     Jets sub_jets = SubJets(jets, sub_jet_number);
     return CleanJets(sub_jets, pre_cuts, tag);
 }
 
-Jets BottomTagger::SubJets(const analysis::Jets& jets, int sub_jet_number) const
+Jets BottomTagger::SubJets(analysis::Jets const& jets, int sub_jet_number) const
 {
     Jets subjets;
-    for (const auto& jet : jets) subjets = Join(subjets, Tagger::SubJets(jet, sub_jet_number));
+    for (auto const& jet : jets) subjets = Join(subjets, Tagger::SubJets(jet, sub_jet_number));
     return subjets;
 }
 
-Jets BottomTagger::Multiplets(const Event& event, const analysis::PreCuts& pre_cuts, const TMVA::Reader& reader) const
+Jets BottomTagger::Multiplets(Event const& event, analysis::PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
     Info();
     return Multiplets(event.Hadrons().Jets(), pre_cuts, reader);
 }
 
-Jets BottomTagger::Multiplets(const analysis::Jets& jets, const analysis::PreCuts& pre_cuts, const TMVA::Reader& reader) const
+Jets BottomTagger::Multiplets(analysis::Jets const& jets, analysis::PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
     Jets final_jets;
-    for (const auto& jet : jets) {
+    for (auto const& jet : jets) {
         if (Problematic(jet, pre_cuts))
             continue;
         final_jets.emplace_back(Multiplet(jet, reader));
@@ -93,26 +93,26 @@ Jets BottomTagger::Multiplets(const analysis::Jets& jets, const analysis::PreCut
     return final_jets;
 }
 
-Jets BottomTagger::SubMultiplets(const Jets& jets, const PreCuts& pre_cuts, const TMVA::Reader& reader, size_t sub_jet_number) const
+Jets BottomTagger::SubMultiplets(Jets const& jets, PreCuts const& pre_cuts, TMVA::Reader const& reader, size_t sub_jet_number) const
 {
     Jets final_jets;
-    for (const auto& sub_jet : SubJets(jets, sub_jet_number)) {
+    for (auto const& sub_jet : SubJets(jets, sub_jet_number)) {
         if (Problematic(sub_jet, pre_cuts)) continue;
         final_jets.emplace_back(Multiplet(sub_jet, reader));
     }
     return final_jets;
 }
 
-fastjet::PseudoJet BottomTagger::Multiplet(const fastjet::PseudoJet& jet, const TMVA::Reader& reader) const
+fastjet::PseudoJet BottomTagger::Multiplet(fastjet::PseudoJet const& jet, TMVA::Reader const& reader) const
 {
     static_cast<JetInfo&>(*jet.user_info_shared_ptr().get()).SetBdt(Bdt(jet, reader));
     return jet;
 }
 
-Jets BottomTagger::SubMultiplet(const fastjet::PseudoJet& jet, const TMVA::Reader& reader, int sub_jet_number) const
+Jets BottomTagger::SubMultiplet(fastjet::PseudoJet const& jet, TMVA::Reader const& reader, int sub_jet_number) const
 {
     Jets jets;
-    for (const auto& sub_jet : Tagger::SubJets(jet, sub_jet_number)) {
+    for (auto const& sub_jet : Tagger::SubJets(jet, sub_jet_number)) {
         if (!sub_jet.has_user_info<JetInfo>()) continue;
         if (sub_jet.m() <= 0) continue;
         jets.emplace_back(Multiplet(sub_jet, reader));
@@ -120,7 +120,7 @@ Jets BottomTagger::SubMultiplet(const fastjet::PseudoJet& jet, const TMVA::Reade
     return jets;
 }
 
-int BottomTagger::GetBdt(const Event& event, const analysis::PreCuts& pre_cuts, const TMVA::Reader& reader) const
+int BottomTagger::GetBdt(Event const& event, analysis::PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
     Jets jets = event.Hadrons().Jets();
     Jets bottoms = Multiplets(jets, pre_cuts, reader);
@@ -129,7 +129,7 @@ int BottomTagger::GetBdt(const Event& event, const analysis::PreCuts& pre_cuts, 
     return SaveEntries(bottoms,2);
 }
 
-Jets BottomTagger::Multiplets(const analysis::Jets& jets, const TMVA::Reader& reader) const
+Jets BottomTagger::Multiplets(analysis::Jets const& jets, TMVA::Reader const& reader) const
 {
     PreCuts pre_cuts;
     return Multiplets(jets, pre_cuts, reader);

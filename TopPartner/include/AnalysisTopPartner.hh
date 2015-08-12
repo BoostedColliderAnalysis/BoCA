@@ -35,8 +35,8 @@ public:
 protected:
 
     int Mass() const {
-      return 10000;
       return 2000;
+      return 10000;
     }
 
     long EventNumberMax() const override {
@@ -144,10 +144,6 @@ protected:
         }
 //         (" + std::to_string(PreCut()) + " GeV)";
     }
-
-//     void NewFile(Tag tag, Process process) {
-// //         AnalysisBase::NewFile(tag, this->Name(process), this->Crosssection(process), this->NiceName(process));
-//     }
 
     void NewFile(Tag tag, Process process) {
         AnalysisBase::NewFile(tag, this->Name(process), this->Crosssection(process), this->NiceName(process));

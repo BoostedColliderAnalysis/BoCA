@@ -46,7 +46,7 @@ private:
 
 //     analysis::Jets UniqueConstituents(TObject& object, const std::vector< TObject* > leptons) const;
 
-//     analysis::Jets GranulatedJets(const analysis::Jets& jets) const;
+//     analysis::Jets GranulatedJets(analysis::Jets const& jets) const;
 
     analysis::Jets EFlowJets(analysis::JetDetail jet_detail) const;
 
@@ -59,7 +59,7 @@ private:
     template <typename Clone>
     std::vector<Constituent> JetId(const Clone& clone) const {
         std::vector<Constituent> constituents;
-        for (const auto& particle_number : Range(clone.Particles.GetEntriesFast())) {
+        for (auto const& particle_number : Range(clone.Particles.GetEntriesFast())) {
             Family family = BranchFamily(*clone.Particles.At(particle_number));
             constituents.emplace_back(Constituent(const_cast<Clone&>(clone).P4(), family));
         }
@@ -70,7 +70,7 @@ private:
 //     bool Isolation(const EFlow& e_flow, const TClonesArray& clones_array) const
 //     {
 //         bool Isolated = true;
-//         for (const auto& particle_number = 0; particle_number < clones_array.GetEntriesFast(); ++particle_number) {
+//         for (auto const& particle_number = 0; particle_number < clones_array.GetEntriesFast(); ++particle_number) {
 //             Particle& particle = static_cast<Particle&>(*clones_array.At(particle_number));
 //             Isolated = CheckIsolation(e_flow, particle);
 //         }
@@ -80,16 +80,16 @@ private:
     template<typename Particle, typename EFlow>
     bool Isolation(const EFlow& e_flow, Branch branch) const {
         bool isolated = true;
-        for (const auto& particle_number : Range(clones_arrays().EntrySum(branch))) {
+        for (auto const& particle_number : Range(clones_arrays().EntrySum(branch))) {
             Particle& particle = static_cast<Particle&>(clones_arrays().Object(branch, particle_number));
             isolated = CheckIsolation(e_flow, particle);
         }
         return isolated;
     }
 
-//     analysis::Jets Constituents(const TObject& object, const TLorentzVector lorentz_vector, const std::vector< TObject* > leptons) const;
+//     analysis::Jets Constituents(TObject const& object, const TLorentzVector lorentz_vector, const std::vector< TObject* > leptons) const;
 
-    bool Isolated(const TObject& object, const std::vector<TObject*> leptons) const;
+    bool Isolated(TObject const& object, std::vector<TObject*> const& leptons) const;
 
     analysis::Jets EFlowTrack(const JetDetail) const;
 
@@ -99,9 +99,9 @@ private:
 
     analysis::Jets EFlowMuon(JetDetail jet_detail) const;
 
-    fastjet::PseudoJet StructuredJet(const ::delphes::Jet& delphes_jet, const std::vector<TObject*> leptons, analysis::JetDetail jet_detail) const;
+    fastjet::PseudoJet StructuredJet(::delphes::Jet const& delphes_jet, std::vector< TObject* > const& leptons, analysis::JetDetail jet_detail) const;
 
-    fastjet::PseudoJet ConstituentJet(TObject& object, JetDetail jet_detail, const SubDetector sub_detector = SubDetector::none, const std::vector<TObject*> leptons = {}) const;
+    fastjet::PseudoJet ConstituentJet(TObject& object, JetDetail jet_detail, SubDetector sub_detector = SubDetector::none, const std::vector<TObject*> leptons = {}) const;
 
 };
 

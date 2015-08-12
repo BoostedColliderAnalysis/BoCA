@@ -7,7 +7,7 @@
 namespace analysis
 {
 
-Result::Result(const InfoBranch& info_branch)
+Result::Result(InfoBranch const& info_branch)
 {
 //     steps = 20000;
     events.resize(steps, 0);
@@ -22,7 +22,7 @@ void Result::Calculate()
 {
     event_sums.at(steps - 1) = bins.at(steps - 1);
     for (int step = steps - 2; step >= 0; --step) event_sums.at(step) = event_sums.at(step + 1) + bins.at(step);
-    for (const auto & step : Range(steps)) {
+    for (auto const& step : Range(steps)) {
         efficiency.at(step) = float(event_sums.at(step)) / info_branch_.EventNumber;
         pure_efficiency.at(step) = float(event_sums.at(step)) / event_sums.at(0);
         events.at(step) = efficiency.at(step) * info_branch_.Crosssection * DetectorGeometry::Luminosity();
@@ -54,7 +54,7 @@ void Results::BestBin()
 {
     std::vector<float> efficiencies(background.size(), 0);
     int counter = 0;
-    for (const auto & number : Range(background.size())) {
+    for (auto const& number : Range(background.size())) {
         while (efficiencies.at(number) == 0 && counter < Result::steps) {
             best_bin = std::distance(significances.begin(), std::max_element(std::begin(significances), std::end(significances) - counter));
             efficiencies.at(number) = background.at(number).efficiency.at(best_bin);
@@ -65,12 +65,12 @@ void Results::BestBin()
 
 void Results::Significances()
 {
-    for (const int step : Range(Result::steps)) {
+    for (auto const& step : Range(Result::steps)) {
         float signal_events = 0;
-        for (const auto & signal_results : signal) signal_events += signal_results.events[step];
+        for (auto const& signal_results : signal) signal_events += signal_results.events[step];
 
         float background_events = 0;
-        for (const auto & background_result : background) background_events += background_result.events[step];
+        for (auto const& background_result : background) background_events += background_result.events[step];
 
         if (signal_events + background_events > 0) significances.at(step) = signal_events / std::sqrt(signal_events + background_events);
         else significances.at(step) = 0;
@@ -85,11 +85,11 @@ float Results::XValue(int value) const
 
 void Results::ExtremeXValues()
 {
-    for (const auto & result : background) {
+    for (auto const& result : background) {
         float min_0 = *std::min_element(result.bdt.begin(), result.bdt.end());
         if (min_0 < min.x) min.x = min_0;
     }
-    for (const auto & result : signal) {
+    for (auto const& result : signal) {
         float max_0 = *std::max_element(result.bdt.begin(), result.bdt.end());
         if (max_0 > max.x) max.x = max_0;
     }

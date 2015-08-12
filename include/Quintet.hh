@@ -10,9 +10,9 @@ public:
 
     using TwoBody<analysis::Triplet, analysis::Doublet>::TwoBody;
 
-    const analysis::Doublet& Doublet() const;
+    analysis::Doublet const& Doublet() const;
 
-    const analysis::Triplet& Triplet() const;
+    analysis::Triplet const& Triplet() const;
 
 };
 

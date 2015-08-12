@@ -1,7 +1,7 @@
 #pragma once
 
-#include "BranchTagger.hh"
 #include "Branches.hh"
+#include "BranchTagger.hh"
 
 namespace analysis {
 
@@ -15,12 +15,12 @@ public:
 
     TauTagger();
 
-    int Train(const Event &event, const PreCuts &pre_cuts,
+    int Train(Event const& event, PreCuts const& pre_cuts,
               Tag tag) const final;
 
-    Jets Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
+    Jets Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    int GetBdt(const Event &event, const PreCuts &pre_cuts, const TMVA::Reader &reader) const final {
+    int GetBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final {
         return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
@@ -28,7 +28,7 @@ public:
 
 private:
 
-    Jets CleanJets(analysis::Jets& jets, const analysis::Jets& Particles, Tag tag) const;
+    Jets CleanJets(analysis::Jets& jets, analysis::Jets const& Particles, Tag tag) const;
 
 };
 

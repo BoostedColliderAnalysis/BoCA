@@ -14,7 +14,7 @@ TopSemiPairTagger::TopSemiPairTagger()
     DefineVariables();
 }
 
-int TopSemiPairTagger::Train(const analysis::Event& event, const analysis::PreCuts&, Tag tag) const
+int TopSemiPairTagger::Train(analysis::Event const& event, analysis::PreCuts const&, Tag tag) const
 {
     Info();
     std::vector<Triplet> triplets_hadronic = top_hadronic_reader_.Multiplets(event);
@@ -25,7 +25,7 @@ int TopSemiPairTagger::Train(const analysis::Event& event, const analysis::PreCu
     std::vector<Triplet> final_triplets_hadronic;
     switch (tag) {
     case Tag::signal :
-        for (const auto& triplet : triplets_hadronic) if (Close(top_particles.front())(triplet.Jet())) final_triplets_hadronic.emplace_back(triplet);
+        for (auto const& triplet : triplets_hadronic) if (Close(top_particles.front())(triplet.Jet())) final_triplets_hadronic.emplace_back(triplet);
         break;
     case Tag::background      :
         final_triplets_hadronic = triplets_hadronic;
@@ -34,15 +34,15 @@ int TopSemiPairTagger::Train(const analysis::Event& event, const analysis::PreCu
     std::vector<Triplet> final_triplets_leptonic;
     switch (tag) {
     case Tag::signal :
-        for (const auto& triplet : triplets_leptonic) if (Close(top_particles.front())(triplet.Jet())) final_triplets_leptonic.emplace_back(triplet);
+        for (auto const& triplet : triplets_leptonic) if (Close(top_particles.front())(triplet.Jet())) final_triplets_leptonic.emplace_back(triplet);
         break;
     case Tag::background :
         final_triplets_leptonic = triplets_leptonic;
         break;
     }
     std::vector<Sextet> sextets;
-    for (const auto& triplet_hadronic : final_triplets_hadronic)
-        for (const auto& triplet_leptonic : final_triplets_leptonic) {
+    for (auto const& triplet_hadronic : final_triplets_hadronic)
+        for (auto const& triplet_leptonic : final_triplets_leptonic) {
             Sextet sextet(triplet_hadronic, triplet_leptonic);
             if (sextet.Overlap()) continue;
             sextets.emplace_back(sextet);
@@ -55,13 +55,13 @@ int TopSemiPairTagger::Train(const analysis::Event& event, const analysis::PreCu
     return SaveEntries(sextets);
 }
 
-std::vector<Sextet> TopSemiPairTagger::Multiplets(const Event& event, const TMVA::Reader& reader) const
+std::vector<Sextet> TopSemiPairTagger::Multiplets(Event const& event, TMVA::Reader const& reader) const
 {
     std::vector<Triplet> triplets_leptonic = top_leptonic_reader_.Multiplets(event);
     std::vector<Triplet> triplets_hadronic = top_hadronic_reader_.Multiplets(event);
     std::vector<Sextet>  sextets;
-    for (const auto& triplet_hadronic : triplets_hadronic)
-        for (const auto& triplet_leptonic : triplets_leptonic)  {
+    for (auto const& triplet_hadronic : triplets_hadronic)
+        for (auto const& triplet_leptonic : triplets_leptonic)  {
             Sextet sextet(triplet_hadronic, triplet_leptonic);
             if (sextet.Overlap()) continue;
             sextet.SetBdt(Bdt(sextet, reader));

@@ -32,7 +32,7 @@ class Trees
 public:
     Trees(Files& files);
     void WriteTree();
-    void UseBranches(File& file, const std::string& name);
+    void UseBranches(File& file, std::string const& name);
     void NewEvent(int mass);
     void SaveAnalysis(int object_number);
     InfoBranch FillInfoBranch(const File& file);
