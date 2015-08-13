@@ -22,6 +22,7 @@
 #include "TLegend.h"
 #include "TH1F.h"
 #include "THStack.h"
+#include "TLegendEntry.h"
 
 #include "exroot/ExRootAnalysis.hh"
 #include "Vector.hh"
@@ -177,7 +178,11 @@ void Plotting::AddHistogram(THStack& stack, TH1F& histogram, TLegend& legend) co
 TLegend Plotting::Legend(float x_min, float y_min, float width, float height, std::string const& title) const
 {
     TLegend legend(x_min, y_min, x_min + width, y_min + height);
-    if (title != "") legend.SetHeader(title.c_str());
+    if (title != "") {
+        legend.SetHeader(title.c_str());
+        static_cast<TLegendEntry&>(*legend.GetListOfPrimitives()->First()).SetTextFont(FontCode());
+        static_cast<TLegendEntry&>(*legend.GetListOfPrimitives()->First()).SetTextSize(TextSize());
+    }
     legend.SetBorderSize(0);
     legend.SetFillStyle(0);
     legend.SetTextFont(FontCode());
@@ -363,12 +368,12 @@ std::string Plotting::Table(Results const& results) const
     std::stringstream table;
     table << "An optimal BDT cut of " << RoundToDigits(results.BestXValue()) << " leads to a $p$-value of " << RoundToDigits(results.significances.at(results.best_bin)) << ".\n";
     int mass = results.signal.front().info_branch_.Mass;
-    if(mass > 0) table << "Mass: " << mass << "\n";
-    table << "\n\\begin{table}\n\\centering\n\\begin{tabular}{rlll}\n\\toprule\n";
-    table << "   Sample\n  & Efficiency\n  & after\n  & before";
+    if (mass > 0) table << "Mass: " << mass << "\n";
+    table << "\n\\begin{table}\n\\centering\n\\begin{tabular}{rllll}\n\\toprule\n";
+    table << "    Sample\n  & Efficiency\n  & after\n  & before\n  & Crosssection [fb]";
     table << "\n \\\\ \\midrule\n";
-    for (auto const & result : results.signal) table << " \\verb|" << Tagger().TreeNames(Tag::signal).at(&result - &results.signal[0]) << "|\n  & " << RoundToDigits(result.efficiency.at(results.best_bin)) << "\n  & " << result.event_sums.at(results.best_bin) << "\n  & " << result.info_branch_.EventNumber << "\n \\\\";
-    for (auto const & result : results.background) table << " \\verb|" << Tagger().TreeNames(Tag::background).at(&result - &results.background[0]) << "|\n  & " << RoundToDigits(result.efficiency.at(results.best_bin)) << "\n  & " << result.event_sums.at(results.best_bin) << "\n  & " << result.info_branch_.EventNumber << "\n \\\\";
+    for (auto const & result : results.signal) table << " \\verb|" << Tagger().TreeNames(Tag::signal).at(&result - &results.signal[0]) << "|\n  & " << RoundToDigits(result.efficiency.at(results.best_bin)) << "\n  & " << result.event_sums.at(results.best_bin) << "\n  & " << result.info_branch_.EventNumber << "\n  & " << RoundToDigits(result.info_branch_.Crosssection) << "\n \\\\";
+    for (auto const & result : results.background) table << " \\verb|" << Tagger().TreeNames(Tag::background).at(&result - &results.background[0]) << "|\n  & " << RoundToDigits(result.efficiency.at(results.best_bin)) << "\n  & " << result.event_sums.at(results.best_bin) << "\n  & " << result.info_branch_.EventNumber << "\n  & " << RoundToDigits(result.info_branch_.Crosssection) << "\n \\\\";
     std::stringstream table_footer;
     table_footer << " \\bottomrule\n\\end{tabular}\n\\caption{Significance and efficiencies.}\n\\end{table}\n";
     table << table_footer.str();

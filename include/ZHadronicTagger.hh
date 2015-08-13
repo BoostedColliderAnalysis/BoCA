@@ -39,7 +39,7 @@ private:
 
     bool Problematic(Doublet const& doublet, PreCuts const& pre_cuts) const;
 
-    Doublet Doublett(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const;
+    Doublet CheckDoublet(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const;
 
     Doublet Multiplet(analysis::Doublet& doublet, const analysis::PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 

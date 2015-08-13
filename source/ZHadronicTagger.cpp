@@ -15,16 +15,16 @@ int ZHadronicTagger::Train(Event const& event, analysis::PreCuts const& pre_cuts
     Info();
     Jets jets = bottom_reader_.Multiplets(event);
     std::vector<Doublet> doublets = unordered_pairs(jets,[&](fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2) {
-        return Doublett(Doublet(jet_1, jet_2), pre_cuts, tag);
+      return CheckDoublet(Doublet(jet_1, jet_2), pre_cuts, tag);
     });
 
     for (auto const& jet : jets) {
         try {
-            doublets.emplace_back(Doublett(Doublet(jet), pre_cuts, tag));
+          doublets.emplace_back(CheckDoublet(Doublet(jet), pre_cuts, tag));
         } catch (...) {}
         try {
             Jets pieces = bottom_reader_.SubMultiplet(jet, 2);
-            doublets.emplace_back(Doublett(Doublet(pieces.at(0), pieces.at(1)), pre_cuts, tag));
+            doublets.emplace_back(CheckDoublet(Doublet(pieces.at(0), pieces.at(1)), pre_cuts, tag));
         } catch (...) {}
     }
     Jets particles = event.Partons().GenParticles();
@@ -32,7 +32,7 @@ int ZHadronicTagger::Train(Event const& event, analysis::PreCuts const& pre_cuts
     return SaveEntries(doublets, z_particles, tag, Id::Z);
 }
 
-Doublet ZHadronicTagger::Doublett(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const
+Doublet ZHadronicTagger::CheckDoublet(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const
 {
     if (Problematic(doublet, pre_cuts, tag)) throw "problematic";
     doublet.SetTag(tag);

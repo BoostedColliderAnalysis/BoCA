@@ -23,7 +23,7 @@ public:
     std::vector<Doublet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
     int GetBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final {
-        return SaveEntries(Multiplets(event, pre_cuts, reader), 2);
+        return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
     }
 
     std::string Name() const final {
@@ -40,7 +40,7 @@ private:
 
     Doublet Multiplet(Doublet& doublet, Jets const& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    Doublet Doublett(analysis::Doublet doublet, const analysis::PreCuts& pre_cuts, analysis::Tag tag) const;
+    Doublet CheckDoublet(analysis::Doublet doublet, const analysis::PreCuts& pre_cuts, analysis::Tag tag) const;
 
     bool Problematic(Doublet const& doublet, PreCuts const& pre_cuts, Tag tag) const;
 

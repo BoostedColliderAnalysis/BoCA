@@ -27,19 +27,19 @@ int WHadronicTagger::Train(Event const& event, analysis::PreCuts const& pre_cuts
 
         Info("1 jet forms one W");
         try {
-            doublets.emplace_back(Doublett(Doublet(jet), pre_cuts, tag));
+          doublets.emplace_back(CheckDoublet(Doublet(jet), pre_cuts, tag));
         } catch (...) {}
 
         Info("2 of 2 sub jets form one W");
         Jets pieces = bottom_reader_.SubMultiplet(jet, 2);
         try {
-            doublets.emplace_back(Doublett(Doublet(pieces.at(0), pieces.at(1)), pre_cuts, tag));
+          doublets.emplace_back(CheckDoublet(Doublet(pieces.at(0), pieces.at(1)), pre_cuts, tag));
         } catch (...) {}
 
         Info("1 of 2 sub jets forms one W");
         for (auto const& piece : pieces) {
             try {
-                doublets.emplace_back(Doublett(Doublet(piece), pre_cuts, tag));
+              doublets.emplace_back(CheckDoublet(Doublet(piece), pre_cuts, tag));
             } catch (...) {}
         }
 
@@ -59,7 +59,7 @@ int WHadronicTagger::Train(Event const& event, analysis::PreCuts const& pre_cuts
     return SaveEntries(BestMatches(doublets, w_particles, tag, Id::W));
 }
 
-Doublet WHadronicTagger::Doublett(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const
+Doublet WHadronicTagger::CheckDoublet(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const
 {
     if (Problematic(doublet, pre_cuts, tag)) throw "problematic";
     doublet.SetTag(tag);

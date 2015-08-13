@@ -18,7 +18,7 @@ class TopLeptonicTagger : public BranchTagger<TopLeptonicBranch>
 public:
 
     TopLeptonicTagger();
-// 
+//
     int Train(Event const& event, PreCuts const& pre_cuts,
               Tag tag) const override;
 
@@ -65,6 +65,8 @@ private:
     float top_mass_window;
 
     Stage InitializeLeptonicReader();
+
+    Jets Leptons(Event const& event, Jets const& jets) const;
 
 };
 
