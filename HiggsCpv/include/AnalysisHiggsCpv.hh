@@ -28,7 +28,7 @@ public:
     Analysis() {
         this->tagger().SetAnalysisName(ProjectName());
         DetectorGeometry::set_detector_type(DetectorType::CMS);
-        this->pre_cuts().SetPtLowerCut(Id::higgs,200);
+//         this->pre_cuts().SetPtLowerCut(Id::higgs,200);
         this->pre_cuts().SetMassLowerCut(Id::higgs,105);
         this->pre_cuts().SetMassUpperCut(Id::higgs,145);
         this->pre_cuts().SetSemiLeptonic(false);
@@ -48,13 +48,13 @@ private:
         switch (tag) {
         case Tag::signal :
 //             this->NewFile(tag, "gg-tth", 0.0098);
-            this->NewFile(tag, "pp-tth", 0.02267);
+            this->NewFile(tag, "pp-tth", 0.02267,"tth");
             //         this->NewFile(tag, "pp-ttx0-bbbbllnunu-1", 0.02071);
 //             this->NewFile(tag, "pp-ttx0-bbbbllnunu-1", 0.008937);
             //         this->NewFile(tag, "pp-ttx0-bbbbllnunu-0.5", 0.01193);
             break;
         case Tag::background :
-            this->NewFile(tag, "pp-ttbb", 0.1266);
+            this->NewFile(tag, "pp-ttbb", 0.1266,"ttbb");
 //             this->NewFile(tag, "pp-ttbb-bbbbllnunu", 3.457);
             break;
         }

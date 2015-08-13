@@ -1,4 +1,5 @@
 #pragma once
+#include <algorithm>
 
 namespace analysis
 {
@@ -40,16 +41,24 @@ template <typename Value>
  */
 Value sqr(Value value)
 {
-  return value * value;
+    return value * value;
+}
+
+template <typename Value>
+int Closest(std::vector<Value> const& vector, Value value)
+{
+    auto position = std::lower_bound(vector.begin(), vector.end(), value, [](float a, float b) {
+        return a > b;
+    });
+    if (position == vector.end()) return 0;
+    return position - vector.begin();
 }
 
 int LargeNumber();
 
-float RoundToDigits(float value);
-
 float RoundError(float value);
 
-float RoundToDigits(float value, int digits);
+float RoundToDigits(float value, int digits = 3);
 
 float RoundToError(float value, float error);
 

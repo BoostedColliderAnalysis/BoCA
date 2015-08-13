@@ -27,7 +27,7 @@ std::vector<analysis::Sextet> WimpMass::Sextets(const std::vector<Quartet22>& qu
     return sextets;
 }
 
-std::vector<analysis::Sextet> WimpMass::Sextets(const Quartet22& quartet, fastjet::PseudoJet const& missing_et)
+std::vector<analysis::Sextet> WimpMass::Sextets(Quartet22 const& quartet, fastjet::PseudoJet const& missing_et)
 {
     Info("Triple Pairs");
     event22 structure;
@@ -88,7 +88,7 @@ std::vector<analysis::Sextet> WimpMass::Sextets(const Quartet22& quartet, fastje
     return sextets;
 }
 
-std::vector<analysis::Sextet> WimpMass::Sextet(const Quartet22& quartet, fastjet::PseudoJet const& missing_et, Jets const& neutrinos, Tag tag)
+std::vector<analysis::Sextet> WimpMass::Sextet(Quartet22 const& quartet, fastjet::PseudoJet const& missing_et, Jets const& neutrinos, Tag tag)
 {
     Info("Triple Pair");
     std::vector<analysis::Sextet> sextets = Sextets(quartet, missing_et);
@@ -151,7 +151,7 @@ std::vector<analysis::Sextet> WimpMass::Sextet(const Quartet22& quartet, fastjet
     return final_sextets;
 }
 
-Sextet WimpMass::Fake(const Quartet22& quartet) const
+Sextet WimpMass::Fake(Quartet22 const& quartet) const
 {
     Triplet triplet_1(Doublet(quartet.Doublet1().Singlet2().Jet()), quartet.Doublet1().Singlet1().Jet());
     triplet_1.SetBdt(quartet.Doublet1().Bdt());

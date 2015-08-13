@@ -17,11 +17,11 @@ public:
 
     std::vector<analysis::Sextet> Sextets(const std::vector<Quartet22>& quartets, fastjet::PseudoJet const& missing_et);
 
-    std::vector<analysis::Sextet> Sextet(const Quartet22& quartet, fastjet::PseudoJet const& missing_et, Jets const& neutrinos, Tag tag);
+    std::vector<analysis::Sextet> Sextet(Quartet22 const& quartet, fastjet::PseudoJet const& missing_et, Jets const& neutrinos, Tag tag);
 
-    std::vector<analysis::Sextet> Sextets(const Quartet22& quartet, fastjet::PseudoJet const& missing_et);
+    std::vector<analysis::Sextet> Sextets(Quartet22 const& quartet, fastjet::PseudoJet const& missing_et);
 
-    analysis::Sextet Fake(const Quartet22& quartet) const;
+    analysis::Sextet Fake(Quartet22 const& quartet) const;
 
 private:
 

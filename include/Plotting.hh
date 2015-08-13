@@ -92,7 +92,7 @@ private:
 
     void PlotProfile(const analysis::Plot& signal, const analysis::Plot& background, const analysis::Point& min, const analysis::Point& max) const;
 
-    void SetMultiGraph(TMultiGraph& multi_graph) const;
+    void SetMultiGraph(TMultiGraph& multi_graph, const analysis::Point& min, const analysis::Point& max) const;
 
     void SetPlotStyle(TAttLine& att_line, int index) const;
 

@@ -57,11 +57,6 @@ float CeilToDigits(float value, int digits)
     }
 }
 
-float RoundToDigits(float value)
-{
-    return RoundToDigits(value, 3);
-}
-
 float RoundError(float value)
 {
     return RoundToDigits(value, 2);

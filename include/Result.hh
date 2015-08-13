@@ -16,6 +16,11 @@ enum class Font
 };
 
 struct Point {
+    Point(){};
+    Point(float xx, float yy){
+      x=xx;
+      y=yy;
+    }
     float x = 0;
     float y = 0;
     float z = 0;
@@ -83,7 +88,7 @@ int ColorCode(int number);
 
 std::string Formula(std::string const& text);
 
-int FontCode(Font font = Font::times, bool italic = false, bool bold = false, int precision = 3);
+int FontCode(Font font = Font::times, bool italic = false, bool bold = false, int precision = 2);
 
 int FontNumber(Font font = Font::times, bool italic = false, bool bold = false);
 

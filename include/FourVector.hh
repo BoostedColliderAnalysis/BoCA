@@ -32,7 +32,7 @@ namespace exroot {
 }
 
 namespace analysis {
-  
+
 typedef std::vector<fastjet::PseudoJet> Jets;
 
 enum class Status {
@@ -58,7 +58,6 @@ template<>
 struct Flag<JetDetail> {
   static const bool enable = true;
 };
-
 
 enum class Severity {
   error,

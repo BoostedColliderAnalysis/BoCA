@@ -2,6 +2,7 @@
 
 #include "Types.hh"
 #include "DetectorGeometry.hh"
+// #define DEBUG
 #include "Debug.hh"
 
 namespace analysis
@@ -9,6 +10,7 @@ namespace analysis
 
 void Plots::SetNames(Names const& names, Names const& nice_names)
 {
+    Info();
     for (auto & plot : plots) {
         int index = &plot - &plots[0];
         plot.nice_name_x = nice_names.at(index).first;
@@ -22,6 +24,7 @@ void Plots::SetNames(Names const& names, Names const& nice_names)
 
 Result::Result(InfoBranch const& info_branch)
 {
+    Info();
 //     steps = 20000;
     events.resize(steps, 0);
     efficiency.resize(steps, 0);
@@ -33,6 +36,7 @@ Result::Result(InfoBranch const& info_branch)
 
 void Result::Calculate()
 {
+    Info();
     event_sums.at(steps - 1) = bins.at(steps - 1);
     for (int step = steps - 2; step >= 0; --step) event_sums.at(step) = event_sums.at(step + 1) + bins.at(step);
     for (auto const & step : Range(steps)) {
@@ -46,11 +50,13 @@ void Result::Calculate()
 
 int Result::XBin(float value) const
 {
-    return std::floor((value + 1) * steps / 2);
+    Info(value);
+    return std::floor((value + 1) * (steps - 1) / 2);
 }
 
 void Result::AddBdt(float bdt_value)
 {
+    Info(bdt_value);
     bdt.emplace_back(bdt_value);
     ++bins.at(XBin(bdt_value));
     ++event_sum_;
@@ -58,6 +64,7 @@ void Result::AddBdt(float bdt_value)
 
 Results::Results()
 {
+    Info();
     significances.resize(Result::steps, 0);
     x_values.resize(Result::steps, 0);
     for (auto & x_value : x_values) x_value = XValue(&x_value - &x_values[0]);
@@ -65,6 +72,7 @@ Results::Results()
 
 void Results::BestBin()
 {
+    Info();
     std::vector<float> efficiencies(background.size(), 0);
     int counter = 0;
     for (auto const & number : Range(background.size())) {
@@ -78,6 +86,7 @@ void Results::BestBin()
 
 void Results::Significances()
 {
+    Info();
     for (auto const & step : Range(Result::steps)) {
         float signal_events = 0;
         for (auto const & signal_results : signal) signal_events += signal_results.events[step];
@@ -93,11 +102,13 @@ void Results::Significances()
 
 float Results::XValue(int value) const
 {
+    Info(value);
     return 2. * value / Result::steps - 1;
 }
 
 void Results::ExtremeXValues()
 {
+    Info();
     for (auto const & result : background) {
         float min_0 = *std::min_element(result.bdt.begin(), result.bdt.end());
         if (min_0 < min.x) min.x = min_0;
@@ -110,11 +121,13 @@ void Results::ExtremeXValues()
 
 float Results::BestXValue() const
 {
+    Info();
     return XValue(best_bin);
 }
 
 int ColorCode(int number)
 {
+    Info();
     switch (number) {
     case 0 :
         return kBlack;
@@ -151,16 +164,19 @@ int ColorCode(int number)
 
 std::string Formula(std::string const& text)
 {
+    Info(text);
     return "#font[" + std::to_string(FontCode(Font::times, true, false, 2)) + "]{" + text + "}";
 }
 
 int FontCode(Font font, bool italic, bool bold, int precision)
 {
+    Info();
     return 10 * FontNumber(font, italic, bold) + precision;
 }
 
 int FontNumber(Font font, bool italic, bool bold)
 {
+    Info();
     switch (font) {
     case Font::times:
         if (bold && italic) return 3;
