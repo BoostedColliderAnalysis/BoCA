@@ -4,15 +4,18 @@
 #include "HiggsTagger.hh"
 #include "BranchesTopPartner.hh"
 
-namespace analysis {
+namespace analysis
+{
 
-namespace toppartner {
+namespace toppartner
+{
 
 /**
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class HiggsPairTagger : public BranchTagger<HiggsPairBranch> {
+class HiggsPairTagger : public BranchTagger<HiggsPairBranch>
+{
 
 public:
 
@@ -23,10 +26,16 @@ public:
     std::vector<Quartet22> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
     int GetBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final {
-                 return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
+        return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
     }
 
-    std::string Name() const final { return "HiggsPair"; }
+    std::string Name() const final {
+        return "HiggsPair";
+    }
+
+    std::string NiceName() const final {
+        return "hh";
+    }
 
 private:
 

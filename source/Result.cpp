@@ -165,39 +165,39 @@ int ColorCode(int number)
 std::string Formula(std::string const& text)
 {
     Info(text);
-    return "#font[" + std::to_string(FontCode(Font::times, true, false, 2)) + "]{" + text + "}";
+    return "#font[" + std::to_string(FontCode(Font::times, Style::italic)) + "]{" + text + "}";
 }
 
-int FontCode(Font font, bool italic, bool bold, int precision)
+int FontCode(Font font, Style style, int precision)
 {
-    Info();
-    return 10 * FontNumber(font, italic, bold) + precision;
+  Info();
+  return 10 * FontNumber(font, style) + precision;
 }
 
-int FontNumber(Font font, bool italic, bool bold)
+int FontNumber(Font font, Style style)
 {
     Info();
     switch (font) {
     case Font::times:
-        if (bold && italic) return 3;
-        else if (bold) return 2;
-        else if (italic) return 1;
-        else return 13;
+        if (style == Style::italic) return 1;
+        if (style == Style::bold) return 2;
+        if (style == (Style::italic | Style::bold)) return 3;
+        return 13;
     case Font::helvetica:
-        if (bold && italic) return 7;
-        else if (bold) return 6;
-        else if (italic) return 5;
-        else return 4;
+        if (style == Style::italic) return 5;
+        if (style == Style::bold) return 6;
+        if (style == (Style::italic | Style::bold)) return 7;
+        return 4;
     case Font::courier:
-        if (bold && italic) return 11;
-        else if (bold) return 10;
-        else if (italic) return 9;
+        if (style == Style::italic) return 9;
+        if (style == Style::bold) return 10;
+        if (style == (Style::italic | Style::bold)) return 11;
         else return 8;
     case Font::symbol:
-        if (bold && italic) return 14;
-        else if (bold) return 14;
-        else if (italic) return 15;
-        else return 12;
+        if (style == Style::italic) return 15;
+        if (style == Style::bold) return 14;
+        if (style == (Style::italic | Style::bold)) return 14;
+        return 12;
     default :
         return 13;
     }

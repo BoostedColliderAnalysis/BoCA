@@ -43,7 +43,7 @@ protected:
 private:
 
     std::string ProjectName() const final {
-        return  "CPV-jan";
+        return  "CPV-no-massdrop";
     }
 
     void SetFiles(Tag tag) final {
@@ -82,16 +82,16 @@ private:
     int PassPreCut(Event const& event, Tag) const final {
 //         if(this->tagger().Name() == "WLeptonic") return 0;
 //         if(this->tagger().Name() == "TopLeptonic") static_cast<TopLeptonicTagger&>(this->tagger()).semi_leptonic = false;
-//         Jets leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
-//         if (leptons.size() < 2) return 0;
+        Jets leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
+        if (leptons.size() < 2) return 0;
 //         if (leptons.at(1).pt() < 40) return 0;
 //         Jets jets = event.Hadrons().Jets();
-        Jets gen_particles = event.Partons().GenParticles();
-        Jets higgs = CopyIfParticles(gen_particles, Id::CP_violating_higgs, Id::higgs);
-        if (higgs.empty()) {
+//         Jets gen_particles = event.Partons().GenParticles();
+//         Jets higgs = CopyIfParticles(gen_particles, Id::CP_violating_higgs, Id::higgs);
+//         if (higgs.empty()) {
 //         Error(NoHiggs(), higgs.size());
-            return 1;
-        }
+//             return 1;
+//         }
 //         if(higgs.front().pt() < 200) return 0;
 //         static int pre_cut=0;
 //         ++pre_cut;
@@ -103,7 +103,8 @@ private:
 // //         Error(particle.id(),mother1.id(),mother2.id(),grand_mother.id());
 //         higgs = RemoveIfSingleMother(higgs);
 //         Error(SingleHiggs(), higgs.size());
-        return higgs.size();
+//         return higgs.size();
+        return 1;
     }
 
 

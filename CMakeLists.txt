@@ -24,6 +24,7 @@ add_libraries(TMVA)
 
 # FastJet
 include(CMakeFiles/Findfastjet.cmake)
+# add_include_path(${fastjet_INCLUDE_DIRS})
 add_libraries(${fastjet_LIBRARIES})
 add_libraries(Nsubjettiness)
 

@@ -36,7 +36,9 @@ Jets Hadrons::DelphesJets(JetDetail jet_detail) const
             }
             break;
             case JetDetail::structure:
-                jets.emplace_back(StructuredJet(delphes_jet, leptons, jet_detail));
+                try {
+                    jets.emplace_back(StructuredJet(delphes_jet, leptons, jet_detail));
+                } catch (char const*) {}
                 break;
             case JetDetail::tagging:
                 static_cast<JetInfo&>(*jets.back().user_info_shared_ptr().get()).SetConstituents(JetId(delphes_jet));
@@ -64,6 +66,7 @@ fastjet::PseudoJet Hadrons::StructuredJet(::delphes::Jet const& delphes_jet, std
             continue;
         }
     }
+    if (constituents.empty()) throw "no jet";
     fastjet::PseudoJet jet = fastjet::join(constituents, InfoRecombiner());
     static_cast<JetInfo&>(*jet.user_info_shared_ptr().get()).SetDelphesTags(delphes_jet);
     return jet;

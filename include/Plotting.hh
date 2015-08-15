@@ -33,16 +33,16 @@ namespace analysis
 
 enum class Orientation
 {
-    center = 1,
-    left = 1<<1,
-    right = 1<<2,
-    top = 1<<3,
-    bottom = 1<<4
+    center = 0,
+    left = 1 << 0,
+    right = 1 << 1,
+    top = 1 << 2,
+    bottom = 1 << 3
 };
 
 template<>
 struct Flag<Orientation> {
-  static const bool enable = true;
+    static const bool enable = true;
 };
 
 class Tagger;
@@ -78,8 +78,6 @@ private:
 
     void SetProfile(TProfile2D& histogram, const analysis::Plot& signal, const analysis::Plot& background) const;
 
-    std::string IncludeGraphic(std::string& file_name, std::string caption) const;
-
     void CommmonHist(TH2& histogram, const analysis::Plot& plot, EColor color) const;
 
     std::vector<Plots> Import(analysis::Stage stage, analysis::Tag tag) const;
@@ -110,7 +108,7 @@ private:
 
     TLine Line(analysis::Results results, float y_min, float y_max) const;
 
-    void AddGraph(TGraph& graph, TMultiGraph& multi_graph, TLegend& legend, std::string const& name, int index) const;
+    void AddGraph(TGraph& graph, TMultiGraph& multi_graph, TLegend& legend, Strings const& name, int index) const;
 
     void PlotAcceptanceGraph(const analysis::Results& results) const;
 
@@ -130,17 +128,13 @@ private:
 
     std::string PlotSignificanceGraph(const analysis::Results& results) const;
 
-    void LatexHeader(std::ofstream& latex_file) const;
-
-    void LatexFooter(std::ofstream& latex_file) const;
-
     Plot CoreVector(Plot& plot, std::function<bool(Point&, Point&)> const& function) const;
 
     std::string ExportFileSuffix() const;
 
     analysis::Tagger* tagger_;
 
-    void SetAxis(TAxis &axis, std::string const& title) const;
+    void SetAxis(TAxis& axis, std::string const& title) const;
 
     float TextSize() const;
 

@@ -15,11 +15,23 @@ enum class Font
     symbol
 };
 
+enum class Style
+{
+  normal = 0,
+  bold = 1 << 0,
+  italic = 1 << 1
+};
+
+template<>
+struct Flag<Style> {
+  static const bool enable = true;
+};
+
 struct Point {
-    Point(){};
-    Point(float xx, float yy){
-      x=xx;
-      y=yy;
+    Point() {};
+    Point(float xx, float yy) {
+        x = xx;
+        y = yy;
     }
     float x = 0;
     float y = 0;
@@ -88,8 +100,8 @@ int ColorCode(int number);
 
 std::string Formula(std::string const& text);
 
-int FontCode(Font font = Font::times, bool italic = false, bool bold = false, int precision = 2);
+int FontCode(Font font = Font::times, Style style = Style::normal, int precision = 2);
 
-int FontNumber(Font font = Font::times, bool italic = false, bool bold = false);
+int FontNumber(Font font = Font::times, Style style = Style::normal);
 
 }

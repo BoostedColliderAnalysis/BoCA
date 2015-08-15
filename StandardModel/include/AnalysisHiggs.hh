@@ -33,7 +33,7 @@ private:
 
     std::string ProjectName() const final
     {
-        return  "HiggsTagger-" + Name(this->collider_type()) + "-" + std::to_string(this->LowerPtCut()) + "GeV-jan";
+        return  "HiggsTagger-" + Name(this->collider_type()) + "-" + std::to_string(this->LowerPtCut()) + "GeV-no-double";
     }
 
     void SetFiles(Tag tag) final {

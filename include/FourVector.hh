@@ -48,10 +48,10 @@ enum class Status {
  *
  */
 enum class JetDetail {
-    plain = 1,
-    structure = 1 << 1,
-    tagging = 1 << 2,
-    isolation = 1 << 3,
+    plain = 0,
+    structure = 1 << 0,
+    tagging = 1 << 1,
+    isolation = 1 << 2,
 };
 
 template<>

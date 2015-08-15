@@ -29,6 +29,7 @@
 #include "Types.hh"
 #include "Math.hh"
 #include "Branches.hh"
+#include "LatexFile.hh"
 // #define DEBUG
 #include "Debug.hh"
 
@@ -40,7 +41,7 @@ Plotting::Plotting(analysis::Tagger& tagger)
     Debug();
     tagger_ = &tagger;
     gStyle->SetOptStat("");
-    gStyle->SetTitleFont(FontCode());
+    gStyle->SetTitleFont(FontCode(),"t");
     gStyle->SetTitleFontSize(TextSize());
 }
 
@@ -62,13 +63,11 @@ void Plotting::OptimalSignificance() const
     std::string efficiency_file_name = PlotEfficiencyGraph(results);
     std::string significance_file_name = PlotSignificanceGraph(results);
     std::string bdt_file_name = PlotHistograms(results);
-    std::ofstream latex_file;
-    LatexHeader(latex_file);
+    LatexFile latex_file(Tagger().ExportFolderName());
     latex_file << Table(results);
-    latex_file << IncludeGraphic(bdt_file_name, "BDT Distribution");
-    latex_file << IncludeGraphic(efficiency_file_name, "Efficiency");
-    latex_file << IncludeGraphic(significance_file_name, "Significance");
-    LatexFooter(latex_file);
+    latex_file.IncludeGraphic(bdt_file_name, "BDT Distribution");
+    latex_file.IncludeGraphic(efficiency_file_name, "Efficiency");
+    latex_file.IncludeGraphic(significance_file_name, "Significance");
 }
 
 Results Plotting::ReadBdtFiles() const
@@ -196,7 +195,7 @@ TLegend Plotting::Legend(Orientation orientation, Strings const& entries, std::s
         return entry_1.size() < entry_2.size();
     })->size();
     float letter_width = 0.01;
-    float letter_height = 0.05;
+    float letter_height = 0.06;
     float image_width = 0.1;
     float width = letter_width * letters + image_width;
     float height = entries.size() * letter_height;
@@ -251,7 +250,7 @@ std::string Plotting::PlotEfficiencyGraph(Results const& results) const
         graphs.emplace_back(TGraph(result.steps, &results.x_values[0], &result.efficiency[0]));
     }
     TLegend legend = Legend(Orientation::bottom | Orientation::left, nice_names);
-    for (auto & graph : graphs) AddGraph(graph, multi_graph, legend, nice_names.at(&graph - &graphs[0]), &graph - &graphs[0]);
+    for (auto & graph : graphs) AddGraph(graph, multi_graph, legend, nice_names, &graph - &graphs[0]);
     multi_graph.Draw("al");
     multi_graph.GetXaxis()->SetLimits(results.min.x, results.max.x);
     SetAxis(*multi_graph.GetXaxis(), "BDT");
@@ -267,15 +266,15 @@ TLine Plotting::Line(Results results, float y_min, float y_max) const
 {
     TLine line(results.BestXValue(), y_min, results.BestXValue(), y_max);
     line.SetLineStyle(2);
-    if (results.best_bin != 0)line.Draw();
+    if (results.best_bin != 0) line.Draw();
     return line;
 }
 
-void Plotting::AddGraph(TGraph& graph, TMultiGraph& multi_graph, TLegend& legend, std::string const& name, int index) const
+void Plotting::AddGraph(TGraph& graph, TMultiGraph& multi_graph, TLegend& legend, Strings const& names, int index) const
 {
     SetPlotStyle(graph, index);
     multi_graph.Add(&graph);
-    legend.AddEntry(&graph, name.c_str(), "l");
+    legend.AddEntry(&graph, names.at(index).c_str(), "l");
 }
 
 void Plotting::PlotAcceptanceGraph(Results const& results) const
@@ -290,16 +289,16 @@ void Plotting::PlotAcceptanceGraph(Results const& results) const
         Point max(0.9, 0);
         for (auto const & background : results.background) {
             float min_y = background.pure_efficiency.at(Closest(signal.pure_efficiency, min.x));
-            if (min_y < min.y) min.y = min_y;
+            if (min_y < min.y && min_y > 0) min.y = min_y;
             float max_y = background.pure_efficiency.at(Closest(signal.pure_efficiency, max.x));
             if (max_y > max.y) max.y = max_y;
             graphs.emplace_back(TGraph(background.steps, &signal.pure_efficiency[0], &background.pure_efficiency[0]));
             nice_names.emplace_back(background.info_branch_.Name);
         }
+        if(min.y == LargeNumber()) min.y = 0;
         if (min.y > 0 && min.y / max.y < 0.1) canvas.SetLogy();
-        Error(min.y, max.y, min.y / max.y);
         TLegend legend = Legend(Orientation::left | Orientation::top, nice_names, signal.info_branch_.Name);
-        for (auto & graph : graphs) AddGraph(graph, multi_graph, legend, nice_names.at(&graph - &graphs[0]), &graph - &graphs[0]);
+        for (auto & graph : graphs) AddGraph(graph, multi_graph, legend, nice_names, &graph - &graphs[0]);
         SetMultiGraph(multi_graph, min, max);
         legend.Draw();
         std::string efficiency_file_name = Tagger().ExportFolderName() + "-Acceptance" + ExportFileSuffix();
@@ -339,30 +338,6 @@ std::string Plotting::PlotSignificanceGraph(Results const& results) const
     return file_name;
 }
 
-void Plotting::LatexHeader(std::ofstream& latex_file) const
-{
-    Debug();
-    std::string file_name = Tagger().ExportFolderName() + ".tex";
-    latex_file.open(file_name);
-    latex_file << "\\documentclass[a4paper,10pt]{article}\n\n"
-               << "\\usepackage{booktabs}\n"
-               << "\\usepackage{graphicx}\n"
-               // << "\\usepackage[landscape]{geometry}\n"
-               << "\\usepackage[cm]{fullpage}\n"
-               // << "\\usepackage{units}\n"
-               // << "\\usepackage{siunitx}\n\n"
-               // << "\\newcolumntype{R}{S[table-number-alignment = right, table-parse-only]}\n"
-               // << "\\newcolumntype{L}{S[table-number-alignment = left,table-parse-only]}\n"
-               // << "\\newcolumntype{E}{R@{$\\pm$}L}\n"
-               << "\\usepackage{tikz}\n"
-               << "\\usetikzlibrary{patterns}\n"
-               << "\\usetikzlibrary{plotmarks}\n"
-               << "\\setcounter{topnumber}{0}\n"
-               << "\\setcounter{bottomnumber}{4}\n"
-               << "\\renewcommand{\\bottomfraction}{1}\n"
-               << "\n\\begin{document}\n";
-}
-
 std::string Plotting::Table(Results const& results) const
 {
     std::stringstream table;
@@ -378,19 +353,6 @@ std::string Plotting::Table(Results const& results) const
     table_footer << " \\bottomrule\n\\end{tabular}\n\\caption{Significance and efficiencies.}\n\\end{table}\n";
     table << table_footer.str();
     return table.str();
-}
-
-std::string Plotting::IncludeGraphic(std::string& file_name, std::string caption) const
-{
-    return "\n\\begin{figure}\n\\centering\n\\includegraphics[width=0.5\\textwidth]{../" + file_name + "}\n\\caption{" + caption + "}\n\\end{figure}\n";
-    return "\n\\begin{figure}\n\\centering\n\\scalebox{0.6}{\\input{" + file_name + "}}\n\\caption{" + caption + ".}\n\\end{figure}\n";
-}
-
-void Plotting::LatexFooter(std::ofstream& latex_file) const
-{
-    Debug();
-    latex_file << "\n\\end{document}\n";
-    latex_file.close();
 }
 
 void Plotting::RunPlots() const
