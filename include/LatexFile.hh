@@ -10,7 +10,7 @@ class LatexFile
 public:
     LatexFile(std::string const& name) {
         latex_file_.open(name + ".tex");
-        latex_file_ << "\\documentclass[a4paper,10pt]{article}\n\n"
+        latex_file_ << "\\documentclass[a4paper,11pt]{article}\n\n"
                     << "\\usepackage{booktabs}\n"
                     << "\\usepackage{graphicx}\n"
                     // << "\\usepackage[landscape]{geometry}\n"
@@ -20,9 +20,9 @@ public:
                     // << "\\newcolumntype{R}{S[table-number-alignment = right, table-parse-only]}\n"
                     // << "\\newcolumntype{L}{S[table-number-alignment = left,table-parse-only]}\n"
                     // << "\\newcolumntype{E}{R@{$\\pm$}L}\n"
-                    << "\\usepackage{tikz}\n"
-                    << "\\usetikzlibrary{patterns}\n"
-                    << "\\usetikzlibrary{plotmarks}\n"
+//                     << "\\usepackage{tikz}\n"
+//                     << "\\usetikzlibrary{patterns}\n"
+//                     << "\\usetikzlibrary{plotmarks}\n"
                     << "\\setcounter{topnumber}{0}\n"
                     << "\\setcounter{bottomnumber}{4}\n"
                     << "\\renewcommand{\\bottomfraction}{1}\n"

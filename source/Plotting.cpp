@@ -349,9 +349,7 @@ std::string Plotting::Table(Results const& results) const
     table << "\n \\\\ \\midrule\n";
     for (auto const & result : results.signal) table << " \\verb|" << Tagger().TreeNames(Tag::signal).at(&result - &results.signal[0]) << "|\n  & " << RoundToDigits(result.efficiency.at(results.best_bin)) << "\n  & " << result.event_sums.at(results.best_bin) << "\n  & " << result.info_branch_.EventNumber << "\n  & " << RoundToDigits(result.info_branch_.Crosssection) << "\n \\\\";
     for (auto const & result : results.background) table << " \\verb|" << Tagger().TreeNames(Tag::background).at(&result - &results.background[0]) << "|\n  & " << RoundToDigits(result.efficiency.at(results.best_bin)) << "\n  & " << result.event_sums.at(results.best_bin) << "\n  & " << result.info_branch_.EventNumber << "\n  & " << RoundToDigits(result.info_branch_.Crosssection) << "\n \\\\";
-    std::stringstream table_footer;
-    table_footer << " \\bottomrule\n\\end{tabular}\n\\caption{Significance and efficiencies.}\n\\end{table}\n";
-    table << table_footer.str();
+    table << " \\bottomrule\n\\end{tabular}\n\\caption{Significance and efficiencies.}\n\\end{table}\n";
     return table.str();
 }
 
@@ -365,7 +363,7 @@ void Plotting::RunPlots() const
         Plots background = backgrounds.front();
         if (backgrounds.size() > 1) {
             background = std::accumulate(backgrounds.begin() + 1, backgrounds.end(), background, [](Plots & sum, Plots const & elem) {
-                for (auto const & plot : elem.plots) sum.plots.at(&plot - &elem.plots[0]).points = Join(sum.plots.at(&plot - &elem.plots[0]).points, plot.points);
+              for (auto & plot : sum.plots) plot.points = Join(plot.points, elem.plots.at(&plot - &sum.plots[0]).points);
                 return sum;
             });
             background.name = "background";

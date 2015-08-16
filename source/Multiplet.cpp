@@ -24,14 +24,20 @@ fastjet::PseudoJet Multiplet::Jet(fastjet::PseudoJet const& jet_1, fastjet::Pseu
     else constituents.emplace_back(jet_2);
 
     fastjet::PseudoJet jet = fastjet::join(constituents, InfoRecombiner());
+    if (int((jet_1 + jet_2).m()) != int(jet.m())) {
+      std::sort(constituents.begin(), constituents.end(),[](fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2){return jet_1.pt() > jet_2.pt();});
+        constituents.erase(std::unique(constituents.begin(), constituents.end()), constituents.end());
+    }
+    jet = fastjet::join(constituents, InfoRecombiner());
     Check(int((jet_1 + jet_2).m()) == int(jet.m()), jet.m(), (jet_1 + jet_2).m(), jet_1.m(), jet_2.m());
+
     return jet;
 }
 
 float Multiplet::DeltaPt(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const
 {
     float delta_pt  = multiplets_1.Jet().pt() - multiplets_2.Jet().pt();
-    if(delta_pt != delta_pt) return 0;
+    if (delta_pt != delta_pt) return 0;
     return delta_pt;
 }
 
@@ -99,7 +105,7 @@ float Multiplet::Dipolarity(const MultipletBase& multiplets_1, const MultipletBa
     if (jet.pt() == 0) return 0;
     float dipolarity = 0;
     if (!jet.has_constituents()) return 0;
-    for (auto const& constituent : jet.constituents()) {
+    for (auto const & constituent : jet.constituents()) {
         if (constituent.pt() > jet.pt()) continue;
 
         float phi = constituent.phi_std();
@@ -129,7 +135,7 @@ int Multiplet::Charge(const MultipletBase& multiplets_1, const MultipletBase& mu
 
 float Multiplet::BottomBdt(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const
 {
-   return (multiplets_1.BottomBdt() + multiplets_2.BottomBdt()) / 2 ;
+    return (multiplets_1.BottomBdt() + multiplets_2.BottomBdt()) / 2 ;
 }
 
 

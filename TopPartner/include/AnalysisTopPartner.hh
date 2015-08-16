@@ -35,8 +35,8 @@ public:
 protected:
 
     int Mass() const {
-      return 10000;
       return 2000;
+      return 10000;
     }
 
     long EventNumberMax() const override {
