@@ -9,6 +9,10 @@
 namespace boca
 {
 
+/**
+ * @brief Higgs CPV analysis
+ *
+ */
 namespace higgscpv
 {
 

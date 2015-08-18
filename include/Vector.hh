@@ -174,7 +174,7 @@ auto unordered_pairs(const std::vector<Element>& container, Function function)
 
 template < typename Element1, typename Element2, typename Function, typename Result = typename std::result_of<Function&(Element1, Element2)>::type >
 /**
- * @brief forms all \f$n^2\f$ pairs of the elements in the two containers, applies the function and returns a vector of its elements
+ * @brief forms all \f$n \times m\f$ pairs of the elements in the two containers, applies the function and returns a vector of its elements
  *
  */
 auto pairs(const std::vector<Element1>& container_1, const std::vector<Element2>& container_2, Function function)
@@ -192,7 +192,7 @@ auto pairs(const std::vector<Element1>& container_1, const std::vector<Element2>
 
 template < typename Element1, typename Element2, typename Function, typename Result = typename std::result_of<Function&(Element1,Element1, Element2)>::type >
 /**
- * @brief forms all \f$(n^2 - n) / 2\f$ unordered pairs, applies to them the function and returns a vector of its results
+ * @brief forms all \f$(n^2 - n) / 2 \times m\f$ triples, applies to them the function and returns a vector of its results
  *
  */
 auto triples(const std::vector<Element1>& container1, const std::vector<Element2>& container2,Function function)

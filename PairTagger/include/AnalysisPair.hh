@@ -6,7 +6,7 @@ namespace boca
 {
 
 /**
- * @brief Namespace for the fusion pair analysis
+ * @brief Fusion pair analysis
  *
  */
 namespace fusionpair

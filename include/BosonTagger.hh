@@ -6,20 +6,16 @@
 #include "BottomTagger.hh"
 #include "Reader.hh"
 
+namespace boca {
+
+class Doublet;
+
 /**
  * @brief Derived Tagger class targeting W, Z and h bosons.
  * @author Jan Hajer
  * @copyright Copyright (C) 2015 Jan Hajer
  * @date 2015
  * @license GPL 3
- *
- */
-namespace boca {
-
-class Doublet;
-
-/**
- * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
 class BosonTagger : public BranchTagger<PairBranch> {

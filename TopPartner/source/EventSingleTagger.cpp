@@ -3,7 +3,7 @@
 
 namespace boca {
 
-namespace toppartner {
+namespace naturalness {
 
 EventSingleTagger::EventSingleTagger()
 {

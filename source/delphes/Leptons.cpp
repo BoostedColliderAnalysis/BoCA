@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "delphes/Leptons.hh"
 #include "delphes/Delphes.hh"
 #include "Types.hh"

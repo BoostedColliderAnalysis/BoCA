@@ -5,12 +5,18 @@
 
 #include <string>
 /**
- * @brief analysis namespace containing the general analysis and SM taggers
+ * @brief contains the general analysis and SM taggers
  *
  */
-namespace boca {
+namespace boca
+{
 
-enum class Id {
+/**
+ * @brief PDG particle naming conventions
+ *
+ */
+enum class Id
+{
     empty = 0,
     down = 1,
     up = 2,
@@ -29,7 +35,7 @@ enum class Id {
     photon = 22,
     Z = 23,
     W = 24,
-    higgs = 25, //<Higgs boson
+    higgs = 25, ///< Higgs boson
     heavy_higgs = 35,
     CP_odd_higgs = 36,
     charged_higgs = 37,

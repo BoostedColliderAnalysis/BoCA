@@ -15,6 +15,10 @@
 namespace boca
 {
 
+/**
+ * @brief Tagger base class using Branch template
+ *
+ */
 template<typename BranchTemplate>
 class BranchTagger : public Tagger
 {

@@ -7,7 +7,7 @@ namespace boca
 {
 
 /**
- * @brief Namespace for the heavy higgs analyses
+ * @brief Heavy higgs analyses
  *
  */
 

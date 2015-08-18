@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "../Hadrons.hh"
@@ -13,6 +16,10 @@ typedef ::Jet Jet;
 namespace boca
 {
 
+/**
+ * @brief Delphes object extraction
+ *
+ */
 namespace delphes
 {
 
@@ -24,7 +31,7 @@ class Hadrons : public boca::Hadrons
 {
 
 public:
-  boca::Jets Jets() const final {
+    boca::Jets Jets() const final {
         switch (DetectorGeometry::jet_type()) {
         case JetType::jet :
             return DelphesJets(JetDetail::structure | JetDetail::isolation);
@@ -59,7 +66,7 @@ private:
     template <typename Clone>
     std::vector<Constituent> JetId(const Clone& clone) const {
         std::vector<Constituent> constituents;
-        for (auto const& particle_number : Range(clone.Particles.GetEntriesFast())) {
+        for (auto const & particle_number : Range(clone.Particles.GetEntriesFast())) {
             Family family = BranchFamily(*clone.Particles.At(particle_number));
             constituents.emplace_back(Constituent(const_cast<Clone&>(clone).P4(), family));
         }
@@ -80,7 +87,7 @@ private:
     template<typename Particle, typename EFlow>
     bool Isolation(const EFlow& e_flow, Branch branch) const {
         bool isolated = true;
-        for (auto const& particle_number : Range(clones_arrays().EntrySum(branch))) {
+        for (auto const & particle_number : Range(clones_arrays().EntrySum(branch))) {
             Particle& particle = static_cast<Particle&>(clones_arrays().Object(branch, particle_number));
             isolated = CheckIsolation(e_flow, particle);
         }

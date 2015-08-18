@@ -11,7 +11,7 @@
 namespace boca {
 
 /**
- * @brief Analysis provides main analysis loops and logic.
+ * @brief provides main analysis loops and logic.
  * @details This class has to be subclassed for each analysis.
  * The subclasses have to be instantiated with a Tagger as template argument.
  * Subclasses should be templated classes.

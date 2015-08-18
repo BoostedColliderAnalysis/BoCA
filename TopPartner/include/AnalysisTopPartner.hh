@@ -7,7 +7,11 @@
 namespace boca
 {
 
-namespace toppartner
+/**
+ * @brief Naturalness measurment
+ *
+ */
+namespace naturalness
 {
 
 enum class Process
@@ -35,8 +39,8 @@ public:
 protected:
 
     int Mass() const {
-      return 2000;
-      return 10000;
+        return 2000;
+        return 10000;
     }
 
     long EventNumberMax() const override {
@@ -70,13 +74,13 @@ protected:
         case Process::Tth : crosssection = 0.004964;
             break;
         case Process::TT :
-          switch (Mass()) {
+            switch (Mass()) {
             case 2000 : crosssection = 0.264;
                 break;
             case 10000 : crosssection = 2.485e-05;
                 break;
             default : crosssection = 0;
-            Error("wrong mass", Mass());
+                Error("wrong mass", Mass());
             }
             break;
         case Process::ttBjj :
@@ -110,7 +114,7 @@ protected:
             case 2000 : return name + "-2000GeV";
             case 10000 : return name + "-10000GeV";
             default : return name;
-            Error("wrong mass", Mass());
+                Error("wrong mass", Mass());
             }
         }
         case Process::ttBjj : {
@@ -145,7 +149,7 @@ protected:
     }
 
     void NewFile(Tag tag, Process process) {
-        AnalysisBase::NewFile(tag, this->Name(process), this->Crosssection(process), this->NiceName(process),Mass());
+        AnalysisBase::NewFile(tag, this->Name(process), this->Crosssection(process), this->NiceName(process), Mass());
     }
 
 };

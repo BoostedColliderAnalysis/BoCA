@@ -4,7 +4,7 @@
 
 namespace boca {
 
-namespace toppartner {
+namespace naturalness {
 
 /**
  *

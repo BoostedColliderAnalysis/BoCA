@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "ExRootAnalysis/ExRootClasses.h"
@@ -6,6 +9,10 @@
 #include "ExRootAnalysis/ExRootTreeBranch.h"
 #include "ExRootAnalysis/ExRootProgressBar.h"
 
+/**
+ * @brief ExRoot
+ *
+ */
 namespace exroot {
 
 typedef ::TRootLHEFEvent LHEFEvent;

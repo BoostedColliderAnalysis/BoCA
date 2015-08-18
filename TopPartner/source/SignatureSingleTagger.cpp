@@ -5,7 +5,7 @@
 namespace boca
 {
 
-namespace toppartner
+namespace naturalness
 {
 
 SignatureSingleTagger::SignatureSingleTagger()

@@ -7,11 +7,6 @@
 
 namespace boca {
 
-/**
- * @brief Namespace for the heavy higgs analyses
- *
- */
-
 namespace heavyhiggs {
 
 template<typename Tagger>

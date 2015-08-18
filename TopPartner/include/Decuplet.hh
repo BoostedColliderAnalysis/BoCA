@@ -5,7 +5,7 @@
 
 namespace boca {
 
-namespace toppartner {
+namespace naturalness {
 
 class Decuplet55 : public TwoBody<Quintet, Quintet> {
 
@@ -25,13 +25,13 @@ public:
 
 };
 
-class Decuplet73 : public TwoBody<boca::toppartner::Septet, boca::Triplet> {
+class Decuplet73 : public TwoBody<boca::naturalness::Septet, boca::Triplet> {
 
 public:
 
-  using TwoBody<boca::toppartner::Septet, boca::Triplet>::TwoBody;
+  using TwoBody<boca::naturalness::Septet, boca::Triplet>::TwoBody;
 
-    boca::toppartner::Septet const& Septet() const
+    boca::naturalness::Septet const& Septet() const
     {
         return Multiplet1();
     }
