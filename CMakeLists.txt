@@ -3,7 +3,7 @@
 #
 
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
-project(Analysis CXX)
+project(BoCA CXX)
 
 # Load some basic macros which are needed later on
 include(CMakeFiles/CMakeConfig.cmake)
