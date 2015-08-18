@@ -50,3 +50,7 @@ The `main.cpp` defines the order in which each `Tagger` is passed to the `Analys
 * avoid heap allocation (`new`)
 * prefer references `&` over pointers `*`
 * follow [these naming conventions](https://google-styleguide.googlecode.com/svn/trunk/cppguide.html#Naming)
+ 
+## Source code documentation
+
+[Documentation](http://boostedcollideranalysis.github.io/BoCA)
