@@ -1,3 +1,6 @@
+#
+# Copyright (C) 2015 Jan Hajer
+#
 add_subdirectory(exroot)
 add_subdirectory(delphes)
 

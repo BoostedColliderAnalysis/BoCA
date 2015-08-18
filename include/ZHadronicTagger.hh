@@ -1,23 +1,27 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "BottomTagger.hh"
 #include "Doublet.hh"
 #include "Reader.hh"
 
-namespace analysis {
+namespace analysis
+{
 
 /**
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class ZHadronicTagger : public BranchTagger<ZHadronicBranch> {
+class ZHadronicTagger : public BranchTagger<ZHadronicBranch>
+{
 
-public:
+public:chr
 
     ZHadronicTagger();
 
-    int Train(Event const& event, PreCuts const& pre_cuts,
-              Tag tag) const final;
+    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
 
     std::vector<Doublet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
@@ -25,13 +29,18 @@ public:
         return SaveEntries(Multiplets(event, pre_cuts, reader), 2);
     }
 
-    auto Multiplets(Event const& event, TMVA::Reader const& reader) const
-    {
+    auto Multiplets(Event const& event, TMVA::Reader const& reader) const {
         PreCuts pre_cuts;
         return Multiplets(event, pre_cuts, reader);
     }
 
-    std::string Name() const final { return "ZHadronic"; }
+    std::string Name() const final {
+        return "ZHadronic";
+    }
+
+    std::string NiceName() const final {
+        return "Z";
+    }
 
 private:
 

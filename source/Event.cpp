@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "Event.hh"
 #include "delphes/Partons.hh"
 #include "delphes/Leptons.hh"

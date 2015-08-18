@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "BosonTagger.hh"
 #include "Event.hh"
 #include "Doublet.hh"

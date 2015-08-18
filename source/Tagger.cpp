@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "Tagger.hh"
 
 #include "TMVA/Reader.h"

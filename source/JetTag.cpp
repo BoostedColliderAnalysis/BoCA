@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "JetTag.hh"
 #include "Types.hh"
 #include "Debug.hh"

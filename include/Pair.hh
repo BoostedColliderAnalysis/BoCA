@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #define PAIR1(value) ::analysis::Obs(value, #value, #value)

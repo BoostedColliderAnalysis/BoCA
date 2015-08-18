@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include <vector>
@@ -6,8 +9,6 @@
 #include "Rtypes.h"
 
 namespace analysis {
-
-// typedef std::pair<float &, std::string> ObservablePair;
 
 class Obs {
 public:

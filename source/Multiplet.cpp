@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "Multiplet.hh"
 
 #include "InfoRecombiner.hh"
@@ -122,7 +125,7 @@ float Multiplet::Dipolarity(const MultipletBase& multiplets_1, const MultipletBa
     return dipolarity / jet.pt() / sqr(DeltaR(multiplets_1, multiplets_2));
 }
 
-float Multiplet::Distance(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2, const Vector2& point_0) const
+float Multiplet::Distance(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2, Vector2 const& point_0) const
 {
     Vector2 point_1(multiplets_1.Jet().rap(), multiplets_1.Jet().phi_std());
     Vector2 point_2(multiplets_2.Jet().rap(), multiplets_2.Jet().phi_std());

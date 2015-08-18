@@ -1,4 +1,8 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
+
 #include "Identification.hh"
 #include "Vector2.hh"
 #include "fastjet/PseudoJet.hh"

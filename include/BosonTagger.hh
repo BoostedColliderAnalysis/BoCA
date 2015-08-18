@@ -1,8 +1,19 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "BottomTagger.hh"
 #include "Reader.hh"
 
+/**
+ * @brief Derived Tagger class targeting W, Z and h bosons.
+ * @author Jan Hajer
+ * @copyright Copyright (C) 2015 Jan Hajer
+ * @date 2015
+ * @license GPL 3
+ *
+ */
 namespace analysis {
 
 class Doublet;

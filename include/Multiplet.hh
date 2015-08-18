@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "MultipletBase.hh"
@@ -82,7 +85,7 @@ private:
 
     float Pull(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const;
 
-    float Distance(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2, const Vector2& point_0) const;
+    float Distance(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2, Vector2 const& point_0) const;
 
 };
 

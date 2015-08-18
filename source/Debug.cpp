@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "fastjet/PseudoJet.hh"
 #include "Debug.hh"
 

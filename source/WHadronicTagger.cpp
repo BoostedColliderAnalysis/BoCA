@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "WHadronicTagger.hh"
 
 #include "Event.hh"

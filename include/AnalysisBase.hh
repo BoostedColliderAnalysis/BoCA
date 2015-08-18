@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "Tagger.hh"
@@ -11,7 +14,11 @@ namespace analysis {
 class File;
 
 /**
- * @brief Base for all analyses
+ * @brief Base for all analyses.
+ * @author Jan Hajer
+ * @copyright Copyright (C) 2015 Jan Hajer
+ * @date 2015
+ * @license GPL 3
  *
  */
 class AnalysisBase {

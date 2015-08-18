@@ -1,5 +1,7 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "TripletJetPairTagger.hh"
-// #include "Types.hh"
 #include "Sort.hh"
 #include "Event.hh"
 #include "Debug.hh"

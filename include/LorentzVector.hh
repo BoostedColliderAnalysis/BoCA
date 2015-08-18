@@ -9,8 +9,6 @@
  * For the list of contributors see $ROOTSYS/README/CREDITS.             *
  *************************************************************************/
 
-
-
 #pragma once
 
 #include "Vector3.hh"
@@ -46,7 +44,7 @@ public:
     LorentzVector(float x, float y, float z, float t);
 
 // Constructor from an array, not checked!
-    LorentzVector(const float* carray);
+    LorentzVector(float const* carray);
 
 // Constructor giving a 3-Vector and a time component.
     LorentzVector(Vector3 vector3, float t);
@@ -81,7 +79,7 @@ public:
     Vector3 Vect() const ;
 
 // Set spatial component.
-    void SetVect(const Vector3& vect3);
+    void SetVect(Vector3 const& vect3);
 
 // Get spatial vector components in spherical coordinate system.
     float Theta() const;
@@ -144,11 +142,11 @@ public:
     void SetPerp(float);
 
 // Transverse component of the spatial vector w.r.t. given axis squared.
-    float Perp2(const Vector3& v) const;
+    float Perp2(Vector3 const& v) const;
 
 // Transverse component of the spatial vector w.r.t. given axis.
-    float Pt(const Vector3& v) const;
-    float Perp(const Vector3& v) const;
+    float Pt(Vector3 const& v) const;
+    float Perp(Vector3 const& v) const;
 
 // Transverse energy squared.
     float Et2() const;
@@ -157,10 +155,10 @@ public:
     float Et() const;
 
 // Transverse energy w.r.t. given axis squared.
-    float Et2(const Vector3&) const;
+    float Et2(Vector3 const&) const;
 
 // Transverse energy w.r.t. given axis.
-    float Et(const Vector3&) const;
+    float Et(Vector3 const&) const;
 
     float DeltaPhi(const LorentzVector&) const;
     float DeltaR(const LorentzVector&) const;
@@ -168,7 +166,7 @@ public:
 //     Vector2 EtaPhiVector();
 
 // Angle wrt. another vector.
-    float Angle(const Vector3& v) const;
+    float Angle(Vector3 const& v) const;
 
 // Invariant mass squared.
     float Mag2() const;
@@ -192,8 +190,8 @@ public:
     float operator * (const LorentzVector&) const;
 
 // Copy spatial coordinates, and set energy = sqrt(mass^2 + spatial^2)
-    void SetVectMag(const Vector3& spatial, float magnitude);
-    void SetVectM(const Vector3& spatial, float mass);
+    void SetVectMag(Vector3 const& spatial, float magnitude);
+    void SetVectM(Vector3 const& spatial, float mass);
 
 // Returns t +/- z.
 // Related to the positive/negative light-cone component,
@@ -206,7 +204,7 @@ public:
 
 // Lorentz boost.
     void Boost(float, float, float);
-    void Boost(const Vector3&);
+    void Boost(Vector3 const&);
 
 // Returns the rapidity, i.e. 0.5*ln((E+pz)/(E-pz))
     float Rapidity() const;

@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "HiggsTagger.hh"
 #include "Event.hh"
 #include "Types.hh"

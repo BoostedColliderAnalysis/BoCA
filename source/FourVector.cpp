@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "FourVector.hh"
 
 #include "TClonesArray.h"

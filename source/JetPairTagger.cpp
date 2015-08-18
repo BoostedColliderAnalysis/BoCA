@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "JetPairTagger.hh"
 #include "Event.hh"
 #include "Sort.hh"

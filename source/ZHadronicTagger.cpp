@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "ZHadronicTagger.hh"
 #include "Event.hh"
 #include "Debug.hh"

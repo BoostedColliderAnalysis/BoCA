@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "GlobalObservables.hh"
 #include "InfoRecombiner.hh"
 #include "Event.hh"

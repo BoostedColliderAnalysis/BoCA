@@ -1,3 +1,7 @@
+#
+# Copyright (C) 2015 Jan Hajer
+#
+
 unset(link_libraries CACHE)
 unset(include_directories CACHE)
 
@@ -48,9 +52,7 @@ endmacro(create_library)
 macro(create_executable executable_name executable_source)
   message("Executable:   ${executable_name} <- ${executable_source}")
   add_executable(${executable_name} ${executable_source})
-  if (UNIX AND NOT APPLE)
     target_link_libraries(${executable_name} ${link_libraries})
-  endif()
 endmacro(create_executable)
 
 macro(create_dictionary dictionary_name dictionary_source link_def)

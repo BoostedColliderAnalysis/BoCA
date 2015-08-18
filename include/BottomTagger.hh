@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "Branches.hh"
@@ -7,7 +10,11 @@
 namespace analysis {
 
 /**
- * @brief Bottom BDT tagger
+ * @brief Derived Tagger class for bottom jets.
+ * @author Jan Hajer
+ * @copyright Copyright (C) 2015 Jan Hajer
+ * @date 2015
+ * @license GPL 3
  *
  */
 class BottomTagger : public BranchTagger<BottomBranch> {
