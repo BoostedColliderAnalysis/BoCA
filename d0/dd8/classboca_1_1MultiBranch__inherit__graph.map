@@ -1,0 +1,27 @@
+<map id="boca::MultiBranch" name="boca::MultiBranch">
+<area shape="rect" id="node7" href="$d9/dfc/classboca_1_1EventBranch.html" title="Class for saving event informations to root. " alt="" coords="1060,177,1193,203"/>
+<area shape="rect" id="node14" href="$d0/d56/classboca_1_1heavyhiggs_1_1ChargedHiggsLeptonicBranch.html" title="Higgs tagger root tree structure. " alt="" coords="1036,228,1217,269"/>
+<area shape="rect" id="node15" href="$dc/df4/classboca_1_1heavyhiggs_1_1ChargedHiggsSemiBranch.html" title="Charged Higgs semi tagger root tree structure. " alt="" coords="1036,293,1217,335"/>
+<area shape="rect" id="node16" href="$dd/dd1/classboca_1_1heavyhiggs_1_1HeavyHiggsSemiBranch.html" title="Higgs tagger root tree structure. " alt="" coords="1025,359,1229,400"/>
+<area shape="rect" id="node17" href="$d8/d06/classboca_1_1heavyhiggs_1_1OctetChargedBranch.html" title="Higgs cpv tagger root tree structure. " alt="" coords="1020,424,1233,465"/>
+<area shape="rect" id="node18" href="$d0/d45/classboca_1_1heavyhiggs_1_1OctetNeutralBranch.html" title="Higgs cpv tagger root tree structure. " alt="" coords="1023,489,1230,531"/>
+<area shape="rect" id="node19" href="$d5/d04/classboca_1_1higgscpv_1_1OctetBranch.html" title="Higgs cpv tagger root tree structure. " alt="" coords="1031,555,1222,582"/>
+<area shape="rect" id="node20" href="$d3/de2/classboca_1_1higgscpv_1_1SignatureLeptonicBranch.html" title="Higgs cpv tagger root tree structure. " alt="" coords="1040,607,1213,648"/>
+<area shape="rect" id="node21" href="$db/d71/classboca_1_1higgscpv_1_1SignatureLeptonTaggerBranch.html" title="Higgs cpv tagger root tree structure. " alt="" coords="1040,672,1213,713"/>
+<area shape="rect" id="node22" href="$d9/df4/classboca_1_1higgscpv_1_1SignatureTTaggerBranch.html" title="Higgs cpv tagger root tree structure. " alt="" coords="1040,737,1213,779"/>
+<area shape="rect" id="node23" href="$db/d5d/classboca_1_1higgscpv_1_1TopLeptonicPairBranch.html" title="Higgs tagger root tree structure. " alt="" coords="1032,803,1221,844"/>
+<area shape="rect" id="node24" href="$de/d3b/classboca_1_1naturalness_1_1HiggsPairBranch.html" title="Higgs cpv tagger root tree structure. " alt="" coords="1060,868,1193,909"/>
+<area shape="rect" id="node25" href="$d1/d93/classboca_1_1naturalness_1_1SignatureBranch.html" title="boca::naturalness::\lSignatureBranch" alt="" coords="1060,933,1193,975"/>
+<area shape="rect" id="node26" href="$d8/dce/classboca_1_1naturalness_1_1TopPartnerBranch.html" title="Higgs cpv tagger root tree structure. " alt="" coords="1060,999,1193,1040"/>
+<area shape="rect" id="node27" href="$d0/dc8/classboca_1_1TopHadronicBranch.html" title="Top tagger root tree structure. " alt="" coords="1040,1065,1213,1091"/>
+<area shape="rect" id="node2" href="$d6/d3d/classboca_1_1PairBranch.html" title="boca::PairBranch" alt="" coords="675,614,797,641"/>
+<area shape="rect" id="node3" href="$d8/d91/classboca_1_1ParticleBranch.html" title="Class for saving event informations to root. " alt="" coords="484,614,627,641"/>
+<area shape="rect" id="node4" href="$dd/dfc/classboca_1_1ResultBranch.html" title="boca::ResultBranch" alt="" coords="299,614,436,641"/>
+<area shape="rect" id="node5" href="$dc/d87/classboca_1_1BaseBranch.html" title="Basic tree branches. " alt="" coords="121,614,251,641"/>
+<area shape="rect" id="node8" href="$d3/d3f/classboca_1_1heavyhiggs_1_1EventChargedBranch.html" title="Higgs cpv tagger root tree structure. " alt="" coords="1281,5,1496,47"/>
+<area shape="rect" id="node9" href="$d8/da6/classboca_1_1heavyhiggs_1_1EventFusionBranch.html" title="Higgs cpv tagger root tree structure. " alt="" coords="1286,71,1491,112"/>
+<area shape="rect" id="node10" href="$db/dba/classboca_1_1heavyhiggs_1_1EventNeutralBranch.html" title="Higgs cpv tagger root tree structure. " alt="" coords="1285,136,1493,177"/>
+<area shape="rect" id="node11" href="$d0/d06/classboca_1_1heavyhiggs_1_1EventNeutralFourTopBranch.html" title="boca::heavyhiggs::EventNeutral\lFourTopBranch" alt="" coords="1285,201,1493,243"/>
+<area shape="rect" id="node12" href="$d2/d3f/classboca_1_1higgscpv_1_1EventBranch.html" title="Higgs cpv tagger root tree structure. " alt="" coords="1292,267,1485,294"/>
+<area shape="rect" id="node13" href="$d0/d21/classboca_1_1naturalness_1_1EventBranch.html" title="boca::naturalness::\lEventBranch" alt="" coords="1322,319,1455,360"/>
+</map>

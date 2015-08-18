@@ -1,0 +1,16 @@
+<map id="boca::naturalness::Septet" name="boca::naturalness::Septet">
+<area shape="rect" id="node2" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; boca\l::Quintet, boca::Doublet \&gt;" alt="" coords="2823,111,2996,153"/>
+<area shape="rect" id="node3" href="$d1/d5c/classboca_1_1Multiplet.html" title="boca::Multiplet" alt="" coords="621,135,728,161"/>
+<area shape="rect" id="node10" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; Singlet,\l Singlet \&gt;" alt="" coords="1191,350,1360,391"/>
+<area shape="rect" id="node11" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; Multiplet\l_1, Multiplet_2 \&gt;" alt="" coords="851,187,1025,229"/>
+<area shape="rect" id="node15" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; boca\l::Triplet, boca::Doublet \&gt;" alt="" coords="2384,187,2551,229"/>
+<area shape="rect" id="node17" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; boca\l::Doublet, boca::Singlet \&gt;" alt="" coords="1817,246,1988,287"/>
+<area shape="rect" id="node4" href="$de/d8b/classboca_1_1MultipletBase.html" title="boca::MultipletBase" alt="" coords="187,236,324,263"/>
+<area shape="rect" id="node6" href="$db/def/classboca_1_1Singlet.html" title="Thin wrapper to make fastjet::PseudoJet behave like a Multiplet. Additionally this class astracts awa..." alt="" coords="425,295,524,321"/>
+<area shape="rect" id="node5" href="$d4/de7/classboca_1_1Identification.html" title="boca::Identification" alt="" coords="5,240,137,267"/>
+<area shape="rect" id="node7" href="$df/d8a/classboca_1_1JetInfo.html" title="Jet infos subclassed from Fastjet. " alt="" coords="206,295,305,321"/>
+<area shape="rect" id="node9" href="$d4/d01/classboca_1_1Doublet.html" title="boca::Doublet" alt="" coords="1541,363,1644,389"/>
+<area shape="rect" id="node14" href="$d6/d72/classboca_1_1Quintet.html" title="boca::Quintet" alt="" coords="2600,157,2700,184"/>
+<area shape="rect" id="node16" href="$de/dad/classboca_1_1Triplet.html" title="boca::Triplet" alt="" coords="2167,253,2261,280"/>
+<area shape="rect" id="node18" href="$db/d9b/classboca_1_1SubJettiness.html" title="boca::SubJettiness" alt="" coords="1835,312,1970,339"/>
+</map>

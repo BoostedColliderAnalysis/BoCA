@@ -1,0 +1,7 @@
+<map id="boca::heavyhiggs::AnalysisCharged&lt; Tagger &gt;" name="boca::heavyhiggs::AnalysisCharged&lt; Tagger &gt;">
+<area shape="rect" id="node2" href="$dd/d8c/classboca_1_1heavyhiggs_1_1AnalysisHeavyHiggs.html" title="Analysis for heavy higgs. " alt="" coords="90,260,273,301"/>
+<area shape="rect" id="node3" href="$d1/d36/classboca_1_1Analysis.html" title="provides main analysis loops and logic. " alt="" coords="95,184,267,211"/>
+<area shape="rect" id="node4" href="$d7/d62/classboca_1_1AnalysisBase.html" title="Base for all analyses. " alt="" coords="5,95,144,121"/>
+<area shape="rect" id="node5" href="$d0/dff/classboca_1_1PreCuts.html" title="boca::PreCuts" alt="" coords="21,5,128,32"/>
+<area shape="rect" id="node6" href="$da/d42/classboca_1_1Tagger.html" title="Prepares multivariant analysis. " alt="" coords="168,95,267,121"/>
+</map>

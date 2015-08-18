@@ -1,0 +1,12 @@
+<map id="boca::Triplet" name="boca::Triplet">
+<area shape="rect" id="node2" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; boca\l::Doublet, boca::Singlet \&gt;" alt="" coords="1767,115,1937,157"/>
+<area shape="rect" id="node3" href="$d1/d5c/classboca_1_1Multiplet.html" title="boca::Multiplet" alt="" coords="621,60,728,87"/>
+<area shape="rect" id="node10" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; Singlet,\l Singlet \&gt;" alt="" coords="1191,79,1360,121"/>
+<area shape="rect" id="node11" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; Multiplet\l_1, Multiplet_2 \&gt;" alt="" coords="851,103,1025,145"/>
+<area shape="rect" id="node4" href="$de/d8b/classboca_1_1MultipletBase.html" title="boca::MultipletBase" alt="" coords="187,132,324,159"/>
+<area shape="rect" id="node6" href="$db/def/classboca_1_1Singlet.html" title="Thin wrapper to make fastjet::PseudoJet behave like a Multiplet. Additionally this class astracts awa..." alt="" coords="425,191,524,217"/>
+<area shape="rect" id="node5" href="$d4/de7/classboca_1_1Identification.html" title="boca::Identification" alt="" coords="5,136,137,163"/>
+<area shape="rect" id="node7" href="$df/d8a/classboca_1_1JetInfo.html" title="Jet infos subclassed from Fastjet. " alt="" coords="206,191,305,217"/>
+<area shape="rect" id="node9" href="$d4/d01/classboca_1_1Doublet.html" title="boca::Doublet" alt="" coords="1541,92,1644,119"/>
+<area shape="rect" id="node14" href="$db/d9b/classboca_1_1SubJettiness.html" title="boca::SubJettiness" alt="" coords="1785,181,1919,208"/>
+</map>

@@ -1,0 +1,19 @@
+var searchData=
+[
+  ['chain_5f',['chain_',['../db/dc2/classboca_1_1File.html#aacf28f465a1d2afa88753c3bd5965073',1,'boca::File']]],
+  ['charge',['Charge',['../d8/d91/classboca_1_1ParticleBranch.html#a817d2ce4f06ddbb6d42144106afee704',1,'boca::ParticleBranch']]],
+  ['charge_5f',['charge_',['../d3/d8f/classboca_1_1Constituent.html#a56e0c0d6b9212ef018a7622281fdf83f',1,'boca::Constituent::charge_()'],['../df/d8a/classboca_1_1JetInfo.html#ace673c0fb94cc0b0645f337076f661e6',1,'boca::JetInfo::charge_()']]],
+  ['charged_5fhiggs_5fsemi_5freader_5f',['charged_higgs_semi_reader_',['../dc/d14/classboca_1_1heavyhiggs_1_1SignatureChargedTagger.html#abc319101e7b763ef6cd998fca6f20a38',1,'boca::heavyhiggs::SignatureChargedTagger']]],
+  ['check_5ffour_5fvectors_5f',['check_four_vectors_',['../d3/d84/classboca_1_1FourVector.html#a470fc099d232cc32e52c4862b943ffdb',1,'boca::FourVector']]],
+  ['check_5fvalue_5f',['check_value_',['../d3/d84/classboca_1_1FourVector.html#a7131681cfa40802ed41c9081f821d94a',1,'boca::FourVector']]],
+  ['clones_5farrays_5f',['clones_arrays_',['../d2/d52/classboca_1_1ClonesArrays.html#a7d6fd2adfee9c49e48778b71d0316726',1,'boca::ClonesArrays::clones_arrays_()'],['../d3/d84/classboca_1_1FourVector.html#ad63845ccc3ffeec980136c68d3f574a4',1,'boca::FourVector::clones_arrays_()'],['../d8/d44/classboca_1_1Trees.html#ace88ec90d5dc2e592d4826539cbd5068',1,'boca::Trees::clones_arrays_()']]],
+  ['clustermass',['ClusterMass',['../de/d10/classboca_1_1TauBranch.html#a108ed2915ae6d9135658689400707343',1,'boca::TauBranch']]],
+  ['collider_5ftype_5f',['collider_type_',['../d4/d19/classboca_1_1Configuration.html#a34333ff125e20d76910cb23101ec61da',1,'boca::Configuration']]],
+  ['config_5f',['config_',['../d4/d19/classboca_1_1Configuration.html#a9acc76d4a131e14aa4e4b1e004d62335',1,'boca::Configuration']]],
+  ['constituents_5f',['constituents_',['../df/d8a/classboca_1_1JetInfo.html#a07376b02953236e1d97bac5bd3f77479',1,'boca::JetInfo']]],
+  ['coreenergyfraction',['CoreEnergyFraction',['../de/d10/classboca_1_1TauBranch.html#a7454a865fc8b76759a33151f9475560e',1,'boca::TauBranch']]],
+  ['crosssection',['Crosssection',['../d0/de6/classboca_1_1InfoBranch.html#aca7a67f5d34270d988c887a491c3cb48',1,'boca::InfoBranch']]],
+  ['crosssection_5f',['crosssection_',['../db/dc2/classboca_1_1File.html#a4777ccc275043077cf98b0fa67f7d1a1',1,'boca::File']]],
+  ['crosssection_5ferror_5f',['crosssection_error_',['../db/dc2/classboca_1_1File.html#a60cf851bb09b8baa04de0677c3085eef',1,'boca::File']]],
+  ['crosssectionerror',['CrosssectionError',['../d0/de6/classboca_1_1InfoBranch.html#a7310596ded85746da57fb4d21efc20c5',1,'boca::InfoBranch']]]
+];

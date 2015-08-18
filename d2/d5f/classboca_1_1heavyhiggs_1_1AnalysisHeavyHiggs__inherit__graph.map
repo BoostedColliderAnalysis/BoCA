@@ -1,0 +1,8 @@
+<map id="boca::heavyhiggs::AnalysisHeavyHiggs&lt; Tagger &gt;" name="boca::heavyhiggs::AnalysisHeavyHiggs&lt; Tagger &gt;">
+<area shape="rect" id="node4" href="$d3/d17/classboca_1_1heavyhiggs_1_1AnalysisCharged.html" title="HAnalysis subclass defining the HiggsCPV Analysis. " alt="" coords="643,5,825,47"/>
+<area shape="rect" id="node5" href="$d2/d68/classboca_1_1heavyhiggs_1_1AnalysisFusion.html" title="HAnalysis subclass defining the HiggsCPV Analysis. " alt="" coords="643,71,825,112"/>
+<area shape="rect" id="node6" href="$d9/df8/classboca_1_1heavyhiggs_1_1AnalysisNeutral.html" title="HAnalysis subclass defining the HiggsCPV Analysis. " alt="" coords="643,136,825,177"/>
+<area shape="rect" id="node7" href="$dd/d4e/classboca_1_1heavyhiggs_1_1AnalysisNeutralFourTop.html" title="boca::heavyhiggs::Analysis\lNeutralFourTop\&lt; Tagger \&gt;" alt="" coords="643,201,825,243"/>
+<area shape="rect" id="node2" href="$d1/d36/classboca_1_1Analysis.html" title="provides main analysis loops and logic. " alt="" coords="192,111,364,138"/>
+<area shape="rect" id="node3" href="$d7/d62/classboca_1_1AnalysisBase.html" title="Base for all analyses. " alt="" coords="5,111,144,138"/>
+</map>

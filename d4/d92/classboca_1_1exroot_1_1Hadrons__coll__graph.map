@@ -1,0 +1,6 @@
+<map id="boca::exroot::Hadrons" name="boca::exroot::Hadrons">
+<area shape="rect" id="node2" href="$d4/d20/classboca_1_1Hadrons.html" title="Base class for jets. " alt="" coords="72,171,179,197"/>
+<area shape="rect" id="node3" href="$d3/d84/classboca_1_1FourVector.html" title="converts Clones to LorentzVectors and fastjet::PseudoJets " alt="" coords="64,95,187,121"/>
+<area shape="rect" id="node4" href="$d4/d8b/classboca_1_1JetTag.html" title="defines how to tag a jet " alt="" coords="5,5,104,32"/>
+<area shape="rect" id="node5" href="$d2/d52/classboca_1_1ClonesArrays.html" title="Base class for loading the TreeBrancheses into ClonesArrays. " alt="" coords="129,5,266,32"/>
+</map>

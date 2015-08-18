@@ -1,0 +1,35 @@
+<map id="TopPartner/include/HiggsPairTagger.hh" name="TopPartner/include/HiggsPairTagger.hh">
+<area shape="rect" id="node2" href="$d5/d38/Quartet_8hh.html" title="Quartet.hh" alt="" coords="275,95,358,121"/>
+<area shape="rect" id="node19" href="$d1/d1b/HiggsTagger_8hh.html" title="HiggsTagger.hh" alt="" coords="1427,169,1542,196"/>
+<area shape="rect" id="node50" href="$d9/d80/BranchesTopPartner_8hh.html" title="BranchesTopPartner.hh" alt="" coords="1828,95,1987,121"/>
+<area shape="rect" id="node3" href="$d7/db9/Triplet_8hh.html" title="Triplet.hh" alt="" coords="279,169,355,196"/>
+<area shape="rect" id="node18" href="$d0/d55/ThreeBody_8hh.html" title="ThreeBody.hh" alt="" coords="91,319,193,345"/>
+<area shape="rect" id="node4" href="$df/d3a/Doublet_8hh.html" title="Doublet.hh" alt="" coords="274,244,359,271"/>
+<area shape="rect" id="node5" href="$d0/d32/TwoBody_8hh.html" title="TwoBody.hh" alt="" coords="269,319,364,345"/>
+<area shape="rect" id="node6" href="$db/d60/Singlet_8hh.html" title="Singlet.hh" alt="" coords="77,475,157,502"/>
+<area shape="rect" id="node14" href="$d0/d7f/Multiplet_8hh.html" title="Multiplet.hh" alt="" coords="33,393,123,420"/>
+<area shape="rect" id="node15" href="$d3/d7e/Vector_8hh.html" title="Vector.hh" alt="" coords="1499,475,1577,502"/>
+<area shape="rect" id="node7" href="$d1/dce/JetInfo_8hh.html" title="JetInfo.hh" alt="" coords="147,557,227,584"/>
+<area shape="rect" id="node12" href="$da/db5/MultipletBase_8hh.html" title="MultipletBase.hh" alt="" coords="5,557,124,584"/>
+<area shape="rect" id="node9" href="$d8/d85/Identification_8hh.html" title="Identification.hh" alt="" coords="283,632,398,659"/>
+<area shape="rect" id="node11" href="$d3/d32/Constituent_8hh.html" title="Constituent.hh" alt="" coords="422,632,529,659"/>
+<area shape="rect" id="node13" href="$db/d8e/Vector2_8hh.html" title="Vector2.hh" alt="" coords="6,632,91,659"/>
+<area shape="rect" id="node16" href="$db/da5/Particles_8hh.html" title="Particles.hh" alt="" coords="1657,557,1747,584"/>
+<area shape="rect" id="node17" href="$db/d66/DetectorGeometry_8hh.html" title="DetectorGeometry.hh" alt="" coords="1431,557,1578,584"/>
+<area shape="rect" id="node20" href="$de/dbb/BottomTagger_8hh.html" title="BottomTagger.hh" alt="" coords="1423,244,1546,271"/>
+<area shape="rect" id="node46" href="$df/d2c/Reader_8hh.html" title="Reader.hh" alt="" coords="1821,319,1903,345"/>
+<area shape="rect" id="node21" href="$d0/d79/Branches_8hh.html" title="Branches.hh" alt="" coords="2116,475,2211,502"/>
+<area shape="rect" id="node25" href="$d2/d41/BranchTagger_8hh.html" title="BranchTagger.hh" alt="" coords="1331,319,1452,345"/>
+<area shape="rect" id="node26" href="$d1/d8c/Tagger_8hh.html" title="Tagger.hh" alt="" coords="1742,393,1822,420"/>
+<area shape="rect" id="node34" href="$d6/dd8/Types_8hh.html" title="Types.hh" alt="" coords="1949,632,2025,659"/>
+<area shape="rect" id="node36" href="$db/d31/Sort_8hh.html" title="Sort.hh" alt="" coords="181,475,245,502"/>
+<area shape="rect" id="node38" href="$d7/d7f/Math_8hh.html" title="Math.hh" alt="" coords="750,393,819,420"/>
+<area shape="rect" id="node40" href="$d3/d96/ExRootAnalysis_8hh.html" title="exroot/ExRootAnalysis.hh" alt="" coords="880,393,1055,420"/>
+<area shape="rect" id="node29" href="$de/d1f/Observable_8hh.html" title="Observable.hh" alt="" coords="1749,632,1855,659"/>
+<area shape="rect" id="node30" href="$d5/df2/Event_8hh.html" title="Event.hh" alt="" coords="2342,475,2417,502"/>
+<area shape="rect" id="node31" href="$d0/d6b/Partons_8hh.html" title="Partons.hh" alt="" coords="2503,557,2589,584"/>
+<area shape="rect" id="node32" href="$d7/dac/Leptons_8hh.html" title="Leptons.hh" alt="" coords="2392,557,2479,584"/>
+<area shape="rect" id="node33" href="$dd/dee/Hadrons_8hh.html" title="Hadrons.hh" alt="" coords="2279,557,2368,584"/>
+<area shape="rect" id="node37" href="$d6/dc8/LorentzVector_8hh.html" title="LorentzVector.hh" alt="" coords="252,557,373,584"/>
+<area shape="rect" id="node47" href="$da/d59/PreCuts_8hh.html" title="PreCuts.hh" alt="" coords="1897,393,1985,420"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="boca::Event" name="boca::Event">
+<area shape="rect" id="node2" href="$d8/d8f/classboca_1_1Leptons.html" title="calculation regarding leptons " alt="" coords="5,171,109,197"/>
+<area shape="rect" id="node3" href="$d3/d84/classboca_1_1FourVector.html" title="converts Clones to LorentzVectors and fastjet::PseudoJets " alt="" coords="124,95,247,121"/>
+<area shape="rect" id="node6" href="$d1/dfd/classboca_1_1Partons.html" title="particles for HAnalysis " alt="" coords="134,171,237,197"/>
+<area shape="rect" id="node7" href="$d4/d20/classboca_1_1Hadrons.html" title="Base class for jets. " alt="" coords="261,171,368,197"/>
+<area shape="rect" id="node4" href="$d4/d8b/classboca_1_1JetTag.html" title="defines how to tag a jet " alt="" coords="65,5,164,32"/>
+<area shape="rect" id="node5" href="$d2/d52/classboca_1_1ClonesArrays.html" title="Base class for loading the TreeBrancheses into ClonesArrays. " alt="" coords="189,5,326,32"/>
+</map>
