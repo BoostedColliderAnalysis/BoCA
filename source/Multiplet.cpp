@@ -25,7 +25,7 @@ fastjet::PseudoJet Multiplet::Jet(fastjet::PseudoJet const& jet_1, fastjet::Pseu
 
     fastjet::PseudoJet jet = fastjet::join(constituents, InfoRecombiner());
     if (int((jet_1 + jet_2).m()) != int(jet.m())) {
-      std::sort(constituents.begin(), constituents.end(),[](fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2){return jet_1.pt() > jet_2.pt();});
+        constituents = fastjet::sorted_by_pt(constituents);
         constituents.erase(std::unique(constituents.begin(), constituents.end()), constituents.end());
     }
     jet = fastjet::join(constituents, InfoRecombiner());

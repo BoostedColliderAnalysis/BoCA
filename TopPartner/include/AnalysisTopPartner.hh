@@ -142,7 +142,6 @@ protected:
         case Process::TThh : return "#tilde t_{l}#tilde t_{h}hh";
         default: Error("no case");
         }
-//         (" + std::to_string(PreCut()) + " GeV)";
     }
 
     void NewFile(Tag tag, Process process) {

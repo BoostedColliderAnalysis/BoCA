@@ -73,7 +73,7 @@ public:
     std::vector<float> pure_efficiency;
     std::vector<float> bdt;
     InfoBranch info_branch_;
-    const static int steps = 20000;
+    const static int steps = 100;
 private:
     long event_sum_;
 };

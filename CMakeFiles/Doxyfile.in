@@ -105,4 +105,6 @@ DOT_CLEANUP            = YES
 
 SEARCHENGINE           = YES
 
+USE_MATHJAX            = YES
+
 ALIASES += "license=@par License:\n"

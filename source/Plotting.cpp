@@ -203,7 +203,7 @@ TLegend Plotting::Legend(Orientation orientation, Strings const& entries, std::s
     // default values for Orientation::center
     float x_shift = 0.5;
     float y_shift = 0.5;
-    float x_offset = width / 8;
+    float x_offset = width / 4;
     float y_offset = height / 2;
     FlagSwitch(orientation, [&](Orientation orientation) {
         switch (orientation) {
@@ -213,7 +213,7 @@ TLegend Plotting::Legend(Orientation orientation, Strings const& entries, std::s
             break;
         case Orientation::right:
             x_shift = 1;
-            x_offset = width / 4;
+            x_offset = width / 2;
             break;
         case Orientation::top:
             y_shift = 1;
@@ -228,9 +228,9 @@ TLegend Plotting::Legend(Orientation orientation, Strings const& entries, std::s
     });
     float margin = 0.03;
     float x_unit = 1 - gPad->GetLeftMargin() - gPad->GetRightMargin() - 2 * margin;
-    float y_unit = 1 - gPad->GetTopMargin() - gPad->GetBottomMargin() - 2 * margin;
+    float y_unit = 1 - gPad->GetBottomMargin() - gPad->GetTopMargin() - 2 * margin;
     float x_min = gPad->GetLeftMargin() + margin + x_shift * x_unit - x_offset;
-    float y_min = gPad->GetTopMargin() + margin + y_shift * y_unit - y_offset;
+    float y_min = gPad->GetBottomMargin() + margin + y_shift * y_unit - y_offset;
     return Legend(x_min, y_min, width, height, title);
 }
 

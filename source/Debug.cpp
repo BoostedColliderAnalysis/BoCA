@@ -1,3 +1,4 @@
+#include "fastjet/PseudoJet.hh"
 #include "Debug.hh"
 
 namespace analysis {
