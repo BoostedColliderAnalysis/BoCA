@@ -9,6 +9,7 @@ This code performs BDT analyses based on root files originating from MadGraph / 
 * `fastjet`
 * `fastjet contrib` (must be compiled with `CXXFLAGS=-fPIC`)
 * `libconfig`
+* `doxygen` for class documentation
 
 ## Installation
 
