@@ -16,13 +16,12 @@ This code performs BDT analyses based on root files originating from MadGraph / 
 * the following is tested on recent ubuntu installations
 * edit `MadGraph` path in `FindMadGraph.cmake`
 * if you are using a `ROOT` version other than the system version edit the `ROOT` path in `FindROOT.cmake`
-```
-mkdir build
-cd build
-cmake ..
-make # for external dependencies
-make # for the actual program
-```
+
+    mkdir build
+    cd build
+    cmake ..
+    make # for external dependencies
+    make # for the actual program
 
 ## Usage
 
@@ -47,6 +46,15 @@ The `main.cpp` defines the order in which each `Tagger` is passed to the `Analys
 ## Coding style
 
 * use standard library when possible
-* avoid heap allocation (`new`)
+* avoid heap allocation `new`
 * prefer references `&` over pointers `*`
 * follow [these naming conventions](https://google-styleguide.googlecode.com/svn/trunk/cppguide.html#Naming)
+
+
+## License
+
+[License](License.md)
+
+## Authors
+
+[Authors](Authors.md)

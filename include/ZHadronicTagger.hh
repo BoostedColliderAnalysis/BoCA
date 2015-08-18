@@ -17,7 +17,7 @@ namespace analysis
 class ZHadronicTagger : public BranchTagger<ZHadronicBranch>
 {
 
-public:chr
+public:
 
     ZHadronicTagger();
 

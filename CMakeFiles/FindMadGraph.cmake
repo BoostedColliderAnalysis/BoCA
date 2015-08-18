@@ -1,3 +1,7 @@
+#
+# Copyright (C) 2015 Jan Hajer
+#
+
 # set path to madgraph folder
 set(
 MadGraphDir

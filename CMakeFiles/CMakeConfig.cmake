@@ -52,7 +52,7 @@ endmacro(create_library)
 macro(create_executable executable_name executable_source)
   message("Executable:   ${executable_name} <- ${executable_source}")
   add_executable(${executable_name} ${executable_source})
-    target_link_libraries(${executable_name} ${link_libraries})
+  target_link_libraries(${executable_name} ${link_libraries})
 endmacro(create_executable)
 
 macro(create_dictionary dictionary_name dictionary_source link_def)
