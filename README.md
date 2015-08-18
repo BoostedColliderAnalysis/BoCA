@@ -4,16 +4,17 @@ This code performs BDT analyses based on root files originating from MadGraph / 
 
 ## Dependencies
 
-* ROOT
-* MadGraph with installed ExRootAnalysis and Delphes
-* fastjet
-* fastjet contrib (must be compiled with `CXXFLAGS=-fPIC`)
-* libconfig
+* `ROOT`
+* `MadGraph` with installed `ExRootAnalysis` and `Delphes`
+* `fastjet`
+* `fastjet contrib` (must be compiled with `CXXFLAGS=-fPIC`)
+* `libconfig`
+* `doxygen` for class documentation
 
 ## Installation
 
 * the following is tested on recent ubuntu installations
-* edit `MadGraph` path in `FindMadGraph.cmake`
+* edit `MadGraphDir` in `FindMadGraph.cmake`
 * if you are using a `ROOT` version other than the system version edit the `ROOT` path in `FindROOT.cmake`
 ```
 mkdir build
@@ -25,15 +26,15 @@ make # for the actual program
 
 ## Usage
 
-Each analysis need a dedicated `Analysis` class, a set of `Tagger` classess and a `main.cpp` file.
-The `Analysis` class contains the global information of the analysis, such as file names, path names, variables names.
-Each `Tagger` class reconstructs a specific signature, every analysis needs at least one dedicated `Tagger`.
+Each analysis needs a dedicated `Analysis` class, a set of `Tagger` classess and a `main.cpp` file.
+The `Analysis` class contains the global information of the analysis, such as file names, path names, variables names etc.
+Every `Tagger` class tags or reconstructs one specific particle or signature. Each analysis needs at least one dedicated `Tagger`.
 The `main.cpp` defines the order in which each `Tagger` is passed to the `Analysis`.
 
 ## Git commands
 
-* initial download of the project `git clone https://janhajer@bitbucket.org/janhajer/analysis.git`
-* downloading update from the server `git pull`
+* initial download of the project `git clone https://NAME@bitbucket.org/janhajer/analysis.git`
+* downloading updates from the server `git pull`
 * save changes of specific files `git commit FILES`
 * save changes in to all files `git commit -a`
 * upload changes to server `git push`
