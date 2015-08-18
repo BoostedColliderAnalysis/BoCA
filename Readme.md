@@ -4,12 +4,13 @@ This code performs BDT analyses based on root files originating from MadGraph / 
 
 ## Dependencies
 
-* ROOT
-* MadGraph with installed ExRootAnalysis and Delphes
-* fastjet
-* fastjet contrib (must be compiled with `CXXFLAGS=-fPIC`)
-* libconfig
-* The PEG
+* `ROOT`
+* `MadGraph` with installed `ExRootAnalysis` and `Delphes`
+* `fastjet`
+* `fastjet contrib` (must be compiled with `CXXFLAGS=-fPIC`)
+* `libconfig`
+* `doxygen` for class documentation
+* `The PEG`
 
 ## Installation
 
