@@ -18,7 +18,7 @@ public:
 
     TwoBody() {};
 
-    TwoBody(const Multiplet_1& multiplet_1, const Multiplet_2& multiplet_2) {
+    TwoBody(Multiplet_1 const& multiplet_1, Multiplet_2 const& multiplet_2) {
         SetMultiplets(multiplet_1, multiplet_2);
     }
 
@@ -26,7 +26,7 @@ public:
         SetJet(jet);
     }
 
-    void SetMultiplets(const Multiplet_1& multiplet_1, const Multiplet_2& multiplet_2) {
+    void SetMultiplets(Multiplet_1 const& multiplet_1, Multiplet_2 const& multiplet_2) {
         multiplet_1_ = multiplet_1;
         multiplet_2_ = multiplet_2;
         if (multiplet_1.Bdt() != initial_value() && multiplet_2.Bdt() != initial_value()) SetBdt(multiplet_1.Bdt(), multiplet_2.Bdt());
@@ -45,7 +45,7 @@ public:
         return multiplet_1_;
     }
 
-    const Multiplet_1& Multiplet1() const {
+    Multiplet_1 const& Multiplet1() const {
         return multiplet_1_;
     }
 
@@ -53,12 +53,12 @@ public:
         return multiplet_2_;
     }
 
-    const Multiplet_2& Multiplet2() const {
+    Multiplet_2 const& Multiplet2() const {
         return multiplet_2_;
     }
 
     template <typename Multiplet3>
-    bool Overlap(const Multiplet3& multiplet) const {
+    bool Overlap(Multiplet3 const& multiplet) const {
         return (multiplet.Overlap(multiplet_1_) || multiplet.Overlap(multiplet_2_));
     }
 
@@ -151,11 +151,11 @@ public:
 
 protected:
 
-    void SetMultiplet1(const Multiplet_1 multiplet_1) {
+    void SetMultiplet1(Multiplet_1 const& multiplet_1) {
         multiplet_1_ = multiplet_1;
     }
 
-    void SetMultiplet2(const Multiplet_2 multiplet_2) {
+    void SetMultiplet2(Multiplet_2 const& multiplet_2) {
         multiplet_2_ = multiplet_2;
     }
 

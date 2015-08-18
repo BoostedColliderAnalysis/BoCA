@@ -17,7 +17,7 @@ class MultipletEvent : public boca::TwoBody<Multiplet_1, boca::Singlet> {
 
 public:
 
-    MultipletEvent(const Multiplet_1& multiplet, Event const& event, Jets& jets) {
+    MultipletEvent(Multiplet_1 const& multiplet, Event const& event, Jets& jets) {
         global_observables_.SetEvent(event);
         Jets unique_jets;
         for (auto const& jet : jets) if (!multiplet.Overlap(jet)) unique_jets.emplace_back(jet);

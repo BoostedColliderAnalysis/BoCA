@@ -17,7 +17,7 @@ class MultipletSignature : public Identification {
 
 public:
 
-  MultipletSignature(const Multiplet_1& multiplet) {
+  MultipletSignature(Multiplet_1 const& multiplet) {
         multiplet_ = multiplet;
         event_shape_.SetJets(multiplet.Jets());
 

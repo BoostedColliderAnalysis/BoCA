@@ -13,7 +13,7 @@ class MultipletBase : public Identification {
 
 public:
 
-  virtual const MultipletBase& singlet() const = 0;
+  virtual MultipletBase const& singlet() const = 0;
 
   virtual fastjet::PseudoJet Jet() const = 0;
 

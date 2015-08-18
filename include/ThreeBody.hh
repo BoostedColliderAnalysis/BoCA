@@ -17,7 +17,7 @@ public:
 
     ThreeBody() {};
 
-    ThreeBody(const Multiplet_1& multiplet_1, const Multiplet_2& multiplet_2, const Multiplet_3& multiplet_3) {
+    ThreeBody(Multiplet_1 const& multiplet_1, Multiplet_2 const& multiplet_2, const Multiplet_3& multiplet_3) {
         SetMultiplets(multiplet_1, multiplet_2, multiplet_3);
     }
 
@@ -25,7 +25,7 @@ public:
         SetJet(jet);
     }
 
-    void SetMultiplets(const Multiplet_1& multiplet_1, const Multiplet_2& multiplet_2, const Multiplet_3& multiplet_3) {
+    void SetMultiplets(Multiplet_1 const& multiplet_1, Multiplet_2 const& multiplet_2, const Multiplet_3& multiplet_3) {
         multiplet_1_ = multiplet_1;
         multiplet_2_ = multiplet_2;
         multiplet_3_ = multiplet_3;
@@ -49,11 +49,11 @@ public:
         return singlet_;
     }
 
-    const Multiplet_1& Multiplet1() const {
+    Multiplet_1 const& Multiplet1() const {
         return multiplet_1_;
     }
 
-    const Multiplet_2& Multiplet2() const {
+    Multiplet_2 const& Multiplet2() const {
         return multiplet_2_;
     }
 
