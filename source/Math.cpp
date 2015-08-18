@@ -7,7 +7,7 @@
 
 #include "Debug.hh"
 
-namespace analysis
+namespace boca
 {
 
 float Distance(float rapidity_1, float phi_1, float rapidity_2, float phi_2)

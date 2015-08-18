@@ -3,7 +3,7 @@
 #include "MultipletEvent.hh"
 #include "SignatureChargedTagger.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace heavyhiggs {
 

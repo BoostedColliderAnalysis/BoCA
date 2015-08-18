@@ -4,7 +4,7 @@
 #include "DetectorGeometry.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 /**
  * @brief Constructor

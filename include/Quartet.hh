@@ -6,7 +6,7 @@
 #include "Triplet.hh"
 #include "ThreeBody.hh"
 
-namespace analysis {
+namespace boca {
 
 class Quartet22 : public TwoBody<Doublet, Doublet> {
 
@@ -24,29 +24,29 @@ public:
 
 };
 
-class Quartet31 : public TwoBody<analysis::Triplet, analysis::Singlet> {
+class Quartet31 : public TwoBody<boca::Triplet, boca::Singlet> {
 
 public:
 
-    using TwoBody<analysis::Triplet, analysis::Singlet>::TwoBody;
+    using TwoBody<boca::Triplet, boca::Singlet>::TwoBody;
 
-    analysis::Triplet const& Triplet() const;
+    boca::Triplet const& Triplet() const;
 
-    analysis::Singlet const& Singlet() const;
+    boca::Singlet const& Singlet() const;
 
 };
 
-class Quartet211 : public ThreeBody<analysis::Doublet, analysis::Singlet, analysis::Singlet> {
+class Quartet211 : public ThreeBody<boca::Doublet, boca::Singlet, boca::Singlet> {
 
 public:
 
-  using ThreeBody<analysis::Doublet, analysis::Singlet, analysis::Singlet>::ThreeBody;
+  using ThreeBody<boca::Doublet, boca::Singlet, boca::Singlet>::ThreeBody;
 
-  analysis::Doublet const& Doublet() const;
+  boca::Doublet const& Doublet() const;
 
-  analysis::Singlet const& Singlet1() const;
+  boca::Singlet const& Singlet1() const;
 
-  analysis::Singlet const& Singlet2() const;
+  boca::Singlet const& Singlet2() const;
 
 };
 

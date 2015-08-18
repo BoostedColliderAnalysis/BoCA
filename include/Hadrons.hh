@@ -6,7 +6,7 @@
 #include "FourVector.hh"
 #include "Types.hh"
 
-namespace analysis
+namespace boca
 {
 
 /**
@@ -25,7 +25,7 @@ public:
      */
     void NewEvent(const ClonesArrays& clones_arrays);
 
-    virtual analysis::Jets Jets() const = 0;
+    virtual boca::Jets Jets() const = 0;
 
     virtual float ScalarHt() const;
 
@@ -36,7 +36,7 @@ protected:
     template<typename Particle_1, typename Particle_2>
     bool CheckIsolation(const Particle_1& particle_1, const Particle_2& particle_2, float delta_r_isolation_max) const {
         bool isolated = false;
-        if (analysis::PseudoJet(const_cast<Particle_1&>(particle_1).P4()).delta_R(analysis::PseudoJet(const_cast<Particle_2&>(particle_2).P4())) < delta_r_isolation_max) isolated = true;
+        if (boca::PseudoJet(const_cast<Particle_1&>(particle_1).P4()).delta_R(boca::PseudoJet(const_cast<Particle_2&>(particle_2).P4())) < delta_r_isolation_max) isolated = true;
         return isolated;
     }
 

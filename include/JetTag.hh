@@ -7,7 +7,7 @@
 
 #include "Family.hh"
 
-namespace analysis {
+namespace boca {
 
 /**
  * @brief defines how to tag a jet

@@ -17,7 +17,7 @@
 #include "Trainer.hh"
 #include "Debug.hh"
 
-namespace analysis
+namespace boca
 {
 
 void AnalysisBase::Initialize()
@@ -89,12 +89,12 @@ void AnalysisBase::NewFile(Tag tag, std::string const& name, std::string const& 
 
 File AnalysisBase::File(Strings const& names, std::string const& nice_name) const
 {
-    return analysis::File(names, FilePath(), FileSuffix(), nice_name);
+    return boca::File(names, FilePath(), FileSuffix(), nice_name);
 }
 
 File AnalysisBase::File(Strings const& names, float crosssection, std::string const& nice_name, int mass) const
 {
-    return analysis::File(names, FilePath(), FileSuffix(), nice_name, crosssection, mass);
+    return boca::File(names, FilePath(), FileSuffix(), nice_name, crosssection, mass);
 }
 
 std::string AnalysisBase::FileName(const std::string&) const

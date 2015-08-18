@@ -2,7 +2,7 @@
 #include "Event.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace higgscpv {
 
@@ -12,7 +12,7 @@ SignatureTagger::SignatureTagger()
     DefineVariables();
 }
 
-int SignatureTagger::Train(Event const& event, analysis::PreCuts const&, Tag tag) const
+int SignatureTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) const
 {
     Info();
     std::vector<Sextet> sextets = triplet_pair_reader_.Tagger().TruthLevel(event,triplet_pair_reader_.Multiplets(event),tag);

@@ -4,7 +4,7 @@
 #include "Vector.hh"
 #include "Debug.hh"
 
-namespace analysis
+namespace boca
 {
 
 namespace toppartner
@@ -27,7 +27,7 @@ enum class Process
  *
  */
 template<typename Tagger>
-class AnalysisNaturalness : public analysis::Analysis<Tagger>
+class AnalysisNaturalness : public boca::Analysis<Tagger>
 {
 
 public:

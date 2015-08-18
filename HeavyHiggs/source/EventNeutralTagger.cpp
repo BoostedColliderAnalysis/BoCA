@@ -2,7 +2,7 @@
 #include "Event.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace heavyhiggs {
 
@@ -12,7 +12,7 @@ EventNeutralTagger::EventNeutralTagger()
     DefineVariables();
 }
 
-int EventNeutralTagger::Train(analysis::Event const& event, PreCuts const&, Tag tag) const
+int EventNeutralTagger::Train(boca::Event const& event, PreCuts const&, Tag tag) const
 {
     Info("event Tags");
     Jets jets = bottom_reader_.Multiplets(event);
@@ -27,7 +27,7 @@ int EventNeutralTagger::Train(analysis::Event const& event, PreCuts const&, Tag 
     return SaveEntries(events);
 }
 
-std::vector<MultipletEvent<Octet62>> EventNeutralTagger::Multiplets(analysis::Event const& event, analysis::PreCuts const&, TMVA::Reader const& reader) const
+std::vector<MultipletEvent<Octet62>> EventNeutralTagger::Multiplets(boca::Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
     Info("event Tags");
     std::vector<Octet62> octets = signature_neutral_reader_.Multiplets(event);

@@ -6,7 +6,7 @@
 #include "Vector.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 Leptons::~Leptons()
 {

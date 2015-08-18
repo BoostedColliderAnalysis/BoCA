@@ -5,7 +5,7 @@
 
 #include <iostream>
 
-namespace analysis {
+namespace boca {
 
 Configuration::Configuration()
 {

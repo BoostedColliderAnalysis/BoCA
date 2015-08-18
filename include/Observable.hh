@@ -5,7 +5,7 @@
 
 #include <string>
 
-namespace analysis {
+namespace boca {
 
 class Observable {
 

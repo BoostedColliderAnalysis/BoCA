@@ -10,7 +10,7 @@ namespace delphes
 typedef ::Jet Jet;
 }
 
-namespace analysis
+namespace boca
 {
 
 namespace delphes
@@ -20,11 +20,11 @@ namespace delphes
  * @brief Delphes jets
  *
  */
-class Hadrons : public analysis::Hadrons
+class Hadrons : public boca::Hadrons
 {
 
 public:
-  analysis::Jets Jets() const final {
+  boca::Jets Jets() const final {
         switch (DetectorGeometry::jet_type()) {
         case JetType::jet :
             return DelphesJets(JetDetail::structure | JetDetail::isolation);
@@ -42,19 +42,19 @@ public:
 
 private:
 
-//     analysis::Jets UniqueJets() const;
+//     boca::Jets UniqueJets() const;
 
-//     analysis::Jets UniqueConstituents(TObject& object, const std::vector< TObject* > leptons) const;
+//     boca::Jets UniqueConstituents(TObject& object, const std::vector< TObject* > leptons) const;
 
-//     analysis::Jets GranulatedJets(analysis::Jets const& jets) const;
+//     boca::Jets GranulatedJets(boca::Jets const& jets) const;
 
-    analysis::Jets EFlowJets(analysis::JetDetail jet_detail) const;
+    boca::Jets EFlowJets(boca::JetDetail jet_detail) const;
 
-    analysis::Jets DelphesJets(JetDetail jet_detail) const;
+    boca::Jets DelphesJets(JetDetail jet_detail) const;
 
-    analysis::Jets EFlow(JetDetail jet_detail) const;
+    boca::Jets EFlow(JetDetail jet_detail) const;
 
-    analysis::Jets GenJets() const;
+    boca::Jets GenJets() const;
 
     template <typename Clone>
     std::vector<Constituent> JetId(const Clone& clone) const {
@@ -87,19 +87,19 @@ private:
         return isolated;
     }
 
-//     analysis::Jets Constituents(TObject const& object, const TLorentzVector lorentz_vector, const std::vector< TObject* > leptons) const;
+//     boca::Jets Constituents(TObject const& object, const TLorentzVector lorentz_vector, const std::vector< TObject* > leptons) const;
 
     bool Isolated(TObject const& object, std::vector<TObject*> const& leptons) const;
 
-    analysis::Jets EFlowTrack(const JetDetail) const;
+    boca::Jets EFlowTrack(const JetDetail) const;
 
-    analysis::Jets EFlowPhoton(const JetDetail) const;
+    boca::Jets EFlowPhoton(const JetDetail) const;
 
-    analysis::Jets EFlowHadron(const JetDetail) const;
+    boca::Jets EFlowHadron(const JetDetail) const;
 
-    analysis::Jets EFlowMuon(JetDetail jet_detail) const;
+    boca::Jets EFlowMuon(JetDetail jet_detail) const;
 
-    fastjet::PseudoJet StructuredJet(::delphes::Jet const& delphes_jet, std::vector< TObject* > const& leptons, analysis::JetDetail jet_detail) const;
+    fastjet::PseudoJet StructuredJet(::delphes::Jet const& delphes_jet, std::vector< TObject* > const& leptons, boca::JetDetail jet_detail) const;
 
     fastjet::PseudoJet ConstituentJet(TObject& object, JetDetail jet_detail, SubDetector sub_detector = SubDetector::none, const std::vector<TObject*> leptons = {}) const;
 

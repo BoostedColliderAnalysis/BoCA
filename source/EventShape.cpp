@@ -4,7 +4,7 @@
 #include "EventShape.hh"
 #include "fastjet/PseudoJet.hh"
 
-namespace analysis {
+namespace boca {
 
 class Peg
 {
@@ -67,11 +67,11 @@ void EventShape::SetJets(const std::vector< fastjet::PseudoJet >& jets)
 
 float EventShape::Sphericity() const
 {
-    return const_cast<analysis::EventShapes &>(EventShapes()).sphericity();
+    return const_cast<boca::EventShapes &>(EventShapes()).sphericity();
 }
 float EventShape::Aplanarity() const
 {
-  return const_cast<analysis::EventShapes &>(EventShapes()).aplanarity();
+  return const_cast<boca::EventShapes &>(EventShapes()).aplanarity();
 }
 
 }

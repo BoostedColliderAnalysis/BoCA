@@ -8,7 +8,7 @@
 #include "Sort.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 Jets Discriminator::GetCandidateJets(Jets const& EFlowJets, float ScalarHt)
 {

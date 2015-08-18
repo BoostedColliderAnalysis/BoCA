@@ -14,7 +14,7 @@
  * @license GPL 3
  *
  */
-namespace analysis {
+namespace boca {
 
 class Doublet;
 
@@ -48,7 +48,7 @@ private:
 
   Doublet CheckDoublet(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const;
 
-    Doublet Multiplet(analysis::Doublet& doublet, const analysis::PreCuts& pre_cuts, const TMVA::Reader& reader) const;
+    Doublet Multiplet(boca::Doublet& doublet, const boca::PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 
     bool Problematic(Doublet const& doublet, PreCuts const& pre_cuts, Tag tag) const;
 

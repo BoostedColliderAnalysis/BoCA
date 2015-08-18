@@ -4,7 +4,7 @@
 #include "Sextet.hh"
 #include "BranchesHiggsCpv.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace higgscpv {
 
@@ -18,10 +18,10 @@ public:
 
     TopLeptonicPairTagger();
 
-    int Train(Event const& event, analysis::PreCuts const&,
+    int Train(Event const& event, boca::PreCuts const&,
               Tag tag) const override;
 
-    std::vector<Sextet> Multiplets(Event const& event, analysis::PreCuts const&, TMVA::Reader const& reader) const;
+    std::vector<Sextet> Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const;
 
     int GetBdt(Event const& event, PreCuts const& pre_cuts,
                TMVA::Reader const& reader) const final {
@@ -36,7 +36,7 @@ public:
 
     std::string Name() const final { return "TopLeptonicPair"; }
 
-    std::vector<Sextet> TruthLevel(analysis::Event const& event, std::vector< analysis::Sextet > sextets, Tag tag) const;
+    std::vector<Sextet> TruthLevel(boca::Event const& event, std::vector< boca::Sextet > sextets, Tag tag) const;
 
 private:
 

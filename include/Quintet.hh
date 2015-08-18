@@ -5,17 +5,17 @@
 
 #include "Triplet.hh"
 
-namespace analysis {
+namespace boca {
 
-class Quintet : public TwoBody<analysis::Triplet, analysis::Doublet> {
+class Quintet : public TwoBody<boca::Triplet, boca::Doublet> {
 
 public:
 
-    using TwoBody<analysis::Triplet, analysis::Doublet>::TwoBody;
+    using TwoBody<boca::Triplet, boca::Doublet>::TwoBody;
 
-    analysis::Doublet const& Doublet() const;
+    boca::Doublet const& Doublet() const;
 
-    analysis::Triplet const& Triplet() const;
+    boca::Triplet const& Triplet() const;
 
 };
 

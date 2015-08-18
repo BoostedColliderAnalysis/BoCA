@@ -6,7 +6,7 @@
 #include "Particles.hh"
 #include "DetectorGeometry.hh"
 
-namespace analysis
+namespace boca
 {
 
 typedef std::vector<fastjet::PseudoJet> Jets;

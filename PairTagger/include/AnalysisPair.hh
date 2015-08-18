@@ -2,7 +2,7 @@
 
 #include "Analysis.hh"
 
-namespace analysis
+namespace boca
 {
 
 /**
@@ -41,7 +41,7 @@ std::string Name(Detector detector_type);
  *
  */
 template <typename Tagger>
-class Analysis : public analysis::Analysis<Tagger>
+class Analysis : public boca::Analysis<Tagger>
 {
 
 public:

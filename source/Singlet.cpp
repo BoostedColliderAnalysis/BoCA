@@ -8,7 +8,7 @@
 #include "Math.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 Singlet::Singlet(fastjet::PseudoJet const& jet)
 {

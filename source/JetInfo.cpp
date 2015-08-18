@@ -9,7 +9,7 @@
 #include "delphes/Delphes.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 JetInfo::JetInfo()
 {

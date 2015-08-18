@@ -16,7 +16,7 @@ class TVector3;
 template<class Element> class TMatrixT;
 typedef TMatrixT<Float_t> TMatrix;
 
-namespace analysis {
+namespace boca {
 
 /**
  * @brief Copy of root::TVector3 in order to get rid of TObject

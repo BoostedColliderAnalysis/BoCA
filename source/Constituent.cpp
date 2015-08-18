@@ -3,24 +3,24 @@
  */
 #include "Constituent.hh"
 
-namespace analysis {
+namespace boca {
 
 Constituent::Constituent() {};
 
-Constituent::Constituent(TLorentzVector const& momentum, const analysis::LorentzVector& position, const analysis::Family& family)
+Constituent::Constituent(TLorentzVector const& momentum, const boca::LorentzVector& position, const boca::Family& family)
 {
     momentum_ = momentum;
     position_ = position;
     family_ = family;
 }
 
-Constituent::Constituent(TLorentzVector const& momentum, const analysis::LorentzVector& position)
+Constituent::Constituent(TLorentzVector const& momentum, const boca::LorentzVector& position)
 {
     momentum_ = momentum;
     position_ = position;
 }
 
-Constituent::Constituent(TLorentzVector const& momentum, const analysis::LorentzVector& position, const analysis::SubDetector sub_detector, float charge)
+Constituent::Constituent(TLorentzVector const& momentum, const boca::LorentzVector& position, const boca::SubDetector sub_detector, float charge)
 {
     momentum_ = momentum;
     position_ = position;

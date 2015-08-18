@@ -2,7 +2,7 @@
 #define DEBUG
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace toppartner {
 
@@ -25,7 +25,7 @@ int EventPairTagger::Train(Event const& event, PreCuts const&, Tag tag) const
     return SaveEntries(multipletevents, 1);
 }
 
-std::vector<MultipletEvent<Decuplet55>> EventPairTagger::Multiplets(analysis::Event const& event, analysis::PreCuts const&, TMVA::Reader const& reader) const
+std::vector<MultipletEvent<Decuplet55>> EventPairTagger::Multiplets(boca::Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
     Info();
     Jets jets = bottom_reader_.Multiplets(event);

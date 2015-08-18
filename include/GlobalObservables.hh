@@ -5,7 +5,7 @@
 
 #include "Singlet.hh"
 
-namespace analysis {
+namespace boca {
 
 class Event;
 
@@ -13,7 +13,7 @@ class GlobalObservables {
 
 public:
 
-    void SetEvent(Event const& event, analysis::Jets const& jets);
+    void SetEvent(Event const& event, boca::Jets const& jets);
 
     void SetEvent(Event const& event);
 
@@ -37,18 +37,18 @@ public:
 
     float MissingEt() const;
 
-    analysis::Singlet Singlet() const;
+    boca::Singlet Singlet() const;
 
-    analysis::Jets Jets() const;
+    boca::Jets Jets() const;
 
-    void SetJets(const analysis::Jets jets);
+    void SetJets(const boca::Jets jets);
 
 private:
 
-    analysis::Jets leptons_;
+    boca::Jets leptons_;
     float scalar_ht_;
     float missing_et_;
-    analysis::Jets jets_;
+    boca::Jets jets_;
 
 };
 

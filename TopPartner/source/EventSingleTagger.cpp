@@ -1,7 +1,7 @@
 #include "EventSingleTagger.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace toppartner {
 
@@ -25,7 +25,7 @@ int EventSingleTagger::Train(Event const& event, PreCuts const&, Tag tag) const
     return SaveEntries(ReduceResult(multipletevents, 1));
 }
 
-std::vector<MultipletEvent<Decuplet82>> EventSingleTagger::Multiplets(analysis::Event const& event, analysis::PreCuts const&, TMVA::Reader const& reader) const
+std::vector<MultipletEvent<Decuplet82>> EventSingleTagger::Multiplets(boca::Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
     Info();
     Jets jets = bottom_reader_.Multiplets(event);

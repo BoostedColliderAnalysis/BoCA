@@ -5,7 +5,7 @@
 
 #include "Reconstruction.hh"
 
-namespace analysis {
+namespace boca {
 
 /**
  * @brief Jet Discriminator

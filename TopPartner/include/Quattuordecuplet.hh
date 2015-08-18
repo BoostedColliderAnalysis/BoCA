@@ -3,7 +3,7 @@
 #include "Decuplet.hh"
 #include "Quartet.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace toppartner {
 

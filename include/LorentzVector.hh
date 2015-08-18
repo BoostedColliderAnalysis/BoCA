@@ -15,7 +15,7 @@
 
 class TLorentzVector;
 
-namespace analysis {
+namespace boca {
 
 /**
  * @brief Copy of root::TLorentzVector in order to get rid of TObject which makes it unsuitable for heavy usage

@@ -2,7 +2,7 @@
 
 #include "../../include/Branches.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace toppartner {
 
@@ -64,13 +64,13 @@ private:
 
 };
 
-class EventBranch : public analysis::EventBranch {
+class EventBranch : public boca::EventBranch {
 
 public:
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet)
     {
-        analysis::EventBranch::Fill(multiplet);
+        boca::EventBranch::Fill(multiplet);
     }
     Observables Variables() const;
     Observables Spectators() const;

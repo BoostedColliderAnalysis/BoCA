@@ -2,7 +2,7 @@
 #include "Event.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace heavyhiggs {
 
@@ -12,7 +12,7 @@ SignatureChargedTagger::SignatureChargedTagger()
     DefineVariables();
 }
 
-int SignatureChargedTagger::Train(Event const& event, analysis::PreCuts const&, Tag tag) const
+int SignatureChargedTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) const
 {
     Info();
     std::vector<Quartet31> higgs_quartets = charged_higgs_semi_reader_.Multiplets(event);
@@ -37,7 +37,7 @@ int SignatureChargedTagger::Train(Event const& event, analysis::PreCuts const&, 
 }
 
 
-std::vector<Octet44> SignatureChargedTagger::Multiplets(Event const& event, analysis::PreCuts const&, TMVA::Reader const& reader) const
+std::vector<Octet44> SignatureChargedTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
     Info();
     std::vector<Quartet31> higgs_quartets = charged_higgs_semi_reader_.Multiplets(event);

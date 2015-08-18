@@ -10,7 +10,7 @@
 #include "TLorentzVector.h"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 void LorentzVector::operator=(TLorentzVector const& lorentzvector)
 {

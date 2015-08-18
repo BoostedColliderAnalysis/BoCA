@@ -7,7 +7,7 @@
 #include "JetInfo.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 struct IsParticle {
     IsParticle(Id id_1)
@@ -90,7 +90,7 @@ Jets CopyIfNeutrino(Jets const& jets)
     return final_jets;
 }
 
-Jets RemoveIfOutsidePtWindow(analysis::Jets jets, float lower_cut, float upper_cut)
+Jets RemoveIfOutsidePtWindow(boca::Jets jets, float lower_cut, float upper_cut)
 {
     if (jets.empty()) return jets;
     jets.erase(std::remove_if(jets.begin(), jets.end(), [lower_cut, upper_cut](fastjet::PseudoJet const& jet)

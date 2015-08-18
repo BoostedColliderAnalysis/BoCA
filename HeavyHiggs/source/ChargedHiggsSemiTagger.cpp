@@ -2,7 +2,7 @@
 #include "Event.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace heavyhiggs {
 
@@ -90,7 +90,7 @@ int ChargedHiggsSemiTagger::Train(Event const& event, PreCuts const&, Tag tag) c
     return SaveEntries(quartets);
 }
 
-std::vector<Quartet31> ChargedHiggsSemiTagger::Multiplets(Event const& event, analysis::PreCuts const&, TMVA::Reader const& reader) const
+std::vector<Quartet31> ChargedHiggsSemiTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
     Jets jets = bottom_reader_.Multiplets(event);
     std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);

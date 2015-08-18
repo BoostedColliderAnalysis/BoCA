@@ -6,7 +6,7 @@ namespace fastjet{
 class PseudoJet;
 }
 
-namespace analysis {
+namespace boca {
 
 typedef std::vector<fastjet::PseudoJet> Jets;
 
@@ -30,7 +30,7 @@ private:
      * @brief Calculates Vector of granulated Jets
      *
      */
-    Jets GranulatedJets(analysis::Jets& e_flows);
+    Jets GranulatedJets(boca::Jets& e_flows);
 
 };
 

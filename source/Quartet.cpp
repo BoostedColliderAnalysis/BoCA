@@ -3,7 +3,7 @@
  */
 #include "Quartet.hh"
 
-namespace analysis {
+namespace boca {
 
 Doublet const& Quartet22::Doublet1() const
 {

@@ -2,7 +2,7 @@
 
 #include "../Leptons.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace exroot {
 
@@ -10,12 +10,12 @@ namespace exroot {
  * @brief PGS leptons
  *
  */
-class Leptons : public analysis::Leptons {
+class Leptons : public boca::Leptons {
 
 public:
-  analysis::Jets Electrons() const final;
+  boca::Jets Electrons() const final;
 
-  analysis::Jets Muons() const final;
+  boca::Jets Muons() const final;
 };
 
 }

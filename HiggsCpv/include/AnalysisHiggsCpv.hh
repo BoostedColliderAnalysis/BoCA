@@ -6,7 +6,7 @@
 #include "TopLeptonicTagger.hh"
 #include "Debug.hh"
 
-namespace analysis
+namespace boca
 {
 
 namespace higgscpv
@@ -20,7 +20,7 @@ namespace higgscpv
  *
  */
 template <typename Tagger>
-class Analysis : public analysis::Analysis<Tagger>
+class Analysis : public boca::Analysis<Tagger>
 {
 
 public:

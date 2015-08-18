@@ -1,7 +1,7 @@
 #include "SignatureEffectiveTagger.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace toppartner {
 
@@ -23,7 +23,7 @@ int SignatureEffectiveTagger::Train(Event const& event, PreCuts const&, Tag tag)
     return SaveEntries(quattuordecuplets);
 }
 
-std::vector<Quattuordecuplet> SignatureEffectiveTagger::Multiplets(Event const& event, analysis::PreCuts const&, TMVA::Reader const& reader) const
+std::vector<Quattuordecuplet> SignatureEffectiveTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
     Info();
     std::vector<Decuplet55> decuplets = top_partner_pair_reader_.Multiplets(event);

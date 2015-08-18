@@ -5,7 +5,7 @@
 
 #include "fastjet/JetDefinition.hh"
 
-namespace analysis
+namespace boca
 {
 
 class InfoRecombiner : public  fastjet::JetDefinition::DefaultRecombiner

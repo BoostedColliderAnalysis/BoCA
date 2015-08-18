@@ -1,6 +1,6 @@
 #include "Septet.hh"
 
 
-namespace analysis {
+namespace boca {
 namespace toppartner {}
 }

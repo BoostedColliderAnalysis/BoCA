@@ -5,7 +5,7 @@
 #include "MultipletSignature.hh"
 #include "Octet.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace higgscpv {
 
@@ -20,10 +20,10 @@ public:
 
     SignatureTagger();
 
-    int Train(Event const& event, analysis::PreCuts const&,
+    int Train(Event const& event, boca::PreCuts const&,
               Tag tag) const override;
 
-    std::vector< analysis::MultipletSignature< analysis::Octet62 > > Multiplets(analysis::Event const& event, analysis::PreCuts const&, TMVA::Reader const& reader) const;
+    std::vector< boca::MultipletSignature< boca::Octet62 > > Multiplets(boca::Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const;
 
     int GetBdt(Event const& event, PreCuts const& pre_cuts,
                TMVA::Reader const& reader) const final {

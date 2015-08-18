@@ -5,7 +5,7 @@
 
 #include <algorithm>
 
-namespace analysis
+namespace boca
 {
 
 /**

@@ -4,7 +4,7 @@
 #include "Quartet.hh"
 #include "Branch.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace heavyhiggs {
 

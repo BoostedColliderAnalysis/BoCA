@@ -4,7 +4,7 @@
 #include "DetectorGeometry.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace standardmodel {
 
@@ -119,7 +119,7 @@ protected:
 
     void NewFile(Tag tag, Process process)
     {
-        analysis::AnalysisBase::NewFile(tag, FileName(process), NiceName(process));
+        boca::AnalysisBase::NewFile(tag, FileName(process), NiceName(process));
     }
 
     std::string FileName(Process process) const

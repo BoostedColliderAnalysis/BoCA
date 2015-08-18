@@ -7,7 +7,7 @@
 #include "HEPTopTagger.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 Jets TopHadronicHep::Tops(Jets& e_flows)
 {

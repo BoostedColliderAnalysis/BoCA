@@ -8,7 +8,7 @@
 #include "TObject.h"
 #include "Rtypes.h"
 
-namespace analysis {
+namespace boca {
 
 class Obs {
 public:
@@ -490,7 +490,7 @@ public:
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet)
     {
-        analysis::MultiBranch::Fill(multiplet);
+        boca::MultiBranch::Fill(multiplet);
         LeptonNumber = multiplet.GlobalObservables().LeptonNumber();
         JetNumber = multiplet.GlobalObservables().JetNumber();
         BottomNumber = multiplet.GlobalObservables().BottomNumber();

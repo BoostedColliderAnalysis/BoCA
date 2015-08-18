@@ -4,7 +4,7 @@
 #include "fastjet/PseudoJet.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 std::string Shorten(std::string const& pretty_function, size_t brake)
 {

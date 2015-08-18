@@ -31,7 +31,7 @@ namespace fastjet
 class PseudoJet;
 }
 
-namespace analysis
+namespace boca
 {
 
 class Event;

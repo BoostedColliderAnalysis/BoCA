@@ -8,7 +8,7 @@
  * @brief analysis namespace containing the general analysis and SM taggers
  *
  */
-namespace analysis {
+namespace boca {
 
 enum class Id {
     empty = 0,

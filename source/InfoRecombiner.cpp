@@ -4,7 +4,7 @@
 #include "InfoRecombiner.hh"
 #include "JetInfo.hh"
 
-namespace analysis {
+namespace boca {
 
 InfoRecombiner::InfoRecombiner(fastjet::RecombinationScheme recombination_scheme): fastjet::JetDefinition::DefaultRecombiner(recombination_scheme) {}
 

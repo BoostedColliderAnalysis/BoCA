@@ -8,7 +8,7 @@
 #include "exroot/ExRootAnalysis.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 ClonesArrays::ClonesArrays() {}
 

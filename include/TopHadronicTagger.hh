@@ -7,7 +7,7 @@
 #include "WHadronicTagger.hh"
 #include "Triplet.hh"
 
-namespace analysis
+namespace boca
 {
 
 /**
@@ -33,7 +33,7 @@ public:
         return SaveEntries(Multiplets(event, pre_cuts, reader), 2);
     }
 
-    std::vector<analysis::Triplet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
+    std::vector<boca::Triplet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
     std::string Name() const final {
         return "TopHadronic";
@@ -45,36 +45,36 @@ public:
 
 private:
 
-    analysis::Triplet Triplet(Doublet const& doublet, fastjet::PseudoJet const& jet, Jets const& leptons, PreCuts const& pre_cuts, Tag tag, bool check_overlap = false) const;
+    boca::Triplet Triplet(Doublet const& doublet, fastjet::PseudoJet const& jet, Jets const& leptons, PreCuts const& pre_cuts, Tag tag, bool check_overlap = false) const;
 
-    analysis::Triplet Triplet(analysis::Triplet& triplet, analysis::Jets const& leptons, analysis::PreCuts const& pre_cuts, Tag tag) const;
+    boca::Triplet Triplet(boca::Triplet& triplet, boca::Jets const& leptons, boca::PreCuts const& pre_cuts, Tag tag) const;
 
-    std::vector<analysis::Triplet> Triplets(std::vector<Doublet> const& doublets, Jets const& jets, Jets const& leptons, PreCuts const& pre_cuts, Tag tag) const;
+    std::vector<boca::Triplet> Triplets(std::vector<Doublet> const& doublets, Jets const& jets, Jets const& leptons, PreCuts const& pre_cuts, Tag tag) const;
 
-    std::vector<analysis::Triplet> Triplets(Doublet const& doublet, Jets const& jets, Jets const& leptons, PreCuts const& pre_cuts, Tag tag) const;
+    std::vector<boca::Triplet> Triplets(Doublet const& doublet, Jets const& jets, Jets const& leptons, PreCuts const& pre_cuts, Tag tag) const;
 
-    std::vector<analysis::Triplet> Multiplets(Event const& event, TMVA::Reader const& reader) const {
+    std::vector<boca::Triplet> Multiplets(Event const& event, TMVA::Reader const& reader) const {
         PreCuts pre_cuts;
         return Multiplets(event, pre_cuts, reader);
     }
 
-    std::vector<analysis::Triplet>  Multiplets(std::vector<Doublet> const& doublets, Jets const& jets, Jets const& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
+    std::vector<boca::Triplet>  Multiplets(std::vector<Doublet> const& doublets, Jets const& jets, Jets const& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    std::vector<analysis::Triplet>  Multiplets(Doublet const& doublet, Jets const& jets, Jets const& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
+    std::vector<boca::Triplet>  Multiplets(Doublet const& doublet, Jets const& jets, Jets const& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    analysis::Triplet Multiplet(Doublet const& doublet, fastjet::PseudoJet const& jet, Jets const& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader, bool check_overlap = false) const;
+    boca::Triplet Multiplet(Doublet const& doublet, fastjet::PseudoJet const& jet, Jets const& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader, bool check_overlap = false) const;
 
-    analysis::Triplet Multiplet(analysis::Triplet& triplet, Jets const& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
+    boca::Triplet Multiplet(boca::Triplet& triplet, Jets const& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    bool Problematic(analysis::Triplet const& triplet, PreCuts const& pre_cuts, Tag tag) const;
+    bool Problematic(boca::Triplet const& triplet, PreCuts const& pre_cuts, Tag tag) const;
 
-    bool Problematic(analysis::Triplet const& triplet, PreCuts const& pre_cuts) const;
+    bool Problematic(boca::Triplet const& triplet, PreCuts const& pre_cuts) const;
 
-    void NSubJettiness(analysis::Triplet& triplet) const;
+    void NSubJettiness(boca::Triplet& triplet) const;
 
     SubJettiness NSubJettiness(fastjet::PseudoJet const& jet) const;
 
-    float LeptonPt(analysis::Triplet const& triplet, Jets const& leptons) const;
+    float LeptonPt(boca::Triplet const& triplet, Jets const& leptons) const;
 
     Reader<BottomTagger> bottom_reader_;
 
@@ -82,7 +82,7 @@ private:
 
     float top_mass_window_ ;
 
-    std::vector<analysis::Triplet> ordered_triplets(Jets const& jets, unsigned sub_jet_number, std::function<analysis::Triplet(fastjet::PseudoJet const& piece_1, fastjet::PseudoJet const& piece_2, fastjet::PseudoJet const& piece_3)> const& function) const;
+    std::vector<boca::Triplet> ordered_triplets(Jets const& jets, unsigned sub_jet_number, std::function<boca::Triplet(fastjet::PseudoJet const& piece_1, fastjet::PseudoJet const& piece_2, fastjet::PseudoJet const& piece_3)> const& function) const;
 
 };
 

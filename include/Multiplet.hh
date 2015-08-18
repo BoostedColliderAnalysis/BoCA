@@ -6,7 +6,7 @@
 #include "MultipletBase.hh"
 #include "Singlet.hh"
 
-namespace analysis
+namespace boca
 {
 
 class Multiplet : public MultipletBase
@@ -36,9 +36,9 @@ protected:
 
     float DeltaPt(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const;
 
-    float Ht(const analysis::MultipletBase& multiplets_1, const analysis::MultipletBase& multiplets_2) const;
+    float Ht(const boca::MultipletBase& multiplets_1, const boca::MultipletBase& multiplets_2) const;
 
-    float DeltaRap(const analysis::MultipletBase& multiplets_1, const analysis::MultipletBase& multiplets_2) const;
+    float DeltaRap(const boca::MultipletBase& multiplets_1, const boca::MultipletBase& multiplets_2) const;
 
     float DeltaPhi(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const;
 
@@ -46,7 +46,7 @@ protected:
 
     float DeltaM(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const;
 
-    float DeltaHt(const analysis::MultipletBase& multiplets_1, const analysis::MultipletBase& multiplets_2) const;
+    float DeltaHt(const boca::MultipletBase& multiplets_1, const boca::MultipletBase& multiplets_2) const;
 
     float Rho(const MultipletBase& jet_1, const MultipletBase& jet_2) const;
 

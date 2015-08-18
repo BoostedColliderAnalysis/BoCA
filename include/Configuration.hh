@@ -6,7 +6,7 @@
 #include "libconfig.h++"
 
 
-namespace analysis
+namespace boca
 {
 
 enum class ColliderType

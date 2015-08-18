@@ -8,7 +8,7 @@
 #include "Trees.hh"
 #include "File.hh"
 
-namespace analysis {
+namespace boca {
 
 /**
  * @brief Analysis provides main analysis loops and logic.
@@ -51,7 +51,7 @@ protected:
   /**
    * @brief getter for Tagger
    *
-   * @return const analysis::Tagger&
+   * @return const boca::Tagger&
    */
   Tagger const&tagger() const final { return tagger_; }
 
@@ -67,7 +67,7 @@ protected:
     /**
      * @brief getter for Tagger
      *
-     * @return analysis::Tagger&
+     * @return boca::Tagger&
      */
     Tagger &tagger() final { return tagger_; }
 

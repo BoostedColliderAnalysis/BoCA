@@ -5,7 +5,7 @@
 
 #include "InfoRecombiner.hh"
 
-namespace analysis {
+namespace boca {
 
   /**
    * @brief JetType indicates which type of jet is going to be used

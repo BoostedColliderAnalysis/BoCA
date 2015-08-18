@@ -6,7 +6,7 @@
 #include "TwoBody.hh"
 #include "Singlet.hh"
 
-namespace analysis {
+namespace boca {
 
 class Doublet : public TwoBody<Singlet, Singlet> {
 

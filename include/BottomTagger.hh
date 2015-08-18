@@ -7,7 +7,7 @@
 #include "BranchTagger.hh"
 
 
-namespace analysis {
+namespace boca {
 
 /**
  * @brief Derived Tagger class for bottom jets.
@@ -61,15 +61,15 @@ private:
 
     Jets Multiplets(Jets const& jets, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    Jets SubMultiplets(analysis::Jets const& jets, analysis::PreCuts const& pre_cuts, TMVA::Reader const& reader, size_t sub_jet_number) const;
+    Jets SubMultiplets(boca::Jets const& jets, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader, size_t sub_jet_number) const;
 
     Jets Multiplets(Jets const& jets, TMVA::Reader const& reader) const;
 
     Jets CleanJets(Jets& jets, PreCuts const& pre_cuts, Tag tag) const;
 
-    bool Problematic(fastjet::PseudoJet const& jet, analysis::PreCuts const& pre_cuts, Tag tag) const;
+    bool Problematic(fastjet::PseudoJet const& jet, boca::PreCuts const& pre_cuts, Tag tag) const;
 
-    bool Problematic(fastjet::PseudoJet const& jet, analysis::PreCuts const& pre_cuts) const;
+    bool Problematic(fastjet::PseudoJet const& jet, boca::PreCuts const& pre_cuts) const;
 
     Jets SubJets(Jets const& jets, int sub_jet_number) const;
 

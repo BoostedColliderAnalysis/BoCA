@@ -4,7 +4,7 @@
 #include "Hadrons.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 void Hadrons::NewEvent(const ClonesArrays& clones_arrays)
 {

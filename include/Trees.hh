@@ -11,7 +11,7 @@
 #include "Tagger.hh"
 #include "File.hh"
 
-namespace analysis
+namespace boca
 {
 
 class Files

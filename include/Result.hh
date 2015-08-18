@@ -6,7 +6,7 @@
 #include "Branches.hh"
 #include "Flag.hh"
 
-namespace analysis
+namespace boca
 {
 
 
@@ -57,7 +57,7 @@ class Plots
 {
 public:
     std::vector<Plot> plots;
-    analysis::InfoBranch info_branch;
+    boca::InfoBranch info_branch;
     std::string name;
     void SetNames(Names const& names, Names const& nice_names);
 };

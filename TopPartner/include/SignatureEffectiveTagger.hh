@@ -4,7 +4,7 @@
 #include "HiggsPairTagger.hh"
 #include "Quattuordecuplet.hh"
 
-namespace analysis
+namespace boca
 {
 
 namespace toppartner

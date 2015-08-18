@@ -2,7 +2,7 @@
 
 #include "../Leptons.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace delphes {
 
@@ -10,18 +10,18 @@ namespace delphes {
  * @brief Delphes leptons
  *
  */
-class Leptons : public analysis::Leptons {
+class Leptons : public boca::Leptons {
 
 public:
-  analysis::Jets Electrons() const final;
+  boca::Jets Electrons() const final;
 
-  analysis::Jets Muons() const final;
+  boca::Jets Muons() const final;
 
 private:
 
-    analysis::Jets Electrons(JetDetail jet_detail) const;
+    boca::Jets Electrons(JetDetail jet_detail) const;
 
-    analysis::Jets Muons(analysis::JetDetail jet_detail) const;
+    boca::Jets Muons(boca::JetDetail jet_detail) const;
 
 
 };

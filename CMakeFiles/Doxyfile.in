@@ -1,4 +1,5 @@
 PROJECT_NAME = "@PROJECT_NAME@"
+PROJECT_BRIEF= "Boosted Collider Analysis"
 PROJECT_NUMBER = "@PROJECT_VERSION@"
 OUTPUT_DIRECTORY = "@DOXYFILE_OUTPUT_DIR@"
 CREATE_SUBDIRS = YES
@@ -52,3 +53,4 @@ DOT_CLEANUP = YES
 SEARCHENGINE = YES # create search field
 USE_MATHJAX = YES # formulas a set without latex
 ALIASES += "license=@par License:\n"
+EXCLUDE_SYMBOLS = fastjet TMVA TMatrixT

@@ -3,7 +3,7 @@
  */
 #include "PreCuts.hh"
 
-namespace analysis
+namespace boca
 {
 
 void PreCuts::SetPtLowerCut(Id id, float value)
@@ -22,7 +22,7 @@ void PreCuts::SetPtUpperCut(Id id, float value)
 {
     pt_upper_cut_.emplace(id, value);
 }
-float PreCuts::PtUpperCut(const analysis::Id id) const
+float PreCuts::PtUpperCut(const boca::Id id) const
 {
     try {
         return pt_upper_cut_.at(id);

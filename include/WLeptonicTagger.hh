@@ -7,7 +7,7 @@
 #include "Branches.hh"
 #include "BranchTagger.hh"
 
-namespace analysis {
+namespace boca {
 
 /**
  * @brief Semi leptonic top BDT tagger

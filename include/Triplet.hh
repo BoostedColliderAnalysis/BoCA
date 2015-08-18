@@ -5,7 +5,7 @@
 
 #include "Doublet.hh"
 
-namespace analysis {
+namespace boca {
 
 class SubJettiness {
 public:
@@ -116,17 +116,17 @@ private:
     float tau32_beta2_;
 };
 
-class Triplet : public TwoBody<analysis::Doublet, analysis::Singlet> {
+class Triplet : public TwoBody<boca::Doublet, boca::Singlet> {
 
 public:
 
-    using TwoBody<analysis::Doublet, analysis::Singlet>::TwoBody;
+    using TwoBody<boca::Doublet, boca::Singlet>::TwoBody;
 
-    analysis::Doublet const& Doublet() const;
+    boca::Doublet const& Doublet() const;
 
-    analysis::Doublet& Doublet();
+    boca::Doublet& Doublet();
 
-    analysis::Singlet const& Singlet() const;
+    boca::Singlet const& Singlet() const;
 
     void set_sub_jettiness(const SubJettiness& sub_jettiness)
     {

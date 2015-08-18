@@ -6,7 +6,7 @@
 #include "Event.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 WLeptonicTagger::WLeptonicTagger()
 {
@@ -15,7 +15,7 @@ WLeptonicTagger::WLeptonicTagger()
     DefineVariables();
 }
 
-int WLeptonicTagger::Train(Event const& event, analysis::PreCuts const&, Tag tag) const
+int WLeptonicTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) const
 {
     Info();
     Jets Particles = event.Partons().GenParticles();
@@ -48,7 +48,7 @@ int WLeptonicTagger::Train(Event const& event, analysis::PreCuts const&, Tag tag
     return SaveEntries(doublets);
 }
 
-std::vector<Doublet>  WLeptonicTagger::Multiplets(Event const& event, analysis::PreCuts const&, TMVA::Reader const& reader) const
+std::vector<Doublet>  WLeptonicTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
     Info();
     Jets Particles = event.Partons().GenParticles();

@@ -5,7 +5,7 @@
 
 #include <fstream>
 
-namespace analysis
+namespace boca
 {
 
 class LatexFile

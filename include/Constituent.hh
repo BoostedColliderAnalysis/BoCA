@@ -5,7 +5,7 @@
 
 #include "Family.hh"
 
-namespace analysis {
+namespace boca {
 
 enum class SubDetector {
     none, gen_particle, track, photon, tower, muon
@@ -65,7 +65,7 @@ private:
 
     LorentzVector momentum_;
 
-    analysis::Family family_;
+    boca::Family family_;
 
     int charge_ = 0;
 };

@@ -9,7 +9,7 @@
 #include "Types.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
   File::File(Strings const& processes, std::string const& base_path, std::string const& file_suffix, std::string const& nice_name, float crosssection, float mass)
 {

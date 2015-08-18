@@ -8,7 +8,7 @@
 #include "Triplet.hh"
 #include "Reader.hh"
 
-namespace analysis
+namespace boca
 {
 
 /**
@@ -25,7 +25,7 @@ public:
     int Train(Event const& event, PreCuts const& pre_cuts,
               Tag tag) const override;
 
-    std::vector<Triplet> Multiplets(Event const& event, analysis::PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
+    std::vector<Triplet> Multiplets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
     int GetBdt(Event const& event, PreCuts const& pre_cuts,
                TMVA::Reader const& reader) const final {
@@ -40,7 +40,7 @@ public:
 
     fastjet::PseudoJet FakeLepton(fastjet::PseudoJet const& jet) const;
 
-    Jets Particles(analysis::Event const& event, PreCuts const& pre_cuts) const;
+    Jets Particles(boca::Event const& event, PreCuts const& pre_cuts) const;
 
     auto Multiplets(Event const& event, TMVA::Reader const& reader) const {
         PreCuts pre_cuts;

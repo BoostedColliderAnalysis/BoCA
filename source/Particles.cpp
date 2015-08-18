@@ -4,7 +4,7 @@
 #include "Particles.hh"
 #include "Types.hh"
 
-namespace analysis {
+namespace boca {
 
 std::string Name(int id)
 {

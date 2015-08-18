@@ -6,7 +6,7 @@
 #include "EventShape.hh"
 #include "Identification.hh"
 
-namespace analysis {
+namespace boca {
 
 /**
  * @brief An event composed of a multiplet an a singlet made up from the remaining jets
@@ -28,14 +28,14 @@ public:
       return multiplet_;
     }
 
-    const analysis::EventShape& EventShape() const
+    const boca::EventShape& EventShape() const
     {
         return event_shape_;
     }
 
 private:
 
-  analysis::EventShape event_shape_;
+  boca::EventShape event_shape_;
 
   Multiplet_1 multiplet_;
 

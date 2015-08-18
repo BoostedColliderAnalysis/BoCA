@@ -1,5 +1,5 @@
 #include "Decuplet.hh"
 
-namespace analysis {
+namespace boca {
 namespace toppartner {}
 }

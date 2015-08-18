@@ -10,7 +10,7 @@
 #include "exroot/Partons.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 Event::Event() {}
 

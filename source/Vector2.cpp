@@ -14,7 +14,7 @@
 #include <cmath>
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 Vector2::Vector2()
 {

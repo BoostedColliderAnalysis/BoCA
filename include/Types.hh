@@ -13,7 +13,7 @@ namespace fastjet {
 class TLorentzVector;
 class LorentzVector;
 
-namespace analysis
+namespace boca
 {
 
 /**

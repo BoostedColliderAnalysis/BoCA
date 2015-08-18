@@ -6,7 +6,7 @@
 #include "Singlet.hh"
 #include "Multiplet.hh"
 
-namespace analysis
+namespace boca
 {
 
 template <typename Multiplet_1, typename Multiplet_2, typename Multiplet_3>
@@ -44,7 +44,7 @@ public:
         singlet_ = Singlet(jet);
     }
 
-    analysis::Singlet const& singlet() const {
+    boca::Singlet const& singlet() const {
         if (!has_jet_) SetSinglet(Jet());
         return singlet_;
     }
@@ -66,7 +66,7 @@ public:
         return (multiplet.Overlap(multiplet_1_) || multiplet.Overlap(multiplet_2_) || multiplet.Overlap(multiplet_3_));
     }
 
-    bool Overlap(analysis::Singlet const& singlet) const {
+    bool Overlap(boca::Singlet const& singlet) const {
         return (multiplet_1_.Overlap(singlet) || multiplet_2_.Overlap(singlet) || multiplet_3_.Overlap(singlet));
     }
 
@@ -98,7 +98,7 @@ public:
       return jet_13_;
     }
 
-    analysis::Jets Jets() const {
+    boca::Jets Jets() const {
         return Join(Multiplet1().Jets(), Multiplet2().Jets(), Multiplet3().Jets());
     }
 

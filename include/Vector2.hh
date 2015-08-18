@@ -12,7 +12,7 @@
 
 #pragma once
 
-namespace analysis
+namespace boca
 {
 
 /**

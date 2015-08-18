@@ -5,7 +5,7 @@
 #include "TopPartnerTopPairTagger.hh"
 #include "HiggsTagger.hh"
 
-namespace analysis
+namespace boca
 {
 
 namespace toppartner

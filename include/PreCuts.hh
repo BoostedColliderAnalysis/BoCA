@@ -7,7 +7,7 @@
 #include "Particles.hh"
 
 
-namespace analysis
+namespace boca
 {
 
 class PreCuts

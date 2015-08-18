@@ -3,9 +3,9 @@
 
 int main()
 {
-    analysis::fusionpair::Analysis<analysis::BottomTagger > bottom_analysis;
+    boca::fusionpair::Analysis<boca::BottomTagger > bottom_analysis;
     bottom_analysis.RunNormal();
 
-    analysis::fusionpair::Analysis<analysis::JetPairTagger > pair_analysis;
+    boca::fusionpair::Analysis<boca::JetPairTagger > pair_analysis;
     pair_analysis.RunFullEfficiency();
 }

@@ -3,7 +3,7 @@
  */
 #include "Family.hh"
 
-namespace analysis {
+namespace boca {
 
 Family::Family()
 {

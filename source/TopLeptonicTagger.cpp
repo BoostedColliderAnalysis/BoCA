@@ -6,7 +6,7 @@
 #include "WLeptonicTagger.hh"
 #include "Debug.hh"
 
-namespace analysis
+namespace boca
 {
 
 TopLeptonicTagger::TopLeptonicTagger() : w_leptonic_reader_(InitializeLeptonicReader())
@@ -16,7 +16,7 @@ TopLeptonicTagger::TopLeptonicTagger() : w_leptonic_reader_(InitializeLeptonicRe
     DefineVariables();
 }
 
-int TopLeptonicTagger::Train(Event const& event, analysis::PreCuts const& pre_cuts, Tag tag) const
+int TopLeptonicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Tag tag) const
 {
     Info();
     Jets jets = fastjet::sorted_by_pt(bottom_reader_.Multiplets(event));
@@ -64,7 +64,7 @@ Jets TopLeptonicTagger::Particles(Event const& event, PreCuts const& pre_cuts) c
     return CopyIfExactParticle(particles, to_int(Id::top) * lepton_charge);
 }
 
-bool TopLeptonicTagger::Problematic(analysis::Triplet const& triplet, analysis::PreCuts const& pre_cuts, Tag tag) const
+bool TopLeptonicTagger::Problematic(boca::Triplet const& triplet, boca::PreCuts const& pre_cuts, Tag tag) const
 {
     if (Problematic(triplet, pre_cuts)) return true;
     switch (tag) {
@@ -87,7 +87,7 @@ bool TopLeptonicTagger::Problematic(Triplet const& triplet, PreCuts const& pre_c
     return false;
 }
 
-std::vector<Triplet> TopLeptonicTagger::Multiplets(Event const& event, analysis::PreCuts const& pre_cuts, TMVA::Reader const& reader) const
+std::vector<Triplet> TopLeptonicTagger::Multiplets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
     Info();
     Jets jets = fastjet::sorted_by_pt(bottom_reader_.Multiplets(event));

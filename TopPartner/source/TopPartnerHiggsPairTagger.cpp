@@ -2,7 +2,7 @@
 #include "Vector.hh"
 #include "Debug.hh"
 
-namespace analysis
+namespace boca
 {
 
 namespace toppartner
@@ -26,7 +26,7 @@ int TopPartnerHiggsPairTagger::Train(Event const& event, PreCuts const&, Tag tag
     return SaveEntries(septets);
 }
 
-std::vector<Septet> TopPartnerHiggsPairTagger::Multiplets(Event const& event, analysis::PreCuts const&, TMVA::Reader const& reader) const
+std::vector<Septet> TopPartnerHiggsPairTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
     return ReduceResult(pairs(top_partner_hadronic_reader_.Multiplets(event), higgs_reader_.Multiplets(event), [&](Quintet const & quintet, Doublet const & doublet) {
         Septet septet(quintet, doublet);

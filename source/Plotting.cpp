@@ -36,10 +36,10 @@
 // #define DEBUG
 #include "Debug.hh"
 
-namespace analysis
+namespace boca
 {
 
-Plotting::Plotting(analysis::Tagger& tagger)
+Plotting::Plotting(boca::Tagger& tagger)
 {
     Debug();
     tagger_ = &tagger;
@@ -129,10 +129,10 @@ InfoBranch Plotting::InfoBranch(TFile& file, std::string const& tree_name) const
     Debug(tree_name, Tagger().WeightBranchName());
     TClonesArray& clones_array = *tree_reader.UseBranch(Tagger().WeightBranchName().c_str());
     tree_reader.ReadEntry(tree_reader.GetEntries() - 1);
-    return static_cast<analysis::InfoBranch&>(*clones_array.At(clones_array.GetEntriesFast() - 1));
+    return static_cast<boca::InfoBranch&>(*clones_array.At(clones_array.GetEntriesFast() - 1));
 }
 
-std::string Plotting::PlotHistograms(analysis::Results& results) const
+std::string Plotting::PlotHistograms(boca::Results& results) const
 {
     Debug();
     TCanvas canvas;
@@ -462,10 +462,10 @@ void Plotting::SetHistogram(TH2& histogram, Plot const& plot, EColor color, TExe
     histogram.SetContour(20);
     switch (color) {
     case kRed :
-        exec.SetAction("analysis::Color().Red();");
+        exec.SetAction("boca::Color().Red();");
         break;
     case kBlue :
-        exec.SetAction("analysis::Color().Blue();");
+        exec.SetAction("boca::Color().Blue();");
         break;
     default:
         Error("unsupported color");

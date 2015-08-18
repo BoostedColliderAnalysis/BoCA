@@ -7,7 +7,7 @@
 #include "Vector2.hh"
 #include "fastjet/PseudoJet.hh"
 
-namespace analysis {
+namespace boca {
 
 class MultipletBase : public Identification {
 

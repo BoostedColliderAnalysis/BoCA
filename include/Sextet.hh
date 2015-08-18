@@ -5,7 +5,7 @@
 
 #include "Triplet.hh"
 
-namespace analysis {
+namespace boca {
 
 /**
  * @brief A sextet of 2 triplets

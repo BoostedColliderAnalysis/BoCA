@@ -1,7 +1,7 @@
 #include "Branch.hh"
 #include "Pair.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace heavyhiggs {
 
@@ -153,7 +153,7 @@ EventChargedBranch::EventChargedBranch()
 }
 
 
-analysis::Observables HeavyHiggsLeptonicBranch::Variables() const
+boca::Observables HeavyHiggsLeptonicBranch::Variables() const
 {
     return Join(ParticleBranch::Variables(), {PAIR(LargerWDeltaR), PAIR(LargerWDeltaRap), PAIR(LargerWDeltaPhi), PAIR(SmallerWDeltaR), PAIR(SmallerWDeltaRap), PAIR(SmallerWDeltaPhi), PAIR(LargerNeutrinoDeltaR), PAIR(LargerNeutrinoDeltaRap), PAIR(LargerNeutrinoDeltaPhi), PAIR(SmallerNeutrinoDeltaR), PAIR(SmallerNeutrinoDeltaRap), PAIR(SmallerNeutrinoDeltaPhi)});
 }

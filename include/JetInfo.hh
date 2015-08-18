@@ -14,7 +14,7 @@ namespace delphes
 typedef ::Jet Jet;
 }
 
-namespace analysis
+namespace boca
 {
 
 typedef std::vector<fastjet::PseudoJet> Jets;
@@ -92,7 +92,7 @@ public:
 
     int Charge() const;
 
-    analysis::Family Family() const;
+    boca::Family Family() const;
 
     void SetDelphesTags(::delphes::Jet const& jet);
 

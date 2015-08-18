@@ -4,7 +4,7 @@
 #include "Event.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace higgscpv {
 
@@ -14,7 +14,7 @@ TopSemiPairTagger::TopSemiPairTagger()
     DefineVariables();
 }
 
-int TopSemiPairTagger::Train(analysis::Event const& event, analysis::PreCuts const&, Tag tag) const
+int TopSemiPairTagger::Train(boca::Event const& event, boca::PreCuts const&, Tag tag) const
 {
     Info();
     std::vector<Triplet> triplets_hadronic = top_hadronic_reader_.Multiplets(event);

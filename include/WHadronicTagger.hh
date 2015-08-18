@@ -7,7 +7,7 @@
 #include "Doublet.hh"
 #include "Reader.hh"
 
-namespace analysis
+namespace boca
 {
 
 /**
@@ -56,27 +56,27 @@ private:
 
     std::vector<Doublet> Multiplets3(Jets const& jets, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    Doublet Multiplet(fastjet::PseudoJet const& jet, analysis::PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
+    Doublet Multiplet(fastjet::PseudoJet const& jet, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    Doublet Multiplet(fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2, analysis::PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
+    Doublet Multiplet(fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
     Doublet SubMultiplet(fastjet::PseudoJet const& jet, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    bool Problematic(analysis::Doublet const& doublet, analysis::PreCuts const& pre_cuts, Tag tag) const;
+    bool Problematic(boca::Doublet const& doublet, boca::PreCuts const& pre_cuts, Tag tag) const;
 
-    bool Problematic(analysis::Doublet const& doublet, analysis::PreCuts const& pre_cuts) const;
+    bool Problematic(boca::Doublet const& doublet, boca::PreCuts const& pre_cuts) const;
 
-    Doublet Multiplet(analysis::Doublet& doublet, analysis::PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
+    Doublet Multiplet(boca::Doublet& doublet, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    std::vector<Doublet> SubMultiplets(analysis::Jets const& jets, analysis::PreCuts const& pre_cuts, TMVA::Reader const& reader, size_t sub_jet_number) const;
+    std::vector<Doublet> SubMultiplets(boca::Jets const& jets, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader, size_t sub_jet_number) const;
 
-    std::vector<Doublet> SubMultiplets2(analysis::Jets const& jets, analysis::PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
+    std::vector<Doublet> SubMultiplets2(boca::Jets const& jets, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
     Reader<BottomTagger> bottom_reader_;
 
     Jets WDaughters(Event const& event) const;
 
-    int WHadronicId(analysis::Jets const& daughters) const;
+    int WHadronicId(boca::Jets const& daughters) const;
 
     float w_mass_window_ = 40;
 };

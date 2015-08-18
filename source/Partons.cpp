@@ -5,7 +5,7 @@
 #include "Types.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 void Partons::NewEvent(const ClonesArrays& clones_arrays)
 {

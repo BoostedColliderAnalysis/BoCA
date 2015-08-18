@@ -8,7 +8,7 @@
 // #define DEBUG
 #include "Debug.hh"
 
-namespace analysis
+namespace boca
 {
 
 void Plots::SetNames(Names const& names, Names const& nice_names)

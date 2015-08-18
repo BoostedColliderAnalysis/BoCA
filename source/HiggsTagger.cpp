@@ -10,7 +10,7 @@
 #include "InfoRecombiner.hh"
 #include "Debug.hh"
 
-namespace analysis
+namespace boca
 {
 
 HiggsTagger::HiggsTagger()
@@ -21,7 +21,7 @@ HiggsTagger::HiggsTagger()
 
 int HiggsTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const
 {
-    Info(analysis::Name(tag));
+    Info(boca::Name(tag));
     Jets jets =  event.Hadrons().Jets();
     std::vector<Doublet> doublets = unordered_pairs(jets, [&](fastjet::PseudoJet const & jet_1, fastjet::PseudoJet const & jet_2) {
         return CheckDoublet(Doublet(jet_1, jet_2), pre_cuts, tag);

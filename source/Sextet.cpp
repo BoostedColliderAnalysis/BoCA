@@ -3,7 +3,7 @@
  */
 #include "Sextet.hh"
 
-namespace analysis {
+namespace boca {
 
 Triplet const& Sextet::Triplet1() const
 {

@@ -2,7 +2,7 @@
 #include "Event.hh"
 #include "Debug.hh"
 
-namespace analysis
+namespace boca
 {
 
 namespace toppartner
@@ -23,7 +23,7 @@ int SignatureSingleTagger::Train(Event const& event, PreCuts const&, Tag tag) co
     }));
 }
 
-std::vector<Decuplet82> SignatureSingleTagger::Multiplets(Event const& event, analysis::PreCuts const&, TMVA::Reader const& reader) const
+std::vector<Decuplet82> SignatureSingleTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
     Info();
     return ReduceResult(Decuplets(event, [&](Decuplet82 & decuplet) {
@@ -32,7 +32,7 @@ std::vector<Decuplet82> SignatureSingleTagger::Multiplets(Event const& event, an
     }));
 }
 
-std::vector<Decuplet82> SignatureSingleTagger::Decuplets(analysis::Event const& event, const std::function< Decuplet82(Decuplet82&)>& function) const
+std::vector<Decuplet82> SignatureSingleTagger::Decuplets(boca::Event const& event, const std::function< Decuplet82(Decuplet82&)>& function) const
 {
     return pairs(pair_reader_.Multiplets(event), higgs_reader_.Multiplets(event), [&](const Octet53 & octet, Doublet const& doublet) {
         Decuplet82 decuplet(octet, doublet);

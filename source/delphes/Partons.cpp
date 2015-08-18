@@ -5,7 +5,7 @@
 #include "JetInfo.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace delphes {
 
@@ -47,7 +47,7 @@ Jets Partons::Particles(const Status min_status) const
 //              Error(particle.PID,mother_id,mother_2_id);
         Family family(particle.PID, mother_id, mother_2_id, grand_mother_id);
         Constituent constituent(particle.P4(), family);
-        fastjet::PseudoJet jet = analysis::PseudoJet(constituent.Momentum());
+        fastjet::PseudoJet jet = boca::PseudoJet(constituent.Momentum());
         jet.set_user_info(new JetInfo(constituent));
         particles.emplace_back(jet);
 //         if(std::abs(particle.PID) == 25) {

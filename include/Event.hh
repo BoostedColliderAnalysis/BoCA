@@ -7,7 +7,7 @@
 #include "Leptons.hh"
 #include "Hadrons.hh"
 
-namespace analysis {
+namespace boca {
 
 /**
  * @brief Base class for the event Topology
@@ -25,18 +25,18 @@ public:
 
     void NewEvent(const ClonesArrays& clones_arrays);
 
-    const analysis::Hadrons& Hadrons() const
+    const boca::Hadrons& Hadrons() const
     {
         return *hadrons_;
     }
 
-    const analysis::Leptons& Leptons() const
+    const boca::Leptons& Leptons() const
     {
         return *leptons_;
     }
 
 
-    const analysis::Partons& Partons() const
+    const boca::Partons& Partons() const
     {
         return *partons_;
     }
@@ -57,19 +57,19 @@ private:
      * @brief Particles
      *
      */
-  analysis::Partons *partons_ = nullptr;
+  boca::Partons *partons_ = nullptr;
 
     /**
      * @brief Leptons
      *
      */
-  analysis::Leptons *leptons_ = nullptr;
+  boca::Leptons *leptons_ = nullptr;
 
     /**
      * @brief Jets
      *
      */
-  analysis::Hadrons *hadrons_ = nullptr;
+  boca::Hadrons *hadrons_ = nullptr;
 
     Source source_;
 

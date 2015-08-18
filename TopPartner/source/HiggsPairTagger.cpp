@@ -1,7 +1,7 @@
 #include "HiggsPairTagger.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace toppartner {
 
@@ -27,7 +27,7 @@ int HiggsPairTagger::Train(Event const& event, PreCuts const&, Tag tag) const
     return SaveEntries(quartets);
 }
 
-std::vector<Quartet22> HiggsPairTagger::Multiplets(Event const& event, analysis::PreCuts const&, TMVA::Reader const& reader) const
+std::vector<Quartet22> HiggsPairTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
     std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
     std::vector<Quartet22> quartets;

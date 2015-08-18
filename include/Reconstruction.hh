@@ -11,7 +11,7 @@ namespace fastjet{
 }
 
 
-namespace analysis {
+namespace boca {
 
 typedef std::vector<fastjet::PseudoJet> Jets;
 

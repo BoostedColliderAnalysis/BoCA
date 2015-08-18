@@ -5,7 +5,7 @@
 #include "Event.hh"
 #include "Debug.hh"
 
-namespace analysis
+namespace boca
 {
 
 namespace higgscpv
@@ -17,7 +17,7 @@ TopLeptonicPairTagger::TopLeptonicPairTagger()
     DefineVariables();
 }
 
-int TopLeptonicPairTagger::Train(Event const& event, analysis::PreCuts const&, Tag tag) const
+int TopLeptonicPairTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) const
 {
     Info();
     std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
@@ -66,7 +66,7 @@ std::vector<Sextet> TopLeptonicPairTagger::TruthLevel(Event const& event, std::v
     }
 }
 
-std::vector<Sextet> TopLeptonicPairTagger::Multiplets(Event const& event, analysis::PreCuts const&, TMVA::Reader const& reader) const
+std::vector<Sextet> TopLeptonicPairTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
     std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
     Info(triplets.size());

@@ -3,7 +3,7 @@
 #define DEBUG
 #include "Debug.hh"
 
-namespace analysis
+namespace boca
 {
 
 namespace higgscpv
@@ -15,7 +15,7 @@ SignatureTTagger::SignatureTTagger()
     DefineVariables();
 }
 
-int SignatureTTagger::Train(Event const& event, analysis::PreCuts const&, Tag tag) const
+int SignatureTTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) const
 {
     Info();
     Jets particles = event.Partons().GenParticles();

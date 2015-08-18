@@ -1,4 +1,4 @@
 # Authors
 
-* [Jan Hajer](jan@hajer.com)
+* [Jan Hajer](mailto:jan@hajer.com)
 * Ying-Ying Li

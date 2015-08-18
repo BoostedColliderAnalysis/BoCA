@@ -1,6 +1,6 @@
 #include "Nonet.hh"
 
 
-namespace analysis {
+namespace boca {
 namespace toppartner {}
 }

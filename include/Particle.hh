@@ -8,7 +8,7 @@
 
 class TLorentzVector;
 
-namespace analysis {
+namespace boca {
 
 class Particle {
 

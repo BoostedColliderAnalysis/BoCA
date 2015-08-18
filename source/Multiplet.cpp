@@ -9,7 +9,7 @@
 #include "Math.hh"
 #include "Debug.hh"
 
-namespace analysis
+namespace boca
 {
 
 Vector2 Multiplet::Pull() const
@@ -20,7 +20,7 @@ Vector2 Multiplet::Pull() const
 
 fastjet::PseudoJet Multiplet::Jet(fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2) const
 {
-    analysis::Jets constituents;
+    boca::Jets constituents;
     if (jet_1.has_user_info() && jet_1.user_info<JetInfo>().SubStructure() && jet_1.has_constituents()) constituents = jet_1.constituents();
     else constituents.emplace_back(jet_1);
     if (jet_2.has_user_info() && jet_2.user_info<JetInfo>().SubStructure() && jet_2.has_constituents()) constituents = Join(constituents, jet_2.constituents());
@@ -93,7 +93,7 @@ float Multiplet::Pull(const MultipletBase& multiplets_1, const MultipletBase& mu
 
 float Multiplet::PullDifference(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const
 {
-    return RestrictPhi(analysis::DeltaPhi(Pull(multiplets_1, multiplets_2), Pull(multiplets_2, multiplets_1)) - M_PI) / M_PI;
+    return RestrictPhi(boca::DeltaPhi(Pull(multiplets_1, multiplets_2), Pull(multiplets_2, multiplets_1)) - M_PI) / M_PI;
 }
 
 float Multiplet::PullSum(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const

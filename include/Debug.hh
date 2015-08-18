@@ -24,7 +24,7 @@ class PseudoJet;
 #define NOTIFICATION
 #endif
 
-namespace analysis {
+namespace boca {
 
 std::string Shorten(std::string const& pretty_function, size_t brake);
 
@@ -111,27 +111,27 @@ void Log(std::string const& file, int line, std::string const& name_space, std::
 
 }
 
-#define FILE_NAME ::analysis::FileName(__FILE__)
+#define FILE_NAME ::boca::FileName(__FILE__)
 
-#define NAMESPACE_NAME ::analysis::NameSpaceName(__PRETTY_FUNCTION__)
+#define NAMESPACE_NAME ::boca::NameSpaceName(__PRETTY_FUNCTION__)
 
-#define CLASS_NAME ::analysis::ClassName(__PRETTY_FUNCTION__)
+#define CLASS_NAME ::boca::ClassName(__PRETTY_FUNCTION__)
 
-#define FUNCTION_NAME ::analysis::FunctionName(__PRETTY_FUNCTION__)
+#define FUNCTION_NAME ::boca::FunctionName(__PRETTY_FUNCTION__)
 
 #define NAMES FILE_NAME, __LINE__, NAMESPACE_NAME, CLASS_NAME, FUNCTION_NAME
 
 #define VARIABLE(value) #value, value
 
-#define LOG0() ::analysis::Log(NAMES)
+#define LOG0() ::boca::Log(NAMES)
 
-#define LOG1(value) ::analysis::Log(NAMES, VARIABLE(value))
+#define LOG1(value) ::boca::Log(NAMES, VARIABLE(value))
 
-#define LOG2(value, value2) ::analysis::Log(NAMES, VARIABLE(value), VARIABLE(value2))
+#define LOG2(value, value2) ::boca::Log(NAMES, VARIABLE(value), VARIABLE(value2))
 
-#define LOG3(value, value2, value3) ::analysis::Log(NAMES, VARIABLE(value), VARIABLE(value2), VARIABLE(value3))
+#define LOG3(value, value2, value3) ::boca::Log(NAMES, VARIABLE(value), VARIABLE(value2), VARIABLE(value3))
 
-#define LOG4(value, value2, value3, value4) ::analysis::Log(NAMES, VARIABLE(value), VARIABLE(value2), VARIABLE(value3), VARIABLE(value4))
+#define LOG4(value, value2, value3, value4) ::boca::Log(NAMES, VARIABLE(value), VARIABLE(value2), VARIABLE(value3), VARIABLE(value4))
 
 #define LOG(arg0, arg1, arg2, arg3, arg4, arg, ...) arg
 

@@ -9,7 +9,7 @@
 
 class TFile;
 
-namespace analysis {
+namespace boca {
 
 class File;
 
@@ -43,7 +43,7 @@ protected:
 
     void ClearFiles();
 
-    std::vector<analysis::File> files(Tag tag);
+    std::vector<boca::File> files(Tag tag);
 
     void PrepareFiles();
 
@@ -79,17 +79,17 @@ protected:
 
     virtual std::string FilePath() const;
 
-    void NewFile(analysis::Tag tag, analysis::Strings const& names, std::string const& nice_name = "");
+    void NewFile(boca::Tag tag, boca::Strings const& names, std::string const& nice_name = "");
 
-    void NewFile(analysis::Tag tag, analysis::Strings const& names, float crosssection, std::string const& nice_name = "", int mass = 0);
+    void NewFile(boca::Tag tag, boca::Strings const& names, float crosssection, std::string const& nice_name = "", int mass = 0);
 
-    analysis::File File(Strings const& names, float crosssection, std::string const& nice_name = "", int mass = 0) const;
+    boca::File File(Strings const& names, float crosssection, std::string const& nice_name = "", int mass = 0) const;
 
-    analysis::File File(Strings const& names, std::string const& nice_name = "") const;
+    boca::File File(Strings const& names, std::string const& nice_name = "") const;
 
-    void NewFile(analysis::Tag tag, std::string const& names, std::string const& nice_name = "");
+    void NewFile(boca::Tag tag, std::string const& names, std::string const& nice_name = "");
 
-    void NewFile(analysis::Tag tag, std::string const& names, float crosssection, std::string const& nice_name = "", int mass = 0);
+    void NewFile(boca::Tag tag, std::string const& names, float crosssection, std::string const& nice_name = "", int mass = 0);
 
     std::string FileName(std::string const& name) const;
 
@@ -123,7 +123,7 @@ private:
 
 //     Configuration configuration_;
 
-    std::vector<analysis::File> files_;
+    std::vector<boca::File> files_;
 
 };
 

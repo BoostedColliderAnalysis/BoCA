@@ -8,13 +8,13 @@ namespace fastjet{
   class PseudoJet;
 }
 
-namespace analysis{
+namespace boca{
 
   class EventShape{
 
   public:
     EventShape(){
-      event_shapes_ = new analysis::EventShapes;
+      event_shapes_ = new boca::EventShapes;
     }
 
     ~EventShape(){
@@ -29,17 +29,17 @@ namespace analysis{
 
     float Aplanarity() const;
 
-    const analysis::EventShapes& EventShapes() const{
+    const boca::EventShapes& EventShapes() const{
       return *event_shapes_;
     }
 
   private:
 
-    analysis::EventShapes& EventShapes(){
+    boca::EventShapes& EventShapes(){
       return *event_shapes_;
     }
 
-    analysis::EventShapes *event_shapes_;
+    boca::EventShapes *event_shapes_;
 
   };
 

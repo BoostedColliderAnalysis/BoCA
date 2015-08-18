@@ -9,7 +9,7 @@
 #include "JetInfo.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 void Reconstruction::NewEvent()
 {

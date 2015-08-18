@@ -5,7 +5,7 @@
 #include "Doublet.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 /**
  * @brief Namespace for the heavy higgs analyses

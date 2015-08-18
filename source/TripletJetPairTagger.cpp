@@ -6,7 +6,7 @@
 #include "Event.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 TripletJetPairTagger::TripletJetPairTagger()
 {
@@ -14,7 +14,7 @@ TripletJetPairTagger::TripletJetPairTagger()
     DefineVariables();
 }
 
-int TripletJetPairTagger::Train(analysis::Event const& event, analysis::PreCuts const&, Tag tag) const
+int TripletJetPairTagger::Train(boca::Event const& event, boca::PreCuts const&, Tag tag) const
 {
     Info("W Tags");
     Jets jets = bottom_reader_.Multiplets(event);
@@ -102,7 +102,7 @@ int TripletJetPairTagger::Train(analysis::Event const& event, analysis::PreCuts 
 //     return JetPairBranches;
 }
 
-std::vector<Quartet31>  TripletJetPairTagger::Multiplets(Event const& event, analysis::PreCuts const&, TMVA::Reader const& reader) const
+std::vector<Quartet31>  TripletJetPairTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
     Jets jets = bottom_reader_.Multiplets(event);
     std::vector<Triplet> triplets = top_hadronic_reader_.Multiplets(event);

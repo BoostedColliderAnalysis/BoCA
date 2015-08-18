@@ -3,7 +3,7 @@
  */
 #include "Observable.hh"
 
-namespace analysis {
+namespace boca {
 
 Observable::Observable(float& value, std::string const& expression, std::string const& title, std::string const& unit) : value_(value)
 {

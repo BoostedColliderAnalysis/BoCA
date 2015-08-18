@@ -10,7 +10,7 @@
 #include "JetInfo.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 fastjet::PseudoJet PseudoJet(TLorentzVector const& vector)
 {

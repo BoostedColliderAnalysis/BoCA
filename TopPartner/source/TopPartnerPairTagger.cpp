@@ -1,7 +1,7 @@
 #include "TopPartnerPairTagger.hh"
 #include "Debug.hh"
 
-namespace analysis
+namespace boca
 {
 
 namespace toppartner
@@ -25,7 +25,7 @@ int TopPartnerPairTagger::Train(Event const& event, PreCuts const&, Tag tag) con
     return SaveEntries(decuplets, 1);
 }
 
-std::vector<Decuplet55> TopPartnerPairTagger::Multiplets(Event const& event, analysis::PreCuts const&, TMVA::Reader const& reader) const
+std::vector<Decuplet55> TopPartnerPairTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
     Info();
     return ReduceResult(pairs(top_partner_hadronic_reader_.Multiplets(event), top_partner_leptonic_reader_.Multiplets(event), [&](Quintet const & quintet_1, Quintet const & quintet_2) {

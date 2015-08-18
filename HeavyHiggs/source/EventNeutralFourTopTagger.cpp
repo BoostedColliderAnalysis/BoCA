@@ -2,7 +2,7 @@
 #include "Event.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace heavyhiggs {
 
@@ -12,7 +12,7 @@ EventNeutralFourTopTagger::EventNeutralFourTopTagger()
     DefineVariables();
 }
 
-int EventNeutralFourTopTagger::Train(analysis::Event const& event, PreCuts const& , Tag tag) const
+int EventNeutralFourTopTagger::Train(boca::Event const& event, PreCuts const& , Tag tag) const
 {
     Info();
     Jets jets = bottom_reader_.Multiplets(event);

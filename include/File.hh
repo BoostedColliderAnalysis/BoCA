@@ -7,7 +7,7 @@
 #include "ClonesArrays.hh"
 #include "Event.hh"
 
-namespace analysis
+namespace boca
 {
 
 typedef std::vector<std::string> Strings;

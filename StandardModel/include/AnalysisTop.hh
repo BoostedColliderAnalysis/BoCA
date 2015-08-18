@@ -2,7 +2,7 @@
 
 #include "AnalysisStandardModel.hh"
 
-namespace analysis
+namespace boca
 {
 
 namespace standardmodel

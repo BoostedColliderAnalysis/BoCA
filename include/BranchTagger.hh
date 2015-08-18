@@ -12,7 +12,7 @@
 #include "Types.hh"
 #include "exroot/ExRootAnalysis.hh"
 
-namespace analysis
+namespace boca
 {
 
 template<typename BranchTemplate>

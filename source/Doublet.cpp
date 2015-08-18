@@ -6,7 +6,7 @@
 #include "Math.hh"
 #include "Debug.hh"
 
-namespace analysis
+namespace boca
 {
 
 Singlet const& Doublet::Singlet1() const

@@ -2,7 +2,7 @@
 
 #include "../Partons.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace delphes {
 
@@ -10,7 +10,7 @@ namespace delphes {
  * @brief delphes particles
  *
  */
-class Partons  : public analysis::Partons {
+class Partons  : public boca::Partons {
 
 public:
   Jets Particles() const final;

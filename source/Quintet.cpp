@@ -3,7 +3,7 @@
  */
 #include "Quintet.hh"
 
-namespace analysis {
+namespace boca {
 
   Triplet const& Quintet::Triplet() const
 {

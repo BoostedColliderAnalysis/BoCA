@@ -3,7 +3,7 @@
 #include "SignatureEffectiveTagger.hh"
 #include "MultipletEvent.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace toppartner {
 

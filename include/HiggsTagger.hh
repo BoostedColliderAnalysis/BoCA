@@ -7,7 +7,7 @@
 #include "Doublet.hh"
 #include "Reader.hh"
 
-namespace analysis
+namespace boca
 {
 
 /**
@@ -43,7 +43,7 @@ private:
 
     Doublet Multiplet(Doublet& doublet, Jets const& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    Doublet CheckDoublet(analysis::Doublet doublet, const analysis::PreCuts& pre_cuts, analysis::Tag tag) const;
+    Doublet CheckDoublet(boca::Doublet doublet, const boca::PreCuts& pre_cuts, boca::Tag tag) const;
 
     bool Problematic(Doublet const& doublet, PreCuts const& pre_cuts, Tag tag) const;
 

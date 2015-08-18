@@ -5,7 +5,7 @@
 
 #include<type_traits>
 
-namespace analysis
+namespace boca
 {
 
 template<typename Enum>

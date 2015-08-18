@@ -3,17 +3,17 @@
 #include "Quintet.hh"
 #include "Quartet.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace toppartner {
 
-class Nonet : public TwoBody<analysis::Quintet, analysis::Quartet22> {
+class Nonet : public TwoBody<boca::Quintet, boca::Quartet22> {
 
 public:
 
-    using TwoBody<analysis::Quintet, analysis::Quartet22>::TwoBody;
+    using TwoBody<boca::Quintet, boca::Quartet22>::TwoBody;
 
-    analysis::Quintet Quintet() const
+    boca::Quintet Quintet() const
     {
         return Multiplet1();
     }

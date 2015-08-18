@@ -13,7 +13,7 @@
 #include "TVector3.h"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 void Vector3::operator=(TVector3 const& vector)
 {

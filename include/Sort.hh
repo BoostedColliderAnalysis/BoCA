@@ -11,7 +11,7 @@
 #include "Particles.hh"
 #include "JetInfo.hh"
 
-namespace analysis
+namespace boca
 {
 
 struct MinDeltaRTo {
@@ -127,7 +127,7 @@ struct SortByBdt {
         return multiplet_1.Bdt() > multiplet_2.Bdt();
     }
     bool operator()(fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2) {
-        return jet_1.user_info<analysis::JetInfo>().Bdt() > jet_2.user_info<analysis::JetInfo>().Bdt();
+        return jet_1.user_info<boca::JetInfo>().Bdt() > jet_2.user_info<boca::JetInfo>().Bdt();
     }
 };
 
