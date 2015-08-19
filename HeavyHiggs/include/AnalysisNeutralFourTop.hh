@@ -51,7 +51,7 @@ public:
     std::string ProjectName() const final
     {
         //        return  ProcessName() + "-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV-" + std::to_string(Mass()) + "GeV-Eta2.5";
-        return  ProcessName() + "-" + Name(this->collider_type()) + "-" + std::to_string(this->Mass()) + "GeV";
+      return  ProcessName() + "-" + Name(this->collider_type()) + "-" + std::to_string(this->Mass()) + "GeV_Isolation";
     };
 
     float SignalCrosssection(Process process) const {
@@ -220,19 +220,11 @@ private:
         Jets Particles = event.Partons().GenParticles();
 
         Jets Tops = CopyIfParticle(Particles, Id::top);
-        Jets Bottoms = CopyIfParticle(Particles, Id::bottom);
-//         if(Bottoms.size() < 4) return 0;
-// 
-//         if (Bottoms.at(0).pt() < this->BottomPt()) return 0;
-//         if (Bottoms.at(1).pt() < this->BottomPt()) return 0;
-//         if (Bottoms.at(2).pt() < this->BottomPt()) return 0;
-//         if (Bottoms.at(3).pt() < this->BottomPt()) return 0;
+
 
         if (event.Hadrons().MissingEt().pt() < this->MissingEt()) return 0;
         Jets Leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
         if (Leptons.size() < 2) return 0;
-//      if (Leptons.at(0).pt() < this->LeptonPt()) return 0;
-// 	if (Leptons.at(1).pt() < this->LeptonPt()) return 0;
         int positive_lepton=0;
         int negative_lepton=0;
         for(const auto & lepton : Leptons){
@@ -244,7 +236,7 @@ private:
         if ((positive_lepton+negative_lepton)>2) return 0;
 
         Jets jets = event.Hadrons().Jets();
-        if (jets.size() < 6)
+        if (jets.size() < 4)
             return 0;
         return 1;
     }

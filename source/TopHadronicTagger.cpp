@@ -80,7 +80,7 @@ int TopHadronicTagger::Train(const Event& event, const analysis::PreCuts& pre_cu
             }
         }
     }
-    Note(triplets.size());
+//     Note(triplets.size());
     int top_hadronic_id = TopHadronicId(event);
     Jets particles = event.Partons().GenParticles();
     Jets top_particles;

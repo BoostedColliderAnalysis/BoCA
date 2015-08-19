@@ -27,8 +27,8 @@ Jets Hadrons::DelphesJets(JetDetail jet_detail) const
     for (const auto & jet_number : Range(clones_arrays().JetSum())) {
         Detail(jet_number);
         ::delphes::Jet& delphes_jet = static_cast<::delphes::Jet&>(clones_arrays().Jet(jet_number));
-        FlagSwitch(jet_detail, [&](JetDetail jet_detail) {
-            switch (jet_detail) {
+        FlagSwitch(jet_detail, [&](JetDetail jet_detail_in) {
+            switch (jet_detail_in) {
             case JetDetail::plain: {
                 fastjet::PseudoJet Jet = analysis::PseudoJet(delphes_jet.P4());
                 Jet.set_user_info(new JetInfo(delphes_jet));
@@ -36,7 +36,9 @@ Jets Hadrons::DelphesJets(JetDetail jet_detail) const
             }
             break;
             case JetDetail::structure:
+              try{
                 jets.emplace_back(StructuredJet(delphes_jet, leptons, jet_detail));
+              }catch(char const*){};
                 break;
             case JetDetail::tagging:
                 static_cast<JetInfo&>(*jets.back().user_info_shared_ptr().get()).SetConstituents(JetId(delphes_jet));
@@ -47,7 +49,7 @@ Jets Hadrons::DelphesJets(JetDetail jet_detail) const
                 break;
             }
         });
-    }
+    }    
     return jets;
 }
 
@@ -64,6 +66,8 @@ fastjet::PseudoJet Hadrons::StructuredJet(const ::delphes::Jet& delphes_jet, con
             continue;
         }
     }
+    if(constituents.empty()) throw "empty jet";
+    Debug(constituents.size());
     fastjet::PseudoJet jet = fastjet::join(constituents, InfoRecombiner());
     static_cast<JetInfo&>(*jet.user_info_shared_ptr().get()).SetDelphesTags(delphes_jet);
     return jet;
@@ -71,7 +75,7 @@ fastjet::PseudoJet Hadrons::StructuredJet(const ::delphes::Jet& delphes_jet, con
 
 fastjet::PseudoJet Hadrons::ConstituentJet(TObject& object, analysis::JetDetail jet_detail, const analysis::SubDetector sub_detector, const std::vector< TObject* > leptons) const
 {
-    Debug(object.ClassName());
+    Debug(object.ClassName(),Name(jet_detail));
     fastjet::PseudoJet jet;
     auto jet_info = new JetInfo();
     if (object.IsA() == ::delphes::GenParticle::Class()) {
@@ -119,7 +123,8 @@ fastjet::PseudoJet Hadrons::ConstituentJet(TObject& object, analysis::JetDetail 
 bool Hadrons::Isolated(const TObject& object, const std::vector<TObject*> leptons) const
 {
     bool isolated = true;
-    for (const auto & lepton : leptons) if (&object != lepton) isolated = false;
+    for (const auto & lepton : leptons) if (&object == lepton) isolated = false;
+//     Check(isolated, isolated);
     return isolated;
 }
 

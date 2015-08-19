@@ -48,6 +48,7 @@ public:
     float CrosssectionError;
     float Mass;
     float EventNumber;
+    float PreCutNumber;
     std::string Name;
 private:
     ClassDef(InfoBranch, 1)

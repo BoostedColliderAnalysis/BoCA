@@ -28,6 +28,7 @@ public:
         switch (DetectorGeometry::jet_type()) {
         case JetType::jet :
             return DelphesJets(JetDetail::structure | JetDetail::isolation);
+//                return DelphesJets(JetDetail::structure);
         case JetType::gen_jet :
             return GenJets();
         case JetType::e_flow_jet :

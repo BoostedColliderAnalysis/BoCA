@@ -71,7 +71,7 @@ int WHadronicTagger::Train(const Event& event, const analysis::PreCuts& pre_cuts
     if (w_hadronic_id != 0) w_particles = CopyIfExactParticle(particles, w_hadronic_id);
     else w_particles = CopyIfParticle(particles, Id::W);
     w_particles = RemoveIfSoft(w_particles, DetectorGeometry::JetMinPt());
-    Error(doublets.size(), w_particles.size());
+//     Error(doublets.size(), w_particles.size());
     return SaveEntries(BestMatches(doublets, w_particles, tag));
 }
 

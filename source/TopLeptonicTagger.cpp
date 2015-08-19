@@ -48,7 +48,7 @@ int TopLeptonicTagger::Train(const Event& event, const analysis::PreCuts& pre_cu
 
 fastjet::PseudoJet TopLeptonicTagger::FakeLepton(const fastjet::PseudoJet& jet) const
 {
-    return fastjet::PseudoJet(jet.px(), jet.py(), jet.pz(), jet.e()) / jet.pt() * DetectorGeometry::LeptonMinPt();
+  return fastjet::PseudoJet(jet.px(), jet.py(), jet.pz(), jet.e()) / jet.pt() * DetectorGeometry::LeptonMinPt(); 
 }
 
 Jets TopLeptonicTagger::Particles(const Event& event, const PreCuts& pre_cuts) const
@@ -68,6 +68,7 @@ bool TopLeptonicTagger::Problematic(const Triplet& triplet, const PreCuts& pre_c
     if (pre_cuts.PtLowerCut(Id::top) > 0 && triplet.Jet().pt() < pre_cuts.PtLowerCut(Id::top)) return true;
     if (pre_cuts.PtUpperCut(Id::top) > 0 && triplet.Jet().pt() > pre_cuts.PtUpperCut(Id::top)) return true;
     if (pre_cuts.MassUpperCut(Id::top) > 0 && triplet.Jet().m() > pre_cuts.MassUpperCut(Id::top)) return true;
+//     if (triplet.DeltaR()> DetectorGeometry::JetConeSize()) return true; //remove this
     return false;
 }
 
@@ -76,9 +77,9 @@ bool TopLeptonicTagger::Problematic(const analysis::Triplet& triplet, const anal
     if (Problematic(triplet, pre_cuts)) return true;
     switch (tag) {
     case Tag::signal :
-        if (std::abs(triplet.Jet().m() - Mass(Id::top) + 40) > top_mass_window) return true;
-        if (triplet.Singlet().Bdt()<0) return true;
-        if ((triplet.Rho() < 0.5 || triplet.Rho() > 2) && triplet.Rho() > 0) return true;
+//         if (std::abs(triplet.Jet().m() - Mass(Id::top) + 40) > top_mass_window) return true; //FIXME turn on this
+//         if (triplet.Singlet().Bdt()<0) return true;  //FIXME turn on this
+//         if ((triplet.Rho() < 0.5 || triplet.Rho() > 2) && triplet.Rho() > 0) return true; //FIXME turn on this
         break;
     case Tag::background :
         break;

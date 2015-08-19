@@ -123,7 +123,7 @@ InfoBranch Plotting::InfoBranch(TFile& file, const std::string& tree_name) const
     Debug(tree_name, Tagger().WeightBranchName());
     TClonesArray& clones_array = *tree_reader.UseBranch(Tagger().WeightBranchName().c_str());
     tree_reader.ReadEntry(tree_reader.GetEntries() - 1);
-    return static_cast<analysis::InfoBranch&>(*clones_array.At(clones_array.GetEntriesFast() - 1));
+    return static_cast<analysis::InfoBranch&>(*clones_array.Last());
 }
 
 std::string Plotting::PlotHistograms(analysis::Results& results) const
@@ -301,8 +301,8 @@ void Plotting::SetMultiGraph(TMultiGraph& multi_graph) const
     multi_graph.GetXaxis()->SetTitle("Signal acceptance");
     multi_graph.GetYaxis()->SetTitle("Background acceptance");
     multi_graph.SetMaximum(1);
-//     multi_graph.SetMinimum(0.001);
-    multi_graph.SetMinimum(0.01);
+    multi_graph.SetMinimum(0.001);
+//     multi_graph.SetMinimum(0.01);
 }
 
 std::string Plotting::PlotSignificanceGraph(const Results& results) const

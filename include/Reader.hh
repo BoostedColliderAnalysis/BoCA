@@ -94,7 +94,7 @@ private:
 
     std::string Options() const{
       return "";
-      return "!V:!color:Silent";
+//       return "!V:!color:Silent";
     }
 
     TaggerTemplate& Tagger()

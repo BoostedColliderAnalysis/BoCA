@@ -28,7 +28,7 @@ void Result::Calculate()
         events.at(step) = efficiency.at(step) * info_branch_.Crosssection * DetectorGeometry::Luminosity();
         Debug(efficiency.at(step), events.at(step));
     }
-    Error(info_branch_.EventNumber, event_sums.at(0));
+    Error(info_branch_.PreCutNumber, event_sums.at(0), info_branch_.EventNumber);
 }
 
 int Result::XBin(float value) const

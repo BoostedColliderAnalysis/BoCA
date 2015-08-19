@@ -44,7 +44,7 @@ float DetectorGeometry::JetConeSize()
 {
     switch (detector_type()) {
     case DetectorType::CMS:
-        return 0.4;
+        return 0.5;
     case DetectorType::Spp:
         return 0.5;
     }
@@ -145,7 +145,7 @@ float DetectorGeometry::Luminosity()
 {
   switch (detector_type()) {
     case DetectorType::CMS:
-      return 300;
+      return 3000;
     case DetectorType::Spp:
       return 3000;
   }
