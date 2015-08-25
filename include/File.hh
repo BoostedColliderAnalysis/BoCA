@@ -90,6 +90,11 @@ private:
 
     std::string base_path_ = "$HOME/Development/MadGraph/";
 
+    std::string BasePath(){
+      return @MadGraphPath@;
+      return "$HOME/Development/MadGraph/";
+    }
+
     Strings process_folders_;
 
     std::string run_folder_;
