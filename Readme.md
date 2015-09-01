@@ -34,7 +34,7 @@ The `main.cpp` defines the order in which each `Tagger` is passed to the `Analys
 
 ## Git commands
 
-* initial download of the project `git clone https://NAME@bitbucket.org/janhajer/analysis.git`
+* initial download of the project `git clone git@github.com:BoostedColliderAnalysis/BoCA.git`
 * downloading updates from the server `git pull`
 * save changes of specific files `git commit FILES`
 * save changes in to all files `git commit -a`
