@@ -2,7 +2,7 @@
 
 #include "AnalysisHeavyHiggs.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace heavyhiggs {
 
@@ -152,7 +152,7 @@ private:
         }
     }
 
-    int PassPreCut(const Event& event, Tag) const final
+    int PassPreCut(Event const& event, Tag) const final
     {
         Jets Particles = event.Partons().GenParticles();
         Particles = CopyIfParticle(Particles, Id::top);

@@ -1,6 +1,10 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "PreCuts.hh"
 
-namespace analysis {
+namespace boca
+{
 
 void PreCuts::SetPtLowerCut(Id id, float value)
 {
@@ -18,7 +22,7 @@ void PreCuts::SetPtUpperCut(Id id, float value)
 {
     pt_upper_cut_.emplace(id, value);
 }
-float PreCuts::PtUpperCut(const analysis::Id id) const
+float PreCuts::PtUpperCut(const boca::Id id) const
 {
     try {
         return pt_upper_cut_.at(id);
@@ -66,8 +70,16 @@ bool PreCuts::DoSubJets() const
 {
     return do_sub_jets_;
 }
-void PreCuts::SetSubJets(const bool do_sub_jets)
+void PreCuts::SetSubJets(bool do_sub_jets)
 {
     do_sub_jets_ = do_sub_jets;
+}
+bool PreCuts::SemiLeptonic() const
+{
+    return semi_leptonic_;
+}
+void PreCuts::SetSemiLeptonic(bool semi_leptonic)
+{
+    semi_leptonic_ = semi_leptonic;
 }
 }

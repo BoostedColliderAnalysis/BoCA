@@ -1,10 +1,13 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "BottomTagger.hh"
 #include "Doublet.hh"
 #include "Reader.hh"
 
-namespace analysis {
+namespace boca {
 
 /**
  * @brief JetPair BDT tagger
@@ -16,21 +19,22 @@ public:
 
     JetPairTagger();
 
-    int Train(const Event& event, const PreCuts& pre_cuts, Tag tag) const final;
+    int Train(Event const& event, PreCuts const& pre_cuts,
+              Tag tag) const final;
 
-    std::vector<Doublet> Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
+    std::vector<Doublet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    int GetBdt(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const  final
-    {
-        return SaveEntries(Multiplets(event, pre_cuts, reader));
+    int GetBdt(Event const& event, PreCuts const& pre_cuts,
+               TMVA::Reader const& reader) const final {
+                 return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
     }
 
-    std::string Name() const final
-    {
-        return "JetPair";
-    }
+    std::string Name() const final { return "JetPair"; }
 
-    Jets BottomPair(const Event& event, Tag tag) const;
+    Jets BottomPair(Event const& event, Tag tag) const;
+    bool CheckIfBadBottom(boca::Doublet const& doublet, Jets const& jets) const;
+    Jets HiggsParticle(Event const& event, Tag tag) const;
+
 
 private:
 

@@ -1,11 +1,11 @@
 #include "AnalysisHeavyHiggs.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace heavyhiggs {
 
-std::string Name(const Collider collider)
+std::string Name(Collider collider)
 {
     switch (collider) {
     case Collider::LHC :
@@ -20,13 +20,15 @@ std::string Name(const Collider collider)
     }
 }
 
-std::string Name(const Process process)
+std::string Name(Process process)
 {
     switch (process) {
     case Process::Hbb:
         return "H0bb-ljbbbb";
     case Process::Htt:
-        return "Htt-lljjbbbb";
+      return "Htt-lljjbbbb";
+    case Process::Htwb:
+      return "Htwb-lljjbbbb";
     case Process::H0:
         return "H0-ljbb";
     case Process::Htb:
@@ -34,7 +36,11 @@ std::string Name(const Process process)
     case Process::tt:
         return "tt_inc";
     case Process::tttt:
-        return "tttt";
+      return "tttt";
+    case Process::ttwwbb:
+      return "ttwwbb";
+    case Process::ttwbb:
+      return "ttwbb";
     case Process::tt2:
         return "tt_inc+";
     default:
@@ -43,13 +49,19 @@ std::string Name(const Process process)
     }
 }
 
-std::string NiceName(const Process process)
+std::string NiceName(Process process)
 {
     switch (process) {
     case Process::Hbb:
         return "Hbb";
     case Process::Htt:
-        return "Htt";
+      return "Htt";
+    case Process::Htwb:
+      return "Htwb";
+    case Process::ttwwbb:
+      return "ttwwbb";
+    case Process::ttwbb:
+      return "ttwbb";
     case Process::H0:
         return "H";
     case Process::Htb:

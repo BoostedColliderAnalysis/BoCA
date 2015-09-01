@@ -6,7 +6,7 @@
 #include "BranchesHiggsCpv.hh"
 #include "Reader.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace higgscpv {
 
@@ -20,14 +20,12 @@ public:
 
     TopSemiPairTagger();
 
-    int Train(const Event& event, const PreCuts& pre_cuts, Tag tag) const final;
+    int Train(Event const& event, PreCuts const& pre_cuts,
+              Tag tag) const final;
 
-    std::vector<Sextet> Multiplets(const Event& event, const TMVA::Reader& reader) const;
+    std::vector<Sextet> Multiplets(Event const& event, TMVA::Reader const& reader) const;
 
-    std::string Name() const final
-    {
-        return "TopSemiPair";
-    }
+    std::string Name() const final { return "TopSemiPair"; }
 
 private:
 

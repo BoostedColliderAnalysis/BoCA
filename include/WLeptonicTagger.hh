@@ -1,10 +1,13 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "Doublet.hh"
-#include "BranchTagger.hh"
 #include "Branches.hh"
+#include "BranchTagger.hh"
 
-namespace analysis {
+namespace boca {
 
 /**
  * @brief Semi leptonic top BDT tagger
@@ -16,36 +19,33 @@ public:
 
     WLeptonicTagger();
 
-    int Train(const Event& event, const PreCuts&, Tag tag) const;
+    int Train(Event const& event, PreCuts const& , Tag tag) const override;
 
-    std::vector<Doublet> Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
+    std::vector<Doublet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    int GetBdt(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const  final
-    {
-        return SaveEntries(Multiplets(event, pre_cuts, reader));
+    int GetBdt(Event const& event, PreCuts const& pre_cuts,
+               TMVA::Reader const& reader) const final {
+                 return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
     }
 
-    int WLeptonicId(const Event& event) const
+    int WLeptonicId(Event const& event) const
     {
         return WLeptonicId(WLeptonicDaughters(event));
     }
 
-    std::string Name() const final
-    {
-        return "WLeptonic";
-    }
+    std::string Name() const final { return "WLeptonic"; }
 
 private:
 
-    Jets WLeptonicDaughters(const Event& event) const;
+    Jets WLeptonicDaughters(Event const& event) const;
 
-    int WLeptonicId(const Jets& jets) const;
+    int WLeptonicId(Jets const& jets) const;
 
-    Tag GetTag(const Doublet& doublet) const;
+    Tag GetTag(Doublet const& doublet) const;
 
-    std::vector<Doublet> ReconstructNeutrino(const Doublet& doublet) const;
+    std::vector<Doublet> ReconstructNeutrino(Doublet const& doublet) const;
 
-    std::vector<Doublet> GetNeutrino(const Doublet& doublet, const Jets& Neutrinos, const Tag Tag) const;
+    std::vector<Doublet> GetNeutrino(Doublet const& doublet, Jets const& Neutrinos, const Tag Tag) const;
 
     float w_mass_window_ = 20;
 

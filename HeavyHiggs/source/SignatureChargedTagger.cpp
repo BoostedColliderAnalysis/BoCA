@@ -2,7 +2,7 @@
 #include "Event.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace heavyhiggs {
 
@@ -12,7 +12,7 @@ SignatureChargedTagger::SignatureChargedTagger()
     DefineVariables();
 }
 
-int SignatureChargedTagger::Train(const Event& event, const analysis::PreCuts&, Tag tag) const
+int SignatureChargedTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) const
 {
     Info();
     std::vector<Quartet31> higgs_quartets = charged_higgs_semi_reader_.Multiplets(event);
@@ -25,8 +25,8 @@ int SignatureChargedTagger::Train(const Event& event, const analysis::PreCuts&, 
         higgs_quartets.erase(higgs_quartets.begin() + 1, higgs_quartets.end());
     std::vector<Quartet31> jet_quartets = triplet_jet_pair_reader_.Multiplets(event);
     std::vector<Octet44> octets;
-    for (const auto higgs_quartet  : higgs_quartets)
-        for (const auto& jet_quartet : jet_quartets) {
+    for (auto const& higgs_quartet  : higgs_quartets)
+        for (auto const& jet_quartet : jet_quartets) {
             Octet44 octet(higgs_quartet, jet_quartet);
             if (octet.Overlap())
                 continue;
@@ -37,14 +37,14 @@ int SignatureChargedTagger::Train(const Event& event, const analysis::PreCuts&, 
 }
 
 
-std::vector<Octet44> SignatureChargedTagger::Multiplets(const Event& event, const analysis::PreCuts&, const TMVA::Reader& reader) const
+std::vector<Octet44> SignatureChargedTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
     Info();
     std::vector<Quartet31> higgs_quartets = charged_higgs_semi_reader_.Multiplets(event);
     std::vector<Quartet31> jet_quartets = triplet_jet_pair_reader_.Multiplets(event);
     std::vector<Octet44> octets;
-    for (const auto& jet_quartet : jet_quartets) {
-        for (const auto& higgs_quartet : higgs_quartets) {
+    for (auto const& jet_quartet : jet_quartets) {
+        for (auto const& higgs_quartet : higgs_quartets) {
             Octet44 octet(higgs_quartet, jet_quartet);
             if (octet.Overlap())
                 continue;

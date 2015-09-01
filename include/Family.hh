@@ -1,8 +1,13 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
+
+#include <vector>
 
 #include "Particle.hh"
 
-namespace analysis {
+namespace boca {
 
 class Family {
 
@@ -26,9 +31,9 @@ public:
 
     Family(int particle_position, Id id, int mother_position, Id mother_id);
 
-    Family(const TLorentzVector& particle, const LorentzVector& mother, int particle_position, int id, int mother_position, int mother_id);
+    Family(TLorentzVector const& particle, LorentzVector const& mother, int particle_position, int id, int mother_position, int mother_id);
 
-    bool operator==(const Family& family) const;
+    bool operator==(Family const& family) const;
 
     void AddDaughter(int daughter_id);
 
@@ -86,8 +91,8 @@ private:
 namespace std {
 
 template <>
-struct hash<analysis::Family> {
-    size_t operator()(const analysis::Family& Family) const
+struct hash<boca::Family> {
+    size_t operator()(const boca::Family& Family) const
     {
         return ((std::hash<int>()(Family.particle().id())
                  ^ (std::hash<int>()(Family.mother_1().id()) << 1)) >> 1)

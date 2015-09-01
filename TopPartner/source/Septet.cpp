@@ -1,6 +1,6 @@
 #include "Septet.hh"
 
 
-namespace analysis {
-namespace toppartner {}
+namespace boca {
+namespace naturalness {}
 }

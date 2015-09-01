@@ -1,6 +1,6 @@
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/CMakeFiles)
 set(DOXYFILE_SOURCE_DIR ${CMAKE_SOURCE_DIR})
-set(DOXYFILE_EXCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/build)
+set(DOXYFILE_EXCLUDE_DIR "\"${CMAKE_CURRENT_SOURCE_DIR}/build \" ${CMAKE_CURRENT_SOURCE_DIR}/External")
 set(DOXYFILE_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR})
 set(PROJECT_VERSION ${Version})
 set(DOXYFILE_GENERATE_LATEX NO)
@@ -9,21 +9,6 @@ set(DOXYFILE_LATEX OFF)
 # DOXYFILE_EXTRA_SOURCES - Additional source diretories/files for Doxygen to scan. The Paths should be in double quotes and separated by space. e.g.: "${CMAKE_CURRENT_BINARY_DIR}/foo.c" "${CMAKE_CURRENT_BINARY_DIR}/bar/"
 # DOXYFILE_LATEX_DIR - Directory relative to DOXYFILE_OUTPUT_DIR where the Doxygen LaTeX output is stored. Defaults to "latex".
 # DOXYFILE_HTML_DIR - Directory relative to DOXYFILE_OUTPUT_DIR where the Doxygen html output is stored. Defaults to "html".
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 macro(usedoxygen_set_default name value type docstring)

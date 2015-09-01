@@ -1,10 +1,13 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include <set>
 
 #include "Family.hh"
 
-namespace analysis {
+namespace boca {
 
 /**
  * @brief defines how to tag a jet
@@ -20,7 +23,7 @@ public:
      */
     virtual int GetBranchId(int id, int branch_id);
 
-    Family BranchFamily(const Family& node_family, Family& branch_family);
+    Family BranchFamily(Family const&node_family, Family& branch_family);
 
 
     std::set<Id> HeavyParticles;

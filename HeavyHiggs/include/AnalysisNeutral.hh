@@ -1,13 +1,9 @@
 #pragma once
 
 #include "AnalysisHeavyHiggs.hh"
+#include "Vector.hh"
 
-namespace analysis {
-
-/**
- * @brief Namespace for the heavy higgs analyses
- *
- */
+namespace boca {
 
 namespace heavyhiggs {
 
@@ -109,7 +105,7 @@ private:
         return "Neutral";
     }
 
-    int PassPreCut(const Event& event, Tag) const override
+    int PassPreCut(Event const& event, Tag) const override
     {
         Jets Particles = event.Partons().GenParticles();
         Jets Tops = CopyIfParticle(Particles, Id::top);

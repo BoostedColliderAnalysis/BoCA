@@ -1,7 +1,10 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "Particle.hh"
-#include "Predicate.hh"
+#include "Types.hh"
 
-namespace analysis {
+namespace boca {
 
 Particle::Particle(int id)
 {
@@ -11,7 +14,7 @@ Particle::Particle(Id id)
 {
     id_ = to_int(id);
 }
-Particle::Particle(const LorentzVector& momentum, int id, int position)
+Particle::Particle(LorentzVector const& momentum, int id, int position)
 {
     id_ = id;
     position_ = position;
@@ -23,7 +26,7 @@ Particle::Particle(Id id, int position)
     id_ = to_int(id);
     position_ = position;
 }
-Particle::Particle(const TLorentzVector& momentum, int id, int position)
+Particle::Particle(TLorentzVector const& momentum, int id, int position)
 {
     id_ = id;
     position_ = position;

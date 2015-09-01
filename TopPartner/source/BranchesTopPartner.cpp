@@ -1,17 +1,22 @@
 #include "BranchesTopPartner.hh"
+#include "Pair.hh"
 
-ClassImp(analysis::toppartner::TopPartnerBranch)
+namespace boca
+{
 
-analysis::toppartner::TopPartnerBranch::TopPartnerBranch() {}
+namespace naturalness
+{
 
-ClassImp(analysis::toppartner::HiggsPairBranch)
+Observables EventBranch::Variables() const
+{
+    return Join(MultiBranch::Variables(), {PAIR(LeptonNumber), PAIR(BottomNumber), PAIR(JetNumber), PAIR(MissingEt), PAIR(ScalarHt), PAIR(LeptonHt), PAIR(JetMass), PAIR(JetPt), PAIR(JetHt), PAIR(JetRap), PAIR(JetPhi)});
+}
 
-analysis::toppartner::HiggsPairBranch::HiggsPairBranch() {}
+Observables EventBranch::Spectators() const
+{
+  return Join(MultiBranch::Spectators(), {});
+}
 
-ClassImp(analysis::toppartner::SignatureBranch)
+}
 
-analysis::toppartner::SignatureBranch::SignatureBranch() {}
-
-ClassImp(analysis::toppartner::EventBranch)
-
-analysis::toppartner::EventBranch::EventBranch() {}
+}

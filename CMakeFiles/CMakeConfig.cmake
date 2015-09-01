@@ -1,3 +1,7 @@
+#
+# Copyright (C) 2015 Jan Hajer
+#
+
 unset(link_libraries CACHE)
 unset(include_directories CACHE)
 
@@ -41,6 +45,7 @@ macro(create_library library_name library_sources)
     target_link_libraries(${library_name} ${link_libraries})
   endif()
   set_target_properties(${library_name} PROPERTIES ${library_properties})
+#   set_target_properties(bar PROPERTIES INSTALL_RPATH "@loader_path/../lib")
   install(TARGETS ${library_name} DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
   add_libraries(${library_name})
 endmacro(create_library)
@@ -54,6 +59,7 @@ endmacro(create_executable)
 macro(create_dictionary dictionary_name dictionary_source link_def)
   message("Dictionary:   ${dictionary_name} <- ${dictionary_source} & ${link_def}")
   set(dictionary_file ${dictionary_name}Dict.cpp)
+  message("ROOT INCLUDE DIRECTORIES: ${include_directories}")
   ROOT_GENERATE_DICTIONARY("../source/${dictionary_source}" "${link_def}" "${dictionary_file}" "${include_directories}")
   create_library(${dictionary_name} dictionary_file "-w")
 endmacro(create_dictionary)

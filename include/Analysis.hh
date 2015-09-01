@@ -1,16 +1,24 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
-#include <sys/stat.h>
 #include "AnalysisBase.hh"
 #include "Reader.hh"
-#include "Branches.hh"
 #include "Trees.hh"
-#include "Debug.hh"
+#include "File.hh"
 
-namespace analysis {
+namespace boca {
 
 /**
- * @brief Base for analyses
+ * @brief provides main analysis loops and logic.
+ * @details This class has to be subclassed for each analysis.
+ * The subclasses have to be instantiated with a Tagger as template argument.
+ * Subclasses should be templated classes.
+ * @author Jan Hajer
+ * @copyright Copyright (C) 2015 Jan Hajer
+ * @date 2015
+ * @license GPL 3
  *
  */
 template<typename Tagger>
@@ -18,41 +26,58 @@ class Analysis : public AnalysisBase {
 
 public:
 
-    void AnalysisLoop(Stage stage) final {
-        mkdir(ProjectName().c_str(), 0700);
+  /**
+   * @brief Main analysis loop which has to be called by main.cpp
+   *
+   */
+  void AnalysisLoop(Stage stage) final {
+        Initialize();
         Reader<Tagger> reader(stage);
-        tagger().ClearTreeNames();
-        for (const auto& tag : std::vector<Tag> {Tag::signal, Tag::background})
+        for (auto const& tag : std::vector<Tag> {Tag::signal, Tag::background})
         {
             Files files(tagger().ExportFileName(stage, tag), stage, tag);
             ClearFiles();
             SetFiles(tag);
             for (auto& file : this->files(tag)) {
-                files.file(file);
+                files.set_file(file);
                 AnalyseFile(files, reader);
             }
             files.export_file().Close();
         }
     }
 
-
 protected:
 
-    const Tagger& tagger() const final {
-        return tagger_;
-    }
+  /**
+   * @brief getter for Tagger
+   *
+   * @return const boca::Tagger&
+   */
+  Tagger const&tagger() const final { return tagger_; }
 
-    void set_tagger_analysis_name(const std::string& name){
+    /**
+     * @brief setter for AnalysisName of Tagger
+     * @details must be set in each analysis in order for Tagger to know about the folder structure
+     *
+     */
+    void set_tagger_analysis_name(std::string const& name){
       tagger().SetAnalysisName(name);
     }
 
-    Tagger& tagger() final {
-        return tagger_;
-    }
+    /**
+     * @brief getter for Tagger
+     *
+     * @return boca::Tagger&
+     */
+    Tagger &tagger() final { return tagger_; }
 
 private:
 
-    void AnalyseFile(Files& files, Reader<Tagger>& reader)
+  /**
+   * @brief Analysis performed on each file
+   *
+   */
+  void AnalyseFile(Files& files, Reader<Tagger>& reader)
     {
         Trees trees(files);
         SetTreeBranch(files.stage(), trees.tree_writer(), reader);
@@ -60,15 +85,21 @@ private:
         if (files.stage() == Stage::reader) {
             trees.entry = std::min(long(trees.tree_reader().GetEntries()), EventNumberMax()) / 2;    // TODO fix corner cases
         }
+//         exroot::ProgressBar progress_bar(std::min(long(trees.tree_reader().GetEntries()), EventNumberMax()));
         for (; trees.entry < trees.tree_reader().GetEntries(); ++trees.entry) {
             ++trees.event_number_;
             DoAnalysis(files, trees, reader);
+//             progress_bar.Update(trees.object_sum());
             if (trees.object_sum() >= EventNumberMax()) break;
         }
-        if(trees.event_number_ == trees.tree_reader().GetEntries()) Error("All Events used",trees.event_number_);
+//         progress_bar.Finish();
         trees.WriteTree();
     }
 
+    /**
+     * @brief Set exroot::TreeBranch of exroot::TreeWriter to the pointer in the right Tagger
+     *
+     */
     void SetTreeBranch(Stage stage, exroot::TreeWriter& tree_writer, Reader<Tagger>& reader)
     {
         switch (stage) {
@@ -81,15 +112,27 @@ private:
         }
     }
 
-    void DoAnalysis(const Files& files, Trees& trees, const Reader<Tagger>& reader)
+    /**
+     * @brief Checks for PreCuts and saves the results of each analysis.
+     *
+     */
+    void DoAnalysis(Files const& files, Trees& trees, Reader<Tagger> const& reader) const
     {
         trees.NewEvent(files.file().mass());
         int pre_cut = PassPreCut(trees.event(), files.tag());
-        if (pre_cut > 0) trees.SaveAnalysis(RunAnalysis(trees.event(), reader, files.stage(), files.tag()));
+        if (pre_cut > 0) {
+          ++trees.pre_cut_number_;
+          trees.SaveAnalysis(RunAnalysis(trees.event(), reader, files.stage(), files.tag()));
+        }
         trees.tree_writer().Clear();
     }
 
-    int RunAnalysis(const Event& event, const Reader<Tagger>& reader, Stage stage, Tag tag)
+    /**
+     * @brief Starts the analysis on each Event
+     *
+     * @return int number of safed objects
+     */
+    int RunAnalysis(Event const& event, Reader<Tagger> const& reader, Stage stage, Tag tag) const
     {
         switch (stage) {
         case Stage::trainer :
@@ -101,6 +144,10 @@ private:
         }
     }
 
+    /**
+     * @brief Tagger template
+     *
+     */
     Tagger tagger_;
 
 };

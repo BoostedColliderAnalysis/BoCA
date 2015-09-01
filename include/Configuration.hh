@@ -1,17 +1,27 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "libconfig.h++"
 
 
-namespace analysis {
+namespace boca
+{
 
-class Configuration {
+enum class ColliderType
+{
+    LHC, FHC, LE
+};
+
+class Configuration
+{
 
 public:
 
     Configuration();
 
-    Configuration(const std::string& config_name);
+    Configuration(std::string const& config_name);
 
     Configuration& operator=(const Configuration& configuration);
 
@@ -25,7 +35,6 @@ public:
 
     int BackgroundFileNumber() const;
 
-    enum ColliderType {LHC, FHC, LE};
 
     ColliderType collider_type() const;
 
@@ -42,14 +51,13 @@ private:
 
     ColliderType ColliderType_();
 
-    void WriteConfig(const std::string& config_name);
+    void WriteConfig(std::string const& config_name);
 
-    void ReadConfig(const std::string& config_name);
+    void ReadConfig(std::string const& config_name);
 
     libconfig::Config config_;
 
-    libconfig::Config& config()
-    {
+    libconfig::Config& config() {
         return config_;
     }
 
@@ -63,7 +71,7 @@ private:
 
     ColliderType collider_type_;
 
-    std::string ConfigFile(const std::string& config_name);
+    std::string ConfigFile(std::string const& config_name);
 
 };
 

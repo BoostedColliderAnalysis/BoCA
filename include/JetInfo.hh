@@ -1,7 +1,7 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
-
-#include <map>
-#include <unordered_map>
 
 #include "fastjet/PseudoJet.hh"
 
@@ -9,19 +9,26 @@
 #include "Constituent.hh"
 
 class Jet;
-namespace delphes {
+namespace delphes
+{
 typedef ::Jet Jet;
 }
 
-namespace analysis {
+namespace boca
+{
+
+typedef std::vector<fastjet::PseudoJet> Jets;
 
 /**
  * @brief Jet infos subclassed from Fastjet
  *
  */
-class JetInfo: public Identification, public fastjet::PseudoJet::UserInfoBase {
+class JetInfo: public Identification, public fastjet::PseudoJet::UserInfoBase
+{
 
 public:
+
+    friend class InfoRecombiner;
 
     /**
      * @brief Constructor
@@ -31,39 +38,25 @@ public:
 
     JetInfo(float bdt);
 
-    JetInfo(const ::delphes::Jet& jet);
-
-    JetInfo(const bool b_tag);
-
-//     JetInfo(const bool b_tag, int charge);
-
-    JetInfo(const bool b_tag, const bool tau_tag);
+    JetInfo(::delphes::Jet const& jet);
 
     JetInfo(int charge);
 
-    JetInfo(const Constituent& constituent);
+    JetInfo(Constituent const& constituent);
 
-    JetInfo(const Constituent& constituent, int charge);
+    JetInfo(Constituent const& constituent, int charge);
 
-    JetInfo(const std::vector<Constituent>& constituents);
+    JetInfo(std::vector<Constituent> const& constituents);
 
-    JetInfo(const std::vector<Constituent>& constituents, const std::vector<Constituent>& dispalced_constituents);
+    JetInfo operator+(const JetInfo &jet_info);
 
-//     JetInfo operator+(const JetInfo &jet_info);
+    JetInfo& operator+=(const JetInfo &jet_info);
 
-    void AddConstituent(const Constituent& constituent);
+    void AddConstituent(Constituent const& constituent);
 
-    void AddConstituents(const std::vector<Constituent>& constituents);
+    void AddConstituents(std::vector<Constituent> const& constituents);
 
-    void SetConstituents(const std::vector<Constituent>& constituents);
-
-    void AddDaughter(int daughter);
-
-    std::vector<Constituent> constituents() const;
-
-    std::vector<Constituent> displaced_constituents() const;
-
-    std::unordered_map<Family, float> FamilyFractions();
+    void AddConstituents(std::vector<Constituent> const& constituents, std::vector<Constituent> const& displaced_constituents);
 
     float VertexMass() const;
 
@@ -79,37 +72,13 @@ public:
 
     float VertexEnergy() const;
 
-    void ExtractFraction(int id);
+    float ElectroMagneticRadius(fastjet::PseudoJet const& jet) const;
 
-    void ExtractAbsFraction(int id);
-
-    void ExtractFraction(int id, int mother_id);
-
-    void PrintAllInfos(const Severity severity) const;
-
-    void PrintAllconstituentInfos(const Severity severity) const;
-
-    void PrintAllFamInfos(const Severity severity) const;
-
-    float MaximalFraction() const;
-
-    float Fraction(int id) const;
-
-    int MaximalId() const;
-
-    void AddFamily(const Family& family, float weight);
-
-    void ExtractFamilyFraction();
-
-    Family MaximalFamily();
-
-    float ElectroMagneticRadius(const fastjet::PseudoJet& jet) const;
-
-    float TrackRadius(const fastjet::PseudoJet& jet) const;
+    float TrackRadius(fastjet::PseudoJet const& jet) const;
 
     float LeadingTrackMomentumFraction() const;
 
-    float CoreEnergyFraction(const fastjet::PseudoJet& jet) const;
+    float CoreEnergyFraction(fastjet::PseudoJet const& jet) const;
 
     float ElectroMagneticFraction() const;
 
@@ -117,71 +86,60 @@ public:
 
     float TrackMass() const;
 
-    void SetBTag(const bool b_tag)
-    {
-        b_tag_ = b_tag;
-    }
+    bool BTag() const;
 
-    bool BTag() const
-    {
-        return b_tag_;
-    }
-
-    void SetTauTag(const bool tau_tag)
-    {
-        tau_tag_ = tau_tag;
-    }
-
-    bool TauTag() const
-    {
-        return tau_tag_;
-    }
-
-    void SetCharge(int charge)
-    {
-        charge_ = charge;
-    }
+    bool TauTag() const;
 
     int Charge() const;
 
-    void SetDelphesTags(const ::delphes::Jet& jet);
+    boca::Family Family() const;
 
-    void SecondayVertex() const;
+    void SetDelphesTags(::delphes::Jet const& jet);
+
+    void SetConstituents(std::vector<Constituent> const& constituents);
+
+    bool SubStructure() const{
+      return sub_structure_;
+    }
+
+    void SetSubStructure(bool sub_structure){
+      sub_structure_ = sub_structure;
+    }
 
 private:
 
-    void AddParticle(int constituent_id, float weight);
+    JetInfo(std::vector<Constituent> const& constituents, std::vector<Constituent> const& dispalced_constituents);
 
-    void AddParticle(Id constituent_id, float weight);
+    void SetConstituent(Constituent const& constituent);
 
-    float GetWeightSum() const;
+    void SetBTag(bool b_tag);
+
+    void SetTauTag(bool tau_tag);
+
+    void SetCharge(int charge);
+
+    std::vector<Constituent> constituents() const;
+
+    std::vector<Constituent> displaced_constituents() const;
+
+    void SecondayVertex() const;
 
     std::vector<Constituent> ApplyVertexResolution(std::vector<Constituent> constituents) const;
 
-    bool VertexResultion(const Constituent& constituent) const;
+    bool VertexResultion(Constituent const& constituent) const;
 
     std::vector<Constituent> constituents_;
 
     std::vector<Constituent> displaced_constituents_;
 
-    std::unordered_map<Family, float> family_fractions_;
-
-    std::map<int, float> id_fractions_;
-
     bool b_tag_ = 0;
 
     bool tau_tag_ = 0;
 
-    int charge_ = LargeNumber();
+    int charge_;
 
-};
+    bool sub_structure_ = true;
 
-/**
- * @brief sort vector of jets with largest bdt at the front
- *
- */
-struct SortByBdt {
-    bool operator()(const fastjet::PseudoJet& jet_1, const fastjet::PseudoJet& jet_2);
 };
 
 }

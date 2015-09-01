@@ -1,39 +1,41 @@
-#include "../include/EventTagger.hh"
+#include "../include/EventTTagger.hh"
 #include "Debug.hh"
 
-namespace analysis {
-
-namespace higgscpv {
-
-EventTagger::EventTagger()
+namespace boca
 {
-    Note();
+
+namespace higgscpv
+{
+
+EventTTagger::EventTTagger()
+{
+  Info();
     DefineVariables();
 }
 
-int EventTagger::Train(const analysis::Event& event, const analysis::PreCuts&, Tag tag) const
+int EventTTagger::Train(boca::Event const& event, boca::PreCuts const&, Tag tag) const
 {
-    Info("Train");
+    Info();
     Jets jets = bottom_reader_.Multiplets(event);
-    std::vector<Octet62> octets = signature_reader_.Multiplets(event);
-    Info("Octets", octets.size());
-    std::vector<MultipletEvent<Octet62>> multipletevents;
-    for (const auto& octet : octets) {
-        MultipletEvent<Octet62> multipletevent(octet, event, jets);
+    std::vector<MultipletSignature<Octet332>> octets = signature_reader_.Multiplets(event);
+    Info(octets.size());
+    std::vector<MultipletEvent<Octet332>> multipletevents;
+    for (auto const& octet : octets) {
+        MultipletEvent<Octet332> multipletevent(octet.Multiplet(), event, jets);
         multipletevent.SetTag(tag);
         multipletevents.emplace_back(multipletevent);
     }
     return SaveEntries(ReduceResult(multipletevents, 1));
 }
 
-std::vector<MultipletEvent<Octet62>> EventTagger::Multiplets(const Event& event, const PreCuts&, const TMVA::Reader& reader) const
+std::vector<MultipletEvent<Octet332>> EventTTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
 {
-    Info("Multiplets");
+    Info();
     Jets jets = bottom_reader_.Multiplets(event);
-    std::vector<Octet62> octets = signature_reader_.Multiplets(event);
-    std::vector<MultipletEvent<Octet62>> multiplet_events;
-    for (const auto& octet : octets) {
-        MultipletEvent<Octet62> multiplet_event(octet, event, jets);
+    std::vector<MultipletSignature<Octet332>> octets = signature_reader_.Multiplets(event);
+    std::vector<MultipletEvent<Octet332>> multiplet_events;
+    for (auto const& octet : octets) {
+        MultipletEvent<Octet332> multiplet_event(octet.Multiplet(), event, jets);
         multiplet_event.SetBdt(Bdt(multiplet_event, reader));
         multiplet_events.emplace_back(multiplet_event);
     }

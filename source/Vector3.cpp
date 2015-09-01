@@ -1,12 +1,21 @@
+// @(#)root/physics:$Id$
+// Author: Pasha Murat, Peter Malzacher   12/02/99
+//    Aug 11 1999: added Pt == 0 guard to Eta()
+//    Oct  8 1999: changed Warning to Error and
+//                 return fX in Double_t & operator()
+//    Oct 20 1999: Bug fix: sign in PseudoRapidity
+//                 Warning-> Error in Double_t operator()
+//           2015  Jan Hajer
+
 #include "Vector3.hh"
 #include "Vector2.hh"
 #include <cmath>
 #include "TVector3.h"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
-void Vector3::operator=(const TVector3& vector)
+void Vector3::operator=(TVector3 const& vector)
 {
     x_ = vector.X();
     y_ = vector.Y();
@@ -17,7 +26,7 @@ Vector3::Vector3() : x_(0.0), y_(0.0), z_(0.0) {}
 
 Vector3::Vector3(float xx, float yy, float zz) : x_(xx), y_(yy), z_(zz) {}
 
-Vector3::Vector3(const float* x0) : x_(x0[0]), y_(x0[1]), z_(x0[2]) {}
+Vector3::Vector3(float const* x0) : x_(x0[0]), y_(x0[1]), z_(x0[2]) {}
 
 float Vector3::operator()(int i) const
 {
@@ -51,7 +60,7 @@ float& Vector3::operator()(int i)
     return x_;
 }
 
-float Vector3::Angle(const Vector3& q) const
+float Vector3::Angle(Vector3 const& q) const
 {
 // return the angle w.r.t. another 3-vector
     float ptot2 = Mag2() * q.Mag2();
@@ -80,7 +89,7 @@ float Vector3::Perp() const
     return std::sqrt(Perp2());
 }
 
-float Vector3::Perp(const Vector3& p) const
+float Vector3::Perp(Vector3 const& p) const
 {
 //return the transverse component (R in cylindrical coordinate system)
     return std::sqrt(Perp2(p));
@@ -137,7 +146,7 @@ void Vector3::RotateZ(float angle)
     y_ = s * xx + c * y_;
 }
 
-void Vector3::RotateUz(const Vector3& NewUzVector)
+void Vector3::RotateUz(Vector3 const& NewUzVector)
 {
 // NewUzVector must be normalized !
     float u1 = NewUzVector.x_;
@@ -207,7 +216,7 @@ void Vector3::SetPhi(float ph)
     SetY(xy * std::sin(ph));
 }
 
-float Vector3::DeltaR(const Vector3& v) const
+float Vector3::DeltaR(Vector3 const& v) const
 {
 //return deltaR with respect to v
     float deta = Eta() - v.Eta();
@@ -224,32 +233,32 @@ void Vector3::SetMagThetaPhi(float mag, float theta, float phi)
     z_ = amag * std::cos(theta);
 }
 
-Vector3 operator + (const Vector3& a, const Vector3& b)
+Vector3 operator + (Vector3 const& a, Vector3 const& b)
 {
     return Vector3(a.X() + b.X(), a.Y() + b.Y(), a.Z() + b.Z());
 }
 
-Vector3 operator - (const Vector3& a, const Vector3& b)
+Vector3 operator - (Vector3 const& a, Vector3 const& b)
 {
     return Vector3(a.X() - b.X(), a.Y() - b.Y(), a.Z() - b.Z());
 }
 
-Vector3 operator * (const Vector3& p, float a)
+Vector3 operator * (Vector3 const& p, float a)
 {
     return Vector3(a * p.X(), a * p.Y(), a * p.Z());
 }
 
-Vector3 operator * (float a, const Vector3& p)
+Vector3 operator * (float a, Vector3 const& p)
 {
     return Vector3(a * p.X(), a * p.Y(), a * p.Z());
 }
 
-float operator * (const Vector3& a, const Vector3& b)
+float operator * (Vector3 const& a, Vector3 const& b)
 {
     return a.Dot(b);
 }
 
-Vector3 operator * (const TMatrix& m, const Vector3& v)
+Vector3 operator * (TMatrix const& m, Vector3 const& v)
 {
     return Vector3(m(0, 0) * v.X() + m(0, 1) * v.Y() + m(0, 2) * v.Z(),
                    m(1, 0) * v.X() + m(1, 1) * v.Y() + m(1, 2) * v.Z(),
@@ -329,17 +338,17 @@ void Vector3::GetXYZ(float* carray) const
     carray[2] = z_;
 }
 
-bool Vector3::operator == (const Vector3& v) const
+bool Vector3::operator == (Vector3 const& v) const
 {
     return (v.x_ == x_ && v.y_ == y_ && v.z_ == z_) ? true : false;
 }
 
-bool Vector3::operator != (const Vector3& v) const
+bool Vector3::operator != (Vector3 const& v) const
 {
     return (v.x_ != x_ || v.y_ != y_ || v.z_ != z_) ? true : false;
 }
 
-Vector3& Vector3::operator += (const Vector3& p)
+Vector3& Vector3::operator += (Vector3 const& p)
 {
     x_ += p.x_;
     y_ += p.y_;
@@ -347,7 +356,7 @@ Vector3& Vector3::operator += (const Vector3& p)
     return *this;
 }
 
-Vector3& Vector3::operator -= (const Vector3& p)
+Vector3& Vector3::operator -= (Vector3 const& p)
 {
     x_ -= p.x_;
     y_ -= p.y_;
@@ -368,12 +377,12 @@ Vector3& Vector3::operator *= (float a)
     return *this;
 }
 
-float Vector3::Dot(const Vector3& p) const
+float Vector3::Dot(Vector3 const& p) const
 {
     return x_ * p.x_ + y_ * p.y_ + z_ * p.z_;
 }
 
-Vector3 Vector3::Cross(const Vector3& p) const
+Vector3 Vector3::Cross(Vector3 const& p) const
 {
     return Vector3(y_ * p.z_ - p.y_ * z_, z_ * p.x_ - p.z_ * x_, x_ * p.y_ - p.x_ * y_);
 }
@@ -405,7 +414,7 @@ float Vector3::Pt() const
     return Perp();
 }
 
-float Vector3::Perp2(const Vector3& p) const
+float Vector3::Perp2(Vector3 const& p) const
 {
     float tot = p.Mag2();
     float ss = Dot(p);
@@ -417,7 +426,7 @@ float Vector3::Perp2(const Vector3& p) const
     return per;
 }
 
-float Vector3::Pt(const Vector3& p) const
+float Vector3::Pt(Vector3 const& p) const
 {
     return Perp(p);
 }
@@ -450,7 +459,7 @@ void Vector3::SetPerp(float r)
     }
 }
 
-float Vector3::DeltaPhi(const Vector3& v) const
+float Vector3::DeltaPhi(Vector3 const& v) const
 {
     return Vector2::Phi_mpi_pi(Phi() - v.Phi());
 }
@@ -460,7 +469,7 @@ float Vector3::Eta() const
     return PseudoRapidity();
 }
 
-float Vector3::DrEtaPhi(const Vector3& v) const
+float Vector3::DrEtaPhi(Vector3 const& v) const
 {
     return DeltaR(v);
 }

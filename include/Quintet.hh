@@ -1,18 +1,21 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "Triplet.hh"
 
-namespace analysis {
+namespace boca {
 
-class Quintet : public Multiplet<analysis::Triplet, analysis::Doublet> {
+class Quintet : public TwoBody<boca::Triplet, boca::Doublet> {
 
 public:
 
-    using Multiplet<analysis::Triplet, analysis::Doublet>::Multiplet;
+    using TwoBody<boca::Triplet, boca::Doublet>::TwoBody;
 
-    analysis::Doublet& Doublet() const;
+    boca::Doublet const& Doublet() const;
 
-    analysis::Triplet& Triplet() const;
+    boca::Triplet const& Triplet() const;
 
 };
 

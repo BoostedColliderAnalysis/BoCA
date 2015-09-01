@@ -1,121 +1,26 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "File.hh"
 
 #include "TFile.h"
 #include "TTree.h"
 
-#include "Predicate.hh"
+#include "Types.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
-File::File()
+  File::File(Strings const& processes, std::string const& base_path, std::string const& file_suffix, std::string const& nice_name, float crosssection, float mass)
 {
-    Debug();
-    SetVariables();
-    file_suffix_ = file_suffix();
-}
-
-File::File(const std::string& process)
-{
-    Debug();
-    SetVariables();
-    process_folders_.emplace_back(process);
-    file_suffix_ = file_suffix();
-}
-
-File::File(const std::string& process, float crosssection)
-{
-    Debug();
-    SetVariables();
-    process_folders_.emplace_back(process);
-    crossection_ = crosssection;
-    file_suffix_ = file_suffix();
-}
-
-File::File(const std::string& process, float crosssection, float mass)
-{
-    Debug();
-    SetVariables();
-    process_folders_.emplace_back(process);
-    crossection_ = crosssection;
-    mass_ = mass;
-    file_suffix_ = file_suffix();
-}
-
-File::File(const Strings& processes)
-{
-    Debug();
-    SetVariables();
-    process_folders_ = Join(process_folders_, processes);
-    file_suffix_ = file_suffix();
-}
-
-File::File(const Strings& processes, float crosssection)
-{
-    Debug();
-    SetVariables();
-    process_folders_ = Join(process_folders_, processes);
-    crossection_ = crosssection;
-    file_suffix_ = file_suffix();
-}
-
-File::File(const Strings& processes, float crosssection, float mass)
-{
-    Debug();
-    SetVariables();
-    process_folders_ = Join(process_folders_, processes);
-    crossection_ = crosssection;
-    mass_ = mass;
-    file_suffix_ = file_suffix();
-}
-
-File::File(const std::string& process, const std::string& run_folder)
-{
-    Debug();
-    SetVariables();
-    process_folders_.emplace_back(process);
-    run_folder_ = run_folder;
-    file_suffix_ = file_suffix();
-}
-
-File::File(const std::string& process, const std::string& base_path, const std::string& file_suffix, float crosssection)
-{
-    Debug();
-    SetVariables();
-    process_folders_.emplace_back(process);
-    base_path_ = base_path;
-    file_suffix_ = file_suffix;
-    crossection_ = crosssection;
-}
-
-File::File(const std::string& process, const std::string& base_path, const std::string& file_suffix)
-{
-    Debug();
-    SetVariables();
-    process_folders_.emplace_back(process);
-    base_path_ = base_path;
-    file_suffix_ = file_suffix;
-}
-
-File::File(const std::string& process, const std::string& base_path, const std::string& file_suffix, const std::string& nice_name)
-{
-    Debug();
-    SetVariables();
-    process_folders_.emplace_back(process);
-    base_path_ = base_path;
-    file_suffix_ = file_suffix;
-    nice_name_ = nice_name;
-}
-
-File::File(const std::string& process, const std::string& base_path, const std::string& file_suffix, float crossection, const std::string& nice_name)
-{
-    Debug();
-    SetVariables();
-    process_folders_.emplace_back(process);
-    base_path_ = base_path;
-    file_suffix_ = file_suffix;
-    crossection_ = crossection;
-    nice_name_ = nice_name;
+  Debug();
+  SetVariables();
+  process_folders_ = processes;
+  base_path_ = base_path;
+  file_suffix_ = file_suffix;
+  crosssection_ = crosssection;
+  nice_name_ = nice_name;
+  mass_ = mass;
 }
 
 std::string File::file_suffix() const
@@ -169,29 +74,27 @@ Strings File::Paths() const
 {
     Info();
     Strings FilePaths;
-    for (const auto& process_folder : process_folders_)
-        FilePaths.emplace_back(base_path_ + process_folder + file_suffix_);
+    for (auto const& process_folder : process_folders_) FilePaths.emplace_back(base_path_ + process_folder + file_suffix_);
     return FilePaths;
 }
 
 exroot::TreeReader File::TreeReader()
 {
-    Note(Paths().front());
+    for(auto const& path : Paths()) Note(path);
     chain_ = new TChain(tree_name().c_str());
-    for (const auto& path : Paths())
-        chain_->Add(path.c_str());
+    for (auto const& path : Paths()) chain_->Add(path.c_str());
     return exroot::TreeReader(chain_);
 }
 
 ClonesArrays File::clones_arrays()
 {
-    Note();
+    Info();
     return ClonesArrays(source());
 }
 
 Event File::event()
 {
-    Note();
+    Info();
     return Event(source());
 }
 

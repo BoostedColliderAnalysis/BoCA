@@ -1,13 +1,16 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "FourVector.hh"
 
 #include "TClonesArray.h"
-#include "Predicate.hh"
+#include "Types.hh"
 #include "delphes/Delphes.hh"
 #include "exroot/ExRootAnalysis.hh"
-#include "JetInfo.hh"
+#include "JetInfoFamily.hh"
 #include "Debug.hh"
 
-namespace analysis
+namespace boca
 {
 
 std::string Name(JetDetail jet_detail)
@@ -39,7 +42,7 @@ FourVector::FourVector() :
     check_value_(0.00001),
     mass_check_value_(1)
 {
-    Info("Constructor");
+    Info();
 }
 
 void FourVector::NewEvent(const ClonesArrays& clones_arrays)
@@ -47,109 +50,109 @@ void FourVector::NewEvent(const ClonesArrays& clones_arrays)
     std::vector<Family>topology_;
     clones_arrays_ = &clones_arrays;
     topology_.assign(clones_arrays.ParticleSum(), Family(Id::empty));
-    Info("Topology", topology_.size());
+    Info(topology_.size());
 }
 
 LorentzVector FourVector::LorentzVector(const exroot::Electron& Particle) const
 {
-    Debug("Electron");
+    Debug();
     return LorentzVectorByMass(Particle, Mass(Id::electron));
 }
 
 LorentzVector FourVector::LorentzVector(const exroot::GenJet& Particle) const
 {
-    Debug("GenJet");
+    Debug();
     return LorentzVectorByMass(Particle);
 }
 
 LorentzVector FourVector::LorentzVector(const exroot::GenParticle& Particle) const
 {
-    Debug("GenParticle");
+    Debug();
     return LorentzVectorByEnergy(Particle);
 }
 
 LorentzVector FourVector::LorentzVector(const exroot::Jet& Particle) const
 {
-    Debug("Jet");
+    Debug();
     return LorentzVectorByMass(Particle);
 }
 
 LorentzVector FourVector::LorentzVector(const exroot::LHEFParticle& Particle) const
 {
-    Debug("LHEFParticle");
+    Debug();
     return LorentzVectorByM(Particle);
 }
 
 LorentzVector FourVector::LorentzVector(const exroot::Muon& Particle) const
 {
-    Debug("Muon");
+    Debug();
     return LorentzVectorByMass(Particle, Mass(Id::muon));
 }
 
 LorentzVector FourVector::LorentzVector(const exroot::Photon& Particle) const
 {
-    Debug("Photon");
+    Debug();
     return LorentzVectorByMass(Particle, Mass(Id::photon));
 }
 
 LorentzVector FourVector::LorentzVector(const exroot::Tau& Particle) const
 {
-    Debug("Tau");
+    Debug();
     return LorentzVectorByMass(Particle, Mass(Id::tau));
 }
 
 fastjet::PseudoJet FourVector::PseudoJet(const exroot::Electron& Particle) const
 {
-    Debug("Pseudo Jet", "Electron");
-    return analysis::PseudoJet(LorentzVectorByMass(Particle, Mass(Id::electron)));
+    Debug();
+    return boca::PseudoJet(LorentzVectorByMass(Particle, Mass(Id::electron)));
 }
 
 fastjet::PseudoJet FourVector::PseudoJet(const exroot::GenJet& Particle) const
 {
-    Debug("Pseudo Jet", "GenJet");
-    return analysis::PseudoJet(LorentzVectorByMass(Particle));
+    Debug();
+    return boca::PseudoJet(LorentzVectorByMass(Particle));
 }
 
 fastjet::PseudoJet FourVector::PseudoJet(const exroot::GenParticle& Particle) const
 {
-    Debug("Pseudo Jet", "GenParticle");
-    return analysis::PseudoJet(LorentzVectorByEnergy(Particle));
+    Debug();
+    return boca::PseudoJet(LorentzVectorByEnergy(Particle));
 }
 
 fastjet::PseudoJet FourVector::PseudoJet(const exroot::Jet& Particle) const
 {
-    Debug("Pseudo Jet", "Jet");
-    return analysis::PseudoJet(LorentzVectorByMass(Particle));
+    Debug();
+    return boca::PseudoJet(LorentzVectorByMass(Particle));
 }
 
 fastjet::PseudoJet FourVector::PseudoJet(const exroot::LHEFParticle& Particle) const
 {
-    Debug("Pseudo Jet", "LHEFParticle");
-    return analysis::PseudoJet(LorentzVectorByM(Particle));
+    Debug();
+    return boca::PseudoJet(LorentzVectorByM(Particle));
 }
 
 fastjet::PseudoJet FourVector::PseudoJet(const exroot::Muon& Particle) const
 {
-    Debug("Pseudo Jet", "Muon");
-    return analysis::PseudoJet(LorentzVectorByMass(Particle, Mass(Id::muon)));
+    Debug();
+    return boca::PseudoJet(LorentzVectorByMass(Particle, Mass(Id::muon)));
 }
 
 fastjet::PseudoJet FourVector::PseudoJet(const exroot::Photon& Particle) const
 {
-    Debug("Pseudo Jet", "Photon");
-    return analysis::PseudoJet(LorentzVectorByMass(Particle, 0));
+    Debug();
+    return boca::PseudoJet(LorentzVectorByMass(Particle, 0));
 }
 
 fastjet::PseudoJet FourVector::PseudoJet(const exroot::Tau& Particle) const
 {
-    Debug("Pseudo Jet", "Tau");
-    return analysis::PseudoJet(LorentzVectorByMass(Particle, Mass(Id::tau)));
+    Debug();
+    return boca::PseudoJet(LorentzVectorByMass(Particle, Mass(Id::tau)));
 }
 
-Family FourVector::BranchFamily(const TObject& object) const
+Family FourVector::BranchFamily(TObject const& object) const
 {
-    std::vector<Family>topology_;
     Error("Code is disabled", clones_arrays().ParticleSum());
+    std::vector<Family>topology_;
     Family family;
     if (object.IsA() != ::delphes::GenParticle::Class()/* || Object == 0*/) {
         Error("Object is", object.ClassName());
@@ -203,7 +206,7 @@ Family FourVector::BranchFamily(Family& family, int Position) const
 //         int Status = ParticleClone.Status;
         int M1Id = to_int(Id::empty);
         int Mother1Status = to_int(Status::none);
-        analysis::LorentzVector MotherVector;
+        boca::LorentzVector MotherVector;
         if (particle.M1 > 0) {
             ::delphes::GenParticle& Mother1Clone = static_cast<::delphes::GenParticle&>(clones_arrays().Particle(particle.M1));
             M1Id = Mother1Clone.PID;
@@ -222,9 +225,9 @@ Family FourVector::BranchFamily(Family& family, int Position) const
             if (particle.PID == to_int(Id::string)) {
                 if (particle.M1 < particle.M2) {
                     Debug("String", Position, particle.M1, particle.M2);
-                    JetInfo jet_info;
-                    //                     for (const auto& Counter = ParticleClone.M2; Counter >= ParticleClone.M1; --Counter) {
-                    for (const auto& counter : Range(particle.M1,particle.M2)) {
+                    JetInfoFamily jet_info;
+                    //                     for (auto const& Counter = ParticleClone.M2; Counter >= ParticleClone.M1; --Counter) {
+                    for (auto const& counter : Range(particle.M1,particle.M2)) {
 //                         BranchFamily = BranchFamily(BranchFamily, Counter);
                         Family NewFamily = BranchFamily(family, counter);
                         jet_info.AddFamily(NewFamily, NewFamily.Pt());
@@ -233,7 +236,7 @@ Family FourVector::BranchFamily(Family& family, int Position) const
                     }
                     jet_info.PrintAllFamInfos(Severity::debug);
                     if (jet_info.FamilyFractions().size() > 1) {
-                      for (const auto& counter : Range(particle.M1,particle.M2)) topology_.at(counter).UnSetMarker();
+                      for (auto const& counter : Range(particle.M1,particle.M2)) topology_.at(counter).UnSetMarker();
                         Debug("To many String fractions");
                     };
                     family = jet_info.MaximalFamily();
@@ -252,7 +255,7 @@ Family FourVector::BranchFamily(Family& family, int Position) const
     return family;
 }
 
-void FourVector::PrintTruthLevel(const analysis::Severity severity) const
+void FourVector::PrintTruthLevel(const boca::Severity severity) const
 {
     std::vector<Family>topology_;
     Error("Code is disabled");
@@ -277,8 +280,8 @@ void FourVector::PrintTruthLevel(const analysis::Severity severity) const
         PrintCell("Py");
         PrintCell("Pz");
         std::cout << std::endl;
-        //         for (const auto& Position : HRange(clones_arrays().GetParticleSum())) {
-        for (const auto& Position : Range(30)) {
+        //         for (auto const& Position : HRange(clones_arrays().GetParticleSum())) {
+        for (auto const& Position : Range(30)) {
             ::delphes::GenParticle& Particle = static_cast<::delphes::GenParticle&>(clones_arrays().Particle(Position));
             PrintCell(Position);
             PrintCell(Name(topology_.at(Position).particle().id()));

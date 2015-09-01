@@ -3,7 +3,7 @@
 #include "HeavyHiggsSemiTagger.hh"
 #include "MultipletEvent.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace heavyhiggs {
 
@@ -18,19 +18,17 @@ public:
 
     EventFusionTagger();
 
-    int Train(const Event& event, const PreCuts& pre_cuts, Tag tag) const;
+    int Train(Event const& event, PreCuts const& pre_cuts,
+              Tag tag) const override;
 
-    std::vector<MultipletEvent<Sextet>> Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
+    std::vector<MultipletEvent<Sextet>> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    int GetBdt(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const  final
-    {
-      return SaveEntries(Multiplets(event, pre_cuts, reader));
+    int GetBdt(Event const& event, PreCuts const& pre_cuts,
+               TMVA::Reader const& reader) const final {
+                 return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
     }
 
-    std::string Name() const final
-    {
-        return "EventFusion";
-    }
+    std::string Name() const final { return "EventFusion"; }
 
 private:
 

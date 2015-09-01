@@ -2,9 +2,9 @@
 
 #include "../../include/Branches.hh"
 
-namespace analysis {
+namespace boca {
 
-namespace toppartner {
+namespace naturalness {
 
 /**
  *
@@ -15,10 +15,8 @@ class TopPartnerBranch : public MultiBranch {
 
 public:
 
-    TopPartnerBranch();
-
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(Multiplet const& multiplet)
     {
         MultiBranch::Fill(multiplet);
     }
@@ -38,10 +36,8 @@ class HiggsPairBranch : public MultiBranch {
 
 public:
 
-    HiggsPairBranch();
-
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(Multiplet const& multiplet)
     {
         MultiBranch::Fill(multiplet);
     }
@@ -56,10 +52,8 @@ class SignatureBranch : public MultiBranch {
 
 public:
 
-    SignatureBranch();
-
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(Multiplet const& multiplet)
     {
         MultiBranch::Fill(multiplet);
     }
@@ -70,17 +64,16 @@ private:
 
 };
 
-class EventBranch : public analysis::EventBranch {
+class EventBranch : public boca::EventBranch {
 
 public:
-
-    EventBranch();
-
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(Multiplet const& multiplet)
     {
-        analysis::EventBranch::Fill(multiplet);
+        boca::EventBranch::Fill(multiplet);
     }
+    Observables Variables() const;
+    Observables Spectators() const;
 
 private:
 

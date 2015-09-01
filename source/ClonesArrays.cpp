@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "ClonesArrays.hh"
 
 #include "TClonesArray.h"
@@ -5,7 +8,7 @@
 #include "exroot/ExRootAnalysis.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 ClonesArrays::ClonesArrays() {}
 
@@ -75,7 +78,7 @@ std::vector<Branch> ClonesArrays::Branches() const
 void ClonesArrays::UseBranches(exroot::TreeReader& tree_reader)
 {
     Debug("Use TreeBrancheses");
-    for (const auto& branch : Branches()) clones_arrays_[branch] = tree_reader.UseBranch(BranchName(branch).c_str());
+    for (auto const& branch : Branches()) clones_arrays_[branch] = tree_reader.UseBranch(BranchName(branch).c_str());
 }
 
 TClonesArray& ClonesArrays::ClonesArray(Branch branch) const

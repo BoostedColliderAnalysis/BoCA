@@ -1,20 +1,29 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "../Hadrons.hh"
 
-namespace analysis {
+namespace boca
+{
 
-namespace exroot {
+/**
+ * @brief exroot object extraction
+ *
+ */
+namespace exroot
+{
 
 /**
  * @brief Pgs Jets
  *
  */
-class Hadrons : public analysis::Hadrons {
+class Hadrons : public boca::Hadrons
+{
 
 public:
-
-    analysis::Jets Jets() const final;
+    boca::Jets Jets() const final;
 
     /**
      * @brief AnalyseJet calls AnalyseEFlow

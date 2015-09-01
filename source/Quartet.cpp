@@ -1,25 +1,53 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "Quartet.hh"
 
-namespace analysis {
+namespace boca {
 
-Doublet& Quartet22::Doublet1() const
+Doublet const& Quartet22::Doublet1() const
 {
     return Multiplet1();
 }
 
-Doublet& Quartet22::Doublet2() const
+Doublet const& Quartet22::Doublet2() const
 {
     return Multiplet2();
 }
 
-Triplet& Quartet31::Triplet() const
+Doublet& Quartet22::Doublet1()
+{
+  return Multiplet1();
+}
+
+Doublet& Quartet22::Doublet2()
+{
+  return Multiplet2();
+}
+
+Triplet const& Quartet31::Triplet() const
 {
     return Multiplet1();
 }
 
-Singlet& Quartet31::Singlet() const
+Singlet const& Quartet31::Singlet() const
 {
     return Multiplet2();
+}
+
+Doublet const& Quartet211::Doublet() const
+{
+  return Multiplet1();
+}
+
+Singlet const& Quartet211::Singlet1() const
+{
+  return Multiplet2();
+}
+
+Singlet const& Quartet211::Singlet2() const
+{
+  return Multiplet3();
 }
 
 }

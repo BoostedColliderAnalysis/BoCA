@@ -1,8 +1,11 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include <string>
 
-namespace analysis {
+namespace boca {
 
 enum class Tag {
     background = 0,
@@ -24,15 +27,15 @@ public:
 
     virtual float Bdt() const;
 
-    void SetTag(const analysis::Tag tag);
+    void SetTag(Tag tag);
 
-    void SetTag(analysis::Tag tag_1, analysis::Tag tag_2);
+    void SetTag(boca::Tag tag_1, boca::Tag tag_2);
 
-    analysis::Tag Tag() const;
+    boca::Tag Tag() const;
 
-    void SetFlag(const bool flag);
+    void SetFlag(bool flag);
 
-    void SetFlag(const bool flag_1, const bool flag_2);
+    void SetFlag(bool flag_1, bool flag_2);
 
     bool Flag() const;
 
@@ -41,7 +44,7 @@ public:
         return degenerate_;
     }
 
-    void SetDegenerate(const bool degenerate)
+    void SetDegenerate(bool degenerate)
     {
         degenerate_ = degenerate;
     }
@@ -67,10 +70,9 @@ public:
 //         return (Bdt() > multiplet.Bdt());
 //     }
 
-//     template<typename Multiplet>
+    // largest bdt in front
     bool operator < (const Identification& multiplet) const
     {
-        // largest bdt in front
         return (Bdt() > multiplet.Bdt());
     }
 
@@ -78,7 +80,7 @@ private:
 
     float bdt_;
 
-    analysis::Tag tag_;
+    boca::Tag tag_;
 
     bool flag_;
 

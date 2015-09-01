@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include <vector>
@@ -5,13 +8,11 @@
 #include "TObject.h"
 #include "Rtypes.h"
 
-namespace analysis {
-
-// typedef std::pair<float &, std::string> ObservablePair;
+namespace boca {
 
 class Obs {
 public:
-    Obs(const float& value, const std::string& name, const std::string& nice_name);
+    Obs(const float& value, std::string const& name, std::string const& nice_name);
     float& value() const;
     std::string name() const;
     std::string nice_name() const;
@@ -32,6 +33,7 @@ public:
 protected:
     static float InitialValue();
     static Observables Join(const Observables& observables_1, const Observables& observables_2);
+    static Observables Join(const Observables& observables_1, const Observables& observables_2, const Observables& observables_3);
 private:
     ClassDef(BaseBranch, 1)
 };
@@ -58,7 +60,7 @@ public:
     float Bdt;
     float Tag;
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(Multiplet const& multiplet)
     {
         Tag = int(multiplet.Tag());
         Bdt = multiplet.Bdt();
@@ -82,9 +84,9 @@ public:
     float Phi;
     float Charge;
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(Multiplet const& multiplet)
     {
-        ResultBranch::Fill(multiplet);
+      ResultBranch::Fill(multiplet);
         Mass = multiplet.Jet().m();
         Pt = multiplet.Jet().pt();
         Rap = multiplet.Jet().rap();
@@ -93,6 +95,7 @@ public:
     }
     Observables Variables() const;
     Observables Spectators() const;
+
 private:
     ClassDef(ParticleBranch, 1)
 };
@@ -101,7 +104,7 @@ private:
 /**
  *
  * @brief Bottom tagger root tree structure base class
- * (this construct is necessary because root can not handel virtual inheritance needed for the resulution of the dreaded diamond)
+ * @details this construct is necessary because root can not handel virtual inheritance needed for the resulution of the dreaded diamond
  *
  */
 class BottomBase {
@@ -118,12 +121,12 @@ public:
     float VertexSpread;
     float EnergyFraction;
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(Multiplet const& multiplet)
     {
         Fill2(multiplet.singlet());
     }
     template<typename Singlet>
-    void Fill2(const Singlet& singlet)
+    void Fill2(Singlet const& singlet)
     {
         VertexMass = singlet.VertexMass();
         MaxDisplacement = singlet.MaxDisplacement();
@@ -151,10 +154,10 @@ private:
  */
 class BottomBranch : public ParticleBranch, public BottomBase {
 public:
-    Observables Variables() const;
-    Observables Spectators() const;
+  Observables Variables() const;
+  Observables Spectators() const;
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(Multiplet const& multiplet)
     {
         ParticleBranch::Fill(multiplet);
         BottomBase::Fill(multiplet);
@@ -181,7 +184,7 @@ public:
     float FlightPath;
     float TrtHtFraction;
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(Multiplet const& multiplet)
     {
         ParticleBranch::Fill(multiplet);
         EmRadius = multiplet.EmRadius();
@@ -196,6 +199,7 @@ public:
     }
     Observables Variables() const;
     Observables Spectators() const;
+
 private:
     ClassDef(TauBranch, 1)
 };
@@ -217,7 +221,7 @@ public:
     float DeltaPull;
     float Dipolarity;
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(Multiplet const& multiplet)
     {
         ParticleBranch::Fill(multiplet);
         Ht = multiplet.Ht();
@@ -235,6 +239,7 @@ public:
     }
     Observables Variables() const;
     Observables Spectators() const;
+
 private:
     ClassDef(PairBranch, 1)
 };
@@ -245,12 +250,13 @@ public:
     MultiBranch();
     float DeltaHt;
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(Multiplet const& multiplet)
     {
         PairBranch::Fill(multiplet);
         DeltaHt = multiplet.DeltaHt();
     }
     Observables Variables() const;
+
 private:
     ClassDef(MultiBranch, 1)
 };
@@ -298,7 +304,7 @@ public:
 //     float BdtRatio23;
 //     float BdtRatio24;
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(Multiplet const& multiplet)
     {
         PairBranch::Fill(multiplet);
         Jet1Pt = multiplet.Singlet1().Jet().pt();
@@ -311,6 +317,7 @@ public:
         Jet2Mass = multiplet.Singlet2().Jet().m();
     }
     Observables Variables() const;
+
 private:
     ClassDef(JetPairBranch, 1)
 };
@@ -336,7 +343,7 @@ public:
     float TopBdt;
     float TopBTag;
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(Multiplet const& multiplet)
     {
         PairBranch::Fill(multiplet);
         BottomPt = multiplet.Singlet().Jet().pt();
@@ -353,6 +360,7 @@ public:
         TopBdt = multiplet.Triplet().Bdt();
     }
     Observables Variables() const;
+
 private:
     ClassDef(TripletJetPairBranch, 1)
 };
@@ -368,13 +376,14 @@ public:
     float LeptonPt;
     float NeutrinoPt;
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(Multiplet const& multiplet)
     {
         PairBranch::Fill(multiplet);
         LeptonPt = multiplet.Singlet1().Jet().pt();
         NeutrinoPt = multiplet.Singlet2().Jet().pt();
     }
     Observables Variables() const;
+
 private:
     ClassDef(WSemiBranch, 1)
 };
@@ -392,7 +401,7 @@ public:
     float WMass;
     float LeptonPt;
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(Multiplet const& multiplet)
     {
         MultiBranch::Fill(multiplet);
         BottomBase::Fill(multiplet);
@@ -402,6 +411,7 @@ public:
     }
     Observables Variables() const;
     Observables Spectators() const;
+
 private:
     ClassDef(TopHadronicBranch, 1)
 };
@@ -417,7 +427,7 @@ public:
     float BottomPt;
     float LeptonPt;
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(Multiplet const& multiplet)
     {
         PairBranch::Fill(multiplet);
         BottomBase::Fill(multiplet);
@@ -426,6 +436,7 @@ public:
     }
     Observables Variables() const;
     Observables Spectators() const;
+
 private:
     ClassDef(TopLeptonicBranch, 1)
 };
@@ -438,14 +449,19 @@ private:
 class HiggsBranch : public PairBranch, public BottomBase {
 public:
     HiggsBranch();
+    float LeptonPt;
+    float LeptonDeltaR;
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(Multiplet const& multiplet)
     {
         PairBranch::Fill(multiplet);
         BottomBase::Fill(multiplet);
+        LeptonPt = multiplet.LeptonPt;
+        LeptonDeltaR = multiplet.LeptonDeltaR;
     }
     Observables Variables() const;
     Observables Spectators() const;
+
 private:
     ClassDef(HiggsBranch, 1)
 };
@@ -472,9 +488,9 @@ public:
     float JetPhi;
 
     template<typename Multiplet>
-    void Fill(const Multiplet& multiplet)
+    void Fill(Multiplet const& multiplet)
     {
-        analysis::MultiBranch::Fill(multiplet);
+        boca::MultiBranch::Fill(multiplet);
         LeptonNumber = multiplet.GlobalObservables().LeptonNumber();
         JetNumber = multiplet.GlobalObservables().JetNumber();
         BottomNumber = multiplet.GlobalObservables().BottomNumber();
@@ -488,6 +504,7 @@ public:
         JetPhi = multiplet.Singlet().Jet().phi();
     }
     Observables Variables() const;
+
 private:
     ClassDef(EventBranch, 1)
 };

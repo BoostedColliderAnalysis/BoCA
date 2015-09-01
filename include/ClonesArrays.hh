@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include <vector>
@@ -10,7 +13,7 @@ namespace exroot{
 class TClonesArray;
 class TObject;
 
-namespace analysis {
+namespace boca {
 
 enum class Branch {
     particle, photon, electron, muon, jet, missing_et, track, tower, e_flow_track, e_flow_photon, e_flow_neutral_hadron, e_flow_muon, gen_jet, scalar_ht, tau

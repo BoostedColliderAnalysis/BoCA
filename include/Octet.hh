@@ -1,76 +1,36 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "Sextet.hh"
 #include "Quintet.hh"
 #include "Quartet.hh"
+#include "ThreeBody.hh"
 
-namespace analysis {
+namespace boca {
 
 /**
  * @brief An octet composed of a sextet an a doublet
  *
  */
-class Octet62 : public Multiplet<::analysis::Sextet, ::analysis::Doublet> {
+class Octet62 : public TwoBody<::boca::Sextet, ::boca::Doublet> {
 
 public:
 
-    using Multiplet<::analysis::Sextet, ::analysis::Doublet>::Multiplet;
+    using TwoBody<::boca::Sextet, ::boca::Doublet>::TwoBody;
 
-    analysis::Sextet& Sextet() const;
+    const boca::Sextet& Sextet() const;
 
-    analysis::Doublet& Doublet() const;
+    boca::Doublet const& Doublet() const;
 
-    float HbDeltaDeltaR() const {
-        return std::abs(GetDeltaR1() - GetDeltaR2());
-    }
-
-    float HbDeltaDeltaRap() const {
-        return std::abs(GetDeltaRap1() - GetDeltaRap2());
-    }
-
-    float HbDeltaDeltaPhi() const {
-        return ::analysis::DeltaPhi(GetDeltaPhi1(), GetDeltaPhi2());
-    }
-
-    float BottomBdt() const {
-        return (Doublet().Singlet1().Jet().user_info<JetInfo>().Bdt() + Doublet().Singlet2().Jet().user_info<JetInfo>().Bdt() + Sextet().Triplet1().Singlet().Jet().user_info<JetInfo>().Bdt() + Sextet().Triplet2().Singlet().Jet().user_info<JetInfo>().Bdt()) / 4;
-    }
-
-    float PairBottomBdt() const {
-        return (Doublet().Singlet1().Jet().user_info<JetInfo>().Bdt() + Doublet().Singlet2().Jet().user_info<JetInfo>().Bdt()) / 2;
-    }
-
-    float GetDeltaR1() const {
-        return Sextet().Jet().delta_R(Doublet().Singlet1().Jet());
-    }
-
-    float GetDeltaR2() const {
-        return Sextet().Jet().delta_R(Doublet().Singlet2().Jet());
-    }
-
-    float GetDeltaPhi1() const {
-        return Sextet().Jet().delta_phi_to(Doublet().Singlet1().Jet());
-    }
-
-    float GetDeltaPhi2() const {
-        return Sextet().Jet().delta_phi_to(Doublet().Singlet2().Jet());
-    }
-
-    float GetDeltaRap1() const {
-        return (Sextet().Jet().rap() - Doublet().Singlet1().Jet().rap());
-    }
-
-    float GetDeltaRap2() const {
-        return (Sextet().Jet().rap() - Doublet().Singlet2().Jet().rap());
-    }
-
-    float GetDeltaPt1() const {
-        return (Sextet().Jet().pt() - Doublet().Singlet1().Jet().pt());
-    }
-
-    float GetDeltaPt2() const {
-        return (Sextet().Jet().pt() - Doublet().Singlet2().Jet().pt());
-    }
+//     float BottomBdt() const {
+//         return (Doublet().Singlet1().Bdt() + Doublet().Singlet2().Bdt() + Sextet().Triplet1().Singlet().Bdt() + Sextet().Triplet2().Singlet().Bdt()) / 4;
+//     }
+//
+//     float PairBottomBdt() const {
+//         return (Doublet().Singlet1().Bdt() + Doublet().Singlet2().Bdt()) / 2;
+//     }
 
 };
 
@@ -78,19 +38,15 @@ public:
  * @brief An octet composed of two quartets
  *
  */
-class Octet44 : public analysis::Multiplet<analysis::Quartet31, analysis::Quartet31> {
+class Octet44 : public boca::TwoBody<boca::Quartet31, boca::Quartet31> {
 
 public:
 
-  using analysis::Multiplet<analysis::Quartet31, analysis::Quartet31>::Multiplet;
+  using boca::TwoBody<boca::Quartet31, boca::Quartet31>::TwoBody;
 
-  analysis::Quartet31& Quartet1() const;
+  const boca::Quartet31& Quartet1() const;
 
-  analysis::Quartet31& Quartet2() const;
-
-  float BottomBdt() const;
-
-  float PairBottomBdt() const;
+  const boca::Quartet31& Quartet2() const;
 
 };
 
@@ -98,15 +54,29 @@ public:
  * @brief An octet composed of two quartets
  *
  */
-class Octet53 : public analysis::Multiplet<analysis::Quintet, analysis::Triplet> {
+class Octet53 : public boca::TwoBody<boca::Quintet, boca::Triplet> {
 
 public:
 
-  using analysis::Multiplet<analysis::Quintet, analysis::Triplet>::Multiplet;
+  using boca::TwoBody<boca::Quintet, boca::Triplet>::TwoBody;
 
-  analysis::Quintet& Quintet() const;
+  const boca::Quintet& Quintet() const;
 
-  analysis::Triplet& Triplet() const;
+  boca::Triplet const& Triplet() const;
+
+};
+
+class Octet332 : public boca::ThreeBody<boca::Triplet,boca::Triplet,boca::Doublet>{
+
+public:
+
+  using boca::ThreeBody<boca::Triplet,boca::Triplet,boca::Doublet>::ThreeBody;
+
+  boca::Triplet const& Triplet1() const{return Multiplet1();};
+
+  boca::Triplet const& Triplet2() const{return Multiplet2();};
+
+  boca::Doublet const& Doublet() const{return Multiplet3();};
 
 };
 

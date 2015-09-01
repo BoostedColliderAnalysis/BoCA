@@ -3,9 +3,9 @@
 #include "TopPartnerPairTagger.hh"
 #include "MultipletEvent.hh"
 
-namespace analysis {
+namespace boca {
 
-namespace toppartner {
+namespace naturalness {
 
 /**
  *
@@ -18,24 +18,26 @@ public:
 
     EventPairTagger();
 
-    int Train(const Event& event, const PreCuts& pre_cuts, Tag tag) const final;
+    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
 
-    std::vector<MultipletEvent<Decuplet55>> Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
+    std::vector<MultipletEvent<Decuplet55>> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    int GetBdt(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const  final
-    {
-        return SaveEntries(Multiplets(event, pre_cuts, reader));
+    int GetBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final {
+                 return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
     }
 
-    auto Multiplets(const Event& event, const TMVA::Reader& reader)
+    auto Multiplets(Event const& event, TMVA::Reader const& reader)
     {
         PreCuts pre_cuts;
         return Multiplets(event, pre_cuts, reader);
     }
 
-    std::string Name() const final
-    {
-        return "EventSingle";
+    std::string Name() const final {
+      return "EventPair";
+    }
+
+    std::string NiceName() const final {
+      return "#tilde t_{h} #tilde t_{l}";
     }
 
 private:

@@ -1,12 +1,10 @@
-#include "Global.hh"
-#include "Predicate.hh"
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
+#include "Particles.hh"
+#include "Types.hh"
 
-namespace analysis {
-
-int LargeNumber()
-{
-    return 999999999;
-}
+namespace boca {
 
 std::string Name(int id)
 {
@@ -75,51 +73,51 @@ std::string Name(Id id)
         return "pi0";
     case Id::rho0:
         return "rho0";
-    case Id::K0L:
+    case Id::K0l:
         return "K0l";
     case Id::pion:
         return "pi";
     case Id::rho:
         return "rho";
-    case Id::RapMeson:
+    case Id::eta:
         return "eta";
-    case Id::OmegaMeson:
+    case Id::omega:
         return "omega";
-    case Id::K0SMeson:
+    case Id::K0s:
         return "K0s";
-    case Id::KMeson0:
+    case Id::K0:
         return "K0";
-    case Id::KMeson0S:
+    case Id::K0S:
         return "K0*";
-    case Id::KMeson:
+    case Id::K:
         return "K";
-    case Id::KMesonS:
+    case Id::KS:
         return "K*";
-    case Id::RapPMeson:
+    case Id::etaP:
         return "etaP";
-    case Id::DMeson:
+    case Id::D:
         return "D";
-    case Id::DMesonS:
+    case Id::DS:
         return "D*";
-    case Id::DMesonS2:
+    case Id::DS2:
         return "D*2";
-    case Id::DMeson0:
+    case Id::D0:
         return "D0";
-    case Id::DMesonS0:
+    case Id::DS0:
         return "D*0";
-    case Id::RapCMeson:
+    case Id::etac:
         return "etac";
-    case Id::BMeson0:
+    case Id::B0:
         return "B0";
-    case Id::BMeson0S:
+    case Id::B0S:
         return "B0*";
-    case Id::BMeson:
+    case Id::B:
         return "B";
-    case Id::BMesonS:
+    case Id::BS:
         return "B*";
-    case Id::BMesonS0:
+    case Id::BS0:
         return "B*0";
-    case Id::BMesonSS0:
+    case Id::BsS0:
         return "Bs*0";
     case Id::down_down_1:
         return "dd1";
@@ -127,7 +125,7 @@ std::string Name(Id id)
         return "ud0";
     case Id::up_down_1:
         return "ud1";
-    case Id::DeltaBaryon:
+    case Id::Delta:
         return "Delta";
     case Id::neutron:
         return "n";
@@ -181,9 +179,9 @@ float Mass(Id id)
         return 0.13957;
     case Id::rho:
         return 0.77549;
-    case Id::RapMeson:
+    case Id::eta:
         return 0.54785;
-    case Id::OmegaMeson:
+    case Id::omega:
         return 0.78265;
     case Id::neutron:
         return 1.00866;

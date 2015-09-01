@@ -1,3 +1,7 @@
+#
+# Copyright (C) 2015 Jan Hajer
+#
+
 cmake_minimum_required(VERSION 2.6.0 FATAL_ERROR)
 project(Mt2 CXX)
 message("Project: Mt2")

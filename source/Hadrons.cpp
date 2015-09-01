@@ -1,7 +1,10 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "Hadrons.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 void Hadrons::NewEvent(const ClonesArrays& clones_arrays)
 {

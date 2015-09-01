@@ -1,7 +1,11 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
+
 #include<type_traits>
 
-namespace analysis
+namespace boca
 {
 
 template<typename Enum>
@@ -13,22 +17,22 @@ template <typename Enum, typename Type>
 using Return = typename std::enable_if<Flag<Enum>::enable, Type>;
 
 template<typename Enum>
-typename Return<Enum,typename std::underlying_type<Enum>::type>::type
+typename Return<Enum, typename std::underlying_type<Enum>::type>::type
 Underlying(Enum enum_1)
 {
     return static_cast<typename std::underlying_type<Enum>::type>(enum_1);
 }
 
 template<typename Enum>
-typename Return<Enum, Enum>::type operator|(Enum enum_1, Enum enum_2)
-{
-    return static_cast<Enum>(Underlying(enum_1) | Underlying(enum_2));
-}
-
-template<typename Enum>
 typename Return<Enum, Enum>::type operator&(Enum enum_1, Enum enum_2)
 {
     return static_cast<Enum>(Underlying(enum_1) & Underlying(enum_2));
+}
+
+template<typename Enum>
+typename Return<Enum, Enum>::type operator|(Enum enum_1, Enum enum_2)
+{
+    return static_cast<Enum>(Underlying(enum_1) | Underlying(enum_2));
 }
 
 template<typename Enum>
@@ -44,16 +48,16 @@ typename Return<Enum, Enum>::type operator~(Enum enum_1)
 }
 
 template<typename Enum>
-typename Return<Enum, Enum&>::type operator|=(Enum& enum_1, Enum enum_2)
+typename Return<Enum, Enum&>::type operator&=(Enum& enum_1, Enum enum_2)
 {
-    enum_1 = static_cast<Enum>(Underlying(enum_1) | Underlying(enum_2));
+    enum_1 = static_cast<Enum>(Underlying(enum_1) & Underlying(enum_2));
     return enum_1;
 }
 
 template<typename Enum>
-typename Return<Enum, Enum&>::type operator&=(Enum& enum_1, Enum enum_2)
+typename Return<Enum, Enum&>::type operator|=(Enum& enum_1, Enum enum_2)
 {
-    enum_1 = static_cast<Enum>(Underlying(enum_1) & Underlying(enum_2));
+    enum_1 = static_cast<Enum>(Underlying(enum_1) | Underlying(enum_2));
     return enum_1;
 }
 
@@ -72,7 +76,7 @@ typename Return<Enum, Enum&>::type operator<<=(Enum& enum_1, Enum enum_2)
 }
 
 template <typename Enum>
-typename Return<Enum, bool>::type to_bool(Enum const value)
+typename Return<Enum, bool>::type to_bool(Enum value)
 {
     return Underlying(value);
 }

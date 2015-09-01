@@ -3,9 +3,10 @@
 
 int main()
 {
-    analysis::standardmodel::AnalysisHiggs<analysis::BottomTagger> bottom_analysis;
+    boca::standardmodel::AnalysisHiggs<boca::BottomTagger> bottom_analysis;
     bottom_analysis.RunFast();
-    analysis::standardmodel::AnalysisHiggs<analysis::HiggsTagger> higgs_analysis;
+    boca::standardmodel::AnalysisHiggs<boca::HiggsTagger> higgs_analysis;
     higgs_analysis.RunFullEfficiency();
+    higgs_analysis.RunPlots();
 }
 

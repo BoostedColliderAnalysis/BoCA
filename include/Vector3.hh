@@ -1,13 +1,22 @@
-#pragma once
+// @(#)root/physics:$Id$
+// Author: Pasha Murat, Peter Malzacher   12/02/99
+// Jan Hajer 2015
 
-// #include "Vector2.hh"
+/*************************************************************************
+ * Copyright (C) 1995-2000, Rene Brun and Fons Rademakers.               *
+ * All rights reserved.                                                  *
+ *                                                                       *
+ * For the licensing terms see $ROOTSYS/LICENSE.                         *
+ * For the list of contributors see $ROOTSYS/README/CREDITS.             *
+ *************************************************************************/
+#pragma once
 
 typedef float Float_t;
 class TVector3;
 template<class Element> class TMatrixT;
 typedef TMatrixT<Float_t> TMatrix;
 
-namespace analysis {
+namespace boca {
 
 /**
  * @brief Copy of root::TVector3 in order to get rid of TObject
@@ -17,7 +26,7 @@ class Vector3 {
 
 public:
 
-    void operator=(const TVector3& vector);
+    void operator=(TVector3 const& vector);
 
     Vector3();
 
@@ -25,7 +34,7 @@ public:
     Vector3(float x, float y, float z);
 
 // Constructors from an array
-    Vector3(const float*);
+    Vector3(float const*);
 
 // Get components by index (Geant4).
     float operator()(int) const;
@@ -92,27 +101,27 @@ public:
     void SetPerp(float);
 
 // The transverse component w.r.t. given axis squared.
-    float Perp2(const Vector3&) const;
+    float Perp2(Vector3 const&) const;
 
 // The transverse component w.r.t. given axis.
-    float Pt(const Vector3&) const;
-    float Perp(const Vector3&) const;
+    float Pt(Vector3 const&) const;
+    float Perp(Vector3 const&) const;
 
-    float DeltaPhi(const Vector3&) const;
-    float DeltaR(const Vector3&) const;
-    float DrEtaPhi(const Vector3&) const;
+    float DeltaPhi(Vector3 const&) const;
+    float DeltaR(Vector3 const&) const;
+    float DrEtaPhi(Vector3 const&) const;
 //     Vector2 EtaPhiVector() const;
     void SetMagThetaPhi(float mag, float theta, float phi);
 
 // Comparisons (Geant4).
-    bool operator == (const Vector3&) const;
-    bool operator != (const Vector3&) const;
+    bool operator == (Vector3 const&) const;
+    bool operator != (Vector3 const&) const;
 
 // Addition.
-    Vector3& operator += (const Vector3&);
+    Vector3& operator += (Vector3 const&);
 
 // Subtraction.
-    Vector3& operator -= (const Vector3&);
+    Vector3& operator -= (Vector3 const&);
 
 // Unary minus.
     Vector3 operator - () const;
@@ -127,13 +136,13 @@ public:
     Vector3 Orthogonal() const;
 
 // Scalar product.
-    float Dot(const Vector3&) const;
+    float Dot(Vector3 const&) const;
 
 // Cross product.
-    Vector3 Cross(const Vector3&) const;
+    Vector3 Cross(Vector3 const&) const;
 
 // The angle w.r.t. another 3-vector.
-    float Angle(const Vector3&) const;
+    float Angle(Vector3 const&) const;
 
 // Returns the pseudo-rapidity, i.e. -ln(tan(theta/2))
     float PseudoRapidity() const;
@@ -150,7 +159,7 @@ public:
     void RotateZ(float);
 
 // Rotates reference frame from Uz to newUz (unit vector) (Geant4).
-    void RotateUz(const Vector3&);
+    void RotateUz(Vector3 const&);
 
 //     Vector2 XYvector() const;
 
@@ -162,19 +171,19 @@ private:
 };
 
 // Addition of 3-vectors.
-Vector3 operator + (const Vector3&, const Vector3&);
+Vector3 operator + (Vector3 const&, Vector3 const&);
 
 // Subtraction of 3-vectors.
-Vector3 operator - (const Vector3&, const Vector3&);
+Vector3 operator - (Vector3 const&, Vector3 const&);
 
 // Scalar product of 3-vectors.
-float operator * (const Vector3&, const Vector3&);
+float operator * (Vector3 const&, Vector3 const&);
 
 // Scaling of 3-vectors with a real number
-Vector3 operator * (const Vector3&, float a);
-Vector3 operator * (float a, const Vector3&);
+Vector3 operator * (Vector3 const&, float a);
+Vector3 operator * (float a, Vector3 const&);
 
-Vector3 operator * (const TMatrix&, const Vector3&);
+Vector3 operator * (TMatrix const&, Vector3 const&);
 
 }
 

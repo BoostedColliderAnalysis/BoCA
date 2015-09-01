@@ -1,8 +1,14 @@
 #pragma once
 
-#include "Global.hh"
+#include <vector>
 
-namespace analysis {
+namespace fastjet{
+class PseudoJet;
+}
+
+namespace boca {
+
+typedef std::vector<fastjet::PseudoJet> Jets;
 
 /**
  * @brief prepares the data for the top tagger
@@ -24,7 +30,7 @@ private:
      * @brief Calculates Vector of granulated Jets
      *
      */
-    Jets GranulatedJets(analysis::Jets& e_flows);
+    Jets GranulatedJets(boca::Jets& e_flows);
 
 };
 

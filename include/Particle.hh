@@ -1,10 +1,14 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
-#include "Global.hh"
+#include "Particles.hh"
 #include "LorentzVector.hh"
+
 class TLorentzVector;
 
-namespace analysis {
+namespace boca {
 
 class Particle {
 
@@ -18,9 +22,9 @@ public:
 
     Particle(Id id, int position);
 
-    Particle(const LorentzVector& momentum, int id, int position);
+    Particle(LorentzVector const& momentum, int id, int position);
 
-    Particle(const TLorentzVector& momentum, int id, int position);
+    Particle(TLorentzVector const& momentum, int id, int position);
 
     LorentzVector momentum() const;
 
@@ -34,7 +38,7 @@ private:
 
     int position_ = EmptyPosition;
 
-    int id_;
+    int id_ = int(Id::empty);
 
 };
 

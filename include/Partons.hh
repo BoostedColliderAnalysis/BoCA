@@ -1,8 +1,11 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "FourVector.hh"
 
-namespace analysis {
+namespace boca {
 
 /**
  * @brief particles for HAnalysis
@@ -14,7 +17,7 @@ public:
 
     virtual ~Partons() {};
 
-    void NewEvent(const analysis::ClonesArrays& clones_arrays);
+    void NewEvent(const boca::ClonesArrays& clones_arrays);
 
     virtual Jets Particles() const = 0;
 

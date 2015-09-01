@@ -1,22 +1,25 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "Triplet.hh"
 
-namespace analysis {
+namespace boca {
 
 /**
  * @brief A sextet of 2 triplets
  *
  */
-class Sextet : public Multiplet<Triplet, Triplet> {
+class Sextet : public TwoBody<Triplet, Triplet> {
 
 public:
 
-    using Multiplet<Triplet, Triplet>::Multiplet;
+    using TwoBody<Triplet, Triplet>::TwoBody;
 
-    Triplet& Triplet1() const;
+    Triplet const& Triplet1() const;
 
-    Triplet& Triplet2() const;
+    Triplet const& Triplet2() const;
 
     float HardTopPt() const
     {

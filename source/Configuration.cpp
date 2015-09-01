@@ -1,15 +1,18 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "Configuration.hh"
 
 #include <iostream>
 
-namespace analysis {
+namespace boca {
 
 Configuration::Configuration()
 {
     ReadConfig("Standard");
 }
 
-Configuration::Configuration(const std::string& config_name)
+Configuration::Configuration(std::string const& config_name)
 {
     ReadConfig(config_name);
 }
@@ -36,7 +39,7 @@ int Configuration::BackgroundFileNumber() const
     return background_file_number_;
 }
 
-Configuration::ColliderType Configuration::collider_type() const
+ColliderType Configuration::collider_type() const
 {
     return collider_type_;
 }
@@ -99,16 +102,16 @@ int Configuration::BackgroundFileNumber_()
     return background_file_number_;
 }
 
-Configuration::ColliderType Configuration::ColliderType_()
+ColliderType Configuration::ColliderType_()
 {
     try {
         std::string Collider = config().lookup("ColliderType");
         if (Collider == "LHC")
-            collider_type_ = LHC;
+          collider_type_ = ColliderType::LHC;
         else if (Collider == "LE")
-            collider_type_ = LE;
+          collider_type_ = ColliderType::LE;
         else if (Collider == "FHC")
-            collider_type_ = FHC;
+          collider_type_ = ColliderType::FHC;
     } catch (const libconfig::SettingNotFoundException& SettingNotFoundException) {
         std::cerr << "No 'ColliderType' setting in configuration file." << std::endl;
         throw;
@@ -116,11 +119,11 @@ Configuration::ColliderType Configuration::ColliderType_()
         std::cerr << "'ColliderType' setting has wrong type." << std::endl;
         throw;
     }
-    return LHC;
+    return ColliderType::LHC;
 }
 
 
-void Configuration::WriteConfig(const std::string& config_name)
+void Configuration::WriteConfig(std::string const& config_name)
 {
     libconfig::Setting& root = config().getRoot();
     libconfig::Setting& mass = root.add("Mass",  libconfig::Setting::TypeInt) = 1000;
@@ -136,7 +139,7 @@ void Configuration::WriteConfig(const std::string& config_name)
     }
 }
 
-void Configuration::ReadConfig(const std::string& config_name)
+void Configuration::ReadConfig(std::string const& config_name)
 {
     try {
         config().readFile(ConfigFile(config_name).c_str());
@@ -161,7 +164,7 @@ Configuration& Configuration::operator=(const Configuration& configuration)
     this->collider_type_ = configuration.collider_type_;
     return *this;
 }
-std::string Configuration::ConfigFile(const std::string& config_name)
+std::string Configuration::ConfigFile(std::string const& config_name)
 {
     return config_name + ".cfg";
 }

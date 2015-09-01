@@ -1,18 +1,31 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
-#include "File.hh"
-// #include "Configuration.hh"
-#include "Reader.hh"
+#include "Tagger.hh"
+#include "Identification.hh"
+#include "PreCuts.hh"
 
-namespace analysis {
+class TFile;
+
+namespace boca {
+
+class File;
 
 /**
- * @brief Base for all analyses
+ * @brief Base for all analyses.
+ * @author Jan Hajer
+ * @copyright Copyright (C) 2015 Jan Hajer
+ * @date 2015
+ * @license GPL 3
  *
  */
 class AnalysisBase {
 
 public:
+
+  void Initialize();
 
 //     void SetConfig(const Configuration &configuration);
 
@@ -30,13 +43,13 @@ protected:
 
     void ClearFiles();
 
-    std::vector<analysis::File> files(Tag tag);
+    std::vector<boca::File> files(Tag tag);
 
     void PrepareFiles();
 
     virtual void SetFiles(Tag tag) = 0;
 
-    exroot::TreeWriter TreeWriter(TFile& export_file, const std::string& export_tree_name, Stage stage);
+    exroot::TreeWriter TreeWriter(TFile& export_file, std::string const& export_tree_name, Stage stage);
 
     virtual std::string ProjectName() const;
 
@@ -66,23 +79,29 @@ protected:
 
     virtual std::string FilePath() const;
 
-    void NewFile(Tag tag, const std::string& name, const std::string& nice_name = "");
+    void NewFile(boca::Tag tag, boca::Strings const& names, std::string const& nice_name = "");
 
-    void NewFile(Tag tag, const std::string& name, float crosssection, const std::string& nice_name = "");
+    void NewFile(boca::Tag tag, boca::Strings const& names, float crosssection, std::string const& nice_name = "", int mass = 0);
 
-    analysis::File File(const std::string& name, float crosssection, const std::string& nice_name = "") const;
+    boca::File File(Strings const& names, float crosssection, std::string const& nice_name = "", int mass = 0) const;
 
-    analysis::File File(const std::string& name, const std::string& nice_name = "") const;
+    boca::File File(Strings const& names, std::string const& nice_name = "") const;
 
-    std::string FileName(const std::string& name) const;
+    void NewFile(boca::Tag tag, std::string const& names, std::string const& nice_name = "");
 
-    std::string TreeName(const std::string& name) const;
+    void NewFile(boca::Tag tag, std::string const& names, float crosssection, std::string const& nice_name = "", int mass = 0);
 
-    virtual int PassPreCut(const Event&, Tag tag) const = 0;
+    std::string FileName(std::string const& name) const;
+
+    std::string TreeName(std::string const& name) const;
+
+    virtual int PassPreCut(Event const&, Tag tag) const = 0;
+
+    PreCuts const& pre_cuts() const;
 
     PreCuts& pre_cuts();
 
-    virtual const Tagger& tagger() const = 0;
+    virtual Tagger const& tagger() const = 0;
 
 private:
 
@@ -90,11 +109,9 @@ private:
 
     std::string FileSuffix() const;
 
-    bool Missing(const std::string& name) const;
-
     virtual void AnalysisLoop(Stage stage) = 0;
 
-    void RunTagger(const analysis::Stage stage);
+    void RunTagger(Stage stage);
 
     void RunTrainer();
 
@@ -106,7 +123,7 @@ private:
 
 //     Configuration configuration_;
 
-    std::vector<analysis::File> files_;
+    std::vector<boca::File> files_;
 
 };
 

@@ -1,30 +1,52 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "Triplet.hh"
+#include "ThreeBody.hh"
 
-namespace analysis {
+namespace boca {
 
-class Quartet22 : public Multiplet<Doublet, Doublet> {
+class Quartet22 : public TwoBody<Doublet, Doublet> {
 
 public:
 
-    using Multiplet<Doublet, Doublet>::Multiplet;
+    using TwoBody<Doublet, Doublet>::TwoBody;
 
-    Doublet& Doublet1() const;
+    Doublet const& Doublet1() const;
 
-    Doublet& Doublet2() const;
+    Doublet const& Doublet2() const;
+
+    Doublet& Doublet1();
+
+    Doublet& Doublet2();
 
 };
 
-class Quartet31 : public Multiplet<analysis::Triplet, analysis::Singlet> {
+class Quartet31 : public TwoBody<boca::Triplet, boca::Singlet> {
 
 public:
 
-    using Multiplet<analysis::Triplet, analysis::Singlet>::Multiplet;
+    using TwoBody<boca::Triplet, boca::Singlet>::TwoBody;
 
-    analysis::Triplet& Triplet() const;
+    boca::Triplet const& Triplet() const;
 
-    analysis::Singlet& Singlet() const;
+    boca::Singlet const& Singlet() const;
+
+};
+
+class Quartet211 : public ThreeBody<boca::Doublet, boca::Singlet, boca::Singlet> {
+
+public:
+
+  using ThreeBody<boca::Doublet, boca::Singlet, boca::Singlet>::ThreeBody;
+
+  boca::Doublet const& Doublet() const;
+
+  boca::Singlet const& Singlet1() const;
+
+  boca::Singlet const& Singlet2() const;
 
 };
 

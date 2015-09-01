@@ -1,8 +1,11 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "../Leptons.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace exroot {
 
@@ -10,14 +13,12 @@ namespace exroot {
  * @brief PGS leptons
  *
  */
-class Leptons : public analysis::Leptons {
+class Leptons : public boca::Leptons {
 
 public:
+  boca::Jets Electrons() const final;
 
-    analysis::Jets Electrons() const final;
-
-    analysis::Jets Muons() const final;
-
+  boca::Jets Muons() const final;
 };
 
 }

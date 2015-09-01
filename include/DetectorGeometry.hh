@@ -1,14 +1,19 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
-#include "fastjet/JetDefinition.hh"
+#include "InfoRecombiner.hh"
 
-namespace analysis {
+namespace boca
+{
 
-  /**
-   * @brief JetType indicates which type of jet is going to be used
-   *
-   */
-  enum class JetType {
+/**
+ * @brief JetType indicates which type of jet is going to be used
+ *
+ */
+enum class JetType
+{
     jet, //< usual Delphse Jet
     gen_jet, //<  Delphes GenJet
     e_flow_jet //< Jet formed from the eflow Variables according to the parameter set in DetectorGeometry
@@ -18,12 +23,16 @@ namespace analysis {
  * @brief Detector type indicates which kind of detector geometry is going to be used
  *
  */
-enum class DetectorType {
+enum class DetectorType
+{
     CMS, //< default LHC detector
     Spp //<  default detector for a 100TeV collider
 };
 
-class DetectorGeometry {
+std::string Name(DetectorType detector_type);
+
+class DetectorGeometry
+{
 public:
     static float JetMinPt();
     static float JetConeSize();
@@ -37,11 +46,13 @@ public:
     static float TrackerDistanceMax();
     static float VertexMassMin();
     static float LeptonMinPt();
+    static float Luminosity();
     static JetType jet_type();
     static void set_detector_type(const DetectorType detector_type);
-private:
     static DetectorType detector_type();
+private:
     static DetectorType detector_type_;
+    static InfoRecombiner info_recombiner_;
 };
 
 }

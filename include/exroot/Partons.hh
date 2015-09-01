@@ -1,8 +1,11 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "../Partons.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace exroot {
 
@@ -10,17 +13,16 @@ namespace exroot {
  * @brief MadGraph particles
  *
  */
-class Partons : public analysis::Partons {
+class Partons : public boca::Partons {
 
 public:
+  Jets Particles() const final;
 
-    Jets Particles() const final;
-
-    Jets GenParticles() const final;
+  Jets GenParticles() const final;
 
 private:
 
-    Jets Particles(const Status max_status) const;
+    Jets Particles(Status max_status) const;
 
 };
 

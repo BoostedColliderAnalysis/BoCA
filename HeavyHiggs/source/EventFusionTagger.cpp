@@ -1,17 +1,18 @@
 #include "EventFusionTagger.hh"
+#include "Event.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace heavyhiggs {
 
 EventFusionTagger::EventFusionTagger()
 {
-    Note();
+  Info();
     DefineVariables();
 }
 
-int EventFusionTagger::Train(const Event& event, const PreCuts& , Tag tag) const
+int EventFusionTagger::Train(Event const& event, PreCuts const& , Tag tag) const
 {
     Info("event Tags");
     Jets jets = bottom_reader_.Multiplets(event);
@@ -47,14 +48,14 @@ int EventFusionTagger::Train(const Event& event, const PreCuts& , Tag tag) const
     return SaveEntries(sextet_events);
 }
 
-std::vector<MultipletEvent<Sextet>> EventFusionTagger::Multiplets(const Event& event, const PreCuts& , const TMVA::Reader& reader) const
+std::vector<MultipletEvent<Sextet>> EventFusionTagger::Multiplets(Event const& event, PreCuts const& , TMVA::Reader const& reader) const
 {
     Info("event Tags");
     std::vector<Sextet> sextets = heavy_higgs_semi_reader_.Multiplets(event);
     Jets jets = bottom_reader_.Multiplets(event);
     Jets Leptons = event.Leptons().leptons();
     std::vector<MultipletEvent<Sextet>> sextet_events;
-    for (const auto& sextet : sextets) {
+    for (auto const& sextet : sextets) {
         MultipletEvent<Sextet> multiplet_event(sextet, event, jets);
         multiplet_event.SetBdt(Bdt(multiplet_event, reader));
         sextet_events.emplace_back(multiplet_event);

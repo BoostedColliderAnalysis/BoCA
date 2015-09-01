@@ -1,8 +1,20 @@
+// @(#)root/physics:$Id$
+// Author: Pasha Murat   12/02/99
+// Jan Hajer 2015
+
+/*************************************************************************
+ * Copyright (C) 1995-2000, Rene Brun and Fons Rademakers.               *
+ * All rights reserved.                                                  *
+ *                                                                       *
+ * For the licensing terms see $ROOTSYS/LICENSE.                         *
+ * For the list of contributors see $ROOTSYS/README/CREDITS.             *
+ *************************************************************************/
+
 #include "Vector2.hh"
 #include <cmath>
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 Vector2::Vector2()
 {
@@ -97,7 +109,7 @@ Vector2& Vector2::operator -= (Vector2 const& v)
 
 // scalar product of 2 2-vectors
 
-float Vector2::operator *= (const Vector2& v)
+float Vector2::operator *= (Vector2 const& v)
 {
     return (fX * v.fX + fY * v.fY);
 }
@@ -117,57 +129,57 @@ Vector2& Vector2::operator /= (float s)
 
 // binary operators
 
-Vector2 operator + (const Vector2& v1, const Vector2& v2)
+Vector2 operator + (Vector2 const& v1, Vector2 const& v2)
 {
     return Vector2(v1.fX + v2.fX, v1.fY + v2.fY);
 }
 
-Vector2 operator + (const Vector2& v1, float bias)
+Vector2 operator + (Vector2 const& v1, float bias)
 {
     return Vector2(v1.fX + bias, v1.fY + bias);
 }
 
-Vector2 operator + (float bias, const Vector2& v1)
+Vector2 operator + (float bias, Vector2 const& v1)
 {
     return Vector2(v1.fX + bias, v1.fY + bias);
 }
 
-Vector2 operator - (const Vector2& v1, const Vector2& v2)
+Vector2 operator - (Vector2 const& v1, Vector2 const& v2)
 {
     return Vector2(v1.fX - v2.fX, v1.fY - v2.fY);
 }
 
-Vector2 operator - (const Vector2& v1, float bias)
+Vector2 operator - (Vector2 const& v1, float bias)
 {
     return Vector2(v1.fX - bias, v1.fY - bias);
 }
 
-Vector2 operator * (const Vector2& v, float s)
+Vector2 operator * (Vector2 const& v, float s)
 {
     return Vector2(v.fX * s, v.fY * s);
 }
 
-Vector2 operator * (float s, const Vector2& v)
+Vector2 operator * (float s, Vector2 const& v)
 {
     return Vector2(v.fX * s, v.fY * s);
 }
 
-float operator * (const Vector2& v1, const Vector2& v2)
+float operator * (Vector2 const& v1, Vector2 const& v2)
 {
     return v1.fX * v2.fX + v1.fY * v2.fY;
 }
 
-Vector2 operator / (const Vector2& v, float s)
+Vector2 operator / (Vector2 const& v, float s)
 {
     return Vector2(v.fX / s, v.fY / s);
 }
 
-float operator ^ (const Vector2& v1, const Vector2& v2)
+float operator ^ (Vector2 const& v1, Vector2 const& v2)
 {
     return v1.fX * v2.fY - v1.fY * v2.fX;
 }
 
-float Vector2::DeltaPhi(const Vector2& v) const
+float Vector2::DeltaPhi(Vector2 const& v) const
 {
     return Phi_mpi_pi(Phi() - v.Phi());
 }
@@ -177,19 +189,19 @@ Vector2 Vector2::Ort() const
     return Unit();
 }
 
-Vector2 Vector2::Proj(const Vector2& v) const
+Vector2 Vector2::Proj(Vector2 const& v) const
 {
     return v * (((*this) * v) / v.Mod2());
 }
 
-Vector2 Vector2::Norm(const Vector2& v) const
+Vector2 Vector2::Norm(Vector2 const& v) const
 {
     return *this - Proj(v);
 }
 
 // setters
 
-void Vector2::Set(const Vector2& v)
+void Vector2::Set(Vector2 const& v)
 {
     fX = v.fX;
     fY = v.fY;

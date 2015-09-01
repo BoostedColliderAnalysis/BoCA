@@ -1,29 +1,40 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "Trainer.hh"
-#include "TSystem.h"
-#include "TMVA/Config.h"
+
 #include "TClonesArray.h"
 #include "TFile.h"
-#include "Predicate.hh"
+
+#include "TMVA/Config.h"
 #include "TMVA/MethodBDT.h"
+#include "TMVA/Ranking.h"
+
+#include "Types.hh"
+#include "Tagger.hh"
 #include "Debug.hh"
 
-namespace analysis
+namespace boca
 {
 
-Trainer::Trainer(analysis::Tagger& tagger) : tagger_(tagger) , factory_(tagger.Name(), OutputFile(), FactoryOptions())
+  Trainer::Trainer(boca::Tagger& tagger, TMVA::Types::EMVA mva) : tagger_(tagger) , factory_(tagger.Name(), OutputFile(), FactoryOptions())
 {
     Error();
     AddVariables();
     PrepareTrainingAndTestTree(GetTrees());
-    BookMethod(TMVA::Types::EMVA::kBDT);
+//     TMVA::MethodBDT& method =
+    BookMethod(mva);
+//     const TMVA::Ranking& rank = *method.CreateRanking();
+//     rank.SetContext("test");
     Factory().TrainAllMethods();
+//     rank.Print();
     Factory().TestAllMethods();
     Factory().EvaluateAllMethods();
 }
 
 std::string Trainer::FactoryOptions()
 {
-    return "!Color:!Silent";
+    return "!Color:!DrawProgressBar";
 }
 
 TFile* Trainer::OutputFile() const
@@ -36,8 +47,8 @@ void Trainer::AddVariables()
     Note();
     TMVA::gConfig().GetIONames().fWeightFileDir = Tagger().AnalysisName();
     TMVA::gConfig().GetIONames().fWeightFileExtension = Tagger().WeightFileExtension();
-    for (const auto & observable : Tagger().Variables()) Factory().AddVariable(observable.expression(), observable.title(), observable.unit(), observable.type());
-    for (const auto & spectator : Tagger().Spectators()) Factory().AddSpectator(spectator.expression(), spectator.title(), spectator.unit(), spectator.type());
+    for (auto const& observable : Tagger().Variables()) Factory().AddVariable(observable.expression(), observable.title(), observable.unit(), observable.type());
+    for (auto const& spectator : Tagger().Spectators()) Factory().AddSpectator(spectator.expression(), spectator.title(), spectator.unit(), spectator.type());
 }
 
 long Trainer::GetTrees()
@@ -49,11 +60,11 @@ long Trainer::GetTrees()
 long Trainer::GetTree(Tag tag)
 {
     long number = 0;
-    for (const auto & tree_name : Tagger().TreeNames(tag)) number += AddTree(tree_name, tag);
+    for (auto const& tree_name : Tagger().TreeNames(tag)) number += AddTree(tree_name, tag);
     return number;
 }
 
-long Trainer::AddTree(const std::string& tree_name, Tag tag)
+long Trainer::AddTree(std::string const& tree_name, Tag tag)
 {
     Debug(tree_name, Name(tag));
     TTree& tree = Tree(tree_name, tag);
@@ -71,7 +82,7 @@ long Trainer::AddTree(const std::string& tree_name, Tag tag)
     return Entries(tree_reader);
 }
 
-exroot::TreeReader Trainer::TreeReader(const std::string& tree_name, Tag tag)
+exroot::TreeReader Trainer::TreeReader(std::string const& tree_name, Tag tag)
 {
    return exroot::TreeReader(&Tree(tree_name, tag));
 }
@@ -80,7 +91,7 @@ long Trainer::Entries(exroot::TreeReader& tree_reader)
 {
     long entries = 0;
     TClonesArray& clones_array = *tree_reader.UseBranch(Tagger().BranchName(Stage::trainer).c_str());
-    for (const auto & entry : Range(tree_reader.GetEntries())) {
+    for (auto const& entry : Range(tree_reader.GetEntries())) {
         tree_reader.ReadEntry(entry);
         entries += clones_array.GetEntries();
     }
@@ -94,10 +105,10 @@ float Trainer::Weight(exroot::TreeReader& tree_reader)
     return static_cast<InfoBranch&>(*clones_array.First()).Crosssection / tree_reader.GetEntries();
 }
 
-TTree& Trainer::Tree(const std::string& tree_name, Tag tag)
+TTree& Trainer::Tree(std::string const& tree_name, Tag tag)
 {
     Note(Tagger().FileName(Stage::trainer, tag));
-    if (gSystem->AccessPathName(Tagger().FileName(Stage::trainer, tag).c_str())) Error("File not found", Tagger().FileName(Stage::trainer, tag));
+    if (!Exists(Tagger().FileName(Stage::trainer, tag).c_str())) Error("File not found", Tagger().FileName(Stage::trainer, tag));
     TFile& file = *TFile::Open(Tagger().FileName(Stage::trainer, tag).c_str());
     if (!file.GetListOfKeys()->Contains(tree_name.c_str())) Error("no tree");
     return static_cast<TTree&>(*file.Get(tree_name.c_str()));

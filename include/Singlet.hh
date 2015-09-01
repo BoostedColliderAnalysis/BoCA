@@ -1,48 +1,38 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "JetInfo.hh"
-#include "Vector2.hh"
-#include "Flag.hh"
+#include "MultipletBase.hh"
 
-namespace analysis
+namespace boca
 {
-
-enum class Structure
-{
-    plain = 1,
-    constituents = 1 << 1,
-    vertices = 1 << 2
-};
-
-template<>
-struct Flag<Structure> {
-    static const bool enable = true;
-};
 
 /**
  * @brief Thin wrapper to make fastjet::PseudoJet behave like a Multiplet. Additionally this class astracts away the JetInfo user_info().
  *
  */
-class Singlet : public Identification
+class Singlet : public MultipletBase
 {
 
 public:
 
     Singlet() {};
 
-    Singlet(const fastjet::PseudoJet& jet);
+    Singlet(fastjet::PseudoJet const& jet);
 
-    fastjet::PseudoJet& Jet(Structure) const {
+    fastjet::PseudoJet Jet() const {
         return jet_;
     }
 
-    fastjet::PseudoJet& Jet() const {
-        return jet_;
+    boca::Jets Jets() const {
+        return {Jet()};
     }
 
-    bool Overlap(const fastjet::PseudoJet& jet) const;
+    bool Overlap(fastjet::PseudoJet const& jet) const;
 
-    bool Overlap(const Singlet& singlet) const;
+    bool Overlap(Singlet const& singlet) const;
 
     float VertexMass() const {
         return UserInfo().VertexMass();
@@ -120,12 +110,13 @@ public:
         return Spread(UserInfo().VertexJet());
     }
 
-    analysis::Tag Tag() const {
+    boca::Tag Tag() const {
         return UserInfo().Tag();
     }
 
     float Bdt() const final {
-        return UserInfo().Bdt();
+        if(UserInfo().Bdt() != initial_value()) return UserInfo().Bdt();
+        return 0;
     }
 
     float Ht() const {
@@ -138,30 +129,29 @@ public:
 
     int Charge() const;
 
-    Singlet singlet() const;
+    Singlet const& singlet() const;
 
-    Singlet singlet(Structure structure) const;
-
-    const JetInfo& UserInfo() const;
+    JetInfo const& UserInfo() const;
 
     Vector2 Pull() const;
 
-    /**
-     * @brief calculate Reference vector for other - this
-     * @return Vector2 reference vector
-     *
-     */
-    Vector2 Reference(const fastjet::PseudoJet& reference) const;
+    fastjet::PseudoJet& Jet() {
+        return jet_;
+    }
+
+    float BottomBdt() const final {
+      return Bdt();
+    }
 
 private:
 
     float log(float number) const;
 
-    float Radius(const fastjet::PseudoJet& jet) const;
+    float Radius(fastjet::PseudoJet const& jet) const;
 
-    float Spread(const fastjet::PseudoJet& jet) const;
+    float Spread(fastjet::PseudoJet const& jet) const;
 
-    mutable fastjet::PseudoJet jet_;
+    fastjet::PseudoJet jet_;
 
     JetInfo jet_info_;
 

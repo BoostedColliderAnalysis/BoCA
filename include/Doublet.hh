@@ -1,20 +1,22 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
-#include "Multiplet.hh"
+#include "TwoBody.hh"
 #include "Singlet.hh"
-#include "Vector2.hh"
 
-namespace analysis {
+namespace boca {
 
-class Doublet : public Multiplet<Singlet, Singlet> {
+class Doublet : public TwoBody<Singlet, Singlet> {
 
 public:
 
-    using Multiplet<Singlet, Singlet>::Multiplet;
+    using TwoBody<Singlet, Singlet>::TwoBody;
 
-    Singlet& Singlet1() const;
+    Singlet const& Singlet1() const;
 
-    Singlet& Singlet2() const;
+    Singlet const& Singlet2() const;
 
     float Dipolarity2() const;
 

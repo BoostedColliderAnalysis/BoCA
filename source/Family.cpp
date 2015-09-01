@@ -1,6 +1,9 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "Family.hh"
 
-namespace analysis {
+namespace boca {
 
 Family::Family()
 {
@@ -47,12 +50,12 @@ Family::Family(int particle_position, Id id, int mother_position, Id mother_id) 
     daughter_ids_.reserve(2);
 }
 
-Family::Family(const TLorentzVector& particle, const LorentzVector& mother, int particle_position, int id, int mother_position, int mother_id) : particle_(Particle(particle, id, particle_position)), mother_1_(Particle(mother, mother_id, mother_position))
+Family::Family(TLorentzVector const& particle, LorentzVector const& mother, int particle_position, int id, int mother_position, int mother_id) : particle_(Particle(particle, id, particle_position)), mother_1_(Particle(mother, mother_id, mother_position))
 {
     daughter_ids_.reserve(2);
 }
 
-bool Family::operator==(const Family& family) const
+bool Family::operator==(Family const& family) const
 {
     return (particle_.id() == family.particle().id() && mother_1_.id() == family.mother_1().id() && daughter_ids_ == family.daughter_ids_);
 }

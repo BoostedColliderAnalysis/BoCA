@@ -1,8 +1,11 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "Observable.hh"
 
-namespace analysis {
+namespace boca {
 
-Observable::Observable(float& value, const std::string& expression, const std::string& title, const std::string& unit) : value_(value)
+Observable::Observable(float& value, std::string const& expression, std::string const& title, std::string const& unit) : value_(value)
 {
     expression_ = expression;
     title_ = title;

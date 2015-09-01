@@ -1,7 +1,10 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "DetectorGeometry.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 /**
  * @brief Constructor
@@ -15,6 +18,18 @@ namespace analysis {
  */
 
 DetectorType DetectorGeometry::detector_type_ = DetectorType::Spp;
+
+InfoRecombiner DetectorGeometry::info_recombiner_ = InfoRecombiner();
+
+std::string Name(DetectorType detector_type)
+{
+  switch (detector_type) {
+    case DetectorType::CMS : return "LHC";
+    case DetectorType::Spp : return "100TeV";
+  }
+
+}
+
 
 void DetectorGeometry::set_detector_type(const DetectorType detector_type)
 {
@@ -86,20 +101,21 @@ fastjet::JetDefinition DetectorGeometry::JetDefinition()
 {
     switch (detector_type()) {
     case DetectorType::CMS:
-        return fastjet::JetDefinition(fastjet::antikt_algorithm, JetConeSize());
+      return fastjet::JetDefinition(fastjet::antikt_algorithm, JetConeSize(), &info_recombiner_);
     case DetectorType::Spp:
-        return fastjet::JetDefinition(fastjet::antikt_algorithm, JetConeSize());
+      return fastjet::JetDefinition(fastjet::antikt_algorithm, JetConeSize(), &info_recombiner_);
     }
 }
 fastjet::JetDefinition DetectorGeometry::SubJetDefinition()
 {
     switch (detector_type()) {
     case DetectorType::CMS:
-        return fastjet::JetDefinition(fastjet::kt_algorithm, JetConeSize());
+        return fastjet::JetDefinition(fastjet::kt_algorithm, JetConeSize(), &info_recombiner_);
     case DetectorType::Spp:
-        return fastjet::JetDefinition(fastjet::kt_algorithm, JetConeSize());
+        return fastjet::JetDefinition(fastjet::kt_algorithm, JetConeSize(), &info_recombiner_);
     }
 }
+
 float DetectorGeometry::TrackerDistanceMin()
 {
     switch (detector_type()) {
@@ -135,6 +151,16 @@ float DetectorGeometry::LeptonMinPt()
     case DetectorType::Spp:
         return 20;
     }
+}
+/// in femtobarn
+float DetectorGeometry::Luminosity()
+{
+  switch (detector_type()) {
+    case DetectorType::CMS:
+      return 300;
+    case DetectorType::Spp:
+      return 3000;
+  }
 }
 JetType DetectorGeometry::jet_type()
 {

@@ -1,69 +1,84 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "BottomTagger.hh"
 #include "Doublet.hh"
 #include "Reader.hh"
 
-namespace analysis {
+namespace boca
+{
 
 /**
  * @brief W BDT tagger
  *
  */
-class WHadronicTagger : public BranchTagger<WHadronicBranch> {
+class WHadronicTagger : public BranchTagger<WHadronicBranch>
+{
 
 public:
 
     WHadronicTagger();
 
-    int Train(const Event& event, const PreCuts& pre_cuts, const Tag Tag) const;
+    int Train(Event const& event, PreCuts const& pre_cuts,
+              const Tag Tag) const override;
 
-    virtual int GetBdt(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
+    virtual int GetBdt(Event const& event, PreCuts const& pre_cuts,
+                       TMVA::Reader const& reader) const override;
 
-    std::vector<Doublet> Multiplets(const Jets& jets, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
+    std::vector<Doublet> Multiplets(Jets const& jets, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    Doublet Multiplet(const fastjet::PseudoJet& jet, const TMVA::Reader& reader) const;
+    Doublet Multiplet(fastjet::PseudoJet const& jet, TMVA::Reader const& reader) const;
 
-    Doublet Multiplet(const fastjet::PseudoJet& jet_1, const fastjet::PseudoJet& jet_2, const TMVA::Reader& reader) const;
+    Doublet Multiplet(fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2, TMVA::Reader const& reader) const;
 
-    Doublet SubMultiplet(const fastjet::PseudoJet& jet, const TMVA::Reader& reader) const;
+    Doublet SubMultiplet(fastjet::PseudoJet const& jet, TMVA::Reader const& reader) const;
 
-    int WHadronicId(const Event& event) const;
+    /**
+     * @brief signed id of the hadronic W, the event contains two hadronic W with opposite sign 0 is returned
+     *
+     */
 
-    std::string Name() const final
-    {
+    int WHadronicId(Event const& event) const;
+
+    std::string Name() const final {
         return "WHadronic";
     }
 
 private:
 
-    std::vector<Doublet> Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
+  std::vector<Doublet> Doublets(Jets const& jets, PreCuts const& pre_cuts, Tag tag) const;
 
-    std::vector<Doublet> Multiplets3(const Jets& jets, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
+  Doublet CheckDoublet(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const;
 
-    Doublet Multiplet(const fastjet::PseudoJet& jet, const analysis::PreCuts& pre_cuts, const TMVA::Reader& reader) const;
+    std::vector<Doublet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    Doublet Multiplet(const fastjet::PseudoJet& jet_1, const fastjet::PseudoJet& jet_2, const analysis::PreCuts& pre_cuts, const TMVA::Reader& reader) const;
+    std::vector<Doublet> Multiplets3(Jets const& jets, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    Doublet SubMultiplet(const fastjet::PseudoJet& jet, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
+    Doublet Multiplet(fastjet::PseudoJet const& jet, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    bool Problematic(const analysis::Doublet& doublet, const analysis::PreCuts& pre_cuts, Tag tag) const;
+    Doublet Multiplet(fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    bool Problematic(const analysis::Doublet& doublet, const analysis::PreCuts& pre_cuts) const;
+    Doublet SubMultiplet(fastjet::PseudoJet const& jet, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    Doublet Multiplet(analysis::Doublet& doublet, const analysis::PreCuts& pre_cuts, const TMVA::Reader& reader) const;
+    bool Problematic(boca::Doublet const& doublet, boca::PreCuts const& pre_cuts, Tag tag) const;
 
-    std::vector<Doublet> SubMultiplets(const analysis::Jets& jets, const analysis::PreCuts& pre_cuts, const TMVA::Reader& reader, size_t sub_jet_number) const;
+    bool Problematic(boca::Doublet const& doublet, boca::PreCuts const& pre_cuts) const;
 
-    std::vector<Doublet> SubMultiplets2(const analysis::Jets& jets, const analysis::PreCuts& pre_cuts, const TMVA::Reader& reader) const;
+    Doublet Multiplet(boca::Doublet& doublet, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
+
+    std::vector<Doublet> SubMultiplets(boca::Jets const& jets, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader, size_t sub_jet_number) const;
+
+    std::vector<Doublet> SubMultiplets2(boca::Jets const& jets, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
     Reader<BottomTagger> bottom_reader_;
 
-    Jets WDaughters(const Event& event) const;
+    Jets WDaughters(Event const& event) const;
 
-    int WHadronicId(const Jets& jets) const;
+    int WHadronicId(boca::Jets const& daughters) const;
 
-    float w_mass_window_ = 20;
+    float w_mass_window_ = 40;
 };
 
 }

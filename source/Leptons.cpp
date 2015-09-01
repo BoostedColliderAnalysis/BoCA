@@ -1,12 +1,16 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "Leptons.hh"
-#include "Predicate.hh"
+
+#include "Vector.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 Leptons::~Leptons()
 {
-    Note();
+  Info();
 }
 
 void Leptons::NewEvent(const ClonesArrays& clones_arrays)

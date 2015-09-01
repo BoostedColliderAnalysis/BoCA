@@ -2,7 +2,7 @@
 
 #include "AnalysisHeavyHiggs.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace heavyhiggs {
 
@@ -106,7 +106,7 @@ private:
         }
     }
 
-    int PassPreCut(const Event& event, Tag) const
+    int PassPreCut(Event const& event, Tag) const
     {
 //         Info("pass pre cut");
         Jets Particles = event.Partons().GenParticles();
@@ -172,7 +172,7 @@ private:
         }
     }
 
-    float BackgroundCrosssection(const Process) const
+    float BackgroundCrosssection(Process) const
     {
         switch (this->collider_type()) {
         case Collider::LHC :

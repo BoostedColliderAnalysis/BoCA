@@ -1,8 +1,17 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
-#include "AnalysisBase.hh"
+#include "TFile.h"
+#include "exroot/ExRootAnalysis.hh"
 
-namespace analysis
+#include "ClonesArrays.hh"
+#include "Event.hh"
+#include "Tagger.hh"
+#include "File.hh"
+
+namespace boca
 {
 
 class Files
@@ -13,7 +22,7 @@ public:
     File& file() const;
     Stage stage() const;
     Tag tag() const;
-    void file(File& file);
+    void set_file(File& file);
 private:
     TFile export_file_;
     File* file_;
@@ -26,7 +35,7 @@ class Trees
 public:
     Trees(Files& files);
     void WriteTree();
-    void UseBranches(File& file, const std::string& name);
+    void UseBranches(File& file, std::string const& name);
     void NewEvent(int mass);
     void SaveAnalysis(int object_number);
     InfoBranch FillInfoBranch(const File& file);
@@ -36,6 +45,7 @@ public:
     long& object_sum();
     long entry = 0;
     long event_number_ = 0;
+    long pre_cut_number_ = 0;
 private:
     exroot::TreeReader tree_reader_;
     exroot::TreeBranch* tree_branch_;

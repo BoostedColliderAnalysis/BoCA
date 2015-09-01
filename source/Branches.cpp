@@ -1,11 +1,14 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "Branches.hh"
 #include "TColor.h"
 #include "TStyle.h"
 #include "Pair.hh"
 
-namespace analysis {
+namespace boca {
 
-Obs::Obs(const float& value, const std::string& name, const std::string& nice_name) : value_(&const_cast<float&>(value))
+Obs::Obs(const float& value, std::string const& name, std::string const& nice_name) : value_(&const_cast<float&>(value))
 {
     name_ = name;
     nice_name_ = nice_name;
@@ -42,6 +45,16 @@ Observables BaseBranch::Join(const Observables& observables_1, const Observables
     joined.insert(joined.end(), observables_1.begin(), observables_1.end());
     joined.insert(joined.end(), observables_2.begin(), observables_2.end());
     return joined;
+}
+
+Observables BaseBranch::Join(const Observables& observables_1, const Observables& observables_2, const Observables& observables_3)
+{
+  Observables joined;
+  joined.reserve(observables_1.size() + observables_2.size() + observables_3.size());
+  joined.insert(joined.end(), observables_1.begin(), observables_1.end());
+  joined.insert(joined.end(), observables_2.begin(), observables_2.end());
+  joined.insert(joined.end(), observables_3.begin(), observables_3.end());
+  return joined;
 }
 
 float BottomBase::InValue()
@@ -272,9 +285,9 @@ TopHadronicBranch::TopHadronicBranch()
 
 Observables TopHadronicBranch::Variables() const
 {
-    return Join(Join(MultiBranch::Variables(), BottomBase::Variables()), {PAIR(LeptonPt)});
-    return  Join(Join(BottomBase::Variables(), ParticleBranch::Variables()), {PAIR(Bdt2), PAIR(LeptonPt)});
-    return Join(Join(MultiBranch::Variables(), BottomBase::Variables()), {PAIR(BottomMass), PAIR(WMass), PAIR(LeptonPt)});
+    return Join(MultiBranch::Variables(), BottomBase::Variables(), {PAIR(LeptonPt)});
+    return  Join(BottomBase::Variables(), ParticleBranch::Variables(), {PAIR(Bdt2), PAIR(LeptonPt)});
+    return Join(MultiBranch::Variables(), BottomBase::Variables(), {PAIR(BottomMass), PAIR(WMass), PAIR(LeptonPt)});
 }
 
 Observables TopHadronicBranch::Spectators() const
@@ -290,7 +303,7 @@ TopLeptonicBranch::TopLeptonicBranch()
 
 Observables TopLeptonicBranch::Variables() const
 {
-  return  Join(Join(BottomBase::Variables(), ParticleBranch::Variables()), {PAIR(Ht), PAIR(DeltaPt), PAIR(DeltaM), PAIR(DeltaRap), PAIR(DeltaPhi), PAIR(DeltaR), PAIR(Rho), PAIR(Bdt2), PAIR(BottomPt), PAIR(LeptonPt),PAIR(Pull,"#theta"),PAIR(DeltaPull,"#Delta #theta"),PAIR(Dipolarity,"D")});
+  return  Join(BottomBase::Variables(), ParticleBranch::Variables(), {PAIR(Ht), PAIR(DeltaPt), PAIR(DeltaM), PAIR(DeltaRap), PAIR(DeltaPhi), PAIR(DeltaR), PAIR(Rho), PAIR(Bdt2), PAIR(BottomPt), PAIR(LeptonPt),PAIR(Pull,"#theta"),PAIR(DeltaPull,"#Delta #theta"),PAIR(Dipolarity,"D")});
 }
 
 Observables TopLeptonicBranch::Spectators() const
@@ -298,11 +311,14 @@ Observables TopLeptonicBranch::Spectators() const
     return Join(PairBranch::Spectators(), BottomBase::Spectators());
 }
 
-HiggsBranch::HiggsBranch(){}
+HiggsBranch::HiggsBranch(){
+  LeptonPt = InitialValue();
+  LeptonDeltaR = InitialValue();
+}
 
 Observables HiggsBranch::Variables() const
 {
-  return Join(PairBranch::Variables(), BottomBase::Variables());
+  return Join(PairBranch::Variables(), BottomBase::Variables(),{PAIR(LeptonPt),PAIR(LeptonDeltaR)});
 }
 
 Observables HiggsBranch::Spectators() const
@@ -381,7 +397,7 @@ std::vector<int> Color::Table(std::vector<double>& length, std::vector<double>& 
     std::vector<int> colors(50);
     int color_table = TColor::CreateGradientColorTable(length.size(), &length[0], &red[0], &green[0], &blue[0], colors.size());
     for (size_t step = 0; step < colors.size(); ++step) colors[step] = color_table + step;
-    //     for (const auto &color : colors) colors[color] = color_table + (&color - &colors[0]);
+    //     for (auto const& color : colors) colors[color] = color_table + (&color - &colors[0]);
     return colors;
 }
 

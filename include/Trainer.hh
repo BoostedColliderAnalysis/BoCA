@@ -1,6 +1,9 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
-#include "Tagger.hh"
+#include "Identification.hh"
 #include "exroot/ExRootAnalysis.hh"
 #include "TMVA/Factory.h"
 
@@ -8,8 +11,9 @@ namespace TMVA {
 class MethodBDT;
 }
 
+namespace boca {
 
-namespace analysis {
+class Tagger;
 
 /**
  * @brief Prepares multivariant analysis
@@ -23,7 +27,7 @@ public:
      * @brief Constructor
      *
      */
-    Trainer(analysis::Tagger& tagger);
+    Trainer(boca::Tagger& tagger, TMVA::Types::EMVA mva);
 
 private:
 
@@ -52,15 +56,15 @@ private:
      */
     void PrepareTrainingAndTestTree(long event_number);
 
-    long AddTree(const std::string& tree_name, analysis::Tag tag);
+    long AddTree(std::string const& tree_name, boca::Tag tag);
 
     long Entries(exroot::TreeReader& tree_reader);
 
     float Weight(exroot::TreeReader& tree_reader);
 
-    TTree &Tree(const std::string& tree_name, analysis::Tag tag);
+    TTree &Tree(std::string const& tree_name, boca::Tag tag);
 
-    exroot::TreeReader TreeReader(const std::string& tree_name, Tag tag);
+    exroot::TreeReader TreeReader(std::string const& tree_name, Tag tag);
 
     TFile* OutputFile() const;
 
@@ -68,7 +72,7 @@ private:
 
     std::string MethodOptions(TMVA::Types::EMVA mva);
 
-    analysis::Tagger& Tagger() const
+    boca::Tagger& Tagger() const
     {
         return tagger_;
     }
@@ -78,7 +82,7 @@ private:
         return factory_;
     }
 
-    analysis::Tagger& tagger_;
+    boca::Tagger& tagger_;
 
     TMVA::Factory factory_;
 

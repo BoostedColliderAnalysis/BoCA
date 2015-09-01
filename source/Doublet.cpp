@@ -1,15 +1,20 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "Doublet.hh"
+
+#include "Math.hh"
 #include "Debug.hh"
 
-namespace analysis
+namespace boca
 {
 
-Singlet& Doublet::Singlet1() const
+Singlet const& Doublet::Singlet1() const
 {
     return Multiplet1();
 }
 
-Singlet& Doublet::Singlet2() const
+Singlet const& Doublet::Singlet2() const
 {
     return Multiplet2();
 }
@@ -17,7 +22,7 @@ Singlet& Doublet::Singlet2() const
 float Doublet::Dipolarity2() const
 {
     float dipolarity = 0;
-    for (const auto & constituent : Jet(Structure::constituents).constituents()) {
+    for (auto const& constituent : Jet().constituents()) {
 
         float eta_0 = constituent.eta();
         float phi_0 = constituent.phi_std();
@@ -46,7 +51,7 @@ float Doublet::Dipolarity2() const
 
         float distance_1;
         if ((eta3 >= eta_1 && eta3 <= eta_2 && phi3 >= phi_1 && phi3 <= phi_2) || (eta3 >= eta_1 && eta3 <= eta_2 && phi3 >= phi_2 && phi3 <= phi_1)) {
-            float delta_r_3 = std::abs(delta_phi * eta_0 + delta_eta * phi_0 + delta_eta_phi) / std::sqrt(pow(delta_phi, 2) + std::pow(delta_eta, 2));
+            float delta_r_3 = std::abs(delta_phi * eta_0 + delta_eta * phi_0 + delta_eta_phi) / std::sqrt(sqr(delta_phi) + sqr(delta_eta));
             distance_1 = delta_r_3;
         } else distance_1 = std::min(delta_r_1, delta_r_2);
 
@@ -59,13 +64,13 @@ float Doublet::Dipolarity2() const
 
         float distance_2;
         if ((eta3 >= eta_1 && eta3 <= eta_2 && phi3 >= phi_1 && phi3 <= phi_2) || (eta3 >= eta_1 && eta3 <= eta_2 && phi3 >= phi_2 && phi3 <= phi_1)) {
-            float delta_r_4 = std::abs(delta_phi * eta_0 + delta_eta * phi_0 + delta_eta_phi) / std::sqrt(pow(delta_phi, 2) + std::pow(delta_eta, 2));
+            float delta_r_4 = std::abs(delta_phi * eta_0 + delta_eta * phi_0 + delta_eta_phi) / std::sqrt(sqr(delta_phi) + sqr(delta_eta));
             distance_2 = delta_r_4;
         } else  distance_2 = std::min(delta_r_1, delta_r_2);
 
         float distance = std::min(distance_1, distance_2);
 
-        if (delta_r_1 < DeltaR() / std::sqrt(2) || delta_r_2 < DeltaR() / std::sqrt(2)) dipolarity += constituent.perp() / Jet().perp() * std::pow(distance, 2) / std::pow(DeltaR(), 2);
+        if (delta_r_1 < DeltaR() / std::sqrt(2) || delta_r_2 < DeltaR() / std::sqrt(2)) dipolarity += constituent.perp() / Jet().perp() * sqr(distance) / sqr(DeltaR());
 
     }
     if (dipolarity > 1) Error(DeltaR(), dipolarity);

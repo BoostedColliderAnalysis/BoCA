@@ -2,25 +2,25 @@
 #include "Event.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace heavyhiggs {
 
 HeavyHiggsSemiTagger::HeavyHiggsSemiTagger()
 {
-    Note();
+  Info();
     DefineVariables();
 }
 
-int HeavyHiggsSemiTagger::Train(const Event& event, const PreCuts&, Tag tag) const
+int HeavyHiggsSemiTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
     Info();
     Jets higgs_boson = HiggsParticle(event, tag);
     std::vector<Triplet> triplets_hadronic = FinalTriplet(event, tag, -1);
     std::vector<Triplet> triplets_leptonic = FinalTriplet(event, tag, 1);
     std::vector<Sextet> sextets;
-    for (const auto& triplet_leptonic : triplets_leptonic)
-        for (const auto& triplet_hadronic : triplets_hadronic) {
+    for (auto const& triplet_leptonic : triplets_leptonic)
+        for (auto const& triplet_hadronic : triplets_hadronic) {
             Sextet sextet(triplet_leptonic, triplet_hadronic);
             if (sextet.Overlap())
                 continue;
@@ -31,13 +31,13 @@ int HeavyHiggsSemiTagger::Train(const Event& event, const PreCuts&, Tag tag) con
     return SaveEntries(BestMatches(sextets, higgs_boson, tag));
 }
 
-std::vector<Sextet>  HeavyHiggsSemiTagger::Multiplets(const Event& event, const PreCuts&, const TMVA::Reader& reader) const
+std::vector<Sextet>  HeavyHiggsSemiTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
 {
     std::vector<Triplet> triplets_leptonic = top_leptonic_reader_.Multiplets(event);
     std::vector<Triplet> triplets_hadronic = top_hadronic_reader_.Multiplets(event);
     std::vector<Sextet> sextets;
-    for (const auto& triplet_leptonic : triplets_leptonic)
-        for (const auto& triplet_hadronic : triplets_hadronic) {
+    for (auto const& triplet_leptonic : triplets_leptonic)
+        for (auto const& triplet_hadronic : triplets_hadronic) {
             Sextet sextet(triplet_leptonic, triplet_hadronic);
             if (sextet.Overlap())
                 continue;
@@ -47,7 +47,7 @@ std::vector<Sextet>  HeavyHiggsSemiTagger::Multiplets(const Event& event, const 
     return ReduceResult(sextets);
 }
 
-std::vector<Triplet> HeavyHiggsSemiTagger::FinalTriplet(const Event& event, Tag tag, int charge) const
+std::vector<Triplet> HeavyHiggsSemiTagger::FinalTriplet(Event const& event, Tag tag, int charge) const
 {
     std::vector<Triplet> triplets;
     switch (charge) {
@@ -65,7 +65,7 @@ std::vector<Triplet> HeavyHiggsSemiTagger::FinalTriplet(const Event& event, Tag 
     return BestMatches(triplets, tops, tag);
 }
 
-Jets HeavyHiggsSemiTagger::HiggsParticle(const Event& event, Tag tag) const
+Jets HeavyHiggsSemiTagger::HiggsParticle(Event const& event, Tag tag) const
 {
     if (tag == Tag::background) return Jets {};
     Jets particles = event.Partons().GenParticles();
@@ -74,7 +74,7 @@ Jets HeavyHiggsSemiTagger::HiggsParticle(const Event& event, Tag tag) const
     return  Join(even, odd);
 }
 
-Jets HeavyHiggsSemiTagger::TopParticles(const Event& event, int charge) const
+Jets HeavyHiggsSemiTagger::TopParticles(Event const& event, int charge) const
 {
     Jets particles = event.Partons().GenParticles();
     Jets leptons = fastjet::sorted_by_pt(event.Leptons().leptons());

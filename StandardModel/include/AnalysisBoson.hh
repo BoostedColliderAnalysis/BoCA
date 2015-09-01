@@ -2,7 +2,7 @@
 
 #include "AnalysisStandardModel.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace standardmodel {
 /**
@@ -33,7 +33,7 @@ private:
 
     std::string ProjectName() const final
     {
-        return  Name(this->collider_type()) + "-" + std::to_string(this->LowerPtCut()) + "GeV-bb";
+        return  Name(this->collider_type()) + "-" + std::to_string(this->LowerPtCut()) + "GeV-jan";
     }
 
     void SetFiles(Tag tag) final {
@@ -68,7 +68,7 @@ private:
     }
 
 
-    int PassPreCut(const Event& event, Tag) const final
+    int PassPreCut(Event const& event, Tag) const final
     {
         Jets jets = fastjet::sorted_by_pt(event.Hadrons().Jets());
         if (jets.empty())

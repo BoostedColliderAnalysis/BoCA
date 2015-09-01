@@ -1,9 +1,12 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
-#include "BranchTagger.hh"
 #include "Branches.hh"
+#include "BranchTagger.hh"
 
-namespace analysis {
+namespace boca {
 
 /**
  * @brief Bottom BDT tagger
@@ -15,23 +18,20 @@ public:
 
     TauTagger();
 
-    int Train(const Event& event, const PreCuts& pre_cuts, Tag tag) const final;
+    int Train(Event const& event, PreCuts const& pre_cuts,
+              Tag tag) const final;
 
-    Jets Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
+    Jets Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    int GetBdt(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const  final
-    {
+    int GetBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final {
         return SaveEntries(Multiplets(event, pre_cuts, reader));
     }
 
-    std::string Name() const final
-    {
-        return "Tau";
-    }
+    std::string Name() const final { return "Tau"; }
 
 private:
 
-    Jets CleanJets(analysis::Jets& jets, const analysis::Jets& Particles, Tag tag) const;
+    Jets CleanJets(boca::Jets& jets, boca::Jets const& Particles, Tag tag) const;
 
 };
 

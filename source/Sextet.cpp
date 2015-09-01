@@ -1,13 +1,16 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "Sextet.hh"
 
-namespace analysis {
+namespace boca {
 
-Triplet& Sextet::Triplet1() const
+Triplet const& Sextet::Triplet1() const
 {
     return Multiplet1();
 }
 
-Triplet& Sextet::Triplet2() const
+Triplet const& Sextet::Triplet2() const
 {
     return Multiplet2();
 }

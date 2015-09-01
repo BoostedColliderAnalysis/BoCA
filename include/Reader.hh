@@ -1,10 +1,13 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "Tagger.hh"
 #include "PreCuts.hh"
 #include "TMVA/Reader.h"
 
-namespace analysis {
+namespace boca {
 
 /**
  * @brief read results of multivariant analysis
@@ -16,25 +19,30 @@ class Reader {
 
 public:
 
-    Reader()
-    {
-        AddVariable();
-        BookMva(TMVA::Types::EMVA::kBDT);
+    Reader() : reader_(Options()) {
+      Initialize();
     }
 
-    Reader(Stage stage)
-    {
+    Reader(Stage stage) : reader_(Options()) {
         switch (stage) {
         case Stage::trainer :
             break;
         case Stage::reader :
-            AddVariable();
-            BookMva(TMVA::Types::EMVA::kBDT);
+          Initialize();
             break;
         }
     }
 
-    int Bdt(const analysis::Event& event, const analysis::PreCuts& pre_cuts) const
+    void Initialize(){
+      std::streambuf* cout = std::cout.rdbuf();
+      std::ostringstream new_cout;
+      std::cout.rdbuf(new_cout.rdbuf());
+      AddVariable();
+      BookMva(TMVA::Types::EMVA::kBDT);
+      std::cout.rdbuf(cout);
+    }
+
+    int Bdt(boca::Event const& event, boca::PreCuts const& pre_cuts) const
     {
         return Tagger().GetBdt(event, pre_cuts, reader());
     }
@@ -87,6 +95,11 @@ public:
 
 private:
 
+    std::string Options() const{
+      return "";
+      return "!V:!color:Silent";
+    }
+
     TaggerTemplate& Tagger()
     {
       return tagger_;
@@ -94,7 +107,7 @@ private:
 
     TaggerTemplate tagger_;
 
-    const TMVA::Reader& reader() const
+    TMVA::Reader const& reader() const
     {
       return reader_;
     }
@@ -114,8 +127,8 @@ private:
 
     void AddVariable()
     {
-        for (const auto& observable : Tagger().Variables()) reader().AddVariable(observable.expression(), &observable.value());
-        for (const auto& spectator : Tagger().Spectators()) reader().AddSpectator(spectator.expression(), &spectator.value());
+        for (auto const& observable : Tagger().Variables()) reader().AddVariable(observable.expression(), &observable.value());
+        for (auto const& spectator : Tagger().Spectators()) reader().AddSpectator(spectator.expression(), &spectator.value());
     }
 
 };

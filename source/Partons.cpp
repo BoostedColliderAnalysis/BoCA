@@ -1,8 +1,11 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "Partons.hh"
-#include "Predicate.hh"
+#include "Types.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 void Partons::NewEvent(const ClonesArrays& clones_arrays)
 {

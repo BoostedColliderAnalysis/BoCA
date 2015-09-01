@@ -1,8 +1,14 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "Trees.hh"
+#include "File.hh"
+// #define DEBUG
+#include "Debug.hh"
 
-namespace analysis
+namespace boca
 {
-Files::Files(std::string name, analysis::Stage stage, analysis::Tag tag): export_file_ {name.c_str(), "Recreate"} {
+Files::Files(std::string name, boca::Stage stage, boca::Tag tag): export_file_ {name.c_str(), "Recreate"} {
     stage_ = stage;
     tag_ = tag;
 }
@@ -22,7 +28,7 @@ Tag Files::tag() const
 {
     return tag_;
 }
-void Files::file(File& file)
+void Files::set_file(File& file)
 {
     file_ = &file;
 }
@@ -33,10 +39,11 @@ Trees::Trees(Files& files):
 {}
 void Trees::WriteTree()
 {
-    if (!analysis_empty_)
-        tree_writer_.Write();
+  //         if(event_number_ == tree_reader().GetEntries())
+    Error(event_number_, pre_cut_number_, object_sum_);
+    if (!analysis_empty_) tree_writer_.Write();
 }
-void Trees::UseBranches(File& file, const std::string& name)
+void Trees::UseBranches(File& file, std::string const& name)
 {
     tree_branch_ = tree_writer_.NewBranch(name.c_str(), InfoBranch::Class());
     tree_reader_ = file.TreeReader();
@@ -54,9 +61,11 @@ void Trees::SaveAnalysis(int object_number)
     if (object_number == 0) return;
     object_sum_ += object_number;
     info_branch_.EventNumber = event_number_;
+//     info_branch_.PreCutNumber = pre_cut_number_;
     analysis_empty_ = false;
     static_cast<InfoBranch&>(*tree_branch_->NewEntry()) = info_branch_;
     tree_writer_.Fill();
+    Debug(event_number_, pre_cut_number_, object_sum_);
 }
 InfoBranch Trees::FillInfoBranch(const File& file)
 {

@@ -1,10 +1,19 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
-#include "fastjet/JetDefinition.hh"
-#include "Global.hh"
+#include <vector>
+
+namespace fastjet{
+  class PseudoJet;
+  class JetDefinition;
+}
 
 
-namespace analysis {
+namespace boca {
+
+typedef std::vector<fastjet::PseudoJet> Jets;
 
 /**
  * @brief FastJet calculations
@@ -41,9 +50,9 @@ protected:
     fastjet::PseudoJet GetMassDropJet(const fastjet::PseudoJet&, const float, const float) const;
 
 
-    Jets GetSubjet_taggedJets(const Jets& FatJets) const;
+    Jets GetSubjet_taggedJets(Jets const& FatJets) const;
 
-    fastjet::PseudoJet GetSubjet_taggedJet(const fastjet::PseudoJet& FatJet) const;
+    fastjet::PseudoJet GetSubjet_taggedJet(fastjet::PseudoJet const& FatJet) const;
 
     /**
      * @brief Filter Jets
@@ -51,7 +60,7 @@ protected:
      */
     fastjet::PseudoJet GetFilteredJet(const fastjet::PseudoJet&);
 
-    static bool JetIsBad(const fastjet::PseudoJet& Jet);
+    static bool JetIsBad(fastjet::PseudoJet const& Jet);
 
     Jets GetFatjet_tag(Jets&);
 

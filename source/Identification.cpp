@@ -1,6 +1,9 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "Identification.hh"
 
-namespace analysis {
+namespace boca {
 
 std::string Name(Tag tag)
 {
@@ -15,7 +18,7 @@ std::string Name(Tag tag)
 Identification::Identification()
 {
     bdt_ = initial_value();
-    tag_ = analysis::Tag::background;
+    tag_ = boca::Tag::background;
     flag_ = false;
     degenerate_ = false;
 }
@@ -35,33 +38,33 @@ float Identification::Bdt() const
     return bdt_;
 }
 
-void Identification::SetTag(const analysis::Tag tag)
+void Identification::SetTag(enum Tag tag)
 {
     tag_ = tag;
 }
 
-void Identification::SetTag(analysis::Tag tag_1, analysis::Tag tag_2)
+void Identification::SetTag(enum Tag tag_1, enum Tag tag_2)
 {
-    if (tag_1 == analysis::Tag::signal || tag_2 == analysis::Tag::signal)
-        tag_ = analysis::Tag::signal;
+    if (tag_1 == boca::Tag::signal || tag_2 == boca::Tag::signal)
+        tag_ = boca::Tag::signal;
     else
-        tag_ = analysis::Tag::background;
+        tag_ = boca::Tag::background;
 }
 
-analysis::Tag Identification::Tag() const
+boca::Tag Identification::Tag() const
 {
     return tag_;
 }
 
 
-void Identification::SetFlag(const bool flag)
+void Identification::SetFlag(bool flag)
 {
     flag_ = flag;
 }
 
-void Identification::SetFlag(const bool flag_1, const bool flag_2)
+void Identification::SetFlag(bool flag_1, bool flag_2)
 {
-    flag_ = flag_1 & flag_2;
+    flag_ = flag_1 && flag_2;
 }
 
 bool Identification::Flag() const

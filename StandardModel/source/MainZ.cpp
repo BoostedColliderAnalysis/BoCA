@@ -3,9 +3,9 @@
 
 int main()
 {
-    analysis::standardmodel::AnalysisZ<analysis::BottomTagger> bottom_analysis;
+    boca::standardmodel::AnalysisZ<boca::BottomTagger> bottom_analysis;
     bottom_analysis.RunFast();
-    analysis::standardmodel::AnalysisZ<analysis::ZHadronicTagger> z_hadronic_analysis;
+    boca::standardmodel::AnalysisZ<boca::ZHadronicTagger> z_hadronic_analysis;
     z_hadronic_analysis.RunFullEfficiency();
 }
 
