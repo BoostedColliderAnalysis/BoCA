@@ -3,7 +3,7 @@ var searchData=
   ['id',['id',['../db/dc7/classboca_1_1Particle.html#a443ec26af1c7a540604ec39d67e140af',1,'boca::Particle']]],
   ['identification',['Identification',['../d4/de7/classboca_1_1Identification.html#a0608008dd515211e5010458dd86aa811',1,'boca::Identification']]],
   ['import',['Import',['../d1/dd2/classboca_1_1Plotting.html#a143ce233a0d9624015a35ad1187297b6',1,'boca::Plotting']]],
-  ['includegraphic',['IncludeGraphic',['../d5/d24/classboca_1_1LatexFile.html#aacfde40472e35a1369fc755113b0d921',1,'boca::LatexFile']]],
+  ['includegraphic',['IncludeGraphic',['../d5/d24/classboca_1_1LatexFile.html#aed2f1e0199aac6eee7ef83ca14165ba3',1,'boca::LatexFile']]],
   ['infobranch',['InfoBranch',['../d0/de6/classboca_1_1InfoBranch.html#a6ff10fcd52202c71cb38b0839fba9cf7',1,'boca::InfoBranch::InfoBranch()'],['../d1/dd2/classboca_1_1Plotting.html#aaec2689b26e223f4898c6317e341fa10',1,'boca::Plotting::InfoBranch()']]],
   ['inforecombiner',['InfoRecombiner',['../d2/d04/classboca_1_1InfoRecombiner.html#a90dc4238a158e4ce492adebe9e78fd59',1,'boca::InfoRecombiner']]],
   ['init',['Init',['../d5/dcc/classboca_1_1EventShapes.html#ad7bf538d96440fd905ad2553e80bba4e',1,'boca::EventShapes']]],

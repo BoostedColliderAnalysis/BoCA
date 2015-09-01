@@ -90,27 +90,28 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="textblock"><p>This code performs BDT analyses based on root files originating from MadGraph / Pythia / PGS / Delphes.</p>
 <h2>Dependencies</h2>
 <ul>
-<li>ROOT</li>
-<li>MadGraph with installed ExRootAnalysis and Delphes</li>
-<li>fastjet</li>
-<li>fastjet contrib (must be compiled with <code>CXXFLAGS=-fPIC</code>)</li>
-<li>libconfig</li>
-<li>The PEG</li>
+<li><code>ROOT</code></li>
+<li><code>MadGraph</code> with installed <code>ExRootAnalysis</code> and <code>Delphes</code></li>
+<li><code>fastjet</code></li>
+<li><code>fastjet contrib</code> (must be compiled with <code>CXXFLAGS=-fPIC</code>)</li>
+<li><code>libconfig</code></li>
+<li><code>doxygen</code> for class documentation</li>
+<li><code>The PEG</code></li>
 </ul>
 <h2>Installation</h2>
 <ul>
 <li>the following is tested on recent ubuntu installations</li>
-<li>edit <code>MadGraph</code> path in <code>FindMadGraph.cmake</code></li>
+<li>edit <code>MadGraphDir</code> in <code>FindMadGraph.cmake</code></li>
 <li><p class="startli">if you are using a <code>ROOT</code> version other than the system version edit the <code>ROOT</code> path in <code>FindROOT.cmake</code></p>
 <p class="startli">mkdir build cd build cmake .. make # for external dependencies make # for the actual program</p>
 </li>
 </ul>
 <h2>Usage</h2>
-<p>Each analysis need a dedicated <code>Analysis</code> class, a set of <code>Tagger</code> classess and a <code>main.cpp</code> file. The <code>Analysis</code> class contains the global information of the analysis, such as file names, path names, variables names. Each <code>Tagger</code> class reconstructs a specific signature, every analysis needs at least one dedicated <code>Tagger</code>. The <code>main.cpp</code> defines the order in which each <code>Tagger</code> is passed to the <code>Analysis</code>.</p>
+<p>Each analysis needs a dedicated <code>Analysis</code> class, a set of <code>Tagger</code> classess and a <code><a class="el" href="df/d0a/main_8cpp.html">main.cpp</a></code> file. The <code>Analysis</code> class contains the global information of the analysis, such as file names, path names, variables names etc. Every <code>Tagger</code> class tags or reconstructs one specific particle or signature. Each analysis needs at least one dedicated <code>Tagger</code>. The <code><a class="el" href="df/d0a/main_8cpp.html">main.cpp</a></code> defines the order in which each <code>Tagger</code> is passed to the <code>Analysis</code>.</p>
 <h2>Git commands</h2>
 <ul>
 <li>initial download of the project <code>git clone <a href="https://NAME">https://NAME</a>@bitbucket.org/janhajer/analysis.git</code></li>
-<li>downloading update from the server <code>git pull</code></li>
+<li>downloading updates from the server <code>git pull</code></li>
 <li>save changes of specific files <code>git commit FILES</code></li>
 <li>save changes in to all files <code>git commit -a</code></li>
 <li>upload changes to server <code>git push</code></li>
@@ -127,6 +128,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>prefer references <code>&amp;</code> over pointers <code>*</code></li>
 <li>follow <a href="https://google-styleguide.googlecode.com/svn/trunk/cppguide.html#Naming">these naming conventions</a></li>
 </ul>
+<h2>Source code documentation</h2>
+<p><a href="http://boostedcollideranalysis.github.io/BoCA">Documentation</a></p>
 <h2>License</h2>
 <p><a class="el" href="df/dd7/md_License.html">License</a></p>
 <h2>Authors</h2>
@@ -134,7 +137,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Aug 18 2015 23:43:10 for BoCA by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Sep 1 2015 22:16:32 for BoCA by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

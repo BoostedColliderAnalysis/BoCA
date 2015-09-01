@@ -10,7 +10,7 @@ var searchData=
   ['identification_2ecpp',['Identification.cpp',['../da/d44/Identification_8cpp.html',1,'']]],
   ['identification_2ehh',['Identification.hh',['../d8/d85/Identification_8hh.html',1,'']]],
   ['import',['Import',['../d1/dd2/classboca_1_1Plotting.html#a143ce233a0d9624015a35ad1187297b6',1,'boca::Plotting']]],
-  ['includegraphic',['IncludeGraphic',['../d5/d24/classboca_1_1LatexFile.html#aacfde40472e35a1369fc755113b0d921',1,'boca::LatexFile']]],
+  ['includegraphic',['IncludeGraphic',['../d5/d24/classboca_1_1LatexFile.html#aed2f1e0199aac6eee7ef83ca14165ba3',1,'boca::LatexFile']]],
   ['info',['Info',['../d8/de8/Debug_8hh.html#ad436e1e1d6bf1c744f5eca58bfa1fcc8',1,'Debug.hh']]],
   ['info_5fbranch',['info_branch',['../d7/d93/classboca_1_1Plots.html#aa19bb4650c0afe56c01abc095d26d34e',1,'boca::Plots']]],
   ['info_5fbranch_5f',['info_branch_',['../dc/d0c/classboca_1_1Result.html#a00a46bd03d7f5bc0c41c3dd02eec8005',1,'boca::Result::info_branch_()'],['../d8/d44/classboca_1_1Trees.html#a8880edf90a97e331d6c60e198bfd70ed',1,'boca::Trees::info_branch_()']]],

@@ -1,17 +1,13 @@
 var searchData=
 [
-  ['main_2ecpp',['main.cpp',['../d0/d71/HiggsCpv_2source_2main_8cpp.html',1,'']]],
-  ['main_2ecpp',['main.cpp',['../d0/dc8/PairTagger_2source_2main_8cpp.html',1,'']]],
+  ['main_2ecpp',['main.cpp',['../df/d0a/main_8cpp.html',1,'']]],
   ['mainboson_2ecpp',['MainBoson.cpp',['../de/d28/MainBoson_8cpp.html',1,'']]],
   ['mainbottom_2ecpp',['MainBottom.cpp',['../d7/d2e/MainBottom_8cpp.html',1,'']]],
   ['maincharged_2ecpp',['MainCharged.cpp',['../d3/d46/MainCharged_8cpp.html',1,'']]],
-  ['maineffective_2ecpp',['MainEffective.cpp',['../d9/d4c/MainEffective_8cpp.html',1,'']]],
   ['mainfusion_2ecpp',['MainFusion.cpp',['../d5/d90/MainFusion_8cpp.html',1,'']]],
   ['mainhiggs_2ecpp',['MainHiggs.cpp',['../d6/d9f/MainHiggs_8cpp.html',1,'']]],
   ['mainneutral_2ecpp',['MainNeutral.cpp',['../dd/d72/MainNeutral_8cpp.html',1,'']]],
   ['mainneutralfourtop_2ecpp',['MainNeutralFourTop.cpp',['../d0/d67/MainNeutralFourTop_8cpp.html',1,'']]],
-  ['mainpair_2ecpp',['MainPair.cpp',['../d5/d52/MainPair_8cpp.html',1,'']]],
-  ['mainsingle_2ecpp',['MainSingle.cpp',['../d0/dbc/MainSingle_8cpp.html',1,'']]],
   ['maintop_2ecpp',['MainTop.cpp',['../da/d4b/MainTop_8cpp.html',1,'']]],
   ['mainw_2ecpp',['MainW.cpp',['../d2/d01/MainW_8cpp.html',1,'']]],
   ['mainz_2ecpp',['MainZ.cpp',['../d2/dee/MainZ_8cpp.html',1,'']]],

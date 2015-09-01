@@ -136,7 +136,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="../../da/d7d/namespaceboca.html#afbc38b9b31f239ed3d1101ecfcaa15ef">   39</a></span>&#160;std::vector&lt;Multiplet&gt; <a class="code" href="../../da/d7d/namespaceboca.html#afbc38b9b31f239ed3d1101ecfcaa15ef">SortedByMaxDeltaRap</a>(std::vector&lt;Multiplet&gt; multiplets)</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;{</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    std::sort(multiplets.begin(), multiplets.end(), [](<span class="keyword">const</span> <a class="code" href="../../d1/d5c/classboca_1_1Multiplet.html">Multiplet</a> &amp; multiplet_1, <span class="keyword">const</span> <a class="code" href="../../d1/d5c/classboca_1_1Multiplet.html">Multiplet</a> &amp; multiplet_2) {</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keywordflow">return</span> (multiplet_1.<a class="code" href="../../d1/d5c/classboca_1_1Multiplet.html#a51113ca4e3898c0ec62ba1b6a998b796">DeltaRap</a>() &gt; multiplet_2.DeltaRap());</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keywordflow">return</span> (multiplet_1.<a class="code" href="../../d1/d5c/classboca_1_1Multiplet.html#a345911022aecb732920b628823528a3e">DeltaRap</a>() &gt; multiplet_2.DeltaRap());</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    });</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordflow">return</span> multiplets;</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;}</div>
@@ -233,6 +233,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;</div>
 <div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;</div>
 <div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;}</div>
+<div class="ttc" id="classboca_1_1Multiplet_html_a345911022aecb732920b628823528a3e"><div class="ttname"><a href="../../d1/d5c/classboca_1_1Multiplet.html#a345911022aecb732920b628823528a3e">boca::Multiplet::DeltaRap</a></div><div class="ttdeci">float DeltaRap(MultipletBase const &amp;multiplets_1, MultipletBase const &amp;multiplets_2) const </div><div class="ttdef"><b>Definition:</b> Multiplet.cpp:52</div></div>
 <div class="ttc" id="namespaceboca_html_a73c32b4f92867a3e2cd38b60ca9c4904"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#a73c32b4f92867a3e2cd38b60ca9c4904">boca::SortedByMassTo</a></div><div class="ttdeci">std::vector&lt; Multiplet &gt; SortedByMassTo(std::vector&lt; Multiplet &gt; multiplets, float mass)</div><div class="ttdef"><b>Definition:</b> Sort.hh:48</div></div>
 <div class="ttc" id="namespaceboca_html_afbc38b9b31f239ed3d1101ecfcaa15ef"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#afbc38b9b31f239ed3d1101ecfcaa15ef">boca::SortedByMaxDeltaRap</a></div><div class="ttdeci">std::vector&lt; Multiplet &gt; SortedByMaxDeltaRap(std::vector&lt; Multiplet &gt; multiplets)</div><div class="ttdef"><b>Definition:</b> Sort.hh:39</div></div>
 <div class="ttc" id="structboca_1_1SortByPt_html_aa50da971585a76ae7ae5e4068066d870"><div class="ttname"><a href="../../d9/ddc/structboca_1_1SortByPt.html#aa50da971585a76ae7ae5e4068066d870">boca::SortByPt::operator()</a></div><div class="ttdeci">bool operator()(fastjet::PseudoJet const &amp;jet_1, fastjet::PseudoJet const &amp;jet_2)</div><div class="ttdef"><b>Definition:</b> Sort.hh:100</div></div>
@@ -241,7 +242,6 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="ttc" id="structboca_1_1MinDeltaRTo_html"><div class="ttname"><a href="../../d3/db1/structboca_1_1MinDeltaRTo.html">boca::MinDeltaRTo</a></div><div class="ttdef"><b>Definition:</b> Sort.hh:17</div></div>
 <div class="ttc" id="classboca_1_1Identification_html_a5617ad7cf04ef785abc29f001ab4df51"><div class="ttname"><a href="../../d4/de7/classboca_1_1Identification.html#a5617ad7cf04ef785abc29f001ab4df51">boca::Identification::Bdt</a></div><div class="ttdeci">virtual float Bdt() const </div><div class="ttdef"><b>Definition:</b> Identification.cpp:36</div></div>
 <div class="ttc" id="classboca_1_1Multiplet_html_a0e6d8c3a717b2446e1cf4164f8188304"><div class="ttname"><a href="../../d1/d5c/classboca_1_1Multiplet.html#a0e6d8c3a717b2446e1cf4164f8188304">boca::Multiplet::Jet</a></div><div class="ttdeci">virtual fastjet::PseudoJet Jet() const override=0</div></div>
-<div class="ttc" id="classboca_1_1Multiplet_html_a51113ca4e3898c0ec62ba1b6a998b796"><div class="ttname"><a href="../../d1/d5c/classboca_1_1Multiplet.html#a51113ca4e3898c0ec62ba1b6a998b796">boca::Multiplet::DeltaRap</a></div><div class="ttdeci">float DeltaRap(const boca::MultipletBase &amp;multiplets_1, const boca::MultipletBase &amp;multiplets_2) const </div><div class="ttdef"><b>Definition:</b> Multiplet.cpp:52</div></div>
 <div class="ttc" id="structboca_1_1SortByMass_html"><div class="ttname"><a href="../../d6/d5f/structboca_1_1SortByMass.html">boca::SortByMass</a></div><div class="ttdef"><b>Definition:</b> Sort.hh:77</div></div>
 <div class="ttc" id="structboca_1_1SortByMassTo_html_ad83a358c7e1cc38f9d0beb6a5b891fe4"><div class="ttname"><a href="../../d1/d36/structboca_1_1SortByMassTo.html#ad83a358c7e1cc38f9d0beb6a5b891fe4">boca::SortByMassTo::operator()</a></div><div class="ttdeci">bool operator()(fastjet::PseudoJet const &amp;jet_1, fastjet::PseudoJet const &amp;jet_2)</div><div class="ttdef"><b>Definition:</b> Sort.hh:64</div></div>
 <div class="ttc" id="namespaceboca_html_a7625ff6872a02b2155737fdcc7716b2e"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#a7625ff6872a02b2155737fdcc7716b2e">boca::PseudoJet</a></div><div class="ttdeci">fastjet::PseudoJet PseudoJet(TLorentzVector const &amp;vector)</div><div class="ttdoc">create a fastjet::PseudoJet from a LorentzVector </div><div class="ttdef"><b>Definition:</b> Types.cpp:15</div></div>
@@ -277,7 +277,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Aug 18 2015 23:43:09 for BoCA by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Sep 1 2015 22:16:31 for BoCA by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

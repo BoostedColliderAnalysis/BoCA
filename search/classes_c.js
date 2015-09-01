@@ -1,4 +1,11 @@
 var searchData=
 [
-  ['nonet',['Nonet',['../d4/df9/classboca_1_1naturalness_1_1Nonet.html',1,'boca::naturalness']]]
+  ['obs',['Obs',['../d0/d80/classboca_1_1Obs.html',1,'boca']]],
+  ['observable',['Observable',['../d5/d91/classboca_1_1Observable.html',1,'boca']]],
+  ['octet332',['Octet332',['../d4/ded/classboca_1_1Octet332.html',1,'boca']]],
+  ['octet44',['Octet44',['../dd/d6c/classboca_1_1Octet44.html',1,'boca']]],
+  ['octet53',['Octet53',['../dd/de7/classboca_1_1Octet53.html',1,'boca']]],
+  ['octet62',['Octet62',['../d6/d57/classboca_1_1Octet62.html',1,'boca']]],
+  ['octetchargedbranch',['OctetChargedBranch',['../d8/d06/classboca_1_1heavyhiggs_1_1OctetChargedBranch.html',1,'boca::heavyhiggs']]],
+  ['octetneutralbranch',['OctetNeutralBranch',['../d0/d45/classboca_1_1heavyhiggs_1_1OctetNeutralBranch.html',1,'boca::heavyhiggs']]]
 ];

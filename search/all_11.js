@@ -1,7 +1,6 @@
 var searchData=
 [
   ['qq',['qq',['../d3/da0/namespaceboca_1_1fusionpair.html#ab5191746b58d96503d0c637c29a99ba4a099b3b060154898840f0ebdfb46ec78f',1,'boca::fusionpair::qq()'],['../dd/dba/namespaceboca_1_1standardmodel.html#a368517d92dffe6a2568269f60ff6be83a099b3b060154898840f0ebdfb46ec78f',1,'boca::standardmodel::qq()']]],
-  ['quartet',['Quartet',['../d4/df9/classboca_1_1naturalness_1_1Nonet.html#aa293315a692aae525998923ff5ef884f',1,'boca::naturalness::Nonet::Quartet()'],['../dd/d1a/classboca_1_1naturalness_1_1Quattuordecuplet.html#a69101cc71c0ec4c28100fd1eda29eb8d',1,'boca::naturalness::Quattuordecuplet::Quartet()']]],
   ['quartet_2ecpp',['Quartet.cpp',['../da/dd6/Quartet_8cpp.html',1,'']]],
   ['quartet_2ehh',['Quartet.hh',['../d5/d38/Quartet_8hh.html',1,'']]],
   ['quartet1',['Quartet1',['../dd/d6c/classboca_1_1Octet44.html#a817fbeda54b6f3a0c766471cde33b470',1,'boca::Octet44']]],
@@ -9,15 +8,8 @@ var searchData=
   ['quartet211',['Quartet211',['../d5/d2f/classboca_1_1Quartet211.html',1,'boca']]],
   ['quartet22',['Quartet22',['../df/d7b/classboca_1_1Quartet22.html',1,'boca']]],
   ['quartet31',['Quartet31',['../d6/d5b/classboca_1_1Quartet31.html',1,'boca']]],
-  ['quartetpairbranch',['QuartetPairBranch',['../dc/d37/classboca_1_1higgscpv_1_1QuartetPairBranch.html#a66f483a172b3a65d0b260bc10ee5f485',1,'boca::higgscpv::QuartetPairBranch']]],
-  ['quartetpairbranch',['QuartetPairBranch',['../dc/d37/classboca_1_1higgscpv_1_1QuartetPairBranch.html',1,'boca::higgscpv']]],
-  ['quattuordecuplet',['Quattuordecuplet',['../dd/d1a/classboca_1_1naturalness_1_1Quattuordecuplet.html',1,'boca::naturalness']]],
-  ['quattuordecuplet_2ecpp',['Quattuordecuplet.cpp',['../d5/d0c/Quattuordecuplet_8cpp.html',1,'']]],
-  ['quattuordecuplet_2ehh',['Quattuordecuplet.hh',['../de/d7d/Quattuordecuplet_8hh.html',1,'']]],
-  ['quintet',['Quintet',['../dd/de7/classboca_1_1Octet53.html#abaef74cff233540e906842ebf63f8d58',1,'boca::Octet53::Quintet()'],['../d4/df9/classboca_1_1naturalness_1_1Nonet.html#a5089aa44d47276b91a8b808721876a72',1,'boca::naturalness::Nonet::Quintet()'],['../df/db7/classboca_1_1naturalness_1_1Septet.html#a12d5002de4eeebf8bd6918bec33460e2',1,'boca::naturalness::Septet::Quintet()']]],
+  ['quintet',['Quintet',['../dd/de7/classboca_1_1Octet53.html#abaef74cff233540e906842ebf63f8d58',1,'boca::Octet53']]],
   ['quintet',['Quintet',['../d6/d72/classboca_1_1Quintet.html',1,'boca']]],
   ['quintet_2ecpp',['Quintet.cpp',['../d0/dc1/Quintet_8cpp.html',1,'']]],
-  ['quintet_2ehh',['Quintet.hh',['../d5/d5f/Quintet_8hh.html',1,'']]],
-  ['quintet1',['Quintet1',['../d8/d71/classboca_1_1naturalness_1_1Decuplet55.html#a392a3bc713246e366ee287c1889be53e',1,'boca::naturalness::Decuplet55']]],
-  ['quintet2',['Quintet2',['../d8/d71/classboca_1_1naturalness_1_1Decuplet55.html#aa20ff41235b5bff25201787b22de5ef9',1,'boca::naturalness::Decuplet55']]]
+  ['quintet_2ehh',['Quintet.hh',['../d5/d5f/Quintet_8hh.html',1,'']]]
 ];

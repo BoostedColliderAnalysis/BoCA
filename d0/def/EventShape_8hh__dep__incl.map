@@ -1,15 +1,4 @@
 <map id="include/EventShape.hh" name="include/EventShape.hh">
-<area shape="rect" id="node2" href="$d4/d92/MultipletSignature_8hh.html" title="include/MultipletSignature.hh" alt="" coords="487,80,676,107"/>
-<area shape="rect" id="node14" href="$d6/d83/EventShape_8cpp.html" title="source/EventShape.cpp" alt="" coords="701,80,862,107"/>
-<area shape="rect" id="node3" href="$d1/d44/SignatureTagger_8hh.html" title="HiggsCpv/include/Signature\lTagger.hh" alt="" coords="257,155,441,196"/>
-<area shape="rect" id="node8" href="$d6/dfb/SignatureTTagger_8hh.html" title="HiggsCpv/include/Signature\lTTagger.hh" alt="" coords="723,155,907,196"/>
-<area shape="rect" id="node12" href="$d9/d75/SignatureLeptonTagger_8hh.html" title="HiggsCpv/include/Signature\lLeptonTagger.hh" alt="" coords="489,155,673,196"/>
-<area shape="rect" id="node4" href="$dd/db1/EventTagger_8hh.html" title="HiggsCpv/include/EventTagger.hh" alt="" coords="12,251,233,278"/>
-<area shape="rect" id="node7" href="$d0/d77/SignatureTagger_8cpp.html" title="HiggsCpv/source/Signature\lTagger.cpp" alt="" coords="258,244,441,285"/>
-<area shape="rect" id="node5" href="$d8/da0/EventTTagger_8cpp.html" title="HiggsCpv/source/EventTTagger.cpp" alt="" coords="5,333,240,360"/>
-<area shape="rect" id="node6" href="$d0/d71/HiggsCpv_2source_2main_8cpp.html" title="HiggsCpv/source/main.cpp" alt="" coords="389,333,569,360"/>
-<area shape="rect" id="node9" href="$d2/d85/EventTTagger_8hh.html" title="HiggsCpv/include/EventTTagger.hh" alt="" coords="931,251,1160,278"/>
-<area shape="rect" id="node11" href="$d8/d69/SignatureTTagger_8cpp.html" title="HiggsCpv/source/Signature\lTTagger.cpp" alt="" coords="723,244,906,285"/>
-<area shape="rect" id="node10" href="$d5/dbc/EventTagger_8cpp.html" title="HiggsCpv/source/EventTagger.cpp" alt="" coords="932,333,1159,360"/>
-<area shape="rect" id="node13" href="$d9/d93/SignatureLeptonTagger_8cpp.html" title="HiggsCpv/source/Signature\lLeptonTagger.cpp" alt="" coords="517,244,699,285"/>
+<area shape="rect" id="node2" href="$d4/d92/MultipletSignature_8hh.html" title="include/MultipletSignature.hh" alt="" coords="5,80,195,107"/>
+<area shape="rect" id="node3" href="$d6/d83/EventShape_8cpp.html" title="source/EventShape.cpp" alt="" coords="219,80,381,107"/>
 </map>

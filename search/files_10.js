@@ -1,9 +1,12 @@
 var searchData=
 [
-  ['reader_2ehh',['Reader.hh',['../df/d2c/Reader_8hh.html',1,'']]],
-  ['readme_2emd',['Readme.md',['../d7/dab/Readme_8md.html',1,'']]],
-  ['reconstruction_2ecpp',['Reconstruction.cpp',['../d1/d1f/Reconstruction_8cpp.html',1,'']]],
-  ['reconstruction_2ehh',['Reconstruction.hh',['../da/d6d/Reconstruction_8hh.html',1,'']]],
-  ['result_2ecpp',['Result.cpp',['../d9/d55/Result_8cpp.html',1,'']]],
-  ['result_2ehh',['Result.hh',['../d5/d7b/Result_8hh.html',1,'']]]
+  ['sextet_2ecpp',['Sextet.cpp',['../d2/da2/Sextet_8cpp.html',1,'']]],
+  ['sextet_2ehh',['Sextet.hh',['../d2/d98/Sextet_8hh.html',1,'']]],
+  ['signaturechargedtagger_2ecpp',['SignatureChargedTagger.cpp',['../da/d27/SignatureChargedTagger_8cpp.html',1,'']]],
+  ['signaturechargedtagger_2ehh',['SignatureChargedTagger.hh',['../dd/d61/SignatureChargedTagger_8hh.html',1,'']]],
+  ['signatureneutraltagger_2ecpp',['SignatureNeutralTagger.cpp',['../de/da6/SignatureNeutralTagger_8cpp.html',1,'']]],
+  ['signatureneutraltagger_2ehh',['SignatureNeutralTagger.hh',['../d4/df4/SignatureNeutralTagger_8hh.html',1,'']]],
+  ['singlet_2ecpp',['Singlet.cpp',['../d5/dd3/Singlet_8cpp.html',1,'']]],
+  ['singlet_2ehh',['Singlet.hh',['../db/d60/Singlet_8hh.html',1,'']]],
+  ['sort_2ehh',['Sort.hh',['../db/d31/Sort_8hh.html',1,'']]]
 ];
