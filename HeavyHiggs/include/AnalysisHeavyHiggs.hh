@@ -50,10 +50,10 @@ public:
         //     return 400;
 //                 return 500;
         //     return 600;
-        //     return 700;
+//             return 700;
 //                     return 800;
         //     return 900;
-                return 1000;
+//                 return 1000;
 //       return 1500;
 //                 return 2000;
 //                    return 3000;
@@ -63,7 +63,7 @@ public:
 //                 return 8000;
 //                         return 10000;
 //                         return 12000;
-        //                 return 15000;
+                        return 15000;
         //                return 20000;
     };
 
@@ -146,6 +146,18 @@ public:
         }
     };
 
+    
+    float SecondLeptonPt() const {
+      switch (collider_type()) {
+        case Collider::LHC :
+          return 25;
+        case Collider::LE :
+          return 50;
+        default :
+          return 0;
+      }
+    };
+    
     float BottomPt() const {
         switch (collider_type()) {
         case Collider::LHC :

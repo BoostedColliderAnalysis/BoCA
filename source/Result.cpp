@@ -33,7 +33,7 @@ void Result::Calculate()
 
 int Result::XBin(float value) const
 {
-    return std::floor((value + 1) * steps / 2);
+    return std::floor((value + 1) * (steps-1) / 2);
 }
 
 void Result::AddBdt(float bdt_value)

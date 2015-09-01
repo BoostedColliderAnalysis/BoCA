@@ -38,6 +38,7 @@ public:
             Files files(tagger().ExportFileName(stage, tag), stage, tag);
             ClearFiles();
             SetFiles(tag);
+            
             for (auto& file : this->files(tag)) {
                 files.set_file(file);
                 AnalyseFile(files, reader);

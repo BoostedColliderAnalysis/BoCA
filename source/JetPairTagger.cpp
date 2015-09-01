@@ -16,6 +16,7 @@ int JetPairTagger::Train(const Event &event, const PreCuts &, Tag tag) const
 {
     Info();
     Jets jets = bottom_reader_.Multiplets(event);
+    if (jets.size()<2) return 0;
     if (jets.empty()) return 0;
     Debug(jets.size());
     Jets bottoms = BottomPair(event, tag);

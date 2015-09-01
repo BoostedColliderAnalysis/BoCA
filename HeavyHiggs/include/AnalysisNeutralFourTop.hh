@@ -51,7 +51,7 @@ public:
     std::string ProjectName() const final
     {
         //        return  ProcessName() + "-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV-" + std::to_string(Mass()) + "GeV-Eta2.5";
-      return  ProcessName() + "-" + Name(this->collider_type()) + "-" + std::to_string(this->Mass()) + "GeV_Isolation";
+      return  ProcessName() + "-" + Name(this->collider_type()) + "-" + std::to_string(this->Mass()) + "GeV_Isolation_Precut";
     };
 
     float SignalCrosssection(Process process) const {
@@ -132,6 +132,8 @@ public:
                   return 0.00380676;
                 case 12000:
                   return 0.001245;
+                case 15000:
+                  return 0.000280155;
                 default:
                   Error("unhandled case");
                   return 1;
@@ -166,6 +168,8 @@ public:
                   return 0.0539546;
                 case 12000:
                   return 0.0215126;
+                case 15000:
+                  return 0.00602724;
                 default:
                   Error("unhandled case");
                   return 1;
@@ -225,16 +229,14 @@ private:
         if (event.Hadrons().MissingEt().pt() < this->MissingEt()) return 0;
         Jets Leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
         if (Leptons.size() < 2) return 0;
+        if(Leptons.size()>2&&Leptons.at(2).pt()>this->SecondLeptonPt()) return 0;
         int positive_lepton=0;
         int negative_lepton=0;
-        for(const auto & lepton : Leptons){
-          if(lepton.pt()>this->LeptonPt()&&lepton.user_info<JetInfo>().Charge()>0)positive_lepton++;
-          if(lepton.pt()>this->LeptonPt()&&lepton.user_info<JetInfo>().Charge()<0)negative_lepton++;
-        }
-
+        if (Leptons.at(0).pt() > this->LeptonPt() && Leptons.at(0).user_info<JetInfo>().Charge() > 0)positive_lepton++;
+        if (Leptons.at(0).pt() > this->LeptonPt() && Leptons.at(0).user_info<JetInfo>().Charge() < 0)negative_lepton++;
+        if (Leptons.at(1).pt() > this->SecondLeptonPt() && Leptons.at(1).user_info<JetInfo>().Charge() > 0)positive_lepton++;
+        if (Leptons.at(1).pt() > this->SecondLeptonPt() && Leptons.at(1).user_info<JetInfo>().Charge() < 0)negative_lepton++;
 	if (positive_lepton<2&&negative_lepton<2) return 0;
-        if ((positive_lepton+negative_lepton)>2) return 0;
-
         Jets jets = event.Hadrons().Jets();
         if (jets.size() < 4)
             return 0;
