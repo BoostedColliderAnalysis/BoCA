@@ -49,9 +49,7 @@ add_subdirectory(source)
 
 add_subdirectory(StandardModel)
 add_subdirectory(PairTagger)
-add_subdirectory(HiggsCpv)
 add_subdirectory(HeavyHiggs)
-add_subdirectory(TopPartner)
 
 # Doxygen
 if(CMAKE_BUILD_TYPE MATCHES "Release")
