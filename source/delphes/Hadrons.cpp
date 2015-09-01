@@ -63,11 +63,8 @@ fastjet::PseudoJet Hadrons::StructuredJet(::delphes::Jet const& delphes_jet, std
     for (auto const & constituent_number : Range(delphes_jet.Constituents.GetEntriesFast())) {
         if (!delphes_jet.Constituents.At(constituent_number)) continue;
         try {
-            fastjet::PseudoJet constituent = ConstituentJet(*delphes_jet.Constituents.At(constituent_number), jet_detail, SubDetector::none, leptons);
-            constituents.emplace_back(constituent);
-        } catch (char const*) {
-            continue;
-        }
+          constituents.emplace_back(ConstituentJet(*delphes_jet.Constituents.At(constituent_number), jet_detail, SubDetector::none, leptons));
+        } catch (char const*) {}
     }
     if (constituents.empty()) throw "no jet";
     fastjet::PseudoJet jet = fastjet::join(constituents, InfoRecombiner());

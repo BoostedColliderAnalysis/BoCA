@@ -97,6 +97,8 @@ private:
 
     void SetPlotStyle(TAttLine& att_line, int index) const;
 
+    void SetPad() const;
+
     TLegend Legend(float x_min, float y_min, float width, float height, std::string const& title = "") const;
 
     TLegend Legend(boca::Orientation orientation, boca::Strings const& entries, std::string const& title = "") const;
@@ -109,7 +111,7 @@ private:
 
     TH1F Histogram(const boca::Result& result, boca::Point& max, boca::Point& min, int index) const;
 
-    TLine Line(boca::Results results, float y_min, float y_max) const;
+    TLine Line(const boca::Results& results, float y_min, float y_max) const;
 
     void AddGraph(TGraph& graph, TMultiGraph& multi_graph, TLegend& legend, Strings const& name, int index) const;
 

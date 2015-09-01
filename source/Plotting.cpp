@@ -11,9 +11,9 @@
 #include "TDirectoryFile.h"
 #include "TClonesArray.h"
 #include "TPad.h"
+#include "TCanvas.h"
 #include "TDirectoryFile.h"
 #include "TTree.h"
-#include "TCanvas.h"
 #include "TMultiGraph.h"
 #include "TLine.h"
 #include "TStyle.h"
@@ -33,7 +33,7 @@
 #include "Math.hh"
 #include "Branches.hh"
 #include "LatexFile.hh"
-// #define DEBUG
+#define DEBUG
 #include "Debug.hh"
 
 namespace boca
@@ -44,8 +44,17 @@ Plotting::Plotting(boca::Tagger& tagger)
     Debug();
     tagger_ = &tagger;
     gStyle->SetOptStat("");
-    gStyle->SetTitleFont(FontCode(),"t");
+    gStyle->SetTitleFont(FontCode(), "t");
     gStyle->SetTitleFontSize(TextSize());
+}
+
+void Plotting::SetPad() const
+{
+    Debug();
+    gPad->SetFillColor(0);
+    gPad->SetFillStyle(0);
+    gPad->SetFrameFillColor(0);
+    gPad->SetFrameFillStyle(0);
 }
 
 void Plotting::TaggingEfficiency() const
@@ -63,14 +72,11 @@ void Plotting::OptimalSignificance() const
     Results results = ReadBdtFiles();
     results.Significances();
     results.BestBin();
-    std::string efficiency_file_name = PlotEfficiencyGraph(results);
-    std::string significance_file_name = PlotSignificanceGraph(results);
-    std::string bdt_file_name = PlotHistograms(results);
     LatexFile latex_file(Tagger().ExportFolderName());
     latex_file << Table(results);
-    latex_file.IncludeGraphic(bdt_file_name, "BDT Distribution");
-    latex_file.IncludeGraphic(efficiency_file_name, "Efficiency");
-    latex_file.IncludeGraphic(significance_file_name, "Significance");
+    latex_file.IncludeGraphic(PlotHistograms(results), "BDT Distribution");
+    latex_file.IncludeGraphic(PlotEfficiencyGraph(results), "Efficiency");
+    latex_file.IncludeGraphic(PlotSignificanceGraph(results), "Significance");
 }
 
 Results Plotting::ReadBdtFiles() const
@@ -129,13 +135,18 @@ InfoBranch Plotting::InfoBranch(TFile& file, std::string const& tree_name) const
     Debug(tree_name, Tagger().WeightBranchName());
     TClonesArray& clones_array = *tree_reader.UseBranch(Tagger().WeightBranchName().c_str());
     tree_reader.ReadEntry(tree_reader.GetEntries() - 1);
-    return static_cast<boca::InfoBranch&>(*clones_array.At(clones_array.GetEntriesFast() - 1));
+    return static_cast<boca::InfoBranch&>(*clones_array.Last());
 }
 
 std::string Plotting::PlotHistograms(boca::Results& results) const
 {
     Debug();
     TCanvas canvas;
+    gPad->SetFillColor(0);
+    gPad->SetFillStyle(4000);
+    gPad->SetFrameFillColor(0);
+    gPad->SetFrameFillStyle(4000);
+    gPad->SetFrameBorderMode(0);
     THStack stack("", Tagger().NiceName().c_str());
     std::vector<TH1F> histograms;
     Strings nice_names;
@@ -147,17 +158,17 @@ std::string Plotting::PlotHistograms(boca::Results& results) const
         histograms.emplace_back(Histogram(result, results.max, results.min, &result - &results.background[0] + results.signal.size()));
         nice_names.emplace_back(result.info_branch_.Name);
     }
+    canvas.Update();
     TLegend legend = Legend(Orientation::top, nice_names);
     for (auto & histogram : histograms) AddHistogram(stack, histogram, legend);
     stack.Draw("nostack");
     SetAxis(*stack.GetXaxis(), "BDT");
     SetAxis(*stack.GetYaxis(), "N");
-    canvas.Update();
     TLine line = Line(results, stack.GetMinimum(), results.max.y * 1.05);
-    std::string efficiency_file_name = Tagger().ExportFolderName() + "-Bdt" + ExportFileSuffix();
+    std::string file_name = Tagger().ExportFolderName() + "-Bdt" + ExportFileSuffix();
     legend.Draw();
-    canvas.Print(efficiency_file_name.c_str());
-    return efficiency_file_name;
+    canvas.SaveAs(file_name.c_str());
+    return file_name;
 }
 
 TH1F Plotting::Histogram(Result const& result, Point& max, Point& min, int index) const
@@ -180,7 +191,7 @@ void Plotting::AddHistogram(THStack& stack, TH1F& histogram, TLegend& legend) co
 TLegend Plotting::Legend(float x_min, float y_min, float width, float height, std::string const& title) const
 {
     TLegend legend(x_min, y_min, x_min + width, y_min + height);
-    if (title != "") {
+    if (!title.empty()) {
         legend.SetHeader(title.c_str());
         static_cast<TLegendEntry&>(*legend.GetListOfPrimitives()->First()).SetTextFont(FontCode());
         static_cast<TLegendEntry&>(*legend.GetListOfPrimitives()->First()).SetTextSize(TextSize());
@@ -202,11 +213,11 @@ TLegend Plotting::Legend(Orientation orientation, Strings const& entries, std::s
     float image_width = 0.1;
     float width = letter_width * letters + image_width;
     float height = entries.size() * letter_height;
-    if (title != "") height += letter_height;
+    if (!title.empty()) height += letter_height;
     // default values for Orientation::center
     float x_shift = 0.5;
     float y_shift = 0.5;
-    float x_offset = width / 4;
+    float x_offset = width / 4; // FIXME why is this necessary; why not 1/2
     float y_offset = height / 2;
     FlagSwitch(orientation, [&](Orientation orientation) {
         switch (orientation) {
@@ -260,12 +271,14 @@ std::string Plotting::PlotEfficiencyGraph(Results const& results) const
     SetAxis(*multi_graph.GetYaxis(), "Efficiency");
     legend.Draw();
     TLine line = Line(results, multi_graph.GetYaxis()->GetXmin(), multi_graph.GetYaxis()->GetXmax());
-    std::string file_name = Tagger().ExportFolderName() + "-Efficiency" + ExportFileSuffix();
-    canvas.Print(file_name.c_str());
+    std::string file_name = Tagger().ExportFolderName() + "-Efficiency";// + ExportFileSuffix();
+    canvas.SaveAs((file_name + ".png").c_str());
+    canvas.SaveAs((file_name + ".pdf").c_str());
+    canvas.SaveAs((file_name + ".eps").c_str());
     return file_name;
 }
 
-TLine Plotting::Line(Results results, float y_min, float y_max) const
+TLine Plotting::Line(Results const& results, float y_min, float y_max) const
 {
     TLine line(results.BestXValue(), y_min, results.BestXValue(), y_max);
     line.SetLineStyle(2);
@@ -285,6 +298,21 @@ void Plotting::PlotAcceptanceGraph(Results const& results) const
     Debug();
     for (auto const & signal : results.signal) {
         TCanvas canvas;
+//         canvas.Pad()->SetFillColor(0);
+//         canvas.Pad()->SetFillStyle(4000);
+//         canvas.Pad()->SetFrameFillColor(0);
+//         canvas.Pad()->SetFrameFillStyle(4000);
+        canvas.SetFillColor(kBlue);
+        canvas.SetFillStyle(4000);
+//         canvas.SetFrameFillColor(0);
+//         canvas.SetFrameFillStyle(4000);
+//         gPad->SetFillColor(0);
+//         gPad->SetFillStyle(4000);
+//         gPad->SetFrameFillColor(0);
+//         gPad->SetFrameFillStyle(4000);
+//         gPad->SetFrameBorderMode(0);
+//         gPad->SetFillColorAlpha(kBlue, 0.35);
+        canvas.SetFillColorAlpha(kBlue, 0.35);
         TMultiGraph multi_graph("", Tagger().NiceName().c_str());
         std::vector<TGraph> graphs;
         Strings nice_names;
@@ -298,14 +326,16 @@ void Plotting::PlotAcceptanceGraph(Results const& results) const
             graphs.emplace_back(TGraph(background.steps, &signal.pure_efficiency[0], &background.pure_efficiency[0]));
             nice_names.emplace_back(background.info_branch_.Name);
         }
-        if(min.y == LargeNumber()) min.y = 0;
+        if (min.y == LargeNumber()) min.y = 0;
         if (min.y > 0 && min.y / max.y < 0.1) canvas.SetLogy();
         TLegend legend = Legend(Orientation::left | Orientation::top, nice_names, signal.info_branch_.Name);
         for (auto & graph : graphs) AddGraph(graph, multi_graph, legend, nice_names, &graph - &graphs[0]);
         SetMultiGraph(multi_graph, min, max);
         legend.Draw();
-        std::string efficiency_file_name = Tagger().ExportFolderName() + "-Acceptance" + ExportFileSuffix();
-        canvas.Print(efficiency_file_name.c_str());
+        std::string file_name = Tagger().ExportFolderName() + "-Acceptance";// + ExportFileSuffix();
+        canvas.SaveAs((file_name + ".png").c_str());
+        canvas.SaveAs((file_name + ".pdf").c_str());
+        canvas.SaveAs((file_name + ".eps").c_str());
     }
 }
 
@@ -337,7 +367,7 @@ std::string Plotting::PlotSignificanceGraph(Results const& results) const
     canvas.Update();
     TLine line  = Line(results, gPad->GetUymin(), gPad->GetUymax());
     std::string file_name = Tagger().ExportFolderName() + "-Significance" + ExportFileSuffix();
-    canvas.Print(file_name.c_str());
+    canvas.SaveAs(file_name.c_str());
     return file_name;
 }
 
@@ -366,7 +396,7 @@ void Plotting::RunPlots() const
         Plots background = backgrounds.front();
         if (backgrounds.size() > 1) {
             background = std::accumulate(backgrounds.begin() + 1, backgrounds.end(), background, [](Plots & sum, Plots const & elem) {
-              for (auto & plot : sum.plots) plot.points = Join(plot.points, elem.plots.at(&plot - &sum.plots[0]).points);
+                for (auto & plot : sum.plots) plot.points = Join(plot.points, elem.plots.at(&plot - &sum.plots[0]).points);
                 return sum;
             });
             background.name = "background";
@@ -439,7 +469,7 @@ void Plotting::PlotHistogram(Plot const& signal, Plot const& background, Point c
     legend.Draw();
     mkdir(Tagger().ExportFolderName().c_str(), 0700);
     std::string file_name = Tagger().ExportFolderName() + "/" + "Hist-" + background.tree_name + "-" + signal.name_x + "-" + signal.name_y + ExportFileSuffix();
-    canvas.Print(file_name.c_str());
+    canvas.SaveAs(file_name.c_str());
 }
 
 void Plotting::PlotProfile(Plot const& signal, Plot const& background, Point const& min, Point const& max) const
@@ -451,7 +481,7 @@ void Plotting::PlotProfile(Plot const& signal, Plot const& background, Point con
     SetProfile(test, signal, background);
     mkdir(Tagger().ExportFolderName().c_str(), 0700);
     std::string file_name = Tagger().ExportFolderName() + "/" + "Prof-" + background.tree_name + "-" + signal.name_x + "-" + signal.name_y + ExportFileSuffix();
-    canvas.Print(file_name.c_str());
+    canvas.SaveAs(file_name.c_str());
 }
 
 void Plotting::SetHistogram(TH2& histogram, Plot const& plot, EColor color, TExec& exec) const

@@ -45,7 +45,7 @@ public:
 //         latex_file_ << string;
 //     }
 
-    std::string IncludeGraphic(std::string& file_name, std::string caption) {
+    std::string IncludeGraphic(std::string file_name, std::string caption) {
         latex_file_ << "\n\\begin{figure}\n\\centering\n\\includegraphics[width=0.5\\textwidth]{../" + file_name + "}\n\\caption{" + caption + "}\n\\end{figure}\n";
         return "\n\\begin{figure}\n\\centering\n\\scalebox{0.6}{\\input{" + file_name + "}}\n\\caption{" + caption + ".}\n\\end{figure}\n";
     }

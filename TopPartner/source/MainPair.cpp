@@ -1,20 +1,19 @@
 #include "AnalysisTopPartnerPair.hh"
 #include "EventPairTagger.hh"
 
-
 int main()
 {
     boca::naturalness::AnalysisPair<boca::BottomTagger> bottom_analysis;
     bottom_analysis.RunNormal();
 
-    boca::naturalness::AnalysisPair<boca::HiggsTagger> higgs_analysis;
-    higgs_analysis.RunNormal();
-
-    boca::naturalness::AnalysisPair<boca::WHadronicTagger> w_hadronic_analysis;
-    w_hadronic_analysis.RunNormal();
+//     boca::naturalness::AnalysisPair<boca::HiggsTagger> higgs_analysis;
+//     higgs_analysis.RunNormal();
 
     boca::naturalness::AnalysisPair<boca::BosonTagger> boson_analysis;
     boson_analysis.RunNormal();
+
+    boca::naturalness::AnalysisPair<boca::WHadronicTagger> w_hadronic_analysis;
+    w_hadronic_analysis.RunNormal();
 
     boca::naturalness::AnalysisPair<boca::TopHadronicTagger> top_hadronic_analysis;
     top_hadronic_analysis.RunNormal();

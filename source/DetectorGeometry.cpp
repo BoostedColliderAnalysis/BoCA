@@ -21,6 +21,15 @@ DetectorType DetectorGeometry::detector_type_ = DetectorType::Spp;
 
 InfoRecombiner DetectorGeometry::info_recombiner_ = InfoRecombiner();
 
+std::string Name(DetectorType detector_type)
+{
+  switch (detector_type) {
+    case DetectorType::CMS : return "LHC";
+    case DetectorType::Spp : return "100TeV";
+  }
+
+}
+
 
 void DetectorGeometry::set_detector_type(const DetectorType detector_type)
 {

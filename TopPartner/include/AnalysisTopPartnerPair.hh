@@ -23,13 +23,13 @@ class AnalysisPair : public AnalysisNaturalness<Tagger>
 public:
 
     AnalysisPair() {
-        this->tagger().SetAnalysisName(ProjectName());
+      this->tagger().SetAnalysisName(ProjectName());
     }
 
 protected:
 
     std::string ProjectName() const final {
-      return ProcessName() + "-" + std::to_string(this->PreCut()) + "GeV-" + std::to_string(this->Mass()) + "GeV-test" ;
+      return ProcessName() + "-" + std::to_string(this->PreCut()) + "GeV-" + Name(DetectorGeometry::detector_type()) + "-" + std::to_string(this->Mass()) + "GeV";
     }
 
     std::string ProcessName() const final {
@@ -43,7 +43,7 @@ protected:
             break;
         case Tag::background :
             this->NewFile(tag, Process::ttBjj);
-            this->NewFile(tag, Process::tthBjj);
+//             this->NewFile(tag, Process::tthBjj);
             break;
         }
     }

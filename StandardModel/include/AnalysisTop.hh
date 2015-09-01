@@ -40,14 +40,14 @@ public:
     }
 
     Decay TopDecay() const {
-        return Decay::leptonic;
         return Decay::hadronic;
+        return Decay::leptonic;
     }
 
 private:
 
     std::string ProjectName() const final {
-        return  Name(this->collider_type()) + "-" + std::to_string(this->LowerPtCut()) + "GeV-" + Name(Process::tt) + "-" + Name(TopDecay()) + "-jan";
+        return  Name(this->collider_type()) + "-" + std::to_string(this->LowerPtCut()) + "GeV-" + Name(Process::tt) + "-" + Name(TopDecay()) + "-rename";
     }
 
     void SetFiles(Tag tag) final {

@@ -33,12 +33,17 @@ enum class Process
 template<typename Tagger>
 class AnalysisNaturalness : public boca::Analysis<Tagger>
 {
-
 public:
+
+    AnalysisNaturalness() {
+        DetectorGeometry::set_detector_type(DetectorType::CMS);
+    }
+
 
 protected:
 
     int Mass() const {
+        return 1000;
         return 2000;
         return 10000;
     }
@@ -74,7 +79,9 @@ protected:
         case Process::Tth : crosssection = 0.004964;
             break;
         case Process::TT :
-            switch (Mass()) {
+          switch (Mass()) {
+            case 1000 : crosssection = 1;
+            break;
             case 2000 : crosssection = 0.264;
                 break;
             case 10000 : crosssection = 2.485e-05;
@@ -106,35 +113,66 @@ protected:
     }
 
     std::string Name(Process process) const {
+        std::string name;
         switch (process) {
         case Process::TT : {
-            std::string name = "pp-TT-tthB-bbbbjjjjlv";
+            switch (DetectorGeometry::detector_type()) {
+            case DetectorType::CMS :
+                name = "PP-TT-14TeV-1000GeV";
+                break;
+            case DetectorType::Spp :
+                name = "pp-TT-tthB-bbbbjjjjlv";
+                break;
+            }
 //             std::string name = "pp-TT-ttBB";
             switch (Mass()) {
-            case 2000 : return name + "-2000GeV";
-            case 10000 : return name + "-10000GeV";
-            default : return name;
+            case 1000 :
+                name + "-1000GeV";
+                break;
+            case 2000 :
+                name + "-2000GeV";
+                break;
+            case 10000 :
+                name + "-10000GeV";
+                break;
+            default :
                 Error("wrong mass", Mass());
             }
-        }
+        } break;
         case Process::ttBjj : {
-            std::string name = "PP-ttBJJ";
+            name = "PP-ttBJJ-14TeV";
             switch (PreCut()) {
-            case 0 : return name + "-0GeV";
-            case 200 : return name + "-200GeV";
+            case 0 :
+                name + "-0GeV";
+                break;
+            case 200 :
+                name + "-200GeV";
+                break;
             }
-        }
+        } break;
         case Process::tthBjj : {
-            std::string name = "PP-tthB";
+            name = "PP-tthB";
             switch (PreCut()) {
-            case 0 : return name + "-0GeV";
-            case 200 : return name + "-200GeV";
+            case 0 : name + "-0GeV"; break;
+            case 200 : name + "-200GeV"; break;
             }
+        } break;
+        case Process::Tth :
+          name = "PP-Tth-ttBh";
+          break;
+        case Process::TThh :
+          name = "PP-TThh";
+          break;
+        default :
+          Error("no case");
         }
-        case Process::Tth : return "PP-Tth-ttBh";
-        case Process::TThh : return "PP-TThh";
-        default: Error("no case");
+        switch (DetectorGeometry::detector_type()) {
+        case DetectorType::CMS :
+          name + "14TeV";
+          break;
+//           case DetectorType::Spp : ;
         }
+        return name;
     }
 
     std::string NiceName(Process process) const {
@@ -157,3 +195,4 @@ protected:
 }
 
 }
+
