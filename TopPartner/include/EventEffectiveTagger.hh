@@ -18,14 +18,12 @@ public:
 
     EventEffectiveTagger();
 
-    int Train(Event const& event, PreCuts const& pre_cuts,
-              Tag tag) const override;
+    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const override;
 
     std::vector<MultipletEvent<Quattuordecuplet>> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    int GetBdt(Event const& event, PreCuts const& pre_cuts,
-               TMVA::Reader const& reader) const final {
-                 return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
+    int GetBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final {
+        return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
     }
 
     auto Multiplets(Event const& event, TMVA::Reader const& reader)
