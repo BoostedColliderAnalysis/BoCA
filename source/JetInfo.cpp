@@ -3,6 +3,8 @@
 #include "Vector.hh"
 #include "Math.hh"
 #include "Types.hh"
+#include <numeric>
+
 #include "delphes/Delphes.hh"
 #include "Debug.hh"
 

@@ -41,6 +41,11 @@ add_libraries(${LIBCONFIGPP_LIBRARIES})
 include(CMakeFiles/FindThePeg.cmake)
 add_libraries(${THEPEG_LIBRARY})
 
+# Doxygen
+if(CMAKE_BUILD_TYPE MATCHES "Release")
+#include(CMakeFiles/UseDoxygen.cmake)
+endif()
+
 # Libraries
 add_subdirectory(source)
 

@@ -2,6 +2,7 @@
 #include "InfoRecombiner.hh"
 #include "Event.hh"
 #include "Debug.hh"
+#include <numeric>
 
 namespace analysis {
 

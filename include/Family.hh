@@ -4,6 +4,8 @@
 
 #include "Particle.hh"
 
+#include <functional>
+
 namespace analysis {
 
 class Family {

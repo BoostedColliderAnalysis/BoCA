@@ -1,3 +1,4 @@
+
 # - Locate ThePEG library
 # Defines:
 #
@@ -6,6 +7,8 @@
 #  THEPEG_LIBRARY
 #  THEPEG_INCLUDE_DIRS (not cached)
 #  THEPEG_LIBRARIES (not cached)
+
+set (THEPEG_ROOT_DIR /usr/local/Cellar/ThePEG/1.9.2)
 
 find_path(THEPEG_INCLUDE_DIR ThePEG/Config/ThePEG.h
           HINTS $ENV{THEPEG_ROOT_DIR}/include ${THEPEG_ROOT_DIR}/include)

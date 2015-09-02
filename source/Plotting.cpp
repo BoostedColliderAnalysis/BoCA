@@ -3,6 +3,7 @@
 #include <fstream>
 #include <algorithm>
 #include <sys/stat.h>
+#include <numeric>
 
 #include "TFile.h"
 #include "TClonesArray.h"

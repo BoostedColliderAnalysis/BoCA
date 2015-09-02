@@ -27,7 +27,7 @@ public:
         return "Boson";
     }
 
-    std::string Name() const final {
+    std::string NiceName() const final {
       return "B";
     }
 

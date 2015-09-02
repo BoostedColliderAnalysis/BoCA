@@ -47,15 +47,12 @@ private:
     void SetFiles(Tag tag) final {
         switch (tag) {
         case Tag::signal :
-//             this->NewFile(tag, "gg-tth", 0.0098);
-            this->NewFile(tag, "pp-tth", 0.02267);
-            //         this->NewFile(tag, "pp-ttx0-bbbbllnunu-1", 0.02071);
-//             this->NewFile(tag, "pp-ttx0-bbbbllnunu-1", 0.008937);
-            //         this->NewFile(tag, "pp-ttx0-bbbbllnunu-0.5", 0.01193);
+            //         NewSignalFile("pp-ttx0-bbbbllnunu-1", 0.02071);
+            this->NewFile(tag, "signal", 0.008937);
+            //         NewSignalFile("pp-ttx0-bbbbllnunu-0.5", 0.01193);
             break;
         case Tag::background :
-            this->NewFile(tag, "pp-ttbb", 0.1266);
-//             this->NewFile(tag, "pp-ttbb-bbbbllnunu", 3.457);
+            this->NewFile(tag, "bgk", 3.457);
             break;
         }
     }
@@ -106,7 +103,7 @@ private:
 
 
     std::string FilePath() const final {
-        return "~/Projects/HiggsCpv/Analysis/";
+        return "/Users/jingren/HEP/Research/JanH/tth-analysis/";
     }
 
 
