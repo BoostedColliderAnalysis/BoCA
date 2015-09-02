@@ -19,11 +19,13 @@ This code performs BDT analyses based on root files originating from MadGraph / 
 * edit `MadGraphDir` in `FindMadGraph.cmake`
 * if you are using a `ROOT` version other than the system version edit the `ROOT` path in `FindROOT.cmake`
 
-    mkdir build
-    cd build
-    cmake ..
-    make # for external dependencies
-    make # for the actual program
+```
+mkdir build
+cd build
+cmake ..
+make # for external dependencies
+make # for the actual program
+```
 
 ## Usage
 
