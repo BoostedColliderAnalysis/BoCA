@@ -68,7 +68,7 @@ private:
         std::vector<Constituent> constituents;
         for (auto const & particle_number : Range(clone.Particles.GetEntriesFast())) {
             Family family = BranchFamily(*clone.Particles.At(particle_number));
-            constituents.emplace_back(Constituent(const_cast<Clone&>(clone).P4(), family));
+            constituents.emplace_back(Constituent(const_cast<Clone&>(clone).P4()/*, family*/));
         }
         return constituents;
     }

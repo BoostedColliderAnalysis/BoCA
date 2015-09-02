@@ -91,6 +91,7 @@ Constituent.cpp
 JetTag.cpp
 DetectorGeometry.cpp
 JetInfo.cpp
+ParticleInfo.cpp
 InfoRecombiner.cpp
 JetInfoFamily.cpp
 Reconstruction.cpp

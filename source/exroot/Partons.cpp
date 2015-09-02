@@ -1,7 +1,7 @@
 #include "exroot/Partons.hh"
 
 #include "exroot/ExRootAnalysis.hh"
-#include "JetInfo.hh"
+#include "ParticleInfo.hh"
 #include "Types.hh"
 #include "Debug.hh"
 
@@ -27,9 +27,9 @@ Jets Partons::Particles(Status max_status) const
         TRootLHEFParticle& particle = static_cast<TRootLHEFParticle&>(clones_arrays().Particle(particle_number));
         if (particle.Status < to_int(max_status)) break;
         Family family(particle.PID);
-        Constituent constituent(LorentzVector(particle), family);
+//         Constituent constituent(LorentzVector(particle), family);
         fastjet::PseudoJet jet = PseudoJet(particle);
-        jet.set_user_info(new JetInfo(constituent));
+        jet.set_user_info(new ParticleInfo(family));
         particles.emplace_back(jet);
     }
     return particles;

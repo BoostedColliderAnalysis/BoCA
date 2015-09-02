@@ -108,7 +108,7 @@ fastjet::PseudoJet ClosestJet(Jets const& jets, Multiplet const& multiplet){
  *
  */
 template <typename Element>
-std::vector<Element> Join(const std::vector<Element>& vector_1, const std::vector<Element>& vector_2)
+std::vector<Element> Join(std::vector<Element> const& vector_1, std::vector<Element> const& vector_2)
 {
     std::vector<Element> joined;
     joined.reserve(vector_1.size() + vector_2.size());
@@ -118,11 +118,11 @@ std::vector<Element> Join(const std::vector<Element>& vector_1, const std::vecto
 }
 
 /**
- * @brief Join two std::vector
+ * @brief Join three std::vector
  *
  */
 template <typename Element>
-std::vector<Element> Join(const std::vector<Element>& vector_1, const std::vector<Element>& vector_2, const std::vector<Element>& vector_3)
+std::vector<Element> Join(std::vector<Element> const& vector_1, std::vector<Element> const& vector_2, std::vector<Element> const& vector_3)
 {
   std::vector<Element> joined;
   joined.reserve(vector_1.size() + vector_2.size() + vector_3.size());
@@ -139,7 +139,7 @@ template < typename Element,
           * @brief forms all \f$(n^2 - n)\f$ ordered pairs of vector elements, applies to them the function and returns a vector of its results
           *
           */
-         auto ordered_pairs(const std::vector<Element>& container, Function function)
+         auto ordered_pairs(std::vector<Element> const& container, Function function)
 {
     std::vector<Result> results;
     for (auto element_1 = container.begin(); element_1 != container.end(); ++element_1) {
@@ -160,7 +160,7 @@ template < typename Element, typename Function, typename Result = typename std::
  * @brief forms all \f$(n^2 - n) / 2\f$ unordered pairs, applies to them the function and returns a vector of its results
  *
  */
-auto unordered_pairs(const std::vector<Element>& container, Function function)
+auto unordered_pairs(std::vector<Element> const& container, Function function)
 {
     std::vector<Result> results;
     for (auto element_1 = container.begin(); element_1 != container.end(); ++element_1) {

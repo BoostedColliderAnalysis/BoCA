@@ -70,7 +70,7 @@ protected:
         close = SortedByBdt(close);
         if (id != Id::empty) close = SortedByMassTo(close, id);
 //         std::cout << "close " << close.size() << std::endl;
-        return std::vector<Multiplet>(&close.front(), &close.at(std::min(close.size(), particles.size())));
+        return std::vector<Multiplet>(&close[0], &close[std::min(close.size(), particles.size())]);
     }
 
     template<typename Multiplet>

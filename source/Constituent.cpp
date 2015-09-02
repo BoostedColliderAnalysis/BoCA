@@ -7,13 +7,6 @@ namespace boca {
 
 Constituent::Constituent() {};
 
-Constituent::Constituent(TLorentzVector const& momentum, const boca::LorentzVector& position, const boca::Family& family)
-{
-    momentum_ = momentum;
-    position_ = position;
-    family_ = family;
-}
-
 Constituent::Constituent(TLorentzVector const& momentum, const boca::LorentzVector& position)
 {
     momentum_ = momentum;
@@ -26,18 +19,6 @@ Constituent::Constituent(TLorentzVector const& momentum, const boca::LorentzVect
     position_ = position;
     sub_detector_ = sub_detector;
     charge_ = charge;
-}
-
-Constituent::Constituent(TLorentzVector const& momentum, Family const& family)
-{
-    momentum_ = momentum;
-    family_ = family;
-}
-
-Constituent::Constituent(LorentzVector const& momentum, Family const& family)
-{
-    momentum_ = momentum;
-    family_ = family;
 }
 
 Constituent::Constituent(TLorentzVector const& momentum)
@@ -73,11 +54,6 @@ void Constituent::SetMomentum(TLorentzVector const& momentum)
     momentum_ = momentum;
 }
 
-void Constituent::SetFamily(Family const& family)
-{
-    family_ = family;
-}
-
 LorentzVector Constituent::Position() const
 {
     return position_;
@@ -86,11 +62,6 @@ LorentzVector Constituent::Position() const
 LorentzVector Constituent::Momentum() const
 {
     return momentum_;
-}
-
-Family Constituent::family() const
-{
-    return family_;
 }
 
 Constituent Constituent::operator+(Constituent const& constituent)

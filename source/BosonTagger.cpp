@@ -4,33 +4,35 @@
 #include "BosonTagger.hh"
 #include "Event.hh"
 #include "Doublet.hh"
+#define DEBUG
 #include "Debug.hh"
 
-namespace boca {
+namespace boca
+{
 
 BosonTagger::BosonTagger()
 {
-  Info();
+    Info();
     DefineVariables();
 }
 
 int BosonTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const
 {
-  Info(boca::Name(tag));
-  Jets jets = bottom_reader_.Multiplets(event);
-  std::vector<Doublet> doublets = unordered_pairs(jets,[&](fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2) {
-    return CheckDoublet(Doublet(jet_1, jet_2), pre_cuts, tag);
-  });
+    Info(boca::Name(tag));
+    Jets jets = bottom_reader_.Multiplets(event);
+    std::vector<Doublet> doublets = unordered_pairs(jets, [&](fastjet::PseudoJet const & jet_1, fastjet::PseudoJet const & jet_2) {
+        return CheckDoublet(Doublet(jet_1, jet_2), pre_cuts, tag);
+    });
 
-  for (auto const& jet : jets) {
-    try {
-      doublets.emplace_back(CheckDoublet(Doublet(jet), pre_cuts, tag));
-    } catch (...) {}
-    try {
-      Jets pieces = bottom_reader_.SubMultiplet(jet, 2);
-      doublets.emplace_back(CheckDoublet(Doublet(pieces.at(0), pieces.at(1)), pre_cuts, tag));
-    } catch (...) {}
-  }
+    for (auto const & jet : jets) {
+        try {
+            doublets.emplace_back(CheckDoublet(Doublet(jet), pre_cuts, tag));
+        } catch (...) {}
+        try {
+            Jets pieces = bottom_reader_.SubMultiplet(jet, 2);
+            doublets.emplace_back(CheckDoublet(Doublet(pieces.at(0), pieces.at(1)), pre_cuts, tag));
+        } catch (...) {}
+    }
     Jets particles = event.Partons().GenParticles();
     Jets higgses = CopyIfParticles(particles, Id::higgs, Id::CP_violating_higgs);
     Jets vectors = CopyIfParticles(particles, Id::W, Id::Z);
@@ -42,9 +44,9 @@ int BosonTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) con
 
 Doublet BosonTagger::CheckDoublet(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const
 {
-  if (Problematic(doublet, pre_cuts, tag)) throw "problematic";
-  doublet.SetTag(tag);
-  return doublet;
+    if (Problematic(doublet, pre_cuts, tag)) throw "problematic";
+    doublet.SetTag(tag);
+    return doublet;
 }
 
 bool BosonTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts, Tag tag) const
@@ -73,31 +75,31 @@ bool BosonTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts) c
 
 std::vector<Doublet>  BosonTagger::Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
-  Info();
-  Jets jets =  bottom_reader_.Multiplets(event);
-  std::vector<Doublet> doublets = unordered_pairs(jets,[&](fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2) {
-    Doublet doublet(jet_1, jet_2);
-    return Multiplet(doublet,pre_cuts,reader);
-  });
-  for (auto const& jet : jets) {
-    try {
-      Doublet doublet(jet);
-      doublets.emplace_back(Multiplet(doublet,pre_cuts,reader));
-    } catch (...) {}
-    try {
-      Jets pieces = bottom_reader_.SubMultiplet(jet, 2);
-      Doublet doublet(pieces.at(0), pieces.at(1));
-      doublets.emplace_back(Multiplet(doublet,pre_cuts,reader));
-    } catch (...) {}
-  }
+    Info();
+    Jets jets =  bottom_reader_.Multiplets(event);
+    std::vector<Doublet> doublets = unordered_pairs(jets, [&](fastjet::PseudoJet const & jet_1, fastjet::PseudoJet const & jet_2) {
+        Doublet doublet(jet_1, jet_2);
+        return Multiplet(doublet, pre_cuts, reader);
+    });
+    for (auto const & jet : jets) {
+        try {
+            Doublet doublet(jet);
+            doublets.emplace_back(Multiplet(doublet, pre_cuts, reader));
+        } catch (...) {}
+        try {
+            Jets pieces = bottom_reader_.SubMultiplet(jet, 2);
+            Doublet doublet(pieces.at(0), pieces.at(1));
+            doublets.emplace_back(Multiplet(doublet, pre_cuts, reader));
+        } catch (...) {}
+    }
     return ReduceResult(doublets);
 }
 
-Doublet BosonTagger::Multiplet(Doublet & doublet, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
+Doublet BosonTagger::Multiplet(Doublet& doublet, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
-  if (Problematic(doublet, pre_cuts)) throw "problematic";
-  doublet.SetBdt(Bdt(doublet, reader));
-  return doublet;
+    if (Problematic(doublet, pre_cuts)) throw "problematic";
+    doublet.SetBdt(Bdt(doublet, reader));
+    return doublet;
 }
 
 int BosonTagger::GetBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const

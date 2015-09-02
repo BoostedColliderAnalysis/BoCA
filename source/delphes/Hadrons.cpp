@@ -82,7 +82,7 @@ fastjet::PseudoJet Hadrons::ConstituentJet(TObject& object, boca::JetDetail jet_
         ::delphes::GenParticle& particle = static_cast<::delphes::GenParticle&>(object);
         boca::LorentzVector position(particle.X, particle.Y, particle.Z, particle.T);
         Constituent constituent(particle.P4(), position, SubDetector::gen_particle, particle.Charge);
-        if (is(jet_detail, JetDetail::tagging)) constituent.SetFamily(BranchFamily(object));
+//         if (is(jet_detail, JetDetail::tagging)) constituent.SetFamily(BranchFamily(object));
         jet = boca::PseudoJet(particle.P4());
         jet_info->AddConstituent(constituent);
     } else if (object.IsA() == ::delphes::Track::Class()) {
@@ -90,7 +90,7 @@ fastjet::PseudoJet Hadrons::ConstituentJet(TObject& object, boca::JetDetail jet_
         if (is(jet_detail, JetDetail::isolation) && !Isolated(*track.Particle.GetObject(), leptons)) throw "not isolated";
         boca::LorentzVector position(track.X, track.Y, track.Z, track.T);
         Constituent constituent(track.P4(), position, SubDetector::track, track.Charge);
-        if (is(jet_detail, JetDetail::tagging)) constituent.SetFamily(BranchFamily(*track.Particle.GetObject()));
+//         if (is(jet_detail, JetDetail::tagging)) constituent.SetFamily(BranchFamily(*track.Particle.GetObject()));
         jet = boca::PseudoJet(track.P4());
         jet_info->AddConstituent(constituent);
     } else if (object.IsA() == ::delphes::Tower::Class()) {
@@ -111,7 +111,7 @@ fastjet::PseudoJet Hadrons::ConstituentJet(TObject& object, boca::JetDetail jet_
         ::delphes::Muon& muon = static_cast<::delphes::Muon&>(object);
         if (is(jet_detail, JetDetail::isolation) && !Isolated(*muon.Particle.GetObject(), leptons)) throw "not isolated";
         Constituent constituent(muon.P4(), SubDetector::muon, muon.Charge);
-        if (is(jet_detail, JetDetail::tagging)) constituent.SetFamily(BranchFamily(*muon.Particle.GetObject()));
+//         if (is(jet_detail, JetDetail::tagging)) constituent.SetFamily(BranchFamily(*muon.Particle.GetObject()));
         jet = boca::PseudoJet(muon.P4());
         jet_info->AddConstituent(constituent);
     } else Error("Unkonw Jet constituent", object.ClassName());
@@ -175,7 +175,7 @@ Jets Hadrons::EFlowTrack(JetDetail jet_detail) const
         }
         e_flow_jets.emplace_back(boca::PseudoJet(e_flow_track.P4()));
         if (is(jet_detail, JetDetail::tagging)) {
-            Constituent constituent(e_flow_track.P4(), BranchFamily(*e_flow_track.Particle.GetObject()));
+            Constituent constituent(e_flow_track.P4()/*, BranchFamily(*e_flow_track.Particle.GetObject())*/);
             e_flow_jets.back().set_user_info(new JetInfo(constituent));
             Detail(e_flow_jets.back().user_index());
         }
@@ -251,7 +251,7 @@ Jets Hadrons::EFlowMuon(JetDetail jet_detail) const
         if (is(jet_detail, JetDetail::isolation)) if (!Isolation<::delphes::Muon>(e_flow_muon, Branch::muon)) continue;
         e_flow_jets.emplace_back(boca::PseudoJet(e_flow_muon.P4()));
         if (is(jet_detail, JetDetail::tagging)) {
-            Constituent constituent(e_flow_muon.P4(), BranchFamily(*e_flow_muon.Particle.GetObject()));
+            Constituent constituent(e_flow_muon.P4()/*, BranchFamily(*e_flow_muon.Particle.GetObject())*/);
             e_flow_jets.back().set_user_info(new JetInfo(constituent));
             Detail(e_flow_jets.back().user_index());
         }

@@ -4,6 +4,7 @@
 #include "WLeptonicTagger.hh"
 
 #include "Event.hh"
+#include "ParticleInfo.hh"
 #include "Debug.hh"
 
 namespace boca {
@@ -123,7 +124,7 @@ int WLeptonicTagger::WLeptonicId(Jets const& jets) const
     bool first = true;
     bool just_one = true;
     for (auto const& jet : jets) {
-        int id = jet.user_info<JetInfo>().Family().mother_1().id();
+        int id = jet.user_info<ParticleInfo>().Family().mother_1().id();
         if (first) sign = sgn(id);
         else if (sign != sgn(id)) just_one = false;
         first = false;

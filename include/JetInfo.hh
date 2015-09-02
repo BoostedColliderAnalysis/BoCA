@@ -92,7 +92,7 @@ public:
 
     int Charge() const;
 
-    boca::Family Family() const;
+//     boca::Family Family() const;
 
     void SetDelphesTags(::delphes::Jet const& jet);
 
