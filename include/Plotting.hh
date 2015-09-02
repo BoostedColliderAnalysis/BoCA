@@ -6,7 +6,6 @@
 #include <functional>
 
 #include "Tagger.hh"
-#include "Result.hh"
 #include "Flag.hh"
 
 class TMultiGraph;
@@ -17,11 +16,13 @@ class TProfile2D;
 class TExec;
 class TFile;
 class TLegend;
+class TH1;
 class TH1F;
 class TLine;
 class THStack;
 class TGraph;
 class TAxis;
+class TAttFill;
 
 class ExRootTreeBranch;
 class ExRootTreeReader;
@@ -33,6 +34,12 @@ typedef ::ExRootTreeReader TreeReader;
 
 namespace boca
 {
+
+class Plots;
+class Plot;
+class Point;
+class Result;
+class Results;
 
 enum class Orientation
 {
@@ -47,8 +54,6 @@ template<>
 struct Flag<Orientation> {
     static const bool enable = true;
 };
-
-class Tagger;
 
 /**
  * @brief Presents result of multivariant analysis
@@ -81,7 +86,9 @@ private:
 
     void SetProfile(TProfile2D& histogram, const boca::Plot& signal, const boca::Plot& background) const;
 
-    void CommmonHist(TH2& histogram, const boca::Plot& plot, EColor color) const;
+    void Fill(TAttFill& pad) const;
+
+    void CommmonHist(TH1& histogram, const boca::Plot& plot, EColor color) const;
 
     std::vector<Plots> Import(boca::Stage stage, boca::Tag tag) const;
 
@@ -119,9 +126,7 @@ private:
 
     std::string PlotHistograms(boca::Results& results) const;
 
-    void AddHistogram(THStack& stack, TH1F& histogram, TLegend& legend) const;
-
-    boca::Tagger& Tagger() const;
+    void AddHistogram(THStack& stack, TH1& histogram, TLegend& legend) const;
 
     boca::InfoBranch InfoBranch(TFile& file, std::string const& tree_name) const;
 
@@ -131,19 +136,21 @@ private:
 
     std::string PlotEfficiencyGraph(const boca::Results& results) const;
 
-    std::string PlotSignificanceGraph(const boca::Results& results) const;
+    std::string PlotSignificanceGraph(boca::Results& results) const;
 
-    Plot CoreVector(Plot& plot, std::function<bool(Point&, Point&)> const& function) const;
+    Plot CoreVector(Plot& plot, std::function<bool(Point const&, Point const&)> const& function) const;
 
     std::string ExportFileSuffix() const;
-
-    boca::Tagger* tagger_;
 
     void SetAxis(TAxis& axis, std::string const& title) const;
 
     float TextSize() const;
 
     float LabelSize() const;
+
+    boca::Tagger& Tagger() const;
+
+    boca::Tagger* tagger_;
 
 };
 

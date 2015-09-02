@@ -39,21 +39,20 @@ public:
         DetectorGeometry::set_detector_type(DetectorType::CMS);
     }
 
-
 protected:
 
     int Mass() const {
-        return 1000;
+        return 4000;
         return 2000;
+        return 1000;
+        return 500;
+        return 8000;
         return 10000;
     }
 
     long EventNumberMax() const override {
-        return 1000;
-        return 5000;
-        return 3000;
-        return 500;
         return 100;
+        return 1000;
         return 10;
     }
 
@@ -79,14 +78,12 @@ protected:
         case Process::Tth : crosssection = 0.004964;
             break;
         case Process::TT :
-          switch (Mass()) {
-            case 1000 : crosssection = 1;
-            break;
+            switch (Mass()) {
             case 2000 : crosssection = 0.264;
                 break;
             case 10000 : crosssection = 2.485e-05;
                 break;
-            default : crosssection = 0;
+            default : crosssection = 1;
                 Error("wrong mass", Mass());
             }
             break;
@@ -118,25 +115,11 @@ protected:
         case Process::TT : {
             switch (DetectorGeometry::detector_type()) {
             case DetectorType::CMS :
-                name = "PP-TT-14TeV-1000GeV";
+                name = "PP-TT-14TeV-" + std::to_string(Mass()) + "GeV";
                 break;
             case DetectorType::Spp :
                 name = "pp-TT-tthB-bbbbjjjjlv";
                 break;
-            }
-//             std::string name = "pp-TT-ttBB";
-            switch (Mass()) {
-            case 1000 :
-                name + "-1000GeV";
-                break;
-            case 2000 :
-                name + "-2000GeV";
-                break;
-            case 10000 :
-                name + "-10000GeV";
-                break;
-            default :
-                Error("wrong mass", Mass());
             }
         } break;
         case Process::ttBjj : {
@@ -158,18 +141,18 @@ protected:
             }
         } break;
         case Process::Tth :
-          name = "PP-Tth-ttBh";
-          break;
+            name = "PP-Tth-ttBh";
+            break;
         case Process::TThh :
-          name = "PP-TThh";
-          break;
+            name = "PP-TThh";
+            break;
         default :
-          Error("no case");
+            Error("no case");
         }
         switch (DetectorGeometry::detector_type()) {
         case DetectorType::CMS :
-          name + "14TeV";
-          break;
+            name + "14TeV";
+            break;
 //           case DetectorType::Spp : ;
         }
         return name;

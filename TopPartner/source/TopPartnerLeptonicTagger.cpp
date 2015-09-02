@@ -1,45 +1,38 @@
 #include "TopPartnerLeptonicTagger.hh"
 #include "Debug.hh"
 
-namespace boca {
+namespace boca
+{
 
-namespace naturalness {
+namespace naturalness
+{
 
 TopPartnerLeptonicTagger::TopPartnerLeptonicTagger()
 {
-  Info();
+    Info();
     DefineVariables();
 }
 
 int TopPartnerLeptonicTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
-    Info("Higgs Tags");
-    std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
-    std::vector<Doublet> doublets = higgs_hadronic_reader_.Multiplets(event);
-    std::vector<Quintet> quintets;
-    for (auto const& doublet : doublets)
-        for (auto const& triplet : triplets) {
-            Quintet quintet(triplet, doublet);
-            if (quintet.Overlap())
-                continue;
-            quintet.SetTag(tag);
-            quintets.emplace_back(quintet);
-        }
+    Info();
+    std::vector<Quintet> quintets = pairs(top_reader_.Multiplets(event), boson_reader_.Multiplets(event), [&](Triplet const & triplet, Doublet const & doublet) {
+        Quintet quintet(triplet, doublet);
+        if (quintet.Overlap()) throw "overlap";
+        quintet.SetTag(tag);
+        return quintet;
+    });
     return SaveEntries(quintets);
 }
 
 std::vector<Quintet> TopPartnerLeptonicTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
-    std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
-    std::vector<Doublet> doublets = higgs_hadronic_reader_.Multiplets(event);
-    std::vector<Quintet> quintets;
-    for (auto const& doublet : doublets)
-        for (auto const& triplet : triplets) {
-            Quintet quintet(triplet, doublet);
-            if (quintet.Overlap()) continue;
-            quintet.SetBdt(Bdt(quintet, reader));
-            quintets.emplace_back(quintet);
-        }
+    std::vector<Quintet> quintets = pairs(top_reader_.Multiplets(event), boson_reader_.Multiplets(event), [&](Triplet const & triplet, Doublet const & doublet) {
+        Quintet quintet(triplet, doublet);
+        if (quintet.Overlap()) throw "overlap";
+        quintet.SetBdt(Bdt(quintet, reader));
+        return quintet;
+    });
     return ReduceResult(quintets);
 }
 

@@ -15,7 +15,7 @@ void Plots::SetNames(Names const& names, Names const& nice_names)
 {
     Info();
     for (auto & plot : plots) {
-        int index = &plot - &plots[0];
+        int index = &plot - &plots.front();
         plot.nice_name_x = nice_names.at(index).first;
         plot.nice_name_y = nice_names.at(index).second;
         plot.name = info_branch.Name;
@@ -70,7 +70,21 @@ Results::Results()
     Info();
     significances.resize(Result::steps, 0);
     x_values.resize(Result::steps, 0);
-    for (auto & x_value : x_values) x_value = XValue(&x_value - &x_values[0]);
+    for (auto & x_value : x_values) x_value = XValue(&x_value - &x_values.front());
+}
+
+void Results::Significances()
+{
+    Info();
+    for (auto const & step : Range(Result::steps)) {
+        float signal_events = 0;
+        for (auto const & signal_results : signal) signal_events += signal_results.events.at(step);
+        float background_events = 0;
+        for (auto const & background_result : background) background_events += background_result.events.at(step);
+        if (signal_events + background_events > 0) significances.at(step) = signal_events / std::sqrt(signal_events + background_events);
+        else significances.at(step) = 0;
+    }
+    BestBin();
 }
 
 void Results::BestBin()
@@ -84,22 +98,6 @@ void Results::BestBin()
             efficiencies.at(number) = background.at(number).efficiency.at(best_bin);
             ++counter;
         }
-    }
-}
-
-void Results::Significances()
-{
-    Info();
-    for (auto const & step : Range(Result::steps)) {
-        float signal_events = 0;
-        for (auto const & signal_results : signal) signal_events += signal_results.events[step];
-
-        float background_events = 0;
-        for (auto const & background_result : background) background_events += background_result.events[step];
-
-        if (signal_events + background_events > 0) significances.at(step) = signal_events / std::sqrt(signal_events + background_events);
-        else significances.at(step) = 0;
-//         x_values.at(step) = XValue(step);
     }
 }
 

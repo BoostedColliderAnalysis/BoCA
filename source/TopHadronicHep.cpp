@@ -65,31 +65,31 @@ Jets TopHadronicHep::GranulatedJets(Jets& e_flows)
     Jets granulated_jets;
     granulated_jets.clear();
     e_flows = sorted_by_pt(e_flows);
-    granulated_jets.emplace_back(e_flows[0]);
+    granulated_jets.emplace_back(e_flows.front());
     for (size_t i = 1; i < e_flows.size(); ++i) {
         int jet = 0;
         for (unsigned j = 0; j < granulated_jets.size(); ++j) {
-            float CellDiffRap = std::abs(e_flows[i].pseudorapidity() - granulated_jets[j].pseudorapidity()) / CellDeltaRap;
-            float CellDiffPhi = std::abs(e_flows[i].phi() - granulated_jets[j].phi());
+            float CellDiffRap = std::abs(e_flows.at(i).pseudorapidity() - granulated_jets[j].pseudorapidity()) / CellDeltaRap;
+            float CellDiffPhi = std::abs(e_flows.at(i).phi() - granulated_jets[j].phi());
             if (CellDiffPhi > M_PI)
                 CellDiffPhi = 2 * M_PI - CellDiffPhi;
             CellDiffPhi = CellDiffPhi / CellDeltaPhi;
             if (CellDiffRap < 1 && CellDiffPhi < 1) {
                 jet = 1;
-                float TotalEnergy  = e_flows[i].e() + granulated_jets[j].e();
-                float RescaleFactor = sqrt(pow(e_flows[i].px() + granulated_jets[j].px(), 2) + pow(e_flows[i].py() + granulated_jets[j].py(), 2) + pow(e_flows[i].pz() + granulated_jets[j].pz(), 2));
-                float RescaledPx = TotalEnergy * (e_flows[i].px() + granulated_jets[j].px()) / RescaleFactor;
-                float RescaledPy = TotalEnergy * (e_flows[i].py() + granulated_jets[j].py()) / RescaleFactor;
-                float RescaledPz = TotalEnergy * (e_flows[i].pz() + granulated_jets[j].pz()) / RescaleFactor;
+                float TotalEnergy  = e_flows.at(i).e() + granulated_jets[j].e();
+                float RescaleFactor = sqrt(pow(e_flows.at(i).px() + granulated_jets[j].px(), 2) + pow(e_flows.at(i).py() + granulated_jets[j].py(), 2) + pow(e_flows.at(i).pz() + granulated_jets[j].pz(), 2));
+                float RescaledPx = TotalEnergy * (e_flows.at(i).px() + granulated_jets[j].px()) / RescaleFactor;
+                float RescaledPy = TotalEnergy * (e_flows.at(i).py() + granulated_jets[j].py()) / RescaleFactor;
+                float RescaledPz = TotalEnergy * (e_flows.at(i).pz() + granulated_jets[j].pz()) / RescaleFactor;
                 fastjet::PseudoJet CombinedJet(RescaledPx, RescaledPy, RescaledPz, TotalEnergy);
-                CombinedJet.set_user_index(e_flows[i].user_index() + granulated_jets[j].user_index());
+                CombinedJet.set_user_index(e_flows.at(i).user_index() + granulated_jets[j].user_index());
                 granulated_jets.erase(granulated_jets.begin() + j);
                 granulated_jets.emplace_back(CombinedJet);
                 break;
             }
         }
         if (jet != 1) {
-            granulated_jets.emplace_back(e_flows[i]);
+            granulated_jets.emplace_back(e_flows.at(i));
             granulated_jets = sorted_by_pt(granulated_jets);
         }
     }

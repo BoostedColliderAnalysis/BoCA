@@ -358,7 +358,7 @@ void Color::Red()
         colors = Table(length, red, green, blue);
         initialized = true;
     } else
-        gStyle->SetPalette(colors.size(), &colors[0]);
+        gStyle->SetPalette(colors.size(), &colors.front());
 }
 
 void Color::Blue()
@@ -373,7 +373,7 @@ void Color::Blue()
         colors = Table(length, red, green, blue);
         initialized = true;
     } else
-        gStyle->SetPalette(colors.size(), &colors[0]);
+        gStyle->SetPalette(colors.size(), &colors.front());
 }
 
 void Color::Heat()
@@ -389,15 +389,15 @@ void Color::Heat()
         initialized = true;
         return;
     } else
-        gStyle->SetPalette(colors.size(), &colors[0]);
+        gStyle->SetPalette(colors.size(), &colors.front());
 }
 
 std::vector<int> Color::Table(std::vector<double>& length, std::vector<double>& red, std::vector<double>& green, std::vector<double>& blue)
 {
     std::vector<int> colors(50);
-    int color_table = TColor::CreateGradientColorTable(length.size(), &length[0], &red[0], &green[0], &blue[0], colors.size());
+    int color_table = TColor::CreateGradientColorTable(length.size(), &length.front(), &red.front(), &green.front(), &blue.front(), colors.size());
     for (size_t step = 0; step < colors.size(); ++step) colors[step] = color_table + step;
-    //     for (auto const& color : colors) colors[color] = color_table + (&color - &colors[0]);
+    //     for (auto const& color : colors) colors[color] = color_table + (&color - &colors.front());
     return colors;
 }
 

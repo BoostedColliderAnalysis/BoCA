@@ -9,7 +9,6 @@
 namespace boca
 {
 
-
 enum class Font
 {
     times,

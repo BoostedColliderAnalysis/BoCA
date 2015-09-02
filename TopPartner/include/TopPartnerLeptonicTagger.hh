@@ -22,13 +22,11 @@ public:
 
     TopPartnerLeptonicTagger();
 
-    int Train(Event const& event, PreCuts const& pre_cuts,
-              Tag tag) const final;
+    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
 
     std::vector<Quintet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    int GetBdt(Event const& event, PreCuts const& pre_cuts,
-               TMVA::Reader const& reader) const final {
+    int GetBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final {
         return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
     }
 
@@ -47,9 +45,9 @@ public:
 
 private:
 
-    Reader<TopLeptonicTagger> top_leptonic_reader_;
+    Reader<TopLeptonicTagger> top_reader_;
 
-    Reader<BosonTagger> higgs_hadronic_reader_;
+    Reader<BosonTagger> boson_reader_;
 };
 
 }
