@@ -3,12 +3,7 @@
 #include "AnalysisHeavyHiggs.hh"
 #include "Vector.hh"
 
-namespace analysis {
-
-/**
- * @brief Namespace for the heavy higgs analyses
- *
- */
+namespace boca {
 
 namespace heavyhiggs {
 

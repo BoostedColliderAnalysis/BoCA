@@ -1,8 +1,11 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include<type_traits>
 
-namespace analysis
+namespace boca
 {
 
 template<typename Enum>

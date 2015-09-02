@@ -1,8 +1,11 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "Reconstruction.hh"
 
-namespace analysis {
+namespace boca {
 
 /**
  * @brief Jet Discriminator

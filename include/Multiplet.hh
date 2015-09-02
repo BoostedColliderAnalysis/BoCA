@@ -1,9 +1,12 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "MultipletBase.hh"
 #include "Singlet.hh"
 
-namespace analysis
+namespace boca
 {
 
 class Multiplet : public MultipletBase
@@ -31,31 +34,31 @@ protected:
 
     Vector2 Pull() const override;
 
-    float DeltaPt(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const;
+    float DeltaPt(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
-    float Ht(const analysis::MultipletBase& multiplets_1, const analysis::MultipletBase& multiplets_2) const;
+    float Ht(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
-    float DeltaRap(const analysis::MultipletBase& multiplets_1, const analysis::MultipletBase& multiplets_2) const;
+    float DeltaRap(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
-    float DeltaPhi(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const;
+    float DeltaPhi(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
-    float DeltaR(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const;
+    float DeltaR(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
-    float DeltaM(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const;
+    float DeltaM(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
-    float DeltaHt(const analysis::MultipletBase& multiplets_1, const analysis::MultipletBase& multiplets_2) const;
+    float DeltaHt(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
-    float Rho(const MultipletBase& jet_1, const MultipletBase& jet_2) const;
+    float Rho(MultipletBase const& jet_1, MultipletBase const& jet_2) const;
 
-    float PullDifference(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const;
+    float PullDifference(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
-    float PullSum(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const;
+    float PullSum(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
-    float Dipolarity(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const;
+    float Dipolarity(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
-    int Charge(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const;
+    int Charge(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
-    float BottomBdt(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const;
+    float BottomBdt(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
     void SetResult(fastjet::PseudoJet const& jet) const {
       jet_ = jet;
@@ -80,9 +83,9 @@ protected:
 
 private:
 
-    float Pull(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const;
+    float Pull(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
-    float Distance(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2, const Vector2& point_0) const;
+    float Distance(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2, Vector2 const& point_0) const;
 
 };
 

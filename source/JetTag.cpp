@@ -1,8 +1,11 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "JetTag.hh"
 #include "Types.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 int JetTag::GetBranchId(int id, int branch_id)
 {

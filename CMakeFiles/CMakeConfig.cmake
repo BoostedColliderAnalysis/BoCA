@@ -1,8 +1,11 @@
-#set(CMAKE_SKIP_RPATH OFF)
+
+#
+# Copyright (C) 2015 Jan Hajer
+#
 
 if(APPLE)
   set(CMAKE_MACOSX_RPATH ON)
-endif()
+  endif()
 
 unset(link_libraries CACHE)
 unset(include_directories CACHE)
@@ -67,11 +70,20 @@ macro(create_library library_name library_sources)
   if(${ARGC} GREATER 2)
     set_source_files_properties(${${library_sources}} PROPERTIES COMPILE_FLAGS ${ARGV2})
   endif(${ARGC} GREATER 2)
+<<<<<<< HEAD
   add_library(${library_name} STATIC ${${library_sources}})
   #add_library(${library_name} SHARED ${${library_sources}})
   target_link_libraries(${library_name} ${link_libraries})
   set_target_properties(${library_name} PROPERTIES ${library_properties})
   #set_target_properties(${library_name} PROPERTIES INSTALL_RPATH "@loader_path/../lib")
+=======
+  add_library(${library_name} SHARED ${${library_sources}})
+  if (UNIX AND NOT APPLE)
+    target_link_libraries(${library_name} ${link_libraries})
+  endif()
+  set_target_properties(${library_name} PROPERTIES ${library_properties})
+#   set_target_properties(bar PROPERTIES INSTALL_RPATH "@loader_path/../lib")
+>>>>>>> be216f0f161c20dc2468ca454e8494d00cc92be0
   install(TARGETS ${library_name} DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
   add_libraries(${library_name})
 #  install (TARGETS ${library_name} DESTINATION bin)
@@ -101,6 +113,7 @@ endmacro(create_executable)
 macro(create_dictionary dictionary_name dictionary_source link_def)
   message("Dictionary:   ${dictionary_name} <- ${dictionary_source} & ${link_def}")
   set(dictionary_file ${dictionary_name}Dict.cpp)
+  message("ROOT INCLUDE DIRECTORIES: ${include_directories}")
   ROOT_GENERATE_DICTIONARY("../source/${dictionary_source}" "${link_def}" "${dictionary_file}" "${include_directories}")
   create_library(${dictionary_name} dictionary_file "-w")
 endmacro(create_dictionary)

@@ -1,8 +1,11 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include <string>
 
-namespace analysis {
+namespace boca {
 
 enum class Tag {
     background = 0,
@@ -26,9 +29,9 @@ public:
 
     void SetTag(Tag tag);
 
-    void SetTag(analysis::Tag tag_1, analysis::Tag tag_2);
+    void SetTag(boca::Tag tag_1, boca::Tag tag_2);
 
-    analysis::Tag Tag() const;
+    boca::Tag Tag() const;
 
     void SetFlag(bool flag);
 
@@ -77,7 +80,7 @@ private:
 
     float bdt_;
 
-    analysis::Tag tag_;
+    boca::Tag tag_;
 
     bool flag_;
 

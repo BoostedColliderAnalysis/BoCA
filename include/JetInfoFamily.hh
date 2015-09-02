@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include <map>
@@ -10,7 +13,7 @@
 #include "Constituent.hh"
 #include "FourVector.hh"
 
-namespace analysis {
+namespace boca {
 
 /**
  * @brief Jet infos subclassed from Fastjet

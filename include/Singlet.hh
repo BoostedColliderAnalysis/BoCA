@@ -1,9 +1,12 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "JetInfo.hh"
 #include "MultipletBase.hh"
 
-namespace analysis
+namespace boca
 {
 
 /**
@@ -23,7 +26,7 @@ public:
         return jet_;
     }
 
-    analysis::Jets Jets() const {
+    boca::Jets Jets() const {
         return {Jet()};
     }
 
@@ -107,7 +110,7 @@ public:
         return Spread(UserInfo().VertexJet());
     }
 
-    analysis::Tag Tag() const {
+    boca::Tag Tag() const {
         return UserInfo().Tag();
     }
 

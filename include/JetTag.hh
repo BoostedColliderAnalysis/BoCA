@@ -1,10 +1,13 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include <set>
 
 #include "Family.hh"
 
-namespace analysis {
+namespace boca {
 
 /**
  * @brief defines how to tag a jet

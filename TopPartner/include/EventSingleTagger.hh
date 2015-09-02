@@ -3,9 +3,9 @@
 #include "SignatureSingleTagger.hh"
 #include "MultipletEvent.hh"
 
-namespace analysis {
+namespace boca {
 
-namespace toppartner {
+namespace naturalness {
 
 /**
  *

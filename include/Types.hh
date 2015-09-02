@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include <string>
@@ -10,7 +13,7 @@ namespace fastjet {
 class TLorentzVector;
 class LorentzVector;
 
-namespace analysis
+namespace boca
 {
 
 /**

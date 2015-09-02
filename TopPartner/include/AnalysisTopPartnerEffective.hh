@@ -3,10 +3,10 @@
 #include "AnalysisTopPartner.hh"
 #include "Debug.hh"
 
-namespace analysis
+namespace boca
 {
 
-namespace toppartner
+namespace naturalness
 {
 
 /**
@@ -29,7 +29,7 @@ public:
 protected:
 
     std::string ProjectName() const final {
-        return  ProcessName() + "-" + std::to_string(this->PreCut()) + "GeV-test-save";
+        return  ProcessName() + "-" + std::to_string(this->PreCut()) + "GeV-opt";
     }
 
     std::string ProcessName() const final {

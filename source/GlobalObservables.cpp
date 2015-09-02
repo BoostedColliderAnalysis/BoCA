@@ -1,19 +1,22 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "GlobalObservables.hh"
 #include "InfoRecombiner.hh"
 #include "Event.hh"
 #include "Debug.hh"
 #include <numeric>
 
-namespace analysis {
+namespace boca {
 
-void GlobalObservables::SetEvent(analysis::Event const& event, const analysis::Jets&)
+void GlobalObservables::SetEvent(boca::Event const& event, const boca::Jets&)
 {
     leptons_ = event.Leptons().leptons();
     scalar_ht_ = event.Hadrons().ScalarHt();
     missing_et_ = event.Hadrons().MissingEt().pt();
 }
 
-void GlobalObservables::SetEvent(analysis::Event const& event)
+void GlobalObservables::SetEvent(boca::Event const& event)
 {
   leptons_ = event.Leptons().leptons();
   scalar_ht_ = event.Hadrons().ScalarHt();
@@ -35,7 +38,7 @@ int GlobalObservables::JetNumber() const
 int GlobalObservables::BottomNumber() const
 {
     Info();
-    analysis::Jets bottoms;
+    boca::Jets bottoms;
     for (auto const& jet : Jets()) if (jet.user_info<JetInfo>().Bdt() > 0)
             bottoms.emplace_back(jet);
     return bottoms.size();
@@ -106,7 +109,7 @@ Singlet GlobalObservables::Singlet() const
     Info();
     fastjet::PseudoJet jet(fastjet::join(Jets(),InfoRecombiner()));
     jet.set_user_info(new JetInfo(BottomBdt()));
-    return analysis::Singlet(jet);
+    return boca::Singlet(jet);
 }
 
 Jets GlobalObservables::Jets() const
@@ -115,7 +118,7 @@ Jets GlobalObservables::Jets() const
     return jets_;
 }
 
-void GlobalObservables::SetJets(const analysis::Jets jets)
+void GlobalObservables::SetJets(const boca::Jets jets)
 {
     Info();
     jets_ = jets;

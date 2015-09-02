@@ -1,13 +1,22 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include <string>
 /**
- * @brief analysis namespace containing the general analysis and SM taggers
+ * @brief contains the general analysis and SM taggers
  *
  */
-namespace analysis {
+namespace boca
+{
 
-enum class Id {
+/**
+ * @brief PDG particle naming conventions
+ *
+ */
+enum class Id
+{
     empty = 0,
     down = 1,
     up = 2,
@@ -26,7 +35,7 @@ enum class Id {
     photon = 22,
     Z = 23,
     W = 24,
-    higgs = 25, //<Higgs boson
+    higgs = 25, ///< Higgs boson
     heavy_higgs = 35,
     CP_odd_higgs = 36,
     charged_higgs = 37,
@@ -38,33 +47,33 @@ enum class Id {
     string = 92,
     pi0 = 111,
     rho0 = 113,
-    K0L = 130,
+    K0l = 130,
     pion = 211,
     rho = 213,
-    RapMeson = 221,
-    OmegaMeson = 223,
-    K0SMeson = 310,
-    KMeson0 = 311,
-    KMeson0S = 313,
-    KMeson = 321,
-    KMesonS = 323,
-    RapPMeson = 331,
-    DMeson = 411,
-    DMesonS = 413,
-    DMesonS2 = 415,
-    DMeson0 = 421,
-    DMesonS0 = 423,
-    RapCMeson = 441,
-    BMeson0 = 511,
-    BMeson0S = 513,
-    BMeson = 521,
-    BMesonS = 523,
-    BMesonS0 = 531,
-    BMesonSS0 = 533,
+    eta = 221,
+    omega = 223,
+    K0s = 310,
+    K0 = 311,
+    K0S = 313,
+    K = 321,
+    KS = 323,
+    etaP = 331,
+    D = 411,
+    DS = 413,
+    DS2 = 415,
+    D0 = 421,
+    DS0 = 423,
+    etac = 441,
+    B0 = 511,
+    B0S = 513,
+    B = 521,
+    BS = 523,
+    BS0 = 531,
+    BsS0 = 533,
     down_down_1 = 1103,
     up_down_0 = 2101,
     up_down_1 = 2103,
-    DeltaBaryon = 1114,
+    Delta = 1114,
     neutron = 2112,
     up_up_1 = 2203,
     proton = 2212,

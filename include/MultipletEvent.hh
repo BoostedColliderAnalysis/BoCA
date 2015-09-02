@@ -1,45 +1,48 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "GlobalObservables.hh"
 #include "TwoBody.hh"
 
-namespace analysis {
+namespace boca {
 
 /**
  * @brief An event composed of a multiplet an a singlet made up from the remaining jets
  *
  */
 template <typename Multiplet_1>
-class MultipletEvent : public analysis::TwoBody<Multiplet_1, analysis::Singlet> {
+class MultipletEvent : public boca::TwoBody<Multiplet_1, boca::Singlet> {
 
 public:
 
-    MultipletEvent(const Multiplet_1& multiplet, Event const& event, Jets& jets) {
+    MultipletEvent(Multiplet_1 const& multiplet, Event const& event, Jets& jets) {
         global_observables_.SetEvent(event);
         Jets unique_jets;
         for (auto const& jet : jets) if (!multiplet.Overlap(jet)) unique_jets.emplace_back(jet);
         global_observables_.SetJets(unique_jets);
-        analysis::TwoBody<Multiplet_1, analysis::Singlet>::SetMultiplets(multiplet,global_observables_.Singlet());
+        boca::TwoBody<Multiplet_1, boca::Singlet>::SetMultiplets(multiplet,global_observables_.Singlet());
     }
 
     Multiplet_1 Multiplet() const
     {
-        return analysis::TwoBody<Multiplet_1, analysis::Singlet>::Multiplet1();
+        return boca::TwoBody<Multiplet_1, boca::Singlet>::Multiplet1();
     }
 
-    analysis::Singlet Singlet() const
+    boca::Singlet Singlet() const
     {
-        return analysis::TwoBody<Multiplet_1, analysis::Singlet>::Multiplet2();
+        return boca::TwoBody<Multiplet_1, boca::Singlet>::Multiplet2();
     }
 
-    const analysis::GlobalObservables& GlobalObservables() const
+    const boca::GlobalObservables& GlobalObservables() const
     {
         return global_observables_;
     }
 
 private:
 
-    analysis::GlobalObservables global_observables_;
+    boca::GlobalObservables global_observables_;
 
 };
 

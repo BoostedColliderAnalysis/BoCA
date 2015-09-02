@@ -1,9 +1,9 @@
 #include "TopPartnerLeptonicTagger.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
-namespace toppartner {
+namespace naturalness {
 
 TopPartnerLeptonicTagger::TopPartnerLeptonicTagger()
 {
@@ -28,7 +28,7 @@ int TopPartnerLeptonicTagger::Train(Event const& event, PreCuts const&, Tag tag)
     return SaveEntries(quintets);
 }
 
-std::vector<Quintet> TopPartnerLeptonicTagger::Multiplets(Event const& event, analysis::PreCuts const&, TMVA::Reader const& reader) const
+std::vector<Quintet> TopPartnerLeptonicTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
     std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
     std::vector<Doublet> doublets = higgs_hadronic_reader_.Multiplets(event);

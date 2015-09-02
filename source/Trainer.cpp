@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "Trainer.hh"
 
 #include "TClonesArray.h"
@@ -11,10 +14,10 @@
 #include "Tagger.hh"
 #include "Debug.hh"
 
-namespace analysis
+namespace boca
 {
 
-  Trainer::Trainer(analysis::Tagger& tagger, TMVA::Types::EMVA mva) : tagger_(tagger) , factory_(tagger.Name(), OutputFile(), FactoryOptions())
+  Trainer::Trainer(boca::Tagger& tagger, TMVA::Types::EMVA mva) : tagger_(tagger) , factory_(tagger.Name(), OutputFile(), FactoryOptions())
 {
     Error();
     AddVariables();

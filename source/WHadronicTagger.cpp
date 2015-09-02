@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "WHadronicTagger.hh"
 
 #include "Event.hh"
@@ -5,7 +8,7 @@
 // #define NOTIFICATION
 #include "Debug.hh"
 
-namespace analysis
+namespace boca
 {
 
 WHadronicTagger::WHadronicTagger()
@@ -14,7 +17,7 @@ WHadronicTagger::WHadronicTagger()
     DefineVariables();
 }
 
-int WHadronicTagger::Train(Event const& event, analysis::PreCuts const& pre_cuts, Tag tag) const
+int WHadronicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Tag tag) const
 {
     Info();
     Jets jets = bottom_reader_.Multiplets(event);
@@ -27,19 +30,19 @@ int WHadronicTagger::Train(Event const& event, analysis::PreCuts const& pre_cuts
 
         Info("1 jet forms one W");
         try {
-            doublets.emplace_back(Doublett(Doublet(jet), pre_cuts, tag));
+          doublets.emplace_back(CheckDoublet(Doublet(jet), pre_cuts, tag));
         } catch (...) {}
 
         Info("2 of 2 sub jets form one W");
         Jets pieces = bottom_reader_.SubMultiplet(jet, 2);
         try {
-            doublets.emplace_back(Doublett(Doublet(pieces.at(0), pieces.at(1)), pre_cuts, tag));
+          doublets.emplace_back(CheckDoublet(Doublet(pieces.at(0), pieces.at(1)), pre_cuts, tag));
         } catch (...) {}
 
         Info("1 of 2 sub jets forms one W");
         for (auto const& piece : pieces) {
             try {
-                doublets.emplace_back(Doublett(Doublet(piece), pre_cuts, tag));
+              doublets.emplace_back(CheckDoublet(Doublet(piece), pre_cuts, tag));
             } catch (...) {}
         }
 
@@ -59,14 +62,14 @@ int WHadronicTagger::Train(Event const& event, analysis::PreCuts const& pre_cuts
     return SaveEntries(BestMatches(doublets, w_particles, tag, Id::W));
 }
 
-Doublet WHadronicTagger::Doublett(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const
+Doublet WHadronicTagger::CheckDoublet(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const
 {
     if (Problematic(doublet, pre_cuts, tag)) throw "problematic";
     doublet.SetTag(tag);
     return doublet;
 }
 
-Jets WHadronicTagger::WDaughters(analysis::Event const& event) const
+Jets WHadronicTagger::WDaughters(boca::Event const& event) const
 {
     Jets particles = event.Partons().GenParticles();
     Jets w_daughters = CopyIfMother(particles, Id::W);
@@ -92,7 +95,7 @@ int WHadronicTagger::WHadronicId(Jets const& daughters) const
     return 0;
 }
 
-std::vector<Doublet> WHadronicTagger::Doublets(analysis::Jets const& jets, analysis::PreCuts const& pre_cuts, analysis::Tag tag) const
+std::vector<Doublet> WHadronicTagger::Doublets(boca::Jets const& jets, boca::PreCuts const& pre_cuts, boca::Tag tag) const
 {
     return unordered_pairs(jets, [&](fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2) {
         Doublet doublet(jet_1, jet_2);
@@ -251,7 +254,7 @@ Doublet WHadronicTagger::Multiplet(fastjet::PseudoJet const& jet, TMVA::Reader c
     }
 }
 
-int WHadronicTagger::WHadronicId(analysis::Event const& event) const
+int WHadronicTagger::WHadronicId(boca::Event const& event) const
 {
     return WHadronicId(WDaughters(event));
 }

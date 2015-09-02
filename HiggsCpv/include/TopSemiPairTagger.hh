@@ -6,7 +6,7 @@
 #include "BranchesHiggsCpv.hh"
 #include "Reader.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace higgscpv {
 

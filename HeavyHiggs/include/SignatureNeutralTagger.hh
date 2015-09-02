@@ -5,7 +5,7 @@
 #include "JetPairTagger.hh"
 #include "Octet.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace heavyhiggs {
 

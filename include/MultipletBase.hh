@@ -1,15 +1,19 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
+
 #include "Identification.hh"
 #include "Vector2.hh"
 #include "fastjet/PseudoJet.hh"
 
-namespace analysis {
+namespace boca {
 
 class MultipletBase : public Identification {
 
 public:
 
-  virtual const MultipletBase& singlet() const = 0;
+  virtual MultipletBase const& singlet() const = 0;
 
   virtual fastjet::PseudoJet Jet() const = 0;
 

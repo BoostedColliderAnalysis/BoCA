@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "Event.hh"
 #include "delphes/Partons.hh"
 #include "delphes/Leptons.hh"
@@ -7,7 +10,7 @@
 #include "exroot/Partons.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 Event::Event() {}
 

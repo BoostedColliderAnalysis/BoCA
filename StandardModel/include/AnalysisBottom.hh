@@ -3,7 +3,7 @@
 #include "AnalysisStandardModel.hh"
 #include "Vector.hh"
 
-namespace analysis
+namespace boca
 {
 
 namespace standardmodel

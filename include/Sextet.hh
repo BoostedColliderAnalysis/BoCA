@@ -1,8 +1,11 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "Triplet.hh"
 
-namespace analysis {
+namespace boca {
 
 /**
  * @brief A sextet of 2 triplets

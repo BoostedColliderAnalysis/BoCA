@@ -11,21 +11,6 @@ set(DOXYFILE_LATEX OFF)
 # DOXYFILE_HTML_DIR - Directory relative to DOXYFILE_OUTPUT_DIR where the Doxygen html output is stored. Defaults to "html".
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 macro(usedoxygen_set_default name value type docstring)
  if(NOT DEFINED "${name}")
   set("${name}" "${value}" CACHE "${type}" "${docstring}")

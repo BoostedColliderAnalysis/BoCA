@@ -1,9 +1,9 @@
 #include "EventEffectiveTagger.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
-namespace toppartner {
+namespace naturalness {
 
 EventEffectiveTagger::EventEffectiveTagger()
 {

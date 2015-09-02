@@ -1,8 +1,11 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "Configuration.hh"
 
 #include <iostream>
 
-namespace analysis {
+namespace boca {
 
 Configuration::Configuration()
 {

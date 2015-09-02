@@ -1,14 +1,14 @@
 #pragma once
 
 #include "TopLeptonicTagger.hh"
-#include "HiggsTagger.hh"
+#include "BosonTagger.hh"
 #include "Quintet.hh"
 #include "BranchesTopPartner.hh"
 
-namespace analysis
+namespace boca
 {
 
-namespace toppartner
+namespace naturalness
 {
 
 /**
@@ -49,7 +49,7 @@ private:
 
     Reader<TopLeptonicTagger> top_leptonic_reader_;
 
-    Reader<HiggsTagger> higgs_hadronic_reader_;
+    Reader<BosonTagger> higgs_hadronic_reader_;
 };
 
 }

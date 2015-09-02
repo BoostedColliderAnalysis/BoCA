@@ -3,11 +3,11 @@
 #include "Analysis.hh"
 #include "Vector.hh"
 
-namespace analysis
+namespace boca
 {
 
 /**
- * @brief Namespace for the heavy higgs analyses
+ * @brief Heavy higgs analyses
  *
  */
 
@@ -200,11 +200,11 @@ public:
     }
 
     virtual void NewFile(Tag tag, Process process) {
-        analysis::AnalysisBase::NewFile(tag, FileNames(process, tag), NiceName(process));
+        boca::AnalysisBase::NewFile(tag, FileNames(process, tag), NiceName(process));
     }
 
     virtual void NewFile(Tag tag, float crosssection, Process process) {
-        analysis::AnalysisBase::NewFile(tag, FileNames(process, tag), crosssection, NiceName(process), Mass());
+        boca::AnalysisBase::NewFile(tag, FileNames(process, tag), crosssection, NiceName(process), Mass());
     }
 
     Strings FileNames(Process process, Tag tag) const {

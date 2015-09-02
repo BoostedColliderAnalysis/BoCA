@@ -1,7 +1,10 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "Particle.hh"
 #include "Types.hh"
 
-namespace analysis {
+namespace boca {
 
 Particle::Particle(int id)
 {

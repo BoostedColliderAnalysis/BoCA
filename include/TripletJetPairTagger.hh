@@ -1,9 +1,12 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "TopHadronicTagger.hh"
 #include "Quartet.hh"
 
-namespace analysis {
+namespace boca {
 
 /**
  * @brief JetPair BDT tagger
@@ -15,7 +18,7 @@ public:
 
     TripletJetPairTagger();
 
-    int Train(const analysis::Event &event, analysis::PreCuts const&pre_cuts,
+    int Train(const boca::Event &event, boca::PreCuts const&pre_cuts,
               Tag tag) const override;
 
     std::vector<Quartet31> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;

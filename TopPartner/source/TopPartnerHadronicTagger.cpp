@@ -2,9 +2,9 @@
 #include "Event.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
-namespace toppartner {
+namespace naturalness {
 
 TopPartnerHadronicTagger::TopPartnerHadronicTagger()
 {
@@ -33,7 +33,7 @@ int TopPartnerHadronicTagger::Train(Event const& event, PreCuts const&, Tag tag)
     return SaveEntries(BestMatches(quintets, top_partner, tag), 1);
 }
 
-std::vector<Quintet> TopPartnerHadronicTagger::Multiplets(Event const& event, analysis::PreCuts const&, TMVA::Reader const& reader) const
+std::vector<Quintet> TopPartnerHadronicTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
     std::vector<Triplet> triplets = top_reader_.Multiplets(event);
     std::vector<Doublet> doublets = boson_reader_.Multiplets(event);

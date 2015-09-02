@@ -1,10 +1,13 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "BottomTagger.hh"
 #include "Doublet.hh"
 #include "Reader.hh"
 
-namespace analysis {
+namespace boca {
 
 /**
  * @brief JetPair BDT tagger
@@ -29,7 +32,7 @@ public:
     std::string Name() const final { return "JetPair"; }
 
     Jets BottomPair(Event const& event, Tag tag) const;
-    bool CheckIfBadBottom(analysis::Doublet const& doublet, Jets const& jets) const;
+    bool CheckIfBadBottom(boca::Doublet const& doublet, Jets const& jets) const;
     Jets HiggsParticle(Event const& event, Tag tag) const;
 
 

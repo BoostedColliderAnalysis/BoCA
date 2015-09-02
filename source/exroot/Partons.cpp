@@ -5,7 +5,7 @@
 #include "Types.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace exroot {
 
@@ -19,7 +19,7 @@ Jets Partons::GenParticles() const
     return Particles(Status::generator);
 }
 
-Jets Partons::Particles(const Status max_status) const
+Jets Partons::Particles(Status max_status) const
 {
     Info(clones_arrays().ParticleSum());
     Jets particles;

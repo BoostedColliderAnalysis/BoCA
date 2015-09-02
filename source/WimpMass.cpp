@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "WimpMass.hh"
 
 #include <map>
@@ -9,7 +12,7 @@
 #include "Types.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 void WimpMass::Momentum(double momentum[4], fastjet::PseudoJet const& jet)
 {
@@ -19,15 +22,15 @@ void WimpMass::Momentum(double momentum[4], fastjet::PseudoJet const& jet)
     momentum[3] = jet.pz();
 }
 
-std::vector<analysis::Sextet> WimpMass::Sextets(const std::vector<Quartet22>& quartets, fastjet::PseudoJet const& missing_et)
+std::vector<boca::Sextet> WimpMass::Sextets(const std::vector<Quartet22>& quartets, fastjet::PseudoJet const& missing_et)
 {
-    std::vector<analysis::Sextet> sextets;
+    std::vector<boca::Sextet> sextets;
     for (auto const& quartet : quartets)
         Join(sextets, Sextets(quartet, missing_et));
     return sextets;
 }
 
-std::vector<analysis::Sextet> WimpMass::Sextets(const Quartet22& quartet, fastjet::PseudoJet const& missing_et)
+std::vector<boca::Sextet> WimpMass::Sextets(Quartet22 const& quartet, fastjet::PseudoJet const& missing_et)
 {
     Info("Triple Pairs");
     event22 structure;
@@ -45,7 +48,7 @@ std::vector<analysis::Sextet> WimpMass::Sextets(const Quartet22& quartet, fastje
     int solution_sum;
     solve22(structure, Mass(Id::electron_neutrino), Mass(Id::W), Mass(Id::top), solution_sum, momentum_1, momentum_2);
     Debug("Number solutions", solution_sum);
-    std::vector<analysis::Sextet> sextets;
+    std::vector<boca::Sextet> sextets;
     for (auto const& solution_number : Range(solution_sum)) {
         Debug("Solution ", solution_number);
         Debug("Neutrino 1 (p1)" , PseudoJet(momentum_1[solution_number]));
@@ -64,7 +67,7 @@ std::vector<analysis::Sextet> WimpMass::Sextets(const Quartet22& quartet, fastje
         if (triplet_2.Jet().m() <= 0)
             continue;
         triplet_2.SetBdt(quartet.Doublet2().Bdt());
-        analysis::Sextet sextet(triplet_1, triplet_2);
+        boca::Sextet sextet(triplet_1, triplet_2);
         if (sextet.Jet().m() <= 0)
             continue;
         sextet.SetTag(quartet.Tag());
@@ -88,10 +91,10 @@ std::vector<analysis::Sextet> WimpMass::Sextets(const Quartet22& quartet, fastje
     return sextets;
 }
 
-std::vector<analysis::Sextet> WimpMass::Sextet(const Quartet22& quartet, fastjet::PseudoJet const& missing_et, Jets const& neutrinos, Tag tag)
+std::vector<boca::Sextet> WimpMass::Sextet(Quartet22 const& quartet, fastjet::PseudoJet const& missing_et, Jets const& neutrinos, Tag tag)
 {
     Info("Triple Pair");
-    std::vector<analysis::Sextet> sextets = Sextets(quartet, missing_et);
+    std::vector<boca::Sextet> sextets = Sextets(quartet, missing_et);
     Debug("Number Solutions", sextets.size());
     if (sextets.empty())
         return sextets;
@@ -100,7 +103,7 @@ std::vector<analysis::Sextet> WimpMass::Sextet(const Quartet22& quartet, fastjet
         Debug(neutrino);
     Debug(neutrinos[0] + neutrinos[1]);
     Debug(missing_et);
-    std::map<float, analysis::Sextet> map;
+    std::map<float, boca::Sextet> map;
     for (auto const& sextet : sextets) {
         fastjet::PseudoJet neutrino_1 = sextet.Triplet1().Doublet().Singlet2().Jet();
         fastjet::PseudoJet neutrino_2 = sextet.Triplet2().Doublet().Singlet2().Jet();
@@ -139,9 +142,9 @@ std::vector<analysis::Sextet> WimpMass::Sextet(const Quartet22& quartet, fastjet
         map.erase(std::next(map.begin()), map.end());
     else
         map.erase(map.begin());
-    std::vector<analysis::Sextet> final_sextets;
+    std::vector<boca::Sextet> final_sextets;
     for (auto const& pair : map) {
-        analysis::Sextet sextet = pair.second;
+        boca::Sextet sextet = pair.second;
         final_sextets.emplace_back(sextet);
     }
 //     std::pair<float , Hsextet> Pair = *(Map.begin());
@@ -151,13 +154,13 @@ std::vector<analysis::Sextet> WimpMass::Sextet(const Quartet22& quartet, fastjet
     return final_sextets;
 }
 
-Sextet WimpMass::Fake(const Quartet22& quartet) const
+Sextet WimpMass::Fake(Quartet22 const& quartet) const
 {
     Triplet triplet_1(Doublet(quartet.Doublet1().Singlet2().Jet()), quartet.Doublet1().Singlet1().Jet());
     triplet_1.SetBdt(quartet.Doublet1().Bdt());
     Triplet triplet_2(Doublet(quartet.Doublet2().Singlet2().Jet()), quartet.Doublet2().Singlet1().Jet());
     triplet_2.SetBdt(quartet.Doublet2().Bdt());
-    return analysis::Sextet(triplet_1, triplet_2);
+    return boca::Sextet(triplet_1, triplet_2);
 }
 
 

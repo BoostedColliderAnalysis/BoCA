@@ -1,8 +1,11 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "FourVector.hh"
 
-namespace analysis {
+namespace boca {
 
 /**
  * @brief calculation regarding leptons
@@ -18,9 +21,9 @@ public:
 
     Jets leptons() const;
 
-    virtual analysis::Jets Electrons() const = 0;
+    virtual boca::Jets Electrons() const = 0;
 
-    virtual analysis::Jets Muons() const = 0;
+    virtual boca::Jets Muons() const = 0;
 
 };
 

@@ -1,10 +1,13 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include  "exroot/ExRootAnalysis.hh"
 #include "ClonesArrays.hh"
 #include "Event.hh"
 
-namespace analysis
+namespace boca
 {
 
 typedef std::vector<std::string> Strings;

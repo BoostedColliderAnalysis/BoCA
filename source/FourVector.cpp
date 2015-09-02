@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "FourVector.hh"
 
 #include "TClonesArray.h"
@@ -7,7 +10,7 @@
 #include "JetInfoFamily.hh"
 #include "Debug.hh"
 
-namespace analysis
+namespace boca
 {
 
 std::string Name(JetDetail jet_detail)
@@ -101,49 +104,49 @@ LorentzVector FourVector::LorentzVector(const exroot::Tau& Particle) const
 fastjet::PseudoJet FourVector::PseudoJet(const exroot::Electron& Particle) const
 {
     Debug();
-    return analysis::PseudoJet(LorentzVectorByMass(Particle, Mass(Id::electron)));
+    return boca::PseudoJet(LorentzVectorByMass(Particle, Mass(Id::electron)));
 }
 
 fastjet::PseudoJet FourVector::PseudoJet(const exroot::GenJet& Particle) const
 {
     Debug();
-    return analysis::PseudoJet(LorentzVectorByMass(Particle));
+    return boca::PseudoJet(LorentzVectorByMass(Particle));
 }
 
 fastjet::PseudoJet FourVector::PseudoJet(const exroot::GenParticle& Particle) const
 {
     Debug();
-    return analysis::PseudoJet(LorentzVectorByEnergy(Particle));
+    return boca::PseudoJet(LorentzVectorByEnergy(Particle));
 }
 
 fastjet::PseudoJet FourVector::PseudoJet(const exroot::Jet& Particle) const
 {
     Debug();
-    return analysis::PseudoJet(LorentzVectorByMass(Particle));
+    return boca::PseudoJet(LorentzVectorByMass(Particle));
 }
 
 fastjet::PseudoJet FourVector::PseudoJet(const exroot::LHEFParticle& Particle) const
 {
     Debug();
-    return analysis::PseudoJet(LorentzVectorByM(Particle));
+    return boca::PseudoJet(LorentzVectorByM(Particle));
 }
 
 fastjet::PseudoJet FourVector::PseudoJet(const exroot::Muon& Particle) const
 {
     Debug();
-    return analysis::PseudoJet(LorentzVectorByMass(Particle, Mass(Id::muon)));
+    return boca::PseudoJet(LorentzVectorByMass(Particle, Mass(Id::muon)));
 }
 
 fastjet::PseudoJet FourVector::PseudoJet(const exroot::Photon& Particle) const
 {
     Debug();
-    return analysis::PseudoJet(LorentzVectorByMass(Particle, 0));
+    return boca::PseudoJet(LorentzVectorByMass(Particle, 0));
 }
 
 fastjet::PseudoJet FourVector::PseudoJet(const exroot::Tau& Particle) const
 {
     Debug();
-    return analysis::PseudoJet(LorentzVectorByMass(Particle, Mass(Id::tau)));
+    return boca::PseudoJet(LorentzVectorByMass(Particle, Mass(Id::tau)));
 }
 
 Family FourVector::BranchFamily(TObject const& object) const
@@ -203,7 +206,7 @@ Family FourVector::BranchFamily(Family& family, int Position) const
 //         int Status = ParticleClone.Status;
         int M1Id = to_int(Id::empty);
         int Mother1Status = to_int(Status::none);
-        analysis::LorentzVector MotherVector;
+        boca::LorentzVector MotherVector;
         if (particle.M1 > 0) {
             ::delphes::GenParticle& Mother1Clone = static_cast<::delphes::GenParticle&>(clones_arrays().Particle(particle.M1));
             M1Id = Mother1Clone.PID;
@@ -252,7 +255,7 @@ Family FourVector::BranchFamily(Family& family, int Position) const
     return family;
 }
 
-void FourVector::PrintTruthLevel(const analysis::Severity severity) const
+void FourVector::PrintTruthLevel(const boca::Severity severity) const
 {
     std::vector<Family>topology_;
     Error("Code is disabled");

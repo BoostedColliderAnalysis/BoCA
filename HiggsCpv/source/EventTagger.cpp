@@ -1,7 +1,7 @@
 #include "../include/EventTTagger.hh"
 #include "Debug.hh"
 
-namespace analysis
+namespace boca
 {
 
 namespace higgscpv
@@ -13,7 +13,7 @@ EventTTagger::EventTTagger()
     DefineVariables();
 }
 
-int EventTTagger::Train(analysis::Event const& event, analysis::PreCuts const&, Tag tag) const
+int EventTTagger::Train(boca::Event const& event, boca::PreCuts const&, Tag tag) const
 {
     Info();
     Jets jets = bottom_reader_.Multiplets(event);

@@ -1,14 +1,19 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "Result.hh"
 
 #include "Types.hh"
 #include "DetectorGeometry.hh"
+// #define DEBUG
 #include "Debug.hh"
 
-namespace analysis
+namespace boca
 {
 
 void Plots::SetNames(Names const& names, Names const& nice_names)
 {
+    Info();
     for (auto & plot : plots) {
         int index = &plot - &plots[0];
         plot.nice_name_x = nice_names.at(index).first;
@@ -22,6 +27,7 @@ void Plots::SetNames(Names const& names, Names const& nice_names)
 
 Result::Result(InfoBranch const& info_branch)
 {
+    Info();
 //     steps = 20000;
     events.resize(steps, 0);
     efficiency.resize(steps, 0);
@@ -33,6 +39,7 @@ Result::Result(InfoBranch const& info_branch)
 
 void Result::Calculate()
 {
+    Info();
     event_sums.at(steps - 1) = bins.at(steps - 1);
     for (int step = steps - 2; step >= 0; --step) event_sums.at(step) = event_sums.at(step + 1) + bins.at(step);
     for (auto const & step : Range(steps)) {
@@ -46,11 +53,13 @@ void Result::Calculate()
 
 int Result::XBin(float value) const
 {
-    return std::floor((value + 1) * steps / 2);
+    Info(value);
+    return std::floor((value + 1) * (steps - 1) / 2);
 }
 
 void Result::AddBdt(float bdt_value)
 {
+    Info(bdt_value);
     bdt.emplace_back(bdt_value);
     ++bins.at(XBin(bdt_value));
     ++event_sum_;
@@ -58,6 +67,7 @@ void Result::AddBdt(float bdt_value)
 
 Results::Results()
 {
+    Info();
     significances.resize(Result::steps, 0);
     x_values.resize(Result::steps, 0);
     for (auto & x_value : x_values) x_value = XValue(&x_value - &x_values[0]);
@@ -65,6 +75,7 @@ Results::Results()
 
 void Results::BestBin()
 {
+    Info();
     std::vector<float> efficiencies(background.size(), 0);
     int counter = 0;
     for (auto const & number : Range(background.size())) {
@@ -78,6 +89,7 @@ void Results::BestBin()
 
 void Results::Significances()
 {
+    Info();
     for (auto const & step : Range(Result::steps)) {
         float signal_events = 0;
         for (auto const & signal_results : signal) signal_events += signal_results.events[step];
@@ -93,11 +105,13 @@ void Results::Significances()
 
 float Results::XValue(int value) const
 {
+    Info(value);
     return 2. * value / Result::steps - 1;
 }
 
 void Results::ExtremeXValues()
 {
+    Info();
     for (auto const & result : background) {
         float min_0 = *std::min_element(result.bdt.begin(), result.bdt.end());
         if (min_0 < min.x) min.x = min_0;
@@ -110,11 +124,13 @@ void Results::ExtremeXValues()
 
 float Results::BestXValue() const
 {
+    Info();
     return XValue(best_bin);
 }
 
 int ColorCode(int number)
 {
+    Info();
     switch (number) {
     case 0 :
         return kBlack;
@@ -151,37 +167,40 @@ int ColorCode(int number)
 
 std::string Formula(std::string const& text)
 {
-    return "#font[" + std::to_string(FontCode(Font::times, true, false, 2)) + "]{" + text + "}";
+    Info(text);
+    return "#font[" + std::to_string(FontCode(Font::times, Style::italic)) + "]{" + text + "}";
 }
 
-int FontCode(Font font, bool italic, bool bold, int precision)
+int FontCode(Font font, Style style, int precision)
 {
-    return 10 * FontNumber(font, italic, bold) + precision;
+  Info();
+  return 10 * FontNumber(font, style) + precision;
 }
 
-int FontNumber(Font font, bool italic, bool bold)
+int FontNumber(Font font, Style style)
 {
+    Info();
     switch (font) {
     case Font::times:
-        if (bold && italic) return 3;
-        else if (bold) return 2;
-        else if (italic) return 1;
-        else return 13;
+        if (style == Style::italic) return 1;
+        if (style == Style::bold) return 2;
+        if (style == (Style::italic | Style::bold)) return 3;
+        return 13;
     case Font::helvetica:
-        if (bold && italic) return 7;
-        else if (bold) return 6;
-        else if (italic) return 5;
-        else return 4;
+        if (style == Style::italic) return 5;
+        if (style == Style::bold) return 6;
+        if (style == (Style::italic | Style::bold)) return 7;
+        return 4;
     case Font::courier:
-        if (bold && italic) return 11;
-        else if (bold) return 10;
-        else if (italic) return 9;
+        if (style == Style::italic) return 9;
+        if (style == Style::bold) return 10;
+        if (style == (Style::italic | Style::bold)) return 11;
         else return 8;
     case Font::symbol:
-        if (bold && italic) return 14;
-        else if (bold) return 14;
-        else if (italic) return 15;
-        else return 12;
+        if (style == Style::italic) return 15;
+        if (style == Style::bold) return 14;
+        if (style == (Style::italic | Style::bold)) return 14;
+        return 12;
     default :
         return 13;
     }

@@ -1,9 +1,12 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "Leptons.hh"
 
 #include "Vector.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 Leptons::~Leptons()
 {

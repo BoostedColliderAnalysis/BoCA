@@ -1,10 +1,13 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "Doublet.hh"
 #include "Branches.hh"
 #include "BranchTagger.hh"
 
-namespace analysis {
+namespace boca {
 
 /**
  * @brief Semi leptonic top BDT tagger

@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "Tagger.hh"
@@ -9,9 +12,13 @@
 #include "Types.hh"
 #include "exroot/ExRootAnalysis.hh"
 
-namespace analysis
+namespace boca
 {
 
+/**
+ * @brief Tagger base class using Branch template
+ *
+ */
 template<typename BranchTemplate>
 class BranchTagger : public Tagger
 {
@@ -62,6 +69,7 @@ protected:
         std::vector<Multiplet> close = CopyIfClose(multiplets, particles);
         close = SortedByBdt(close);
         if (id != Id::empty) close = SortedByMassTo(close, id);
+//         std::cout << "close " << close.size() << std::endl;
         return std::vector<Multiplet>(&close[0], &close[std::min(close.size(), particles.size())]);
     }
 

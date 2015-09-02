@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "Particles.hh"
@@ -5,7 +8,7 @@
 
 class TLorentzVector;
 
-namespace analysis {
+namespace boca {
 
 class Particle {
 

@@ -1,9 +1,12 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "JetPairTagger.hh"
 #include "Event.hh"
 #include "Sort.hh"
 #include "Debug.hh"
 
-namespace analysis
+namespace boca
 {
 
 JetPairTagger::JetPairTagger()
@@ -69,7 +72,7 @@ Jets JetPairTagger::BottomPair(Event const& event, Tag tag) const
     return bottom_not_from_higgs;
 }
 
-std::vector<Doublet> JetPairTagger::Multiplets(Event const& event, analysis::PreCuts const&, TMVA::Reader const& reader) const
+std::vector<Doublet> JetPairTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
     Jets jets = bottom_reader_.Multiplets(event);
     std::vector<Doublet>  doublets;
@@ -87,7 +90,7 @@ std::vector<Doublet> JetPairTagger::Multiplets(Event const& event, analysis::Pre
     return ReduceResult(doublets, 6);
 }
 
-bool JetPairTagger::CheckIfBadBottom(analysis::Doublet const& doublet, Jets const& jets)const
+bool JetPairTagger::CheckIfBadBottom(boca::Doublet const& doublet, Jets const& jets)const
 {
   if((Close(jets.at(0))(doublet.Singlet1().Jet()) && Close(jets.at(1))(doublet.Singlet2().Jet())) || (Close(jets.at(1))(doublet.Singlet1().Jet()) && Close(jets.at(0))(doublet.Singlet2().Jet())))return true;
   else return false;

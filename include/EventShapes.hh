@@ -16,7 +16,7 @@
 #include "ThePEG/Vectors/ThreeVector.h"
 #include "ThePEG/EventRecord/Particle.h"
 
-namespace analysis {
+namespace boca {
 
 /**
  *

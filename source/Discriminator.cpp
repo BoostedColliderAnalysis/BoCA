@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "Discriminator.hh"
 
 #include "fastjet/JetDefinition.hh"
@@ -5,7 +8,7 @@
 #include "Sort.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 Jets Discriminator::GetCandidateJets(Jets const& EFlowJets, float ScalarHt)
 {

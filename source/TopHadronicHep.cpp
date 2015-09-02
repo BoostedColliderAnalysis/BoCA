@@ -1,10 +1,13 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "TopHadronicHep.hh"
 
 #include "fastjet/ClusterSequence.hh"
 #include "HEPTopTagger.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 Jets TopHadronicHep::Tops(Jets& e_flows)
 {

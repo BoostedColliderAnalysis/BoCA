@@ -1,8 +1,11 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include <string>
 
-namespace analysis {
+namespace boca {
 
 class Observable {
 

@@ -2,11 +2,11 @@
 
 #include "Analysis.hh"
 
-namespace analysis
+namespace boca
 {
 
 /**
- * @brief Namespace for the fusion pair analysis
+ * @brief Fusion pair analysis
  *
  */
 namespace fusionpair
@@ -41,7 +41,7 @@ std::string Name(Detector detector_type);
  *
  */
 template <typename Tagger>
-class Analysis : public analysis::Analysis<Tagger>
+class Analysis : public boca::Analysis<Tagger>
 {
 
 public:

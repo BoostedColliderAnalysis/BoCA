@@ -1,9 +1,12 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "Branches.hh"
 #include "Flag.hh"
 
-namespace analysis
+namespace boca
 {
 
 
@@ -15,7 +18,24 @@ enum class Font
     symbol
 };
 
+enum class Style
+{
+  normal = 0,
+  bold = 1 << 0,
+  italic = 1 << 1
+};
+
+template<>
+struct Flag<Style> {
+  static const bool enable = true;
+};
+
 struct Point {
+    Point() {};
+    Point(float xx, float yy) {
+        x = xx;
+        y = yy;
+    }
     float x = 0;
     float y = 0;
     float z = 0;
@@ -37,7 +57,7 @@ class Plots
 {
 public:
     std::vector<Plot> plots;
-    analysis::InfoBranch info_branch;
+    boca::InfoBranch info_branch;
     std::string name;
     void SetNames(Names const& names, Names const& nice_names);
 };
@@ -56,7 +76,7 @@ public:
     std::vector<float> pure_efficiency;
     std::vector<float> bdt;
     InfoBranch info_branch_;
-    const static int steps = 20000;
+    const static int steps = 100;
 private:
     long event_sum_;
 };
@@ -83,8 +103,8 @@ int ColorCode(int number);
 
 std::string Formula(std::string const& text);
 
-int FontCode(Font font = Font::times, bool italic = false, bool bold = false, int precision = 3);
+int FontCode(Font font = Font::times, Style style = Style::normal, int precision = 2);
 
-int FontNumber(Font font = Font::times, bool italic = false, bool bold = false);
+int FontNumber(Font font = Font::times, Style style = Style::normal);
 
 }

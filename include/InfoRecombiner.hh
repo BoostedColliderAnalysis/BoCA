@@ -1,8 +1,11 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "fastjet/JetDefinition.hh"
 
-namespace analysis
+namespace boca
 {
 
 class InfoRecombiner : public  fastjet::JetDefinition::DefaultRecombiner

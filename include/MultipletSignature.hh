@@ -1,9 +1,12 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "EventShape.hh"
 #include "Identification.hh"
 
-namespace analysis {
+namespace boca {
 
 /**
  * @brief An event composed of a multiplet an a singlet made up from the remaining jets
@@ -14,7 +17,7 @@ class MultipletSignature : public Identification {
 
 public:
 
-  MultipletSignature(const Multiplet_1& multiplet) {
+  MultipletSignature(Multiplet_1 const& multiplet) {
         multiplet_ = multiplet;
         event_shape_.SetJets(multiplet.Jets());
 
@@ -25,14 +28,14 @@ public:
       return multiplet_;
     }
 
-    const analysis::EventShape& EventShape() const
+    const boca::EventShape& EventShape() const
     {
         return event_shape_;
     }
 
 private:
 
-  analysis::EventShape event_shape_;
+  boca::EventShape event_shape_;
 
   Multiplet_1 multiplet_;
 

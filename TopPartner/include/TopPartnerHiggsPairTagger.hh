@@ -5,9 +5,9 @@
 #include "HiggsTagger.hh"
 #include "BranchesTopPartner.hh"
 
-namespace analysis {
+namespace boca {
 
-namespace toppartner {
+namespace naturalness {
 
 /**
  * @brief Semi leptonic heavy higgs BDT tagger

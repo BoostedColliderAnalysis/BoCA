@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "JetInfoFamily.hh"
 
 #include <numeric>
@@ -5,7 +8,7 @@
 #include "delphes/Delphes.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 JetInfoFamily::JetInfoFamily()
 {

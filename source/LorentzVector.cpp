@@ -1,9 +1,16 @@
+// @(#)root/physics:$Id$
+// Author: Pasha Murat , Peter Malzacher  12/02/99
+//    Oct  8 1999: changed Warning to Error and
+//                 return fX in Double_t & operator()
+//    Oct 20 1999: dito in Double_t operator()
+//    Jan 25 2000: implemented as (fP,fE) instead of (fX,fY,fZ,fE)
+//           2015  Jan Hajer
 #include "LorentzVector.hh"
 #include "Vector2.hh"
 #include "TLorentzVector.h"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 void LorentzVector::operator=(TLorentzVector const& lorentzvector)
 {
@@ -15,7 +22,7 @@ LorentzVector::LorentzVector() : p_(), e_(0.0) {}
 
 LorentzVector::LorentzVector(float x, float y, float z, float t) : p_(x, y, z), e_(t) {}
 
-LorentzVector::LorentzVector(const float* x0) : p_(x0), e_(x0[3]) {}
+LorentzVector::LorentzVector(float const* x0) : p_(x0), e_(x0[3]) {}
 
 LorentzVector::LorentzVector(Vector3 p, float e) : p_(std::move(p)), e_(e) {}
 
@@ -96,13 +103,13 @@ float LorentzVector::Et() const
     float etet = Et2();
     return E() < 0.0 ? -std::sqrt(etet) : std::sqrt(etet);
 }
-float LorentzVector::Et2(const Vector3& v) const
+float LorentzVector::Et2(Vector3 const& v) const
 {
     float pt2 = p_.Perp2(v);
     float pv = p_.Dot(v.Unit());
     return pt2 == 0 ? 0 : E() * E() * pt2 / (pt2 + pv * pv);
 }
-float LorentzVector::Et(const Vector3& v) const
+float LorentzVector::Et(Vector3 const& v) const
 {
     float etet = Et2(v);
     return E() < 0.0 ? -std::sqrt(etet) : std::sqrt(etet);
@@ -209,7 +216,7 @@ Vector3 LorentzVector::Vect() const
     return p_;
 }
 
-void LorentzVector::SetVect(const Vector3& p)
+void LorentzVector::SetVect(Vector3 const& p)
 {
     p_ = p;
 }
@@ -341,17 +348,17 @@ void LorentzVector::SetPerp(float r)
     p_.SetPerp(r);
 }
 
-float LorentzVector::Perp2(const Vector3& v) const
+float LorentzVector::Perp2(Vector3 const& v) const
 {
     return p_.Perp2(v);
 }
 
-float LorentzVector::Perp(const Vector3& v) const
+float LorentzVector::Perp(Vector3 const& v) const
 {
     return p_.Perp(v);
 }
 
-float LorentzVector::Pt(const Vector3& v) const
+float LorentzVector::Pt(Vector3 const& v) const
 {
     return Perp(v);
 }
@@ -383,7 +390,7 @@ float LorentzVector::DrEtaPhi(LorentzVector const& v) const
 // }
 
 
-float LorentzVector::Angle(const Vector3& v) const
+float LorentzVector::Angle(Vector3 const& v) const
 {
     return p_.Angle(v);
 }
@@ -414,12 +421,12 @@ float LorentzVector::Beta() const
     return p_.Mag() / e_;
 }
 
-void LorentzVector::SetVectMag(const Vector3& spatial, float magnitude)
+void LorentzVector::SetVectMag(Vector3 const& spatial, float magnitude)
 {
     SetXYZM(spatial.X(), spatial.Y(), spatial.Z(), magnitude);
 }
 
-void LorentzVector::SetVectM(const Vector3& spatial, float mass)
+void LorentzVector::SetVectM(Vector3 const& spatial, float mass)
 {
     SetVectMag(spatial, mass);
 }
@@ -460,7 +467,7 @@ Vector3 LorentzVector::BoostVector() const
     return Vector3(X() / T(), Y() / T(), Z() / T());
 }
 
-void LorentzVector::Boost(const Vector3& b)
+void LorentzVector::Boost(Vector3 const& b)
 {
     Boost(b.X(), b.Y(), b.Z());
 }

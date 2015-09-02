@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "Singlet.hh"
 
 #include "DetectorGeometry.hh"
@@ -5,7 +8,7 @@
 #include "Math.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 Singlet::Singlet(fastjet::PseudoJet const& jet)
 {

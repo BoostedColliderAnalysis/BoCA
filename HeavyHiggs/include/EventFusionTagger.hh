@@ -3,7 +3,7 @@
 #include "HeavyHiggsSemiTagger.hh"
 #include "MultipletEvent.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace heavyhiggs {
 

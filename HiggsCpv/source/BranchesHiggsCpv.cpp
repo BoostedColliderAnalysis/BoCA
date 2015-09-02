@@ -1,7 +1,7 @@
 #include "BranchesHiggsCpv.hh"
 #include "Pair.hh"
 
-namespace analysis
+namespace boca
 {
 namespace higgscpv
 {

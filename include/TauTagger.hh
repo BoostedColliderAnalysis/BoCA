@@ -1,9 +1,12 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "Branches.hh"
 #include "BranchTagger.hh"
 
-namespace analysis {
+namespace boca {
 
 /**
  * @brief Bottom BDT tagger
@@ -28,7 +31,7 @@ public:
 
 private:
 
-    Jets CleanJets(analysis::Jets& jets, analysis::Jets const& Particles, Tag tag) const;
+    Jets CleanJets(boca::Jets& jets, boca::Jets const& Particles, Tag tag) const;
 
 };
 

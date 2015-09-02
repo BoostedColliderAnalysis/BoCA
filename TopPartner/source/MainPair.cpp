@@ -1,39 +1,38 @@
 #include "AnalysisTopPartnerPair.hh"
 #include "EventPairTagger.hh"
 
-
 int main()
 {
-    analysis::toppartner::AnalysisPair<analysis::BottomTagger> bottom_analysis;
+    boca::naturalness::AnalysisPair<boca::BottomTagger> bottom_analysis;
     bottom_analysis.RunNormal();
 
-    analysis::toppartner::AnalysisPair<analysis::HiggsTagger> higgs_analysis;
-    higgs_analysis.RunNormal();
+//     boca::naturalness::AnalysisPair<boca::HiggsTagger> higgs_analysis;
+//     higgs_analysis.RunNormal();
 
-    analysis::toppartner::AnalysisPair<analysis::WHadronicTagger> w_hadronic_analysis;
-    w_hadronic_analysis.RunNormal();
-
-    analysis::toppartner::AnalysisPair<analysis::BosonTagger> boson_analysis;
+    boca::naturalness::AnalysisPair<boca::BosonTagger> boson_analysis;
     boson_analysis.RunNormal();
 
-    analysis::toppartner::AnalysisPair<analysis::TopHadronicTagger> top_hadronic_analysis;
+    boca::naturalness::AnalysisPair<boca::WHadronicTagger> w_hadronic_analysis;
+    w_hadronic_analysis.RunNormal();
+
+    boca::naturalness::AnalysisPair<boca::TopHadronicTagger> top_hadronic_analysis;
     top_hadronic_analysis.RunNormal();
 
-    analysis::toppartner::AnalysisPair<analysis::TopLeptonicTagger> top_leptonic_analysis;
+    boca::naturalness::AnalysisPair<boca::TopLeptonicTagger> top_leptonic_analysis;
     top_leptonic_analysis.RunNormal();
 
-    analysis::toppartner::AnalysisPair<analysis::toppartner::TopPartnerLeptonicTagger> top_partner_leptonic_analysis;
+    boca::naturalness::AnalysisPair<boca::naturalness::TopPartnerLeptonicTagger> top_partner_leptonic_analysis;
     top_partner_leptonic_analysis.RunFullEfficiency();
 
-    analysis::toppartner::AnalysisPair<analysis::toppartner::TopPartnerHadronicTagger> top_partner_hadronic_analysis;
+    boca::naturalness::AnalysisPair<boca::naturalness::TopPartnerHadronicTagger> top_partner_hadronic_analysis;
     top_partner_hadronic_analysis.RunFullEfficiency();
     top_partner_hadronic_analysis.RunPlots();
 
-    analysis::toppartner::AnalysisPair<analysis::toppartner::TopPartnerPairTagger> top_partner_pair_analysis;
+    boca::naturalness::AnalysisPair<boca::naturalness::TopPartnerPairTagger> top_partner_pair_analysis;
     top_partner_pair_analysis.RunFullEfficiency();
     top_partner_pair_analysis.RunPlots();
 
-    analysis::toppartner::AnalysisPair<analysis::toppartner::EventPairTagger> event_analysis;
+    boca::naturalness::AnalysisPair<boca::naturalness::EventPairTagger> event_analysis;
     event_analysis.RunFullSignificance();
     event_analysis.RunPlots();
 }

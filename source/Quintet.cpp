@@ -1,6 +1,9 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "Quintet.hh"
 
-namespace analysis {
+namespace boca {
 
   Triplet const& Quintet::Triplet() const
 {

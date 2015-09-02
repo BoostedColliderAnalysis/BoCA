@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "ClonesArrays.hh"
 
 #include "TClonesArray.h"
@@ -5,7 +8,7 @@
 #include "exroot/ExRootAnalysis.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 ClonesArrays::ClonesArrays() {}
 

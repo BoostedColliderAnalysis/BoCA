@@ -5,7 +5,7 @@
 #include "TopHadronicTagger.hh"
 #include "Sextet.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace heavyhiggs {
 

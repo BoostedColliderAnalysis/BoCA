@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include <iomanip>
@@ -31,8 +34,8 @@ namespace exroot {
   typedef ::TRootJet Jet;
 }
 
-namespace analysis {
-  
+namespace boca {
+
 typedef std::vector<fastjet::PseudoJet> Jets;
 
 enum class Status {
@@ -48,17 +51,16 @@ enum class Status {
  *
  */
 enum class JetDetail {
-    plain = 1,
-    structure = 1 << 1,
-    tagging = 1 << 2,
-    isolation = 1 << 3,
+    plain = 0,
+    structure = 1 << 0,
+    tagging = 1 << 1,
+    isolation = 1 << 2,
 };
 
 template<>
 struct Flag<JetDetail> {
   static const bool enable = true;
 };
-
 
 enum class Severity {
   error,
@@ -89,10 +91,10 @@ protected:
     void NewEvent(const ClonesArrays& clones_arrays);
 
     template<typename Particle>
-    analysis::LorentzVector LorentzVectorByEnergy(const Particle& particle) const
+    boca::LorentzVector LorentzVectorByEnergy(const Particle& particle) const
     {
 //         Debug("Lorentz Vector by Energy");
-        analysis::LorentzVector vector;
+        boca::LorentzVector vector;
         float Pt = particle.PT;
         float Eta = particle.Eta;
         float Phi = particle.Phi;
@@ -108,10 +110,10 @@ protected:
     }
 
     template<typename Particle>
-    analysis::LorentzVector LorentzVectorByMass(const Particle& particle, float mass) const
+    boca::LorentzVector LorentzVectorByMass(const Particle& particle, float mass) const
     {
 //         Debug("Lorentz Vector by Mass");
-        analysis::LorentzVector LorentzVector;
+        boca::LorentzVector LorentzVector;
         float Pt = particle.PT;
         float Eta = particle.Eta;
         float Phi = particle.Phi;
@@ -125,11 +127,11 @@ protected:
     }
 
     template<typename Particle>
-    analysis::LorentzVector LorentzVectorByMass(const Particle& particle) const
+    boca::LorentzVector LorentzVectorByMass(const Particle& particle) const
     {
 //         Debug("Lorentz Vector by Mass");
         float Mass = particle.Mass;
-        const analysis::LorentzVector LorentzVector = LorentzVectorByMass(particle, Mass);
+        const boca::LorentzVector LorentzVector = LorentzVectorByMass(particle, Mass);
         if (check_four_vectors_) {
 //             if (LorentzVector.M() - Mass > mass_check_value_) Error(Mass, LorentzVector.M());
         }
@@ -137,26 +139,26 @@ protected:
     }
 
     template<typename Particle>
-    analysis::LorentzVector LorentzVectorByM(const Particle& particle) const
+    boca::LorentzVector LorentzVectorByM(const Particle& particle) const
     {
 //         Debug("Lorentz Vector by Mass");
         float Mass = particle.M;
-        const analysis::LorentzVector LorentzVector = LorentzVectorByMass(particle, Mass);
+        const boca::LorentzVector LorentzVector = LorentzVectorByMass(particle, Mass);
         if (check_four_vectors_) {
 //             if (LorentzVector.M() - Mass > mass_check_value_) Error(Mass, LorentzVector.M());
         }
         return LorentzVector;
     }
-//     analysis::LorentzVector LorentzVector(const MissingET *const Particle) const;
+//     boca::LorentzVector LorentzVector(const MissingET *const Particle) const;
 
-    analysis::LorentzVector LorentzVector(const exroot::Electron& Particle) const;
-    analysis::LorentzVector LorentzVector(const exroot::GenJet& Particle) const;
-    analysis::LorentzVector LorentzVector(const exroot::GenParticle& Particle) const;
-    analysis::LorentzVector LorentzVector(const exroot::Jet& Particle) const;
-    analysis::LorentzVector LorentzVector(const exroot::LHEFParticle& Particle) const;
-    analysis::LorentzVector LorentzVector(const exroot::Muon& Particle) const;
-    analysis::LorentzVector LorentzVector(const exroot::Photon& Particle) const;
-    analysis::LorentzVector LorentzVector(const exroot::Tau& Particle) const;
+    boca::LorentzVector LorentzVector(const exroot::Electron& Particle) const;
+    boca::LorentzVector LorentzVector(const exroot::GenJet& Particle) const;
+    boca::LorentzVector LorentzVector(const exroot::GenParticle& Particle) const;
+    boca::LorentzVector LorentzVector(const exroot::Jet& Particle) const;
+    boca::LorentzVector LorentzVector(const exroot::LHEFParticle& Particle) const;
+    boca::LorentzVector LorentzVector(const exroot::Muon& Particle) const;
+    boca::LorentzVector LorentzVector(const exroot::Photon& Particle) const;
+    boca::LorentzVector LorentzVector(const exroot::Tau& Particle) const;
     fastjet::PseudoJet PseudoJet(const exroot::Electron& Particle) const;
     fastjet::PseudoJet PseudoJet(const exroot::GenJet& Particle) const;
     fastjet::PseudoJet PseudoJet(const exroot::GenParticle& Particle) const;

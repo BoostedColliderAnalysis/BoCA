@@ -1,8 +1,11 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "Sextet.hh"
 
-namespace analysis {
+namespace boca {
 
 class Quartet22;
 
@@ -15,13 +18,13 @@ class WimpMass {
 
 public:
 
-    std::vector<analysis::Sextet> Sextets(const std::vector<Quartet22>& quartets, fastjet::PseudoJet const& missing_et);
+    std::vector<boca::Sextet> Sextets(const std::vector<Quartet22>& quartets, fastjet::PseudoJet const& missing_et);
 
-    std::vector<analysis::Sextet> Sextet(const Quartet22& quartet, fastjet::PseudoJet const& missing_et, Jets const& neutrinos, Tag tag);
+    std::vector<boca::Sextet> Sextet(Quartet22 const& quartet, fastjet::PseudoJet const& missing_et, Jets const& neutrinos, Tag tag);
 
-    std::vector<analysis::Sextet> Sextets(const Quartet22& quartet, fastjet::PseudoJet const& missing_et);
+    std::vector<boca::Sextet> Sextets(Quartet22 const& quartet, fastjet::PseudoJet const& missing_et);
 
-    analysis::Sextet Fake(const Quartet22& quartet) const;
+    boca::Sextet Fake(Quartet22 const& quartet) const;
 
 private:
 

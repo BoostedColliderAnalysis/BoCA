@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "Types.hh"
 
 #include <sys/stat.h>
@@ -7,7 +10,7 @@
 #include "JetInfo.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 fastjet::PseudoJet PseudoJet(TLorentzVector const& vector)
 {

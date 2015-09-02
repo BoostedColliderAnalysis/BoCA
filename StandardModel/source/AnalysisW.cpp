@@ -1,7 +1,7 @@
 #include "AnalysisW.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace standardmodel {
 

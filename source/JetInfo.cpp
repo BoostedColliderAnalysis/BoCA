@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "JetInfo.hh"
 
 #include "Vector.hh"
@@ -8,7 +11,7 @@
 #include "delphes/Delphes.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 JetInfo::JetInfo()
 {

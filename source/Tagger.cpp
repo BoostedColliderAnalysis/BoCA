@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "Tagger.hh"
 
 #include "TMVA/Reader.h"
@@ -9,7 +12,7 @@
 #include "DetectorGeometry.hh"
 #include "Debug.hh"
 
-namespace analysis
+namespace boca
 {
 
 std::string Tagger::analysis_name_;

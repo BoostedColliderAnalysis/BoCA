@@ -5,10 +5,10 @@
 #include "BosonTagger.hh"
 #include "BranchesTopPartner.hh"
 
-namespace analysis
+namespace boca
 {
 
-namespace toppartner
+namespace naturalness
 {
 
 /**
@@ -27,8 +27,7 @@ public:
 
     std::vector<Quintet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    int GetBdt(Event const& event, PreCuts const& pre_cuts,
-               TMVA::Reader const& reader) const final {
+    int GetBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final {
         return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
     }
 

@@ -1,10 +1,13 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include <map>
 #include "Particles.hh"
 
 
-namespace analysis
+namespace boca
 {
 
 class PreCuts

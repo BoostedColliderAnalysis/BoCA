@@ -2,7 +2,7 @@
 
 #include "AnalysisHeavyHiggs.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace heavyhiggs {
 

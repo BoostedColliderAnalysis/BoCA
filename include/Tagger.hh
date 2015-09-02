@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "TCut.h"
@@ -28,7 +31,7 @@ namespace fastjet
 class PseudoJet;
 }
 
-namespace analysis
+namespace boca
 {
 
 class Event;

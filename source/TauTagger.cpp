@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "TauTagger.hh"
 
 #include "Singlet.hh"
@@ -6,7 +9,7 @@
 #include "Event.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 TauTagger::TauTagger()
 {
@@ -16,7 +19,7 @@ TauTagger::TauTagger()
 
 int TauTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
-    Info(analysis::Name(tag));
+    Info(boca::Name(tag));
     Jets jets = event.Hadrons().Jets();
     Info("Number Jets", jets.size());
     Jets Particles = event.Partons().GenParticles();
@@ -39,7 +42,7 @@ int TauTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 }
 
 
-Jets TauTagger::CleanJets(analysis::Jets& jets, analysis::Jets const& Particles, Tag tag) const
+Jets TauTagger::CleanJets(boca::Jets& jets, boca::Jets const& Particles, Tag tag) const
 {
     Info("Clean Jets");
     for (auto const& Particle : Particles) {
@@ -68,7 +71,7 @@ Jets TauTagger::CleanJets(analysis::Jets& jets, analysis::Jets const& Particles,
     return NewCleanJets;
 }
 
-Jets TauTagger::Multiplets(Event const& event, analysis::PreCuts const&, TMVA::Reader const& reader) const
+Jets TauTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
     Jets final_jets;
     Info("Jet Bdt");

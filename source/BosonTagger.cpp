@@ -1,9 +1,12 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "BosonTagger.hh"
 #include "Event.hh"
 #include "Doublet.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 BosonTagger::BosonTagger()
 {
@@ -13,19 +16,19 @@ BosonTagger::BosonTagger()
 
 int BosonTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const
 {
-  Info(analysis::Name(tag));
+  Info(boca::Name(tag));
   Jets jets = bottom_reader_.Multiplets(event);
   std::vector<Doublet> doublets = unordered_pairs(jets,[&](fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2) {
-    return Doublett(Doublet(jet_1, jet_2), pre_cuts, tag);
+    return CheckDoublet(Doublet(jet_1, jet_2), pre_cuts, tag);
   });
 
   for (auto const& jet : jets) {
     try {
-      doublets.emplace_back(Doublett(Doublet(jet), pre_cuts, tag));
+      doublets.emplace_back(CheckDoublet(Doublet(jet), pre_cuts, tag));
     } catch (...) {}
     try {
       Jets pieces = bottom_reader_.SubMultiplet(jet, 2);
-      doublets.emplace_back(Doublett(Doublet(pieces.at(0), pieces.at(1)), pre_cuts, tag));
+      doublets.emplace_back(CheckDoublet(Doublet(pieces.at(0), pieces.at(1)), pre_cuts, tag));
     } catch (...) {}
   }
     Jets particles = event.Partons().GenParticles();
@@ -37,7 +40,7 @@ int BosonTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) con
     return SaveEntries(doublets, bosons, tag);
 }
 
-Doublet BosonTagger::Doublett(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const
+Doublet BosonTagger::CheckDoublet(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const
 {
   if (Problematic(doublet, pre_cuts, tag)) throw "problematic";
   doublet.SetTag(tag);

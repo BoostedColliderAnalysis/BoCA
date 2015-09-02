@@ -1,12 +1,16 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include <vector>
 
 #include "Particle.hh"
 
+
 #include <functional>
 
-namespace analysis {
+namespace boca {
 
 class Family {
 
@@ -90,8 +94,8 @@ private:
 namespace std {
 
 template <>
-struct hash<analysis::Family> {
-    size_t operator()(const analysis::Family& Family) const
+struct hash<boca::Family> {
+    size_t operator()(const boca::Family& Family) const
     {
         return ((std::hash<int>()(Family.particle().id())
                  ^ (std::hash<int>()(Family.mother_1().id()) << 1)) >> 1)

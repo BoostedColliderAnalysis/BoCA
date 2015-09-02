@@ -1,9 +1,9 @@
 #include "TopPartnerTopPairTagger.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
-namespace toppartner {
+namespace naturalness {
 
 TopPartnerTopPairTagger::TopPartnerTopPairTagger()
 {
@@ -29,7 +29,7 @@ int TopPartnerTopPairTagger::Train(Event const& event, PreCuts const&, Tag tag) 
     return SaveEntries(octets);
 }
 
-std::vector<Octet53> TopPartnerTopPairTagger::Multiplets(Event const& event, analysis::PreCuts const&, TMVA::Reader const& reader) const
+std::vector<Octet53> TopPartnerTopPairTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
     std::vector<Quintet> quintets = top_partner_reader_.Multiplets(event);
     std::vector<Triplet> triplets = top_reader_.Multiplets(event);

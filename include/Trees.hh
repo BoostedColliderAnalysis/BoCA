@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "TFile.h"
@@ -8,7 +11,7 @@
 #include "Tagger.hh"
 #include "File.hh"
 
-namespace analysis
+namespace boca
 {
 
 class Files

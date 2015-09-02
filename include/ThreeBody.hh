@@ -1,9 +1,12 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "Singlet.hh"
 #include "Multiplet.hh"
 
-namespace analysis
+namespace boca
 {
 
 template <typename Multiplet_1, typename Multiplet_2, typename Multiplet_3>
@@ -14,7 +17,7 @@ public:
 
     ThreeBody() {};
 
-    ThreeBody(const Multiplet_1& multiplet_1, const Multiplet_2& multiplet_2, const Multiplet_3& multiplet_3) {
+    ThreeBody(Multiplet_1 const& multiplet_1, Multiplet_2 const& multiplet_2, const Multiplet_3& multiplet_3) {
         SetMultiplets(multiplet_1, multiplet_2, multiplet_3);
     }
 
@@ -22,7 +25,7 @@ public:
         SetJet(jet);
     }
 
-    void SetMultiplets(const Multiplet_1& multiplet_1, const Multiplet_2& multiplet_2, const Multiplet_3& multiplet_3) {
+    void SetMultiplets(Multiplet_1 const& multiplet_1, Multiplet_2 const& multiplet_2, const Multiplet_3& multiplet_3) {
         multiplet_1_ = multiplet_1;
         multiplet_2_ = multiplet_2;
         multiplet_3_ = multiplet_3;
@@ -41,16 +44,16 @@ public:
         singlet_ = Singlet(jet);
     }
 
-    analysis::Singlet const& singlet() const {
+    boca::Singlet const& singlet() const {
         if (!has_jet_) SetSinglet(Jet());
         return singlet_;
     }
 
-    const Multiplet_1& Multiplet1() const {
+    Multiplet_1 const& Multiplet1() const {
         return multiplet_1_;
     }
 
-    const Multiplet_2& Multiplet2() const {
+    Multiplet_2 const& Multiplet2() const {
         return multiplet_2_;
     }
 
@@ -63,7 +66,7 @@ public:
         return (multiplet.Overlap(multiplet_1_) || multiplet.Overlap(multiplet_2_) || multiplet.Overlap(multiplet_3_));
     }
 
-    bool Overlap(analysis::Singlet const& singlet) const {
+    bool Overlap(boca::Singlet const& singlet) const {
         return (multiplet_1_.Overlap(singlet) || multiplet_2_.Overlap(singlet) || multiplet_3_.Overlap(singlet));
     }
 
@@ -95,7 +98,7 @@ public:
       return jet_13_;
     }
 
-    analysis::Jets Jets() const {
+    boca::Jets Jets() const {
         return Join(Multiplet1().Jets(), Multiplet2().Jets(), Multiplet3().Jets());
     }
 

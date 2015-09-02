@@ -3,9 +3,9 @@
 #include "Septet.hh"
 #include "Octet.hh"
 
-namespace analysis {
+namespace boca {
 
-namespace toppartner {
+namespace naturalness {
 
 class Decuplet55 : public TwoBody<Quintet, Quintet> {
 
@@ -25,36 +25,36 @@ public:
 
 };
 
-class Decuplet73 : public TwoBody<analysis::toppartner::Septet, analysis::Triplet> {
+class Decuplet73 : public TwoBody<boca::naturalness::Septet, boca::Triplet> {
 
 public:
 
-  using TwoBody<analysis::toppartner::Septet, analysis::Triplet>::TwoBody;
+  using TwoBody<boca::naturalness::Septet, boca::Triplet>::TwoBody;
 
-    analysis::toppartner::Septet const& Septet() const
+    boca::naturalness::Septet const& Septet() const
     {
         return Multiplet1();
     }
 
-    analysis::Triplet const& Triplet() const
+    boca::Triplet const& Triplet() const
     {
         return Multiplet2();
     }
 
 };
 
-class Decuplet82 : public TwoBody<Octet53, analysis::Doublet> {
+class Decuplet82 : public TwoBody<Octet53, boca::Doublet> {
 
 public:
 
-  using TwoBody<Octet53, analysis::Doublet>::TwoBody;
+  using TwoBody<Octet53, boca::Doublet>::TwoBody;
 
   Octet53 const& Octet() const
   {
     return Multiplet1();
   }
 
-  analysis::Doublet const& Doublet() const
+  boca::Doublet const& Doublet() const
   {
     return Multiplet2();
   }

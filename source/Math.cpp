@@ -1,10 +1,13 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "Math.hh"
 
 #include <cmath>
 
 #include "Debug.hh"
 
-namespace analysis
+namespace boca
 {
 
 float Distance(float rapidity_1, float phi_1, float rapidity_2, float phi_2)
@@ -55,11 +58,6 @@ float CeilToDigits(float value, int digits)
         float factor = std::pow(10.0, digits - std::ceil(std::log10(std::abs(value))));
         return std::ceil(value * factor) / factor;
     }
-}
-
-float RoundToDigits(float value)
-{
-    return RoundToDigits(value, 3);
 }
 
 float RoundError(float value)

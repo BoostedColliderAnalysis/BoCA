@@ -1,6 +1,9 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "Triplet.hh"
 
-namespace analysis {
+namespace boca {
 
 Doublet const& Triplet::Doublet() const
 {

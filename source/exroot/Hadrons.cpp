@@ -3,14 +3,14 @@
 #include "Debug.hh"
 #include "JetInfo.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace exroot {
 
 Jets Hadrons::Jets() const
 {
     Info(clones_arrays().JetSum());
-    analysis::Jets jets;
+    boca::Jets jets;
     for (auto const& jet_number : Range(clones_arrays().JetSum())) {
         ::exroot::Jet& jet = static_cast<::exroot::Jet&>(clones_arrays().Jet(jet_number));
         fastjet::PseudoJet pseudo_jet = PseudoJet(jet);

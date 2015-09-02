@@ -17,7 +17,7 @@
 #include "ThePEG/Persistency/PersistentIStream.h"
 
 // using namespace Herwig;
-namespace analysis
+namespace boca
 {
 
 ThePEG::NoPIOClassDescription<EventShapes> EventShapes::initEventShapes;

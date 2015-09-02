@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "Reconstruction.hh"
 
 #include "fastjet/tools/MassDropTagger.hh"
@@ -6,7 +9,7 @@
 #include "JetInfo.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 void Reconstruction::NewEvent()
 {

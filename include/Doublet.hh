@@ -1,9 +1,12 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "TwoBody.hh"
 #include "Singlet.hh"
 
-namespace analysis {
+namespace boca {
 
 class Doublet : public TwoBody<Singlet, Singlet> {
 

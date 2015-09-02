@@ -1,9 +1,12 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "Branches.hh"
 #include "TColor.h"
 #include "TStyle.h"
 #include "Pair.hh"
 
-namespace analysis {
+namespace boca {
 
 Obs::Obs(const float& value, std::string const& name, std::string const& nice_name) : value_(&const_cast<float&>(value))
 {

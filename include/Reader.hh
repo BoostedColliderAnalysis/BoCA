@@ -1,10 +1,13 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "Tagger.hh"
 #include "PreCuts.hh"
 #include "TMVA/Reader.h"
 
-namespace analysis {
+namespace boca {
 
 /**
  * @brief read results of multivariant analysis
@@ -39,7 +42,7 @@ public:
       std::cout.rdbuf(cout);
     }
 
-    int Bdt(analysis::Event const& event, analysis::PreCuts const& pre_cuts) const
+    int Bdt(boca::Event const& event, boca::PreCuts const& pre_cuts) const
     {
         return Tagger().GetBdt(event, pre_cuts, reader());
     }

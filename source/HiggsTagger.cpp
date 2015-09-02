@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "HiggsTagger.hh"
 #include "Event.hh"
 #include "Types.hh"
@@ -7,7 +10,7 @@
 #include "InfoRecombiner.hh"
 #include "Debug.hh"
 
-namespace analysis
+namespace boca
 {
 
 HiggsTagger::HiggsTagger()
@@ -18,19 +21,19 @@ HiggsTagger::HiggsTagger()
 
 int HiggsTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const
 {
-    Info(analysis::Name(tag));
+    Info(boca::Name(tag));
     Jets jets =  event.Hadrons().Jets();
     std::vector<Doublet> doublets = unordered_pairs(jets, [&](fastjet::PseudoJet const & jet_1, fastjet::PseudoJet const & jet_2) {
-        return Doublett(Doublet(jet_1, jet_2), pre_cuts, tag);
+        return CheckDoublet(Doublet(jet_1, jet_2), pre_cuts, tag);
     });
 
     for (auto const & jet : jets) {
         try {
-            doublets.emplace_back(Doublett(Doublet(jet), pre_cuts, tag));
+            doublets.emplace_back(CheckDoublet(Doublet(jet), pre_cuts, tag));
         } catch (...) {}
         try {
             Jets pieces = Tagger::SubJets(jet, 2);
-            doublets.emplace_back(Doublett(Doublet(pieces.at(0), pieces.at(1)), pre_cuts, tag));
+            doublets.emplace_back(CheckDoublet(Doublet(pieces.at(0), pieces.at(1)), pre_cuts, tag));
         } catch (...) {}
     }
     doublets = SetClosestLepton(event, doublets);
@@ -38,9 +41,10 @@ int HiggsTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) con
     return SaveEntries(doublets, higgses, tag, Id::higgs);
 }
 
-Doublet HiggsTagger::Doublett(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const
+Doublet HiggsTagger::CheckDoublet(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const
 {
-    doublet = MassDrop(doublet);
+//     doublet = MassDrop(doublet);
+    doublet = Doublet(bottom_reader_.Multiplet(doublet.Singlet1().Jet()), bottom_reader_.Multiplet(doublet.Singlet2().Jet()));
     if (Problematic(doublet, pre_cuts, tag)) throw "problematic";
     doublet.SetTag(tag);
     return doublet;
@@ -51,9 +55,9 @@ bool HiggsTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts, T
     if (Problematic(doublet, pre_cuts)) return true;
     switch (tag) {
     case Tag::signal :
-        if (std::abs(doublet.Jet().m() - Mass(Id::higgs)) > higgs_mass_window) return true;
-        if ((doublet.Rho() > 2 || doublet.Rho() < 0.5) && doublet.Rho() > 0) return true;
-        if (doublet.Singlet1().Bdt() < 0 || doublet.Singlet2().Bdt() < 0) return true;
+//         if (std::abs(doublet.Jet().m() - Mass(Id::higgs)) > higgs_mass_window) return true;
+//         if ((doublet.Rho() > 2 || doublet.Rho() < 0.5) && doublet.Rho() > 0) return true;
+//         if (doublet.Singlet1().Bdt() < 0 || doublet.Singlet2().Bdt() < 0) return true;
         break;
     case Tag::background :
         break;
@@ -63,10 +67,13 @@ bool HiggsTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts, T
 
 bool HiggsTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts) const
 {
-    if (pre_cuts.PtLowerCut(Id::higgs) > 0 && pre_cuts.PtLowerCut(Id::higgs) > doublet.Jet().pt()) return true;
-    if (pre_cuts.PtUpperCut(Id::higgs) > 0 && pre_cuts.PtUpperCut(Id::higgs) < doublet.Jet().pt()) return true;
-    if (pre_cuts.MassUpperCut(Id::higgs) > 0 && pre_cuts.MassUpperCut(Id::higgs) < doublet.Jet().m()) return true;
-    if (pre_cuts.MassLowerCut(Id::higgs) > 0 && pre_cuts.MassLowerCut(Id::higgs) < doublet.Jet().m()) return true;
+    if (pre_cuts.PtLowerCut(Id::higgs) > 0 && doublet.Jet().pt() < pre_cuts.PtLowerCut(Id::higgs)) return true;
+    if (pre_cuts.PtUpperCut(Id::higgs) > 0 && doublet.Jet().pt() > pre_cuts.PtUpperCut(Id::higgs)) return true;
+    if (pre_cuts.MassLowerCut(Id::higgs) > 0 && doublet.Jet().m() < pre_cuts.MassLowerCut(Id::higgs)) return true;
+    if (pre_cuts.MassUpperCut(Id::higgs) > 0 && doublet.Jet().m() > pre_cuts.MassUpperCut(Id::higgs)) return true;
+    if (doublet.Jet().user_info<JetInfo>().VertexNumber() < 1) return true;
+    if (doublet.Rho() > 2.5 || doublet.Rho() < 0.5) return true;
+    if (doublet.Singlet1().Bdt() < 0 || doublet.Singlet2().Bdt() < 0) return true;
     return false;
 }
 
@@ -96,9 +103,10 @@ std::vector<Doublet> HiggsTagger::Multiplets(Event const& event, PreCuts const& 
 
 Doublet HiggsTagger::Multiplet(Doublet& doublet, Jets const& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
-    doublet = MassDrop(doublet);
-    SetClosestLepton(doublet, leptons);
+//     doublet = MassDrop(doublet);
+    doublet = Doublet(bottom_reader_.Multiplet(doublet.Singlet1().Jet()), bottom_reader_.Multiplet(doublet.Singlet2().Jet()));
     if (Problematic(doublet, pre_cuts)) throw "problematic";
+    SetClosestLepton(doublet, leptons);
     doublet.SetBdt(Bdt(doublet, reader));
     return doublet;
 }
@@ -118,18 +126,13 @@ Doublet HiggsTagger::MassDrop(Doublet const& doublet) const
     if (mass_drop_jet == 0) throw "no substructure";
 
     double radius = mass_drop_jet.pieces().at(0).delta_R(mass_drop_jet.pieces().at(1));
-    radius = std::min(radius / 2, 0.3);
-    unsigned sub_jet_number = 3;
-    fastjet::Filter filter(fastjet::JetDefinition(fastjet::cambridge_algorithm, radius, &info_recombiner), fastjet::SelectorNHardest(sub_jet_number));
-    fastjet::PseudoJet filtered_jet = filter(mass_drop_jet);
+    radius = std::min(radius / 2, .3);
+    fastjet::Filter filter(fastjet::JetDefinition(fastjet::cambridge_algorithm, radius, &info_recombiner), fastjet::SelectorNHardest(3));
+    fastjet::PseudoJet filtered_jet = filter.result(mass_drop_jet);
     if (!filtered_jet.has_pieces()) throw "no pieces";
     Jets pieces = fastjet::sorted_by_pt(filtered_jet.pieces());
     if (pieces.size() < 2) throw "not enough pieces";
-    fastjet::PseudoJet jet_1 = pieces.at(0);
-    fastjet::PseudoJet jet_2 = pieces.at(1);
-
-    Doublet filtered_doublet(bottom_reader_.Multiplet(jet_1), bottom_reader_.Multiplet(jet_2));
-    return filtered_doublet;
+    return Doublet(bottom_reader_.Multiplet(pieces.at(0)), bottom_reader_.Multiplet(pieces.at(1)));
 }
 
 }

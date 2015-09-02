@@ -1,6 +1,9 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "Octet.hh"
 
-namespace analysis {
+namespace boca {
 
 const Sextet& Octet62::Sextet() const
 {

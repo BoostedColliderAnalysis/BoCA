@@ -1,9 +1,12 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "libconfig.h++"
 
 
-namespace analysis
+namespace boca
 {
 
 enum class ColliderType

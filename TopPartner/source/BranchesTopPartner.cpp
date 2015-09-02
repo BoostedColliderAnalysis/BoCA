@@ -1,10 +1,10 @@
 #include "BranchesTopPartner.hh"
 #include "Pair.hh"
 
-namespace analysis
+namespace boca
 {
 
-namespace toppartner
+namespace naturalness
 {
 
 Observables EventBranch::Variables() const

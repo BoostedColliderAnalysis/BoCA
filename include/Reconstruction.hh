@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include <vector>
@@ -8,7 +11,7 @@ namespace fastjet{
 }
 
 
-namespace analysis {
+namespace boca {
 
 typedef std::vector<fastjet::PseudoJet> Jets;
 

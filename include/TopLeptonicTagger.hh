@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "BottomTagger.hh"
@@ -5,7 +8,7 @@
 #include "Triplet.hh"
 #include "Reader.hh"
 
-namespace analysis
+namespace boca
 {
 
 /**
@@ -18,11 +21,11 @@ class TopLeptonicTagger : public BranchTagger<TopLeptonicBranch>
 public:
 
     TopLeptonicTagger();
-// 
+//
     int Train(Event const& event, PreCuts const& pre_cuts,
               Tag tag) const override;
 
-    std::vector<Triplet> Multiplets(Event const& event, analysis::PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
+    std::vector<Triplet> Multiplets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
     int GetBdt(Event const& event, PreCuts const& pre_cuts,
                TMVA::Reader const& reader) const final {
@@ -37,7 +40,7 @@ public:
 
     fastjet::PseudoJet FakeLepton(fastjet::PseudoJet const& jet) const;
 
-    Jets Particles(analysis::Event const& event, PreCuts const& pre_cuts) const;
+    Jets Particles(boca::Event const& event, PreCuts const& pre_cuts) const;
 
     auto Multiplets(Event const& event, TMVA::Reader const& reader) const {
         PreCuts pre_cuts;
@@ -65,6 +68,8 @@ private:
     float top_mass_window;
 
     Stage InitializeLeptonicReader();
+
+    Jets Leptons(Event const& event, Jets const& jets) const;
 
 };
 

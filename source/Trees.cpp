@@ -1,11 +1,14 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "Trees.hh"
 #include "File.hh"
 // #define DEBUG
 #include "Debug.hh"
 
-namespace analysis
+namespace boca
 {
-Files::Files(std::string name, analysis::Stage stage, analysis::Tag tag): export_file_ {name.c_str(), "Recreate"} {
+Files::Files(std::string name, boca::Stage stage, boca::Tag tag): export_file_ {name.c_str(), "Recreate"} {
     stage_ = stage;
     tag_ = tag;
 }

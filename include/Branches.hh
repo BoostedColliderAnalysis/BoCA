@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include <vector>
@@ -5,9 +8,7 @@
 #include "TObject.h"
 #include "Rtypes.h"
 
-namespace analysis {
-
-// typedef std::pair<float &, std::string> ObservablePair;
+namespace boca {
 
 class Obs {
 public:
@@ -103,7 +104,7 @@ private:
 /**
  *
  * @brief Bottom tagger root tree structure base class
- * (this construct is necessary because root can not handel virtual inheritance needed for the resulution of the dreaded diamond)
+ * @details this construct is necessary because root can not handel virtual inheritance needed for the resulution of the dreaded diamond
  *
  */
 class BottomBase {
@@ -489,7 +490,7 @@ public:
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet)
     {
-        analysis::MultiBranch::Fill(multiplet);
+        boca::MultiBranch::Fill(multiplet);
         LeptonNumber = multiplet.GlobalObservables().LeptonNumber();
         JetNumber = multiplet.GlobalObservables().JetNumber();
         BottomNumber = multiplet.GlobalObservables().BottomNumber();
