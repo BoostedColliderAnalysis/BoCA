@@ -53,7 +53,7 @@ Plotting::Plotting(boca::Tagger& tagger)
 void Plotting::Fill(TAttFill& pad) const
 {
     Debug();
-    pad.SetFillColorAlpha(kWhite,0);
+//     pad.SetFillColorAlpha(kWhite, 0);
 //     gPad->SetFillColorAlpha(kWhite,0);
 //     gPad->SetFillColor(0);
 //     gPad->SetFillStyle(0);
@@ -70,24 +70,35 @@ void Plotting::TaggingEfficiency() const
     PlotAcceptanceGraph(results);
 }
 
-void Plotting::OptimalSignificance() const
+std::string Plotting::Mass(Results const& results) const{
+  int mass = results.signals.front().info_branch_.Mass;
+  std::string mass_string;
+  if (mass > 0) mass_string = "\\section*{Mass: " + std::to_string(mass) + "}\n";
+  return mass_string;
+}
+
+void Plotting::OptimalCuts() const
 {
     Debug();
     Results results = ReadBdtFiles();
     LatexFile latex_file(Tagger().ExportFolderName());
-    latex_file << Table(results);
+    latex_file << Mass(results);
+    results.Significances();
     latex_file.IncludeGraphic(PlotHistograms(results), "BDT Distribution");
     latex_file.IncludeGraphic(PlotEfficiencyGraph(results), "Efficiency");
-    latex_file.IncludeGraphic(PlotSignificanceGraph(results), "Significance");
+    latex_file.IncludeGraphic(PlotModelIndependentGraph(results), "Minimization of the crosssection for the model-independent result");
+    latex_file.IncludeGraphic(PlotModelDependentGraph(results), "Maximization of the significance for the model-dependent result");
+    latex_file.Table("rllll",EfficienciesTable(results, results.best_model_independent_bin), "Model independent efficiencies");
+    latex_file.Table("rllll",EfficienciesTable(results, results.best_model_dependent_bin), "Model dependent efficiencies");
+    latex_file.Table("rlll",BestValueTable(results),"Results for the optimal model-(in)dependent cuts");
 }
 
 Results Plotting::ReadBdtFiles() const
 {
-    TFile export_file(Tagger().ExportFileName().c_str(), "Recreate");
+    TFile file(Tagger().ExportFileName().c_str(), "Recreate");
     Results results;
-    results.signal = ReadBdtFile(export_file, Tag::signal);
-    results.background = ReadBdtFile(export_file, Tag::background);
-    export_file.Close();
+    results.signals = ReadBdtFile(file, Tag::signal);
+    results.backgrounds = ReadBdtFile(file, Tag::background);
     results.ExtremeXValues();
     return results;
 }
@@ -148,12 +159,12 @@ std::string Plotting::PlotHistograms(boca::Results& results) const
     THStack stack("", Tagger().NiceName().c_str());
     std::vector<TH1F> histograms;
     Strings nice_names;
-    for (auto const & result : results.signal) {
-        histograms.emplace_back(Histogram(result, results.max, results.min, &result - &results.signal.front()));
+    for (auto const & result : results.signals) {
+        histograms.emplace_back(Histogram(result, results.max, results.min, &result - &results.signals.front()));
         nice_names.emplace_back(result.info_branch_.Name);
     }
-    for (auto const & result : results.background) {
-        histograms.emplace_back(Histogram(result, results.max, results.min, &result - &results.background.front() + results.signal.size()));
+    for (auto const & result : results.backgrounds) {
+        histograms.emplace_back(Histogram(result, results.max, results.min, &result - &results.backgrounds.front() + results.signals.size()));
         nice_names.emplace_back(result.info_branch_.Name);
     }
     canvas.Update();
@@ -163,6 +174,7 @@ std::string Plotting::PlotHistograms(boca::Results& results) const
     SetAxis(*stack.GetXaxis(), "BDT");
     SetAxis(*stack.GetYaxis(), "N");
     TLine line = Line(results, stack.GetMinimum(), results.max.y * 1.05);
+    TLine line2 = Line2(results, stack.GetMinimum(), results.max.y * 1.05);
     std::string file_name = Tagger().ExportFolderName() + "-Bdt" + ExportFileSuffix();
     legend.Draw();
     canvas.SaveAs(file_name.c_str());
@@ -198,6 +210,7 @@ TLegend Plotting::Legend(float x_min, float y_min, float width, float height, st
     legend.SetFillStyle(0);
     legend.SetTextFont(FontCode());
     legend.SetTextSize(TextSize());
+    legend.Draw();
     return legend;
 }
 
@@ -215,7 +228,7 @@ TLegend Plotting::Legend(Orientation orientation, Strings const& entries, std::s
     // default values for Orientation::center
     float x_shift = 0.5;
     float y_shift = 0.5;
-    float x_offset = width / 4; // FIXME why is this necessary; why not 1/2
+    float x_offset = width / 4; // FIXME why is this necessary; why not 1/2?
     float y_offset = height / 2;
     FlagSwitch(orientation, [&](Orientation orientation) {
         switch (orientation) {
@@ -254,11 +267,11 @@ std::string Plotting::PlotEfficiencyGraph(Results const& results) const
     TMultiGraph multi_graph("", Tagger().NiceName().c_str());
     Strings nice_names;
     std::vector<TGraph> graphs;
-    for (auto const & result : results.signal) {
+    for (auto const & result : results.signals) {
         nice_names.emplace_back(result.info_branch_.Name);
         graphs.emplace_back(TGraph(result.steps, &results.x_values.front(), &result.efficiency.front()));
     }
-    for (auto const & result : results.background) {
+    for (auto const & result : results.backgrounds) {
         nice_names.emplace_back(result.info_branch_.Name);
         graphs.emplace_back(TGraph(result.steps, &results.x_values.front(), &result.efficiency.front()));
     }
@@ -268,19 +281,29 @@ std::string Plotting::PlotEfficiencyGraph(Results const& results) const
     multi_graph.GetXaxis()->SetLimits(results.min.x, results.max.x);
     SetAxis(*multi_graph.GetXaxis(), "BDT");
     SetAxis(*multi_graph.GetYaxis(), "Efficiency");
-    legend.Draw();
     TLine line = Line(results, multi_graph.GetYaxis()->GetXmin(), multi_graph.GetYaxis()->GetXmax());
+    TLine line2 = Line2(results, multi_graph.GetYaxis()->GetXmin(), multi_graph.GetYaxis()->GetXmax());
     std::string file_name = Tagger().ExportFolderName() + "-Efficiency" + ExportFileSuffix();
+    legend.Draw();
     canvas.SaveAs(file_name.c_str());
     return file_name;
 }
 
 TLine Plotting::Line(Results const& results, float y_min, float y_max) const
 {
-    TLine line(results.BestXValue(), y_min, results.BestXValue(), y_max);
+    TLine line(results.BestModelDependentXValue(), y_min, results.BestModelDependentXValue(), y_max);
     line.SetLineStyle(2);
-    if (results.best_bin != 0) line.Draw();
+    if (results.best_model_dependent_bin != 0) line.Draw();
     return line;
+}
+
+TLine Plotting::Line2(Results const& results, float y_min, float y_max) const
+{
+  TLine line(results.BestModelInDependentXValue(), y_min, results.BestModelInDependentXValue(), y_max);
+  line.SetLineStyle(3);
+  line.SetLineColor(kBlue);
+  if (results.best_model_independent_bin != 0) line.Draw();
+  return line;
 }
 
 void Plotting::AddGraph(TGraph& graph, TMultiGraph& multi_graph, TLegend& legend, Strings const& names, int index) const
@@ -293,7 +316,7 @@ void Plotting::AddGraph(TGraph& graph, TMultiGraph& multi_graph, TLegend& legend
 void Plotting::PlotAcceptanceGraph(Results const& results) const
 {
     Debug();
-    for (auto const & signal : results.signal) {
+    for (auto const & signal : results.signals) {
         TCanvas canvas;
         Fill(canvas);
         TMultiGraph multi_graph("", Tagger().NiceName().c_str());
@@ -301,7 +324,7 @@ void Plotting::PlotAcceptanceGraph(Results const& results) const
         Strings nice_names;
         Point min(0.2, LargeNumber());
         Point max(0.9, 0);
-        for (auto const & background : results.background) {
+        for (auto const & background : results.backgrounds) {
             float min_y = background.pure_efficiency.at(Closest(signal.pure_efficiency, min.x));
             if (min_y < min.y && min_y > 0) min.y = min_y;
             float max_y = background.pure_efficiency.at(Closest(signal.pure_efficiency, max.x));
@@ -336,17 +359,11 @@ void Plotting::SetMultiGraph(TMultiGraph& multi_graph, Point const& min, Point c
     SetAxis(*multi_graph.GetYaxis(), "Background acceptance");
 }
 
-std::string Plotting::PlotSignificanceGraph(Results& results) const
+std::string Plotting::PlotModelDependentGraph(Results& results) const
 {
-    results.Significances();
     TCanvas canvas;
     Fill(canvas);
-    TGraph graph(Result::steps, &results.x_values.front(), &results.significances.front());
-    graph.SetTitle("");
-    graph.Draw("al");
-    graph.GetXaxis()->SetLimits(results.min.x, results.max.x);
-    SetAxis(*graph.GetXaxis(), "BDT");
-    SetAxis(*graph.GetYaxis(), "Significance");
+    TGraph graph = Graph(results, results.significances, "Significance");
     canvas.Update();
     TLine line  = Line(results, gPad->GetUymin(), gPad->GetUymax());
     std::string file_name = Tagger().ExportFolderName() + "-Significance" + ExportFileSuffix();
@@ -354,18 +371,47 @@ std::string Plotting::PlotSignificanceGraph(Results& results) const
     return file_name;
 }
 
-std::string Plotting::Table(Results const& results) const
+std::string Plotting::PlotModelIndependentGraph(Results& results) const
+{
+    TCanvas canvas;
+    Fill(canvas);
+    canvas.SetLogy();
+    TGraph graph = Graph(results, results.crosssections, "Crosssection");
+    canvas.Update();
+    TLine line  = Line2(results, gPad->GetUymin(), gPad->GetUymax());
+    std::string file_name = Tagger().ExportFolderName() + "-Exclusion" + ExportFileSuffix();
+    canvas.SaveAs(file_name.c_str());
+    return file_name;
+}
+
+TGraph Plotting::Graph(Results const& results, std::vector<float> const& values, std::string const& title) const
+{
+    TGraph graph(Result::steps, &results.x_values.front(), &values.front());
+    graph.SetTitle("");
+    graph.Draw("al");
+    graph.GetXaxis()->SetLimits(results.min.x, results.max.x);
+    SetAxis(*graph.GetXaxis(), "BDT");
+    SetAxis(*graph.GetYaxis(), title.c_str());
+    return graph;
+}
+
+std::string Plotting::BestValueTable(Results const& results) const
+{
+  std::stringstream table;
+  table << "    Model\n  & Cut\n  & $p$-value\n  & Crosssection [fb]";
+  table << "\n \\\\ \\midrule\n";
+  table << "    Depended\n  & " << RoundToDigits(results.BestModelDependentXValue()) << "\n  & " << RoundToDigits(results.significances.at(results.best_model_dependent_bin)) << "\n  & " << RoundToDigits(results.crosssections.at(results.best_model_dependent_bin)) << "\n";
+  table << " \\\\ Independed  \n  & " << RoundToDigits(results.BestModelInDependentXValue()) << "\n  & " << RoundToDigits(results.significances.at(results.best_model_independent_bin)) << "\n  & " << RoundToDigits(results.crosssections.at(results.best_model_independent_bin)) << "\n \\\\";
+  return table.str();
+}
+
+std::string Plotting::EfficienciesTable(Results const& results, int bin) const
 {
     std::stringstream table;
-    table << "An optimal BDT cut of " << RoundToDigits(results.BestXValue()) << " leads to a $p$-value of " << RoundToDigits(results.significances.at(results.best_bin)) << ".\n";
-    int mass = results.signal.front().info_branch_.Mass;
-    if (mass > 0) table << "Mass: " << mass << "\n";
-    table << "\n\\begin{table}\n\\centering\n\\begin{tabular}{rllll}\n\\toprule\n";
     table << "    Sample\n  & Efficiency\n  & after\n  & before\n  & Crosssection [fb]";
     table << "\n \\\\ \\midrule\n";
-    for (auto const & result : results.signal) table << " \\verb|" << Tagger().TreeNames(Tag::signal).at(&result - &results.signal.front()) << "|\n  & " << RoundToDigits(result.efficiency.at(results.best_bin)) << "\n  & " << result.event_sums.at(results.best_bin) << "\n  & " << result.info_branch_.EventNumber << "\n  & " << RoundToDigits(result.info_branch_.Crosssection) << "\n \\\\";
-    for (auto const & result : results.background) table << " \\verb|" << Tagger().TreeNames(Tag::background).at(&result - &results.background.front()) << "|\n  & " << RoundToDigits(result.efficiency.at(results.best_bin)) << "\n  & " << result.event_sums.at(results.best_bin) << "\n  & " << result.info_branch_.EventNumber << "\n  & " << RoundToDigits(result.info_branch_.Crosssection) << "\n \\\\";
-    table << " \\bottomrule\n\\end{tabular}\n\\caption{Significance and efficiencies.}\n\\end{table}\n";
+    for (auto const & result : results.signals) table << " \\verb|" << Tagger().TreeNames(Tag::signal).at(&result - &results.signals.front()) << "|\n  & " << RoundToDigits(result.efficiency.at(bin)) << "\n  & " << result.event_sums.at(bin) << "\n  & " << result.info_branch_.EventNumber << "\n  & " << RoundToDigits(result.info_branch_.Crosssection) << "\n \\\\";
+    for (auto const & result : results.backgrounds) table << " \\verb|" << Tagger().TreeNames(Tag::background).at(&result - &results.backgrounds.front()) << "|\n  & " << RoundToDigits(result.efficiency.at(bin)) << "\n  & " << result.event_sums.at(bin) << "\n  & " << result.info_branch_.EventNumber << "\n  & " << RoundToDigits(result.info_branch_.Crosssection) << "\n \\\\";
     return table.str();
 }
 
@@ -598,7 +644,7 @@ Plot Plotting::ReadTree(TTree& tree, std::string const& leaf_1, std::string cons
 Plot Plotting::CoreVector(Plot& plot, std::function<bool (Point const&, Point const&)> const& function) const
 {
     // TODO sorting the whole vector if you just want to get rid of the extrem values might not be the fastest solution
-    std::sort(plot.points.begin(), plot.points.end(), [&](Point const& a, Point const& b) {
+    std::sort(plot.points.begin(), plot.points.end(), [&](Point const & a, Point const & b) {
         return function(a, b);
     });
     int cut_off = plot.points.size() / 25;

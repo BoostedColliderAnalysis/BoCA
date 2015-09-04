@@ -72,7 +72,7 @@ public:
 
     void TaggingEfficiency() const;
 
-    void OptimalSignificance() const;
+    void OptimalCuts() const;
 
     void RunPlots() const;
 
@@ -120,6 +120,8 @@ private:
 
     TLine Line(const boca::Results& results, float y_min, float y_max) const;
 
+    TLine Line2(const boca::Results& results, float y_min, float y_max) const;
+
     void AddGraph(TGraph& graph, TMultiGraph& multi_graph, TLegend& legend, Strings const& name, int index) const;
 
     void PlotAcceptanceGraph(const boca::Results& results) const;
@@ -132,11 +134,17 @@ private:
 
     Result BdtDistribution(TFile& file, std::string const& tree_name, TFile& export_file) const;
 
-    std::string Table(Results const& results) const;
+    std::string BestValueTable(Results const& results) const;
+
+    std::string EfficienciesTable(Results const& results, int bin) const;
 
     std::string PlotEfficiencyGraph(const boca::Results& results) const;
 
-    std::string PlotSignificanceGraph(boca::Results& results) const;
+    std::string PlotModelDependentGraph(boca::Results& results) const;
+
+    std::string PlotModelIndependentGraph(boca::Results& results) const;
+
+    TGraph Graph(Results const& results, std::vector<float> const& values, std::string const& title) const;
 
     Plot CoreVector(Plot& plot, std::function<bool(Point const&, Point const&)> const& function) const;
 
@@ -147,6 +155,8 @@ private:
     float TextSize() const;
 
     float LabelSize() const;
+
+    std::string Mass(Results const& results) const;
 
     boca::Tagger& Tagger() const;
 

@@ -163,6 +163,12 @@ void AnalysisBase::RunFullSignificance()
     RunSignificance();
 }
 
+void AnalysisBase::RunFullExclusion()
+{
+  RunNormal();
+  RunExclusion();
+}
+
 void AnalysisBase::ClearFiles()
 {
     files_.clear();
@@ -198,8 +204,17 @@ void AnalysisBase::RunSignificance()
     PrepareFiles();
     if (!Exists(tagger().ExportFileName())) {
         Plotting plot(tagger());
-        plot.OptimalSignificance();
+        plot.OptimalCuts();
     }
+}
+
+void AnalysisBase::RunExclusion()
+{
+  PrepareFiles();
+  if (!Exists(tagger().ExportFileName())) {
+    Plotting plot(tagger());
+    plot.OptimalCuts();
+  }
 }
 
 void AnalysisBase::RunEfficiency()

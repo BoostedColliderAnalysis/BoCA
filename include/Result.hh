@@ -29,6 +29,13 @@ struct Flag<Style> {
   static const bool enable = true;
 };
 
+enum class Precision{
+  low = 0,
+  normal = 1,
+  high = 2,
+  pixel = 3
+};
+
 struct Point {
     Point() {};
     Point(float xx, float yy) {
@@ -87,13 +94,16 @@ public:
     void Significances();
     void BestBin();
     float XValue(int value) const;
-    float BestXValue() const;
+    float BestModelDependentXValue() const;
+    float BestModelInDependentXValue() const;
     void ExtremeXValues();
-    std::vector<Result> signal;
-    std::vector<Result> background;
+    std::vector<Result> signals;
+    std::vector<Result> backgrounds;
     std::vector<float> significances;
+    std::vector<float> crosssections;
     std::vector<float> x_values;
-    int best_bin = 0;
+    int best_model_dependent_bin = 0;
+    int best_model_independent_bin = 0;
     Point min;
     Point max;
 };

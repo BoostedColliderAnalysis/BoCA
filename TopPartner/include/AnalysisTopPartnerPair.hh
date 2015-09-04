@@ -29,7 +29,7 @@ public:
 protected:
 
     std::string ProjectName() const final {
-      return ProcessName() + "-" + std::to_string(this->PreCut()) + "GeV-" + Name(DetectorGeometry::detector_type()) + "-" + std::to_string(this->Mass()) + "GeV-val";
+      return ProcessName() + "-" + std::to_string(this->PreCut()) + "GeV-" + Name(DetectorGeometry::detector_type()) + "-" + std::to_string(this->Mass()) + "GeV-andy";
     }
 
     std::string ProcessName() const final {

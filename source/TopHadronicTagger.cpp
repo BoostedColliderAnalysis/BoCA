@@ -128,7 +128,7 @@ Triplet TopHadronicTagger::Triplet(boca::Triplet& triplet, boca::Jets const& lep
 float TopHadronicTagger::LeptonPt(boca::Triplet const& triplet, boca::Jets const& leptons) const
 {
     float pt = 0;
-    for (auto const& lepton : leptons) if (Close(lepton)(triplet) && lepton.pt() > pt) pt = lepton.pt();
+    for (auto const& lepton : leptons) if (lepton.pt() > pt && Close(lepton)(triplet)) pt = lepton.pt();
     return pt;
 }
 

@@ -1,5 +1,5 @@
 #include "EventPairTagger.hh"
-#define DEBUG
+// #define DEBUG
 #include "Debug.hh"
 
 namespace boca {

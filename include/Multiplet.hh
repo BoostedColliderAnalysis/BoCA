@@ -30,6 +30,13 @@ protected:
 
     virtual fastjet::PseudoJet Jet() const override = 0;
 
+    /**
+     * @brief join the two jets
+     *
+     * @details this function becomes expensive very fast.
+     *          save the result in an temporary variable
+     *
+     */
     fastjet::PseudoJet Jet(fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2) const;
 
     Vector2 Pull() const override;
@@ -48,13 +55,13 @@ protected:
 
     float DeltaHt(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
-    float Rho(MultipletBase const& jet_1, MultipletBase const& jet_2) const;
+    float Rho(MultipletBase const& jet_1, MultipletBase const& jet_2, fastjet::PseudoJet const& jet) const;
 
     float PullDifference(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
     float PullSum(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
-    float Dipolarity(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
+    float Dipolarity(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2, fastjet::PseudoJet const& jet) const;
 
     int Charge(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
@@ -69,7 +76,6 @@ protected:
     void SetSinglet(fastjet::PseudoJet const& jet) const {
       singlet_ = Singlet(jet);
     }
-
 
     /**
      * @brief store intermediate results

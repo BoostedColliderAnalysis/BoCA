@@ -4,7 +4,7 @@
 #include "BosonTagger.hh"
 #include "Event.hh"
 #include "Doublet.hh"
-#define DEBUG
+// #define DEBUG
 #include "Debug.hh"
 
 namespace boca
@@ -36,9 +36,9 @@ int BosonTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) con
     Jets particles = event.Partons().GenParticles();
     Jets higgses = CopyIfParticles(particles, Id::higgs, Id::CP_violating_higgs);
     Jets vectors = CopyIfParticles(particles, Id::W, Id::Z);
-    Jets bosons;// = Join(higgses,vectors);
-    if (vectors.empty()) bosons = higgses;
-    else bosons = vectors;
+    Jets bosons = Join(higgses, vectors);
+//     if (vectors.empty()) bosons = higgses;
+//     else bosons = vectors;
     return SaveEntries(doublets, bosons, tag);
 }
 

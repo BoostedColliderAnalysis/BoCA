@@ -20,8 +20,21 @@ enum class Process
     TT,
     ttBjj,
     tthBjj,
+    ttBBjj,
     TThh
 };
+
+std::string Name(Process process)
+{
+    switch (process) {
+    case Process::Tth : return "Tth";
+    case Process::TT : return "TT";
+    case Process::ttBjj : return "ttBjj";
+    case Process::tthBjj : return "tthBjj";
+    case Process::ttBBjj : return "ttBBjj";
+    case Process::TThh : return "TThh";
+    }
+}
 
 /**
  *
@@ -42,17 +55,18 @@ public:
 protected:
 
     int Mass() const {
-        return 4000;
         return 2000;
-        return 1000;
         return 500;
+        return 4000;
+        return 1000;
         return 8000;
         return 10000;
     }
 
     long EventNumberMax() const override {
-        return 100;
+        return 10000;
         return 1000;
+        return 100;
         return 10;
     }
 
@@ -74,37 +88,68 @@ protected:
 
     float Crosssection(Process process) const {
         float crosssection;
-        switch (process) {
-        case Process::Tth : crosssection = 0.004964;
-            break;
-        case Process::TT :
-            switch (Mass()) {
-            case 2000 : crosssection = 0.264;
+        switch (DetectorGeometry::detector_type()) {
+        case DetectorType::CMS : {
+            switch (process) {
+            case Process::TT :
+                switch (Mass()) {
+                case 500 : crosssection = 0.5156;
+                    break;
+                case 1000 : crosssection = 0.01041;
+                    break;
+                case 2000 : crosssection = 4.787e-05;
+                    break;
+                case 4000 : crosssection = 7.022e-09;
+                    break;
+                default : crosssection = 1;
+                    Error("wrong mass", Mass());
+                }
+            case Process::ttBjj :
+                crosssection = 0.03024;
                 break;
-            case 10000 : crosssection = 2.485e-05;
+            case Process::ttBBjj :
+                crosssection = 1;
                 break;
             default : crosssection = 1;
-                Error("wrong mass", Mass());
+                Error("wrong process", Name(process));
             }
-            break;
-        case Process::ttBjj :
-            switch (PreCut()) {
-            case 0 : crosssection = 1.669;
+        }
+        break;
+        case DetectorType::Spp : {
+            switch (process) {
+            case Process::Tth : crosssection = 0.004964;
                 break;
-            case 200 : crosssection = 0.1754;
+            case Process::TT :
+                switch (Mass()) {
+                case 2000 : crosssection = 0.264;
+                    break;
+                case 10000 : crosssection = 2.485e-05;
+                    break;
+                default : crosssection = 1;
+                    Error("wrong mass", Mass());
+                }
+                break;
+            case Process::ttBjj :
+                switch (PreCut()) {
+                case 0 : crosssection = 1.669;
+                    break;
+                case 200 : crosssection = 0.1754;
+                    break;
+                }
+                break;
+            case Process::tthBjj :
+                switch (PreCut()) {
+                case 0 : crosssection = 0.02535;
+                    break;
+                case 200 : crosssection = 0.02535;
+                    break;
+                }
+                break;
+            case Process::TThh : crosssection = 3.057e-05;
                 break;
             }
-            break;
-        case Process::tthBjj :
-            switch (PreCut()) {
-            case 0 : crosssection = 0.02535;
-                break;
-            case 200 : crosssection = 0.02535;
-                break;
-            }
-            break;
-        case Process::TThh : crosssection = 3.057e-05;
-            break;
+        }
+        break;
         }
         return crosssection * 2 * 1000;
     }

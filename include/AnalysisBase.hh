@@ -35,6 +35,8 @@ public:
 
     void RunFullSignificance();
 
+    void RunFullExclusion();
+
     void RunFullEfficiency();
 
     void RunPlots();
@@ -116,6 +118,8 @@ private:
     void RunTrainer();
 
     void RunSignificance();
+
+    void RunExclusion();
 
     void RunEfficiency();
 

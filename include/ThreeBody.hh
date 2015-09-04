@@ -191,15 +191,15 @@ public:
     }
 
     float Rho() const {
-        return Multiplet::Rho(Multiplet1(), Multiplet2());
+        return Multiplet::Rho(Multiplet1(), Multiplet2(), Jet12());
     }
 
     float Rho23() const {
-        return Multiplet::Rho(Multiplet2(), Multiplet3());
+        return Multiplet::Rho(Multiplet2(), Multiplet3(), Jet23());
     }
 
     float Rho13() const {
-        return Multiplet::Rho(Multiplet1(), Multiplet3());
+        return Multiplet::Rho(Multiplet1(), Multiplet3(), Jet13());
     }
 
     int Charge() const {
@@ -232,15 +232,15 @@ public:
     }
 
     float Dipolarity() const {
-        return Multiplet::Dipolarity(Multiplet1(), Multiplet2());
+        return Multiplet::Dipolarity(Multiplet1(), Multiplet2(), Jet12());
     }
 
     float Dipolarity23() const {
-        return Multiplet::Dipolarity(Multiplet2(), Multiplet3());
+        return Multiplet::Dipolarity(Multiplet2(), Multiplet3(), Jet23());
     }
 
     float Dipolarity13() const {
-        return Multiplet::Dipolarity(Multiplet1(), Multiplet3());
+        return Multiplet::Dipolarity(Multiplet1(), Multiplet3(), Jet13());
     }
 
     float BottomBdt() const final{

@@ -5,7 +5,8 @@
 
 #include "Types.hh"
 #include "DetectorGeometry.hh"
-// #define DEBUG
+#include "Math.hh"
+#define DEBUG
 #include "Debug.hh"
 
 namespace boca
@@ -69,36 +70,52 @@ Results::Results()
 {
     Info();
     significances.resize(Result::steps, 0);
+    crosssections.resize(Result::steps, 0);
     x_values.resize(Result::steps, 0);
     for (auto & x_value : x_values) x_value = XValue(&x_value - &x_values.front());
 }
 
-void Results::Significances()
-{
+void Results::Significances() {
     Info();
     for (auto const & step : Range(Result::steps)) {
         float signal_events = 0;
-        for (auto const & signal_results : signal) signal_events += signal_results.events.at(step);
+        float signal_efficiencies = 0;
+        for (auto const & signal : signals) {
+          signal_events += signal.events.at(step);
+          signal_efficiencies += signal.efficiency.at(step);
+        }
         float background_events = 0;
-        for (auto const & background_result : background) background_events += background_result.events.at(step);
+        float background_efficiencies = 0;
+        for (auto const & background : backgrounds) {
+          background_events += background.events.at(step);
+          background_efficiencies += background.efficiency.at(step);
+        }
         if (signal_events + background_events > 0) significances.at(step) = signal_events / std::sqrt(signal_events + background_events);
         else significances.at(step) = 0;
+
+        // FIXME get rid of this hack
+        float backgroundXSec = 0.03 * 1000;
+        float exclusion = 2;
+        if (signal_efficiencies > 0) crosssections.at(step) = (exclusion + std::sqrt(sqr(exclusion) + 4 * background_efficiencies * DetectorGeometry::Luminosity() * backgroundXSec)) * exclusion / 2 / DetectorGeometry::Luminosity() / signal_efficiencies;
+        else crosssections.at(step) = 0;
     }
     BestBin();
+
 }
 
 void Results::BestBin()
 {
-    Info();
-    std::vector<float> efficiencies(background.size(), 0);
-    int counter = 0;
-    for (auto const & number : Range(background.size())) {
-        while (efficiencies.at(number) == 0 && counter < Result::steps) {
-            best_bin = std::distance(significances.begin(), std::max_element(std::begin(significances), std::end(significances) - counter));
-            efficiencies.at(number) = background.at(number).efficiency.at(best_bin);
-            ++counter;
-        }
+  Info();
+  std::vector<float> efficiencies(backgrounds.size(), 0);
+  int counter = 0;
+  for (auto const & number : Range(backgrounds.size())) {
+    while (efficiencies.at(number) == 0 && counter < Result::steps) {
+      best_model_dependent_bin = std::distance(significances.begin(), std::max_element(std::begin(significances), std::end(significances) - counter));
+      best_model_independent_bin = std::distance(crosssections.begin(), std::min_element(std::begin(crosssections), std::end(crosssections) - counter));
+      efficiencies.at(number) = backgrounds.at(number).efficiency.at(best_model_independent_bin);
+      ++counter;
     }
+  }
 }
 
 float Results::XValue(int value) const
@@ -110,20 +127,26 @@ float Results::XValue(int value) const
 void Results::ExtremeXValues()
 {
     Info();
-    for (auto const & result : background) {
+    for (auto const & result : backgrounds) {
         float min_0 = *std::min_element(result.bdt.begin(), result.bdt.end());
         if (min_0 < min.x) min.x = min_0;
     }
-    for (auto const & result : signal) {
+    for (auto const & result : signals) {
         float max_0 = *std::max_element(result.bdt.begin(), result.bdt.end());
         if (max_0 > max.x) max.x = max_0;
     }
 }
 
-float Results::BestXValue() const
+float Results::BestModelDependentXValue() const
 {
     Info();
-    return XValue(best_bin);
+    return XValue(best_model_dependent_bin);
+}
+
+float Results::BestModelInDependentXValue() const
+{
+  Info();
+  return XValue(best_model_independent_bin);
 }
 
 int ColorCode(int number)
@@ -171,8 +194,8 @@ std::string Formula(std::string const& text)
 
 int FontCode(Font font, Style style, int precision)
 {
-  Info();
-  return 10 * FontNumber(font, style) + precision;
+    Info();
+    return 10 * FontNumber(font, style) + precision;
 }
 
 int FontNumber(Font font, Style style)

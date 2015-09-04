@@ -117,7 +117,7 @@ public:
     }
 
     float Rho() const {
-        return Multiplet::Rho(Multiplet1(), Multiplet2());
+        return Multiplet::Rho(Multiplet1(), Multiplet2(), Jet());
     }
 
     float MassDifferenceTo(Id id) const {
@@ -142,7 +142,7 @@ public:
     }
 
     float Dipolarity() const {
-        return Multiplet::Dipolarity(Multiplet1(), Multiplet2());
+        return Multiplet::Dipolarity(Multiplet1(), Multiplet2(), Jet());
     }
 
     float BottomBdt() const final {

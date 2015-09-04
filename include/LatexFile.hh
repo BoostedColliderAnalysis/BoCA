@@ -27,8 +27,10 @@ public:
 //                     << "\\usetikzlibrary{patterns}\n"
 //                     << "\\usetikzlibrary{plotmarks}\n"
                     << "\\setcounter{topnumber}{0}\n"
-                    << "\\setcounter{bottomnumber}{4}\n"
+                    << "\\setcounter{bottomnumber}{6}\n"
+                    << "\\setcounter{totalnumber}{6}\n"
                     << "\\renewcommand{\\bottomfraction}{1}\n"
+                    << "\\renewcommand{\\textfraction}{0}\n"
                     << "\n\\begin{document}\n";
     }
 
@@ -45,9 +47,15 @@ public:
 //         latex_file_ << string;
 //     }
 
-    std::string IncludeGraphic(std::string file_name, std::string caption) {
-        latex_file_ << "\n\\begin{figure}\n\\centering\n\\includegraphics[width=0.5\\textwidth]{../" + file_name + "}\n\\caption{" + caption + "}\n\\end{figure}\n";
-        return "\n\\begin{figure}\n\\centering\n\\scalebox{0.6}{\\input{" + file_name + "}}\n\\caption{" + caption + ".}\n\\end{figure}\n";
+    void IncludeGraphic(std::string file_name, std::string caption) {
+        latex_file_ << "\n\\begin{figure}\n\\centering\n\\includegraphics[width=0.5\\textwidth]{../" + file_name + "}\n\\caption{" + caption + ".}\n\\end{figure}\n";
+//         return "\n\\begin{figure}\n\\centering\n\\scalebox{0.6}{\\input{" + file_name + "}}\n\\caption{" + caption + ".}\n\\end{figure}\n";
+    }
+
+    void Table(std::string const& header, std::string const& content, std::string caption) {
+        latex_file_ << "\n\\begin{table}\n\\centering\n\\begin{tabular}{" << header << "}\n    \\toprule\n";
+        latex_file_ << content;
+        latex_file_ << " \\bottomrule\n\\end{tabular}\n\\caption{" << caption << ".}\n\\end{table}\n";
     }
 
     std::ofstream latex_file_;
