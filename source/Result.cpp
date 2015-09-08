@@ -75,47 +75,48 @@ Results::Results()
     for (auto & x_value : x_values) x_value = XValue(&x_value - &x_values.front());
 }
 
-void Results::Significances() {
+void Results::Significances()
+{
     Info();
     for (auto const & step : Range(Result::steps)) {
         float signal_events = 0;
         float signal_efficiencies = 0;
+        float crosssection = 0;
         for (auto const & signal : signals) {
-          signal_events += signal.events.at(step);
-          signal_efficiencies += signal.efficiency.at(step);
+            signal_events += signal.events.at(step);
+            signal_efficiencies += signal.efficiency.at(step) * signal.info_branch_.Crosssection;
+            if (signal.info_branch_.Crosssection > crosssection) crosssection = signal.info_branch_.Crosssection;
         }
+        signal_efficiencies /= crosssection;
         float background_events = 0;
         float background_efficiencies = 0;
         for (auto const & background : backgrounds) {
-          background_events += background.events.at(step);
-          background_efficiencies += background.efficiency.at(step);
+            background_events += background.events.at(step);
+            background_efficiencies += background.efficiency.at(step);
         }
         if (signal_events + background_events > 0) significances.at(step) = signal_events / std::sqrt(signal_events + background_events);
         else significances.at(step) = 0;
 
-        // FIXME get rid of this hack
-        float backgroundXSec = 0.03 * 1000;
         float exclusion = 2;
-        if (signal_efficiencies > 0) crosssections.at(step) = (exclusion + std::sqrt(sqr(exclusion) + 4 * background_efficiencies * DetectorGeometry::Luminosity() * backgroundXSec)) * exclusion / 2 / DetectorGeometry::Luminosity() / signal_efficiencies;
+        if (signal_efficiencies > 0) crosssections.at(step) = (exclusion + std::sqrt(sqr(exclusion) + 4 * background_events)) * exclusion / 2 / DetectorGeometry::Luminosity() / signal_efficiencies;
         else crosssections.at(step) = 0;
     }
     BestBin();
-
 }
 
 void Results::BestBin()
 {
-  Info();
-  std::vector<float> efficiencies(backgrounds.size(), 0);
-  int counter = 0;
-  for (auto const & number : Range(backgrounds.size())) {
-    while (efficiencies.at(number) == 0 && counter < Result::steps) {
-      best_model_dependent_bin = std::distance(significances.begin(), std::max_element(std::begin(significances), std::end(significances) - counter));
-      best_model_independent_bin = std::distance(crosssections.begin(), std::min_element(std::begin(crosssections), std::end(crosssections) - counter));
-      efficiencies.at(number) = backgrounds.at(number).efficiency.at(best_model_independent_bin);
-      ++counter;
+    Info();
+    std::vector<float> efficiencies(backgrounds.size(), 0);
+    int counter = 0;
+    for (auto const & number : Range(backgrounds.size())) {
+        while (efficiencies.at(number) == 0 && counter < Result::steps) {
+            best_model_dependent_bin = std::distance(significances.begin(), std::max_element(std::begin(significances), std::end(significances) - counter));
+            best_model_independent_bin = std::distance(crosssections.begin(), std::min_element(std::begin(crosssections), std::end(crosssections) - counter));
+            efficiencies.at(number) = backgrounds.at(number).efficiency.at(best_model_independent_bin);
+            ++counter;
+        }
     }
-  }
 }
 
 float Results::XValue(int value) const
@@ -145,8 +146,8 @@ float Results::BestModelDependentXValue() const
 
 float Results::BestModelInDependentXValue() const
 {
-  Info();
-  return XValue(best_model_independent_bin);
+    Info();
+    return XValue(best_model_independent_bin);
 }
 
 int ColorCode(int number)
