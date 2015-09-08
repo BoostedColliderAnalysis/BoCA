@@ -12,7 +12,7 @@ namespace boca {
 
 class Obs {
 public:
-    Obs(const float& value, std::string const& name, std::string const& nice_name);
+    Obs(float const& value, std::string const& name, std::string const& nice_name);
     float& value() const;
     std::string name() const;
     std::string nice_name() const;
@@ -32,8 +32,8 @@ public:
     virtual ~BaseBranch();
 protected:
     static float InitialValue();
-    static Observables Join(const Observables& observables_1, const Observables& observables_2);
-    static Observables Join(const Observables& observables_1, const Observables& observables_2, const Observables& observables_3);
+    static Observables Join(Observables const& observables_1, Observables const& observables_2);
+    static Observables Join(Observables const& observables_1, Observables const& observables_2, Observables const& observables_3);
 private:
     ClassDef(BaseBranch, 1)
 };

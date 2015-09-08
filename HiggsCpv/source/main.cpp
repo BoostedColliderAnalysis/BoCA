@@ -1,14 +1,16 @@
 #include "AnalysisHiggsCpv.hh"
 
 #include "../include/EventTagger.hh"
-#include "../include/EventTTagger.hh"
-#include "SignatureLeptonTagger.hh"
+#include "EventTTagger.hh"
+#include "EventLeptonTTagger.hh"
+#include "SignatureLeptonTTagger.hh"
 #include "Types.hh"
 #include "FourVector.hh"
 #include "Debug.hh"
 
 int main()
 {
+
     boca::higgscpv::Analysis<boca::BottomTagger> bottom_analysis;
     bottom_analysis.RunNormal();
 
@@ -26,7 +28,7 @@ int main()
 
     boca::higgscpv::Analysis<boca::HiggsTagger> higgs_analysis;
     higgs_analysis.RunFullEfficiency();
-    higgs_analysis.RunPlots();
+//     higgs_analysis.RunPlots();
 
 //     boca::higgscpv::Analysis<boca::higgscpv::TopLeptonicPairTagger> jet_pair_analysis;
 //     jet_pair_analysis.RunFullEfficiency();
@@ -41,14 +43,21 @@ int main()
 
     boca::higgscpv::Analysis<boca::higgscpv::SignatureTTagger> signature_t_analysis;
     signature_t_analysis.RunFullEfficiency();
-    signature_t_analysis.RunPlots();
+//     signature_t_analysis.RunPlots();
 
     boca::higgscpv::Analysis<boca::higgscpv::EventTTagger> event_t_analysis;
     event_t_analysis.RunFullSignificance();
 
 //     boca::higgscpv::Analysis<boca::higgscpv::SignatureLeptonTagger> signature_l_analysis;
 //     signature_l_analysis.RunFullEfficiency();
-//     signature_l_analysis.RunPlots();
+    //     signature_l_analysis.RunPlots();
+
+    boca::higgscpv::Analysis<boca::higgscpv::SignatureLeptonTTagger> signature_lepton_t_analysis;
+    signature_lepton_t_analysis.RunFullEfficiency();
+        signature_t_analysis.RunPlots();
+
+    boca::higgscpv::Analysis<boca::higgscpv::EventLeptonTTagger> event_lepton_t_analysis;
+    event_lepton_t_analysis.RunFullSignificance();
 
 
 }

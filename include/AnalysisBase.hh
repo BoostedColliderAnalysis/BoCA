@@ -35,8 +35,6 @@ public:
 
     void RunFullSignificance();
 
-    void RunFullExclusion();
-
     void RunFullEfficiency();
 
     void RunPlots();
@@ -105,6 +103,8 @@ protected:
 
     virtual Tagger const& tagger() const = 0;
 
+    std::string working_path_;
+
 private:
 
     virtual Tagger& tagger() = 0;
@@ -119,9 +119,9 @@ private:
 
     void RunSignificance();
 
-    void RunExclusion();
-
     void RunEfficiency();
+
+    std::string WorkingPath();
 
     PreCuts pre_cuts_;
 

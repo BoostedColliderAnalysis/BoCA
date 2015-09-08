@@ -17,6 +17,8 @@ Jets CopyIfParticles(Jets const& jets, Id id_1, Id id_2);
 
 Jets CopyIfNeutrino(Jets const& jets);
 
+Jets CopyIfLepton(Jets const& jets);
+
 Jets CopyIfExactParticle(Jets const& jets, int id);
 
 Jets RemoveIfExactParticle(Jets jets, int id);

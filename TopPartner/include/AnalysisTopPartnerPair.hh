@@ -29,7 +29,7 @@ public:
 protected:
 
     std::string ProjectName() const final {
-      return ProcessName() + "-" + std::to_string(this->PreCut()) + "GeV-" + Name(DetectorGeometry::detector_type()) + "-" + std::to_string(this->Mass()) + "GeV-andy";
+      return ProcessName() + "-" + std::to_string(this->PreCut()) + "GeV-" + Name(DetectorGeometry::detector_type()) + "-" + std::to_string(this->Mass()) + "GeV-2bg";
     }
 
     std::string ProcessName() const final {
@@ -43,6 +43,7 @@ protected:
             break;
         case Tag::background :
             this->NewFile(tag, Process::ttBjj);
+            this->NewFile(tag, Process::ttBB);
 //             this->NewFile(tag, Process::tthBjj);
             break;
         }

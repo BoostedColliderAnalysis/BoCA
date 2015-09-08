@@ -6,8 +6,10 @@ TopLeptonicPairTagger.cpp
 SignatureTagger.cpp
 SignatureTTagger.cpp
 SignatureLeptonTagger.cpp
+SignatureLeptonTTagger.cpp
 EventTagger.cpp
 EventTTagger.cpp
+EventLeptonTTagger.cpp
 )
 create_library(HiggsCpvTagger LibrarySources)
 

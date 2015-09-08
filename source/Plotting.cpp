@@ -35,7 +35,7 @@
 #include "Branches.hh"
 #include "LatexFile.hh"
 #include "Result.hh"
-// #define DEBUG
+// #define INFORMATION
 #include "Debug.hh"
 
 namespace boca
@@ -43,7 +43,7 @@ namespace boca
 
 Plotting::Plotting(boca::Tagger& tagger)
 {
-    Debug();
+    Info();
     tagger_ = &tagger;
     gStyle->SetOptStat("");
     gStyle->SetTitleFont(FontCode(), "t");
@@ -52,7 +52,7 @@ Plotting::Plotting(boca::Tagger& tagger)
 
 void Plotting::Fill(TAttFill& pad) const
 {
-    Debug();
+    Info();
 //     pad.SetFillColorAlpha(kWhite, 0);
 //     gPad->SetFillColorAlpha(kWhite,0);
 //     gPad->SetFillColor(0);
@@ -63,23 +63,25 @@ void Plotting::Fill(TAttFill& pad) const
 
 void Plotting::TaggingEfficiency() const
 {
-    Debug();
+    Info();
     Results results = ReadBdtFiles();
     PlotHistograms(results);
     PlotEfficiencyGraph(results);
     PlotAcceptanceGraph(results);
 }
 
-std::string Plotting::Mass(Results const& results) const{
-  int mass = results.signals.front().info_branch_.Mass;
-  std::string mass_string;
-  if (mass > 0) mass_string = "\\section*{Mass: " + std::to_string(mass) + "}\n";
-  return mass_string;
+std::string Plotting::Mass(Results const& results) const
+{
+    Info();
+    int mass = results.signals.front().info_branch_.Mass;
+    std::string mass_string;
+    if (mass > 0) mass_string = "\\section*{Mass: " + std::to_string(mass) + "}\n";
+    return mass_string;
 }
 
 void Plotting::OptimalCuts() const
 {
-    Debug();
+    Info();
     Results results = ReadBdtFiles();
     LatexFile latex_file(Tagger().ExportFolderName());
     latex_file << Mass(results);
@@ -88,13 +90,14 @@ void Plotting::OptimalCuts() const
     latex_file.IncludeGraphic(PlotEfficiencyGraph(results), "Efficiency");
     latex_file.IncludeGraphic(PlotModelIndependentGraph(results), "Minimization of the crosssection for the model-independent result");
     latex_file.IncludeGraphic(PlotModelDependentGraph(results), "Maximization of the significance for the model-dependent result");
-    latex_file.Table("rllll",EfficienciesTable(results, results.best_model_independent_bin), "Model independent efficiencies");
-    latex_file.Table("rllll",EfficienciesTable(results, results.best_model_dependent_bin), "Model dependent efficiencies");
-    latex_file.Table("rlll",BestValueTable(results),"Results for the optimal model-(in)dependent cuts");
+    latex_file.Table("rllll", EfficienciesTable(results, results.best_model_independent_bin), "Model independent efficiencies");
+    latex_file.Table("rllll", EfficienciesTable(results, results.best_model_dependent_bin), "Model dependent efficiencies");
+    latex_file.Table("rlll", BestValueTable(results), "Results for the optimal model-(in)dependent cuts");
 }
 
 Results Plotting::ReadBdtFiles() const
 {
+    Info();
     TFile file(Tagger().ExportFileName().c_str(), "Recreate");
     Results results;
     results.signals = ReadBdtFile(file, Tag::signal);
@@ -105,6 +108,7 @@ Results Plotting::ReadBdtFiles() const
 
 std::vector<Result> Plotting::ReadBdtFile(TFile& export_file, Tag tag) const
 {
+    Info();
     std::string file_name = Tagger().FileName(Stage::reader, tag);
     Debug(file_name);
     if (!Exists(file_name)) Error("non existent", file_name);
@@ -116,6 +120,7 @@ std::vector<Result> Plotting::ReadBdtFile(TFile& export_file, Tag tag) const
 
 Result Plotting::BdtDistribution(TFile& file, std::string const& tree_name, TFile& export_file) const
 {
+    Info();
     std::string branch_name = Tagger().BranchName(Stage::reader);
     Debug(branch_name);
     exroot::TreeReader tree_reader(static_cast<TTree*>(file.Get(tree_name.c_str())));
@@ -153,7 +158,7 @@ InfoBranch Plotting::InfoBranch(TFile& file, std::string const& tree_name) const
 
 std::string Plotting::PlotHistograms(boca::Results& results) const
 {
-    Debug();
+    Info();
     TCanvas canvas;
     Fill(canvas);
     THStack stack("", Tagger().NiceName().c_str());
@@ -173,8 +178,8 @@ std::string Plotting::PlotHistograms(boca::Results& results) const
     stack.Draw("nostack");
     SetAxis(*stack.GetXaxis(), "BDT");
     SetAxis(*stack.GetYaxis(), "N");
-    TLine line = Line(results, stack.GetMinimum(), results.max.y * 1.05);
-    TLine line2 = Line2(results, stack.GetMinimum(), results.max.y * 1.05);
+    TLine line = ModelDependentLine(results, stack.GetMinimum(), results.max.y * 1.05);
+    TLine line2 = ModelIndependentLin(results, stack.GetMinimum(), results.max.y * 1.05);
     std::string file_name = Tagger().ExportFolderName() + "-Bdt" + ExportFileSuffix();
     legend.Draw();
     canvas.SaveAs(file_name.c_str());
@@ -183,6 +188,7 @@ std::string Plotting::PlotHistograms(boca::Results& results) const
 
 TH1F Plotting::Histogram(Result const& result, Point& max, Point& min, int index) const
 {
+    Info();
     TH1F histogram(result.info_branch_.Name.c_str(), "", 50, FloorToDigits(min.x, 1), CeilToDigits(max.x, 1));
     for (auto const & bdt : result.bdt) histogram.Fill(bdt);
     if (histogram.Integral() != 0)  histogram.Scale(1. / histogram.Integral());
@@ -194,12 +200,14 @@ TH1F Plotting::Histogram(Result const& result, Point& max, Point& min, int index
 
 void Plotting::AddHistogram(THStack& stack, TH1& histogram, TLegend& legend) const
 {
+    Info();
     stack.Add(&histogram);
     legend.AddEntry(&histogram, histogram.GetName(), "l");
 }
 
 TLegend Plotting::Legend(float x_min, float y_min, float width, float height, std::string const& title) const
 {
+    Info();
     TLegend legend(x_min, y_min, x_min + width, y_min + height);
     if (!title.empty()) {
         legend.SetHeader(title.c_str());
@@ -216,6 +224,7 @@ TLegend Plotting::Legend(float x_min, float y_min, float width, float height, st
 
 TLegend Plotting::Legend(Orientation orientation, Strings const& entries, std::string const& title) const
 {
+    Info();
     int letters = std::max_element(entries.begin(), entries.end(), [](std::string const & entry_1, std::string const & entry_2) {
         return entry_1.size() < entry_2.size();
     })->size();
@@ -261,6 +270,7 @@ TLegend Plotting::Legend(Orientation orientation, Strings const& entries, std::s
 
 std::string Plotting::PlotEfficiencyGraph(Results const& results) const
 {
+    Info();
     TCanvas canvas;
     Fill(canvas);
     canvas.SetLogy();
@@ -281,33 +291,36 @@ std::string Plotting::PlotEfficiencyGraph(Results const& results) const
     multi_graph.GetXaxis()->SetLimits(results.min.x, results.max.x);
     SetAxis(*multi_graph.GetXaxis(), "BDT");
     SetAxis(*multi_graph.GetYaxis(), "Efficiency");
-    TLine line = Line(results, multi_graph.GetYaxis()->GetXmin(), multi_graph.GetYaxis()->GetXmax());
-    TLine line2 = Line2(results, multi_graph.GetYaxis()->GetXmin(), multi_graph.GetYaxis()->GetXmax());
+    TLine line = ModelDependentLine(results, multi_graph.GetYaxis()->GetXmin(), multi_graph.GetYaxis()->GetXmax());
+    TLine line2 = ModelIndependentLin(results, multi_graph.GetYaxis()->GetXmin(), multi_graph.GetYaxis()->GetXmax());
     std::string file_name = Tagger().ExportFolderName() + "-Efficiency" + ExportFileSuffix();
     legend.Draw();
     canvas.SaveAs(file_name.c_str());
     return file_name;
 }
 
-TLine Plotting::Line(Results const& results, float y_min, float y_max) const
+TLine Plotting::ModelDependentLine(Results const& results, float y_min, float y_max) const
 {
+    Info();
     TLine line(results.BestModelDependentXValue(), y_min, results.BestModelDependentXValue(), y_max);
     line.SetLineStyle(2);
     if (results.best_model_dependent_bin != 0) line.Draw();
     return line;
 }
 
-TLine Plotting::Line2(Results const& results, float y_min, float y_max) const
+TLine Plotting::ModelIndependentLin(Results const& results, float y_min, float y_max) const
 {
-  TLine line(results.BestModelInDependentXValue(), y_min, results.BestModelInDependentXValue(), y_max);
-  line.SetLineStyle(3);
-  line.SetLineColor(kBlue);
-  if (results.best_model_independent_bin != 0) line.Draw();
-  return line;
+    Info();
+    TLine line(results.BestModelInDependentXValue(), y_min, results.BestModelInDependentXValue(), y_max);
+    line.SetLineStyle(3);
+    line.SetLineColor(kBlue);
+    if (results.best_model_independent_bin != 0) line.Draw();
+    return line;
 }
 
 void Plotting::AddGraph(TGraph& graph, TMultiGraph& multi_graph, TLegend& legend, Strings const& names, int index) const
 {
+    Info();
     SetPlotStyle(graph, index);
     multi_graph.Add(&graph);
     legend.AddEntry(&graph, names.at(index).c_str(), "l");
@@ -315,7 +328,7 @@ void Plotting::AddGraph(TGraph& graph, TMultiGraph& multi_graph, TLegend& legend
 
 void Plotting::PlotAcceptanceGraph(Results const& results) const
 {
-    Debug();
+    Info();
     for (auto const & signal : results.signals) {
         TCanvas canvas;
         Fill(canvas);
@@ -345,6 +358,7 @@ void Plotting::PlotAcceptanceGraph(Results const& results) const
 
 void Plotting::SetPlotStyle(TAttLine& att_line, int index) const
 {
+    Info();
     att_line.SetLineColor(ColorCode(index));
     att_line.SetLineStyle(index + 1);
 }
@@ -361,11 +375,12 @@ void Plotting::SetMultiGraph(TMultiGraph& multi_graph, Point const& min, Point c
 
 std::string Plotting::PlotModelDependentGraph(Results& results) const
 {
+    Info();
     TCanvas canvas;
     Fill(canvas);
     TGraph graph = Graph(results, results.significances, "Significance");
     canvas.Update();
-    TLine line  = Line(results, gPad->GetUymin(), gPad->GetUymax());
+    TLine line  = ModelDependentLine(results, gPad->GetUymin(), gPad->GetUymax());
     std::string file_name = Tagger().ExportFolderName() + "-Significance" + ExportFileSuffix();
     canvas.SaveAs(file_name.c_str());
     return file_name;
@@ -373,12 +388,13 @@ std::string Plotting::PlotModelDependentGraph(Results& results) const
 
 std::string Plotting::PlotModelIndependentGraph(Results& results) const
 {
+    Info();
     TCanvas canvas;
     Fill(canvas);
-    canvas.SetLogy();
     TGraph graph = Graph(results, results.crosssections, "Crosssection");
     canvas.Update();
-    TLine line  = Line2(results, gPad->GetUymin(), gPad->GetUymax());
+    if (gPad->GetUymin() != 0 && gPad->GetUymin() / gPad->GetUymax() < 0.1) canvas.SetLogy();
+    TLine line  = ModelIndependentLin(results, gPad->GetUymin(), gPad->GetUymax());
     std::string file_name = Tagger().ExportFolderName() + "-Exclusion" + ExportFileSuffix();
     canvas.SaveAs(file_name.c_str());
     return file_name;
@@ -397,16 +413,18 @@ TGraph Plotting::Graph(Results const& results, std::vector<float> const& values,
 
 std::string Plotting::BestValueTable(Results const& results) const
 {
-  std::stringstream table;
-  table << "    Model\n  & Cut\n  & $p$-value\n  & Crosssection [fb]";
-  table << "\n \\\\ \\midrule\n";
-  table << "    Depended\n  & " << RoundToDigits(results.BestModelDependentXValue()) << "\n  & " << RoundToDigits(results.significances.at(results.best_model_dependent_bin)) << "\n  & " << RoundToDigits(results.crosssections.at(results.best_model_dependent_bin)) << "\n";
-  table << " \\\\ Independed  \n  & " << RoundToDigits(results.BestModelInDependentXValue()) << "\n  & " << RoundToDigits(results.significances.at(results.best_model_independent_bin)) << "\n  & " << RoundToDigits(results.crosssections.at(results.best_model_independent_bin)) << "\n \\\\";
-  return table.str();
+    Info();
+    std::stringstream table;
+    table << "    Model\n  & Cut\n  & $p$-value\n  & Crosssection [fb]";
+    table << "\n \\\\ \\midrule\n";
+    table << "    Dependet\n  & " << RoundToDigits(results.BestModelDependentXValue()) << "\n  & " << RoundToDigits(results.significances.at(results.best_model_dependent_bin)) << "\n  & " << RoundToDigits(results.crosssections.at(results.best_model_dependent_bin)) << "\n";
+    table << " \\\\ Independet\n  & " << RoundToDigits(results.BestModelInDependentXValue()) << "\n  & " << RoundToDigits(results.significances.at(results.best_model_independent_bin)) << "\n  & " << RoundToDigits(results.crosssections.at(results.best_model_independent_bin)) << "\n \\\\";
+    return table.str();
 }
 
 std::string Plotting::EfficienciesTable(Results const& results, int bin) const
 {
+    Info();
     std::stringstream table;
     table << "    Sample\n  & Efficiency\n  & after\n  & before\n  & Crosssection [fb]";
     table << "\n \\\\ \\midrule\n";
@@ -417,6 +435,7 @@ std::string Plotting::EfficienciesTable(Results const& results, int bin) const
 
 void Plotting::RunPlots() const
 {
+    Info();
     for (auto const & stage : std::vector<Stage> {Stage::trainer, Stage::reader}) {
         Debug(Tagger().FileName(stage, Tag::signal), Tagger().TreeNames(Tag::signal).size());
         std::vector<Plots> signals = Import(stage, Tag::signal);
@@ -436,6 +455,7 @@ void Plotting::RunPlots() const
 
 void Plotting::DoPlot(Plots& signals, Plots& backgrounds, Stage stage) const
 {
+    Info();
     Names nice_names = unordered_pairs(Tagger().Branch().Variables(), [&](Obs const & variable_1, Obs const & variable_2) {
         return std::make_pair(variable_1.nice_name(), variable_2.nice_name());
     });
@@ -449,6 +469,7 @@ void Plotting::DoPlot(Plots& signals, Plots& backgrounds, Stage stage) const
 
 void Plotting::PlotDetails(Plot& signal, Plot& background, Stage stage) const
 {
+    Info(signal.points.size(), background.points.size());
     Plot signal_x = CoreVector(signal, [](Point const & a, Point const & b) {
         return a.x < b.x;
     });
@@ -479,24 +500,22 @@ void Plotting::PlotDetails(Plot& signal, Plot& background, Stage stage) const
 
 void Plotting::PlotHistogram(Plot const& signal, Plot const& background, Point const& min, Point const& max) const
 {
+    Info(min.x, min.y, max.x, max.y);
     TCanvas canvas;
     Fill(canvas);
     canvas.SetBottomMargin(0.15);
-    TLegend legend = Legend(0.35, 0, 0.3, 0.1);
-    legend.SetNColumns(2);
-    legend.SetColumnSeparation(0.2);
     int bin_number = 20;
     TExec exec_1;
     TH2F background_histogram("", Tagger().NiceName().c_str(), bin_number, min.x, max.x, bin_number, min.y, max.y);
     SetHistogram(background_histogram, background, kBlue, exec_1);
-//     legend.AddEntry(&background_histogram, background.name.c_str(), "l");
     TExec exec_2;
     TH2F signal_histogram("", Tagger().NiceName().c_str(), bin_number, min.x, max.x, bin_number, min.y, max.y);
     SetHistogram(signal_histogram, signal, kRed, exec_2);
-//     legend.AddEntry(&signal_histogram, signal.name.c_str(), "l");
+    TLegend legend = Legend(0.35, 0, 0.3, 0.1);
+    legend.SetNColumns(2);
+    legend.SetColumnSeparation(0.2);
     legend.AddEntry(&signal_histogram, "Signal", "l");
     legend.AddEntry(&background_histogram, "Background", "l");
-    legend.Draw();
     mkdir(Tagger().ExportFolderName().c_str(), 0700);
     std::string file_name = Tagger().ExportFolderName() + "/" + "Hist-" + background.tree_name + "-" + signal.name_x + "-" + signal.name_y + ExportFileSuffix();
     canvas.SaveAs(file_name.c_str());
@@ -504,12 +523,13 @@ void Plotting::PlotHistogram(Plot const& signal, Plot const& background, Point c
 
 void Plotting::PlotProfile(Plot const& signal, Plot const& background, Point const& min, Point const& max) const
 {
+    Info();
     TCanvas canvas;
     Fill(canvas);
     canvas.SetRightMargin(0.15);
     int bin_number = 30;
-    TProfile2D test("", Tagger().NiceName().c_str(), bin_number, min.x, max.x, bin_number, min.y, max.y);
-    SetProfile(test, signal, background);
+    TProfile2D profile("", Tagger().NiceName().c_str(), bin_number, min.x, max.x, bin_number, min.y, max.y);
+    SetProfile(profile, signal, background);
     mkdir(Tagger().ExportFolderName().c_str(), 0700);
     std::string file_name = Tagger().ExportFolderName() + "/" + "Prof-" + background.tree_name + "-" + signal.name_x + "-" + signal.name_y + ExportFileSuffix();
     canvas.SaveAs(file_name.c_str());
@@ -517,6 +537,7 @@ void Plotting::PlotProfile(Plot const& signal, Plot const& background, Point con
 
 void Plotting::SetHistogram(TH2& histogram, Plot const& plot, EColor color, TExec& exec) const
 {
+    Info();
     std::string options = "cont1 same";
     histogram.Draw(options.c_str());
     for (auto const & point : plot.points) histogram.Fill(point.x, point.y);
@@ -532,23 +553,24 @@ void Plotting::SetHistogram(TH2& histogram, Plot const& plot, EColor color, TExe
         Error("unsupported color");
     }
     exec.Draw();
-    CommmonHist(histogram, plot, color);
+    CommonHist(histogram, plot, color);
     histogram.Draw(options.c_str());
 }
 
 
-void Plotting::SetProfile(TProfile2D& histogram, Plot const& signal, Plot const& background) const
+void Plotting::SetProfile(TH2& histogram, Plot const& signal, Plot const& background) const
 {
-    float max = (*std::max_element(signal.points.begin(), signal.points.end(), [](Point  a, Point  b) {
+    Info();
+    float max = (*std::max_element(signal.points.begin(), signal.points.end(), [](Point const & a, Point const & b) {
         return a.z < b.z;
     })).z;
-    float min = (*std::min_element(background.points.begin(), background.points.end(), [](Point  a, Point  b) {
+    float min = (*std::min_element(background.points.begin(), background.points.end(), [](Point const & a, Point const & b) {
         return a.z < b.z;
     })).z;
     for (auto const & point : signal.points) histogram.Fill(point.x, point.y, point.z);
     for (auto const & point : background.points) histogram.Fill(point.x, point.y, point.z);
     Color().Heat();
-    CommmonHist(histogram, signal, kRed);
+    CommonHist(histogram, signal, kRed);
     histogram.SetZTitle("BDT");
     histogram.SetMaximum(max);
     histogram.SetMinimum(min);
@@ -556,8 +578,9 @@ void Plotting::SetProfile(TProfile2D& histogram, Plot const& signal, Plot const&
     histogram.Draw("colz");
 }
 
-void Plotting::CommmonHist(TH1& histogram, Plot const& plot, EColor color) const
+void Plotting::CommonHist(TH1& histogram, Plot const& plot, EColor color) const
 {
+    Info();
     histogram.SetXTitle(plot.nice_name_x.c_str());
     histogram.SetYTitle(plot.nice_name_y.c_str());
     histogram.SetMarkerColor(color);
@@ -590,6 +613,7 @@ Plots Plotting::PlotResult(TFile& file, std::string const& tree_name, Stage stag
 
 Plot Plotting::ReadTree(TTree& tree, std::string const& leaf_1, std::string const& leaf_2, Stage stage) const
 {
+    Info();
     tree.SetBranchStatus("*", 0);
     std::string branch_name = Tagger().BranchName(stage);
     Debug(branch_name);
@@ -627,14 +651,14 @@ Plot Plotting::ReadTree(TTree& tree, std::string const& leaf_1, std::string cons
 
     Plot plot;
     for (auto const & entry : Range(tree.GetEntries())) {
-        Debug(tree.GetEntries(), entry);
+        Detail(tree.GetEntries(), entry);
         tree.GetEntry(entry);
         for (auto const & element : Range(branch_size)) {
             Point point;
             point.x = leaf_values_1.at(element);
             point.y = leaf_values_2.at(element);
             point.z = bdt_values.at(element);
-            Debug(point.x, point.y, point.z);
+            Detail(point.x, point.y, point.z);
             plot.points.emplace_back(point);
         }
     }
@@ -643,7 +667,8 @@ Plot Plotting::ReadTree(TTree& tree, std::string const& leaf_1, std::string cons
 
 Plot Plotting::CoreVector(Plot& plot, std::function<bool (Point const&, Point const&)> const& function) const
 {
-    // TODO sorting the whole vector if you just want to get rid of the extrem values might not be the fastest solution
+    Info();
+    // TODO sorting the whole vector when you just want to get rid of the extrem values might not be the fastest solution
     std::sort(plot.points.begin(), plot.points.end(), [&](Point const & a, Point const & b) {
         return function(a, b);
     });
@@ -663,13 +688,13 @@ std::string Plotting::ExportFileSuffix() const
 
 void Plotting::SetAxis(TAxis& axis, std::string const& title) const
 {
+    Info();
     axis.SetTitle(title.c_str());
     axis.CenterTitle();
     axis.SetTitleFont(FontCode());
     axis.SetTitleSize(TextSize());
     axis.SetLabelFont(FontCode());
     axis.SetLabelSize(LabelSize());
-
 }
 
 float Plotting::TextSize() const

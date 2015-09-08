@@ -30,12 +30,11 @@ int main()
 
     boca::naturalness::AnalysisPair<boca::naturalness::TopPartnerPairTagger> top_partner_pair_analysis;
 //     top_partner_pair_analysis.RunFullEfficiency();
-    top_partner_pair_analysis.RunFullExclusion();
+    top_partner_pair_analysis.RunFullSignificance();
 //     top_partner_pair_analysis.RunPlots();
 
     boca::naturalness::AnalysisPair<boca::naturalness::EventPairTagger> event_analysis;
-//     event_analysis.RunFullSignificance();
-    event_analysis.RunFullExclusion();
+    event_analysis.RunFullSignificance();
     event_analysis.RunPlots();
 }
 

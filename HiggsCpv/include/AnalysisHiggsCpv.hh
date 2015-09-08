@@ -47,7 +47,7 @@ protected:
 private:
 
     std::string ProjectName() const final {
-        return  "CPV-no-massdrop";
+        return  "CPV-after-tahoe";
     }
 
     void SetFiles(Tag tag) final {
@@ -61,7 +61,7 @@ private:
 	  break;
         case Tag::background :
 	  this->NewFile(tag, "pp-ttbb", 0.1266, "ttbb");
-	  //             this->NewFile(tag, "pp-ttbb-bbbbllnunu", 3.457); 
+	  //             this->NewFile(tag, "pp-ttbb-bbbbllnunu", 3.457);
             break;
         }
     }
@@ -113,6 +113,8 @@ private:
 
 
     std::string FilePath() const final {
+        return this->working_path_; // < ------ does it work? might cause problems
+        return "~/Projects/HiggsCpv/Analysis/";
         return "/Users/jingren/HEP/Research/JanH/tth-analysis/";
     }
 

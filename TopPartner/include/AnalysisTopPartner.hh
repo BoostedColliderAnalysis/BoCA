@@ -21,6 +21,7 @@ enum class Process
     ttBjj,
     tthBjj,
     ttBBjj,
+    ttBB,
     TThh
 };
 
@@ -32,6 +33,7 @@ std::string Name(Process process)
     case Process::ttBjj : return "ttBjj";
     case Process::tthBjj : return "tthBjj";
     case Process::ttBBjj : return "ttBBjj";
+    case Process::ttBB : return "ttBB";
     case Process::TThh : return "TThh";
     }
 }
@@ -55,15 +57,19 @@ public:
 protected:
 
     int Mass() const {
-        return 2000;
-        return 500;
         return 4000;
+        return 3000;
+        return 2000;
+        return 1500;
         return 1000;
-        return 8000;
+        return 500;
         return 10000;
+        return 8000;
+        return 6000;
     }
 
     long EventNumberMax() const override {
+        return 5000;
         return 10000;
         return 1000;
         return 100;
@@ -97,7 +103,11 @@ protected:
                     break;
                 case 1000 : crosssection = 0.01041;
                     break;
+                case 1500 : crosssection = 0.0005753;
+                    break;
                 case 2000 : crosssection = 4.787e-05;
+                    break;
+                case 3000 : crosssection = 5.019e-07;
                     break;
                 case 4000 : crosssection = 7.022e-09;
                     break;
@@ -107,8 +117,8 @@ protected:
             case Process::ttBjj :
                 crosssection = 0.03024;
                 break;
-            case Process::ttBBjj :
-                crosssection = 1;
+            case Process::ttBB :
+                crosssection = 0.0004068;
                 break;
             default : crosssection = 1;
                 Error("wrong process", Name(process));
@@ -121,9 +131,15 @@ protected:
                 break;
             case Process::TT :
                 switch (Mass()) {
-                case 2000 : crosssection = 0.264;
+                case 2000 : crosssection = 0.138;
                     break;
-                case 10000 : crosssection = 2.485e-05;
+                case 4000 : crosssection = 0.003493;
+                    break;
+                case 6000 : crosssection = 0.0003115;
+                    break;
+                case 8000 : crosssection = 4.655e-5;
+                    break;
+                case 10000 : crosssection = 9.101e-06;
                     break;
                 default : crosssection = 1;
                     Error("wrong mass", Mass());
@@ -163,18 +179,17 @@ protected:
                 name = "PP-TT-14TeV-" + std::to_string(Mass()) + "GeV";
                 break;
             case DetectorType::Spp :
-                name = "pp-TT-tthB-bbbbjjjjlv";
+                name = "PP-TT-100TeV-" + std::to_string(Mass()) + "GeV";
                 break;
             }
         } break;
         case Process::ttBjj : {
-            name = "PP-ttBJJ-14TeV";
-            switch (PreCut()) {
-            case 0 :
-                name + "-0GeV";
+            switch (DetectorGeometry::detector_type()) {
+            case DetectorType::CMS :
+                name = "PP-ttBJJ-14TeV";
                 break;
-            case 200 :
-                name + "-200GeV";
+            case DetectorType::Spp :
+                name = "PP-ttBJJ-100TeV";
                 break;
             }
         } break;
@@ -191,15 +206,25 @@ protected:
         case Process::TThh :
             name = "PP-TThh";
             break;
+        case Process::ttBB :
+            switch (DetectorGeometry::detector_type()) {
+            case DetectorType::CMS :
+                name = "PP-ttBB-14TeV";
+                break;
+            case DetectorType::Spp :
+                name = "PP-ttBB-100TeV";
+                break;
+            } break;
         default :
             Error("no case");
         }
-        switch (DetectorGeometry::detector_type()) {
-        case DetectorType::CMS :
-            name + "14TeV";
-            break;
-//           case DetectorType::Spp : ;
-        }
+//         switch (DetectorGeometry::detector_type()) {
+//         case DetectorType::CMS :
+//             name + "-14TeV";
+//             break;
+//           case DetectorType::Spp : name + "-100TeV";
+//         }
+        Error(name);
         return name;
     }
 
@@ -210,6 +235,7 @@ protected:
         case Process::tthBjj : return "t_{l}t_{h}hB^{0}jj";
         case Process::Tth : return "#tilde t_{l}t_{h}h";
         case Process::TThh : return "#tilde t_{l}#tilde t_{h}hh";
+        case Process::ttBB : return "t_{l}t_{h}B^{0}B^{0}";
         default: Error("no case");
         }
     }

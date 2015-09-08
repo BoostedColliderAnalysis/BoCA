@@ -22,9 +22,10 @@ namespace boca
 
 void AnalysisBase::Initialize()
 {
-  Error(tagger().Name());
-  mkdir(ProjectName().c_str(), 0700);
-  tagger().ClearTreeNames();
+    Error(tagger().Name());
+    working_path_ = WorkingPath();
+    mkdir(ProjectName().c_str(), 0700);
+    tagger().ClearTreeNames();
 }
 
 exroot::TreeWriter AnalysisBase::TreeWriter(TFile& export_file, std::string const& export_tree_name, Stage)
@@ -77,14 +78,14 @@ void AnalysisBase::NewFile(Tag tag, Strings const& names, std::string const& nic
 
 void AnalysisBase::NewFile(Tag tag, std::string const& name, float crosssection, std::string const& nice_name, int mass)
 {
-  files_.emplace_back(File({name}, crosssection, nice_name, mass));
-  tagger().AddTreeName(TreeName(name), tag);
+    files_.emplace_back(File( {name}, crosssection, nice_name, mass));
+    tagger().AddTreeName(TreeName(name), tag);
 }
 
 void AnalysisBase::NewFile(Tag tag, std::string const& name, std::string const& nice_name)
 {
-  files_.emplace_back(File({name}, nice_name));
-  tagger().AddTreeName(TreeName(name), tag);
+    files_.emplace_back(File( {name}, nice_name));
+    tagger().AddTreeName(TreeName(name), tag);
 }
 
 File AnalysisBase::File(Strings const& names, std::string const& nice_name) const
@@ -163,12 +164,6 @@ void AnalysisBase::RunFullSignificance()
     RunSignificance();
 }
 
-void AnalysisBase::RunFullExclusion()
-{
-  RunNormal();
-  RunExclusion();
-}
-
 void AnalysisBase::ClearFiles()
 {
     files_.clear();
@@ -189,12 +184,12 @@ void AnalysisBase::RunTrainer()
 {
     PrepareFiles();
     TMVA::Types::EMVA mva = TMVA::Types::EMVA::kBDT;
-    if (!Exists(tagger().WeightFileName(mva))){
-      std::ofstream cout_file(tagger().FolderName() + ".txt");
-      std::streambuf* cout = std::cout.rdbuf();
-      std::cout.rdbuf(cout_file.rdbuf());
-      Trainer trainer(tagger(), mva);
-      std::cout.rdbuf(cout);
+    if (!Exists(tagger().WeightFileName(mva))) {
+        std::ofstream cout_file(tagger().FolderName() + ".txt");
+        std::streambuf* cout = std::cout.rdbuf();
+        std::cout.rdbuf(cout_file.rdbuf());
+        Trainer trainer(tagger(), mva);
+        std::cout.rdbuf(cout);
     }
 }
 
@@ -203,26 +198,17 @@ void AnalysisBase::RunSignificance()
 {
     PrepareFiles();
     if (!Exists(tagger().ExportFileName())) {
-        Plotting plot(tagger());
-        plot.OptimalCuts();
+        Plotting plotting(tagger());
+        plotting.OptimalCuts();
     }
-}
-
-void AnalysisBase::RunExclusion()
-{
-  PrepareFiles();
-  if (!Exists(tagger().ExportFileName())) {
-    Plotting plot(tagger());
-    plot.OptimalCuts();
-  }
 }
 
 void AnalysisBase::RunEfficiency()
 {
     PrepareFiles();
     if (!Exists(tagger().ExportFileName())) {
-        Plotting plot(tagger());
-        plot.TaggingEfficiency();
+        Plotting plotting(tagger());
+        plotting.TaggingEfficiency();
     }
 }
 
@@ -230,8 +216,31 @@ void AnalysisBase::RunPlots()
 {
     PrepareFiles();
     if (!Exists(tagger().ExportFolderName())) {
-        Plotting plot(tagger());
-        plot.RunPlots();
+        Plotting plotting(tagger());
+        plotting.RunPlots();
+    }
+}
+
+std::string AnalysisBase::WorkingPath()
+{
+    int path_length_max = 200;
+    char temp [ path_length_max ];
+    if (getcwd(temp, path_length_max) != 0) return std::string(temp) + "/";
+    int error = errno;
+    switch (error) {
+        // EINVAL can't happen - size argument > 0
+        // path_length_max includes the terminating nul,
+        // so ERANGE should not be returned
+    case EACCES:
+        throw std::runtime_error("Access denied");
+    case ENOMEM:
+        // I'm not sure whether this can happen or not
+        throw std::runtime_error("Insufficient storage");
+    default: {
+        std::ostringstream str;
+        str << "Unrecognised error" << error;
+        throw std::runtime_error(str.str());
+    }
     }
 }
 

@@ -84,11 +84,11 @@ private:
 
     void SetHistogram(TH2& histogram, const boca::Plot& plot, EColor color, TExec& exec) const;
 
-    void SetProfile(TProfile2D& histogram, const boca::Plot& signal, const boca::Plot& background) const;
+    void SetProfile(TH2& histogram, const boca::Plot& signal, const boca::Plot& background) const;
 
     void Fill(TAttFill& pad) const;
 
-    void CommmonHist(TH1& histogram, const boca::Plot& plot, EColor color) const;
+    void CommonHist(TH1& histogram, const boca::Plot& plot, EColor color) const;
 
     std::vector<Plots> Import(boca::Stage stage, boca::Tag tag) const;
 
@@ -118,9 +118,9 @@ private:
 
     TH1F Histogram(const boca::Result& result, boca::Point& max, boca::Point& min, int index) const;
 
-    TLine Line(const boca::Results& results, float y_min, float y_max) const;
+    TLine ModelDependentLine(const boca::Results& results, float y_min, float y_max) const;
 
-    TLine Line2(const boca::Results& results, float y_min, float y_max) const;
+    TLine ModelIndependentLin(const boca::Results& results, float y_min, float y_max) const;
 
     void AddGraph(TGraph& graph, TMultiGraph& multi_graph, TLegend& legend, Strings const& name, int index) const;
 

@@ -85,6 +85,19 @@ Jets CopyIfNeutrino(Jets const& jets)
     return final_jets;
 }
 
+Jets CopyIfLepton(Jets const& jets)
+{
+  if (jets.empty())
+    return jets;
+  Jets final_jets(jets.size());
+  auto jet = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), [](fastjet::PseudoJet const & jet) {
+    unsigned id = std::abs(jet.user_info<ParticleInfo>().Family().particle().id());
+    return (id == to_unsigned(Id::electron) || id == to_unsigned(Id::muon));
+  });
+  final_jets.resize(std::distance(final_jets.begin(), jet));
+  return final_jets;
+}
+
 Jets RemoveIfOutsidePtWindow(boca::Jets jets, float lower_cut, float upper_cut)
 {
     if (jets.empty()) return jets;

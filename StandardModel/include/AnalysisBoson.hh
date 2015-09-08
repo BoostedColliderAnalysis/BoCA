@@ -33,7 +33,7 @@ private:
 
     std::string ProjectName() const final
     {
-        return  Name(this->collider_type()) + "-" + std::to_string(this->LowerPtCut()) + "GeV-jan";
+        return  Name(this->collider_type()) + "-" + std::to_string(this->LowerPtCut()) + "GeV";
     }
 
     void SetFiles(Tag tag) final {

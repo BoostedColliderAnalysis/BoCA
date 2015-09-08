@@ -8,7 +8,7 @@
 
 namespace boca {
 
-Obs::Obs(const float& value, std::string const& name, std::string const& nice_name) : value_(&const_cast<float&>(value))
+  Obs::Obs(float const& value, std::string const& name, std::string const& nice_name) : value_(&const_cast<float&>(value))
 {
     name_ = name;
     nice_name_ = nice_name;
@@ -38,7 +38,7 @@ float BaseBranch::InitialValue()
     // FIXME remove the copy of the magic number
 }
 
-Observables BaseBranch::Join(const Observables& observables_1, const Observables& observables_2)
+Observables BaseBranch::Join(Observables const& observables_1, Observables const& observables_2)
 {
     Observables joined;
     joined.reserve(observables_1.size() + observables_2.size());
@@ -47,7 +47,7 @@ Observables BaseBranch::Join(const Observables& observables_1, const Observables
     return joined;
 }
 
-Observables BaseBranch::Join(const Observables& observables_1, const Observables& observables_2, const Observables& observables_3)
+Observables BaseBranch::Join(Observables const& observables_1, Observables const& observables_2, Observables const& observables_3)
 {
   Observables joined;
   joined.reserve(observables_1.size() + observables_2.size() + observables_3.size());

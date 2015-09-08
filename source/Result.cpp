@@ -6,7 +6,7 @@
 #include "Types.hh"
 #include "DetectorGeometry.hh"
 #include "Math.hh"
-#define DEBUG
+// #define DEBUG
 #include "Debug.hh"
 
 namespace boca

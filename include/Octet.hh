@@ -66,6 +66,10 @@ public:
 
 };
 
+/**
+ * @brief Octet consisting of two triplets and one doublet
+ *
+ */
 class Octet332 : public boca::ThreeBody<boca::Triplet,boca::Triplet,boca::Doublet>{
 
 public:

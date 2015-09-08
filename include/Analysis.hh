@@ -42,7 +42,7 @@ public:
                 files.set_file(file);
                 AnalyseFile(files, reader);
             }
-            files.export_file().Close(); // FIXME not necissary; is done by destructr
+//             files.export_file().Close(); // FIXME not necissary; is done by destructr
         }
     }
 

@@ -90,6 +90,19 @@ public:
 private:
     ClassDef(SignatureTTaggerBranch, 1)
 };
+class SignatureLeptonTTaggerBranch : public SignatureTTaggerBranch
+{
+public:
+  SignatureLeptonTTaggerBranch(){};
+  template<typename Multiplet>
+  void Fill(Multiplet const& signature) {
+    SignatureTTaggerBranch::Fill(signature);
+  }
+  Observables Variables() const;
+
+private:
+  ClassDef(SignatureLeptonTTaggerBranch, 1)
+};
 
 
 /**
