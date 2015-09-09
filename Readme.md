@@ -65,3 +65,8 @@ The `main.cpp` defines the order in which each `Tagger` is passed to the `Analys
 ## Authors
 
 [Authors](Authors.md)
+
+## Reference
+
+Please cite:
+[Hajer, Jan, Li, Ying-Ying, Liu, Tao, Shiu, John F. H.: *Heavy Higgs Bosons at 14 TeV and 100 TeV*, April 2015](https://inspirehep.net/record/1365110)
