@@ -17,25 +17,25 @@ SignatureSingleTagger::SignatureSingleTagger()
 int SignatureSingleTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
     Info();
-    return SaveEntries(Decuplets(event, [&](Decuplet82 & decuplet) {
+    return SaveEntries(Decuplets(event, [&](Decuplet532 & decuplet) {
         decuplet.SetTag(tag);
         return decuplet;
     }));
 }
 
-std::vector<Decuplet82> SignatureSingleTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
+std::vector<Decuplet532> SignatureSingleTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
     Info();
-    return ReduceResult(Decuplets(event, [&](Decuplet82 & decuplet) {
+    return ReduceResult(Decuplets(event, [&](Decuplet532 & decuplet) {
         decuplet.SetBdt(Bdt(decuplet, reader));
         return decuplet;
     }));
 }
 
-std::vector<Decuplet82> SignatureSingleTagger::Decuplets(boca::Event const& event, const std::function< Decuplet82(Decuplet82&)>& function) const
+std::vector<Decuplet532> SignatureSingleTagger::Decuplets(boca::Event const& event, std::function< Decuplet532(Decuplet532&)> const& function) const
 {
-    return pairs(pair_reader_.Multiplets(event), higgs_reader_.Multiplets(event), [&](const Octet53 & octet, Doublet const& doublet) {
-        Decuplet82 decuplet(octet, doublet);
+  return triples(partner_reader_.Multiplets(event) ,top_reader_.Multiplets(event), higgs_reader_.Multiplets(event), [&](Quintet const& quintet, Triplet const & triplet, Doublet const& doublet) {
+        Decuplet532 decuplet(quintet, triplet, doublet);
         if (decuplet.Overlap()) throw "overlap";
         return function(decuplet);
     });

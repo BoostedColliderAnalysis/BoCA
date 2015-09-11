@@ -61,6 +61,29 @@ public:
 
 };
 
+class Decuplet532 : public ThreeBody<boca::Quintet, boca::Triplet, boca::Doublet> {
+
+public:
+
+  using ThreeBody<boca::Quintet, boca::Triplet, boca::Doublet>::ThreeBody;
+
+  boca::Quintet const& Quintet() const
+  {
+    return Multiplet1();
+  }
+
+  boca::Triplet const& Triplet() const
+  {
+    return Multiplet2();
+  }
+
+  boca::Doublet const& Doublet() const
+  {
+    return Multiplet3();
+  }
+
+};
+
 }
 
 }

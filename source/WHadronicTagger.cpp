@@ -211,7 +211,7 @@ Doublet WHadronicTagger::SubMultiplet(fastjet::PseudoJet const& jet, PreCuts con
     try {
         return Multiplet(doublet, pre_cuts, reader);
     } catch (char const* message) {
-        throw message;
+        throw;
     }
 }
 
@@ -222,7 +222,7 @@ Doublet WHadronicTagger::Multiplet(fastjet::PseudoJet const& jet_1, fastjet::Pse
     try {
         return Multiplet(doublet, pre_cuts, reader);
     } catch (char const* message) {
-        throw message;
+        throw;
     }
 }
 
@@ -233,7 +233,7 @@ Doublet WHadronicTagger::Multiplet(fastjet::PseudoJet const& jet, PreCuts const&
     try {
         return Multiplet(doublet, pre_cuts, reader);
     } catch (char const* message) {
-        throw message;
+        throw;
     }
 }
 
@@ -251,7 +251,7 @@ Doublet WHadronicTagger::Multiplet(fastjet::PseudoJet const& jet, TMVA::Reader c
     try {
         return Multiplet(jet, pre_cuts, reader);
     } catch (char const* message) {
-        throw message;
+        throw;
     }
 }
 
@@ -266,7 +266,7 @@ Doublet WHadronicTagger::SubMultiplet(fastjet::PseudoJet const& jet, TMVA::Reade
     try {
         return SubMultiplet(jet, pre_cuts, reader);
     } catch (char const* message) {
-        throw message;
+        throw;
     }
 }
 
@@ -276,7 +276,7 @@ Doublet WHadronicTagger::Multiplet(fastjet::PseudoJet const& jet_1, fastjet::Pse
     try {
         return Multiplet(jet_1, jet_2, pre_cuts, reader);
     } catch (char const* message) {
-        throw message;
+        throw;
     }
 }
 

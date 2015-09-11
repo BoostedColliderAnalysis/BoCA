@@ -112,7 +112,7 @@ Triplet TopHadronicTagger::Triplet(boca::Doublet const& doublet, fastjet::Pseudo
     try {
         return Triplet(triplet, leptons, pre_cuts, tag);
     } catch (char const* message) {
-        throw message;
+        throw;
     }
 }
 
@@ -250,7 +250,7 @@ Triplet TopHadronicTagger::Multiplet(boca::Doublet const& doublet, fastjet::Pseu
     try {
         return Multiplet(triplet, leptons, pre_cuts, reader);
     } catch (char const* message) {
-        throw message;
+        throw;
     }
 }
 

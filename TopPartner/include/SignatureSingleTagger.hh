@@ -15,7 +15,7 @@ namespace naturalness
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class SignatureSingleTagger : public BranchTagger<SignatureBranch>
+class SignatureSingleTagger : public BranchTagger<SignatureSingleBranch>
 {
 
 public:
@@ -28,7 +28,7 @@ public:
         return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
     }
 
-    std::vector<Decuplet82> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
+    std::vector<Decuplet532> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
     std::string Name() const final {
         return "SignatureSingle";
@@ -40,9 +40,11 @@ public:
 
 private:
 
-    std::vector<Decuplet82> Decuplets(Event const& event, const std::function<Decuplet82(Decuplet82&)>& function) const;
+    std::vector<Decuplet532> Decuplets(Event const& event, std::function<Decuplet532(Decuplet532&)> const& function) const;
 
-    Reader<TopPartnerTopPairTagger> pair_reader_;
+    Reader<TopPartnerLeptonicTagger> partner_reader_;
+
+    Reader<TopHadronicTagger> top_reader_;
 
     Reader<HiggsTagger> higgs_reader_;
 };

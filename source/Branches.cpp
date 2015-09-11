@@ -202,6 +202,47 @@ Observables MultiBranch::Variables() const
     return Join(PairBranch::Variables(), {PAIR(DeltaHt, "#Delta H_{T}")});
 }
 
+TChannelBranch::TChannelBranch()
+{
+  Bdt3 = InitialValue();
+  Mass12 = InitialValue();
+  Mass23 = InitialValue();
+  Mass13 = InitialValue();
+  DeltaPt23 = InitialValue();
+  DeltaPt13 = InitialValue();
+  Pt12 = InitialValue();
+  Pt23 = InitialValue();
+  Pt13 = InitialValue();
+  Ht12 = InitialValue();
+  Ht23 = InitialValue();
+  Ht13 = InitialValue();
+  Rho23 = InitialValue();
+  Rho13 = InitialValue();
+  DeltaRap23 = InitialValue();
+  DeltaRap13 = InitialValue();
+  DeltaPhi23 = InitialValue();
+  DeltaPhi13 = InitialValue();
+  DeltaR23 = InitialValue();
+  DeltaR13 = InitialValue();
+  DeltaM23 = InitialValue();
+  DeltaM13 = InitialValue();
+  DeltaHt23 = InitialValue();
+  DeltaHt13 = InitialValue();
+  Pull23 = InitialValue();
+  Pull13 = InitialValue();
+  DeltaPull23 = InitialValue();
+  DeltaPull13 = InitialValue();
+  Dipolarity23 = InitialValue();
+  Dipolarity13 = InitialValue();
+  Sphericity = InitialValue();
+  Aplanarity = InitialValue();
+}
+
+Observables TChannelBranch::Variables() const
+{
+  return Join(MultiBranch::Variables(), {PAIR(Bdt3), PAIR(Mass12), PAIR(Mass23), PAIR(Mass13), PAIR(Pt12), PAIR(Pt23), PAIR(Pt13), PAIR(DeltaPt23), PAIR(DeltaPt13), PAIR(Ht12), PAIR(Ht23), PAIR(Ht13), PAIR(Rho23), PAIR(Rho13), PAIR(DeltaRap23), PAIR(DeltaRap13), PAIR(DeltaPhi23), PAIR(DeltaPhi13), PAIR(DeltaR23), PAIR(DeltaR13), PAIR(DeltaM23), PAIR(DeltaM13), PAIR(DeltaHt23), PAIR(DeltaHt13), PAIR(Pull23), PAIR(Pull13), PAIR(DeltaPull23), PAIR(DeltaPull13), PAIR(Dipolarity23), PAIR(Dipolarity13), PAIR(Aplanarity), PAIR(Sphericity)});
+}
+
 JetPairBranch::JetPairBranch()
 {
 //     DeltaM = InitialValue();

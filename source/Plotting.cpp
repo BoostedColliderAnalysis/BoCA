@@ -614,18 +614,18 @@ Plots Plotting::PlotResult(TFile& file, std::string const& tree_name, Stage stag
 Plot Plotting::ReadTree(TTree& tree, std::string const& leaf_1, std::string const& leaf_2, Stage stage) const
 {
     Info();
-    tree.SetBranchStatus("*", 0);
+    tree.SetBranchStatus("*", false);
     std::string branch_name = Tagger().BranchName(stage);
     Debug(branch_name);
 
-    tree.SetBranchStatus(branch_name.c_str(), 1);
+    tree.SetBranchStatus(branch_name.c_str(), true);
     int branch_value = 0;
     tree.SetBranchAddress(branch_name.c_str(), &branch_value);
     Debug(branch_name.c_str());
 
     std::string size_name = branch_name + "_size";
     Debug(size_name.c_str());
-    tree.SetBranchStatus(size_name.c_str(), 1);
+    tree.SetBranchStatus(size_name.c_str(), true);
     int branch_size = 0;
     tree.SetBranchAddress(size_name.c_str(), &branch_size);
 
@@ -633,19 +633,19 @@ Plot Plotting::ReadTree(TTree& tree, std::string const& leaf_1, std::string cons
     size_t max_value = 200;
     std::string leaf_name_1 = branch_name + "." + leaf_1;
     Debug(leaf_name_1.c_str());
-    tree.SetBranchStatus(leaf_name_1.c_str(), 1);
+    tree.SetBranchStatus(leaf_name_1.c_str(), true);
     std::vector<float> leaf_values_1(max_value);
     tree.SetBranchAddress(leaf_name_1.c_str(), &leaf_values_1.front());
 
     std::string leaf_name_2 = branch_name + "." + leaf_2;
     Debug(leaf_name_2.c_str());
-    tree.SetBranchStatus(leaf_name_2.c_str(), 1);
+    tree.SetBranchStatus(leaf_name_2.c_str(), true);
     std::vector<float> leaf_values_2(max_value);
     tree.SetBranchAddress(leaf_name_2.c_str(), &leaf_values_2.front());
 
     std::string bdt_name = branch_name + ".Bdt";
     Debug(bdt_name.c_str());
-    tree.SetBranchStatus(bdt_name.c_str(), 1);
+    tree.SetBranchStatus(bdt_name.c_str(), true);
     std::vector<float> bdt_values(max_value);
     tree.SetBranchAddress(bdt_name.c_str(), &bdt_values.front());
 

@@ -263,6 +263,90 @@ private:
 
 /**
  *
+ * @brief Higgs cpv tagger root tree structure
+ *
+ */
+class TChannelBranch : public boca::MultiBranch
+{
+public:
+  TChannelBranch();
+  float Bdt3;
+  float Mass12;
+  float Mass23;
+  float Mass13;
+  float Pt12;
+  float Pt23;
+  float Pt13;
+  float DeltaPt23;
+  float DeltaPt13;
+  float Ht12;
+  float Ht23;
+  float Ht13;
+  float Rho23;
+  float Rho13;
+  float DeltaRap23;
+  float DeltaRap13;
+  float DeltaPhi23;
+  float DeltaPhi13;
+  float DeltaR23;
+  float DeltaR13;
+  float DeltaM23;
+  float DeltaM13;
+  float DeltaHt23;
+  float DeltaHt13;
+  float Pull23;
+  float Pull13;
+  float DeltaPull23;
+  float DeltaPull13;
+  float Dipolarity23;
+  float Dipolarity13;
+  float Sphericity;
+  float Aplanarity;
+  template<typename Multiplet>
+  void Fill(Multiplet const& multiplet) {
+    boca::MultiBranch::Fill(multiplet);
+    Bdt3 = multiplet.Multiplet3().Bdt();
+    Mass12 = multiplet.Jet12().m();
+    Mass23 = multiplet.Jet23().m();
+    Mass13 = multiplet.Jet13().m();
+    Pt12 = multiplet.Jet12().pt();
+    Pt23 = multiplet.Jet23().pt();
+    Pt13 = multiplet.Jet13().pt();
+    DeltaPt23 = multiplet.DeltaPt23();
+    DeltaPt13 = multiplet.DeltaPt13();
+    Ht12 = multiplet.Ht12();
+    Ht23 = multiplet.Ht23();
+    Ht13 = multiplet.Ht13();
+    Rho23 = multiplet.Rho23();
+    Rho13 = multiplet.Rho13();
+    DeltaRap23 = multiplet.DeltaRap23();
+    DeltaRap13 = multiplet.DeltaRap13();
+    DeltaPhi23 = multiplet.DeltaPhi23();
+    DeltaPhi13 = multiplet.DeltaPhi13();
+    DeltaR23 = multiplet.DeltaR23();
+    DeltaR13 = multiplet.DeltaR13();
+    DeltaM23 = multiplet.DeltaM23();
+    DeltaM13 = multiplet.DeltaM13();
+    DeltaHt23 = multiplet.DeltaHt23();
+    DeltaHt13 = multiplet.DeltaHt13();
+    Pull23 = multiplet.PullSum23();
+    Pull13 = multiplet.PullSum13();
+    DeltaPull23 = multiplet.PullDifference23();
+    DeltaPull13 = multiplet.PullDifference13();
+    Dipolarity23 = multiplet.Dipolarity23();
+    Dipolarity13 = multiplet.Dipolarity13();
+    //     Aplanarity = signature.EventShape().Aplanarity(); // FIXME reenable this
+//     Sphericity = signature.EventShape().Sphericity(); // FIXME reenable this
+  }
+  Observables Variables() const;
+
+private:
+  ClassDef(TChannelBranch, 1)
+};
+
+
+/**
+ *
  * @brief Higgs tagger root tree structure
  *
  */

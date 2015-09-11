@@ -89,10 +89,10 @@ void Results::Significances()
         }
         signal_efficiencies /= crosssection;
         float background_events = 0;
-        float background_efficiencies = 0;
+//         float background_efficiencies = 0;
         for (auto const & background : backgrounds) {
             background_events += background.events.at(step);
-            background_efficiencies += background.efficiency.at(step);
+//             background_efficiencies += background.efficiency.at(step);
         }
         if (signal_events + background_events > 0) significances.at(step) = signal_events / std::sqrt(signal_events + background_events);
         else significances.at(step) = 0;
@@ -154,36 +154,21 @@ int ColorCode(int number)
 {
     Info();
     switch (number) {
-    case 0 :
-        return kBlack;
-    case 1 :
-        return kRed;
-    case 2 :
-        return kBlue;
-    case 3 :
-        return kTeal - 5;
-    case 4 :
-        return kPink + 1;
-    case 5 :
-        return kViolet;
-    case 6 :
-        return kOrange;
-    case 7 :
-        return kYellow - 9;
-    case 8 :
-        return kSpring - 5;
-    case 9 :
-        return kGreen + 3;
-    case 10 :
-        return kCyan - 3;
-    case 11 :
-        return kMagenta - 3;
-    case 12 :
-        return kAzure;
-    case 13 :
-        return kGray;
-    default :
-        return kBlack;
+    case 0 : return kBlack;
+    case 1 : return kRed;
+    case 2 : return kBlue;
+    case 3 : return kTeal - 5;
+    case 4 : return kPink + 1;
+    case 5 : return kViolet;
+    case 6 : return kOrange;
+    case 7 : return kYellow - 9;
+    case 8 : return kSpring - 5;
+    case 9 : return kGreen + 3;
+    case 10 : return kCyan - 3;
+    case 11 : return kMagenta - 3;
+    case 12 : return kAzure;
+    case 13 : return kGray;
+    default : return kBlack;
     }
 }
 

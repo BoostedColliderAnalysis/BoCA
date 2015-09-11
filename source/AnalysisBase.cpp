@@ -125,7 +125,7 @@ std::string AnalysisBase::FileSuffix() const
 
 std::string AnalysisBase::FilePath() const
 {
-    return "~/Projects/";
+    return working_path_;
 }
 
 int AnalysisBase::BackgroundFileNumber() const
@@ -237,9 +237,9 @@ std::string AnalysisBase::WorkingPath()
         // I'm not sure whether this can happen or not
         throw std::runtime_error("Insufficient storage");
     default: {
-        std::ostringstream str;
-        str << "Unrecognised error" << error;
-        throw std::runtime_error(str.str());
+        std::ostringstream stream;
+        stream << "Unrecognised error" << error;
+        throw std::runtime_error(stream.str());
     }
     }
 }
