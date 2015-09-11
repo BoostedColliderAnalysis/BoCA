@@ -29,7 +29,7 @@ public:
      * @brief destructor
      *
      */
-    ~File();
+    virtual ~File();
 
     exroot::TreeReader TreeReader();
 

@@ -16,7 +16,9 @@ namespace higgscpv
 class SignatureTTaggerBranch : public boca::TChannelBranch
 {
 public:
-    SignatureTTaggerBranch();
+  SignatureTTaggerBranch();
+    float Sphericity;
+    float Aplanarity;
     template<typename Multiplet>
     void Fill(Multiplet const& signature) {
         boca::TChannelBranch::Fill(signature.Multiplet());

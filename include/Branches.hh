@@ -300,8 +300,8 @@ public:
   float DeltaPull13;
   float Dipolarity23;
   float Dipolarity13;
-  float Sphericity;
-  float Aplanarity;
+//   float Sphericity;
+//   float Aplanarity;
   template<typename Multiplet>
   void Fill(Multiplet const& multiplet) {
     boca::MultiBranch::Fill(multiplet);

@@ -73,11 +73,11 @@ public:
 private:
 
     long EventNumberMax() const {
-//         return 1000000;
-//         return 100000;
+        return 1000000;
+        return 100000;
         return 10000;
-//         return 1000;
-//         return 100;
+        return 1000;
+        return 100;
     };
 
     Production ProductionChannel() const {
@@ -126,22 +126,18 @@ private:
     }
 
     int Mass() const {
-        //     return 400;
-        //     return 600;
-//               return 1000;
-        //         return 2000;
-//       return 3000;
-        //     return 4000;
+        return 400;
+        return 600;
+        return 1000;
+        return 2000;
+        return 3000;
+        return 4000;
         return 5000;
-        //     return 6000;
-        //     return 7000;
-        //     return 8000;
-        //     return 9000;
-        //         return 10000;
-    }
-
-    std::string FilePath() const final {
-        return "~/Projects/FusionPair/Analysis/";
+        return 6000;
+        return 7000;
+        return 8000;
+        return 9000;
+        return 10000;
     }
 
     void NewFile(Tag tag, Process process, Production production) {

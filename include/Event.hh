@@ -21,7 +21,7 @@ public:
 
     Event(const Source source);
 
-    ~Event();
+    virtual ~Event();
 
     void NewEvent(const ClonesArrays& clones_arrays);
 

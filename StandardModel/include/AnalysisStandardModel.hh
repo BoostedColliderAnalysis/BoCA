@@ -45,12 +45,12 @@ class AnalysisStandardModel : public Analysis<Tagger>
 protected:
 
     int LowerPtCut() const {
-        //         return 350;
-        //         return 700;
-        //         return 800;
-        //     return 500;
         return 1000;
-        //     return 1200;
+        return 350;
+        return 700;
+        return 800;
+        return 500;
+        return 1200;
     }
 
     long EventNumberMax() const override {
@@ -61,32 +61,24 @@ protected:
 
     int BackgroundFileNumber() const {
         return 1;
-        //         return 2;
-        //       return 4;
-        //       return 5;
-        //       return 10;
+        return 2;
+        return 4;
+        return 5;
+        return 10;
     }
 
     Collider collider_type() const {
-        //       return Collider::LHC;
-        //       return Collider::FHC;
         return Collider::LE;
-    }
-
-    std::string FilePath() const final {
-        return "~/Projects/Tagger/";
+        return Collider::LHC;
+        return Collider::FHC;
     }
 
     int UpperPtCut() const {
         switch (LowerPtCut()) {
-        case 700 :
-            return 1000;
-        case 1000 :
-            return 1500;
-        case 1200 :
-            return 1500;
-        case 500:
-            return 1000;
+        case 700 : return 1000;
+        case 1000 : return 1500;
+        case 1200 : return 1500;
+        case 500: return 1000;
         default :
             Error("no pt upper cut");
             return 0;
@@ -95,14 +87,10 @@ protected:
 
     int MadGraphCut() const {
         switch (LowerPtCut()) {
-        case 500:
-            return 500;
-        case 700 :
-            return 500;
-        case 1000 :
-            return 1000;
-        case 1200 :
-            return 1000;
+        case 500: return 500;
+        case 700 : return 500;
+        case 1000 : return 1000;
+        case 1200 : return 1000;
         default :
             Error("no madgraph cut");
             return 0;

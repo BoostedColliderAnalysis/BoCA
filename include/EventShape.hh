@@ -17,7 +17,7 @@ namespace boca{
       event_shapes_ = new boca::EventShapes;
     }
 
-    ~EventShape(){
+    virtual ~EventShape(){
       // FIXME memory leak!!
       // why can I not delete this
 //       delete event_shapes_;

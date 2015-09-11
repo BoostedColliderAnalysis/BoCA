@@ -34,7 +34,7 @@ public:
                     << "\n\\begin{document}\n";
     }
 
-    ~LatexFile() {
+    virtual ~LatexFile() {
         latex_file_ << "\n\\end{document}\n";
         latex_file_.close();
     }

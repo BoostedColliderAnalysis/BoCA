@@ -69,10 +69,10 @@ protected:
     }
 
     long EventNumberMax() const override {
-        return 5000;
-        return 10000;
         return 1000;
         return 100;
+        return 5000;
+        return 10000;
         return 10;
     }
 
@@ -84,8 +84,8 @@ protected:
     }
 
     int JetPreCut() const {
-        return 100;
         return 0;
+        return 100;
     }
 
     float Crosssection(Process process) const {
