@@ -108,7 +108,7 @@ protected:
         if (multiplets.empty()) return 0;
         if (multiplets.size() > 1) std::sort(multiplets.begin(), multiplets.end());
         auto sum = std::min(multiplets.size(), max);
-        for (auto const& counter : Range(sum)) {
+        for (auto const & counter : Range(sum)) {
             FillBranch(multiplets.at(counter));
             static_cast<BranchTemplate&>(*TreeBranch().NewEntry()) = Branch();
         }
@@ -119,7 +119,7 @@ protected:
         if (jets.empty()) return 0;
         if (jets.size() > 1) jets = SortedByBdt(jets);
         auto sum = std::min(jets.size(), max);
-        for (auto const& counter : Range(sum)) {
+        for (auto const & counter : Range(sum)) {
             FillBranch(Singlet(jets.at(counter)));
             static_cast<BranchTemplate&>(*TreeBranch().NewEntry()) = Branch();
         }
@@ -168,6 +168,12 @@ protected:
         AddSpectators();
     }
 
+//     template <typename Multiplet>
+//     Multiplet SetBdt(Multiplet& multiplet, TMVA::Reader const& reader) {
+//         multiplet.SetBdt(Bdt(multiplet, reader));
+//         return multiplet;
+//     }
+
 private:
 
     float ReadBdt(const TClonesArray& clones_array, int entry) const final {
@@ -175,11 +181,11 @@ private:
     }
 
     void AddVariables() {
-        for (auto const& variable : Branch().Variables()) AddVariable(variable.value(), variable.name());
+        for (auto const & variable : Branch().Variables()) AddVariable(variable.value(), variable.name());
     }
 
     void AddSpectators() {
-        for (auto const& spectator : Branch().Spectators()) AddSpectator(spectator.value(), spectator.name());
+        for (auto const & spectator : Branch().Spectators()) AddSpectator(spectator.value(), spectator.name());
     }
 
     template<typename Multiplet>
