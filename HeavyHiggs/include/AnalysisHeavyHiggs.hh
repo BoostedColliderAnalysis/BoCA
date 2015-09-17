@@ -131,8 +131,6 @@ public:
         }
     };
 
-
-
     int FileNumber(Process process) const {
         switch (collider_type()) {
         case Collider::LHC :

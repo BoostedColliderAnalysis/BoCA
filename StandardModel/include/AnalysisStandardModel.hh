@@ -54,8 +54,8 @@ protected:
     }
 
     long EventNumberMax() const override {
-        return 5000;
         return 1000;
+        return 5000;
         return 100;
     }
 
@@ -111,6 +111,11 @@ protected:
 
     std::string FileName(Process process) const {
         return Name(process) + "_" + std::to_string(MadGraphCut()) + "GeV";
+    }
+
+    std::string FilePath() const
+    {
+      return this->working_path_ + "../";
     }
 
 };

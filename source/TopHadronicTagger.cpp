@@ -27,7 +27,7 @@ int TopHadronicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, 
     Jets jets = bottom_reader_.Multiplets(event);
     Info(jets.size());
     int comb = (sqr(jets.size()) + jets.size()) / 2;
-    Error(comb);
+    Info(comb);
     Jets leptons = event.Leptons().leptons();
     std::vector<boca::Triplet> triplets;
 
@@ -191,7 +191,7 @@ std::vector<Triplet> TopHadronicTagger::Multiplets(Event const& event, boca::Pre
 
         Info("1 jet forms one top", triplets.size());
         boca::Triplet triplet(jet);
-        if (Problematic(triplet, pre_cuts)) continue;    // Check if potential topjet otherwise next jet
+        if (Problematic(triplet, pre_cuts)) continue; // Check if potential topjet otherwise next jet
         triplet.Doublet().SetBdt(0);
         try {
             triplets.emplace_back(Multiplet(triplet, leptons, pre_cuts, reader));

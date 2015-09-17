@@ -30,6 +30,8 @@ protected:
 
     virtual fastjet::PseudoJet Jet() const override = 0;
 
+    virtual fastjet::PseudoJet ConstituentJet() const = 0;
+
     /**
      * @brief join the two jets
      *
@@ -37,7 +39,10 @@ protected:
      *          save the result in an temporary variable
      *
      */
+    fastjet::PseudoJet ConstituentJet(fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2) const;
+
     fastjet::PseudoJet Jet(fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2) const;
+
 
     Vector2 Pull() const override;
 
@@ -67,9 +72,11 @@ protected:
 
     float BottomBdt(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
-    void SetResult(fastjet::PseudoJet const& jet) const;
+    void SetConstituentJet(fastjet::PseudoJet const& jet) const;
 
-    void SetSinglet(fastjet::PseudoJet const& jet) const;
+    void SetPlainJet(fastjet::PseudoJet const& jet) const;
+
+//     void SetSinglet(fastjet::PseudoJet const& jet) const;
 
     /**
      * @brief store intermediate results
@@ -77,9 +84,13 @@ protected:
      */
     mutable Singlet singlet_;
 
+//     mutable fastjet::PseudoJet constiuent_jet_;
+
     mutable fastjet::PseudoJet jet_;
 
-    mutable bool has_jet_ = false;
+    mutable bool has_singlet_ = false;
+
+    mutable bool has_jet_= false;
 
 private:
 

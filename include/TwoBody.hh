@@ -79,9 +79,14 @@ public:
      *
      * @return fastjet::PseudoJet
      */
+    fastjet::PseudoJet ConstituentJet() const {
+        if (!has_singlet_) SetConstituentJet(Multiplet::ConstituentJet(Multiplet1().ConstituentJet(), Multiplet2().ConstituentJet()));
+        return constiuent_jet_;
+    }
+
     fastjet::PseudoJet Jet() const {
-        if (!has_jet_) SetResult(Multiplet::Jet(Multiplet1().Jet(), Multiplet2().Jet()));
-        return jet_;
+      if (!has_jet_) SetPlainJet(Multiplet::Jet(Multiplet1().Jet(), Multiplet2().Jet()));
+      return jet_;
     }
 
     boca::Jets Jets() const {
@@ -129,7 +134,7 @@ public:
     }
 
     boca::Singlet const& singlet() const {
-        if (!has_jet_)SetSinglet(Jet());
+        if (!has_singlet_) SetSinglet(ConstituentJet());
         return singlet_;
     }
 
@@ -142,7 +147,7 @@ public:
     }
 
     float Dipolarity() const {
-        return Multiplet::Dipolarity(Multiplet1(), Multiplet2(), Jet());
+        return Multiplet::Dipolarity(Multiplet1(), Multiplet2(), ConstituentJet());
     }
 
     float BottomBdt() const final {

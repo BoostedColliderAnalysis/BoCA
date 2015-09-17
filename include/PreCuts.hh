@@ -6,9 +6,12 @@
 #include <map>
 #include "Particles.hh"
 
-
 namespace boca
 {
+
+enum class Bosstness {
+  unboosted, 
+};
 
 class PreCuts
 {

@@ -26,6 +26,10 @@ public:
         return jet_;
     }
 
+    fastjet::PseudoJet ConstituentJet() const {
+      return jet_;
+    }
+
     boca::Jets Jets() const {
         return {Jet()};
     }

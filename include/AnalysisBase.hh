@@ -121,13 +121,13 @@ private:
 
     void RunEfficiency();
 
-    std::string WorkingPath();
-
     PreCuts pre_cuts_;
 
 //     Configuration configuration_;
 
     std::vector<boca::File> files_;
+
+    std::string WorkingPath();
 
 };
 
