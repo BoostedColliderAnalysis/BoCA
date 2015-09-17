@@ -29,9 +29,9 @@ public:
     void SetMultiplets(Multiplet_1 const& multiplet_1, Multiplet_2 const& multiplet_2) {
         multiplet_1_ = multiplet_1;
         multiplet_2_ = multiplet_2;
-        if (multiplet_1.Bdt() != initial_value() && multiplet_2.Bdt() != initial_value()) SetBdt(multiplet_1.Bdt(), multiplet_2.Bdt());
-        else if (multiplet_1.Bdt() != initial_value()) SetBdt(multiplet_1.Bdt());
-        else if (multiplet_2.Bdt() != initial_value()) SetBdt(multiplet_2.Bdt());
+        if (multiplet_1.Bdt() != InitialValue() && multiplet_2.Bdt() != InitialValue()) SetBdt(multiplet_1.Bdt(), multiplet_2.Bdt());
+        else if (multiplet_1.Bdt() != InitialValue()) SetBdt(multiplet_1.Bdt());
+        else if (multiplet_2.Bdt() != InitialValue()) SetBdt(multiplet_2.Bdt());
     }
 
     void SetJet(fastjet::PseudoJet const& jet) {

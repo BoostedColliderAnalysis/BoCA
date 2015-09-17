@@ -33,7 +33,7 @@ Jets TopHadronicHep::Tops(Jets& e_flows)
 //         HEPTopTagger TopTagger(ClusterSequence, Jet, topmass, wmass);
         HEPTopTagger top_tagger(cluster_sequence, jet);
         top_tagger.set_top_range(150., 200.);
-        std::cout << "========= Top Tagger ============" << std::endl;
+        std::cout << "========= Top Tagger ============\n";
         top_tagger.run_tagger();
 //         cout << "-------- setting  --------" << endl;
 //         TopTagger.get_setting();
@@ -41,12 +41,12 @@ Jets TopHadronicHep::Tops(Jets& e_flows)
 //         TopTagger.get_info();
 //         if (TopTagger.is_masscut_passed())
         {
-            std::cout << "###masscut_passed ###" << std::endl;
+            std::cout << "###masscut_passed ###\n";
             fastjet::PseudoJet top = top_tagger.top_candidate();
 //             fastjet::PseudoJet b = TopTagger.top_subjets().at(0);
 //             fastjet::PseudoJet W1 = TopTagger.top_subjets().at(1);
 //             fastjet::PseudoJet W2 = TopTagger.top_subjets().at(2);
-//             std::cout << "top mass: " << top.m() << std::endl;
+//             std::cout << "top mass: " << top.m() << "\n";
 //             cout << "bottom mass: " << b.m() << endl;
 //             cout << "W mass: " << (W1 + W2).m() << endl;
             tops.emplace_back(top);

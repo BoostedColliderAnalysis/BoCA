@@ -9,22 +9,24 @@
 #include <iomanip>
 #include <iostream>
 
-namespace fastjet {
+namespace fastjet
+{
 class PseudoJet;
 }
 
 // FIXME do we really want to write non standard compliant code?
 // #pragma GCC diagnostic ignored "-Wgnu-zero-variadic-macro-arguments"
 // #pragma GCC diagnostic ignored "-Wmacro-redefined"
-// #pragma clang diagnostic ignored "-Wgnu-zero-variadic-macro-arguments"
-// #pragma clang diagnostic ignored "-Wmacro-redefined"
+#pragma clang diagnostic ignored "-Wgnu-zero-variadic-macro-arguments"
+#pragma clang diagnostic ignored "-Wmacro-redefined"
 
 // defined by cmake for debug runs
 #ifndef NDEBUG
 #define NOTIFICATION
 #endif
 
-namespace boca {
+namespace boca
+{
 
 std::string Shorten(std::string const& pretty_function, size_t brake);
 
@@ -39,7 +41,7 @@ std::string FunctionName(std::string const& pretty_function);
 std::string FileName(std::string const& file);
 
 template<typename Value>
-std::string Column(int width, const Value& message)
+std::string Column(int width, Value const& message)
 {
     std::stringstream stream;
     stream << std::left << std::setw(width) << std::setfill(' ') << message;
@@ -47,7 +49,7 @@ std::string Column(int width, const Value& message)
 }
 
 template<typename Value>
-std::string ColumnRight(int width, const Value& message)
+std::string ColumnRight(int width, Value const& message)
 {
     std::stringstream stream;
     stream << std::right << std::setw(width) << std::setfill(' ') << message;
@@ -59,7 +61,7 @@ int ValueLength();
 void Log(std::string const& file, int line, std::string const& name_space, std::string const& class_name, std::string const& function, bool final = true);
 
 template<typename Value>
-void LogVariable(std::string const& variable, const Value& value)
+void LogVariable(std::string const& variable, Value const& value)
 {
     std::cout << Column(ValueLength(), variable) << Column(ValueLength(), value);
 }
@@ -68,7 +70,7 @@ template<typename Value>
 void LogVariable(std::string const& variable, const std::vector<Value>& values)
 {
 //     for (auto const& value : values) LogVariable(variable, values);
-        LogVariable(variable, values.size());
+    LogVariable(variable, values.size());
 }
 
 void LogVariable(const std::string&, char const* value);
@@ -80,7 +82,7 @@ void Log(std::string const& file, int line, std::string const& name_space, std::
 {
     Log(file, line, name_space, class_name, function, false);
     LogVariable(variable, value);
-    if (final) std::cout << std::endl;
+    if (final) std::cout << "\n";
 }
 
 template<typename Value, typename Value2>
@@ -88,8 +90,7 @@ void Log(std::string const& file, int line, std::string const& name_space, std::
 {
     Log(file, line, name_space, class_name, function, variable, value, false);
     LogVariable(variable2, value2);
-    if (final)
-        std::cout << std::endl;
+    if (final) std::cout << "\n";
 }
 
 template<typename Value, typename Value2, typename Value3>
@@ -97,8 +98,7 @@ void Log(std::string const& file, int line, std::string const& name_space, std::
 {
     Log(file, line, name_space, class_name, function, variable, value, variable2, value2, false);
     LogVariable(variable3, value3);
-    if (final)
-        std::cout << std::endl;
+    if (final) std::cout << "\n";
 }
 
 template<typename Value, typename Value2, typename Value3, typename Value4>
@@ -106,7 +106,7 @@ void Log(std::string const& file, int line, std::string const& name_space, std::
 {
     Log(file, line, name_space, class_name, function, variable, value, variable2, value2, variable3, value3, false);
     LogVariable(variable4, value4);
-    std::cout << std::endl;
+    std::cout << "\n";
 }
 
 }

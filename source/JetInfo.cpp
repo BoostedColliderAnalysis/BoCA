@@ -337,10 +337,10 @@ void JetInfo::SecondayVertex() const
     float y = (*leading).Position().Y();
     float radius = (*leading).Position().Perp() / 2;
     std::vector<Constituent> constituents;
-    auto it = std::copy_if(constituents_.begin(), constituents_.end(), constituents.begin(), [&](Constituent const & constituent) {
+    auto constituent = std::copy_if(constituents_.begin(), constituents_.end(), constituents.begin(), [&](Constituent const & constituent) {
         return (constituent.Position().X() < x + radius && constituent.Position().X() > x - radius && constituent.Position().Y() < y + radius && constituent.Position().Y() > y - radius);
     });
-    constituents.resize(std::distance(constituents.begin(), it));
+    constituents.resize(std::distance(constituents.begin(), constituent));
 }
 
 }

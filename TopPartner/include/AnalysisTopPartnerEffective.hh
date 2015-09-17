@@ -28,8 +28,8 @@ public:
 
 protected:
 
-    std::string ProjectName() const final {
-        return  ProcessName() + "-" + std::to_string(this->PreCut()) + "GeV-opt";
+  std::string ProjectName() const final {
+    return ProcessName() + "-" + std::to_string(this->PreCut()) + "GeV-" + Name(DetectorGeometry::detector_type()) + "-" + std::to_string(this->Mass()) + "GeV-remove-again";
     }
 
     std::string ProcessName() const final {
@@ -42,10 +42,10 @@ protected:
           this->NewFile(tag, Process::TThh);
             break;
         case Tag::background :
-          this->NewFile(tag, Process::Tth);
-            this->NewFile(tag, Process::ttBjj);
-            this->NewFile(tag, Process::tthBjj);
+//             this->NewFile(tag, Process::Tth);
             this->NewFile(tag, Process::TT);
+            this->NewFile(tag, Process::ttBB);
+            this->NewFile(tag, Process::ttBjj);
             break;
         }
     }

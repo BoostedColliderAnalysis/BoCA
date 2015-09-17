@@ -48,9 +48,9 @@ public:
 
     JetInfo(std::vector<Constituent> const& constituents);
 
-    JetInfo operator+(const JetInfo &jet_info);
+    JetInfo operator+(JetInfo const&jet_info);
 
-    JetInfo& operator+=(const JetInfo &jet_info);
+    JetInfo& operator+=(JetInfo const&jet_info);
 
     void AddConstituent(Constituent const& constituent);
 

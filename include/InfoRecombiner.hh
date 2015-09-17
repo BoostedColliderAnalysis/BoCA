@@ -8,7 +8,7 @@
 namespace boca
 {
 
-class InfoRecombiner : public  fastjet::JetDefinition::DefaultRecombiner
+class InfoRecombiner : public fastjet::JetDefinition::DefaultRecombiner
 {
 public:
   InfoRecombiner(fastjet::RecombinationScheme recombination_scheme = fastjet::E_scheme);

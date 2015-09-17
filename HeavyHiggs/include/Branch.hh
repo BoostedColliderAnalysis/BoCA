@@ -93,16 +93,16 @@ class ChargedHiggsSemiBranch : public MultiBranch {
 
 public:
 
-    float Flag;
+//     float Flag;
     ChargedHiggsSemiBranch();
 
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet)
     {
         MultiBranch::Fill(multiplet);
-        Flag = multiplet.Flag();
+//         Flag = multiplet.Flag();
     }
-    virtual Observables Spectators() const;
+//     virtual Observables Spectators() const;
 
 private:
 

@@ -67,15 +67,9 @@ protected:
 
     float BottomBdt(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
-    void SetResult(fastjet::PseudoJet const& jet) const {
-      jet_ = jet;
-      SetSinglet(jet);
-      has_jet_ = true;
-    }
+    void SetResult(fastjet::PseudoJet const& jet) const;
 
-    void SetSinglet(fastjet::PseudoJet const& jet) const {
-      singlet_ = Singlet(jet);
-    }
+    void SetSinglet(fastjet::PseudoJet const& jet) const;
 
     /**
      * @brief store intermediate results

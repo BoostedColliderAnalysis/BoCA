@@ -392,8 +392,8 @@ std::string Plotting::PlotModelIndependentGraph(Results& results) const
     TCanvas canvas;
     Fill(canvas);
     TGraph graph = Graph(results, results.crosssections, "Crosssection");
+    if (graph.GetMinimum() != 0 && graph.GetMinimum() / graph.GetMaximum() < 0.1) canvas.SetLogy();
     canvas.Update();
-    if (gPad->GetUymin() != 0 && gPad->GetUymin() / gPad->GetUymax() < 0.1) canvas.SetLogy();
     TLine line  = ModelIndependentLin(results, gPad->GetUymin(), gPad->GetUymax());
     std::string file_name = Tagger().ExportFolderName() + "-Exclusion" + ExportFileSuffix();
     canvas.SaveAs(file_name.c_str());

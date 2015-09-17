@@ -279,7 +279,7 @@ void FourVector::PrintTruthLevel(const boca::Severity severity) const
         PrintCell("Px");
         PrintCell("Py");
         PrintCell("Pz");
-        std::cout << std::endl;
+        std::cout << "\n";
         //         for (auto const& Position : HRange(clones_arrays().GetParticleSum())) {
         for (auto const& Position : Range(30)) {
             ::delphes::GenParticle& Particle = static_cast<::delphes::GenParticle&>(clones_arrays().Particle(Position));
@@ -302,7 +302,7 @@ void FourVector::PrintTruthLevel(const boca::Severity severity) const
             PrintCell(Particle.Px);
             PrintCell(Particle.Py);
             PrintCell(Particle.Pz);
-            std::cout << std::endl;
+            std::cout << "\n";
         }
     }
 }

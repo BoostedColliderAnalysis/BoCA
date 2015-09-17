@@ -57,7 +57,7 @@ void Log(std::string const& file, int line, std::string const& NameSpace, std::s
 {
     std::cout << Column(25, file) << ColumnRight(3, line) << " " << Column(15, NameSpace) << Column(18, Class) << Column(20, function);
     if (final)
-        std::cout << std::endl;
+        std::cout << "\n";
 }
 
 void LogVariable(std::string const& variable, fastjet::PseudoJet const& jet)

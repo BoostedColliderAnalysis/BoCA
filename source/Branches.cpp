@@ -4,11 +4,12 @@
 #include "Branches.hh"
 #include "TColor.h"
 #include "TStyle.h"
+#include "TClass.h"
 #include "Pair.hh"
 
 namespace boca {
 
-  Obs::Obs(float const& value, std::string const& name, std::string const& nice_name) : value_(&const_cast<float&>(value))
+Obs::Obs(float const& value, std::string const& name, std::string const& nice_name) : value_(&const_cast<float&>(value))
 {
     name_ = name;
     nice_name_ = nice_name;
@@ -29,13 +30,11 @@ std::string Obs::nice_name() const
     return nice_name_;
 }
 
-BaseBranch::~BaseBranch() {}
+BaseBranch::~BaseBranch(){}
 
 float BaseBranch::InitialValue()
 {
     return -11.1111111; // should be non integer
-    // this must be identical to the initial value in htag
-    // FIXME remove the copy of the magic number
 }
 
 Observables BaseBranch::Join(Observables const& observables_1, Observables const& observables_2)
@@ -59,9 +58,7 @@ Observables BaseBranch::Join(Observables const& observables_1, Observables const
 
 float BottomBase::InValue()
 {
-    return -11.1111111; // should be non integer
-    // this must be identical to the initial value in htag
-    // FIXME remove the copy of the magic number
+  return BaseBranch::InitialValue();
 }
 
 InfoBranch::InfoBranch()
@@ -310,7 +307,7 @@ Observables WSemiBranch::Variables() const
 
 TopHadronicBranch::TopHadronicBranch()
 {
-//   std::cout << "we are here" << std::endl;
+//   std::cout << "we are here\n";
 //     BottomMass = InitialValue();
 //     WMass = InitialValue();
     LeptonPt = InitialValue();

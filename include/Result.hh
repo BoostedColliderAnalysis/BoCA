@@ -63,7 +63,7 @@ class Plots
 {
 public:
     std::vector<Plot> plots;
-    boca::InfoBranch info_branch;
+    InfoBranch info_branch;
     std::string name;
     void SetNames(Names const& names, Names const& nice_names);
 };

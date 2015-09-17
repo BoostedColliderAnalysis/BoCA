@@ -57,11 +57,11 @@ public:
 protected:
 
     int Mass() const {
+        return 10000;
+        return 8000;
         return 6000;
         return 4000;
         return 2000;
-        return 8000;
-        return 10000;
         return 1500;
         return 1000;
         return 500;
@@ -151,7 +151,17 @@ protected:
                     Error("wrong pre cut", PreCut());
                     return crosssection;
                 }
-            case Process::TThh : return crosssection *= 3.057e-05;
+            case Process::TThh :
+                switch (Mass()) {
+                case 2000 : return crosssection *= 1.143e-7;
+                case 4000 : return crosssection *= 9.95e-10;
+                case 6000 : return crosssection *= 3.579e-11;
+                case 8000 : return crosssection *= 2.305e-12;
+                case 10000 : return crosssection *= 2.029e-13;
+                default :
+                    Error("wrong mass", Mass());
+                    return crosssection;
+                }
             case Process::ttBB : return crosssection *= 0.03206;
             default :
                 Error("wrong process", Name(process));
@@ -168,12 +178,14 @@ protected:
             switch (DetectorGeometry::detector_type()) {
             case DetectorType::CMS : return "PP-TT-14TeV-" + std::to_string(Mass()) + "GeV";
             case DetectorType::Spp : return "PP-TT-100TeV-" + std::to_string(Mass()) + "GeV";
+            default : Error("wrong detector type");
             }
         }
         case Process::ttBjj : {
             switch (DetectorGeometry::detector_type()) {
             case DetectorType::CMS : return "PP-ttBJJ-14TeV";
             case DetectorType::Spp : return "PP-ttBJJ-100TeV";
+            default : Error("wrong detector type");
             }
         }
         case Process::tthBjj : {
@@ -181,23 +193,32 @@ protected:
             switch (PreCut()) {
             case 0 : return name + "-0GeV";
             case 200 : return name + "-200GeV";
+            default : Error("wrong pre cut");
             }
         }
         case Process::Tth :  {
             switch (DetectorGeometry::detector_type()) {
             case DetectorType::CMS : return "PP-Tth-14TeV-" + std::to_string(Mass()) + "GeV";
             case DetectorType::Spp : return "PP-Tth-100TeV-" + std::to_string(Mass()) + "GeV";
+            default : Error("wrong detector type");
             }
         }
-        case Process::TThh : return "PP-TThh";
+        case Process::TThh :  {
+            switch (DetectorGeometry::detector_type()) {
+            case DetectorType::CMS : return "PP-TThh-14TeV-" + std::to_string(Mass()) + "GeV";
+            case DetectorType::Spp : return "PP-TThh-100TeV-" + std::to_string(Mass()) + "GeV";
+            default : Error("wrong detector type");
+            }
+        }
         case Process::ttBB :
             switch (DetectorGeometry::detector_type()) {
             case DetectorType::CMS : return "PP-ttBB-14TeV";
             case DetectorType::Spp : return "PP-ttBB-100TeV";
+            default : Error("wrong detector type");
             }
-        default :
-            Error("no case");
+        default : Error("wrong process");
         }
+        return "";
     }
 
     std::string NiceName(Process process) const {
@@ -210,6 +231,7 @@ protected:
         case Process::ttBB : return "t_{l}t_{h}B^{0}B^{0}";
         default: Error("no case");
         }
+      return "";
     }
 
     void NewFile(Tag tag, Process process) {

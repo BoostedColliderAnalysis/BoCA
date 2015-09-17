@@ -6,7 +6,7 @@
 
 namespace boca {
 
-InfoRecombiner::InfoRecombiner(fastjet::RecombinationScheme recombination_scheme): fastjet::JetDefinition::DefaultRecombiner(recombination_scheme) {}
+  InfoRecombiner::InfoRecombiner(fastjet::RecombinationScheme recombination_scheme) : fastjet::JetDefinition::DefaultRecombiner(recombination_scheme) {}
 
 std::string InfoRecombiner::description() const
 {

@@ -20,22 +20,18 @@ Vector2 Multiplet::Pull() const
 
 fastjet::PseudoJet Multiplet::Jet(fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2) const
 {
+    static int join_jet = 0;
+    ++join_jet;
+    Error(join_jet);
     Check(has_jet_ == false, "should only happen for three body");
     boca::Jets constituents;
     if (jet_1.has_user_info() && jet_1.user_info<JetInfo>().SubStructure() && jet_1.has_constituents()) constituents = jet_1.constituents();
     else constituents.emplace_back(jet_1);
     if (jet_2.has_user_info() && jet_2.user_info<JetInfo>().SubStructure() && jet_2.has_constituents()) constituents = Join(constituents, jet_2.constituents());
     else constituents.emplace_back(jet_2);
-
-//     fastjet::PseudoJet jet = fastjet::join(constituents, InfoRecombiner());
-//     if (int((jet_1 + jet_2).m()) != int(jet.m())) {
     constituents = fastjet::sorted_by_pt(constituents);
     constituents.erase(std::unique(constituents.begin(), constituents.end()), constituents.end());
-//     }
-    fastjet::PseudoJet
-    jet = fastjet::join(constituents, InfoRecombiner());
-//     Check(int((jet_1 + jet_2).m()) == int(jet.m()), jet.m(), (jet_1 + jet_2).m(), jet_1.m(), jet_2.m());
-
+    fastjet::PseudoJet jet = fastjet::join(constituents, InfoRecombiner());
     return jet;
 }
 
@@ -142,6 +138,17 @@ float Multiplet::BottomBdt(MultipletBase const& multiplets_1, MultipletBase cons
 {
     return (multiplets_1.BottomBdt() + multiplets_2.BottomBdt()) / 2 ;
 }
+void Multiplet::SetResult(fastjet::PseudoJet const& jet) const
+{
+    jet_ = jet;
+    SetSinglet(jet);
+    has_jet_ = true;
+}
+void Multiplet::SetSinglet(fastjet::PseudoJet const& jet) const
+{
+    singlet_ = Singlet(jet);
+}
 
 
 }
+

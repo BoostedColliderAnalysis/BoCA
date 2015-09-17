@@ -13,8 +13,9 @@
 message(STATUS "Looking for Root...")
 
 set(root_config_search_path
-    ${SIMPATH}/tools/root/bin
-    $ENV{ROOTSYS}/bin
+#     /home/hajer/root/bin
+#     ${SIMPATH}/tools/root/bin
+#     $ENV{ROOTSYS}/bin
     /usr/bin
    )
 set(definitions "")
@@ -29,9 +30,7 @@ find_program(config_executable
 
 if(${config_executable} MATCHES "config_executable-NOTFOUND")
   message(FATAL_ERROR
-         "ROOT not installed in the searchpath and ROOTSYS is not set.
-          Please set ROOTSYS or add the path to your ROOT installation in
-          the Macro FindROOT.cmake in the subdirectory cmake/modules.")
+         "ROOT not installed in the searchpath and ROOTSYS is not set. Please set ROOTSYS or add the path to your ROOT installation in the Macro FindROOT.cmake in the subdirectory CMakeFiles.")
 else(${config_executable} MATCHES "config_executable-NOTFOUND")
   string(REGEX REPLACE "(^.*)/bin/root-config" "\\1" test ${config_executable})
   set(ENV{ROOTSYS} ${test})
@@ -130,6 +129,7 @@ if(root_found)
 
   find_program(ROOT_CINT_EXECUTABLE
     NAMES rootcint
+#     NAMES rootcling
     PATHS ${ROOT_BINARY_DIR}
     NO_DEFAULT_PATH
    )

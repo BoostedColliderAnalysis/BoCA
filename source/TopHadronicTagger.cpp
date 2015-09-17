@@ -26,6 +26,8 @@ int TopHadronicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, 
     Info();
     Jets jets = bottom_reader_.Multiplets(event);
     Info(jets.size());
+    int comb = (sqr(jets.size()) + jets.size()) / 2;
+    Error(comb);
     Jets leptons = event.Leptons().leptons();
     std::vector<boca::Triplet> triplets;
 
@@ -268,31 +270,29 @@ Triplet TopHadronicTagger::Multiplet(boca::Triplet& triplet, Jets const& leptons
 void TopHadronicTagger::NSubJettiness(boca::Triplet& triplet) const
 {
     return;
-    if (triplet.Degenerate()) triplet.set_sub_jettiness(NSubJettiness(triplet.Singlet().Jet() * 2));
-    else if (triplet.Doublet().Degenerate()) triplet.set_sub_jettiness(NSubJettiness(triplet.Doublet().Singlet1().Jet() * 2));
-    else triplet.set_sub_jettiness(NSubJettiness(fastjet::join(triplet.Singlet().Jet(), triplet.Doublet().Singlet1().Jet(), triplet.Doublet().Singlet2().Jet(), InfoRecombiner())));
+//     if (!triplet.()) triplet.set_sub_jettiness(NSubJettiness(triplet.Singlet().Jet() * 2));
+//     else if (triplet.Doublet().Degenerate()) triplet.set_sub_jettiness(NSubJettiness(triplet.Doublet().Singlet1().Jet() * 2));
+//     else triplet.set_sub_jettiness(NSubJettiness(fastjet::join(triplet.Singlet().Jet(), triplet.Doublet().Singlet1().Jet(), triplet.Doublet().Singlet2().Jet(), InfoRecombiner())));
 }
 
 SubJettiness TopHadronicTagger::NSubJettiness(fastjet::PseudoJet const& jet) const
 {
     Info();
-    fastjet::contrib::OnePass_WTA_KT_Axes axis_mode_1;
-    fastjet::contrib::OnePass_KT_Axes axis_mode_2;
-    double beta_1 = 1.0;
-    double beta_2 = 2.0;
-    fastjet::contrib::UnnormalizedMeasure unnormalized_measure_1(beta_1);
-    fastjet::contrib::UnnormalizedMeasure unnormalized_measure_2(beta_2);
+    fastjet::contrib::OnePass_WTA_KT_Axes wta_kt_axes;
+    fastjet::contrib::OnePass_KT_Axes kt_axes;
+    fastjet::contrib::UnnormalizedMeasure unnormalized_measure_1(1);
+    fastjet::contrib::UnnormalizedMeasure unnormalized_measure_2(2);
 //
-    fastjet::contrib::Nsubjettiness n_subjettiness_1_1(1, axis_mode_1, unnormalized_measure_1);
-    fastjet::contrib::Nsubjettiness n_subjettiness_2_1(2, axis_mode_1, unnormalized_measure_1);
-    fastjet::contrib::Nsubjettiness n_subjettiness_3_1(3, axis_mode_1, unnormalized_measure_1);
-    fastjet::contrib::NsubjettinessRatio n_subjettiness_21_1(2, 1, axis_mode_1, unnormalized_measure_1);
-    fastjet::contrib::NsubjettinessRatio n_subjettiness_32_1(3, 2, axis_mode_1, unnormalized_measure_1);
-    fastjet::contrib::Nsubjettiness n_subjettiness_1_2(1, axis_mode_2, unnormalized_measure_2);
-    fastjet::contrib::Nsubjettiness n_subjettiness_2_2(2, axis_mode_2, unnormalized_measure_2);
-    fastjet::contrib::Nsubjettiness n_subjettiness_3_2(3, axis_mode_2, unnormalized_measure_2);
-    fastjet::contrib::NsubjettinessRatio n_subjettiness_21_2(2, 1, axis_mode_2, unnormalized_measure_2);
-    fastjet::contrib::NsubjettinessRatio n_subjettiness_32_2(3, 2, axis_mode_2, unnormalized_measure_2);
+    fastjet::contrib::Nsubjettiness n_subjettiness_1_1(1, wta_kt_axes, unnormalized_measure_1);
+    fastjet::contrib::Nsubjettiness n_subjettiness_2_1(2, wta_kt_axes, unnormalized_measure_1);
+    fastjet::contrib::Nsubjettiness n_subjettiness_3_1(3, wta_kt_axes, unnormalized_measure_1);
+    fastjet::contrib::NsubjettinessRatio n_subjettiness_21_1(2, 1, wta_kt_axes, unnormalized_measure_1);
+    fastjet::contrib::NsubjettinessRatio n_subjettiness_32_1(3, 2, wta_kt_axes, unnormalized_measure_1);
+    fastjet::contrib::Nsubjettiness n_subjettiness_1_2(1, kt_axes, unnormalized_measure_2);
+    fastjet::contrib::Nsubjettiness n_subjettiness_2_2(2, kt_axes, unnormalized_measure_2);
+    fastjet::contrib::Nsubjettiness n_subjettiness_3_2(3, kt_axes, unnormalized_measure_2);
+    fastjet::contrib::NsubjettinessRatio n_subjettiness_21_2(2, 1, kt_axes, unnormalized_measure_2);
+    fastjet::contrib::NsubjettinessRatio n_subjettiness_32_2(3, 2, kt_axes, unnormalized_measure_2);
 //
     SubJettiness sub_jettiness;
 //

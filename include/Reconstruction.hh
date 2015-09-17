@@ -45,9 +45,9 @@ protected:
      * @brief Get mass drop jet
      *
      */
-    fastjet::PseudoJet GetMassDropJet(const fastjet::PseudoJet&) const;
+    fastjet::PseudoJet GetMassDropJet(fastjet::PseudoJet const&) const;
 
-    fastjet::PseudoJet GetMassDropJet(const fastjet::PseudoJet&, const float, const float) const;
+    fastjet::PseudoJet GetMassDropJet(fastjet::PseudoJet const&, const float, const float) const;
 
 
     Jets GetSubjet_taggedJets(Jets const& FatJets) const;
@@ -58,7 +58,7 @@ protected:
      * @brief Filter Jets
      *
      */
-    fastjet::PseudoJet GetFilteredJet(const fastjet::PseudoJet&);
+    fastjet::PseudoJet GetFilteredJet(fastjet::PseudoJet const&);
 
     static bool JetIsBad(fastjet::PseudoJet const& Jet);
 

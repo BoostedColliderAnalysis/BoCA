@@ -50,10 +50,10 @@ int Configuration::Mass_()
     try {
         mass_ = config().lookup("Mass");
     } catch (const libconfig::SettingNotFoundException& SettingNotFoundException) {
-        std::cerr << "No 'Mass' setting in configuration file." << std::endl;
+        std::cerr << "No 'Mass' setting in configuration file.\n";
         throw;
     } catch (const libconfig::SettingTypeException& SettingTypeException) {
-        std::cerr << "'Mass' setting has wrong type." << std::endl;
+        std::cerr << "'Mass' setting has wrong type.\n";
         throw;
     }
     return mass_;
@@ -65,10 +65,10 @@ int Configuration::PreCut_()
     try {
         pre_cut_ = config().lookup("PreCut");
     } catch (const libconfig::SettingNotFoundException& SettingNotFoundException) {
-        std::cerr << "No 'PreCut' setting in configuration file." << std::endl;
+        std::cerr << "No 'PreCut' setting in configuration file.\n";
         throw;
     } catch (const libconfig::SettingTypeException& SettingTypeException) {
-        std::cerr << "'PreCut' setting has wrong type." << std::endl;
+        std::cerr << "'PreCut' setting has wrong type.\n";
         throw;
     }
     return pre_cut_;
@@ -79,10 +79,10 @@ int Configuration::EventNumberMax_()
     try {
         event_number_max_ = config().lookup("EventNumberMax");
     } catch (const libconfig::SettingNotFoundException& SettingNotFoundException) {
-        std::cerr << "No 'EventNumberMax' setting in configuration file." << std::endl;
+        std::cerr << "No 'EventNumberMax' setting in configuration file.\n";
         throw;
     } catch (const libconfig::SettingTypeException& SettingTypeException) {
-        std::cerr << "'EventNumberMax' setting has wrong type." << std::endl;
+        std::cerr << "'EventNumberMax' setting has wrong type.\n";
         throw;
     }
     return event_number_max_;
@@ -93,10 +93,10 @@ int Configuration::BackgroundFileNumber_()
     try {
         background_file_number_ = config().lookup("BackgroundFileNumber");
     } catch (const libconfig::SettingNotFoundException& SettingNotFoundException) {
-        std::cerr << "No 'BackgroundFileNumber' setting in configuration file." << std::endl;
+        std::cerr << "No 'BackgroundFileNumber' setting in configuration file.\n";
         throw;
     } catch (const libconfig::SettingTypeException& SettingTypeException) {
-        std::cerr << "'BackgroundFileNumber' setting has wrong type." << std::endl;
+        std::cerr << "'BackgroundFileNumber' setting has wrong type.\n";
         throw;
     }
     return background_file_number_;
@@ -113,10 +113,10 @@ ColliderType Configuration::ColliderType_()
         else if (Collider == "FHC")
           collider_type_ = ColliderType::FHC;
     } catch (const libconfig::SettingNotFoundException& SettingNotFoundException) {
-        std::cerr << "No 'ColliderType' setting in configuration file." << std::endl;
+        std::cerr << "No 'ColliderType' setting in configuration file.\n";
         throw;
     } catch (const libconfig::SettingTypeException& SettingTypeException) {
-        std::cerr << "'ColliderType' setting has wrong type." << std::endl;
+        std::cerr << "'ColliderType' setting has wrong type.\n";
         throw;
     }
     return ColliderType::LHC;
@@ -133,9 +133,9 @@ void Configuration::WriteConfig(std::string const& config_name)
     libconfig::Setting& collider_type = root.add("ColliderType",  libconfig::Setting::TypeString) = "LE";
     try {
         config().writeFile(ConfigFile(config_name).c_str());
-        std::cerr << "New configuration successfully written to: " << ConfigFile(config_name) << std::endl;
+        std::cerr << "New configuration successfully written to: " << ConfigFile(config_name) << "\n";
     } catch (const libconfig::FileIOException& FileIOException) {
-        std::cerr << "I/O error while writing file: " << ConfigFile(config_name) << std::endl;
+        std::cerr << "I/O error while writing file: " << ConfigFile(config_name) << "\n";
     }
 }
 
@@ -144,10 +144,10 @@ void Configuration::ReadConfig(std::string const& config_name)
     try {
         config().readFile(ConfigFile(config_name).c_str());
     } catch (const libconfig::FileIOException& FileIOException) {
-        std::cerr << "I/O error while reading file." << std::endl;
+        std::cerr << "I/O error while reading file.\n";
         WriteConfig(config_name);
     } catch (const libconfig::ParseException& ParseException) {
-        std::cerr << "Parse error at " << ParseException.getFile() << ":" << ParseException.getLine() << " - " << ParseException.getError() << std::endl;
+        std::cerr << "Parse error at " << ParseException.getFile() << ":" << ParseException.getLine() << " - " << ParseException.getError() << "\n";
     }
     Mass_();
     PreCut_();

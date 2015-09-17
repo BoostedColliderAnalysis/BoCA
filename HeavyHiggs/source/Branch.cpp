@@ -25,7 +25,7 @@ HeavyHiggsSemiBranch::HeavyHiggsSemiBranch() {}
 
 ChargedHiggsSemiBranch::ChargedHiggsSemiBranch()
 {
-    Flag = int(InitialValue());
+//     Flag = int(InitialValue());
 }
 
 ChargedHiggsLeptonicBranch::ChargedHiggsLeptonicBranch()
@@ -189,10 +189,10 @@ Observables EventChargedBranch::Variables() const
 {
     return Join(EventBranch::Variables(), {PAIR(HiggsMass), PAIR(HiggsBdt), PAIR(SignatureBdt), PAIR(PairRap), PAIR(BottomBdt), PAIR(PairBottomBdt), PAIR(BottomBdt1), PAIR(BottomBdt2), PAIR(BottomBdt3), PAIR(BottomBdt4), PAIR(BottomBdt5), PAIR(BottomBdt6), PAIR(BottomBdt7), PAIR(BottomBdt8), PAIR(BottomBdt12), PAIR(BottomBdt34), PAIR(BottomBdt56), PAIR(BottomBdt78)});
 }
-Observables ChargedHiggsSemiBranch::Spectators() const
-{
-    return Join(ParticleBranch::Spectators(), {PAIR(Flag)});
-}
+// Observables ChargedHiggsSemiBranch::Spectators() const
+// {
+//     return Join(ParticleBranch::Spectators(), {PAIR(Flag)});
+// }
 Observables EventNeutralFourTopBranch::Variables() const
 {
     return Join(EventBranch::Variables(), {PAIR(HiggsMass), PAIR(HiggsBdt), PAIR(SignatureBdt), PAIR(PairRap), PAIR(BottomBdt), PAIR(BottomBdt1), PAIR(BottomBdt2), PAIR(BottomBdt3), PAIR(BottomBdt4), PAIR(BottomBdt5), PAIR(BottomBdt6), PAIR(BottomBdt7), PAIR(BottomBdt8), PAIR(BottomBdt12), PAIR(BottomBdt34), PAIR(BottomBdt56), PAIR(BottomBdt78)});

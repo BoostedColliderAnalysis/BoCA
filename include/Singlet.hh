@@ -115,7 +115,7 @@ public:
     }
 
     float Bdt() const final {
-        if(UserInfo().Bdt() != initial_value()) return UserInfo().Bdt();
+        if(UserInfo().Bdt() != InitialValue()) return UserInfo().Bdt();
         return 0;
     }
 

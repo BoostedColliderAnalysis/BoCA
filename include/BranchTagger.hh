@@ -69,7 +69,7 @@ protected:
         std::vector<Multiplet> close = CopyIfClose(multiplets, particles);
         close = SortedByBdt(close);
         if (id != Id::empty) close = SortedByMassTo(close, id);
-//         std::cout << "close " << close.size() << std::endl;
+//         std::cout << "close " << close.size() << "\n";
         return std::vector<Multiplet>(&close[0], &close[std::min(close.size(), particles.size())]);
     }
 

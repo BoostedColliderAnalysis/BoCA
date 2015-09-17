@@ -82,7 +82,7 @@ std::vector<Doublet> WLeptonicTagger::ReconstructNeutrino(Doublet const& doublet
     if (radicant < 0) {
         Info("Imaginary root", "move missing et towards lepton");
         Doublet mod_doublet(lepton, missing_et + 0.1 * (lepton - missing_et));
-        mod_doublet.SetFlag(true);
+//         mod_doublet.SetFlag(true);
         mod_doublet.SetTag(doublet.Tag());
         return ReconstructNeutrino(mod_doublet);
     }
@@ -94,14 +94,14 @@ std::vector<Doublet> WLeptonicTagger::ReconstructNeutrino(Doublet const& doublet
     Debug(neutrino_1);
     Doublet doublet1(lepton, neutrino_1);
     doublet1.SetTag(doublet.Tag());
-    doublet1.SetFlag(doublet.Flag());
+//     doublet1.SetFlag(doublet.Flag());
     float neutrino_2_e = (lepton.e() * linear_term + sqrt) / lepton_square;
     float neutrino_2_pz = (sqr(lepton.pz()) * linear_term + lepton.e() * sqrt) / lepton.pz() / lepton_square;
     fastjet::PseudoJet neutrino_2(missing_et.px(), missing_et.py(), neutrino_2_pz, neutrino_2_e);
     Debug(neutrino_2);
     Doublet doublet2(lepton, neutrino_2);
     doublet2.SetTag(doublet.Tag());
-    doublet2.SetFlag(doublet.Flag());
+//     doublet2.SetFlag(doublet.Flag());
     std::vector<Doublet> doublets;
     doublets.emplace_back(doublet1);
     doublets.emplace_back(doublet2);

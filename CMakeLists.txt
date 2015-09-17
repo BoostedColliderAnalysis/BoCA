@@ -62,4 +62,3 @@ add_subdirectory(TopPartner)
 if(CMAKE_BUILD_TYPE MATCHES "Release")
 include(CMakeFiles/UseDoxygen.cmake)
 endif()
-
