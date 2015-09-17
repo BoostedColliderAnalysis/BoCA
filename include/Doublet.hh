@@ -8,15 +8,15 @@
 
 namespace boca {
 
-class Doublet : public TwoBody<Singlet, Singlet> {
+class Doublet : public TwoBody<boca::Singlet, boca::Singlet> {
 
 public:
 
-    using TwoBody<Singlet, Singlet>::TwoBody;
+    using TwoBody<boca::Singlet, boca::Singlet>::TwoBody;
 
-    Singlet const& Singlet1() const;
+    boca::Singlet const& Singlet1() const;
 
-    Singlet const& Singlet2() const;
+    boca::Singlet const& Singlet2() const;
 
     float Dipolarity2() const;
 

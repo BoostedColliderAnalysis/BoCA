@@ -40,15 +40,6 @@ public:
         SetBdt((multiplet_1_.Bdt() + multiplet_2_.Bdt() + multiplet_2_.Bdt()) / 3);
     }
 
-    void SetSinglet(fastjet::PseudoJet const& jet) const {
-        singlet_ = Singlet(jet);
-    }
-
-    boca::Singlet const& singlet() const {
-        if (!has_singlet_) SetSinglet(Jet());
-        return singlet_;
-    }
-
     Multiplet_1 const& Multiplet1() const {
         return multiplet_1_;
     }
@@ -78,27 +69,45 @@ public:
         return multiplet_1_.Overlap(multiplet_2_) || multiplet_1_.Overlap(multiplet_3_) || multiplet_2_.Overlap(multiplet_3_);
     }
 
-    fastjet::PseudoJet Jet() const {
-        if (!has_singlet_) SetConstituentJet(Multiplet::Jet(Jet12(), Multiplet3().Jet()));
-        return jet_;
+    void SetSinglet() const override {
+      Multiplet::SetSinglet(Multiplet::Singlet(Singlet12(), Multiplet3().singlet()));
     }
 
-    fastjet::PseudoJet Jet12() const {
-      if (!has_jet_12_) SetResult12(Multiplet::Jet(Multiplet1().Jet(), Multiplet2().Jet()));
+    boca::Singlet const& Singlet12() const {
+      if (!has_singlet_12_) SetSinglet12(Multiplet::Singlet(Multiplet1().singlet(), Multiplet2().singlet()));
+      return singlet_12_;
+    }
+
+    boca::Singlet const& Singlet23() const {
+      if (!has_singlet_23_) SetSinglet23(Multiplet::Singlet(Multiplet2().singlet(), Multiplet3().singlet()));
+      return singlet_23_;
+    }
+
+    boca::Singlet const& Singlet13() const {
+      if (!has_singlet_13_) SetSinglet13(Multiplet::Singlet(Multiplet1().singlet(), Multiplet3().singlet()));
+      return singlet_13_;
+    }
+
+    void SetPlainJet() const override {
+        Multiplet::SetPlainJet(Multiplet::Jet(Jet12(), Multiplet3().Jet()));
+    }
+
+    fastjet::PseudoJet const& Jet12() const {
+      if (!has_jet_12_) SetJet12(Multiplet::Jet(Multiplet1().Jet(), Multiplet2().Jet()));
       return jet_12_;
     }
 
-    fastjet::PseudoJet Jet23() const {
-      if (!has_jet_23_) SetResult23(Multiplet::Jet(Multiplet2().Jet(), Multiplet3().Jet()));
+    fastjet::PseudoJet const& Jet23() const {
+      if (!has_jet_23_) SetJet23(Multiplet::Jet(Multiplet2().Jet(), Multiplet3().Jet()));
       return jet_23_;
     }
 
-    fastjet::PseudoJet Jet13() const {
-      if (!has_jet_13_) SetResult13(Multiplet::Jet(Multiplet1().Jet(), Multiplet3().Jet()));
+    fastjet::PseudoJet const& Jet13() const {
+      if (!has_jet_13_) SetJet13(Multiplet::Jet(Multiplet1().Jet(), Multiplet3().Jet()));
       return jet_13_;
     }
 
-    boca::Jets Jets() const {
+    boca::Jets Jets() const override {
         return Join(Multiplet1().Jets(), Multiplet2().Jets(), Multiplet3().Jets());
     }
 
@@ -114,7 +123,7 @@ public:
         return Multiplet::DeltaPt(Multiplet1(), Multiplet3());
     }
 
-    float Ht() const {
+    float Ht() const override {
         return Ht12() + Multiplet3().Ht();
     }
 
@@ -202,7 +211,7 @@ public:
         return Multiplet::Rho(Multiplet1(), Multiplet3(), Jet13());
     }
 
-    int Charge() const {
+    int Charge() const override {
         return Multiplet::Charge(Multiplet1(), Multiplet2());
     }
 
@@ -269,30 +278,37 @@ private:
 
     Multiplet_3 multiplet_3_;
 
-    void SetConstituentJet(fastjet::PseudoJet const& jet) const {
-        jet_ = jet;
-        SetSinglet(jet);
-        has_singlet_ = true;
-    }
-
-    void SetResult12(fastjet::PseudoJet const& jet) const {
+    void SetJet12(fastjet::PseudoJet const& jet) const {
         jet_12_ = jet;
         has_jet_12_ = true;
     }
 
-    void SetResult23(fastjet::PseudoJet const& jet) const {
+    void SetJet23(fastjet::PseudoJet const& jet) const {
         jet_23_ = jet;
         has_jet_23_ = true;
     }
 
-    void SetResult13(fastjet::PseudoJet const& jet) const {
+    void SetJet13(fastjet::PseudoJet const& jet) const {
         jet_13_ = jet;
         has_jet_13_ = true;
     }
 
-    mutable Singlet singlet_;
+    void SetSinglet12(boca::Singlet const& singlet) const {
+        singlet_12_ = singlet;
+        has_singlet_12_ = true;
+    }
 
-    mutable fastjet::PseudoJet constiuent_jet_;
+    void SetSinglet23(boca::Singlet const& singlet) const {
+        singlet_23_ = singlet;
+        has_singlet_23_ = true;
+    }
+
+    void SetSinglet13(boca::Singlet const& singlet) const {
+        singlet_13_ = singlet;
+        has_singlet_13_ = true;
+    }
+
+//     mutable fastjet::PseudoJet constiuent_jet_;
 
     mutable fastjet::PseudoJet jet_12_;
 
@@ -300,13 +316,25 @@ private:
 
     mutable fastjet::PseudoJet jet_13_;
 
-    mutable bool has_singlet_ = false;
+    mutable boca::Singlet singlet_12_;
+
+    mutable boca::Singlet singlet_23_;
+
+    mutable boca::Singlet singlet_13_;
+
+//     mutable bool has_singlet_ = false;
 
     mutable bool has_jet_12_ = false;
 
     mutable bool has_jet_23_ = false;
 
     mutable bool has_jet_13_ = false;
+
+    mutable bool has_singlet_12_ = false;
+
+    mutable bool has_singlet_23_ = false;
+
+    mutable bool has_singlet_13_ = false;
 
 };
 

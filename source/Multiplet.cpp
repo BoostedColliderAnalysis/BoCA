@@ -18,17 +18,16 @@ Vector2 Multiplet::Pull() const
     return Vector2();
 };
 
-fastjet::PseudoJet Multiplet::ConstituentJet(fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2) const
+boca::Singlet Multiplet::Singlet(boca::Singlet const& singlet_1, boca::Singlet const& singlet_2) const
 {
     boca::Jets constituents;
-    if (jet_1.has_user_info() && jet_1.user_info<JetInfo>().SubStructure() && jet_1.has_constituents()) constituents = jet_1.constituents();
-    else constituents.emplace_back(jet_1);
-    if (jet_2.has_user_info() && jet_2.user_info<JetInfo>().SubStructure() && jet_2.has_constituents()) constituents = Join(constituents, jet_2.constituents());
-    else constituents.emplace_back(jet_2);
+    if (singlet_1.Jet().has_user_info() && singlet_1.Jet().user_info<JetInfo>().SubStructure() && singlet_1.Jet().has_constituents()) constituents = singlet_1.Jet().constituents();
+    else constituents.emplace_back(singlet_1.Jet());
+    if (singlet_2.Jet().has_user_info() && singlet_2.Jet().user_info<JetInfo>().SubStructure() && singlet_2.Jet().has_constituents()) constituents = Join(constituents, singlet_2.Jet().constituents());
+    else constituents.emplace_back(singlet_2.Jet());
     constituents = fastjet::sorted_by_pt(constituents);
     constituents.erase(std::unique(constituents.begin(), constituents.end()), constituents.end());
-    fastjet::PseudoJet jet = fastjet::join(constituents, InfoRecombiner());
-    return jet;
+    return fastjet::join(constituents, InfoRecombiner());
 }
 
 fastjet::PseudoJet Multiplet::Jet(fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2) const
@@ -101,28 +100,26 @@ float Multiplet::PullSum(MultipletBase const& multiplets_1, MultipletBase const&
     return RestrictPhi(Pull(multiplets_1, multiplets_2) + Pull(multiplets_2, multiplets_1)) / M_PI;
 }
 
-float Multiplet::Dipolarity(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2, fastjet::PseudoJet const& jet) const
+float Multiplet::Dipolarity(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2, boca::Singlet const& singlet) const
 {
     if (DeltaR(multiplets_1, multiplets_2) == 0) return 0;
 //     fastjet::PseudoJet jet = Jet(multiplets_1.Jet(), multiplets_2.Jet());
-    if (jet.pt() == 0) return 0;
+    if (singlet.Jet().pt() == 0) return 0;
     float dipolarity = 0;
-    if (!jet.has_constituents()) return 0;
-    for (auto const & constituent : jet.constituents()) {
-        if (constituent.pt() > jet.pt()) continue;
+    if (!singlet.Jet().has_constituents()) return 0;
+    for (auto const & constituent : singlet.Jet().constituents()) {
+      if (constituent.pt() > singlet.Jet().pt()) continue;
 
         float phi = constituent.phi_std();
         float distance_1 = Distance(multiplets_1, multiplets_2, Vector2(constituent.rap(), phi));
-
-        if (phi < 0) phi += 2 * M_PI;
-        else  phi -= 2 * M_PI;
+        phi -= sgn(phi) * 2 * M_PI;
         float distance_2 =  Distance(multiplets_1, multiplets_2, Vector2(constituent.rap(), phi));
 
         float distance = std::min(distance_1, distance_2);
         if (distance > DeltaR(multiplets_1, multiplets_2)) continue;
         dipolarity += constituent.pt() * sqr(distance);
     }
-    return dipolarity / jet.pt() / sqr(DeltaR(multiplets_1, multiplets_2));
+    return dipolarity / singlet.Jet().pt() / sqr(DeltaR(multiplets_1, multiplets_2));
 }
 
 float Multiplet::Distance(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2, Vector2 const& point_0) const
@@ -141,11 +138,9 @@ float Multiplet::BottomBdt(MultipletBase const& multiplets_1, MultipletBase cons
     return (multiplets_1.BottomBdt() + multiplets_2.BottomBdt()) / 2 ;
 }
 
-void Multiplet::SetConstituentJet(fastjet::PseudoJet const& jet) const
+void Multiplet::SetSinglet(boca::Singlet const& singlet) const
 {
-//     constiuent_jet_ = jet;
-//   SetSinglet(jet);
-    singlet_ = Singlet(jet);
+    singlet_ = singlet;
     has_singlet_ = true;
 }
 
@@ -154,11 +149,6 @@ void Multiplet::SetPlainJet(fastjet::PseudoJet const& jet) const
   jet_ = jet;
   has_jet_ = true;
 }
-
-// void Multiplet::SetSinglet(fastjet::PseudoJet const& jet) const
-// {
-//     singlet_ = Singlet(jet);
-// }
 
 }
 

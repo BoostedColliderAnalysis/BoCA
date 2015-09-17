@@ -74,22 +74,11 @@ public:
         return multiplet_1_.Overlap(multiplet_2_);
     }
 
-    /**
-     * @brief join the pieces of the multiplets to one jet
-     *
-     * @return fastjet::PseudoJet
-     */
-    fastjet::PseudoJet ConstituentJet() const {
-        if (!has_singlet_) SetConstituentJet(Multiplet::ConstituentJet(Multiplet1().ConstituentJet(), Multiplet2().ConstituentJet()));
-        return constiuent_jet_;
+    void SetPlainJet() const override {
+        Multiplet::SetPlainJet(Multiplet::Jet(Multiplet1().Jet(), Multiplet2().Jet()));
     }
 
-    fastjet::PseudoJet Jet() const {
-      if (!has_jet_) SetPlainJet(Multiplet::Jet(Multiplet1().Jet(), Multiplet2().Jet()));
-      return jet_;
-    }
-
-    boca::Jets Jets() const {
+    boca::Jets Jets() const override  {
         return Join(Multiplet1().Jets(), Multiplet2().Jets());
     }
 
@@ -97,7 +86,7 @@ public:
         return Multiplet1().Jet().pt() - Multiplet2().Jet().pt();
     }
 
-    float Ht() const {
+    float Ht() const override {
         return Multiplet::Ht(Multiplet1(), Multiplet2());
     }
 
@@ -129,13 +118,12 @@ public:
         return std::abs(Jet().m() - Mass(id));
     }
 
-    int Charge() const {
+    int Charge() const override {
         return Multiplet::Charge(Multiplet1(), Multiplet2());
     }
 
-    boca::Singlet const& singlet() const {
-        if (!has_singlet_) SetSinglet(ConstituentJet());
-        return singlet_;
+    void SetSinglet() const override {
+        Multiplet::SetSinglet(Multiplet::Singlet(Multiplet1().singlet(), Multiplet2().singlet()));
     }
 
     float PullDifference() const {
@@ -147,7 +135,7 @@ public:
     }
 
     float Dipolarity() const {
-        return Multiplet::Dipolarity(Multiplet1(), Multiplet2(), ConstituentJet());
+        return Multiplet::Dipolarity(Multiplet1(), Multiplet2(), singlet());
     }
 
     float BottomBdt() const final {

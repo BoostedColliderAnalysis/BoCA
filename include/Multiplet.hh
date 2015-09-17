@@ -14,9 +14,19 @@ class Multiplet : public MultipletBase
 
 public:
 
-  float LeptonPt = 0;
+    float LeptonPt = 0;
 
-  float LeptonDeltaR = 0;
+    float LeptonDeltaR = 0;
+
+    boca::Singlet const& singlet() const override {
+        if (!has_singlet_) SetSinglet();
+        return singlet_;
+    }
+
+    fastjet::PseudoJet Jet() const final {
+        if (!has_jet_) SetPlainJet();
+        return jet_;
+    }
 
 protected:
 
@@ -28,10 +38,6 @@ protected:
 
     virtual std::vector<fastjet::PseudoJet> Jets() const = 0;
 
-    virtual fastjet::PseudoJet Jet() const override = 0;
-
-    virtual fastjet::PseudoJet ConstituentJet() const = 0;
-
     /**
      * @brief join the two jets
      *
@@ -39,10 +45,9 @@ protected:
      *          save the result in an temporary variable
      *
      */
-    fastjet::PseudoJet ConstituentJet(fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2) const;
+    boca::Singlet Singlet(boca::Singlet const& singlet_1, boca::Singlet const& singlet_2) const;
 
     fastjet::PseudoJet Jet(fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2) const;
-
 
     Vector2 Pull() const override;
 
@@ -66,31 +71,31 @@ protected:
 
     float PullSum(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
-    float Dipolarity(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2, fastjet::PseudoJet const& jet) const;
+    float Dipolarity(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2, boca::Singlet const& singlet) const;
 
     int Charge(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
     float BottomBdt(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
-    void SetConstituentJet(fastjet::PseudoJet const& jet) const;
+    void SetSinglet(boca::Singlet const& singlet) const;
+
+    virtual void SetSinglet() const = 0;
 
     void SetPlainJet(fastjet::PseudoJet const& jet) const;
 
-//     void SetSinglet(fastjet::PseudoJet const& jet) const;
+    virtual void SetPlainJet() const = 0;
 
     /**
      * @brief store intermediate results
      *
      */
-    mutable Singlet singlet_;
-
-//     mutable fastjet::PseudoJet constiuent_jet_;
+    mutable boca::Singlet singlet_;
 
     mutable fastjet::PseudoJet jet_;
 
     mutable bool has_singlet_ = false;
 
-    mutable bool has_jet_= false;
+    mutable bool has_jet_ = false;
 
 private:
 
