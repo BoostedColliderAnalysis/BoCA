@@ -1,6 +1,6 @@
 #ifdef __MAKECINT__
 // #pragma link C++ defined_in namespace boca;
-// #pragma link C++ defined_in Branches.hh;
+#pragma link C++ defined_in Branches.hh;
 #pragma link C++ class boca::InfoBranch;
 #pragma link C++ class boca::PairBranch;
 #pragma link C++ class boca::BottomBranch;

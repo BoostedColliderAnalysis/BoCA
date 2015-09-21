@@ -57,11 +57,11 @@ public:
 protected:
 
     int Mass() const {
+        return 2000;
+        return 4000;
+        return 6000;
         return 10000;
         return 8000;
-        return 6000;
-        return 4000;
-        return 2000;
         return 1500;
         return 1000;
         return 500;

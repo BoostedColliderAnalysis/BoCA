@@ -118,13 +118,13 @@ private:
 
     TH1F Histogram(const boca::Result& result, boca::Point& max, boca::Point& min, int index) const;
 
-    TLine ModelDependentLine(const boca::Results& results, float y_min, float y_max) const;
-
-    TLine ModelIndependentLin(const boca::Results& results, float y_min, float y_max) const;
+    TLine Line(float bin, float y_min, float y_max, int index) const;
 
     void AddGraph(TGraph& graph, TMultiGraph& multi_graph, TLegend& legend, Strings const& name, int index) const;
 
     void PlotAcceptanceGraph(const boca::Results& results) const;
+
+    std::string PlotCrosssectionGraph(Results& results) const;
 
     std::string PlotHistograms(boca::Results& results) const;
 
@@ -137,6 +137,8 @@ private:
     std::string BestValueTable(Results const& results) const;
 
     std::string EfficienciesTable(Results const& results, int bin) const;
+
+    std::string EfficienciesRow(const boca::Result& result, int index, int bin, boca::Tag tag) const;
 
     std::string PlotEfficiencyGraph(const boca::Results& results) const;
 

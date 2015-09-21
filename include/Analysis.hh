@@ -40,7 +40,6 @@ public:
             SetFiles(tag);
             for (auto& file : this->files(tag)) {
                 files.set_file(file);
-                Error(file.tree_name_);
                 AnalyseFile(files, reader);
             }
         }

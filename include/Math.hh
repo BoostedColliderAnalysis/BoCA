@@ -70,4 +70,23 @@ float FloorToDigits(float value, int digits = 2);
 
 float CeilToDigits(float value, int digits = 2);
 
+template <typename Value>
+Value min(std::vector<Value> vector, bool truncate = false)
+{
+    if (truncate) vector.erase(std::remove(vector.begin(), vector.end(), 0), vector.end());
+    return *std::min_element(vector.begin(), vector.end());
+}
+
+template <typename Value>
+Value max(std::vector<Value> const& vector)
+{
+    return *std::max_element(vector.begin(), vector.end());
+}
+
+template <typename Value>
+std::pair<Value, Value> minmax(std::vector<Value> const& vector)
+{
+    return *std::minmax_element(vector.begin(), vector.end());
+}
+
 }

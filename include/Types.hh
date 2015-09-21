@@ -28,7 +28,7 @@ bool Exists(std::string const& name);
 
 
 /**
- * @brief provides an integer with the necessary information to work with range based for loop
+ * @brief provides an integer with the necessary information to act as counter for a range based for loop
  *
  */
 class Range

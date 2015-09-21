@@ -47,21 +47,6 @@ public:
         return crosssection_;
     }
 
-//     void set_crosssection(float crosssection)
-//     {
-//         crosssection_ = crosssection;
-//     }
-//
-//     void set_crosssection_error(float crosssection_error)
-//     {
-//         crosssection_error_ = crosssection_error;
-//     }
-//
-//     void set_mass(float mass)
-//     {
-//         mass_ = mass;
-//     }
-
     std::string file_suffix() const;
 
     float crosssection_error() const {

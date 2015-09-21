@@ -71,6 +71,7 @@ Results::Results()
     Info();
     significances.resize(Result::steps, 0);
     crosssections.resize(Result::steps, 0);
+    acceptances.resize(Result::steps, 0);
     x_values.resize(Result::steps, 0);
     for (auto & x_value : x_values) x_value = XValue(&x_value - &x_values.front());
 }
@@ -96,6 +97,8 @@ void Results::Significances()
         }
         if (signal_events + background_events > 0) significances.at(step) = signal_events / std::sqrt(signal_events + background_events);
         else significances.at(step) = 0;
+        if (background_events > 0) acceptances.at(step) = signal_events / std::sqrt(background_events);
+        else acceptances.at(step) = 0;
 
         float exclusion = 2;
         if (signal_efficiencies > 0) crosssections.at(step) = (exclusion + std::sqrt(sqr(exclusion) + 4 * background_events)) * exclusion / 2 / DetectorGeometry::Luminosity() / signal_efficiencies;
@@ -114,12 +117,13 @@ void Results::BestBin()
             best_model_dependent_bin = std::distance(significances.begin(), std::max_element(std::begin(significances), std::end(significances) - counter));
             best_model_independent_bin = std::distance(crosssections.begin(), std::min_element(std::begin(crosssections), std::end(crosssections) - counter));
             efficiencies.at(number) = backgrounds.at(number).efficiency.at(best_model_independent_bin);
+            best_acceptance_bin = std::distance(acceptances.begin(), std::max_element(std::begin(acceptances), std::end(acceptances) - counter));
             ++counter;
         }
     }
 }
 
-float Results::XValue(int value) const
+float Results::XValue(int value)
 {
     Info(value);
     return 2. * value / Result::steps - 1;

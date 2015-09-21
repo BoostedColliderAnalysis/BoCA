@@ -18,7 +18,7 @@ public:
                     << "\\usepackage{graphicx}\n"
                     // << "\\usepackage[landscape]{geometry}\n"
                     << "\\usepackage[cm]{fullpage}\n"
-                    // << "\\usepackage{units}\n"
+                    << "\\usepackage{units}\n"
                     // << "\\usepackage{siunitx}\n\n"
                     // << "\\newcolumntype{R}{S[table-number-alignment = right, table-parse-only]}\n"
                     // << "\\newcolumntype{L}{S[table-number-alignment = left,table-parse-only]}\n"

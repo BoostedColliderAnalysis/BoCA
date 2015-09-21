@@ -81,6 +81,7 @@ Strings File::Paths() const
 exroot::TreeReader File::TreeReader()
 {
     for(auto const& path : Paths()) Note(path);
+    Error(Paths().front());
     chain_ = new TChain(tree_name().c_str());
     for (auto const& path : Paths()) chain_->Add(path.c_str());
     return exroot::TreeReader(chain_);
