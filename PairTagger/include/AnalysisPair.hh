@@ -121,8 +121,8 @@ private:
     }
 
     // in fb
-    float SignalCrosssection() const {
-        return 1;
+    Crosssection SignalCrosssection() const {
+        return Crosssection(1. * pico * barn);
     }
 
     int Mass() const {
@@ -190,8 +190,8 @@ private:
       return  NameString(process) + "_" + std::to_string(Mass()) + "GeV" + "-run_01";
     }
 
-    float BackgroundCrosssection(Process) const {
-        return 1;
+    Crosssection BackgroundCrosssection(Process) const {
+        return Crosssection(1. * pico * barn);
     }
 
 };

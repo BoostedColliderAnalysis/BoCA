@@ -163,7 +163,7 @@ public:
         boca::AnalysisBase::NewFile(tag, FileNames(process, tag), NiceName(process));
     }
 
-    virtual void NewFile(Tag tag, float crosssection, Process process) {
+    virtual void NewFile(Tag tag, Crosssection crosssection, Process process) {
         boca::AnalysisBase::NewFile(tag, FileNames(process, tag), crosssection, NiceName(process), Mass());
     }
 

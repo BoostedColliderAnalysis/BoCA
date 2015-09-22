@@ -85,7 +85,7 @@ std::string Name(int id);
 
 std::string Name(Id id);
 
-float Mass(Id id);
+float MassOf(Id id);
 
 /**
  * @brief Initial user index

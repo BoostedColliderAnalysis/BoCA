@@ -82,7 +82,7 @@ std::string Name(Id id)
     }
 }
 
-float Mass(Id id)
+float MassOf(Id id)
 {
     switch (id) {
     case Id::strange : return 0.095;
@@ -106,7 +106,7 @@ float Mass(Id id)
     case Id::omega : return 0.78265;
     case Id::neutron : return 1.00866;
     case Id::proton : return 0.93827;
-    case Id::CP_violating_higgs : return Mass(Id::higgs);
+    case Id::CP_violating_higgs : return MassOf(Id::higgs);
     default : return 0;
     }
 }

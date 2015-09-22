@@ -111,7 +111,7 @@ bool WHadronicTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cut
         return true;
     switch (tag) {
     case Tag::signal :
-        if (std::abs(doublet.Jet().m() - Mass(Id::W)) > w_mass_window_) return true;
+        if (std::abs(doublet.Jet().m() - MassOf(Id::W)) > w_mass_window_) return true;
         if ((doublet.Rho() > 2 || doublet.Rho() < 0.5) && doublet.Rho() > 0) return true;
 //         if (doublet.Singlet1().Bdt() > 1) return true;
 //         if (doublet.Singlet2().Bdt() > 1) return true;

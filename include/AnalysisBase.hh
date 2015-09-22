@@ -6,6 +6,7 @@
 #include "Tagger.hh"
 #include "Identification.hh"
 #include "PreCuts.hh"
+#include "Units.hh"
 
 class TFile;
 
@@ -81,15 +82,15 @@ protected:
 
     void NewFile(boca::Tag tag, boca::Strings const& names, std::string const& nice_name = "");
 
-    void NewFile(boca::Tag tag, boca::Strings const& names, float crosssection, std::string const& nice_name = "", int mass = 0);
+    void NewFile(boca::Tag tag, boca::Strings const& names, Crosssection crosssection, std::string const& nice_name = "", int mass = 0);
 
-    boca::File File(Strings const& names, float crosssection, std::string const& nice_name = "", int mass = 0) const;
+    boca::File File(Strings const& names, Crosssection crosssection, std::string const& nice_name = "", int mass = 0) const;
 
     boca::File File(Strings const& names, std::string const& nice_name = "") const;
 
     void NewFile(boca::Tag tag, std::string const& names, std::string const& nice_name = "");
 
-    void NewFile(boca::Tag tag, std::string const& names, float crosssection, std::string const& nice_name = "", int mass = 0);
+    void NewFile(boca::Tag tag, std::string const& names, Crosssection crosssection, std::string const& nice_name = "", int mass = 0);
 
     std::string FileName(std::string const& name) const;
 

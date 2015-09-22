@@ -115,7 +115,7 @@ public:
     }
 
     float MassDifferenceTo(Id id) const {
-        return std::abs(Jet().m() - Mass(id));
+        return std::abs(Jet().m() - MassOf(id));
     }
 
     int Charge() const override {

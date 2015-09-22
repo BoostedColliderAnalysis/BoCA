@@ -2,9 +2,11 @@
 
 #include "AnalysisHeavyHiggs.hh"
 
-namespace boca {
+namespace boca
+{
 
-namespace heavyhiggs {
+namespace heavyhiggs
+{
 
 /**
  *
@@ -14,18 +16,17 @@ namespace heavyhiggs {
  *
  */
 template<typename Tagger>
-class AnalysisCharged : public AnalysisHeavyHiggs<Tagger> {
+class AnalysisCharged : public AnalysisHeavyHiggs<Tagger>
+{
 
 public:
 
-    AnalysisCharged()
-    {
+    AnalysisCharged() {
         this->tagger().SetAnalysisName(ProjectName());
     }
 
     void SetFiles(Tag tag) final {
-        switch (tag)
-        {
+        switch (tag) {
         case Tag::signal :
             this->NewFile(tag, Process::Htb);
             break;
@@ -35,79 +36,76 @@ public:
         }
     }
 
-    std::string ProcessName() const
-    {
+    std::string ProcessName() const {
         return "Charged";
     }
 
-    std::string ProjectName() const final
-    {
+    std::string ProjectName() const final {
         return  ProcessName() + "-" + Name(this->collider_type()) + "-" + std::to_string(this->PreCut()) + "GeV-" + std::to_string(this->Mass()) + "GeV";
     }
 
 private:
 
-    float SignalCrosssection() const
-    {
+    Crosssection SignalCrosssection() const {
+        Crosssection crosssection(1. * pico * barn);
         switch (this->collider_type()) {
         case Collider::LHC:
             switch (this->Mass()) {
             case 500:
-                return 3.0495761279999996;
+                return crosssection * 3.0495761279999996;
             case 1000:
-                return 0.22623192864;
+                return crosssection * 0.22623192864;
             case 2000:
-                return 0.005720855039999999;
+                return crosssection * 0.005720855039999999;
             case 3000:
-                return 0.0003035467008;
+                return crosssection * 0.0003035467008;
             case 4000:
-                return 0.000020556093312;
+                return crosssection * 0.000020556093312;
             default:
 //                 Error("Signal Crosssection", "unhandled case");
-                return 1;
+                return crosssection;
             } ;
         case Collider::LE:
             switch (this->Mass()) {
             case 500:
-                return 247.86995327999998;
+                return crosssection * 247.86995327999998;
             case 700:
-                return 109.26120959999999;
+                return crosssection * 109.26120959999999;
             case 1000:
-                return 39.81212064;
+                return crosssection * 39.81212064;
             case 1500:
-                return 10.639675008;
+                return crosssection * 10.639675008;
             case 2000:
-                return 3.8189750399999998;
+                return crosssection * 3.8189750399999998;
             case 3000:
-                return 0.7737415487999998;
+                return crosssection * 0.7737415487999998;
             case 4000:
-                return 0.22421177856;
+                return crosssection * 0.22421177856;
             case 5000:
-                return 0.07985005056;
+                return crosssection * 0.07985005056;
             case 6000:
-                return 0.03297554496;
+                return crosssection * 0.03297554496;
             case 8000:
-                return 0.007364981375999998;
+                return crosssection * 0.007364981375999998;
             case 10000:
-                return 0.0020553163775999996;
+                return crosssection * 0.0020553163775999996;
             case 12000:
-                return 0.0006632091647999999;
+                return crosssection * 0.0006632091647999999;
             case 15000:
-                return 0.00014951794176;
+                return crosssection * 0.00014951794176;
             case 20000:
-                return 0.000016388469792;
+                return crosssection * 0.000016388469792;
             default:
 //                 Error("Signal Crosssection", "unhandled case");
-                return 1;
+                return crosssection;
             }
         default:
 //             Error("Signal Crosssection", "unhandled case");
-            return 1;
+            return crosssection;
         }
     }
 
-    int PassPreCut(Event const& event, Tag) const
-    {
+    int PassPreCut(Event const& event, Tag) const {
 //         Info("pass pre cut");
         Jets Particles = event.Partons().GenParticles();
         Jets Quarks = fastjet::sorted_by_pt(CopyIf5Quark(Particles));
@@ -137,8 +135,7 @@ private:
             return 0;
         return 1;
     }
-    int BackgroundFileNumber() const
-    {
+    int BackgroundFileNumber() const {
         switch (this->collider_type()) {
         case Collider::LHC :
             switch (this->PreCut()) {
@@ -160,10 +157,10 @@ private:
                 return 19;
             case 300 :
                 return 61; // < should be switched on
-            //                 return 1;
+                //                 return 1;
             case 0 :
                 return 118; // < should be switched on
-            //                 return 1;
+                //                 return 1;
             default :
                 return 1;
             }
@@ -172,31 +169,25 @@ private:
         }
     }
 
-    float BackgroundCrosssection(Process) const
-    {
+    Crosssection BackgroundCrosssection(Process) const {
+        Crosssection crosssection(2. * pico * barn);
         switch (this->collider_type()) {
         case Collider::LHC :
             switch (this->PreCut()) {
-            case 0 :
-                return 97.54 * 2 * 1000;
-            case 250 :
-                return 4.206 * 2 * 1000;
+            case 0 : return crosssection * 97.54;
+            case 250 : return crosssection * 4.206;
             }
         case Collider::LE: {
             switch (this->PreCut()) {
-            case 0 :
-                return 3564 * 2 * 1000;
-            case 300 :
-                return 187.3 * 2 * 1000;
-            case 1500 :
-                return 0.447 * 2 * 1000;
-            case 2500 :
-                return 0.0442 * 2 * 1000;
+            case 0 : return crosssection * 3564.;
+            case 300 : return crosssection * 187.3;
+            case 1500 : return crosssection * 0.447;
+            case 2500 : return crosssection * 0.0442;
             }
         }
         default :
 //             Error("unhandled case");
-            return 1;
+            return crosssection;
         }
     }
 

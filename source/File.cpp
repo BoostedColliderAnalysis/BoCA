@@ -11,7 +11,7 @@
 
 namespace boca {
 
-  File::File(Strings const& processes, std::string const& base_path, std::string const& file_suffix, std::string const& nice_name, float crosssection, float mass)
+  File::File(Strings const& processes, std::string const& base_path, std::string const& file_suffix, std::string const& nice_name, Crosssection crosssection, float mass)
 {
   Debug();
   SetVariables();

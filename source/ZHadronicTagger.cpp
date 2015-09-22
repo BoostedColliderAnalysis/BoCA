@@ -47,7 +47,7 @@ bool ZHadronicTagger::Problematic(boca::Doublet const& doublet, boca::PreCuts co
     if (Problematic(doublet, pre_cuts))return true;
     switch (tag) {
     case Tag::signal :
-        if (std::abs(doublet.Jet().m() - Mass(Id::Z)) > z_mass_window) return true;
+        if (std::abs(doublet.Jet().m() - MassOf(Id::Z)) > z_mass_window) return true;
         if ((doublet.Rho() > 2 || doublet.Rho() < 0.5)) return true;
         break;
     case Tag::background :

@@ -55,7 +55,7 @@ std::vector<Multiplet> SortedByMassTo(std::vector<Multiplet> multiplets, float m
 
 struct SortByMassTo {
     SortByMassTo(Id id) {
-        mass_ = Mass(id);
+        mass_ = MassOf(id);
     }
     template <typename Multiplet>
     bool operator()(Multiplet const& multiplet_1, Multiplet const& multiplet_2) {

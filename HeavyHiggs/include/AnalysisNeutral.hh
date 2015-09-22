@@ -44,42 +44,43 @@ public:
 
 private:
 
-    float SignalCrosssection() const
+  Crosssection SignalCrosssection() const
     {
+      Crosssection crosssection(1. * pico * barn);
         switch (this->collider_type()) {
         case Collider::LHC:
             switch (this->Mass()) {
-            case 500 : return 25.528929726502543;
-            case 1000 : return 1.2783507034600217;
-            case 2000 : return 0.021907574118663196;
+            case 500 : return crosssection * 25.528929726502543;
+            case 1000 : return crosssection * 1.2783507034600217;
+            case 2000 : return crosssection * 0.021907574118663196;
             default :
                 Error("Signal Crosssection", "unhandled case");
-                return 1;
+                return crosssection;
             } ;
         case Collider::FHC:
         case Collider::LE:
             switch (this->Mass()) {
-            case 500 : return 973.5805772514352;
-            case 1000 : return 123.02005671222373;
-            case 1500 : return 28.624904980998327;
-            case 2000 : return 9.485582085140349;
-            case 3000 : return 1.7540841248835577;
-            case 4000 : return 0.4851939478031553;
-            case 5000 : return 0.16696738296715652;
-            case 6000 : return 0.06731697180862359;
-            case 7000 : return 0.029372932414373627;
-            case 8000 : return 0.014255221936825225;
-            case 10000 : return 0.0038428602375120795;
-            case 12000 : return 0.0012219523755405267;
-            case 15000 : return 0.00026507004708327343;
-            case 20000 : return 0.000028218388829563033;
+            case 500 : return crosssection * 973.5805772514352;
+            case 1000 : return crosssection * 123.02005671222373;
+            case 1500 : return crosssection * 28.624904980998327;
+            case 2000 : return crosssection * 9.485582085140349;
+            case 3000 : return crosssection * 1.7540841248835577;
+            case 4000 : return crosssection * 0.4851939478031553;
+            case 5000 : return crosssection * 0.16696738296715652;
+            case 6000 : return crosssection * 0.06731697180862359;
+            case 7000 : return crosssection * 0.029372932414373627;
+            case 8000 : return crosssection * 0.014255221936825225;
+            case 10000 : return crosssection * 0.0038428602375120795;
+            case 12000 : return crosssection * 0.0012219523755405267;
+            case 15000 : return crosssection * 0.00026507004708327343;
+            case 20000 : return crosssection * 0.000028218388829563033;
             default:
                 Error("Signal Crosssection", "unhandled case");
-                return 1;
+                return crosssection;
             }
         default:
             Error("Signal Crosssection", "unhandled case");
-            return 1;
+            return crosssection;
         }
     }
 

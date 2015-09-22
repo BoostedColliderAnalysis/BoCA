@@ -6,6 +6,7 @@
 #include  "exroot/ExRootAnalysis.hh"
 #include "ClonesArrays.hh"
 #include "Event.hh"
+#include "Units.hh"
 
 namespace boca
 {
@@ -23,7 +24,7 @@ class File
 
 public:
 
-    File(Strings const& processes, std::string const& run_folder, std::string const& file_suffix, std::string const& nice_name = "", float crosssection = 1, float mass = 0);
+  File(Strings const& processes, std::string const& run_folder, std::string const& file_suffix, std::string const& nice_name = "", Crosssection crosssection = pico_barn, float mass = 0);
 
     /**
      * @brief destructor
@@ -43,13 +44,13 @@ public:
      */
     std::string Title() const;
 
-    float crosssection() const {
+    Crosssection crosssection() const {
         return crosssection_;
     }
 
     std::string file_suffix() const;
 
-    float crosssection_error() const {
+    Crosssection crosssection_error() const {
         return crosssection_error_;
     }
 
@@ -86,9 +87,9 @@ private:
 
     std::string tree_name_;
 
-    float crosssection_ = 1;
+    Crosssection crosssection_ = pico_barn;
 
-    float crosssection_error_ = 0;
+    Crosssection crosssection_error_ = 0;
 
     float mass_ = 0;
 

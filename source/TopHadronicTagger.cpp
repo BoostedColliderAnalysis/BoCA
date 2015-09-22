@@ -141,7 +141,7 @@ bool TopHadronicTagger::Problematic(boca::Triplet const& triplet, boca::PreCuts 
     switch (tag) {
     case Tag::signal: {
 
-        if (std::abs(triplet.Jet().m() - Mass(Id::top)) > top_mass_window_) return true;
+        if (std::abs(triplet.Jet().m() - MassOf(Id::top)) > top_mass_window_) return true;
         if ((triplet.Rho() < 0.5 || triplet.Rho() > 2) && triplet.Rho() > 0) return true;
 
 
@@ -166,7 +166,7 @@ bool TopHadronicTagger::Problematic(boca::Triplet const& triplet, PreCuts const&
 //     if (triplet.DeltaR() < DetectorGeometry::MinCellResolution() && triplet.DeltaR() > 0) return true;
 
     // FIXME the top tagger is very slow, due to many calls of Bdt(), therfore we have to reduce the number of candidates
-    if (std::abs(triplet.Jet().m() - Mass(Id::top)) > 2 * top_mass_window_) return true;
+    if (std::abs(triplet.Jet().m() - MassOf(Id::top)) > 2 * top_mass_window_) return true;
     if ((triplet.Rho() < 0.4 || triplet.Rho() > 2) && triplet.Rho() > 0) return true;
     return false;
 }

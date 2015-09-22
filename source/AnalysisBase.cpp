@@ -64,7 +64,7 @@ std::string AnalysisBase::ProcessName() const
     return "Process";
 }
 
-void AnalysisBase::NewFile(Tag tag, Strings const& names, float crosssection, std::string const& nice_name, int mass)
+void AnalysisBase::NewFile(boca::Tag tag, const boca::Strings& names, Crosssection crosssection, const std::string& nice_name, int mass)
 {
     files_.emplace_back(File(names, crosssection, nice_name, mass));
     tagger().AddTreeName(TreeName(names.front()), tag);
@@ -76,7 +76,7 @@ void AnalysisBase::NewFile(Tag tag, Strings const& names, std::string const& nic
     tagger().AddTreeName(TreeName(names.front()), tag);
 }
 
-void AnalysisBase::NewFile(Tag tag, std::string const& name, float crosssection, std::string const& nice_name, int mass)
+void AnalysisBase::NewFile(boca::Tag tag, const std::string& name, Crosssection crosssection, const std::string& nice_name, int mass)
 {
     files_.emplace_back(File( {name}, crosssection, nice_name, mass));
     tagger().AddTreeName(TreeName(name), tag);
@@ -93,7 +93,7 @@ File AnalysisBase::File(Strings const& names, std::string const& nice_name) cons
     return boca::File(names, FilePath(), FileSuffix(), nice_name);
 }
 
-File AnalysisBase::File(Strings const& names, float crosssection, std::string const& nice_name, int mass) const
+File AnalysisBase::File(const boca::Strings& names, boca::Crosssection crosssection, const std::string& nice_name, int mass) const
 {
     return boca::File(names, FilePath(), FileSuffix(), nice_name, crosssection, mass);
 }

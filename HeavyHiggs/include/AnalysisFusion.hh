@@ -86,69 +86,70 @@ private:
         }
     };
 
-    float SignalCrosssection() const
+    Crosssection SignalCrosssection() const
     {
+        Crosssection crosssection(1. * pico * barn);
         switch (this->collider_type()) {
         case Collider::LHC:
             switch (this->Mass()) {
             case 400 :
-                return 1463.1219866990498;
+                return crosssection * 1463.1219866990498;
             case 500:
-                return 512.5992335098167;
+                return crosssection * 512.5992335098167;
             case 1000:
-                return 10.942712198242141;
+                return crosssection * 10.942712198242141;
             case 2000:
-                return 0.10283305582403454;
+                return crosssection * 0.10283305582403454;
             case 3000:
-                return 0.003583086718061121;
+                return crosssection * 0.003583086718061121;
             case 4000:
-                return 0.00020344209136808554;
+                return crosssection * 0.00020344209136808554;
             default:
 //                 Error("unhandled case");
-                return 1;
+                return crosssection;
             } ;
         case Collider::LE:
             switch (this->Mass()) {
             // tan beta = 2
             case 400 :
-                return 48385.16604388162;
+                return crosssection * 48385.16604388162;
             case 500 :
-                return 21753.261647408788;
+                return crosssection * 21753.261647408788;
             case 700 :
-                return 5388.806849750459;
+                return crosssection * 5388.806849750459;
             case 800:
-                return 2987.6531326979493;
+                return crosssection * 2987.6531326979493;
             case 1000:
-                return 1062.9847850641604;
+                return crosssection * 1062.9847850641604;
             case 1500:
-                return 148.78718745483314;
+                return crosssection * 148.78718745483314;
             case 2000:
-                return 33.76298845204924;
+                return crosssection * 33.76298845204924;
             case 3000:
-                return 3.715444262833449;
+                return crosssection * 3.715444262833449;
             case 4000:
-                return 0.7052693313851425;
+                return crosssection * 0.7052693313851425;
             case 5000:
-                return 0.1841745400744028;
+                return crosssection * 0.1841745400744028;
             case 6000:
-                return 0.058156868371520024;
+                return crosssection * 0.058156868371520024;
             case 8000:
-                return 0.008651760976852958;
+                return crosssection * 0.008651760976852958;
             case 10000:
-                return 0.0018198636858628185;
+                return crosssection * 0.0018198636858628185;
             case 12000:
-                return 0.0004674423191995998;
+                return crosssection * 0.0004674423191995998;
             case 15000:
-                return 0.000046; //<this is just wrong get the right numbers
+                return crosssection * 0.000046; //<this is just wrong get the right numbers
             case 20000:
-                return 0.0000046; //<this is just wrong get the right numbers
+                return crosssection * 0.0000046; //<this is just wrong get the right numbers
             default:
 //                 Error("unhandled case");
-                return 1;
+                return crosssection;
             }
         default:
 //             Error("unhandled case");
-            return 1;
+            return crosssection;
         }
     }
 

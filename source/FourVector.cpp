@@ -56,7 +56,7 @@ void FourVector::NewEvent(const ClonesArrays& clones_arrays)
 LorentzVector FourVector::LorentzVector(const exroot::Electron& Particle) const
 {
     Debug();
-    return LorentzVectorByMass(Particle, Mass(Id::electron));
+    return LorentzVectorByMass(Particle, MassOf(Id::electron));
 }
 
 LorentzVector FourVector::LorentzVector(const exroot::GenJet& Particle) const
@@ -86,25 +86,25 @@ LorentzVector FourVector::LorentzVector(const exroot::LHEFParticle& Particle) co
 LorentzVector FourVector::LorentzVector(const exroot::Muon& Particle) const
 {
     Debug();
-    return LorentzVectorByMass(Particle, Mass(Id::muon));
+    return LorentzVectorByMass(Particle, MassOf(Id::muon));
 }
 
 LorentzVector FourVector::LorentzVector(const exroot::Photon& Particle) const
 {
     Debug();
-    return LorentzVectorByMass(Particle, Mass(Id::photon));
+    return LorentzVectorByMass(Particle, MassOf(Id::photon));
 }
 
 LorentzVector FourVector::LorentzVector(const exroot::Tau& Particle) const
 {
     Debug();
-    return LorentzVectorByMass(Particle, Mass(Id::tau));
+    return LorentzVectorByMass(Particle, MassOf(Id::tau));
 }
 
 fastjet::PseudoJet FourVector::PseudoJet(const exroot::Electron& Particle) const
 {
     Debug();
-    return boca::PseudoJet(LorentzVectorByMass(Particle, Mass(Id::electron)));
+    return boca::PseudoJet(LorentzVectorByMass(Particle, MassOf(Id::electron)));
 }
 
 fastjet::PseudoJet FourVector::PseudoJet(const exroot::GenJet& Particle) const
@@ -134,7 +134,7 @@ fastjet::PseudoJet FourVector::PseudoJet(const exroot::LHEFParticle& Particle) c
 fastjet::PseudoJet FourVector::PseudoJet(const exroot::Muon& Particle) const
 {
     Debug();
-    return boca::PseudoJet(LorentzVectorByMass(Particle, Mass(Id::muon)));
+    return boca::PseudoJet(LorentzVectorByMass(Particle, MassOf(Id::muon)));
 }
 
 fastjet::PseudoJet FourVector::PseudoJet(const exroot::Photon& Particle) const
@@ -146,7 +146,7 @@ fastjet::PseudoJet FourVector::PseudoJet(const exroot::Photon& Particle) const
 fastjet::PseudoJet FourVector::PseudoJet(const exroot::Tau& Particle) const
 {
     Debug();
-    return boca::PseudoJet(LorentzVectorByMass(Particle, Mass(Id::tau)));
+    return boca::PseudoJet(LorentzVectorByMass(Particle, MassOf(Id::tau)));
 }
 
 Family FourVector::BranchFamily(TObject const& object) const

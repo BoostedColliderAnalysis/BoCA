@@ -18,24 +18,12 @@
 
 #include <boost/units/systems/si/area.hpp>
 #include <boost/units/systems/si/energy.hpp>
+#include <boost/units/systems/si/length.hpp>
+#include <boost/units/systems/si/prefixes.hpp>
 #include <boost/units/base_units/metric/barn.hpp>
+#include <boost/units/scale.hpp>
 
 #include <boost/units/quantity.hpp>
-
-
-
-#define BOOST_UNITS_DEFINE_SINGLE_UNIT_SYSTEM(namespace_,unit_name_,dimension_)\
-namespace boost {\
-namespace units {\
-namespace namespace_ {\
-typedef make_system<unit_name_ ## _base_unit>::type    unit_name_ ## system_;\
-typedef unit<dimension_ ## _dimension,unit_name_ ## system_> unit_name_ ## _ ## dimension_;\
-static const unit_name_ ## _ ## dimension_    unit_name_ ## s;\
-}\
-}\
-}\
-
-BOOST_UNITS_DEFINE_SINGLE_UNIT_SYSTEM(metric,barn,area)
 
 namespace boca
 {
@@ -75,10 +63,13 @@ typedef boost::units::unit<energy_dimension, system> energy;
 
 BOOST_UNITS_STATIC_CONSTANT(electronvolt, energy);
 BOOST_UNITS_STATIC_CONSTANT(electronvolts, energy);
+typedef boost::units::quantity<energy> Mass;
+typedef boost::units::quantity<energy> Momentum;
 
 // derived dimension
-typedef boost::units::derived_dimension < energy_base_dimension, 1 >::type mass_dimension;
-typedef boost::units::derived_dimension < energy_base_dimension, -1 >::type length_dimension;
+// typedef boost::units::derived_dimension < energy_base_dimension, 1 >::type mass_dimension;
+// typedef boost::units::derived_dimension < energy_base_dimension, 1 >::type momentum_dimension;
+// typedef boost::units::derived_dimension < energy_base_dimension, -1 >::type length_dimension;
 
 // derived unit
 // typedef boost::units::unit<length_dimension, system> length;
@@ -88,50 +79,46 @@ typedef boost::units::derived_dimension < energy_base_dimension, -1 >::type leng
 
 // new SI units
 
-typedef boost::units::metric::barn_area crosssection;
-// typedef boost::units::derived_dimension < boost::units::metric::barn_area, 1 >::type crosssection;
-typedef boost::units::derived_dimension < boost::units::metric::barn_area, -1 >::type luminosity;
-
-// typedef boost::units::make_scaled_unit < boost::units::si::area, boost::units::scale < 10, boost::units::static_rational < -28 > > >::type barn_type;
-// BOOST_UNITS_STATIC_CONSTANT(barn, barn_type);
-
-
-// template<>
-// struct unit_info<barn> {
-//   static const char* name()   { return("barn"); }
-//   static const char* symbol() { return("b"); }
-// };
-
-// inline std::string name_string(const boost::units::reduce_unit<crosssection>::type&) { return "barn"; }
-// inline std::string symbol_string(const boost::units::reduce_unit<crosssection>::type&) { return "b"; }
 
 
 
+typedef boost::units::make_system<boost::units::metric::barn_base_unit>::type    barnsystem_;
+typedef boost::units::unit<boost::units::area_dimension, barnsystem_> barn_area;
+typedef boost::units::quantity<barn_area> Crosssection;
+BOOST_UNITS_STATIC_CONSTANT(barn, barn_area);
+BOOST_UNITS_STATIC_CONSTANT(barns, barn_area);
 
-// // redefine prefixes in boca namespace
-// #define BOOST_UNITS_METRIC_PREFIX_2(exponent, name) \
-//     typedef boost::units::make_scaled_unit<boost::units::si::dimensionless, boost::units::scale<10, boost::units::static_rational<exponent> > >::type name ## _type;\
-//     BOOST_UNITS_STATIC_CONSTANT(name, name ## _type)
-// BOOST_UNITS_METRIC_PREFIX_2(-24, yocto);
-// BOOST_UNITS_METRIC_PREFIX_2(-21, zepto);
-// BOOST_UNITS_METRIC_PREFIX_2(-18, atto);
-// BOOST_UNITS_METRIC_PREFIX_2(-15, femto);
-// BOOST_UNITS_METRIC_PREFIX_2(-12, pico);
-// BOOST_UNITS_METRIC_PREFIX_2(-9, nano);
-// BOOST_UNITS_METRIC_PREFIX_2(-6, micro);
-// BOOST_UNITS_METRIC_PREFIX_2(-3, milli);
-// BOOST_UNITS_METRIC_PREFIX_2(-2, centi);
-// BOOST_UNITS_METRIC_PREFIX_2(-1, deci);
-// BOOST_UNITS_METRIC_PREFIX_2(1, deka);
-// BOOST_UNITS_METRIC_PREFIX_2(2, hecto);
-// BOOST_UNITS_METRIC_PREFIX_2(3, kilo);
-// BOOST_UNITS_METRIC_PREFIX_2(6, mega);
-// BOOST_UNITS_METRIC_PREFIX_2(9, giga);
-// BOOST_UNITS_METRIC_PREFIX_2(12, tera);
-// BOOST_UNITS_METRIC_PREFIX_2(15, peta);
-// BOOST_UNITS_METRIC_PREFIX_2(18, exa);
-// BOOST_UNITS_METRIC_PREFIX_2(21, zetta);
-// BOOST_UNITS_METRIC_PREFIX_2(24, yotta);
+// typedef boost::units::derived_dimension < boost::units::metric::barn_area, 1 >::type barn_area;
+typedef boost::units::derived_dimension < barn_area, -1 >::type luminosity;
+
+
+// redefine prefixes in boca namespace
+#define BOOST_UNITS_METRIC_PREFIX_2(exponent, name) \
+    typedef boost::units::make_scaled_unit<boost::units::si::dimensionless, boost::units::scale<10, boost::units::static_rational<exponent> > >::type name ## _type;\
+    BOOST_UNITS_STATIC_CONSTANT(name, name ## _type)
+BOOST_UNITS_METRIC_PREFIX_2(-24, yocto);
+BOOST_UNITS_METRIC_PREFIX_2(-21, zepto);
+BOOST_UNITS_METRIC_PREFIX_2(-18, atto);
+BOOST_UNITS_METRIC_PREFIX_2(-15, femto);
+BOOST_UNITS_METRIC_PREFIX_2(-12, pico);
+BOOST_UNITS_METRIC_PREFIX_2(-9, nano);
+BOOST_UNITS_METRIC_PREFIX_2(-6, micro);
+BOOST_UNITS_METRIC_PREFIX_2(-3, milli);
+BOOST_UNITS_METRIC_PREFIX_2(-2, centi);
+BOOST_UNITS_METRIC_PREFIX_2(-1, deci);
+BOOST_UNITS_METRIC_PREFIX_2(1, deka);
+BOOST_UNITS_METRIC_PREFIX_2(2, hecto);
+BOOST_UNITS_METRIC_PREFIX_2(3, kilo);
+BOOST_UNITS_METRIC_PREFIX_2(6, mega);
+BOOST_UNITS_METRIC_PREFIX_2(9, giga);
+BOOST_UNITS_METRIC_PREFIX_2(12, tera);
+BOOST_UNITS_METRIC_PREFIX_2(15, peta);
+BOOST_UNITS_METRIC_PREFIX_2(18, exa);
+BOOST_UNITS_METRIC_PREFIX_2(21, zetta);
+BOOST_UNITS_METRIC_PREFIX_2(24, yotta);
+
+static Crosssection femto_barn(1. * femto * barn);
+static Crosssection pico_barn(1. * pico * barn);
 
 }
 

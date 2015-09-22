@@ -69,7 +69,7 @@ bool TopLeptonicTagger::Problematic(boca::Triplet const& triplet, boca::PreCuts 
     if (Problematic(triplet, pre_cuts)) return true;
     switch (tag) {
     case Tag::signal :
-        if (std::abs(triplet.Jet().m() - Mass(Id::top) + 40) > top_mass_window) return true;
+        if (std::abs(triplet.Jet().m() - MassOf(Id::top) + 40) > top_mass_window) return true;
         if (triplet.Singlet().Bdt() < 0) return true;
         if ((triplet.Rho() < 0.5 || triplet.Rho() > 2) && triplet.Rho() > 0) return true;
         break;

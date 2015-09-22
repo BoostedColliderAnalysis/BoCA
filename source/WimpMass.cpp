@@ -46,7 +46,7 @@ std::vector<boca::Sextet> WimpMass::Sextets(Quartet22 const& quartet, fastjet::P
     Debug("PMiss" , PseudoJet(structure.pmiss));
     double momentum_1[4][4], momentum_2[4][4];
     int solution_sum;
-    solve22(structure, Mass(Id::electron_neutrino), Mass(Id::W), Mass(Id::top), solution_sum, momentum_1, momentum_2);
+    solve22(structure, MassOf(Id::electron_neutrino), MassOf(Id::W), MassOf(Id::top), solution_sum, momentum_1, momentum_2);
     Debug("Number solutions", solution_sum);
     std::vector<boca::Sextet> sextets;
     for (auto const& solution_number : Range(solution_sum)) {

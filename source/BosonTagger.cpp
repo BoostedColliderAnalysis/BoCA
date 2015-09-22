@@ -54,7 +54,7 @@ bool BosonTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts, T
     if (Problematic(doublet, pre_cuts)) return true;
     switch (tag) {
     case Tag::signal :
-        if (std::abs(doublet.Jet().m() - (Mass(Id::higgs) + Mass(Id::W)) / 2) > boson_mass_window)
+        if (std::abs(doublet.Jet().m() - (MassOf(Id::higgs) + MassOf(Id::W)) / 2) > boson_mass_window)
             return true;
         if ((doublet.Rho() > 2 || doublet.Rho() < 0.5) && doublet.Rho() > 0)
             return true;
