@@ -138,7 +138,7 @@ private:
 
     std::string EfficienciesTable(Results const& results, int bin) const;
 
-    std::string EfficienciesRow(const boca::Result& result, int index, int bin, boca::Tag tag) const;
+    std::string EfficienciesRow(const boca::Result& result, int index, boca::Tag tag, int bin) const;
 
     std::string PlotEfficiencyGraph(const boca::Results& results) const;
 

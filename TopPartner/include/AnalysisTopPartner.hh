@@ -2,6 +2,7 @@
 
 #include "Analysis.hh"
 #include "Vector.hh"
+#include "Units.hh"
 #include "Debug.hh"
 
 namespace boca
@@ -51,7 +52,7 @@ class AnalysisNaturalness : public boca::Analysis<Tagger>
 public:
 
     AnalysisNaturalness() {
-//         DetectorGeometry::set_detector_type(DetectorType::CMS);
+// DetectorGeometry::set_detector_type(DetectorType::CMS);
     }
 
 protected:
@@ -196,14 +197,14 @@ protected:
             default : Error("wrong pre cut");
             }
         }
-        case Process::Tth :  {
+        case Process::Tth : {
             switch (DetectorGeometry::detector_type()) {
             case DetectorType::CMS : return "PP-Tth-14TeV-" + std::to_string(Mass()) + "GeV";
             case DetectorType::Spp : return "PP-Tth-100TeV-" + std::to_string(Mass()) + "GeV";
             default : Error("wrong detector type");
             }
         }
-        case Process::TThh :  {
+        case Process::TThh : {
             switch (DetectorGeometry::detector_type()) {
             case DetectorType::CMS : return "PP-TThh-14TeV-" + std::to_string(Mass()) + "GeV";
             case DetectorType::Spp : return "PP-TThh-100TeV-" + std::to_string(Mass()) + "GeV";
@@ -231,7 +232,7 @@ protected:
         case Process::ttBB : return "t_{l}t_{h}B^{0}B^{0}";
         default: Error("no case");
         }
-      return "";
+        return "";
     }
 
     void NewFile(Tag tag, Process process) {

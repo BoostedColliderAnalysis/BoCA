@@ -437,12 +437,12 @@ std::string Plotting::EfficienciesTable(Results const& results, int bin) const
     std::stringstream table;
     table << "    Sample\n  & before\n  & after\n  & Efficiency\n  & $\\sigma$  [fb]\n  & $N_{\\mathcal L = \\unit[" << DetectorGeometry::Luminosity() << "]{fb^{-1}}}$";
     table << "\n \\\\ \\midrule\n   ";
-    for (auto const & result : results.signals) table << EfficienciesRow(result, &result - &results.signals.front(), bin, Tag::signal);
-    for (auto const & result : results.backgrounds) table << EfficienciesRow(result, &result - &results.backgrounds.front(), bin, Tag::background);
+    for (auto const & result : results.signals) table << EfficienciesRow(result, &result - &results.signals.front(), Tag::signal, bin);
+    for (auto const & result : results.backgrounds) table << EfficienciesRow(result, &result - &results.backgrounds.front(), Tag::background, bin);
     return table.str();
 }
 
-std::string Plotting::EfficienciesRow(Result const& result, int index, int bin, Tag tag) const
+std::string Plotting::EfficienciesRow(Result const& result, int index, Tag tag, int bin) const
 {
     std::stringstream row;
     row << " \\verb|" << Tagger().TreeNames(tag).at(index) << "|"
