@@ -54,7 +54,7 @@ private:
 
     Reader<BottomTagger> bottom_reader_;
 
-    float z_mass_window = 50;
+    Mass z_mass_window;
 
 };
 

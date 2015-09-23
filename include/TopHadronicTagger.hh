@@ -80,7 +80,7 @@ private:
 
     Reader<WHadronicTagger> w_hadronic_reader_;
 
-    float top_mass_window_ ;
+    Mass top_mass_window_;
 
     std::vector<boca::Triplet> ordered_triplets(Jets const& jets, unsigned sub_jet_number, std::function<boca::Triplet(fastjet::PseudoJet const& piece_1, fastjet::PseudoJet const& piece_2, fastjet::PseudoJet const& piece_3)> const& function) const;
 

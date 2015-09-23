@@ -49,7 +49,7 @@ protected:
     }
 
     template<typename Multiplet>
-    std::vector<Multiplet> BestMass(std::vector<Multiplet> multiplets, float mass, size_t number = 1) const {
+    std::vector<Multiplet> BestMass(std::vector<Multiplet> multiplets, Mass mass, size_t number = 1) const {
         if (multiplets.size() <= number) return multiplets;
         multiplets = SortedByMassTo(multiplets, mass);
         multiplets.erase(multiplets.begin() + number, multiplets.end());

@@ -15,7 +15,7 @@ ChargedHiggsSemiTagger::ChargedHiggsSemiTagger()
 int ChargedHiggsSemiTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
     Info();
-    float mass = event.mass();
+    Mass mass = event.mass();
     fastjet::PseudoJet HiggsBoson;
     if (tag == Tag::signal) {
         Jets HiggsParticles = event.Partons().GenParticles();
@@ -73,8 +73,8 @@ int ChargedHiggsSemiTagger::Train(Event const& event, PreCuts const&, Tag tag) c
             if (triplet.Singlet().Jet().delta_R(Jet) < DetectorGeometry::JetConeSize())
                 continue;
             Quartet31 quartet(triplet, Jet);
-            if (tag == Tag::signal && quartet.Jet().m() < mass / 2) continue;
-            if (tag == Tag::signal && quartet.Jet().m() > mass * 3 / 2) continue;
+            if (tag == Tag::signal && quartet.Mass() < mass / 2.) continue;
+            if (tag == Tag::signal && quartet.Mass() > mass * 3. / 2.) continue;
             if (tag == Tag::signal && quartet.Jet().delta_R(HiggsBoson) > 2 * DetectorGeometry::JetConeSize()) continue;
             quartets.emplace_back(quartet);
         }

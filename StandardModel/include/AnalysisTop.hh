@@ -35,8 +35,8 @@ public:
         this->pre_cuts().SetPtUpperCut(Id::top, this->UpperPtCut());
 //         this->pre_cuts().SetMassUpperCut(Id::top, 500);
         this->pre_cuts().SetTrackerMaxEta(Id::top, DetectorGeometry::TrackerEtaMax());
-        this->pre_cuts().SetPtLowerCut(Id::bottom, this->LowerPtCut() / 5);
-        this->pre_cuts().SetPtLowerCut(Id::W, this->LowerPtCut() / 5);
+        this->pre_cuts().SetPtLowerCut(Id::bottom, this->LowerPtCut() / 5.);
+        this->pre_cuts().SetPtLowerCut(Id::W, this->LowerPtCut() / 5.);
     }
 
     Decay TopDecay() const {
@@ -47,7 +47,7 @@ public:
 private:
 
     std::string ProjectName() const final {
-        return  Name(this->collider_type()) + "-" + std::to_string(this->LowerPtCut()) + "GeV-" + Name(Process::tt) + "-" + Name(TopDecay()) + "-jet-plain";
+        return  Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-" + Name(Process::tt) + "-" + Name(TopDecay()) + "-jet-plain";
     }
 
     void SetFiles(Tag tag) final {
@@ -75,7 +75,7 @@ private:
 
     int PassPreCut(Event const& event, Tag) const final {
         Jets particles = fastjet::sorted_by_pt(event.Partons().GenParticles());
-        if ((particles.at(0).pt() > this->LowerQuarkCut() && particles.at(0).pt() < this->UpperQuarkCut()) && (particles.at(1).pt() > this->LowerQuarkCut() &&  particles.at(1).pt() < this->UpperQuarkCut())) return 1;
+        if ((particles.at(0).pt() > this->LowerQuarkCut() / GeV && particles.at(0).pt() < this->UpperQuarkCut() / GeV) && (particles.at(1).pt() > this->LowerQuarkCut() / GeV &&  particles.at(1).pt() < this->UpperQuarkCut() / GeV)) return 1;
         return 0;
     }
 

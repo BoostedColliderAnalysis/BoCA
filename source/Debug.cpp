@@ -1,6 +1,8 @@
 /**
  * Copyright (C) 2015 Jan Hajer
  */
+#include <iomanip>
+#include <boost/units/systems/si/io.hpp>
 #include "fastjet/PseudoJet.hh"
 #include "Debug.hh"
 
@@ -68,6 +70,18 @@ void LogVariable(std::string const& variable, fastjet::PseudoJet const& jet)
 void LogVariable(const std::string&, char const* value)
 {
     std::cout << Column(ValueLength(), value);
+}
+
+std::string Left(int width){
+  std::stringstream stream;
+  stream  << boost::units::engineering_prefix << std::left << std::setw(width) << std::setfill(' ');
+  return stream.str();
+}
+
+std::string Right(int width){
+  std::stringstream stream;
+  stream  << boost::units::engineering_prefix << std::right << std::setw(width) << std::setfill(' ');
+  return stream.str();
 }
 
 }

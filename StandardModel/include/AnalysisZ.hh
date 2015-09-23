@@ -2,9 +2,11 @@
 
 #include "AnalysisStandardModel.hh"
 
-namespace boca {
+namespace boca
+{
 
-namespace standardmodel {
+namespace standardmodel
+{
 /**
  *
  * @brief W tagger ananlysis
@@ -13,31 +15,29 @@ namespace standardmodel {
  *
  */
 template<typename Tagger>
-class AnalysisZ : public AnalysisStandardModel<Tagger> {
+class AnalysisZ : public AnalysisStandardModel<Tagger>
+{
 
 public:
 
 
-    AnalysisZ()
-    {
+    AnalysisZ() {
         this->set_tagger_analysis_name(ProjectName());
         this->pre_cuts().SetPtLowerCut(Id::Z, this->LowerPtCut());
         this->pre_cuts().SetPtUpperCut(Id::Z, this->UpperPtCut());
-        this->pre_cuts().SetMassUpperCut(Id::Z, 200);
+        this->pre_cuts().SetMassUpperCut(Id::Z, 200. * GeV);
         //     pre_cuts().SetTrackerMaxEta(Id::Z, DetectorGeometry::TrackerEtaMax);
     }
 
 private:
 
-    std::string ProjectName() const final
-    {
-        return  "ZTagger-" + Name(this->collider_type()) + "-" + std::to_string(this->PreCut()) + "GeV-jan";
+    std::string ProjectName() const final {
+        return  "ZTagger-" + Name(this->collider_type()) + "-" + boca::Name(this->PreCut()) + "-jan";
     }
 
 
     void SetFiles(Tag tag) final {
-        switch (tag)
-        {
+        switch (tag) {
         case Tag::signal :
             this->NewFile(tag, Process::zz);
             break;
@@ -53,11 +53,10 @@ private:
             break;
         }
     }
-    int PassPreCut(Event const& event, Tag) const final
-    {
-      Jets particles = fastjet::sorted_by_pt(event.Partons().GenParticles());
-      if ((particles.at(0).pt() > this->LowerQuarkCut() && particles.at(0).pt() < this->UpperQuarkCut()) && (particles.at(1).pt() > this->LowerQuarkCut() &&  particles.at(1).pt() < this->UpperQuarkCut())) return 1;
-      return 0;
+    int PassPreCut(Event const& event, Tag) const final {
+        Jets particles = fastjet::sorted_by_pt(event.Partons().GenParticles());
+        if ((particles.at(0).pt() > this->LowerQuarkCut() / GeV && particles.at(0).pt() < this->UpperQuarkCut() / GeV) && (particles.at(1).pt() > this->LowerQuarkCut() / GeV &&  particles.at(1).pt() < this->UpperQuarkCut() / GeV)) return 1;
+        return 0;
     }
 
 };

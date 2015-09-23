@@ -19,7 +19,7 @@ HeavyHiggsLeptonicTagger::HeavyHiggsLeptonicTagger()
 int HeavyHiggsLeptonicTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
     Info();
-    float mass = event.mass();
+    Mass mass = event.mass();
     std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
     fastjet::PseudoJet missing_et = event.Hadrons().MissingEt();
     Jets particles = event.Partons().GenParticles();
@@ -35,7 +35,7 @@ int HeavyHiggsLeptonicTagger::Train(Event const& event, PreCuts const&, Tag tag)
             WimpMass wimp_mass;
             Presextets = wimp_mass.Sextet(quartet, missing_et, neutrinos, tag);
             for (auto const& sextet : Presextets) {
-                if (tag == Tag::signal && sextet.Jet().m() < mass / 2)
+                if (tag == Tag::signal && sextet.Mass() < mass / 2.)
                     continue;
                 sextets.emplace_back(sextet);
             }

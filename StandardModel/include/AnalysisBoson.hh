@@ -2,9 +2,11 @@
 
 #include "AnalysisStandardModel.hh"
 
-namespace boca {
+namespace boca
+{
 
-namespace standardmodel {
+namespace standardmodel
+{
 /**
  *
  * @brief Higgs tagger analysis
@@ -13,32 +15,30 @@ namespace standardmodel {
  *
  */
 template<typename Tagger>
-class AnalysisBoson : public AnalysisStandardModel<Tagger> {
+class AnalysisBoson : public AnalysisStandardModel<Tagger>
+{
 
 public:
 
-    AnalysisBoson()
-    {
+    AnalysisBoson() {
         this->set_tagger_analysis_name(ProjectName());
         this->pre_cuts().SetPtLowerCut(Id::higgs, this->LowerPtCut());
         this->pre_cuts().SetPtUpperCut(Id::higgs, this->UpperPtCut());
-        this->pre_cuts().SetPtLowerCut(Id::bottom, this->LowerPtCut() / 5);
-        this->pre_cuts().SetPtUpperCut(Id::bottom, this->UpperPtCut() / 5);
-        this->pre_cuts().SetMassUpperCut(Id::higgs, 250);
+        this->pre_cuts().SetPtLowerCut(Id::bottom, this->LowerPtCut() / 5.);
+        this->pre_cuts().SetPtUpperCut(Id::bottom, this->UpperPtCut() / 5.);
+        this->pre_cuts().SetMassUpperCut(Id::higgs, 250. * GeV);
         this->pre_cuts().SetTrackerMaxEta(Id::higgs, DetectorGeometry::TrackerEtaMax());
         this->pre_cuts().SetTrackerMaxEta(Id::bottom, DetectorGeometry::TrackerEtaMax());
     }
 
 private:
 
-    std::string ProjectName() const final
-    {
-        return  Name(this->collider_type()) + "-" + std::to_string(this->LowerPtCut()) + "GeV";
+    std::string ProjectName() const final {
+        return  Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "";
     }
 
     void SetFiles(Tag tag) final {
-        switch (tag)
-        {
+        switch (tag) {
         case Tag::signal :
             this->NewFile(tag, Process::hh_bb);
             if (this->tagger().Name() != "Bottom")
@@ -67,13 +67,12 @@ private:
 
     }
 
-    int PassPreCut(Event const& event, Tag) const final
-    {
+    int PassPreCut(Event const& event, Tag) const final {
         Jets jets = fastjet::sorted_by_pt(event.Hadrons().Jets());
         if (jets.empty()) return 0;
-        if (jets.front().pt() < this->LowerPtCut()) return 0;
+        if (jets.front().pt() < this->LowerPtCut() / GeV) return 0;
         Jets particles = fastjet::sorted_by_pt(event.Partons().GenParticles());
-        if ((particles.at(0).pt() > this->LowerQuarkCut() && particles.at(0).pt() < this->UpperQuarkCut()) && (particles.at(1).pt() > this->LowerQuarkCut() &&  particles.at(1).pt() < this->UpperQuarkCut())) return 1;
+        if ((particles.at(0).pt() > this->LowerQuarkCut() / GeV && particles.at(0).pt() < this->UpperQuarkCut() / GeV) && (particles.at(1).pt() > this->LowerQuarkCut() / GeV &&  particles.at(1).pt() < this->UpperQuarkCut() / GeV)) return 1;
         return 0;
     }
 

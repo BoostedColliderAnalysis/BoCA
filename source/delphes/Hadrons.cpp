@@ -131,7 +131,7 @@ bool Hadrons::Isolated(TObject const& object, std::vector<TObject*> const& lepto
 Jets Hadrons::EFlowJets(JetDetail jet_detail) const
 {
     fastjet::ClusterSequence& cluster_sequence = *new fastjet::ClusterSequence(EFlow(jet_detail), DetectorGeometry::JetDefinition());
-    boca::Jets jets = fastjet::sorted_by_pt(cluster_sequence.inclusive_jets(DetectorGeometry::JetMinPt()));
+    boca::Jets jets = fastjet::sorted_by_pt(cluster_sequence.inclusive_jets(DetectorGeometry::JetMinPt() / GeV));
     if (jets.empty()) {
         delete &cluster_sequence;
         return jets;

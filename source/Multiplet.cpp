@@ -80,7 +80,7 @@ float Multiplet::DeltaHt(MultipletBase const& multiplets_1, MultipletBase const&
 
 float Multiplet::Rho(MultipletBase const& jet_1, MultipletBase const& jet_2, fastjet::PseudoJet const& jet) const
 {
-    if (jet.pt() < DetectorGeometry::MinCellPt() || DeltaR(jet_1, jet_2) < DetectorGeometry::MinCellResolution()) return 0;
+    if (jet.pt() < DetectorGeometry::MinCellPt() / GeV || DeltaR(jet_1, jet_2) < DetectorGeometry::MinCellResolution()) return 0;
     return jet.m() / jet.pt() / DeltaR(jet_1, jet_2) * 2;
 }
 
@@ -104,7 +104,7 @@ float Multiplet::Dipolarity(MultipletBase const& multiplets_1, MultipletBase con
 {
     if (DeltaR(multiplets_1, multiplets_2) == 0) return 0;
 //     fastjet::PseudoJet jet = Jet(multiplets_1.Jet(), multiplets_2.Jet());
-    if (singlet.Jet().pt() == 0) return 0;
+    if (singlet.Pt() == at_rest) return 0;
     float dipolarity = 0;
     if (!singlet.Jet().has_constituents()) return 0;
     for (auto const & constituent : singlet.Jet().constituents()) {

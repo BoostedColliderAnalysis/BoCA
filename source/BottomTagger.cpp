@@ -45,8 +45,8 @@ bool BottomTagger::Problematic(fastjet::PseudoJet const& jet, PreCuts const& pre
 bool BottomTagger::Problematic(fastjet::PseudoJet const& jet, PreCuts const& pre_cuts) const
 {
     if (!jet.has_user_info<JetInfo>()) return true;
-    if (pre_cuts.PtLowerCut(Id::bottom) > 0 && jet.pt() < pre_cuts.PtLowerCut(Id::bottom)) return true;
-    if (pre_cuts.PtUpperCut(Id::bottom) > 0 && jet.pt() > pre_cuts.PtUpperCut(Id::bottom)) return true;
+    if (pre_cuts.PtLowerCut(Id::bottom) > at_rest && jet.pt() < pre_cuts.PtLowerCut(Id::bottom) / GeV) return true;
+    if (pre_cuts.PtUpperCut(Id::bottom) > at_rest && jet.pt() > pre_cuts.PtUpperCut(Id::bottom) / GeV) return true;
     if (std::abs(jet.rap()) > DetectorGeometry::TrackerEtaMax()) return true;
     if (jet.m() < 0) return true;
     return false;

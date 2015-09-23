@@ -64,7 +64,7 @@ std::string AnalysisBase::ProcessName() const
     return "Process";
 }
 
-void AnalysisBase::NewFile(boca::Tag tag, const boca::Strings& names, Crosssection crosssection, const std::string& nice_name, int mass)
+void AnalysisBase::NewFile(boca::Tag tag, const boca::Strings& names, Crosssection crosssection, const std::string& nice_name, boca::Mass mass)
 {
     files_.emplace_back(File(names, crosssection, nice_name, mass));
     tagger().AddTreeName(TreeName(names.front()), tag);
@@ -76,7 +76,7 @@ void AnalysisBase::NewFile(Tag tag, Strings const& names, std::string const& nic
     tagger().AddTreeName(TreeName(names.front()), tag);
 }
 
-void AnalysisBase::NewFile(boca::Tag tag, const std::string& name, Crosssection crosssection, const std::string& nice_name, int mass)
+void AnalysisBase::NewFile(boca::Tag tag, const std::string& name, Crosssection crosssection, const std::string& nice_name, boca::Mass mass)
 {
     files_.emplace_back(File( {name}, crosssection, nice_name, mass));
     tagger().AddTreeName(TreeName(name), tag);
@@ -93,14 +93,14 @@ File AnalysisBase::File(Strings const& names, std::string const& nice_name) cons
     return boca::File(names, FilePath(), FileSuffix(), nice_name);
 }
 
-File AnalysisBase::File(const boca::Strings& names, boca::Crosssection crosssection, const std::string& nice_name, int mass) const
+File AnalysisBase::File(const boca::Strings& names, boca::Crosssection crosssection, const std::string& nice_name, boca::Mass mass) const
 {
     return boca::File(names, FilePath(), FileSuffix(), nice_name, crosssection, mass);
 }
 
 std::string AnalysisBase::FileName(const std::string&) const
 {
-    return ProcessName() + "_" + std::to_string(PreCut()) + "GeV";
+    return ProcessName() + "_" + Name(PreCut());
 }
 
 std::string AnalysisBase::TreeName(std::string const& name) const
@@ -134,16 +134,16 @@ int AnalysisBase::BackgroundFileNumber() const
     return 1;
 }
 
-int AnalysisBase::PreCut() const
+Momentum AnalysisBase::PreCut() const
 {
 //     return configuration_.PreCut();
     return 0;
 }
 
-int AnalysisBase::Mass() const
+boca::Mass AnalysisBase::Mass() const
 {
 //     return configuration_.Mass();
-    return 1;
+    return 1.*GeV;
 }
 
 void AnalysisBase::RunFast()

@@ -57,7 +57,7 @@ bool HiggsTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts, T
     if (Problematic(doublet, pre_cuts)) return true;
     switch (tag) {
     case Tag::signal :
-//         if (std::abs(doublet.Jet().m() - Mass(Id::higgs)) > higgs_mass_window) return true;
+//         if (std::abs(doublet.Mass() - Mass(Id::higgs)) > higgs_mass_window) return true;
 //         if ((doublet.Rho() > 2 || doublet.Rho() < 0.5) && doublet.Rho() > 0) return true;
 //         if (doublet.Singlet1().Bdt() < 0 || doublet.Singlet2().Bdt() < 0) return true;
         break;
@@ -69,10 +69,10 @@ bool HiggsTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts, T
 
 bool HiggsTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts) const
 {
-    if (pre_cuts.PtLowerCut(Id::higgs) > 0 && doublet.Jet().pt() < pre_cuts.PtLowerCut(Id::higgs)) return true;
-    if (pre_cuts.PtUpperCut(Id::higgs) > 0 && doublet.Jet().pt() > pre_cuts.PtUpperCut(Id::higgs)) return true;
-    if (pre_cuts.MassLowerCut(Id::higgs) > 0 && doublet.Jet().m() < pre_cuts.MassLowerCut(Id::higgs)) return true;
-    if (pre_cuts.MassUpperCut(Id::higgs) > 0 && doublet.Jet().m() > pre_cuts.MassUpperCut(Id::higgs)) return true;
+    if (pre_cuts.PtLowerCut(Id::higgs) > at_rest && doublet.Pt() < pre_cuts.PtLowerCut(Id::higgs)) return true;
+    if (pre_cuts.PtUpperCut(Id::higgs) > at_rest && doublet.Pt() > pre_cuts.PtUpperCut(Id::higgs)) return true;
+    if (pre_cuts.MassLowerCut(Id::higgs) > massless && doublet.Mass() < pre_cuts.MassLowerCut(Id::higgs)) return true;
+    if (pre_cuts.MassUpperCut(Id::higgs) > massless && doublet.Mass() > pre_cuts.MassUpperCut(Id::higgs)) return true;
     if (doublet.Jet().user_info<JetInfo>().VertexNumber() < 1) return true;
     if (doublet.Rho() > 2.5 || doublet.Rho() < 0.5) return true;
     if (doublet.Singlet1().Bdt() < 0 || doublet.Singlet2().Bdt() < 0) return true;

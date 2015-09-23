@@ -10,29 +10,29 @@ namespace boca
 {
 
 enum class Bosstness {
-  unboosted, 
+  unboosted,
 };
 
 class PreCuts
 {
 public:
-    void SetPtLowerCut(Id id, float value);
+    void SetPtLowerCut(Id id, Momentum momentum);
 
-    float PtLowerCut(Id id) const;
+    Momentum PtLowerCut(Id id) const;
 
-    void SetPtUpperCut(Id id, float value);
+    void SetPtUpperCut(Id id, Momentum momentum);
 
-    float PtUpperCut(Id id) const;
+    Momentum PtUpperCut(Id id) const;
 
-    void SetMassLowerCut(Id id, float value);
+    void SetMassLowerCut(Id id, Mass mass);
 
-    float MassLowerCut(Id id) const;
+    Mass MassLowerCut(Id id) const;
 
-    void SetMassUpperCut(Id id, float value);
+    void SetMassUpperCut(Id id, Mass mass);
 
-    float MassUpperCut(Id id) const;
+    Mass MassUpperCut(Id id) const;
 
-    void SetTrackerMaxEta(Id id, float value);
+    void SetTrackerMaxEta(Id id, float eta);
 
     float TrackerMaxEta(Id id) const;
 
@@ -46,13 +46,13 @@ public:
 
 private:
 
-    std::map<Id, float> pt_lower_cut_;
+    std::map<Id, Momentum> pt_lower_cut_;
 
-    std::map<Id, float> pt_upper_cut_;
+    std::map<Id, Momentum> pt_upper_cut_;
 
-    std::map<Id, float> mass_lower_cut_;
+    std::map<Id, Mass> mass_lower_cut_;
 
-    std::map<Id, float> mass_upper_cut_;
+    std::map<Id, Mass> mass_upper_cut_;
 
     std::map<Id, float> tracker_eta_upper_cut_;
 

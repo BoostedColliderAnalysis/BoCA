@@ -32,7 +32,7 @@ public:
         this->set_tagger_analysis_name(ProjectName());
         this->pre_cuts().SetPtLowerCut(Id::W, this->LowerPtCut());
         this->pre_cuts().SetPtUpperCut(Id::W, this->UpperPtCut());
-        this->pre_cuts().SetMassUpperCut(Id::W, 200);
+        this->pre_cuts().SetMassUpperCut(Id::W, 200. * GeV);
         //     pre_cuts().SetTrackerMaxEta(Id::top, DetectorGeometry::TrackerEtaMax);
     }
 
@@ -44,7 +44,7 @@ public:
 private:
 
     std::string ProjectName() const final {
-        return  "WTagger-" + Name(this->collider_type()) + "-" + std::to_string(this->LowerPtCut()) + "GeV-" + Name(Process::tt) + "-jan";
+        return  "WTagger-" + Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-" + Name(Process::tt) + "-jan";
     }
 
 
@@ -67,7 +67,7 @@ private:
     }
     int PassPreCut(Event const& event, Tag) const final {
         Jets particles = fastjet::sorted_by_pt(event.Partons().GenParticles());
-        if ((particles.at(0).pt() > this->LowerQuarkCut() && particles.at(0).pt() < this->UpperQuarkCut()) && (particles.at(1).pt() > this->LowerQuarkCut() &&  particles.at(1).pt() < this->UpperQuarkCut())) return 1;
+        if ((particles.at(0).pt() > this->LowerQuarkCut() / GeV && particles.at(0).pt() < this->UpperQuarkCut() / GeV) && (particles.at(1).pt() > this->LowerQuarkCut() / GeV &&  particles.at(1).pt() < this->UpperQuarkCut() / GeV)) return 1;
         return 0;
     }
 

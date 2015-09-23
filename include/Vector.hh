@@ -5,6 +5,7 @@
 
 #include "Particles.hh"
 #include "DetectorGeometry.hh"
+#include "Units.hh"
 
 namespace boca
 {
@@ -23,7 +24,7 @@ Jets CopyIfExactParticle(Jets const& jets, int id);
 
 Jets RemoveIfExactParticle(Jets jets, int id);
 
-Jets RemoveIfOutsidePtWindow(Jets jets, float lower_cut, float upper_cut);
+Jets RemoveIfOutsidePtWindow(Jets jets, Momentum lower_cut, Momentum upper_cut);
 
 Jets CopyIfFamily(Jets const& jets, Id id, Id mother_id);
 
@@ -53,7 +54,7 @@ Jets CopyIfQuark(Jets const& jets);
 
 Jets CopyIf5Quark(Jets const& jets);
 
-Jets RemoveIfSoft(Jets jets, float pt_min);
+Jets RemoveIfSoft(Jets jets, Momentum pt_min);
 
 struct Close {
     Close(fastjet::PseudoJet const& particle) {

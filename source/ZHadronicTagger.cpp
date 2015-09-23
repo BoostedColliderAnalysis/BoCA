@@ -10,6 +10,7 @@ namespace boca {
 ZHadronicTagger::ZHadronicTagger()
 {
     Info();
+    z_mass_window = 50. * GeV;
     DefineVariables();
 }
 
@@ -47,7 +48,7 @@ bool ZHadronicTagger::Problematic(boca::Doublet const& doublet, boca::PreCuts co
     if (Problematic(doublet, pre_cuts))return true;
     switch (tag) {
     case Tag::signal :
-        if (std::abs(doublet.Jet().m() - MassOf(Id::Z)) > z_mass_window) return true;
+        if (boost::units::abs(doublet.Mass() - MassOf(Id::Z)) > z_mass_window) return true;
         if ((doublet.Rho() > 2 || doublet.Rho() < 0.5)) return true;
         break;
     case Tag::background :
@@ -58,9 +59,9 @@ bool ZHadronicTagger::Problematic(boca::Doublet const& doublet, boca::PreCuts co
 
 bool ZHadronicTagger::Problematic(boca::Doublet const& doublet, boca::PreCuts const& pre_cuts) const
 {
-    if (pre_cuts.PtLowerCut(Id::Z) > 0 && pre_cuts.PtLowerCut(Id::Z) > doublet.Jet().pt()) return true;
-    if (pre_cuts.PtUpperCut(Id::Z) > 0 && pre_cuts.PtUpperCut(Id::Z) < doublet.Jet().pt()) return true;
-    if (pre_cuts.MassUpperCut(Id::Z) > 0 && pre_cuts.MassUpperCut(Id::Z) < doublet.Jet().m()) return true;
+    if (pre_cuts.PtLowerCut(Id::Z) > at_rest && pre_cuts.PtLowerCut(Id::Z) > doublet.Pt()) return true;
+    if (pre_cuts.PtUpperCut(Id::Z) > at_rest && pre_cuts.PtUpperCut(Id::Z) < doublet.Pt()) return true;
+    if (pre_cuts.MassUpperCut(Id::Z) > massless && pre_cuts.MassUpperCut(Id::Z) < doublet.Mass()) return true;
     return false;
 }
 

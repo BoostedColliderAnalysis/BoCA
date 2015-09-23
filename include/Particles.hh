@@ -4,6 +4,7 @@
 #pragma once
 
 #include <string>
+#include "Units.hh"
 /**
  * @brief contains the general analysis and SM taggers
  *
@@ -85,7 +86,7 @@ std::string Name(int id);
 
 std::string Name(Id id);
 
-float MassOf(Id id);
+Mass MassOf(Id id);
 
 /**
  * @brief Initial user index

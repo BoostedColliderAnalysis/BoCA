@@ -57,16 +57,16 @@ public:
 
 protected:
 
-    int Mass() const {
-        return 2000;
-        return 4000;
-        return 6000;
-        return 10000;
-        return 8000;
-        return 1500;
-        return 1000;
-        return 500;
-        return 3000;
+    boca::Mass Mass() const {
+        return 2000. * GeV;
+        return 4000. * GeV;
+        return 6000. * GeV;
+        return 10000. * GeV;
+        return 8000. * GeV;
+        return 1500. * GeV;
+        return 1000. * GeV;
+        return 500. * GeV;
+        return 3000. * GeV;
     }
 
     long EventNumberMax() const override {
@@ -79,94 +79,93 @@ protected:
 
 protected:
 
-    int PreCut() const {
-        return 0;
-        return 200;
+    Momentum PreCut() const {
+        return 0. * GeV;
+        return 200. * GeV;
     }
 
-    int JetPreCut() const {
-        return 0;
-        return 100;
+    Momentum JetPreCut() const {
+        return 0. * GeV;
+        return 100. * GeV;
     }
 
     boca::Crosssection Crosssection(Process process) const {
-      boca::Crosssection crosssection(2. * pico * barn);
         switch (DetectorGeometry::detector_type()) {
         case DetectorType::CMS : {
             switch (process) {
             case Process::TT :
-                switch (Mass()) {
-                case 500 : return crosssection * 0.5156;
-                case 1000 : return crosssection * 0.01041;
-                case 1500 : return crosssection * 0.0005753;
-                case 2000 : return crosssection * 4.787e-05;
-                case 3000 : return crosssection * 5.019e-07;
-                case 4000 : return crosssection * 7.022e-09;
+                switch (Int(Mass())) {
+                case 500 : return 0.5156 * 2 * pb;
+                case 1000 : return 0.01041 * 2 * pb;
+                case 1500 : return 0.0005753 * 2 * pb;
+                case 2000 : return 4.787e-05 * 2 * pb;
+                case 3000 : return 5.019e-07 * 2 * pb;
+                case 4000 : return 7.022e-09 * 2 * pb;
                 default :
                     Error("wrong mass", Mass());
-                    return crosssection;
+                    return pb;
                 }
-            case Process::ttBjj : return crosssection * 0.03024;
-            case Process::ttBB : return crosssection * 0.0004068;
+            case Process::ttBjj : return 0.03024 * 2 * pb;
+            case Process::ttBB : return 0.0004068 * 2 * pb;
             default :
                 Error("wrong process", Name(process));
-                return crosssection;
+                return pb;
             }
         }
         case DetectorType::Spp : {
             switch (process) {
             case Process::Tth :
-                switch (Mass()) {
-                case 2000 : return crosssection * 0.001065;
-                case 4000 : return crosssection * 4.212e-5;
-                case 6000 : return crosssection * 4.7344e-6;
-                case 8000 : return crosssection * 8.466e-7;
+                switch (Int(Mass())) {
+                case 2000 : return 0.001065 * 2 * pb;
+                case 4000 : return 4.212e-5 * 2 * pb;
+                case 6000 : return 4.7344e-6 * 2 * pb;
+                case 8000 : return 8.466e-7 * 2 * pb;
                 default :
                     Error("wrong mass", Mass());
-                    return crosssection;
+                    return pb;
                 }
             case Process::TT :
-                switch (Mass()) {
-                case 2000 : return crosssection * 0.138;
-                case 4000 : return crosssection * 0.003493;
-                case 6000 : return crosssection * 0.0003115;
-                case 8000 : return crosssection * 4.655e-5;
-                case 10000 : return crosssection * 9.101e-06;
+                switch (Int(Mass())) {
+                case 2000 : return 0.138 * 2 * pb;
+                case 4000 : return 0.003493 * 2 * pb;
+                case 6000 : return 0.0003115 * 2 * pb;
+                case 8000 : return 4.655e-5 * 2 * pb;
+                case 10000 : return 9.101e-06 * 2 * pb;
                 default :
                     Error("wrong mass", Mass());
-                    return crosssection;
+                    return pb;
                 }
             case Process::ttBjj :
-                switch (PreCut()) {
-                case 0 : return crosssection * 1.669;
-                case 200 : return crosssection * 0.1754;
+                switch (Int(PreCut())) {
+                case 0 : return 1.669 * 2 * pb;
+                case 200 : return 0.1754 * 2 * pb;
                 default :
                     Error("wrong pre cut", PreCut());
-                    return crosssection;
+                    return pb;
                 }
             case Process::tthBjj :
-                switch (PreCut()) {
-                case 0 : return crosssection * 0.02535;
-                case 200 : return crosssection * 0.02535;
+                switch (Int(PreCut())) {
+                case 0 : return 0.02535 * 2 * pb;
+                case 200 : return 0.02535 * 2 * pb;
                 default :
                     Error("wrong pre cut", PreCut());
-                    return crosssection;
+                    return pb;
                 }
             case Process::TThh :
-                switch (Mass()) {
-                case 2000 : return crosssection * 1.143e-7;
-                case 4000 : return crosssection * 9.95e-10;
-                case 6000 : return crosssection * 3.579e-11;
-                case 8000 : return crosssection * 2.305e-12;
-                case 10000 : return crosssection * 2.029e-13;
+                switch (Int(Mass())) {
+                case 2000 : return 1.143e-7 * 2 * pb;
+                case 4000 : return 9.95e-10 * 2 * pb;
+                case 6000 : return 3.579e-11 * 2 * pb;
+                case 8000 : return 2.305e-12 * 2 * pb;
+                case 10000 : return 2.029e-13 * 2 * pb;
                 default :
                     Error("wrong mass", Mass());
-                    return crosssection;
+                    return pb;
                 }
-            case Process::ttBB : return crosssection * 0.03206;
+            case Process::ttBB : return 0.03206 * 2 * pb;
             default :
                 Error("wrong process", Name(process));
-                return crosssection;
+                return pb;
             }
         }
         }
@@ -177,8 +176,8 @@ protected:
         switch (process) {
         case Process::TT : {
             switch (DetectorGeometry::detector_type()) {
-            case DetectorType::CMS : return "PP-TT-14TeV-" + std::to_string(Mass()) + "GeV";
-            case DetectorType::Spp : return "PP-TT-100TeV-" + std::to_string(Mass()) + "GeV";
+            case DetectorType::CMS : return "PP-TT-14TeV-" + boca::Name(Mass()) + "";
+            case DetectorType::Spp : return "PP-TT-100TeV-" + boca::Name(Mass()) + "";
             default : Error("wrong detector type");
             }
         }
@@ -191,7 +190,7 @@ protected:
         }
         case Process::tthBjj : {
             return "PP-tthB";
-            switch (PreCut()) {
+            switch (Int(PreCut())) {
             case 0 : return name + "-0GeV";
             case 200 : return name + "-200GeV";
             default : Error("wrong pre cut");
@@ -199,15 +198,15 @@ protected:
         }
         case Process::Tth : {
             switch (DetectorGeometry::detector_type()) {
-            case DetectorType::CMS : return "PP-Tth-14TeV-" + std::to_string(Mass()) + "GeV";
-            case DetectorType::Spp : return "PP-Tth-100TeV-" + std::to_string(Mass()) + "GeV";
+            case DetectorType::CMS : return "PP-Tth-14TeV-" + boca::Name(Mass()) + "";
+            case DetectorType::Spp : return "PP-Tth-100TeV-" + boca::Name(Mass()) + "";
             default : Error("wrong detector type");
             }
         }
         case Process::TThh : {
             switch (DetectorGeometry::detector_type()) {
-            case DetectorType::CMS : return "PP-TThh-14TeV-" + std::to_string(Mass()) + "GeV";
-            case DetectorType::Spp : return "PP-TThh-100TeV-" + std::to_string(Mass()) + "GeV";
+            case DetectorType::CMS : return "PP-TThh-14TeV-" + boca::Name(Mass()) + "";
+            case DetectorType::Spp : return "PP-TThh-100TeV-" + boca::Name(Mass()) + "";
             default : Error("wrong detector type");
             }
         }

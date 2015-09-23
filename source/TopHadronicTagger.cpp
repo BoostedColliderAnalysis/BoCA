@@ -17,7 +17,7 @@ TopHadronicTagger::TopHadronicTagger()
 {
     Info();
 //     top_mass_window_ = (Mass(Id::top) - Mass(Id::higgs)) / 2;
-    top_mass_window_ = 50;
+    top_mass_window_ = 50. * GeV;
     DefineVariables();
 }
 
@@ -141,11 +141,11 @@ bool TopHadronicTagger::Problematic(boca::Triplet const& triplet, boca::PreCuts 
     switch (tag) {
     case Tag::signal: {
 
-        if (std::abs(triplet.Jet().m() - MassOf(Id::top)) > top_mass_window_) return true;
+        if (boost::units::abs(triplet.Mass() - MassOf(Id::top)) > top_mass_window_) return true;
         if ((triplet.Rho() < 0.5 || triplet.Rho() > 2) && triplet.Rho() > 0) return true;
 
 
-//         if (std::abs(triplet.Doublet().Jet().m() - Mass(Id::W)) > 40) return true;
+//         if (std::abs(triplet.Doublet().Mass() - Mass(Id::W)) > 40) return true;
 //         if (triplet.Doublet().Bdt() < 1) return true;
 //         if (triplet.Singlet().Bdt() < 1) return true;
 //         if (triplet.pt() > DetectorGeometry::LeptonMinPt()) return true;
@@ -160,13 +160,13 @@ bool TopHadronicTagger::Problematic(boca::Triplet const& triplet, boca::PreCuts 
 bool TopHadronicTagger::Problematic(boca::Triplet const& triplet, PreCuts const& pre_cuts) const
 {
     Debug();
-    if (pre_cuts.PtLowerCut(Id::top) > 0 && triplet.Jet().pt() < pre_cuts.PtLowerCut(Id::top)) return true;
-    if (pre_cuts.PtUpperCut(Id::top) > 0 && triplet.Jet().pt() > pre_cuts.PtUpperCut(Id::top)) return true;
-    if (pre_cuts.MassUpperCut(Id::top) > 0 && triplet.Jet().m() > pre_cuts.MassUpperCut(Id::top)) return true;
+    if (pre_cuts.PtLowerCut(Id::top) > at_rest && triplet.Pt() < pre_cuts.PtLowerCut(Id::top)) return true;
+    if (pre_cuts.PtUpperCut(Id::top) > at_rest && triplet.Pt() > pre_cuts.PtUpperCut(Id::top)) return true;
+    if (pre_cuts.MassUpperCut(Id::top) > massless && triplet.Mass() > pre_cuts.MassUpperCut(Id::top)) return true;
 //     if (triplet.DeltaR() < DetectorGeometry::MinCellResolution() && triplet.DeltaR() > 0) return true;
 
     // FIXME the top tagger is very slow, due to many calls of Bdt(), therfore we have to reduce the number of candidates
-    if (std::abs(triplet.Jet().m() - MassOf(Id::top)) > 2 * top_mass_window_) return true;
+    if (boost::units::abs(triplet.Mass() - MassOf(Id::top)) > 2. * top_mass_window_) return true;
     if ((triplet.Rho() < 0.4 || triplet.Rho() > 2) && triplet.Rho() > 0) return true;
     return false;
 }

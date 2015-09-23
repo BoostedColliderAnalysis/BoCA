@@ -82,30 +82,30 @@ std::string Name(Id id)
     }
 }
 
-float MassOf(Id id)
+Mass MassOf(Id id)
 {
     switch (id) {
-    case Id::strange : return 0.095;
-    case Id::charm : return 1.28;
-    case Id::bottom : return 4.18;
-    case Id::top : return 173.5;
-    case Id::electron : return 0.000511;
-    case Id::electron_neutrino : return 0;
-    case Id::muon : return 0.1134;
-    case Id::muon_neutrino : return 0;
-    case Id::tau : return 1.776;
-    case Id::tau_neutrino : return 0;
-    case Id::photon : return 0;
-    case Id::Z : return 91.188;
-    case Id::W : return 80.39;
-    case Id::higgs : return 125;
-    case Id::pi0 : return 0.13498;
-    case Id::pion : return 0.13957;
-    case Id::rho : return 0.77549;
-    case Id::eta : return 0.54785;
-    case Id::omega : return 0.78265;
-    case Id::neutron : return 1.00866;
-    case Id::proton : return 0.93827;
+    case Id::strange : return 0.095 * GeV;
+    case Id::charm : return 1.28 * GeV;
+    case Id::bottom : return 4.18 * GeV;
+    case Id::top : return 173.5 * GeV;
+    case Id::electron : return 0.000511 * GeV;
+    case Id::electron_neutrino : return massless;
+    case Id::muon : return 0.1134 * GeV;
+    case Id::muon_neutrino : return massless;
+    case Id::tau : return 1.776 * GeV;
+    case Id::tau_neutrino : return massless;
+    case Id::photon : return massless;
+    case Id::Z : return 91.188 * GeV;
+    case Id::W : return 80.39 * GeV;
+    case Id::higgs : return 125. * GeV;
+    case Id::pi0 : return 0.13498 * GeV;
+    case Id::pion : return 0.13957 * GeV;
+    case Id::rho : return 0.77549 * GeV;
+    case Id::eta : return 0.54785 * GeV;
+    case Id::omega : return 0.78265 * GeV;
+    case Id::neutron : return 1.00866 * GeV;
+    case Id::proton : return 0.93827 * GeV;
     case Id::CP_violating_higgs : return MassOf(Id::higgs);
     default : return 0;
     }

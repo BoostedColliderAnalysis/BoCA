@@ -52,7 +52,7 @@ private:
 
     Reader<BottomTagger> bottom_reader_;
 
-    float boson_mass_window = 80;
+    Mass boson_mass_window;
 
 };
 

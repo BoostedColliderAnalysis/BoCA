@@ -12,7 +12,7 @@ namespace boca
 TopLeptonicTagger::TopLeptonicTagger() : w_leptonic_reader_(InitializeLeptonicReader())
 {
     Info();
-    top_mass_window = 80;
+    top_mass_window = 80. * GeV;
     DefineVariables();
 }
 
@@ -50,7 +50,7 @@ Jets TopLeptonicTagger::Leptons(Event const& event, Jets const& jets) const
 
 fastjet::PseudoJet TopLeptonicTagger::FakeLepton(fastjet::PseudoJet const& jet) const
 {
-    return fastjet::PseudoJet(jet.px(), jet.py(), jet.pz(), jet.e()) / jet.pt() * DetectorGeometry::LeptonMinPt();
+    return fastjet::PseudoJet(jet.px(), jet.py(), jet.pz(), jet.e()) / jet.pt() * (DetectorGeometry::LeptonMinPt() / GeV);
 }
 
 Jets TopLeptonicTagger::Particles(Event const& event, PreCuts const& pre_cuts) const
@@ -69,7 +69,7 @@ bool TopLeptonicTagger::Problematic(boca::Triplet const& triplet, boca::PreCuts 
     if (Problematic(triplet, pre_cuts)) return true;
     switch (tag) {
     case Tag::signal :
-        if (std::abs(triplet.Jet().m() - MassOf(Id::top) + 40) > top_mass_window) return true;
+        if (boost::units::abs(triplet.Mass() - MassOf(Id::top) + 40.*GeV) > top_mass_window) return true;
         if (triplet.Singlet().Bdt() < 0) return true;
         if ((triplet.Rho() < 0.5 || triplet.Rho() > 2) && triplet.Rho() > 0) return true;
         break;
@@ -81,9 +81,9 @@ bool TopLeptonicTagger::Problematic(boca::Triplet const& triplet, boca::PreCuts 
 
 bool TopLeptonicTagger::Problematic(Triplet const& triplet, PreCuts const& pre_cuts) const
 {
-    if (pre_cuts.PtLowerCut(Id::top) > 0 && triplet.Jet().pt() < pre_cuts.PtLowerCut(Id::top)) return true;
-    if (pre_cuts.PtUpperCut(Id::top) > 0 && triplet.Jet().pt() > pre_cuts.PtUpperCut(Id::top)) return true;
-    if (pre_cuts.MassUpperCut(Id::top) > 0 && triplet.Jet().m() > pre_cuts.MassUpperCut(Id::top)) return true;
+    if (pre_cuts.PtLowerCut(Id::top) > at_rest && triplet.Pt() < pre_cuts.PtLowerCut(Id::top)) return true;
+    if (pre_cuts.PtUpperCut(Id::top) > at_rest && triplet.Pt() > pre_cuts.PtUpperCut(Id::top)) return true;
+    if (pre_cuts.MassUpperCut(Id::top) > massless && triplet.Mass() > pre_cuts.MassUpperCut(Id::top)) return true;
     return false;
 }
 

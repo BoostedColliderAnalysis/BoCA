@@ -15,6 +15,7 @@ namespace boca
 WHadronicTagger::WHadronicTagger()
 {
     Info();
+    w_mass_window_ = 40. * GeV;
     DefineVariables();
 }
 
@@ -111,7 +112,7 @@ bool WHadronicTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cut
         return true;
     switch (tag) {
     case Tag::signal :
-        if (std::abs(doublet.Jet().m() - MassOf(Id::W)) > w_mass_window_) return true;
+        if (boost::units::abs(doublet.Mass() - MassOf(Id::W)) > w_mass_window_) return true;
         if ((doublet.Rho() > 2 || doublet.Rho() < 0.5) && doublet.Rho() > 0) return true;
 //         if (doublet.Singlet1().Bdt() > 1) return true;
 //         if (doublet.Singlet2().Bdt() > 1) return true;
@@ -124,9 +125,9 @@ bool WHadronicTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cut
 
 bool WHadronicTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts) const
 {
-    if (pre_cuts.PtLowerCut(Id::W) > 0 && pre_cuts.PtLowerCut(Id::W) > doublet.Jet().pt()) return true;
-    if (pre_cuts.PtUpperCut(Id::W) > 0 && pre_cuts.PtUpperCut(Id::W) < doublet.Jet().pt()) return true;
-    if (pre_cuts.MassUpperCut(Id::W) > 0 && pre_cuts.MassUpperCut(Id::W) < doublet.Jet().m()) return true;
+    if (pre_cuts.PtLowerCut(Id::W) > at_rest && pre_cuts.PtLowerCut(Id::W) > doublet.Pt()) return true;
+    if (pre_cuts.PtUpperCut(Id::W) > at_rest && pre_cuts.PtUpperCut(Id::W) < doublet.Pt()) return true;
+    if (pre_cuts.MassUpperCut(Id::W) > massless && pre_cuts.MassUpperCut(Id::W) < doublet.Mass()) return true;
     if (doublet.DeltaR() < DetectorGeometry::MinCellResolution() && doublet.DeltaR() > 0) return true;
     return false;
 }

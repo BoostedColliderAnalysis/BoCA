@@ -450,7 +450,7 @@ std::string Plotting::EfficienciesRow(Result const& result, int index, Tag tag, 
         << "\n  & " << result.event_sums.at(bin)
         << "\n  & " << RoundToDigits(result.efficiency.at(bin))
         << "\n  & " << RoundToDigits(result.info_branch_.Crosssection)
-        << "\n  & " << std::round(result.info_branch_.Crosssection * DetectorGeometry::Luminosity() * result.efficiency.at(bin))
+        << "\n  & " << std::round(result.info_branch_.Crosssection * (fb * DetectorGeometry::Luminosity()) * result.efficiency.at(bin))
         << "\n \\\\";
     return row.str();
 }

@@ -67,7 +67,7 @@ public:
 
     std::string ProjectName() const {
       return  Name(DetectorType()) + "-eta3.5";
-      //         return  ProductionChannelName(ProductionChannel()) + DetectorName(DetectorType())  + "_" + std::to_string(Mass()) + "GeV";
+      //         return  ProductionChannelName(ProductionChannel()) + DetectorName(DetectorType())  + "_" + Name(Mass()) + "";
     }
 
 private:
@@ -122,22 +122,22 @@ private:
 
     // in fb
     Crosssection SignalCrosssection() const {
-        return Crosssection(1. * pico * barn);
+        return pb;
     }
 
-    int Mass() const {
-        return 400;
-        return 600;
-        return 1000;
-        return 2000;
-        return 3000;
-        return 4000;
-        return 5000;
-        return 6000;
-        return 7000;
-        return 8000;
-        return 9000;
-        return 10000;
+    boca::Mass Mass() const {
+        return 400. * GeV;
+        return 600. * GeV;
+        return 1000. * GeV;
+        return 2000. * GeV;
+        return 3000. * GeV;
+        return 4000. * GeV;
+        return 5000. * GeV;
+        return 6000. * GeV;
+        return 7000. * GeV;
+        return 8000. * GeV;
+        return 9000. * GeV;
+        return 10000. * GeV;
     }
 
     void NewFile(Tag tag, Process process, Production production) {
@@ -175,7 +175,7 @@ private:
 
 
     std:: string SignalName(Process process) {
-      return  NameString(process) + "_" + std::to_string(Mass()) + "GeV";
+      return  NameString(process) + "_" + Name(Mass()) + "";
     }
 
     std::string TreeName(Process process) const {
@@ -187,11 +187,11 @@ private:
     }
 
     std:: string SignalTreeName(Process process) {
-      return  NameString(process) + "_" + std::to_string(Mass()) + "GeV" + "-run_01";
+      return  NameString(process) + "_" + Name(Mass()) + "" + "-run_01";
     }
 
     Crosssection BackgroundCrosssection(Process) const {
-        return Crosssection(1. * pico * barn);
+        return pb;
     }
 
 };

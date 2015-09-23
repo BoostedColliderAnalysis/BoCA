@@ -24,7 +24,7 @@ class File
 
 public:
 
-  File(Strings const& processes, std::string const& run_folder, std::string const& file_suffix, std::string const& nice_name = "", Crosssection crosssection = pico_barn, float mass = 0);
+  File(Strings const& processes, std::string const& run_folder, std::string const& file_suffix, std::string const& nice_name = "", Crosssection crosssection = pb, Mass mass = massless);
 
     /**
      * @brief destructor
@@ -54,7 +54,7 @@ public:
         return crosssection_error_;
     }
 
-    float mass() const {
+    Mass mass() const {
         return mass_;
     }
     Source source() const {
@@ -87,11 +87,11 @@ private:
 
     std::string tree_name_;
 
-    Crosssection crosssection_ = pico_barn;
+    Crosssection crosssection_ = pb;
 
     Crosssection crosssection_error_ = 0;
 
-    float mass_ = 0;
+    Mass mass_ = massless;
 
     std::string file_suffix_ = ".root";
 

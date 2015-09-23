@@ -110,14 +110,14 @@ protected:
     }
 
     template<typename Particle>
-    boca::LorentzVector LorentzVectorByMass(const Particle& particle, float mass) const
+    boca::LorentzVector LorentzVectorByMass(const Particle& particle, Mass mass) const
     {
 //         Debug("Lorentz Vector by Mass");
         boca::LorentzVector LorentzVector;
         float Pt = particle.PT;
         float Eta = particle.Eta;
         float Phi = particle.Phi;
-        LorentzVector.SetPtEtaPhiM(Pt, Eta, Phi, mass);
+        LorentzVector.SetPtEtaPhiM(Pt, Eta, Phi, mass / GeV);
 // //         if (check_four_vectors_) {
 // //             if (LorentzVector.Pt() - Pt > check_value_) Error(Pt, LorentzVector.Pt());
 // //             if (LorentzVector.Eta() - Eta > check_value_) Error(Eta, LorentzVector.Eta());
@@ -130,8 +130,8 @@ protected:
     boca::LorentzVector LorentzVectorByMass(const Particle& particle) const
     {
 //         Debug("Lorentz Vector by Mass");
-        float Mass = particle.Mass;
-        const boca::LorentzVector LorentzVector = LorentzVectorByMass(particle, Mass);
+        Mass mass(particle.Mass * GeV);
+        const boca::LorentzVector LorentzVector = LorentzVectorByMass(particle, mass);
         if (check_four_vectors_) {
 //             if (LorentzVector.M() - Mass > mass_check_value_) Error(Mass, LorentzVector.M());
         }
@@ -142,8 +142,8 @@ protected:
     boca::LorentzVector LorentzVectorByM(const Particle& particle) const
     {
 //         Debug("Lorentz Vector by Mass");
-        float Mass = particle.M;
-        const boca::LorentzVector LorentzVector = LorentzVectorByMass(particle, Mass);
+        Mass mass(particle.M * GeV);
+        const boca::LorentzVector LorentzVector = LorentzVectorByMass(particle, mass);
         if (check_four_vectors_) {
 //             if (LorentzVector.M() - Mass > mass_check_value_) Error(Mass, LorentzVector.M());
         }

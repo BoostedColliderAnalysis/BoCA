@@ -66,7 +66,7 @@ std::vector<Doublet>  HeavyHiggsTauTagger::Multiplets(Event const& event, PreCut
         Doublet pre_doublet(jet, missing_et);
 //         std::vector<Doublet> Postdoublets = GetNeutrinos(Predoublet);
 //         for (auto & Postdoublet : Postdoublets) {
-//             if (Postdoublet.Jet().m() < 10) continue;
+//             if (Postdoublet.Mass() < 10) continue;
         pre_doublet.SetBdt(Bdt(pre_doublet, reader));
         doublets.emplace_back(pre_doublet);
 //         }

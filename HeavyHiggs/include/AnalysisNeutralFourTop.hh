@@ -38,158 +38,114 @@ public:
     }
 
     std::string ProjectName() const final {
-        //        return  ProcessName() + "-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV-" + std::to_string(Mass()) + "GeV-Eta2.5";
-        return  ProcessName() + "-" + Name(this->collider_type()) + "-" + std::to_string(this->Mass()) + "GeV";
+        //        return  ProcessName() + "-" + ColliderName(collider_type()) + "-" + Name(PreCut()) + "-" + Name(Mass()) + "-Eta2.5";
+        return  ProcessName() + "-" + Name(this->collider_type()) + "-" + boca::Name(this->Mass()) + "";
     };
 
     Crosssection SignalCrosssection(Process process) const {
-        Crosssection crosssection(1.*femto * barn);
         switch (this->collider_type()) {
         case Collider::LHC:
             switch (process) {
             case Process::Htt:
-                switch (this->Mass()) {
-                case 500:
-                    return crosssection * 0.911648;
-                case 700:
-                    return crosssection * 0.346647;
-                case 800:
-                    return crosssection * 0.225386;
-                case 1000:
-                    return crosssection * 0.10028;
-                case 1500:
-                    return crosssection * 0.0168305;
-                case 2000:
-                    return crosssection * 0.00345315;
+                switch (Int(this->Mass())) {
+                case 500 : return 0.911648 * pb;
+                case 700 : return 0.346647 * pb;
+                case 800 : return 0.225386 * pb;
+                case 1000 : return 0.10028 * pb;
+                case 1500 : return 0.0168305 * pb;
+                case 2000 : return 0.00345315 * pb;
                 default:
                     Error("unhandled case");
-                    return crosssection;
+                    return pb;
                 }
             case Process::Htwb:
-                switch (this->Mass()) {
-                case 500:
-                    return crosssection;
-                case 700:
-                    return crosssection;
-                case 800:
-                    return crosssection;
-                case 1000:
-                    return crosssection;
-                case 1500:
-                    return crosssection;
-                case 2000:
-                    return crosssection;
+                switch (Int(this->Mass())) {
+                case 500 : return pb;
+                case 700 : return pb;
+                case 800 : return pb;
+                case 1000 : return pb;
+                case 1500 : return pb;
+                case 2000 : return pb;
                 default:
                     Error("unhandled case");
-                    return crosssection;
+                    return pb;
                 }
             default:
                 Error("unhandled case");
-                return crosssection;
+                return pb;
             };
         case Collider::FHC:
         case Collider::LE:
             switch (process) {
             case Process::Htt:
-                switch (this->Mass()) {
-                case 500:
-                    return crosssection * 152.154;
-                case 700:
-                    return crosssection * 79.3982;
-                case 800:
-                    return crosssection * 60.9656;
-                case 1000:
-                    return crosssection * 36.5579;
-                case 1500:
-                    return crosssection * 12.4039;
-                case 2000:
-                    return crosssection * 5.09533;
-                case 3000:
-                    return crosssection * 1.21763;
-                case 4000:
-                    return crosssection * 0.385975;
-                case 5000:
-                    return crosssection * 0.14659;
-                case 6000:
-                    return crosssection * 0.062513;
-                case 7000:
-                    return crosssection * 0.026579;
-                case 8000:
-                    return crosssection * 0.0132781;
-                case 10000:
-                    return crosssection * 0.00380676;
+                switch (Int(this->Mass())) {
+                case 500 : return 152.154 * pb;
+                case 700 : return 79.3982 * pb;
+                case 800 : return 60.9656 * pb;
+                case 1000 : return 36.5579 * pb;
+                case 1500 : return 12.4039 * pb;
+                case 2000 : return 5.09533 * pb;
+                case 3000 : return 1.21763 * pb;
+                case 4000 : return 0.385975 * pb;
+                case 5000 : return 0.14659 * pb;
+                case 6000 : return 0.062513 * pb;
+                case 7000 : return 0.026579 * pb;
+                case 8000 : return 0.0132781 * pb;
+                case 10000 : return 0.00380676 * pb;
                 default:
                     Error("unhandled case");
-                    return crosssection;
+                    return pb;
                 }
             case Process::Htwb:
-                switch (this->Mass()) {
-                case 500:
-                    return crosssection * 117.041;
-                case 700:
-                    return crosssection * 79.5743;
-                case 800:
-                    return crosssection * 66.4861;
-                case 1000:
-                    return crosssection * 47.8374;
-                case 1500:
-                    return crosssection * 23.1449;
-                case 2000:
-                    return crosssection * 12.5153;
-                case 3000:
-                    return crosssection * 4.60995;
-                case 4000:
-                    return crosssection * 2.01434;
-                case 5000:
-                    return crosssection * 0.975944;
-                case 6000:
-                    return crosssection * 0.509747;
-                case 7000:
-                    return crosssection * 0.256938;
-                case 8000:
-                    return crosssection * 0.148312;
-                case 10000:
-                    return crosssection * 0.0539546;
+                switch (Int(this->Mass())) {
+                case 500 : return 117.041 * pb;
+                case 700 : return 79.5743 * pb;
+                case 800 : return 66.4861 * pb;
+                case 1000 : return 47.8374 * pb;
+                case 1500 : return 23.1449 * pb;
+                case 2000 : return 12.5153 * pb;
+                case 3000 : return 4.60995 * pb;
+                case 4000 : return 2.01434 * pb;
+                case 5000 : return 0.975944 * pb;
+                case 6000 : return 0.509747 * pb;
+                case 7000 : return 0.256938 * pb;
+                case 8000 : return 0.148312 * pb;
+                case 10000 : return 0.0539546 * pb;
                 default:
                     Error("unhandled case");
-                    return crosssection;
+                    return pb;
                 }
             default:
                 Error("unhandled case");
-                return crosssection;
+                return pb;
             }
         default:
             Error("unhandled case");
-            return crosssection;
+            return pb;
         }
     }
 
     Crosssection BackgroundCrosssection(Process process) const {
-      Crosssection crosssection(1.*femto * barn);
         switch (this->collider_type()) {
         case Collider::LHC :
             switch (process) {
-            case Process::ttwwbb:
-              return crosssection;
-            case Process::ttwbb:
-              return crosssection;
+            case Process::ttwwbb : return pb;
+            case Process::ttwbb : return pb;
             default:
                 Error("unhandled case");
-                return crosssection;
+                return pb;
             }
         case Collider::LE:
             switch (process) {
-            case Process::ttwwbb:
-              return crosssection * 396.;
-            case Process::ttwbb:
-              return crosssection * 1.3204;
+            case Process::ttwwbb : return 396. * pb;
+            case Process::ttwbb : return 1.3204 * pb;
             default:
                 Error("unhandled case");
-                return crosssection;
+                return pb;
             }
         default:
             Error("unhandled case");
-            return crosssection;
+            return pb;
         }
     }
 
@@ -212,7 +168,7 @@ private:
 //         if (Bottoms.at(2).pt() < this->BottomPt()) return 0;
 //         if (Bottoms.at(3).pt() < this->BottomPt()) return 0;
 
-        if (event.Hadrons().MissingEt().pt() < this->MissingEt()) return 0;
+        if (event.Hadrons().MissingEt().pt() < this->MissingEt() / GeV) return 0;
         Jets Leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
         if (Leptons.size() < 2) return 0;
 //      if (Leptons.at(0).pt() < this->LeptonPt()) return 0;
@@ -220,8 +176,8 @@ private:
         int positive_lepton = 0;
         int negative_lepton = 0;
         for (auto const & lepton : Leptons) {
-            if (lepton.pt() > this->LeptonPt() && lepton.user_info<JetInfo>().Charge() > 0)positive_lepton++;
-            if (lepton.pt() > this->LeptonPt() && lepton.user_info<JetInfo>().Charge() < 0)negative_lepton++;
+            if (lepton.pt() > this->LeptonPt() / GeV && lepton.user_info<JetInfo>().Charge() > 0)positive_lepton++;
+            if (lepton.pt() > this->LeptonPt() / GeV && lepton.user_info<JetInfo>().Charge() < 0)negative_lepton++;
         }
 
         if (positive_lepton < 2 && negative_lepton < 2) return 0;

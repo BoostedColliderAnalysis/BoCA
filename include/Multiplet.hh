@@ -61,7 +61,7 @@ protected:
 
     float DeltaR(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
-    float DeltaM(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
+    float DeltaM(const boca::MultipletBase& multiplets_1, const boca::MultipletBase& multiplets_2) const;
 
     float DeltaHt(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 

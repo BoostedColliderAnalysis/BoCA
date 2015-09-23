@@ -65,7 +65,7 @@ private:
 
     Reader<WLeptonicTagger> w_leptonic_reader_;
 
-    float top_mass_window;
+    Mass top_mass_window;
 
     Stage InitializeLeptonicReader();
 

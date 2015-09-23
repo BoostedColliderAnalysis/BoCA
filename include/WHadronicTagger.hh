@@ -78,7 +78,7 @@ private:
 
     int WHadronicId(boca::Jets const& daughters) const;
 
-    float w_mass_window_ = 40;
+    Mass w_mass_window_;
 };
 
 }

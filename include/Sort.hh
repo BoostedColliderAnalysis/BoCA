@@ -45,10 +45,10 @@ std::vector<Multiplet> SortedByMaxDeltaRap(std::vector<Multiplet> multiplets)
 }
 
 template <class Multiplet>
-std::vector<Multiplet> SortedByMassTo(std::vector<Multiplet> multiplets, float mass)
+std::vector<Multiplet> SortedByMassTo(std::vector<Multiplet> multiplets, Mass mass)
 {
     std::sort(multiplets.begin(), multiplets.end(), [mass](const Multiplet & multiplet_1, const Multiplet & multiplet_2) {
-        return std::abs(multiplet_1.Jet().m() - mass) < std::abs(multiplet_2.Jet().m() - mass);
+        return boost::units::abs(multiplet_1.Mass() - mass) < boost::units::abs(multiplet_2.Mass() - mass);
     });
     return multiplets;
 }
@@ -59,12 +59,12 @@ struct SortByMassTo {
     }
     template <typename Multiplet>
     bool operator()(Multiplet const& multiplet_1, Multiplet const& multiplet_2) {
-        return std::abs(multiplet_1.Jet().m() - mass_) < std::abs(multiplet_2.Jet().m() - mass_);
+        return boost::units::abs(multiplet_1.Mass() - mass_) < boost::units::abs(multiplet_2.Mass() - mass_);
     }
     bool operator()(fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2) {
-        return std::abs(jet_1.m() - mass_) > std::abs(jet_2.m() - mass_);
+        return std::abs(jet_1.m() - mass_ / GeV) > std::abs(jet_2.m() - mass_ / GeV);
     }
-    float mass_;
+    Mass mass_;
 };
 
 template <class Multiplet>
@@ -95,7 +95,7 @@ std::vector<Multiplet> SortedByMass(std::vector<Multiplet> multiplets)
 struct SortByPt {
     template <typename Multiplet>
     bool operator()(Multiplet const& multiplet_1, Multiplet const& multiplet_2) {
-        return multiplet_1.Jet().pt() > multiplet_2.Jet().pt();
+        return multiplet_1.Pt() > multiplet_2.Pt();
     }
     bool operator()(fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2) {
         return jet_1.pt() > jet_2.pt();

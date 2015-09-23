@@ -46,7 +46,7 @@ void Result::Calculate()
     for (auto const & step : Range(steps)) {
         efficiency.at(step) = float(event_sums.at(step)) / info_branch_.EventNumber;
         pure_efficiency.at(step) = float(event_sums.at(step)) / event_sums.at(0);
-        events.at(step) = efficiency.at(step) * info_branch_.Crosssection * DetectorGeometry::Luminosity();
+        events.at(step) = efficiency.at(step) * info_branch_.Crosssection * (fb * DetectorGeometry::Luminosity());
         Debug(efficiency.at(step), events.at(step));
     }
     Error(info_branch_.EventNumber, event_sums.at(0));
@@ -101,7 +101,7 @@ void Results::Significances()
         else acceptances.at(step) = 0;
 
         float exclusion = 2;
-        if (signal_efficiencies > 0) crosssections.at(step) = (exclusion + std::sqrt(sqr(exclusion) + 4 * background_events)) * exclusion / 2 / DetectorGeometry::Luminosity() / signal_efficiencies;
+        if (signal_efficiencies > 0) crosssections.at(step) = (exclusion + std::sqrt(sqr(exclusion) + 4 * background_events)) * exclusion / 2 / (DetectorGeometry::Luminosity() * fb) / signal_efficiencies;
         else crosssections.at(step) = 0;
     }
     BestBin();

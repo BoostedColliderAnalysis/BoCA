@@ -12,7 +12,7 @@ namespace boca {
 WLeptonicTagger::WLeptonicTagger()
 {
     Info();
-    w_mass_window_ = 20;
+    w_mass_window_ = 20. * GeV;
     DefineVariables();
 }
 
@@ -31,7 +31,7 @@ int WLeptonicTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) co
         Doublet pre_doublet(lepton, missing_et);
         std::vector<Doublet> post_doublets = ReconstructNeutrino(pre_doublet);
         for (auto& doublet : post_doublets) {
-            if (tag == Tag::signal && std::abs(doublet.Jet().m() - MassOf(Id::W)) > w_mass_window_) continue;
+            if (tag == Tag::signal && boost::units::abs(doublet.Mass() - MassOf(Id::W)) > w_mass_window_) continue;
             bool in_cone = false;
             for (auto const& w_boson : w_bosons) if (Close(w_boson)(doublet)) in_cone = true;
             switch (tag) {
@@ -62,7 +62,7 @@ std::vector<Doublet>  WLeptonicTagger::Multiplets(Event const& event, boca::PreC
         Doublet pre_doublet(lepton, event.Hadrons().MissingEt());
         std::vector<Doublet> post_doublets = ReconstructNeutrino(pre_doublet);
         for (auto& doublet : post_doublets) {
-            if (std::abs(doublet.Jet().m() - MassOf(Id::W)) > w_mass_window_) continue;
+            if (boost::units::abs(doublet.Mass() - MassOf(Id::W)) > w_mass_window_) continue;
             doublet.SetBdt(Bdt(doublet, reader));
             doublets.emplace_back(doublet);
         }
@@ -75,7 +75,7 @@ std::vector<Doublet> WLeptonicTagger::ReconstructNeutrino(Doublet const& doublet
     Info();
     fastjet::PseudoJet lepton = doublet.Singlet1().Jet();
     fastjet::PseudoJet missing_et = doublet.Singlet2().Jet();
-    float linear_term = (sqr(MassOf(Id::W)) - lepton.m2()) / 2 + missing_et.px() * lepton.px() + missing_et.py() * lepton.py();
+    float linear_term = (sqr(MassOf(Id::W) / GeV) - lepton.m2()) / 2 + missing_et.px() * lepton.px() + missing_et.py() * lepton.py();
     float lepton_square = sqr(lepton.e()) - sqr(lepton.pz());
     float missing_et_square = sqr(missing_et.px()) + sqr(missing_et.py());
     double radicant = sqr(lepton.pz()) * (sqr(linear_term) -  lepton_square * missing_et_square);

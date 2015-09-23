@@ -98,11 +98,11 @@ Jets CopyIfLepton(Jets const& jets)
   return final_jets;
 }
 
-Jets RemoveIfOutsidePtWindow(boca::Jets jets, float lower_cut, float upper_cut)
+Jets RemoveIfOutsidePtWindow(boca::Jets jets, Momentum lower_cut, Momentum upper_cut)
 {
     if (jets.empty()) return jets;
     jets.erase(std::remove_if(jets.begin(), jets.end(), [lower_cut, upper_cut](fastjet::PseudoJet const & jet) {
-        return (jet.pt() < lower_cut || jet.pt() > upper_cut);
+        return (jet.pt() < lower_cut / GeV || jet.pt() > upper_cut / GeV);
     }), jets.end());
     return jets;
 }
@@ -241,10 +241,10 @@ Jets CopyIf5Quark(Jets const& jets)
     return final_jets;
 }
 
-Jets RemoveIfSoft(Jets jets, float pt_min)
+Jets RemoveIfSoft(Jets jets, Momentum pt_min)
 {
     jets.erase(std::remove_if(jets.begin(), jets.end(), [&](fastjet::PseudoJet const & jet) {
-        return jet.pt() < pt_min;
+        return jet.pt() < pt_min / GeV;
     }), jets.end());
     return jets;
 }

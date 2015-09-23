@@ -41,12 +41,12 @@ public:
         return *partons_;
     }
 
-    float mass() const
+    Mass mass() const
     {
         return mass_;
     }
 
-    void SetMass(float mass)
+    void SetMass(Mass const& mass)
     {
         mass_ = mass;
     }
@@ -73,7 +73,7 @@ private:
 
     Source source_;
 
-    float mass_;
+    Mass mass_;
 
 };
 

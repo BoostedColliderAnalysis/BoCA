@@ -36,7 +36,7 @@ public:
     Trees(Files& files);
     void WriteTree();
     void UseBranches(File& file, std::string const& name);
-    void NewEvent(int mass);
+    void NewEvent(Mass const& mass);
     void SaveAnalysis(int object_number);
     InfoBranch FillInfoBranch(const File& file);
     exroot::TreeReader& tree_reader();

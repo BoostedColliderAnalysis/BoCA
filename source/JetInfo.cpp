@@ -171,8 +171,7 @@ float JetInfo::VertexMass() const
         return momentum + constituent.Momentum();
     }).M();
     Debug(vertex_mass);
-    if (vertex_mass < DetectorGeometry::VertexMassMin())
-        return 0;
+    if (vertex_mass < DetectorGeometry::VertexMassMin() / GeV) return 0;
     return vertex_mass;
 }
 

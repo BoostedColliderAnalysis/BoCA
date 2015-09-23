@@ -13,6 +13,7 @@ namespace boca
 BosonTagger::BosonTagger()
 {
     Info();
+    boson_mass_window = 80. * GeV;
     DefineVariables();
 }
 
@@ -54,7 +55,7 @@ bool BosonTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts, T
     if (Problematic(doublet, pre_cuts)) return true;
     switch (tag) {
     case Tag::signal :
-        if (std::abs(doublet.Jet().m() - (MassOf(Id::higgs) + MassOf(Id::W)) / 2) > boson_mass_window)
+        if (boost::units::abs(doublet.Mass() - (MassOf(Id::higgs) + MassOf(Id::W)) / 2.) > boson_mass_window)
             return true;
         if ((doublet.Rho() > 2 || doublet.Rho() < 0.5) && doublet.Rho() > 0)
             return true;
@@ -67,9 +68,9 @@ bool BosonTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts, T
 
 bool BosonTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts) const
 {
-    if (pre_cuts.PtLowerCut(Id::higgs) > 0 && pre_cuts.PtLowerCut(Id::higgs) > doublet.Jet().pt()) return true;
-    if (pre_cuts.PtUpperCut(Id::higgs) > 0 && pre_cuts.PtUpperCut(Id::higgs) < doublet.Jet().pt()) return true;
-    if (pre_cuts.MassUpperCut(Id::higgs) > 0 && pre_cuts.MassUpperCut(Id::higgs) < doublet.Jet().m()) return true;
+    if (pre_cuts.PtLowerCut(Id::higgs) > at_rest && pre_cuts.PtLowerCut(Id::higgs) > doublet.Pt()) return true;
+    if (pre_cuts.PtUpperCut(Id::higgs) > at_rest && pre_cuts.PtUpperCut(Id::higgs) < doublet.Pt()) return true;
+    if (pre_cuts.MassUpperCut(Id::higgs) > massless && pre_cuts.MassUpperCut(Id::higgs) < doublet.Mass()) return true;
     return false;
 }
 

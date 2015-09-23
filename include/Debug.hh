@@ -6,7 +6,6 @@
 #include <string>
 #include <vector>
 #include <sstream>
-#include <iomanip>
 #include <iostream>
 
 namespace fastjet
@@ -40,11 +39,15 @@ std::string FunctionName(std::string const& pretty_function);
 
 std::string FileName(std::string const& file);
 
+std::string Left(int width);
+
+std::string Right(int width);
+
 template<typename Value>
 std::string Column(int width, Value const& message)
 {
     std::stringstream stream;
-    stream << std::left << std::setw(width) << std::setfill(' ') << message;
+    stream  << Left(width) << message;
     return stream.str();
 }
 
@@ -52,7 +55,7 @@ template<typename Value>
 std::string ColumnRight(int width, Value const& message)
 {
     std::stringstream stream;
-    stream << std::right << std::setw(width) << std::setfill(' ') << message;
+    stream  << Right(width) << message;
     return stream.str();
 }
 

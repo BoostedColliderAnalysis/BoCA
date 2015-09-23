@@ -23,12 +23,12 @@ public:
 
     float HardTopPt() const
     {
-        return std::max(Triplet1().Jet().pt(), Triplet2().Jet().pt());
+      return std::max(Triplet1().Jet().pt(), Triplet2().Jet().pt());
     }
 
     float SoftTopPt() const
     {
-        return std::min(Triplet1().Jet().pt(), Triplet2().Jet().pt());
+      return std::min(Triplet1().Jet().pt(), Triplet2().Jet().pt());
     }
 
     float GetLargertripletDeltaR() const

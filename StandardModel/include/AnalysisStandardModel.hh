@@ -44,13 +44,13 @@ class AnalysisStandardModel : public Analysis<Tagger>
 
 protected:
 
-    int LowerPtCut() const {
-        return 1000;
-        return 350;
-        return 700;
-        return 800;
-        return 500;
-        return 1200;
+    Momentum LowerPtCut() const {
+        return 1000. * GeV;
+        return 350. * GeV;
+        return 700. * GeV;
+        return 800. * GeV;
+        return 500. * GeV;
+        return 1200. * GeV;
     }
 
     long EventNumberMax() const override {
@@ -73,35 +73,35 @@ protected:
         return Collider::FHC;
     }
 
-    int UpperPtCut() const {
-        switch (LowerPtCut()) {
-        case 700 : return 1000;
-        case 1000 : return 1500;
-        case 1200 : return 1500;
-        case 500: return 1000;
+    Momentum UpperPtCut() const {
+        switch (Int(LowerPtCut())) {
+        case 700 : return 1000. * GeV;
+        case 1000 : return 1500. * GeV;
+        case 1200 : return 1500. * GeV;
+        case 500: return 1000. * GeV;
         default :
             Error("no pt upper cut");
             return 0;
         }
     }
 
-    int MadGraphCut() const {
-        switch (LowerPtCut()) {
-        case 500: return 500;
-        case 700 : return 500;
-        case 1000 : return 1000;
-        case 1200 : return 1000;
+    Momentum MadGraphCut() const {
+        switch (Int(LowerPtCut())) {
+        case 500: return 500. * GeV;
+        case 700 : return 500. * GeV;
+        case 1000 : return 1000. * GeV;
+        case 1200 : return 1000. * GeV;
         default :
             Error("no madgraph cut");
             return 0;
         }
     }
 
-    int LowerQuarkCut() const {
+    Momentum LowerQuarkCut() const {
         return LowerPtCut() * 0.9;
     }
 
-    int UpperQuarkCut() const {
+    Momentum UpperQuarkCut() const {
         return UpperPtCut() * 1.1;
     }
 
@@ -110,12 +110,11 @@ protected:
     }
 
     std::string FileName(Process process) const {
-        return Name(process) + "_" + std::to_string(MadGraphCut()) + "GeV";
+        return Name(process) + "_" + boca::Name(MadGraphCut()) + "";
     }
 
-    std::string FilePath() const
-    {
-      return this->working_path_ + "../";
+    std::string FilePath() const {
+        return this->working_path_ + "../";
     }
 
 };

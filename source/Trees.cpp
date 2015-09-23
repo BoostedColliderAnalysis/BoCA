@@ -50,7 +50,7 @@ void Trees::UseBranches(File& file, std::string const& name)
     clones_arrays_.UseBranches(tree_reader_);
     info_branch_ = FillInfoBranch(file);
 }
-void Trees::NewEvent(int mass)
+void Trees::NewEvent(Mass const& mass)
 {
     tree_reader_.ReadEntry(entry);
     event_.NewEvent(clones_arrays_);
@@ -70,9 +70,9 @@ void Trees::SaveAnalysis(int object_number)
 InfoBranch Trees::FillInfoBranch(const File& file)
 {
     InfoBranch info_branch;
-    info_branch.Crosssection = file.crosssection() / femto_barn;
-    info_branch.CrosssectionError = file.crosssection_error() / femto_barn;
-    info_branch.Mass = file.mass();
+    info_branch.Crosssection = file.crosssection() / fb;
+    info_branch.CrosssectionError = file.crosssection_error() / fb;
+    info_branch.Mass = file.mass() / GeV;
     //         info_branch.EventNumber = std::min((long)tree_reader.GetEntries(), event_number_max);
     //         info_branch.EventNumber = event_number_2_;
     info_branch.Name = file.nice_name();

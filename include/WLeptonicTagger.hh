@@ -47,7 +47,7 @@ private:
 
     std::vector<Doublet> GetNeutrino(Doublet const& doublet, Jets const& Neutrinos, const Tag Tag) const;
 
-    float w_mass_window_ = 20;
+    Mass w_mass_window_;
 
 };
 

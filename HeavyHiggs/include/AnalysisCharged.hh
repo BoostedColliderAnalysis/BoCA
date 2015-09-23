@@ -41,67 +41,47 @@ public:
     }
 
     std::string ProjectName() const final {
-        return  ProcessName() + "-" + Name(this->collider_type()) + "-" + std::to_string(this->PreCut()) + "GeV-" + std::to_string(this->Mass()) + "GeV";
+        return  ProcessName() + "-" + Name(this->collider_type()) + "-" + boca::Name(this->PreCut()) + "-" + boca::Name(this->Mass()) + "";
     }
 
 private:
 
     Crosssection SignalCrosssection() const {
-        Crosssection crosssection(1. * pico * barn);
         switch (this->collider_type()) {
         case Collider::LHC:
             switch (this->Mass()) {
-            case 500:
-                return crosssection * 3.0495761279999996;
-            case 1000:
-                return crosssection * 0.22623192864;
-            case 2000:
-                return crosssection * 0.005720855039999999;
-            case 3000:
-                return crosssection * 0.0003035467008;
-            case 4000:
-                return crosssection * 0.000020556093312;
+            case 500 : return 3.0495761279999996 * pb;
+            case 1000 : return 0.22623192864 * pb;
+            case 2000 : return 0.005720855039999999 * pb;
+            case 3000 : return 0.0003035467008 * pb;
+            case 4000 : return 0.000020556093312 * pb;
             default:
 //                 Error("Signal Crosssection", "unhandled case");
-                return crosssection;
+                return pb;
             } ;
         case Collider::LE:
             switch (this->Mass()) {
-            case 500:
-                return crosssection * 247.86995327999998;
-            case 700:
-                return crosssection * 109.26120959999999;
-            case 1000:
-                return crosssection * 39.81212064;
-            case 1500:
-                return crosssection * 10.639675008;
-            case 2000:
-                return crosssection * 3.8189750399999998;
-            case 3000:
-                return crosssection * 0.7737415487999998;
-            case 4000:
-                return crosssection * 0.22421177856;
-            case 5000:
-                return crosssection * 0.07985005056;
-            case 6000:
-                return crosssection * 0.03297554496;
-            case 8000:
-                return crosssection * 0.007364981375999998;
-            case 10000:
-                return crosssection * 0.0020553163775999996;
-            case 12000:
-                return crosssection * 0.0006632091647999999;
-            case 15000:
-                return crosssection * 0.00014951794176;
-            case 20000:
-                return crosssection * 0.000016388469792;
+            case 500 : return 247.86995327999998 * pb;
+            case 700 : return 109.26120959999999 * pb;
+            case 1000 : return 39.81212064 * pb;
+            case 1500 : return 10.639675008 * pb;
+            case 2000 : return 3.8189750399999998 * pb;
+            case 3000 : return 0.7737415487999998 * pb;
+            case 4000 : return 0.22421177856 * pb;
+            case 5000 : return 0.07985005056 * pb;
+            case 6000 : return 0.03297554496 * pb;
+            case 8000 : return 0.007364981375999998 * pb;
+            case 10000 : return 0.0020553163775999996 * pb;
+            case 12000 : return 0.0006632091647999999 * pb;
+            case 15000 : return 0.00014951794176 * pb;
+            case 20000 : return 0.000016388469792 * pb;
             default:
 //                 Error("Signal Crosssection", "unhandled case");
-                return crosssection;
+                return pb;
             }
         default:
 //             Error("Signal Crosssection", "unhandled case");
-            return crosssection;
+            return pb;
         }
     }
 
@@ -115,20 +95,20 @@ private:
             //       if (PreCut() > 0)
 //             Error("Not enough bottom quarks", Quarks.size());
             return 0;
-        } else if (Quarks.front().pt() < this->PreCut())
+        } else if (Quarks.front().pt() < this->PreCut() / GeV)
             return 0;
         Jets TopQuarks = fastjet::sorted_by_pt(CopyIfParticle(Particles, Id::top));
         if (TopQuarks.size() != 2) {
 //             Error("Not enough top quarks", TopQuarks.size());
             return 0;
-        } else if (TopQuarks.front().pt() < this->PreCut())
+        } else if (TopQuarks.front().pt() < this->PreCut() / GeV)
             return 0;
-        if (event.Hadrons().MissingEt().pt() < this->MissingEt())
+        if (event.Hadrons().MissingEt().pt() < this->MissingEt() / GeV)
             return 0;
         Jets Leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
         if (Leptons.empty())
             return 0;
-        if (Leptons.front().pt() < this->LeptonPt())
+        if (Leptons.front().pt() < this->LeptonPt() / GeV)
             return 0;
         Jets jets = event.Hadrons().Jets();
         if (jets.size() < 4)
@@ -170,24 +150,23 @@ private:
     }
 
     Crosssection BackgroundCrosssection(Process) const {
-        Crosssection crosssection(2. * pico * barn);
         switch (this->collider_type()) {
         case Collider::LHC :
             switch (this->PreCut()) {
-            case 0 : return crosssection * 97.54;
-            case 250 : return crosssection * 4.206;
+            case 0 : return 97.54 * 2 * pb;
+            case 250 : return 4.206 * 2 * pb;
             }
         case Collider::LE: {
             switch (this->PreCut()) {
-            case 0 : return crosssection * 3564.;
-            case 300 : return crosssection * 187.3;
-            case 1500 : return crosssection * 0.447;
-            case 2500 : return crosssection * 0.0442;
+            case 0 : return 3564. * 2 * pb;
+            case 300 : return 187.3 * 2 * pb;
+            case 1500 : return 0.447 * 2 * pb;
+            case 2500 : return 0.0442 * 2 * pb;
             }
         }
         default :
 //             Error("unhandled case");
-            return crosssection;
+            return pb;
         }
     }
 
