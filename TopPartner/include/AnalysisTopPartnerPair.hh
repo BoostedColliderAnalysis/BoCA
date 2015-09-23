@@ -29,14 +29,17 @@ public:
 protected:
 
     std::string ProjectName() const final {
-        return ProcessName() + "-" + boca::Name(this->PreCut()) + "-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass()) + "-2bg";
+        Info();
+        return ProcessName() + "-" + boca::Name(this->PreCut()) + "-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass()) + "-unit";
     }
 
     std::string ProcessName() const final {
+        Info();
         return "Naturalness-Pair";
     }
 
     void SetFiles(Tag tag) final {
+        Info();
         switch (tag) {
         case Tag::signal :
             this->NewFile(tag, Process::TT);
@@ -52,6 +55,7 @@ protected:
 private:
 
     int PassPreCut(Event const&, Tag) const final {
+        Info();
 //         Jets particles = event.Partons().GenParticles();
 //         particles = RemoveIfSoft(particles, this->PreCut());
 //         Jets tops = CopyIfParticle(particles, Id::top);

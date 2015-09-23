@@ -3,6 +3,7 @@
 #include "Analysis.hh"
 #include "Vector.hh"
 #include "Units.hh"
+// #define INFORMATION
 #include "Debug.hh"
 
 namespace boca
@@ -28,14 +29,31 @@ enum class Process
 
 std::string Name(Process process)
 {
+    Info();
     switch (process) {
     case Process::Tth : return "Tth";
     case Process::TT : return "TT";
-    case Process::ttBjj : return "ttBjj";
+    case Process::ttBjj : return "ttBJJ";
     case Process::tthBjj : return "tthBjj";
     case Process::ttBBjj : return "ttBBjj";
     case Process::ttBB : return "ttBB";
     case Process::TThh : return "TThh";
+    }
+}
+
+bool MassDependent(Process process)
+{
+    Info();
+    switch (process) {
+    case Process::Tth : return true;
+    case Process::TT : return true;
+    case Process::ttBjj : return false;
+    case Process::tthBjj : return false;
+    case Process::ttBBjj : return false;
+    case Process::ttBB : return false;
+    case Process::TThh : return true;
+    default : Error("wrong process");
+        return false;
     }
 }
 
@@ -58,6 +76,7 @@ public:
 protected:
 
     boca::Mass Mass() const {
+        Info();
         return 2000. * GeV;
         return 4000. * GeV;
         return 6000. * GeV;
@@ -70,6 +89,7 @@ protected:
     }
 
     long EventNumberMax() const override {
+        Info();
         return 1000;
         return 100;
         return 5000;
@@ -80,16 +100,19 @@ protected:
 protected:
 
     Momentum PreCut() const {
+        Info();
         return 0. * GeV;
         return 200. * GeV;
     }
 
     Momentum JetPreCut() const {
+        Info();
         return 0. * GeV;
         return 100. * GeV;
     }
 
     boca::Crosssection Crosssection(Process process) const {
+        Info();
         switch (DetectorGeometry::detector_type()) {
         case DetectorType::CMS : {
             switch (process) {
@@ -171,57 +194,16 @@ protected:
         }
     }
 
-    std::string Name(Process process) const {
-        std::string name;
-        switch (process) {
-        case Process::TT : {
-            switch (DetectorGeometry::detector_type()) {
-            case DetectorType::CMS : return "PP-TT-14TeV-" + boca::Name(Mass()) + "";
-            case DetectorType::Spp : return "PP-TT-100TeV-" + boca::Name(Mass()) + "";
-            default : Error("wrong detector type");
-            }
-        }
-        case Process::ttBjj : {
-            switch (DetectorGeometry::detector_type()) {
-            case DetectorType::CMS : return "PP-ttBJJ-14TeV";
-            case DetectorType::Spp : return "PP-ttBJJ-100TeV";
-            default : Error("wrong detector type");
-            }
-        }
-        case Process::tthBjj : {
-            return "PP-tthB";
-            switch (Int(PreCut())) {
-            case 0 : return name + "-0GeV";
-            case 200 : return name + "-200GeV";
-            default : Error("wrong pre cut");
-            }
-        }
-        case Process::Tth : {
-            switch (DetectorGeometry::detector_type()) {
-            case DetectorType::CMS : return "PP-Tth-14TeV-" + boca::Name(Mass()) + "";
-            case DetectorType::Spp : return "PP-Tth-100TeV-" + boca::Name(Mass()) + "";
-            default : Error("wrong detector type");
-            }
-        }
-        case Process::TThh : {
-            switch (DetectorGeometry::detector_type()) {
-            case DetectorType::CMS : return "PP-TThh-14TeV-" + boca::Name(Mass()) + "";
-            case DetectorType::Spp : return "PP-TThh-100TeV-" + boca::Name(Mass()) + "";
-            default : Error("wrong detector type");
-            }
-        }
-        case Process::ttBB :
-            switch (DetectorGeometry::detector_type()) {
-            case DetectorType::CMS : return "PP-ttBB-14TeV";
-            case DetectorType::Spp : return "PP-ttBB-100TeV";
-            default : Error("wrong detector type");
-            }
-        default : Error("wrong process");
-        }
-        return "";
+    std::string Names(Process process) const {
+        Info();
+        std::string name = "PP-" + Name(process) + "-" + boca::Name(DetectorGeometry::detector_type());
+        if (MassDependent(process)) name += "-" + boca::Name(Mass());
+        std::cout << name << std::endl;
+        return name;
     }
 
     std::string NiceName(Process process) const {
+        Info();
         switch (process) {
         case Process::TT : return "#tilde t_{h}#tilde t_{l}";
         case Process::ttBjj : return "t_{l}t_{h}B^{0}jj";
@@ -235,7 +217,8 @@ protected:
     }
 
     void NewFile(Tag tag, Process process) {
-        AnalysisBase::NewFile(tag, this->Name(process), this->Crosssection(process), this->NiceName(process), Mass());
+        Info();
+        AnalysisBase::NewFile(tag, this->Names(process), this->Crosssection(process), this->NiceName(process), Mass());
     }
 
 };

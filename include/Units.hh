@@ -94,6 +94,7 @@ BOOST_UNITS_STATIC_CONSTANT(ElectronVolts, electronvolt::energy);
 // quantity
 typedef boost::units::quantity<electronvolt::energy> Mass;
 typedef boost::units::quantity<electronvolt::energy> Momentum;
+typedef boost::units::quantity<electronvolt::energy> Energy;
 std::string Name(boost::units::quantity<electronvolt::energy> energy);
 int Int(boost::units::quantity<electronvolt::energy> energy);
 int Float(boost::units::quantity<electronvolt::energy> energy);

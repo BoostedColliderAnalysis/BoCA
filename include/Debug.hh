@@ -6,7 +6,9 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <iomanip>
 #include <iostream>
+#include <boost/units/systems/si/io.hpp>
 
 namespace fastjet
 {
@@ -39,15 +41,11 @@ std::string FunctionName(std::string const& pretty_function);
 
 std::string FileName(std::string const& file);
 
-std::string Left(int width);
-
-std::string Right(int width);
-
 template<typename Value>
 std::string Column(int width, Value const& message)
 {
     std::stringstream stream;
-    stream  << Left(width) << message;
+    stream  << boost::units::engineering_prefix << std::left << std::setw(width) << std::setfill(' ') << message;
     return stream.str();
 }
 
@@ -55,7 +53,7 @@ template<typename Value>
 std::string ColumnRight(int width, Value const& message)
 {
     std::stringstream stream;
-    stream  << Right(width) << message;
+    stream  << boost::units::engineering_prefix << std::right << std::setw(width) << std::setfill(' ') << message;
     return stream.str();
 }
 

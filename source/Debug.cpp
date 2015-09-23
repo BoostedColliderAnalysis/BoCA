@@ -72,16 +72,16 @@ void LogVariable(const std::string&, char const* value)
     std::cout << Column(ValueLength(), value);
 }
 
-std::string Left(int width){
-  std::stringstream stream;
-  stream  << boost::units::engineering_prefix << std::left << std::setw(width) << std::setfill(' ');
-  return stream.str();
-}
-
-std::string Right(int width){
-  std::stringstream stream;
-  stream  << boost::units::engineering_prefix << std::right << std::setw(width) << std::setfill(' ');
-  return stream.str();
-}
+// std::stringstream Left(int width){
+//   std::stringstream stream;
+//   stream  << boost::units::engineering_prefix << std::left << std::setw(width) << std::setfill(' ');
+//   return stream;
+// }
+//
+// std::stringstream Right(int width){
+//   std::stringstream stream;
+//   stream  << boost::units::engineering_prefix << std::right << std::setw(width) << std::setfill(' ');
+//   return stream;
+// }
 
 }
