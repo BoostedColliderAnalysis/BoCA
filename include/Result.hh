@@ -95,8 +95,8 @@ public:
     void Significances();
     void BestBin();
     static float XValue(int value);
-    float BestModelDependentXValue() const;
-    float BestModelInDependentXValue() const;
+//     float BestModelDependentXValue() const;
+//     float BestModelInDependentXValue() const;
     void ExtremeXValues();
     std::vector<Result> signals;
     std::vector<Result> backgrounds;

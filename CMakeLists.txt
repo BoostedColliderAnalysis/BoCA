@@ -10,7 +10,7 @@ include(CMakeFiles/CMakeConfig.cmake)
 
 # set build type to debug
 if( NOT CMAKE_BUILD_TYPE )
-set( CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel." FORCE )
+set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel." FORCE )
 endif()
 
 # set c++ flags
@@ -46,7 +46,7 @@ add_libraries(${THEPEG_LIBRARY})
 
 # Doxygen
 if(CMAKE_BUILD_TYPE MATCHES "Release")
-#include(CMakeFiles/UseDoxygen.cmake)
+include(CMakeFiles/UseDoxygen.cmake)
 endif()
 
 # Libraries
@@ -57,8 +57,3 @@ add_subdirectory(PairTagger)
 add_subdirectory(HiggsCpv)
 add_subdirectory(HeavyHiggs)
 add_subdirectory(TopPartner)
-
-# Doxygen
-if(CMAKE_BUILD_TYPE MATCHES "Release")
-include(CMakeFiles/UseDoxygen.cmake)
-endif()

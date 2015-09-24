@@ -142,17 +142,17 @@ void Results::ExtremeXValues()
     }
 }
 
-float Results::BestModelDependentXValue() const
-{
-    Info();
-    return XValue(best_model_dependent_bin);
-}
-
-float Results::BestModelInDependentXValue() const
-{
-    Info();
-    return XValue(best_model_independent_bin);
-}
+// float Results::BestModelDependentXValue() const
+// {
+//     Info();
+//     return XValue(best_model_dependent_bin);
+// }
+//
+// float Results::BestModelInDependentXValue() const
+// {
+//     Info();
+//     return XValue(best_model_independent_bin);
+// }
 
 int ColorCode(int number)
 {

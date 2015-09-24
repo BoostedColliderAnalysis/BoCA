@@ -136,6 +136,8 @@ private:
 
     std::string BestValueTable(Results const& results) const;
 
+    std::string BestValueRow(Results const& results, int bin, std::string const& name) const;
+
     std::string EfficienciesTable(Results const& results, int bin) const;
 
     std::string EfficienciesRow(const boca::Result& result, int index, boca::Tag tag, int bin) const;

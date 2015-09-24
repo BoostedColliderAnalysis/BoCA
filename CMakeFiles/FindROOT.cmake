@@ -162,3 +162,16 @@ macro(generate_dictionary infiles linkdef_file outfile include_dirs_in)
     endif()
   endif()
 endmacro(generate_dictionary)
+
+#this doesnt work
+get_filename_component(executble_path ${config_executable} DIRECTORY)
+message(${executble_path}/thisroot.sh)
+add_custom_command(
+    OUTPUT SYMBOLIC
+    COMMAND export PATH=$ROOTSYS/bin:/usr/bin:$PATH
+    COMMAND export LD_LIBRARY_PATH=$ROOTSYS/lib:$LD_LIBRARY_PATH
+    COMMAND source ${executble_path}/thisroot.sh
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    VERBATIM
+    COMMENT "we are sourcing root!!!!!!!!!!!!!!!!!!!!!!"
+)

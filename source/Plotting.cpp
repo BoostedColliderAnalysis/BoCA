@@ -426,16 +426,27 @@ std::string Plotting::BestValueTable(Results const& results) const
     std::stringstream table;
     table << "    Model\n  & Cut\n  & $p$-value\n  & Crosssection [fb]";
     table << "\n \\\\ \\midrule\n";
-    table << "    Dependet\n  & " << RoundToDigits(results.BestModelDependentXValue()) << "\n  & " << RoundToDigits(results.significances.at(results.best_model_dependent_bin)) << "\n  & " << RoundToDigits(results.crosssections.at(results.best_model_dependent_bin)) << "\n";
-    table << " \\\\ Independet\n  & " << RoundToDigits(results.BestModelInDependentXValue()) << "\n  & " << RoundToDigits(results.significances.at(results.best_model_independent_bin)) << "\n  & " << RoundToDigits(results.crosssections.at(results.best_model_independent_bin)) << "\n \\\\";
+    table << BestValueRow(results, results.best_model_dependent_bin, "Dependet");
+    table << BestValueRow(results, results.best_model_independent_bin, "Independet");
     return table.str();
+}
+
+std::string Plotting::BestValueRow(Results const& results, int bin, std::string const& name) const
+{
+    std::stringstream row;
+    row << "    " << name
+        << "\n  & " << RoundToDigits(results.XValue(bin))
+        << "\n  & " << RoundToDigits(results.significances.at(bin))
+        << "\n  & " << RoundToDigits(results.crosssections.at(bin))
+        << "\n \\\\";
+    return row.str();
 }
 
 std::string Plotting::EfficienciesTable(Results const& results, int bin) const
 {
     Info();
     std::stringstream table;
-    table << "    Sample\n  & before\n  & after\n  & Efficiency\n  & $\\sigma$  [fb]\n  & $N_{\\mathcal L = \\unit[" << DetectorGeometry::Luminosity() << "]{fb^{-1}}}$";
+    table << "    Sample\n  & before\n  & after\n  & Efficiency\n  & $\\sigma$  [fb]\n  & $N_{\\mathcal L = \\unit[" << DetectorGeometry::Luminosity() * fb << "]{fb^{-1}}}$";
     table << "\n \\\\ \\midrule\n   ";
     for (auto const & result : results.signals) table << EfficienciesRow(result, &result - &results.signals.front(), Tag::signal, bin);
     for (auto const & result : results.backgrounds) table << EfficienciesRow(result, &result - &results.backgrounds.front(), Tag::background, bin);

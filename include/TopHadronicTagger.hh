@@ -62,9 +62,9 @@ private:
 
     std::vector<boca::Triplet>  Multiplets(Doublet const& doublet, Jets const& jets, Jets const& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    boca::Triplet Multiplet(Doublet const& doublet, fastjet::PseudoJet const& jet, Jets const& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader, bool check_overlap = false) const;
+    boca::Triplet Multiplet(Doublet const& doublet, fastjet::PseudoJet const& jet, Jets const& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader, bool& failure, bool check_overlap = false) const;
 
-    boca::Triplet Multiplet(boca::Triplet& triplet, Jets const& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
+    boca::Triplet Multiplet(boca::Triplet& triplet, Jets const& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader, bool& failure) const;
 
     bool Problematic(boca::Triplet const& triplet, PreCuts const& pre_cuts, Tag tag) const;
 

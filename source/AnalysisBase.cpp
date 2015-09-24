@@ -15,6 +15,7 @@
 #include "Plotting.hh"
 #include "Event.hh"
 #include "Trainer.hh"
+// #define INFORMATION
 #include "Debug.hh"
 
 namespace boca
@@ -43,6 +44,7 @@ std::vector<File> AnalysisBase::files(Tag tag)
 
 void AnalysisBase::PrepareFiles()
 {
+    Info();
     files_.clear();
     tagger().ClearTreeNames();
     SetFiles(Tag::signal);
@@ -51,16 +53,19 @@ void AnalysisBase::PrepareFiles()
 
 std::string AnalysisBase::ProjectName() const
 {
+    Info();
     return "ProjectName";
 }
 
 long AnalysisBase::EventNumberMax() const
 {
+    Info();
     return 100000;
 }
 
 std::string AnalysisBase::ProcessName() const
 {
+    Info();
     return "Process";
 }
 
@@ -94,11 +99,13 @@ void AnalysisBase::NewFile(Tag tag, std::string const& name, std::string const& 
 
 File AnalysisBase::File(Strings const& names, std::string const& nice_name) const
 {
+    Info();
     return boca::File(names, FilePath(), FileSuffix(), nice_name);
 }
 
 File AnalysisBase::File(const boca::Strings& names, boca::Crosssection crosssection, std::string const& nice_name, boca::Mass mass) const
 {
+    Info();
     return boca::File(names, FilePath(), FileSuffix(), nice_name, crosssection, mass);
 }
 
@@ -109,78 +116,92 @@ std::string AnalysisBase::FileName(std::string const&) const
 
 std::string AnalysisBase::TreeName(std::string const& name) const
 {
+    Info();
     return name + "-run_01";
 }
 
 PreCuts const& AnalysisBase::pre_cuts() const
 {
+    Info();
     return pre_cuts_;
 }
 
 PreCuts& AnalysisBase::pre_cuts()
 {
+    Info();
     return pre_cuts_;
 }
 
 std::string AnalysisBase::FileSuffix() const
 {
+    Info();
     return ".root";
 }
 
 std::string AnalysisBase::FilePath() const
 {
+    Info();
     return working_path_;
 }
 
 int AnalysisBase::BackgroundFileNumber() const
 {
+    Info();
 //     return configuration_.BackgroundFileNumber();
     return 1;
 }
 
 Momentum AnalysisBase::PreCut() const
 {
+    Info();
 //     return configuration_.PreCut();
     return 0;
 }
 
 boca::Mass AnalysisBase::Mass() const
 {
+    Info();
 //     return configuration_.Mass();
     return 1.*GeV;
 }
 
 void AnalysisBase::RunFast()
 {
+    Info();
     RunTagger(Stage::trainer);
     RunTrainer();
 }
 
 void AnalysisBase::RunNormal()
 {
+    Info();
     RunFast();
     RunTagger(Stage::reader);
 }
 
 void AnalysisBase::RunFullSignificance()
 {
+    Info();
     RunNormal();
     RunSignificance();
 }
 
 void AnalysisBase::ClearFiles()
 {
+    Info();
     files_.clear();
 }
 
 void AnalysisBase::RunFullEfficiency()
 {
+    Info();
     RunNormal();
     RunEfficiency();
 }
 
 void AnalysisBase::RunTagger(Stage stage)
 {
+    Info();
     if (!Exists(tagger().FileName(stage, Tag::signal))) {
         AnalysisLoop(stage);
     }
@@ -188,6 +209,7 @@ void AnalysisBase::RunTagger(Stage stage)
 
 void AnalysisBase::RunTrainer()
 {
+    Info();
     PrepareFiles();
     TMVA::Types::EMVA mva = TMVA::Types::EMVA::kBDT;
     if (!Exists(tagger().WeightFileName(mva))) {
@@ -202,6 +224,7 @@ void AnalysisBase::RunTrainer()
 
 void AnalysisBase::RunSignificance()
 {
+    Info();
     PrepareFiles();
     if (!Exists(tagger().ExportFileName())) {
         Plotting plotting(tagger());
@@ -211,6 +234,7 @@ void AnalysisBase::RunSignificance()
 
 void AnalysisBase::RunEfficiency()
 {
+    Info();
     PrepareFiles();
     if (!Exists(tagger().ExportFileName())) {
         Plotting plotting(tagger());
@@ -220,6 +244,7 @@ void AnalysisBase::RunEfficiency()
 
 void AnalysisBase::RunPlots()
 {
+    Info();
     PrepareFiles();
     if (!Exists(tagger().ExportFolderName())) {
         Plotting plotting(tagger());
@@ -229,6 +254,7 @@ void AnalysisBase::RunPlots()
 
 std::string AnalysisBase::WorkingPath()
 {
+    Info();
     int path_length_max = 200;
     char temp [ path_length_max ];
     if (getcwd(temp, path_length_max) != 0) {
