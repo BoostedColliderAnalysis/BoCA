@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "Analysis.hh"
@@ -27,35 +30,11 @@ enum class Process
     TThh
 };
 
-std::string Name(Process process)
-{
-    Info();
-    switch (process) {
-    case Process::Tth : return "Tth";
-    case Process::TT : return "TT";
-    case Process::ttBjj : return "ttBJJ";
-    case Process::tthBjj : return "tthBjj";
-    case Process::ttBBjj : return "ttBBjj";
-    case Process::ttBB : return "ttBB";
-    case Process::TThh : return "TThh";
-    }
-}
+std::string Name(Process process);
 
-bool MassDependent(Process process)
-{
-    Info();
-    switch (process) {
-    case Process::Tth : return true;
-    case Process::TT : return true;
-    case Process::ttBjj : return false;
-    case Process::tthBjj : return false;
-    case Process::ttBBjj : return false;
-    case Process::ttBB : return false;
-    case Process::TThh : return true;
-    default : Error("wrong process");
-        return false;
-    }
-}
+std::string NiceName(Process process);
+
+bool MassDependent(Process process);
 
 /**
  *
@@ -198,27 +177,12 @@ protected:
         Info();
         std::string name = "PP-" + Name(process) + "-" + boca::Name(DetectorGeometry::detector_type());
         if (MassDependent(process)) name += "-" + boca::Name(Mass());
-        std::cout << name << std::endl;
         return name;
-    }
-
-    std::string NiceName(Process process) const {
-        Info();
-        switch (process) {
-        case Process::TT : return "#tilde t_{h}#tilde t_{l}";
-        case Process::ttBjj : return "t_{l}t_{h}B^{0}jj";
-        case Process::tthBjj : return "t_{l}t_{h}hB^{0}jj";
-        case Process::Tth : return "#tilde t_{l}t_{h}h";
-        case Process::TThh : return "#tilde t_{l}#tilde t_{h}hh";
-        case Process::ttBB : return "t_{l}t_{h}B^{0}B^{0}";
-        default: Error("no case");
-        }
-        return "";
     }
 
     void NewFile(Tag tag, Process process) {
         Info();
-        AnalysisBase::NewFile(tag, this->Names(process), this->Crosssection(process), this->NiceName(process), Mass());
+        AnalysisBase::NewFile(tag, this->Names(process), this->Crosssection(process), NiceName(process), Mass());
     }
 
 };

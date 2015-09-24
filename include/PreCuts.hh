@@ -46,15 +46,16 @@ public:
 
 private:
 
-    std::map<Id, Momentum> pt_lower_cut_;
+    // these members are mutable as the try/catch blocks are called way too often without stroring these negative results
+    mutable std::map<Id, Momentum> pt_lower_cut_;
 
-    std::map<Id, Momentum> pt_upper_cut_;
+    mutable std::map<Id, Momentum> pt_upper_cut_;
 
-    std::map<Id, Mass> mass_lower_cut_;
+    mutable std::map<Id, Mass> mass_lower_cut_;
 
-    std::map<Id, Mass> mass_upper_cut_;
+    mutable std::map<Id, Mass> mass_upper_cut_;
 
-    std::map<Id, float> tracker_eta_upper_cut_;
+    mutable std::map<Id, float> tracker_eta_upper_cut_;
 
     bool do_sub_jets_ = true;
 

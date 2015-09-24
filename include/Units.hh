@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 // scale for prefixes
@@ -30,6 +33,7 @@ namespace boca
 {
 
 // redefine prefixes in boca namespace
+// TODO find a way to import the prefixes into boca namespace without reimplementing them or including their full namespace
 #define BOOST_UNITS_METRIC_PREFIX_2(exponent, name) \
     typedef boost::units::make_scaled_unit<boost::units::si::dimensionless, boost::units::scale<10, boost::units::static_rational<exponent> > >::type name ## _type;\
     BOOST_UNITS_STATIC_CONSTANT(name, name ## _type)
@@ -58,7 +62,6 @@ BOOST_UNITS_METRIC_PREFIX_2(24, yotta);
 namespace electronvolt
 {
 
-// base dimension
 struct energy_base_dimension : boost::units::base_dimension<energy_base_dimension, 1> {};
 
 #if BOOST_UNITS_HAS_BOOST_TYPEOF
@@ -67,9 +70,6 @@ BOOST_TYPEOF_REGISTER_TYPE(boca::energy_base_dimension)
 #endif
 
 typedef energy_base_dimension::dimension_type energy_dimension;
-
-// base unit
-
 struct energy_base_unit : public boost::units::base_unit<energy_base_unit, energy_dimension, 100> {
     static std::string name();
     static std::string symbol();
@@ -80,63 +80,85 @@ struct energy_base_unit : public boost::units::base_unit<energy_base_unit, energ
 BOOST_TYPEOF_REGISTER_TYPE(boca::energy_base_unit)
 #endif
 
-// system
 typedef boost::units::make_system <energy_base_unit>::type system;
 typedef boost::units::unit<boost::units::dimensionless_type, system> dimensionless;
-
-// unit
 typedef boost::units::unit<energy_dimension, system> energy;
-
 }
 
 BOOST_UNITS_STATIC_CONSTANT(ElectronVolt, electronvolt::energy);
 BOOST_UNITS_STATIC_CONSTANT(ElectronVolts, electronvolt::energy);
-// quantity
+
+/**
+ * @brief Mass measured in electronvolt
+ *
+ */
 typedef boost::units::quantity<electronvolt::energy> Mass;
+
+/**
+ * @brief Momentum measured in electronvolt
+ *
+ */
 typedef boost::units::quantity<electronvolt::energy> Momentum;
+
+/**
+ * @brief Energy measured in electronvolt
+ *
+ */
 typedef boost::units::quantity<electronvolt::energy> Energy;
 std::string Name(boost::units::quantity<electronvolt::energy> energy);
 int Int(boost::units::quantity<electronvolt::energy> energy);
 int Float(boost::units::quantity<electronvolt::energy> energy);
 
 /**
- * @brief One giga electronvolt
+ * @brief giga electronvolt
  *
  */
-static const boost::units::quantity<electronvolt::energy> GeV(1. * giga* ElectronVolt);
-static const boost::units::quantity<electronvolt::energy> at_rest(0. * ElectronVolt);
-static const boost::units::quantity<electronvolt::energy> massless(0. * ElectronVolt);
+static const boost::units::quantity<electronvolt::energy> GeV(1. * giga * ElectronVolt);
+
+/**
+ * @brief Tera electronvolt
+ *
+ */
+static const boost::units::quantity<electronvolt::energy> TeV(1. * tera * ElectronVolt);
+static const Momentum at_rest(0. * ElectronVolt);
+static const Mass massless(0. * ElectronVolt);
 
 namespace barn
 {
-
-// system
 typedef boost::units::make_system<boost::units::metric::barn_base_unit>::type system;
 typedef boost::units::unit<boost::units::dimensionless_type, system> dimensionless;
-// unit
 typedef boost::units::unit<boost::units::area_dimension, system> area;
 typedef boost::units::derived_dimension < boost::units::length_base_dimension, -2 >::type luminosity_dimension;
-typedef boost::units::unit<luminosity_dimension, system> inv_barn_area;
+typedef boost::units::unit<luminosity_dimension, system> luminosity;
 
 }
 
-// quantity
-typedef boost::units::quantity<barn::area> Crosssection;
-typedef boost::units::quantity<barn::inv_barn_area> Luminosity;
-
 BOOST_UNITS_STATIC_CONSTANT(Barn, barn::area);
 BOOST_UNITS_STATIC_CONSTANT(Barns, barn::area);
-/**
- * @brief One femto barn
- *
- */
-static const Crosssection fb(1. * femto* Barn);
 
 /**
- * @brief One pico barn
+ * @brief Crosssection measured in barn
  *
  */
-static const Crosssection pb(1. * pico* Barn);
+typedef boost::units::quantity<barn::area> Crosssection;
+
+/**
+ * @brief Luminosity measured in 1 / barn
+ *
+ */
+typedef boost::units::quantity<barn::luminosity> Luminosity;
+
+/**
+ * @brief femto barn
+ *
+ */
+static const Crosssection fb(1. * femto * Barn);
+
+/**
+ * @brief pico barn
+ *
+ */
+static const Crosssection pb(1. * pico * Barn);
 
 }
 

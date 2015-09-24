@@ -67,7 +67,7 @@ void LogVariable(std::string const& variable, fastjet::PseudoJet const& jet)
     std::cout << Column(ValueLength(), variable) << Column(ValueLength(), jet.px()) << Column(ValueLength(), jet.py()) << Column(ValueLength(), jet.pz()) << Column(ValueLength(), jet.e());
 }
 
-void LogVariable(const std::string&, char const* value)
+void LogVariable(std::string const&, char const* value)
 {
     std::cout << Column(ValueLength(), value);
 }

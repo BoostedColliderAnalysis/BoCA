@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "AnalysisTopPartner.hh"
@@ -30,7 +33,7 @@ protected:
 
     std::string ProjectName() const final {
         Info();
-        return ProcessName() + "-" + boca::Name(this->PreCut()) + "-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass()) + "-unit";
+        return ProcessName() + "-" + boca::Name(this->PreCut()) + "-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass()) + "-unit2";
     }
 
     std::string ProcessName() const final {

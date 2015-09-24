@@ -62,10 +62,8 @@ protected:
 
     virtual std::string ProcessName() const;
 
-    // in GeV
     boca::Mass Mass() const;
 
-    // in GeV
     Momentum PreCut() const;
 
     //      int EventNumberMax() const {

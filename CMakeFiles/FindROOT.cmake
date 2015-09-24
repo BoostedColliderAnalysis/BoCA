@@ -13,7 +13,7 @@
 message(STATUS "Looking for Root...")
 
 set(root_config_search_path
-#     /home/hajer/root/bin
+#     /home/hajer/Development/root/Build/bin
 #     ${SIMPATH}/tools/root/bin
 #     $ENV{ROOTSYS}/bin
     /usr/bin

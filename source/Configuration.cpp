@@ -2,8 +2,8 @@
  * Copyright (C) 2015 Jan Hajer
  */
 #include "Configuration.hh"
+#include "Debug.hh"
 
-#include <iostream>
 
 namespace boca {
 
@@ -17,111 +17,73 @@ Configuration::Configuration(std::string const& config_name)
     ReadConfig(config_name);
 }
 
-// in GeV
-int Configuration::Mass() const
-{
-    return mass_;
-}
-
-// in GeV
-int Configuration::PreCut() const
-{
-    return pre_cut_;
-}
-
-int Configuration::EventNumberMax() const
-{
-    return event_number_max_;
-}
-
-int Configuration::BackgroundFileNumber() const
-{
-    return background_file_number_;
-}
-
-ColliderType Configuration::collider_type() const
-{
-    return collider_type_;
-}
-
-// in GeV
-int Configuration::Mass_()
+boca::Mass Configuration::Mass()
 {
     try {
-        mass_ = config().lookup("Mass");
-    } catch (const libconfig::SettingNotFoundException& SettingNotFoundException) {
-        std::cerr << "No 'Mass' setting in configuration file.\n";
+        return double(config().lookup("Mass")) * GeV;
+    } catch (libconfig::SettingNotFoundException const& setting_not_found_exception) {
+        Error("No 'Mass' setting in configuration file");
         throw;
-    } catch (const libconfig::SettingTypeException& SettingTypeException) {
-        std::cerr << "'Mass' setting has wrong type.\n";
+    } catch (libconfig::SettingTypeException const& setting_type_exception) {
+        Error("'Mass' setting has wrong type");
         throw;
     }
-    return mass_;
 }
 
-// in GeV
-int Configuration::PreCut_()
+Momentum Configuration::PreCut()
 {
     try {
-        pre_cut_ = config().lookup("PreCut");
-    } catch (const libconfig::SettingNotFoundException& SettingNotFoundException) {
-        std::cerr << "No 'PreCut' setting in configuration file.\n";
+        return double(config().lookup("PreCut")) * GeV;
+    } catch (libconfig::SettingNotFoundException const& setting_not_found_exception) {
+        Error("No 'PreCut' setting in configuration file");
         throw;
-    } catch (const libconfig::SettingTypeException& SettingTypeException) {
-        std::cerr << "'PreCut' setting has wrong type.\n";
+    } catch (libconfig::SettingTypeException const& setting_type_exception) {
+        Error("'PreCut' setting has wrong type");
         throw;
     }
-    return pre_cut_;
 }
 
-int Configuration::EventNumberMax_()
+long Configuration::EventNumberMax()
 {
     try {
-        event_number_max_ = config().lookup("EventNumberMax");
-    } catch (const libconfig::SettingNotFoundException& SettingNotFoundException) {
-        std::cerr << "No 'EventNumberMax' setting in configuration file.\n";
+        return config().lookup("EventNumberMax");
+    } catch (libconfig::SettingNotFoundException const& setting_not_found_exception) {
+        Error("No 'EventNumberMax' setting in configuration file");
         throw;
-    } catch (const libconfig::SettingTypeException& SettingTypeException) {
-        std::cerr << "'EventNumberMax' setting has wrong type.\n";
+    } catch (libconfig::SettingTypeException const& setting_type_exception) {
+        Error("'EventNumberMax' setting has wrong type");
         throw;
     }
-    return event_number_max_;
 }
 
-int Configuration::BackgroundFileNumber_()
+int Configuration::BackgroundFileNumber()
 {
     try {
-        background_file_number_ = config().lookup("BackgroundFileNumber");
-    } catch (const libconfig::SettingNotFoundException& SettingNotFoundException) {
-        std::cerr << "No 'BackgroundFileNumber' setting in configuration file.\n";
+        return config().lookup("BackgroundFileNumber");
+    } catch (libconfig::SettingNotFoundException const& setting_not_found_exception) {
+        Error("No 'BackgroundFileNumber' setting in configuration file");
         throw;
-    } catch (const libconfig::SettingTypeException& SettingTypeException) {
-        std::cerr << "'BackgroundFileNumber' setting has wrong type.\n";
+    } catch (libconfig::SettingTypeException const& setting_type_exception) {
+        Error("'BackgroundFileNumber' setting has wrong type");
         throw;
     }
-    return background_file_number_;
 }
 
-ColliderType Configuration::ColliderType_()
+ColliderType Configuration::ColliderType()
 {
     try {
         std::string Collider = config().lookup("ColliderType");
-        if (Collider == "LHC")
-          collider_type_ = ColliderType::LHC;
-        else if (Collider == "LE")
-          collider_type_ = ColliderType::LE;
-        else if (Collider == "FHC")
-          collider_type_ = ColliderType::FHC;
-    } catch (const libconfig::SettingNotFoundException& SettingNotFoundException) {
-        std::cerr << "No 'ColliderType' setting in configuration file.\n";
+        if (Collider == "LHC") return boca::ColliderType::LHC;
+        else if (Collider == "LE") return boca::ColliderType::LE;
+        else if (Collider == "FHC") return boca::ColliderType::FHC;
+    } catch (libconfig::SettingNotFoundException const& setting_not_found_exception) {
+        Error("No 'ColliderType' setting in configuration file");
         throw;
-    } catch (const libconfig::SettingTypeException& SettingTypeException) {
-        std::cerr << "'ColliderType' setting has wrong type.\n";
+    } catch (libconfig::SettingTypeException const& setting_type_exception) {
+        Error("'ColliderType' setting has wrong type");
         throw;
     }
-    return ColliderType::LHC;
 }
-
 
 void Configuration::WriteConfig(std::string const& config_name)
 {
@@ -133,9 +95,9 @@ void Configuration::WriteConfig(std::string const& config_name)
     libconfig::Setting& collider_type = root.add("ColliderType",  libconfig::Setting::TypeString) = "LE";
     try {
         config().writeFile(ConfigFile(config_name).c_str());
-        std::cerr << "New configuration successfully written to: " << ConfigFile(config_name) << "\n";
-    } catch (const libconfig::FileIOException& FileIOException) {
-        std::cerr << "I/O error while writing file: " << ConfigFile(config_name) << "\n";
+        Error("New configuration successfully written to", ConfigFile(config_name));
+    } catch (libconfig::FileIOException const& file_io_exception) {
+        Error("I/O error while writing file", ConfigFile(config_name));
     }
 }
 
@@ -143,27 +105,14 @@ void Configuration::ReadConfig(std::string const& config_name)
 {
     try {
         config().readFile(ConfigFile(config_name).c_str());
-    } catch (const libconfig::FileIOException& FileIOException) {
-        std::cerr << "I/O error while reading file.\n";
+    } catch (libconfig::FileIOException const& file_io_exception) {
+        Error("I/O error while reading file");
         WriteConfig(config_name);
     } catch (const libconfig::ParseException& ParseException) {
-        std::cerr << "Parse error at " << ParseException.getFile() << ":" << ParseException.getLine() << " - " << ParseException.getError() << "\n";
+        Error("Parse error at", ParseException.getFile(), ParseException.getLine(), ParseException.getError());
     }
-    Mass_();
-    PreCut_();
-    EventNumberMax_();
-    BackgroundFileNumber_();
-    ColliderType_();
 }
-Configuration& Configuration::operator=(const Configuration& configuration)
-{
-    this->mass_ = configuration.mass_;
-    this->pre_cut_ = configuration.pre_cut_;
-    this->event_number_max_ = configuration.event_number_max_;
-    this->background_file_number_ = configuration.background_file_number_;
-    this->collider_type_ = configuration.collider_type_;
-    return *this;
-}
+
 std::string Configuration::ConfigFile(std::string const& config_name)
 {
     return config_name + ".cfg";

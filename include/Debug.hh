@@ -74,7 +74,7 @@ void LogVariable(std::string const& variable, const std::vector<Value>& values)
     LogVariable(variable, values.size());
 }
 
-void LogVariable(const std::string&, char const* value);
+void LogVariable(std::string const&, char const* value);
 
 void LogVariable(std::string const& variable, fastjet::PseudoJet const& jet);
 

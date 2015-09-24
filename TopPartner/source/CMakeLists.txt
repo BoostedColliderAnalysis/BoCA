@@ -1,6 +1,7 @@
 create_dictionary(BranchTopPartner BranchesTopPartner.cpp ../include/LinkDefTopPartner.hh)
 
 set(AnalysisSources
+AnalysisTopPartner.cpp
 TopPartnerHadronicTagger.cpp
 TopPartnerLeptonicTagger.cpp
 HiggsPairTagger.cpp

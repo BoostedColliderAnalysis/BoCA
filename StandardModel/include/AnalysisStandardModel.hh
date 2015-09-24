@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "Analysis.hh"
@@ -113,7 +116,7 @@ protected:
         return Name(process) + "_" + boca::Name(MadGraphCut()) + "";
     }
 
-    std::string FilePath() const {
+    std::string FilePath() const final {
         return this->working_path_ + "../";
     }
 

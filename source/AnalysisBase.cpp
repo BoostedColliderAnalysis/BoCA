@@ -64,26 +64,30 @@ std::string AnalysisBase::ProcessName() const
     return "Process";
 }
 
-void AnalysisBase::NewFile(boca::Tag tag, const boca::Strings& names, Crosssection crosssection, const std::string& nice_name, boca::Mass mass)
+void AnalysisBase::NewFile(boca::Tag tag, const boca::Strings& names, Crosssection crosssection, std::string const& nice_name, boca::Mass mass)
 {
+    Error(names.front());
     files_.emplace_back(File(names, crosssection, nice_name, mass));
     tagger().AddTreeName(TreeName(names.front()), tag);
 }
 
 void AnalysisBase::NewFile(Tag tag, Strings const& names, std::string const& nice_name)
 {
+    Error(names.front());
     files_.emplace_back(File(names, nice_name));
     tagger().AddTreeName(TreeName(names.front()), tag);
 }
 
-void AnalysisBase::NewFile(boca::Tag tag, const std::string& name, Crosssection crosssection, const std::string& nice_name, boca::Mass mass)
+void AnalysisBase::NewFile(boca::Tag tag, std::string const& name, Crosssection crosssection, std::string const& nice_name, boca::Mass mass)
 {
+    Error(name);
     files_.emplace_back(File( {name}, crosssection, nice_name, mass));
     tagger().AddTreeName(TreeName(name), tag);
 }
 
 void AnalysisBase::NewFile(Tag tag, std::string const& name, std::string const& nice_name)
 {
+    Error(name);
     files_.emplace_back(File( {name}, nice_name));
     tagger().AddTreeName(TreeName(name), tag);
 }
@@ -93,12 +97,12 @@ File AnalysisBase::File(Strings const& names, std::string const& nice_name) cons
     return boca::File(names, FilePath(), FileSuffix(), nice_name);
 }
 
-File AnalysisBase::File(const boca::Strings& names, boca::Crosssection crosssection, const std::string& nice_name, boca::Mass mass) const
+File AnalysisBase::File(const boca::Strings& names, boca::Crosssection crosssection, std::string const& nice_name, boca::Mass mass) const
 {
     return boca::File(names, FilePath(), FileSuffix(), nice_name, crosssection, mass);
 }
 
-std::string AnalysisBase::FileName(const std::string&) const
+std::string AnalysisBase::FileName(std::string const&) const
 {
     return ProcessName() + "_" + Name(PreCut());
 }
@@ -177,7 +181,9 @@ void AnalysisBase::RunFullEfficiency()
 
 void AnalysisBase::RunTagger(Stage stage)
 {
-    if (!Exists(tagger().FileName(stage, Tag::signal))) AnalysisLoop(stage);
+    if (!Exists(tagger().FileName(stage, Tag::signal))) {
+        AnalysisLoop(stage);
+    }
 }
 
 void AnalysisBase::RunTrainer()
@@ -225,7 +231,9 @@ std::string AnalysisBase::WorkingPath()
 {
     int path_length_max = 200;
     char temp [ path_length_max ];
-    if (getcwd(temp, path_length_max) != 0) return std::string(temp) + "/";
+    if (getcwd(temp, path_length_max) != 0) {
+        return std::string(temp) + "/";
+    }
     int error = errno;
     switch (error) {
         // EINVAL can't happen - size argument > 0
