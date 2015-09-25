@@ -83,6 +83,7 @@ ColliderType Configuration::ColliderType()
         Error("'ColliderType' setting has wrong type");
         throw;
     }
+    return boca::ColliderType::LHC;
 }
 
 void Configuration::WriteConfig(std::string const& config_name)

@@ -53,7 +53,7 @@ private:
 
     Reader<BottomTagger> bottom_reader_;
 
-    float higgs_mass_window = 70;
+    Mass higgs_mass_window;
 
 };
 

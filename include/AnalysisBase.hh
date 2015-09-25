@@ -6,6 +6,7 @@
 #include "Tagger.hh"
 #include "Identification.hh"
 #include "PreCuts.hh"
+#include "Flag.hh"
 
 class TFile;
 
@@ -132,6 +133,21 @@ private:
     std::string WorkingPath();
 
 };
+
+enum class Output
+{
+  normal = 0,
+  significance = 1 << 0,
+  efficiency = 1 << 1,
+  plot = 1 << 2
+};
+
+template<>
+struct boca::Flag<Output> {
+  static const bool enable = true;
+};
+
+void Run(AnalysisBase & analysis, Output run);
 
 }
 

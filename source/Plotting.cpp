@@ -54,7 +54,7 @@ Plotting::Plotting(boca::Tagger& tagger)
     gStyle->SetTitleFontSize(TextSize());
 }
 
-void Plotting::Fill(TAttFill& pad) const
+void Plotting::Fill(TAttFill&) const
 {
     Info();
 //     pad.SetFillColorAlpha(kWhite, 0);

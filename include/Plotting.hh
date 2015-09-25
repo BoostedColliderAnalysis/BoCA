@@ -36,7 +36,7 @@ namespace boca
 {
 
 class Plots;
-class Plot;
+struct Plot;
 class Point;
 class Result;
 class Results;

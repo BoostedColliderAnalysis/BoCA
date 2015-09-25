@@ -36,7 +36,8 @@ enum class Precision{
   pixel = 3
 };
 
-struct Point {
+class Point {
+public:
     Point() {};
     Point(float xx, float yy) {
         x = xx;
@@ -94,8 +95,6 @@ public:
     void Significances();
     void BestBin();
     static float XValue(int value);
-//     float BestModelDependentXValue() const;
-//     float BestModelInDependentXValue() const;
     void ExtremeXValues();
     std::vector<Result> signals;
     std::vector<Result> backgrounds;

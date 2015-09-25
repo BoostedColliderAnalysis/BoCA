@@ -263,7 +263,7 @@ void AnalysisBase::RunPlots()
 std::string AnalysisBase::WorkingPath()
 {
     Info();
-    int path_length_max = 200;
+    const int path_length_max = 200;
     char temp [ path_length_max ];
     if (getcwd(temp, path_length_max) != 0) {
         return std::string(temp) + "/";
@@ -284,6 +284,29 @@ std::string AnalysisBase::WorkingPath()
         throw std::runtime_error(stream.str());
     }
     }
+}
+
+void Run(AnalysisBase& analysis, Output run)
+{
+    switch (run) {
+    case boca::Output::normal :
+        analysis.RunNormal();
+        break;
+    case boca::Output::efficiency :
+        analysis.RunFullEfficiency();
+        break;
+    case boca::Output::significance :
+        analysis.RunFullSignificance();
+        break;
+    case boca::Output::plot :
+        analysis.RunNormal();
+        analysis.RunPlots();
+        break;
+    }
+    if (boca::is(run, boca::Output::plot)) {
+        analysis.RunPlots();
+    }
+
 }
 
 }

@@ -294,7 +294,7 @@ Triplet TopHadronicTagger::Multiplet(boca::Triplet& triplet, Jets const& leptons
     return triplet;
 }
 
-void TopHadronicTagger::NSubJettiness(boca::Triplet& triplet) const
+void TopHadronicTagger::NSubJettiness(boca::Triplet&) const
 {
     Info();
     return;

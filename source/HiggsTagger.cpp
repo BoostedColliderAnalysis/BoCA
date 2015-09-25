@@ -17,6 +17,7 @@ HiggsTagger::HiggsTagger()
 {
     Info();
     DefineVariables();
+    higgs_mass_window = 70. * GeV;
 }
 
 int HiggsTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const
