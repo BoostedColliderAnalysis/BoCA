@@ -1,8 +1,12 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include <functional>
 #include "Decuplet.hh"
-#include "TopPartnerTopPairTagger.hh"
+#include "TopPartnerLeptonicTagger.hh"
+#include "TopPartnerHadronicTagger.hh"
 #include "HiggsTagger.hh"
 
 namespace boca
@@ -47,6 +51,8 @@ private:
     Reader<TopHadronicTagger> top_reader_;
 
     Reader<HiggsTagger> higgs_reader_;
+
+    Reader<TopPartnerHadronicTagger> veto_reader_;
 };
 
 }

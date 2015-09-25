@@ -13,13 +13,16 @@ Nonet.cpp
 Decuplet.cpp
 Quattuordecuplet.cpp
 SignatureSingleTagger.cpp
+SignatureSingleHadronicTagger.cpp
 SignatureEffectiveTagger.cpp
 EventSingleTagger.cpp
+EventSingleHadronicTagger.cpp
 EventPairTagger.cpp
 EventEffectiveTagger.cpp
 )
 create_library(AnalysisTopPartner AnalysisSources)
 
 create_executable(TopPartnerSingle MainSingle.cpp)
+create_executable(TopPartnerSingleHadronic MainSingleHadronic.cpp)
 create_executable(TopPartnerPair MainPair.cpp)
 create_executable(TopPartnerEffective MainEffective.cpp)

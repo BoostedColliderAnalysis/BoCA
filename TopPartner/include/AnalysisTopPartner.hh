@@ -5,7 +5,6 @@
 
 #include "Analysis.hh"
 #include "Vector.hh"
-#include "Units.hh"
 // #define INFORMATION
 #include "Debug.hh"
 
@@ -22,6 +21,7 @@ namespace naturalness
 enum class Process
 {
     Tth,
+    TthHad,
     TT,
     ttBjj,
     tthBjj,
@@ -57,8 +57,8 @@ protected:
     boca::Mass Mass() const {
         Info();
         return 2000. * GeV;
-        return 4000. * GeV;
         return 6000. * GeV;
+        return 4000. * GeV;
         return 10000. * GeV;
         return 8000. * GeV;
         return 1500. * GeV;
@@ -126,6 +126,16 @@ protected:
                     Error("wrong mass", Mass());
                     return pb;
                 }
+                case Process::TthHad :
+                  switch (Int(Mass())) {
+                    case 2000 : return 0.001065 * 2 * pb;
+                    case 4000 : return 4.212e-5 * 2 * pb;
+                    case 6000 : return 4.7344e-6 * 2 * pb;
+                    case 8000 : return 8.466e-7 * 2 * pb;
+                    default :
+                      Error("wrong mass", Mass());
+                      return pb;
+                  }
             case Process::TT :
                 switch (Int(Mass())) {
                 case 2000 : return 0.138 * 2 * pb;

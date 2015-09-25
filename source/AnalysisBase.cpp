@@ -21,6 +21,11 @@
 namespace boca
 {
 
+AnalysisBase::AnalysisBase()
+{
+    Info();
+}
+
 void AnalysisBase::Initialize()
 {
     Error(tagger().Name());
@@ -71,28 +76,28 @@ std::string AnalysisBase::ProcessName() const
 
 void AnalysisBase::NewFile(boca::Tag tag, const boca::Strings& names, Crosssection crosssection, std::string const& nice_name, boca::Mass mass)
 {
-    Error(names.front());
+    Error();
     files_.emplace_back(File(names, crosssection, nice_name, mass));
     tagger().AddTreeName(TreeName(names.front()), tag);
 }
 
 void AnalysisBase::NewFile(Tag tag, Strings const& names, std::string const& nice_name)
 {
-    Error(names.front());
+    Error();
     files_.emplace_back(File(names, nice_name));
     tagger().AddTreeName(TreeName(names.front()), tag);
 }
 
 void AnalysisBase::NewFile(boca::Tag tag, std::string const& name, Crosssection crosssection, std::string const& nice_name, boca::Mass mass)
 {
-    Error(name);
+    Error();
     files_.emplace_back(File( {name}, crosssection, nice_name, mass));
     tagger().AddTreeName(TreeName(name), tag);
 }
 
 void AnalysisBase::NewFile(Tag tag, std::string const& name, std::string const& nice_name)
 {
-    Error(name);
+    Error();
     files_.emplace_back(File( {name}, nice_name));
     tagger().AddTreeName(TreeName(name), tag);
 }
@@ -169,6 +174,7 @@ void AnalysisBase::RunFast()
 {
     Info();
     RunTagger(Stage::trainer);
+    Info("Analysis Loop done");
     RunTrainer();
 }
 
@@ -177,6 +183,7 @@ void AnalysisBase::RunNormal()
     Info();
     RunFast();
     RunTagger(Stage::reader);
+    Info("Analysis Loop done");
 }
 
 void AnalysisBase::RunFullSignificance()
@@ -196,15 +203,16 @@ void AnalysisBase::RunFullEfficiency()
 {
     Info();
     RunNormal();
+    Info("normal done");
     RunEfficiency();
+    Info("efficiency done");
 }
 
 void AnalysisBase::RunTagger(Stage stage)
 {
     Info();
-    if (!Exists(tagger().FileName(stage, Tag::signal))) {
-        AnalysisLoop(stage);
-    }
+    if (!Exists(tagger().FileName(stage, Tag::signal))) AnalysisLoop(stage);
+    Info("Analysis Loop done");
 }
 
 void AnalysisBase::RunTrainer()

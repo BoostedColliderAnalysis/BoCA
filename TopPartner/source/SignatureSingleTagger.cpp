@@ -34,9 +34,10 @@ std::vector<Decuplet532> SignatureSingleTagger::Multiplets(Event const& event, b
 
 std::vector<Decuplet532> SignatureSingleTagger::Decuplets(boca::Event const& event, std::function< Decuplet532(Decuplet532&)> const& function) const
 {
-  return triples(partner_reader_.Multiplets(event) ,top_reader_.Multiplets(event), higgs_reader_.Multiplets(event), [&](Quintet const& quintet, Triplet const & triplet, Doublet const& doublet) {
+    return triples(partner_reader_.Multiplets(event) , top_reader_.Multiplets(event), higgs_reader_.Multiplets(event), [&](Quintet const & quintet, Triplet const & triplet, Doublet const & doublet) {
         Decuplet532 decuplet(quintet, triplet, doublet);
         if (decuplet.Overlap()) throw "overlap";
+        decuplet.SetVetoBdt(veto_reader_.Bdt(Quintet(decuplet.Triplet(), decuplet.Doublet())));
         return function(decuplet);
     });
 }

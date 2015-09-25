@@ -5,7 +5,6 @@
 
 #include "Particles.hh"
 #include "DetectorGeometry.hh"
-#include "Units.hh"
 
 namespace boca
 {

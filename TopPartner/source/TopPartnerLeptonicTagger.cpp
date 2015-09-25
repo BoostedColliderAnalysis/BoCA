@@ -22,7 +22,7 @@ int TopPartnerLeptonicTagger::Train(Event const& event, PreCuts const&, Tag tag)
         quintet.SetTag(tag);
         return quintet;
     });
-    return SaveEntries(quintets);
+    return SaveEntries(quintets, CopyIfParticle(event.Partons().GenParticles(),Id::top_partner), tag);
 }
 
 std::vector<Quintet> TopPartnerLeptonicTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const

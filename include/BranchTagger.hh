@@ -23,8 +23,12 @@ template<typename BranchTemplate>
 class BranchTagger : public Tagger
 {
 
-    const BranchTemplate& Branch() const final {
-        return branch_;
+public:
+
+    template<typename Multiplet>
+    float Bdt(Multiplet const& multiplet, TMVA::Reader const& reader) const {
+        FillBranch(multiplet);
+        return Tagger::Bdt(reader);
     }
 
 protected:
@@ -151,12 +155,6 @@ protected:
         return *BranchTemplate::Class();
     }
 
-    template<typename Multiplet>
-    float Bdt(Multiplet const& multiplet, TMVA::Reader const& reader) const {
-        FillBranch(multiplet);
-        return Tagger::Bdt(reader);
-    }
-
     float Bdt(fastjet::PseudoJet const& jet, TMVA::Reader const& reader) const {
         FillBranch(Singlet(jet));
         return Tagger::Bdt(reader);
@@ -175,6 +173,10 @@ protected:
 //     }
 
 private:
+
+    const BranchTemplate& Branch() const final {
+        return branch_;
+    }
 
     float ReadBdt(const TClonesArray& clones_array, int entry) const final {
         return static_cast<BranchTemplate&>(*clones_array.At(entry)).Bdt;

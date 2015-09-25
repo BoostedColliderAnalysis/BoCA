@@ -30,9 +30,7 @@ int TopPartnerHadronicTagger::Train(Event const& event, PreCuts const&, Tag tag)
             quintets.emplace_back(quintet);
         }
     Debug(quintets.size());
-    Jets top_partner = CopyIfParticle(event.Partons().GenParticles(), Id::top_partner);
-    Debug(top_partner.size());
-    return SaveEntries(BestMatches(quintets, top_partner, tag), 1);
+    return SaveEntries(quintets, CopyIfParticle(event.Partons().GenParticles(), Id::top_partner), tag);
 }
 
 std::vector<Quintet> TopPartnerHadronicTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const

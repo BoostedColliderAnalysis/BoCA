@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "AnalysisTopPartner.hh"
@@ -40,10 +43,12 @@ protected:
     void SetFiles(Tag tag) final {
         switch (tag) {
         case Tag::signal :
-            this->NewFile(tag, Process::Tth);
+            if (this->tagger().Name() == "TopPartnerHadronic") this->NewFile(tag, Process::TT);
+            else this->NewFile(tag, Process::Tth);
             break;
         case Tag::background :
-            this->NewFile(tag, Process::TT);
+            if (this->tagger().Name() == "TopPartnerHadronic") this->NewFile(tag, Process::Tth);
+            else if (this->tagger().Name() != "TopPartnerLeptonic") this->NewFile(tag, Process::TT);
             this->NewFile(tag, Process::ttBB);
             this->NewFile(tag, Process::ttBjj);
             break;

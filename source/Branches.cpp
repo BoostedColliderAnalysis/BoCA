@@ -97,12 +97,12 @@ ParticleBranch::ParticleBranch()
 
 Observables ParticleBranch::Variables() const
 {
-    return Join(ResultBranch::Variables(), {PAIR(Mass, "m")});
+    return Join(ResultBranch::Variables(), {PAIR(Mass, "m"), PAIR(Pt, "p_T")});
 }
 
 Observables ParticleBranch::Spectators() const
 {
-    return Join(ResultBranch::Spectators(), {PAIR(Charge), PAIR(Pt), PAIR(Rap), PAIR(Phi)});
+    return Join(ResultBranch::Spectators(), {PAIR(Charge), PAIR(Rap), PAIR(Phi)});
 }
 
 BottomBase::BottomBase()

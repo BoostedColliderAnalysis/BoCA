@@ -40,7 +40,6 @@ public:
     static Momentum MinCellPt();
     static float MinCellResolution();
     static float TrackerEtaMax();
-//     static float JetRadiusParameter();
     static fastjet::JetDefinition JetDefinition();
     static fastjet::JetDefinition SubJetDefinition();
     static float TrackerDistanceMin();
@@ -49,7 +48,7 @@ public:
     static Momentum LeptonMinPt();
     static boca::Luminosity Luminosity();
     static JetType jet_type();
-    static void set_detector_type(const DetectorType detector_type);
+    static void set_detector_type(DetectorType detector_type);
     static DetectorType detector_type();
 private:
     static DetectorType detector_type_;

@@ -33,7 +33,7 @@ namespace boca
 {
 
 // redefine prefixes in boca namespace
-// TODO find a way to import the prefixes into boca namespace without reimplementing them or including their full namespace
+// TODO find a way to import the prefixes into boca namespace without reimplementing them or including the full si namespace
 #define BOOST_UNITS_METRIC_PREFIX_2(exponent, name) \
     typedef boost::units::make_scaled_unit<boost::units::si::dimensionless, boost::units::scale<10, boost::units::static_rational<exponent> > >::type name ## _type;\
     BOOST_UNITS_STATIC_CONSTANT(name, name ## _type)

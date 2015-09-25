@@ -70,22 +70,22 @@ public:
     }
 
     void SetSinglet() const override {
-      Multiplet::SetSinglet(Multiplet::Singlet(Singlet12(), Multiplet3().singlet()));
+        Multiplet::SetSinglet(Multiplet::Singlet(Singlet12(), Multiplet3().singlet()));
     }
 
     boca::Singlet const& Singlet12() const {
-      if (!has_singlet_12_) SetSinglet12(Multiplet::Singlet(Multiplet1().singlet(), Multiplet2().singlet()));
-      return singlet_12_;
+        if (!has_singlet_12_) SetSinglet12(Multiplet::Singlet(Multiplet1().singlet(), Multiplet2().singlet()));
+        return singlet_12_;
     }
 
     boca::Singlet const& Singlet23() const {
-      if (!has_singlet_23_) SetSinglet23(Multiplet::Singlet(Multiplet2().singlet(), Multiplet3().singlet()));
-      return singlet_23_;
+        if (!has_singlet_23_) SetSinglet23(Multiplet::Singlet(Multiplet2().singlet(), Multiplet3().singlet()));
+        return singlet_23_;
     }
 
     boca::Singlet const& Singlet13() const {
-      if (!has_singlet_13_) SetSinglet13(Multiplet::Singlet(Multiplet1().singlet(), Multiplet3().singlet()));
-      return singlet_13_;
+        if (!has_singlet_13_) SetSinglet13(Multiplet::Singlet(Multiplet1().singlet(), Multiplet3().singlet()));
+        return singlet_13_;
     }
 
     void SetPlainJet() const override {
@@ -93,18 +93,18 @@ public:
     }
 
     fastjet::PseudoJet const& Jet12() const {
-      if (!has_jet_12_) SetJet12(Multiplet::Jet(Multiplet1().Jet(), Multiplet2().Jet()));
-      return jet_12_;
+        if (!has_jet_12_) SetJet12(Multiplet::Jet(Multiplet1().Jet(), Multiplet2().Jet()));
+        return jet_12_;
     }
 
     fastjet::PseudoJet const& Jet23() const {
-      if (!has_jet_23_) SetJet23(Multiplet::Jet(Multiplet2().Jet(), Multiplet3().Jet()));
-      return jet_23_;
+        if (!has_jet_23_) SetJet23(Multiplet::Jet(Multiplet2().Jet(), Multiplet3().Jet()));
+        return jet_23_;
     }
 
     fastjet::PseudoJet const& Jet13() const {
-      if (!has_jet_13_) SetJet13(Multiplet::Jet(Multiplet1().Jet(), Multiplet3().Jet()));
-      return jet_13_;
+        if (!has_jet_13_) SetJet13(Multiplet::Jet(Multiplet1().Jet(), Multiplet3().Jet()));
+        return jet_13_;
     }
 
     boca::Jets Jets() const override {
@@ -252,9 +252,17 @@ public:
         return Multiplet::Dipolarity(Multiplet1(), Multiplet3(), Jet13());
     }
 
-    float BottomBdt() const final{
-      return (Multiplet1().BottomBdt() + Multiplet2().BottomBdt() + Multiplet3().BottomBdt()) / 3;
+    float BottomBdt() const final {
+        return (Multiplet1().BottomBdt() + Multiplet2().BottomBdt() + Multiplet3().BottomBdt()) / 3;
     };
+
+    void SetVetoBdt(float bdt) {
+        veto_bdt_ = bdt;
+    }
+
+    float VetoBdt() const {
+        return veto_bdt_;
+    }
 
 protected:
 
@@ -271,6 +279,8 @@ protected:
     }
 
 private:
+
+    float veto_bdt_;
 
     Multiplet_1 multiplet_1_;
 

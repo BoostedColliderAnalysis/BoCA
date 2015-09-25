@@ -30,7 +30,7 @@ std::string Name(DetectorType detector_type)
 
 }
 
-void DetectorGeometry::set_detector_type(const DetectorType detector_type)
+void DetectorGeometry::set_detector_type(DetectorType detector_type)
 {
   detector_type_ = detector_type;
 }
@@ -38,8 +38,6 @@ void DetectorGeometry::set_detector_type(const DetectorType detector_type)
 DetectorType DetectorGeometry::detector_type()
 {
   return detector_type_;
-//     return DetectorType::CMS;
-//     return DetectorType::Spp;
 }
 
 Momentum DetectorGeometry::JetMinPt()

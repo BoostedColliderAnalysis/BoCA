@@ -36,7 +36,7 @@ public:
     }
 
     std::string Name() const final {
-        return "TopPartnerSemi";
+        return "TopPartnerLeptonic";
     }
 
     std::string NiceName() const final {

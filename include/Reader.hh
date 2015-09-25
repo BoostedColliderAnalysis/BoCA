@@ -47,6 +47,11 @@ public:
         return Tagger().GetBdt(event, pre_cuts, reader());
     }
 
+    template <typename Multiplet>
+    float Bdt(Multiplet const& multiplet) const {
+      return Tagger().Bdt((multiplet), reader());
+    }
+
     template <typename Input>
     auto Multiplets(const Input& input) const
     {
@@ -93,6 +98,11 @@ public:
        Tagger().SetTreeBranch(tree_writer, stage);
     }
 
+    TMVA::Reader const& reader() const
+    {
+      return reader_;
+    }
+
 private:
 
     std::string Options() const{
@@ -106,11 +116,6 @@ private:
     }
 
     TaggerTemplate tagger_;
-
-    TMVA::Reader const& reader() const
-    {
-      return reader_;
-    }
 
     TMVA::Reader& reader()
     {

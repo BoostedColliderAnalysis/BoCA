@@ -4,6 +4,7 @@
 #include "TopLeptonicTagger.hh"
 #include "Event.hh"
 #include "WLeptonicTagger.hh"
+// #define DEBUG
 #include "Debug.hh"
 
 namespace boca
@@ -50,7 +51,7 @@ Jets TopLeptonicTagger::Leptons(Event const& event, Jets const& jets) const
 
 fastjet::PseudoJet TopLeptonicTagger::FakeLepton(fastjet::PseudoJet const& jet) const
 {
-    return fastjet::PseudoJet(jet.px(), jet.py(), jet.pz(), jet.e()) / jet.pt() * (DetectorGeometry::LeptonMinPt() / GeV);
+    return fastjet::PseudoJet(jet) / jet.pt() * (DetectorGeometry::LeptonMinPt() / GeV);
 }
 
 Jets TopLeptonicTagger::Particles(Event const& event, PreCuts const& pre_cuts) const

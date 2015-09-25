@@ -7,7 +7,7 @@
 #include "fastjet/contrib/NjettinessDefinition.hh"
 #include "Event.hh"
 #include "InfoRecombiner.hh"
-// #define NOTIFICATION
+// #define DEBUG
 #include "Debug.hh"
 
 namespace boca
@@ -195,7 +195,7 @@ std::vector<Triplet> TopHadronicTagger::Multiplets(Event const& event, boca::Pre
         triplet.Doublet().SetBdt(0);
         try {
             bool failure = false;
-            boca::Triplet triplet = Multiplet(triplet, leptons, pre_cuts, reader, failure);
+            Multiplet(triplet, leptons, pre_cuts, reader, failure);
             if (!failure) triplets.emplace_back(triplet);
         } catch (char const* message) {}
 
@@ -222,7 +222,7 @@ std::vector<Triplet> TopHadronicTagger::Multiplets(Event const& event, boca::Pre
             Doublet doublet = w_hadronic_reader_.Multiplet(piece_2, piece_3);
             bool failure = false;
             boca::Triplet triplet = Multiplet(doublet, piece_1, leptons, pre_cuts, reader, failure);
-            if (failure) throw;
+            if (failure) throw "failure";
             return triplet;
         }));
 
@@ -233,6 +233,7 @@ std::vector<Triplet> TopHadronicTagger::Multiplets(Event const& event, boca::Pre
 
 std::vector<Triplet> TopHadronicTagger::Multiplets(std::vector<boca::Doublet> const& doublets, boca::Jets const& jets, boca::Jets const& leptons, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
+    Info();
     std::vector<boca::Triplet> triplets;
     for (auto const & doublet : doublets) triplets = Join(triplets, Multiplets(doublet, jets, leptons, pre_cuts, reader));
     return triplets;
@@ -240,6 +241,7 @@ std::vector<Triplet> TopHadronicTagger::Multiplets(std::vector<boca::Doublet> co
 
 std::vector<Triplet> TopHadronicTagger::Multiplets(boca::Doublet const& doublet, boca::Jets const& jets, boca::Jets const& leptons, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
+    Info();
     std::vector<boca::Triplet> triplets;
     for (auto const & jet : jets) {
         try {
@@ -255,6 +257,7 @@ std::vector<Triplet> TopHadronicTagger::Multiplets(boca::Doublet const& doublet,
 
 Triplet TopHadronicTagger::Multiplet(boca::Doublet const& doublet, fastjet::PseudoJet const& jet, boca::Jets const& leptons, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader, bool& failure, bool check_overlap) const
 {
+    Info();
     boca::Triplet triplet(doublet, jet);
     if (check_overlap && triplet.Overlap()) {
         failure = true;
@@ -271,10 +274,12 @@ Triplet TopHadronicTagger::Multiplet(boca::Doublet const& doublet, fastjet::Pseu
 
 Triplet TopHadronicTagger::Multiplet(boca::Triplet& triplet, Jets const& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader, bool& failure) const
 {
+    Info();
     triplet.set_pt(LeptonPt(triplet, leptons));
     // No throwing because this function fails too often
     if (Problematic(triplet, pre_cuts)) {
         failure = true;
+        Info(failure);
         return triplet;
         throw "problem";
     }
@@ -285,12 +290,13 @@ Triplet TopHadronicTagger::Multiplet(boca::Triplet& triplet, Jets const& leptons
         throw "no doublet bdt";
     }
     triplet.SetBdt(Bdt(triplet, reader));
-    if (triplet.Bdt() == -999) Error(triplet.Doublet().Bdt(), triplet.Singlet().Bdt());
+//     if (triplet.Bdt() == -999) Error(triplet.Doublet().Bdt(), triplet.Singlet().Bdt());
     return triplet;
 }
 
 void TopHadronicTagger::NSubJettiness(boca::Triplet& triplet) const
 {
+    Info();
     return;
 //     if (!triplet.()) triplet.set_sub_jettiness(NSubJettiness(triplet.Singlet().Jet() * 2));
 //     else if (triplet.Doublet().Degenerate()) triplet.set_sub_jettiness(NSubJettiness(triplet.Doublet().Singlet1().Jet() * 2));

@@ -6,11 +6,11 @@
 #include "Tagger.hh"
 #include "Identification.hh"
 #include "PreCuts.hh"
-#include "Units.hh"
 
 class TFile;
 
-namespace boca {
+namespace boca
+{
 
 class File;
 
@@ -22,11 +22,14 @@ class File;
  * @license GPL 3
  *
  */
-class AnalysisBase {
+class AnalysisBase
+{
 
 public:
 
-  void Initialize();
+    AnalysisBase();
+
+    void Initialize();
 
 //     void SetConfig(const Configuration &configuration);
 
