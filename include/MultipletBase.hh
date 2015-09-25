@@ -27,13 +27,13 @@ public:
   virtual float BottomBdt() const = 0;
 
   boca::Mass Mass() const {
-    return boca::Mass(Jet().m() * GeV);
+    return Jet().m() * GeV;
   }
 
   Momentum Pt() const {
-    return Momentum(Jet().pt() * GeV);
+    return Jet().pt() * GeV;
   }
-  
+
   /**
    * @brief calculate Reference vector for other - this
    * @return Vector2 reference vector

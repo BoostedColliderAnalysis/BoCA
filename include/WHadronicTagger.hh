@@ -24,7 +24,7 @@ public:
     int Train(Event const& event, PreCuts const& pre_cuts,
               const Tag Tag) const override;
 
-    virtual int GetBdt(Event const& event, PreCuts const& pre_cuts,
+    virtual int SaveBdt(Event const& event, PreCuts const& pre_cuts,
                        TMVA::Reader const& reader) const override;
 
     std::vector<Doublet> Multiplets(Jets const& jets, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;

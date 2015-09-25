@@ -44,7 +44,7 @@ public:
 
     int Bdt(boca::Event const& event, boca::PreCuts const& pre_cuts) const
     {
-        return Tagger().GetBdt(event, pre_cuts, reader());
+        return Tagger().SaveBdt(event, pre_cuts, reader());
     }
 
     template <typename Multiplet>

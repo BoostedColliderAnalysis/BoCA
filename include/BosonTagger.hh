@@ -28,7 +28,7 @@ public:
 
     std::vector<Doublet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    int GetBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
+    int SaveBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
 
     std::string Name() const final {
         return "Boson";

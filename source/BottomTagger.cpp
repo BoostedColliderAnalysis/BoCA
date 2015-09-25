@@ -123,7 +123,7 @@ Jets BottomTagger::SubMultiplet(fastjet::PseudoJet const& jet, TMVA::Reader cons
     return jets;
 }
 
-int BottomTagger::GetBdt(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const
+int BottomTagger::SaveBdt(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
     Jets jets = event.Hadrons().Jets();
     Jets bottoms = Multiplets(jets, pre_cuts, reader);

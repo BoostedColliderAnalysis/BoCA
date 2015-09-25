@@ -58,7 +58,7 @@ public:
 
     virtual std::string Name() const = 0;
 
-    virtual int GetBdt(Event const&, PreCuts const&, TMVA::Reader const&) const = 0;
+    virtual int SaveBdt(Event const&, PreCuts const&, TMVA::Reader const&) const = 0;
 
     virtual int Train(Event const&, PreCuts const&, const Tag) const = 0;
 

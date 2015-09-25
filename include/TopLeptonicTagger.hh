@@ -27,7 +27,7 @@ public:
 
     std::vector<Triplet> Multiplets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    int GetBdt(Event const& event, PreCuts const& pre_cuts,
+    int SaveBdt(Event const& event, PreCuts const& pre_cuts,
                TMVA::Reader const& reader) const final {
 //         do_fake_leptons = true;
         return SaveEntries(Multiplets(event, pre_cuts, reader), 1);

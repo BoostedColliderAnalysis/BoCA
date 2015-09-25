@@ -281,7 +281,7 @@ Doublet WHadronicTagger::Multiplet(fastjet::PseudoJet const& jet_1, fastjet::Pse
     }
 }
 
-int WHadronicTagger::GetBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
+int WHadronicTagger::SaveBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
     return SaveEntries(Multiplets(event, pre_cuts, reader), 2);
 }

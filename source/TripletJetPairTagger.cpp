@@ -21,29 +21,29 @@ int TripletJetPairTagger::Train(boca::Event const& event, boca::PreCuts const&, 
     std::vector<Triplet> triplets = top_hadronic_reader_.Multiplets(event);
 //     Jets jets = GetJets(event);
     //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader); // TODO reenable this
-//     std::vector<Doublet> doublets = WTagger.GetBdt(jets, WReader);
-    //     std::vector<Triplet> triplets = top_hadronic_tagger.GetBdt(doublets, jets, TopHadronicReader);
-//     std::vector<Triplet> triplets = top_hadronic_tagger.GetBdt(jets, top_hadronic_reader_, WTagger, WReader, bottom_tagger_, bottom_reader_);
+//     std::vector<Doublet> doublets = WTagger.SaveBdt(jets, WReader);
+    //     std::vector<Triplet> triplets = top_hadronic_tagger.SaveBdt(doublets, jets, TopHadronicReader);
+//     std::vector<Triplet> triplets = top_hadronic_tagger.SaveBdt(jets, top_hadronic_reader_, WTagger, WReader, bottom_tagger_, bottom_reader_);
     Debug("Number of Hadronic Tops", triplets.size());
 //     for (auto const& Jet : jets) {
 //         Jets Pieces = WTagger.GetSubJets(Jet, 2);
 //         Pieces = bottom_tagger_.GetJetBdt(Pieces, BottomReader); // TODO reenable this
-//         std::vector<Doublet> Piecedoublets = WTagger.GetBdt(Pieces, WReader);
-//         std::vector<Triplet> Piecetriplets = top_hadronic_tagger.GetBdt(Piecedoublets, jets, top_hadronic_reader_);
+//         std::vector<Doublet> Piecedoublets = WTagger.SaveBdt(Pieces, WReader);
+//         std::vector<Triplet> Piecetriplets = top_hadronic_tagger.SaveBdt(Piecedoublets, jets, top_hadronic_reader_);
 //         triplets.insert(triplets.end(), Piecetriplets.begin(), Piecetriplets.end());
 //     }
 //     for (auto const& Jet : jets) {
 //         Jets Pieces = WTagger.GetSubJets(Jet, 3);
     //         Pieces = bottom_tagger_.GetJetBdt(Pieces, BottomReader); // TODO reenable this
-//         std::vector<Doublet> Piecedoublets = WTagger.GetBdt(Pieces, WReader);
-//         std::vector<Triplet> Piecetriplets = top_hadronic_tagger.GetBdt(Piecedoublets, jets, top_hadronic_reader_);
+//         std::vector<Doublet> Piecedoublets = WTagger.SaveBdt(Pieces, WReader);
+//         std::vector<Triplet> Piecetriplets = top_hadronic_tagger.SaveBdt(Piecedoublets, jets, top_hadronic_reader_);
 //         triplets.insert(triplets.end(), Piecetriplets.begin(), Piecetriplets.end());
 //     }
 //     if (triplets.size() > 3) {
 //         std::sort(triplets.begin(), triplets.end());
 //         triplets.erase(triplets.begin() + std::min(max_combi(), int(triplets.size())), triplets.end());
 //     }
-//     std::vector<Triplet> triplets = top_hadronic_tagger.GetBdt(jets, TopHadronicReader);
+//     std::vector<Triplet> triplets = top_hadronic_tagger.SaveBdt(jets, TopHadronicReader);
     Jets TopParticles = event.Partons().GenParticles();
     TopParticles = CopyIfFamily(TopParticles, Id::top, Id::gluon);
     if (TopParticles.size() != 1 && tag == Tag::signal)

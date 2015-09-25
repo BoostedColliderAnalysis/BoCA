@@ -103,7 +103,7 @@ Doublet BosonTagger::Multiplet(Doublet& doublet, PreCuts const& pre_cuts, TMVA::
     return doublet;
 }
 
-int BosonTagger::GetBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
+int BosonTagger::SaveBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
     return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
 }
