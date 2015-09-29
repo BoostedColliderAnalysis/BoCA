@@ -70,7 +70,7 @@ Results::Results()
 {
     Info();
     significances.resize(Result::steps, 0);
-    crosssections.resize(Result::steps, 0);
+    crosssections.resize(Result::steps, 0.*fb);
     acceptances.resize(Result::steps, 0);
     x_values.resize(Result::steps, 0);
     for (auto & x_value : x_values) x_value = XValue(&x_value - &x_values.front());
@@ -101,8 +101,8 @@ void Results::Significances()
         else acceptances.at(step) = 0;
 
         float exclusion = 2;
-        if (signal_efficiencies > 0) crosssections.at(step) = (exclusion + std::sqrt(sqr(exclusion) + 4 * background_events)) * exclusion / 2 / (DetectorGeometry::Luminosity() * fb) / signal_efficiencies;
-        else crosssections.at(step) = 0;
+        if (signal_efficiencies > 0) crosssections.at(step) = (exclusion + std::sqrt(sqr(exclusion) + 4. * background_events)) * exclusion / 2. / signal_efficiencies/ DetectorGeometry::Luminosity();
+        else crosssections.at(step) = 0.*fb;
     }
     BestBin();
 }
@@ -139,81 +139,6 @@ void Results::ExtremeXValues()
     for (auto const & result : signals) {
         float max_0 = *std::max_element(result.bdt.begin(), result.bdt.end());
         if (max_0 > max.x) max.x = max_0;
-    }
-}
-
-// float Results::BestModelDependentXValue() const
-// {
-//     Info();
-//     return XValue(best_model_dependent_bin);
-// }
-//
-// float Results::BestModelInDependentXValue() const
-// {
-//     Info();
-//     return XValue(best_model_independent_bin);
-// }
-
-int ColorCode(int number)
-{
-    Info();
-    switch (number) {
-    case 0 : return kBlack;
-    case 1 : return kRed;
-    case 2 : return kBlue;
-    case 3 : return kTeal - 5;
-    case 4 : return kPink + 1;
-    case 5 : return kViolet;
-    case 6 : return kOrange;
-    case 7 : return kYellow - 9;
-    case 8 : return kSpring - 5;
-    case 9 : return kGreen + 3;
-    case 10 : return kCyan - 3;
-    case 11 : return kMagenta - 3;
-    case 12 : return kAzure;
-    case 13 : return kGray;
-    default : return kBlack;
-    }
-}
-
-std::string Formula(std::string const& text)
-{
-    Info(text);
-    return "#font[" + std::to_string(FontCode(Font::times, Style::italic)) + "]{" + text + "}";
-}
-
-int FontCode(Font font, Style style, int precision)
-{
-    Info();
-    return 10 * FontNumber(font, style) + precision;
-}
-
-int FontNumber(Font font, Style style)
-{
-    Info();
-    switch (font) {
-    case Font::times:
-        if (style == Style::italic) return 1;
-        if (style == Style::bold) return 2;
-        if (style == (Style::italic | Style::bold)) return 3;
-        return 13;
-    case Font::helvetica:
-        if (style == Style::italic) return 5;
-        if (style == Style::bold) return 6;
-        if (style == (Style::italic | Style::bold)) return 7;
-        return 4;
-    case Font::courier:
-        if (style == Style::italic) return 9;
-        if (style == Style::bold) return 10;
-        if (style == (Style::italic | Style::bold)) return 11;
-        else return 8;
-    case Font::symbol:
-        if (style == Style::italic) return 15;
-        if (style == Style::bold) return 14;
-        if (style == (Style::italic | Style::bold)) return 14;
-        return 12;
-    default :
-        return 13;
     }
 }
 

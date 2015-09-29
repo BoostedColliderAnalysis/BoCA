@@ -136,10 +136,11 @@ private:
 
 enum class Output
 {
-  normal = 0,
-  significance = 1 << 0,
-  efficiency = 1 << 1,
-  plot = 1 << 2
+  fast = 0,
+  normal = 1 << 0,
+  significance = 1 << 1,
+  efficiency = 1 << 2,
+  plot = 1 << 3
 };
 
 template<>

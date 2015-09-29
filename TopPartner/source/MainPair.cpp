@@ -1,40 +1,22 @@
 #include "AnalysisTopPartnerPair.hh"
 #include "EventPairTagger.hh"
 
-int main()
+template<typename Tagger>
+void Run(boca::Output output = boca::Output::normal)
 {
-    boca::naturalness::AnalysisPair<boca::BottomTagger> bottom_analysis;
-    bottom_analysis.RunNormal();
-
-//     boca::naturalness::AnalysisPair<boca::HiggsTagger> higgs_analysis;
-//     higgs_analysis.RunNormal();
-
-    boca::naturalness::AnalysisPair<boca::BosonTagger> boson_analysis;
-    boson_analysis.RunNormal();
-
-    boca::naturalness::AnalysisPair<boca::WHadronicTagger> w_hadronic_analysis;
-    w_hadronic_analysis.RunNormal();
-
-    boca::naturalness::AnalysisPair<boca::TopHadronicTagger> top_hadronic_analysis;
-    top_hadronic_analysis.RunNormal();
-
-    boca::naturalness::AnalysisPair<boca::TopLeptonicTagger> top_leptonic_analysis;
-    top_leptonic_analysis.RunNormal();
-
-    boca::naturalness::AnalysisPair<boca::naturalness::TopPartnerLeptonicTagger> top_partner_leptonic_analysis;
-    top_partner_leptonic_analysis.RunFullEfficiency();
-
-    boca::naturalness::AnalysisPair<boca::naturalness::TopPartnerHadronicTagger> top_partner_hadronic_analysis;
-    top_partner_hadronic_analysis.RunFullEfficiency();
-    top_partner_hadronic_analysis.RunPlots();
-
-    boca::naturalness::AnalysisPair<boca::naturalness::TopPartnerPairTagger> top_partner_pair_analysis;
-//     top_partner_pair_analysis.RunFullEfficiency();
-    top_partner_pair_analysis.RunFullSignificance();
-//     top_partner_pair_analysis.RunPlots();
-
-    boca::naturalness::AnalysisPair<boca::naturalness::EventPairTagger> event_analysis;
-    event_analysis.RunFullSignificance();
-    event_analysis.RunPlots();
+  boca::naturalness::AnalysisPair<Tagger> analysis;
+  boca::Run(analysis, output);
 }
 
+int main()
+{
+  Run<boca::BottomTagger>();
+  Run<boca::WHadronicTagger>();
+  Run<boca::BosonTagger>();
+  Run<boca::TopHadronicTagger>();
+  Run<boca::TopLeptonicTagger>();
+  Run<boca::naturalness::TopPartnerHadronicTagger>();
+  Run<boca::naturalness::TopPartnerLeptonicTagger>();
+  Run<boca::naturalness::TopPartnerPairTagger>(boca::Output::efficiency | boca::Output::plot);
+  Run<boca::naturalness::EventPairTagger>(boca::Output::efficiency | boca::Output::plot);
+}

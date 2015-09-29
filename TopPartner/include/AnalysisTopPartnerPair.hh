@@ -33,7 +33,7 @@ protected:
 
     std::string ProjectName() const final {
         Info();
-        return ProcessName() + "-" + boca::Name(this->PreCut()) + "-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass()) + "-unit2";
+        return ProcessName() + "-" + boca::Name(this->PreCut()) + "-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass()) + "-full";
     }
 
     std::string ProcessName() const final {

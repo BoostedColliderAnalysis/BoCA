@@ -76,28 +76,28 @@ std::string AnalysisBase::ProcessName() const
 
 void AnalysisBase::NewFile(boca::Tag tag, const boca::Strings& names, Crosssection crosssection, std::string const& nice_name, boca::Mass mass)
 {
-    Error();
+    Info();
     files_.emplace_back(File(names, crosssection, nice_name, mass));
     tagger().AddTreeName(TreeName(names.front()), tag);
 }
 
 void AnalysisBase::NewFile(Tag tag, Strings const& names, std::string const& nice_name)
 {
-    Error();
+    Info();
     files_.emplace_back(File(names, nice_name));
     tagger().AddTreeName(TreeName(names.front()), tag);
 }
 
 void AnalysisBase::NewFile(boca::Tag tag, std::string const& name, Crosssection crosssection, std::string const& nice_name, boca::Mass mass)
 {
-    Error();
+    Info();
     files_.emplace_back(File( {name}, crosssection, nice_name, mass));
     tagger().AddTreeName(TreeName(name), tag);
 }
 
 void AnalysisBase::NewFile(Tag tag, std::string const& name, std::string const& nice_name)
 {
-    Error();
+    Info();
     files_.emplace_back(File( {name}, nice_name));
     tagger().AddTreeName(TreeName(name), tag);
 }
@@ -263,6 +263,7 @@ void AnalysisBase::RunPlots()
 std::string AnalysisBase::WorkingPath()
 {
     Info();
+    // FIXME remove this magic number
     const int path_length_max = 200;
     char temp [ path_length_max ];
     if (getcwd(temp, path_length_max) != 0) {
@@ -288,7 +289,11 @@ std::string AnalysisBase::WorkingPath()
 
 void Run(AnalysisBase& analysis, Output run)
 {
-    switch (run) {
+//   analysis.PreRequisits<analysis.tagger()::type>(analysis,run);
+  switch (run) {
+    case boca::Output::fast :
+      analysis.RunFast();
+      break;
     case boca::Output::normal :
         analysis.RunNormal();
         break;
@@ -310,3 +315,4 @@ void Run(AnalysisBase& analysis, Output run)
 }
 
 }
+

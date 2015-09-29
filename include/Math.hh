@@ -4,6 +4,7 @@
 #pragma once
 
 #include <algorithm>
+#include "Units.hh"
 
 namespace boca
 {
@@ -73,9 +74,12 @@ float CeilToDigits(float value, int digits = 2);
 template <typename Value>
 Value min(std::vector<Value> vector, bool truncate = false)
 {
-    if (truncate) vector.erase(std::remove(vector.begin(), vector.end(), 0), vector.end());
+    if (truncate) vector.erase(std::remove(vector.begin(), vector.end(), 0.), vector.end());
     return *std::min_element(vector.begin(), vector.end());
 }
+
+// template <>
+Crosssection min(std::vector<Crosssection> vector, bool truncate = false);
 
 template <typename Value>
 Value max(std::vector<Value> const& vector)

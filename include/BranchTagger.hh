@@ -31,6 +31,13 @@ public:
         return Tagger::Bdt(reader);
     }
 
+//     template <template<typename> typename Analysis, typename tagger>
+//     void PreRequisits(Output output = Output::normal) {
+//         Analysis<tagger> analysis;
+//         Run(analysis, output);
+//     }
+
+
 protected:
 
     BranchTemplate& Branch() {

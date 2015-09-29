@@ -82,8 +82,8 @@ int Singlet::Charge() const
 
 Vector2 Singlet::Pull() const
 {
-    if(!jet_.has_constituents() || jet_.constituents().size() < 3) return {};
     Vector2 pull;
+    if(!jet_.has_constituents() || jet_.constituents().size() < 3) return pull;
     for (auto const& constituent : jet_.constituents()) pull += Reference(constituent) * constituent.pt() / jet_.pt() * constituent.delta_R(jet_);
     Info(pull.Y(),pull.X(), jet_.constituents().size());
     return pull;

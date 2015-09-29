@@ -101,7 +101,9 @@ private:
 
     float Pull(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
-    float Distance(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2, Vector2 const& point_0) const;
+    float Distance(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2, fastjet::PseudoJet const& constituent) const;
+
+    float Distance(Vector2 const& point_1, Vector2 const& point_2, Vector2 const& point_0, float delta_r) const;
 
 };
 

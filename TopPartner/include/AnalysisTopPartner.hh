@@ -56,9 +56,9 @@ protected:
 
     boca::Mass Mass() const {
         Info();
-        return 6000. * GeV;
         return 4000. * GeV;
         return 2000. * GeV;
+        return 6000. * GeV;
         return 10000. * GeV;
         return 8000. * GeV;
         return 1500. * GeV;
@@ -69,10 +69,10 @@ protected:
 
     long EventNumberMax() const override {
         Info();
+        return 10000;
         return 1000;
         return 100;
         return 5000;
-        return 10000;
         return 10;
     }
 
@@ -118,28 +118,30 @@ protected:
             switch (process) {
             case Process::Tth :
                 switch (Int(Mass())) {
-                case 2000 : return 0.001065 * 2 * pb;
-                case 4000 : return 4.212e-5 * 2 * pb;
-                case 6000 : return 4.7344e-6 * 2 * pb;
-                case 8000 : return 8.466e-7 * 2 * pb;
+                case 2000 : return 0.0002919 * pb;
+                case 4000 : return 1.154e-05 * pb;
+                case 6000 : return 4.7344e-6 * pb;
+                case 8000 : return 8.466e-7 * pb;
+                case 10000 : return 1.97e-7 * pb;
                 default :
                     Error("wrong mass", Mass());
                     return pb;
                 }
                 case Process::TthHad :
                   switch (Int(Mass())) {
-                    case 2000 : return 0.001065 * 2 * pb;
-                    case 4000 : return 4.212e-5 * 2 * pb;
-                    case 6000 : return 4.7344e-6 * 2 * pb;
-                    case 8000 : return 8.466e-7 * 2 * pb;
+                    case 2000 : return 0.0002919 * pb;
+                    case 4000 : return 1.154e-05 * pb;
+                    case 6000 : return 4.7344e-6 * pb;
+                    case 8000 : return 8.466e-7 * pb;
+                    case 10000 : return 1.97e-7 * pb;
                     default :
                       Error("wrong mass", Mass());
                       return pb;
                   }
             case Process::TT :
                 switch (Int(Mass())) {
-                case 2000 : return 0.138 * 2 * pb;
-                case 4000 : return 0.003493 * 2 * pb;
+                case 2000 : return 0.09375 * 2 * pb;
+                case 4000 : return 0.09377 * 2 * pb;
                 case 6000 : return 0.0003115 * 2 * pb;
                 case 8000 : return 4.655e-5 * 2 * pb;
                 case 10000 : return 9.101e-06 * 2 * pb;

@@ -5,36 +5,10 @@
 
 #include "Branches.hh"
 #include "Flag.hh"
+#include "Units.hh"
 
 namespace boca
 {
-
-enum class Font
-{
-    times,
-    helvetica,
-    courier,
-    symbol
-};
-
-enum class Style
-{
-  normal = 0,
-  bold = 1 << 0,
-  italic = 1 << 1
-};
-
-template<>
-struct Flag<Style> {
-  static const bool enable = true;
-};
-
-enum class Precision{
-  low = 0,
-  normal = 1,
-  high = 2,
-  pixel = 3
-};
 
 class Point {
 public:
@@ -100,21 +74,24 @@ public:
     std::vector<Result> backgrounds;
     std::vector<float> significances;
     std::vector<float> acceptances;
-    std::vector<float> crosssections;
+    std::vector<Crosssection> crosssections;
     std::vector<float> x_values;
     int best_model_dependent_bin = 0;
     int best_model_independent_bin = 0;
     int best_acceptance_bin = 0;
     Point min;
     Point max;
+
+    std::vector<float> Crosssections(){
+      std::vector<float> values;
+      values.reserve(crosssections.size());
+      for(auto const& crosssection : crosssections) values.emplace_back(crosssection / fb);
+      // TODO remove the loop and make use of std lib
+// std::transform(crosssections.begin(), crosssections.end(), values.begin(), std::bind1st(std::multiplies<float>(), 1. / fb));
+      return values;
+    }
+
+
 };
-
-int ColorCode(int number);
-
-std::string Formula(std::string const& text);
-
-int FontCode(Font font = Font::times, Style style = Style::normal, int precision = 2);
-
-int FontNumber(Font font = Font::times, Style style = Style::normal);
 
 }

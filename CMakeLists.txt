@@ -7,6 +7,7 @@ project(BoCA CXX)
 
 # Load some basic macros which are needed later on
 include(CMakeFiles/CMakeConfig.cmake)
+find_package(Boost 1.36)
 
 # set build type to debug
 if( NOT CMAKE_BUILD_TYPE )
@@ -14,7 +15,7 @@ set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build, options are
 endif()
 
 # set c++ flags
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -g")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -g -Wold-style-cast")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0 -Wall -Wextra -pedantic -Wpointer-arith -Wold-style-cast -Wno-unknown-pragmas")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3")
 
@@ -57,3 +58,4 @@ add_subdirectory(PairTagger)
 add_subdirectory(HiggsCpv)
 add_subdirectory(HeavyHiggs)
 add_subdirectory(TopPartner)
+

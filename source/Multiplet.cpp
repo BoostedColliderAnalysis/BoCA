@@ -80,8 +80,9 @@ float Multiplet::DeltaHt(MultipletBase const& multiplets_1, MultipletBase const&
 
 float Multiplet::Rho(MultipletBase const& jet_1, MultipletBase const& jet_2, fastjet::PseudoJet const& jet) const
 {
-    if (jet.pt() < DetectorGeometry::MinCellPt() / GeV || DeltaR(jet_1, jet_2) < DetectorGeometry::MinCellResolution()) return 0;
-    return jet.m() / jet.pt() / DeltaR(jet_1, jet_2) * 2;
+    float delta_r = DeltaR(jet_1, jet_2);
+    if (jet.pt() < DetectorGeometry::MinCellPt() / GeV || delta_r < DetectorGeometry::MinCellResolution()) return 0;
+    return jet.m() / jet.pt() / delta_r * 2;
 }
 
 float Multiplet::Pull(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const
@@ -102,32 +103,42 @@ float Multiplet::PullSum(MultipletBase const& multiplets_1, MultipletBase const&
 
 float Multiplet::Dipolarity(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2, boca::Singlet const& singlet) const
 {
-    if (DeltaR(multiplets_1, multiplets_2) == 0) return 0;
-//     fastjet::PseudoJet jet = Jet(multiplets_1.Jet(), multiplets_2.Jet());
+    float delta_r = DeltaR(multiplets_1, multiplets_2);
+    if (delta_r == 0) return 0;
     if (singlet.Pt() == at_rest) return 0;
     float dipolarity = 0;
     if (!singlet.Jet().has_constituents()) return 0;
     for (auto const & constituent : singlet.Jet().constituents()) {
-      if (constituent.pt() > singlet.Jet().pt()) continue;
-
-        float phi = constituent.phi_std();
-        float distance_1 = Distance(multiplets_1, multiplets_2, Vector2(constituent.rap(), phi));
-        phi -= sgn(phi) * 2 * M_PI;
-        float distance_2 =  Distance(multiplets_1, multiplets_2, Vector2(constituent.rap(), phi));
-
-        float distance = std::min(distance_1, distance_2);
-        if (distance > DeltaR(multiplets_1, multiplets_2)) continue;
+        if (constituent.pt() > singlet.Jet().pt()) continue;
+        float distance = Distance(multiplets_1, multiplets_2, constituent);
+        if (distance > delta_r) continue;
         dipolarity += constituent.pt() * sqr(distance);
     }
-    return dipolarity / singlet.Jet().pt() / sqr(DeltaR(multiplets_1, multiplets_2));
+    return dipolarity / singlet.Jet().pt() / sqr(delta_r);
 }
 
-float Multiplet::Distance(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2, Vector2 const& point_0) const
+float Multiplet::Distance(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2, fastjet::PseudoJet const& constituent) const
 {
     Vector2 point_1(multiplets_1.Jet().rap(), multiplets_1.Jet().phi_std());
     Vector2 point_2(multiplets_2.Jet().rap(), multiplets_2.Jet().phi_std());
-    return std::abs(point_2.Y() - point_1.Y() * point_0.X() - (point_2.X() - point_1.X()) * point_0.Y() + point_2.X() * point_1.Y() - point_2.Y() * point_1.X()) / DeltaR(multiplets_1, multiplets_2);
+    float delta_r = DeltaR(multiplets_1, multiplets_2);
+    float phi = constituent.phi_std();
+    float distance_1 = Distance(point_1, point_2, Vector2(constituent.rap(), phi), delta_r);
+    phi -= sgn(phi) * 2 * M_PI;
+    float distance_2 =  Distance(point_1, point_2, Vector2(constituent.rap(), phi), delta_r);
+    return std::min(distance_1, distance_2);
 }
+
+/**
+ * @brief Distance between the Point point_0 and the Line (point_1, point_2)
+ * @details according to \f$\operatorname{distance}(P_1, P_2, (x_0, y_0)) = \frac{|(y_2-y_1)x_0-(x_2-x_1)y_0+x_2 y_1-y_2 x_1|}{\sqrt{(y_2-y_1)^2+(x_2-x_1)^2}}\f$
+ *
+ */
+float Multiplet::Distance(Vector2 const& point_1, Vector2 const& point_2, Vector2 const& point_0, float delta_r) const
+{
+    return std::abs(point_2.Y() - point_1.Y() * point_0.X() - (point_2.X() - point_1.X()) * point_0.Y() + point_2.X() * point_1.Y() - point_2.Y() * point_1.X()) / delta_r;
+}
+
 int Multiplet::Charge(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const
 {
     return sgn(multiplets_1.Charge() + multiplets_2.Charge());
@@ -151,4 +162,5 @@ void Multiplet::SetPlainJet(fastjet::PseudoJet const& jet) const
 }
 
 }
+
 

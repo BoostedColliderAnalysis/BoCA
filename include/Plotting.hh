@@ -6,23 +6,10 @@
 #include <functional>
 
 #include "Tagger.hh"
-#include "Flag.hh"
 
-class TMultiGraph;
-class TAttLine;
 class TTree;
-class TH2;
 class TProfile2D;
-class TExec;
 class TFile;
-class TLegend;
-class TH1;
-class TH1F;
-class TLine;
-class THStack;
-class TGraph;
-class TAxis;
-class TAttFill;
 
 class ExRootTreeBranch;
 class ExRootTreeReader;
@@ -36,24 +23,10 @@ namespace boca
 {
 
 class Plots;
-struct Plot;
-class Point;
 class Result;
 class Results;
-
-enum class Orientation
-{
-    center = 0,
-    left = 1 << 0,
-    right = 1 << 1,
-    top = 1 << 2,
-    bottom = 1 << 3
-};
-
-template<>
-struct Flag<Orientation> {
-    static const bool enable = true;
-};
+class Point;
+struct Plot;
 
 /**
  * @brief Presents result of multivariant analysis
@@ -82,14 +55,6 @@ private:
 
     void PlotDetails(boca::Plot& signal, boca::Plot& background, boca::Stage stage) const;
 
-    void SetHistogram(TH2& histogram, const boca::Plot& plot, EColor color, TExec& exec) const;
-
-    void SetProfile(TH2& histogram, const boca::Plot& signal, const boca::Plot& background) const;
-
-    void Fill(TAttFill& pad) const;
-
-    void CommonHist(TH1& histogram, const boca::Plot& plot, EColor color) const;
-
     std::vector<Plots> Import(boca::Stage stage, boca::Tag tag) const;
 
     Plots PlotResult(TFile& file, std::string const& tree_name, boca::Stage stage) const;
@@ -100,35 +65,17 @@ private:
 
     void PlotProfile(const boca::Plot& signal, const boca::Plot& background, const boca::Point& min, const boca::Point& max) const;
 
-    void SetMultiGraph(TMultiGraph& multi_graph, const boca::Point& min, const boca::Point& max) const;
-
-    void SetPlotStyle(TAttLine& att_line, int index) const;
-
     void SetPad() const;
-
-    TLegend Legend(float x_min, float y_min, float width, float height, std::string const& title = "") const;
-
-    TLegend Legend(boca::Orientation orientation, boca::Strings const& entries, std::string const& title = "") const;
-
-    int Letters(std::vector<Result> result) const;
 
     Results ReadBdtFiles() const;
 
     std::vector<Result> ReadBdtFile(TFile& export_file, boca::Tag tag) const;
-
-    TH1F Histogram(const boca::Result& result, boca::Point& max, boca::Point& min, int index) const;
-
-    TLine Line(float bin, float y_min, float y_max, int index) const;
-
-    void AddGraph(TGraph& graph, TMultiGraph& multi_graph, TLegend& legend, Strings const& name, int index) const;
 
     void PlotAcceptanceGraph(const boca::Results& results) const;
 
     std::string PlotCrosssectionGraph(Results& results) const;
 
     std::string PlotHistograms(boca::Results& results) const;
-
-    void AddHistogram(THStack& stack, TH1& histogram, TLegend& legend) const;
 
     boca::InfoBranch InfoBranch(TFile& file, std::string const& tree_name) const;
 
@@ -148,19 +95,7 @@ private:
 
     std::string PlotModelIndependentGraph(boca::Results& results) const;
 
-    TGraph Graph(Results const& results, std::vector<float> const& values, std::string const& title) const;
-
     Plot CoreVector(Plot& plot, std::function<bool(Point const&, Point const&)> const& function) const;
-
-    std::string ExportFileSuffix() const;
-
-    void SetAxis(TAxis& axis, std::string const& title) const;
-
-    float TextSize() const;
-
-    float LabelSize() const;
-
-    std::string Mass(Results const& results) const;
 
     boca::Tagger& Tagger() const;
 

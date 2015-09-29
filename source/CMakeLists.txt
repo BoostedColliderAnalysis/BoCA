@@ -97,8 +97,15 @@ InfoRecombiner.cpp
 JetInfoFamily.cpp
 Reconstruction.cpp
 Discriminator.cpp
-Plotting.cpp
-Result.cpp
 )
 create_library(Analysis analysis_sources)
+
+set(plot_sources
+Plotting.cpp
+Result.cpp
+LatexFile.cpp
+Canvas.cpp
+Graph.cpp
+)
+create_library(Plot plot_sources)
 
