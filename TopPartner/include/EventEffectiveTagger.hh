@@ -20,7 +20,7 @@ public:
 
     int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const override;
 
-    std::vector<MultipletEvent<Quattuordecuplet>> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
+    std::vector<MultipletEvent<Quattuordecuplet554>> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
     int SaveBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final {
         return SaveEntries(Multiplets(event, pre_cuts, reader), 1);

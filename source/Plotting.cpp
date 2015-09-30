@@ -407,7 +407,7 @@ Plots Plotting::PlotResult(TFile& file, std::string const& tree_name, Stage stag
     return plots;
 }
 
-Plot Plotting::ReadTree(TTree& tree, std::string const& leaf_1, std::string const& leaf_2, Stage stage) const
+Plot Plotting::ReadTree(TTree& tree, std::string const& leaf_1_name, std::string const& leaf_2_name, Stage stage) const
 {
     Info();
     tree.SetBranchStatus("*", false);
@@ -423,10 +423,10 @@ Plot Plotting::ReadTree(TTree& tree, std::string const& leaf_1, std::string cons
     //FIXME remove this magic number
     size_t max_value = 200;
     std::vector<float> leaf_values_1(max_value);
-    SetBranch(tree, leaf_values_1, branch_name + "." + leaf_1);
+    SetBranch(tree, leaf_values_1, branch_name + "." + leaf_1_name);
 
     std::vector<float> leaf_values_2(max_value);
-    SetBranch(tree, leaf_values_2, branch_name + "." + leaf_2);
+    SetBranch(tree, leaf_values_2, branch_name + "." + leaf_2_name);
 
     std::vector<float> bdt_values(max_value);
     SetBranch(tree, bdt_values, branch_name + ".Bdt");
@@ -435,7 +435,7 @@ Plot Plotting::ReadTree(TTree& tree, std::string const& leaf_1, std::string cons
     for (auto const & entry : Range(tree.GetEntries())) {
         Detail(tree.GetEntries(), entry);
         tree.GetEntry(entry);
-        Debug(branch_size, leaf_values_1.size(), leaf_values_2.size());
+        Detail(branch_size, leaf_values_1.size(), leaf_values_2.size());
         for (auto const & element : Range(branch_size)) plot.Add(Point(leaf_values_1.at(element), leaf_values_2.at(element), bdt_values.at(element)));
     }
     return plot;

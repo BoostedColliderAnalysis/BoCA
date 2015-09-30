@@ -52,15 +52,15 @@ public:
 
 private:
 
-    void DoPlot(boca::Plots& signals, boca::Plots& backgrounds, boca::Stage stage) const;
+    void DoPlot(boca::Plots& signals, boca::Plots& backgrounds, Stage stage) const;
 
-    void PlotDetails(boca::Plot& signal, boca::Plot& background, boca::Stage stage) const;
+    void PlotDetails(boca::Plot& signal, boca::Plot& background, Stage stage) const;
 
-    std::vector<Plots> Import(boca::Stage stage, boca::Tag tag) const;
+    std::vector<Plots> Import(Stage stage, boca::Tag tag) const;
 
-    Plots PlotResult(TFile& file, std::string const& tree_name, boca::Stage stage) const;
+    Plots PlotResult(TFile& file, std::string const& tree_name, Stage stage) const;
 
-    Plot ReadTree(TTree& tree, std::string const& leaf_1, std::string const& leaf_2, boca::Stage stage) const;
+    Plot ReadTree(TTree& tree, std::string const& leaf_1_name, std::string const& leaf_2_name, Stage stage) const;
 
     void PlotHistogram(const boca::Plot& signal, const boca::Plot& background, const boca::Point& min, const boca::Point& max) const;
 
@@ -103,9 +103,9 @@ private:
       tree.SetBranchAddress(name.c_str(), &value);
     }
 
-    void SetBranch(TTree &tree, std::vector<float> &value, std::string const& name) const {
+    void SetBranch(TTree &tree, std::vector<float> &values, std::string const& name) const {
       tree.SetBranchStatus(name.c_str(), true);
-      tree.SetBranchAddress(name.c_str(), &value.front());
+      tree.SetBranchAddress(name.c_str(), &values.front());
     }
 
     boca::Tagger const& Tagger() const;
