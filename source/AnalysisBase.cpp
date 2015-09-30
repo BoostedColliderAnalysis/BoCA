@@ -298,10 +298,12 @@ void Run(AnalysisBase& analysis, Output run)
         analysis.RunNormal();
         break;
     case boca::Output::efficiency :
-        analysis.RunFullEfficiency();
+      analysis.RunFullEfficiency();
+//       analysis.RunPlots();
         break;
     case boca::Output::significance :
-        analysis.RunFullSignificance();
+      analysis.RunFullSignificance();
+      analysis.RunPlots();
         break;
     case boca::Output::plot :
         analysis.RunNormal();

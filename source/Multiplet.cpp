@@ -110,18 +110,17 @@ float Multiplet::Dipolarity(MultipletBase const& multiplets_1, MultipletBase con
     if (!singlet.Jet().has_constituents()) return 0;
     for (auto const & constituent : singlet.Jet().constituents()) {
         if (constituent.pt() > singlet.Jet().pt()) continue;
-        float distance = Distance(multiplets_1, multiplets_2, constituent);
+        float distance = Distance(multiplets_1, multiplets_2, constituent, delta_r);
         if (distance > delta_r) continue;
         dipolarity += constituent.pt() * sqr(distance);
     }
     return dipolarity / singlet.Jet().pt() / sqr(delta_r);
 }
 
-float Multiplet::Distance(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2, fastjet::PseudoJet const& constituent) const
+float Multiplet::Distance(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2, fastjet::PseudoJet const& constituent,float delta_r) const
 {
     Vector2 point_1(multiplets_1.Jet().rap(), multiplets_1.Jet().phi_std());
     Vector2 point_2(multiplets_2.Jet().rap(), multiplets_2.Jet().phi_std());
-    float delta_r = DeltaR(multiplets_1, multiplets_2);
     float phi = constituent.phi_std();
     float distance_1 = Distance(point_1, point_2, Vector2(constituent.rap(), phi), delta_r);
     phi -= sgn(phi) * 2 * M_PI;
@@ -131,7 +130,7 @@ float Multiplet::Distance(MultipletBase const& multiplets_1, MultipletBase const
 
 /**
  * @brief Distance between the Point point_0 and the Line (point_1, point_2)
- * @details according to \f$\operatorname{distance}(P_1, P_2, (x_0, y_0)) = \frac{|(y_2-y_1)x_0-(x_2-x_1)y_0+x_2 y_1-y_2 x_1|}{\sqrt{(y_2-y_1)^2+(x_2-x_1)^2}}\f$
+ * @details according to \f$D(P_1, P_2, (x_0, y_0)) = \frac{|(y_2-y_1)x_0-(x_2-x_1)y_0+x_2 y_1-y_2 x_1|}{\sqrt{(y_2-y_1)^2+(x_2-x_1)^2}}\f$
  *
  */
 float Multiplet::Distance(Vector2 const& point_1, Vector2 const& point_2, Vector2 const& point_0, float delta_r) const

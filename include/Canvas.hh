@@ -36,49 +36,50 @@ enum class Precision
 };
 
 
-class Canvas{
+class Canvas
+{
 
 public:
 
-  Canvas();
+    Canvas();
 
-TCanvas &canvas();
+    TCanvas& canvas();
 
-static void SetTextStyle(TAttText & text);
+    static void SetTextStyle(TAttText& text);
 
-void SetLog(float min=0.001, float max=1);
+    void SetLog(float min = 0.001, float max = 1);
 
-static void SetPlotStyle(TAttLine& line, int index);
+    static void SetPlotStyle(TAttLine& line, int index);
 
-static void SetAxis(TAxis& axis, std::string const& title);
+    static void SetAxis(TAxis& axis, std::string const& title);
 
-std::string SaveAs(std::string const& name);
+    std::string SaveAs(std::string const& name);
 
 private:
 
-/**
- * @brief Make plot backgrounds transparent
- *
- */
-void Fill(TAttFill& pad) const;
+    /**
+     * @brief Make plot backgrounds transparent
+     *
+     */
+    void Fill();
 
-std::string ExportFileSuffix() const;
+    std::string ExportFileSuffix() const;
 
-static float TextSize();
+    static float TextSize();
 
-static float LabelSize();
+    static float LabelSize();
 
-static int ColorCode(int number);
+    static int ColorCode(int number);
 
-std::string Formula(std::string const& text);
+    std::string Formula(std::string const& text);
 
-static int FontCode(Font font = Font::times, Style style = Style::normal);
+    static int FontCode(Font font = Font::times, Style style = Style::normal);
 
-static int FontNumber(Font font = Font::times, Style style = Style::normal);
+    static int FontNumber(Font font = Font::times, Style style = Style::normal);
 
-static int Precision();
+    static int Precision();
 
-TCanvas canvas_;
+    TCanvas canvas_;
 
 };
 

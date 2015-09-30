@@ -20,12 +20,12 @@ class TExec;
 
 namespace boca
 {
-  typedef std::vector<std::string> Strings;
 
-  class Point;
-  struct Plot;
-  class Result;
-  class Results;
+typedef std::vector<std::string> Strings;
+class Point;
+class Plot;
+class Result;
+class Results;
 
 enum class Orientation
 {
@@ -41,8 +41,7 @@ struct Flag<Orientation> {
   static const bool enable = true;
 };
 
-
-TH1F Histogram(Result const& result, Point& max, Point& min, int index);
+TH1F Histogram(const Result& result, Point& max, Point const& min, int index);
 
 void AddHistogram(THStack& stack, TH1& histogram, TLegend& legend);
 
@@ -50,18 +49,15 @@ TLegend Legend(Point const& min, float width, float height, std::string const& t
 
 TLegend Legend(Orientation orientation, Strings const& entries, std::string const& title = "");
 
-
 TLine Line(float bin, float y_min, float y_max, int index);
 
 void AddGraph(TGraph& graph, TMultiGraph& multi_graph, TLegend& legend, Strings const& names, int index);
-
 
 void SetMultiGraph(TMultiGraph& multi_graph, Point const& min, Point const& max);
 
 TGraph Graph(Results const& results, std::vector<float> const& values, std::string const& title);
 
 void SetHistogram(TH2& histogram, Plot const& plot, EColor color, TExec& exec);
-
 
 void SetProfile(TH2& histogram, Plot const& signal, Plot const& background);
 

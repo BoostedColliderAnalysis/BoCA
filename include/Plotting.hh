@@ -6,8 +6,9 @@
 #include <functional>
 
 #include "Tagger.hh"
+#include "TTree.h"
 
-class TTree;
+// class TTree;
 class TProfile2D;
 class TFile;
 
@@ -26,7 +27,7 @@ class Plots;
 class Result;
 class Results;
 class Point;
-struct Plot;
+class Plot;
 
 /**
  * @brief Presents result of multivariant analysis
@@ -97,9 +98,19 @@ private:
 
     Plot CoreVector(Plot& plot, std::function<bool(Point const&, Point const&)> const& function) const;
 
-    boca::Tagger& Tagger() const;
+    void SetBranch(TTree &tree, int &value, std::string const& name) const {
+      tree.SetBranchStatus(name.c_str(), true);
+      tree.SetBranchAddress(name.c_str(), &value);
+    }
 
-    boca::Tagger* tagger_;
+    void SetBranch(TTree &tree, std::vector<float> &value, std::string const& name) const {
+      tree.SetBranchStatus(name.c_str(), true);
+      tree.SetBranchAddress(name.c_str(), &value.front());
+    }
+
+    boca::Tagger const& Tagger() const;
+
+    boca::Tagger& tagger_;
 
 };
 

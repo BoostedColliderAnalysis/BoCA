@@ -36,10 +36,9 @@
 namespace boca
 {
 
-Plotting::Plotting(boca::Tagger& tagger)
+Plotting::Plotting(boca::Tagger& tagger) : tagger_(tagger)
 {
     Info();
-    tagger_ = &tagger;
 }
 
 void Plotting::TaggingEfficiency() const
@@ -55,9 +54,9 @@ void Plotting::OptimalCuts() const
 {
     Info();
     Results results = ReadBdtFiles();
+    results.Significances();
     LatexFile latex_file(Tagger().ExportFolderName());
     latex_file.Mass(double(results.signals.front().info_branch_.Mass) * GeV);
-    results.Significances();
     latex_file.IncludeGraphic(PlotHistograms(results), "BDT Distribution");
     latex_file.IncludeGraphic(PlotEfficiencyGraph(results), "Efficiency");
     latex_file.IncludeGraphic(PlotModelIndependentGraph(results), "Minimization of the crosssection for the model-independent result");
@@ -415,52 +414,33 @@ Plot Plotting::ReadTree(TTree& tree, std::string const& leaf_1, std::string cons
     std::string branch_name = Tagger().BranchName(stage);
     Debug(branch_name);
 
-    tree.SetBranchStatus(branch_name.c_str(), true);
     int branch_value = 0;
-    tree.SetBranchAddress(branch_name.c_str(), &branch_value);
-    Debug(branch_name.c_str());
+    SetBranch(tree, branch_value, branch_name);
 
-    std::string size_name = branch_name + "_size";
-    Debug(size_name.c_str());
-    tree.SetBranchStatus(size_name.c_str(), true);
     int branch_size = 0;
-    tree.SetBranchAddress(size_name.c_str(), &branch_size);
+    SetBranch(tree, branch_size, branch_name + "_size");
 
     //FIXME remove this magic number
     size_t max_value = 200;
-    std::string leaf_name_1 = branch_name + "." + leaf_1;
-    Debug(leaf_name_1.c_str());
-    tree.SetBranchStatus(leaf_name_1.c_str(), true);
     std::vector<float> leaf_values_1(max_value);
-    tree.SetBranchAddress(leaf_name_1.c_str(), &leaf_values_1.front());
+    SetBranch(tree, leaf_values_1, branch_name + "." + leaf_1);
 
-    std::string leaf_name_2 = branch_name + "." + leaf_2;
-    Debug(leaf_name_2.c_str());
-    tree.SetBranchStatus(leaf_name_2.c_str(), true);
     std::vector<float> leaf_values_2(max_value);
-    tree.SetBranchAddress(leaf_name_2.c_str(), &leaf_values_2.front());
+    SetBranch(tree, leaf_values_2, branch_name + "." + leaf_2);
 
-    std::string bdt_name = branch_name + ".Bdt";
-    Debug(bdt_name.c_str());
-    tree.SetBranchStatus(bdt_name.c_str(), true);
     std::vector<float> bdt_values(max_value);
-    tree.SetBranchAddress(bdt_name.c_str(), &bdt_values.front());
+    SetBranch(tree, bdt_values, branch_name + ".Bdt");
 
     Plot plot;
     for (auto const & entry : Range(tree.GetEntries())) {
         Detail(tree.GetEntries(), entry);
         tree.GetEntry(entry);
-        for (auto const & element : Range(branch_size)) {
-            Point point;
-            point.x = leaf_values_1.at(element);
-            point.y = leaf_values_2.at(element);
-            point.z = bdt_values.at(element);
-            Detail(point.x, point.y, point.z);
-            plot.points.emplace_back(point);
-        }
+        Debug(branch_size, leaf_values_1.size(), leaf_values_2.size());
+        for (auto const & element : Range(branch_size)) plot.Add(Point(leaf_values_1.at(element), leaf_values_2.at(element), bdt_values.at(element)));
     }
     return plot;
 }
+
 
 Plot Plotting::CoreVector(Plot& plot, std::function<bool (Point const&, Point const&)> const& function) const
 {
@@ -474,9 +454,10 @@ Plot Plotting::CoreVector(Plot& plot, std::function<bool (Point const&, Point co
     plot.points.erase(plot.points.end() - cut_off, plot.points.end());
     return plot;
 }
-Tagger& Plotting::Tagger() const
+
+Tagger const& Plotting::Tagger() const
 {
-    return *tagger_;
+    return tagger_;
 }
 
 }

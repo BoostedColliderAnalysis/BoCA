@@ -24,6 +24,7 @@ std::string Name(Id id)
     case Id::charm : return "c";
     case Id::bottom : return "b";
     case Id::top : return "t";
+    case Id::bottom_partner : return "B";
     case Id::top_partner : return "T";
     case Id::electron : return "e";
     case Id::electron_neutrino : return "nue";
@@ -31,11 +32,16 @@ std::string Name(Id id)
     case Id::muon_neutrino : return "numu";
     case Id::tau : return "tau";
     case Id::tau_neutrino : return "nutau";
+    case Id::tau_partner : return "Tau";
+    case Id::tau_neutrino_partner : return "NuTau";
     case Id::gluon : return "g";
     case Id::photon : return "gamma";
     case Id::Z : return "Z";
     case Id::W : return "W";
     case Id::higgs : return "h";
+    case Id::Z_partner : return "Z_2";
+    case Id::Z_partner_2 : return "Z_3";
+    case Id::W_partner : return "W_2";
     case Id::heavy_higgs : return "H";
     case Id::CP_odd_higgs : return "A";
     case Id::charged_higgs : return "H+";
@@ -107,7 +113,7 @@ Mass MassOf(Id id)
     case Id::neutron : return 1.00866 * GeV;
     case Id::proton : return 0.93827 * GeV;
     case Id::CP_violating_higgs : return MassOf(Id::higgs);
-    default : return 0;
+    default : return massless;
     }
 }
 

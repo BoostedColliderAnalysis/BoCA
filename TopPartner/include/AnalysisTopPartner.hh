@@ -57,12 +57,12 @@ protected:
     boca::Mass Mass() const {
         Info();
         return 4000. * GeV;
+        return 1000. * GeV;
         return 2000. * GeV;
         return 6000. * GeV;
         return 10000. * GeV;
         return 8000. * GeV;
         return 1500. * GeV;
-        return 1000. * GeV;
         return 500. * GeV;
         return 3000. * GeV;
     }

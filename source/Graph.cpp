@@ -6,6 +6,7 @@
 #include "TMultiGraph.h"
 #include "TH2.h"
 #include "TExec.h"
+#include "TNamed.h"
 
 #include "Math.hh"
 #include "Canvas.hh"
@@ -14,20 +15,14 @@
 
 namespace boca{
 
-TH1F Histogram(const Result& result, Point& max, Point& min, int index)
+TH1F Histogram(Result const& result, Point& max, Point const& min, int index)
 {
     TH1F histogram(result.info_branch_.Name.c_str(), "", 50, FloorToDigits(min.x, 1), CeilToDigits(max.x, 1));
-    for (auto const & bdt : result.bdt) {
-        histogram.Fill(bdt);
-    }
-    if (histogram.Integral() != 0) {
-        histogram.Scale(1. / histogram.Integral());
-    }
+    for (auto const & bdt : result.bdt) histogram.Fill(bdt);
+    if (histogram.Integral() != 0) histogram.Scale(1. / histogram.Integral());
     Canvas::SetPlotStyle(histogram, index);
     float max_0 = histogram.GetBinContent(histogram.GetMaximumBin());
-    if (max_0 > max.y) {
-        max.y = max_0;
-    }
+    if (max_0 > max.y) max.y = max_0;
     return histogram;
 }
 
@@ -37,7 +32,7 @@ void AddHistogram(THStack& stack, TH1& histogram, TLegend& legend)
     legend.AddEntry(&histogram, histogram.GetName(), "l");
 }
 
-TLegend Legend(const Point& min, float width, float height, const std::string& title)
+TLegend Legend(Point const& min, float width, float height, std::string const& title)
 {
     TLegend legend(min.x, min.y, min.x + width, min.y + height);
     if (!title.empty()) {
@@ -51,7 +46,7 @@ TLegend Legend(const Point& min, float width, float height, const std::string& t
     return legend;
 }
 
-TLegend Legend(Orientation orientation, const Strings& entries, const std::string& title)
+TLegend Legend(Orientation orientation, Strings const& entries, std::string const& title)
 {
     int letters = std::max_element(entries.begin(), entries.end(), [](std::string const & entry_1, std::string const & entry_2) {
         return entry_1.size() < entry_2.size();
@@ -91,8 +86,8 @@ TLegend Legend(Orientation orientation, const Strings& entries, const std::strin
         }
     });
     float margin = 0.03;
-    float x_unit = 1 - gPad->GetLeftMargin() - gPad->GetRightMargin() - 2 * margin;
-    float y_unit = 1 - gPad->GetBottomMargin() - gPad->GetTopMargin() - 2 * margin;
+    float x_unit = 1. - gPad->GetLeftMargin() - gPad->GetRightMargin() - 2 * margin;
+    float y_unit = 1. - gPad->GetBottomMargin() - gPad->GetTopMargin() - 2 * margin;
     Point min;
     min.x = gPad->GetLeftMargin() + margin + x_shift * x_unit - x_offset;
     min.y = gPad->GetBottomMargin() + margin + y_shift * y_unit - y_offset;
@@ -103,20 +98,18 @@ TLine Line(float bin, float y_min, float y_max, int index)
 {
     TLine line(Results::XValue(bin), y_min, Results::XValue(bin), y_max);
     Canvas::SetPlotStyle(line, index);
-    if (bin != 0) {
-        line.Draw();
-    }
+    if (bin != 0) line.Draw();
     return line;
 }
 
-void AddGraph(TGraph& graph, TMultiGraph& multi_graph, TLegend& legend, const boca::Strings& names, int index)
+void AddGraph(TGraph& graph, TMultiGraph& multi_graph, TLegend& legend, Strings const& names, int index)
 {
     Canvas::SetPlotStyle(graph, index);
     multi_graph.Add(&graph);
     legend.AddEntry(&graph, names.at(index).c_str(), "l");
 }
 
-void SetMultiGraph(TMultiGraph& multi_graph, const Point& min, const Point& max)
+void SetMultiGraph(TMultiGraph& multi_graph, Point const& min, Point const& max)
 {
     multi_graph.Draw("al");
     multi_graph.GetXaxis()->SetLimits(min.x, max.x);
@@ -126,7 +119,7 @@ void SetMultiGraph(TMultiGraph& multi_graph, const Point& min, const Point& max)
     Canvas::SetAxis(*multi_graph.GetYaxis(), "Background acceptance");
 }
 
-TGraph Graph(const Results& results, const std::vector< float >& values, const std::string& title)
+TGraph Graph(Results const& results, std::vector<float> const& values, std::string const& title)
 {
     TGraph graph(Result::steps, &results.x_values.front(), &values.front());
     graph.SetTitle("");
@@ -137,14 +130,12 @@ TGraph Graph(const Results& results, const std::vector< float >& values, const s
     return graph;
 }
 
-void SetHistogram(TH2& histogram, const Plot& plot, EColor color, TExec& exec)
+void SetHistogram(TH2& histogram, Plot const& plot, EColor color, TExec& exec)
 {
     Info();
     std::string options = "cont1 same";
     histogram.Draw(options.c_str());
-    for (auto const & point : plot.points) {
-        histogram.Fill(point.x, point.y);
-    }
+    for (auto const & point : plot.points) histogram.Fill(point.x, point.y);
     histogram.SetContour(20);
     switch (color) {
     case kRed :
@@ -161,7 +152,7 @@ void SetHistogram(TH2& histogram, const Plot& plot, EColor color, TExec& exec)
     histogram.Draw(options.c_str());
 }
 
-void SetProfile(TH2& histogram, const Plot& signal, const Plot& background)
+void SetProfile(TH2& histogram, Plot const& signal, Plot const& background)
 {
     Info();
     float max = (*std::max_element(signal.points.begin(), signal.points.end(), [](Point const & a, Point const & b) {
@@ -170,12 +161,8 @@ void SetProfile(TH2& histogram, const Plot& signal, const Plot& background)
     float min = (*std::min_element(background.points.begin(), background.points.end(), [](Point const & a, Point const & b) {
         return a.z < b.z;
     })).z;
-    for (auto const & point : signal.points) {
-        histogram.Fill(point.x, point.y, point.z);
-    }
-    for (auto const & point : background.points) {
-        histogram.Fill(point.x, point.y, point.z);
-    }
+    for (auto const & point : signal.points) histogram.Fill(point.x, point.y, point.z);
+    for (auto const & point : background.points) histogram.Fill(point.x, point.y, point.z);
     Color().Heat();
     CommonHist(histogram, signal, kRed);
     histogram.SetZTitle("BDT");
@@ -185,13 +172,13 @@ void SetProfile(TH2& histogram, const Plot& signal, const Plot& background)
     histogram.Draw("colz");
 }
 
-void CommonHist(TH1& histogram, const Plot& plot, EColor color)
+void CommonHist(TH1& histogram, Plot const& plot, EColor color)
 {
     Info();
-    histogram.SetXTitle(plot.nice_name_x.c_str());
-    histogram.SetYTitle(plot.nice_name_y.c_str());
     histogram.SetMarkerColor(color);
     histogram.SetLineColor(color);
+    Canvas::SetAxis(*histogram.GetXaxis(),plot.nice_name_x.c_str());
+    Canvas::SetAxis(*histogram.GetYaxis(),plot.nice_name_y.c_str());
 }
 
 }

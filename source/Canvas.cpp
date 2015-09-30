@@ -14,27 +14,32 @@ namespace boca{
     gStyle->SetTitleFont(FontCode(), "t");
     gStyle->SetTitleFontSize(TextSize());
 //     canvas_.cd();
-    Fill(canvas_);
+    Fill();
   }
 
-void Canvas::Fill(TAttFill& pad) const
+void Canvas::Fill()
 {
   Info();
-  pad.SetFillColor(0);
-  pad.SetFillStyle(0);
+  canvas_.SetFillColor(0);
+  canvas_.SetFillStyle(0);
   gPad->SetFillColor(0);
   gPad->SetFillStyle(0);
   gPad->SetFrameFillColor(0);
   gPad->SetFrameFillStyle(0);
 }
 
-std::string Canvas::SaveAs(const std::string& name)
+std::string Canvas::SaveAs(std::string const& name)
 {
   Info();
- canvas_.SaveAs((name+ExportFileSuffix()).c_str());
- return name;
+  canvas_.SaveAs((name+ExportFileSuffix()).c_str());
+  return name;
 }
 
+void Canvas::SetLog(float min, float max)
+{
+  Info();
+  if (min > 0 && min / max < 0.1) canvas_.SetLogy();
+}
 
 std::string Canvas::ExportFileSuffix() const
 {
@@ -59,12 +64,6 @@ void Canvas::SetTextStyle(TAttText& text)
   Info();
   text.SetTextFont(FontCode());
   text.SetTextSize(TextSize());
-}
-
-void Canvas::SetLog(float min, float max)
-{
-  Info();
-  if (min > 0 && min / max < 0.1) canvas_.SetLogy();
 }
 
 
@@ -120,7 +119,7 @@ void Canvas::SetPlotStyle(TAttLine& line, int index)
 int Canvas::Precision()
 {
   Info();
- return 2;
+  return 2;
 }
 
 std::string Canvas::Formula(std::string const& text)

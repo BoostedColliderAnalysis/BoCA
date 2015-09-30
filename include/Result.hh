@@ -13,16 +13,18 @@ namespace boca
 class Point {
 public:
     Point() {};
-    Point(float xx, float yy) {
-        x = xx;
-        y = yy;
+    Point(float xx, float yy, float zz = 0) {
+      x = xx;
+      y = yy;
+      z = zz;
     }
     float x = 0;
     float y = 0;
     float z = 0;
 };
 
-struct Plot {
+class Plot {
+public:
     std::vector<Point> points;
     std::string name_x;
     std::string name_y;
@@ -30,6 +32,9 @@ struct Plot {
     std::string nice_name_y;
     std::string name;
     std::string tree_name;
+    void Add(Point const& point){
+      points.emplace_back(point);
+    }
 };
 
 typedef std::vector<std::pair<std::string, std::string>> Names;

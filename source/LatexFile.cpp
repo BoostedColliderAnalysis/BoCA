@@ -3,7 +3,7 @@
 
 namespace boca
 {
-LatexFile::LatexFile(const std::string& name)
+LatexFile::LatexFile(std::string const& name)
 {
     latex_file_.open(name + ".tex");
     latex_file_ << "\\documentclass[a4paper,11pt]{article}\n\n"
@@ -31,7 +31,7 @@ LatexFile::~LatexFile()
     latex_file_ << "\n\\end{document}\n";
     latex_file_.close();
 }
-void LatexFile::operator<<(const std::string& string)
+void LatexFile::operator<<(std::string const& string)
 {
     latex_file_ << string;
 }
@@ -40,7 +40,7 @@ void LatexFile::IncludeGraphic(std::string file_name, std::string caption)
     latex_file_ << "\n\\begin{figure}\n\\centering\n\\includegraphics[width=0.5\\textwidth]{../" + file_name + "}\n\\caption{" + caption + ".}\n\\end{figure}\n";
 //         return "\n\\begin{figure}\n\\centering\n\\scalebox{0.6}{\\input{" + file_name + "}}\n\\caption{" + caption + ".}\n\\end{figure}\n";
 }
-void LatexFile::Table(const std::string& header, const std::string& content, std::string caption)
+void LatexFile::Table(std::string const& header, std::string const& content, std::string caption)
 {
     latex_file_ << "\n\\begin{table}\n\\centering\n\\begin{tabular}{" << header << "}\n    \\toprule\n";
     latex_file_ << content;
