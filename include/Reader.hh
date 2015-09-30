@@ -53,7 +53,7 @@ public:
     }
 
     template <typename Input>
-    auto Multiplets(const Input& input) const
+    auto Multiplets(Input const& input) const
     {
         PreCuts pre_cuts;
         return Tagger().Multiplets(input, pre_cuts, reader());
@@ -65,30 +65,30 @@ public:
 //     }
 
     template <typename Input>
-    auto Multiplet(const Input& input) const
+    auto Multiplet(Input const& input) const
     {
         return Tagger().Multiplet(input, reader());
     }
 
     template <typename Input1, typename Input2>
-    auto Multiplet(const Input1& input_1, const Input2& input_2) const
+    auto Multiplet(Input1 const& input_1, Input2 const& input_2) const
     {
         return Tagger().Multiplet(input_1, input_2, reader());
     }
 
     template <typename Input>
-    auto SubMultiplet(const Input& input, int number) const
+    auto SubMultiplet(Input const& input, int number) const
     {
         return Tagger().SubMultiplet(input, reader(), number);
     }
 
     template <typename Input>
-    auto SubMultiplet(const Input& input) const
+    auto SubMultiplet(Input const& input) const
     {
         return Tagger().SubMultiplet(input, reader());
     }
 
-    const TaggerTemplate& Tagger() const
+    TaggerTemplate const& Tagger() const
     {
       return tagger_;
     }

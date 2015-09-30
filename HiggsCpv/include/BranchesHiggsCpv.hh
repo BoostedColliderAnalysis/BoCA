@@ -25,7 +25,7 @@ public:
         Aplanarity = signature.EventShape().Aplanarity();
         Sphericity = signature.EventShape().Sphericity();
     }
-    Observables Variables() const;
+    Observables Variables();
 private:
     ClassDef(SignatureTTaggerBranch, 1)
 };
@@ -36,7 +36,7 @@ public:
     void Fill(Multiplet const& signature) {
         SignatureTTaggerBranch::Fill(signature);
     }
-    Observables Variables() const;
+    Observables Variables();
 
 private:
     ClassDef(SignatureLeptonTTaggerBranch, 1)
@@ -118,7 +118,7 @@ public:
         Aplanarity = signature.EventShape().Aplanarity();
         Sphericity = signature.EventShape().Sphericity();
     }
-    Observables Variables() const;
+    Observables Variables();
 
 private:
     ClassDef(SignatureLeptonTaggerBranch, 1)
@@ -159,7 +159,7 @@ public:
 //         HiggsMass = multiplet.Doublet().Jet().m();
 //         PairRap = multiplet.Sextet().DeltaRap();
     }
-    Observables Variables() const;
+    Observables Variables();
 
 private:
     ClassDef(SignatureLeptonicBranch, 1)
@@ -213,8 +213,8 @@ public:
     void Fill(Multiplet const& multiplet) {
         boca::EventBranch::Fill(multiplet);
     }
-    Observables Variables() const;
-    Observables Spectators() const;
+    Observables Variables();
+    Observables Spectators();
 
 private:
 
@@ -276,7 +276,7 @@ public:
         TopMass = multiplet.Triplet2().Jet().m();
         TopBdt = multiplet.Triplet2().Bdt();
     }
-    Observables Variables() const;
+    Observables Variables();
 
 private:
     ClassDef(TripletPairBranch, 1)

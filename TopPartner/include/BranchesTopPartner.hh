@@ -60,7 +60,7 @@ public:
         TChannelBranch::Fill(multiplet);
         VetoBdt = multiplet.VetoBdt();
     }
-    Observables Variables() const;
+    Observables Variables();
 private:
     ClassDef(SignatureSingleBranch, 1)
 };
@@ -72,7 +72,7 @@ public:
     void Fill(Multiplet const& multiplet) {
         boca::EventBranch::Fill(multiplet);
     }
-    Observables Variables() const;
+    Observables Variables();
 private:
     ClassDef(EventBranch, 1)
 };

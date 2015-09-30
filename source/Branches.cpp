@@ -9,7 +9,7 @@
 
 namespace boca {
 
-Obs::Obs(float const& value, std::string const& name, std::string const& nice_name) : value_(&const_cast<float&>(value))
+Obs::Obs(float & value, std::string const& name, std::string const& nice_name) : value_(&value)
 {
     name_ = name;
     nice_name_ = nice_name;
@@ -76,12 +76,12 @@ ResultBranch::ResultBranch()
     Tag = int(InitialValue());
 }
 
-Observables ResultBranch::Variables() const
+Observables ResultBranch::Variables()
 {
     return {};
 }
 
-Observables ResultBranch::Spectators() const
+Observables ResultBranch::Spectators()
 {
   return {PAIR(Tag), PAIR(Bdt)};
 }
@@ -95,12 +95,12 @@ ParticleBranch::ParticleBranch()
     Charge = int(InitialValue());
 }
 
-Observables ParticleBranch::Variables() const
+Observables ParticleBranch::Variables()
 {
     return Join(ResultBranch::Variables(), {PAIR(Mass, "m"), PAIR(Pt, "p_T")});
 }
 
-Observables ParticleBranch::Spectators() const
+Observables ParticleBranch::Spectators()
 {
     return Join(ResultBranch::Spectators(), {PAIR(Charge), PAIR(Rap), PAIR(Phi)});
 }
@@ -119,22 +119,22 @@ BottomBase::BottomBase()
     EnergyFraction = InValue();
 }
 
-Observables BottomBase::Variables() const
+Observables BottomBase::Variables()
 {
     return {PAIR(VertexMass, "m_{V}"), PAIR(MaxDisplacement, "log(#Delta d_{max})"), PAIR(MeanDisplacement, "log(#Delta d_{mean})"), PAIR(SumDisplacement, "log(#Delta d_{sum})"), PAIR(Multiplicity, "n_{V}"), PAIR(Radius, "r"), PAIR(Spread, "s"), PAIR(VertexRadius, "r_{V}"), PAIR(VertexSpread, "s_{V}"), PAIR(EnergyFraction, "f_{E}")};
 }
 
-Observables BottomBase::Spectators() const
+Observables BottomBase::Spectators()
 {
     return {};
 }
 
-Observables BottomBranch::Variables() const
+Observables BottomBranch::Variables()
 {
     return Join(ParticleBranch::Variables(), BottomBase::Variables());
 }
 
-Observables BottomBranch::Spectators() const
+Observables BottomBranch::Spectators()
 {
     return Join(ParticleBranch::Spectators(), BottomBase::Variables());
 }
@@ -152,12 +152,12 @@ TauBranch::TauBranch()
     TrtHtFraction = InitialValue();
 }
 
-Observables TauBranch::Variables() const
+Observables TauBranch::Variables()
 {
     return Join(ParticleBranch::Variables(), {PAIR(EmRadius), PAIR(TrackRadius), PAIR(MomentumFraction), PAIR(CoreEnergyFraction), PAIR(EmFraction), PAIR(ClusterMass), PAIR(TrackMass), PAIR(FlightPath), PAIR(TrtHtFraction)});
 }
 
-Observables TauBranch::Spectators() const
+Observables TauBranch::Spectators()
 {
     return ParticleBranch::Spectators();
 }
@@ -178,13 +178,13 @@ PairBranch::PairBranch()
     Dipolarity = InitialValue();
 }
 
-Observables PairBranch::Variables() const
+Observables PairBranch::Variables()
 {
   return Join(ParticleBranch::Variables(), {PAIR(Ht, "H_{T}"), PAIR(DeltaPt, "#Delta P_{T}"), PAIR(DeltaM, "#Delta m"), PAIR(DeltaRap, "#Delta #eta"), PAIR(DeltaPhi, "#Delta #phi"), PAIR(DeltaR, "#Delta R"), PAIR(Rho, "#rho"), PAIR(Bdt1, "BDT_{1}"), PAIR(Bdt2, "BDT_{2}"),PAIR(Pull,"#theta"),PAIR(DeltaPull,"#Delta #theta"),PAIR(Dipolarity,"D")});
     //return Join(ParticleBranch::Variables() {PAIR(Ht), PAIR(DeltaPt), PAIR(DeltaM), PAIR(DeltaRap), PAIR(DeltaPhi), PAIR(DeltaR), PAIR(Rho)});
 }
 
-Observables PairBranch::Spectators() const
+Observables PairBranch::Spectators()
 {
     return ParticleBranch::Spectators();
 }
@@ -194,7 +194,7 @@ MultiBranch::MultiBranch()
     DeltaHt = InitialValue();
 }
 
-Observables MultiBranch::Variables() const
+Observables MultiBranch::Variables()
 {
     return Join(PairBranch::Variables(), {PAIR(DeltaHt, "#Delta H_{T}")});
 }
@@ -235,7 +235,7 @@ TChannelBranch::TChannelBranch()
 //   Aplanarity = InitialValue();
 }
 
-Observables TChannelBranch::Variables() const
+Observables TChannelBranch::Variables()
 {
   return Join(MultiBranch::Variables(), {PAIR(Bdt3), PAIR(Mass12), PAIR(Mass23), PAIR(Mass13), PAIR(Pt12), PAIR(Pt23), PAIR(Pt13), PAIR(DeltaPt23), PAIR(DeltaPt13), PAIR(Ht12), PAIR(Ht23), PAIR(Ht13), PAIR(Rho23), PAIR(Rho13), PAIR(DeltaRap23), PAIR(DeltaRap13), PAIR(DeltaPhi23), PAIR(DeltaPhi13), PAIR(DeltaR23), PAIR(DeltaR13), PAIR(DeltaM23), PAIR(DeltaM13), PAIR(DeltaHt23), PAIR(DeltaHt13), PAIR(Pull23), PAIR(Pull13), PAIR(DeltaPull23), PAIR(DeltaPull13), PAIR(Dipolarity23), PAIR(Dipolarity13)
 //     , PAIR(Aplanarity), PAIR(Sphericity)
@@ -268,7 +268,7 @@ JetPairBranch::JetPairBranch()
 }
 
 
-Observables JetPairBranch::Variables() const
+Observables JetPairBranch::Variables()
 {
     return Join(PairBranch::Variables(), {PAIR(Jet1Mass), PAIR(Jet1Pt), PAIR(Jet1Rap), PAIR(Jet1Phi), PAIR(Jet2Mass), PAIR(Jet2Pt), PAIR(Jet2Rap), PAIR(Jet2Phi)});
 }
@@ -289,7 +289,7 @@ TripletJetPairBranch::TripletJetPairBranch()
     TopBTag = InitialValue();
 }
 
-Observables TripletJetPairBranch::Variables() const
+Observables TripletJetPairBranch::Variables()
 {
     return Join(PairBranch::Variables(), {PAIR(BottomPt), PAIR(BottomRap), PAIR(BottomPhi), PAIR(BottomMass), PAIR(TopPt), PAIR(TopRap), PAIR(TopPhi), PAIR(TopMass), PAIR(TopBdt)});
 }
@@ -300,7 +300,7 @@ WSemiBranch::WSemiBranch()
     LeptonPt = InitialValue();
 }
 
-Observables WSemiBranch::Variables() const
+Observables WSemiBranch::Variables()
 {
     return Join(ParticleBranch::Variables(), {PAIR(Ht), PAIR(DeltaPt), PAIR(DeltaM), PAIR(DeltaRap), PAIR(DeltaPhi), PAIR(DeltaR), PAIR(Rho), PAIR(LeptonPt), PAIR(NeutrinoPt)});
 }
@@ -323,14 +323,14 @@ TopHadronicBranch::TopHadronicBranch()
 //     Tau32_2 = InitialValue();
 }
 
-Observables TopHadronicBranch::Variables() const
+Observables TopHadronicBranch::Variables()
 {
     return Join(MultiBranch::Variables(), BottomBase::Variables(), {PAIR(LeptonPt)});
     return  Join(BottomBase::Variables(), ParticleBranch::Variables(), {PAIR(Bdt2), PAIR(LeptonPt)});
     return Join(MultiBranch::Variables(), BottomBase::Variables(), {PAIR(BottomMass), PAIR(WMass), PAIR(LeptonPt)});
 }
 
-Observables TopHadronicBranch::Spectators() const
+Observables TopHadronicBranch::Spectators()
 {
     return Join(MultiBranch::Spectators(), BottomBase::Spectators());
 }
@@ -341,12 +341,12 @@ TopLeptonicBranch::TopLeptonicBranch()
     LeptonPt = InitialValue();
 }
 
-Observables TopLeptonicBranch::Variables() const
+Observables TopLeptonicBranch::Variables()
 {
   return  Join(BottomBase::Variables(), ParticleBranch::Variables(), {PAIR(Ht), PAIR(DeltaPt), PAIR(DeltaM), PAIR(DeltaRap), PAIR(DeltaPhi), PAIR(DeltaR), PAIR(Rho), PAIR(Bdt2), PAIR(BottomPt), PAIR(LeptonPt),PAIR(Pull,"#theta"),PAIR(DeltaPull,"#Delta #theta"),PAIR(Dipolarity,"D")});
 }
 
-Observables TopLeptonicBranch::Spectators() const
+Observables TopLeptonicBranch::Spectators()
 {
     return Join(PairBranch::Spectators(), BottomBase::Spectators());
 }
@@ -356,12 +356,12 @@ HiggsBranch::HiggsBranch(){
   LeptonDeltaR = InitialValue();
 }
 
-Observables HiggsBranch::Variables() const
+Observables HiggsBranch::Variables()
 {
   return Join(PairBranch::Variables(), BottomBase::Variables(),{PAIR(LeptonPt),PAIR(LeptonDeltaR)});
 }
 
-Observables HiggsBranch::Spectators() const
+Observables HiggsBranch::Spectators()
 {
     return Join(PairBranch::Spectators(), BottomBase::Spectators());
 }
@@ -381,7 +381,7 @@ EventBranch::EventBranch()
     JetPhi = InitialValue();
 }
 
-Observables EventBranch::Variables() const
+Observables EventBranch::Variables()
 {
     return Join(MultiBranch::Variables(), {PAIR(LeptonNumber), PAIR(JetNumber), PAIR(BottomNumber), PAIR(MissingEt), PAIR(ScalarHt), PAIR(LeptonHt), PAIR(JetMass), PAIR(JetPt), PAIR(JetHt), PAIR(JetRap), PAIR(JetPhi)});
 }

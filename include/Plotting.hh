@@ -52,7 +52,7 @@ public:
 
 private:
 
-    void DoPlot(boca::Plots& signals, boca::Plots& backgrounds, Stage stage) const;
+    void DoPlot(boca::Plots& signals, boca::Plots& backgrounds, boca::Stage stage) const;
 
     void PlotDetails(boca::Plot& signal, boca::Plot& background, Stage stage) const;
 

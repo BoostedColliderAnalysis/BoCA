@@ -308,10 +308,10 @@ void Plotting::RunPlots() const
 void Plotting::DoPlot(Plots& signals, Plots& backgrounds, Stage stage) const
 {
     Info();
-    Names nice_names = unordered_pairs(Tagger().Branch().Variables(), [&](Obs const & variable_1, Obs const & variable_2) {
+    Names nice_names = unordered_pairs(tagger_.Branch().Variables(), [&](Obs const & variable_1, Obs const & variable_2) {
         return std::make_pair(variable_1.nice_name(), variable_2.nice_name());
     });
-    Names names = unordered_pairs(Tagger().Branch().Variables(), [&](Obs const & variable_1, Obs const & variable_2) {
+    Names names = unordered_pairs(tagger_.Branch().Variables(), [&](Obs const & variable_1, Obs const & variable_2) {
         return std::make_pair(variable_1.name(), variable_2.name());
     });
     signals.SetNames(names, nice_names);
@@ -399,11 +399,11 @@ Plots Plotting::PlotResult(TFile& file, std::string const& tree_name, Stage stag
     plots.info_branch = InfoBranch(file, tree_name);
     TTree& tree = static_cast<TTree&>(*file.Get(tree_name.c_str()));
     tree.SetMakeClass(1);
-    plots.plots = unordered_pairs(Tagger().Branch().Variables(), [&](Obs const & variable_1, Obs const & variable_2) {
+    plots.plots = unordered_pairs(tagger_.Branch().Variables(), [&](Obs const & variable_1, Obs const & variable_2) {
         return ReadTree(tree, variable_1.name(), variable_2.name(), stage);
     });
     plots.name = tree_name;
-    Debug(plots.plots.size(), Tagger().Branch().Variables().size());
+    Debug(plots.plots.size(), tagger_.Branch().Variables().size());
     return plots;
 }
 

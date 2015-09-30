@@ -34,7 +34,6 @@ class PseudoJet;
 namespace boca
 {
 
-class Event;
 class PreCuts;
 typedef std::vector<std::string> Strings;
 typedef std::vector<fastjet::PseudoJet> Jets;
@@ -65,6 +64,8 @@ public:
     virtual float ReadBdt(const TClonesArray&, int) const = 0;
 
     virtual const ResultBranch& Branch() const = 0;
+
+    virtual ResultBranch& Branch() = 0;
 
     static void SetAnalysisName(std::string const& analysis_name);
 

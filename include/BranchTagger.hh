@@ -38,11 +38,11 @@ public:
 //     }
 
 
-protected:
-
-    BranchTemplate& Branch() {
+    BranchTemplate& Branch() final {
         return branch_;
     }
+
+protected:
 
     template<typename Multiplet>
     std::vector<Multiplet> ReduceResult(std::vector<Multiplet> multiplets, size_t max = 4) const {

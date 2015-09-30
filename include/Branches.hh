@@ -14,7 +14,7 @@ namespace boca
 class Obs
 {
 public:
-    Obs(float const& value, std::string const& name, std::string const& nice_name);
+    Obs(float & value, std::string const& name, std::string const& nice_name);
     float& value() const;
     std::string name() const;
     std::string nice_name() const;
@@ -69,8 +69,8 @@ public:
         Tag = int(multiplet.Tag());
         Bdt = multiplet.Bdt();
     }
-    virtual Observables Variables() const;
-    virtual Observables Spectators() const;
+    virtual Observables Variables();
+    virtual Observables Spectators();
 private:
     ClassDef(ResultBranch, 1)
 };
@@ -97,8 +97,8 @@ public:
         Phi = multiplet.Jet().phi_std();
         Charge = multiplet.Charge();
     }
-    Observables Variables() const;
-    Observables Spectators() const;
+    Observables Variables();
+    Observables Spectators();
 
 private:
     ClassDef(ParticleBranch, 1)
@@ -142,8 +142,8 @@ public:
         VertexSpread = singlet.VertexSpread();
         EnergyFraction = singlet.EnergyFraction();
     }
-    virtual Observables Variables() const;
-    virtual Observables Spectators() const;
+    virtual Observables Variables();
+    virtual Observables Spectators();
     virtual ~BottomBase() {};
 private:
     ClassDef(BottomBase, 1)
@@ -158,8 +158,8 @@ private:
 class BottomBranch : public ParticleBranch, public BottomBase
 {
 public:
-    Observables Variables() const;
-    Observables Spectators() const;
+    Observables Variables();
+    Observables Spectators();
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         ParticleBranch::Fill(multiplet);
@@ -200,8 +200,8 @@ public:
         FlightPath = multiplet.FlightPath();
         TrtHtFraction = multiplet.TrtHtFraction();
     }
-    Observables Variables() const;
-    Observables Spectators() const;
+    Observables Variables();
+    Observables Spectators();
 
 private:
     ClassDef(TauBranch, 1)
@@ -240,8 +240,8 @@ public:
         DeltaPull = multiplet.PullDifference();
         Dipolarity = multiplet.Dipolarity();
     }
-    Observables Variables() const;
-    Observables Spectators() const;
+    Observables Variables();
+    Observables Spectators();
 
 private:
     ClassDef(PairBranch, 1)
@@ -258,7 +258,7 @@ public:
         PairBranch::Fill(multiplet);
         DeltaHt = multiplet.DeltaHt();
     }
-    Observables Variables() const;
+    Observables Variables();
 
 private:
     ClassDef(MultiBranch, 1)
@@ -341,7 +341,7 @@ public:
         //     Aplanarity = signature.EventShape().Aplanarity(); // FIXME reenable this
 //     Sphericity = signature.EventShape().Sphericity(); // FIXME reenable this
     }
-    Observables Variables() const;
+    Observables Variables();
 
 private:
     ClassDef(TChannelBranch, 1)
@@ -405,7 +405,7 @@ public:
         Jet2Phi = multiplet.Singlet2().Jet().phi();
         Jet2Mass = multiplet.Singlet2().Jet().m();
     }
-    Observables Variables() const;
+    Observables Variables();
 
 private:
     ClassDef(JetPairBranch, 1)
@@ -448,7 +448,7 @@ public:
         TopMass = multiplet.Triplet().Jet().m();
         TopBdt = multiplet.Triplet().Bdt();
     }
-    Observables Variables() const;
+    Observables Variables();
 
 private:
     ClassDef(TripletJetPairBranch, 1)
@@ -471,7 +471,7 @@ public:
         LeptonPt = multiplet.Singlet1().Jet().pt();
         NeutrinoPt = multiplet.Singlet2().Jet().pt();
     }
-    Observables Variables() const;
+    Observables Variables();
 
 private:
     ClassDef(WSemiBranch, 1)
@@ -498,8 +498,8 @@ public:
         WMass = multiplet.Doublet().Jet().m();
         LeptonPt = multiplet.pt();
     }
-    Observables Variables() const;
-    Observables Spectators() const;
+    Observables Variables();
+    Observables Spectators();
 
 private:
     ClassDef(TopHadronicBranch, 1)
@@ -523,8 +523,8 @@ public:
         BottomPt = multiplet.Singlet().Jet().pt();
         LeptonPt = multiplet.Doublet().Jet().pt(); // FIXME what is with the case of W
     }
-    Observables Variables() const;
-    Observables Spectators() const;
+    Observables Variables();
+    Observables Spectators();
 
 private:
     ClassDef(TopLeptonicBranch, 1)
@@ -548,8 +548,8 @@ public:
         LeptonPt = multiplet.LeptonPt;
         LeptonDeltaR = multiplet.LeptonDeltaR;
     }
-    Observables Variables() const;
-    Observables Spectators() const;
+    Observables Variables();
+    Observables Spectators();
 
 private:
     ClassDef(HiggsBranch, 1)
@@ -592,7 +592,7 @@ public:
         JetRap = multiplet.Singlet().Rapidity();
         JetPhi = multiplet.Singlet().Jet().phi();
     }
-    Observables Variables() const;
+    Observables Variables();
 
 private:
     ClassDef(EventBranch, 1)
