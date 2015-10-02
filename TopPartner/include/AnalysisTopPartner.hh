@@ -56,8 +56,8 @@ protected:
 
     boca::Mass Mass() const {
         Info();
-        return 4000. * GeV;
         return 1000. * GeV;
+        return 4000. * GeV;
         return 2000. * GeV;
         return 6000. * GeV;
         return 10000. * GeV;
@@ -117,7 +117,8 @@ protected:
         case DetectorType::Spp : {
             switch (process) {
             case Process::Tth :
-                switch (Int(Mass())) {
+               switch (Int(Mass())) {
+                case 1000 : return 0.004304 * pb;
                 case 2000 : return 0.0002919 * pb;
                 case 4000 : return 1.154e-05 * pb;
                 case 6000 : return 4.7344e-6 * pb;
@@ -129,6 +130,7 @@ protected:
                 }
                 case Process::TthHad :
                   switch (Int(Mass())) {
+                    case 1000 : return 0.004304 * pb;
                     case 2000 : return 0.0002919 * pb;
                     case 4000 : return 1.154e-05 * pb;
                     case 6000 : return 4.7344e-6 * pb;
@@ -140,8 +142,9 @@ protected:
                   }
             case Process::TT :
                 switch (Int(Mass())) {
+                case 1000 : return 2.499 * 2 * pb;
                 case 2000 : return 0.09375 * 2 * pb;
-                case 4000 : return 0.09377 * 2 * pb;
+                case 4000 : return 0.002363 * 2 * pb;
                 case 6000 : return 0.0003115 * 2 * pb;
                 case 8000 : return 4.655e-5 * 2 * pb;
                 case 10000 : return 9.101e-06 * 2 * pb;

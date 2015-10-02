@@ -78,7 +78,7 @@ std::vector<Multiplet> RemoveIfClose(std::vector<Multiplet> jets, Jets const& pa
 }
 
 template <typename Multiplet>
-std::vector<Multiplet> CopyIfClose(const std::vector<Multiplet>& multiplets, Jets const& particles)
+std::vector<Multiplet> CopyIfClose(std::vector<Multiplet> const& multiplets, Jets const& particles)
 {
     if (multiplets.empty()) return multiplets;
     std::vector<Multiplet> final_multiplets;

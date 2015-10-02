@@ -138,18 +138,13 @@ private:
 //             Error("Not enough top quarks", Particles.size());
             return 0;
         } else {
-          if (Particles.at(0).pt() < this->PreCut()/GeV)
-                return 0;
-          if (Particles.at(1).pt() < this->PreCut()/GeV)
-                return 0;
+          if (Particles.at(0).pt() < to_float(this->PreCut())) return 0;
+          if (Particles.at(1).pt() < to_float(this->PreCut())) return 0;
         }
-        if (event.Hadrons().MissingEt().pt() < this->MissingEt()/GeV)
-            return 0;
+        if (event.Hadrons().MissingEt().pt() < to_float(this->MissingEt())) return 0;
         Jets Leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
-        if (Leptons.empty())
-            return 0;
-        if (Leptons.front().pt() < this->LeptonPt()/GeV)
-            return 0;
+        if (Leptons.empty()) return 0;
+        if (Leptons.front().pt() < to_float(this->LeptonPt())) return 0;
         Jets jets = event.Hadrons().Jets();
         if (jets.size() < 4)
             return 0;

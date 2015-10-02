@@ -4,6 +4,7 @@
 #pragma once
 
 #include <string>
+#include "Units.hh"
 
 namespace fastjet {
   class PseudoJet;
@@ -59,7 +60,7 @@ private:
 };
 
 template <typename Enumeration>
-auto to_int(Enumeration const value) -> typename std::underlying_type<Enumeration>::type {
+auto to_int(Enumeration value) -> typename std::underlying_type<Enumeration>::type {
     return static_cast<typename std::underlying_type<Enumeration>::type>(value);
 }
 
@@ -67,7 +68,7 @@ template <typename Enumeration>
 using Unsigned = typename std::make_unsigned<typename std::underlying_type<Enumeration>::type>;
 
 template <typename Enumeration>
-auto to_unsigned(Enumeration const value) -> typename Unsigned<Enumeration>::type {
+auto to_unsigned(Enumeration value) -> typename Unsigned<Enumeration>::type {
   return static_cast<typename Unsigned<Enumeration>::type>(value);
 }
 

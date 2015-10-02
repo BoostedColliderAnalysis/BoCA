@@ -26,7 +26,7 @@ public:
 
     void Table(std::string const& header, std::string const& content, std::string caption);
 
-    std::string Mass(boca::Mass mass) const;
+    void Mass(boca::Mass mass);
 
     std::ofstream latex_file_;
 };

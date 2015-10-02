@@ -76,7 +76,7 @@ protected:
     }
 
     template<typename Multiplet>
-    std::vector<Multiplet> BestMatch(const std::vector<Multiplet>& multiplets, Jets const& particles, Id id = Id::empty) const {
+    std::vector<Multiplet> BestMatch(std::vector<Multiplet> const& multiplets, Jets const& particles, Id id = Id::empty) const {
         std::vector<Multiplet> close = CopyIfClose(multiplets, particles);
         close = SortedByBdt(close);
         if (id != Id::empty) close = SortedByMassTo(close, id);
@@ -85,7 +85,7 @@ protected:
     }
 
     template<typename Multiplet>
-    std::vector<Multiplet> RemoveBestMatch(const std::vector<Multiplet>& multiplets, Jets const& particles) const {
+    std::vector<Multiplet> RemoveBestMatch(std::vector<Multiplet> const& multiplets, Jets const& particles) const {
         return RemoveIfClose(multiplets, particles);
     }
 
@@ -143,7 +143,7 @@ protected:
     }
 
 //     template<typename Multiplet>
-//     int SaveEntries(const std::vector<Multiplet>& multiplets, Jets const& particles, Id id, Tag tag) const {
+//     int SaveEntries(std::vector<Multiplet> const& multiplets, Jets const& particles, Id id, Tag tag) const {
 //         Jets type = CopyIfParticle(particles, id);
 //         std::vector<Multiplet> matches = BestMatches(multiplets, type, tag);
 //         if (matches.size() > type.size()) matches = SortedByMassTo(matches, id);
@@ -151,7 +151,7 @@ protected:
 //     }
 //
 //     template<typename Multiplet>
-//     int SaveEntries(const std::vector<Multiplet>& multiplets,Jets const& particles, int id, Tag tag) const {
+//     int SaveEntries(std::vector<Multiplet> const& multiplets,Jets const& particles, int id, Tag tag) const {
 //       Jets type = CopyIfExactParticle(particles, id);
 //       std::vector<Multiplet> matches = BestMatches(multiplets, type, tag);
 //       if (matches.size() > type.size()) matches = SortedByMassTo(matches, id);
@@ -185,7 +185,7 @@ private:
         return branch_;
     }
 
-    float ReadBdt(const TClonesArray& clones_array, int entry) const final {
+    float ReadBdt(TClonesArray const& clones_array, int entry) const final {
         return static_cast<BranchTemplate&>(*clones_array.At(entry)).Bdt;
     }
 

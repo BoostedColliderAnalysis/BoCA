@@ -106,8 +106,11 @@ typedef boost::units::quantity<electronvolt::energy> Momentum;
  */
 typedef boost::units::quantity<electronvolt::energy> Energy;
 std::string Name(boost::units::quantity<electronvolt::energy> energy);
-int Int(boost::units::quantity<electronvolt::energy> energy);
-int Float(boost::units::quantity<electronvolt::energy> energy);
+// int to_int(boost::units::quantity<electronvolt::energy> energy);
+
+int Int(Momentum energy);
+float to_float(boost::units::quantity<electronvolt::energy> energy);
+boost::units::quantity< electronvolt::energy > to_energy(double energy);
 
 /**
  * @brief giga electronvolt
@@ -141,12 +144,16 @@ BOOST_UNITS_STATIC_CONSTANT(Barns, barn::area);
  *
  */
 typedef boost::units::quantity<barn::area> Crosssection;
+float to_float(Crosssection crosssection);
+Crosssection to_crosssection(float crosssection);
 
 /**
  * @brief Luminosity measured in 1 / barn
  *
  */
 typedef boost::units::quantity<barn::luminosity> Luminosity;
+float to_float(Luminosity luminosity);
+Luminosity to_luminosity(float luminosity);
 
 /**
  * @brief femto barn

@@ -46,14 +46,14 @@ void LatexFile::Table(std::string const& header, std::string const& content, std
     latex_file_ << content;
     latex_file_ << " \\bottomrule\n\\end{tabular}\n\\caption{" << caption << ".}\n\\end{table}\n";
 }
-std::string LatexFile::Mass(boca::Mass mass) const
+void LatexFile::Mass(boca::Mass mass)
 {
     Info();
     std::stringstream mass_string;
     if (mass > massless) {
         mass_string << boost::units::engineering_prefix << "\\section*{Mass = " << mass << "}\n";
     }
-    return mass_string.str();
+    latex_file_ << mass_string.str();
 }
 }
 

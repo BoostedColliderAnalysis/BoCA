@@ -95,20 +95,20 @@ private:
             //       if (PreCut() > 0)
 //             Error("Not enough bottom quarks", Quarks.size());
             return 0;
-        } else if (Quarks.front().pt() < this->PreCut() / GeV)
+        } else if (Quarks.front().pt() < to_float(this->PreCut()))
             return 0;
         Jets TopQuarks = fastjet::sorted_by_pt(CopyIfParticle(Particles, Id::top));
         if (TopQuarks.size() != 2) {
 //             Error("Not enough top quarks", TopQuarks.size());
             return 0;
-        } else if (TopQuarks.front().pt() < this->PreCut() / GeV)
+        } else if (TopQuarks.front().pt() < to_float(this->PreCut()))
             return 0;
-        if (event.Hadrons().MissingEt().pt() < this->MissingEt() / GeV)
+        if (event.Hadrons().MissingEt().pt() < to_float(this->MissingEt()))
             return 0;
         Jets Leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
         if (Leptons.empty())
             return 0;
-        if (Leptons.front().pt() < this->LeptonPt() / GeV)
+        if (Leptons.front().pt() < to_float(this->LeptonPt()))
             return 0;
         Jets jets = event.Hadrons().Jets();
         if (jets.size() < 4)

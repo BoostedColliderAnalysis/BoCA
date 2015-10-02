@@ -74,7 +74,7 @@ private:
     }
 
 //     template<typename Particle, typename EFlow>
-//     bool Isolation(const EFlow& e_flow, const TClonesArray& clones_array) const
+//     bool Isolation(const EFlow& e_flow, TClonesArray const& clones_array) const
 //     {
 //         bool Isolated = true;
 //         for (auto const& particle_number = 0; particle_number < clones_array.GetEntriesFast(); ++particle_number) {

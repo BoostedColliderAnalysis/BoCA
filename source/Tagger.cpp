@@ -106,30 +106,24 @@ std::string Tagger::ReaderName(std::string const& name) const
 std::string Tagger::Name(Stage stage) const
 {
     switch (stage) {
-    case Stage::trainer :
-        return Name();
-    case Stage::reader :
-        return ReaderName();
+    case Stage::trainer : return Name();
+    case Stage::reader : return ReaderName();
     }
 }
 std::string Tagger::Name(Stage stage, Tag tag) const
 {
     std::string name = Tagger::Name(stage);
     switch (tag) {
-    case Tag::signal :
-        return name;
-    case Tag::background :
-        return BackgroundName(name);
+    case Tag::signal : return name;
+    case Tag::background : return BackgroundName(name);
     }
 }
 
 std::string Tagger::FileName(Stage stage, Tag tag) const
 {
     switch (tag) {
-    case Tag::signal :
-        return SignalFileName(stage);
-    case Tag::background :
-        return BackgroundFileName(stage);
+    case Tag::signal : return SignalFileName(stage);
+    case Tag::background : return BackgroundFileName(stage);
     }
 }
 
@@ -139,8 +133,7 @@ std::string Tagger::SignalFileName(Stage stage) const
     switch (stage) {
     case Stage::trainer :
         break;
-    case Stage::reader :
-        name = ReaderName(name);
+    case Stage::reader : name = ReaderName(name);
         break;
     }
     return PathName(name);
@@ -149,11 +142,9 @@ std::string Tagger::BackgroundFileName(Stage stage) const
 {
     std::string name = BackgroundName();
     switch (stage) {
-    case Stage::trainer :
-//          TrainerName(name);
+    case Stage::trainer : // TrainerName(name);
         break;
-    case Stage::reader :
-        name = ReaderName(name);
+    case Stage::reader : name = ReaderName(name);
         break;
     }
     return PathName(name);
@@ -181,10 +172,8 @@ void Tagger::ClearTreeNames()
 Strings Tagger::TreeNames(Tag tag) const
 {
     switch (tag) {
-    case Tag::signal :
-        return signal_tree_names_;
-    case Tag::background :
-        return background_tree_names_;
+    case Tag::signal : return signal_tree_names_;
+    case Tag::background : return background_tree_names_;
     }
 }
 
@@ -200,10 +189,8 @@ void Tagger::SetAnalysisName(std::string const& analysis_name)
 std::string Tagger::MethodName(TMVA::Types::EMVA mva) const
 {
     switch (mva) {
-    case TMVA::Types::EMVA::kBDT :
-        return "Bdt";
-    default :
-        return "";
+    case TMVA::Types::EMVA::kBDT : return "Bdt";
+    default : return "";
     }
 }
 

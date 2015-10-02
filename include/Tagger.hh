@@ -61,7 +61,7 @@ public:
 
     virtual int Train(Event const&, PreCuts const&, const Tag) const = 0;
 
-    virtual float ReadBdt(const TClonesArray&, int) const = 0;
+    virtual float ReadBdt(TClonesArray const&, int) const = 0;
 
     virtual const ResultBranch& Branch() const = 0;
 
