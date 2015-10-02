@@ -3,6 +3,13 @@
 
 namespace analysis {
 
+  std::string Name(DetectorType detector_type){
+    switch(detector_type){
+      case DetectorType::CMS : return "CMS";
+      case DetectorType::Spp : return "Spp";
+    }
+  }
+  
 /**
  * @brief Constructor
  *
@@ -48,6 +55,15 @@ float DetectorGeometry::JetConeSize()
     case DetectorType::Spp:
         return 0.5;
     }
+}
+float DetectorGeometry::IsolationConeSize()
+{
+  switch (detector_type()) {
+    case DetectorType::CMS:
+      return 0.3;
+    case DetectorType::Spp:
+      return 0.3;
+  }
 }
 float DetectorGeometry::MinCellPt()
 {
@@ -155,9 +171,10 @@ JetType DetectorGeometry::jet_type()
     switch (detector_type()) {
     case DetectorType::CMS:
         return JetType::jet;
-    case DetectorType::Spp:
-        return JetType::jet;
 //         return JetType::e_flow_jet;
+    case DetectorType::Spp:
+//         return JetType::jet;
+        return JetType::e_flow_jet;
     }
 }
 

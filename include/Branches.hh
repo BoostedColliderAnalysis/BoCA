@@ -474,7 +474,7 @@ class EventBranch : public MultiBranch {
 public:
     EventBranch();
 
-    float LeptonNumber;
+//     float LeptonNumber;
     float JetNumber;
     float BottomNumber;
     float MissingEt;
@@ -491,7 +491,7 @@ public:
     void Fill(const Multiplet& multiplet)
     {
         analysis::MultiBranch::Fill(multiplet);
-        LeptonNumber = multiplet.GlobalObservables().LeptonNumber();
+//         LeptonNumber = multiplet.GlobalObservables().LeptonNumber();
         JetNumber = multiplet.GlobalObservables().JetNumber();
         BottomNumber = multiplet.GlobalObservables().BottomNumber();
         MissingEt = multiplet.GlobalObservables().MissingEt();

@@ -102,6 +102,9 @@ public:
     void SetSubStructure(bool sub_structure){
       sub_structure_ = sub_structure;
     }
+    
+    std::vector<Constituent> constituents() const;
+    
 
 private:
 
@@ -115,7 +118,7 @@ private:
 
     void SetCharge(int charge);
 
-    std::vector<Constituent> constituents() const;
+//     std::vector<Constituent> constituents() const;
 
     std::vector<Constituent> displaced_constituents() const;
 

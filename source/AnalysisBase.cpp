@@ -12,6 +12,7 @@
 #include "Plotting.hh"
 #include "Event.hh"
 #include "Trainer.hh"
+// #define DEBUG
 #include "Debug.hh"
 
 namespace analysis
@@ -121,7 +122,9 @@ std::string AnalysisBase::FileSuffix() const
 
 std::string AnalysisBase::FilePath() const
 {
-    return "~/Projects/";
+  return "~/Projects/";
+//   return "/media/toodles/Hajer/jan_old/final_sources/";
+  
 }
 
 int AnalysisBase::BackgroundFileNumber() const

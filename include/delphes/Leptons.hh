@@ -13,6 +13,7 @@ namespace delphes {
 class Leptons : public analysis::Leptons {
 
 public:
+   
   analysis::Jets Electrons() const final;
 
   analysis::Jets Muons() const final;
@@ -22,6 +23,8 @@ private:
     analysis::Jets Electrons(JetDetail jet_detail) const;
 
     analysis::Jets Muons(analysis::JetDetail jet_detail) const;
+    
+    Jets jets_;
 
 
 };

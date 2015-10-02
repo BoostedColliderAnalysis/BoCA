@@ -2,6 +2,7 @@
 
 #include "Analysis.hh"
 #include "Vector.hh"
+// #define DEBUG
 
 namespace analysis
 {
@@ -43,7 +44,11 @@ template<typename Tagger>
 class AnalysisHeavyHiggs : public Analysis<Tagger>
 {
 
-public:
+  public:
+    
+    AnalysisHeavyHiggs(){
+      DetectorGeometry::set_detector_type(DetectorType::CMS);
+    }
 
     int Mass() const {
         //     return 300;
@@ -55,16 +60,17 @@ public:
         //     return 900;
 //                 return 1000;
 //       return 1500;
-//                 return 2000;
+                return 2000;
 //                    return 3000;
-//                 return 4000;
+//         return 4000;
 //                         return 5000;
+//       return 6000;
 //         return 7000;
 //                 return 8000;
 //                         return 10000;
 //                         return 12000;
-                        return 15000;
-        //                return 20000;
+//                         return 15000;
+//                        return 20000;
     };
 
     int PreCut() const {
@@ -112,16 +118,17 @@ public:
         //            return 10000000;
         //                   return 1000000;
         //         return 100000;
-        return 10000;
+        return 5000;
         //                 return 1000;
         //                         return 500;
         //                         return 10;
     };
 
     Collider collider_type() const {
-//         return Collider::LHC;
-        //       return FHC;
-        return Collider::LE;
+        switch(DetectorGeometry::detector_type()){
+          case DetectorType::CMS : return Collider::LHC;
+          case DetectorType::Spp : return Collider::LE;
+        }
     };
 
     float MissingEt() const {
@@ -138,7 +145,7 @@ public:
     float LeptonPt() const {
         switch (collider_type()) {
         case Collider::LHC :
-            return 50;
+            return 15;
         case Collider::LE :
             return 100;
         default :
@@ -146,18 +153,29 @@ public:
         }
     };
 
-    
+
     float SecondLeptonPt() const {
+        switch (collider_type()) {
+        case Collider::LHC :
+            return 15;
+        case Collider::LE :
+            return 50;
+        default :
+            return 0;
+        }
+    };
+    
+    float VetoLeptonPt() const {
       switch (collider_type()) {
         case Collider::LHC :
-          return 25;
+          return 10;
         case Collider::LE :
           return 50;
         default :
           return 0;
       }
     };
-    
+
     float BottomPt() const {
         switch (collider_type()) {
         case Collider::LHC :
@@ -179,7 +197,15 @@ public:
                 return 1;
             case  Process::ttwbb :
                 return 1;
-                //                 return 1; // < this must be removed !!
+            case Process::tt:
+                switch (PreCut()) {
+                case 0:
+                    return 127;
+                case 250:
+                    return 41;
+                default :
+                    return 1;
+                }
             default :
                 return 1;
             }
@@ -189,6 +215,25 @@ public:
                 return 2;
             case  Process::ttwbb:
                 return 1;
+            case Process::tt:
+                switch (PreCut()) {
+                case 0:
+                    return 118;
+                case 100:
+                    return 15;
+                case 300:
+                    return 110;
+                case 1000:
+                    return 32;
+                case 1500:
+                    return 34;
+                case 2000:
+                    return 26;
+                case 2500:
+                    return 11;
+                default :
+                    return 1;
+                }
             default :
                 return 1;
             }
@@ -203,6 +248,10 @@ public:
             return "_" + std::to_string(Mass()) + "GeV";
         case Process::Htwb:
             return "_" + std::to_string(Mass()) + "GeV";
+        case Process::Hbb:
+            return "_" + std::to_string(Mass()) + "GeV";
+        case Process::tt:
+            return "-" + std::to_string(PreCut()) + "GeV";
         case Process::ttwwbb:
             return "";
         case Process::ttwbb:
@@ -233,9 +282,13 @@ public:
     virtual std::string FileName(Process process, Tag tag) const {
         switch (tag) {
         case Tag::signal:
-            return Name(process) + Suffix(process) + "_" + Name(collider_type());
+//             return Name(process) + "-" + Name(collider_type()) + Suffix(process);
+               return Name(process) + Suffix(process) + "_" + Name(collider_type());
+
         case Tag::background:
-            return Name(process) + Suffix(process) + "_" + Name(collider_type());
+//             return Name(process) + "-" + Name(collider_type()) + Suffix(process);
+          return Name(process) + Suffix(process) + "_" + Name(collider_type());
+
         }
     }
 

@@ -171,17 +171,104 @@ bool Hadrons::Isolated(const TObject& object, const std::vector<TObject*> lepton
 //     return constituents;
 // }
 
+
+// yingying the good code to get eflow jet
+// Jets Hadrons::EFlowJets(JetDetail jet_detail) const
+// {
+//     fastjet::ClusterSequence& cluster_sequence = *new fastjet::ClusterSequence(EFlow(jet_detail), DetectorGeometry::JetDefinition());
+//     analysis::Jets jets = fastjet::sorted_by_pt(cluster_sequence.inclusive_jets(DetectorGeometry::JetMinPt()));
+//     if (jets.empty()) {
+//         delete &cluster_sequence;
+//         return jets;
+//     }
+//     cluster_sequence.delete_self_when_unused();
+//     return jets;
+// }
+//good code to get eflow jet
+
+
+// yingying add granu here 
 Jets Hadrons::EFlowJets(JetDetail jet_detail) const
 {
-    fastjet::ClusterSequence& cluster_sequence = *new fastjet::ClusterSequence(EFlow(jet_detail), DetectorGeometry::JetDefinition());
-    analysis::Jets jets = fastjet::sorted_by_pt(cluster_sequence.inclusive_jets(DetectorGeometry::JetMinPt()));
-    if (jets.empty()) {
-        delete &cluster_sequence;
-        return jets;
-    }
-    cluster_sequence.delete_self_when_unused();
+  fastjet::ClusterSequence& cluster_sequence = *new fastjet::ClusterSequence(EFlow(jet_detail), DetectorGeometry::JetDefinition());
+  analysis::Jets jets = fastjet::sorted_by_pt(cluster_sequence.inclusive_jets(DetectorGeometry::JetMinPt()));
+  if (jets.empty()) {
+    delete &cluster_sequence;
     return jets;
+  }
+  cluster_sequence.delete_self_when_unused();
+  return jets;
 }
+Jets Hadrons::GranulatedJets(const analysis::Jets &NewEFlowJets) const
+{
+  // start of granularization of the hadronic calorimeter to redefine hadrons
+  const float CellDeltaRap = DetectorGeometry::MinCellResolution();
+  const float CellDeltaPhi = DetectorGeometry::MinCellResolution();
+  const float PtCutOff = DetectorGeometry::MinCellPt();
+  const float Pi = 3.1415926;
+  
+  
+  analysis::Jets EFlowJets = fastjet::sorted_by_pt(NewEFlowJets);
+  analysis::Jets NewGranulatedJets;
+  NewGranulatedJets.push_back(EFlowJets[0]);
+  
+  for (const auto & EFlowJet : EFlowJets) {
+    int NewJet = 0;
+    
+    for (size_t j = 0; j < NewGranulatedJets.size(); ++j) {
+      
+      const float CellDiffRap = std::abs(EFlowJet.pseudorapidity() - NewGranulatedJets[j].pseudorapidity()) / CellDeltaRap;
+      float CellDiffPhi = std::abs(EFlowJet.phi() - NewGranulatedJets[j].phi());
+      if (CellDiffPhi > Pi) CellDiffPhi = 2 * Pi - CellDiffPhi;
+      CellDiffPhi = CellDiffPhi / CellDeltaPhi;
+      
+      if (CellDiffRap < 1 && CellDiffPhi < 1) {
+        
+        NewJet = 1;
+        
+        const float TotalEnergy  = EFlowJet.e() + NewGranulatedJets[j].e();
+        const float RescaleFactor = std::sqrt(std::pow(EFlowJet.px() + NewGranulatedJets[j].px(), 2) + std::pow(EFlowJet.py() + NewGranulatedJets[j].py(), 2) + pow(EFlowJet.pz() + NewGranulatedJets[j].pz(), 2));
+        const float RescaledPx = TotalEnergy * (EFlowJet.px() + NewGranulatedJets[j].px()) / RescaleFactor;
+        const float RescaledPy = TotalEnergy * (EFlowJet.py() + NewGranulatedJets[j].py()) / RescaleFactor;
+        const float RescaledPz = TotalEnergy * (EFlowJet.pz() + NewGranulatedJets[j].pz()) / RescaleFactor;
+        
+        fastjet::PseudoJet CombinedJet(RescaledPx, RescaledPy, RescaledPz, TotalEnergy);
+        
+        
+        std::vector<Constituent> Constituents;
+        std::vector<Constituent> NewConstituents = EFlowJet.user_info<analysis::JetInfo>().constituents();
+        Constituents.insert(Constituents.end(), NewConstituents.begin(), NewConstituents.end());
+        NewConstituents = NewGranulatedJets[j].user_info<analysis::JetInfo>().constituents();
+        Constituents.insert(Constituents.end(), NewConstituents.begin(), NewConstituents.end());
+        
+        CombinedJet.set_user_info(new analysis::JetInfo(Constituents));
+        
+        NewGranulatedJets.erase(NewGranulatedJets.begin() + j);
+        NewGranulatedJets.push_back(CombinedJet);
+        break;
+        
+      }
+    }
+    
+    if (NewJet != 1) {
+      NewGranulatedJets.push_back(EFlowJet);
+      NewGranulatedJets = fastjet::sorted_by_pt(NewGranulatedJets);
+    }
+  }
+  
+  
+  for (size_t ii = 0; ii < NewGranulatedJets.size(); ++ii) {
+    
+    if ((NewGranulatedJets[ii].perp() < PtCutOff)) {
+      NewGranulatedJets.erase(NewGranulatedJets.begin() + ii);
+      --ii;
+    }
+  }
+  
+  return NewGranulatedJets;
+  
+}
+// yingying add granu above
 
 Jets Hadrons::EFlow(JetDetail jet_detail) const
 {

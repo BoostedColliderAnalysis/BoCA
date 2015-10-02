@@ -16,7 +16,7 @@ public:
 
     void NewEvent(const ClonesArrays& clones_arrays);
 
-    Jets leptons() const;
+    virtual Jets leptons() const;
 
     virtual analysis::Jets Electrons() const = 0;
 

@@ -325,7 +325,7 @@ Observables HiggsBranch::Spectators() const
 
 EventBranch::EventBranch()
 {
-    LeptonNumber = int(InitialValue());
+//     LeptonNumber = int(InitialValue());
     JetNumber = int(InitialValue());
     BottomNumber = int(InitialValue());
     MissingEt = InitialValue();
@@ -340,7 +340,7 @@ EventBranch::EventBranch()
 
 Observables EventBranch::Variables() const
 {
-    return Join(MultiBranch::Variables(), {PAIR(LeptonNumber), PAIR(JetNumber), PAIR(BottomNumber), PAIR(MissingEt), PAIR(ScalarHt), PAIR(LeptonHt), PAIR(JetMass), PAIR(JetPt), PAIR(JetHt), PAIR(JetRap), PAIR(JetPhi)});
+    return Join(MultiBranch::Variables(), {/*PAIR(LeptonNumber),*/ PAIR(JetNumber), PAIR(BottomNumber), PAIR(MissingEt), PAIR(ScalarHt), PAIR(LeptonHt), PAIR(JetMass), PAIR(JetPt), PAIR(JetHt), PAIR(JetRap), PAIR(JetPhi)});
 }
 
 void Color::Red()

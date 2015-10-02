@@ -5,13 +5,19 @@
 #include "exroot/Leptons.hh"
 #include "exroot/Hadrons.hh"
 #include "exroot/Partons.hh"
+#include "Vector.hh"
+// #define INFORMATION
 #include "Debug.hh"
 
-namespace analysis {
+namespace analysis
+{
 
-Event::Event() {}
+Event::Event() : isolation_(*this)
+{
+    Info();
+}
 
-Event::Event(const Source source)
+Event::Event(const Source source) : isolation_(*this)
 {
     Info();
     source_ = source;
@@ -50,7 +56,7 @@ Event::~Event()
     }
 }
 
-void Event::NewEvent(const ClonesArrays& clones_arrays)
+void Event::NewEvent(const ClonesArrays &clones_arrays)
 {
     Info();
     switch (source_) {
@@ -67,6 +73,59 @@ void Event::NewEvent(const ClonesArrays& clones_arrays)
         partons_->NewEvent(clones_arrays);
         break;
     }
+}
+
+Jets Event::IsolatedLeptons()
+{
+    Info();
+    Jets leptons;
+    for (auto const & lepton : leptons_->leptons()) {
+        bool isolated = true;
+        for (auto const & jet : hadrons_->Jets()) if (Close(lepton)(jet, DetectorGeometry::IsolationConeSize())&&jet.pt()/lepton.pt()>1.0) {
+                isolated = false;
+                break;
+            }
+        if (isolated) leptons.emplace_back(lepton);
+    }
+    return leptons;
+}
+
+analysis::Partons const &Event:: Partons() const
+{
+    Info();
+    return *partons_;
+}
+
+analysis::Hadrons const &Event::Hadrons() const
+{
+    Info();
+    return *hadrons_;
+}
+
+analysis::Leptons const &Event::Leptons() const
+{
+    Info(Name(DetectorGeometry::detector_type()));
+    switch (DetectorGeometry::detector_type()) {
+    case DetectorType::CMS :
+        Info("CMS");
+//       return *leptons_;
+        return isolation_;
+    case DetectorType::Spp :
+        Info("Spp");
+        return *leptons_;
+    }
+}
+
+void Event::SetMass(float mass)
+{
+    Info();
+    mass_ = mass;
+}
+
+float Event::mass() const
+{
+    Info();
+    return mass_;
 }
 
 }

@@ -7,6 +7,9 @@
 #include "Reader.hh"
 #include "Trees.hh"
 #include "File.hh"
+// #define DEBUG
+#include "Debug.hh"
+
 
 namespace analysis {
 
@@ -38,7 +41,6 @@ public:
             Files files(tagger().ExportFileName(stage, tag), stage, tag);
             ClearFiles();
             SetFiles(tag);
-            
             for (auto& file : this->files(tag)) {
                 files.set_file(file);
                 AnalyseFile(files, reader);
@@ -80,9 +82,11 @@ private:
    */
   void AnalyseFile(Files& files, Reader<Tagger>& reader)
     {
+//         Error(files.file().Title().c_str());
         Trees trees(files);
         SetTreeBranch(files.stage(), trees.tree_writer(), reader);
         trees.UseBranches(files.file(), tagger().WeightBranchName());
+
         if (files.stage() == Stage::reader) {
             trees.entry = std::min(long(trees.tree_reader().GetEntries()), EventNumberMax()) / 2;    // TODO fix corner cases
         }

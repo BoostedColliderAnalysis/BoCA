@@ -1,8 +1,11 @@
 #include "delphes/Leptons.hh"
 #include "delphes/Delphes.hh"
 #include "Types.hh"
-#include "Debug.hh"
 #include "JetInfo.hh"
+#include "delphes/Hadrons.hh"
+#include "Vector.hh"
+// #define INFORMATION
+#include "Debug.hh"
 
 namespace analysis {
 
@@ -10,7 +13,7 @@ namespace delphes {
 
 Jets Leptons::Electrons() const
 {
-    Info(clones_arrays().ElectronSum());
+    Info(clones_arrays().ElectronSum());  
     return Electrons(JetDetail::plain);
 }
 
@@ -34,8 +37,8 @@ Jets Leptons::Electrons(JetDetail jet_detail) const
 
 Jets Leptons::Muons() const
 {
-    Info(clones_arrays().MuonSum());
-    return Muons(JetDetail::plain);
+  Info(clones_arrays().MuonSum());   
+  return Muons(JetDetail::plain);
 }
 
 Jets Leptons::Muons(JetDetail jet_detail) const

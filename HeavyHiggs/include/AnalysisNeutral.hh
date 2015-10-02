@@ -33,10 +33,12 @@ public:
         switch (tag)
         {
         case Tag::signal :
-            this->NewFile(tag, Process::Hbb);
+//             this->NewFile(tag, Process::Hbb);
+            this->NewFile(tag, SignalCrosssection(), Process::Hbb);
             break;
         case Tag::background :
-            this->NewFile(tag, Process::tt);
+            if (this->tagger().Name() == "JetPair") this->NewFile(tag, SignalCrosssection(), Process::Hbb);
+            this->NewFile(tag, BackgroundCrosssection(), Process::tt);
             break;
         }
     }
@@ -44,7 +46,7 @@ public:
     std::string ProjectName() const final
     {
         //        return  ProcessName() + "-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV-" + std::to_string(Mass()) + "GeV-Eta2.5";
-        return  ProcessName() + "-" + Name(this->collider_type()) + "-" + std::to_string(this->PreCut()) + "GeV-" + std::to_string(this->Mass()) + "GeV";
+        return  ProcessName() + "-" + Name(this->collider_type()) + "-" + std::to_string(this->PreCut()) + "GeV-" + std::to_string(this->Mass()) + "GeV_10000_Granulated";
     };
 
 private:
@@ -103,6 +105,45 @@ private:
             Error("Signal Crosssection", "unhandled case");
             return 1;
         }
+    }
+    
+    float BackgroundCrosssection() const
+    {
+      switch (this->collider_type()) {
+        case Collider::LHC:
+          switch (this->Mass()) {
+            case 500:
+              return 97.54*2*1000;
+            case 1000:
+            case 2000:
+              return 5.698*2*1000;
+            default:
+              Error("BackgroundCrosssection", "unhandled case");
+              return 1;
+          } ;
+            case Collider::FHC:
+            case Collider::LE:
+              switch (this->Mass()) {
+                case 500:
+                  return 7130000;
+                case 1000:
+                case 2000:
+                  return 356000;
+                case 4000:
+                  return 505;
+                case 6000:
+                case 10000:
+                case 12000:
+                case 15000:
+                  return 44.4;
+                default:
+                  Error("BackgroundCrosssection", "unhandled case");
+                  return 1;
+              }
+                default:
+                  Error("BackgroundCrosssection", "unhandled case");
+                  return 1;
+      }
     }
 
     std::string ProcessName() const override

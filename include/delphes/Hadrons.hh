@@ -54,6 +54,8 @@ private:
     analysis::Jets DelphesJets(JetDetail jet_detail) const;
 
     analysis::Jets EFlow(JetDetail jet_detail) const;
+    
+    analysis::Jets GranulatedJets(const analysis::Jets &NewEFlowJets) const;
 
     analysis::Jets GenJets() const;
 

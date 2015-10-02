@@ -163,7 +163,7 @@ Observables EventBranch::Variables() const
 }
 Observables EventBranch::Spectators() const
 {
-    return Join(MultiBranch::Variables(), {PAIR(LeptonNumber)});
+    return Join(MultiBranch::Variables(), {/*PAIR(LeptonNumber)*/PAIR(JetNumber)});
 }
 }
 }

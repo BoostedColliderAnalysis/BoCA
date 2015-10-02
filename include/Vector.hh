@@ -61,6 +61,9 @@ struct Close {
     bool operator()(const fastjet::PseudoJet& jet) {
         return (jet.delta_R(particle_) < detector_geometry_.JetConeSize());
     }
+    bool operator()(const fastjet::PseudoJet& jet, float cone_size) {
+      return (jet.delta_R(particle_) < cone_size);
+    }
     fastjet::PseudoJet particle_;
     DetectorGeometry detector_geometry_;
 };

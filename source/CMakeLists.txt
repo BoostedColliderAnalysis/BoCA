@@ -30,6 +30,7 @@ FourVector.cpp
 Partons.cpp
 Leptons.cpp
 Hadrons.cpp
+Isolation.cpp
 )
 create_library(Event event_sources)
 

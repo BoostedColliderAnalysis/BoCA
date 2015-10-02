@@ -211,7 +211,7 @@ class EventNeutralBranch : public EventBranch {
 public:
 
     EventNeutralBranch();
-
+    float LeptonNumber;
     float HiggsMass;
     float PairRap;
     float HiggsBdt;
@@ -239,6 +239,7 @@ public:
     void Fill(const Multiplet& event)
     {
         EventBranch::Fill(event);
+        LeptonNumber = event.GlobalObservables().LeptonNumber();
         HiggsMass = event.Multiplet().Sextet().Jet().m();
         HiggsBdt = event.Multiplet().Sextet().Bdt();
         SignatureBdt = event.Multiplet().Bdt();

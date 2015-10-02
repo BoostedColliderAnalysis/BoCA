@@ -23,10 +23,13 @@ enum class DetectorType {
     Spp //<  default detector for a 100TeV collider
 };
 
+std::string Name(DetectorType detector_type);
+
 class DetectorGeometry {
 public:
     static float JetMinPt();
     static float JetConeSize();
+    static float IsolationConeSize();
     static float MinCellPt();
     static float MinCellResolution();
     static float TrackerEtaMax();
@@ -40,8 +43,8 @@ public:
     static float Luminosity();
     static JetType jet_type();
     static void set_detector_type(const DetectorType detector_type);
-private:
     static DetectorType detector_type();
+private:
     static DetectorType detector_type_;
     static InfoRecombiner info_recombiner_;
 };
