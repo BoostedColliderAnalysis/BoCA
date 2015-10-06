@@ -53,7 +53,6 @@ endif()
 # Libraries
 add_subdirectory(source)
 
-add_subdirectory(TruthLevel)
 add_subdirectory(StandardModel)
 add_subdirectory(PairTagger)
 add_subdirectory(HiggsCpv)
