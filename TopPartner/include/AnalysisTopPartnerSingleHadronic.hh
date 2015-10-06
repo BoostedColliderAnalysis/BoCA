@@ -4,6 +4,7 @@
 #pragma once
 
 #include "AnalysisTopPartner.hh"
+#include "EventSingleHadronicTagger.hh"
 #include "Debug.hh"
 
 namespace boca
@@ -16,48 +17,62 @@ namespace naturalness
  *
  * @brief Top partner analysis
  *
- * \author Jan Hajer
+ * @author Jan Hajer
  *
  */
 template<typename Tagger>
-class AnalysisSingle : public AnalysisNaturalness<Tagger>
+class AnalysisSingleHadronic : public AnalysisNaturalness<Tagger>
 {
 
 public:
 
-    AnalysisSingle() {
+    AnalysisSingleHadronic() {
         this->tagger().SetAnalysisName(ProjectName());
     }
 
 protected:
 
     std::string ProjectName() const final {
-        return ProcessName() + "-" + boca::Name(this->PreCut()) + "-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass()) + "";
+        return ProcessName() + "-had-" + boca::Name(this->PreCut()) + "-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass())
+               + "-problems";
+//         + "-wrong";
+//         + "-full";
+//         + "newbg";
+//                + "type";
     }
 
     std::string ProcessName() const final {
-        return "Naturalness-Single";
+        return "Naturalness-Single-Hadronic";
     }
-
 
     void SetFiles(Tag tag) final {
         switch (tag) {
         case Tag::signal :
-            if (this->tagger().Name() == "TopPartnerHadronic") this->NewFile(tag, Process::TT);
-            else this->NewFile(tag, Process::Tth);
+            if (this->template IsType<TopPartnerLeptonicTagger>()) this->NewFile(tag, Process::TT);
+            else this->NewFile(tag, Process::TthHad);
             break;
         case Tag::background :
-            if (this->tagger().Name() == "TopPartnerHadronic") this->NewFile(tag, Process::Tth);
-            else if (this->tagger().Name() != "TopPartnerLeptonic") this->NewFile(tag, Process::TT);
-            this->NewFile(tag, Process::ttBB);
-            this->NewFile(tag, Process::ttBjj);
+            if (this->template IsType<TopPartnerLeptonicTagger>()) this->NewFile(tag, Process::TthHad);
+            else
+//             if (!this->template IsType<TopPartnerHadronicTagger>())
+              this->NewFile(tag, Process::TT);
+//             this->NewFile(tag, Process::ttBB);
+//             this->NewFile(tag, Process::ttBjj);
             break;
         }
     }
 
 private:
 
-    int PassPreCut(Event const&, Tag) const final {
+    int PassPreCut(Event const& event, Tag) const final {
+//       static int counter = 0;
+//       ++counter;
+//     Error(counter);
+
+//      this->PrintGeneratorLevel(event);
+
+
+
 //         Jets jets = fastjet::sorted_by_pt(event.Hadrons().Jets());
 //         if (jets.size() < 3) return 0;
 //         if (jets.at(2).pt() < this->JetPreCut()) return 0;

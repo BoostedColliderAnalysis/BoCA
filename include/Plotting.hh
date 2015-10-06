@@ -74,6 +74,8 @@ private:
 
     void PlotAcceptanceGraph(const boca::Results& results) const;
 
+    std::string PlotCrosssectionsGraph(const boca::Results& results) const;
+
     std::string PlotCrosssectionGraph(Results& results) const;
 
     std::string PlotHistograms(boca::Results& results) const;

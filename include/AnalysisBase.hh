@@ -46,14 +46,18 @@ public:
 
 protected:
 
+    virtual void SetFiles(Tag tag) = 0;
+
+    virtual int PassPreCut(Event const&, Tag tag) const = 0;
+
+    virtual Tagger const& tagger() const = 0;
+
+
     void ClearFiles();
 
     std::vector<boca::File> files(Tag tag);
 
     void PrepareFiles();
-
-    virtual void SetFiles(Tag tag) = 0;
-
     exroot::TreeWriter TreeWriter(TFile& export_file, std::string const& export_tree_name, Stage stage);
 
     virtual std::string ProjectName() const;
@@ -98,23 +102,21 @@ protected:
 
     std::string TreeName(std::string const& name) const;
 
-    virtual int PassPreCut(Event const&, Tag tag) const = 0;
-
     PreCuts const& pre_cuts() const;
 
     PreCuts& pre_cuts();
 
-    virtual Tagger const& tagger() const = 0;
-
     std::string working_path_;
+
+    void PrintGeneratorLevel(Event const& event, bool signature = false) const;
 
 private:
 
     virtual Tagger& tagger() = 0;
 
-    std::string FileSuffix() const;
-
     virtual void AnalysisLoop(Stage stage) = 0;
+
+    std::string FileSuffix() const;
 
     void RunTagger(Stage stage);
 

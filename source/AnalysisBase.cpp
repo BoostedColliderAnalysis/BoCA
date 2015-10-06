@@ -15,6 +15,7 @@
 #include "Plotting.hh"
 #include "Event.hh"
 #include "Trainer.hh"
+#include "ParticleInfo.hh"
 // #define INFORMATION
 #include "Debug.hh"
 
@@ -291,29 +292,41 @@ void Run(AnalysisBase& analysis, Output run)
 {
 //   analysis.PreRequisits<analysis.tagger()::type>(analysis,run);
   switch (run) {
-    case boca::Output::fast :
+    case Output::fast :
       analysis.RunFast();
       break;
-    case boca::Output::normal :
+    case Output::normal :
         analysis.RunNormal();
         break;
-    case boca::Output::efficiency :
+    case Output::efficiency :
       analysis.RunFullEfficiency();
 //       analysis.RunPlots();
         break;
-    case boca::Output::significance :
+    case Output::significance :
       analysis.RunFullSignificance();
       analysis.RunPlots();
         break;
-    case boca::Output::plot :
+    case Output::plot :
         analysis.RunNormal();
         analysis.RunPlots();
         break;
     }
-    if (boca::is(run, boca::Output::plot)) {
+    if (is(run, Output::plot)) {
         analysis.RunPlots();
     }
 
+}
+
+void AnalysisBase::PrintGeneratorLevel(Event const& event, bool signature) const {
+  Jets particles = event.Partons().GenParticles();
+  for (auto const & particle : particles) {
+    Family family = particle.user_info<ParticleInfo>().Family();
+    if (signature && family.mother_2().id() == 0) continue;
+    std::string id = Name(family.particle().id());
+    std::string mother = Name(family.mother_1().id());
+    std::string mother2 = Name(family.mother_2().id());
+    Error(id, mother, mother2);
+  }
 }
 
 }

@@ -1,17 +1,17 @@
-#include "EventSingleTagger.hh"
+#include "EventSingleHadronicTagger.hh"
 #include "Debug.hh"
 
 namespace boca {
 
 namespace naturalness {
 
-EventSingleTagger::EventSingleTagger()
+EventSingleHadronicTagger::EventSingleHadronicTagger()
 {
   Info();
     DefineVariables();
 }
 
-int EventSingleTagger::Train(Event const& event, PreCuts const&, Tag tag) const
+int EventSingleHadronicTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
     Info();
     Jets jets = bottom_reader_.Multiplets(event);
@@ -25,7 +25,7 @@ int EventSingleTagger::Train(Event const& event, PreCuts const&, Tag tag) const
     return SaveEntries(ReduceResult(multipletevents, 1));
 }
 
-std::vector<MultipletEvent<Decuplet532>> EventSingleTagger::Multiplets(boca::Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
+std::vector<MultipletEvent<Decuplet532>> EventSingleHadronicTagger::Multiplets(boca::Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
     Info();
     Jets jets = bottom_reader_.Multiplets(event);

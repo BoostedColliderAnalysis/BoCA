@@ -122,6 +122,10 @@ Doublet HiggsTagger::MassDrop(Doublet const& doublet) const
     unsigned jet_number = 1;
     Jets exclusive_jets = cluster_sequence.exclusive_jets(int(jet_number));
     Check(exclusive_jets.size() == jet_number);
+    if (exclusive_jets.empty()) {
+      delete &cluster_sequence;
+      return {};
+    }
     cluster_sequence.delete_self_when_unused();
 
     fastjet::MassDropTagger mass_drop_tagger(0.667, 0.09);

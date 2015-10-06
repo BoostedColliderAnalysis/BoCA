@@ -181,3 +181,25 @@ void Log(std::string const& file, int line, std::string const& name_space, std::
 
 #define Check(condition, ...) if(!(condition)) { Error(__VA_ARGS__); }
 // #define DebugCheck(condition, ...) if(!(condition)) { Debug(__VA_ARGS__); }
+
+
+
+
+
+
+
+
+
+
+// #define HAS_ARGS_IMPL2(_1, _2, _3, N, ...) N
+// #define HAS_ARGS_SOURCE() MULTI, MULTI, ONE, ERROR
+//
+// #define HAS_ARGS_IMPL(...) HAS_ARGS_IMPL2(__VA_ARGS__)
+// #define HAS_ARGS(...) HAS_ARGS_IMPL(__VA_ARGS__, HAS_ARGS_SOURCE())
+//
+// #define MACRO_ONE(x) ONE_ARG: x
+// #define MACRO_MULTI(...) MULTI_ARG: __VA_ARGS__
+//
+// #define DISAMBIGUATE2(args, ...) MACRO_ ## args (__VA_ARGS__)
+// #define DISAMBIGUATE(args, ...) DISAMBIGUATE2(args, __VA_ARGS__)
+// #define Error(...) DISAMBIGUATE(HAS_ARGS(__VA_ARGS__), __VA_ARGS__)

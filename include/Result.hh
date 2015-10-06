@@ -61,8 +61,16 @@ public:
     std::vector<float> efficiency;
     std::vector<float> pure_efficiency;
     std::vector<float> bdt;
+    std::vector<Crosssection> crosssection;
     InfoBranch info_branch_;
     const static int steps = 100;
+
+    std::vector<float> Crosssection() const {
+      std::vector<float> values;
+      values.reserve(crosssection.size());
+      for(auto const& xsec : crosssection) values.emplace_back(xsec / fb);
+      return values;
+    }
 private:
     long event_sum_;
 };
@@ -87,7 +95,7 @@ public:
     Point min;
     Point max;
 
-    std::vector<float> Crosssections(){
+    std::vector<float> Crosssections() const {
       std::vector<float> values;
       values.reserve(crosssections.size());
       for(auto const& crosssection : crosssections) values.emplace_back(crosssection / fb);

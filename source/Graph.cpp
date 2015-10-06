@@ -165,7 +165,8 @@ void SetProfile(TH2& histogram, Plot const& signal, Plot const& background)
     for (auto const & point : background.points) histogram.Fill(point.x, point.y, point.z);
     Color().Heat();
     CommonHist(histogram, signal, kRed);
-    histogram.SetZTitle("BDT");
+    Canvas::SetAxis(*histogram.GetZaxis(),"BDT");
+//     histogram.SetZTitle("BDT");
     histogram.SetMaximum(max);
     histogram.SetMinimum(min);
     histogram.SetContour(30);

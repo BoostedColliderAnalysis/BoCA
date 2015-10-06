@@ -32,6 +32,7 @@ Result::Result(InfoBranch const& info_branch)
 //     steps = 20000;
     events.resize(steps, 0);
     efficiency.resize(steps, 0);
+    crosssection.resize(steps, 0);
     pure_efficiency.resize(steps, 0);
     event_sums.resize(steps, 0);
     bins.resize(steps, 0);
@@ -45,11 +46,12 @@ void Result::Calculate()
     for (int step = steps - 2; step >= 0; --step) event_sums.at(step) = event_sums.at(step + 1) + bins.at(step);
     for (auto const & step : Range(steps)) {
         efficiency.at(step) = float(event_sums.at(step)) / info_branch_.EventNumber;
-        pure_efficiency.at(step) = float(event_sums.at(step)) / event_sums.at(0);
-        events.at(step) = efficiency.at(step) * info_branch_.Crosssection * (fb * DetectorGeometry::Luminosity());
+        pure_efficiency.at(step) = float(event_sums.at(step)) / event_sums.front();
+        crosssection.at(step) = to_crosssection(info_branch_.Crosssection * efficiency.at(step));
+        events.at(step) = crosssection.at(step) * DetectorGeometry::Luminosity();
         Debug(efficiency.at(step), events.at(step));
     }
-    Error(info_branch_.EventNumber, event_sums.at(0));
+    Info(info_branch_.EventNumber, event_sums.front());
 }
 
 int Result::XBin(float value) const

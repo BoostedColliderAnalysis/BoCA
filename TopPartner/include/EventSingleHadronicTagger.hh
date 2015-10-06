@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include "SignatureSingleTagger.hh"
+#include "SignatureSingleHadronicTagger.hh"
 #include "MultipletEvent.hh"
 
 namespace boca
@@ -17,12 +17,12 @@ namespace naturalness
  * @brief Prepares multivariant analysis
  *
  */
-class EventSingleTagger : public BranchTagger<EventBranch>
+class EventSingleHadronicTagger : public BranchTagger<EventBranch>
 {
 
 public:
 
-    EventSingleTagger();
+    EventSingleHadronicTagger();
 
     int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
 
@@ -38,12 +38,12 @@ public:
     }
 
     std::string Name() const final {
-        return "EventSingle";
+        return "EventSingleHadronic";
     }
 
 private:
 
-    Reader<SignatureSingleTagger> signature_reader_;
+    Reader<SignatureSingleHadronicTagger> signature_reader_;
 
     Reader<BottomTagger> bottom_reader_;
 

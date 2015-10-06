@@ -103,6 +103,7 @@ File::~File()
 {
     Debug();
     delete chain_;
+    chain_ = nullptr;
 }
 
 }

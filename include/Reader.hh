@@ -49,7 +49,7 @@ public:
 
     template <typename Multiplet>
     float Bdt(Multiplet const& multiplet) const {
-      return Tagger().Bdt((multiplet), reader());
+      return Tagger().Bdt(multiplet, reader());
     }
 
     template <typename Input>

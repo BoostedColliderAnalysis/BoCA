@@ -19,7 +19,6 @@ public:
     EventShape() : event_shapes_(new boca::EventShapes) {}
 
     virtual ~EventShape() {
-      //FIXME memory leak
         delete event_shapes_;
         event_shapes_ = nullptr;
     }

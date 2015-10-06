@@ -14,7 +14,7 @@ namespace boca
 class Obs
 {
 public:
-    Obs(float & value, std::string const& name, std::string const& nice_name);
+    Obs(float & value, std::string const& name, std::string const& nice_name="");
     float& value() const;
     std::string name() const;
     std::string nice_name() const;
@@ -71,6 +71,7 @@ public:
     }
     virtual Observables Variables();
     virtual Observables Spectators();
+//     virtual void Print() const;
 private:
     ClassDef(ResultBranch, 1)
 };

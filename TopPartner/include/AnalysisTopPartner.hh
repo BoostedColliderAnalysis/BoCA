@@ -20,7 +20,7 @@ namespace naturalness
 
 enum class Process
 {
-    Tth,
+    TthLep,
     TthHad,
     TT,
     ttBjj,
@@ -40,7 +40,7 @@ bool MassDependent(Process process);
  *
  * @brief Top partner analysis
  *
- * \author Jan Hajer
+ * @author Jan Hajer
  *
  */
 template<typename Tagger>
@@ -57,8 +57,8 @@ protected:
     boca::Mass Mass() const {
         Info();
         return 1000. * GeV;
-        return 4000. * GeV;
         return 2000. * GeV;
+        return 4000. * GeV;
         return 6000. * GeV;
         return 10000. * GeV;
         return 8000. * GeV;
@@ -69,8 +69,8 @@ protected:
 
     long EventNumberMax() const override {
         Info();
-        return 10000;
         return 1000;
+        return 10000;
         return 100;
         return 5000;
         return 10;
@@ -116,7 +116,7 @@ protected:
         }
         case DetectorType::Spp : {
             switch (process) {
-            case Process::Tth :
+            case Process::TthLep :
                switch (Int(Mass())) {
                 case 1000 : return 0.004304 * pb;
                 case 2000 : return 0.0002919 * pb;

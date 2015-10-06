@@ -3,6 +3,8 @@
  */
 #pragma once
 
+#include <typeinfo>
+
 #include "AnalysisBase.hh"
 #include "Reader.hh"
 #include "Trees.hh"
@@ -74,6 +76,11 @@ protected:
      */
     void set_tagger_analysis_name(std::string const& name) {
         tagger().SetAnalysisName(name);
+    }
+
+    template<typename Class>
+    bool IsType() const {
+      return typeid(tagger_).hash_code() == typeid(Class).hash_code();
     }
 
     /**

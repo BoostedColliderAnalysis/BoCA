@@ -29,15 +29,12 @@ Jets Reconstruction::GetFatJets(Jets const& EFlowJets) const
 Jets Reconstruction::GetFatJets(Jets const& EFlowJets, const fastjet::JetDefinition& FatJetDefinition) const
 {
     Info("Fat Jet Vector", FatJetDefinition.R());
-    auto const FatJetClusterSequence =
-        new fastjet::ClusterSequence(EFlowJets, FatJetDefinition);
+    auto const FatJetClusterSequence = new fastjet::ClusterSequence(EFlowJets, FatJetDefinition);
     // FatJetPtMin = Jing: 40; fastjet: 0
     float FatJetPtMin = 0;
     const Jets FatJets = FatJetClusterSequence->inclusive_jets(FatJetPtMin);
-    if (FatJets.empty())
-        delete FatJetClusterSequence;
-    else
-        FatJetClusterSequence->delete_self_when_unused();
+    if (FatJets.empty()) delete FatJetClusterSequence;
+    else FatJetClusterSequence->delete_self_when_unused();
     return FatJets;
 }
 

@@ -51,6 +51,9 @@ Event::~Event()
         delete partons_;
         break;
     }
+    partons_ = nullptr;
+    leptons_ = nullptr;
+    hadrons_ = nullptr;
 }
 
 void Event::NewEvent(const ClonesArrays& clones_arrays)

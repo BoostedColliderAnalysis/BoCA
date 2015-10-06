@@ -59,6 +59,7 @@ void Plotting::OptimalCuts() const
     latex_file.Mass(double(results.signals.front().info_branch_.Mass) * GeV);
     latex_file.IncludeGraphic(PlotHistograms(results), "BDT Distribution");
     latex_file.IncludeGraphic(PlotEfficiencyGraph(results), "Efficiency");
+    latex_file.IncludeGraphic(PlotCrosssectionsGraph(results), "Crosssection in fb");
     latex_file.IncludeGraphic(PlotModelIndependentGraph(results), "Minimization of the crosssection for the model-independent result");
     latex_file.IncludeGraphic(PlotModelDependentGraph(results), "Maximization of the significance for the model-dependent result");
     latex_file.IncludeGraphic(PlotCrosssectionGraph(results), "Maximization of $S/\\sqrt B$");
@@ -210,6 +211,34 @@ void Plotting::PlotAcceptanceGraph(Results const& results) const
     }
 }
 
+std::string Plotting::PlotCrosssectionsGraph(Results const& results) const
+{
+  Info();
+  Canvas canvas;
+  canvas.SetLog();
+  TMultiGraph multi_graph("", Tagger().NiceName().c_str());
+  Strings nice_names;
+  std::vector<TGraph> graphs;
+  for (auto const & result : results.signals) {
+    nice_names.emplace_back(result.info_branch_.Name);
+    graphs.emplace_back(TGraph(result.steps, &results.x_values.front(), &result.Crosssection().front()));
+  }
+  for (auto const & result : results.backgrounds) {
+    nice_names.emplace_back(result.info_branch_.Name);
+    graphs.emplace_back(TGraph(result.steps, &results.x_values.front(), &result.Crosssection().front()));
+  }
+  TLegend legend = Legend(Orientation::bottom | Orientation::left, nice_names);
+  for (auto & graph : graphs) AddGraph(graph, multi_graph, legend, nice_names, &graph - &graphs.front());
+  multi_graph.Draw("al");
+  multi_graph.GetXaxis()->SetLimits(results.min.x, results.max.x);
+  canvas.SetAxis(*multi_graph.GetXaxis(), "BDT");
+  canvas.SetAxis(*multi_graph.GetYaxis(), "Crosssection [fb]");
+  TLine line = Line(results.best_model_dependent_bin , multi_graph.GetYaxis()->GetXmin(), multi_graph.GetYaxis()->GetXmax(), results.signals.size() + results.backgrounds.size() + 1);
+  TLine line2 = Line(results.best_model_independent_bin, multi_graph.GetYaxis()->GetXmin(), multi_graph.GetYaxis()->GetXmax(), results.signals.size() + results.backgrounds.size() + 2);
+  legend.Draw();
+  return canvas.SaveAs(Tagger().ExportFolderName() + "-Crosssection");
+}
+
 std::string Plotting::PlotModelDependentGraph(Results& results) const
 {
     Info();
@@ -280,7 +309,7 @@ std::string Plotting::EfficienciesRow(Result const& result, int index, Tag tag, 
         << "\n  & " << result.event_sums.at(bin)
         << "\n  & " << RoundToDigits(result.efficiency.at(bin))
         << "\n  & " << RoundToDigits(result.info_branch_.Crosssection)
-        << "\n  & " << std::round(result.info_branch_.Crosssection * (fb * DetectorGeometry::Luminosity()) * result.efficiency.at(bin))
+        << "\n  & " << std::round(to_crosssection(result.info_branch_.Crosssection) * DetectorGeometry::Luminosity()) * result.efficiency.at(bin)
         << "\n \\\\";
     return row.str();
 }

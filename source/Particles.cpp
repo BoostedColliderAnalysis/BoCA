@@ -11,7 +11,7 @@ std::string Name(int id)
 {
     std::string sign = "";
     if (id < 0) sign = "-";
-    return sign + Name(Id(id));
+    return sign + Name(Id(std::abs(id)));
 }
 
 std::string Name(Id id)

@@ -6,13 +6,15 @@
 #include "TStyle.h"
 #include "TClass.h"
 #include "Pair.hh"
+// #include "Debug.hh"
 
 namespace boca {
 
 Obs::Obs(float & value, std::string const& name, std::string const& nice_name) : value_(&value)
 {
     name_ = name;
-    nice_name_ = nice_name;
+    if(nice_name == "") nice_name_ = name;
+    else nice_name_ = nice_name;
 }
 
 float& Obs::value() const
@@ -85,6 +87,13 @@ Observables ResultBranch::Spectators()
 {
   return {PAIR(Tag), PAIR(Bdt)};
 }
+
+// void ResultBranch::Print() const
+// {
+//     Error(Tag);
+//     Error(Bdt);
+// }
+
 
 ParticleBranch::ParticleBranch()
 {
