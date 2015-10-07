@@ -6,7 +6,7 @@
 
 namespace boca {
 
-void Hadrons::NewEvent(const ClonesArrays& clones_arrays)
+void Hadrons::NewEvent(ClonesArrays const& clones_arrays)
 {
     Info();
     FourVector::NewEvent(clones_arrays);

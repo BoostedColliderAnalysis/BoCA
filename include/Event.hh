@@ -9,6 +9,14 @@
 
 namespace boca {
 
+enum class Decay
+{
+  leptonic,
+  hadronic
+};
+
+std::string Name(Decay decay);
+
 /**
  * @brief Base class for the event Topology
  *
@@ -23,7 +31,7 @@ public:
 
     virtual ~Event();
 
-    void NewEvent(const ClonesArrays& clones_arrays);
+    void NewEvent(ClonesArrays const& clones_arrays);
 
     const boca::Hadrons& Hadrons() const
     {

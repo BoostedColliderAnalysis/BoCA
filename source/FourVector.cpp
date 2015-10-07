@@ -45,7 +45,7 @@ FourVector::FourVector() :
     Info();
 }
 
-void FourVector::NewEvent(const ClonesArrays& clones_arrays)
+void FourVector::NewEvent(ClonesArrays const& clones_arrays)
 {
     std::vector<Family>topology_;
     clones_arrays_ = &clones_arrays;

@@ -13,7 +13,7 @@ Leptons::~Leptons()
   Info();
 }
 
-void Leptons::NewEvent(const ClonesArrays& clones_arrays)
+void Leptons::NewEvent(ClonesArrays const& clones_arrays)
 {
     Info();
     FourVector::NewEvent(clones_arrays);

@@ -9,8 +9,7 @@ namespace boca
 
 std::string Name(int id)
 {
-    std::string sign = "";
-    if (id < 0) sign = "-";
+    std::string sign = (id > 0) ? "" : "-";
     return sign + Name(Id(std::abs(id)));
 }
 

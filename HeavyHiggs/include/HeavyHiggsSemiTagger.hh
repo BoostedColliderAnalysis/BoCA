@@ -31,11 +31,11 @@ public:
 
     std::string Name() const final { return "HeavyHiggsSemi"; }
 
-    Jets TopParticles(Event const& event, int charge) const;
+    Jets TopParticles(const Event& event, Decay decay) const;
 
     Jets HiggsParticle(Event const& event, Tag tag) const;
 
-    std::vector<Triplet> FinalTriplet(Event const& event, Tag tag, int charge) const;
+    std::vector<Triplet> FinalTriplet(const Event& event, Tag tag, Decay decay) const;
 
 private:
 

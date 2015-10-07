@@ -1,8 +1,6 @@
 set(TaggerLibraries
 AnalysisStandardModel.cpp
 AnalysisBottom.cpp
-AnalysisW.cpp
-AnalysisTop.cpp
 )
 
 create_library(AnalysisTagger TaggerLibraries)

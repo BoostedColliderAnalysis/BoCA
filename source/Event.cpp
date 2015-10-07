@@ -12,6 +12,14 @@
 
 namespace boca {
 
+std::string Name(Decay decay)
+{
+  switch (decay) {
+    case Decay::hadronic : return "hadronic";
+    case Decay::leptonic : return "leptonic";
+  }
+}
+
 Event::Event() {}
 
 Event::Event(const Source source)
@@ -56,7 +64,7 @@ Event::~Event()
     hadrons_ = nullptr;
 }
 
-void Event::NewEvent(const ClonesArrays& clones_arrays)
+void Event::NewEvent(ClonesArrays const& clones_arrays)
 {
     Info();
     switch (source_) {

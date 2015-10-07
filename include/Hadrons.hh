@@ -23,7 +23,7 @@ public:
     /**
      * @brief Initialize New event
      */
-    void NewEvent(const ClonesArrays& clones_arrays);
+    void NewEvent(ClonesArrays const& clones_arrays);
 
     virtual boca::Jets Jets() const = 0;
 

@@ -88,7 +88,7 @@ public:
 
 protected:
 
-    void NewEvent(const ClonesArrays& clones_arrays);
+    void NewEvent(ClonesArrays const& clones_arrays);
 
     template<typename Particle>
     boca::LorentzVector LorentzVectorByEnergy(const Particle& particle) const
@@ -183,7 +183,7 @@ protected:
 
     std::string PrintParticle(int Position) const;
 
-    const ClonesArrays& clones_arrays() const
+    ClonesArrays const& clones_arrays() const
     {
         return *clones_arrays_;
     }

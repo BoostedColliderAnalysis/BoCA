@@ -8,13 +8,6 @@ namespace boca
 namespace standardmodel
 {
 
-enum class Decay
-{
-    leptonic, hadronic
-};
-
-std::string WName(const Decay decay);
-
 /**
  *
  * @brief HAnalysis subclass defining the W Tagger ananlysis

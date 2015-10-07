@@ -9,14 +9,6 @@ namespace boca
 namespace standardmodel
 {
 
-enum class Decay
-{
-    leptonic,
-    hadronic
-};
-
-std::string Name(const Decay decay);
-
 /**
  *
  * @brief Top Tagger ananlysis
