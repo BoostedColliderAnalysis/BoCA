@@ -20,19 +20,19 @@ public:
 
     Family(int id);
 
-    Family(Id id);
+//     Family(Id id);
 
-    Family(Id id, Id mother_id);
+//     Family(Id id, Id mother_id);
 
     Family(int id, int mother_1_id, int mother_2_id);
 
-    Family(Id id, Id mother_1_id, Id mother_2_id);
+//     Family(Id id, Id mother_1_id, Id mother_2_id);
 
-    Family(int id, int mother_1_id, int mother_2_id, int grand_mother_id);
+    Family(int id, int mother_1_id, int mother_2_id, int grand_mother_id, int grand_grand_mother_id);
 
-    Family(Id id, Id mother_1_id, Id mother_2_id, Id grand_mother_id);
+//     Family(Id id, Id mother_1_id, Id mother_2_id, Id grand_mother_id);
 
-    Family(int particle_position, Id id, int mother_position, Id mother_id);
+//     Family(int particle_position, Id id, int mother_position, Id mother_id);
 
     Family(TLorentzVector const& particle, LorentzVector const& mother, int particle_position, int id, int mother_position, int mother_id);
 
@@ -66,6 +66,11 @@ public:
         return grand_mother_;
     }
 
+    Particle grand_grand_mother() const
+    {
+      return grand_grand_mother_;
+    }
+
     float Pt() const
     {
         return pt_;
@@ -80,6 +85,8 @@ private:
     Particle mother_2_;
 
     Particle grand_mother_;
+
+    Particle grand_grand_mother_;
 
     std::vector<int> daughter_ids_;//(2);
 

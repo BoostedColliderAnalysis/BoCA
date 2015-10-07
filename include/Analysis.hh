@@ -79,7 +79,7 @@ protected:
     }
 
     template<typename Class>
-    bool IsType() const {
+    bool TaggerIs() const {
       return typeid(tagger_).hash_code() == typeid(Class).hash_code();
     }
 

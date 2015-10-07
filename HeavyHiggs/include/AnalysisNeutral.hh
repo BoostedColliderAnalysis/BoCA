@@ -38,8 +38,8 @@ public:
     }
 
     std::string ProjectName() const final {
-        //        return  ProcessName() + "-" + ColliderName(collider_type()) + "-" + Name(PreCut()) + "-" + Name(Mass()) + "-Eta2.5";
-        return  ProcessName() + "-" + Name(this->collider_type()) + "-" + boca::Name(this->PreCut()) + "-" + boca::Name(this->Mass()) + "";
+      //        return  "Neutral-" + ColliderName(collider_type()) + "-" + Name(PreCut()) + "-" + Name(Mass()) + "-Eta2.5";
+      return  "Neutral-" + Name(this->collider_type()) + "-" + boca::Name(this->PreCut()) + "-" + boca::Name(this->Mass()) + "";
     };
 
 private:
@@ -82,9 +82,9 @@ private:
         }
     }
 
-    std::string ProcessName() const override {
-        return "Neutral";
-    }
+//     std::string ProcessName() const override {
+//         return "Neutral";
+//     }
 
     int PassPreCut(Event const& event, Tag) const override {
         Jets Particles = event.Partons().GenParticles();

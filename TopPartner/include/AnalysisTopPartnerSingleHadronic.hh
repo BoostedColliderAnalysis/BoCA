@@ -33,7 +33,7 @@ public:
 protected:
 
     std::string ProjectName() const final {
-        return ProcessName() + "-had-" + boca::Name(this->PreCut()) + "-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass())
+      return "Naturalness-Single-Hadronic-had-" + boca::Name(this->PreCut()) + "-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass())
                + "-problems";
 //         + "-wrong";
 //         + "-full";
@@ -41,20 +41,20 @@ protected:
 //                + "type";
     }
 
-    std::string ProcessName() const final {
-        return "Naturalness-Single-Hadronic";
-    }
+//     std::string ProcessName() const final {
+//         return "Naturalness-Single-Hadronic";
+//     }
 
     void SetFiles(Tag tag) final {
         switch (tag) {
         case Tag::signal :
-            if (this->template IsType<TopPartnerLeptonicTagger>()) this->NewFile(tag, Process::TT);
+            if (this->template TaggerIs<TopPartnerLeptonicTagger>()) this->NewFile(tag, Process::TT);
             else this->NewFile(tag, Process::TthHad);
             break;
         case Tag::background :
-            if (this->template IsType<TopPartnerLeptonicTagger>()) this->NewFile(tag, Process::TthHad);
+            if (this->template TaggerIs<TopPartnerLeptonicTagger>()) this->NewFile(tag, Process::TthHad);
             else
-//             if (!this->template IsType<TopPartnerHadronicTagger>())
+//             if (!this->template TaggerIs<TopPartnerHadronicTagger>())
               this->NewFile(tag, Process::TT);
 //             this->NewFile(tag, Process::ttBB);
 //             this->NewFile(tag, Process::ttBjj);
@@ -63,8 +63,13 @@ protected:
     }
 
 private:
+        TopPartnerHadronicTagger tagger2_;
 
-    int PassPreCut(Event const& event, Tag) const final {
+    int PassPreCut(Event const& event, Tag tag) const final {
+      if(tag == Tag::signal){
+        Jets partner = tagger2_.Particles(event);
+        if(partner.empty()) return 0;
+      }
 //       static int counter = 0;
 //       ++counter;
 //     Error(counter);

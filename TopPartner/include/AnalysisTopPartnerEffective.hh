@@ -29,12 +29,12 @@ public:
 protected:
 
   std::string ProjectName() const final {
-    return ProcessName() + "-" + boca::Name(this->PreCut()) + "-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass()) + "-remove-again";
+    return "Naturalness-Effective-" + boca::Name(this->PreCut()) + "-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass()) + "-remove-again";
     }
 
-    std::string ProcessName() const final {
-      return "Naturalness-Effective";
-    }
+//     std::string ProcessName() const final {
+//       return "Naturalness-Effective";
+//     }
 
     void SetFiles(Tag tag) final {
         switch (tag) {

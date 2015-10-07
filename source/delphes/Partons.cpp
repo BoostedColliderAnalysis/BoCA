@@ -32,23 +32,28 @@ Jets Partons::Particles(const Status min_status) const
         if (particle.Status < to_int(min_status)) break;
         Detail(particle.PID);
         int mother_id = to_int(Id::empty);
-        int mother_2_id = to_int(Id::empty);
         int grand_mother_id = to_int(Id::empty);
+        int grand_grand_mother_id = to_int(Id::empty);
         if (particle.M1 != EmptyPosition) {
             ::delphes::GenParticle& mother = static_cast<::delphes::GenParticle&>(clones_arrays().Particle(particle.M1));
             mother_id = mother.PID;
             if (mother.M1 != EmptyPosition) {
                 ::delphes::GenParticle& grand_mother = static_cast<::delphes::GenParticle&>(clones_arrays().Particle(mother.M1));
                 grand_mother_id = grand_mother.PID;
+                if (grand_mother.M1 != EmptyPosition) {
+                  ::delphes::GenParticle& grand_grand_mother = static_cast<::delphes::GenParticle&>(clones_arrays().Particle(grand_mother.M1));
+                  grand_grand_mother_id = grand_grand_mother.PID;
+                }
             }
         }
+        int mother_2_id = to_int(Id::empty);
         if (particle.M2 != EmptyPosition) {
             ::delphes::GenParticle& mother2 = static_cast<::delphes::GenParticle&>(clones_arrays().Particle(particle.M2));
             mother_2_id = mother2.PID;
 //             Error(particle_number,particle.PID,particle.M2,mother2.PID);
         }
 //              Error(particle.PID,mother_id,mother_2_id);
-        Family family(particle.PID, mother_id, mother_2_id, grand_mother_id);
+        Family family(particle.PID, mother_id, mother_2_id, grand_mother_id, grand_grand_mother_id);
         fastjet::PseudoJet jet = boca::PseudoJet(particle.P4());
         jet.set_user_info(new ParticleInfo(family));
         particles.emplace_back(jet);
@@ -60,6 +65,13 @@ Jets Partons::Particles(const Status min_status) const
     return particles;
 }
 
+int Partons::MotherId(::delphes::GenParticle& particle){
+  if (particle.M1 == EmptyPosition) return to_int(Id::empty);
+  ::delphes::GenParticle& grand_grand_mother = static_cast<::delphes::GenParticle&>(clones_arrays().Particle(particle.M1));
+  return grand_grand_mother.PID;
 }
 
 }
+
+}
+

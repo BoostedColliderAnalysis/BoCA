@@ -2,6 +2,7 @@
 
 #include "AnalysisHeavyHiggs.hh"
 
+#include "JetPairTagger.hh"
 #include "Doublet.hh"
 #include "Debug.hh"
 
@@ -29,8 +30,8 @@ public:
             this->NewFile(tag, SignalCrosssection(Process::Htwb), Process::Htwb);
             break;
         case Tag::background :
-            if (this->tagger().Name() == "JetPair") this->NewFile(tag, SignalCrosssection(Process::Htt), Process::Htt);
-            if (this->tagger().Name() == "JetPair") this->NewFile(tag, SignalCrosssection(Process::Htwb), Process::Htwb);
+          if (this->template TaggerIs<JetPairTagger>()) this->NewFile(tag, SignalCrosssection(Process::Htt), Process::Htt);
+          if (this->template TaggerIs<JetPairTagger>()) this->NewFile(tag, SignalCrosssection(Process::Htwb), Process::Htwb);
             this->NewFile(tag, BackgroundCrosssection(Process::ttwwbb), Process::ttwwbb);
             this->NewFile(tag, BackgroundCrosssection(Process::ttwbb), Process::ttwbb);
             break;
@@ -38,8 +39,8 @@ public:
     }
 
     std::string ProjectName() const final {
-        //        return  ProcessName() + "-" + ColliderName(collider_type()) + "-" + Name(PreCut()) + "-" + Name(Mass()) + "-Eta2.5";
-        return  ProcessName() + "-" + Name(this->collider_type()) + "-" + boca::Name(this->Mass()) + "";
+      //        return  "NeutralFourTop-" + ColliderName(collider_type()) + "-" + Name(PreCut()) + "-" + Name(Mass()) + "-Eta2.5";
+      return  "NeutralFourTop-" + Name(this->collider_type()) + "-" + boca::Name(this->Mass()) + "";
     };
 
     Crosssection SignalCrosssection(Process process) const {
@@ -152,9 +153,9 @@ public:
 
 private:
 
-    std::string ProcessName() const override {
-        return "NeutralFourTop";
-    }
+//     std::string ProcessName() const override {
+//         return "NeutralFourTop";
+//     }
 
     int PassPreCut(Event const& event, Tag) const override {
         Jets Particles = event.Partons().GenParticles();

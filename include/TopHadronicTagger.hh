@@ -43,6 +43,8 @@ public:
         return "t_{h}";
     }
 
+    Jets TopParticles(Event const& event) const;
+
 private:
 
     boca::Triplet Triplet(Doublet const& doublet, fastjet::PseudoJet const& jet, Jets const& leptons, PreCuts const& pre_cuts, Tag tag, bool check_overlap = false) const;

@@ -22,13 +22,31 @@ SignatureSingleHadronicTagger::SignatureSingleHadronicTagger()
 int SignatureSingleHadronicTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
     Info();
-    std::vector<Decuplet532> decuplets = Decuplets(event, [&](Decuplet532 & decuplet) {
-        decuplet.SetTag(tag);
-        return decuplet;
+    std::vector<Quintet> quintets = partner_reader_.Multiplets(event);
+//     Jets top_partner = partner_reader_.Tagger().Particles(event);
+//     quintets = BestMatches(quintets, top_partner, tag);
+//     Error(top_partner.size(), quintets.size());
+
+    std::vector<Triplet> triplets = top_reader_.Multiplets(event);
+//     Jets top = top_reader_.Tagger().Particles(event);
+//     triplets = BestMatches(triplets, top, tag);
+//     Error(top.size(), triplets.size());
+
+    std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
+//     Jets higgs = higgs_reader_.Tagger().Particles(event);
+//     doublets = BestMatches(doublets, higgs, tag);
+//     Error(higgs.size(), doublets.size());
+
+    std::vector<Decuplet532> decuplets = triples(quintets, triplets, doublets, [&](Quintet const & quintet, Triplet const & triplet, Doublet const & doublet) {
+      Decuplet532 decuplet(quintet, triplet, doublet);
+      if (decuplet.Overlap()) throw "overlap";
+      decuplet.SetVetoBdt(veto_reader_.Bdt(Quintet(triplet, doublet)));
+      Error(decuplet.VetoBdt());
+      decuplet.SetTag(tag);
+      return decuplet;
     });
+
     Info(decuplets.size());
-    if(decuplets.size() > 1) std::sort(decuplets.begin(),decuplets.end());
-    if(!decuplets.empty()) Info(decuplets.front().VetoBdt());
     return SaveEntries(decuplets, 1);
 }
 

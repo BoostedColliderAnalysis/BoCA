@@ -33,27 +33,27 @@ public:
 protected:
 
     std::string ProjectName() const final {
-        return ProcessName() + "-" + boca::Name(this->PreCut()) + "-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass())
+      return "Naturalness-Single-" + boca::Name(this->PreCut()) + "-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass())
 //         + "wrong";
                + "problematic";
     }
 
-    std::string ProcessName() const final {
-        return "Naturalness-Single";
-        return "Naturalness-Single-Leptonic";
-    }
+//     std::string ProcessName() const final {
+//         return "Naturalness-Single";
+//         return "Naturalness-Single-Leptonic";
+//     }
 
 
     void SetFiles(Tag tag) final {
         switch (tag) {
         case Tag::signal :
-            if (this->template IsType<TopPartnerHadronicTagger>()) this->NewFile(tag, Process::TT);
+            if (this->template TaggerIs<TopPartnerHadronicTagger>()) this->NewFile(tag, Process::TT);
             else this->NewFile(tag, Process::TthLep);
             break;
         case Tag::background :
-            if (this->template IsType<TopPartnerHadronicTagger>()) this->NewFile(tag, Process::TthLep);
+            if (this->template TaggerIs<TopPartnerHadronicTagger>()) this->NewFile(tag, Process::TthLep);
             else
-//               if (!this->template IsType<TopPartnerLeptonicTagger>())
+//               if (!this->template TaggerIs<TopPartnerLeptonicTagger>())
               this->NewFile(tag, Process::TT);
 //             this->NewFile(tag, Process::ttBB);
 //             this->NewFile(tag, Process::ttBjj);

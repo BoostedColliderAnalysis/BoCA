@@ -66,11 +66,6 @@ private:
         }
     }
 
-
-    std::string ProcessName() const final {
-        return "higgscpv";
-    }
-
     /**
      * @brief Maximal number of Entries to analyse
      *
@@ -84,8 +79,8 @@ private:
     }
 
     int PassPreCut(Event const& event, Tag) const final {
-//         if(this->tagger().Name() == "WLeptonic") return 0;
-//         if(this->tagger().Name() == "TopLeptonic") static_cast<TopLeptonicTagger&>(this->tagger()).semi_leptonic = false;
+      //         if(this->template TaggerIs<WLeptonicTagger>()) return 0;
+      //         if(this->template TaggerIs<TopLeptonicTagger>()) static_cast<TopLeptonicTagger&>(this->tagger()).semi_leptonic = false;
         Jets leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
         if (leptons.size() < 2) return 0;
 //         if (leptons.at(1).pt() < 40) return 0;

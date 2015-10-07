@@ -40,7 +40,7 @@ public:
 
     fastjet::PseudoJet FakeLepton(fastjet::PseudoJet const& jet) const;
 
-    Jets Particles(boca::Event const& event, PreCuts const& pre_cuts) const;
+    Jets Particles(boca::Event const& event/*, PreCuts const& pre_cuts*/) const;
 
     auto Multiplets(Event const& event, TMVA::Reader const& reader) const {
         PreCuts pre_cuts;

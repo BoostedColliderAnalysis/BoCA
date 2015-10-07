@@ -4,9 +4,9 @@
 #include "FourVector.hh"
 
 #include "TClonesArray.h"
-#include "Types.hh"
 #include "delphes/Delphes.hh"
 #include "exroot/ExRootAnalysis.hh"
+#include "Types.hh"
 #include "JetInfoFamily.hh"
 #include "Debug.hh"
 
@@ -49,7 +49,7 @@ void FourVector::NewEvent(const ClonesArrays& clones_arrays)
 {
     std::vector<Family>topology_;
     clones_arrays_ = &clones_arrays;
-    topology_.assign(clones_arrays.ParticleSum(), Family(Id::empty));
+    topology_.assign(clones_arrays.ParticleSum(), Family(to_int(Id::empty)));
     Info(topology_.size());
 }
 
@@ -163,7 +163,7 @@ Family FourVector::BranchFamily(TObject const& object) const
         return family;
     family = BranchFamily(family, Position);
     if (family.mother_1().id() == to_int(Id::empty))
-        family = Family(family.particle().position(), Id::isr, family.mother_1().position(), Id::isr);
+      family = Family(family.particle().position(), to_int(Id::isr), family.mother_1().position(), to_int(Id::isr), to_int(Id::isr));
 //       Error("Truth Level Tagging Failed");
     for (auto & node : topology_) if (node.Marker())
             node = family;

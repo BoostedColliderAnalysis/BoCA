@@ -1,5 +1,6 @@
 #include "TopPartnerHadronicTagger.hh"
 #include "Event.hh"
+#include "ParticleInfo.hh"
 #include "Debug.hh"
 
 namespace boca
@@ -18,9 +19,9 @@ int TopPartnerHadronicTagger::Train(Event const& event, PreCuts const&, Tag tag)
 {
     Info();
     std::vector<Triplet> triplets = top_reader_.Multiplets(event);
-    Debug(triplets.size());
+    Info(triplets.size());
     std::vector<Doublet> doublets = boson_reader_.Multiplets(event);
-    Debug(doublets.size());
+    Info(doublets.size());
     std::vector<Quintet> quintets;
     for (auto const & doublet : doublets)
         for (auto const & triplet : triplets) {
@@ -44,6 +45,23 @@ std::vector<Quintet> TopPartnerHadronicTagger::Multiplets(Event const& event, bo
         return quintet;
     });
     return ReduceResult(quintets);
+}
+
+Jets TopPartnerHadronicTagger::Particles(Event const& event) const
+{
+  Jets particles = event.Partons().GenParticles();
+  Jets quarks = CopyIfQuark(particles);
+  Jets candidate = CopyIfGrandGrandMother(quarks, Id::top_partner);
+  if(!candidate.empty()) {
+    int grand_grand_mother = candidate.front().user_info<ParticleInfo>().Family().grand_grand_mother().id();
+    return CopyIfExactParticle(particles, grand_grand_mother);
+  } else {
+    candidate = CopyIfGrandMother(quarks, Id::top_partner);
+    candidate = CopyIfMother(candidate, Id::W);
+    if(candidate.empty()) return {};
+    int grand_mother = candidate.front().user_info<ParticleInfo>().Family().grand_mother().id();
+    return CopyIfExactParticle(particles, grand_mother);
+  }
 }
 
 }

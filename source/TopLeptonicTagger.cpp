@@ -4,6 +4,7 @@
 #include "TopLeptonicTagger.hh"
 #include "Event.hh"
 #include "WLeptonicTagger.hh"
+#include "ParticleInfo.hh"
 // #define DEBUG
 #include "Debug.hh"
 
@@ -34,7 +35,7 @@ int TopLeptonicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, 
         triplet.SetTag(tag);
         return triplet;
     });
-    Jets tops = Particles(event, pre_cuts);
+    Jets tops = Particles(event/*, pre_cuts*/);
     Debug(triplets.size(), tops.size(), leptons.size());
     return SaveEntries(triplets, tops, tag);
 }
@@ -54,15 +55,22 @@ fastjet::PseudoJet TopLeptonicTagger::FakeLepton(fastjet::PseudoJet const& jet) 
     return fastjet::PseudoJet(jet) / jet.pt() * (DetectorGeometry::LeptonMinPt() / GeV);
 }
 
-Jets TopLeptonicTagger::Particles(Event const& event, PreCuts const& pre_cuts) const
+Jets TopLeptonicTagger::Particles(Event const& event/*, PreCuts const& pre_cuts*/) const
 {
-    Jets particles = event.Partons().GenParticles();
-    if (!pre_cuts.SemiLeptonic()) return CopyIfParticle(particles, Id::top);
-    Jets leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
-    leptons = RemoveIfSoft(leptons, DetectorGeometry::LeptonMinPt());
-    int lepton_charge = 1;
-    if (!leptons.empty()) lepton_charge = leptons.front().user_info<JetInfo>().Charge();
-    return CopyIfExactParticle(particles, to_int(Id::top) * lepton_charge);
+  Jets particles = event.Partons().GenParticles();
+  Jets leptons = CopyIfLepton(particles);
+  leptons = CopyIfGrandMother(leptons, Id::top);
+  if(leptons.empty()) return {};
+  Check(leptons.size() == 1, leptons.size());
+  int grand_mother = leptons.front().user_info<ParticleInfo>().Family().grand_mother().id();
+  Info(grand_mother);
+  return CopyIfExactParticle(particles, grand_mother);
+//     if (!pre_cuts.SemiLeptonic()) return CopyIfParticle(particles, Id::top);
+//     Jets leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
+//     leptons = RemoveIfSoft(leptons, DetectorGeometry::LeptonMinPt());
+//     int lepton_charge = 1;
+//     if (!leptons.empty()) lepton_charge = leptons.front().user_info<JetInfo>().Charge();
+//     return CopyIfExactParticle(particles, to_int(Id::top) * lepton_charge);
 }
 
 bool TopLeptonicTagger::Problematic(boca::Triplet const& triplet, boca::PreCuts const& pre_cuts, Tag tag) const

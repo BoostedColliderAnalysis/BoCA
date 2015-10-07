@@ -40,8 +40,12 @@ int HiggsTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) con
         } catch (...) {}
     }
     doublets = SetClosestLepton(event, doublets);
-    Jets higgses = CopyIfParticles(event.Partons().GenParticles(), Id::higgs, Id::CP_violating_higgs);
+    Jets higgses = Particles(event);
     return SaveEntries(doublets, higgses, tag, Id::higgs);
+}
+
+Jets HiggsTagger::Particles(Event const& event) const {
+  return CopyIfParticles(event.Partons().GenParticles(), Id::higgs, Id::CP_violating_higgs);
 }
 
 Doublet HiggsTagger::CheckDoublet(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const

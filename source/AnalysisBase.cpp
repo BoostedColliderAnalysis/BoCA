@@ -69,11 +69,11 @@ long AnalysisBase::EventNumberMax() const
     return 100000;
 }
 
-std::string AnalysisBase::ProcessName() const
-{
-    Info();
-    return "Process";
-}
+// std::string AnalysisBase::ProcessName() const
+// {
+//     Info();
+//     return "Process";
+// }
 
 void AnalysisBase::NewFile(boca::Tag tag, const boca::Strings& names, Crosssection crosssection, std::string const& nice_name, boca::Mass mass)
 {
@@ -115,10 +115,10 @@ File AnalysisBase::File(const boca::Strings& names, boca::Crosssection crosssect
     return boca::File(names, FilePath(), FileSuffix(), nice_name, crosssection, mass);
 }
 
-std::string AnalysisBase::FileName(std::string const&) const
-{
-    return ProcessName() + "_" + Name(PreCut());
-}
+// std::string AnalysisBase::FileName(std::string const&) const
+// {
+//   return "Process_" + Name(PreCut());
+// }
 
 std::string AnalysisBase::TreeName(std::string const& name) const
 {

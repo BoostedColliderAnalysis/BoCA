@@ -9,6 +9,12 @@
 class TLorentzVector;
 
 namespace boca {
+  
+  /**
+   * @brief Position outside of a vector
+   *
+   */
+  static int EmptyPosition = -1;
 
 class Particle {
 
@@ -18,9 +24,9 @@ public:
 
     Particle(int id);
 
-    Particle(Id id);
-
-    Particle(Id id, int position);
+//     Particle(Id id);
+//
+//     Particle(Id id, int position);
 
     Particle(LorentzVector const& momentum, int id, int position);
 

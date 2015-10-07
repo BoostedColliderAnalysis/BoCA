@@ -43,6 +43,8 @@ public:
       return "#tilde t_{l}";
     }
 
+    Jets Particles(Event const& event) const;
+
 private:
 
     Reader<TopLeptonicTagger> top_reader_;

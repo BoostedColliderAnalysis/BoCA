@@ -41,6 +41,8 @@ Jets CopyIfMother(Jets const& jets, Id mother_id);
 
 Jets CopyIfGrandMother(Jets const& jets, Id grand_mother_id);
 
+Jets CopyIfGrandGrandMother(Jets const& jets, Id grand_grand_mother_id);
+
 Jets RemoveIfMother(const Jets jets, Id mother_id);
 
 Jets RemoveIfSingleMother(Jets jets);

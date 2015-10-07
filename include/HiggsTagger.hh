@@ -37,6 +37,8 @@ public:
         return "h";
     }
 
+    Jets Particles(Event const& event) const;
+
 protected:
 
 private:

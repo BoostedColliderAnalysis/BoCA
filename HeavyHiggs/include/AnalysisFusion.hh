@@ -35,14 +35,14 @@ public:
         }
     }
 
-    std::string ProcessName() const override
-    {
-        return "Fusion";
-    }
+//     std::string ProcessName() const override
+//     {
+//         return "Fusion";
+//     }
 
     std::string ProjectName() const final
     {
-      return  ProcessName() + "-" + Name(this->collider_type()) + "-" + boca::Name(this->PreCut()) + "-" + boca::Name(this->Mass()) + "";
+      return  "Fusion-" + Name(this->collider_type()) + "-" + boca::Name(this->PreCut()) + "-" + boca::Name(this->Mass()) + "";
     }
 
 private:

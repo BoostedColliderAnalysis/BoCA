@@ -68,7 +68,7 @@ protected:
      */
     virtual long EventNumberMax() const;
 
-    virtual std::string ProcessName() const;
+//     virtual std::string ProcessName() const;
 
     boca::Mass Mass() const;
 
@@ -98,7 +98,7 @@ protected:
 
     void NewFile(boca::Tag tag, std::string const& names, Crosssection crosssection, std::string const& nice_name = "", boca::Mass mass = massless);
 
-    std::string FileName(std::string const& name) const;
+//     std::string FileName(std::string const& name) const = 0;
 
     std::string TreeName(std::string const& name) const;
 

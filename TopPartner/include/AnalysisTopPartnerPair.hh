@@ -33,13 +33,13 @@ protected:
 
     std::string ProjectName() const final {
         Info();
-        return ProcessName() + "-" + boca::Name(this->PreCut()) + "-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass()) + "-full";
+        return "Naturalness-Pair-" + boca::Name(this->PreCut()) + "-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass()) + "-full";
     }
 
-    std::string ProcessName() const final {
-        Info();
-        return "Naturalness-Pair";
-    }
+//     std::string ProcessName() const final {
+//         Info();
+//         return "Naturalness-Pair";
+//     }
 
     void SetFiles(Tag tag) final {
         Info();

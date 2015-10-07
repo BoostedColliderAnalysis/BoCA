@@ -176,6 +176,18 @@ Jets CopyIfGrandMother(Jets const& jets, Id grand_mother_id)
     return final_jets;
 }
 
+Jets CopyIfGrandGrandMother(Jets const& jets, Id grand_grand_mother_id)
+{
+  if (jets.empty()) return jets;
+  Jets final_jets(jets.size());
+  auto jet = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), [&](fastjet::PseudoJet const & jet) {
+    unsigned grand_grand_mother = std::abs(jet.user_info<ParticleInfo>().Family().grand_grand_mother().id());
+    return grand_grand_mother == to_unsigned(grand_grand_mother_id);
+  });
+  final_jets.resize(std::distance(final_jets.begin(), jet));
+  return final_jets;
+}
+
 
 struct IsSingleMother {
     bool operator()(fastjet::PseudoJet const& Jet) {

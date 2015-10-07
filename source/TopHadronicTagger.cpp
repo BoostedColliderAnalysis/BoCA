@@ -74,14 +74,18 @@ int TopHadronicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, 
         }));
 
     }
-    int top_hadronic_id = TopHadronicId(event);
-    Jets particles = event.Partons().GenParticles();
-    Jets top_particles;
-    if (top_hadronic_id != to_int(Id::empty)) top_particles = CopyIfExactParticle(particles, top_hadronic_id);
-    else top_particles = CopyIfParticle(particles, Id::top);
+    Jets top_particles = TopParticles(event);
     Info(triplets.size(), top_particles.size());
-
     return SaveEntries(triplets, top_particles, tag, Id::top);
+}
+
+Jets TopHadronicTagger::TopParticles(Event const& event) const {
+  int top_hadronic_id = TopHadronicId(event);
+  Jets particles = event.Partons().GenParticles();
+  Jets top_particles;
+  if (top_hadronic_id != to_int(Id::empty)) top_particles = CopyIfExactParticle(particles, top_hadronic_id);
+  else top_particles = CopyIfParticle(particles, Id::top);
+  return top_particles;
 }
 
 std::vector<Triplet> TopHadronicTagger::Triplets(std::vector<boca::Doublet> const& doublets, boca::Jets const& jets, boca::Jets const& leptons, boca::PreCuts const& pre_cuts, Tag tag) const

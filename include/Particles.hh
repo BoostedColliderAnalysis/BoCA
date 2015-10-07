@@ -94,16 +94,4 @@ std::string Name(Id id);
 
 Mass MassOf(Id id);
 
-/**
- * @brief Initial user index
- *
- */
-static int EmptyUserIndex = -1;
-
-/**
- * @brief Position outside of a vector
- *
- */
-static int EmptyPosition = -1;
-
 }

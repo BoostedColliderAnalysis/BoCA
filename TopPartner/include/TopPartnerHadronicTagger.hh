@@ -44,6 +44,8 @@ public:
         return "#tilde t_{h}";
     }
 
+    Jets Particles(Event const& event) const;
+
 private:
 
     Reader<TopHadronicTagger> top_reader_;
