@@ -7,9 +7,27 @@ namespace boca
 namespace naturalness
 {
 
+SignatureSingleBranch::SignatureSingleBranch()
+{
+VetoBdt = InitialValue();
+}
+
+
 Observables SignatureSingleBranch::Variables()
 {
     return Join(boca::TChannelBranch::Variables(),{PAIR(VetoBdt)});
+}
+
+SignatureSingleHadronicBranch::SignatureSingleHadronicBranch()
+{
+VetoBdt = InitialValue();
+TopPt = InitialValue();
+HiggsPt = InitialValue();
+}
+
+Observables SignatureSingleHadronicBranch::Variables()
+{
+  return Join(boca::TChannelBranch::Variables(),{PAIR(VetoBdt), PAIR(TopPt), PAIR(HiggsPt)});
 }
 
 Observables EventBranch::Variables()

@@ -9,14 +9,14 @@ namespace boca
 
 std::string Name(int id)
 {
-    std::string sign = (id > 0) ? "" : "-";
+    std::string sign = (id < 0) ? "-" : " ";
     return sign + Name(Id(std::abs(id)));
 }
 
 std::string Name(Id id)
 {
     switch (id) {
-        //     case Id::empty: return "Empty";
+    case Id::empty: return " ";
     case Id::down : return "d";
     case Id::up : return "u";
     case Id::strange : return "s";
@@ -26,11 +26,11 @@ std::string Name(Id id)
     case Id::bottom_partner : return "B";
     case Id::top_partner : return "T";
     case Id::electron : return "e";
-    case Id::electron_neutrino : return "nue";
-    case Id::muon : return "mu";
-    case Id::muon_neutrino : return "numu";
-    case Id::tau : return "tau";
-    case Id::tau_neutrino : return "nutau";
+    case Id::electron_neutrino : return "νe";
+    case Id::muon : return "μ";
+    case Id::muon_neutrino : return "νμ";
+    case Id::tau : return "τ";
+    case Id::tau_neutrino : return "ντ";
     case Id::tau_partner : return "Tau";
     case Id::tau_neutrino_partner : return "NuTau";
     case Id::gluon : return "g";

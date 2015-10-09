@@ -20,10 +20,12 @@ class Reader {
 public:
 
     Reader() : reader_(Options()) {
+      Tagger().Initialize();
       Initialize();
     }
 
     Reader(Stage stage) : reader_(Options()) {
+        Tagger().Initialize();
         switch (stage) {
         case Stage::trainer :
             break;
@@ -42,7 +44,7 @@ public:
       std::cout.rdbuf(cout);
     }
 
-    int Bdt(boca::Event const& event, boca::PreCuts const& pre_cuts) const
+    int Bdt(Event const& event, PreCuts const& pre_cuts) const
     {
         return Tagger().SaveBdt(event, pre_cuts, reader());
     }
@@ -50,6 +52,16 @@ public:
     template <typename Multiplet>
     float Bdt(Multiplet const& multiplet) const {
       return Tagger().Bdt(multiplet, reader());
+    }
+
+    template <typename Plet>
+    Plet Multiplet(Plet multiplet, PreCuts const& pre_cuts) const {
+      try{
+      return Tagger().Multiplet(multiplet, pre_cuts, reader());
+      } catch(char const*){
+        multiplet.SetBdt(-1);
+        return multiplet;
+      }
     }
 
     template <typename Input>

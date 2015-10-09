@@ -5,12 +5,6 @@ namespace boca {
 
 namespace naturalness {
 
-EventSingleHadronicTagger::EventSingleHadronicTagger()
-{
-  Info();
-    DefineVariables();
-}
-
 int EventSingleHadronicTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
     Info();

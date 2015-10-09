@@ -54,15 +54,35 @@ private:
 class SignatureSingleBranch : public TChannelBranch
 {
 public:
+  SignatureSingleBranch();
+  float VetoBdt;
+  template<typename Multiplet>
+  void Fill(Multiplet const& multiplet) {
+    TChannelBranch::Fill(multiplet);
+    VetoBdt = multiplet.VetoBdt();
+  }
+  Observables Variables();
+private:
+  ClassDef(SignatureSingleBranch, 1)
+};
+
+class SignatureSingleHadronicBranch : public TChannelBranch
+{
+public:
+    SignatureSingleHadronicBranch();
     float VetoBdt;
+    float TopPt;
+    float HiggsPt;
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         TChannelBranch::Fill(multiplet);
         VetoBdt = multiplet.VetoBdt();
+        TopPt = multiplet.Triplet().Jet().pt();
+        HiggsPt = multiplet.Doublet().Jet().pt();
     }
     Observables Variables();
 private:
-    ClassDef(SignatureSingleBranch, 1)
+  ClassDef(SignatureSingleHadronicBranch, 1)
 };
 
 class EventBranch : public boca::EventBranch

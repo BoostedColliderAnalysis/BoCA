@@ -22,8 +22,6 @@ class EventSingleHadronicTagger : public BranchTagger<EventBranch>
 
 public:
 
-    EventSingleHadronicTagger();
-
     int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
 
     std::vector<MultipletEvent<Decuplet532>> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;

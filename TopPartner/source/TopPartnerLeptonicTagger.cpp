@@ -8,12 +8,6 @@ namespace boca
 namespace naturalness
 {
 
-TopPartnerLeptonicTagger::TopPartnerLeptonicTagger()
-{
-    Info();
-    DefineVariables();
-}
-
 int TopPartnerLeptonicTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
     Info();
@@ -23,8 +17,9 @@ int TopPartnerLeptonicTagger::Train(Event const& event, PreCuts const&, Tag tag)
         quintet.SetTag(tag);
         return quintet;
     });
-    Jets particles = CopyIfExactParticle(event.Partons().GenParticles(), - to_int(Id::top_partner));
-    Error(particles.size());
+    Jets particles = Particles(event);
+    Debug(particles.size());
+    if(tag == Tag::signal) Check(!particles.empty(), particles.size());
     return SaveEntries(quintets, particles, tag);
 }
 
@@ -48,7 +43,7 @@ Jets TopPartnerLeptonicTagger::Particles(Event const& event) const
     Check(leptons.size() == 1, leptons.size());
     int grand_grand_mother = candidate.front().user_info<ParticleInfo>().Family().grand_grand_mother().id();
     return CopyIfExactParticle(particles, grand_grand_mother);
-  } else {
+  } else { // this is necessary because madspin doesnt label relations correctly
     candidate = CopyIfGrandMother(leptons, Id::top_partner);
     candidate = CopyIfMother(candidate, Id::W);
     if(candidate.empty()) return {};

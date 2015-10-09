@@ -27,25 +27,25 @@ class AnalysisSingleHadronic : public AnalysisNaturalness<Tagger>
 public:
 
     AnalysisSingleHadronic() {
+        Info();
         this->tagger().SetAnalysisName(ProjectName());
     }
 
 protected:
 
     std::string ProjectName() const final {
-      return "Naturalness-Single-Hadronic-had-" + boca::Name(this->PreCut()) + "-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass())
-               + "-problems";
+        Info();
+        return "Naturalness-Single-Hadronic-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass())
+               + "-pt";
+//         + "-problems";
 //         + "-wrong";
 //         + "-full";
 //         + "newbg";
 //                + "type";
     }
 
-//     std::string ProcessName() const final {
-//         return "Naturalness-Single-Hadronic";
-//     }
-
     void SetFiles(Tag tag) final {
+        Info();
         switch (tag) {
         case Tag::signal :
             if (this->template TaggerIs<TopPartnerLeptonicTagger>()) this->NewFile(tag, Process::TT);
@@ -55,25 +55,27 @@ protected:
             if (this->template TaggerIs<TopPartnerLeptonicTagger>()) this->NewFile(tag, Process::TthHad);
             else
 //             if (!this->template TaggerIs<TopPartnerHadronicTagger>())
-              this->NewFile(tag, Process::TT);
-//             this->NewFile(tag, Process::ttBB);
-//             this->NewFile(tag, Process::ttBjj);
+                this->NewFile(tag, Process::TT);
+            this->NewFile(tag, Process::ttBB);
+            this->NewFile(tag, Process::ttBjj);
             break;
         }
     }
 
 private:
-        TopPartnerHadronicTagger tagger2_;
+//         TopPartnerHadronicTagger partner_tagger;
 
     int PassPreCut(Event const& event, Tag tag) const final {
-      if(tag == Tag::signal){
-        Jets partner = tagger2_.Particles(event);
-        if(partner.empty()) return 0;
-      }
+        Info();
+//       if(tag == Tag::signal){
+//         Jets partner = partner_tagger.Particles(event);
+//         if(partner.empty()) return 0;
+//       }
 //       static int counter = 0;
 //       ++counter;
 //     Error(counter);
 
+//      Error();
 //      this->PrintGeneratorLevel(event);
 
 

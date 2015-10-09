@@ -1,13 +1,14 @@
 /**
  * Copyright (C) 2015 Jan Hajer
  */
-#include "HiggsTagger.hh"
-#include "Event.hh"
-#include "Types.hh"
 #include "fastjet/tools/MassDropTagger.hh"
 #include "fastjet/tools/Filter.hh"
+
+#include "Event.hh"
+#include "Types.hh"
 #include "JetInfo.hh"
 #include "InfoRecombiner.hh"
+#include "HiggsTagger.hh"
 #include "Debug.hh"
 
 namespace boca
@@ -16,7 +17,6 @@ namespace boca
 HiggsTagger::HiggsTagger()
 {
     Info();
-    DefineVariables();
     higgs_mass_window = 70. * GeV;
 }
 
@@ -24,8 +24,8 @@ int HiggsTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) con
 {
     Info(boca::Name(tag));
     Jets jets =  event.Hadrons().Jets();
-    int comb = (sqr(jets.size()) + jets.size()) / 2;
-    Info(comb);
+//     int comb = (sqr(jets.size()) + jets.size()) / 2;
+//     Info(comb);
     std::vector<Doublet> doublets = unordered_pairs(jets, [&](fastjet::PseudoJet const & jet_1, fastjet::PseudoJet const & jet_2) {
         return CheckDoublet(Doublet(jet_1, jet_2), pre_cuts, tag);
     });

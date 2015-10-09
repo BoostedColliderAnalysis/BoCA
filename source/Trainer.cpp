@@ -17,7 +17,7 @@
 namespace boca
 {
 
-  Trainer::Trainer(boca::Tagger& tagger, TMVA::Types::EMVA mva) : tagger_(tagger) , factory_(tagger.Name(), OutputFile(), FactoryOptions())
+Trainer::Trainer(boca::Tagger& tagger, TMVA::Types::EMVA mva) : tagger_(tagger) , factory_(tagger.Name(), OutputFile(), FactoryOptions())
 {
     Error();
     AddVariables();
@@ -47,8 +47,8 @@ void Trainer::AddVariables()
     Note();
     TMVA::gConfig().GetIONames().fWeightFileDir = Tagger().AnalysisName();
     TMVA::gConfig().GetIONames().fWeightFileExtension = Tagger().WeightFileExtension();
-    for (auto const& observable : Tagger().Variables()) Factory().AddVariable(observable.expression(), observable.title(), observable.unit(), observable.type());
-    for (auto const& spectator : Tagger().Spectators()) Factory().AddSpectator(spectator.expression(), spectator.title(), spectator.unit(), spectator.type());
+    for (auto const & observable : Tagger().Variables()) Factory().AddVariable(observable.expression(), observable.title(), observable.unit(), observable.type());
+    for (auto const & spectator : Tagger().Spectators()) Factory().AddSpectator(spectator.expression(), spectator.title(), spectator.unit(), spectator.type());
 }
 
 long Trainer::GetTrees()
@@ -60,7 +60,7 @@ long Trainer::GetTrees()
 long Trainer::GetTree(Tag tag)
 {
     long number = 0;
-    for (auto const& tree_name : Tagger().TreeNames(tag)) number += AddTree(tree_name, tag);
+    for (auto const & tree_name : Tagger().TreeNames(tag)) number += AddTree(tree_name, tag);
     return number;
 }
 
@@ -84,14 +84,14 @@ long Trainer::AddTree(std::string const& tree_name, Tag tag)
 
 exroot::TreeReader Trainer::TreeReader(std::string const& tree_name, Tag tag)
 {
-   return exroot::TreeReader(&Tree(tree_name, tag));
+    return exroot::TreeReader(&Tree(tree_name, tag));
 }
 
 long Trainer::Entries(exroot::TreeReader& tree_reader)
 {
     long entries = 0;
     TClonesArray& clones_array = *tree_reader.UseBranch(Tagger().BranchName(Stage::trainer).c_str());
-    for (auto const& entry : Range(tree_reader.GetEntries())) {
+    for (auto const & entry : Range(tree_reader.GetEntries())) {
         tree_reader.ReadEntry(entry);
         entries += clones_array.GetEntries();
     }

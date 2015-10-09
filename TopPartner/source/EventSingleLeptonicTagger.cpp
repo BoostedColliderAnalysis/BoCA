@@ -5,12 +5,6 @@ namespace boca {
 
 namespace naturalness {
 
-EventSingleLeptonicTagger::EventSingleLeptonicTagger()
-{
-  Info();
-    DefineVariables();
-}
-
 int EventSingleLeptonicTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
     Info();

@@ -38,13 +38,15 @@ public:
       return "B";
     }
 
+    Doublet Multiplet(boca::Doublet& doublet, const boca::PreCuts& pre_cuts, const TMVA::Reader& reader) const;
+
 protected:
 
 private:
 
-  Doublet CheckDoublet(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const;
+    Jets Particles(Event const& event) const;
 
-    Doublet Multiplet(boca::Doublet& doublet, const boca::PreCuts& pre_cuts, const TMVA::Reader& reader) const;
+    Doublet CheckDoublet(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const;
 
     bool Problematic(Doublet const& doublet, PreCuts const& pre_cuts, Tag tag) const;
 

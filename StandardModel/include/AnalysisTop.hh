@@ -40,7 +40,7 @@ public:
 private:
 
     std::string ProjectName() const final {
-        return  Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-" + Name(Process::tt) + "-" + Name(TopDecay()) + "-jet-plain";
+        return  Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-" + Name(Process::tt) + "-" + Name(TopDecay()) + "-test3";
     }
 
     void SetFiles(Tag tag) final {

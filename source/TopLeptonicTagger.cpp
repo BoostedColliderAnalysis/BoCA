@@ -15,7 +15,6 @@ TopLeptonicTagger::TopLeptonicTagger() : w_leptonic_reader_(InitializeLeptonicRe
 {
     Info();
     top_mass_window = 80. * GeV;
-    DefineVariables();
 }
 
 int TopLeptonicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Tag tag) const

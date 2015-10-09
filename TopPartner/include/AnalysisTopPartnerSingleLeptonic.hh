@@ -27,24 +27,22 @@ class AnalysisSingleLeptonic : public AnalysisNaturalness<Tagger>
 public:
 
     AnalysisSingleLeptonic() {
+        Info();
         this->tagger().SetAnalysisName(ProjectName());
     }
 
 protected:
 
     std::string ProjectName() const final {
-      return "Naturalness-Single-" + boca::Name(this->PreCut()) + "-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass())
+        Info();
+        return "Naturalness-Single-Leptonic-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass())
+               + "-revertveto";
+//                + "problematic";
 //         + "wrong";
-               + "problematic";
     }
 
-//     std::string ProcessName() const final {
-//         return "Naturalness-Single";
-//         return "Naturalness-Single-Leptonic";
-//     }
-
-
     void SetFiles(Tag tag) final {
+        Info();
         switch (tag) {
         case Tag::signal :
             if (this->template TaggerIs<TopPartnerHadronicTagger>()) this->NewFile(tag, Process::TT);
@@ -53,17 +51,23 @@ protected:
         case Tag::background :
             if (this->template TaggerIs<TopPartnerHadronicTagger>()) this->NewFile(tag, Process::TthLep);
             else
-//               if (!this->template TaggerIs<TopPartnerLeptonicTagger>())
-              this->NewFile(tag, Process::TT);
-//             this->NewFile(tag, Process::ttBB);
-//             this->NewFile(tag, Process::ttBjj);
+//             if (!this->template TaggerIs<TopPartnerLeptonicTagger>())
+                this->NewFile(tag, Process::TT);
+            this->NewFile(tag, Process::ttBB);
+            this->NewFile(tag, Process::ttBjj);
             break;
         }
     }
 
 private:
+//   TopPartnerLeptonicTagger partner_tagger_;
 
-    int PassPreCut(Event const&, Tag) const final {
+    int PassPreCut(Event const& event, Tag tag) const final {
+        Info();
+//     if(tag == Tag::signal){
+//       Jets partner = partner_tagger.Particles(event);
+//       if(partner.empty()) return 0;
+//     }
 //         Jets jets = fastjet::sorted_by_pt(event.Hadrons().Jets());
 //         if (jets.size() < 3) return 0;
 //         if (jets.at(2).pt() < this->JetPreCut()) return 0;

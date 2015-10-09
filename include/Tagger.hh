@@ -67,6 +67,12 @@ public:
 
     virtual ResultBranch& Branch() = 0;
 
+    virtual std::string NiceName() const;
+
+    void Initialize(){
+      DefineVariables();
+    }
+
     static void SetAnalysisName(std::string const& analysis_name);
 
     std::vector<Observable> Variables() const;
@@ -76,8 +82,6 @@ public:
     Strings TreeNames(Tag tag) const;
 
     TCut Cut() const;
-
-    virtual std::string NiceName() const;
 
     std::string AnalysisName() const;
 

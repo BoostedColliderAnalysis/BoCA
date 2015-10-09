@@ -3,7 +3,7 @@
 // #pragma link off all classes;
 // #pragma link off all functions;
 // #pragma link C++ nestedclasses;
-// #pragma link C++ defined_in "BranchesTopPartner.hh";
+#pragma link C++ defined_in "BranchesTopPartner.hh";
 #pragma link C++ class boca::naturalness::EventBranch;
 #pragma link C++ class boca::naturalness::SignatureBranch;
 #pragma link C++ class boca::naturalness::TopPartnerBranch;

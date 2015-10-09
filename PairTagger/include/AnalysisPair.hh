@@ -111,9 +111,9 @@ private:
         return 1;
     };
 
-    std::string ProcessName() const {
-        return "Fusion Pair";
-    }
+//     std::string ProcessName() const {
+//         return "Fusion Pair";
+//     }
 
 
     int BackgroundFileNumber() const {

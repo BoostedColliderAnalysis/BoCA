@@ -14,7 +14,6 @@ BosonTagger::BosonTagger()
 {
     Info();
     boson_mass_window = 80. * GeV;
-    DefineVariables();
 }
 
 int BosonTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const
@@ -34,13 +33,16 @@ int BosonTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) con
             doublets.emplace_back(CheckDoublet(Doublet(pieces.at(0), pieces.at(1)), pre_cuts, tag));
         } catch (...) {}
     }
-    Jets particles = event.Partons().GenParticles();
-    Jets higgses = CopyIfParticles(particles, Id::higgs, Id::CP_violating_higgs);
-    Jets vectors = CopyIfParticles(particles, Id::W, Id::Z);
-    Jets bosons = Join(higgses, vectors);
-//     if (vectors.empty()) bosons = higgses;
-//     else bosons = vectors;
+    Jets bosons = Particles(event);
     return SaveEntries(doublets, bosons, tag);
+}
+
+Jets BosonTagger::Particles(Event const& event) const {
+  Jets particles = event.Partons().GenParticles();
+  Jets higgses = CopyIfParticles(particles, Id::higgs, Id::CP_violating_higgs);
+//   Jets vectors = CopyIfParticles(particles, Id::W, Id::Z);
+  Jets vectors = CopyIfParticle(particles, Id::Z);
+  return Join(higgses, vectors);
 }
 
 Doublet BosonTagger::CheckDoublet(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const
@@ -55,10 +57,8 @@ bool BosonTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts, T
     if (Problematic(doublet, pre_cuts)) return true;
     switch (tag) {
     case Tag::signal :
-        if (boost::units::abs(doublet.Mass() - (MassOf(Id::higgs) + MassOf(Id::W)) / 2.) > boson_mass_window)
-            return true;
-        if ((doublet.Rho() > 2 || doublet.Rho() < 0.5) && doublet.Rho() > 0)
-            return true;
+//         if (boost::units::abs(doublet.Mass() - (MassOf(Id::higgs) + MassOf(Id::W)) / 2.) > boson_mass_window) return true;
+//         if ((doublet.Rho() > 2 || doublet.Rho() < 0.5) && doublet.Rho() > 0) return true;
         break;
     case Tag::background :
         break;
@@ -70,7 +70,11 @@ bool BosonTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts) c
 {
     if (pre_cuts.PtLowerCut(Id::higgs) > at_rest && pre_cuts.PtLowerCut(Id::higgs) > doublet.Pt()) return true;
     if (pre_cuts.PtUpperCut(Id::higgs) > at_rest && pre_cuts.PtUpperCut(Id::higgs) < doublet.Pt()) return true;
+    if (pre_cuts.MassLowerCut(Id::higgs) > massless && doublet.Mass() < pre_cuts.MassLowerCut(Id::higgs)) return true;
     if (pre_cuts.MassUpperCut(Id::higgs) > massless && pre_cuts.MassUpperCut(Id::higgs) < doublet.Mass()) return true;
+    if (doublet.Jet().user_info<JetInfo>().VertexNumber() < 1) return true;
+    if (doublet.Rho() > 2.5 || doublet.Rho() < 0.5) return true;
+    if (doublet.Singlet1().Bdt() < 0 || doublet.Singlet2().Bdt() < 0) return true;
     return false;
 }
 

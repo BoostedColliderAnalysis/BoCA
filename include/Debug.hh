@@ -25,6 +25,7 @@ class PseudoJet;
 #ifndef NDEBUG
 #define NOTIFICATION
 #endif
+// #define DEBUG
 
 namespace boca
 {
@@ -45,7 +46,7 @@ template<typename Value>
 std::string Column(int width, Value const& message)
 {
     std::stringstream stream;
-    stream  << boost::units::engineering_prefix << std::left << std::setw(width) << std::setfill(' ') << message;
+    stream  << std::boolalpha << boost::units::engineering_prefix << std::left << std::setw(width) << std::setfill(' ') << message;
     return stream.str();
 }
 
@@ -53,7 +54,7 @@ template<typename Value>
 std::string ColumnRight(int width, Value const& message)
 {
     std::stringstream stream;
-    stream  << boost::units::engineering_prefix << std::right << std::setw(width) << std::setfill(' ') << message;
+    stream  << std::boolalpha << boost::units::engineering_prefix << std::right << std::setw(width) << std::setfill(' ') << message;
     return stream.str();
 }
 

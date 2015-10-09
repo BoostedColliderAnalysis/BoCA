@@ -24,8 +24,6 @@ class SignatureSingleLeptonicTagger : public BranchTagger<SignatureSingleBranch>
 
 public:
 
-    SignatureSingleLeptonicTagger();
-
     int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
 
     int SaveBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final {
@@ -44,13 +42,15 @@ public:
 
 private:
 
-    std::vector<Decuplet532> Decuplets(Event const& event, std::function<Decuplet532(Decuplet532&)> const& function) const;
+  std::vector<Decuplet532> Decuplets(Event const& event, PreCuts const& pre_cuts, std::function<Decuplet532(Decuplet532&)> const& function) const;
 
     Reader<TopPartnerLeptonicTagger> partner_reader_;
 
     Reader<TopHadronicTagger> top_reader_;
 
     Reader<HiggsTagger> higgs_reader_;
+
+    Reader<BosonTagger> boson_reader_;
 
     Reader<TopPartnerHadronicTagger> veto_reader_;
 };

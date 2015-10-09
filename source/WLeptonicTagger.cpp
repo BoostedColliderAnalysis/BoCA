@@ -13,7 +13,6 @@ WLeptonicTagger::WLeptonicTagger()
 {
     Info();
     w_mass_window_ = 20. * GeV;
-    DefineVariables();
 }
 
 int WLeptonicTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) const

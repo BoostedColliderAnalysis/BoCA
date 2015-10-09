@@ -48,7 +48,8 @@ class AnalysisNaturalness : public boca::Analysis<Tagger>
 {
 public:
 
-    AnalysisNaturalness() {
+  AnalysisNaturalness() {
+    Info();
 // DetectorGeometry::set_detector_type(DetectorType::CMS);
     }
 
@@ -56,8 +57,8 @@ protected:
 
     boca::Mass Mass() const {
         Info();
-        return 1000. * GeV;
         return 2000. * GeV;
+        return 1000. * GeV;
         return 4000. * GeV;
         return 6000. * GeV;
         return 10000. * GeV;
@@ -188,7 +189,7 @@ protected:
         }
     }
 
-    std::string Names(Process process) const {
+    std::string FileName(Process process) const {
         Info();
         std::string name = "PP-" + Name(process) + "-" + boca::Name(DetectorGeometry::detector_type());
         if (MassDependent(process)) name += "-" + boca::Name(Mass());
@@ -197,7 +198,7 @@ protected:
 
     void NewFile(Tag tag, Process process) {
         Info();
-        AnalysisBase::NewFile(tag, this->Names(process), this->Crosssection(process), NiceName(process), Mass());
+        AnalysisBase::NewFile(tag, this->FileName(process), this->Crosssection(process), NiceName(process), Mass());
     }
 
 };

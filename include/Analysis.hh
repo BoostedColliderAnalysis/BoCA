@@ -32,15 +32,17 @@ class Analysis : public AnalysisBase
 
 public:
 
-  Analysis(){
-    Info();
-  }
+    Analysis() {
+        Info();
+    }
 
     /**
      * @brief Main analysis loop which has to be called by main.cpp
      *
      */
     void AnalysisLoop(Stage stage) final {
+        Info();
+        tagger().Initialize();
         Initialize();
         Reader<Tagger> reader(stage);
         for (auto const & tag : std::vector<Tag> {Tag::signal, Tag::background}) {
@@ -55,7 +57,7 @@ public:
             }
             Info("file loop finished");
         }
-         Info("tag loop finished");
+        Info("tag loop finished");
     }
 
 protected:
@@ -66,6 +68,7 @@ protected:
      * @return const boca::Tagger&
      */
     Tagger const& tagger() const final {
+        Info();
         return tagger_;
     }
 
@@ -75,12 +78,14 @@ protected:
      *
      */
     void set_tagger_analysis_name(std::string const& name) {
+        Info();
         tagger().SetAnalysisName(name);
     }
 
     template<typename Class>
     bool TaggerIs() const {
-      return typeid(tagger_).hash_code() == typeid(Class).hash_code();
+        Info();
+        return typeid(tagger_).hash_code() == typeid(Class).hash_code();
     }
 
     /**
@@ -89,6 +94,7 @@ protected:
      * @return boca::Tagger&
      */
     Tagger& tagger() final {
+        Info();
         return tagger_;
     }
 
@@ -99,6 +105,7 @@ private:
      *
      */
     void AnalyseFile(Files& files, Reader<Tagger>& reader) {
+        Info();
         Trees trees(files);
         SetTreeBranch(files.stage(), trees.tree_writer(), reader);
         trees.UseBranches(files.file(), tagger().WeightBranchName());
@@ -122,6 +129,7 @@ private:
      *
      */
     void SetTreeBranch(Stage stage, exroot::TreeWriter& tree_writer, Reader<Tagger>& reader) {
+        Info();
         switch (stage) {
         case Stage::trainer :
             tagger().SetTreeBranch(tree_writer, stage);
@@ -137,6 +145,7 @@ private:
      *
      */
     void DoAnalysis(Files const& files, Trees& trees, Reader<Tagger> const& reader) const {
+        Info();
         trees.NewEvent(files.file().mass());
         int pre_cut = PassPreCut(trees.event(), files.tag());
         if (pre_cut > 0) {
@@ -152,6 +161,7 @@ private:
      * @return int number of safed objects
      */
     int RunAnalysis(Event const& event, Reader<Tagger> const& reader, Stage stage, Tag tag) const {
+        Info();
         switch (stage) {
         case Stage::trainer :
             return tagger_.Train(event, pre_cuts(), tag);

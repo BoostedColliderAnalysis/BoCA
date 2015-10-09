@@ -9,12 +9,6 @@ namespace boca
 namespace naturalness
 {
 
-TopPartnerHadronicTagger::TopPartnerHadronicTagger()
-{
-    Info();
-    DefineVariables();
-}
-
 int TopPartnerHadronicTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
     Info();
@@ -31,8 +25,9 @@ int TopPartnerHadronicTagger::Train(Event const& event, PreCuts const&, Tag tag)
             quintets.emplace_back(quintet);
         }
     Debug(quintets.size());
-    Jets particles = CopyIfExactParticle(event.Partons().GenParticles(), to_int(Id::top_partner));
-    Error(particles.size());
+    Jets particles = Particles(event);
+    Debug(particles.size());
+    if(tag == Tag::signal) Check(!particles.empty(), particles.size());
     return SaveEntries(quintets, particles, tag);
 }
 
@@ -49,19 +44,19 @@ std::vector<Quintet> TopPartnerHadronicTagger::Multiplets(Event const& event, bo
 
 Jets TopPartnerHadronicTagger::Particles(Event const& event) const
 {
-  Jets particles = event.Partons().GenParticles();
-  Jets quarks = CopyIfQuark(particles);
-  Jets candidate = CopyIfGrandGrandMother(quarks, Id::top_partner);
-  if(!candidate.empty()) {
-    int grand_grand_mother = candidate.front().user_info<ParticleInfo>().Family().grand_grand_mother().id();
-    return CopyIfExactParticle(particles, grand_grand_mother);
-  } else {
-    candidate = CopyIfGrandMother(quarks, Id::top_partner);
-    candidate = CopyIfMother(candidate, Id::W);
-    if(candidate.empty()) return {};
-    int grand_mother = candidate.front().user_info<ParticleInfo>().Family().grand_mother().id();
-    return CopyIfExactParticle(particles, grand_mother);
-  }
+    Jets particles = event.Partons().GenParticles();
+    Jets quarks = CopyIfQuark(particles);
+    Jets candidate = CopyIfGrandGrandMother(quarks, Id::top_partner);
+    if (!candidate.empty()) {
+        int grand_grand_mother = candidate.front().user_info<ParticleInfo>().Family().grand_grand_mother().id();
+        return CopyIfExactParticle(particles, grand_grand_mother);
+    } else {
+        candidate = CopyIfGrandMother(quarks, Id::top_partner);
+        candidate = CopyIfMother(candidate, Id::W);
+        if (candidate.empty()) return {};
+        int grand_mother = candidate.front().user_info<ParticleInfo>().Family().grand_mother().id();
+        return CopyIfExactParticle(particles, grand_mother);
+    }
 }
 
 }

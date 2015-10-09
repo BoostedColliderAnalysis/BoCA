@@ -16,7 +16,6 @@ WHadronicTagger::WHadronicTagger()
 {
     Info();
     w_mass_window_ = 40. * GeV;
-    DefineVariables();
 }
 
 int WHadronicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Tag tag) const

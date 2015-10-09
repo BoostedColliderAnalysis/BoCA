@@ -20,8 +20,6 @@ class TopPartnerLeptonicTagger : public BranchTagger<TopPartnerBranch>
 
 public:
 
-    TopPartnerLeptonicTagger();
-
     int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
 
     std::vector<Quintet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;

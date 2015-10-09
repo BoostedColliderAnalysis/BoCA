@@ -1,10 +1,11 @@
 /**
  * Copyright (C) 2015 Jan Hajer
  */
-#include "TopHadronicTagger.hh"
 
 #include "fastjet/contrib/Nsubjettiness.hh"
 #include "fastjet/contrib/NjettinessDefinition.hh"
+
+#include "TopHadronicTagger.hh"
 #include "Event.hh"
 #include "InfoRecombiner.hh"
 // #define DEBUG
@@ -18,7 +19,6 @@ TopHadronicTagger::TopHadronicTagger()
     Info();
 //     top_mass_window_ = (Mass(Id::top) - Mass(Id::higgs)) / 2;
     top_mass_window_ = 50. * GeV;
-    DefineVariables();
 }
 
 int TopHadronicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Tag tag) const

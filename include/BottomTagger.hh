@@ -21,8 +21,6 @@ class BottomTagger : public BranchTagger<BottomBranch> {
 
 public:
 
-    BottomTagger();
-
     /**
      * @brief Train the bottom tagger with pre cuts
      */

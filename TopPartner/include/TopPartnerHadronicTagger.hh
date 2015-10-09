@@ -20,8 +20,6 @@ class TopPartnerHadronicTagger : public BranchTagger<TopPartnerBranch>
 
 public:
 
-    TopPartnerHadronicTagger();
-
     int Train(Event const& event, PreCuts const& pre_cuts,
               Tag tag) const final;
 

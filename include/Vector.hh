@@ -205,7 +205,7 @@ auto triples(std::vector<Element1> const& container_1, std::vector<Element2> con
     std::vector<Result> results;
     for (auto element_1 = container_1.begin(); element_1 != container_1.end(); ++element_1) {
         for (auto element_2 = std::next(element_1); element_2 != container_1.end(); ++element_2)
-            for (auto const & element_3 : container_2) {
+            for (auto & element_3 : container_2) {
                 try {
                     results.emplace_back(function(*element_1, *element_2, element_3));
                 } catch (...) {}
@@ -228,7 +228,7 @@ auto triples(std::vector<Element1> const& container_1, std::vector<Element2> con
     std::vector<Result> results;
     for (auto const & element_1 : container_1) {
         for (auto const & element_2 : container_2) {
-            for (auto const & element_3 : container_3) {
+            for (auto const& element_3 : container_3) {
                 try {
                     results.emplace_back(function(element_1, element_2, element_3));
                 } catch (...) {}

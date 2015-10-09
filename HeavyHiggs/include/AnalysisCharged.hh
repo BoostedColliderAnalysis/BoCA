@@ -36,12 +36,12 @@ public:
         }
     }
 
-    std::string ProcessName() const {
-        return "Charged";
-    }
+//     std::string ProcessName() const {
+//         return "Charged";
+//     }
 
     std::string ProjectName() const final {
-        return  ProcessName() + "-" + Name(this->collider_type()) + "-" + boca::Name(this->PreCut()) + "-" + boca::Name(this->Mass()) + "";
+      return  "Charged-" + Name(this->collider_type()) + "-" + boca::Name(this->PreCut()) + "-" + boca::Name(this->Mass()) + "";
     }
 
 private:

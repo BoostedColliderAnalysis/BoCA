@@ -58,8 +58,8 @@ protected:
     }
 
     long EventNumberMax() const override {
-        return 5000;
         return 1000;
+        return 5000;
         return 100;
     }
 

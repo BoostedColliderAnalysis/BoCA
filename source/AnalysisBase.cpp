@@ -290,6 +290,7 @@ std::string AnalysisBase::WorkingPath()
 
 void Run(AnalysisBase& analysis, Output run)
 {
+  Info();
 //   analysis.PreRequisits<analysis.tagger()::type>(analysis,run);
   switch (run) {
     case Output::fast :
@@ -318,6 +319,7 @@ void Run(AnalysisBase& analysis, Output run)
 }
 
 void AnalysisBase::PrintGeneratorLevel(Event const& event, bool signature) const {
+  Info();
   Jets particles = event.Partons().GenParticles();
   for (auto const & particle : particles) {
     Family family = particle.user_info<ParticleInfo>().Family();

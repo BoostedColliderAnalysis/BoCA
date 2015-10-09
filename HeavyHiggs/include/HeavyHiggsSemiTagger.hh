@@ -19,23 +19,21 @@ public:
 
     HeavyHiggsSemiTagger();
 
-    int Train(Event const& event, PreCuts const& pre_cuts,
-              Tag tag) const final;
+    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
 
     std::vector<Sextet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    int SaveBdt(Event const& event, PreCuts const& pre_cuts,
-               TMVA::Reader const& reader) const final {
-                 return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
+    int SaveBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final {
+      return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
     }
 
     std::string Name() const final { return "HeavyHiggsSemi"; }
 
-    Jets TopParticles(const Event& event, Decay decay) const;
+    Jets TopParticles(Event const& event, Decay decay) const;
 
     Jets HiggsParticle(Event const& event, Tag tag) const;
 
-    std::vector<Triplet> FinalTriplet(const Event& event, Tag tag, Decay decay) const;
+    std::vector<Triplet> FinalTriplet(Event const& event, Tag tag, Decay decay) const;
 
 private:
 
