@@ -32,11 +32,11 @@ int HiggsTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) con
     for (auto const & jet : jets) {
         try {
             doublets.emplace_back(CheckDoublet(Doublet(jet), pre_cuts, tag));
-        } catch (...) {}
+        } catch (std::exception const&) {}
         try {
             Jets pieces = Tagger::SubJets(jet, 2);
             doublets.emplace_back(CheckDoublet(Doublet(pieces.at(0), pieces.at(1)), pre_cuts, tag));
-        } catch (...) {}
+        } catch (std::exception const&) {}
     }
     doublets = SetClosestLepton(event, doublets);
     Jets higgses = Particles(event);
@@ -97,12 +97,12 @@ std::vector<Doublet> HiggsTagger::Multiplets(Event const& event, PreCuts const& 
         try {
             Doublet doublet(jet);
             doublets.emplace_back(Multiplet(doublet, leptons, pre_cuts, reader));
-        } catch (...) {}
+        } catch (std::exception const&) {}
         Jets pieces = Tagger::SubJets(jet, 2);
         try {
             Doublet doublet(pieces.at(0), pieces.at(1));
             doublets.emplace_back(Multiplet(doublet, leptons, pre_cuts, reader));
-        } catch (...) {}
+        } catch (std::exception const&) {}
     }
     return ReduceResult(doublets);
 }

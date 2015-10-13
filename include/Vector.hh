@@ -151,10 +151,10 @@ auto ordered_pairs(std::vector<Element> const& container, Function function)
         for (auto element_2 = std::next(element_1); element_2 != container.end(); ++element_2) {
             try {
                 results.emplace_back(function(*element_1, *element_2));
-            } catch (...) {}
+            } catch (std::exception const&) {}
             try {
                 results.emplace_back(function(*element_2, *element_1));
-            } catch (...) {}
+            } catch (std::exception const&) {}
         }
     }
     return results;
@@ -172,7 +172,7 @@ auto unordered_pairs(std::vector<Element> const& container, Function function)
         for (auto element_2 = std::next(element_1); element_2 != container.end(); ++element_2)
             try {
                 results.emplace_back(function(*element_1, *element_2));
-            } catch (...) {}
+            } catch (std::exception const&) {}
     }
     return results;
 }
@@ -189,7 +189,7 @@ auto pairs(std::vector<Element1> const& container_1, std::vector<Element2> const
         for (auto const & element_2 : container_2) {
             try {
                 results.emplace_back(function(element_1, element_2));
-            } catch (...) {}
+            } catch (std::exception const&) {}
         }
     }
     return results;
@@ -208,7 +208,7 @@ auto triples(std::vector<Element1> const& container_1, std::vector<Element2> con
             for (auto & element_3 : container_2) {
                 try {
                     results.emplace_back(function(*element_1, *element_2, element_3));
-                } catch (...) {}
+                } catch (std::exception const&) {}
             }
     }
     return results;
@@ -231,7 +231,7 @@ auto triples(std::vector<Element1> const& container_1, std::vector<Element2> con
             for (auto const& element_3 : container_3) {
                 try {
                     results.emplace_back(function(element_1, element_2, element_3));
-                } catch (...) {}
+                } catch (std::exception const&) {}
             }
         }
     }

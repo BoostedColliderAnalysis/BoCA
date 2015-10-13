@@ -33,19 +33,19 @@ int WHadronicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Ta
         Info("1 jet forms one W");
         try {
             doublets.emplace_back(CheckDoublet(Doublet(jet), pre_cuts, tag));
-        } catch (...) {}
+        } catch (std::exception const&) {}
 
         Info("2 of 2 sub jets form one W");
         Jets pieces = bottom_reader_.SubMultiplet(jet, 2);
         try {
             doublets.emplace_back(CheckDoublet(Doublet(pieces.at(0), pieces.at(1)), pre_cuts, tag));
-        } catch (...) {}
+        } catch (std::exception const&) {}
 
         Info("1 of 2 sub jets forms one W");
         for (auto const & piece : pieces) {
             try {
                 doublets.emplace_back(CheckDoublet(Doublet(piece), pre_cuts, tag));
-            } catch (...) {}
+            } catch (std::exception const&) {}
         }
 
         Info("2 of 3 sub jets forms one W");

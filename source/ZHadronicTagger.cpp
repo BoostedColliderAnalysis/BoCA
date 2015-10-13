@@ -25,11 +25,11 @@ int ZHadronicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Ta
     for (auto const& jet : jets) {
         try {
           doublets.emplace_back(CheckDoublet(Doublet(jet), pre_cuts, tag));
-        } catch (...) {}
+        } catch(std::exception const&) {}
         try {
             Jets pieces = bottom_reader_.SubMultiplet(jet, 2);
             doublets.emplace_back(CheckDoublet(Doublet(pieces.at(0), pieces.at(1)), pre_cuts, tag));
-        } catch (...) {}
+        } catch(std::exception const&) {}
     }
     Jets particles = event.Partons().GenParticles();
     Jets z_particles = CopyIfParticle(particles, Id::Z);
@@ -77,12 +77,12 @@ std::vector<Doublet> ZHadronicTagger::Multiplets(Event const& event, boca::PreCu
         try {
             Doublet doublet(jet);
             doublets.emplace_back(Multiplet(doublet,pre_cuts,reader));
-        } catch (...) {}
+        } catch(std::exception const&) {}
         try {
             Jets pieces = bottom_reader_.SubMultiplet(jet, 2);
             Doublet doublet(pieces.at(0), pieces.at(1));
             doublets.emplace_back(Multiplet(doublet,pre_cuts,reader));
-        } catch (...) {}
+        } catch(std::exception const&) {}
     }
     return ReduceResult(doublets);
 }

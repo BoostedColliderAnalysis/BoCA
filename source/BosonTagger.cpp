@@ -28,11 +28,11 @@ int BosonTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) con
     for (auto const & jet : jets) {
         try {
             doublets.emplace_back(CheckDoublet(Doublet(jet), pre_cuts, tag));
-        } catch (...) {}
+        } catch (std::exception const&) {}
         try {
             Jets pieces = bottom_reader_.SubMultiplet(jet, 2);
             doublets.emplace_back(CheckDoublet(Doublet(pieces.at(0), pieces.at(1)), pre_cuts, tag));
-        } catch (...) {}
+        } catch (std::exception const&) {}
     }
     Jets bosons = Particles(event);
     return SaveEntries(doublets, bosons, tag);
@@ -91,12 +91,12 @@ std::vector<Doublet>  BosonTagger::Multiplets(Event const& event, PreCuts const&
         try {
             Doublet doublet(jet);
             doublets.emplace_back(Multiplet(doublet, pre_cuts, reader));
-        } catch (...) {}
+        } catch (std::exception const&) {}
         try {
             Jets pieces = bottom_reader_.SubMultiplet(jet, 2);
             Doublet doublet(pieces.at(0), pieces.at(1));
             doublets.emplace_back(Multiplet(doublet, pre_cuts, reader));
-        } catch (...) {}
+        } catch (std::exception const&) {}
     }
     return ReduceResult(doublets);
 }
