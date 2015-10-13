@@ -34,6 +34,7 @@ public:
 
     Analysis() {
         Info();
+        Initialize();
     }
 
     /**
@@ -42,8 +43,6 @@ public:
      */
     void AnalysisLoop(Stage stage) final {
         Info();
-        tagger().Initialize();
-        Initialize();
         Reader<Tagger> reader(stage);
         for (auto const & tag : std::vector<Tag> {Tag::signal, Tag::background}) {
             Files files(tagger().ExportFileName(stage, tag), stage, tag);

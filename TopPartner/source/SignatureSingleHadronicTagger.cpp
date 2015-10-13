@@ -53,12 +53,11 @@ int SignatureSingleHadronicTagger::Train(Event const& event, PreCuts const& pre_
 //             }
 //         }
 //     }
-//
 //     Info(decuplets.size());
 //     return SaveEntries(decuplets, 1);
     return SaveEntries(Decuplets(event, pre_cuts, [&](Decuplet532 & decuplet) {
-      decuplet.SetTag(tag);
-      return decuplet;
+        decuplet.SetTag(tag);
+        return decuplet;
     }), 1);
 }
 
@@ -69,7 +68,6 @@ std::vector<Decuplet532> SignatureSingleHadronicTagger::Multiplets(Event const& 
         decuplet.SetBdt(Bdt(decuplet, reader));
         return decuplet;
     }), 1);
-
 }
 
 // std::vector<Decuplet532> SignatureSingleHadronicTagger::Decuplets(boca::Event const& event, std::function< Decuplet532(Decuplet532&)> const& function) const
@@ -83,47 +81,47 @@ std::vector<Decuplet532> SignatureSingleHadronicTagger::Multiplets(Event const& 
 //     });
 // }
 
-// std::vector<Decuplet532> SignatureSingleHadronicTagger::Decuplets(Event const& event, PreCuts const& pre_cuts, std::function<Decuplet532(Decuplet532&)> const& function) const
-// {
-//   std::vector<Decuplet532> decuplets;
-//   for (auto const & doublet : higgs_reader_.Multiplets(event)) {
-//     Doublet doublet_2 = boson_reader_.Multiplet(doublet, pre_cuts);
-//     for (auto const & triplet : top_reader_.Multiplets(event)) {
-//       float veto = veto_reader_.Bdt(Quintet(triplet, doublet_2));
-//       for (auto const & quintet : partner_reader_.Multiplets(event)) {
-//         Decuplet532 decuplet(quintet, triplet, doublet);
-//         if (decuplet.Overlap()) continue;
-//         decuplet.SetVetoBdt(veto);
-//         decuplets.emplace_back(function(decuplet));
-//       }
-//     }
-//   }
-//   return decuplets;
-// }
-
 std::vector<Decuplet532> SignatureSingleHadronicTagger::Decuplets(Event const& event, PreCuts const& pre_cuts, std::function<Decuplet532(Decuplet532&)> const& function) const
 {
-    std::vector<Quintet> vetos = veto_reader_.Multiplets(event);
     std::vector<Decuplet532> decuplets;
-    for (auto const & quintet : partner_reader_.Multiplets(event)) {
-        float veto_bdt = -1;
-        for (auto const& veto : vetos) {
-            Decuplet55 decuplet55 = Decuplet55(quintet, veto);
-            if (decuplet55.Overlap()) continue;
-            veto_bdt = veto.Bdt();
-            break;
-        }
-        for (auto const & doublet : higgs_reader_.Multiplets(event)) {
-            for (auto const & triplet : top_reader_.Multiplets(event)) {
+    for (auto const & doublet : higgs_reader_.Multiplets(event)) {
+        Doublet veto_doublet = boson_reader_.Multiplet(doublet, pre_cuts);
+        for (auto const & triplet : top_reader_.Multiplets(event)) {
+            float veto = veto_reader_.Bdt(Quintet(triplet, veto_doublet));
+            for (auto const & quintet : partner_reader_.Multiplets(event)) {
                 Decuplet532 decuplet(quintet, triplet, doublet);
                 if (decuplet.Overlap()) continue;
-                decuplet.SetVetoBdt(veto_bdt);
+                decuplet.SetVetoBdt(veto);
                 decuplets.emplace_back(function(decuplet));
             }
         }
     }
     return decuplets;
 }
+
+// std::vector<Decuplet532> SignatureSingleHadronicTagger::Decuplets(Event const& event, PreCuts const& pre_cuts, std::function<Decuplet532(Decuplet532&)> const& function) const
+// {
+//     std::vector<Quintet> vetos = veto_reader_.Multiplets(event);
+//     std::vector<Decuplet532> decuplets;
+//     for (auto const & quintet : partner_reader_.Multiplets(event)) {
+//         float veto_bdt = -1;
+//         for (auto const & veto : vetos) {
+//             Decuplet55 decuplet55 = Decuplet55(quintet, veto);
+//             if (decuplet55.Overlap()) continue;
+//             veto_bdt = veto.Bdt();
+//             break;
+//         }
+//         for (auto const & doublet : higgs_reader_.Multiplets(event)) {
+//             for (auto const & triplet : top_reader_.Multiplets(event)) {
+//                 Decuplet532 decuplet(quintet, triplet, doublet);
+//                 if (decuplet.Overlap()) continue;
+//                 decuplet.SetVetoBdt(veto_bdt);
+//                 decuplets.emplace_back(function(decuplet));
+//             }
+//         }
+//     }
+//     return decuplets;
+// }
 
 }
 

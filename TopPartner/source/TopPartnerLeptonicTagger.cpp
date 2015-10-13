@@ -18,8 +18,13 @@ int TopPartnerLeptonicTagger::Train(Event const& event, PreCuts const&, Tag tag)
         return quintet;
     });
     Jets particles = Particles(event);
-    Debug(particles.size());
-    if(tag == Tag::signal) Check(!particles.empty(), particles.size());
+    if (tag == Tag::signal) {
+        Check(!particles.empty(), particles.size())
+    } else Check(particles.empty(), particles.size());
+    int size = particles.size();
+    std::string particle = "";
+    if (size > 0) particle = boca::Name(particles.front().user_info<ParticleInfo>().Family().particle().id());
+    Error(size, particle);
     return SaveEntries(quintets, particles, tag);
 }
 
@@ -36,20 +41,20 @@ std::vector<Quintet> TopPartnerLeptonicTagger::Multiplets(Event const& event, bo
 
 Jets TopPartnerLeptonicTagger::Particles(Event const& event) const
 {
-  Jets particles = event.Partons().GenParticles();
-  Jets leptons = CopyIfLepton(particles);
-  Jets candidate = CopyIfGrandGrandMother(leptons, Id::top_partner);
-  if(!candidate.empty()) {
-    Check(leptons.size() == 1, leptons.size());
-    int grand_grand_mother = candidate.front().user_info<ParticleInfo>().Family().grand_grand_mother().id();
-    return CopyIfExactParticle(particles, grand_grand_mother);
-  } else { // this is necessary because madspin doesnt label relations correctly
-    candidate = CopyIfGrandMother(leptons, Id::top_partner);
-    candidate = CopyIfMother(candidate, Id::W);
-    if(candidate.empty()) return {};
-    int grand_mother = candidate.front().user_info<ParticleInfo>().Family().grand_mother().id();
-    return CopyIfExactParticle(particles, grand_mother);
-  }
+    Jets particles = event.Partons().GenParticles();
+    Jets leptons = CopyIfLepton(particles);
+    Jets candidate = CopyIfGrandGrandMother(leptons, Id::top_partner);
+    if (!candidate.empty()) {
+        Check(leptons.size() == 1, leptons.size());
+        int grand_grand_mother = candidate.front().user_info<ParticleInfo>().Family().grand_grand_mother().id();
+        return CopyIfExactParticle(particles, grand_grand_mother);
+    } else { // this is necessary because madspin doesnt label relations correctly
+        candidate = CopyIfGrandMother(leptons, Id::top_partner);
+        candidate = CopyIfMother(candidate, Id::W);
+        if (candidate.empty()) return {};
+        int grand_mother = candidate.front().user_info<ParticleInfo>().Family().grand_mother().id();
+        return CopyIfExactParticle(particles, grand_mother);
+    }
 }
 
 

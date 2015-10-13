@@ -53,11 +53,11 @@ protected:
             break;
         case Tag::background :
             if (this->template TaggerIs<TopPartnerLeptonicTagger>()) this->NewFile(tag, Process::TthHad);
-            else
-//             if (!this->template TaggerIs<TopPartnerHadronicTagger>())
-                this->NewFile(tag, Process::TT);
-            this->NewFile(tag, Process::ttBB);
-            this->NewFile(tag, Process::ttBjj);
+            else if (!this->template TaggerIs<TopPartnerHadronicTagger>()) this->NewFile(tag, Process::TT);
+            if (!this->template TaggerIs<TopPartnerLeptonicTagger>()) {
+                this->NewFile(tag, Process::ttBB);
+                this->NewFile(tag, Process::ttBjj);
+            }
             break;
         }
     }
@@ -65,7 +65,7 @@ protected:
 private:
 //         TopPartnerHadronicTagger partner_tagger;
 
-    int PassPreCut(Event const& event, Tag tag) const final {
+    int PassPreCut(Event const& , Tag ) const final {
         Info();
 //       if(tag == Tag::signal){
 //         Jets partner = partner_tagger.Particles(event);

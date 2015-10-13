@@ -36,7 +36,8 @@ protected:
     std::string ProjectName() const final {
         Info();
         return "Naturalness-Single-Leptonic-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass())
-               + "-revertveto";
+//                + "-revertveto";
+               + "-test";
 //                + "problematic";
 //         + "wrong";
     }
@@ -62,7 +63,7 @@ protected:
 private:
 //   TopPartnerLeptonicTagger partner_tagger_;
 
-    int PassPreCut(Event const& event, Tag tag) const final {
+    int PassPreCut(Event const&, Tag ) const final {
         Info();
 //     if(tag == Tag::signal){
 //       Jets partner = partner_tagger.Particles(event);

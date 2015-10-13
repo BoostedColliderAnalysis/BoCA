@@ -69,9 +69,7 @@ public:
 
     virtual std::string NiceName() const;
 
-    void Initialize(){
-      DefineVariables();
-    }
+    void Initialize();
 
     static void SetAnalysisName(std::string const& analysis_name);
 

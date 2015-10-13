@@ -32,7 +32,7 @@ void AnalysisBase::Initialize()
     Error(tagger().Name());
     working_path_ = WorkingPath();
     mkdir(ProjectName().c_str(), 0700);
-    tagger().ClearTreeNames();
+    tagger().Initialize();
 }
 
 exroot::TreeWriter AnalysisBase::TreeWriter(TFile& export_file, std::string const& export_tree_name, Stage)
@@ -109,7 +109,7 @@ File AnalysisBase::File(Strings const& names, std::string const& nice_name) cons
     return boca::File(names, FilePath(), FileSuffix(), nice_name);
 }
 
-File AnalysisBase::File(const boca::Strings& names, boca::Crosssection crosssection, std::string const& nice_name, boca::Mass mass) const
+File AnalysisBase::File(Strings const& names, Crosssection crosssection, std::string const& nice_name, boca::Mass mass) const
 {
     Info();
     return boca::File(names, FilePath(), FileSuffix(), nice_name, crosssection, mass);

@@ -35,6 +35,10 @@ int TopLeptonicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, 
         return triplet;
     });
     Jets tops = Particles(event/*, pre_cuts*/);
+    int size = tops.size();
+    std::string particle = "";
+    if(size > 0) particle = boca::Name(tops.front().user_info<ParticleInfo>().Family().particle().id());
+    Error(size, particle);
     Debug(triplets.size(), tops.size(), leptons.size());
     return SaveEntries(triplets, tops, tag);
 }

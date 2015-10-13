@@ -35,7 +35,7 @@ private:
      * @brief Book MVA methods
      *
      */
-    TMVA::MethodBDT& BookMethod(TMVA::Types::EMVA mva);
+    TMVA::MethodBase& BookMethod(TMVA::Types::EMVA mva);
 
     /**
      * @brief Add Variables
@@ -66,7 +66,7 @@ private:
 
     exroot::TreeReader TreeReader(std::string const& tree_name, Tag tag);
 
-    TFile* OutputFile() const;
+    TFile& OutputFile() const;
 
     std::string FactoryOptions();
 

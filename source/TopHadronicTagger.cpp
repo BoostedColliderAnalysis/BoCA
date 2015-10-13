@@ -8,6 +8,7 @@
 #include "TopHadronicTagger.hh"
 #include "Event.hh"
 #include "InfoRecombiner.hh"
+#include "ParticleInfo.hh"
 // #define DEBUG
 #include "Debug.hh"
 
@@ -75,25 +76,36 @@ int TopHadronicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, 
 
     }
     Jets top_particles = TopParticles(event);
+    int size = top_particles.size();
+    std::string particle = "";
+    if(size > 0) particle = boca::Name(top_particles.front().user_info<ParticleInfo>().Family().particle().id());
+    Error(size, particle);
     Info(triplets.size(), top_particles.size());
     return SaveEntries(triplets, top_particles, tag, Id::top);
 }
 
 Jets TopHadronicTagger::TopParticles(Event const& event) const {
-  int top_hadronic_id = TopHadronicId(event);
   Jets particles = event.Partons().GenParticles();
-  Jets top_particles;
-  if (top_hadronic_id != to_int(Id::empty)) top_particles = CopyIfExactParticle(particles, top_hadronic_id);
-  else top_particles = CopyIfParticle(particles, Id::top);
-  return top_particles;
+  Jets quarks = CopyIfQuark(particles);
+  quarks = CopyIfGrandMother(quarks, Id::top);
+  if(quarks.empty()) return {};
+  Check(quarks.size() == 2, quarks.size());
+  int grand_mother = quarks.front().user_info<ParticleInfo>().Family().grand_mother().id();
+  Info(grand_mother);
+  return CopyIfExactParticle(particles, grand_mother);
+//   int top_hadronic_id = TopHadronicId(event);
+//   Jets particles = event.Partons().GenParticles();
+//   Jets top_particles;
+//   if (top_hadronic_id != to_int(Id::empty)) top_particles = CopyIfExactParticle(particles, top_hadronic_id);
+//   else top_particles = CopyIfParticle(particles, Id::top);
+//   return top_particles;
 }
 
 std::vector<Triplet> TopHadronicTagger::Triplets(std::vector<boca::Doublet> const& doublets, boca::Jets const& jets, boca::Jets const& leptons, boca::PreCuts const& pre_cuts, Tag tag) const
 {
     Info(doublets.size());
     std::vector<boca::Triplet> triplets;
-    for (auto const & doublet : doublets)
-        triplets = Join(triplets, Triplets(doublet, jets, leptons, pre_cuts, tag));
+    for (auto const & doublet : doublets) triplets = Join(triplets, Triplets(doublet, jets, leptons, pre_cuts, tag));
     Info(triplets.size());
     return triplets;
 }

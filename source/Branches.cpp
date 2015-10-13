@@ -1,6 +1,7 @@
 /**
  * Copyright (C) 2015 Jan Hajer
  */
+#include <iostream>
 #include "Branches.hh"
 #include "TColor.h"
 #include "TStyle.h"
@@ -15,6 +16,7 @@ Obs::Obs(float & value, std::string const& name, std::string const& nice_name) :
     name_ = name;
     if(nice_name == "") nice_name_ = name;
     else nice_name_ = nice_name;
+//     std::cout << value << " " << name << " " << nice_name << std::endl;
 }
 
 float& Obs::value() const
@@ -335,8 +337,6 @@ TopHadronicBranch::TopHadronicBranch()
 Observables TopHadronicBranch::Variables()
 {
     return Join(MultiBranch::Variables(), BottomBase::Variables(), {PAIR(LeptonPt)});
-    return  Join(BottomBase::Variables(), ParticleBranch::Variables(), {PAIR(Bdt2), PAIR(LeptonPt)});
-    return Join(MultiBranch::Variables(), BottomBase::Variables(), {PAIR(BottomMass), PAIR(WMass), PAIR(LeptonPt)});
 }
 
 Observables TopHadronicBranch::Spectators()
@@ -367,6 +367,7 @@ HiggsBranch::HiggsBranch(){
 
 Observables HiggsBranch::Variables()
 {
+//   return {PAIR(Mass), PAIR(Bdt1), PAIR(Bdt2)};
   return Join(PairBranch::Variables(), BottomBase::Variables(),{PAIR(LeptonPt),PAIR(LeptonDeltaR)});
 }
 
@@ -393,6 +394,7 @@ EventBranch::EventBranch()
 Observables EventBranch::Variables()
 {
     return Join(MultiBranch::Variables(), {PAIR(LeptonNumber), PAIR(JetNumber), PAIR(BottomNumber), PAIR(MissingEt), PAIR(ScalarHt), PAIR(LeptonHt), PAIR(JetMass), PAIR(JetPt), PAIR(JetHt), PAIR(JetRap), PAIR(JetPhi)});
+
 }
 
 void Color::Red()
@@ -445,7 +447,7 @@ std::vector<int> Color::Table(std::vector<double>& length, std::vector<double>& 
 {
     std::vector<int> colors(50);
     int color_table = TColor::CreateGradientColorTable(length.size(), &length.front(), &red.front(), &green.front(), &blue.front(), colors.size());
-    for (size_t step = 0; step < colors.size(); ++step) colors[step] = color_table + step;
+    for (size_t step = 0; step < colors.size(); ++step) colors.at(step) = color_table + step;
     // for (auto & color : colors) color = color_table + (&color - &colors.front());
     return colors;
 }

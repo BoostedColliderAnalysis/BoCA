@@ -7,6 +7,7 @@
 
 #include "Identification.hh"
 #include "Constituent.hh"
+#include "Math.hh"
 
 class Jet;
 namespace delphes
@@ -136,7 +137,7 @@ private:
 
     bool tau_tag_ = 0;
 
-    int charge_;
+    int charge_ = LargeNumber();
 
     bool sub_structure_ = true;
 

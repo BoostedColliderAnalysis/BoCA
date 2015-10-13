@@ -22,7 +22,6 @@ JetInfo::JetInfo()
 JetInfo::JetInfo(float bdt)
 {
     SetBdt(bdt);
-    SetCharge(LargeNumber());
 }
 
 void JetInfo::SetDelphesTags(::delphes::Jet const& jet)
@@ -35,7 +34,6 @@ void JetInfo::SetDelphesTags(::delphes::Jet const& jet)
 JetInfo::JetInfo(::delphes::Jet const& jet)
 {
     SetDelphesTags(jet);
-    SetCharge(LargeNumber());
 }
 
 JetInfo::JetInfo(int charge)
@@ -57,14 +55,12 @@ JetInfo::JetInfo(Constituent const& constituent, int charge)
 JetInfo::JetInfo(std::vector<Constituent> const& constituents)
 {
     SetConstituents(constituents);
-    SetCharge(LargeNumber());
 }
 
 JetInfo::JetInfo(std::vector<Constituent> const& constituents, std::vector<Constituent> const& displaced_constituents)
 {
     constituents_ = constituents;
     displaced_constituents_ = displaced_constituents;
-    SetCharge(LargeNumber());
 }
 
 JetInfo JetInfo::operator+(JetInfo const& jet_info)

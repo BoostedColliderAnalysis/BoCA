@@ -2,6 +2,7 @@
  * Copyright (C) 2015 Jan Hajer
  */
 #include "Observable.hh"
+#include "Debug.hh"
 
 namespace boca {
 
@@ -10,10 +11,9 @@ Observable::Observable(float& value, std::string const& expression, std::string 
     expression_ = expression;
     title_ = title;
     unit_ = unit;
-    if (value == int(value))
-        type_ = 'I';
-    else
-        type_ = 'F';
+    if (value == int(value)) type_ = 'I';
+    else type_ = 'F';
+    Debug(expression_, type_, value_, title_);
 }
 
 float& Observable::value() const

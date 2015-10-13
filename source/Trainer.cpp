@@ -12,17 +12,18 @@
 
 #include "Types.hh"
 #include "Tagger.hh"
+#include "Options.hh"
 #include "Debug.hh"
 
 namespace boca
 {
 
-Trainer::Trainer(boca::Tagger& tagger, TMVA::Types::EMVA mva) : tagger_(tagger) , factory_(tagger.Name(), OutputFile(), FactoryOptions())
+Trainer::Trainer(boca::Tagger& tagger, TMVA::Types::EMVA mva) : tagger_(tagger) , factory_(tagger.Name(), &OutputFile(), FactoryOptions())
 {
     Error();
     AddVariables();
     PrepareTrainingAndTestTree(GetTrees());
-//     TMVA::MethodBDT& method =
+//     TMVA::MethodBase& method =
     BookMethod(mva);
 //     const TMVA::Ranking& rank = *method.CreateRanking();
 //     rank.SetContext("test");
@@ -34,12 +35,16 @@ Trainer::Trainer(boca::Tagger& tagger, TMVA::Types::EMVA mva) : tagger_(tagger) 
 
 std::string Trainer::FactoryOptions()
 {
-    return "!Color:!DrawProgressBar";
+    Options options("!Color");
+//     options.Add("V");
+//     options.Add("!Silent");
+    options.Add("!DrawProgressBar");
+    return options.str();
 }
 
-TFile* Trainer::OutputFile() const
+TFile& Trainer::OutputFile() const
 {
-    return TFile::Open(Tagger().FactoryFileName().c_str(), "Recreate");
+    return *TFile::Open(Tagger().FactoryFileName().c_str(), "Recreate");
 }
 
 void Trainer::AddVariables()
@@ -117,30 +122,47 @@ TTree& Trainer::Tree(std::string const& tree_name, Tag tag)
 void Trainer::PrepareTrainingAndTestTree(long event_number)
 {
     Error();
-    std::string number_options = "nTrain_Background=" + std::to_string(event_number) + ":nTest_Background=" + std::to_string(event_number) + ":nTrain_Signal=" + std::to_string(event_number) + ":nTest_Signal=" + std::to_string(event_number);
-//     std::string TrainingAndTestOptions = "nTrain_Signal=0:nTrain_Background=0:SplitMode=Random:NormMode=Numevents:!V";
-    std::string training_and_test_options = number_options + "SplitMode=Block";
-    Factory().PrepareTrainingAndTestTree(Tagger().Cut(), Tagger().Cut(), training_and_test_options);
+    Options options("SplitMode", "Block");
+    options.Add("nTrain_Background", event_number);
+    options.Add("nTest_Background", event_number);
+    options.Add("nTrain_Signal", event_number);
+    options.Add("nTest_Signal", event_number);
+    Factory().PrepareTrainingAndTestTree(Tagger().Cut(), Tagger().Cut(), options.str());
 }
 
-TMVA::MethodBDT& Trainer::BookMethod(TMVA::Types::EMVA mva)
+TMVA::MethodBase& Trainer::BookMethod(TMVA::Types::EMVA mva)
 {
     Note();
-    return static_cast<TMVA::MethodBDT&>(*Factory().BookMethod(mva, Tagger().MethodName(mva), MethodOptions(mva)));
+    return *Factory().BookMethod(mva, Tagger().MethodName(mva), MethodOptions(mva));
 }
-
 std::string Trainer::MethodOptions(TMVA::Types::EMVA mva)
 {
+    Options options;
     switch (mva) {
     case TMVA::Types::EMVA::kBDT :
-        // return "NTrees=1000:MinNodeSize=2.5%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=20";
-        return "NTrees=1000:MinNodeSize=2.5%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=20";
-        //:VarTransform=D
-        // return "!H:!V:NTrees=1000:MinNodeSize=1.5%:BoostType=Grad:Shrinkage=0.10:UseBaggedGrad:UseRandomisedTrees:GradBaggingFraction=0.5:nCuts=20:MaxDepth=4";
-        //:CreateMVAPdfs:DoBoostMonitor";
-    default :
-        return "";
+        options.Add("NTrees", 1000);
+        options.Add("MinNodeSize", 2.5, "%");
+        options.Add("MaxDepth", 3);
+        options.Add("BoostType", "AdaBoost");
+        options.Add("AdaBoostBeta", 0.5);
+        options.Add("UseBaggedBoost");
+        options.Add("BaggedSampleFraction", 0.5);
+        options.Add("SeparationType", "GiniIndex");
+        options.Add("nCuts", 20);
+//         options.Add("VarTransform", "D");
+//         options.Add("MinNodeSize", 1.5, "%");
+//         options.Add("BoostType", "Grad");
+//         options.Add("Shrinkage", 0.10);
+//         options.Add("UseBaggedGrad");
+//         options.Add("UseRandomisedTrees");
+//         options.Add("GradBaggingFraction", 0.5);
+//         options.Add("MaxDepth", 4);
+//         options.Add("CreateMVAPdfs");
+//         options.Add("DoBoostMonitor");
+        break;
+    default : break;
     }
+    return options.str();
 }
 
 }
