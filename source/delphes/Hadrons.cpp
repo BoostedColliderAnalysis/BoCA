@@ -9,6 +9,7 @@
 #include "JetInfo.hh"
 #include "InfoRecombiner.hh"
 #include "Vector.hh"
+#include "Exeption.hh"
 #include "Debug.hh"
 
 namespace boca
@@ -41,7 +42,7 @@ Jets Hadrons::DelphesJets(JetDetail jet_detail) const
             case JetDetail::structure:
                 try {
                     jets.emplace_back(StructuredJet(delphes_jet, leptons, jet_detail));
-                } catch (char const*) {}
+                } catch (std::exception const&) {}
                 break;
             case JetDetail::tagging:
                 static_cast<JetInfo&>(*jets.back().user_info_shared_ptr().get()).SetConstituents(JetId(delphes_jet));
@@ -64,9 +65,9 @@ fastjet::PseudoJet Hadrons::StructuredJet(::delphes::Jet const& delphes_jet, std
         if (!delphes_jet.Constituents.At(constituent_number)) continue;
         try {
           constituents.emplace_back(ConstituentJet(*delphes_jet.Constituents.At(constituent_number), jet_detail, SubDetector::none, leptons));
-        } catch (char const*) {}
+        } catch (std::exception const&) {}
     }
-    if (constituents.empty()) throw "no jet";
+    if (constituents.empty()) throw Empty();
     fastjet::PseudoJet jet = fastjet::join(constituents, InfoRecombiner());
     static_cast<JetInfo&>(*jet.user_info_shared_ptr().get()).SetDelphesTags(delphes_jet);
     return jet;
@@ -78,7 +79,7 @@ fastjet::PseudoJet Hadrons::ConstituentJet(TObject& object, boca::JetDetail jet_
     fastjet::PseudoJet jet;
     auto jet_info = new JetInfo();
     if (object.IsA() == ::delphes::GenParticle::Class()) {
-        if (is(jet_detail, JetDetail::isolation) && !Isolated(object, leptons)) throw "not isolated";
+        if (is(jet_detail, JetDetail::isolation) && !Isolated(object, leptons)) throw boca::Isolation();
         ::delphes::GenParticle& particle = static_cast<::delphes::GenParticle&>(object);
         boca::LorentzVector position(particle.X, particle.Y, particle.Z, particle.T);
         Constituent constituent(particle.P4(), position, SubDetector::gen_particle, particle.Charge);
@@ -87,7 +88,7 @@ fastjet::PseudoJet Hadrons::ConstituentJet(TObject& object, boca::JetDetail jet_
         jet_info->AddConstituent(constituent);
     } else if (object.IsA() == ::delphes::Track::Class()) {
         ::delphes::Track& track = static_cast<::delphes::Track&>(object);
-        if (is(jet_detail, JetDetail::isolation) && !Isolated(*track.Particle.GetObject(), leptons)) throw "not isolated";
+        if (is(jet_detail, JetDetail::isolation) && !Isolated(*track.Particle.GetObject(), leptons)) throw boca::Isolation();
         boca::LorentzVector position(track.X, track.Y, track.Z, track.T);
         Constituent constituent(track.P4(), position, SubDetector::track, track.Charge);
 //         if (is(jet_detail, JetDetail::tagging)) constituent.SetFamily(BranchFamily(*track.Particle.GetObject()));
@@ -95,7 +96,7 @@ fastjet::PseudoJet Hadrons::ConstituentJet(TObject& object, boca::JetDetail jet_
         jet_info->AddConstituent(constituent);
     } else if (object.IsA() == ::delphes::Tower::Class()) {
         ::delphes::Tower& tower = static_cast<::delphes::Tower&>(object);
-        if (is(jet_detail, JetDetail::isolation)) for (auto const & particle_number : Range(tower.Particles.GetEntriesFast())) if (!Isolated(*tower.Particles.At(particle_number), leptons)) throw "not isolated";
+        if (is(jet_detail, JetDetail::isolation)) for (auto const & particle_number : Range(tower.Particles.GetEntriesFast())) if (!Isolated(*tower.Particles.At(particle_number), leptons)) throw boca::Isolation();
         if (is(jet_detail, JetDetail::tagging)) {
             std::vector<Constituent> constituents;
             constituents.emplace_back(Constituent(tower.P4()));
@@ -109,7 +110,7 @@ fastjet::PseudoJet Hadrons::ConstituentJet(TObject& object, boca::JetDetail jet_
         jet = boca::PseudoJet(tower.P4());
     } else if (object.IsA() == ::delphes::Muon::Class()) {
         ::delphes::Muon& muon = static_cast<::delphes::Muon&>(object);
-        if (is(jet_detail, JetDetail::isolation) && !Isolated(*muon.Particle.GetObject(), leptons)) throw "not isolated";
+        if (is(jet_detail, JetDetail::isolation) && !Isolated(*muon.Particle.GetObject(), leptons)) throw boca::Isolation();
         Constituent constituent(muon.P4(), SubDetector::muon, muon.Charge);
 //         if (is(jet_detail, JetDetail::tagging)) constituent.SetFamily(BranchFamily(*muon.Particle.GetObject()));
         jet = boca::PseudoJet(muon.P4());
@@ -162,7 +163,7 @@ Jets Hadrons::EFlowTrack(JetDetail jet_detail) const
         if (is(jet_detail, JetDetail::structure)) {
             try {
                 e_flow_jets.emplace_back(ConstituentJet(clones_arrays().EFlowTrack(e_flow_track_number), jet_detail, SubDetector::track));
-            } catch (char const*) {
+            } catch (std::exception const&) {
                 continue;
             }
             continue;
@@ -194,7 +195,7 @@ Jets Hadrons::EFlowPhoton(JetDetail jet_detail) const
         if (is(jet_detail, JetDetail::structure)) {
             try {
                 e_flow_jets.emplace_back(ConstituentJet(clones_arrays().EFlowPhoton(e_flow_photon_number), jet_detail, SubDetector::photon));
-            } catch (char const*) {
+            } catch (std::exception const&) {
                 continue;
             }
             continue;
@@ -218,7 +219,7 @@ Jets Hadrons::EFlowHadron(JetDetail jet_detail) const
         if (is(jet_detail, JetDetail::structure)) {
             try {
                 e_flow_jets.emplace_back(ConstituentJet(clones_arrays().EFlowNeutralHadron(hadron_number), jet_detail, SubDetector::tower));
-            } catch (char const*) {
+            } catch (std::exception const&) {
                 continue;
             }
             continue;
@@ -242,7 +243,7 @@ Jets Hadrons::EFlowMuon(JetDetail jet_detail) const
             //             if (!clones_arrays().GetEFlowMuon(muon_number)) continue;
             try {
                 e_flow_jets.emplace_back(ConstituentJet(clones_arrays().EFlowMuon(muon_number), jet_detail, SubDetector::muon));
-            } catch (char const*) {
+            } catch (std::exception const&) {
                 continue;
             }
             continue;

@@ -17,8 +17,6 @@ class TopPartnerHiggsPairTagger : public BranchTagger<MultiBranch> {
 
 public:
 
-    TopPartnerHiggsPairTagger();
-
     int Train(Event const& event, PreCuts const& pre_cuts,
               Tag tag) const final;
 

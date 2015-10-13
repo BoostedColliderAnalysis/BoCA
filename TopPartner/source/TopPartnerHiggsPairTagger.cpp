@@ -1,5 +1,6 @@
 #include "TopPartnerHiggsPairTagger.hh"
 #include "Vector.hh"
+#include "Exeption.hh"
 #include "Debug.hh"
 
 namespace boca
@@ -8,18 +9,12 @@ namespace boca
 namespace naturalness
 {
 
-TopPartnerHiggsPairTagger::TopPartnerHiggsPairTagger()
-{
-    Info();
-    DefineVariables();
-}
-
 int TopPartnerHiggsPairTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
     Info();
     std::vector<Septet> septets = pairs(top_partner_hadronic_reader_.Multiplets(event), higgs_reader_.Multiplets(event), [&](Quintet const & quintet, Doublet const & doublet) {
         Septet septet(quintet, doublet);
-        if (septet.Overlap()) throw "overlap";
+        if (septet.Overlap()) throw Overlap();
         septet.SetTag(tag);
         return septet;
     });
@@ -30,7 +25,7 @@ std::vector<Septet> TopPartnerHiggsPairTagger::Multiplets(Event const& event, bo
 {
     return ReduceResult(pairs(top_partner_hadronic_reader_.Multiplets(event), higgs_reader_.Multiplets(event), [&](Quintet const & quintet, Doublet const & doublet) {
         Septet septet(quintet, doublet);
-        if (septet.Overlap()) throw "overlap";
+        if (septet.Overlap()) throw Overlap();
         septet.SetBdt(Bdt(septet, reader));
         return septet;
     }));

@@ -4,18 +4,13 @@
 #include "Types.hh"
 #include "Event.hh"
 #include "Debug.hh"
+#include "Exeption.hh"
 
 namespace boca
 {
 
 namespace higgscpv
 {
-
-TopLeptonicPairTagger::TopLeptonicPairTagger()
-{
-  Info();
-    DefineVariables();
-}
 
 int TopLeptonicPairTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) const
 {
@@ -31,7 +26,7 @@ int TopLeptonicPairTagger::Train(Event const& event, boca::PreCuts const&, Tag t
 //     Check(final_triplets.size()==2, final_triplets.size());
     std::vector<Sextet> sextets = unordered_pairs(final_triplets, [](Triplet const& triplet_1, Triplet const& triplet_2) {
       Quartet22 quartet(Doublet(triplet_1.Singlet().Jet(), triplet_1.Doublet().Jet()), Doublet(triplet_2.Singlet().Jet(), triplet_2.Doublet().Jet()));
-        if (quartet.Overlap()) throw "overlap";
+        if (quartet.Overlap()) throw Overlap();
       quartet.Doublet1().SetBdt(triplet_1.Bdt());
       quartet.Doublet2().SetBdt(triplet_2.Bdt());
         WimpMass wimp_mass;
@@ -72,7 +67,7 @@ std::vector<Sextet> TopLeptonicPairTagger::Multiplets(Event const& event, boca::
     Info(triplets.size());
     std::vector<Sextet>  sextets = unordered_pairs(triplets, [&](Triplet const& triplet_1, Triplet const& triplet_2) {
         Quartet22 quartet(Doublet(triplet_1.Singlet().Jet(), triplet_1.Doublet().Jet()), Doublet(triplet_2.Singlet().Jet(), triplet_2.Doublet().Jet()));
-        if (quartet.Overlap()) throw "overlap";
+        if (quartet.Overlap()) throw Overlap();
         quartet.Doublet1().SetBdt(triplet_1.Bdt());
         quartet.Doublet2().SetBdt(triplet_2.Bdt());
         WimpMass wimp_mass;

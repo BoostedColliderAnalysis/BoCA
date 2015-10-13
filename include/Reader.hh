@@ -60,7 +60,7 @@ public:
     Plet Multiplet(Plet multiplet, PreCuts const& pre_cuts) const {
         try {
             return Tagger().Multiplet(multiplet, pre_cuts, reader());
-        } catch (char const*) {
+        } catch (std::exception const&) {
             multiplet.SetBdt(-1);
             return multiplet;
         }

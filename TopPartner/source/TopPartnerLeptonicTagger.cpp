@@ -1,5 +1,6 @@
 #include "TopPartnerLeptonicTagger.hh"
 #include "ParticleInfo.hh"
+#include "Exeption.hh"
 #include "Debug.hh"
 
 namespace boca
@@ -13,7 +14,7 @@ int TopPartnerLeptonicTagger::Train(Event const& event, PreCuts const&, Tag tag)
     Info();
     std::vector<Quintet> quintets = pairs(top_reader_.Multiplets(event), boson_reader_.Multiplets(event), [&](Triplet const & triplet, Doublet const & doublet) {
         Quintet quintet(triplet, doublet);
-        if (quintet.Overlap()) throw "overlap";
+        if (quintet.Overlap()) throw Overlap();
         quintet.SetTag(tag);
         return quintet;
     });
@@ -32,7 +33,7 @@ std::vector<Quintet> TopPartnerLeptonicTagger::Multiplets(Event const& event, bo
 {
     std::vector<Quintet> quintets = pairs(top_reader_.Multiplets(event), boson_reader_.Multiplets(event), [&](Triplet const & triplet, Doublet const & doublet) {
         Quintet quintet(triplet, doublet);
-        if (quintet.Overlap()) throw "overlap";
+        if (quintet.Overlap()) throw Overlap();
         quintet.SetBdt(Bdt(quintet, reader));
         return quintet;
     });

@@ -1,5 +1,6 @@
 #include "../include/SignatureLeptonTagger.hh"
 #include "Event.hh"
+#include "Exeption.hh"
 // #define DEBUG
 #include "Debug.hh"
 
@@ -8,12 +9,6 @@ namespace boca
 
 namespace higgscpv
 {
-
-SignatureLeptonTagger::SignatureLeptonTagger()
-{
-    Info();
-    DefineVariables();
-}
 
 int SignatureLeptonTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) const
 {
@@ -62,7 +57,7 @@ MultipletSignature<Quartet211> SignatureLeptonTagger::Signature(Doublet const& d
     Quartet211 quartet;
     if ((doublet.Jet() + singlet_1.Jet()).m() > (doublet.Jet() + singlet_2.Jet()).m()) quartet.SetMultiplets(doublet, singlet_1, singlet_2);
     else quartet.SetMultiplets(doublet, singlet_2, singlet_1);
-    if (quartet.Overlap()) throw "overlap";
+    if (quartet.Overlap()) throw Overlap();
     return MultipletSignature<Quartet211>(quartet);
 }
 

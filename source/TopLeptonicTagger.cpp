@@ -5,6 +5,7 @@
 #include "Event.hh"
 #include "WLeptonicTagger.hh"
 #include "ParticleInfo.hh"
+#include "Exeption.hh"
 // #define DEBUG
 #include "Debug.hh"
 
@@ -30,7 +31,7 @@ int TopLeptonicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, 
     Debug(jets.size(), doublets.size());
     std::vector<Triplet> triplets = pairs(doublets, jets, [&](Doublet const & doublet, fastjet::PseudoJet const & jet) {
         Triplet triplet(doublet, jet);
-        if (Problematic(triplet, pre_cuts, tag)) throw "problematic";
+        if (Problematic(triplet, pre_cuts, tag)) throw boca::Problematic();
         triplet.SetTag(tag);
         return triplet;
     });
@@ -109,7 +110,7 @@ std::vector<Triplet> TopLeptonicTagger::Multiplets(Event const& event, boca::Pre
     else for (auto const & lepton : leptons) doublets.emplace_back(Doublet(lepton));
     std::vector<Triplet> triplets = pairs(doublets, jets, [&](Doublet const & doublet, fastjet::PseudoJet const & jet) {
         Triplet triplet(doublet, jet);
-        if (Problematic(triplet, pre_cuts)) throw "problematic";
+        if (Problematic(triplet, pre_cuts)) throw boca::Problematic();
         triplet.SetBdt(Bdt(triplet, reader));
         return triplet;
     });

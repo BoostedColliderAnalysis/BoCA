@@ -18,8 +18,6 @@ class SignatureTTagger : public BranchTagger<SignatureTTaggerBranch> {
 
 public:
 
-    SignatureTTagger();
-
     int Train(Event const& event, boca::PreCuts const&, Tag tag) const override;
 
     std::vector< MultipletSignature< Octet332 > > Multiplets(boca::Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const;

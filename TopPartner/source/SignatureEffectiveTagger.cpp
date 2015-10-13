@@ -1,15 +1,10 @@
 #include "SignatureEffectiveTagger.hh"
+#include "Exeption.hh"
 #include "Debug.hh"
 
 namespace boca {
 
 namespace naturalness {
-
-SignatureEffectiveTagger::SignatureEffectiveTagger()
-{
-  Info();
-    DefineVariables();
-}
 
 int SignatureEffectiveTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
@@ -33,7 +28,7 @@ std::vector<Quattuordecuplet554> SignatureEffectiveTagger::Quattuordecuplets(boc
 {
   return triples(top_partner_hadronic_reader_.Multiplets(event), top_partner_leptonic_reader_.Multiplets(event), higgs_pair_reader_.Multiplets(event), [&](Quintet const & quintet_1, Quintet const & quintet_2, Quartet22 const & quartet) {
     Quattuordecuplet554 quattuordecuplet(quintet_1, quintet_2, quartet);
-    if (quattuordecuplet.Overlap()) throw "overlap";
+    if (quattuordecuplet.Overlap()) throw Overlap();
     return function(quattuordecuplet);
   });
 }

@@ -20,9 +20,7 @@ class SignatureLeptonTagger : public BranchTagger<SignatureLeptonTaggerBranch>
 {
 
 public:
-
-    SignatureLeptonTagger();
-
+  
     int Train(Event const& event, boca::PreCuts const&, Tag tag) const override;
 
     std::vector< MultipletSignature< Quartet211 > > Multiplets(boca::Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const;

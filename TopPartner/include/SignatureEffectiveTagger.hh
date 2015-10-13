@@ -20,8 +20,6 @@ class SignatureEffectiveTagger : public BranchTagger<SignatureBranch>
 
 public:
 
-    SignatureEffectiveTagger();
-
     int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
 
     std::vector<Quattuordecuplet554> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;

@@ -33,7 +33,7 @@ int SignatureSingleHadronicTagger::Train(Event const& event, PreCuts const& pre_
 
 //     std::vector<Decuplet532> decuplets = triples(quintets, triplets, doublets, [&](Quintet const & quintet, Triplet const & triplet, Doublet const & doublet) {
 //         Decuplet532 decuplet(quintet, triplet, doublet);
-//         if (decuplet.Overlap()) throw "overlap";
+//         if (decuplet.Overlap()) throw Overlap();
 //         decuplet.SetVetoBdt(veto_reader_.Bdt(Quintet(triplet, boson_reader_.Multiplet(doublet, pre_cuts))));
 //         decuplet.SetTag(tag);
 //         return decuplet;
@@ -74,7 +74,7 @@ std::vector<Decuplet532> SignatureSingleHadronicTagger::Multiplets(Event const& 
 // {
 //   return pairs(partner_reader_.Multiplets(event) , veto_reader_.Multiplets(event), [&](Quintet const & quintet, Quintet const & veto) {
 //         Decuplet532 decuplet(quintet, veto.Triplet(), veto.Doublet());
-//         if (decuplet.Overlap()) throw "overlap";
+//         if (decuplet.Overlap()) throw Overlap();
 //         decuplet.SetVetoBdt(veto.Bdt());
 //         Error(decuplet.VetoBdt());
 //         return function(decuplet);

@@ -3,6 +3,7 @@
  */
 #include "ZHadronicTagger.hh"
 #include "Event.hh"
+#include "Exeption.hh"
 #include "Debug.hh"
 
 namespace boca {
@@ -11,7 +12,6 @@ ZHadronicTagger::ZHadronicTagger()
 {
     Info();
     z_mass_window = 50. * GeV;
-    DefineVariables();
 }
 
 int ZHadronicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Tag tag) const
@@ -38,7 +38,7 @@ int ZHadronicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Ta
 
 Doublet ZHadronicTagger::CheckDoublet(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const
 {
-    if (Problematic(doublet, pre_cuts, tag)) throw "problematic";
+    if (Problematic(doublet, pre_cuts, tag)) throw boca::Problematic();
     doublet.SetTag(tag);
     return doublet;
 }
@@ -89,7 +89,7 @@ std::vector<Doublet> ZHadronicTagger::Multiplets(Event const& event, boca::PreCu
 
 Doublet ZHadronicTagger::Multiplet(Doublet & doublet, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
-    if (Problematic(doublet, pre_cuts)) throw "problematic";
+    if (Problematic(doublet, pre_cuts)) throw boca::Problematic();
     doublet.SetBdt(Bdt(doublet, reader));
     return doublet;
 }

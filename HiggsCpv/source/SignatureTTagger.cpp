@@ -1,5 +1,6 @@
 #include "../include/SignatureTTagger.hh"
 #include "Event.hh"
+#include "Exeption.hh"
 #define DEBUG
 #include "Debug.hh"
 
@@ -8,12 +9,6 @@ namespace boca
 
 namespace higgscpv
 {
-
-SignatureTTagger::SignatureTTagger()
-{
-    Info();
-    DefineVariables();
-}
 
 int SignatureTTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) const
 {
@@ -46,7 +41,7 @@ MultipletSignature<Octet332> SignatureTTagger::Signature(Triplet const& triplet_
     Octet332 octet;
     if ((triplet_1.Jet() + doublet.Jet()).m() > (triplet_2.Jet() + doublet.Jet()).m()) octet.SetMultiplets(triplet_1, triplet_2, doublet);
     else octet.SetMultiplets(triplet_2, triplet_1, doublet);
-    if (octet.Overlap()) throw "overlap";
+    if (octet.Overlap()) throw Overlap();
     return MultipletSignature<Octet332>(octet);
 }
 

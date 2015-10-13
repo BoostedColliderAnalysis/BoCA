@@ -16,8 +16,6 @@ class TopLeptonicPairTagger : public BranchTagger<TopLeptonicPairBranch> {
 
 public:
 
-    TopLeptonicPairTagger();
-
     int Train(Event const& event, boca::PreCuts const&,
               Tag tag) const override;
 

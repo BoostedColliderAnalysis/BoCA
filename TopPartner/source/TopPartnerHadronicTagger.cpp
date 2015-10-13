@@ -1,6 +1,7 @@
 #include "TopPartnerHadronicTagger.hh"
 #include "Event.hh"
 #include "ParticleInfo.hh"
+#include "Exeption.hh"
 #include "Debug.hh"
 
 namespace boca
@@ -40,7 +41,7 @@ std::vector<Quintet> TopPartnerHadronicTagger::Multiplets(Event const& event, bo
 {
     std::vector<Quintet> quintets = pairs(top_reader_.Multiplets(event), boson_reader_.Multiplets(event), [&](Triplet const & triplet, Doublet const & doublet) {
         Quintet quintet(triplet, doublet);
-        if (quintet.Overlap()) throw "overlap";
+        if (quintet.Overlap()) throw Overlap();
         quintet.SetBdt(Bdt(quintet, reader));
         return quintet;
     });

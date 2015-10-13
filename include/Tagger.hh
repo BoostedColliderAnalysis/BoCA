@@ -12,6 +12,7 @@
 #include "Branches.hh"
 #include "Vector.hh"
 #include "Event.hh"
+#include "Exeption.hh"
 
 namespace TMVA
 {
@@ -150,7 +151,7 @@ protected:
         for (auto & multiplet : multiplets) {
             try {
                 SetClosestLepton(multiplet, leptons);
-            } catch (char const*) {
+            } catch (std::exception const&) {
                 continue;
             }
         }
@@ -159,7 +160,7 @@ protected:
 
     template<typename Multiplet>
     Multiplet SetClosestLepton(Multiplet& multiplet, Jets const& leptons) const {
-        if (leptons.empty()) throw "no leptons";
+        if (leptons.empty()) throw Empty();
         auto lepton = ClosestJet(leptons, multiplet);
         multiplet.LeptonPt = lepton.pt();
         multiplet.LeptonDeltaR = lepton.delta_R(multiplet.Jet());

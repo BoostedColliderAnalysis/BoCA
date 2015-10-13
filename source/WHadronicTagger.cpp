@@ -6,6 +6,7 @@
 #include "ParticleInfo.hh"
 #include "Event.hh"
 #include "Math.hh"
+#include "Exeption.hh"
 // #define NOTIFICATION
 #include "Debug.hh"
 
@@ -65,7 +66,7 @@ int WHadronicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Ta
 
 Doublet WHadronicTagger::CheckDoublet(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const
 {
-    if (Problematic(doublet, pre_cuts, tag)) throw "problematic";
+    if (Problematic(doublet, pre_cuts, tag)) throw boca::Problematic();
     doublet.SetTag(tag);
     return doublet;
 }
@@ -100,7 +101,7 @@ std::vector<Doublet> WHadronicTagger::Doublets(boca::Jets const& jets, boca::Pre
 {
     return unordered_pairs(jets, [&](fastjet::PseudoJet const & jet_1, fastjet::PseudoJet const & jet_2) {
         Doublet doublet(jet_1, jet_2);
-        if (Problematic(doublet, pre_cuts, tag)) throw "problematic";
+        if (Problematic(doublet, pre_cuts, tag)) throw boca::Problematic();
         return doublet;
     });
 }
@@ -165,7 +166,7 @@ std::vector<Doublet> WHadronicTagger::Multiplets3(Jets const& jets, PreCuts cons
     for (auto const & jet : jets) {
         try {
             doublets.emplace_back(Multiplet(jet, pre_cuts, reader));
-        } catch (char const* message) {}
+        } catch (std::exception const&) {}
     }
     return doublets;
 }
@@ -194,7 +195,7 @@ std::vector<Doublet> WHadronicTagger::SubMultiplets2(Jets const& jets, PreCuts c
         for (auto const & piece : pieces) {
             try {
                 doublets.emplace_back(Multiplet(piece, pre_cuts, reader));
-            }  catch (char const* message) {}
+            }  catch (std::exception const&) {}
         }
     }
     return doublets;
@@ -210,7 +211,7 @@ Doublet WHadronicTagger::SubMultiplet(fastjet::PseudoJet const& jet, PreCuts con
     else doublet.SetMultiplets(pieces.at(0), pieces.at(1));
     try {
         return Multiplet(doublet, pre_cuts, reader);
-    } catch (char const* message) {
+    } catch (std::exception const&) {
         throw;
     }
 }
@@ -221,7 +222,7 @@ Doublet WHadronicTagger::Multiplet(fastjet::PseudoJet const& jet_1, fastjet::Pse
     Doublet doublet(jet_1, jet_2);
     try {
         return Multiplet(doublet, pre_cuts, reader);
-    } catch (char const* message) {
+    } catch (std::exception const&) {
         throw;
     }
 }
@@ -232,7 +233,7 @@ Doublet WHadronicTagger::Multiplet(fastjet::PseudoJet const& jet, PreCuts const&
     Doublet doublet(jet);
     try {
         return Multiplet(doublet, pre_cuts, reader);
-    } catch (char const* message) {
+    } catch (std::exception const&) {
         throw;
     }
 }
@@ -240,7 +241,7 @@ Doublet WHadronicTagger::Multiplet(fastjet::PseudoJet const& jet, PreCuts const&
 Doublet WHadronicTagger::Multiplet(Doublet& doublet, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
     Info();
-    if (Problematic(doublet, pre_cuts)) throw "W hadronic doublet problem";
+    if (Problematic(doublet, pre_cuts)) throw boca::Problematic();
     doublet.SetBdt(Bdt(doublet, reader));
     return doublet;
 }
@@ -250,7 +251,7 @@ Doublet WHadronicTagger::Multiplet(fastjet::PseudoJet const& jet, TMVA::Reader c
     PreCuts pre_cuts;
     try {
         return Multiplet(jet, pre_cuts, reader);
-    } catch (char const* message) {
+    } catch (std::exception const&) {
         throw;
     }
 }
@@ -265,7 +266,7 @@ Doublet WHadronicTagger::SubMultiplet(fastjet::PseudoJet const& jet, TMVA::Reade
     PreCuts pre_cuts;
     try {
         return SubMultiplet(jet, pre_cuts, reader);
-    } catch (char const* message) {
+    } catch (std::exception const&) {
         throw;
     }
 }
@@ -275,7 +276,7 @@ Doublet WHadronicTagger::Multiplet(fastjet::PseudoJet const& jet_1, fastjet::Pse
     PreCuts pre_cuts;
     try {
         return Multiplet(jet_1, jet_2, pre_cuts, reader);
-    } catch (char const* message) {
+    } catch (std::exception const&) {
         throw;
     }
 }

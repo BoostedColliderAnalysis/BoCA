@@ -4,6 +4,7 @@
 #include "BosonTagger.hh"
 #include "Event.hh"
 #include "Doublet.hh"
+#include "Exeption.hh"
 // #define DEBUG
 #include "Debug.hh"
 
@@ -47,7 +48,7 @@ Jets BosonTagger::Particles(Event const& event) const {
 
 Doublet BosonTagger::CheckDoublet(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const
 {
-    if (Problematic(doublet, pre_cuts, tag)) throw "problematic";
+    if (Problematic(doublet, pre_cuts, tag)) throw boca::Problematic();
     doublet.SetTag(tag);
     return doublet;
 }
@@ -102,7 +103,7 @@ std::vector<Doublet>  BosonTagger::Multiplets(Event const& event, PreCuts const&
 
 Doublet BosonTagger::Multiplet(Doublet& doublet, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
-    if (Problematic(doublet, pre_cuts)) throw "problematic";
+  if (Problematic(doublet, pre_cuts)) throw boca::Problematic();
     doublet.SetBdt(Bdt(doublet, reader));
     return doublet;
 }

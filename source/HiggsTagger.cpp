@@ -9,6 +9,7 @@
 #include "JetInfo.hh"
 #include "InfoRecombiner.hh"
 #include "HiggsTagger.hh"
+#include "Exeption.hh"
 #include "Debug.hh"
 
 namespace boca
@@ -50,7 +51,7 @@ Doublet HiggsTagger::CheckDoublet(Doublet doublet, PreCuts const& pre_cuts, Tag 
 {
 //     doublet = MassDrop(doublet);
     doublet = Doublet(bottom_reader_.Multiplet(doublet.Singlet1().Jet()), bottom_reader_.Multiplet(doublet.Singlet2().Jet()));
-    if (Problematic(doublet, pre_cuts, tag)) throw "problematic";
+    if (Problematic(doublet, pre_cuts, tag)) throw boca::Problematic();
     doublet.SetTag(tag);
     return doublet;
 }
@@ -110,7 +111,7 @@ Doublet HiggsTagger::Multiplet(Doublet& doublet, Jets const& leptons, PreCuts co
 {
 //     doublet = MassDrop(doublet);
     doublet = Doublet(bottom_reader_.Multiplet(doublet.Singlet1().Jet()), bottom_reader_.Multiplet(doublet.Singlet2().Jet()));
-    if (Problematic(doublet, pre_cuts)) throw "problematic";
+    if (Problematic(doublet, pre_cuts)) throw boca::Problematic();
     SetClosestLepton(doublet, leptons);
     doublet.SetBdt(Bdt(doublet, reader));
     return doublet;
@@ -132,15 +133,15 @@ Doublet HiggsTagger::MassDrop(Doublet const& doublet) const
 
     fastjet::MassDropTagger mass_drop_tagger(0.667, 0.09);
     fastjet::PseudoJet mass_drop_jet = mass_drop_tagger(exclusive_jets.front());
-    if (mass_drop_jet == 0) throw "no substructure";
+    if (mass_drop_jet == 0) throw Empty();
 
     double radius = mass_drop_jet.pieces().at(0).delta_R(mass_drop_jet.pieces().at(1));
     radius = std::min(radius / 2, .3);
     fastjet::Filter filter(fastjet::JetDefinition(fastjet::cambridge_algorithm, radius, &info_recombiner), fastjet::SelectorNHardest(3));
     fastjet::PseudoJet filtered_jet = filter.result(mass_drop_jet);
-    if (!filtered_jet.has_pieces()) throw "no pieces";
+    if (!filtered_jet.has_pieces()) throw Empty();
     Jets pieces = fastjet::sorted_by_pt(filtered_jet.pieces());
-    if (pieces.size() < 2) throw "not enough pieces";
+    if (pieces.size() < 2) throw Empty();
     return Doublet(bottom_reader_.Multiplet(pieces.at(0)), bottom_reader_.Multiplet(pieces.at(1)));
 }
 

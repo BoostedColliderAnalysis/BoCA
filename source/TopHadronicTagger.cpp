@@ -9,6 +9,7 @@
 #include "Event.hh"
 #include "InfoRecombiner.hh"
 #include "ParticleInfo.hh"
+#include "Exeption.hh"
 // #define DEBUG
 #include "Debug.hh"
 
@@ -42,7 +43,7 @@ int TopHadronicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, 
         try {
             Doublet piece_doublet = w_hadronic_reader_.SubMultiplet(jet);
             triplets = Join(triplets, Triplets(piece_doublet, jets, leptons, pre_cuts, tag));
-        } catch (char const* message) {}
+        } catch (std::exception const&) {}
 
         Info("1 jet forms one top", triplets.size());
         boca::Triplet triplet(jet);
@@ -50,7 +51,7 @@ int TopHadronicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, 
         triplet.Doublet().SetBdt(0);
         try {
             triplets.emplace_back(Triplet(triplet, leptons, pre_cuts, tag));
-        } catch (char const* message) {}
+        } catch (std::exception const&) {}
 
         Info("2 sub jets forms one top" , triplets.size());
         unsigned sub_jet_number = 2;
@@ -62,7 +63,7 @@ int TopHadronicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, 
                 try {
                     Doublet doublet = w_hadronic_reader_.Multiplet(piece_2);
                     triplets.emplace_back(Triplet(doublet, piece_1, leptons, pre_cuts, tag));
-                } catch (char const* message) {}
+                } catch (std::exception const&) {}
             }
         }
 
@@ -117,7 +118,7 @@ std::vector<Triplet> TopHadronicTagger::Triplets(boca::Doublet const& doublet, b
     for (auto const & jet : jets) {
         try {
             triplets.emplace_back(Triplet(doublet, jet, leptons, pre_cuts, tag, true));
-        } catch (char const* message) {}
+        } catch (std::exception const&) {}
     }
     Info(triplets.size());
     return triplets;
@@ -126,10 +127,10 @@ std::vector<Triplet> TopHadronicTagger::Triplets(boca::Doublet const& doublet, b
 Triplet TopHadronicTagger::Triplet(boca::Doublet const& doublet, fastjet::PseudoJet const& jet, boca::Jets const& leptons, boca::PreCuts const& pre_cuts, Tag tag, bool check_overlap) const
 {
     boca::Triplet triplet(doublet, jet);
-    if (check_overlap && triplet.Overlap()) throw "top hadronic overlap";
+    if (check_overlap && triplet.Overlap()) throw Overlap();
     try {
         return Triplet(triplet, leptons, pre_cuts, tag);
-    } catch (char const* message) {
+    } catch (std::exception const&) {
         throw;
     }
 }
@@ -137,7 +138,7 @@ Triplet TopHadronicTagger::Triplet(boca::Doublet const& doublet, fastjet::Pseudo
 Triplet TopHadronicTagger::Triplet(boca::Triplet& triplet, boca::Jets const& leptons, boca::PreCuts const& pre_cuts, Tag tag) const
 {
     triplet.set_pt(LeptonPt(triplet, leptons));
-    if (Problematic(triplet, pre_cuts, tag)) throw "top hadronic triplet problem";
+    if (Problematic(triplet, pre_cuts, tag)) throw boca::Problematic();
     NSubJettiness(triplet);
     triplet.SetTag(tag);
     return triplet;
@@ -203,7 +204,7 @@ std::vector<Triplet> TopHadronicTagger::Multiplets(Event const& event, boca::Pre
         try {
             Doublet piece_doublet = w_hadronic_reader_.SubMultiplet(jet);
             triplets = Join(triplets, Multiplets(piece_doublet, jets, leptons, pre_cuts, reader));
-        } catch (char const* message) {}
+        } catch (std::exception const&) {}
 
         Info("1 jet forms one top", triplets.size());
         boca::Triplet triplet(jet);
@@ -213,7 +214,7 @@ std::vector<Triplet> TopHadronicTagger::Multiplets(Event const& event, boca::Pre
             bool failure = false;
             Multiplet(triplet, leptons, pre_cuts, reader, failure);
             if (!failure) triplets.emplace_back(triplet);
-        } catch (char const* message) {}
+        } catch (std::exception const&) {}
 
         Info("2 sub jets forms one top" , triplets.size());
         size_t sub_jet_number = 2;
@@ -227,7 +228,7 @@ std::vector<Triplet> TopHadronicTagger::Multiplets(Event const& event, boca::Pre
                     bool failure = false;
                     boca::Triplet triplet = Multiplet(doublet, piece_1, leptons, pre_cuts, reader, failure);
                     if (!failure) triplets.emplace_back(triplet);
-                } catch (char const* message) {}
+                } catch (std::exception const&) {}
             }
         }
 
@@ -264,7 +265,7 @@ std::vector<Triplet> TopHadronicTagger::Multiplets(boca::Doublet const& doublet,
             bool failure = false;
             boca::Triplet triplet = Multiplet(doublet, jet, leptons, pre_cuts, reader, failure, true);
             if (!failure) triplets.emplace_back(triplet);
-        } catch (char const* message) {
+        } catch (std::exception const&) {
             continue;
         }
     }
@@ -278,12 +279,12 @@ Triplet TopHadronicTagger::Multiplet(boca::Doublet const& doublet, fastjet::Pseu
     if (check_overlap && triplet.Overlap()) {
         failure = true;
         return triplet;
-        throw "overlap";
+        throw Overlap();
     }
     NSubJettiness(triplet);
     try {
         return Multiplet(triplet, leptons, pre_cuts, reader, failure);
-    } catch (char const* message) {
+    } catch (std::exception const&) {
         throw;
     }
 }
@@ -297,13 +298,13 @@ Triplet TopHadronicTagger::Multiplet(boca::Triplet& triplet, Jets const& leptons
         failure = true;
         Info(failure);
         return triplet;
-        throw "problem";
+        throw boca::Problematic();
     }
     // FIXME how can this happen?
     if (triplet.Doublet().Bdt() < -10) {
         failure = true;
         return triplet;
-        throw "no doublet bdt";
+        throw boca::Problematic();
     }
     triplet.SetBdt(Bdt(triplet, reader));
 //     if (triplet.Bdt() == -999) Error(triplet.Doublet().Bdt(), triplet.Singlet().Bdt());
@@ -370,7 +371,7 @@ std::vector< Triplet > TopHadronicTagger::ordered_triplets(Jets const& jets, uns
         auto piece_3 = jets.at((i + 2) % sub_jet_number);
         try {
             triplets.emplace_back(function(piece_1, piece_2, piece_3));
-        } catch (char const* message) {}
+        } catch (std::exception const&) {}
     }
     return triplets;
 }

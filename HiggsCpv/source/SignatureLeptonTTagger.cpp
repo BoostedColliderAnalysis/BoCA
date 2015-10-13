@@ -1,5 +1,6 @@
 #include "../include/SignatureLeptonTTagger.hh"
 #include "Event.hh"
+#include "Exeption.hh"
 #define DEBUG
 #include "Debug.hh"
 
@@ -54,7 +55,7 @@ MultipletSignature<Octet332> SignatureLeptonTTagger::Signature(Triplet const& tr
     Octet332 octet;
     if ((triplet_1.Jet() + doublet.Jet()).m() > (triplet_2.Jet() + doublet.Jet()).m()) octet.SetMultiplets(triplet_1, triplet_2, doublet);
     else octet.SetMultiplets(triplet_2, triplet_1, doublet);
-    if (octet.Overlap()) throw "overlap";
+    if (octet.Overlap()) throw Overlap();
     return MultipletSignature<Octet332>(octet);
 }
 

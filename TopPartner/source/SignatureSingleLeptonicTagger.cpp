@@ -1,5 +1,6 @@
 #include "SignatureSingleLeptonicTagger.hh"
 #include "Event.hh"
+#include "Exeption.hh"
 // #define INFORMATION
 #include "Debug.hh"
 
@@ -35,7 +36,7 @@ std::vector<Decuplet532> SignatureSingleLeptonicTagger::Multiplets(Event const& 
 // {
 //     return pairs(partner_reader_.Multiplets(event), veto_reader_.Multiplets(event), [&](Quintet const & quintet, Quintet const & veto) {
 //         Decuplet532 decuplet(quintet, veto.Triplet(), veto.Doublet());
-//         if (decuplet.Overlap()) throw "overlap";
+//         if (decuplet.Overlap()) throw Overlap();
 //         decuplet.SetVetoBdt(veto.Bdt());
 //         Error(decuplet.VetoBdt());
 //         return function(decuplet);
@@ -46,7 +47,7 @@ std::vector<Decuplet532> SignatureSingleLeptonicTagger::Decuplets(Event const& e
 {
   return triples(partner_reader_.Multiplets(event) , top_reader_.Multiplets(event), higgs_reader_.Multiplets(event), [&](Quintet const & quintet, Triplet const & triplet, Doublet const& doublet) {
     Decuplet532 decuplet(quintet, triplet, doublet);
-    if (decuplet.Overlap()) throw "overlap";
+    if (decuplet.Overlap()) throw Overlap();
     decuplet.SetVetoBdt(veto_reader_.Bdt(Quintet(triplet, boson_reader_.Multiplet(doublet, pre_cuts))));
 //     Error(decuplet.VetoBdt());
     return function(decuplet);
