@@ -1,10 +1,14 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include <functional>
 #include "Decuplet.hh"
-#include "TopPartnerHadronicTagger.hh"
-#include "TopPartnerLeptonicTagger.hh"
-#include "HiggsTagger.hh"
+#include "VetoTopPartnerLeptonicTagger.hh"
+// #include "TopPartnerHadronicTagger.hh"
+// #include "TopPartnerLeptonicTagger.hh"
+// #include "HiggsTagger.hh"
 
 namespace boca
 {
@@ -47,9 +51,11 @@ private:
 
     Reader<HiggsTagger> higgs_reader_;
 
-    Reader<BosonTagger> boson_reader_;
+//     Reader<BosonTagger> boson_reader_;
+//
+//     Reader<TopPartnerLeptonicTagger> veto_reader_;
 
-    Reader<TopPartnerLeptonicTagger> veto_reader_;
+    Reader<VetoTopPartnerLeptonicTagger> veto_reader_;
 
 };
 

@@ -4,7 +4,7 @@
 #include "Types.hh"
 #include "Event.hh"
 #include "Debug.hh"
-#include "Exeption.hh"
+#include "Exception.hh"
 
 namespace boca
 {

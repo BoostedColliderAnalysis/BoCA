@@ -2,7 +2,6 @@
  * Copyright (C) 2015 Jan Hajer
  */
 #include "SignatureSingleHadronicTagger.hh"
-#include "Event.hh"
 // #define DEBUG
 // #define INFORMATION
 #include "Debug.hh"
@@ -72,6 +71,7 @@ std::vector<Decuplet532> SignatureSingleHadronicTagger::Multiplets(Event const& 
 
 // std::vector<Decuplet532> SignatureSingleHadronicTagger::Decuplets(boca::Event const& event, std::function< Decuplet532(Decuplet532&)> const& function) const
 // {
+// Info();
 //   return pairs(partner_reader_.Multiplets(event) , veto_reader_.Multiplets(event), [&](Quintet const & quintet, Quintet const & veto) {
 //         Decuplet532 decuplet(quintet, veto.Triplet(), veto.Doublet());
 //         if (decuplet.Overlap()) throw Overlap();
@@ -81,26 +81,28 @@ std::vector<Decuplet532> SignatureSingleHadronicTagger::Multiplets(Event const& 
 //     });
 // }
 
-std::vector<Decuplet532> SignatureSingleHadronicTagger::Decuplets(Event const& event, PreCuts const& pre_cuts, std::function<Decuplet532(Decuplet532&)> const& function) const
-{
-    std::vector<Decuplet532> decuplets;
-    for (auto const & doublet : higgs_reader_.Multiplets(event)) {
-        Doublet veto_doublet = boson_reader_.Multiplet(doublet, pre_cuts);
-        for (auto const & triplet : top_reader_.Multiplets(event)) {
-            float veto = veto_reader_.Bdt(Quintet(triplet, veto_doublet));
-            for (auto const & quintet : partner_reader_.Multiplets(event)) {
-                Decuplet532 decuplet(quintet, triplet, doublet);
-                if (decuplet.Overlap()) continue;
-                decuplet.SetVetoBdt(veto);
-                decuplets.emplace_back(function(decuplet));
-            }
-        }
-    }
-    return decuplets;
-}
+// std::vector<Decuplet532> SignatureSingleHadronicTagger::Decuplets(Event const& event, PreCuts const& pre_cuts, std::function<Decuplet532(Decuplet532&)> const& function) const
+// {
+// Info();
+//     std::vector<Decuplet532> decuplets;
+//     for (auto const & doublet : higgs_reader_.Multiplets(event)) {
+//         Doublet veto_doublet = boson_reader_.Multiplet(doublet, pre_cuts);
+//         for (auto const & triplet : top_reader_.Multiplets(event)) {
+//             float veto = veto_reader_.Bdt(Quintet(triplet, veto_doublet));
+//             for (auto const & quintet : partner_reader_.Multiplets(event)) {
+//                 Decuplet532 decuplet(quintet, triplet, doublet);
+//                 if (decuplet.Overlap()) continue;
+//                 decuplet.SetVetoBdt(veto);
+//                 decuplets.emplace_back(function(decuplet));
+//             }
+//         }
+//     }
+//     return decuplets;
+// }
 
 // std::vector<Decuplet532> SignatureSingleHadronicTagger::Decuplets(Event const& event, PreCuts const& pre_cuts, std::function<Decuplet532(Decuplet532&)> const& function) const
 // {
+// Info();
 //     std::vector<Quintet> vetos = veto_reader_.Multiplets(event);
 //     std::vector<Decuplet532> decuplets;
 //     for (auto const & quintet : partner_reader_.Multiplets(event)) {
@@ -122,6 +124,26 @@ std::vector<Decuplet532> SignatureSingleHadronicTagger::Decuplets(Event const& e
 //     }
 //     return decuplets;
 // }
+
+std::vector<Decuplet532> SignatureSingleHadronicTagger::Decuplets(Event const& event, PreCuts const& pre_cuts, std::function<Decuplet532(Decuplet532&)> const& function) const
+{
+    Info();
+    std::vector<Decuplet532> decuplets;
+    for (auto const & doublet : higgs_reader_.Multiplets(event)) {
+        for (auto const & triplet : top_reader_.Multiplets(event)) {
+            Quintet veto(triplet, doublet);
+            if (veto.Overlap()) continue;
+            float veto_bdt = veto_reader_.Bdt(veto);
+            for (auto const & quintet : partner_reader_.Multiplets(event)) {
+                Decuplet532 decuplet(quintet, triplet, doublet);
+                if (decuplet.Overlap()) continue;
+                decuplet.SetVetoBdt(veto_bdt);
+                decuplets.emplace_back(function(decuplet));
+            }
+        }
+    }
+    return decuplets;
+}
 
 }
 

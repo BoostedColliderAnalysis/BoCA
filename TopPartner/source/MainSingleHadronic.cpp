@@ -3,6 +3,7 @@
  */
 #include "AnalysisTopPartnerSingleHadronic.hh"
 #include "EventSingleHadronicTagger.hh"
+// #include "VetoTopPartnerLeptonicTagger.hh"
 
 template<typename Tagger>
 void Run(boca::Output run = boca::Output::normal)
@@ -20,7 +21,8 @@ int main()
     Run<boca::TopHadronicTagger>();
     Run<boca::TopLeptonicTagger>();
     Run<boca::naturalness::TopPartnerHadronicTagger>();
-    Run<boca::naturalness::TopPartnerLeptonicTagger>();
+//     Run<boca::naturalness::TopPartnerLeptonicTagger>();
+    Run<boca::naturalness::VetoTopPartnerLeptonicTagger>();
     Run<boca::naturalness::SignatureSingleHadronicTagger>(boca::Output::efficiency);
     Run<boca::naturalness::EventSingleHadronicTagger>(boca::Output::significance);
 }

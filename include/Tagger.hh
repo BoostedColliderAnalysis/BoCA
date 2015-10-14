@@ -12,7 +12,7 @@
 #include "Branches.hh"
 #include "Vector.hh"
 #include "Event.hh"
-#include "Exeption.hh"
+#include "Exception.hh"
 
 namespace TMVA
 {

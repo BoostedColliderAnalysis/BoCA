@@ -5,7 +5,7 @@
 #include "Event.hh"
 #include "WLeptonicTagger.hh"
 #include "ParticleInfo.hh"
-#include "Exeption.hh"
+#include "Exception.hh"
 // #define DEBUG
 #include "Debug.hh"
 

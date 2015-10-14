@@ -1,5 +1,5 @@
 #include "SignatureEffectiveTagger.hh"
-#include "Exeption.hh"
+#include "Exception.hh"
 #include "Debug.hh"
 
 namespace boca {

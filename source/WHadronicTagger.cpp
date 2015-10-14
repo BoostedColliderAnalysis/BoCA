@@ -6,7 +6,7 @@
 #include "ParticleInfo.hh"
 #include "Event.hh"
 #include "Math.hh"
-#include "Exeption.hh"
+#include "Exception.hh"
 // #define NOTIFICATION
 #include "Debug.hh"
 

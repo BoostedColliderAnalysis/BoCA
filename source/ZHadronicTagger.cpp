@@ -3,7 +3,7 @@
  */
 #include "ZHadronicTagger.hh"
 #include "Event.hh"
-#include "Exeption.hh"
+#include "Exception.hh"
 #include "Debug.hh"
 
 namespace boca {

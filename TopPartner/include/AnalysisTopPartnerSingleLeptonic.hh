@@ -4,7 +4,7 @@
 #pragma once
 
 #include "AnalysisTopPartner.hh"
-#include "EventSingleHadronicTagger.hh"
+#include "EventSingleLeptonicTagger.hh"
 #include "Debug.hh"
 
 namespace boca

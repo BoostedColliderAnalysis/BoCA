@@ -4,7 +4,7 @@
 #include "BosonTagger.hh"
 #include "Event.hh"
 #include "Doublet.hh"
-#include "Exeption.hh"
+#include "Exception.hh"
 // #define DEBUG
 #include "Debug.hh"
 

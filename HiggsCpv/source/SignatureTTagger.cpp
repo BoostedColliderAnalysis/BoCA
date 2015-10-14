@@ -1,6 +1,6 @@
 #include "../include/SignatureTTagger.hh"
 #include "Event.hh"
-#include "Exeption.hh"
+#include "Exception.hh"
 #define DEBUG
 #include "Debug.hh"
 

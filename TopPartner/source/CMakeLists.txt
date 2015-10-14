@@ -15,6 +15,7 @@ Quattuordecuplet.cpp
 SignatureSingleLeptonicTagger.cpp
 SignatureSingleHadronicTagger.cpp
 SignatureEffectiveTagger.cpp
+VetoTopPartnerLeptonicTagger.cpp
 EventSingleLeptonicTagger.cpp
 EventSingleHadronicTagger.cpp
 EventPairTagger.cpp

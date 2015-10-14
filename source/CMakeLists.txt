@@ -23,6 +23,7 @@ Types.cpp
 Vector.cpp
 Math.cpp
 Units.cpp
+Exception.cpp
 )
 create_library(Global global_sources)
 

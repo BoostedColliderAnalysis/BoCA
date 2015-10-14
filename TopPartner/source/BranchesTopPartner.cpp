@@ -7,31 +7,25 @@ namespace boca
 namespace naturalness
 {
 
-SignatureSingleBranch::SignatureSingleBranch()
-{
-VetoBdt = InitialValue();
+SignatureSingleBranch::SignatureSingleBranch() {
+    VetoBdt = InitialValue();
 }
 
-
-Observables SignatureSingleBranch::Variables()
-{
-    return Join(boca::TChannelBranch::Variables(),{PAIR(VetoBdt)});
+Observables SignatureSingleBranch::Variables() {
+    return Join(boca::TChannelBranch::Variables(), {PAIR(VetoBdt)});
 }
 
-SignatureSingleHadronicBranch::SignatureSingleHadronicBranch()
-{
-VetoBdt = InitialValue();
-TopPt = InitialValue();
-HiggsPt = InitialValue();
+SignatureSingleHadronicBranch::SignatureSingleHadronicBranch() {
+    VetoBdt = InitialValue();
+    TopPt = InitialValue();
+    HiggsPt = InitialValue();
 }
 
-Observables SignatureSingleHadronicBranch::Variables()
-{
-  return Join(boca::TChannelBranch::Variables(),{PAIR(VetoBdt), PAIR(TopPt), PAIR(HiggsPt)});
+Observables SignatureSingleHadronicBranch::Variables() {
+    return Join(boca::TChannelBranch::Variables(), {PAIR(VetoBdt), PAIR(TopPt), PAIR(HiggsPt)});
 }
 
-Observables EventBranch::Variables()
-{
+Observables EventBranch::Variables() {
     return Join(MultiBranch::Variables(), {PAIR(LeptonNumber), PAIR(BottomNumber), PAIR(JetNumber), PAIR(MissingEt), PAIR(ScalarHt), PAIR(LeptonHt), PAIR(JetMass), PAIR(JetPt), PAIR(JetHt), PAIR(JetRap), PAIR(JetPhi)});
 }
 

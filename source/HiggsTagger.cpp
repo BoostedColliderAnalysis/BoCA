@@ -9,7 +9,7 @@
 #include "JetInfo.hh"
 #include "InfoRecombiner.hh"
 #include "HiggsTagger.hh"
-#include "Exeption.hh"
+#include "Exception.hh"
 #include "Debug.hh"
 
 namespace boca

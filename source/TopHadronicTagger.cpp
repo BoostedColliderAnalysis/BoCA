@@ -9,7 +9,7 @@
 #include "Event.hh"
 #include "InfoRecombiner.hh"
 #include "ParticleInfo.hh"
-#include "Exeption.hh"
+#include "Exception.hh"
 // #define DEBUG
 #include "Debug.hh"
 
@@ -239,7 +239,7 @@ std::vector<Triplet> TopHadronicTagger::Multiplets(Event const& event, boca::Pre
             Doublet doublet = w_hadronic_reader_.Multiplet(piece_2, piece_3);
             bool failure = false;
             boca::Triplet triplet = Multiplet(doublet, piece_1, leptons, pre_cuts, reader, failure);
-            if (failure) throw "failure";
+            if (failure) throw  boca::Problematic();
             return triplet;
         }));
 

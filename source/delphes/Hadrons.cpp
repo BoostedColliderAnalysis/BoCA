@@ -9,7 +9,7 @@
 #include "JetInfo.hh"
 #include "InfoRecombiner.hh"
 #include "Vector.hh"
-#include "Exeption.hh"
+#include "Exception.hh"
 #include "Debug.hh"
 
 namespace boca

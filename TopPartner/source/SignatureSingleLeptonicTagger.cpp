@@ -1,6 +1,6 @@
 #include "SignatureSingleLeptonicTagger.hh"
 #include "Event.hh"
-#include "Exeption.hh"
+#include "Exception.hh"
 // #define INFORMATION
 #include "Debug.hh"
 
