@@ -151,8 +151,8 @@ public:
 
     std::string Suffix(Process process) const {
         switch (process) {
-        case Process::Htt : return "_" + boca::Name(Mass()) + "";
-        case Process::Htwb : return "_" + boca::Name(Mass()) + "";
+        case Process::Htt : return "_" + boca::Name(Mass());
+        case Process::Htwb : return "_" + boca::Name(Mass());
         case Process::ttwwbb : return "";
         case Process::ttwbb : return "";
         default : return "";

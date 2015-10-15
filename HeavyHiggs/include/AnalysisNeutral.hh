@@ -39,7 +39,7 @@ public:
 
     std::string ProjectName() const final {
       //        return  "Neutral-" + ColliderName(collider_type()) + "-" + Name(PreCut()) + "-" + Name(Mass()) + "-Eta2.5";
-      return  "Neutral-" + Name(this->collider_type()) + "-" + boca::Name(this->PreCut()) + "-" + boca::Name(this->Mass()) + "";
+      return  "Neutral-" + Name(this->collider_type()) + "-" + boca::Name(this->PreCut()) + "-" + boca::Name(this->Mass());
     };
 
 private:

@@ -52,6 +52,8 @@ private:
 
     bool Problematic(Doublet const& doublet, PreCuts const& pre_cuts) const;
 
+    std::vector<Doublet> Doublets(Event const& event, std::function<Doublet(Doublet)> const& function) const;
+
     Reader<BottomTagger> bottom_reader_;
 
     Mass boson_mass_window;

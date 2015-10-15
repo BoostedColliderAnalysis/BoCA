@@ -42,7 +42,7 @@ public:
 
     std::string ProjectName() const final
     {
-      return  "Fusion-" + Name(this->collider_type()) + "-" + boca::Name(this->PreCut()) + "-" + boca::Name(this->Mass()) + "";
+      return  "Fusion-" + Name(this->collider_type()) + "-" + boca::Name(this->PreCut()) + "-" + boca::Name(this->Mass());
     }
 
 private:

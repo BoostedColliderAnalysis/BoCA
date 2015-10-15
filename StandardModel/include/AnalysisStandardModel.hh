@@ -83,9 +83,7 @@ protected:
         case 1000 : return 1500. * GeV;
         case 1200 : return 1500. * GeV;
         case 500: return 1000. * GeV;
-        default :
-            Error("no pt upper cut");
-            return 0;
+        Default(LowerPtCut(), at_rest);
         }
     }
 
@@ -95,9 +93,7 @@ protected:
         case 700 : return 500. * GeV;
         case 1000 : return 1000. * GeV;
         case 1200 : return 1000. * GeV;
-        default :
-            Error("no madgraph cut");
-            return 0;
+        Default(LowerPtCut(), at_rest);
         }
     }
 
@@ -114,7 +110,7 @@ protected:
     }
 
     std::string FileName(Process process) const {
-        return Name(process) + "_" + boca::Name(MadGraphCut()) + "";
+        return Name(process) + "_" + boca::Name(MadGraphCut());
     }
 
     std::string FilePath() const final {

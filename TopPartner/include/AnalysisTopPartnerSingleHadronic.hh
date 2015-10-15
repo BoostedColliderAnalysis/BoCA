@@ -45,46 +45,28 @@ protected:
 //                + "type";
     }
 
-//     void SetFiles(Tag tag) final {
-//         Info();
-//         switch (tag) {
-//         case Tag::signal :
-//             if (this->template TaggerIs<VetoTopPartnerLeptonicTagger>()) this->NewFile(tag, Process::TT);
-//             else this->NewFile(tag, Process::TthHad);
-//             break;
-//         case Tag::background :
-//             if (this->template TaggerIs<VetoTopPartnerLeptonicTagger>()) this->NewFile(tag, Process::TthHad);
-//             else if (!this->template TaggerIs<TopPartnerHadronicTagger>()) this->NewFile(tag, Process::TT);
-//             if (!this->template TaggerIs<VetoTopPartnerLeptonicTagger>()) {
-//                 this->NewFile(tag, Process::ttBB);
-//                 this->NewFile(tag, Process::ttBjj);
-//             }
-//             break;
-//         }
-//     }
-
     void SetFiles(Tag tag) final {
-      Info();
-      switch (tag) {
+        Info();
+        switch (tag) {
         case Tag::signal :
-          if (this->template TaggerIs<VetoTopPartnerLeptonicTagger>()) this->NewFile(tag, Process::TT);
-          else this->NewFile(tag, Process::TthHad);
-          break;
+            if (this->template TaggerIs<VetoTopPartnerLeptonicTagger>()) this->NewFile(tag, Process::TT);
+            else this->NewFile(tag, Process::TthHad);
+            break;
         case Tag::background :
-          if (this->template TaggerIs<VetoTopPartnerLeptonicTagger>()) this->NewFile(tag, Process::TthHad);
-          else if (!this->template TaggerIs<TopPartnerHadronicTagger>()) this->NewFile(tag, Process::TT);
-          if (!this->template TaggerIs<VetoTopPartnerLeptonicTagger>()) {
-            this->NewFile(tag, Process::ttBB);
-            this->NewFile(tag, Process::ttBjj);
-          }
-          break;
-      }
+            if (this->template TaggerIs<VetoTopPartnerLeptonicTagger>()) this->NewFile(tag, Process::TthHad);
+            else if (!this->template TaggerIs<TopPartnerHadronicTagger>()) this->NewFile(tag, Process::TT);
+            if (!this->template TaggerIs<VetoTopPartnerLeptonicTagger>()) {
+                this->NewFile(tag, Process::ttBB);
+                this->NewFile(tag, Process::ttBjj);
+            }
+            break;
+        }
     }
 
 private:
 //         TopPartnerHadronicTagger partner_tagger;
 
-    int PassPreCut(Event const& , Tag ) const final {
+    int PassPreCut(Event const& , Tag) const final {
         Info();
 //       if(tag == Tag::signal){
 //         Jets partner = partner_tagger.Particles(event);

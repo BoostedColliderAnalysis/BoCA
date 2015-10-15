@@ -41,7 +41,7 @@ public:
 //     }
 
     std::string ProjectName() const final {
-      return  "Charged-" + Name(this->collider_type()) + "-" + boca::Name(this->PreCut()) + "-" + boca::Name(this->Mass()) + "";
+      return  "Charged-" + Name(this->collider_type()) + "-" + boca::Name(this->PreCut()) + "-" + boca::Name(this->Mass());
     }
 
 private:

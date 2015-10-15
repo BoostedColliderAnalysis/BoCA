@@ -23,7 +23,7 @@ int main()
     Run<boca::naturalness::TopPartnerHadronicTagger>();
 //     Run<boca::naturalness::TopPartnerLeptonicTagger>();
     Run<boca::naturalness::VetoTopPartnerLeptonicTagger>();
-    Run<boca::naturalness::SignatureSingleHadronicTagger>(boca::Output::efficiency);
+    Run<boca::naturalness::SignatureSingleHadronicTagger>(boca::Output::significance);
     Run<boca::naturalness::EventSingleHadronicTagger>(boca::Output::significance);
 }
 

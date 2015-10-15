@@ -40,7 +40,7 @@ public:
 
     std::string ProjectName() const final {
       //        return  "NeutralFourTop-" + ColliderName(collider_type()) + "-" + Name(PreCut()) + "-" + Name(Mass()) + "-Eta2.5";
-      return  "NeutralFourTop-" + Name(this->collider_type()) + "-" + boca::Name(this->Mass()) + "";
+      return  "NeutralFourTop-" + Name(this->collider_type()) + "-" + boca::Name(this->Mass());
     };
 
     Crosssection SignalCrosssection(Process process) const {

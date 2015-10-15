@@ -67,7 +67,7 @@ public:
 
     std::string ProjectName() const {
       return  Name(DetectorType()) + "-eta3.5";
-      //         return  ProductionChannelName(ProductionChannel()) + DetectorName(DetectorType())  + "_" + Name(Mass()) + "";
+      //         return  ProductionChannelName(ProductionChannel()) + DetectorName(DetectorType())  + "_" + Name(Mass());
     }
 
 private:
@@ -175,7 +175,7 @@ private:
 
 
     std:: string SignalName(Process process) {
-      return  NameString(process) + "_" + Name(Mass()) + "";
+      return  NameString(process) + "_" + Name(Mass());
     }
 
     std::string TreeName(Process process) const {
@@ -187,7 +187,7 @@ private:
     }
 
     std:: string SignalTreeName(Process process) {
-      return  NameString(process) + "_" + Name(Mass()) + "" + "-run_01";
+      return  NameString(process) + "_" + Name(Mass()) + "-run_01";
     }
 
     Crosssection BackgroundCrosssection(Process) const {

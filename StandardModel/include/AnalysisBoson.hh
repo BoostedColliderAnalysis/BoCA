@@ -35,7 +35,7 @@ public:
 private:
 
     std::string ProjectName() const final {
-        return  Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "";
+        return  Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut());
     }
 
     void SetFiles(Tag tag) final {
