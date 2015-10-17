@@ -176,10 +176,11 @@ bool TopHadronicTagger::Problematic(boca::Triplet const& triplet, boca::PreCuts 
 
 bool TopHadronicTagger::Problematic(boca::Triplet const& triplet, PreCuts const& pre_cuts) const
 {
-    Debug();
-    if (pre_cuts.PtLowerCut(Id::top) > at_rest && triplet.Pt() < pre_cuts.PtLowerCut(Id::top)) return true;
-    if (pre_cuts.PtUpperCut(Id::top) > at_rest && triplet.Pt() > pre_cuts.PtUpperCut(Id::top)) return true;
-    if (pre_cuts.MassUpperCut(Id::top) > massless && triplet.Mass() > pre_cuts.MassUpperCut(Id::top)) return true;
+  Debug();
+  if (pre_cuts.ApplyCuts(Id::top, triplet)) return true;
+//     if (pre_cuts.PtLowerCut(Id::top) > at_rest && triplet.Pt() < pre_cuts.PtLowerCut(Id::top)) return true;
+//     if (pre_cuts.PtUpperCut(Id::top) > at_rest && triplet.Pt() > pre_cuts.PtUpperCut(Id::top)) return true;
+//     if (pre_cuts.MassUpperCut(Id::top) > massless && triplet.Mass() > pre_cuts.MassUpperCut(Id::top)) return true;
 //     if (triplet.DeltaR() < DetectorGeometry::MinCellResolution() && triplet.DeltaR() > 0) return true;
 
     // FIXME the top tagger is very slow, due to many calls of Bdt(), therfore we have to reduce the number of candidates

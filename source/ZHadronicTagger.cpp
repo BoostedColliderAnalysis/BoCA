@@ -6,7 +6,8 @@
 #include "Exception.hh"
 #include "Debug.hh"
 
-namespace boca {
+namespace boca
+{
 
 ZHadronicTagger::ZHadronicTagger()
 {
@@ -18,18 +19,18 @@ int ZHadronicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Ta
 {
     Info();
     Jets jets = bottom_reader_.Multiplets(event);
-    std::vector<Doublet> doublets = unordered_pairs(jets,[&](fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2) {
-      return CheckDoublet(Doublet(jet_1, jet_2), pre_cuts, tag);
+    std::vector<Doublet> doublets = unordered_pairs(jets, [&](fastjet::PseudoJet const & jet_1, fastjet::PseudoJet const & jet_2) {
+        return CheckDoublet(Doublet(jet_1, jet_2), pre_cuts, tag);
     });
 
-    for (auto const& jet : jets) {
+    for (auto const & jet : jets) {
         try {
-          doublets.emplace_back(CheckDoublet(Doublet(jet), pre_cuts, tag));
-        } catch(std::exception const&) {}
+            doublets.emplace_back(CheckDoublet(Doublet(jet), pre_cuts, tag));
+        } catch (std::exception const&) {}
         try {
             Jets pieces = bottom_reader_.SubMultiplet(jet, 2);
             doublets.emplace_back(CheckDoublet(Doublet(pieces.at(0), pieces.at(1)), pre_cuts, tag));
-        } catch(std::exception const&) {}
+        } catch (std::exception const&) {}
     }
     Jets particles = event.Partons().GenParticles();
     Jets z_particles = CopyIfParticle(particles, Id::Z);
@@ -59,9 +60,10 @@ bool ZHadronicTagger::Problematic(boca::Doublet const& doublet, boca::PreCuts co
 
 bool ZHadronicTagger::Problematic(boca::Doublet const& doublet, boca::PreCuts const& pre_cuts) const
 {
-    if (pre_cuts.PtLowerCut(Id::Z) > at_rest && pre_cuts.PtLowerCut(Id::Z) > doublet.Pt()) return true;
-    if (pre_cuts.PtUpperCut(Id::Z) > at_rest && pre_cuts.PtUpperCut(Id::Z) < doublet.Pt()) return true;
-    if (pre_cuts.MassUpperCut(Id::Z) > massless && pre_cuts.MassUpperCut(Id::Z) < doublet.Mass()) return true;
+    if (pre_cuts.ApplyCuts(Id::Z, doublet)) return true;
+//     if (pre_cuts.PtLowerCut(Id::Z) > at_rest && pre_cuts.PtLowerCut(Id::Z) > doublet.Pt()) return true;
+//     if (pre_cuts.PtUpperCut(Id::Z) > at_rest && pre_cuts.PtUpperCut(Id::Z) < doublet.Pt()) return true;
+//     if (pre_cuts.MassUpperCut(Id::Z) > massless && pre_cuts.MassUpperCut(Id::Z) < doublet.Mass()) return true;
     return false;
 }
 
@@ -69,25 +71,25 @@ std::vector<Doublet> ZHadronicTagger::Multiplets(Event const& event, boca::PreCu
 {
     Info();
     Jets jets =  bottom_reader_.Multiplets(event);
-    std::vector<Doublet> doublets = unordered_pairs(jets,[&](fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2) {
+    std::vector<Doublet> doublets = unordered_pairs(jets, [&](fastjet::PseudoJet const & jet_1, fastjet::PseudoJet const & jet_2) {
         Doublet doublet(jet_1, jet_2);
-        return Multiplet(doublet,pre_cuts,reader);
+        return Multiplet(doublet, pre_cuts, reader);
     });
-    for (auto const& jet : jets) {
+    for (auto const & jet : jets) {
         try {
             Doublet doublet(jet);
-            doublets.emplace_back(Multiplet(doublet,pre_cuts,reader));
-        } catch(std::exception const&) {}
+            doublets.emplace_back(Multiplet(doublet, pre_cuts, reader));
+        } catch (std::exception const&) {}
         try {
             Jets pieces = bottom_reader_.SubMultiplet(jet, 2);
             Doublet doublet(pieces.at(0), pieces.at(1));
-            doublets.emplace_back(Multiplet(doublet,pre_cuts,reader));
-        } catch(std::exception const&) {}
+            doublets.emplace_back(Multiplet(doublet, pre_cuts, reader));
+        } catch (std::exception const&) {}
     }
     return ReduceResult(doublets);
 }
 
-Doublet ZHadronicTagger::Multiplet(Doublet & doublet, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
+Doublet ZHadronicTagger::Multiplet(Doublet& doublet, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
     if (Problematic(doublet, pre_cuts)) throw boca::Problematic();
     doublet.SetBdt(Bdt(doublet, reader));

@@ -3,6 +3,10 @@
  */
 #include "Vector.hh"
 
+#include <boost/range/algorithm_ext/erase.hpp>
+// #include <boost/range/algorithm/copy.hpp>
+// #include <boost/range/adaptors.hpp>
+
 #include "Types.hh"
 #include "ParticleInfo.hh"
 #include "Debug.hh"
@@ -48,6 +52,7 @@ Jets CopyIfParticle(Jets const& jets, Id id)
     auto jet = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), IsParticle(id));
     final_jets.resize(std::distance(final_jets.begin(), jet));
     return final_jets;
+//     return boost::range::copy(jets, boost::adaptors::filtered(IsParticle(id)), final_jets);
 }
 
 Jets CopyIfParticles(Jets const& jets, Id id_1, Id id_2)
@@ -89,9 +94,7 @@ Jets CopyIfExactParticle(Jets const& jets, int id)
 
 Jets RemoveIfExactParticle(Jets jets, int id)
 {
-    if (jets.empty()) return jets;
-    jets.erase(std::remove_if(jets.begin(), jets.end(), IsExactParticle(id)), jets.end());
-    return jets;
+    return boost::range::remove_erase_if(jets, IsExactParticle(id));
 }
 
 Jets CopyIfNeutrino(Jets const& jets)
@@ -122,11 +125,9 @@ Jets CopyIfLepton(Jets const& jets)
 
 Jets RemoveIfOutsidePtWindow(boca::Jets jets, Momentum lower_cut, Momentum upper_cut)
 {
-    if (jets.empty()) return jets;
-    jets.erase(std::remove_if(jets.begin(), jets.end(), [lower_cut, upper_cut](fastjet::PseudoJet const & jet) {
+    return boost::range::remove_erase_if(jets, [lower_cut, upper_cut](fastjet::PseudoJet const & jet) {
         return (jet.pt() < lower_cut / GeV || jet.pt() > upper_cut / GeV);
-    }), jets.end());
-    return jets;
+    });
 }
 
 Jets CopyIfFamily(Jets const& jets, Id id, Id mother_id)
@@ -144,21 +145,17 @@ Jets CopyIfFamily(Jets const& jets, Id id, Id mother_id)
 
 Jets RemoveIfGrandFamily(Jets jets, Id id , Id grand_mother_id)
 {
-    if (jets.empty()) return jets;
-    jets.erase(std::remove_if(jets.begin(), jets.end(), [id, grand_mother_id](fastjet::PseudoJet const & Jet) {
+    return boost::range::remove_erase_if(jets, [id, grand_mother_id](fastjet::PseudoJet const & Jet) {
         unsigned particle = std::abs(Jet.user_info<ParticleInfo>().Family().particle().id());
         if (particle != to_unsigned(id)) return true;
         unsigned grand_mother = Jet.user_info<ParticleInfo>().Family().grand_mother().id();
         return (grand_mother == to_unsigned(grand_mother_id));
-    }), jets.end());
-    return jets;
+    });
 }
 
 Jets RemoveIfParticle(Jets jets, Id id)
 {
-    if (jets.empty()) return jets;
-    jets.erase(std::remove_if(jets.begin(), jets.end(), IsParticle(id)), jets.end());
-    return jets;
+    return boost::range::remove_erase_if(jets, IsParticle(id));
 }
 
 struct HasMother {
@@ -182,8 +179,7 @@ Jets CopyIfMother(Jets const& jets, Id mother_id)
 }
 Jets RemoveIfMother(Jets jets, Id mother_id)
 {
-    jets.erase(std::remove_if(jets.begin(), jets.end(), HasMother(mother_id)), jets.end());
-    return jets;
+    return boost::range::remove_erase_if(jets, HasMother(mother_id));
 }
 
 Jets CopyIfGrandMother(Jets const& jets, Id grand_mother_id)
@@ -220,8 +216,7 @@ struct IsSingleMother {
 
 Jets RemoveIfSingleMother(Jets jets)
 {
-    jets.erase(std::remove_if(jets.begin(), jets.end(), IsSingleMother()), jets.end());
-    return jets;
+    return boost::range::remove_erase_if(jets, IsSingleMother());
 }
 
 struct IsLepton {
@@ -233,8 +228,7 @@ struct IsLepton {
 
 Jets RemoveIfLetpon(Jets jets)
 {
-    jets.erase(std::remove_if(jets.begin(), jets.end(), IsLepton()), jets.end());
-    return jets;
+    return boost::range::remove_erase_if(jets, IsLepton());
 }
 
 struct IsQuark {
@@ -246,8 +240,7 @@ struct IsQuark {
 
 Jets RemoveIfQuark(Jets jets)
 {
-    jets.erase(std::remove_if(jets.begin(), jets.end(), IsQuark()), jets.end());
-    return jets;
+    return boost::range::remove_erase_if(jets, IsQuark());
 }
 
 Jets CopyIfQuark(Jets const& jets)
@@ -277,11 +270,11 @@ Jets CopyIf5Quark(Jets const& jets)
 
 Jets RemoveIfSoft(Jets jets, Momentum pt_min)
 {
-    jets.erase(std::remove_if(jets.begin(), jets.end(), [&](fastjet::PseudoJet const & jet) {
+    return boost::range::remove_erase_if(jets, [&](fastjet::PseudoJet const & jet) {
         return jet.pt() < pt_min / GeV;
-    }), jets.end());
-    return jets;
+    });
 }
 
 }
+
 

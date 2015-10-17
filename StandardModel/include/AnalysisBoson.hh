@@ -35,7 +35,7 @@ public:
 private:
 
     std::string ProjectName() const final {
-        return  Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "big";
+        return  Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-big-no-bdt";
     }
 
     void SetFiles(Tag tag, Stage stage) final {

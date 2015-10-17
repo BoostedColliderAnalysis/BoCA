@@ -61,10 +61,17 @@ Jets HiggsTagger::Particles(Event const& event) const
 Doublet HiggsTagger::CheckDoublet(Doublet& doublet, Jets const& leptons, PreCuts const& pre_cuts, Tag tag) const
 {
     Info();
-//     doublet = MassDrop(doublet);
-    doublet = Doublet(bottom_reader_.Multiplet(doublet.Singlet1().Jet()), bottom_reader_.Multiplet(doublet.Singlet2().Jet()));
+    doublet = PrepareDoublet(doublet, leptons , pre_cuts);
     if (Problematic(doublet, pre_cuts, tag)) throw boca::Problematic();
     doublet.SetTag(tag);
+    return doublet;
+}
+
+Doublet HiggsTagger::PrepareDoublet(Doublet& doublet, Jets const& leptons, PreCuts const& pre_cuts) const
+{
+    Info();
+    //     doublet = MassDrop(doublet);
+    doublet = Doublet(bottom_reader_.Multiplet(doublet.Singlet1().Jet()), bottom_reader_.Multiplet(doublet.Singlet2().Jet()));
     SetClosestLepton(doublet, leptons);
     return doublet;
 }
@@ -75,8 +82,9 @@ bool HiggsTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts, T
     if (Problematic(doublet, pre_cuts)) return true;
     switch (tag) {
     case Tag::signal :
+        if (pre_cuts.NotParticleRho(doublet)) return true;
 //         if (std::abs(doublet.Mass() - Mass(Id::higgs)) > higgs_mass_window) return true;
-//         if ((doublet.Rho() > 2 || doublet.Rho() < 0.5) && doublet.Rho() > 0) return true;
+//         if (doublet.Jet().user_info<JetInfo>().VertexNumber() < 1) return true;
 //         if (doublet.Singlet1().Bdt() < 0 || doublet.Singlet2().Bdt() < 0) return true;
         break;
     case Tag::background :
@@ -89,9 +97,6 @@ bool HiggsTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts) c
 {
     Info();
     if (pre_cuts.ApplyCuts(Id::higgs, doublet)) return true;
-    if (pre_cuts.CutOnRho(doublet)) return true;
-//     if (doublet.Jet().user_info<JetInfo>().VertexNumber() < 1) return true;
-    if (doublet.Singlet1().Bdt() < 0 || doublet.Singlet2().Bdt() < 0) return true;
     return false;
 }
 
@@ -107,10 +112,8 @@ std::vector<Doublet> HiggsTagger::Multiplets(Event const& event, PreCuts const& 
 Doublet HiggsTagger::Multiplet(Doublet& doublet, Jets const& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
     Info();
-//     doublet = MassDrop(doublet);
-    doublet = Doublet(bottom_reader_.Multiplet(doublet.Singlet1().Jet()), bottom_reader_.Multiplet(doublet.Singlet2().Jet()));
+    doublet = PrepareDoublet(doublet, leptons, pre_cuts);
     if (Problematic(doublet, pre_cuts)) throw boca::Problematic();
-    SetClosestLepton(doublet, leptons);
     doublet.SetBdt(Bdt(doublet, reader));
     return doublet;
 }

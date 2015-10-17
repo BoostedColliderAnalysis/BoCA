@@ -47,6 +47,8 @@ private:
 
     Doublet CheckDoublet(Doublet & doublet, Jets const& leptons, PreCuts const& pre_cuts, Tag tag) const;
 
+    Doublet PrepareDoublet(Doublet& doublet, Jets const& leptons, PreCuts const& pre_cuts) const;
+
     bool Problematic(Doublet const& doublet, PreCuts const& pre_cuts, Tag tag) const;
 
     bool Problematic(Doublet const& doublet, PreCuts const& pre_cuts) const;

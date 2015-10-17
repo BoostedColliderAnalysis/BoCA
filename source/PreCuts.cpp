@@ -11,6 +11,10 @@ void PreCuts::SetPtLowerCut(Id id, Momentum momentum)
     pt_lower_cut_.emplace(id, momentum);
 }
 
+bool PreCuts::PtLowerCutIsSet(Id id) const {
+  return pt_lower_cut_.find(id) != pt_lower_cut_.end();
+}
+
 Momentum PreCuts::PtLowerCut(Id id) const
 {
     try {
@@ -24,6 +28,10 @@ Momentum PreCuts::PtLowerCut(Id id) const
 void PreCuts::SetPtUpperCut(Id id, Momentum momentum)
 {
     pt_upper_cut_.emplace(id, momentum);
+}
+
+bool PreCuts::PtUpperCutIsSet(Id id) const {
+  return pt_upper_cut_.find(id) != pt_upper_cut_.end();
 }
 
 Momentum PreCuts::PtUpperCut(Id id) const
@@ -41,6 +49,10 @@ void PreCuts::SetMassLowerCut(Id id, Mass mass)
     mass_lower_cut_.emplace(id, mass);
 }
 
+bool PreCuts::MassLowerCutIsSet(Id id) const {
+  return mass_lower_cut_.find(id) != mass_lower_cut_.end();
+}
+
 Mass PreCuts::MassLowerCut(Id id) const
 {
     try {
@@ -56,6 +68,10 @@ void PreCuts::SetMassUpperCut(Id id, Mass mass)
     mass_upper_cut_.emplace(id, mass);
 }
 
+bool PreCuts::MassUpperCutIsSet(Id id) const {
+  return mass_upper_cut_.find(id) != mass_upper_cut_.end();
+}
+
 Mass PreCuts::MassUpperCut(Id id) const
 {
     try {
@@ -69,6 +85,10 @@ Mass PreCuts::MassUpperCut(Id id) const
 void PreCuts::SetTrackerMaxEta(Id id, float eta)
 {
     tracker_eta_upper_cut_.emplace(id, eta);
+}
+
+bool PreCuts::TrackerEtaMaxIsSet(Id id) const {
+  return tracker_eta_upper_cut_.find(id) != tracker_eta_upper_cut_.end();
 }
 
 float PreCuts::TrackerMaxEta(Id id) const

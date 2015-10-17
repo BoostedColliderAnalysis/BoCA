@@ -206,7 +206,7 @@ void Plotting::PlotAcceptanceGraph(Results const& results) const
         }
         if (min.y == LargeNumber()) min.y = 0;
         canvas.SetLog(min.y, max.y);
-        TLegend legend = Legend(Orientation::left | Orientation::top, nice_names, signal.info_branch_.Name);
+        TLegend legend = Legend(Orientation::right | Orientation::bottom, nice_names, signal.info_branch_.Name);
         for (auto & graph : graphs) AddGraph(graph, multi_graph, legend, nice_names, &graph - &graphs.front());
         SetMultiGraph(multi_graph, min, max);
         legend.Draw();

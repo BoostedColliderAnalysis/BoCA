@@ -81,9 +81,9 @@ bool BosonTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts) c
 {
     Info();
     if (pre_cuts.ApplyCuts(Id::neutral_boson, doublet)) return true;
-    if (pre_cuts.CutOnRho(doublet)) return true;
+    if (pre_cuts.NotParticleRho(doublet)) return true;
 //     if (doublet.Jet().user_info<JetInfo>().VertexNumber() < 1) return true;
-    if (doublet.Singlet1().Bdt() < 0 || doublet.Singlet2().Bdt() < 0) return true;
+//     if (doublet.Singlet1().Bdt() < 0 || doublet.Singlet2().Bdt() < 0) return true;
     return false;
 }
 
