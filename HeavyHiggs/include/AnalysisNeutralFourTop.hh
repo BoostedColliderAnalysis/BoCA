@@ -20,7 +20,7 @@ public:
 
     AnalysisNeutralFourTop() {
         this->tagger().SetAnalysisName(ProjectName());
-//  this->pre_cuts().SetPtLowerCut(Id::top,100);
+//  this->pre_cuts().PtLowerCut().Set(Id::top,100);
     }
 
     void SetFiles(Tag tag, Stage) final {

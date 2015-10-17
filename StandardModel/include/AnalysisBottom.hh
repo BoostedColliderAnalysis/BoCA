@@ -36,9 +36,9 @@ public:
 
     AnalysisBottom() {
         this->set_tagger_analysis_name(ProjectName());
-        this->pre_cuts().SetPtLowerCut(Id::bottom, this->LowerPtCut());
-        this->pre_cuts().SetPtUpperCut(Id::bottom, this->UpperPtCut());
-        this->pre_cuts().SetTrackerMaxEta(Id::bottom, DetectorGeometry::TrackerEtaMax());
+        this->pre_cuts().PtLowerCut().Set(Id::bottom, this->LowerPtCut());
+        this->pre_cuts().PtUpperCut().Set(Id::bottom, this->UpperPtCut());
+        this->pre_cuts().TrackerMaxEta().Set(Id::bottom, DetectorGeometry::TrackerEtaMax());
         this->pre_cuts().SetSubJets(false);
     }
 

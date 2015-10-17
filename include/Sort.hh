@@ -33,7 +33,6 @@ template<typename Multiplet>
 std::vector<Multiplet> SortedByMinDeltaRTo(std::vector<Multiplet> multiplets, fastjet::PseudoJet const& jet)
 {
     return boost::range::sort(multiplets, MinDeltaRTo(jet));
-//     return multiplets;
 }
 
 template <class Multiplet>
@@ -42,7 +41,6 @@ std::vector<Multiplet> SortedByMaxDeltaRap(std::vector<Multiplet> multiplets)
     return boost::range::sort(multiplets, [](const Multiplet & multiplet_1, const Multiplet & multiplet_2) {
         return (multiplet_1.DeltaRap() > multiplet_2.DeltaRap());
     });
-//     return multiplets;
 }
 
 template <class Multiplet>
@@ -51,7 +49,6 @@ std::vector<Multiplet> SortedByMassTo(std::vector<Multiplet> multiplets, Mass ma
     return boost::range::sort(multiplets, [mass](const Multiplet & multiplet_1, const Multiplet & multiplet_2) {
         return boost::units::abs(multiplet_1.Mass() - mass) < boost::units::abs(multiplet_2.Mass() - mass);
     });
-//     return multiplets;
 }
 
 struct SortByMassTo {
@@ -72,7 +69,6 @@ template <class Multiplet>
 std::vector<Multiplet> SortedByMassTo(std::vector<Multiplet> multiplets, Id id)
 {
     return boost::range::sort(multiplets, SortByMassTo(id));
-//     return multiplets;
 }
 
 struct SortByMass {
@@ -89,7 +85,6 @@ template <class Multiplet>
 std::vector<Multiplet> SortedByMass(std::vector<Multiplet> multiplets)
 {
     return boost::range::sort(multiplets, SortByMass());
-//     return multiplets;
 }
 
 
@@ -114,7 +109,6 @@ template <class Multiplet>
 std::vector<Multiplet> SortedByPt(std::vector<Multiplet> multiplets)
 {
     return boost::range::sort(multiplets, SortByPt());
-//     return multiplets;
 }
 
 
@@ -136,7 +130,6 @@ template <typename Multiplet>
 std::vector<Multiplet> SortedByBdt(std::vector<Multiplet>  multiplets)
 {
     return boost::range::sort(multiplets, SortByBdt());
-//     return multiplets;
 }
 
 

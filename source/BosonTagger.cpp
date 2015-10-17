@@ -68,6 +68,7 @@ bool BosonTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts, T
     if (Problematic(doublet, pre_cuts)) return true;
     switch (tag) {
     case Tag::signal :
+        if (pre_cuts.NotParticleRho(doublet)) return true;
 //         if (boost::units::abs(doublet.Mass() - (MassOf(Id::higgs) + MassOf(Id::W)) / 2.) > boson_mass_window) return true;
 //         if ((doublet.Rho() > 2 || doublet.Rho() < 0.5) && doublet.Rho() > 0) return true;
         break;
@@ -81,7 +82,6 @@ bool BosonTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts) c
 {
     Info();
     if (pre_cuts.ApplyCuts(Id::neutral_boson, doublet)) return true;
-    if (pre_cuts.NotParticleRho(doublet)) return true;
 //     if (doublet.Jet().user_info<JetInfo>().VertexNumber() < 1) return true;
 //     if (doublet.Singlet1().Bdt() < 0 || doublet.Singlet2().Bdt() < 0) return true;
     return false;

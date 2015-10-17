@@ -3,8 +3,8 @@
  */
 #pragma once
 
-#include <map>
-#include "Particles.hh"
+#include "PreCut.hh"
+#include "fastjet/PseudoJet.hh"
 
 namespace boca
 {
@@ -14,91 +14,54 @@ enum class Bosstness
     unboosted,
 };
 
-template<typename Value>
-class PreCut
-{
-
-public:
-
-    void Set(Id id, Value value) {
-        pre_cut_.emplace(id, value);
-    }
-
-    bool IsSet(Id id) const {
-        return pre_cut_.find(id) != pre_cut_.end();
-    }
-
-    Value Get(Id id) const {
-        try {
-            return pre_cut_.at(id);
-        } catch (std::out_of_range const&) {
-            pre_cut_.emplace(id, Value(0.));
-            return Value(0.);
-        }
-    }
-
-private:
-
-    mutable std::map<Id, Value> pre_cut_;
-
-};
-
 class PreCuts
 {
+
 public:
-    void SetPtLowerCut(Id id, Momentum momentum);
-
-    bool PtLowerCutIsSet(Id id) const;
-
-    Momentum PtLowerCut(Id id) const;
 
     template <typename Multiplet>
     bool PtTooSmall(Id id, Multiplet const& multiplet) const {
-        return PtLowerCutIsSet(id) && PtLowerCut(id) > multiplet.Pt();
+        return pt_lower_cut_.IsSet(id) && pt_lower_cut_.Get(id) > multiplet.Pt();
     }
 
-    void SetPtUpperCut(Id id, Momentum momentum);
-
-    bool PtUpperCutIsSet(Id id) const;
-
-    Momentum PtUpperCut(Id id) const;
+    bool PtTooSmall(Id id, fastjet::PseudoJet const& jet) const {
+        return pt_lower_cut_.IsSet(id) && pt_lower_cut_.Get(id) > jet.pt() * GeV;
+    }
 
     template <typename Multiplet>
     bool PtTooLarge(Id id, Multiplet const& multiplet) const {
-        return PtUpperCutIsSet(id) && PtUpperCut(id) < multiplet.Pt();
+        return pt_upper_cut_.IsSet(id) && pt_upper_cut_.Get(id) < multiplet.Pt();
     }
 
-    void SetMassLowerCut(Id id, Mass mass);
-
-    bool MassLowerCutIsSet(Id id) const;
-
-    Mass MassLowerCut(Id id) const;
+    bool PtTooLarge(Id id, fastjet::PseudoJet const& jet) const {
+        return pt_upper_cut_.IsSet(id) && pt_upper_cut_.Get(id) > jet.pt() * GeV;
+    }
 
     template <typename Multiplet>
     bool MassTooSmall(Id id, Multiplet const& multiplet) const {
-        return MassLowerCutIsSet(id) && MassLowerCut(id) > multiplet.Mass();
+        return mass_lower_cut_.IsSet(id) && mass_lower_cut_.Get(id) > multiplet.Mass();
     }
 
-    void SetMassUpperCut(Id id, Mass mass);
-
-    bool MassUpperCutIsSet(Id id) const;
-
-    Mass MassUpperCut(Id id) const;
+    bool MassTooSmall(Id id, fastjet::PseudoJet const& jet) const {
+        return mass_lower_cut_.IsSet(id) && mass_lower_cut_.Get(id) > jet.m() * GeV;
+    }
 
     template <typename Multiplet>
     bool MassTooLarge(Id id, Multiplet const& multiplet) const {
-        return MassUpperCutIsSet(id) && MassUpperCut(id) < multiplet.Mass();
+        return mass_upper_cut_.IsSet(id) && mass_upper_cut_.Get(id) < multiplet.Mass();
     }
 
-    void SetTrackerMaxEta(Id id, float eta);
-
-    bool TrackerEtaMaxIsSet(Id id) const;
-
-    float TrackerMaxEta(Id id) const;
+    bool MassTooLarge(Id id, fastjet::PseudoJet const& jet) const {
+        return mass_upper_cut_.IsSet(id) && mass_upper_cut_.Get(id) > jet.m() * GeV;
+    }
 
     template <typename Multiplet>
     bool OutsideTracker(Id id, Multiplet const& multiplet) const {
-        return TrackerEtaMaxIsSet(id) && TrackerMaxEta(id) < multiplet.Jet().rap();
+        return tracker_eta_upper_cut_.IsSet(id) && tracker_eta_upper_cut_.Get(id) < multiplet.Jet().rap();
+    }
+
+    bool OutsideTracker(Id id, fastjet::PseudoJet const& jet) const {
+        return tracker_eta_upper_cut_.IsSet(id) && tracker_eta_upper_cut_.Get(id) > jet.rap();
     }
 
     template <typename Multiplet>
@@ -119,25 +82,42 @@ public:
         return multiplet.Rho() > 0 && (multiplet.Rho() < min || multiplet.Rho() > max);
     }
 
+    PreCut<Momentum> & PtLowerCut(){
+      return pt_lower_cut_;
+    }
+
+    PreCut<Momentum> & PtUpperCut(){
+      return pt_upper_cut_;
+    }
+
+    PreCut<Mass> & MassLowerCut(){
+      return mass_lower_cut_;
+    }
+
+    PreCut<Mass> & MassUpperCut(){
+      return mass_upper_cut_;
+    }
+
+    PreCut<float> & TrackerMaxEta(){
+      return tracker_eta_upper_cut_;
+    }
+
 private:
 
-    // these members are mutable as the try/catch blocks are called way too often without stroring the negative results
-    // TODO replace all problematic checks with unproblematic ones and remove mutable
-    mutable std::map<Id, Momentum> pt_lower_cut_;
+    PreCut<Momentum> pt_lower_cut_;
 
-    mutable std::map<Id, Momentum> pt_upper_cut_;
+    PreCut<Momentum> pt_upper_cut_;
 
-    mutable std::map<Id, Mass> mass_lower_cut_;
+    PreCut<Mass> mass_lower_cut_;
 
-    mutable std::map<Id, Mass> mass_upper_cut_;
+    PreCut<Mass> mass_upper_cut_;
 
-    mutable std::map<Id, float> tracker_eta_upper_cut_;
+    PreCut<float> tracker_eta_upper_cut_;
 
     bool do_sub_jets_ = true;
 
     bool semi_leptonic_ = true;
 
 };
-
 
 }

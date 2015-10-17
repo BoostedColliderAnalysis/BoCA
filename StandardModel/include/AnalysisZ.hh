@@ -23,10 +23,10 @@ public:
 
     AnalysisZ() {
         this->set_tagger_analysis_name(ProjectName());
-        this->pre_cuts().SetPtLowerCut(Id::Z, this->LowerPtCut());
-        this->pre_cuts().SetPtUpperCut(Id::Z, this->UpperPtCut());
-        this->pre_cuts().SetMassUpperCut(Id::Z, 200. * GeV);
-        //     pre_cuts().SetTrackerMaxEta(Id::Z, DetectorGeometry::TrackerEtaMax);
+        this->pre_cuts().PtLowerCut().Set(Id::Z, this->LowerPtCut());
+        this->pre_cuts().PtUpperCut().Set(Id::Z, this->UpperPtCut());
+        this->pre_cuts().MassUpperCut().Set(Id::Z, 200. * GeV);
+        //     pre_cuts().TrackerMaxEta().Set(Id::Z, DetectorGeometry::TrackerEtaMax);
     }
 
 private:

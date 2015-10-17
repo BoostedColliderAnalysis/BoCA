@@ -23,10 +23,10 @@ public:
 
     AnalysisW() {
         this->set_tagger_analysis_name(ProjectName());
-        this->pre_cuts().SetPtLowerCut(Id::W, this->LowerPtCut());
-        this->pre_cuts().SetPtUpperCut(Id::W, this->UpperPtCut());
-        this->pre_cuts().SetMassUpperCut(Id::W, 200. * GeV);
-        //     pre_cuts().SetTrackerMaxEta(Id::top, DetectorGeometry::TrackerEtaMax);
+        this->pre_cuts().PtLowerCut().Set(Id::W, this->LowerPtCut());
+        this->pre_cuts().PtUpperCut().Set(Id::W, this->UpperPtCut());
+        this->pre_cuts().MassUpperCut().Set(Id::W, 200. * GeV);
+        //     pre_cuts().TrackerMaxEta().Set(Id::top, DetectorGeometry::TrackerEtaMax);
     }
 
     Decay WDecay() const {

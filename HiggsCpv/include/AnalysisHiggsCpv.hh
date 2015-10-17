@@ -32,11 +32,11 @@ public:
     Analysis() {
         this->tagger().SetAnalysisName(ProjectName());
         DetectorGeometry::set_detector_type(DetectorType::CMS);
-//         this->pre_cuts().SetPtLowerCut(Id::higgs,200);
-//         this->pre_cuts().SetMassLowerCut(Id::higgs,105);
-//         this->pre_cuts().SetMassUpperCut(Id::higgs,145);
-        this->pre_cuts().SetMassLowerCut(Id::higgs, 50. * GeV);
-        this->pre_cuts().SetMassUpperCut(Id::higgs, 150. * GeV);
+//         this->pre_cuts().PtLowerCut().Set(Id::higgs,200);
+        //         this->pre_cuts().MassLowerCut().Set(Id::higgs,105);
+//         this->pre_cuts().MassUpperCut().Set(Id::higgs,145);
+        this->pre_cuts().MassLowerCut().Set(Id::higgs, 50. * GeV);
+        this->pre_cuts().MassUpperCut().Set(Id::higgs, 150. * GeV);
         this->pre_cuts().SetSemiLeptonic(false);
 //         NoHiggs(-1);
 //         SingleHiggs(-1);
