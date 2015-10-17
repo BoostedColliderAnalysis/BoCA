@@ -42,12 +42,13 @@ public:
      *
      */
     void AnalysisLoop(Stage stage) final {
-        Info();
+      Info();
+      Initialize();
         Reader<Tagger> reader(stage);
         for (auto const & tag : std::vector<Tag> {Tag::signal, Tag::background}) {
             Files files(tagger().ExportFileName(stage, tag), stage, tag);
             ClearFiles();
-            SetFiles(tag);
+            SetFiles(tag, stage);
             for (auto & file : this->files(tag)) {
                 Info("in file loop");
                 files.set_file(file);

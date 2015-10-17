@@ -15,6 +15,8 @@ Jets CopyIfParticle(Jets const& jets, Id id);
 
 Jets CopyIfParticles(Jets const& jets, Id id_1, Id id_2);
 
+Jets CopyIfParticles(Jets const& jets, std::vector<Id> ids);
+
 Jets CopyIfNeutrino(Jets const& jets);
 
 Jets CopyIfLepton(Jets const& jets);

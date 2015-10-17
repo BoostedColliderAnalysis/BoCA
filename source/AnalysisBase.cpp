@@ -31,7 +31,7 @@ void AnalysisBase::Initialize()
 {
     Error(tagger().Name());
     working_path_ = WorkingPath();
-    mkdir(ProjectName().c_str(), 0700);
+    if(ProjectName()!=AnalysisBase::ProjectName()) mkdir(ProjectName().c_str(), 0700);
     tagger().Initialize();
 }
 
@@ -48,13 +48,13 @@ std::vector<File> AnalysisBase::files(Tag tag)
     return files_;
 }
 
-void AnalysisBase::PrepareFiles()
+void AnalysisBase::PrepareFiles(Stage stage)
 {
     Info();
     files_.clear();
     tagger().ClearTreeNames();
-    SetFiles(Tag::signal);
-    SetFiles(Tag::background);
+    SetFiles(Tag::signal, stage);
+    SetFiles(Tag::background, stage);
 }
 
 std::string AnalysisBase::ProjectName() const
@@ -219,7 +219,7 @@ void AnalysisBase::RunTagger(Stage stage)
 void AnalysisBase::RunTrainer()
 {
     Info();
-    PrepareFiles();
+    PrepareFiles(Stage::trainer);
     TMVA::Types::EMVA mva = TMVA::Types::EMVA::kBDT;
     if (!Exists(tagger().WeightFileName(mva))) {
         std::ofstream cout_file(tagger().FolderName() + ".txt");
@@ -234,7 +234,7 @@ void AnalysisBase::RunTrainer()
 void AnalysisBase::RunSignificance()
 {
     Info();
-    PrepareFiles();
+    PrepareFiles(Stage::reader);
     if (!Exists(tagger().ExportFileName())) {
         Plotting plotting(tagger());
         plotting.OptimalCuts();
@@ -244,7 +244,7 @@ void AnalysisBase::RunSignificance()
 void AnalysisBase::RunEfficiency()
 {
     Info();
-    PrepareFiles();
+    PrepareFiles(Stage::reader);
     if (!Exists(tagger().ExportFileName())) {
         Plotting plotting(tagger());
         plotting.TaggingEfficiency();
@@ -254,7 +254,7 @@ void AnalysisBase::RunEfficiency()
 void AnalysisBase::RunPlots()
 {
     Info();
-    PrepareFiles();
+    PrepareFiles(Stage::reader);
     if (!Exists(tagger().ExportFolderName())) {
         Plotting plotting(tagger());
         plotting.RunPlots();

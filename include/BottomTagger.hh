@@ -24,8 +24,7 @@ public:
     /**
      * @brief Train the bottom tagger with pre cuts
      */
-    int Train(Event const& event, PreCuts const& pre_cuts,
-              Tag tag) const final;
+    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
 
     /**
      * @brief Return all jets of the event with bottom bdt value considering pre cuts
@@ -56,6 +55,8 @@ public:
     std::string NiceName() const final { return "b"; }
 
 private:
+
+    Jets Particles(Event const& event) const;
 
     Jets Multiplets(Jets const& jets, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 

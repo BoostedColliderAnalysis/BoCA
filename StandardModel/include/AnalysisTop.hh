@@ -43,7 +43,7 @@ private:
         return  Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-" + Name(Process::tt) + "-" + Name(TopDecay()) + "-test3";
     }
 
-    void SetFiles(Tag tag) final {
+    void SetFiles(Tag tag, Stage) final {
         switch (tag) {
         case Tag::signal :
             if (TopDecay() == Decay::hadronic || this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_had);

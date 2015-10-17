@@ -35,10 +35,10 @@ public:
 private:
 
     std::string ProjectName() const final {
-        return  "HiggsTagger-" + Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-no-double";
+        return Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-b-cut";
     }
 
-    void SetFiles(Tag tag) final {
+    void SetFiles(Tag tag, Stage) final {
         switch (tag) {
         case Tag::signal :
             this->NewFile(tag, Process::hh_bb);
@@ -47,11 +47,11 @@ private:
             if (this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_lep);
             break;
         case Tag::background :
+          if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::bb);
           if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_had);
           if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_lep);
             this->NewFile(tag, Process::zz);
             this->NewFile(tag, Process::ww);
-          if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::bb);
             this->NewFile(tag, Process::cc);
             this->NewFile(tag, Process::qq);
             this->NewFile(tag, Process::gg);

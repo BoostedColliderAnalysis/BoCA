@@ -8,6 +8,8 @@
 #include <sys/stat.h>
 #include <numeric>
 
+#include <boost/range/algorithm/sort.hpp>
+
 #include "TFile.h"
 #include "TDirectoryFile.h"
 #include "TClonesArray.h"
@@ -188,7 +190,8 @@ void Plotting::PlotAcceptanceGraph(Results const& results) const
     Info();
     for (auto const & signal : results.signals) {
         Canvas canvas;
-        TMultiGraph multi_graph("", Tagger().NiceName().c_str());
+//         TMultiGraph multi_graph("", Tagger().NiceName().c_str());
+        TMultiGraph multi_graph("", "");
         std::vector<TGraph> graphs;
         Strings nice_names;
         Point min(0.2, LargeNumber());
@@ -207,7 +210,7 @@ void Plotting::PlotAcceptanceGraph(Results const& results) const
         for (auto & graph : graphs) AddGraph(graph, multi_graph, legend, nice_names, &graph - &graphs.front());
         SetMultiGraph(multi_graph, min, max);
         legend.Draw();
-        canvas.SaveAs(Tagger().ExportFolderName() + "-Acceptance");
+        canvas.SaveAs(Tagger().ExportFolderName() + "-" + signal.info_branch_.Name + "-Acceptance");
     }
 }
 
@@ -475,7 +478,7 @@ Plot Plotting::CoreVector(Plot& plot, std::function<bool (Point const&, Point co
 {
     Info();
     // TODO sorting the whole vector when you just want to get rid of the extrem values might not be the fastest solution
-    std::sort(plot.points.begin(), plot.points.end(), [&](Point const & a, Point const & b) {
+    boost::range::sort(plot.points, [&](Point const & a, Point const & b) {
         return function(a, b);
     });
     int cut_off = plot.points.size() / 25;

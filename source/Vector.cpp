@@ -28,6 +28,19 @@ struct IsParticle {
     Id id_2_;
 };
 
+struct IsParticles {
+    IsParticles(std::vector<Id> const& ids) {
+        ids_ = ids;
+    }
+    bool operator()(fastjet::PseudoJet const& jet) {
+        unsigned id = std::abs(jet.user_info<ParticleInfo>().Family().particle().id());
+        return std::find_if(ids_.begin(), ids_.end(), [&](Id id_2) {
+            return id == to_unsigned(id_2);
+        }) != ids_.end();
+    }
+    std::vector<Id> ids_;
+};
+
 Jets CopyIfParticle(Jets const& jets, Id id)
 {
     if (jets.empty()) return jets;
@@ -42,6 +55,15 @@ Jets CopyIfParticles(Jets const& jets, Id id_1, Id id_2)
     if (jets.empty()) return jets;
     Jets final_jets(jets.size());
     auto iterator = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), IsParticle(id_1, id_2));
+    final_jets.resize(std::distance(final_jets.begin(), iterator));
+    return final_jets;
+}
+
+Jets CopyIfParticles(Jets const& jets, std::vector<Id> ids)
+{
+    if (jets.empty()) return jets;
+    Jets final_jets(jets.size());
+    auto iterator = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), IsParticles(ids));
     final_jets.resize(std::distance(final_jets.begin(), iterator));
     return final_jets;
 }
@@ -87,15 +109,15 @@ Jets CopyIfNeutrino(Jets const& jets)
 
 Jets CopyIfLepton(Jets const& jets)
 {
-  if (jets.empty())
-    return jets;
-  Jets final_jets(jets.size());
-  auto jet = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), [](fastjet::PseudoJet const & jet) {
-    unsigned id = std::abs(jet.user_info<ParticleInfo>().Family().particle().id());
-    return (id == to_unsigned(Id::electron) || id == to_unsigned(Id::muon));
-  });
-  final_jets.resize(std::distance(final_jets.begin(), jet));
-  return final_jets;
+    if (jets.empty())
+        return jets;
+    Jets final_jets(jets.size());
+    auto jet = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), [](fastjet::PseudoJet const & jet) {
+        unsigned id = std::abs(jet.user_info<ParticleInfo>().Family().particle().id());
+        return (id == to_unsigned(Id::electron) || id == to_unsigned(Id::muon));
+    });
+    final_jets.resize(std::distance(final_jets.begin(), jet));
+    return final_jets;
 }
 
 Jets RemoveIfOutsidePtWindow(boca::Jets jets, Momentum lower_cut, Momentum upper_cut)
@@ -178,14 +200,14 @@ Jets CopyIfGrandMother(Jets const& jets, Id grand_mother_id)
 
 Jets CopyIfGrandGrandMother(Jets const& jets, Id grand_grand_mother_id)
 {
-  if (jets.empty()) return jets;
-  Jets final_jets(jets.size());
-  auto jet = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), [&](fastjet::PseudoJet const & jet) {
-    unsigned grand_grand_mother = std::abs(jet.user_info<ParticleInfo>().Family().grand_grand_mother().id());
-    return grand_grand_mother == to_unsigned(grand_grand_mother_id);
-  });
-  final_jets.resize(std::distance(final_jets.begin(), jet));
-  return final_jets;
+    if (jets.empty()) return jets;
+    Jets final_jets(jets.size());
+    auto jet = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), [&](fastjet::PseudoJet const & jet) {
+        unsigned grand_grand_mother = std::abs(jet.user_info<ParticleInfo>().Family().grand_grand_mother().id());
+        return grand_grand_mother == to_unsigned(grand_grand_mother_id);
+    });
+    final_jets.resize(std::distance(final_jets.begin(), jet));
+    return final_jets;
 }
 
 

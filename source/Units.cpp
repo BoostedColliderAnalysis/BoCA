@@ -1,5 +1,8 @@
 #include "Units.hh"
+
 #include <sstream>
+
+#include <boost/range/algorithm/remove_if.hpp>
 
 namespace boca
 {
@@ -24,7 +27,7 @@ std::string Name(boost::units::quantity< electronvolt::energy > energy)
     std::stringstream stream;
     stream << boost::units::engineering_prefix << energy;
     std::string string = stream.str();
-    string.erase(std::remove_if(string.begin(), string.end(), isspace), string.end());
+    string.erase(boost::range::remove_if(string, isspace), string.end());
     return string;
 }
 

@@ -25,7 +25,7 @@ public:
         this->tagger().SetAnalysisName(ProjectName());
     }
 
-    void SetFiles(Tag tag) final {
+    void SetFiles(Tag tag, Stage) final {
         switch (tag) {
         case Tag::signal :
             this->NewFile(tag, Process::Htb);

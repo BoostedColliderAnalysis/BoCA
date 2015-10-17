@@ -46,7 +46,7 @@ public:
 
 protected:
 
-    virtual void SetFiles(Tag tag) = 0;
+    virtual void SetFiles(Tag tag, Stage) = 0;
 
     virtual int PassPreCut(Event const&, Tag tag) const = 0;
 
@@ -57,7 +57,8 @@ protected:
 
     std::vector<boca::File> files(Tag tag);
 
-    void PrepareFiles();
+    void PrepareFiles(Stage stage);
+
     exroot::TreeWriter TreeWriter(TFile& export_file, std::string const& export_tree_name, Stage stage);
 
     virtual std::string ProjectName() const;

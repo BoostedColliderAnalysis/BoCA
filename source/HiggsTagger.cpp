@@ -23,41 +23,55 @@ HiggsTagger::HiggsTagger()
 
 int HiggsTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const
 {
-    Info(boca::Name(tag));
+    Info();
+    Jets leptons = event.Leptons().leptons();
+    return SaveEntries(Doublets(event, [&](Doublet & doublet) {
+        return CheckDoublet(doublet, leptons, pre_cuts, tag);
+    }), Particles(event), tag, Id::higgs);
+}
+
+std::vector<Doublet> HiggsTagger::Doublets(Event const& event, std::function<Doublet(Doublet&)> const& function) const
+{
+    Info();
     Jets jets =  event.Hadrons().Jets();
     std::vector<Doublet> doublets = unordered_pairs(jets, [&](fastjet::PseudoJet const & jet_1, fastjet::PseudoJet const & jet_2) {
-        return CheckDoublet(Doublet(jet_1, jet_2), pre_cuts, tag);
+        Doublet doublet(jet_1, jet_2);
+        return function(doublet);
     });
-
     for (auto const & jet : jets) {
         try {
-            doublets.emplace_back(CheckDoublet(Doublet(jet), pre_cuts, tag));
+            Doublet doublet(jet);
+            doublets.emplace_back(function(doublet));
         } catch (std::exception const&) {}
         try {
             Jets pieces = Tagger::SubJets(jet, 2);
-            doublets.emplace_back(CheckDoublet(Doublet(pieces.at(0), pieces.at(1)), pre_cuts, tag));
+            Doublet doublet(pieces.at(0), pieces.at(1));
+            doublets.emplace_back(function(doublet));
         } catch (std::exception const&) {}
     }
-    doublets = SetClosestLepton(event, doublets);
-    Jets higgses = Particles(event);
-    return SaveEntries(doublets, higgses, tag, Id::higgs);
+    return doublets;
 }
 
-Jets HiggsTagger::Particles(Event const& event) const {
-  return CopyIfParticles(event.Partons().GenParticles(), Id::higgs, Id::CP_violating_higgs);
-}
-
-Doublet HiggsTagger::CheckDoublet(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const
+Jets HiggsTagger::Particles(Event const& event) const
 {
+    Info();
+    return CopyIfParticles(event.Partons().GenParticles(), Id::higgs, Id::CP_violating_higgs);
+}
+
+Doublet HiggsTagger::CheckDoublet(Doublet& doublet, Jets const& leptons, PreCuts const& pre_cuts, Tag tag) const
+{
+    Info();
 //     doublet = MassDrop(doublet);
     doublet = Doublet(bottom_reader_.Multiplet(doublet.Singlet1().Jet()), bottom_reader_.Multiplet(doublet.Singlet2().Jet()));
     if (Problematic(doublet, pre_cuts, tag)) throw boca::Problematic();
     doublet.SetTag(tag);
+    SetClosestLepton(doublet, leptons);
     return doublet;
 }
 
 bool HiggsTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts, Tag tag) const
 {
+    Info();
     if (Problematic(doublet, pre_cuts)) return true;
     switch (tag) {
     case Tag::signal :
@@ -73,12 +87,10 @@ bool HiggsTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts, T
 
 bool HiggsTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts) const
 {
-    if (pre_cuts.PtLowerCut(Id::higgs) > at_rest && doublet.Pt() < pre_cuts.PtLowerCut(Id::higgs)) return true;
-    if (pre_cuts.PtUpperCut(Id::higgs) > at_rest && doublet.Pt() > pre_cuts.PtUpperCut(Id::higgs)) return true;
-    if (pre_cuts.MassLowerCut(Id::higgs) > massless && doublet.Mass() < pre_cuts.MassLowerCut(Id::higgs)) return true;
-    if (pre_cuts.MassUpperCut(Id::higgs) > massless && doublet.Mass() > pre_cuts.MassUpperCut(Id::higgs)) return true;
-    if (doublet.Jet().user_info<JetInfo>().VertexNumber() < 1) return true;
-    if (doublet.Rho() > 2.5 || doublet.Rho() < 0.5) return true;
+    Info();
+    if (pre_cuts.ApplyCuts(Id::higgs, doublet)) return true;
+    if (pre_cuts.CutOnRho(doublet)) return true;
+//     if (doublet.Jet().user_info<JetInfo>().VertexNumber() < 1) return true;
     if (doublet.Singlet1().Bdt() < 0 || doublet.Singlet2().Bdt() < 0) return true;
     return false;
 }
@@ -87,28 +99,14 @@ std::vector<Doublet> HiggsTagger::Multiplets(Event const& event, PreCuts const& 
 {
     Info();
     Jets leptons = event.Leptons().leptons();
-    Jets jets =  event.Hadrons().Jets();
-    std::vector<Doublet> doublets = unordered_pairs(jets, [&](fastjet::PseudoJet const & jet_1, fastjet::PseudoJet const & jet_2) {
-        Doublet doublet(jet_1, jet_2);
+    return ReduceResult(Doublets(event, [&](Doublet & doublet) {
         return Multiplet(doublet, leptons, pre_cuts, reader);
-    });
-
-    for (auto const & jet : jets) {
-        try {
-            Doublet doublet(jet);
-            doublets.emplace_back(Multiplet(doublet, leptons, pre_cuts, reader));
-        } catch (std::exception const&) {}
-        Jets pieces = Tagger::SubJets(jet, 2);
-        try {
-            Doublet doublet(pieces.at(0), pieces.at(1));
-            doublets.emplace_back(Multiplet(doublet, leptons, pre_cuts, reader));
-        } catch (std::exception const&) {}
-    }
-    return ReduceResult(doublets);
+    }));
 }
 
 Doublet HiggsTagger::Multiplet(Doublet& doublet, Jets const& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
+    Info();
 //     doublet = MassDrop(doublet);
     doublet = Doublet(bottom_reader_.Multiplet(doublet.Singlet1().Jet()), bottom_reader_.Multiplet(doublet.Singlet2().Jet()));
     if (Problematic(doublet, pre_cuts)) throw boca::Problematic();
@@ -119,6 +117,7 @@ Doublet HiggsTagger::Multiplet(Doublet& doublet, Jets const& leptons, PreCuts co
 
 Doublet HiggsTagger::MassDrop(Doublet const& doublet) const
 {
+    Info();
     InfoRecombiner info_recombiner;
     fastjet::JetDefinition jet_definition(fastjet::cambridge_algorithm, doublet.DeltaR() + 2 * DetectorGeometry::JetConeSize(), &info_recombiner);
     fastjet::ClusterSequence& cluster_sequence = *new fastjet::ClusterSequence(doublet.Jet().constituents(), jet_definition);
@@ -126,8 +125,8 @@ Doublet HiggsTagger::MassDrop(Doublet const& doublet) const
     Jets exclusive_jets = cluster_sequence.exclusive_jets(int(jet_number));
     Check(exclusive_jets.size() == jet_number);
     if (exclusive_jets.empty()) {
-      delete &cluster_sequence;
-      return {};
+        delete &cluster_sequence;
+        throw Empty();
     }
     cluster_sequence.delete_self_when_unused();
 

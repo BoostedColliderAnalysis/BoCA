@@ -23,7 +23,7 @@ public:
 //  this->pre_cuts().SetPtLowerCut(Id::top,100);
     }
 
-    void SetFiles(Tag tag) final {
+    void SetFiles(Tag tag, Stage) final {
         switch (tag) {
         case Tag::signal :
             this->NewFile(tag, SignalCrosssection(Process::Htt), Process::Htt);

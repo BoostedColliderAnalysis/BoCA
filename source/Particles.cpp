@@ -3,6 +3,7 @@
  */
 #include "Particles.hh"
 #include "Types.hh"
+#include "Debug.hh"
 
 namespace boca
 {
@@ -25,6 +26,7 @@ std::string Name(Id id)
     case Id::top : return "t";
     case Id::bottom_partner : return "B";
     case Id::top_partner : return "T";
+    case Id::quark : return "q";
     case Id::electron : return "e";
     case Id::electron_neutrino : return "νe";
     case Id::muon : return "μ";
@@ -32,12 +34,15 @@ std::string Name(Id id)
     case Id::tau : return "τ";
     case Id::tau_neutrino : return "ντ";
     case Id::tau_partner : return "Tau";
-    case Id::tau_neutrino_partner : return "NuTau";
+    case Id::tau_neutrino_partner : return "νTau";
+    case Id::charged_lepton : return "l";
+    case Id::neutrino : return "ν";
     case Id::gluon : return "g";
     case Id::photon : return "gamma";
     case Id::Z : return "Z";
     case Id::W : return "W";
     case Id::higgs : return "h";
+    case Id::neutral_boson : return "B0";
     case Id::Z_partner : return "Z_2";
     case Id::Z_partner_2 : return "Z_3";
     case Id::W_partner : return "W_2";
@@ -83,7 +88,7 @@ std::string Name(Id id)
     case Id::proton : return "p";
     case Id::Delta_2 : return "Delta2";
     case Id::CP_violating_higgs : return "h";
-    default : return std::to_string(to_int(id));
+    Default(to_int(id), std::to_string(to_int(id)));
     }
 }
 
@@ -100,6 +105,7 @@ Mass MassOf(Id id)
     case Id::muon_neutrino : return massless;
     case Id::tau : return 1.776 * GeV;
     case Id::tau_neutrino : return massless;
+    case Id::neutrino : return massless;
     case Id::photon : return massless;
     case Id::Z : return 91.188 * GeV;
     case Id::W : return 80.39 * GeV;
@@ -112,8 +118,20 @@ Mass MassOf(Id id)
     case Id::neutron : return 1.00866 * GeV;
     case Id::proton : return 0.93827 * GeV;
     case Id::CP_violating_higgs : return MassOf(Id::higgs);
-    default : return massless;
+    Default(to_int(id),massless);
     }
+}
+
+std::vector<Id> MultiId(Id id){
+  switch(id){
+    case Id::neutrino : return {Id::electron_neutrino, Id::muon_neutrino, Id::tau_neutrino};
+    case Id::charged_lepton : return {Id::electron, Id::muon, Id::tau};
+    case Id::quark : return {Id::up, Id::down, Id::strange, Id::charm, Id::bottom, Id::top};
+    case Id::neutral_boson : return {Id::higgs, Id::CP_violating_higgs, Id::Z
+//       , Id::W
+    };
+    Default(to_int(id),{});
+  }
 }
 
 }

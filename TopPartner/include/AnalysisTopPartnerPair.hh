@@ -41,7 +41,7 @@ protected:
 //         return "Naturalness-Pair";
 //     }
 
-    void SetFiles(Tag tag) final {
+    void SetFiles(Tag tag, Stage) final {
         Info();
         switch (tag) {
         case Tag::signal :

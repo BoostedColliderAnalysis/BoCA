@@ -23,9 +23,11 @@ enum class Process
     tt, tt_lep, tt_had, hh, hh_bb, zz, zz_bb, ww, bb, cc, qq, gg
 };
 
-std::string Name(Process process);
+std::string ProcessName(Process process);
 
 std::string NiceName(Process process);
+
+std::string Name(Process process);
 
 
 enum class Collider
@@ -58,7 +60,9 @@ protected:
     }
 
     long EventNumberMax() const override {
+        return 10000;
         return 1000;
+        return 500;
         return 5000;
         return 100;
     }
@@ -110,7 +114,7 @@ protected:
     }
 
     std::string FileName(Process process) const {
-        return Name(process) + "_" + boca::Name(MadGraphCut());
+        return ProcessName(process) + "_" + boca::Name(MadGraphCut());
     }
 
     std::string FilePath() const final {

@@ -185,8 +185,8 @@ void Log(std::string const& file, int line, std::string const& name_space, std::
 
 
 
-#define Default(name) default : Error("Switch Default", name); break;
-#define Default(name, value) default : Error("Switch Default", name); return value;
+#define Default(condition) default : Error("Switch Default", condition); break;
+#define Default(condition, value) default : Error("Switch Default", condition); return value;
 
 
 

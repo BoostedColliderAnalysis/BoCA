@@ -23,35 +23,36 @@ public:
 
     AnalysisBoson() {
         this->set_tagger_analysis_name(ProjectName());
-        this->pre_cuts().SetPtLowerCut(Id::higgs, this->LowerPtCut());
-        this->pre_cuts().SetPtUpperCut(Id::higgs, this->UpperPtCut());
+        this->pre_cuts().SetPtLowerCut(Id::neutral_boson, this->LowerPtCut());
+        this->pre_cuts().SetPtUpperCut(Id::neutral_boson, this->UpperPtCut());
         this->pre_cuts().SetPtLowerCut(Id::bottom, this->LowerPtCut() / 5.);
         this->pre_cuts().SetPtUpperCut(Id::bottom, this->UpperPtCut() / 5.);
-        this->pre_cuts().SetMassUpperCut(Id::higgs, 250. * GeV);
-        this->pre_cuts().SetTrackerMaxEta(Id::higgs, DetectorGeometry::TrackerEtaMax());
+        this->pre_cuts().SetMassUpperCut(Id::neutral_boson, 250. * GeV);
+        this->pre_cuts().SetTrackerMaxEta(Id::neutral_boson, DetectorGeometry::TrackerEtaMax());
         this->pre_cuts().SetTrackerMaxEta(Id::bottom, DetectorGeometry::TrackerEtaMax());
     }
 
 private:
 
     std::string ProjectName() const final {
-        return  Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut());
+        return  Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "big";
     }
 
-    void SetFiles(Tag tag) final {
+    void SetFiles(Tag tag, Stage stage) final {
         switch (tag) {
         case Tag::signal :
             this->NewFile(tag, Process::hh_bb);
             if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::zz);
-            if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::ww);
+//             if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::ww);
             if (this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::bb);
             if (this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_had);
             if (this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_lep);
             break;
         case Tag::background :
-          if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_had);
-          if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_lep);
-          if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::bb);
+            if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_had);
+            if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_lep);
+            if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::bb);
+            if(stage == Stage::reader) this->NewFile(tag, Process::ww);
             this->NewFile(tag, Process::cc);
             this->NewFile(tag, Process::qq);
             this->NewFile(tag, Process::gg);

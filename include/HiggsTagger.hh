@@ -39,13 +39,13 @@ public:
 
     Jets Particles(Event const& event) const;
 
-protected:
-
 private:
+
+    std::vector<Doublet> Doublets(Event const& event, std::function<Doublet(Doublet &)> const& function) const;
 
     Doublet Multiplet(Doublet& doublet, Jets const& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    Doublet CheckDoublet(boca::Doublet doublet, const boca::PreCuts& pre_cuts, boca::Tag tag) const;
+    Doublet CheckDoublet(Doublet & doublet, Jets const& leptons, PreCuts const& pre_cuts, Tag tag) const;
 
     bool Problematic(Doublet const& doublet, PreCuts const& pre_cuts, Tag tag) const;
 
