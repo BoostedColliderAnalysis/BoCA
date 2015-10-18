@@ -37,7 +37,7 @@ protected:
     std::string ProjectName() const final {
         Info();
         return "Naturalness-Single-Hadronic-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass())
-               + "-externalveto";
+               + "-new-bosons";
 //         + "-problems";
 //         + "-wrong";
 //         + "-full";

@@ -25,24 +25,19 @@ public:
 
     std::vector<Doublet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    int SaveBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final {
-        return SaveEntries(Multiplets(event, pre_cuts, reader), 2);
-    }
+    int SaveBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
 
-    auto Multiplets(Event const& event, TMVA::Reader const& reader) const {
-        PreCuts pre_cuts;
-        return Multiplets(event, pre_cuts, reader);
-    }
+    auto Multiplets(Event const& event, TMVA::Reader const& reader) const;
 
-    std::string Name() const final {
-        return "ZHadronic";
-    }
+    std::string Name() const final;
 
-    std::string NiceName() const final {
-        return "Z";
-    }
+    std::string NiceName() const final;
 
 private:
+
+    std::vector<Doublet> Doublets(Event const& event, std::function<Doublet(Doublet&)> function) const;
+
+    Jets Particles(Event const& event) const;
 
     bool Problematic(Doublet const& doublet, PreCuts const& pre_cuts, Tag tag) const;
 

@@ -33,7 +33,7 @@ Doublet BosonTagger::CheckDoublet(Doublet doublet, PreCuts const& pre_cuts, Tag 
     return doublet;
 }
 
-std::vector<Doublet> BosonTagger::Doublets(Event const& event, std::function<Doublet(Doublet &)> const& function) const
+std::vector<Doublet> BosonTagger::Doublets(Event const& event, std::function<Doublet(Doublet&)> const& function) const
 {
     Info();
     Jets jets =  bottom_reader_.Multiplets(event);
@@ -69,8 +69,7 @@ bool BosonTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts, T
     switch (tag) {
     case Tag::signal :
         if (pre_cuts.NotParticleRho(doublet)) return true;
-//         if (boost::units::abs(doublet.Mass() - (MassOf(Id::higgs) + MassOf(Id::W)) / 2.) > boson_mass_window) return true;
-//         if ((doublet.Rho() > 2 || doublet.Rho() < 0.5) && doublet.Rho() > 0) return true;
+        if (boost::units::abs(doublet.Mass() - (MassOf(Id::Z) + MassOf(Id::higgs)) / 2.) > boson_mass_window) return true;
         break;
     case Tag::background :
         break;
@@ -82,8 +81,6 @@ bool BosonTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts) c
 {
     Info();
     if (pre_cuts.ApplyCuts(Id::neutral_boson, doublet)) return true;
-//     if (doublet.Jet().user_info<JetInfo>().VertexNumber() < 1) return true;
-//     if (doublet.Singlet1().Bdt() < 0 || doublet.Singlet2().Bdt() < 0) return true;
     return false;
 }
 
@@ -107,6 +104,16 @@ int BosonTagger::SaveBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Read
 {
     Info();
     return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
+}
+
+std::string BosonTagger::Name() const
+{
+    return "Boson";
+}
+
+std::string BosonTagger::NiceName() const
+{
+    return "B";
 }
 
 }

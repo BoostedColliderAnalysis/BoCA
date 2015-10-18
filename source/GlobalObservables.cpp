@@ -1,11 +1,13 @@
 /**
  * Copyright (C) 2015 Jan Hajer
  */
+// #include <numeric>
+#include <boost/range/numeric.hpp>
+
 #include "GlobalObservables.hh"
 #include "InfoRecombiner.hh"
 #include "Event.hh"
 #include "Debug.hh"
-#include <numeric>
 
 namespace boca {
 
@@ -47,9 +49,7 @@ int GlobalObservables::BottomNumber() const
 float GlobalObservables::BottomBdt() const
 {
     Info();
-    if (Jets().empty())
-        return 0;
-    return std::accumulate(jets_.begin(), jets_.end(), 0., [](float bdt, fastjet::PseudoJet const& jet) {
+    return boost::accumulate(jets_, 0., [](float bdt, fastjet::PseudoJet const& jet) {
         return bdt + jet.user_info<JetInfo>().Bdt();
     }) / JetNumber();
 }
@@ -81,9 +81,7 @@ float GlobalObservables::ScalarHt() const
 float GlobalObservables::LeptonHt() const
 {
     Info();
-    if (leptons_.empty())
-        return 0;
-    return std::accumulate(leptons_.begin(), leptons_.end(), 0., [](float ht, fastjet::PseudoJet const& lepton) {
+    return boost::accumulate(leptons_, 0., [](float ht, fastjet::PseudoJet const& lepton) {
         return ht + lepton.pt();
     });
 }
@@ -91,9 +89,7 @@ float GlobalObservables::LeptonHt() const
 float GlobalObservables::JetHt() const
 {
     Info();
-    if (Jets().empty())
-        return 0;
-    return std::accumulate(jets_.begin(), jets_.end(), 0., [](float ht, fastjet::PseudoJet const& jet) {
+    return boost::accumulate(jets_, 0., [](float ht, fastjet::PseudoJet const& jet) {
         return ht + jet.pt();
     });
 }

@@ -7,7 +7,8 @@
 #include "BranchTagger.hh"
 
 
-namespace boca {
+namespace boca
+{
 
 /**
  * @brief Derived Tagger class for bottom jets.
@@ -17,9 +18,12 @@ namespace boca {
  * @license GPL 3
  *
  */
-class BottomTagger : public BranchTagger<BottomBranch> {
+class BottomTagger : public BranchTagger<BottomBranch>
+{
 
 public:
+
+    BottomTagger();
 
     /**
      * @brief Train the bottom tagger with pre cuts
@@ -50,9 +54,13 @@ public:
      */
     Jets SubMultiplet(fastjet::PseudoJet const& jet, TMVA::Reader const& reader, int sub_jet_number) const;
 
-    std::string Name() const final { return "Bottom"; }
+    std::string Name() const final {
+        return "Bottom";
+    }
 
-    std::string NiceName() const final { return "b"; }
+    std::string NiceName() const final {
+        return "b";
+    }
 
 private:
 
@@ -73,6 +81,8 @@ private:
     Jets SubJets(Jets const& jets, int sub_jet_number) const;
 
     Jets TrainOnSubJets(Jets const& jets, PreCuts const& pre_cuts, Tag tag, int sub_jet_number) const;
+
+    Mass bottom_max_mass_;
 
 };
 

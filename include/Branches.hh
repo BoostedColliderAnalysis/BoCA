@@ -14,7 +14,7 @@ namespace boca
 class Obs
 {
 public:
-    Obs(float & value, std::string const& name, std::string const& nice_name="");
+    Obs(float& value, std::string const& name, std::string const& nice_name = "");
     float& value() const;
     std::string name() const;
     std::string nice_name() const;
@@ -364,8 +364,16 @@ class WHadronicBranch : public PairBranch
  * @brief Z tagger root tree structure
  *
  */
-class ZHadronicBranch : public PairBranch
+class ZHadronicBranch : public PairBranch, public BottomBase
 {
+public:
+    template<typename Multiplet>
+    void Fill(Multiplet const& multiplet) {
+        PairBranch::Fill(multiplet);
+        BottomBase::Fill(multiplet);
+    }
+    Observables Variables();
+    Observables Spectators();
     ClassDef(ZHadronicBranch, 1)
 };
 

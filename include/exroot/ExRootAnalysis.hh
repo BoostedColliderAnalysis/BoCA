@@ -3,14 +3,17 @@
  */
 #pragma once
 
+#include <functional>
+
+#include "TClonesArray.h"
+
 #include "ExRootAnalysis/ExRootClasses.h"
 #include "ExRootAnalysis/ExRootTreeWriter.h"
 #include "ExRootAnalysis/ExRootTreeReader.h"
 #include "ExRootAnalysis/ExRootTreeBranch.h"
 #include "ExRootAnalysis/ExRootProgressBar.h"
+
 #include "Types.hh"
-#include "TClonesArray.h"
-#include <functional>
 
 /**
  * @brief ExRoot

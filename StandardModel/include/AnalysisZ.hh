@@ -1,6 +1,7 @@
 #pragma once
 
 #include "AnalysisStandardModel.hh"
+#include "ZHadronicTagger.hh"
 
 namespace boca
 {
@@ -25,38 +26,44 @@ public:
         this->set_tagger_analysis_name(ProjectName());
         this->pre_cuts().PtLowerCut().Set(Id::Z, this->LowerPtCut());
         this->pre_cuts().PtUpperCut().Set(Id::Z, this->UpperPtCut());
-        this->pre_cuts().MassUpperCut().Set(Id::Z, 200. * GeV);
-        //     pre_cuts().TrackerMaxEta().Set(Id::Z, DetectorGeometry::TrackerEtaMax);
+//         this->pre_cuts().MassUpperCut().Set(Id::Z, 200. * GeV);
+        this->pre_cuts().TrackerMaxEta().Set(Id::Z, DetectorGeometry::TrackerEtaMax());
     }
 
 private:
 
     std::string ProjectName() const final {
-        return  "ZTagger-" + Name(this->collider_type()) + "-" + boca::Name(this->PreCut()) + "-jan";
+        return Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-like-higgs-wo-w";
     }
 
 
-    void SetFiles(Tag tag, Stage) final {
+    void SetFiles(Tag tag, Stage stage) final {
         switch (tag) {
         case Tag::signal :
-            this->NewFile(tag, Process::zz);
+            if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::zz);
+            if (this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::bb);
+            if (this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_had);
+            if (this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_lep);
+            if (this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::hh);
             break;
         case Tag::background :
-            this->NewFile(tag, Process::tt_had);
-            this->NewFile(tag, Process::tt_lep);
-            this->NewFile(tag, Process::hh);
-            this->NewFile(tag, Process::ww);
-            this->NewFile(tag, Process::bb);
-            this->NewFile(tag, Process::cc);
+            if(stage == Stage::reader)
+          this->NewFile(tag, Process::ww);
             this->NewFile(tag, Process::qq);
             this->NewFile(tag, Process::gg);
+            this->NewFile(tag, Process::cc);
+            if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_had);
+            if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::hh_bb);
+            if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::bb);
+            if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_lep);
             break;
         }
     }
     int PassPreCut(Event const& event, Tag) const final {
-        Jets particles = fastjet::sorted_by_pt(event.Partons().GenParticles());
-        if ((particles.at(0).pt() > this->LowerQuarkCut() / GeV && particles.at(0).pt() < this->UpperQuarkCut() / GeV) && (particles.at(1).pt() > this->LowerQuarkCut() / GeV &&  particles.at(1).pt() < this->UpperQuarkCut() / GeV)) return 1;
-        return 0;
+        return 1;
+//         Jets particles = fastjet::sorted_by_pt(event.Partons().GenParticles());
+//         if ((particles.at(0).pt() > this->LowerQuarkCut() / GeV && particles.at(0).pt() < this->UpperQuarkCut() / GeV) && (particles.at(1).pt() > this->LowerQuarkCut() / GeV &&  particles.at(1).pt() < this->UpperQuarkCut() / GeV)) return 1;
+//         return 0;
     }
 
 };

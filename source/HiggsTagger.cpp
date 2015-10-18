@@ -4,6 +4,7 @@
 #include "fastjet/tools/MassDropTagger.hh"
 #include "fastjet/tools/Filter.hh"
 
+#include "Doublet.hh"
 #include "Event.hh"
 #include "Types.hh"
 #include "JetInfo.hh"
@@ -58,7 +59,7 @@ Jets HiggsTagger::Particles(Event const& event) const
     return CopyIfParticles(event.Partons().GenParticles(), Id::higgs, Id::CP_violating_higgs);
 }
 
-Doublet HiggsTagger::CheckDoublet(Doublet& doublet, Jets const& leptons, PreCuts const& pre_cuts, Tag tag) const
+Doublet HiggsTagger::CheckDoublet(Doublet& doublet, Jets & leptons, PreCuts const& pre_cuts, Tag tag) const
 {
     Info();
     doublet = PrepareDoublet(doublet, leptons , pre_cuts);
@@ -67,7 +68,7 @@ Doublet HiggsTagger::CheckDoublet(Doublet& doublet, Jets const& leptons, PreCuts
     return doublet;
 }
 
-Doublet HiggsTagger::PrepareDoublet(Doublet& doublet, Jets const& leptons, PreCuts const& pre_cuts) const
+Doublet HiggsTagger::PrepareDoublet(Doublet& doublet, Jets & leptons, PreCuts const& pre_cuts) const
 {
     Info();
     //     doublet = MassDrop(doublet);
@@ -83,8 +84,7 @@ bool HiggsTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts, T
     switch (tag) {
     case Tag::signal :
         if (pre_cuts.NotParticleRho(doublet)) return true;
-//         if (std::abs(doublet.Mass() - Mass(Id::higgs)) > higgs_mass_window) return true;
-//         if (doublet.Jet().user_info<JetInfo>().VertexNumber() < 1) return true;
+        if (boost::units::abs(doublet.Mass() - MassOf(Id::higgs)) > higgs_mass_window) return true;
 //         if (doublet.Singlet1().Bdt() < 0 || doublet.Singlet2().Bdt() < 0) return true;
         break;
     case Tag::background :
@@ -109,7 +109,7 @@ std::vector<Doublet> HiggsTagger::Multiplets(Event const& event, PreCuts const& 
     }));
 }
 
-Doublet HiggsTagger::Multiplet(Doublet& doublet, Jets const& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
+Doublet HiggsTagger::Multiplet(Doublet& doublet, Jets & leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
     Info();
     doublet = PrepareDoublet(doublet, leptons, pre_cuts);
@@ -145,6 +145,21 @@ Doublet HiggsTagger::MassDrop(Doublet const& doublet) const
     Jets pieces = fastjet::sorted_by_pt(filtered_jet.pieces());
     if (pieces.size() < 2) throw Empty();
     return Doublet(bottom_reader_.Multiplet(pieces.at(0)), bottom_reader_.Multiplet(pieces.at(1)));
+}
+
+int HiggsTagger::SaveBdt(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const
+{
+    return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
+}
+
+std::string HiggsTagger::Name() const
+{
+    return "Higgs";
+}
+
+std::string HiggsTagger::NiceName() const
+{
+    return "h";
 }
 
 }

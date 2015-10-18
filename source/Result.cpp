@@ -3,6 +3,9 @@
  */
 #include "Result.hh"
 
+#include <boost/range/algorithm/min_element.hpp>
+#include <boost/range/algorithm/max_element.hpp>
+
 #include "Types.hh"
 #include "DetectorGeometry.hh"
 #include "Math.hh"
@@ -135,11 +138,11 @@ void Results::ExtremeXValues()
 {
     Info();
     for (auto const & result : backgrounds) {
-        float min_0 = *std::min_element(result.bdt.begin(), result.bdt.end());
+        float min_0 = *boost::range::min_element(result.bdt);
         if (min_0 < min.x) min.x = min_0;
     }
     for (auto const & result : signals) {
-        float max_0 = *std::max_element(result.bdt.begin(), result.bdt.end());
+        float max_0 = *boost::range::max_element(result.bdt);
         if (max_0 > max.x) max.x = max_0;
     }
 }

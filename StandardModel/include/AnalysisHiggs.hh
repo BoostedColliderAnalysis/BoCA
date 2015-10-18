@@ -35,7 +35,7 @@ public:
 private:
 
     std::string ProjectName() const final {
-        return Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-large-remove-cuts-and-pre-cut";
+        return Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-large-6";
     }
 
     void SetFiles(Tag tag, Stage) final {
@@ -43,28 +43,28 @@ private:
         case Tag::signal :
             this->NewFile(tag, Process::hh_bb);
             if (this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::bb);
-            if (this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_had);
             if (this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_lep);
+            if (this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_had);
             break;
         case Tag::background :
-            if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::bb);
-            if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_had);
-            if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_lep);
             this->NewFile(tag, Process::zz);
-            this->NewFile(tag, Process::ww);
+            if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_had);
+            this->NewFile(tag, Process::gg);
+            if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::bb);
             this->NewFile(tag, Process::cc);
             this->NewFile(tag, Process::qq);
-            this->NewFile(tag, Process::gg);
+            this->NewFile(tag, Process::ww);
+            if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_lep);
             break;
         }
     }
 
     int PassPreCut(Event const& event, Tag) const final {
+          return 1;
 //         Jets jets = fastjet::sorted_by_pt(event.Hadrons().Jets());
 //         if (jets.size() < 2) return 0;
 //         if ((jets.at(0).pt() > this->LowerPtCut() / GeV && jets.at(0).pt() < this->UpperPtCut() / GeV) &&
-//           (jets.at(1).pt() > this->LowerPtCut() / GeV && jets.at(1).pt() < this->UpperPtCut() / GeV))
-          return 1;
+//           (jets.at(1).pt() > this->LowerPtCut() / GeV && jets.at(1).pt() < this->UpperPtCut() / GeV)) return 1;
         return 0;
     }
 

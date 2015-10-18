@@ -5,9 +5,9 @@
 
 #include <typeinfo>
 
-#include "AnalysisBase.hh"
-#include "Reader.hh"
 #include "Trees.hh"
+#include "Reader.hh"
+#include "AnalysisBase.hh"
 #include "File.hh"
 // #define DEBUG
 #include "Debug.hh"
@@ -50,14 +50,10 @@ public:
             ClearFiles();
             SetFiles(tag, stage);
             for (auto & file : this->files(tag)) {
-                Info("in file loop");
                 files.set_file(file);
                 AnalyseFile(files, reader);
-                Info("file analysed");
             }
-            Info("file loop finished");
         }
-        Info("tag loop finished");
     }
 
 protected:
@@ -181,3 +177,6 @@ private:
 };
 
 }
+
+
+

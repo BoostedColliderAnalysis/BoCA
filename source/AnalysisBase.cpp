@@ -1,7 +1,6 @@
 /**
  * Copyright (C) 2015 Jan Hajer
  */
-#include "AnalysisBase.hh"
 
 #include <sys/stat.h>
 #include <fstream>
@@ -10,6 +9,7 @@
 
 #include "exroot/ExRootAnalysis.hh"
 
+#include "AnalysisBase.hh"
 #include "Branches.hh"
 #include "File.hh"
 #include "Plotting.hh"

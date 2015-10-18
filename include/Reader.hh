@@ -3,10 +3,11 @@
  */
 #pragma once
 
+#include "TMVA/Reader.h"
+
 #include "Tagger.hh"
 #include "PreCuts.hh"
 #include "Options.hh"
-#include "TMVA/Reader.h"
 
 namespace boca
 {

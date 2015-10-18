@@ -4,8 +4,8 @@
 #include "Vector.hh"
 
 #include <boost/range/algorithm_ext/erase.hpp>
-// #include <boost/range/algorithm/copy.hpp>
-// #include <boost/range/adaptors.hpp>
+#include <boost/range/algorithm/copy.hpp>
+#include <boost/range/adaptors.hpp>
 
 #include "Types.hh"
 #include "ParticleInfo.hh"
@@ -47,29 +47,22 @@ struct IsParticles {
 
 Jets CopyIfParticle(Jets const& jets, Id id)
 {
-    if (jets.empty()) return jets;
-    Jets final_jets(jets.size());
-    auto jet = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), IsParticle(id));
-    final_jets.resize(std::distance(final_jets.begin(), jet));
+    Jets final_jets;
+    boost::range::copy(jets | boost::adaptors::filtered(IsParticle(id)), std::back_inserter(final_jets));
     return final_jets;
-//     return boost::range::copy(jets, boost::adaptors::filtered(IsParticle(id)), final_jets);
 }
 
 Jets CopyIfParticles(Jets const& jets, Id id_1, Id id_2)
 {
-    if (jets.empty()) return jets;
-    Jets final_jets(jets.size());
-    auto iterator = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), IsParticle(id_1, id_2));
-    final_jets.resize(std::distance(final_jets.begin(), iterator));
+    Jets final_jets;
+    boost::range::copy(jets | boost::adaptors::filtered(IsParticle(id_1, id_2)), std::back_inserter(final_jets));
     return final_jets;
 }
 
 Jets CopyIfParticles(Jets const& jets, std::vector<Id> ids)
 {
-    if (jets.empty()) return jets;
-    Jets final_jets(jets.size());
-    auto iterator = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), IsParticles(ids));
-    final_jets.resize(std::distance(final_jets.begin(), iterator));
+    Jets final_jets;
+    boost::range::copy(jets | boost::adaptors::filtered(IsParticles(ids)), std::back_inserter(final_jets));
     return final_jets;
 }
 
@@ -85,10 +78,8 @@ struct IsExactParticle {
 
 Jets CopyIfExactParticle(Jets const& jets, int id)
 {
-    if (jets.empty()) return jets;
-    Jets final_jets(jets.size());
-    auto iterator = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), IsExactParticle(id));
-    final_jets.resize(std::distance(final_jets.begin(), iterator));
+    Jets final_jets;
+    boost::range::copy(jets | boost::adaptors::filtered(IsExactParticle(id)), std::back_inserter(final_jets));
     return final_jets;
 }
 
@@ -99,27 +90,21 @@ Jets RemoveIfExactParticle(Jets jets, int id)
 
 Jets CopyIfNeutrino(Jets const& jets)
 {
-    if (jets.empty())
-        return jets;
-    Jets final_jets(jets.size());
-    auto jet = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), [](fastjet::PseudoJet const & jet) {
+    Jets final_jets;
+    boost::range::copy(jets | boost::adaptors::filtered([](fastjet::PseudoJet const & jet) {
         unsigned id = std::abs(jet.user_info<ParticleInfo>().Family().particle().id());
         return (id == to_unsigned(Id::electron_neutrino) || id == to_unsigned(Id::muon_neutrino) || id == to_unsigned(Id::tau_neutrino));
-    });
-    final_jets.resize(std::distance(final_jets.begin(), jet));
+    }), std::back_inserter(final_jets));
     return final_jets;
 }
 
 Jets CopyIfLepton(Jets const& jets)
 {
-    if (jets.empty())
-        return jets;
-    Jets final_jets(jets.size());
-    auto jet = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), [](fastjet::PseudoJet const & jet) {
+    Jets final_jets;
+    boost::range::copy(jets | boost::adaptors::filtered([](fastjet::PseudoJet const & jet) {
         unsigned id = std::abs(jet.user_info<ParticleInfo>().Family().particle().id());
         return (id == to_unsigned(Id::electron) || id == to_unsigned(Id::muon));
-    });
-    final_jets.resize(std::distance(final_jets.begin(), jet));
+    }), std::back_inserter(final_jets));
     return final_jets;
 }
 
@@ -132,14 +117,12 @@ Jets RemoveIfOutsidePtWindow(boca::Jets jets, Momentum lower_cut, Momentum upper
 
 Jets CopyIfFamily(Jets const& jets, Id id, Id mother_id)
 {
-    if (jets.empty()) return jets;
-    Jets final_jets(jets.size());
-    auto jet = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), [id, mother_id](fastjet::PseudoJet const & Jet) {
+    Jets final_jets;
+    boost::range::copy(jets | boost::adaptors::filtered([id, mother_id](fastjet::PseudoJet const & Jet) {
         unsigned particle = std::abs(Jet.user_info<ParticleInfo>().Family().particle().id());
         unsigned mother = std::abs(Jet.user_info<ParticleInfo>().Family().mother_1().id());
         return (particle == to_unsigned(id) && mother == to_unsigned(mother_id));
-    });
-    final_jets.resize(std::distance(final_jets.begin(), jet));
+    }), std::back_inserter(final_jets));
     return final_jets;
 }
 
@@ -171,10 +154,9 @@ struct HasMother {
 
 Jets CopyIfMother(Jets const& jets, Id mother_id)
 {
-    if (jets.empty()) return jets;
-    Jets final_jets(jets.size());
-    auto jet = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), HasMother(mother_id));
-    final_jets.resize(std::distance(final_jets.begin(), jet));
+
+    Jets final_jets;
+    boost::range::copy(jets | boost::adaptors::filtered(HasMother(mother_id)), std::back_inserter(final_jets));
     return final_jets;
 }
 Jets RemoveIfMother(Jets jets, Id mother_id)
@@ -184,25 +166,23 @@ Jets RemoveIfMother(Jets jets, Id mother_id)
 
 Jets CopyIfGrandMother(Jets const& jets, Id grand_mother_id)
 {
-    if (jets.empty()) return jets;
-    Jets final_jets(jets.size());
-    auto jet = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), [&](fastjet::PseudoJet const & jet) {
+
+    Jets final_jets;
+    boost::range::copy(jets | boost::adaptors::filtered([&](fastjet::PseudoJet const & jet) {
         unsigned grand_mother = std::abs(jet.user_info<ParticleInfo>().Family().grand_mother().id());
         return grand_mother == to_unsigned(grand_mother_id);
-    });
-    final_jets.resize(std::distance(final_jets.begin(), jet));
+    }), std::back_inserter(final_jets));
     return final_jets;
 }
 
 Jets CopyIfGrandGrandMother(Jets const& jets, Id grand_grand_mother_id)
 {
-    if (jets.empty()) return jets;
-    Jets final_jets(jets.size());
-    auto jet = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), [&](fastjet::PseudoJet const & jet) {
+
+    Jets final_jets;
+    boost::range::copy(jets | boost::adaptors::filtered([&](fastjet::PseudoJet const & jet) {
         unsigned grand_grand_mother = std::abs(jet.user_info<ParticleInfo>().Family().grand_grand_mother().id());
         return grand_grand_mother == to_unsigned(grand_grand_mother_id);
-    });
-    final_jets.resize(std::distance(final_jets.begin(), jet));
+    }), std::back_inserter(final_jets));
     return final_jets;
 }
 
@@ -245,10 +225,10 @@ Jets RemoveIfQuark(Jets jets)
 
 Jets CopyIfQuark(Jets const& jets)
 {
-    if (jets.empty()) return jets;
-    Jets final_jets(jets.size());
-    auto jet = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), IsQuark());
-    final_jets.resize(std::distance(final_jets.begin(), jet));
+
+    Jets final_jets;
+    boost::range::copy(jets | boost::adaptors::filtered(IsQuark()), std::back_inserter(final_jets));
+
     return final_jets;
 }
 
@@ -261,10 +241,10 @@ struct Is5Quark {
 
 Jets CopyIf5Quark(Jets const& jets)
 {
-    if (jets.empty()) return jets;
-    Jets final_jets(jets.size());
-    auto jet = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), Is5Quark());
-    final_jets.resize(std::distance(final_jets.begin(), jet));
+
+    Jets final_jets;
+    boost::range::copy(jets | boost::adaptors::filtered(Is5Quark()), std::back_inserter(final_jets));
+
     return final_jets;
 }
 

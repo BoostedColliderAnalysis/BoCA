@@ -18,7 +18,7 @@ class Doublet;
  * @license GPL 3
  *
  */
-class BosonTagger : public BranchTagger<PairBranch> {
+class BosonTagger : public BranchTagger<ZHadronicBranch> {
 
 public:
 
@@ -30,17 +30,11 @@ public:
 
     int SaveBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
 
-    std::string Name() const final {
-        return "Boson";
-    }
+    std::string Name() const final;
 
-    std::string NiceName() const final {
-      return "B";
-    }
+    std::string NiceName() const final;
 
     Doublet Multiplet(boca::Doublet& doublet, const boca::PreCuts& pre_cuts, const TMVA::Reader& reader) const;
-
-protected:
 
 private:
 

@@ -44,7 +44,7 @@ enum class Id
     Z = 23,
     W = 24,
     higgs = 25, ///< Higgs boson
-    neutral_boson = 26, ///< Higgs boson
+    neutral_boson = 26, ///< Multi particle containing neutral bosons
     Z_partner = 32,
     Z_partner_2 = 33,
     W_partner = 34,

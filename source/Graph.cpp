@@ -1,5 +1,8 @@
 # include "Graph.hh"
 
+#include <boost/range/algorithm/min_element.hpp>
+#include <boost/range/algorithm/max_element.hpp>
+
 #include "THStack.h"
 #include "TLegendEntry.h"
 #include "TList.h"
@@ -48,7 +51,7 @@ TLegend Legend(Point const& min, float width, float height, std::string const& t
 
 TLegend Legend(Orientation orientation, Strings const& entries, std::string const& title)
 {
-    int letters = std::max_element(entries.begin(), entries.end(), [](std::string const & entry_1, std::string const & entry_2) {
+    int letters = boost::range::max_element(entries, [](std::string const & entry_1, std::string const & entry_2) {
         return entry_1.size() < entry_2.size();
     })->size();
     float letter_width = 0.01;
@@ -155,10 +158,10 @@ void SetHistogram(TH2& histogram, Plot const& plot, EColor color, TExec& exec)
 void SetProfile(TH2& histogram, Plot const& signal, Plot const& background)
 {
     Info();
-    float max = (*std::max_element(signal.points.begin(), signal.points.end(), [](Point const & a, Point const & b) {
+    float max = (*boost::range::max_element(signal.points, [](Point const & a, Point const & b) {
         return a.z < b.z;
     })).z;
-    float min = (*std::min_element(background.points.begin(), background.points.end(), [](Point const & a, Point const & b) {
+    float min = (*boost::range::min_element(background.points, [](Point const & a, Point const & b) {
         return a.z < b.z;
     })).z;
     for (auto const & point : signal.points) histogram.Fill(point.x, point.y, point.z);

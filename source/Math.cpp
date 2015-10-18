@@ -4,6 +4,7 @@
 #include "Math.hh"
 
 #include <cmath>
+#include <boost/range/algorithm/min_element.hpp>
 
 #include "Debug.hh"
 
@@ -82,12 +83,11 @@ float RoundToError(float value, float error)
     float factor = std::pow(10.0, 2 - std::ceil(std::log10(std::abs(error))));
     return std::round(value * factor) / factor;
 }
+
 Crosssection min(std::vector< Crosssection > vector, bool truncate)
 {
-    if (truncate) {
-        vector.erase(std::remove(vector.begin(), vector.end(), 0.*fb), vector.end());
-    }
-    return *std::min_element(vector.begin(), vector.end());
+    if (truncate) vector.erase(std::remove(vector.begin(), vector.end(), 0. * fb), vector.end());
+    return *boost::range::min_element(vector);
 }
 
 }

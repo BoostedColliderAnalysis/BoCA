@@ -305,6 +305,16 @@ Observables TripletJetPairBranch::Variables()
     return Join(PairBranch::Variables(), {PAIR(BottomPt), PAIR(BottomRap), PAIR(BottomPhi), PAIR(BottomMass), PAIR(TopPt), PAIR(TopRap), PAIR(TopPhi), PAIR(TopMass), PAIR(TopBdt)});
 }
 
+Observables ZHadronicBranch::Variables()
+{
+  return Join(PairBranch::Variables(), BottomBase::Variables());
+}
+
+Observables ZHadronicBranch::Spectators()
+{
+  return Join(PairBranch::Spectators(), BottomBase::Spectators());
+}
+
 WSemiBranch::WSemiBranch()
 {
     NeutrinoPt = InitialValue();

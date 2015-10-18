@@ -98,12 +98,12 @@ int Canvas::ColorCode(int number)
     case 4 : return kPink + 1;
     case 5 : return kViolet;
     case 6 : return kOrange;
-    case 7 : return kYellow - 9;
-    case 8 : return kSpring - 5;
-    case 9 : return kGreen + 3;
-    case 10 : return kCyan - 3;
-    case 11 : return kMagenta - 3;
-    case 12 : return kAzure;
+    case 7 : return kGreen + 3;
+    case 8 : return kCyan - 3;
+    case 9 : return kMagenta - 3;
+    case 10 : return kAzure;
+    case 11 : return kYellow - 9;
+    case 12 : return kSpring - 5;
     case 13 : return kGray;
     default : return kBlack;
   }

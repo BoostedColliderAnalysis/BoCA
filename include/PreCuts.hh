@@ -5,6 +5,7 @@
 
 #include "PreCut.hh"
 #include "fastjet/PseudoJet.hh"
+#include "Debug.hh"
 
 namespace boca
 {
@@ -57,11 +58,11 @@ public:
 
     template <typename Multiplet>
     bool OutsideTracker(Id id, Multiplet const& multiplet) const {
-        return tracker_eta_upper_cut_.IsSet(id) && tracker_eta_upper_cut_.Get(id) < multiplet.Jet().rap();
+        return tracker_eta_upper_cut_.IsSet(id) && tracker_eta_upper_cut_.Get(id) < std::abs(multiplet.Jet().rap());
     }
 
     bool OutsideTracker(Id id, fastjet::PseudoJet const& jet) const {
-        return tracker_eta_upper_cut_.IsSet(id) && tracker_eta_upper_cut_.Get(id) > jet.rap();
+        return tracker_eta_upper_cut_.IsSet(id) && tracker_eta_upper_cut_.Get(id) < std::abs(jet.rap());
     }
 
     template <typename Multiplet>
@@ -82,24 +83,24 @@ public:
         return multiplet.Rho() > 0 && (multiplet.Rho() < min || multiplet.Rho() > max);
     }
 
-    PreCut<Momentum> & PtLowerCut(){
-      return pt_lower_cut_;
+    PreCut<Momentum>& PtLowerCut() {
+        return pt_lower_cut_;
     }
 
-    PreCut<Momentum> & PtUpperCut(){
-      return pt_upper_cut_;
+    PreCut<Momentum>& PtUpperCut() {
+        return pt_upper_cut_;
     }
 
-    PreCut<Mass> & MassLowerCut(){
-      return mass_lower_cut_;
+    PreCut<Mass>& MassLowerCut() {
+        return mass_lower_cut_;
     }
 
-    PreCut<Mass> & MassUpperCut(){
-      return mass_upper_cut_;
+    PreCut<Mass>& MassUpperCut() {
+        return mass_upper_cut_;
     }
 
-    PreCut<float> & TrackerMaxEta(){
-      return tracker_eta_upper_cut_;
+    PreCut<float>& TrackerMaxEta() {
+        return tracker_eta_upper_cut_;
     }
 
 private:

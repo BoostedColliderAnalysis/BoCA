@@ -35,7 +35,7 @@ public:
 private:
 
     std::string ProjectName() const final {
-        return  Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-no-pre";
+        return  Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-large";
     }
 
     void SetFiles(Tag tag, Stage stage) final {
@@ -49,24 +49,25 @@ private:
             if (this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_lep);
             break;
         case Tag::background :
-            if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_had);
             if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_lep);
+            if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_had);
             if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::bb);
-            if(stage == Stage::reader) this->NewFile(tag, Process::ww);
+            this->NewFile(tag, Process::gg);
             this->NewFile(tag, Process::cc);
             this->NewFile(tag, Process::qq);
-            this->NewFile(tag, Process::gg);
+            if(stage == Stage::reader) this->NewFile(tag, Process::ww);
             break;
         }
 
     }
 
     int PassPreCut(Event const& event, Tag) const final {
-        Jets jets = fastjet::sorted_by_pt(event.Hadrons().Jets());
-        if (jets.empty()) return 0;
-        if (jets.front().pt() < this->LowerPtCut() / GeV) return 0;
-        Jets particles = fastjet::sorted_by_pt(event.Partons().GenParticles());
-        if ((particles.at(0).pt() > this->LowerQuarkCut() / GeV && particles.at(0).pt() < this->UpperQuarkCut() / GeV) && (particles.at(1).pt() > this->LowerQuarkCut() / GeV &&  particles.at(1).pt() < this->UpperQuarkCut() / GeV)) return 1;
+          return 1;
+//         Jets jets = fastjet::sorted_by_pt(event.Hadrons().Jets());
+//         if (jets.empty()) return 0;
+//         if (jets.front().pt() < this->LowerPtCut() / GeV) return 0;
+//         Jets particles = fastjet::sorted_by_pt(event.Partons().GenParticles());
+//         if ((particles.at(0).pt() > this->LowerQuarkCut() / GeV && particles.at(0).pt() < this->UpperQuarkCut() / GeV) && (particles.at(1).pt() > this->LowerQuarkCut() / GeV &&  particles.at(1).pt() < this->UpperQuarkCut() / GeV)) return 1;
         return 0;
     }
 

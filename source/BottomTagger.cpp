@@ -6,10 +6,17 @@
 #include "Event.hh"
 #include "Vector.hh"
 #include "PreCuts.hh"
+// #define INFORMATION
 #include "Debug.hh"
 
 namespace boca
 {
+
+BottomTagger::BottomTagger()
+{
+    Info();
+    bottom_max_mass_ = 75. * GeV;
+}
 
 int BottomTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Tag tag) const
 {
@@ -36,24 +43,29 @@ Jets BottomTagger::Particles(Event const& event) const
     return bottoms;
 }
 
-bool BottomTagger::Problematic(fastjet::PseudoJet const& jet, PreCuts const& pre_cuts, const Tag) const
+bool BottomTagger::Problematic(fastjet::PseudoJet const& jet, PreCuts const& pre_cuts, Tag tag) const
 {
     Info();
     if (Problematic(jet, pre_cuts)) return true;
-//     if (tag == Tag::signal && jet.user_info<JetInfo>().SumDisplacement() == 0) return true;
-    //     if (jet.user_info<JetInfo>().Tag() != tag) return true;
+    if (jet.m() * GeV > bottom_max_mass_) return true;
+    if (std::abs(jet.rap()) > DetectorGeometry::TrackerEtaMax()) return true;
+
+    switch (tag) {
+    case Tag::signal :
+        if (jet.user_info<JetInfo>().SumDisplacement() == 0) return true;
+        //     if (jet.user_info<JetInfo>().Tag() != tag) return true;
+        break;
+    case Tag::background : break;
+    }
     return false;
 }
 
 bool BottomTagger::Problematic(fastjet::PseudoJet const& jet, PreCuts const& pre_cuts) const
 {
     Info();
-    if (!jet.has_user_info<JetInfo>()) return true;
+//     if (!jet.has_user_info<JetInfo>()) return true;
     if (pre_cuts.ApplyCuts(Id::bottom, jet)) return true;
-//     if (pre_cuts.PtLowerCut(Id::bottom) > at_rest && jet.pt() < pre_cuts.PtLowerCut(Id::bottom) / GeV) return true;
-//     if (pre_cuts.PtUpperCut(Id::bottom) > at_rest && jet.pt() > pre_cuts.PtUpperCut(Id::bottom) / GeV) return true;
-    if (std::abs(jet.rap()) > DetectorGeometry::TrackerEtaMax()) return true;
-    if (jet.m() < 0) return true;
+//     if (jet.m() < 0) return true;
     return false;
 }
 
@@ -96,8 +108,7 @@ Jets BottomTagger::Multiplets(boca::Jets const& jets, boca::PreCuts const& pre_c
     Info();
     Jets final_jets;
     for (auto const & jet : jets) {
-        if (Problematic(jet, pre_cuts))
-            continue;
+        if (Problematic(jet, pre_cuts)) continue;
         final_jets.emplace_back(Multiplet(jet, reader));
     }
     return final_jets;
