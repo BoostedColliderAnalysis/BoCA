@@ -1,6 +1,6 @@
 # Readme
 
-This code performs BDT analyses based on root files originating from MadGraph / Pythia / PGS / Delphes.
+This code performs staged BDT analyses using root files as in- and output format.
 
 ## Dependencies
 
