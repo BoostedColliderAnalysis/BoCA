@@ -50,7 +50,7 @@ protected:
     template<typename Multiplet>
     std::vector<Multiplet> ReduceResult(std::vector<Multiplet> multiplets, size_t max = 4) const {
         Info();
-        Check(multiplets.size()>=max, multiplets.size());
+        DebugCheck(multiplets.size()>=max, multiplets.size());
         if (multiplets.empty()) return multiplets;
         std::sort(multiplets.begin(), multiplets.end());
         multiplets.erase(multiplets.begin() + std::min(max, multiplets.size()), multiplets.end());

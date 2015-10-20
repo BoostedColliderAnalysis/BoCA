@@ -20,4 +20,5 @@
 #pragma link C++ class boca::BottomBase;
 #pragma link C++ class boca::BaseBranch;
 #pragma link C++ class boca::TauBranch;
+#pragma link C++ class boca::Color;
 #endif

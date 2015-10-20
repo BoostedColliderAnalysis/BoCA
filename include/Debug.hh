@@ -181,7 +181,7 @@ void Log(std::string const& file, int line, std::string const& name_space, std::
 #endif
 
 #define Check(condition, ...) if(!(condition)) { Error(__VA_ARGS__); }
-// #define DebugCheck(condition, ...) if(!(condition)) { Debug(__VA_ARGS__); }
+#define DebugCheck(condition, ...) if(!(condition)) { Debug(__VA_ARGS__); }
 
 
 
