@@ -83,6 +83,11 @@ public:
         return multiplet.Rho() > 0 && (multiplet.Rho() < min || multiplet.Rho() > max);
     }
 
+    template<typename Multiplet>
+    bool OutSideMassWindow(Multiplet const& multiplet, Mass mass_window, Id id) const {
+        return boost::units::abs(multiplet.Mass() - MassOf(id)) > mass_window;
+    }
+
     PreCut<Momentum>& PtLowerCut() {
         return pt_lower_cut_;
     }

@@ -42,6 +42,8 @@ public:
 
 private:
 
+    Jets Particles(Event const& event) const;
+
     std::vector<Quintet> Quintets(Event const& event, PreCuts const& pre_cuts, std::function<Quintet(Quintet&)> const& function) const;
 
     Reader<TopPartnerHadronicTagger> partner_reader_;

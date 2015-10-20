@@ -35,7 +35,7 @@ public:
 private:
 
     std::string ProjectName() const final {
-        return Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-large-6";
+        return Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-new-root-valgrind";
     }
 
     void SetFiles(Tag tag, Stage) final {

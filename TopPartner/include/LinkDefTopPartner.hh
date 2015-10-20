@@ -9,4 +9,5 @@
 #pragma link C++ class boca::naturalness::TopPartnerBranch;
 #pragma link C++ class boca::naturalness::HiggsPairBranch;
 #pragma link C++ class boca::naturalness::SignatureSingleBranch;
+#pragma link C++ class boca::naturalness::SignatureSingleHadronicBranch;
 #endif

@@ -33,7 +33,7 @@ int TopPartnerHadronicTagger::Train(Event const& event, PreCuts const&, Tag tag)
     int size = particles.size();
     std::string particle = "";
     if (size > 0) particle = boca::Name(particles.front().user_info<ParticleInfo>().Family().particle().id());
-    Error(size, particle);
+    Debug(size, particle);
     return SaveEntries(quintets, particles, tag);
 }
 
