@@ -1,6 +1,7 @@
 #include "AnalysisTop.hh"
 #include "TopHadronicTagger.hh"
 #include "TopLeptonicTagger.hh"
+#include "Debug.hh"
 
 int main()
 {

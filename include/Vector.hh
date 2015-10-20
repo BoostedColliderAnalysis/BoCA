@@ -59,6 +59,8 @@ Jets CopyIf5Quark(Jets const& jets);
 
 Jets RemoveIfSoft(Jets jets, Momentum pt_min);
 
+Jets RemoveIfHard(Jets jets, Momentum pt_max);
+
 struct Close {
     Close(fastjet::PseudoJet const& particle) {
         particle_ = particle;

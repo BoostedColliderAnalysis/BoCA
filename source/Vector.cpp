@@ -255,6 +255,13 @@ Jets RemoveIfSoft(Jets jets, Momentum pt_min)
     });
 }
 
+Jets RemoveIfHard(Jets jets, Momentum pt_max)
+{
+  return boost::range::remove_erase_if(jets, [&](fastjet::PseudoJet const & jet) {
+    return jet.pt() > pt_max / GeV;
+  });
+}
+
 }
 
 

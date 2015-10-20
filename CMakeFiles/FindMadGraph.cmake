@@ -4,10 +4,10 @@
 
 # set path to madgraph folder
 set(
-MadGraphDir
-~/Development/MadGraph
-~/madness/MadGraph
- /Users/jingren/HEP/MadGraph5_v1_5_14
+  MadGraphDir
+  ~/Development/MadGraph
+  ~/madness/MadGraph
+  ~/HEP/MadGraph5_v1_5_14
 )
 
 find_path(

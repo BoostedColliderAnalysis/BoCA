@@ -207,7 +207,7 @@ Doublet WHadronicTagger::SubMultiplet(fastjet::PseudoJet const& jet, PreCuts con
     Info();
     Jets pieces = bottom_reader_.SubMultiplet(jet, 2);
     Doublet doublet;
-    if (pieces.empty()) return doublet;
+    if (pieces.empty()) throw Empty();
     if (pieces.size() == 1) doublet.SetJet(jet);
     else doublet.SetMultiplets(pieces.at(0), pieces.at(1));
     try {

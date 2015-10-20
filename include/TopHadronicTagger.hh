@@ -23,12 +23,6 @@ public:
 
     int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
 
-    /**
-     * @brief Signed id of hadronic top, if 2 hadronic top with opposite charge are found 0 is returned
-     *
-     */
-    int TopHadronicId(Event const& event) const;
-
     int SaveBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final {
         return SaveEntries(Multiplets(event, pre_cuts, reader), 2);
     }
@@ -47,24 +41,20 @@ public:
 
 private:
 
-    boca::Triplet Triplet(Doublet const& doublet, fastjet::PseudoJet const& jet, Jets const& leptons, PreCuts const& pre_cuts, Tag tag, bool check_overlap = false) const;
+    boca::Triplet Triplet(Doublet const& doublet, fastjet::PseudoJet const& jet, Jets const& leptons, std::function<boca::Triplet(boca::Triplet&, Jets const&, bool&)> const& function, bool& failure, bool check_overlap = false) const;
 
-    boca::Triplet Triplet(boca::Triplet& triplet, boca::Jets const& leptons, boca::PreCuts const& pre_cuts, Tag tag) const;
+    boca::Triplet Triplet(boca::Triplet& triplet, boca::Jets const& leptons, PreCuts const& pre_cuts, Tag tag, bool& failure) const;
 
-    std::vector<boca::Triplet> Triplets(std::vector<Doublet> const& doublets, Jets const& jets, Jets const& leptons, PreCuts const& pre_cuts, Tag tag) const;
+    std::vector<boca::Triplet> Triplets(Event const& event, PreCuts const& pre_cuts, std::function<boca::Triplet(boca::Triplet&, Jets const&, bool&)> const& function) const;
 
-    std::vector<boca::Triplet> Triplets(Doublet const& doublet, Jets const& jets, Jets const& leptons, PreCuts const& pre_cuts, Tag tag) const;
+    std::vector<boca::Triplet> Triplets(std::vector<Doublet> const& doublets, Jets const& jets, Jets const& leptons, std::function<boca::Triplet(boca::Triplet&, Jets const&, bool&)> const& function) const;
+
+    std::vector<boca::Triplet> Triplets(Doublet const& doublet, Jets const& jets, Jets const& leptons, std::function<boca::Triplet(boca::Triplet&, Jets const&, bool&)> const& function) const;
 
     std::vector<boca::Triplet> Multiplets(Event const& event, TMVA::Reader const& reader) const {
         PreCuts pre_cuts;
         return Multiplets(event, pre_cuts, reader);
     }
-
-    std::vector<boca::Triplet>  Multiplets(std::vector<Doublet> const& doublets, Jets const& jets, Jets const& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
-
-    std::vector<boca::Triplet>  Multiplets(Doublet const& doublet, Jets const& jets, Jets const& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
-
-    boca::Triplet Multiplet(Doublet const& doublet, fastjet::PseudoJet const& jet, Jets const& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader, bool& failure, bool check_overlap = false) const;
 
     boca::Triplet Multiplet(boca::Triplet& triplet, Jets const& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader, bool& failure) const;
 
@@ -78,13 +68,21 @@ private:
 
     float LeptonPt(boca::Triplet const& triplet, Jets const& leptons) const;
 
+    std::vector<boca::Triplet> ordered_triplets(Jets const& jets, unsigned sub_jet_number, std::function<boca::Triplet(fastjet::PseudoJet const& piece_1, fastjet::PseudoJet const& piece_2, fastjet::PseudoJet const& piece_3)> const& function) const;
+
     Reader<BottomTagger> bottom_reader_;
 
     Reader<WHadronicTagger> w_hadronic_reader_;
 
     Mass top_mass_window_;
 
-    std::vector<boca::Triplet> ordered_triplets(Jets const& jets, unsigned sub_jet_number, std::function<boca::Triplet(fastjet::PseudoJet const& piece_1, fastjet::PseudoJet const& piece_2, fastjet::PseudoJet const& piece_3)> const& function) const;
+    Momentum PtMin(Id id, double cone_size = DetectorGeometry::JetConeSize()) const {
+      return 0.8 * MassOf(id) * 2. / cone_size;
+    }
+
+    Momentum PtMax(Id id, double cone_size = DetectorGeometry::JetConeSize()) const {
+      return 1.2 * MassOf(id) * 2. / cone_size;
+    }
 
 };
 
