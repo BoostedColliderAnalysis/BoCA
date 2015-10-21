@@ -70,7 +70,7 @@ macro(create_dictionary dictionary_name dictionary_source link_def)
 #   get_filename_component(BaseName ${dictionary_name} NAME_WE)
 #   ROOT_GENERATE_DICTIONARY("${dictionary_file}" "../include/${BaseName}.hh" LINKDEF "${link_def}" "-s ../source/${dictionary_source}")
   create_library(${dictionary_name} dictionary_file "-w")
-  file(INSTALL "${CMAKE_CURRENT_BINARY_DIR}/${dictionary_name}Dict_rdict.pcm" DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+#   file(INSTALL "${CMAKE_CURRENT_BINARY_DIR}/${dictionary_name}Dict_rdict.pcm" DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 endmacro(create_dictionary)
 
 macro(add_libraries link_library_sources)

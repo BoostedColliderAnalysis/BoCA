@@ -3,7 +3,7 @@
  */
 #include "SignatureSingleHadronicTagger.hh"
 // #define DEBUG
-// #define INFORMATION
+#define INFORMATION
 #include "Debug.hh"
 
 namespace boca
@@ -128,13 +128,15 @@ std::vector<Decuplet532> SignatureSingleHadronicTagger::Multiplets(Event const& 
 std::vector<Decuplet532> SignatureSingleHadronicTagger::Decuplets(Event const& event, PreCuts const& pre_cuts, std::function<Decuplet532(Decuplet532&)> const& function) const
 {
     Info();
+    std::vector<Triplet> triplets = top_reader_.Multiplets(event);
+    std::vector<Quintet> quintets = partner_reader_.Multiplets(event);
     std::vector<Decuplet532> decuplets;
     for (auto const & doublet : higgs_reader_.Multiplets(event)) {
-        for (auto const & triplet : top_reader_.Multiplets(event)) {
+        for (auto const & triplet : triplets) {
             Quintet veto(triplet, doublet);
             if (veto.Overlap()) continue;
             float veto_bdt = veto_reader_.Bdt(veto);
-            for (auto const & quintet : partner_reader_.Multiplets(event)) {
+            for (auto const & quintet : quintets) {
                 Decuplet532 decuplet(quintet, triplet, doublet);
                 if (decuplet.Overlap()) continue;
                 decuplet.SetVetoBdt(veto_bdt);
@@ -142,6 +144,7 @@ std::vector<Decuplet532> SignatureSingleHadronicTagger::Decuplets(Event const& e
             }
         }
     }
+    Error(decuplets.size());
     return decuplets;
 }
 

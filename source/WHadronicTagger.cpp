@@ -1,8 +1,9 @@
 /**
  * Copyright (C) 2015 Jan Hajer
  */
-#include "WHadronicTagger.hh"
+#include <boost/range/algorithm/adjacent_find.hpp>
 
+#include "WHadronicTagger.hh"
 #include "ParticleInfo.hh"
 #include "Event.hh"
 #include "Math.hh"
@@ -54,14 +55,20 @@ int WHadronicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Ta
 
     }
 
-    Jets particles = event.Partons().GenParticles();
-    int w_hadronic_id = WHadronicId(event);
-    Jets w_particles;
-    if (w_hadronic_id != 0) w_particles = CopyIfExactParticle(particles, w_hadronic_id);
-    else w_particles = CopyIfParticle(particles, Id::W);
-    w_particles = RemoveIfSoft(w_particles, DetectorGeometry::JetMinPt());
+    Jets w_particles = Particles(event);
     Info(doublets.size(), w_particles.size());
     return SaveEntries(BestMatches(doublets, w_particles, tag, Id::W));
+}
+
+Jets WHadronicTagger::Particles(Event const& event) const
+{
+    Jets particles = event.Partons().GenParticles();
+    Jets quarks = CopyIfMother(CopyIfQuark(particles), Id::W);
+    if (quarks.empty()) return {};
+    std::vector<int> ids;
+    for (auto const & quark : quarks) ids.emplace_back(quark.user_info<ParticleInfo>().Family().mother_1().id());
+    if (boost::range::adjacent_find(ids, std::not_equal_to<int>()) == ids.end()) return CopyIfExactParticle(particles, ids.front());
+    else return CopyIfParticle(particles, Id::W);
 }
 
 Doublet WHadronicTagger::CheckDoublet(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const
@@ -69,32 +76,6 @@ Doublet WHadronicTagger::CheckDoublet(Doublet doublet, PreCuts const& pre_cuts, 
     if (Problematic(doublet, pre_cuts, tag)) throw boca::Problematic();
     doublet.SetTag(tag);
     return doublet;
-}
-
-Jets WHadronicTagger::WDaughters(boca::Event const& event) const
-{
-    Jets particles = event.Partons().GenParticles();
-    Jets w_daughters = CopyIfMother(particles, Id::W);
-    Info(w_daughters.size());
-    w_daughters = CopyIfQuark(w_daughters);
-    Info(w_daughters.size());
-    return w_daughters;
-}
-
-int WHadronicTagger::WHadronicId(Jets const& daughters) const
-{
-    if (daughters.empty()) return 0;
-    int sign;
-    bool first = true;
-    bool just_one = true;
-    for (auto const & daughter : daughters) {
-        int id = daughter.user_info<ParticleInfo>().Family().mother_1().id();
-        if (first) sign = sgn(id);
-        else if (sign != sgn(id)) just_one = false;
-        first = false;
-    }
-    if (just_one) return sign * to_int(Id::W);
-    return 0;
 }
 
 std::vector<Doublet> WHadronicTagger::Doublets(boca::Jets const& jets, boca::PreCuts const& pre_cuts, boca::Tag tag) const
@@ -126,9 +107,6 @@ bool WHadronicTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cut
 bool WHadronicTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts) const
 {
     if (pre_cuts.ApplyCuts(Id::W, doublet)) return true;
-//     if (pre_cuts.PtLowerCut(Id::W) > at_rest && pre_cuts.PtLowerCut(Id::W) > doublet.Pt()) return true;
-//     if (pre_cuts.PtUpperCut(Id::W) > at_rest && pre_cuts.PtUpperCut(Id::W) < doublet.Pt()) return true;
-//     if (pre_cuts.MassUpperCut(Id::W) > massless && pre_cuts.MassUpperCut(Id::W) < doublet.Mass()) return true;
     if (doublet.DeltaR() < DetectorGeometry::MinCellResolution() && doublet.DeltaR() > 0) return true;
     return false;
 }
@@ -257,11 +235,6 @@ Doublet WHadronicTagger::Multiplet(fastjet::PseudoJet const& jet, TMVA::Reader c
     }
 }
 
-int WHadronicTagger::WHadronicId(boca::Event const& event) const
-{
-    return WHadronicId(WDaughters(event));
-}
-
 Doublet WHadronicTagger::SubMultiplet(fastjet::PseudoJet const& jet, TMVA::Reader const& reader) const
 {
     PreCuts pre_cuts;
@@ -284,7 +257,15 @@ Doublet WHadronicTagger::Multiplet(fastjet::PseudoJet const& jet_1, fastjet::Pse
 
 int WHadronicTagger::SaveBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
-    return SaveEntries(Multiplets(event, pre_cuts, reader), 2);
+    return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
+}
+std::string WHadronicTagger::Name() const
+{
+    return "WHadronic";
+}
+std::string WHadronicTagger::NiceName() const
+{
+  return "W_{h}";
 }
 
 }

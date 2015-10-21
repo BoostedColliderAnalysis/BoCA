@@ -4,6 +4,7 @@
 #include "BosonTagger.hh"
 #include "Event.hh"
 #include "Doublet.hh"
+#include "MomentumRange.hh"
 #include "Exception.hh"
 // #define DEBUG
 #include "Debug.hh"
@@ -39,18 +40,19 @@ std::vector<Doublet> BosonTagger::Doublets(Event const& event, std::function<Dou
     Jets jets =  bottom_reader_.Multiplets(event);
     std::vector<Doublet> doublets = unordered_pairs(jets, [&](fastjet::PseudoJet const & jet_1, fastjet::PseudoJet const & jet_2) {
         Doublet doublet(jet_1, jet_2);
+        if (doublet.Pt() > MomentumRange::PtMax(Id::higgs)) throw boca::Problematic();
         return function(doublet);
     });
-    for (auto const & jet : jets) {
-        try {
-            Doublet doublet(jet);
-            doublets.emplace_back(function(doublet));
-        } catch (std::exception const&) {}
-        try {
-            Jets pieces = bottom_reader_.SubMultiplet(jet, 2);
-            Doublet doublet(pieces.at(0), pieces.at(1));
-            doublets.emplace_back(function(doublet));
-        } catch (std::exception const&) {}
+    for (auto const & jet : RemoveIfSoft(jets, MomentumRange::PtMin(Id::Z))) {
+        if (jet.pt() * GeV < MomentumRange::PtMax((SubJet(Id::higgs)))) try {
+                Jets pieces = bottom_reader_.SubMultiplet(jet, 2);
+                Doublet doublet(pieces.at(0), pieces.at(1));
+                doublets.emplace_back(function(doublet));
+            } catch (std::exception const&) {}
+        if (jet.pt() * GeV > MomentumRange::PtMin((SubJet(Id::Z)))) try {
+                Doublet doublet(jet);
+                doublets.emplace_back(function(doublet));
+            } catch (std::exception const&) {}
     }
     return doublets;
 }

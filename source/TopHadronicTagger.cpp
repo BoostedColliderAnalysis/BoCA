@@ -51,50 +51,57 @@ std::vector<Triplet> TopHadronicTagger::Triplets(Event const& event, PreCuts con
     Jets jets = fastjet::sorted_by_pt(bottom_reader_.Multiplets(event));
     Jets leptons = event.Leptons().leptons();
 
-    Jets softer_than_top = RemoveIfHard(jets, PtMax(Id::top));
-    std::vector<boca::Triplet> triplets = ThreeJets(softer_than_top, leptons, function);
+    Jets softer_than_top = RemoveIfHard(jets, MomentumRange::PtMax(Id::top));
+    MomentumRange three_jet_range(Id::W);
+    std::vector<boca::Triplet> triplets = ThreeJets(softer_than_top, leptons, function, three_jet_range);
 
-    for (auto const & jet : RemoveIfSoft(jets, PtMin(Id::W))) {
-        if (Softer(jet, Id::top)) triplets = Join(triplets, TwoJets(softer_than_top, jet, leptons, function));
-        if (Harder(jet, Id::top) && Softer(jet, Id::W, true)) triplets = Join(triplets, ThreeSubJets(jet, leptons, function));
-        if (Harder(jet, Id::W, true) && Softer(jet, Id::top, true)) triplets = Join(triplets, TwoSubJets(jet, leptons, function));
-        if (Harder(jet, Id::top, true)) try {
+    for (auto const & jet : RemoveIfSoft(jets, MomentumRange::PtMin(Id::W))) {
+        MomentumRange two_jet_range(Id::W, Id::top);
+        if (two_jet_range.Bounds(jet)) triplets = Join(triplets, TwoJets(softer_than_top, jet, leptons, function, two_jet_range));
+        MomentumRange three_sub_jet_range(Id::top, SubJet(Id::W));
+        if (three_sub_jet_range.Bounds(jet)) triplets = Join(triplets, ThreeSubJets(jet, leptons, function, three_jet_range));
+        MomentumRange two_sub_jet_range((SubJet(Id::W)), (SubJet(Id::top)));
+        if (two_sub_jet_range.Bounds(jet)) triplets = Join(triplets, TwoSubJets(jet, leptons, function, two_sub_jet_range));
+        MomentumRange one_sub_jet_range((SubJet(Id::top)));
+        if (one_sub_jet_range.Bounds(jet)) try {
                 triplets.emplace_back(HighlyBoosted(jet, leptons, function));
             } catch (std::exception const&) {};
     }
+    Debug(triplets.size());
     return triplets;
 }
 
-std::vector<Triplet> TopHadronicTagger::ThreeJets(Jets const& jets, Jets const& leptons, Function const& function) const
+std::vector<Triplet> TopHadronicTagger::ThreeJets(Jets const& jets, Jets const& leptons, Function const& function, MomentumRange const& range) const
 {
-    std::vector<Doublet> doublets = w_hadronic_reader_.Multiplets(RemoveIfHard(jets, PtMax(Id::W)));
-    return Triplets(doublets, jets, leptons, function);
+    std::vector<Doublet> doublets = w_hadronic_reader_.Multiplets(RemoveIfHard(jets, range.Min()));
+    doublets = RemoveIfHard(doublets, range.Min());
+    return Triplets(doublets, jets, leptons, function, range);
 }
 
-std::vector<Triplet> TopHadronicTagger::TwoJets(Jets const& jets, fastjet::PseudoJet const& jet, Jets const& leptons, Function const& function) const
+std::vector<Triplet> TopHadronicTagger::TwoJets(Jets const& jets, fastjet::PseudoJet const& jet, Jets const& leptons, Function const& function, MomentumRange const& range) const
 {
     std::vector<boca::Triplet> triplets;
     try {
         Doublet piece_doublet = w_hadronic_reader_.SubMultiplet(jet);
-        triplets = Triplets(piece_doublet, jets, leptons, function);
+        triplets = Triplets(piece_doublet, jets, leptons, function, range);
     } catch (std::exception const&) {}
     return triplets;
 }
 
-std::vector<Triplet> TopHadronicTagger::ThreeSubJets(fastjet::PseudoJet const& jet, Jets const& leptons, Function const& function) const
+std::vector<Triplet> TopHadronicTagger::ThreeSubJets(fastjet::PseudoJet const& jet, Jets const& leptons, Function const& function, MomentumRange const& range) const
 {
     unsigned sub_jet_number = 3;
     Jets pieces = bottom_reader_.SubMultiplet(jet, sub_jet_number);
     return ordered_triplets(pieces, sub_jet_number, [&](fastjet::PseudoJet const & piece_1, fastjet::PseudoJet const & piece_2, fastjet::PseudoJet const & piece_3) {
         Doublet doublet = w_hadronic_reader_.Multiplet(piece_2, piece_3);
         bool failure = false;
-        boca::Triplet triplet = Triplet(doublet, piece_1, leptons, function, failure);
+        boca::Triplet triplet = Triplet(doublet, piece_1, leptons, function, range, failure);
         if (failure) throw  boca::Problematic();
         return triplet;
     });
 }
 
-std::vector<Triplet> TopHadronicTagger::TwoSubJets(fastjet::PseudoJet const& jet, Jets const& leptons, Function const& function) const
+std::vector<Triplet> TopHadronicTagger::TwoSubJets(fastjet::PseudoJet const& jet, Jets const& leptons, Function const& function, MomentumRange const& range) const
 {
     std::vector<boca::Triplet> triplets;
     unsigned sub_jet_number = 2;
@@ -106,7 +113,7 @@ std::vector<Triplet> TopHadronicTagger::TwoSubJets(fastjet::PseudoJet const& jet
             try {
                 Doublet doublet = w_hadronic_reader_.Multiplet(piece_2);
                 bool failure = false;
-                boca::Triplet triplet = Triplet(doublet, piece_1, leptons, function, failure);
+                boca::Triplet triplet = Triplet(doublet, piece_1, leptons, function, range, failure);
                 if (!failure) triplets.emplace_back(triplet);
             } catch (std::exception const&) {}
         }
@@ -128,23 +135,23 @@ Triplet TopHadronicTagger::HighlyBoosted(fastjet::PseudoJet const& jet, Jets con
     return triplet;
 }
 
-std::vector<Triplet> TopHadronicTagger::Triplets(std::vector<boca::Doublet> const& doublets, boca::Jets const& jets, boca::Jets const& leptons, Function const& function) const
+std::vector<Triplet> TopHadronicTagger::Triplets(std::vector<boca::Doublet> const& doublets, boca::Jets const& jets, boca::Jets const& leptons, Function const& function, MomentumRange const& range) const
 {
     Info(doublets.size());
     std::vector<boca::Triplet> triplets;
-    for (auto const & doublet : doublets) triplets = Join(triplets, Triplets(doublet, jets, leptons, function));
+    for (auto const & doublet : doublets) triplets = Join(triplets, Triplets(doublet, jets, leptons, function, range));
     Info(triplets.size());
     return triplets;
 }
 
-std::vector<Triplet> TopHadronicTagger::Triplets(boca::Doublet const& doublet, boca::Jets const& jets, boca::Jets const& leptons, Function const& function) const
+std::vector<Triplet> TopHadronicTagger::Triplets(boca::Doublet const& doublet, boca::Jets const& jets, boca::Jets const& leptons, Function const& function, MomentumRange const& range) const
 {
     Info();
     std::vector<boca::Triplet> triplets;
     for (auto const & jet : jets) {
         try {
             bool failure = false;
-            boca::Triplet triplet = Triplet(doublet, jet, leptons, function, failure , true);
+            boca::Triplet triplet = Triplet(doublet, jet, leptons, function, range, failure , true);
             if (!failure) triplets.emplace_back(triplet);
         } catch (std::exception const&) {}
     }
@@ -152,14 +159,21 @@ std::vector<Triplet> TopHadronicTagger::Triplets(boca::Doublet const& doublet, b
     return triplets;
 }
 
-Triplet TopHadronicTagger::Triplet(boca::Doublet const& doublet, fastjet::PseudoJet const& jet, boca::Jets const& leptons , Function const& function, bool& failure, bool check_overlap) const
+Triplet TopHadronicTagger::Triplet(boca::Doublet const& doublet, fastjet::PseudoJet const& jet, boca::Jets const& leptons , Function const& function, MomentumRange const& range, bool& failure, bool check_overlap) const
 {
     boca::Triplet triplet(doublet, jet);
+    Debug(triplet.Jet().pt(), range.Min(), range.Max());
+    if (!range.Bounds(triplet.Jet())) {
+        failure = true;
+        return triplet;
+        throw boca::Problematic();
+    }
     if (check_overlap && triplet.Overlap()) {
         failure = true;
         return triplet;
         throw Overlap();
     }
+    Debug("tag");
     try {
         return function(triplet, leptons, failure);
     } catch (std::exception const&) {
@@ -211,13 +225,14 @@ bool TopHadronicTagger::Problematic(boca::Triplet const& triplet, PreCuts const&
     Debug();
     if (pre_cuts.ApplyCuts(Id::top, triplet)) return true;
     // FIXME the top tagger is very slow, due to many calls of Bdt(), therfore we have to reduce the number of candidates
-//     if (boost::units::abs(triplet.Mass() - MassOf(Id::top)) > 2. * top_mass_window_) return true;
+    if (boost::units::abs(triplet.Mass() - MassOf(Id::top)) > 2. * top_mass_window_) return true;
 //     if ((triplet.Rho() < 0.4 || triplet.Rho() > 2) && triplet.Rho() > 0) return true;
     return false;
 }
 
 std::vector<Triplet> TopHadronicTagger::Multiplets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
+
     return ReduceResult(Triplets(event, pre_cuts, [&](boca::Triplet & triplet, Jets const & leptons, bool &  failure) {
         return Multiplet(triplet, leptons, pre_cuts, reader, failure);
     }));
@@ -225,6 +240,7 @@ std::vector<Triplet> TopHadronicTagger::Multiplets(Event const& event, boca::Pre
 
 Triplet TopHadronicTagger::Multiplet(boca::Triplet& triplet, Jets const& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader, bool& failure) const
 {
+
     Info();
     // No throwing because this function fails too often
     if (Problematic(triplet, pre_cuts)) {

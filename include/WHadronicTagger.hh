@@ -21,11 +21,9 @@ public:
 
     WHadronicTagger();
 
-    int Train(Event const& event, PreCuts const& pre_cuts,
-              const Tag Tag) const override;
+    int Train(Event const& event, PreCuts const& pre_cuts, const Tag Tag) const override;
 
-    virtual int SaveBdt(Event const& event, PreCuts const& pre_cuts,
-                       TMVA::Reader const& reader) const override;
+    virtual int SaveBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
 
     std::vector<Doublet> Multiplets(Jets const& jets, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
@@ -35,22 +33,17 @@ public:
 
     Doublet SubMultiplet(fastjet::PseudoJet const& jet, TMVA::Reader const& reader) const;
 
-    /**
-     * @brief signed id of the hadronic W, the event contains two hadronic W with opposite sign 0 is returned
-     *
-     */
+    std::string Name() const final;
 
-    int WHadronicId(Event const& event) const;
-
-    std::string Name() const final {
-        return "WHadronic";
-    }
+    std::string NiceName() const final;
 
 private:
 
-  std::vector<Doublet> Doublets(Jets const& jets, PreCuts const& pre_cuts, Tag tag) const;
+    Jets Particles(Event const& event) const;
 
-  Doublet CheckDoublet(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const;
+    std::vector<Doublet> Doublets(Jets const& jets, PreCuts const& pre_cuts, Tag tag) const;
+
+    Doublet CheckDoublet(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const;
 
     std::vector<Doublet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
@@ -73,10 +66,6 @@ private:
     std::vector<Doublet> SubMultiplets2(boca::Jets const& jets, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
     Reader<BottomTagger> bottom_reader_;
-
-    Jets WDaughters(Event const& event) const;
-
-    int WHadronicId(boca::Jets const& daughters) const;
 
     Mass w_mass_window_;
 };

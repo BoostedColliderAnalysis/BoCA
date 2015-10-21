@@ -10,6 +10,7 @@
 #include "JetInfo.hh"
 #include "InfoRecombiner.hh"
 #include "HiggsTagger.hh"
+#include "MomentumRange.hh"
 #include "Exception.hh"
 #include "Debug.hh"
 
@@ -37,18 +38,19 @@ std::vector<Doublet> HiggsTagger::Doublets(Event const& event, std::function<Dou
     Jets jets =  event.Hadrons().Jets();
     std::vector<Doublet> doublets = unordered_pairs(jets, [&](fastjet::PseudoJet const & jet_1, fastjet::PseudoJet const & jet_2) {
         Doublet doublet(jet_1, jet_2);
+        if (doublet.Pt() > MomentumRange::PtMax(Id::higgs)) throw boca::Problematic();
         return function(doublet);
     });
-    for (auto const & jet : jets) {
-        try {
-            Doublet doublet(jet);
-            doublets.emplace_back(function(doublet));
-        } catch (std::exception const&) {}
-        try {
-            Jets pieces = Tagger::SubJets(jet, 2);
-            Doublet doublet(pieces.at(0), pieces.at(1));
-            doublets.emplace_back(function(doublet));
-        } catch (std::exception const&) {}
+    for (auto const & jet : RemoveIfSoft(jets, MomentumRange::PtMin(Id::higgs))) {
+        if (jet.pt() * GeV < MomentumRange::PtMax((SubJet(Id::higgs)))) try {
+                Jets pieces = Tagger::SubJets(jet, 2);
+                Doublet doublet(pieces.at(0), pieces.at(1));
+                doublets.emplace_back(function(doublet));
+            } catch (std::exception const&) {}
+        if (jet.pt() * GeV > MomentumRange::PtMin((SubJet(Id::higgs)))) try {
+                Doublet doublet(jet);
+                doublets.emplace_back(function(doublet));
+            } catch (std::exception const&) {}
     }
     return doublets;
 }
@@ -59,7 +61,7 @@ Jets HiggsTagger::Particles(Event const& event) const
     return CopyIfParticles(event.Partons().GenParticles(), Id::higgs, Id::CP_violating_higgs);
 }
 
-Doublet HiggsTagger::CheckDoublet(Doublet& doublet, Jets & leptons, PreCuts const& pre_cuts, Tag tag) const
+Doublet HiggsTagger::CheckDoublet(Doublet& doublet, Jets& leptons, PreCuts const& pre_cuts, Tag tag) const
 {
     Info();
     doublet = PrepareDoublet(doublet, leptons , pre_cuts);
@@ -68,7 +70,7 @@ Doublet HiggsTagger::CheckDoublet(Doublet& doublet, Jets & leptons, PreCuts cons
     return doublet;
 }
 
-Doublet HiggsTagger::PrepareDoublet(Doublet& doublet, Jets & leptons, PreCuts const& pre_cuts) const
+Doublet HiggsTagger::PrepareDoublet(Doublet& doublet, Jets& leptons, PreCuts const& pre_cuts) const
 {
     Info();
     //     doublet = MassDrop(doublet);
@@ -109,7 +111,7 @@ std::vector<Doublet> HiggsTagger::Multiplets(Event const& event, PreCuts const& 
     }));
 }
 
-Doublet HiggsTagger::Multiplet(Doublet& doublet, Jets & leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
+Doublet HiggsTagger::Multiplet(Doublet& doublet, Jets& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
     Info();
     doublet = PrepareDoublet(doublet, leptons, pre_cuts);

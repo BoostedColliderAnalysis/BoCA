@@ -2,6 +2,7 @@
  * Copyright (C) 2015 Jan Hajer
  */
 #pragma once
+#include <boost/range/algorithm_ext/erase.hpp>
 
 #include "Particles.hh"
 #include "DetectorGeometry.hh"
@@ -56,6 +57,22 @@ Jets RemoveIfQuark(Jets jets);
 Jets CopyIfQuark(Jets const& jets);
 
 Jets CopyIf5Quark(Jets const& jets);
+
+template<typename Multiplet>
+std::vector<Multiplet> RemoveIfSoft(std::vector<Multiplet> multiplets, Momentum pt_min)
+{
+    return boost::range::remove_erase_if(multiplets, [&](Multiplet const & multiplet) {
+        return multiplet.Pt() < pt_min;
+    });
+}
+
+template<typename Multiplet>
+std::vector<Multiplet> RemoveIfHard(std::vector<Multiplet> multiplets, Momentum pt_max)
+{
+    return boost::range::remove_erase_if(multiplets, [&](Multiplet const & multiplet) {
+        return multiplet.Pt() > pt_max;
+    });
+}
 
 Jets RemoveIfSoft(Jets jets, Momentum pt_min);
 
@@ -232,7 +249,7 @@ auto triples(std::vector<Element1> const& container_1, std::vector<Element2> con
     std::vector<Result> results;
     for (auto const & element_1 : container_1) {
         for (auto const & element_2 : container_2) {
-            for (auto const& element_3 : container_3) {
+            for (auto const & element_3 : container_3) {
                 try {
                     results.emplace_back(function(element_1, element_2, element_3));
                 } catch (std::exception const&) {}

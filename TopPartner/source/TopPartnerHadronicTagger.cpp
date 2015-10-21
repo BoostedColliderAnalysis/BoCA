@@ -45,6 +45,7 @@ std::vector<Quintet> TopPartnerHadronicTagger::Multiplets(Event const& event, bo
         quintet.SetBdt(Bdt(quintet, reader));
         return quintet;
     });
+    Error(quintets.size());
     return ReduceResult(quintets);
 }
 
@@ -68,3 +69,4 @@ Jets TopPartnerHadronicTagger::Particles(Event const& event) const
 }
 
 }
+

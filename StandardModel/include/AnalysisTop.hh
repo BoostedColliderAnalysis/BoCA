@@ -45,8 +45,8 @@ private:
 
     std::string ProjectName() const final {
         Info();
-        return "test";
-        return  Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-" + Name(Process::tt) + "-" + Name(TopDecay()) + "-unified-tagger";
+        return "momentum-range-no-precut";
+        return  Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-" + Name(TopDecay()) + "-momentum-rang";
     }
 
     void SetFiles(Tag tag, Stage) final {
@@ -75,9 +75,10 @@ private:
 
     int PassPreCut(Event const& event, Tag) const final {
         Info();
-        Jets particles = fastjet::sorted_by_pt(event.Partons().GenParticles());
-        if ((particles.at(0).pt() > this->LowerQuarkCut() / GeV && particles.at(0).pt() < this->UpperQuarkCut() / GeV) && (particles.at(1).pt() > this->LowerQuarkCut() / GeV &&  particles.at(1).pt() < this->UpperQuarkCut() / GeV)) return 1;
-        return 0;
+        return 1;
+//         Jets particles = fastjet::sorted_by_pt(event.Partons().GenParticles());
+//         if ((particles.at(0).pt() > this->LowerQuarkCut() / GeV && particles.at(0).pt() < this->UpperQuarkCut() / GeV) && (particles.at(1).pt() > this->LowerQuarkCut() / GeV &&  particles.at(1).pt() < this->UpperQuarkCut() / GeV)) return 1;
+//         return 0;
     }
 
 };

@@ -6,6 +6,7 @@
 #include <functional>
 #include "WHadronicTagger.hh"
 #include "Triplet.hh"
+#include "MomentumRange.hh"
 
 namespace boca
 {
@@ -43,25 +44,25 @@ public:
 
 private:
 
-    std::vector<Triplet> ThreeJets(Jets const& jets, Jets const& leptons, Function const& function) const;
+    std::vector<Triplet> ThreeJets(Jets const& jets, Jets const& leptons, Function const& function, MomentumRange const& range) const;
 
-    std::vector<Triplet> TwoJets(Jets const& jets, fastjet::PseudoJet const& jet, Jets const& leptons, Function const& function) const;
+    std::vector<Triplet> TwoJets(Jets const& jets, fastjet::PseudoJet const& jet, Jets const& leptons, Function const& function, MomentumRange const& range) const;
 
-    std::vector<Triplet> ThreeSubJets(fastjet::PseudoJet const& jet, Jets const& leptons, Function const& function) const;
+    std::vector<Triplet> ThreeSubJets(fastjet::PseudoJet const& jet, Jets const& leptons, Function const& function, MomentumRange const& range) const;
 
-    std::vector<Triplet> TwoSubJets(fastjet::PseudoJet const& jet, Jets const& leptons, Function const& function) const;
+    std::vector<Triplet> TwoSubJets(fastjet::PseudoJet const& jet, Jets const& leptons, Function const& function, MomentumRange const& range) const;
 
     Triplet HighlyBoosted(fastjet::PseudoJet const& jet, Jets const& leptons, Function const& function) const;
 
-    boca::Triplet Triplet(Doublet const& doublet, fastjet::PseudoJet const& jet, Jets const& leptons, Function const& function, bool& failure, bool check_overlap = false) const;
+    boca::Triplet Triplet(Doublet const& doublet, fastjet::PseudoJet const& jet, Jets const& leptons, Function const& function, MomentumRange const& range, bool& failure, bool check_overlap = false) const;
 
     boca::Triplet Triplet(boca::Triplet& triplet, boca::Jets const& leptons, PreCuts const& pre_cuts, Tag tag, bool& failure) const;
 
     std::vector<boca::Triplet> Triplets(Event const& event, PreCuts const& pre_cuts, Function const& function) const;
 
-    std::vector<boca::Triplet> Triplets(std::vector<Doublet> const& doublets, Jets const& jets, Jets const& leptons, Function const& function) const;
+    std::vector<boca::Triplet> Triplets(std::vector<Doublet> const& doublets, Jets const& jets, Jets const& leptons, Function const& function, MomentumRange const& range) const;
 
-    std::vector<boca::Triplet> Triplets(Doublet const& doublet, Jets const& jets, Jets const& leptons, Function const& function) const;
+    std::vector<boca::Triplet> Triplets(Doublet const& doublet, Jets const& jets, Jets const& leptons, Function const& function, MomentumRange const& range) const;
 
     std::vector<boca::Triplet> Multiplets(Event const& event, TMVA::Reader const& reader) const {
         PreCuts pre_cuts;
@@ -87,25 +88,6 @@ private:
     Reader<WHadronicTagger> w_hadronic_reader_;
 
     Mass top_mass_window_;
-
-    Momentum PtMin(Id id, double cone_size = DetectorGeometry::JetConeSize()) const {
-        return 0.8 * MassOf(id) * 2. / cone_size;
-    }
-
-    Momentum PtMax(Id id, double cone_size = DetectorGeometry::JetConeSize()) const {
-        return 1.2 * MassOf(id) * 2. / cone_size;
-    }
-
-    bool Softer(fastjet::PseudoJet const& jet, Id id, bool limit = false) const {
-        double cone_size = limit ? DetectorGeometry::MinCellResolution() : DetectorGeometry::JetConeSize();
-        return jet.pt() * GeV < PtMax(id, cone_size);
-    }
-
-    bool Harder(fastjet::PseudoJet const& jet, Id id, bool limit = false) const {
-        double cone_size = limit ? DetectorGeometry::MinCellResolution() : DetectorGeometry::JetConeSize();
-        return jet.pt() * GeV > PtMin(id, cone_size);
-    }
-
 
 };
 
