@@ -35,8 +35,8 @@ namespace boca
 // redefine prefixes in boca namespace
 // TODO find a way to import the prefixes into boca namespace without reimplementing them or including the full si namespace
 #define BOOST_UNITS_METRIC_PREFIX_2(exponent, name) \
-    typedef boost::units::make_scaled_unit<boost::units::si::dimensionless, boost::units::scale<10, boost::units::static_rational<exponent> > >::type name ## _type;\
-    BOOST_UNITS_STATIC_CONSTANT(name, name ## _type)
+  using name ## _type = boost::units::make_scaled_unit<boost::units::si::dimensionless, boost::units::scale<10, boost::units::static_rational<exponent> > >::type; \
+  BOOST_UNITS_STATIC_CONSTANT(name, name ## _type)
 BOOST_UNITS_METRIC_PREFIX_2(-24, yocto);
 BOOST_UNITS_METRIC_PREFIX_2(-21, zepto);
 BOOST_UNITS_METRIC_PREFIX_2(-18, atto);
@@ -69,7 +69,7 @@ struct energy_base_dimension : boost::units::base_dimension<energy_base_dimensio
 BOOST_TYPEOF_REGISTER_TYPE(boca::energy_base_dimension)
 #endif
 
-typedef energy_base_dimension::dimension_type energy_dimension;
+using energy_dimension = energy_base_dimension::dimension_type;
 struct energy_base_unit : public boost::units::base_unit<energy_base_unit, energy_dimension, 100> {
     static std::string name();
     static std::string symbol();
@@ -80,9 +80,9 @@ struct energy_base_unit : public boost::units::base_unit<energy_base_unit, energ
 BOOST_TYPEOF_REGISTER_TYPE(boca::energy_base_unit)
 #endif
 
-typedef boost::units::make_system <energy_base_unit>::type system;
-typedef boost::units::unit<boost::units::dimensionless_type, system> dimensionless;
-typedef boost::units::unit<energy_dimension, system> energy;
+using system  = boost::units::make_system <energy_base_unit>::type;
+using dimensionless = boost::units::unit<boost::units::dimensionless_type, system>;
+using energy = boost::units::unit<energy_dimension, system>;
 }
 
 BOOST_UNITS_STATIC_CONSTANT(ElectronVolt, electronvolt::energy);
@@ -92,19 +92,19 @@ BOOST_UNITS_STATIC_CONSTANT(ElectronVolts, electronvolt::energy);
  * @brief Mass measured in electronvolt
  *
  */
-typedef boost::units::quantity<electronvolt::energy> Mass;
+using Mass = boost::units::quantity<electronvolt::energy>;
 
 /**
  * @brief Momentum measured in electronvolt
  *
  */
-typedef boost::units::quantity<electronvolt::energy> Momentum;
+using Momentum = boost::units::quantity<electronvolt::energy>;
 
 /**
  * @brief Energy measured in electronvolt
  *
  */
-typedef boost::units::quantity<electronvolt::energy> Energy;
+using Energy = boost::units::quantity<electronvolt::energy>;
 std::string Name(boost::units::quantity<electronvolt::energy> energy);
 // int to_int(boost::units::quantity<electronvolt::energy> energy);
 
@@ -128,11 +128,11 @@ static const Mass massless(0. * ElectronVolt);
 
 namespace barn
 {
-typedef boost::units::make_system<boost::units::metric::barn_base_unit>::type system;
-typedef boost::units::unit<boost::units::dimensionless_type, system> dimensionless;
-typedef boost::units::unit<boost::units::area_dimension, system> area;
-typedef boost::units::derived_dimension < boost::units::length_base_dimension, -2 >::type luminosity_dimension;
-typedef boost::units::unit<luminosity_dimension, system> luminosity;
+using system = boost::units::make_system<boost::units::metric::barn_base_unit>::type;
+using dimensionless = boost::units::unit<boost::units::dimensionless_type, system>;
+using area = boost::units::unit<boost::units::area_dimension, system>;
+using luminosity_dimension = boost::units::derived_dimension < boost::units::length_base_dimension, -2 >::type;
+using luminosity = boost::units::unit<luminosity_dimension, system>;
 
 }
 
@@ -143,7 +143,7 @@ BOOST_UNITS_STATIC_CONSTANT(Barns, barn::area);
  * @brief Crosssection measured in barn
  *
  */
-typedef boost::units::quantity<barn::area> Crosssection;
+using Crosssection = boost::units::quantity<barn::area>;
 float to_float(Crosssection crosssection);
 Crosssection to_crosssection(float crosssection);
 
@@ -151,7 +151,7 @@ Crosssection to_crosssection(float crosssection);
  * @brief Luminosity measured in 1 / barn
  *
  */
-typedef boost::units::quantity<barn::luminosity> Luminosity;
+using Luminosity = boost::units::quantity<barn::luminosity>;
 float to_float(Luminosity luminosity);
 Luminosity to_luminosity(float luminosity);
 

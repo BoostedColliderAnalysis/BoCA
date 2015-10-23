@@ -29,7 +29,7 @@ int TopPartnerHadronicTagger::Train(Event const& event, PreCuts const&, Tag tag)
     Jets particles = Particles(event);
     if (tag == Tag::signal) {
         Check(!particles.empty(), particles.size())
-    } else Check(!particles.empty(), particles.size());
+    } else Check(particles.empty(), particles.size());
     int size = particles.size();
     std::string particle = "";
     if (size > 0) particle = boca::Name(particles.front().user_info<ParticleInfo>().Family().particle().id());
@@ -45,7 +45,7 @@ std::vector<Quintet> TopPartnerHadronicTagger::Multiplets(Event const& event, bo
         quintet.SetBdt(Bdt(quintet, reader));
         return quintet;
     });
-    Error(quintets.size());
+    Debug(quintets.size());
     return ReduceResult(quintets);
 }
 

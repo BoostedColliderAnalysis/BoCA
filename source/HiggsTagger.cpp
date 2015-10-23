@@ -36,18 +36,20 @@ std::vector<Doublet> HiggsTagger::Doublets(Event const& event, std::function<Dou
 {
     Info();
     Jets jets =  event.Hadrons().Jets();
-    std::vector<Doublet> doublets = unordered_pairs(jets, [&](fastjet::PseudoJet const & jet_1, fastjet::PseudoJet const & jet_2) {
+    MomentumRange jet_range(Id::higgs, Id::higgs);
+    std::vector<Doublet> doublets = unordered_pairs(jet_range.Soft(jets), [&](fastjet::PseudoJet const & jet_1, fastjet::PseudoJet const & jet_2) {
         Doublet doublet(jet_1, jet_2);
-        if (doublet.Pt() > MomentumRange::PtMax(Id::higgs)) throw boca::Problematic();
+        if (!jet_range.UpperBound(doublet)) throw boca::Problematic();
         return function(doublet);
     });
-    for (auto const & jet : RemoveIfSoft(jets, MomentumRange::PtMin(Id::higgs))) {
-        if (jet.pt() * GeV < MomentumRange::PtMax((SubJet(Id::higgs)))) try {
+    for (auto const & jet : jet_range.Hard(jets)) {
+        MomentumRange sub_jet_range((SubJet(Id::higgs)), (SubJet(Id::higgs)));
+        if (sub_jet_range.UpperBound(jet)) try {
                 Jets pieces = Tagger::SubJets(jet, 2);
                 Doublet doublet(pieces.at(0), pieces.at(1));
                 doublets.emplace_back(function(doublet));
             } catch (std::exception const&) {}
-        if (jet.pt() * GeV > MomentumRange::PtMin((SubJet(Id::higgs)))) try {
+        if (sub_jet_range.LowerBound(jet)) try {
                 Doublet doublet(jet);
                 doublets.emplace_back(function(doublet));
             } catch (std::exception const&) {}

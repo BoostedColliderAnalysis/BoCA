@@ -12,32 +12,27 @@ namespace naturalness
 int TopPartnerLeptonicTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
     Info();
-    std::vector<Quintet> quintets = pairs(top_reader_.Multiplets(event), boson_reader_.Multiplets(event), [&](Triplet const & triplet, Doublet const & doublet) {
-        Quintet quintet(triplet, doublet);
-        if (quintet.Overlap()) throw Overlap();
+    return SaveEntries(Quintets(event, [&](Quintet & quintet) {
         quintet.SetTag(tag);
         return quintet;
+    }), Particles(event), tag);
+}
+
+std::vector<Quintet> TopPartnerLeptonicTagger::Quintets(Event const& event, std::function<Quintet(Quintet&)> const& function) const
+{
+    return pairs(top_reader_.Multiplets(event), boson_reader_.Multiplets(event), [&](Triplet const & triplet, Doublet const & doublet) {
+        Quintet quintet(triplet, doublet);
+        if (quintet.Overlap()) throw Overlap();
+        return function(quintet);
     });
-    Jets particles = Particles(event);
-    if (tag == Tag::signal) {
-        Check(!particles.empty(), particles.size())
-    } else Check(particles.empty(), particles.size());
-    int size = particles.size();
-    std::string particle = "";
-    if (size > 0) particle = boca::Name(particles.front().user_info<ParticleInfo>().Family().particle().id());
-    Error(size, particle);
-    return SaveEntries(quintets, particles, tag);
 }
 
 std::vector<Quintet> TopPartnerLeptonicTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
-    std::vector<Quintet> quintets = pairs(top_reader_.Multiplets(event), boson_reader_.Multiplets(event), [&](Triplet const & triplet, Doublet const & doublet) {
-        Quintet quintet(triplet, doublet);
-        if (quintet.Overlap()) throw Overlap();
+    return ReduceResult(Quintets(event, [&](Quintet & quintet) {
         quintet.SetBdt(Bdt(quintet, reader));
         return quintet;
-    });
-    return ReduceResult(quintets);
+    }));
 }
 
 Jets TopPartnerLeptonicTagger::Particles(Event const& event) const
@@ -58,7 +53,7 @@ Jets TopPartnerLeptonicTagger::Particles(Event const& event) const
     }
 }
 
-
 }
 
 }
+

@@ -47,6 +47,10 @@ public:
         return options_.str();
     }
 
+    operator std::string() const {
+        return str();
+    }
+
 private:
 
     void Separator() {

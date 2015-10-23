@@ -21,18 +21,12 @@ class TopLeptonicTagger : public BranchTagger<TopLeptonicBranch>
 public:
 
     TopLeptonicTagger();
-//
-    int Train(Event const& event, PreCuts const& pre_cuts,
-              Tag tag) const override;
+
+    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const override;
 
     std::vector<Triplet> Multiplets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    int SaveBdt(Event const& event, PreCuts const& pre_cuts,
-               TMVA::Reader const& reader) const final {
-//         do_fake_leptons = true;
-        return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
-//         return SaveEntries(Multiplets(event, pre_cuts, reader), Particles(event).size());
-    }
+    int SaveBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
 
     bool Problematic(Triplet const& triplet, PreCuts const& pre_cuts, Tag tag) const;
 
@@ -40,20 +34,13 @@ public:
 
     fastjet::PseudoJet FakeLepton(fastjet::PseudoJet const& jet) const;
 
-    Jets Particles(boca::Event const& event/*, PreCuts const& pre_cuts*/) const;
+    Jets Particles(boca::Event const& event) const;
 
-    auto Multiplets(Event const& event, TMVA::Reader const& reader) const {
-        PreCuts pre_cuts;
-        return Multiplets(event, pre_cuts, reader);
-    }
+    auto Multiplets(Event const& event, TMVA::Reader const& reader) const;
 
-    std::string Name() const final {
-        return "TopLeptonic";
-    }
+    std::string Name() const final;
 
-    std::string NiceName() const final {
-      return "t_{l}";
-    }
+    std::string NiceName() const final;
 
     int TopLeptonicId(Event const& event) const;
 

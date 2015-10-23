@@ -52,7 +52,7 @@ protected:
         Info();
         DebugCheck(multiplets.size()>=max, multiplets.size());
         if (multiplets.empty()) return multiplets;
-        std::sort(multiplets.begin(), multiplets.end());
+        boost::range::sort(multiplets);
         multiplets.erase(multiplets.begin() + std::min(max, multiplets.size()), multiplets.end());
         return multiplets;
     }
@@ -102,7 +102,7 @@ protected:
     template<typename Multiplet>
     std::vector<Multiplet> BestMatches(std::vector<Multiplet> multiplets, Jets const& particles, Tag tag, Id id = Id::empty) const {
         Info();
-        std::sort(multiplets.begin(), multiplets.end());
+        boost::range::sort(multiplets);
         switch (tag) {
         case Tag::signal :
             return BestMatch(multiplets, particles, id);
@@ -130,7 +130,7 @@ protected:
     int SaveEntries(std::vector<Multiplet> multiplets, size_t max = LargeNumber()) const {
         Info();
         if (multiplets.empty()) return 0;
-        if (multiplets.size() > 1) std::sort(multiplets.begin(), multiplets.end());
+        if (multiplets.size() > 1) boost::range::sort(multiplets);
         auto sum = std::min(multiplets.size(), max);
         for (auto const & counter : Range(sum)) {
             FillBranch(multiplets.at(counter));

@@ -72,6 +72,7 @@ TopLeptonicTagger.cpp
 JetPairTagger.cpp
 TripletJetPairTagger.cpp
 Observable.cpp
+MomentumRange.cpp
 PreCuts.cpp
 Trainer.cpp
 )

@@ -26,19 +26,13 @@ public:
 
     int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
 
-    int SaveBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final {
-        return SaveEntries(Multiplets(event, pre_cuts, reader), 2);
-    }
+    int SaveBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
 
     std::vector<boca::Triplet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    std::string Name() const final {
-        return "TopHadronic";
-    }
+    std::string Name() const final;
 
-    std::string NiceName() const final {
-        return "t_{h}";
-    }
+    std::string NiceName() const final;
 
     Jets TopParticles(Event const& event) const;
 
@@ -64,10 +58,7 @@ private:
 
     std::vector<boca::Triplet> Triplets(Doublet const& doublet, Jets const& jets, Jets const& leptons, Function const& function, MomentumRange const& range) const;
 
-    std::vector<boca::Triplet> Multiplets(Event const& event, TMVA::Reader const& reader) const {
-        PreCuts pre_cuts;
-        return Multiplets(event, pre_cuts, reader);
-    }
+    std::vector<boca::Triplet> Multiplets(Event const& event, TMVA::Reader const& reader) const;
 
     boca::Triplet Multiplet(boca::Triplet& triplet, Jets const& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader, bool& failure) const;
 

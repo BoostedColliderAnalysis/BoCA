@@ -3,7 +3,7 @@
  */
 #include "SignatureSingleHadronicTagger.hh"
 // #define DEBUG
-#define INFORMATION
+// #define INFORMATION
 #include "Debug.hh"
 
 namespace boca
@@ -144,7 +144,7 @@ std::vector<Decuplet532> SignatureSingleHadronicTagger::Decuplets(Event const& e
             }
         }
     }
-    Error(decuplets.size());
+    Debug(decuplets.size());
     return decuplets;
 }
 

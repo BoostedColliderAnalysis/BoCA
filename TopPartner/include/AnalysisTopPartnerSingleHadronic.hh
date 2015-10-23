@@ -36,25 +36,19 @@ protected:
 
     std::string ProjectName() const final {
         Info();
-        return "Naturalness-Single-Hadronic-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass())
-               + "-new-bosons";
-//         + "-problems";
-//         + "-wrong";
-//         + "-full";
-//         + "newbg";
-//                + "type";
+        return "Naturalness-Single-Hadronic-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass()) + "-new-try";
     }
 
     void SetFiles(Tag tag, Stage) final {
         Info();
         switch (tag) {
         case Tag::signal :
-            if (this->template TaggerIs<VetoTopPartnerLeptonicTagger>()) this->NewFile(tag, Process::TT);
-            else this->NewFile(tag, Process::TthHad);
+            if (this->template TaggerIs<VetoTopPartnerLeptonicTagger>()) this->NewFile(tag, Process::TT); else
+                this->NewFile(tag, Process::TthHad);
             break;
         case Tag::background :
             if (this->template TaggerIs<VetoTopPartnerLeptonicTagger>()) this->NewFile(tag, Process::TthHad);
-            else if (!this->template TaggerIs<TopPartnerHadronicTagger>()) this->NewFile(tag, Process::TT);
+//             else if (!this->template TaggerIs<TopPartnerHadronicTagger>()) this->NewFile(tag, Process::TT);
             if (!this->template TaggerIs<VetoTopPartnerLeptonicTagger>()) {
                 this->NewFile(tag, Process::ttBB);
                 this->NewFile(tag, Process::ttBjj);

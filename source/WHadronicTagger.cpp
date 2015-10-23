@@ -255,16 +255,15 @@ Doublet WHadronicTagger::Multiplet(fastjet::PseudoJet const& jet_1, fastjet::Pse
     }
 }
 
-int WHadronicTagger::SaveBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
-{
+int WHadronicTagger::SaveBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const{
     return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
 }
-std::string WHadronicTagger::Name() const
-{
+
+std::string WHadronicTagger::Name() const{
     return "WHadronic";
 }
-std::string WHadronicTagger::NiceName() const
-{
+
+std::string WHadronicTagger::NiceName() const{
   return "W_{h}";
 }
 

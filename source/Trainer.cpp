@@ -20,7 +20,7 @@ namespace boca
 
 Trainer::Trainer(boca::Tagger& tagger, TMVA::Types::EMVA mva) : tagger_(tagger) , factory_(tagger.Name(), &OutputFile(), FactoryOptions())
 {
-    Error();
+    Info();
     AddVariables();
     PrepareTrainingAndTestTree(GetTrees());
 //     TMVA::MethodBase& method =
@@ -122,7 +122,7 @@ TTree& Trainer::Tree(std::string const& tree_name, Tag tag)
 
 void Trainer::PrepareTrainingAndTestTree(long event_number)
 {
-    Error();
+    Info();
     Options options("SplitMode", "Block");
     options.Add("nTrain_Background", event_number);
     options.Add("nTest_Background", event_number);
