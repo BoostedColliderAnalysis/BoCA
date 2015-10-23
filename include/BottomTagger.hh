@@ -54,13 +54,9 @@ public:
      */
     Jets SubMultiplet(fastjet::PseudoJet const& jet, TMVA::Reader const& reader, int sub_jet_number) const;
 
-    std::string Name() const final {
-        return "Bottom";
-    }
+    std::string Name() const final;
 
-    std::string NiceName() const final {
-        return "b";
-    }
+    std::string NiceName() const final;
 
 private:
 

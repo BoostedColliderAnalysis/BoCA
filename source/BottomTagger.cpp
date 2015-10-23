@@ -160,6 +160,14 @@ Jets BottomTagger::Multiplets(boca::Jets const& jets, TMVA::Reader const& reader
     PreCuts pre_cuts;
     return Multiplets(jets, pre_cuts, reader);
 }
+std::string BottomTagger::Name() const
+{
+    return "Bottom";
+}
+std::string BottomTagger::NiceName() const
+{
+    return "b";
+}
 
 }
 

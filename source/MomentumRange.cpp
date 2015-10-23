@@ -6,7 +6,6 @@
 
 #include "DetectorGeometry.hh"
 #include "Math.hh"
-#include "Vector.hh"
 
 namespace boca
 {
@@ -18,11 +17,6 @@ Id SubJet::Id() const
 {
     return id_;
 }
-MomentumRange::MomentumRange(){}
-MomentumRange::MomentumRange(Momentum min, Momentum max)
-{
-    Set(min, max);
-}
 MomentumRange::MomentumRange(Id max)
 {
     Set(at_rest, PtMax(max));
@@ -31,15 +25,15 @@ MomentumRange::MomentumRange(Id min, Id max)
 {
     Set(PtMin(min), PtMax(max));
 }
-MomentumRange::MomentumRange(Id min, const SubJet& max)
+MomentumRange::MomentumRange(Id min, SubJet const& max)
 {
     Set(PtMin(min), PtMax(max));
 }
-MomentumRange::MomentumRange(const SubJet& min, const SubJet& max)
+MomentumRange::MomentumRange(SubJet const& min, SubJet const& max)
 {
     Set(PtMin(min), PtMax(max));
 }
-MomentumRange::MomentumRange(const SubJet& min)
+MomentumRange::MomentumRange(SubJet const& min)
 {
     Set(PtMin(min), double(LargeNumber()) * GeV);
 }
@@ -64,25 +58,21 @@ Momentum MomentumRange::PtMax(Id id)
 {
     return PtMax(id, DetectorGeometry::JetConeSize());
 }
-Momentum MomentumRange::PtMin(const SubJet& id)
+Momentum MomentumRange::PtMin(SubJet const& id)
 {
     return PtMin(id.Id(), DetectorGeometry::MinCellResolution());
 }
-Momentum MomentumRange::PtMax(const SubJet& id)
+Momentum MomentumRange::PtMax(SubJet const& id)
 {
     return PtMax(id.Id(), DetectorGeometry::MinCellResolution());
 }
-bool MomentumRange::UpperBound(const fastjet::PseudoJet& jet) const
+bool MomentumRange::BelowUpperBound(fastjet::PseudoJet const& jet) const
 {
     return jet.pt() * GeV < max_;
 }
-bool MomentumRange::LowerBound(const fastjet::PseudoJet& jet) const
+bool MomentumRange::AboveLowerBound(fastjet::PseudoJet const& jet) const
 {
     return jet.pt() * GeV > min_;
-}
-bool MomentumRange::Bounds(const fastjet::PseudoJet& jet) const
-{
-    return LowerBound(jet) && UpperBound(jet);
 }
 Momentum MomentumRange::Pt(Id id, float cone_size)
 {
@@ -90,18 +80,22 @@ Momentum MomentumRange::Pt(Id id, float cone_size)
 }
 Momentum MomentumRange::PtMin(Id id, float cone_size)
 {
-    return 0.8 * Pt(id, cone_size);
+    return Pt(id, cone_size) * SmearingMin();
 }
 Momentum MomentumRange::PtMax(Id id, float cone_size)
 {
-    return 1.2 * Pt(id, cone_size);
+    return Pt(id, cone_size) * SmearingMax();
 }
-Jets MomentumRange::Soft(const Jets& jets) const
+float MomentumRange::Smearing() const
 {
-    return RemoveIfHard(jets, max_);
+    return 0.3;
 }
-Jets MomentumRange::Hard(const Jets& jets) const
+double MomentumRange::SmearingMin() const
 {
-    return RemoveIfSoft(jets, min_);
+    return 1. - Smearing();
+}
+double MomentumRange::SmearingMax() const
+{
+    return 1. + Smearing();
 }
 }

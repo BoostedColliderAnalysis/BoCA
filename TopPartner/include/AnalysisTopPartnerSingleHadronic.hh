@@ -36,7 +36,7 @@ protected:
 
     std::string ProjectName() const final {
         Info();
-        return "Naturalness-Single-Hadronic-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass()) + "-new-try";
+        return "Naturalness-Single-Hadronic-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass()) + "-new-linkdef";
     }
 
     void SetFiles(Tag tag, Stage) final {
