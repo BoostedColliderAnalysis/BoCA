@@ -3,6 +3,8 @@
  */
 #pragma once
 #include <boost/range/algorithm_ext/erase.hpp>
+#include <boost/range/algorithm/min_element.hpp>
+#include <boost/range/algorithm/find.hpp>
 
 #include "Particles.hh"
 #include "DetectorGeometry.hh"
@@ -118,13 +120,13 @@ std::vector<Multiplet> CopyIfClose(std::vector<Multiplet> const& multiplets, Jet
 template <typename Element>
 bool FindInVector(const std::vector<Element> vector, const Element element)
 {
-    return (std::find(vector.begin(), vector.end(), element) != vector.end());
+    return boost::range::find(vector, element) != vector.end();
 }
 
 template <typename Multiplet>
 fastjet::PseudoJet ClosestJet(Jets const& jets, Multiplet const& multiplet)
 {
-    return *std::min_element(jets.begin(), jets.end(), [&](fastjet::PseudoJet const & jet_1, fastjet::PseudoJet const & jet_2) {
+    return *boost::range::min_element(jets, [&](fastjet::PseudoJet const & jet_1, fastjet::PseudoJet const & jet_2) {
         return jet_1.delta_R(multiplet.Jet()) < jet_2.delta_R(multiplet.Jet());
     });
 }

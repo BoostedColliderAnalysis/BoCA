@@ -82,11 +82,13 @@ int Singlet::Charge() const
 
 Vector2 Singlet::Pull() const
 {
-    Vector2 pull;
-    if(!jet_.has_constituents() || jet_.constituents().size() < 3) return pull;
-    for (auto const& constituent : jet_.constituents()) pull += Reference(constituent) * constituent.pt() / jet_.pt() * constituent.delta_R(jet_);
-    Info(pull.Y(),pull.X(), jet_.constituents().size());
-    return pull;
+  if (has_pull_) return pull_;
+    boca::Jets constituents = jet_.constituents();
+    if(!jet_.has_constituents() || constituents.size() < 3) return pull_;
+    for (auto const& constituent : constituents) pull_ += Reference(constituent) * constituent.pt() / jet_.pt() * constituent.delta_R(jet_);
+    Info(pull_.Y(),pull_.X(), constituents.size());
+    has_pull_ = true;
+    return pull_;
 }
 
 float Singlet::Rapidity() const

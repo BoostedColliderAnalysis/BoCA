@@ -42,8 +42,8 @@ public:
      *
      */
     void AnalysisLoop(Stage stage) final {
-      Info();
-      Initialize();
+        Error(Name(stage));
+        Initialize();
         Reader<Tagger> reader(stage);
         for (auto const & tag : std::vector<Tag> {Tag::signal, Tag::background}) {
             Files files(tagger().ExportFileName(stage, tag), stage, tag);
@@ -80,8 +80,8 @@ protected:
 
     template<typename Class>
     bool TaggerIs() const {
-        Info();
         return typeid(tagger_).hash_code() == typeid(Class).hash_code();
+        Info();
     }
 
     /**

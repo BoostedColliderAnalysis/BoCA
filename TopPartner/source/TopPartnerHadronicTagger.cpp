@@ -13,44 +13,34 @@ namespace naturalness
 int TopPartnerHadronicTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
     Info();
-    std::vector<Triplet> triplets = top_reader_.Multiplets(event);
-    Info(triplets.size());
-    std::vector<Doublet> doublets = boson_reader_.Multiplets(event);
-    Info(doublets.size());
-    std::vector<Quintet> quintets;
-    for (auto const & doublet : doublets)
-        for (auto const & triplet : triplets) {
-            Quintet quintet(triplet, doublet);
-            if (quintet.Overlap()) continue;
-            quintet.SetTag(tag);
-            quintets.emplace_back(quintet);
-        }
-    Debug(quintets.size());
-    Jets particles = Particles(event);
-    if (tag == Tag::signal) {
-        Check(!particles.empty(), particles.size())
-    } else Check(particles.empty(), particles.size());
-    int size = particles.size();
-    std::string particle = "";
-    if (size > 0) particle = boca::Name(particles.front().user_info<ParticleInfo>().Family().particle().id());
-    Debug(size, particle);
-    return SaveEntries(quintets, particles, tag);
+    return SaveEntries(Quintets(event, [&](Quintet & quintet) {
+        quintet.SetTag(tag);
+        return quintet;
+    }), Particles(event), tag);
 }
 
 std::vector<Quintet> TopPartnerHadronicTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
-    std::vector<Quintet> quintets = pairs(top_reader_.Multiplets(event), boson_reader_.Multiplets(event), [&](Triplet const & triplet, Doublet const & doublet) {
-        Quintet quintet(triplet, doublet);
-        if (quintet.Overlap()) throw Overlap();
+    Info();
+    return ReduceResult(Quintets(event, [&](Quintet & quintet) {
         quintet.SetBdt(Bdt(quintet, reader));
         return quintet;
+    }));
+}
+
+std::vector<Quintet> TopPartnerHadronicTagger::Quintets(Event const& event, std::function<Quintet(Quintet&)> const& function) const
+{
+    Info();
+    return pairs(top_reader_.Multiplets(event), boson_reader_.Multiplets(event), [&](Triplet const & triplet, Doublet const & doublet) {
+        Quintet quintet(triplet, doublet);
+        if (quintet.Overlap()) throw Overlap();
+        return function(quintet);
     });
-    Debug(quintets.size());
-    return ReduceResult(quintets);
 }
 
 Jets TopPartnerHadronicTagger::Particles(Event const& event) const
 {
+    Info();
     Jets particles = event.Partons().GenParticles();
     Jets quarks = CopyIfQuark(particles);
     Jets candidate = CopyIfGrandGrandMother(quarks, Id::top_partner);

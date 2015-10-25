@@ -27,12 +27,12 @@ std::string NiceName(Process process)
 {
     Info();
     switch (process) {
-    case Process::TT : return "#tilde t_{h}#tilde t_{l}";
+    case Process::TT : return "T_{h}T_{l}";
     case Process::ttBjj : return "t_{l}t_{h}B^{0}jj";
     case Process::tthBjj : return "t_{l}t_{h}hB^{0}jj";
-    case Process::TthLep : return "#tilde t_{l}t_{h}h";
-    case Process::TthHad : return "#tilde t_{h}t_{l}h";
-    case Process::TThh : return "#tilde t_{l}#tilde t_{h}hh";
+    case Process::TthLep : return "T_{l}t_{h}h";
+    case Process::TthHad : return "T_{h}t_{l}h";
+    case Process::TThh : return "T_{l}T_{h}hh";
     case Process::ttBB : return "t_{l}t_{h}B^{0}B^{0}";
     default: Error("no case");
     }

@@ -317,7 +317,7 @@ std::vector< Triplet > TopHadronicTagger::ordered_triplets(Jets const& jets, uns
 }
 int TopHadronicTagger::SaveBdt(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const
 {
-    return SaveEntries(Multiplets(event, pre_cuts, reader), 2);
+    return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
 }
 std::string TopHadronicTagger::Name() const
 {

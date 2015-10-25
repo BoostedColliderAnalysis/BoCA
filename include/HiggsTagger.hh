@@ -4,6 +4,7 @@
 #pragma once
 
 #include "BottomTagger.hh"
+#include "BranchTagger.hh"
 #include "Reader.hh"
 
 namespace boca

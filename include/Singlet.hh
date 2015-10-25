@@ -159,6 +159,12 @@ private:
 
     JetInfo jet_info_;
 
+    // save expensive results in mutable member variables
+
+    mutable Vector2 pull_;
+
+    mutable bool has_pull_ = false;
+
 };
 
 

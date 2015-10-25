@@ -1,11 +1,16 @@
 #include "AnalysisBoson.hh"
 #include "BosonTagger.hh"
 
+template<typename Tagger>
+void Run(boca::Output run = boca::Output::normal)
+{
+    boca::standardmodel::AnalysisBoson<Tagger> analysis;
+    boca::Run(analysis, run);
+}
+
 int main()
 {
-    boca::standardmodel::AnalysisBoson<boca::BottomTagger> bottom_analysis;
-    bottom_analysis.RunFast();
-    boca::standardmodel::AnalysisBoson<boca::BosonTagger> boson_analysis;
-    boson_analysis.RunFullEfficiency();
+    Run<boca::BottomTagger>(boca::Output::fast) ;
+    Run<boca::BosonTagger>(boca::Output::efficiency);
 }
 

@@ -4,6 +4,7 @@
 #pragma once
 
 #include "BottomTagger.hh"
+#include "BranchTagger.hh"
 #include "Doublet.hh"
 #include "Reader.hh"
 

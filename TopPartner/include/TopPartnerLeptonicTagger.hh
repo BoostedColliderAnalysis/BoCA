@@ -38,7 +38,7 @@ public:
     }
 
     std::string NiceName() const final {
-      return "#tilde t_{l}";
+      return "T_{l}";
     }
 
     Jets Particles(Event const& event) const;

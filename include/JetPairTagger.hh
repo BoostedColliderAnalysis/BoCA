@@ -4,6 +4,7 @@
 #pragma once
 
 #include "BottomTagger.hh"
+#include "BranchTagger.hh"
 #include "Doublet.hh"
 #include "Reader.hh"
 
@@ -19,14 +20,12 @@ public:
 
     JetPairTagger();
 
-    int Train(Event const& event, PreCuts const& pre_cuts,
-              Tag tag) const final;
+    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
 
     std::vector<Doublet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    int SaveBdt(Event const& event, PreCuts const& pre_cuts,
-               TMVA::Reader const& reader) const final {
-                 return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
+    int SaveBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final {
+        return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
     }
 
     std::string Name() const final { return "JetPair"; }

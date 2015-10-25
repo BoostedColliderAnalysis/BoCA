@@ -5,8 +5,8 @@
 
 #include "TMVA/Reader.h"
 
-#include "Tagger.hh"
 #include "PreCuts.hh"
+#include "Tagger.hh"
 #include "Options.hh"
 
 namespace boca

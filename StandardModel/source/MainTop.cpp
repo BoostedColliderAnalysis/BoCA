@@ -3,22 +3,25 @@
 #include "TopLeptonicTagger.hh"
 #include "Debug.hh"
 
+template<typename Tagger>
+void Run(boca::Output run = boca::Output::normal)
+{
+    boca::standardmodel::TopAnalysis<Tagger> analysis;
+    boca::Run(analysis, run);
+}
+
 int main()
 {
-    boca::standardmodel::TopAnalysis<boca::BottomTagger> bottom_analysis;
-    bottom_analysis.RunFast();
-    switch (bottom_analysis.TopDecay()) {
+    Run<boca::BottomTagger>(boca::Output::fast) ;
+    switch (boca::standardmodel::TopAnalysis<boca::BottomTagger>::TopDecay()) {
     case boca::Decay::hadronic : {
-        boca::standardmodel::TopAnalysis<boca::WHadronicTagger> w_hadronic_analysis;
-        w_hadronic_analysis.RunFast();
-        boca::standardmodel::TopAnalysis<boca::TopHadronicTagger> top_hadronic_analysis;
-        top_hadronic_analysis.RunFullEfficiency();
-        top_hadronic_analysis.RunPlots();
+        Run<boca::WHadronicTagger>(boca::Output::fast);
+        Run<boca::TopHadronicTagger>(boca::Output::efficiency);
         break;
     }
     case boca::Decay::leptonic : {
-        boca::standardmodel::TopAnalysis<boca::TopLeptonicTagger> top_leptonic_analysis;
-        top_leptonic_analysis.RunFullEfficiency();
+        Run<boca::WLeptonicTagger>(boca::Output::fast);
+        Run<boca::TopLeptonicTagger>(boca::Output::efficiency);
         break;
     }
     }

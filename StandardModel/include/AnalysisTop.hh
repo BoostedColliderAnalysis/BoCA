@@ -35,7 +35,7 @@ public:
         this->pre_cuts().PtLowerCut().Set(Id::W, this->LowerPtCut() / 5.);
     }
 
-    Decay TopDecay() const {
+    static Decay TopDecay() {
         Info();
         return Decay::hadronic;
         return Decay::leptonic;

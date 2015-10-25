@@ -29,7 +29,7 @@ public:
         //     pre_cuts().TrackerMaxEta().Set(Id::top, DetectorGeometry::TrackerEtaMax);
     }
 
-    Decay WDecay() const {
+    static Decay WDecay() {
         return Decay::hadronic;
         return Decay::leptonic;
     }

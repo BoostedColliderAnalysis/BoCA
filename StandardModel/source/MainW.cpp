@@ -2,21 +2,24 @@
 #include "WHadronicTagger.hh"
 #include "WLeptonicTagger.hh"
 
+template<typename Tagger>
+void Run(boca::Output run = boca::Output::normal)
+{
+    boca::standardmodel::AnalysisW<Tagger> analysis;
+    boca::Run(analysis, run);
+}
+
 int main()
 {
-    boca::standardmodel::AnalysisW<boca::BottomTagger> bottom_analysis;
-    bottom_analysis.RunFast();
-    switch (bottom_analysis.WDecay()) {
+    Run<boca::BottomTagger>(boca::Output::fast) ;
+    switch (boca::standardmodel::AnalysisW<boca::BottomTagger>::WDecay()) {
     case boca::Decay::hadronic : {
-        boca::standardmodel::AnalysisW<boca::WHadronicTagger> w_hadronic_analysis;
-        w_hadronic_analysis.RunFullEfficiency();
+        Run<boca::WHadronicTagger>(boca::Output::efficiency);
         break;
     }
     case boca::Decay::leptonic : {
-        boca::standardmodel::AnalysisW<boca::WLeptonicTagger> w_leptonic_analysis;
-        w_leptonic_analysis.RunFullEfficiency();
+        Run<boca::WLeptonicTagger>(boca::Output::efficiency);
         break;
     }
     }
 }
-

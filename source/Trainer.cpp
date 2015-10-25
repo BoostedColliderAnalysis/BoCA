@@ -13,6 +13,7 @@
 #include "Types.hh"
 #include "Tagger.hh"
 #include "Options.hh"
+// #define DETAILED
 #include "Debug.hh"
 
 namespace boca

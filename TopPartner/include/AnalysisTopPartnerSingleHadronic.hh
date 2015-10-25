@@ -36,23 +36,23 @@ protected:
 
     std::string ProjectName() const final {
         Info();
-        return "Naturalness-Single-Hadronic-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass()) + "-new-linkdef";
+        return "Single-Hadronic-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass()) + "-new-linkdef-full";
     }
 
     void SetFiles(Tag tag, Stage) final {
         Info();
         switch (tag) {
         case Tag::signal :
-            if (this->template TaggerIs<VetoTopPartnerLeptonicTagger>()) this->NewFile(tag, Process::TT); else
-                this->NewFile(tag, Process::TthHad);
+            if (this->template TaggerIs<VetoTopPartnerLeptonicTagger>()) this->NewFile(tag, Process::TT);
+            else this->NewFile(tag, Process::TthHad);
             break;
         case Tag::background :
             if (this->template TaggerIs<VetoTopPartnerLeptonicTagger>()) this->NewFile(tag, Process::TthHad);
-//             else if (!this->template TaggerIs<TopPartnerHadronicTagger>()) this->NewFile(tag, Process::TT);
-            if (!this->template TaggerIs<VetoTopPartnerLeptonicTagger>()) {
+            else if (!this->template TaggerIs<TopPartnerHadronicTagger>()) this->NewFile(tag, Process::TT);
+//             if (!this->template TaggerIs<VetoTopPartnerLeptonicTagger>()) {
                 this->NewFile(tag, Process::ttBB);
                 this->NewFile(tag, Process::ttBjj);
-            }
+//             }
             break;
         }
     }
@@ -72,8 +72,6 @@ private:
 
 //      Error();
 //      this->PrintGeneratorLevel(event);
-
-
 
 //         Jets jets = fastjet::sorted_by_pt(event.Hadrons().Jets());
 //         if (jets.size() < 3) return 0;

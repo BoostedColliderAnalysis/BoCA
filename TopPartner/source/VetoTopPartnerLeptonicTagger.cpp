@@ -49,17 +49,6 @@ Jets VetoTopPartnerLeptonicTagger::Particles(Event const& event) const
     }
 }
 
-// std::vector<Quintet> VetoTopPartnerLeptonicTagger::Quintets(Event const& event, PreCuts const& pre_cuts, std::function<Quintet(Quintet&)> const& function) const
-// {
-//     Info();
-//     return triples(partner_reader_.Multiplets(event), top_reader_.Multiplets(event), higgs_reader_.Multiplets(event), [&](Quintet const & quintet, Triplet const& triplet, Doublet const & doublet) {
-//         Decuplet532 decuplet(quintet, triplet, doublet);
-//         if (decuplet.Overlap()) throw Overlap();
-//         Quintet veto(triplet, doublet);
-//         return function(veto);
-//     });
-// }
-
 std::vector<Quintet> VetoTopPartnerLeptonicTagger::Quintets(Event const& event, PreCuts const& pre_cuts, std::function<Quintet(Quintet&)> const& function) const
 {
     Info();

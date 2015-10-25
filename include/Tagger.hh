@@ -160,7 +160,7 @@ protected:
 
     template<typename Multiplet>
     Multiplet SetClosestLepton(Multiplet& multiplet, Jets & leptons) const {
-        if (leptons.empty()) leptons.emplace_back(fastjet::PseudoJet(multiplet.Jet() / multiplet.Jet().pt() * (DetectorGeometry::LeptonMinPt() / GeV)));
+        if (leptons.empty()) leptons.emplace_back(multiplet.Jet() / multiplet.Jet().pt() * (DetectorGeometry::LeptonMinPt() / GeV));
         auto lepton = ClosestJet(leptons, multiplet);
         multiplet.LeptonPt = lepton.pt();
         multiplet.LeptonDeltaR = lepton.delta_R(multiplet.Jet());

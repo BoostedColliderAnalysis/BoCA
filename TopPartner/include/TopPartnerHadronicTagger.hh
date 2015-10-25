@@ -38,12 +38,14 @@ public:
     }
 
     std::string NiceName() const final {
-        return "#tilde t_{h}";
+        return "T_{h}";
     }
 
     Jets Particles(Event const& event) const;
 
 private:
+
+    std::vector<Quintet> Quintets(Event const& event, std::function<Quintet(Quintet&)> const& function) const;
 
     Reader<TopHadronicTagger> top_reader_;
 

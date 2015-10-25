@@ -4,6 +4,7 @@
 
 #include <sys/stat.h>
 #include <fstream>
+#include <boost/lexical_cast.hpp>
 
 #include "TTree.h"
 
@@ -31,7 +32,7 @@ void AnalysisBase::Initialize()
 {
     Error(tagger().Name());
     working_path_ = WorkingPath();
-    if(ProjectName()!=AnalysisBase::ProjectName()) mkdir(ProjectName().c_str(), 0700);
+    if (ProjectName() != AnalysisBase::ProjectName()) mkdir(ProjectName().c_str(), 0700);
     tagger().Initialize();
 }
 
@@ -281,31 +282,32 @@ std::string AnalysisBase::WorkingPath()
         // I'm not sure whether this can happen or not
         throw std::runtime_error("Insufficient storage");
     default: {
-        std::ostringstream stream;
-        stream << "Unrecognised error" << error;
-        throw std::runtime_error(stream.str());
+//         std::ostringstream stream;
+//         stream << "Unrecognised error" << error;
+//         throw std::runtime_error(stream.str());
+        throw std::runtime_error("Unrecognised error" + boost::lexical_cast<std::string>(error));
     }
     }
 }
 
 void Run(AnalysisBase& analysis, Output run)
 {
-  Info();
+    Info();
 //   analysis.PreRequisits<analysis.tagger()::type>(analysis,run);
-  switch (run) {
+    switch (run) {
     case Output::fast :
-      analysis.RunFast();
-      break;
+        analysis.RunFast();
+        break;
     case Output::normal :
         analysis.RunNormal();
         break;
     case Output::efficiency :
-      analysis.RunFullEfficiency();
+        analysis.RunFullEfficiency();
 //       analysis.RunPlots();
         break;
     case Output::significance :
-      analysis.RunFullSignificance();
-      analysis.RunPlots();
+        analysis.RunFullSignificance();
+        analysis.RunPlots();
         break;
     case Output::plot :
         analysis.RunNormal();
@@ -318,17 +320,18 @@ void Run(AnalysisBase& analysis, Output run)
 
 }
 
-void AnalysisBase::PrintGeneratorLevel(Event const& event, bool signature) const {
-  Info();
-  Jets particles = event.Partons().GenParticles();
-  for (auto const & particle : particles) {
-    Family family = particle.user_info<ParticleInfo>().Family();
-    if (signature && family.mother_2().id() == 0) continue;
-    std::string id = Name(family.particle().id());
-    std::string mother = Name(family.mother_1().id());
-    std::string mother2 = Name(family.mother_2().id());
-    Error(id, mother, mother2);
-  }
+void AnalysisBase::PrintGeneratorLevel(Event const& event, bool signature) const
+{
+    Info();
+    Jets particles = event.Partons().GenParticles();
+    for (auto const & particle : particles) {
+        Family family = particle.user_info<ParticleInfo>().Family();
+        if (signature && family.mother_2().id() == 0) continue;
+        std::string id = Name(family.particle().id());
+        std::string mother = Name(family.mother_1().id());
+        std::string mother2 = Name(family.mother_2().id());
+        Error(id, mother, mother2);
+    }
 }
 
 }

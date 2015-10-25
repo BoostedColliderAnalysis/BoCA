@@ -125,13 +125,13 @@ Stage TopLeptonicTagger::InitializeLeptonicReader()
     if (use_w_) return Stage::reader;
     else return Stage::trainer;
 }
-int TopLeptonicTagger::SaveBdt(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const
+int TopLeptonicTagger::SaveBdt(Event const& event,  PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
 //         do_fake_leptons = true;
     return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
 //         return SaveEntries(Multiplets(event, pre_cuts, reader), Particles(event).size());
 }
-auto TopLeptonicTagger::Multiplets(const Event& event, const TMVA::Reader& reader) const
+auto TopLeptonicTagger::Multiplets(Event const& event, TMVA::Reader const& reader) const
 {
     PreCuts pre_cuts;
     return Multiplets(event, pre_cuts, reader);

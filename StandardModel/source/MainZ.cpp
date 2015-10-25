@@ -1,11 +1,15 @@
 #include "AnalysisZ.hh"
 #include "ZHadronicTagger.hh"
 
-int main()
+template<typename Tagger>
+void Run(boca::Output run = boca::Output::normal)
 {
-    boca::standardmodel::AnalysisZ<boca::BottomTagger> bottom_analysis;
-    bottom_analysis.RunFast();
-    boca::standardmodel::AnalysisZ<boca::ZHadronicTagger> z_hadronic_analysis;
-    z_hadronic_analysis.RunFullEfficiency();
+    boca::standardmodel::AnalysisZ<Tagger> analysis;
+    boca::Run(analysis, run);
 }
 
+int main()
+{
+    Run<boca::BottomTagger>(boca::Output::fast) ;
+    Run<boca::ZHadronicTagger>(boca::Output::efficiency);
+}

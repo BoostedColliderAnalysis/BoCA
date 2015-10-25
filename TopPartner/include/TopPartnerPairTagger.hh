@@ -33,7 +33,7 @@ public:
     }
 
     std::string NiceName() const final {
-      return "#tilde t_{h} #tilde t_{l}";
+      return "T_{h} T_{l}";
     }
 
 private:

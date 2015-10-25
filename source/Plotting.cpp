@@ -123,7 +123,7 @@ Result Plotting::BdtDistribution(TFile& file, std::string const& tree_name, TFil
 
 InfoBranch Plotting::InfoBranch(TFile& file, std::string const& tree_name) const
 {
-    Debug(tree_name);
+    Info(tree_name);
     exroot::TreeReader tree_reader(static_cast<TTree*>(file.Get(tree_name.c_str())));
     Debug(tree_name, Tagger().WeightBranchName());
     TClonesArray& clones_array = *tree_reader.UseBranch(Tagger().WeightBranchName().c_str());
@@ -216,30 +216,30 @@ void Plotting::PlotAcceptanceGraph(Results const& results) const
 
 std::string Plotting::PlotCrosssectionsGraph(Results const& results) const
 {
-  Info();
-  Canvas canvas;
-  canvas.SetLog();
-  TMultiGraph multi_graph("", Tagger().NiceName().c_str());
-  Strings nice_names;
-  std::vector<TGraph> graphs;
-  for (auto const & result : results.signals) {
-    nice_names.emplace_back(result.info_branch_.Name);
-    graphs.emplace_back(TGraph(result.steps, &results.x_values.front(), &result.Crosssection().front()));
-  }
-  for (auto const & result : results.backgrounds) {
-    nice_names.emplace_back(result.info_branch_.Name);
-    graphs.emplace_back(TGraph(result.steps, &results.x_values.front(), &result.Crosssection().front()));
-  }
-  TLegend legend = Legend(Orientation::bottom | Orientation::left, nice_names);
-  for (auto & graph : graphs) AddGraph(graph, multi_graph, legend, nice_names, &graph - &graphs.front());
-  multi_graph.Draw("al");
-  multi_graph.GetXaxis()->SetLimits(results.min.x, results.max.x);
-  canvas.SetAxis(*multi_graph.GetXaxis(), "BDT");
-  canvas.SetAxis(*multi_graph.GetYaxis(), "Crosssection [fb]");
-  TLine line = Line(results.best_model_dependent_bin , multi_graph.GetYaxis()->GetXmin(), multi_graph.GetYaxis()->GetXmax(), results.signals.size() + results.backgrounds.size() + 1);
-  TLine line2 = Line(results.best_model_independent_bin, multi_graph.GetYaxis()->GetXmin(), multi_graph.GetYaxis()->GetXmax(), results.signals.size() + results.backgrounds.size() + 2);
-  legend.Draw();
-  return canvas.SaveAs(Tagger().ExportFolderName() + "-Crosssection");
+    Info();
+    Canvas canvas;
+    canvas.SetLog();
+    TMultiGraph multi_graph("", Tagger().NiceName().c_str());
+    Strings nice_names;
+    std::vector<TGraph> graphs;
+    for (auto const & result : results.signals) {
+        nice_names.emplace_back(result.info_branch_.Name);
+        graphs.emplace_back(TGraph(result.steps, &results.x_values.front(), &result.Crosssection().front()));
+    }
+    for (auto const & result : results.backgrounds) {
+        nice_names.emplace_back(result.info_branch_.Name);
+        graphs.emplace_back(TGraph(result.steps, &results.x_values.front(), &result.Crosssection().front()));
+    }
+    TLegend legend = Legend(Orientation::bottom | Orientation::left, nice_names);
+    for (auto & graph : graphs) AddGraph(graph, multi_graph, legend, nice_names, &graph - &graphs.front());
+    multi_graph.Draw("al");
+    multi_graph.GetXaxis()->SetLimits(results.min.x, results.max.x);
+    canvas.SetAxis(*multi_graph.GetXaxis(), "BDT");
+    canvas.SetAxis(*multi_graph.GetYaxis(), "Crosssection [fb]");
+    TLine line = Line(results.best_model_dependent_bin , multi_graph.GetYaxis()->GetXmin(), multi_graph.GetYaxis()->GetXmax(), results.signals.size() + results.backgrounds.size() + 1);
+    TLine line2 = Line(results.best_model_independent_bin, multi_graph.GetYaxis()->GetXmin(), multi_graph.GetYaxis()->GetXmax(), results.signals.size() + results.backgrounds.size() + 2);
+    legend.Draw();
+    return canvas.SaveAs(Tagger().ExportFolderName() + "-Crosssection");
 }
 
 std::string Plotting::PlotModelDependentGraph(Results& results) const
@@ -265,7 +265,7 @@ std::string Plotting::PlotModelIndependentGraph(Results& results) const
     Info();
     Canvas canvas;
     TGraph graph = Graph(results, results.Crosssections(), "Crosssection");
-    canvas.SetLog(min(results.crosssections, true) / fb,max(results.crosssections)/fb);
+    canvas.SetLog(min(results.crosssections, true) / fb, max(results.crosssections) / fb);
     TLine line  = Line(results.best_model_independent_bin, graph.GetYaxis()->GetXmin(), graph.GetYaxis()->GetXmax(), results.signals.size() + results.backgrounds.size() + 2);
     return canvas.SaveAs(Tagger().ExportFolderName() + "-Exclusion");
 }
@@ -284,12 +284,13 @@ std::string Plotting::BestValueTable(Results const& results) const
 
 std::string Plotting::BestValueRow(Results const& results, int bin, std::string const& name) const
 {
+    Info();
     std::stringstream row;
-    row << " " << name
-        << "\n  & " << RoundToDigits(results.XValue(bin))
-        << "\n  & " << RoundToDigits(results.significances.at(bin))
-        << "\n  & " << RoundToDigits(results.crosssections.at(bin) / fb)
-        << "\n \\\\";
+    row << " " << name;
+    row << "\n  & " << RoundToDigits(results.XValue(bin));
+    row << "\n  & " << RoundToDigits(results.significances.at(bin));
+    row << "\n  & " << RoundToDigits(results.crosssections.at(bin) / fb);
+    row << "\n \\\\";
     return row.str();
 }
 
@@ -306,14 +307,15 @@ std::string Plotting::EfficienciesTable(Results const& results, int bin) const
 
 std::string Plotting::EfficienciesRow(Result const& result, int index, Tag tag, int bin) const
 {
+    Info();
     std::stringstream row;
-    row << " \\verb|" << Tagger().TreeNames(tag).at(index) << "|"
-        << "\n  & " << result.info_branch_.EventNumber
-        << "\n  & " << result.event_sums.at(bin)
-        << "\n  & " << RoundToDigits(result.efficiency.at(bin))
-        << "\n  & " << RoundToDigits(result.info_branch_.Crosssection)
-        << "\n  & " << std::round(to_crosssection(result.info_branch_.Crosssection) * DetectorGeometry::Luminosity()) * result.efficiency.at(bin)
-        << "\n \\\\";
+    row << " \\verb|" << Tagger().TreeNames(tag).at(index) << "|";
+    row << "\n  & " << result.info_branch_.EventNumber;
+    row << "\n  & " << result.event_sums.at(bin);
+    row << "\n  & " << RoundToDigits(result.efficiency.at(bin));
+    row << "\n  & " << RoundToDigits(result.info_branch_.Crosssection);
+    row << "\n  & " << std::round(to_crosssection(result.info_branch_.Crosssection) * DetectorGeometry::Luminosity()) * result.efficiency.at(bin);
+    row << "\n \\\\";
     return row.str();
 }
 
@@ -417,7 +419,7 @@ void Plotting::PlotProfile(Plot const& signal, Plot const& background, Point con
 
 std::vector<Plots> Plotting::Import(Stage stage, Tag tag) const
 {
-    Debug(Tagger().FileName(stage, tag), Tagger().TreeNames(tag).size());
+    Info(Tagger().FileName(stage, tag), Tagger().TreeNames(tag).size());
     TFile file(Tagger().FileName(stage, tag).c_str(), "Read");
     std::vector<Plots> results;
     for (auto const & tree_name : Tagger().TreeNames(tag)) results.emplace_back(PlotResult(file, tree_name, stage));
@@ -426,7 +428,7 @@ std::vector<Plots> Plotting::Import(Stage stage, Tag tag) const
 
 Plots Plotting::PlotResult(TFile& file, std::string const& tree_name, Stage stage) const
 {
-    Debug(tree_name);
+    Info(tree_name);
     Plots plots;
     plots.info_branch = InfoBranch(file, tree_name);
     TTree& tree = static_cast<TTree&>(*file.Get(tree_name.c_str()));
