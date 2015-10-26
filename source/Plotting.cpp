@@ -125,7 +125,7 @@ InfoBranch Plotting::InfoBranch(TFile& file, std::string const& tree_name) const
 {
     Info(tree_name);
     exroot::TreeReader tree_reader(static_cast<TTree*>(file.Get(tree_name.c_str())));
-    Debug(tree_name, Tagger().WeightBranchName());
+    Error(tree_name, Tagger().WeightBranchName());
     TClonesArray& clones_array = *tree_reader.UseBranch(Tagger().WeightBranchName().c_str());
     tree_reader.ReadEntry(tree_reader.GetEntries() - 1);
     return static_cast<boca::InfoBranch&>(*clones_array.Last());

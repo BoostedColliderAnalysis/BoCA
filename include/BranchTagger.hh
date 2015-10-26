@@ -50,7 +50,7 @@ protected:
     template<typename Multiplet>
     std::vector<Multiplet> ReduceResult(std::vector<Multiplet> multiplets, size_t max = 4) const {
         Info();
-        DebugCheck(multiplets.size()>=max, multiplets.size());
+        DebugCheck(multiplets.size() >= max, multiplets.size());
         if (multiplets.empty()) return multiplets;
         boost::range::sort(multiplets);
         multiplets.erase(multiplets.begin() + std::min(max, multiplets.size()), multiplets.end());
@@ -123,6 +123,14 @@ protected:
         case Tag::background  :
             return RemoveBestMatch(jets, particles);
             break;
+        }
+    }
+
+    template<typename Multiplet>
+    int SaveEntries(std::vector<Multiplet> multiplets, Tag tag) const {
+        switch (tag) {
+        case Tag::signal : return SaveEntries(multiplets, 1);
+        case Tag::background : return SaveEntries(multiplets);
         }
     }
 

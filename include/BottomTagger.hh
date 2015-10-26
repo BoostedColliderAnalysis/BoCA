@@ -4,7 +4,8 @@
 #pragma once
 
 #include "Branches.hh"
-#include "BranchTagger.hh"
+// #include "BranchTagger.hh"
+#include "TaggerTemplate.hh"
 
 
 namespace boca
@@ -18,7 +19,9 @@ namespace boca
  * @license GPL 3
  *
  */
-class BottomTagger : public BranchTagger<BottomBranch>
+class BottomTagger : public
+// BranchTagger<BottomBranch>
+TaggerTemplate<fastjet::PseudoJet, BottomBranch>
 {
 
 public:
@@ -34,7 +37,7 @@ public:
      * @brief Return all jets of the event with bottom bdt value considering pre cuts
      *
      */
-    Jets Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
+    Jets Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
 
     /**
      * @brief Save all jets with bottom bdt value condidering pre cuts

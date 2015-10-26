@@ -26,6 +26,7 @@ class PseudoJet;
 #define NOTIFICATION
 #endif
 // #define DEBUG
+// #define INFORMATION
 
 namespace boca
 {

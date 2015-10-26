@@ -39,7 +39,13 @@ public:
         return "EventSingleHadronic";
     }
 
+    std::string NiceName() const final {
+      return "T_{h}t_{l}h";
+    }
+
 private:
+
+    std::vector<MultipletEvent<Decuplet532>> Events(Event const& event, std::function<MultipletEvent<Decuplet532>(MultipletEvent<Decuplet532> &)> const& function) const;
 
     Reader<SignatureSingleHadronicTagger> signature_reader_;
 

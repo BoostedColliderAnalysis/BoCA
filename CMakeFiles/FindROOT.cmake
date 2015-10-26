@@ -147,11 +147,17 @@ macro(ROOT_GENERATE_DICTIONARY infiles linkdef_file outfile include_dirs_in)
   string(REGEX REPLACE "^(.*)\\.(.*)$" "\\1.h" bla "${outfile}")
   set(outfiles ${outfile} ${bla})
 
+
+  message(${ROOT_CINT_EXECUTABLE} -f ${outfile} -c ${include_dirs} ${infiles} ${linkdef_file})
+
   if(CMAKE_SYSTEM_NAME MATCHES Linux)
     add_custom_command(OUTPUT ${outfiles}
                        COMMAND LD_LIBRARY_PATH=${ROOT_LIBRARY_DIR}
                                ROOTSYS=${ROOTSYS} ${ROOT_CINT_EXECUTABLE}
-                       ARGS -f ${outfile} -c -DHAVE_CONFIG_H ${include_dirs} ${infiles} ${linkdef_file}
+                       ARGS -f ${outfile}
+                            -c -DHAVE_CONFIG_H
+                               ${include_dirs}
+                               ${infiles} ${linkdef_file}
                        DEPENDS ${infiles} ${linkdef_file})
   else()
     if(CMAKE_SYSTEM_NAME MATCHES Darwin)
