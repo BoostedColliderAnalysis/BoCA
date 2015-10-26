@@ -18,28 +18,59 @@ BottomTagger::BottomTagger()
     bottom_max_mass_ = 75. * GeV;
 }
 
-int BottomTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Tag tag) const
+int BottomTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const
 {
     Info();
-    boca::Jets jets = event.Hadrons().Jets();
-    if (jets.empty()) return 0;
-    boca::Jets final_jets = CleanJets(jets, pre_cuts, tag);
-    if (pre_cuts.DoSubJets()) {
-        final_jets = Join(final_jets, TrainOnSubJets(jets, pre_cuts, tag, 2));
-        final_jets = Join(final_jets, TrainOnSubJets(jets, pre_cuts, tag, 3));
-    }
-    boca::Jets bottoms = Particles(event);
-    return SaveEntries(final_jets, bottoms, tag);
+    return SaveEntries(Jets(event, pre_cuts, [&](fastjet::PseudoJet & jet) {
+        if (Problematic(jet, pre_cuts, tag)) throw boca::Problematic();
+        return jet;
+    }), Particles(event), tag);
 }
 
 boca::Jets BottomTagger::Particles(Event const& event) const
 {
     Info();
-    boca::Jets particles = event.Partons().Particles();
-    boca::Jets bottoms = CopyIfParticle(particles, Id::bottom);
-    bottoms = RemoveIfSoft(bottoms, DetectorGeometry::JetMinPt());
-    Info(bottoms.size());
+    return RemoveIfSoft(CopyIfParticle(event.Partons().Particles(), Id::bottom), DetectorGeometry::JetMinPt());
+}
+
+Jets BottomTagger::Jets(Event const& event, PreCuts const& pre_cuts, std::function<fastjet::PseudoJet(fastjet::PseudoJet&)> const& function) const
+{
+    Info();
+    boca::Jets jets = event.Hadrons().Jets();
+    boca::Jets bottoms = Multiplets(jets, pre_cuts, function);
+    if (pre_cuts.DoSubJets()) {
+        bottoms = Join(bottoms, Multiplets(jets, pre_cuts, function, 2));
+        bottoms = Join(bottoms, Multiplets(jets, pre_cuts, function, 3));
+    }
     return bottoms;
+}
+
+boca::Jets BottomTagger::Multiplets(boca::Jets jets, boca::PreCuts const& pre_cuts, std::function<fastjet::PseudoJet(fastjet::PseudoJet&)> const& function, unsigned sub_jet_number) const
+{
+    Info();
+    if (sub_jet_number > 1) jets = SubJets(jets, sub_jet_number);
+    boca::Jets final_jets;
+    for (auto & jet : jets) try {
+            final_jets.emplace_back(function(jet));
+        } catch (std::exception&) {
+            continue;
+        }
+    return final_jets;
+}
+
+boca::Jets BottomTagger::Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
+{
+    return Jets(event, pre_cuts, [&](fastjet::PseudoJet const & jet) {
+        if (Problematic(jet, pre_cuts)) throw boca::Problematic();
+        return Multiplet(jet, reader);
+    });
+}
+
+fastjet::PseudoJet BottomTagger::Multiplet(fastjet::PseudoJet const& jet, TMVA::Reader const& reader) const
+{
+    Info();
+    static_cast<JetInfo&>(*jet.user_info_shared_ptr().get()).SetBdt(Bdt(jet, reader));
+    return jet;
 }
 
 bool BottomTagger::Problematic(fastjet::PseudoJet const& jet, PreCuts const& pre_cuts, Tag tag) const
@@ -64,25 +95,45 @@ bool BottomTagger::Problematic(fastjet::PseudoJet const& jet, PreCuts const& pre
     return false;
 }
 
-boca::Jets BottomTagger::CleanJets(boca::Jets& jets, boca::PreCuts const& pre_cuts, Tag tag) const
-{
-    Info(jets.size());
-    if (jets.empty()) return jets;
-    boca::Jets clean_jets;
-    for (auto const & jet : jets) {
-        if (Problematic(jet, pre_cuts, tag)) continue;
-        clean_jets.emplace_back(jet);
-    }
-    Info(clean_jets.size());
-    return clean_jets;
-}
 
-boca::Jets BottomTagger::TrainOnSubJets(boca::Jets const& jets, boca::PreCuts const& pre_cuts, Tag tag, int sub_jet_number) const
-{
-    Debug(sub_jet_number);
-    boca::Jets sub_jets = SubJets(jets, sub_jet_number);
-    return CleanJets(sub_jets, pre_cuts, tag);
-}
+
+
+
+
+
+
+
+// boca::Jets BottomTagger::Multiplets(boca::Jets const& jets, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const
+// {
+//     Info();
+//     boca::Jets final_jets;
+//     for (auto const & jet : jets) {
+//         if (Problematic(jet, pre_cuts)) continue;
+//         final_jets.emplace_back(Multiplet(jet, reader));
+//     }
+//     return final_jets;
+// }
+//
+// boca::Jets BottomTagger::SubMultiplets(boca::Jets const& jets, PreCuts const& pre_cuts, TMVA::Reader const& reader, size_t sub_jet_number) const
+// {
+//     Info();
+//     boca::Jets final_jets;
+//     for (auto const & sub_jet : SubJets(jets, sub_jet_number)) {
+//         if (Problematic(sub_jet, pre_cuts)) continue;
+//         final_jets.emplace_back(Multiplet(sub_jet, reader));
+//     }
+//     return final_jets;
+// }
+
+
+
+
+
+
+
+
+
+
 
 boca::Jets BottomTagger::SubJets(boca::Jets const& jets, int sub_jet_number) const
 {
@@ -92,49 +143,13 @@ boca::Jets BottomTagger::SubJets(boca::Jets const& jets, int sub_jet_number) con
     return subjets;
 }
 
-boca::Jets BottomTagger::Multiplets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const
-{
-    Info();
-    boca::Jets jets = event.Hadrons().Jets();
-    boca::Jets bottoms = Multiplets(jets, pre_cuts, reader);
-    bottoms = Join(bottoms, SubMultiplets(jets, pre_cuts, reader, 2));
-    bottoms = Join(bottoms, SubMultiplets(jets, pre_cuts, reader, 3));
-    return bottoms;
-}
-
 boca::Jets BottomTagger::Jets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
     Info();
-    return Multiplets(event.Hadrons().Jets(), pre_cuts, reader);
-}
-
-boca::Jets BottomTagger::Multiplets(boca::Jets const& jets, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const
-{
-    Info();
-    boca::Jets final_jets;
-    for (auto const & jet : jets) {
-        if (Problematic(jet, pre_cuts)) continue;
-        final_jets.emplace_back(Multiplet(jet, reader));
-    }
-    return final_jets;
-}
-
-boca::Jets BottomTagger::SubMultiplets(boca::Jets const& jets, PreCuts const& pre_cuts, TMVA::Reader const& reader, size_t sub_jet_number) const
-{
-    Info();
-    boca::Jets final_jets;
-    for (auto const & sub_jet : SubJets(jets, sub_jet_number)) {
-        if (Problematic(sub_jet, pre_cuts)) continue;
-        final_jets.emplace_back(Multiplet(sub_jet, reader));
-    }
-    return final_jets;
-}
-
-fastjet::PseudoJet BottomTagger::Multiplet(fastjet::PseudoJet const& jet, TMVA::Reader const& reader) const
-{
-    Info();
-    static_cast<JetInfo&>(*jet.user_info_shared_ptr().get()).SetBdt(Bdt(jet, reader));
-    return jet;
+    return Multiplets(event.Hadrons().Jets(), pre_cuts, [&](fastjet::PseudoJet  & jet) {
+        if (Problematic(jet, pre_cuts)) throw boca::Problematic();
+        return Multiplet(jet, reader);
+    });
 }
 
 boca::Jets BottomTagger::SubMultiplet(fastjet::PseudoJet const& jet, TMVA::Reader const& reader, int sub_jet_number) const
