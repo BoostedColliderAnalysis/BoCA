@@ -5,12 +5,6 @@ namespace boca {
 
 namespace heavyhiggs {
 
-ChargedHiggsLeptonicTagger::ChargedHiggsLeptonicTagger()
-{
-  Info();
-    DefineVariables();
-}
-
 int ChargedHiggsLeptonicTagger::Train(Event const& event, PreCuts const&, const Tag) const
 {
     Info("Higgs Tags");

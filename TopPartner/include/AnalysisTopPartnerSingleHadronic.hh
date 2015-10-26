@@ -36,7 +36,9 @@ protected:
 
     std::string ProjectName() const final {
         Info();
-        return "Single-Hadronic-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass()) + "-new-linkdef-full";
+        return "Single-Hadronic-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass())
+        + "-copy";
+//         + "-new-linkdef-full";
     }
 
     void SetFiles(Tag tag, Stage) final {

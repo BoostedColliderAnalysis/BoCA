@@ -16,8 +16,6 @@ class ChargedHiggsLeptonicTagger : public TaggerTemplate<Triplet,ChargedHiggsLep
 
 public:
 
-    ChargedHiggsLeptonicTagger();
-
     int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
 
     std::vector<boca::Triplet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;

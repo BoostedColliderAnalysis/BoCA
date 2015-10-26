@@ -16,8 +16,6 @@ class TauTagger : public TaggerTemplate<Singlet, TauBranch> {
 
 public:
 
-    TauTagger();
-
     int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
 
     std::vector<Singlet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;

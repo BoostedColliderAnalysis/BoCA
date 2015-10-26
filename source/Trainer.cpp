@@ -36,11 +36,11 @@ Trainer::Trainer(boca::Tagger& tagger, TMVA::Types::EMVA mva) : tagger_(tagger) 
 
 std::string Trainer::FactoryOptions()
 {
-    Options options("!Color");
+    Options options("Color", false);
 //     options.Add("V");
-//     options.Add("!Silent");
-    options.Add("!DrawProgressBar");
-    return options.str();
+//     options.Add("Silent", false);
+    options.Add("DrawProgressBar", false);
+    return options;
 }
 
 TFile& Trainer::OutputFile() const
@@ -124,12 +124,13 @@ TTree& Trainer::Tree(std::string const& tree_name, Tag tag)
 void Trainer::PrepareTrainingAndTestTree(long event_number)
 {
     Info();
-    Options options("SplitMode", "Block");
+    Options options;
+//     options.Add("SplitMode", "Block");
     options.Add("nTrain_Background", event_number);
     options.Add("nTest_Background", event_number);
     options.Add("nTrain_Signal", event_number);
     options.Add("nTest_Signal", event_number);
-    Factory().PrepareTrainingAndTestTree(Tagger().Cut(), Tagger().Cut(), options.str());
+    Factory().PrepareTrainingAndTestTree(Tagger().Cut(), Tagger().Cut(), options);
 }
 
 TMVA::MethodBase& Trainer::BookMethod(TMVA::Types::EMVA mva)
@@ -164,7 +165,7 @@ std::string Trainer::MethodOptions(TMVA::Types::EMVA mva)
         break;
     default : break;
     }
-    return options.str();
+    return options;
 }
 
 }

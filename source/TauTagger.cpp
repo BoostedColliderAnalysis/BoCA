@@ -11,12 +11,6 @@
 
 namespace boca {
 
-TauTagger::TauTagger()
-{
-    Info();
-    DefineVariables();
-}
-
 int TauTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
     Info();

@@ -3,14 +3,9 @@
  */
 #pragma once
 
-#include "TClonesArray.h"
-#include "fastjet/PseudoJet.hh"
 #include "exroot/ExRootAnalysis.hh"
 
-#include "Vector.hh"
 #include "Sort.hh"
-#include "Math.hh"
-#include "Types.hh"
 #include "Tagger.hh"
 #include "Singlet.hh"
 #include "PreCuts.hh"
@@ -208,3 +203,5 @@ inline void TaggerTemplate<fastjet::PseudoJet, BottomBranch>::FillBranch(fastjet
 }
 
 }
+
+

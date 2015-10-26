@@ -22,7 +22,6 @@ int BottomTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Tag t
 {
     Info();
     boca::Jets jets = event.Hadrons().Jets();
-    Info(jets.size());
     if (jets.empty()) return 0;
     boca::Jets final_jets = CleanJets(jets, pre_cuts, tag);
     if (pre_cuts.DoSubJets()) {
@@ -49,11 +48,9 @@ bool BottomTagger::Problematic(fastjet::PseudoJet const& jet, PreCuts const& pre
     if (Problematic(jet, pre_cuts)) return true;
     if (jet.m() * GeV > bottom_max_mass_) return true;
     if (std::abs(jet.rap()) > DetectorGeometry::TrackerEtaMax()) return true;
-
     switch (tag) {
     case Tag::signal :
         if (jet.user_info<JetInfo>().SumDisplacement() == 0) return true;
-        //     if (jet.user_info<JetInfo>().Tag() != tag) return true;
         break;
     case Tag::background : break;
     }
@@ -63,9 +60,7 @@ bool BottomTagger::Problematic(fastjet::PseudoJet const& jet, PreCuts const& pre
 bool BottomTagger::Problematic(fastjet::PseudoJet const& jet, PreCuts const& pre_cuts) const
 {
     Info();
-//     if (!jet.has_user_info<JetInfo>()) return true;
     if (pre_cuts.ApplyCuts(Id::bottom, jet)) return true;
-//     if (jet.m() < 0) return true;
     return false;
 }
 
@@ -158,6 +153,7 @@ std::string BottomTagger::Name() const
 {
     return "Bottom";
 }
+
 std::string BottomTagger::NiceName() const
 {
     return "b";

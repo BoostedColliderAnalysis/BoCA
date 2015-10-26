@@ -12,8 +12,8 @@ public:
 
     Options() {}
 
-    Options(std::string const& string) {
-        Add(string);
+    Options(std::string const& string, bool do_it = true) {
+        Add(string, do_it);
     }
 
     template<typename Value>
@@ -26,8 +26,9 @@ public:
         Add(string, value, unit);
     }
 
-    void Add(std::string const& string) {
+    void Add(std::string const& string, bool do_it = true) {
         Separator();
+        if (!do_it) options_ << "!";
         options_ << string;
     }
 
@@ -48,6 +49,10 @@ public:
     }
 
     operator std::string() const {
+        return str();
+    }
+
+    operator TString() const {
         return str();
     }
 

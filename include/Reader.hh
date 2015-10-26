@@ -120,10 +120,10 @@ private:
 
     std::string Options() const {
         boca::Options options;
-//         options.Add("!V");
-        options.Add("!Color");
+//         options.Add("V", false);
+        options.Add("Color", false);
 //         options.Add("Silent");
-        return options.str();
+        return options;
     }
 
     TaggerTemplate& Tagger() {

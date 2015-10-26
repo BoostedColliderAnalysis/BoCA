@@ -96,7 +96,7 @@ protected:
         switch (DetectorGeometry::detector_type()) {
         case DetectorType::CMS : {
             switch (process) {
-            case Process ::TT :
+            case Process::TT :
                 switch (Int(Mass())) {
                 case 500 : return 0.5156 * 2 * pb;
                 case 1000 : return 0.01041 * 2 * pb;
