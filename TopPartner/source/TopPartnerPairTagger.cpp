@@ -30,6 +30,14 @@ std::vector<Decuplet55> TopPartnerPairTagger::Multiplets(Event const& event, boc
         return decuplet;
     }));
 }
+std::string TopPartnerPairTagger::Name() const
+{
+    return "TopPartnerPair";
+}
+std::string TopPartnerPairTagger::NiceName() const
+{
+    return "T_{h} T_{l}";
+}
 
 }
 

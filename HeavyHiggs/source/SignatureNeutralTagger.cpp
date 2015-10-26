@@ -6,44 +6,38 @@ namespace boca {
 
 namespace heavyhiggs {
 
-SignatureNeutralTagger::SignatureNeutralTagger()
-{
-  Info();
-    DefineVariables();
-}
-
 int SignatureNeutralTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
     Info();
     Jets higgs = heavy_higgs_semi_reader_.Tagger().HiggsParticle(event, tag);
     std::vector<Sextet> sextets = heavy_higgs_semi_reader_.Multiplets(event);
     sextets = BestMatches(sextets, higgs, tag);
-    
+
     std::vector<Doublet> doublets = jet_pair_reader_.Multiplets(event);
     Jets bottoms = fastjet::sorted_by_pt(jet_pair_reader_.Tagger().BottomPair(event, tag));
-    
+
     Jets particles = event.Partons().GenParticles();
     Jets tops = CopyIfParticle(particles, Id::top);
     Jets tops_even = CopyIfMother(tops, Id::heavy_higgs);
     Jets tops_odd = CopyIfMother(tops, Id::CP_odd_higgs);
     Jets top_higgs = Join(tops_even, tops_odd);
     int  one_close_to_top=0, two_close_to_top=0;
-    
+
     if (top_higgs.size() == 2) {
-      
+
       for (auto const& doublet : doublets) {
         if ((Close(top_higgs.at(0))(doublet.Singlet1().Jet()) && Close(top_higgs.at(1))(doublet.Singlet2().Jet())) || (Close(top_higgs.at(1))(doublet.Singlet1().Jet()) && Close(top_higgs.at(0))(doublet.Singlet2().Jet()))) two_close_to_top++;
         if ((Close(top_higgs.at(0))(doublet.Singlet1().Jet()) || Close(top_higgs.at(1))(doublet.Singlet2().Jet())) || (Close(top_higgs.at(1))(doublet.Singlet1().Jet())||Close(top_higgs.at(0))(doublet.Singlet2().Jet()))) one_close_to_top++;
       }
     }
-    
+
 //     Error(one_close_to_top, two_close_to_top);
      static int close_to_top_ =0;
     if(one_close_to_top==6)
     {
       ++close_to_top_;
     }
-    
+
     std::vector<Doublet> final_doublets;
     switch (tag) {
     case Tag::signal :
@@ -51,7 +45,7 @@ int SignatureNeutralTagger::Train(Event const& event, PreCuts const&, Tag tag) c
 
             for (auto const& doublet : doublets) {
                 if ((Close(bottoms.at(0))(doublet.Singlet1().Jet()) && Close(bottoms.at(1))(doublet.Singlet2().Jet())) || (Close(bottoms.at(1))(doublet.Singlet1().Jet()) && Close(bottoms.at(0))(doublet.Singlet2().Jet()))) final_doublets.emplace_back(doublet);
-                
+
             }
         } else Error(bottoms.size());
         break;
@@ -59,13 +53,13 @@ int SignatureNeutralTagger::Train(Event const& event, PreCuts const&, Tag tag) c
         final_doublets = doublets;
         break;
     }
-    
+
     static int zero_doublets = 0;
     if(one_close_to_top<6&&final_doublets.size()==0)
     {
       ++zero_doublets;
     }
-    
+
     std::vector<Octet62> octets;
     for (auto const& doublet : final_doublets) {
         for (auto const& sextet : sextets) {
@@ -81,7 +75,7 @@ int SignatureNeutralTagger::Train(Event const& event, PreCuts const&, Tag tag) c
       ++zero_octets;
     }
 //     Error(close_to_top_, zero_doublets, zero_octets);
-      
+
     if (tag == Tag::signal && octets.size() > 1) {
         Info(octets.size());
         std::sort(octets.begin(), octets.end());
@@ -108,6 +102,10 @@ std::vector<Octet62> SignatureNeutralTagger::Multiplets(Event const& event, PreC
     }
 //     if(octets.size()==0)Error(octets.size(), doublets.size(), sextets.size());
     return ReduceResult(octets);
+}
+std::string SignatureNeutralTagger::Name() const
+{
+    return "SignatureNeutral";
 }
 
 }

@@ -17,27 +17,16 @@ namespace naturalness
  * @brief Prepares multivariant analysis
  *
  */
-class EventSingleLeptonicTagger : public BranchTagger<EventBranch>
+class EventSingleLeptonicTagger : public TaggerTemplate<MultipletEvent<Decuplet532>, EventBranch>
 {
 
 public:
 
     int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
 
-    std::vector<MultipletEvent<Decuplet532>> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
+    std::vector<MultipletEvent<Decuplet532>> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
 
-    int SaveBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final {
-        return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
-    }
-
-    auto Multiplets(Event const& event, TMVA::Reader const& reader) {
-        PreCuts pre_cuts;
-        return Multiplets(event, pre_cuts, reader);
-    }
-
-    std::string Name() const final {
-        return "EventSingle";
-    }
+    std::string Name() const final;
 
 private:
 

@@ -15,7 +15,7 @@ namespace boca
  * @brief Hadronic top BDT tagger
  *
  */
-class TopHadronicTagger : public BranchTagger<TopHadronicBranch>
+class TopHadronicTagger : public TaggerTemplate<boca::Triplet, TopHadronicBranch>
 {
 
     typedef std::function<boca::Triplet(boca::Triplet&, Jets const&, bool&)> Function;
@@ -25,8 +25,6 @@ public:
     TopHadronicTagger();
 
     int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
-
-    int SaveBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
 
     std::vector<boca::Triplet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
@@ -57,8 +55,6 @@ private:
     std::vector<boca::Triplet> Triplets(std::vector<Doublet> const& doublets, Jets const& jets, Jets const& leptons, Function const& function, MomentumRange const& range) const;
 
     std::vector<boca::Triplet> Triplets(Doublet const& doublet, Jets const& jets, Jets const& leptons, Function const& function, MomentumRange const& range) const;
-
-    std::vector<boca::Triplet> Multiplets(Event const& event, TMVA::Reader const& reader) const;
 
     boca::Triplet Multiplet(boca::Triplet& triplet, Jets const& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader, bool& failure) const;
 

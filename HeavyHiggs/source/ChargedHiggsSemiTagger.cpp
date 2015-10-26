@@ -6,12 +6,6 @@ namespace boca {
 
 namespace heavyhiggs {
 
-ChargedHiggsSemiTagger::ChargedHiggsSemiTagger()
-{
-  Info();
-    DefineVariables();
-}
-
 int ChargedHiggsSemiTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
     Info();
@@ -27,13 +21,11 @@ int ChargedHiggsSemiTagger::Train(Event const& event, PreCuts const&, Tag tag) c
                 Error(HiggsParticles.size());
         }
     }
-    Jets jets = bottom_reader_.Multiplets(event);
+    Jets jets = bottom_reader_.Jets(event);
     std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
 //     int WSemiId = w_semi_tagger.WSemiId(event);
-    Jets TopParticles = event.Partons().GenParticles();
-//     int TopSemiId = sgn(WSemiId) * std::abs(Id::top);
-    int TopSemiId = top_leptonic_reader_.Tagger().TopLeptonicId(event);
-    TopParticles = CopyIfExactParticle(TopParticles, TopSemiId);
+    Jets TopParticles = top_leptonic_reader_.Tagger().Particles(event);
+//     TopParticles = CopyIfExactParticle(TopParticles, TopSemiId);
     fastjet::PseudoJet TopQuark;
     if (TopParticles.size() == 1)
         TopQuark = TopParticles.front();
@@ -89,7 +81,7 @@ int ChargedHiggsSemiTagger::Train(Event const& event, PreCuts const&, Tag tag) c
 
 std::vector<Quartet31> ChargedHiggsSemiTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
-    Jets jets = bottom_reader_.Multiplets(event);
+    Jets jets = bottom_reader_.Jets(event);
     std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
     std::vector<Quartet31> quartets;
     for (auto const& triplet : triplets)
@@ -101,6 +93,10 @@ std::vector<Quartet31> ChargedHiggsSemiTagger::Multiplets(Event const& event, bo
             quartets.emplace_back(quartet);
         }
     return ReduceResult(quartets);
+}
+std::string ChargedHiggsSemiTagger::Name() const
+{
+    return "ChargedHiggsSemi";
 }
 
 }

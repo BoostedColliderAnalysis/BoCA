@@ -21,7 +21,7 @@ TopLeptonicTagger::TopLeptonicTagger() : w_leptonic_reader_(InitializeLeptonicRe
 int TopLeptonicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Tag tag) const
 {
     Info();
-    Jets jets = fastjet::sorted_by_pt(bottom_reader_.Multiplets(event));
+    Jets jets = fastjet::sorted_by_pt(bottom_reader_.Jets(event));
     Info(jets.size());
     Jets leptons = Leptons(event, jets);
     std::vector<Doublet> doublets;
@@ -101,7 +101,7 @@ bool TopLeptonicTagger::Problematic(Triplet const& triplet, PreCuts const& pre_c
 std::vector<Triplet> TopLeptonicTagger::Multiplets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
     Info();
-    Jets jets = fastjet::sorted_by_pt(bottom_reader_.Multiplets(event));
+    Jets jets = fastjet::sorted_by_pt(bottom_reader_.Jets(event));
     Jets leptons = Leptons(event, jets);
     std::vector<Doublet> doublets;
     if (use_w_) doublets = w_leptonic_reader_.Multiplets(event);
@@ -115,31 +115,17 @@ std::vector<Triplet> TopLeptonicTagger::Multiplets(Event const& event, boca::Pre
     return ReduceResult(triplets);
 }
 
-int TopLeptonicTagger::TopLeptonicId(Event const& event) const
-{
-    return sgn(w_leptonic_reader_.Tagger().WLeptonicId(event)) * to_int(Id::top);
-}
-
 Stage TopLeptonicTagger::InitializeLeptonicReader()
 {
     if (use_w_) return Stage::reader;
     else return Stage::trainer;
 }
-int TopLeptonicTagger::SaveBdt(Event const& event,  PreCuts const& pre_cuts, TMVA::Reader const& reader) const
-{
-//         do_fake_leptons = true;
-    return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
-//         return SaveEntries(Multiplets(event, pre_cuts, reader), Particles(event).size());
-}
-auto TopLeptonicTagger::Multiplets(Event const& event, TMVA::Reader const& reader) const
-{
-    PreCuts pre_cuts;
-    return Multiplets(event, pre_cuts, reader);
-}
+
 std::string TopLeptonicTagger::Name() const
 {
     return "TopLeptonic";
 }
+
 std::string TopLeptonicTagger::NiceName() const
 {
     return "t_{l}";

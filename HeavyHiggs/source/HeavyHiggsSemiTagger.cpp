@@ -6,12 +6,6 @@ namespace boca {
 
 namespace heavyhiggs {
 
-HeavyHiggsSemiTagger::HeavyHiggsSemiTagger()
-{
-  Info();
-    DefineVariables();
-}
-
 int HeavyHiggsSemiTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
     Info();
@@ -87,6 +81,10 @@ Jets HeavyHiggsSemiTagger::TopParticles(Event const& event, Decay decay) const
     Jets tops_even = CopyIfMother(tops, Id::heavy_higgs);
     Jets tops_odd = CopyIfMother(tops, Id::CP_odd_higgs);
     return Join(tops_even, tops_odd);
+}
+std::string HeavyHiggsSemiTagger::Name() const
+{
+    return "HeavyHiggsSemi";
 }
 
 }

@@ -7,16 +7,10 @@ namespace boca
 namespace higgscpv
 {
 
-EventTagger::EventTagger()
-{
-  Info();
-    DefineVariables();
-}
-
 int EventTagger::Train(boca::Event const& event, boca::PreCuts const&, Tag tag) const
 {
     Info();
-    Jets jets = bottom_reader_.Multiplets(event);
+    Jets jets = bottom_reader_.Jets(event);
     std::vector<MultipletSignature<Octet62>> octets = signature_reader_.Multiplets(event);
     Info(octets.size());
     std::vector<MultipletEvent<Octet62>> multipletevents;
@@ -31,7 +25,7 @@ int EventTagger::Train(boca::Event const& event, boca::PreCuts const&, Tag tag) 
 std::vector<MultipletEvent<Octet62>> EventTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
 {
     Info();
-    Jets jets = bottom_reader_.Multiplets(event);
+    Jets jets = bottom_reader_.Jets(event);
     std::vector<MultipletSignature<Octet62>> octets = signature_reader_.Multiplets(event);
     std::vector<MultipletEvent<Octet62>> multiplet_events;
     for (auto const& octet : octets) {
@@ -40,6 +34,10 @@ std::vector<MultipletEvent<Octet62>> EventTagger::Multiplets(Event const& event,
         multiplet_events.emplace_back(multiplet_event);
     }
     return ReduceResult(multiplet_events);
+}
+std::string EventTagger::Name() const
+{
+    return "Event";
 }
 
 }

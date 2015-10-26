@@ -32,6 +32,10 @@ std::vector<Quattuordecuplet554> SignatureEffectiveTagger::Quattuordecuplets(boc
     return function(quattuordecuplet);
   });
 }
+std::string SignatureEffectiveTagger::Name() const
+{
+    return "Signature";
+}
 
 }
 

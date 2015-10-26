@@ -9,16 +9,10 @@
 namespace boca
 {
 
-JetPairTagger::JetPairTagger()
-{
-    Info();
-    DefineVariables();
-}
-
 int JetPairTagger::Train(Event const& event, PreCuts const& , Tag tag) const
 {
     Info();
-    Jets jets = bottom_reader_.Multiplets(event);
+    Jets jets = bottom_reader_.Jets(event);
     if (jets.empty()) return 0;
     Debug(jets.size());
     Jets bottoms = BottomPair(event, tag);
@@ -74,7 +68,7 @@ Jets JetPairTagger::BottomPair(Event const& event, Tag tag) const
 
 std::vector<Doublet> JetPairTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
-    Jets jets = bottom_reader_.Multiplets(event);
+    Jets jets = bottom_reader_.Jets(event);
     std::vector<Doublet>  doublets;
     for (auto jet_1 = jets.begin(); jet_1 != jets.end(); ++jet_1)
         for (auto jet_2 = jet_1 + 1; jet_2 != jets.end(); ++jet_2) {
@@ -104,6 +98,10 @@ Jets JetPairTagger::HiggsParticle(Event const& event, Tag tag) const
   Jets even = CopyIfFamily(particles, Id::heavy_higgs, Id::gluon);
   Jets odd = CopyIfFamily(particles, Id::CP_odd_higgs, Id::gluon);
   return Join(even, odd);
+}
+std::string JetPairTagger::Name() const
+{
+    return "JetPair";
 }
 
 

@@ -37,7 +37,7 @@ Doublet BosonTagger::CheckDoublet(Doublet doublet, PreCuts const& pre_cuts, Tag 
 std::vector<Doublet> BosonTagger::Doublets(Event const& event, std::function<Doublet(Doublet&)> const& function) const
 {
     Info();
-    Jets jets =  bottom_reader_.Multiplets(event);
+    Jets jets =  bottom_reader_.Jets(event);
     MomentumRange jet_range(Id::Z, Id::higgs);
     std::vector<Doublet> doublets = unordered_pairs(jet_range.SofterThanMax(jets), [&](fastjet::PseudoJet const & jet_1, fastjet::PseudoJet const & jet_2) {
         Doublet doublet(jet_1, jet_2);
@@ -104,12 +104,6 @@ Doublet BosonTagger::Multiplet(Doublet& doublet, PreCuts const& pre_cuts, TMVA::
     if (Problematic(doublet, pre_cuts)) throw boca::Problematic();
     doublet.SetBdt(Bdt(doublet, reader));
     return doublet;
-}
-
-int BosonTagger::SaveBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
-{
-    Info();
-    return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
 }
 
 std::string BosonTagger::Name() const

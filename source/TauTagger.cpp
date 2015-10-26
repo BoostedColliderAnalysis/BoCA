@@ -36,8 +36,7 @@ int TauTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 //     Jets Pieces2 = GetSubJets(jets, Particles, Tag, 3);
 //     FinalJets.insert(FinalJets.end(), Pieces2.begin(), Pieces2.end());
     std::vector<Singlet> singlets;
-    for (auto const& final_jet : final_jets)
-        singlets.emplace_back(Singlet(final_jet));
+    for (auto const& final_jet : final_jets) singlets.emplace_back(Singlet(final_jet));
     return SaveEntries(singlets);
 }
 
@@ -71,9 +70,9 @@ Jets TauTagger::CleanJets(boca::Jets& jets, boca::Jets const& Particles, Tag tag
     return NewCleanJets;
 }
 
-Jets TauTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
+std::vector<Singlet> TauTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
-    Jets final_jets;
+  std::vector<Singlet> final_jets;
     Info("Jet Bdt");
     Jets jets = event.Hadrons().Jets();
     for (auto const& jet : jets) {
@@ -82,9 +81,13 @@ Jets TauTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reade
             continue;
         }
         static_cast<JetInfo&>(*jet.user_info_shared_ptr().get()).SetBdt(Bdt(jet, reader));
-        final_jets.emplace_back(jet);
+        final_jets.emplace_back(Singlet(jet));
     }
     return final_jets;
+}
+std::string TauTagger::Name() const
+{
+    return "Tau";
 }
 
 }

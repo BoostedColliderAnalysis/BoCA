@@ -60,6 +60,10 @@ MultipletSignature<Quartet211> SignatureLeptonTagger::Signature(Doublet const& d
     if (quartet.Overlap()) throw Overlap();
     return MultipletSignature<Quartet211>(quartet);
 }
+std::string SignatureLeptonTagger::Name() const
+{
+    return "Leptons";
+}
 
 }
 

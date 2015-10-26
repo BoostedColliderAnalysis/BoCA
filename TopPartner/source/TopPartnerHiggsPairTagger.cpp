@@ -30,6 +30,10 @@ std::vector<Septet> TopPartnerHiggsPairTagger::Multiplets(Event const& event, bo
         return septet;
     }));
 }
+std::string TopPartnerHiggsPairTagger::Name() const
+{
+    return "TopPartnerHiggsPair";
+}
 
 }
 

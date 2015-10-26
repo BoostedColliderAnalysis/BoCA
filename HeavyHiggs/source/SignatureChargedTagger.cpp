@@ -6,12 +6,6 @@ namespace boca {
 
 namespace heavyhiggs {
 
-SignatureChargedTagger::SignatureChargedTagger()
-{
-    Info();
-    DefineVariables();
-}
-
 int SignatureChargedTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) const
 {
     Info();
@@ -53,6 +47,10 @@ std::vector<Octet44> SignatureChargedTagger::Multiplets(Event const& event, boca
         }
     }
     return ReduceResult(octets);
+}
+std::string SignatureChargedTagger::Name() const
+{
+    return "SignatureCharged";
 }
 
 }

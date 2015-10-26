@@ -15,7 +15,7 @@ namespace boca
  * @brief Top leptonic BDT tagger
  *
  */
-class TopLeptonicTagger : public BranchTagger<TopLeptonicBranch>
+class TopLeptonicTagger : public TaggerTemplate<Triplet, TopLeptonicBranch>
 {
 
 public:
@@ -24,9 +24,7 @@ public:
 
     int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const override;
 
-    std::vector<Triplet> Multiplets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
-
-    int SaveBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
+    std::vector<Triplet> Multiplets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
 
     bool Problematic(Triplet const& triplet, PreCuts const& pre_cuts, Tag tag) const;
 
@@ -36,13 +34,9 @@ public:
 
     Jets Particles(boca::Event const& event) const;
 
-    auto Multiplets(Event const& event, TMVA::Reader const& reader) const;
-
     std::string Name() const final;
 
     std::string NiceName() const final;
-
-    int TopLeptonicId(Event const& event) const;
 
 private:
 

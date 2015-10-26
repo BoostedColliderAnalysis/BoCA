@@ -10,12 +10,6 @@ namespace boca
 namespace higgscpv
 {
 
-SignatureLeptonTTagger::SignatureLeptonTTagger()
-{
-    Info();
-    DefineVariables();
-}
-
 int SignatureLeptonTTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) const
 {
     Info();
@@ -73,6 +67,10 @@ std::vector<MultipletSignature<Octet332>> SignatureLeptonTTagger::Multiplets(Eve
     });
     Debug(octets.size());
     return ReduceResult(octets);
+}
+std::string SignatureLeptonTTagger::Name() const
+{
+    return "LeptonTChannel";
 }
 
 }

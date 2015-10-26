@@ -4,7 +4,6 @@
 #pragma once
 
 #include "Branches.hh"
-// #include "BranchTagger.hh"
 #include "TaggerTemplate.hh"
 
 
@@ -19,9 +18,7 @@ namespace boca
  * @license GPL 3
  *
  */
-class BottomTagger : public
-// BranchTagger<BottomBranch>
-TaggerTemplate<fastjet::PseudoJet, BottomBranch>
+class BottomTagger : public TaggerTemplate<fastjet::PseudoJet, BottomBranch>
 {
 
 public:
@@ -37,13 +34,13 @@ public:
      * @brief Return all jets of the event with bottom bdt value considering pre cuts
      *
      */
-    Jets Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
+    boca::Jets Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
 
     /**
-     * @brief Save all jets with bottom bdt value condidering pre cuts
+     * @brief Return all jets of the event with bottom bdt value considering pre cuts
      *
      */
-    int SaveBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
+    boca::Jets Jets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
     /**
      * @brief calculate bottom bdt for given jet
@@ -55,7 +52,7 @@ public:
      * @brief calculate bottom bdt for subjets of given jet
      *
      */
-    Jets SubMultiplet(fastjet::PseudoJet const& jet, TMVA::Reader const& reader, int sub_jet_number) const;
+    boca::Jets SubMultiplet(fastjet::PseudoJet const& jet, TMVA::Reader const& reader, int sub_jet_number) const;
 
     std::string Name() const final;
 
@@ -63,23 +60,21 @@ public:
 
 private:
 
-    Jets Particles(Event const& event) const;
+    boca::Jets Particles(Event const& event) const;
 
-    Jets Multiplets(Jets const& jets, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
+    boca::Jets Multiplets(boca::Jets const& jets, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    Jets SubMultiplets(boca::Jets const& jets, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader, size_t sub_jet_number) const;
+    boca::Jets SubMultiplets(boca::Jets const& jets, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader, size_t sub_jet_number) const;
 
-    Jets Multiplets(Jets const& jets, TMVA::Reader const& reader) const;
-
-    Jets CleanJets(Jets& jets, PreCuts const& pre_cuts, Tag tag) const;
+    boca::Jets CleanJets(boca::Jets& jets, PreCuts const& pre_cuts, Tag tag) const;
 
     bool Problematic(fastjet::PseudoJet const& jet, boca::PreCuts const& pre_cuts, Tag tag) const;
 
     bool Problematic(fastjet::PseudoJet const& jet, boca::PreCuts const& pre_cuts) const;
 
-    Jets SubJets(Jets const& jets, int sub_jet_number) const;
+    boca::Jets SubJets(boca::Jets const& jets, int sub_jet_number) const;
 
-    Jets TrainOnSubJets(Jets const& jets, PreCuts const& pre_cuts, Tag tag, int sub_jet_number) const;
+    boca::Jets TrainOnSubJets(boca::Jets const& jets, PreCuts const& pre_cuts, Tag tag, int sub_jet_number) const;
 
     Mass bottom_max_mass_;
 

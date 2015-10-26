@@ -6,12 +6,6 @@ namespace boca {
 
 namespace higgscpv {
 
-SignatureTagger::SignatureTagger()
-{
-  Info();
-    DefineVariables();
-}
-
 int SignatureTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) const
 {
     Info();
@@ -54,6 +48,10 @@ std::vector<MultipletSignature<Octet62>> SignatureTagger::Multiplets(Event const
         }
     }
     return ReduceResult(octets);
+}
+std::string SignatureTagger::Name() const
+{
+    return "Signature";
 }
 
 }

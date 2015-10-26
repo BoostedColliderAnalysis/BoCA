@@ -14,7 +14,7 @@ ChargedHiggsLeptonicTagger::ChargedHiggsLeptonicTagger()
 int ChargedHiggsLeptonicTagger::Train(Event const& event, PreCuts const&, const Tag) const
 {
     Info("Higgs Tags");
-    Jets jets = bottom_reader_.Multiplets(event);
+    Jets jets = bottom_reader_.Jets(event);
     std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
     Info(triplets.size());
     /*
@@ -48,7 +48,7 @@ int ChargedHiggsLeptonicTagger::Train(Event const& event, PreCuts const&, const 
 std::vector<Triplet>  ChargedHiggsLeptonicTagger::Multiplets(Event const&, PreCuts const& , TMVA::Reader const&) const
 {
     Info("Bdt");
-//     Jets jets = bottom_reader_.Multiplets(event);
+//     Jets jets = bottom_reader_.Jets(event);
 //     std::vector<Doublet> doublets = top_leptonic_reader_.Multiplets(event);
 //
 //     std::vector<Triplet> triplets;

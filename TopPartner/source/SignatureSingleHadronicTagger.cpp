@@ -51,6 +51,14 @@ std::vector<Decuplet532> SignatureSingleHadronicTagger::Decuplets(Event const& e
     Debug(decuplets.size());
     return decuplets;
 }
+std::string SignatureSingleHadronicTagger::Name() const
+{
+    return "SignatureSingleHadronic";
+}
+std::string SignatureSingleHadronicTagger::NiceName() const
+{
+    return "T_{h}t_{l}h";
+}
 
 }
 

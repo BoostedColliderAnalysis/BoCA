@@ -8,16 +8,10 @@
 
 namespace boca {
 
-TripletJetPairTagger::TripletJetPairTagger()
-{
-  Info();
-    DefineVariables();
-}
-
 int TripletJetPairTagger::Train(boca::Event const& event, boca::PreCuts const&, Tag tag) const
 {
     Info("W Tags");
-    Jets jets = bottom_reader_.Multiplets(event);
+    Jets jets = bottom_reader_.Jets(event);
     std::vector<Triplet> triplets = top_hadronic_reader_.Multiplets(event);
 //     Jets jets = GetJets(event);
     //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader); // TODO reenable this
@@ -104,7 +98,7 @@ int TripletJetPairTagger::Train(boca::Event const& event, boca::PreCuts const&, 
 
 std::vector<Quartet31>  TripletJetPairTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
-    Jets jets = bottom_reader_.Multiplets(event);
+    Jets jets = bottom_reader_.Jets(event);
     std::vector<Triplet> triplets = top_hadronic_reader_.Multiplets(event);
     std::vector<Quartet31>  quartets;
     for (auto const& triplet : triplets)
@@ -116,6 +110,10 @@ std::vector<Quartet31>  TripletJetPairTagger::Multiplets(Event const& event, boc
             quartets.emplace_back(quartet);
         }
     return ReduceResult(quartets);
+}
+std::string TripletJetPairTagger::Name() const
+{
+    return "TripletJetJetPair";
 }
 
 }

@@ -5,16 +5,10 @@ namespace boca {
 
 namespace naturalness {
 
-EventEffectiveTagger::EventEffectiveTagger()
-{
-  Info();
-    DefineVariables();
-}
-
 int EventEffectiveTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
     Info("Train");
-    Jets jets = bottom_reader_.Multiplets(event);
+    Jets jets = bottom_reader_.Jets(event);
     std::vector<Quattuordecuplet554> octets = signature_reader_.Multiplets(event);
     Info("Octets", octets.size());
     std::vector<MultipletEvent<Quattuordecuplet554>> multipletevents;
@@ -29,7 +23,7 @@ int EventEffectiveTagger::Train(Event const& event, PreCuts const&, Tag tag) con
 std::vector<MultipletEvent<Quattuordecuplet554>> EventEffectiveTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
 {
     Info("Multiplets");
-    Jets jets = bottom_reader_.Multiplets(event);
+    Jets jets = bottom_reader_.Jets(event);
     std::vector<Quattuordecuplet554> octets = signature_reader_.Multiplets(event);
     std::vector<MultipletEvent<Quattuordecuplet554>> multiplet_events;
     for (auto const& octet : octets) {
@@ -38,6 +32,10 @@ std::vector<MultipletEvent<Quattuordecuplet554>> EventEffectiveTagger::Multiplet
         multiplet_events.emplace_back(multiplet_event);
     }
     return ReduceResult(multiplet_events);
+}
+std::string EventEffectiveTagger::Name() const
+{
+    return "Event";
 }
 
 }

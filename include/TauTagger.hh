@@ -4,7 +4,7 @@
 #pragma once
 
 #include "Branches.hh"
-#include "BranchTagger.hh"
+#include "TaggerTemplate.hh"
 
 namespace boca {
 
@@ -12,22 +12,17 @@ namespace boca {
  * @brief Bottom BDT tagger
  *
  */
-class TauTagger : public BranchTagger<TauBranch> {
+class TauTagger : public TaggerTemplate<Singlet, TauBranch> {
 
 public:
 
     TauTagger();
 
-    int Train(Event const& event, PreCuts const& pre_cuts,
-              Tag tag) const final;
+    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
 
-    Jets Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
+    std::vector<Singlet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
 
-    int SaveBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final {
-        return SaveEntries(Multiplets(event, pre_cuts, reader));
-    }
-
-    std::string Name() const final { return "Tau"; }
+    std::string Name() const final;
 
 private:
 

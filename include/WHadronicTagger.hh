@@ -4,7 +4,7 @@
 #pragma once
 
 #include "BottomTagger.hh"
-#include "BranchTagger.hh"
+#include "TaggerTemplate.hh"
 #include "Doublet.hh"
 #include "Reader.hh"
 
@@ -15,16 +15,14 @@ namespace boca
  * @brief W BDT tagger
  *
  */
-class WHadronicTagger : public BranchTagger<WHadronicBranch>
+class WHadronicTagger : public TaggerTemplate<Doublet, WHadronicBranch>
 {
 
 public:
 
     WHadronicTagger();
 
-    int Train(Event const& event, PreCuts const& pre_cuts, const Tag Tag) const override;
-
-    virtual int SaveBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
+    int Train(Event const& event, PreCuts const& pre_cuts, const Tag Tag) const final;
 
     std::vector<Doublet> Multiplets(Jets const& jets, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
@@ -46,7 +44,7 @@ private:
 
     Doublet CheckDoublet(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const;
 
-    std::vector<Doublet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
+    std::vector<Doublet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
 
     std::vector<Doublet> Multiplets3(Jets const& jets, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 

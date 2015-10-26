@@ -47,7 +47,7 @@ Jets TopHadronicTagger::TopParticles(Event const& event) const
 std::vector<Triplet> TopHadronicTagger::Triplets(Event const& event, PreCuts const& pre_cuts, Function const& function) const
 {
     Info();
-    Jets jets = fastjet::sorted_by_pt(bottom_reader_.Multiplets(event));
+    Jets jets = fastjet::sorted_by_pt(bottom_reader_.Jets(event));
     Jets leptons = event.Leptons().leptons();
 
     MomentumRange three_jet_range(Id::W);
@@ -315,22 +315,15 @@ std::vector< Triplet > TopHadronicTagger::ordered_triplets(Jets const& jets, uns
     }
     return triplets;
 }
-int TopHadronicTagger::SaveBdt(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const
-{
-    return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
-}
+
 std::string TopHadronicTagger::Name() const
 {
     return "TopHadronic";
 }
+
 std::string TopHadronicTagger::NiceName() const
 {
     return "t_{h}";
-}
-std::vector< Triplet > TopHadronicTagger::Multiplets(const Event& event, const TMVA::Reader& reader) const
-{
-    PreCuts pre_cuts;
-    return Multiplets(event, pre_cuts, reader);
 }
 
 }

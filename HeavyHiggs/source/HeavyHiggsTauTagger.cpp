@@ -6,16 +6,10 @@ namespace boca {
 
 namespace heavyhiggs {
 
-HeavyHiggsTauTagger::HeavyHiggsTauTagger()
-{
-  Info();
-    DefineVariables();
-}
-
 int HeavyHiggsTauTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
     Info();
-    Jets jets = tau_reader_.Multiplets(event);
+    Jets jets;// = tau_reader_.Multiplets(event);
     Info(jets.size());
     fastjet::PseudoJet MissingEt = event.Hadrons().MissingEt();
     Jets TauParticles = event.Partons().GenParticles();
@@ -58,7 +52,7 @@ int HeavyHiggsTauTagger::Train(Event const& event, PreCuts const&, Tag tag) cons
 std::vector<Doublet>  HeavyHiggsTauTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
 {
     Info();
-    Jets jets = tau_reader_.Multiplets(event);
+    Jets jets;// = tau_reader_.Multiplets(event);
     Info(jets.size());
     fastjet::PseudoJet missing_et = event.Hadrons().MissingEt();
     std::vector<Doublet> doublets;

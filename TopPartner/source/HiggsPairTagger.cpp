@@ -5,12 +5,6 @@ namespace boca {
 
 namespace naturalness {
 
-HiggsPairTagger::HiggsPairTagger()
-{
-  Info();
-    DefineVariables();
-}
-
 int HiggsPairTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
     Info("Higgs Tags");
@@ -40,6 +34,14 @@ std::vector<Quartet22> HiggsPairTagger::Multiplets(Event const& event, boca::Pre
         }
     }
     return ReduceResult(quartets);
+}
+std::string HiggsPairTagger::Name() const
+{
+    return "HiggsPair";
+}
+std::string HiggsPairTagger::NiceName() const
+{
+    return "hh";
 }
 
 }

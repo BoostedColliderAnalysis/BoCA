@@ -3,32 +3,27 @@
 #include "MultipletEvent.hh"
 #include "SignatureNeutralTagger.hh"
 
-namespace boca {
+namespace boca
+{
 
-namespace heavyhiggs {
+namespace heavyhiggs
+{
 
 /**
  *
  * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class EventNeutralFourTopTagger : public BranchTagger<EventNeutralFourTopBranch> {
+class EventNeutralFourTopTagger : public TaggerTemplate<MultipletEvent<Octet62>, EventNeutralFourTopBranch>
+{
 
 public:
 
-    EventNeutralFourTopTagger();
+    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
 
-    int Train(Event const& event, PreCuts const& pre_cuts,
-              Tag tag) const final;
+    std::vector<MultipletEvent<Octet62>> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
 
-    std::vector<MultipletEvent<Octet62>> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
-
-    int SaveBdt(Event const& event, PreCuts const& pre_cuts,
-               TMVA::Reader const& reader) const final {
-                 return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
-    }
-
-    std::string Name() const final { return "EventNeutralFourTop"; }
+    std::string Name() const final;
 
 private:
 

@@ -25,7 +25,7 @@ int ZHadronicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Ta
 
 std::vector<Doublet> ZHadronicTagger::Doublets(Event const& event, std::function<Doublet(Doublet&)> function) const {
     Info();
-    Jets jets = bottom_reader_.Multiplets(event);
+    Jets jets = bottom_reader_.Jets(event);
     std::vector<Doublet> doublets = unordered_pairs(jets, [&](fastjet::PseudoJet const & jet_1, fastjet::PseudoJet const & jet_2) {
         Doublet doublet(jet_1, jet_2);
         return function(doublet);
@@ -95,19 +95,6 @@ Doublet ZHadronicTagger::Multiplet(Doublet& doublet, PreCuts const& pre_cuts, TM
     if (Problematic(doublet, pre_cuts)) throw boca::Problematic();
     doublet.SetBdt(Bdt(doublet, reader));
     return doublet;
-}
-
-int ZHadronicTagger::SaveBdt(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const
-{
-    Info();
-    return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
-}
-
-auto ZHadronicTagger::Multiplets(const Event& event, const TMVA::Reader& reader) const
-{
-    Info();
-    PreCuts pre_cuts;
-    return Multiplets(event, pre_cuts, reader);
 }
 
 std::string ZHadronicTagger::Name() const

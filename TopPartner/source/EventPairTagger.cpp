@@ -6,16 +6,10 @@ namespace boca {
 
 namespace naturalness {
 
-EventPairTagger::EventPairTagger()
+  int EventPairTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
     Info();
-    DefineVariables();
-}
-
-int EventPairTagger::Train(Event const& event, PreCuts const&, Tag tag) const
-{
-    Info();
-    Jets jets = bottom_reader_.Multiplets(event);
+    Jets jets = bottom_reader_.Jets(event);
     std::vector<MultipletEvent<Decuplet55>> multipletevents;
     for (auto const& decuplet : signature_reader_.Multiplets(event)) {
         MultipletEvent<Decuplet55> multipletevent(decuplet, event, jets);
@@ -28,7 +22,7 @@ int EventPairTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 std::vector<MultipletEvent<Decuplet55>> EventPairTagger::Multiplets(boca::Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
     Info();
-    Jets jets = bottom_reader_.Multiplets(event);
+    Jets jets = bottom_reader_.Jets(event);
     std::vector<MultipletEvent<Decuplet55>> multiplet_events;
     for (auto const& decuplet : signature_reader_.Multiplets(event)) {
         MultipletEvent<Decuplet55> multiplet_event(decuplet, event, jets);
@@ -36,6 +30,14 @@ std::vector<MultipletEvent<Decuplet55>> EventPairTagger::Multiplets(boca::Event 
         multiplet_events.emplace_back(multiplet_event);
     }
     return ReduceResult(multiplet_events,1);
+}
+std::string EventPairTagger::Name() const
+{
+    return "EventPair";
+}
+std::string EventPairTagger::NiceName() const
+{
+    return "T_{h} T_{l}";
 }
 
 }

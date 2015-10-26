@@ -13,21 +13,15 @@ namespace heavyhiggs {
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class HeavyHiggsSemiTagger : public BranchTagger<HeavyHiggsSemiBranch> {
+class HeavyHiggsSemiTagger : public TaggerTemplate<Sextet, HeavyHiggsSemiBranch> {
 
 public:
 
-    HeavyHiggsSemiTagger();
-
     int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
 
-    std::vector<Sextet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
+    std::vector<Sextet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
 
-    int SaveBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final {
-      return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
-    }
-
-    std::string Name() const final { return "HeavyHiggsSemi"; }
+    std::string Name() const final;
 
     Jets TopParticles(Event const& event, Decay decay) const;
 

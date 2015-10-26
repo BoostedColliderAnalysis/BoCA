@@ -19,26 +19,18 @@ namespace naturalness
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class VetoTopPartnerLeptonicTagger : public BranchTagger<TopPartnerBranch>
+class VetoTopPartnerLeptonicTagger : public TaggerTemplate<Quintet,TopPartnerBranch>
 {
 
 public:
 
     int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
 
-    int SaveBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final {
-        return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
-    }
+    std::vector<Quintet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
 
-    std::vector<Quintet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
+    std::string Name() const final;
 
-    std::string Name() const final {
-        return "VetoTopPartnerLeptonic";
-    }
-
-    std::string NiceName() const final {
-        return "#slash{T}_{l}";
-    }
+    std::string NiceName() const final;
 
 private:
 

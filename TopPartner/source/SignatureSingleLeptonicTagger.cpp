@@ -53,6 +53,14 @@ std::vector<Decuplet532> SignatureSingleLeptonicTagger::Decuplets(Event const& e
     return function(decuplet);
   });
 }
+std::string SignatureSingleLeptonicTagger::NiceName() const
+{
+    return "T_{l}t_{h}h";
+}
+std::string SignatureSingleLeptonicTagger::Name() const
+{
+    return "SignatureSingleLeptonic";
+}
 
 }
 

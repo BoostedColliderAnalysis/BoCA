@@ -70,6 +70,15 @@ std::vector<Quintet> VetoTopPartnerLeptonicTagger::Quintets(Event const& event, 
     return vetos;
 }
 
+std::string VetoTopPartnerLeptonicTagger::Name() const {
+  return "VetoTopPartnerLeptonic";
+}
+
+std::string VetoTopPartnerLeptonicTagger::NiceName() const {
+  return "#slash{T}_{l}";
+}
+
+
 }
 
 }

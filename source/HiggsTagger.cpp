@@ -151,11 +151,6 @@ Doublet HiggsTagger::MassDrop(Doublet const& doublet) const
     return Doublet(bottom_reader_.Multiplet(pieces.at(0)), bottom_reader_.Multiplet(pieces.at(1)));
 }
 
-int HiggsTagger::SaveBdt(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const
-{
-    return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
-}
-
 std::string HiggsTagger::Name() const
 {
     return "Higgs";

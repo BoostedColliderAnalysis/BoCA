@@ -14,28 +14,18 @@ namespace naturalness
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class HiggsPairTagger : public BranchTagger<HiggsPairBranch>
+class HiggsPairTagger : public TaggerTemplate<Quartet22,HiggsPairBranch>
 {
 
 public:
 
-    HiggsPairTagger();
-
     int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
 
-    std::vector<Quartet22> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
+    std::vector<Quartet22> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
 
-    int SaveBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final {
-        return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
-    }
+    std::string Name() const final;
 
-    std::string Name() const final {
-        return "HiggsPair";
-    }
-
-    std::string NiceName() const final {
-        return "hh";
-    }
+    std::string NiceName() const final;
 
 private:
 

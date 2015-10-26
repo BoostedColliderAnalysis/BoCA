@@ -15,37 +15,24 @@ namespace naturalness
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class TopPartnerLeptonicTagger : public BranchTagger<TopPartnerBranch>
+class TopPartnerLeptonicTagger : public TaggerTemplate<Quintet, TopPartnerBranch>
 {
 
 public:
 
     int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
 
-    std::vector<Quintet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
+    std::vector<Quintet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
 
-    int SaveBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final {
-        return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
-    }
+    std::string Name() const final;
 
-    auto Multiplets(Event const& event, TMVA::Reader const& reader) {
-        PreCuts pre_cuts;
-        return Multiplets(event, pre_cuts, reader);
-    }
-
-    std::string Name() const final {
-        return "TopPartnerLeptonic";
-    }
-
-    std::string NiceName() const final {
-      return "T_{l}";
-    }
+    std::string NiceName() const final;
 
     Jets Particles(Event const& event) const;
 
 private:
 
-    std::vector<Quintet> Quintets(Event const& event, std::function<Quintet(Quintet &)> const& function) const;
+    std::vector<Quintet> Quintets(Event const& event, std::function<Quintet(Quintet&)> const& function) const;
 
     Reader<TopLeptonicTagger> top_reader_;
 

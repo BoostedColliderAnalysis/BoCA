@@ -7,16 +7,10 @@ namespace boca
 namespace higgscpv
 {
 
-EventLeptonTTagger::EventLeptonTTagger()
-{
-    Info();
-    DefineVariables();
-}
-
 int EventLeptonTTagger::Train(boca::Event const& event, boca::PreCuts const&, Tag tag) const
 {
     Info();
-    Jets jets = bottom_reader_.Multiplets(event);
+    Jets jets = bottom_reader_.Jets(event);
     std::vector<MultipletSignature<Octet332>> octets = signature_reader_.Multiplets(event);
     Jets particles = event.Partons().GenParticles();
     Jets higgses = CopyIfParticles(particles, Id::higgs, Id::CP_violating_higgs);
@@ -48,7 +42,7 @@ int EventLeptonTTagger::Train(boca::Event const& event, boca::PreCuts const&, Ta
 std::vector<MultipletEvent<Octet332>> EventLeptonTTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
 {
     Info();
-    Jets jets = bottom_reader_.Multiplets(event);
+    Jets jets = bottom_reader_.Jets(event);
     std::vector<MultipletSignature<Octet332>> octets = signature_reader_.Multiplets(event);
     std::vector<MultipletEvent<Octet332>> multiplet_events;
     for (auto const & octet : octets) {
@@ -57,6 +51,10 @@ std::vector<MultipletEvent<Octet332>> EventLeptonTTagger::Multiplets(Event const
         multiplet_events.emplace_back(multiplet_event);
     }
     return ReduceResult(multiplet_events);
+}
+std::string EventLeptonTTagger::Name() const
+{
+    return "EventLeptonTChannel";
 }
 
 }

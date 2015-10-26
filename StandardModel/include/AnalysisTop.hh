@@ -45,8 +45,8 @@ private:
 
     std::string ProjectName() const final {
         Info();
-        return "momentum-range-no-precut";
-        return  Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-" + Name(TopDecay()) + "-momentum-rang";
+        return "test-new tagger-template";
+        return  Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-" + Name(TopDecay()) + "-test-new tagger-template";
     }
 
     void SetFiles(Tag tag, Stage) final {

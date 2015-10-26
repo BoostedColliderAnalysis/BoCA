@@ -55,6 +55,14 @@ Jets TopPartnerHadronicTagger::Particles(Event const& event) const
         return CopyIfExactParticle(particles, grand_mother);
     }
 }
+std::string TopPartnerHadronicTagger::Name() const
+{
+    return "TopPartnerHadronic";
+}
+std::string TopPartnerHadronicTagger::NiceName() const
+{
+    return "T_{h}";
+}
 
 }
 

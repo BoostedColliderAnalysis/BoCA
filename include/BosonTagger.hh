@@ -4,7 +4,8 @@
 #pragma once
 
 #include "BottomTagger.hh"
-#include "BranchTagger.hh"
+#include "TaggerTemplate.hh"
+#include "Doublet.hh"
 #include "Reader.hh"
 
 namespace boca {
@@ -19,7 +20,7 @@ class Doublet;
  * @license GPL 3
  *
  */
-class BosonTagger : public BranchTagger<ZHadronicBranch> {
+class BosonTagger : public TaggerTemplate<Doublet, ZHadronicBranch> {
 
 public:
 
@@ -27,9 +28,7 @@ public:
 
     int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
 
-    std::vector<Doublet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
-
-    int SaveBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
+    std::vector<Doublet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
 
     std::string Name() const final;
 

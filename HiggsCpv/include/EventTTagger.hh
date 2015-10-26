@@ -12,29 +12,15 @@ namespace higgscpv {
  * @brief Prepares multivariant analysis
  *
  */
-class EventTTagger : public BranchTagger<EventBranch> {
+class EventTTagger : public TaggerTemplate<MultipletEvent<Octet332>,EventBranch> {
 
 public:
 
-    EventTTagger();
+    int Train(Event const& event, boca::PreCuts const&, Tag tag) const final;
 
-    int Train(Event const& event, boca::PreCuts const&,
-              Tag tag) const override;
+    std::vector<MultipletEvent<Octet332>> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
 
-    std::vector<MultipletEvent<Octet332>> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
-
-    int SaveBdt(Event const& event, PreCuts const& pre_cuts,
-               TMVA::Reader const& reader) const final {
-                 return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
-    }
-
-    auto Multiplets(Event const& event, TMVA::Reader const& reader)
-    {
-        PreCuts pre_cuts;
-        return Multiplets(event, pre_cuts, reader);
-    }
-
-    std::string Name() const final { return "EventTChannel"; }
+    std::string Name() const final;
 
 private:
 

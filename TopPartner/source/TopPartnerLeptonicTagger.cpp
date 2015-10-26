@@ -52,6 +52,14 @@ Jets TopPartnerLeptonicTagger::Particles(Event const& event) const
         return CopyIfExactParticle(particles, grand_mother);
     }
 }
+std::string TopPartnerLeptonicTagger::Name() const
+{
+    return "TopPartnerLeptonic";
+}
+std::string TopPartnerLeptonicTagger::NiceName() const
+{
+    return "T_{l}";
+}
 
 }
 

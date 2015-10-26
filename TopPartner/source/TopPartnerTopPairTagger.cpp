@@ -5,12 +5,6 @@ namespace boca {
 
 namespace naturalness {
 
-TopPartnerTopPairTagger::TopPartnerTopPairTagger()
-{
-  Info();
-    DefineVariables();
-}
-
 int TopPartnerTopPairTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
     Info();
@@ -43,6 +37,10 @@ std::vector<Octet53> TopPartnerTopPairTagger::Multiplets(Event const& event, boc
         }
     }
     return ReduceResult(octets);
+}
+std::string TopPartnerTopPairTagger::Name() const
+{
+    return "TopPartnerTopPair";
 }
 
 }

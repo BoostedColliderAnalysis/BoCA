@@ -5,7 +5,7 @@
 
 #include "Doublet.hh"
 #include "Branches.hh"
-#include "BranchTagger.hh"
+#include "TaggerTemplate.hh"
 
 namespace boca {
 
@@ -13,20 +13,15 @@ namespace boca {
  * @brief Semi leptonic top BDT tagger
  *
  */
-class WLeptonicTagger : public BranchTagger<WSemiBranch> {
+class WLeptonicTagger : public TaggerTemplate<Doublet, WSemiBranch> {
 
 public:
 
     WLeptonicTagger();
 
-    int Train(Event const& event, PreCuts const& , Tag tag) const override;
+    int Train(Event const& event, PreCuts const& , Tag tag) const final;
 
-    std::vector<Doublet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
-
-    int SaveBdt(Event const& event, PreCuts const& pre_cuts,
-               TMVA::Reader const& reader) const final {
-                 return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
-    }
+    std::vector<Doublet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
 
     int WLeptonicId(Event const& event) const
     {

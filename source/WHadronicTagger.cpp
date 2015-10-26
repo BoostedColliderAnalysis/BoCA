@@ -23,7 +23,7 @@ WHadronicTagger::WHadronicTagger()
 int WHadronicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Tag tag) const
 {
     Info();
-    Jets jets = bottom_reader_.Multiplets(event);
+    Jets jets = bottom_reader_.Jets(event);
     Info(jets.size());
 
     Info("2 jets form one W");
@@ -114,7 +114,7 @@ bool WHadronicTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cut
 std::vector<Doublet> WHadronicTagger::Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
     Info();
-    Jets jets = bottom_reader_.Multiplets(event);
+    Jets jets = bottom_reader_.Jets(event);
     std::vector<Doublet> doublets;
     Info("2 jets form one W");
     doublets = Join(doublets, Multiplets(jets, pre_cuts, reader));
@@ -253,10 +253,6 @@ Doublet WHadronicTagger::Multiplet(fastjet::PseudoJet const& jet_1, fastjet::Pse
     } catch (std::exception const&) {
         throw;
     }
-}
-
-int WHadronicTagger::SaveBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const{
-    return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
 }
 
 std::string WHadronicTagger::Name() const{

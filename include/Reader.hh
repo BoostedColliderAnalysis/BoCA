@@ -73,6 +73,12 @@ public:
         return Tagger().Multiplets(input, pre_cuts, reader());
     }
 
+    template <typename Input>
+    auto Jets(Input const& input) const {
+      PreCuts pre_cuts;
+      return Tagger().Jets(input, pre_cuts, reader());
+    }
+
 //     template <typename Input1, typename Input2>
 //     auto Multiplets(Input1 &input_1, Input2 &input_2) const {
 //         return Tagger().Multiplets(input_1, input_2, reader());
