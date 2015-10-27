@@ -70,17 +70,7 @@ private:
 
     bool Problematic(fastjet::PseudoJet const& jet, boca::PreCuts const& pre_cuts) const;
 
-
-
-
-
-//     boca::Jets Multiplets(boca::Jets const& jets, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
-//
-//     boca::Jets SubMultiplets(boca::Jets const& jets, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader, size_t sub_jet_number) const;
-
-
     boca::Jets SubJets(boca::Jets const& jets, int sub_jet_number) const;
-
 
     Mass bottom_max_mass_;
 

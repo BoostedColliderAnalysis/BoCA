@@ -59,19 +59,19 @@ public:
 
     void AddConstituents(std::vector<Constituent> const& constituents, std::vector<Constituent> const& displaced_constituents);
 
-    float VertexMass() const;
+    Mass VertexMass() const;
 
-    float MaxDisplacement() const;
+    Length MaxDisplacement() const;
 
-    float MeanDisplacement() const;
+    Length MeanDisplacement() const;
 
-    float SumDisplacement() const;
+    Length SumDisplacement() const;
 
     int VertexNumber() const;
 
     fastjet::PseudoJet VertexJet() const;
 
-    float VertexEnergy() const;
+    Energy VertexEnergy() const;
 
     float ElectroMagneticRadius(fastjet::PseudoJet const& jet) const;
 

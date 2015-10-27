@@ -59,7 +59,7 @@ protected:
 
     float DeltaPhi(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
-    float DeltaR(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
+    Angle DeltaR(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
     float DeltaM(const boca::MultipletBase& multiplets_1, const boca::MultipletBase& multiplets_2) const;
 
@@ -101,9 +101,9 @@ private:
 
     float Pull(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
-    float Distance(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2, fastjet::PseudoJet const& constituent, float delta_r) const;
+    Angle Distance(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2, fastjet::PseudoJet const& constituent, Angle delta_r) const;
 
-    float Distance(Vector2 const& point_1, Vector2 const& point_2, Vector2 const& point_0, float delta_r) const;
+    Angle Distance(Vector2 const& point_1, Vector2 const& point_2, Vector2 const& point_0, Angle delta_r) const;
 
 };
 

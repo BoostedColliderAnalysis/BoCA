@@ -70,8 +70,8 @@ protected:
 
     long EventNumberMax() const override {
         Info();
-        return 1000;
         return 10000;
+        return 1000;
         return 100;
         return 5000;
         return 10;

@@ -68,10 +68,10 @@ JetInfo const& Singlet::UserInfo() const
     return Jet().user_info<JetInfo>();
 }
 
-float Singlet::log(float number) const
+float Singlet::log(Length length) const
 {
-    if (number > 0) return std::log10(number);
-    else return std::log10(DetectorGeometry::TrackerDistanceMin() / 10);
+    if (length > 0. * mm) return std::log10(length / mm);
+    else return std::log10(DetectorGeometry::TrackerDistanceMin() / 10. / mm);
 }
 
 int Singlet::Charge() const

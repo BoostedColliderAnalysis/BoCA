@@ -74,15 +74,15 @@ bool MomentumRange::AboveLowerBound(fastjet::PseudoJet const& jet) const
 {
     return jet.pt() * GeV > min_;
 }
-Momentum MomentumRange::Pt(Id id, float cone_size)
+Momentum MomentumRange::Pt(Id id, Angle cone_size)
 {
-    return MassOf(id) * (2. / cone_size);
+    return MassOf(id) * (2. * rad / cone_size);
 }
-Momentum MomentumRange::PtMin(Id id, float cone_size)
+Momentum MomentumRange::PtMin(Id id, Angle cone_size)
 {
     return Pt(id, cone_size) * SmearingMin();
 }
-Momentum MomentumRange::PtMax(Id id, float cone_size)
+Momentum MomentumRange::PtMax(Id id, Angle cone_size)
 {
     return Pt(id, cone_size) * SmearingMax();
 }

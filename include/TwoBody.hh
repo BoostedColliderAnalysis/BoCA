@@ -99,7 +99,7 @@ public:
     }
 
     float DeltaR() const {
-        return Multiplet::DeltaR(Multiplet1(), Multiplet2());
+        return to_float(Multiplet::DeltaR(Multiplet1(), Multiplet2()));
     }
 
     float DeltaM() const {

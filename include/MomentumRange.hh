@@ -58,9 +58,9 @@ private:
     Momentum PtMax(Id id);
     Momentum PtMin(SubJet const& id);
     Momentum PtMax(SubJet const& id);
-    Momentum PtMin(Id id, float cone_size);
-    Momentum PtMax(Id id, float cone_size);
-    Momentum Pt(Id id, float cone_size);
+    Momentum PtMin(Id id, Angle cone_size);
+    Momentum PtMax(Id id, Angle cone_size);
+    Momentum Pt(Id id, Angle cone_size);
     Momentum min_ = at_rest;
     Momentum max_ = at_rest;
     float Smearing() const;

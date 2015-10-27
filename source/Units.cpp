@@ -65,5 +65,25 @@ Luminosity to_luminosity(float luminosity)
   return double(luminosity) / fb;
 }
 
+float to_float(Length length)
+{
+  return (length / mm);
+}
+
+Length to_length(float length)
+{
+  return double(length) * mm;
+}
+
+float to_float(Angle angle)
+{
+  return (angle / rad);
+}
+
+Angle to_angle(float angle)
+{
+  return double(angle) * rad;
+}
+
 
 }

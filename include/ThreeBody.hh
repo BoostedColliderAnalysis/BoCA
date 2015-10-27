@@ -164,15 +164,15 @@ public:
     }
 
     float DeltaR() const {
-        return Multiplet::DeltaR(Multiplet1(), Multiplet2());
+        return Multiplet::DeltaR(Multiplet1(), Multiplet2()) / rad;
     }
 
     float DeltaR23() const {
-        return Multiplet::DeltaR(Multiplet2(), Multiplet3());
+        return Multiplet::DeltaR(Multiplet2(), Multiplet3()) / rad;
     }
 
     float DeltaR13() const {
-        return Multiplet::DeltaR(Multiplet1(), Multiplet3());
+        return Multiplet::DeltaR(Multiplet1(), Multiplet3()) / rad;
     }
 
     float DeltaM() const {
@@ -259,9 +259,9 @@ public:
     void SetVetoBdt(float bdt) {
         veto_bdt_ = bdt;
         SetBdt(
-          (multiplet_1_.Bdt() + multiplet_2_.Bdt() + multiplet_2_.Bdt()
-          - VetoBdt()
-        ) / 4
+            (multiplet_1_.Bdt() + multiplet_2_.Bdt() + multiplet_2_.Bdt()
+             - VetoBdt()
+            ) / 4
         );
     }
 

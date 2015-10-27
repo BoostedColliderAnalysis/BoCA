@@ -86,10 +86,10 @@ struct Close {
     }
     template <typename Multiplet>
     bool operator()(Multiplet const& multiplet) {
-        return (multiplet.Jet().delta_R(particle_) < detector_geometry_.JetConeSize());
+        return (multiplet.Jet().delta_R(particle_) * rad < detector_geometry_.JetConeSize());
     }
     bool operator()(fastjet::PseudoJet const& jet) {
-        return (jet.delta_R(particle_) < detector_geometry_.JetConeSize());
+        return (jet.delta_R(particle_) * rad < detector_geometry_.JetConeSize());
     }
     fastjet::PseudoJet particle_;
     DetectorGeometry detector_geometry_;

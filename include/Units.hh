@@ -28,6 +28,8 @@
 #include <boost/units/cmath.hpp>
 #include <boost/units/systems/si/io.hpp>
 
+#include <boost/units/systems/si/plane_angle.hpp>
+#include <boost/units/systems/si/length.hpp>
 
 namespace boca
 {
@@ -167,7 +169,19 @@ static const Crosssection fb(1. * femto * Barn);
  */
 static const Crosssection pb(1. * pico * Barn);
 
+using Length = boost::units::quantity<boost::units::si::length>;
+static const Length mm(1. * milli * boost::units::si::meter);
+
+using Angle = boost::units::quantity<boost::units::si::plane_angle>;
+float to_float(Angle angle);
+Angle to_angle(float angle);
+
+static const Angle rad(1. * boost::units::si::radian);
+
 }
 
 BOOST_UNITS_DEFINE_CONVERSION_FACTOR(boca::electronvolt::energy_base_unit, boost::units::si::energy, double, 1.602176565e-19);
+
+
+
 

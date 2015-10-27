@@ -45,9 +45,8 @@ public:
 private:
 
     std::string ProjectName() const final {
-      return  Name(production_channel()) + Name(this->collider_type()) + "_" + boca::Name(this->MadGraphCut()) + "-jan";
+      return  Name(production_channel()) + Name(this->collider_type()) + "_" + boca::Name(this->MadGraphCut()) + "-lambda2";
     }
-
 
     Production production_channel() const {
         return Production::DYP;

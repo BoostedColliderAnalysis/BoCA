@@ -36,14 +36,14 @@ class DetectorGeometry
 {
 public:
     static Momentum JetMinPt();
-    static float JetConeSize();
+    static Angle JetConeSize();
     static Momentum MinCellPt();
-    static float MinCellResolution();
-    static float TrackerEtaMax();
+    static Angle MinCellResolution();
+    static Angle TrackerEtaMax();
     static fastjet::JetDefinition JetDefinition();
     static fastjet::JetDefinition SubJetDefinition();
-    static float TrackerDistanceMin();
-    static float TrackerDistanceMax();
+    static Length TrackerDistanceMin();
+    static Length TrackerDistanceMax();
     static Mass VertexMassMin();
     static Momentum LeptonMinPt();
     static boca::Luminosity Luminosity();

@@ -39,7 +39,7 @@ public:
     bool Overlap(Singlet const& singlet) const;
 
     float VertexMass() const {
-        return UserInfo().VertexMass();
+        return UserInfo().VertexMass() / GeV;
     }
 
     float MaxDisplacement() const {
@@ -75,7 +75,7 @@ public:
     }
 
     float EnergyFraction() const {
-        return UserInfo().VertexEnergy() / Jet().e();
+        return UserInfo().VertexEnergy() / GeV / Jet().e();
     }
 
     float EmRadius() const {
@@ -149,7 +149,7 @@ public:
 
 private:
 
-    float log(float number) const;
+    float log(Length length) const;
 
     float Radius(fastjet::PseudoJet const& jet) const;
 

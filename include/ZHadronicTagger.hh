@@ -42,7 +42,7 @@ private:
 
     Doublet CheckDoublet(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const;
 
-    Doublet Multiplet(boca::Doublet& doublet, const boca::PreCuts& pre_cuts, const TMVA::Reader& reader) const;
+    Doublet Multiplet(Doublet& doublet, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
     Reader<BottomTagger> bottom_reader_;
 

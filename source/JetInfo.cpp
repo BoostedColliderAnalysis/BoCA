@@ -157,46 +157,46 @@ fastjet::PseudoJet JetInfo::VertexJet() const
     return fastjet::join(jets);
 }
 
-float JetInfo::SumDisplacement() const
+Length JetInfo::SumDisplacement() const
 {
     Debug();
-    if (displaced_constituents_.empty()) return 0;
-    return boost::accumulate(displaced_constituents_, 0., [](float result, Constituent const & constituent) {
-        return (result + constituent.Position().Vect().Perp());
+    if (displaced_constituents_.empty()) return 0. * mm;
+    return boost::accumulate(displaced_constituents_, 0. * mm, [](Length result, Constituent const & constituent) {
+        return (result + 1. * constituent.Position().Vect().Perp() * mm);
     });
 }
 
-float JetInfo::MeanDisplacement() const
+Length JetInfo::MeanDisplacement() const
 {
     Debug();
-    if (displaced_constituents_.empty()) return 0;
-    return SumDisplacement() / displaced_constituents_.size();
+    if (displaced_constituents_.empty()) return 0. * mm;
+    return SumDisplacement() / double(displaced_constituents_.size());
 }
 
-float JetInfo::MaxDisplacement() const
+Length JetInfo::MaxDisplacement() const
 {
     Debug();
-    if(displaced_constituents_.empty()) return 0;
-    return (*boost::max_element(displaced_constituents_, [](Constituent const & constituent_1, Constituent const & constituent_2) {
+    if(displaced_constituents_.empty()) return 0. * mm;
+    return 1. * (*boost::max_element(displaced_constituents_, [](Constituent const & constituent_1, Constituent const & constituent_2) {
         return constituent_1.Position().Vect().Perp() > constituent_2.Position().Vect().Perp();
-    })).Position().Vect().Perp();
+    })).Position().Vect().Perp() * mm;
 }
 
-float JetInfo::VertexMass() const
+Mass JetInfo::VertexMass() const
 {
     Debug();
-    float vertex_mass = boost::accumulate(displaced_constituents_, LorentzVector(), [](LorentzVector const & momentum, Constituent const & constituent) {
+    Mass vertex_mass = 1. * boost::accumulate(displaced_constituents_, LorentzVector(), [](LorentzVector const & momentum, Constituent const & constituent) {
         return momentum + constituent.Momentum();
-    }).M();
+    }).M() * GeV;
     Debug(vertex_mass);
-    if (vertex_mass < DetectorGeometry::VertexMassMin() / GeV) return 0;
+    if (vertex_mass < DetectorGeometry::VertexMassMin()) return massless;
     return vertex_mass;
 }
 
-float JetInfo::VertexEnergy() const
+Energy JetInfo::VertexEnergy() const
 {
     Debug();
-    return boost::accumulate(displaced_constituents_, Constituent()).Momentum().E();
+    return 1. * boost::accumulate(displaced_constituents_, Constituent()).Momentum().E() * GeV;
 }
 
 std::vector<Constituent> JetInfo::ApplyVertexResolution(std::vector<Constituent> constituents) const
@@ -212,7 +212,7 @@ std::vector<Constituent> JetInfo::ApplyVertexResolution(std::vector<Constituent>
 bool JetInfo::VertexResultion(Constituent const& constituent) const
 {
     Debug(constituent.Position().Perp());
-    return (constituent.Position().Vect().Perp() > DetectorGeometry::TrackerDistanceMin() & constituent.Position().Vect().Perp() < DetectorGeometry::TrackerDistanceMax() & std::abs(constituent.Momentum().Rapidity()) < DetectorGeometry::TrackerEtaMax());
+    return (1. * constituent.Position().Vect().Perp() * mm > DetectorGeometry::TrackerDistanceMin() & 1. * constituent.Position().Vect().Perp() * mm < DetectorGeometry::TrackerDistanceMax() & boost::units::abs(1. * constituent.Momentum().Rapidity() * rad) < DetectorGeometry::TrackerEtaMax());
 }
 
 float JetInfo::ElectroMagneticRadius(fastjet::PseudoJet const& jet) const

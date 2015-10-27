@@ -59,11 +59,11 @@ public:
 
     template <typename Multiplet>
     bool OutsideTracker(Id id, Multiplet const& multiplet) const {
-        return tracker_eta_upper_cut_.IsSet(id) && tracker_eta_upper_cut_.Get(id) < std::abs(multiplet.Jet().rap());
+        return tracker_eta_upper_cut_.IsSet(id) && tracker_eta_upper_cut_.Get(id) < std::abs(multiplet.Jet().rap()) * rad;
     }
 
     bool OutsideTracker(Id id, fastjet::PseudoJet const& jet) const {
-        return tracker_eta_upper_cut_.IsSet(id) && tracker_eta_upper_cut_.Get(id) < std::abs(jet.rap());
+        return tracker_eta_upper_cut_.IsSet(id) && tracker_eta_upper_cut_.Get(id) < std::abs(jet.rap()) * rad;
     }
 
     template <typename Multiplet>
@@ -105,7 +105,7 @@ public:
         return mass_upper_cut_;
     }
 
-    PreCut<float>& TrackerMaxEta() {
+    PreCut<Angle>& TrackerMaxEta() {
         return tracker_eta_upper_cut_;
     }
 
@@ -119,7 +119,7 @@ private:
 
     PreCut<Mass> mass_upper_cut_;
 
-    PreCut<float> tracker_eta_upper_cut_;
+    PreCut<Angle> tracker_eta_upper_cut_;
 
     bool do_sub_jets_ = true;
 

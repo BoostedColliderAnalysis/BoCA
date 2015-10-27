@@ -27,7 +27,6 @@ std::string Name(DetectorType detector_type)
     case DetectorType::CMS : return "LHC";
     case DetectorType::Spp : return "100TeV";
   }
-
 }
 
 void DetectorGeometry::set_detector_type(DetectorType detector_type)
@@ -48,11 +47,11 @@ Momentum DetectorGeometry::JetMinPt()
     }
 }
 
-float DetectorGeometry::JetConeSize()
+Angle DetectorGeometry::JetConeSize()
 {
     switch (detector_type()) {
-    case DetectorType::CMS : return 0.4;
-    case DetectorType::Spp : return 0.5;
+    case DetectorType::CMS : return 0.4 * rad;
+    case DetectorType::Spp : return 0.5 * rad;
     }
 }
 
@@ -64,51 +63,51 @@ Momentum DetectorGeometry::MinCellPt()
     }
 }
 
-float DetectorGeometry::MinCellResolution()
+Angle DetectorGeometry::MinCellResolution()
 {
     switch (detector_type()) {
-    case DetectorType::CMS : return .1;
-    case DetectorType::Spp : return .1 ;
+    case DetectorType::CMS : return .1 * rad;
+    case DetectorType::Spp : return .1 * rad;
     }
 }
 
-float DetectorGeometry::TrackerEtaMax()
+Angle DetectorGeometry::TrackerEtaMax()
 {
     switch (detector_type()) {
-    case DetectorType::CMS : return 2.5;
-    case DetectorType::Spp : return 3.5;
+    case DetectorType::CMS : return 2.5 * rad;
+    case DetectorType::Spp : return 3.5 * rad;
     }
 }
 
 fastjet::JetDefinition DetectorGeometry::JetDefinition()
 {
     switch (detector_type()) {
-    case DetectorType::CMS : return fastjet::JetDefinition(fastjet::antikt_algorithm, JetConeSize(), &info_recombiner_);
-    case DetectorType::Spp : return fastjet::JetDefinition(fastjet::antikt_algorithm, JetConeSize(), &info_recombiner_);
+    case DetectorType::CMS : return fastjet::JetDefinition(fastjet::antikt_algorithm, JetConeSize() / rad, &info_recombiner_);
+    case DetectorType::Spp : return fastjet::JetDefinition(fastjet::antikt_algorithm, JetConeSize() / rad, &info_recombiner_);
     }
 }
 
 fastjet::JetDefinition DetectorGeometry::SubJetDefinition()
 {
     switch (detector_type()) {
-    case DetectorType::CMS : return fastjet::JetDefinition(fastjet::kt_algorithm, JetConeSize(), &info_recombiner_);
-    case DetectorType::Spp : return fastjet::JetDefinition(fastjet::kt_algorithm, JetConeSize(), &info_recombiner_);
+    case DetectorType::CMS : return fastjet::JetDefinition(fastjet::kt_algorithm, JetConeSize() / rad, &info_recombiner_);
+    case DetectorType::Spp : return fastjet::JetDefinition(fastjet::kt_algorithm, JetConeSize() / rad, &info_recombiner_);
     }
 }
 
-float DetectorGeometry::TrackerDistanceMin()
+Length DetectorGeometry::TrackerDistanceMin()
 {
     switch (detector_type()) {
-    case DetectorType::CMS : return 0.1;
-    case DetectorType::Spp : return 0.1;
+    case DetectorType::CMS : return 0.1 * mm;
+    case DetectorType::Spp : return 0.1 * mm;
     }
 }
 
-float DetectorGeometry::TrackerDistanceMax()
+Length DetectorGeometry::TrackerDistanceMax()
 {
     switch (detector_type()) {
-    case DetectorType::CMS : return 1000;
-    case DetectorType::Spp : return 1000;
+    case DetectorType::CMS : return 1000. * mm;
+    case DetectorType::Spp : return 1000. * mm;
     }
 }
 
