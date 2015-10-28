@@ -595,11 +595,11 @@ public:
         MissingEt = multiplet.GlobalObservables().MissingEt();
         ScalarHt = multiplet.GlobalObservables().ScalarHt();
         LeptonHt = multiplet.GlobalObservables().LeptonHt();
-        JetMass = multiplet.Singlet().Jet().m();
-        JetPt = multiplet.Singlet().Jet().pt();
+        JetMass = multiplet.Rest().Jet().m();
+        JetPt = multiplet.Rest().Jet().pt();
         JetHt = multiplet.GlobalObservables().JetHt();
-        JetRap = multiplet.Singlet().Rapidity();
-        JetPhi = multiplet.Singlet().Jet().phi();
+        JetRap = multiplet.Rest().Rapidity();
+        JetPhi = multiplet.Rest().Jet().phi();
     }
     Observables Variables();
 

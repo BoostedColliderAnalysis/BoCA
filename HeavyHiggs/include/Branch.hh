@@ -239,14 +239,14 @@ public:
     void Fill(Multiplet const& event)
     {
         EventBranch::Fill(event);
-        HiggsMass = event.Multiplet().Sextet().Jet().m();
-        HiggsBdt = event.Multiplet().Sextet().Bdt();
-        SignatureBdt = event.Multiplet().Bdt();
-        PairRap = event.Multiplet().Doublet().DeltaRap();
-        BottomBdt = event.Multiplet().BottomBdt();
-        PairBottomBdt = event.Multiplet().Doublet().BottomBdt();
-        HardTopPt = event.Multiplet().Sextet().HardTopPt();
-        SoftTopPt = event.Multiplet().Sextet().SoftTopPt();
+        HiggsMass = event.Signature().Sextet().Jet().m();
+        HiggsBdt = event.Signature().Sextet().Bdt();
+        SignatureBdt = event.Signature().Bdt();
+        PairRap = event.Signature().Doublet().DeltaRap();
+        BottomBdt = event.Signature().BottomBdt();
+        PairBottomBdt = event.Signature().Doublet().BottomBdt();
+        HardTopPt = event.Signature().Sextet().HardTopPt();
+        SoftTopPt = event.Signature().Sextet().SoftTopPt();
         BottomBdt1 = event.GlobalObservables().BottomBdt(1);
         BottomBdt2 = event.GlobalObservables().BottomBdt(2);
         BottomBdt3 = event.GlobalObservables().BottomBdt(3);
@@ -301,14 +301,14 @@ public:
     void Fill(Multiplet const& event)
     {
         EventBranch::Fill(event);
-        HiggsMass = event.Multiplet().Sextet().Jet().m();
-        HiggsBdt = event.Multiplet().Sextet().Bdt();
-        SignatureBdt = event.Multiplet().Bdt();
-        PairRap = event.Multiplet().Doublet().DeltaRap();
-        BottomBdt = event.Multiplet().BottomBdt();
-        PairBottomBdt = event.Multiplet().Doublet().BottomBdt();
-        HardTopPt = event.Multiplet().Sextet().HardTopPt();
-        SoftTopPt = event.Multiplet().Sextet().SoftTopPt();
+        HiggsMass = event.Signature().Sextet().Jet().m();
+        HiggsBdt = event.Signature().Sextet().Bdt();
+        SignatureBdt = event.Signature().Bdt();
+        PairRap = event.Signature().Doublet().DeltaRap();
+        BottomBdt = event.Signature().BottomBdt();
+        PairBottomBdt = event.Signature().Doublet().BottomBdt();
+        HardTopPt = event.Signature().Sextet().HardTopPt();
+        SoftTopPt = event.Signature().Sextet().SoftTopPt();
         BottomBdt1 = event.GlobalObservables().BottomBdt(1);
         BottomBdt2 = event.GlobalObservables().BottomBdt(2);
         BottomBdt3 = event.GlobalObservables().BottomBdt(3);
@@ -480,12 +480,12 @@ public:
     void Fill(Multiplet const& event)
     {
         EventBranch::Fill(event);
-        HiggsMass = event.Multiplet().Quartet1().Jet().m();
-        HiggsBdt = event.Multiplet().Quartet1().Bdt();
-        SignatureBdt = event.Multiplet().Bdt();
-        PairRap = event.Multiplet().Quartet2().DeltaRap();
-        BottomBdt = event.Multiplet().BottomBdt();
-        PairBottomBdt = event.Multiplet().Quartet2().BottomBdt();
+        HiggsMass = event.Signature().Quartet1().Jet().m();
+        HiggsBdt = event.Signature().Quartet1().Bdt();
+        SignatureBdt = event.Signature().Bdt();
+        PairRap = event.Signature().Quartet2().DeltaRap();
+        BottomBdt = event.Signature().BottomBdt();
+        PairBottomBdt = event.Signature().Quartet2().BottomBdt();
         BottomBdt1 = event.GlobalObservables().BottomBdt(1);
         BottomBdt2 = event.GlobalObservables().BottomBdt(2);
         BottomBdt3 = event.GlobalObservables().BottomBdt(3);

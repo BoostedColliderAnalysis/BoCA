@@ -112,15 +112,15 @@ public:
     }
 
     float DeltaPt() const {
-        return Multiplet::DeltaPt(Multiplet1(), Multiplet2());
+        return Multiplet::DeltaPt(Multiplet1(), Multiplet2()) / GeV;
     }
 
     float DeltaPt23() const {
-        return Multiplet::DeltaPt(Multiplet2(), Multiplet3());
+        return Multiplet::DeltaPt(Multiplet2(), Multiplet3()) / GeV;
     }
 
     float DeltaPt13() const {
-        return Multiplet::DeltaPt(Multiplet1(), Multiplet3());
+        return Multiplet::DeltaPt(Multiplet1(), Multiplet3()) / GeV;
     }
 
     float Ht() const override {
@@ -140,27 +140,27 @@ public:
     }
 
     float DeltaRap() const {
-        return Multiplet::DeltaRap(Multiplet1(), Multiplet2());
+        return Multiplet::DeltaRap(Multiplet1(), Multiplet2()) / rad;
     }
 
     float DeltaRap23() const {
-        return Multiplet::DeltaRap(Multiplet2(), Multiplet3());
+        return Multiplet::DeltaRap(Multiplet2(), Multiplet3()) / rad;
     }
 
     float DeltaRap13() const {
-        return Multiplet::DeltaRap(Multiplet1(), Multiplet3());
+        return Multiplet::DeltaRap(Multiplet1(), Multiplet3()) / rad;
     }
 
     float DeltaPhi() const {
-        return Multiplet::DeltaPhi(Multiplet1(), Multiplet2());
+        return Multiplet::DeltaPhi(Multiplet1(), Multiplet2()) / rad;
     }
 
     float DeltaPhi23() const {
-        return Multiplet::DeltaPhi(Multiplet2(), Multiplet3());
+        return Multiplet::DeltaPhi(Multiplet2(), Multiplet3()) / rad;
     }
 
     float DeltaPhi13() const {
-        return Multiplet::DeltaPhi(Multiplet1(), Multiplet3());
+        return Multiplet::DeltaPhi(Multiplet1(), Multiplet3()) / rad;
     }
 
     float DeltaR() const {
@@ -176,15 +176,15 @@ public:
     }
 
     float DeltaM() const {
-        return Multiplet::DeltaM(Multiplet1(), Multiplet2());
+        return Multiplet::DeltaM(Multiplet1(), Multiplet2()) / GeV;
     }
 
     float DeltaM23() const {
-        return Multiplet::DeltaM(Multiplet2(), Multiplet3());
+        return Multiplet::DeltaM(Multiplet2(), Multiplet3()) / GeV;
     }
 
     float DeltaM13() const {
-        return Multiplet::DeltaM(Multiplet1(), Multiplet3());
+        return Multiplet::DeltaM(Multiplet1(), Multiplet3()) / GeV;
     }
 
     float DeltaHt() const {

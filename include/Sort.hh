@@ -21,7 +21,7 @@ struct MinDeltaRTo {
     }
     template <typename Multiplet>
     bool operator()(Multiplet const& multiplet1, Multiplet const& multiplet2) {
-        return multiplet1.Jet().delta_R(jet_)  < multiplet2.Jet().delta_R(jet_);
+        return multiplet1.DeltaRTo(jet_) < multiplet2.DeltaRTo(jet_);
     }
     bool operator()(fastjet::PseudoJet const& jet1, fastjet::PseudoJet const& jet2) {
         return jet1.delta_R(jet_)  < jet2.delta_R(jet_);

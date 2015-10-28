@@ -106,8 +106,8 @@ Length DetectorGeometry::TrackerDistanceMin()
 Length DetectorGeometry::TrackerDistanceMax()
 {
     switch (detector_type()) {
-    case DetectorType::CMS : return 1000. * mm;
-    case DetectorType::Spp : return 1000. * mm;
+    case DetectorType::CMS : return 1. * m;
+    case DetectorType::Spp : return 1. * m;
     }
 }
 

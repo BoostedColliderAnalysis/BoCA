@@ -83,7 +83,7 @@ public:
     }
 
     float DeltaPt() const {
-        return Multiplet1().Jet().pt() - Multiplet2().Jet().pt();
+        return (Multiplet1().Pt() - Multiplet2().Pt()) / GeV;
     }
 
     float Ht() const override {
@@ -91,11 +91,11 @@ public:
     }
 
     float DeltaRap() const {
-        return Multiplet::DeltaRap(Multiplet1(), Multiplet2());
+        return Multiplet::DeltaRap(Multiplet1(), Multiplet2()) / rad;
     }
 
     float DeltaPhi() const {
-        return Multiplet::DeltaPhi(Multiplet1(), Multiplet2());
+        return Multiplet::DeltaPhi(Multiplet1(), Multiplet2()) / rad;
     }
 
     float DeltaR() const {
@@ -103,7 +103,7 @@ public:
     }
 
     float DeltaM() const {
-        return Multiplet::DeltaM(Multiplet1(), Multiplet2());
+        return Multiplet::DeltaM(Multiplet1(), Multiplet2()) / GeV;
     }
 
     float DeltaHt() const {
@@ -114,8 +114,8 @@ public:
         return Multiplet::Rho(Multiplet1(), Multiplet2(), Jet());
     }
 
-    float MassDifferenceTo(Id id) const {
-        return std::abs(Jet().m() - MassOf(id) / GeV);
+    boca::Mass MassDifferenceTo(Id id) const {
+        return boost::units::abs(Mass() - MassOf(id));
     }
 
     int Charge() const override {

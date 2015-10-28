@@ -170,6 +170,7 @@ static const Crosssection fb(1. * femto * Barn);
 static const Crosssection pb(1. * pico * Barn);
 
 using Length = boost::units::quantity<boost::units::si::length>;
+static const Length m(1. * boost::units::si::meter);
 static const Length mm(1. * milli * boost::units::si::meter);
 
 using Angle = boost::units::quantity<boost::units::si::plane_angle>;

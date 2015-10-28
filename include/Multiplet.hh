@@ -51,17 +51,17 @@ protected:
 
     Vector2 Pull() const override;
 
-    float DeltaPt(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
+    Momentum DeltaPt(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
     float Ht(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
-    float DeltaRap(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
+    Angle DeltaRap(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
-    float DeltaPhi(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
+    Angle DeltaPhi(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
     Angle DeltaR(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
-    float DeltaM(const boca::MultipletBase& multiplets_1, const boca::MultipletBase& multiplets_2) const;
+    boca::Mass DeltaM(const boca::MultipletBase& multiplets_1, const boca::MultipletBase& multiplets_2) const;
 
     float DeltaHt(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 

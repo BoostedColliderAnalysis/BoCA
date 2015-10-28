@@ -25,14 +25,13 @@ int ChargedHiggsSemiTagger::Train(Event const& event, PreCuts const&, Tag tag) c
     Jets TopParticles = top_leptonic_reader_.Tagger().Particles(event);
 //     TopParticles = CopyIfExactParticle(TopParticles, TopSemiId);
     fastjet::PseudoJet TopQuark;
-    if (TopParticles.size() == 1)
-        TopQuark = TopParticles.front();
+    if (TopParticles.size() == 1) TopQuark = TopParticles.front();
     else
         Error(TopParticles.size());
     std::vector<Triplet> Finaltriplets;
     switch (tag) {
     case Tag::signal:
-        for (auto const& triplet : triplets) if (triplet.Jet().delta_R(TopQuark) * rad < DetectorGeometry::JetConeSize()) Finaltriplets.emplace_back(triplet);
+        for (auto const& triplet : triplets) if (triplet.DeltaRTo(TopQuark) < DetectorGeometry::JetConeSize()) Finaltriplets.emplace_back(triplet);
         break;
     case Tag::background :
         Finaltriplets = triplets;
@@ -56,11 +55,11 @@ int ChargedHiggsSemiTagger::Train(Event const& event, PreCuts const&, Tag tag) c
     std::vector<Quartet31> quartets;
     for (auto const& triplet : Finaltriplets)
         for (auto const& Jet : BottomJets) {
-            if (triplet.Singlet().Jet().delta_R(Jet) * rad < DetectorGeometry::JetConeSize()) continue;
+            if (triplet.Singlet().DeltaRTo(Jet) < DetectorGeometry::JetConeSize()) continue;
             Quartet31 quartet(triplet, Jet);
             if (tag == Tag::signal && quartet.Mass() < mass / 2.) continue;
             if (tag == Tag::signal && quartet.Mass() > mass * 3. / 2.) continue;
-            if (tag == Tag::signal && quartet.Jet().delta_R(HiggsBoson) * rad > 2. * DetectorGeometry::JetConeSize()) continue;
+            if (tag == Tag::signal && quartet.DeltaRTo(HiggsBoson) > 2. * DetectorGeometry::JetConeSize()) continue;
             quartets.emplace_back(quartet);
         }
     Info(quartets.size());
@@ -79,8 +78,7 @@ std::vector<Quartet31> ChargedHiggsSemiTagger::Multiplets(Event const& event, bo
     std::vector<Quartet31> quartets;
     for (auto const& triplet : triplets)
         for (auto const& jet : jets) {
-            if (Close(jet)(triplet.Singlet().Jet()))
-                continue;
+            if (Close(jet)(triplet.Singlet().Jet())) continue;
             Quartet31 quartet(triplet, jet);
             quartet.SetBdt(Bdt(quartet, reader));
             quartets.emplace_back(quartet);

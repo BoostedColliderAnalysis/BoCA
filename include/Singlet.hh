@@ -129,8 +129,6 @@ public:
 
     void SetBdt(float bdt) final;
 
-    float Rapidity() const;
-
     int Charge() const;
 
     Singlet const& singlet() const;
@@ -145,6 +143,10 @@ public:
 
     float BottomBdt() const final {
       return Bdt();
+    }
+
+    float Rapidity() const {
+      return Rap() / rad;
     }
 
 private:

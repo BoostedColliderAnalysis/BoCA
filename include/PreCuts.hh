@@ -59,7 +59,7 @@ public:
 
     template <typename Multiplet>
     bool OutsideTracker(Id id, Multiplet const& multiplet) const {
-        return tracker_eta_upper_cut_.IsSet(id) && tracker_eta_upper_cut_.Get(id) < std::abs(multiplet.Jet().rap()) * rad;
+        return tracker_eta_upper_cut_.IsSet(id) && tracker_eta_upper_cut_.Get(id) < boost::units::abs(multiplet.Rap());
     }
 
     bool OutsideTracker(Id id, fastjet::PseudoJet const& jet) const {

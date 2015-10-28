@@ -36,10 +36,10 @@ fastjet::PseudoJet Multiplet::Jet(fastjet::PseudoJet const& jet_1, fastjet::Pseu
     return jet;
 }
 
-float Multiplet::DeltaPt(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const
+Momentum Multiplet::DeltaPt(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const
 {
-    float delta_pt  = multiplets_1.Jet().pt() - multiplets_2.Jet().pt();
-    if (delta_pt != delta_pt) return 0;
+    Momentum delta_pt  = multiplets_1.Pt() - multiplets_2.Pt();
+    if (delta_pt != delta_pt) return at_rest;
     return delta_pt;
 }
 
@@ -48,16 +48,16 @@ float Multiplet::Ht(MultipletBase const& multiplets_1, MultipletBase const& mult
     return multiplets_1.Ht() + multiplets_2.Ht();
 }
 
-float Multiplet::DeltaRap(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const
+Angle Multiplet::DeltaRap(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const
 {
-    float delta_rap = multiplets_1.Jet().rap() - multiplets_2.Jet().rap();
-    if (std::abs(delta_rap) > 100) return 0;
+    Angle delta_rap = multiplets_1.Rap() - multiplets_2.Rap();
+    if (boost::units::abs(delta_rap) > 100. * rad) return 0. * rad;
     return delta_rap;
 }
 
-float Multiplet::DeltaPhi(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const
+Angle Multiplet::DeltaPhi(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const
 {
-    return multiplets_1.Jet().delta_phi_to(multiplets_2.Jet());
+    return multiplets_1.Jet().delta_phi_to(multiplets_2.Jet()) * rad;
 }
 
 Angle Multiplet::DeltaR(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const
@@ -68,9 +68,9 @@ Angle Multiplet::DeltaR(MultipletBase const& multiplets_1, MultipletBase const& 
     return delta_r;
 }
 
-float Multiplet::DeltaM(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const
+Mass Multiplet::DeltaM(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const
 {
-    return multiplets_1.Jet().m() - multiplets_2.Jet().m();
+    return multiplets_1.Mass() - multiplets_2.Mass();
 }
 
 float Multiplet::DeltaHt(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const

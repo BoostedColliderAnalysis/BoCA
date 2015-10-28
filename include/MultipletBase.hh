@@ -34,6 +34,20 @@ public:
     return Jet().pt() * GeV;
   }
 
+  Angle Rap() const {
+    if (Jet().rap() == fastjet::pseudojet_invalid_rap) return 0. * rad;
+    if (Jet().rap() > 100) return 0. * rad;
+    return Jet().rap() * rad;
+  }
+
+  Angle Phi() const {
+    return Jet().phi_std() * rad;
+  }
+
+  Angle DeltaRTo(fastjet::PseudoJet const& jet) const {
+    return Jet().delta_R(jet) * rad;
+  }
+
   /**
    * @brief calculate Reference vector for other - this
    * @return Vector2 reference vector

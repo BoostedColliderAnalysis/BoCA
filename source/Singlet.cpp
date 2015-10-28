@@ -93,13 +93,6 @@ Vector2 Singlet::Pull() const
     return pull_;
 }
 
-float Singlet::Rapidity() const
-{
-    if (Jet().rap() == fastjet::pseudojet_invalid_rap) return 0;
-    if (Jet().rap() > 100) return 0;
-    return Jet().rap();
-}
-
 const Singlet &Singlet::singlet() const
 {
     return *this;

@@ -25,12 +25,12 @@ public:
         boca::TwoBody<Multiplet_1, boca::Singlet>::SetMultiplets(multiplet,global_observables_.Singlet());
     }
 
-    Multiplet_1 Multiplet() const
+    Multiplet_1 Signature() const
     {
         return boca::TwoBody<Multiplet_1, boca::Singlet>::Multiplet1();
     }
 
-    boca::Singlet Singlet() const
+    boca::Singlet Rest() const
     {
         return boca::TwoBody<Multiplet_1, boca::Singlet>::Multiplet2();
     }

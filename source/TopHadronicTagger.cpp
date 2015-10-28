@@ -164,7 +164,7 @@ std::vector<Triplet> TopHadronicTagger::Triplets(boca::Doublet const& doublet, b
 Triplet TopHadronicTagger::Triplet(boca::Doublet const& doublet, fastjet::PseudoJet const& jet, boca::Jets const& leptons , Function const& function, MomentumRange const& range, bool& failure, bool check_overlap) const
 {
     boca::Triplet triplet(doublet, jet);
-    Debug(triplet.Jet().pt(), range.Min(), range.Max());
+    Debug(triplet.Pt(), range.Min(), range.Max());
     if (!range.InsideBounds(triplet)) {
         failure = true;
         return triplet;
