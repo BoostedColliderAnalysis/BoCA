@@ -64,7 +64,7 @@ private:
 
     boca::Jets Jets(Event const& event, PreCuts const& pre_cuts, std::function<fastjet::PseudoJet(fastjet::PseudoJet&)> const& function) const;
 
-    boca::Jets Multiplets(boca::Jets jets, boca::PreCuts const& pre_cuts, std::function<fastjet::PseudoJet(fastjet::PseudoJet&)> const& function, unsigned sub_jet_number = 1) const;
+    boca::Jets Multiplets(boca::Jets jets, std::function<fastjet::PseudoJet(fastjet::PseudoJet&)> const& function, unsigned sub_jet_number = 1) const;
 
     bool Problematic(fastjet::PseudoJet const& jet, boca::PreCuts const& pre_cuts, Tag tag) const;
 

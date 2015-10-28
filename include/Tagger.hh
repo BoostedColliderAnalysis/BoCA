@@ -112,6 +112,10 @@ public:
 
     void ClearTreeNames();
 
+    std::string ReaderName() const;
+
+    std::string ReaderName(std::string const& name) const;
+
 protected:
 
     virtual TClass& Class() const = 0;
@@ -176,10 +180,6 @@ private:
     std::string Root() const;
 
     std::string PathName(std::string const& file_name, std::string const& suffix = ".root") const;
-
-    std::string ReaderName() const;
-
-    std::string ReaderName(std::string const& name) const;
 
     std::string WeightName(TMVA::Types::EMVA mva) const;
 

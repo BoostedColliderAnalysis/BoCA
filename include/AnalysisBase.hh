@@ -61,7 +61,7 @@ protected:
 
     exroot::TreeWriter TreeWriter(TFile& export_file, std::string const& export_tree_name, Stage stage);
 
-    virtual std::string ProjectName() const;
+    virtual std::string AnalysisName() const = 0;
 
     /**
      * @brief Maximal number of Entries to analyse

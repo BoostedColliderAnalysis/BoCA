@@ -20,8 +20,10 @@ std::string Tagger::analysis_name_;
 
 void Tagger::Initialize()
 {
+    Info();
     ClearTreeNames();
     DefineVariables();
+    Info("done");
 }
 
 Observable Tagger::NewObservable(float& value, std::string const& title) const
@@ -120,7 +122,7 @@ std::string Tagger::ReaderName() const
 }
 std::string Tagger::ReaderName(std::string const& name) const
 {
-    Info();
+    Info(name);
     return name + "Reader";
 }
 std::string Tagger::Name(Stage stage) const
@@ -211,9 +213,10 @@ TCut Tagger::Cut() const
     Info();
     return TCut();
 }
+
 void Tagger::SetAnalysisName(std::string const& analysis_name)
 {
-    Info();
+    Info(analysis_name);
     analysis_name_ = analysis_name;
 }
 

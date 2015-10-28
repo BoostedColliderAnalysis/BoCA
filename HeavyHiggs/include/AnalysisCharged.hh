@@ -22,7 +22,7 @@ class AnalysisCharged : public AnalysisHeavyHiggs<Tagger>
 public:
 
     AnalysisCharged() {
-        this->tagger().SetAnalysisName(ProjectName());
+        this->tagger().SetAnalysisName(AnalysisName());
     }
 
     void SetFiles(Tag tag, Stage) final {
@@ -40,7 +40,7 @@ public:
 //         return "Charged";
 //     }
 
-    std::string ProjectName() const final {
+    std::string AnalysisName() const final {
       return  "Charged-" + Name(this->collider_type()) + "-" + boca::Name(this->PreCut()) + "-" + boca::Name(this->Mass());
     }
 

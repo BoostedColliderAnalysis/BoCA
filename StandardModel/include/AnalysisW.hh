@@ -22,7 +22,7 @@ class AnalysisW : public AnalysisStandardModel<Tagger>
 public:
 
     AnalysisW() {
-        this->set_tagger_analysis_name(ProjectName());
+        this->set_tagger_analysis_name(AnalysisName());
         this->pre_cuts().PtLowerCut().Set(Id::W, this->LowerPtCut());
         this->pre_cuts().PtUpperCut().Set(Id::W, this->UpperPtCut());
         this->pre_cuts().MassUpperCut().Set(Id::W, 200. * GeV);
@@ -36,7 +36,7 @@ public:
 
 private:
 
-    std::string ProjectName() const final {
+    std::string AnalysisName() const final {
         return  "WTagger-" + Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-" + Name(Process::tt) + "-jan";
     }
 

@@ -32,7 +32,11 @@ void AnalysisBase::Initialize()
 {
     Error(tagger().Name());
     working_path_ = WorkingPath();
-    if (ProjectName() != AnalysisBase::ProjectName()) mkdir(ProjectName().c_str(), 0700);
+//     if (AnalysisName() != AnalysisBase::AnalysisName())
+    Info(working_path_,AnalysisName());
+      mkdir(AnalysisName().c_str(), 0700);
+//     else Error(AnalysisName());
+    tagger().SetAnalysisName(AnalysisName());
     tagger().Initialize();
 }
 
@@ -58,11 +62,11 @@ void AnalysisBase::PrepareFiles(Stage stage)
     SetFiles(Tag::background, stage);
 }
 
-std::string AnalysisBase::ProjectName() const
-{
-    Info();
-    return "ProjectName";
-}
+// std::string AnalysisBase::AnalysisName() const
+// {
+//     Info();
+//     return "ProjectName";
+// }
 
 long AnalysisBase::EventNumberMax() const
 {
@@ -205,16 +209,13 @@ void AnalysisBase::RunFullEfficiency()
 {
     Info();
     RunNormal();
-    Info("normal done");
     RunEfficiency();
-    Info("efficiency done");
 }
 
 void AnalysisBase::RunTagger(Stage stage)
 {
     Info();
     if (!Exists(tagger().FileName(stage, Tag::signal))) AnalysisLoop(stage);
-    Info("Analysis Loop done");
 }
 
 void AnalysisBase::RunTrainer()
@@ -293,6 +294,7 @@ std::string AnalysisBase::WorkingPath()
 void Run(AnalysisBase& analysis, Output run)
 {
     Info();
+    analysis.Initialize();
 //   analysis.PreRequisits<analysis.tagger()::type>(analysis,run);
     switch (run) {
     case Output::fast :

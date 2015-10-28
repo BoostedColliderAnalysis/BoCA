@@ -50,7 +50,7 @@ private:
 
     boca::Triplet Triplet(boca::Triplet& triplet, boca::Jets const& leptons, PreCuts const& pre_cuts, Tag tag, bool& failure) const;
 
-    std::vector<boca::Triplet> Triplets(Event const& event, PreCuts const& pre_cuts, Function const& function) const;
+    std::vector<boca::Triplet> Triplets(Event const& event, Function const& function) const;
 
     std::vector<boca::Triplet> Triplets(std::vector<Doublet> const& doublets, Jets const& jets, Jets const& leptons, Function const& function, MomentumRange const& range) const;
 

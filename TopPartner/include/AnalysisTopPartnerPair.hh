@@ -26,12 +26,12 @@ class AnalysisPair : public AnalysisNaturalness<Tagger>
 public:
 
     AnalysisPair() {
-        this->tagger().SetAnalysisName(ProjectName());
+        this->tagger().SetAnalysisName(AnalysisName());
     }
 
 protected:
 
-    std::string ProjectName() const final {
+    std::string AnalysisName() const final {
         Info();
         return "Naturalness-Pair-" + boca::Name(this->PreCut()) + "-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass()) + "-full";
     }

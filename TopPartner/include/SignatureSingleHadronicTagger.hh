@@ -32,7 +32,7 @@ public:
 
 private:
 
-    std::vector<Decuplet532> Decuplets(Event const& event, PreCuts const& pre_cuts, std::function<Decuplet532(Decuplet532&)> const& function) const;
+    std::vector<Decuplet532> Decuplets(Event const& event, std::function<Decuplet532(Decuplet532&)> const& function) const;
 
     Reader<TopPartnerHadronicTagger> partner_reader_;
 

@@ -66,13 +66,13 @@ Jets HiggsTagger::Particles(Event const& event) const
 Doublet HiggsTagger::CheckDoublet(Doublet& doublet, Jets& leptons, PreCuts const& pre_cuts, Tag tag) const
 {
     Info();
-    doublet = PrepareDoublet(doublet, leptons , pre_cuts);
+    doublet = PrepareDoublet(doublet, leptons);
     if (Problematic(doublet, pre_cuts, tag)) throw boca::Problematic();
     doublet.SetTag(tag);
     return doublet;
 }
 
-Doublet HiggsTagger::PrepareDoublet(Doublet& doublet, Jets& leptons, PreCuts const& pre_cuts) const
+Doublet HiggsTagger::PrepareDoublet(Doublet& doublet, Jets& leptons) const
 {
     Info();
     //     doublet = MassDrop(doublet);
@@ -116,7 +116,7 @@ std::vector<Doublet> HiggsTagger::Multiplets(Event const& event, PreCuts const& 
 Doublet HiggsTagger::Multiplet(Doublet& doublet, Jets& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
     Info();
-    doublet = PrepareDoublet(doublet, leptons, pre_cuts);
+    doublet = PrepareDoublet(doublet, leptons);
     if (Problematic(doublet, pre_cuts)) throw boca::Problematic();
     doublet.SetBdt(Bdt(doublet, reader));
     return doublet;

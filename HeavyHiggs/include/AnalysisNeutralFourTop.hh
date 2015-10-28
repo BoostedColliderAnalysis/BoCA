@@ -19,7 +19,7 @@ class AnalysisNeutralFourTop : public AnalysisHeavyHiggs<Tagger>
 public:
 
     AnalysisNeutralFourTop() {
-        this->tagger().SetAnalysisName(ProjectName());
+        this->tagger().SetAnalysisName(AnalysisName());
 //  this->pre_cuts().PtLowerCut().Set(Id::top,100);
     }
 
@@ -38,7 +38,7 @@ public:
         }
     }
 
-    std::string ProjectName() const final {
+    std::string AnalysisName() const final {
       //        return  "NeutralFourTop-" + ColliderName(collider_type()) + "-" + Name(PreCut()) + "-" + Name(Mass()) + "-Eta2.5";
       return  "NeutralFourTop-" + Name(this->collider_type()) + "-" + boca::Name(this->Mass());
     };

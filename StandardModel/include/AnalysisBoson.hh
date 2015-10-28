@@ -22,7 +22,7 @@ class AnalysisBoson : public AnalysisStandardModel<Tagger>
 public:
 
     AnalysisBoson() {
-        this->set_tagger_analysis_name(ProjectName());
+        this->set_tagger_analysis_name(AnalysisName());
         this->pre_cuts().PtLowerCut().Set(Id::neutral_boson, this->LowerPtCut());
         this->pre_cuts().PtUpperCut().Set(Id::neutral_boson, this->UpperPtCut());
 //         this->pre_cuts().PtLowerCut().Set(Id::bottom, this->LowerPtCut() / 5.);
@@ -34,7 +34,7 @@ public:
 
 private:
 
-    std::string ProjectName() const final {
+    std::string AnalysisName() const final {
         return  Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-pt-switch";
     }
 

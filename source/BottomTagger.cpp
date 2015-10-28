@@ -37,15 +37,15 @@ Jets BottomTagger::Jets(Event const& event, PreCuts const& pre_cuts, std::functi
 {
     Info();
     boca::Jets jets = event.Hadrons().Jets();
-    boca::Jets bottoms = Multiplets(jets, pre_cuts, function);
+    boca::Jets bottoms = Multiplets(jets, function);
     if (pre_cuts.DoSubJets()) {
-        bottoms = Join(bottoms, Multiplets(jets, pre_cuts, function, 2));
-        bottoms = Join(bottoms, Multiplets(jets, pre_cuts, function, 3));
+        bottoms = Join(bottoms, Multiplets(jets, function, 2));
+        bottoms = Join(bottoms, Multiplets(jets, function, 3));
     }
     return bottoms;
 }
 
-boca::Jets BottomTagger::Multiplets(boca::Jets jets, boca::PreCuts const& pre_cuts, std::function<fastjet::PseudoJet(fastjet::PseudoJet&)> const& function, unsigned sub_jet_number) const
+boca::Jets BottomTagger::Multiplets(boca::Jets jets, std::function<fastjet::PseudoJet(fastjet::PseudoJet&)> const& function, unsigned sub_jet_number) const
 {
     Info();
     if (sub_jet_number > 1) jets = SubJets(jets, sub_jet_number);
@@ -107,7 +107,7 @@ boca::Jets BottomTagger::SubJets(boca::Jets const& jets, int sub_jet_number) con
 boca::Jets BottomTagger::Jets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
     Info();
-    return Multiplets(event.Hadrons().Jets(), pre_cuts, [&](fastjet::PseudoJet & jet) {
+    return Multiplets(event.Hadrons().Jets(), [&](fastjet::PseudoJet & jet) {
         if (Problematic(jet, pre_cuts)) throw boca::Problematic();
         return Multiplet(jet, reader);
     });

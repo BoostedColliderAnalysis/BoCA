@@ -42,7 +42,7 @@ private:
 
     Doublet CheckDoublet(boca::Doublet& doublet, boca::Jets& leptons, const boca::PreCuts& pre_cuts, boca::Tag tag) const;
 
-    Doublet PrepareDoublet(boca::Doublet& doublet, boca::Jets& leptons, const boca::PreCuts& pre_cuts) const;
+    Doublet PrepareDoublet(boca::Doublet& doublet, boca::Jets& leptons) const;
 
     bool Problematic(Doublet const& doublet, PreCuts const& pre_cuts, Tag tag) const;
 

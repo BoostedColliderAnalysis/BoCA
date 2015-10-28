@@ -20,7 +20,7 @@ public:
 
     AnalysisFusion()
     {
-        this->tagger().SetAnalysisName(ProjectName());
+        this->tagger().SetAnalysisName(AnalysisName());
     }
 
     void SetFiles(Tag tag, Stage) final {
@@ -40,7 +40,7 @@ public:
 //         return "Fusion";
 //     }
 
-    std::string ProjectName() const final
+    std::string AnalysisName() const final
     {
       return  "Fusion-" + Name(this->collider_type()) + "-" + boca::Name(this->PreCut()) + "-" + boca::Name(this->Mass());
     }

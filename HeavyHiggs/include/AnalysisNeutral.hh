@@ -23,7 +23,7 @@ class AnalysisNeutral : public AnalysisHeavyHiggs<Tagger>
 public:
 
     AnalysisNeutral() {
-        this->tagger().SetAnalysisName(ProjectName());
+        this->tagger().SetAnalysisName(AnalysisName());
     }
 
     void SetFiles(Tag tag, Stage) final {
@@ -37,7 +37,7 @@ public:
         }
     }
 
-    std::string ProjectName() const final {
+    std::string AnalysisName() const final {
       //        return  "Neutral-" + ColliderName(collider_type()) + "-" + Name(PreCut()) + "-" + Name(Mass()) + "-Eta2.5";
       return  "Neutral-" + Name(this->collider_type()) + "-" + boca::Name(this->PreCut()) + "-" + boca::Name(this->Mass());
     };

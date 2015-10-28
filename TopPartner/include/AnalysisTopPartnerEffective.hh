@@ -23,12 +23,12 @@ class AnalysisEffective : public AnalysisNaturalness<Tagger>
 public:
 
   AnalysisEffective() {
-        this->tagger().SetAnalysisName(ProjectName());
+        this->tagger().SetAnalysisName(AnalysisName());
     }
 
 protected:
 
-  std::string ProjectName() const final {
+  std::string AnalysisName() const final {
     return "Naturalness-Effective-" + boca::Name(this->PreCut()) + "-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass()) + "-remove-again";
     }
 

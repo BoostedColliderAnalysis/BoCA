@@ -30,7 +30,7 @@ class Analysis : public boca::Analysis<Tagger>
 public:
 
     Analysis() {
-        this->tagger().SetAnalysisName(ProjectName());
+        this->tagger().SetAnalysisName(AnalysisName());
         DetectorGeometry::set_detector_type(DetectorType::CMS);
 //         this->pre_cuts().PtLowerCut().Set(Id::higgs,200);
         //         this->pre_cuts().MassLowerCut().Set(Id::higgs,105);
@@ -46,7 +46,7 @@ protected:
 
 private:
 
-    std::string ProjectName() const final {
+    std::string AnalysisName() const final {
         return  "CPV-after-tahoe";
     }
 

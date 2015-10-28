@@ -32,18 +32,19 @@ class Analysis : public AnalysisBase
 
 public:
 
-    Analysis() {
-        Info();
-        Initialize();
-    }
+//     Analysis() {
+//         Info();
+//         Initialize();
+//     }
 
     /**
      * @brief Main analysis loop which has to be called by main.cpp
      *
      */
     void AnalysisLoop(Stage stage) final {
-        Error(Name(stage));
-        Initialize();
+      Info();
+//         Error(Name(stage));
+//         Initialize();
         Reader<Tagger> reader(stage);
         for (auto const & tag : std::vector<Tag> {Tag::signal, Tag::background}) {
             Files files(tagger().ExportFileName(stage, tag), stage, tag);

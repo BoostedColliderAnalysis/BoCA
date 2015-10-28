@@ -27,7 +27,7 @@ TopHadronicTagger::TopHadronicTagger()
 int TopHadronicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Tag tag) const
 {
     Info();
-    return SaveEntries(Triplets(event, pre_cuts, [&](boca::Triplet & triplet, Jets const & leptons, bool & failure) {
+    return SaveEntries(Triplets(event, [&](boca::Triplet & triplet, Jets const & leptons, bool & failure) {
         return Triplet(triplet, leptons, pre_cuts, tag, failure);
     }), TopParticles(event), tag, Id::top);
 }
@@ -44,7 +44,7 @@ Jets TopHadronicTagger::TopParticles(Event const& event) const
     else return CopyIfParticle(particles, Id::top);
 }
 
-std::vector<Triplet> TopHadronicTagger::Triplets(Event const& event, PreCuts const& pre_cuts, Function const& function) const
+std::vector<Triplet> TopHadronicTagger::Triplets(Event const& event, Function const& function) const
 {
     Info();
     Jets jets = fastjet::sorted_by_pt(bottom_reader_.Jets(event));
@@ -95,7 +95,7 @@ std::vector<Triplet> TopHadronicTagger::ThreeSubJets(fastjet::PseudoJet const& j
     Jets pieces = bottom_reader_.SubMultiplet(jet, sub_jet_number);
     return ordered_triplets(pieces, sub_jet_number, [&](fastjet::PseudoJet const & piece_1, fastjet::PseudoJet const & piece_2, fastjet::PseudoJet const & piece_3) {
         Doublet doublet = w_hadronic_reader_.Multiplet(piece_2, piece_3);
-        if(!range.InsideBounds(doublet)) throw  boca::Problematic();
+        if (!range.InsideBounds(doublet)) throw  boca::Problematic();
         bool failure = false;
         boca::Triplet triplet = Triplet(doublet, piece_1, leptons, function, range, failure);
         if (failure) throw boca::Problematic();
@@ -153,7 +153,7 @@ std::vector<Triplet> TopHadronicTagger::Triplets(boca::Doublet const& doublet, b
     for (auto const & jet : jets) {
         try {
             bool failure = false;
-            boca::Triplet triplet = Triplet(doublet, jet, leptons, function, range, failure , true);
+            boca::Triplet triplet = Triplet(doublet, jet, leptons, function, range, failure, true);
             if (!failure) triplets.emplace_back(triplet);
         } catch (std::exception const&) {}
     }
@@ -234,15 +234,14 @@ bool TopHadronicTagger::Problematic(boca::Triplet const& triplet, PreCuts const&
 
 std::vector<Triplet> TopHadronicTagger::Multiplets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
-
-    return ReduceResult(Triplets(event, pre_cuts, [&](boca::Triplet & triplet, Jets const & leptons, bool &  failure) {
+    Info();
+    return ReduceResult(Triplets(event, [&](boca::Triplet & triplet, Jets const & leptons, bool &  failure) {
         return Multiplet(triplet, leptons, pre_cuts, reader, failure);
     }));
 }
 
 Triplet TopHadronicTagger::Multiplet(boca::Triplet& triplet, Jets const& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader, bool& failure) const
 {
-
     Info();
     // No throwing because this function fails too often
     if (Problematic(triplet, pre_cuts)) {

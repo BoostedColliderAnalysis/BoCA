@@ -28,12 +28,12 @@ public:
 
     AnalysisSingleLeptonic() {
         Info();
-        this->tagger().SetAnalysisName(ProjectName());
+        this->tagger().SetAnalysisName(AnalysisName());
     }
 
 protected:
 
-    std::string ProjectName() const final {
+    std::string AnalysisName() const final {
         Info();
         return "Naturalness-Single-Leptonic-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass())
 //                + "-revertveto";

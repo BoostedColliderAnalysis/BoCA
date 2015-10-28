@@ -40,10 +40,10 @@ public:
 
     void Initialize() {
         Tagger().Initialize();
+        std::ofstream cout_file(Tagger().AnalysisName() + "/Reader.txt", std::ios_base::app | std::ios_base::out);
         std::streambuf* cout = std::cout.rdbuf();
-        std::ostringstream new_cout;
-        std::cout.rdbuf(new_cout.rdbuf());
-        AddVariable();
+        std::cout.rdbuf(cout_file.rdbuf());
+        AddObservables();
         BookMva(TMVA::Types::EMVA::kBDT);
         std::cout.rdbuf(cout);
     }
@@ -126,26 +126,26 @@ private:
         return options;
     }
 
-    TaggerTemplate& Tagger() {
-        return tagger_;
+    void AddObservables() {
+        for (auto const & observable : Tagger().Variables()) reader().AddVariable(observable.expression(), &observable.value());
+        for (auto const & spectator : Tagger().Spectators()) reader().AddSpectator(spectator.expression(), &spectator.value());
     }
-
-    TaggerTemplate tagger_;
-
-    TMVA::Reader& reader() {
-        return reader_;
-    }
-
-    TMVA::Reader reader_;
 
     TMVA::IMethod &BookMva(TMVA::Types::EMVA mva) {
         return *reader().BookMVA(Tagger().MethodName(mva), Tagger().WeightFileName(mva));
     }
 
-    void AddVariable() {
-        for (auto const & observable : Tagger().Variables()) reader().AddVariable(observable.expression(), &observable.value());
-        for (auto const & spectator : Tagger().Spectators()) reader().AddSpectator(spectator.expression(), &spectator.value());
+    TMVA::Reader& reader() {
+        return reader_;
     }
+
+    TaggerTemplate& Tagger() {
+        return tagger_;
+    }
+
+    TMVA::Reader reader_;
+
+    TaggerTemplate tagger_;
 
 };
 

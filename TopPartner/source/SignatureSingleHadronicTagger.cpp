@@ -11,25 +11,25 @@ namespace boca
 namespace naturalness
 {
 
-int SignatureSingleHadronicTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const
+int SignatureSingleHadronicTagger::Train(Event const& event, PreCuts const& , Tag tag) const
 {
     Info();
-    return SaveEntries(Decuplets(event, pre_cuts, [&](Decuplet532 & decuplet) {
+    return SaveEntries(Decuplets(event, [&](Decuplet532 & decuplet) {
         decuplet.SetTag(tag);
         return decuplet;
     }), tag);
 }
 
-std::vector<Decuplet532> SignatureSingleHadronicTagger::Multiplets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const
+std::vector<Decuplet532> SignatureSingleHadronicTagger::Multiplets(Event const& event, boca::PreCuts const& , TMVA::Reader const& reader) const
 {
     Info();
-    return ReduceResult(Decuplets(event, pre_cuts, [&](Decuplet532 & decuplet) {
+    return ReduceResult(Decuplets(event, [&](Decuplet532 & decuplet) {
         decuplet.SetBdt(Bdt(decuplet, reader));
         return decuplet;
     }), 1);
 }
 
-std::vector<Decuplet532> SignatureSingleHadronicTagger::Decuplets(Event const& event, PreCuts const& pre_cuts, std::function<Decuplet532(Decuplet532&)> const& function) const
+std::vector<Decuplet532> SignatureSingleHadronicTagger::Decuplets(Event const& event, std::function<Decuplet532(Decuplet532&)> const& function) const
 {
     Info();
     std::vector<Triplet> triplets = top_reader_.Multiplets(event);

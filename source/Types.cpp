@@ -28,7 +28,7 @@ fastjet::PseudoJet PseudoJet(LorentzVector const& vector)
 
 bool Exists(std::string const& name)
 {
-  Note(name);
+  Info(name);
   struct stat buffer;
   return (stat(name.c_str(), &buffer) == 0);
 }

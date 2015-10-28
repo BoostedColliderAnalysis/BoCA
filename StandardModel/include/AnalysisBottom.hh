@@ -35,7 +35,7 @@ class AnalysisBottom : public AnalysisStandardModel<Tagger>
 public:
 
     AnalysisBottom() {
-        this->set_tagger_analysis_name(ProjectName());
+        this->set_tagger_analysis_name(AnalysisName());
         this->pre_cuts().PtLowerCut().Set(Id::bottom, this->LowerPtCut());
         this->pre_cuts().PtUpperCut().Set(Id::bottom, this->UpperPtCut());
         this->pre_cuts().TrackerMaxEta().Set(Id::bottom, DetectorGeometry::TrackerEtaMax());
@@ -44,7 +44,7 @@ public:
 
 private:
 
-    std::string ProjectName() const final {
+    std::string AnalysisName() const final {
       return  Name(production_channel()) + Name(this->collider_type()) + "_" + boca::Name(this->MadGraphCut()) + "-lambda2";
     }
 

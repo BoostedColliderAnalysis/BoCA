@@ -156,6 +156,7 @@ protected:
     virtual std::vector<MultipletTemplate> Multiplets(Event const&, PreCuts const&, TMVA::Reader const&) const = 0;
 
     std::vector<MultipletTemplate> Multiplets(Event const& event, TMVA::Reader const& reader) const {
+      Info();
         PreCuts pre_cuts;
         return Multiplets(event, pre_cuts, reader);
     };

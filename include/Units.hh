@@ -169,14 +169,34 @@ static const Crosssection fb(1. * femto * Barn);
  */
 static const Crosssection pb(1. * pico * Barn);
 
+/**
+ * @brief Length measured in meter
+ *
+ */
 using Length = boost::units::quantity<boost::units::si::length>;
+/**
+ * @brief meter
+ *
+ */
 static const Length m(1. * boost::units::si::meter);
+/**
+ * @brief milli meter
+ *
+ */
 static const Length mm(1. * milli * boost::units::si::meter);
 
+/**
+ * @brief Angle measured in radian
+ *
+ */
 using Angle = boost::units::quantity<boost::units::si::plane_angle>;
 float to_float(Angle angle);
 Angle to_angle(float angle);
 
+/**
+ * @brief radian
+ *
+ */
 static const Angle rad(1. * boost::units::si::radian);
 
 }

@@ -47,7 +47,7 @@ class Analysis : public boca::Analysis<Tagger>
 public:
 
     Analysis() {
-        this->tagger().SetAnalysisName(ProjectName());
+        this->tagger().SetAnalysisName(AnalysisName());
     }
 
     void SetFiles(Tag tag, Stage) final {
@@ -65,7 +65,7 @@ public:
         }
     }
 
-    std::string ProjectName() const {
+    std::string AnalysisName() const {
       return  Name(DetectorType()) + "-eta3.5";
       //         return  ProductionChannelName(ProductionChannel()) + DetectorName(DetectorType())  + "_" + Name(Mass());
     }

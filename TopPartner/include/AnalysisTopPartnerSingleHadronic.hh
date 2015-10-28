@@ -25,20 +25,13 @@ template<typename Tagger>
 class AnalysisSingleHadronic : public AnalysisNaturalness<Tagger>
 {
 
-public:
-
-    AnalysisSingleHadronic() {
-        Info();
-        this->tagger().SetAnalysisName(ProjectName());
-    }
-
 protected:
 
-    std::string ProjectName() const final {
+    std::string AnalysisName() const final {
         Info();
         return "Single-Hadronic-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass())
-        + "-random";
-//         + "-new-linkdef-full";
+//         + "-random";
+        + "-copy2";
     }
 
     void SetFiles(Tag tag, Stage) final {
