@@ -4,7 +4,6 @@
 #pragma once
 
 #include "exroot/ExRootAnalysis.hh"
-#include "ClonesArrays.hh"
 #include "Event.hh"
 
 namespace boca
@@ -32,10 +31,6 @@ public:
     virtual ~File();
 
     exroot::TreeReader TreeReader();
-
-    ClonesArrays clones_arrays();
-
-    Event event();
 
     /**
      * @brief Name of Process

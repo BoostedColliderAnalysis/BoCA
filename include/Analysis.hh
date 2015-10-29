@@ -5,10 +5,9 @@
 
 #include <typeinfo>
 
-#include "Trees.hh"
+#include "File.hh"
 #include "Reader.hh"
 #include "AnalysisBase.hh"
-#include "File.hh"
 // #define DEBUG
 #include "Debug.hh"
 
@@ -31,13 +30,105 @@ public:
     Tag tag() const {
         return tag_;
     }
-    Reader<Tagger>& reader() const {
+    Reader<Tagger>& reader() {
+        return reader_;
+    }
+    Reader<Tagger> const& reader() const {
         return reader_;
     }
 private:
     Reader<Tagger>& reader_;
     Stage stage_;
     Tag tag_;
+};
+
+template<typename Tagger>
+class Second
+{
+public:
+    Second(First<Tagger>& first, File& file, TFile& export_file) :
+        first_(first),
+        export_file_(export_file),
+        file_(file) {
+        Info();
+    }
+    First<Tagger>& first() {
+        return first_;
+    }
+    File& file() {
+        return file_;
+    }
+    TFile& export_file() {
+        return export_file_;
+    }
+private:
+    First<Tagger>& first_;
+    File& file_;
+    TFile& export_file_;
+};
+
+template<typename Tagger>
+class Third
+{
+public:
+
+    Third(
+        Second<Tagger>& second,
+        exroot::TreeWriter& tree_writer,
+        ClonesArrays& clons_arrays,
+        exroot::TreeBranch& tree_branch,
+        exroot::TreeReader& tree_reader,
+        InfoBranch& info_branch,
+        long entry,
+        long& object_sum,
+        long& event_number
+    ) :
+        second_(second),
+        tree_writer_(tree_writer),
+        clones_arrays_(clons_arrays),
+        tree_reader_(tree_reader),
+        tree_branch_(tree_branch) ,
+        info_branch_(info_branch),
+        object_sum_(object_sum),
+        event_number_(event_number) {
+        Info();
+        entry_ = entry;
+    }
+
+    void ReadEntry() {
+        ++event_number_;
+        Debug(entry_, event_number_);
+        tree_reader_.ReadEntry(entry_);
+    }
+
+    void SaveEntry(int object_number) {
+        object_sum_ += object_number;
+        info_branch_.EventNumber = event_number_;
+        static_cast<InfoBranch&>(*tree_branch_.NewEntry()) = info_branch_;
+        tree_writer_.Fill();
+        tree_writer_.Clear();
+    }
+
+    bool is_larger(long max) {
+        return object_sum_ >= max;
+    }
+    Second<Tagger>& second() {
+        return second_;
+    }
+    ClonesArrays& clones_arrays() {
+        return clones_arrays_;
+    }
+private:
+    long entry_;
+    long& event_number_;
+    ClonesArrays& clones_arrays_;
+    Second<Tagger>& second_;
+    exroot::TreeReader& tree_reader_;
+    exroot::TreeBranch& tree_branch_;
+    exroot::TreeWriter& tree_writer_;
+    InfoBranch& info_branch_;
+    long& object_sum_;
+private:
 };
 
 /**
@@ -64,7 +155,7 @@ public:
     void AnalysisLoop(Stage stage) final {
         Info();
         Reader<Tagger> reader(stage);
-        for (auto const & tag : std::vector<Tag> {Tag::signal, Tag::background}) FirstLoop(First(reader, stage, tag));
+        for (auto const & tag : std::vector<Tag> {Tag::signal, Tag::background}) FirstLoop({reader, stage, tag});
     }
 
 protected:
@@ -78,50 +169,48 @@ protected:
 
 private:
 
-    void FirstLoop(First first) {
-        Files files(tagger().ExportFileName(first.stage(), first.tag()), first.stage(), first.tag());
+    void FirstLoop(First<Tagger> first) {
+        TFile export_file(tagger().ExportFileName(first.stage(), first.tag()).c_str(), "Recreate");
         ClearFiles();
         SetFiles(first.tag(), first.stage());
-        for (auto & file : this->files(first.tag())) {
-            files.set_file(file);
-            AnalyseFile(files, first.reader());
-        }
+        for (auto & file : this->files(first.tag())) SecondLoop(Second<Tagger>(first, file, export_file));
     }
 
     /**
      * @brief Analysis performed on each file
      *
      */
-    void AnalyseFile(Files& files, Reader<Tagger>& reader) {
+    void SecondLoop(Second<Tagger> second) {
         Info();
-        Trees trees(files);
-        SetTreeBranch(files.stage(), trees.tree_writer(), reader);
-        trees.UseBranches(files.file(), tagger().WeightBranchName());
-        if (files.stage() == Stage::reader) {
-            trees.entry = std::min(long(trees.tree_reader().GetEntries()), EventNumberMax()) / 2;    // TODO fix corner cases
-        }
-//         exroot::ProgressBar progress_bar(std::min(long(trees.tree_reader().GetEntries()), EventNumberMax()));
-        for (; trees.entry < trees.tree_reader().GetEntries(); ++trees.entry) {
-            ++trees.event_number_;
-            DoAnalysis(files, trees, reader);
-//             progress_bar.Update(trees.object_sum());
-            if (trees.object_sum() >= EventNumberMax()) break;
-        }
-//         progress_bar.Finish();
-        trees.WriteTree();
-        Info("tree written");
+        exroot::TreeWriter tree_writer(&(second.export_file()), second.file().Title().c_str());
+        SetTreeBranch(second.first(), tree_writer);
+        ClonesArrays clones_arrays(second.file().source());
+        exroot::TreeBranch& weight_branch = *tree_writer.NewBranch(tagger().WeightBranchName().c_str(), InfoBranch::Class());
+        exroot::TreeReader tree_reader = second.file().TreeReader();
+        clones_arrays.UseBranches(tree_reader);
+        InfoBranch info_branch = FillInfoBranch(second.file());
+        long object_sum = 0;
+        long event_number_ = 0;
+        for (auto entry : Range(FirstEntry(tree_reader, second.first().stage()), tree_reader.GetEntries())) if (ThirdLoop(Third<Tagger>(second, tree_writer, clones_arrays, weight_branch, tree_reader, info_branch, entry, object_sum, event_number_))) break;
+        if (object_sum) tree_writer.Write();
+    }
+
+    long FirstEntry(exroot::TreeReader& tree_reader, Stage stage) {
+        long entry = 0;
+        if (stage == Stage::reader) entry = std::min(long(tree_reader.GetEntries()), EventNumberMax()) / 2;  // TODO fix corner cases
+        return entry;
     }
 
     /**
      * @brief Set exroot::TreeBranch of exroot::TreeWriter to the pointer in the right Tagger
      *
      */
-    void SetTreeBranch(Stage stage, exroot::TreeWriter& tree_writer, Reader<Tagger>& reader) {
+    void SetTreeBranch(First<Tagger>& first, exroot::TreeWriter& tree_writer) {
         Info();
-        switch (stage) {
-        case Stage::trainer : tagger().SetTreeBranch(tree_writer, stage);
+        switch (first.stage()) {
+        case Stage::trainer : tagger().SetTreeBranch(tree_writer, first.stage());
             break;
-        case Stage::reader : reader.SetTreeBranch(tree_writer, stage);
+        case Stage::reader : first.reader().SetTreeBranch(tree_writer, first.stage());
             break;
         }
     }
@@ -130,15 +219,17 @@ private:
      * @brief Checks for PreCuts and saves the results of each analysis.
      *
      */
-    void DoAnalysis(Files const& files, Trees& trees, Reader<Tagger> const& reader) const {
+    bool ThirdLoop(Third<Tagger> third) const {
         Info();
-        trees.NewEvent(files.file().mass());
-        int pre_cut = PassPreCut(trees.event(), files.tag());
-        if (pre_cut > 0) {
-            ++trees.pre_cut_number_;
-            trees.SaveAnalysis(RunAnalysis(trees.event(), reader, files.stage(), files.tag()));
-        }
-        trees.tree_writer().Clear();
+        third.ReadEntry();
+        Event event(third.clones_arrays(), third.second().file().source());
+        event.SetMass(third.second().file().mass());
+        if (!PassPreCut(event, third.second().first().tag())) return false;
+        int object_number = Switch(event, third.second().first());
+        if (object_number == 0) return false;
+        third.SaveEntry(object_number);
+        if (third.is_larger(EventNumberMax())) return true;
+        else return false;
     }
 
     /**
@@ -146,13 +237,24 @@ private:
      *
      * @return int number of safed objects
      */
-    int RunAnalysis(Event const& event, Reader<Tagger> const& reader, Stage stage, Tag tag) const {
+    int Switch(Event const& event, First<Tagger>& first) const {
         Info();
-        switch (stage) {
-        case Stage::trainer : return tagger_.Train(event, pre_cuts(), tag);
-        case Stage::reader : return reader.Bdt(event, pre_cuts());
+        switch (first.stage()) {
+        case Stage::trainer : return tagger_.Train(event, pre_cuts(), first.tag());
+        case Stage::reader : return first.reader().Bdt(event, pre_cuts());
         default : return 0;
         }
+    }
+
+
+    InfoBranch FillInfoBranch(const boca::File& file) {
+        Info();
+        InfoBranch info_branch;
+        info_branch.Crosssection = file.crosssection() / fb;
+        info_branch.CrosssectionError = file.crosssection_error() / fb;
+        info_branch.Mass = file.mass() / GeV;
+        info_branch.Name = file.nice_name();
+        return info_branch;
     }
 
     /**
@@ -184,6 +286,7 @@ private:
 };
 
 }
+
 
 
 

@@ -10,19 +10,20 @@
 #include "exroot/Partons.hh"
 #include "Debug.hh"
 
-namespace boca {
+namespace boca
+{
 
 std::string Name(Decay decay)
 {
-  switch (decay) {
+    switch (decay) {
     case Decay::hadronic : return "hadronic";
     case Decay::leptonic : return "leptonic";
-  }
+    }
 }
 
 Event::Event() {}
 
-Event::Event(const Source source)
+Event::Event(Source source)
 {
     Info();
     source_ = source;
@@ -41,6 +42,29 @@ Event::Event(const Source source)
         break;
     }
 }
+
+Event::Event(ClonesArrays const& clones_arrays, Source source)
+{
+
+    Info();
+    source_ = source;
+    switch (source_) {
+    case Source::delphes :
+        partons_ = new delphes::Partons();
+        hadrons_ = new delphes::Hadrons();
+        leptons_ = new delphes::Leptons();
+        break;
+    case Source::pgs :
+        leptons_ = new exroot::Leptons();
+        hadrons_ = new exroot::Hadrons();
+        break;
+    case Source::parton :
+        partons_ = new exroot::Partons();
+        break;
+    }
+    NewEvent(clones_arrays);
+}
+
 
 Event::~Event()
 {

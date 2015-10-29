@@ -87,18 +87,6 @@ exroot::TreeReader File::TreeReader()
     return exroot::TreeReader(chain_);
 }
 
-ClonesArrays File::clones_arrays()
-{
-    Info();
-    return ClonesArrays(source());
-}
-
-Event File::event()
-{
-    Info();
-    return Event(source());
-}
-
 File::~File()
 {
     Debug();
