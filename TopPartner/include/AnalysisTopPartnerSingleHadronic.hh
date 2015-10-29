@@ -31,7 +31,7 @@ protected:
         Info();
         return "Single-Hadronic-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass())
 //         + "-random";
-        + "-copy2";
+        + "-copy3";
     }
 
     void SetFiles(Tag tag, Stage) final {

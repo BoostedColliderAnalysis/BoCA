@@ -40,15 +40,15 @@ private:
     /**
      * @brief Add Variables
      */
-    void AddVariables();
+    void AddObservables();
 
     /**
      * @brief Get Trees
      *
      */
-    long GetTrees();
+    long AddAllTrees();
 
-    long GetTree(Tag tag);
+    long AddTrees(Tag tag);
 
     /**
      * @brief Prepare Trainig and Test Trees
@@ -72,15 +72,13 @@ private:
 
     std::string MethodOptions(TMVA::Types::EMVA mva);
 
-    boca::Tagger& Tagger() const
-    {
-        return tagger_;
-    }
+    boca::Tagger const& Tagger() const;
 
-    TMVA::Factory& Factory()
-    {
-        return factory_;
-    }
+    boca::Tagger & Tagger();
+
+    TMVA::Factory const& Factory() const;
+
+    TMVA::Factory& Factory();
 
     boca::Tagger& tagger_;
 

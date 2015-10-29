@@ -181,12 +181,12 @@ std::string Tagger::AnalysisName() const
     Debug();
     return analysis_name_;
 }
-std::vector<Observable> Tagger::Variables() const
+std::vector<Observable> const& Tagger::Variables() const
 {
     Info();
     return variables_;
 }
-std::vector<Observable> Tagger::Spectators() const
+std::vector<Observable> const& Tagger::Spectators() const
 {
     Info();
     return spectators_;

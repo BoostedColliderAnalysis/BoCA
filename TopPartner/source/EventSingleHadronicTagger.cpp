@@ -14,7 +14,7 @@ namespace naturalness
 int EventSingleHadronicTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
     Info();
-    return SaveEntries(Events(event, [&](MultipletEvent<Decuplet532> & multiplet_event) {
+    return SaveEntries(Events(event, [&](MultipletEvent<Decuplet532>& multiplet_event) {
         multiplet_event.SetTag(tag);
         return multiplet_event;
     }), tag);
@@ -23,7 +23,7 @@ int EventSingleHadronicTagger::Train(Event const& event, PreCuts const&, Tag tag
 std::vector<MultipletEvent<Decuplet532>> EventSingleHadronicTagger::Multiplets(boca::Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
     Info();
-    return ReduceResult(Events(event, [&](MultipletEvent<Decuplet532> & multiplet_event) {
+    return ReduceResult(Events(event, [&](MultipletEvent<Decuplet532>& multiplet_event) {
         multiplet_event.SetBdt(Bdt(multiplet_event, reader));
         return multiplet_event;
     }), 1);

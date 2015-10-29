@@ -119,8 +119,9 @@ public:
     }
 
     float Bdt() const final {
+        if(UserInfo().Bdt() != UserInfo().Bdt()) return -1;
         if(UserInfo().Bdt() != InitialValue()) return UserInfo().Bdt();
-        return 0;
+        return -1;
     }
 
     float Ht() const {

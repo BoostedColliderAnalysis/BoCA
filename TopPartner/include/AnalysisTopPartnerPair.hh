@@ -23,12 +23,6 @@ template<typename Tagger>
 class AnalysisPair : public AnalysisNaturalness<Tagger>
 {
 
-public:
-
-    AnalysisPair() {
-        this->tagger().SetAnalysisName(AnalysisName());
-    }
-
 protected:
 
     std::string AnalysisName() const final {

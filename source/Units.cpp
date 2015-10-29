@@ -10,19 +10,19 @@ namespace boca
 namespace electronvolt
 {
 
-std::string energy_base_unit::name()
+std::string EnergyBaseUnit::name()
 {
     return "electronvolt";
 }
 
-std::string energy_base_unit::symbol()
+std::string EnergyBaseUnit::symbol()
 {
     return "eV";
 }
 
 }
 
-std::string Name(boost::units::quantity< electronvolt::energy > energy)
+std::string Name(boost::units::quantity< electronvolt::Energy > energy)
 {
     std::stringstream stream;
     stream << boost::units::engineering_prefix << energy;
@@ -36,12 +36,12 @@ int Int(Momentum energy)
     return energy / GeV;
 }
 
-float to_float(boost::units::quantity< electronvolt::energy > energy)
+float to_float(boost::units::quantity< electronvolt::Energy > energy)
 {
   return energy / GeV;
 }
 
-boost::units::quantity< electronvolt::energy > to_energy(double energy){
+boost::units::quantity< electronvolt::Energy > to_energy(double energy){
   return energy * GeV;
 }
 

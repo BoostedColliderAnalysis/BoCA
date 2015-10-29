@@ -22,8 +22,8 @@ namespace boca
 Trainer::Trainer(boca::Tagger& tagger, TMVA::Types::EMVA mva) : tagger_(tagger) , factory_(tagger.Name(), &OutputFile(), FactoryOptions())
 {
     Info();
-    AddVariables();
-    PrepareTrainingAndTestTree(GetTrees());
+    AddObservables();
+    PrepareTrainingAndTestTree(AddAllTrees());
 //     TMVA::MethodBase& method =
     BookMethod(mva);
 //     const TMVA::Ranking& rank = *method.CreateRanking();
@@ -48,7 +48,7 @@ TFile& Trainer::OutputFile() const
     return *TFile::Open(Tagger().FactoryFileName().c_str(), "Recreate");
 }
 
-void Trainer::AddVariables()
+void Trainer::AddObservables()
 {
     Note();
     TMVA::gConfig().GetIONames().fWeightFileDir = Tagger().AnalysisName();
@@ -57,13 +57,13 @@ void Trainer::AddVariables()
     for (auto const & spectator : Tagger().Spectators()) Factory().AddSpectator(spectator.expression(), spectator.title(), spectator.unit(), spectator.type());
 }
 
-long Trainer::GetTrees()
+long Trainer::AddAllTrees()
 {
     Note();
-    return std::min(GetTree(Tag::signal), GetTree(Tag::background)) / 2;
+    return std::min(AddTrees(Tag::signal), AddTrees(Tag::background)) / 2;
 }
 
-long Trainer::GetTree(Tag tag)
+long Trainer::AddTrees(Tag tag)
 {
     long number = 0;
     for (auto const & tree_name : Tagger().TreeNames(tag)) number += AddTree(tree_name, tag);
@@ -109,6 +109,7 @@ float Trainer::Weight(exroot::TreeReader& tree_reader)
     Info(Tagger().WeightBranchName());
     TClonesArray& clones_array = *tree_reader.UseBranch(Tagger().WeightBranchName().c_str());
     tree_reader.ReadEntry(0);
+    return 1; // FIXME TODO !!!!!!!!!! this should be switched of again !!!!!!!!!!!!!!! FIXME TODO
     return static_cast<InfoBranch&>(*clones_array.First()).Crosssection / tree_reader.GetEntries();
 }
 
@@ -117,7 +118,7 @@ TTree& Trainer::Tree(std::string const& tree_name, Tag tag)
     Note(Tagger().FileName(Stage::trainer, tag));
     if (!Exists(Tagger().FileName(Stage::trainer, tag).c_str())) Error("File not found", Tagger().FileName(Stage::trainer, tag));
     TFile& file = *TFile::Open(Tagger().FileName(Stage::trainer, tag).c_str());
-    if (!file.GetListOfKeys()->Contains(tree_name.c_str())) Error("no tree",tree_name);
+    if (!file.GetListOfKeys()->Contains(tree_name.c_str())) Error("no tree", tree_name);
     return static_cast<TTree&>(*file.Get(tree_name.c_str()));
 }
 
@@ -152,20 +153,38 @@ std::string Trainer::MethodOptions(TMVA::Types::EMVA mva)
         options.Add("BaggedSampleFraction", 0.5);
         options.Add("SeparationType", "GiniIndex");
         options.Add("nCuts", 20);
-//         options.Add("VarTransform", "D");
-//         options.Add("MinNodeSize", 1.5, "%");
-//         options.Add("BoostType", "Grad");
-//         options.Add("Shrinkage", 0.10);
-//         options.Add("UseBaggedGrad");
-//         options.Add("UseRandomisedTrees");
-//         options.Add("GradBaggingFraction", 0.5);
-//         options.Add("MaxDepth", 4);
-//         options.Add("CreateMVAPdfs");
-//         options.Add("DoBoostMonitor");
+        break;
+    case TMVA::Types::EMVA::kCuts :
+        options.Add("VarTransform", "D");
+        options.Add("MinNodeSize", 1.5, "%");
+        options.Add("BoostType", "Grad");
+        options.Add("Shrinkage", 0.10);
+        options.Add("UseBaggedGrad");
+        options.Add("UseRandomisedTrees");
+        options.Add("GradBaggingFraction", 0.5);
+        options.Add("MaxDepth", 4);
+        options.Add("CreateMVAPdfs");
+        options.Add("DoBoostMonitor");
         break;
     default : break;
     }
     return options;
+}
+
+Tagger const& Trainer::Tagger() const {
+    return tagger_;
+}
+
+Tagger& Trainer::Tagger() {
+  return tagger_;
+}
+
+TMVA::Factory& Trainer::Factory() {
+    return factory_;
+}
+
+TMVA::Factory const& Trainer::Factory() const {
+  return factory_;
 }
 
 }

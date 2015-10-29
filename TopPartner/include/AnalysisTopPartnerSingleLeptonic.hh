@@ -24,13 +24,6 @@ template<typename Tagger>
 class AnalysisSingleLeptonic : public AnalysisNaturalness<Tagger>
 {
 
-public:
-
-    AnalysisSingleLeptonic() {
-        Info();
-        this->tagger().SetAnalysisName(AnalysisName());
-    }
-
 protected:
 
     std::string AnalysisName() const final {

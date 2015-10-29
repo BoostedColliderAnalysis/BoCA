@@ -74,9 +74,9 @@ public:
 
     static void SetAnalysisName(std::string const& analysis_name);
 
-    std::vector<Observable> Variables() const;
+    std::vector<Observable> const& Variables() const;
 
-    std::vector<Observable> Spectators() const;
+    std::vector<Observable> const& Spectators() const;
 
     Strings TreeNames(Tag tag) const;
 

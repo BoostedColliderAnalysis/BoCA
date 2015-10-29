@@ -20,12 +20,6 @@ template<typename Tagger>
 class AnalysisEffective : public AnalysisNaturalness<Tagger>
 {
 
-public:
-
-  AnalysisEffective() {
-        this->tagger().SetAnalysisName(AnalysisName());
-    }
-
 protected:
 
   std::string AnalysisName() const final {
