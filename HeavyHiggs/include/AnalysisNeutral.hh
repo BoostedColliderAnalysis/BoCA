@@ -22,10 +22,6 @@ class AnalysisNeutral : public AnalysisHeavyHiggs<Tagger>
 
 public:
 
-    AnalysisNeutral() {
-        this->tagger().SetAnalysisName(AnalysisName());
-    }
-
     void SetFiles(Tag tag, Stage) final {
         switch (tag) {
         case Tag::signal :

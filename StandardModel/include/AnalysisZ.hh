@@ -23,7 +23,6 @@ public:
 
 
     AnalysisZ() {
-        this->set_tagger_analysis_name(AnalysisName());
         this->pre_cuts().PtLowerCut().Set(Id::Z, this->LowerPtCut());
         this->pre_cuts().PtUpperCut().Set(Id::Z, this->UpperPtCut());
 //         this->pre_cuts().MassUpperCut().Set(Id::Z, 200. * GeV);

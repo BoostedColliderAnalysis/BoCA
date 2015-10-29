@@ -18,11 +18,6 @@ class AnalysisFusion : public AnalysisHeavyHiggs<Tagger> {
 
 public:
 
-    AnalysisFusion()
-    {
-        this->tagger().SetAnalysisName(AnalysisName());
-    }
-
     void SetFiles(Tag tag, Stage) final {
         switch (tag)
         {

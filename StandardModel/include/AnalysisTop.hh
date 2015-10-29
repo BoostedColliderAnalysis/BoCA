@@ -26,7 +26,6 @@ public:
 
     TopAnalysis() {
         Info();
-        this->set_tagger_analysis_name(AnalysisName());
         this->pre_cuts().PtLowerCut().Set(Id::top, this->LowerPtCut());
         this->pre_cuts().PtUpperCut().Set(Id::top, this->UpperPtCut());
 //         this->pre_cuts().MassUpperCut().Set(Id::top, 500);
@@ -45,7 +44,7 @@ private:
 
     std::string AnalysisName() const final {
         Info();
-        return "test-new tagger-template";
+        return "test-back-to-old";
         return  Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-" + Name(TopDecay()) + "-test-new tagger-template";
     }
 

@@ -35,7 +35,6 @@ class AnalysisBottom : public AnalysisStandardModel<Tagger>
 public:
 
     AnalysisBottom() {
-        this->set_tagger_analysis_name(AnalysisName());
         this->pre_cuts().PtLowerCut().Set(Id::bottom, this->LowerPtCut());
         this->pre_cuts().PtUpperCut().Set(Id::bottom, this->UpperPtCut());
         this->pre_cuts().TrackerMaxEta().Set(Id::bottom, DetectorGeometry::TrackerEtaMax());

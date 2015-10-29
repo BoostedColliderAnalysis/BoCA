@@ -19,7 +19,6 @@ class AnalysisNeutralFourTop : public AnalysisHeavyHiggs<Tagger>
 public:
 
     AnalysisNeutralFourTop() {
-        this->tagger().SetAnalysisName(AnalysisName());
 //  this->pre_cuts().PtLowerCut().Set(Id::top,100);
     }
 

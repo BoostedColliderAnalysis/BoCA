@@ -46,10 +46,6 @@ class Analysis : public boca::Analysis<Tagger>
 
 public:
 
-    Analysis() {
-        this->tagger().SetAnalysisName(AnalysisName());
-    }
-
     void SetFiles(Tag tag, Stage) final {
         switch (tag) {
         case Tag::signal :

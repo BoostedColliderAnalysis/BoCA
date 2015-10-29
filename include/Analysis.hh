@@ -15,6 +15,31 @@
 namespace boca
 {
 
+template<typename Tagger>
+class First
+{
+public:
+    First(Reader<Tagger>& reader, Stage stage, Tag tag) :
+        reader_(reader) {
+        Info();
+        stage_ = stage;
+        tag_ = tag;
+    }
+    Stage stage() const {
+        return stage_;
+    }
+    Tag tag() const {
+        return tag_;
+    }
+    Reader<Tagger>& reader() const {
+        return reader_;
+    }
+private:
+    Reader<Tagger>& reader_;
+    Stage stage_;
+    Tag tag_;
+};
+
 /**
  * @brief provides main analysis loops and logic.
  * @details This class has to be subclassed for each analysis.
@@ -39,38 +64,11 @@ public:
     void AnalysisLoop(Stage stage) final {
         Info();
         Reader<Tagger> reader(stage);
-        for (auto const & tag : std::vector<Tag> {Tag::signal, Tag::background}) {
-            Files files(tagger().ExportFileName(stage, tag), stage, tag);
-            ClearFiles();
-            SetFiles(tag, stage);
-            for (auto & file : this->files(tag)) {
-                files.set_file(file);
-                AnalyseFile(files, reader);
-            }
-        }
+        for (auto const & tag : std::vector<Tag> {Tag::signal, Tag::background}) FirstLoop(First(reader, stage, tag));
     }
 
 protected:
 
-    /**
-     * @brief getter for Tagger
-     *
-     * @return const boca::Tagger&
-     */
-    Tagger const& tagger() const final {
-        Info();
-        return tagger_;
-    }
-
-    /**
-     * @brief setter for AnalysisName of Tagger
-     * @details must be set in each analysis in order for Tagger to know about the folder structure
-     *
-     */
-    void set_tagger_analysis_name(std::string const& name) {
-        Info();
-        tagger().SetAnalysisName(name);
-    }
 
     template<typename Class>
     bool TaggerIs() const {
@@ -78,17 +76,17 @@ protected:
         Info();
     }
 
-    /**
-     * @brief getter for Tagger
-     *
-     * @return boca::Tagger&
-     */
-    Tagger& tagger() final {
-        Info();
-        return tagger_;
-    }
-
 private:
+
+    void FirstLoop(First first) {
+        Files files(tagger().ExportFileName(first.stage(), first.tag()), first.stage(), first.tag());
+        ClearFiles();
+        SetFiles(first.tag(), first.stage());
+        for (auto & file : this->files(first.tag())) {
+            files.set_file(file);
+            AnalyseFile(files, first.reader());
+        }
+    }
 
     /**
      * @brief Analysis performed on each file
@@ -121,11 +119,9 @@ private:
     void SetTreeBranch(Stage stage, exroot::TreeWriter& tree_writer, Reader<Tagger>& reader) {
         Info();
         switch (stage) {
-        case Stage::trainer :
-            tagger().SetTreeBranch(tree_writer, stage);
+        case Stage::trainer : tagger().SetTreeBranch(tree_writer, stage);
             break;
-        case Stage::reader :
-            reader.SetTreeBranch(tree_writer, stage);
+        case Stage::reader : reader.SetTreeBranch(tree_writer, stage);
             break;
         }
     }
@@ -153,13 +149,30 @@ private:
     int RunAnalysis(Event const& event, Reader<Tagger> const& reader, Stage stage, Tag tag) const {
         Info();
         switch (stage) {
-        case Stage::trainer :
-            return tagger_.Train(event, pre_cuts(), tag);
-        case Stage::reader :
-            return reader.Bdt(event, pre_cuts());
-        default :
-            return 0;
+        case Stage::trainer : return tagger_.Train(event, pre_cuts(), tag);
+        case Stage::reader : return reader.Bdt(event, pre_cuts());
+        default : return 0;
         }
+    }
+
+    /**
+     * @brief getter for Tagger
+     *
+     * @return boca::Tagger&
+     */
+    Tagger& tagger() final {
+        Info();
+        return tagger_;
+    }
+
+    /**
+     * @brief getter for Tagger
+     *
+     * @return const boca::Tagger&
+     */
+    Tagger const& tagger() const final {
+        Info();
+        return tagger_;
     }
 
     /**
@@ -171,6 +184,7 @@ private:
 };
 
 }
+
 
 
 

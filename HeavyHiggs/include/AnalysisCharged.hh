@@ -21,10 +21,6 @@ class AnalysisCharged : public AnalysisHeavyHiggs<Tagger>
 
 public:
 
-    AnalysisCharged() {
-        this->tagger().SetAnalysisName(AnalysisName());
-    }
-
     void SetFiles(Tag tag, Stage) final {
         switch (tag) {
         case Tag::signal :
