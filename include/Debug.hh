@@ -140,7 +140,18 @@ void Log(std::string const& file, int line, std::string const& name_space, std::
 
 #define LOGCHOOSE(...) LOG(,##__VA_ARGS__, LOG4, LOG3, LOG2, LOG1, LOG0)
 
-#define ALIVE(...) LOGCHOOSE(__VA_ARGS__)(__VA_ARGS__)
+
+
+// FIXME reactivate this
+// #define ALIVE(...) LOGCHOOSE(__VA_ARGS__)(__VA_ARGS__)
+
+
+
+#define ALIVE(...)
+
+
+
+
 
 #define DEAD(...) do { if (0) ALIVE(__VA_ARGS__); } while (0)
 
@@ -181,12 +192,12 @@ void Log(std::string const& file, int line, std::string const& name_space, std::
 #define Detail(...) ALIVE(__VA_ARGS__)
 #endif
 
-#define Check(condition, ...) if(!(condition)) { Error(__VA_ARGS__); }
+#define Check(condition, ...) if(!(condition)) { Error(__VA_ARGS__) }
 #define DebugCheck(condition, ...) if(!(condition)) { Debug(__VA_ARGS__); }
 
 
 
-#define Default(condition) default : Error("Switch Default", condition); break;
+// #define Default(condition) default : Error("Switch Default", condition); break;
 #define Default(condition, value) default : Error("Switch Default", condition); return value;
 
 

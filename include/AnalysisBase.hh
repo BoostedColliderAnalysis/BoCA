@@ -147,7 +147,7 @@ enum class Output
 };
 
 template<>
-struct boca::Flag<Output> {
+struct Flag<Output> {
   static const bool enable = true;
 };
 

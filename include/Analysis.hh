@@ -64,7 +64,7 @@ public:
     void AnalysisLoop(Stage stage) final {
         Info();
         Reader<Tagger> reader(stage);
-        for (auto const & tag : std::vector<Tag> {Tag::signal, Tag::background}) FirstLoop(First(reader, stage, tag));
+        for (auto const & tag : std::vector<Tag> {Tag::signal, Tag::background}) FirstLoop({reader, stage, tag});
     }
 
 protected:
@@ -78,7 +78,7 @@ protected:
 
 private:
 
-    void FirstLoop(First first) {
+  void FirstLoop(First<Tagger> first) {
         Files files(tagger().ExportFileName(first.stage(), first.tag()), first.stage(), first.tag());
         ClearFiles();
         SetFiles(first.tag(), first.stage());
