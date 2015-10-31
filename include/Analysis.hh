@@ -4,11 +4,13 @@
 #pragma once
 
 #include <typeinfo>
+#include <mutex>
+#include <thread>
+#define INFORMATION
 
 #include "File.hh"
 #include "Reader.hh"
 #include "AnalysisBase.hh"
-// #define DEBUG
 #include "Debug.hh"
 
 namespace boca
@@ -24,16 +26,16 @@ public:
         stage_ = stage;
         tag_ = tag;
     }
-    Stage stage() const {
+    Stage stage()  {
+        Info();
         return stage_;
     }
-    Tag tag() const {
+    Tag tag()  {
+        Info();
         return tag_;
     }
-    Reader<Tagger>& reader() {
-        return reader_;
-    }
-    Reader<Tagger> const& reader() const {
+    Reader<Tagger>& reader()  {
+        Info();
         return reader_;
     }
 private:
@@ -52,13 +54,16 @@ public:
         file_(file) {
         Info();
     }
-    First<Tagger>& first() {
+    First<Tagger>& first()  {
+        Info();
         return first_;
     }
-    File& file() {
+    File& file()  {
+        Info();
         return file_;
     }
-    TFile& export_file() {
+    TFile& export_file()  {
+        Info();
         return export_file_;
     }
 private:
@@ -68,67 +73,200 @@ private:
 };
 
 template<typename Tagger>
+class BranchWriter
+{
+
+public:
+    BranchWriter(Second<Tagger>& second, Tagger& tagger) :
+        second_(second) {
+        Info();
+        tree_writer_ = exroot::TreeWriter(&(second.export_file()), second.file().Title().c_str());
+        SetTreeBranch(tagger);
+        tree_branch_ = tree_writer_.NewBranch(tagger.WeightBranchName().c_str(), InfoBranch::Class());
+    }
+
+    void SetTreeBranch(Tagger& tagger) {
+        Info();
+        switch (second().first().stage()) {
+        case Stage::trainer : tagger.SetTreeBranch(tree_writer(), second().first().stage());
+            break;
+        case Stage::reader : second().first().reader().SetTreeBranch(tree_writer(), second().first().stage());
+            break;
+        }
+    }
+
+    void set_object_sum(long object_sum) {
+        Info();
+        std::lock_guard<std::mutex> guard1(object_sum_mutex);
+        object_sum_ = object_sum;
+    }
+    void Write() {
+        Error();
+        if (object_sum()) tree_writer().Write();
+    }
+
+    Second<Tagger>& second()  {
+        Info();
+        return second_;
+    }
+
+    exroot::TreeBranch& tree_branch() {
+        Info();
+        return *tree_branch_;
+    }
+
+    exroot::TreeWriter& tree_writer() {
+        Error();
+        return tree_writer_;
+    }
+
+    long& object_sum() {
+        Info();
+        return object_sum_;
+    }
+
+private:
+
+    exroot::TreeBranch* tree_branch_;
+    std::mutex tree_branch_mutex;
+
+    exroot::TreeWriter tree_writer_;
+    std::mutex tree_writer_mutex;
+
+    long object_sum_ = 0;
+    std::mutex object_sum_mutex;
+
+    Second<Tagger>& second_;
+    std::mutex second_mutex;
+
+};
+
+template<typename Tagger>
 class Third
 {
 public:
-
-    Third(
-        Second<Tagger>& second,
-        exroot::TreeWriter& tree_writer,
-        ClonesArrays& clons_arrays,
-        exroot::TreeBranch& tree_branch,
-        exroot::TreeReader& tree_reader,
-        InfoBranch& info_branch,
-        long entry,
-        long& object_sum,
-        long& event_number
-    ) :
+    Third(Second<Tagger>& second, BranchWriter<Tagger>& tree_writer, Tagger tagger, int entry) :
         second_(second),
         tree_writer_(tree_writer),
-        clones_arrays_(clons_arrays),
-        tree_reader_(tree_reader),
-        tree_branch_(tree_branch) ,
-        info_branch_(info_branch),
-        object_sum_(object_sum),
-        event_number_(event_number) {
+        tagger_(tagger) {
         Info();
         entry_ = entry;
+        Initialize();
+    }
+
+    void Initialize() {
+        Error();
+        std::lock_guard<std::mutex> second_guard(second_mutex);
+        clones_arrays_ = ClonesArrays(second().file().source());
+        tree_reader_ = second().file().TreeReader();
+        clones_arrays_.UseBranches(tree_reader_);
+//         InfoBranch info_branch = FillInfoBranch(second().file());
+    }
+
+    InfoBranch FillInfoBranch(boca::File const& file)  {
+        Error();
+        InfoBranch info_branch;
+        info_branch.Crosssection = file.crosssection() / fb;
+        info_branch.CrosssectionError = file.crosssection_error() / fb;
+        info_branch.Mass = file.mass() / GeV;
+        info_branch.Name = file.nice_name();
+        return info_branch;
+    }
+
+    ClonesArrays const& clones_arrays()  {
+        Info();
+        return clones_arrays_;
+    }
+
+    exroot::TreeReader& tree_reader() {
+        Info();
+        return tree_reader_;
+    }
+
+
+    InfoBranch& info_branch() {
+        Info();
+        return info_branch_;
+    }
+
+    long& event_number() {
+        Info();
+        return event_number_;
+    }
+
+    Range range(long max) {
+        return Range(FirstEntry(max), GetEntries());
+    }
+
+    long FirstEntry(long max)  {
+        Info();
+        long entry = 0;
+        std::lock_guard<std::mutex> guard1(second_mutex);
+        if (second().first().stage() == Stage::reader) entry = std::min(GetEntries(), max) / 2;  // TODO fix corner cases
+        return entry;
+    }
+
+    long GetEntries() {
+        Info();
+        return tree_reader().GetEntries();
+    }
+
+
+    bool SaveEntry(int object_number) {
+        Info();
+        std::lock_guard<std::mutex> guard2(event_number_mutex);
+        std::lock_guard<std::mutex> guard3(inf_branch_mutex);
+        info_branch().EventNumber = event_number();
+        std::lock_guard<std::mutex> guard5(tree_writer_mutex);
+        static_cast<InfoBranch&>(*branch_writer().tree_branch().NewEntry()) = info_branch();
+        Error();
+        branch_writer().tree_writer().Fill();
+        branch_writer().tree_writer().Clear();
+        return object_number;
     }
 
     void ReadEntry() {
-        ++event_number_;
-        Debug(entry_, event_number_);
-        tree_reader_.ReadEntry(entry_);
+        Info();
+        std::lock_guard<std::mutex> guard2(event_number_mutex);
+        ++event_number();
+        tree_reader().ReadEntry(entry_);
     }
 
-    void SaveEntry(int object_number) {
-        object_sum_ += object_number;
-        info_branch_.EventNumber = event_number_;
-        static_cast<InfoBranch&>(*tree_branch_.NewEntry()) = info_branch_;
-        tree_writer_.Fill();
-        tree_writer_.Clear();
+    Tagger& tagger() {
+        Info();
+        return tagger_;
     }
 
-    bool is_larger(long max) {
-        return object_sum_ >= max;
-    }
-    Second<Tagger>& second() {
+    Second<Tagger>& second()  {
+        Info();
         return second_;
     }
-    ClonesArrays& clones_arrays() {
-        return clones_arrays_;
+
+    BranchWriter<Tagger>& branch_writer() {
+        Error();
+        return tree_writer_;
     }
+
+    int entry_;
 private:
-    long entry_;
-    long& event_number_;
-    ClonesArrays& clones_arrays_;
+
+    ClonesArrays clones_arrays_;
+    exroot::TreeReader tree_reader_;
+
+    InfoBranch info_branch_;
+    std::mutex inf_branch_mutex;
+
+
     Second<Tagger>& second_;
-    exroot::TreeReader& tree_reader_;
-    exroot::TreeBranch& tree_branch_;
-    exroot::TreeWriter& tree_writer_;
-    InfoBranch& info_branch_;
-    long& object_sum_;
-private:
+    std::mutex second_mutex;
+
+    long event_number_ = 0;
+    std::mutex event_number_mutex;
+
+    BranchWriter<Tagger>& tree_writer_;
+    std::mutex tree_writer_mutex;
+
+    Tagger tagger_;
 };
 
 /**
@@ -163,17 +301,18 @@ protected:
 
     template<typename Class>
     bool TaggerIs() const {
-        return typeid(tagger_).hash_code() == typeid(Class).hash_code();
         Info();
+        return typeid(tagger_).hash_code() == typeid(Class).hash_code();
     }
 
 private:
 
     void FirstLoop(First<Tagger> first) {
+        Info();
         TFile export_file(tagger().ExportFileName(first.stage(), first.tag()).c_str(), "Recreate");
         ClearFiles();
         SetFiles(first.tag(), first.stage());
-        for (auto & file : this->files(first.tag())) SecondLoop(Second<Tagger>(first, file, export_file));
+        for (auto & file : this->Files(first.tag())) SecondLoop( {first, file, export_file});
     }
 
     /**
@@ -182,54 +321,35 @@ private:
      */
     void SecondLoop(Second<Tagger> second) {
         Info();
-        exroot::TreeWriter tree_writer(&(second.export_file()), second.file().Title().c_str());
-        SetTreeBranch(second.first(), tree_writer);
-        ClonesArrays clones_arrays(second.file().source());
-        exroot::TreeBranch& weight_branch = *tree_writer.NewBranch(tagger().WeightBranchName().c_str(), InfoBranch::Class());
-        exroot::TreeReader tree_reader = second.file().TreeReader();
-        clones_arrays.UseBranches(tree_reader);
-        InfoBranch info_branch = FillInfoBranch(second.file());
-        long object_sum = 0;
-        long event_number_ = 0;
-        for (auto entry : Range(FirstEntry(tree_reader, second.first().stage()), tree_reader.GetEntries())) if (ThirdLoop(Third<Tagger>(second, tree_writer, clones_arrays, weight_branch, tree_reader, info_branch, entry, object_sum, event_number_))) break;
-        if (object_sum) tree_writer.Write();
+        BranchWriter<Tagger> branch_writer(second, tagger_);
+        std::vector<std::thread> threads;
+        for (auto core : Range(1)) threads.emplace_back(std::thread([&, core] {ThirdLoop({second, branch_writer, tagger_, core});}));
+        for (auto & thread : threads) if (thread.joinable()) thread.join();
+        branch_writer.Write();
     }
 
-    long FirstEntry(exroot::TreeReader& tree_reader, Stage stage) {
-        long entry = 0;
-        if (stage == Stage::reader) entry = std::min(long(tree_reader.GetEntries()), EventNumberMax()) / 2;  // TODO fix corner cases
-        return entry;
-    }
-
-    /**
-     * @brief Set exroot::TreeBranch of exroot::TreeWriter to the pointer in the right Tagger
-     *
-     */
-    void SetTreeBranch(First<Tagger>& first, exroot::TreeWriter& tree_writer) {
+    void ThirdLoop(Third<Tagger> third) {
         Info();
-        switch (first.stage()) {
-        case Stage::trainer : tagger().SetTreeBranch(tree_writer, first.stage());
-            break;
-        case Stage::reader : first.reader().SetTreeBranch(tree_writer, first.stage());
-            break;
+        int object_sum = 0;
+        while (object_sum < 1000 && third.entry_ < third.GetEntries()) {
+            object_sum += FourthLoop(third);
+            Error(third.entry_, object_sum);
         }
+        third.branch_writer().set_object_sum(object_sum);
+        Error("ended");
     }
 
     /**
      * @brief Checks for PreCuts and saves the results of each analysis.
      *
      */
-    bool ThirdLoop(Third<Tagger> third) const {
-        Info();
+    int FourthLoop(Third<Tagger>& third) const {
+        Error();
+        ++third.entry_;
         third.ReadEntry();
         Event event(third.clones_arrays(), third.second().file().source());
-        event.SetMass(third.second().file().mass());
-        if (!PassPreCut(event, third.second().first().tag())) return false;
-        int object_number = Switch(event, third.second().first());
-        if (object_number == 0) return false;
-        third.SaveEntry(object_number);
-        if (third.is_larger(EventNumberMax())) return true;
-        else return false;
+        if (!PassPreCut(event, third.second().first().tag())) return 0;
+        return third.SaveEntry(Switch(event, third.second().first(), third.tagger()));
     }
 
     /**
@@ -237,25 +357,16 @@ private:
      *
      * @return int number of safed objects
      */
-    int Switch(Event const& event, First<Tagger>& first) const {
+    int Switch(Event const& event, First<Tagger>& first, Tagger& tagger) const {
         Info();
         switch (first.stage()) {
-        case Stage::trainer : return tagger_.Train(event, pre_cuts(), first.tag());
+        case Stage::trainer : return tagger.Train(event, pre_cuts(), first.tag());
         case Stage::reader : return first.reader().Bdt(event, pre_cuts());
         default : return 0;
         }
     }
 
 
-    InfoBranch FillInfoBranch(const boca::File& file) {
-        Info();
-        InfoBranch info_branch;
-        info_branch.Crosssection = file.crosssection() / fb;
-        info_branch.CrosssectionError = file.crosssection_error() / fb;
-        info_branch.Mass = file.mass() / GeV;
-        info_branch.Name = file.nice_name();
-        return info_branch;
-    }
 
     /**
      * @brief getter for Tagger
@@ -286,6 +397,10 @@ private:
 };
 
 }
+
+
+
+
 
 
 

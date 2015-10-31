@@ -22,7 +22,7 @@ Jets Partons::GenParticles() const
     return Particles(Status::generator);
 }
 
-Jets Partons::Particles(const Status min_status) const
+Jets Partons::Particles(Status min_status) const
 {
     Info();
     Jets particles;

@@ -27,7 +27,7 @@ public:
 
 private:
 
-  Jets Particles(const Status max_status) const;
+  Jets Particles(Status max_status) const;
 
   int MotherId(::delphes::GenParticle& particle);
 

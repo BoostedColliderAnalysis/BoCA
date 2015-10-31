@@ -22,9 +22,9 @@ class PseudoJet;
 #pragma clang diagnostic ignored "-Wmacro-redefined"
 
 // defined by cmake for debug runs
-#ifndef NDEBUG
-#define NOTIFICATION
-#endif
+// #ifndef NDEBUG
+// #define NOTIFICATION
+// #endif
 // #define DEBUG
 // #define INFORMATION
 

@@ -23,11 +23,15 @@ class Reader
 
 public:
 
-    Reader() : reader_(Options()) {
+    Reader() //: reader_(Options())
+    {
+      reader_ = new TMVA::Reader(Options());
         Initialize();
     }
 
-    Reader(Stage stage) : reader_(Options()) {
+    Reader(Stage stage) //: reader_(Options())
+    {
+      reader_ = new TMVA::Reader(Options());
         switch (stage) {
         case Stage::trainer :
             Tagger().Initialize();
@@ -36,6 +40,24 @@ public:
             Initialize();
             break;
         }
+    }
+
+    ~Reader(){
+      delete reader_;
+    }
+
+    Reader(const Reader& that){
+      reader_ = new TMVA::Reader(Options());
+      Initialize();
+      tagger_ = that.tagger_;
+    }
+
+    Reader& operator=(Reader const& that)
+    {
+      reader_ = new TMVA::Reader(Options());
+      Initialize();
+      tagger_ = that.tagger_;
+      return *this;
     }
 
     void Initialize() {
@@ -113,7 +135,7 @@ public:
     }
 
     TMVA::Reader const& reader() const {
-        return reader_;
+        return *reader_;
     }
 
 private:
@@ -136,14 +158,14 @@ private:
     }
 
     TMVA::Reader& reader() {
-        return reader_;
+        return *reader_;
     }
 
     TaggerTemplate& Tagger() {
         return tagger_;
     }
 
-    TMVA::Reader reader_;
+    TMVA::Reader *reader_;
 
     TaggerTemplate tagger_;
 

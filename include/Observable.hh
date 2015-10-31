@@ -33,7 +33,7 @@ private:
 
     char type_;
 
-    float& value_;
+    float* value_;
 
 };
 

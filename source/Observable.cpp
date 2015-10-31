@@ -6,7 +6,7 @@
 
 namespace boca {
 
-Observable::Observable(float& value, std::string const& expression, std::string const& title, std::string const& unit) : value_(value)
+Observable::Observable(float& value, std::string const& expression, std::string const& title, std::string const& unit) : value_(&value)
 {
     expression_ = expression;
     title_ = title;
@@ -16,9 +16,9 @@ Observable::Observable(float& value, std::string const& expression, std::string 
     Debug(expression_, type_, value_, title_);
 }
 
-float& Observable::value() const
+float &Observable::value() const
 {
-    return value_;
+    return *value_;
 }
 
 std::string Observable::expression() const

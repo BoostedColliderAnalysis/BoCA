@@ -4,11 +4,7 @@
 #pragma once
 
 #include "Tagger.hh"
-#include "Identification.hh"
 #include "PreCuts.hh"
-#include "Flag.hh"
-
-class TFile;
 
 namespace boca
 {
@@ -55,11 +51,9 @@ protected:
 
     void ClearFiles();
 
-    std::vector<boca::File> files(Tag tag);
+    std::vector<boca::File> Files(Tag tag);
 
     void PrepareFiles(Stage stage);
-
-    exroot::TreeWriter TreeWriter(TFile& export_file, std::string const& export_tree_name, Stage stage);
 
     virtual std::string AnalysisName() const = 0;
 
@@ -69,7 +63,6 @@ protected:
      */
     virtual long EventNumberMax() const;
 
-//     virtual std::string ProcessName() const;
 
     boca::Mass Mass() const;
 
@@ -154,7 +147,3 @@ struct boca::Flag<Output> {
 void Run(AnalysisBase & analysis, Output run);
 
 }
-
-
-
-

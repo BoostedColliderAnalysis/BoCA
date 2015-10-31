@@ -6,8 +6,9 @@
 #include <string>
 #include "Units.hh"
 
-namespace fastjet {
-  class PseudoJet;
+namespace fastjet
+{
+class PseudoJet;
 }
 
 
@@ -69,7 +70,7 @@ using Unsigned = typename std::make_unsigned<typename std::underlying_type<Enume
 
 template <typename Enumeration>
 auto to_unsigned(Enumeration value) -> typename Unsigned<Enumeration>::type {
-  return static_cast<typename Unsigned<Enumeration>::type>(value);
+    return static_cast<typename Unsigned<Enumeration>::type>(value);
 }
 
 }

@@ -6,13 +6,8 @@
 #include <fstream>
 #include <boost/lexical_cast.hpp>
 
-#include "TTree.h"
-
-#include "exroot/ExRootAnalysis.hh"
-
-#include "AnalysisBase.hh"
-#include "Branches.hh"
 #include "File.hh"
+#include "AnalysisBase.hh"
 #include "Plotting.hh"
 #include "Event.hh"
 #include "Trainer.hh"
@@ -40,14 +35,8 @@ void AnalysisBase::Initialize()
     tagger().Initialize();
 }
 
-exroot::TreeWriter AnalysisBase::TreeWriter(TFile& export_file, std::string const& export_tree_name, Stage)
-{
-    Note(export_tree_name.c_str());
-    exroot::TreeWriter tree_writer(&export_file, export_tree_name.c_str());
-    return tree_writer;
-}
 
-std::vector<File> AnalysisBase::files(Tag tag)
+std::vector<File> AnalysisBase::Files(Tag tag)
 {
     Error(Name(tag));
     return files_;
@@ -62,23 +51,11 @@ void AnalysisBase::PrepareFiles(Stage stage)
     SetFiles(Tag::background, stage);
 }
 
-// std::string AnalysisBase::AnalysisName() const
-// {
-//     Info();
-//     return "ProjectName";
-// }
-
 long AnalysisBase::EventNumberMax() const
 {
     Info();
     return 100000;
 }
-
-// std::string AnalysisBase::ProcessName() const
-// {
-//     Info();
-//     return "Process";
-// }
 
 void AnalysisBase::NewFile(boca::Tag tag, const boca::Strings& names, Crosssection crosssection, std::string const& nice_name, boca::Mass mass)
 {
