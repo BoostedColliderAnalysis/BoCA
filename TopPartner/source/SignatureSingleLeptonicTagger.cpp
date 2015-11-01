@@ -12,7 +12,7 @@ namespace naturalness
 
   int SignatureSingleLeptonicTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const
 {
-    Info();
+    Info0;
     std::vector<Decuplet532> decuplets = Decuplets(event, pre_cuts, [&](Decuplet532 & decuplet) {
       decuplet.SetTag(tag);
       return decuplet;
@@ -25,7 +25,7 @@ namespace naturalness
 
 std::vector<Decuplet532> SignatureSingleLeptonicTagger::Multiplets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
-    Info();
+    Info0;
     return ReduceResult(Decuplets(event, pre_cuts, [&](Decuplet532 & decuplet) {
         decuplet.SetBdt(Bdt(decuplet, reader));
         return decuplet;

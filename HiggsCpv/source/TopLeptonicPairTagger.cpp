@@ -14,7 +14,7 @@ namespace higgscpv
 
 int TopLeptonicPairTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) const
 {
-    Info();
+    Info0;
     std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
     Debug(triplets.size());
     Jets particles = event.Partons().GenParticles();

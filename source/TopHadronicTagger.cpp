@@ -20,13 +20,13 @@ namespace boca
 
 TopHadronicTagger::TopHadronicTagger()
 {
-    Info();
+    Info0;
     top_mass_window_ = 50. * GeV;
 }
 
 int TopHadronicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Tag tag) const
 {
-    Info();
+    Info0;
     return SaveEntries(Triplets(event, [&](boca::Triplet & triplet, Jets const & leptons, bool & failure) {
         return Triplet(triplet, leptons, pre_cuts, tag, failure);
     }), TopParticles(event), tag, Id::top);
@@ -34,7 +34,7 @@ int TopHadronicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, 
 
 Jets TopHadronicTagger::TopParticles(Event const& event) const
 {
-    Info();
+    Info0;
     Jets particles = event.Partons().GenParticles();
     Jets quarks = CopyIfGrandMother(CopyIfQuark(particles), Id::top);
     if (quarks.empty()) return {};
@@ -46,7 +46,7 @@ Jets TopHadronicTagger::TopParticles(Event const& event) const
 
 std::vector<Triplet> TopHadronicTagger::Triplets(Event const& event, Function const& function) const
 {
-    Info();
+    Info0;
     Jets jets = fastjet::sorted_by_pt(bottom_reader_.Jets(event));
     Jets leptons = event.Leptons().leptons();
 
@@ -148,7 +148,7 @@ std::vector<Triplet> TopHadronicTagger::Triplets(std::vector<boca::Doublet> cons
 
 std::vector<Triplet> TopHadronicTagger::Triplets(boca::Doublet const& doublet, boca::Jets const& jets, boca::Jets const& leptons, Function const& function, MomentumRange const& range) const
 {
-    Info();
+    Info0;
     std::vector<boca::Triplet> triplets;
     for (auto const & jet : jets) {
         try {
@@ -206,7 +206,7 @@ float TopHadronicTagger::LeptonPt(boca::Triplet const& triplet, boca::Jets const
 
 bool TopHadronicTagger::Problematic(boca::Triplet const& triplet, boca::PreCuts const& pre_cuts, Tag tag) const
 {
-    Debug();
+    Debug0;
     if (Problematic(triplet, pre_cuts)) return true;
     switch (tag) {
     case Tag::signal:
@@ -224,7 +224,7 @@ bool TopHadronicTagger::Problematic(boca::Triplet const& triplet, boca::PreCuts 
 
 bool TopHadronicTagger::Problematic(boca::Triplet const& triplet, PreCuts const& pre_cuts) const
 {
-    Debug();
+    Debug0;
     if (pre_cuts.ApplyCuts(Id::top, triplet)) return true;
     // FIXME the top tagger is very slow, due to many calls of Bdt(), therfore we have to reduce the number of candidates
 //     if (boost::units::abs(triplet.Mass() - MassOf(Id::top)) > 2. * top_mass_window_) return true;
@@ -234,7 +234,7 @@ bool TopHadronicTagger::Problematic(boca::Triplet const& triplet, PreCuts const&
 
 std::vector<Triplet> TopHadronicTagger::Multiplets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
-    Info();
+    Info0;
     return ReduceResult(Triplets(event, [&](boca::Triplet & triplet, Jets const & leptons, bool &  failure) {
         return Multiplet(triplet, leptons, pre_cuts, reader, failure);
     }));
@@ -242,7 +242,7 @@ std::vector<Triplet> TopHadronicTagger::Multiplets(Event const& event, boca::Pre
 
 Triplet TopHadronicTagger::Multiplet(boca::Triplet& triplet, Jets const& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader, bool& failure) const
 {
-    Info();
+    Info0;
     // No throwing because this function fails too often
     if (Problematic(triplet, pre_cuts)) {
         failure = true;
@@ -257,7 +257,7 @@ Triplet TopHadronicTagger::Multiplet(boca::Triplet& triplet, Jets const& leptons
 
 void TopHadronicTagger::NSubJettiness(boca::Triplet&) const
 {
-    Info();
+    Info0;
     return;
 //     if (!triplet.()) triplet.set_sub_jettiness(NSubJettiness(triplet.Singlet().Jet() * 2));
 //     else if (triplet.Doublet().Degenerate()) triplet.set_sub_jettiness(NSubJettiness(triplet.Doublet().Singlet1().Jet() * 2));
@@ -266,7 +266,7 @@ void TopHadronicTagger::NSubJettiness(boca::Triplet&) const
 
 SubJettiness TopHadronicTagger::NSubJettiness(fastjet::PseudoJet const& jet) const
 {
-    Info();
+    Info0;
     fastjet::contrib::OnePass_WTA_KT_Axes wta_kt_axes;
     fastjet::contrib::OnePass_KT_Axes kt_axes;
     fastjet::contrib::UnnormalizedMeasure unnormalized_measure_1(1);

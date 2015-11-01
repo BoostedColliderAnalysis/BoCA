@@ -8,7 +8,7 @@ namespace heavyhiggs {
 
 int HeavyHiggsSemiTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
-    Info();
+    Info0;
     Jets higgs_boson = HiggsParticle(event, tag);
     std::vector<Triplet> triplets_hadronic = FinalTriplet(event, tag, Decay::hadronic);
     std::vector<Triplet> triplets_leptonic = FinalTriplet(event, tag, Decay::leptonic);

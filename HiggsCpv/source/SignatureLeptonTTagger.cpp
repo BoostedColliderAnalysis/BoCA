@@ -12,7 +12,7 @@ namespace higgscpv
 
 int SignatureLeptonTTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) const
 {
-    Info();
+    Info0;
     Jets triplets = event.Leptons().leptons();
     if (tag == Tag::signal) {
         Jets leptons = Leptons(event);
@@ -28,7 +28,7 @@ int SignatureLeptonTTagger::Train(Event const& event, boca::PreCuts const&, Tag 
         Debug(doublets.size(), higgses.size());
     }
 
-    std::vector<MultipletSignature<Octet332>> octets = triples(triplets, doublets, [&](auto const & triplet_1, auto const & triplet_2, auto const & doublet) {
+    std::vector<MultipletSignature<Octet332>> octets = triples(triplets, doublets, [&](Triplet const & triplet_1, Triplet const & triplet_2, Doublet const & doublet) {
         MultipletSignature<Octet332> octet = Signature(triplet_1, triplet_2, doublet);
         octet.SetTag(tag);
         return octet;
@@ -55,12 +55,12 @@ MultipletSignature<Octet332> SignatureLeptonTTagger::Signature(Triplet const& tr
 
 std::vector<MultipletSignature<Octet332>> SignatureLeptonTTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
 {
-    Info();
+    Info0;
     std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
     Info(doublets.size());
     Jets triplets = event.Leptons().leptons();
     Info(triplets.size());
-    std::vector<MultipletSignature<Octet332>> octets = triples(triplets, doublets, [&](auto const & triplet_1, auto const & triplet_2, auto const & doublet) {
+    std::vector<MultipletSignature<Octet332>> octets = triples(triplets, doublets, [&](Triplet const & triplet_1, Triplet const & triplet_2, Doublet const & doublet) {
         MultipletSignature<Octet332> octet = Signature(triplet_1, triplet_2, doublet);
         octet.SetBdt(Bdt(octet, reader));
         return octet;

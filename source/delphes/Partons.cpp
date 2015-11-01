@@ -24,7 +24,7 @@ Jets Partons::GenParticles() const
 
 Jets Partons::Particles(Status min_status) const
 {
-    Info();
+    Info0;
     Jets particles;
     Info(clones_arrays().ParticleSum());
     for (auto const& particle_number : Range(clones_arrays().ParticleSum())) {

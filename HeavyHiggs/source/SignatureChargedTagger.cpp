@@ -8,7 +8,7 @@ namespace heavyhiggs {
 
 int SignatureChargedTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) const
 {
-    Info();
+    Info0;
     std::vector<Quartet31> higgs_quartets = charged_higgs_semi_reader_.Multiplets(event);
     Jets HiggsParticles = event.Partons().GenParticles();
     HiggsParticles = CopyIfParticle(HiggsParticles, Id::charged_higgs);
@@ -33,7 +33,7 @@ int SignatureChargedTagger::Train(Event const& event, boca::PreCuts const&, Tag 
 
 std::vector<Octet44> SignatureChargedTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
-    Info();
+    Info0;
     std::vector<Quartet31> higgs_quartets = charged_higgs_semi_reader_.Multiplets(event);
     std::vector<Quartet31> jet_quartets = triplet_jet_pair_reader_.Multiplets(event);
     std::vector<Octet44> octets;

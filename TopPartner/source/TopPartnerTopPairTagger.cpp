@@ -7,7 +7,7 @@ namespace naturalness {
 
 int TopPartnerTopPairTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
-    Info();
+    Info0;
     std::vector<Quintet> quintets = top_partner_reader_.Multiplets(event);
     std::vector<Triplet> triplets = top_reader_.Multiplets(event);
     std::vector<Octet53> octets;

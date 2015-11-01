@@ -11,7 +11,7 @@ namespace naturalness
 
 int TopPartnerHiggsPairTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
-    Info();
+    Info0;
     std::vector<Septet> septets = pairs(top_partner_hadronic_reader_.Multiplets(event), higgs_reader_.Multiplets(event), [&](Quintet const & quintet, Doublet const & doublet) {
         Septet septet(quintet, doublet);
         if (septet.Overlap()) throw Overlap();

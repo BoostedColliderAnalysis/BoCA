@@ -9,7 +9,7 @@ namespace boca {
 
 void Partons::NewEvent(ClonesArrays const& clones_arrays)
 {
-    Info();
+    Info0;
     FourVector::NewEvent(clones_arrays);
 }
 

@@ -14,13 +14,13 @@ namespace boca
 
 TopLeptonicTagger::TopLeptonicTagger() : w_leptonic_reader_(InitializeLeptonicReader())
 {
-    Info();
+    Info0;
     top_mass_window = 80. * GeV;
 }
 
 int TopLeptonicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Tag tag) const
 {
-    Info();
+    Info0;
     Jets jets = fastjet::sorted_by_pt(bottom_reader_.Jets(event));
     Info(jets.size());
     Jets leptons = Leptons(event, jets);
@@ -100,7 +100,7 @@ bool TopLeptonicTagger::Problematic(Triplet const& triplet, PreCuts const& pre_c
 
 std::vector<Triplet> TopLeptonicTagger::Multiplets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
-    Info();
+    Info0;
     Jets jets = fastjet::sorted_by_pt(bottom_reader_.Jets(event));
     Jets leptons = Leptons(event, jets);
     std::vector<Doublet> doublets;

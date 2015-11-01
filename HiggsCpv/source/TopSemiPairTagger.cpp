@@ -10,7 +10,7 @@ namespace higgscpv {
 
 int TopSemiPairTagger::Train(boca::Event const& event, boca::PreCuts const&, Tag tag) const
 {
-    Info();
+    Info0;
     std::vector<Triplet> triplets_hadronic = top_hadronic_reader_.Multiplets(event);
     std::vector<Triplet> triplets_leptonic = top_leptonic_reader_.Multiplets(event);
     Jets top_particles = event.Partons().GenParticles();

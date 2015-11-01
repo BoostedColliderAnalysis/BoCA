@@ -10,7 +10,7 @@ namespace boca
 {
 
 Files::Files(std::string name, boca::Stage stage, boca::Tag tag): export_file_ {name.c_str(), "Recreate"} {
-    Info();
+    Info0;
     stage_ = stage;
     tag_ = tag;
 }
@@ -37,7 +37,7 @@ Tag Files::tag() const
 
 void Files::set_file(File& file)
 {
-    Info();
+    Info0;
     file_ = &file;
 }
 
@@ -46,12 +46,12 @@ Trees::Trees(Files& files):
     clones_arrays_(files.file().clones_arrays()),
     event_(files.file().event())
 {
-    Info();
+    Info0;
 }
 
 void Trees::WriteTree()
 {
-    Info();
+    Info0;
     //         if(event_number_ == tree_reader().GetEntries())
     Error(event_number_, pre_cut_number_, object_sum_);
     if (!analysis_empty_) tree_writer_.Write();
@@ -60,7 +60,7 @@ void Trees::WriteTree()
 
 void Trees::UseBranches(File& file, std::string const& name)
 {
-    Info();
+    Info0;
     tree_branch_ = tree_writer_.NewBranch(name.c_str(), InfoBranch::Class());
     tree_reader_ = file.TreeReader();
     clones_arrays_.UseBranches(tree_reader_);
@@ -69,7 +69,7 @@ void Trees::UseBranches(File& file, std::string const& name)
 
 void Trees::NewEvent(Mass const& mass)
 {
-    Info();
+    Info0;
     tree_reader_.ReadEntry(entry);
     event_.NewEvent(clones_arrays_);
     event_.SetMass(mass);
@@ -77,7 +77,7 @@ void Trees::NewEvent(Mass const& mass)
 
 void Trees::SaveAnalysis(int object_number)
 {
-    Info();
+    Info0;
     if (object_number == 0) return;
     object_sum_ += object_number;
     info_branch_.EventNumber = event_number_;
@@ -90,7 +90,7 @@ void Trees::SaveAnalysis(int object_number)
 
 InfoBranch Trees::FillInfoBranch(const File& file)
 {
-    Info();
+    Info0;
     InfoBranch info_branch;
     info_branch.Crosssection = file.crosssection() / fb;
     info_branch.CrosssectionError = file.crosssection_error() / fb;

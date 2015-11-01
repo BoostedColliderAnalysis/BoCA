@@ -59,7 +59,7 @@ Jets Hadrons::DelphesJets(JetDetail jet_detail) const
 
 fastjet::PseudoJet Hadrons::StructuredJet(::delphes::Jet const& delphes_jet, std::vector<TObject*> const& leptons, JetDetail jet_detail) const
 {
-    Info();
+    Info0;
     boca::Jets constituents;
     for (auto const & constituent_number : Range(delphes_jet.Constituents.GetEntriesFast())) {
         if (!delphes_jet.Constituents.At(constituent_number)) continue;
@@ -122,7 +122,7 @@ fastjet::PseudoJet Hadrons::ConstituentJet(TObject& object, boca::JetDetail jet_
 
 bool Hadrons::Isolated(TObject const& object, std::vector<TObject*> const& leptons) const
 {
-//   Error();
+//   Error0;
     bool isolated = true;
     for (auto const & lepton : leptons) if (&object == lepton) isolated = false;
 //     Check(isolated, isolated);
@@ -271,13 +271,13 @@ Jets Hadrons::GenJets() const
 
 float Hadrons::ScalarHt() const
 {
-    Info();
+    Info0;
     return static_cast<::delphes::ScalarHT&>(clones_arrays().ScalarHt()).HT;
 }
 
 fastjet::PseudoJet Hadrons::MissingEt() const
 {
-    Info();
+    Info0;
     return boca::PseudoJet(static_cast<::delphes::MissingET&>(clones_arrays().MissingEt()).P4());
 }
 

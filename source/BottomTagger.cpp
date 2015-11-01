@@ -14,13 +14,13 @@ namespace boca
 
 BottomTagger::BottomTagger()
 {
-    Info();
+    Info0;
     bottom_max_mass_ = 75. * GeV;
 }
 
 int BottomTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const
 {
-    Info();
+    Info0;
     return SaveEntries(Jets(event, pre_cuts, [&](fastjet::PseudoJet & jet) {
         if (Problematic(jet, pre_cuts, tag)) throw boca::Problematic();
         return jet;
@@ -29,13 +29,13 @@ int BottomTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) co
 
 boca::Jets BottomTagger::Particles(Event const& event) const
 {
-    Info();
+    Info0;
     return RemoveIfSoft(CopyIfParticle(event.Partons().Particles(), Id::bottom), DetectorGeometry::JetMinPt());
 }
 
 Jets BottomTagger::Jets(Event const& event, PreCuts const& pre_cuts, std::function<fastjet::PseudoJet(fastjet::PseudoJet&)> const& function) const
 {
-    Info();
+    Info0;
     boca::Jets jets = event.Hadrons().Jets();
     boca::Jets bottoms = Multiplets(jets, function);
     if (pre_cuts.DoSubJets()) {
@@ -47,7 +47,7 @@ Jets BottomTagger::Jets(Event const& event, PreCuts const& pre_cuts, std::functi
 
 boca::Jets BottomTagger::Multiplets(boca::Jets jets, std::function<fastjet::PseudoJet(fastjet::PseudoJet&)> const& function, unsigned sub_jet_number) const
 {
-    Info();
+    Info0;
     if (sub_jet_number > 1) jets = SubJets(jets, sub_jet_number);
     boca::Jets final_jets;
     for (auto & jet : jets) try {
@@ -60,7 +60,7 @@ boca::Jets BottomTagger::Multiplets(boca::Jets jets, std::function<fastjet::Pseu
 
 boca::Jets BottomTagger::Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
-    Info();
+    Info0;
     return Jets(event, pre_cuts, [&](fastjet::PseudoJet const & jet) {
         if (Problematic(jet, pre_cuts)) throw boca::Problematic();
         return Multiplet(jet, reader);
@@ -69,14 +69,14 @@ boca::Jets BottomTagger::Multiplets(Event const& event, PreCuts const& pre_cuts,
 
 fastjet::PseudoJet BottomTagger::Multiplet(fastjet::PseudoJet const& jet, TMVA::Reader const& reader) const
 {
-    Info();
+    Info0;
     static_cast<JetInfo&>(*jet.user_info_shared_ptr().get()).SetBdt(Bdt(jet, reader));
     return jet;
 }
 
 bool BottomTagger::Problematic(fastjet::PseudoJet const& jet, PreCuts const& pre_cuts, Tag tag) const
 {
-    Info();
+    Info0;
     if (Problematic(jet, pre_cuts)) return true;
     if (jet.m() * GeV > bottom_max_mass_) return true;
     if (std::abs(jet.rap()) * rad > DetectorGeometry::TrackerEtaMax()) return true;
@@ -91,14 +91,14 @@ bool BottomTagger::Problematic(fastjet::PseudoJet const& jet, PreCuts const& pre
 
 bool BottomTagger::Problematic(fastjet::PseudoJet const& jet, PreCuts const& pre_cuts) const
 {
-    Info();
+    Info0;
     if (pre_cuts.ApplyCuts(Id::bottom, jet)) return true;
     return false;
 }
 
 boca::Jets BottomTagger::SubJets(boca::Jets const& jets, int sub_jet_number) const
 {
-    Info();
+    Info0;
     boca::Jets subjets;
     for (auto const & jet : jets) subjets = Join(subjets, Tagger::SubJets(jet, sub_jet_number));
     return subjets;
@@ -106,7 +106,7 @@ boca::Jets BottomTagger::SubJets(boca::Jets const& jets, int sub_jet_number) con
 
 boca::Jets BottomTagger::Jets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
-    Info();
+    Info0;
     return Multiplets(event.Hadrons().Jets(), [&](fastjet::PseudoJet & jet) {
         if (Problematic(jet, pre_cuts)) throw boca::Problematic();
         return Multiplet(jet, reader);
@@ -115,7 +115,7 @@ boca::Jets BottomTagger::Jets(Event const& event, boca::PreCuts const& pre_cuts,
 
 boca::Jets BottomTagger::SubMultiplet(fastjet::PseudoJet const& jet, TMVA::Reader const& reader, int sub_jet_number) const
 {
-    Info();
+    Info0;
     boca::Jets jets;
     for (auto const & sub_jet : Tagger::SubJets(jet, sub_jet_number)) {
         if (!sub_jet.has_user_info<JetInfo>()) continue;

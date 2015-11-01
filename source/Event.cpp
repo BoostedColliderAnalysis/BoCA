@@ -25,7 +25,7 @@ Event::Event() {}
 
 Event::Event(Source source)
 {
-    Info();
+    Info0;
     source_ = source;
     switch (source_) {
     case Source::delphes :
@@ -46,7 +46,7 @@ Event::Event(Source source)
 Event::Event(ClonesArrays const& clones_arrays, Source source)
 {
 
-    Info();
+    Info0;
     source_ = source;
     switch (source_) {
     case Source::delphes :
@@ -68,7 +68,7 @@ Event::Event(ClonesArrays const& clones_arrays, Source source)
 
 Event::~Event()
 {
-    Info();
+    Info0;
     switch (source_) {
     case Source::delphes :
         delete partons_;
@@ -90,7 +90,7 @@ Event::~Event()
 
 void Event::NewEvent(ClonesArrays const& clones_arrays)
 {
-    Info();
+    Info0;
     switch (source_) {
     case Source::delphes :
         partons_->NewEvent(clones_arrays);

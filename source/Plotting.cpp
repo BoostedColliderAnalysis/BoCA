@@ -40,12 +40,12 @@ namespace boca
 
 Plotting::Plotting(boca::Tagger& tagger) : tagger_(tagger)
 {
-    Info();
+    Info0;
 }
 
 void Plotting::TaggingEfficiency() const
 {
-    Info();
+    Info0;
     Results results = ReadBdtFiles();
     PlotHistograms(results);
     PlotEfficiencyGraph(results);
@@ -54,7 +54,7 @@ void Plotting::TaggingEfficiency() const
 
 void Plotting::OptimalCuts() const
 {
-    Info();
+    Info0;
     Results results = ReadBdtFiles();
     results.Significances();
     LatexFile latex_file(Tagger().ExportFolderName());
@@ -72,7 +72,7 @@ void Plotting::OptimalCuts() const
 
 Results Plotting::ReadBdtFiles() const
 {
-    Info();
+    Info0;
     TFile file(Tagger().ExportFileName().c_str(), "Recreate");
     Results results;
     results.signals = ReadBdtFile(file, Tag::signal);
@@ -83,7 +83,7 @@ Results Plotting::ReadBdtFiles() const
 
 std::vector<Result> Plotting::ReadBdtFile(TFile& export_file, Tag tag) const
 {
-    Info();
+    Info0;
     std::string file_name = Tagger().FileName(Stage::reader, tag);
     Debug(file_name);
     if (!Exists(file_name)) Error("non existent", file_name);
@@ -95,7 +95,7 @@ std::vector<Result> Plotting::ReadBdtFile(TFile& export_file, Tag tag) const
 
 Result Plotting::BdtDistribution(TFile& file, std::string const& tree_name, TFile& export_file) const
 {
-    Info();
+    Info0;
     std::string branch_name = Tagger().BranchName(Stage::reader);
     Debug(branch_name);
     exroot::TreeReader tree_reader(static_cast<TTree*>(file.Get(tree_name.c_str())));
@@ -133,7 +133,7 @@ InfoBranch Plotting::InfoBranch(TFile& file, std::string const& tree_name) const
 
 std::string Plotting::PlotHistograms(boca::Results& results) const
 {
-    Info();
+    Info0;
     Canvas canvas;
     THStack stack("", Tagger().NiceName().c_str());
     std::vector<TH1F> histograms;
@@ -159,7 +159,7 @@ std::string Plotting::PlotHistograms(boca::Results& results) const
 
 std::string Plotting::PlotEfficiencyGraph(Results const& results) const
 {
-    Info();
+    Info0;
     Canvas canvas;
     canvas.SetLog();
     TMultiGraph multi_graph("", Tagger().NiceName().c_str());
@@ -187,7 +187,7 @@ std::string Plotting::PlotEfficiencyGraph(Results const& results) const
 
 void Plotting::PlotAcceptanceGraph(Results const& results) const
 {
-    Info();
+    Info0;
     for (auto const & signal : results.signals) {
         Canvas canvas;
 //         TMultiGraph multi_graph("", Tagger().NiceName().c_str());
@@ -216,7 +216,7 @@ void Plotting::PlotAcceptanceGraph(Results const& results) const
 
 std::string Plotting::PlotCrosssectionsGraph(Results const& results) const
 {
-    Info();
+    Info0;
     Canvas canvas;
     canvas.SetLog();
     TMultiGraph multi_graph("", Tagger().NiceName().c_str());
@@ -244,7 +244,7 @@ std::string Plotting::PlotCrosssectionsGraph(Results const& results) const
 
 std::string Plotting::PlotModelDependentGraph(Results& results) const
 {
-    Info();
+    Info0;
     Canvas canvas;
     TGraph graph = Graph(results, results.significances, "Significance");
     TLine line  = Line(results.best_model_dependent_bin, graph.GetYaxis()->GetXmin(), graph.GetYaxis()->GetXmax(), results.signals.size() + results.backgrounds.size() + 1);
@@ -253,7 +253,7 @@ std::string Plotting::PlotModelDependentGraph(Results& results) const
 
 std::string Plotting::PlotCrosssectionGraph(Results& results) const
 {
-    Info();
+    Info0;
     Canvas canvas;
     TGraph graph = Graph(results, results.acceptances, "S/#sqrt{B}");
     TLine line  = Line(results.best_acceptance_bin, graph.GetYaxis()->GetXmin(), graph.GetYaxis()->GetXmax(), results.signals.size() + results.backgrounds.size() + 3);
@@ -262,7 +262,7 @@ std::string Plotting::PlotCrosssectionGraph(Results& results) const
 
 std::string Plotting::PlotModelIndependentGraph(Results& results) const
 {
-    Info();
+    Info0;
     Canvas canvas;
     TGraph graph = Graph(results, results.Crosssections(), "Crosssection");
     canvas.SetLog(min(results.crosssections, true) / fb, max(results.crosssections) / fb);
@@ -272,7 +272,7 @@ std::string Plotting::PlotModelIndependentGraph(Results& results) const
 
 std::string Plotting::BestValueTable(Results const& results) const
 {
-    Info();
+    Info0;
     std::stringstream table;
     table << "    Model\n  & Cut\n  & $p$-value\n  & Crosssection [fb]";
     table << "\n \\\\ \\midrule\n   ";
@@ -284,7 +284,7 @@ std::string Plotting::BestValueTable(Results const& results) const
 
 std::string Plotting::BestValueRow(Results const& results, int bin, std::string const& name) const
 {
-    Info();
+    Info0;
     std::stringstream row;
     row << " " << name;
     row << "\n  & " << RoundToDigits(results.XValue(bin));
@@ -296,7 +296,7 @@ std::string Plotting::BestValueRow(Results const& results, int bin, std::string 
 
 std::string Plotting::EfficienciesTable(Results const& results, int bin) const
 {
-    Info();
+    Info0;
     std::stringstream table;
     table << "    Sample\n  & before\n  & after\n  & Efficiency\n  & $\\sigma$  [fb]\n  & $N_{\\mathcal L = \\unit[" << float(DetectorGeometry::Luminosity() * fb) << "]{fb^{-1}}}$";
     table << "\n \\\\ \\midrule\n   ";
@@ -307,7 +307,7 @@ std::string Plotting::EfficienciesTable(Results const& results, int bin) const
 
 std::string Plotting::EfficienciesRow(Result const& result, int index, Tag tag, int bin) const
 {
-    Info();
+    Info0;
     std::stringstream row;
     row << " \\verb|" << Tagger().TreeNames(tag).at(index) << "|";
     row << "\n  & " << result.info_branch_.EventNumber;
@@ -321,7 +321,7 @@ std::string Plotting::EfficienciesRow(Result const& result, int index, Tag tag, 
 
 void Plotting::RunPlots() const
 {
-    Info();
+    Info0;
     for (auto const & stage : std::vector<Stage> {Stage::trainer, Stage::reader}) {
         Debug(Tagger().FileName(stage, Tag::signal), Tagger().TreeNames(Tag::signal).size());
         std::vector<Plots> signals = Import(stage, Tag::signal);
@@ -341,7 +341,7 @@ void Plotting::RunPlots() const
 
 void Plotting::DoPlot(Plots& signals, Plots& backgrounds, Stage stage) const
 {
-    Info();
+    Info0;
     Names nice_names = unordered_pairs(tagger_.Branch().Variables(), [&](Obs const & variable_1, Obs const & variable_2) {
         return std::make_pair(variable_1.nice_name(), variable_2.nice_name());
     });
@@ -407,7 +407,7 @@ void Plotting::PlotHistogram(Plot const& signal, Plot const& background, Point c
 
 void Plotting::PlotProfile(Plot const& signal, Plot const& background, Point const& min, Point const& max) const
 {
-    Info();
+    Info0;
     Canvas canvas;
     canvas.canvas().SetRightMargin(0.15);
     int bin_number = 30;
@@ -443,7 +443,7 @@ Plots Plotting::PlotResult(TFile& file, std::string const& tree_name, Stage stag
 
 Plot Plotting::ReadTree(TTree& tree, std::string const& leaf_1_name, std::string const& leaf_2_name, Stage stage) const
 {
-    Info();
+    Info0;
     tree.SetBranchStatus("*", false);
     std::string branch_name = Tagger().BranchName(stage);
     Debug(branch_name);
@@ -478,7 +478,7 @@ Plot Plotting::ReadTree(TTree& tree, std::string const& leaf_1_name, std::string
 
 Plot Plotting::CoreVector(Plot& plot, std::function<bool (Point const&, Point const&)> const& function) const
 {
-    Info();
+    Info0;
     // TODO sorting the whole vector when you just want to get rid of the extrem values might not be the fastest solution
     boost::range::sort(plot.points, [&](Point const & a, Point const & b) {
         return function(a, b);

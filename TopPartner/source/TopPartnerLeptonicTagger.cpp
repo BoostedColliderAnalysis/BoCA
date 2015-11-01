@@ -11,7 +11,7 @@ namespace naturalness
 
 int TopPartnerLeptonicTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
-    Info();
+    Info0;
     return SaveEntries(Quintets(event, [&](Quintet & quintet) {
         quintet.SetTag(tag);
         return quintet;

@@ -12,7 +12,7 @@ namespace naturalness
 
 int TopPartnerHadronicTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
-    Info();
+    Info0;
     return SaveEntries(Quintets(event, [&](Quintet & quintet) {
         quintet.SetTag(tag);
         return quintet;
@@ -21,7 +21,7 @@ int TopPartnerHadronicTagger::Train(Event const& event, PreCuts const&, Tag tag)
 
 std::vector<Quintet> TopPartnerHadronicTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
-    Info();
+    Info0;
     return ReduceResult(Quintets(event, [&](Quintet & quintet) {
         quintet.SetBdt(Bdt(quintet, reader));
         return quintet;
@@ -30,7 +30,7 @@ std::vector<Quintet> TopPartnerHadronicTagger::Multiplets(Event const& event, bo
 
 std::vector<Quintet> TopPartnerHadronicTagger::Quintets(Event const& event, std::function<Quintet(Quintet&)> const& function) const
 {
-    Info();
+    Info0;
     return pairs(top_reader_.Multiplets(event), boson_reader_.Multiplets(event), [&](Triplet const & triplet, Doublet const & doublet) {
         Quintet quintet(triplet, doublet);
         if (quintet.Overlap()) throw Overlap();
@@ -40,7 +40,7 @@ std::vector<Quintet> TopPartnerHadronicTagger::Quintets(Event const& event, std:
 
 Jets TopPartnerHadronicTagger::Particles(Event const& event) const
 {
-    Info();
+    Info0;
     Jets particles = event.Partons().GenParticles();
     Jets quarks = CopyIfQuark(particles);
     Jets candidate = CopyIfGrandGrandMother(quarks, Id::top_partner);

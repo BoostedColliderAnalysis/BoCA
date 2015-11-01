@@ -8,7 +8,7 @@ namespace heavyhiggs {
 
 int SignatureNeutralTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
-    Info();
+    Info0;
     Jets higgs = heavy_higgs_semi_reader_.Tagger().HiggsParticle(event, tag);
     std::vector<Sextet> sextets = heavy_higgs_semi_reader_.Multiplets(event);
     sextets = BestMatches(sextets, higgs, tag);
@@ -88,7 +88,7 @@ int SignatureNeutralTagger::Train(Event const& event, PreCuts const&, Tag tag) c
 
 std::vector<Octet62> SignatureNeutralTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
 {
-    Info();
+    Info0;
     std::vector<Doublet> doublets = jet_pair_reader_.Multiplets(event);
     std::vector<Sextet> sextets = heavy_higgs_semi_reader_.Multiplets(event);
     std::vector<Octet62> octets;

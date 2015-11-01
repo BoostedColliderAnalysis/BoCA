@@ -21,7 +21,7 @@ namespace boca
 
 Trainer::Trainer(boca::Tagger& tagger, TMVA::Types::EMVA mva) : tagger_(tagger) , factory_(tagger.Name(), &OutputFile(), FactoryOptions())
 {
-    Info();
+    Info0;
     AddObservables();
     PrepareTrainingAndTestTree(AddAllTrees());
 //     TMVA::MethodBase& method =
@@ -50,7 +50,7 @@ TFile& Trainer::OutputFile() const
 
 void Trainer::AddObservables()
 {
-    Note();
+    Note0;
     TMVA::gConfig().GetIONames().fWeightFileDir = Tagger().AnalysisName();
     TMVA::gConfig().GetIONames().fWeightFileExtension = Tagger().WeightFileExtension();
     for (auto const & observable : Tagger().Variables()) Factory().AddVariable(observable.expression(), observable.title(), observable.unit(), observable.type());
@@ -59,7 +59,7 @@ void Trainer::AddObservables()
 
 long Trainer::AddAllTrees()
 {
-    Note();
+    Note0;
     return std::min(AddTrees(Tag::signal), AddTrees(Tag::background)) / 2;
 }
 
@@ -124,7 +124,7 @@ TTree& Trainer::Tree(std::string const& tree_name, Tag tag)
 
 void Trainer::PrepareTrainingAndTestTree(long event_number)
 {
-    Info();
+    Info0;
     Options options;
 //     options.Add("SplitMode", "Block");
     options.Add("nTrain_Background", event_number);
@@ -136,7 +136,7 @@ void Trainer::PrepareTrainingAndTestTree(long event_number)
 
 TMVA::MethodBase& Trainer::BookMethod(TMVA::Types::EMVA mva)
 {
-    Note();
+    Note0;
     return *Factory().BookMethod(mva, Tagger().MethodName(mva), MethodOptions(mva));
 }
 std::string Trainer::MethodOptions(TMVA::Types::EMVA mva)

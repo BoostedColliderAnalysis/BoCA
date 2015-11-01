@@ -8,7 +8,7 @@ namespace naturalness {
 
   int EventPairTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
-    Info();
+    Info0;
     Jets jets = bottom_reader_.Jets(event);
     std::vector<MultipletEvent<Decuplet55>> multipletevents;
     for (auto const& decuplet : signature_reader_.Multiplets(event)) {
@@ -21,7 +21,7 @@ namespace naturalness {
 
 std::vector<MultipletEvent<Decuplet55>> EventPairTagger::Multiplets(boca::Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
-    Info();
+    Info0;
     Jets jets = bottom_reader_.Jets(event);
     std::vector<MultipletEvent<Decuplet55>> multiplet_events;
     for (auto const& decuplet : signature_reader_.Multiplets(event)) {

@@ -12,7 +12,7 @@ namespace heavyhiggs {
 
 int HeavyHiggsLeptonicTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
-    Info();
+    Info0;
     Mass mass = event.mass();
     std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
     fastjet::PseudoJet missing_et = event.Hadrons().MissingEt();
@@ -43,7 +43,7 @@ int HeavyHiggsLeptonicTagger::Train(Event const& event, PreCuts const&, Tag tag)
 
 std::vector<Sextet>  HeavyHiggsLeptonicTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
 {
-    Info();
+    Info0;
     std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
     fastjet::PseudoJet missing_et = event.Hadrons().MissingEt();
     std::vector<Sextet> sextets;

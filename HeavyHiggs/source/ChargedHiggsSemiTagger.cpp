@@ -8,7 +8,7 @@ namespace heavyhiggs {
 
 int ChargedHiggsSemiTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
-    Info();
+    Info0;
     Mass mass = event.mass();
     fastjet::PseudoJet HiggsBoson;
     if (tag == Tag::signal) {

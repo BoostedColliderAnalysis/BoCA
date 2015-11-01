@@ -13,6 +13,7 @@ Vector3.cpp
 LorentzVector.cpp
 EventShapes.cpp
 EventShape.cpp
+TreeReader.cpp
 )
 create_library(Vector vector_sources)
 
@@ -58,6 +59,15 @@ TopHadronicHep.cpp
 create_library(HepTagger hep_tagger_source)
 add_dependencies(HepTagger HepTopTagger)
 
+set(plot_sources
+Plotting.cpp
+Result.cpp
+LatexFile.cpp
+Canvas.cpp
+Graph.cpp
+)
+create_library(Plot plot_sources)
+
 set(tagger_sources
 Tagger.cpp
 TauTagger.cpp
@@ -100,13 +110,4 @@ Reconstruction.cpp
 Discriminator.cpp
 )
 create_library(Analysis analysis_sources)
-
-set(plot_sources
-Plotting.cpp
-Result.cpp
-LatexFile.cpp
-Canvas.cpp
-Graph.cpp
-)
-create_library(Plot plot_sources)
 

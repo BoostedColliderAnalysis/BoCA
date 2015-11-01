@@ -69,7 +69,7 @@ float RoundError(float value)
 
 float RoundToDigits(float value, int digits)
 {
-    Debug();
+    Info0;
     if (value == 0 || value != value) return 0;
     float factor = std::pow(10.0, digits - std::ceil(std::log10(std::abs(value))));
     return std::round(value * factor) / factor;
@@ -78,7 +78,7 @@ float RoundToDigits(float value, int digits)
 
 float RoundToError(float value, float error)
 {
-    Debug();
+    Info0;
     if (value == 0 || value != value) return 0;
     float factor = std::pow(10.0, 2 - std::ceil(std::log10(std::abs(error))));
     return std::round(value * factor) / factor;

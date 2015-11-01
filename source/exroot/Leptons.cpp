@@ -11,7 +11,7 @@ namespace exroot {
 
 Jets Leptons::Electrons() const
 {
-    Info();
+    Info0;
     Jets electrons;
     for (auto const& electron_number : Range(clones_arrays().ElectronSum())) {
         ::exroot::Electron electron = static_cast<::exroot::Electron&>(clones_arrays().Electron(electron_number));
@@ -24,7 +24,7 @@ Jets Leptons::Electrons() const
 
 Jets Leptons::Muons() const
 {
-    Info();
+    Info0;
     Jets muons;
     for (auto const& muon_number : Range(clones_arrays().MuonSum())) {
         ::exroot::Muon& muon = static_cast<::exroot::Muon&>(clones_arrays().Muon(muon_number));

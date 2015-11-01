@@ -13,7 +13,7 @@ namespace boca {
 
 int TauTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
-    Info();
+    Info0;
     Jets jets = event.Hadrons().Jets();
     Info("Number Jets", jets.size());
     Jets Particles = event.Partons().GenParticles();

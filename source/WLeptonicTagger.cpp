@@ -11,13 +11,13 @@ namespace boca {
 
 WLeptonicTagger::WLeptonicTagger()
 {
-    Info();
+    Info0;
     w_mass_window_ = 20. * GeV;
 }
 
 int WLeptonicTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) const
 {
-    Info();
+    Info0;
     Jets Particles = event.Partons().GenParticles();
     int w_leptonic_id = WLeptonicId(event);
     Jets w_bosons = CopyIfExactParticle(Particles, w_leptonic_id);
@@ -50,7 +50,7 @@ int WLeptonicTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) co
 
 std::vector<Doublet>  WLeptonicTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
-    Info();
+    Info0;
     Jets Particles = event.Partons().GenParticles();
     int w_leptonic_id = WLeptonicId(event);
     Jets w_bosons = CopyIfExactParticle(Particles, w_leptonic_id);
@@ -71,7 +71,7 @@ std::vector<Doublet>  WLeptonicTagger::Multiplets(Event const& event, boca::PreC
 
 std::vector<Doublet> WLeptonicTagger::ReconstructNeutrino(Doublet const& doublet) const
 {
-    Info();
+    Info0;
     fastjet::PseudoJet lepton = doublet.Singlet1().Jet();
     fastjet::PseudoJet missing_et = doublet.Singlet2().Jet();
     float linear_term = (sqr(MassOf(Id::W) / GeV) - lepton.m2()) / 2 + missing_et.px() * lepton.px() + missing_et.py() * lepton.py();

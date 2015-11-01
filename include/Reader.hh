@@ -2,6 +2,7 @@
  * Copyright (C) 2015 Jan Hajer
  */
 #pragma once
+#include <mutex>
 
 #include "TMVA/Reader.h"
 
@@ -23,15 +24,14 @@ class Reader
 
 public:
 
-    Reader() //: reader_(Options())
-    {
-      reader_ = new TMVA::Reader(Options());
+    Reader() { //: reader_(Options())
+        reader_ = new TMVA::Reader(Options());
         Initialize();
     }
 
-    Reader(Stage stage) //: reader_(Options())
-    {
-      reader_ = new TMVA::Reader(Options());
+    Reader(Stage stage) { //: reader_(Options())
+        stage_ = stage;
+        reader_ = new TMVA::Reader(Options());
         switch (stage) {
         case Stage::trainer :
             Tagger().Initialize();
@@ -42,32 +42,48 @@ public:
         }
     }
 
-    ~Reader(){
-      delete reader_;
+    ~Reader() {
+        delete reader_;
     }
 
-    Reader(const Reader& that){
-      reader_ = new TMVA::Reader(Options());
-      Initialize();
-      tagger_ = that.tagger_;
+    Reader(const Reader& that) {
+        stage_ = that.stage_;
+        reader_ = new TMVA::Reader(Options());
+        switch (stage_) {
+        case Stage::trainer :
+            Tagger().Initialize();
+            break;
+        case Stage::reader :
+            Initialize();
+            break;
+        }
+        tagger_ = that.tagger_;
     }
 
-    Reader& operator=(Reader const& that)
-    {
-      reader_ = new TMVA::Reader(Options());
-      Initialize();
-      tagger_ = that.tagger_;
-      return *this;
+    Reader& operator=(Reader const& that) {
+      stage_ = that.stage_;
+        reader_ = new TMVA::Reader(Options());
+        switch (stage_) {
+        case Stage::trainer :
+            Tagger().Initialize();
+            break;
+        case Stage::reader :
+            Initialize();
+            break;
+        }
+        tagger_ = that.tagger_;
+        return *this;
     }
 
     void Initialize() {
+        std::lock_guard<std::mutex> guard(mutex);
         Tagger().Initialize();
-        std::ofstream cout_file(Tagger().AnalysisName() + "/Reader.txt", std::ios_base::app | std::ios_base::out);
-        std::streambuf* cout = std::cout.rdbuf();
-        std::cout.rdbuf(cout_file.rdbuf());
+//         std::ofstream cout_file(Tagger().AnalysisName() + "/Reader.txt", std::ios_base::app | std::ios_base::out);
+//         std::streambuf* cout = std::cout.rdbuf();
+//         std::cout.rdbuf(cout_file.rdbuf());
         AddObservables();
         BookMva(TMVA::Types::EMVA::kBDT);
-        std::cout.rdbuf(cout);
+//         std::cout.rdbuf(cout);
     }
 
     int Bdt(Event const& event, PreCuts const& pre_cuts) const {
@@ -97,8 +113,8 @@ public:
 
     template <typename Input>
     auto Jets(Input const& input) const {
-      PreCuts pre_cuts;
-      return Tagger().Jets(input, pre_cuts, reader());
+        PreCuts pre_cuts;
+        return Tagger().Jets(input, pre_cuts, reader());
     }
 
 //     template <typename Input1, typename Input2>
@@ -153,7 +169,7 @@ private:
         for (auto const & spectator : Tagger().Spectators()) reader().AddSpectator(spectator.expression(), &spectator.value());
     }
 
-    TMVA::IMethod &BookMva(TMVA::Types::EMVA mva) {
+    TMVA::IMethod& BookMva(TMVA::Types::EMVA mva) {
         return *reader().BookMVA(Tagger().MethodName(mva), Tagger().WeightFileName(mva));
     }
 
@@ -165,9 +181,13 @@ private:
         return tagger_;
     }
 
-    TMVA::Reader *reader_;
+    TMVA::Reader* reader_;
 
     TaggerTemplate tagger_;
+
+    Stage stage_;
+
+    std::mutex mutex;
 
 };
 

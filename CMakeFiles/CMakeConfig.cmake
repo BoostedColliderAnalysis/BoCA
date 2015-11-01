@@ -59,6 +59,7 @@ endmacro()
 macro(create_executable executable_name executable_source)
   message("Executable:   ${executable_name} <- ${executable_source}")
   add_executable(${executable_name} ${executable_source})
+  message("Link Libraries in this directory:      ${link_libraries}")
   target_link_libraries(${executable_name} ${link_libraries})
 endmacro()
 

@@ -17,7 +17,7 @@ namespace boca
 
 void Plots::SetNames(Names const& names, Names const& nice_names)
 {
-    Info();
+    Info0;
     for (auto & plot : plots) {
         int index = &plot - &plots.front();
         plot.nice_name_x = nice_names.at(index).first;
@@ -31,7 +31,7 @@ void Plots::SetNames(Names const& names, Names const& nice_names)
 
 Result::Result(InfoBranch const& info_branch)
 {
-    Info();
+    Info0;
 //     steps = 20000;
     events.resize(steps, 0);
     efficiency.resize(steps, 0);
@@ -44,7 +44,7 @@ Result::Result(InfoBranch const& info_branch)
 
 void Result::Calculate()
 {
-    Info();
+    Info0;
     event_sums.at(steps - 1) = bins.at(steps - 1);
     for (int step = steps - 2; step >= 0; --step) event_sums.at(step) = event_sums.at(step + 1) + bins.at(step);
     for (auto const & step : Range(steps)) {
@@ -73,7 +73,7 @@ void Result::AddBdt(float bdt_value)
 
 Results::Results()
 {
-    Info();
+    Info0;
     significances.resize(Result::steps, 0);
     crosssections.resize(Result::steps, 0.*fb);
     acceptances.resize(Result::steps, 0);
@@ -83,7 +83,7 @@ Results::Results()
 
 void Results::Significances()
 {
-    Info();
+    Info0;
     for (auto const & step : Range(Result::steps)) {
         float signal_events = 0;
         float signal_efficiencies = 0;
@@ -114,7 +114,7 @@ void Results::Significances()
 
 void Results::BestBin()
 {
-    Info();
+    Info0;
     std::vector<float> efficiencies(backgrounds.size(), 0);
     int counter = 0;
     for (auto const & number : Range(backgrounds.size())) {
@@ -136,7 +136,7 @@ float Results::XValue(int value)
 
 void Results::ExtremeXValues()
 {
-    Info();
+    Info0;
     for (auto const & result : backgrounds) {
         float min_0 = *boost::range::min_element(result.bdt);
         if (min_0 < min.x) min.x = min_0;

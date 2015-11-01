@@ -19,13 +19,13 @@ namespace boca
 
 HiggsTagger::HiggsTagger()
 {
-    Info();
+    Info0;
     higgs_mass_window = 70. * GeV;
 }
 
 int HiggsTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const
 {
-    Info();
+    Info0;
     Jets leptons = event.Leptons().leptons();
     return SaveEntries(Doublets(event, [&](Doublet & doublet) {
         return CheckDoublet(doublet, leptons, pre_cuts, tag);
@@ -34,7 +34,7 @@ int HiggsTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) con
 
 std::vector<Doublet> HiggsTagger::Doublets(Event const& event, std::function<Doublet(Doublet&)> const& function) const
 {
-    Info();
+    Info0;
     Jets jets =  event.Hadrons().Jets();
     MomentumRange jet_range(Id::higgs, Id::higgs);
     std::vector<Doublet> doublets = unordered_pairs(jet_range.SofterThanMax(jets), [&](fastjet::PseudoJet const & jet_1, fastjet::PseudoJet const & jet_2) {
@@ -59,13 +59,13 @@ std::vector<Doublet> HiggsTagger::Doublets(Event const& event, std::function<Dou
 
 Jets HiggsTagger::Particles(Event const& event) const
 {
-    Info();
+    Info0;
     return CopyIfParticles(event.Partons().GenParticles(), Id::higgs, Id::CP_violating_higgs);
 }
 
 Doublet HiggsTagger::CheckDoublet(Doublet& doublet, Jets& leptons, PreCuts const& pre_cuts, Tag tag) const
 {
-    Info();
+    Info0;
     doublet = PrepareDoublet(doublet, leptons);
     if (Problematic(doublet, pre_cuts, tag)) throw boca::Problematic();
     doublet.SetTag(tag);
@@ -74,7 +74,7 @@ Doublet HiggsTagger::CheckDoublet(Doublet& doublet, Jets& leptons, PreCuts const
 
 Doublet HiggsTagger::PrepareDoublet(Doublet& doublet, Jets& leptons) const
 {
-    Info();
+    Info0;
     //     doublet = MassDrop(doublet);
     doublet = Doublet(bottom_reader_.Multiplet(doublet.Singlet1().Jet()), bottom_reader_.Multiplet(doublet.Singlet2().Jet()));
     SetClosestLepton(doublet, leptons);
@@ -83,7 +83,7 @@ Doublet HiggsTagger::PrepareDoublet(Doublet& doublet, Jets& leptons) const
 
 bool HiggsTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts, Tag tag) const
 {
-    Info();
+    Info0;
     if (Problematic(doublet, pre_cuts)) return true;
     switch (tag) {
     case Tag::signal :
@@ -99,14 +99,14 @@ bool HiggsTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts, T
 
 bool HiggsTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts) const
 {
-    Info();
+    Info0;
     if (pre_cuts.ApplyCuts(Id::higgs, doublet)) return true;
     return false;
 }
 
 std::vector<Doublet> HiggsTagger::Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
-    Info();
+    Info0;
     Jets leptons = event.Leptons().leptons();
     return ReduceResult(Doublets(event, [&](Doublet & doublet) {
         return Multiplet(doublet, leptons, pre_cuts, reader);
@@ -115,7 +115,7 @@ std::vector<Doublet> HiggsTagger::Multiplets(Event const& event, PreCuts const& 
 
 Doublet HiggsTagger::Multiplet(Doublet& doublet, Jets& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
-    Info();
+    Info0;
     doublet = PrepareDoublet(doublet, leptons);
     if (Problematic(doublet, pre_cuts)) throw boca::Problematic();
     doublet.SetBdt(Bdt(doublet, reader));
@@ -124,13 +124,13 @@ Doublet HiggsTagger::Multiplet(Doublet& doublet, Jets& leptons, PreCuts const& p
 
 Doublet HiggsTagger::MassDrop(Doublet const& doublet) const
 {
-    Info();
+    Info0;
     InfoRecombiner info_recombiner;
     fastjet::JetDefinition jet_definition(fastjet::cambridge_algorithm, doublet.DeltaR() + to_float(DetectorGeometry::JetConeSize()) * 2, &info_recombiner);
     fastjet::ClusterSequence& cluster_sequence = *new fastjet::ClusterSequence(doublet.Jet().constituents(), jet_definition);
     unsigned jet_number = 1;
     Jets exclusive_jets = cluster_sequence.exclusive_jets(int(jet_number));
-    Check(exclusive_jets.size() == jet_number);
+    Check(exclusive_jets.size() == jet_number, jet_number);
     if (exclusive_jets.empty()) {
         delete &cluster_sequence;
         throw Empty();

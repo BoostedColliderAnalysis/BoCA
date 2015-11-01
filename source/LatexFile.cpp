@@ -48,7 +48,7 @@ void LatexFile::Table(std::string const& header, std::string const& content, std
 }
 void LatexFile::Mass(boca::Mass mass)
 {
-    Info();
+    Info0;
     if (mass > massless) {
         std::stringstream mass_string;
         mass_string << boost::units::engineering_prefix << "\\section*{Mass = " << mass << "}\n";

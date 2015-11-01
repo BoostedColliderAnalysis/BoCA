@@ -10,18 +10,18 @@ namespace boca {
 
 Leptons::~Leptons()
 {
-  Info();
+  Info0;
 }
 
 void Leptons::NewEvent(ClonesArrays const& clones_arrays)
 {
-    Info();
+    Info0;
     FourVector::NewEvent(clones_arrays);
 }
 
 Jets Leptons::leptons() const
 {
-    Info();
+    Info0;
     return Join(Electrons(), Muons());
 }
 

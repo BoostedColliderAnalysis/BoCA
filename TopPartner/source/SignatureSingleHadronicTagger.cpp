@@ -13,7 +13,7 @@ namespace naturalness
 
 int SignatureSingleHadronicTagger::Train(Event const& event, PreCuts const& , Tag tag) const
 {
-    Info();
+    Info0;
     return SaveEntries(Decuplets(event, [&](Decuplet532 & decuplet) {
         decuplet.SetTag(tag);
         return decuplet;
@@ -22,7 +22,7 @@ int SignatureSingleHadronicTagger::Train(Event const& event, PreCuts const& , Ta
 
 std::vector<Decuplet532> SignatureSingleHadronicTagger::Multiplets(Event const& event, boca::PreCuts const& , TMVA::Reader const& reader) const
 {
-    Info();
+    Info0;
     return ReduceResult(Decuplets(event, [&](Decuplet532 & decuplet) {
         decuplet.SetBdt(Bdt(decuplet, reader));
         return decuplet;
@@ -31,7 +31,7 @@ std::vector<Decuplet532> SignatureSingleHadronicTagger::Multiplets(Event const& 
 
 std::vector<Decuplet532> SignatureSingleHadronicTagger::Decuplets(Event const& event, std::function<Decuplet532(Decuplet532&)> const& function) const
 {
-    Info();
+    Info0;
     std::vector<Triplet> triplets = top_reader_.Multiplets(event);
     std::vector<Quintet> quintets = partner_reader_.Multiplets(event);
     std::vector<Decuplet532> decuplets;

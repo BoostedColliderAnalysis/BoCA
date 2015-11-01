@@ -11,7 +11,7 @@ namespace boca
 
 int JetPairTagger::Train(Event const& event, PreCuts const& , Tag tag) const
 {
-    Info();
+    Info0;
     Jets jets = bottom_reader_.Jets(event);
     if (jets.empty()) return 0;
     Debug(jets.size());

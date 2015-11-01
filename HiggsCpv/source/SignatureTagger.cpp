@@ -8,7 +8,7 @@ namespace higgscpv {
 
 int SignatureTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) const
 {
-    Info();
+    Info0;
     std::vector<Sextet> sextets = triplet_pair_reader_.Tagger().TruthLevel(event,triplet_pair_reader_.Multiplets(event),tag);
     Debug(sextets.size());
     std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
@@ -32,7 +32,7 @@ int SignatureTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) co
 
 std::vector<MultipletSignature<Octet62>> SignatureTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
 {
-    Info();
+    Info0;
     std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
     Info(doublets.size());
     std::vector<Sextet> sextets = triplet_pair_reader_.Multiplets(event);

@@ -11,7 +11,7 @@ namespace boca {
 
 Jets TopHadronicHep::Tops(Jets& e_flows)
 {
-    Info();
+    Info0;
 //     float CellRap = 0.1;
 //     Jets hadrons;
 //     ifstream fin("sample_event.dat", ifstream::in);

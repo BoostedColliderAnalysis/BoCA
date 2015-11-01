@@ -8,7 +8,7 @@ namespace naturalness
 
 std::string Name(Process process)
 {
-    Info();
+    Info0;
     switch (process) {
     case Process::TthLep : return "Tth-lep";
     case Process::TthHad : return "Tth-had";
@@ -25,7 +25,7 @@ std::string Name(Process process)
 
 std::string NiceName(Process process)
 {
-    Info();
+    Info0;
     switch (process) {
     case Process::TT : return "T_{h}T_{l}";
     case Process::ttBjj : return "t_{l}t_{h}B^{0}jj";
@@ -41,7 +41,7 @@ std::string NiceName(Process process)
 
 bool MassDependent(Process process)
 {
-    Info();
+    Info0;
     switch (process) {
     case Process::TthLep : return true;
     case Process::TthHad : return true;

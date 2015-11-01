@@ -11,20 +11,20 @@ namespace boca
 
 ZHadronicTagger::ZHadronicTagger()
 {
-    Info();
+    Info0;
     z_mass_window = 50. * GeV;
 }
 
 int ZHadronicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Tag tag) const
 {
-    Info();
+    Info0;
     return SaveEntries(Doublets(event, [&](Doublet & doublet) {
         return CheckDoublet(doublet, pre_cuts, tag);
     }), Particles(event), tag, Id::Z);
 }
 
 std::vector<Doublet> ZHadronicTagger::Doublets(Event const& event, std::function<Doublet(Doublet&)> function) const {
-    Info();
+    Info0;
     Jets jets = bottom_reader_.Jets(event);
     std::vector<Doublet> doublets = unordered_pairs(jets, [&](fastjet::PseudoJet const & jet_1, fastjet::PseudoJet const & jet_2) {
         Doublet doublet(jet_1, jet_2);
@@ -47,7 +47,7 @@ std::vector<Doublet> ZHadronicTagger::Doublets(Event const& event, std::function
 
 Doublet ZHadronicTagger::CheckDoublet(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const
 {
-    Info();
+    Info0;
     if (Problematic(doublet, pre_cuts, tag)) throw boca::Problematic();
     doublet.SetTag(tag);
     return doublet;
@@ -55,13 +55,13 @@ Doublet ZHadronicTagger::CheckDoublet(Doublet doublet, PreCuts const& pre_cuts, 
 
 Jets ZHadronicTagger::Particles(Event const& event) const
 {
-    Info();
+    Info0;
     return CopyIfParticle(event.Partons().GenParticles(), Id::Z);
 }
 
 bool ZHadronicTagger::Problematic(boca::Doublet const& doublet, boca::PreCuts const& pre_cuts, Tag tag) const
 {
-    Info();
+    Info0;
     if (Problematic(doublet, pre_cuts))return true;
     switch (tag) {
     case Tag::signal :
@@ -76,14 +76,14 @@ bool ZHadronicTagger::Problematic(boca::Doublet const& doublet, boca::PreCuts co
 
 bool ZHadronicTagger::Problematic(boca::Doublet const& doublet, boca::PreCuts const& pre_cuts) const
 {
-    Info();
+    Info0;
     if (pre_cuts.ApplyCuts(Id::Z, doublet)) return true;
     return false;
 }
 
 std::vector<Doublet> ZHadronicTagger::Multiplets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
-    Info();
+    Info0;
     return ReduceResult(Doublets(event, [&](Doublet & doublet) {
         return Multiplet(doublet, pre_cuts, reader);
     }));
@@ -91,7 +91,7 @@ std::vector<Doublet> ZHadronicTagger::Multiplets(Event const& event, boca::PreCu
 
 Doublet ZHadronicTagger::Multiplet(Doublet& doublet, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
-    Info();
+    Info0;
     if (Problematic(doublet, pre_cuts)) throw boca::Problematic();
     doublet.SetBdt(Bdt(doublet, reader));
     return doublet;
@@ -99,13 +99,13 @@ Doublet ZHadronicTagger::Multiplet(Doublet& doublet, PreCuts const& pre_cuts, TM
 
 std::string ZHadronicTagger::Name() const
 {
-    Info();
+    Info0;
     return "ZHadronic";
 }
 
 std::string ZHadronicTagger::NiceName() const
 {
-    Info();
+    Info0;
     return "Z";
 }
 

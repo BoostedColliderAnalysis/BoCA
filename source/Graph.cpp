@@ -135,7 +135,7 @@ TGraph Graph(Results const& results, std::vector<float> const& values, std::stri
 
 void SetHistogram(TH2& histogram, Plot const& plot, EColor color, TExec& exec)
 {
-    Info();
+    Info0;
     std::string options = "cont1 same";
     histogram.Draw(options.c_str());
     for (auto const & point : plot.points) histogram.Fill(point.x, point.y);
@@ -157,7 +157,7 @@ void SetHistogram(TH2& histogram, Plot const& plot, EColor color, TExec& exec)
 
 void SetProfile(TH2& histogram, Plot const& signal, Plot const& background)
 {
-    Info();
+    Info0;
     float max = (*boost::range::max_element(signal.points, [](Point const & a, Point const & b) {
         return a.z < b.z;
     })).z;
@@ -178,7 +178,7 @@ void SetProfile(TH2& histogram, Plot const& signal, Plot const& background)
 
 void CommonHist(TH1& histogram, Plot const& plot, EColor color)
 {
-    Info();
+    Info0;
     histogram.SetMarkerColor(color);
     histogram.SetLineColor(color);
     Canvas::SetAxis(*histogram.GetXaxis(),plot.nice_name_x.c_str());

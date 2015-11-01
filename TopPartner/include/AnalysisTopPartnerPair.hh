@@ -26,17 +26,17 @@ class AnalysisPair : public AnalysisNaturalness<Tagger>
 protected:
 
     std::string AnalysisName() const final {
-        Info();
+        Info0;
         return "Naturalness-Pair-" + boca::Name(this->PreCut()) + "-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass()) + "-full";
     }
 
 //     std::string ProcessName() const final {
-//         Info();
+//         Info0;
 //         return "Naturalness-Pair";
 //     }
 
     void SetFiles(Tag tag, Stage) final {
-        Info();
+        Info0;
         switch (tag) {
         case Tag::signal :
             this->NewFile(tag, Process::TT);
@@ -52,7 +52,7 @@ protected:
 private:
 
     int PassPreCut(Event const&, Tag) const final {
-        Info();
+        Info0;
 //         Jets particles = event.Partons().GenParticles();
 //         particles = RemoveIfSoft(particles, this->PreCut());
 //         Jets tops = CopyIfParticle(particles, Id::top);

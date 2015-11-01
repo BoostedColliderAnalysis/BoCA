@@ -8,7 +8,7 @@ namespace heavyhiggs {
 
 int HeavyHiggsTauTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
-    Info();
+    Info0;
     Jets jets;// = tau_reader_.Multiplets(event);
     Info(jets.size());
     fastjet::PseudoJet MissingEt = event.Hadrons().MissingEt();
@@ -51,7 +51,7 @@ int HeavyHiggsTauTagger::Train(Event const& event, PreCuts const&, Tag tag) cons
 
 std::vector<Doublet>  HeavyHiggsTauTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
 {
-    Info();
+    Info0;
     Jets jets;// = tau_reader_.Multiplets(event);
     Info(jets.size());
     fastjet::PseudoJet missing_et = event.Hadrons().MissingEt();

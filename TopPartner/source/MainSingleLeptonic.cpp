@@ -11,7 +11,7 @@
 #include "Debug.hh"
 
 void handler(int sig) {
-  Info();
+  Info0;
   void *array[10];
   size_t size;
 
@@ -29,19 +29,19 @@ void handler(int sig) {
 template<typename Tagger>
 void Run(boca::Output output = boca::Output::normal)
 {
-  Info();
+  Info0;
     boca::naturalness::AnalysisSingleLeptonic<Tagger> analysis;
-    Info();
+    Info0;
     boca::Run(analysis, output);
 }
 
 int main()
 {
-  Info();
+  Info0;
   signal(SIGSEGV, handler);   // install our handler
-  Info();
+  Info0;
   Run<boca::BottomTagger>();
-  Info();
+  Info0;
     Run<boca::HiggsTagger>();
     Run<boca::BosonTagger>();
     Run<boca::WHadronicTagger>();

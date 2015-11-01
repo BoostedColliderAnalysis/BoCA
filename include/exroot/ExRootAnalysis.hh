@@ -62,24 +62,24 @@ private:
     ::exroot::TreeWriter tree_writer_;
 };
 
-class TreeReader
-{
-public:
-    TreeReader(TTree& tree) : tree_reader_(&tree) {}
-    template<typename Function>
-    void Read(std::string const& name, Function const& function) {
-        TClonesArray& clones_array = *tree_reader_.UseBranch(name.c_str());
-        for (auto const & event_number : Range(tree_reader_.GetEntries())) {
-            tree_reader_.ReadEntry(event_number);
-            for (auto const & entry : Range(clones_array.GetEntriesFast())) {
-                function(entry);
-            }
-//             tree_writer.Fill();
-//             tree_writer.Clear();
-        }
-    }
-private:
-    ::exroot::TreeReader tree_reader_;
-};
+// class TreeReader
+// {
+// public:
+//     TreeReader(TTree& tree) : tree_reader_(&tree) {}
+//     template<typename Function>
+//     void Read(std::string const& name, Function const& function) {
+//         TClonesArray& clones_array = *tree_reader_.UseBranch(name.c_str());
+//         for (auto const & event_number : Range(tree_reader_.GetEntries())) {
+//             tree_reader_.ReadEntry(event_number);
+//             for (auto const & entry : Range(clones_array.GetEntriesFast())) {
+//                 function(entry);
+//             }
+// //             tree_writer.Fill();
+// //             tree_writer.Clear();
+//         }
+//     }
+// private:
+//     ::exroot::TreeReader tree_reader_;
+// };
 
 }

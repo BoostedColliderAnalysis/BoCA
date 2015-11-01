@@ -9,7 +9,7 @@ namespace boca {
 
 ParticleInfo::ParticleInfo()
 {
-    Debug();
+    Debug0;
 }
 
 ParticleInfo::ParticleInfo(boca::Family const& family)

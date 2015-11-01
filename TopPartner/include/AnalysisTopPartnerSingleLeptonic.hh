@@ -27,7 +27,7 @@ class AnalysisSingleLeptonic : public AnalysisNaturalness<Tagger>
 protected:
 
     std::string AnalysisName() const final {
-        Info();
+        Info0;
         return "Naturalness-Single-Leptonic-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass())
 //                + "-revertveto";
                + "-test";
@@ -36,7 +36,7 @@ protected:
     }
 
     void SetFiles(Tag tag, Stage) final {
-        Info();
+        Info0;
         switch (tag) {
         case Tag::signal :
             if (this->template TaggerIs<TopPartnerHadronicTagger>()) this->NewFile(tag, Process::TT);
@@ -55,7 +55,7 @@ private:
 //   TopPartnerLeptonicTagger partner_tagger_;
 
     int PassPreCut(Event const&, Tag) const final {
-        Info();
+        Info0;
 //     if(tag == Tag::signal){
 //       Jets partner = partner_tagger.Particles(event);
 //       if(partner.empty()) return 0;

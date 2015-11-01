@@ -1,19 +1,18 @@
 /**
  * Copyright (C) 2015 Jan Hajer
  */
-#include "File.hh"
-
 #include "TFile.h"
 #include "TTree.h"
 
 #include "Types.hh"
+#include "File.hh"
 #include "Debug.hh"
 
 namespace boca {
 
   File::File(Strings const& processes, std::string const& base_path, std::string const& file_suffix, std::string const& nice_name, Crosssection crosssection, Mass mass)
 {
-  Debug();
+  Debug0;
   SetVariables();
   process_folders_ = processes;
   base_path_ = base_path;
@@ -65,33 +64,40 @@ std::string File::MadGraphFilePath() const
 
 void File::SetVariables()
 {
-    Info();
+    Info0;
     run_folder_ = "run_01";
     tag_name_ = "tag_1";
 }
 
 Strings File::Paths() const
 {
-    Info();
+    Info0;
     Strings FilePaths;
     for (auto const& process_folder : process_folders_) FilePaths.emplace_back(base_path_ + process_folder + file_suffix_);
     return FilePaths;
 }
 
-exroot::TreeReader File::TreeReader()
+// exroot::TreeReader File::TreeReader()
+// {
+//     for(auto const& path : Paths()) Note(path);
+//     Error(Paths().front());
+//     chain_ = new TChain(tree_name().c_str());
+//     for (auto const& path : Paths()) chain_->Add(path.c_str());
+//     return exroot::TreeReader(chain_);
+// }
+
+boca::TreeReader File::TreeReader()
 {
-    for(auto const& path : Paths()) Note(path);
-    Error(Paths().front());
-    chain_ = new TChain(tree_name().c_str());
-    for (auto const& path : Paths()) chain_->Add(path.c_str());
-    return exroot::TreeReader(chain_);
+  for(auto const& path : Paths()) Note(path);
+  Error(Paths().front());
+  return boca::TreeReader(Paths(), tree_name());
 }
 
-File::~File()
-{
-    Debug();
-    delete chain_;
-    chain_ = nullptr;
-}
+// File::~File()
+// {
+//     Debug0;
+//     delete chain_;
+//     chain_ = nullptr;
+// }
 
 }

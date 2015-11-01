@@ -81,7 +81,7 @@ void LogVariable(std::string const&, char const* value);
 void LogVariable(std::string const& variable, fastjet::PseudoJet const& jet);
 
 template<typename Value>
-void Log(std::string const& file, int line, std::string const& name_space, std::string const& class_name, std::string const& function, std::string const& variable = "", const Value value = 0, bool final = true)
+void Log(std::string const& file, int line, std::string const& name_space, std::string const& class_name, std::string const& function, std::string const& variable, Value value, bool final = true)
 {
     Log(file, line, name_space, class_name, function, false);
     LogVariable(variable, value);
@@ -126,7 +126,7 @@ void Log(std::string const& file, int line, std::string const& name_space, std::
 
 #define VARIABLE(value) #value, value
 
-#define LOG0() ::boca::Log(NAMES)
+#define LOG0 ::boca::Log(NAMES)
 
 #define LOG1(value) ::boca::Log(NAMES, VARIABLE(value))
 
@@ -138,26 +138,38 @@ void Log(std::string const& file, int line, std::string const& name_space, std::
 
 #define LOG(arg0, arg1, arg2, arg3, arg4, arg, ...) arg
 
-#define LOGCHOOSE(...) LOG(,##__VA_ARGS__, LOG4, LOG3, LOG2, LOG1, LOG0)
+// #define LOGCHOOSE(...) LOG(,##__VA_ARGS__, LOG4, LOG3, LOG2, LOG1, LOG0)
+#define LOGCHOOSE(...) LOG(__VA_ARGS__, , LOG4, LOG3, LOG2, LOG1, )
 
 #define ALIVE(...) LOGCHOOSE(__VA_ARGS__)(__VA_ARGS__)
 
 #define DEAD(...) do { if (0) ALIVE(__VA_ARGS__); } while (0)
 
+#define DEAD0 do { if (0) LOG0; } while (0)
+
 #define Error(...) ALIVE(__VA_ARGS__)
+#define Error0 LOG0
 
 #ifdef NDEBUG
 #define Note(...) DEAD(__VA_ARGS__)
 #define Info(...) DEAD(__VA_ARGS__)
 #define Debug(...) DEAD(__VA_ARGS__)
 #define Detail(...) DEAD(__VA_ARGS__)
+#define Note0 DEAD0
+#define Info0 DEAD0
+#define Debug0 DEAD0
+#define Detail0 DEAD0
 #endif
 
 #ifdef NOTIFICATION
 #define Note(...) ALIVE(__VA_ARGS__)
 #define Info(...) DEAD(__VA_ARGS__)
 #define Debug(...) DEAD(__VA_ARGS__)
-#define Detail(...) DEAD(__VA_ARGS__)
+#define Detail DEAD(__VA_ARGS__)
+#define Note0 LOG0
+#define Info0 DEAD0
+#define Debug0 DEAD0
+#define Detail0 DEAD0
 #endif
 
 #ifdef INFORMATION
@@ -165,6 +177,10 @@ void Log(std::string const& file, int line, std::string const& name_space, std::
 #define Info(...) ALIVE(__VA_ARGS__)
 #define Debug(...) DEAD(__VA_ARGS__)
 #define Detail(...) DEAD(__VA_ARGS__)
+#define Note0 LOG0
+#define Info0 LOG0
+#define Debug0 DEAD0
+#define Detail0 DEAD0
 #endif
 
 #ifdef DEBUG
@@ -172,6 +188,10 @@ void Log(std::string const& file, int line, std::string const& name_space, std::
 #define Info(...) ALIVE(__VA_ARGS__)
 #define Debug(...) ALIVE(__VA_ARGS__)
 #define Detail(...) DEAD(__VA_ARGS__)
+#define Note0 LOG0
+#define Info0 LOG0
+#define Debug0 LOG0
+#define Detail0 DEAD0
 #endif
 
 #ifdef DETAILED
@@ -179,6 +199,10 @@ void Log(std::string const& file, int line, std::string const& name_space, std::
 #define Info(...) ALIVE(__VA_ARGS__)
 #define Debug(...) ALIVE(__VA_ARGS__)
 #define Detail(...) ALIVE(__VA_ARGS__)
+#define Note0 LOG0
+#define Info0 LOG0
+#define Debug0 LOG0
+#define Detail0 LOG0
 #endif
 
 #define Check(condition, ...) if(!(condition)) { Error(__VA_ARGS__); }
@@ -186,11 +210,11 @@ void Log(std::string const& file, int line, std::string const& name_space, std::
 
 
 
-#define Default(condition) default : Error("Switch Default", condition); break;
+// #define Default(condition) default : Error("Switch Default", condition); break;
 #define Default(condition, value) default : Error("Switch Default", condition); return value;
 
 
-
+// #include "Logging.hh"
 
 
 

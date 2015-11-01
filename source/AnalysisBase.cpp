@@ -20,7 +20,7 @@ namespace boca
 
 AnalysisBase::AnalysisBase()
 {
-    Info();
+    Info0;
 }
 
 void AnalysisBase::Initialize()
@@ -44,7 +44,7 @@ std::vector<File> AnalysisBase::Files(Tag tag)
 
 void AnalysisBase::PrepareFiles(Stage stage)
 {
-    Info();
+    Info0;
     files_.clear();
     tagger().ClearTreeNames();
     SetFiles(Tag::signal, stage);
@@ -53,47 +53,47 @@ void AnalysisBase::PrepareFiles(Stage stage)
 
 long AnalysisBase::EventNumberMax() const
 {
-    Info();
+    Info0;
     return 100000;
 }
 
 void AnalysisBase::NewFile(boca::Tag tag, const boca::Strings& names, Crosssection crosssection, std::string const& nice_name, boca::Mass mass)
 {
-    Info();
+    Info0;
     files_.emplace_back(File(names, crosssection, nice_name, mass));
     tagger().AddTreeName(TreeName(names.front()), tag);
 }
 
 void AnalysisBase::NewFile(Tag tag, Strings const& names, std::string const& nice_name)
 {
-    Info();
+    Info0;
     files_.emplace_back(File(names, nice_name));
     tagger().AddTreeName(TreeName(names.front()), tag);
 }
 
 void AnalysisBase::NewFile(boca::Tag tag, std::string const& name, Crosssection crosssection, std::string const& nice_name, boca::Mass mass)
 {
-    Info();
+    Info0;
     files_.emplace_back(File( {name}, crosssection, nice_name, mass));
     tagger().AddTreeName(TreeName(name), tag);
 }
 
 void AnalysisBase::NewFile(Tag tag, std::string const& name, std::string const& nice_name)
 {
-    Info();
+    Info0;
     files_.emplace_back(File( {name}, nice_name));
     tagger().AddTreeName(TreeName(name), tag);
 }
 
 File AnalysisBase::File(Strings const& names, std::string const& nice_name) const
 {
-    Info();
+    Info0;
     return boca::File(names, FilePath(), FileSuffix(), nice_name);
 }
 
 File AnalysisBase::File(Strings const& names, Crosssection crosssection, std::string const& nice_name, boca::Mass mass) const
 {
-    Info();
+    Info0;
     return boca::File(names, FilePath(), FileSuffix(), nice_name, crosssection, mass);
 }
 
@@ -104,58 +104,58 @@ File AnalysisBase::File(Strings const& names, Crosssection crosssection, std::st
 
 std::string AnalysisBase::TreeName(std::string const& name) const
 {
-    Info();
+    Info0;
     return name + "-run_01";
 }
 
 PreCuts const& AnalysisBase::pre_cuts() const
 {
-    Info();
+    Info0;
     return pre_cuts_;
 }
 
 PreCuts& AnalysisBase::pre_cuts()
 {
-    Info();
+    Info0;
     return pre_cuts_;
 }
 
 std::string AnalysisBase::FileSuffix() const
 {
-    Info();
+    Info0;
     return ".root";
 }
 
 std::string AnalysisBase::FilePath() const
 {
-    Info();
+    Info0;
     return working_path_;
 }
 
 int AnalysisBase::BackgroundFileNumber() const
 {
-    Info();
+    Info0;
 //     return configuration_.BackgroundFileNumber();
     return 1;
 }
 
 Momentum AnalysisBase::PreCut() const
 {
-    Info();
+    Info0;
 //     return configuration_.PreCut();
     return 0;
 }
 
 boca::Mass AnalysisBase::Mass() const
 {
-    Info();
+    Info0;
 //     return configuration_.Mass();
     return 1.*GeV;
 }
 
 void AnalysisBase::RunFast()
 {
-    Info();
+    Info0;
     RunTagger(Stage::trainer);
     Info("Analysis Loop done");
     RunTrainer();
@@ -163,7 +163,7 @@ void AnalysisBase::RunFast()
 
 void AnalysisBase::RunNormal()
 {
-    Info();
+    Info0;
     RunFast();
     RunTagger(Stage::reader);
     Info("Analysis Loop done");
@@ -171,33 +171,33 @@ void AnalysisBase::RunNormal()
 
 void AnalysisBase::RunFullSignificance()
 {
-    Info();
+    Info0;
     RunNormal();
     RunSignificance();
 }
 
 void AnalysisBase::ClearFiles()
 {
-    Info();
+    Info0;
     files_.clear();
 }
 
 void AnalysisBase::RunFullEfficiency()
 {
-    Info();
+    Info0;
     RunNormal();
     RunEfficiency();
 }
 
 void AnalysisBase::RunTagger(Stage stage)
 {
-    Info();
+    Info0;
     if (!Exists(tagger().FileName(stage, Tag::signal))) AnalysisLoop(stage);
 }
 
 void AnalysisBase::RunTrainer()
 {
-    Info();
+    Info0;
     PrepareFiles(Stage::trainer);
     TMVA::Types::EMVA mva = TMVA::Types::EMVA::kBDT;
     if (!Exists(tagger().WeightFileName(mva))) {
@@ -212,7 +212,7 @@ void AnalysisBase::RunTrainer()
 
 void AnalysisBase::RunSignificance()
 {
-    Info();
+    Info0;
     PrepareFiles(Stage::reader);
     if (!Exists(tagger().ExportFileName())) {
         Plotting plotting(tagger());
@@ -222,7 +222,7 @@ void AnalysisBase::RunSignificance()
 
 void AnalysisBase::RunEfficiency()
 {
-    Info();
+    Info0;
     PrepareFiles(Stage::reader);
     if (!Exists(tagger().ExportFileName())) {
         Plotting plotting(tagger());
@@ -232,7 +232,7 @@ void AnalysisBase::RunEfficiency()
 
 void AnalysisBase::RunPlots()
 {
-    Info();
+    Info0;
     PrepareFiles(Stage::reader);
     if (!Exists(tagger().ExportFolderName())) {
         Plotting plotting(tagger());
@@ -242,7 +242,7 @@ void AnalysisBase::RunPlots()
 
 std::string AnalysisBase::WorkingPath()
 {
-    Info();
+    Info0;
     // FIXME remove this magic number
     const int path_length_max = 200;
     char temp [ path_length_max ];
@@ -270,7 +270,7 @@ std::string AnalysisBase::WorkingPath()
 
 void Run(AnalysisBase& analysis, Output run)
 {
-    Info();
+    Info0;
     analysis.Initialize();
 //   analysis.PreRequisits<analysis.tagger()::type>(analysis,run);
     switch (run) {
@@ -301,7 +301,7 @@ void Run(AnalysisBase& analysis, Output run)
 
 void AnalysisBase::PrintGeneratorLevel(Event const& event, bool signature) const
 {
-    Info();
+    Info0;
     Jets particles = event.Partons().GenParticles();
     for (auto const & particle : particles) {
         Family family = particle.user_info<ParticleInfo>().Family();

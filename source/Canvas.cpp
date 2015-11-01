@@ -11,7 +11,7 @@ namespace boca
 
 Canvas::Canvas()
 {
-    Info();
+    Info0;
     gStyle->SetOptStat("");
     gStyle->SetTitleFont(FontCode(), "t");
     gStyle->SetTitleFontSize(TextSize());
@@ -21,7 +21,7 @@ Canvas::Canvas()
 
 void Canvas::Fill()
 {
-    Info();
+    Info0;
     canvas_.SetFillColor(0);
     canvas_.SetFillStyle(0);
     gPad->SetFillColor(0);
@@ -32,27 +32,27 @@ void Canvas::Fill()
 
 std::string Canvas::SaveAs(std::string const& name)
 {
-    Info();
+    Info0;
     canvas_.SaveAs((name + ExportFileSuffix()).c_str());
     return name;
 }
 
 void Canvas::SetLog(float min, float max)
 {
-    Info();
+    Info0;
     if (min > 0 && min / max < 0.1) canvas_.SetLogy();
 }
 
 std::string Canvas::ExportFileSuffix() const
 {
-    Info();
+    Info0;
     return ".pdf";
     return ".png";
 }
 
 void Canvas::SetAxis(TAxis& axis, std::string const& title)
 {
-    Info();
+    Info0;
     axis.SetTitle(title.c_str());
     axis.CenterTitle();
     axis.SetTitleFont(FontCode());
@@ -63,7 +63,7 @@ void Canvas::SetAxis(TAxis& axis, std::string const& title)
 
 void Canvas::SetTextStyle(TAttText& text)
 {
-    Info();
+    Info0;
     text.SetTextFont(FontCode());
     text.SetTextSize(TextSize());
 }
@@ -71,7 +71,7 @@ void Canvas::SetTextStyle(TAttText& text)
 
 float Canvas::TextSize()
 {
-    Info();
+    Info0;
     switch (Precision()) {
     case 2 : return 0.05;
     case 3 : return 20;
@@ -81,7 +81,7 @@ float Canvas::TextSize()
 
 float Canvas::LabelSize()
 {
-    Info();
+    Info0;
     switch (Precision()) {
     case 2 : return 0.04;
     case 3 : return 15;
@@ -91,7 +91,7 @@ float Canvas::LabelSize()
 
 int Canvas::ColorCode(int number)
 {
-    Info();
+    Info0;
     switch (number) {
     case 0 : return kBlack;
     case 1 : return kRed;
@@ -113,14 +113,14 @@ int Canvas::ColorCode(int number)
 
 void Canvas::SetPlotStyle(TAttLine& line, int index)
 {
-    Info();
+    Info0;
     line.SetLineColor(ColorCode(index));
     line.SetLineStyle(index + 1);
 }
 
 int Canvas::Precision()
 {
-    Info();
+    Info0;
     return 2;
 }
 
@@ -132,13 +132,13 @@ std::string Canvas::Formula(std::string const& text)
 
 int Canvas::FontCode(Font font, Style style)
 {
-    Info();
+    Info0;
     return 10 * FontNumber(font, style) + Precision();
 }
 
 int Canvas::FontNumber(Font font, Style style)
 {
-    Info();
+    Info0;
     switch (font) {
     case Font::times:
         if (style == Style::italic) return 1;

@@ -25,7 +25,7 @@ class TopAnalysis : public AnalysisStandardModel<Tagger>
 public:
 
     TopAnalysis() {
-        Info();
+        Info0;
         this->pre_cuts().PtLowerCut().Set(Id::top, this->LowerPtCut());
         this->pre_cuts().PtUpperCut().Set(Id::top, this->UpperPtCut());
 //         this->pre_cuts().MassUpperCut().Set(Id::top, 500);
@@ -35,7 +35,7 @@ public:
     }
 
     static Decay TopDecay() {
-        Info();
+        Info0;
         return Decay::hadronic;
         return Decay::leptonic;
     }
@@ -43,13 +43,13 @@ public:
 private:
 
     std::string AnalysisName() const final {
-        Info();
+        Info0;
         return "test-back-to-old";
         return  Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-" + Name(TopDecay()) + "-test-new tagger-template";
     }
 
     void SetFiles(Tag tag, Stage) final {
-        Info();
+        Info0;
         switch (tag) {
         case Tag::signal :
             if (TopDecay() == Decay::hadronic || this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_had);
@@ -73,7 +73,7 @@ private:
     }
 
     int PassPreCut(Event const& event, Tag) const final {
-        Info();
+        Info0;
         return 1;
 //         Jets particles = fastjet::sorted_by_pt(event.Partons().GenParticles());
 //         if ((particles.at(0).pt() > this->LowerQuarkCut() / GeV && particles.at(0).pt() < this->UpperQuarkCut() / GeV) && (particles.at(1).pt() > this->LowerQuarkCut() / GeV &&  particles.at(1).pt() < this->UpperQuarkCut() / GeV)) return 1;

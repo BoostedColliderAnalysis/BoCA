@@ -12,7 +12,7 @@ namespace boca {
 
 Singlet::Singlet(fastjet::PseudoJet const& jet)
 {
-    Info();
+    Info0;
     jet_ = jet;
 }
 
@@ -28,7 +28,7 @@ bool Singlet::Overlap(Singlet const& singlet) const
 
 float Singlet::Radius(fastjet::PseudoJet const& jet) const
 {
-    Info();
+    Info0;
     if (!jet.has_constituents()) return 0;
     float delta_r = 0;
     for (auto const& constituent : jet.constituents()) {
@@ -42,7 +42,7 @@ float Singlet::Radius(fastjet::PseudoJet const& jet) const
 
 float Singlet::Spread(fastjet::PseudoJet const& jet) const
 {
-    Info();
+    Info0;
     if (!jet.has_constituents()) return 0;
 //     float delta_r = Radius(jet);
     float delta_r = 0;

@@ -49,14 +49,14 @@ class AnalysisNaturalness : public boca::Analysis<Tagger>
 public:
 
     AnalysisNaturalness() {
-        Info();
+        Info0;
 // DetectorGeometry::set_detector_type(DetectorType::CMS);
     }
 
 protected:
 
     boca::Mass Mass() const {
-        Info();
+        Info0;
         return 2000. * GeV;
         return 1000. * GeV;
         return 4000. * GeV;
@@ -69,7 +69,7 @@ protected:
     }
 
     long EventNumberMax() const override {
-        Info();
+        Info0;
         return 1000;
         return 10000;
         return 100;
@@ -80,19 +80,19 @@ protected:
 protected:
 
     Momentum PreCut() const {
-        Info();
+        Info0;
         return 0. * GeV;
         return 200. * GeV;
     }
 
     Momentum JetPreCut() const {
-        Info();
+        Info0;
         return 0. * GeV;
         return 100. * GeV;
     }
 
     boca::Crosssection Crosssection(Process process) const {
-        Info();
+        Info0;
         switch (DetectorGeometry::detector_type()) {
         case DetectorType::CMS : {
             switch (process) {
@@ -173,14 +173,14 @@ protected:
     }
 
     std::string FileName(Process process) const {
-        Info();
+        Info0;
         std::string name = "PP-" + Name(process) + "-" + boca::Name(DetectorGeometry::detector_type());
         if (MassDependent(process)) name += "-" + boca::Name(Mass());
         return name;
     }
 
     void NewFile(Tag tag, Process process) {
-        Info();
+        Info0;
         AnalysisBase::NewFile(tag, this->FileName(process), this->Crosssection(process), NiceName(process), Mass());
     }
 

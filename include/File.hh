@@ -3,13 +3,13 @@
  */
 #pragma once
 
-#include "exroot/ExRootAnalysis.hh"
+#include "TreeReader.hh"
+
+// #include "exroot/ExRootAnalysis.hh"
 #include "Event.hh"
 
 namespace boca
 {
-
-typedef std::vector<std::string> Strings;
 
 /**
  * @brief Input file infos
@@ -28,9 +28,10 @@ public:
      * @brief destructor
      *
      */
-    virtual ~File();
+//     virtual ~File();
 
-    exroot::TreeReader TreeReader();
+//     exroot::TreeReader TreeReader();
+    boca::TreeReader TreeReader();
 
     /**
      * @brief Name of Process
@@ -93,7 +94,7 @@ private:
 
     Source source_ = Source::delphes;
 
-    TChain* chain_ = nullptr;
+//     TChain* chain_ = nullptr;
 };
 
 }
