@@ -29,11 +29,11 @@ class Results;
 
 enum class Orientation
 {
-    center = 0,
-    left = 1 << 0,
-    right = 1 << 1,
-    top = 1 << 2,
-    bottom = 1 << 3
+    center = 1 << 0,
+    left = 1 << 1,
+    right = 1 << 2,
+    top = 1 << 3,
+    bottom = 1 << 4
 };
 
 template<>

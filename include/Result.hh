@@ -10,20 +10,22 @@
 namespace boca
 {
 
-class Point {
+class Point
+{
 public:
     Point() {};
     Point(float xx, float yy, float zz = 0) {
-      x = xx;
-      y = yy;
-      z = zz;
+        x = xx;
+        y = yy;
+        z = zz;
     }
     float x = 0;
     float y = 0;
     float z = 0;
 };
 
-class Plot {
+class Plot
+{
 public:
     std::vector<Point> points;
     std::string name_x;
@@ -32,8 +34,8 @@ public:
     std::string nice_name_y;
     std::string name;
     std::string tree_name;
-    void Add(Point const& point){
-      points.emplace_back(point);
+    void Add(Point const& point) {
+        points.emplace_back(point);
     }
 };
 
@@ -65,11 +67,11 @@ public:
     InfoBranch info_branch_;
     const static int steps = 100;
 
-    std::vector<float> Crosssection() const {
-      std::vector<float> values;
-      values.reserve(crosssection.size());
-      for(auto const& xsec : crosssection) values.emplace_back(xsec / fb);
-      return values;
+    std::vector<float> XSec() const {
+        std::vector<float> values;
+        values.reserve(crosssection.size());
+        for (auto const & xsec : crosssection) values.emplace_back(xsec / fb);
+        return values;
     }
 private:
     long event_sum_;
@@ -96,12 +98,12 @@ public:
     Point max;
 
     std::vector<float> Crosssections() const {
-      std::vector<float> values;
-      values.reserve(crosssections.size());
-      for(auto const& crosssection : crosssections) values.emplace_back(crosssection / fb);
-      // TODO remove the loop and make use of std lib
+        std::vector<float> values;
+        values.reserve(crosssections.size());
+        for (auto const & crosssection : crosssections) values.emplace_back(crosssection / fb);
+        // TODO remove the loop and make use of std lib
 // std::transform(crosssections.begin(), crosssections.end(), values.begin(), std::bind1st(std::multiplies<float>(), 1. / fb));
-      return values;
+        return values;
     }
 
 

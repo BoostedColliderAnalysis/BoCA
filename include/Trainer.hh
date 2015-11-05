@@ -3,9 +3,10 @@
  */
 #pragma once
 
-#include "Identification.hh"
-#include "exroot/ExRootAnalysis.hh"
 #include "TMVA/Factory.h"
+
+#include "exroot/ExRootAnalysis.hh"
+#include "Identification.hh"
 
 namespace TMVA {
 class MethodBDT;

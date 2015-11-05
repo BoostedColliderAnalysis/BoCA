@@ -2,6 +2,7 @@
  * Copyright (C) 2015 Jan Hajer
  */
 #pragma once
+#include <memory>
 #include "EventShapes.hh"
 
 namespace fastjet
@@ -16,48 +17,26 @@ class EventShape
 {
 
 public:
-    EventShape() : event_shapes_(new boca::EventShapes) {}
+  
+    EventShape() :  event_shapes_(std::make_shared<boca::EventShapes>()) {}
 
-    virtual ~EventShape() {
-        delete event_shapes_;
-        event_shapes_ = nullptr;
-    }
-//     friend void swap(EventShape& first, EventShape& second) {
-//         std::swap(first.event_shapes_, second.event_shapes_);
-//     }
-//
-//     EventShape& operator=(EventShape event_shape) {
-//         swap(*this, event_shape);
-//         return *this;
-//     }
-//
-//     EventShape(EventShape const& event_shape) :  event_shapes_(new boca::EventShapes) {
-//       event_shapes_ = event_shape.event_shapes_;
-// //       std::copy(event_shape.event_shapes_, event_shape.event_shapes_ + 1, event_shapes_);
-//     }
-//
-//     EventShape(EventShape && event_shape) : EventShape() {
-//         swap(*this, event_shape);
-//     }
-
-    void SetJets(const std::vector<fastjet::PseudoJet>& jets);
+    void SetJets(std::vector<fastjet::PseudoJet> const& jets);
 
     float Sphericity() const;
 
     float Aplanarity() const;
 
-    const boca::EventShapes& EventShapes() const {
-        return *event_shapes_;
+    boca::EventShapes const& EventShapes() const {
+        return *event_shapes_.get();
     }
 
 private:
 
-
     boca::EventShapes& EventShapes() {
-        return *event_shapes_;
+        return *event_shapes_.get();
     }
 
-    boca::EventShapes* event_shapes_;
+    std::shared_ptr<boca::EventShapes> event_shapes_;
 
 };
 

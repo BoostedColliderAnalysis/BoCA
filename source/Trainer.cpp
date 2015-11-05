@@ -1,7 +1,6 @@
 /**
  * Copyright (C) 2015 Jan Hajer
  */
-#include "Trainer.hh"
 
 #include "TClonesArray.h"
 #include "TFile.h"
@@ -10,10 +9,12 @@
 #include "TMVA/MethodBDT.h"
 #include "TMVA/Ranking.h"
 
+#include "Trainer.hh"
 #include "Types.hh"
 #include "Tagger.hh"
 #include "Options.hh"
-// #define DETAILED
+#include "exroot/ExRootAnalysis.hh"
+// #define DEBUG
 #include "Debug.hh"
 
 namespace boca
@@ -74,6 +75,7 @@ long Trainer::AddTree(std::string const& tree_name, Tag tag)
 {
     Debug(tree_name, Name(tag));
     TTree& tree = Tree(tree_name, tag);
+//     TTree& tree2 = Tree(tree_name, tag);
     exroot::TreeReader tree_reader = TreeReader(tree_name, tag);
     float weight = Weight(tree_reader);
     Note(weight);

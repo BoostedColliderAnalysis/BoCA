@@ -58,6 +58,7 @@ std::vector<Sextet> TopLeptonicPairTagger::TruthLevel(Event const& event, std::v
         return final_sextets;
     }
     case Tag::background : return sextets;
+    Default("Tag",{});
     }
 }
 

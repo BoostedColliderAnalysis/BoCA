@@ -1,20 +1,23 @@
 /**
  * Copyright (C) 2015 Jan Hajer
  */
-#include "Tagger.hh"
 
 #include "TMVA/Reader.h"
 
 #include "fastjet/ClusterSequence.hh"
 
 #include "exroot/ExRootAnalysis.hh"
+#include "Tagger.hh"
 #include "JetInfo.hh"
 #include "DetectorGeometry.hh"
+#include "ReaderBase.hh"
 // #define INFORMATION
 #include "Debug.hh"
 
 namespace boca
 {
+
+std::mutex Tagger::mutex_;
 
 std::string Tagger::analysis_name_;
 
@@ -36,6 +39,7 @@ Observable Tagger::NewObservable(float& value, std::string const& title) const
 float Tagger::Bdt(TMVA::Reader const& reader) const
 {
     Info0;
+    std::lock_guard<std::mutex> guard(ReaderBase::mutex_);
     return const_cast<TMVA::Reader&>(reader).EvaluateMVA(MethodName(TMVA::Types::EMVA::kBDT));  // TODO get rid of the const cast
 }
 
@@ -131,6 +135,7 @@ std::string Tagger::Name(Stage stage) const
     switch (stage) {
     case Stage::trainer : return Name();
     case Stage::reader : return ReaderName();
+    Default("Stage","");
     }
 }
 std::string Tagger::Name(Stage stage, Tag tag) const
@@ -140,6 +145,7 @@ std::string Tagger::Name(Stage stage, Tag tag) const
     switch (tag) {
     case Tag::signal : return name;
     case Tag::background : return BackgroundName(name);
+    Default("Tag","");
     }
 }
 
@@ -149,6 +155,7 @@ std::string Tagger::FileName(Stage stage, Tag tag) const
     switch (tag) {
     case Tag::signal : return SignalFileName(stage);
     case Tag::background : return BackgroundFileName(stage);
+    Default("Tag","");
     }
 }
 
@@ -157,10 +164,10 @@ std::string Tagger::SignalFileName(Stage stage) const
     Info0;
     std::string name = SignalName();
     switch (stage) {
-    case Stage::trainer :
-        break;
+    case Stage::trainer : break;
     case Stage::reader : name = ReaderName(name);
-        break;
+    break;
+    Default("Stage","");
     }
     return PathName(name);
 }
@@ -205,6 +212,7 @@ Strings Tagger::TreeNames(Tag tag) const
     switch (tag) {
     case Tag::signal : return signal_tree_names_;
     case Tag::background : return background_tree_names_;
+    Default("Tag",{});
     }
 }
 
@@ -275,7 +283,7 @@ std::string Tagger::BackgroundName(std::string const& name) const
     return "Not" + name;
     return name + "BG";
 }
-void Tagger::SetTreeBranch(exroot::TreeWriter& tree_writer, Stage stage)
+void Tagger::NewBranch(exroot::TreeWriter& tree_writer, Stage stage)
 {
     Info(Name(stage));
     tree_branch_ = tree_writer.NewBranch(Name(stage).c_str(), &Class());
@@ -310,6 +318,7 @@ std::string Name(Stage stage)
     switch (stage) {
     case Stage::trainer : return "Trainer";
     case Stage::reader : return "Reader";
+    Default("Stage","");
     }
 }
 std::string Tagger::NiceName() const

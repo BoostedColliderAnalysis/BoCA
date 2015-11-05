@@ -224,11 +224,11 @@ std::string Plotting::PlotCrosssectionsGraph(Results const& results) const
     std::vector<TGraph> graphs;
     for (auto const & result : results.signals) {
         nice_names.emplace_back(result.info_branch_.Name);
-        graphs.emplace_back(TGraph(result.steps, &results.x_values.front(), &result.Crosssection().front()));
+        graphs.emplace_back(TGraph(result.steps, &results.x_values.front(), &result.XSec().front()));
     }
     for (auto const & result : results.backgrounds) {
         nice_names.emplace_back(result.info_branch_.Name);
-        graphs.emplace_back(TGraph(result.steps, &results.x_values.front(), &result.Crosssection().front()));
+        graphs.emplace_back(TGraph(result.steps, &results.x_values.front(), &result.XSec().front()));
     }
     TLegend legend = Legend(Orientation::bottom | Orientation::left, nice_names);
     for (auto & graph : graphs) AddGraph(graph, multi_graph, legend, nice_names, &graph - &graphs.front());

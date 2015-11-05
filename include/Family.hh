@@ -4,11 +4,9 @@
 #pragma once
 
 #include <vector>
+#include <functional>
 
 #include "Particle.hh"
-
-
-#include <functional>
 
 namespace boca {
 

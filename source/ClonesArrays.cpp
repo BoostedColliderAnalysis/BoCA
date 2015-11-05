@@ -71,6 +71,12 @@ void ClonesArrays::UseBranches(exroot::TreeReader& tree_reader)
     for (auto const & branch : Branches()) clones_arrays_.emplace(branch, tree_reader.UseBranch(BranchName(branch).c_str()));
 }
 
+// void ClonesArrays::UseBranches(boca::TreeReader& tree_reader)
+// {
+//   Debug0;
+//   for (auto const & branch : Branches()) clones_arrays_.emplace(branch, &tree_reader.UseBranch(BranchName(branch)));
+// }
+
 TClonesArray& ClonesArrays::ClonesArray(Branch branch) const
 {
     Debug(BranchName(branch));

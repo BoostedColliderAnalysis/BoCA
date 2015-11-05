@@ -45,12 +45,12 @@ FourVector::FourVector() :
     Info0;
 }
 
-void FourVector::NewEvent(ClonesArrays const& clones_arrays)
+void FourVector::NewEvent(TreeReader const& tree_reader)
 {
-    std::vector<Family>topology_;
-    clones_arrays_ = &clones_arrays;
-    topology_.assign(clones_arrays.ParticleSum(), Family(to_int(Id::empty)));
-    Info(topology_.size());
+//     std::vector<Family>topology_;
+    tree_reader_ = &tree_reader;
+//     topology_.assign(tree_reader.ParticleSum(), Family(to_int(Id::empty)));
+//     Info(topology_.size());
 }
 
 LorentzVector FourVector::LorentzVector(const exroot::Electron& Particle) const
@@ -149,111 +149,111 @@ fastjet::PseudoJet FourVector::PseudoJet(const exroot::Tau& Particle) const
     return boca::PseudoJet(LorentzVectorByMass(Particle, MassOf(Id::tau)));
 }
 
-Family FourVector::BranchFamily(TObject const& object) const
-{
-    Error("Code is disabled", clones_arrays().ParticleSum());
-    std::vector<Family>topology_;
-    Family family;
-    if (object.IsA() != ::delphes::GenParticle::Class()/* || Object == 0*/) {
-        Error("Object is", object.ClassName());
-        return family;
-    }
-    int Position = clones_arrays().ParticleClonesArray().IndexOf(&object);
-    if (Position == EmptyPosition)
-        return family;
-    family = BranchFamily(family, Position);
-    if (family.mother_1().id() == to_int(Id::empty))
-      family = Family(family.particle().position(), to_int(Id::isr), family.mother_1().position(), to_int(Id::isr), to_int(Id::isr));
-//       Error("Truth Level Tagging Failed");
-    for (auto & node : topology_) if (node.Marker())
-            node = family;
-    //
-    Debug("Branch Family", Name(family.particle().id()), Name(family.mother_1().id()));
-    if (family.particle().id() == to_int(Id::empty) || family.mother_1().id() == to_int(Id::empty))
-        Error(Name(family.particle().id()), Name(family.mother_1().id()));
-    return family;
-}
-
-Family FourVector::BranchFamily(Family& family, int Position) const
-{
-    std::vector<Family>topology_;
-    Info("Code is disabled", Name(family.particle().id()), Position);
-    if (
-        jet_tag().HeavyParticles.find(static_cast<Id>(std::abs(topology_.at(Position).mother_1().id()))) != end(jet_tag().HeavyParticles) ||
-        jet_tag().HeavyParticles.find(static_cast<Id>(std::abs(topology_.at(Position).particle().id()))) != end(jet_tag().HeavyParticles) ||
-        topology_.at(Position).particle().id() == to_int(Id::isr)
-    )
-        return topology_.at(Position);
-    while (
-        Position != EmptyPosition &&
-        jet_tag().HeavyParticles.find(static_cast<Id>(std::abs(family.mother_1().id()))) == end(jet_tag().HeavyParticles) &&
-        jet_tag().HeavyParticles.find(static_cast<Id>(std::abs(family.particle().id()))) == end(jet_tag().HeavyParticles)
-    ) {
-        Debug("Topology", Position, Name(topology_.at(Position).particle().id()), Name(topology_.at(Position).mother_1().id()));
-        if (
-            jet_tag().HeavyParticles.find(static_cast<Id>(std::abs(topology_.at(Position).mother_1().id()))) != end(jet_tag().HeavyParticles) ||
-            jet_tag().HeavyParticles.find(static_cast<Id>(std::abs(topology_.at(Position).particle().id()))) != end(jet_tag().HeavyParticles) ||
-            topology_.at(Position).particle().id() == to_int(Id::isr)
-        )
-            return topology_.at(Position);
-        if (topology_.at(Position).mother_1().id() != to_int(Id::empty) && topology_.at(Position).particle().id() != to_int(Id::empty)
-                && topology_.at(Position).Marker() == 0
-           )
-            return topology_.at(Position);
-        topology_.at(Position).SetMarker();
-//         if (Position < 3) return Family(Position, Id::isr, EmptyPosition, Id::isr);
-        ::delphes::GenParticle& particle = static_cast<::delphes::GenParticle&>(clones_arrays().Particle(Position));
-//         int Status = ParticleClone.Status;
-        int M1Id = to_int(Id::empty);
-        int Mother1Status = to_int(Status::none);
-        boca::LorentzVector MotherVector;
-        if (particle.M1 > 0) {
-            ::delphes::GenParticle& Mother1Clone = static_cast<::delphes::GenParticle&>(clones_arrays().Particle(particle.M1));
-            M1Id = Mother1Clone.PID;
-            MotherVector = Mother1Clone.P4();
-            Mother1Status = Mother1Clone.Status;
-        }
-        Family NodeFamily(particle.P4(), MotherVector, Position, particle.PID, particle.M1, M1Id);
-        if (Mother1Status == to_int(Status::generator))
-            family = jet_tag().BranchFamily(NodeFamily, family);
-        Detail("Branch Id", Name(M1Id), Name(family.mother_1().id()));
-        if (jet_tag().HeavyParticles.find(static_cast<Id>(std::abs(family.mother_1().id()))) != end(jet_tag().HeavyParticles))
-            return family;
-        if (jet_tag().HeavyParticles.find(static_cast<Id>(std::abs(family.particle().id()))) != end(jet_tag().HeavyParticles))
-            return family;
-        if (particle.M2 != EmptyPosition && particle.M2 != particle.M1) {
-            if (particle.PID == to_int(Id::string)) {
-                if (particle.M1 < particle.M2) {
-                    Debug("String", Position, particle.M1, particle.M2);
-                    JetInfoFamily jet_info;
-                    //                     for (auto const& Counter = ParticleClone.M2; Counter >= ParticleClone.M1; --Counter) {
-                    for (auto const& counter : Range(particle.M1,particle.M2)) {
-//                         BranchFamily = BranchFamily(BranchFamily, Counter);
-                        Family NewFamily = BranchFamily(family, counter);
-                        jet_info.AddFamily(NewFamily, NewFamily.Pt());
-                        Debug("StringPart", counter, Name(family.particle().id()));
-//                         if (std::abs(BranchFamily.particle().id()) == Id::isr) return BranchFamily;
-                    }
-                    jet_info.PrintAllFamInfos(Severity::debug);
-                    if (jet_info.FamilyFractions().size() > 1) {
-                      for (auto const& counter : Range(particle.M1,particle.M2)) topology_.at(counter).UnSetMarker();
-                        Debug("To many String fractions");
-                    };
-                    family = jet_info.MaximalFamily();
-                } else
-                    Error("Strange Particle String");
-                if (jet_tag().HeavyParticles.find(static_cast<Id>(std::abs(family.mother_1().id()))) != end(jet_tag().HeavyParticles))
-                    return family;
-                if (jet_tag().HeavyParticles.find(static_cast<Id>(std::abs(family.particle().id()))) != end(jet_tag().HeavyParticles))
-                    return family;
-            } else
-                Debug("Not a String", Position, particle.M1, particle.M2);
-        }
-        Position = particle.M1;
-        Detail("Mother 1 Position", Position);
-    }
-    return family;
-}
+// Family FourVector::BranchFamily(TObject const& object) const
+// {
+// //     Error("Code is disabled", tree_reader().ParticleSum());
+//     std::vector<Family>topology_;
+//     Family family;
+//     if (object.IsA() != ::delphes::GenParticle::Class()/* || Object == 0*/) {
+//         Error("Object is", object.ClassName());
+//         return family;
+//     }
+//     int Position = tree_reader().ParticleClonesArray().IndexOf(&object);
+//     if (Position == EmptyPosition)
+//         return family;
+//     family = BranchFamily(family, Position);
+//     if (family.mother_1().id() == to_int(Id::empty))
+//       family = Family(family.particle().position(), to_int(Id::isr), family.mother_1().position(), to_int(Id::isr), to_int(Id::isr));
+// //       Error("Truth Level Tagging Failed");
+//     for (auto & node : topology_) if (node.Marker())
+//             node = family;
+//     //
+//     Debug("Branch Family", Name(family.particle().id()), Name(family.mother_1().id()));
+//     if (family.particle().id() == to_int(Id::empty) || family.mother_1().id() == to_int(Id::empty))
+//         Error(Name(family.particle().id()), Name(family.mother_1().id()));
+//     return family;
+// }
+//
+// Family FourVector::BranchFamily(Family& family, int Position) const
+// {
+//     std::vector<Family>topology_;
+//     Info("Code is disabled", Name(family.particle().id()), Position);
+//     if (
+//         jet_tag().HeavyParticles.find(static_cast<Id>(std::abs(topology_.at(Position).mother_1().id()))) != end(jet_tag().HeavyParticles) ||
+//         jet_tag().HeavyParticles.find(static_cast<Id>(std::abs(topology_.at(Position).particle().id()))) != end(jet_tag().HeavyParticles) ||
+//         topology_.at(Position).particle().id() == to_int(Id::isr)
+//     )
+//         return topology_.at(Position);
+//     while (
+//         Position != EmptyPosition &&
+//         jet_tag().HeavyParticles.find(static_cast<Id>(std::abs(family.mother_1().id()))) == end(jet_tag().HeavyParticles) &&
+//         jet_tag().HeavyParticles.find(static_cast<Id>(std::abs(family.particle().id()))) == end(jet_tag().HeavyParticles)
+//     ) {
+//         Debug("Topology", Position, Name(topology_.at(Position).particle().id()), Name(topology_.at(Position).mother_1().id()));
+//         if (
+//             jet_tag().HeavyParticles.find(static_cast<Id>(std::abs(topology_.at(Position).mother_1().id()))) != end(jet_tag().HeavyParticles) ||
+//             jet_tag().HeavyParticles.find(static_cast<Id>(std::abs(topology_.at(Position).particle().id()))) != end(jet_tag().HeavyParticles) ||
+//             topology_.at(Position).particle().id() == to_int(Id::isr)
+//         )
+//             return topology_.at(Position);
+//         if (topology_.at(Position).mother_1().id() != to_int(Id::empty) && topology_.at(Position).particle().id() != to_int(Id::empty)
+//                 && topology_.at(Position).Marker() == 0
+//            )
+//             return topology_.at(Position);
+//         topology_.at(Position).SetMarker();
+// //         if (Position < 3) return Family(Position, Id::isr, EmptyPosition, Id::isr);
+//         ::delphes::GenParticle& particle = static_cast<::delphes::GenParticle&>(tree_reader().Particle(Position));
+// //         int Status = ParticleClone.Status;
+//         int M1Id = to_int(Id::empty);
+//         int Mother1Status = to_int(Status::none);
+//         boca::LorentzVector MotherVector;
+//         if (particle.M1 > 0) {
+//             ::delphes::GenParticle& Mother1Clone = static_cast<::delphes::GenParticle&>(tree_reader().Particle(particle.M1));
+//             M1Id = Mother1Clone.PID;
+//             MotherVector = Mother1Clone.P4();
+//             Mother1Status = Mother1Clone.Status;
+//         }
+//         Family NodeFamily(particle.P4(), MotherVector, Position, particle.PID, particle.M1, M1Id);
+//         if (Mother1Status == to_int(Status::generator))
+//             family = jet_tag().BranchFamily(NodeFamily, family);
+//         Detail("Branch Id", Name(M1Id), Name(family.mother_1().id()));
+//         if (jet_tag().HeavyParticles.find(static_cast<Id>(std::abs(family.mother_1().id()))) != end(jet_tag().HeavyParticles))
+//             return family;
+//         if (jet_tag().HeavyParticles.find(static_cast<Id>(std::abs(family.particle().id()))) != end(jet_tag().HeavyParticles))
+//             return family;
+//         if (particle.M2 != EmptyPosition && particle.M2 != particle.M1) {
+//             if (particle.PID == to_int(Id::string)) {
+//                 if (particle.M1 < particle.M2) {
+//                     Debug("String", Position, particle.M1, particle.M2);
+//                     JetInfoFamily jet_info;
+//                     //                     for (auto const& Counter = ParticleClone.M2; Counter >= ParticleClone.M1; --Counter) {
+//                     for (auto const& counter : Range(particle.M1,particle.M2)) {
+// //                         BranchFamily = BranchFamily(BranchFamily, Counter);
+//                         Family NewFamily = BranchFamily(family, counter);
+//                         jet_info.AddFamily(NewFamily, NewFamily.Pt());
+//                         Debug("StringPart", counter, Name(family.particle().id()));
+// //                         if (std::abs(BranchFamily.particle().id()) == Id::isr) return BranchFamily;
+//                     }
+//                     jet_info.PrintAllFamInfos(Severity::debug);
+//                     if (jet_info.FamilyFractions().size() > 1) {
+//                       for (auto const& counter : Range(particle.M1,particle.M2)) topology_.at(counter).UnSetMarker();
+//                         Debug("To many String fractions");
+//                     };
+//                     family = jet_info.MaximalFamily();
+//                 } else
+//                     Error("Strange Particle String");
+//                 if (jet_tag().HeavyParticles.find(static_cast<Id>(std::abs(family.mother_1().id()))) != end(jet_tag().HeavyParticles))
+//                     return family;
+//                 if (jet_tag().HeavyParticles.find(static_cast<Id>(std::abs(family.particle().id()))) != end(jet_tag().HeavyParticles))
+//                     return family;
+//             } else
+//                 Debug("Not a String", Position, particle.M1, particle.M2);
+//         }
+//         Position = particle.M1;
+//         Detail("Mother 1 Position", Position);
+//     }
+//     return family;
+// }
 
 void FourVector::PrintTruthLevel(const boca::Severity severity) const
 {
@@ -280,14 +280,14 @@ void FourVector::PrintTruthLevel(const boca::Severity severity) const
         PrintCell("Py");
         PrintCell("Pz");
         std::cout << "\n";
-        //         for (auto const& Position : HRange(clones_arrays().GetParticleSum())) {
-        for (auto const& Position : Range(30)) {
-            ::delphes::GenParticle& Particle = static_cast<::delphes::GenParticle&>(clones_arrays().Particle(Position));
-            PrintCell(Position);
-            PrintCell(Name(topology_.at(Position).particle().id()));
-            PrintCell(topology_.at(Position).particle().position());
-            PrintCell(Name(topology_.at(Position).mother_1().id()));
-            PrintCell(topology_.at(Position).mother_1().position());
+        //         for (auto const& Position : HRange(tree_reader().GetParticleSum())) {
+        for (auto const& Particle : tree_reader().Objects<::delphes::GenParticle>(Branch::particle)) {
+//             ::delphes::GenParticle& Particle = static_cast<::delphes::GenParticle&>(tree_reader().Particle(Position));
+//             PrintCell(Position);
+//             PrintCell(Name(topology_.at(Position).particle().id()));
+//             PrintCell(topology_.at(Position).particle().position());
+//             PrintCell(Name(topology_.at(Position).mother_1().id()));
+//             PrintCell(topology_.at(Position).mother_1().position());
             PrintCell(Particle.Status);
             PrintCell(Name(Particle.PID));
             PrintCell(Particle.M1);
@@ -309,10 +309,8 @@ void FourVector::PrintTruthLevel(const boca::Severity severity) const
 
 std::string FourVector::PrintParticle(int position) const
 {
-    if (position != -1)
-        return Name(static_cast<::delphes::GenParticle&>(clones_arrays().Particle(position)).PID);
-    else
-        return " ";
+  if (position != -1) return Name(tree_reader().Objects<::delphes::GenParticle>(Branch::particle).at(position).PID);
+    else return " ";
 }
 
 }

@@ -179,10 +179,9 @@ public:
 
     virtual std::string FileName(Process process, Tag tag) const {
         switch (tag) {
-        case Tag::signal:
-            return Name(process) + Suffix(process) + "_" + Name(collider_type());
-        case Tag::background:
-            return Name(process) + Suffix(process) + "_" + Name(collider_type());
+        case Tag::signal : return Name(process) + Suffix(process) + "_" + Name(collider_type());
+        case Tag::background : return Name(process) + Suffix(process) + "_" + Name(collider_type());
+        default : return "";
         }
     }
 

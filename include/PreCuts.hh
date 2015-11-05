@@ -6,7 +6,6 @@
 #include "fastjet/PseudoJet.hh"
 
 #include "PreCut.hh"
-#include "Debug.hh"
 
 namespace boca
 {

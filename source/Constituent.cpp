@@ -5,7 +5,7 @@
 
 namespace boca {
 
-Constituent::Constituent() {};
+Constituent::Constituent() {}
 
 Constituent::Constituent(TLorentzVector const& momentum, const boca::LorentzVector& position)
 {

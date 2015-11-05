@@ -3,10 +3,8 @@
  */
 #pragma once
 
-#include "TreeReader.hh"
-
-// #include "exroot/ExRootAnalysis.hh"
 #include "Event.hh"
+// #include "TreeReader.hh"
 
 namespace boca
 {
@@ -22,45 +20,24 @@ class File
 
 public:
 
-  File(Strings const& processes, std::string const& run_folder, std::string const& file_suffix, std::string const& nice_name = "", Crosssection crosssection = pb, Mass mass = massless);
+    File(Strings const& processes, std::string const& run_folder, std::string const& file_suffix, std::string const& nice_name = "", Crosssection crosssection = pb, Mass mass = massless);
 
-    /**
-     * @brief destructor
-     *
-     */
-//     virtual ~File();
+//     boca::TreeReader TreeReader();
 
-//     exroot::TreeReader TreeReader();
-    boca::TreeReader TreeReader();
-
-    /**
-     * @brief Name of Process
-     *
-     */
     std::string Title() const;
 
-    Crosssection crosssection() const {
-        return crosssection_;
-    }
+    Crosssection crosssection() const;
 
     std::string file_suffix() const;
 
-    Crosssection crosssection_error() const {
-        return crosssection_error_;
-    }
+    Crosssection crosssection_error() const;
 
-    Mass mass() const {
-        return mass_;
-    }
-    Source source() const {
-        return source_;
-    }
+    Mass mass() const;
+    Source source() const;
 
     std::string tree_name() const;
 
-    std::string nice_name() const {
-        return nice_name_;
-    }
+    std::string nice_name() const;
 
     Strings Paths() const;
 
@@ -94,7 +71,6 @@ private:
 
     Source source_ = Source::delphes;
 
-//     TChain* chain_ = nullptr;
 };
 
 }

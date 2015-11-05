@@ -18,6 +18,7 @@ std::string Name(Decay decay)
     switch (decay) {
     case Decay::hadronic : return "hadronic";
     case Decay::leptonic : return "leptonic";
+    Default("decay","");
     }
 }
 
@@ -43,7 +44,7 @@ Event::Event(Source source)
     }
 }
 
-Event::Event(ClonesArrays const& clones_arrays, Source source)
+Event::Event(TreeReader const& tree_reader, Source source)
 {
 
     Info0;
@@ -62,7 +63,7 @@ Event::Event(ClonesArrays const& clones_arrays, Source source)
         partons_ = new exroot::Partons();
         break;
     }
-    NewEvent(clones_arrays);
+    NewEvent(tree_reader);
 }
 
 
@@ -88,21 +89,21 @@ Event::~Event()
     hadrons_ = nullptr;
 }
 
-void Event::NewEvent(ClonesArrays const& clones_arrays)
+void Event::NewEvent(TreeReader const& tree_reader)
 {
     Info0;
     switch (source_) {
     case Source::delphes :
-        partons_->NewEvent(clones_arrays);
-        hadrons_->NewEvent(clones_arrays);
-        leptons_->NewEvent(clones_arrays);
+        partons_->NewEvent(tree_reader);
+        hadrons_->NewEvent(tree_reader);
+        leptons_->NewEvent(tree_reader);
         break;
     case Source::pgs :
-        hadrons_->NewEvent(clones_arrays);
-        leptons_->NewEvent(clones_arrays);
+        hadrons_->NewEvent(tree_reader);
+        leptons_->NewEvent(tree_reader);
         break;
     case Source::parton:
-        partons_->NewEvent(clones_arrays);
+        partons_->NewEvent(tree_reader);
         break;
     }
 }

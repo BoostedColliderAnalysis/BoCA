@@ -1,11 +1,12 @@
 /**
  * Copyright (C) 2015 Jan Hajer
  */
-#include "delphes/Hadrons.hh"
 
 #include "fastjet/ClusterSequence.hh"
 
 #include "delphes/Delphes.hh"
+#include "delphes/Hadrons.hh"
+
 #include "JetInfo.hh"
 #include "InfoRecombiner.hh"
 #include "Vector.hh"
@@ -18,19 +19,26 @@ namespace boca
 namespace delphes
 {
 
+Jets Hadrons::Jets() const
+{
+    switch (DetectorGeometry::jet_type()) {
+    case JetType::jet : return DelphesJets(JetDetail::structure | JetDetail::isolation);
+    case JetType::gen_jet : return GenJets();
+    case JetType::e_flow_jet : return EFlowJets(JetDetail::structure | JetDetail::isolation);
+        Default("jet type", {});
+    }
+}
+
 Jets Hadrons::DelphesJets(JetDetail jet_detail) const
 {
-    Debug(clones_arrays().JetSum(), Name(jet_detail));
     if (jet_detail == JetDetail::tagging) jet_detail |= JetDetail::plain;
     std::vector<TObject*> leptons;
     if (is(jet_detail, JetDetail::isolation)) {
-        for (auto const & electron_number : Range(clones_arrays().ElectronSum())) leptons.emplace_back(static_cast<::delphes::Electron&>(clones_arrays().Electron(electron_number)).Particle.GetObject());
-        for (auto const & muon_number : Range(clones_arrays().MuonSum())) leptons.emplace_back(static_cast<::delphes::Muon&>(clones_arrays().Muon(muon_number)).Particle.GetObject());
+        for (auto const & electron : tree_reader().Objects<::delphes::Electron>(Branch::electron)) leptons.emplace_back(electron.Particle.GetObject());
+        for (auto const & muon : tree_reader().Objects<::delphes::Muon>(Branch::muon)) leptons.emplace_back(muon.Particle.GetObject());
     }
     boca::Jets jets;
-    for (auto const & jet_number : Range(clones_arrays().JetSum())) {
-        Detail(jet_number);
-        ::delphes::Jet& delphes_jet = static_cast<::delphes::Jet&>(clones_arrays().Jet(jet_number));
+    for (auto const & delphes_jet : tree_reader().Objects<::delphes::Jet>(Branch::jet)) {
         FlagSwitch(jet_detail, [&](JetDetail jet_detail_int) {
             switch (jet_detail_int) {
             case JetDetail::plain: {
@@ -39,18 +47,16 @@ Jets Hadrons::DelphesJets(JetDetail jet_detail) const
                 jets.emplace_back(Jet);
             }
             break;
-            case JetDetail::structure:
+            case JetDetail::structure :
                 try {
                     jets.emplace_back(StructuredJet(delphes_jet, leptons, jet_detail));
                 } catch (std::exception const&) {}
                 break;
-            case JetDetail::tagging:
+            case JetDetail::tagging :
                 static_cast<JetInfo&>(*jets.back().user_info_shared_ptr().get()).SetConstituents(JetId(delphes_jet));
                 break;
-            case JetDetail::isolation:
-                break;
-            default:
-                break;
+            case JetDetail::isolation : break;
+            default : break;
             }
         });
     }
@@ -64,7 +70,7 @@ fastjet::PseudoJet Hadrons::StructuredJet(::delphes::Jet const& delphes_jet, std
     for (auto const & constituent_number : Range(delphes_jet.Constituents.GetEntriesFast())) {
         if (!delphes_jet.Constituents.At(constituent_number)) continue;
         try {
-          constituents.emplace_back(ConstituentJet(*delphes_jet.Constituents.At(constituent_number), jet_detail, SubDetector::none, leptons));
+            constituents.emplace_back(ConstituentJet(*delphes_jet.Constituents.At(constituent_number), jet_detail, SubDetector::none, leptons));
         } catch (std::exception const&) {}
     }
     if (constituents.empty()) throw Empty();
@@ -144,12 +150,12 @@ Jets Hadrons::EFlowJets(JetDetail jet_detail) const
 Jets Hadrons::EFlow(JetDetail jet_detail) const
 {
     boca::Jets e_flow_jets;
-    Debug(clones_arrays().EFlowTrackSum(), Name(jet_detail));
-    if (FindInVector(clones_arrays().Branches(), Branch::e_flow_track)) e_flow_jets = Join(e_flow_jets, EFlowTrack(jet_detail));
+//     Debug(tree_reader().EFlowTrackSum(), Name(jet_detail));
+    if (tree_reader().Has(Branch::e_flow_track)) e_flow_jets = Join(e_flow_jets, EFlowTrack(jet_detail));
     Debug(e_flow_jets.size());
-    if (FindInVector(clones_arrays().Branches(), Branch::e_flow_photon)) e_flow_jets = Join(e_flow_jets, EFlowPhoton(jet_detail));
-    if (FindInVector(clones_arrays().Branches(), Branch::e_flow_neutral_hadron)) e_flow_jets = Join(e_flow_jets, EFlowHadron(jet_detail));
-    if (FindInVector(clones_arrays().Branches(), Branch::e_flow_muon)) e_flow_jets = Join(e_flow_jets, EFlowMuon(jet_detail));
+    if (tree_reader().Has(Branch::e_flow_photon)) e_flow_jets = Join(e_flow_jets, EFlowPhoton(jet_detail));
+    if (tree_reader().Has(Branch::e_flow_neutral_hadron)) e_flow_jets = Join(e_flow_jets, EFlowHadron(jet_detail));
+    if (tree_reader().Has(Branch::e_flow_muon)) e_flow_jets = Join(e_flow_jets, EFlowMuon(jet_detail));
     Debug(e_flow_jets.size());
 //     PrintTruthLevel(Severity::detailed);
     return e_flow_jets;
@@ -158,21 +164,21 @@ Jets Hadrons::EFlow(JetDetail jet_detail) const
 Jets Hadrons::EFlowTrack(JetDetail jet_detail) const
 {
     boca::Jets e_flow_jets;
-    Debug(clones_arrays().EFlowTrackSum());
-    for (auto const & e_flow_track_number : Range(clones_arrays().EFlowTrackSum())) {
+//     Debug(tree_reader().EFlowTrackSum());
+    for (auto & e_flow_track : tree_reader().Objects<::delphes::Track>(Branch::e_flow_track)) {
         if (is(jet_detail, JetDetail::structure)) {
             try {
-                e_flow_jets.emplace_back(ConstituentJet(clones_arrays().EFlowTrack(e_flow_track_number), jet_detail, SubDetector::track));
+                e_flow_jets.emplace_back(ConstituentJet(e_flow_track, jet_detail, SubDetector::track));
             } catch (std::exception const&) {
                 continue;
             }
             continue;
         }
-        ::delphes::Track& e_flow_track = static_cast<::delphes::Track&>(clones_arrays().EFlowTrack(e_flow_track_number));
+//         ::delphes::Track& e_flow_track = static_cast<::delphes::Track&>(tree_reader().EFlowTrack(e_flow_track_number));
         if (is(jet_detail, JetDetail::isolation)) {
-            bool Isolated = Isolation<::delphes::Electron>(e_flow_track, Branch::electron);
-            if (Isolated) Isolated = Isolation<::delphes::Muon>(e_flow_track, Branch::muon);
-            if (!Isolated) continue;
+//             bool Isolated = Isolation<::delphes::Electron>(e_flow_track, Branch::electron);
+//             if (Isolated) Isolated = Isolation<::delphes::Muon>(e_flow_track, Branch::muon);
+//             if (!Isolated) continue;
         }
         e_flow_jets.emplace_back(boca::PseudoJet(e_flow_track.P4()));
         if (is(jet_detail, JetDetail::tagging)) {
@@ -187,21 +193,20 @@ Jets Hadrons::EFlowTrack(JetDetail jet_detail) const
 
 Jets Hadrons::EFlowPhoton(JetDetail jet_detail) const
 {
-    Debug(clones_arrays().EFlowPhotonSum());
+//     Debug(tree_reader().EFlowPhotonSum());
     boca::Jets e_flow_jets;
-    if (clones_arrays().PhotonSum() > 0)
-        Debug("Number of Photons", clones_arrays().PhotonSum());
-    for (auto const & e_flow_photon_number : Range(clones_arrays().EFlowPhotonSum())) {
+//     if (tree_reader().PhotonSum() > 0) Debug("Number of Photons", tree_reader().PhotonSum());
+    for (auto & e_flow_photon : tree_reader().Objects<::delphes::Tower>(Branch::e_flow_photon)) {
         if (is(jet_detail, JetDetail::structure)) {
             try {
-                e_flow_jets.emplace_back(ConstituentJet(clones_arrays().EFlowPhoton(e_flow_photon_number), jet_detail, SubDetector::photon));
+                e_flow_jets.emplace_back(ConstituentJet(e_flow_photon, jet_detail, SubDetector::photon));
             } catch (std::exception const&) {
                 continue;
             }
             continue;
         }
-        ::delphes::Tower& e_flow_photon = static_cast<::delphes::Tower&>(clones_arrays().EFlowPhoton(e_flow_photon_number));
-        if (is(jet_detail, JetDetail::isolation)) if (!Isolation<::delphes::Photon>(e_flow_photon, Branch::photon)) continue;
+//         ::delphes::Tower& e_flow_photon = static_cast<::delphes::Tower&>(tree_reader().EFlowPhoton(e_flow_photon_number));
+//         if (is(jet_detail, JetDetail::isolation)) if (!Isolation<::delphes::Photon>(e_flow_photon, Branch::photon)) continue;
         e_flow_jets.emplace_back(boca::PseudoJet(e_flow_photon.P4()));
         if (is(jet_detail, JetDetail::tagging)) {
             e_flow_jets.back().set_user_info(new JetInfo(JetId(e_flow_photon)));
@@ -213,18 +218,18 @@ Jets Hadrons::EFlowPhoton(JetDetail jet_detail) const
 
 Jets Hadrons::EFlowHadron(JetDetail jet_detail) const
 {
-    Debug(clones_arrays().EFlowNeutralHadronSum());
+//     Debug(tree_reader().EFlowNeutralHadronSum());
     boca::Jets e_flow_jets;
-    for (auto const & hadron_number : Range(clones_arrays().EFlowNeutralHadronSum())) {
+    for (auto & e_flow_hadron : tree_reader().Objects<::delphes::Tower>(Branch::e_flow_neutral_hadron)) {
         if (is(jet_detail, JetDetail::structure)) {
             try {
-                e_flow_jets.emplace_back(ConstituentJet(clones_arrays().EFlowNeutralHadron(hadron_number), jet_detail, SubDetector::tower));
+                e_flow_jets.emplace_back(ConstituentJet(e_flow_hadron, jet_detail, SubDetector::tower));
             } catch (std::exception const&) {
                 continue;
             }
             continue;
         }
-        ::delphes::Tower& e_flow_hadron = static_cast<::delphes::Tower&>(clones_arrays().EFlowNeutralHadron(hadron_number));
+//         ::delphes::Tower& e_flow_hadron = static_cast<::delphes::Tower&>(tree_reader().EFlowNeutralHadron(hadron_number));
         e_flow_jets.emplace_back(boca::PseudoJet(e_flow_hadron.P4()));
         if (is(jet_detail, JetDetail::tagging)) {
             e_flow_jets.back().set_user_info(new JetInfo(JetId(e_flow_hadron)));
@@ -236,20 +241,20 @@ Jets Hadrons::EFlowHadron(JetDetail jet_detail) const
 
 Jets Hadrons::EFlowMuon(JetDetail jet_detail) const
 {
-    Debug(clones_arrays().EFlowMuonSum());
+//     Debug(tree_reader().EFlowMuonSum());
     boca::Jets e_flow_jets;
-    for (auto const & muon_number : Range(clones_arrays().EFlowMuonSum())) {
+    for (auto  & e_flow_muon : tree_reader().Objects<::delphes::Muon>(Branch::e_flow_muon)) {
         if (is(jet_detail, JetDetail::structure)) {
-            //             if (!clones_arrays().GetEFlowMuon(muon_number)) continue;
+            //             if (!tree_reader().GetEFlowMuon(muon_number)) continue;
             try {
-                e_flow_jets.emplace_back(ConstituentJet(clones_arrays().EFlowMuon(muon_number), jet_detail, SubDetector::muon));
+                e_flow_jets.emplace_back(ConstituentJet(e_flow_muon, jet_detail, SubDetector::muon));
             } catch (std::exception const&) {
                 continue;
             }
             continue;
         }
-        ::delphes::Muon& e_flow_muon = static_cast<::delphes::Muon&>(clones_arrays().EFlowMuon(muon_number));
-        if (is(jet_detail, JetDetail::isolation)) if (!Isolation<::delphes::Muon>(e_flow_muon, Branch::muon)) continue;
+//         ::delphes::Muon& e_flow_muon = static_cast<::delphes::Muon&>(tree_reader().EFlowMuon(muon_number));
+//         if (is(jet_detail, JetDetail::isolation)) if (!Isolation<::delphes::Muon>(e_flow_muon, Branch::muon)) continue;
         e_flow_jets.emplace_back(boca::PseudoJet(e_flow_muon.P4()));
         if (is(jet_detail, JetDetail::tagging)) {
             Constituent constituent(e_flow_muon.P4()/*, BranchFamily(*e_flow_muon.Particle.GetObject())*/);
@@ -262,23 +267,22 @@ Jets Hadrons::EFlowMuon(JetDetail jet_detail) const
 
 Jets Hadrons::GenJets() const
 {
-    Info(clones_arrays().GenJetSum());
+//     Info(tree_reader().GenJetSum());
     boca::Jets gen_jets;
-    for (auto const & jet_number : Range(clones_arrays().GenJetSum()))
-        gen_jets.emplace_back(boca::PseudoJet(static_cast<::delphes::Jet&>(clones_arrays().GenJet(jet_number)).P4()));
+    for (auto const & jet : tree_reader().Objects<::delphes::Jet>(Branch::gen_jet)) gen_jets.emplace_back(jet.P4());
     return gen_jets;
 }
 
 float Hadrons::ScalarHt() const
 {
     Info0;
-    return static_cast<::delphes::ScalarHT&>(clones_arrays().ScalarHt()).HT;
+    return tree_reader().Objects<::delphes::ScalarHT>(Branch::scalar_ht).front().HT;
 }
 
 fastjet::PseudoJet Hadrons::MissingEt() const
 {
     Info0;
-    return boca::PseudoJet(static_cast<::delphes::MissingET&>(clones_arrays().MissingEt()).P4());
+    return boca::PseudoJet(tree_reader().Objects<::delphes::MissingET>(Branch::missing_et).front().P4());
 }
 
 }

@@ -12,7 +12,7 @@ void Run(boca::Output run = boca::Output::normal)
 
 int main()
 {
-  Run<boca::BottomTagger>(boca::Output::normal) ;
+    Run<boca::BottomTagger>(boca::Output::normal) ;
     switch (boca::standardmodel::TopAnalysis<boca::BottomTagger>::TopDecay()) {
     case boca::Decay::hadronic : {
         Run<boca::WHadronicTagger>(boca::Output::fast);

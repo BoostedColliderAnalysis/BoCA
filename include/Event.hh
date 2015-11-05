@@ -31,11 +31,11 @@ public:
 
     Event(Source source);
 
-    Event(ClonesArrays const& clones_arrays, Source source);
+    Event(TreeReader const& tree_reader, Source source);
 
     virtual ~Event();
 
-    void NewEvent(ClonesArrays const& clones_arrays);
+    void NewEvent(TreeReader const& tree_reader);
 
     const boca::Hadrons& Hadrons() const {
         return *hadrons_;

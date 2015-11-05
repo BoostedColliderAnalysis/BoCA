@@ -13,10 +13,11 @@ class PseudoJet;
 
 
 class TLorentzVector;
-class LorentzVector;
 
 namespace boca
 {
+
+class LorentzVector;
 
 /**
  * @brief create a fastjet::PseudoJet from a LorentzVector
@@ -24,7 +25,7 @@ namespace boca
  */
 fastjet::PseudoJet PseudoJet(TLorentzVector const& vector);
 
-fastjet::PseudoJet PseudoJet(LorentzVector const& vector);
+fastjet::PseudoJet PseudoJet(::boca::LorentzVector const& vector);
 
 bool Exists(std::string const& name);
 

@@ -6,12 +6,18 @@
 #include <typeinfo>
 #include <mutex>
 #include <thread>
-// #define INFORMATION
 
+#include "exroot/ExRootAnalysis.hh"
 #include "File.hh"
 #include "Reader.hh"
 #include "AnalysisBase.hh"
+
+
+#define INFORMATION
 #include "Debug.hh"
+// #define Info0
+// #define Error(...)
+// #define Info(...)
 
 namespace boca
 {
@@ -40,13 +46,13 @@ private:
 class Second
 {
 public:
-    Second(First& first, File& file, TFile& export_file) :
-        first_(first),
-        export_file_(export_file),
-        file_(file) {
+    Second(First& first, File& file, TFile& export_file)
+        : first_(first)
+        , file_(file)
+        , export_file_(export_file) {
         Info0;
     }
-    First const& first() const {
+    First first() const {
         Info0;
         return first_;
     }
@@ -59,7 +65,7 @@ public:
         return export_file_;
     }
 private:
-    First& first_;
+    First first_;
     File& file_;
     TFile& export_file_;
 };
@@ -69,33 +75,31 @@ class BranchWriter
 {
 
 public:
-    BranchWriter(Second& second, Tagger& tagger) :
-        second_(second),
-        tagger_(tagger),
-        reader_(Reader<Tagger>(second.first().stage())),
-        tree_writer_(exroot::TreeWriter(&(second.export_file()), second.file().Title().c_str())) {
+    BranchWriter(Second& second, Tagger& tagger)
+        : second_(second)
+        , tagger_(tagger)
+        , reader_(second.first().stage())
+        , tree_writer_(&(second.export_file()), second.file().Title().c_str()) {
         Info0;
         Initialize();
     }
 
     void Initialize() {
         Info0;
-        tree_branch_ = tree_writer_.NewBranch(tagger_.WeightBranchName().c_str(), InfoBranch::Class());
-        std::lock_guard<std::mutex> second_guard(second_mutex_);
-        std::lock_guard<std::mutex> tree_writer_guard(tree_writer_mutex_);
         switch (second().first().stage()) {
-        case Stage::trainer : tagger_.SetTreeBranch(tree_writer(), second().first().stage());
+        case Stage::trainer : tagger_.NewBranch(tree_writer(), second().first().stage());
             break;
-        case Stage::reader : reader_.SetTreeBranch(tree_writer(), second().first().stage());
+        case Stage::reader : reader_.NewBranch(tree_writer(), second().first().stage());
             break;
         }
+        tree_branch_ = tree_writer_.NewBranch(tagger_.WeightBranchName().c_str(), InfoBranch::Class());
+        for (auto const & path : second().file().Paths()) chain_.AddFile(path.c_str(), TChain::kBigNumber, second().file().tree_name().c_str());
     }
 
     void Write() {
-      Info0;
+        Info0;
         std::lock_guard<std::mutex> object_sum_guard(object_sum_mutex_);
-        std::lock_guard<std::mutex> tree_writer_guard(tree_writer_mutex_);
-        if (object_sum()) tree_writer().Write();
+        if (object_sum_) tree_writer().Write();
     }
 
     Second& second()  {
@@ -109,13 +113,20 @@ public:
     }
 
     exroot::TreeWriter& tree_writer() {
-      Info0;
+        Info0;
         return tree_writer_;
     }
 
-    long& object_sum() {
+    long object_sum() {
         Info0;
+        std::lock_guard<std::mutex> object_sum_guard(object_sum_mutex_);
         return object_sum_;
+    }
+
+    long event_sum() {
+        Info0;
+        std::lock_guard<std::mutex> event_sum_guard(event_sum_mutex_);
+        return event_sum_;
     }
 
     void Increment() {
@@ -126,7 +137,14 @@ public:
     void Increment(int number) {
         std::lock_guard<std::mutex> object_sum_guard(object_sum_mutex_);
         object_sum_ += number;
-        Error(object_sum());
+        std::lock_guard<std::mutex> event_sum_guard(event_sum_mutex_);
+        ++event_sum_;
+        Info(object_sum());
+    }
+
+    bool KeepGoing(long max) {
+        std::lock_guard<std::mutex> object_sum_guard(object_sum_mutex_);
+        return object_sum_ <= max;
     }
 
     Reader<Tagger> reader() const {
@@ -137,50 +155,29 @@ public:
         return tagger_;
     }
 
-    std::mutex& tagger_mutex() {
-        return tagger_mutex_;
-    }
-
-    std::mutex& reader_mutex() {
-        return reader_mutex_;
-    }
-
-    std::mutex& branch_writer_mutex() {
-        return branch_writer_mutex_;
-    }
-
-    std::mutex& second_mutex() {
-        return second_mutex_;
-    }
-
-    std::mutex& object_sum_mutex() {
-        return object_sum_mutex_;
-    }
-    std::mutex& tree_branch_mutex() {
-        return tree_branch_mutex_;
+    TChain& chain(){
+      return chain_;
     }
 
 private:
 
-    std::mutex branch_writer_mutex_;
+    TChain chain_;
 
-    exroot::TreeBranch* tree_branch_;
-    std::mutex tree_branch_mutex_;
+    Second& second_;
+
+    Tagger& tagger_;
+
+    Reader<Tagger> reader_;
 
     exroot::TreeWriter tree_writer_;
-    std::mutex tree_writer_mutex_;
+
+    exroot::TreeBranch* tree_branch_;
 
     long object_sum_ = 0;
     std::mutex object_sum_mutex_;
 
-    Second& second_;
-    std::mutex second_mutex_;
-
-    Tagger& tagger_;
-    std::mutex tagger_mutex_;
-
-    Reader<Tagger> reader_;
-    std::mutex reader_mutex_;
+    long event_sum_ = 0;
+    std::mutex event_sum_mutex_;
 
 };
 
@@ -188,29 +185,24 @@ template<typename Tagger>
 class Third
 {
 public:
-    Third(BranchWriter<Tagger>& branch_writer, int core, int max) :
-        branch_writer_(branch_writer),
-        tagger_(branch_writer.tagger()),
-        reader_(branch_writer.reader()) {
+    Third(BranchWriter<Tagger>& branch_writer, int core, int max)
+        : branch_writer_(branch_writer)
+        , reader_(branch_writer.reader())
+        , tagger_(branch_writer.tagger())
+        , tree_reader_(branch_writer.chain()) {
         Info0;
         event_number_ = core;
-        max_= max;
-    }
-
-    void Initialize() {
-      Info0;
-        std::lock_guard<std::mutex> second_guard(branch_writer().second_mutex());
-        tree_reader_ = second().file().TreeReader();
-        std::lock_guard<std::mutex> clones_arrays_guard(clones_arrays_mutex_);
-        clones_arrays_ = ClonesArrays(second().file().source());
-        std::lock_guard<std::mutex> tree_reader_guard(tree_reader_mutex_);
-        clones_arrays_.UseBranches(tree_reader().exroot());
-        std::lock_guard<std::mutex> info_branch_guard(info_branch_mutex);
+        max_ = max;
         info_branch_ = FillInfoBranch(second().file());
     }
 
+//     void Initialize() {
+//         Info0;
+//         tree_reader().Initialize();
+//     }
+
     InfoBranch FillInfoBranch(boca::File const& file)  {
-      Info0;
+        Info0;
         InfoBranch info_branch;
         info_branch.Crosssection = file.crosssection() / fb;
         info_branch.CrosssectionError = file.crosssection_error() / fb;
@@ -219,110 +211,87 @@ public:
         return info_branch;
     }
 
-    Range range(long max) {
-        return Range(FirstEntry(max), GetEntries());
-    }
-
-    long FirstEntry(long max)  {
-        Info0;
-        long entry = 0;
-        std::lock_guard<std::mutex> second_guard(branch_writer().second_mutex());
-        if (second().first().stage() == Stage::reader) entry = std::min(GetEntries(), max) / 2;  // TODO fix corner cases
-        return entry;
-    }
-
+//     Range range(long max) {
+//         return Range(FirstEntry(max), GetEntries());
+//     }
+//
+//     long FirstEntry(long max)  {
+//         Info0;
+//         long entry = 0;
+//         if (second().first().stage() == Stage::reader) entry = std::min(GetEntries(), max) / 2;  // TODO fix corner cases
+//         return entry;
+//     }
+//
     long GetEntries() {
-        Info0;
-        std::lock_guard<std::mutex> tree_reader_guard(tree_reader_mutex_);
         return tree_reader().GetEntries();
     }
 
-    bool SaveEntry(int object_number) {
-        Info0;
-        std::lock_guard<std::mutex> event_number_guard(event_number_mutex);
-        std::lock_guard<std::mutex> info_branch_guard(info_branch_mutex);
-        info_branch().EventNumber = event_number();
-        std::lock_guard<std::mutex> tree_branch_guard(branch_writer().tree_branch_mutex());
+    void SaveEntry(int number) {
+        Increment();
+        if(number == 0) return;
+        info_branch().EventNumber = branch_writer().event_sum();
+        std::lock_guard<std::mutex> tagger_guard(tagger_.mutex_);
         static_cast<InfoBranch&>(*branch_writer().tree_branch().NewEntry()) = info_branch();
-        std::lock_guard<std::mutex> branch_writer_guard(branch_writer().branch_writer_mutex());
         branch_writer().tree_writer().Fill();
         branch_writer().tree_writer().Clear();
-        return object_number;
+        branch_writer().Increment(number);
     }
 
     void ReadEntry() {
-        Info0;
-        std::lock_guard<std::mutex> event_number_guard(event_number_mutex);
-        std::lock_guard<std::mutex> tree_reader_guard(tree_reader_mutex_);
-        Error(event_number());
-        event_number() += max_;
         tree_reader().ReadEntry(event_number());
     }
 
-    ClonesArrays const& clones_arrays()  {
-        Info0;
-        return clones_arrays_;
+    void Increment() {
+        event_number() += max_;
+    }
+
+    bool KeepGoing() {
+        return event_number() < GetEntries();
     }
 
     TreeReader& tree_reader() {
-        Info0;
         return tree_reader_;
     }
 
-
     InfoBranch& info_branch() {
-        Info0;
         return info_branch_;
     }
 
     long& event_number() {
-        Info0;
         return event_number_;
     }
 
     Tagger& tagger() {
-        Info0;
         return tagger_;
     }
 
     Second& second()  {
-        Info0;
         return branch_writer().second();
     }
 
     BranchWriter<Tagger>& branch_writer() {
-        Info0;
         return branch_writer_;
     }
 
     Reader<Tagger>& reader() {
-        Info0;
         return reader_;
     }
 
 private:
 
-//     int core_;
-
-    int max_;
-
     BranchWriter<Tagger>& branch_writer_;
+
+    Reader<Tagger> reader_;
 
     Tagger tagger_;
 
-    ClonesArrays clones_arrays_;
-    std::mutex clones_arrays_mutex_;
-
     TreeReader tree_reader_;
-    std::mutex tree_reader_mutex_;
 
     InfoBranch info_branch_;
-    std::mutex info_branch_mutex;
 
     long event_number_ = 0;
-    std::mutex event_number_mutex;
 
-    Reader<Tagger> reader_;
+    int max_;
 };
 
 /**
@@ -355,7 +324,6 @@ protected:
 
     template<typename Class>
     bool TaggerIs() const {
-        Info0;
         return typeid(tagger_).hash_code() == typeid(Class).hash_code();
     }
 
@@ -376,86 +344,55 @@ private:
     void SecondLoop(Second second) {
         Info0;
         BranchWriter<Tagger> branch_writer(second, tagger_);
+        std::mutex branch_writer_mutex;
         std::vector<std::thread> threads;
-        int max = 2;
-        for (auto core : Range(2)) threads.emplace_back(std::thread([&, core] {ThirdLoop({branch_writer, core, max});}));
-        for (auto & thread : threads) if (thread.joinable()) thread.join();
+        int max = std::thread::hardware_concurrency();
+        for (auto core : Range(max)) {
+            threads.emplace_back(std::thread([&, core, max] {
+                branch_writer_mutex.lock();
+                TreeReader::mutex().lock();
+                Third<Tagger> third(branch_writer, core, max);
+                TreeReader::mutex().unlock();
+                branch_writer_mutex.unlock();
+                ThirdLoop(third);
+            }));
+        }
+        for (auto & thread : threads) thread.join();
         branch_writer.Write();
     }
 
-    void ThirdLoop(Third<Tagger> third) {
+    void ThirdLoop(Third<Tagger>& third) {
         Info0;
-        third.Initialize();
-        while (third.branch_writer().object_sum() < 100 && third.event_number() < third.GetEntries()) third.branch_writer().Increment(FourthLoop(third));
+        while (third.branch_writer().KeepGoing(EventNumberMax()) && third.KeepGoing()) FourthLoop(third);
     }
 
-    /**
-     * @brief Checks for PreCuts and saves the results of each analysis.
-     *
-     */
     int FourthLoop(Third<Tagger>& third) const {
-      Info0;
+        Info0;
         third.ReadEntry();
-        Event event(third.clones_arrays(), third.second().file().source());
+        Event event(third.tree_reader(), third.second().file().source());
         if (!PassPreCut(event, third.second().first().tag())) return 0;
-        return third.SaveEntry(Switch(event, third));
+        third.SaveEntry(Switch(event, third));
     }
 
-    /**
-     * @brief Starts the analysis on each Event
-     *
-     * @return int number of safed objects
-     */
     int Switch(Event const& event, Third<Tagger>& third) const {
         Info0;
-        std::lock_guard<std::mutex> tree_branch_guard(third.branch_writer().tree_branch_mutex());
-        std::lock_guard<std::mutex> branch_writer_guard(third.branch_writer().branch_writer_mutex());
         switch (third.second().first().stage()) {
-        case Stage::trainer :
-            std::lock_guard<std::mutex> tagger_guard(third.branch_writer().tagger_mutex());
-            return third.tagger().Train(event, pre_cuts(), third.second().first().tag());
-        case Stage::reader :
-            std::lock_guard<std::mutex> reader_guard(third.branch_writer().reader_mutex());
-            return third.reader().Bdt(event, pre_cuts());
+        case Stage::trainer : return third.tagger().Train(event, pre_cuts(), third.second().first().tag());
+        case Stage::reader : return third.reader().Bdt(event, pre_cuts());
         default : return 0;
         }
     }
 
-    /**
-     * @brief getter for Tagger
-     *
-     * @return boca::Tagger&
-     */
     Tagger& tagger() final {
-        Info0;
         return tagger_;
     }
 
-    /**
-     * @brief getter for Tagger
-     *
-     * @return const boca::Tagger&
-     */
     Tagger const& tagger() const final {
-        Info0;
         return tagger_;
     }
 
-    /**
-     * @brief Tagger template
-     *
-     */
     Tagger tagger_;
 
 };
 
 }
-
-
-
-
-
-
-
-
-

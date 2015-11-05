@@ -13,10 +13,10 @@ Leptons::~Leptons()
   Info0;
 }
 
-void Leptons::NewEvent(ClonesArrays const& clones_arrays)
+void Leptons::NewEvent(TreeReader const& tree_reader)
 {
     Info0;
-    FourVector::NewEvent(clones_arrays);
+    FourVector::NewEvent(tree_reader);
 }
 
 Jets Leptons::leptons() const

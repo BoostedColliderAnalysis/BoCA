@@ -6,10 +6,10 @@
 
 namespace boca {
 
-void Hadrons::NewEvent(ClonesArrays const& clones_arrays)
+void Hadrons::NewEvent(TreeReader const& tree_reader)
 {
     Info0;
-    FourVector::NewEvent(clones_arrays);
+    FourVector::NewEvent(tree_reader);
 }
 
 float Hadrons::ScalarHt() const

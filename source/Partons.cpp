@@ -7,10 +7,10 @@
 
 namespace boca {
 
-void Partons::NewEvent(ClonesArrays const& clones_arrays)
+void Partons::NewEvent(TreeReader const& tree_reader)
 {
     Info0;
-    FourVector::NewEvent(clones_arrays);
+    FourVector::NewEvent(tree_reader);
 }
 
 }

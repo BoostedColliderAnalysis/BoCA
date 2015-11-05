@@ -44,7 +44,7 @@ private:
 
     std::string AnalysisName() const final {
         Info0;
-        return "test-back-to-old";
+        return "parallel-1";
         return  Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-" + Name(TopDecay()) + "-test-new tagger-template";
     }
 
@@ -72,7 +72,7 @@ private:
         }
     }
 
-    int PassPreCut(Event const& event, Tag) const final {
+    int PassPreCut(Event const&, Tag) const final {
         Info0;
         return 1;
 //         Jets particles = fastjet::sorted_by_pt(event.Partons().GenParticles());

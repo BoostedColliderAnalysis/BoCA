@@ -3,8 +3,8 @@
  */
 #pragma once
 
-#include "FourVector.hh"
 #include "Types.hh"
+#include "FourVector.hh"
 
 namespace boca
 {
@@ -23,7 +23,7 @@ public:
     /**
      * @brief Initialize New event
      */
-    void NewEvent(ClonesArrays const& clones_arrays);
+    void NewEvent(TreeReader const& tree_reader);
 
     virtual boca::Jets Jets() const = 0;
 

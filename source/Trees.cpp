@@ -43,7 +43,7 @@ void Files::set_file(File& file)
 
 Trees::Trees(Files& files):
     tree_writer_(exroot::TreeWriter(&(files.export_file()), files.file().Title().c_str())),
-    clones_arrays_(files.file().clones_arrays()),
+    tree_reader_(files.file().tree_reader()),
     event_(files.file().event())
 {
     Info0;
@@ -63,7 +63,7 @@ void Trees::UseBranches(File& file, std::string const& name)
     Info0;
     tree_branch_ = tree_writer_.NewBranch(name.c_str(), InfoBranch::Class());
     tree_reader_ = file.TreeReader();
-    clones_arrays_.UseBranches(tree_reader_);
+    tree_reader_.UseBranches(tree_reader_);
     info_branch_ = FillInfoBranch(file);
 }
 
@@ -71,7 +71,7 @@ void Trees::NewEvent(Mass const& mass)
 {
     Info0;
     tree_reader_.ReadEntry(entry);
-    event_.NewEvent(clones_arrays_);
+    event_.NewEvent(tree_reader_);
     event_.SetMass(mass);
 }
 

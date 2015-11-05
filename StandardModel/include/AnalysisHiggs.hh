@@ -58,7 +58,7 @@ private:
         }
     }
 
-    int PassPreCut(Event const& event, Tag) const final {
+    int PassPreCut(Event const& , Tag) const final {
           return 1;
 //         Jets jets = fastjet::sorted_by_pt(event.Hadrons().Jets());
 //         if (jets.size() < 2) return 0;

@@ -5,6 +5,7 @@
 
 #include "Tagger.hh"
 #include "PreCuts.hh"
+#include "File.hh"
 
 namespace boca
 {
@@ -124,7 +125,7 @@ private:
 
 //     Configuration configuration_;
 
-    std::vector<boca::File> files_;
+    std::vector<boca::File> files_ = {};
 
     std::string WorkingPath();
 
@@ -132,11 +133,11 @@ private:
 
 enum class Output
 {
-  fast = 0,
-  normal = 1 << 0,
-  significance = 1 << 1,
-  efficiency = 1 << 2,
-  plot = 1 << 3
+  fast = 1 << 0,
+  normal = 1 << 1,
+  significance = 1 << 2,
+  efficiency = 1 << 3,
+  plot = 1 << 4
 };
 
 template<>

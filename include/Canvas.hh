@@ -17,9 +17,9 @@ enum class Font
 
 enum class Style
 {
-    normal = 0,
-    bold = 1 << 0,
-    italic = 1 << 1
+    normal = 1 << 0,
+    bold = 1 << 1,
+    italic = 1 << 2
 };
 
 template<>

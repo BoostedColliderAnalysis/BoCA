@@ -15,7 +15,7 @@ set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build, options are
 endif()
 
 # set c++ flags
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -g -fPIC -fpermissive")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -g -fPIC")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0 -Wall -Wextra -pedantic -Wpointer-arith -Wold-style-cast -Wno-unknown-pragmas")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3")
 
@@ -24,6 +24,7 @@ include(CMakeFiles/FindROOT.cmake)
 add_include_path(${ROOT_INCLUDE_DIR})
 add_libraries("${ROOT_LIBRARIES}")
 add_libraries(TMVA)
+add_libraries(TreePlayer)
 
 # FastJet
 include(CMakeFiles/Findfastjet.cmake)

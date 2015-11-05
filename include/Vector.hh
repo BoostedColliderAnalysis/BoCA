@@ -89,6 +89,7 @@ struct Close {
         return multiplet.DeltaRTo(particle_) < detector_geometry_.JetConeSize();
     }
     bool operator()(fastjet::PseudoJet const& jet) {
+//       std::cout<< jet.delta_R(particle_) * rad << std::endl;
         return jet.delta_R(particle_) * rad < detector_geometry_.JetConeSize();
     }
     fastjet::PseudoJet particle_;

@@ -108,13 +108,15 @@ public:
 
     void AddTreeName(std::string const& signal_tree_name, Tag tag);
 
-    void SetTreeBranch(exroot::TreeWriter& tree_writer, Stage stage);
+    void NewBranch(exroot::TreeWriter& tree_writer, Stage stage);
 
     void ClearTreeNames();
 
     std::string ReaderName() const;
 
     std::string ReaderName(std::string const& name) const;
+
+    static std::mutex mutex_;
 
 protected:
 

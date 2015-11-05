@@ -18,13 +18,13 @@ class PseudoJet;
 // FIXME do we really want to write non standard compliant code?
 // #pragma GCC diagnostic ignored "-Wgnu-zero-variadic-macro-arguments"
 // #pragma GCC diagnostic ignored "-Wmacro-redefined"
-#pragma clang diagnostic ignored "-Wgnu-zero-variadic-macro-arguments"
-#pragma clang diagnostic ignored "-Wmacro-redefined"
+// #pragma clang diagnostic ignored "-Wgnu-zero-variadic-macro-arguments"
+// #pragma clang diagnostic ignored "-Wmacro-redefined"
 
 // defined by cmake for debug runs
-// #ifndef NDEBUG
-// #define NOTIFICATION
-// #endif
+#ifndef NDEBUG
+#define NOTIFICATION
+#endif
 // #define DEBUG
 // #define INFORMATION
 
@@ -47,7 +47,7 @@ template<typename Value>
 std::string Column(int width, Value const& message)
 {
     std::stringstream stream;
-    stream  << std::boolalpha << boost::units::engineering_prefix << std::left << std::setw(width) << std::setfill(' ') << message;
+    stream  << std::boolalpha << std::left << std::setw(width) << std::setfill(' ') << boost::units::engineering_prefix << message;
     return stream.str();
 }
 
@@ -150,59 +150,36 @@ void Log(std::string const& file, int line, std::string const& name_space, std::
 #define Error(...) ALIVE(__VA_ARGS__)
 #define Error0 LOG0
 
-#ifdef NDEBUG
-#define Note(...) DEAD(__VA_ARGS__)
-#define Info(...) DEAD(__VA_ARGS__)
-#define Debug(...) DEAD(__VA_ARGS__)
-#define Detail(...) DEAD(__VA_ARGS__)
-#define Note0 DEAD0
-#define Info0 DEAD0
-#define Debug0 DEAD0
-#define Detail0 DEAD0
-#endif
-
-#ifdef NOTIFICATION
-#define Note(...) ALIVE(__VA_ARGS__)
-#define Info(...) DEAD(__VA_ARGS__)
-#define Debug(...) DEAD(__VA_ARGS__)
-#define Detail DEAD(__VA_ARGS__)
-#define Note0 LOG0
-#define Info0 DEAD0
-#define Debug0 DEAD0
-#define Detail0 DEAD0
-#endif
-
-#ifdef INFORMATION
-#define Note(...) ALIVE(__VA_ARGS__)
-#define Info(...) ALIVE(__VA_ARGS__)
-#define Debug(...) DEAD(__VA_ARGS__)
-#define Detail(...) DEAD(__VA_ARGS__)
-#define Note0 LOG0
-#define Info0 LOG0
-#define Debug0 DEAD0
-#define Detail0 DEAD0
-#endif
-
-#ifdef DEBUG
-#define Note(...) ALIVE(__VA_ARGS__)
-#define Info(...) ALIVE(__VA_ARGS__)
-#define Debug(...) ALIVE(__VA_ARGS__)
-#define Detail(...) DEAD(__VA_ARGS__)
-#define Note0 LOG0
-#define Info0 LOG0
-#define Debug0 LOG0
-#define Detail0 DEAD0
-#endif
-
-#ifdef DETAILED
-#define Note(...) ALIVE(__VA_ARGS__)
-#define Info(...) ALIVE(__VA_ARGS__)
-#define Debug(...) ALIVE(__VA_ARGS__)
+#if defined(DETAILED)
 #define Detail(...) ALIVE(__VA_ARGS__)
-#define Note0 LOG0
-#define Info0 LOG0
-#define Debug0 LOG0
 #define Detail0 LOG0
+#else
+#define Detail(...) DEAD(__VA_ARGS__)
+#define Detail0 DEAD0
+#endif
+
+#if defined(DETAILED) || defined(DEBUG)
+#define Debug(...) ALIVE(__VA_ARGS__)
+#define Debug0 LOG0
+#else
+#define Debug(...) DEAD(__VA_ARGS__)
+#define Debug0 DEAD0
+#endif
+
+#if defined(DETAILED) || defined(DEBUG) || defined(INFORMATION)
+#define Info(...) ALIVE(__VA_ARGS__)
+#define Info0 LOG0
+#else
+#define Info(...) DEAD(__VA_ARGS__)
+#define Info0 DEAD0
+#endif
+
+#if defined(DETAILED) || defined(DEBUG) || defined(INFORMATION) || defined(NOTIFICATION)
+#define Note(...) ALIVE(__VA_ARGS__)
+#define Note0 LOG0
+#else
+#define Note(...) DEAD(__VA_ARGS__)
+#define Note0 DEAD0
 #endif
 
 #define Check(condition, ...) if(!(condition)) { Error(__VA_ARGS__); }

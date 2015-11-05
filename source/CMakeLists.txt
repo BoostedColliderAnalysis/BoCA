@@ -30,12 +30,14 @@ create_library(Global global_sources)
 
 set(event_sources
 File.cpp
-ClonesArrays.cpp
+# ClonesArrays.cpp
 Event.cpp
 FourVector.cpp
 Partons.cpp
 Leptons.cpp
 Hadrons.cpp
+# TreeReaderValues.cpp
+# Selector.cpp
 )
 create_library(Event event_sources)
 
@@ -70,6 +72,7 @@ create_library(Plot plot_sources)
 
 set(tagger_sources
 Tagger.cpp
+ReaderBase.cpp
 TauTagger.cpp
 BottomTagger.cpp
 BosonTagger.cpp

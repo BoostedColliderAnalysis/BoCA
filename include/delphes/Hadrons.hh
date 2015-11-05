@@ -31,16 +31,7 @@ class Hadrons : public boca::Hadrons
 {
 
 public:
-    boca::Jets Jets() const final {
-        switch (DetectorGeometry::jet_type()) {
-        case JetType::jet :
-            return DelphesJets(JetDetail::structure | JetDetail::isolation);
-        case JetType::gen_jet :
-            return GenJets();
-        case JetType::e_flow_jet :
-            return EFlowJets(JetDetail::structure | JetDetail::isolation);
-        }
-    }
+    boca::Jets Jets() const final;
 
     float ScalarHt() const final;
 
@@ -66,10 +57,10 @@ private:
     template <typename Clone>
     std::vector<Constituent> JetId(Clone& clone) const {
         std::vector<Constituent> constituents;
-        for (auto const & particle_number : Range(clone.Particles.GetEntriesFast())) {
-            Family family = BranchFamily(*clone.Particles.At(particle_number));
+//         for (auto const & particle_number : Range(clone.Particles.GetEntriesFast())) {
+//             Family family = BranchFamily(*clone.Particles.At(particle_number));
             constituents.emplace_back(Constituent(clone.P4()/*, family*/));
-        }
+//         }
         return constituents;
     }
 
@@ -84,15 +75,15 @@ private:
 //         return Isolated;
 //     }
 
-    template<typename Particle, typename EFlow>
-    bool Isolation(const EFlow& e_flow, Branch branch) const {
-        bool isolated = true;
-        for (auto const & particle_number : Range(clones_arrays().EntrySum(branch))) {
-            Particle& particle = static_cast<Particle&>(clones_arrays().Object(branch, particle_number));
-            isolated = CheckIsolation(e_flow, particle);
-        }
-        return isolated;
-    }
+//     template<typename Particle, typename EFlow>
+//     bool Isolation(const EFlow& e_flow, Branch branch) const {
+//         bool isolated = true;
+//         for (auto const & particle_number : Range(tree_reader().EntrySum(branch))) {
+//             Particle& particle = static_cast<Particle&>(tree_reader().Object(branch, particle_number));
+//             isolated = CheckIsolation(e_flow, particle);
+//         }
+//         return isolated;
+//     }
 
 //     boca::Jets Constituents(TObject const& object, const TLorentzVector lorentz_vector, const std::vector< TObject* > leptons) const;
 

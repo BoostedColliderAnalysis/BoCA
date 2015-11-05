@@ -16,7 +16,7 @@ Vector2 Multiplet::Pull() const
 {
     Error("do not end up here");
     return Vector2();
-};
+}
 
 boca::Singlet Multiplet::Singlet(boca::Singlet const& singlet_1, boca::Singlet const& singlet_2) const
 {

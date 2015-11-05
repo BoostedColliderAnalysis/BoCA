@@ -6,24 +6,27 @@
 
 #include "Types.hh"
 #include "File.hh"
+// #define INFORMATION
 #include "Debug.hh"
 
-namespace boca {
-
-  File::File(Strings const& processes, std::string const& base_path, std::string const& file_suffix, std::string const& nice_name, Crosssection crosssection, Mass mass)
+namespace boca
 {
-  Debug0;
-  SetVariables();
-  process_folders_ = processes;
-  base_path_ = base_path;
-  file_suffix_ = file_suffix;
-  crosssection_ = crosssection;
-  nice_name_ = nice_name;
-  mass_ = mass;
+
+File::File(Strings const& processes, std::string const& base_path, std::string const& file_suffix, std::string const& nice_name, Crosssection crosssection, Mass mass)
+{
+    Info0;
+    SetVariables();
+    process_folders_ = processes;
+    base_path_ = base_path;
+    file_suffix_ = file_suffix;
+    crosssection_ = crosssection;
+    nice_name_ = nice_name;
+    mass_ = mass;
 }
 
 std::string File::file_suffix() const
 {
+    Info0;
     switch (source()) {
     case Source::delphes :
         return "_delphes_events.root";
@@ -39,6 +42,7 @@ std::string File::file_suffix() const
 
 std::string File::tree_name() const
 {
+    Info0;
     switch (source()) {
     case Source::delphes :
         return "Delphes";
@@ -54,11 +58,13 @@ std::string File::tree_name() const
 
 std::string File::Title() const
 {
+    Info0;
     return process_folders_.front() + "-" + run_folder_;
 }
 
 std::string File::MadGraphFilePath() const
 {
+    Info0;
     return base_path_ + process_folders_.front() + "/events/" + run_folder_ + "/";
 }
 
@@ -73,31 +79,47 @@ Strings File::Paths() const
 {
     Info0;
     Strings FilePaths;
-    for (auto const& process_folder : process_folders_) FilePaths.emplace_back(base_path_ + process_folder + file_suffix_);
+    for (auto const & process_folder : process_folders_) FilePaths.emplace_back(base_path_ + process_folder + file_suffix_);
     return FilePaths;
 }
 
-// exroot::TreeReader File::TreeReader()
+// boca::TreeReader File::TreeReader()
 // {
-//     for(auto const& path : Paths()) Note(path);
+//     Info0;
+//     for (auto const & path : Paths()) Note(path);
 //     Error(Paths().front());
-//     chain_ = new TChain(tree_name().c_str());
-//     for (auto const& path : Paths()) chain_->Add(path.c_str());
-//     return exroot::TreeReader(chain_);
+//     return {Paths(), tree_name()};
 // }
 
-boca::TreeReader File::TreeReader()
+Crosssection File::crosssection() const
 {
-  for(auto const& path : Paths()) Note(path);
-  Error(Paths().front());
-  return boca::TreeReader(Paths(), tree_name());
+    Info0;
+    return crosssection_;
 }
 
-// File::~File()
-// {
-//     Debug0;
-//     delete chain_;
-//     chain_ = nullptr;
-// }
+Crosssection File::crosssection_error() const
+{
+    Info0;
+    return crosssection_error_;
+}
+
+Mass File::mass() const
+{
+    Info0;
+    return mass_;
+}
+
+Source File::source() const
+{
+    Info0;
+    return source_;
+}
+
+std::string File::nice_name() const
+{
+    Info0;
+    return nice_name_;
+}
+
 
 }

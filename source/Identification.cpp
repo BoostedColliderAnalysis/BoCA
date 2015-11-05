@@ -3,6 +3,7 @@
  */
 #include "Identification.hh"
 #include "Branches.hh"
+#include "Debug.hh"
 
 namespace boca
 {
@@ -12,6 +13,7 @@ std::string Name(Tag tag)
     switch (tag) {
     case Tag::signal : return "Signal";
     case Tag::background : return "Background";
+    Default("tag","");
     }
 }
 

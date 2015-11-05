@@ -13,16 +13,16 @@ namespace delphes {
 
 Jets Leptons::Electrons() const
 {
-    Info(clones_arrays().ElectronSum());
+//     Info(tree_reader().ElectronSum());
     return Electrons(JetDetail::plain);
 }
 
 Jets Leptons::Electrons(JetDetail jet_detail) const
 {
-    Info(clones_arrays().ElectronSum());
+//     Info(tree_reader().ElectronSum());
     Jets electrons;
-    for (auto const& ElectronNumber : Range(clones_arrays().ElectronSum())) {
-        ::Electron& electron = static_cast<::Electron&>(clones_arrays().Electron(ElectronNumber));
+    for (auto const& electron : tree_reader().Objects<::delphes::Electron>(Branch::electron)) {
+//         ::Electron& electron = static_cast<::Electron&>(tree_reader().Electron(ElectronNumber));
         fastjet::PseudoJet electron_jet = boca::PseudoJet(electron.P4());
         if (is(jet_detail,JetDetail::tagging)) {
             Constituent constituent(electron.P4()/*, BranchFamily(*electron.Particle.GetObject())*/);
@@ -37,16 +37,16 @@ Jets Leptons::Electrons(JetDetail jet_detail) const
 
 Jets Leptons::Muons() const
 {
-    Info(clones_arrays().MuonSum());
+//     Info(tree_reader().MuonSum());
     return Muons(JetDetail::plain);
 }
 
 Jets Leptons::Muons(JetDetail jet_detail) const
 {
-    Info(clones_arrays().MuonSum());
+//     Info(tree_reader().MuonSum());
     Jets muons;
-    for (auto const& MuonNumber : Range(clones_arrays().MuonSum())) {
-        ::Muon& muon = static_cast<::Muon&>(clones_arrays().Muon(MuonNumber));
+    for (auto const& muon : tree_reader().Objects<::delphes::Muon>(Branch::muon)) {
+//         ::Muon& muon = static_cast<::Muon&>(tree_reader().Muon(MuonNumber));
         fastjet::PseudoJet muon_jet = boca::PseudoJet(muon.P4());
         if (is(jet_detail,JetDetail::tagging)) {
             Constituent constituent(muon.P4()/*, BranchFamily(*muon.Particle.GetObject())*/);
