@@ -4,15 +4,18 @@
 #include "Quartet.hh"
 #include "Branch.hh"
 
-namespace boca {
+namespace boca
+{
 
-namespace heavyhiggs {
+namespace heavyhiggs
+{
 
 /**
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class ChargedHiggsSemiTagger : public TaggerTemplate<Quartet31,ChargedHiggsSemiBranch> {
+class ChargedHiggsSemiTagger : public TaggerTemplate<Quartet31, ChargedHiggsSemiBranch>
+{
 
 public:
 
@@ -24,9 +27,9 @@ public:
 
 private:
 
-    Reader<BottomTagger> bottom_reader_;
+    Reader<standardmodel::BottomTagger> bottom_reader_;
 
-    Reader<TopLeptonicTagger> top_leptonic_reader_;
+    Reader<standardmodel::TopLeptonicTagger> top_leptonic_reader_;
 };
 
 }

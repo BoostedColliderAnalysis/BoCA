@@ -12,6 +12,10 @@
 namespace boca
 {
 
+
+namespace standardmodel
+{
+
 BosonTagger::BosonTagger()
 {
     Info0;
@@ -49,7 +53,7 @@ std::vector<Doublet> BosonTagger::Doublets(Event const& event, std::function<Dou
         if (sub_jet_range.BelowUpperBound(jet)) try {
                 unsigned sub_jet_number = 2;
                 Jets pieces = bottom_reader_.SubMultiplet(jet, sub_jet_number);
-                if(pieces.size() < sub_jet_number) continue;
+                if (pieces.size() < sub_jet_number) continue;
                 Doublet doublet(pieces.at(0), pieces.at(1));
                 doublets.emplace_back(function(doublet));
             } catch (std::exception const&) {}
@@ -118,3 +122,4 @@ std::string BosonTagger::NiceName() const
 
 }
 
+}

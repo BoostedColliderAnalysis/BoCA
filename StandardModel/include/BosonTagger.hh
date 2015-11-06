@@ -8,9 +8,14 @@
 #include "Doublet.hh"
 #include "Reader.hh"
 
-namespace boca {
+namespace boca
+{
 
 class Doublet;
+
+namespace standardmodel
+{
+
 
 /**
  * @brief Derived Tagger class targeting W, Z and h bosons.
@@ -20,7 +25,8 @@ class Doublet;
  * @license GPL 3
  *
  */
-class BosonTagger : public TaggerTemplate<Doublet, ZHadronicBranch> {
+class BosonTagger : public TaggerTemplate<Doublet, ZHadronicBranch>
+{
 
 public:
 
@@ -46,12 +52,14 @@ private:
 
     bool Problematic(Doublet const& doublet, PreCuts const& pre_cuts) const;
 
-    std::vector<Doublet> Doublets(Event const& event, std::function<Doublet(Doublet &)> const& function) const;
+    std::vector<Doublet> Doublets(Event const& event, std::function<Doublet(Doublet&)> const& function) const;
 
     Reader<BottomTagger> bottom_reader_;
 
     Mass boson_mass_window;
 
 };
+
+}
 
 }

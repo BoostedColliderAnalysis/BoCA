@@ -10,7 +10,7 @@ void Run(boca::Output run = boca::Output::normal)
 
 int main()
 {
-    Run<boca::BottomTagger>(boca::Output::fast) ;
-    Run<boca::BosonTagger>(boca::Output::efficiency);
+    Run<boca::standardmodel::BottomTagger>(boca::Output::fast) ;
+    Run<boca::standardmodel::BosonTagger>(boca::Output::efficiency);
 }
 

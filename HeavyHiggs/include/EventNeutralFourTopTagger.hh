@@ -29,7 +29,7 @@ private:
 
     Reader<SignatureNeutralTagger> signature_neutral_reader_;
 
-    Reader<BottomTagger> bottom_reader_;
+    Reader<standardmodel::BottomTagger> bottom_reader_;
 
 };
 

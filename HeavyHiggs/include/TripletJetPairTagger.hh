@@ -6,17 +6,19 @@
 #include "TopHadronicTagger.hh"
 #include "Quartet.hh"
 
-namespace boca {
+namespace boca
+{
 
 /**
  * @brief JetPair BDT tagger
  *
  */
-class TripletJetPairTagger : public TaggerTemplate<Quartet31, TripletJetPairBranch> {
+class TripletJetPairTagger : public TaggerTemplate<Quartet31, TripletJetPairBranch>
+{
 
 public:
 
-    int Train(const boca::Event &event, boca::PreCuts const&pre_cuts, Tag tag) const override;
+    int Train(const boca::Event& event, boca::PreCuts const& pre_cuts, Tag tag) const override;
 
     std::vector<Quartet31> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
 
@@ -24,9 +26,9 @@ public:
 
 private:
 
-    Reader<BottomTagger> bottom_reader_;
+    Reader<standardmodel::BottomTagger> bottom_reader_;
 
-    Reader<TopHadronicTagger> top_hadronic_reader_;
+    Reader<standardmodel::TopHadronicTagger> top_hadronic_reader_;
 
 };
 

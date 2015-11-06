@@ -9,6 +9,9 @@
 namespace boca
 {
 
+namespace standardmodel
+{
+
 ZHadronicTagger::ZHadronicTagger()
 {
     Info0;
@@ -23,7 +26,8 @@ int ZHadronicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Ta
     }), Particles(event), tag, Id::Z);
 }
 
-std::vector<Doublet> ZHadronicTagger::Doublets(Event const& event, std::function<Doublet(Doublet&)> function) const {
+std::vector<Doublet> ZHadronicTagger::Doublets(Event const& event, std::function<Doublet(Doublet&)> function) const
+{
     Info0;
     Jets jets = bottom_reader_.Jets(event);
     std::vector<Doublet> doublets = unordered_pairs(jets, [&](fastjet::PseudoJet const & jet_1, fastjet::PseudoJet const & jet_2) {
@@ -111,3 +115,4 @@ std::string ZHadronicTagger::NiceName() const
 
 }
 
+}

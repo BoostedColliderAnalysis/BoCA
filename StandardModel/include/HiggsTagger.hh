@@ -13,6 +13,9 @@ namespace boca
 
 class Doublet;
 
+namespace standardmodel
+{
+
 /**
  * @brief Semi leptonic heavy higgs BDT tagger
  *
@@ -55,5 +58,7 @@ private:
     Mass higgs_mass_window;
 
 };
+
+}
 
 }

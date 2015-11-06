@@ -12,16 +12,16 @@ void Run(boca::Output run = boca::Output::normal)
 
 int main()
 {
-    Run<boca::BottomTagger>(boca::Output::normal) ;
-    switch (boca::standardmodel::TopAnalysis<boca::BottomTagger>::TopDecay()) {
+    Run<boca::standardmodel::BottomTagger>(boca::Output::normal) ;
+    switch (boca::standardmodel::TopAnalysis<boca::standardmodel::BottomTagger>::TopDecay()) {
     case boca::Decay::hadronic : {
-        Run<boca::WHadronicTagger>(boca::Output::fast);
-        Run<boca::TopHadronicTagger>(boca::Output::efficiency);
+        Run<boca::standardmodel::WHadronicTagger>(boca::Output::fast);
+        Run<boca::standardmodel::TopHadronicTagger>(boca::Output::efficiency);
         break;
     }
     case boca::Decay::leptonic : {
-        Run<boca::WLeptonicTagger>(boca::Output::fast);
-        Run<boca::TopLeptonicTagger>(boca::Output::efficiency);
+        Run<boca::standardmodel::WLeptonicTagger>(boca::Output::fast);
+        Run<boca::standardmodel::TopLeptonicTagger>(boca::Output::efficiency);
         break;
     }
     }

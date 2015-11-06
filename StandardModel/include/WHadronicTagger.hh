@@ -11,6 +11,9 @@
 namespace boca
 {
 
+namespace standardmodel
+{
+
 /**
  * @brief W BDT tagger
  *
@@ -68,5 +71,7 @@ private:
 
     Mass w_mass_window_;
 };
+
+}
 
 }

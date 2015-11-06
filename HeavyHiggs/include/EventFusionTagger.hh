@@ -3,16 +3,19 @@
 #include "HeavyHiggsSemiTagger.hh"
 #include "MultipletEvent.hh"
 
-namespace boca {
+namespace boca
+{
 
-namespace heavyhiggs {
+namespace heavyhiggs
+{
 
 /**
  *
  * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class EventFusionTagger : public TaggerTemplate<MultipletEvent<Sextet>,EventFusionBranch> {
+class EventFusionTagger : public TaggerTemplate<MultipletEvent<Sextet>, EventFusionBranch>
+{
 
 public:
 
@@ -24,7 +27,7 @@ public:
 
 private:
 
-    Reader<BottomTagger> bottom_reader_;
+    Reader<standardmodel::BottomTagger> bottom_reader_;
 
     Reader<HeavyHiggsSemiTagger> heavy_higgs_semi_reader_;
 

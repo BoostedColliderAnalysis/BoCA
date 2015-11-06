@@ -7,7 +7,11 @@
 #include "ParticleInfo.hh"
 #include "Debug.hh"
 
-namespace boca {
+namespace boca
+{
+
+namespace standardmodel
+{
 
 WLeptonicTagger::WLeptonicTagger()
 {
@@ -26,13 +30,13 @@ int WLeptonicTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) co
         leptons.erase(leptons.begin() + w_bosons.size(), leptons.end());
     fastjet::PseudoJet missing_et = event.Hadrons().MissingEt();
     std::vector<Doublet> doublets;
-    for (auto const& lepton : leptons) {
+    for (auto const & lepton : leptons) {
         Doublet pre_doublet(lepton, missing_et);
         std::vector<Doublet> post_doublets = ReconstructNeutrino(pre_doublet);
-        for (auto& doublet : post_doublets) {
+        for (auto & doublet : post_doublets) {
             if (tag == Tag::signal && boost::units::abs(doublet.Mass() - MassOf(Id::W)) > w_mass_window_) continue;
             bool in_cone = false;
-            for (auto const& w_boson : w_bosons) if (Close(w_boson)(doublet)) in_cone = true;
+            for (auto const & w_boson : w_bosons) if (Close(w_boson)(doublet)) in_cone = true;
             switch (tag) {
             case Tag::signal :
                 if (!in_cone) continue;
@@ -57,10 +61,10 @@ std::vector<Doublet>  WLeptonicTagger::Multiplets(Event const& event, boca::PreC
     Jets leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
     if (leptons.size() > w_bosons.size()) leptons.erase(leptons.begin() + w_bosons.size(), leptons.end());
     std::vector<Doublet> doublets;
-    for (auto const& lepton : leptons) {
+    for (auto const & lepton : leptons) {
         Doublet pre_doublet(lepton, event.Hadrons().MissingEt());
         std::vector<Doublet> post_doublets = ReconstructNeutrino(pre_doublet);
-        for (auto& doublet : post_doublets) {
+        for (auto & doublet : post_doublets) {
             if (boost::units::abs(doublet.Mass() - MassOf(Id::W)) > w_mass_window_) continue;
             doublet.SetBdt(Bdt(doublet, reader));
             doublets.emplace_back(doublet);
@@ -122,7 +126,7 @@ int WLeptonicTagger::WLeptonicId(Jets const& jets) const
     int sign;
     bool first = true;
     bool just_one = true;
-    for (auto const& jet : jets) {
+    for (auto const & jet : jets) {
         int id = jet.user_info<ParticleInfo>().Family().mother_1().id();
         if (first) sign = sgn(id);
         else if (sign != sgn(id)) just_one = false;
@@ -130,6 +134,8 @@ int WLeptonicTagger::WLeptonicId(Jets const& jets) const
     }
     if (just_one) return sign * to_int(Id::W);
     return 0;
+}
+
 }
 
 }

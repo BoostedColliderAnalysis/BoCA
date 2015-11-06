@@ -11,6 +11,9 @@
 namespace boca
 {
 
+namespace standardmodel
+{
+
 /**
  * @brief Top leptonic BDT tagger
  *
@@ -53,5 +56,7 @@ private:
     Jets Leptons(Event const& event, Jets const& jets) const;
 
 };
+
+}
 
 }

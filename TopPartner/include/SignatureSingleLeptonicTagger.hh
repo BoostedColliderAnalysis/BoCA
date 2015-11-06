@@ -38,11 +38,11 @@ private:
 
     Reader<TopPartnerLeptonicTagger> partner_reader_;
 
-    Reader<TopHadronicTagger> top_reader_;
+    Reader<standardmodel::TopHadronicTagger> top_reader_;
 
-    Reader<HiggsTagger> higgs_reader_;
+    Reader<standardmodel::HiggsTagger> higgs_reader_;
 
-    Reader<BosonTagger> boson_reader_;
+    Reader<standardmodel::BosonTagger> boson_reader_;
 
     Reader<TopPartnerHadronicTagger> veto_reader_;
 };

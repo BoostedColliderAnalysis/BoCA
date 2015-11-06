@@ -17,6 +17,9 @@
 namespace boca
 {
 
+namespace standardmodel
+{
+
 HiggsTagger::HiggsTagger()
 {
     Info0;
@@ -159,6 +162,8 @@ std::string HiggsTagger::Name() const
 std::string HiggsTagger::NiceName() const
 {
     return "h";
+}
+
 }
 
 }

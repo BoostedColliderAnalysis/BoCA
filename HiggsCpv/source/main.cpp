@@ -11,22 +11,22 @@
 int main()
 {
 
-    boca::higgscpv::Analysis<boca::BottomTagger> bottom_analysis;
+    boca::higgscpv::Analysis<boca::standardmodel::BottomTagger> bottom_analysis;
     bottom_analysis.RunNormal();
 
-//     boca::higgscpv::Analysis<boca::WLeptonicTagger> w_leptonic_analysis;
+    //     boca::higgscpv::Analysis<boca::standardmodel::WLeptonicTagger> w_leptonic_analysis;
 //     w_leptonic_analysis.RunNormal();
 
-    boca::higgscpv::Analysis<boca::TopLeptonicTagger> top_leptonic_analysis;
+    boca::higgscpv::Analysis<boca::standardmodel::TopLeptonicTagger> top_leptonic_analysis;
     top_leptonic_analysis.RunNormal();
 
-//     boca::higgscpv::Analysis<boca::WHadronicTagger> w_hadronic_analysis;
+    //     boca::higgscpv::Analysis<boca::standardmodel::WHadronicTagger> w_hadronic_analysis;
     //     w_hadronic_analysis.RunNormal();
 //
-//     boca::higgscpv::Analysis<boca::TopHadronicTagger> top_hadronic_analysis;
+    //     boca::higgscpv::Analysis<boca::standardmodel::TopHadronicTagger> top_hadronic_analysis;
     //     top_hadronic_analysis.RunNormal();
 
-    boca::higgscpv::Analysis<boca::HiggsTagger> higgs_analysis;
+    boca::higgscpv::Analysis<boca::standardmodel::HiggsTagger> higgs_analysis;
     higgs_analysis.RunFullEfficiency();
 //     higgs_analysis.RunPlots();
 
@@ -54,7 +54,7 @@ int main()
 
     boca::higgscpv::Analysis<boca::higgscpv::SignatureLeptonTTagger> signature_lepton_t_analysis;
     signature_lepton_t_analysis.RunFullEfficiency();
-        signature_t_analysis.RunPlots();
+    signature_t_analysis.RunPlots();
 
     boca::higgscpv::Analysis<boca::higgscpv::EventLeptonTTagger> event_lepton_t_analysis;
     event_lepton_t_analysis.RunFullSignificance();

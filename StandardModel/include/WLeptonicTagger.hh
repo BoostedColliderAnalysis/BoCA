@@ -7,13 +7,18 @@
 #include "Branches.hh"
 #include "TaggerTemplate.hh"
 
-namespace boca {
+namespace boca
+{
+
+namespace standardmodel
+{
 
 /**
  * @brief Semi leptonic top BDT tagger
  *
  */
-class WLeptonicTagger : public TaggerTemplate<Doublet, WSemiBranch> {
+class WLeptonicTagger : public TaggerTemplate<Doublet, WSemiBranch>
+{
 
 public:
 
@@ -23,12 +28,13 @@ public:
 
     std::vector<Doublet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
 
-    int WLeptonicId(Event const& event) const
-    {
+    int WLeptonicId(Event const& event) const {
         return WLeptonicId(WLeptonicDaughters(event));
     }
 
-    std::string Name() const final { return "WLeptonic"; }
+    std::string Name() const final {
+        return "WLeptonic";
+    }
 
 private:
 
@@ -48,3 +54,4 @@ private:
 
 }
 
+}

@@ -9,7 +9,11 @@
 #include "Event.hh"
 #include "Debug.hh"
 
-namespace boca {
+namespace boca
+{
+
+namespace standardmodel
+{
 
 int TauTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
@@ -30,7 +34,7 @@ int TauTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 //     Jets Pieces2 = GetSubJets(jets, Particles, Tag, 3);
 //     FinalJets.insert(FinalJets.end(), Pieces2.begin(), Pieces2.end());
     std::vector<Singlet> singlets;
-    for (auto const& final_jet : final_jets) singlets.emplace_back(Singlet(final_jet));
+    for (auto const & final_jet : final_jets) singlets.emplace_back(Singlet(final_jet));
     return SaveEntries(singlets);
 }
 
@@ -38,13 +42,13 @@ int TauTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 Jets TauTagger::CleanJets(boca::Jets& jets, boca::Jets const& Particles, Tag tag) const
 {
     Info("Clean Jets");
-    for (auto const& Particle : Particles) {
+    for (auto const & Particle : Particles) {
         std::sort(jets.begin(), jets.end(), MinDeltaRTo(Particle));
         if (jets.front().delta_R(Particle) < 0.4)
             static_cast<JetInfo&>(*jets.front().user_info_shared_ptr().get()).SetTag(Tag::signal);
     }
     Jets NewCleanJets;
-    for (auto const& Jet : jets) {
+    for (auto const & Jet : jets) {
         if (!Jet.has_user_info<JetInfo>()) {
             Error("Clean Jets", "No Jet Info");
             continue;
@@ -66,10 +70,10 @@ Jets TauTagger::CleanJets(boca::Jets& jets, boca::Jets const& Particles, Tag tag
 
 std::vector<Singlet> TauTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
-  std::vector<Singlet> final_jets;
+    std::vector<Singlet> final_jets;
     Info("Jet Bdt");
     Jets jets = event.Hadrons().Jets();
-    for (auto const& jet : jets) {
+    for (auto const & jet : jets) {
         if (!jet.has_user_info<JetInfo>()) {
             Error("Jet Bdt", "No Jet Info");
             continue;
@@ -82,6 +86,8 @@ std::vector<Singlet> TauTagger::Multiplets(Event const& event, boca::PreCuts con
 std::string TauTagger::Name() const
 {
     return "Tau";
+}
+
 }
 
 }

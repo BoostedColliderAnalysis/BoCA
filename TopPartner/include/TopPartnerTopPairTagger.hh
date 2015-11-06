@@ -27,7 +27,7 @@ private:
 
     Reader<TopPartnerLeptonicTagger> top_partner_reader_;
 
-    Reader<TopHadronicTagger> top_reader_;
+    Reader<standardmodel::TopHadronicTagger> top_reader_;
 };
 
 }

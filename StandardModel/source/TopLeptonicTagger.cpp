@@ -12,6 +12,9 @@
 namespace boca
 {
 
+namespace standardmodel
+{
+
 TopLeptonicTagger::TopLeptonicTagger() : w_leptonic_reader_(InitializeLeptonicReader())
 {
     Info0;
@@ -129,6 +132,8 @@ std::string TopLeptonicTagger::Name() const
 std::string TopLeptonicTagger::NiceName() const
 {
     return "t_{l}";
+}
+
 }
 
 }

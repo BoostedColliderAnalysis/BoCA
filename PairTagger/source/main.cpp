@@ -3,7 +3,7 @@
 
 int main()
 {
-    boca::fusionpair::Analysis<boca::BottomTagger > bottom_analysis;
+    boca::fusionpair::Analysis<boca::standardmodel::BottomTagger > bottom_analysis;
     bottom_analysis.RunNormal();
 
     boca::fusionpair::Analysis<boca::JetPairTagger > pair_analysis;

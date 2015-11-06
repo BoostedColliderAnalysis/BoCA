@@ -3,16 +3,19 @@
 #include "MultipletEvent.hh"
 #include "SignatureChargedTagger.hh"
 
-namespace boca {
+namespace boca
+{
 
-namespace heavyhiggs {
+namespace heavyhiggs
+{
 
 /**
  *
  * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class EventChargedTagger : public TaggerTemplate<MultipletEvent<Octet44>,EventChargedBranch> {
+class EventChargedTagger : public TaggerTemplate<MultipletEvent<Octet44>, EventChargedBranch>
+{
 
 public:
 
@@ -24,7 +27,7 @@ public:
 
 private:
 
-    Reader<BottomTagger> bottom_reader_;
+    Reader<standardmodel::BottomTagger> bottom_reader_;
 
     Reader<SignatureChargedTagger> signature_semi_reader_;
 

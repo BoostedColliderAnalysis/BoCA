@@ -5,15 +5,18 @@
 #include "Reader.hh"
 #include "Branch.hh"
 
-namespace boca {
+namespace boca
+{
 
-namespace heavyhiggs {
+namespace heavyhiggs
+{
 
 /**
  * @brief Semi leptonic top BDT tagger
  *
  */
-class HeavyHiggsTauTagger : public TaggerTemplate<Doublet,HeavyHiggsTauBranch> {
+class HeavyHiggsTauTagger : public TaggerTemplate<Doublet, HeavyHiggsTauBranch>
+{
 
 public:
 
@@ -23,7 +26,7 @@ public:
 
 private:
 
-    Reader<TauTagger> tau_reader_;
+    Reader<standardmodel::TauTagger> tau_reader_;
 
 };
 

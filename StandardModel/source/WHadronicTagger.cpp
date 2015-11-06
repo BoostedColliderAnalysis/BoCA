@@ -14,6 +14,9 @@
 namespace boca
 {
 
+namespace standardmodel
+{
+
 WHadronicTagger::WHadronicTagger()
 {
     Info0;
@@ -255,12 +258,16 @@ Doublet WHadronicTagger::Multiplet(fastjet::PseudoJet const& jet_1, fastjet::Pse
     }
 }
 
-std::string WHadronicTagger::Name() const{
+std::string WHadronicTagger::Name() const
+{
     return "WHadronic";
 }
 
-std::string WHadronicTagger::NiceName() const{
-  return "W_{h}";
+std::string WHadronicTagger::NiceName() const
+{
+    return "W_{h}";
+}
+
 }
 
 }

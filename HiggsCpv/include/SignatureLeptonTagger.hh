@@ -31,7 +31,7 @@ private:
 
     MultipletSignature<Quartet211> Signature(boca::Doublet const& doublet, boca::Singlet const& singlet_1, boca::Singlet const& singlet_2) const;
 
-    Reader<HiggsTagger> higgs_reader_;
+    Reader<standardmodel::HiggsTagger> higgs_reader_;
 
 };
 

@@ -11,6 +11,9 @@
 namespace boca
 {
 
+namespace standardmodel
+{
+
 /**
  * @brief Semi leptonic heavy higgs BDT tagger
  *
@@ -49,5 +52,7 @@ private:
     Mass z_mass_window;
 
 };
+
+}
 
 }

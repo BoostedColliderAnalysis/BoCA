@@ -5,15 +5,18 @@
 #include "TopHadronicTagger.hh"
 #include "Sextet.hh"
 
-namespace boca {
+namespace boca
+{
 
-namespace heavyhiggs {
+namespace heavyhiggs
+{
 
 /**
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class HeavyHiggsSemiTagger : public TaggerTemplate<Sextet, HeavyHiggsSemiBranch> {
+class HeavyHiggsSemiTagger : public TaggerTemplate<Sextet, HeavyHiggsSemiBranch>
+{
 
 public:
 
@@ -31,9 +34,9 @@ public:
 
 private:
 
-    Reader<TopHadronicTagger> top_hadronic_reader_;
+    Reader<standardmodel::TopHadronicTagger> top_hadronic_reader_;
 
-    Reader<TopLeptonicTagger> top_leptonic_reader_;
+    Reader<standardmodel::TopLeptonicTagger> top_leptonic_reader_;
 };
 
 }

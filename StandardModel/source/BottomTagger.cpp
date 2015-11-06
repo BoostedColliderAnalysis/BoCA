@@ -12,6 +12,9 @@
 namespace boca
 {
 
+namespace standardmodel
+{
+
 BottomTagger::BottomTagger()
 {
     Info0;
@@ -139,3 +142,4 @@ std::string BottomTagger::NiceName() const
 
 }
 
+}

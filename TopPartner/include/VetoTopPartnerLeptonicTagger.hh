@@ -40,9 +40,9 @@ private:
 
     Reader<TopPartnerHadronicTagger> partner_reader_;
 
-    Reader<TopLeptonicTagger> top_reader_;
+    Reader<standardmodel::TopLeptonicTagger> top_reader_;
 
-    Reader<HiggsTagger> higgs_reader_;
+    Reader<standardmodel::HiggsTagger> higgs_reader_;
 
 };
 

@@ -8,13 +8,15 @@
 #include "Doublet.hh"
 #include "Reader.hh"
 
-namespace boca {
+namespace boca
+{
 
 /**
  * @brief JetPair BDT tagger
  *
  */
-class JetPairTagger : public TaggerTemplate<Doublet, JetPairBranch> {
+class JetPairTagger : public TaggerTemplate<Doublet, JetPairBranch>
+{
 
 public:
 
@@ -32,7 +34,7 @@ public:
 
 private:
 
-    Reader<BottomTagger> bottom_reader_;
+    Reader<standardmodel::BottomTagger> bottom_reader_;
 
 };
 

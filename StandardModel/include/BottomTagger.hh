@@ -10,6 +10,9 @@
 namespace boca
 {
 
+namespace standardmodel
+{
+
 /**
  * @brief Derived Tagger class for bottom jets.
  * @author Jan Hajer
@@ -75,5 +78,7 @@ private:
     Mass bottom_max_mass_;
 
 };
+
+}
 
 }

@@ -4,15 +4,18 @@
 #include "Sextet.hh"
 #include "BranchesHiggsCpv.hh"
 
-namespace boca {
+namespace boca
+{
 
-namespace higgscpv {
+namespace higgscpv
+{
 
 /**
  * @brief JetPair BDT tagger
  *
  */
-class TopLeptonicPairTagger : public TaggerTemplate<Sextet, TopLeptonicPairBranch> {
+class TopLeptonicPairTagger : public TaggerTemplate<Sextet, TopLeptonicPairBranch>
+{
 
 public:
 
@@ -26,7 +29,7 @@ public:
 
 private:
 
-    Reader<TopLeptonicTagger> top_leptonic_reader_;
+    Reader<standardmodel::TopLeptonicTagger> top_leptonic_reader_;
 
 };
 

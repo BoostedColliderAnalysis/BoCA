@@ -27,7 +27,7 @@ private:
 
     Reader<TopPartnerLeptonicTagger> top_partner_hadronic_reader_;
 
-    Reader<HiggsTagger> higgs_reader_;
+    Reader<standardmodel::HiggsTagger> higgs_reader_;
 };
 
 }

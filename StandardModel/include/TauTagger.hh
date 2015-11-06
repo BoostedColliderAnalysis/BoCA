@@ -6,13 +6,18 @@
 #include "Branches.hh"
 #include "TaggerTemplate.hh"
 
-namespace boca {
+namespace boca
+{
+
+namespace standardmodel
+{
 
 /**
  * @brief Bottom BDT tagger
  *
  */
-class TauTagger : public TaggerTemplate<Singlet, TauBranch> {
+class TauTagger : public TaggerTemplate<Singlet, TauBranch>
+{
 
 public:
 
@@ -27,5 +32,7 @@ private:
     Jets CleanJets(boca::Jets& jets, boca::Jets const& Particles, Tag tag) const;
 
 };
+
+}
 
 }

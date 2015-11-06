@@ -34,9 +34,9 @@ private:
 
     std::vector<Quintet> Quintets(Event const& event, std::function<Quintet(Quintet&)> const& function) const;
 
-    Reader<TopLeptonicTagger> top_reader_;
+    Reader<standardmodel::TopLeptonicTagger> top_reader_;
 
-    Reader<BosonTagger> boson_reader_;
+    Reader<standardmodel::BosonTagger> boson_reader_;
 };
 
 }

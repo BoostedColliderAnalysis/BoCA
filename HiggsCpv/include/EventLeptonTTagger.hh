@@ -26,7 +26,7 @@ private:
 
     Reader<SignatureLeptonTTagger> signature_reader_;
 
-    Reader<BottomTagger> bottom_reader_;
+    Reader<standardmodel::BottomTagger> bottom_reader_;
 
 };
 

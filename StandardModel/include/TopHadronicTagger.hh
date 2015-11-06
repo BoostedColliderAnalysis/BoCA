@@ -11,6 +11,9 @@
 namespace boca
 {
 
+namespace standardmodel
+{
+
 /**
  * @brief Hadronic top BDT tagger
  *
@@ -80,3 +83,4 @@ private:
 
 }
 
+}

@@ -5,16 +5,19 @@
 #include "TopLeptonicPairTagger.hh"
 #include "Octet.hh"
 
-namespace boca {
+namespace boca
+{
 
-namespace higgscpv {
+namespace higgscpv
+{
 
 /**
  *
  * @brief event BDT for
  *
  */
-class SignatureTagger : public TaggerTemplate<boca::MultipletSignature< boca::Octet62 >, SignatureLeptonicBranch> {
+class SignatureTagger : public TaggerTemplate<boca::MultipletSignature< boca::Octet62 >, SignatureLeptonicBranch>
+{
 
 public:
 
@@ -26,7 +29,7 @@ public:
 
 private:
 
-    Reader<HiggsTagger> higgs_reader_;
+    Reader<standardmodel::HiggsTagger> higgs_reader_;
 
     Reader<TopLeptonicPairTagger> triplet_pair_reader_;
 
