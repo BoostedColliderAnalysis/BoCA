@@ -73,17 +73,6 @@ create_library(Plot plot_sources)
 set(tagger_sources
 Tagger.cpp
 ReaderBase.cpp
-TauTagger.cpp
-BottomTagger.cpp
-BosonTagger.cpp
-WHadronicTagger.cpp
-WLeptonicTagger.cpp
-ZHadronicTagger.cpp
-HiggsTagger.cpp
-TopHadronicTagger.cpp
-TopLeptonicTagger.cpp
-JetPairTagger.cpp
-TripletJetPairTagger.cpp
 Observable.cpp
 MomentumRange.cpp
 PreCuts.cpp
