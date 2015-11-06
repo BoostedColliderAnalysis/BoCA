@@ -204,13 +204,6 @@ private:
 
 };
 
-template<>
-inline void TaggerTemplate<fastjet::PseudoJet, BottomBranch>::FillBranch(fastjet::PseudoJet const& multiplet) const
-{
-//     Info0;
-    branch_.Fill(Singlet(multiplet));
-}
-
 }
 // #undef INFORMATION
 

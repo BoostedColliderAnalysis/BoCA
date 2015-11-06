@@ -111,8 +111,8 @@ float Trainer::Weight(exroot::TreeReader& tree_reader)
     Info(Tagger().WeightBranchName());
     TClonesArray& clones_array = *tree_reader.UseBranch(Tagger().WeightBranchName().c_str());
     tree_reader.ReadEntry(0);
-    return 1; // FIXME TODO !!!!!!!!!! this should be switched of again !!!!!!!!!!!!!!! FIXME TODO
     return static_cast<InfoBranch&>(*clones_array.First()).Crosssection / tree_reader.GetEntries();
+    return 1; // FIXME TODO !!!!!!!!!! this should be switched of again !!!!!!!!!!!!!!! FIXME TODO
 }
 
 TTree& Trainer::Tree(std::string const& tree_name, Tag tag)

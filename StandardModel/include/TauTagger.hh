@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include "Branches.hh"
+#include "BranchesSm.hh"
 #include "TaggerTemplate.hh"
 
 namespace boca

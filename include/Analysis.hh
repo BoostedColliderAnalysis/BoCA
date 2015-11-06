@@ -183,14 +183,14 @@ template<typename Tagger>
 class Third
 {
 public:
-    Third(BranchWriter<Tagger>& branch_writer, int core, int max)
+    Third(BranchWriter<Tagger>& branch_writer, int core_number, int core_sum, int object_sum_max)
         : branch_writer_(branch_writer)
         , reader_(branch_writer.reader())
         , tagger_(branch_writer.tagger())
         , tree_reader_(branch_writer.chain()) {
         Info0;
-        event_number_ = core;
-        max_ = max;
+        event_number_ = FirstEntry(object_sum_max, core_number);
+        max_ = core_sum;
         info_branch_ = FillInfoBranch(second().file());
     }
 
@@ -213,13 +213,13 @@ public:
 //         return Range(FirstEntry(max), GetEntries());
 //     }
 //
-//     long FirstEntry(long max)  {
-//         Info0;
-//         long entry = 0;
-//         if (second().first().stage() == Stage::reader) entry = std::min(GetEntries(), max) / 2;  // TODO fix corner cases
-//         return entry;
-//     }
-//
+    long FirstEntry(long object_sum_max, int core_number)  {
+        Info0;
+        long entry = core_number;
+        if (second().first().stage() == Stage::reader) entry = std::min(GetEntries(), object_sum_max + core_number);  // TODO fix corner cases
+        return entry;
+    }
+
     long GetEntries() {
         return tree_reader().GetEntries();
     }
@@ -287,7 +287,7 @@ private:
 
     InfoBranch info_branch_;
 
-    long event_number_ = 0;
+    long event_number_;
 
     int max_;
 };
@@ -345,11 +345,11 @@ private:
         std::mutex branch_writer_mutex;
         std::vector<std::thread> threads;
 //         int max = std::thread::hardware_concurrency(); // breaks in the tree reader, find  a cheap way to store the position of the data
-        int max = 1;
-        for (auto core : Range(max)) {
-            threads.emplace_back(std::thread([&, core, max] {
+        int cores = 1;
+        for (auto core : Range(cores)) {
+            threads.emplace_back(std::thread([&, core, cores] {
                 branch_writer_mutex.lock();
-                Third<Tagger> third(branch_writer, core, max);
+                Third<Tagger> third(branch_writer, core, cores, EventNumberMax());
                 branch_writer_mutex.unlock();
                 ThirdLoop(third);
             }));

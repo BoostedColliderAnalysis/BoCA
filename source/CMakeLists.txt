@@ -13,7 +13,6 @@ Vector3.cpp
 LorentzVector.cpp
 EventShapes.cpp
 EventShape.cpp
-TreeReader.cpp
 )
 create_library(Vector vector_sources)
 
@@ -30,21 +29,19 @@ create_library(Global global_sources)
 
 set(event_sources
 File.cpp
-# ClonesArrays.cpp
+TreeReader.cpp
 Event.cpp
 FourVector.cpp
 Partons.cpp
 Leptons.cpp
 Hadrons.cpp
-# TreeReaderValues.cpp
-# Selector.cpp
 )
 create_library(Event event_sources)
 
 set(multiplet_sources
-Multiplet.cpp
 Identification.cpp
 Singlet.cpp
+Multiplet.cpp
 Doublet.cpp
 Triplet.cpp
 Quartet.cpp

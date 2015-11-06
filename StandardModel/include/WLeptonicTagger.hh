@@ -4,7 +4,7 @@
 #pragma once
 
 #include "Doublet.hh"
-#include "Branches.hh"
+#include "BranchesSm.hh"
 #include "TaggerTemplate.hh"
 
 namespace boca

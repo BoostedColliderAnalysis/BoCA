@@ -36,16 +36,15 @@ public:
 
     static Decay TopDecay() {
         Info0;
-        return Decay::hadronic;
         return Decay::leptonic;
+        return Decay::hadronic;
     }
 
 private:
 
     std::string AnalysisName() const final {
         Info0;
-        return "parallel-5";
-        return  Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-" + Name(TopDecay()) + "-test-new tagger-template";
+        return  Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-" + Name(TopDecay()) + "-large";
     }
 
     void SetFiles(Tag tag, Stage) final {

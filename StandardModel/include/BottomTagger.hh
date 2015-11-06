@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include "Branches.hh"
+#include "BranchesSm.hh"
 #include "TaggerTemplate.hh"
 
 
@@ -80,5 +80,13 @@ private:
 };
 
 }
+
+template<>
+inline void TaggerTemplate<fastjet::PseudoJet, standardmodel::BottomBranch>::FillBranch(fastjet::PseudoJet const& multiplet) const
+{
+  //     Info0;
+  branch_.Fill(Singlet(multiplet));
+}
+
 
 }

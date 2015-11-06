@@ -1,3 +1,6 @@
+
+create_dictionary(BranchesSm BranchesSm.cpp ../include/LinkDefSm.hh)
+
 set(sm_tagger_sources
 TauTagger.cpp
 BottomTagger.cpp

@@ -44,7 +44,7 @@ public:
 private:
 
     std::string AnalysisName() const final {
-      return  Name(production_channel()) + Name(this->collider_type()) + "_" + boca::Name(this->MadGraphCut()) + "-lambda2";
+      return  Name(production_channel()) + Name(this->collider_type()) + "_" + boca::Name(this->MadGraphCut()) + "-large";
     }
 
     Production production_channel() const {
