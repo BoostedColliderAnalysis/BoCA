@@ -276,13 +276,13 @@ Jets Hadrons::GenJets() const
 float Hadrons::ScalarHt() const
 {
     Info0;
-    return tree_reader().Objects<::delphes::ScalarHT>(Branch::scalar_ht).front().HT;
+    return tree_reader().Objects<::delphes::ScalarHT>(Branch::scalar_ht).At(0).HT;
 }
 
 fastjet::PseudoJet Hadrons::MissingEt() const
 {
     Info0;
-    return boca::PseudoJet(tree_reader().Objects<::delphes::MissingET>(Branch::missing_et).front().P4());
+    return boca::PseudoJet(tree_reader().Objects<::delphes::MissingET>(Branch::missing_et).At(0).P4());
 }
 
 }

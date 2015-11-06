@@ -4,10 +4,12 @@
 #include <memory>
 #include <vector>
 #include <map>
+#include <iostream>
 
 #include "TChain.h"
 #include "TTreeReader.h"
 #include "TTreeReaderArray.h"
+#include "TLeaf.h"
 
 namespace boca
 {
@@ -45,8 +47,8 @@ enum class Source
 class TreeReaderArrayBase
 {
 public:
-    virtual ~TreeReaderArrayBase() {}
-    virtual void Fill() {}
+//     virtual ~TreeReaderArrayBase() = 0;
+    virtual void Fill() = 0 ;
 };
 
 template <typename Object>
@@ -58,18 +60,30 @@ public:
     TreeReaderArray(TTreeReader& tree_reader, Branch branch) : tree_reader_array_(TTreeReaderArray<Object>(tree_reader, BranchName(branch).c_str())) {}
 
     void Fill() {
-        vector_ = vector(tree_reader_array_);
+//         vector_ = vector(tree_reader_array_);
+      begin = tree_reader_array_.begin();
+      end = tree_reader_array_.end();
     }
+
+    std::vector<Object> vector()  {
+        vector_ = vector(tree_reader_array_);
+      return vector_;
+    };
 
     TTreeReaderArray<Object> tree_reader_array_;
 
-    std::vector<Object> vector_;
+    typename TTreeReaderArray<Object>::Iterator_t begin;
+    typename TTreeReaderArray<Object>::Iterator_t end;
+
+private:
 
     std::vector<Object> vector(TTreeReaderArray<Object> const& objects) const {
         // this cost cast seems to be necessary as the begin() iterator of TTreeReader is not const
         TTreeReaderArray<Object>& obj = const_cast<TTreeReaderArray<Object> &>(objects);
         return {obj.begin(), obj.end()};
     }
+
+    std::vector<Object> vector_;
 
 };
 
@@ -78,27 +92,33 @@ class TreeReader
 
 public:
 
-//     TreeReader(Strings paths, std::string tree_name);
-
     TreeReader(TChain & chain);
 
     long GetEntries() const;
 
     bool ReadEntry(long number);
 
-    static std::mutex& mutex() {
-        return mutex_;
-    }
+//     template<typename Object>
+//     std::vector< Object >Vector(Branch branch) const {
+//       if(!Has(branch)) return {};
+// //       return std::dynamic_pointer_cast<TreeReaderArray<Object>>(map.at(branch))->vector();
+//       auto object = std::dynamic_pointer_cast<TreeReaderArray<Object>>(map.at(branch));
+//       return {object->begin, object->end};
+//     }
 
     template<typename Object>
-    std::vector< Object >Objects(Branch branch) const {
-      if(!Has(branch)) return {};
-      return std::dynamic_pointer_cast<TreeReaderArray<Object>>(map.at(branch))->vector_;
+    TTreeReaderArray< Object > & Objects(Branch branch) const {
+//       if(!Has(branch)) return TTreeReaderArray<Object>();
+      return const_cast<TTreeReaderArray<Object> &>(std::dynamic_pointer_cast<TreeReaderArray<Object>>(map.at(branch))->tree_reader_array_);
     }
 
-    bool Has(Branch branch) const{
-      return map.find(branch) != map.end();
-    }
+//     template<typename Object>
+//     std::vector< Object > Objects(Branch branch) const {
+// //       if(!Has(branch)) return TTreeReaderArray<Object>();
+//       return Vector<Object>(branch);
+//     }
+
+    bool Has(Branch branch) const;
 
     void Initialize();
 
@@ -118,10 +138,6 @@ private:
     TTreeReader tree_reader_;
 
     static std::mutex mutex_;
-
-    Strings paths_;
-
-    std::string tree_name_;
 
     Source source_;
 

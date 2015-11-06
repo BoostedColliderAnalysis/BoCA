@@ -12,8 +12,7 @@
 #include "Reader.hh"
 #include "AnalysisBase.hh"
 
-
-#define INFORMATION
+// #define INFORMATION
 #include "Debug.hh"
 // #define Info0
 // #define Error(...)
@@ -139,7 +138,6 @@ public:
         object_sum_ += number;
         std::lock_guard<std::mutex> event_sum_guard(event_sum_mutex_);
         ++event_sum_;
-        Info(object_sum());
     }
 
     bool KeepGoing(long max) {
@@ -237,8 +235,8 @@ public:
         branch_writer().Increment(number);
     }
 
-    void ReadEntry() {
-        tree_reader().ReadEntry(event_number());
+    bool ReadEntry() {
+        return tree_reader().ReadEntry(event_number());
     }
 
     void Increment() {
@@ -346,13 +344,12 @@ private:
         BranchWriter<Tagger> branch_writer(second, tagger_);
         std::mutex branch_writer_mutex;
         std::vector<std::thread> threads;
-        int max = std::thread::hardware_concurrency();
+//         int max = std::thread::hardware_concurrency(); // breaks in the tree reader, find  a cheap way to store the position of the data
+        int max = 1;
         for (auto core : Range(max)) {
             threads.emplace_back(std::thread([&, core, max] {
                 branch_writer_mutex.lock();
-                TreeReader::mutex().lock();
                 Third<Tagger> third(branch_writer, core, max);
-                TreeReader::mutex().unlock();
                 branch_writer_mutex.unlock();
                 ThirdLoop(third);
             }));
@@ -366,11 +363,11 @@ private:
         while (third.branch_writer().KeepGoing(EventNumberMax()) && third.KeepGoing()) FourthLoop(third);
     }
 
-    int FourthLoop(Third<Tagger>& third) const {
+    void FourthLoop(Third<Tagger>& third) const {
         Info0;
-        third.ReadEntry();
+        if(!third.ReadEntry()) return;
         Event event(third.tree_reader(), third.second().file().source());
-        if (!PassPreCut(event, third.second().first().tag())) return 0;
+        if (!PassPreCut(event, third.second().first().tag())) return;
         third.SaveEntry(Switch(event, third));
     }
 

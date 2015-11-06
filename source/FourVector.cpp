@@ -309,7 +309,7 @@ void FourVector::PrintTruthLevel(const boca::Severity severity) const
 
 std::string FourVector::PrintParticle(int position) const
 {
-  if (position != -1) return Name(tree_reader().Objects<::delphes::GenParticle>(Branch::particle).at(position).PID);
+  if (position != -1) return Name(tree_reader().Objects<::delphes::GenParticle>(Branch::particle).At(position).PID);
     else return " ";
 }
 

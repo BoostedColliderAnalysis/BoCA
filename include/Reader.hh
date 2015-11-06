@@ -224,11 +224,7 @@ private:
 
     Stage stage_;
 
-//     static std::mutex mutex;
 
 };
-
-// template<typename TaggerTemplate>
-// std::mutex Reader<TaggerTemplate>::mutex;
 
 }

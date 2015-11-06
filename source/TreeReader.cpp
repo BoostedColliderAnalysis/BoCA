@@ -34,37 +34,15 @@ std::string BranchName(Branch branch)
 
 std::mutex TreeReader::mutex_;
 
-// TreeReader::TreeReader(Strings paths, std::string tree_name) : chain_(new TChain())
-// {
-//     Info(tree_name, paths.size());
-//     tree_name_ = tree_name;
-//     paths_ = paths;
-//     source_ = Source::delphes;
-// }
-
-TreeReader::TreeReader(TChain & chain)
+TreeReader::TreeReader(TChain& chain)
 {
-//   Info(tree_name, paths.size());
-  chain_ = &chain;
-  source_ = Source::delphes;
-// }
-//
-// void TreeReader::Initialize()
-// {
-//     Info0;
+    Info0;
+    chain_ = &chain;
+    source_ = Source::delphes;
     NewElements();
     std::lock_guard<std::mutex> guard(mutex_);
-//     if (paths_.size()) Info(tree_name_, paths_.front());
-//     for (auto const & path : paths_) chain().AddFile(path.c_str(), TChain::kBigNumber, tree_name_.c_str());
     tree_reader_.SetTree(chain_);
-//     Error(GetEntries());
 }
-
-// TChain& TreeReader::chain()
-// {
-//     Info0;
-//     return *chain_;
-// }
 
 long TreeReader::GetEntries() const
 {
@@ -77,9 +55,9 @@ bool TreeReader::ReadEntry(long number)
 {
     Info(number);
     std::lock_guard<std::mutex> guard(mutex_);
-    bool good = tree_reader_.SetEntry(number) == TTreeReader::kEntryValid;
+    bool valid = tree_reader_.SetEntry(number) == TTreeReader::kEntryValid;
     for (auto & pair : map) pair.second->Fill();
-    return good;
+    return valid;
 }
 
 void TreeReader::NewElements()
@@ -100,19 +78,25 @@ void TreeReader::NewElements()
         NewElement<delphes::Jet>(Branch::gen_jet);
         NewElement<delphes::ScalarHT>(Branch::scalar_ht);
         break;
+    case Source::pgs :
+        NewElement<exroot::Photon>(Branch::photon);
+        NewElement<exroot::Electron>(Branch::electron);
+        NewElement<exroot::Muon>(Branch::muon);
+        NewElement<exroot::Jet>(Branch::jet);
+        NewElement<exroot::MissingET>(Branch::missing_et);
+        NewElement<exroot::GenJet>(Branch::gen_jet);
+        NewElement<exroot::Tau>(Branch::tau);
+        break;
+    case Source::parton :
+        NewElement<exroot::GenParticle>(Branch::particle);
+        break;
     default : break;
     }
 }
 
-// std::vector<Branch> TreeReader::Branches() const
-// {
-//     Info0;
-//     switch (source()) {
-//     case Source::delphes : return {Branch::particle, Branch::photon, Branch::electron, Branch::muon, Branch::jet, Branch::missing_et, Branch::track, Branch::tower, Branch::e_flow_track, Branch::e_flow_photon, Branch::e_flow_neutral_hadron, Branch::gen_jet, Branch::scalar_ht};
-//     case Source::pgs : return {Branch::photon, Branch::electron, Branch::muon, Branch::jet, Branch::missing_et, Branch::gen_jet, Branch::tau};
-//     case Source::parton : return {Branch::particle};
-//         Default("Source", {});
-//     }
-// }
+bool TreeReader::Has(Branch branch) const
+{
+    return map.find(branch) != map.end();
+}
 
 }
