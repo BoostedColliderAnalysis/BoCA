@@ -42,10 +42,10 @@ protected:
         case Tag::background :
             if (this->template TaggerIs<VetoTopPartnerLeptonicTagger>()) this->NewFile(tag, Process::TthHad);
             else if (!this->template TaggerIs<TopPartnerHadronicTagger>()) this->NewFile(tag, Process::TT);
-//             if (!this->template TaggerIs<VetoTopPartnerLeptonicTagger>()) {
+            if (!this->template TaggerIs<VetoTopPartnerLeptonicTagger>()) {
                 this->NewFile(tag, Process::ttBB);
                 this->NewFile(tag, Process::ttBjj);
-//             }
+            }
             break;
         }
     }

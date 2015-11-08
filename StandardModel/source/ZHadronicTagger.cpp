@@ -2,6 +2,7 @@
  * Copyright (C) 2015 Jan Hajer
  */
 #include "ZHadronicTagger.hh"
+#include "MomentumRange.hh"
 #include "Event.hh"
 #include "Exception.hh"
 #include "Debug.hh"
@@ -22,37 +23,40 @@ int ZHadronicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Ta
 {
     Info0;
     return SaveEntries(Doublets(event, [&](Doublet & doublet) {
-        return CheckDoublet(doublet, pre_cuts, tag);
+        return SetTag(doublet, pre_cuts, tag);
     }), Particles(event), tag, Id::Z);
 }
 
-std::vector<Doublet> ZHadronicTagger::Doublets(Event const& event, std::function<Doublet(Doublet&)> function) const
+std::vector<Doublet> ZHadronicTagger::Doublets(Event const& event, std::function<boost::optional<Doublet>(Doublet&)> function) const
 {
     Info0;
     Jets jets = bottom_reader_.Jets(event);
-    std::vector<Doublet> doublets = unordered_pairs(jets, [&](fastjet::PseudoJet const & jet_1, fastjet::PseudoJet const & jet_2) {
+    MomentumRange jet_range(Id::Z, Id::Z);
+    std::vector<Doublet> doublets = unordered_pairs(jet_range.SofterThanMax(jets), [&](fastjet::PseudoJet const & jet_1, fastjet::PseudoJet const & jet_2) {
         Doublet doublet(jet_1, jet_2);
-        return function(doublet);
+        if (boost::optional<Doublet> optional_doublet = function(doublet)) return *optional_doublet;
+        throw boca::Problematic();
     });
 
-    for (auto const & jet : jets) {
-        try {
-            Doublet doublet(jet);
-            doublets.emplace_back(function(doublet));
-        } catch (std::exception const&) {}
-        try {
+    for (auto const & jet : jet_range.HarderThanMin(jets)) {
+        MomentumRange sub_jet_range((SubJet(Id::Z)), (SubJet(Id::Z)));
+        if (sub_jet_range.BelowUpperBound(jet)) try {
             Jets pieces = bottom_reader_.SubMultiplet(jet, 2);
             Doublet doublet(pieces.at(0), pieces.at(1));
-            doublets.emplace_back(function(doublet));
-        } catch (std::exception const&) {}
+            if (boost::optional<Doublet> optional_doublet = function(doublet)) doublets.emplace_back(*optional_doublet);
+          } catch(std::exception &) {}
+        if (sub_jet_range.AboveLowerBound(jet)) {
+            Doublet doublet(jet);
+            if (boost::optional<Doublet> optional_doublet = function(doublet)) doublets.emplace_back(*optional_doublet);
+        }
     }
     return doublets;
 }
 
-Doublet ZHadronicTagger::CheckDoublet(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const
+boost::optional<Doublet> ZHadronicTagger::SetTag(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const
 {
     Info0;
-    if (Problematic(doublet, pre_cuts, tag)) throw boca::Problematic();
+    if (Problematic(doublet, pre_cuts, tag)) return boost::none;
     doublet.SetTag(tag);
     return doublet;
 }
@@ -93,10 +97,10 @@ std::vector<Doublet> ZHadronicTagger::Multiplets(Event const& event, boca::PreCu
     }));
 }
 
-Doublet ZHadronicTagger::Multiplet(Doublet& doublet, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
+boost::optional<Doublet> ZHadronicTagger::Multiplet(Doublet& doublet, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
     Info0;
-    if (Problematic(doublet, pre_cuts)) throw boca::Problematic();
+    if (Problematic(doublet, pre_cuts)) return boost::none;
     doublet.SetBdt(Bdt(doublet, reader));
     return doublet;
 }

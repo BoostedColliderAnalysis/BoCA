@@ -59,7 +59,6 @@ endmacro()
 macro(create_executable executable_name executable_source)
   message("Executable:   ${executable_name} <- ${executable_source}")
   add_executable(${executable_name} ${executable_source})
-  message("Link Libraries in this directory:      ${link_libraries}")
   target_link_libraries(${executable_name} ${link_libraries})
 endmacro()
 
@@ -71,8 +70,7 @@ macro(create_dictionary dictionary_name dictionary_source link_def)
 #   get_filename_component(BaseName ${dictionary_name} NAME_WE)
 #   ROOT_GENERATE_DICTIONARY("${dictionary_file}" "../include/${BaseName}.hh" LINKDEF "${link_def}" "-s ../source/${dictionary_source}")
   create_library(${dictionary_name} dictionary_file "-w")
-#   file(INSTALL "${CMAKE_CURRENT_BINARY_DIR}/${dictionary_name}Dict_rdict.pcm" DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
-  install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${dictionary_name}Dict_rdict.pcm" DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${dictionary_name}Dict_rdict.pcm DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 endmacro()
 
 

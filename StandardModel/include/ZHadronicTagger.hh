@@ -3,6 +3,8 @@
  */
 #pragma once
 
+#include "boost/optional.hpp"
+
 #include "BottomTagger.hh"
 #include "TaggerTemplate.hh"
 #include "Doublet.hh"
@@ -35,7 +37,7 @@ public:
 
 private:
 
-    std::vector<Doublet> Doublets(Event const& event, std::function<Doublet(Doublet&)> function) const;
+  std::vector<Doublet> Doublets(Event const& event, std::function<boost::optional<Doublet>(Doublet&)> function) const;
 
     Jets Particles(Event const& event) const;
 
@@ -43,9 +45,9 @@ private:
 
     bool Problematic(Doublet const& doublet, PreCuts const& pre_cuts) const;
 
-    Doublet CheckDoublet(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const;
+    boost::optional<Doublet> SetTag(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const;
 
-    Doublet Multiplet(Doublet& doublet, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
+    boost::optional<Doublet> Multiplet(Doublet& doublet, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
     Reader<BottomTagger> bottom_reader_;
 

@@ -92,7 +92,8 @@ protected:
 
     template<typename T>
     std::vector<T> BestMatches(std::vector<T> multiplets, Jets const& particles, Tag tag, Id id = Id::empty) const {
-//         Info(multiplets.size());
+      //         Info(multiplets.size());
+      if (multiplets.empty()) return multiplets;
         multiplets = SortedByBdt(multiplets);
         switch (tag) {
         case Tag::signal : return BestMatch(multiplets, particles, id);

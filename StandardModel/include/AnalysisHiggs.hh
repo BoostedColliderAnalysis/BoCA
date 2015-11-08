@@ -34,7 +34,7 @@ public:
 private:
 
     std::string AnalysisName() const final {
-        return Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-pt-switch";
+        return Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-large";
     }
 
     void SetFiles(Tag tag, Stage) final {

@@ -39,11 +39,11 @@ private:
 
     Jets Particles(Event const& event) const;
 
-    std::vector<Doublet> Doublets(Event const& event, std::function<Doublet(Doublet&)> const& function) const;
+    std::vector<Doublet> Doublets(Event const& event, std::function<boost::optional<Doublet>(Doublet&)> const& function) const;
 
-    Doublet Multiplet(boca::Doublet& doublet, boca::Jets& leptons, const boca::PreCuts& pre_cuts, const TMVA::Reader& reader) const;
+    boost::optional<Doublet> Multiplet(boca::Doublet& doublet, boca::Jets& leptons, const boca::PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 
-    Doublet CheckDoublet(boca::Doublet& doublet, boca::Jets& leptons, const boca::PreCuts& pre_cuts, boca::Tag tag) const;
+    boost::optional<Doublet> SetTag(boca::Doublet& doublet, boca::Jets& leptons, const boca::PreCuts& pre_cuts, boca::Tag tag) const;
 
     Doublet PrepareDoublet(boca::Doublet& doublet, boca::Jets& leptons) const;
 
