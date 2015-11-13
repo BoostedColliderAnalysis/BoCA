@@ -75,7 +75,11 @@ boca::Jets BottomTagger::Multiplets(Event const& event, PreCuts const& pre_cuts,
 fastjet::PseudoJet BottomTagger::Multiplet(fastjet::PseudoJet const& jet, TMVA::Reader const& reader) const
 {
     Info0;
-    static_cast<JetInfo&>(*jet.user_info_shared_ptr().get()).SetBdt(Bdt(jet, reader));
+    if(jet.has_user_info<JetInfo>()) static_cast<JetInfo&>(*jet.user_info_shared_ptr().get()).SetBdt(Bdt(jet, reader));
+    else{
+      Error("no user info");
+//       jet.user_info(new JetInfo(Bdt(jet, reader)));
+    }
     return jet;
 }
 
@@ -143,3 +147,4 @@ std::string BottomTagger::NiceName() const
 }
 
 }
+

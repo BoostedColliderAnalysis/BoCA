@@ -153,8 +153,8 @@ public:
         return tagger_;
     }
 
-    TChain& chain(){
-      return chain_;
+    TChain& chain() {
+        return chain_;
     }
 
 private:
@@ -187,7 +187,9 @@ public:
         : branch_writer_(branch_writer)
         , reader_(branch_writer.reader())
         , tagger_(branch_writer.tagger())
-        , tree_reader_(branch_writer.chain()) {
+//         , tree_reader_(branch_writer.chain())
+        , tree_reader_(second().file().Paths(), second().file().tree_name())
+        {
         Info0;
         event_number_ = FirstEntry(object_sum_max, core_number);
         max_ = core_sum;
@@ -226,7 +228,7 @@ public:
 
     void SaveEntry(int number) {
         Increment();
-        if(number == 0) return;
+        if (number == 0) return;
         info_branch().EventNumber = branch_writer().event_sum();
         std::lock_guard<std::mutex> tagger_guard(tagger_.mutex_);
         static_cast<InfoBranch&>(*branch_writer().tree_branch().NewEntry()) = info_branch();
@@ -342,19 +344,27 @@ private:
     void SecondLoop(Second second) {
         Info0;
         BranchWriter<Tagger> branch_writer(second, tagger_);
-        std::mutex branch_writer_mutex;
-        std::vector<std::thread> threads;
-//         int max = std::thread::hardware_concurrency(); // breaks in the tree reader, find  a cheap way to store the position of the data
-        int cores = 1;
-        for (auto core : Range(cores)) {
-            threads.emplace_back(std::thread([&, core, cores] {
-                branch_writer_mutex.lock();
-                Third<Tagger> third(branch_writer, core, cores, EventNumberMax());
-                branch_writer_mutex.unlock();
-                ThirdLoop(third);
-            }));
+        bool do_threading = false;
+        if (do_threading) {
+            std::mutex branch_writer_mutex;
+            std::vector<std::thread> threads;
+//         int cores = std::thread::hardware_concurrency(); // breaks in the tree reader, find  a cheap way to store the position of the data
+            int cores = 1;
+            for (auto core : Range(cores)) {
+                threads.emplace_back(std::thread([&, core, cores] {
+                    branch_writer_mutex.lock();
+                    Third<Tagger> third(branch_writer, core, cores, EventNumberMax());
+                    branch_writer_mutex.unlock();
+                    ThirdLoop(third);
+                }));
+            }
+            for (auto & thread : threads) thread.join();
+        } else {
+            int cores = 1;
+            int core = 0;
+            Third<Tagger> third(branch_writer, core, cores, EventNumberMax());
+            ThirdLoop(third);
         }
-        for (auto & thread : threads) thread.join();
         branch_writer.Write();
     }
 
@@ -365,7 +375,7 @@ private:
 
     void FourthLoop(Third<Tagger>& third) const {
         Info0;
-        if(!third.ReadEntry()) return;
+        if (!third.ReadEntry()) return;
         Event event(third.tree_reader(), third.second().file().source());
         if (!PassPreCut(event, third.second().first().tag())) return;
         third.SaveEntry(Switch(event, third));

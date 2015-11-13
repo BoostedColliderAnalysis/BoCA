@@ -16,6 +16,7 @@ SignatureSingleLeptonicTagger.cpp
 SignatureSingleHadronicTagger.cpp
 SignatureEffectiveTagger.cpp
 VetoTopPartnerLeptonicTagger.cpp
+VetoTopPartnerHadronicTagger.cpp
 EventSingleLeptonicTagger.cpp
 EventSingleHadronicTagger.cpp
 EventPairTagger.cpp

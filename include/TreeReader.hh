@@ -57,23 +57,23 @@ class TreeReaderArray : public TreeReaderArrayBase
 
 public:
 
-    TreeReaderArray(TTreeReader& tree_reader, Branch branch) : tree_reader_array_(TTreeReaderArray<Object>(tree_reader, BranchName(branch).c_str())) {}
+    TreeReaderArray(TTreeReader& tree_reader, Branch branch) : tree_reader_array_(TTreeReaderArray<Object>(tree_reader, BranchName(branch).c_str())) , branch_(branch) {}
 
     void Fill() {
 //         vector_ = vector(tree_reader_array_);
-      begin = tree_reader_array_.begin();
-      end = tree_reader_array_.end();
+      begin_ = tree_reader_array_.begin();
+      end_ = tree_reader_array_.end();
     }
 
-    std::vector<Object> vector()  {
-        vector_ = vector(tree_reader_array_);
-      return vector_;
-    };
+//     std::vector<Object> vector()  {
+//         vector_ = vector(tree_reader_array_);
+//       return vector_;
+//     };
 
-    TTreeReaderArray<Object> tree_reader_array_;
-
-    typename TTreeReaderArray<Object>::Iterator_t begin;
-    typename TTreeReaderArray<Object>::Iterator_t end;
+    TTreeReaderArray<Object>& tree_reader_array() {
+//         std::cout << "Returning " << BranchName(branch_) << std::endl;
+        return tree_reader_array_;
+    }
 
 private:
 
@@ -83,7 +83,14 @@ private:
         return {obj.begin(), obj.end()};
     }
 
+    TTreeReaderArray<Object> tree_reader_array_;
+
+    typename TTreeReaderArray<Object>::Iterator_t begin_;
+    typename TTreeReaderArray<Object>::Iterator_t end_;
+
     std::vector<Object> vector_;
+
+    Branch branch_;
 
 };
 
@@ -92,7 +99,9 @@ class TreeReader
 
 public:
 
-    TreeReader(TChain & chain);
+    TreeReader(TChain& chain);
+
+    TreeReader(Strings const& paths, std::string const& tree_name);
 
     long GetEntries() const;
 
@@ -107,9 +116,11 @@ public:
 //     }
 
     template<typename Object>
-    TTreeReaderArray< Object > & Objects(Branch branch) const {
-//       if(!Has(branch)) return TTreeReaderArray<Object>();
-      return const_cast<TTreeReaderArray<Object> &>(std::dynamic_pointer_cast<TreeReaderArray<Object>>(map.at(branch))->tree_reader_array_);
+    TTreeReaderArray<Object>& Objects(Branch branch) const {
+        if (!Has(branch)) std::cout << BranchName(branch) << " does not exist" << std::endl;
+//          return TTreeReaderArray<Object>();
+//         std::cout << "Reading " << BranchName(branch) << std::endl;
+        return const_cast<TTreeReaderArray<Object> &>(std::dynamic_pointer_cast<TreeReaderArray<Object>>(map_.at(branch))->tree_reader_array());
     }
 
 //     template<typename Object>
@@ -124,16 +135,18 @@ public:
 
 private:
 
-    std::map<Branch, std::shared_ptr<TreeReaderArrayBase>> map;
-
     template<typename Object>
     void NewElement(Branch branch) {
-      map.emplace(branch, std::make_shared<TreeReaderArray<Object>>(tree_reader_, branch));
+        map_.emplace(branch, std::make_shared<TreeReaderArray<Object>>(tree_reader_, branch));
     }
 
     void NewElements();
 
-    TChain * chain_;
+    std::map<Branch, std::shared_ptr<TreeReaderArrayBase>> map_;
+
+    TChain* chain_;
+
+    TChain chain_2_;
 
     TTreeReader tree_reader_;
 

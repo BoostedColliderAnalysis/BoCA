@@ -37,11 +37,21 @@ std::mutex TreeReader::mutex_;
 TreeReader::TreeReader(TChain& chain)
 {
     Info0;
-    chain_ = &chain;
     source_ = Source::delphes;
+    chain_ = &chain;
     NewElements();
     std::lock_guard<std::mutex> guard(mutex_);
     tree_reader_.SetTree(chain_);
+}
+
+TreeReader::TreeReader(Strings const& paths, std::string const& tree_name)
+{
+  Info0;
+  source_ = Source::delphes;
+  for (auto const & path : paths) chain_2_.AddFile(path.c_str(), TChain::kBigNumber, tree_name.c_str());
+  NewElements();
+  std::lock_guard<std::mutex> guard(mutex_);
+  tree_reader_.SetTree(&chain_2_);
 }
 
 long TreeReader::GetEntries() const
@@ -56,12 +66,13 @@ bool TreeReader::ReadEntry(long number)
     Info(number);
     std::lock_guard<std::mutex> guard(mutex_);
     bool valid = tree_reader_.SetEntry(number) == TTreeReader::kEntryValid;
-    for (auto & pair : map) pair.second->Fill();
+    for (auto & pair : map_) pair.second->Fill();
     return valid;
 }
 
 void TreeReader::NewElements()
 {
+    Info0;
     switch (source_) {
     case Source::delphes :
         NewElement<delphes::GenParticle>(Branch::particle);
@@ -96,7 +107,8 @@ void TreeReader::NewElements()
 
 bool TreeReader::Has(Branch branch) const
 {
-    return map.find(branch) != map.end();
+    Info0;
+    return map_.find(branch) != map_.end();
 }
 
 }

@@ -48,7 +48,7 @@ add_libraries(${THEPEG_LIBRARY})
 
 # Doxygen
 if(CMAKE_BUILD_TYPE MATCHES "Release")
-include(CMakeFiles/UseDoxygen.cmake)
+# include(CMakeFiles/UseDoxygen.cmake)
 endif()
 
 # Libraries

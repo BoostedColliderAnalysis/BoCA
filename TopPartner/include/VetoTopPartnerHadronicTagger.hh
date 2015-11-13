@@ -4,8 +4,10 @@
 #pragma once
 
 #include <functional>
-#include "Decuplet.hh"
-#include "VetoTopPartnerHadronicTagger.hh"
+#include "Quintet.hh"
+#include "TopPartnerLeptonicTagger.hh"
+#include "TopHadronicTagger.hh"
+#include "HiggsTagger.hh"
 
 namespace boca
 {
@@ -17,14 +19,14 @@ namespace naturalness
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class SignatureSingleLeptonicTagger : public TaggerTemplate<Decuplet532, SignatureSingleBranch>
+class VetoTopPartnerHadronicTagger : public TaggerTemplate<Quintet,TopPartnerBranch>
 {
 
 public:
 
     int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
 
-    std::vector<Decuplet532> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
+    std::vector<Quintet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
 
     std::string Name() const final;
 
@@ -32,7 +34,9 @@ public:
 
 private:
 
-    std::vector<Decuplet532> Decuplets(Event const& event, std::function<Decuplet532(Decuplet532&)> const& function) const;
+    Jets Particles(Event const& event) const;
+
+    std::vector<Quintet> Quintets(Event const& event, std::function<Quintet(Quintet&)> const& function) const;
 
     Reader<TopPartnerLeptonicTagger> partner_reader_;
 
@@ -40,7 +44,6 @@ private:
 
     Reader<standardmodel::HiggsTagger> higgs_reader_;
 
-    Reader<VetoTopPartnerHadronicTagger> veto_reader_;
 };
 
 }

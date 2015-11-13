@@ -28,25 +28,23 @@ protected:
 
     std::string AnalysisName() const final {
         Info0;
-        return "Naturalness-Single-Leptonic-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass())
-//                + "-revertveto";
-               + "-test";
-//                + "problematic";
-//         + "wrong";
+        return "Single-Leptonic-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass()) + "-large";
     }
 
     void SetFiles(Tag tag, Stage) final {
         Info0;
         switch (tag) {
         case Tag::signal :
-            if (this->template TaggerIs<TopPartnerHadronicTagger>()) this->NewFile(tag, Process::TT);
+            if (this->template TaggerIs<VetoTopPartnerHadronicTagger>()) this->NewFile(tag, Process::TT);
             else this->NewFile(tag, Process::TthLep);
             break;
         case Tag::background :
-            if (this->template TaggerIs<TopPartnerHadronicTagger>()) this->NewFile(tag, Process::TthLep);
+            if (this->template TaggerIs<VetoTopPartnerHadronicTagger>()) this->NewFile(tag, Process::TthLep);
             else if (!this->template TaggerIs<TopPartnerLeptonicTagger>()) this->NewFile(tag, Process::TT);
-            this->NewFile(tag, Process::ttBB);
-            this->NewFile(tag, Process::ttBjj);
+            if (!this->template TaggerIs<VetoTopPartnerHadronicTagger>()) {
+                this->NewFile(tag, Process::ttBB);
+                this->NewFile(tag, Process::ttBjj);
+            }
             break;
         }
     }

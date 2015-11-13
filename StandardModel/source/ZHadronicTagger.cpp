@@ -41,10 +41,10 @@ std::vector<Doublet> ZHadronicTagger::Doublets(Event const& event, std::function
     for (auto const & jet : jet_range.HarderThanMin(jets)) {
         MomentumRange sub_jet_range((SubJet(Id::Z)), (SubJet(Id::Z)));
         if (sub_jet_range.BelowUpperBound(jet)) try {
-            Jets pieces = bottom_reader_.SubMultiplet(jet, 2);
-            Doublet doublet(pieces.at(0), pieces.at(1));
-            if (boost::optional<Doublet> optional_doublet = function(doublet)) doublets.emplace_back(*optional_doublet);
-          } catch(std::exception &) {}
+                Jets pieces = bottom_reader_.SubMultiplet(jet, 2);
+                Doublet doublet(pieces.at(0), pieces.at(1));
+                if (boost::optional<Doublet> optional_doublet = function(doublet)) doublets.emplace_back(*optional_doublet);
+            } catch (std::exception&) {}
         if (sub_jet_range.AboveLowerBound(jet)) {
             Doublet doublet(jet);
             if (boost::optional<Doublet> optional_doublet = function(doublet)) doublets.emplace_back(*optional_doublet);

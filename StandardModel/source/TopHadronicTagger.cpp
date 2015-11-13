@@ -4,8 +4,7 @@
 
 #include <boost/range/algorithm/adjacent_find.hpp>
 
-#include "fastjet/contrib/Nsubjettiness.hh"
-#include "fastjet/contrib/NjettinessDefinition.hh"
+#include "external/fastjet/contribs/Nsubjettiness/Nsubjettiness.hh"
 
 #include "TopHadronicTagger.hh"
 #include "Event.hh"

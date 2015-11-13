@@ -71,10 +71,10 @@ protected:
     long EventNumberMax() const override {
         Info0;
         return 10000;
-        return 1000;
-        return 100;
-        return 5000;
         return 10;
+        return 100;
+        return 1000;
+        return 5000;
     }
 
 protected:
@@ -174,7 +174,10 @@ protected:
 
     std::string FileName(Process process) const {
         Info0;
-        std::string name = "PP-" + Name(process) + "-" + boca::Name(DetectorGeometry::detector_type());
+        std::string protons;
+        if(MassDependent(process)) protons = "pp";
+        else protons = "PP";
+        std::string name = protons + "-" + Name(process) + "-" + boca::Name(DetectorGeometry::detector_type());
         if (MassDependent(process)) name += "-" + boca::Name(Mass());
         return name;
     }

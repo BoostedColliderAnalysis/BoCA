@@ -31,7 +31,6 @@ class Reader : public ReaderBase
 public:
 
     Reader() : reader_(new TMVA::Reader(Options())) {
-//         reader_ = new TMVA::Reader(Options());
         Initialize(Stage::reader);
     }
 
@@ -40,31 +39,30 @@ public:
     }
 
     ~Reader() {
-      std::lock_guard<std::mutex> guard(mutex_);
+        std::lock_guard<std::mutex> guard(mutex_);
         delete reader_;
+        reader_ = nullptr;
     }
 
     Reader(const Reader& that) :
-    reader_(new TMVA::Reader(Options()))
-    ,
-    tagger_(that.tagger_)
-    {
-//     reader_ = new TMVA::Reader(Options());
-//         stage_ = that.stage_;
-//     tagger_ = that.tagger_;
+        reader_(new TMVA::Reader(Options()))
+        ,
+        tagger_(that.tagger_) {
         Initialize(that.stage_);
     }
 
     Reader& operator=(Reader const& that) {
-        reader_ = new TMVA::Reader(Options      ());
+        if (&that == this) return *this;
+        reader_ = new TMVA::Reader(Options());
         tagger_ = that.tagger_;
         Initialize(that.stage_);
+        delete that.reader_;
+        that.reader_ = nullptr;
         return *this;
     }
 
     void Initialize(Stage stage) {
         stage_ = stage;
-//         reader_ = new TMVA::Reader(Options());
         Tagger().Initialize();
         switch (stage) {
         case Stage::trainer : break;
