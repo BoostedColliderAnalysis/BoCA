@@ -31,7 +31,7 @@ find_path(
   DelphesDir
   NAMES classes/DelphesClasses.h
   PATHS ${MadGraphDir}
-  PATH_SUFFIXES Delphes
+  PATH_SUFFIXES DelphesNoFastJet
   DOC "Path to Delphes installed by MadGraph"
 )
 add_include_path(${DelphesDir} SYSTEM)

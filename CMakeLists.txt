@@ -8,6 +8,7 @@ project(BoCA CXX)
 # Load some basic macros which are needed later on
 include(CMakeFiles/CMakeConfig.cmake)
 find_package(Boost 1.43)
+add_include_path(${Boost_INCLUDE_DIRS})
 
 # set build type to debug
 if( NOT CMAKE_BUILD_TYPE )

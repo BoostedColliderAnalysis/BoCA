@@ -3,6 +3,7 @@
  */
 #pragma once
 
+#include <functional>
 #include "BottomTagger.hh"
 #include "TaggerTemplate.hh"
 #include "Doublet.hh"
@@ -29,11 +30,11 @@ public:
 
     std::vector<Doublet> Multiplets(Jets const& jets, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    Doublet Multiplet(fastjet::PseudoJet const& jet, TMVA::Reader const& reader) const;
+    boost::optional<Doublet> Multiplet(fastjet::PseudoJet const& jet, TMVA::Reader const& reader) const;
 
-    Doublet Multiplet(fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2, TMVA::Reader const& reader) const;
+    boost::optional<Doublet> Multiplet(fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2, TMVA::Reader const& reader) const;
 
-    Doublet SubMultiplet(fastjet::PseudoJet const& jet, TMVA::Reader const& reader) const;
+    boost::optional<Doublet> SubMultiplet(fastjet::PseudoJet const& jet, TMVA::Reader const& reader) const;
 
     std::string Name() const final;
 
@@ -43,29 +44,21 @@ private:
 
     Jets Particles(Event const& event) const;
 
-    std::vector<Doublet> Doublets(Jets const& jets, PreCuts const& pre_cuts, Tag tag) const;
+    std::vector<Doublet> Doublets(Event const& event, std::function<boost::optional<Doublet>(Doublet&)> const& function) const;
 
-    Doublet CheckDoublet(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const;
+    std::vector<Doublet> Doublets(Jets const& jets, std::function<boost::optional<Doublet>(Doublet&)> const& function) const;
+
+    boost::optional<Doublet> CheckDoublet(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const;
 
     std::vector<Doublet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
 
-    std::vector<Doublet> Multiplets3(Jets const& jets, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
-
-    Doublet Multiplet(fastjet::PseudoJet const& jet, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
-
-    Doublet Multiplet(fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
-
-    Doublet SubMultiplet(fastjet::PseudoJet const& jet, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
+    boost::optional<Doublet> SubDoublet(fastjet::PseudoJet const& jet, std::function<boost::optional<Doublet>(Doublet&)> const& function) const;
 
     bool Problematic(boca::Doublet const& doublet, boca::PreCuts const& pre_cuts, Tag tag) const;
 
     bool Problematic(boca::Doublet const& doublet, boca::PreCuts const& pre_cuts) const;
 
-    Doublet Multiplet(boca::Doublet& doublet, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
-
-    std::vector<Doublet> SubMultiplets(boca::Jets const& jets, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader, size_t sub_jet_number) const;
-
-    std::vector<Doublet> SubMultiplets2(boca::Jets const& jets, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
+    boost::optional<Doublet> Multiplet(boca::Doublet& doublet, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
     Reader<BottomTagger> bottom_reader_;
 

@@ -29,7 +29,7 @@ protected:
 
     std::string AnalysisName() const final {
         Info0;
-        return "Single-Hadronic-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass()) + "-madspin";
+        return "Single-Hadronic-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass()) + "-large-2";
     }
 
     void SetFiles(Tag tag, Stage) final {

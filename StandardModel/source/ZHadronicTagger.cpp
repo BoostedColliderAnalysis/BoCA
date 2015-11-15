@@ -43,7 +43,7 @@ std::vector<Doublet> ZHadronicTagger::Doublets(Event const& event, std::function
         if (sub_jet_range.BelowUpperBound(jet)) try {
                 Jets pieces = bottom_reader_.SubMultiplet(jet, 2);
                 Doublet doublet(pieces.at(0), pieces.at(1));
-                if (boost::optional<Doublet> optional_doublet = function(doublet)) doublets.emplace_back(*optional_doublet);
+                if (boost::optional<Doublet> optional = function(doublet)) doublets.emplace_back(*optional);
             } catch (std::exception&) {}
         if (sub_jet_range.AboveLowerBound(jet)) {
             Doublet doublet(jet);

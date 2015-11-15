@@ -97,9 +97,10 @@ boost::optional<fastjet::PseudoJet> Hadrons::StructuredJet(::delphes::Jet const&
         if (boost::optional<fastjet::PseudoJet> optional = ConstituentJet(*delphes_jet.Constituents.At(constituent_number), leptons, jet_detail, SubDetector::none)) constituents.emplace_back(*optional);
         else Debug("Constituent is not isolated");
     }
-    if (constituents.empty()) boost::none;
+    if (constituents.empty()) return boost::none;
     fastjet::PseudoJet jet = fastjet::join(constituents, InfoRecombiner());
-    static_cast<JetInfo&>(*jet.user_info_shared_ptr().get()).SetDelphesTags(delphes_jet);
+    if(jet.has_user_info<JetInfo>()) static_cast<JetInfo&>(*jet.user_info_shared_ptr().get()).SetDelphesTags(delphes_jet);
+    else Error("Jet has no info");
     return jet;
 }
 

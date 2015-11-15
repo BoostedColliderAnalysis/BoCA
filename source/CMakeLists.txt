@@ -89,6 +89,7 @@ AnalysisBase.cpp
 Particle.cpp
 Family.cpp
 Constituent.cpp
+SubJettiness.cpp
 JetTag.cpp
 DetectorGeometry.cpp
 JetInfo.cpp

@@ -222,18 +222,29 @@ std::string Plotting::PlotCrosssectionsGraph(Results const& results) const
     TMultiGraph multi_graph("", Tagger().NiceName().c_str());
     Strings nice_names;
     std::vector<TGraph> graphs;
+    float min = LargeNumber();
+    float max = 0;
     for (auto const & result : results.signals) {
         nice_names.emplace_back(result.info_branch_.Name);
         graphs.emplace_back(TGraph(result.steps, &results.x_values.front(), &result.XSec().front()));
+        float xsec = *boost::range::min_element(result.crosssection) / fb;
+        if(min > xsec) min = xsec;
+        xsec = *boost::range::max_element(result.crosssection) / fb;
+        if(max > xsec) max = xsec;
     }
     for (auto const & result : results.backgrounds) {
         nice_names.emplace_back(result.info_branch_.Name);
         graphs.emplace_back(TGraph(result.steps, &results.x_values.front(), &result.XSec().front()));
+        float xsec = *boost::range::min_element(result.crosssection) / fb;
+        if(min > xsec) min = xsec;
+        xsec = *boost::range::max_element(result.crosssection) / fb;
+        if(max > xsec) max = xsec;
     }
     TLegend legend = Legend(Orientation::bottom | Orientation::left, nice_names);
     for (auto & graph : graphs) AddGraph(graph, multi_graph, legend, nice_names, &graph - &graphs.front());
     multi_graph.Draw("al");
     multi_graph.GetXaxis()->SetLimits(results.min.x, results.max.x);
+    multi_graph.GetYaxis()->SetLimits(min, max);
     canvas.SetAxis(*multi_graph.GetXaxis(), "BDT");
     canvas.SetAxis(*multi_graph.GetYaxis(), "Crosssection [fb]");
     TLine line = Line(results.best_model_dependent_bin , multi_graph.GetYaxis()->GetXmin(), multi_graph.GetYaxis()->GetXmax(), results.signals.size() + results.backgrounds.size() + 1);
