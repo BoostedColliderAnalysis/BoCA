@@ -38,6 +38,8 @@ public:
 
 private:
 
+    Jets Particles(Event const& event) const;
+
     Jets WLeptonicDaughters(Event const& event) const;
 
     int WLeptonicId(Jets const& jets) const;

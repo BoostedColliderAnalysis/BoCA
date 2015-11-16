@@ -22,9 +22,7 @@ WLeptonicTagger::WLeptonicTagger()
 int WLeptonicTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) const
 {
     Info0;
-    Jets Particles = event.Partons().GenParticles();
-    int w_leptonic_id = WLeptonicId(event);
-    Jets w_bosons = CopyIfExactParticle(Particles, w_leptonic_id);
+    Jets w_bosons = Particles(event);
     Jets leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
     if (leptons.size() > w_bosons.size()) leptons.erase(leptons.begin() + w_bosons.size(), leptons.end());
     fastjet::PseudoJet missing_et = event.Hadrons().MissingEt();
@@ -51,12 +49,17 @@ int WLeptonicTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) co
     return SaveEntries(doublets);
 }
 
+Jets WLeptonicTagger::Particles(Event const& event) const
+{
+    Jets particles = event.Partons().GenParticles();
+    int w_leptonic_id = WLeptonicId(event);
+    Jets w_bosons = CopyIfExactParticle(particles, w_leptonic_id);
+}
+
 std::vector<Doublet>  WLeptonicTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
     Info0;
-    Jets Particles = event.Partons().GenParticles();
-    int w_leptonic_id = WLeptonicId(event);
-    Jets w_bosons = CopyIfExactParticle(Particles, w_leptonic_id);
+    Jets w_bosons = Particles(event);
     Jets leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
     if (leptons.size() > w_bosons.size()) leptons.erase(leptons.begin() + w_bosons.size(), leptons.end());
     std::vector<Doublet> doublets;

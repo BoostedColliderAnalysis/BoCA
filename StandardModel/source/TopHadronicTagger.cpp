@@ -115,9 +115,7 @@ std::vector<Triplet> TopHadronicTagger::TwoSubJets(fastjet::PseudoJet const& jet
         for (size_t i = 0; i < pieces.size(); ++i) {
             auto piece_1 = pieces.at(i);
             auto piece_2 = pieces.at((i + 1) % sub_jet_number);
-            if (boost::optional<Doublet> optional_doublet = w_hadronic_reader_.Multiplet(piece_2)) {
-                if (boost::optional<Triplet> optional_triplet = Tripple(*optional_doublet, piece_1, leptons, function, range)) triplets.emplace_back(*optional_triplet);
-            }
+            if (boost::optional<Doublet> optional_doublet = w_hadronic_reader_.Multiplet(piece_2)) if (boost::optional<Triplet> optional_triplet = Tripple(*optional_doublet, piece_1, leptons, function, range)) triplets.emplace_back(*optional_triplet);
         }
     }
     return triplets;

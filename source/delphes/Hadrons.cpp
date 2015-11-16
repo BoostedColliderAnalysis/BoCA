@@ -104,7 +104,7 @@ boost::optional<fastjet::PseudoJet> Hadrons::StructuredJet(::delphes::Jet const&
     return jet;
 }
 
-boost::optional<fastjet::PseudoJet> Hadrons::ConstituentJet(TObject& object, std::vector< TObject* > const& leptons, JetDetail jet_detail, boca::SubDetector sub_detector) const
+boost::optional<fastjet::PseudoJet> Hadrons::ConstituentJet(TObject& object, std::vector< TObject* > const& leptons, JetDetail jet_detail, SubDetector sub_detector) const
 {
     Info(object.ClassName(), Name(jet_detail));
     if (object.IsA() == ::delphes::GenParticle::Class()) return ConstituentGenParticle(object, leptons, jet_detail);
