@@ -504,6 +504,16 @@ Tagger const& Plotting::Tagger() const
 {
     return tagger_;
 }
+void Plotting::SetBranch(TTree& tree, std::vector< float >& values, const std::__cxx11::string& name) const
+{
+    tree.SetBranchStatus(name.c_str(), true);
+    tree.SetBranchAddress(name.c_str(), &values.front());
+}
+void Plotting::SetBranch(TTree& tree, int& value, const std::__cxx11::string& name) const
+{
+    tree.SetBranchStatus(name.c_str(), true);
+    tree.SetBranchAddress(name.c_str(), &value);
+}
 
 }
 

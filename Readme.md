@@ -11,12 +11,7 @@ This code performs staged BDT analyses using root files as in- and output format
 * `libconfig`
 * `doxygen` for class documentation
 * `The PEG`
-<<<<<<< HEAD
-* `Boost`
-=======
 * `Boost` (`Optional`,`Range`,`Units`)
->>>>>>> 87f947e5fa5c76ded4752b1448d24293b42e1621
-
 
 ## Installation
 
