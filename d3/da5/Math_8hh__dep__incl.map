@@ -13,7 +13,7 @@
 <area shape="rect" id="node50" href="$de/de9/WimpMass_8cpp.html" title="source/WimpMass.cpp" alt="" coords="2077,80,2233,107"/>
 <area shape="rect" id="node3" href="$dc/d70/AnalysisHiggsCpv_8hh.html" title="HiggsCpv/include/Analysis\lHiggsCpv.hh" alt="" coords="2281,155,2460,196"/>
 <area shape="rect" id="node5" href="$db/d60/Singlet_8hh.html" title="include/Singlet.hh" alt="" coords="456,162,581,189"/>
-<area shape="rect" id="node20" href="$d7/d4a/HiggsTagger_8cpp.html" title="StandardModel/source\l/HiggsTagger.cpp" alt="" coords="931,572,1083,613"/>
+<area shape="rect" id="node21" href="$d7/d4a/HiggsTagger_8cpp.html" title="StandardModel/source\l/HiggsTagger.cpp" alt="" coords="931,572,1083,613"/>
 <area shape="rect" id="node32" href="$db/d31/Sort_8hh.html" title="include/Sort.hh" alt="" coords="1431,162,1540,189"/>
 <area shape="rect" id="node36" href="$d7/db9/delphes_2Hadrons_8cpp.html" title="source/delphes/Hadrons.cpp" alt="" coords="606,162,794,189"/>
 <area shape="rect" id="node37" href="$dd/d98/delphes_2Leptons_8cpp.html" title="source/delphes/Leptons.cpp" alt="" coords="818,162,1003,189"/>
@@ -38,11 +38,11 @@
 <area shape="rect" id="node11" href="$dc/dd9/HeavyHiggsTauTagger_8hh.html" title="HeavyHiggs/include\l/HeavyHiggsTauTagger.hh" alt="" coords="612,483,791,524"/>
 <area shape="rect" id="node12" href="$d7/db9/Triplet_8hh.html" title="include/Triplet.hh" alt="" coords="466,490,587,517"/>
 <area shape="rect" id="node14" href="$db/d94/WHadronicTagger_8hh.html" title="StandardModel/include\l/WHadronicTagger.hh" alt="" coords="815,483,969,524"/>
-<area shape="rect" id="node16" href="$d8/daf/ZHadronicTagger_8hh.html" title="StandardModel/include\l/ZHadronicTagger.hh" alt="" coords="1503,483,1657,524"/>
-<area shape="rect" id="node17" href="$dc/d06/BosonTagger_8hh.html" title="StandardModel/include\l/BosonTagger.hh" alt="" coords="1324,483,1479,524"/>
-<area shape="rect" id="node18" href="$da/dca/BosonTagger_8cpp.html" title="StandardModel/source\l/BosonTagger.cpp" alt="" coords="1237,572,1389,613"/>
-<area shape="rect" id="node19" href="$d1/d1b/HiggsTagger_8hh.html" title="StandardModel/include\l/HiggsTagger.hh" alt="" coords="1145,483,1300,524"/>
-<area shape="rect" id="node21" href="$d2/dd8/WLeptonicTagger_8hh.html" title="StandardModel/include\l/WLeptonicTagger.hh" alt="" coords="1844,483,1999,524"/>
+<area shape="rect" id="node16" href="$d2/dd8/WLeptonicTagger_8hh.html" title="StandardModel/include\l/WLeptonicTagger.hh" alt="" coords="1503,483,1657,524"/>
+<area shape="rect" id="node17" href="$d8/daf/ZHadronicTagger_8hh.html" title="StandardModel/include\l/ZHadronicTagger.hh" alt="" coords="1844,483,1999,524"/>
+<area shape="rect" id="node18" href="$dc/d06/BosonTagger_8hh.html" title="StandardModel/include\l/BosonTagger.hh" alt="" coords="1324,483,1479,524"/>
+<area shape="rect" id="node19" href="$da/dca/BosonTagger_8cpp.html" title="StandardModel/source\l/BosonTagger.cpp" alt="" coords="1237,572,1389,613"/>
+<area shape="rect" id="node20" href="$d1/d1b/HiggsTagger_8hh.html" title="StandardModel/include\l/HiggsTagger.hh" alt="" coords="1145,483,1300,524"/>
 <area shape="rect" id="node10" href="$dd/dd3/JetPairTagger_8cpp.html" title="HeavyHiggs/source/JetPair\lTagger.cpp" alt="" coords="1747,572,1930,613"/>
 <area shape="rect" id="node27" href="$d9/d95/GlobalObservables_8cpp.html" title="source/GlobalObservables.cpp" alt="" coords="695,333,895,360"/>
 <area shape="rect" id="node33" href="$d5/da3/TripletJetPairTagger_8cpp.html" title="HeavyHiggs/source/Triplet\lJetPairTagger.cpp" alt="" coords="1447,244,1625,285"/>

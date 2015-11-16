@@ -198,17 +198,17 @@
 <path fill="none" stroke="midnightblue" d="M776.376,-384.93C699.451,-378.922 559.172,-365.954 441,-344 432.41,-342.404 423.19,-340.218 414.762,-338.028"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="776.562,-388.455 786.801,-385.732 777.099,-381.476 776.562,-388.455"/>
 </g>
-<!-- Node20 -->
-<g id="node20" class="node"><title>Node20</title>
-<g id="a_node20"><a xlink:href="../../d7/d4a/HiggsTagger_8cpp.html" target="_top" xlink:title="StandardModel/source\l/HiggsTagger.cpp">
+<!-- Node21 -->
+<g id="node21" class="node"><title>Node21</title>
+<g id="a_node21"><a xlink:href="../../d7/d4a/HiggsTagger_8cpp.html" target="_top" xlink:title="StandardModel/source\l/HiggsTagger.cpp">
 <polygon fill="white" stroke="black" points="694,-0.5 694,-30.5 808,-30.5 808,-0.5 694,-0.5"/>
 <text text-anchor="start" x="702" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">StandardModel/source</text>
 <text text-anchor="middle" x="751" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">/HiggsTagger.cpp</text>
 </a>
 </g>
 </g>
-<!-- Node2&#45;&gt;Node20 -->
-<g id="edge62" class="edge"><title>Node2&#45;&gt;Node20</title>
+<!-- Node2&#45;&gt;Node21 -->
+<g id="edge62" class="edge"><title>Node2&#45;&gt;Node21</title>
 <path fill="none" stroke="midnightblue" d="M776.914,-389.402C661.593,-389.336 405.337,-384.475 329,-344 279.325,-317.662 285.463,-288.799 249,-246 235.117,-229.705 224.608,-230.01 217,-210 194.414,-150.593 174.227,-114.009 217,-67 248.649,-32.217 562.831,-20.8836 693.968,-17.65"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="776.964,-392.902 786.962,-389.396 776.96,-385.902 776.964,-392.902"/>
 </g>
@@ -556,10 +556,10 @@
 </g>
 <!-- Node16 -->
 <g id="node16" class="node"><title>Node16</title>
-<g id="a_node16"><a xlink:href="../../d8/daf/ZHadronicTagger_8hh.html" target="_top" xlink:title="StandardModel/include\l/ZHadronicTagger.hh">
+<g id="a_node16"><a xlink:href="../../d2/dd8/WLeptonicTagger_8hh.html" target="_top" xlink:title="StandardModel/include\l/WLeptonicTagger.hh">
 <polygon fill="white" stroke="red" points="1123,-67.5 1123,-97.5 1239,-97.5 1239,-67.5 1123,-67.5"/>
 <text text-anchor="start" x="1131" y="-85.5" font-family="Helvetica,sans-Serif" font-size="10.00">StandardModel/include</text>
-<text text-anchor="middle" x="1181" y="-74.5" font-family="Helvetica,sans-Serif" font-size="10.00">/ZHadronicTagger.hh</text>
+<text text-anchor="middle" x="1181" y="-74.5" font-family="Helvetica,sans-Serif" font-size="10.00">/WLeptonicTagger.hh</text>
 </a>
 </g>
 </g>
@@ -570,64 +570,64 @@
 </g>
 <!-- Node17 -->
 <g id="node17" class="node"><title>Node17</title>
-<g id="a_node17"><a xlink:href="../../dc/d06/BosonTagger_8hh.html" target="_top" xlink:title="StandardModel/include\l/BosonTagger.hh">
+<g id="a_node17"><a xlink:href="../../d8/daf/ZHadronicTagger_8hh.html" target="_top" xlink:title="StandardModel/include\l/ZHadronicTagger.hh">
+<polygon fill="white" stroke="red" points="1379,-67.5 1379,-97.5 1495,-97.5 1495,-67.5 1379,-67.5"/>
+<text text-anchor="start" x="1387" y="-85.5" font-family="Helvetica,sans-Serif" font-size="10.00">StandardModel/include</text>
+<text text-anchor="middle" x="1437" y="-74.5" font-family="Helvetica,sans-Serif" font-size="10.00">/ZHadronicTagger.hh</text>
+</a>
+</g>
+</g>
+<!-- Node7&#45;&gt;Node17 -->
+<g id="edge17" class="edge"><title>Node7&#45;&gt;Node17</title>
+<path fill="none" stroke="midnightblue" d="M829.523,-139.588C959.809,-131.947 1266.83,-112.959 1370,-98 1372.94,-97.573 1375.95,-97.0912 1378.98,-96.5693"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="829.113,-136.105 819.334,-140.183 829.522,-143.094 829.113,-136.105"/>
+</g>
+<!-- Node18 -->
+<g id="node18" class="node"><title>Node18</title>
+<g id="a_node18"><a xlink:href="../../dc/d06/BosonTagger_8hh.html" target="_top" xlink:title="StandardModel/include\l/BosonTagger.hh">
 <polygon fill="white" stroke="red" points="989,-67.5 989,-97.5 1105,-97.5 1105,-67.5 989,-67.5"/>
 <text text-anchor="start" x="997" y="-85.5" font-family="Helvetica,sans-Serif" font-size="10.00">StandardModel/include</text>
 <text text-anchor="middle" x="1047" y="-74.5" font-family="Helvetica,sans-Serif" font-size="10.00">/BosonTagger.hh</text>
 </a>
 </g>
 </g>
-<!-- Node7&#45;&gt;Node17 -->
-<g id="edge17" class="edge"><title>Node7&#45;&gt;Node17</title>
+<!-- Node7&#45;&gt;Node18 -->
+<g id="edge18" class="edge"><title>Node7&#45;&gt;Node18</title>
 <path fill="none" stroke="midnightblue" d="M819.701,-132.38C862.257,-123.279 925.164,-109.809 980,-98 982.909,-97.3736 985.888,-96.7313 988.897,-96.0821"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="818.92,-128.967 809.873,-134.481 820.384,-135.813 818.92,-128.967"/>
 </g>
-<!-- Node18 -->
-<g id="node18" class="node"><title>Node18</title>
-<g id="a_node18"><a xlink:href="../../da/dca/BosonTagger_8cpp.html" target="_top" xlink:title="StandardModel/source\l/BosonTagger.cpp">
+<!-- Node19 -->
+<g id="node19" class="node"><title>Node19</title>
+<g id="a_node19"><a xlink:href="../../da/dca/BosonTagger_8cpp.html" target="_top" xlink:title="StandardModel/source\l/BosonTagger.cpp">
 <polygon fill="white" stroke="black" points="924,-0.5 924,-30.5 1038,-30.5 1038,-0.5 924,-0.5"/>
 <text text-anchor="start" x="932" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">StandardModel/source</text>
 <text text-anchor="middle" x="981" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">/BosonTagger.cpp</text>
 </a>
 </g>
 </g>
-<!-- Node7&#45;&gt;Node18 -->
-<g id="edge22" class="edge"><title>Node7&#45;&gt;Node18</title>
+<!-- Node7&#45;&gt;Node19 -->
+<g id="edge22" class="edge"><title>Node7&#45;&gt;Node19</title>
 <path fill="none" stroke="midnightblue" d="M775.831,-124.743C782.265,-107.45 794.264,-81.9647 813,-67 844.65,-41.7207 888.759,-29.0776 923.839,-22.7641"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="772.492,-123.689 772.533,-134.284 779.108,-125.976 772.492,-123.689"/>
 </g>
-<!-- Node19 -->
-<g id="node19" class="node"><title>Node19</title>
-<g id="a_node19"><a xlink:href="../../d1/d1b/HiggsTagger_8hh.html" target="_top" xlink:title="StandardModel/include\l/HiggsTagger.hh">
+<!-- Node20 -->
+<g id="node20" class="node"><title>Node20</title>
+<g id="a_node20"><a xlink:href="../../d1/d1b/HiggsTagger_8hh.html" target="_top" xlink:title="StandardModel/include\l/HiggsTagger.hh">
 <polygon fill="white" stroke="red" points="855,-67.5 855,-97.5 971,-97.5 971,-67.5 855,-67.5"/>
 <text text-anchor="start" x="863" y="-85.5" font-family="Helvetica,sans-Serif" font-size="10.00">StandardModel/include</text>
 <text text-anchor="middle" x="913" y="-74.5" font-family="Helvetica,sans-Serif" font-size="10.00">/HiggsTagger.hh</text>
 </a>
 </g>
 </g>
-<!-- Node7&#45;&gt;Node19 -->
-<g id="edge19" class="edge"><title>Node7&#45;&gt;Node19</title>
+<!-- Node7&#45;&gt;Node20 -->
+<g id="edge20" class="edge"><title>Node7&#45;&gt;Node20</title>
 <path fill="none" stroke="midnightblue" d="M799.826,-130.59C823.012,-120.942 855.181,-107.558 879.298,-97.523"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="798.377,-127.402 790.488,-134.475 801.066,-133.865 798.377,-127.402"/>
 </g>
-<!-- Node7&#45;&gt;Node20 -->
-<g id="edge23" class="edge"><title>Node7&#45;&gt;Node20</title>
+<!-- Node7&#45;&gt;Node21 -->
+<g id="edge23" class="edge"><title>Node7&#45;&gt;Node21</title>
 <path fill="none" stroke="midnightblue" d="M767.162,-124.108C763.336,-98.6288 756.604,-53.8115 753.161,-30.888"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="763.747,-124.936 768.694,-134.305 770.67,-123.896 763.747,-124.936"/>
-</g>
-<!-- Node21 -->
-<g id="node21" class="node"><title>Node21</title>
-<g id="a_node21"><a xlink:href="../../d2/dd8/WLeptonicTagger_8hh.html" target="_top" xlink:title="StandardModel/include\l/WLeptonicTagger.hh">
-<polygon fill="white" stroke="red" points="1379,-67.5 1379,-97.5 1495,-97.5 1495,-67.5 1379,-67.5"/>
-<text text-anchor="start" x="1387" y="-85.5" font-family="Helvetica,sans-Serif" font-size="10.00">StandardModel/include</text>
-<text text-anchor="middle" x="1437" y="-74.5" font-family="Helvetica,sans-Serif" font-size="10.00">/WLeptonicTagger.hh</text>
-</a>
-</g>
-</g>
-<!-- Node7&#45;&gt;Node21 -->
-<g id="edge21" class="edge"><title>Node7&#45;&gt;Node21</title>
-<path fill="none" stroke="midnightblue" d="M829.523,-139.588C959.809,-131.947 1266.83,-112.959 1370,-98 1372.94,-97.573 1375.95,-97.0912 1378.98,-96.5693"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="829.113,-136.105 819.334,-140.183 829.522,-143.094 829.113,-136.105"/>
 </g>
 <!-- Node8&#45;&gt;Node9 -->
 <g id="edge8" class="edge"><title>Node8&#45;&gt;Node9</title>
@@ -653,13 +653,13 @@
 <path fill="none" stroke="midnightblue" d="M597.055,-66.8581C511.584,-50.2773 423.825,-35.3357 367.524,-26.0184"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="596.44,-70.304 606.925,-68.7823 597.779,-63.4334 596.44,-70.304"/>
 </g>
-<!-- Node17&#45;&gt;Node18 -->
-<g id="edge18" class="edge"><title>Node17&#45;&gt;Node18</title>
+<!-- Node18&#45;&gt;Node19 -->
+<g id="edge19" class="edge"><title>Node18&#45;&gt;Node19</title>
 <path fill="none" stroke="midnightblue" d="M1025.49,-60.3115C1015.59,-50.5612 1004.11,-39.259 995.293,-30.5765"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="1023.1,-62.8728 1032.68,-67.396 1028.01,-57.8853 1023.1,-62.8728"/>
 </g>
-<!-- Node19&#45;&gt;Node20 -->
-<g id="edge20" class="edge"><title>Node19&#45;&gt;Node20</title>
+<!-- Node20&#45;&gt;Node21 -->
+<g id="edge21" class="edge"><title>Node20&#45;&gt;Node21</title>
 <path fill="none" stroke="midnightblue" d="M868.249,-63.5442C842.326,-53.143 810.162,-40.238 786.083,-30.5765"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="867.264,-66.9204 877.848,-67.396 869.871,-60.4238 867.264,-66.9204"/>
 </g>
@@ -713,18 +713,18 @@
 </g>
 <!-- Node29&#45;&gt;Node17 -->
 <g id="edge39" class="edge"><title>Node29&#45;&gt;Node17</title>
+<path fill="none" stroke="midnightblue" d="M1127.19,-133.759C1192.16,-125.595 1287.43,-112.72 1370,-98 1372.93,-97.4778 1375.93,-96.9193 1378.95,-96.3366"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1126.52,-130.315 1117.03,-135.028 1127.39,-137.261 1126.52,-130.315"/>
+</g>
+<!-- Node29&#45;&gt;Node18 -->
+<g id="edge40" class="edge"><title>Node29&#45;&gt;Node18</title>
 <path fill="none" stroke="midnightblue" d="M1049.05,-124.235C1048.62,-115.586 1048.11,-105.497 1047.71,-97.523"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="1045.57,-124.664 1049.57,-134.475 1052.56,-124.312 1045.57,-124.664"/>
 </g>
-<!-- Node29&#45;&gt;Node19 -->
-<g id="edge40" class="edge"><title>Node29&#45;&gt;Node19</title>
+<!-- Node29&#45;&gt;Node20 -->
+<g id="edge41" class="edge"><title>Node29&#45;&gt;Node20</title>
 <path fill="none" stroke="midnightblue" d="M1021.13,-130.461C998.937,-120.823 968.29,-107.513 945.288,-97.523"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="1019.8,-133.702 1030.37,-134.475 1022.59,-127.281 1019.8,-133.702"/>
-</g>
-<!-- Node29&#45;&gt;Node21 -->
-<g id="edge41" class="edge"><title>Node29&#45;&gt;Node21</title>
-<path fill="none" stroke="midnightblue" d="M1127.19,-133.759C1192.16,-125.595 1287.43,-112.72 1370,-98 1372.93,-97.4778 1375.93,-96.9193 1378.95,-96.3366"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1126.52,-130.315 1117.03,-135.028 1127.39,-137.261 1126.52,-130.315"/>
 </g>
 <!-- Node32&#45;&gt;Node10 -->
 <g id="edge45" class="edge"><title>Node32&#45;&gt;Node10</title>

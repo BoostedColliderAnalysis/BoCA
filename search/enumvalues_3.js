@@ -12,5 +12,5 @@ var searchData=
   ['ds',['DS',['../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7a47b79bd259e22596ffc4be2ffbbe5c5a',1,'boca']]],
   ['ds0',['DS0',['../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7a02b462a08c9441274297c5edd4031595',1,'boca']]],
   ['ds2',['DS2',['../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ac92b438c6de07b10e6b5ce6dcb9961c9',1,'boca']]],
-  ['dyp',['DYP',['../d3/da0/namespaceboca_1_1fusionpair.html#a09b71cdb2740fbb4007f0d85c3f1b2caa4e36deac14c9f8933b6b38d11b3a60a2',1,'boca::fusionpair::DYP()'],['../dd/dba/namespaceboca_1_1standardmodel.html#a7a0842ade758d040579ed123368401bba4e36deac14c9f8933b6b38d11b3a60a2',1,'boca::standardmodel::DYP()']]]
+  ['dyp',['DYP',['../d3/da0/namespaceboca_1_1fusionpair.html#a09b71cdb2740fbb4007f0d85c3f1b2caa4e36deac14c9f8933b6b38d11b3a60a2',1,'boca::fusionpair']]]
 ];

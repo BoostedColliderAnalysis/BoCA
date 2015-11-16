@@ -25,6 +25,7 @@ var searchData=
   ['singlet_2ecpp',['Singlet.cpp',['../d5/dd3/Singlet_8cpp.html',1,'']]],
   ['singlet_2ehh',['Singlet.hh',['../db/d60/Singlet_8hh.html',1,'']]],
   ['sort_2ehh',['Sort.hh',['../db/d31/Sort_8hh.html',1,'']]],
+  ['standard_2dmodel_2emd',['standard-model.md',['../db/d44/standard-model_8md.html',1,'']]],
   ['statistics_2ecpp',['Statistics.cpp',['../d1/de2/Statistics_8cpp.html',1,'']]],
   ['statistics_2ehh',['Statistics.hh',['../dd/d0c/Statistics_8hh.html',1,'']]],
   ['subjettiness_2ecpp',['SubJettiness.cpp',['../d9/d6b/SubJettiness_8cpp.html',1,'']]],
