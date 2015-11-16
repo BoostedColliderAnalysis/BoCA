@@ -1,6 +1,6 @@
 # Readme
 
-This code performs BDT analyses based on root files originating from MadGraph / Pythia / PGS / Delphes.
+This code performs staged BDT analyses using root files as in- and output format.
 
 ## Dependencies
 
@@ -11,7 +11,11 @@ This code performs BDT analyses based on root files originating from MadGraph / 
 * `libconfig`
 * `doxygen` for class documentation
 * `The PEG`
+<<<<<<< HEAD
 * `Boost`
+=======
+* `Boost` (`Optional`,`Range`,`Units`)
+>>>>>>> 87f947e5fa5c76ded4752b1448d24293b42e1621
 
 
 ## Installation
@@ -20,11 +24,13 @@ This code performs BDT analyses based on root files originating from MadGraph / 
 * edit `MadGraphDir` in `FindMadGraph.cmake`
 * if you are using a `ROOT` version other than the system version edit the `ROOT` path in `FindROOT.cmake`
 
-    mkdir build
-    cd build
-    cmake ..
-    make # for external dependencies
-    make # for the actual program
+```
+mkdir build
+cd build
+cmake ..
+make # for external dependencies
+make # for the actual program
+```
 
 ## Usage
 
@@ -35,7 +41,7 @@ The `main.cpp` defines the order in which each `Tagger` is passed to the `Analys
 
 ## Git commands
 
-* initial download of the project `git clone https://NAME@bitbucket.org/janhajer/analysis.git`
+* initial download of the project `git clone git@github.com:BoostedColliderAnalysis/BoCA.git`
 * downloading updates from the server `git pull`
 * save changes of specific files `git commit FILES`
 * save changes in to all files `git commit -a`
@@ -64,3 +70,8 @@ The `main.cpp` defines the order in which each `Tagger` is passed to the `Analys
 ## Authors
 
 [Authors](Authors.md)
+
+## Reference
+
+Please cite:
+[Hajer, Jan, Li, Ying-Ying, Liu, Tao, Shiu, John F. H.: *Heavy Higgs Bosons at 14 TeV and 100 TeV*, April 2015](https://inspirehep.net/record/1365110)
