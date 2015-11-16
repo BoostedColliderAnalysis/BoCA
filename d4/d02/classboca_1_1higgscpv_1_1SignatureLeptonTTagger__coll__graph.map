@@ -1,0 +1,31 @@
+<map id="boca::higgscpv::SignatureLeptonTTagger" name="boca::higgscpv::SignatureLeptonTTagger">
+<area shape="rect" id="node2" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; MultipletSignature\l\&lt; Octet332 \&gt;, SignatureLepton\lTTaggerBranch \&gt;" alt="" coords="2412,559,2613,630"/>
+<area shape="rect" id="node3" href="$da/d42/classboca_1_1Tagger.html" title="Prepares multivariant analysis. " alt="" coords="696,395,795,421"/>
+<area shape="rect" id="node13" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="Tagger base class using Branch template. " alt="" coords="909,331,1061,387"/>
+<area shape="rect" id="node18" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; Triplet, TopLeptonicBranch \&gt;" alt="" coords="1295,574,1497,615"/>
+<area shape="rect" id="node28" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; Doublet, WSemiBranch \&gt;" alt="" coords="1305,499,1487,541"/>
+<area shape="rect" id="node32" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; Doublet, HiggsBranch \&gt;" alt="" coords="1309,85,1483,126"/>
+<area shape="rect" id="node4" href="$d2/dc9/classboca_1_1higgscpv_1_1SignatureLeptonTTaggerBranch.html" title="boca::higgscpv::Signature\lLeptonTTaggerBranch" alt="" coords="1973,725,2146,766"/>
+<area shape="rect" id="node5" href="$d9/df4/classboca_1_1higgscpv_1_1SignatureTTaggerBranch.html" title="Higgs cpv tagger root tree structure. " alt="" coords="1569,725,1743,766"/>
+<area shape="rect" id="node6" href="$d9/d7b/classboca_1_1TChannelBranch.html" title="Higgs cpv tagger root tree structure. " alt="" coords="1319,731,1473,757"/>
+<area shape="rect" id="node7" href="$db/df3/classboca_1_1MultiBranch.html" title="boca::MultiBranch" alt="" coords="922,725,1049,752"/>
+<area shape="rect" id="node8" href="$d6/d3d/classboca_1_1PairBranch.html" title="boca::PairBranch" alt="" coords="684,507,807,533"/>
+<area shape="rect" id="node19" href="$d0/dbf/classboca_1_1standardmodel_1_1TopLeptonicBranch.html" title="Top tagger root tree structure. " alt="" coords="914,557,1057,598"/>
+<area shape="rect" id="node29" href="$d7/ded/classboca_1_1standardmodel_1_1WSemiBranch.html" title="Top tagger root tree structure. " alt="" coords="914,491,1057,533"/>
+<area shape="rect" id="node33" href="$d3/d7d/classboca_1_1standardmodel_1_1HiggsBranch.html" title="Higgs tagger root tree structure. " alt="" coords="914,145,1057,186"/>
+<area shape="rect" id="node9" href="$d8/d91/classboca_1_1ParticleBranch.html" title="Class for saving event informations to root. " alt="" coords="488,151,631,177"/>
+<area shape="rect" id="node24" href="$db/dd1/classboca_1_1standardmodel_1_1BottomBranch.html" title="Bottom tagger root tree structure. " alt="" coords="914,21,1057,62"/>
+<area shape="rect" id="node10" href="$dd/dfc/classboca_1_1ResultBranch.html" title="boca::ResultBranch" alt="" coords="301,151,439,177"/>
+<area shape="rect" id="node11" href="$dc/d87/classboca_1_1BaseBranch.html" title="Basic tree branches. " alt="" coords="123,151,252,177"/>
+<area shape="rect" id="node25" href="$de/d69/classboca_1_1Reader.html" title="read results of multivariant analysis wrapper for TMVA::Reader " alt="" coords="1547,311,1765,337"/>
+<area shape="rect" id="node15" href="$de/d69/classboca_1_1Reader.html" title="boca::Reader\&lt; standardmodel\l::TopLeptonicTagger \&gt;" alt="" coords="2709,343,2907,385"/>
+<area shape="rect" id="node16" href="$d1/da0/classboca_1_1ReaderBase.html" title="boca::ReaderBase" alt="" coords="1331,257,1461,284"/>
+<area shape="rect" id="node21" href="$de/d69/classboca_1_1Reader.html" title="boca::Reader\&lt; boca\l::standardmodel::BottomTagger \&gt;" alt="" coords="1951,167,2168,209"/>
+<area shape="rect" id="node26" href="$de/d69/classboca_1_1Reader.html" title="boca::Reader\&lt; boca\l::standardmodel::WLeptonic\lTagger \&gt;" alt="" coords="1967,403,2152,459"/>
+<area shape="rect" id="node30" href="$de/d69/classboca_1_1Reader.html" title="boca::Reader\&lt; standardmodel\l::HiggsTagger \&gt;" alt="" coords="2709,174,2907,215"/>
+<area shape="rect" id="node17" href="$d4/da8/classboca_1_1standardmodel_1_1TopLeptonicTagger.html" title="Top leptonic BDT tagger. " alt="" coords="2441,406,2584,447"/>
+<area shape="rect" id="node20" href="$db/d5f/classboca_1_1BottomBase.html" title="Bottom tagger root tree structure base class. " alt="" coords="680,116,811,143"/>
+<area shape="rect" id="node31" href="$d6/d30/classboca_1_1standardmodel_1_1HiggsTagger.html" title="Semi leptonic heavy higgs BDT tagger. " alt="" coords="2441,50,2584,91"/>
+<area shape="rect" id="node22" href="$de/d6e/classboca_1_1standardmodel_1_1BottomTagger.html" title="Derived Tagger class for bottom jets. " alt="" coords="1585,50,1727,91"/>
+<area shape="rect" id="node27" href="$d4/d9e/classboca_1_1standardmodel_1_1WLeptonicTagger.html" title="Semi leptonic top BDT tagger. " alt="" coords="1585,518,1727,559"/>
+</map>

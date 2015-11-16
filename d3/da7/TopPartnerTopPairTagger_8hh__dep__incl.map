@@ -1,8 +1,3 @@
 <map id="TopPartner/include/TopPartnerTopPairTagger.hh" name="TopPartner/include/TopPartnerTopPairTagger.hh">
-<area shape="rect" id="node2" href="$da/dfa/SignatureSingleTagger_8hh.html" title="TopPartner/include\l/SignatureSingleTagger.hh" alt="" coords="235,95,410,136"/>
-<area shape="rect" id="node7" href="$d9/d96/TopPartnerTopPairTagger_8cpp.html" title="TopPartner/source/TopPartner\lTopPairTagger.cpp" alt="" coords="435,95,632,136"/>
-<area shape="rect" id="node3" href="$dd/d79/EventSingleTagger_8hh.html" title="TopPartner/include\l/EventSingleTagger.hh" alt="" coords="148,184,303,225"/>
-<area shape="rect" id="node6" href="$d1/d34/SignatureSingleTagger_8cpp.html" title="TopPartner/source/Signature\lSingleTagger.cpp" alt="" coords="327,184,515,225"/>
-<area shape="rect" id="node4" href="$d1/d06/EventSingleTagger_8cpp.html" title="TopPartner/source/EventSingle\lTagger.cpp" alt="" coords="5,273,208,315"/>
-<area shape="rect" id="node5" href="$d0/dbc/MainSingle_8cpp.html" title="TopPartner/source/MainSingle.cpp" alt="" coords="233,281,455,307"/>
+<area shape="rect" id="node2" href="$d9/d96/TopPartnerTopPairTagger_8cpp.html" title="TopPartner/source/TopPartner\lTopPairTagger.cpp" alt="" coords="5,95,203,136"/>
 </map>

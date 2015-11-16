@@ -1,0 +1,28 @@
+<map id="include/TaggerTemplate.hh" name="include/TaggerTemplate.hh">
+<area shape="rect" id="node3" href="$d3/d96/ExRootAnalysis_8hh.html" title="exroot/ExRootAnalysis.hh" alt="" coords="816,80,991,107"/>
+<area shape="rect" id="node16" href="$db/d31/Sort_8hh.html" title="Sort.hh" alt="" coords="1583,80,1647,107"/>
+<area shape="rect" id="node28" href="$d1/d8c/Tagger_8hh.html" title="Tagger.hh" alt="" coords="2533,80,2613,107"/>
+<area shape="rect" id="node45" href="$db/d60/Singlet_8hh.html" title="Singlet.hh" alt="" coords="1401,80,1481,107"/>
+<area shape="rect" id="node48" href="$da/d59/PreCuts_8hh.html" title="PreCuts.hh" alt="" coords="1269,162,1357,189"/>
+<area shape="rect" id="node9" href="$d6/dd8/Types_8hh.html" title="Types.hh" alt="" coords="2367,326,2443,353"/>
+<area shape="rect" id="node11" href="$dc/d45/Units_8hh.html" title="Units.hh" alt="" coords="1528,408,1599,435"/>
+<area shape="rect" id="node20" href="$d6/dc8/LorentzVector_8hh.html" title="LorentzVector.hh" alt="" coords="1040,326,1161,353"/>
+<area shape="rect" id="node22" href="$db/da5/Particles_8hh.html" title="Particles.hh" alt="" coords="1518,326,1609,353"/>
+<area shape="rect" id="node23" href="$d1/dce/JetInfo_8hh.html" title="JetInfo.hh" alt="" coords="1575,162,1655,189"/>
+<area shape="rect" id="node21" href="$d1/df9/Vector3_8hh.html" title="Vector3.hh" alt="" coords="1058,408,1143,435"/>
+<area shape="rect" id="node24" href="$d8/d85/Identification_8hh.html" title="Identification.hh" alt="" coords="1919,244,2034,271"/>
+<area shape="rect" id="node25" href="$d3/d32/Constituent_8hh.html" title="Constituent.hh" alt="" coords="1541,244,1647,271"/>
+<area shape="rect" id="node26" href="$d7/d7f/Math_8hh.html" title="Math.hh" alt="" coords="1671,244,1741,271"/>
+<area shape="rect" id="node31" href="$de/d1f/Observable_8hh.html" title="Observable.hh" alt="" coords="2559,326,2666,353"/>
+<area shape="rect" id="node32" href="$d0/d79/Branches_8hh.html" title="Branches.hh" alt="" coords="2285,162,2380,189"/>
+<area shape="rect" id="node35" href="$d3/d7e/Vector_8hh.html" title="Vector.hh" alt="" coords="1816,244,1895,271"/>
+<area shape="rect" id="node39" href="$d5/df2/Event_8hh.html" title="Event.hh" alt="" coords="2610,162,2685,189"/>
+<area shape="rect" id="node43" href="$d7/dcf/Exception_8hh.html" title="Exception.hh" alt="" coords="2931,162,3030,189"/>
+<area shape="rect" id="node38" href="$db/d66/DetectorGeometry_8hh.html" title="DetectorGeometry.hh" alt="" coords="1803,326,1950,353"/>
+<area shape="rect" id="node40" href="$d0/d6b/Partons_8hh.html" title="Partons.hh" alt="" coords="2610,244,2695,271"/>
+<area shape="rect" id="node41" href="$d7/dac/Leptons_8hh.html" title="Leptons.hh" alt="" coords="2720,244,2807,271"/>
+<area shape="rect" id="node42" href="$dd/dee/Hadrons_8hh.html" title="Hadrons.hh" alt="" coords="2395,244,2484,271"/>
+<area shape="rect" id="node46" href="$da/db5/MultipletBase_8hh.html" title="MultipletBase.hh" alt="" coords="1381,162,1500,189"/>
+<area shape="rect" id="node47" href="$db/d8e/Vector2_8hh.html" title="Vector2.hh" alt="" coords="1107,244,1193,271"/>
+<area shape="rect" id="node49" href="$d4/d5f/PreCut_8hh.html" title="PreCut.hh" alt="" coords="1268,244,1349,271"/>
+</map>

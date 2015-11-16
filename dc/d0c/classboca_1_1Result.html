@@ -110,7 +110,8 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="dynheader">
 Collaboration diagram for boca::Result:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d7/dd7/classboca_1_1Result__coll__graph.svg" width="155" height="279"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d7/dd7/classboca_1_1Result__coll__graph.svg" width="155" height="279"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
 <center><span class="legend">[<a href="../../graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -123,6 +124,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a6fd1c5d0e1e9c84f8eb8cdf53f02bdec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abf7f6211f4183d659296091b1ae19765"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d0c/classboca_1_1Result.html#abf7f6211f4183d659296091b1ae19765">AddBdt</a> (float bdt_value)</td></tr>
 <tr class="separator:abf7f6211f4183d659296091b1ae19765"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d3086d617d55e28af8b9ce166c32b83"><td class="memItemLeft" align="right" valign="top">std::vector&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d0c/classboca_1_1Result.html#a8d3086d617d55e28af8b9ce166c32b83">XSec</a> () const </td></tr>
+<tr class="separator:a8d3086d617d55e28af8b9ce166c32b83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -138,6 +141,8 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a678edbe944cf97dddd4b9e03adb50cd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2e8c0a5c40e6b406fa6aff29c4402e35"><td class="memItemLeft" align="right" valign="top">std::vector&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d0c/classboca_1_1Result.html#a2e8c0a5c40e6b406fa6aff29c4402e35">bdt</a></td></tr>
 <tr class="separator:a2e8c0a5c40e6b406fa6aff29c4402e35"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2145a7a189dc9984824dc1e248a83a49"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../da/d7d/namespaceboca.html#a46112144d02aecb580e9698e377b55f7">Crosssection</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d0c/classboca_1_1Result.html#a2145a7a189dc9984824dc1e248a83a49">crosssection</a></td></tr>
+<tr class="separator:a2145a7a189dc9984824dc1e248a83a49"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a00a46bd03d7f5bc0c41c3dd02eec8005"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d0/de6/classboca_1_1InfoBranch.html">InfoBranch</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d0c/classboca_1_1Result.html#a00a46bd03d7f5bc0c41c3dd02eec8005">info_branch_</a></td></tr>
 <tr class="separator:a00a46bd03d7f5bc0c41c3dd02eec8005"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -216,6 +221,29 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a8d3086d617d55e28af8b9ce166c32b83"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;float&gt; boca::Result::XSec </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <h2 class="groupheader">Member Data Documentation</h2>
 <a class="anchor" id="a2e8c0a5c40e6b406fa6aff29c4402e35"></a>
 <div class="memitem">
@@ -235,6 +263,18 @@ Private Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">std::vector&lt;int&gt; boca::Result::bins</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a2145a7a189dc9984824dc1e248a83a49"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;<a class="el" href="../../da/d7d/namespaceboca.html#a46112144d02aecb580e9698e377b55f7">Crosssection</a>&gt; boca::Result::crosssection</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -348,7 +388,7 @@ Private Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 1 2015 22:16:32 for BoCA by &#160;<a href="http://www.doxygen.org/index.html">
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

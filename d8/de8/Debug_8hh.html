@@ -106,10 +106,11 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <code>#include &lt;sstream&gt;</code><br />
 <code>#include &lt;iomanip&gt;</code><br />
 <code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;boost/units/systems/si/io.hpp&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for Debug.hh:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d0/dd6/Debug_8hh__incl.svg" width="430" height="112"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d0/dd6/Debug_8hh__incl.svg" width="594" height="127"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 </div>
@@ -137,8 +138,8 @@ Macros</h2></td></tr>
 <tr class="separator:a1224dbeb12320494fbd819c86fb3172b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a979610b3d1714e47b806afbf2b114ff8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/de8/Debug_8hh.html#a979610b3d1714e47b806afbf2b114ff8">VARIABLE</a>(value)&#160;&#160;&#160;#value, value</td></tr>
 <tr class="separator:a979610b3d1714e47b806afbf2b114ff8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5d5d4ea1a6d5b45188e063644e94116a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/de8/Debug_8hh.html#a5d5d4ea1a6d5b45188e063644e94116a">LOG0</a>()&#160;&#160;&#160;::<a class="el" href="../../da/d7d/namespaceboca.html#aad057f351e8a207efc08ea2134c7d189">boca::Log</a>(<a class="el" href="../../d8/de8/Debug_8hh.html#a1224dbeb12320494fbd819c86fb3172b">NAMES</a>)</td></tr>
-<tr class="separator:a5d5d4ea1a6d5b45188e063644e94116a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa92cc370e6906ac3887db96a0a628ce8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/de8/Debug_8hh.html#aa92cc370e6906ac3887db96a0a628ce8">LOG0</a>&#160;&#160;&#160;::<a class="el" href="../../da/d7d/namespaceboca.html#aad057f351e8a207efc08ea2134c7d189">boca::Log</a>(<a class="el" href="../../d8/de8/Debug_8hh.html#a1224dbeb12320494fbd819c86fb3172b">NAMES</a>)</td></tr>
+<tr class="separator:aa92cc370e6906ac3887db96a0a628ce8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0462cc601f760f0135e8ba1097f25169"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/de8/Debug_8hh.html#a0462cc601f760f0135e8ba1097f25169">LOG1</a>(value)&#160;&#160;&#160;::<a class="el" href="../../da/d7d/namespaceboca.html#aad057f351e8a207efc08ea2134c7d189">boca::Log</a>(<a class="el" href="../../d8/de8/Debug_8hh.html#a1224dbeb12320494fbd819c86fb3172b">NAMES</a>, <a class="el" href="../../d8/de8/Debug_8hh.html#a979610b3d1714e47b806afbf2b114ff8">VARIABLE</a>(value))</td></tr>
 <tr class="separator:a0462cc601f760f0135e8ba1097f25169"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a15a1b54afe8a906ece2edd3537e43a2f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/de8/Debug_8hh.html#a15a1b54afe8a906ece2edd3537e43a2f">LOG2</a>(value,  value2)&#160;&#160;&#160;::<a class="el" href="../../da/d7d/namespaceboca.html#aad057f351e8a207efc08ea2134c7d189">boca::Log</a>(<a class="el" href="../../d8/de8/Debug_8hh.html#a1224dbeb12320494fbd819c86fb3172b">NAMES</a>, <a class="el" href="../../d8/de8/Debug_8hh.html#a979610b3d1714e47b806afbf2b114ff8">VARIABLE</a>(value), <a class="el" href="../../d8/de8/Debug_8hh.html#a979610b3d1714e47b806afbf2b114ff8">VARIABLE</a>(value2))</td></tr>
@@ -149,24 +150,40 @@ Macros</h2></td></tr>
 <tr class="separator:a05812e045c5246946146c31433d29e32"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abc4233b95f9f2c643f2169d92e2c5296"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/de8/Debug_8hh.html#abc4233b95f9f2c643f2169d92e2c5296">LOG</a>(arg0,  arg1,  arg2,  arg3,  arg4,  arg, ...)&#160;&#160;&#160;arg</td></tr>
 <tr class="separator:abc4233b95f9f2c643f2169d92e2c5296"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2f73c0d97215c2b844087055614bf71e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/de8/Debug_8hh.html#a2f73c0d97215c2b844087055614bf71e">LOGCHOOSE</a>(...)&#160;&#160;&#160;<a class="el" href="../../d8/de8/Debug_8hh.html#abc4233b95f9f2c643f2169d92e2c5296">LOG</a>(,##__VA_ARGS__, <a class="el" href="../../d8/de8/Debug_8hh.html#a05812e045c5246946146c31433d29e32">LOG4</a>, <a class="el" href="../../d8/de8/Debug_8hh.html#a3d9e1806e3134941736bad98d7973e85">LOG3</a>, <a class="el" href="../../d8/de8/Debug_8hh.html#a15a1b54afe8a906ece2edd3537e43a2f">LOG2</a>, <a class="el" href="../../d8/de8/Debug_8hh.html#a0462cc601f760f0135e8ba1097f25169">LOG1</a>, <a class="el" href="../../d8/de8/Debug_8hh.html#a5d5d4ea1a6d5b45188e063644e94116a">LOG0</a>)</td></tr>
+<tr class="memitem:a2f73c0d97215c2b844087055614bf71e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/de8/Debug_8hh.html#a2f73c0d97215c2b844087055614bf71e">LOGCHOOSE</a>(...)&#160;&#160;&#160;<a class="el" href="../../d8/de8/Debug_8hh.html#abc4233b95f9f2c643f2169d92e2c5296">LOG</a>(__VA_ARGS__, , <a class="el" href="../../d8/de8/Debug_8hh.html#a05812e045c5246946146c31433d29e32">LOG4</a>, <a class="el" href="../../d8/de8/Debug_8hh.html#a3d9e1806e3134941736bad98d7973e85">LOG3</a>, <a class="el" href="../../d8/de8/Debug_8hh.html#a15a1b54afe8a906ece2edd3537e43a2f">LOG2</a>, <a class="el" href="../../d8/de8/Debug_8hh.html#a0462cc601f760f0135e8ba1097f25169">LOG1</a>, )</td></tr>
 <tr class="separator:a2f73c0d97215c2b844087055614bf71e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa4ca23ad4bb5b417d45e499cd5beec7a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/de8/Debug_8hh.html#aa4ca23ad4bb5b417d45e499cd5beec7a">ALIVE</a>(...)&#160;&#160;&#160;<a class="el" href="../../d8/de8/Debug_8hh.html#a2f73c0d97215c2b844087055614bf71e">LOGCHOOSE</a>(__VA_ARGS__)(__VA_ARGS__)</td></tr>
 <tr class="separator:aa4ca23ad4bb5b417d45e499cd5beec7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a431835ffac00ecd2b76ca6ea8d64c4db"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/de8/Debug_8hh.html#a431835ffac00ecd2b76ca6ea8d64c4db">DEAD</a>(...)&#160;&#160;&#160;do { if (0) <a class="el" href="../../d8/de8/Debug_8hh.html#aa4ca23ad4bb5b417d45e499cd5beec7a">ALIVE</a>(__VA_ARGS__); } while (0)</td></tr>
 <tr class="separator:a431835ffac00ecd2b76ca6ea8d64c4db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7d2fc876d5cfa5c32cb7cc1afafe78e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/de8/Debug_8hh.html#ab7d2fc876d5cfa5c32cb7cc1afafe78e">DEAD0</a>&#160;&#160;&#160;do { if (0) <a class="el" href="../../d8/de8/Debug_8hh.html#aa92cc370e6906ac3887db96a0a628ce8">LOG0</a>; } while (0)</td></tr>
+<tr class="separator:ab7d2fc876d5cfa5c32cb7cc1afafe78e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3820662fa23f7fb1a776c4398eb83c50"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/de8/Debug_8hh.html#a3820662fa23f7fb1a776c4398eb83c50">Error</a>(...)&#160;&#160;&#160;<a class="el" href="../../d8/de8/Debug_8hh.html#aa4ca23ad4bb5b417d45e499cd5beec7a">ALIVE</a>(__VA_ARGS__)</td></tr>
 <tr class="separator:a3820662fa23f7fb1a776c4398eb83c50"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a992c6f3552511a565a211febda7e8441"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/de8/Debug_8hh.html#a992c6f3552511a565a211febda7e8441">Note</a>(...)&#160;&#160;&#160;<a class="el" href="../../d8/de8/Debug_8hh.html#aa4ca23ad4bb5b417d45e499cd5beec7a">ALIVE</a>(__VA_ARGS__)</td></tr>
-<tr class="separator:a992c6f3552511a565a211febda7e8441"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad436e1e1d6bf1c744f5eca58bfa1fcc8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/de8/Debug_8hh.html#ad436e1e1d6bf1c744f5eca58bfa1fcc8">Info</a>(...)&#160;&#160;&#160;<a class="el" href="../../d8/de8/Debug_8hh.html#a431835ffac00ecd2b76ca6ea8d64c4db">DEAD</a>(__VA_ARGS__)</td></tr>
-<tr class="separator:ad436e1e1d6bf1c744f5eca58bfa1fcc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acd8dd41e8a67bba7ccfb3b50f7aa88a5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/de8/Debug_8hh.html#acd8dd41e8a67bba7ccfb3b50f7aa88a5">Debug</a>(...)&#160;&#160;&#160;<a class="el" href="../../d8/de8/Debug_8hh.html#a431835ffac00ecd2b76ca6ea8d64c4db">DEAD</a>(__VA_ARGS__)</td></tr>
-<tr class="separator:acd8dd41e8a67bba7ccfb3b50f7aa88a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1bb50b41884194f92ad54ea09c4f22ad"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/de8/Debug_8hh.html#a1bb50b41884194f92ad54ea09c4f22ad">Error0</a>&#160;&#160;&#160;<a class="el" href="../../d8/de8/Debug_8hh.html#aa92cc370e6906ac3887db96a0a628ce8">LOG0</a></td></tr>
+<tr class="separator:a1bb50b41884194f92ad54ea09c4f22ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeabf79f5f06c27f734a1dd1ffa20e213"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/de8/Debug_8hh.html#aeabf79f5f06c27f734a1dd1ffa20e213">Detail</a>(...)&#160;&#160;&#160;<a class="el" href="../../d8/de8/Debug_8hh.html#a431835ffac00ecd2b76ca6ea8d64c4db">DEAD</a>(__VA_ARGS__)</td></tr>
 <tr class="separator:aeabf79f5f06c27f734a1dd1ffa20e213"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8256bdfee90c61b61191571590451eef"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/de8/Debug_8hh.html#a8256bdfee90c61b61191571590451eef">Detail0</a>&#160;&#160;&#160;<a class="el" href="../../d8/de8/Debug_8hh.html#ab7d2fc876d5cfa5c32cb7cc1afafe78e">DEAD0</a></td></tr>
+<tr class="separator:a8256bdfee90c61b61191571590451eef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd8dd41e8a67bba7ccfb3b50f7aa88a5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/de8/Debug_8hh.html#acd8dd41e8a67bba7ccfb3b50f7aa88a5">Debug</a>(...)&#160;&#160;&#160;<a class="el" href="../../d8/de8/Debug_8hh.html#a431835ffac00ecd2b76ca6ea8d64c4db">DEAD</a>(__VA_ARGS__)</td></tr>
+<tr class="separator:acd8dd41e8a67bba7ccfb3b50f7aa88a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf9a4a9416097bba9e7f9f96a2d072b8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/de8/Debug_8hh.html#adf9a4a9416097bba9e7f9f96a2d072b8">Debug0</a>&#160;&#160;&#160;<a class="el" href="../../d8/de8/Debug_8hh.html#ab7d2fc876d5cfa5c32cb7cc1afafe78e">DEAD0</a></td></tr>
+<tr class="separator:adf9a4a9416097bba9e7f9f96a2d072b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad436e1e1d6bf1c744f5eca58bfa1fcc8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/de8/Debug_8hh.html#ad436e1e1d6bf1c744f5eca58bfa1fcc8">Info</a>(...)&#160;&#160;&#160;<a class="el" href="../../d8/de8/Debug_8hh.html#a431835ffac00ecd2b76ca6ea8d64c4db">DEAD</a>(__VA_ARGS__)</td></tr>
+<tr class="separator:ad436e1e1d6bf1c744f5eca58bfa1fcc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:accb463cd0d118f963249b1d2a139893e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/de8/Debug_8hh.html#accb463cd0d118f963249b1d2a139893e">Info0</a>&#160;&#160;&#160;<a class="el" href="../../d8/de8/Debug_8hh.html#ab7d2fc876d5cfa5c32cb7cc1afafe78e">DEAD0</a></td></tr>
+<tr class="separator:accb463cd0d118f963249b1d2a139893e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a992c6f3552511a565a211febda7e8441"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/de8/Debug_8hh.html#a992c6f3552511a565a211febda7e8441">Note</a>(...)&#160;&#160;&#160;<a class="el" href="../../d8/de8/Debug_8hh.html#aa4ca23ad4bb5b417d45e499cd5beec7a">ALIVE</a>(__VA_ARGS__)</td></tr>
+<tr class="separator:a992c6f3552511a565a211febda7e8441"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ba4d868932838f2760306389ee3a3f5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/de8/Debug_8hh.html#a0ba4d868932838f2760306389ee3a3f5">Note0</a>&#160;&#160;&#160;<a class="el" href="../../d8/de8/Debug_8hh.html#aa92cc370e6906ac3887db96a0a628ce8">LOG0</a></td></tr>
+<tr class="separator:a0ba4d868932838f2760306389ee3a3f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a209df84b02492d545220e77ebac94d90"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/de8/Debug_8hh.html#a209df84b02492d545220e77ebac94d90">Check</a>(condition, ...)&#160;&#160;&#160;if(!(condition)) { <a class="el" href="../../d8/de8/Debug_8hh.html#a3820662fa23f7fb1a776c4398eb83c50">Error</a>(__VA_ARGS__); }</td></tr>
 <tr class="separator:a209df84b02492d545220e77ebac94d90"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3882ab088602de70da3ecbf0b4909953"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/de8/Debug_8hh.html#a3882ab088602de70da3ecbf0b4909953">DebugCheck</a>(condition, ...)&#160;&#160;&#160;if(!(condition)) { <a class="el" href="../../d8/de8/Debug_8hh.html#acd8dd41e8a67bba7ccfb3b50f7aa88a5">Debug</a>(__VA_ARGS__); }</td></tr>
+<tr class="separator:a3882ab088602de70da3ecbf0b4909953"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b813bb2cd8965572298c02945ac20e2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/de8/Debug_8hh.html#a4b813bb2cd8965572298c02945ac20e2">Default</a>(condition,  value)&#160;&#160;&#160;default : <a class="el" href="../../d8/de8/Debug_8hh.html#a3820662fa23f7fb1a776c4398eb83c50">Error</a>(&quot;Switch Default&quot;, condition); return value;</td></tr>
+<tr class="separator:a4b813bb2cd8965572298c02945ac20e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -182,29 +199,29 @@ Functions</h2></td></tr>
 <tr class="separator:ae280444443fcc37edc83890e16e7ccec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5905585494408ba614407074f34abd2f"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#a5905585494408ba614407074f34abd2f">boca::FileName</a> (std::string const &amp;file)</td></tr>
 <tr class="separator:a5905585494408ba614407074f34abd2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4fdc9f9ca680abcd6bba192a97c06a34"><td class="memTemplParams" colspan="2">template&lt;typename Value &gt; </td></tr>
-<tr class="memitem:a4fdc9f9ca680abcd6bba192a97c06a34"><td class="memTemplItemLeft" align="right" valign="top">std::string&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#a4fdc9f9ca680abcd6bba192a97c06a34">boca::Column</a> (int width, const Value &amp;message)</td></tr>
-<tr class="separator:a4fdc9f9ca680abcd6bba192a97c06a34"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afc79cea560502e30ab9c38d168bebb9f"><td class="memTemplParams" colspan="2">template&lt;typename Value &gt; </td></tr>
-<tr class="memitem:afc79cea560502e30ab9c38d168bebb9f"><td class="memTemplItemLeft" align="right" valign="top">std::string&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#afc79cea560502e30ab9c38d168bebb9f">boca::ColumnRight</a> (int width, const Value &amp;message)</td></tr>
-<tr class="separator:afc79cea560502e30ab9c38d168bebb9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a477c07ea41fcf47187a3ad3047c377c4"><td class="memTemplParams" colspan="2">template&lt;typename Value &gt; </td></tr>
+<tr class="memitem:a477c07ea41fcf47187a3ad3047c377c4"><td class="memTemplItemLeft" align="right" valign="top">std::string&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#a477c07ea41fcf47187a3ad3047c377c4">boca::Column</a> (int width, Value const &amp;message)</td></tr>
+<tr class="separator:a477c07ea41fcf47187a3ad3047c377c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af826650b8bafd365d54c32c63b76c380"><td class="memTemplParams" colspan="2">template&lt;typename Value &gt; </td></tr>
+<tr class="memitem:af826650b8bafd365d54c32c63b76c380"><td class="memTemplItemLeft" align="right" valign="top">std::string&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#af826650b8bafd365d54c32c63b76c380">boca::ColumnRight</a> (int width, Value const &amp;message)</td></tr>
+<tr class="separator:af826650b8bafd365d54c32c63b76c380"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a83f80d2079d9652771a8088877bf6960"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#a83f80d2079d9652771a8088877bf6960">boca::ValueLength</a> ()</td></tr>
 <tr class="separator:a83f80d2079d9652771a8088877bf6960"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aad057f351e8a207efc08ea2134c7d189"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#aad057f351e8a207efc08ea2134c7d189">boca::Log</a> (std::string const &amp;file, int line, std::string const &amp;name_space, std::string const &amp;class_name, std::string const &amp;function, bool final=true)</td></tr>
 <tr class="separator:aad057f351e8a207efc08ea2134c7d189"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a05a31498d21cb9ce3ac312c49d686106"><td class="memTemplParams" colspan="2">template&lt;typename Value &gt; </td></tr>
-<tr class="memitem:a05a31498d21cb9ce3ac312c49d686106"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#a05a31498d21cb9ce3ac312c49d686106">boca::LogVariable</a> (std::string const &amp;variable, const Value &amp;value)</td></tr>
-<tr class="separator:a05a31498d21cb9ce3ac312c49d686106"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0293a5f6b78892bf59339d6103e1f96"><td class="memTemplParams" colspan="2">template&lt;typename Value &gt; </td></tr>
+<tr class="memitem:ad0293a5f6b78892bf59339d6103e1f96"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#ad0293a5f6b78892bf59339d6103e1f96">boca::LogVariable</a> (std::string const &amp;variable, Value const &amp;value)</td></tr>
+<tr class="separator:ad0293a5f6b78892bf59339d6103e1f96"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae2019486198c948a336baae652749715"><td class="memTemplParams" colspan="2">template&lt;typename Value &gt; </td></tr>
 <tr class="memitem:ae2019486198c948a336baae652749715"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#ae2019486198c948a336baae652749715">boca::LogVariable</a> (std::string const &amp;variable, const std::vector&lt; Value &gt; &amp;values)</td></tr>
 <tr class="separator:ae2019486198c948a336baae652749715"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a43306374e4d21ffab393c6886cc133c3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#a43306374e4d21ffab393c6886cc133c3">boca::LogVariable</a> (const std::string &amp;, char const *value)</td></tr>
-<tr class="separator:a43306374e4d21ffab393c6886cc133c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac140aeedeb429d971e645847d435aa89"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#ac140aeedeb429d971e645847d435aa89">boca::LogVariable</a> (std::string const &amp;, char const *value)</td></tr>
+<tr class="separator:ac140aeedeb429d971e645847d435aa89"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1b64418f89e2bb3cd26c113a31f3d5c1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#a1b64418f89e2bb3cd26c113a31f3d5c1">boca::LogVariable</a> (std::string const &amp;variable, fastjet::PseudoJet const &amp;jet)</td></tr>
 <tr class="separator:a1b64418f89e2bb3cd26c113a31f3d5c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a89d2d2f77aa4c1c738c499c2de765bf0"><td class="memTemplParams" colspan="2">template&lt;typename Value &gt; </td></tr>
-<tr class="memitem:a89d2d2f77aa4c1c738c499c2de765bf0"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#a89d2d2f77aa4c1c738c499c2de765bf0">boca::Log</a> (std::string const &amp;file, int line, std::string const &amp;name_space, std::string const &amp;class_name, std::string const &amp;function, std::string const &amp;variable=&quot;&quot;, const Value value=0, bool final=true)</td></tr>
-<tr class="separator:a89d2d2f77aa4c1c738c499c2de765bf0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a951db4e735d20377bae7be09bd566473"><td class="memTemplParams" colspan="2">template&lt;typename Value &gt; </td></tr>
+<tr class="memitem:a951db4e735d20377bae7be09bd566473"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#a951db4e735d20377bae7be09bd566473">boca::Log</a> (std::string const &amp;file, int line, std::string const &amp;name_space, std::string const &amp;class_name, std::string const &amp;function, std::string const &amp;variable, Value value, bool final=true)</td></tr>
+<tr class="separator:a951db4e735d20377bae7be09bd566473"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a63d12983c815631ec543e3756eaf22e2"><td class="memTemplParams" colspan="2">template&lt;typename Value , typename Value2 &gt; </td></tr>
 <tr class="memitem:a63d12983c815631ec543e3756eaf22e2"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#a63d12983c815631ec543e3756eaf22e2">boca::Log</a> (std::string const &amp;file, int line, std::string const &amp;name_space, std::string const &amp;class_name, std::string const &amp;function, std::string const &amp;variable, const Value value, std::string const &amp;variable2, const Value2 value2, bool final=true)</td></tr>
 <tr class="separator:a63d12983c815631ec543e3756eaf22e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -286,6 +303,18 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ab7d2fc876d5cfa5c32cb7cc1afafe78e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DEAD0&#160;&#160;&#160;do { if (0) <a class="el" href="../../d8/de8/Debug_8hh.html#aa92cc370e6906ac3887db96a0a628ce8">LOG0</a>; } while (0)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="acd8dd41e8a67bba7ccfb3b50f7aa88a5"></a>
 <div class="memitem">
 <div class="memproto">
@@ -296,6 +325,70 @@ Functions</h2></td></tr>
           <td class="paramtype">&#160;</td>
           <td class="paramname"><em>...</em></td><td>)</td>
           <td>&#160;&#160;&#160;<a class="el" href="../../d8/de8/Debug_8hh.html#a431835ffac00ecd2b76ca6ea8d64c4db">DEAD</a>(__VA_ARGS__)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="adf9a4a9416097bba9e7f9f96a2d072b8"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define Debug0&#160;&#160;&#160;<a class="el" href="../../d8/de8/Debug_8hh.html#ab7d2fc876d5cfa5c32cb7cc1afafe78e">DEAD0</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a3882ab088602de70da3ecbf0b4909953"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DebugCheck</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">condition, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;if(!(condition)) { <a class="el" href="../../d8/de8/Debug_8hh.html#acd8dd41e8a67bba7ccfb3b50f7aa88a5">Debug</a>(__VA_ARGS__); }</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a4b813bb2cd8965572298c02945ac20e2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define Default</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">condition, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">value&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;default : <a class="el" href="../../d8/de8/Debug_8hh.html#a3820662fa23f7fb1a776c4398eb83c50">Error</a>(&quot;Switch Default&quot;, condition); return value;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -318,6 +411,18 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a8256bdfee90c61b61191571590451eef"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define Detail0&#160;&#160;&#160;<a class="el" href="../../d8/de8/Debug_8hh.html#ab7d2fc876d5cfa5c32cb7cc1afafe78e">DEAD0</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="a3820662fa23f7fb1a776c4398eb83c50"></a>
 <div class="memitem">
 <div class="memproto">
@@ -328,6 +433,18 @@ Functions</h2></td></tr>
           <td class="paramtype">&#160;</td>
           <td class="paramname"><em>...</em></td><td>)</td>
           <td>&#160;&#160;&#160;<a class="el" href="../../d8/de8/Debug_8hh.html#aa4ca23ad4bb5b417d45e499cd5beec7a">ALIVE</a>(__VA_ARGS__)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a1bb50b41884194f92ad54ea09c4f22ad"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define Error0&#160;&#160;&#160;<a class="el" href="../../d8/de8/Debug_8hh.html#aa92cc370e6906ac3887db96a0a628ce8">LOG0</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -368,6 +485,18 @@ Functions</h2></td></tr>
           <td class="paramtype">&#160;</td>
           <td class="paramname"><em>...</em></td><td>)</td>
           <td>&#160;&#160;&#160;<a class="el" href="../../d8/de8/Debug_8hh.html#a431835ffac00ecd2b76ca6ea8d64c4db">DEAD</a>(__VA_ARGS__)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="accb463cd0d118f963249b1d2a139893e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define Info0&#160;&#160;&#160;<a class="el" href="../../d8/de8/Debug_8hh.html#ab7d2fc876d5cfa5c32cb7cc1afafe78e">DEAD0</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -430,15 +559,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a5d5d4ea1a6d5b45188e063644e94116a"></a>
+<a class="anchor" id="aa92cc370e6906ac3887db96a0a628ce8"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define LOG0</td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td>&#160;&#160;&#160;::<a class="el" href="../../da/d7d/namespaceboca.html#aad057f351e8a207efc08ea2134c7d189">boca::Log</a>(<a class="el" href="../../d8/de8/Debug_8hh.html#a1224dbeb12320494fbd819c86fb3172b">NAMES</a>)</td>
+          <td class="memname">#define LOG0&#160;&#160;&#160;::<a class="el" href="../../da/d7d/namespaceboca.html#aad057f351e8a207efc08ea2134c7d189">boca::Log</a>(<a class="el" href="../../d8/de8/Debug_8hh.html#a1224dbeb12320494fbd819c86fb3172b">NAMES</a>)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -566,7 +692,7 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname"><em>...</em></td><td>)</td>
-          <td>&#160;&#160;&#160;<a class="el" href="../../d8/de8/Debug_8hh.html#abc4233b95f9f2c643f2169d92e2c5296">LOG</a>(,##__VA_ARGS__, <a class="el" href="../../d8/de8/Debug_8hh.html#a05812e045c5246946146c31433d29e32">LOG4</a>, <a class="el" href="../../d8/de8/Debug_8hh.html#a3d9e1806e3134941736bad98d7973e85">LOG3</a>, <a class="el" href="../../d8/de8/Debug_8hh.html#a15a1b54afe8a906ece2edd3537e43a2f">LOG2</a>, <a class="el" href="../../d8/de8/Debug_8hh.html#a0462cc601f760f0135e8ba1097f25169">LOG1</a>, <a class="el" href="../../d8/de8/Debug_8hh.html#a5d5d4ea1a6d5b45188e063644e94116a">LOG0</a>)</td>
+          <td>&#160;&#160;&#160;<a class="el" href="../../d8/de8/Debug_8hh.html#abc4233b95f9f2c643f2169d92e2c5296">LOG</a>(__VA_ARGS__, , <a class="el" href="../../d8/de8/Debug_8hh.html#a05812e045c5246946146c31433d29e32">LOG4</a>, <a class="el" href="../../d8/de8/Debug_8hh.html#a3d9e1806e3134941736bad98d7973e85">LOG3</a>, <a class="el" href="../../d8/de8/Debug_8hh.html#a15a1b54afe8a906ece2edd3537e43a2f">LOG2</a>, <a class="el" href="../../d8/de8/Debug_8hh.html#a0462cc601f760f0135e8ba1097f25169">LOG1</a>, )</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -613,6 +739,18 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a0ba4d868932838f2760306389ee3a3f5"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define Note0&#160;&#160;&#160;<a class="el" href="../../d8/de8/Debug_8hh.html#aa92cc370e6906ac3887db96a0a628ce8">LOG0</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="a6985e58a0ff3195dca91e5aaca02e372"></a>
 <div class="memitem">
 <div class="memproto">
@@ -644,7 +782,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 1 2015 22:16:31 for BoCA by &#160;<a href="http://www.doxygen.org/index.html">
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

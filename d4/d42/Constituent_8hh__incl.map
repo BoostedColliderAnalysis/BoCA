@@ -1,7 +1,4 @@
 <map id="include/Constituent.hh" name="include/Constituent.hh">
-<area shape="rect" id="node2" href="$d0/d9c/Family_8hh.html" title="Family.hh" alt="" coords="43,80,122,107"/>
-<area shape="rect" id="node4" href="$dd/df5/Particle_8hh.html" title="Particle.hh" alt="" coords="89,155,173,181"/>
-<area shape="rect" id="node5" href="$db/da5/Particles_8hh.html" title="Particles.hh" alt="" coords="20,229,111,256"/>
-<area shape="rect" id="node7" href="$d6/dc8/LorentzVector_8hh.html" title="LorentzVector.hh" alt="" coords="135,229,257,256"/>
-<area shape="rect" id="node8" href="$d1/df9/Vector3_8hh.html" title="Vector3.hh" alt="" coords="153,304,239,331"/>
+<area shape="rect" id="node2" href="$d6/dc8/LorentzVector_8hh.html" title="LorentzVector.hh" alt="" coords="21,80,142,107"/>
+<area shape="rect" id="node3" href="$d1/df9/Vector3_8hh.html" title="Vector3.hh" alt="" coords="39,155,124,181"/>
 </map>

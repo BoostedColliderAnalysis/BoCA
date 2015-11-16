@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.9.1"/>
-<title>Analysis: TopPartner/include/HiggsPairTagger.hh Source File</title>
+<title>BoCA: TopPartner/include/HiggsPairTagger.hh Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -14,6 +14,12 @@
 <script type="text/javascript">
   $(document).ready(function() { init_search(); });
 </script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="../../doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -23,8 +29,9 @@
  <tbody>
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
-   <div id="projectname">Analysis
+   <div id="projectname">BoCA
    </div>
+   <div id="projectbrief">Boosted Collider Analysis</div>
   </td>
  </tr>
  </tbody>
@@ -38,6 +45,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="../../index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="../../pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="../../namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="../../annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="../../files.html"><span>Files</span></a></li>
@@ -95,57 +103,54 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d1/d1b/HiggsTagger_8hh.html">HiggsTagger.hh</a>&quot;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d9/d80/BranchesTopPartner_8hh.html">BranchesTopPartner.hh</a>&quot;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d0/dfd/namespaceanalysis.html">analysis</a> {</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">namespace </span>toppartner {</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="../../d7/d3f/classanalysis_1_1toppartner_1_1HiggsPairTagger.html">   15</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d7/d3f/classanalysis_1_1toppartner_1_1HiggsPairTagger.html">HiggsPairTagger</a> : <span class="keyword">public</span> <a class="code" href="../../da/d69/classanalysis_1_1BranchTagger.html">BranchTagger</a>&lt;HiggsPairBranch&gt; {</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <a class="code" href="../../d7/d3f/classanalysis_1_1toppartner_1_1HiggsPairTagger.html#a6de6c952ab9275782b098b00ff96e32c">HiggsPairTagger</a>();</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d7/d3f/classanalysis_1_1toppartner_1_1HiggsPairTagger.html#a900883ce261007637a0092bda4326cf5">Train</a>(<span class="keyword">const</span> <a class="code" href="../../d8/def/classanalysis_1_1Event.html">Event</a> &amp;event, <span class="keyword">const</span> <a class="code" href="../../df/d47/classanalysis_1_1PreCuts.html">PreCuts</a> &amp;pre_cuts, <a class="code" href="../../d0/dfd/namespaceanalysis.html#ab6708d3f5bf1427e8a05f57d96189312">Tag</a> tag) <span class="keyword">const</span> <span class="keyword">final</span>;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    std::vector&lt;Quartet22&gt; <a class="code" href="../../d7/d3f/classanalysis_1_1toppartner_1_1HiggsPairTagger.html#a0b53801fa5b3a65f4dc58eadc89f8d03">Multiplets</a>(<span class="keyword">const</span> <a class="code" href="../../d8/def/classanalysis_1_1Event.html">Event</a>&amp; event, <span class="keyword">const</span> <a class="code" href="../../df/d47/classanalysis_1_1PreCuts.html">PreCuts</a>&amp; pre_cuts, <span class="keyword">const</span> TMVA::Reader&amp; <a class="code" href="../../d0/dfd/namespaceanalysis.html#a42998dc653479c8856c4345d6bf29092a1de9b0a30075ae8c303eb420c103c320">reader</a>) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="../../d7/d3f/classanalysis_1_1toppartner_1_1HiggsPairTagger.html#ad7ac2cd6f921e34ce4a136647fd3cd8e">   25</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d7/d3f/classanalysis_1_1toppartner_1_1HiggsPairTagger.html#ad7ac2cd6f921e34ce4a136647fd3cd8e">GetBdt</a>(<span class="keyword">const</span> <a class="code" href="../../d8/def/classanalysis_1_1Event.html">Event</a> &amp;event, <span class="keyword">const</span> <a class="code" href="../../df/d47/classanalysis_1_1PreCuts.html">PreCuts</a> &amp;pre_cuts, <span class="keyword">const</span> TMVA::Reader &amp;reader) <span class="keyword">const</span> <span class="keyword">final</span> {</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                 <span class="keywordflow">return</span> <a class="code" href="../../da/d69/classanalysis_1_1BranchTagger.html#a34f20344d26ded867e1c7ba9a0226b41">SaveEntries</a>(<a class="code" href="../../d7/d3f/classanalysis_1_1toppartner_1_1HiggsPairTagger.html#a0b53801fa5b3a65f4dc58eadc89f8d03">Multiplets</a>(event, pre_cuts, reader), 1);</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    }</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="../../d7/d3f/classanalysis_1_1toppartner_1_1HiggsPairTagger.html#a7085f356c71d198fc34a3ea7e2fefd9d">   29</a></span>&#160;    <a class="code" href="../../d0/dfd/namespaceanalysis.html#a5ca8872d16c4d682bd368739dd39dfacab45cffe084dd3d20d928bee85e7b0f21">std::string</a> <a class="code" href="../../d7/d3f/classanalysis_1_1toppartner_1_1HiggsPairTagger.html#a7085f356c71d198fc34a3ea7e2fefd9d">Name</a>() const final { <span class="keywordflow">return</span> <span class="stringliteral">&quot;HiggsPair&quot;</span>; }</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="../../d7/d3f/classanalysis_1_1toppartner_1_1HiggsPairTagger.html#ab3b0208abfc84a024eedb1362495f4e8">   33</a></span>&#160;    <a class="code" href="../../de/da0/classanalysis_1_1Reader.html">Reader&lt;HiggsTagger&gt;</a> <a class="code" href="../../d7/d3f/classanalysis_1_1toppartner_1_1HiggsPairTagger.html#ab3b0208abfc84a024eedb1362495f4e8">higgs_reader_</a>;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;};</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;}</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;}</div>
-<div class="ttc" id="classanalysis_1_1BranchTagger_html"><div class="ttname"><a href="../../da/d69/classanalysis_1_1BranchTagger.html">analysis::BranchTagger</a></div><div class="ttdef"><b>Definition:</b> BranchTagger.hh:16</div></div>
-<div class="ttc" id="namespaceanalysis_html_a5ca8872d16c4d682bd368739dd39dfacab45cffe084dd3d20d928bee85e7b0f21"><div class="ttname"><a href="../../d0/dfd/namespaceanalysis.html#a5ca8872d16c4d682bd368739dd39dfacab45cffe084dd3d20d928bee85e7b0f21">analysis::Id::string</a></div></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../da/d7d/namespaceboca.html">boca</a></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;{</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">namespace </span>naturalness</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;{</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="../../d9/da3/classboca_1_1naturalness_1_1HiggsPairTagger.html">   17</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d9/da3/classboca_1_1naturalness_1_1HiggsPairTagger.html">HiggsPairTagger</a> : <span class="keyword">public</span> <a class="code" href="../../dd/d8a/classboca_1_1TaggerTemplate.html">TaggerTemplate</a>&lt;Quartet22, HiggsPairBranch&gt;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;{</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d9/da3/classboca_1_1naturalness_1_1HiggsPairTagger.html#ae99caa3567098bc824391bf94f5bc15d">Train</a>(<a class="code" href="../../da/df7/classboca_1_1Event.html">Event</a> <span class="keyword">const</span>&amp; event, <a class="code" href="../../d0/dff/classboca_1_1PreCuts.html">PreCuts</a> <span class="keyword">const</span>&amp; pre_cuts, <a class="code" href="../../da/d7d/namespaceboca.html#afe26187a85055a0f0dc9686d32b65344">Tag</a> tag) <span class="keyword">const</span> <span class="keyword">final</span>;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    std::vector&lt;Quartet22&gt; <a class="code" href="../../d9/da3/classboca_1_1naturalness_1_1HiggsPairTagger.html#a12dc5041c51d1a42f434810df5aa3c41">Multiplets</a>(<a class="code" href="../../da/df7/classboca_1_1Event.html">Event</a> <span class="keyword">const</span>&amp; event, <a class="code" href="../../d0/dff/classboca_1_1PreCuts.html">PreCuts</a> <span class="keyword">const</span>&amp; pre_cuts, TMVA::Reader <span class="keyword">const</span>&amp; <a class="code" href="../../da/d7d/namespaceboca.html#a8b248406adbf8761f7c6f1cbd095bc4aa1de9b0a30075ae8c303eb420c103c320">reader</a>) <span class="keyword">const</span> <span class="keyword">final</span>;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <a class="code" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> <a class="code" href="../../d9/da3/classboca_1_1naturalness_1_1HiggsPairTagger.html#ade76a15c74885602f9ac21681adaaca7">Name</a>() <span class="keyword">const</span> <span class="keyword">final</span>;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <a class="code" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> <a class="code" href="../../d9/da3/classboca_1_1naturalness_1_1HiggsPairTagger.html#a5a504603db281df26f20540f9c5b6712">NiceName</a>() <span class="keyword">const</span> <span class="keyword">final</span>;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="../../d9/da3/classboca_1_1naturalness_1_1HiggsPairTagger.html#a57aaa10e2a4f1e18a9bc45812fc9c906">   32</a></span>&#160;    <a class="code" href="../../de/d69/classboca_1_1Reader.html">Reader&lt;standardmodel::HiggsTagger&gt;</a> <a class="code" href="../../d9/da3/classboca_1_1naturalness_1_1HiggsPairTagger.html#a57aaa10e2a4f1e18a9bc45812fc9c906">higgs_reader_</a>;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;};</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;}</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;}</div>
+<div class="ttc" id="classboca_1_1naturalness_1_1HiggsPairTagger_html_ae99caa3567098bc824391bf94f5bc15d"><div class="ttname"><a href="../../d9/da3/classboca_1_1naturalness_1_1HiggsPairTagger.html#ae99caa3567098bc824391bf94f5bc15d">boca::naturalness::HiggsPairTagger::Train</a></div><div class="ttdeci">int Train(Event const &amp;event, PreCuts const &amp;pre_cuts, Tag tag) const final</div><div class="ttdef"><b>Definition:</b> HiggsPairTagger.cpp:8</div></div>
 <div class="ttc" id="Quartet_8hh_html"><div class="ttname"><a href="../../d5/d38/Quartet_8hh.html">Quartet.hh</a></div></div>
 <div class="ttc" id="HiggsTagger_8hh_html"><div class="ttname"><a href="../../d1/d1b/HiggsTagger_8hh.html">HiggsTagger.hh</a></div></div>
-<div class="ttc" id="classanalysis_1_1toppartner_1_1HiggsPairTagger_html_a7085f356c71d198fc34a3ea7e2fefd9d"><div class="ttname"><a href="../../d7/d3f/classanalysis_1_1toppartner_1_1HiggsPairTagger.html#a7085f356c71d198fc34a3ea7e2fefd9d">analysis::toppartner::HiggsPairTagger::Name</a></div><div class="ttdeci">std::string Name() const final</div><div class="ttdef"><b>Definition:</b> HiggsPairTagger.hh:29</div></div>
-<div class="ttc" id="classanalysis_1_1PreCuts_html"><div class="ttname"><a href="../../df/d47/classanalysis_1_1PreCuts.html">analysis::PreCuts</a></div><div class="ttdef"><b>Definition:</b> PreCuts.hh:10</div></div>
-<div class="ttc" id="namespaceanalysis_html"><div class="ttname"><a href="../../d0/dfd/namespaceanalysis.html">analysis</a></div><div class="ttdoc">analysis namespace containing the general analysis and SM taggers </div><div class="ttdef"><b>Definition:</b> AnalysisCharged.hh:5</div></div>
-<div class="ttc" id="namespaceanalysis_html_a42998dc653479c8856c4345d6bf29092a1de9b0a30075ae8c303eb420c103c320"><div class="ttname"><a href="../../d0/dfd/namespaceanalysis.html#a42998dc653479c8856c4345d6bf29092a1de9b0a30075ae8c303eb420c103c320">analysis::Stage::reader</a></div></div>
-<div class="ttc" id="classanalysis_1_1toppartner_1_1HiggsPairTagger_html_a900883ce261007637a0092bda4326cf5"><div class="ttname"><a href="../../d7/d3f/classanalysis_1_1toppartner_1_1HiggsPairTagger.html#a900883ce261007637a0092bda4326cf5">analysis::toppartner::HiggsPairTagger::Train</a></div><div class="ttdeci">int Train(const Event &amp;event, const PreCuts &amp;pre_cuts, Tag tag) const final</div><div class="ttdef"><b>Definition:</b> HiggsPairTagger.cpp:14</div></div>
-<div class="ttc" id="namespaceanalysis_html_ab6708d3f5bf1427e8a05f57d96189312"><div class="ttname"><a href="../../d0/dfd/namespaceanalysis.html#ab6708d3f5bf1427e8a05f57d96189312">analysis::Tag</a></div><div class="ttdeci">Tag</div><div class="ttdef"><b>Definition:</b> Identification.hh:7</div></div>
-<div class="ttc" id="classanalysis_1_1BranchTagger_html_a34f20344d26ded867e1c7ba9a0226b41"><div class="ttname"><a href="../../da/d69/classanalysis_1_1BranchTagger.html#a34f20344d26ded867e1c7ba9a0226b41">analysis::BranchTagger&lt; HiggsPairBranch &gt;::SaveEntries</a></div><div class="ttdeci">int SaveEntries(std::vector&lt; Multiplet &gt; multiplets, size_t max=LargeNumber()) const</div><div class="ttdef"><b>Definition:</b> BranchTagger.hh:96</div></div>
-<div class="ttc" id="classanalysis_1_1Event_html"><div class="ttname"><a href="../../d8/def/classanalysis_1_1Event.html">analysis::Event</a></div><div class="ttdoc">Base class for the event Topology. </div><div class="ttdef"><b>Definition:</b> Event.hh:13</div></div>
-<div class="ttc" id="classanalysis_1_1toppartner_1_1HiggsPairTagger_html_ad7ac2cd6f921e34ce4a136647fd3cd8e"><div class="ttname"><a href="../../d7/d3f/classanalysis_1_1toppartner_1_1HiggsPairTagger.html#ad7ac2cd6f921e34ce4a136647fd3cd8e">analysis::toppartner::HiggsPairTagger::GetBdt</a></div><div class="ttdeci">int GetBdt(const Event &amp;event, const PreCuts &amp;pre_cuts, const TMVA::Reader &amp;reader) const final</div><div class="ttdef"><b>Definition:</b> HiggsPairTagger.hh:25</div></div>
-<div class="ttc" id="classanalysis_1_1Reader_html"><div class="ttname"><a href="../../de/da0/classanalysis_1_1Reader.html">analysis::Reader</a></div><div class="ttdoc">read results of multivariant analysis wrapper for TMVA::Reader </div><div class="ttdef"><b>Definition:</b> Reader.hh:15</div></div>
-<div class="ttc" id="classanalysis_1_1toppartner_1_1HiggsPairTagger_html_a6de6c952ab9275782b098b00ff96e32c"><div class="ttname"><a href="../../d7/d3f/classanalysis_1_1toppartner_1_1HiggsPairTagger.html#a6de6c952ab9275782b098b00ff96e32c">analysis::toppartner::HiggsPairTagger::HiggsPairTagger</a></div><div class="ttdeci">HiggsPairTagger()</div><div class="ttdef"><b>Definition:</b> HiggsPairTagger.cpp:8</div></div>
+<div class="ttc" id="namespaceboca_html_a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">boca::Id::string</a></div></div>
+<div class="ttc" id="classboca_1_1Reader_html"><div class="ttname"><a href="../../de/d69/classboca_1_1Reader.html">boca::Reader&lt; standardmodel::HiggsTagger &gt;</a></div></div>
+<div class="ttc" id="classboca_1_1PreCuts_html"><div class="ttname"><a href="../../d0/dff/classboca_1_1PreCuts.html">boca::PreCuts</a></div><div class="ttdef"><b>Definition:</b> PreCuts.hh:18</div></div>
+<div class="ttc" id="classboca_1_1naturalness_1_1HiggsPairTagger_html_a57aaa10e2a4f1e18a9bc45812fc9c906"><div class="ttname"><a href="../../d9/da3/classboca_1_1naturalness_1_1HiggsPairTagger.html#a57aaa10e2a4f1e18a9bc45812fc9c906">boca::naturalness::HiggsPairTagger::higgs_reader_</a></div><div class="ttdeci">Reader&lt; standardmodel::HiggsTagger &gt; higgs_reader_</div><div class="ttdef"><b>Definition:</b> HiggsPairTagger.hh:32</div></div>
+<div class="ttc" id="classboca_1_1naturalness_1_1HiggsPairTagger_html_ade76a15c74885602f9ac21681adaaca7"><div class="ttname"><a href="../../d9/da3/classboca_1_1naturalness_1_1HiggsPairTagger.html#ade76a15c74885602f9ac21681adaaca7">boca::naturalness::HiggsPairTagger::Name</a></div><div class="ttdeci">std::string Name() const final</div><div class="ttdef"><b>Definition:</b> HiggsPairTagger.cpp:38</div></div>
+<div class="ttc" id="namespaceboca_html_afe26187a85055a0f0dc9686d32b65344"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#afe26187a85055a0f0dc9686d32b65344">boca::Tag</a></div><div class="ttdeci">Tag</div><div class="ttdef"><b>Definition:</b> Identification.hh:10</div></div>
+<div class="ttc" id="classboca_1_1Event_html"><div class="ttname"><a href="../../da/df7/classboca_1_1Event.html">boca::Event</a></div><div class="ttdoc">Base class for the event Topology. </div><div class="ttdef"><b>Definition:</b> Event.hh:25</div></div>
+<div class="ttc" id="classboca_1_1TaggerTemplate_html"><div class="ttname"><a href="../../dd/d8a/classboca_1_1TaggerTemplate.html">boca::TaggerTemplate</a></div><div class="ttdoc">Tagger base class using Branch template. </div><div class="ttdef"><b>Definition:</b> TaggerTemplate.hh:25</div></div>
+<div class="ttc" id="namespaceboca_html"><div class="ttname"><a href="../../da/d7d/namespaceboca.html">boca</a></div><div class="ttdoc">contains the general analysis and SM taggers </div><div class="ttdef"><b>Definition:</b> AnalysisCharged.hh:5</div></div>
+<div class="ttc" id="classboca_1_1naturalness_1_1HiggsPairTagger_html_a5a504603db281df26f20540f9c5b6712"><div class="ttname"><a href="../../d9/da3/classboca_1_1naturalness_1_1HiggsPairTagger.html#a5a504603db281df26f20540f9c5b6712">boca::naturalness::HiggsPairTagger::NiceName</a></div><div class="ttdeci">std::string NiceName() const final</div><div class="ttdef"><b>Definition:</b> HiggsPairTagger.cpp:42</div></div>
 <div class="ttc" id="BranchesTopPartner_8hh_html"><div class="ttname"><a href="../../d9/d80/BranchesTopPartner_8hh.html">BranchesTopPartner.hh</a></div></div>
-<div class="ttc" id="classanalysis_1_1toppartner_1_1HiggsPairTagger_html"><div class="ttname"><a href="../../d7/d3f/classanalysis_1_1toppartner_1_1HiggsPairTagger.html">analysis::toppartner::HiggsPairTagger</a></div><div class="ttdoc">Semi leptonic heavy higgs BDT tagger. </div><div class="ttdef"><b>Definition:</b> HiggsPairTagger.hh:15</div></div>
-<div class="ttc" id="classanalysis_1_1toppartner_1_1HiggsPairTagger_html_ab3b0208abfc84a024eedb1362495f4e8"><div class="ttname"><a href="../../d7/d3f/classanalysis_1_1toppartner_1_1HiggsPairTagger.html#ab3b0208abfc84a024eedb1362495f4e8">analysis::toppartner::HiggsPairTagger::higgs_reader_</a></div><div class="ttdeci">Reader&lt; HiggsTagger &gt; higgs_reader_</div><div class="ttdef"><b>Definition:</b> HiggsPairTagger.hh:33</div></div>
-<div class="ttc" id="classanalysis_1_1toppartner_1_1HiggsPairTagger_html_a0b53801fa5b3a65f4dc58eadc89f8d03"><div class="ttname"><a href="../../d7/d3f/classanalysis_1_1toppartner_1_1HiggsPairTagger.html#a0b53801fa5b3a65f4dc58eadc89f8d03">analysis::toppartner::HiggsPairTagger::Multiplets</a></div><div class="ttdeci">std::vector&lt; Quartet22 &gt; Multiplets(const Event &amp;event, const PreCuts &amp;pre_cuts, const TMVA::Reader &amp;reader) const </div><div class="ttdef"><b>Definition:</b> HiggsPairTagger.cpp:30</div></div>
+<div class="ttc" id="namespaceboca_html_a8b248406adbf8761f7c6f1cbd095bc4aa1de9b0a30075ae8c303eb420c103c320"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#a8b248406adbf8761f7c6f1cbd095bc4aa1de9b0a30075ae8c303eb420c103c320">boca::Stage::reader</a></div></div>
+<div class="ttc" id="classboca_1_1naturalness_1_1HiggsPairTagger_html_a12dc5041c51d1a42f434810df5aa3c41"><div class="ttname"><a href="../../d9/da3/classboca_1_1naturalness_1_1HiggsPairTagger.html#a12dc5041c51d1a42f434810df5aa3c41">boca::naturalness::HiggsPairTagger::Multiplets</a></div><div class="ttdeci">std::vector&lt; Quartet22 &gt; Multiplets(Event const &amp;event, PreCuts const &amp;pre_cuts, TMVA::Reader const &amp;reader) const final</div><div class="ttdef"><b>Definition:</b> HiggsPairTagger.cpp:24</div></div>
+<div class="ttc" id="classboca_1_1naturalness_1_1HiggsPairTagger_html"><div class="ttname"><a href="../../d9/da3/classboca_1_1naturalness_1_1HiggsPairTagger.html">boca::naturalness::HiggsPairTagger</a></div><div class="ttdoc">Semi leptonic heavy higgs BDT tagger. </div><div class="ttdef"><b>Definition:</b> HiggsPairTagger.hh:17</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 1 2015 22:08:01 for Analysis by &#160;<a href="http://www.doxygen.org/index.html">
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

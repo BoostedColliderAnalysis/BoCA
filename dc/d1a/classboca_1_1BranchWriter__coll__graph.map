@@ -1,0 +1,10 @@
+<map id="boca::BranchWriter&lt; Tagger &gt;" name="boca::BranchWriter&lt; Tagger &gt;">
+<area shape="rect" id="node2" href="$dd/d34/classboca_1_1Second.html" title="boca::Second" alt="" coords="101,310,204,337"/>
+<area shape="rect" id="node3" href="$d6/d6b/classboca_1_1First.html" title="boca::First" alt="" coords="5,213,89,240"/>
+<area shape="rect" id="node4" href="$db/dc2/classboca_1_1File.html" title="Input file infos. " alt="" coords="113,213,192,240"/>
+<area shape="rect" id="node5" href="$de/d69/classboca_1_1Reader.html" title="boca::Reader\&lt; boca\l::Tagger \&gt;" alt="" coords="228,303,368,344"/>
+<area shape="rect" id="node6" href="$d1/da0/classboca_1_1ReaderBase.html" title="boca::ReaderBase" alt="" coords="267,109,398,136"/>
+<area shape="rect" id="node8" href="$de/d69/classboca_1_1Reader.html" title="read results of multivariant analysis wrapper for TMVA::Reader " alt="" coords="335,213,554,240"/>
+<area shape="rect" id="node7" href="$da/d42/classboca_1_1Tagger.html" title="Prepares multivariant analysis. " alt="" coords="449,5,547,32"/>
+<area shape="rect" id="node9" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="Tagger base class using Branch template. " alt="" coords="422,95,574,151"/>
+</map>

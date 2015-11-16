@@ -16,7 +16,7 @@
 </g>
 <!-- Node2 -->
 <g id="node2" class="node"><title>Node2</title>
-<g id="a_node2"><a xlink:href="../../d6/db8/structboca_1_1Point.html" target="_top" xlink:title="boca::Point">
+<g id="a_node2"><a xlink:href="../../d2/d63/classboca_1_1Point.html" target="_top" xlink:title="boca::Point">
 <polygon fill="white" stroke="black" points="5.5,-78.5 5.5,-97.5 71.5,-97.5 71.5,-78.5 5.5,-78.5"/>
 <text text-anchor="middle" x="38.5" y="-85.5" font-family="Helvetica,sans-Serif" font-size="10.00">boca::Point</text>
 </a>

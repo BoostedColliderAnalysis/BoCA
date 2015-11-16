@@ -1,20 +1,26 @@
 var searchData=
 [
+  ['map_5f',['map_',['../d6/dde/classboca_1_1TreeReader.html#add7910c9a5003e09f00ebe54d4fa7c99',1,'boca::TreeReader::map_()'],['../d6/dde/classboca_1_1TreeReader.html#a3470641233e057f4cbbb5aea5a37cde6',1,'boca::TreeReader::map_()']]],
   ['marker_5f',['marker_',['../d1/d78/classboca_1_1Family.html#ad68196742270d183b6cfad8946aeb1eb',1,'boca::Family']]],
   ['mass',['Mass',['../d0/de6/classboca_1_1InfoBranch.html#abf4f95869b0e1997436b55f9adbab04a',1,'boca::InfoBranch::Mass()'],['../d8/d91/classboca_1_1ParticleBranch.html#a6b2d15d5ee8ac7bb17e57fc4f81bfcf6',1,'boca::ParticleBranch::Mass()']]],
-  ['mass_5f',['mass_',['../d4/d19/classboca_1_1Configuration.html#a934ff35ee4cc54536d39bd7d0af7b662',1,'boca::Configuration::mass_()'],['../da/df7/classboca_1_1Event.html#a3dfc2f158a103e6649240e98781dd467',1,'boca::Event::mass_()'],['../db/dc2/classboca_1_1File.html#a5287bd770e25bc2980141846046a1695',1,'boca::File::mass_()'],['../d1/d36/structboca_1_1SortByMassTo.html#ad6a303bf244200c0bce33d2fabe7616d',1,'boca::SortByMassTo::mass_()']]],
+  ['mass12',['Mass12',['../db/d71/classboca_1_1higgscpv_1_1SignatureLeptonTaggerBranch.html#ab7acc1dd48f06114698436517a7c05fd',1,'boca::higgscpv::SignatureLeptonTaggerBranch::Mass12()'],['../d9/d7b/classboca_1_1TChannelBranch.html#acf6360f06f31b73bb45621172b054fc0',1,'boca::TChannelBranch::Mass12()']]],
+  ['mass13',['Mass13',['../db/d71/classboca_1_1higgscpv_1_1SignatureLeptonTaggerBranch.html#a66cf930f21ce72431a5da52f617d626a',1,'boca::higgscpv::SignatureLeptonTaggerBranch::Mass13()'],['../d9/d7b/classboca_1_1TChannelBranch.html#a25d3c488742cccae1f6fd35628b691c2',1,'boca::TChannelBranch::Mass13()']]],
+  ['mass23',['Mass23',['../db/d71/classboca_1_1higgscpv_1_1SignatureLeptonTaggerBranch.html#adf9495c52e7b81d2a498e0a9b3300526',1,'boca::higgscpv::SignatureLeptonTaggerBranch::Mass23()'],['../d9/d7b/classboca_1_1TChannelBranch.html#adbb7ff44013a495c3a64e9956ef78f7a',1,'boca::TChannelBranch::Mass23()']]],
+  ['mass_5f',['mass_',['../da/df7/classboca_1_1Event.html#af2a0de34922ecef518b04a1a074a00cd',1,'boca::Event::mass_()'],['../db/dc2/classboca_1_1File.html#a271d5eb860ee5bc3f4c25b82433f2e48',1,'boca::File::mass_()'],['../d1/d36/structboca_1_1SortByMassTo.html#acd6937700c5a343ac3858c31da1ef77c',1,'boca::SortByMassTo::mass_()']]],
   ['mass_5fcheck_5fvalue_5f',['mass_check_value_',['../d3/d84/classboca_1_1FourVector.html#afb1a349272d4a8853a138750cdc19524',1,'boca::FourVector']]],
-  ['mass_5flower_5fcut_5f',['mass_lower_cut_',['../d0/dff/classboca_1_1PreCuts.html#aee6c9294cbb7a2acbd708b38e6538e87',1,'boca::PreCuts']]],
-  ['mass_5fupper_5fcut_5f',['mass_upper_cut_',['../d0/dff/classboca_1_1PreCuts.html#ad2f6c44c2a646fba6ae1bf9d91884601',1,'boca::PreCuts']]],
+  ['mass_5flower_5fcut_5f',['mass_lower_cut_',['../d0/dff/classboca_1_1PreCuts.html#a7897dbcdfacba19ff0805e6abd8c6dc7',1,'boca::PreCuts']]],
+  ['mass_5fupper_5fcut_5f',['mass_upper_cut_',['../d0/dff/classboca_1_1PreCuts.html#ab28d0bcfbcd145a45a544ba075ae46b0',1,'boca::PreCuts']]],
   ['max',['max',['../d0/d74/classboca_1_1Results.html#ad18d08cd03d5303606658622af392c28',1,'boca::Results']]],
+  ['max_5f',['max_',['../da/d4e/classboca_1_1Third.html#a3e70845a8f76b4a76ad2366970e6d6c0',1,'boca::Third::max_()'],['../df/d49/classboca_1_1MomentumRange.html#a59a38068dc3d436ad290b2e1a614fd44',1,'boca::MomentumRange::max_()']]],
   ['maxdisplacement',['MaxDisplacement',['../db/d5f/classboca_1_1BottomBase.html#a47ece8d37f1dcd1536e6dd5212e5edaf',1,'boca::BottomBase']]],
   ['meandisplacement',['MeanDisplacement',['../db/d5f/classboca_1_1BottomBase.html#aed146ad6daab7db9d449c86e74fe10d7',1,'boca::BottomBase']]],
   ['min',['min',['../d0/d74/classboca_1_1Results.html#addc00f74a782e0c7ccbe88e2ac1a38fa',1,'boca::Results']]],
+  ['min_5f',['min_',['../df/d49/classboca_1_1MomentumRange.html#a0e1290fbb20b5c5e4cffb6e2c7d98258',1,'boca::MomentumRange']]],
   ['missing_5fet_5f',['missing_et_',['../dc/d8b/classboca_1_1GlobalObservables.html#afff34a3ddcf0fcb9aee5ab0b60e04d29',1,'boca::GlobalObservables']]],
   ['missinget',['MissingEt',['../d9/dfc/classboca_1_1EventBranch.html#a3b817d939aedc1262fe9ece8fef4ef28',1,'boca::EventBranch']]],
   ['momentum',['momentum',['../dc/d3d/classboca_1_1Peg.html#af5d97b8cb9108749a5bdc5d37762b27e',1,'boca::Peg']]],
   ['momentum_5f',['momentum_',['../d3/d8f/classboca_1_1Constituent.html#a54138bb22cc342fbe6823d2688cf7a48',1,'boca::Constituent::momentum_()'],['../db/dc7/classboca_1_1Particle.html#aaa21a54c0d12e8d3a56cce78b72328c3',1,'boca::Particle::momentum_()']]],
-  ['momentumfraction',['MomentumFraction',['../de/d10/classboca_1_1TauBranch.html#a3a7a1427ff6bc640e9763aada956ef5a',1,'boca::TauBranch']]],
+  ['momentumfraction',['MomentumFraction',['../d3/da8/classboca_1_1standardmodel_1_1TauBranch.html#a9725febd90858aee5686e5d5ed5db6da',1,'boca::standardmodel::TauBranch']]],
   ['mother_5f1_5f',['mother_1_',['../d1/d78/classboca_1_1Family.html#a5ac5a25e60a2a138971f08606aadcd80',1,'boca::Family']]],
   ['mother_5f2_5f',['mother_2_',['../d1/d78/classboca_1_1Family.html#ab8f452ee4850ef8152d4b239da7f2482',1,'boca::Family']]],
   ['mother_5fid_5f',['mother_id_',['../d7/d46/structboca_1_1HasMother.html#a50188e2b732c492b37f33e1a8c0ef0a7',1,'boca::HasMother']]],
@@ -22,5 +28,6 @@ var searchData=
   ['multiplet_5f1_5f',['multiplet_1_',['../d8/d75/classboca_1_1ThreeBody.html#a5a3af065c37c521072b1c90acc695774',1,'boca::ThreeBody::multiplet_1_()'],['../d6/d3b/classboca_1_1TwoBody.html#a1cc5319beb616e8df82b771092b58e5f',1,'boca::TwoBody::multiplet_1_()']]],
   ['multiplet_5f2_5f',['multiplet_2_',['../d8/d75/classboca_1_1ThreeBody.html#a19df454c9185b1fc7756012de148cbb7',1,'boca::ThreeBody::multiplet_2_()'],['../d6/d3b/classboca_1_1TwoBody.html#a881074bc25e6dcf04df0ad2629386c8f',1,'boca::TwoBody::multiplet_2_()']]],
   ['multiplet_5f3_5f',['multiplet_3_',['../d8/d75/classboca_1_1ThreeBody.html#a3a56c3dcb5c3adeb2ab32e98425de2a9',1,'boca::ThreeBody']]],
-  ['multiplicity',['Multiplicity',['../db/d5f/classboca_1_1BottomBase.html#a688c9bc1082d5911905bac50e85b8dae',1,'boca::BottomBase']]]
+  ['multiplicity',['Multiplicity',['../db/d5f/classboca_1_1BottomBase.html#a688c9bc1082d5911905bac50e85b8dae',1,'boca::BottomBase']]],
+  ['mutex_5f',['mutex_',['../d1/da0/classboca_1_1ReaderBase.html#a20171da5b19d489f595466b5b1709817',1,'boca::ReaderBase::mutex_()'],['../da/d42/classboca_1_1Tagger.html#a74fb977eb55019a8fa6993d56f0421f2',1,'boca::Tagger::mutex_()'],['../d6/dde/classboca_1_1TreeReader.html#a52a06692958aa708528c49bb7c07076d',1,'boca::TreeReader::mutex_()']]]
 ];

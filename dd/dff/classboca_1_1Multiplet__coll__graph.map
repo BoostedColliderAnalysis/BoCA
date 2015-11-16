@@ -1,6 +1,7 @@
 <map id="boca::Multiplet" name="boca::Multiplet">
 <area shape="rect" id="node2" href="$de/d8b/classboca_1_1MultipletBase.html" title="boca::MultipletBase" alt="" coords="5,96,143,123"/>
-<area shape="rect" id="node4" href="$db/def/classboca_1_1Singlet.html" title="Thin wrapper to make fastjet::PseudoJet behave like a Multiplet. Additionally this class astracts awa..." alt="" coords="111,185,210,212"/>
+<area shape="rect" id="node4" href="$db/def/classboca_1_1Singlet.html" title="Thin wrapper to make fastjet::PseudoJet behave like a Multiplet. Additionally this class astracts awa..." alt="" coords="153,185,251,212"/>
 <area shape="rect" id="node3" href="$d4/de7/classboca_1_1Identification.html" title="boca::Identification" alt="" coords="8,13,140,39"/>
 <area shape="rect" id="node5" href="$df/d8a/classboca_1_1JetInfo.html" title="Jet infos subclassed from Fastjet. " alt="" coords="167,96,266,123"/>
+<area shape="rect" id="node7" href="$d6/dfb/classboca_1_1Vector2.html" title="Copy of root::TVector2 in order to get rid of TObject. " alt="" coords="291,96,393,123"/>
 </map>

@@ -1,5 +1,5 @@
 <map id="boca::heavyhiggs::HeavyHiggsSemiTagger" name="boca::heavyhiggs::HeavyHiggsSemiTagger">
-<area shape="rect" id="node2" href="$dd/d4b/classboca_1_1BranchTagger.html" title="boca::BranchTagger\l\&lt; HeavyHiggsSemiBranch \&gt;" alt="" coords="13,185,202,227"/>
-<area shape="rect" id="node3" href="$da/d42/classboca_1_1Tagger.html" title="Prepares multivariant analysis. " alt="" coords="71,5,170,32"/>
-<area shape="rect" id="node4" href="$dd/d4b/classboca_1_1BranchTagger.html" title="Tagger base class using Branch template. " alt="" coords="123,81,265,123"/>
+<area shape="rect" id="node2" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; Sextet, HeavyHiggsSemiBranch \&gt;" alt="" coords="5,215,240,256"/>
+<area shape="rect" id="node3" href="$da/d42/classboca_1_1Tagger.html" title="Prepares multivariant analysis. " alt="" coords="88,5,187,32"/>
+<area shape="rect" id="node4" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="Tagger base class using Branch template. " alt="" coords="139,81,291,137"/>
 </map>

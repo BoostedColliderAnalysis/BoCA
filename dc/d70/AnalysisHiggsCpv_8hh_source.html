@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.9.1"/>
-<title>Analysis: HiggsCpv/include/AnalysisHiggsCpv.hh Source File</title>
+<title>BoCA: HiggsCpv/include/AnalysisHiggsCpv.hh Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -14,6 +14,12 @@
 <script type="text/javascript">
   $(document).ready(function() { init_search(); });
 </script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="../../doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -23,8 +29,9 @@
  <tbody>
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
-   <div id="projectname">Analysis
+   <div id="projectname">BoCA
    </div>
+   <div id="projectbrief">Boosted Collider Analysis</div>
   </td>
  </tr>
  </tbody>
@@ -38,6 +45,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="../../index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="../../pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="../../namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="../../annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="../../files.html"><span>Files</span></a></li>
@@ -97,79 +105,75 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d5/d88/TopLeptonicTagger_8hh.html">TopLeptonicTagger.hh</a>&quot;</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d8/de8/Debug_8hh.html">Debug.hh</a>&quot;</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d0/dfd/namespaceanalysis.html">analysis</a></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../da/d7d/namespaceboca.html">boca</a></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;{</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="../../d1/d03/namespaceanalysis_1_1higgscpv.html">   12</a></span>&#160;<span class="keyword">namespace </span>higgscpv</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;{</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Tagger&gt;</div>
-<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="../../dd/d0e/classanalysis_1_1higgscpv_1_1Analysis.html">   23</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../dd/d0e/classanalysis_1_1higgscpv_1_1Analysis.html">Analysis</a> : <span class="keyword">public</span> <a class="code" href="../../d2/d2e/classanalysis_1_1Analysis.html">analysis::Analysis</a>&lt;Tagger&gt;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;{</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="../../dd/d0e/classanalysis_1_1higgscpv_1_1Analysis.html#af150164d260c85797691b473c464265f">   28</a></span>&#160;    <a class="code" href="../../dd/d0e/classanalysis_1_1higgscpv_1_1Analysis.html#af150164d260c85797691b473c464265f">Analysis</a>() {</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        this-&gt;<a class="code" href="../../d2/d2e/classanalysis_1_1Analysis.html#af99e218aa611358cfaadc0645994760d">tagger</a>().<a class="code" href="../../d6/d11/classanalysis_1_1Tagger.html#a022f80dd5f6ddc796f687b1c716efc9f">SetAnalysisName</a>(<a class="code" href="../../dd/d0e/classanalysis_1_1higgscpv_1_1Analysis.html#a64b43aac9a384ea76c51fce6e6b263b7">ProjectName</a>());</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <a class="code" href="../../d3/da3/classanalysis_1_1DetectorGeometry.html#a7f1fd956bcf1526acee8cf2c87ae350f">DetectorGeometry::set_detector_type</a>(<a class="code" href="../../d0/dfd/namespaceanalysis.html#a5985b3134a579c83ce6efa2a5d62b8c2ac7da501f54544eba6787960200d9efdb">DetectorType::CMS</a>);</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        this-&gt;<a class="code" href="../../dc/d01/classanalysis_1_1AnalysisBase.html#a8cd3885fd36f98ad9bd803f707417a9a">pre_cuts</a>().<a class="code" href="../../df/d47/classanalysis_1_1PreCuts.html#a86180294c90d4e6a88e3cf857f5f4e1f">SetPtLowerCut</a>(<a class="code" href="../../d0/dfd/namespaceanalysis.html#a5ca8872d16c4d682bd368739dd39dfaca3fd838397804752452bac4f637bbe6d8">Id::higgs</a>,200);</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        this-&gt;<a class="code" href="../../dc/d01/classanalysis_1_1AnalysisBase.html#a8cd3885fd36f98ad9bd803f707417a9a">pre_cuts</a>().<a class="code" href="../../df/d47/classanalysis_1_1PreCuts.html#a8bba1ce026d54da95b9d57cd1cd92a56">SetMassLowerCut</a>(<a class="code" href="../../d0/dfd/namespaceanalysis.html#a5ca8872d16c4d682bd368739dd39dfaca3fd838397804752452bac4f637bbe6d8">Id::higgs</a>,105);</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        this-&gt;<a class="code" href="../../dc/d01/classanalysis_1_1AnalysisBase.html#a8cd3885fd36f98ad9bd803f707417a9a">pre_cuts</a>().<a class="code" href="../../df/d47/classanalysis_1_1PreCuts.html#ae7f11e4cb1f829189a5116a9105a17a4">SetMassUpperCut</a>(<a class="code" href="../../d0/dfd/namespaceanalysis.html#a5ca8872d16c4d682bd368739dd39dfaca3fd838397804752452bac4f637bbe6d8">Id::higgs</a>,145);</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        this-&gt;<a class="code" href="../../dc/d01/classanalysis_1_1AnalysisBase.html#a8cd3885fd36f98ad9bd803f707417a9a">pre_cuts</a>().<a class="code" href="../../df/d47/classanalysis_1_1PreCuts.html#a232d33f631ebdc90b2f3ecffb0636b5a">SetSemiLeptonic</a>(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment">//         NoHiggs(-1);</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="comment">//         SingleHiggs(-1);</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    }</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  </div>
-<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="../../dd/d0e/classanalysis_1_1higgscpv_1_1Analysis.html#a64b43aac9a384ea76c51fce6e6b263b7">   43</a></span>&#160;    <a class="code" href="../../d0/dfd/namespaceanalysis.html#a5ca8872d16c4d682bd368739dd39dfacab45cffe084dd3d20d928bee85e7b0f21">std::string</a> <a class="code" href="../../dd/d0e/classanalysis_1_1higgscpv_1_1Analysis.html#a64b43aac9a384ea76c51fce6e6b263b7">ProjectName</a>() const final {</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keywordflow">return</span>  <span class="stringliteral">&quot;CPV-jan&quot;</span>;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    }</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="../../dd/d0e/classanalysis_1_1higgscpv_1_1Analysis.html#afd0eb2834aa1637d3865e8b3e4062685">   47</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../dd/d0e/classanalysis_1_1higgscpv_1_1Analysis.html#afd0eb2834aa1637d3865e8b3e4062685">SetFiles</a>(<a class="code" href="../../d0/dfd/namespaceanalysis.html#ab6708d3f5bf1427e8a05f57d96189312">Tag</a> tag) <span class="keyword">final</span> {</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordflow">switch</span> (tag) {</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keywordflow">case</span> <a class="code" href="../../d0/dfd/namespaceanalysis.html#ab6708d3f5bf1427e8a05f57d96189312a521345a9fb579f52117f27be6e0673ee">Tag::signal</a> :</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment">//             this-&gt;NewFile(tag, &quot;gg-tth&quot;, 0.0098);</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            this-&gt;<a class="code" href="../../dc/d01/classanalysis_1_1AnalysisBase.html#ac7973319f03670d7933d44f8c04c8947">NewFile</a>(tag, <span class="stringliteral">&quot;pp-tth&quot;</span>, 0.02267);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            <span class="comment">//         this-&gt;NewFile(tag, &quot;pp-ttx0-bbbbllnunu-1&quot;, 0.02071);</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment">//             this-&gt;NewFile(tag, &quot;pp-ttx0-bbbbllnunu-1&quot;, 0.008937);</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            <span class="comment">//         this-&gt;NewFile(tag, &quot;pp-ttx0-bbbbllnunu-0.5&quot;, 0.01193);</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordflow">case</span> <a class="code" href="../../d0/dfd/namespaceanalysis.html#ab6708d3f5bf1427e8a05f57d96189312ad229bbf31eaeebc7c88897732d8b932d">Tag::background</a> :</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            this-&gt;<a class="code" href="../../dc/d01/classanalysis_1_1AnalysisBase.html#ac7973319f03670d7933d44f8c04c8947">NewFile</a>(tag, <span class="stringliteral">&quot;pp-ttbb&quot;</span>, 0.1266);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="comment">//             this-&gt;NewFile(tag, &quot;pp-ttbb-bbbbllnunu&quot;, 3.457);</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        }</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    }</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
-<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="../../dd/d0e/classanalysis_1_1higgscpv_1_1Analysis.html#a5a184b5cae5db50ec283c2685212b5e9">   64</a></span>&#160;    <a class="code" href="../../d0/dfd/namespaceanalysis.html#a5ca8872d16c4d682bd368739dd39dfacab45cffe084dd3d20d928bee85e7b0f21">std::string</a> <a class="code" href="../../dd/d0e/classanalysis_1_1higgscpv_1_1Analysis.html#a5a184b5cae5db50ec283c2685212b5e9">ProcessName</a>() const final {</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keywordflow">return</span> <span class="stringliteral">&quot;higgscpv&quot;</span>;</div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="../../de/d33/namespaceboca_1_1higgscpv.html">   16</a></span>&#160;<span class="keyword">namespace </span>higgscpv</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;{</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Tagger&gt;</div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="../../d3/d0f/classboca_1_1higgscpv_1_1Analysis.html">   27</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d3/d0f/classboca_1_1higgscpv_1_1Analysis.html">Analysis</a> : <span class="keyword">public</span> <a class="code" href="../../d1/d36/classboca_1_1Analysis.html">boca::Analysis</a>&lt;Tagger&gt;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;{</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="../../d3/d0f/classboca_1_1higgscpv_1_1Analysis.html#a2b091b9959d897d804c32151da349e93">   32</a></span>&#160;    <a class="code" href="../../d3/d0f/classboca_1_1higgscpv_1_1Analysis.html#a2b091b9959d897d804c32151da349e93">Analysis</a>() {</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <a class="code" href="../../db/d54/classboca_1_1DetectorGeometry.html#a2dcae4adc229baaf24d3090508a6ef62">DetectorGeometry::set_detector_type</a>(<a class="code" href="../../da/d7d/namespaceboca.html#a7fa47d0b168fa10ddf252446779910afac7da501f54544eba6787960200d9efdb">DetectorType::CMS</a>);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="comment">//         this-&gt;pre_cuts().PtLowerCut().Set(Id::higgs,200);</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="comment">//         this-&gt;pre_cuts().MassLowerCut().Set(Id::higgs,105);</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="comment">//         this-&gt;pre_cuts().MassUpperCut().Set(Id::higgs,145);</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        this-&gt;<a class="code" href="../../d7/d62/classboca_1_1AnalysisBase.html#afce478f5c3267e8f36a86adc97af12ea">pre_cuts</a>().<a class="code" href="../../d0/dff/classboca_1_1PreCuts.html#ad206ab02eb445b2ebe051cdcaaecc6b8">MassLowerCut</a>().<a class="code" href="../../d0/db9/classboca_1_1PreCut.html#a606c8fcdadb76bfb0d4d6ac5cf493476">Set</a>(<a class="code" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7a3fd838397804752452bac4f637bbe6d8">Id::higgs</a>, 50. * <a class="code" href="../../da/d7d/namespaceboca.html#ae61a8fbf8578641854276cace150e614">GeV</a>);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        this-&gt;<a class="code" href="../../d7/d62/classboca_1_1AnalysisBase.html#afce478f5c3267e8f36a86adc97af12ea">pre_cuts</a>().<a class="code" href="../../d0/dff/classboca_1_1PreCuts.html#af7c4fa8454fef7913099a293b832ba5a">MassUpperCut</a>().<a class="code" href="../../d0/db9/classboca_1_1PreCut.html#a606c8fcdadb76bfb0d4d6ac5cf493476">Set</a>(<a class="code" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7a3fd838397804752452bac4f637bbe6d8">Id::higgs</a>, 150. * <a class="code" href="../../da/d7d/namespaceboca.html#ae61a8fbf8578641854276cace150e614">GeV</a>);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        this-&gt;<a class="code" href="../../d7/d62/classboca_1_1AnalysisBase.html#afce478f5c3267e8f36a86adc97af12ea">pre_cuts</a>().<a class="code" href="../../d0/dff/classboca_1_1PreCuts.html#aaf72dc5392f7bf68aba273511c7eb58a">SetSemiLeptonic</a>(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="comment">//         NoHiggs(-1);</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="comment">//         SingleHiggs(-1);</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    }</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="../../d3/d0f/classboca_1_1higgscpv_1_1Analysis.html#a5d344531328af443218a1ab2ea219f8f">   48</a></span>&#160;    <a class="code" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> <a class="code" href="../../d3/d0f/classboca_1_1higgscpv_1_1Analysis.html#a5d344531328af443218a1ab2ea219f8f">AnalysisName</a>() const final {</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keywordflow">return</span>  <span class="stringliteral">&quot;CPV-after-tahoe&quot;</span>;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    }</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="../../d3/d0f/classboca_1_1higgscpv_1_1Analysis.html#aff2ca1cd5a1cc86e8aeec675ecfc1b5a">   52</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d3/d0f/classboca_1_1higgscpv_1_1Analysis.html#aff2ca1cd5a1cc86e8aeec675ecfc1b5a">SetFiles</a>(<a class="code" href="../../da/d7d/namespaceboca.html#afe26187a85055a0f0dc9686d32b65344">Tag</a> tag, <a class="code" href="../../da/d7d/namespaceboca.html#a8b248406adbf8761f7c6f1cbd095bc4a">Stage</a>) final {</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordflow">switch</span> (tag) {</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keywordflow">case</span> <a class="code" href="../../da/d7d/namespaceboca.html#afe26187a85055a0f0dc9686d32b65344a521345a9fb579f52117f27be6e0673ee">Tag::signal</a> :</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="comment">//             this-&gt;NewFile(tag, &quot;gg-tth&quot;, 0.0098);</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;          this-&gt;<a class="code" href="../../d7/d62/classboca_1_1AnalysisBase.html#a3093a41027d4f15cccd4625a7a07a55c">NewFile</a>(tag, <span class="stringliteral">&quot;pp-tth&quot;</span>, 0.02267 * <a class="code" href="../../da/d7d/namespaceboca.html#aba0238d76218611e9aeb0e3432b6a613">pb</a>, <span class="stringliteral">&quot;tth&quot;</span>);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;      <span class="comment">//         this-&gt;NewFile(tag, &quot;pp-ttx0-bbbbllnunu-1&quot;, 0.02071);</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;      <span class="comment">//             this-&gt;NewFile(tag, &quot;pp-ttx0-bbbbllnunu-1&quot;, 0.008937);</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;      <span class="comment">//         this-&gt;NewFile(tag, &quot;pp-ttx0-bbbbllnunu-0.5&quot;, 0.01193);</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;      <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="keywordflow">case</span> <a class="code" href="../../da/d7d/namespaceboca.html#afe26187a85055a0f0dc9686d32b65344ad229bbf31eaeebc7c88897732d8b932d">Tag::background</a> :</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;      this-&gt;<a class="code" href="../../d7/d62/classboca_1_1AnalysisBase.html#a3093a41027d4f15cccd4625a7a07a55c">NewFile</a>(tag, <span class="stringliteral">&quot;pp-ttbb&quot;</span>, 0.1266 * <a class="code" href="../../da/d7d/namespaceboca.html#aba0238d76218611e9aeb0e3432b6a613">pb</a>, <span class="stringliteral">&quot;ttbb&quot;</span>);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;      <span class="comment">//             this-&gt;NewFile(tag, &quot;pp-ttbb-bbbbllnunu&quot;, 3.457);</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        }</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    }</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
-<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="../../dd/d0e/classanalysis_1_1higgscpv_1_1Analysis.html#af416474c4a09efa7955fa27c94ea43f9">   72</a></span>&#160;    <span class="keywordtype">long</span> <a class="code" href="../../dd/d0e/classanalysis_1_1higgscpv_1_1Analysis.html#af416474c4a09efa7955fa27c94ea43f9">EventNumberMax</a>() const final {</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="keywordflow">return</span> 5000;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="keywordflow">return</span> 10000;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="keywordflow">return</span> 1000;</div>
+<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="../../d3/d0f/classboca_1_1higgscpv_1_1Analysis.html#aaa9e0fa0e1b1a1d1b10a98b26697ad89">   72</a></span>&#160;    <span class="keywordtype">long</span> <a class="code" href="../../d3/d0f/classboca_1_1higgscpv_1_1Analysis.html#aaa9e0fa0e1b1a1d1b10a98b26697ad89">EventNumberMax</a>() const final {</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="keywordflow">return</span> 1000;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="keywordflow">return</span> 5000;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="keywordflow">return</span> 10000;</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="keywordflow">return</span> 100;</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <span class="keywordflow">return</span> 10;</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    }</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
-<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="../../dd/d0e/classanalysis_1_1higgscpv_1_1Analysis.html#aa651a604f8a62cb16fe29dad147cd4d3">   80</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../dd/d0e/classanalysis_1_1higgscpv_1_1Analysis.html#aa651a604f8a62cb16fe29dad147cd4d3">PassPreCut</a>(<span class="keyword">const</span> <a class="code" href="../../d8/def/classanalysis_1_1Event.html">Event</a>&amp; event, <a class="code" href="../../d0/dfd/namespaceanalysis.html#ab6708d3f5bf1427e8a05f57d96189312">Tag</a>) const final {</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="comment">//         if(this-&gt;tagger().Name() == &quot;WLeptonic&quot;) return 0;</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="comment">//         if(this-&gt;tagger().Name() == &quot;TopLeptonic&quot;) static_cast&lt;TopLeptonicTagger&amp;&gt;(this-&gt;tagger()).semi_leptonic = false;</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="comment">//         Jets leptons = fastjet::sorted_by_pt(event.Leptons().leptons());</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="comment">//         if (leptons.size() &lt; 2) return 0;</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="../../d3/d0f/classboca_1_1higgscpv_1_1Analysis.html#afefb7697ecb1e45cb783e615762bf907">   80</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d3/d0f/classboca_1_1higgscpv_1_1Analysis.html#afefb7697ecb1e45cb783e615762bf907">PassPreCut</a>(<a class="code" href="../../da/df7/classboca_1_1Event.html">Event</a> <span class="keyword">const</span>&amp; event, <a class="code" href="../../da/d7d/namespaceboca.html#afe26187a85055a0f0dc9686d32b65344">Tag</a>) const final {</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;      <span class="comment">//         if(this-&gt;template TaggerIs&lt;WLeptonicTagger&gt;()) return 0;</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;      <span class="comment">//         if(this-&gt;template TaggerIs&lt;TopLeptonicTagger&gt;()) static_cast&lt;TopLeptonicTagger&amp;&gt;(this-&gt;tagger()).semi_leptonic = false;</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <a class="code" href="../../da/d7d/namespaceboca.html#ae0605431bf3b44ebac8b76c97d5e310d">Jets</a> leptons = fastjet::sorted_by_pt(event.<a class="code" href="../../da/df7/classboca_1_1Event.html#a19c2137c68290394f0e309bbe48d77fa">Leptons</a>().<a class="code" href="../../d8/d8f/classboca_1_1Leptons.html#a56c453a74498bfd8c59cef17b6018be0">leptons</a>());</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="keywordflow">if</span> (leptons.size() &lt; 2) <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="comment">//         if (leptons.at(1).pt() &lt; 40) return 0;</span></div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="comment">//         Jets jets = event.Hadrons().Jets();</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <a class="code" href="../../d0/dfd/namespaceanalysis.html#a4488800a3f08be9f36b0ecb2f94cc5e0">Jets</a> gen_particles = <span class="keyword">event</span>.Partons().GenParticles();</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <a class="code" href="../../d0/dfd/namespaceanalysis.html#a4488800a3f08be9f36b0ecb2f94cc5e0">Jets</a> <a class="code" href="../../d0/dfd/namespaceanalysis.html#a5ca8872d16c4d682bd368739dd39dfaca3fd838397804752452bac4f637bbe6d8">higgs</a> = <a class="code" href="../../d0/dfd/namespaceanalysis.html#a89cfbfd2a45589f35c4e23608296c95e">CopyIfParticles</a>(gen_particles, <a class="code" href="../../d0/dfd/namespaceanalysis.html#a5ca8872d16c4d682bd368739dd39dfacac10cbe2c2f2420e18fe098a4e7553dea">Id::CP_violating_higgs</a>, <a class="code" href="../../d0/dfd/namespaceanalysis.html#a5ca8872d16c4d682bd368739dd39dfaca3fd838397804752452bac4f637bbe6d8">Id::higgs</a>);</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <span class="keywordflow">if</span> (higgs.empty()) {</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="comment">//         Jets gen_particles = event.Partons().GenParticles();</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="comment">//         Jets higgs = CopyIfParticles(gen_particles, Id::CP_violating_higgs, Id::higgs);</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="comment">//         if (higgs.empty()) {</span></div>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="comment">//         Error(NoHiggs(), higgs.size());</span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            <span class="keywordflow">return</span> 1;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        }</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="comment">//             return 1;</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="comment">//         }</span></div>
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="comment">//         if(higgs.front().pt() &lt; 200) return 0;</span></div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="comment">//         static int pre_cut=0;</span></div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="comment">//         ++pre_cut;</span></div>
@@ -181,72 +185,74 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="comment">// //         Error(particle.id(),mother1.id(),mother2.id(),grand_mother.id());</span></div>
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="comment">//         higgs = RemoveIfSingleMother(higgs);</span></div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="comment">//         Error(SingleHiggs(), higgs.size());</span></div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        <span class="keywordflow">return</span> higgs.size();</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    }</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="comment">//         return higgs.size();</span></div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        <span class="keywordflow">return</span> 1;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    }</div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;</div>
-<div class="line"><a name="l00108"></a><span class="lineno"><a class="line" href="../../dd/d0e/classanalysis_1_1higgscpv_1_1Analysis.html#a8d357f5cea7a133ab776127cd84095ce">  108</a></span>&#160;    <a class="code" href="../../d0/dfd/namespaceanalysis.html#a5ca8872d16c4d682bd368739dd39dfacab45cffe084dd3d20d928bee85e7b0f21">std::string</a> <a class="code" href="../../dd/d0e/classanalysis_1_1higgscpv_1_1Analysis.html#a8d357f5cea7a133ab776127cd84095ce">FilePath</a>() const final {</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        <span class="keywordflow">return</span> <span class="stringliteral">&quot;~/Projects/HiggsCpv/Analysis/&quot;</span>;</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    }</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="comment">//     static int NoHiggs(int zero = -10) {</span></div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="comment">//         static int i = -1;</span></div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="comment">//         if (zero != -10) i = zero;</span></div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="comment">//         ++i;</span></div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="comment">//         return i;</span></div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="comment">//     }</span></div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="comment">//     static int SingleHiggs(int zero = -10) {</span></div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="comment">//         static int j = -1;</span></div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="comment">//         if (zero != -10) j = zero;</span></div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;<span class="comment">//         ++j;</span></div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="comment">//         return j;</span></div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;<span class="comment">//     }</span></div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;};</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;}</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;}</div>
-<div class="ttc" id="classanalysis_1_1higgscpv_1_1Analysis_html_aa651a604f8a62cb16fe29dad147cd4d3"><div class="ttname"><a href="../../dd/d0e/classanalysis_1_1higgscpv_1_1Analysis.html#aa651a604f8a62cb16fe29dad147cd4d3">analysis::higgscpv::Analysis::PassPreCut</a></div><div class="ttdeci">int PassPreCut(const Event &amp;event, Tag) const final</div><div class="ttdef"><b>Definition:</b> AnalysisHiggsCpv.hh:80</div></div>
-<div class="ttc" id="namespaceanalysis_html_ab6708d3f5bf1427e8a05f57d96189312a521345a9fb579f52117f27be6e0673ee"><div class="ttname"><a href="../../d0/dfd/namespaceanalysis.html#ab6708d3f5bf1427e8a05f57d96189312a521345a9fb579f52117f27be6e0673ee">analysis::Tag::signal</a></div></div>
-<div class="ttc" id="namespaceanalysis_html_a4488800a3f08be9f36b0ecb2f94cc5e0"><div class="ttname"><a href="../../d0/dfd/namespaceanalysis.html#a4488800a3f08be9f36b0ecb2f94cc5e0">analysis::Jets</a></div><div class="ttdeci">std::vector&lt; fastjet::PseudoJet &gt; Jets</div><div class="ttdef"><b>Definition:</b> FourVector.hh:36</div></div>
-<div class="ttc" id="namespaceanalysis_html_a5ca8872d16c4d682bd368739dd39dfacab45cffe084dd3d20d928bee85e7b0f21"><div class="ttname"><a href="../../d0/dfd/namespaceanalysis.html#a5ca8872d16c4d682bd368739dd39dfacab45cffe084dd3d20d928bee85e7b0f21">analysis::Id::string</a></div></div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="comment">//     std::string FilePath() const final {</span></div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="comment">//         return this-&gt;working_path_; // &lt; ------ does it work? might cause problems</span></div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="comment">//         return &quot;~/Projects/HiggsCpv/Analysis/&quot;;</span></div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="comment">//         return &quot;/Users/jingren/HEP/Research/JanH/tth-analysis/&quot;;</span></div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="comment">//     }</span></div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="comment">//     static int NoHiggs(int zero = -10) {</span></div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="comment">//         static int i = -1;</span></div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="comment">//         if (zero != -10) i = zero;</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="comment">//         ++i;</span></div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="comment">//         return i;</span></div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="comment">//     }</span></div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;<span class="comment">//     static int SingleHiggs(int zero = -10) {</span></div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="comment">//         static int j = -1;</span></div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;<span class="comment">//         if (zero != -10) j = zero;</span></div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;<span class="comment">//         ++j;</span></div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="comment">//         return j;</span></div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;<span class="comment">//     }</span></div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;};</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;}</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;}</div>
+<div class="ttc" id="classboca_1_1Event_html_a19c2137c68290394f0e309bbe48d77fa"><div class="ttname"><a href="../../da/df7/classboca_1_1Event.html#a19c2137c68290394f0e309bbe48d77fa">boca::Event::Leptons</a></div><div class="ttdeci">const boca::Leptons &amp; Leptons() const </div><div class="ttdef"><b>Definition:</b> Event.hh:44</div></div>
+<div class="ttc" id="namespaceboca_html_a8b248406adbf8761f7c6f1cbd095bc4a"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#a8b248406adbf8761f7c6f1cbd095bc4a">boca::Stage</a></div><div class="ttdeci">Stage</div><div class="ttdef"><b>Definition:</b> Tagger.hh:42</div></div>
+<div class="ttc" id="namespaceboca_html_a648cb17ad6b74376b1954206638331c7a3fd838397804752452bac4f637bbe6d8"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7a3fd838397804752452bac4f637bbe6d8">boca::Id::higgs</a></div><div class="ttdoc">Higgs boson. </div></div>
 <div class="ttc" id="TopLeptonicTagger_8hh_html"><div class="ttname"><a href="../../d5/d88/TopLeptonicTagger_8hh.html">TopLeptonicTagger.hh</a></div></div>
-<div class="ttc" id="classanalysis_1_1AnalysisBase_html_a8cd3885fd36f98ad9bd803f707417a9a"><div class="ttname"><a href="../../dc/d01/classanalysis_1_1AnalysisBase.html#a8cd3885fd36f98ad9bd803f707417a9a">analysis::AnalysisBase::pre_cuts</a></div><div class="ttdeci">const PreCuts &amp; pre_cuts() const </div><div class="ttdef"><b>Definition:</b> AnalysisBase.cpp:107</div></div>
-<div class="ttc" id="namespaceanalysis_html"><div class="ttname"><a href="../../d0/dfd/namespaceanalysis.html">analysis</a></div><div class="ttdoc">analysis namespace containing the general analysis and SM taggers </div><div class="ttdef"><b>Definition:</b> AnalysisCharged.hh:5</div></div>
-<div class="ttc" id="classanalysis_1_1higgscpv_1_1Analysis_html_a5a184b5cae5db50ec283c2685212b5e9"><div class="ttname"><a href="../../dd/d0e/classanalysis_1_1higgscpv_1_1Analysis.html#a5a184b5cae5db50ec283c2685212b5e9">analysis::higgscpv::Analysis::ProcessName</a></div><div class="ttdeci">std::string ProcessName() const final</div><div class="ttdef"><b>Definition:</b> AnalysisHiggsCpv.hh:64</div></div>
-<div class="ttc" id="classanalysis_1_1AnalysisBase_html_ac7973319f03670d7933d44f8c04c8947"><div class="ttname"><a href="../../dc/d01/classanalysis_1_1AnalysisBase.html#ac7973319f03670d7933d44f8c04c8947">analysis::AnalysisBase::NewFile</a></div><div class="ttdeci">void NewFile(analysis::Tag tag, const analysis::Strings &amp;names, const std::string &amp;nice_name=&quot;&quot;)</div><div class="ttdef"><b>Definition:</b> AnalysisBase.cpp:69</div></div>
-<div class="ttc" id="namespaceanalysis_html_ab6708d3f5bf1427e8a05f57d96189312"><div class="ttname"><a href="../../d0/dfd/namespaceanalysis.html#ab6708d3f5bf1427e8a05f57d96189312">analysis::Tag</a></div><div class="ttdeci">Tag</div><div class="ttdef"><b>Definition:</b> Identification.hh:7</div></div>
-<div class="ttc" id="namespaceanalysis_html_a5ca8872d16c4d682bd368739dd39dfaca3fd838397804752452bac4f637bbe6d8"><div class="ttname"><a href="../../d0/dfd/namespaceanalysis.html#a5ca8872d16c4d682bd368739dd39dfaca3fd838397804752452bac4f637bbe6d8">analysis::Id::higgs</a></div></div>
-<div class="ttc" id="classanalysis_1_1PreCuts_html_a8bba1ce026d54da95b9d57cd1cd92a56"><div class="ttname"><a href="../../df/d47/classanalysis_1_1PreCuts.html#a8bba1ce026d54da95b9d57cd1cd92a56">analysis::PreCuts::SetMassLowerCut</a></div><div class="ttdeci">void SetMassLowerCut(Id id, float value)</div><div class="ttdef"><b>Definition:</b> PreCuts.cpp:30</div></div>
-<div class="ttc" id="classanalysis_1_1Tagger_html_a022f80dd5f6ddc796f687b1c716efc9f"><div class="ttname"><a href="../../d6/d11/classanalysis_1_1Tagger.html#a022f80dd5f6ddc796f687b1c716efc9f">analysis::Tagger::SetAnalysisName</a></div><div class="ttdeci">static void SetAnalysisName(const std::string &amp;analysis_name)</div><div class="ttdef"><b>Definition:</b> Tagger.cpp:192</div></div>
-<div class="ttc" id="classanalysis_1_1higgscpv_1_1Analysis_html_af416474c4a09efa7955fa27c94ea43f9"><div class="ttname"><a href="../../dd/d0e/classanalysis_1_1higgscpv_1_1Analysis.html#af416474c4a09efa7955fa27c94ea43f9">analysis::higgscpv::Analysis::EventNumberMax</a></div><div class="ttdeci">long EventNumberMax() const final</div><div class="ttdoc">Maximal number of Entries to analyse. </div><div class="ttdef"><b>Definition:</b> AnalysisHiggsCpv.hh:72</div></div>
-<div class="ttc" id="namespaceanalysis_html_a89cfbfd2a45589f35c4e23608296c95e"><div class="ttname"><a href="../../d0/dfd/namespaceanalysis.html#a89cfbfd2a45589f35c4e23608296c95e">analysis::CopyIfParticles</a></div><div class="ttdeci">Jets CopyIfParticles(const Jets &amp;jets, Id id_1, Id id_2)</div><div class="ttdef"><b>Definition:</b> Vector.cpp:39</div></div>
-<div class="ttc" id="classanalysis_1_1Event_html"><div class="ttname"><a href="../../d8/def/classanalysis_1_1Event.html">analysis::Event</a></div><div class="ttdoc">Base class for the event Topology. </div><div class="ttdef"><b>Definition:</b> Event.hh:13</div></div>
-<div class="ttc" id="classanalysis_1_1PreCuts_html_ae7f11e4cb1f829189a5116a9105a17a4"><div class="ttname"><a href="../../df/d47/classanalysis_1_1PreCuts.html#ae7f11e4cb1f829189a5116a9105a17a4">analysis::PreCuts::SetMassUpperCut</a></div><div class="ttdeci">void SetMassUpperCut(Id id, float value)</div><div class="ttdef"><b>Definition:</b> PreCuts.cpp:42</div></div>
+<div class="ttc" id="classboca_1_1PreCuts_html_af7c4fa8454fef7913099a293b832ba5a"><div class="ttname"><a href="../../d0/dff/classboca_1_1PreCuts.html#af7c4fa8454fef7913099a293b832ba5a">boca::PreCuts::MassUpperCut</a></div><div class="ttdeci">PreCut&lt; Mass &gt; &amp; MassUpperCut()</div><div class="ttdef"><b>Definition:</b> PreCuts.hh:103</div></div>
+<div class="ttc" id="namespaceboca_html_a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">boca::Id::string</a></div></div>
+<div class="ttc" id="classboca_1_1higgscpv_1_1Analysis_html_afefb7697ecb1e45cb783e615762bf907"><div class="ttname"><a href="../../d3/d0f/classboca_1_1higgscpv_1_1Analysis.html#afefb7697ecb1e45cb783e615762bf907">boca::higgscpv::Analysis::PassPreCut</a></div><div class="ttdeci">int PassPreCut(Event const &amp;event, Tag) const final</div><div class="ttdef"><b>Definition:</b> AnalysisHiggsCpv.hh:80</div></div>
+<div class="ttc" id="classboca_1_1PreCuts_html_ad206ab02eb445b2ebe051cdcaaecc6b8"><div class="ttname"><a href="../../d0/dff/classboca_1_1PreCuts.html#ad206ab02eb445b2ebe051cdcaaecc6b8">boca::PreCuts::MassLowerCut</a></div><div class="ttdeci">PreCut&lt; Mass &gt; &amp; MassLowerCut()</div><div class="ttdef"><b>Definition:</b> PreCuts.hh:99</div></div>
+<div class="ttc" id="classboca_1_1PreCut_html_a606c8fcdadb76bfb0d4d6ac5cf493476"><div class="ttname"><a href="../../d0/db9/classboca_1_1PreCut.html#a606c8fcdadb76bfb0d4d6ac5cf493476">boca::PreCut::Set</a></div><div class="ttdeci">void Set(Id id, Value value)</div><div class="ttdef"><b>Definition:</b> PreCut.hh:18</div></div>
+<div class="ttc" id="namespaceboca_html_afe26187a85055a0f0dc9686d32b65344ad229bbf31eaeebc7c88897732d8b932d"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#afe26187a85055a0f0dc9686d32b65344ad229bbf31eaeebc7c88897732d8b932d">boca::Tag::background</a></div></div>
+<div class="ttc" id="namespaceboca_html_ae0605431bf3b44ebac8b76c97d5e310d"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#ae0605431bf3b44ebac8b76c97d5e310d">boca::Jets</a></div><div class="ttdeci">std::vector&lt; fastjet::PseudoJet &gt; Jets</div><div class="ttdef"><b>Definition:</b> FourVector.hh:40</div></div>
+<div class="ttc" id="namespaceboca_html_afe26187a85055a0f0dc9686d32b65344"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#afe26187a85055a0f0dc9686d32b65344">boca::Tag</a></div><div class="ttdeci">Tag</div><div class="ttdef"><b>Definition:</b> Identification.hh:10</div></div>
+<div class="ttc" id="classboca_1_1Event_html"><div class="ttname"><a href="../../da/df7/classboca_1_1Event.html">boca::Event</a></div><div class="ttdoc">Base class for the event Topology. </div><div class="ttdef"><b>Definition:</b> Event.hh:25</div></div>
+<div class="ttc" id="namespaceboca_html_a7fa47d0b168fa10ddf252446779910afac7da501f54544eba6787960200d9efdb"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#a7fa47d0b168fa10ddf252446779910afac7da501f54544eba6787960200d9efdb">boca::DetectorType::CMS</a></div></div>
+<div class="ttc" id="classboca_1_1higgscpv_1_1Analysis_html_a2b091b9959d897d804c32151da349e93"><div class="ttname"><a href="../../d3/d0f/classboca_1_1higgscpv_1_1Analysis.html#a2b091b9959d897d804c32151da349e93">boca::higgscpv::Analysis::Analysis</a></div><div class="ttdeci">Analysis()</div><div class="ttdef"><b>Definition:</b> AnalysisHiggsCpv.hh:32</div></div>
+<div class="ttc" id="classboca_1_1Analysis_html"><div class="ttname"><a href="../../d1/d36/classboca_1_1Analysis.html">boca::Analysis</a></div><div class="ttdoc">provides main analysis loops and logic. </div><div class="ttdef"><b>Definition:</b> Analysis.hh:309</div></div>
+<div class="ttc" id="classboca_1_1higgscpv_1_1Analysis_html_a5d344531328af443218a1ab2ea219f8f"><div class="ttname"><a href="../../d3/d0f/classboca_1_1higgscpv_1_1Analysis.html#a5d344531328af443218a1ab2ea219f8f">boca::higgscpv::Analysis::AnalysisName</a></div><div class="ttdeci">std::string AnalysisName() const final</div><div class="ttdef"><b>Definition:</b> AnalysisHiggsCpv.hh:48</div></div>
 <div class="ttc" id="Debug_8hh_html"><div class="ttname"><a href="../../d8/de8/Debug_8hh.html">Debug.hh</a></div></div>
-<div class="ttc" id="classanalysis_1_1Analysis_html_af99e218aa611358cfaadc0645994760d"><div class="ttname"><a href="../../d2/d2e/classanalysis_1_1Analysis.html#af99e218aa611358cfaadc0645994760d">analysis::Analysis::tagger</a></div><div class="ttdeci">const Tagger &amp; tagger() const final</div><div class="ttdoc">getter for Tagger </div><div class="ttdef"><b>Definition:</b> Analysis.hh:57</div></div>
-<div class="ttc" id="classanalysis_1_1DetectorGeometry_html_a7f1fd956bcf1526acee8cf2c87ae350f"><div class="ttname"><a href="../../d3/da3/classanalysis_1_1DetectorGeometry.html#a7f1fd956bcf1526acee8cf2c87ae350f">analysis::DetectorGeometry::set_detector_type</a></div><div class="ttdeci">static void set_detector_type(const DetectorType detector_type)</div><div class="ttdef"><b>Definition:</b> DetectorGeometry.cpp:22</div></div>
-<div class="ttc" id="classanalysis_1_1higgscpv_1_1Analysis_html_af150164d260c85797691b473c464265f"><div class="ttname"><a href="../../dd/d0e/classanalysis_1_1higgscpv_1_1Analysis.html#af150164d260c85797691b473c464265f">analysis::higgscpv::Analysis::Analysis</a></div><div class="ttdeci">Analysis()</div><div class="ttdef"><b>Definition:</b> AnalysisHiggsCpv.hh:28</div></div>
-<div class="ttc" id="classanalysis_1_1higgscpv_1_1Analysis_html_a64b43aac9a384ea76c51fce6e6b263b7"><div class="ttname"><a href="../../dd/d0e/classanalysis_1_1higgscpv_1_1Analysis.html#a64b43aac9a384ea76c51fce6e6b263b7">analysis::higgscpv::Analysis::ProjectName</a></div><div class="ttdeci">std::string ProjectName() const final</div><div class="ttdef"><b>Definition:</b> AnalysisHiggsCpv.hh:43</div></div>
-<div class="ttc" id="classanalysis_1_1higgscpv_1_1Analysis_html_a8d357f5cea7a133ab776127cd84095ce"><div class="ttname"><a href="../../dd/d0e/classanalysis_1_1higgscpv_1_1Analysis.html#a8d357f5cea7a133ab776127cd84095ce">analysis::higgscpv::Analysis::FilePath</a></div><div class="ttdeci">std::string FilePath() const final</div><div class="ttdef"><b>Definition:</b> AnalysisHiggsCpv.hh:108</div></div>
-<div class="ttc" id="namespaceanalysis_html_ab6708d3f5bf1427e8a05f57d96189312ad229bbf31eaeebc7c88897732d8b932d"><div class="ttname"><a href="../../d0/dfd/namespaceanalysis.html#ab6708d3f5bf1427e8a05f57d96189312ad229bbf31eaeebc7c88897732d8b932d">analysis::Tag::background</a></div></div>
-<div class="ttc" id="classanalysis_1_1higgscpv_1_1Analysis_html"><div class="ttname"><a href="../../dd/d0e/classanalysis_1_1higgscpv_1_1Analysis.html">analysis::higgscpv::Analysis</a></div><div class="ttdoc">HAnalysis subclass defining the HiggsCPV Analysis. </div><div class="ttdef"><b>Definition:</b> AnalysisHiggsCpv.hh:23</div></div>
-<div class="ttc" id="namespaceanalysis_html_a5ca8872d16c4d682bd368739dd39dfacac10cbe2c2f2420e18fe098a4e7553dea"><div class="ttname"><a href="../../d0/dfd/namespaceanalysis.html#a5ca8872d16c4d682bd368739dd39dfacac10cbe2c2f2420e18fe098a4e7553dea">analysis::Id::CP_violating_higgs</a></div></div>
-<div class="ttc" id="classanalysis_1_1higgscpv_1_1Analysis_html_afd0eb2834aa1637d3865e8b3e4062685"><div class="ttname"><a href="../../dd/d0e/classanalysis_1_1higgscpv_1_1Analysis.html#afd0eb2834aa1637d3865e8b3e4062685">analysis::higgscpv::Analysis::SetFiles</a></div><div class="ttdeci">void SetFiles(Tag tag) final</div><div class="ttdef"><b>Definition:</b> AnalysisHiggsCpv.hh:47</div></div>
-<div class="ttc" id="classanalysis_1_1Analysis_html"><div class="ttname"><a href="../../d2/d2e/classanalysis_1_1Analysis.html">analysis::Analysis</a></div><div class="ttdoc">Analysis provides main analysis loops and logic. </div><div class="ttdef"><b>Definition:</b> Analysis.hh:25</div></div>
+<div class="ttc" id="classboca_1_1AnalysisBase_html_a3093a41027d4f15cccd4625a7a07a55c"><div class="ttname"><a href="../../d7/d62/classboca_1_1AnalysisBase.html#a3093a41027d4f15cccd4625a7a07a55c">boca::AnalysisBase::NewFile</a></div><div class="ttdeci">void NewFile(boca::Tag tag, boca::Strings const &amp;names, std::string const &amp;nice_name=&quot;&quot;)</div><div class="ttdef"><b>Definition:</b> AnalysisBase.cpp:67</div></div>
+<div class="ttc" id="namespaceboca_html"><div class="ttname"><a href="../../da/d7d/namespaceboca.html">boca</a></div><div class="ttdoc">contains the general analysis and SM taggers </div><div class="ttdef"><b>Definition:</b> AnalysisCharged.hh:5</div></div>
+<div class="ttc" id="classboca_1_1PreCuts_html_aaf72dc5392f7bf68aba273511c7eb58a"><div class="ttname"><a href="../../d0/dff/classboca_1_1PreCuts.html#aaf72dc5392f7bf68aba273511c7eb58a">boca::PreCuts::SetSemiLeptonic</a></div><div class="ttdeci">void SetSemiLeptonic(bool semi_leptonic)</div><div class="ttdef"><b>Definition:</b> PreCuts.cpp:24</div></div>
+<div class="ttc" id="namespaceboca_html_afe26187a85055a0f0dc9686d32b65344a521345a9fb579f52117f27be6e0673ee"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#afe26187a85055a0f0dc9686d32b65344a521345a9fb579f52117f27be6e0673ee">boca::Tag::signal</a></div></div>
+<div class="ttc" id="classboca_1_1higgscpv_1_1Analysis_html_aff2ca1cd5a1cc86e8aeec675ecfc1b5a"><div class="ttname"><a href="../../d3/d0f/classboca_1_1higgscpv_1_1Analysis.html#aff2ca1cd5a1cc86e8aeec675ecfc1b5a">boca::higgscpv::Analysis::SetFiles</a></div><div class="ttdeci">void SetFiles(Tag tag, Stage) final</div><div class="ttdef"><b>Definition:</b> AnalysisHiggsCpv.hh:52</div></div>
+<div class="ttc" id="namespaceboca_html_aba0238d76218611e9aeb0e3432b6a613"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#aba0238d76218611e9aeb0e3432b6a613">boca::pb</a></div><div class="ttdeci">static const Crosssection pb(1.*pico *Barn)</div><div class="ttdoc">pico barn </div></div>
 <div class="ttc" id="Analysis_8hh_html"><div class="ttname"><a href="../../d0/d02/Analysis_8hh.html">Analysis.hh</a></div></div>
-<div class="ttc" id="classanalysis_1_1PreCuts_html_a86180294c90d4e6a88e3cf857f5f4e1f"><div class="ttname"><a href="../../df/d47/classanalysis_1_1PreCuts.html#a86180294c90d4e6a88e3cf857f5f4e1f">analysis::PreCuts::SetPtLowerCut</a></div><div class="ttdeci">void SetPtLowerCut(Id id, float value)</div><div class="ttdef"><b>Definition:</b> PreCuts.cpp:6</div></div>
+<div class="ttc" id="classboca_1_1DetectorGeometry_html_a2dcae4adc229baaf24d3090508a6ef62"><div class="ttname"><a href="../../db/d54/classboca_1_1DetectorGeometry.html#a2dcae4adc229baaf24d3090508a6ef62">boca::DetectorGeometry::set_detector_type</a></div><div class="ttdeci">static void set_detector_type(DetectorType detector_type)</div><div class="ttdef"><b>Definition:</b> DetectorGeometry.cpp:33</div></div>
 <div class="ttc" id="EventShapes_8hh_html"><div class="ttname"><a href="../../dc/d66/EventShapes_8hh.html">EventShapes.hh</a></div></div>
-<div class="ttc" id="classanalysis_1_1PreCuts_html_a232d33f631ebdc90b2f3ecffb0636b5a"><div class="ttname"><a href="../../df/d47/classanalysis_1_1PreCuts.html#a232d33f631ebdc90b2f3ecffb0636b5a">analysis::PreCuts::SetSemiLeptonic</a></div><div class="ttdeci">void SetSemiLeptonic(bool semi_leptonic)</div><div class="ttdef"><b>Definition:</b> PreCuts.cpp:78</div></div>
+<div class="ttc" id="classboca_1_1AnalysisBase_html_afce478f5c3267e8f36a86adc97af12ea"><div class="ttname"><a href="../../d7/d62/classboca_1_1AnalysisBase.html#afce478f5c3267e8f36a86adc97af12ea">boca::AnalysisBase::pre_cuts</a></div><div class="ttdeci">PreCuts const &amp; pre_cuts() const </div><div class="ttdef"><b>Definition:</b> AnalysisBase.cpp:111</div></div>
+<div class="ttc" id="namespaceboca_html_ae61a8fbf8578641854276cace150e614"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#ae61a8fbf8578641854276cace150e614">boca::GeV</a></div><div class="ttdeci">static const boost::units::quantity&lt; electronvolt::Energy &gt; GeV(1.*giga *ElectronVolt)</div><div class="ttdoc">giga electronvolt </div></div>
+<div class="ttc" id="classboca_1_1higgscpv_1_1Analysis_html"><div class="ttname"><a href="../../d3/d0f/classboca_1_1higgscpv_1_1Analysis.html">boca::higgscpv::Analysis</a></div><div class="ttdoc">HAnalysis subclass defining the HiggsCPV Analysis. </div><div class="ttdef"><b>Definition:</b> AnalysisHiggsCpv.hh:27</div></div>
+<div class="ttc" id="classboca_1_1higgscpv_1_1Analysis_html_aaa9e0fa0e1b1a1d1b10a98b26697ad89"><div class="ttname"><a href="../../d3/d0f/classboca_1_1higgscpv_1_1Analysis.html#aaa9e0fa0e1b1a1d1b10a98b26697ad89">boca::higgscpv::Analysis::EventNumberMax</a></div><div class="ttdeci">long EventNumberMax() const final</div><div class="ttdoc">Maximal number of Entries to analyse. </div><div class="ttdef"><b>Definition:</b> AnalysisHiggsCpv.hh:72</div></div>
+<div class="ttc" id="classboca_1_1Leptons_html_a56c453a74498bfd8c59cef17b6018be0"><div class="ttname"><a href="../../d8/d8f/classboca_1_1Leptons.html#a56c453a74498bfd8c59cef17b6018be0">boca::Leptons::leptons</a></div><div class="ttdeci">Jets leptons() const </div><div class="ttdef"><b>Definition:</b> Leptons.cpp:22</div></div>
 <div class="ttc" id="JetInfo_8hh_html"><div class="ttname"><a href="../../d1/dce/JetInfo_8hh.html">JetInfo.hh</a></div></div>
-<div class="ttc" id="namespaceanalysis_html_a5985b3134a579c83ce6efa2a5d62b8c2ac7da501f54544eba6787960200d9efdb"><div class="ttname"><a href="../../d0/dfd/namespaceanalysis.html#a5985b3134a579c83ce6efa2a5d62b8c2ac7da501f54544eba6787960200d9efdb">analysis::DetectorType::CMS</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 1 2015 22:08:01 for Analysis by &#160;<a href="http://www.doxygen.org/index.html">
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

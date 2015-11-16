@@ -95,23 +95,26 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a>  </div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">AnalysisBase.hh File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="../../d1/d8c/Tagger_8hh_source.html">Tagger.hh</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="../../d8/d85/Identification_8hh_source.html">Identification.hh</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="../../da/d59/PreCuts_8hh_source.html">PreCuts.hh</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="../../de/d83/File_8hh_source.html">File.hh</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for AnalysisBase.hh:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d1/dc2/AnalysisBase_8hh__incl.svg" width="1432" height="710"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d1/dc2/AnalysisBase_8hh__incl.svg" width="2538" height="515"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../df/d03/AnalysisBase_8hh__dep__incl.svg" width="3535" height="380"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../df/d03/AnalysisBase_8hh__dep__incl.svg" width="5071" height="395"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 </div>
@@ -122,17 +125,37 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d62/classboca_1_1AnalysisBase.html">boca::AnalysisBase</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base for all analyses.  <a href="../../d7/d62/classboca_1_1AnalysisBase.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d5b/structboca_1_1Flag_3_01Output_01_4.html">boca::Flag&lt; Output &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:da/d7d/namespaceboca"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html">boca</a></td></tr>
 <tr class="memdesc:da/d7d/namespaceboca"><td class="mdescLeft">&#160;</td><td class="mdescRight">contains the general analysis and SM taggers <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a3930666eadd09841abb5210714b42202"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#a3930666eadd09841abb5210714b42202">boca::Output</a> { <br />
+&#160;&#160;<a class="el" href="../../da/d7d/namespaceboca.html#a3930666eadd09841abb5210714b42202a31d4541b8e926a24f0c9b835b68cfdf3">boca::Output::fast</a> = 1 &lt;&lt; 0, 
+<a class="el" href="../../da/d7d/namespaceboca.html#a3930666eadd09841abb5210714b42202afea087517c26fadd409bd4b9dc642555">boca::Output::normal</a> = 1 &lt;&lt; 1, 
+<a class="el" href="../../da/d7d/namespaceboca.html#a3930666eadd09841abb5210714b42202a341134e09e3c437f47a6352a3184e9e0">boca::Output::significance</a> = 1 &lt;&lt; 2, 
+<a class="el" href="../../da/d7d/namespaceboca.html#a3930666eadd09841abb5210714b42202a5f099425f5cf8f069747d0a5c4e50764">boca::Output::efficiency</a> = 1 &lt;&lt; 3, 
+<br />
+&#160;&#160;<a class="el" href="../../da/d7d/namespaceboca.html#a3930666eadd09841abb5210714b42202a32fa6e1b78a9d4028953e60564a2aa4c">boca::Output::plot</a> = 1 &lt;&lt; 4
+<br />
+ }</td></tr>
+<tr class="separator:a3930666eadd09841abb5210714b42202"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a4b867701dbf30ef797b34bbb7ef94cb3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#a4b867701dbf30ef797b34bbb7ef94cb3">boca::Run</a> (AnalysisBase &amp;analysis, Output run)</td></tr>
+<tr class="separator:a4b867701dbf30ef797b34bbb7ef94cb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 1 2015 22:16:31 for BoCA by &#160;<a href="http://www.doxygen.org/index.html">
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

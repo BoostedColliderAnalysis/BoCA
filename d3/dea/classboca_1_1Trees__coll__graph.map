@@ -1,11 +1,12 @@
 <map id="boca::Trees" name="boca::Trees">
-<area shape="rect" id="node2" href="$d0/de6/classboca_1_1InfoBranch.html" title="Basic tree branches. " alt="" coords="79,260,200,287"/>
+<area shape="rect" id="node2" href="$d0/de6/classboca_1_1InfoBranch.html" title="Basic tree branches. " alt="" coords="56,260,177,287"/>
 <area shape="rect" id="node3" href="$dc/d87/classboca_1_1BaseBranch.html" title="Basic tree branches. " alt="" coords="5,171,135,197"/>
-<area shape="rect" id="node5" href="$da/df7/classboca_1_1Event.html" title="Base class for the event Topology. " alt="" coords="293,260,385,287"/>
+<area shape="rect" id="node5" href="$da/df7/classboca_1_1Event.html" title="Base class for the event Topology. " alt="" coords="256,260,348,287"/>
 <area shape="rect" id="node6" href="$d8/d8f/classboca_1_1Leptons.html" title="calculation regarding leptons " alt="" coords="159,171,263,197"/>
-<area shape="rect" id="node7" href="$d3/d84/classboca_1_1FourVector.html" title="converts Clones to LorentzVectors and fastjet::PseudoJets " alt="" coords="301,95,423,121"/>
+<area shape="rect" id="node7" href="$d3/d84/classboca_1_1FourVector.html" title="converts Clones to LorentzVectors and fastjet::PseudoJets " alt="" coords="278,95,401,121"/>
 <area shape="rect" id="node10" href="$d1/dfd/classboca_1_1Partons.html" title="particles for HAnalysis " alt="" coords="288,171,391,197"/>
 <area shape="rect" id="node11" href="$d4/d20/classboca_1_1Hadrons.html" title="Base class for jets. " alt="" coords="415,171,522,197"/>
-<area shape="rect" id="node8" href="$d4/d8b/classboca_1_1JetTag.html" title="defines how to tag a jet " alt="" coords="313,5,411,32"/>
-<area shape="rect" id="node9" href="$d2/d52/classboca_1_1ClonesArrays.html" title="Base class for loading the TreeBrancheses into ClonesArrays. " alt="" coords="468,5,605,32"/>
+<area shape="rect" id="node8" href="$d6/dde/classboca_1_1TreeReader.html" title="boca::TreeReader" alt="" coords="208,5,335,32"/>
+<area shape="rect" id="node9" href="$d4/d8b/classboca_1_1JetTag.html" title="defines how to tag a jet " alt="" coords="359,5,458,32"/>
+<area shape="rect" id="node12" href="$d2/d52/classboca_1_1ClonesArrays.html" title="Base class for loading the TreeBrancheses into ClonesArrays. " alt="" coords="372,260,509,287"/>
 </map>

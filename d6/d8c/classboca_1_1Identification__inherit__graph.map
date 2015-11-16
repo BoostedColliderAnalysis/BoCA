@@ -1,34 +1,46 @@
 <map id="boca::Identification" name="boca::Identification">
-<area shape="rect" id="node2" href="$df/d8a/classboca_1_1JetInfo.html" title="Jet infos subclassed from Fastjet. " alt="" coords="219,384,317,411"/>
-<area shape="rect" id="node3" href="$dd/d2d/classboca_1_1JetInfoFamily.html" title="Jet infos subclassed from Fastjet. " alt="" coords="199,435,337,462"/>
-<area shape="rect" id="node4" href="$de/d8b/classboca_1_1MultipletBase.html" title="boca::MultipletBase" alt="" coords="199,486,337,512"/>
-<area shape="rect" id="node33" href="$d8/d45/classboca_1_1MultipletSignature.html" title="An event composed of a multiplet an a singlet made up from the remaining jets. " alt="" coords="187,537,349,578"/>
-<area shape="rect" id="node5" href="$d1/d5c/classboca_1_1Multiplet.html" title="boca::Multiplet" alt="" coords="399,451,505,478"/>
-<area shape="rect" id="node32" href="$db/def/classboca_1_1Singlet.html" title="Thin wrapper to make fastjet::PseudoJet behave like a Multiplet. Additionally this class astracts awa..." alt="" coords="403,502,501,528"/>
-<area shape="rect" id="node6" href="$d8/d75/classboca_1_1ThreeBody.html" title="boca::ThreeBody\&lt; Multiplet\l_1, Multiplet_2, Multiplet_3 \&gt;" alt="" coords="555,82,745,124"/>
-<area shape="rect" id="node7" href="$d8/d75/classboca_1_1ThreeBody.html" title="boca::ThreeBody\&lt; boca\l::Triplet, boca::Triplet,\l boca::Doublet \&gt;" alt="" coords="958,19,1119,75"/>
-<area shape="rect" id="node9" href="$d8/d75/classboca_1_1ThreeBody.html" title="boca::ThreeBody\&lt; boca\l::Doublet, boca::Singlet,\l boca::Singlet \&gt;" alt="" coords="957,102,1120,158"/>
-<area shape="rect" id="node11" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; Multiplet\l_1, Multiplet_2 \&gt;" alt="" coords="563,585,737,626"/>
-<area shape="rect" id="node12" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; Singlet,\l Singlet \&gt;" alt="" coords="954,196,1123,237"/>
-<area shape="rect" id="node14" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; boca\l::Triplet, boca::Doublet \&gt;" alt="" coords="955,262,1122,304"/>
-<area shape="rect" id="node16" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; boca\l::Triplet, boca::Singlet \&gt;" alt="" coords="957,330,1120,372"/>
-<area shape="rect" id="node18" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; Multiplet\l_1, boca::Singlet \&gt;" alt="" coords="951,433,1126,474"/>
-<area shape="rect" id="node20" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; Doublet,\l Doublet \&gt;" alt="" coords="951,914,1126,956"/>
-<area shape="rect" id="node22" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; boca\l::Quartet31, boca::Quartet31 \&gt;" alt="" coords="939,730,1139,772"/>
-<area shape="rect" id="node24" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; Triplet,\l Triplet \&gt;" alt="" coords="956,534,1121,576"/>
-<area shape="rect" id="node26" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; boca\l::Doublet, boca::Singlet \&gt;" alt="" coords="953,805,1124,846"/>
-<area shape="rect" id="node28" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; boca\l::Quintet, boca::Triplet \&gt;" alt="" coords="957,654,1121,696"/>
-<area shape="rect" id="node30" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt;::boca\l::Sextet,::boca::Doublet \&gt;" alt="" coords="952,1017,1125,1058"/>
-<area shape="rect" id="node8" href="$d4/ded/classboca_1_1Octet332.html" title="boca::Octet332" alt="" coords="1203,34,1314,60"/>
-<area shape="rect" id="node10" href="$d5/d2f/classboca_1_1Quartet211.html" title="boca::Quartet211" alt="" coords="1197,116,1320,143"/>
-<area shape="rect" id="node13" href="$d4/d01/classboca_1_1Doublet.html" title="boca::Doublet" alt="" coords="1207,203,1310,230"/>
-<area shape="rect" id="node15" href="$d6/d72/classboca_1_1Quintet.html" title="boca::Quintet" alt="" coords="1209,270,1309,296"/>
-<area shape="rect" id="node17" href="$d6/d5b/classboca_1_1Quartet31.html" title="boca::Quartet31" alt="" coords="1201,338,1316,364"/>
-<area shape="rect" id="node19" href="$d6/d2c/classboca_1_1MultipletEvent.html" title="An event composed of a multiplet an a singlet made up from the remaining jets. " alt="" coords="1188,433,1329,474"/>
-<area shape="rect" id="node21" href="$df/d7b/classboca_1_1Quartet22.html" title="boca::Quartet22" alt="" coords="1201,922,1316,948"/>
-<area shape="rect" id="node23" href="$dd/d6c/classboca_1_1Octet44.html" title="An octet composed of two quartets. " alt="" coords="1207,738,1311,764"/>
-<area shape="rect" id="node25" href="$d5/d59/classboca_1_1Sextet.html" title="A sextet of 2 triplets. " alt="" coords="1211,542,1307,568"/>
-<area shape="rect" id="node27" href="$de/dad/classboca_1_1Triplet.html" title="boca::Triplet" alt="" coords="1211,812,1306,839"/>
-<area shape="rect" id="node29" href="$dd/de7/classboca_1_1Octet53.html" title="An octet composed of two quartets. " alt="" coords="1207,662,1311,688"/>
-<area shape="rect" id="node31" href="$d6/d57/classboca_1_1Octet62.html" title="An octet composed of a sextet an a doublet. " alt="" coords="1207,1024,1311,1051"/>
+<area shape="rect" id="node2" href="$df/d8a/classboca_1_1JetInfo.html" title="Jet infos subclassed from Fastjet. " alt="" coords="219,685,317,712"/>
+<area shape="rect" id="node3" href="$dd/d2d/classboca_1_1JetInfoFamily.html" title="Jet infos subclassed from Fastjet. " alt="" coords="199,736,337,763"/>
+<area shape="rect" id="node4" href="$de/d8b/classboca_1_1MultipletBase.html" title="boca::MultipletBase" alt="" coords="199,787,337,813"/>
+<area shape="rect" id="node45" href="$d8/d45/classboca_1_1MultipletSignature.html" title="An event composed of a multiplet an a singlet made up from the remaining jets. " alt="" coords="187,838,349,879"/>
+<area shape="rect" id="node5" href="$d1/d5c/classboca_1_1Multiplet.html" title="boca::Multiplet" alt="" coords="399,752,505,779"/>
+<area shape="rect" id="node44" href="$db/def/classboca_1_1Singlet.html" title="Thin wrapper to make fastjet::PseudoJet behave like a Multiplet. Additionally this class astracts awa..." alt="" coords="403,803,501,829"/>
+<area shape="rect" id="node6" href="$d8/d75/classboca_1_1ThreeBody.html" title="boca::ThreeBody\&lt; Multiplet\l_1, Multiplet_2, Multiplet_3 \&gt;" alt="" coords="555,203,745,245"/>
+<area shape="rect" id="node7" href="$d8/d75/classboca_1_1ThreeBody.html" title="boca::ThreeBody\&lt; boca\l::Quintet, boca::Triplet,\l boca::Doublet \&gt;" alt="" coords="977,125,1138,181"/>
+<area shape="rect" id="node9" href="$d8/d75/classboca_1_1ThreeBody.html" title="boca::ThreeBody\&lt; boca\l::Triplet, boca::Triplet,\l boca::Doublet \&gt;" alt="" coords="977,5,1138,61"/>
+<area shape="rect" id="node11" href="$d8/d75/classboca_1_1ThreeBody.html" title="boca::ThreeBody\&lt; boca\l::Doublet, boca::Singlet,\l boca::Singlet \&gt;" alt="" coords="976,299,1139,355"/>
+<area shape="rect" id="node13" href="$d8/d75/classboca_1_1ThreeBody.html" title="boca::ThreeBody\&lt; Quintet,\l Quintet, Quartet22 \&gt;" alt="" coords="968,214,1147,255"/>
+<area shape="rect" id="node15" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; Multiplet\l_1, Multiplet_2 \&gt;" alt="" coords="563,979,737,1021"/>
+<area shape="rect" id="node16" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; boca\l::Triplet, boca::Doublet \&gt;" alt="" coords="974,406,1141,447"/>
+<area shape="rect" id="node18" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; boca\l::Triplet, boca::Singlet \&gt;" alt="" coords="976,485,1139,526"/>
+<area shape="rect" id="node20" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; naturalness\l::Decuplet55, Quartet22 \&gt;" alt="" coords="961,661,1153,702"/>
+<area shape="rect" id="node22" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; boca\l::Singlet, boca::Singlet \&gt;" alt="" coords="974,745,1141,786"/>
+<area shape="rect" id="node24" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; Multiplet\l_1, boca::Singlet \&gt;" alt="" coords="970,823,1145,865"/>
+<area shape="rect" id="node26" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; Quintet,\l Quintet \&gt;" alt="" coords="972,926,1143,967"/>
+<area shape="rect" id="node28" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; Octet53,\l boca::Doublet \&gt;" alt="" coords="970,575,1145,617"/>
+<area shape="rect" id="node30" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; Doublet,\l Doublet \&gt;" alt="" coords="970,1029,1145,1070"/>
+<area shape="rect" id="node32" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; boca\l::Quartet31, boca::Quartet31 \&gt;" alt="" coords="957,1102,1157,1143"/>
+<area shape="rect" id="node34" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; boca\l::naturalness::Septet,\l boca::Triplet \&gt;" alt="" coords="981,1180,1134,1236"/>
+<area shape="rect" id="node36" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; Triplet,\l Triplet \&gt;" alt="" coords="975,1270,1140,1311"/>
+<area shape="rect" id="node38" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; boca\l::Doublet, boca::Singlet \&gt;" alt="" coords="972,1363,1143,1405"/>
+<area shape="rect" id="node40" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; boca\l::Quintet, boca::Triplet \&gt;" alt="" coords="975,1481,1139,1522"/>
+<area shape="rect" id="node42" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt;::boca\l::Sextet,::boca::Doublet \&gt;" alt="" coords="971,1585,1144,1626"/>
+<area shape="rect" id="node8" href="$d0/d30/classboca_1_1naturalness_1_1Decuplet532.html" title="boca::naturalness::\lDecuplet532" alt="" coords="1211,133,1345,174"/>
+<area shape="rect" id="node10" href="$d4/ded/classboca_1_1Octet332.html" title="Octet consisting of two triplets and one doublet. " alt="" coords="1223,20,1333,47"/>
+<area shape="rect" id="node12" href="$d5/d2f/classboca_1_1Quartet211.html" title="boca::Quartet211" alt="" coords="1217,313,1339,340"/>
+<area shape="rect" id="node14" href="$dd/da3/classboca_1_1naturalness_1_1Quattuordecuplet554.html" title="boca::naturalness::\lQuattuordecuplet554" alt="" coords="1207,214,1349,255"/>
+<area shape="rect" id="node17" href="$d6/d72/classboca_1_1Quintet.html" title="boca::Quintet" alt="" coords="1228,413,1328,440"/>
+<area shape="rect" id="node19" href="$d6/d5b/classboca_1_1Quartet31.html" title="boca::Quartet31" alt="" coords="1221,492,1335,519"/>
+<area shape="rect" id="node21" href="$d9/d9c/classboca_1_1naturalness_1_1Quattuordecuplet104.html" title="boca::naturalness::\lQuattuordecuplet104" alt="" coords="1207,661,1349,702"/>
+<area shape="rect" id="node23" href="$d4/d01/classboca_1_1Doublet.html" title="boca::Doublet" alt="" coords="1227,752,1329,779"/>
+<area shape="rect" id="node25" href="$d6/d2c/classboca_1_1MultipletEvent.html" title="An event composed of a multiplet an a singlet made up from the remaining jets. " alt="" coords="1207,823,1349,865"/>
+<area shape="rect" id="node27" href="$d8/d71/classboca_1_1naturalness_1_1Decuplet55.html" title="boca::naturalness::\lDecuplet55" alt="" coords="1211,926,1345,967"/>
+<area shape="rect" id="node29" href="$d2/da8/classboca_1_1naturalness_1_1Decuplet82.html" title="boca::naturalness::\lDecuplet82" alt="" coords="1211,575,1345,617"/>
+<area shape="rect" id="node31" href="$df/d7b/classboca_1_1Quartet22.html" title="boca::Quartet22" alt="" coords="1221,1036,1335,1063"/>
+<area shape="rect" id="node33" href="$dd/d6c/classboca_1_1Octet44.html" title="An octet composed of two quartets. " alt="" coords="1226,1109,1330,1136"/>
+<area shape="rect" id="node35" href="$d5/d7e/classboca_1_1naturalness_1_1Decuplet73.html" title="boca::naturalness::\lDecuplet73" alt="" coords="1211,1187,1345,1229"/>
+<area shape="rect" id="node37" href="$d5/d59/classboca_1_1Sextet.html" title="A sextet of 2 triplets. " alt="" coords="1230,1277,1326,1304"/>
+<area shape="rect" id="node39" href="$de/dad/classboca_1_1Triplet.html" title="boca::Triplet" alt="" coords="1231,1371,1325,1397"/>
+<area shape="rect" id="node41" href="$dd/de7/classboca_1_1Octet53.html" title="An octet composed of two quartets. " alt="" coords="1226,1488,1330,1515"/>
+<area shape="rect" id="node43" href="$d6/d57/classboca_1_1Octet62.html" title="An octet composed of a sextet an a doublet. " alt="" coords="1226,1592,1330,1619"/>
 </map>

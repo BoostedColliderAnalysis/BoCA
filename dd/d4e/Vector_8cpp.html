@@ -102,19 +102,24 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="../../d3/d7e/Vector_8hh_source.html">Vector.hh</a>&quot;</code><br />
+<code>#include &lt;boost/range/algorithm_ext/erase.hpp&gt;</code><br />
+<code>#include &lt;boost/range/algorithm/copy.hpp&gt;</code><br />
+<code>#include &lt;boost/range/adaptors.hpp&gt;</code><br />
 <code>#include &quot;<a class="el" href="../../d6/dd8/Types_8hh_source.html">Types.hh</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="../../d1/dce/JetInfo_8hh_source.html">JetInfo.hh</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="../../da/d36/ParticleInfo_8hh_source.html">ParticleInfo.hh</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="../../d8/de8/Debug_8hh_source.html">Debug.hh</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for Vector.cpp:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d4/d14/Vector_8cpp__incl.svg" width="830" height="486"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d4/d14/Vector_8cpp__incl.svg" width="2360" height="530"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/structboca_1_1IsParticle.html">boca::IsParticle</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d20/structboca_1_1IsParticles.html">boca::IsParticles</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d44/structboca_1_1IsExactParticle.html">boca::IsExactParticle</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -141,14 +146,18 @@ Functions</h2></td></tr>
 <tr class="separator:a0c71b70286c284e1ec53e56012ad51bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a19a40fd8a7abf3c14781fe941e09c91c"><td class="memItemLeft" align="right" valign="top">Jets&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#a19a40fd8a7abf3c14781fe941e09c91c">boca::CopyIfParticles</a> (Jets const &amp;jets, Id id_1, Id id_2)</td></tr>
 <tr class="separator:a19a40fd8a7abf3c14781fe941e09c91c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac0d69d30bffeda71430f98befb266d60"><td class="memItemLeft" align="right" valign="top">Jets&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#ac0d69d30bffeda71430f98befb266d60">boca::CopyIfParticles</a> (Jets const &amp;jets, std::vector&lt; Id &gt; ids)</td></tr>
+<tr class="separator:ac0d69d30bffeda71430f98befb266d60"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1112ffeb3e2552ed935ea1f118b5534c"><td class="memItemLeft" align="right" valign="top">Jets&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#a1112ffeb3e2552ed935ea1f118b5534c">boca::CopyIfExactParticle</a> (Jets const &amp;jets, int id)</td></tr>
 <tr class="separator:a1112ffeb3e2552ed935ea1f118b5534c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aab78d34175b4cd789d0507e2f3b237ce"><td class="memItemLeft" align="right" valign="top">Jets&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#aab78d34175b4cd789d0507e2f3b237ce">boca::RemoveIfExactParticle</a> (Jets jets, int id)</td></tr>
 <tr class="separator:aab78d34175b4cd789d0507e2f3b237ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5438d79c2ee90999dcddfb1f61cc4aa7"><td class="memItemLeft" align="right" valign="top">Jets&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#a5438d79c2ee90999dcddfb1f61cc4aa7">boca::CopyIfNeutrino</a> (Jets const &amp;jets)</td></tr>
 <tr class="separator:a5438d79c2ee90999dcddfb1f61cc4aa7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c402bd1771813aeaacc8931d803d0c7"><td class="memItemLeft" align="right" valign="top">Jets&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#a7c402bd1771813aeaacc8931d803d0c7">boca::RemoveIfOutsidePtWindow</a> (Jets jets, float lower_cut, float upper_cut)</td></tr>
-<tr class="separator:a7c402bd1771813aeaacc8931d803d0c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10b3d12f6c587fc99bf4452d866c2ee2"><td class="memItemLeft" align="right" valign="top">Jets&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#a10b3d12f6c587fc99bf4452d866c2ee2">boca::CopyIfLepton</a> (Jets const &amp;jets)</td></tr>
+<tr class="separator:a10b3d12f6c587fc99bf4452d866c2ee2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7db2b4bc7a8b4179f3a37fed3978a45b"><td class="memItemLeft" align="right" valign="top">Jets&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#a7db2b4bc7a8b4179f3a37fed3978a45b">boca::RemoveIfOutsidePtWindow</a> (Jets jets, Momentum lower_cut, Momentum upper_cut)</td></tr>
+<tr class="separator:a7db2b4bc7a8b4179f3a37fed3978a45b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a764cafde7261b3e41f4ca4a82311c664"><td class="memItemLeft" align="right" valign="top">Jets&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#a764cafde7261b3e41f4ca4a82311c664">boca::CopyIfFamily</a> (Jets const &amp;jets, Id id, Id mother_id)</td></tr>
 <tr class="separator:a764cafde7261b3e41f4ca4a82311c664"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a34e68e9c5cbc096ff7b5a455b7bb098e"><td class="memItemLeft" align="right" valign="top">Jets&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#a34e68e9c5cbc096ff7b5a455b7bb098e">boca::RemoveIfGrandFamily</a> (Jets jets, Id id, Id grand_mother_id)</td></tr>
@@ -162,6 +171,8 @@ Functions</h2></td></tr>
 <tr class="separator:aae882f5c4c521a8a4d0a22d921105268"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a06026b65af4308188b4e62b56ad5cf30"><td class="memItemLeft" align="right" valign="top">Jets&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#a06026b65af4308188b4e62b56ad5cf30">boca::CopyIfGrandMother</a> (Jets const &amp;jets, Id grand_mother_id)</td></tr>
 <tr class="separator:a06026b65af4308188b4e62b56ad5cf30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09fda52be6efcc8d01fda8751a05e413"><td class="memItemLeft" align="right" valign="top">Jets&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#a09fda52be6efcc8d01fda8751a05e413">boca::CopyIfGrandGrandMother</a> (Jets const &amp;jets, Id grand_grand_mother_id)</td></tr>
+<tr class="separator:a09fda52be6efcc8d01fda8751a05e413"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa3fb29d89ff13f9714b08fcb0a77548c"><td class="memItemLeft" align="right" valign="top">Jets&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#aa3fb29d89ff13f9714b08fcb0a77548c">boca::RemoveIfSingleMother</a> (Jets jets)</td></tr>
 <tr class="separator:aa3fb29d89ff13f9714b08fcb0a77548c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa93859f6e63c552458fdba6f7ee56a74"><td class="memItemLeft" align="right" valign="top">Jets&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#aa93859f6e63c552458fdba6f7ee56a74">boca::RemoveIfLetpon</a> (Jets jets)</td></tr>
@@ -172,13 +183,15 @@ Functions</h2></td></tr>
 <tr class="separator:ab1f82de6deb978373664e1a7f482e65f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acbbe20db3c00a5dfcd1f754d80ba8c83"><td class="memItemLeft" align="right" valign="top">Jets&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#acbbe20db3c00a5dfcd1f754d80ba8c83">boca::CopyIf5Quark</a> (Jets const &amp;jets)</td></tr>
 <tr class="separator:acbbe20db3c00a5dfcd1f754d80ba8c83"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a233942105628af00fc1c62bcc734b04a"><td class="memItemLeft" align="right" valign="top">Jets&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#a233942105628af00fc1c62bcc734b04a">boca::RemoveIfSoft</a> (Jets jets, float pt_min)</td></tr>
-<tr class="separator:a233942105628af00fc1c62bcc734b04a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa303845d92f13a17ba91ac2c1680516a"><td class="memItemLeft" align="right" valign="top">Jets&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#aa303845d92f13a17ba91ac2c1680516a">boca::RemoveIfSoft</a> (Jets jets, Momentum pt_min)</td></tr>
+<tr class="separator:aa303845d92f13a17ba91ac2c1680516a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92faa162d92c5083cf9fe48284f1d9ab"><td class="memItemLeft" align="right" valign="top">Jets&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#a92faa162d92c5083cf9fe48284f1d9ab">boca::RemoveIfHard</a> (Jets jets, Momentum pt_max)</td></tr>
+<tr class="separator:a92faa162d92c5083cf9fe48284f1d9ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 1 2015 22:16:31 for BoCA by &#160;<a href="http://www.doxygen.org/index.html">
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

@@ -1,0 +1,11 @@
+<map id="boca::TChannelBranch" name="boca::TChannelBranch">
+<area shape="rect" id="node8" href="$d9/df4/classboca_1_1higgscpv_1_1SignatureTTaggerBranch.html" title="Higgs cpv tagger root tree structure. " alt="" coords="1239,5,1413,47"/>
+<area shape="rect" id="node10" href="$d3/d9b/classboca_1_1naturalness_1_1SignatureSingleBranch.html" title="boca::naturalness::\lSignatureSingleBranch" alt="" coords="1249,71,1403,112"/>
+<area shape="rect" id="node11" href="$d2/d33/classboca_1_1naturalness_1_1SignatureSingleHadronicBranch.html" title="boca::naturalness::\lSignatureSingleHadronicBranch" alt="" coords="1223,136,1429,177"/>
+<area shape="rect" id="node2" href="$db/df3/classboca_1_1MultiBranch.html" title="boca::MultiBranch" alt="" coords="845,78,972,105"/>
+<area shape="rect" id="node3" href="$d6/d3d/classboca_1_1PairBranch.html" title="boca::PairBranch" alt="" coords="675,78,797,105"/>
+<area shape="rect" id="node4" href="$d8/d91/classboca_1_1ParticleBranch.html" title="Class for saving event informations to root. " alt="" coords="484,78,627,105"/>
+<area shape="rect" id="node5" href="$dd/dfc/classboca_1_1ResultBranch.html" title="boca::ResultBranch" alt="" coords="299,78,436,105"/>
+<area shape="rect" id="node6" href="$dc/d87/classboca_1_1BaseBranch.html" title="Basic tree branches. " alt="" coords="121,78,251,105"/>
+<area shape="rect" id="node9" href="$d2/dc9/classboca_1_1higgscpv_1_1SignatureLeptonTTaggerBranch.html" title="boca::higgscpv::Signature\lLeptonTTaggerBranch" alt="" coords="1477,5,1651,47"/>
+</map>

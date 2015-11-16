@@ -101,71 +101,101 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;algorithm&gt;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../da/d7d/namespaceboca.html">boca</a></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;{</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keywordtype">float</span> <a class="code" href="../../da/d7d/namespaceboca.html#a66e80ff44a88c0aac33253e716dbec51">Distance</a>(<span class="keywordtype">float</span> rapidity_1, <span class="keywordtype">float</span> phi_1, <span class="keywordtype">float</span> rapidity_2, <span class="keywordtype">float</span> phi_2);</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keywordtype">float</span> <a class="code" href="../../da/d7d/namespaceboca.html#a036e82037c87e4f3ce4e9837aeaa58ab">Length</a>(<span class="keywordtype">float</span> rapidity, <span class="keywordtype">float</span> phi);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keywordtype">float</span> <a class="code" href="../../da/d7d/namespaceboca.html#a07970717f40d04cb589c71e629c67ac0">DeltaPhi</a>(<span class="keywordtype">float</span> phi_1, <span class="keywordtype">float</span> phi_2);</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keywordtype">float</span> <a class="code" href="../../da/d7d/namespaceboca.html#a1274a938b2f4ef7a300e6ae0c0b5bce7">RestrictPhi</a>(<span class="keywordtype">float</span> phi);</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Value&gt;</div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="../../da/d7d/namespaceboca.html#a0f4c77bb11fa8b2020df8710d81b1d52">   36</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../da/d7d/namespaceboca.html#a0f4c77bb11fa8b2020df8710d81b1d52">sgn</a>(Value value)</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordflow">return</span> (Value(0) &lt; value) - (value &lt; Value(0));</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;}</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Value&gt;</div>
-<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="../../da/d7d/namespaceboca.html#af09743f1542bfde3da5e6d5f0000570f">   46</a></span>&#160;Value <a class="code" href="../../da/d7d/namespaceboca.html#af09743f1542bfde3da5e6d5f0000570f">sqr</a>(Value value)</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;{</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordflow">return</span> value * value;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;}</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Value&gt;</div>
-<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="../../da/d7d/namespaceboca.html#a17a8e528a9b3a09f409f83061390900d">   52</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../da/d7d/namespaceboca.html#a17a8e528a9b3a09f409f83061390900d">Closest</a>(std::vector&lt;Value&gt; <span class="keyword">const</span>&amp; vector, Value value)</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;{</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keyword">auto</span> position = std::lower_bound(vector.begin(), vector.end(), value, [](<span class="keywordtype">float</span> a, <span class="keywordtype">float</span> b) {</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keywordflow">return</span> a &gt; b;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    });</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordflow">if</span> (position == vector.end()) <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordflow">return</span> position - vector.begin();</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;}</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../da/d7d/namespaceboca.html#ac207411c69d4505453734e8ac8c15306">LargeNumber</a>();</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="keywordtype">float</span> <a class="code" href="../../da/d7d/namespaceboca.html#a12a9fa36f54fa02b134ea0fb907f17be">RoundError</a>(<span class="keywordtype">float</span> value);</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;boost/range/algorithm/lower_bound.hpp&gt;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;boost/range/algorithm/min_element.hpp&gt;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;boost/range/algorithm/max_element.hpp&gt;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../dc/d45/Units_8hh.html">Units.hh</a>&quot;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../da/d7d/namespaceboca.html">boca</a></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;{</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keywordtype">float</span> <a class="code" href="../../da/d7d/namespaceboca.html#a66e80ff44a88c0aac33253e716dbec51">Distance</a>(<span class="keywordtype">float</span> rapidity_1, <span class="keywordtype">float</span> phi_1, <span class="keywordtype">float</span> rapidity_2, <span class="keywordtype">float</span> phi_2);</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">// float Length(float rapidity, float phi);</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keywordtype">float</span> <a class="code" href="../../da/d7d/namespaceboca.html#a07970717f40d04cb589c71e629c67ac0">DeltaPhi</a>(<span class="keywordtype">float</span> phi_1, <span class="keywordtype">float</span> phi_2);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keywordtype">float</span> <a class="code" href="../../da/d7d/namespaceboca.html#a1274a938b2f4ef7a300e6ae0c0b5bce7">RestrictPhi</a>(<span class="keywordtype">float</span> phi);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Value&gt;</div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="../../da/d7d/namespaceboca.html#a0f4c77bb11fa8b2020df8710d81b1d52">   40</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../da/d7d/namespaceboca.html#a0f4c77bb11fa8b2020df8710d81b1d52">sgn</a>(Value value)</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;{</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">return</span> (Value(0) &lt; value) - (value &lt; Value(0));</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;}</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Value&gt;</div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="../../da/d7d/namespaceboca.html#af09743f1542bfde3da5e6d5f0000570f">   50</a></span>&#160;Value <a class="code" href="../../da/d7d/namespaceboca.html#af09743f1542bfde3da5e6d5f0000570f">sqr</a>(Value value)</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;{</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordflow">return</span> value * value;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;}</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Value&gt;</div>
+<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="../../da/d7d/namespaceboca.html#a17a8e528a9b3a09f409f83061390900d">   56</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../da/d7d/namespaceboca.html#a17a8e528a9b3a09f409f83061390900d">Closest</a>(std::vector&lt;Value&gt; <span class="keyword">const</span>&amp; vector, Value value)</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;{</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keyword">auto</span> position = boost::range::lower_bound(vector, value, [](<span class="keywordtype">float</span> a, <span class="keywordtype">float</span> b) {</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keywordflow">return</span> a &gt; b;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    });</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordflow">if</span> (position == vector.end()) <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordflow">return</span> position - vector.begin();</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;}</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="keywordtype">float</span> <a class="code" href="../../da/d7d/namespaceboca.html#a6033a06fdaa14c21f45d6dc1c1027761">RoundToDigits</a>(<span class="keywordtype">float</span> value, <span class="keywordtype">int</span> digits = 3);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../da/d7d/namespaceboca.html#ac207411c69d4505453734e8ac8c15306">LargeNumber</a>();</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="keywordtype">float</span> <a class="code" href="../../da/d7d/namespaceboca.html#a4d2dd32c6cb761262749d74ecd8b543a">RoundToError</a>(<span class="keywordtype">float</span> value, <span class="keywordtype">float</span> error);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="keywordtype">float</span> <a class="code" href="../../da/d7d/namespaceboca.html#a12a9fa36f54fa02b134ea0fb907f17be">RoundError</a>(<span class="keywordtype">float</span> value);</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="keywordtype">float</span> <a class="code" href="../../da/d7d/namespaceboca.html#a3a7f1bdc3eef874c6e4700fc872b0898">FloorToDigits</a>(<span class="keywordtype">float</span> value, <span class="keywordtype">int</span> digits = 2);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="keywordtype">float</span> <a class="code" href="../../da/d7d/namespaceboca.html#a6033a06fdaa14c21f45d6dc1c1027761">RoundToDigits</a>(<span class="keywordtype">float</span> value, <span class="keywordtype">int</span> digits = 3);</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="keywordtype">float</span> <a class="code" href="../../da/d7d/namespaceboca.html#a1db307eae129e4559f8366b79b88b4ee">CeilToDigits</a>(<span class="keywordtype">float</span> value, <span class="keywordtype">int</span> digits = 2);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="keywordtype">float</span> <a class="code" href="../../da/d7d/namespaceboca.html#a4d2dd32c6cb761262749d74ecd8b543a">RoundToError</a>(<span class="keywordtype">float</span> value, <span class="keywordtype">float</span> error);</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;}</div>
-<div class="ttc" id="namespaceboca_html_a1db307eae129e4559f8366b79b88b4ee"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#a1db307eae129e4559f8366b79b88b4ee">boca::CeilToDigits</a></div><div class="ttdeci">float CeilToDigits(float value, int digits=2)</div><div class="ttdef"><b>Definition:</b> Math.cpp:53</div></div>
-<div class="ttc" id="namespaceboca_html_a0f4c77bb11fa8b2020df8710d81b1d52"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#a0f4c77bb11fa8b2020df8710d81b1d52">boca::sgn</a></div><div class="ttdeci">int sgn(Value value)</div><div class="ttdoc">derives the sign of the value </div><div class="ttdef"><b>Definition:</b> Math.hh:36</div></div>
-<div class="ttc" id="namespaceboca_html_a66e80ff44a88c0aac33253e716dbec51"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#a66e80ff44a88c0aac33253e716dbec51">boca::Distance</a></div><div class="ttdeci">float Distance(float rapidity_1, float phi_1, float rapidity_2, float phi_2)</div><div class="ttdoc">Calcualte distance in eta phi space. </div><div class="ttdef"><b>Definition:</b> Math.cpp:13</div></div>
-<div class="ttc" id="namespaceboca_html_ac207411c69d4505453734e8ac8c15306"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#ac207411c69d4505453734e8ac8c15306">boca::LargeNumber</a></div><div class="ttdeci">int LargeNumber()</div><div class="ttdef"><b>Definition:</b> Math.cpp:38</div></div>
-<div class="ttc" id="namespaceboca_html_a6033a06fdaa14c21f45d6dc1c1027761"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#a6033a06fdaa14c21f45d6dc1c1027761">boca::RoundToDigits</a></div><div class="ttdeci">float RoundToDigits(float value, int digits=3)</div><div class="ttdef"><b>Definition:</b> Math.cpp:69</div></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="keywordtype">float</span> <a class="code" href="../../da/d7d/namespaceboca.html#a3a7f1bdc3eef874c6e4700fc872b0898">FloorToDigits</a>(<span class="keywordtype">float</span> value, <span class="keywordtype">int</span> digits = 2);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="keywordtype">float</span> <a class="code" href="../../da/d7d/namespaceboca.html#a1db307eae129e4559f8366b79b88b4ee">CeilToDigits</a>(<span class="keywordtype">float</span> value, <span class="keywordtype">int</span> digits = 2);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Value&gt;</div>
+<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="../../da/d7d/namespaceboca.html#a93a26eb033d8d49b2eb89a493fe1e0f0">   78</a></span>&#160;Value <a class="code" href="../../da/d7d/namespaceboca.html#a93a26eb033d8d49b2eb89a493fe1e0f0">min</a>(std::vector&lt;Value&gt; vector, <span class="keywordtype">bool</span> truncate = <span class="keyword">false</span>)</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;{</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordflow">if</span> (truncate) vector.erase(std::remove(vector.begin(), vector.end(), 0.), vector.end());</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordflow">return</span> *boost::range::min_element(vector);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;}</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="comment">// template &lt;&gt;</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<a class="code" href="../../da/d7d/namespaceboca.html#a46112144d02aecb580e9698e377b55f7">Crosssection</a> <a class="code" href="../../da/d7d/namespaceboca.html#a93a26eb033d8d49b2eb89a493fe1e0f0">min</a>(std::vector&lt;Crosssection&gt; vector, <span class="keywordtype">bool</span> truncate = <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Value&gt;</div>
+<div class="line"><a name="l00088"></a><span class="lineno"><a class="line" href="../../da/d7d/namespaceboca.html#ae1db8a886ed98268cc41c0a72eed6609">   88</a></span>&#160;Value <a class="code" href="../../da/d7d/namespaceboca.html#ae1db8a886ed98268cc41c0a72eed6609">max</a>(std::vector&lt;Value&gt; <span class="keyword">const</span>&amp; vector)</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;{</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordflow">return</span> *boost::range::max_element(vector);</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;}</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Value&gt;</div>
+<div class="line"><a name="l00094"></a><span class="lineno"><a class="line" href="../../da/d7d/namespaceboca.html#a0f92b866979aff6e906810afa68c3535">   94</a></span>&#160;std::pair&lt;Value, Value&gt; <a class="code" href="../../da/d7d/namespaceboca.html#a0f92b866979aff6e906810afa68c3535">minmax</a>(std::vector&lt;Value&gt; <span class="keyword">const</span>&amp; vector)</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;{</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keywordflow">return</span> *std::minmax_element(vector.begin(), vector.end());</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;}</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;}</div>
+<div class="ttc" id="namespaceboca_html_a93a26eb033d8d49b2eb89a493fe1e0f0"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#a93a26eb033d8d49b2eb89a493fe1e0f0">boca::min</a></div><div class="ttdeci">Value min(std::vector&lt; Value &gt; vector, bool truncate=false)</div><div class="ttdef"><b>Definition:</b> Math.hh:78</div></div>
+<div class="ttc" id="namespaceboca_html_a1db307eae129e4559f8366b79b88b4ee"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#a1db307eae129e4559f8366b79b88b4ee">boca::CeilToDigits</a></div><div class="ttdeci">float CeilToDigits(float value, int digits=2)</div><div class="ttdef"><b>Definition:</b> Math.cpp:54</div></div>
+<div class="ttc" id="namespaceboca_html_a46112144d02aecb580e9698e377b55f7"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#a46112144d02aecb580e9698e377b55f7">boca::Crosssection</a></div><div class="ttdeci">boost::units::quantity&lt; barn::Area &gt; Crosssection</div><div class="ttdoc">Crosssection measured in barn. </div><div class="ttdef"><b>Definition:</b> Units.hh:148</div></div>
+<div class="ttc" id="namespaceboca_html_a0f4c77bb11fa8b2020df8710d81b1d52"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#a0f4c77bb11fa8b2020df8710d81b1d52">boca::sgn</a></div><div class="ttdeci">int sgn(Value value)</div><div class="ttdoc">derives the sign of the value </div><div class="ttdef"><b>Definition:</b> Math.hh:40</div></div>
+<div class="ttc" id="namespaceboca_html_a66e80ff44a88c0aac33253e716dbec51"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#a66e80ff44a88c0aac33253e716dbec51">boca::Distance</a></div><div class="ttdeci">float Distance(float rapidity_1, float phi_1, float rapidity_2, float phi_2)</div><div class="ttdoc">Calcualte distance in eta phi space. </div><div class="ttdef"><b>Definition:</b> Math.cpp:14</div></div>
+<div class="ttc" id="namespaceboca_html_ac207411c69d4505453734e8ac8c15306"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#ac207411c69d4505453734e8ac8c15306">boca::LargeNumber</a></div><div class="ttdeci">int LargeNumber()</div><div class="ttdef"><b>Definition:</b> Math.cpp:39</div></div>
+<div class="ttc" id="namespaceboca_html_a6033a06fdaa14c21f45d6dc1c1027761"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#a6033a06fdaa14c21f45d6dc1c1027761">boca::RoundToDigits</a></div><div class="ttdeci">float RoundToDigits(float value, int digits=3)</div><div class="ttdef"><b>Definition:</b> Math.cpp:70</div></div>
+<div class="ttc" id="Units_8hh_html"><div class="ttname"><a href="../../dc/d45/Units_8hh.html">Units.hh</a></div></div>
+<div class="ttc" id="namespaceboca_html_a0f92b866979aff6e906810afa68c3535"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#a0f92b866979aff6e906810afa68c3535">boca::minmax</a></div><div class="ttdeci">std::pair&lt; Value, Value &gt; minmax(std::vector&lt; Value &gt; const &amp;vector)</div><div class="ttdef"><b>Definition:</b> Math.hh:94</div></div>
 <div class="ttc" id="namespaceboca_html"><div class="ttname"><a href="../../da/d7d/namespaceboca.html">boca</a></div><div class="ttdoc">contains the general analysis and SM taggers </div><div class="ttdef"><b>Definition:</b> AnalysisCharged.hh:5</div></div>
-<div class="ttc" id="namespaceboca_html_a17a8e528a9b3a09f409f83061390900d"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#a17a8e528a9b3a09f409f83061390900d">boca::Closest</a></div><div class="ttdeci">int Closest(std::vector&lt; Value &gt; const &amp;vector, Value value)</div><div class="ttdef"><b>Definition:</b> Math.hh:52</div></div>
-<div class="ttc" id="namespaceboca_html_a07970717f40d04cb589c71e629c67ac0"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#a07970717f40d04cb589c71e629c67ac0">boca::DeltaPhi</a></div><div class="ttdeci">float DeltaPhi(float phi_1, float phi_2)</div><div class="ttdoc">Take care of phi angles around pi. </div><div class="ttdef"><b>Definition:</b> Math.cpp:23</div></div>
-<div class="ttc" id="namespaceboca_html_a12a9fa36f54fa02b134ea0fb907f17be"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#a12a9fa36f54fa02b134ea0fb907f17be">boca::RoundError</a></div><div class="ttdeci">float RoundError(float value)</div><div class="ttdef"><b>Definition:</b> Math.cpp:63</div></div>
-<div class="ttc" id="namespaceboca_html_a036e82037c87e4f3ce4e9837aeaa58ab"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#a036e82037c87e4f3ce4e9837aeaa58ab">boca::Length</a></div><div class="ttdeci">float Length(float rapidity, float phi)</div><div class="ttdoc">Calcualte distance from center in eta phi space. </div><div class="ttdef"><b>Definition:</b> Math.cpp:18</div></div>
-<div class="ttc" id="namespaceboca_html_a3a7f1bdc3eef874c6e4700fc872b0898"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#a3a7f1bdc3eef874c6e4700fc872b0898">boca::FloorToDigits</a></div><div class="ttdeci">float FloorToDigits(float value, int digits=2)</div><div class="ttdef"><b>Definition:</b> Math.cpp:43</div></div>
-<div class="ttc" id="namespaceboca_html_a1274a938b2f4ef7a300e6ae0c0b5bce7"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#a1274a938b2f4ef7a300e6ae0c0b5bce7">boca::RestrictPhi</a></div><div class="ttdeci">float RestrictPhi(float phi)</div><div class="ttdef"><b>Definition:</b> Math.cpp:28</div></div>
-<div class="ttc" id="namespaceboca_html_af09743f1542bfde3da5e6d5f0000570f"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#af09743f1542bfde3da5e6d5f0000570f">boca::sqr</a></div><div class="ttdeci">Value sqr(Value value)</div><div class="ttdoc">derives the square of the value </div><div class="ttdef"><b>Definition:</b> Math.hh:46</div></div>
-<div class="ttc" id="namespaceboca_html_a4d2dd32c6cb761262749d74ecd8b543a"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#a4d2dd32c6cb761262749d74ecd8b543a">boca::RoundToError</a></div><div class="ttdeci">float RoundToError(float value, float error)</div><div class="ttdef"><b>Definition:</b> Math.cpp:78</div></div>
+<div class="ttc" id="namespaceboca_html_a17a8e528a9b3a09f409f83061390900d"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#a17a8e528a9b3a09f409f83061390900d">boca::Closest</a></div><div class="ttdeci">int Closest(std::vector&lt; Value &gt; const &amp;vector, Value value)</div><div class="ttdef"><b>Definition:</b> Math.hh:56</div></div>
+<div class="ttc" id="namespaceboca_html_ae1db8a886ed98268cc41c0a72eed6609"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#ae1db8a886ed98268cc41c0a72eed6609">boca::max</a></div><div class="ttdeci">Value max(std::vector&lt; Value &gt; const &amp;vector)</div><div class="ttdef"><b>Definition:</b> Math.hh:88</div></div>
+<div class="ttc" id="namespaceboca_html_a07970717f40d04cb589c71e629c67ac0"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#a07970717f40d04cb589c71e629c67ac0">boca::DeltaPhi</a></div><div class="ttdeci">float DeltaPhi(float phi_1, float phi_2)</div><div class="ttdoc">Calcualte distance from center in eta phi space. </div><div class="ttdef"><b>Definition:</b> Math.cpp:24</div></div>
+<div class="ttc" id="namespaceboca_html_a12a9fa36f54fa02b134ea0fb907f17be"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#a12a9fa36f54fa02b134ea0fb907f17be">boca::RoundError</a></div><div class="ttdeci">float RoundError(float value)</div><div class="ttdef"><b>Definition:</b> Math.cpp:64</div></div>
+<div class="ttc" id="namespaceboca_html_a3a7f1bdc3eef874c6e4700fc872b0898"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#a3a7f1bdc3eef874c6e4700fc872b0898">boca::FloorToDigits</a></div><div class="ttdeci">float FloorToDigits(float value, int digits=2)</div><div class="ttdef"><b>Definition:</b> Math.cpp:44</div></div>
+<div class="ttc" id="namespaceboca_html_a1274a938b2f4ef7a300e6ae0c0b5bce7"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#a1274a938b2f4ef7a300e6ae0c0b5bce7">boca::RestrictPhi</a></div><div class="ttdeci">float RestrictPhi(float phi)</div><div class="ttdef"><b>Definition:</b> Math.cpp:29</div></div>
+<div class="ttc" id="namespaceboca_html_af09743f1542bfde3da5e6d5f0000570f"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#af09743f1542bfde3da5e6d5f0000570f">boca::sqr</a></div><div class="ttdeci">Value sqr(Value value)</div><div class="ttdoc">derives the square of the value </div><div class="ttdef"><b>Definition:</b> Math.hh:50</div></div>
+<div class="ttc" id="namespaceboca_html_a4d2dd32c6cb761262749d74ecd8b543a"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#a4d2dd32c6cb761262749d74ecd8b543a">boca::RoundToError</a></div><div class="ttdeci">float RoundToError(float value, float error)</div><div class="ttdef"><b>Definition:</b> Math.cpp:79</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 1 2015 22:16:31 for BoCA by &#160;<a href="http://www.doxygen.org/index.html">
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

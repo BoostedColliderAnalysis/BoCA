@@ -1,0 +1,6 @@
+<map id="boca::ParticleInfo" name="boca::ParticleInfo">
+<area shape="rect" id="node3" href="$d1/d78/classboca_1_1Family.html" title="boca::Family" alt="" coords="132,347,229,373"/>
+<area shape="rect" id="node4" href="$db/dc7/classboca_1_1Particle.html" title="boca::Particle" alt="" coords="129,184,232,211"/>
+<area shape="rect" id="node5" href="$dd/d3e/classboca_1_1LorentzVector.html" title="Copy of root::TLorentzVector in order to get rid of TObject which makes it unsuitable for heavy usage..." alt="" coords="111,95,250,121"/>
+<area shape="rect" id="node6" href="$d3/da2/classboca_1_1Vector3.html" title="Copy of root::TVector3 in order to get rid of TObject. " alt="" coords="129,5,232,32"/>
+</map>

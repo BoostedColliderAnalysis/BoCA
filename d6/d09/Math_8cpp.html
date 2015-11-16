@@ -102,11 +102,12 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="../../d7/d7f/Math_8hh_source.html">Math.hh</a>&quot;</code><br />
 <code>#include &lt;cmath&gt;</code><br />
+<code>#include &lt;boost/range/algorithm/min_element.hpp&gt;</code><br />
 <code>#include &quot;<a class="el" href="../../d8/de8/Debug_8hh_source.html">Debug.hh</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for Math.cpp:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../de/d27/Math_8cpp__incl.svg" width="528" height="187"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../de/d27/Math_8cpp__incl.svg" width="2360" height="291"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 </div><table class="memberdecls">
@@ -121,11 +122,8 @@ Functions</h2></td></tr>
 <tr class="memitem:a66e80ff44a88c0aac33253e716dbec51"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#a66e80ff44a88c0aac33253e716dbec51">boca::Distance</a> (float rapidity_1, float phi_1, float rapidity_2, float phi_2)</td></tr>
 <tr class="memdesc:a66e80ff44a88c0aac33253e716dbec51"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calcualte distance in eta phi space.  <a href="#a66e80ff44a88c0aac33253e716dbec51">More...</a><br /></td></tr>
 <tr class="separator:a66e80ff44a88c0aac33253e716dbec51"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a036e82037c87e4f3ce4e9837aeaa58ab"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#a036e82037c87e4f3ce4e9837aeaa58ab">boca::Length</a> (float rapidity, float phi)</td></tr>
-<tr class="memdesc:a036e82037c87e4f3ce4e9837aeaa58ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calcualte distance from center in eta phi space.  <a href="#a036e82037c87e4f3ce4e9837aeaa58ab">More...</a><br /></td></tr>
-<tr class="separator:a036e82037c87e4f3ce4e9837aeaa58ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a07970717f40d04cb589c71e629c67ac0"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#a07970717f40d04cb589c71e629c67ac0">boca::DeltaPhi</a> (float phi_1, float phi_2)</td></tr>
-<tr class="memdesc:a07970717f40d04cb589c71e629c67ac0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Take care of phi angles around pi.  <a href="#a07970717f40d04cb589c71e629c67ac0">More...</a><br /></td></tr>
+<tr class="memdesc:a07970717f40d04cb589c71e629c67ac0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calcualte distance from center in eta phi space.  <a href="#a07970717f40d04cb589c71e629c67ac0">More...</a><br /></td></tr>
 <tr class="separator:a07970717f40d04cb589c71e629c67ac0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1274a938b2f4ef7a300e6ae0c0b5bce7"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#a1274a938b2f4ef7a300e6ae0c0b5bce7">boca::RestrictPhi</a> (float phi)</td></tr>
 <tr class="separator:a1274a938b2f4ef7a300e6ae0c0b5bce7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -139,13 +137,15 @@ Functions</h2></td></tr>
 <tr class="separator:a12a9fa36f54fa02b134ea0fb907f17be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6033a06fdaa14c21f45d6dc1c1027761"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#a6033a06fdaa14c21f45d6dc1c1027761">boca::RoundToDigits</a> (float value, int digits=3)</td></tr>
 <tr class="separator:a6033a06fdaa14c21f45d6dc1c1027761"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4d2dd32c6cb761262749d74ecd8b543a"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#a4d2dd32c6cb761262749d74ecd8b543a">boca::RoundToError</a> (float value, float error)</td></tr>
+<tr class="memitem:a4d2dd32c6cb761262749d74ecd8b543a"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#a4d2dd32c6cb761262749d74ecd8b543a">boca::RoundToError</a> (float value, float <a class="el" href="../../d9/d3e/Logging_8hh.html#a44fe714b53f91f01aab7d314d83d723dad606e435413ea0944dd00d49e901e4ed">error</a>)</td></tr>
 <tr class="separator:a4d2dd32c6cb761262749d74ecd8b543a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf8c0828119c9f5bfab84cf9a026bdb7"><td class="memItemLeft" align="right" valign="top">Crosssection&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#adf8c0828119c9f5bfab84cf9a026bdb7">boca::min</a> (std::vector&lt; Crosssection &gt; vector, bool truncate=false)</td></tr>
+<tr class="separator:adf8c0828119c9f5bfab84cf9a026bdb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 1 2015 22:16:31 for BoCA by &#160;<a href="http://www.doxygen.org/index.html">
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

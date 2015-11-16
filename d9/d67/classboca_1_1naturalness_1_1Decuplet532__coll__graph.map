@@ -1,0 +1,19 @@
+<map id="boca::naturalness::Decuplet532" name="boca::naturalness::Decuplet532">
+<area shape="rect" id="node2" href="$d8/d75/classboca_1_1ThreeBody.html" title="boca::ThreeBody\&lt; boca\l::Quintet, boca::Triplet,\l boca::Doublet \&gt;" alt="" coords="2977,421,3139,477"/>
+<area shape="rect" id="node3" href="$d1/d5c/classboca_1_1Multiplet.html" title="boca::Multiplet" alt="" coords="621,520,728,547"/>
+<area shape="rect" id="node11" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; boca\l::Singlet, boca::Singlet \&gt;" alt="" coords="1219,473,1385,514"/>
+<area shape="rect" id="node12" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; Multiplet\l_1, Multiplet_2 \&gt;" alt="" coords="859,378,1033,419"/>
+<area shape="rect" id="node16" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; boca\l::Doublet, boca::Singlet \&gt;" alt="" coords="1884,542,2055,583"/>
+<area shape="rect" id="node20" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; boca\l::Triplet, boca::Doublet \&gt;" alt="" coords="2465,394,2632,435"/>
+<area shape="rect" id="node21" href="$d8/d75/classboca_1_1ThreeBody.html" title="boca::ThreeBody\&lt; Multiplet\l_1, Multiplet_2, Multiplet_3 \&gt;" alt="" coords="851,205,1041,246"/>
+<area shape="rect" id="node4" href="$de/d8b/classboca_1_1MultipletBase.html" title="boca::MultipletBase" alt="" coords="187,508,324,535"/>
+<area shape="rect" id="node6" href="$db/def/classboca_1_1Singlet.html" title="Thin wrapper to make fastjet::PseudoJet behave like a Multiplet. Additionally this class astracts awa..." alt="" coords="425,435,524,461"/>
+<area shape="rect" id="node5" href="$d4/de7/classboca_1_1Identification.html" title="boca::Identification" alt="" coords="5,481,137,508"/>
+<area shape="rect" id="node7" href="$df/d8a/classboca_1_1JetInfo.html" title="Jet infos subclassed from Fastjet. " alt="" coords="206,407,305,433"/>
+<area shape="rect" id="node9" href="$d6/dfb/classboca_1_1Vector2.html" title="Copy of root::TVector2 in order to get rid of TObject. " alt="" coords="204,457,307,484"/>
+<area shape="rect" id="node10" href="$d4/d01/classboca_1_1Doublet.html" title="boca::Doublet" alt="" coords="1587,461,1690,488"/>
+<area shape="rect" id="node15" href="$de/dad/classboca_1_1Triplet.html" title="boca::Triplet" alt="" coords="2248,549,2343,576"/>
+<area shape="rect" id="node17" href="$db/d9b/classboca_1_1SubJettiness.html" title="boca::SubJettiness" alt="" coords="1902,640,2037,667"/>
+<area shape="rect" id="node18" href="$d1/d2f/classboca_1_1NSubJettiness.html" title="boca::NSubJettiness" alt="" coords="1567,672,1711,699"/>
+<area shape="rect" id="node19" href="$d6/d72/classboca_1_1Quintet.html" title="boca::Quintet" alt="" coords="2755,407,2855,433"/>
+</map>

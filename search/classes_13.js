@@ -1,8 +1,7 @@
 var searchData=
 [
-  ['whadronicbranch',['WHadronicBranch',['../d9/de0/classboca_1_1WHadronicBranch.html',1,'boca']]],
-  ['whadronictagger',['WHadronicTagger',['../d5/d1a/classboca_1_1WHadronicTagger.html',1,'boca']]],
-  ['wimpmass',['WimpMass',['../d7/d46/classboca_1_1WimpMass.html',1,'boca']]],
-  ['wleptonictagger',['WLeptonicTagger',['../d6/dae/classboca_1_1WLeptonicTagger.html',1,'boca']]],
-  ['wsemibranch',['WSemiBranch',['../d1/dcc/classboca_1_1WSemiBranch.html',1,'boca']]]
+  ['vector2',['Vector2',['../d6/dfb/classboca_1_1Vector2.html',1,'boca']]],
+  ['vector3',['Vector3',['../d3/da2/classboca_1_1Vector3.html',1,'boca']]],
+  ['vetotoppartnerhadronictagger',['VetoTopPartnerHadronicTagger',['../d5/d18/classboca_1_1naturalness_1_1VetoTopPartnerHadronicTagger.html',1,'boca::naturalness']]],
+  ['vetotoppartnerleptonictagger',['VetoTopPartnerLeptonicTagger',['../d5/db3/classboca_1_1naturalness_1_1VetoTopPartnerLeptonicTagger.html',1,'boca::naturalness']]]
 ];

@@ -1,5 +1,5 @@
 <map id="boca::naturalness::TopPartnerTopPairTagger" name="boca::naturalness::TopPartnerTopPairTagger">
-<area shape="rect" id="node2" href="$dd/d4b/classboca_1_1BranchTagger.html" title="boca::BranchTagger\l\&lt; MultiBranch \&gt;" alt="" coords="21,185,160,227"/>
-<area shape="rect" id="node3" href="$da/d42/classboca_1_1Tagger.html" title="Prepares multivariant analysis. " alt="" coords="55,5,153,32"/>
-<area shape="rect" id="node4" href="$dd/d4b/classboca_1_1BranchTagger.html" title="Tagger base class using Branch template. " alt="" coords="107,81,248,123"/>
+<area shape="rect" id="node2" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; Octet53, MultiBranch \&gt;" alt="" coords="6,200,175,241"/>
+<area shape="rect" id="node3" href="$da/d42/classboca_1_1Tagger.html" title="Prepares multivariant analysis. " alt="" coords="56,5,155,32"/>
+<area shape="rect" id="node4" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="Tagger base class using Branch template. " alt="" coords="107,81,259,137"/>
 </map>

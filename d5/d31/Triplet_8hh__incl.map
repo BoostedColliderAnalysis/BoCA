@@ -1,19 +1,20 @@
 <map id="include/Triplet.hh" name="include/Triplet.hh">
-<area shape="rect" id="node2" href="$df/d3a/Doublet_8hh.html" title="Doublet.hh" alt="" coords="269,80,355,107"/>
-<area shape="rect" id="node3" href="$d0/d32/TwoBody_8hh.html" title="TwoBody.hh" alt="" coords="319,155,414,181"/>
-<area shape="rect" id="node4" href="$db/d60/Singlet_8hh.html" title="Singlet.hh" alt="" coords="268,304,348,331"/>
-<area shape="rect" id="node18" href="$d0/d7f/Multiplet_8hh.html" title="Multiplet.hh" alt="" coords="346,229,435,256"/>
-<area shape="rect" id="node19" href="$d3/d7e/Vector_8hh.html" title="Vector.hh" alt="" coords="526,229,605,256"/>
-<area shape="rect" id="node5" href="$d1/dce/JetInfo_8hh.html" title="JetInfo.hh" alt="" coords="168,379,248,405"/>
-<area shape="rect" id="node16" href="$da/db5/MultipletBase_8hh.html" title="MultipletBase.hh" alt="" coords="287,379,406,405"/>
-<area shape="rect" id="node7" href="$d8/d85/Identification_8hh.html" title="Identification.hh" alt="" coords="136,453,251,480"/>
-<area shape="rect" id="node9" href="$d3/d32/Constituent_8hh.html" title="Constituent.hh" alt="" coords="5,453,112,480"/>
-<area shape="rect" id="node10" href="$d0/d9c/Family_8hh.html" title="Family.hh" alt="" coords="57,528,135,555"/>
-<area shape="rect" id="node12" href="$dd/df5/Particle_8hh.html" title="Particle.hh" alt="" coords="223,603,307,629"/>
-<area shape="rect" id="node13" href="$db/da5/Particles_8hh.html" title="Particles.hh" alt="" coords="387,677,477,704"/>
-<area shape="rect" id="node14" href="$d6/dc8/LorentzVector_8hh.html" title="LorentzVector.hh" alt="" coords="205,677,326,704"/>
-<area shape="rect" id="node15" href="$d1/df9/Vector3_8hh.html" title="Vector3.hh" alt="" coords="223,752,308,779"/>
-<area shape="rect" id="node17" href="$db/d8e/Vector2_8hh.html" title="Vector2.hh" alt="" coords="443,453,528,480"/>
-<area shape="rect" id="node20" href="$db/d66/DetectorGeometry_8hh.html" title="DetectorGeometry.hh" alt="" coords="604,304,751,331"/>
-<area shape="rect" id="node21" href="$df/de2/InfoRecombiner_8hh.html" title="InfoRecombiner.hh" alt="" coords="613,379,745,405"/>
+<area shape="rect" id="node2" href="$df/d3a/Doublet_8hh.html" title="Doublet.hh" alt="" coords="967,80,1052,107"/>
+<area shape="rect" id="node41" href="$d1/dcf/SubJettiness_8hh.html" title="SubJettiness.hh" alt="" coords="1077,80,1193,107"/>
+<area shape="rect" id="node3" href="$d0/d32/TwoBody_8hh.html" title="TwoBody.hh" alt="" coords="1017,155,1111,181"/>
+<area shape="rect" id="node4" href="$db/d60/Singlet_8hh.html" title="Singlet.hh" alt="" coords="965,304,1045,331"/>
+<area shape="rect" id="node33" href="$d0/d7f/Multiplet_8hh.html" title="Multiplet.hh" alt="" coords="1043,229,1133,256"/>
+<area shape="rect" id="node34" href="$d3/d7e/Vector_8hh.html" title="Vector.hh" alt="" coords="1367,379,1446,405"/>
+<area shape="rect" id="node5" href="$d1/dce/JetInfo_8hh.html" title="JetInfo.hh" alt="" coords="791,379,871,405"/>
+<area shape="rect" id="node31" href="$da/db5/MultipletBase_8hh.html" title="MultipletBase.hh" alt="" coords="994,379,1113,405"/>
+<area shape="rect" id="node7" href="$d8/d85/Identification_8hh.html" title="Identification.hh" alt="" coords="773,461,888,487"/>
+<area shape="rect" id="node9" href="$d3/d32/Constituent_8hh.html" title="Constituent.hh" alt="" coords="411,461,517,487"/>
+<area shape="rect" id="node12" href="$d7/d7f/Math_8hh.html" title="Math.hh" alt="" coords="680,461,749,487"/>
+<area shape="rect" id="node10" href="$d6/dc8/LorentzVector_8hh.html" title="LorentzVector.hh" alt="" coords="126,550,247,577"/>
+<area shape="rect" id="node11" href="$d1/df9/Vector3_8hh.html" title="Vector3.hh" alt="" coords="5,639,91,666"/>
+<area shape="rect" id="node17" href="$dc/d45/Units_8hh.html" title="Units.hh" alt="" coords="1259,550,1330,577"/>
+<area shape="rect" id="node32" href="$db/d8e/Vector2_8hh.html" title="Vector2.hh" alt="" coords="1080,461,1165,487"/>
+<area shape="rect" id="node37" href="$db/da5/Particles_8hh.html" title="Particles.hh" alt="" coords="1291,461,1381,487"/>
+<area shape="rect" id="node38" href="$db/d66/DetectorGeometry_8hh.html" title="DetectorGeometry.hh" alt="" coords="1747,461,1893,487"/>
+<area shape="rect" id="node39" href="$df/de2/InfoRecombiner_8hh.html" title="InfoRecombiner.hh" alt="" coords="2126,550,2258,577"/>
 </map>

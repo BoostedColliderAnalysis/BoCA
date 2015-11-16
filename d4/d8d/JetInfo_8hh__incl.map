@@ -1,9 +1,8 @@
 <map id="include/JetInfo.hh" name="include/JetInfo.hh">
-<area shape="rect" id="node3" href="$d8/d85/Identification_8hh.html" title="Identification.hh" alt="" coords="121,155,235,181"/>
-<area shape="rect" id="node5" href="$d3/d32/Constituent_8hh.html" title="Constituent.hh" alt="" coords="238,80,345,107"/>
-<area shape="rect" id="node6" href="$d0/d9c/Family_8hh.html" title="Family.hh" alt="" coords="260,155,339,181"/>
-<area shape="rect" id="node8" href="$dd/df5/Particle_8hh.html" title="Particle.hh" alt="" coords="324,229,408,256"/>
-<area shape="rect" id="node9" href="$db/da5/Particles_8hh.html" title="Particles.hh" alt="" coords="215,304,306,331"/>
-<area shape="rect" id="node10" href="$d6/dc8/LorentzVector_8hh.html" title="LorentzVector.hh" alt="" coords="331,304,452,331"/>
-<area shape="rect" id="node11" href="$d1/df9/Vector3_8hh.html" title="Vector3.hh" alt="" coords="349,379,434,405"/>
+<area shape="rect" id="node3" href="$d8/d85/Identification_8hh.html" title="Identification.hh" alt="" coords="173,80,287,107"/>
+<area shape="rect" id="node5" href="$d3/d32/Constituent_8hh.html" title="Constituent.hh" alt="" coords="311,80,418,107"/>
+<area shape="rect" id="node8" href="$d7/d7f/Math_8hh.html" title="Math.hh" alt="" coords="859,80,929,107"/>
+<area shape="rect" id="node6" href="$d6/dc8/LorentzVector_8hh.html" title="LorentzVector.hh" alt="" coords="292,162,413,189"/>
+<area shape="rect" id="node7" href="$d1/df9/Vector3_8hh.html" title="Vector3.hh" alt="" coords="210,251,295,278"/>
+<area shape="rect" id="node13" href="$dc/d45/Units_8hh.html" title="Units.hh" alt="" coords="1443,162,1513,189"/>
 </map>

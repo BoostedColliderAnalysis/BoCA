@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['jet',['Jet',['../d2/dec/namespacedelphes.html#a352fe93d423a03e1628e862ebebc748c',1,'delphes::Jet()'],['../d7/d9a/namespaceexroot.html#a172720e1112c65d84a6d3a1fcc2039f7',1,'exroot::Jet()']]],
-  ['jets',['Jets',['../da/d7d/namespaceboca.html#ae0605431bf3b44ebac8b76c97d5e310d',1,'boca']]]
+  ['genevent',['GenEvent',['../d7/d9a/namespaceexroot.html#a1e2b7b668dfc14b3654d19ad20698486',1,'exroot']]],
+  ['genjet',['GenJet',['../d7/d9a/namespaceexroot.html#afc1324cca20bfb08dc9adff1e5f25fc8',1,'exroot']]],
+  ['genparticle',['GenParticle',['../d2/dec/namespacedelphes.html#a5fc92cade2d848f540c44e53a6af2227',1,'delphes::GenParticle()'],['../d7/d9a/namespaceexroot.html#a5d8b4340b0e920009edd10fdb26e10a3',1,'exroot::GenParticle()']]]
 ];

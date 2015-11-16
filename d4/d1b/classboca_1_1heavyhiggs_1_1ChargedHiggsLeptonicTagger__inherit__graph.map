@@ -1,5 +1,5 @@
 <map id="boca::heavyhiggs::ChargedHiggsLeptonicTagger" name="boca::heavyhiggs::ChargedHiggsLeptonicTagger">
-<area shape="rect" id="node2" href="$dd/d4b/classboca_1_1BranchTagger.html" title="boca::BranchTagger\l\&lt; ChargedHiggsLeptonicBranch \&gt;" alt="" coords="5,185,224,227"/>
-<area shape="rect" id="node3" href="$da/d42/classboca_1_1Tagger.html" title="Prepares multivariant analysis. " alt="" coords="79,5,177,32"/>
-<area shape="rect" id="node4" href="$dd/d4b/classboca_1_1BranchTagger.html" title="Tagger base class using Branch template. " alt="" coords="131,81,272,123"/>
+<area shape="rect" id="node2" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; Triplet, ChargedHiggsLeptonic\lBranch \&gt;" alt="" coords="5,215,216,271"/>
+<area shape="rect" id="node3" href="$da/d42/classboca_1_1Tagger.html" title="Prepares multivariant analysis. " alt="" coords="76,5,175,32"/>
+<area shape="rect" id="node4" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="Tagger base class using Branch template. " alt="" coords="127,81,279,137"/>
 </map>

@@ -1,6 +1,7 @@
 <map id="boca::BottomBase" name="boca::BottomBase">
-<area shape="rect" id="node2" href="$dc/dd8/classboca_1_1BottomBranch.html" title="Bottom tagger root tree structure. " alt="" coords="200,5,341,32"/>
-<area shape="rect" id="node3" href="$de/d55/classboca_1_1HiggsBranch.html" title="Higgs tagger root tree structure. " alt="" coords="204,56,337,83"/>
-<area shape="rect" id="node4" href="$d0/dc8/classboca_1_1TopHadronicBranch.html" title="Top tagger root tree structure. " alt="" coords="184,107,357,133"/>
-<area shape="rect" id="node5" href="$d6/d37/classboca_1_1TopLeptonicBranch.html" title="Top tagger root tree structure. " alt="" coords="185,157,356,184"/>
+<area shape="rect" id="node2" href="$db/dd1/classboca_1_1standardmodel_1_1BottomBranch.html" title="Bottom tagger root tree structure. " alt="" coords="185,5,328,47"/>
+<area shape="rect" id="node3" href="$d3/d7d/classboca_1_1standardmodel_1_1HiggsBranch.html" title="Higgs tagger root tree structure. " alt="" coords="185,71,328,112"/>
+<area shape="rect" id="node4" href="$d7/de3/classboca_1_1standardmodel_1_1TopHadronicBranch.html" title="Top tagger root tree structure. " alt="" coords="184,136,329,177"/>
+<area shape="rect" id="node5" href="$d0/dbf/classboca_1_1standardmodel_1_1TopLeptonicBranch.html" title="Top tagger root tree structure. " alt="" coords="185,201,328,243"/>
+<area shape="rect" id="node6" href="$da/d2b/classboca_1_1standardmodel_1_1ZHadronicBranch.html" title="Z tagger root tree structure. " alt="" coords="185,267,328,308"/>
 </map>

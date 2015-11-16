@@ -1,0 +1,5 @@
+<map id="boca::higgscpv::EventLeptonTTagger" name="boca::higgscpv::EventLeptonTTagger">
+<area shape="rect" id="node2" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; MultipletEvent\&lt; Octet332\l \&gt;, EventBranch \&gt;" alt="" coords="9,215,192,271"/>
+<area shape="rect" id="node3" href="$da/d42/classboca_1_1Tagger.html" title="Prepares multivariant analysis. " alt="" coords="66,5,165,32"/>
+<area shape="rect" id="node4" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="Tagger base class using Branch template. " alt="" coords="117,81,269,137"/>
+</map>

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.9.1"/>
-<title>Analysis: TopPartner/include/BranchesTopPartner.hh Source File</title>
+<title>BoCA: TopPartner/include/BranchesTopPartner.hh Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -14,6 +14,12 @@
 <script type="text/javascript">
   $(document).ready(function() { init_search(); });
 </script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="../../doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -23,8 +29,9 @@
  <tbody>
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
-   <div id="projectname">Analysis
+   <div id="projectname">BoCA
    </div>
+   <div id="projectbrief">Boosted Collider Analysis</div>
   </td>
  </tr>
  </tbody>
@@ -38,6 +45,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="../../index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="../../pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="../../namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="../../annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="../../files.html"><span>Files</span></a></li>
@@ -93,99 +101,129 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;../../include/Branches.hh&quot;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d0/dfd/namespaceanalysis.html">analysis</a> {</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">namespace </span>toppartner {</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="../../da/d34/classanalysis_1_1toppartner_1_1TopPartnerBranch.html">   14</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../da/d34/classanalysis_1_1toppartner_1_1TopPartnerBranch.html">TopPartnerBranch</a> : <span class="keyword">public</span> <a class="code" href="../../d9/d78/classanalysis_1_1MultiBranch.html">MultiBranch</a> {</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> Multiplet&gt;</div>
-<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="../../da/d34/classanalysis_1_1toppartner_1_1TopPartnerBranch.html#a98f92a784b1707c3a90a6526633871c9">   19</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../da/d34/classanalysis_1_1toppartner_1_1TopPartnerBranch.html#a98f92a784b1707c3a90a6526633871c9">Fill</a>(<span class="keyword">const</span> <a class="code" href="../../d4/df5/classanalysis_1_1Multiplet.html">Multiplet</a>&amp; multiplet)</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    {</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <a class="code" href="../../d9/d78/classanalysis_1_1MultiBranch.html#acd52d1f5c02ee3061a96039209684e27">MultiBranch::Fill</a>(multiplet);</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../da/d7d/namespaceboca.html">boca</a></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;{</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">namespace </span>naturalness</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;{</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="../../d8/dce/classboca_1_1naturalness_1_1TopPartnerBranch.html">   16</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d8/dce/classboca_1_1naturalness_1_1TopPartnerBranch.html">TopPartnerBranch</a> : <span class="keyword">public</span> <a class="code" href="../../db/df3/classboca_1_1MultiBranch.html">MultiBranch</a></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;{</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> Multiplet&gt;</div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="../../d8/dce/classboca_1_1naturalness_1_1TopPartnerBranch.html#a80ebefcba50bae4238b57c563c94e89f">   20</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d8/dce/classboca_1_1naturalness_1_1TopPartnerBranch.html#a80ebefcba50bae4238b57c563c94e89f">Fill</a>(<a class="code" href="../../d1/d5c/classboca_1_1Multiplet.html">Multiplet</a> <span class="keyword">const</span>&amp; multiplet) {</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <a class="code" href="../../db/df3/classboca_1_1MultiBranch.html#a7a5c6d2d35e98fbd553d378b3912f48b">MultiBranch::Fill</a>(multiplet);</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    }</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    ClassDef(<a class="code" href="../../da/d34/classanalysis_1_1toppartner_1_1TopPartnerBranch.html">TopPartnerBranch</a>, 1)</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;};</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="../../d9/d0a/classanalysis_1_1toppartner_1_1HiggsPairBranch.html">   35</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d9/d0a/classanalysis_1_1toppartner_1_1HiggsPairBranch.html">HiggsPairBranch</a> : <span class="keyword">public</span> <a class="code" href="../../d9/d78/classanalysis_1_1MultiBranch.html">MultiBranch</a> {</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> Multiplet&gt;</div>
-<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="../../d9/d0a/classanalysis_1_1toppartner_1_1HiggsPairBranch.html#ac798671b3c9e42d1b075db7a7ded300b">   40</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d9/d0a/classanalysis_1_1toppartner_1_1HiggsPairBranch.html#ac798671b3c9e42d1b075db7a7ded300b">Fill</a>(<span class="keyword">const</span> <a class="code" href="../../d4/df5/classanalysis_1_1Multiplet.html">Multiplet</a>&amp; multiplet)</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    {</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <a class="code" href="../../d9/d78/classanalysis_1_1MultiBranch.html#acd52d1f5c02ee3061a96039209684e27">MultiBranch::Fill</a>(multiplet);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    }</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    ClassDef(<a class="code" href="../../d9/d0a/classanalysis_1_1toppartner_1_1HiggsPairBranch.html">HiggsPairBranch</a>, 1)</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;};</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="../../d7/d85/classanalysis_1_1toppartner_1_1SignatureBranch.html">   51</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d7/d85/classanalysis_1_1toppartner_1_1SignatureBranch.html">SignatureBranch</a> : <span class="keyword">public</span> <a class="code" href="../../d9/d78/classanalysis_1_1MultiBranch.html">MultiBranch</a> {</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> Multiplet&gt;</div>
-<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="../../d7/d85/classanalysis_1_1toppartner_1_1SignatureBranch.html#a92b30a59fffdc5cf7c64d3c4b3839916">   56</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d7/d85/classanalysis_1_1toppartner_1_1SignatureBranch.html#a92b30a59fffdc5cf7c64d3c4b3839916">Fill</a>(<span class="keyword">const</span> <a class="code" href="../../d4/df5/classanalysis_1_1Multiplet.html">Multiplet</a>&amp; multiplet)</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    {</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <a class="code" href="../../d9/d78/classanalysis_1_1MultiBranch.html#acd52d1f5c02ee3061a96039209684e27">MultiBranch::Fill</a>(multiplet);</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    }</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    ClassDef(<a class="code" href="../../d7/d85/classanalysis_1_1toppartner_1_1SignatureBranch.html">SignatureBranch</a>, 1)</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;};</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
-<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="../../d2/de7/classanalysis_1_1toppartner_1_1EventBranch.html">   67</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d2/de7/classanalysis_1_1toppartner_1_1EventBranch.html">EventBranch</a> : <span class="keyword">public</span> <a class="code" href="../../d0/d06/classanalysis_1_1EventBranch.html">analysis::EventBranch</a> {</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    ClassDef(<a class="code" href="../../d8/dce/classboca_1_1naturalness_1_1TopPartnerBranch.html">TopPartnerBranch</a>, 1)</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;};</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="../../de/d3b/classboca_1_1naturalness_1_1HiggsPairBranch.html">   32</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../de/d3b/classboca_1_1naturalness_1_1HiggsPairBranch.html">HiggsPairBranch</a> : <span class="keyword">public</span> <a class="code" href="../../db/df3/classboca_1_1MultiBranch.html">MultiBranch</a></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;{</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> Multiplet&gt;</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="../../de/d3b/classboca_1_1naturalness_1_1HiggsPairBranch.html#a9e7f808ea6f4c3d0be841a342103288d">   36</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../de/d3b/classboca_1_1naturalness_1_1HiggsPairBranch.html#a9e7f808ea6f4c3d0be841a342103288d">Fill</a>(<a class="code" href="../../d1/d5c/classboca_1_1Multiplet.html">Multiplet</a> <span class="keyword">const</span>&amp; multiplet) {</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <a class="code" href="../../db/df3/classboca_1_1MultiBranch.html#a7a5c6d2d35e98fbd553d378b3912f48b">MultiBranch::Fill</a>(multiplet);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    }</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    ClassDef(<a class="code" href="../../de/d3b/classboca_1_1naturalness_1_1HiggsPairBranch.html">HiggsPairBranch</a>, 1)</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;};</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="../../d1/d93/classboca_1_1naturalness_1_1SignatureBranch.html">   43</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d1/d93/classboca_1_1naturalness_1_1SignatureBranch.html">SignatureBranch</a> : <span class="keyword">public</span> <a class="code" href="../../db/df3/classboca_1_1MultiBranch.html">MultiBranch</a></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;{</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> Multiplet&gt;</div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="../../d1/d93/classboca_1_1naturalness_1_1SignatureBranch.html#a3f72d0569dd2688df8ebf0edadc30772">   47</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d1/d93/classboca_1_1naturalness_1_1SignatureBranch.html#a3f72d0569dd2688df8ebf0edadc30772">Fill</a>(<a class="code" href="../../d1/d5c/classboca_1_1Multiplet.html">Multiplet</a> <span class="keyword">const</span>&amp; multiplet) {</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <a class="code" href="../../db/df3/classboca_1_1MultiBranch.html#a7a5c6d2d35e98fbd553d378b3912f48b">MultiBranch::Fill</a>(multiplet);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    }</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    ClassDef(<a class="code" href="../../d1/d93/classboca_1_1naturalness_1_1SignatureBranch.html">SignatureBranch</a>, 1)</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;};</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="../../d3/d9b/classboca_1_1naturalness_1_1SignatureSingleBranch.html">   54</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d3/d9b/classboca_1_1naturalness_1_1SignatureSingleBranch.html">SignatureSingleBranch</a> : <span class="keyword">public</span> <a class="code" href="../../d9/d7b/classboca_1_1TChannelBranch.html">TChannelBranch</a></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;{</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  <a class="code" href="../../d3/d9b/classboca_1_1naturalness_1_1SignatureSingleBranch.html#afd85aa58370f8bbe1aabfe87a6d2a341">SignatureSingleBranch</a>();</div>
+<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="../../d3/d9b/classboca_1_1naturalness_1_1SignatureSingleBranch.html#a72e22861af41bc30c3dd89fd084da026">   58</a></span>&#160;  <span class="keywordtype">float</span> <a class="code" href="../../d3/d9b/classboca_1_1naturalness_1_1SignatureSingleBranch.html#a72e22861af41bc30c3dd89fd084da026">VetoBdt</a>;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  <span class="keyword">template</span>&lt;<span class="keyword">typename</span> Multiplet&gt;</div>
+<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="../../d3/d9b/classboca_1_1naturalness_1_1SignatureSingleBranch.html#a325e73eb0d833a8f3b09b62bc29036b0">   60</a></span>&#160;  <span class="keywordtype">void</span> <a class="code" href="../../d3/d9b/classboca_1_1naturalness_1_1SignatureSingleBranch.html#a325e73eb0d833a8f3b09b62bc29036b0">Fill</a>(<a class="code" href="../../d1/d5c/classboca_1_1Multiplet.html">Multiplet</a> <span class="keyword">const</span>&amp; multiplet) {</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <a class="code" href="../../d9/d7b/classboca_1_1TChannelBranch.html#ad476c296698d26c84c7b521a99dcd717">TChannelBranch::Fill</a>(multiplet);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    VetoBdt = multiplet.VetoBdt();</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  }</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  <a class="code" href="../../da/d7d/namespaceboca.html#af345b21a82dc7202f67e8e0f77ef962b">Observables</a> <a class="code" href="../../d3/d9b/classboca_1_1naturalness_1_1SignatureSingleBranch.html#a38ec0c90ca37678d0b3038b918441106">Variables</a>();</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  ClassDef(<a class="code" href="../../d3/d9b/classboca_1_1naturalness_1_1SignatureSingleBranch.html">SignatureSingleBranch</a>, 1)</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;};</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> Multiplet&gt;</div>
-<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="../../d2/de7/classanalysis_1_1toppartner_1_1EventBranch.html#ae0e46d3ded1907f97d3418165c2d5f2c">   71</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d2/de7/classanalysis_1_1toppartner_1_1EventBranch.html#ae0e46d3ded1907f97d3418165c2d5f2c">Fill</a>(<span class="keyword">const</span> <a class="code" href="../../d4/df5/classanalysis_1_1Multiplet.html">Multiplet</a>&amp; multiplet)</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    {</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <a class="code" href="../../d0/d06/classanalysis_1_1EventBranch.html#a5202725584ed18cdb50bfe6d3c6fc3e5">analysis::EventBranch::Fill</a>(multiplet);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    }</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <a class="code" href="../../d0/dfd/namespaceanalysis.html#a94da2a084cabc69bf92490c2dc5f0c77">Observables</a> <a class="code" href="../../d2/de7/classanalysis_1_1toppartner_1_1EventBranch.html#a28d420f17f1d724fde685eb3d7994403">Variables</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <a class="code" href="../../d0/dfd/namespaceanalysis.html#a94da2a084cabc69bf92490c2dc5f0c77">Observables</a> <a class="code" href="../../d2/de7/classanalysis_1_1toppartner_1_1EventBranch.html#a8bef675c7af181621123430bf84cfd1e">Spectators</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    ClassDef(<a class="code" href="../../d2/de7/classanalysis_1_1toppartner_1_1EventBranch.html">EventBranch</a>, 1)</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;};</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;}</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;}</div>
-<div class="ttc" id="classanalysis_1_1EventBranch_html"><div class="ttname"><a href="../../d0/d06/classanalysis_1_1EventBranch.html">analysis::EventBranch</a></div><div class="ttdoc">Class for saving event informations to root. </div><div class="ttdef"><b>Definition:</b> Branches.hh:473</div></div>
-<div class="ttc" id="classanalysis_1_1toppartner_1_1TopPartnerBranch_html_a98f92a784b1707c3a90a6526633871c9"><div class="ttname"><a href="../../da/d34/classanalysis_1_1toppartner_1_1TopPartnerBranch.html#a98f92a784b1707c3a90a6526633871c9">analysis::toppartner::TopPartnerBranch::Fill</a></div><div class="ttdeci">void Fill(const Multiplet &amp;multiplet)</div><div class="ttdef"><b>Definition:</b> BranchesTopPartner.hh:19</div></div>
-<div class="ttc" id="classanalysis_1_1EventBranch_html_a5202725584ed18cdb50bfe6d3c6fc3e5"><div class="ttname"><a href="../../d0/d06/classanalysis_1_1EventBranch.html#a5202725584ed18cdb50bfe6d3c6fc3e5">analysis::EventBranch::Fill</a></div><div class="ttdeci">void Fill(const Multiplet &amp;multiplet)</div><div class="ttdef"><b>Definition:</b> Branches.hh:491</div></div>
-<div class="ttc" id="classanalysis_1_1toppartner_1_1EventBranch_html_a8bef675c7af181621123430bf84cfd1e"><div class="ttname"><a href="../../d2/de7/classanalysis_1_1toppartner_1_1EventBranch.html#a8bef675c7af181621123430bf84cfd1e">analysis::toppartner::EventBranch::Spectators</a></div><div class="ttdeci">Observables Spectators() const </div><div class="ttdef"><b>Definition:</b> BranchesTopPartner.cpp:15</div></div>
-<div class="ttc" id="namespaceanalysis_html"><div class="ttname"><a href="../../d0/dfd/namespaceanalysis.html">analysis</a></div><div class="ttdoc">analysis namespace containing the general analysis and SM taggers </div><div class="ttdef"><b>Definition:</b> AnalysisCharged.hh:5</div></div>
-<div class="ttc" id="classanalysis_1_1toppartner_1_1TopPartnerBranch_html"><div class="ttname"><a href="../../da/d34/classanalysis_1_1toppartner_1_1TopPartnerBranch.html">analysis::toppartner::TopPartnerBranch</a></div><div class="ttdoc">Higgs cpv tagger root tree structure. </div><div class="ttdef"><b>Definition:</b> BranchesTopPartner.hh:14</div></div>
-<div class="ttc" id="classanalysis_1_1Multiplet_html"><div class="ttname"><a href="../../d4/df5/classanalysis_1_1Multiplet.html">analysis::Multiplet</a></div><div class="ttdef"><b>Definition:</b> Multiplet.hh:9</div></div>
-<div class="ttc" id="classanalysis_1_1toppartner_1_1SignatureBranch_html_a92b30a59fffdc5cf7c64d3c4b3839916"><div class="ttname"><a href="../../d7/d85/classanalysis_1_1toppartner_1_1SignatureBranch.html#a92b30a59fffdc5cf7c64d3c4b3839916">analysis::toppartner::SignatureBranch::Fill</a></div><div class="ttdeci">void Fill(const Multiplet &amp;multiplet)</div><div class="ttdef"><b>Definition:</b> BranchesTopPartner.hh:56</div></div>
-<div class="ttc" id="classanalysis_1_1toppartner_1_1EventBranch_html_ae0e46d3ded1907f97d3418165c2d5f2c"><div class="ttname"><a href="../../d2/de7/classanalysis_1_1toppartner_1_1EventBranch.html#ae0e46d3ded1907f97d3418165c2d5f2c">analysis::toppartner::EventBranch::Fill</a></div><div class="ttdeci">void Fill(const Multiplet &amp;multiplet)</div><div class="ttdef"><b>Definition:</b> BranchesTopPartner.hh:71</div></div>
-<div class="ttc" id="namespaceanalysis_html_a94da2a084cabc69bf92490c2dc5f0c77"><div class="ttname"><a href="../../d0/dfd/namespaceanalysis.html#a94da2a084cabc69bf92490c2dc5f0c77">analysis::Observables</a></div><div class="ttdeci">std::vector&lt; Obs &gt; Observables</div><div class="ttdef"><b>Definition:</b> Branches.hh:23</div></div>
-<div class="ttc" id="classanalysis_1_1MultiBranch_html_acd52d1f5c02ee3061a96039209684e27"><div class="ttname"><a href="../../d9/d78/classanalysis_1_1MultiBranch.html#acd52d1f5c02ee3061a96039209684e27">analysis::MultiBranch::Fill</a></div><div class="ttdeci">void Fill(const Multiplet &amp;multiplet)</div><div class="ttdef"><b>Definition:</b> Branches.hh:253</div></div>
-<div class="ttc" id="classanalysis_1_1toppartner_1_1HiggsPairBranch_html"><div class="ttname"><a href="../../d9/d0a/classanalysis_1_1toppartner_1_1HiggsPairBranch.html">analysis::toppartner::HiggsPairBranch</a></div><div class="ttdoc">Higgs cpv tagger root tree structure. </div><div class="ttdef"><b>Definition:</b> BranchesTopPartner.hh:35</div></div>
-<div class="ttc" id="classanalysis_1_1toppartner_1_1EventBranch_html"><div class="ttname"><a href="../../d2/de7/classanalysis_1_1toppartner_1_1EventBranch.html">analysis::toppartner::EventBranch</a></div><div class="ttdef"><b>Definition:</b> BranchesTopPartner.hh:67</div></div>
-<div class="ttc" id="classanalysis_1_1toppartner_1_1EventBranch_html_a28d420f17f1d724fde685eb3d7994403"><div class="ttname"><a href="../../d2/de7/classanalysis_1_1toppartner_1_1EventBranch.html#a28d420f17f1d724fde685eb3d7994403">analysis::toppartner::EventBranch::Variables</a></div><div class="ttdeci">Observables Variables() const </div><div class="ttdef"><b>Definition:</b> BranchesTopPartner.cpp:10</div></div>
-<div class="ttc" id="classanalysis_1_1MultiBranch_html"><div class="ttname"><a href="../../d9/d78/classanalysis_1_1MultiBranch.html">analysis::MultiBranch</a></div><div class="ttdef"><b>Definition:</b> Branches.hh:248</div></div>
-<div class="ttc" id="classanalysis_1_1toppartner_1_1SignatureBranch_html"><div class="ttname"><a href="../../d7/d85/classanalysis_1_1toppartner_1_1SignatureBranch.html">analysis::toppartner::SignatureBranch</a></div><div class="ttdef"><b>Definition:</b> BranchesTopPartner.hh:51</div></div>
-<div class="ttc" id="classanalysis_1_1toppartner_1_1HiggsPairBranch_html_ac798671b3c9e42d1b075db7a7ded300b"><div class="ttname"><a href="../../d9/d0a/classanalysis_1_1toppartner_1_1HiggsPairBranch.html#ac798671b3c9e42d1b075db7a7ded300b">analysis::toppartner::HiggsPairBranch::Fill</a></div><div class="ttdeci">void Fill(const Multiplet &amp;multiplet)</div><div class="ttdef"><b>Definition:</b> BranchesTopPartner.hh:40</div></div>
+<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="../../d2/d33/classboca_1_1naturalness_1_1SignatureSingleHadronicBranch.html">   69</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d2/d33/classboca_1_1naturalness_1_1SignatureSingleHadronicBranch.html">SignatureSingleHadronicBranch</a> : <span class="keyword">public</span> <a class="code" href="../../d9/d7b/classboca_1_1TChannelBranch.html">TChannelBranch</a></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;{</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <a class="code" href="../../d2/d33/classboca_1_1naturalness_1_1SignatureSingleHadronicBranch.html#a3e85655ed88c56c052c5a8bccbd1f7d9">SignatureSingleHadronicBranch</a>();</div>
+<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="../../d2/d33/classboca_1_1naturalness_1_1SignatureSingleHadronicBranch.html#a1baefc194d0800e6f87922a3db3cc9b8">   73</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d2/d33/classboca_1_1naturalness_1_1SignatureSingleHadronicBranch.html#a1baefc194d0800e6f87922a3db3cc9b8">VetoBdt</a>;</div>
+<div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="../../d2/d33/classboca_1_1naturalness_1_1SignatureSingleHadronicBranch.html#ad7f0115eefdf1f8f1b863df80269dbe4">   74</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d2/d33/classboca_1_1naturalness_1_1SignatureSingleHadronicBranch.html#ad7f0115eefdf1f8f1b863df80269dbe4">TopPt</a>;</div>
+<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="../../d2/d33/classboca_1_1naturalness_1_1SignatureSingleHadronicBranch.html#afad24f11f74ca4715258167feffffc05">   75</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d2/d33/classboca_1_1naturalness_1_1SignatureSingleHadronicBranch.html#afad24f11f74ca4715258167feffffc05">HiggsPt</a>;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> Multiplet&gt;</div>
+<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="../../d2/d33/classboca_1_1naturalness_1_1SignatureSingleHadronicBranch.html#aa9e7c4b8b95d07000ad0b657ea00d850">   77</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d2/d33/classboca_1_1naturalness_1_1SignatureSingleHadronicBranch.html#aa9e7c4b8b95d07000ad0b657ea00d850">Fill</a>(<a class="code" href="../../d1/d5c/classboca_1_1Multiplet.html">Multiplet</a> <span class="keyword">const</span>&amp; multiplet) {</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        <a class="code" href="../../d9/d7b/classboca_1_1TChannelBranch.html#ad476c296698d26c84c7b521a99dcd717">TChannelBranch::Fill</a>(multiplet);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        VetoBdt = multiplet.VetoBdt();</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        TopPt = multiplet.Triplet().<a class="code" href="../../d1/d5c/classboca_1_1Multiplet.html#a0803ef185def28cb549de8e9cdd3bbfe">Jet</a>().pt();</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        HiggsPt = multiplet.Doublet().<a class="code" href="../../d1/d5c/classboca_1_1Multiplet.html#a0803ef185def28cb549de8e9cdd3bbfe">Jet</a>().pt();</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    }</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <a class="code" href="../../da/d7d/namespaceboca.html#af345b21a82dc7202f67e8e0f77ef962b">Observables</a> <a class="code" href="../../d2/d33/classboca_1_1naturalness_1_1SignatureSingleHadronicBranch.html#ac946e2bf60f6c366a20e7ae2437524f7">Variables</a>();</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;  ClassDef(<a class="code" href="../../d2/d33/classboca_1_1naturalness_1_1SignatureSingleHadronicBranch.html">SignatureSingleHadronicBranch</a>, 1)</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;};</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
+<div class="line"><a name="l00088"></a><span class="lineno"><a class="line" href="../../d0/d21/classboca_1_1naturalness_1_1EventBranch.html">   88</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d0/d21/classboca_1_1naturalness_1_1EventBranch.html">EventBranch</a> : <span class="keyword">public</span> <a class="code" href="../../d9/dfc/classboca_1_1EventBranch.html">boca::EventBranch</a></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;{</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> Multiplet&gt;</div>
+<div class="line"><a name="l00092"></a><span class="lineno"><a class="line" href="../../d0/d21/classboca_1_1naturalness_1_1EventBranch.html#a984b52d26fc7ef56c14744d18c69647a">   92</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d0/d21/classboca_1_1naturalness_1_1EventBranch.html#a984b52d26fc7ef56c14744d18c69647a">Fill</a>(<a class="code" href="../../d1/d5c/classboca_1_1Multiplet.html">Multiplet</a> <span class="keyword">const</span>&amp; multiplet) {</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        <a class="code" href="../../d9/dfc/classboca_1_1EventBranch.html#aff56c491e7c94342f0322136510b698d">boca::EventBranch::Fill</a>(multiplet);</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    }</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <a class="code" href="../../da/d7d/namespaceboca.html#af345b21a82dc7202f67e8e0f77ef962b">Observables</a> <a class="code" href="../../d0/d21/classboca_1_1naturalness_1_1EventBranch.html#a99ce68c2d817c78322ea07a41dd2927a">Variables</a>();</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    ClassDef(<a class="code" href="../../d0/d21/classboca_1_1naturalness_1_1EventBranch.html">EventBranch</a>, 1)</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;};</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;}</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;}</div>
+<div class="ttc" id="classboca_1_1naturalness_1_1SignatureSingleHadronicBranch_html_aa9e7c4b8b95d07000ad0b657ea00d850"><div class="ttname"><a href="../../d2/d33/classboca_1_1naturalness_1_1SignatureSingleHadronicBranch.html#aa9e7c4b8b95d07000ad0b657ea00d850">boca::naturalness::SignatureSingleHadronicBranch::Fill</a></div><div class="ttdeci">void Fill(Multiplet const &amp;multiplet)</div><div class="ttdef"><b>Definition:</b> BranchesTopPartner.hh:77</div></div>
+<div class="ttc" id="classboca_1_1MultiBranch_html"><div class="ttname"><a href="../../db/df3/classboca_1_1MultiBranch.html">boca::MultiBranch</a></div><div class="ttdef"><b>Definition:</b> Branches.hh:194</div></div>
+<div class="ttc" id="classboca_1_1naturalness_1_1SignatureSingleHadronicBranch_html_a3e85655ed88c56c052c5a8bccbd1f7d9"><div class="ttname"><a href="../../d2/d33/classboca_1_1naturalness_1_1SignatureSingleHadronicBranch.html#a3e85655ed88c56c052c5a8bccbd1f7d9">boca::naturalness::SignatureSingleHadronicBranch::SignatureSingleHadronicBranch</a></div><div class="ttdeci">SignatureSingleHadronicBranch()</div><div class="ttdef"><b>Definition:</b> BranchesTopPartner.cpp:18</div></div>
+<div class="ttc" id="classboca_1_1naturalness_1_1SignatureSingleHadronicBranch_html_ac946e2bf60f6c366a20e7ae2437524f7"><div class="ttname"><a href="../../d2/d33/classboca_1_1naturalness_1_1SignatureSingleHadronicBranch.html#ac946e2bf60f6c366a20e7ae2437524f7">boca::naturalness::SignatureSingleHadronicBranch::Variables</a></div><div class="ttdeci">Observables Variables()</div><div class="ttdef"><b>Definition:</b> BranchesTopPartner.cpp:24</div></div>
+<div class="ttc" id="classboca_1_1naturalness_1_1HiggsPairBranch_html_a9e7f808ea6f4c3d0be841a342103288d"><div class="ttname"><a href="../../de/d3b/classboca_1_1naturalness_1_1HiggsPairBranch.html#a9e7f808ea6f4c3d0be841a342103288d">boca::naturalness::HiggsPairBranch::Fill</a></div><div class="ttdeci">void Fill(Multiplet const &amp;multiplet)</div><div class="ttdef"><b>Definition:</b> BranchesTopPartner.hh:36</div></div>
+<div class="ttc" id="classboca_1_1naturalness_1_1TopPartnerBranch_html"><div class="ttname"><a href="../../d8/dce/classboca_1_1naturalness_1_1TopPartnerBranch.html">boca::naturalness::TopPartnerBranch</a></div><div class="ttdoc">Higgs cpv tagger root tree structure. </div><div class="ttdef"><b>Definition:</b> BranchesTopPartner.hh:16</div></div>
+<div class="ttc" id="classboca_1_1naturalness_1_1EventBranch_html"><div class="ttname"><a href="../../d0/d21/classboca_1_1naturalness_1_1EventBranch.html">boca::naturalness::EventBranch</a></div><div class="ttdef"><b>Definition:</b> BranchesTopPartner.hh:88</div></div>
+<div class="ttc" id="classboca_1_1Multiplet_html_a0803ef185def28cb549de8e9cdd3bbfe"><div class="ttname"><a href="../../d1/d5c/classboca_1_1Multiplet.html#a0803ef185def28cb549de8e9cdd3bbfe">boca::Multiplet::Jet</a></div><div class="ttdeci">fastjet::PseudoJet Jet() const final</div><div class="ttdef"><b>Definition:</b> Multiplet.hh:26</div></div>
+<div class="ttc" id="classboca_1_1naturalness_1_1SignatureSingleHadronicBranch_html_afad24f11f74ca4715258167feffffc05"><div class="ttname"><a href="../../d2/d33/classboca_1_1naturalness_1_1SignatureSingleHadronicBranch.html#afad24f11f74ca4715258167feffffc05">boca::naturalness::SignatureSingleHadronicBranch::HiggsPt</a></div><div class="ttdeci">float HiggsPt</div><div class="ttdef"><b>Definition:</b> BranchesTopPartner.hh:75</div></div>
+<div class="ttc" id="classboca_1_1naturalness_1_1SignatureSingleHadronicBranch_html_a1baefc194d0800e6f87922a3db3cc9b8"><div class="ttname"><a href="../../d2/d33/classboca_1_1naturalness_1_1SignatureSingleHadronicBranch.html#a1baefc194d0800e6f87922a3db3cc9b8">boca::naturalness::SignatureSingleHadronicBranch::VetoBdt</a></div><div class="ttdeci">float VetoBdt</div><div class="ttdef"><b>Definition:</b> BranchesTopPartner.hh:73</div></div>
+<div class="ttc" id="classboca_1_1naturalness_1_1EventBranch_html_a99ce68c2d817c78322ea07a41dd2927a"><div class="ttname"><a href="../../d0/d21/classboca_1_1naturalness_1_1EventBranch.html#a99ce68c2d817c78322ea07a41dd2927a">boca::naturalness::EventBranch::Variables</a></div><div class="ttdeci">Observables Variables()</div><div class="ttdef"><b>Definition:</b> BranchesTopPartner.cpp:28</div></div>
+<div class="ttc" id="classboca_1_1naturalness_1_1SignatureSingleBranch_html_a72e22861af41bc30c3dd89fd084da026"><div class="ttname"><a href="../../d3/d9b/classboca_1_1naturalness_1_1SignatureSingleBranch.html#a72e22861af41bc30c3dd89fd084da026">boca::naturalness::SignatureSingleBranch::VetoBdt</a></div><div class="ttdeci">float VetoBdt</div><div class="ttdef"><b>Definition:</b> BranchesTopPartner.hh:58</div></div>
+<div class="ttc" id="classboca_1_1EventBranch_html"><div class="ttname"><a href="../../d9/dfc/classboca_1_1EventBranch.html">boca::EventBranch</a></div><div class="ttdoc">Class for saving event informations to root. </div><div class="ttdef"><b>Definition:</b> Branches.hh:383</div></div>
+<div class="ttc" id="classboca_1_1naturalness_1_1SignatureSingleBranch_html"><div class="ttname"><a href="../../d3/d9b/classboca_1_1naturalness_1_1SignatureSingleBranch.html">boca::naturalness::SignatureSingleBranch</a></div><div class="ttdef"><b>Definition:</b> BranchesTopPartner.hh:54</div></div>
+<div class="ttc" id="classboca_1_1naturalness_1_1SignatureBranch_html_a3f72d0569dd2688df8ebf0edadc30772"><div class="ttname"><a href="../../d1/d93/classboca_1_1naturalness_1_1SignatureBranch.html#a3f72d0569dd2688df8ebf0edadc30772">boca::naturalness::SignatureBranch::Fill</a></div><div class="ttdeci">void Fill(Multiplet const &amp;multiplet)</div><div class="ttdef"><b>Definition:</b> BranchesTopPartner.hh:47</div></div>
+<div class="ttc" id="classboca_1_1naturalness_1_1SignatureBranch_html"><div class="ttname"><a href="../../d1/d93/classboca_1_1naturalness_1_1SignatureBranch.html">boca::naturalness::SignatureBranch</a></div><div class="ttdef"><b>Definition:</b> BranchesTopPartner.hh:43</div></div>
+<div class="ttc" id="classboca_1_1EventBranch_html_aff56c491e7c94342f0322136510b698d"><div class="ttname"><a href="../../d9/dfc/classboca_1_1EventBranch.html#aff56c491e7c94342f0322136510b698d">boca::EventBranch::Fill</a></div><div class="ttdeci">void Fill(Multiplet const &amp;multiplet)</div><div class="ttdef"><b>Definition:</b> Branches.hh:402</div></div>
+<div class="ttc" id="classboca_1_1naturalness_1_1SignatureSingleHadronicBranch_html"><div class="ttname"><a href="../../d2/d33/classboca_1_1naturalness_1_1SignatureSingleHadronicBranch.html">boca::naturalness::SignatureSingleHadronicBranch</a></div><div class="ttdef"><b>Definition:</b> BranchesTopPartner.hh:69</div></div>
+<div class="ttc" id="classboca_1_1naturalness_1_1TopPartnerBranch_html_a80ebefcba50bae4238b57c563c94e89f"><div class="ttname"><a href="../../d8/dce/classboca_1_1naturalness_1_1TopPartnerBranch.html#a80ebefcba50bae4238b57c563c94e89f">boca::naturalness::TopPartnerBranch::Fill</a></div><div class="ttdeci">void Fill(Multiplet const &amp;multiplet)</div><div class="ttdef"><b>Definition:</b> BranchesTopPartner.hh:20</div></div>
+<div class="ttc" id="namespaceboca_html"><div class="ttname"><a href="../../da/d7d/namespaceboca.html">boca</a></div><div class="ttdoc">contains the general analysis and SM taggers </div><div class="ttdef"><b>Definition:</b> AnalysisCharged.hh:5</div></div>
+<div class="ttc" id="classboca_1_1naturalness_1_1HiggsPairBranch_html"><div class="ttname"><a href="../../de/d3b/classboca_1_1naturalness_1_1HiggsPairBranch.html">boca::naturalness::HiggsPairBranch</a></div><div class="ttdoc">Higgs cpv tagger root tree structure. </div><div class="ttdef"><b>Definition:</b> BranchesTopPartner.hh:32</div></div>
+<div class="ttc" id="classboca_1_1Multiplet_html"><div class="ttname"><a href="../../d1/d5c/classboca_1_1Multiplet.html">boca::Multiplet</a></div><div class="ttdef"><b>Definition:</b> Multiplet.hh:12</div></div>
+<div class="ttc" id="classboca_1_1TChannelBranch_html"><div class="ttname"><a href="../../d9/d7b/classboca_1_1TChannelBranch.html">boca::TChannelBranch</a></div><div class="ttdoc">Higgs cpv tagger root tree structure. </div><div class="ttdef"><b>Definition:</b> Branches.hh:215</div></div>
+<div class="ttc" id="classboca_1_1naturalness_1_1SignatureSingleBranch_html_a38ec0c90ca37678d0b3038b918441106"><div class="ttname"><a href="../../d3/d9b/classboca_1_1naturalness_1_1SignatureSingleBranch.html#a38ec0c90ca37678d0b3038b918441106">boca::naturalness::SignatureSingleBranch::Variables</a></div><div class="ttdeci">Observables Variables()</div><div class="ttdef"><b>Definition:</b> BranchesTopPartner.cpp:14</div></div>
+<div class="ttc" id="classboca_1_1MultiBranch_html_a7a5c6d2d35e98fbd553d378b3912f48b"><div class="ttname"><a href="../../db/df3/classboca_1_1MultiBranch.html#a7a5c6d2d35e98fbd553d378b3912f48b">boca::MultiBranch::Fill</a></div><div class="ttdeci">void Fill(Multiplet const &amp;multiplet)</div><div class="ttdef"><b>Definition:</b> Branches.hh:200</div></div>
+<div class="ttc" id="classboca_1_1naturalness_1_1SignatureSingleBranch_html_afd85aa58370f8bbe1aabfe87a6d2a341"><div class="ttname"><a href="../../d3/d9b/classboca_1_1naturalness_1_1SignatureSingleBranch.html#afd85aa58370f8bbe1aabfe87a6d2a341">boca::naturalness::SignatureSingleBranch::SignatureSingleBranch</a></div><div class="ttdeci">SignatureSingleBranch()</div><div class="ttdef"><b>Definition:</b> BranchesTopPartner.cpp:10</div></div>
+<div class="ttc" id="classboca_1_1naturalness_1_1EventBranch_html_a984b52d26fc7ef56c14744d18c69647a"><div class="ttname"><a href="../../d0/d21/classboca_1_1naturalness_1_1EventBranch.html#a984b52d26fc7ef56c14744d18c69647a">boca::naturalness::EventBranch::Fill</a></div><div class="ttdeci">void Fill(Multiplet const &amp;multiplet)</div><div class="ttdef"><b>Definition:</b> BranchesTopPartner.hh:92</div></div>
+<div class="ttc" id="classboca_1_1naturalness_1_1SignatureSingleHadronicBranch_html_ad7f0115eefdf1f8f1b863df80269dbe4"><div class="ttname"><a href="../../d2/d33/classboca_1_1naturalness_1_1SignatureSingleHadronicBranch.html#ad7f0115eefdf1f8f1b863df80269dbe4">boca::naturalness::SignatureSingleHadronicBranch::TopPt</a></div><div class="ttdeci">float TopPt</div><div class="ttdef"><b>Definition:</b> BranchesTopPartner.hh:74</div></div>
+<div class="ttc" id="classboca_1_1TChannelBranch_html_ad476c296698d26c84c7b521a99dcd717"><div class="ttname"><a href="../../d9/d7b/classboca_1_1TChannelBranch.html#ad476c296698d26c84c7b521a99dcd717">boca::TChannelBranch::Fill</a></div><div class="ttdeci">void Fill(Multiplet const &amp;multiplet)</div><div class="ttdef"><b>Definition:</b> Branches.hh:252</div></div>
+<div class="ttc" id="namespaceboca_html_af345b21a82dc7202f67e8e0f77ef962b"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#af345b21a82dc7202f67e8e0f77ef962b">boca::Observables</a></div><div class="ttdeci">std::vector&lt; boca::Obs &gt; Observables</div><div class="ttdef"><b>Definition:</b> Branches.hh:26</div></div>
+<div class="ttc" id="classboca_1_1naturalness_1_1SignatureSingleBranch_html_a325e73eb0d833a8f3b09b62bc29036b0"><div class="ttname"><a href="../../d3/d9b/classboca_1_1naturalness_1_1SignatureSingleBranch.html#a325e73eb0d833a8f3b09b62bc29036b0">boca::naturalness::SignatureSingleBranch::Fill</a></div><div class="ttdeci">void Fill(Multiplet const &amp;multiplet)</div><div class="ttdef"><b>Definition:</b> BranchesTopPartner.hh:60</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 1 2015 22:08:01 for Analysis by &#160;<a href="http://www.doxygen.org/index.html">
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

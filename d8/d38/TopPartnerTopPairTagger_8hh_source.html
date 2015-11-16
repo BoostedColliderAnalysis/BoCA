@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.9.1"/>
-<title>Analysis: TopPartner/include/TopPartnerTopPairTagger.hh Source File</title>
+<title>BoCA: TopPartner/include/TopPartnerTopPairTagger.hh Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -14,6 +14,12 @@
 <script type="text/javascript">
   $(document).ready(function() { init_search(); });
 </script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="../../doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -23,8 +29,9 @@
  <tbody>
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
-   <div id="projectname">Analysis
+   <div id="projectname">BoCA
    </div>
+   <div id="projectbrief">Boosted Collider Analysis</div>
   </td>
  </tr>
  </tbody>
@@ -38,6 +45,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="../../index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="../../pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="../../namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="../../annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="../../files.html"><span>Files</span></a></li>
@@ -96,70 +104,52 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d4/d5c/TopHadronicTagger_8hh.html">TopHadronicTagger.hh</a>&quot;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d9/d80/BranchesTopPartner_8hh.html">BranchesTopPartner.hh</a>&quot;</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d0/dfd/namespaceanalysis.html">analysis</a> {</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../da/d7d/namespaceboca.html">boca</a> {</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">namespace </span>toppartner {</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">namespace </span>naturalness {</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="../../df/d97/classanalysis_1_1toppartner_1_1TopPartnerTopPairTagger.html">   16</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../df/d97/classanalysis_1_1toppartner_1_1TopPartnerTopPairTagger.html">TopPartnerTopPairTagger</a> : <span class="keyword">public</span> <a class="code" href="../../da/d69/classanalysis_1_1BranchTagger.html">BranchTagger</a>&lt;MultiBranch&gt; {</div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="../../d0/dea/classboca_1_1naturalness_1_1TopPartnerTopPairTagger.html">   16</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d0/dea/classboca_1_1naturalness_1_1TopPartnerTopPairTagger.html">TopPartnerTopPairTagger</a> : <span class="keyword">public</span> <a class="code" href="../../dd/d8a/classboca_1_1TaggerTemplate.html">TaggerTemplate</a>&lt;Octet53,MultiBranch&gt; {</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">public</span>:</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <a class="code" href="../../df/d97/classanalysis_1_1toppartner_1_1TopPartnerTopPairTagger.html#afbf41dc637e2c9cb7a1af6afe3984954">TopPartnerTopPairTagger</a>();</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d0/dea/classboca_1_1naturalness_1_1TopPartnerTopPairTagger.html#ac5eeb5a8e11c8eeacff53f39804d127a">Train</a>(<a class="code" href="../../da/df7/classboca_1_1Event.html">Event</a> <span class="keyword">const</span>&amp; event, <a class="code" href="../../d0/dff/classboca_1_1PreCuts.html">PreCuts</a> <span class="keyword">const</span>&amp; pre_cuts, <a class="code" href="../../da/d7d/namespaceboca.html#afe26187a85055a0f0dc9686d32b65344">Tag</a> tag) <span class="keyword">const</span> <span class="keyword">final</span>;</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../df/d97/classanalysis_1_1toppartner_1_1TopPartnerTopPairTagger.html#ad1b10936b88ea1df1da53d97a9323b59">Train</a>(<span class="keyword">const</span> <a class="code" href="../../d8/def/classanalysis_1_1Event.html">Event</a> &amp;event, <span class="keyword">const</span> <a class="code" href="../../df/d47/classanalysis_1_1PreCuts.html">PreCuts</a> &amp;pre_cuts,</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;              <a class="code" href="../../d0/dfd/namespaceanalysis.html#ab6708d3f5bf1427e8a05f57d96189312">Tag</a> tag) <span class="keyword">const</span> <span class="keyword">final</span>;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    std::vector&lt;Octet53&gt; <a class="code" href="../../df/d97/classanalysis_1_1toppartner_1_1TopPartnerTopPairTagger.html#ab05365a5e53a0ac0674a1e23af3bc1d0">Multiplets</a>(<span class="keyword">const</span> <a class="code" href="../../d8/def/classanalysis_1_1Event.html">Event</a>&amp; event, <span class="keyword">const</span> <a class="code" href="../../df/d47/classanalysis_1_1PreCuts.html">PreCuts</a>&amp; pre_cuts, <span class="keyword">const</span> TMVA::Reader&amp; <a class="code" href="../../d0/dfd/namespaceanalysis.html#a42998dc653479c8856c4345d6bf29092a1de9b0a30075ae8c303eb420c103c320">reader</a>) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="../../df/d97/classanalysis_1_1toppartner_1_1TopPartnerTopPairTagger.html#a3de78010913cb2c1b4ed780b2722a7d2">   27</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../df/d97/classanalysis_1_1toppartner_1_1TopPartnerTopPairTagger.html#a3de78010913cb2c1b4ed780b2722a7d2">GetBdt</a>(<span class="keyword">const</span> <a class="code" href="../../d8/def/classanalysis_1_1Event.html">Event</a> &amp;event, <span class="keyword">const</span> <a class="code" href="../../df/d47/classanalysis_1_1PreCuts.html">PreCuts</a> &amp;pre_cuts,</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;               <span class="keyword">const</span> TMVA::Reader &amp;reader) <span class="keyword">const</span> <span class="keyword">final</span> {</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                 <span class="keywordflow">return</span> <a class="code" href="../../da/d69/classanalysis_1_1BranchTagger.html#a34f20344d26ded867e1c7ba9a0226b41">SaveEntries</a>(<a class="code" href="../../df/d97/classanalysis_1_1toppartner_1_1TopPartnerTopPairTagger.html#ab05365a5e53a0ac0674a1e23af3bc1d0">Multiplets</a>(event, pre_cuts, reader), 1);</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    }</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="../../df/d97/classanalysis_1_1toppartner_1_1TopPartnerTopPairTagger.html#a93d6dbe2165315799e3f7d1c8e2bbc12">   32</a></span>&#160;    <span class="keyword">auto</span> <a class="code" href="../../df/d97/classanalysis_1_1toppartner_1_1TopPartnerTopPairTagger.html#a93d6dbe2165315799e3f7d1c8e2bbc12">Multiplets</a>(<span class="keyword">const</span> <a class="code" href="../../d8/def/classanalysis_1_1Event.html">Event</a>&amp; event, <span class="keyword">const</span> TMVA::Reader&amp; reader)</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    {</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <a class="code" href="../../df/d47/classanalysis_1_1PreCuts.html">PreCuts</a> pre_cuts;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="../../df/d97/classanalysis_1_1toppartner_1_1TopPartnerTopPairTagger.html#ab05365a5e53a0ac0674a1e23af3bc1d0">Multiplets</a>(event, pre_cuts, reader);</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    }</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="../../df/d97/classanalysis_1_1toppartner_1_1TopPartnerTopPairTagger.html#aa8e0a753e6d2732c4b8f5e8f6a3df21f">   38</a></span>&#160;    <a class="code" href="../../d0/dfd/namespaceanalysis.html#a5ca8872d16c4d682bd368739dd39dfacab45cffe084dd3d20d928bee85e7b0f21">std::string</a> <a class="code" href="../../df/d97/classanalysis_1_1toppartner_1_1TopPartnerTopPairTagger.html#aa8e0a753e6d2732c4b8f5e8f6a3df21f">Name</a>() const final { <span class="keywordflow">return</span> <span class="stringliteral">&quot;TopPartnerTopPair&quot;</span>; }</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="../../df/d97/classanalysis_1_1toppartner_1_1TopPartnerTopPairTagger.html#ac98b6086988e31a613385dd1e1fe6af1">   42</a></span>&#160;    <a class="code" href="../../de/da0/classanalysis_1_1Reader.html">Reader&lt;TopPartnerLeptonicTagger&gt;</a> <a class="code" href="../../df/d97/classanalysis_1_1toppartner_1_1TopPartnerTopPairTagger.html#ac98b6086988e31a613385dd1e1fe6af1">top_partner_reader_</a>;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="../../df/d97/classanalysis_1_1toppartner_1_1TopPartnerTopPairTagger.html#a35b29a5304b6c25da4e68f8fadae7605">   44</a></span>&#160;    <a class="code" href="../../de/da0/classanalysis_1_1Reader.html">Reader&lt;TopHadronicTagger&gt;</a> <a class="code" href="../../df/d97/classanalysis_1_1toppartner_1_1TopPartnerTopPairTagger.html#a35b29a5304b6c25da4e68f8fadae7605">top_reader_</a>;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;};</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;}</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;}</div>
-<div class="ttc" id="classanalysis_1_1BranchTagger_html"><div class="ttname"><a href="../../da/d69/classanalysis_1_1BranchTagger.html">analysis::BranchTagger</a></div><div class="ttdef"><b>Definition:</b> BranchTagger.hh:16</div></div>
-<div class="ttc" id="classanalysis_1_1toppartner_1_1TopPartnerTopPairTagger_html"><div class="ttname"><a href="../../df/d97/classanalysis_1_1toppartner_1_1TopPartnerTopPairTagger.html">analysis::toppartner::TopPartnerTopPairTagger</a></div><div class="ttdoc">Semi leptonic heavy higgs BDT tagger. </div><div class="ttdef"><b>Definition:</b> TopPartnerTopPairTagger.hh:16</div></div>
-<div class="ttc" id="classanalysis_1_1toppartner_1_1TopPartnerTopPairTagger_html_ab05365a5e53a0ac0674a1e23af3bc1d0"><div class="ttname"><a href="../../df/d97/classanalysis_1_1toppartner_1_1TopPartnerTopPairTagger.html#ab05365a5e53a0ac0674a1e23af3bc1d0">analysis::toppartner::TopPartnerTopPairTagger::Multiplets</a></div><div class="ttdeci">std::vector&lt; Octet53 &gt; Multiplets(const Event &amp;event, const PreCuts &amp;pre_cuts, const TMVA::Reader &amp;reader) const </div><div class="ttdef"><b>Definition:</b> TopPartnerTopPairTagger.cpp:32</div></div>
-<div class="ttc" id="namespaceanalysis_html_a5ca8872d16c4d682bd368739dd39dfacab45cffe084dd3d20d928bee85e7b0f21"><div class="ttname"><a href="../../d0/dfd/namespaceanalysis.html#a5ca8872d16c4d682bd368739dd39dfacab45cffe084dd3d20d928bee85e7b0f21">analysis::Id::string</a></div></div>
-<div class="ttc" id="classanalysis_1_1toppartner_1_1TopPartnerTopPairTagger_html_a35b29a5304b6c25da4e68f8fadae7605"><div class="ttname"><a href="../../df/d97/classanalysis_1_1toppartner_1_1TopPartnerTopPairTagger.html#a35b29a5304b6c25da4e68f8fadae7605">analysis::toppartner::TopPartnerTopPairTagger::top_reader_</a></div><div class="ttdeci">Reader&lt; TopHadronicTagger &gt; top_reader_</div><div class="ttdef"><b>Definition:</b> TopPartnerTopPairTagger.hh:44</div></div>
-<div class="ttc" id="classanalysis_1_1PreCuts_html"><div class="ttname"><a href="../../df/d47/classanalysis_1_1PreCuts.html">analysis::PreCuts</a></div><div class="ttdef"><b>Definition:</b> PreCuts.hh:10</div></div>
-<div class="ttc" id="classanalysis_1_1toppartner_1_1TopPartnerTopPairTagger_html_aa8e0a753e6d2732c4b8f5e8f6a3df21f"><div class="ttname"><a href="../../df/d97/classanalysis_1_1toppartner_1_1TopPartnerTopPairTagger.html#aa8e0a753e6d2732c4b8f5e8f6a3df21f">analysis::toppartner::TopPartnerTopPairTagger::Name</a></div><div class="ttdeci">std::string Name() const final</div><div class="ttdef"><b>Definition:</b> TopPartnerTopPairTagger.hh:38</div></div>
-<div class="ttc" id="namespaceanalysis_html"><div class="ttname"><a href="../../d0/dfd/namespaceanalysis.html">analysis</a></div><div class="ttdoc">analysis namespace containing the general analysis and SM taggers </div><div class="ttdef"><b>Definition:</b> AnalysisCharged.hh:5</div></div>
-<div class="ttc" id="namespaceanalysis_html_a42998dc653479c8856c4345d6bf29092a1de9b0a30075ae8c303eb420c103c320"><div class="ttname"><a href="../../d0/dfd/namespaceanalysis.html#a42998dc653479c8856c4345d6bf29092a1de9b0a30075ae8c303eb420c103c320">analysis::Stage::reader</a></div></div>
-<div class="ttc" id="namespaceanalysis_html_ab6708d3f5bf1427e8a05f57d96189312"><div class="ttname"><a href="../../d0/dfd/namespaceanalysis.html#ab6708d3f5bf1427e8a05f57d96189312">analysis::Tag</a></div><div class="ttdeci">Tag</div><div class="ttdef"><b>Definition:</b> Identification.hh:7</div></div>
-<div class="ttc" id="classanalysis_1_1BranchTagger_html_a34f20344d26ded867e1c7ba9a0226b41"><div class="ttname"><a href="../../da/d69/classanalysis_1_1BranchTagger.html#a34f20344d26ded867e1c7ba9a0226b41">analysis::BranchTagger&lt; MultiBranch &gt;::SaveEntries</a></div><div class="ttdeci">int SaveEntries(std::vector&lt; Multiplet &gt; multiplets, size_t max=LargeNumber()) const</div><div class="ttdef"><b>Definition:</b> BranchTagger.hh:96</div></div>
-<div class="ttc" id="classanalysis_1_1Event_html"><div class="ttname"><a href="../../d8/def/classanalysis_1_1Event.html">analysis::Event</a></div><div class="ttdoc">Base class for the event Topology. </div><div class="ttdef"><b>Definition:</b> Event.hh:13</div></div>
-<div class="ttc" id="classanalysis_1_1toppartner_1_1TopPartnerTopPairTagger_html_ac98b6086988e31a613385dd1e1fe6af1"><div class="ttname"><a href="../../df/d97/classanalysis_1_1toppartner_1_1TopPartnerTopPairTagger.html#ac98b6086988e31a613385dd1e1fe6af1">analysis::toppartner::TopPartnerTopPairTagger::top_partner_reader_</a></div><div class="ttdeci">Reader&lt; TopPartnerLeptonicTagger &gt; top_partner_reader_</div><div class="ttdef"><b>Definition:</b> TopPartnerTopPairTagger.hh:42</div></div>
-<div class="ttc" id="classanalysis_1_1toppartner_1_1TopPartnerTopPairTagger_html_afbf41dc637e2c9cb7a1af6afe3984954"><div class="ttname"><a href="../../df/d97/classanalysis_1_1toppartner_1_1TopPartnerTopPairTagger.html#afbf41dc637e2c9cb7a1af6afe3984954">analysis::toppartner::TopPartnerTopPairTagger::TopPartnerTopPairTagger</a></div><div class="ttdeci">TopPartnerTopPairTagger()</div><div class="ttdef"><b>Definition:</b> TopPartnerTopPairTagger.cpp:8</div></div>
-<div class="ttc" id="classanalysis_1_1toppartner_1_1TopPartnerTopPairTagger_html_ad1b10936b88ea1df1da53d97a9323b59"><div class="ttname"><a href="../../df/d97/classanalysis_1_1toppartner_1_1TopPartnerTopPairTagger.html#ad1b10936b88ea1df1da53d97a9323b59">analysis::toppartner::TopPartnerTopPairTagger::Train</a></div><div class="ttdeci">int Train(const Event &amp;event, const PreCuts &amp;pre_cuts, Tag tag) const final</div><div class="ttdef"><b>Definition:</b> TopPartnerTopPairTagger.cpp:14</div></div>
-<div class="ttc" id="classanalysis_1_1Reader_html"><div class="ttname"><a href="../../de/da0/classanalysis_1_1Reader.html">analysis::Reader</a></div><div class="ttdoc">read results of multivariant analysis wrapper for TMVA::Reader </div><div class="ttdef"><b>Definition:</b> Reader.hh:15</div></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    std::vector&lt;Octet53&gt; <a class="code" href="../../d0/dea/classboca_1_1naturalness_1_1TopPartnerTopPairTagger.html#ae20a97e06da02cdbdc3d3541d41d0d12">Multiplets</a>(<a class="code" href="../../da/df7/classboca_1_1Event.html">Event</a> <span class="keyword">const</span>&amp; event, <a class="code" href="../../d0/dff/classboca_1_1PreCuts.html">PreCuts</a> <span class="keyword">const</span>&amp; pre_cuts, TMVA::Reader <span class="keyword">const</span>&amp; <a class="code" href="../../da/d7d/namespaceboca.html#a8b248406adbf8761f7c6f1cbd095bc4aa1de9b0a30075ae8c303eb420c103c320">reader</a>) <span class="keyword">const</span> <span class="keyword">final</span>;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <a class="code" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> <a class="code" href="../../d0/dea/classboca_1_1naturalness_1_1TopPartnerTopPairTagger.html#aee57dcb0f00bc91a4c0995b00a66c540">Name</a>() <span class="keyword">const</span> <span class="keyword">final</span>;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="../../d0/dea/classboca_1_1naturalness_1_1TopPartnerTopPairTagger.html#ae222d71552fdbcca31394f17e4e65037">   28</a></span>&#160;    <a class="code" href="../../de/d69/classboca_1_1Reader.html">Reader&lt;TopPartnerLeptonicTagger&gt;</a> <a class="code" href="../../d0/dea/classboca_1_1naturalness_1_1TopPartnerTopPairTagger.html#ae222d71552fdbcca31394f17e4e65037">top_partner_reader_</a>;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="../../d0/dea/classboca_1_1naturalness_1_1TopPartnerTopPairTagger.html#aca2b41f52ee62d59716b3fd58e3d99e4">   30</a></span>&#160;    <a class="code" href="../../de/d69/classboca_1_1Reader.html">Reader&lt;standardmodel::TopHadronicTagger&gt;</a> <a class="code" href="../../d0/dea/classboca_1_1naturalness_1_1TopPartnerTopPairTagger.html#aca2b41f52ee62d59716b3fd58e3d99e4">top_reader_</a>;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;};</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;}</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;}</div>
+<div class="ttc" id="classboca_1_1naturalness_1_1TopPartnerTopPairTagger_html_ae20a97e06da02cdbdc3d3541d41d0d12"><div class="ttname"><a href="../../d0/dea/classboca_1_1naturalness_1_1TopPartnerTopPairTagger.html#ae20a97e06da02cdbdc3d3541d41d0d12">boca::naturalness::TopPartnerTopPairTagger::Multiplets</a></div><div class="ttdeci">std::vector&lt; Octet53 &gt; Multiplets(Event const &amp;event, PreCuts const &amp;pre_cuts, TMVA::Reader const &amp;reader) const final</div><div class="ttdef"><b>Definition:</b> TopPartnerTopPairTagger.cpp:26</div></div>
+<div class="ttc" id="namespaceboca_html_a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">boca::Id::string</a></div></div>
+<div class="ttc" id="classboca_1_1Reader_html"><div class="ttname"><a href="../../de/d69/classboca_1_1Reader.html">boca::Reader</a></div><div class="ttdoc">read results of multivariant analysis wrapper for TMVA::Reader </div><div class="ttdef"><b>Definition:</b> Reader.hh:28</div></div>
+<div class="ttc" id="classboca_1_1PreCuts_html"><div class="ttname"><a href="../../d0/dff/classboca_1_1PreCuts.html">boca::PreCuts</a></div><div class="ttdef"><b>Definition:</b> PreCuts.hh:18</div></div>
+<div class="ttc" id="namespaceboca_html_afe26187a85055a0f0dc9686d32b65344"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#afe26187a85055a0f0dc9686d32b65344">boca::Tag</a></div><div class="ttdeci">Tag</div><div class="ttdef"><b>Definition:</b> Identification.hh:10</div></div>
+<div class="ttc" id="classboca_1_1naturalness_1_1TopPartnerTopPairTagger_html_ae222d71552fdbcca31394f17e4e65037"><div class="ttname"><a href="../../d0/dea/classboca_1_1naturalness_1_1TopPartnerTopPairTagger.html#ae222d71552fdbcca31394f17e4e65037">boca::naturalness::TopPartnerTopPairTagger::top_partner_reader_</a></div><div class="ttdeci">Reader&lt; TopPartnerLeptonicTagger &gt; top_partner_reader_</div><div class="ttdef"><b>Definition:</b> TopPartnerTopPairTagger.hh:28</div></div>
+<div class="ttc" id="classboca_1_1Event_html"><div class="ttname"><a href="../../da/df7/classboca_1_1Event.html">boca::Event</a></div><div class="ttdoc">Base class for the event Topology. </div><div class="ttdef"><b>Definition:</b> Event.hh:25</div></div>
+<div class="ttc" id="classboca_1_1TaggerTemplate_html"><div class="ttname"><a href="../../dd/d8a/classboca_1_1TaggerTemplate.html">boca::TaggerTemplate</a></div><div class="ttdoc">Tagger base class using Branch template. </div><div class="ttdef"><b>Definition:</b> TaggerTemplate.hh:25</div></div>
+<div class="ttc" id="namespaceboca_html"><div class="ttname"><a href="../../da/d7d/namespaceboca.html">boca</a></div><div class="ttdoc">contains the general analysis and SM taggers </div><div class="ttdef"><b>Definition:</b> AnalysisCharged.hh:5</div></div>
+<div class="ttc" id="classboca_1_1naturalness_1_1TopPartnerTopPairTagger_html_aee57dcb0f00bc91a4c0995b00a66c540"><div class="ttname"><a href="../../d0/dea/classboca_1_1naturalness_1_1TopPartnerTopPairTagger.html#aee57dcb0f00bc91a4c0995b00a66c540">boca::naturalness::TopPartnerTopPairTagger::Name</a></div><div class="ttdeci">std::string Name() const final</div><div class="ttdef"><b>Definition:</b> TopPartnerTopPairTagger.cpp:41</div></div>
 <div class="ttc" id="BranchesTopPartner_8hh_html"><div class="ttname"><a href="../../d9/d80/BranchesTopPartner_8hh.html">BranchesTopPartner.hh</a></div></div>
-<div class="ttc" id="classanalysis_1_1toppartner_1_1TopPartnerTopPairTagger_html_a93d6dbe2165315799e3f7d1c8e2bbc12"><div class="ttname"><a href="../../df/d97/classanalysis_1_1toppartner_1_1TopPartnerTopPairTagger.html#a93d6dbe2165315799e3f7d1c8e2bbc12">analysis::toppartner::TopPartnerTopPairTagger::Multiplets</a></div><div class="ttdeci">auto Multiplets(const Event &amp;event, const TMVA::Reader &amp;reader)</div><div class="ttdef"><b>Definition:</b> TopPartnerTopPairTagger.hh:32</div></div>
+<div class="ttc" id="classboca_1_1naturalness_1_1TopPartnerTopPairTagger_html_aca2b41f52ee62d59716b3fd58e3d99e4"><div class="ttname"><a href="../../d0/dea/classboca_1_1naturalness_1_1TopPartnerTopPairTagger.html#aca2b41f52ee62d59716b3fd58e3d99e4">boca::naturalness::TopPartnerTopPairTagger::top_reader_</a></div><div class="ttdeci">Reader&lt; standardmodel::TopHadronicTagger &gt; top_reader_</div><div class="ttdef"><b>Definition:</b> TopPartnerTopPairTagger.hh:30</div></div>
+<div class="ttc" id="namespaceboca_html_a8b248406adbf8761f7c6f1cbd095bc4aa1de9b0a30075ae8c303eb420c103c320"><div class="ttname"><a href="../../da/d7d/namespaceboca.html#a8b248406adbf8761f7c6f1cbd095bc4aa1de9b0a30075ae8c303eb420c103c320">boca::Stage::reader</a></div></div>
 <div class="ttc" id="TopHadronicTagger_8hh_html"><div class="ttname"><a href="../../d4/d5c/TopHadronicTagger_8hh.html">TopHadronicTagger.hh</a></div></div>
 <div class="ttc" id="Octet_8hh_html"><div class="ttname"><a href="../../d8/dfe/Octet_8hh.html">Octet.hh</a></div></div>
-<div class="ttc" id="classanalysis_1_1toppartner_1_1TopPartnerTopPairTagger_html_a3de78010913cb2c1b4ed780b2722a7d2"><div class="ttname"><a href="../../df/d97/classanalysis_1_1toppartner_1_1TopPartnerTopPairTagger.html#a3de78010913cb2c1b4ed780b2722a7d2">analysis::toppartner::TopPartnerTopPairTagger::GetBdt</a></div><div class="ttdeci">int GetBdt(const Event &amp;event, const PreCuts &amp;pre_cuts, const TMVA::Reader &amp;reader) const final</div><div class="ttdef"><b>Definition:</b> TopPartnerTopPairTagger.hh:27</div></div>
+<div class="ttc" id="classboca_1_1naturalness_1_1TopPartnerTopPairTagger_html_ac5eeb5a8e11c8eeacff53f39804d127a"><div class="ttname"><a href="../../d0/dea/classboca_1_1naturalness_1_1TopPartnerTopPairTagger.html#ac5eeb5a8e11c8eeacff53f39804d127a">boca::naturalness::TopPartnerTopPairTagger::Train</a></div><div class="ttdeci">int Train(Event const &amp;event, PreCuts const &amp;pre_cuts, Tag tag) const final</div><div class="ttdef"><b>Definition:</b> TopPartnerTopPairTagger.cpp:8</div></div>
+<div class="ttc" id="classboca_1_1naturalness_1_1TopPartnerTopPairTagger_html"><div class="ttname"><a href="../../d0/dea/classboca_1_1naturalness_1_1TopPartnerTopPairTagger.html">boca::naturalness::TopPartnerTopPairTagger</a></div><div class="ttdoc">Semi leptonic heavy higgs BDT tagger. </div><div class="ttdef"><b>Definition:</b> TopPartnerTopPairTagger.hh:16</div></div>
 <div class="ttc" id="TopPartnerLeptonicTagger_8hh_html"><div class="ttname"><a href="../../d2/d88/TopPartnerLeptonicTagger_8hh.html">TopPartnerLeptonicTagger.hh</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 1 2015 22:08:01 for Analysis by &#160;<a href="http://www.doxygen.org/index.html">
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

@@ -1,0 +1,16 @@
+<map id="boca::standardmodel::WHadronicTagger" name="boca::standardmodel::WHadronicTagger">
+<area shape="rect" id="node2" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; Doublet, WHadronicBranch \&gt;" alt="" coords="1349,166,1555,207"/>
+<area shape="rect" id="node3" href="$da/d42/classboca_1_1Tagger.html" title="Prepares multivariant analysis. " alt="" coords="510,201,609,228"/>
+<area shape="rect" id="node10" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="Tagger base class using Branch template. " alt="" coords="729,273,881,329"/>
+<area shape="rect" id="node4" href="$d8/db8/classboca_1_1standardmodel_1_1WHadronicBranch.html" title="Higgs tagger root tree structure. " alt="" coords="1079,42,1221,83"/>
+<area shape="rect" id="node5" href="$d6/d3d/classboca_1_1PairBranch.html" title="boca::PairBranch" alt="" coords="744,5,867,32"/>
+<area shape="rect" id="node6" href="$d8/d91/classboca_1_1ParticleBranch.html" title="Class for saving event informations to root. " alt="" coords="488,13,631,40"/>
+<area shape="rect" id="node16" href="$db/dd1/classboca_1_1standardmodel_1_1BottomBranch.html" title="Bottom tagger root tree structure. " alt="" coords="734,57,877,98"/>
+<area shape="rect" id="node7" href="$dd/dfc/classboca_1_1ResultBranch.html" title="boca::ResultBranch" alt="" coords="301,13,439,40"/>
+<area shape="rect" id="node8" href="$dc/d87/classboca_1_1BaseBranch.html" title="Basic tree branches. " alt="" coords="123,13,252,40"/>
+<area shape="rect" id="node18" href="$de/d69/classboca_1_1Reader.html" title="read results of multivariant analysis wrapper for TMVA::Reader " alt="" coords="1343,399,1561,425"/>
+<area shape="rect" id="node12" href="$de/d69/classboca_1_1Reader.html" title="boca::Reader\&lt; boca\l::standardmodel::BottomTagger \&gt;" alt="" coords="1747,317,1964,358"/>
+<area shape="rect" id="node13" href="$d1/da0/classboca_1_1ReaderBase.html" title="boca::ReaderBase" alt="" coords="1085,356,1215,383"/>
+<area shape="rect" id="node14" href="$de/d6e/classboca_1_1standardmodel_1_1BottomTagger.html" title="Derived Tagger class for bottom jets. " alt="" coords="1381,282,1523,323"/>
+<area shape="rect" id="node17" href="$db/d5f/classboca_1_1BottomBase.html" title="Bottom tagger root tree structure base class. " alt="" coords="494,72,625,99"/>
+</map>

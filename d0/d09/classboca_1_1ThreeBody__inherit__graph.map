@@ -1,9 +1,13 @@
 <map id="boca::ThreeBody&lt; Multiplet_1, Multiplet_2, Multiplet_3 &gt;" name="boca::ThreeBody&lt; Multiplet_1, Multiplet_2, Multiplet_3 &gt;">
-<area shape="rect" id="node5" href="$d8/d75/classboca_1_1ThreeBody.html" title="boca::ThreeBody\&lt; boca\l::Triplet, boca::Triplet,\l boca::Doublet \&gt;" alt="" coords="914,5,1075,61"/>
-<area shape="rect" id="node7" href="$d8/d75/classboca_1_1ThreeBody.html" title="boca::ThreeBody\&lt; boca\l::Doublet, boca::Singlet,\l boca::Singlet \&gt;" alt="" coords="913,85,1076,141"/>
-<area shape="rect" id="node2" href="$d1/d5c/classboca_1_1Multiplet.html" title="boca::Multiplet" alt="" coords="373,65,480,92"/>
-<area shape="rect" id="node3" href="$de/d8b/classboca_1_1MultipletBase.html" title="boca::MultipletBase" alt="" coords="187,65,324,92"/>
-<area shape="rect" id="node4" href="$d4/de7/classboca_1_1Identification.html" title="boca::Identification" alt="" coords="5,65,137,92"/>
-<area shape="rect" id="node6" href="$d4/ded/classboca_1_1Octet332.html" title="boca::Octet332" alt="" coords="1131,20,1242,47"/>
-<area shape="rect" id="node8" href="$d5/d2f/classboca_1_1Quartet211.html" title="boca::Quartet211" alt="" coords="1125,100,1248,127"/>
+<area shape="rect" id="node5" href="$d8/d75/classboca_1_1ThreeBody.html" title="boca::ThreeBody\&lt; boca\l::Quintet, boca::Triplet,\l boca::Doublet \&gt;" alt="" coords="922,5,1083,61"/>
+<area shape="rect" id="node7" href="$d8/d75/classboca_1_1ThreeBody.html" title="boca::ThreeBody\&lt; boca\l::Triplet, boca::Triplet,\l boca::Doublet \&gt;" alt="" coords="922,85,1083,141"/>
+<area shape="rect" id="node9" href="$d8/d75/classboca_1_1ThreeBody.html" title="boca::ThreeBody\&lt; boca\l::Doublet, boca::Singlet,\l boca::Singlet \&gt;" alt="" coords="921,165,1084,221"/>
+<area shape="rect" id="node11" href="$d8/d75/classboca_1_1ThreeBody.html" title="boca::ThreeBody\&lt; Quintet,\l Quintet, Quartet22 \&gt;" alt="" coords="913,245,1092,286"/>
+<area shape="rect" id="node2" href="$d1/d5c/classboca_1_1Multiplet.html" title="boca::Multiplet" alt="" coords="373,145,480,172"/>
+<area shape="rect" id="node3" href="$de/d8b/classboca_1_1MultipletBase.html" title="boca::MultipletBase" alt="" coords="187,145,324,172"/>
+<area shape="rect" id="node4" href="$d4/de7/classboca_1_1Identification.html" title="boca::Identification" alt="" coords="5,145,137,172"/>
+<area shape="rect" id="node6" href="$d0/d30/classboca_1_1naturalness_1_1Decuplet532.html" title="boca::naturalness::\lDecuplet532" alt="" coords="1146,13,1279,54"/>
+<area shape="rect" id="node8" href="$d4/ded/classboca_1_1Octet332.html" title="Octet consisting of two triplets and one doublet. " alt="" coords="1157,100,1268,127"/>
+<area shape="rect" id="node10" href="$d5/d2f/classboca_1_1Quartet211.html" title="boca::Quartet211" alt="" coords="1151,180,1274,207"/>
+<area shape="rect" id="node12" href="$dd/da3/classboca_1_1naturalness_1_1Quattuordecuplet554.html" title="boca::naturalness::\lQuattuordecuplet554" alt="" coords="1141,245,1284,286"/>
 </map>

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['float_5ft',['Float_t',['../d1/df9/Vector3_8hh.html#aeea98adf47c4604318761944f6780133',1,'Vector3.hh']]]
+  ['dimensionless',['Dimensionless',['../db/dd5/namespaceboca_1_1electronvolt.html#a759e50cf6dac20c0abeee5319c83e65f',1,'boca::electronvolt::Dimensionless()'],['../df/da4/namespaceboca_1_1barn.html#a678823af5a2bd97325087530ab27c7c6',1,'boca::barn::Dimensionless()']]]
 ];

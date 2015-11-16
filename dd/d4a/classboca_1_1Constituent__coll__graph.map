@@ -1,6 +1,4 @@
 <map id="boca::Constituent" name="boca::Constituent">
-<area shape="rect" id="node2" href="$d1/d78/classboca_1_1Family.html" title="boca::Family" alt="" coords="99,317,197,344"/>
-<area shape="rect" id="node3" href="$db/dc7/classboca_1_1Particle.html" title="boca::Particle" alt="" coords="98,184,201,211"/>
-<area shape="rect" id="node4" href="$dd/d3e/classboca_1_1LorentzVector.html" title="Copy of root::TLorentzVector in order to get rid of TObject which makes it unsuitable for heavy usage..." alt="" coords="5,95,144,121"/>
-<area shape="rect" id="node5" href="$d3/da2/classboca_1_1Vector3.html" title="Copy of root::TVector3 in order to get rid of TObject. " alt="" coords="23,5,126,32"/>
+<area shape="rect" id="node2" href="$dd/d3e/classboca_1_1LorentzVector.html" title="Copy of root::TLorentzVector in order to get rid of TObject which makes it unsuitable for heavy usage..." alt="" coords="5,95,144,121"/>
+<area shape="rect" id="node3" href="$d3/da2/classboca_1_1Vector3.html" title="Copy of root::TVector3 in order to get rid of TObject. " alt="" coords="23,5,126,32"/>
 </map>

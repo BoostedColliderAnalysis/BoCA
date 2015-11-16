@@ -1,9 +1,10 @@
 <map id="boca::Doublet" name="boca::Doublet">
-<area shape="rect" id="node2" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; Singlet,\l Singlet \&gt;" alt="" coords="210,483,379,524"/>
+<area shape="rect" id="node2" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; boca\l::Singlet, boca::Singlet \&gt;" alt="" coords="223,497,390,539"/>
 <area shape="rect" id="node3" href="$d1/d5c/classboca_1_1Multiplet.html" title="boca::Multiplet" alt="" coords="224,275,331,301"/>
-<area shape="rect" id="node9" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; Multiplet\l_1, Multiplet_2 \&gt;" alt="" coords="70,379,245,420"/>
-<area shape="rect" id="node4" href="$de/d8b/classboca_1_1MultipletBase.html" title="boca::MultipletBase" alt="" coords="186,96,323,123"/>
-<area shape="rect" id="node6" href="$db/def/classboca_1_1Singlet.html" title="Thin wrapper to make fastjet::PseudoJet behave like a Multiplet. Additionally this class astracts awa..." alt="" coords="305,185,404,212"/>
-<area shape="rect" id="node5" href="$d4/de7/classboca_1_1Identification.html" title="boca::Identification" alt="" coords="189,13,321,39"/>
-<area shape="rect" id="node7" href="$df/d8a/classboca_1_1JetInfo.html" title="Jet infos subclassed from Fastjet. " alt="" coords="348,96,447,123"/>
+<area shape="rect" id="node10" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; Multiplet\l_1, Multiplet_2 \&gt;" alt="" coords="70,379,245,420"/>
+<area shape="rect" id="node4" href="$de/d8b/classboca_1_1MultipletBase.html" title="boca::MultipletBase" alt="" coords="161,96,298,123"/>
+<area shape="rect" id="node6" href="$db/def/classboca_1_1Singlet.html" title="Thin wrapper to make fastjet::PseudoJet behave like a Multiplet. Additionally this class astracts awa..." alt="" coords="319,185,417,212"/>
+<area shape="rect" id="node5" href="$d4/de7/classboca_1_1Identification.html" title="boca::Identification" alt="" coords="163,13,295,39"/>
+<area shape="rect" id="node7" href="$df/d8a/classboca_1_1JetInfo.html" title="Jet infos subclassed from Fastjet. " alt="" coords="323,96,421,123"/>
+<area shape="rect" id="node9" href="$d6/dfb/classboca_1_1Vector2.html" title="Copy of root::TVector2 in order to get rid of TObject. " alt="" coords="446,96,549,123"/>
 </map>

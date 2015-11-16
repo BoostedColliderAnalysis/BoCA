@@ -1,7 +1,0 @@
-<map id="boca::TopLeptonicBranch" name="boca::TopLeptonicBranch">
-<area shape="rect" id="node2" href="$d6/d3d/classboca_1_1PairBranch.html" title="boca::PairBranch" alt="" coords="15,304,138,331"/>
-<area shape="rect" id="node3" href="$d8/d91/classboca_1_1ParticleBranch.html" title="Class for saving event informations to root. " alt="" coords="5,229,148,256"/>
-<area shape="rect" id="node4" href="$dd/dfc/classboca_1_1ResultBranch.html" title="boca::ResultBranch" alt="" coords="8,155,145,181"/>
-<area shape="rect" id="node5" href="$dc/d87/classboca_1_1BaseBranch.html" title="Basic tree branches. " alt="" coords="12,80,141,107"/>
-<area shape="rect" id="node7" href="$db/d5f/classboca_1_1BottomBase.html" title="Bottom tagger root tree structure base class. " alt="" coords="162,304,293,331"/>
-</map>

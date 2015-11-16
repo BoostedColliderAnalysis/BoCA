@@ -112,7 +112,8 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="dynheader">
 Collaboration diagram for boca::Plotting:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d2/d91/classboca_1_1Plotting__coll__graph.svg" width="114" height="127"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d2/d91/classboca_1_1Plotting__coll__graph.svg" width="114" height="127"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
 <center><span class="legend">[<a href="../../graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -122,8 +123,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a525b2d9de328ef50158a7f1c0deb1149"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3cecfe309f4c9b052235849c4b1c0847"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#a3cecfe309f4c9b052235849c4b1c0847">TaggingEfficiency</a> () const </td></tr>
 <tr class="separator:a3cecfe309f4c9b052235849c4b1c0847"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a25aeaeaf89a36673a0ce56e79ca09eb0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#a25aeaeaf89a36673a0ce56e79ca09eb0">OptimalSignificance</a> () const </td></tr>
-<tr class="separator:a25aeaeaf89a36673a0ce56e79ca09eb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0339c3d603ac0a9105031f3c86d181f6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#a0339c3d603ac0a9105031f3c86d181f6">OptimalCuts</a> () const </td></tr>
+<tr class="separator:a0339c3d603ac0a9105031f3c86d181f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a81d6ca9b3a7da65b2c5c98477ded3132"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#a81d6ca9b3a7da65b2c5c98477ded3132">RunPlots</a> () const </td></tr>
 <tr class="separator:a81d6ca9b3a7da65b2c5c98477ded3132"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -131,79 +132,63 @@ Public Member Functions</h2></td></tr>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:a2dceabf671ca8b3553ce1fbf96cc00d7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#a2dceabf671ca8b3553ce1fbf96cc00d7">DoPlot</a> (<a class="el" href="../../d7/d93/classboca_1_1Plots.html">boca::Plots</a> &amp;signals, <a class="el" href="../../d7/d93/classboca_1_1Plots.html">boca::Plots</a> &amp;backgrounds, <a class="el" href="../../da/d7d/namespaceboca.html#a8b248406adbf8761f7c6f1cbd095bc4a">boca::Stage</a> stage) const </td></tr>
 <tr class="separator:a2dceabf671ca8b3553ce1fbf96cc00d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac5d38af8c67dae89f8d716518bf7472a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#ac5d38af8c67dae89f8d716518bf7472a">PlotDetails</a> (<a class="el" href="../../dd/ddf/structboca_1_1Plot.html">boca::Plot</a> &amp;<a class="el" href="../../da/d7d/namespaceboca.html#afe26187a85055a0f0dc9686d32b65344a521345a9fb579f52117f27be6e0673ee">signal</a>, <a class="el" href="../../dd/ddf/structboca_1_1Plot.html">boca::Plot</a> &amp;<a class="el" href="../../da/d7d/namespaceboca.html#afe26187a85055a0f0dc9686d32b65344ad229bbf31eaeebc7c88897732d8b932d">background</a>, <a class="el" href="../../da/d7d/namespaceboca.html#a8b248406adbf8761f7c6f1cbd095bc4a">boca::Stage</a> stage) const </td></tr>
-<tr class="separator:ac5d38af8c67dae89f8d716518bf7472a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a281004a067e08ee238a207b3d1d76666"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#a281004a067e08ee238a207b3d1d76666">SetHistogram</a> (TH2 &amp;histogram, const <a class="el" href="../../dd/ddf/structboca_1_1Plot.html">boca::Plot</a> &amp;plot, EColor color, TExec &amp;exec) const </td></tr>
-<tr class="separator:a281004a067e08ee238a207b3d1d76666"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa7ff59cf6d2cbac369640335991f1339"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#aa7ff59cf6d2cbac369640335991f1339">SetProfile</a> (TProfile2D &amp;histogram, const <a class="el" href="../../dd/ddf/structboca_1_1Plot.html">boca::Plot</a> &amp;<a class="el" href="../../da/d7d/namespaceboca.html#afe26187a85055a0f0dc9686d32b65344a521345a9fb579f52117f27be6e0673ee">signal</a>, const <a class="el" href="../../dd/ddf/structboca_1_1Plot.html">boca::Plot</a> &amp;<a class="el" href="../../da/d7d/namespaceboca.html#afe26187a85055a0f0dc9686d32b65344ad229bbf31eaeebc7c88897732d8b932d">background</a>) const </td></tr>
-<tr class="separator:aa7ff59cf6d2cbac369640335991f1339"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa33f8500ea58529b19dc51882dfe3949"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#aa33f8500ea58529b19dc51882dfe3949">CommmonHist</a> (TH2 &amp;histogram, const <a class="el" href="../../dd/ddf/structboca_1_1Plot.html">boca::Plot</a> &amp;plot, EColor color) const </td></tr>
-<tr class="separator:aa33f8500ea58529b19dc51882dfe3949"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a143ce233a0d9624015a35ad1187297b6"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../d7/d93/classboca_1_1Plots.html">Plots</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#a143ce233a0d9624015a35ad1187297b6">Import</a> (<a class="el" href="../../da/d7d/namespaceboca.html#a8b248406adbf8761f7c6f1cbd095bc4a">boca::Stage</a> stage, <a class="el" href="../../da/d7d/namespaceboca.html#afe26187a85055a0f0dc9686d32b65344">boca::Tag</a> tag) const </td></tr>
-<tr class="separator:a143ce233a0d9624015a35ad1187297b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a60e7ab570e503876caebf148d9e7cf76"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d7/d93/classboca_1_1Plots.html">Plots</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#a60e7ab570e503876caebf148d9e7cf76">PlotResult</a> (TFile &amp;file, <a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> const &amp;tree_name, <a class="el" href="../../da/d7d/namespaceboca.html#a8b248406adbf8761f7c6f1cbd095bc4a">boca::Stage</a> stage) const </td></tr>
-<tr class="separator:a60e7ab570e503876caebf148d9e7cf76"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8cba05b85aeca05bd8159d38a90da596"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dd/ddf/structboca_1_1Plot.html">Plot</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#a8cba05b85aeca05bd8159d38a90da596">ReadTree</a> (TTree &amp;tree, <a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> const &amp;leaf_1, <a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> const &amp;leaf_2, <a class="el" href="../../da/d7d/namespaceboca.html#a8b248406adbf8761f7c6f1cbd095bc4a">boca::Stage</a> stage) const </td></tr>
-<tr class="separator:a8cba05b85aeca05bd8159d38a90da596"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a90b388882c0451e03296deeb6d9c69fa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#a90b388882c0451e03296deeb6d9c69fa">PlotHistogram</a> (const <a class="el" href="../../dd/ddf/structboca_1_1Plot.html">boca::Plot</a> &amp;<a class="el" href="../../da/d7d/namespaceboca.html#afe26187a85055a0f0dc9686d32b65344a521345a9fb579f52117f27be6e0673ee">signal</a>, const <a class="el" href="../../dd/ddf/structboca_1_1Plot.html">boca::Plot</a> &amp;<a class="el" href="../../da/d7d/namespaceboca.html#afe26187a85055a0f0dc9686d32b65344ad229bbf31eaeebc7c88897732d8b932d">background</a>, const <a class="el" href="../../d6/db8/structboca_1_1Point.html">boca::Point</a> &amp;min, const <a class="el" href="../../d6/db8/structboca_1_1Point.html">boca::Point</a> &amp;max) const </td></tr>
+<tr class="memitem:a7b022969b7aa9b2beb2791239aa9f45d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#a7b022969b7aa9b2beb2791239aa9f45d">PlotDetails</a> (<a class="el" href="../../d0/d88/classboca_1_1Plot.html">boca::Plot</a> &amp;<a class="el" href="../../da/d7d/namespaceboca.html#afe26187a85055a0f0dc9686d32b65344a521345a9fb579f52117f27be6e0673ee">signal</a>, <a class="el" href="../../d0/d88/classboca_1_1Plot.html">boca::Plot</a> &amp;<a class="el" href="../../da/d7d/namespaceboca.html#afe26187a85055a0f0dc9686d32b65344ad229bbf31eaeebc7c88897732d8b932d">background</a>, <a class="el" href="../../da/d7d/namespaceboca.html#a8b248406adbf8761f7c6f1cbd095bc4a">Stage</a> stage) const </td></tr>
+<tr class="separator:a7b022969b7aa9b2beb2791239aa9f45d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57b416d88a62c31f8e1fb07839b29955"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../d7/d93/classboca_1_1Plots.html">Plots</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#a57b416d88a62c31f8e1fb07839b29955">Import</a> (<a class="el" href="../../da/d7d/namespaceboca.html#a8b248406adbf8761f7c6f1cbd095bc4a">Stage</a> stage, <a class="el" href="../../da/d7d/namespaceboca.html#afe26187a85055a0f0dc9686d32b65344">boca::Tag</a> tag) const </td></tr>
+<tr class="separator:a57b416d88a62c31f8e1fb07839b29955"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa74912cf0464738293cdd5092bbfb2bd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d7/d93/classboca_1_1Plots.html">Plots</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#aa74912cf0464738293cdd5092bbfb2bd">PlotResult</a> (TFile &amp;file, <a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> const &amp;tree_name, <a class="el" href="../../da/d7d/namespaceboca.html#a8b248406adbf8761f7c6f1cbd095bc4a">Stage</a> stage) const </td></tr>
+<tr class="separator:aa74912cf0464738293cdd5092bbfb2bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0465e95fd7ad4cafe60d9c71f3df979d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d0/d88/classboca_1_1Plot.html">Plot</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#a0465e95fd7ad4cafe60d9c71f3df979d">ReadTree</a> (TTree &amp;tree, <a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> const &amp;leaf_1_name, <a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> const &amp;leaf_2_name, <a class="el" href="../../da/d7d/namespaceboca.html#a8b248406adbf8761f7c6f1cbd095bc4a">Stage</a> stage) const </td></tr>
+<tr class="separator:a0465e95fd7ad4cafe60d9c71f3df979d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90b388882c0451e03296deeb6d9c69fa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#a90b388882c0451e03296deeb6d9c69fa">PlotHistogram</a> (const <a class="el" href="../../d0/d88/classboca_1_1Plot.html">boca::Plot</a> &amp;<a class="el" href="../../da/d7d/namespaceboca.html#afe26187a85055a0f0dc9686d32b65344a521345a9fb579f52117f27be6e0673ee">signal</a>, const <a class="el" href="../../d0/d88/classboca_1_1Plot.html">boca::Plot</a> &amp;<a class="el" href="../../da/d7d/namespaceboca.html#afe26187a85055a0f0dc9686d32b65344ad229bbf31eaeebc7c88897732d8b932d">background</a>, const <a class="el" href="../../d2/d63/classboca_1_1Point.html">boca::Point</a> &amp;<a class="el" href="../../da/d7d/namespaceboca.html#a93a26eb033d8d49b2eb89a493fe1e0f0">min</a>, const <a class="el" href="../../d2/d63/classboca_1_1Point.html">boca::Point</a> &amp;<a class="el" href="../../da/d7d/namespaceboca.html#ae1db8a886ed98268cc41c0a72eed6609">max</a>) const </td></tr>
 <tr class="separator:a90b388882c0451e03296deeb6d9c69fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a92f68c2117c0cbee8a5bb56fa20e25a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#a92f68c2117c0cbee8a5bb56fa20e25a5">PlotProfile</a> (const <a class="el" href="../../dd/ddf/structboca_1_1Plot.html">boca::Plot</a> &amp;<a class="el" href="../../da/d7d/namespaceboca.html#afe26187a85055a0f0dc9686d32b65344a521345a9fb579f52117f27be6e0673ee">signal</a>, const <a class="el" href="../../dd/ddf/structboca_1_1Plot.html">boca::Plot</a> &amp;<a class="el" href="../../da/d7d/namespaceboca.html#afe26187a85055a0f0dc9686d32b65344ad229bbf31eaeebc7c88897732d8b932d">background</a>, const <a class="el" href="../../d6/db8/structboca_1_1Point.html">boca::Point</a> &amp;min, const <a class="el" href="../../d6/db8/structboca_1_1Point.html">boca::Point</a> &amp;max) const </td></tr>
+<tr class="memitem:a92f68c2117c0cbee8a5bb56fa20e25a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#a92f68c2117c0cbee8a5bb56fa20e25a5">PlotProfile</a> (const <a class="el" href="../../d0/d88/classboca_1_1Plot.html">boca::Plot</a> &amp;<a class="el" href="../../da/d7d/namespaceboca.html#afe26187a85055a0f0dc9686d32b65344a521345a9fb579f52117f27be6e0673ee">signal</a>, const <a class="el" href="../../d0/d88/classboca_1_1Plot.html">boca::Plot</a> &amp;<a class="el" href="../../da/d7d/namespaceboca.html#afe26187a85055a0f0dc9686d32b65344ad229bbf31eaeebc7c88897732d8b932d">background</a>, const <a class="el" href="../../d2/d63/classboca_1_1Point.html">boca::Point</a> &amp;<a class="el" href="../../da/d7d/namespaceboca.html#a93a26eb033d8d49b2eb89a493fe1e0f0">min</a>, const <a class="el" href="../../d2/d63/classboca_1_1Point.html">boca::Point</a> &amp;<a class="el" href="../../da/d7d/namespaceboca.html#ae1db8a886ed98268cc41c0a72eed6609">max</a>) const </td></tr>
 <tr class="separator:a92f68c2117c0cbee8a5bb56fa20e25a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adb096574a6444b11acf4af4c7dd9ea39"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#adb096574a6444b11acf4af4c7dd9ea39">SetMultiGraph</a> (TMultiGraph &amp;multi_graph, const <a class="el" href="../../d6/db8/structboca_1_1Point.html">boca::Point</a> &amp;min, const <a class="el" href="../../d6/db8/structboca_1_1Point.html">boca::Point</a> &amp;max) const </td></tr>
-<tr class="separator:adb096574a6444b11acf4af4c7dd9ea39"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a9516e8fd025e678248230b0ff53d0d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#a7a9516e8fd025e678248230b0ff53d0d">SetPlotStyle</a> (TAttLine &amp;att_line, int index) const </td></tr>
-<tr class="separator:a7a9516e8fd025e678248230b0ff53d0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0785c080d09f388e496f58fb94a7e6c9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#a0785c080d09f388e496f58fb94a7e6c9">SetPad</a> () const </td></tr>
 <tr class="separator:a0785c080d09f388e496f58fb94a7e6c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac0f39e311550253cf95f939471256473"><td class="memItemLeft" align="right" valign="top">TLegend&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#ac0f39e311550253cf95f939471256473">Legend</a> (float x_min, float y_min, float width, float height, <a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> const &amp;title=&quot;&quot;) const </td></tr>
-<tr class="separator:ac0f39e311550253cf95f939471256473"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a11efbd832f400f67c6132197f00ab15c"><td class="memItemLeft" align="right" valign="top">TLegend&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#a11efbd832f400f67c6132197f00ab15c">Legend</a> (<a class="el" href="../../da/d7d/namespaceboca.html#a87f3a4194164595bf74d9aa1d7315bfb">boca::Orientation</a> orientation, <a class="el" href="../../da/d7d/namespaceboca.html#a3ea7ae00fabc73701a5d06c9fd5bd0b9">boca::Strings</a> const &amp;entries, <a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> const &amp;title=&quot;&quot;) const </td></tr>
-<tr class="separator:a11efbd832f400f67c6132197f00ab15c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae70e6175ba3ddfa1dfab3f5189e94e6b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#ae70e6175ba3ddfa1dfab3f5189e94e6b">Letters</a> (std::vector&lt; <a class="el" href="../../dc/d0c/classboca_1_1Result.html">Result</a> &gt; result) const </td></tr>
-<tr class="separator:ae70e6175ba3ddfa1dfab3f5189e94e6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a60f1752bf36d9ecc2f01319443cc8a3d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d0/d74/classboca_1_1Results.html">Results</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#a60f1752bf36d9ecc2f01319443cc8a3d">ReadBdtFiles</a> () const </td></tr>
 <tr class="separator:a60f1752bf36d9ecc2f01319443cc8a3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3fba128a5db0a82a512250a8ac4ddd2b"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../dc/d0c/classboca_1_1Result.html">Result</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#a3fba128a5db0a82a512250a8ac4ddd2b">ReadBdtFile</a> (TFile &amp;export_file, <a class="el" href="../../da/d7d/namespaceboca.html#afe26187a85055a0f0dc9686d32b65344">boca::Tag</a> tag) const </td></tr>
 <tr class="separator:a3fba128a5db0a82a512250a8ac4ddd2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa5ece22b44204bc3cf6d25097b0c6717"><td class="memItemLeft" align="right" valign="top">TH1F&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#aa5ece22b44204bc3cf6d25097b0c6717">Histogram</a> (const <a class="el" href="../../dc/d0c/classboca_1_1Result.html">boca::Result</a> &amp;result, <a class="el" href="../../d6/db8/structboca_1_1Point.html">boca::Point</a> &amp;max, <a class="el" href="../../d6/db8/structboca_1_1Point.html">boca::Point</a> &amp;min, int index) const </td></tr>
-<tr class="separator:aa5ece22b44204bc3cf6d25097b0c6717"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a70975031936dd3f9200d4a85a1303195"><td class="memItemLeft" align="right" valign="top">TLine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#a70975031936dd3f9200d4a85a1303195">Line</a> (const <a class="el" href="../../d0/d74/classboca_1_1Results.html">boca::Results</a> &amp;results, float y_min, float y_max) const </td></tr>
-<tr class="separator:a70975031936dd3f9200d4a85a1303195"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3523aa894c54e4c8e84d44a2e4bfa658"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#a3523aa894c54e4c8e84d44a2e4bfa658">AddGraph</a> (TGraph &amp;graph, TMultiGraph &amp;multi_graph, TLegend &amp;legend, <a class="el" href="../../da/d7d/namespaceboca.html#a3ea7ae00fabc73701a5d06c9fd5bd0b9">Strings</a> const &amp;name, int index) const </td></tr>
-<tr class="separator:a3523aa894c54e4c8e84d44a2e4bfa658"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab9a700461f52a5cb69ffdce44653cec8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#ab9a700461f52a5cb69ffdce44653cec8">PlotAcceptanceGraph</a> (const <a class="el" href="../../d0/d74/classboca_1_1Results.html">boca::Results</a> &amp;results) const </td></tr>
 <tr class="separator:ab9a700461f52a5cb69ffdce44653cec8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02e93e078f121aca598a4ffd913b2f14"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#a02e93e078f121aca598a4ffd913b2f14">PlotCrosssectionsGraph</a> (const <a class="el" href="../../d0/d74/classboca_1_1Results.html">boca::Results</a> &amp;results) const </td></tr>
+<tr class="separator:a02e93e078f121aca598a4ffd913b2f14"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a5df83b64ac69de5a7aaff33c65c69f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#a0a5df83b64ac69de5a7aaff33c65c69f">PlotCrosssectionGraph</a> (<a class="el" href="../../d0/d74/classboca_1_1Results.html">Results</a> &amp;results) const </td></tr>
+<tr class="separator:a0a5df83b64ac69de5a7aaff33c65c69f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa6b705f28f9c5632aad9e48c4c4fb41c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#aa6b705f28f9c5632aad9e48c4c4fb41c">PlotHistograms</a> (<a class="el" href="../../d0/d74/classboca_1_1Results.html">boca::Results</a> &amp;results) const </td></tr>
 <tr class="separator:aa6b705f28f9c5632aad9e48c4c4fb41c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab584cd55e7422b61d7be51da0b7a9cdb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#ab584cd55e7422b61d7be51da0b7a9cdb">AddHistogram</a> (THStack &amp;stack, TH1F &amp;histogram, TLegend &amp;legend) const </td></tr>
-<tr class="separator:ab584cd55e7422b61d7be51da0b7a9cdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3908321185a65a3af7b28d2fe3d88282"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/d42/classboca_1_1Tagger.html">boca::Tagger</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#a3908321185a65a3af7b28d2fe3d88282">Tagger</a> () const </td></tr>
-<tr class="separator:a3908321185a65a3af7b28d2fe3d88282"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaec2689b26e223f4898c6317e341fa10"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d0/de6/classboca_1_1InfoBranch.html">boca::InfoBranch</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#aaec2689b26e223f4898c6317e341fa10">InfoBranch</a> (TFile &amp;file, <a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> const &amp;tree_name) const </td></tr>
 <tr class="separator:aaec2689b26e223f4898c6317e341fa10"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2ff3a2107f161c06ac31f016a4343be5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dc/d0c/classboca_1_1Result.html">Result</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#a2ff3a2107f161c06ac31f016a4343be5">BdtDistribution</a> (TFile &amp;file, <a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> const &amp;tree_name, TFile &amp;export_file) const </td></tr>
 <tr class="separator:a2ff3a2107f161c06ac31f016a4343be5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5644969d5c79e6474f0a260f3203dce4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#a5644969d5c79e6474f0a260f3203dce4">Table</a> (<a class="el" href="../../d0/d74/classboca_1_1Results.html">Results</a> const &amp;results) const </td></tr>
-<tr class="separator:a5644969d5c79e6474f0a260f3203dce4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4fc1f9c39844c16ae8b8daa813e1248"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#aa4fc1f9c39844c16ae8b8daa813e1248">BestValueTable</a> (<a class="el" href="../../d0/d74/classboca_1_1Results.html">Results</a> const &amp;results) const </td></tr>
+<tr class="separator:aa4fc1f9c39844c16ae8b8daa813e1248"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac060a18f99f3ea60796ecfbac67cf41"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#aac060a18f99f3ea60796ecfbac67cf41">BestValueRow</a> (<a class="el" href="../../d0/d74/classboca_1_1Results.html">Results</a> const &amp;results, int bin, <a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> const &amp;name) const </td></tr>
+<tr class="separator:aac060a18f99f3ea60796ecfbac67cf41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfc42feb27f7bf0dfd312be2e2e1cec8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#abfc42feb27f7bf0dfd312be2e2e1cec8">EfficienciesTable</a> (<a class="el" href="../../d0/d74/classboca_1_1Results.html">Results</a> const &amp;results, int bin) const </td></tr>
+<tr class="separator:abfc42feb27f7bf0dfd312be2e2e1cec8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e458e79aad1c1b38d6580d77993b3d4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#a4e458e79aad1c1b38d6580d77993b3d4">EfficienciesRow</a> (const <a class="el" href="../../dc/d0c/classboca_1_1Result.html">boca::Result</a> &amp;result, int index, <a class="el" href="../../da/d7d/namespaceboca.html#afe26187a85055a0f0dc9686d32b65344">boca::Tag</a> tag, int bin) const </td></tr>
+<tr class="separator:a4e458e79aad1c1b38d6580d77993b3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a16f5cd7bff1a8584a9b13bce33144a74"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#a16f5cd7bff1a8584a9b13bce33144a74">PlotEfficiencyGraph</a> (const <a class="el" href="../../d0/d74/classboca_1_1Results.html">boca::Results</a> &amp;results) const </td></tr>
 <tr class="separator:a16f5cd7bff1a8584a9b13bce33144a74"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abdbc6154db729dabca38b7f1688f688b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#abdbc6154db729dabca38b7f1688f688b">PlotSignificanceGraph</a> (const <a class="el" href="../../d0/d74/classboca_1_1Results.html">boca::Results</a> &amp;results) const </td></tr>
-<tr class="separator:abdbc6154db729dabca38b7f1688f688b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae79fe8ce495ab67a64958900e8db1b71"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dd/ddf/structboca_1_1Plot.html">Plot</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#ae79fe8ce495ab67a64958900e8db1b71">CoreVector</a> (<a class="el" href="../../dd/ddf/structboca_1_1Plot.html">Plot</a> &amp;plot, std::function&lt; bool(<a class="el" href="../../d6/db8/structboca_1_1Point.html">Point</a> &amp;, <a class="el" href="../../d6/db8/structboca_1_1Point.html">Point</a> &amp;)&gt; const &amp;function) const </td></tr>
-<tr class="separator:ae79fe8ce495ab67a64958900e8db1b71"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5b084ead8222f2065a89206c55f91c26"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#a5b084ead8222f2065a89206c55f91c26">ExportFileSuffix</a> () const </td></tr>
-<tr class="separator:a5b084ead8222f2065a89206c55f91c26"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afaec2901ef1ce10048240f84afb1b543"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#afaec2901ef1ce10048240f84afb1b543">SetAxis</a> (TAxis &amp;axis, <a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> const &amp;title) const </td></tr>
-<tr class="separator:afaec2901ef1ce10048240f84afb1b543"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a91279e82764ffe8ed8a3246e887ce06f"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#a91279e82764ffe8ed8a3246e887ce06f">TextSize</a> () const </td></tr>
-<tr class="separator:a91279e82764ffe8ed8a3246e887ce06f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aae31689cba4e117a6aec5c3188d71311"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#aae31689cba4e117a6aec5c3188d71311">LabelSize</a> () const </td></tr>
-<tr class="separator:aae31689cba4e117a6aec5c3188d71311"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1db1ee1617814c0116fb084d805ab9c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#af1db1ee1617814c0116fb084d805ab9c">PlotModelDependentGraph</a> (<a class="el" href="../../d0/d74/classboca_1_1Results.html">boca::Results</a> &amp;results) const </td></tr>
+<tr class="separator:af1db1ee1617814c0116fb084d805ab9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4257ceab61a8862351fcc5249d73f29"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#ac4257ceab61a8862351fcc5249d73f29">PlotModelIndependentGraph</a> (<a class="el" href="../../d0/d74/classboca_1_1Results.html">boca::Results</a> &amp;results) const </td></tr>
+<tr class="separator:ac4257ceab61a8862351fcc5249d73f29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f79942092a983a1d942591d8d6b38cb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d0/d88/classboca_1_1Plot.html">Plot</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#a6f79942092a983a1d942591d8d6b38cb">CoreVector</a> (<a class="el" href="../../d0/d88/classboca_1_1Plot.html">Plot</a> &amp;<a class="el" href="../../da/d7d/namespaceboca.html#a3930666eadd09841abb5210714b42202a32fa6e1b78a9d4028953e60564a2aa4c">plot</a>, std::function&lt; bool(<a class="el" href="../../d2/d63/classboca_1_1Point.html">Point</a> const &amp;, <a class="el" href="../../d2/d63/classboca_1_1Point.html">Point</a> const &amp;)&gt; const &amp;function) const </td></tr>
+<tr class="separator:a6f79942092a983a1d942591d8d6b38cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31b3f43231d7a933b4583c71a3ca884c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#a31b3f43231d7a933b4583c71a3ca884c">SetBranch</a> (TTree &amp;tree, int &amp;value, <a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> const &amp;name) const </td></tr>
+<tr class="separator:a31b3f43231d7a933b4583c71a3ca884c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c7ff22b525655985ac0876dbd43ba62"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#a6c7ff22b525655985ac0876dbd43ba62">SetBranch</a> (TTree &amp;tree, std::vector&lt; float &gt; &amp;values, <a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> const &amp;name) const </td></tr>
+<tr class="separator:a6c7ff22b525655985ac0876dbd43ba62"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72231be0ad5f275b0dac0f2c3fbab66c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/d42/classboca_1_1Tagger.html">boca::Tagger</a> const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#a72231be0ad5f275b0dac0f2c3fbab66c">Tagger</a> () const </td></tr>
+<tr class="separator:a72231be0ad5f275b0dac0f2c3fbab66c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:a5d5722c8227bd02dfd4996fc6b20a17b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/d42/classboca_1_1Tagger.html">boca::Tagger</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#a5d5722c8227bd02dfd4996fc6b20a17b">tagger_</a></td></tr>
-<tr class="separator:a5d5722c8227bd02dfd4996fc6b20a17b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af64aba12ca5bbacdc410ef78a4718616"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/d42/classboca_1_1Tagger.html">boca::Tagger</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd2/classboca_1_1Plotting.html#af64aba12ca5bbacdc410ef78a4718616">tagger_</a></td></tr>
+<tr class="separator:af64aba12ca5bbacdc410ef78a4718616"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Presents result of multivariant analysis. </p>
@@ -227,98 +212,6 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a3523aa894c54e4c8e84d44a2e4bfa658"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void boca::Plotting::AddGraph </td>
-          <td>(</td>
-          <td class="paramtype">TGraph &amp;&#160;</td>
-          <td class="paramname"><em>graph</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">TMultiGraph &amp;&#160;</td>
-          <td class="paramname"><em>multi_graph</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">TLegend &amp;&#160;</td>
-          <td class="paramname"><em>legend</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../da/d7d/namespaceboca.html#a3ea7ae00fabc73701a5d06c9fd5bd0b9">Strings</a> const &amp;&#160;</td>
-          <td class="paramname"><em>name</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>index</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ab584cd55e7422b61d7be51da0b7a9cdb"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void boca::Plotting::AddHistogram </td>
-          <td>(</td>
-          <td class="paramtype">THStack &amp;&#160;</td>
-          <td class="paramname"><em>stack</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">TH1F &amp;&#160;</td>
-          <td class="paramname"><em>histogram</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">TLegend &amp;&#160;</td>
-          <td class="paramname"><em>legend</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a class="anchor" id="a2ff3a2107f161c06ac31f016a4343be5"></a>
 <div class="memitem">
 <div class="memproto">
@@ -359,7 +252,7 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aa33f8500ea58529b19dc51882dfe3949"></a>
+<a class="anchor" id="aac060a18f99f3ea60796ecfbac67cf41"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -367,22 +260,22 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void boca::Plotting::CommmonHist </td>
+          <td class="memname"><a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> boca::Plotting::BestValueRow </td>
           <td>(</td>
-          <td class="paramtype">TH2 &amp;&#160;</td>
-          <td class="paramname"><em>histogram</em>, </td>
+          <td class="paramtype"><a class="el" href="../../d0/d74/classboca_1_1Results.html">Results</a> const &amp;&#160;</td>
+          <td class="paramname"><em>results</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="../../dd/ddf/structboca_1_1Plot.html">boca::Plot</a> &amp;&#160;</td>
-          <td class="paramname"><em>plot</em>, </td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>bin</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">EColor&#160;</td>
-          <td class="paramname"><em>color</em>&#160;</td>
+          <td class="paramtype"><a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> const &amp;&#160;</td>
+          <td class="paramname"><em>name</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -399,7 +292,7 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ae79fe8ce495ab67a64958900e8db1b71"></a>
+<a class="anchor" id="aa4fc1f9c39844c16ae8b8daa813e1248"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -407,15 +300,39 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../dd/ddf/structboca_1_1Plot.html">Plot</a> boca::Plotting::CoreVector </td>
+          <td class="memname"><a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> boca::Plotting::BestValueTable </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="../../dd/ddf/structboca_1_1Plot.html">Plot</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="../../d0/d74/classboca_1_1Results.html">Results</a> const &amp;&#160;</td>
+          <td class="paramname"><em>results</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a6f79942092a983a1d942591d8d6b38cb"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d0/d88/classboca_1_1Plot.html">Plot</a> boca::Plotting::CoreVector </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d0/d88/classboca_1_1Plot.html">Plot</a> &amp;&#160;</td>
           <td class="paramname"><em>plot</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::function&lt; bool(<a class="el" href="../../d6/db8/structboca_1_1Point.html">Point</a> &amp;, <a class="el" href="../../d6/db8/structboca_1_1Point.html">Point</a> &amp;)&gt; const &amp;&#160;</td>
+          <td class="paramtype">std::function&lt; bool(<a class="el" href="../../d2/d63/classboca_1_1Point.html">Point</a> const &amp;, <a class="el" href="../../d2/d63/classboca_1_1Point.html">Point</a> const &amp;)&gt; const &amp;&#160;</td>
           <td class="paramname"><em>function</em>&#160;</td>
         </tr>
         <tr>
@@ -473,7 +390,7 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a5b084ead8222f2065a89206c55f91c26"></a>
+<a class="anchor" id="a4e458e79aad1c1b38d6580d77993b3d4"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -481,30 +398,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> boca::Plotting::ExportFileSuffix </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="aa5ece22b44204bc3cf6d25097b0c6717"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">TH1F boca::Plotting::Histogram </td>
+          <td class="memname"><a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> boca::Plotting::EfficienciesRow </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="../../dc/d0c/classboca_1_1Result.html">boca::Result</a> &amp;&#160;</td>
           <td class="paramname"><em>result</em>, </td>
@@ -512,20 +406,20 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="../../d6/db8/structboca_1_1Point.html">boca::Point</a> &amp;&#160;</td>
-          <td class="paramname"><em>max</em>, </td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="../../d6/db8/structboca_1_1Point.html">boca::Point</a> &amp;&#160;</td>
-          <td class="paramname"><em>min</em>, </td>
+          <td class="paramtype"><a class="el" href="../../da/d7d/namespaceboca.html#afe26187a85055a0f0dc9686d32b65344">boca::Tag</a>&#160;</td>
+          <td class="paramname"><em>tag</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>index</em>&#160;</td>
+          <td class="paramname"><em>bin</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -542,7 +436,41 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a143ce233a0d9624015a35ad1187297b6"></a>
+<a class="anchor" id="abfc42feb27f7bf0dfd312be2e2e1cec8"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> boca::Plotting::EfficienciesTable </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d0/d74/classboca_1_1Results.html">Results</a> const &amp;&#160;</td>
+          <td class="paramname"><em>results</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>bin</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a57b416d88a62c31f8e1fb07839b29955"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -552,7 +480,7 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="memname">std::vector&lt; <a class="el" href="../../d7/d93/classboca_1_1Plots.html">Plots</a> &gt; boca::Plotting::Import </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="../../da/d7d/namespaceboca.html#a8b248406adbf8761f7c6f1cbd095bc4a">boca::Stage</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="../../da/d7d/namespaceboca.html#a8b248406adbf8761f7c6f1cbd095bc4a">Stage</a>&#160;</td>
           <td class="paramname"><em>stage</em>, </td>
         </tr>
         <tr>
@@ -610,191 +538,12 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aae31689cba4e117a6aec5c3188d71311"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">float boca::Plotting::LabelSize </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ac0f39e311550253cf95f939471256473"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">TLegend boca::Plotting::Legend </td>
-          <td>(</td>
-          <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>x_min</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>y_min</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>width</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>height</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> const &amp;&#160;</td>
-          <td class="paramname"><em>title</em> = <code>&quot;&quot;</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a11efbd832f400f67c6132197f00ab15c"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">TLegend boca::Plotting::Legend </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../da/d7d/namespaceboca.html#a87f3a4194164595bf74d9aa1d7315bfb">boca::Orientation</a>&#160;</td>
-          <td class="paramname"><em>orientation</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../da/d7d/namespaceboca.html#a3ea7ae00fabc73701a5d06c9fd5bd0b9">boca::Strings</a> const &amp;&#160;</td>
-          <td class="paramname"><em>entries</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> const &amp;&#160;</td>
-          <td class="paramname"><em>title</em> = <code>&quot;&quot;</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ae70e6175ba3ddfa1dfab3f5189e94e6b"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">int boca::Plotting::Letters </td>
-          <td>(</td>
-          <td class="paramtype">std::vector&lt; <a class="el" href="../../dc/d0c/classboca_1_1Result.html">Result</a> &gt;&#160;</td>
-          <td class="paramname"><em>result</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a70975031936dd3f9200d4a85a1303195"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">TLine boca::Plotting::Line </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../d0/d74/classboca_1_1Results.html">boca::Results</a> &amp;&#160;</td>
-          <td class="paramname"><em>results</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>y_min</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>y_max</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a25aeaeaf89a36673a0ce56e79ca09eb0"></a>
+<a class="anchor" id="a0339c3d603ac0a9105031f3c86d181f6"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void boca::Plotting::OptimalSignificance </td>
+          <td class="memname">void boca::Plotting::OptimalCuts </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -828,7 +577,55 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ac5d38af8c67dae89f8d716518bf7472a"></a>
+<a class="anchor" id="a0a5df83b64ac69de5a7aaff33c65c69f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> boca::Plotting::PlotCrosssectionGraph </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d0/d74/classboca_1_1Results.html">Results</a> &amp;&#160;</td>
+          <td class="paramname"><em>results</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a02e93e078f121aca598a4ffd913b2f14"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> boca::Plotting::PlotCrosssectionsGraph </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../d0/d74/classboca_1_1Results.html">boca::Results</a> &amp;&#160;</td>
+          <td class="paramname"><em>results</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a7b022969b7aa9b2beb2791239aa9f45d"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -838,19 +635,19 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="memname">void boca::Plotting::PlotDetails </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="../../dd/ddf/structboca_1_1Plot.html">boca::Plot</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="../../d0/d88/classboca_1_1Plot.html">boca::Plot</a> &amp;&#160;</td>
           <td class="paramname"><em>signal</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="../../dd/ddf/structboca_1_1Plot.html">boca::Plot</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="../../d0/d88/classboca_1_1Plot.html">boca::Plot</a> &amp;&#160;</td>
           <td class="paramname"><em>background</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="../../da/d7d/namespaceboca.html#a8b248406adbf8761f7c6f1cbd095bc4a">boca::Stage</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="../../da/d7d/namespaceboca.html#a8b248406adbf8761f7c6f1cbd095bc4a">Stage</a>&#160;</td>
           <td class="paramname"><em>stage</em>&#160;</td>
         </tr>
         <tr>
@@ -902,25 +699,25 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="memname">void boca::Plotting::PlotHistogram </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../dd/ddf/structboca_1_1Plot.html">boca::Plot</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="../../d0/d88/classboca_1_1Plot.html">boca::Plot</a> &amp;&#160;</td>
           <td class="paramname"><em>signal</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="../../dd/ddf/structboca_1_1Plot.html">boca::Plot</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="../../d0/d88/classboca_1_1Plot.html">boca::Plot</a> &amp;&#160;</td>
           <td class="paramname"><em>background</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="../../d6/db8/structboca_1_1Point.html">boca::Point</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="../../d2/d63/classboca_1_1Point.html">boca::Point</a> &amp;&#160;</td>
           <td class="paramname"><em>min</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="../../d6/db8/structboca_1_1Point.html">boca::Point</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="../../d2/d63/classboca_1_1Point.html">boca::Point</a> &amp;&#160;</td>
           <td class="paramname"><em>max</em>&#160;</td>
         </tr>
         <tr>
@@ -962,6 +759,54 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="af1db1ee1617814c0116fb084d805ab9c"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> boca::Plotting::PlotModelDependentGraph </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d0/d74/classboca_1_1Results.html">boca::Results</a> &amp;&#160;</td>
+          <td class="paramname"><em>results</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ac4257ceab61a8862351fcc5249d73f29"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> boca::Plotting::PlotModelIndependentGraph </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d0/d74/classboca_1_1Results.html">boca::Results</a> &amp;&#160;</td>
+          <td class="paramname"><em>results</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="a92f68c2117c0cbee8a5bb56fa20e25a5"></a>
 <div class="memitem">
 <div class="memproto">
@@ -972,25 +817,25 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="memname">void boca::Plotting::PlotProfile </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../dd/ddf/structboca_1_1Plot.html">boca::Plot</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="../../d0/d88/classboca_1_1Plot.html">boca::Plot</a> &amp;&#160;</td>
           <td class="paramname"><em>signal</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="../../dd/ddf/structboca_1_1Plot.html">boca::Plot</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="../../d0/d88/classboca_1_1Plot.html">boca::Plot</a> &amp;&#160;</td>
           <td class="paramname"><em>background</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="../../d6/db8/structboca_1_1Point.html">boca::Point</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="../../d2/d63/classboca_1_1Point.html">boca::Point</a> &amp;&#160;</td>
           <td class="paramname"><em>min</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="../../d6/db8/structboca_1_1Point.html">boca::Point</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="../../d2/d63/classboca_1_1Point.html">boca::Point</a> &amp;&#160;</td>
           <td class="paramname"><em>max</em>&#160;</td>
         </tr>
         <tr>
@@ -1008,7 +853,7 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a60e7ab570e503876caebf148d9e7cf76"></a>
+<a class="anchor" id="aa74912cf0464738293cdd5092bbfb2bd"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -1030,37 +875,13 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="../../da/d7d/namespaceboca.html#a8b248406adbf8761f7c6f1cbd095bc4a">boca::Stage</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="../../da/d7d/namespaceboca.html#a8b248406adbf8761f7c6f1cbd095bc4a">Stage</a>&#160;</td>
           <td class="paramname"><em>stage</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
           <td>)</td>
           <td></td><td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="abdbc6154db729dabca38b7f1688f688b"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> boca::Plotting::PlotSignificanceGraph </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../d0/d74/classboca_1_1Results.html">boca::Results</a> &amp;&#160;</td>
-          <td class="paramname"><em>results</em></td><td>)</td>
-          <td> const</td>
         </tr>
       </table>
   </td>
@@ -1129,7 +950,7 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a8cba05b85aeca05bd8159d38a90da596"></a>
+<a class="anchor" id="a0465e95fd7ad4cafe60d9c71f3df979d"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -1137,7 +958,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../dd/ddf/structboca_1_1Plot.html">Plot</a> boca::Plotting::ReadTree </td>
+          <td class="memname"><a class="el" href="../../d0/d88/classboca_1_1Plot.html">Plot</a> boca::Plotting::ReadTree </td>
           <td>(</td>
           <td class="paramtype">TTree &amp;&#160;</td>
           <td class="paramname"><em>tree</em>, </td>
@@ -1146,18 +967,18 @@ Private Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> const &amp;&#160;</td>
-          <td class="paramname"><em>leaf_1</em>, </td>
+          <td class="paramname"><em>leaf_1_name</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> const &amp;&#160;</td>
-          <td class="paramname"><em>leaf_2</em>, </td>
+          <td class="paramname"><em>leaf_2_name</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="../../da/d7d/namespaceboca.html#a8b248406adbf8761f7c6f1cbd095bc4a">boca::Stage</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="../../da/d7d/namespaceboca.html#a8b248406adbf8761f7c6f1cbd095bc4a">Stage</a>&#160;</td>
           <td class="paramname"><em>stage</em>&#160;</td>
         </tr>
         <tr>
@@ -1190,7 +1011,7 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="afaec2901ef1ce10048240f84afb1b543"></a>
+<a class="anchor" id="a31b3f43231d7a933b4583c71a3ca884c"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -1198,16 +1019,22 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void boca::Plotting::SetAxis </td>
+          <td class="memname">void boca::Plotting::SetBranch </td>
           <td>(</td>
-          <td class="paramtype">TAxis &amp;&#160;</td>
-          <td class="paramname"><em>axis</em>, </td>
+          <td class="paramtype">TTree &amp;&#160;</td>
+          <td class="paramname"><em>tree</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int &amp;&#160;</td>
+          <td class="paramname"><em>value</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> const &amp;&#160;</td>
-          <td class="paramname"><em>title</em>&#160;</td>
+          <td class="paramname"><em>name</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1217,14 +1044,14 @@ Private Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="a281004a067e08ee238a207b3d1d76666"></a>
+<a class="anchor" id="a6c7ff22b525655985ac0876dbd43ba62"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -1232,28 +1059,22 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void boca::Plotting::SetHistogram </td>
+          <td class="memname">void boca::Plotting::SetBranch </td>
           <td>(</td>
-          <td class="paramtype">TH2 &amp;&#160;</td>
-          <td class="paramname"><em>histogram</em>, </td>
+          <td class="paramtype">TTree &amp;&#160;</td>
+          <td class="paramname"><em>tree</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="../../dd/ddf/structboca_1_1Plot.html">boca::Plot</a> &amp;&#160;</td>
-          <td class="paramname"><em>plot</em>, </td>
+          <td class="paramtype">std::vector&lt; float &gt; &amp;&#160;</td>
+          <td class="paramname"><em>values</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">EColor&#160;</td>
-          <td class="paramname"><em>color</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">TExec &amp;&#160;</td>
-          <td class="paramname"><em>exec</em>&#160;</td>
+          <td class="paramtype"><a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> const &amp;&#160;</td>
+          <td class="paramname"><em>name</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1263,47 +1084,7 @@ Private Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="adb096574a6444b11acf4af4c7dd9ea39"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void boca::Plotting::SetMultiGraph </td>
-          <td>(</td>
-          <td class="paramtype">TMultiGraph &amp;&#160;</td>
-          <td class="paramname"><em>multi_graph</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="../../d6/db8/structboca_1_1Point.html">boca::Point</a> &amp;&#160;</td>
-          <td class="paramname"><em>min</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="../../d6/db8/structboca_1_1Point.html">boca::Point</a> &amp;&#160;</td>
-          <td class="paramname"><em>max</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -1333,7 +1114,7 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a7a9516e8fd025e678248230b0ff53d0d"></a>
+<a class="anchor" id="a72231be0ad5f275b0dac0f2c3fbab66c"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -1341,105 +1122,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void boca::Plotting::SetPlotStyle </td>
-          <td>(</td>
-          <td class="paramtype">TAttLine &amp;&#160;</td>
-          <td class="paramname"><em>att_line</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>index</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="aa7ff59cf6d2cbac369640335991f1339"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void boca::Plotting::SetProfile </td>
-          <td>(</td>
-          <td class="paramtype">TProfile2D &amp;&#160;</td>
-          <td class="paramname"><em>histogram</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="../../dd/ddf/structboca_1_1Plot.html">boca::Plot</a> &amp;&#160;</td>
-          <td class="paramname"><em>signal</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="../../dd/ddf/structboca_1_1Plot.html">boca::Plot</a> &amp;&#160;</td>
-          <td class="paramname"><em>background</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a5644969d5c79e6474f0a260f3203dce4"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> boca::Plotting::Table </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d0/d74/classboca_1_1Results.html">Results</a> const &amp;&#160;</td>
-          <td class="paramname"><em>results</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a3908321185a65a3af7b28d2fe3d88282"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../da/d42/classboca_1_1Tagger.html">Tagger</a> &amp; boca::Plotting::Tagger </td>
+          <td class="memname"><a class="el" href="../../da/d42/classboca_1_1Tagger.html">Tagger</a> const &amp; boca::Plotting::Tagger </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1469,31 +1152,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a91279e82764ffe8ed8a3246e887ce06f"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">float boca::Plotting::TextSize </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="a5d5722c8227bd02dfd4996fc6b20a17b"></a>
+<a class="anchor" id="af64aba12ca5bbacdc410ef78a4718616"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -1501,7 +1161,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../da/d42/classboca_1_1Tagger.html">boca::Tagger</a>* boca::Plotting::tagger_</td>
+          <td class="memname"><a class="el" href="../../da/d42/classboca_1_1Tagger.html">boca::Tagger</a>&amp; boca::Plotting::tagger_</td>
         </tr>
       </table>
   </td>
@@ -1520,7 +1180,7 @@ Private Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 1 2015 22:16:32 for BoCA by &#160;<a href="http://www.doxygen.org/index.html">
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

@@ -1,5 +1,5 @@
 <map id="boca::higgscpv::EventTTagger" name="boca::higgscpv::EventTTagger">
-<area shape="rect" id="node2" href="$dd/d4b/classboca_1_1BranchTagger.html" title="boca::BranchTagger\l\&lt; EventBranch \&gt;" alt="" coords="36,185,175,227"/>
-<area shape="rect" id="node3" href="$da/d42/classboca_1_1Tagger.html" title="Prepares multivariant analysis. " alt="" coords="69,5,168,32"/>
-<area shape="rect" id="node4" href="$dd/d4b/classboca_1_1BranchTagger.html" title="Tagger base class using Branch template. " alt="" coords="121,81,263,123"/>
+<area shape="rect" id="node2" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; MultipletEvent\&lt; Octet332\l \&gt;, EventBranch \&gt;" alt="" coords="14,215,197,271"/>
+<area shape="rect" id="node3" href="$da/d42/classboca_1_1Tagger.html" title="Prepares multivariant analysis. " alt="" coords="71,5,169,32"/>
+<area shape="rect" id="node4" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="Tagger base class using Branch template. " alt="" coords="121,81,273,137"/>
 </map>

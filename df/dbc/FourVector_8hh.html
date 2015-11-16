@@ -106,18 +106,19 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
 <div class="textblock"><code>#include &lt;iomanip&gt;</code><br />
 <code>#include &lt;iostream&gt;</code><br />
 <code>#include &quot;fastjet/PseudoJet.hh&quot;</code><br />
-<code>#include &quot;<a class="el" href="../../de/d7d/ClonesArrays_8hh_source.html">ClonesArrays.hh</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="../../d8/dff/JetTag_8hh_source.html">JetTag.hh</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="../../d0/d5f/Flag_8hh_source.html">Flag.hh</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="../../d6/d74/TreeReader_8hh_source.html">TreeReader.hh</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for FourVector.hh:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d2/d9b/FourVector_8hh__incl.svg" width="723" height="411"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d2/d9b/FourVector_8hh__incl.svg" width="2500" height="500"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../dc/d15/FourVector_8hh__dep__incl.svg" width="7126" height="351"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../dc/d15/FourVector_8hh__dep__incl.svg" width="6864" height="351"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 </div>
@@ -142,7 +143,7 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:ae0605431bf3b44ebac8b76c97d5e310d"><td class="memItemLeft" align="right" valign="top">typedef std::vector&lt; fastjet::PseudoJet &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#ae0605431bf3b44ebac8b76c97d5e310d">boca::Jets</a></td></tr>
+<tr class="memitem:ae0605431bf3b44ebac8b76c97d5e310d"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#ae0605431bf3b44ebac8b76c97d5e310d">boca::Jets</a> = std::vector&lt; fastjet::PseudoJet &gt;</td></tr>
 <tr class="separator:ae0605431bf3b44ebac8b76c97d5e310d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
@@ -153,10 +154,10 @@ Enumerations</h2></td></tr>
 <a class="el" href="../../da/d7d/namespaceboca.html#a602b8cd5c4517b9cb35689be14a958eeadac9630aec642a428cd73f4be0a03569">boca::Status::generator</a> = 3
  }</td></tr>
 <tr class="separator:a602b8cd5c4517b9cb35689be14a958ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae0bcff4823ed71107a5d2cd004778d44"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#ae0bcff4823ed71107a5d2cd004778d44">boca::JetDetail</a> { <a class="el" href="../../da/d7d/namespaceboca.html#ae0bcff4823ed71107a5d2cd004778d44aac7938d40cfc2307e2bf325d28e7884e">boca::JetDetail::plain</a> = 0, 
-<a class="el" href="../../da/d7d/namespaceboca.html#ae0bcff4823ed71107a5d2cd004778d44a07414f4e15ca943e6cde032dec85d92f">boca::JetDetail::structure</a> = 1 &lt;&lt; 0, 
-<a class="el" href="../../da/d7d/namespaceboca.html#ae0bcff4823ed71107a5d2cd004778d44a7083a19806d3d0e94bb134eb9cec3403">boca::JetDetail::tagging</a> = 1 &lt;&lt; 1, 
-<a class="el" href="../../da/d7d/namespaceboca.html#ae0bcff4823ed71107a5d2cd004778d44a4dd3b03fa4bcecf34c516ebfc43e7719">boca::JetDetail::isolation</a> = 1 &lt;&lt; 2
+<tr class="memitem:ae0bcff4823ed71107a5d2cd004778d44"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d7d/namespaceboca.html#ae0bcff4823ed71107a5d2cd004778d44">boca::JetDetail</a> { <a class="el" href="../../da/d7d/namespaceboca.html#ae0bcff4823ed71107a5d2cd004778d44aac7938d40cfc2307e2bf325d28e7884e">boca::JetDetail::plain</a> = 1 &lt;&lt; 0, 
+<a class="el" href="../../da/d7d/namespaceboca.html#ae0bcff4823ed71107a5d2cd004778d44a07414f4e15ca943e6cde032dec85d92f">boca::JetDetail::structure</a> = 1 &lt;&lt; 1, 
+<a class="el" href="../../da/d7d/namespaceboca.html#ae0bcff4823ed71107a5d2cd004778d44a7083a19806d3d0e94bb134eb9cec3403">boca::JetDetail::tagging</a> = 1 &lt;&lt; 2, 
+<a class="el" href="../../da/d7d/namespaceboca.html#ae0bcff4823ed71107a5d2cd004778d44a4dd3b03fa4bcecf34c516ebfc43e7719">boca::JetDetail::isolation</a> = 1 &lt;&lt; 3
  }</td></tr>
 <tr class="memdesc:ae0bcff4823ed71107a5d2cd004778d44"><td class="mdescLeft">&#160;</td><td class="mdescRight">flags defining to which level of detail jets should be analyzed  <a href="../../da/d7d/namespaceboca.html#ae0bcff4823ed71107a5d2cd004778d44">More...</a><br /></td></tr>
 <tr class="separator:ae0bcff4823ed71107a5d2cd004778d44"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -179,7 +180,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 1 2015 22:16:31 for BoCA by &#160;<a href="http://www.doxygen.org/index.html">
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

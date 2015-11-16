@@ -1,5 +1,5 @@
 <map id="boca::Doublet" name="boca::Doublet">
-<area shape="rect" id="node2" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; Singlet,\l Singlet \&gt;" alt="" coords="15,337,184,379"/>
+<area shape="rect" id="node2" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; boca\l::Singlet, boca::Singlet \&gt;" alt="" coords="16,352,183,393"/>
 <area shape="rect" id="node3" href="$d1/d5c/classboca_1_1Multiplet.html" title="boca::Multiplet" alt="" coords="21,157,127,184"/>
 <area shape="rect" id="node6" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; Multiplet\l_1, Multiplet_2 \&gt;" alt="" coords="96,233,271,275"/>
 <area shape="rect" id="node4" href="$de/d8b/classboca_1_1MultipletBase.html" title="boca::MultipletBase" alt="" coords="5,81,143,108"/>

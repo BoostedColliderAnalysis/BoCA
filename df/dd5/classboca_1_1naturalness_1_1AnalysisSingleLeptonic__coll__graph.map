@@ -1,0 +1,11 @@
+<map id="boca::naturalness::AnalysisSingleLeptonic&lt; Tagger &gt;" name="boca::naturalness::AnalysisSingleLeptonic&lt; Tagger &gt;">
+<area shape="rect" id="node2" href="$d0/da0/classboca_1_1naturalness_1_1AnalysisNaturalness.html" title="Top partner analysis. " alt="" coords="314,453,457,509"/>
+<area shape="rect" id="node3" href="$d1/d36/classboca_1_1Analysis.html" title="provides main analysis loops and logic. " alt="" coords="299,377,471,404"/>
+<area shape="rect" id="node4" href="$d7/d62/classboca_1_1AnalysisBase.html" title="Base for all analyses. " alt="" coords="209,288,348,315"/>
+<area shape="rect" id="node5" href="$d0/dff/classboca_1_1PreCuts.html" title="boca::PreCuts" alt="" coords="225,199,332,225"/>
+<area shape="rect" id="node6" href="$d0/db9/classboca_1_1PreCut.html" title="boca::PreCut\&lt; Mass \&gt;" alt="" coords="5,95,160,121"/>
+<area shape="rect" id="node7" href="$d0/db9/classboca_1_1PreCut.html" title="boca::PreCut\&lt; Value \&gt;" alt="" coords="201,5,357,32"/>
+<area shape="rect" id="node8" href="$d0/db9/classboca_1_1PreCut.html" title="boca::PreCut\&lt; Momentum \&gt;" alt="" coords="185,95,373,121"/>
+<area shape="rect" id="node9" href="$d0/db9/classboca_1_1PreCut.html" title="boca::PreCut\&lt; Angle \&gt;" alt="" coords="397,95,553,121"/>
+<area shape="rect" id="node10" href="$da/d42/classboca_1_1Tagger.html" title="Prepares multivariant analysis. " alt="" coords="372,288,471,315"/>
+</map>
