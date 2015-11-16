@@ -4,6 +4,7 @@
 #pragma once
 
 #include <vector>
+#include <boost/range/algorithm/sort.hpp>
 
 #include "fastjet/PseudoJet.hh"
 
@@ -20,7 +21,7 @@ struct MinDeltaRTo {
     }
     template <typename Multiplet>
     bool operator()(Multiplet const& multiplet1, Multiplet const& multiplet2) {
-        return multiplet1.Jet().delta_R(jet_)  < multiplet2.Jet().delta_R(jet_);
+        return multiplet1.DeltaRTo(jet_) < multiplet2.DeltaRTo(jet_);
     }
     bool operator()(fastjet::PseudoJet const& jet1, fastjet::PseudoJet const& jet2) {
         return jet1.delta_R(jet_)  < jet2.delta_R(jet_);
@@ -31,47 +32,43 @@ struct MinDeltaRTo {
 template<typename Multiplet>
 std::vector<Multiplet> SortedByMinDeltaRTo(std::vector<Multiplet> multiplets, fastjet::PseudoJet const& jet)
 {
-    std::sort(multiplets.begin(), multiplets.end(), MinDeltaRTo(jet));
-    return multiplets;
+    return boost::range::sort(multiplets, MinDeltaRTo(jet));
 }
 
 template <class Multiplet>
 std::vector<Multiplet> SortedByMaxDeltaRap(std::vector<Multiplet> multiplets)
 {
-    std::sort(multiplets.begin(), multiplets.end(), [](const Multiplet & multiplet_1, const Multiplet & multiplet_2) {
+    return boost::range::sort(multiplets, [](const Multiplet & multiplet_1, const Multiplet & multiplet_2) {
         return (multiplet_1.DeltaRap() > multiplet_2.DeltaRap());
     });
-    return multiplets;
 }
 
 template <class Multiplet>
-std::vector<Multiplet> SortedByMassTo(std::vector<Multiplet> multiplets, float mass)
+std::vector<Multiplet> SortedByMassTo(std::vector<Multiplet> multiplets, Mass mass)
 {
-    std::sort(multiplets.begin(), multiplets.end(), [mass](const Multiplet & multiplet_1, const Multiplet & multiplet_2) {
-        return std::abs(multiplet_1.Jet().m() - mass) < std::abs(multiplet_2.Jet().m() - mass);
+    return boost::range::sort(multiplets, [mass](const Multiplet & multiplet_1, const Multiplet & multiplet_2) {
+        return boost::units::abs(multiplet_1.Mass() - mass) < boost::units::abs(multiplet_2.Mass() - mass);
     });
-    return multiplets;
 }
 
 struct SortByMassTo {
     SortByMassTo(Id id) {
-        mass_ = Mass(id);
+        mass_ = MassOf(id);
     }
     template <typename Multiplet>
     bool operator()(Multiplet const& multiplet_1, Multiplet const& multiplet_2) {
-        return std::abs(multiplet_1.Jet().m() - mass_) < std::abs(multiplet_2.Jet().m() - mass_);
+        return boost::units::abs(multiplet_1.Mass() - mass_) < boost::units::abs(multiplet_2.Mass() - mass_);
     }
     bool operator()(fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2) {
-        return std::abs(jet_1.m() - mass_) > std::abs(jet_2.m() - mass_);
+        return std::abs(jet_1.m() - mass_ / GeV) > std::abs(jet_2.m() - mass_ / GeV);
     }
-    float mass_;
+    Mass mass_;
 };
 
 template <class Multiplet>
 std::vector<Multiplet> SortedByMassTo(std::vector<Multiplet> multiplets, Id id)
 {
-    std::sort(multiplets.begin(), multiplets.end(), SortByMassTo(id));
-    return multiplets;
+    return boost::range::sort(multiplets, SortByMassTo(id));
 }
 
 struct SortByMass {
@@ -87,15 +84,14 @@ struct SortByMass {
 template <class Multiplet>
 std::vector<Multiplet> SortedByMass(std::vector<Multiplet> multiplets)
 {
-    std::sort(multiplets.begin(), multiplets.end(), SortByMass());
-    return multiplets;
+    return boost::range::sort(multiplets, SortByMass());
 }
 
 
 struct SortByPt {
     template <typename Multiplet>
     bool operator()(Multiplet const& multiplet_1, Multiplet const& multiplet_2) {
-        return multiplet_1.Jet().pt() > multiplet_2.Jet().pt();
+        return multiplet_1.Pt() > multiplet_2.Pt();
     }
     bool operator()(fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2) {
         return jet_1.pt() > jet_2.pt();
@@ -112,8 +108,7 @@ struct SortByPt {
 template <class Multiplet>
 std::vector<Multiplet> SortedByPt(std::vector<Multiplet> multiplets)
 {
-    std::sort(multiplets.begin(), multiplets.end(), SortByPt());
-    return multiplets;
+    return boost::range::sort(multiplets, SortByPt());
 }
 
 
@@ -134,8 +129,7 @@ struct SortByBdt {
 template <typename Multiplet>
 std::vector<Multiplet> SortedByBdt(std::vector<Multiplet>  multiplets)
 {
-    std::sort(multiplets.begin(), multiplets.end(), SortByBdt());
-    return multiplets;
+    return boost::range::sort(multiplets, SortByBdt());
 }
 
 

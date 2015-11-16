@@ -2,45 +2,42 @@
  * Copyright (C) 2015 Jan Hajer
  */
 #pragma once
+#include <memory>
 #include "EventShapes.hh"
 
-namespace fastjet{
-  class PseudoJet;
+namespace fastjet
+{
+class PseudoJet;
 }
 
-namespace boca{
+namespace boca
+{
 
-  class EventShape{
+class EventShape
+{
 
-  public:
-    EventShape(){
-      event_shapes_ = new boca::EventShapes;
-    }
+public:
+  
+    EventShape() :  event_shapes_(std::make_shared<boca::EventShapes>()) {}
 
-    ~EventShape(){
-      // FIXME memory leak!!
-      // why can I not delete this
-//       delete event_shapes_;
-    }
-
-    void SetJets(const std::vector<fastjet::PseudoJet>& jets);
+    void SetJets(std::vector<fastjet::PseudoJet> const& jets);
 
     float Sphericity() const;
 
     float Aplanarity() const;
 
-    const boca::EventShapes& EventShapes() const{
-      return *event_shapes_;
+    boca::EventShapes const& EventShapes() const {
+        return *event_shapes_.get();
     }
 
-  private:
+private:
 
-    boca::EventShapes& EventShapes(){
-      return *event_shapes_;
+    boca::EventShapes& EventShapes() {
+        return *event_shapes_.get();
     }
 
-    boca::EventShapes *event_shapes_;
+    std::shared_ptr<boca::EventShapes> event_shapes_;
 
-  };
+};
 
 }

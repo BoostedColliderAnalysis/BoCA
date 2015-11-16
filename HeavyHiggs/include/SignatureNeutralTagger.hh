@@ -5,32 +5,27 @@
 #include "JetPairTagger.hh"
 #include "Octet.hh"
 
-namespace boca {
+namespace boca
+{
 
-namespace heavyhiggs {
+namespace heavyhiggs
+{
 
 /**
  *
  * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class SignatureNeutralTagger : public BranchTagger<OctetNeutralBranch> {
+class SignatureNeutralTagger : public TaggerTemplate<Octet62, OctetNeutralBranch>
+{
 
 public:
 
-    SignatureNeutralTagger();
+    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
 
-    int Train(Event const& event, PreCuts const& pre_cuts,
-              Tag tag) const final;
+    std::vector<Octet62> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
 
-    std::vector<Octet62> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
-
-    int GetBdt(Event const& event, PreCuts const& pre_cuts,
-               TMVA::Reader const& reader) const final {
-                 return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
-    }
-
-    std::string Name() const final { return "SignatureNeutral"; }
+    std::string Name() const final;
 
 private:
 

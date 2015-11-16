@@ -3,9 +3,10 @@
  */
 #pragma once
 
-#include "Identification.hh"
-#include "exroot/ExRootAnalysis.hh"
 #include "TMVA/Factory.h"
+
+#include "exroot/ExRootAnalysis.hh"
+#include "Identification.hh"
 
 namespace TMVA {
 class MethodBDT;
@@ -35,20 +36,20 @@ private:
      * @brief Book MVA methods
      *
      */
-    TMVA::MethodBDT& BookMethod(TMVA::Types::EMVA mva);
+    TMVA::MethodBase& BookMethod(TMVA::Types::EMVA mva);
 
     /**
      * @brief Add Variables
      */
-    void AddVariables();
+    void AddObservables();
 
     /**
      * @brief Get Trees
      *
      */
-    long GetTrees();
+    long AddAllTrees();
 
-    long GetTree(Tag tag);
+    long AddTrees(Tag tag);
 
     /**
      * @brief Prepare Trainig and Test Trees
@@ -66,21 +67,19 @@ private:
 
     exroot::TreeReader TreeReader(std::string const& tree_name, Tag tag);
 
-    TFile* OutputFile() const;
+    TFile& OutputFile() const;
 
     std::string FactoryOptions();
 
     std::string MethodOptions(TMVA::Types::EMVA mva);
 
-    boca::Tagger& Tagger() const
-    {
-        return tagger_;
-    }
+    boca::Tagger const& Tagger() const;
 
-    TMVA::Factory& Factory()
-    {
-        return factory_;
-    }
+    boca::Tagger & Tagger();
+
+    TMVA::Factory const& Factory() const;
+
+    TMVA::Factory& Factory();
 
     boca::Tagger& tagger_;
 

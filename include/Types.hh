@@ -4,17 +4,20 @@
 #pragma once
 
 #include <string>
+#include "Units.hh"
 
-namespace fastjet {
-  class PseudoJet;
+namespace fastjet
+{
+class PseudoJet;
 }
 
 
 class TLorentzVector;
-class LorentzVector;
 
 namespace boca
 {
+
+class LorentzVector;
 
 /**
  * @brief create a fastjet::PseudoJet from a LorentzVector
@@ -22,13 +25,13 @@ namespace boca
  */
 fastjet::PseudoJet PseudoJet(TLorentzVector const& vector);
 
-fastjet::PseudoJet PseudoJet(LorentzVector const& vector);
+fastjet::PseudoJet PseudoJet(::boca::LorentzVector const& vector);
 
 bool Exists(std::string const& name);
 
 
 /**
- * @brief provides an integer with the necessary information to work with range based for loop
+ * @brief provides an integer with the necessary information to act as counter for a range based for loop
  *
  */
 class Range
@@ -59,7 +62,7 @@ private:
 };
 
 template <typename Enumeration>
-auto to_int(Enumeration const value) -> typename std::underlying_type<Enumeration>::type {
+auto to_int(Enumeration value) -> typename std::underlying_type<Enumeration>::type {
     return static_cast<typename std::underlying_type<Enumeration>::type>(value);
 }
 
@@ -67,8 +70,8 @@ template <typename Enumeration>
 using Unsigned = typename std::make_unsigned<typename std::underlying_type<Enumeration>::type>;
 
 template <typename Enumeration>
-auto to_unsigned(Enumeration const value) -> typename Unsigned<Enumeration>::type {
-  return static_cast<typename Unsigned<Enumeration>::type>(value);
+auto to_unsigned(Enumeration value) -> typename Unsigned<Enumeration>::type {
+    return static_cast<typename Unsigned<Enumeration>::type>(value);
 }
 
 }

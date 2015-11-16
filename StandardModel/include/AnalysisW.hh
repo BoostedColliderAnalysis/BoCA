@@ -2,15 +2,11 @@
 
 #include "AnalysisStandardModel.hh"
 
-namespace boca {
+namespace boca
+{
 
-namespace standardmodel {
-
-enum class Decay {
-    leptonic, hadronic
-};
-
-std::string WName(const Decay decay);
+namespace standardmodel
+{
 
 /**
  *
@@ -20,36 +16,32 @@ std::string WName(const Decay decay);
  *
  */
 template <typename Tagger>
-class AnalysisW : public AnalysisStandardModel<Tagger> {
+class AnalysisW : public AnalysisStandardModel<Tagger>
+{
 
 public:
 
-    AnalysisW()
-    {
-        this->set_tagger_analysis_name(ProjectName());
-        this->pre_cuts().SetPtLowerCut(Id::W, this->LowerPtCut());
-        this->pre_cuts().SetPtUpperCut(Id::W, this->UpperPtCut());
-        this->pre_cuts().SetMassUpperCut(Id::W, 200);
-        //     pre_cuts().SetTrackerMaxEta(Id::top, DetectorGeometry::TrackerEtaMax);
+    AnalysisW() {
+        this->pre_cuts().PtLowerCut().Set(Id::W, this->LowerPtCut());
+        this->pre_cuts().PtUpperCut().Set(Id::W, this->UpperPtCut());
+        this->pre_cuts().MassUpperCut().Set(Id::W, 200. * GeV);
+        //     pre_cuts().TrackerMaxEta().Set(Id::top, DetectorGeometry::TrackerEtaMax);
     }
 
-    Decay WDecay() const
-    {
+    static Decay WDecay() {
         return Decay::hadronic;
-        //         return Decay::leptonic;
+        return Decay::leptonic;
     }
 
 private:
 
-    std::string ProjectName() const final
-    {
-        return  "WTagger-" + Name(this->collider_type()) + "-" + std::to_string(this->LowerPtCut()) + "GeV-" + Name(Process::tt) + "-jan";
+    std::string AnalysisName() const final {
+        return  "WTagger-" + Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-" + Name(Process::tt) + "-jan";
     }
 
 
-    void SetFiles(Tag tag) final {
-        switch (tag)
-        {
+    void SetFiles(Tag tag, Stage) final {
+        switch (tag) {
         case Tag::signal :
             this->NewFile(tag , Process::ww);
             break;
@@ -65,10 +57,9 @@ private:
             break;
         }
     }
-    int PassPreCut(Event const& event, Tag) const final
-    {
-      Jets particles = fastjet::sorted_by_pt(event.Partons().GenParticles());
-      if ((particles.at(0).pt() > this->LowerQuarkCut() && particles.at(0).pt() < this->UpperQuarkCut()) && (particles.at(1).pt() > this->LowerQuarkCut() &&  particles.at(1).pt() < this->UpperQuarkCut())) return 1;
+    int PassPreCut(Event const& event, Tag) const final {
+        Jets particles = fastjet::sorted_by_pt(event.Partons().GenParticles());
+        if ((particles.at(0).pt() > this->LowerQuarkCut() / GeV && particles.at(0).pt() < this->UpperQuarkCut() / GeV) && (particles.at(1).pt() > this->LowerQuarkCut() / GeV &&  particles.at(1).pt() < this->UpperQuarkCut() / GeV)) return 1;
         return 0;
     }
 

@@ -22,12 +22,14 @@ Debug.cpp
 Types.cpp
 Vector.cpp
 Math.cpp
+Units.cpp
+Exception.cpp
 )
 create_library(Global global_sources)
 
 set(event_sources
 File.cpp
-ClonesArrays.cpp
+TreeReader.cpp
 Event.cpp
 FourVector.cpp
 Partons.cpp
@@ -37,9 +39,9 @@ Hadrons.cpp
 create_library(Event event_sources)
 
 set(multiplet_sources
-Multiplet.cpp
 Identification.cpp
 Singlet.cpp
+Multiplet.cpp
 Doublet.cpp
 Triplet.cpp
 Quartet.cpp
@@ -56,20 +58,20 @@ TopHadronicHep.cpp
 create_library(HepTagger hep_tagger_source)
 add_dependencies(HepTagger HepTopTagger)
 
+set(plot_sources
+Plotting.cpp
+Result.cpp
+LatexFile.cpp
+Canvas.cpp
+Graph.cpp
+)
+create_library(Plot plot_sources)
+
 set(tagger_sources
 Tagger.cpp
-TauTagger.cpp
-BottomTagger.cpp
-BosonTagger.cpp
-WHadronicTagger.cpp
-WLeptonicTagger.cpp
-ZHadronicTagger.cpp
-HiggsTagger.cpp
-TopHadronicTagger.cpp
-TopLeptonicTagger.cpp
-JetPairTagger.cpp
-TripletJetPairTagger.cpp
+ReaderBase.cpp
 Observable.cpp
+MomentumRange.cpp
 PreCuts.cpp
 Trainer.cpp
 )
@@ -84,18 +86,18 @@ add_dependencies(Wimp WimpMass)
 set(analysis_sources
 Configuration.cpp
 AnalysisBase.cpp
-Trees.cpp
 Particle.cpp
 Family.cpp
 Constituent.cpp
+SubJettiness.cpp
 JetTag.cpp
 DetectorGeometry.cpp
 JetInfo.cpp
+ParticleInfo.cpp
 InfoRecombiner.cpp
 JetInfoFamily.cpp
 Reconstruction.cpp
 Discriminator.cpp
-Plotting.cpp
-Result.cpp
 )
 create_library(Analysis analysis_sources)
+

@@ -14,9 +14,19 @@ class Multiplet : public MultipletBase
 
 public:
 
-  float LeptonPt = 0;
+    float LeptonPt = 0;
 
-  float LeptonDeltaR = 0;
+    float LeptonDeltaR = 0;
+
+    boca::Singlet const& singlet() const override {
+        if (!has_singlet_) SetSinglet();
+        return singlet_;
+    }
+
+    fastjet::PseudoJet Jet() const final {
+        if (!has_jet_) SetPlainJet();
+        return jet_;
+    }
 
 protected:
 
@@ -28,56 +38,62 @@ protected:
 
     virtual std::vector<fastjet::PseudoJet> Jets() const = 0;
 
-    virtual fastjet::PseudoJet Jet() const override = 0;
+    /**
+     * @brief join the two jets
+     *
+     * @details this function becomes expensive very fast.
+     *          save the result in an temporary variable
+     *
+     */
+    boca::Singlet Singlet(boca::Singlet const& singlet_1, boca::Singlet const& singlet_2) const;
 
     fastjet::PseudoJet Jet(fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2) const;
 
     Vector2 Pull() const override;
 
-    float DeltaPt(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
+    Momentum DeltaPt(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
     float Ht(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
-    float DeltaRap(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
+    Angle DeltaRap(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
-    float DeltaPhi(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
+    Angle DeltaPhi(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
-    float DeltaR(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
+    Angle DeltaR(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
-    float DeltaM(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
+    boca::Mass DeltaM(const boca::MultipletBase& multiplets_1, const boca::MultipletBase& multiplets_2) const;
 
     float DeltaHt(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
-    float Rho(MultipletBase const& jet_1, MultipletBase const& jet_2) const;
+    float Rho(MultipletBase const& jet_1, MultipletBase const& jet_2, fastjet::PseudoJet const& jet) const;
 
     float PullDifference(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
     float PullSum(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
-    float Dipolarity(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
+    float Dipolarity(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2, boca::Singlet const& singlet) const;
 
     int Charge(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
     float BottomBdt(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
-    void SetResult(fastjet::PseudoJet const& jet) const {
-      jet_ = jet;
-      SetSinglet(jet);
-      has_jet_ = true;
-    }
+    void SetSinglet(boca::Singlet const& singlet) const;
 
-    void SetSinglet(fastjet::PseudoJet const& jet) const {
-      singlet_ = Singlet(jet);
-    }
+    virtual void SetSinglet() const = 0;
 
+    void SetPlainJet(fastjet::PseudoJet const& jet) const;
+
+    virtual void SetPlainJet() const = 0;
 
     /**
      * @brief store intermediate results
      *
      */
-    mutable Singlet singlet_;
+    mutable boca::Singlet singlet_;
 
     mutable fastjet::PseudoJet jet_;
+
+    mutable bool has_singlet_ = false;
 
     mutable bool has_jet_ = false;
 
@@ -85,7 +101,9 @@ private:
 
     float Pull(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
-    float Distance(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2, Vector2 const& point_0) const;
+    Angle Distance(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2, fastjet::PseudoJet const& constituent, Angle delta_r) const;
+
+    Angle Distance(Vector2 const& point_1, Vector2 const& point_2, Vector2 const& point_0, Angle delta_r) const;
 
 };
 

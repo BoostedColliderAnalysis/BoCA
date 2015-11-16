@@ -5,43 +5,28 @@
 
 #include "Branches.hh"
 #include "Flag.hh"
+#include "Units.hh"
 
 namespace boca
 {
 
-
-enum class Font
+class Point
 {
-    times,
-    helvetica,
-    courier,
-    symbol
-};
-
-enum class Style
-{
-  normal = 0,
-  bold = 1 << 0,
-  italic = 1 << 1
-};
-
-template<>
-struct Flag<Style> {
-  static const bool enable = true;
-};
-
-struct Point {
+public:
     Point() {};
-    Point(float xx, float yy) {
+    Point(float xx, float yy, float zz = 0) {
         x = xx;
         y = yy;
+        z = zz;
     }
     float x = 0;
     float y = 0;
     float z = 0;
 };
 
-struct Plot {
+class Plot
+{
+public:
     std::vector<Point> points;
     std::string name_x;
     std::string name_y;
@@ -49,6 +34,9 @@ struct Plot {
     std::string nice_name_y;
     std::string name;
     std::string tree_name;
+    void Add(Point const& point) {
+        points.emplace_back(point);
+    }
 };
 
 typedef std::vector<std::pair<std::string, std::string>> Names;
@@ -57,7 +45,7 @@ class Plots
 {
 public:
     std::vector<Plot> plots;
-    boca::InfoBranch info_branch;
+    InfoBranch info_branch;
     std::string name;
     void SetNames(Names const& names, Names const& nice_names);
 };
@@ -75,8 +63,16 @@ public:
     std::vector<float> efficiency;
     std::vector<float> pure_efficiency;
     std::vector<float> bdt;
+    std::vector<Crosssection> crosssection;
     InfoBranch info_branch_;
     const static int steps = 100;
+
+    std::vector<float> XSec() const {
+        std::vector<float> values;
+        values.reserve(crosssection.size());
+        for (auto const & xsec : crosssection) values.emplace_back(xsec / fb);
+        return values;
+    }
 private:
     long event_sum_;
 };
@@ -87,24 +83,30 @@ public:
     Results();
     void Significances();
     void BestBin();
-    float XValue(int value) const;
-    float BestXValue() const;
+    static float XValue(int value);
     void ExtremeXValues();
-    std::vector<Result> signal;
-    std::vector<Result> background;
+    std::vector<Result> signals;
+    std::vector<Result> backgrounds;
     std::vector<float> significances;
+    std::vector<float> acceptances;
+    std::vector<Crosssection> crosssections;
     std::vector<float> x_values;
-    int best_bin = 0;
+    int best_model_dependent_bin = 0;
+    int best_model_independent_bin = 0;
+    int best_acceptance_bin = 0;
     Point min;
     Point max;
+
+    std::vector<float> Crosssections() const {
+        std::vector<float> values;
+        values.reserve(crosssections.size());
+        for (auto const & crosssection : crosssections) values.emplace_back(crosssection / fb);
+        // TODO remove the loop and make use of std lib
+// std::transform(crosssections.begin(), crosssections.end(), values.begin(), std::bind1st(std::multiplies<float>(), 1. / fb));
+        return values;
+    }
+
+
 };
-
-int ColorCode(int number);
-
-std::string Formula(std::string const& text);
-
-int FontCode(Font font = Font::times, Style style = Style::normal, int precision = 2);
-
-int FontNumber(Font font = Font::times, Style style = Style::normal);
 
 }

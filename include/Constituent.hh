@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include "Family.hh"
+#include "LorentzVector.hh"
 
 namespace boca {
 
@@ -17,15 +17,9 @@ public:
 
     Constituent();
 
-    Constituent(TLorentzVector const& momentum, LorentzVector const& position, Family const& family);
-
     Constituent(TLorentzVector const& momentum, LorentzVector const& position);
 
     Constituent(TLorentzVector const& momentum, LorentzVector const& position, SubDetector sub_detector, float charge = 0);
-
-    Constituent(TLorentzVector const& momentum, Family const& family);
-
-    Constituent(LorentzVector const& momentum, Family const& family);
 
     Constituent(TLorentzVector const& momentum);
 
@@ -39,13 +33,9 @@ public:
 
     void SetMomentum(TLorentzVector const& momentum);
 
-    void SetFamily(Family const& family);
-
     LorentzVector Position() const;
 
     LorentzVector Momentum() const;
-
-    Family family() const;
 
     Constituent operator+(Constituent const& constituent);
 
@@ -64,8 +54,6 @@ private:
     LorentzVector position_;
 
     LorentzVector momentum_;
-
-    boca::Family family_;
 
     int charge_ = 0;
 };

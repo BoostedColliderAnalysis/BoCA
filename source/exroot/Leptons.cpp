@@ -11,10 +11,11 @@ namespace exroot {
 
 Jets Leptons::Electrons() const
 {
-    Info();
+    Info0;
     Jets electrons;
-    for (auto const& electron_number : Range(clones_arrays().ElectronSum())) {
-        ::exroot::Electron electron = static_cast<::exroot::Electron&>(clones_arrays().Electron(electron_number));
+//     for (auto const& electron_number : Range(tree_reader().ElectronSum())) {
+    for (auto const& electron : tree_reader().Objects<::exroot::Electron>(Branch::electron)) {
+//         ::exroot::Electron electron = static_cast<::exroot::Electron&>(tree_reader().Electron(electron_number));
         fastjet::PseudoJet electron_jet = PseudoJet(electron);
         electron_jet.set_user_info(new JetInfo(int(electron.Charge)));
         electrons.emplace_back(electron_jet);
@@ -24,10 +25,11 @@ Jets Leptons::Electrons() const
 
 Jets Leptons::Muons() const
 {
-    Info();
+    Info0;
     Jets muons;
-    for (auto const& muon_number : Range(clones_arrays().MuonSum())) {
-        ::exroot::Muon& muon = static_cast<::exroot::Muon&>(clones_arrays().Muon(muon_number));
+//     for (auto const& muon_number : Range(tree_reader().MuonSum())) {
+    for (auto const& muon : tree_reader().Objects<::exroot::Muon>(Branch::muon)) {
+//         ::exroot::Muon& muon = static_cast<::exroot::Muon&>(tree_reader().Muon(muon_number));
         fastjet::PseudoJet muon_jet = PseudoJet(muon);
         muon_jet.set_user_info(new JetInfo(int(muon.Charge)));
         muons.emplace_back(muon_jet);

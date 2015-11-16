@@ -18,7 +18,7 @@ class WimpMass {
 
 public:
 
-    std::vector<boca::Sextet> Sextets(const std::vector<Quartet22>& quartets, fastjet::PseudoJet const& missing_et);
+    std::vector<boca::Sextet> Sextets(std::vector<Quartet22> const& quartets, fastjet::PseudoJet const& missing_et);
 
     std::vector<boca::Sextet> Sextet(Quartet22 const& quartet, fastjet::PseudoJet const& missing_et, Jets const& neutrinos, Tag tag);
 
@@ -30,12 +30,7 @@ private:
 
     void Momentum(double momentum[4], fastjet::PseudoJet const& jet);
 
-    fastjet::PseudoJet PseudoJet(const double Momentum[4]) const
-    {
-        // wimpmass (E,px,py,pz)
-        // fastjet (px,py,pz,E)
-        return fastjet::PseudoJet(Momentum[1], Momentum[2], Momentum[3], Momentum[0]);
-    }
+    fastjet::PseudoJet PseudoJet(double const Momentum[4]) const;
 
 };
 

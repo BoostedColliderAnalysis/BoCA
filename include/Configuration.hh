@@ -4,7 +4,7 @@
 #pragma once
 
 #include "libconfig.h++"
-
+#include "Units.hh"
 
 namespace boca
 {
@@ -23,55 +23,29 @@ public:
 
     Configuration(std::string const& config_name);
 
-    Configuration& operator=(const Configuration& configuration);
+    boca::Mass Mass();
 
-    // in GeV
-    int Mass() const;
+    Momentum PreCut();
 
-    // in GeV
-    int PreCut() const;
+    long EventNumberMax();
 
-    int EventNumberMax() const;
+    int BackgroundFileNumber();
 
-    int BackgroundFileNumber() const;
-
-
-    ColliderType collider_type() const;
+    boca::ColliderType ColliderType();
 
 private:
-    // in GeV
-    int Mass_();
-
-    // in GeV
-    int PreCut_();
-
-    int EventNumberMax_();
-
-    int BackgroundFileNumber_();
-
-    ColliderType ColliderType_();
 
     void WriteConfig(std::string const& config_name);
 
     void ReadConfig(std::string const& config_name);
 
-    libconfig::Config config_;
+    std::string ConfigFile(std::string const& config_name);
 
     libconfig::Config& config() {
         return config_;
     }
 
-    int mass_;
-
-    int pre_cut_;
-
-    int event_number_max_;
-
-    int background_file_number_;
-
-    ColliderType collider_type_;
-
-    std::string ConfigFile(std::string const& config_name);
+    libconfig::Config config_;
 
 };
 

@@ -12,6 +12,7 @@
 #include "Branches.hh"
 #include "Vector.hh"
 #include "Event.hh"
+#include "Exception.hh"
 
 namespace TMVA
 {
@@ -34,7 +35,6 @@ class PseudoJet;
 namespace boca
 {
 
-class Event;
 class PreCuts;
 typedef std::vector<std::string> Strings;
 typedef std::vector<fastjet::PseudoJet> Jets;
@@ -58,25 +58,29 @@ public:
 
     virtual std::string Name() const = 0;
 
-    virtual int GetBdt(Event const&, PreCuts const&, TMVA::Reader const&) const = 0;
+    virtual int SaveBdt(Event const&, PreCuts const&, TMVA::Reader const&) const = 0;
 
     virtual int Train(Event const&, PreCuts const&, const Tag) const = 0;
 
-    virtual float ReadBdt(const TClonesArray&, int) const = 0;
+    virtual float ReadBdt(TClonesArray const&, int) const = 0;
 
     virtual const ResultBranch& Branch() const = 0;
 
+    virtual ResultBranch& Branch() = 0;
+
+    virtual std::string NiceName() const;
+
+    void Initialize();
+
     static void SetAnalysisName(std::string const& analysis_name);
 
-    std::vector<Observable> Variables() const;
+    std::vector<Observable> const& Variables() const;
 
-    std::vector<Observable> Spectators() const;
+    std::vector<Observable> const& Spectators() const;
 
     Strings TreeNames(Tag tag) const;
 
     TCut Cut() const;
-
-    virtual std::string NiceName() const;
 
     std::string AnalysisName() const;
 
@@ -104,9 +108,15 @@ public:
 
     void AddTreeName(std::string const& signal_tree_name, Tag tag);
 
-    void SetTreeBranch(exroot::TreeWriter& tree_writer, Stage stage);
+    void NewBranch(exroot::TreeWriter& tree_writer, Stage stage);
 
     void ClearTreeNames();
+
+    std::string ReaderName() const;
+
+    std::string ReaderName(std::string const& name) const;
+
+    static std::mutex mutex_;
 
 protected:
 
@@ -147,7 +157,7 @@ protected:
         for (auto & multiplet : multiplets) {
             try {
                 SetClosestLepton(multiplet, leptons);
-            } catch (char const*) {
+            } catch (std::exception const&) {
                 continue;
             }
         }
@@ -155,8 +165,8 @@ protected:
     }
 
     template<typename Multiplet>
-    Multiplet SetClosestLepton(Multiplet& multiplet, Jets const& leptons) const {
-        if (leptons.empty()) throw "no leptons";
+    Multiplet SetClosestLepton(Multiplet& multiplet, Jets & leptons) const {
+        if (leptons.empty()) leptons.emplace_back(multiplet.Jet() * (DetectorGeometry::LeptonMinPt() / multiplet.Pt()));
         auto lepton = ClosestJet(leptons, multiplet);
         multiplet.LeptonPt = lepton.pt();
         multiplet.LeptonDeltaR = lepton.delta_R(multiplet.Jet());
@@ -172,10 +182,6 @@ private:
     std::string Root() const;
 
     std::string PathName(std::string const& file_name, std::string const& suffix = ".root") const;
-
-    std::string ReaderName() const;
-
-    std::string ReaderName(std::string const& name) const;
 
     std::string WeightName(TMVA::Types::EMVA mva) const;
 

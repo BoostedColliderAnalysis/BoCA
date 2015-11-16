@@ -3,6 +3,7 @@
  */
 #include "JetInfoFamily.hh"
 
+#include <numeric>
 #include "Types.hh"
 #include "delphes/Delphes.hh"
 #include "Debug.hh"
@@ -11,7 +12,7 @@ namespace boca {
 
 JetInfoFamily::JetInfoFamily()
 {
-    Debug();
+    Debug0;
 }
 
 JetInfoFamily::JetInfoFamily(float bdt)
@@ -42,7 +43,7 @@ void JetInfoFamily::AddFamily(Family const& family, float weight)
 
 void JetInfoFamily::ExtractFamilyFraction()
 {
-    Info();
+    Info0;
 //     for (auto const& constituent : constituents())
 //         family_fractions_[constituent.family()] += constituent.Momentum().Pt();
 }
@@ -57,7 +58,7 @@ struct SortPairs {
 
 Family JetInfoFamily::MaximalFamily()
 {
-    Debug();
+    Debug0;
     return std::max_element(family_fractions_.begin(), family_fractions_.end(), SortPairs())->first;
 }
 
@@ -134,7 +135,7 @@ float JetInfoFamily::Fraction(int id) const
 
 float JetInfoFamily::MaximalFraction() const
 {
-    Info();
+    Info0;
     std::pair<int, float> maximal_weight = *std::max_element(id_fractions_.begin(), id_fractions_.end(), SortPairs());
     if (GetWeightSum() == 0)
         return 0;
@@ -144,13 +145,13 @@ float JetInfoFamily::MaximalFraction() const
 
 int JetInfoFamily::MaximalId() const
 {
-    Debug();
+    Debug0;
     return std::max_element(id_fractions_.begin(), id_fractions_.end(), SortPairs())->first;
 }
 
 void JetInfoFamily::PrintAllInfos(Severity) const
 {
-    Debug();
+    Debug0;
 //     for (auto pair = id_fractions_.begin(); pair != id_fractions_.end(); ++pair) {
 //         if (GetWeightSum() == 0) Print(severity, "Jet Fraction", Name((*pair).first), 0);
 //         else Print(severity, "Jet Fraction", Name((*pair).first), (*pair).second / GetWeightSum());
@@ -159,13 +160,13 @@ void JetInfoFamily::PrintAllInfos(Severity) const
 
 void JetInfoFamily::PrintAllconstituentInfos(Severity) const
 {
-    Debug();
+    Debug0;
 //     for (auto const& constituent : constituents())
 //         Print(severity, "Jet Fraction", Name(constituent.family().particle().id()), Name(constituent.family().mother_1().id()), constituent.family().particle().Momentum.Pt(), constituent.family().mother_1().Momentum.Pt());
 }
 void JetInfoFamily::PrintAllFamInfos(Severity) const
 {
-    Debug();
+    Debug0;
 //     for (auto const& family_fraction : family_fractions_)
 //         Print(severity, "Family Fraction", Name(family_fraction.first.particle().id()), Name(family_fraction.first.mother_1().id()), family_fraction.first.particle().Momentum.Pt(), family_fraction.first.mother_1().Momentum.Pt());
 }

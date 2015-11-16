@@ -17,7 +17,7 @@ public:
 
     virtual ~Leptons();
 
-    void NewEvent(const ClonesArrays& clones_arrays);
+    void NewEvent(TreeReader const& tree_reader);
 
     Jets leptons() const;
 

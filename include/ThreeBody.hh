@@ -40,15 +40,6 @@ public:
         SetBdt((multiplet_1_.Bdt() + multiplet_2_.Bdt() + multiplet_2_.Bdt()) / 3);
     }
 
-    void SetSinglet(fastjet::PseudoJet const& jet) const {
-        singlet_ = Singlet(jet);
-    }
-
-    boca::Singlet const& singlet() const {
-        if (!has_jet_) SetSinglet(Jet());
-        return singlet_;
-    }
-
     Multiplet_1 const& Multiplet1() const {
         return multiplet_1_;
     }
@@ -63,58 +54,76 @@ public:
 
     template <typename Multiplet>
     bool Overlap(Multiplet const& multiplet) const {
-        return (multiplet.Overlap(multiplet_1_) || multiplet.Overlap(multiplet_2_) || multiplet.Overlap(multiplet_3_));
+        return multiplet.Overlap(multiplet_1_) || multiplet.Overlap(multiplet_2_) || multiplet.Overlap(multiplet_3_);
     }
 
     bool Overlap(boca::Singlet const& singlet) const {
-        return (multiplet_1_.Overlap(singlet) || multiplet_2_.Overlap(singlet) || multiplet_3_.Overlap(singlet));
+        return multiplet_1_.Overlap(singlet) || multiplet_2_.Overlap(singlet) || multiplet_3_.Overlap(singlet);
     }
 
     bool Overlap(fastjet::PseudoJet const& jet) const {
-        return (multiplet_1_.Overlap(jet) || multiplet_2_.Overlap(jet) || multiplet_3_.Overlap(jet));
+        return multiplet_1_.Overlap(jet) || multiplet_2_.Overlap(jet) || multiplet_3_.Overlap(jet);
     }
 
     bool Overlap() const {
         return multiplet_1_.Overlap(multiplet_2_) || multiplet_1_.Overlap(multiplet_3_) || multiplet_2_.Overlap(multiplet_3_);
     }
 
-    fastjet::PseudoJet Jet() const {
-        if (!has_jet_) SetResult(Multiplet::Jet(Jet12(), Multiplet3().Jet()));
-        return jet_;
+    void SetSinglet() const override {
+        Multiplet::SetSinglet(Multiplet::Singlet(Singlet12(), Multiplet3().singlet()));
     }
 
-    fastjet::PseudoJet Jet12() const {
-      if (!has_jet_12_) SetResult12(Multiplet::Jet(Multiplet1().Jet(), Multiplet2().Jet()));
-      return jet_12_;
+    boca::Singlet const& Singlet12() const {
+        if (!has_singlet_12_) SetSinglet12(Multiplet::Singlet(Multiplet1().singlet(), Multiplet2().singlet()));
+        return singlet_12_;
     }
 
-    fastjet::PseudoJet Jet23() const {
-      if (!has_jet_23_) SetResult23(Multiplet::Jet(Multiplet2().Jet(), Multiplet3().Jet()));
-      return jet_23_;
+    boca::Singlet const& Singlet23() const {
+        if (!has_singlet_23_) SetSinglet23(Multiplet::Singlet(Multiplet2().singlet(), Multiplet3().singlet()));
+        return singlet_23_;
     }
 
-    fastjet::PseudoJet Jet13() const {
-      if (!has_jet_13_) SetResult13(Multiplet::Jet(Multiplet1().Jet(), Multiplet3().Jet()));
-      return jet_13_;
+    boca::Singlet const& Singlet13() const {
+        if (!has_singlet_13_) SetSinglet13(Multiplet::Singlet(Multiplet1().singlet(), Multiplet3().singlet()));
+        return singlet_13_;
     }
 
-    boca::Jets Jets() const {
+    void SetPlainJet() const override {
+        Multiplet::SetPlainJet(Multiplet::Jet(Jet12(), Multiplet3().Jet()));
+    }
+
+    fastjet::PseudoJet const& Jet12() const {
+        if (!has_jet_12_) SetJet12(Multiplet::Jet(Multiplet1().Jet(), Multiplet2().Jet()));
+        return jet_12_;
+    }
+
+    fastjet::PseudoJet const& Jet23() const {
+        if (!has_jet_23_) SetJet23(Multiplet::Jet(Multiplet2().Jet(), Multiplet3().Jet()));
+        return jet_23_;
+    }
+
+    fastjet::PseudoJet const& Jet13() const {
+        if (!has_jet_13_) SetJet13(Multiplet::Jet(Multiplet1().Jet(), Multiplet3().Jet()));
+        return jet_13_;
+    }
+
+    boca::Jets Jets() const override {
         return Join(Multiplet1().Jets(), Multiplet2().Jets(), Multiplet3().Jets());
     }
 
     float DeltaPt() const {
-        return Multiplet::DeltaPt(Multiplet1(), Multiplet2());
+        return Multiplet::DeltaPt(Multiplet1(), Multiplet2()) / GeV;
     }
 
     float DeltaPt23() const {
-        return Multiplet::DeltaPt(Multiplet2(), Multiplet3());
+        return Multiplet::DeltaPt(Multiplet2(), Multiplet3()) / GeV;
     }
 
     float DeltaPt13() const {
-        return Multiplet::DeltaPt(Multiplet1(), Multiplet3());
+        return Multiplet::DeltaPt(Multiplet1(), Multiplet3()) / GeV;
     }
 
-    float Ht() const {
+    float Ht() const override {
         return Ht12() + Multiplet3().Ht();
     }
 
@@ -131,51 +140,51 @@ public:
     }
 
     float DeltaRap() const {
-        return Multiplet::DeltaRap(Multiplet1(), Multiplet2());
+        return Multiplet::DeltaRap(Multiplet1(), Multiplet2()) / rad;
     }
 
     float DeltaRap23() const {
-        return Multiplet::DeltaRap(Multiplet2(), Multiplet3());
+        return Multiplet::DeltaRap(Multiplet2(), Multiplet3()) / rad;
     }
 
     float DeltaRap13() const {
-        return Multiplet::DeltaRap(Multiplet1(), Multiplet3());
+        return Multiplet::DeltaRap(Multiplet1(), Multiplet3()) / rad;
     }
 
     float DeltaPhi() const {
-        return Multiplet::DeltaPhi(Multiplet1(), Multiplet2());
+        return Multiplet::DeltaPhi(Multiplet1(), Multiplet2()) / rad;
     }
 
     float DeltaPhi23() const {
-        return Multiplet::DeltaPhi(Multiplet2(), Multiplet3());
+        return Multiplet::DeltaPhi(Multiplet2(), Multiplet3()) / rad;
     }
 
     float DeltaPhi13() const {
-        return Multiplet::DeltaPhi(Multiplet1(), Multiplet3());
+        return Multiplet::DeltaPhi(Multiplet1(), Multiplet3()) / rad;
     }
 
     float DeltaR() const {
-        return Multiplet::DeltaR(Multiplet1(), Multiplet2());
+        return Multiplet::DeltaR(Multiplet1(), Multiplet2()) / rad;
     }
 
     float DeltaR23() const {
-        return Multiplet::DeltaR(Multiplet2(), Multiplet3());
+        return Multiplet::DeltaR(Multiplet2(), Multiplet3()) / rad;
     }
 
     float DeltaR13() const {
-        return Multiplet::DeltaR(Multiplet1(), Multiplet3());
+        return Multiplet::DeltaR(Multiplet1(), Multiplet3()) / rad;
     }
 
     float DeltaM() const {
-        return Multiplet::DeltaM(Multiplet1(), Multiplet2());
+        return Multiplet::DeltaM(Multiplet1(), Multiplet2()) / GeV;
     }
 
     float DeltaM23() const {
-        return Multiplet::DeltaM(Multiplet2(), Multiplet3());
+        return Multiplet::DeltaM(Multiplet2(), Multiplet3()) / GeV;
     }
 
     float DeltaM13() const {
-        return Multiplet::DeltaM(Multiplet1(), Multiplet3());
+        return Multiplet::DeltaM(Multiplet1(), Multiplet3()) / GeV;
     }
 
     float DeltaHt() const {
@@ -191,18 +200,18 @@ public:
     }
 
     float Rho() const {
-        return Multiplet::Rho(Multiplet1(), Multiplet2());
+        return Multiplet::Rho(Multiplet1(), Multiplet2(), Jet12());
     }
 
     float Rho23() const {
-        return Multiplet::Rho(Multiplet2(), Multiplet3());
+        return Multiplet::Rho(Multiplet2(), Multiplet3(), Jet23());
     }
 
     float Rho13() const {
-        return Multiplet::Rho(Multiplet1(), Multiplet3());
+        return Multiplet::Rho(Multiplet1(), Multiplet3(), Jet13());
     }
 
-    int Charge() const {
+    int Charge() const override {
         return Multiplet::Charge(Multiplet1(), Multiplet2());
     }
 
@@ -232,20 +241,33 @@ public:
     }
 
     float Dipolarity() const {
-        return Multiplet::Dipolarity(Multiplet1(), Multiplet2());
+        return Multiplet::Dipolarity(Multiplet1(), Multiplet2(), Jet12());
     }
 
     float Dipolarity23() const {
-        return Multiplet::Dipolarity(Multiplet2(), Multiplet3());
+        return Multiplet::Dipolarity(Multiplet2(), Multiplet3(), Jet23());
     }
 
     float Dipolarity13() const {
-        return Multiplet::Dipolarity(Multiplet1(), Multiplet3());
+        return Multiplet::Dipolarity(Multiplet1(), Multiplet3(), Jet13());
     }
 
-    float BottomBdt() const final{
-      return (Multiplet1().BottomBdt() + Multiplet2().BottomBdt() + Multiplet3().BottomBdt()) / 3;
+    float BottomBdt() const final {
+        return (Multiplet1().BottomBdt() + Multiplet2().BottomBdt() + Multiplet3().BottomBdt()) / 3;
     };
+
+    void SetVetoBdt(float bdt) {
+        veto_bdt_ = bdt;
+        SetBdt(
+            (multiplet_1_.Bdt() + multiplet_2_.Bdt() + multiplet_2_.Bdt()
+             - VetoBdt()
+            ) / 4
+        );
+    }
+
+    float VetoBdt() const {
+        return veto_bdt_;
+    }
 
 protected:
 
@@ -263,36 +285,45 @@ protected:
 
 private:
 
+    float veto_bdt_;
+
     Multiplet_1 multiplet_1_;
 
     Multiplet_2 multiplet_2_;
 
     Multiplet_3 multiplet_3_;
 
-    void SetResult(fastjet::PseudoJet const& jet) const {
-        jet_ = jet;
-        SetSinglet(jet);
-        has_jet_ = true;
-    }
-
-    void SetResult12(fastjet::PseudoJet const& jet) const {
+    void SetJet12(fastjet::PseudoJet const& jet) const {
         jet_12_ = jet;
         has_jet_12_ = true;
     }
 
-    void SetResult23(fastjet::PseudoJet const& jet) const {
+    void SetJet23(fastjet::PseudoJet const& jet) const {
         jet_23_ = jet;
         has_jet_23_ = true;
     }
 
-    void SetResult13(fastjet::PseudoJet const& jet) const {
+    void SetJet13(fastjet::PseudoJet const& jet) const {
         jet_13_ = jet;
         has_jet_13_ = true;
     }
 
-    mutable Singlet singlet_;
+    void SetSinglet12(boca::Singlet const& singlet) const {
+        singlet_12_ = singlet;
+        has_singlet_12_ = true;
+    }
 
-    mutable fastjet::PseudoJet jet_;
+    void SetSinglet23(boca::Singlet const& singlet) const {
+        singlet_23_ = singlet;
+        has_singlet_23_ = true;
+    }
+
+    void SetSinglet13(boca::Singlet const& singlet) const {
+        singlet_13_ = singlet;
+        has_singlet_13_ = true;
+    }
+
+//     mutable fastjet::PseudoJet constiuent_jet_;
 
     mutable fastjet::PseudoJet jet_12_;
 
@@ -300,13 +331,25 @@ private:
 
     mutable fastjet::PseudoJet jet_13_;
 
-    mutable bool has_jet_ = false;
+    mutable boca::Singlet singlet_12_;
+
+    mutable boca::Singlet singlet_23_;
+
+    mutable boca::Singlet singlet_13_;
+
+//     mutable bool has_singlet_ = false;
 
     mutable bool has_jet_12_ = false;
 
     mutable bool has_jet_23_ = false;
 
     mutable bool has_jet_13_ = false;
+
+    mutable bool has_singlet_12_ = false;
+
+    mutable bool has_singlet_23_ = false;
+
+    mutable bool has_singlet_13_ = false;
 
 };
 

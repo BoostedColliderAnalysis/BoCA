@@ -30,7 +30,6 @@ PATCH_COMMAND
 && ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/WimpMassExamples.cmake <SOURCE_DIR>/examples/CMakeLists.txt
 INSTALL_COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/External/WimpMass/examples/sqsq_pythia_events.lhe <BINARY_DIR>/bin/
 )
-
 ExternalProject_Get_Property(WimpMass SOURCE_DIR)
 add_include_path(${SOURCE_DIR}/WIMPMASS)
 add_libraries(${CMAKE_BINARY_DIR}/WimpMass/lib/libWimpMass.so)
@@ -47,6 +46,21 @@ PATCH_COMMAND
 && patch <SOURCE_DIR>/example_toptagger.cc < ${CMAKE_SOURCE_DIR}/CMakeFiles/TopTaggerPatch.diff
 INSTALL_COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/External/HepTopTagger/sample_event.dat <BINARY_DIR>/bin/
 )
-
 ExternalProject_Get_Property(HepTopTagger SOURCE_DIR)
 add_include_path(${SOURCE_DIR})
+
+# ExternalProject_Add(Delphes
+# GIT_REPOSITORY https://github.com/delphes/delphes.git
+# GIT_TAG 3.3.0
+# SOURCE_DIR  ${CMAKE_SOURCE_DIR}/External/Delphes
+# BINARY_DIR ${CMAKE_BINARY_DIR}/Delphes
+# PATCH_COMMAND
+#    ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/CMakeConfig.cmake <SOURCE_DIR>/CMakeFiles/CMakeConfig.cmake
+# && ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/FindROOT.cmake <SOURCE_DIR>/CMakeFiles/FindROOT.cmake
+# && ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/Delphes.cmake <SOURCE_DIR>/CMakeLists.txt
+# && ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/DelphesExRoot.cmake <SOURCE_DIR>/external/ExRootAnalysis/CMakeLists.txt
+# && ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/DelphesClasses.cmake <SOURCE_DIR>/classes/CMakeLists.txt
+# )
+#
+# ExternalProject_Get_Property(Delphes SOURCE_DIR)
+# add_include_path(${SOURCE_DIR})

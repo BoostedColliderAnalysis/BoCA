@@ -26,6 +26,10 @@ public:
         return jet_;
     }
 
+    fastjet::PseudoJet ConstituentJet() const {
+      return jet_;
+    }
+
     boca::Jets Jets() const {
         return {Jet()};
     }
@@ -35,7 +39,7 @@ public:
     bool Overlap(Singlet const& singlet) const;
 
     float VertexMass() const {
-        return UserInfo().VertexMass();
+        return UserInfo().VertexMass() / GeV;
     }
 
     float MaxDisplacement() const {
@@ -71,7 +75,7 @@ public:
     }
 
     float EnergyFraction() const {
-        return UserInfo().VertexEnergy() / Jet().e();
+        return UserInfo().VertexEnergy() / GeV / Jet().e();
     }
 
     float EmRadius() const {
@@ -115,8 +119,9 @@ public:
     }
 
     float Bdt() const final {
-        if(UserInfo().Bdt() != initial_value()) return UserInfo().Bdt();
-        return 0;
+        if(UserInfo().Bdt() != UserInfo().Bdt()) return -1;
+        if(UserInfo().Bdt() != InitialValue()) return UserInfo().Bdt();
+        return -1;
     }
 
     float Ht() const {
@@ -124,8 +129,6 @@ public:
     }
 
     void SetBdt(float bdt) final;
-
-    float Rapidity() const;
 
     int Charge() const;
 
@@ -143,9 +146,13 @@ public:
       return Bdt();
     }
 
+    float Rapidity() const {
+      return Rap() / rad;
+    }
+
 private:
 
-    float log(float number) const;
+    float log(Length length) const;
 
     float Radius(fastjet::PseudoJet const& jet) const;
 
@@ -154,6 +161,12 @@ private:
     fastjet::PseudoJet jet_;
 
     JetInfo jet_info_;
+
+    // save expensive results in mutable member variables
+
+    mutable Vector2 pull_;
+
+    mutable bool has_pull_ = false;
 
 };
 

@@ -7,6 +7,7 @@
 
 #include "Identification.hh"
 #include "Constituent.hh"
+#include "Math.hh"
 
 class Jet;
 namespace delphes
@@ -48,9 +49,9 @@ public:
 
     JetInfo(std::vector<Constituent> const& constituents);
 
-    JetInfo operator+(const JetInfo &jet_info);
+    JetInfo operator+(JetInfo const&jet_info);
 
-    JetInfo& operator+=(const JetInfo &jet_info);
+    JetInfo& operator+=(JetInfo const&jet_info);
 
     void AddConstituent(Constituent const& constituent);
 
@@ -58,19 +59,19 @@ public:
 
     void AddConstituents(std::vector<Constituent> const& constituents, std::vector<Constituent> const& displaced_constituents);
 
-    float VertexMass() const;
+    Mass VertexMass() const;
 
-    float MaxDisplacement() const;
+    Length MaxDisplacement() const;
 
-    float MeanDisplacement() const;
+    Length MeanDisplacement() const;
 
-    float SumDisplacement() const;
+    Length SumDisplacement() const;
 
     int VertexNumber() const;
 
     fastjet::PseudoJet VertexJet() const;
 
-    float VertexEnergy() const;
+    Energy VertexEnergy() const;
 
     float ElectroMagneticRadius(fastjet::PseudoJet const& jet) const;
 
@@ -92,7 +93,7 @@ public:
 
     int Charge() const;
 
-    boca::Family Family() const;
+//     boca::Family Family() const;
 
     void SetDelphesTags(::delphes::Jet const& jet);
 
@@ -136,7 +137,7 @@ private:
 
     bool tau_tag_ = 0;
 
-    int charge_;
+    int charge_ = LargeNumber();
 
     bool sub_structure_ = true;
 

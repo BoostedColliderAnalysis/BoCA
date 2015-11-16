@@ -3,14 +3,11 @@
  */
 #pragma once
 
-#include  "exroot/ExRootAnalysis.hh"
-#include "ClonesArrays.hh"
 #include "Event.hh"
+// #include "TreeReader.hh"
 
 namespace boca
 {
-
-typedef std::vector<std::string> Strings;
 
 /**
  * @brief Input file infos
@@ -23,63 +20,24 @@ class File
 
 public:
 
-    File(Strings const& processes, std::string const& run_folder, std::string const& file_suffix, std::string const& nice_name = "", float crosssection = 1, float mass = 0);
+    File(Strings const& processes, std::string const& run_folder, std::string const& file_suffix, std::string const& nice_name = "", Crosssection crosssection = pb, Mass mass = massless);
 
-    /**
-     * @brief destructor
-     *
-     */
-    ~File();
+//     boca::TreeReader TreeReader();
 
-    exroot::TreeReader TreeReader();
-
-    ClonesArrays clones_arrays();
-
-    Event event();
-
-    /**
-     * @brief Name of Process
-     *
-     */
     std::string Title() const;
 
-    float crosssection() const {
-        return crosssection_;
-    }
-
-//     void set_crosssection(float crosssection)
-//     {
-//         crosssection_ = crosssection;
-//     }
-//
-//     void set_crosssection_error(float crosssection_error)
-//     {
-//         crosssection_error_ = crosssection_error;
-//     }
-//
-//     void set_mass(float mass)
-//     {
-//         mass_ = mass;
-//     }
+    Crosssection crosssection() const;
 
     std::string file_suffix() const;
 
-    float crosssection_error() const {
-        return crosssection_error_;
-    }
+    Crosssection crosssection_error() const;
 
-    float mass() const {
-        return mass_;
-    }
-    Source source() const {
-        return source_;
-    }
+    Mass mass() const;
+    Source source() const;
 
     std::string tree_name() const;
 
-    std::string nice_name() const {
-        return nice_name_;
-    }
+    std::string nice_name() const;
 
     Strings Paths() const;
 
@@ -101,11 +59,11 @@ private:
 
     std::string tree_name_;
 
-    float crosssection_ = 1;
+    Crosssection crosssection_ = pb;
 
-    float crosssection_error_ = 0;
+    Crosssection crosssection_error_ = 0;
 
-    float mass_ = 0;
+    Mass mass_ = massless;
 
     std::string file_suffix_ = ".root";
 
@@ -113,7 +71,6 @@ private:
 
     Source source_ = Source::delphes;
 
-    TChain* chain_ = nullptr;
 };
 
 }

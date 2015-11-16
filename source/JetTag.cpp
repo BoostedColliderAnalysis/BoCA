@@ -42,7 +42,7 @@ Family JetTag::BranchFamily(Family const&node_family, Family& branch_family)
         RadiationParticles.find(static_cast<Id>(std::abs(node_family.mother_1().id()))) != end(RadiationParticles)
         || RadiationParticles.find(static_cast<Id>(std::abs(node_family.particle().id()))) != end(RadiationParticles)
     )
-        branch_family = Family(node_family.particle().position(), Id::isr, node_family.mother_1().position(), Id::isr);
+      branch_family = Family(node_family.particle().position(), to_int(Id::isr), node_family.mother_1().position(), to_int(Id::isr), to_int(Id::isr));
     Debug(Name(branch_family.particle().id()));
     return branch_family;
 }

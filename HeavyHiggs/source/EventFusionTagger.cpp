@@ -6,16 +6,10 @@ namespace boca {
 
 namespace heavyhiggs {
 
-EventFusionTagger::EventFusionTagger()
-{
-  Info();
-    DefineVariables();
-}
-
 int EventFusionTagger::Train(Event const& event, PreCuts const& , Tag tag) const
 {
     Info("event Tags");
-    Jets jets = bottom_reader_.Multiplets(event);
+    Jets jets = bottom_reader_.Jets(event);
     Jets leptons = event.Leptons().leptons();
     std::vector<Sextet> sextets = heavy_higgs_semi_reader_.Multiplets(event);
     Jets HiggsParticles = event.Partons().GenParticles();
@@ -52,7 +46,7 @@ std::vector<MultipletEvent<Sextet>> EventFusionTagger::Multiplets(Event const& e
 {
     Info("event Tags");
     std::vector<Sextet> sextets = heavy_higgs_semi_reader_.Multiplets(event);
-    Jets jets = bottom_reader_.Multiplets(event);
+    Jets jets = bottom_reader_.Jets(event);
     Jets Leptons = event.Leptons().leptons();
     std::vector<MultipletEvent<Sextet>> sextet_events;
     for (auto const& sextet : sextets) {
@@ -61,6 +55,10 @@ std::vector<MultipletEvent<Sextet>> EventFusionTagger::Multiplets(Event const& e
         sextet_events.emplace_back(multiplet_event);
     }
     return ReduceResult(sextet_events);
+}
+std::string EventFusionTagger::Name() const
+{
+    return "EventFusion";
 }
 
 }

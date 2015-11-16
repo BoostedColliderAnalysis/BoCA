@@ -1,10 +1,23 @@
+
+create_dictionary(BranchesSm BranchesSm.cpp ../include/LinkDefSm.hh)
+
+set(sm_tagger_sources
+TauTagger.cpp
+BottomTagger.cpp
+BosonTagger.cpp
+WHadronicTagger.cpp
+WLeptonicTagger.cpp
+ZHadronicTagger.cpp
+HiggsTagger.cpp
+TopHadronicTagger.cpp
+TopLeptonicTagger.cpp
+)
+create_library(SmTagger sm_tagger_sources)
+
 set(TaggerLibraries
 AnalysisStandardModel.cpp
 AnalysisBottom.cpp
-AnalysisW.cpp
-AnalysisTop.cpp
 )
-
 create_library(AnalysisTagger TaggerLibraries)
 
 create_executable(BottomAnalysis MainBottom.cpp)

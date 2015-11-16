@@ -17,7 +17,7 @@ public:
 
     virtual ~Partons() {};
 
-    void NewEvent(const boca::ClonesArrays& clones_arrays);
+    void NewEvent(const TreeReader& tree_reader);
 
     virtual Jets Particles() const = 0;
 

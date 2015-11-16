@@ -4,6 +4,7 @@
 #include "Math.hh"
 
 #include <cmath>
+#include <boost/range/algorithm/min_element.hpp>
 
 #include "Debug.hh"
 
@@ -15,10 +16,10 @@ float Distance(float rapidity_1, float phi_1, float rapidity_2, float phi_2)
     return std::sqrt(sqr(rapidity_2 - rapidity_1) + sqr(DeltaPhi(phi_2, phi_1)));
 }
 
-float Length(float rapidity, float phi)
-{
-    return std::sqrt(sqr(rapidity) + sqr(phi));
-}
+// float Length(float rapidity, float phi)
+// {
+//     return std::sqrt(sqr(rapidity) + sqr(phi));
+// }
 
 float DeltaPhi(float phi_1, float phi_2)
 {
@@ -68,7 +69,7 @@ float RoundError(float value)
 
 float RoundToDigits(float value, int digits)
 {
-    Debug();
+    Info0;
     if (value == 0 || value != value) return 0;
     float factor = std::pow(10.0, digits - std::ceil(std::log10(std::abs(value))));
     return std::round(value * factor) / factor;
@@ -77,10 +78,16 @@ float RoundToDigits(float value, int digits)
 
 float RoundToError(float value, float error)
 {
-    Debug();
+    Info0;
     if (value == 0 || value != value) return 0;
     float factor = std::pow(10.0, 2 - std::ceil(std::log10(std::abs(error))));
     return std::round(value * factor) / factor;
+}
+
+Crosssection min(std::vector< Crosssection > vector, bool truncate)
+{
+    if (truncate) vector.erase(std::remove(vector.begin(), vector.end(), 0. * fb), vector.end());
+    return *boost::range::min_element(vector);
 }
 
 }

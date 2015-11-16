@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "AnalysisStandardModel.hh"
@@ -32,19 +35,17 @@ class AnalysisBottom : public AnalysisStandardModel<Tagger>
 public:
 
     AnalysisBottom() {
-        this->set_tagger_analysis_name(ProjectName());
-        this->pre_cuts().SetPtLowerCut(Id::bottom, this->LowerPtCut());
-        this->pre_cuts().SetPtUpperCut(Id::bottom, this->UpperPtCut());
-        this->pre_cuts().SetTrackerMaxEta(Id::bottom, DetectorGeometry::TrackerEtaMax());
+        this->pre_cuts().PtLowerCut().Set(Id::bottom, this->LowerPtCut());
+        this->pre_cuts().PtUpperCut().Set(Id::bottom, this->UpperPtCut());
+        this->pre_cuts().TrackerMaxEta().Set(Id::bottom, DetectorGeometry::TrackerEtaMax());
         this->pre_cuts().SetSubJets(false);
     }
 
 private:
 
-    std::string ProjectName() const final {
-        return  Name(production_channel()) + Name(this->collider_type()) + "_" + std::to_string(this->MadGraphCut()) + "GeV-jan";
+    std::string AnalysisName() const final {
+      return  Name(production_channel()) + Name(this->collider_type()) + "_" + boca::Name(this->MadGraphCut()) + "-large";
     }
-
 
     Production production_channel() const {
         return Production::DYP;
@@ -52,7 +53,7 @@ private:
         //         return Production::Associated;
     }
 
-    void SetFiles(Tag tag) final {
+    void SetFiles(Tag tag, Stage) final {
         switch (tag) {
         case Tag::signal :
             this->NewFile(tag, Process::bb);

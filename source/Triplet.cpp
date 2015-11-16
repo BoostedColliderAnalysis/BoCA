@@ -3,7 +3,8 @@
  */
 #include "Triplet.hh"
 
-namespace boca {
+namespace boca
+{
 
 Doublet const& Triplet::Doublet() const
 {
@@ -12,12 +13,27 @@ Doublet const& Triplet::Doublet() const
 
 Doublet& Triplet::Doublet()
 {
-  return Multiplet1();
+    return Multiplet1();
 }
 
 Singlet const& Triplet::Singlet() const
 {
     return Multiplet2();
+}
+
+void Triplet::set_sub_jettiness()
+{
+  sub_jettiness_ = SubJettiness(Singlet().Jet());
+}
+
+float Triplet::pt() const
+{
+  return pt_;
+}
+
+void Triplet::set_pt(float pt)
+{
+  pt_ = pt;
 }
 
 }

@@ -29,9 +29,9 @@ public:
     void SetMultiplets(Multiplet_1 const& multiplet_1, Multiplet_2 const& multiplet_2) {
         multiplet_1_ = multiplet_1;
         multiplet_2_ = multiplet_2;
-        if (multiplet_1.Bdt() != initial_value() && multiplet_2.Bdt() != initial_value()) SetBdt(multiplet_1.Bdt(), multiplet_2.Bdt());
-        else if (multiplet_1.Bdt() != initial_value()) SetBdt(multiplet_1.Bdt());
-        else if (multiplet_2.Bdt() != initial_value()) SetBdt(multiplet_2.Bdt());
+        if (multiplet_1.Bdt() != InitialValue() && multiplet_2.Bdt() != InitialValue()) SetBdt(multiplet_1.Bdt(), multiplet_2.Bdt());
+        else if (multiplet_1.Bdt() != InitialValue()) SetBdt(multiplet_1.Bdt());
+        else if (multiplet_2.Bdt() != InitialValue()) SetBdt(multiplet_2.Bdt());
     }
 
     void SetJet(fastjet::PseudoJet const& jet) {
@@ -74,42 +74,36 @@ public:
         return multiplet_1_.Overlap(multiplet_2_);
     }
 
-    /**
-     * @brief join the pieces of the multiplets to one jet
-     *
-     * @return fastjet::PseudoJet
-     */
-    fastjet::PseudoJet Jet() const {
-        if (!has_jet_) SetResult(Multiplet::Jet(Multiplet1().Jet(), Multiplet2().Jet()));
-        return jet_;
+    void SetPlainJet() const override {
+        Multiplet::SetPlainJet(Multiplet::Jet(Multiplet1().Jet(), Multiplet2().Jet()));
     }
 
-    boca::Jets Jets() const {
+    boca::Jets Jets() const override  {
         return Join(Multiplet1().Jets(), Multiplet2().Jets());
     }
 
     float DeltaPt() const {
-        return Multiplet1().Jet().pt() - Multiplet2().Jet().pt();
+        return (Multiplet1().Pt() - Multiplet2().Pt()) / GeV;
     }
 
-    float Ht() const {
+    float Ht() const override {
         return Multiplet::Ht(Multiplet1(), Multiplet2());
     }
 
     float DeltaRap() const {
-        return Multiplet::DeltaRap(Multiplet1(), Multiplet2());
+        return Multiplet::DeltaRap(Multiplet1(), Multiplet2()) / rad;
     }
 
     float DeltaPhi() const {
-        return Multiplet::DeltaPhi(Multiplet1(), Multiplet2());
+        return Multiplet::DeltaPhi(Multiplet1(), Multiplet2()) / rad;
     }
 
     float DeltaR() const {
-        return Multiplet::DeltaR(Multiplet1(), Multiplet2());
+        return to_float(Multiplet::DeltaR(Multiplet1(), Multiplet2()));
     }
 
     float DeltaM() const {
-        return Multiplet::DeltaM(Multiplet1(), Multiplet2());
+        return Multiplet::DeltaM(Multiplet1(), Multiplet2()) / GeV;
     }
 
     float DeltaHt() const {
@@ -117,20 +111,19 @@ public:
     }
 
     float Rho() const {
-        return Multiplet::Rho(Multiplet1(), Multiplet2());
+        return Multiplet::Rho(Multiplet1(), Multiplet2(), Jet());
     }
 
-    float MassDifferenceTo(Id id) const {
-        return std::abs(Jet().m() - Mass(id));
+    boca::Mass MassDifferenceTo(Id id) const {
+        return boost::units::abs(Mass() - MassOf(id));
     }
 
-    int Charge() const {
+    int Charge() const override {
         return Multiplet::Charge(Multiplet1(), Multiplet2());
     }
 
-    boca::Singlet const& singlet() const {
-        if (!has_jet_)SetSinglet(Jet());
-        return singlet_;
+    void SetSinglet() const override {
+        Multiplet::SetSinglet(Multiplet::Singlet(Multiplet1().singlet(), Multiplet2().singlet()));
     }
 
     float PullDifference() const {
@@ -142,7 +135,7 @@ public:
     }
 
     float Dipolarity() const {
-        return Multiplet::Dipolarity(Multiplet1(), Multiplet2());
+        return Multiplet::Dipolarity(Multiplet1(), Multiplet2(), singlet());
     }
 
     float BottomBdt() const final {

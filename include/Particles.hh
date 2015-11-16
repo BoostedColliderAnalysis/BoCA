@@ -4,6 +4,8 @@
 #pragma once
 
 #include <string>
+#include "Units.hh"
+
 /**
  * @brief contains the general analysis and SM taggers
  *
@@ -24,18 +26,28 @@ enum class Id
     charm = 4,
     bottom = 5,
     top = 6,
+    bottom_partner = 7,
     top_partner = 8,
+    quark = 9,
     electron = 11,
     electron_neutrino = 12,
     muon = 13,
     muon_neutrino = 14,
     tau = 15,
     tau_neutrino = 16,
+    tau_partner = 17,
+    tau_neutrino_partner = 18,
+    charged_lepton = 19,
+    neutrino = 20,
     gluon = 21,
     photon = 22,
     Z = 23,
     W = 24,
     higgs = 25, ///< Higgs boson
+    neutral_boson = 26, ///< Multi particle containing neutral bosons
+    Z_partner = 32,
+    Z_partner_2 = 33,
+    W_partner = 34,
     heavy_higgs = 35,
     CP_odd_higgs = 36,
     charged_higgs = 37,
@@ -85,18 +97,8 @@ std::string Name(int id);
 
 std::string Name(Id id);
 
-float Mass(Id id);
+Mass MassOf(Id id);
 
-/**
- * @brief Initial user index
- *
- */
-static int EmptyUserIndex = -1;
-
-/**
- * @brief Position outside of a vector
- *
- */
-static int EmptyPosition = -1;
+std::vector<Id> MultiId(Id id);
 
 }

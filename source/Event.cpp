@@ -10,13 +10,23 @@
 #include "exroot/Partons.hh"
 #include "Debug.hh"
 
-namespace boca {
+namespace boca
+{
+
+std::string Name(Decay decay)
+{
+    switch (decay) {
+    case Decay::hadronic : return "hadronic";
+    case Decay::leptonic : return "leptonic";
+    Default("decay","");
+    }
+}
 
 Event::Event() {}
 
-Event::Event(const Source source)
+Event::Event(Source source)
 {
-    Info();
+    Info0;
     source_ = source;
     switch (source_) {
     case Source::delphes :
@@ -34,9 +44,32 @@ Event::Event(const Source source)
     }
 }
 
+Event::Event(TreeReader const& tree_reader, Source source)
+{
+
+    Info0;
+    source_ = source;
+    switch (source_) {
+    case Source::delphes :
+        partons_ = new delphes::Partons();
+        hadrons_ = new delphes::Hadrons();
+        leptons_ = new delphes::Leptons();
+        break;
+    case Source::pgs :
+        leptons_ = new exroot::Leptons();
+        hadrons_ = new exroot::Hadrons();
+        break;
+    case Source::parton :
+        partons_ = new exroot::Partons();
+        break;
+    }
+    NewEvent(tree_reader);
+}
+
+
 Event::~Event()
 {
-    Info();
+    Info0;
     switch (source_) {
     case Source::delphes :
         delete partons_;
@@ -51,23 +84,26 @@ Event::~Event()
         delete partons_;
         break;
     }
+    partons_ = nullptr;
+    leptons_ = nullptr;
+    hadrons_ = nullptr;
 }
 
-void Event::NewEvent(const ClonesArrays& clones_arrays)
+void Event::NewEvent(TreeReader const& tree_reader)
 {
-    Info();
+    Info0;
     switch (source_) {
     case Source::delphes :
-        partons_->NewEvent(clones_arrays);
-        hadrons_->NewEvent(clones_arrays);
-        leptons_->NewEvent(clones_arrays);
+        partons_->NewEvent(tree_reader);
+        hadrons_->NewEvent(tree_reader);
+        leptons_->NewEvent(tree_reader);
         break;
     case Source::pgs :
-        hadrons_->NewEvent(clones_arrays);
-        leptons_->NewEvent(clones_arrays);
+        hadrons_->NewEvent(tree_reader);
+        leptons_->NewEvent(tree_reader);
         break;
     case Source::parton:
-        partons_->NewEvent(clones_arrays);
+        partons_->NewEvent(tree_reader);
         break;
     }
 }

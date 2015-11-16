@@ -4,6 +4,7 @@
 #pragma once
 
 #include "InfoRecombiner.hh"
+#include "Units.hh"
 
 namespace boca
 {
@@ -34,21 +35,20 @@ std::string Name(DetectorType detector_type);
 class DetectorGeometry
 {
 public:
-    static float JetMinPt();
-    static float JetConeSize();
-    static float MinCellPt();
-    static float MinCellResolution();
-    static float TrackerEtaMax();
-//     static float JetRadiusParameter();
+    static Momentum JetMinPt();
+    static Angle JetConeSize();
+    static Momentum MinCellPt();
+    static Angle MinCellResolution();
+    static Angle TrackerEtaMax();
     static fastjet::JetDefinition JetDefinition();
     static fastjet::JetDefinition SubJetDefinition();
-    static float TrackerDistanceMin();
-    static float TrackerDistanceMax();
-    static float VertexMassMin();
-    static float LeptonMinPt();
-    static float Luminosity();
+    static Length TrackerDistanceMin();
+    static Length TrackerDistanceMax();
+    static Mass VertexMassMin();
+    static Momentum LeptonMinPt();
+    static boca::Luminosity Luminosity();
     static JetType jet_type();
-    static void set_detector_type(const DetectorType detector_type);
+    static void set_detector_type(DetectorType detector_type);
     static DetectorType detector_type();
 private:
     static DetectorType detector_type_;

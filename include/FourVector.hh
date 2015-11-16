@@ -8,9 +8,10 @@
 
 #include "fastjet/PseudoJet.hh"
 
-#include "ClonesArrays.hh"
 #include "JetTag.hh"
 #include "Flag.hh"
+// #include "ClonesArrays.hh"
+#include "TreeReader.hh"
 
 class TRootLHEFParticle;
 class TRootGenParticle;
@@ -51,10 +52,10 @@ enum class Status {
  *
  */
 enum class JetDetail {
-    plain = 0,
-    structure = 1 << 0,
-    tagging = 1 << 1,
-    isolation = 1 << 2,
+    plain = 1 << 0,
+    structure = 1 << 1,
+    tagging = 1 << 2,
+    isolation = 1 << 3,
 };
 
 template<>
@@ -88,7 +89,7 @@ public:
 
 protected:
 
-    void NewEvent(const ClonesArrays& clones_arrays);
+    void NewEvent(TreeReader const& tree_reader);
 
     template<typename Particle>
     boca::LorentzVector LorentzVectorByEnergy(const Particle& particle) const
@@ -110,14 +111,14 @@ protected:
     }
 
     template<typename Particle>
-    boca::LorentzVector LorentzVectorByMass(const Particle& particle, float mass) const
+    boca::LorentzVector LorentzVectorByMass(const Particle& particle, Mass mass) const
     {
 //         Debug("Lorentz Vector by Mass");
         boca::LorentzVector LorentzVector;
         float Pt = particle.PT;
         float Eta = particle.Eta;
         float Phi = particle.Phi;
-        LorentzVector.SetPtEtaPhiM(Pt, Eta, Phi, mass);
+        LorentzVector.SetPtEtaPhiM(Pt, Eta, Phi, mass / GeV);
 // //         if (check_four_vectors_) {
 // //             if (LorentzVector.Pt() - Pt > check_value_) Error(Pt, LorentzVector.Pt());
 // //             if (LorentzVector.Eta() - Eta > check_value_) Error(Eta, LorentzVector.Eta());
@@ -130,8 +131,8 @@ protected:
     boca::LorentzVector LorentzVectorByMass(const Particle& particle) const
     {
 //         Debug("Lorentz Vector by Mass");
-        float Mass = particle.Mass;
-        const boca::LorentzVector LorentzVector = LorentzVectorByMass(particle, Mass);
+        Mass mass(particle.Mass * GeV);
+        const boca::LorentzVector LorentzVector = LorentzVectorByMass(particle, mass);
         if (check_four_vectors_) {
 //             if (LorentzVector.M() - Mass > mass_check_value_) Error(Mass, LorentzVector.M());
         }
@@ -142,8 +143,8 @@ protected:
     boca::LorentzVector LorentzVectorByM(const Particle& particle) const
     {
 //         Debug("Lorentz Vector by Mass");
-        float Mass = particle.M;
-        const boca::LorentzVector LorentzVector = LorentzVectorByMass(particle, Mass);
+        Mass mass(particle.M * GeV);
+        const boca::LorentzVector LorentzVector = LorentzVectorByMass(particle, mass);
         if (check_four_vectors_) {
 //             if (LorentzVector.M() - Mass > mass_check_value_) Error(Mass, LorentzVector.M());
         }
@@ -168,9 +169,9 @@ protected:
     fastjet::PseudoJet PseudoJet(const exroot::Photon& Particle) const;
     fastjet::PseudoJet PseudoJet(const exroot::Tau& Particle) const;
 
-    Family BranchFamily(TObject const& object) const;
+//     Family BranchFamily(TObject const& object) const;
 
-    Family BranchFamily(Family& BranchId, int Position) const;
+//     Family BranchFamily(Family& BranchId, int Position) const;
 //     fastjet::PseudoJet PseudoJet(const MissingET & Particle) const;
 
     template<typename Data>
@@ -183,16 +184,16 @@ protected:
 
     std::string PrintParticle(int Position) const;
 
-    const ClonesArrays& clones_arrays() const
+    TreeReader const& tree_reader() const
     {
-        return *clones_arrays_;
+        return *tree_reader_;
     }
 
     /**
      * @brief Clones Arrays
      *
      */
-    const ClonesArrays* clones_arrays_;
+    const TreeReader* tree_reader_;
 
 //     std::vector<Family> topology_;
 

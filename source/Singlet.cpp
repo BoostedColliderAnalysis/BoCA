@@ -12,7 +12,7 @@ namespace boca {
 
 Singlet::Singlet(fastjet::PseudoJet const& jet)
 {
-    Info();
+    Info0;
     jet_ = jet;
 }
 
@@ -28,7 +28,7 @@ bool Singlet::Overlap(Singlet const& singlet) const
 
 float Singlet::Radius(fastjet::PseudoJet const& jet) const
 {
-    Info();
+    Info0;
     if (!jet.has_constituents()) return 0;
     float delta_r = 0;
     for (auto const& constituent : jet.constituents()) {
@@ -42,7 +42,7 @@ float Singlet::Radius(fastjet::PseudoJet const& jet) const
 
 float Singlet::Spread(fastjet::PseudoJet const& jet) const
 {
-    Info();
+    Info0;
     if (!jet.has_constituents()) return 0;
 //     float delta_r = Radius(jet);
     float delta_r = 0;
@@ -68,10 +68,10 @@ JetInfo const& Singlet::UserInfo() const
     return Jet().user_info<JetInfo>();
 }
 
-float Singlet::log(float number) const
+float Singlet::log(Length length) const
 {
-    if (number > 0) return std::log10(number);
-    else return std::log10(DetectorGeometry::TrackerDistanceMin() / 10);
+    if (length > 0. * mm) return std::log10(length / mm);
+    else return std::log10(DetectorGeometry::TrackerDistanceMin() / 10. / mm);
 }
 
 int Singlet::Charge() const
@@ -82,17 +82,15 @@ int Singlet::Charge() const
 
 Vector2 Singlet::Pull() const
 {
-    if(!jet_.has_constituents()) return Vector2();
-    Vector2 vector;
-    for (auto const& constituent : jet_.constituents()) vector += Reference(constituent) * constituent.pt() / jet_.pt() * constituent.delta_R(jet_);
-    return vector;
-}
-
-float Singlet::Rapidity() const
-{
-    if (Jet().rap() == fastjet::pseudojet_invalid_rap) return 0;
-    if (Jet().rap() > 100) return 0;
-    return Jet().rap();
+    if (has_pull_) return pull_;
+    if(!jet_.has_constituents()) return pull_;
+    boca::Jets constituents = jet_.constituents();
+    if(constituents.size() < 3) return pull_;
+    for (auto const& constituent : constituents) pull_ += Reference(constituent) * constituent.pt() * constituent.delta_R(jet_);
+    pull_ /= jet_.pt();
+    Info(pull_.Y(),pull_.X(), constituents.size());
+    has_pull_ = true;
+    return pull_;
 }
 
 const Singlet &Singlet::singlet() const

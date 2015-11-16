@@ -13,23 +13,15 @@ namespace heavyhiggs {
  * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class SignatureChargedTagger : public BranchTagger<OctetChargedBranch> {
+class SignatureChargedTagger : public TaggerTemplate<Octet44,OctetChargedBranch> {
 
 public:
 
-    SignatureChargedTagger();
+    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
 
-    int Train(Event const& event, PreCuts const& pre_cuts,
-              Tag tag) const final;
+    std::vector<Octet44> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
 
-    std::vector<Octet44> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
-
-    int GetBdt(Event const& event, PreCuts const& pre_cuts,
-               TMVA::Reader const& reader) const final {
-                 return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
-    }
-
-    std::string Name() const final { return "SignatureCharged"; }
+    std::string Name() const final;
 
 private:
 

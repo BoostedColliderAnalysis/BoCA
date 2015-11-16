@@ -5,6 +5,11 @@
 
 #include "../Partons.hh"
 
+class GenParticle;
+namespace delphes{
+  typedef ::GenParticle GenParticle;
+}
+
 namespace boca {
 
 namespace delphes {
@@ -22,7 +27,9 @@ public:
 
 private:
 
-    Jets Particles(const Status max_status) const;
+  Jets Particles(Status max_status) const;
+
+//   int MotherId(::delphes::GenParticle& particle);
 
 };
 

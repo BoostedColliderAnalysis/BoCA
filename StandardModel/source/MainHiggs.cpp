@@ -1,12 +1,15 @@
 #include "AnalysisHiggs.hh"
 #include "HiggsTagger.hh"
 
-int main()
+template<typename Tagger>
+void Run(boca::Output run = boca::Output::normal)
 {
-    boca::standardmodel::AnalysisHiggs<boca::BottomTagger> bottom_analysis;
-    bottom_analysis.RunFast();
-    boca::standardmodel::AnalysisHiggs<boca::HiggsTagger> higgs_analysis;
-    higgs_analysis.RunFullEfficiency();
-    higgs_analysis.RunPlots();
+    boca::standardmodel::AnalysisHiggs<Tagger> analysis;
+    boca::Run(analysis, run);
 }
 
+int main()
+{
+    Run<boca::standardmodel::BottomTagger>(boca::Output::fast) ;
+    Run<boca::standardmodel::HiggsTagger>(boca::Output::efficiency);
+}
