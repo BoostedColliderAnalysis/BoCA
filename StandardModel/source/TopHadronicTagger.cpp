@@ -4,9 +4,6 @@
 
 #include <boost/range/algorithm/adjacent_find.hpp>
 
-// #include "external/fastjet/contribs/Nsubjettiness/Nsubjettiness.hh"
-#include "fastjet/contrib/Nsubjettiness.hh"
-
 #include "TopHadronicTagger.hh"
 #include "Event.hh"
 #include "InfoRecombiner.hh"
@@ -273,44 +270,11 @@ void TopHadronicTagger::NSubJettiness(Triplet&) const
 {
     Info0;
     return;
-//     if (!triplet.()) triplet.set_sub_jettiness(NSubJettiness(triplet.Singlet().Jet() * 2));
-//     else if (triplet.Doublet().Degenerate()) triplet.set_sub_jettiness(NSubJettiness(triplet.Doublet().Singlet1().Jet() * 2));
-//     else triplet.set_sub_jettiness(NSubJettiness(fastjet::join(triplet.Singlet().Jet(), triplet.Doublet().Singlet1().Jet(), triplet.Doublet().Singlet2().Jet(), InfoRecombiner())));
+//     if (!triplet.()) triplet.set_sub_jettiness(triplet.Singlet().Jet() * 2);
+//     else if (triplet.Doublet().Degenerate()) triplet.set_sub_jettiness(triplet.Doublet().Singlet1().Jet() * 2);
+//     else triplet.set_sub_jettiness(fastjet::join(triplet.Singlet().Jet(), triplet.Doublet().Singlet1().Jet(), triplet.Doublet().Singlet2().Jet(), InfoRecombiner()));
 }
 
-SubJettiness TopHadronicTagger::NSubJettiness(fastjet::PseudoJet const& jet) const
-{
-    Info0;
-    SubJettiness sub_jettiness;
-
-    fastjet::contrib::OnePass_WTA_KT_Axes wta_kt_axes;
-    fastjet::contrib::UnnormalizedMeasure unnormalized_measure_1(1);
-    fastjet::contrib::Nsubjettiness n_subjettiness_1_1(1, wta_kt_axes, unnormalized_measure_1);
-    fastjet::contrib::Nsubjettiness n_subjettiness_2_1(2, wta_kt_axes, unnormalized_measure_1);
-    fastjet::contrib::Nsubjettiness n_subjettiness_3_1(3, wta_kt_axes, unnormalized_measure_1);
-    fastjet::contrib::NsubjettinessRatio n_subjettiness_21_1(2, 1, wta_kt_axes, unnormalized_measure_1);
-    fastjet::contrib::NsubjettinessRatio n_subjettiness_32_1(3, 2, wta_kt_axes, unnormalized_measure_1);
-    sub_jettiness.tau1_beta1(n_subjettiness_1_1(jet));
-    sub_jettiness.tau2_beta1(n_subjettiness_2_1(jet));
-    sub_jettiness.tau3_beta1(n_subjettiness_3_1(jet));
-    sub_jettiness.tau21_beta1(n_subjettiness_21_1(jet));
-    sub_jettiness.tau32_beta1(n_subjettiness_32_1(jet));
-
-    fastjet::contrib::OnePass_KT_Axes kt_axes;
-    fastjet::contrib::UnnormalizedMeasure unnormalized_measure_2(2);
-    fastjet::contrib::Nsubjettiness n_subjettiness_1_2(1, kt_axes, unnormalized_measure_2);
-    fastjet::contrib::Nsubjettiness n_subjettiness_2_2(2, kt_axes, unnormalized_measure_2);
-    fastjet::contrib::Nsubjettiness n_subjettiness_3_2(3, kt_axes, unnormalized_measure_2);
-    fastjet::contrib::NsubjettinessRatio n_subjettiness_21_2(2, 1, kt_axes, unnormalized_measure_2);
-    fastjet::contrib::NsubjettinessRatio n_subjettiness_32_2(3, 2, kt_axes, unnormalized_measure_2);
-    sub_jettiness.tau1_beta2(n_subjettiness_1_2(jet));
-    sub_jettiness.tau2_beta2(n_subjettiness_2_2(jet));
-    sub_jettiness.tau3_beta2(n_subjettiness_3_2(jet));
-    sub_jettiness.tau21_beta2(n_subjettiness_21_2(jet));
-    sub_jettiness.tau32_beta2(n_subjettiness_32_2(jet));
-
-    return sub_jettiness;
-}
 
 std::vector< Triplet > TopHadronicTagger::ordered_triplets(Jets const& jets, unsigned int sub_jet_number, std::function< Triplet(fastjet::PseudoJet const& piece_1, fastjet::PseudoJet const& piece_2, fastjet::PseudoJet const& piece_3)> const& function) const
 {

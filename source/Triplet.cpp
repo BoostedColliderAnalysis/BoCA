@@ -21,9 +21,9 @@ Singlet const& Triplet::Singlet() const
     return Multiplet2();
 }
 
-void Triplet::set_sub_jettiness(const SubJettiness& sub_jettiness)
+void Triplet::set_sub_jettiness(fastjet::PseudoJet const& jet)
 {
-  sub_jettiness_ = sub_jettiness;
+  sub_jettiness_ = SubJettiness(jet);
 }
 
 float Triplet::pt() const

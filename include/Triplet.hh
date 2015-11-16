@@ -20,7 +20,7 @@ public:
 
     boca::Singlet const& Singlet() const;
 
-    void set_sub_jettiness(SubJettiness const& sub_jettiness);
+    void set_sub_jettiness(fastjet::PseudoJet const& jet);
 
     float pt() const;
 

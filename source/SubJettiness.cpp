@@ -1,94 +1,77 @@
 /**
  * Copyright (C) 2015 Jan Hajer
  */
+
+// #include "external/fastjet/contribs/Nsubjettiness/Nsubjettiness.hh"
+#include "fastjet/contrib/Nsubjettiness.hh"
 #include "SubJettiness.hh"
 
 namespace boca
 {
 
-float SubJettiness::tau1_beta1() const
+NSubJettiness::NSubJettiness() {}
+
+NSubJettiness::NSubJettiness(fastjet::PseudoJet const& jet, fastjet::contrib::AxesDefinition const& axes, int beta)
 {
-    return tau1_beta1_;
+    fastjet::contrib::UnnormalizedMeasure unnormalized_measure(beta);
+    fastjet::contrib::Nsubjettiness n_subjettiness_1(1, axes, unnormalized_measure);
+    fastjet::contrib::Nsubjettiness n_subjettiness_2(2, axes, unnormalized_measure);
+    fastjet::contrib::Nsubjettiness n_subjettiness_3(3, axes, unnormalized_measure);
+    fastjet::contrib::NsubjettinessRatio n_subjettiness_21(2, 1, axes, unnormalized_measure);
+    fastjet::contrib::NsubjettinessRatio n_subjettiness_32(3, 2, axes, unnormalized_measure);
+    tau_1_ = n_subjettiness_1(jet);
+    tau_2_ = n_subjettiness_2(jet);
+    tau_3_ = n_subjettiness_3(jet);
+    tau_2_1_ = n_subjettiness_21(jet);
+    tau_3_2_ = n_subjettiness_32(jet);
 }
-float SubJettiness::tau2_beta1() const
+
+float NSubJettiness::tau_1() const
 {
-    return tau2_beta1_;
+    return tau_1_;
 }
-float SubJettiness::tau3_beta1() const
+
+float NSubJettiness::tau_2() const
 {
-    return tau3_beta1_;
+    return tau_2_;
 }
-float SubJettiness::tau21_beta1() const
+
+float NSubJettiness::tau_3() const
 {
-    if (tau1_beta1() > 0) return tau21_beta1_;
+    return tau_3_;
+}
+
+float NSubJettiness::tau_2_1() const
+{
+    if (tau_1_ > 0) return tau_2_1_;
     return 0;
 }
-float SubJettiness::tau32_beta1() const
+
+float NSubJettiness::tau_3_2() const
 {
-    if (tau2_beta1() > 0) return tau32_beta1_;
+    if (tau_2_ > 0) return tau_3_2_;
     return 0;
 }
-float SubJettiness::tau1_beta2() const
+
+SubJettiness::SubJettiness() {}
+
+SubJettiness::SubJettiness(const fastjet::PseudoJet& jet)
 {
-    return tau1_beta2_;
+    fastjet::contrib::OnePass_WTA_KT_Axes wta_kt_axes;
+    beta_1_ = NSubJettiness(jet, wta_kt_axes, 1);
+    fastjet::contrib::OnePass_KT_Axes kt_axes;
+    beta_2_ = NSubJettiness(jet, kt_axes, 2);
 }
-float SubJettiness::tau2_beta2() const
+
+NSubJettiness SubJettiness::beta_1()
 {
-    return tau2_beta2_;
+    return beta_1_;
 }
-float SubJettiness::tau3_beta2() const
+
+NSubJettiness SubJettiness::beta_2()
 {
-    return tau3_beta2_;
+    return beta_2_;
 }
-float SubJettiness::tau21_beta2() const
-{
-    if (tau1_beta2() > 0) return tau21_beta2_;
-    return 0;
-}
-float SubJettiness::tau32_beta2() const
-{
-    if (tau2_beta2() > 0) return tau32_beta2_;
-    return 0;
-}
-void SubJettiness::tau1_beta1(float tau)
-{
-    tau1_beta1_ = tau;
-}
-void SubJettiness::tau2_beta1(float tau)
-{
-    tau2_beta1_ = tau;
-}
-void SubJettiness::tau3_beta1(float tau)
-{
-    tau3_beta1_ = tau;
-}
-void SubJettiness::tau21_beta1(float tau)
-{
-    tau21_beta1_ = tau;
-}
-void SubJettiness::tau32_beta1(float tau)
-{
-    tau32_beta1_ = tau;
-}
-void SubJettiness::tau1_beta2(float tau)
-{
-    tau1_beta2_ = tau;
-}
-void SubJettiness::tau2_beta2(float tau)
-{
-    tau2_beta2_ = tau;
-}
-void SubJettiness::tau3_beta2(float tau)
-{
-    tau3_beta2_ = tau;
-}
-void SubJettiness::tau21_beta2(float tau)
-{
-    tau21_beta2_ = tau;
-}
-void SubJettiness::tau32_beta2(float tau)
-{
-    tau32_beta2_ = tau;
-}
+
 
 }

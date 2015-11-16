@@ -3,51 +3,59 @@
  */
 #pragma once
 
+namespace fastjet
+{
+class PseudoJet;
+namespace contrib
+{
+class AxesDefinition;
+}
+}
+
 namespace boca
 {
+
+class NSubJettiness
+{
+public:
+    NSubJettiness();
+
+    NSubJettiness(fastjet::PseudoJet const& jet, fastjet::contrib::AxesDefinition const& axes, int beta);
+
+    float tau_1() const;
+    float tau_2() const;
+    float tau_3() const;
+    float tau_2_1() const;
+    float tau_3_2() const;
+
+private:
+
+    float tau_1_;
+    float tau_2_;
+    float tau_3_;
+    float tau_2_1_;
+    float tau_3_2_;
+};
+
 
 class SubJettiness
 {
 
 public:
 
-    float tau1_beta1() const;
-    float tau2_beta1() const;
-    float tau3_beta1() const;
-    float tau21_beta1() const;
-    float tau32_beta1() const;
+    SubJettiness();
 
-    float tau1_beta2() const;
-    float tau2_beta2() const;
-    float tau3_beta2() const;
-    float tau21_beta2() const;
-    float tau32_beta2() const;
+    SubJettiness(fastjet::PseudoJet const& jet);
 
-    void tau1_beta1(float tau);
-    void tau2_beta1(float tau);
-    void tau3_beta1(float tau);
-    void tau21_beta1(float tau);
-    void tau32_beta1(float tau);
+    NSubJettiness beta_1();
 
-    void tau1_beta2(float tau);
-    void tau2_beta2(float tau);
-    void tau3_beta2(float tau);
-    void tau21_beta2(float tau);
-    void tau32_beta2(float tau);
+    NSubJettiness beta_2();
 
 private:
 
-    float tau1_beta1_;
-    float tau2_beta1_;
-    float tau3_beta1_;
-    float tau21_beta1_;
-    float tau32_beta1_;
+    NSubJettiness beta_1_;
 
-    float tau1_beta2_;
-    float tau2_beta2_;
-    float tau3_beta2_;
-    float tau21_beta2_;
-    float tau32_beta2_;
+    NSubJettiness beta_2_;
 
 };
 
