@@ -17,7 +17,9 @@ namespace boca
 
 class NSubJettiness
 {
+
 public:
+
     NSubJettiness();
 
     NSubJettiness(fastjet::PseudoJet const& jet, fastjet::contrib::AxesDefinition const& axes, int beta);

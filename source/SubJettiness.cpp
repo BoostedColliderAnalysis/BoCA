@@ -55,7 +55,7 @@ float NSubJettiness::tau_3_2() const
 
 SubJettiness::SubJettiness() {}
 
-SubJettiness::SubJettiness(const fastjet::PseudoJet& jet)
+SubJettiness::SubJettiness(fastjet::PseudoJet const& jet)
 {
     fastjet::contrib::OnePass_WTA_KT_Axes wta_kt_axes;
     beta_1_ = NSubJettiness(jet, wta_kt_axes, 1);
