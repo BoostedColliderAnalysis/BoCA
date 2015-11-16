@@ -47,10 +47,6 @@ The source code documentation including all classes and functions can be found [
 
 BoCa is licenced under the [GPL 3](doc/License.md).
 
-[//]: # (## Authors
-
-The list of authors can be found here [Authors](doc/Authors.md).)
-
 ## Reference
 
 Please cite:
