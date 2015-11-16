@@ -26,7 +26,7 @@ public:
 
 //     Family(Id id, Id mother_1_id, Id mother_2_id);
 
-    Family(int id, int mother_1_id, int mother_2_id, int grand_mother_id, int grand_grand_mother_id);
+    Family(Particle const& id, Particle const& mother_1_id, Particle const& mother_2_id, Particle const& grand_mother_id, Particle const& grand_grand_mother_id);
 
 //     Family(Id id, Id mother_1_id, Id mother_2_id, Id grand_mother_id);
 

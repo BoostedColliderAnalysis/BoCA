@@ -30,12 +30,12 @@ Family::Family(int id, int mother_1_id, int mother_2_id) : particle_(Particle(id
     daughter_ids_.reserve(2);
 }
 
-Family::Family(int id, int mother_1_id, int mother_2_id, int grand_mother_id, int grand_grand_mother_id)
-: particle_(Particle(id))
-, mother_1_(Particle(mother_1_id))
-, mother_2_(Particle(mother_2_id))
-, grand_mother_(Particle(grand_mother_id))
-, grand_grand_mother_(Particle(grand_grand_mother_id))
+Family::Family(Particle const& id, Particle const& mother_1_id, Particle const& mother_2_id, Particle const& grand_mother_id, Particle const& grand_grand_mother_id)
+: particle_(id)
+, mother_1_(mother_1_id)
+, mother_2_(mother_2_id)
+, grand_mother_(grand_mother_id)
+, grand_grand_mother_(grand_grand_mother_id)
 {
     daughter_ids_.reserve(2);
 }

@@ -60,6 +60,10 @@ Jets CopyIfQuark(Jets const& jets);
 
 Jets CopyIf5Quark(Jets const& jets);
 
+Jets CopyIfDaughter(Jets const& particles, Jets const& daughters);
+
+Jets CopyIfGrandDaughter(Jets const& particles, Jets const& daughters);
+
 template<typename Multiplet>
 std::vector<Multiplet> RemoveIfSoft(std::vector<Multiplet> multiplets, Momentum pt_min)
 {

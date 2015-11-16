@@ -54,3 +54,5 @@ SEARCHENGINE = YES # create search field
 USE_MATHJAX = YES # formulas a set without latex
 ALIASES += "license=@par License:\n"
 EXCLUDE_SYMBOLS = fastjet TMVA TMatrixT
+IMAGE_PATH = doc/images
+HTML_FOOTER = doc/footer.html

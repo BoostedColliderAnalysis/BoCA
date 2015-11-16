@@ -28,27 +28,17 @@ public:
 
     std::vector<Doublet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
 
-    int WLeptonicId(Event const& event) const {
-        return WLeptonicId(WLeptonicDaughters(event));
-    }
+    std::string Name() const final;
 
-    std::string Name() const final {
-        return "WLeptonic";
-    }
+    std::string NiceName() const final;
 
 private:
 
     Jets Particles(Event const& event) const;
 
-    Jets WLeptonicDaughters(Event const& event) const;
-
-    int WLeptonicId(Jets const& jets) const;
-
-    Tag GetTag(Doublet const& doublet) const;
+    bool Problematic(Doublet const& doublet, Tag tag) const;
 
     std::vector<Doublet> ReconstructNeutrino(Doublet const& doublet) const;
-
-    std::vector<Doublet> GetNeutrino(Doublet const& doublet, Jets const& Neutrinos, const Tag Tag) const;
 
     Mass w_mass_window_;
 

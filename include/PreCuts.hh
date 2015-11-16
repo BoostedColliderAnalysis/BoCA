@@ -35,7 +35,7 @@ public:
     }
 
     bool PtTooLarge(Id id, fastjet::PseudoJet const& jet) const {
-        return pt_upper_cut_.IsSet(id) && pt_upper_cut_.Get(id) > jet.pt() * GeV;
+        return pt_upper_cut_.IsSet(id) && pt_upper_cut_.Get(id) < jet.pt() * GeV;
     }
 
     template <typename Multiplet>
@@ -53,7 +53,7 @@ public:
     }
 
     bool MassTooLarge(Id id, fastjet::PseudoJet const& jet) const {
-        return mass_upper_cut_.IsSet(id) && mass_upper_cut_.Get(id) > jet.m() * GeV;
+        return mass_upper_cut_.IsSet(id) && mass_upper_cut_.Get(id) < jet.m() * GeV;
     }
 
     template <typename Multiplet>
@@ -120,7 +120,7 @@ private:
 
     PreCut<Angle> tracker_eta_upper_cut_;
 
-    bool do_sub_jets_ = true;
+    bool do_sub_jets_ = false;
 
     bool semi_leptonic_ = true;
 

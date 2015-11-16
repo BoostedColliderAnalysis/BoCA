@@ -1,25 +1,22 @@
 #include "AnalysisNeutral.hh"
 #include "EventNeutralTagger.hh"
 
-int main()
+template<typename Tagger>
+void Run(boca::Output run = boca::Output::normal)
 {
-  boca::heavyhiggs::AnalysisNeutral<boca::standardmodel::BottomTagger> bottom_analysis;
-    bottom_analysis.RunFast();
-    boca::heavyhiggs::AnalysisNeutral<boca::JetPairTagger> jet_pair_analysis;
-    jet_pair_analysis.RunFast();
-    boca::heavyhiggs::AnalysisNeutral<boca::standardmodel::WHadronicTagger> w_hadronic_analysis;
-    w_hadronic_analysis.RunFast();
-    boca::heavyhiggs::AnalysisNeutral<boca::standardmodel::WLeptonicTagger> w_leptonic_analysis;
-    w_leptonic_analysis.RunFast();
-    boca::heavyhiggs::AnalysisNeutral<boca::standardmodel::TopHadronicTagger> top_hadronic_analysis;
-    top_hadronic_analysis.RunFast();
-    boca::heavyhiggs::AnalysisNeutral<boca::standardmodel::TopLeptonicTagger> tops_leptonic_analysis;
-    tops_leptonic_analysis.RunFast();
-    boca::heavyhiggs::AnalysisNeutral<boca::heavyhiggs::HeavyHiggsSemiTagger> heavy_higgs_semi_analysis;
-    heavy_higgs_semi_analysis.RunFast();
-    boca::heavyhiggs::AnalysisNeutral<boca::heavyhiggs::SignatureNeutralTagger> signature_semi_analysis;
-    signature_semi_analysis.RunFast();
-    boca::heavyhiggs::AnalysisNeutral<boca::heavyhiggs::EventNeutralTagger> event_semi_analysis;
-    event_semi_analysis.RunFullSignificance();
+  boca::heavyhiggs::AnalysisNeutral<Tagger> analysis;
+  boca::Run(analysis, run);
 }
 
+int main()
+{
+  Run<boca::standardmodel::BottomTagger>(boca::Output::fast);
+  Run<boca::standardmodel::WHadronicTagger>(boca::Output::fast);
+  Run<boca::standardmodel::WLeptonicTagger>(boca::Output::fast);
+  Run<boca::standardmodel::TopHadronicTagger>(boca::Output::fast);
+  Run<boca::standardmodel::TopLeptonicTagger>(boca::Output::fast);
+  Run<boca::JetPairTagger>(boca::Output::fast);
+  Run<boca::heavyhiggs::HeavyHiggsSemiTagger>(boca::Output::fast);
+  Run<boca::heavyhiggs::SignatureNeutralTagger>(boca::Output::fast);
+  Run<boca::heavyhiggs::EventNeutralTagger>(boca::Output::significance);
+}
