@@ -13,6 +13,8 @@ Vector3.cpp
 LorentzVector.cpp
 EventShapes.cpp
 EventShape.cpp
+PseudoJet.cpp
+Jet.cpp
 )
 create_library(Vector vector_sources)
 
