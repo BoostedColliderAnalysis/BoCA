@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['x',['x',['../d3/da2/classboca_1_1Vector3.html#ac42de848d03adaf288e8199049f8f14a',1,'boca::Vector3::x()'],['../dd/d3e/classboca_1_1LorentzVector.html#a3bd7262bca8c0d06c0cfe556def16b20',1,'boca::LorentzVector::X()'],['../d6/dfb/classboca_1_1Vector2.html#a6b0e6e35cfcbe1c797370bff9e25c694',1,'boca::Vector2::X()'],['../d3/da2/classboca_1_1Vector3.html#a8411de438214ce55f63de0ede1fac664',1,'boca::Vector3::X()']]],
-  ['xbin',['XBin',['../dc/d0c/classboca_1_1Result.html#a6fd1c5d0e1e9c84f8eb8cdf53f02bdec',1,'boca::Result']]],
-  ['xsec',['XSec',['../dc/d0c/classboca_1_1Result.html#a8d3086d617d55e28af8b9ce166c32b83',1,'boca::Result']]],
-  ['xvalue',['XValue',['../d0/d74/classboca_1_1Results.html#aa3b6d11114a13b5216cdf6d44b0447c5',1,'boca::Results']]]
+  ['y',['y',['../d3/da2/classboca_1_1Vector3.html#a93867a63271b5c7e86b9aeeb05b67143',1,'boca::Vector3::y()'],['../dd/d3e/classboca_1_1LorentzVector.html#ae89fe7a0d06feef5060350fb94d231cf',1,'boca::LorentzVector::Y()'],['../d6/dfb/classboca_1_1Vector2.html#a9da1fd49628b60c54aa926984c80ed89',1,'boca::Vector2::Y()'],['../d3/da2/classboca_1_1Vector3.html#af71760e038673cc1c396b15d9ae18ff0',1,'boca::Vector3::Y()']]],
+  ['ys',['yS',['../d5/dcc/classboca_1_1EventShapes.html#ac4d858b07dca77f8292fe40421669491',1,'boca::EventShapes']]],
+  ['yt',['yT',['../d5/dcc/classboca_1_1EventShapes.html#ae3774463686b91178944d18d692ebe83',1,'boca::EventShapes']]]
 ];

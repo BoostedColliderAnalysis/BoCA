@@ -9,7 +9,6 @@ var searchData=
   ['_5fmminus',['_mMinus',['../d5/dcc/classboca_1_1EventShapes.html#ad64cd97eab54fd4bb0935af689ad91e3',1,'boca::EventShapes']]],
   ['_5fmplus',['_mPlus',['../d5/dcc/classboca_1_1EventShapes.html#a99d2da55ec1aa2a1e859412be325efad',1,'boca::EventShapes']]],
   ['_5fpv',['_pv',['../d5/dcc/classboca_1_1EventShapes.html#a2d2f85de4e7398a163cf89338d2b5006',1,'boca::EventShapes']]],
-  ['_5fr_5f_5funique_5f',['_R__UNIQUE_',['../d0/d10/namespaceROOT.html#ab96465454b735cfe5bf525085a1ebb5d',1,'ROOT']]],
   ['_5fspher',['_spher',['../d5/dcc/classboca_1_1EventShapes.html#af6aac4cc100f2e05c78b260bdb62b2bc',1,'boca::EventShapes']]],
   ['_5fspheraxis',['_spherAxis',['../d5/dcc/classboca_1_1EventShapes.html#aa3609a0332aa36a7ba95641f69cc9fdb',1,'boca::EventShapes']]],
   ['_5fspherdone',['_spherDone',['../d5/dcc/classboca_1_1EventShapes.html#aaa4fa58d61c45f85f0a5cdbd4c5845dd',1,'boca::EventShapes']]],
