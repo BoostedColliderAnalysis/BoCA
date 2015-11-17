@@ -6,15 +6,15 @@
 namespace boca
 {
 
-bool PreCuts::DoSubJets() const
-{
-    return do_sub_jets_;
-}
-
-void PreCuts::SetSubJets(bool do_sub_jets)
-{
-    do_sub_jets_ = do_sub_jets;
-}
+// bool PreCuts::DoSubJets() const
+// {
+//     return do_sub_jets_;
+// }
+//
+// void PreCuts::SetSubJets(bool do_sub_jets)
+// {
+//     do_sub_jets_ = do_sub_jets;
+// }
 
 bool PreCuts::SemiLeptonic() const
 {

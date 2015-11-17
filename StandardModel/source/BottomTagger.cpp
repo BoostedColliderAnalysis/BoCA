@@ -42,7 +42,7 @@ Jets BottomTagger::Jets(Event const& event, PreCuts const& pre_cuts, std::functi
     boca::Jets jets = event.Hadrons().Jets();
     Info(jets.size());
     boca::Jets bottoms = Multiplets(jets, function);
-    if (pre_cuts.DoSubJets()) {
+    if (pre_cuts.DoSubJets(Id::bottom)) {
         bottoms = Join(bottoms, Multiplets(jets, function, 2));
         bottoms = Join(bottoms, Multiplets(jets, function, 3));
     }

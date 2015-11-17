@@ -73,8 +73,16 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class WHadronicBranch : public PairBranch
+class WHadronicBranch : public PairBranch, public BottomBase
 {
+public:
+    template<typename Multiplet>
+    void Fill(Multiplet const& multiplet) {
+        PairBranch::Fill(multiplet);
+        BottomBase::Fill(multiplet);
+    }
+    Observables Variables();
+    Observables Spectators();
     ClassDef(WHadronicBranch, 1)
 };
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "AnalysisStandardModel.hh"
-#include "BottomTagger.hh"
+#include "WHadronicTagger.hh"
 
 namespace boca
 {
@@ -27,6 +27,7 @@ public:
         this->pre_cuts().PtUpperCut().Set(Id::W, this->UpperPtCut());
 //         this->pre_cuts().MassUpperCut().Set(Id::W, 200. * GeV);
         //     pre_cuts().TrackerMaxEta().Set(Id::top, DetectorGeometry::TrackerEtaMax);
+        this->pre_cuts().ConsiderBuildingBlock().Set(Id::W, false);
     }
 
     static Decay WDecay() {
@@ -37,11 +38,11 @@ public:
 private:
 
     std::string AnalysisName() const final {
-        return Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-large";
+        return Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-bottom";
     }
 
 
-    void SetFiles(Tag tag, Stage) final {
+    void SetFiles(Tag tag, Stage stage) final {
         switch (tag) {
         case Tag::signal :
             if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::ww);
@@ -55,7 +56,7 @@ private:
             this->NewFile(tag, Process::qq);
             this->NewFile(tag, Process::gg);
             this->NewFile(tag, Process::cc);
-            if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_had);
+            if (this->template TaggerIs<WHadronicTagger>() && stage == Stage::reader) this->NewFile(tag, Process::tt_had);
             if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::hh_bb);
             if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::bb);
             if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_lep);

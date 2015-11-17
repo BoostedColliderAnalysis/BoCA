@@ -38,7 +38,7 @@ public:
         this->pre_cuts().PtLowerCut().Set(Id::bottom, this->LowerPtCut());
         this->pre_cuts().PtUpperCut().Set(Id::bottom, this->UpperPtCut());
         this->pre_cuts().TrackerMaxEta().Set(Id::bottom, DetectorGeometry::TrackerEtaMax());
-        this->pre_cuts().SetSubJets(false);
+        this->pre_cuts().ConsiderBuildingBlock().Set(Id::bottom, false);
     }
 
 private:

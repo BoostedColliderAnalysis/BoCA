@@ -70,9 +70,15 @@ public:
         return PtTooSmall(id, multiplet) || PtTooLarge(id, multiplet) || MassTooSmall(id, multiplet) || MassTooLarge(id, multiplet) || OutsideTracker(id, multiplet);
     }
 
-    bool DoSubJets() const;
+    bool DoSubJets(Id id) const {
+        bool set = consider_building_block_.IsSet(id);
+        if (!set) return true;
+        return consider_building_block_.Get(id);
+    }
 
-    void SetSubJets(bool do_sub_jets);
+//     bool DoSubJets() const;
+//
+//     void SetSubJets(bool do_sub_jets);
 
     bool SemiLeptonic() const;
 
@@ -108,6 +114,10 @@ public:
         return tracker_eta_upper_cut_;
     }
 
+    PreCut<bool>& ConsiderBuildingBlock() {
+        return consider_building_block_;
+    }
+
 private:
 
     PreCut<Momentum> pt_lower_cut_;
@@ -120,7 +130,7 @@ private:
 
     PreCut<Angle> tracker_eta_upper_cut_;
 
-    bool do_sub_jets_ = false;
+    PreCut<bool> consider_building_block_;
 
     bool semi_leptonic_ = true;
 

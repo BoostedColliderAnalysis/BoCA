@@ -41,6 +41,16 @@ Observables TauBranch::Spectators()
     return ParticleBranch::Spectators();
 }
 
+Observables WHadronicBranch::Variables()
+{
+  return Join(PairBranch::Variables(), BottomBase::Variables());
+}
+
+Observables WHadronicBranch::Spectators()
+{
+  return Join(PairBranch::Spectators(), BottomBase::Spectators());
+}
+
 Observables ZHadronicBranch::Variables()
 {
   return Join(PairBranch::Variables(), BottomBase::Variables());
