@@ -2,7 +2,7 @@ var searchData=
 [
   ['unboosted',['unboosted',['../da/d7d/namespaceboca.html#a834d86ec55dbe65b1454178398ca1997aea79aa48b0b44a89b91d9859004bb136',1,'boca']]],
   ['underlying',['Underlying',['../da/d7d/namespaceboca.html#a0f97c6a8989b6649f95c7c97358ea842',1,'boca']]],
-  ['unit',['Unit',['../d6/dfb/classboca_1_1Vector2.html#a2fef09f038c774888727b4ada5304a5b',1,'boca::Vector2::Unit()'],['../d3/da2/classboca_1_1Vector3.html#ae8dec1f0fc023fa4a16e84ae6bbb2810',1,'boca::Vector3::Unit()'],['../d5/d91/classboca_1_1Observable.html#a98f0e327ee0c4b817cad21106b37dd7b',1,'boca::Observable::unit()']]],
+  ['unit',['unit',['../d5/d91/classboca_1_1Observable.html#a98f0e327ee0c4b817cad21106b37dd7b',1,'boca::Observable::unit()'],['../d6/dfb/classboca_1_1Vector2.html#a2fef09f038c774888727b4ada5304a5b',1,'boca::Vector2::Unit()'],['../d3/da2/classboca_1_1Vector3.html#ae8dec1f0fc023fa4a16e84ae6bbb2810',1,'boca::Vector3::Unit()']]],
   ['unit_5f',['unit_',['../d5/d91/classboca_1_1Observable.html#a404c08a73a14f291e9ab710a31234b88',1,'boca::Observable']]],
   ['units_2ecpp',['Units.cpp',['../d4/d3b/Units_8cpp.html',1,'']]],
   ['units_2ehh',['Units.hh',['../dc/d45/Units_8hh.html',1,'']]],

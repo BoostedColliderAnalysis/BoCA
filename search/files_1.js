@@ -13,5 +13,6 @@ var searchData=
   ['branchessm_2ecpp',['BranchesSm.cpp',['../df/d7d/BranchesSm_8cpp.html',1,'']]],
   ['branchessm_2ehh',['BranchesSm.hh',['../de/d63/BranchesSm_8hh.html',1,'']]],
   ['branchestoppartner_2ecpp',['BranchesTopPartner.cpp',['../d7/dc6/BranchesTopPartner_8cpp.html',1,'']]],
-  ['branchestoppartner_2ehh',['BranchesTopPartner.hh',['../d9/d80/BranchesTopPartner_8hh.html',1,'']]]
+  ['branchestoppartner_2ehh',['BranchesTopPartner.hh',['../d9/d80/BranchesTopPartner_8hh.html',1,'']]],
+  ['branchheavyhiggsdict_2ecpp',['BranchHeavyHiggsDict.cpp',['../df/d6d/BranchHeavyHiggsDict_8cpp.html',1,'']]]
 ];

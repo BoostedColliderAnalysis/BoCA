@@ -27,6 +27,5 @@ var searchData=
   ['dipolarity',['Dipolarity',['../d6/d3d/classboca_1_1PairBranch.html#a2b64fcd401a013b2ebb08db3a02469a0',1,'boca::PairBranch']]],
   ['dipolarity13',['Dipolarity13',['../db/d71/classboca_1_1higgscpv_1_1SignatureLeptonTaggerBranch.html#ab9ac7391672b35ca32685ddccd950fbc',1,'boca::higgscpv::SignatureLeptonTaggerBranch::Dipolarity13()'],['../d9/d7b/classboca_1_1TChannelBranch.html#ab4864b3d2867b5556be23315ef632534',1,'boca::TChannelBranch::Dipolarity13()']]],
   ['dipolarity23',['Dipolarity23',['../db/d71/classboca_1_1higgscpv_1_1SignatureLeptonTaggerBranch.html#a9e0457aaf4022cb87849716e3e4ecda0',1,'boca::higgscpv::SignatureLeptonTaggerBranch::Dipolarity23()'],['../d9/d7b/classboca_1_1TChannelBranch.html#a7d04cffce4ae3d8c1f66d0edb72baf27',1,'boca::TChannelBranch::Dipolarity23()']]],
-  ['displaced_5fconstituents_5f',['displaced_constituents_',['../df/d8a/classboca_1_1JetInfo.html#a5b0129041d3d20bc84a63e4046cabf94',1,'boca::JetInfo']]],
-  ['do_5fsub_5fjets_5f',['do_sub_jets_',['../d0/dff/classboca_1_1PreCuts.html#a75144174b8a46f87c9ce1840cd4d94b8',1,'boca::PreCuts']]]
+  ['displaced_5fconstituents_5f',['displaced_constituents_',['../df/d8a/classboca_1_1JetInfo.html#a5b0129041d3d20bc84a63e4046cabf94',1,'boca::JetInfo']]]
 ];

@@ -1,11 +1,12 @@
 <map id="boca::standardmodel::TopAnalysis&lt; Tagger &gt;" name="boca::standardmodel::TopAnalysis&lt; Tagger &gt;">
-<area shape="rect" id="node2" href="$d6/d8a/classboca_1_1standardmodel_1_1AnalysisStandardModel.html" title="Tagger ananlysis. " alt="" coords="302,453,469,509"/>
-<area shape="rect" id="node3" href="$d1/d36/classboca_1_1Analysis.html" title="provides main analysis loops and logic. " alt="" coords="299,377,471,404"/>
-<area shape="rect" id="node4" href="$d7/d62/classboca_1_1AnalysisBase.html" title="Base for all analyses. " alt="" coords="209,288,348,315"/>
-<area shape="rect" id="node5" href="$d0/dff/classboca_1_1PreCuts.html" title="boca::PreCuts" alt="" coords="225,199,332,225"/>
-<area shape="rect" id="node6" href="$d0/db9/classboca_1_1PreCut.html" title="boca::PreCut\&lt; Mass \&gt;" alt="" coords="5,95,160,121"/>
-<area shape="rect" id="node7" href="$d0/db9/classboca_1_1PreCut.html" title="boca::PreCut\&lt; Value \&gt;" alt="" coords="201,5,357,32"/>
-<area shape="rect" id="node8" href="$d0/db9/classboca_1_1PreCut.html" title="boca::PreCut\&lt; Momentum \&gt;" alt="" coords="185,95,373,121"/>
-<area shape="rect" id="node9" href="$d0/db9/classboca_1_1PreCut.html" title="boca::PreCut\&lt; Angle \&gt;" alt="" coords="397,95,553,121"/>
-<area shape="rect" id="node10" href="$da/d42/classboca_1_1Tagger.html" title="Prepares multivariant analysis. " alt="" coords="372,288,471,315"/>
+<area shape="rect" id="node2" href="$d6/d8a/classboca_1_1standardmodel_1_1AnalysisStandardModel.html" title="Tagger ananlysis. " alt="" coords="1360,105,1527,161"/>
+<area shape="rect" id="node3" href="$d1/d36/classboca_1_1Analysis.html" title="provides main analysis loops and logic. " alt="" coords="1139,120,1311,147"/>
+<area shape="rect" id="node4" href="$d7/d62/classboca_1_1AnalysisBase.html" title="Base for all analyses. " alt="" coords="904,91,1043,117"/>
+<area shape="rect" id="node5" href="$d0/dff/classboca_1_1PreCuts.html" title="boca::PreCuts" alt="" coords="688,91,795,117"/>
+<area shape="rect" id="node6" href="$d0/db9/classboca_1_1PreCut.html" title="boca::PreCut\&lt; bool \&gt;" alt="" coords="323,5,470,32"/>
+<area shape="rect" id="node7" href="$d0/db9/classboca_1_1PreCut.html" title="boca::PreCut\&lt; Value \&gt;" alt="" coords="5,87,161,113"/>
+<area shape="rect" id="node8" href="$d0/db9/classboca_1_1PreCut.html" title="boca::PreCut\&lt; Mass \&gt;" alt="" coords="319,61,474,88"/>
+<area shape="rect" id="node9" href="$d0/db9/classboca_1_1PreCut.html" title="boca::PreCut\&lt; Momentum \&gt;" alt="" coords="303,112,491,139"/>
+<area shape="rect" id="node10" href="$d0/db9/classboca_1_1PreCut.html" title="boca::PreCut\&lt; Angle \&gt;" alt="" coords="319,164,475,191"/>
+<area shape="rect" id="node11" href="$da/d42/classboca_1_1Tagger.html" title="Prepares multivariant analysis. " alt="" coords="924,141,1023,168"/>
 </map>

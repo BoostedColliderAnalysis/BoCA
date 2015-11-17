@@ -14,6 +14,7 @@ var searchData=
   ['point',['Point',['../d2/d63/classboca_1_1Point.html',1,'boca']]],
   ['precut',['PreCut',['../d0/db9/classboca_1_1PreCut.html',1,'boca']]],
   ['precut_3c_20angle_20_3e',['PreCut&lt; Angle &gt;',['../d0/db9/classboca_1_1PreCut.html',1,'boca']]],
+  ['precut_3c_20bool_20_3e',['PreCut&lt; bool &gt;',['../d0/db9/classboca_1_1PreCut.html',1,'boca']]],
   ['precut_3c_20mass_20_3e',['PreCut&lt; Mass &gt;',['../d0/db9/classboca_1_1PreCut.html',1,'boca']]],
   ['precut_3c_20momentum_20_3e',['PreCut&lt; Momentum &gt;',['../d0/db9/classboca_1_1PreCut.html',1,'boca']]],
   ['precuts',['PreCuts',['../d0/dff/classboca_1_1PreCuts.html',1,'boca']]],

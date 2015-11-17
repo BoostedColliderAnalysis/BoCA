@@ -109,6 +109,7 @@ var searchData=
   ['branchestoppartner_2ecpp',['BranchesTopPartner.cpp',['../d7/dc6/BranchesTopPartner_8cpp.html',1,'']]],
   ['branchestoppartner_2ehh',['BranchesTopPartner.hh',['../d9/d80/BranchesTopPartner_8hh.html',1,'']]],
   ['branchfamily',['BranchFamily',['../d4/d8b/classboca_1_1JetTag.html#a5c4bc066823797e54124dd8ca7c0f496',1,'boca::JetTag']]],
+  ['branchheavyhiggsdict_2ecpp',['BranchHeavyHiggsDict.cpp',['../df/d6d/BranchHeavyHiggsDict_8cpp.html',1,'']]],
   ['branchname',['BranchName',['../d2/d52/classboca_1_1ClonesArrays.html#a8bfd30ba91c121a6b24d490404f3a936',1,'boca::ClonesArrays::BranchName()'],['../da/d42/classboca_1_1Tagger.html#ad3f9ee26dc344ed3c82c4de54f4b279e',1,'boca::Tagger::BranchName(Stage stage) const '],['../da/d42/classboca_1_1Tagger.html#af93f3d456b5182e387044d53584a6dbf',1,'boca::Tagger::BranchName(Stage stage, Tag tag) const '],['../dc/d4d/classboca_1_1TreeReaderValues.html#a922cff87bab88c59979f6ce5ccad0d2d',1,'boca::TreeReaderValues::BranchName()'],['../da/d7d/namespaceboca.html#a64f348334477220fcbda092af928be7a',1,'boca::BranchName()']]],
   ['branchwriter',['BranchWriter',['../d1/d7d/classboca_1_1BranchWriter.html',1,'boca']]],
   ['branchwriter',['BranchWriter',['../d1/d7d/classboca_1_1BranchWriter.html#a47e70b5efe049ec02e9ce0812a05ef07',1,'boca::BranchWriter']]],

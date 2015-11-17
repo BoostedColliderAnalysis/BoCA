@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['z',['z',['../d2/d63/classboca_1_1Point.html#afece530970fe91b5c7a392ae8aae1336',1,'boca::Point::z()'],['../d3/da2/classboca_1_1Vector3.html#a964b18ed235b21fb1ab558ad1738fc31',1,'boca::Vector3::z()'],['../dd/d3e/classboca_1_1LorentzVector.html#aa38dfa1b6a37974d75bef1b9755a431e',1,'boca::LorentzVector::Z()'],['../d3/da2/classboca_1_1Vector3.html#ae05986b5673590560fa4f6f8283e1c86',1,'boca::Vector3::Z()'],['../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7a21c2e59531c8710156d34a3c30ac81d5',1,'boca::Z()']]],
+  ['z',['Z',['../dd/d3e/classboca_1_1LorentzVector.html#aa38dfa1b6a37974d75bef1b9755a431e',1,'boca::LorentzVector::Z()'],['../d3/da2/classboca_1_1Vector3.html#ae05986b5673590560fa4f6f8283e1c86',1,'boca::Vector3::Z()'],['../d2/d63/classboca_1_1Point.html#afece530970fe91b5c7a392ae8aae1336',1,'boca::Point::z()'],['../d3/da2/classboca_1_1Vector3.html#a964b18ed235b21fb1ab558ad1738fc31',1,'boca::Vector3::z()'],['../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7a21c2e59531c8710156d34a3c30ac81d5',1,'boca::Z()']]],
   ['z_5f',['z_',['../d3/da2/classboca_1_1Vector3.html#a5f0403ca637022aca423870dedecb513',1,'boca::Vector3']]],
   ['z_5fmass_5fwindow',['z_mass_window',['../d9/dcd/classboca_1_1standardmodel_1_1ZHadronicTagger.html#afd7f48458c68cc3039ab59e3c18acf0d',1,'boca::standardmodel::ZHadronicTagger']]],
   ['z_5fpartner',['Z_partner',['../da/d7d/namespaceboca.html#a648cb17ad6b74376b1954206638331c7a4fde93502beda8c39ef092b1af264489',1,'boca']]],
