@@ -46,9 +46,9 @@ void Canvas::SetLog(float min, float max)
 std::string Canvas::ExportFileSuffix() const
 {
     Info0;
+    return ".pdf";
     return ".svg";
     return ".png";
-    return ".pdf";
 }
 
 void Canvas::SetAxis(TAxis& axis, std::string const& title)

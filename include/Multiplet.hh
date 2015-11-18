@@ -67,9 +67,9 @@ protected:
 
     float Rho(MultipletBase const& jet_1, MultipletBase const& jet_2, fastjet::PseudoJet const& jet) const;
 
-    float PullDifference(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
+    Angle PullDifference(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
-    float PullSum(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
+    Angle PullSum(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
     float Dipolarity(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2, boca::Singlet const& singlet) const;
 
@@ -99,7 +99,7 @@ protected:
 
 private:
 
-    float Pull(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
+    Angle Pull(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
     Angle Distance(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2, fastjet::PseudoJet const& constituent, Angle delta_r) const;
 

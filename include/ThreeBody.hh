@@ -216,28 +216,28 @@ public:
     }
 
     float PullDifference() const {
-        return Multiplet::PullDifference(Multiplet1(), Multiplet2());
+        return Multiplet::PullDifference(Multiplet1(), Multiplet2()) / rad;
     }
 
     float PullSum() const {
-        return Multiplet::PullSum(Multiplet1(), Multiplet2());
+        return Multiplet::PullSum(Multiplet1(), Multiplet2()) / rad;
     }
 
 
     float PullSum23() const {
-        return Multiplet::PullSum(Multiplet2(), Multiplet3());
+        return Multiplet::PullSum(Multiplet2(), Multiplet3()) / rad;
     }
 
     float PullDifference23() const {
-        return Multiplet::PullDifference(Multiplet2(), Multiplet3());
+        return Multiplet::PullDifference(Multiplet2(), Multiplet3()) / rad;
     }
 
     float PullSum13() const {
-        return Multiplet::PullSum(Multiplet1(), Multiplet3());
+        return Multiplet::PullSum(Multiplet1(), Multiplet3()) / rad;
     }
 
     float PullDifference13() const {
-        return Multiplet::PullDifference(Multiplet1(), Multiplet3());
+        return Multiplet::PullDifference(Multiplet1(), Multiplet3()) / rad;
     }
 
     float Dipolarity() const {

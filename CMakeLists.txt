@@ -57,4 +57,6 @@ add_subdirectory(source)
 
 add_subdirectory(StandardModel)
 add_subdirectory(HeavyHiggs)
+add_subdirectory(TopPartner)
+# add_subdirectory(HiggsCpv)
 

@@ -85,20 +85,27 @@ float Multiplet::Rho(MultipletBase const& jet_1, MultipletBase const& jet_2, fas
     return jet.m() / jet.pt() / delta_r * 2. * rad;
 }
 
-float Multiplet::Pull(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const
+Angle Multiplet::Pull(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const
 {
-    Vector2 pull = multiplets_1.singlet().Pull() - multiplets_1.Reference(multiplets_2.Jet());
-    return std::atan2(pull.Y(), pull.X());
+    Vector2 pull = multiplets_1.singlet().Pull();
+    Vector2 ref = multiplets_1.Reference(multiplets_2.Jet());
+    float pul_mag = pull.Mod();
+    float ref_mag = ref.Mod();
+    if (pul_mag == 0 || ref_mag == 0) return M_PI * rad;
+    double cos = ref * pull / pul_mag / ref_mag;
+    if(cos > 1) cos = 1;
+    if(cos < -1) cos = -1;
+    return std::acos(cos) * rad;
 }
 
-float Multiplet::PullDifference(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const
+Angle Multiplet::PullDifference(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const
 {
-    return RestrictPhi(boca::DeltaPhi(Pull(multiplets_1, multiplets_2), Pull(multiplets_2, multiplets_1)) - M_PI) / M_PI;
+  return Pull(multiplets_1, multiplets_2);
 }
 
-float Multiplet::PullSum(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const
+Angle Multiplet::PullSum(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const
 {
-    return RestrictPhi(Pull(multiplets_1, multiplets_2) + Pull(multiplets_2, multiplets_1)) / M_PI;
+  return Pull(multiplets_2, multiplets_1);
 }
 
 float Multiplet::Dipolarity(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2, boca::Singlet const& singlet) const
