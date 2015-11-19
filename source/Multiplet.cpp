@@ -3,6 +3,7 @@
  */
 #include "Multiplet.hh"
 
+#include "Line2.hh"
 #include "InfoRecombiner.hh"
 #include "JetInfo.hh"
 #include "Vector.hh"
@@ -93,56 +94,54 @@ Angle Multiplet::Pull(MultipletBase const& multiplets_1, MultipletBase const& mu
     float ref_mag = ref.Mod();
     if (pul_mag == 0 || ref_mag == 0) return M_PI * rad;
     double cos = ref * pull / pul_mag / ref_mag;
-    if(cos > 1) cos = 1;
-    if(cos < -1) cos = -1;
+    if (cos > 1) cos = 1;
+    if (cos < -1) cos = -1;
     return std::acos(cos) * rad;
 }
 
 Angle Multiplet::PullDifference(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const
 {
-  return Pull(multiplets_1, multiplets_2);
+    return Pull(multiplets_1, multiplets_2);
 }
 
 Angle Multiplet::PullSum(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const
 {
-  return Pull(multiplets_2, multiplets_1);
+    return Pull(multiplets_2, multiplets_1);
 }
 
 float Multiplet::Dipolarity(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2, boca::Singlet const& singlet) const
 {
-    Angle delta_r = DeltaR(multiplets_1, multiplets_2);
-    if (delta_r == 0. * rad) return 0;
     if (singlet.Pt() == at_rest) return 0;
-    float dipolarity = 0;
     if (!singlet.Jet().has_constituents()) return 0;
-    for (auto const & constituent : singlet.Jet().constituents()) {
-        if (constituent.pt() > singlet.Jet().pt()) continue;
-        Angle distance = Distance(multiplets_1, multiplets_2, constituent, delta_r);
-        if (distance > delta_r) continue;
-        dipolarity += constituent.pt() * sqr(distance / rad);
-    }
+    Vector2 point_1(multiplets_1.Jet().rap(), multiplets_1.Jet().phi_std());
+    Vector2 point_2 = Point2(point_1, multiplets_2);
+    Line2 line(point_1, point_2);
+    float dipolarity = 0;
+    for (auto const & constituent : singlet.Jet().constituents()) dipolarity += constituent.pt() * sqr(Distance(line, constituent) / rad);
+    Angle delta_r = DeltaR(multiplets_1, multiplets_2);
+    if (delta_r == 0. * rad) return dipolarity / singlet.Jet().pt();
     return dipolarity / singlet.Jet().pt() / sqr(delta_r / rad);
 }
 
-Angle Multiplet::Distance(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2, fastjet::PseudoJet const& constituent, Angle delta_r) const
+Vector2 Multiplet::Point2(Vector2 const& point_1, MultipletBase const& multiplets_2)const
 {
-    Vector2 point_1(multiplets_1.Jet().rap(), multiplets_1.Jet().phi_std());
-    Vector2 point_2(multiplets_2.Jet().rap(), multiplets_2.Jet().phi_std());
-    float phi = constituent.phi_std();
-    Angle distance_1 = Distance(point_1, point_2, Vector2(constituent.rap(), phi), delta_r);
+    double phi = multiplets_2.Jet().phi_std();
+    Vector2 point_2(multiplets_2.Jet().rap(), phi);
+    float distance_1 = (point_1 - point_2).Mod();
     phi -= sgn(phi) * 2. * M_PI;
-    Angle distance_2 =  Distance(point_1, point_2, Vector2(constituent.rap(), phi), delta_r);
-    return std::min(distance_1, distance_2);
+    Vector2 point_3(multiplets_2.Jet().rap(), phi);
+    float distance_2 = (point_1 - point_3).Mod();
+    if (distance_2 < distance_1) return point_3;
+    return point_2;
 }
 
-/**
- * @brief Distance between the Point point_0 and the Line (point_1, point_2)
- * @details according to \f$D(P_1, P_2, (x_0, y_0)) = \frac{|(y_2-y_1)x_0-(x_2-x_1)y_0+x_2 y_1-y_2 x_1|}{\sqrt{(y_2-y_1)^2+(x_2-x_1)^2}}\f$
- *
- */
-Angle Multiplet::Distance(Vector2 const& point_1, Vector2 const& point_2, Vector2 const& point_0, Angle delta_r) const
+Angle Multiplet::Distance(Line2 const& line, fastjet::PseudoJet const& constituent) const
 {
-    return double(std::abs(point_2.Y() - point_1.Y() * point_0.X() - (point_2.X() - point_1.X()) * point_0.Y() + point_2.X() * point_1.Y() - point_2.Y() * point_1.X())) / delta_r * rad * rad;
+    float phi = constituent.phi_std();
+    double distance_1 = line.DistanceToSegment(Vector2(constituent.rap(), phi));
+    phi -= sgn(phi) * 2. * M_PI;
+    double distance_2 = line.DistanceToSegment(Vector2(constituent.rap(), phi));
+    return std::min(distance_1, distance_2) * rad;
 }
 
 int Multiplet::Charge(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const

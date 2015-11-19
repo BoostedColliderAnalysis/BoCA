@@ -3,7 +3,7 @@
 // Jan Hajer 2015
 
 /*************************************************************************
- * Copyright (C) 1995-2000, Rene Brun and Fons Rademakers.               *
+ * Copyright(C) 1995-2000, Rene Brun and Fons Rademakers.               *
  * All rights reserved.                                                  *
  *                                                                       *
  * For the licensing terms see $ROOTSYS/LICENSE.                         *
@@ -21,38 +21,30 @@ namespace boca
  */
 class Vector2
 {
-
-// data members
-protected:
-
-    float fX; // components of the vector
-    float fY;
-
-// function members
 public:
 
     Vector2();
     Vector2(float* s);
     Vector2(float x0, float y0);
 // unary operators
-    Vector2& operator += (Vector2 const& v);
-    Vector2& operator -= (Vector2 const& v);
-    float operator *= (Vector2 const& v);
-    Vector2& operator *= (float s);
-    Vector2& operator /= (float s);
+    Vector2& operator+=(Vector2 const& v);
+    Vector2& operator-=(Vector2 const& v);
+    float operator*=(Vector2 const& v);
+    Vector2& operator*=(float s);
+    Vector2& operator/=(float s);
 
 // binary operators
 
-    friend Vector2 operator + (Vector2 const&, Vector2 const&);
-    friend Vector2 operator + (Vector2 const&, float);
-    friend Vector2 operator + (float , Vector2 const&);
-    friend Vector2 operator - (Vector2 const&, Vector2 const&);
-    friend Vector2 operator - (Vector2 const&, float);
-    friend float operator * (Vector2 const&, Vector2 const&);
-    friend Vector2 operator * (Vector2 const&, float);
-    friend Vector2 operator * (float , Vector2 const&);
-    friend Vector2 operator / (Vector2 const&, float);
-    friend float operator ^ (Vector2 const&, Vector2 const&);
+    friend Vector2 operator+(Vector2 const&, Vector2 const&);
+    friend Vector2 operator+(Vector2 const&, float);
+    friend Vector2 operator+(float , Vector2 const&);
+    friend Vector2 operator-(Vector2 const&, Vector2 const&);
+    friend Vector2 operator-(Vector2 const&, float);
+    friend float operator*(Vector2 const&, Vector2 const&);
+    friend Vector2 operator*(Vector2 const&, float);
+    friend Vector2 operator*(float , Vector2 const&);
+    friend Vector2 operator/(Vector2 const&, float);
+    friend float operator^(Vector2 const&, Vector2 const&);
 
 // setters
     void Set(Vector2 const& v);
@@ -97,6 +89,9 @@ public:
 // returns phi angle in the interval [-PI,PI)
     static float Phi_mpi_pi(float x);
 
+private:
+    float x_;
+    float y_;
 };
 
 }

@@ -9,6 +9,8 @@
 namespace boca
 {
 
+class Line2;
+
 class Multiplet : public MultipletBase
 {
 
@@ -101,9 +103,9 @@ private:
 
     Angle Pull(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
-    Angle Distance(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2, fastjet::PseudoJet const& constituent, Angle delta_r) const;
+    Vector2 Point2(Vector2 const& point_1, MultipletBase const& multiplets_2) const;
 
-    Angle Distance(Vector2 const& point_1, Vector2 const& point_2, Vector2 const& point_0, Angle delta_r) const;
+    Angle Distance(Line2 const& line, fastjet::PseudoJet const& constituent) const;
 
 };
 
