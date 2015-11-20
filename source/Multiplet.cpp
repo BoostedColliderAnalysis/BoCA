@@ -4,6 +4,7 @@
 #include "JetInfo.hh"
 #include "Vector.hh"
 #include "Math.hh"
+#include "Line2.hh"
 #include "Debug.hh"
 
 namespace analysis
@@ -24,7 +25,7 @@ fastjet::PseudoJet Multiplet::Jet(const fastjet::PseudoJet& jet_1, const fastjet
     else constituents.emplace_back(jet_2);
 
     fastjet::PseudoJet jet = fastjet::join(constituents, InfoRecombiner());
-    Check(int((jet_1 + jet_2).m()) == int(jet.m()), jet.m(), (jet_1 + jet_2).m(), jet_1.m(), jet_2.m());
+//     Check(int((jet_1 + jet_2).m()) == int(jet.m()), jet.m(), (jet_1 + jet_2).m(), jet_1.m(), jet_2.m());
     return jet;
 }
 
@@ -77,50 +78,70 @@ float Multiplet::Rho(const MultipletBase& jet_1, const MultipletBase& jet_2) con
 }
 
 float Multiplet::Pull(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const
-{
-    Vector2 pull = multiplets_1.singlet().Pull() - multiplets_1.Reference(multiplets_2.Jet());
-    return std::atan2(pull.Y(), pull.X());
+{  
+/*  Vector2 pull = multiplets_1.singlet().Pull();
+  Vector2 reference = multiplets_1.Reference(multiplets_2.singlet().Jet(),multiplets_1.singlet().Jet()); */  
+  Vector2 pull = multiplets_1.singlet().Pull();
+  fastjet::PseudoJet jet = multiplets_2.Jet();
+  if (jet == fastjet::PseudoJet::PseudoJet()) return M_PI;
+  Vector2 reference = multiplets_1.Reference(jet);    
+  float pull_abs = pull.Mod();
+  float reference_abs = reference.Mod();
+  if (pull_abs == 0|| reference_abs == 0)  return M_PI;
+  float cos = pull * reference / pull_abs / reference_abs;
+  if (cos < -1 ) cos = -1;
+  if (cos > 1 ) cos = 1;
+//   return cos;
+  return std::acos(cos); 
 }
 
 float Multiplet::PullDifference(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const
-{
-    return RestrictPhi(analysis::DeltaPhi(Pull(multiplets_1, multiplets_2), Pull(multiplets_2, multiplets_1)) - M_PI) / M_PI;
+{  
+  return Pull(multiplets_1, multiplets_2);
 }
 
 float Multiplet::PullSum(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const
 {
-    return RestrictPhi(Pull(multiplets_1, multiplets_2) + Pull(multiplets_2, multiplets_1)) / M_PI;
+  return Pull(multiplets_2, multiplets_1);
 }
 
 float Multiplet::Dipolarity(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const
 {
-    if (DeltaR(multiplets_1, multiplets_2) == 0) return 0;
     fastjet::PseudoJet jet = Jet(multiplets_1.Jet(), multiplets_2.Jet());
     if (jet.pt() == 0) return 0;
-    float dipolarity = 0;
     if (!jet.has_constituents()) return 0;
+    
+    float delta_r = DeltaR(multiplets_1, multiplets_2);
+    if (delta_r == 0) return 0;
+    
+    
+    Vector2 point_1(multiplets_1.Jet().rap(), multiplets_1.Jet().phi_std());
+    double phi = multiplets_2.Jet().phi_std();
+    Vector2 point_2(multiplets_2.Jet().rap(), phi);    
+    float distance_1 = (point_1 - point_2).Mod();
+    if (phi < 0) phi += 2 * M_PI;
+    else  phi -= 2 * M_PI;    
+    Vector2 point_3(multiplets_2.Jet().rap(), phi);  
+    float distance_2 = (point_1 - point_3).Mod();
+    if (distance_2 < distance_1) point_2 = point_3;
+    
+    float dipolarity = 0;
+    Line2 line(point_1, point_2);
     for (const auto & constituent : jet.constituents()) {
-        if (constituent.pt() > jet.pt()) continue;
-
         float phi = constituent.phi_std();
-        float distance_1 = Distance(multiplets_1, multiplets_2, Vector2(constituent.rap(), phi));
-
+        float distance_1 = line.DistanceToSegment(Vector2(constituent.rap(), phi)); 
         if (phi < 0) phi += 2 * M_PI;
         else  phi -= 2 * M_PI;
-        float distance_2 =  Distance(multiplets_1, multiplets_2, Vector2(constituent.rap(), phi));
-
+        float distance_2 =  line.DistanceToSegment(Vector2(constituent.rap(), phi)); 
         float distance = std::min(distance_1, distance_2);
-        if (distance > DeltaR(multiplets_1, multiplets_2)) continue;
         dipolarity += constituent.pt() * sqr(distance);
     }
-    return dipolarity / jet.pt() / sqr(DeltaR(multiplets_1, multiplets_2));
+    return dipolarity / jet.pt() / sqr(delta_r);
 }
 
-float Multiplet::Distance(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2, const Vector2& point_0) const
-{
-    Vector2 point_1(multiplets_1.Jet().rap(), multiplets_1.Jet().phi_std());
-    Vector2 point_2(multiplets_2.Jet().rap(), multiplets_2.Jet().phi_std());
-    return std::abs(point_2.Y() - point_1.Y() * point_0.X() - (point_2.X() - point_1.X()) * point_0.Y() + point_2.X() * point_1.Y() - point_2.Y() * point_1.X()) / DeltaR(multiplets_1, multiplets_2);
+float Multiplet::Distance(const Vector2& point_1, const Vector2& point_2, const Vector2& point_0, float delta_r) const
+{    
+    return std::abs((point_2.Y() - point_1.Y()) * point_0.X() - (point_2.X() - point_1.X()) * point_0.Y() + point_2.X() * point_1.Y() - point_2.Y() * point_1.X()) / delta_r;
 }
 int Multiplet::Charge(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const
 {

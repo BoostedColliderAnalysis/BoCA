@@ -14,7 +14,9 @@ public:
   float LeptonPt = 0;
 
   float LeptonDeltaR = 0;
-
+  
+  float Pull(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const;
+  
 protected:
 
     virtual float Ht() const override = 0;
@@ -80,9 +82,7 @@ protected:
 
 private:
 
-    float Pull(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const;
-
-    float Distance(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2, const Vector2& point_0) const;
+  float Distance(const Vector2& point_1, const Vector2& point_2, const Vector2& point_0, float delta_r) const;
 
 };
 

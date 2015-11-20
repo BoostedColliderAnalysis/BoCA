@@ -8,6 +8,11 @@
 namespace analysis {
 
 namespace heavyhiggs {
+  
+enum class TopProcess
+{
+  hadronic, leptonic
+};
 
 /**
  * @brief Semi leptonic heavy higgs BDT tagger
@@ -24,18 +29,16 @@ public:
 
     std::vector<Sextet> Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 
-    int GetBdt(const Event &event, const PreCuts &pre_cuts,
-               const TMVA::Reader &reader) const final {
+    int GetBdt(const Event &event, const PreCuts &pre_cuts, const TMVA::Reader &reader) const final {
                  return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
     }
 
     std::string Name() const final { return "HeavyHiggsSemi"; }
 
-    Jets TopParticles(const Event& event, int charge) const;
 
-    Jets HiggsParticle(const Event& event, Tag tag) const;
+    static Jets HiggsParticle(const Event& event, Tag tag);
 
-    std::vector<Triplet> FinalTriplet(const Event& event, Tag tag, int charge) const;
+    std::vector<Triplet> FinalTriplet(const Event& event, Tag tag, TopProcess top_process) const;
 
 private:
 

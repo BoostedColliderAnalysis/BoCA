@@ -52,7 +52,9 @@ class Tagger
 {
 
 public:
-
+  
+    Tagger();
+  
     virtual std::string Name() const = 0;
 
     virtual int GetBdt(const Event&, const PreCuts&, const TMVA::Reader&) const = 0;

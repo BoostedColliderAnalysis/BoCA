@@ -64,15 +64,19 @@ int WHadronicTagger::Train(const Event& event, const analysis::PreCuts& pre_cuts
         }
     }
 
-
-    int w_hadronic_id = WHadronicId(event);
-    Jets particles = event.Partons().Particles();
-    Jets w_particles;
-    if (w_hadronic_id != 0) w_particles = CopyIfExactParticle(particles, w_hadronic_id);
-    else w_particles = CopyIfParticle(particles, Id::W);
-    w_particles = RemoveIfSoft(w_particles, DetectorGeometry::JetMinPt());
-//     Error(doublets.size(), w_particles.size());
-    return SaveEntries(BestMatches(doublets, w_particles, tag));
+    
+    Jets particles = Particles(event);
+    
+//     int w_hadronic_id = WHadronicId(event);
+//     Jets particles = event.Partons().GenParticles();
+//     Jets w_particles;
+//     if (w_hadronic_id != 0) w_particles = CopyIfExactParticle(particles, w_hadronic_id);
+//     else w_particles = CopyIfParticle(particles, Id::W);
+//     w_particles = RemoveIfSoft(w_particles, DetectorGeometry::JetMinPt());
+//     std::vector< Doublet> best_doublets = BestMatches(doublets, w_particles, tag);
+//     Error(doublets.size(), w_particles.size(),best_doublets.size());
+//     return SaveEntries(best_doublets,w_particles.size(), Id::W);
+    return SaveEntries(doublets, particles, tag, Id::W);
 }
 
 
@@ -84,6 +88,17 @@ Jets WHadronicTagger::WDaughters(const analysis::Event& event) const
     w_daughters = CopyIfQuark(w_daughters);
     Info(w_daughters.size());
     return w_daughters;
+}
+
+Jets WHadronicTagger::Particles(Event const& event) const
+{
+  Jets particles = event.Partons().GenParticles();
+  Jets quarks = CopyIfMother(CopyIfQuark(particles), Id::W);
+  if (quarks.empty()) return {};
+  
+  std::vector<int> positions;
+  for (auto const & quark : quarks) positions.emplace_back(quark.user_info<JetInfo>().Family().mother_1().position());
+  return CopyIfPosition(particles, positions);
 }
 
 int WHadronicTagger::WHadronicId(const Jets& jets) const
@@ -128,7 +143,7 @@ bool WHadronicTagger::Problematic(const Doublet& doublet, const PreCuts& pre_cut
     if (pre_cuts.PtLowerCut(Id::W) > 0 && pre_cuts.PtLowerCut(Id::W) > doublet.Jet().pt()) return true;
     if (pre_cuts.PtUpperCut(Id::W) > 0 && pre_cuts.PtUpperCut(Id::W) < doublet.Jet().pt()) return true;
     if (pre_cuts.MassUpperCut(Id::W) > 0 && pre_cuts.MassUpperCut(Id::W) < doublet.Jet().m()) return true;
-    if (doublet.DeltaR() < DetectorGeometry::MinCellResolution() && doublet.DeltaR() > 0) return true;
+//     if (doublet.DeltaR() < DetectorGeometry::MinCellResolution() && doublet.DeltaR() > 0) return true;
     return false;
 }
 

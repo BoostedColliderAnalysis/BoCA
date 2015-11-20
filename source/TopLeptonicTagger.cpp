@@ -38,12 +38,11 @@ int TopLeptonicTagger::Train(const Event& event, const analysis::PreCuts& pre_cu
             triplets.emplace_back(triplet);
         }
     }
-    Jets tops = Particles(event, pre_cuts);
+    Jets tops = Particles(event);
     Debug(triplets.size(), tops.size());
-//     std::vector<Triplet> matches = BestMatches(triplets, tops, tag);
-//     Debug(matches.size());
-//     if(tag == Tag::signal && matches.size() > tops.size()) return 0;
-    return SaveEntries(triplets, tops, tag);
+    std::vector<Triplet> best_triplets = BestMatches(triplets, tops, tag);
+    return SaveEntries(triplets, tops, tag, Id::empty);
+//     return SaveEntries(best_triplets, tops.size());
 }
 
 fastjet::PseudoJet TopLeptonicTagger::FakeLepton(const fastjet::PseudoJet& jet) const
@@ -51,16 +50,19 @@ fastjet::PseudoJet TopLeptonicTagger::FakeLepton(const fastjet::PseudoJet& jet) 
   return fastjet::PseudoJet(jet.px(), jet.py(), jet.pz(), jet.e()) / jet.pt() * DetectorGeometry::LeptonMinPt(); 
 }
 
-Jets TopLeptonicTagger::Particles(const Event& event, const PreCuts& pre_cuts) const
+Jets TopLeptonicTagger::Particles(const Event& event) const
 {
     Jets particles = event.Partons().GenParticles();
-    if (pre_cuts.SemiLeptonic()) {
-      Jets leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
-      leptons = RemoveIfSoft(leptons,DetectorGeometry::LeptonMinPt());
-        int lepton_charge = 1;
-        if (!leptons.empty()) lepton_charge = leptons.front().user_info<JetInfo>().Charge();
-        return CopyIfExactParticle(particles, to_int(Id::top) * lepton_charge);
-    } else return CopyIfParticle(particles, Id::top);
+    Jets top_particles;
+    Jets leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
+    leptons = RemoveIfSoft(leptons,DetectorGeometry::LeptonMinPt());
+    int lepton_charge;
+    if (!leptons.empty()) lepton_charge = leptons.front().user_info<JetInfo>().Charge();
+    else return top_particles;
+    Jets tops = CopyIfExactParticle(particles, to_int(Id::top) * lepton_charge);
+    Jets tops_even = CopyIfMother(tops, Id::heavy_higgs);
+    Jets tops_odd = CopyIfMother(tops, Id::CP_odd_higgs);
+    return Join(tops_even, tops_odd);
 }
 
 bool TopLeptonicTagger::Problematic(const Triplet& triplet, const PreCuts& pre_cuts) const
@@ -77,7 +79,8 @@ bool TopLeptonicTagger::Problematic(const analysis::Triplet& triplet, const anal
     if (Problematic(triplet, pre_cuts)) return true;
     switch (tag) {
     case Tag::signal :
-//         if (std::abs(triplet.Jet().m() - Mass(Id::top) + 40) > top_mass_window) return true; //FIXME turn on this
+      if (use_w_){  if (std::abs(triplet.Jet().m() - Mass(Id::top)) > top_mass_window) return true;}
+       else if (std::abs(triplet.Jet().m() - Mass(Id::top) + 40) > top_mass_window) return true; //FIXME turn on this
 //         if (triplet.Singlet().Bdt()<0) return true;  //FIXME turn on this
 //         if ((triplet.Rho() < 0.5 || triplet.Rho() > 2) && triplet.Rho() > 0) return true; //FIXME turn on this
         break;

@@ -18,6 +18,8 @@
 #define NOTIFICATION
 #endif
 
+// #define DEBUG
+
 namespace analysis {
 
 std::string Shorten(const std::string& pretty_function, size_t brake);

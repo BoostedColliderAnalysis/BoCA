@@ -15,45 +15,35 @@ SignatureNeutralTagger::SignatureNeutralTagger()
 int SignatureNeutralTagger::Train(const Event& event, const PreCuts&, Tag tag) const
 {
     Info();
-    Jets higgs = heavy_higgs_semi_reader_.Tagger().HiggsParticle(event, tag);
-    std::vector<Sextet> sextets = heavy_higgs_semi_reader_.Multiplets(event);
-    sextets = BestMatches(sextets, higgs, tag);
     
     std::vector<Doublet> doublets = jet_pair_reader_.Multiplets(event);
-    Jets bottoms = fastjet::sorted_by_pt(jet_pair_reader_.Tagger().PairBottomQuarks(event, tag));
-    std::vector<Doublet> final_doublets;
-    switch (tag) {
-    case Tag::signal :
-        if (bottoms.size() == 2) {
-
-            for (const auto& doublet : doublets) {
-                if ((Close(bottoms.at(0))(doublet.Singlet1().Jet()) && Close(bottoms.at(1))(doublet.Singlet2().Jet())) || (Close(bottoms.at(1))(doublet.Singlet1().Jet()) && Close(bottoms.at(0))(doublet.Singlet2().Jet()))) final_doublets.emplace_back(doublet);
-                
-            }
-        } else Error(bottoms.size());
-        break;
-    case Tag::background :
-        final_doublets = doublets;
-        break;
-    }
+    Debug(doublets.size());
+    doublets = jet_pair_reader_.Tagger().TruthDoubletPairs(event, doublets, tag);
+    Debug(doublets.size());
+    if(doublets.empty()) return 0;
+    
+    Jets higgs = heavy_higgs_semi_reader_.Tagger().HiggsParticle(event, tag);
+    std::vector<Sextet> sextets = heavy_higgs_semi_reader_.Multiplets(event);
+    Debug(sextets.size(), higgs.size());
+    sextets = BestMatches(sextets, higgs, tag);
+    Debug(sextets.size());
     std::vector<Octet62> octets;
-    for (const auto& doublet : final_doublets) {
+    for (const auto& doublet : doublets) {
         for (const auto& sextet : sextets) {
             Octet62 octet(sextet, doublet);
             if (octet.Overlap()) continue;
             octet.SetTag(tag);
             octets.emplace_back(octet);
         }
-    }      
+    }    
+    Debug(octets.size());  
     if (tag == Tag::signal && octets.size() > 1) {
         Info(octets.size());
         std::sort(octets.begin(), octets.end());
         octets.erase(octets.begin() + 1, octets.end());
     }
-
     return SaveEntries(octets);
 }
-
 
 std::vector<Octet62> SignatureNeutralTagger::Multiplets(const Event& event, const PreCuts&, const TMVA::Reader& reader) const
 {
@@ -69,16 +59,36 @@ std::vector<Octet62> SignatureNeutralTagger::Multiplets(const Event& event, cons
             octets.emplace_back(octet);
         }
     }
-//     if(octets.size()==0)Error(octets.size(), doublets.size(), sextets.size());
     return ReduceResult(octets);
 }
 
+std::vector<Octet62> SignatureNeutralTagger::CleanOctets(Event const& event, std::vector<Octet62> const& octets, Tag tag) const {  
+  
+  std::vector<Octet62> final_octets;
+  Jets bottoms = jet_pair_reader_.Tagger().PairBottomQuarks(event, tag);
+//   Check((tag==Tag::signal && bottoms.size()==2) || (tag==Tag::background && bottoms.size() == 2), bottoms.size());
+  Jets higgses = heavy_higgs_semi_reader_.Tagger().HiggsParticle(event, tag);
+//   Check((tag==Tag::signal && higgses.size()==1) || (tag==Tag::background && higgses.size() == 0), higgses.size());
+//   Error(bottoms.size());
+  for(auto const& octet : octets){    
+    switch (tag) {
+      case Tag::signal :
+        for (const auto & higgs : higgses) if (!Close(higgs)(octet.Sextet())) continue;
+        break;
+      case Tag::background  :
+//         Error("What are we doing here?");
+        break;
+    }    
+    try{
+      Doublet doublet = jet_pair_reader_.Tagger().TruthDoubletPair(octet.Doublet(), bottoms, tag);    
+    } catch (char const *){ 
+      continue;      
+    }
+    final_octets.emplace_back(octet);
+  }  
+  return final_octets;
 }
 
 }
 
-
-
-
-
-
+}

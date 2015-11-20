@@ -3,15 +3,18 @@
  */
 #pragma once
 
+#include "Trees.hh"
 #include "AnalysisBase.hh"
 #include "Reader.hh"
-#include "Trees.hh"
 #include "File.hh"
+// #include "pthread.h"
+// #define NUM_THREADS  2
 // #define DEBUG
-#include "Debug.hh"
+// #include "Debug.hh"
 
 
-namespace analysis {
+namespace analysis
+{
 
 /**
  * @brief Analysis provides main analysis loops and logic.
@@ -25,18 +28,19 @@ namespace analysis {
  *
  */
 template<typename Tagger>
-class Analysis : public AnalysisBase {
+class Analysis : public AnalysisBase
+{
 
 public:
 
-  /**
-   * @brief Main analysis loop which has to be called by main.cpp
-   *
-   */
-  void AnalysisLoop(Stage stage) final {
+    /**
+     * @brief Main analysis loop which has to be called by main.cpp
+     *
+     */
+    void AnalysisLoop(Stage stage) final {      
         Initialize();
         Reader<Tagger> reader(stage);
-        for (const auto& tag : std::vector<Tag> {Tag::signal, Tag::background})
+        for (const auto& tag : std::vector<Tag> {Tag::signal,Tag::background})
         {
             Files files(tagger().ExportFileName(stage, tag), stage, tag);
             ClearFiles();
@@ -47,24 +51,53 @@ public:
             }
             files.export_file().Close();
         }
+
+//         pthread_t threads[NUM_THREADS];
+//         std::vector<Tag> tag = {Tag::signal, Tag::background};
+//         int rc;
+//         for (int t = 0; t < NUM_THREADS; t++) {
+//           int 
+//           rc = pthread_create(&threads[t], NULL,  (void *) AnalysisDef(stage, tag.at(t)), (void *) &t);
+//             if (rc) {
+//                 Error(rc);
+//                 exit(-1);
+//             }
+//         }
+//         //         pthread_exit(NULL);
+//         return NULL;
     }
+//     void* AnalysisDef(Stage stage, Tag tag)  {
+//         Reader<Tagger> reader(stage);
+//         Files files(tagger().ExportFileName(stage, tag), stage, tag);
+//         ClearFiles();
+//         SetFiles(tag);
+//         for (auto & file : this->files(tag)) {
+//             files.set_file(file);
+//             AnalyseFile(files, reader);
+//         }
+//         files.export_file().Close();
+// //         pthread_exit(NULL);
+//         return NULL;
+//     };
 
 protected:
 
-  /**
-   * @brief getter for Tagger
-   *
-   * @return const analysis::Tagger&
-   */
-  const Tagger &tagger() const final { return tagger_; }
+    /**
+     * @brief getter for Tagger
+     *
+     * @return const analysis::Tagger&
+     */
+    const Tagger &tagger() const final {
+        return tagger_;
+    }
 
     /**
      * @brief setter for AnalysisName of Tagger
      * @details must be set in each analysis in order for Tagger to know about the folder structure
      *
      */
-    void set_tagger_analysis_name(const std::string& name){
-      tagger().SetAnalysisName(name);
+    void set_tagger_analysis_name(const std::string &name) {
+        tagger().SetAnalysisName(name);
     }
 
     /**
@@ -76,21 +109,20 @@ protected:
 
 private:
 
-  /**
-   * @brief Analysis performed on each file
-   *
-   */
-  void AnalyseFile(Files& files, Reader<Tagger>& reader)
-    {
+    /**
+     * @brief Analysis performed on each file
+     *
+     */
+    void AnalyseFile(Files &files, Reader<Tagger> &reader) {
 //         Error(files.file().Title().c_str());
         Trees trees(files);
         SetTreeBranch(files.stage(), trees.tree_writer(), reader);
         trees.UseBranches(files.file(), tagger().WeightBranchName());
 
-        if (files.stage() == Stage::reader) {
-            trees.entry = std::min(long(trees.tree_reader().GetEntries()), EventNumberMax()) / 2;    // TODO fix corner cases
-        }
-//         exroot::ProgressBar progress_bar(std::min(long(trees.tree_reader().GetEntries()), EventNumberMax()));
+//         if (files.stage() == Stage::reader) {
+//                     trees.entry = std::min(long(trees.tree_reader().GetEntries()), ReaderNumberMax() / 2) ;    // TODO fix corner cases
+//         }
+//         exroot::ProgressBar progress_bar(std::min(long(trees.tree_reader().GetEntries()), ReaderNumberMax()));
         for (; trees.entry < trees.tree_reader().GetEntries(); ++trees.entry) {
             ++trees.event_number_;
             DoAnalysis(files, trees, reader);
@@ -105,8 +137,7 @@ private:
      * @brief Set exroot::TreeBranch of exroot::TreeWriter to the pointer in the right Tagger
      *
      */
-    void SetTreeBranch(Stage stage, exroot::TreeWriter& tree_writer, Reader<Tagger>& reader)
-    {
+    void SetTreeBranch(Stage stage, exroot::TreeWriter &tree_writer, Reader<Tagger> &reader) {
         switch (stage) {
         case Stage::trainer :
             tagger().SetTreeBranch(tree_writer, stage);
@@ -121,13 +152,12 @@ private:
      * @brief Checks for PreCuts and saves the results of each analysis.
      *
      */
-    void DoAnalysis(const Files& files, Trees& trees, const Reader<Tagger>& reader) const
-    {
+    void DoAnalysis(const Files &files, Trees &trees, const Reader<Tagger> &reader) const {
         trees.NewEvent(files.file().mass());
         int pre_cut = PassPreCut(trees.event(), files.tag());
         if (pre_cut > 0) {
-          ++trees.pre_cut_number_;
-          trees.SaveAnalysis(RunAnalysis(trees.event(), reader, files.stage(), files.tag()));
+            ++trees.pre_cut_number_;
+            trees.SaveAnalysis(RunAnalysis(trees.event(), reader, files.stage(), files.tag()));
         }
         trees.tree_writer().Clear();
     }
@@ -137,8 +167,7 @@ private:
      *
      * @return int number of safed objects
      */
-    int RunAnalysis(const Event& event, const Reader<Tagger>& reader, Stage stage, Tag tag) const
-    {
+    int RunAnalysis(const Event &event, const Reader<Tagger> &reader, Stage stage, Tag tag) const {
         switch (stage) {
         case Stage::trainer :
             return tagger_.Train(event, pre_cuts(), tag);

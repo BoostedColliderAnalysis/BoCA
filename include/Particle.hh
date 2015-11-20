@@ -14,6 +14,8 @@ public:
     Particle() {}
 
     Particle(int id);
+    
+    Particle(int id, int position);
 
     Particle(Id id);
 

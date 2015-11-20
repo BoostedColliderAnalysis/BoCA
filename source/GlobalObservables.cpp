@@ -35,16 +35,14 @@ int GlobalObservables::BottomNumber() const
 {
     Info();
     analysis::Jets bottoms;
-    for (const auto& jet : Jets()) if (jet.user_info<JetInfo>().Bdt() > 0)
-            bottoms.emplace_back(jet);
+    for (const auto& jet : Jets()) if (jet.user_info<JetInfo>().Bdt() > 0) bottoms.emplace_back(jet);
     return bottoms.size();
 }
 
 float GlobalObservables::BottomBdt() const
 {
     Info();
-    if (Jets().empty())
-        return 0;
+    if (Jets().empty()) return -1;
     return std::accumulate(jets_.begin(), jets_.end(), 0., [](float bdt, const fastjet::PseudoJet & jet) {
         return bdt + jet.user_info<JetInfo>().Bdt();
     }) / JetNumber();
@@ -54,7 +52,7 @@ float GlobalObservables::BottomBdt(int number) const
 {
     Info();
     if (number > JetNumber())
-        return 0;
+        return -1;
     return Jets().at(number - 1).user_info<JetInfo>().Bdt();
 }
 

@@ -33,6 +33,7 @@ public:
             return GenJets();
         case JetType::e_flow_jet :
             return EFlowJets(JetDetail::structure | JetDetail::isolation);
+//            return EFlowJets(JetDetail::structure);
         }
     }
 
@@ -94,11 +95,11 @@ private:
 
     bool Isolated(const TObject& object, const std::vector<TObject*> leptons) const;
 
-    analysis::Jets EFlowTrack(const JetDetail) const;
+    analysis::Jets EFlowTrack(const JetDetail, std::vector<TObject*> &  leptons) const;
 
-    analysis::Jets EFlowPhoton(const JetDetail) const;
+    analysis::Jets EFlowPhoton(const JetDetail, std::vector<TObject*> &  leptons) const;
 
-    analysis::Jets EFlowHadron(const JetDetail) const;
+    analysis::Jets EFlowHadron(const JetDetail, std::vector<TObject*> &  leptons) const;
 
     analysis::Jets EFlowMuon(JetDetail jet_detail) const;
 

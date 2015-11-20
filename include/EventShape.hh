@@ -25,6 +25,8 @@ namespace analysis{
     float Sphericity() const;
 
     float Aplanarity() const;
+    
+    float Planarity() const;
 
     const analysis::EventShapes& EventShapes() const{
       return *event_shapes_;

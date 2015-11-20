@@ -79,10 +79,13 @@ int Singlet::Charge() const
 
 Vector2 Singlet::Pull() const
 {
-    if(!jet_.has_constituents()) return Vector2();
+    if(!jet_.has_constituents()) return {};
     Vector2 vector;
-    for (const auto & constituent : jet_.constituents()) vector += Reference(constituent) * constituent.pt() / jet_.pt() * constituent.delta_R(jet_);
-    return vector;
+    for (const auto & constituent : jet_.constituents()) 
+    {
+      vector += Reference(constituent) * constituent.pt() * constituent.delta_R(jet_);
+    }
+    return vector / jet_.pt();
 }
 
 float Singlet::Rapidity() const

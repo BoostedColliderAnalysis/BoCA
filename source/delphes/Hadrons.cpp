@@ -272,49 +272,56 @@ Jets Hadrons::GranulatedJets(const analysis::Jets &NewEFlowJets) const
 
 Jets Hadrons::EFlow(JetDetail jet_detail) const
 {
+  std::vector<TObject*> leptons;
+  if (is(jet_detail, JetDetail::isolation)) {
+    for (const auto & electron_number : Range(clones_arrays().ElectronSum())) leptons.emplace_back(static_cast<::delphes::Electron&>(clones_arrays().Electron(electron_number)).Particle.GetObject());
+    for (const auto & muon_number : Range(clones_arrays().MuonSum())) leptons.emplace_back(static_cast<::delphes::Muon&>(clones_arrays().Muon(muon_number)).Particle.GetObject());
+  }
     analysis::Jets e_flow_jets;
     Debug(clones_arrays().EFlowTrackSum(), Name(jet_detail));
-    if (FindInVector(clones_arrays().Branches(), Branch::e_flow_track)) e_flow_jets = Join(e_flow_jets, EFlowTrack(jet_detail));
+    if (FindInVector(clones_arrays().Branches(), Branch::e_flow_track)) e_flow_jets = Join(e_flow_jets, EFlowTrack(jet_detail, leptons));
     Debug(e_flow_jets.size());
-    if (FindInVector(clones_arrays().Branches(), Branch::e_flow_photon)) e_flow_jets = Join(e_flow_jets, EFlowPhoton(jet_detail));
-    if (FindInVector(clones_arrays().Branches(), Branch::e_flow_neutral_hadron)) e_flow_jets = Join(e_flow_jets, EFlowHadron(jet_detail));
+    if (FindInVector(clones_arrays().Branches(), Branch::e_flow_photon)) e_flow_jets = Join(e_flow_jets, EFlowPhoton(jet_detail, leptons));
+    if (FindInVector(clones_arrays().Branches(), Branch::e_flow_neutral_hadron)) e_flow_jets = Join(e_flow_jets, EFlowHadron(jet_detail, leptons));
     if (FindInVector(clones_arrays().Branches(), Branch::e_flow_muon)) e_flow_jets = Join(e_flow_jets, EFlowMuon(jet_detail));
     Debug(e_flow_jets.size());
 //     PrintTruthLevel(Severity::detailed);
     return e_flow_jets;
 }
 
-Jets Hadrons::EFlowTrack(JetDetail jet_detail) const
+Jets Hadrons::EFlowTrack(JetDetail jet_detail, std::vector<TObject*> &  leptons) const
 {
+//     Error();
     analysis::Jets e_flow_jets;
     Debug(clones_arrays().EFlowTrackSum());
     for (const auto & e_flow_track_number : Range(clones_arrays().EFlowTrackSum())) {
         if (is(jet_detail, JetDetail::structure)) {
             try {
-                e_flow_jets.emplace_back(ConstituentJet(clones_arrays().EFlowTrack(e_flow_track_number), jet_detail, SubDetector::track));
+                e_flow_jets.emplace_back(ConstituentJet(clones_arrays().EFlowTrack(e_flow_track_number), jet_detail, SubDetector::track,leptons));
             } catch (const char*) {
                 continue;
             }
             continue;
         }
-        ::delphes::Track& e_flow_track = static_cast<::delphes::Track&>(clones_arrays().EFlowTrack(e_flow_track_number));
-        if (is(jet_detail, JetDetail::isolation)) {
-            bool Isolated = Isolation<::delphes::Electron>(e_flow_track, Branch::electron);
-            if (Isolated) Isolated = Isolation<::delphes::Muon>(e_flow_track, Branch::muon);
-            if (!Isolated) continue;
-        }
-        e_flow_jets.emplace_back(analysis::PseudoJet(e_flow_track.P4()));
-        if (is(jet_detail, JetDetail::tagging)) {
-            Constituent constituent(e_flow_track.P4(), BranchFamily(*e_flow_track.Particle.GetObject()));
-            e_flow_jets.back().set_user_info(new JetInfo(constituent));
-            Detail(e_flow_jets.back().user_index());
-        }
+//         ::delphes::Track& e_flow_track = static_cast<::delphes::Track&>(clones_arrays().EFlowTrack(e_flow_track_number));
+//         if (is(jet_detail, JetDetail::isolation)) {
+//             bool Isolated = Isolation<::delphes::Electron>(e_flow_track, Branch::electron);
+//             if (Isolated) Isolated = Isolation<::delphes::Muon>(e_flow_track, Branch::muon);
+//             Error(Isolated);
+//             if (!Isolated) continue;
+//         }
+//         e_flow_jets.emplace_back(analysis::PseudoJet(e_flow_track.P4()));
+//         if (is(jet_detail, JetDetail::tagging)) {
+//             Constituent constituent(e_flow_track.P4(), BranchFamily(*e_flow_track.Particle.GetObject()));
+//             e_flow_jets.back().set_user_info(new JetInfo(constituent));
+//             Detail(e_flow_jets.back().user_index());
+//         }
     }
     Debug(e_flow_jets.size());
     return e_flow_jets;
 }
 
-Jets Hadrons::EFlowPhoton(JetDetail jet_detail) const
+Jets Hadrons::EFlowPhoton(JetDetail jet_detail, std::vector<TObject*> &  leptons) const
 {
     Debug(clones_arrays().EFlowPhotonSum());
     analysis::Jets e_flow_jets;
@@ -323,42 +330,42 @@ Jets Hadrons::EFlowPhoton(JetDetail jet_detail) const
     for (const auto & e_flow_photon_number : Range(clones_arrays().EFlowPhotonSum())) {
         if (is(jet_detail, JetDetail::structure)) {
             try {
-                e_flow_jets.emplace_back(ConstituentJet(clones_arrays().EFlowPhoton(e_flow_photon_number), jet_detail, SubDetector::photon));
+              e_flow_jets.emplace_back(ConstituentJet(clones_arrays().EFlowPhoton(e_flow_photon_number), jet_detail, SubDetector::photon,leptons));
             } catch (const char*) {
                 continue;
             }
             continue;
         }
-        ::delphes::Tower& e_flow_photon = static_cast<::delphes::Tower&>(clones_arrays().EFlowPhoton(e_flow_photon_number));
-        if (is(jet_detail, JetDetail::isolation)) if (!Isolation<::delphes::Photon>(e_flow_photon, Branch::photon)) continue;
-        e_flow_jets.emplace_back(analysis::PseudoJet(e_flow_photon.P4()));
-        if (is(jet_detail, JetDetail::tagging)) {
-            e_flow_jets.back().set_user_info(new JetInfo(JetId(e_flow_photon)));
-            Detail(e_flow_jets.back().user_index());
-        }
+//         ::delphes::Tower& e_flow_photon = static_cast<::delphes::Tower&>(clones_arrays().EFlowPhoton(e_flow_photon_number));
+//         if (is(jet_detail, JetDetail::isolation)) if (!Isolation<::delphes::Photon>(e_flow_photon, Branch::photon)) continue;
+//         e_flow_jets.emplace_back(analysis::PseudoJet(e_flow_photon.P4()));
+//         if (is(jet_detail, JetDetail::tagging)) {
+//             e_flow_jets.back().set_user_info(new JetInfo(JetId(e_flow_photon)));
+//             Detail(e_flow_jets.back().user_index());
+//         }
     }
     return e_flow_jets;
 }
 
-Jets Hadrons::EFlowHadron(JetDetail jet_detail) const
+Jets Hadrons::EFlowHadron(JetDetail jet_detail, std::vector<TObject*> &  leptons) const
 {
     Debug(clones_arrays().EFlowNeutralHadronSum());
     analysis::Jets e_flow_jets;
     for (const auto & hadron_number : Range(clones_arrays().EFlowNeutralHadronSum())) {
         if (is(jet_detail, JetDetail::structure)) {
             try {
-                e_flow_jets.emplace_back(ConstituentJet(clones_arrays().EFlowNeutralHadron(hadron_number), jet_detail, SubDetector::tower));
+              e_flow_jets.emplace_back(ConstituentJet(clones_arrays().EFlowNeutralHadron(hadron_number), jet_detail, SubDetector::tower,leptons));
             } catch (const char*) {
                 continue;
             }
             continue;
         }
-        ::delphes::Tower& e_flow_hadron = static_cast<::delphes::Tower&>(clones_arrays().EFlowNeutralHadron(hadron_number));
-        e_flow_jets.emplace_back(analysis::PseudoJet(e_flow_hadron.P4()));
-        if (is(jet_detail, JetDetail::tagging)) {
-            e_flow_jets.back().set_user_info(new JetInfo(JetId(e_flow_hadron)));
-            Detail(e_flow_jets.back().user_index());
-        }
+//         ::delphes::Tower& e_flow_hadron = static_cast<::delphes::Tower&>(clones_arrays().EFlowNeutralHadron(hadron_number));
+//         e_flow_jets.emplace_back(analysis::PseudoJet(e_flow_hadron.P4()));
+//         if (is(jet_detail, JetDetail::tagging)) {
+//             e_flow_jets.back().set_user_info(new JetInfo(JetId(e_flow_hadron)));
+//             Detail(e_flow_jets.back().user_index());
+//         }
     }
     return e_flow_jets;
 }

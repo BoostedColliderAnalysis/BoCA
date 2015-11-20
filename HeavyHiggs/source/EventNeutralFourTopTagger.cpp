@@ -16,15 +16,14 @@ int EventNeutralFourTopTagger::Train(const analysis::Event& event, const PreCuts
 {
     Info();
     Jets jets = bottom_reader_.Multiplets(event);
-    Jets leptons = event.Leptons().leptons();
     std::vector<Octet62> octets = signature_neutral_reader_.Multiplets(event);
+    octets = signature_neutral_reader_.Tagger().CleanOctets(event, octets, tag);
     std::vector<MultipletEvent<Octet62>> events;
     for (const auto& octet : octets) {
         MultipletEvent<Octet62> octetevent(octet, event, jets);
         octetevent.SetTag(tag);
         events.emplace_back(octetevent);
     }
-    std::sort(events.begin(),events.end());
     return SaveEntries(events, 1);
 }
 
@@ -33,7 +32,6 @@ std::vector<MultipletEvent<Octet62>> EventNeutralFourTopTagger::Multiplets(const
     Info();
     std::vector<Octet62> octets = signature_neutral_reader_.Multiplets(event);
     Jets jets = bottom_reader_.Multiplets(event);
-    Jets Leptons = event.Leptons().leptons();
     std::vector<MultipletEvent<Octet62>> multiplet_events;
     for (const auto& octet : octets) {
         MultipletEvent<Octet62> multiplet_event(octet, event, jets);

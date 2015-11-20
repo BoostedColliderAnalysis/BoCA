@@ -7,6 +7,11 @@ Particle::Particle(int id)
 {
     id_ = id;
 }
+Particle::Particle(int id, int position)
+{
+  id_ = id;
+  position_ = position;
+}
 Particle::Particle(Id id)
 {
     id_ = to_int(id);

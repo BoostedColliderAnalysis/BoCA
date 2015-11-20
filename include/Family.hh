@@ -23,6 +23,8 @@ public:
     Family(Id id, Id mother_1_id, Id mother_2_id);
 
     Family(int id, int mother_1_id, int mother_2_id, int grand_mother_id);
+    
+    Family(Particle particle, Particle mother_1, Particle mother_2, Particle grand_mother);
 
     Family(Id id, Id mother_1_id, Id mother_2_id, Id grand_mother_id);
 

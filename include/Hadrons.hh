@@ -39,7 +39,8 @@ protected:
 
     template<typename Particle_1, typename Particle_2>
     bool CheckIsolation(const Particle_1& particle_1, const Particle_2& particle_2) const {
-        float delta_r_isolation_max = 0; // TODO decide on best value
+//         float delta_r_isolation_max = 0; // TODO decide on best value
+       float delta_r_isolation_max = 0.3;
         return CheckIsolation(particle_1, particle_2, delta_r_isolation_max);
     }
 

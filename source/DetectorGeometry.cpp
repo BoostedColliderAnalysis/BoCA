@@ -65,6 +65,24 @@ float DetectorGeometry::IsolationConeSize()
       return 0.3;
   }
 }
+float DetectorGeometry::HardLeptonMomentum()
+{
+  switch (detector_type()) {
+    case DetectorType::CMS:
+      return 50;
+    case DetectorType::Spp:
+      return 100;
+  }
+}
+float DetectorGeometry::IsolationFraction()
+{
+  switch (detector_type()) {
+    case DetectorType::CMS:
+      return 1;
+    case DetectorType::Spp:
+      return 1;
+  }
+}
 float DetectorGeometry::MinCellPt()
 {
     switch (detector_type()) {
@@ -91,6 +109,16 @@ float DetectorGeometry::TrackerEtaMax()
     case DetectorType::Spp:
         return 3.5;
     }
+}
+
+float DetectorGeometry::ForwardJetPt()
+{
+  switch (detector_type()) {
+    case DetectorType::CMS:
+      return 40;
+    case DetectorType::Spp:
+      return 40;
+  }
 }
 // float DetectorGeometry::JetRadiusParameter()
 // {
@@ -170,11 +198,11 @@ JetType DetectorGeometry::jet_type()
 {
     switch (detector_type()) {
     case DetectorType::CMS:
-        return JetType::jet;
-//         return JetType::e_flow_jet;
-    case DetectorType::Spp:
 //         return JetType::jet;
         return JetType::e_flow_jet;
+    case DetectorType::Spp:
+        return JetType::jet;
+//         return JetType::e_flow_jet;
     }
 }
 

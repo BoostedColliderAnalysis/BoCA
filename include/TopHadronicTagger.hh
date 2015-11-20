@@ -26,6 +26,8 @@ public:
     int GetBdt(const Event &event, const PreCuts &pre_cuts, const TMVA::Reader &reader) const final {
         return SaveEntries(Multiplets(event, pre_cuts, reader), 2);
     }
+    
+    Jets Particles(const Event &event) const;
 
     std::vector<analysis::Triplet> Multiplets(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 

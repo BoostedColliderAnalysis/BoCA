@@ -87,6 +87,7 @@ std::vector<Doublet> WLeptonicTagger::ReconstructNeutrino(const Doublet& doublet
     float neutrino_1_e = (lepton.e() * linear_term - sqrt) / lepton_square;
     float neutrino_1_pz = (sqr(lepton.pz()) * linear_term - lepton.e() * sqrt) / lepton.pz() / lepton_square;
     fastjet::PseudoJet neutrino_1(missing_et.px(), missing_et.py(), neutrino_1_pz, neutrino_1_e);
+//     neutrino_1.set_user_info(new JetInfo(Constituent(LorentzVector(missing_et.px(), missing_et.py(), neutrino_1_pz, neutrino_1_e))));
     Debug(neutrino_1);
     Doublet doublet1(lepton, neutrino_1);
     doublet1.SetTag(doublet.Tag());
@@ -95,6 +96,9 @@ std::vector<Doublet> WLeptonicTagger::ReconstructNeutrino(const Doublet& doublet
     float neutrino_2_pz = (sqr(lepton.pz()) * linear_term + lepton.e() * sqrt) / lepton.pz() / lepton_square;
     fastjet::PseudoJet neutrino_2(missing_et.px(), missing_et.py(), neutrino_2_pz, neutrino_2_e);
     Debug(neutrino_2);
+    
+//     neutrino_2.set_user_info(new JetInfo(Constituent(LorentzVector(missing_et.px(), missing_et.py(), neutrino_2_pz, neutrino_2_e))));
+    
     Doublet doublet2(lepton, neutrino_2);
     doublet2.SetTag(doublet.Tag());
     doublet2.SetFlag(doublet.Flag());

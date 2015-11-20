@@ -51,6 +51,10 @@ protected:
      *
      */
     virtual long EventNumberMax() const;
+    
+    virtual long ReaderNumberMax() const {
+      return EventNumberMax();
+    }
 
     virtual std::string ProcessName() const;
 

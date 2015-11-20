@@ -1,8 +1,8 @@
 #pragma once
 
+#include "MultipletSignature.hh"
 #include "HiggsTagger.hh"
 #include "TopLeptonicPairTagger.hh"
-#include "MultipletSignature.hh"
 #include "Octet.hh"
 
 namespace analysis

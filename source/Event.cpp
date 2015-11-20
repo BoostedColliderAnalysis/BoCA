@@ -80,8 +80,13 @@ Jets Event::IsolatedLeptons()
     Info();
     Jets leptons;
     for (auto const & lepton : leptons_->leptons()) {
+      if(lepton.pt() > DetectorGeometry::HardLeptonMomentum()){
+        leptons.emplace_back(lepton);
+        continue;
+      }
         bool isolated = true;
-        for (auto const & jet : hadrons_->Jets()) if (Close(lepton)(jet, DetectorGeometry::IsolationConeSize())&&jet.pt()/lepton.pt()>1.0) {
+        for (auto const & jet : hadrons_->Jets()) 
+          if (Close(lepton)(jet, DetectorGeometry::IsolationConeSize()) && jet.pt() / lepton.pt() > DetectorGeometry::IsolationFraction()) {          
                 isolated = false;
                 break;
             }

@@ -23,6 +23,8 @@ public:
     Constituent(const TLorentzVector& momentum, const Family& family);
 
     Constituent(const LorentzVector& momentum, const Family& family);
+    
+    Constituent(const LorentzVector& momentum);
 
     Constituent(const TLorentzVector& momentum);
 

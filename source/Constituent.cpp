@@ -37,6 +37,11 @@ Constituent::Constituent(const LorentzVector& momentum, const Family& family)
     family_ = family;
 }
 
+Constituent::Constituent(const LorentzVector& momentum)
+{
+  momentum_ = momentum;
+}
+
 Constituent::Constituent(const TLorentzVector& momentum)
 {
     momentum_ = momentum;

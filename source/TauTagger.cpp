@@ -16,7 +16,7 @@ TauTagger::TauTagger()
 
 int TauTagger::Train(const Event& event, const PreCuts&, Tag tag) const
 {
-    Info(analysis::Name(tag));
+    Info(analysis::TagName(tag));
     Jets jets = event.Hadrons().Jets();
     Info("Number Jets", jets.size());
     Jets Particles = event.Partons().GenParticles();

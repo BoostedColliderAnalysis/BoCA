@@ -16,6 +16,9 @@ SET(ROOT_CONFIG_SEARCHPATH
   ${SIMPATH}/tools/root/bin
   $ENV{ROOTSYS}/bin
   /usr/bin
+  /home/toodles/madness/root/bin
+  /usr/local/bin/
+
 )
 
 SET(ROOT_DEFINITIONS "")

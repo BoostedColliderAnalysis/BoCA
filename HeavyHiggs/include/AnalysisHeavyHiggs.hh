@@ -47,10 +47,12 @@ class AnalysisHeavyHiggs : public Analysis<Tagger>
   public:
     
     AnalysisHeavyHiggs(){
+//       Info();
       DetectorGeometry::set_detector_type(DetectorType::CMS);
     }
 
     int Mass() const {
+//       Info();
         //     return 300;
         //     return 400;
 //                 return 500;
@@ -58,9 +60,9 @@ class AnalysisHeavyHiggs : public Analysis<Tagger>
 //             return 700;
 //                     return 800;
         //     return 900;
-//                 return 1000;
+                return 1000;
 //       return 1500;
-                return 2000;
+//                 return 2000;
 //                    return 3000;
 //         return 4000;
 //                         return 5000;
@@ -74,13 +76,15 @@ class AnalysisHeavyHiggs : public Analysis<Tagger>
     };
 
     int PreCut() const {
+//       Info();
         switch (collider_type()) {
         case Collider::LHC :
             switch (Mass()) {
             case 500 :
                 return 0;
             case 1000 :
-                return 250;
+//                 return 250;
+                return 0;
             case 2000 :
                 return 250;
             case 3000 :
@@ -113,18 +117,36 @@ class AnalysisHeavyHiggs : public Analysis<Tagger>
             return 0;
         }
     };
+    
+    int PreCutUse() const {
+      //       Info();
+      switch (PreCut()) {
+        case 0:
+          return 200;
+        default :
+          return 0;
+      }
+    };
 
     long EventNumberMax() const override {
+//       Info();
         //            return 10000000;
         //                   return 1000000;
         //         return 100000;
-        return 5000;
+        return 10000;
         //                 return 1000;
         //                         return 500;
         //                         return 10;
     };
+    
+    long ReaderNumberMax() const override {
+//       Info();
+       return EventNumberMax();
+//        return  40000;
+    }
 
     Collider collider_type() const {
+//       Info();
         switch(DetectorGeometry::detector_type()){
           case DetectorType::CMS : return Collider::LHC;
           case DetectorType::Spp : return Collider::LE;
@@ -132,6 +154,7 @@ class AnalysisHeavyHiggs : public Analysis<Tagger>
     };
 
     float MissingEt() const {
+//       Info();
         switch (collider_type()) {
         case Collider::LHC :
             return 30;
@@ -143,6 +166,7 @@ class AnalysisHeavyHiggs : public Analysis<Tagger>
     };
 
     float LeptonPt() const {
+//       Info();
         switch (collider_type()) {
         case Collider::LHC :
             return 15;
@@ -155,6 +179,7 @@ class AnalysisHeavyHiggs : public Analysis<Tagger>
 
 
     float SecondLeptonPt() const {
+//       Info();
         switch (collider_type()) {
         case Collider::LHC :
             return 15;
@@ -166,6 +191,7 @@ class AnalysisHeavyHiggs : public Analysis<Tagger>
     };
     
     float VetoLeptonPt() const {
+//       Info();
       switch (collider_type()) {
         case Collider::LHC :
           return 10;
@@ -177,6 +203,7 @@ class AnalysisHeavyHiggs : public Analysis<Tagger>
     };
 
     float BottomPt() const {
+//       Info();
         switch (collider_type()) {
         case Collider::LHC :
             return 20;
@@ -190,6 +217,7 @@ class AnalysisHeavyHiggs : public Analysis<Tagger>
 
 
     int FileNumber(Process process) const {
+//       Info();
         switch (collider_type()) {
         case Collider::LHC :
             switch (process) {
@@ -226,7 +254,7 @@ class AnalysisHeavyHiggs : public Analysis<Tagger>
                 case 1000:
                     return 32;
                 case 1500:
-                    return 34;
+                    return 33;
                 case 2000:
                     return 26;
                 case 2500:
@@ -243,6 +271,7 @@ class AnalysisHeavyHiggs : public Analysis<Tagger>
     }
 
     std::string Suffix(Process process) const {
+//       Info();
         switch (process) {
         case Process::Htt:
             return "_" + std::to_string(Mass()) + "GeV";
@@ -262,32 +291,36 @@ class AnalysisHeavyHiggs : public Analysis<Tagger>
     }
 
     virtual void NewFile(Tag tag, Process process) {
+//       Info();
         analysis::AnalysisBase::NewFile(tag, FileNames(process, tag), NiceName(process));
     }
 
     virtual void NewFile(Tag tag, float crosssection, Process process) {
+//       Info();
         analysis::AnalysisBase::NewFile(tag, FileNames(process, tag), crosssection, NiceName(process), Mass());
     }
 
     Strings FileNames(Process process, Tag tag) const {
+//       Info();
         if (FileNumber(process) == 1) return {FileName(process, tag)};
         Strings names;
-        for (const auto & file_number : Range(FileNumber(process))) {
+        for (const auto & file_number  : Range(FileNumber(process))) {
             if (file_number == 0) names.emplace_back(FileName(process, tag));
-            else names.emplace_back(FileName(process, tag) + "_" + std::to_string(file_number));
+            else names.emplace_back(FileName(process, tag) + "_" + std::to_string(file_number));   
         }
         return names;
     }
 
     virtual std::string FileName(Process process, Tag tag) const {
+//       Info();
         switch (tag) {
         case Tag::signal:
-//             return Name(process) + "-" + Name(collider_type()) + Suffix(process);
-               return Name(process) + Suffix(process) + "_" + Name(collider_type());
+            return Name(process) + "-" + Name(collider_type()) + Suffix(process);
+//                return Name(process) + Suffix(process) + "_" + Name(collider_type());
 
         case Tag::background:
-//             return Name(process) + "-" + Name(collider_type()) + Suffix(process);
-          return Name(process) + Suffix(process) + "_" + Name(collider_type());
+            return Name(process) + "-" + Name(collider_type()) + Suffix(process);
+//           return Name(process) + Suffix(process) + "_" + Name(collider_type());
 
         }
     }

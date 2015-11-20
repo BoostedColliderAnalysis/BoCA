@@ -16,19 +16,18 @@ int HeavyHiggsSemiTagger::Train(const Event& event, const PreCuts&, Tag tag) con
 {
     Info();
     Jets higgs_boson = HiggsParticle(event, tag);
-    std::vector<Triplet> triplets_hadronic = FinalTriplet(event, tag, -1);
-    std::vector<Triplet> triplets_leptonic = FinalTriplet(event, tag, 1);
+    std::vector<Triplet> triplets_hadronic = FinalTriplet(event, tag, TopProcess::hadronic);
+    std::vector<Triplet> triplets_leptonic = FinalTriplet(event, tag, TopProcess::leptonic);
     std::vector<Sextet> sextets;
     for (const auto& triplet_leptonic : triplets_leptonic)
         for (const auto& triplet_hadronic : triplets_hadronic) {
             Sextet sextet(triplet_leptonic, triplet_hadronic);
-            if (sextet.Overlap())
-                continue;
+            if (sextet.Overlap()) continue;
             sextet.SetTag(tag);
             sextets.emplace_back(sextet);
         }
-//     Error(sextets.size(), triplets_hadronic.size(), triplets_leptonic.size());
-    return SaveEntries(BestMatches(sextets, higgs_boson, tag));
+//     return SaveEntries(BestMatches(sextets, higgs_boson, tag));
+    return SaveEntries(sextets, higgs_boson, tag, Id::empty);
 }
 
 std::vector<Sextet>  HeavyHiggsSemiTagger::Multiplets(const Event& event, const PreCuts&, const TMVA::Reader& reader) const
@@ -47,44 +46,32 @@ std::vector<Sextet>  HeavyHiggsSemiTagger::Multiplets(const Event& event, const 
     return ReduceResult(sextets);
 }
 
-std::vector<Triplet> HeavyHiggsSemiTagger::FinalTriplet(const Event& event, Tag tag, int charge) const
+std::vector<Triplet> HeavyHiggsSemiTagger::FinalTriplet(const Event& event, Tag tag, TopProcess top_process) const
 {
     std::vector<Triplet> triplets;
-    switch (charge) {
-    case 1:
+    Jets tops;
+    switch (top_process) {
+      case TopProcess::leptonic:
         triplets = top_leptonic_reader_.Multiplets(event);
+        tops = top_leptonic_reader_.Tagger().Particles(event);
         break;
-    case -1:
+      case TopProcess::hadronic:
         triplets = top_hadronic_reader_.Multiplets(event);
+        tops = top_hadronic_reader_.Tagger().Particles(event);
         break;
     default:
         Error("not a charge");
     }
-//     Error(triplets.size());
-    Jets tops = TopParticles(event, charge);
     return BestMatches(triplets, tops, tag);
 }
 
-Jets HeavyHiggsSemiTagger::HiggsParticle(const Event& event, Tag tag) const
+Jets HeavyHiggsSemiTagger::HiggsParticle(const Event& event, Tag tag)
 {
     if (tag == Tag::background) return Jets {};
     Jets particles = event.Partons().GenParticles();
     Jets even = CopyIfFamily(particles, Id::heavy_higgs, Id::gluon);
     Jets odd = CopyIfFamily(particles, Id::CP_odd_higgs, Id::gluon);
     return  Join(even, odd);
-}
-
-Jets HeavyHiggsSemiTagger::TopParticles(const Event& event, int charge) const
-{
-    Jets particles = event.Partons().GenParticles();
-    Jets leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
-    int lepton_charge = 1;
-    if (!leptons.empty()) lepton_charge = leptons.at(0).user_info<JetInfo>().Charge();
-    Info(lepton_charge);
-    Jets tops = CopyIfExactParticle(particles, to_int(Id::top) * lepton_charge * charge);
-    Jets tops_even = CopyIfMother(tops, Id::heavy_higgs);
-    Jets tops_odd = CopyIfMother(tops, Id::CP_odd_higgs);
-    return Join(tops_even, tops_odd);
 }
 
 }

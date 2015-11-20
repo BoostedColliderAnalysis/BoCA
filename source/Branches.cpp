@@ -97,12 +97,12 @@ ParticleBranch::ParticleBranch()
 
 Observables ParticleBranch::Variables() const
 {
-    return Join(ResultBranch::Variables(), {PAIR(Mass, "m")});
+  return Join(ResultBranch::Variables(), {PAIR(Mass, "m"), PAIR(Pt), PAIR(Rap), PAIR(Phi)});
 }
 
 Observables ParticleBranch::Spectators() const
 {
-    return Join(ResultBranch::Spectators(), {PAIR(Charge), PAIR(Pt), PAIR(Rap), PAIR(Phi)});
+  return Join(ResultBranch::Spectators(), {PAIR(Charge)});
 }
 
 BottomBase::BottomBase()
@@ -181,6 +181,7 @@ PairBranch::PairBranch()
 Observables PairBranch::Variables() const
 {
   return Join(ParticleBranch::Variables(), {PAIR(Ht, "H_{T}"), PAIR(DeltaPt, "#Delta P_{T}"), PAIR(DeltaM, "#Delta m"), PAIR(DeltaRap, "#Delta #eta"), PAIR(DeltaPhi, "#Delta #phi"), PAIR(DeltaR, "#Delta R"), PAIR(Rho, "#rho"), PAIR(Bdt1, "BDT_{1}"), PAIR(Bdt2, "BDT_{2}"),PAIR(Pull,"#theta"),PAIR(DeltaPull,"#Delta #theta"),PAIR(Dipolarity,"D")});
+  
     //return Join(ParticleBranch::Variables() {PAIR(Ht), PAIR(DeltaPt), PAIR(DeltaM), PAIR(DeltaRap), PAIR(DeltaPhi), PAIR(DeltaR), PAIR(Rho)});
 }
 
@@ -214,20 +215,24 @@ JetPairBranch::JetPairBranch()
     Jet2Phi = InitialValue();
 //     Jet2Bdt = InitialValue();
 //     Jet2BTag = InitialValue();
-//     BdtRatio11 = InitialValue();
-//     BdtRatio12 = InitialValue();
-//     BdtRatio13 = InitialValue();
-//     BdtRatio14 = InitialValue();
-//     BdtRatio21 = InitialValue();
-//     BdtRatio22 = InitialValue();
-//     BdtRatio23 = InitialValue();
-//     BdtRatio24 = InitialValue();
+    BdtSum = InitialValue();
+    BdtRatio11 = InitialValue();
+    BdtRatio12 = InitialValue();
+    BdtRatio13 = InitialValue();
+    BdtRatio14 = InitialValue();
+    BdtRatio21 = InitialValue();
+    BdtRatio22 = InitialValue();
+    BdtRatio23 = InitialValue();
+    BdtRatio24 = InitialValue();
 }
 
 
 Observables JetPairBranch::Variables() const
 {
-    return Join(PairBranch::Variables(), {PAIR(Jet1Mass), PAIR(Jet1Pt), PAIR(Jet1Rap), PAIR(Jet1Phi), PAIR(Jet2Mass), PAIR(Jet2Pt), PAIR(Jet2Rap), PAIR(Jet2Phi)});
+//   return Join(ParticleBranch::Variables(), {PAIR(Ht, "H_{T}"), PAIR(DeltaPt, "#Delta P_{T}"), PAIR(DeltaM, "#Delta m"), PAIR(DeltaRap, "#Delta #eta"), PAIR(DeltaPhi, "#Delta #phi"), PAIR(DeltaR, "#Delta R"), PAIR(Rho, "#rho"), PAIR(Bdt1, "BDT_{1}"), PAIR(Bdt2, "BDT_{2}"),PAIR(Pull,"#theta"),PAIR(Dipolarity,"D"), PAIR(Jet1Mass), PAIR(Jet1Pt), PAIR(Jet1Rap), PAIR(Jet1Phi), PAIR(Jet2Mass), PAIR(Jet2Pt), PAIR(Jet2Rap),PAIR(Jet2Phi),PAIR(BdtRatio11),PAIR(BdtRatio12),PAIR(BdtRatio13),PAIR(BdtRatio14),PAIR(BdtRatio21),PAIR(BdtRatio22),PAIR(BdtRatio23),PAIR(BdtRatio24)});
+
+    return Join(ParticleBranch::Variables(), {PAIR(Ht, "H_{T}"), PAIR(DeltaPt, "#Delta P_{T}"), PAIR(DeltaM, "#Delta m"), PAIR(DeltaRap, "#Delta #eta"), PAIR(DeltaPhi, "#Delta #phi"), PAIR(DeltaR, "#Delta R"), PAIR(Bdt1, "BDT_{1}"), PAIR(Bdt2, "BDT_{2}"), PAIR(Jet1Mass), PAIR(Jet1Pt), PAIR(Jet1Rap), PAIR(Jet1Phi), PAIR(Jet2Mass), PAIR(Jet2Pt), PAIR(Jet2Rap),PAIR(Jet2Phi),/*PAIR(BdtSum),*/PAIR(BdtRatio11),PAIR(BdtRatio12),PAIR(BdtRatio13),PAIR(BdtRatio14),PAIR(BdtRatio21),PAIR(BdtRatio22),PAIR(BdtRatio23),PAIR(BdtRatio24)});
+  
 }
 
 TripletJetPairBranch::TripletJetPairBranch()
@@ -264,7 +269,6 @@ Observables WSemiBranch::Variables() const
 
 TopHadronicBranch::TopHadronicBranch()
 {
-//   std::cout << "we are here" << std::endl;
 //     BottomMass = InitialValue();
 //     WMass = InitialValue();
     LeptonPt = InitialValue();
@@ -325,7 +329,7 @@ Observables HiggsBranch::Spectators() const
 
 EventBranch::EventBranch()
 {
-//     LeptonNumber = int(InitialValue());
+    LeptonNumber = int(InitialValue());
     JetNumber = int(InitialValue());
     BottomNumber = int(InitialValue());
     MissingEt = InitialValue();
@@ -340,7 +344,7 @@ EventBranch::EventBranch()
 
 Observables EventBranch::Variables() const
 {
-    return Join(MultiBranch::Variables(), {/*PAIR(LeptonNumber),*/ PAIR(JetNumber), PAIR(BottomNumber), PAIR(MissingEt), PAIR(ScalarHt), PAIR(LeptonHt), PAIR(JetMass), PAIR(JetPt), PAIR(JetHt), PAIR(JetRap), PAIR(JetPhi)});
+    return Join(MultiBranch::Variables(), {PAIR(LeptonNumber), PAIR(JetNumber), PAIR(BottomNumber), PAIR(MissingEt), PAIR(ScalarHt), PAIR(LeptonHt), PAIR(JetMass), PAIR(JetPt), PAIR(JetHt), PAIR(JetRap), PAIR(JetPhi)});
 }
 
 void Color::Red()

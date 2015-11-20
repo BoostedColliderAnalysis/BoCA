@@ -1,5 +1,5 @@
-#include "AnalysisTopPartnerPair.hh"
 #include "EventPairTagger.hh"
+#include "AnalysisTopPartnerPair.hh"
 
 
 int main()

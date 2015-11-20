@@ -48,7 +48,11 @@ Jets CopyIfQuark(const Jets& jets);
 
 Jets CopyIf5Quark(const Jets& jets);
 
+Jets CopyIfPosition(const Jets& particles, const std::vector<int> & positions);
+
 Jets RemoveIfSoft(Jets jets, float pt_min);
+
+Jets RemoveIfLargeRap(Jets jets, float rap_max);
 
 struct Close {
     Close(const fastjet::PseudoJet& particle) {
@@ -69,10 +73,10 @@ struct Close {
 };
 
 template <typename Multiplet>
-std::vector<Multiplet> RemoveIfClose(std::vector<Multiplet> jets, const Jets& particles)
+std::vector<Multiplet> RemoveIfClose(std::vector<Multiplet> multiplets, const Jets& particles)
 {
-    for (const auto & particle : particles) jets.erase(std::remove_if(jets.begin(), jets.end(), Close(particle)), jets.end());
-    return jets;
+  for (const auto & particle : particles) multiplets.erase(std::remove_if(multiplets.begin(), multiplets.end(), Close(particle)), multiplets.end());
+    return multiplets;
 }
 
 template <typename Multiplet>

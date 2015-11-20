@@ -3,7 +3,7 @@
 #include "AnalysisHeavyHiggs.hh"
 
 #include "Doublet.hh"
-#define DEBUG
+// #define DEBUG
 #include "Debug.hh"
 
 namespace analysis {
@@ -52,7 +52,7 @@ public:
     std::string ProjectName() const final
     {
         //        return  ProcessName() + "-" + ColliderName(collider_type()) + "-" + std::to_string(PreCut()) + "GeV-" + std::to_string(Mass()) + "GeV-Eta2.5";
-      return  ProcessName() + "-" + Name(this->collider_type()) + "-" + std::to_string(this->Mass()) + "GeV_Isolation";
+      return  ProcessName() + "-" + Name(this->collider_type()) + "-" + std::to_string(this->Mass()) + "GeV";
     };
 
     float SignalCrosssection(Process process) const {

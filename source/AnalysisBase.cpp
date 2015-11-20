@@ -34,7 +34,7 @@ exroot::TreeWriter AnalysisBase::TreeWriter(TFile& export_file, const std::strin
 
 std::vector<File> AnalysisBase::files(Tag tag)
 {
-    Error(Name(tag));
+    Error(TagName(tag));
     return files_;
 }
 
@@ -122,8 +122,8 @@ std::string AnalysisBase::FileSuffix() const
 
 std::string AnalysisBase::FilePath() const
 {
-  return "~/Projects/";
-//   return "/media/toodles/Hajer/jan_old/final_sources/";
+//      return "~/Projects/";
+  return "/media/toodles/Hajer/jan_old/final_sources/";
   
 }
 

@@ -66,6 +66,8 @@ private:
     Jets WDaughters(const Event& event) const;
 
     int WHadronicId(const Jets& jets) const;
+    
+    Jets Particles(Event const& event) const;
 
     float w_mass_window_ = 40;
 };

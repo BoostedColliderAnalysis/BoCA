@@ -211,55 +211,69 @@ class EventNeutralBranch : public EventBranch {
 public:
 
     EventNeutralBranch();
-    float LeptonNumber;
     float HiggsMass;
     float PairRap;
     float HiggsBdt;
-    float SignatureBdt;
+    float PairBdt;
     float BottomBdt;
     float PairBottomBdt;
-
+    float JetRestNumber;
     float HardTopPt;
     float SoftTopPt;
-
+    float BdtSum;
     float BottomBdt1;
     float BottomBdt2;
     float BottomBdt3;
     float BottomBdt4;
-    float BottomBdt5;
-    float BottomBdt6;
-    float BottomBdt7;
-    float BottomBdt8;
+    float RestBottomBdt1;
+    float RestBottomBdt2;
+    float RestBottomBdt3;
+    float RestBottomBdt4;
     float BottomBdt12;
     float BottomBdt34;
     float BottomBdt56;
     float BottomBdt78;
+    float Sphericity;
+    float Aplanarity;
+    float Planarity;
+    float Dipolarity1;
+    float Dipolarity2;
+    float Pull1;
+    float Pull2;
 
     template<typename Multiplet>
     void Fill(const Multiplet& event)
     {
         EventBranch::Fill(event);
-        LeptonNumber = event.GlobalObservables().LeptonNumber();
         HiggsMass = event.Multiplet().Sextet().Jet().m();
         HiggsBdt = event.Multiplet().Sextet().Bdt();
-        SignatureBdt = event.Multiplet().Bdt();
+        PairBdt = event.Multiplet().Doublet().Bdt();
         PairRap = event.Multiplet().Doublet().DeltaRap();
         BottomBdt = event.Multiplet().BottomBdt();
         PairBottomBdt = event.Multiplet().Doublet().BottomBdt();
         HardTopPt = event.Multiplet().Sextet().HardTopPt();
         SoftTopPt = event.Multiplet().Sextet().SoftTopPt();
-        BottomBdt1 = event.GlobalObservables().BottomBdt(1);
-        BottomBdt2 = event.GlobalObservables().BottomBdt(2);
-        BottomBdt3 = event.GlobalObservables().BottomBdt(3);
-        BottomBdt4 = event.GlobalObservables().BottomBdt(4);
-        BottomBdt5 = event.GlobalObservables().BottomBdt(5);
-        BottomBdt6 = event.GlobalObservables().BottomBdt(6);
-        BottomBdt7 = event.GlobalObservables().BottomBdt(7);
-        BottomBdt8 = event.GlobalObservables().BottomBdt(8);
-        BottomBdt12 = event.GlobalObservables().BottomBdt(1, 2);
-        BottomBdt34 = event.GlobalObservables().BottomBdt(3, 4);
-        BottomBdt56 = event.GlobalObservables().BottomBdt(5, 6);
-        BottomBdt78 = event.GlobalObservables().BottomBdt(7, 8);
+        JetRestNumber = event.GlobalObservables().JetNumber();
+        BdtSum = event.Multiplet1().Bdt()+event.Multiplet2().Bdt();
+        BottomBdt1 = event.BottomBdt(1);
+        BottomBdt2 = event.BottomBdt(2);
+        BottomBdt3 = event.BottomBdt(3);
+        BottomBdt4 = event.BottomBdt(4);
+        RestBottomBdt1 = event.GlobalObservables().BottomBdt(1);
+        RestBottomBdt2 = event.GlobalObservables().BottomBdt(2);
+        RestBottomBdt3 = event.GlobalObservables().BottomBdt(3);
+        RestBottomBdt4 = event.GlobalObservables().BottomBdt(4);
+        Sphericity = event.EventShape().Sphericity();
+        Aplanarity = event.EventShape().Aplanarity();
+        Planarity = event.EventShape().Planarity();
+        Dipolarity1 = event.Multiplet().Sextet().Dipolarity1();
+        Dipolarity2 = event.Multiplet().Sextet().Dipolarity2();
+        Dipolarity1 = event.Multiplet().Sextet().Dipolarity1();
+        Dipolarity2 = event.Multiplet().Sextet().Dipolarity2();
+//         BottomBdt12 = event.GlobalObservables().BottomBdt(1, 2);
+//         BottomBdt34 = event.GlobalObservables().BottomBdt(3, 4);
+//         BottomBdt56 = event.GlobalObservables().BottomBdt(5, 6);
+//         BottomBdt78 = event.GlobalObservables().BottomBdt(7, 8);
     }
 
     Observables Variables() const;
@@ -382,6 +396,7 @@ public:
     float PairBdt;
     float HardTopPt;
     float SoftTopPt;
+    float BdtSum;
 
     template<typename Multiplet>
     void Fill(const Multiplet& multiplet)
@@ -391,6 +406,7 @@ public:
         PairBottomBdt = multiplet.Doublet().BottomBdt();
         PairBdt = multiplet.Doublet().Bdt();
         HiggsBdt = multiplet.Sextet().Bdt();
+        BdtSum = multiplet.Multiplet1().Bdt()+multiplet.Multiplet2().Bdt();
         HardTopPt = multiplet.Sextet().HardTopPt();
         SoftTopPt = multiplet.Sextet().SoftTopPt();
         HiggsMass = multiplet.Sextet().Jet().m();

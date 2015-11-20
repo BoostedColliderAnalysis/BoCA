@@ -1,13 +1,14 @@
 #pragma once
 
+#include "TClonesArray.h"
+#include "exroot/ExRootAnalysis.hh"
+
 #include "Tagger.hh"
 #include "Singlet.hh"
-#include "TClonesArray.h"
 #include "Sort.hh"
 #include "Vector.hh"
 #include "Math.hh"
 #include "Types.hh"
-#include "exroot/ExRootAnalysis.hh"
 
 namespace analysis
 {
@@ -90,7 +91,37 @@ protected:
             return RemoveBestMatch(jets, particles);
             break;
         }
+    }  
+    
+    template<typename Multiplet>
+    int SaveEntries(std::vector<Multiplet> multiplets, Jets & particles, Tag tag, Id id) const {
+      multiplets = BestMatches(multiplets, particles, tag);
+      if (multiplets.empty()) return 0;
+      if (multiplets.size() > 1) {
+        if(id == Id::empty) std::sort(multiplets.begin(), multiplets.end());
+        else if(tag == Tag::signal) multiplets = SortedByMassTo(multiplets, Mass(id));
+      }
+      auto sum = multiplets.size();
+      if(tag == Tag::signal) sum = std::min(multiplets.size(), particles.size());
+      for (const auto & counter : Range(sum)) {
+        FillBranch(multiplets.at(counter));
+        static_cast<BranchTemplate&>(*TreeBranch().NewEntry()) = Branch();
+      }
+      return sum;
     }
+    
+//     template<typename Multiplet>
+//     int SaveEntries(std::vector<Multiplet> multiplets, size_t max = LargeNumber(), Tag tag) const {
+//       if (multiplets.empty()) return 0;
+//       if (multiplets.size() > 1) std::sort(multiplets.begin(), multiplets.end());
+//       auto sum = std::min(multiplets.size(), max);
+//       if(tag == Tag::signal) sum = std::min(multiplets.size(), max);
+//       for (const auto & counter : Range(sum)) {
+//         FillBranch(multiplets.at(counter));
+//         static_cast<BranchTemplate&>(*TreeBranch().NewEntry()) = Branch();
+//       }
+//       return sum;
+//     }
 
     template<typename Multiplet>
     int SaveEntries(std::vector<Multiplet> multiplets, size_t max = LargeNumber()) const {

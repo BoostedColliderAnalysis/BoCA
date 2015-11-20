@@ -1,7 +1,7 @@
 #pragma once
 
-#include "HeavyHiggsSemiTagger.hh"
 #include "MultipletEvent.hh"
+#include "HeavyHiggsSemiTagger.hh"
 
 namespace analysis {
 

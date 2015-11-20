@@ -20,6 +20,7 @@ Jets Isolation::Electrons() const
 {
     Info();
     return event_.leptons_->Electrons();
+    
 }
 
 Jets Isolation::Muons() const

@@ -1,8 +1,9 @@
+#include "fastjet/tools/MassDropTagger.hh"
+#include "fastjet/tools/Filter.hh"
+
 #include "HiggsTagger.hh"
 #include "Event.hh"
 #include "Types.hh"
-#include "fastjet/tools/MassDropTagger.hh"
-#include "fastjet/tools/Filter.hh"
 #include "JetInfo.hh"
 #include "InfoRecombiner.hh"
 #include "Debug.hh"
@@ -18,7 +19,7 @@ HiggsTagger::HiggsTagger()
 
 int HiggsTagger::Train(const Event& event, const PreCuts& pre_cuts, Tag tag) const
 {
-    Info(analysis::Name(tag));
+    Info(analysis::TagName(tag));
 //     Jets jets =  bottom_reader_.Multiplets(event);
     Jets jets =  event.Hadrons().Jets();
     std::vector<Doublet> doublets = unordered_pairs(jets, [&](const fastjet::PseudoJet & jet_1, const fastjet::PseudoJet & jet_2) {

@@ -87,6 +87,18 @@ public:
     {
         return std::max(Triplet1().MassDifferenceTo(id), Triplet2().MassDifferenceTo(id));
     }
+    float Dipolarity1() const{
+      return  Multiplet::Dipolarity(Triplet1().Singlet(), Triplet2().Singlet());
+    }
+    float Dipolarity2() const{
+      return  Multiplet::Dipolarity(Triplet2().Singlet(), Triplet1().Singlet());
+    }
+    float Pull1() const{
+      return  Multiplet::Pull(Triplet1().Singlet(), Triplet2().Singlet());
+    }
+    float Pull2() const{
+      return  Multiplet::Pull(Triplet2().Singlet(), Triplet1().Singlet());
+    }
 
 };
 

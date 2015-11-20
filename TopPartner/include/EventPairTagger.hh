@@ -1,7 +1,7 @@
 #pragma once
 
-#include "TopPartnerPairTagger.hh"
 #include "MultipletEvent.hh"
+#include "TopPartnerPairTagger.hh"
 
 namespace analysis {
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <cmath>
 #include <string>
 #include "TObject.h"
 #include "Rtypes.h"
@@ -232,7 +233,7 @@ public:
         DeltaR = multiplet.DeltaR();
         Rho = multiplet.Rho();
         Bdt1 = multiplet.Multiplet1().Bdt();
-        Bdt2 = multiplet.Multiplet2().Bdt();
+        Bdt2 = multiplet.Multiplet2().Bdt();        
         Pull = multiplet.PullSum();
         DeltaPull = multiplet.PullDifference();
         Dipolarity = multiplet.Dipolarity();
@@ -295,26 +296,38 @@ public:
     float Jet2Pt;
     float Jet2Rap;
     float Jet2Phi;
-//     float BdtRatio11;
-//     float BdtRatio12;
-//     float BdtRatio13;
-//     float BdtRatio14;
-//     float BdtRatio21;
-//     float BdtRatio22;
-//     float BdtRatio23;
-//     float BdtRatio24;
+    float BdtSum;
+    float BdtRatio11;
+    float BdtRatio12;
+    float BdtRatio13;
+    float BdtRatio14;
+    float BdtRatio21;
+    float BdtRatio22;
+    float BdtRatio23;
+    float BdtRatio24;
     template<typename Multiplet>
     void Fill(const Multiplet& multiplet)
     {
         PairBranch::Fill(multiplet);
         Jet1Pt = multiplet.Singlet1().Jet().pt();
+//         Jet1Rap = std::abs(multiplet.Singlet1().Jet().rap());
         Jet1Rap = multiplet.Singlet1().Jet().rap();
         Jet1Phi = multiplet.Singlet1().Jet().phi();
         Jet1Mass = multiplet.Singlet1().Jet().m();
         Jet2Pt = multiplet.Singlet2().Jet().pt();
+//         Jet2Rap = std::abs(multiplet.Singlet2().Jet().rap());
         Jet2Rap = multiplet.Singlet2().Jet().rap();
         Jet2Phi = multiplet.Singlet2().Jet().phi();
         Jet2Mass = multiplet.Singlet2().Jet().m();
+        BdtSum = multiplet.Singlet1().Bdt()+ multiplet.Singlet2().Bdt();
+        BdtRatio11=multiplet.BdtRatio1(1);
+        BdtRatio12=multiplet.BdtRatio1(2);
+        BdtRatio13=multiplet.BdtRatio1(3);
+        BdtRatio14=multiplet.BdtRatio1(4);
+        BdtRatio21=multiplet.BdtRatio2(1);
+        BdtRatio22=multiplet.BdtRatio2(2);
+        BdtRatio23=multiplet.BdtRatio2(3);
+        BdtRatio24=multiplet.BdtRatio2(4);
     }
     Observables Variables() const;
 
@@ -474,12 +487,12 @@ class EventBranch : public MultiBranch {
 public:
     EventBranch();
 
-//     float LeptonNumber;
+    float LeptonNumber;
     float JetNumber;
     float BottomNumber;
     float MissingEt;
     float ScalarHt;
-
+    
     float LeptonHt;
     float JetMass;
     float JetPt;
@@ -491,9 +504,11 @@ public:
     void Fill(const Multiplet& multiplet)
     {
         analysis::MultiBranch::Fill(multiplet);
-//         LeptonNumber = multiplet.GlobalObservables().LeptonNumber();
-        JetNumber = multiplet.GlobalObservables().JetNumber();
-        BottomNumber = multiplet.GlobalObservables().BottomNumber();
+        LeptonNumber = multiplet.GlobalObservables().LeptonNumber();
+//         JetNumber = multiplet.GlobalObservables().JetNumber();
+        JetNumber = multiplet.JetNumber();
+//         BottomNumber = multiplet.GlobalObservables().BottomNumber();
+        BottomNumber = multiplet.BottomNumber();
         MissingEt = multiplet.GlobalObservables().MissingEt();
         ScalarHt = multiplet.GlobalObservables().ScalarHt();
         LeptonHt = multiplet.GlobalObservables().LeptonHt();

@@ -14,36 +14,31 @@ EventNeutralTagger::EventNeutralTagger()
 
 int EventNeutralTagger::Train(const analysis::Event& event, const PreCuts&, Tag tag) const
 {
-    Info("event Tags");
+    Info();
     Jets jets = bottom_reader_.Multiplets(event);
-    Jets leptons = event.Leptons().leptons();
     std::vector<Octet62> octets = signature_neutral_reader_.Multiplets(event);
+    octets = signature_neutral_reader_.Tagger().CleanOctets(event, octets, tag);
     std::vector<MultipletEvent<Octet62>> events;
     for (const auto& octet : octets) {
         MultipletEvent<Octet62> octetevent(octet, event, jets);
         octetevent.SetTag(tag);
         events.emplace_back(octetevent);
     }
-    return SaveEntries(events);
+    return SaveEntries(events, 1);
 }
 
 std::vector<MultipletEvent<Octet62>> EventNeutralTagger::Multiplets(const analysis::Event& event, const analysis::PreCuts&, const TMVA::Reader& reader) const
 {
-    Info("event Tags");
+    Info();
     std::vector<Octet62> octets = signature_neutral_reader_.Multiplets(event);
     Jets jets = bottom_reader_.Multiplets(event);
-    Jets Leptons = event.Leptons().leptons();
-    std::vector<MultipletEvent<Octet62>> multiplet_events;
+    std::vector<MultipletEvent<Octet62>> events;
     for (const auto& octet : octets) {
         MultipletEvent<Octet62> multiplet_event(octet, event, jets);
         multiplet_event.SetBdt(Bdt(multiplet_event, reader));
-        multiplet_events.emplace_back(multiplet_event);
+        events.emplace_back(multiplet_event);
     }
-    std::sort(multiplet_events.begin(), multiplet_events.end());
-    if (multiplet_events.size() > 1)
-        multiplet_events.erase(multiplet_events.begin() + 1, multiplet_events.end());
-    Info("event Number", multiplet_events.size(), jets.size());
-    return multiplet_events;
+    return ReduceResult(events, 1);
 }
 
 }

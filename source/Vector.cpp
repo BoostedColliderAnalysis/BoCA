@@ -73,6 +73,21 @@ Jets RemoveIfExactParticle(Jets jets, int id)
     return jets;
 }
 
+Jets CopyIfPosition(const Jets& particles, const std::vector<int> & positions)
+{
+  if (particles.empty()) return particles;
+  Jets final_particles;  
+  for(auto const particle : particles){
+    for(auto const position : positions){
+      if(particle.user_info<JetInfo>().Family().particle().position() == position) {  
+        final_particles.emplace_back(particle);
+        break;
+      }
+    }   
+  }
+  return final_particles;
+}
+
 Jets CopyIfNeutrino(const Jets& jets)
 {
     if (jets.empty())
@@ -245,6 +260,14 @@ Jets RemoveIfSoft(Jets jets, float pt_min)
         return jet.pt() < pt_min;
     }), jets.end());
     return jets;
+}
+
+Jets RemoveIfLargeRap(Jets jets, float rap_max)
+{
+  jets.erase(std::remove_if(jets.begin(), jets.end(), [&](const fastjet::PseudoJet& jet){
+    return std::abs(jet.rap()) > rap_max;
+  }), jets.end());
+  return jets;
 }
 
 }

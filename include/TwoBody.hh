@@ -37,7 +37,7 @@ public:
         multiplet_2_ = Multiplet_2(jet / 2);
         SetBdt((multiplet_1_.Bdt() + multiplet_2_.Bdt()) / 2);
     }
-
+  
     Multiplet_1& Multiplet1() {
         return multiplet_1_;
     }
@@ -137,7 +137,7 @@ public:
     float PullSum() const {
         return Multiplet::PullSum(Multiplet1(), Multiplet2());
     }
-
+    
     float Dipolarity() const {
         return Multiplet::Dipolarity(Multiplet1(), Multiplet2());
     }
@@ -145,7 +145,27 @@ public:
     float BottomBdt() const final {
         return Multiplet::BottomBdt(Multiplet1(), Multiplet2());
     };
-
+    
+    analysis::Jets RestJets() const {
+      return RestJetsM;
+    }
+    
+    inline void AddRestJet(const fastjet::PseudoJet &NewJet)
+    {
+      RestJetsM.push_back(NewJet);
+      std::sort(RestJetsM.begin(), RestJetsM.end(), SortByBdt());
+    }
+    
+    float BdtRatio1(const int Number) const {
+      if (unsigned(Number) > RestJetsM.size()) return 0;
+      return (multiplet_1_.Bdt()+1) / (RestJetsM.at(Number - 1).template user_info<JetInfo>().Bdt()+1);
+    }
+    
+    float BdtRatio2(const int Number)const {
+      if (unsigned(Number) > RestJetsM.size()) return 0;
+      return (multiplet_2_.Bdt()+1) / (RestJetsM.at(Number - 1).template user_info<JetInfo>().Bdt()+1);
+    }
+    
 protected:
 
     void SetMultiplet1(const Multiplet_1 multiplet_1) {
@@ -161,6 +181,8 @@ private:
     Multiplet_1 multiplet_1_;
 
     Multiplet_2 multiplet_2_;
+    
+    analysis::Jets RestJetsM;
 
 };
 

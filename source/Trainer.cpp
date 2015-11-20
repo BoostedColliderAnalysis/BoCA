@@ -63,7 +63,7 @@ long Trainer::GetTree(Tag tag)
 
 long Trainer::AddTree(const std::string& tree_name, Tag tag)
 {
-    Debug(tree_name, Name(tag));
+    Debug(tree_name, TagName(tag));
     TTree& tree = Tree(tree_name, tag);
     exroot::TreeReader tree_reader = TreeReader(tree_name, tag);
     float weight = Weight(tree_reader);
@@ -100,6 +100,7 @@ float Trainer::Weight(exroot::TreeReader& tree_reader)
     TClonesArray& clones_array = *tree_reader.UseBranch(Tagger().WeightBranchName().c_str());
     tree_reader.ReadEntry(tree_reader.GetEntries() - 1);
     InfoBranch& info_branch = static_cast<InfoBranch&>(*clones_array.Last());
+    Error(info_branch.Crosssection, tree_reader.GetEntries(), info_branch.EventNumber);
     return info_branch.Crosssection * tree_reader.GetEntries() / info_branch.EventNumber;
 }
 
@@ -132,7 +133,8 @@ std::string Trainer::MethodOptions(TMVA::Types::EMVA mva)
     switch (mva) {
     case TMVA::Types::EMVA::kBDT :
         // return "NTrees=1000:MinNodeSize=2.5%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=20";
-        return "NTrees=1000:MinNodeSize=2.5%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=20";
+//       return "NTrees=400:MinNodeSize=5%:MaxDepth=3:BoostType=AdaBoost:SeparationType=GiniIndex:nCuts=20:VarTransform=Decorrelate";
+      return "NTrees=1000:MinNodeSize=2.5%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=20";
         //:VarTransform=D
         // return "!H:!V:NTrees=1000:MinNodeSize=1.5%:BoostType=Grad:Shrinkage=0.10:UseBaggedGrad:UseRandomisedTrees:GradBaggingFraction=0.5:nCuts=20:MaxDepth=4";
         //:CreateMVAPdfs:DoBoostMonitor";

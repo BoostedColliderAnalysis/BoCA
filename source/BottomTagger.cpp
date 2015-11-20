@@ -3,6 +3,7 @@
 #include "Event.hh"
 #include "Vector.hh"
 #include "PreCuts.hh"
+// #define DEBUG
 #include "Debug.hh"
 
 namespace analysis {
@@ -15,37 +16,40 @@ BottomTagger::BottomTagger()
 
 int BottomTagger::Train(const Event& event, const analysis::PreCuts& pre_cuts, Tag tag) const
 {
-    Info(analysis::Name(tag));
+    Info(analysis::TagName(tag));
     Jets jets = event.Hadrons().Jets();
     Info(jets.size());
     if (jets.empty()) return 0;
     Jets final_jets = CleanJets(jets, pre_cuts, tag);
-    if (pre_cuts.DoSubJets()) {
-        final_jets = Join(final_jets, TrainOnSubJets(jets, pre_cuts, tag, 2));
-        final_jets = Join(final_jets, TrainOnSubJets(jets, pre_cuts, tag, 3));
-    }
-    Jets particles = event.Partons().Particles();
+//     if (pre_cuts.DoSubJets()) {
+//         final_jets = Join(final_jets, TrainOnSubJets(jets, pre_cuts, tag, 2));
+//         final_jets = Join(final_jets, TrainOnSubJets(jets, pre_cuts, tag, 3));
+//     }
+    Jets particles = event.Partons().GenParticles();
     Jets bottoms = CopyIfParticle(particles, Id::bottom);
-    bottoms = RemoveIfSoft(bottoms, DetectorGeometry::JetMinPt());
     Info(bottoms.size());
     return SaveEntries(final_jets, bottoms, tag);
 }
 
-bool BottomTagger::Problematic(const fastjet::PseudoJet& jet, const PreCuts& pre_cuts, const Tag) const
-{
+bool BottomTagger::Problematic(const fastjet::PseudoJet& jet, const PreCuts& pre_cuts, Tag tag) const
+{ 
     if (Problematic(jet, pre_cuts)) return true;
-//     if (tag == Tag::signal && jet.user_info<JetInfo>().SumDisplacement() == 0) return true;
-    //     if (jet.user_info<JetInfo>().Tag() != tag) return true;
+    if (std::abs(jet.rap()) > DetectorGeometry::TrackerEtaMax()) return true;
+    switch(tag){
+      case Tag::signal : 
+       if (jet.user_info<JetInfo>().SumDisplacement() == 0) return true;
+        break;
+      case Tag::background : break;      
+    }    
     return false;
 }
 
 bool BottomTagger::Problematic(const fastjet::PseudoJet& jet, const PreCuts& pre_cuts) const
 {
     if (!jet.has_user_info<JetInfo>()) return true;
+    if (jet.m() < 0) return true;
     if (pre_cuts.PtLowerCut(Id::bottom) > 0 && jet.pt() < pre_cuts.PtLowerCut(Id::bottom)) return true;
     if (pre_cuts.PtUpperCut(Id::bottom) > 0 && jet.pt() > pre_cuts.PtUpperCut(Id::bottom)) return true;
-    if (std::abs(jet.rap()) > DetectorGeometry::TrackerEtaMax()) return true;
-    if (jet.m() < 0) return true;
     return false;
 }
 
@@ -86,8 +90,7 @@ Jets BottomTagger::Multiplets(const analysis::Jets& jets, const analysis::PreCut
 {
     Jets final_jets;
     for (const auto& jet : jets) {
-        if (Problematic(jet, pre_cuts))
-            continue;
+        if (Problematic(jet, pre_cuts))  continue;
         final_jets.emplace_back(Multiplet(jet, reader));
     }
     return final_jets;

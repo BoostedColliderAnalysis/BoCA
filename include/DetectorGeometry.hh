@@ -30,9 +30,12 @@ public:
     static float JetMinPt();
     static float JetConeSize();
     static float IsolationConeSize();
+    static float HardLeptonMomentum();
+    static float IsolationFraction();
     static float MinCellPt();
     static float MinCellResolution();
     static float TrackerEtaMax();
+    static float ForwardJetPt();
 //     static float JetRadiusParameter();
     static fastjet::JetDefinition JetDefinition();
     static fastjet::JetDefinition SubJetDefinition();

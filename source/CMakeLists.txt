@@ -65,7 +65,6 @@ ZHadronicTagger.cpp
 HiggsTagger.cpp
 TopHadronicTagger.cpp
 TopLeptonicTagger.cpp
-JetPairTagger.cpp
 TripletJetPairTagger.cpp
 Observable.cpp
 PreCuts.cpp

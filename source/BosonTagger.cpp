@@ -13,7 +13,7 @@ BosonTagger::BosonTagger()
 
 int BosonTagger::Train(const Event& event, const PreCuts& pre_cuts, Tag tag) const
 {
-    Info(analysis::Name(tag));
+    Info(analysis::TagName(tag));
     Jets jets =  bottom_reader_.Multiplets(event);
     std::vector<Doublet> doublets;
     for (auto jet_1 = jets.begin(); jet_1 != jets.end(); ++jet_1) {

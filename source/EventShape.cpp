@@ -70,5 +70,9 @@ float EventShape::Aplanarity() const
 {
   return const_cast<analysis::EventShapes &>(EventShapes()).aplanarity();
 }
+float EventShape::Planarity() const
+{
+  return const_cast<analysis::EventShapes &>(EventShapes()).planarity();
+}
 
 }

@@ -1,5 +1,5 @@
-#include "AnalysisCharged.hh"
 #include "EventChargedTagger.hh"
+#include "AnalysisCharged.hh"
 
 int main()
 {

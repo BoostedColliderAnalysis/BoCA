@@ -1,4 +1,5 @@
 #include "Observable.hh"
+#include "Debug.hh"
 
 namespace analysis {
 
@@ -11,6 +12,7 @@ Observable::Observable(float& value, const std::string& expression, const std::s
         type_ = 'I';
     else
         type_ = 'F';
+    Debug(expression_, type_, value_);
 }
 
 float& Observable::value() const

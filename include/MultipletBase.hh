@@ -30,6 +30,12 @@ public:
   {
     return Vector2(vector.rap() - Jet().rap(), Jet().delta_phi_to(vector));
   }
+  
+  Vector2 Reference(const fastjet::PseudoJet& vector1, const fastjet::PseudoJet& vector2) const
+  {
+    return Vector2(vector1.rap() - vector2.rap(), vector1.delta_phi_to(vector2));
+  }
+  
 
 };
 

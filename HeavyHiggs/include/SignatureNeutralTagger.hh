@@ -31,6 +31,8 @@ public:
     }
 
     std::string Name() const final { return "SignatureNeutral"; }
+    
+    std::vector<Octet62> CleanOctets(Event const& event, std::vector<Octet62> const& octets, Tag tag) const;
 
 private:
 

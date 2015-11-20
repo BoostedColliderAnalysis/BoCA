@@ -37,7 +37,7 @@ public:
 
     fastjet::PseudoJet FakeLepton(const fastjet::PseudoJet& jet) const;
 
-    Jets Particles(const analysis::Event& event, const PreCuts& pre_cuts) const;
+    Jets Particles(const analysis::Event& event) const;
 
     auto Multiplets(const Event& event, const TMVA::Reader& reader) const {
         PreCuts pre_cuts;
@@ -56,7 +56,8 @@ public:
 
 private:
 
-    bool use_w_ = false;
+//     bool use_w_ = false;
+    bool use_w_ = true;
 
     Reader<BottomTagger> bottom_reader_;
 

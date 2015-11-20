@@ -25,7 +25,7 @@ add_libraries(TMVA)
 # FastJet
 include(CMakeFiles/Findfastjet.cmake)
 add_libraries(${fastjet_LIBRARIES})
-add_libraries(Nsubjettiness)
+# add_libraries(Nsubjettiness)
 
 # Download external projects
 include(CMakeFiles/External.cmake)
@@ -45,7 +45,7 @@ add_libraries(${THEPEG_LIBRARY})
 add_subdirectory(source)
 
 add_subdirectory(StandardModel)
-add_subdirectory(PairTagger)
+# add_subdirectory(PairTagger)
 add_subdirectory(HiggsCpv)
 add_subdirectory(HeavyHiggs)
 add_subdirectory(TopPartner)
