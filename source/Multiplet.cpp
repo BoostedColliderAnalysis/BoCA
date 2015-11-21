@@ -120,7 +120,7 @@ float Multiplet::Dipolarity(MultipletBase const& multiplets_1, MultipletBase con
     float dipolarity = 0;
     for (auto const & constituent : singlet.Jet().constituents()) dipolarity += constituent.pt() * sqr(Distance(line, constituent));
     double delta_r = DeltaR(multiplets_1, multiplets_2) / rad;
-    if (delta_r == 0.1) return dipolarity / singlet.Jet().pt();
+    if (delta_r == 0) return dipolarity / singlet.Jet().pt();
     return dipolarity / singlet.Jet().pt() / sqr(delta_r);
 }
 

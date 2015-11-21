@@ -3,7 +3,7 @@
 #include "exroot/ExRootAnalysis.hh"
 
 #include "TreeReader.hh"
-#define INFORMATION
+// #define INFORMATION
 #include "Debug.hh"
 
 namespace boca
