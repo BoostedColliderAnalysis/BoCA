@@ -6,11 +6,13 @@
 #include <vector>
 #include <functional>
 
-#include "Particle.hh"
+#include "Member.hh"
 
-namespace boca {
+namespace boca
+{
 
-class Family {
+class Family
+{
 
 public:
 
@@ -18,19 +20,9 @@ public:
 
     Family(int id);
 
-//     Family(Id id);
-
-//     Family(Id id, Id mother_id);
-
     Family(int id, int mother_1_id, int mother_2_id);
 
-//     Family(Id id, Id mother_1_id, Id mother_2_id);
-
-    Family(Particle const& id, Particle const& mother_1_id, Particle const& mother_2_id, Particle const& grand_mother_id, Particle const& grand_grand_mother_id);
-
-//     Family(Id id, Id mother_1_id, Id mother_2_id, Id grand_mother_id);
-
-//     Family(int particle_position, Id id, int mother_position, Id mother_id);
+    Family(Member const& id, Member const& mother_1_id, Member const& mother_2_id, Member const& grand_mother_id, Member const& grand_grand_mother_id);
 
     Family(TLorentzVector const& particle, LorentzVector const& mother, int particle_position, int id, int mother_position, int mother_id);
 
@@ -44,47 +36,29 @@ public:
 
     bool Marker() const;
 
-    Particle particle() const
-    {
-        return particle_;
-    }
+    Member particle() const;
 
-    Particle mother_1() const
-    {
-        return mother_1_;
-    }
+    Member mother_1() const;
 
-    Particle mother_2() const
-    {
-        return mother_2_;
-    }
+    Member mother_2() const;
 
-    Particle grand_mother() const
-    {
-        return grand_mother_;
-    }
+    Member grand_mother() const;
 
-    Particle grand_grand_mother() const
-    {
-      return grand_grand_mother_;
-    }
+    Member grand_grand_mother() const;
 
-    float Pt() const
-    {
-        return pt_;
-    }
+    float Pt() const;
 
 private:
 
-    Particle particle_;
+    Member particle_;
 
-    Particle mother_1_;
+    Member mother_1_;
 
-    Particle mother_2_;
+    Member mother_2_;
 
-    Particle grand_mother_;
+    Member grand_mother_;
 
-    Particle grand_grand_mother_;
+    Member grand_grand_mother_;
 
     std::vector<int> daughter_ids_;//(2);
 
@@ -96,16 +70,13 @@ private:
 
 }
 
-namespace std {
+namespace std
+{
 
 template <>
 struct hash<boca::Family> {
-    size_t operator()(const boca::Family& Family) const
-    {
-        return ((std::hash<int>()(Family.particle().id())
-                 ^ (std::hash<int>()(Family.mother_1().id()) << 1)) >> 1)
-               //                ^ (std::hash<int>()(Family.mother_2().Id) << 1)
-               ;
+    size_t operator()(const boca::Family& Family) const {
+        return ((std::hash<int>()(Family.particle().id())^ (std::hash<int>()(Family.mother_1().id()) << 1)) >> 1);
     }
 };
 

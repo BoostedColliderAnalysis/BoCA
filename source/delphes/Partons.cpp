@@ -33,9 +33,9 @@ Jets Partons::Particles(Status min_status) const
     for (auto const & particle : particles) {
         if (particle.Status < to_int(min_status)) break;
         Detail(particle.PID);
-        Particle mother;
-        Particle grand_mother;
-        Particle great_grand_mother;
+        Member mother;
+        Member grand_mother;
+        Member great_grand_mother;
         if (particle.M1 != EmptyPosition) {
             ::delphes::GenParticle gen_mother = particles.At(particle.M1);
             mother.set(gen_mother.PID, particle.M1);
@@ -48,12 +48,12 @@ Jets Partons::Particles(Status min_status) const
                 }
             }
         }
-        Particle mother_2;
+        Member mother_2;
         if (particle.M2 != EmptyPosition) {
             ::delphes::GenParticle& gen_mother2 = particles.At(particle.M2);
             mother_2.set(gen_mother2.PID, particle.M2);
         }
-        Family family(Particle(particle.PID, position), mother, mother_2, grand_mother, great_grand_mother);
+        Family family(Member(particle.PID, position), mother, mother_2, grand_mother, great_grand_mother);
         fastjet::PseudoJet jet = boca::PseudoJet(particle.P4());
         jet.set_user_info(new ParticleInfo(family));
         jets.emplace_back(jet);
@@ -62,7 +62,7 @@ Jets Partons::Particles(Status min_status) const
     return jets;
 }
 
-// Particle Partons::Mother(::delphes::GenParticle& particle){
+// Member Partons::Mother(::delphes::GenParticle& particle){
 //   if (particle.M1 == EmptyPosition) return {};
 //   ::delphes::GenParticle mother = tree_reader().Objects<::delphes::GenParticle>(Branch::particle).At(particle.M1);
 //   return {mother.PID, particle.M1};

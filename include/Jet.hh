@@ -13,14 +13,18 @@ class Jet : public PseudoJet
 {
 public:
 
-    Jet(fastjet::PseudoJet& const jet);
+//     Jet(fastjet::PseudoJet& const jet);
 
-    JetInfo& Info() const;
+    JetInfo const& Info() const;
+
+    JetInfo& Info();
 
 private:
 
     JetInfo jet_info_;
 
 };
+
+using Lepton  = Jet;
 
 }

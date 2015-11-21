@@ -7,9 +7,14 @@
 namespace boca
 {
 
-JetInfo& Jet::Info() const
+JetInfo const& Jet::Info() const
 {
     return jet_info_;
+}
+
+JetInfo& Jet::Info()
+{
+  return jet_info_;
 }
 
 }
