@@ -8,10 +8,6 @@ HiggsPairTagger.cpp
 TopPartnerPairTagger.cpp
 TopPartnerHiggsPairTagger.cpp
 TopPartnerTopPairTagger.cpp
-Septet.cpp
-Nonet.cpp
-Decuplet.cpp
-Quattuordecuplet.cpp
 SignatureSingleLeptonicTagger.cpp
 SignatureSingleHadronicTagger.cpp
 SignatureEffectiveTagger.cpp

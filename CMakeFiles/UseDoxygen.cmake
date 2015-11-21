@@ -24,7 +24,7 @@ if(DOXYGEN_FOUND)
 #   PATHS ${CMAKE_CURRENT_SOURCE_DIR}/CMakeFiles ${CMAKE_ROOT}/Modules/
 #   NO_DEFAULT_PATH
 #   DOC "Path to the doxygen configuration template file")
-set(DOXYFILE_IN ${CMAKE_CURRENT_SOURCE_DIR}/CMakeFiles/Doxyfile.in)
+set(DOXYFILE_IN ${CMAKE_CURRENT_SOURCE_DIR}/doc/Doxyfile.in)
 set(DOXYFILE "${CMAKE_CURRENT_BINARY_DIR}/Doxyfile")
 include(FindPackageHandleStandardArgs)
 FIND_PACKAGE_HANDLE_STANDARD_ARGS(DOXYFILE_IN DEFAULT_MSG "DOXYFILE_IN")

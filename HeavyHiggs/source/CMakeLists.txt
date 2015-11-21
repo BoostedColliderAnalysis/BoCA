@@ -14,6 +14,7 @@ EventNeutralTagger.cpp
 EventChargedTagger.cpp
 EventFusionTagger.cpp
 EventNeutralFourTopTagger.cpp
+AnalysisPair.cpp
 AnalysisHeavyHiggs.cpp
 AnalysisNeutral.cpp
 AnalysisCharged.cpp
@@ -21,6 +22,7 @@ AnalysisFusion.cpp
 )
 create_library(AnalysisHeavyHiggs AnalysisSources)
 
+create_executable(PairTagger MainPair.cpp)
 create_executable(HeavyHiggsNeutral MainNeutral.cpp)
 create_executable(HeavyHiggsCharged MainCharged.cpp)
 create_executable(HeavyHiggsFusion MainFusion.cpp)

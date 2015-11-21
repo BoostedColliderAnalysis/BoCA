@@ -38,7 +38,7 @@ int TopLeptonicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, 
         triplet.SetTag(tag);
         return triplet;
     });
-    Jets tops = Particles(event/*, pre_cuts*/);
+    Jets tops = Particles(event);
     int size = tops.size();
     std::string particle = "";
     if (size > 0) particle = boca::Name(tops.front().user_info<ParticleInfo>().Family().particle().id());
@@ -62,22 +62,12 @@ fastjet::PseudoJet TopLeptonicTagger::FakeLepton(fastjet::PseudoJet const& jet) 
     return fastjet::PseudoJet(jet) / jet.pt() * (DetectorGeometry::LeptonMinPt() / GeV);
 }
 
-Jets TopLeptonicTagger::Particles(Event const& event/*, PreCuts const& pre_cuts*/) const
+Jets TopLeptonicTagger::Particles(Event const& event) const
 {
     Jets particles = event.Partons().GenParticles();
     Jets leptons = CopyIfLepton(particles);
     leptons = CopyIfGrandMother(leptons, Id::top);
-    if (leptons.empty()) return {};
-    Check(leptons.size() == 1, leptons.size());
-    int grand_mother = leptons.front().user_info<ParticleInfo>().Family().grand_mother().id();
-    Info(grand_mother);
-    return CopyIfExactParticle(particles, grand_mother);
-//     if (!pre_cuts.SemiLeptonic()) return CopyIfParticle(particles, Id::top);
-//     Jets leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
-//     leptons = RemoveIfSoft(leptons, DetectorGeometry::LeptonMinPt());
-//     int lepton_charge = 1;
-//     if (!leptons.empty()) lepton_charge = leptons.front().user_info<JetInfo>().Charge();
-//     return CopyIfExactParticle(particles, to_int(Id::top) * lepton_charge);
+    return CopyIfGrandDaughter(particles, leptons);
 }
 
 bool TopLeptonicTagger::Problematic(boca::Triplet const& triplet, boca::PreCuts const& pre_cuts, Tag tag) const
@@ -86,11 +76,9 @@ bool TopLeptonicTagger::Problematic(boca::Triplet const& triplet, boca::PreCuts 
     switch (tag) {
     case Tag::signal :
         if (boost::units::abs(triplet.Mass() - MassOf(Id::top) + 40. * GeV) > top_mass_window) return true;
-        if (triplet.Singlet().Bdt() < 0) return true;
-        if ((triplet.Rho() < 0.5 || triplet.Rho() > 2) && triplet.Rho() > 0) return true;
+        if(pre_cuts.NotParticleRho(triplet)) return true;
         break;
-    case Tag::background :
-        break;
+    case Tag::background : break;
     }
     return false;
 }

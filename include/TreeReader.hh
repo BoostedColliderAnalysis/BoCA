@@ -9,6 +9,7 @@
 #include "TChain.h"
 #include "TTreeReader.h"
 #include "TTreeReaderArray.h"
+#include "TTreeReaderValue.h"
 #include "TLeaf.h"
 
 namespace boca
@@ -60,6 +61,9 @@ public:
     TreeReaderArray(TTreeReader& tree_reader, Branch branch) : tree_reader_array_(TTreeReaderArray<Object>(tree_reader, BranchName(branch).c_str())) , branch_(branch) {}
 
     void Fill() {
+
+      if(tree_reader_array_.GetReadStatus() == ROOT::TTreeReaderValueBase::kReadError) std::cout << "Tree Reader read error in Branch " << BranchName(branch_) << std::endl;
+
 //         vector_ = vector(tree_reader_array_);
       begin_ = tree_reader_array_.begin();
       end_ = tree_reader_array_.end();

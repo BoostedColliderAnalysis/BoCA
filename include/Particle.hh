@@ -9,7 +9,7 @@
 class TLorentzVector;
 
 namespace boca {
-  
+
   /**
    * @brief Position outside of a vector
    *
@@ -26,7 +26,7 @@ public:
 
 //     Particle(Id id);
 //
-//     Particle(Id id, int position);
+    Particle(int id, int position);
 
     Particle(LorentzVector const& momentum, int id, int position);
 
@@ -37,6 +37,8 @@ public:
     int position() const;
 
     int id() const;
+
+    void set(int id, int position){id_ = id; position_ = position;}
 
 private:
 

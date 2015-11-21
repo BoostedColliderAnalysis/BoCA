@@ -2,6 +2,7 @@
 
 #include "AnalysisStandardModel.hh"
 #include "WHadronicTagger.hh"
+#include "WLeptonicTagger.hh"
 #define INFORMATION
 #include "Debug.hh"
 
@@ -36,8 +37,8 @@ public:
 
     static Decay TopDecay() {
         Info0;
-        return Decay::hadronic;
         return Decay::leptonic;
+        return Decay::hadronic;
     }
 
 private:
@@ -55,7 +56,7 @@ private:
             if (this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::hh);
             if (this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::bb);
             if (TopDecay() == Decay::leptonic || this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_lep);
-            if (this->template TaggerIs<WHadronicTagger>()) this->NewFile(tag, Process::ww);
+            if (this->template TaggerIs<WHadronicTagger>() || this->template TaggerIs<WLeptonicTagger>()) this->NewFile(tag, Process::ww);
             break;
         case Tag::background :
             if (TopDecay() == Decay::leptonic && !this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_had);
@@ -66,7 +67,7 @@ private:
             this->NewFile(tag, Process::qq);
             if (TopDecay() == Decay::hadronic && !this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_lep);
             this->NewFile(tag, Process::zz);
-            if (!this->template TaggerIs<WHadronicTagger>()) this->NewFile(tag, Process::ww);
+            if (!this->template TaggerIs<WHadronicTagger>() && !this->template TaggerIs<WLeptonicTagger>()) this->NewFile(tag, Process::ww);
             break;
         }
     }

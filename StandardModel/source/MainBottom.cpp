@@ -6,7 +6,6 @@
 
 int main()
 {
-    boca::standardmodel::AnalysisBottom<boca::standardmodel::BottomTagger> analysis;
-    analysis.RunFullEfficiency();
-    analysis.RunPlots();
+  boca::standardmodel::AnalysisBottom<boca::standardmodel::BottomTagger> analysis;
+  analysis.Run(boca::Output::efficiency);
 }

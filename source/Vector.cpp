@@ -244,7 +244,6 @@ Jets CopyIf5Quark(Jets const& jets)
 
     Jets final_jets;
     boost::range::copy(jets | boost::adaptors::filtered(Is5Quark()), std::back_inserter(final_jets));
-
     return final_jets;
 }
 
@@ -257,10 +256,32 @@ Jets RemoveIfSoft(Jets jets, Momentum pt_min)
 
 Jets RemoveIfHard(Jets jets, Momentum pt_max)
 {
-  return boost::range::remove_erase_if(jets, [&](fastjet::PseudoJet const & jet) {
-    return jet.pt() > pt_max / GeV;
-  });
+    return boost::range::remove_erase_if(jets, [&](fastjet::PseudoJet const & jet) {
+        return jet.pt() > pt_max / GeV;
+    });
 }
+
+
+Jets CopyIfDaughter(Jets const& particles, Jets const& daughters)
+{
+    Jets mothers;
+    boost::range::copy(particles | boost::adaptors::filtered([&daughters](fastjet::PseudoJet const & particle) {
+        for (auto const & daughter : daughters) if (particle.user_info<ParticleInfo>().Family().particle().position() == daughter.user_info<ParticleInfo>().Family().mother_1().position()) return true;
+        return false;
+    }), std::back_inserter(mothers));
+    return mothers;
+}
+
+Jets CopyIfGrandDaughter(Jets const& particles, Jets const& daughters)
+{
+    Jets mothers;
+    boost::range::copy(particles | boost::adaptors::filtered([&daughters](fastjet::PseudoJet const & particle) {
+        for (auto const & daughter : daughters) if (particle.user_info<ParticleInfo>().Family().particle().position() == daughter.user_info<ParticleInfo>().Family().grand_mother().position()) return true;
+        return false;
+    }), std::back_inserter(mothers));
+    return mothers;
+}
+
 
 }
 

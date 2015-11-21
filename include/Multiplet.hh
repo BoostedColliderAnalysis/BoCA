@@ -5,6 +5,7 @@
 
 #include "MultipletBase.hh"
 #include "Singlet.hh"
+#include "Line2.hh"
 
 namespace boca
 {
@@ -49,7 +50,7 @@ protected:
 
     fastjet::PseudoJet Jet(fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2) const;
 
-    Vector2 Pull() const override;
+    Vector2<float> Pull() const override;
 
     Momentum DeltaPt(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
@@ -67,9 +68,9 @@ protected:
 
     float Rho(MultipletBase const& jet_1, MultipletBase const& jet_2, fastjet::PseudoJet const& jet) const;
 
-    float PullDifference(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
+    Angle PullDifference(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
-    float PullSum(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
+    Angle PullSum(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
     float Dipolarity(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2, boca::Singlet const& singlet) const;
 
@@ -99,11 +100,11 @@ protected:
 
 private:
 
-    float Pull(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
+    Angle Pull(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
-    Angle Distance(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2, fastjet::PseudoJet const& constituent, Angle delta_r) const;
+    Vector2<float> Point2(Vector2<float> const& point_1, MultipletBase const& multiplets_2) const;
 
-    Angle Distance(Vector2 const& point_1, Vector2 const& point_2, Vector2 const& point_0, Angle delta_r) const;
+    float Distance(Line2<float> const& line, fastjet::PseudoJet const& constituent) const;
 
 };
 

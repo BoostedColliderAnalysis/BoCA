@@ -268,34 +268,67 @@ std::string AnalysisBase::WorkingPath()
     }
 }
 
+
+void AnalysisBase::Run(Output run)
+{
+  Info0;
+  Initialize();
+  //   analysis.PreRequisits<analysis.tagger()::type>(analysis,run);
+  switch (run) {
+    case Output::fast :
+      RunFast();
+      break;
+    case Output::normal :
+      RunNormal();
+      break;
+    case Output::efficiency :
+      RunFullEfficiency();
+      //       RunPlots();
+      break;
+    case Output::significance :
+      RunFullSignificance();
+      RunPlots();
+      break;
+    case Output::plot :
+      RunNormal();
+      RunPlots();
+      break;
+  }
+  if (is(run, Output::plot)) {
+    RunPlots();
+  }
+
+}
+
 void Run(AnalysisBase& analysis, Output run)
 {
     Info0;
-    analysis.Initialize();
-//   analysis.PreRequisits<analysis.tagger()::type>(analysis,run);
-    switch (run) {
-    case Output::fast :
-        analysis.RunFast();
-        break;
-    case Output::normal :
-        analysis.RunNormal();
-        break;
-    case Output::efficiency :
-        analysis.RunFullEfficiency();
-//       analysis.RunPlots();
-        break;
-    case Output::significance :
-        analysis.RunFullSignificance();
-        analysis.RunPlots();
-        break;
-    case Output::plot :
-        analysis.RunNormal();
-        analysis.RunPlots();
-        break;
-    }
-    if (is(run, Output::plot)) {
-        analysis.RunPlots();
-    }
+    analysis.Run(run);
+//     analysis.Initialize();
+// //   analysis.PreRequisits<analysis.tagger()::type>(analysis,run);
+//     switch (run) {
+//     case Output::fast :
+//         analysis.RunFast();
+//         break;
+//     case Output::normal :
+//         analysis.RunNormal();
+//         break;
+//     case Output::efficiency :
+//         analysis.RunFullEfficiency();
+// //       analysis.RunPlots();
+//         break;
+//     case Output::significance :
+//         analysis.RunFullSignificance();
+//         analysis.RunPlots();
+//         break;
+//     case Output::plot :
+//         analysis.RunNormal();
+//         analysis.RunPlots();
+//         break;
+//     }
+//     if (is(run, Output::plot)) {
+//         analysis.RunPlots();
+//     }
 
 }
 

@@ -49,16 +49,14 @@ add_libraries(${THEPEG_LIBRARY})
 
 # Doxygen
 if(CMAKE_BUILD_TYPE MATCHES "Release")
-# include(CMakeFiles/UseDoxygen.cmake)
+include(CMakeFiles/UseDoxygen.cmake)
 endif()
 
 # Libraries
-# add_subdirectory(Test)
 add_subdirectory(source)
 
 add_subdirectory(StandardModel)
-add_subdirectory(HiggsCpv)
 add_subdirectory(HeavyHiggs)
-add_subdirectory(PairTagger)
 add_subdirectory(TopPartner)
+# add_subdirectory(HiggsCpv)
 

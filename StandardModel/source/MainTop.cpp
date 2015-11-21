@@ -20,7 +20,7 @@ int main()
         break;
     }
     case boca::Decay::leptonic : {
-        Run<boca::standardmodel::WLeptonicTagger>(boca::Output::fast);
+//         Run<boca::standardmodel::WLeptonicTagger>(boca::Output::fast);
         Run<boca::standardmodel::TopLeptonicTagger>(boca::Output::efficiency);
         break;
     }

@@ -18,8 +18,6 @@ public:
 
     boca::Singlet const& Singlet2() const;
 
-    float Dipolarity2() const;
-
 private:
 
 };

@@ -126,9 +126,9 @@ InfoBranch Plotting::InfoBranch(TFile& file, std::string const& tree_name) const
     Info(tree_name);
     exroot::TreeReader tree_reader(static_cast<TTree*>(file.Get(tree_name.c_str())));
     Error(tree_name, Tagger().WeightBranchName());
-    TClonesArray& clones_array = *tree_reader.UseBranch(Tagger().WeightBranchName().c_str());
+    TClonesArray* clones_array = tree_reader.UseBranch(Tagger().WeightBranchName().c_str());
     tree_reader.ReadEntry(tree_reader.GetEntries() - 1);
-    return static_cast<boca::InfoBranch&>(*clones_array.Last());
+    return static_cast<boca::InfoBranch&>(*clones_array->Last());
 }
 
 std::string Plotting::PlotHistograms(boca::Results& results) const
@@ -503,6 +503,16 @@ Plot Plotting::CoreVector(Plot& plot, std::function<bool (Point const&, Point co
 Tagger const& Plotting::Tagger() const
 {
     return tagger_;
+}
+void Plotting::SetBranch(TTree& tree, std::vector< float >& values, const std::__cxx11::string& name) const
+{
+    tree.SetBranchStatus(name.c_str(), true);
+    tree.SetBranchAddress(name.c_str(), &values.front());
+}
+void Plotting::SetBranch(TTree& tree, int& value, const std::__cxx11::string& name) const
+{
+    tree.SetBranchStatus(name.c_str(), true);
+    tree.SetBranchAddress(name.c_str(), &value);
 }
 
 }

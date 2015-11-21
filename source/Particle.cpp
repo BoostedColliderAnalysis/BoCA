@@ -15,11 +15,11 @@ Particle::Particle(int id)
 //     id_ = to_int(id);
 // }
 //
-// Particle::Particle(Id id, int position)
-// {
-//     id_ = to_int(id);
-//     position_ = position;
-// }
+Particle::Particle(int id, int position)
+{
+    id_ = id;
+    position_ = position;
+}
 Particle::Particle(LorentzVector const& momentum, int id, int position)
 {
     id_ = id;

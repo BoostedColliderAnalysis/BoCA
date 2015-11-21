@@ -18,7 +18,7 @@ public:
 
   virtual fastjet::PseudoJet Jet() const = 0;
 
-  virtual Vector2 Pull() const = 0;
+  virtual Vector2<float> Pull() const = 0;
 
   virtual float Ht() const = 0;
 
@@ -50,12 +50,12 @@ public:
 
   /**
    * @brief calculate Reference vector for other - this
-   * @return Vector2 reference vector
+   * @return Vector2<float> reference vector
    *
    */
-  Vector2 Reference(fastjet::PseudoJet const& jet) const
+  Vector2<double> Reference(fastjet::PseudoJet const& jet) const
   {
-    return Vector2(jet.rap() - Jet().rap(), Jet().delta_phi_to(jet));
+    return {jet.rap() - Jet().rap(), Jet().delta_phi_to(jet)};
   }
 
 };

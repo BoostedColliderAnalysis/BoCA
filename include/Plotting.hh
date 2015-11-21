@@ -100,15 +100,9 @@ private:
 
     Plot CoreVector(Plot& plot, std::function<bool(Point const&, Point const&)> const& function) const;
 
-    void SetBranch(TTree &tree, int &value, std::string const& name) const {
-      tree.SetBranchStatus(name.c_str(), true);
-      tree.SetBranchAddress(name.c_str(), &value);
-    }
+    void SetBranch(TTree &tree, int &value, std::string const& name) const;
 
-    void SetBranch(TTree &tree, std::vector<float> &values, std::string const& name) const {
-      tree.SetBranchStatus(name.c_str(), true);
-      tree.SetBranchAddress(name.c_str(), &values.front());
-    }
+    void SetBranch(TTree &tree, std::vector<float> &values, std::string const& name) const;
 
     boca::Tagger const& Tagger() const;
 

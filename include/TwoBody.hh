@@ -127,11 +127,11 @@ public:
     }
 
     float PullDifference() const {
-        return Multiplet::PullDifference(Multiplet1(), Multiplet2());
+        return Multiplet::PullDifference(Multiplet1(), Multiplet2()) / rad;
     }
 
     float PullSum() const {
-        return Multiplet::PullSum(Multiplet1(), Multiplet2());
+        return Multiplet::PullSum(Multiplet1(), Multiplet2()) / rad;
     }
 
     float Dipolarity() const {

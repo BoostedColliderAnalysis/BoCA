@@ -47,6 +47,7 @@ std::string Canvas::ExportFileSuffix() const
 {
     Info0;
     return ".pdf";
+    return ".svg";
     return ".png";
 }
 

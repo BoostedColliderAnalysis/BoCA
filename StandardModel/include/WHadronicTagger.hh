@@ -44,7 +44,7 @@ private:
 
     Jets Particles(Event const& event) const;
 
-    std::vector<Doublet> Doublets(Event const& event, std::function<boost::optional<Doublet>(Doublet&)> const& function) const;
+    std::vector<Doublet> Doublets(Event const& event, PreCuts const& pre_cuts, std::function<boost::optional<Doublet>(Doublet&)> const& function) const;
 
     std::vector<Doublet> Doublets(Jets const& jets, std::function<boost::optional<Doublet>(Doublet&)> const& function) const;
 

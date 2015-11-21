@@ -10,7 +10,21 @@
 namespace boca
 {
 
-class File;
+  class File;
+
+  enum class Output
+  {
+    fast = 1 << 0,
+    normal = 1 << 1,
+    significance = 1 << 2,
+    efficiency = 1 << 3,
+    plot = 1 << 4
+  };
+
+  template<>
+  struct Flag<Output> {
+    static const bool enable = true;
+  };
 
 /**
  * @brief Base for all analyses.
@@ -26,6 +40,8 @@ class AnalysisBase
 public:
 
     AnalysisBase();
+
+    void Run(Output run);
 
     void Initialize();
 
@@ -129,20 +145,6 @@ private:
 
     std::string WorkingPath();
 
-};
-
-enum class Output
-{
-  fast = 1 << 0,
-  normal = 1 << 1,
-  significance = 1 << 2,
-  efficiency = 1 << 3,
-  plot = 1 << 4
-};
-
-template<>
-struct Flag<Output> {
-  static const bool enable = true;
 };
 
 void Run(AnalysisBase & analysis, Output run);
