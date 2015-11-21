@@ -80,7 +80,9 @@ Doublet HiggsTagger::PrepareDoublet(Doublet& doublet, Jets& leptons) const
 {
     Info0;
     //     doublet = MassDrop(doublet);
-    doublet = Doublet(bottom_reader_.Multiplet(doublet.Singlet1().Jet()), bottom_reader_.Multiplet(doublet.Singlet2().Jet()));
+    Jet jet_1 = doublet.Singlet1().Jet();
+    Jet jet_2 = doublet.Singlet2().Jet();
+    doublet = Doublet(bottom_reader_.Multiplet(jet_1), bottom_reader_.Multiplet(jet_2));
     SetClosestLepton(doublet, leptons);
     return doublet;
 }
@@ -150,7 +152,7 @@ Doublet HiggsTagger::MassDrop(Doublet const& doublet) const
     fastjet::Filter filter(fastjet::JetDefinition(fastjet::cambridge_algorithm, radius, &info_recombiner), fastjet::SelectorNHardest(3));
     Jet filtered_jet = filter.result(mass_drop_jet);
     if (!filtered_jet.has_pieces()) throw Empty();
-     std::vector<Jet> pieces = JetVector(fastjet::sorted_by_pt(filtered_jet.pieces()));
+     std::vector<Jet> pieces = SortedByPt(JetVector(filtered_jet.pieces()));
     if (pieces.size() < 2) throw Empty();
     return Doublet(bottom_reader_.Multiplet(pieces.at(0)), bottom_reader_.Multiplet(pieces.at(1)));
 }

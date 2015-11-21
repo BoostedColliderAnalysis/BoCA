@@ -106,7 +106,7 @@ std::vector<boca::Sextet> WimpMass::Sextet(Quartet22 const& quartet, Jet const& 
             //             Error("Neutrino Mass", Neutrino.m());
             errors_1.emplace_back((neutrino + Particle(neutrino_1)).m());
 //             Debug("Neutrino 1 Error", (neutrino + neutrino_1).m());
-            errors_2.emplace_back((neutrino + neutrino_2).m());
+            errors_2.emplace_back((neutrino + Particle(neutrino_2)).m());
 //             Debug("Neutrino 2 Error", (neutrino + neutrino_2).m());
         }
         float error = LargeNumber();

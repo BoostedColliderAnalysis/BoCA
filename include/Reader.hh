@@ -152,6 +152,10 @@ public:
 //         return Tagger().Multiplets(input_1, input_2, reader());
 //     }
 
+    auto Multiplet(Jet & input) const {
+      return Tagger().Multiplet(input, reader());
+    }
+
     template <typename Input>
     auto Multiplet(Input const& input) const {
         return Tagger().Multiplet(input, reader());

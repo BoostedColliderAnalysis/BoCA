@@ -34,7 +34,7 @@ public:
 private:
 
     std::string AnalysisName() const final {
-        return Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-dipolarity";
+        return Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-jet-1";
     }
 
     void SetFiles(Tag tag, Stage) final {
@@ -59,8 +59,9 @@ private:
     }
 
     int PassPreCut(Event const& , Tag) const final {
+      Info0;
           return 1;
-//        std::vector<Jet> jets = fastjet::sorted_by_pt(event.Hadrons().Jets());
+//        std::vector<Jet> jets = SortedByPt(event.Hadrons().Jets());
 //         if (jets.size() < 2) return 0;
 //         if ((jets.at(0).pt() > this->LowerPtCut() / GeV && jets.at(0).pt() < this->UpperPtCut() / GeV) &&
 //           (jets.at(1).pt() > this->LowerPtCut() / GeV && jets.at(1).pt() < this->UpperPtCut() / GeV)) return 1;

@@ -16,6 +16,12 @@ namespace boca {
     jet_ = jet;
 }
 
+Singlet::Singlet(fastjet::PseudoJet const& jet)
+{
+  Info0;
+  jet_ = jet;
+}
+
 bool Singlet::Overlap(boca::Jet const& jet) const
 {
     return Close(jet)(Jet());

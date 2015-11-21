@@ -10,6 +10,7 @@
 #include "JetInfo.hh"
 #include "InfoRecombiner.hh"
 #include "Vector.hh"
+#include "Sort.hh"
 #include "Exception.hh"
 // #define DEBUG
 #include "Debug.hh"
@@ -172,7 +173,7 @@ std::vector<Jet> Hadrons::EFlowJets(JetDetail jet_detail) const
 {
     Info0;
     fastjet::ClusterSequence& cluster_sequence = *new fastjet::ClusterSequence(PseudoJetVector(EFlow(jet_detail)), DetectorGeometry::JetDefinition());
-    std::vector<Jet> jets = JetVector(fastjet::sorted_by_pt(cluster_sequence.inclusive_jets(DetectorGeometry::JetMinPt() / GeV)));
+    std::vector<Jet> jets = SortedByPt(JetVector(cluster_sequence.inclusive_jets(DetectorGeometry::JetMinPt() / GeV)));
     if (jets.empty()) {
         delete &cluster_sequence;
         return jets;
@@ -204,7 +205,7 @@ std::vector<Jet> Hadrons::EFlowTrack(std::vector< TObject* > const& leptons, Jet
         } else e_flow_jets.emplace_back(e_flow_track.P4());
         if (is(jet_detail, JetDetail::tagging)) {
             Constituent constituent(e_flow_track.P4());
-            e_flow_jets.back().set_user_info(new JetInfo(constituent));
+            e_flow_jets.back().SetInfo(constituent);
             Detail(e_flow_jets.back().user_index());
         }
     }
@@ -221,7 +222,7 @@ std::vector<Jet> Hadrons::EFlowPhoton(std::vector< TObject* > const& leptons, Je
             if (boost::optional<Jet> optional = ConstituentJet(e_flow_photon, leptons, jet_detail, SubDetector::photon)) e_flow_jets.emplace_back(*optional);
             continue;
         } else e_flow_jets.emplace_back(e_flow_photon.P4());
-        if (is(jet_detail, JetDetail::tagging)) e_flow_jets.back().set_user_info(new JetInfo(JetId(e_flow_photon)));
+        if (is(jet_detail, JetDetail::tagging)) e_flow_jets.back().SetInfo(JetId(e_flow_photon));
     }
     return e_flow_jets;
 }
@@ -235,7 +236,7 @@ std::vector<Jet> Hadrons::EFlowHadron(std::vector< TObject* > const& leptons, Je
             if (boost::optional<Jet> optional = ConstituentJet(e_flow_hadron, leptons, jet_detail, SubDetector::tower)) e_flow_jets.emplace_back(*optional);
             continue;
         } else e_flow_jets.emplace_back(e_flow_hadron.P4());
-        if (is(jet_detail, JetDetail::tagging)) e_flow_jets.back().set_user_info(new JetInfo(JetId(e_flow_hadron)));
+        if (is(jet_detail, JetDetail::tagging)) e_flow_jets.back().SetInfo(JetId(e_flow_hadron));
     }
     return e_flow_jets;
 }
@@ -249,7 +250,7 @@ std::vector<Jet> Hadrons::EFlowMuon(std::vector< TObject* > const& leptons, JetD
             if (boost::optional<Jet> optional = ConstituentJet(e_flow_muon, leptons, jet_detail, SubDetector::muon)) e_flow_jets.emplace_back(*optional);
             continue;
         } else e_flow_jets.emplace_back(e_flow_muon.P4());
-        if (is(jet_detail, JetDetail::tagging)) e_flow_jets.back().set_user_info(new JetInfo(Constituent(e_flow_muon.P4())));
+        if (is(jet_detail, JetDetail::tagging)) e_flow_jets.back().SetInfo(Constituent(e_flow_muon.P4()));
     }
     return e_flow_jets;
 }

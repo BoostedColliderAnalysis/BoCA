@@ -66,20 +66,21 @@ std::vector<Jet> BottomTagger::Multiplets(std::vector<Jet> jets, std::function<J
 std::vector<Jet> BottomTagger::Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
     Info0;
-    return Jets(event, pre_cuts, [&](Jet const & jet) {
+    return Jets(event, pre_cuts, [&](Jet & jet) {
         if (Problematic(jet, pre_cuts)) throw boca::Problematic();
         return Multiplet(jet, reader);
     });
 }
 
-Jet BottomTagger::Multiplet(Jet const& jet, TMVA::Reader const& reader) const
+Jet BottomTagger::Multiplet(Jet & jet, TMVA::Reader const& reader) const
 {
     Info0;
-    if (jet.has_user_info<JetInfo>()) static_cast<JetInfo&>(*jet.user_info_shared_ptr().get()).SetBdt(Bdt(jet, reader));
-    else {
-        Error("no user info");
+//     if (jet.has_user_info<JetInfo>()) static_cast<JetInfo&>(*jet.user_info_shared_ptr().get()).SetBdt(Bdt(jet, reader));
+    jet.Info().SetBdt(Bdt(jet, reader));
+//     else {
+//         Error("no user info");
 //       jet.user_info(new JetInfo(Bdt(jet, reader)));
-    }
+//     }
     return jet;
 }
 
@@ -126,7 +127,7 @@ std::vector<Jet> BottomTagger::SubMultiplet(Jet const& jet, TMVA::Reader const& 
 {
     Info0;
     std::vector<Jet> jets;
-    for (auto const & sub_jet : Tagger::SubJets(jet, sub_jet_number)) {
+    for (auto & sub_jet : Tagger::SubJets(jet, sub_jet_number)) {
         if (!sub_jet.has_user_info<JetInfo>()) continue;
         if (sub_jet.m() <= 0) continue;
         jets.emplace_back(Multiplet(sub_jet, reader));

@@ -10,10 +10,6 @@
 #include <iostream>
 #include <boost/units/systems/si/io.hpp>
 
-// namespace fastjet{
-// class PseudoJet;
-// }
-
 // FIXME do we really want to write non standard compliant code?
 // #pragma GCC diagnostic ignored "-Wgnu-zero-variadic-macro-arguments"
 // #pragma GCC diagnostic ignored "-Wmacro-redefined"

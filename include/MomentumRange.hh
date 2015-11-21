@@ -3,7 +3,6 @@
  */
 #pragma once
 #include "Particles.hh"
-#include "fastjet/PseudoJet.hh"
 #include "Vector.hh"
 
 namespace boca

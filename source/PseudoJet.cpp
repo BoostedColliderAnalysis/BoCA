@@ -41,6 +41,10 @@ Mass PseudoJet::Mass() const
 {
     return m() * GeV;
 }
+Angle PseudoJet::DeltaRTo(const PseudoJet& jet) const
+{
+    return this->delta_R(jet) * rad;
+}
 
 }
 

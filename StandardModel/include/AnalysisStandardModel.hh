@@ -50,6 +50,14 @@ class AnalysisStandardModel : public Analysis<Tagger>
 
 protected:
 
+    long EventNumberMax() const override {
+        return 10000;
+        return 1000;
+        return 100;
+        return 5000;
+        return 500;
+    }
+
     Momentum LowerPtCut() const {
         return 1000. * GeV;
         return 500. * GeV;
@@ -57,14 +65,6 @@ protected:
         return 700. * GeV;
         return 800. * GeV;
         return 1200. * GeV;
-    }
-
-    long EventNumberMax() const override {
-        return 10000;
-        return 1000;
-        return 100;
-        return 5000;
-        return 500;
     }
 
     int BackgroundFileNumber() const {

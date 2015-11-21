@@ -18,7 +18,9 @@ class Singlet : public MultipletBase
 
 public:
 
-    Singlet() {};
+  Singlet() {};
+  
+  Singlet(fastjet::PseudoJet const& jet);
 
     Singlet(boca::Jet const& jet);
 

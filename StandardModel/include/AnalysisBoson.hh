@@ -62,10 +62,10 @@ private:
 
     int PassPreCut(Event const& , Tag) const final {
           return 1;
-//        std::vector<Jet> jets = fastjet::sorted_by_pt(event.Hadrons().Jets());
+//        std::vector<Jet> jets = SortedByPt(event.Hadrons().Jets());
 //         if (jets.empty()) return 0;
 //         if (jets.front().pt() < this->LowerPtCut() / GeV) return 0;
-//        std::vector<Jet> particles = fastjet::sorted_by_pt(event.Partons().GenParticles());
+//        std::vector<Jet> particles = SortedByPt(event.Partons().GenParticles());
 //         if ((particles.at(0).pt() > this->LowerQuarkCut() / GeV && particles.at(0).pt() < this->UpperQuarkCut() / GeV) && (particles.at(1).pt() > this->LowerQuarkCut() / GeV &&  particles.at(1).pt() < this->UpperQuarkCut() / GeV)) return 1;
         return 0;
     }

@@ -55,7 +55,7 @@ public:
      * @brief calculate bottom bdt for given jet
      *
      */
-    Jet Multiplet(Jet const& jet, TMVA::Reader const& reader) const;
+    Jet Multiplet(Jet & jet, TMVA::Reader const& reader) const;
 
     std::string Name() const final;
 

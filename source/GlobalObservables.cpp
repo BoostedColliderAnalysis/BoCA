@@ -105,7 +105,7 @@ Singlet GlobalObservables::Singlet() const
 {
     Info0;
     Jet jet = Join(Jets());
-    jet.set_user_info(new JetInfo(BottomBdt()));
+    jet.Info().SetBdt(BottomBdt());
     return boca::Singlet(jet);
 }
 

@@ -6,8 +6,6 @@
 #include <iomanip>
 #include <iostream>
 
-#include "fastjet/PseudoJet.hh"
-
 #include "JetTag.hh"
 #include "Jet.hh"
 #include "Flag.hh"
@@ -89,15 +87,6 @@ public:
 protected:
 
     void NewEvent(TreeReader const& tree_reader);
-
-
-//     boca::LorentzVector LorentzVector(const MissingET *const Particle) const;
-
-
-//     Family BranchFamily(TObject const& object) const;
-
-//     Family BranchFamily(Family& BranchId, int Position) const;
-//     Jet PseudoJet(const MissingET & Particle) const;
 
     template<typename Data>
     void PrintCell(Data const data) const

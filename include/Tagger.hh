@@ -27,11 +27,6 @@ typedef ::ExRootTreeWriter TreeWriter;
 typedef ::ExRootTreeBranch TreeBranch;
 }
 
-namespace fastjet
-{
-class PseudoJet;
-}
-
 namespace boca
 {
 

@@ -58,7 +58,7 @@ private:
 //      std::vector<Jet> partner = partner_tagger.Particles(event);
 //       if(partner.empty()) return 0;
 //     }
-//        std::vector<Jet> jets = fastjet::sorted_by_pt(event.Hadrons().Jets());
+//        std::vector<Jet> jets = SortedByPt(event.Hadrons().Jets());
 //         if (jets.size() < 3) return 0;
 //         if (jets.at(2).pt() < this->JetPreCut()) return 0;
 //

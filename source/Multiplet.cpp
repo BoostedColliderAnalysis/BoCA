@@ -8,6 +8,7 @@
 #include "JetInfo.hh"
 #include "Vector.hh"
 #include "Math.hh"
+#include "Sort.hh"
 #include "Units.hh"
 #include "Debug.hh"
 
@@ -22,19 +23,19 @@ Vector2<float> Multiplet::Pull() const
 
 boca::Singlet Multiplet::Singlet(boca::Singlet const& singlet_1, boca::Singlet const& singlet_2) const
 {
-  std::vector<fastjet::PseudoJet> constituents;
-    if (singlet_1.Jet().has_user_info() && singlet_1.Jet().user_info<JetInfo>().SubStructure() && singlet_1.Jet().has_constituents()) constituents = singlet_1.Jet().constituents();
+    std::vector<fastjet::PseudoJet> constituents;
+    if (singlet_1.Jet().has_constituents()) constituents = singlet_1.Jet().constituents();
     else constituents.emplace_back(singlet_1.Jet());
-    if (singlet_2.Jet().has_user_info() && singlet_2.Jet().user_info<JetInfo>().SubStructure() && singlet_2.Jet().has_constituents()) constituents = Join(constituents, singlet_2.Jet().constituents());
+    if (singlet_2.Jet().has_constituents()) constituents = Join(constituents, singlet_2.Jet().constituents());
     else constituents.emplace_back(singlet_2.Jet());
     constituents = fastjet::sorted_by_pt(constituents);
     constituents.erase(std::unique(constituents.begin(), constituents.end()), constituents.end());
-    return boca::Jet(fastjet::join(constituents, InfoRecombiner()));
+    return fastjet::join(constituents, InfoRecombiner());
 }
 
 boca::Jet Multiplet::Jet(boca::Jet const& jet_1, boca::Jet const& jet_2) const
 {
-  boca::Jet jet = fastjet::join(jet_1, jet_2, InfoRecombiner());
+    boca::Jet jet = fastjet::join(jet_1, jet_2, InfoRecombiner());
     return jet;
 }
 

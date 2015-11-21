@@ -48,9 +48,7 @@ public:
 
     boca::Mass Mass()const;
 
-    Angle DeltaRTo(PseudoJet const& jet) const {
-      return this->delta_R(jet) * rad;
-    }
+    Angle DeltaRTo(PseudoJet const& jet) const;
 
 };
 
