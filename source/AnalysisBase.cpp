@@ -338,10 +338,10 @@ void AnalysisBase::PrintGeneratorLevel(Event const& event, bool signature) const
     Jets particles = event.Partons().GenParticles();
     for (auto const & particle : particles) {
         Family family = particle.user_info<ParticleInfo>().Family();
-        if (signature && family.mother_2().id() == 0) continue;
-        std::string id = Name(family.particle().id());
-        std::string mother = Name(family.mother_1().id());
-        std::string mother2 = Name(family.mother_2().id());
+        if (signature && family.StepMother().Id() == 0) continue;
+        std::string id = Name(family.Particle().Id());
+        std::string mother = Name(family.Mother().Id());
+        std::string mother2 = Name(family.StepMother().Id());
         Error(id, mother, mother2);
     }
 }

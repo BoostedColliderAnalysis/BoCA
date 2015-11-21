@@ -94,11 +94,11 @@ private:
 //         static int pre_cut=0;
 //         ++pre_cut;
 //         Error(pre_cut);
-//         Particle particle = higgs.front().user_info<JetInfo>().constituents().front().family().particle();
-//         Particle mother1 = higgs.front().user_info<JetInfo>().constituents().front().family().mother_1();
+//         Particle particle = higgs.front().user_info<JetInfo>().constituents().front().family().Particle();
+//         Particle mother1 = higgs.front().user_info<JetInfo>().constituents().front().family().Mother();
 //         Particle mother2 = higgs.front().user_info<JetInfo>().constituents().front().family().mother_2();
-//         Particle grand_mother = higgs.front().user_info<JetInfo>().constituents().front().family().grand_mother();
-// //         Error(particle.id(),mother1.id(),mother2.id(),grand_mother.id());
+//         Particle grand_mother = higgs.front().user_info<JetInfo>().constituents().front().family().GrandMother();
+// //         Error(particle.Id(),mother1.Id(),mother2.Id(),grand_mother.Id());
 //         higgs = RemoveIfSingleMother(higgs);
 //         Error(SingleHiggs(), higgs.size());
 //         return higgs.size();

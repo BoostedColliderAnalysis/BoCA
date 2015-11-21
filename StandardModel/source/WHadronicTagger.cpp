@@ -76,7 +76,7 @@ Jets WHadronicTagger::Particles(Event const& event) const
     Jets quarks = CopyIfMother(CopyIfQuark(particles), Id::W);
     if (quarks.empty()) return {};
     std::vector<int> ids;
-    for (auto const & quark : quarks) ids.emplace_back(quark.user_info<ParticleInfo>().Family().mother_1().id());
+    for (auto const & quark : quarks) ids.emplace_back(quark.user_info<ParticleInfo>().Family().Mother().Id());
     if (boost::range::adjacent_find(ids, std::not_equal_to<int>()) == ids.end()) return CopyIfExactParticle(particles, ids.front());
     else return CopyIfParticle(particles, Id::W);
 }

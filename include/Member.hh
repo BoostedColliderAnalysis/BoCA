@@ -26,24 +26,19 @@ public:
 
     Member(int id);
 
-    //     Member(Id id);
-//
     Member(int id, int position);
 
     Member(LorentzVector const& momentum, int id, int position);
 
     Member(TLorentzVector const& momentum, int id, int position);
 
-    LorentzVector momentum() const;
+    LorentzVector Momentum() const;
 
-    int position() const;
+    int Position() const;
 
-    int id() const;
+    int Id() const;
 
-    void set(int id, int position) {
-        id_ = id;
-        position_ = position;
-    }
+    void Set(int id, int position);
 
 private:
 
@@ -51,7 +46,7 @@ private:
 
     int position_ = EmptyPosition;
 
-    int id_ = int(Id::empty);
+    int id_ = int(boca::Id::empty);
 
 };
 

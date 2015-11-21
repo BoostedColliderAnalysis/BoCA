@@ -38,13 +38,13 @@ Jets VetoTopPartnerHadronicTagger::Particles(Event const& event) const
     Jets quarks = CopyIfQuark(particles);
     Jets candidate = CopyIfGrandGrandMother(quarks, Id::top_partner);
     if (!candidate.empty()) {
-        int grand_grand_mother = candidate.front().user_info<ParticleInfo>().Family().grand_grand_mother().id();
+        int grand_grand_mother = candidate.front().user_info<ParticleInfo>().Family().grand_grand_mother().Id();
         return CopyIfExactParticle(particles, grand_grand_mother);
     } else {
         candidate = CopyIfGrandMother(quarks, Id::top_partner);
         candidate = CopyIfMother(candidate, Id::W);
         if (candidate.empty()) return {};
-        int grand_mother = candidate.front().user_info<ParticleInfo>().Family().grand_mother().id();
+        int grand_mother = candidate.front().user_info<ParticleInfo>().Family().GrandMother().Id();
         return CopyIfExactParticle(particles, grand_mother);
     }
 }

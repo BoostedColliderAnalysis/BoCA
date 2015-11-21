@@ -36,15 +36,15 @@ public:
 
     bool Marker() const;
 
-    Member particle() const;
+    Member Particle() const;
 
-    Member mother_1() const;
+    Member Mother() const;
 
-    Member mother_2() const;
+    Member StepMother() const;
 
-    Member grand_mother() const;
+    Member GrandMother() const;
 
-    Member grand_grand_mother() const;
+    Member GreatGrandMother() const;
 
     float Pt() const;
 
@@ -52,15 +52,15 @@ private:
 
     Member particle_;
 
-    Member mother_1_;
+    Member mother_;
 
-    Member mother_2_;
+    Member step_mother_;
 
     Member grand_mother_;
 
-    Member grand_grand_mother_;
+    Member great_grand_mother_;
 
-    std::vector<int> daughter_ids_;//(2);
+    std::vector<int> daughter_ids_;
 
     float pt_ = 0;
 
@@ -75,8 +75,8 @@ namespace std
 
 template <>
 struct hash<boca::Family> {
-    size_t operator()(const boca::Family& Family) const {
-        return ((std::hash<int>()(Family.particle().id())^ (std::hash<int>()(Family.mother_1().id()) << 1)) >> 1);
+    size_t operator()(boca::Family const& family) const {
+        return ((std::hash<int>()(family.Particle().Id())^ (std::hash<int>()(family.Mother().Id()) << 1)) >> 1);
     }
 };
 

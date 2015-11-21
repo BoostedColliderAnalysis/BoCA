@@ -11,11 +11,7 @@ Member::Member(int id)
 {
     id_ = id;
 }
-// Member::Member(Id id)
-// {
-//     id_ = to_int(id);
-// }
-//
+
 Member::Member(int id, int position)
 {
     id_ = id;
@@ -33,19 +29,25 @@ Member::Member(TLorentzVector const& momentum, int id, int position)
     position_ = position;
     momentum_ = momentum;
 }
-LorentzVector Member::momentum() const
+LorentzVector Member::Momentum() const
 {
     return momentum_;
 }
 
-int Member::position() const
+int Member::Position() const
 {
     return position_;
 }
 
-int Member::id() const
+int Member::Id() const
 {
     return id_;
+}
+
+void Member::Set(int id, int position)
+{
+    id_ = id;
+    position_ = position;
 }
 
 }

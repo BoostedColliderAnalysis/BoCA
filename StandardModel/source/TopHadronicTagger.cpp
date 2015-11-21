@@ -39,7 +39,7 @@ Jets TopHadronicTagger::TopParticles(Event const& event) const
     Jets quarks = CopyIfGrandMother(CopyIfQuark(particles), Id::top);
     if (quarks.empty()) return {};
     std::vector<int> ids;
-    for (auto const & quark : quarks) ids.emplace_back(quark.user_info<ParticleInfo>().Family().grand_mother().id());
+    for (auto const & quark : quarks) ids.emplace_back(quark.user_info<ParticleInfo>().Family().GrandMother().Id());
     if (boost::range::adjacent_find(ids, std::not_equal_to<int>()) == ids.end()) return CopyIfExactParticle(particles, ids.front());
     else return CopyIfParticle(particles, Id::top);
 }

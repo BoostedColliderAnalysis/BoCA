@@ -23,7 +23,7 @@ JetInfoFamily::JetInfoFamily(float bdt)
 void JetInfoFamily::AddDaughter(int)
 {
 //     if (!constituents().empty()) {
-//         Error(constituents().size(), constituents().front().family().particle().id());
+//         Error(constituents().size(), constituents().front().family().Particle().Id());
 //         constituents().front().family().AddDaughter(daughter);
 //         return;
 //     }
@@ -37,7 +37,7 @@ std::unordered_map<Family, float> JetInfoFamily::FamilyFractions()
 
 void JetInfoFamily::AddFamily(Family const& family, float weight)
 {
-    Debug(family.particle().id(), family.mother_1().id(), weight);
+    Debug(family.Particle().Id(), family.Mother().Id(), weight);
     family_fractions_[family] += weight;
 }
 
@@ -81,12 +81,12 @@ void JetInfoFamily::ExtractFraction(int id)
     Info(id);
     ExtractFamilyFraction();
     for (auto const& pair : family_fractions_) {
-        if (pair.first.particle().id() == id || pair.first.mother_1().id() == id)
+        if (pair.first.Particle().Id() == id || pair.first.Mother().Id() == id)
             AddParticle(id, pair.second);
-        else if (pair.first.particle().id() == -id || pair.first.mother_1().id() == -id)
+        else if (pair.first.Particle().Id() == -id || pair.first.Mother().Id() == -id)
             AddParticle(-id, pair.second);
         else
-            AddParticle(pair.first.particle().id(), pair.second);
+            AddParticle(pair.first.Particle().Id(), pair.second);
     }
 }
 
@@ -94,8 +94,8 @@ void JetInfoFamily::ExtractFraction(int id, int mother_id)
 {
     Info(id, mother_id);
     for (auto const& pair : family_fractions_) {
-        if (std::abs(pair.first.particle().id()) == id && std::abs(pair.first.mother_1().id()) == mother_id)
-            AddParticle(pair.first.particle().id(), pair.second);
+        if (std::abs(pair.first.Particle().Id()) == id && std::abs(pair.first.Mother().Id()) == mother_id)
+            AddParticle(pair.first.Particle().Id(), pair.second);
         else
             AddParticle(Id::isr, pair.second);
     }
@@ -106,10 +106,10 @@ void JetInfoFamily::ExtractAbsFraction(int id)
     Info(id);
     ExtractFamilyFraction();
     for (auto const& pair : family_fractions_) {
-        if (std::abs(pair.first.particle().id()) == id || std::abs(pair.first.mother_1().id()) == id)
+        if (std::abs(pair.first.Particle().Id()) == id || std::abs(pair.first.Mother().Id()) == id)
             AddParticle(id, pair.second);
         else
-            AddParticle(pair.first.particle().id(), pair.second);
+            AddParticle(pair.first.Particle().Id(), pair.second);
     }
 }
 
@@ -162,13 +162,13 @@ void JetInfoFamily::PrintAllconstituentInfos(Severity) const
 {
     Debug0;
 //     for (auto const& constituent : constituents())
-//         Print(severity, "Jet Fraction", Name(constituent.family().particle().id()), Name(constituent.family().mother_1().id()), constituent.family().particle().Momentum.Pt(), constituent.family().mother_1().Momentum.Pt());
+//         Print(severity, "Jet Fraction", Name(constituent.family().Particle().Id()), Name(constituent.family().Mother().Id()), constituent.family().Particle().Momentum.Pt(), constituent.family().Mother().Momentum.Pt());
 }
 void JetInfoFamily::PrintAllFamInfos(Severity) const
 {
     Debug0;
 //     for (auto const& family_fraction : family_fractions_)
-//         Print(severity, "Family Fraction", Name(family_fraction.first.particle().id()), Name(family_fraction.first.mother_1().id()), family_fraction.first.particle().Momentum.Pt(), family_fraction.first.mother_1().Momentum.Pt());
+//         Print(severity, "Family Fraction", Name(family_fraction.first.Particle().Id()), Name(family_fraction.first.Mother().Id()), family_fraction.first.Particle().Momentum.Pt(), family_fraction.first.Mother().Momentum.Pt());
 }
 
 

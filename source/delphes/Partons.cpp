@@ -38,20 +38,20 @@ Jets Partons::Particles(Status min_status) const
         Member great_grand_mother;
         if (particle.M1 != EmptyPosition) {
             ::delphes::GenParticle gen_mother = particles.At(particle.M1);
-            mother.set(gen_mother.PID, particle.M1);
+            mother.Set(gen_mother.PID, particle.M1);
             if (gen_mother.M1 != EmptyPosition) {
                 ::delphes::GenParticle gen_grand_mother = particles.At(gen_mother.M1);
-                grand_mother.set(gen_grand_mother.PID, gen_mother.M1);
+                grand_mother.Set(gen_grand_mother.PID, gen_mother.M1);
                 if (gen_grand_mother.M1 != EmptyPosition) {
                     ::delphes::GenParticle& gen_great_grand_mother = particles.At(gen_grand_mother.M1);
-                    great_grand_mother.set(gen_great_grand_mother.PID, gen_grand_mother.M1);
+                    great_grand_mother.Set(gen_great_grand_mother.PID, gen_grand_mother.M1);
                 }
             }
         }
         Member mother_2;
         if (particle.M2 != EmptyPosition) {
             ::delphes::GenParticle& gen_mother2 = particles.At(particle.M2);
-            mother_2.set(gen_mother2.PID, particle.M2);
+            mother_2.Set(gen_mother2.PID, particle.M2);
         }
         Family family(Member(particle.PID, position), mother, mother_2, grand_mother, great_grand_mother);
         fastjet::PseudoJet jet = boca::PseudoJet(particle.P4());
