@@ -105,52 +105,52 @@ public:
     /// vector sum
     template<typename Value2>
     friend Vector2<Value> operator+(Vector2<Value> const& v1, Vector2<Value2> const& v2) {
-      return {v1.X() + v2.X(), v1.Y() + v2.Y()};
+        return {v1.X() + v2.X(), v1.Y() + v2.Y()};
     }
 
     // template<typename Value2>
     friend Vector2 operator+(Vector2 const& v1, Value bias) {
-      return {v1.X() + bias, v1.Y() + bias};
+        return {v1.X() + bias, v1.Y() + bias};
     }
 
     // template<typename Value2>
     friend Vector2 operator+(Value bias, Vector2 const& v1) {
-      return {v1.X() + bias, v1.Y() + bias};
+        return {v1.X() + bias, v1.Y() + bias};
     }
 
     template<typename Value2>
     friend Vector2 operator-(Vector2 const& v1, Vector2<Value2> const& v2) {
-      return {v1.X() - v2.X(), v1.Y() - v2.Y()};
+        return {v1.X() - v2.X(), v1.Y() - v2.Y()};
     }
 
     template<typename Value2>
     friend Vector2 operator-(Vector2 const& v1, Value2 bias) {
-      return {v1.X() - bias, v1.Y() - bias};
+        return {v1.X() - bias, v1.Y() - bias};
     }
 
     template<typename Value2>
     friend Value operator*(Vector2<Value> const& v1, Vector2<Value2> const& v2) {
-      return v1.X() * v2.X() + v1.Y() * v2.Y();
+        return v1.X() * v2.X() + v1.Y() * v2.Y();
     }
 
     // template<typename Value2>
     friend Vector2 operator*(Value s, Vector2 const& v) {
-      return {v.X() * s, v.Y() * s};
+        return {v.X()* s, v.Y()* s};
     }
 
     // template<typename Value2>
     friend Vector2 operator*(Vector2 const& v, Value s) {
-      return {v.X() * s, v.Y() * s};
+        return {v.X()* s, v.Y()* s};
     }
 
     template<typename Value2>
     friend Vector2 operator/(Vector2 const& v, Value2 s) {
-      return {v.X() / s, v.Y() / s};
+        return {v.X() / s, v.Y() / s};
     }
 
     template<typename Value2>
     friend Value operator^(Vector2 const& v1, Vector2<Value2> const& v2) {
-      return v1.X() * v2.Y() - v1.Y() * v2.X();
+        return v1.X() * v2.Y() - v1.Y() * v2.X();
     }
 
 
