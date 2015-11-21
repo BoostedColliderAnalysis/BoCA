@@ -51,8 +51,8 @@ class AnalysisStandardModel : public Analysis<Tagger>
 protected:
 
     Momentum LowerPtCut() const {
-        return 500. * GeV;
         return 1000. * GeV;
+        return 500. * GeV;
         return 350. * GeV;
         return 700. * GeV;
         return 800. * GeV;

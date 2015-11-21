@@ -8,15 +8,16 @@
 #include "JetInfo.hh"
 #include "Vector.hh"
 #include "Math.hh"
+#include "Units.hh"
 #include "Debug.hh"
 
 namespace boca
 {
 
-Vector2 Multiplet::Pull() const
+Vector2<float> Multiplet::Pull() const
 {
     Error("do not end up here");
-    return Vector2();
+    return {};
 }
 
 boca::Singlet Multiplet::Singlet(boca::Singlet const& singlet_1, boca::Singlet const& singlet_2) const
@@ -88,8 +89,8 @@ float Multiplet::Rho(MultipletBase const& jet_1, MultipletBase const& jet_2, fas
 
 Angle Multiplet::Pull(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const
 {
-    Vector2 pull = multiplets_1.singlet().Pull();
-    Vector2 ref = multiplets_1.Reference(multiplets_2.Jet());
+    Vector2<float> pull = multiplets_1.singlet().Pull();
+    Vector2<double> ref = multiplets_1.Reference(multiplets_2.Jet());
     float pul_mag = pull.Mod();
     float ref_mag = ref.Mod();
     if (pul_mag == 0 || ref_mag == 0) return M_PI * rad;
@@ -113,35 +114,35 @@ float Multiplet::Dipolarity(MultipletBase const& multiplets_1, MultipletBase con
 {
     if (singlet.Pt() == at_rest) return 0;
     if (!singlet.Jet().has_constituents()) return 0;
-    Vector2 point_1(multiplets_1.Jet().rap(), multiplets_1.Jet().phi_std());
-    Vector2 point_2 = Point2(point_1, multiplets_2);
-    Line2 line(point_1, point_2);
+    Vector2<float> point_1(multiplets_1.Jet().rap(), multiplets_1.Jet().phi_std());
+    Vector2<float> point_2 = Point2(point_1, multiplets_2);
+    Line2<float> line(point_1, point_2);
     float dipolarity = 0;
-    for (auto const & constituent : singlet.Jet().constituents()) dipolarity += constituent.pt() * sqr(Distance(line, constituent) / rad);
-    Angle delta_r = DeltaR(multiplets_1, multiplets_2);
-    if (delta_r == 0. * rad) return dipolarity / singlet.Jet().pt();
-    return dipolarity / singlet.Jet().pt() / sqr(delta_r / rad);
+    for (auto const & constituent : singlet.Jet().constituents()) dipolarity += constituent.pt() * sqr(Distance(line, constituent));
+    double delta_r = DeltaR(multiplets_1, multiplets_2) / rad;
+    if (delta_r == 0.1) return dipolarity / singlet.Jet().pt();
+    return dipolarity / singlet.Jet().pt() / sqr(delta_r);
 }
 
-Vector2 Multiplet::Point2(Vector2 const& point_1, MultipletBase const& multiplets_2)const
+Vector2<float> Multiplet::Point2(Vector2<float> const& point_1, MultipletBase const& multiplets_2)const
 {
     double phi = multiplets_2.Jet().phi_std();
-    Vector2 point_2(multiplets_2.Jet().rap(), phi);
-    float distance_1 = (point_1 - point_2).Mod();
+    Vector2<float> point_2(multiplets_2.Jet().rap(), phi);
+    float distance_1 = (point_1 - point_2).Mod2();
     phi -= sgn(phi) * 2. * M_PI;
-    Vector2 point_3(multiplets_2.Jet().rap(), phi);
-    float distance_2 = (point_1 - point_3).Mod();
+    Vector2<float> point_3(multiplets_2.Jet().rap(), phi);
+    float distance_2 = (point_1 - point_3).Mod2();
     if (distance_2 < distance_1) return point_3;
     return point_2;
 }
 
-Angle Multiplet::Distance(Line2 const& line, fastjet::PseudoJet const& constituent) const
+float Multiplet::Distance(Line2<float> const& line, fastjet::PseudoJet const& constituent) const
 {
     float phi = constituent.phi_std();
-    double distance_1 = line.DistanceToSegment(Vector2(constituent.rap(), phi));
+    float distance_1 = line.DistanceToSegment(Vector2<float>(constituent.rap(), phi));
     phi -= sgn(phi) * 2. * M_PI;
-    double distance_2 = line.DistanceToSegment(Vector2(constituent.rap(), phi));
-    return std::min(distance_1, distance_2) * rad;
+    float distance_2 = line.DistanceToSegment(Vector2<float>(constituent.rap(), phi));
+    return std::min(distance_1, distance_2);
 }
 
 int Multiplet::Charge(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const

@@ -117,7 +117,7 @@ float LorentzVector::Et(Vector3 const& v) const
 float LorentzVector::DeltaR(LorentzVector const& v) const
 {
     float deta = Eta() - v.Eta();
-    float dphi = Vector2::Phi_mpi_pi(Phi() - v.Phi());
+    float dphi = Phi_mpi_pi(Phi() - v.Phi());
     return std::sqrt(deta * deta + dphi * dphi);
 }
 float LorentzVector::Mag() const
@@ -371,7 +371,7 @@ float LorentzVector::Et2() const
 
 float LorentzVector::DeltaPhi(LorentzVector const& v) const
 {
-    return Vector2::Phi_mpi_pi(Phi() - v.Phi());
+    return Phi_mpi_pi(Phi() - v.Phi());
 }
 
 float LorentzVector::Eta() const
@@ -384,7 +384,7 @@ float LorentzVector::DrEtaPhi(LorentzVector const& v) const
     return DeltaR(v);
 }
 
-// Vector2 LorentzVector::EtaPhiVector()
+// Vector2<float> LorentzVector::EtaPhiVector()
 // {
 //     return Vector2(Eta(), Phi());
 // }

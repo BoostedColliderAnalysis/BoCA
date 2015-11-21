@@ -163,7 +163,7 @@ public:
     float DeltaPhi(const LorentzVector&) const;
     float DeltaR(const LorentzVector&) const;
     float DrEtaPhi(const LorentzVector&) const;
-//     Vector2 EtaPhiVector();
+//     Vector2<float> EtaPhiVector();
 
 // Angle wrt. another vector.
     float Angle(Vector3 const& v) const;

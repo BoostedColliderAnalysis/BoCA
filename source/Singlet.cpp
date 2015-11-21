@@ -80,7 +80,7 @@ int Singlet::Charge() const
     return sgn(UserInfo().Charge());
 }
 
-Vector2 Singlet::Pull() const
+Vector2<float> Singlet::Pull() const
 {
     if (has_pull_) return pull_;
     if(!jet_.has_constituents()) return {};

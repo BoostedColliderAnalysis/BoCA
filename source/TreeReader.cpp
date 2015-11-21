@@ -3,7 +3,7 @@
 #include "exroot/ExRootAnalysis.hh"
 
 #include "TreeReader.hh"
-// #define INFORMATION
+#define INFORMATION
 #include "Debug.hh"
 
 namespace boca
@@ -11,7 +11,7 @@ namespace boca
 
 std::string BranchName(Branch branch)
 {
-    Info0;
+    Debug0;
     switch (branch) {
     case Branch::particle : return "Particle";
     case Branch::photon : return "Photon";
@@ -46,7 +46,7 @@ TreeReader::TreeReader(TChain& chain)
 
 TreeReader::TreeReader(Strings const& paths, std::string const& tree_name)
 {
-  Info0;
+  Info(tree_name, paths.front());
   source_ = Source::delphes;
   for (auto const & path : paths) chain_2_.AddFile(path.c_str(), TChain::kBigNumber, tree_name.c_str());
   NewElements();
@@ -66,6 +66,8 @@ bool TreeReader::ReadEntry(long number)
     Info(number);
     std::lock_guard<std::mutex> guard(mutex_);
     bool valid = tree_reader_.SetEntry(number) == TTreeReader::kEntryValid;
+    Check(valid, "not a valid entry", number);
+    if(!valid) return valid;
     for (auto & pair : map_) pair.second->Fill();
     return valid;
 }
@@ -107,7 +109,7 @@ void TreeReader::NewElements()
 
 bool TreeReader::Has(Branch branch) const
 {
-    Info0;
+    Info(BranchName(branch));
     return map_.find(branch) != map_.end();
 }
 

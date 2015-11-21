@@ -5,11 +5,10 @@
 
 #include "MultipletBase.hh"
 #include "Singlet.hh"
+#include "Line2.hh"
 
 namespace boca
 {
-
-class Line2;
 
 class Multiplet : public MultipletBase
 {
@@ -51,7 +50,7 @@ protected:
 
     fastjet::PseudoJet Jet(fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2) const;
 
-    Vector2 Pull() const override;
+    Vector2<float> Pull() const override;
 
     Momentum DeltaPt(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
@@ -103,9 +102,9 @@ private:
 
     Angle Pull(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
-    Vector2 Point2(Vector2 const& point_1, MultipletBase const& multiplets_2) const;
+    Vector2<float> Point2(Vector2<float> const& point_1, MultipletBase const& multiplets_2) const;
 
-    Angle Distance(Line2 const& line, fastjet::PseudoJet const& constituent) const;
+    float Distance(Line2<float> const& line, fastjet::PseudoJet const& constituent) const;
 
 };
 

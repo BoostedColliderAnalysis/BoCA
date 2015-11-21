@@ -110,7 +110,7 @@ public:
     float DeltaPhi(Vector3 const&) const;
     float DeltaR(Vector3 const&) const;
     float DrEtaPhi(Vector3 const&) const;
-//     Vector2 EtaPhiVector() const;
+//     Vector2<float> EtaPhiVector() const;
     void SetMagThetaPhi(float mag, float theta, float phi);
 
 // Comparisons (Geant4).
@@ -161,7 +161,7 @@ public:
 // Rotates reference frame from Uz to newUz (unit vector) (Geant4).
     void RotateUz(Vector3 const&);
 
-//     Vector2 XYvector() const;
+//     Vector2<float> XYvector() const;
 
 private:
 

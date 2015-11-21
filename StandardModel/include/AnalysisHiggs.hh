@@ -34,26 +34,26 @@ public:
 private:
 
     std::string AnalysisName() const final {
-        return Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-pull";
+        return Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-dipolarity";
     }
 
     void SetFiles(Tag tag, Stage) final {
         switch (tag) {
         case Tag::signal :
             this->NewFile(tag, Process::hh_bb);
+            if (this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_had);
             if (this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::bb);
             if (this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_lep);
-            if (this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_had);
             break;
         case Tag::background :
-            this->NewFile(tag, Process::zz);
             if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_had);
-            this->NewFile(tag, Process::gg);
             if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::bb);
+            if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_lep);
+            this->NewFile(tag, Process::zz);
+            this->NewFile(tag, Process::gg);
             this->NewFile(tag, Process::cc);
             this->NewFile(tag, Process::qq);
             this->NewFile(tag, Process::ww);
-            if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_lep);
             break;
         }
     }

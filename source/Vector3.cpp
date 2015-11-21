@@ -220,7 +220,7 @@ float Vector3::DeltaR(Vector3 const& v) const
 {
 //return deltaR with respect to v
     float deta = Eta() - v.Eta();
-    float dphi = Vector2::Phi_mpi_pi(Phi() - v.Phi());
+    float dphi = Phi_mpi_pi(Phi() - v.Phi());
     return std::sqrt(deta * deta + dphi * dphi);
 }
 
@@ -461,7 +461,7 @@ void Vector3::SetPerp(float r)
 
 float Vector3::DeltaPhi(Vector3 const& v) const
 {
-    return Vector2::Phi_mpi_pi(Phi() - v.Phi());
+    return Phi_mpi_pi(Phi() - v.Phi());
 }
 
 float Vector3::Eta() const
@@ -474,12 +474,12 @@ float Vector3::DrEtaPhi(Vector3 const& v) const
     return DeltaR(v);
 }
 
-// Vector2 Vector3::EtaPhiVector() const
+// Vector2<float> Vector3::EtaPhiVector() const
 // {
 //     return Vector2(Eta(), Phi());
 // }
 //
-// Vector2 Vector3::XYvector() const
+// Vector2<float> Vector3::XYvector() const
 // {
 //     return Vector2(x_, y_);
 // }

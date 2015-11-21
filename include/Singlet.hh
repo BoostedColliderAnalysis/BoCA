@@ -136,7 +136,7 @@ public:
 
     JetInfo const& UserInfo() const;
 
-    Vector2 Pull() const;
+    Vector2<float> Pull() const;
 
     fastjet::PseudoJet& Jet() {
         return jet_;
@@ -164,7 +164,7 @@ private:
 
     // save expensive results in mutable member variables
 
-    mutable Vector2 pull_;
+    mutable Vector2<float> pull_;
 
     mutable bool has_pull_ = false;
 

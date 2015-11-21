@@ -258,11 +258,7 @@ public:
 
     void SetVetoBdt(float bdt) {
         veto_bdt_ = bdt;
-        SetBdt(
-            (multiplet_1_.Bdt() + multiplet_2_.Bdt() + multiplet_2_.Bdt()
-             - VetoBdt()
-            ) / 4
-        );
+//         SetBdt((multiplet_1_.Bdt() + multiplet_2_.Bdt() + multiplet_3_.Bdt() - VetoBdt()) / 4);
     }
 
     float VetoBdt() const {
