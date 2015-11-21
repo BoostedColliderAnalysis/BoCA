@@ -5,21 +5,22 @@
 
 #include <vector>
 
-namespace fastjet{
-  class PseudoJet;
-  class JetDefinition;
+namespace fastjet
+{
+class JetDefinition;
 }
 
+namespace boca
+{
 
-namespace boca {
-
-typedef std::vector<fastjet::PseudoJet> Jets;
+class Jet;
 
 /**
  * @brief FastJet calculations
  *
  */
-class Reconstruction {
+class Reconstruction
+{
 
 public:
 
@@ -31,38 +32,38 @@ protected:
      * @brief Get vecto of all fatjets
      *
      */
-    Jets GetFatJets(const Jets&) const;
+    std::vector<Jet> GetFatJets(std::vector<Jet> const&) const;
 
     /**
      * @brief Get vecto of all fatjets
      *
      */
-    Jets GetFatJets(const Jets&, const fastjet::JetDefinition&) const;
+    std::vector<Jet> GetFatJets(std::vector<Jet> const&, const fastjet::JetDefinition&) const;
 
-    Jets GetMassDropJets(const Jets&) const;
+    std::vector<Jet> GetMassDropJets(std::vector<Jet> const&) const;
 
     /**
      * @brief Get mass drop jet
      *
      */
-    fastjet::PseudoJet GetMassDropJet(fastjet::PseudoJet const&) const;
+    Jet GetMassDropJet(Jet const&) const;
 
-    fastjet::PseudoJet GetMassDropJet(fastjet::PseudoJet const&, const float, const float) const;
+    Jet GetMassDropJet(Jet const&, const float, const float) const;
 
 
-    Jets GetSubjet_taggedJets(Jets const& FatJets) const;
+    std::vector<Jet> GetSubjet_taggedJets(std::vector<Jet> const& FatJets) const;
 
-    fastjet::PseudoJet GetSubjet_taggedJet(fastjet::PseudoJet const& FatJet) const;
+    Jet GetSubjet_taggedJet(Jet const& FatJet) const;
 
     /**
      * @brief Filter Jets
      *
      */
-    fastjet::PseudoJet GetFilteredJet(fastjet::PseudoJet const&);
+    Jet GetFilteredJet(Jet const&);
 
-    static bool JetIsBad(fastjet::PseudoJet const& Jet);
+    static bool JetIsBad(Jet const& Jet);
 
-    Jets GetFatjet_tag(Jets&);
+    std::vector<Jet> GetFatjet_tag(std::vector<Jet> &);
 
 };
 

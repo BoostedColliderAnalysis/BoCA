@@ -7,17 +7,18 @@
 #include "fastjet/tools/CASubJetTagger.hh"
 #include "fastjet/ClusterSequence.hh"
 #include "JetInfo.hh"
+#include "Jet.hh"
 #include "Debug.hh"
 
 namespace boca {
 
 void Reconstruction::NewEvent()
 {
-    Info("New event");
+    INFO("New event");
 //     FatJetVector.clear();
 }
 
-Jets Reconstruction::GetFatJets(Jets const& EFlowJets) const
+std::vector<Jet> Reconstruction::GetFatJets(std::vector<Jet> const& EFlowJets) const
 {
     // FatJetCylinderDistanceMax = Jing: 1.4; fastjet: 1.2; paper: 1.2
     float DeltaR = 1.2;
@@ -26,29 +27,28 @@ Jets Reconstruction::GetFatJets(Jets const& EFlowJets) const
     return GetFatJets(EFlowJets, FatJetDefinition);
 }
 
-Jets Reconstruction::GetFatJets(Jets const& EFlowJets, const fastjet::JetDefinition& FatJetDefinition) const
+std::vector<Jet> Reconstruction::GetFatJets(std::vector<Jet> const& EFlowJets, const fastjet::JetDefinition& FatJetDefinition) const
 {
-    Info("Fat Jet Vector", FatJetDefinition.R());
+    INFO("Fat Jet Vector", FatJetDefinition.R());
     auto const FatJetClusterSequence = new fastjet::ClusterSequence(EFlowJets, FatJetDefinition);
     // FatJetPtMin = Jing: 40; fastjet: 0
     float FatJetPtMin = 0;
-    const Jets FatJets = FatJetClusterSequence->inclusive_jets(FatJetPtMin);
+    const std::vector<Jet>FatJets= JetVector(FatJetClusterSequence->inclusive_jets(FatJetPtMin));
     if (FatJets.empty()) delete FatJetClusterSequence;
     else FatJetClusterSequence->delete_self_when_unused();
     return FatJets;
 }
 
 
-Jets Reconstruction::GetMassDropJets(Jets const& FatJets) const
+std::vector<Jet> Reconstruction::GetMassDropJets(std::vector<Jet> const& FatJets) const
 {
-    Info("Mass Drop Jets", FatJets.size());
-    Jets MassDropJets;
-    for (auto& FatJet : FatJets)
-        MassDropJets.emplace_back(GetMassDropJet(FatJet));
+    INFO("Mass Drop Jets", FatJets.size());
+   std::vector<Jet>MassDropJets;
+    for (auto& FatJet : FatJets) MassDropJets.emplace_back(GetMassDropJet(FatJet));
     return MassDropJets;
 }
 
-fastjet::PseudoJet Reconstruction::GetMassDropJet(fastjet::PseudoJet const& FatJet) const
+Jet Reconstruction::GetMassDropJet(Jet const& FatJet) const
 {
 //     Debug("Mass Drop Jet");
     //     MassDropMin = Jing: 0.667; fastjet: 0.67; Paper: 0.67
@@ -60,39 +60,39 @@ fastjet::PseudoJet Reconstruction::GetMassDropJet(fastjet::PseudoJet const& FatJ
 
 
 
-fastjet::PseudoJet Reconstruction::GetMassDropJet(fastjet::PseudoJet const& FatJet, float MassDropMin, float AsymmetryCut) const
+Jet Reconstruction::GetMassDropJet(Jet const& FatJet, float MassDropMin, float AsymmetryCut) const
 {
     Debug("Mass Drop Jet");
     const fastjet::MassDropTagger FatJetMassDroppTagger(MassDropMin, AsymmetryCut);
-    const fastjet::PseudoJet MassDropJet = FatJetMassDroppTagger(FatJet);
+    const Jet MassDropJet = FatJetMassDroppTagger(FatJet);
     return MassDropJet;
 }
 
 
 
 
-Jets Reconstruction::GetSubjet_taggedJets(Jets const& FatJets) const
+std::vector<Jet> Reconstruction::GetSubjet_taggedJets(std::vector<Jet> const& FatJets) const
 {
-    Info("Sub Jet Tagged Jets", FatJets.size());
-    Jets Subjet_taggedJets;
+    INFO("Sub Jet Tagged Jets", FatJets.size());
+   std::vector<Jet>Subjet_taggedJets;
     for (auto& FatJet : FatJets)
         Subjet_taggedJets.emplace_back(GetSubjet_taggedJet(FatJet));
     return Subjet_taggedJets;
 }
 
-fastjet::PseudoJet Reconstruction::GetSubjet_taggedJet(fastjet::PseudoJet const& FatJet) const
+Jet Reconstruction::GetSubjet_taggedJet(Jet const& FatJet) const
 {
     Debug("Mass Drop Jet");
     const fastjet::CASubJetTagger Subjet_tagger;
-    const fastjet::PseudoJet MassDropJet = Subjet_tagger.result(FatJet);
+    const Jet MassDropJet = Subjet_tagger.result(FatJet);
     return MassDropJet;
 }
 
 
-bool Reconstruction::JetIsBad(fastjet::PseudoJet const& Jet)
+bool Reconstruction::JetIsBad(Jet const& Jet)
 {
     if (std::abs(Jet.m()) <= 40) {
-        Info("Fat Jet Mass", Jet.m());
+        INFO("Fat Jet Mass", Jet.m());
         return 1;
     }
     if (Jet.pieces().size() != 2) {
@@ -100,7 +100,7 @@ bool Reconstruction::JetIsBad(fastjet::PseudoJet const& Jet)
         return 1;
     }
     if (!Jet.has_structure()) {
-        Note("fastjet::PseudoJet has no structure");
+        Note("Jet has no structure");
         return 1;
     }
     return 0;
@@ -108,9 +108,9 @@ bool Reconstruction::JetIsBad(fastjet::PseudoJet const& Jet)
 
 
 
-Jets Reconstruction::GetFatjet_tag(Jets& FatJets)
+std::vector<Jet> Reconstruction::GetFatjet_tag(std::vector<Jet>& FatJets)
 {
-    Info("Fat Jet Tag", FatJets.size());
+    INFO("Fat Jet Tag", FatJets.size());
     for (auto& FatJet : FatJets) {
         JetInfo jet_info;
         for (auto const& constituent : FatJet.constituents()) {

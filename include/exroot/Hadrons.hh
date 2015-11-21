@@ -23,7 +23,7 @@ class Hadrons : public boca::Hadrons
 {
 
 public:
-    boca::Jets Jets() const final;
+    std::vector<Jet> Jets() const final;
 
     /**
      * @brief AnalyseJet calls AnalyseEFlow

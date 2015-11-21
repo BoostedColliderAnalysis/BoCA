@@ -22,19 +22,19 @@ Vector2<float> Multiplet::Pull() const
 
 boca::Singlet Multiplet::Singlet(boca::Singlet const& singlet_1, boca::Singlet const& singlet_2) const
 {
-    boca::Jets constituents;
+  std::vector<fastjet::PseudoJet> constituents;
     if (singlet_1.Jet().has_user_info() && singlet_1.Jet().user_info<JetInfo>().SubStructure() && singlet_1.Jet().has_constituents()) constituents = singlet_1.Jet().constituents();
     else constituents.emplace_back(singlet_1.Jet());
     if (singlet_2.Jet().has_user_info() && singlet_2.Jet().user_info<JetInfo>().SubStructure() && singlet_2.Jet().has_constituents()) constituents = Join(constituents, singlet_2.Jet().constituents());
     else constituents.emplace_back(singlet_2.Jet());
     constituents = fastjet::sorted_by_pt(constituents);
     constituents.erase(std::unique(constituents.begin(), constituents.end()), constituents.end());
-    return fastjet::join(constituents, InfoRecombiner());
+    return boca::Jet(fastjet::join(constituents, InfoRecombiner()));
 }
 
-fastjet::PseudoJet Multiplet::Jet(fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2) const
+boca::Jet Multiplet::Jet(boca::Jet const& jet_1, boca::Jet const& jet_2) const
 {
-    fastjet::PseudoJet jet = fastjet::join(jet_1, jet_2, InfoRecombiner());
+  boca::Jet jet = fastjet::join(jet_1, jet_2, InfoRecombiner());
     return jet;
 }
 
@@ -80,7 +80,7 @@ float Multiplet::DeltaHt(MultipletBase const& multiplets_1, MultipletBase const&
     return multiplets_1.Ht() - multiplets_2.Ht();
 }
 
-float Multiplet::Rho(MultipletBase const& jet_1, MultipletBase const& jet_2, fastjet::PseudoJet const& jet) const
+float Multiplet::Rho(MultipletBase const& jet_1, MultipletBase const& jet_2, boca::Jet const& jet) const
 {
     Angle delta_r = DeltaR(jet_1, jet_2);
     if (jet.pt() * GeV < DetectorGeometry::MinCellPt() || delta_r < DetectorGeometry::MinCellResolution()) return 0;
@@ -136,7 +136,7 @@ Vector2<float> Multiplet::Point2(Vector2<float> const& point_1, MultipletBase co
     return point_2;
 }
 
-float Multiplet::Distance(Line2<float> const& line, fastjet::PseudoJet const& constituent) const
+float Multiplet::Distance(Line2<float> const& line, boca::Jet const& constituent) const
 {
     float phi = constituent.phi_std();
     float distance_1 = line.DistanceToSegment(Vector2<float>(constituent.rap(), phi));
@@ -161,7 +161,7 @@ void Multiplet::SetSinglet(boca::Singlet const& singlet) const
     has_singlet_ = true;
 }
 
-void Multiplet::SetPlainJet(fastjet::PseudoJet const& jet) const
+void Multiplet::SetPlainJet(boca::Jet const& jet) const
 {
     jet_ = jet;
     has_jet_ = true;

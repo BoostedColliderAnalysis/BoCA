@@ -26,12 +26,12 @@ void Tagger::Initialize()
     Info0;
     ClearTreeNames();
     DefineVariables();
-    Info("done");
+    INFO("done");
 }
 
 Observable Tagger::NewObservable(float& value, std::string const& title) const
 {
-    Info(title);
+    INFO(title);
     std::string expression = BranchName(Stage::trainer) + "." + title;
     return Observable(value, expression, title, "");
 }
@@ -43,13 +43,13 @@ float Tagger::Bdt(TMVA::Reader const& reader) const
     return const_cast<TMVA::Reader&>(reader).EvaluateMVA(MethodName(TMVA::Types::EMVA::kBDT));  // TODO get rid of the const cast
 }
 
-Jets Tagger::SubJets(fastjet::PseudoJet const& jet, int sub_jet_number) const
+std::vector<Jet> Tagger::SubJets(Jet const& jet, int sub_jet_number) const
 {
     Info0;
     if (!jet.has_pieces()) return {};
     if (!jet.has_user_info<JetInfo>()) return {};
     fastjet::ClusterSequence& cluster_sequence = *new fastjet::ClusterSequence(jet.constituents(), DetectorGeometry::SubJetDefinition());
-    Jets pieces = cluster_sequence.exclusive_jets_up_to(sub_jet_number);
+   std::vector<Jet> pieces = JetVector(cluster_sequence.exclusive_jets_up_to(sub_jet_number));
     if (pieces.empty()) {
         delete &cluster_sequence;
         return pieces;
@@ -126,7 +126,7 @@ std::string Tagger::ReaderName() const
 }
 std::string Tagger::ReaderName(std::string const& name) const
 {
-    Info(name);
+    INFO(name);
     return name + "Reader";
 }
 std::string Tagger::Name(Stage stage) const
@@ -224,7 +224,7 @@ TCut Tagger::Cut() const
 
 void Tagger::SetAnalysisName(std::string const& analysis_name)
 {
-    Info(analysis_name);
+    INFO(analysis_name);
     analysis_name_ = analysis_name;
 }
 
@@ -285,18 +285,18 @@ std::string Tagger::BackgroundName(std::string const& name) const
 }
 void Tagger::NewBranch(exroot::TreeWriter& tree_writer, Stage stage)
 {
-    Info(Name(stage));
+    INFO(Name(stage));
     tree_branch_ = tree_writer.NewBranch(Name(stage).c_str(), &Class());
 }
 
 void Tagger::AddVariable(float& value, std::string const& title)
 {
-    Info(value, title);
+    INFO(value, title);
     variables_.emplace_back(NewObservable(value, title));
 }
 void Tagger::AddSpectator(float& value, std::string const& title)
 {
-    Info(value, title);
+    INFO(value, title);
     spectators_.emplace_back(NewObservable(value, title));
 }
 void Tagger::ClearObservables()
@@ -314,7 +314,7 @@ exroot::TreeBranch& Tagger::TreeBranch() const
 
 std::string Name(Stage stage)
 {
-    Info(Name(stage));
+    INFO(Name(stage));
     switch (stage) {
     case Stage::trainer : return "Trainer";
     case Stage::reader : return "Reader";

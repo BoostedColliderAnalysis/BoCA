@@ -2,67 +2,68 @@
  * Copyright (C) 2015 Jan Hajer
  */
 #pragma once
+// #include <vector>
 #include <boost/range/algorithm_ext/erase.hpp>
 #include <boost/range/algorithm/min_element.hpp>
 #include <boost/range/algorithm/find.hpp>
 
 #include "Particles.hh"
+#include "Particle.hh"
+#include "Jet.hh"
 #include "DetectorGeometry.hh"
 
 namespace boca
 {
 
-typedef std::vector<fastjet::PseudoJet> Jets;
+  std::vector<Particle> CopyIfParticle(std::vector<Particle> const& jets, Id id);
 
-Jets CopyIfParticle(Jets const& jets, Id id);
+  std::vector<Particle> CopyIfParticles(std::vector<Particle> const& jets, Id id_1, Id id_2);
 
-Jets CopyIfParticles(Jets const& jets, Id id_1, Id id_2);
+  std::vector<Particle> CopyIfParticles(std::vector<Particle> const& jets, std::vector<Id> ids);
 
-Jets CopyIfParticles(Jets const& jets, std::vector<Id> ids);
+  std::vector<Particle> CopyIfNeutrino(std::vector<Particle> const& jets);
 
-Jets CopyIfNeutrino(Jets const& jets);
+  std::vector<Particle> CopyIfLepton(std::vector<Particle> const& jets);
 
-Jets CopyIfLepton(Jets const& jets);
+  std::vector<Particle> CopyIfExactParticle(std::vector<Particle> const& jets, int id);
 
-Jets CopyIfExactParticle(Jets const& jets, int id);
+  std::vector<Particle> RemoveIfExactParticle(std::vector<Particle> jets, int id);
 
-Jets RemoveIfExactParticle(Jets jets, int id);
+  std::vector<Jet> RemoveIfOutsidePtWindow(std::vector<Jet> jets, Momentum lower_cut, Momentum upper_cut);
 
-Jets RemoveIfOutsidePtWindow(Jets jets, Momentum lower_cut, Momentum upper_cut);
-
-Jets CopyIfFamily(Jets const& jets, Id id, Id mother_id);
+  std::vector<Particle> CopyIfFamily(std::vector<Particle> const& jets, Id id, Id mother_id);
 
 /**
  * @brief returns only particles with the correct id and non fitting grand mother id
  *
  */
-Jets RemoveIfGrandFamily(Jets jets, Id id, Id grand_mother_id);
+std::vector<Particle> RemoveIfGrandFamily(std::vector<Particle> jets, Id id, Id grand_mother_id);
 
-Jets CopyIfParticle(Jets const& jets, Id id);
+std::vector<Particle> CopyIfParticle(std::vector<Particle> const& jets, Id id);
 
-Jets RemoveIfParticle(Jets jets, Id id);
+std::vector<Particle> RemoveIfParticle(std::vector<Particle> jets, Id id);
 
-Jets CopyIfMother(Jets const& jets, Id mother_id);
+std::vector<Particle> CopyIfMother(std::vector<Particle> const& jets, Id mother_id);
 
-Jets CopyIfGrandMother(Jets const& jets, Id grand_mother_id);
+std::vector<Particle> CopyIfGrandMother(std::vector<Particle> const& jets, Id grand_mother_id);
 
-Jets CopyIfGrandGrandMother(Jets const& jets, Id grand_grand_mother_id);
+std::vector<Particle> CopyIfGrandGrandMother(std::vector<Particle> const& jets, Id grand_grand_mother_id);
 
-Jets RemoveIfMother(const Jets jets, Id mother_id);
+std::vector<Particle> RemoveIfMother(std::vector<Particle> jets, Id mother_id);
 
-Jets RemoveIfSingleMother(Jets jets);
+std::vector<Particle> RemoveIfSingleMother(std::vector<Particle> jets);
 
-Jets RemoveIfLetpon(Jets jets);
+std::vector<Particle> RemoveIfLetpon(std::vector<Particle> jets);
 
-Jets RemoveIfQuark(Jets jets);
+std::vector<Particle> RemoveIfQuark(std::vector<Particle> jets);
 
-Jets CopyIfQuark(Jets const& jets);
+std::vector<Particle> CopyIfQuark(std::vector<Particle> const& jets);
 
-Jets CopyIf5Quark(Jets const& jets);
+std::vector<Particle> CopyIf5Quark(std::vector<Particle> const& jets);
 
-Jets CopyIfDaughter(Jets const& particles, Jets const& daughters);
+std::vector<Particle> CopyIfDaughter(std::vector<Particle> const& particles,std::vector<Particle> const& daughters);
 
-Jets CopyIfGrandDaughter(Jets const& particles, Jets const& daughters);
+std::vector<Particle> CopyIfGrandDaughter(std::vector<Particle> const& particles,std::vector<Particle> const& daughters);
 
 template<typename Multiplet>
 std::vector<Multiplet> RemoveIfSoft(std::vector<Multiplet> multiplets, Momentum pt_min)
@@ -80,35 +81,37 @@ std::vector<Multiplet> RemoveIfHard(std::vector<Multiplet> multiplets, Momentum 
     });
 }
 
-Jets RemoveIfSoft(Jets jets, Momentum pt_min);
+std::vector<Particle> RemoveIfSoft(std::vector<Particle> jets, Momentum pt_min);
 
-Jets RemoveIfHard(Jets jets, Momentum pt_max);
+std::vector<Particle> RemoveIfHard(std::vector<Particle> jets, Momentum pt_max);
 
 struct Close {
-    Close(fastjet::PseudoJet const& particle) {
-        particle_ = particle;
-    }
+    Close(Particle const& particle) : particle_(particle){}
     template <typename Multiplet>
     bool operator()(Multiplet const& multiplet) {
         return multiplet.DeltaRTo(particle_) < detector_geometry_.JetConeSize();
     }
-    bool operator()(fastjet::PseudoJet const& jet) {
+    bool operator()(Jet const& jet) {
 //       std::cout<< jet.delta_R(particle_) * rad << std::endl;
         return jet.delta_R(particle_) * rad < detector_geometry_.JetConeSize();
     }
-    fastjet::PseudoJet particle_;
+    bool operator()(Particle const& jet) {
+      //       std::cout<< jet.delta_R(particle_) * rad << std::endl;
+      return jet.delta_R(particle_) * rad < detector_geometry_.JetConeSize();
+    }
+    Particle particle_;
     DetectorGeometry detector_geometry_;
 };
 
 template <typename Multiplet>
-std::vector<Multiplet> RemoveIfClose(std::vector<Multiplet> jets, Jets const& particles)
+std::vector<Multiplet> RemoveIfClose(std::vector<Multiplet> jets,std::vector<Particle> const& particles)
 {
     for (auto const & particle : particles) jets.erase(std::remove_if(jets.begin(), jets.end(), Close(particle)), jets.end());
     return jets;
 }
 
 template <typename Multiplet>
-std::vector<Multiplet> CopyIfClose(std::vector<Multiplet> const& multiplets, Jets const& particles)
+std::vector<Multiplet> CopyIfClose(std::vector<Multiplet> const& multiplets, std::vector<Particle> const& particles)
 {
     if (multiplets.empty()) return multiplets;
     std::vector<Multiplet> final_multiplets;
@@ -129,11 +132,19 @@ bool FindInVector(const std::vector<Element> vector, const Element element)
 }
 
 template <typename Multiplet>
-fastjet::PseudoJet ClosestJet(Jets const& jets, Multiplet const& multiplet)
+Particle ClosestJet(std::vector<Particle> const& jets, Multiplet const& multiplet)
 {
-    return *boost::range::min_element(jets, [&](fastjet::PseudoJet const & jet_1, fastjet::PseudoJet const & jet_2) {
+  return *boost::range::min_element(jets, [&](Jet const & jet_1, Jet const & jet_2) {
         return jet_1.delta_R(multiplet.Jet()) < jet_2.delta_R(multiplet.Jet());
     });
+}
+
+template <typename Multiplet>
+Jet ClosestJet(std::vector<Jet> const& jets, Multiplet const& multiplet)
+{
+  return *boost::range::min_element(jets, [&](Jet const & jet_1, Jet const & jet_2) {
+    return jet_1.delta_R(multiplet.Jet()) < jet_2.delta_R(multiplet.Jet());
+  });
 }
 
 /**

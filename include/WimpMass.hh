@@ -18,19 +18,19 @@ class WimpMass {
 
 public:
 
-    std::vector<boca::Sextet> Sextets(std::vector<Quartet22> const& quartets, fastjet::PseudoJet const& missing_et);
+    std::vector<boca::Sextet> Sextets(std::vector<Quartet22> const& quartets, Jet const& missing_et);
 
-    std::vector<boca::Sextet> Sextet(Quartet22 const& quartet, fastjet::PseudoJet const& missing_et, Jets const& neutrinos, Tag tag);
+    std::vector<boca::Sextet> Sextet(Quartet22 const& quartet, Jet const& missing_et,std::vector<Particle> const& neutrinos, Tag tag);
 
-    std::vector<boca::Sextet> Sextets(Quartet22 const& quartet, fastjet::PseudoJet const& missing_et);
+    std::vector<boca::Sextet> Sextets(Quartet22 const& quartet, Jet const& missing_et);
 
     boca::Sextet Fake(Quartet22 const& quartet) const;
 
 private:
 
-    void Momentum(double momentum[4], fastjet::PseudoJet const& jet);
+    void Momentum(double momentum[4], Jet const& jet);
 
-    fastjet::PseudoJet PseudoJet(double const Momentum[4]) const;
+//     Jet PseudoJet(double const Momentum[4]) const;
 
 };
 

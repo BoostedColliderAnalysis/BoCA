@@ -54,18 +54,18 @@ void Result::Calculate()
         events.at(step) = crosssection.at(step) * DetectorGeometry::Luminosity();
         Debug(efficiency.at(step), events.at(step));
     }
-    Info(info_branch_.EventNumber, event_sums.front());
+    INFO(info_branch_.EventNumber, event_sums.front());
 }
 
 int Result::XBin(float value) const
 {
-    Info(value);
+    INFO(value);
     return std::floor((value + 1) * (steps - 1) / 2);
 }
 
 void Result::AddBdt(float bdt_value)
 {
-    Info(bdt_value);
+    INFO(bdt_value);
     bdt.emplace_back(bdt_value);
     ++bins.at(XBin(bdt_value));
     ++event_sum_;
@@ -130,7 +130,7 @@ void Results::BestBin()
 
 float Results::XValue(int value)
 {
-    Info(value);
+    INFO(value);
     return 2. * value / Result::steps - 1;
 }
 

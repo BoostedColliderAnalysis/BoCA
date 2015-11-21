@@ -8,9 +8,70 @@
 #include "LorentzVector.hh"
 #include "Vector2.hh"
 #include "TLorentzVector.h"
+#include "Particles.hh"
 #include "Debug.hh"
 
 namespace boca {
+
+
+
+
+  LorentzVector::LorentzVector(const exroot::Electron& Particle)
+  {
+    Debug0;
+    LorentzVectorByMass(Particle, MassOf(Id::electron));
+  }
+
+  LorentzVector::LorentzVector(const exroot::GenJet& Particle)
+  {
+    Debug0;
+    LorentzVectorByMass(Particle);
+  }
+
+  LorentzVector::LorentzVector(const exroot::GenParticle& Particle)
+  {
+    Debug0;
+    LorentzVectorByEnergy(Particle);
+  }
+
+  LorentzVector::LorentzVector(const exroot::Jet& Particle)
+  {
+    Debug0;
+    LorentzVectorByMass(Particle);
+  }
+
+  LorentzVector::LorentzVector(const exroot::LHEFParticle& Particle)
+  {
+    Debug0;
+    LorentzVectorByM(Particle);
+  }
+
+  LorentzVector::LorentzVector(const exroot::Muon& Particle)
+  {
+    Debug0;
+    LorentzVectorByMass(Particle, MassOf(Id::muon));
+  }
+
+  LorentzVector::LorentzVector(const exroot::Photon& Particle)
+  {
+    Debug0;
+    LorentzVectorByMass(Particle, MassOf(Id::photon));
+  }
+
+  LorentzVector::LorentzVector(const exroot::Tau& Particle)
+  {
+    Debug0;
+    LorentzVectorByMass(Particle, MassOf(Id::tau));
+  }
+
+
+
+
+
+
+
+
+
 
 void LorentzVector::operator=(TLorentzVector const& lorentzvector)
 {

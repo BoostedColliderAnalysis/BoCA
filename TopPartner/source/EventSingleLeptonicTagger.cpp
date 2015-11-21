@@ -8,7 +8,7 @@ namespace naturalness {
 int EventSingleLeptonicTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
     Info0;
-    Jets jets = bottom_reader_.Jets(event);
+   std::vector<Jet> jets = bottom_reader_.Jets(event);
     std::vector<Decuplet532> decuplets = signature_reader_.Multiplets(event);
     std::vector<MultipletEvent<Decuplet532>> multipletevents;
     for (auto const& decuplet : decuplets) {
@@ -22,7 +22,7 @@ int EventSingleLeptonicTagger::Train(Event const& event, PreCuts const&, Tag tag
 std::vector<MultipletEvent<Decuplet532>> EventSingleLeptonicTagger::Multiplets(boca::Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
     Info0;
-    Jets jets = bottom_reader_.Jets(event);
+   std::vector<Jet> jets = bottom_reader_.Jets(event);
     std::vector<Decuplet532> decuplets = signature_reader_.Multiplets(event);
     std::vector<MultipletEvent<Decuplet532>> multiplet_events;
     for (auto const& decuplet : decuplets) {

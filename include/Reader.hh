@@ -88,13 +88,13 @@ public:
 //     }
 //
 //     Reader(Stage stage) : reader_(std::make_shared<TMVA::Reader>(Options())) {
-// //         Info(Name(stage), tagger_.Name());
+// //         INFO(Name(stage), tagger_.Name());
 //         stage_ = stage;
 //         Initialize(stage);
 //     }
 //
 //     void Initialize(Stage stage) {
-// //         Info(Name(stage_), tagger_.Name());
+// //         INFO(Name(stage_), tagger_.Name());
 //         switch (stage) {
 //         case Stage::trainer :
 //             Tagger().Initialize();
@@ -107,7 +107,7 @@ public:
 //     }
 //
 //     void Initialize() {
-// //         Info(Name(stage_), tagger_.Name());
+// //         INFO(Name(stage_), tagger_.Name());
 //         std::ofstream cout_file(Tagger().AnalysisName() + "/Reader.txt", std::ios_base::app | std::ios_base::out);
 //         std::streambuf* cout = std::cout.rdbuf();
 //         std::cout.rdbuf(cout_file.rdbuf());

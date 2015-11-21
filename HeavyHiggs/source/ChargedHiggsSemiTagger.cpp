@@ -10,21 +10,21 @@ int ChargedHiggsSemiTagger::Train(Event const& event, PreCuts const&, Tag tag) c
 {
     Info0;
     Mass mass = event.mass();
-    fastjet::PseudoJet HiggsBoson;
+    Jet HiggsBoson;
     if (tag == Tag::signal) {
-        Jets HiggsParticles = event.Partons().GenParticles();
+       std::vector<Particle> HiggsParticles = event.Partons().GenParticles();
         HiggsParticles = CopyIfParticle(HiggsParticles, Id::charged_higgs);
         if (tag == Tag::signal) {
             if (HiggsParticles.size() == 1) HiggsBoson = HiggsParticles.front();
             else Error(HiggsParticles.size());
         }
     }
-    Jets jets = bottom_reader_.Jets(event);
+   std::vector<Jet> jets = bottom_reader_.Jets(event);
     std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
 //     int WSemiId = w_semi_tagger.WSemiId(event);
-    Jets TopParticles = top_leptonic_reader_.Tagger().Particles(event);
+   std::vector<Particle> TopParticles = top_leptonic_reader_.Tagger().Particles(event);
 //     TopParticles = CopyIfExactParticle(TopParticles, TopSemiId);
-    fastjet::PseudoJet TopQuark;
+    Particle TopQuark;
     if (TopParticles.size() == 1) TopQuark = TopParticles.front();
     else
         Error(TopParticles.size());
@@ -37,12 +37,12 @@ int ChargedHiggsSemiTagger::Train(Event const& event, PreCuts const&, Tag tag) c
         Finaltriplets = triplets;
         break;
     }
-    Jets BottomJets;
+   std::vector<Jet> BottomJets;
     switch (tag) {
     case Tag::signal : {
-        Jets  BottomParticles = event.Partons().GenParticles();
+      std::vector<Particle> BottomParticles = event.Partons().GenParticles();
         BottomParticles = CopyIfFamily(BottomParticles, Id::bottom, Id::charged_higgs);
-        fastjet::PseudoJet BottomQuark;
+        Jet BottomQuark;
         if (BottomParticles.size() == 1) BottomQuark = BottomParticles.front();
         else Error(BottomParticles.size());
         for (auto const& Jet : jets)  if (Jet.delta_R(BottomQuark) * rad < DetectorGeometry::JetConeSize()) BottomJets.emplace_back(Jet);
@@ -62,9 +62,9 @@ int ChargedHiggsSemiTagger::Train(Event const& event, PreCuts const&, Tag tag) c
             if (tag == Tag::signal && quartet.DeltaRTo(HiggsBoson) > 2. * DetectorGeometry::JetConeSize()) continue;
             quartets.emplace_back(quartet);
         }
-    Info(quartets.size());
+    INFO(quartets.size());
     if (tag == Tag::signal && quartets.size() > 1) {
-        Info(quartets.size());
+        INFO(quartets.size());
         quartets = SortedByMassTo(quartets, mass);
         quartets.erase(quartets.begin() + 1, quartets.end());
     }
@@ -73,7 +73,7 @@ int ChargedHiggsSemiTagger::Train(Event const& event, PreCuts const&, Tag tag) c
 
 std::vector<Quartet31> ChargedHiggsSemiTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
-    Jets jets = bottom_reader_.Jets(event);
+   std::vector<Jet> jets = bottom_reader_.Jets(event);
     std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
     std::vector<Quartet31> quartets;
     for (auto const& triplet : triplets)

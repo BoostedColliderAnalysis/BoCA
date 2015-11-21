@@ -28,13 +28,13 @@ public:
 
     int Train(Event const& event, PreCuts const& pre_cuts, const Tag Tag) const final;
 
-    std::vector<Doublet> Multiplets(Jets const& jets, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
+    std::vector<Doublet> Multiplets(std::vector<Jet> const& jets, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    boost::optional<Doublet> Multiplet(fastjet::PseudoJet const& jet, TMVA::Reader const& reader) const;
+    boost::optional<Doublet> Multiplet(Jet const& jet, TMVA::Reader const& reader) const;
 
-    boost::optional<Doublet> Multiplet(fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2, TMVA::Reader const& reader) const;
+    boost::optional<Doublet> Multiplet(Jet const& jet_1, Jet const& jet_2, TMVA::Reader const& reader) const;
 
-    boost::optional<Doublet> SubMultiplet(fastjet::PseudoJet const& jet, TMVA::Reader const& reader) const;
+    boost::optional<Doublet> SubMultiplet(Jet const& jet, TMVA::Reader const& reader) const;
 
     std::string Name() const final;
 
@@ -42,17 +42,17 @@ public:
 
 private:
 
-    Jets Particles(Event const& event) const;
+    std::vector<Particle> Particles(Event const& event) const;
 
     std::vector<Doublet> Doublets(Event const& event, PreCuts const& pre_cuts, std::function<boost::optional<Doublet>(Doublet&)> const& function) const;
 
-    std::vector<Doublet> Doublets(Jets const& jets, std::function<boost::optional<Doublet>(Doublet&)> const& function) const;
+    std::vector<Doublet> Doublets(std::vector<Jet> const& jets, std::function<boost::optional<Doublet>(Doublet&)> const& function) const;
 
     boost::optional<Doublet> CheckDoublet(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const;
 
     std::vector<Doublet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
 
-    boost::optional<Doublet> SubDoublet(fastjet::PseudoJet const& jet, std::function<boost::optional<Doublet>(Doublet&)> const& function) const;
+    boost::optional<Doublet> SubDoublet(Jet const& jet, std::function<boost::optional<Doublet>(Doublet&)> const& function) const;
 
     bool Problematic(boca::Doublet const& doublet, boca::PreCuts const& pre_cuts, Tag tag) const;
 

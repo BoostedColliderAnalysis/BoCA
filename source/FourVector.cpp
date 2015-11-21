@@ -50,104 +50,10 @@ void FourVector::NewEvent(TreeReader const& tree_reader)
 //     std::vector<Family>topology_;
     tree_reader_ = &tree_reader;
 //     topology_.assign(tree_reader.ParticleSum(), Family(to_int(Id::empty)));
-//     Info(topology_.size());
+//     INFO(topology_.size());
 }
 
-LorentzVector FourVector::LorentzVector(const exroot::Electron& Particle) const
-{
-    Debug0;
-    return LorentzVectorByMass(Particle, MassOf(Id::electron));
-}
 
-LorentzVector FourVector::LorentzVector(const exroot::GenJet& Particle) const
-{
-    Debug0;
-    return LorentzVectorByMass(Particle);
-}
-
-LorentzVector FourVector::LorentzVector(const exroot::GenParticle& Particle) const
-{
-    Debug0;
-    return LorentzVectorByEnergy(Particle);
-}
-
-LorentzVector FourVector::LorentzVector(const exroot::Jet& Particle) const
-{
-    Debug0;
-    return LorentzVectorByMass(Particle);
-}
-
-LorentzVector FourVector::LorentzVector(const exroot::LHEFParticle& Particle) const
-{
-    Debug0;
-    return LorentzVectorByM(Particle);
-}
-
-LorentzVector FourVector::LorentzVector(const exroot::Muon& Particle) const
-{
-    Debug0;
-    return LorentzVectorByMass(Particle, MassOf(Id::muon));
-}
-
-LorentzVector FourVector::LorentzVector(const exroot::Photon& Particle) const
-{
-    Debug0;
-    return LorentzVectorByMass(Particle, MassOf(Id::photon));
-}
-
-LorentzVector FourVector::LorentzVector(const exroot::Tau& Particle) const
-{
-    Debug0;
-    return LorentzVectorByMass(Particle, MassOf(Id::tau));
-}
-
-fastjet::PseudoJet FourVector::PseudoJet(const exroot::Electron& Particle) const
-{
-    Debug0;
-    return boca::PseudoJet(LorentzVectorByMass(Particle, MassOf(Id::electron)));
-}
-
-fastjet::PseudoJet FourVector::PseudoJet(const exroot::GenJet& Particle) const
-{
-    Debug0;
-    return boca::PseudoJet(LorentzVectorByMass(Particle));
-}
-
-fastjet::PseudoJet FourVector::PseudoJet(const exroot::GenParticle& Particle) const
-{
-    Debug0;
-    return boca::PseudoJet(LorentzVectorByEnergy(Particle));
-}
-
-fastjet::PseudoJet FourVector::PseudoJet(const exroot::Jet& Particle) const
-{
-    Debug0;
-    return boca::PseudoJet(LorentzVectorByMass(Particle));
-}
-
-fastjet::PseudoJet FourVector::PseudoJet(const exroot::LHEFParticle& Particle) const
-{
-    Debug0;
-    return boca::PseudoJet(LorentzVectorByM(Particle));
-}
-
-fastjet::PseudoJet FourVector::PseudoJet(const exroot::Muon& Particle) const
-{
-    Debug0;
-    return boca::PseudoJet(LorentzVectorByMass(Particle, MassOf(Id::muon)));
-}
-
-fastjet::PseudoJet FourVector::PseudoJet(const exroot::Photon& Particle) const
-{
-    Debug0;
-    return boca::PseudoJet(LorentzVectorByMass(Particle, 0));
-}
-
-fastjet::PseudoJet FourVector::PseudoJet(const exroot::Tau& Particle) const
-{
-    Debug0;
-    return boca::PseudoJet(LorentzVectorByMass(Particle, MassOf(Id::tau)));
-}
 
 // Family FourVector::BranchFamily(TObject const& object) const
 // {
@@ -177,7 +83,7 @@ fastjet::PseudoJet FourVector::PseudoJet(const exroot::Tau& Particle) const
 // Family FourVector::BranchFamily(Family& family, int Position) const
 // {
 //     std::vector<Family>topology_;
-//     Info("Code is disabled", Name(family.Particle().Id()), Position);
+//     INFO("Code is disabled", Name(family.Particle().Id()), Position);
 //     if (
 //         jet_tag().HeavyParticles.find(static_cast<Id>(std::abs(topology_.at(Position).Mother().Id()))) != end(jet_tag().HeavyParticles) ||
 //         jet_tag().HeavyParticles.find(static_cast<Id>(std::abs(topology_.at(Position).Particle().Id()))) != end(jet_tag().HeavyParticles) ||

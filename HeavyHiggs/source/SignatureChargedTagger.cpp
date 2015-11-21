@@ -10,7 +10,7 @@ int SignatureChargedTagger::Train(Event const& event, boca::PreCuts const&, Tag 
 {
     Info0;
     std::vector<Quartet31> higgs_quartets = charged_higgs_semi_reader_.Multiplets(event);
-    Jets HiggsParticles = event.Partons().GenParticles();
+   std::vector<Particle> HiggsParticles = event.Partons().GenParticles();
     HiggsParticles = CopyIfParticle(HiggsParticles, Id::charged_higgs);
     if (tag == Tag::signal && HiggsParticles.size() != 1)
         Error("Where is the Higgs?");

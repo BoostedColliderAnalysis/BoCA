@@ -22,8 +22,8 @@ WLeptonicTagger::WLeptonicTagger()
 int WLeptonicTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) const
 {
     Info0;
-    Jets leptons = event.Leptons().leptons();
-    fastjet::PseudoJet missing_et = event.Hadrons().MissingEt();
+    std::vector<Jet> leptons = event.Leptons().leptons();
+    Jet missing_et = event.Hadrons().MissingEt();
     std::vector<Doublet> doublets;
     for (auto const & lepton : leptons) {
         Doublet pre_doublet(lepton, missing_et);
@@ -35,8 +35,8 @@ int WLeptonicTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) co
         }
     }
     Error(doublets.size());
-    Jets w_bosons = Particles(event);
-    return SaveEntries(BestMatches(doublets,w_bosons, tag));
+    std::vector<Particle>w_bosons = Particles(event);
+    return SaveEntries(BestMatches(doublets, w_bosons, tag));
 }
 
 bool WLeptonicTagger::Problematic(Doublet const& doublet, Tag tag) const
@@ -49,10 +49,10 @@ bool WLeptonicTagger::Problematic(Doublet const& doublet, Tag tag) const
     return false;
 }
 
-Jets WLeptonicTagger::Particles(Event const& event) const
+std::vector<Particle> WLeptonicTagger::Particles(Event const& event) const
 {
-    Jets particles = event.Partons().GenParticles();
-    Jets leptons = CopyIfMother(CopyIfLepton(particles), Id::W);
+    std::vector<Particle> particles = event.Partons().GenParticles();
+    std::vector<Particle> leptons = CopyIfMother(CopyIfLepton(particles), Id::W);
     particles = CopyIfDaughter(particles, leptons);
     return particles;
 }
@@ -60,7 +60,7 @@ Jets WLeptonicTagger::Particles(Event const& event) const
 std::vector<Doublet>  WLeptonicTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
     Info0;
-    Jets leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
+    std::vector<Jet> leptons = SortedByPt(event.Leptons().leptons());
     std::vector<Doublet> doublets;
     for (auto const & lepton : leptons) {
         Doublet pre_doublet(lepton, event.Hadrons().MissingEt());
@@ -78,14 +78,14 @@ std::vector<Doublet> WLeptonicTagger::ReconstructNeutrino(Doublet const& doublet
 {
     Info0;
     std::vector<Doublet> doublets;
-    fastjet::PseudoJet lepton = doublet.Singlet1().Jet();
-    fastjet::PseudoJet missing_et = doublet.Singlet2().Jet();
+    Jet lepton = doublet.Singlet1().Jet();
+    Jet missing_et = doublet.Singlet2().Jet();
     float linear_term = (sqr(MassOf(Id::W) / GeV) - lepton.m2()) / 2 + missing_et.px() * lepton.px() + missing_et.py() * lepton.py();
     float lepton_square = sqr(lepton.e()) - sqr(lepton.pz());
     float missing_et_square = sqr(missing_et.px()) + sqr(missing_et.py());
     double radicant = sqr(lepton.pz()) * (sqr(linear_term) -  lepton_square * missing_et_square);
     if (radicant < 0) {
-        Info("Imaginary root", "move missing et towards lepton");
+        INFO("Imaginary root", "move missing et towards lepton");
         Doublet mod_doublet(lepton, missing_et + 0.1 * (lepton - missing_et));
 //         mod_doublet.SetFlag(true);
         mod_doublet.SetTag(doublet.Tag());
@@ -95,7 +95,7 @@ std::vector<Doublet> WLeptonicTagger::ReconstructNeutrino(Doublet const& doublet
     float sqrt = std::sqrt(radicant);
     float neutrino_1_e = (lepton.e() * linear_term - sqrt) / lepton_square;
     float neutrino_1_pz = (sqr(lepton.pz()) * linear_term - lepton.e() * sqrt) / lepton.pz() / lepton_square;
-    fastjet::PseudoJet neutrino_1(missing_et.px(), missing_et.py(), neutrino_1_pz, neutrino_1_e);
+    Jet neutrino_1(missing_et.px(), missing_et.py(), neutrino_1_pz, neutrino_1_e);
     Debug(neutrino_1);
     Doublet doublet1(lepton, neutrino_1);
     doublet1.SetTag(doublet.Tag());
@@ -103,7 +103,7 @@ std::vector<Doublet> WLeptonicTagger::ReconstructNeutrino(Doublet const& doublet
 
     float neutrino_2_e = (lepton.e() * linear_term + sqrt) / lepton_square;
     float neutrino_2_pz = (sqr(lepton.pz()) * linear_term + lepton.e() * sqrt) / lepton.pz() / lepton_square;
-    fastjet::PseudoJet neutrino_2(missing_et.px(), missing_et.py(), neutrino_2_pz, neutrino_2_e);
+    Jet neutrino_2(missing_et.px(), missing_et.py(), neutrino_2_pz, neutrino_2_e);
     Debug(neutrino_2);
     Doublet doublet2(lepton, neutrino_2);
     doublet2.SetTag(doublet.Tag());

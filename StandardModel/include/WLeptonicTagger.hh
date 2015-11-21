@@ -34,7 +34,7 @@ public:
 
 private:
 
-    Jets Particles(Event const& event) const;
+    std::vector<Particle> Particles(Event const& event) const;
 
     bool Problematic(Doublet const& doublet, Tag tag) const;
 

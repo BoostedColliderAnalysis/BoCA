@@ -1,6 +1,7 @@
 #pragma once
 
 #include "AnalysisHeavyHiggs.hh"
+#include "Sort.hh"
 
 namespace boca
 {
@@ -82,33 +83,27 @@ private:
     }
 
     int PassPreCut(Event const& event, Tag) const {
-//         Info("pass pre cut");
-        Jets Particles = event.Partons().GenParticles();
-        Jets Quarks = fastjet::sorted_by_pt(CopyIf5Quark(Particles));
-        Quarks = fastjet::sorted_by_pt(RemoveIfMother(Quarks, Id::top));
+//         INFO("pass pre cut");
+      std::vector<Particle> Particles = event.Partons().GenParticles();
+      std::vector<Particle> Quarks = SortedByPt(CopyIf5Quark(Particles));
+        Quarks = SortedByPt(RemoveIfMother(Quarks, Id::top));
         if (Quarks.empty()) {
             //       if (Tag == Tag::signal && PreCut() > 0 && !(Tagger == BottomTagger || Tagger == HBottomReader))
             //       if (PreCut() > 0)
 //             Error("Not enough bottom quarks", Quarks.size());
             return 0;
-        } else if (Quarks.front().pt() < to_float(this->PreCut()))
-            return 0;
-        Jets TopQuarks = fastjet::sorted_by_pt(CopyIfParticle(Particles, Id::top));
+        } else if (Quarks.front().pt() < to_float(this->PreCut())) return 0;
+        std::vector<Particle> TopQuarks = SortedByPt(CopyIfParticle(Particles, Id::top));
         if (TopQuarks.size() != 2) {
 //             Error("Not enough top quarks", TopQuarks.size());
             return 0;
-        } else if (TopQuarks.front().pt() < to_float(this->PreCut()))
-            return 0;
-        if (event.Hadrons().MissingEt().pt() < to_float(this->MissingEt()))
-            return 0;
-        Jets Leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
-        if (Leptons.empty())
-            return 0;
-        if (Leptons.front().pt() < to_float(this->LeptonPt()))
-            return 0;
-        Jets jets = event.Hadrons().Jets();
-        if (jets.size() < 4)
-            return 0;
+        } else if (TopQuarks.front().pt() < to_float(this->PreCut())) return 0;
+        if (event.Hadrons().MissingEt().pt() < to_float(this->MissingEt())) return 0;
+        std::vector<Jet> Leptons = SortedByPt(event.Leptons().leptons());
+        if (Leptons.empty()) return 0;
+        if (Leptons.front().pt() < to_float(this->LeptonPt())) return 0;
+       std::vector<Jet> jets = event.Hadrons().Jets();
+        if (jets.size() < 4) return 0;
         return 1;
     }
     int BackgroundFileNumber() const {

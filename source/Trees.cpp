@@ -55,7 +55,7 @@ void Trees::WriteTree()
     //         if(event_number_ == tree_reader().GetEntries())
     Error(event_number_, pre_cut_number_, object_sum_);
     if (!analysis_empty_) tree_writer_.Write();
-    Info("tree written");
+    INFO("tree written");
 }
 
 void Trees::UseBranches(File& file, std::string const& name)

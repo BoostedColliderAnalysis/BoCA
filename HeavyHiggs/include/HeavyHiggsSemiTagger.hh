@@ -26,9 +26,9 @@ public:
 
     std::string Name() const final;
 
-    Jets TopParticles(Event const& event, Decay decay) const;
+    std::vector<Particle> TopParticles(Event const& event, Decay decay) const;
 
-    Jets HiggsParticle(Event const& event, Tag tag) const;
+    std::vector<Particle> HiggsParticle(Event const& event, Tag tag) const;
 
     std::vector<Triplet> FinalTriplet(Event const& event, Tag tag, Decay decay) const;
 

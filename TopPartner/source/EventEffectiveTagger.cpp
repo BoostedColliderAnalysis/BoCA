@@ -7,10 +7,10 @@ namespace naturalness {
 
 int EventEffectiveTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
-    Info("Train");
-    Jets jets = bottom_reader_.Jets(event);
+    INFO("Train");
+   std::vector<Jet> jets = bottom_reader_.Jets(event);
     std::vector<Quattuordecuplet554> octets = signature_reader_.Multiplets(event);
-    Info("Octets", octets.size());
+    INFO("Octets", octets.size());
     std::vector<MultipletEvent<Quattuordecuplet554>> multipletevents;
     for (auto const& octet : octets) {
         MultipletEvent<Quattuordecuplet554> multipletevent(octet, event, jets);
@@ -22,8 +22,8 @@ int EventEffectiveTagger::Train(Event const& event, PreCuts const&, Tag tag) con
 
 std::vector<MultipletEvent<Quattuordecuplet554>> EventEffectiveTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
 {
-    Info("Multiplets");
-    Jets jets = bottom_reader_.Jets(event);
+    INFO("Multiplets");
+   std::vector<Jet> jets = bottom_reader_.Jets(event);
     std::vector<Quattuordecuplet554> octets = signature_reader_.Multiplets(event);
     std::vector<MultipletEvent<Quattuordecuplet554>> multiplet_events;
     for (auto const& octet : octets) {

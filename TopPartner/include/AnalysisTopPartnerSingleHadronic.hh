@@ -56,7 +56,7 @@ private:
     int PassPreCut(Event const& , Tag) const final {
         Info0;
 //       if(tag == Tag::signal){
-//         Jets partner = partner_tagger.Particles(event);
+//        std::vector<Jet> partner = partner_tagger.Particles(event);
 //         if(partner.empty()) return 0;
 //       }
 //       static int counter = 0;
@@ -66,17 +66,17 @@ private:
 //      Error0;
 //      this->PrintGeneratorLevel(event);
 
-//         Jets jets = fastjet::sorted_by_pt(event.Hadrons().Jets());
+//        std::vector<Jet> jets = fastjet::sorted_by_pt(event.Hadrons().Jets());
 //         if (jets.size() < 3) return 0;
 //         if (jets.at(2).pt() < this->JetPreCut()) return 0;
 //
 //
-//         Jets particles = event.Partons().GenParticles();
+//        std::vector<Jet> particles = event.Partons().GenParticles();
 //         particles = RemoveIfSoft(particles, this->PreCut());
-//         Jets tops = CopyIfParticle(particles, Id::top);
-//         Jets higgs = CopyIfParticle(particles, Id::higgs);
-//         Jets vectors = CopyIfParticles(particles, Id::Z, Id::W);
-//         Jets partner = CopyIfParticle(particles, Id::top_partner);
+//        std::vector<Jet> tops = CopyIfParticle(particles, Id::top);
+//        std::vector<Jet> higgs = CopyIfParticle(particles, Id::higgs);
+//        std::vector<Jet>vectors = CopyIfParticles(particles, Id::Z, Id::W);
+//        std::vector<Jet> partner = CopyIfParticle(particles, Id::top_partner);
 //         if (tag == Tag::signal && partner.size() != 1) {
 //             return 0;
 //         }

@@ -21,7 +21,7 @@ namespace standardmodel
  * @license GPL 3
  *
  */
-class BottomTagger : public TaggerTemplate<fastjet::PseudoJet, BottomBranch>
+class BottomTagger : public TaggerTemplate<Jet, BottomBranch>
 {
 
 public:
@@ -37,25 +37,25 @@ public:
      * @brief Return all jets of the event with bottom bdt value considering pre cuts
      *
      */
-    boca::Jets Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
+    std::vector<Jet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
 
     /**
      * @brief Return all jets of the event with bottom bdt value considering pre cuts
      *
      */
-    boca::Jets Jets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
+    std::vector<Jet> Jets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
     /**
      * @brief calculate bottom bdt for subjets of given jet
      *
      */
-    boca::Jets SubMultiplet(fastjet::PseudoJet const& jet, TMVA::Reader const& reader, int sub_jet_number) const;
+    std::vector<Jet> SubMultiplet(Jet const& jet, TMVA::Reader const& reader, int sub_jet_number) const;
 
     /**
      * @brief calculate bottom bdt for given jet
      *
      */
-    fastjet::PseudoJet Multiplet(fastjet::PseudoJet const& jet, TMVA::Reader const& reader) const;
+    Jet Multiplet(Jet const& jet, TMVA::Reader const& reader) const;
 
     std::string Name() const final;
 
@@ -63,17 +63,17 @@ public:
 
 private:
 
-    boca::Jets Particles(Event const& event) const;
+    std::vector<Particle> Particles(Event const& event) const;
 
-    boca::Jets Jets(Event const& event, PreCuts const& pre_cuts, std::function<fastjet::PseudoJet(fastjet::PseudoJet&)> const& function) const;
+    std::vector<Jet> Jets(Event const& event, PreCuts const& pre_cuts, std::function<Jet(Jet&)> const& function) const;
 
-    boca::Jets Multiplets(boca::Jets jets, std::function<fastjet::PseudoJet(fastjet::PseudoJet&)> const& function, unsigned sub_jet_number = 1) const;
+    std::vector<Jet> Multiplets(std::vector<Jet> jets, std::function<Jet(Jet&)> const& function, unsigned sub_jet_number = 1) const;
 
-    bool Problematic(fastjet::PseudoJet const& jet, boca::PreCuts const& pre_cuts, Tag tag) const;
+    bool Problematic(Jet const& jet, boca::PreCuts const& pre_cuts, Tag tag) const;
 
-    bool Problematic(fastjet::PseudoJet const& jet, boca::PreCuts const& pre_cuts) const;
+    bool Problematic(Jet const& jet, boca::PreCuts const& pre_cuts) const;
 
-    boca::Jets SubJets(boca::Jets const& jets, int sub_jet_number) const;
+    std::vector<Jet> SubJets(std::vector<Jet> const& jets, int sub_jet_number) const;
 
     Mass bottom_max_mass_;
 
@@ -82,10 +82,10 @@ private:
 }
 
 template<>
-inline void TaggerTemplate<fastjet::PseudoJet, standardmodel::BottomBranch>::FillBranch(fastjet::PseudoJet const& multiplet) const
+inline void TaggerTemplate<Jet, standardmodel::BottomBranch>::FillBranch(Jet const& multiplet) const
 {
-  //     Info0;
-  branch_.Fill(Singlet(multiplet));
+    //     Info0;
+    branch_.Fill(Singlet(multiplet));
 }
 
 

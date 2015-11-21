@@ -10,13 +10,13 @@
 
 namespace boca {
 
-Singlet::Singlet(fastjet::PseudoJet const& jet)
+  Singlet::Singlet(boca::Jet const& jet)
 {
     Info0;
     jet_ = jet;
 }
 
-bool Singlet::Overlap(fastjet::PseudoJet const& jet) const
+bool Singlet::Overlap(boca::Jet const& jet) const
 {
     return Close(jet)(Jet());
 }
@@ -26,7 +26,7 @@ bool Singlet::Overlap(Singlet const& singlet) const
     return Overlap(singlet.Jet());
 }
 
-float Singlet::Radius(fastjet::PseudoJet const& jet) const
+float Singlet::Radius(boca::Jet const& jet) const
 {
     Info0;
     if (!jet.has_constituents()) return 0;
@@ -40,7 +40,7 @@ float Singlet::Radius(fastjet::PseudoJet const& jet) const
     return delta_r;
 }
 
-float Singlet::Spread(fastjet::PseudoJet const& jet) const
+float Singlet::Spread(boca::Jet const& jet) const
 {
     Info0;
     if (!jet.has_constituents()) return 0;
@@ -84,11 +84,11 @@ Vector2<float> Singlet::Pull() const
 {
     if (has_pull_) return pull_;
     if(!jet_.has_constituents()) return {};
-    boca::Jets constituents = jet_.constituents();
+    std::vector<boca::Jet> constituents = JetVector(jet_.constituents());
     if(constituents.size() < 3) return {};
     for (auto const& constituent : constituents) pull_ += Reference(constituent) * constituent.pt() * constituent.delta_R(jet_);
     pull_ /= jet_.pt();
-    Info(pull_.Y(),pull_.X(), constituents.size());
+    INFO(pull_.Y(),pull_.X(), constituents.size());
     has_pull_ = true;
     return pull_;
 }

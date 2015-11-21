@@ -16,15 +16,15 @@ namespace delphes {
 class Leptons : public boca::Leptons {
 
 public:
-  boca::Jets Electrons() const final;
+  std::vector<Jet> Electrons() const final;
 
-  boca::Jets Muons() const final;
+  std::vector<Jet> Muons() const final;
 
 private:
 
-    boca::Jets Electrons(JetDetail jet_detail) const;
+    std::vector<Jet> Electrons(JetDetail jet_detail) const;
 
-    boca::Jets Muons(boca::JetDetail jet_detail) const;
+    std::vector<Jet> Muons(boca::JetDetail jet_detail) const;
 
 
 };

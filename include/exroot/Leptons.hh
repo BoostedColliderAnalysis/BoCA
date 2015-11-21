@@ -16,9 +16,9 @@ namespace exroot {
 class Leptons : public boca::Leptons {
 
 public:
-  boca::Jets Electrons() const final;
+  std::vector<Lepton> Electrons() const final;
 
-  boca::Jets Muons() const final;
+  std::vector<Lepton> Muons() const final;
 };
 
 }

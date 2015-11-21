@@ -19,7 +19,7 @@ void Leptons::NewEvent(TreeReader const& tree_reader)
     FourVector::NewEvent(tree_reader);
 }
 
-Jets Leptons::leptons() const
+std::vector<Jet> Leptons::leptons() const
 {
     Info0;
     return Join(Electrons(), Muons());

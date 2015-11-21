@@ -75,24 +75,24 @@ protected:
     }
 
     template<typename T>
-    std::vector<T> BestMatch(std::vector<T> const& multiplets, Jets const& particles, Id id = Id::empty) const {
-//         Info(multiplets.size(), particles.size());
+    std::vector<T> BestMatch(std::vector<T> const& multiplets,std::vector<Particle> const& particles, Id id = Id::empty) const {
+//         INFO(multiplets.size(), particles.size());
         std::vector<T> close = CopyIfClose(multiplets, particles);
-//         Info(close.size());
+//         INFO(close.size());
         close = SortedByBdt(close);
         if (id != Id::empty) close = SortedByMassTo(close, id);
         return std::vector<T>(&close[0], &close[std::min(close.size(), particles.size())]);
     }
 
     template<typename T>
-    std::vector<T> RemoveBestMatch(std::vector<T> const& multiplets, Jets const& particles) const {
-//         Info(multiplets.size());
+    std::vector<T> RemoveBestMatch(std::vector<T> const& multiplets,std::vector<Particle> const& particles) const {
+//         INFO(multiplets.size());
         return RemoveIfClose(multiplets, particles);
     }
 
     template<typename T>
-    std::vector<T> BestMatches(std::vector<T> multiplets, Jets const& particles, Tag tag, Id id = Id::empty) const {
-      //         Info(multiplets.size());
+    std::vector<T> BestMatches(std::vector<T> multiplets,std::vector<Particle> const& particles, Tag tag, Id id = Id::empty) const {
+      //         INFO(multiplets.size());
       if (multiplets.empty()) return multiplets;
         multiplets = SortedByBdt(multiplets);
         switch (tag) {
@@ -103,7 +103,7 @@ protected:
     }
 
     int SaveEntries(std::vector<MultipletTemplate> multiplets, size_t max = LargeNumber()) const {
-//         Info(multiplets.size());
+//         INFO(multiplets.size());
         if (multiplets.empty()) return 0;
         if (multiplets.size() > 1) multiplets = SortedByBdt(multiplets);
         auto sum = std::min(multiplets.size(), max);
@@ -115,8 +115,8 @@ protected:
         return sum;
     }
 
-    int SaveEntries(std::vector<MultipletTemplate> multiplets, Jets particles, Tag tag, Id id = Id::empty) const {
-//         Info(multiplets.size());
+    int SaveEntries(std::vector<MultipletTemplate> multiplets,std::vector<Particle> particles, Tag tag, Id id = Id::empty) const {
+//         INFO(multiplets.size());
         return SaveEntries(BestMatches(multiplets, particles, tag, id));
     }
 
@@ -129,16 +129,16 @@ protected:
     }
 
 //
-//     int SaveEntries(std::vector<MultipletTemplate> const& multiplets, Jets const& particles, Id id, Tag tag) const {
-//         Jets type = CopyIfParticle(particles, id);
+//     int SaveEntries(std::vector<MultipletTemplate> const& multiplets,std::vector<Jet> const& particles, Id id, Tag tag) const {
+//        std::vector<Jet> type = CopyIfParticle(particles, id);
 //         std::vector<MultipletTemplate> matches = BestMatches(multiplets, type, tag);
 //         if (matches.size() > type.size()) matches = SortedByMassTo(matches, id);
 //         return SaveEntries(std::vector<MultipletTemplate>(matches.begin(), matches.begin() + type.size()), type.size());
 //     }
 //
 //
-//     int SaveEntries(std::vector<MultipletTemplate> const& multiplets,Jets const& particles, int id, Tag tag) const {
-//       Jets type = CopyIfExactParticle(particles, id);
+//     int SaveEntries(std::vector<MultipletTemplate> const& multiplets,std::vector<Jet> const& particles, int id, Tag tag) const {
+//      std::vector<Jet> type = CopyIfExactParticle(particles, id);
 //       std::vector<MultipletTemplate> matches = BestMatches(multiplets, type, tag);
 //       if (matches.size() > type.size()) matches = SortedByMassTo(matches, id);
 //       return SaveEntries(std::vector<MultipletTemplate>(matches.begin(), matches.begin() + type.size()), type.size());

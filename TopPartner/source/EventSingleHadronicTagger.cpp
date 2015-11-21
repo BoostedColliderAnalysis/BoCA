@@ -32,7 +32,7 @@ std::vector<MultipletEvent<Decuplet532>> EventSingleHadronicTagger::Multiplets(b
 std::vector<MultipletEvent<Decuplet532>> EventSingleHadronicTagger::Events(Event const& event, std::function<MultipletEvent<Decuplet532>(MultipletEvent<Decuplet532> &)> const& function) const
 {
     Info0;
-    Jets jets = bottom_reader_.Jets(event);
+   std::vector<Jet> jets = bottom_reader_.Jets(event);
     std::vector<MultipletEvent<Decuplet532>> multiplet_events;
     for (auto const & decuplet : signature_reader_.Multiplets(event)) {
         MultipletEvent<Decuplet532> multiplet_event(decuplet, event, jets);

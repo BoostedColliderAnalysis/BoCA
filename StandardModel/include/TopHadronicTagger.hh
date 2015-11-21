@@ -21,7 +21,7 @@ namespace standardmodel
 class TopHadronicTagger : public TaggerTemplate<Triplet, TopHadronicBranch>
 {
 
-  typedef std::function<boost::optional<Triplet>(Triplet&, Jets const&)> Function;
+  typedef std::function<boost::optional<Triplet>(Triplet&,std::vector<Jet> const&)> Function;
 
 public:
 
@@ -35,31 +35,31 @@ public:
 
     std::string NiceName() const final;
 
-    Jets TopParticles(Event const& event) const;
+    std::vector<Particle>TopParticles(Event const& event) const;
 
 private:
 
-    std::vector<Triplet> ThreeJets(Jets const& jets, Jets const& leptons, Function const& function, MomentumRange const& range) const;
+    std::vector<Triplet> ThreeJets(std::vector<Jet> const& jets,std::vector<Jet> const& leptons, Function const& function, MomentumRange const& range) const;
 
-    std::vector<Triplet> TwoJets(Jets const& jets, fastjet::PseudoJet const& jet, Jets const& leptons, Function const& function, MomentumRange const& range) const;
+    std::vector<Triplet> TwoJets(std::vector<Jet> const& jets, Jet const& jet,std::vector<Jet> const& leptons, Function const& function, MomentumRange const& range) const;
 
-    std::vector<Triplet> ThreeSubJets(fastjet::PseudoJet const& jet, Jets const& leptons, Function const& function, MomentumRange const& range) const;
+    std::vector<Triplet> ThreeSubJets(Jet const& jet,std::vector<Jet> const& leptons, Function const& function, MomentumRange const& range) const;
 
-    std::vector<Triplet> TwoSubJets(fastjet::PseudoJet const& jet, Jets const& leptons, Function const& function, MomentumRange const& range) const;
+    std::vector<Triplet> TwoSubJets(Jet const& jet,std::vector<Jet> const& leptons, Function const& function, MomentumRange const& range) const;
 
-    boost::optional<Triplet> HighlyBoosted(fastjet::PseudoJet const& jet, Jets const& leptons, Function const& function) const;
+    boost::optional<Triplet> HighlyBoosted(Jet const& jet,std::vector<Jet> const& leptons, Function const& function) const;
 
-    boost::optional<Triplet> Tripple(Doublet const& doublet, fastjet::PseudoJet const& jet, Jets const& leptons, Function const& function, MomentumRange const& range, bool check_overlap = false) const;
+    boost::optional<Triplet> Tripple(Doublet const& doublet, Jet const& jet,std::vector<Jet> const& leptons, Function const& function, MomentumRange const& range, bool check_overlap = false) const;
 
-    boost::optional<Triplet> Tripple(Triplet& triplet, boca::Jets const& leptons, PreCuts const& pre_cuts, Tag tag) const;
+    boost::optional<Triplet> Tripple(Triplet& triplet, std::vector<Jet> const& leptons, PreCuts const& pre_cuts, Tag tag) const;
 
     std::vector<Triplet> Triplets(Event const& event, Function const& function) const;
 
-    std::vector<Triplet> Triplets(std::vector<Doublet> const& doublets, Jets const& jets, Jets const& leptons, Function const& function, MomentumRange const& range) const;
+    std::vector<Triplet> Triplets(std::vector<Doublet> const& doublets,std::vector<Jet> const& jets,std::vector<Jet> const& leptons, Function const& function, MomentumRange const& range) const;
 
-    std::vector<Triplet> Triplets(Doublet const& doublet, Jets const& jets, Jets const& leptons, Function const& function, MomentumRange const& range) const;
+    std::vector<Triplet> Triplets(Doublet const& doublet,std::vector<Jet> const& jets,std::vector<Jet> const& leptons, Function const& function, MomentumRange const& range) const;
 
-    boost::optional<Triplet> Multiplet(Triplet& triplet, Jets const& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
+    boost::optional<Triplet> Multiplet(Triplet& triplet,std::vector<Jet> const& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
     bool Problematic(Triplet const& triplet, PreCuts const& pre_cuts, Tag tag) const;
 
@@ -67,9 +67,9 @@ private:
 
     void NSubJettiness(Triplet& triplet) const;
 
-    float LeptonPt(Triplet const& triplet, Jets const& leptons) const;
+    float LeptonPt(Triplet const& triplet,std::vector<Jet> const& leptons) const;
 
-    std::vector<Triplet> ordered_triplets(Jets const& jets, unsigned sub_jet_number, std::function<boost::optional<Triplet>(fastjet::PseudoJet const& piece_1, fastjet::PseudoJet const& piece_2, fastjet::PseudoJet const& piece_3)> const& function) const;
+    std::vector<Triplet> ordered_triplets(std::vector<Jet> const& jets, unsigned sub_jet_number, std::function<boost::optional<Triplet>(Jet const& piece_1, Jet const& piece_2, Jet const& piece_3)> const& function) const;
 
     Reader<BottomTagger> bottom_reader_;
 

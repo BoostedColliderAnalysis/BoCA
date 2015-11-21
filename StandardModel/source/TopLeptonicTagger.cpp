@@ -24,48 +24,48 @@ TopLeptonicTagger::TopLeptonicTagger() : w_leptonic_reader_(InitializeLeptonicRe
 int TopLeptonicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Tag tag) const
 {
     Info0;
-    Jets jets = fastjet::sorted_by_pt(bottom_reader_.Jets(event));
-    Info(jets.size());
-    Jets leptons = Leptons(event, jets);
+    std::vector<Jet> jets = SortedByPt(bottom_reader_.Jets(event));
+    INFO(jets.size());
+    std::vector<Jet> leptons = Leptons(event, jets);
     std::vector<Doublet> doublets;
     if (use_w_) doublets = w_leptonic_reader_.Multiplets(event);
     else for (auto const & lepton : leptons) doublets.emplace_back(Doublet(lepton));
 
     Debug(jets.size(), doublets.size());
-    std::vector<Triplet> triplets = pairs(doublets, jets, [&](Doublet const & doublet, fastjet::PseudoJet const & jet) {
+    std::vector<Triplet> triplets = pairs(doublets, jets, [&](Doublet const & doublet, Jet const & jet) {
         Triplet triplet(doublet, jet);
         if (Problematic(triplet, pre_cuts, tag)) throw boca::Problematic();
         triplet.SetTag(tag);
         return triplet;
     });
-    Jets tops = Particles(event);
+    std::vector<Particle> tops = Particles(event);
     int size = tops.size();
     std::string particle = "";
-    if (size > 0) particle = boca::Name(tops.front().user_info<ParticleInfo>().Family().Particle().Id());
+    if (size > 0) particle = boca::Name(tops.front().Info().Family().Particle().Id());
     Debug(size, particle);
     Debug(triplets.size(), tops.size(), leptons.size());
     return SaveEntries(triplets, tops, tag);
 }
 
-Jets TopLeptonicTagger::Leptons(Event const& event, Jets const& jets) const
+std::vector<Jet> TopLeptonicTagger::Leptons(Event const& event, std::vector<Jet> const& jets) const
 {
     bool do_fake_leptons = false;
-    Jets leptons = event.Leptons().leptons();
+    std::vector<Jet> leptons = event.Leptons().leptons();
     leptons = RemoveIfSoft(leptons, DetectorGeometry::LeptonMinPt());
     if (do_fake_leptons && leptons.empty()) leptons.emplace_back(FakeLepton(jets.front()));
     Debug(jets.size(), leptons.size());
     return leptons;
 }
 
-fastjet::PseudoJet TopLeptonicTagger::FakeLepton(fastjet::PseudoJet const& jet) const
+Jet TopLeptonicTagger::FakeLepton(Jet const& jet) const
 {
-    return fastjet::PseudoJet(jet) / jet.pt() * (DetectorGeometry::LeptonMinPt() / GeV);
+    return Jet(jet) / jet.pt() * (DetectorGeometry::LeptonMinPt() / GeV);
 }
 
-Jets TopLeptonicTagger::Particles(Event const& event) const
+std::vector<Particle> TopLeptonicTagger::Particles(Event const& event) const
 {
-    Jets particles = event.Partons().GenParticles();
-    Jets leptons = CopyIfLepton(particles);
+    std::vector<Particle> particles = event.Partons().GenParticles();
+    std::vector<Particle> leptons = CopyIfLepton(particles);
     leptons = CopyIfGrandMother(leptons, Id::top);
     return CopyIfGrandDaughter(particles, leptons);
 }
@@ -76,7 +76,7 @@ bool TopLeptonicTagger::Problematic(boca::Triplet const& triplet, boca::PreCuts 
     switch (tag) {
     case Tag::signal :
         if (boost::units::abs(triplet.Mass() - MassOf(Id::top) + 40. * GeV) > top_mass_window) return true;
-        if(pre_cuts.NotParticleRho(triplet)) return true;
+        if (pre_cuts.NotParticleRho(triplet)) return true;
         break;
     case Tag::background : break;
     }
@@ -92,12 +92,12 @@ bool TopLeptonicTagger::Problematic(Triplet const& triplet, PreCuts const& pre_c
 std::vector<Triplet> TopLeptonicTagger::Multiplets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
     Info0;
-    Jets jets = fastjet::sorted_by_pt(bottom_reader_.Jets(event));
-    Jets leptons = Leptons(event, jets);
+    std::vector<Jet> jets = SortedByPt(bottom_reader_.Jets(event));
+    std::vector<Jet> leptons = Leptons(event, jets);
     std::vector<Doublet> doublets;
     if (use_w_) doublets = w_leptonic_reader_.Multiplets(event);
     else for (auto const & lepton : leptons) doublets.emplace_back(Doublet(lepton));
-    std::vector<Triplet> triplets = pairs(doublets, jets, [&](Doublet const & doublet, fastjet::PseudoJet const & jet) {
+    std::vector<Triplet> triplets = pairs(doublets, jets, [&](Doublet const & doublet, Jet const & jet) {
         Triplet triplet(doublet, jet);
         if (Problematic(triplet, pre_cuts)) throw boca::Problematic();
         triplet.SetBdt(Bdt(triplet, reader));

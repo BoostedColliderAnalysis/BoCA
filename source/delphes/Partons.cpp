@@ -14,20 +14,20 @@ namespace boca
 namespace delphes
 {
 
-Jets Partons::Particles() const
+std::vector<Particle> Partons::Particles() const
 {
     return Particles(Status::stable);
 }
 
-Jets Partons::GenParticles() const
+std::vector<Particle> Partons::GenParticles() const
 {
     return Particles(Status::generator);
 }
 
-Jets Partons::Particles(Status min_status) const
+std::vector<Particle> Partons::Particles(Status min_status) const
 {
     Info0;
-    Jets jets;
+    std::vector<Particle> jets;
     int position = 0;
     TTreeReaderArray<::delphes::GenParticle>& particles = tree_reader().Objects<::delphes::GenParticle>(Branch::particle);
     for (auto const & particle : particles) {
@@ -53,10 +53,9 @@ Jets Partons::Particles(Status min_status) const
             ::delphes::GenParticle& gen_mother2 = particles.At(particle.M2);
             mother_2.Set(gen_mother2.PID, particle.M2);
         }
-        Family family(Member(particle.PID, position), mother, mother_2, grand_mother, great_grand_mother);
-        fastjet::PseudoJet jet = boca::PseudoJet(particle.P4());
-        jet.set_user_info(new ParticleInfo(family));
-        jets.emplace_back(jet);
+        Particle(particle.P4(), Family(Member(particle.PID, position), mother, mother_2, grand_mother, great_grand_mother));
+
+        jets.emplace_back(Particle(particle.P4(), Family(Member(particle.PID, position), mother, mother_2, grand_mother, great_grand_mother)));
         ++position;
     }
     return jets;

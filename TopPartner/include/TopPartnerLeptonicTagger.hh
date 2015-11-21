@@ -28,7 +28,7 @@ public:
 
     std::string NiceName() const final;
 
-    Jets Particles(Event const& event) const;
+    std::vector<Particle> Particles(Event const& event) const;
 
 private:
 

@@ -22,4 +22,9 @@ boca::Family ParticleInfo::Family() const
     return family_;
 }
 
+void ParticleInfo::SetFamily(boca::Family const& family)
+{
+    family_ = family;
+}
+
 }

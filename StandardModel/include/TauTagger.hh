@@ -29,7 +29,7 @@ public:
 
 private:
 
-    Jets CleanJets(boca::Jets& jets, boca::Jets const& Particles, Tag tag) const;
+  std::vector<Jet> CleanJets(std::vector<Jet>& jets, std::vector<Particle> const& Particles, Tag tag) const;
 
 };
 

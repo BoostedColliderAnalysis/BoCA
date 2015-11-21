@@ -53,14 +53,14 @@ private:
 
     int PassPreCut(Event const&, Tag) const final {
         Info0;
-//         Jets particles = event.Partons().GenParticles();
+//        std::vector<Jet> particles = event.Partons().GenParticles();
 //         particles = RemoveIfSoft(particles, this->PreCut());
-//         Jets tops = CopyIfParticle(particles, Id::top);
-//         Jets higgs = CopyIfParticle(particles, Id::higgs);
-//         Jets vectors = CopyIfParticles(particles, Id::Z, Id::W);
-//         Jets partner = CopyIfParticle(particles, Id::top_partner);
+//        std::vector<Jet> tops = CopyIfParticle(particles, Id::top);
+//        std::vector<Jet> higgs = CopyIfParticle(particles, Id::higgs);
+//        std::vector<Jet>vectors = CopyIfParticles(particles, Id::Z, Id::W);
+//        std::vector<Jet> partner = CopyIfParticle(particles, Id::top_partner);
 
-//         Jets tchannel = RemoveIfMother(higgs,Id::top);
+//        std::vector<Jet> tchannel = RemoveIfMother(higgs,Id::top);
 //         tchannel = RemoveIfMother(tchannel,Id::top_partner);
 
 //         Error(partner.size());

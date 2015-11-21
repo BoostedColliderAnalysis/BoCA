@@ -24,37 +24,37 @@ BottomTagger::BottomTagger()
 int BottomTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const
 {
     Info0;
-    return SaveEntries(Jets(event, pre_cuts, [&](fastjet::PseudoJet & jet) {
+    return SaveEntries(Jets(event, pre_cuts, [&](Jet & jet) {
         if (Problematic(jet, pre_cuts, tag)) throw boca::Problematic();
         return jet;
     }), Particles(event), tag);
 }
 
-boca::Jets BottomTagger::Particles(Event const& event) const
+std::vector<Particle> BottomTagger::Particles(Event const& event) const
 {
     Info0;
     return RemoveIfSoft(CopyIfParticle(event.Partons().Particles(), Id::bottom), DetectorGeometry::JetMinPt());
 }
 
-Jets BottomTagger::Jets(Event const& event, PreCuts const& pre_cuts, std::function<fastjet::PseudoJet(fastjet::PseudoJet&)> const& function) const
+std::vector<Jet> BottomTagger::Jets(Event const& event, PreCuts const& pre_cuts, std::function<Jet(Jet&)> const& function) const
 {
     Info0;
-    boca::Jets jets = event.Hadrons().Jets();
-    Info(jets.size());
-    boca::Jets bottoms = Multiplets(jets, function);
+    std::vector<Jet> jets = event.Hadrons().Jets();
+    INFO(jets.size());
+    std::vector<Jet> bottoms = Multiplets(jets, function);
     if (pre_cuts.DoSubJets(Id::bottom)) {
         bottoms = Join(bottoms, Multiplets(jets, function, 2));
         bottoms = Join(bottoms, Multiplets(jets, function, 3));
     }
-    Info(bottoms.size());
+    INFO(bottoms.size());
     return bottoms;
 }
 
-boca::Jets BottomTagger::Multiplets(boca::Jets jets, std::function<fastjet::PseudoJet(fastjet::PseudoJet&)> const& function, unsigned sub_jet_number) const
+std::vector<Jet> BottomTagger::Multiplets(std::vector<Jet> jets, std::function<Jet(Jet&)> const& function, unsigned sub_jet_number) const
 {
     Info0;
     if (sub_jet_number > 1) jets = SubJets(jets, sub_jet_number);
-    boca::Jets final_jets;
+    std::vector<Jet> final_jets;
     for (auto & jet : jets) try {
             final_jets.emplace_back(function(jet));
         } catch (std::exception&) {
@@ -63,27 +63,27 @@ boca::Jets BottomTagger::Multiplets(boca::Jets jets, std::function<fastjet::Pseu
     return final_jets;
 }
 
-boca::Jets BottomTagger::Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
+std::vector<Jet> BottomTagger::Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
     Info0;
-    return Jets(event, pre_cuts, [&](fastjet::PseudoJet const & jet) {
+    return Jets(event, pre_cuts, [&](Jet const & jet) {
         if (Problematic(jet, pre_cuts)) throw boca::Problematic();
         return Multiplet(jet, reader);
     });
 }
 
-fastjet::PseudoJet BottomTagger::Multiplet(fastjet::PseudoJet const& jet, TMVA::Reader const& reader) const
+Jet BottomTagger::Multiplet(Jet const& jet, TMVA::Reader const& reader) const
 {
     Info0;
-    if(jet.has_user_info<JetInfo>()) static_cast<JetInfo&>(*jet.user_info_shared_ptr().get()).SetBdt(Bdt(jet, reader));
-    else{
-      Error("no user info");
+    if (jet.has_user_info<JetInfo>()) static_cast<JetInfo&>(*jet.user_info_shared_ptr().get()).SetBdt(Bdt(jet, reader));
+    else {
+        Error("no user info");
 //       jet.user_info(new JetInfo(Bdt(jet, reader)));
     }
     return jet;
 }
 
-bool BottomTagger::Problematic(fastjet::PseudoJet const& jet, PreCuts const& pre_cuts, Tag tag) const
+bool BottomTagger::Problematic(Jet const& jet, PreCuts const& pre_cuts, Tag tag) const
 {
     Info0;
     if (Problematic(jet, pre_cuts)) return true;
@@ -98,34 +98,34 @@ bool BottomTagger::Problematic(fastjet::PseudoJet const& jet, PreCuts const& pre
     return false;
 }
 
-bool BottomTagger::Problematic(fastjet::PseudoJet const& jet, PreCuts const& pre_cuts) const
+bool BottomTagger::Problematic(Jet const& jet, PreCuts const& pre_cuts) const
 {
     Info0;
     if (pre_cuts.ApplyCuts(Id::bottom, jet)) return true;
     return false;
 }
 
-boca::Jets BottomTagger::SubJets(boca::Jets const& jets, int sub_jet_number) const
+std::vector<Jet> BottomTagger::SubJets(std::vector<Jet> const& jets, int sub_jet_number) const
 {
     Info0;
-    boca::Jets subjets;
+    std::vector<Jet> subjets;
     for (auto const & jet : jets) subjets = Join(subjets, Tagger::SubJets(jet, sub_jet_number));
     return subjets;
 }
 
-boca::Jets BottomTagger::Jets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const
+std::vector<Jet> BottomTagger::Jets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
     Info0;
-    return Multiplets(event.Hadrons().Jets(), [&](fastjet::PseudoJet & jet) {
+    return Multiplets(event.Hadrons().Jets(), [&](Jet & jet) {
         if (Problematic(jet, pre_cuts)) throw boca::Problematic();
         return Multiplet(jet, reader);
     });
 }
 
-boca::Jets BottomTagger::SubMultiplet(fastjet::PseudoJet const& jet, TMVA::Reader const& reader, int sub_jet_number) const
+std::vector<Jet> BottomTagger::SubMultiplet(Jet const& jet, TMVA::Reader const& reader, int sub_jet_number) const
 {
     Info0;
-    boca::Jets jets;
+    std::vector<Jet> jets;
     for (auto const & sub_jet : Tagger::SubJets(jet, sub_jet_number)) {
         if (!sub_jet.has_user_info<JetInfo>()) continue;
         if (sub_jet.m() <= 0) continue;

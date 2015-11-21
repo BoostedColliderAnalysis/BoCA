@@ -37,7 +37,7 @@ namespace boca
 
 class PreCuts;
 typedef std::vector<std::string> Strings;
-typedef std::vector<fastjet::PseudoJet> Jets;
+typedef std::vector<Jet> Jets;
 
 enum class Stage
 {
@@ -124,7 +124,7 @@ protected:
 
     virtual void DefineVariables() = 0;
 
-    Jets SubJets(fastjet::PseudoJet const& jet, int sub_jet_number) const;
+   std::vector<Jet>SubJets(Jet const& jet, int sub_jet_number) const;
 
     Observable NewObservable(float& value, std::string const& title) const;
 
@@ -152,7 +152,7 @@ protected:
 
     template<typename Multiplet>
     std::vector<Multiplet> SetClosestLepton(Event const& event, std::vector<Multiplet>& multiplets) const {
-        Jets leptons = event.Leptons().leptons();
+       std::vector<Jet> leptons = event.Leptons().leptons();
         if (leptons.empty()) return multiplets;
         for (auto & multiplet : multiplets) {
             try {
@@ -165,7 +165,7 @@ protected:
     }
 
     template<typename Multiplet>
-    Multiplet SetClosestLepton(Multiplet& multiplet, Jets & leptons) const {
+    Multiplet SetClosestLepton(Multiplet& multiplet,std::vector<Jet>& leptons) const {
         if (leptons.empty()) leptons.emplace_back(multiplet.Jet() * (DetectorGeometry::LeptonMinPt() / multiplet.Pt()));
         auto lepton = ClosestJet(leptons, multiplet);
         multiplet.LeptonPt = lepton.pt();

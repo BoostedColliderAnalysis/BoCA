@@ -6,7 +6,7 @@
 #include <vector>
 #include <boost/range/algorithm/sort.hpp>
 
-#include "fastjet/PseudoJet.hh"
+#include "Jet.hh"
 
 #include "LorentzVector.hh"
 #include "Particles.hh"
@@ -16,21 +16,21 @@ namespace boca
 {
 
 struct MinDeltaRTo {
-    MinDeltaRTo(fastjet::PseudoJet const& jet) {
+    MinDeltaRTo(Jet const& jet) {
         jet_ = jet;
     }
     template <typename Multiplet>
     bool operator()(Multiplet const& multiplet1, Multiplet const& multiplet2) {
         return multiplet1.DeltaRTo(jet_) < multiplet2.DeltaRTo(jet_);
     }
-    bool operator()(fastjet::PseudoJet const& jet1, fastjet::PseudoJet const& jet2) {
+    bool operator()(Jet const& jet1, Jet const& jet2) {
         return jet1.delta_R(jet_)  < jet2.delta_R(jet_);
     }
-    fastjet::PseudoJet jet_;
+    Jet jet_;
 };
 
 template<typename Multiplet>
-std::vector<Multiplet> SortedByMinDeltaRTo(std::vector<Multiplet> multiplets, fastjet::PseudoJet const& jet)
+std::vector<Multiplet> SortedByMinDeltaRTo(std::vector<Multiplet> multiplets, Jet const& jet)
 {
     return boost::range::sort(multiplets, MinDeltaRTo(jet));
 }
@@ -59,7 +59,7 @@ struct SortByMassTo {
     bool operator()(Multiplet const& multiplet_1, Multiplet const& multiplet_2) {
         return boost::units::abs(multiplet_1.Mass() - mass_) < boost::units::abs(multiplet_2.Mass() - mass_);
     }
-    bool operator()(fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2) {
+    bool operator()(Jet const& jet_1, Jet const& jet_2) {
         return std::abs(jet_1.m() - mass_ / GeV) > std::abs(jet_2.m() - mass_ / GeV);
     }
     Mass mass_;
@@ -76,7 +76,7 @@ struct SortByMass {
     bool operator()(Multiplet const& multiplet_1, Multiplet const& multiplet_2) {
         return multiplet_1.Mass() > multiplet_2.Mass();
     }
-    bool operator()(fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2) {
+    bool operator()(Jet const& jet_1, Jet const& jet_2) {
         return jet_1.m() > jet_2.m();
     }
 };
@@ -93,7 +93,7 @@ struct SortByPt {
     bool operator()(Multiplet const& multiplet_1, Multiplet const& multiplet_2) {
         return multiplet_1.Pt() > multiplet_2.Pt();
     }
-    bool operator()(fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2) {
+    bool operator()(Jet const& jet_1, Jet const& jet_2) {
         return jet_1.pt() > jet_2.pt();
     }
     bool operator()(LorentzVector const& lorentz_vector_1, LorentzVector const& lorentz_vector_2) {
@@ -121,7 +121,7 @@ struct SortByBdt {
     bool operator()(Multiplet const& multiplet_1, Multiplet const& multiplet_2) {
         return multiplet_1.Bdt() > multiplet_2.Bdt();
     }
-    bool operator()(fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2) {
+    bool operator()(Jet const& jet_1, Jet const& jet_2) {
         return jet_1.user_info<boca::JetInfo>().Bdt() > jet_2.user_info<boca::JetInfo>().Bdt();
     }
 };

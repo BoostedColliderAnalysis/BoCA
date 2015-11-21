@@ -17,7 +17,7 @@ int SignatureSingleLeptonicTagger::Train(Event const& event, PreCuts const& pre_
         decuplet.SetTag(tag);
         return decuplet;
     });
-    Info(decuplets.size());
+    INFO(decuplets.size());
     return SaveEntries(decuplets, tag);
 }
 

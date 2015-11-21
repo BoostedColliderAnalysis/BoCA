@@ -108,7 +108,7 @@ long Trainer::Entries(exroot::TreeReader& tree_reader)
 
 float Trainer::Weight(exroot::TreeReader& tree_reader)
 {
-    Info(Tagger().WeightBranchName());
+    INFO(Tagger().WeightBranchName());
     TClonesArray& clones_array = *tree_reader.UseBranch(Tagger().WeightBranchName().c_str());
     tree_reader.ReadEntry(0);
     return static_cast<InfoBranch&>(*clones_array.First()).Crosssection / tree_reader.GetEntries();

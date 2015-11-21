@@ -5,7 +5,6 @@
 
 namespace fastjet
 {
-class PseudoJet;
 namespace contrib
 {
 class AxesDefinition;
@@ -14,6 +13,7 @@ class AxesDefinition;
 
 namespace boca
 {
+class Jet;
 
 class NSubJettiness
 {
@@ -22,7 +22,7 @@ public:
 
     NSubJettiness();
 
-    NSubJettiness(fastjet::PseudoJet const& jet, fastjet::contrib::AxesDefinition const& axes, int beta);
+    NSubJettiness(Jet const& jet, fastjet::contrib::AxesDefinition const& axes, int beta);
 
     float tau_1() const;
     float tau_2() const;
@@ -47,7 +47,7 @@ public:
 
     SubJettiness();
 
-    SubJettiness(fastjet::PseudoJet const& jet);
+    SubJettiness(Jet const& jet);
 
     NSubJettiness beta_1();
 

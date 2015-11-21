@@ -12,13 +12,12 @@
 class Jet;
 namespace delphes
 {
-typedef ::Jet Jet;
+  typedef ::Jet Jet;
 }
 
 namespace boca
 {
-
-typedef std::vector<fastjet::PseudoJet> Jets;
+class Jet;
 
 /**
  * @brief Jet infos subclassed from Fastjet
@@ -69,17 +68,17 @@ public:
 
     int VertexNumber() const;
 
-    fastjet::PseudoJet VertexJet() const;
+    boca::Jet VertexJet() const;
 
     Energy VertexEnergy() const;
 
-    float ElectroMagneticRadius(fastjet::PseudoJet const& jet) const;
+    float ElectroMagneticRadius(boca::Jet const& jet) const;
 
-    float TrackRadius(fastjet::PseudoJet const& jet) const;
+    float TrackRadius(boca::Jet const& jet) const;
 
     float LeadingTrackMomentumFraction() const;
 
-    float CoreEnergyFraction(fastjet::PseudoJet const& jet) const;
+    float CoreEnergyFraction(boca::Jet const& jet) const;
 
     float ElectroMagneticFraction() const;
 
@@ -106,6 +105,9 @@ public:
     void SetSubStructure(bool sub_structure){
       sub_structure_ = sub_structure;
     }
+    void SetBTag(bool b_tag);
+
+    void SetCharge(int charge);
 
 private:
 
@@ -113,11 +115,8 @@ private:
 
     void SetConstituent(Constituent const& constituent);
 
-    void SetBTag(bool b_tag);
 
     void SetTauTag(bool tau_tag);
-
-    void SetCharge(int charge);
 
     std::vector<Constituent> constituents() const;
 

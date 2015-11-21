@@ -7,10 +7,10 @@ namespace heavyhiggs {
 
 int ChargedHiggsLeptonicTagger::Train(Event const& event, PreCuts const&, const Tag) const
 {
-    Info("Higgs Tags");
-    Jets jets = bottom_reader_.Jets(event);
+    INFO("Higgs Tags");
+   std::vector<Jet> jets = bottom_reader_.Jets(event);
     std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
-    Info(triplets.size());
+    INFO(triplets.size());
     /*
         std::vector<Triplet> triplets;
         for (auto const& triplet : triplets) {
@@ -26,7 +26,7 @@ int ChargedHiggsLeptonicTagger::Train(Event const& event, PreCuts const&, const 
     //             }
             }
         }
-        Info("Numeber of triplets", triplets.size());
+        INFO("Numeber of triplets", triplets.size());
 
 
         if (tag == Tag::signal && triplets.size() > 1) {
@@ -41,8 +41,8 @@ int ChargedHiggsLeptonicTagger::Train(Event const& event, PreCuts const&, const 
 
 std::vector<Triplet>  ChargedHiggsLeptonicTagger::Multiplets(Event const&, PreCuts const& , TMVA::Reader const&) const
 {
-    Info("Bdt");
-//     Jets jets = bottom_reader_.Jets(event);
+    INFO("Bdt");
+//    std::vector<Jet> jets = bottom_reader_.Jets(event);
 //     std::vector<Doublet> doublets = top_leptonic_reader_.Multiplets(event);
 //
 //     std::vector<Triplet> triplets;

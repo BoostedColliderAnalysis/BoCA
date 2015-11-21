@@ -78,7 +78,7 @@ void JetInfoFamily::AddParticle(Id constituent_id, float weight)
 
 void JetInfoFamily::ExtractFraction(int id)
 {
-    Info(id);
+    INFO(id);
     ExtractFamilyFraction();
     for (auto const& pair : family_fractions_) {
         if (pair.first.Particle().Id() == id || pair.first.Mother().Id() == id)
@@ -92,7 +92,7 @@ void JetInfoFamily::ExtractFraction(int id)
 
 void JetInfoFamily::ExtractFraction(int id, int mother_id)
 {
-    Info(id, mother_id);
+    INFO(id, mother_id);
     for (auto const& pair : family_fractions_) {
         if (std::abs(pair.first.Particle().Id()) == id && std::abs(pair.first.Mother().Id()) == mother_id)
             AddParticle(pair.first.Particle().Id(), pair.second);
@@ -103,7 +103,7 @@ void JetInfoFamily::ExtractFraction(int id, int mother_id)
 
 void JetInfoFamily::ExtractAbsFraction(int id)
 {
-    Info(id);
+    INFO(id);
     ExtractFamilyFraction();
     for (auto const& pair : family_fractions_) {
         if (std::abs(pair.first.Particle().Id()) == id || std::abs(pair.first.Mother().Id()) == id)
@@ -125,7 +125,7 @@ float JetInfoFamily::GetWeightSum() const
 
 float JetInfoFamily::Fraction(int id) const
 {
-    Info(id);
+    INFO(id);
     if (!id_fractions_.count(id))
         return 0;
     if (GetWeightSum() == 0)

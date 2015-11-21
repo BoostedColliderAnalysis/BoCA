@@ -28,7 +28,7 @@ void AnalysisBase::Initialize()
     Error(tagger().Name());
     working_path_ = WorkingPath();
 //     if (AnalysisName() != AnalysisBase::AnalysisName())
-    Info(working_path_,AnalysisName());
+    INFO(working_path_,AnalysisName());
       mkdir(AnalysisName().c_str(), 0700);
 //     else Error(AnalysisName());
     tagger().SetAnalysisName(AnalysisName());
@@ -157,7 +157,7 @@ void AnalysisBase::RunFast()
 {
     Info0;
     RunTagger(Stage::trainer);
-    Info("Analysis Loop done");
+    INFO("Analysis Loop done");
     RunTrainer();
 }
 
@@ -166,7 +166,7 @@ void AnalysisBase::RunNormal()
     Info0;
     RunFast();
     RunTagger(Stage::reader);
-    Info("Analysis Loop done");
+    INFO("Analysis Loop done");
 }
 
 void AnalysisBase::RunFullSignificance()
@@ -335,9 +335,9 @@ void Run(AnalysisBase& analysis, Output run)
 void AnalysisBase::PrintGeneratorLevel(Event const& event, bool signature) const
 {
     Info0;
-    Jets particles = event.Partons().GenParticles();
+   std::vector<Particle> particles = event.Partons().GenParticles();
     for (auto const & particle : particles) {
-        Family family = particle.user_info<ParticleInfo>().Family();
+        Family family = particle.Info().Family();
         if (signature && family.StepMother().Id() == 0) continue;
         std::string id = Name(family.Particle().Id());
         std::string mother = Name(family.Mother().Id());

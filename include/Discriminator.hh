@@ -16,11 +16,11 @@ class Discriminator : public Reconstruction {
 
 public:
 
-    Jets GetCandidateJets(const Jets&, const float);
+   std::vector<Jet> GetCandidateJets(std::vector<Jet> const&, const float);
 
-    Jets GetCandidateJetsForced(const Jets&, const float);
+   std::vector<Jet> GetCandidateJetsForced(std::vector<Jet> const&, const float);
 
-    static bool JetIsBad(fastjet::PseudoJet const& Jet);
+    static bool JetIsBad(Jet const& Jet);
 
 };
 

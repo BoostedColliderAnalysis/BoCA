@@ -22,7 +22,7 @@ public:
      * @brief tagges the tops
      *
      */
-    Jets Tops(Jets& e_flows);
+   std::vector<fastjet::PseudoJet>Tops(Jets& e_flows);
 
 private:
 
@@ -30,7 +30,7 @@ private:
      * @brief Calculates Vector of granulated Jets
      *
      */
-    Jets GranulatedJets(boca::Jets& e_flows);
+   std::vector<fastjet::PseudoJet> GranulatedJets(std::vector<fastjet::PseudoJet>& e_flows);
 
 };
 

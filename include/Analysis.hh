@@ -16,7 +16,7 @@
 #include "Debug.hh"
 // #define Info0
 // #define Error(...)
-// #define Info(...)
+// #define INFO(...)
 
 namespace boca
 {

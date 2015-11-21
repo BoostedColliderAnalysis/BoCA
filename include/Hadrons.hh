@@ -25,11 +25,11 @@ public:
      */
     void NewEvent(TreeReader const& tree_reader);
 
-    virtual boca::Jets Jets() const = 0;
+    virtual std::vector<Jet> Jets() const = 0;
 
     virtual float ScalarHt() const;
 
-    virtual fastjet::PseudoJet MissingEt() const;
+    virtual Jet MissingEt() const;
 
 protected:
 

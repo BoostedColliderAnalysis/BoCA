@@ -8,22 +8,23 @@
 #include "Sort.hh"
 #include "Debug.hh"
 
-namespace boca {
-
-Jets Discriminator::GetCandidateJets(Jets const& EFlowJets, float ScalarHt)
+namespace boca
 {
-    Info("Tagged Candidate Jets", EFlowJets.size());
-    Jets jets;
+
+std::vector<Jet>Discriminator::GetCandidateJets(std::vector<Jet> const& EFlowJets, float ScalarHt)
+{
+    INFO("Tagged Candidate Jets", EFlowJets.size());
+    std::vector<Jet> jets;
     if (EFlowJets.empty()) {
-        Info("No EFlow Jets");
+        INFO("No EFlow Jets");
         return jets;
     }
     float DeltaR = 750. / ScalarHt;
     fastjet::JetAlgorithm FatJetAlgorithm = fastjet::cambridge_algorithm;
     fastjet::JetDefinition FatJetDefinition(FatJetAlgorithm, DeltaR);
-    Jets FatJets = GetFatJets(EFlowJets, FatJetDefinition);
-    Jets MassDropJets = GetMassDropJets(FatJets);
-//     Jets MassDropJets = GetSubjet_taggedJets(FatJets);
+    std::vector<Jet> FatJets = GetFatJets(EFlowJets, FatJetDefinition);
+    std::vector<Jet> MassDropJets = GetMassDropJets(FatJets);
+//    std::vector<Jet> MassDropJets= GetSubjet_taggedJets(FatJets);
     MassDropJets.erase(std::remove_if(MassDropJets.begin(), MassDropJets.end(), JetIsBad), MassDropJets.end());
     MassDropJets = SortedByMass(MassDropJets);
     MassDropJets = GetFatjet_tag(MassDropJets);
@@ -31,21 +32,21 @@ Jets Discriminator::GetCandidateJets(Jets const& EFlowJets, float ScalarHt)
 }
 
 
-Jets Discriminator::GetCandidateJetsForced(Jets const& EFlowJets, float ScalarHt)
+std::vector<Jet>Discriminator::GetCandidateJetsForced(std::vector<Jet> const& EFlowJets, float ScalarHt)
 {
-    Info("Tagged Candidate Jets", EFlowJets.size());
-    Jets jets;
+    INFO("Tagged Candidate Jets", EFlowJets.size());
+    std::vector<Jet> jets;
     if (EFlowJets.empty()) {
-        Info("No EFlow Jets");
+        INFO("No EFlow Jets");
         return jets;
     }
 //     float DeltaR = 1000. / ScalarHt;
     float DeltaR = 750. / ScalarHt;
     fastjet::JetAlgorithm FatJetAlgorithm = fastjet::cambridge_algorithm;
-    Jets MassDropJets;
+    std::vector<Jet>MassDropJets;
     while (MassDropJets.empty() && DeltaR < 7) {
         fastjet::JetDefinition FatJetDefinition(FatJetAlgorithm, DeltaR);
-        Jets FatJets = GetFatJets(EFlowJets, FatJetDefinition);
+        std::vector<Jet> FatJets = GetFatJets(EFlowJets, FatJetDefinition);
         MassDropJets = GetMassDropJets(FatJets);
         MassDropJets.erase(std::remove_if(MassDropJets.begin(), MassDropJets.end(), JetIsBad), MassDropJets.end());
         DeltaR += .25;
@@ -56,10 +57,10 @@ Jets Discriminator::GetCandidateJetsForced(Jets const& EFlowJets, float ScalarHt
 }
 
 
-bool Discriminator::JetIsBad(fastjet::PseudoJet const& Jet)
+bool Discriminator::JetIsBad(Jet const& Jet)
 {
     if (std::abs(Jet.m()) <= 40.) {
-        Info("Fat Jet Mass", Jet.m());
+        INFO("Fat Jet Mass", Jet.m());
         return 1;
     }
     if (Jet.pieces().size() != 2) {
@@ -67,7 +68,7 @@ bool Discriminator::JetIsBad(fastjet::PseudoJet const& Jet)
         return 1;
     }
     if (!Jet.has_structure()) {
-        Note("fastjet::PseudoJet has no structure");
+        Note("Jet has no structure");
         return 1;
     }
     return 0;

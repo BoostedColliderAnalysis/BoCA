@@ -13,17 +13,17 @@ namespace higgscpv
 int SignatureLeptonTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) const
 {
     Info0;
-    Jets leptons = event.Leptons().leptons();
+   std::vector<Jet> leptons = event.Leptons().leptons();
     if (leptons.size() < 2) return 0;
-    Jets particles = event.Partons().GenParticles();
-    Jets lepton_particle = CopyIfParticles(particles, Id::electron, Id::muon);
+   std::vector<Jet> particles = event.Partons().GenParticles();
+   std::vector<Jet> lepton_particle = CopyIfParticles(particles, Id::electron, Id::muon);
 //     Error(lepton_particle);
     lepton_particle = CopyIfGrandMother(lepton_particle, Id::top);
 //     Error(lepton_particle);
-    Jets final_leptons = CopyIfClose(leptons, lepton_particle);
+   std::vector<Jet> final_leptons = CopyIfClose(leptons, lepton_particle);
 //     Error(final_leptons);
     std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
-    Jets higgses = CopyIfParticles(particles, Id::higgs, Id::CP_violating_higgs);
+   std::vector<Jet> higgses = CopyIfParticles(particles, Id::higgs, Id::CP_violating_higgs);
     std::vector<Doublet> final_doublets = BestMatches(doublets, higgses, tag);
 
     std::vector<MultipletSignature<Quartet211>> quartets = triples(final_leptons, final_doublets, [&](Singlet const& singlet_1, Singlet const& singlet_2, Doublet const& doublet) {
@@ -40,10 +40,10 @@ int SignatureLeptonTagger::Train(Event const& event, boca::PreCuts const&, Tag t
 std::vector<MultipletSignature<Quartet211>> SignatureLeptonTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
 {
     Info0;
-    Jets leptons = event.Leptons().leptons();
+   std::vector<Jet> leptons = event.Leptons().leptons();
     if (leptons.size() < 2) return {};
     std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
-    Info(doublets.size());
+    INFO(doublets.size());
     std::vector<MultipletSignature<Quartet211>> quartets = triples(leptons, doublets, [&](Singlet const& singlet_1, Singlet const& singlet_2, Doublet const& doublet) {
         MultipletSignature<Quartet211> quartet = Signature(doublet, singlet_1, singlet_2);
         quartet.SetBdt(Bdt(quartet, reader));

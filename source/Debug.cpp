@@ -1,9 +1,8 @@
 /**
  * Copyright (C) 2015 Jan Hajer
  */
-#include <iomanip>
-#include <boost/units/systems/si/io.hpp>
-#include "fastjet/PseudoJet.hh"
+#include "Jet.hh"
+#include "Particle.hh"
 #include "Debug.hh"
 
 namespace boca {
@@ -58,14 +57,19 @@ int ValueLength()
 void Log(std::string const& file, int line, std::string const& NameSpace, std::string const& Class, std::string const& function, bool final)
 {
     std::cout << Column(25, file) << ColumnRight(3, line) << " " << Column(15, NameSpace) << Column(18, Class) << Column(20, function);
-    if (final)
-        std::cout << "\n";
+    if (final) std::cout << "\n";
 }
 
-void LogVariable(std::string const& variable, fastjet::PseudoJet const& jet)
+void LogVariable(std::string const& variable, Particle const& jet)
 {
     std::cout << Column(ValueLength(), variable) << Column(ValueLength(), jet.px()) << Column(ValueLength(), jet.py()) << Column(ValueLength(), jet.pz()) << Column(ValueLength(), jet.e());
 }
+
+void LogVariable(std::string const& variable, Jet const& jet)
+{
+  std::cout << Column(ValueLength(), variable) << Column(ValueLength(), jet.px()) << Column(ValueLength(), jet.py()) << Column(ValueLength(), jet.pz()) << Column(ValueLength(), jet.e());
+}
+
 
 void LogVariable(std::string const&, char const* value)
 {

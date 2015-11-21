@@ -9,8 +9,8 @@ namespace heavyhiggs {
 int EventChargedTagger::Train(boca::Event const& event, boca::PreCuts const&, Tag tag) const
 {
     Info0;
-    Jets jets = bottom_reader_.Jets(event);
-    Jets Leptons = event.Leptons().leptons();
+   std::vector<Jet> jets = bottom_reader_.Jets(event);
+   std::vector<Jet> Leptons = event.Leptons().leptons();
     std::vector<Octet44> octets = signature_semi_reader_.Multiplets(event);
     std::vector<MultipletEvent<Octet44>> events;
     for (auto const& octet : octets) {
@@ -25,7 +25,7 @@ int EventChargedTagger::Train(boca::Event const& event, boca::PreCuts const&, Ta
 std::vector<MultipletEvent<Octet44>> EventChargedTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
 {
     Info0;
-    Jets jets = bottom_reader_.Jets(event);
+   std::vector<Jet> jets = bottom_reader_.Jets(event);
     std::vector<Octet44> octets = signature_semi_reader_.Multiplets(event);
     std::vector<MultipletEvent<Octet44>> multiplet_events;
     for (auto& octet : octets) {

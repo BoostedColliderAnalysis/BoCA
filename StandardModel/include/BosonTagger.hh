@@ -44,7 +44,7 @@ public:
 
 private:
 
-    Jets Particles(Event const& event) const;
+    std::vector<Particle> Particles(Event const& event) const;
 
     Doublet CheckDoublet(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const;
 

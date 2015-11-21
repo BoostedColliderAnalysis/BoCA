@@ -31,24 +31,24 @@ class Hadrons : public boca::Hadrons
 {
 
 public:
-    boca::Jets Jets() const final;
+    std::vector<Jet> Jets() const final;
 
     float ScalarHt() const final;
 
-    fastjet::PseudoJet MissingEt() const final;
+    Jet MissingEt() const final;
 
 
 private:
 
     std::vector<TObject*> Leptons(JetDetail jet_detail) const;
 
-    boca::Jets EFlowJets(boca::JetDetail jet_detail) const;
+    std::vector<Jet> EFlowJets(boca::JetDetail jet_detail) const;
 
-    boca::Jets DelphesJets(JetDetail jet_detail) const;
+    std::vector<Jet> DelphesJets(JetDetail jet_detail) const;
 
-    boca::Jets EFlow(JetDetail jet_detail) const;
+    std::vector<Jet> EFlow(JetDetail jet_detail) const;
 
-    boca::Jets GenJets() const;
+    std::vector<Jet> GenJets() const;
 
     template <typename Clone>
     std::vector<Constituent> JetId(Clone& clone) const {
@@ -62,25 +62,25 @@ private:
 
     bool Isolated(TObject const& object, std::vector<TObject*> const& leptons) const;
 
-    boca::Jets EFlowTrack(std::vector< TObject* > const& leptons, JetDetail jet_detail) const;
+    std::vector<Jet> EFlowTrack(std::vector< TObject* > const& leptons, JetDetail jet_detail) const;
 
-    boca::Jets EFlowPhoton(std::vector< TObject* > const& leptons, JetDetail jet_detail) const;
+    std::vector<Jet> EFlowPhoton(std::vector< TObject* > const& leptons, JetDetail jet_detail) const;
 
-    boca::Jets EFlowHadron(std::vector< TObject* > const& leptons, JetDetail jet_detail) const;
+    std::vector<Jet> EFlowHadron(std::vector< TObject* > const& leptons, JetDetail jet_detail) const;
 
-    boca::Jets EFlowMuon(std::vector< TObject* > const& leptons, JetDetail jet_detail) const;
+    std::vector<Jet> EFlowMuon(std::vector< TObject* > const& leptons, JetDetail jet_detail) const;
 
-    boost::optional<fastjet::PseudoJet> StructuredJet(::delphes::Jet const& delphes_jet, std::vector< TObject* > const& leptons, boca::JetDetail jet_detail) const;
+    boost::optional<Jet> StructuredJet(::delphes::Jet const& delphes_jet, std::vector< TObject* > const& leptons, boca::JetDetail jet_detail) const;
 
-    boost::optional<fastjet::PseudoJet> ConstituentJet(TObject& object, std::vector<TObject*> const& leptons, JetDetail jet_detail, SubDetector sub_detector) const;
+    boost::optional<Jet> ConstituentJet(TObject& object, std::vector<TObject*> const& leptons, JetDetail jet_detail, SubDetector sub_detector) const;
 
-    boost::optional<fastjet::PseudoJet> ConstituentGenParticle(TObject& object, std::vector<TObject*> const& leptons, JetDetail jet_detail) const;
+    boost::optional<Jet> ConstituentGenParticle(TObject& object, std::vector<TObject*> const& leptons, JetDetail jet_detail) const;
 
-    boost::optional<fastjet::PseudoJet> ConstituentTrack(TObject& object, std::vector<TObject*> const& leptons, JetDetail jet_detail) const;
+    boost::optional<Jet> ConstituentTrack(TObject& object, std::vector<TObject*> const& leptons, JetDetail jet_detail) const;
 
-    boost::optional<fastjet::PseudoJet> ConstituentTower(TObject& object, std::vector<TObject*> const& leptons, JetDetail jet_detail, SubDetector sub_detector) const;
+    boost::optional<Jet> ConstituentTower(TObject& object, std::vector<TObject*> const& leptons, JetDetail jet_detail, SubDetector sub_detector) const;
 
-    boost::optional<fastjet::PseudoJet> ConstituentMuon(TObject& object, std::vector<TObject*> const& leptons, JetDetail jet_detail) const;
+    boost::optional<Jet> ConstituentMuon(TObject& object, std::vector<TObject*> const& leptons, JetDetail jet_detail) const;
 
 };
 

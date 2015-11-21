@@ -12,7 +12,7 @@ int SignatureTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) co
     std::vector<Sextet> sextets = triplet_pair_reader_.Tagger().TruthLevel(event,triplet_pair_reader_.Multiplets(event),tag);
     Debug(sextets.size());
     std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
-    Jets higgses = CopyIfParticles(event.Partons().GenParticles(), Id::higgs, Id::CP_violating_higgs);
+   std::vector<Jet> higgses = CopyIfParticles(event.Partons().GenParticles(), Id::higgs, Id::CP_violating_higgs);
     std::vector<Doublet> final_doublets = BestMatches(doublets,higgses,tag);
     Debug(final_doublets.size());
     std::vector<MultipletSignature<Octet62>> octets;
@@ -34,9 +34,9 @@ std::vector<MultipletSignature<Octet62>> SignatureTagger::Multiplets(Event const
 {
     Info0;
     std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
-    Info(doublets.size());
+    INFO(doublets.size());
     std::vector<Sextet> sextets = triplet_pair_reader_.Multiplets(event);
-    Info(sextets.size());
+    INFO(sextets.size());
     std::vector<MultipletSignature<Octet62>> octets;
     for (auto const& doublet : doublets) {
         for (auto const& sextet : sextets) {

@@ -7,7 +7,7 @@ namespace naturalness {
 
 int HiggsPairTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
-    Info("Higgs Tags");
+    INFO("Higgs Tags");
     std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
     std::vector<Quartet22> quartets;
     for (auto doublet_1 = doublets.begin(); doublet_1 != doublets.end(); ++doublet_1) {

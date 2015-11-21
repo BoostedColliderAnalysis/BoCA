@@ -32,19 +32,19 @@ std::vector<Quintet> VetoTopPartnerHadronicTagger::Multiplets(Event const& event
     }));
 }
 
-Jets VetoTopPartnerHadronicTagger::Particles(Event const& event) const
+std::vector<Particle> VetoTopPartnerHadronicTagger::Particles(Event const& event) const
 {
-    Jets particles = event.Partons().GenParticles();
-    Jets quarks = CopyIfQuark(particles);
-    Jets candidate = CopyIfGrandGrandMother(quarks, Id::top_partner);
+    std::vector<Particle> particles = event.Partons().GenParticles();
+    std::vector<Particle> quarks = CopyIfQuark(particles);
+    std::vector<Particle> candidate = CopyIfGrandGrandMother(quarks, Id::top_partner);
     if (!candidate.empty()) {
-        int grand_grand_mother = candidate.front().user_info<ParticleInfo>().Family().grand_grand_mother().Id();
+        int grand_grand_mother = candidate.front().Info().Family().GreatGrandMother().Id();
         return CopyIfExactParticle(particles, grand_grand_mother);
     } else {
         candidate = CopyIfGrandMother(quarks, Id::top_partner);
         candidate = CopyIfMother(candidate, Id::W);
         if (candidate.empty()) return {};
-        int grand_mother = candidate.front().user_info<ParticleInfo>().Family().GrandMother().Id();
+        int grand_mother = candidate.front().Info().Family().GrandMother().Id();
         return CopyIfExactParticle(particles, grand_mother);
     }
 }
@@ -70,12 +70,14 @@ std::vector<Quintet> VetoTopPartnerHadronicTagger::Quintets(Event const& event, 
     return vetos;
 }
 
-std::string VetoTopPartnerHadronicTagger::Name() const {
-  return "VetoTopPartnerHadronic";
+std::string VetoTopPartnerHadronicTagger::Name() const
+{
+    return "VetoTopPartnerHadronic";
 }
 
-std::string VetoTopPartnerHadronicTagger::NiceName() const {
-  return "#slash{T}_{h}";
+std::string VetoTopPartnerHadronicTagger::NiceName() const
+{
+    return "#slash{T}_{h}";
 }
 
 

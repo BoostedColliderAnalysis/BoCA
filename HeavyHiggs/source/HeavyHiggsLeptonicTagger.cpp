@@ -15,10 +15,10 @@ int HeavyHiggsLeptonicTagger::Train(Event const& event, PreCuts const&, Tag tag)
     Info0;
     Mass mass = event.mass();
     std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
-    fastjet::PseudoJet missing_et = event.Hadrons().MissingEt();
-    Jets particles = event.Partons().GenParticles();
-    Jets neutrinos = CopyIfNeutrino(particles);
-    Info(triplets.size());
+    Jet missing_et = event.Hadrons().MissingEt();
+    std::vector<Particle> particles = event.Partons().GenParticles();
+    std::vector<Particle> neutrinos = CopyIfNeutrino(particles);
+    INFO(triplets.size());
     std::vector<Sextet> sextets;
     for (auto const& triplet_1 : triplets) {
         for (auto const& triplet_2 : triplets) {
@@ -35,7 +35,7 @@ int HeavyHiggsLeptonicTagger::Train(Event const& event, PreCuts const&, Tag tag)
             }
         }
     }
-    Info(sextets.size());
+    INFO(sextets.size());
     if (tag == Tag::signal)
         sextets = BestMass(sextets, mass);
     return SaveEntries(sextets);
@@ -45,7 +45,7 @@ std::vector<Sextet>  HeavyHiggsLeptonicTagger::Multiplets(Event const& event, Pr
 {
     Info0;
     std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
-    fastjet::PseudoJet missing_et = event.Hadrons().MissingEt();
+    Jet missing_et = event.Hadrons().MissingEt();
     std::vector<Sextet> sextets;
     for (auto const& triplet_1 : triplets) {
         for (auto const& triplet_2 : triplets) {

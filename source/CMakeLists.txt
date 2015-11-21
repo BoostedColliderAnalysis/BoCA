@@ -15,6 +15,7 @@ EventShapes.cpp
 EventShape.cpp
 PseudoJet.cpp
 Jet.cpp
+Particle.cpp
 )
 create_library(Vector vector_sources)
 

@@ -10,8 +10,6 @@
 namespace boca
 {
 
-typedef std::vector<fastjet::PseudoJet> Jets;
-
 /**
  * @brief Jet infos subclassed from Fastjet
  *
@@ -32,6 +30,8 @@ public:
     ParticleInfo(boca::Family const& family);
 
     boca::Family Family() const;
+
+    void SetFamily(boca::Family const& family);
 
 private:
 

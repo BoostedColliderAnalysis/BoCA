@@ -22,7 +22,7 @@ public:
         SetMultiplets(multiplet_1, multiplet_2);
     }
 
-    TwoBody(fastjet::PseudoJet const& jet) {
+    TwoBody(boca::Jet const& jet) {
         SetJet(jet);
     }
 
@@ -34,7 +34,7 @@ public:
         else if (multiplet_2.Bdt() != InitialValue()) SetBdt(multiplet_2.Bdt());
     }
 
-    void SetJet(fastjet::PseudoJet const& jet) {
+    void SetJet(boca::Jet const& jet) {
         static_cast<JetInfo&>(*jet.user_info_shared_ptr().get()).SetSubStructure(false);
         multiplet_1_ = Multiplet_1(jet / 2);
         multiplet_2_ = Multiplet_2(jet / 2);
@@ -66,7 +66,7 @@ public:
         return (multiplet_1_.Overlap(singlet) || multiplet_2_.Overlap(singlet));
     }
 
-    bool Overlap(fastjet::PseudoJet const& jet) const {
+    bool Overlap(boca::Jet const& jet) const {
         return (multiplet_1_.Overlap(jet) || multiplet_2_.Overlap(jet));
     }
 
@@ -78,7 +78,7 @@ public:
         Multiplet::SetPlainJet(Multiplet::Jet(Multiplet1().Jet(), Multiplet2().Jet()));
     }
 
-    boca::Jets Jets() const override  {
+    std::vector<boca::Jet> Jets() const override  {
         return Join(Multiplet1().Jets(), Multiplet2().Jets());
     }
 

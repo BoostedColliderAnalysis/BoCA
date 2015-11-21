@@ -19,11 +19,11 @@ public:
 
     void NewEvent(TreeReader const& tree_reader);
 
-    Jets leptons() const;
+   std::vector<Jet> leptons() const;
 
-    virtual boca::Jets Electrons() const = 0;
+    virtual std::vector<Jet> Electrons() const = 0;
 
-    virtual boca::Jets Muons() const = 0;
+    virtual std::vector<Jet> Muons() const = 0;
 
 };
 

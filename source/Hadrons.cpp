@@ -18,10 +18,10 @@ float Hadrons::ScalarHt() const
     return 0;
 }
 
-fastjet::PseudoJet Hadrons::MissingEt() const
+Jet Hadrons::MissingEt() const
 {
     Error("No Mising Et");
-    return fastjet::PseudoJet {};
+    return Jet(0.,0.,0.,0.);
 }
 
 }

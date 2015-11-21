@@ -12,17 +12,17 @@ namespace boca
 int JetPairTagger::Train(Event const& event, PreCuts const& , Tag tag) const
 {
     Info0;
-    Jets jets = bottom_reader_.Jets(event);
+    std::vector<Jet> jets = bottom_reader_.Jets(event);
     if (jets.empty()) return 0;
     Debug(jets.size());
-    Jets bottoms = BottomPair(event, tag);
-    Jets higgs = HiggsParticle(event, tag);
+    std::vector<Particle> bottoms = BottomPair(event, tag);
+    std::vector<Particle> higgs = HiggsParticle(event, tag);
     Debug(bottoms.size());
-    Jets bottom_jets;
-    Jets bad_bottom_jets;
+    std::vector<Jet> bottom_jets;
+    std::vector<Jet> bad_bottom_jets;
     switch (tag) {
     case Tag::signal :
-        for (auto const& bottom : bottoms) {
+        for (auto const & bottom : bottoms) {
             jets = SortedByMinDeltaRTo(jets, bottom);
             if (Close(jets.at(1))(bottom))continue;
             if (Close(jets.at(0))(bottom))bottom_jets.emplace_back(jets.front());
@@ -32,7 +32,7 @@ int JetPairTagger::Train(Event const& event, PreCuts const& , Tag tag) const
         bottom_jets = jets;
         break;
     }
-//     Jets bottom_jets = BestMatches(jets,bottoms,tag);
+//    std::vector<Jet> bottom_jets = BestMatches(jets,bottoms,tag);
     std::vector<Doublet> doublets;
     for (auto jet1 = bottom_jets.begin(); jet1 != bottom_jets.end(); ++jet1)
         for (auto jet2 = jet1 + 1; jet2 != bottom_jets.end(); ++jet2) {
@@ -40,8 +40,8 @@ int JetPairTagger::Train(Event const& event, PreCuts const& , Tag tag) const
             if (std::abs((*jet1).rap()) > std::abs((*jet2).rap())) doublet.SetMultiplets(*jet1, *jet2);
             else doublet.SetMultiplets(*jet2, *jet1);
 
-            if(bottoms.size()==2&&higgs.size()>0&&tag==Tag::background){
-              if(CheckIfBadBottom(doublet, bottoms)) continue;
+            if (bottoms.size() == 2 && higgs.size() > 0 && tag == Tag::background) {
+                if (CheckIfBadBottom(doublet, bottoms)) continue;
             }
 
             if (doublet.Overlap())continue;
@@ -57,18 +57,18 @@ int JetPairTagger::Train(Event const& event, PreCuts const& , Tag tag) const
     return SaveEntries(doublets);
 }
 
-Jets JetPairTagger::BottomPair(Event const& event, Tag tag) const
+std::vector<Particle>JetPairTagger::BottomPair(Event const& event, Tag tag) const
 {
-    if (tag == Tag::background) return Jets {};
-    Jets particles = event.Partons().GenParticles();
-    Jets bottom_not_from_even = RemoveIfGrandFamily(particles, Id::bottom, Id::heavy_higgs);
-    Jets bottom_not_from_higgs = RemoveIfGrandFamily(bottom_not_from_even, Id::bottom, Id::CP_odd_higgs);
+    if (tag == Tag::background) return std::vector<Particle> {};
+    std::vector<Particle> particles = event.Partons().GenParticles();
+    std::vector<Particle> bottom_not_from_even = RemoveIfGrandFamily(particles, Id::bottom, Id::heavy_higgs);
+    std::vector<Particle> bottom_not_from_higgs = RemoveIfGrandFamily(bottom_not_from_even, Id::bottom, Id::CP_odd_higgs);
     return bottom_not_from_higgs;
 }
 
 std::vector<Doublet> JetPairTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
-    Jets jets = bottom_reader_.Jets(event);
+    std::vector<Jet> jets = bottom_reader_.Jets(event);
     std::vector<Doublet>  doublets;
     for (auto jet_1 = jets.begin(); jet_1 != jets.end(); ++jet_1)
         for (auto jet_2 = jet_1 + 1; jet_2 != jets.end(); ++jet_2) {
@@ -84,21 +84,22 @@ std::vector<Doublet> JetPairTagger::Multiplets(Event const& event, boca::PreCuts
     return ReduceResult(doublets, 6);
 }
 
-bool JetPairTagger::CheckIfBadBottom(boca::Doublet const& doublet, Jets const& jets)const
+bool JetPairTagger::CheckIfBadBottom(boca::Doublet const& doublet, std::vector<Particle> const& jets)const
 {
-  if((Close(jets.at(0))(doublet.Singlet1().Jet()) && Close(jets.at(1))(doublet.Singlet2().Jet())) || (Close(jets.at(1))(doublet.Singlet1().Jet()) && Close(jets.at(0))(doublet.Singlet2().Jet())))return true;
-  else return false;
+    if ((Close(jets.at(0))(doublet.Singlet1().Jet()) && Close(jets.at(1))(doublet.Singlet2().Jet())) || (Close(jets.at(1))(doublet.Singlet1().Jet()) && Close(jets.at(0))(doublet.Singlet2().Jet())))return true;
+    else return false;
 
 }
 
-Jets JetPairTagger::HiggsParticle(Event const& event, Tag tag) const
+std::vector<Particle> JetPairTagger::HiggsParticle(Event const& event, Tag tag) const
 {
-  if (tag == Tag::background) return Jets {};
-  Jets particles = event.Partons().GenParticles();
-  Jets even = CopyIfFamily(particles, Id::heavy_higgs, Id::gluon);
-  Jets odd = CopyIfFamily(particles, Id::CP_odd_higgs, Id::gluon);
-  return Join(even, odd);
+    if (tag == Tag::background) return std::vector<Particle> {};
+    std::vector<Particle> particles = event.Partons().GenParticles();
+    std::vector<Particle> even = CopyIfFamily(particles, Id::heavy_higgs, Id::gluon);
+    std::vector<Particle> odd = CopyIfFamily(particles, Id::CP_odd_higgs, Id::gluon);
+    return Join(even, odd);
 }
+
 std::string JetPairTagger::Name() const
 {
     return "JetPair";

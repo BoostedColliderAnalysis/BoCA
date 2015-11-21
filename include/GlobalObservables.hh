@@ -13,7 +13,7 @@ class GlobalObservables {
 
 public:
 
-    void SetEvent(Event const& event, boca::Jets const& jets);
+    void SetEvent(Event const& event, std::vector<Jet> const& jets);
 
     void SetEvent(Event const& event);
 
@@ -39,16 +39,16 @@ public:
 
     boca::Singlet Singlet() const;
 
-    boca::Jets Jets() const;
+    std::vector<Jet> Jets() const;
 
-    void SetJets(const boca::Jets jets);
+    void SetJets(const std::vector<Jet> jets);
 
 private:
 
-    boca::Jets leptons_;
+    std::vector<Jet> leptons_;
     float scalar_ht_;
     float missing_et_;
-    boca::Jets jets_;
+    std::vector<Jet> jets_;
 
 };
 

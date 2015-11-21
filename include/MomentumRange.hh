@@ -9,8 +9,6 @@
 namespace boca
 {
 
-using Jets = std::vector<fastjet::PseudoJet>;
-
 class SubJet
 {
 public:
@@ -35,12 +33,12 @@ public:
     bool BelowUpperBound(Multiplet const& multiplet) const {
         return multiplet.Pt() < max_;
     }
-    bool BelowUpperBound(fastjet::PseudoJet const& jet) const;
+    bool BelowUpperBound(Jet const& jet) const;
     template <typename Multiplet>
     bool AboveLowerBound(Multiplet const& multiplet) const {
         return multiplet.Pt() > min_;
     }
-    bool AboveLowerBound(fastjet::PseudoJet const& jet) const;
+    bool AboveLowerBound(Jet const& jet) const;
     template <typename Multiplet>
     bool InsideBounds(Multiplet const& multiplet) const {
         return AboveLowerBound(multiplet) && BelowUpperBound(multiplet);

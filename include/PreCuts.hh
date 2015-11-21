@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include "fastjet/PseudoJet.hh"
+#include "Jet.hh"
 
 #include "PreCut.hh"
 
@@ -25,7 +25,7 @@ public:
         return pt_lower_cut_.IsSet(id) && pt_lower_cut_.Get(id) > multiplet.Pt();
     }
 
-    bool PtTooSmall(Id id, fastjet::PseudoJet const& jet) const {
+    bool PtTooSmall(Id id, Jet const& jet) const {
         return pt_lower_cut_.IsSet(id) && pt_lower_cut_.Get(id) > jet.pt() * GeV;
     }
 
@@ -34,7 +34,7 @@ public:
         return pt_upper_cut_.IsSet(id) && pt_upper_cut_.Get(id) < multiplet.Pt();
     }
 
-    bool PtTooLarge(Id id, fastjet::PseudoJet const& jet) const {
+    bool PtTooLarge(Id id, Jet const& jet) const {
         return pt_upper_cut_.IsSet(id) && pt_upper_cut_.Get(id) < jet.pt() * GeV;
     }
 
@@ -43,7 +43,7 @@ public:
         return mass_lower_cut_.IsSet(id) && mass_lower_cut_.Get(id) > multiplet.Mass();
     }
 
-    bool MassTooSmall(Id id, fastjet::PseudoJet const& jet) const {
+    bool MassTooSmall(Id id, Jet const& jet) const {
         return mass_lower_cut_.IsSet(id) && mass_lower_cut_.Get(id) > jet.m() * GeV;
     }
 
@@ -52,7 +52,7 @@ public:
         return mass_upper_cut_.IsSet(id) && mass_upper_cut_.Get(id) < multiplet.Mass();
     }
 
-    bool MassTooLarge(Id id, fastjet::PseudoJet const& jet) const {
+    bool MassTooLarge(Id id, Jet const& jet) const {
         return mass_upper_cut_.IsSet(id) && mass_upper_cut_.Get(id) < jet.m() * GeV;
     }
 
@@ -61,7 +61,7 @@ public:
         return tracker_eta_upper_cut_.IsSet(id) && tracker_eta_upper_cut_.Get(id) < boost::units::abs(multiplet.Rap());
     }
 
-    bool OutsideTracker(Id id, fastjet::PseudoJet const& jet) const {
+    bool OutsideTracker(Id id, Jet const& jet) const {
         return tracker_eta_upper_cut_.IsSet(id) && tracker_eta_upper_cut_.Get(id) < std::abs(jet.rap()) * rad;
     }
 

@@ -2,7 +2,8 @@
  * Copyright (C) 2015 Jan Hajer
  */
 #include "EventShape.hh"
-#include "fastjet/PseudoJet.hh"
+#include "Jet.hh"
+// #include "fastjet/PseudoJet.hh"
 
 namespace boca {
 
@@ -10,7 +11,7 @@ class Peg
 {
 
 public:
-  Peg(fastjet::PseudoJet const& jet) {
+  Peg(Jet const& jet) {
     SetMomentum(jet);
     SetPointer();
   }
@@ -23,7 +24,7 @@ public:
     return ThePEG::Lorentz5Momentum(Vector(x, y, z, t) * ThePEG::GeV);
   }
 
-  void SetMomentum(fastjet::PseudoJet const& jet) {
+  void SetMomentum(Jet const& jet) {
     momentum = Momentum(jet.px(), jet.py(), jet.pz(), jet.e());
   }
 
@@ -37,7 +38,7 @@ public:
   ThePEG::ParticleData particle_data;
 };
 
-void EventShape::SetJets(const std::vector< fastjet::PseudoJet >& jets)
+void EventShape::SetJets(const std::vector< Jet >& jets)
 {
     std::vector<ThePEG::Lorentz5Momentum> momenta;
     std::vector<ThePEG::ParticleData> particle_datas(jets.size());

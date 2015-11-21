@@ -66,11 +66,11 @@ Momentum MomentumRange::PtMax(SubJet const& id) {
     return PtMax(id.Id(), DetectorGeometry::MinCellResolution());
 }
 
-bool MomentumRange::BelowUpperBound(fastjet::PseudoJet const& jet) const {
+bool MomentumRange::BelowUpperBound(Jet const& jet) const {
     return jet.pt() * GeV < max_;
 }
 
-bool MomentumRange::AboveLowerBound(fastjet::PseudoJet const& jet) const {
+bool MomentumRange::AboveLowerBound(Jet const& jet) const {
     return jet.pt() * GeV > min_;
 }
 

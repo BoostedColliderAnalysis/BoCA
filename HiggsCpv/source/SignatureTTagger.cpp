@@ -13,16 +13,16 @@ namespace higgscpv
 int SignatureTTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) const
 {
     Info0;
-    Jets particles = event.Partons().GenParticles();
+   std::vector<Jet> particles = event.Partons().GenParticles();
     std::vector<Triplet> triplets = top_reader_.Multiplets(event);
-    Jets tops = CopyIfParticle(particles, Id::top);
+   std::vector<Jet> tops = CopyIfParticle(particles, Id::top);
 
     std::vector<Triplet> final_triplets = triplets;
 //     std::vector<Triplet> final_triplets = BestMatches(triplets, tops, tag);
     Debug(triplets.size(), tops.size(), final_triplets.size());
 
     std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
-    Jets higgses = CopyIfParticles(particles, Id::higgs, Id::CP_violating_higgs);
+   std::vector<Jet> higgses = CopyIfParticles(particles, Id::higgs, Id::CP_violating_higgs);
     std::vector<Doublet> final_doublets = doublets;
 //     std::vector<Doublet> final_doublets = BestMatches(doublets, higgses, tag);
     Debug(doublets.size(), higgses.size(), final_doublets.size());
@@ -49,9 +49,9 @@ std::vector<MultipletSignature<Octet332>> SignatureTTagger::Multiplets(Event con
 {
     Info0;
     std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
-    Info(doublets.size());
+    INFO(doublets.size());
     std::vector<Triplet> triplets = top_reader_.Multiplets(event);
-    Info(triplets.size());
+    INFO(triplets.size());
     std::vector<MultipletSignature<Octet332>> octets = triples(triplets, doublets, [&](Triplet const & triplet_1, Triplet const & triplet_2, Doublet const & doublet) {
         MultipletSignature<Octet332> octet = Signature(triplet_1, triplet_2, doublet);
         octet.SetBdt(Bdt(octet, reader));

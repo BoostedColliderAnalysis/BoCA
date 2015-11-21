@@ -10,7 +10,9 @@ namespace boca
 
 class InfoRecombiner : public fastjet::JetDefinition::DefaultRecombiner
 {
+
 public:
+
   InfoRecombiner(fastjet::RecombinationScheme recombination_scheme = fastjet::E_scheme);
 
   std::string description() const final;
@@ -20,6 +22,7 @@ public:
    *
    */
   void recombine(fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2, fastjet::PseudoJet& jet) const final;
+
 };
 
 }

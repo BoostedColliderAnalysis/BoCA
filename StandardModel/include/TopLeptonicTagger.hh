@@ -33,9 +33,9 @@ public:
 
     bool Problematic(Triplet const& triplet, PreCuts const& pre_cuts) const;
 
-    fastjet::PseudoJet FakeLepton(fastjet::PseudoJet const& jet) const;
+    Jet FakeLepton(Jet const& jet) const;
 
-    Jets Particles(boca::Event const& event) const;
+    std::vector<Particle> Particles(boca::Event const& event) const;
 
     std::string Name() const final;
 
@@ -53,7 +53,7 @@ private:
 
     Stage InitializeLeptonicReader();
 
-    Jets Leptons(Event const& event, Jets const& jets) const;
+   std::vector<Jet> Leptons(Event const& event,std::vector<Jet> const& jets) const;
 
 };
 

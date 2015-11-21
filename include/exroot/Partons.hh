@@ -16,13 +16,13 @@ namespace exroot {
 class Partons : public boca::Partons {
 
 public:
-  Jets Particles() const final;
+  std::vector<Particle> Particles() const final;
 
-  Jets GenParticles() const final;
+  std::vector<Particle> GenParticles() const final;
 
 private:
 
-    Jets Particles(Status max_status) const;
+  std::vector<Particle> Particles(Status max_status) const;
 
 };
 

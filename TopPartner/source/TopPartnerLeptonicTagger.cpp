@@ -35,20 +35,20 @@ std::vector<Quintet> TopPartnerLeptonicTagger::Multiplets(Event const& event, bo
     }));
 }
 
-Jets TopPartnerLeptonicTagger::Particles(Event const& event) const
+std::vector<Particle> TopPartnerLeptonicTagger::Particles(Event const& event) const
 {
-    Jets particles = event.Partons().GenParticles();
-    Jets leptons = CopyIfLepton(particles);
-    Jets candidate = CopyIfGrandGrandMother(leptons, Id::top_partner);
+    std::vector<Particle> particles = event.Partons().GenParticles();
+    std::vector<Particle> leptons = CopyIfLepton(particles);
+    std::vector<Particle>candidate = CopyIfGrandGrandMother(leptons, Id::top_partner);
     if (!candidate.empty()) {
         Check(leptons.size() == 1, leptons.size());
-        int grand_grand_mother = candidate.front().user_info<ParticleInfo>().Family().grand_grand_mother().Id();
+        int grand_grand_mother = candidate.front().Info().Family().GreatGrandMother().Id();
         return CopyIfExactParticle(particles, grand_grand_mother);
     } else { // this is necessary because madspin doesnt label relations correctly
         candidate = CopyIfGrandMother(leptons, Id::top_partner);
         candidate = CopyIfMother(candidate, Id::W);
         if (candidate.empty()) return {};
-        int grand_mother = candidate.front().user_info<ParticleInfo>().Family().GrandMother().Id();
+        int grand_mother = candidate.front().Info().Family().GrandMother().Id();
         return CopyIfExactParticle(particles, grand_mother);
     }
 }

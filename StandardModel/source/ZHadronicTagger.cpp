@@ -30,9 +30,9 @@ int ZHadronicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Ta
 std::vector<Doublet> ZHadronicTagger::Doublets(Event const& event, std::function<boost::optional<Doublet>(Doublet&)> function) const
 {
     Info0;
-    Jets jets = bottom_reader_.Jets(event);
+   std::vector<Jet> jets = bottom_reader_.Jets(event);
     MomentumRange jet_range(Id::Z, Id::Z);
-    std::vector<Doublet> doublets = unordered_pairs(jet_range.SofterThanMax(jets), [&](fastjet::PseudoJet const & jet_1, fastjet::PseudoJet const & jet_2) {
+    std::vector<Doublet> doublets = unordered_pairs(jet_range.SofterThanMax(jets), [&](Jet const & jet_1, Jet const & jet_2) {
         Doublet doublet(jet_1, jet_2);
         if (boost::optional<Doublet> optional_doublet = function(doublet)) return *optional_doublet;
         throw boca::Problematic();
@@ -41,7 +41,7 @@ std::vector<Doublet> ZHadronicTagger::Doublets(Event const& event, std::function
     for (auto const & jet : jet_range.HarderThanMin(jets)) {
         MomentumRange sub_jet_range((SubJet(Id::Z)), (SubJet(Id::Z)));
         if (sub_jet_range.BelowUpperBound(jet)) try {
-                Jets pieces = bottom_reader_.SubMultiplet(jet, 2);
+               std::vector<Jet> pieces = bottom_reader_.SubMultiplet(jet, 2);
                 Doublet doublet(pieces.at(0), pieces.at(1));
                 if (boost::optional<Doublet> optional = function(doublet)) doublets.emplace_back(*optional);
             } catch (std::exception&) {}
@@ -61,7 +61,7 @@ boost::optional<Doublet> ZHadronicTagger::SetTag(Doublet doublet, PreCuts const&
     return doublet;
 }
 
-Jets ZHadronicTagger::Particles(Event const& event) const
+std::vector<Particle> ZHadronicTagger::Particles(Event const& event) const
 {
     Info0;
     return CopyIfParticle(event.Partons().GenParticles(), Id::Z);

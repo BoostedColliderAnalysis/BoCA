@@ -10,11 +10,11 @@ namespace higgscpv
 int EventLeptonTTagger::Train(boca::Event const& event, boca::PreCuts const&, Tag tag) const
 {
     Info0;
-    Jets jets = bottom_reader_.Jets(event);
+   std::vector<Jet> jets = bottom_reader_.Jets(event);
     std::vector<MultipletSignature<Octet332>> octets = signature_reader_.Multiplets(event);
-    Jets particles = event.Partons().GenParticles();
-    Jets higgses = CopyIfParticles(particles, Id::higgs, Id::CP_violating_higgs);
-    Jets leptons = signature_reader_.Tagger().Leptons(event);
+   std::vector<Jet> particles = event.Partons().GenParticles();
+   std::vector<Jet> higgses = CopyIfParticles(particles, Id::higgs, Id::CP_violating_higgs);
+   std::vector<Jet> leptons = signature_reader_.Tagger().Leptons(event);
 
     std::vector<MultipletSignature<Octet332>> final_octets;
     if (tag == Tag::signal) {
@@ -29,7 +29,7 @@ int EventLeptonTTagger::Train(boca::Event const& event, boca::PreCuts const&, Ta
         }
     } else final_octets = octets;
 
-    Info(final_octets.size());
+    INFO(final_octets.size());
     std::vector<MultipletEvent<Octet332>> multipletevents;
     for (auto const & octet : final_octets) {
         MultipletEvent<Octet332> multipletevent(octet.Multiplet(), event, jets);
@@ -42,7 +42,7 @@ int EventLeptonTTagger::Train(boca::Event const& event, boca::PreCuts const&, Ta
 std::vector<MultipletEvent<Octet332>> EventLeptonTTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
 {
     Info0;
-    Jets jets = bottom_reader_.Jets(event);
+   std::vector<Jet> jets = bottom_reader_.Jets(event);
     std::vector<MultipletSignature<Octet332>> octets = signature_reader_.Multiplets(event);
     std::vector<MultipletEvent<Octet332>> multiplet_events;
     for (auto const & octet : octets) {

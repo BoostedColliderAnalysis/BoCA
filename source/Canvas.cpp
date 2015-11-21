@@ -127,7 +127,7 @@ int Canvas::Precision()
 
 std::string Canvas::Formula(std::string const& text)
 {
-    Info(text);
+    INFO(text);
     return "#font[" + std::to_string(FontCode(Font::times, Style::italic)) + "]{" + text + "}";
 }
 

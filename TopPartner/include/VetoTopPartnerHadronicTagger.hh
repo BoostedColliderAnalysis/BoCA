@@ -19,7 +19,7 @@ namespace naturalness
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class VetoTopPartnerHadronicTagger : public TaggerTemplate<Quintet,TopPartnerBranch>
+class VetoTopPartnerHadronicTagger : public TaggerTemplate<Quintet, TopPartnerBranch>
 {
 
 public:
@@ -34,7 +34,7 @@ public:
 
 private:
 
-    Jets Particles(Event const& event) const;
+    std::vector<Particle> Particles(Event const& event) const;
 
     std::vector<Quintet> Quintets(Event const& event, std::function<Quintet(Quintet&)> const& function) const;
 

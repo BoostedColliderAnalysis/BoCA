@@ -9,32 +9,28 @@ namespace boca {
 
 namespace exroot {
 
-Jets Leptons::Electrons() const
+  std::vector<Lepton> Leptons::Electrons() const
 {
     Info0;
-    Jets electrons;
-//     for (auto const& electron_number : Range(tree_reader().ElectronSum())) {
-    for (auto const& electron : tree_reader().Objects<::exroot::Electron>(Branch::electron)) {
-//         ::exroot::Electron electron = static_cast<::exroot::Electron&>(tree_reader().Electron(electron_number));
-        fastjet::PseudoJet electron_jet = PseudoJet(electron);
-        electron_jet.set_user_info(new JetInfo(int(electron.Charge)));
-        electrons.emplace_back(electron_jet);
+    std::vector<Lepton> leptons;
+    for (auto const electron : tree_reader().Objects<::exroot::Electron>(Branch::electron)) {
+        Lepton lepton(electron);
+        lepton.Info().SetCharge(electron.Charge);
+        leptons.emplace_back(lepton);
     }
-    return electrons;
+    return leptons;
 }
 
-Jets Leptons::Muons() const
+std::vector<Lepton> Leptons::Muons() const
 {
     Info0;
-    Jets muons;
-//     for (auto const& muon_number : Range(tree_reader().MuonSum())) {
+    std::vector<Lepton> leptons;
     for (auto const& muon : tree_reader().Objects<::exroot::Muon>(Branch::muon)) {
-//         ::exroot::Muon& muon = static_cast<::exroot::Muon&>(tree_reader().Muon(muon_number));
-        fastjet::PseudoJet muon_jet = PseudoJet(muon);
-        muon_jet.set_user_info(new JetInfo(int(muon.Charge)));
-        muons.emplace_back(muon_jet);
+        Lepton lepton(muon);
+        lepton.Info().SetCharge(muon.Charge);
+        leptons.emplace_back(lepton);
     }
-    return muons;
+    return leptons;
 }
 
 }

@@ -123,7 +123,7 @@ Result Plotting::BdtDistribution(TFile& file, std::string const& tree_name, TFil
 
 InfoBranch Plotting::InfoBranch(TFile& file, std::string const& tree_name) const
 {
-    Info(tree_name);
+    INFO(tree_name);
     exroot::TreeReader tree_reader(static_cast<TTree*>(file.Get(tree_name.c_str())));
     Error(tree_name, Tagger().WeightBranchName());
     TClonesArray* clones_array = tree_reader.UseBranch(Tagger().WeightBranchName().c_str());
@@ -366,7 +366,7 @@ void Plotting::DoPlot(Plots& signals, Plots& backgrounds, Stage stage) const
 
 void Plotting::PlotDetails(Plot& signal, Plot& background, Stage stage) const
 {
-    Info(signal.points.size(), background.points.size());
+    INFO(signal.points.size(), background.points.size());
     Plot signal_x = CoreVector(signal, [](Point const & a, Point const & b) {
         return a.x < b.x;
     });
@@ -397,7 +397,7 @@ void Plotting::PlotDetails(Plot& signal, Plot& background, Stage stage) const
 
 void Plotting::PlotHistogram(Plot const& signal, Plot const& background, Point const& min, Point const& max) const
 {
-    Info(min.x, min.y, max.x, max.y);
+    INFO(min.x, min.y, max.x, max.y);
     Canvas canvas;
     canvas.canvas().SetBottomMargin(0.15);
     int bin_number = 20;
@@ -430,7 +430,7 @@ void Plotting::PlotProfile(Plot const& signal, Plot const& background, Point con
 
 std::vector<Plots> Plotting::Import(Stage stage, Tag tag) const
 {
-    Info(Tagger().FileName(stage, tag), Tagger().TreeNames(tag).size());
+    INFO(Tagger().FileName(stage, tag), Tagger().TreeNames(tag).size());
     TFile file(Tagger().FileName(stage, tag).c_str(), "Read");
     std::vector<Plots> results;
     for (auto const & tree_name : Tagger().TreeNames(tag)) results.emplace_back(PlotResult(file, tree_name, stage));
@@ -439,7 +439,7 @@ std::vector<Plots> Plotting::Import(Stage stage, Tag tag) const
 
 Plots Plotting::PlotResult(TFile& file, std::string const& tree_name, Stage stage) const
 {
-    Info(tree_name);
+    INFO(tree_name);
     Plots plots;
     plots.info_branch = InfoBranch(file, tree_name);
     TTree& tree = static_cast<TTree&>(*file.Get(tree_name.c_str()));

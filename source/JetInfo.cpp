@@ -149,12 +149,12 @@ int JetInfo::VertexNumber() const
     return displaced_constituents_.size();
 }
 
-fastjet::PseudoJet JetInfo::VertexJet() const
+Jet JetInfo::VertexJet() const
 {
     Debug0;
-    Jets jets;
-    for (auto const & consituent : displaced_constituents_) jets.emplace_back(PseudoJet(consituent.Momentum()));
-    return fastjet::join(jets);
+   std::vector<Jet> jets;
+    for (auto const & consituent : displaced_constituents_) jets.emplace_back(consituent.Momentum());
+    return Join(jets);
 }
 
 Length JetInfo::SumDisplacement() const
@@ -215,27 +215,27 @@ bool JetInfo::VertexResultion(Constituent const& constituent) const
     return (1. * constituent.Position().Vect().Perp() * mm > DetectorGeometry::TrackerDistanceMin() & 1. * constituent.Position().Vect().Perp() * mm < DetectorGeometry::TrackerDistanceMax() & boost::units::abs(1. * constituent.Momentum().Rapidity() * rad) < DetectorGeometry::TrackerEtaMax());
 }
 
-float JetInfo::ElectroMagneticRadius(fastjet::PseudoJet const& jet) const
+float JetInfo::ElectroMagneticRadius(Jet const& jet) const
 {
     Debug0;
     float energy = 0;
     float weight = 0;
     for (auto const & constituent : constituents()) if (constituent.sub_detector() == SubDetector::photon) {
             energy += constituent.Momentum().Et();
-            weight += constituent.Momentum().Et() * jet.delta_R(fastjet::PseudoJet(constituent.Momentum()));
+            weight += constituent.Momentum().Et() * jet.delta_R(Jet(constituent.Momentum()));
         }
     if (energy == 0) return 0;
     else return weight / energy;
 }
 
-float JetInfo::TrackRadius(fastjet::PseudoJet const& jet) const
+float JetInfo::TrackRadius(Jet const& jet) const
 {
     Debug0;
     float energy = 0;
     float weight = 0;
     for (auto const & constituent : constituents()) if (constituent.sub_detector() == SubDetector::track) {
             energy += constituent.Momentum().Et();
-            weight += constituent.Momentum().Et() * jet.delta_R(fastjet::PseudoJet(constituent.Momentum()));
+            weight += constituent.Momentum().Et() * jet.delta_R(Jet(constituent.Momentum()));
         }
     if (energy == 0) return 0;
     else return weight / energy;
@@ -265,14 +265,14 @@ float JetInfo::LeadingTrackMomentumFraction() const
     return consts.front().Momentum().Pt() / sum;
 }
 
-float JetInfo::CoreEnergyFraction(fastjet::PseudoJet const& jet) const
+float JetInfo::CoreEnergyFraction(Jet const& jet) const
 {
     Debug0;
     float energy = 0;
     float core_energy = 0;
     for (auto const & constituent : constituents()) if (constituent.sub_detector() == SubDetector::photon) {
             energy += constituent.Momentum().Et();
-            if (jet.delta_R(fastjet::PseudoJet(constituent.Momentum())) < 0.2) core_energy += constituent.Momentum().Et();
+            if (jet.delta_R(Jet(constituent.Momentum())) < 0.2) core_energy += constituent.Momentum().Et();
         }
     if (energy == 0) return 0;
     else
@@ -298,7 +298,7 @@ float JetInfo::ElectroMagneticFraction() const
 float JetInfo::ClusterMass() const
 {
     Debug0;
-    fastjet::PseudoJet jet;
+    Jet jet;
     for (auto const & constituent : constituents()) if (constituent.sub_detector() == SubDetector::photon)
             jet += constituent.Momentum();
     return jet.m();
@@ -307,7 +307,7 @@ float JetInfo::ClusterMass() const
 float JetInfo::TrackMass() const
 {
     Debug0;
-    fastjet::PseudoJet jet;
+    Jet jet;
     for (auto const & constituent : constituents()) if (constituent.sub_detector() == SubDetector::track)
             jet += constituent.Momentum();
     return jet.m();

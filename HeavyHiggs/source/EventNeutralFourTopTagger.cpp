@@ -9,8 +9,8 @@ namespace heavyhiggs {
 int EventNeutralFourTopTagger::Train(boca::Event const& event, PreCuts const& , Tag tag) const
 {
     Info0;
-    Jets jets = bottom_reader_.Jets(event);
-    Jets leptons = event.Leptons().leptons();
+   std::vector<Jet> jets = bottom_reader_.Jets(event);
+   std::vector<Jet> leptons = event.Leptons().leptons();
     std::vector<Octet62> octets = signature_neutral_reader_.Multiplets(event);
     std::vector<MultipletEvent<Octet62>> events;
     for (auto const& octet : octets) {
@@ -26,8 +26,8 @@ std::vector<MultipletEvent<Octet62>> EventNeutralFourTopTagger::Multiplets(Event
 {
     Info0;
     std::vector<Octet62> octets = signature_neutral_reader_.Multiplets(event);
-    Jets jets = bottom_reader_.Jets(event);
-    Jets Leptons = event.Leptons().leptons();
+   std::vector<Jet> jets = bottom_reader_.Jets(event);
+   std::vector<Jet> Leptons = event.Leptons().leptons();
     std::vector<MultipletEvent<Octet62>> multiplet_events;
     for (auto const& octet : octets) {
         MultipletEvent<Octet62> multiplet_event(octet, event, jets);
@@ -37,7 +37,7 @@ std::vector<MultipletEvent<Octet62>> EventNeutralFourTopTagger::Multiplets(Event
     std::sort(multiplet_events.begin(), multiplet_events.end());
     if (multiplet_events.size() > 1)
         multiplet_events.erase(multiplet_events.begin() + 1, multiplet_events.end());
-    Info(multiplet_events.size(), jets.size());
+    INFO(multiplet_events.size(), jets.size());
     return multiplet_events;
 }
 std::string EventNeutralFourTopTagger::Name() const

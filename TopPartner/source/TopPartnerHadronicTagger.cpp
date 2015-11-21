@@ -38,20 +38,20 @@ std::vector<Quintet> TopPartnerHadronicTagger::Quintets(Event const& event, std:
     });
 }
 
-Jets TopPartnerHadronicTagger::Particles(Event const& event) const
+std::vector<Particle> TopPartnerHadronicTagger::Particles(Event const& event) const
 {
     Info0;
-    Jets particles = event.Partons().GenParticles();
-    Jets quarks = CopyIfQuark(particles);
-    Jets candidate = CopyIfGrandGrandMother(quarks, Id::top_partner);
+    std::vector<Particle> particles = event.Partons().GenParticles();
+    std::vector<Particle> quarks = CopyIfQuark(particles);
+    std::vector<Particle>candidate = CopyIfGrandGrandMother(quarks, Id::top_partner);
     if (!candidate.empty()) {
-        int grand_grand_mother = candidate.front().user_info<ParticleInfo>().Family().grand_grand_mother().Id();
-        return CopyIfExactParticle(particles, grand_grand_mother);
+        int great_grand_mother = candidate.front().Info().Family().GreatGrandMother().Id();
+        return CopyIfExactParticle(particles, great_grand_mother);
     } else {
         candidate = CopyIfGrandMother(quarks, Id::top_partner);
         candidate = CopyIfMother(candidate, Id::W);
         if (candidate.empty()) return {};
-        int grand_mother = candidate.front().user_info<ParticleInfo>().Family().GrandMother().Id();
+        int grand_mother = candidate.front().Info().Family().GrandMother().Id();
         return CopyIfExactParticle(particles, grand_mother);
     }
 }

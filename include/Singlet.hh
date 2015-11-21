@@ -10,7 +10,7 @@ namespace boca
 {
 
 /**
- * @brief Thin wrapper to make fastjet::PseudoJet behave like a Multiplet. Additionally this class astracts away the JetInfo user_info().
+ * @brief Thin wrapper to make Jet behave like a Multiplet. Additionally this class astracts away the JetInfo user_info().
  *
  */
 class Singlet : public MultipletBase
@@ -20,21 +20,21 @@ public:
 
     Singlet() {};
 
-    Singlet(fastjet::PseudoJet const& jet);
+    Singlet(boca::Jet const& jet);
 
-    fastjet::PseudoJet Jet() const {
+    boca::Jet Jet() const {
         return jet_;
     }
 
-    fastjet::PseudoJet ConstituentJet() const {
+    boca::Jet ConstituentJet() const {
       return jet_;
     }
 
-    boca::Jets Jets() const {
+    std::vector<boca::Jet> Jets() const {
         return {Jet()};
     }
 
-    bool Overlap(fastjet::PseudoJet const& jet) const;
+    bool Overlap(boca::Jet const& jet) const;
 
     bool Overlap(Singlet const& singlet) const;
 
@@ -138,7 +138,7 @@ public:
 
     Vector2<float> Pull() const;
 
-    fastjet::PseudoJet& Jet() {
+    boca::Jet& Jet() {
         return jet_;
     }
 
@@ -154,11 +154,11 @@ private:
 
     float log(Length length) const;
 
-    float Radius(fastjet::PseudoJet const& jet) const;
+    float Radius(boca::Jet const& jet) const;
 
-    float Spread(fastjet::PseudoJet const& jet) const;
+    float Spread(boca::Jet const& jet) const;
 
-    fastjet::PseudoJet jet_;
+    boca::Jet jet_;
 
     JetInfo jet_info_;
 

@@ -12,6 +12,8 @@
 #pragma once
 
 #include "Vector3.hh"
+#include "exroot/ExRootAnalysis.hh"
+#include "Units.hh"
 
 class TLorentzVector;
 
@@ -32,6 +34,57 @@ private:
     float e_;
 
 public:
+
+  template<typename Particle>
+  void LorentzVectorByEnergy(const Particle& particle)
+  {
+    float Pt = particle.PT;
+    float Eta = particle.Eta;
+    float Phi = particle.Phi;
+    float Energy = particle.E;
+    SetPtEtaPhiE(Pt, Eta, Phi, Energy);
+  }
+
+  template<typename Particle>
+  void LorentzVectorByMass(const Particle& particle, Mass mass)
+  {
+    float Pt = particle.PT;
+    float Eta = particle.Eta;
+    float Phi = particle.Phi;
+    SetPtEtaPhiM(Pt, Eta, Phi, mass / GeV);
+  }
+
+  template<typename Particle>
+  void LorentzVectorByMass(const Particle& particle)
+  {
+    Mass mass(particle.Mass * GeV);
+    LorentzVectorByMass(particle, mass);
+  }
+
+  template<typename Particle>
+  void LorentzVectorByM(const Particle& particle)
+  {
+    Mass mass(particle.M * GeV);
+    LorentzVectorByMass(particle, mass);
+  }
+
+
+  LorentzVector(exroot::Electron const& Particle);
+  LorentzVector(exroot::GenJet const& Particle);
+  LorentzVector(exroot::GenParticle const& Particle);
+  LorentzVector(exroot::Jet const& Particle);
+  LorentzVector(exroot::LHEFParticle const& Particle);
+  LorentzVector(exroot::Muon const& Particle);
+  LorentzVector(exroot::Photon const& Particle);
+  LorentzVector(exroot::Tau const& Particle);
+
+
+
+
+
+
+
+
 
     void operator=(TLorentzVector const& lorentzvector);
 

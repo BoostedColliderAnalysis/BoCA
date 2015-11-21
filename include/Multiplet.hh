@@ -24,7 +24,7 @@ public:
         return singlet_;
     }
 
-    fastjet::PseudoJet Jet() const final {
+    boca::Jet Jet() const final {
         if (!has_jet_) SetPlainJet();
         return jet_;
     }
@@ -37,7 +37,7 @@ protected:
 
     virtual float BottomBdt() const override = 0;
 
-    virtual std::vector<fastjet::PseudoJet> Jets() const = 0;
+    virtual std::vector<boca::Jet> Jets() const = 0;
 
     /**
      * @brief join the two jets
@@ -48,7 +48,7 @@ protected:
      */
     boca::Singlet Singlet(boca::Singlet const& singlet_1, boca::Singlet const& singlet_2) const;
 
-    fastjet::PseudoJet Jet(fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2) const;
+    boca::Jet Jet(boca::Jet const& jet_1, boca::Jet const& jet_2) const;
 
     Vector2<float> Pull() const override;
 
@@ -66,7 +66,7 @@ protected:
 
     float DeltaHt(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
-    float Rho(MultipletBase const& jet_1, MultipletBase const& jet_2, fastjet::PseudoJet const& jet) const;
+    float Rho(MultipletBase const& jet_1, MultipletBase const& jet_2, boca::Jet const& jet) const;
 
     Angle PullDifference(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
@@ -82,7 +82,7 @@ protected:
 
     virtual void SetSinglet() const = 0;
 
-    void SetPlainJet(fastjet::PseudoJet const& jet) const;
+    void SetPlainJet(boca::Jet const& jet) const;
 
     virtual void SetPlainJet() const = 0;
 
@@ -92,7 +92,7 @@ protected:
      */
     mutable boca::Singlet singlet_;
 
-    mutable fastjet::PseudoJet jet_;
+    mutable boca::Jet jet_;
 
     mutable bool has_singlet_ = false;
 
@@ -104,7 +104,7 @@ private:
 
     Vector2<float> Point2(Vector2<float> const& point_1, MultipletBase const& multiplets_2) const;
 
-    float Distance(Line2<float> const& line, fastjet::PseudoJet const& constituent) const;
+    float Distance(Line2<float> const& line, boca::Jet const& constituent) const;
 
 };
 

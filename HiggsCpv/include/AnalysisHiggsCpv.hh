@@ -80,12 +80,12 @@ private:
     int PassPreCut(Event const& event, Tag) const final {
       //         if(this->template TaggerIs<WLeptonicTagger>()) return 0;
       //         if(this->template TaggerIs<TopLeptonicTagger>()) static_cast<TopLeptonicTagger&>(this->tagger()).semi_leptonic = false;
-        Jets leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
+       std::vector<Jet> leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
         if (leptons.size() < 2) return 0;
 //         if (leptons.at(1).pt() < 40) return 0;
-//         Jets jets = event.Hadrons().Jets();
-//         Jets gen_particles = event.Partons().GenParticles();
-//         Jets higgs = CopyIfParticles(gen_particles, Id::CP_violating_higgs, Id::higgs);
+//        std::vector<Jet> jets = event.Hadrons().Jets();
+//        std::vector<Jet>gen_particles = event.Partons().GenParticles();
+//        std::vector<Jet> higgs = CopyIfParticles(gen_particles, Id::CP_violating_higgs, Id::higgs);
 //         if (higgs.empty()) {
 //         Error(NoHiggs(), higgs.size());
 //             return 1;

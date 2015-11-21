@@ -29,8 +29,8 @@ public:
             this->NewFile(tag, SignalCrosssection(Process::Htwb), Process::Htwb);
             break;
         case Tag::background :
-          if (this->template TaggerIs<JetPairTagger>()) this->NewFile(tag, SignalCrosssection(Process::Htt), Process::Htt);
-          if (this->template TaggerIs<JetPairTagger>()) this->NewFile(tag, SignalCrosssection(Process::Htwb), Process::Htwb);
+            if (this->template TaggerIs<JetPairTagger>()) this->NewFile(tag, SignalCrosssection(Process::Htt), Process::Htt);
+            if (this->template TaggerIs<JetPairTagger>()) this->NewFile(tag, SignalCrosssection(Process::Htwb), Process::Htwb);
             this->NewFile(tag, BackgroundCrosssection(Process::ttwwbb), Process::ttwwbb);
             this->NewFile(tag, BackgroundCrosssection(Process::ttwbb), Process::ttwbb);
             break;
@@ -38,8 +38,8 @@ public:
     }
 
     std::string AnalysisName() const final {
-      //        return  "NeutralFourTop-" + ColliderName(collider_type()) + "-" + Name(PreCut()) + "-" + Name(Mass()) + "-Eta2.5";
-      return  "NeutralFourTop-" + Name(this->collider_type()) + "-" + boca::Name(this->Mass());
+        //        return  "NeutralFourTop-" + ColliderName(collider_type()) + "-" + Name(PreCut()) + "-" + Name(Mass()) + "-Eta2.5";
+        return  "NeutralFourTop-" + Name(this->collider_type()) + "-" + boca::Name(this->Mass());
     };
 
     Crosssection SignalCrosssection(Process process) const {
@@ -157,10 +157,10 @@ private:
 //     }
 
     int PassPreCut(Event const& event, Tag) const override {
-        Jets Particles = event.Partons().GenParticles();
+      std::vector<Particle> Particles = event.Partons().GenParticles();
 
-        Jets Tops = CopyIfParticle(Particles, Id::top);
-        Jets Bottoms = CopyIfParticle(Particles, Id::bottom);
+        std::vector<Particle> Tops = CopyIfParticle(Particles, Id::top);
+        std::vector<Particle> Bottoms = CopyIfParticle(Particles, Id::bottom);
 //         if(Bottoms.size() < 4) return 0;
 //
 //         if (Bottoms.at(0).pt() < this->BottomPt()) return 0;
@@ -169,7 +169,7 @@ private:
 //         if (Bottoms.at(3).pt() < this->BottomPt()) return 0;
 
         if (event.Hadrons().MissingEt().pt() < this->MissingEt() / GeV) return 0;
-        Jets Leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
+        std::vector<Jet> Leptons = SortedByPt(event.Leptons().leptons());
         if (Leptons.size() < 2) return 0;
 //      if (Leptons.at(0).pt() < this->LeptonPt()) return 0;
 //  if (Leptons.at(1).pt() < this->LeptonPt()) return 0;
@@ -183,7 +183,7 @@ private:
         if (positive_lepton < 2 && negative_lepton < 2) return 0;
         if ((positive_lepton + negative_lepton) > 2) return 0;
 
-        Jets jets = event.Hadrons().Jets();
+        std::vector<Jet> jets = event.Hadrons().Jets();
         if (jets.size() < 4)
             return 0;
         return 1;

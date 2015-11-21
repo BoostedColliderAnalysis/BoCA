@@ -4,28 +4,9 @@
 #pragma once
 
 #include <string>
-#include "Units.hh"
-
-namespace fastjet
-{
-class PseudoJet;
-}
-
-
-class TLorentzVector;
 
 namespace boca
 {
-
-class LorentzVector;
-
-/**
- * @brief create a fastjet::PseudoJet from a LorentzVector
- *
- */
-fastjet::PseudoJet PseudoJet(TLorentzVector const& vector);
-
-fastjet::PseudoJet PseudoJet(::boca::LorentzVector const& vector);
 
 bool Exists(std::string const& name);
 

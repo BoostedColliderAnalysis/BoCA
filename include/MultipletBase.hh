@@ -5,7 +5,8 @@
 
 #include "Identification.hh"
 #include "Vector2.hh"
-#include "fastjet/PseudoJet.hh"
+#include "Jet.hh"
+#include "Particle.hh"
 #include "Units.hh"
 
 namespace boca {
@@ -16,7 +17,7 @@ public:
 
   virtual MultipletBase const& singlet() const = 0;
 
-  virtual fastjet::PseudoJet Jet() const = 0;
+  virtual boca::Jet Jet() const = 0;
 
   virtual Vector2<float> Pull() const = 0;
 
@@ -44,7 +45,11 @@ public:
     return Jet().phi_std() * rad;
   }
 
-  Angle DeltaRTo(fastjet::PseudoJet const& jet) const {
+  Angle DeltaRTo(boca::Jet const& jet) const {
+    return Jet().delta_R(jet) * rad;
+  }
+
+  Angle DeltaRTo(boca::Particle const& jet) const {
     return Jet().delta_R(jet) * rad;
   }
 
@@ -53,7 +58,7 @@ public:
    * @return Vector2<float> reference vector
    *
    */
-  Vector2<double> Reference(fastjet::PseudoJet const& jet) const
+  Vector2<double> Reference(boca::Jet const& jet) const
   {
     return {jet.rap() - Jet().rap(), Jet().delta_phi_to(jet)};
   }

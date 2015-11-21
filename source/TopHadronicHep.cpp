@@ -9,11 +9,11 @@
 
 namespace boca {
 
-Jets TopHadronicHep::Tops(Jets& e_flows)
+std::vector<fastjet::PseudoJet>TopHadronicHep::Tops(std::vector<fastjet::PseudoJet>& e_flows)
 {
     Info0;
 //     float CellRap = 0.1;
-//     Jets hadrons;
+//    std::vector<fastjet::PseudoJet>hadrons;
 //     ifstream fin("sample_event.dat", ifstream::in);
 //     Readevent(fin, hadrons);
 //     ofstream fout("sample_event_display.dat", ifstream::out);
@@ -24,9 +24,9 @@ Jets TopHadronicHep::Tops(Jets& e_flows)
     // run the jet finding; find the hardest jet
     const fastjet::ClusterSequence cluster_sequence(GranulatedJets(e_flows), fastjet::JetDefinition(fastjet::cambridge_algorithm, cone_size));
     float pt_min = 200.;
-    Jets jets = sorted_by_pt(cluster_sequence.inclusive_jets(pt_min));
+   std::vector<fastjet::PseudoJet> jets = sorted_by_pt(cluster_sequence.inclusive_jets(pt_min));
 //     unsigned candsizesum = 0;
-    Jets tops;
+   std::vector<fastjet::PseudoJet>tops;
     for (auto const& jet : jets) {
 //         float topmass = 172.3;
 //         float wmass = 80.4;
@@ -55,14 +55,14 @@ Jets TopHadronicHep::Tops(Jets& e_flows)
     return tops;
 }
 
-Jets TopHadronicHep::GranulatedJets(Jets& e_flows)
+std::vector<fastjet::PseudoJet>TopHadronicHep::GranulatedJets(std::vector<fastjet::PseudoJet>& e_flows)
 {
     // start of granularization of the hadronic calorimeter to redefine hadrons
     float CellDeltaRap = 0.1;
     float CellDeltaPhi = 0.1;
     float PtCutOff = 0.5;
 //     float pi = 3.142592654;
-    Jets granulated_jets;
+   std::vector<fastjet::PseudoJet>granulated_jets;
     granulated_jets.clear();
     e_flows = sorted_by_pt(e_flows);
     granulated_jets.emplace_back(e_flows.front());

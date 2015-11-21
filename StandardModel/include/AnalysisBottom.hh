@@ -74,7 +74,7 @@ private:
 
     int PassPreCut(Event const& event, Tag) const final {
       return 1;
-        Jets jets = event.Hadrons().Jets();
+       std::vector<Jet> jets = event.Hadrons().Jets();
         jets = RemoveIfOutsidePtWindow(jets, this->LowerPtCut(), this->UpperPtCut());
         return jets.size();
     }

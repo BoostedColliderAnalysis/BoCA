@@ -3,6 +3,7 @@
  */
 #pragma once
 
+#include "Particle.hh"
 #include "FourVector.hh"
 
 namespace boca {
@@ -19,9 +20,9 @@ public:
 
     void NewEvent(const TreeReader& tree_reader);
 
-    virtual Jets Particles() const = 0;
+    virtual std::vector<Particle> Particles() const = 0;
 
-    virtual Jets GenParticles() const = 0;
+    virtual std::vector<Particle> GenParticles() const = 0;
 
 };
 

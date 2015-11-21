@@ -7,15 +7,14 @@ namespace boca {
 
 namespace exroot {
 
-Jets Hadrons::Jets() const
+ std::vector<Jet> Hadrons::Jets() const
 {
-//     Info(tree_reader().JetSum());
-    boca::Jets jets;
-    for (auto const& jet : tree_reader().Objects<::exroot::Jet>(Branch::jet)) {
-//         ::exroot::Jet& jet = static_cast<::exroot::Jet&>(tree_reader().Jet(jet_number));
-        fastjet::PseudoJet pseudo_jet = PseudoJet(jet);
-        pseudo_jet.set_user_info(new JetInfo(bool(jet.BTag)));
-        jets.emplace_back(pseudo_jet);
+    Info0;
+    std::vector<Jet> jets;
+    for (auto const& exroot_jet : tree_reader().Objects<::exroot::Jet>(Branch::jet)) {
+        Jet jet(exroot_jet);
+        jet.Info().SetBTag(exroot_jet.BTag);
+        jets.emplace_back(jet);
     }
     return jets;
 }

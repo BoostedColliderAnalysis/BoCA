@@ -26,11 +26,11 @@ public:
 
     std::string Name() const final;
 
-    Jets BottomPair(Event const& event, Tag tag) const;
+    std::vector<Particle> BottomPair(Event const& event, Tag tag) const;
 
-    bool CheckIfBadBottom(boca::Doublet const& doublet, Jets const& jets) const;
+    bool CheckIfBadBottom(boca::Doublet const& doublet,std::vector<Particle> const& jets) const;
 
-    Jets HiggsParticle(Event const& event, Tag tag) const;
+    std::vector<Particle> HiggsParticle(Event const& event, Tag tag) const;
 
 private:
 

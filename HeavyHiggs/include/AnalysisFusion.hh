@@ -1,6 +1,7 @@
 #pragma once
 
 #include "AnalysisHeavyHiggs.hh"
+#include "Sort.hh"
 
 namespace boca {
 
@@ -127,7 +128,7 @@ private:
 
     int PassPreCut(Event const& event, Tag) const final
     {
-        Jets Particles = event.Partons().GenParticles();
+       std::vector<Particle> Particles = event.Partons().GenParticles();
         Particles = CopyIfParticle(Particles, Id::top);
         if (Particles.size() != 2) {
 //             Error("Not enough top quarks", Particles.size());
@@ -137,10 +138,10 @@ private:
           if (Particles.at(1).pt() < to_float(this->PreCut())) return 0;
         }
         if (event.Hadrons().MissingEt().pt() < to_float(this->MissingEt())) return 0;
-        Jets Leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
+       std::vector<Jet> Leptons = SortedByPt(event.Leptons().leptons());
         if (Leptons.empty()) return 0;
         if (Leptons.front().pt() < to_float(this->LeptonPt())) return 0;
-        Jets jets = event.Hadrons().Jets();
+       std::vector<Jet> jets = event.Hadrons().Jets();
         if (jets.size() < 4)
             return 0;
         return 1;

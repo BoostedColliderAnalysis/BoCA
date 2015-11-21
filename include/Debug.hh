@@ -10,10 +10,9 @@
 #include <iostream>
 #include <boost/units/systems/si/io.hpp>
 
-namespace fastjet
-{
-class PseudoJet;
-}
+// namespace fastjet{
+// class PseudoJet;
+// }
 
 // FIXME do we really want to write non standard compliant code?
 // #pragma GCC diagnostic ignored "-Wgnu-zero-variadic-macro-arguments"
@@ -30,6 +29,9 @@ class PseudoJet;
 
 namespace boca
 {
+
+  class Jet;
+  class Particle;
 
 std::string Shorten(std::string const& pretty_function, size_t brake);
 
@@ -78,7 +80,8 @@ void LogVariable(std::string const& variable, const std::vector<Value>& values)
 
 void LogVariable(std::string const&, char const* value);
 
-void LogVariable(std::string const& variable, fastjet::PseudoJet const& jet);
+void LogVariable(std::string const& variable, Jet const& jet);
+void LogVariable(std::string const& variable, Particle const& jet);
 
 template<typename Value>
 void Log(std::string const& file, int line, std::string const& name_space, std::string const& class_name, std::string const& function, std::string const& variable, Value value, bool final = true)
@@ -167,10 +170,10 @@ void Log(std::string const& file, int line, std::string const& name_space, std::
 #endif
 
 #if defined(DETAILED) || defined(DEBUG) || defined(INFORMATION)
-#define Info(...) ALIVE(__VA_ARGS__)
+#define INFO(...) ALIVE(__VA_ARGS__)
 #define Info0 LOG0
 #else
-#define Info(...) DEAD(__VA_ARGS__)
+#define INFO(...) DEAD(__VA_ARGS__)
 #define Info0 DEAD0
 #endif
 

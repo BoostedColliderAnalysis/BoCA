@@ -60,7 +60,7 @@ private:
 
     int PassPreCut(Event const& , Tag) const final {
           return 1;
-//         Jets jets = fastjet::sorted_by_pt(event.Hadrons().Jets());
+//        std::vector<Jet> jets = fastjet::sorted_by_pt(event.Hadrons().Jets());
 //         if (jets.size() < 2) return 0;
 //         if ((jets.at(0).pt() > this->LowerPtCut() / GeV && jets.at(0).pt() < this->UpperPtCut() / GeV) &&
 //           (jets.at(1).pt() > this->LowerPtCut() / GeV && jets.at(1).pt() < this->UpperPtCut() / GeV)) return 1;

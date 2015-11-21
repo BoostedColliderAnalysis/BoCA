@@ -5,13 +5,14 @@
 // #include "external/fastjet/contribs/Nsubjettiness/Nsubjettiness.hh"
 #include "fastjet/contrib/Nsubjettiness.hh"
 #include "SubJettiness.hh"
+#include "Jet.hh"
 
 namespace boca
 {
 
 NSubJettiness::NSubJettiness() {}
 
-NSubJettiness::NSubJettiness(fastjet::PseudoJet const& jet, fastjet::contrib::AxesDefinition const& axes, int beta)
+NSubJettiness::NSubJettiness(Jet const& jet, fastjet::contrib::AxesDefinition const& axes, int beta)
 {
     fastjet::contrib::UnnormalizedMeasure unnormalized_measure(beta);
     fastjet::contrib::Nsubjettiness n_subjettiness_1(1, axes, unnormalized_measure);
@@ -55,7 +56,7 @@ float NSubJettiness::tau_3_2() const
 
 SubJettiness::SubJettiness() {}
 
-SubJettiness::SubJettiness(fastjet::PseudoJet const& jet)
+SubJettiness::SubJettiness(Jet const& jet)
 {
     fastjet::contrib::OnePass_WTA_KT_Axes wta_kt_axes;
     beta_1_ = NSubJettiness(jet, wta_kt_axes, 1);
