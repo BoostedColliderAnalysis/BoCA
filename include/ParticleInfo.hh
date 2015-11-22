@@ -6,6 +6,7 @@
 #include "fastjet/PseudoJet.hh"
 
 #include "Family.hh"
+// #include "InfoRecombiner.hh"
 
 namespace boca
 {
@@ -19,7 +20,7 @@ class ParticleInfo: public fastjet::PseudoJet::UserInfoBase
 
 public:
 
-    friend class InfoRecombiner;
+//     friend class InfoRecombiner;
 
     /**
      * @brief Constructor

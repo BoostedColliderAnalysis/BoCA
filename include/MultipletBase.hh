@@ -36,9 +36,7 @@ public:
   }
 
   Angle Rap() const {
-    if (Jet().rap() == fastjet::pseudojet_invalid_rap) return 0. * rad;
-    if (Jet().rap() > 100) return 0. * rad;
-    return Jet().rap() * rad;
+    return Jet().Rap();
   }
 
   Angle Phi() const {
