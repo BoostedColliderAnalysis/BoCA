@@ -163,21 +163,21 @@ private:
         std::vector<Particle> Bottoms = CopyIfParticle(Particles, Id::bottom);
 //         if(Bottoms.size() < 4) return 0;
 //
-//         if (Bottoms.at(0).pt() < this->BottomPt()) return 0;
-//         if (Bottoms.at(1).pt() < this->BottomPt()) return 0;
-//         if (Bottoms.at(2).pt() < this->BottomPt()) return 0;
-//         if (Bottoms.at(3).pt() < this->BottomPt()) return 0;
+//         if (Bottoms.at(0).Pt() < this->BottomPt()) return 0;
+//         if (Bottoms.at(1).Pt() < this->BottomPt()) return 0;
+//         if (Bottoms.at(2).Pt() < this->BottomPt()) return 0;
+//         if (Bottoms.at(3).Pt() < this->BottomPt()) return 0;
 
-        if (event.Hadrons().MissingEt().pt() < this->MissingEt() / GeV) return 0;
+        if (event.Hadrons().MissingEt().Pt() < this->MissingEt()) return 0;
         std::vector<Jet> Leptons = SortedByPt(event.Leptons().leptons());
         if (Leptons.size() < 2) return 0;
-//      if (Leptons.at(0).pt() < this->LeptonPt()) return 0;
-//  if (Leptons.at(1).pt() < this->LeptonPt()) return 0;
+//      if (Leptons.at(0).Pt() < this->LeptonPt()) return 0;
+//  if (Leptons.at(1).Pt() < this->LeptonPt()) return 0;
         int positive_lepton = 0;
         int negative_lepton = 0;
         for (auto const & lepton : Leptons) {
-            if (lepton.pt() > this->LeptonPt() / GeV && lepton.user_info<JetInfo>().Charge() > 0)positive_lepton++;
-            if (lepton.pt() > this->LeptonPt() / GeV && lepton.user_info<JetInfo>().Charge() < 0)negative_lepton++;
+            if (lepton.Pt() > this->LeptonPt() && lepton.Info().Charge() > 0)positive_lepton++;
+            if (lepton.Pt() > this->LeptonPt() && lepton.Info().Charge() < 0)negative_lepton++;
         }
 
         if (positive_lepton < 2 && negative_lepton < 2) return 0;

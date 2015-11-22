@@ -82,7 +82,7 @@ private:
       //         if(this->template TaggerIs<TopLeptonicTagger>()) static_cast<TopLeptonicTagger&>(this->tagger()).semi_leptonic = false;
        std::vector<Jet> leptons = SortedByPt(event.Leptons().leptons());
         if (leptons.size() < 2) return 0;
-//         if (leptons.at(1).pt() < 40) return 0;
+//         if (leptons.at(1).Pt() < 40) return 0;
 //        std::vector<Jet> jets = event.Hadrons().Jets();
 //        std::vector<Jet>gen_particles = event.Partons().GenParticles();
 //        std::vector<Jet> higgs = CopyIfParticles(gen_particles, Id::CP_violating_higgs, Id::higgs);
@@ -90,14 +90,14 @@ private:
 //         Error(NoHiggs(), higgs.size());
 //             return 1;
 //         }
-//         if(higgs.front().pt() < 200) return 0;
+//         if(higgs.front().Pt() < 200) return 0;
 //         static int pre_cut=0;
 //         ++pre_cut;
 //         Error(pre_cut);
-//         Particle particle = higgs.front().user_info<JetInfo>().constituents().front().family().Particle();
-//         Particle mother1 = higgs.front().user_info<JetInfo>().constituents().front().family().Mother();
-//         Particle mother2 = higgs.front().user_info<JetInfo>().constituents().front().family().mother_2();
-//         Particle grand_mother = higgs.front().user_info<JetInfo>().constituents().front().family().GrandMother();
+//         Particle particle = higgs.front().Info().constituents().front().family().Particle();
+//         Particle mother1 = higgs.front().Info().constituents().front().family().Mother();
+//         Particle mother2 = higgs.front().Info().constituents().front().family().mother_2();
+//         Particle grand_mother = higgs.front().Info().constituents().front().family().GrandMother();
 // //         Error(particle.Id(),mother1.Id(),mother2.Id(),grand_mother.Id());
 //         higgs = RemoveIfSingleMother(higgs);
 //         Error(SingleHiggs(), higgs.size());

@@ -63,8 +63,8 @@ private:
           return 1;
 //        std::vector<Jet> jets = SortedByPt(event.Hadrons().Jets());
 //         if (jets.size() < 2) return 0;
-//         if ((jets.at(0).pt() > this->LowerPtCut() / GeV && jets.at(0).pt() < this->UpperPtCut() / GeV) &&
-//           (jets.at(1).pt() > this->LowerPtCut() / GeV && jets.at(1).pt() < this->UpperPtCut() / GeV)) return 1;
+//         if ((jets.at(0).Pt() > this->LowerPtCut() && jets.at(0).Pt() < this->UpperPtCut()) &&
+//           (jets.at(1).Pt() > this->LowerPtCut() && jets.at(1).Pt() < this->UpperPtCut())) return 1;
         return 0;
     }
 

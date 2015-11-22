@@ -67,7 +67,7 @@ private:
 
     void NSubJettiness(Triplet& triplet) const;
 
-    float LeptonPt(Triplet const& triplet,std::vector<Jet> const& leptons) const;
+    Momentum LeptonPt(Triplet const& triplet,std::vector<Jet> const& leptons) const;
 
     std::vector<Triplet> ordered_triplets(std::vector<Jet> const& jets, unsigned sub_jet_number, std::function<boost::optional<Triplet>(Jet const& piece_1, Jet const& piece_2, Jet const& piece_3)> const& function) const;
 

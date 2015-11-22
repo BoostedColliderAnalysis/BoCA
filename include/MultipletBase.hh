@@ -28,11 +28,11 @@ public:
   virtual float BottomBdt() const = 0;
 
   boca::Mass Mass() const {
-    return Jet().m() * GeV;
+    return Jet().Mass();
   }
 
   Momentum Pt() const {
-    return Jet().pt() * GeV;
+    return Jet().Pt();
   }
 
   Angle Rap() const {
@@ -42,15 +42,15 @@ public:
   }
 
   Angle Phi() const {
-    return Jet().phi_std() * rad;
+    return Jet().Phi();
   }
 
   Angle DeltaRTo(boca::Jet const& jet) const {
-    return Jet().delta_R(jet) * rad;
+    return Jet().DeltaRTo(jet);
   }
 
   Angle DeltaRTo(boca::Particle const& jet) const {
-    return Jet().delta_R(jet) * rad;
+    return Jet().DeltaRTo(jet);
   }
 
   /**

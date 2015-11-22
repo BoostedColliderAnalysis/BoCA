@@ -169,10 +169,10 @@ boost::optional<Triplet> TopHadronicTagger::Tripple(Triplet& triplet, std::vecto
     return triplet;
 }
 
-float TopHadronicTagger::LeptonPt(Triplet const& triplet, std::vector<Jet> const& leptons) const
+Momentum TopHadronicTagger::LeptonPt(Triplet const& triplet, std::vector<Jet> const& leptons) const
 {
-    float pt = 0;
-    for (auto const & lepton : leptons) if (lepton.pt() > pt && Close(lepton)(triplet)) pt = lepton.pt();
+    Momentum pt = at_rest;
+    for (auto const & lepton : leptons) if (lepton.Pt() > pt && Close(lepton)(triplet)) pt = lepton.Pt();
     return pt;
 }
 
@@ -187,7 +187,7 @@ bool TopHadronicTagger::Problematic(Triplet const& triplet, boca::PreCuts const&
 //         if (std::abs(triplet.Doublet().Mass() - Mass(Id::W)) > 40) return true;
 //         if (triplet.Doublet().Bdt() < 1) return true;
 //         if (triplet.Singlet().Bdt() < 1) return true;
-//         if (triplet.pt() > DetectorGeometry::LeptonMinPt()) return true;
+//         if (triplet.Pt() > DetectorGeometry::LeptonMinPt()) return true;
         break;
     case Tag::background : break;
     }

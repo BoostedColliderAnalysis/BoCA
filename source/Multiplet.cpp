@@ -65,7 +65,7 @@ Angle Multiplet::DeltaPhi(MultipletBase const& multiplets_1, MultipletBase const
 
 Angle Multiplet::DeltaR(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const
 {
-    Angle delta_r = to_angle(multiplets_1.Jet().delta_R(multiplets_2.Jet()));
+    Angle delta_r = multiplets_1.Jet().DeltaRTo(multiplets_2.Jet());
     if (boost::units::abs(delta_r) > 100. * rad) delta_r = 0. * rad;
 //         if (delta_r < DetectorGeometry::MinCellResolution()) delta_r = Singlet(Jet()).DeltaR();
     return delta_r;
@@ -84,8 +84,8 @@ float Multiplet::DeltaHt(MultipletBase const& multiplets_1, MultipletBase const&
 float Multiplet::Rho(MultipletBase const& jet_1, MultipletBase const& jet_2, boca::Jet const& jet) const
 {
     Angle delta_r = DeltaR(jet_1, jet_2);
-    if (jet.pt() * GeV < DetectorGeometry::MinCellPt() || delta_r < DetectorGeometry::MinCellResolution()) return 0;
-    return jet.m() / jet.pt() / delta_r * 2. * rad;
+    if (jet.Pt() < DetectorGeometry::MinCellPt() || delta_r < DetectorGeometry::MinCellResolution()) return 0;
+    return jet.Mass() / jet.Pt() / delta_r * 2. * rad;
 }
 
 Angle Multiplet::Pull(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const

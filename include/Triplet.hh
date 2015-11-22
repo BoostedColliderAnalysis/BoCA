@@ -24,7 +24,7 @@ public:
 
     float pt() const;
 
-    void set_pt(float pt);
+    void set_pt(Momentum pt);
 
     SubJettiness sub_jettiness() const;
 
@@ -32,7 +32,7 @@ private:
 
     SubJettiness sub_jettiness_;
 
-    float pt_;
+    Momentum pt_;
 
 };
 

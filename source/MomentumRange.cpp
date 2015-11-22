@@ -67,11 +67,11 @@ Momentum MomentumRange::PtMax(SubJet const& id) {
 }
 
 bool MomentumRange::BelowUpperBound(Jet const& jet) const {
-    return jet.pt() * GeV < max_;
+    return jet.Pt() < max_;
 }
 
 bool MomentumRange::AboveLowerBound(Jet const& jet) const {
-    return jet.pt() * GeV > min_;
+    return jet.Pt() > min_;
 }
 
 Momentum MomentumRange::Pt(Id id, Angle cone_size) {

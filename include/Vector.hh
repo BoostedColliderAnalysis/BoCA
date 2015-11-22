@@ -92,12 +92,12 @@ struct Close {
         return multiplet.DeltaRTo(particle_) < detector_geometry_.JetConeSize();
     }
     bool operator()(Jet const& jet) {
-//       std::cout<< jet.delta_R(particle_) * rad << std::endl;
-        return jet.delta_R(particle_) * rad < detector_geometry_.JetConeSize();
+//       std::cout<< jet.DeltaRTo(particle_) << std::endl;
+        return jet.DeltaRTo(particle_) < detector_geometry_.JetConeSize();
     }
     bool operator()(Particle const& jet) {
-      //       std::cout<< jet.delta_R(particle_) * rad << std::endl;
-      return jet.delta_R(particle_) * rad < detector_geometry_.JetConeSize();
+      //       std::cout<< jet.DeltaRTo(particle_) << std::endl;
+      return jet.DeltaRTo(particle_) < detector_geometry_.JetConeSize();
     }
     Particle particle_;
     DetectorGeometry detector_geometry_;
@@ -135,7 +135,7 @@ template <typename Multiplet>
 Particle ClosestJet(std::vector<Particle> const& jets, Multiplet const& multiplet)
 {
   return *boost::range::min_element(jets, [&](Jet const & jet_1, Jet const & jet_2) {
-        return jet_1.delta_R(multiplet.Jet()) < jet_2.delta_R(multiplet.Jet());
+        return jet_1.DeltaRTo(multiplet.Jet()) < jet_2.DeltaRTo(multiplet.Jet());
     });
 }
 
@@ -143,7 +143,7 @@ template <typename Multiplet>
 Jet ClosestJet(std::vector<Jet> const& jets, Multiplet const& multiplet)
 {
   return *boost::range::min_element(jets, [&](Jet const & jet_1, Jet const & jet_2) {
-    return jet_1.delta_R(multiplet.Jet()) < jet_2.delta_R(multiplet.Jet());
+    return jet_1.DeltaRTo(multiplet.Jet()) < jet_2.DeltaRTo(multiplet.Jet());
   });
 }
 

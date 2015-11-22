@@ -115,21 +115,21 @@ std::vector<Jet> Reconstruction::GetFatjet_tag(std::vector<Jet>& FatJets)
         JetInfo jet_info;
         for (auto const& constituent : FatJet.constituents()) {
             if (constituent.has_user_info()) {
-//                 jet_info.AddConstituents(constituent.user_info<JetInfo>().constituents());
-//               std::map<int, float> JetFractions = constituent.user_info<JetInfo>().GetJetFractions();
+//                 jet_info.AddConstituents(constituent.Info().constituents());
+//               std::map<int, float> JetFractions = constituent.Info().GetJetFractions();
 //               for (std::map<int, float>::const_iterator Pair = JetFractions.begin(); Pair != JetFractions.end(); ++Pair) {
 //                     jet_info.Addconstituent((*Pair).first, (*Pair).second * constituent.pt());
 //                 }
-//                 constituent.user_info<JetInfo>().PrintAllInfos(Severity::detailed);
+//                 constituent.Info().PrintAllInfos(Severity::detailed);
             } else {
                 Error("No info in constituent jet");
 //             jet_info.Addconstituent(constituent.user_index(), constituent.pt());
             }
         }
         FatJet.set_user_info(new JetInfo(jet_info));
-//         FatJet.set_user_index(FatJet.user_info<JetInfo>().MaximalId());
-//         FatJet.user_info<JetInfo>().PrintAllInfos(Severity::detailed);
-//         Detail("Tag", FatJet.user_info<JetInfo>().MaximalId(), FatJet.user_info<JetInfo>().MaximalFraction(), FatJet.m());
+//         FatJet.set_user_index(FatJet.Info().MaximalId());
+//         FatJet.Info().PrintAllInfos(Severity::detailed);
+//         Detail("Tag", FatJet.Info().MaximalId(), FatJet.Info().MaximalFraction(), FatJet.m());
     }
     return FatJets;
 }

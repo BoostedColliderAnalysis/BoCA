@@ -44,7 +44,7 @@ std::vector<Jet> TauTagger::CleanJets(std::vector<Jet>& jets, std::vector<Partic
     INFO("Clean Jets");
     for (auto const & Particle : Particles) {
         std::sort(jets.begin(), jets.end(), MinDeltaRTo(Particle));
-        if (jets.front().delta_R(Particle) < 0.4)
+        if (jets.front().DeltaRTo(Particle) < 0.4 * rad)
             static_cast<JetInfo&>(*jets.front().user_info_shared_ptr().get()).SetTag(Tag::signal);
     }
    std::vector<Jet>NewCleanJets;
@@ -58,8 +58,8 @@ std::vector<Jet> TauTagger::CleanJets(std::vector<Jet>& jets, std::vector<Partic
 //   Error("Clean Jets", "Massless Jet");
 //           continue;
 //         }
-//         if (Tag == Tag::signal && Jet.user_info<JetInfo>().SumDisplacement() == 0) continue;
-        if (Jet.user_info<JetInfo>().Tag() != tag) {
+//         if (Tag == Tag::signal && Jet.Info().SumDisplacement() == 0) continue;
+        if (Jet.Info().Tag() != tag) {
 //   Error("Clean Jets", "Not Tagged Jet");
             continue;
         }

@@ -28,10 +28,10 @@ void Triplet::set_sub_jettiness()
 
 float Triplet::pt() const
 {
-  return pt_;
+  return pt_ / GeV;
 }
 
-void Triplet::set_pt(float pt)
+void Triplet::set_pt(Momentum pt)
 {
   pt_ = pt;
 }

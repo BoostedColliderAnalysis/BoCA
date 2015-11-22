@@ -42,7 +42,7 @@ int GlobalObservables::BottomNumber() const
 {
     Info0;
     std::vector<Jet> bottoms;
-    for (auto const & jet : Jets()) if (jet.user_info<JetInfo>().Bdt() > 0)
+    for (auto const & jet : Jets()) if (jet.Info().Bdt() > 0)
             bottoms.emplace_back(jet);
     return bottoms.size();
 }
@@ -51,7 +51,7 @@ float GlobalObservables::BottomBdt() const
 {
     Info0;
     return boost::accumulate(jets_, 0., [](float bdt, Jet const & jet) {
-        return bdt + jet.user_info<JetInfo>().Bdt();
+        return bdt + jet.Info().Bdt();
     }) / JetNumber();
 }
 
@@ -60,7 +60,7 @@ float GlobalObservables::BottomBdt(int number) const
     Info0;
     if (number > JetNumber())
         return 0;
-    return Jets().at(number - 1).user_info<JetInfo>().Bdt();
+    return Jets().at(number - 1).Info().Bdt();
 }
 
 float GlobalObservables::BottomBdt(int number_1, int number_2) const
@@ -70,7 +70,7 @@ float GlobalObservables::BottomBdt(int number_1, int number_2) const
         return 0;
     if (number_2 > JetNumber())
         return 0;
-    return (Jets().at(number_1 - 1).user_info<JetInfo>().Bdt() + Jets().at(number_2 - 1).user_info<JetInfo>().Bdt()) / 2;
+    return (Jets().at(number_1 - 1).Info().Bdt() + Jets().at(number_2 - 1).Info().Bdt()) / 2;
 }
 
 float GlobalObservables::ScalarHt() const

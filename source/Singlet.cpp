@@ -32,14 +32,13 @@ bool Singlet::Overlap(Singlet const& singlet) const
     return Overlap(singlet.Jet());
 }
 
-float Singlet::Radius(boca::Jet const& jet) const
+Angle Singlet::Radius(boca::Jet const& jet) const
 {
     Info0;
     if (!jet.has_constituents()) return 0;
-    float delta_r = 0;
+    Angle delta_r = 0. * rad;
     for (auto const& constituent : jet.constituents()) {
-        float constituent_delta_r = jet.delta_R(constituent);
-        if (constituent_delta_r > 100) continue;
+        Angle constituent_delta_r = jet.DeltaRTo(constituent);
         Debug(constituent_delta_r);
         if (constituent_delta_r > delta_r) delta_r = constituent_delta_r;
     }
@@ -50,17 +49,16 @@ float Singlet::Spread(boca::Jet const& jet) const
 {
     Info0;
     if (!jet.has_constituents()) return 0;
-//     float delta_r = Radius(jet);
-    float delta_r = 0;
+//     Angle delta_r = Radius(jet);
+    Angle delta_r = 0;
     float spread = 0;
     for (auto const& constituent : jet.constituents()) {
-        float constituent_delta_r = jet.delta_R(constituent);
-        if (constituent_delta_r > 100) continue;
-        spread += constituent_delta_r * constituent.pt();
+        Angle constituent_delta_r = jet.DeltaRTo(constituent);
+        spread += constituent_delta_r / rad * constituent.pt();
         if (constituent_delta_r > delta_r) delta_r = constituent_delta_r;
     }
-    if (delta_r == 0) return 0;
-    return spread / jet.pt() / delta_r;
+    if (delta_r == 0. * rad) return 0;
+    return spread / jet.pt() / delta_r * rad;
 }
 
 void Singlet::SetBdt(float bdt)

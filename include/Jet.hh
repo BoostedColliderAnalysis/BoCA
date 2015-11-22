@@ -30,6 +30,10 @@ public:
 
     JetInfo& Info();
 
+    void SetDelphesTags(::delphes::Jet const& delphes_jet){
+      Info().SetDelphesTags(delphes_jet);
+    }
+
     void SetInfo(JetInfo const & user_info = JetInfo());
 
 private:

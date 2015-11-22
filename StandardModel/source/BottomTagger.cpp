@@ -88,11 +88,11 @@ bool BottomTagger::Problematic(Jet const& jet, PreCuts const& pre_cuts, Tag tag)
 {
     Info0;
     if (Problematic(jet, pre_cuts)) return true;
-    if (jet.m() * GeV > bottom_max_mass_) return true;
-    if (std::abs(jet.rap()) * rad > DetectorGeometry::TrackerEtaMax()) return true;
+    if (jet.Mass() > bottom_max_mass_) return true;
+    if (boost::units::abs(jet.Rap()) > DetectorGeometry::TrackerEtaMax()) return true;
     switch (tag) {
     case Tag::signal :
-        if (jet.user_info<JetInfo>().SumDisplacement() == 0. * mm) return true;
+        if (jet.Info().SumDisplacement() == 0. * mm) return true;
         break;
     case Tag::background : break;
     }
@@ -129,7 +129,7 @@ std::vector<Jet> BottomTagger::SubMultiplet(Jet const& jet, TMVA::Reader const& 
     std::vector<Jet> jets;
     for (auto & sub_jet : Tagger::SubJets(jet, sub_jet_number)) {
         if (!sub_jet.has_user_info<JetInfo>()) continue;
-        if (sub_jet.m() <= 0) continue;
+        if (sub_jet.Mass() <= massless) continue;
         jets.emplace_back(Multiplet(sub_jet, reader));
     }
     return jets;

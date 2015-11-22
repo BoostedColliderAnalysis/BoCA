@@ -6,6 +6,7 @@
 
 #include "Doublet.hh"
 #include "Event.hh"
+#include "ClusterSequence.hh"
 #include "Types.hh"
 #include "JetInfo.hh"
 #include "InfoRecombiner.hh"
@@ -133,23 +134,18 @@ Doublet HiggsTagger::MassDrop(Doublet const& doublet) const
     Info0;
     InfoRecombiner info_recombiner;
     fastjet::JetDefinition jet_definition(fastjet::cambridge_algorithm, doublet.DeltaR() + to_float(DetectorGeometry::JetConeSize()) * 2, &info_recombiner);
-    fastjet::ClusterSequence& cluster_sequence = *new fastjet::ClusterSequence(doublet.Jet().constituents(), jet_definition);
-    unsigned jet_number = 1;
-    std::vector<Jet> exclusive_jets = JetVector(cluster_sequence.exclusive_jets(int(jet_number)));
-    Check(exclusive_jets.size() == jet_number, jet_number);
-    if (exclusive_jets.empty()) {
-        delete &cluster_sequence;
-        throw Empty();
-    }
-    cluster_sequence.delete_self_when_unused();
 
+    unsigned jet_number = 1;
+    ClusterSequence cluster_sequence(doublet.Jet().constituents(), jet_definition);
+    std::vector<Jet> exclusive_jets = cluster_sequence.ExclusiveJets(jet_number);
+    if (exclusive_jets.empty()) throw Empty();
     fastjet::MassDropTagger mass_drop_tagger(0.667, 0.09);
     Jet mass_drop_jet = mass_drop_tagger(exclusive_jets.front());
     if (mass_drop_jet == 0) throw Empty();
 
-    double radius = mass_drop_jet.pieces().at(0).delta_R(mass_drop_jet.pieces().at(1));
-    radius = std::min(radius / 2, .3);
-    fastjet::Filter filter(fastjet::JetDefinition(fastjet::cambridge_algorithm, radius, &info_recombiner), fastjet::SelectorNHardest(3));
+    Angle radius = mass_drop_jet.pieces().at(0).delta_R(mass_drop_jet.pieces().at(1)) * rad;
+    radius = std::min(radius / 2., .3 * rad);
+    fastjet::Filter filter(fastjet::JetDefinition(fastjet::cambridge_algorithm, radius / rad, &info_recombiner), fastjet::SelectorNHardest(3));
     Jet filtered_jet = filter.result(mass_drop_jet);
     if (!filtered_jet.has_pieces()) throw Empty();
      std::vector<Jet> pieces = SortedByPt(JetVector(filtered_jet.pieces()));

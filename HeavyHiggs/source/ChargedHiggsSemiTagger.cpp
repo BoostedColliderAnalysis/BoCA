@@ -45,7 +45,7 @@ int ChargedHiggsSemiTagger::Train(Event const& event, PreCuts const&, Tag tag) c
         Jet BottomQuark;
         if (BottomParticles.size() == 1) BottomQuark = BottomParticles.front();
         else Error(BottomParticles.size());
-        for (auto const& Jet : jets)  if (Jet.delta_R(BottomQuark) * rad < DetectorGeometry::JetConeSize()) BottomJets.emplace_back(Jet);
+        for (auto const& Jet : jets)  if (Jet.DeltaRTo(BottomQuark) < DetectorGeometry::JetConeSize()) BottomJets.emplace_back(Jet);
         break;
     }
     case Tag::background :

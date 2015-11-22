@@ -114,7 +114,7 @@ bool WHadronicTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cut
 bool WHadronicTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts) const
 {
     if (pre_cuts.ApplyCuts(Id::W, doublet)) return true;
-//     if (double(doublet.DeltaR()) * rad < DetectorGeometry::MinCellResolution() && doublet.DeltaR() > 0) return true;
+//     if (double(doublet.DeltaR()) < DetectorGeometry::MinCellResolution() && doublet.DeltaR() > 0) return true;
     return false;
 }
 

@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Jan Hajer
  */
 
-#include "fastjet/ClusterSequence.hh"
+#include "ClusterSequence.hh"
 
 #include "delphes/Delphes.hh"
 #include "delphes/Hadrons.hh"
@@ -95,8 +95,7 @@ boost::optional<Jet> Hadrons::StructuredJet(::delphes::Jet const& delphes_jet, s
     }
     if (constituents.empty()) return boost::none;
     Jet jet = Join(constituents);
-    if(jet.has_user_info<JetInfo>()) static_cast<JetInfo&>(*jet.user_info_shared_ptr().get()).SetDelphesTags(delphes_jet);
-    else Error("Jet has no info");
+    jet.SetDelphesTags(delphes_jet);
     return jet;
 }
 
@@ -172,14 +171,8 @@ bool Hadrons::Isolated(TObject const& object, std::vector<TObject*> const& lepto
 std::vector<Jet> Hadrons::EFlowJets(JetDetail jet_detail) const
 {
     Info0;
-    fastjet::ClusterSequence& cluster_sequence = *new fastjet::ClusterSequence(PseudoJetVector(EFlow(jet_detail)), DetectorGeometry::JetDefinition());
-    std::vector<Jet> jets = SortedByPt(JetVector(cluster_sequence.inclusive_jets(DetectorGeometry::JetMinPt() / GeV)));
-    if (jets.empty()) {
-        delete &cluster_sequence;
-        return jets;
-    }
-    cluster_sequence.delete_self_when_unused();
-    return jets;
+    ClusterSequence cluster_sequence(EFlow(jet_detail), DetectorGeometry::JetDefinition());
+    return cluster_sequence.InclusiveJets(DetectorGeometry::JetMinPt());
 }
 
 std::vector<Jet> Hadrons::EFlow(JetDetail jet_detail) const

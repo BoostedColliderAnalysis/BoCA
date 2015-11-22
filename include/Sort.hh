@@ -24,7 +24,7 @@ struct MinDeltaRTo {
         return multiplet1.DeltaRTo(jet_) < multiplet2.DeltaRTo(jet_);
     }
     bool operator()(Jet const& jet1, Jet const& jet2) {
-        return jet1.delta_R(jet_)  < jet2.delta_R(jet_);
+        return jet1.DeltaRTo(jet_)  < jet2.DeltaRTo(jet_);
     }
     Jet jet_;
 };
@@ -60,7 +60,7 @@ struct SortByMassTo {
         return boost::units::abs(multiplet_1.Mass() - mass_) < boost::units::abs(multiplet_2.Mass() - mass_);
     }
     bool operator()(Jet const& jet_1, Jet const& jet_2) {
-        return std::abs(jet_1.m() - mass_ / GeV) > std::abs(jet_2.m() - mass_ / GeV);
+        return boost::units::abs(jet_1.Mass() - mass_) > boost::units::abs(jet_2.Mass() - mass_);
     }
     Mass mass_;
 };
@@ -77,7 +77,7 @@ struct SortByMass {
         return multiplet_1.Mass() > multiplet_2.Mass();
     }
     bool operator()(Jet const& jet_1, Jet const& jet_2) {
-        return jet_1.m() > jet_2.m();
+        return jet_1.Mass() > jet_2.Mass();
     }
 };
 

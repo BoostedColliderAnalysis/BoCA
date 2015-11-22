@@ -59,7 +59,7 @@ std::vector<Jet> TopLeptonicTagger::Leptons(Event const& event, std::vector<Jet>
 
 Jet TopLeptonicTagger::FakeLepton(Jet const& jet) const
 {
-    return Jet(jet) / jet.pt() * (DetectorGeometry::LeptonMinPt() / GeV);
+    return jet / (jet.Pt() / DetectorGeometry::LeptonMinPt());
 }
 
 std::vector<Particle> TopLeptonicTagger::Particles(Event const& event) const

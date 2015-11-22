@@ -4,7 +4,7 @@
 
 #include "TMVA/Reader.h"
 
-#include "fastjet/ClusterSequence.hh"
+#include "ClusterSequence.hh"
 
 #include "exroot/ExRootAnalysis.hh"
 #include "Tagger.hh"
@@ -47,15 +47,8 @@ std::vector<Jet> Tagger::SubJets(Jet const& jet, int sub_jet_number) const
 {
     Info0;
     if (!jet.has_pieces()) return {};
-    if (!jet.has_user_info<JetInfo>()) return {};
-    fastjet::ClusterSequence& cluster_sequence = *new fastjet::ClusterSequence(jet.constituents(), DetectorGeometry::SubJetDefinition());
-   std::vector<Jet> pieces = JetVector(cluster_sequence.exclusive_jets_up_to(sub_jet_number));
-    if (pieces.empty()) {
-        delete &cluster_sequence;
-        return pieces;
-    }
-    cluster_sequence.delete_self_when_unused();
-    return pieces;
+    ClusterSequence cluster_sequence(jet.constituents(), DetectorGeometry::SubJetDefinition());
+    return cluster_sequence.ExclusiveJetsUpTo(sub_jet_number);
 }
 
 void Tagger::AddTreeName(std::string const& tree_name, Tag tag)

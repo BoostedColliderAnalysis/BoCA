@@ -46,9 +46,17 @@ public:
 
     Momentum Pt() const;
 
+    boca::Energy Energy() const{
+      return e() * GeV;
+    };
+
     boca::Mass Mass()const;
 
-    Angle DeltaRTo(PseudoJet const& jet) const;
+    Angle Rap() const;
+
+    Angle Phi() const;
+
+    Angle DeltaRTo(fastjet::PseudoJet const& jet) const;
 
 };
 

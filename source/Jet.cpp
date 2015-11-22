@@ -32,11 +32,13 @@ Jet::Jet(TLorentzVector const& vector, int charge) : PseudoJet(vector)
 JetInfo const& Jet::Info() const
 {
     if (has_user_info<JetInfo>()) return user_info<JetInfo>();
+    Error("No jet info");
 }
 
 JetInfo& Jet::Info()
 {
     if (has_user_info<JetInfo>()) return static_cast<JetInfo&>(*user_info_shared_ptr().get());
+    Error("No jet info");
 }
 
 void Jet::SetInfo(JetInfo const& user_info)
@@ -61,7 +63,7 @@ std::vector< fastjet::PseudoJet > PseudoJetVector(std::vector< Jet > const& jets
     return pseudo_jets;
 }
 
-Jet Join(const std::vector< Jet >& jets)
+Jet Join(std::vector< Jet > const& jets)
 {
     Info0;
     return fastjet::join(PseudoJetVector(jets), InfoRecombiner());

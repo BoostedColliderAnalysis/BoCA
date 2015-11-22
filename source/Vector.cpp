@@ -111,7 +111,7 @@ std::vector<Particle> CopyIfLepton(std::vector<Particle> const& jets)
 std::vector<Jet> RemoveIfOutsidePtWindow(std::vector<Jet> jets, Momentum lower_cut, Momentum upper_cut)
 {
     return boost::range::remove_erase_if(jets, [lower_cut, upper_cut](Jet const & jet) {
-        return (jet.pt() < lower_cut / GeV || jet.pt() > upper_cut / GeV);
+        return (jet.Pt() < lower_cut || jet.Pt() > upper_cut);
     });
 }
 
@@ -250,14 +250,14 @@ std::vector<Particle> CopyIf5Quark(std::vector<Particle> const& jets)
 std::vector<Particle> RemoveIfSoft(std::vector<Particle> jets, Momentum pt_min)
 {
     return boost::range::remove_erase_if(jets, [&](Jet const & jet) {
-        return jet.pt() < pt_min / GeV;
+        return jet.Pt() < pt_min;
     });
 }
 
 std::vector<Particle> RemoveIfHard(std::vector<Particle> jets, Momentum pt_max)
 {
     return boost::range::remove_erase_if(jets, [&](Jet const & jet) {
-        return jet.pt() > pt_max / GeV;
+        return jet.Pt() > pt_max;
     });
 }
 

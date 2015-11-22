@@ -268,7 +268,7 @@ public:
         BottomRap = multiplet.Triplet1().Jet().rap();
         BottomPhi = multiplet.Triplet1().Jet().phi();
         BottomMass = multiplet.Triplet1().Jet().m();
-        //         BottomBdt = multiplet.singlet().user_info<JetInfo>().Bdt();
+        //         BottomBdt = multiplet.singlet().Info().Bdt();
         TopPt = multiplet.Triplet2().Jet().pt();
         //         TopRap = std::abs(multiplet.triplet().Jet().rap());
         TopRap = multiplet.Triplet2().Jet().rap();
@@ -314,7 +314,7 @@ class QuartetPairBranch : public boca::PairBranch
         BottomRap = multiplet.Doublet1().Jet().rap();
         BottomPhi = multiplet.Doublet1().Jet().phi();
         BottomMass = multiplet.Doublet1().Jet().m();
-        //         BottomBdt = multiplet.singlet().user_info<JetInfo>().Bdt();
+        //         BottomBdt = multiplet.singlet().Info().Bdt();
         TopPt = multiplet.Doublet2().Jet().pt();
         //         TopRap = std::abs(multiplet.triplet().Jet().rap());
         TopRap = multiplet.Doublet2().Jet().rap();

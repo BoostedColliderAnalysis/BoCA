@@ -88,13 +88,13 @@ private:
        std::vector<Particle> Tops = CopyIfParticle(Particles, Id::top);
         if (Tops.size() != 2) return 0;
         else {
-            if (Tops.at(0).pt() < this->PreCut() / GeV) return 0;
-            if (Tops.at(1).pt() < this->PreCut() / GeV) return 0;
+            if (Tops.at(0).Pt() < this->PreCut()) return 0;
+            if (Tops.at(1).Pt() < this->PreCut()) return 0;
         }
-        if (event.Hadrons().MissingEt().pt() < this->MissingEt() / GeV) return 0;
+        if (event.Hadrons().MissingEt().Pt() < this->MissingEt()) return 0;
        std::vector<Jet> Leptons = SortedByPt(event.Leptons().leptons());
         if (Leptons.empty()) return 0;
-        if (Leptons.front().pt() < this->LeptonPt() / GeV) return 0;
+        if (Leptons.front().Pt() < this->LeptonPt()) return 0;
        std::vector<Jet> jets = event.Hadrons().Jets();
         if (jets.size() < 4) return 0;
         return 1;

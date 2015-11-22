@@ -362,7 +362,7 @@ public:
         BottomRap = multiplet.Singlet().Jet().rap();
         BottomPhi = multiplet.Singlet().Jet().phi();
         BottomMass = multiplet.Singlet().Jet().m();
-//         BottomBdt = multiplet.Singlet().user_info<JetInfo>().Bdt();
+//         BottomBdt = multiplet.Singlet().Info().Bdt();
         TopPt = multiplet.Triplet().Jet().pt();
 //         TopRap = std::abs(multiplet.Triplet().Jet().rap());
         TopRap = multiplet.Triplet().Jet().rap();

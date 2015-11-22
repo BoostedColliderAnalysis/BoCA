@@ -19,7 +19,7 @@ class Singlet : public MultipletBase
 public:
 
   Singlet() {};
-  
+
   Singlet(fastjet::PseudoJet const& jet);
 
     Singlet(boca::Jet const& jet);
@@ -61,7 +61,7 @@ public:
     }
 
     float Radius() const {
-        return Radius(Jet());
+        return Radius(Jet()) / rad;
     }
 
     float Spread() const {
@@ -69,7 +69,7 @@ public:
     }
 
     float VertexRadius() const {
-        return Radius(UserInfo().VertexJet());
+        return Radius(UserInfo().VertexJet()) / rad;
     }
 
     float VertexSpread() const {
@@ -77,7 +77,7 @@ public:
     }
 
     float EnergyFraction() const {
-        return UserInfo().VertexEnergy() / GeV / Jet().e();
+        return UserInfo().VertexEnergy() / Jet().Energy();
     }
 
     float EmRadius() const {
@@ -156,7 +156,7 @@ private:
 
     float log(Length length) const;
 
-    float Radius(boca::Jet const& jet) const;
+    Angle Radius(boca::Jet const& jet) const;
 
     float Spread(boca::Jet const& jet) const;
 

@@ -60,7 +60,7 @@ private:
 //     }
 //        std::vector<Jet> jets = SortedByPt(event.Hadrons().Jets());
 //         if (jets.size() < 3) return 0;
-//         if (jets.at(2).pt() < this->JetPreCut()) return 0;
+//         if (jets.at(2).Pt() < this->JetPreCut()) return 0;
 //
 //
 //        std::vector<Jet> particles = event.Partons().GenParticles();
