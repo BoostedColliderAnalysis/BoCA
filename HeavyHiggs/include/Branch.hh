@@ -2,9 +2,11 @@
 
 #include "Branches.hh"
 
-namespace boca {
+namespace boca
+{
 
-namespace heavyhiggs {
+namespace heavyhiggs
+{
 
 
 /**
@@ -12,7 +14,8 @@ namespace heavyhiggs {
  * @brief Higgs tagger root tree structure
  *
  */
-class HeavyHiggsLeptonicBranch : public PairBranch {
+class HeavyHiggsLeptonicBranch : public PairBranch
+{
 
 public:
 
@@ -36,8 +39,7 @@ public:
 
 
     template<typename Multiplet>
-    void Fill(Multiplet const& multiplet)
-    {
+    void Fill(Multiplet const& multiplet) {
         PairBranch::Fill(multiplet);
         LargerWDeltaR = multiplet.GetLargertripletDeltaR();
         LargerWDeltaRap = multiplet.GetLargertripletDeltaRap();
@@ -66,15 +68,15 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class HeavyHiggsSemiBranch : public MultiBranch {
+class HeavyHiggsSemiBranch : public MultiBranch
+{
 
 public:
 
     HeavyHiggsSemiBranch();
 
     template<typename Multiplet>
-    void Fill(Multiplet const& multiplet)
-    {
+    void Fill(Multiplet const& multiplet) {
         MultiBranch::Fill(multiplet);
     }
 
@@ -89,7 +91,8 @@ private:
  * @brief Charged Higgs semi tagger root tree structure
  *
  */
-class ChargedHiggsSemiBranch : public MultiBranch {
+class ChargedHiggsSemiBranch : public MultiBranch
+{
 
 public:
 
@@ -97,8 +100,7 @@ public:
     ChargedHiggsSemiBranch();
 
     template<typename Multiplet>
-    void Fill(Multiplet const& multiplet)
-    {
+    void Fill(Multiplet const& multiplet) {
         MultiBranch::Fill(multiplet);
 //         Flag = multiplet.Flag();
     }
@@ -115,7 +117,8 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class ChargedHiggsLeptonicBranch : public MultiBranch {
+class ChargedHiggsLeptonicBranch : public MultiBranch
+{
 
 public:
 
@@ -150,8 +153,7 @@ public:
 
 
     template<typename Multiplet>
-    void Fill(Multiplet const& multiplet)
-    {
+    void Fill(Multiplet const& multiplet) {
         MultiBranch::Fill(multiplet);
         HeavyHiggsMass = multiplet.Jet().m();
         HeavyHiggsPt = multiplet.Jet().m();
@@ -176,7 +178,8 @@ private:
  * @brief Top tagger root tree structure
  *
  */
-class HeavyHiggsTauBranch : public PairBranch {
+class HeavyHiggsTauBranch : public PairBranch
+{
 
 public:
 
@@ -186,8 +189,7 @@ public:
     float NeutrinoPt;
 
     template<typename Multiplet>
-    void Fill(Multiplet const& multiplet)
-    {
+    void Fill(Multiplet const& multiplet) {
         PairBranch::Fill(multiplet);
         LeptonPt = multiplet.Singlet1().Jet().pt();
         NeutrinoPt = multiplet.Singlet2().Jet().pt();
@@ -206,7 +208,8 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class EventNeutralBranch : public EventBranch {
+class EventNeutralBranch : public EventBranch
+{
 
 public:
 
@@ -236,8 +239,7 @@ public:
     float BottomBdt78;
 
     template<typename Multiplet>
-    void Fill(Multiplet const& event)
-    {
+    void Fill(Multiplet const& event) {
         EventBranch::Fill(event);
         HiggsMass = event.Signature().Sextet().Jet().m();
         HiggsBdt = event.Signature().Sextet().Bdt();
@@ -268,7 +270,8 @@ private:
     ClassDef(EventNeutralBranch, 1)
 
 };
-class EventNeutralFourTopBranch : public EventBranch {
+class EventNeutralFourTopBranch : public EventBranch
+{
 
 public:
 
@@ -298,8 +301,7 @@ public:
     float BottomBdt78;
 
     template<typename Multiplet>
-    void Fill(Multiplet const& event)
-    {
+    void Fill(Multiplet const& event) {
         EventBranch::Fill(event);
         HiggsMass = event.Signature().Sextet().Jet().m();
         HiggsBdt = event.Signature().Sextet().Bdt();
@@ -337,7 +339,8 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class EventFusionBranch : public EventBranch {
+class EventFusionBranch : public EventBranch
+{
 
 public:
 
@@ -347,8 +350,7 @@ public:
     float HiggsMass;
 
     template<typename Multiplet>
-    void Fill(Multiplet const& multiplet)
-    {
+    void Fill(Multiplet const& multiplet) {
         EventBranch::Fill(multiplet);
         HiggsMass = multiplet.Jet().m();
     }
@@ -367,7 +369,8 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class OctetNeutralBranch : public MultiBranch {
+class OctetNeutralBranch : public MultiBranch
+{
 
 public:
 
@@ -383,8 +386,7 @@ public:
     float SoftTopPt;
 
     template<typename Multiplet>
-    void Fill(Multiplet const& multiplet)
-    {
+    void Fill(Multiplet const& multiplet) {
         MultiBranch::Fill(multiplet);
         BottomBdt = multiplet.BottomBdt();
         PairBottomBdt = multiplet.Doublet().BottomBdt();
@@ -409,7 +411,8 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class OctetChargedBranch : public MultiBranch {
+class OctetChargedBranch : public MultiBranch
+{
 
 public:
 
@@ -424,8 +427,7 @@ public:
 
 
     template<typename Multiplet>
-    void Fill(Multiplet const& multiplet)
-    {
+    void Fill(Multiplet const& multiplet) {
         MultiBranch::Fill(multiplet);
         BottomBdt = multiplet.BottomBdt();
         PairBottomBdt = multiplet.Quartet2().BottomBdt();
@@ -448,7 +450,8 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class EventChargedBranch : public EventBranch {
+class EventChargedBranch : public EventBranch
+{
 
 public:
 
@@ -477,8 +480,7 @@ public:
     float BottomBdt78;
 
     template<typename Multiplet>
-    void Fill(Multiplet const& event)
-    {
+    void Fill(Multiplet const& event) {
         EventBranch::Fill(event);
         HiggsMass = event.Signature().Quartet1().Jet().m();
         HiggsBdt = event.Signature().Quartet1().Bdt();
@@ -507,6 +509,37 @@ public:
 private:
 
     ClassDef(EventChargedBranch, 1)
+
+};
+
+class HeavyHiggsCutBranch : public CutBranch
+{
+
+public:
+
+  HeavyHiggsCutBranch();
+  float Ht;
+  float EtMiss;
+  float NumberJet;
+  float NumberBottom;
+  float InvariantMass;
+  float DeltaR;
+
+  template<typename Multiplet>
+  void Fill(Multiplet const& multiplet) {
+    CutBranch::Fill(multiplet);
+    Ht = multiplet.Ht();
+    EtMiss = multiplet.EtMiss();
+    NumberJet = multiplet.JetNumber();
+    NumberBottom = multiplet.BottomNumber();
+    InvariantMass = multiplet.InvariantMass();
+    DeltaR = multiplet.DeltaR();
+  }
+  virtual Observables Variables();
+
+private:
+
+  ClassDef(HeavyHiggsCutBranch, 1)
 
 };
 

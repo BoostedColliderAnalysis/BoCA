@@ -32,8 +32,11 @@
 #include "Result.hh"
 #include "Canvas.hh"
 #include "Math.hh"
-// #define INFORMATION
+#define INFORMATION
 #include "Debug.hh"
+
+
+#include "../HeavyHiggs/include/Branch.hh"
 
 namespace boca
 {
@@ -102,14 +105,15 @@ Result Plotting::BdtDistribution(TFile& file, std::string const& tree_name, TFil
     Result result(InfoBranch(file, tree_name));
     TClonesArray& clones_array = *tree_reader.UseBranch(branch_name.c_str());
     exroot::TreeWriter tree_writer(&export_file, tree_name.c_str());
-    exroot::TreeBranch& result_branch = *tree_writer.NewBranch(branch_name.c_str(), ResultBranch::Class());
+    exroot::TreeBranch& result_branch = *tree_writer.NewBranch(branch_name.c_str(), BdtBranch::Class());
     long entries = 0;
     for (auto const & event_number : Range(tree_reader.GetEntries())) {
         tree_reader.ReadEntry(event_number);
         for (auto const & entry : Range(clones_array.GetEntriesFast())) {
-            float bdt_value = Tagger().ReadBdt(clones_array, entry);
+//             float bdt_value = Tagger().ReadBdt(clones_array, entry);
+            float bdt_value =  static_cast<BdtBranch&>(*clones_array.At(entry)).Bdt;
             Check(bdt_value >= -1 && bdt_value <= 1, bdt_value);
-            static_cast<ResultBranch&>(*result_branch.NewEntry()).Bdt = bdt_value;
+            static_cast<BdtBranch&>(*result_branch.NewEntry()).Bdt = bdt_value;
             result.AddBdt(bdt_value);
             ++entries;
         }
@@ -228,17 +232,17 @@ std::string Plotting::PlotCrosssectionsGraph(Results const& results) const
         nice_names.emplace_back(result.info_branch_.Name);
         graphs.emplace_back(TGraph(result.steps, &results.x_values.front(), &result.XSec().front()));
         float xsec = *boost::range::min_element(result.crosssection) / fb;
-        if(min > xsec) min = xsec;
+        if (min > xsec) min = xsec;
         xsec = *boost::range::max_element(result.crosssection) / fb;
-        if(max > xsec) max = xsec;
+        if (max > xsec) max = xsec;
     }
     for (auto const & result : results.backgrounds) {
         nice_names.emplace_back(result.info_branch_.Name);
         graphs.emplace_back(TGraph(result.steps, &results.x_values.front(), &result.XSec().front()));
         float xsec = *boost::range::min_element(result.crosssection) / fb;
-        if(min > xsec) min = xsec;
+        if (min > xsec) min = xsec;
         xsec = *boost::range::max_element(result.crosssection) / fb;
-        if(max > xsec) max = xsec;
+        if (max > xsec) max = xsec;
     }
     TLegend legend = Legend(Orientation::bottom | Orientation::left, nice_names);
     for (auto & graph : graphs) AddGraph(graph, multi_graph, legend, nice_names, &graph - &graphs.front());
@@ -513,6 +517,128 @@ void Plotting::SetBranch(TTree& tree, int& value, const std::__cxx11::string& na
 {
     tree.SetBranchStatus(name.c_str(), true);
     tree.SetBranchAddress(name.c_str(), &value);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CutResults Plotting::ReadCutFiles() const
+{
+    Info0;
+    TFile file(Tagger().ExportFileName().c_str(), "Recreate");
+    CutResults results;
+    results.signals = ReadCutFile(file, Tag::signal);
+    results.backgrounds = ReadCutFile(file, Tag::background);
+    results.ExtremeXValues();
+    return results;
+}
+
+std::vector<CutResult> Plotting::ReadCutFile(TFile& export_file, Tag tag) const
+{
+    Info0;
+    std::string file_name = Tagger().FileName(Stage::reader, tag);
+    Debug(file_name);
+    if (!Exists(file_name)) Error("non existent", file_name);
+    TFile file(file_name.c_str(), "Read");
+    std::vector<CutResult> results;
+    INFO(Tagger().TreeNames(tag).size());
+    for (auto const & tree_name : Tagger().TreeNames(tag)) results.emplace_back(CutDistribution(file, tree_name, export_file));
+    return results;
+}
+
+CutResult Plotting::CutDistribution(TFile& file, std::string const& tree_name, TFile& export_file) const
+{
+    INFO(tree_name);
+    std::string branch_name = Tagger().BranchName(Stage::reader);
+    exroot::TreeReader tree_reader(static_cast<TTree*>(file.Get(tree_name.c_str())));
+    CutResult result(InfoBranch(file, tree_name));
+    TClonesArray& clones_array = *tree_reader.UseBranch(branch_name.c_str());
+    exroot::TreeWriter tree_writer(&export_file, tree_name.c_str());
+    exroot::TreeBranch& cut_branch = *tree_writer.NewBranch(branch_name.c_str(), CutBranch::Class());
+    for (auto const & event_number : Range(tree_reader.GetEntries())) {
+        tree_reader.ReadEntry(event_number);
+        for (auto const & entry : Range(clones_array.GetEntriesFast())) {
+            std::vector<bool> passed = dynamic_cast<CutBranch&>(*clones_array.At(entry)).passed_;
+            static_cast<CutBranch&>(*cut_branch.NewEntry()).passed_ = passed;
+            result.AddPassed(passed);
+        }
+        tree_writer.Fill();
+        tree_writer.Clear();
+    }
+    tree_writer.Write();
+    result.Calculate();
+    return result;
+}
+
+
+
+void Plotting::Cuts() const
+{
+    Info0;
+    CutResults results = ReadCutFiles();
+    results.Significances();
+    PlotCutEfficiencyGraph(results);
+    PlotCutResult(results);
+}
+
+
+std::string Plotting::PlotCutResult(boca::CutResults& results) const
+{
+    Info0;
+    Canvas canvas;
+    TGraph graph = CutGraph(results, results.significances, "Significance");
+//     TLine line  = Line(results.best_model_dependent_bin, graph.GetYaxis()->GetXmin(), graph.GetYaxis()->GetXmax(), results.signals.size() + results.backgrounds.size() + 1);
+    return canvas.SaveAs(Tagger().ExportFolderName() + "-Significance");
+}
+
+
+std::string Plotting::PlotCutEfficiencyGraph(CutResults const& results) const
+{
+  Info0;
+  Canvas canvas;
+  canvas.SetLog();
+  TMultiGraph multi_graph("", Tagger().NiceName().c_str());
+  Strings nice_names;
+  std::vector<TGraph> graphs;
+  for (auto const & result : results.signals) {
+    nice_names.emplace_back(result.info_branch_.Name);
+    graphs.emplace_back(TGraph(result.steps, &results.x_values.front(), &result.efficiency.front()));
+  }
+  for (auto const & result : results.backgrounds) {
+    nice_names.emplace_back(result.info_branch_.Name);
+    graphs.emplace_back(TGraph(result.steps, &results.x_values.front(), &result.efficiency.front()));
+  }
+  TLegend legend = Legend(Orientation::bottom | Orientation::left, nice_names);
+  for (auto & graph : graphs) AddGraph(graph, multi_graph, legend, nice_names, &graph - &graphs.front());
+  multi_graph.Draw("al");
+  multi_graph.GetXaxis()->SetLimits(results.min.x, results.max.x);
+  canvas.SetAxis(*multi_graph.GetXaxis(), "Signal");
+  canvas.SetAxis(*multi_graph.GetYaxis(), "Background");
+  TLine line = Line(results.best_model_dependent_bin , multi_graph.GetYaxis()->GetXmin(), multi_graph.GetYaxis()->GetXmax(), results.signals.size() + results.backgrounds.size() + 1);
+  TLine line2 = Line(results.best_model_independent_bin, multi_graph.GetYaxis()->GetXmin(), multi_graph.GetYaxis()->GetXmax(), results.signals.size() + results.backgrounds.size() + 2);
+  legend.Draw();
+  return canvas.SaveAs(Tagger().ExportFolderName() + "-Efficiency");
 }
 
 }

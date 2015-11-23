@@ -5,7 +5,7 @@
 # set path to madgraph folder
 set(
   MadGraphDir
-  ~/Development/MadGraph
+  ~/Development/madgraph
   ~/madness/MadGraph
   ~/HEP/MadGraph5_v1_5_14
 )
@@ -31,14 +31,14 @@ find_path(
   DelphesDir
   NAMES classes/DelphesClasses.h
   PATHS ${MadGraphDir}
-  PATH_SUFFIXES DelphesNoFastJet
+  PATH_SUFFIXES Delphes
   DOC "Path to Delphes installed by MadGraph"
 )
 add_include_path(${DelphesDir} SYSTEM)
 
 find_library(
   DelphesLibrary
-  NAMES Delphes
+  NAMES DelphesNoFastJet
   HINTS ${DelphesDir}
   DOC "Delphes library installed by MadGraph"
 )

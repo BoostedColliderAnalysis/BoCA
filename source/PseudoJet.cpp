@@ -16,22 +16,6 @@ PseudoJet::PseudoJet(TLorentzVector const& vector) : fastjet::PseudoJet(vector.P
 
 PseudoJet::PseudoJet(LorentzVector const& vector) : fastjet::PseudoJet(vector.Px(), vector.Py(), vector.Pz(), vector.E()) {}
 
-PseudoJet::PseudoJet(const exroot::Electron& Particle) : PseudoJet(LorentzVector(Particle)) {}
-
-PseudoJet::PseudoJet(const exroot::GenJet& Particle) : PseudoJet(LorentzVector(Particle)) {}
-
-PseudoJet::PseudoJet(const exroot::GenParticle& Particle) : PseudoJet(LorentzVector(Particle)) {}
-
-PseudoJet::PseudoJet(const exroot::Jet& Particle) : PseudoJet(LorentzVector(Particle)) {}
-
-PseudoJet::PseudoJet(const exroot::LHEFParticle& Particle) : PseudoJet(LorentzVector(Particle)) {}
-
-PseudoJet::PseudoJet(const exroot::Muon& Particle) : PseudoJet(LorentzVector(Particle)) {}
-
-PseudoJet::PseudoJet(const exroot::Photon& Particle) : PseudoJet(LorentzVector(Particle)) {}
-
-PseudoJet::PseudoJet(const exroot::Tau& Particle) : PseudoJet(LorentzVector(Particle)) {}
-
 Momentum PseudoJet::Pt() const
 {
     return pt() * GeV;
@@ -64,6 +48,11 @@ Angle PseudoJet::Rap() const
 Angle PseudoJet::Phi() const
 {
     return phi_std() * rad;
+}
+
+Energy PseudoJet::Energy() const
+{
+    return e() * GeV;
 }
 
 

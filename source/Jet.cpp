@@ -24,9 +24,49 @@ Jet::Jet(TLorentzVector const& vector, Constituent const& constituent) : PseudoJ
     SetInfo(constituent);
 }
 
+Jet::Jet(TLorentzVector const& vector, std::vector<Constituent> const& constituents) : PseudoJet(vector)
+{
+  SetInfo(constituents);
+}
+
 Jet::Jet(TLorentzVector const& vector, int charge) : PseudoJet(vector)
 {
     SetInfo(charge);
+}
+
+Jet::Jet(const exroot::Electron& electron) : PseudoJet(LorentzVector(electron))
+{
+    SetInfo();
+}
+
+Jet::Jet(const exroot::GenJet& gen_jet) : PseudoJet(LorentzVector(gen_jet))
+{
+    SetInfo();
+}
+
+Jet::Jet(const exroot::Jet& jet) : PseudoJet(LorentzVector(jet))
+{
+    SetInfo();
+}
+
+Jet::Jet(const exroot::Muon& muon) : PseudoJet(LorentzVector(muon))
+{
+    SetInfo();
+}
+
+Jet::Jet(const exroot::Photon& photon) : PseudoJet(LorentzVector(photon))
+{
+    SetInfo();
+}
+
+Jet::Jet(const exroot::Tau& tau) : PseudoJet(LorentzVector(tau))
+{
+    SetInfo();
+}
+
+Jet::Jet(double const Momentum[4]) : PseudoJet(Momentum[1], Momentum[2], Momentum[3], Momentum[0])
+{
+    SetInfo();
 }
 
 JetInfo const& Jet::Info() const
@@ -67,6 +107,11 @@ Jet Join(std::vector< Jet > const& jets)
 {
     Info0;
     return fastjet::join(PseudoJetVector(jets), InfoRecombiner());
+}
+
+void Jet::SetDelphesTags(const delphes::Jet& delphes_jet)
+{
+    Info().SetDelphesTags(delphes_jet);
 }
 
 }

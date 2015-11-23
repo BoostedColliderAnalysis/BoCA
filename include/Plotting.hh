@@ -26,6 +26,8 @@ namespace boca
 class Plots;
 class Result;
 class Results;
+class CutResult;
+class CutResults;
 class Point;
 class Plot;
 
@@ -49,6 +51,8 @@ public:
     void OptimalCuts() const;
 
     void RunPlots() const;
+
+    void Cuts() const;
 
 private:
 
@@ -107,6 +111,21 @@ private:
     boca::Tagger const& Tagger() const;
 
     boca::Tagger& tagger_;
+
+
+
+
+
+
+    CutResults ReadCutFiles() const;
+
+    std::vector<CutResult> ReadCutFile(TFile& export_file, boca::Tag tag) const;
+
+    CutResult CutDistribution(TFile& file, std::string const& tree_name, TFile& export_file) const;
+
+    std::string PlotCutResult(boca::CutResults& results) const;
+
+    std::string PlotCutEfficiencyGraph(const CutResults& results) const;
 
 };
 

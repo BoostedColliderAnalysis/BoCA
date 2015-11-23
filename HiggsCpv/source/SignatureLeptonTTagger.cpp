@@ -15,7 +15,7 @@ int SignatureLeptonTTagger::Train(Event const& event, boca::PreCuts const&, Tag 
     Info0;
    std::vector<Jet> triplets = event.Leptons().leptons();
     if (tag == Tag::signal) {
-       std::vector<Jet> leptons = Leptons(event);
+       std::vector<Lepton> leptons = Leptons(event);
         triplets = BestMatches(triplets, leptons, tag);
         Debug(triplets.size(), leptons.size());
     }

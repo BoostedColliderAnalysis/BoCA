@@ -28,7 +28,7 @@ void AnalysisBase::Initialize()
     Error(tagger().Name());
     working_path_ = WorkingPath();
 //     if (AnalysisName() != AnalysisBase::AnalysisName())
-    INFO(working_path_,AnalysisName());
+    INFO(working_path_, AnalysisName());
       mkdir(AnalysisName().c_str(), 0700);
 //     else Error(AnalysisName());
     tagger().SetAnalysisName(AnalysisName());
@@ -158,7 +158,7 @@ void AnalysisBase::RunFast()
     Info0;
     RunTagger(Stage::trainer);
     INFO("Analysis Loop done");
-    RunTrainer();
+    RunTrainer(TMVA::Types::EMVA::kBDT);
 }
 
 void AnalysisBase::RunNormal()
@@ -195,11 +195,10 @@ void AnalysisBase::RunTagger(Stage stage)
     if (!Exists(tagger().FileName(stage, Tag::signal))) AnalysisLoop(stage);
 }
 
-void AnalysisBase::RunTrainer()
+void AnalysisBase::RunTrainer(TMVA::Types::EMVA mva)
 {
     Info0;
     PrepareFiles(Stage::trainer);
-    TMVA::Types::EMVA mva = TMVA::Types::EMVA::kBDT;
     if (!Exists(tagger().WeightFileName(mva))) {
         std::ofstream cout_file(tagger().FolderName() + ".txt");
         std::streambuf* cout = std::cout.rdbuf();
@@ -238,6 +237,19 @@ void AnalysisBase::RunPlots()
         Plotting plotting(tagger());
         plotting.RunPlots();
     }
+}
+
+void AnalysisBase::RunCut()
+{
+  Info0;
+  Info0;
+  RunTagger(Stage::trainer);
+  INFO("Analysis Loop done");
+  RunTrainer(TMVA::Types::EMVA::kCuts);
+  RunTagger(Stage::reader);
+  Error(tagger().TreeNames(Tag::signal).size());
+  Plotting plotting(tagger());
+  plotting.Cuts();
 }
 
 std::string AnalysisBase::WorkingPath()
@@ -293,6 +305,8 @@ void AnalysisBase::Run(Output run)
       RunNormal();
       RunPlots();
       break;
+    case Output::cut :
+      RunCut();
   }
   if (is(run, Output::plot)) {
     RunPlots();

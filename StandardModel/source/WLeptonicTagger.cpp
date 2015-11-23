@@ -22,7 +22,7 @@ WLeptonicTagger::WLeptonicTagger()
 int WLeptonicTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) const
 {
     Info0;
-    std::vector<Jet> leptons = event.Leptons().leptons();
+    std::vector<Lepton> leptons = event.Leptons().leptons();
     Jet missing_et = event.Hadrons().MissingEt();
     std::vector<Doublet> doublets;
     for (auto const & lepton : leptons) {
@@ -60,7 +60,7 @@ std::vector<Particle> WLeptonicTagger::Particles(Event const& event) const
 std::vector<Doublet>  WLeptonicTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
     Info0;
-    std::vector<Jet> leptons = SortedByPt(event.Leptons().leptons());
+    std::vector<Lepton> leptons = SortedByPt(event.Leptons().leptons());
     std::vector<Doublet> doublets;
     for (auto const & lepton : leptons) {
         Doublet pre_doublet(lepton, event.Hadrons().MissingEt());

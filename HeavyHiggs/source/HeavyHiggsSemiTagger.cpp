@@ -69,7 +69,7 @@ std::vector<Particle> HeavyHiggsSemiTagger::HiggsParticle(Event const& event, Ta
 std::vector<Particle> HeavyHiggsSemiTagger::TopParticles(Event const& event, Decay decay) const
 {
   std::vector<Particle> particles = event.Partons().GenParticles();
-  std::vector<Jet> leptons = SortedByPt(event.Leptons().leptons());
+  std::vector<Lepton> leptons = SortedByPt(event.Leptons().leptons());
     int lepton_charge = leptons.empty() ? 1 : leptons.at(0).Info().Charge();
     INFO(lepton_charge);
     switch (decay) {

@@ -26,6 +26,7 @@ class Point;
 class Plot;
 class Result;
 class Results;
+class CutResults;
 
 enum class Orientation
 {
@@ -56,6 +57,8 @@ void AddGraph(TGraph& graph, TMultiGraph& multi_graph, TLegend& legend, Strings 
 void SetMultiGraph(TMultiGraph& multi_graph, Point const& min, Point const& max);
 
 TGraph Graph(Results const& results, std::vector<float> const& values, std::string const& title);
+
+TGraph CutGraph(CutResults const& results, std::vector<float> const& values, std::string const& title);
 
 void SetHistogram(TH2& histogram, Plot const& plot, EColor color, TExec& exec);
 

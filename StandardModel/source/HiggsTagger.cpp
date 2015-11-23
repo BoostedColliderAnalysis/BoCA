@@ -30,7 +30,7 @@ HiggsTagger::HiggsTagger()
 int HiggsTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const
 {
     Info0;
-   std::vector<Jet> leptons = event.Leptons().leptons();
+   std::vector<Lepton> leptons = event.Leptons().leptons();
     return SaveEntries(Doublets(event, [&](Doublet & doublet) {
         return SetTag(doublet, leptons, pre_cuts, tag);
     }), Particles(event), tag, Id::higgs);
@@ -114,7 +114,7 @@ bool HiggsTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts) c
 std::vector<Doublet> HiggsTagger::Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
     Info0;
-   std::vector<Jet> leptons = event.Leptons().leptons();
+   std::vector<Lepton> leptons = event.Leptons().leptons();
     return ReduceResult(Doublets(event, [&](Doublet & doublet) {
         return Multiplet(doublet, leptons, pre_cuts, reader);
     }));

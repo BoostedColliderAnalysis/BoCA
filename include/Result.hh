@@ -6,6 +6,7 @@
 #include "Branches.hh"
 #include "Flag.hh"
 #include "Units.hh"
+#include "../HeavyHiggs/include/Branch.hh"
 
 namespace boca
 {
@@ -105,6 +106,73 @@ public:
 // std::transform(crosssections.begin(), crosssections.end(), values.begin(), std::bind1st(std::multiplies<float>(), 1. / fb));
         return values;
     }
+
+
+};
+
+
+
+
+
+
+class CutResult
+{
+public:
+  CutResult(InfoBranch const& info_branch);
+  void Calculate();
+  int XBin(float value) const;
+  void AddPassed(std::vector<bool> passed){
+    passed_.emplace_back(passed);
+  };
+  std::vector<int> bins;
+  std::vector<int> event_sums;
+  std::vector<float> events;
+  std::vector<float> efficiency;
+  std::vector<float> pure_efficiency;
+  std::vector<float> bdt;
+  std::vector<Crosssection> crosssection;
+  InfoBranch info_branch_;
+  std::vector<std::vector<bool>> passed_;
+  const static int steps = 9;
+
+  std::vector<float> XSec() const {
+    std::vector<float> values;
+    values.reserve(crosssection.size());
+    for (auto const & xsec : crosssection) values.emplace_back(xsec / fb);
+    return values;
+  }
+private:
+  long event_sum_;
+};
+
+class CutResults
+{
+public:
+  CutResults();
+  void Significances();
+  void BestBin();
+  static float XValue(int value);
+  void ExtremeXValues();
+  std::vector<CutResult> signals;
+  std::vector<CutResult> backgrounds;
+  std::vector<float> significances;
+  std::vector<float> acceptances;
+  std::vector<Crosssection> crosssections;
+  std::vector<float> x_values;
+  int best_model_dependent_bin = 0;
+  int best_model_independent_bin = 0;
+  int best_acceptance_bin = 0;
+  Point min;
+  Point max;
+
+  std::vector<float> Crosssections() const {
+    std::vector<float> values;
+    values.reserve(crosssections.size());
+    for (auto const & crosssection : crosssections) values.emplace_back(crosssection / fb);
+    // TODO remove the loop and make use of std lib
+    // std::transform(crosssections.begin(), crosssections.end(), values.begin(), std::bind1st(std::multiplies<float>(), 1. / fb));
+    return values;
+  }
 
 
 };

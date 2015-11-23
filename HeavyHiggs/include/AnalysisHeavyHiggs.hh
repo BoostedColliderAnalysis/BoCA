@@ -46,88 +46,88 @@ class AnalysisHeavyHiggs : public Analysis<Tagger>
 public:
 
     boca::Mass Mass() const {
-        return 300.*GeV;
-        return 400.*GeV;
-        return 500.*GeV;
-        return 600.*GeV;
-        return 700.*GeV;
-        return 800.*GeV;
-        return 900.*GeV;
-        return 1000.*GeV;
-        return 2000.*GeV;
-        return 3000.*GeV;
-        return 4000.*GeV;
-        return 5000.*GeV;
-        return 7000.*GeV;
-        return 8000.*GeV;
-        return 10000.*GeV;
-        return 12000.*GeV;
-        return 15000.*GeV;
-        return 20000.*GeV;
+        return 1000. * GeV;
+        return 300. * GeV;
+        return 400. * GeV;
+        return 500. * GeV;
+        return 600. * GeV;
+        return 700. * GeV;
+        return 800. * GeV;
+        return 900. * GeV;
+        return 2000. * GeV;
+        return 3000. * GeV;
+        return 4000. * GeV;
+        return 5000. * GeV;
+        return 7000. * GeV;
+        return 8000. * GeV;
+        return 10000. * GeV;
+        return 12000. * GeV;
+        return 15000. * GeV;
+        return 20000. * GeV;
+    };
+
+    long EventNumberMax() const override {
+        return 1000;
+        return 10000;
+        return 500;
+        return 10000000;
+        return 1000000;
+        return 100000;
+        return 10;
+    };
+
+    Collider collider_type() const {
+        return Collider::LHC;
+        return Collider::LE;
     };
 
     Momentum PreCut() const {
         switch (collider_type()) {
         case Collider::LHC :
             switch (Int(Mass())) {
-            case 500 : return 0.*GeV;
-            case 1000 : return 250.*GeV;
-            case 2000 : return 250.*GeV;
-            case 3000 : return 250.*GeV;
-            default : return 0.*GeV;
+            case 500 : return 0. * GeV;
+            case 1000 : return 250. * GeV;
+            case 2000 : return 250. * GeV;
+            case 3000 : return 250. * GeV;
+            Default("Mass", at_rest);
             }
         case Collider::LE :
             switch (Int(Mass())) {
-            case 500 : return 0.*GeV;
-            case 1000 : return 300.*GeV;
-            case 2000 : return 300.*GeV;
-            case 4000 : return 1500.*GeV;
-            case 6000 : return 2500.*GeV;
-            case 10000 : return 2500.*GeV;
-            case 15000 : return 2500.*GeV;
-            case 20000 : return 2500.*GeV;
-            default : return 0.*GeV;
+            case 500 : return 0. * GeV;
+            case 1000 : return 300. * GeV;
+            case 2000 : return 300. * GeV;
+            case 4000 : return 1500. * GeV;
+            case 6000 : return 2500. * GeV;
+            case 10000 : return 2500. * GeV;
+            case 15000 : return 2500. * GeV;
+            case 20000 : return 2500. * GeV;
+            Default("Mass", at_rest);
             }
-        default : return 0.*GeV;
+            Default("Collider", at_rest);
         }
-    };
-
-    long EventNumberMax() const override {
-        return 10000000;
-        return 1000000;
-        return 100000;
-        return 10000;
-        return 1000;
-        return 500;
-        return 10;
-    };
-
-    Collider collider_type() const {
-        return Collider::LE;
-        return Collider::LHC;
     };
 
     Momentum MissingEt() const {
         switch (collider_type()) {
-        case Collider::LHC : return 30.*GeV;
-        case Collider::LE : return 60.*GeV;
-        default : return 0.*GeV;
+        case Collider::LHC : return 30. * GeV;
+        case Collider::LE : return 60. * GeV;
+        Default("Collider", 0. * GeV);
         }
     };
 
     Momentum LeptonPt() const {
         switch (collider_type()) {
-        case Collider::LHC : return 50.*GeV;
-        case Collider::LE : return 100.*GeV;
-        default : return 0.*GeV;
+        case Collider::LHC : return 50. * GeV;
+        case Collider::LE : return 100. * GeV;
+        Default("Collider", at_rest);
         }
     };
 
     Momentum BottomPt() const {
         switch (collider_type()) {
-        case Collider::LHC : return 20.*GeV;
-        case Collider::LE : return 40.*GeV;
-        default : return 0.*GeV;
+        case Collider::LHC : return 20. * GeV;
+        case Collider::LE : return 40. * GeV;
+        Default("Collider", at_rest);
         }
     };
 
@@ -137,15 +137,15 @@ public:
             switch (process) {
             case Process::ttwwbb : return 1;
             case  Process::ttwbb : return 1;
-            default : return 1;
+            Default("Process", 1);
             }
         case Collider::LE :
             switch (process) {
             case  Process::ttwwbb : return 2;
             case  Process::ttwbb : return 1;
-            default : return 1;
+            Default("Process", 1);
             }
-        default : return 1;
+            Default("Collider", 1);
         }
     }
 
@@ -155,7 +155,7 @@ public:
         case Process::Htwb : return "_" + boca::Name(Mass());
         case Process::ttwwbb : return "";
         case Process::ttwbb : return "";
-        default : return "";
+            Default("Process", "");
         }
     }
 
@@ -181,7 +181,7 @@ public:
         switch (tag) {
         case Tag::signal : return Name(process) + Suffix(process) + "_" + Name(collider_type());
         case Tag::background : return Name(process) + Suffix(process) + "_" + Name(collider_type());
-        default : return "";
+        Default("Tag", "");
         }
     }
 

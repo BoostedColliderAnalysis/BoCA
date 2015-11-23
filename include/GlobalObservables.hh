@@ -45,7 +45,7 @@ public:
 
 private:
 
-    std::vector<Jet> leptons_;
+    std::vector<Lepton> leptons_;
     float scalar_ht_;
     float missing_et_;
     std::vector<Jet> jets_;

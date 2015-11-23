@@ -33,9 +33,9 @@ class Hadrons : public boca::Hadrons
 public:
     std::vector<Jet> Jets() const final;
 
-    float ScalarHt() const final;
+    Momentum ScalarHt() const final;
 
-    Jet MissingEt() const final;
+    boca::MissingEt MissingEt() const final;
 
 
 private:

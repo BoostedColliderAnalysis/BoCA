@@ -18,7 +18,8 @@ namespace boca
     normal = 1 << 1,
     significance = 1 << 2,
     efficiency = 1 << 3,
-    plot = 1 << 4
+    plot = 1 << 4,
+    cut = 1 << 5
   };
 
   template<>
@@ -56,6 +57,8 @@ public:
     void RunFullEfficiency();
 
     void RunPlots();
+
+    void RunCut();
 
 protected:
 
@@ -131,7 +134,7 @@ private:
 
     void RunTagger(Stage stage);
 
-    void RunTrainer();
+    void RunTrainer(TMVA::Types::EMVA mva);
 
     void RunSignificance();
 

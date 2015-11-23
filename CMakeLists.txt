@@ -31,6 +31,7 @@ add_libraries(TreePlayer)
 include(CMakeFiles/Findfastjet.cmake)
 # add_include_path(${fastjet_INCLUDE_DIRS})
 add_libraries(${fastjet_LIBRARIES})
+add_libraries(fastjettools)
 add_libraries(Nsubjettiness)
 
 # Download external projects

@@ -1,9 +1,11 @@
 #include "Branch.hh"
 #include "Pair.hh"
 
-namespace boca {
+namespace boca
+{
 
-namespace heavyhiggs {
+namespace heavyhiggs
+{
 
 HeavyHiggsLeptonicBranch::HeavyHiggsLeptonicBranch()
 {
@@ -197,6 +199,23 @@ Observables EventNeutralFourTopBranch::Variables()
 {
     return Join(EventBranch::Variables(), {PAIR(HiggsMass), PAIR(HiggsBdt), PAIR(SignatureBdt), PAIR(PairRap), PAIR(BottomBdt), PAIR(BottomBdt1), PAIR(BottomBdt2), PAIR(BottomBdt3), PAIR(BottomBdt4), PAIR(BottomBdt5), PAIR(BottomBdt6), PAIR(BottomBdt7), PAIR(BottomBdt8), PAIR(BottomBdt12), PAIR(BottomBdt34), PAIR(BottomBdt56), PAIR(BottomBdt78)});
 }
+
+HeavyHiggsCutBranch::HeavyHiggsCutBranch()
+{
+  Ht = InitialValue();
+  EtMiss = InitialValue();
+  NumberJet = int(InitialValue());
+  NumberBottom = int(InitialValue());
+  InvariantMass = InitialValue();
+  DeltaR = InitialValue();
 }
+
+Observables HeavyHiggsCutBranch::Variables()
+{
+  return {PAIR(Ht), PAIR(EtMiss), PAIR(NumberJet), PAIR(NumberBottom), PAIR(InvariantMass), PAIR(DeltaR)};
+}
+
+}
+
 }
 

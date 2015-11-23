@@ -10,7 +10,7 @@ int EventFusionTagger::Train(Event const& event, PreCuts const& , Tag tag) const
 {
     INFO("event Tags");
    std::vector<Jet> jets = bottom_reader_.Jets(event);
-   std::vector<Jet> leptons = event.Leptons().leptons();
+   std::vector<Lepton> leptons = event.Leptons().leptons();
     std::vector<Sextet> sextets = heavy_higgs_semi_reader_.Multiplets(event);
     std::vector<Particle> HiggsParticles = event.Partons().GenParticles();
     std::vector<Particle>Even = CopyIfFamily(HiggsParticles, Id::heavy_higgs, Id::gluon);

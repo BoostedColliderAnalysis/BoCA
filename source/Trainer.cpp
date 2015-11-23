@@ -61,7 +61,7 @@ void Trainer::AddObservables()
 long Trainer::AddAllTrees()
 {
     Note0;
-    return std::min(AddTrees(Tag::signal), AddTrees(Tag::background)) / 2;
+    return std::min(AddTrees(Tag::background), AddTrees(Tag::signal)) / 2;
 }
 
 long Trainer::AddTrees(Tag tag)
@@ -112,7 +112,6 @@ float Trainer::Weight(exroot::TreeReader& tree_reader)
     TClonesArray& clones_array = *tree_reader.UseBranch(Tagger().WeightBranchName().c_str());
     tree_reader.ReadEntry(0);
     return static_cast<InfoBranch&>(*clones_array.First()).Crosssection / tree_reader.GetEntries();
-    return 1; // FIXME TODO !!!!!!!!!! this should be switched of again !!!!!!!!!!!!!!! FIXME TODO
 }
 
 TTree& Trainer::Tree(std::string const& tree_name, Tag tag)
@@ -156,7 +155,7 @@ std::string Trainer::MethodOptions(TMVA::Types::EMVA mva)
         options.Add("SeparationType", "GiniIndex");
         options.Add("nCuts", 20);
         break;
-    case TMVA::Types::EMVA::kCuts :
+    case TMVA::Types::EMVA::kLikelihood :
         options.Add("VarTransform", "D");
         options.Add("MinNodeSize", 1.5, "%");
         options.Add("BoostType", "Grad");
@@ -168,6 +167,22 @@ std::string Trainer::MethodOptions(TMVA::Types::EMVA mva)
         options.Add("CreateMVAPdfs");
         options.Add("DoBoostMonitor");
         break;
+    case TMVA::Types::EMVA::kCuts :
+        options.Add("FitMethod","GA");
+        options.Add("EffSel");
+        options.Add("VarProp","FSmart");
+
+
+
+
+
+//         options.Add("VarProp","FSmart");
+
+
+
+//         "FitMethod=GA:CutRangeMin[0]=-10:CutRangeMax[0]=10:VarProp[1]=FMax:EffSel:Steps=30:Cycles=3:PopSize=400:SC_steps=10:SC_rate=5:SC_factor=0.95"
+
+
     default : break;
     }
     return options;

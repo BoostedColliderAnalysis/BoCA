@@ -225,10 +225,8 @@ std::vector<Particle> RemoveIfQuark(std::vector<Particle> jets)
 
 std::vector<Particle> CopyIfQuark(std::vector<Particle> const& jets)
 {
-
     std::vector<Particle> final_jets;
     boost::range::copy(jets | boost::adaptors::filtered(IsQuark()), std::back_inserter(final_jets));
-
     return final_jets;
 }
 

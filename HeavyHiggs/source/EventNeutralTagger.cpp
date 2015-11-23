@@ -10,7 +10,7 @@ int EventNeutralTagger::Train(boca::Event const& event, PreCuts const&, Tag tag)
 {
     INFO("event Tags");
    std::vector<Jet> jets = bottom_reader_.Jets(event);
-   std::vector<Jet> leptons = event.Leptons().leptons();
+   std::vector<Lepton> leptons = event.Leptons().leptons();
     std::vector<Octet62> octets = signature_neutral_reader_.Multiplets(event);
     std::vector<MultipletEvent<Octet62>> events;
     for (auto const& octet : octets) {

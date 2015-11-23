@@ -26,7 +26,7 @@ int TopLeptonicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, 
     Info0;
     std::vector<Jet> jets = SortedByPt(bottom_reader_.Jets(event));
     INFO(jets.size());
-    std::vector<Jet> leptons = Leptons(event, jets);
+    std::vector<Lepton> leptons = Leptons(event, jets);
     std::vector<Doublet> doublets;
     if (use_w_) doublets = w_leptonic_reader_.Multiplets(event);
     else for (auto const & lepton : leptons) doublets.emplace_back(Doublet(lepton));
@@ -50,7 +50,7 @@ int TopLeptonicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, 
 std::vector<Jet> TopLeptonicTagger::Leptons(Event const& event, std::vector<Jet> const& jets) const
 {
     bool do_fake_leptons = false;
-    std::vector<Jet> leptons = event.Leptons().leptons();
+    std::vector<Lepton> leptons = event.Leptons().leptons();
     leptons = RemoveIfSoft(leptons, DetectorGeometry::LeptonMinPt());
     if (do_fake_leptons && leptons.empty()) leptons.emplace_back(FakeLepton(jets.front()));
     Debug(jets.size(), leptons.size());
@@ -93,7 +93,7 @@ std::vector<Triplet> TopLeptonicTagger::Multiplets(Event const& event, boca::Pre
 {
     Info0;
     std::vector<Jet> jets = SortedByPt(bottom_reader_.Jets(event));
-    std::vector<Jet> leptons = Leptons(event, jets);
+    std::vector<Lepton> leptons = Leptons(event, jets);
     std::vector<Doublet> doublets;
     if (use_w_) doublets = w_leptonic_reader_.Multiplets(event);
     else for (auto const & lepton : leptons) doublets.emplace_back(Doublet(lepton));

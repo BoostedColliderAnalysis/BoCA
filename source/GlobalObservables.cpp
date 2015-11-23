@@ -15,14 +15,14 @@ namespace boca
 void GlobalObservables::SetEvent(boca::Event const& event, const std::vector<Jet>&)
 {
     leptons_ = event.Leptons().leptons();
-    scalar_ht_ = event.Hadrons().ScalarHt();
+    scalar_ht_ = event.Hadrons().ScalarHt() / GeV;
     missing_et_ = event.Hadrons().MissingEt().pt();
 }
 
 void GlobalObservables::SetEvent(boca::Event const& event)
 {
     leptons_ = event.Leptons().leptons();
-    scalar_ht_ = event.Hadrons().ScalarHt();
+    scalar_ht_ = event.Hadrons().ScalarHt() / GeV;
     missing_et_ = event.Hadrons().MissingEt().pt();
 }
 

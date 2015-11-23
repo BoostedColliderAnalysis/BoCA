@@ -142,7 +142,7 @@ public:
 
     bool KeepGoing(long max) {
         std::lock_guard<std::mutex> object_sum_guard(object_sum_mutex_);
-        return object_sum_ <= max;
+        return object_sum_ < max;
     }
 
     Reader<Tagger> reader() const {
@@ -226,18 +226,18 @@ public:
         return tree_reader().GetEntries();
     }
 
-    void SaveEntry(int number) {
-        Increment();
-        if (number == 0) return;
+    void PreCutPassed(){}
+
+    void SaveEntry() {
         info_branch().EventNumber = branch_writer().event_sum();
         std::lock_guard<std::mutex> tagger_guard(tagger_.mutex_);
         static_cast<InfoBranch&>(*branch_writer().tree_branch().NewEntry()) = info_branch();
         branch_writer().tree_writer().Fill();
         branch_writer().tree_writer().Clear();
-        branch_writer().Increment(number);
     }
 
     bool ReadEntry() {
+        INFO(event_number());
         return tree_reader().ReadEntry(event_number());
     }
 
@@ -370,15 +370,21 @@ private:
 
     void ThirdLoop(Third<Tagger>& third) {
         Info0;
-        while (third.branch_writer().KeepGoing(EventNumberMax()) && third.KeepGoing()) FourthLoop(third);
+        while (third.branch_writer().KeepGoing(EventNumberMax()) && third.KeepGoing()) {
+          int number = FourthLoop(third);
+          third.Increment();
+          third.branch_writer().Increment(number);
+        }
     }
 
-    void FourthLoop(Third<Tagger>& third) const {
+    int FourthLoop(Third<Tagger>& third) const {
         Info0;
-        if (!third.ReadEntry()) return;
+        if (!third.ReadEntry()) return 0;
         Event event(third.tree_reader(), third.second().file().source());
-        if (!PassPreCut(event, third.second().first().tag())) return;
-        third.SaveEntry(Switch(event, third));
+        if (!PassPreCut(event, third.second().first().tag())) return 0;
+        int number = Switch(event, third);
+        third.SaveEntry();
+        return number;
     }
 
     int Switch(Event const& event, Third<Tagger>& third) const {

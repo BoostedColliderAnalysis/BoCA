@@ -12,16 +12,16 @@ void Hadrons::NewEvent(TreeReader const& tree_reader)
     FourVector::NewEvent(tree_reader);
 }
 
-float Hadrons::ScalarHt() const
+Momentum Hadrons::ScalarHt() const
 {
     Error("No Scalar Ht");
-    return 0;
+    return at_rest;
 }
 
-Jet Hadrons::MissingEt() const
+boca::MissingEt Hadrons::MissingEt() const
 {
     Error("No Mising Et");
-    return Jet(0.,0.,0.,0.);
+    return {};
 }
 
 }

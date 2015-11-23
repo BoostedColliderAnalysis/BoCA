@@ -29,6 +29,11 @@ void Tagger::Initialize()
     INFO("done");
 }
 
+TMVA::Types::EMVA Tagger::Mva() const
+{
+    TMVA::Types::EMVA::kBDT;
+}
+
 Observable Tagger::NewObservable(float& value, std::string const& title) const
 {
     INFO(title);
@@ -41,6 +46,13 @@ float Tagger::Bdt(TMVA::Reader const& reader) const
     Info0;
     std::lock_guard<std::mutex> guard(ReaderBase::mutex_);
     return const_cast<TMVA::Reader&>(reader).EvaluateMVA(MethodName(TMVA::Types::EMVA::kBDT));  // TODO get rid of the const cast
+}
+
+bool Tagger::Cut(TMVA::Reader const& reader, float eff) const
+{
+    Info0;
+    std::lock_guard<std::mutex> guard(ReaderBase::mutex_);
+    return const_cast<TMVA::Reader&>(reader).EvaluateMVA(MethodName(TMVA::Types::EMVA::kCuts), eff);  // TODO get rid of the const cast
 }
 
 std::vector<Jet> Tagger::SubJets(Jet const& jet, int sub_jet_number) const
@@ -128,7 +140,7 @@ std::string Tagger::Name(Stage stage) const
     switch (stage) {
     case Stage::trainer : return Name();
     case Stage::reader : return ReaderName();
-    Default("Stage","");
+        Default("Stage", "");
     }
 }
 std::string Tagger::Name(Stage stage, Tag tag) const
@@ -138,7 +150,7 @@ std::string Tagger::Name(Stage stage, Tag tag) const
     switch (tag) {
     case Tag::signal : return name;
     case Tag::background : return BackgroundName(name);
-    Default("Tag","");
+        Default("Tag", "");
     }
 }
 
@@ -148,7 +160,7 @@ std::string Tagger::FileName(Stage stage, Tag tag) const
     switch (tag) {
     case Tag::signal : return SignalFileName(stage);
     case Tag::background : return BackgroundFileName(stage);
-    Default("Tag","");
+        Default("Tag", "");
     }
 }
 
@@ -159,8 +171,8 @@ std::string Tagger::SignalFileName(Stage stage) const
     switch (stage) {
     case Stage::trainer : break;
     case Stage::reader : name = ReaderName(name);
-    break;
-    Default("Stage","");
+        break;
+        Default("Stage", "");
     }
     return PathName(name);
 }
@@ -178,7 +190,7 @@ std::string Tagger::BackgroundFileName(Stage stage) const
 }
 std::string Tagger::AnalysisName() const
 {
-    Debug0;
+    INFO(analysis_name_);
     return analysis_name_;
 }
 std::vector<Observable> const& Tagger::Variables() const
@@ -205,7 +217,7 @@ Strings Tagger::TreeNames(Tag tag) const
     switch (tag) {
     case Tag::signal : return signal_tree_names_;
     case Tag::background : return background_tree_names_;
-    Default("Tag",{});
+        Default("Tag", {});
     }
 }
 
@@ -226,7 +238,8 @@ std::string Tagger::MethodName(TMVA::Types::EMVA mva) const
     Info0;
     switch (mva) {
     case TMVA::Types::EMVA::kBDT : return "Bdt";
-    default : return "";
+    case TMVA::Types::EMVA::kCuts : return "Cuts";
+    Default(int(mva),"Cuts");
     }
 }
 
@@ -311,7 +324,7 @@ std::string Name(Stage stage)
     switch (stage) {
     case Stage::trainer : return "Trainer";
     case Stage::reader : return "Reader";
-    Default("Stage","");
+        Default("Stage", "");
     }
 }
 std::string Tagger::NiceName() const
@@ -328,7 +341,7 @@ std::string Tagger::Root() const
 
 std::string Tagger::PathName(std::string const& file_name, std::string const& suffix) const
 {
-    Debug(file_name);
+    INFO(file_name, suffix);
     return AnalysisName() + "/" + file_name + suffix;
 }
 

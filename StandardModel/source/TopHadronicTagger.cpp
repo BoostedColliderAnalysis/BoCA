@@ -48,7 +48,7 @@ std::vector<Triplet> TopHadronicTagger::Triplets(Event const& event, Function co
 {
     Info0;
    std::vector<Jet> jets = SortedByPt(bottom_reader_.Jets(event));
-   std::vector<Jet> leptons = event.Leptons().leptons();
+   std::vector<Lepton> leptons = event.Leptons().leptons();
 
     INFO(jets.size(), leptons.size());
 

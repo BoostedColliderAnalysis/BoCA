@@ -76,7 +76,6 @@ InfoBranch::InfoBranch()
 
 ResultBranch::ResultBranch()
 {
-    Bdt = InitialValue();
     Tag = int(InitialValue());
 }
 
@@ -87,15 +86,23 @@ Observables ResultBranch::Variables()
 
 Observables ResultBranch::Spectators()
 {
-  return {PAIR(Tag), PAIR(Bdt)};
+  return {PAIR(Tag)};
 }
 
-// void ResultBranch::Print() const
-// {
-//     Error(Tag);
-//     Error(Bdt);
-// }
+BdtBranch::BdtBranch()
+{
+  Bdt = InitialValue();
+}
 
+Observables BdtBranch::Variables()
+{
+  return {};
+}
+
+Observables BdtBranch::Spectators()
+{
+  return {PAIR(Bdt)};
+}
 
 ParticleBranch::ParticleBranch()
 {

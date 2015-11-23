@@ -57,13 +57,15 @@ public:
 
     virtual int Train(Event const&, PreCuts const&, const Tag) const = 0;
 
-    virtual float ReadBdt(TClonesArray const&, int) const = 0;
+//     virtual float ReadBdt(TClonesArray const&, int) const = 0;
 
     virtual const ResultBranch& Branch() const = 0;
 
     virtual ResultBranch& Branch() = 0;
 
     virtual std::string NiceName() const;
+
+    virtual TMVA::Types::EMVA Mva() const;
 
     void Initialize();
 
@@ -133,6 +135,8 @@ protected:
 
     float Bdt(TMVA::Reader const& reader) const;
 
+    bool Cut(TMVA::Reader const& reader, float eff) const;
+
     template<typename Multiplet>
     Multiplet SetTag(Multiplet& multiplet, Tag tag) const {
         multiplet.SetTag(tag);
@@ -147,7 +151,7 @@ protected:
 
     template<typename Multiplet>
     std::vector<Multiplet> SetClosestLepton(Event const& event, std::vector<Multiplet>& multiplets) const {
-       std::vector<Jet> leptons = event.Leptons().leptons();
+       std::vector<Lepton> leptons = event.Leptons().leptons();
         if (leptons.empty()) return multiplets;
         for (auto & multiplet : multiplets) {
             try {

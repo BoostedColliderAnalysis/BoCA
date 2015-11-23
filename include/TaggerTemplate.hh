@@ -33,6 +33,22 @@ public:
         return Tagger::Bdt(reader);
     }
 
+    bool Cut(MultipletTemplate const& multiplet, TMVA::Reader const& reader, float effeciency) const {
+        FillBranch(multiplet);
+        return Tagger::Cut(reader, effeciency);
+    }
+
+    std::vector<bool> Cuts(MultipletTemplate const& multiplet, TMVA::Reader const& reader) const {
+        FillBranch(multiplet);
+        std::vector<bool> passed;
+        int steps = 10;
+        for (auto const & effeciency : Range(2, steps)){
+          std::cout << effeciency << " "  << float(effeciency) / steps << std::endl;
+          passed.emplace_back(Tagger::Cut(reader, float(effeciency) / steps));
+        }
+        return passed;
+    }
+
 //     void PreRequisits(Output output = Output::normal) {
 //         Analysis<tagger> analysis;
 //         Run(analysis, output);
@@ -75,7 +91,7 @@ protected:
     }
 
     template<typename T>
-    std::vector<T> BestMatch(std::vector<T> const& multiplets,std::vector<Particle> const& particles, Id id = Id::empty) const {
+    std::vector<T> BestMatch(std::vector<T> const& multiplets, std::vector<Particle> const& particles, Id id = Id::empty) const {
 //         INFO(multiplets.size(), particles.size());
         std::vector<T> close = CopyIfClose(multiplets, particles);
 //         INFO(close.size());
@@ -85,15 +101,15 @@ protected:
     }
 
     template<typename T>
-    std::vector<T> RemoveBestMatch(std::vector<T> const& multiplets,std::vector<Particle> const& particles) const {
+    std::vector<T> RemoveBestMatch(std::vector<T> const& multiplets, std::vector<Particle> const& particles) const {
 //         INFO(multiplets.size());
         return RemoveIfClose(multiplets, particles);
     }
 
     template<typename T>
-    std::vector<T> BestMatches(std::vector<T> multiplets,std::vector<Particle> const& particles, Tag tag, Id id = Id::empty) const {
-      //         INFO(multiplets.size());
-      if (multiplets.empty()) return multiplets;
+    std::vector<T> BestMatches(std::vector<T> multiplets, std::vector<Particle> const& particles, Tag tag, Id id = Id::empty) const {
+        //         INFO(multiplets.size());
+        if (multiplets.empty()) return multiplets;
         multiplets = SortedByBdt(multiplets);
         switch (tag) {
         case Tag::signal : return BestMatch(multiplets, particles, id);
@@ -115,7 +131,7 @@ protected:
         return sum;
     }
 
-    int SaveEntries(std::vector<MultipletTemplate> multiplets,std::vector<Particle> particles, Tag tag, Id id = Id::empty) const {
+    int SaveEntries(std::vector<MultipletTemplate> multiplets, std::vector<Particle> particles, Tag tag, Id id = Id::empty) const {
 //         INFO(multiplets.size());
         return SaveEntries(BestMatches(multiplets, particles, tag, id));
     }
@@ -176,10 +192,10 @@ private:
         return branch_;
     }
 
-    float ReadBdt(TClonesArray const& clones_array, int entry) const final {
-//         Info0;
-        return static_cast<BranchTemplate&>(*clones_array.At(entry)).Bdt;
-    }
+//     float ReadBdt(TClonesArray const& clones_array, int entry) const final {
+// //         Info0;
+//         return static_cast<BranchTemplate&>(*clones_array.At(entry)).Bdt;
+//     }
 
     void AddVariables() {
 //         Info0;
@@ -206,5 +222,4 @@ private:
 };
 
 }
-// #undef INFORMATION
 

@@ -5,6 +5,7 @@
 
 #include <vector>
 #include <string>
+#include <iostream>
 #include "TObject.h"
 #include "Rtypes.h"
 
@@ -62,25 +63,59 @@ class ResultBranch : public BaseBranch
 {
 public:
     ResultBranch();
-    float Bdt;
     float Tag;
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         Tag = int(multiplet.Tag());
-        Bdt = multiplet.Bdt();
     }
     virtual Observables Variables();
     virtual Observables Spectators();
-//     virtual void Print() const;
 private:
     ClassDef(ResultBranch, 1)
+};
+
+class BdtBranch : public ResultBranch
+{
+public:
+  BdtBranch();
+  float Bdt;
+  template<typename Multiplet>
+  void Fill(Multiplet const& multiplet) {
+    ResultBranch::Fill(multiplet);
+    Bdt = multiplet.Bdt();
+  }
+  virtual Observables Variables();
+  virtual Observables Spectators();
+private:
+  ClassDef(BdtBranch, 1)
+};
+
+
+class CutBranch : public ResultBranch
+{
+
+public:
+
+  CutBranch(){};
+  std::vector<bool> passed_;
+
+  template<typename Multiplet>
+  void Fill(Multiplet const& multiplet) {
+    ResultBranch::Fill(multiplet);
+    passed_ = multiplet.passed_;
+  }
+
+private:
+
+  ClassDef(CutBranch, 1)
+
 };
 
 /**
  * @brief Class for saving event informations to root
  *
  */
-class ParticleBranch : public ResultBranch
+class ParticleBranch : public BdtBranch
 {
 public:
     ParticleBranch();
@@ -91,7 +126,7 @@ public:
     float Charge;
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-        ResultBranch::Fill(multiplet);
+        BdtBranch::Fill(multiplet);
         Mass = multiplet.Jet().m();
         Pt = multiplet.Jet().pt();
         Rap = multiplet.Jet().rap();

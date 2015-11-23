@@ -14,7 +14,7 @@ int EventLeptonTTagger::Train(boca::Event const& event, boca::PreCuts const&, Ta
     std::vector<MultipletSignature<Octet332>> octets = signature_reader_.Multiplets(event);
    std::vector<Jet> particles = event.Partons().GenParticles();
    std::vector<Jet> higgses = CopyIfParticles(particles, Id::higgs, Id::CP_violating_higgs);
-   std::vector<Jet> leptons = signature_reader_.Tagger().Leptons(event);
+   std::vector<Lepton> leptons = signature_reader_.Tagger().Leptons(event);
 
     std::vector<MultipletSignature<Octet332>> final_octets;
     if (tag == Tag::signal) {

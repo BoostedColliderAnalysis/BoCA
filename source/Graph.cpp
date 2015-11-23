@@ -185,4 +185,19 @@ void CommonHist(TH1& histogram, Plot const& plot, EColor color)
     Canvas::SetAxis(*histogram.GetYaxis(),plot.nice_name_y.c_str());
 }
 
+
+
+
+
+TGraph CutGraph(CutResults const& results, std::vector<float> const& values, std::string const& title)
+{
+  TGraph graph(CutResult::steps, &results.x_values.front(), &values.front());
+  graph.SetTitle("");
+  graph.Draw("al");
+  graph.GetXaxis()->SetLimits(results.min.x, results.max.x);
+  Canvas::SetAxis(*graph.GetXaxis(), "Signal efficiency");
+  Canvas::SetAxis(*graph.GetYaxis(), title.c_str());
+  return graph;
+}
+
 }

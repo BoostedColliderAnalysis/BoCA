@@ -27,9 +27,9 @@ public:
 
     virtual std::vector<Jet> Jets() const = 0;
 
-    virtual float ScalarHt() const;
+    virtual Momentum ScalarHt() const;
 
-    virtual Jet MissingEt() const;
+    virtual boca::MissingEt MissingEt() const;
 
 protected:
 

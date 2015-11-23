@@ -19,7 +19,7 @@ public:
 
     void NewEvent(TreeReader const& tree_reader);
 
-   std::vector<Jet> leptons() const;
+   std::vector<Lepton> leptons() const;
 
     virtual std::vector<Jet> Electrons() const = 0;
 
