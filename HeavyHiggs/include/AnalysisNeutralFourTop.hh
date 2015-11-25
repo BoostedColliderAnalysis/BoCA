@@ -244,7 +244,7 @@ private:
 	if (positive_lepton<2&&negative_lepton<2) return 0;
         Jets jets = event.Hadrons().Jets();
         if (jets.size() < 4)
-            return 0;
+//             return 0;
         return 1;
     }
 

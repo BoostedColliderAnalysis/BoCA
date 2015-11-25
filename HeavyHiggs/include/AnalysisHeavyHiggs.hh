@@ -60,8 +60,8 @@ class AnalysisHeavyHiggs : public Analysis<Tagger>
 //             return 700;
 //                     return 800;
         //     return 900;
-                return 1000;
-//       return 1500;
+//                 return 1000;
+      return 1500;
 //                 return 2000;
 //                    return 3000;
 //         return 4000;
@@ -83,8 +83,7 @@ class AnalysisHeavyHiggs : public Analysis<Tagger>
             case 500 :
                 return 0;
             case 1000 :
-//                 return 250;
-                return 0;
+                return 250;
             case 2000 :
                 return 250;
             case 3000 :
@@ -106,6 +105,8 @@ class AnalysisHeavyHiggs : public Analysis<Tagger>
                 return 2500;
             case 10000 :
                 return 2500;
+            case 12000 :
+                return 2500;
             case 15000 :
                 return 2500;
             case 20000 :
@@ -123,6 +124,8 @@ class AnalysisHeavyHiggs : public Analysis<Tagger>
       switch (PreCut()) {
         case 0:
           return 200;
+        case 250:
+          return 400;
         default :
           return 0;
       }
@@ -135,7 +138,7 @@ class AnalysisHeavyHiggs : public Analysis<Tagger>
         //         return 100000;
         return 10000;
         //                 return 1000;
-        //                         return 500;
+//         //                         return 500;
         //                         return 10;
     };
     
@@ -171,7 +174,7 @@ class AnalysisHeavyHiggs : public Analysis<Tagger>
         case Collider::LHC :
             return 15;
         case Collider::LE :
-            return 100;
+            return 30;
         default :
             return 0;
         }
@@ -315,12 +318,12 @@ class AnalysisHeavyHiggs : public Analysis<Tagger>
 //       Info();
         switch (tag) {
         case Tag::signal:
-            return Name(process) + "-" + Name(collider_type()) + Suffix(process);
-//                return Name(process) + Suffix(process) + "_" + Name(collider_type());
+//             return Name(process) + "-" + Name(collider_type()) + Suffix(process);
+               return Name(process) + Suffix(process) + "_" + Name(collider_type());
 
         case Tag::background:
-            return Name(process) + "-" + Name(collider_type()) + Suffix(process);
-//           return Name(process) + Suffix(process) + "_" + Name(collider_type());
+//             return Name(process) + "-" + Name(collider_type()) + Suffix(process);
+          return Name(process) + Suffix(process) + "_" + Name(collider_type());
 
         }
     }

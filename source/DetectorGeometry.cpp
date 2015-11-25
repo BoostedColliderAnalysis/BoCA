@@ -201,8 +201,8 @@ JetType DetectorGeometry::jet_type()
 //         return JetType::jet;
         return JetType::e_flow_jet;
     case DetectorType::Spp:
-        return JetType::jet;
-//         return JetType::e_flow_jet;
+//         return JetType::jet;
+        return JetType::e_flow_jet;
     }
 }
 

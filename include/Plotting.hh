@@ -8,6 +8,8 @@
 
 class TMultiGraph;
 class TAttLine;
+class TAttText;
+class TAxis;
 class TTree;
 class TH2;
 class TProfile2D;
@@ -94,6 +96,9 @@ private:
     void SetMultiGraph(TMultiGraph& multi_graph) const;
 
     void SetPlotStyle(TAttLine& att_line, int index) const;
+    
+    void SetTextStyle(TAttText& att_text) const;
+    void SetTextStyle(TAxis& att_text) const;
 
     TLegend Legend(float x_min, float y_min, float width, float height, const std::string& title = "") const;
 
@@ -106,7 +111,7 @@ private:
     std::vector<Result> ReadBdtFile(TFile& export_file, analysis::Tag tag) const;
 
     TH1F Histogram(const analysis::Result& result, analysis::Point& max, analysis::Point& min, int index) const;
-
+    
     TLine Line(analysis::Results results, float y_min, float y_max) const;
 
     void AddGraph(TGraph& graph, TMultiGraph& multi_graph, TLegend& legend, const std::string& name, int index) const;

@@ -130,15 +130,16 @@ std::string Plotting::PlotHistograms(analysis::Results& results) const
 {
     Debug();
     TCanvas canvas;
-    THStack stack("", Tagger().NiceName().c_str());
+//     THStack stack("", Tagger().NiceName().c_str());
+    THStack stack("", "");
     std::vector<TH1F> histograms;
     Strings nice_names;
-    for (const auto & result : results.signal) {
+    for (const auto & result : results.signal) {      
         histograms.emplace_back(Histogram(result, results.max, results.min, &result - &results.signal[0]));
         nice_names.emplace_back(result.info_branch_.Name);
     }
     for (const auto & result : results.background) {
-        histograms.emplace_back(Histogram(result, results.max, results.min, &result - &results.background[0] + results.signal.size()));
+      histograms.emplace_back(Histogram(result, results.max, results.min, &result - &results.background[0] + results.signal.size()));
         nice_names.emplace_back(result.info_branch_.Name);
     }
     TLegend legend = Legend(Orientation::top, nice_names);
@@ -146,6 +147,8 @@ std::string Plotting::PlotHistograms(analysis::Results& results) const
     stack.Draw("nostack");
     stack.GetXaxis()->SetTitle("BDT");
     stack.GetYaxis()->SetTitle("N");
+    SetTextStyle(*stack.GetXaxis());
+    SetTextStyle(*stack.GetYaxis());    
     canvas.Update();
     TLine line = Line(results, stack.GetMinimum(), results.max.y * 1.05);
     std::string efficiency_file_name = Tagger().ExportFolderName() + "-Bdt" + ExportFileSuffix();
@@ -177,6 +180,7 @@ TLegend Plotting::Legend(float x_min, float y_min, float width, float height, co
     if (title != "") legend.SetHeader(title.c_str());
     legend.SetBorderSize(0);
     legend.SetFillStyle(0);
+    SetTextStyle(legend);
     return legend;
 }
 
@@ -192,7 +196,7 @@ TLegend Plotting::Legend(Orientation orientation, const Strings& entries, const 
     float height = entries.size() * letter_height;
     if (title != "") height += letter_height;
     // default values for Orientation::center
-    float x_shift = 0.5;
+    float x_shift = 0.3;
     float y_shift = 0.5;
     float x_offset = width / 8;
     float y_offset = height / 2;
@@ -292,6 +296,23 @@ void Plotting::SetPlotStyle(TAttLine& att_line, int index) const
 {
     att_line.SetLineColor(ColorCode(index));
     att_line.SetLineStyle(index + 1);
+    att_line.SetLineWidth(2);
+}
+
+
+void Plotting::SetTextStyle(TAttText& att_text) const
+{
+  att_text.SetTextFont(132);
+  att_text.SetTextSize(0.05);
+}
+
+void Plotting::SetTextStyle(TAxis& att_text) const
+{
+  att_text.SetTitleFont(132);
+  att_text.SetLabelFont(132);
+  att_text.SetTitleSize(0.05);
+  att_text.SetLabelSize(0.04);
+  att_text.CenterTitle();
 }
 
 void Plotting::SetMultiGraph(TMultiGraph& multi_graph) const
@@ -612,7 +633,7 @@ Tagger& Plotting::Tagger() const
 }
 std::string Plotting::ExportFileSuffix() const
 {
-    return ".png";
+    return ".pdf";
 }
 
 

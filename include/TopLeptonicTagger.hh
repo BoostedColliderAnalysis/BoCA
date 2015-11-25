@@ -56,8 +56,8 @@ public:
 
 private:
 
-//     bool use_w_ = false;
-    bool use_w_ = true;
+    bool use_w_ = false;
+//     bool use_w_ = true;
 
     Reader<BottomTagger> bottom_reader_;
 

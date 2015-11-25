@@ -9,8 +9,8 @@ std::string Name(Collider collider)
 {
     switch (collider) {
     case Collider::LHC :
-        return "14TeV";
-//       return "LHC";
+//         return "14TeV";
+      return "LHC";
     case Collider::FHC:
         return "100TeV";
     case Collider::LE:
@@ -54,25 +54,25 @@ std::string NiceName(Process process)
 {
     switch (process) {
     case Process::Hbb:
-        return "Hbb";
+        return "(H/A)b#bar{b}";
     case Process::Htt:
-      return "Htt";
+      return "(H/A)t#bar{t}";
     case Process::Htwb:
-      return "Htwb";
+      return "(H/A)tW^{#pm}b";
     case Process::ttwwbb:
-      return "ttwwbb";
+      return "t#bar{t}W^{#pm}W^{#mp}b#bar{b}";
     case Process::ttwbb:
-      return "ttwbb";
+      return "t#bar{t}W^{#pm}b#bar{b}";
     case Process::H0:
-        return "H";
+        return "H/A";
     case Process::Htb:
-        return "H+-tb";
+        return "H^{#pm}tb";
     case Process::tt:
-        return "tt";
+      return "t#bar{t}";
     case Process::tttt:
-        return "tttt";
+      return "t#bar{t}t#bar{t}";
     case Process::tt2:
-        return "tt";
+      return "t#bar{t}";
     default:
         Error("unhandled case");
         return "";

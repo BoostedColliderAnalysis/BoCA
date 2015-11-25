@@ -117,7 +117,8 @@ analysis::Leptons const &Event::Leptons() const
         return isolation_;
     case DetectorType::Spp :
         Info("Spp");
-        return *leptons_;
+//         return *leptons_;
+        return isolation_;
     }
 }
 

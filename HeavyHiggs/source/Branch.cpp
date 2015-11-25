@@ -168,9 +168,11 @@ OctetNeutralBranch::OctetNeutralBranch()
 }
 Observables OctetNeutralBranch::Variables() const
 {
+  // tttt
   return Join(MultiBranch::Variables(), {PAIR(HiggsMass),PAIR(PairRap), PAIR(BottomBdt),PAIR(HardTopPt),PAIR(SoftTopPt),PAIR(PairBottomBdt)});
   
-  return Join(ParticleBranch::Variables(), {PAIR(Ht, "H_{T}"), PAIR(DeltaPt, "#Delta P_{T}"), PAIR(DeltaM, "#Delta m"), PAIR(DeltaRap, "#Delta #eta"), PAIR(DeltaPhi, "#Delta #phi"), PAIR(DeltaR, "#Delta R"), PAIR(Bdt1, "BDT_{1}"), PAIR(Bdt2, "BDT_{2}"),PAIR(DeltaHt, "#Delta H_{T}"),PAIR(HiggsMass),PAIR(PairRap), PAIR(BottomBdt),PAIR(HardTopPt),PAIR(SoftTopPt)/*,PAIR(BdtSum)*/,PAIR(PairBottomBdt)});
+  // ttbb
+//   return Join(ParticleBranch::Variables(), {PAIR(Ht, "H_{T}"), PAIR(DeltaPt, "#Delta P_{T}"), PAIR(DeltaM, "#Delta m"), PAIR(DeltaRap, "#Delta #eta"), PAIR(DeltaPhi, "#Delta #phi"), PAIR(DeltaR, "#Delta R"), PAIR(Bdt1, "BDT_{1}"), PAIR(Bdt2, "BDT_{2}"),PAIR(DeltaHt, "#Delta H_{T}"),PAIR(HiggsMass),PAIR(PairRap), PAIR(BottomBdt),PAIR(HardTopPt),PAIR(SoftTopPt)/*,PAIR(BdtSum)*/,PAIR(PairBottomBdt)});
 }
 Observables OctetChargedBranch::Variables() const
 {

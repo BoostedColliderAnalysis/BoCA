@@ -48,7 +48,7 @@ public:
     std::string ProjectName() const final
     {
 //       Info();
-      return  ProcessName() + "-" + Name(this->collider_type()) + "-" + std::to_string(this->PreCut()) + "GeV-" + std::to_string(this->Mass()) + "GeV_200";
+      return  ProcessName() + "-" + Name(this->collider_type()) + "-" + std::to_string(this->PreCut()) + "GeV-" + std::to_string(this->Mass()) + "GeV_Isolated";
     };
 
 private:
@@ -157,8 +157,8 @@ private:
         Jets Particles = event.Partons().GenParticles();
         Jets Tops = CopyIfParticle(Particles, Id::top);
         if (Tops.size() != 2) return 0;        
-        if (Tops.at(0).pt() < this->PreCutUse()) return 0;
-        if (Tops.at(1).pt() < this->PreCutUse()) return 0;      
+        if (Tops.at(0).pt() < this->PreCut()) return 0;
+        if (Tops.at(1).pt() < this->PreCut()) return 0;      
         if (event.Hadrons().MissingEt().pt() < this->MissingEt()) return 0;
         Jets Leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
         if (Leptons.empty()) return 0;

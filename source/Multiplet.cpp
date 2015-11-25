@@ -97,12 +97,12 @@ float Multiplet::Pull(const MultipletBase& multiplets_1, const MultipletBase& mu
 
 float Multiplet::PullDifference(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const
 {  
-  return Pull(multiplets_1, multiplets_2);
+  return Pull(multiplets_1, multiplets_2) + Pull(multiplets_2, multiplets_1);;
 }
 
 float Multiplet::PullSum(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const
 {
-  return Pull(multiplets_2, multiplets_1);
+  return Pull(multiplets_2, multiplets_1) - Pull(multiplets_1, multiplets_2);
 }
 
 float Multiplet::Dipolarity(const MultipletBase& multiplets_1, const MultipletBase& multiplets_2) const
