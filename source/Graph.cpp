@@ -191,7 +191,7 @@ void CommonHist(TH1& histogram, Plot const& plot, EColor color)
 
 TGraph CutGraph(CutResults const& results, std::vector<float> const& values, std::string const& title)
 {
-  TGraph graph(CutResult::steps, &results.x_values.front(), &values.front());
+  TGraph graph(results.signals.front().steps, &results.x_values.front(), &values.front());
   graph.SetTitle("");
   graph.Draw("al");
   graph.GetXaxis()->SetLimits(results.min.x, results.max.x);
@@ -199,5 +199,14 @@ TGraph CutGraph(CutResults const& results, std::vector<float> const& values, std
   Canvas::SetAxis(*graph.GetYaxis(), title.c_str());
   return graph;
 }
+
+TLine CutLine(float bin, float y_min, float y_max, int index)
+{
+  TLine line(bin, y_min, bin, y_max);
+  Canvas::SetPlotStyle(line, index);
+  if (bin != 0) line.Draw();
+  return line;
+}
+
 
 }

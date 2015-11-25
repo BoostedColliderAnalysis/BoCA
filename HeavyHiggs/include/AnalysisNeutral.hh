@@ -45,37 +45,37 @@ private:
         switch (this->collider_type()) {
         case Collider::LHC:
             switch (this->Mass()) {
-            case 500 : return 25.528929726502543 * pb;
-            case 1000 : return 1.2783507034600217 * pb;
-            case 2000 : return 0.021907574118663196 * pb;
+            case 500 : return 25.528929726502543 * fb;
+            case 1000 : return 1.2783507034600217 * fb;
+            case 2000 : return 0.021907574118663196 * fb;
             default :
                 Error("Signal Crosssection", "unhandled case");
-                return pb;
+                return fb;
             } ;
         case Collider::FHC:
         case Collider::LE:
             switch (this->Mass()) {
-            case 500 : return 973.5805772514352 * pb;
-            case 1000 : return 123.02005671222373 * pb;
-            case 1500 : return 28.624904980998327 * pb;
-            case 2000 : return 9.485582085140349 * pb;
-            case 3000 : return 1.7540841248835577 * pb;
-            case 4000 : return 0.4851939478031553 * pb;
-            case 5000 : return 0.16696738296715652 * pb;
-            case 6000 : return 0.06731697180862359 * pb;
-            case 7000 : return 0.029372932414373627 * pb;
-            case 8000 : return 0.014255221936825225 * pb;
-            case 10000 : return 0.0038428602375120795 * pb;
-            case 12000 : return 0.0012219523755405267 * pb;
-            case 15000 : return 0.00026507004708327343 * pb;
-            case 20000 : return 0.000028218388829563033 * pb;
+            case 500 : return 973.5805772514352 * fb;
+            case 1000 : return 123.02005671222373 * fb;
+            case 1500 : return 28.624904980998327 * fb;
+            case 2000 : return 9.485582085140349 * fb;
+            case 3000 : return 1.7540841248835577 * fb;
+            case 4000 : return 0.4851939478031553 * fb;
+            case 5000 : return 0.16696738296715652 * fb;
+            case 6000 : return 0.06731697180862359 * fb;
+            case 7000 : return 0.029372932414373627 * fb;
+            case 8000 : return 0.014255221936825225 * fb;
+            case 10000 : return 0.0038428602375120795 * fb;
+            case 12000 : return 0.0012219523755405267 * fb;
+            case 15000 : return 0.00026507004708327343 * fb;
+            case 20000 : return 0.000028218388829563033 * fb;
             default:
                 Error("Signal Crosssection", "unhandled case");
-                return pb;
+                return fb;
             }
         default:
             Error("Signal Crosssection", "unhandled case");
-            return pb;
+            return fb;
         }
     }
 

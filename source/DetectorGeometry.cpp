@@ -142,7 +142,9 @@ Momentum DetectorGeometry::LeptonMinPt()
 Luminosity DetectorGeometry::Luminosity()
 {
   switch (detector_type()) {
-    case DetectorType::CMS : return 300. / fb;
+    case DetectorType::CMS :
+      return 3000. / fb;
+      return 300. / fb;
     case DetectorType::Spp : return 3000. / fb;
     Default("Detector Type", 300.  / fb );
   }

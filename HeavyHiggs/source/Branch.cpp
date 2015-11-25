@@ -212,7 +212,7 @@ HeavyHiggsCutBranch::HeavyHiggsCutBranch()
 
 Observables HeavyHiggsCutBranch::Variables()
 {
-  return {PAIR(Ht), PAIR(EtMiss), PAIR(NumberJet), PAIR(NumberBottom), PAIR(InvariantMass), PAIR(DeltaR)};
+  return {PAIR(Ht), PAIR(EtMiss), PAIR(NumberJet), PAIR(NumberBottom)};
 }
 
 }

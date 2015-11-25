@@ -329,7 +329,7 @@ std::string Plotting::EfficienciesRow(Result const& result, int index, Tag tag, 
     row << "\n  & " << result.event_sums.at(bin);
     row << "\n  & " << RoundToDigits(result.efficiency.at(bin));
     row << "\n  & " << RoundToDigits(result.info_branch_.Crosssection);
-    row << "\n  & " << std::round(to_crosssection(result.info_branch_.Crosssection) * DetectorGeometry::Luminosity()) * result.efficiency.at(bin);
+    row << "\n  & " << RoundToDigits(to_crosssection(result.info_branch_.Crosssection) * DetectorGeometry::Luminosity() * result.efficiency.at(bin));
     row << "\n \\\\";
     return row.str();
 }
@@ -598,8 +598,14 @@ void Plotting::Cuts() const
     Info0;
     CutResults results = ReadCutFiles();
     results.Significances();
-    PlotCutEfficiencyGraph(results);
-    PlotCutResult(results);
+    LatexFile latex_file(Tagger().ExportFolderName());
+    latex_file.Mass(double(results.signals.front().info_branch_.Mass) * GeV);
+    latex_file.IncludeGraphic(PlotCutEfficiencyGraph(results), "Efficiencies");
+    latex_file.Table("rlll", BestValueTable(results), "Results for the optimal model-(in)dependent cuts");
+    latex_file.IncludeGraphic(PlotCutResult(results), "Significances");
+    latex_file.Table("rlllll", EfficienciesTable(results, results.best_model_dependent_bin), "Model dependent efficiencies");
+    latex_file.Table("rlllll", EfficienciesTable(results, results.best_model_independent_bin), "Model independent efficiencies");
+    latex_file.IncludeGraphic(PlotModelIndependentGraph(results), "Minimization of the crosssection for the model-independent result");
 }
 
 
@@ -608,7 +614,7 @@ std::string Plotting::PlotCutResult(boca::CutResults& results) const
     Info0;
     Canvas canvas;
     TGraph graph = CutGraph(results, results.significances, "Significance");
-//     TLine line  = Line(results.best_model_dependent_bin, graph.GetYaxis()->GetXmin(), graph.GetYaxis()->GetXmax(), results.signals.size() + results.backgrounds.size() + 1);
+    TLine line  = CutLine(results.XValue(results.best_model_dependent_bin), graph.GetYaxis()->GetXmin(), graph.GetYaxis()->GetXmax(), results.signals.size() + results.backgrounds.size() + 1);
     return canvas.SaveAs(Tagger().ExportFolderName() + "-Significance");
 }
 
@@ -618,7 +624,7 @@ std::string Plotting::PlotCutEfficiencyGraph(CutResults const& results) const
   Info0;
   Canvas canvas;
   canvas.SetLog();
-  TMultiGraph multi_graph("", Tagger().NiceName().c_str());
+  TMultiGraph multi_graph("", "Efficiencies");
   Strings nice_names;
   std::vector<TGraph> graphs;
   for (auto const & result : results.signals) {
@@ -633,12 +639,71 @@ std::string Plotting::PlotCutEfficiencyGraph(CutResults const& results) const
   for (auto & graph : graphs) AddGraph(graph, multi_graph, legend, nice_names, &graph - &graphs.front());
   multi_graph.Draw("al");
   multi_graph.GetXaxis()->SetLimits(results.min.x, results.max.x);
-  canvas.SetAxis(*multi_graph.GetXaxis(), "Signal");
-  canvas.SetAxis(*multi_graph.GetYaxis(), "Background");
-  TLine line = Line(results.best_model_dependent_bin , multi_graph.GetYaxis()->GetXmin(), multi_graph.GetYaxis()->GetXmax(), results.signals.size() + results.backgrounds.size() + 1);
-  TLine line2 = Line(results.best_model_independent_bin, multi_graph.GetYaxis()->GetXmin(), multi_graph.GetYaxis()->GetXmax(), results.signals.size() + results.backgrounds.size() + 2);
+  canvas.SetAxis(*multi_graph.GetXaxis(), "Calculated");
+  canvas.SetAxis(*multi_graph.GetYaxis(), "Measured");
+  TLine line = CutLine(results.XValue(results.best_model_dependent_bin) , multi_graph.GetYaxis()->GetXmin(), multi_graph.GetYaxis()->GetXmax(), results.signals.size() + results.backgrounds.size() + 1);
+  TLine line2 = CutLine(results.XValue(results.best_model_independent_bin), multi_graph.GetYaxis()->GetXmin(), multi_graph.GetYaxis()->GetXmax(), results.signals.size() + results.backgrounds.size() + 2);
   legend.Draw();
   return canvas.SaveAs(Tagger().ExportFolderName() + "-Efficiency");
+}
+
+std::string Plotting::BestValueTable(CutResults const& results) const
+{
+  Info0;
+  std::stringstream table;
+  table << "    Model\n  & Cut\n  & $p$-value\n  & Crosssection [fb]";
+  table << "\n \\\\ \\midrule\n   ";
+  table << BestValueRow(results, results.best_model_dependent_bin, "Dependet");
+  table << BestValueRow(results, results.best_model_independent_bin, "Independet");
+  table << BestValueRow(results, results.best_acceptance_bin, "$S/\\sqrt B$");
+  return table.str();
+}
+
+std::string Plotting::BestValueRow(CutResults const& results, int bin, std::string const& name) const
+{
+  Info0;
+  std::stringstream row;
+  row << " " << name;
+  row << "\n  & " << RoundToDigits(results.XValue(bin));
+  row << "\n  & " << RoundToDigits(results.significances.at(bin));
+  row << "\n  & " << RoundToDigits(results.crosssections.at(bin) / fb);
+  row << "\n \\\\";
+  return row.str();
+}
+
+std::string Plotting::EfficienciesTable(CutResults const& results, int bin) const
+{
+  Info0;
+  std::stringstream table;
+  table << "    Sample\n  & before\n  & after\n  & Efficiency\n  & $\\sigma$  [fb]\n  & $N_{\\mathcal L = \\unit[" << float(DetectorGeometry::Luminosity() * fb) << "]{fb^{-1}}}$";
+  table << "\n \\\\ \\midrule\n   ";
+  for (auto const & result : results.signals) table << EfficienciesRow(result, &result - &results.signals.front(), Tag::signal, bin);
+  for (auto const & result : results.backgrounds) table << EfficienciesRow(result, &result - &results.backgrounds.front(), Tag::background, bin);
+  return table.str();
+}
+
+std::string Plotting::EfficienciesRow(CutResult const& result, int index, Tag tag, int bin) const
+{
+  Info0;
+  std::stringstream row;
+  row << " \\verb|" << Tagger().TreeNames(tag).at(index) << "|";
+  row << "\n  & " << result.info_branch_.EventNumber;
+  row << "\n  & " << result.event_sums.at(bin);
+  row << "\n  & " << RoundToDigits(result.efficiency.at(bin));
+  row << "\n  & " << RoundToDigits(result.info_branch_.Crosssection);
+  row << "\n  & " << RoundToDigits(to_crosssection(result.info_branch_.Crosssection) * DetectorGeometry::Luminosity() * result.efficiency.at(bin));
+  row << "\n \\\\";
+  return row.str();
+}
+
+std::string Plotting::PlotModelIndependentGraph(CutResults& results) const
+{
+  Info0;
+  Canvas canvas;
+  TGraph graph = CutGraph(results, results.Crosssections(), "Crosssection");
+  canvas.SetLog(min(results.crosssections, true) / fb, max(results.crosssections) / fb);
+  TLine line  = CutLine(results.XValue(results.best_model_independent_bin), graph.GetYaxis()->GetXmin(), graph.GetYaxis()->GetXmax(), results.signals.size() + results.backgrounds.size() + 2);
+  return canvas.SaveAs(Tagger().ExportFolderName() + "-Exclusion");
 }
 
 }

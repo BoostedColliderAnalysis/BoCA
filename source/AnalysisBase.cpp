@@ -45,16 +45,21 @@ std::vector<File> AnalysisBase::Files(Tag tag)
 void AnalysisBase::PrepareFiles(Stage stage)
 {
     Info0;
-    files_.clear();
-    tagger().ClearTreeNames();
+    ClearFiles();
     SetFiles(Tag::signal, stage);
     SetFiles(Tag::background, stage);
 }
 
-long AnalysisBase::EventNumberMax() const
+long AnalysisBase::TrainNumberMax() const
 {
     Info0;
     return 100000;
+}
+
+long AnalysisBase::ReadNumberMax() const
+{
+  Info0;
+  return TrainNumberMax();
 }
 
 void AnalysisBase::NewFile(boca::Tag tag, const boca::Strings& names, Crosssection crosssection, std::string const& nice_name, boca::Mass mass)
@@ -158,7 +163,7 @@ void AnalysisBase::RunFast()
     Info0;
     RunTagger(Stage::trainer);
     INFO("Analysis Loop done");
-    RunTrainer(TMVA::Types::EMVA::kBDT);
+    RunTrainer();
 }
 
 void AnalysisBase::RunNormal()
@@ -180,6 +185,7 @@ void AnalysisBase::ClearFiles()
 {
     Info0;
     files_.clear();
+    tagger().ClearTreeNames();
 }
 
 void AnalysisBase::RunFullEfficiency()
@@ -195,15 +201,15 @@ void AnalysisBase::RunTagger(Stage stage)
     if (!Exists(tagger().FileName(stage, Tag::signal))) AnalysisLoop(stage);
 }
 
-void AnalysisBase::RunTrainer(TMVA::Types::EMVA mva)
+void AnalysisBase::RunTrainer()
 {
     Info0;
     PrepareFiles(Stage::trainer);
-    if (!Exists(tagger().WeightFileName(mva))) {
+    if (!Exists(tagger().WeightFileName())) {
         std::ofstream cout_file(tagger().FolderName() + ".txt");
         std::streambuf* cout = std::cout.rdbuf();
         std::cout.rdbuf(cout_file.rdbuf());
-        Trainer trainer(tagger(), mva);
+        Trainer trainer(tagger());
         std::cout.rdbuf(cout);
     }
 }
@@ -245,7 +251,7 @@ void AnalysisBase::RunCut()
   Info0;
   RunTagger(Stage::trainer);
   INFO("Analysis Loop done");
-  RunTrainer(TMVA::Types::EMVA::kCuts);
+  RunTrainer();
   RunTagger(Stage::reader);
   Error(tagger().TreeNames(Tag::signal).size());
   Plotting plotting(tagger());
@@ -314,37 +320,11 @@ void AnalysisBase::Run(Output run)
 
 }
 
-void Run(AnalysisBase& analysis, Output run)
-{
-    Info0;
-    analysis.Run(run);
-//     analysis.Initialize();
-// //   analysis.PreRequisits<analysis.tagger()::type>(analysis,run);
-//     switch (run) {
-//     case Output::fast :
-//         analysis.RunFast();
-//         break;
-//     case Output::normal :
-//         analysis.RunNormal();
-//         break;
-//     case Output::efficiency :
-//         analysis.RunFullEfficiency();
-// //       analysis.RunPlots();
-//         break;
-//     case Output::significance :
-//         analysis.RunFullSignificance();
-//         analysis.RunPlots();
-//         break;
-//     case Output::plot :
-//         analysis.RunNormal();
-//         analysis.RunPlots();
-//         break;
-//     }
-//     if (is(run, Output::plot)) {
-//         analysis.RunPlots();
-//     }
-
-}
+// void Run(AnalysisBase& analysis, Output run)
+// {
+//     Info0;
+//     analysis.Run(run);
+// }
 
 void AnalysisBase::PrintGeneratorLevel(Event const& event, bool signature) const
 {
@@ -357,6 +337,14 @@ void AnalysisBase::PrintGeneratorLevel(Event const& event, bool signature) const
         std::string mother = Name(family.Mother().Id());
         std::string mother2 = Name(family.StepMother().Id());
         Error(id, mother, mother2);
+    }
+}
+long int AnalysisBase::EventNumberMax(Stage stage) const
+{
+    switch (stage) {
+    case Stage::trainer : return TrainNumberMax();
+    case Stage::reader : return ReadNumberMax();
+        Default("Stage", 0);
     }
 }
 

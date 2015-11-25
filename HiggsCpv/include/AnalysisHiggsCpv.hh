@@ -69,7 +69,7 @@ private:
      * @brief Maximal number of Entries to analyse
      *
      */
-    long EventNumberMax() const final {
+    long TrainNumberMax() const final {
         return 1000;
         return 5000;
         return 10000;

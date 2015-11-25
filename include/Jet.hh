@@ -46,6 +46,8 @@ public:
 
     void SetDelphesTags(::delphes::Jet const& delphes_jet);
 
+    std::vector<Jet> Constituents() const;
+
 private:
 
     void SetInfo(JetInfo const & user_info = JetInfo());

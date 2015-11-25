@@ -4,10 +4,10 @@
 #include "Debug.hh"
 
 template<typename Tagger>
-void Run(boca::Output run = boca::Output::normal)
+void Run(boca::Output output = boca::Output::normal)
 {
     boca::standardmodel::TopAnalysis<Tagger> analysis;
-    boca::Run(analysis, run);
+    analysis.Run(output);
 }
 
 int main()

@@ -50,7 +50,7 @@ class AnalysisStandardModel : public Analysis<Tagger>
 
 protected:
 
-    long EventNumberMax() const override {
+    long TrainNumberMax() const override {
         return 10000;
         return 1000;
         return 100;

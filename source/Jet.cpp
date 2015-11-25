@@ -113,6 +113,11 @@ void Jet::SetDelphesTags(const delphes::Jet& delphes_jet)
 {
     Info().SetDelphesTags(delphes_jet);
 }
+std::vector< Jet > Jet::Constituents() const
+{
+    if (has_constituents()) return JetVector(constituents());
+    else return {};
+}
 
 }
 

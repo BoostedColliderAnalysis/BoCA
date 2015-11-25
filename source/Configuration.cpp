@@ -43,7 +43,7 @@ Momentum Configuration::PreCut()
     }
 }
 
-long Configuration::EventNumberMax()
+long Configuration::TrainNumberMax()
 {
     try {
         return config().lookup("EventNumberMax");

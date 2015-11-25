@@ -11,8 +11,10 @@
  *************************************************************************/
 
 #pragma once
-#include <cmath>
+// #include <cmath>
+#include <boost/units/cmath.hpp>
 #include <iostream>
+#include "Units.hh"
 
 namespace boca
 {
@@ -25,11 +27,12 @@ template<typename Value>
 class Vector2
 {
 public:
+  typedef typename boost::units::multiply_typeof_helper<Value, Value>::type ValueSquare;
 
     /// constructor
     Vector2() {
-        x_ = 0.;
-        y_ = 0.;
+        x_ = 0;
+        y_ = 0;
     }
 
     /// constructor
@@ -108,12 +111,12 @@ public:
         return {v1.X() + v2.X(), v1.Y() + v2.Y()};
     }
 
-    // template<typename Value2>
+//     template<typename Value2>
     friend Vector2 operator+(Vector2 const& v1, Value bias) {
         return {v1.X() + bias, v1.Y() + bias};
     }
 
-    // template<typename Value2>
+//     template<typename Value2>
     friend Vector2 operator+(Value bias, Vector2 const& v1) {
         return {v1.X() + bias, v1.Y() + bias};
     }
@@ -129,17 +132,17 @@ public:
     }
 
     template<typename Value2>
-    friend Value operator*(Vector2<Value> const& v1, Vector2<Value2> const& v2) {
+    friend ValueSquare operator*(Vector2<Value> const& v1, Vector2<Value2> const& v2) {
         return v1.X() * v2.X() + v1.Y() * v2.Y();
     }
 
-    // template<typename Value2>
+//     template<typename Value2>
     friend Vector2 operator*(Value s, Vector2 const& v) {
         return {v.X()* s, v.Y()* s};
     }
 
-    // template<typename Value2>
-    friend Vector2 operator*(Vector2 const& v, Value s) {
+    template<typename Value2>
+    friend Vector2 operator*(Vector2 const& v, Value2 s) {
         return {v.X()* s, v.Y()* s};
     }
 
@@ -149,19 +152,22 @@ public:
     }
 
     template<typename Value2>
-    friend Value operator^(Vector2 const& v1, Vector2<Value2> const& v2) {
+    friend ValueSquare operator^(Vector2 const& v1, Vector2<Value2> const& v2) {
         return v1.X() * v2.Y() - v1.Y() * v2.X();
     }
 
-
-    Value Mod2() const {
+    ValueSquare Mod2() const {
         return x_ * x_ + y_ * y_;
     }
 
     /// return modulo of this vector
+//     Value Mod() const {
+//       return std::sqrt(Mod2());
+//     }
     Value Mod() const {
-        return std::sqrt(Mod2());
+        return boost::units::sqrt(Mod2());
     }
+
 
     Value Px() const {
         return x_;
@@ -226,6 +232,19 @@ private:
 
     Value y_;
 };
+
+
+
+template <>
+inline float Vector2<float>::Mod() const {
+  return std::sqrt(Mod2());
+}
+
+template <>
+inline double Vector2<double>::Mod() const {
+  return std::sqrt(Mod2());
+}
+
 
 // returns phi angle in the interval [0,2*PI)
 template<typename Value>

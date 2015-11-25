@@ -9,7 +9,7 @@
 #include "Types.hh"
 #include "DetectorGeometry.hh"
 #include "Math.hh"
-#define DEBUG
+// #define DEBUG
 #include "Debug.hh"
 
 namespace boca
@@ -118,7 +118,7 @@ void Results::BestBin()
     std::vector<float> efficiencies(backgrounds.size(), 0);
     int counter = 0;
     for (auto const & number : Range(backgrounds.size())) {
-        while (efficiencies.at(number) == 0 && counter < CutResult::steps) {
+        while (efficiencies.at(number) == 0 && counter < Result::steps) {
             best_model_dependent_bin = std::distance(significances.begin(), std::max_element(std::begin(significances), std::end(significances) - counter));
             best_model_independent_bin = std::distance(crosssections.begin(), std::min_element(std::begin(crosssections), std::end(crosssections) - counter));
             efficiencies.at(number) = backgrounds.at(number).efficiency.at(best_model_independent_bin);
@@ -163,33 +163,44 @@ void Results::ExtremeXValues()
 
 
 
+CutResult::CutResult(InfoBranch const& info_branch)
+{
+    Info0;
+    info_branch_ = info_branch;
+}
+
+void CutResult::Inititialize()
+{
+    Info0;
+    steps = passed_.front().size();
+    events.resize(steps, 0);
+    efficiency.resize(steps, 0);
+    crosssection.resize(steps, 0);
+    pure_efficiency.resize(steps, 0);
+    event_sums.resize(steps, 0);
+    bins.resize(steps, 0);
+}
 
 
 void CutResult::Calculate()
 {
-  Info0;
-    for (auto const& passed : passed_) {
-      int counter = 0;
+    Info0;
+    Inititialize();
+    for (auto const & passed : passed_) {
+        int counter = 0;
         for (auto const & p : passed) {
-          if (p) ++event_sums.at(counter);
-          ++counter;
+            if (p) ++event_sums.at(counter);
+            ++counter;
         }
     }
-    for (auto const & number : event_sums)  Error(number);
-
-
-
-
-//     event_sums.at(steps - 1) = bins.at(steps - 1);
-//     for (int step = steps - 2; step >= 0; --step) event_sums.at(step) = event_sums.at(step + 1) + bins.at(step);
 
 
     for (auto const & step : Range(steps)) {
-      efficiency.at(step) = float(event_sums.at(step)) / info_branch_.EventNumber;
-      pure_efficiency.at(step) = float(event_sums.at(step)) / event_sums.front();
-      crosssection.at(step) = to_crosssection(info_branch_.Crosssection * efficiency.at(step));
-      events.at(step) = crosssection.at(step) * DetectorGeometry::Luminosity();
-      INFO(efficiency.at(step), events.at(step));
+        efficiency.at(step) = float(event_sums.at(step)) / info_branch_.EventNumber;
+        pure_efficiency.at(step) = float(event_sums.at(step)) / event_sums.front();
+        crosssection.at(step) = to_crosssection(info_branch_.Crosssection * efficiency.at(step));
+        events.at(step) = crosssection.at(step) * DetectorGeometry::Luminosity();
+        INFO(efficiency.at(step), events.at(step));
     }
     INFO(info_branch_.EventNumber, event_sums.front());
 
@@ -198,41 +209,36 @@ void CutResult::Calculate()
 
 int CutResult::XBin(float value) const
 {
-  INFO(value);
-  return std::floor((value - 1) * (steps - 1) * 10);
+    INFO(value);
+    return std::floor((value - 1) * (steps - 1) * 10);
 }
 
-CutResult::CutResult(InfoBranch const& info_branch)
-{
-  Info0;
-  events.resize(steps, 0);
-  efficiency.resize(steps, 0);
-  crosssection.resize(steps, 0);
-  pure_efficiency.resize(steps, 0);
-  event_sums.resize(steps, 0);
-  bins.resize(steps, 0);
-  info_branch_ = info_branch;
-}
+
 
 CutResults::CutResults()
 {
-  Info0;
-  significances.resize(CutResult::steps, 0);
-  crosssections.resize(CutResult::steps, 0.*fb);
-  acceptances.resize(CutResult::steps, 0);
-  x_values.resize(CutResult::steps, 0);
-  for (auto & x_value : x_values) x_value = XValue(&x_value - &x_values.front());
+    Info0;
+}
+
+void CutResults::Inititialize()
+{
+    int steps = signals.front().steps;
+    significances.resize(steps, 0);
+    crosssections.resize(steps, 0. * fb);
+    acceptances.resize(steps, 0);
+    x_values.resize(steps, 0);
+    for (auto & x_value : x_values) x_value = XValue(&x_value - &x_values.front());
 }
 
 void CutResults::Significances()
 {
     Info0;
-    for (auto const & step : Range(CutResult::steps)) {
+    for (auto const & step : Range(signals.front().steps)) {
         float signal_events = 0;
         float signal_efficiencies = 0;
         float crosssection = 0;
         for (auto const & signal : signals) {
-          signal_events += signal.events.at(step);
+            signal_events += signal.events.at(step);
             signal_efficiencies += signal.efficiency.at(step) * signal.info_branch_.Crosssection;
             if (signal.info_branch_.Crosssection > crosssection) crosssection = signal.info_branch_.Crosssection;
         }
@@ -240,7 +246,7 @@ void CutResults::Significances()
         float background_events = 0;
         //         float background_efficiencies = 0;
         for (auto const & background : backgrounds) {
-          background_events += background.events.at(step);
+            background_events += background.events.at(step);
             //             background_efficiencies += background.efficiency.at(step);
         }
         if (signal_events + background_events > 0) significances.at(step) = signal_events / std::sqrt(signal_events + background_events);
@@ -252,45 +258,46 @@ void CutResults::Significances()
         if (signal_efficiencies > 0) crosssections.at(step) = (exclusion + std::sqrt(sqr(exclusion) + 4. * background_events)) * exclusion / 2. / signal_efficiencies / DetectorGeometry::Luminosity();
         else crosssections.at(step) = 0. * fb;
     }
-for(auto const& sig :significances) Error(sig);
     BestBin();
 
 }
 
 void CutResults::BestBin()
 {
-  Info0;
-  std::vector<float> efficiencies(backgrounds.size(), 0);
-  int counter = 0;
-  for (auto const & number : Range(backgrounds.size())) {
-    while (efficiencies.at(number) == 0 && counter < CutResult::steps) {
-      best_model_dependent_bin = std::distance(significances.begin(), std::max_element(std::begin(significances), std::end(significances) - counter));
-      best_model_independent_bin = std::distance(crosssections.begin(), std::min_element(std::begin(crosssections), std::end(crosssections) - counter));
-      efficiencies.at(number) = backgrounds.at(number).efficiency.at(best_model_independent_bin);
-      best_acceptance_bin = std::distance(acceptances.begin(), std::max_element(std::begin(acceptances), std::end(acceptances) - counter));
-      ++counter;
+    Info0;
+    std::vector<float> efficiencies(backgrounds.size(), 0);
+    int counter = 0;
+    for (auto const & number : Range(backgrounds.size())) {
+        while (efficiencies.at(number) == 0 && counter < signals.front().steps) {
+            best_model_dependent_bin = std::distance(significances.begin(), std::max_element(std::begin(significances), std::end(significances) - counter));
+            best_model_independent_bin = std::distance(crosssections.begin(), std::min_element(std::begin(crosssections), std::end(crosssections) - counter));
+            efficiencies.at(number) = backgrounds.at(number).efficiency.at(best_model_independent_bin);
+            best_acceptance_bin = std::distance(acceptances.begin(), std::max_element(std::begin(acceptances), std::end(acceptances) - counter));
+            ++counter;
+        }
     }
-  }
+    Error(best_model_independent_bin,best_model_dependent_bin);
 }
 
-float CutResults::XValue(int value)
+float CutResults::XValue(int value) const
 {
-  INFO(value);
-  return (1. + value ) / (CutResult::steps + 1);
+    INFO(value);
+    return (1. + value) / (signals.front().steps + 1);
 }
 
 void CutResults::ExtremeXValues()
 {
-  Info0;
+    Inititialize();
+    Info0;
 //   for (auto const & result : backgrounds) {
 //     float min_0 = *boost::range::min_element(result.bdt);
 //     if (min_0 < min.x)
-      min.x = 0.1;
+    min.x = x_values.front();
 //   }
 //   for (auto const & result : signals) {
 //     float max_0 = *boost::range::max_element(result.bdt);
 //     if (max_0 > max.x)
-      max.x = 0.9;
+    max.x = x_values.back();
 //   }
 }
 

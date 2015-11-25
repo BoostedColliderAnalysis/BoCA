@@ -5,7 +5,7 @@ template<typename Tagger>
 void Run(boca::Output run = boca::Output::normal)
 {
     boca::standardmodel::AnalysisBoson<Tagger> analysis;
-    boca::Run(analysis, run);
+    analysis.Run(run);
 }
 
 int main()

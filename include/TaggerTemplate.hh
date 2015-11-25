@@ -41,9 +41,9 @@ public:
     std::vector<bool> Cuts(MultipletTemplate const& multiplet, TMVA::Reader const& reader) const {
         FillBranch(multiplet);
         std::vector<bool> passed;
-        int steps = 10;
+        int steps = 50;
         for (auto const & effeciency : Range(2, steps)){
-          std::cout << effeciency << " "  << float(effeciency) / steps << std::endl;
+//           std::cout << effeciency << " "  << float(effeciency) / steps << std::endl;
           passed.emplace_back(Tagger::Cut(reader, float(effeciency) / steps));
         }
         return passed;

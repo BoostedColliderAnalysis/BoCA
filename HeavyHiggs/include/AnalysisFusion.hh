@@ -87,12 +87,12 @@ private:
         switch (this->collider_type()) {
         case Collider::LHC:
             switch (this->Mass()) {
-            case 400 : return 1463.1219866990498 * pb;
-            case 500 : return 512.5992335098167 * pb;
-            case 1000 : return 10.942712198242141 * pb;
-            case 2000 : return 0.10283305582403454 * pb;
-            case 3000 : return 0.003583086718061121 * pb;
-            case 4000 : return 0.00020344209136808554 * pb;
+            case 400 : return 1463.1219866990498 * fb;
+            case 500 : return 512.5992335098167 * fb;
+            case 1000 : return 10.942712198242141 * fb;
+            case 2000 : return 0.10283305582403454 * fb;
+            case 3000 : return 0.003583086718061121 * fb;
+            case 4000 : return 0.00020344209136808554 * fb;
             default:
 //                 Error("unhandled case");
                 return pb;
@@ -100,22 +100,22 @@ private:
         case Collider::LE:
             switch (this->Mass()) {
             // tan beta = 2
-            case 400 : return 48385.16604388162 * pb;
-            case 500 : return 21753.261647408788 * pb;
-            case 700 : return 5388.806849750459 * pb;
-            case 800 : return 2987.6531326979493 * pb;
-            case 1000 : return 1062.9847850641604 * pb;
-            case 1500 : return 148.78718745483314 * pb;
-            case 2000 : return 33.76298845204924 * pb;
-            case 3000 : return 3.715444262833449 * pb;
-            case 4000 : return 0.7052693313851425 * pb;
-            case 5000 : return 0.1841745400744028 * pb;
-            case 6000 : return 0.058156868371520024 * pb;
-            case 8000 : return 0.008651760976852958 * pb;
-            case 10000 : return 0.0018198636858628185 * pb;
-            case 12000 : return 0.0004674423191995998 * pb;
-            case 15000 : return 0.000046 * pb; //<this is just wrong get the right numbers
-            case 20000 : return 0.0000046 * pb; //<this is just wrong get the right numbers
+            case 400 : return 48385.16604388162 * fb;
+            case 500 : return 21753.261647408788 * fb;
+            case 700 : return 5388.806849750459 * fb;
+            case 800 : return 2987.6531326979493 * fb;
+            case 1000 : return 1062.9847850641604 * fb;
+            case 1500 : return 148.78718745483314 * fb;
+            case 2000 : return 33.76298845204924 * fb;
+            case 3000 : return 3.715444262833449 * fb;
+            case 4000 : return 0.7052693313851425 * fb;
+            case 5000 : return 0.1841745400744028 * fb;
+            case 6000 : return 0.058156868371520024 * fb;
+            case 8000 : return 0.008651760976852958 * fb;
+            case 10000 : return 0.0018198636858628185 * fb;
+            case 12000 : return 0.0004674423191995998 * fb;
+            case 15000 : return 0.000046 * fb; //<this is just wrong get the right numbers
+            case 20000 : return 0.0000046 * fb; //<this is just wrong get the right numbers
             default:
 //                 Error("unhandled case");
                 return pb;

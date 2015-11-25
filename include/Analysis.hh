@@ -353,7 +353,7 @@ private:
             for (auto core : Range(cores)) {
                 threads.emplace_back(std::thread([&, core, cores] {
                     branch_writer_mutex.lock();
-                    Third<Tagger> third(branch_writer, core, cores, EventNumberMax());
+                    Third<Tagger> third(branch_writer, core, cores, TrainNumberMax());
                     branch_writer_mutex.unlock();
                     ThirdLoop(third);
                 }));
@@ -362,7 +362,7 @@ private:
         } else {
             int cores = 1;
             int core = 0;
-            Third<Tagger> third(branch_writer, core, cores, EventNumberMax());
+            Third<Tagger> third(branch_writer, core, cores, TrainNumberMax());
             ThirdLoop(third);
         }
         branch_writer.Write();
@@ -370,7 +370,7 @@ private:
 
     void ThirdLoop(Third<Tagger>& third) {
         Info0;
-        while (third.branch_writer().KeepGoing(EventNumberMax()) && third.KeepGoing()) {
+        while (third.branch_writer().KeepGoing(EventNumberMax(third.second().first().stage())) && third.KeepGoing()) {
           int number = FourthLoop(third);
           third.Increment();
           third.branch_writer().Increment(number);

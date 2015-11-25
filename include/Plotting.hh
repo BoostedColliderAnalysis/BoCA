@@ -94,7 +94,7 @@ private:
 
     std::string EfficienciesTable(Results const& results, int bin) const;
 
-    std::string EfficienciesRow(const boca::Result& result, int index, boca::Tag tag, int bin) const;
+    std::string EfficienciesRow(const Result& result, int index, boca::Tag tag, int bin) const;
 
     std::string PlotEfficiencyGraph(const boca::Results& results) const;
 
@@ -112,6 +112,10 @@ private:
 
     boca::Tagger& tagger_;
 
+    std::string BestValueTable(CutResults const& results) const;
+
+    std::string BestValueRow(CutResults const& results, int bin, std::string const& name) const;
+
 
 
 
@@ -126,6 +130,12 @@ private:
     std::string PlotCutResult(boca::CutResults& results) const;
 
     std::string PlotCutEfficiencyGraph(const CutResults& results) const;
+
+    std::string EfficienciesTable(CutResults const& results, int bin) const;
+
+    std::string EfficienciesRow(const CutResult& result, int index, boca::Tag tag, int bin) const;
+
+    std::string PlotModelIndependentGraph(CutResults& results) const;
 
 };
 

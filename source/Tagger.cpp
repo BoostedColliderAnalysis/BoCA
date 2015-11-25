@@ -31,7 +31,7 @@ void Tagger::Initialize()
 
 TMVA::Types::EMVA Tagger::Mva() const
 {
-    TMVA::Types::EMVA::kBDT;
+   return TMVA::Types::EMVA::kBDT;
 }
 
 Observable Tagger::NewObservable(float& value, std::string const& title) const
@@ -45,14 +45,14 @@ float Tagger::Bdt(TMVA::Reader const& reader) const
 {
     Info0;
     std::lock_guard<std::mutex> guard(ReaderBase::mutex_);
-    return const_cast<TMVA::Reader&>(reader).EvaluateMVA(MethodName(TMVA::Types::EMVA::kBDT));  // TODO get rid of the const cast
+    return const_cast<TMVA::Reader&>(reader).EvaluateMVA(MethodName());  // TODO get rid of the const cast
 }
 
 bool Tagger::Cut(TMVA::Reader const& reader, float eff) const
 {
     Info0;
     std::lock_guard<std::mutex> guard(ReaderBase::mutex_);
-    return const_cast<TMVA::Reader&>(reader).EvaluateMVA(MethodName(TMVA::Types::EMVA::kCuts), eff);  // TODO get rid of the const cast
+    return const_cast<TMVA::Reader&>(reader).EvaluateMVA(MethodName(), eff);  // TODO get rid of the const cast
 }
 
 std::vector<Jet> Tagger::SubJets(Jet const& jet, int sub_jet_number) const
@@ -233,26 +233,26 @@ void Tagger::SetAnalysisName(std::string const& analysis_name)
     analysis_name_ = analysis_name;
 }
 
-std::string Tagger::MethodName(TMVA::Types::EMVA mva) const
+std::string Tagger::MethodName() const
 {
     Info0;
-    switch (mva) {
+    switch (Mva()) {
     case TMVA::Types::EMVA::kBDT : return "Bdt";
     case TMVA::Types::EMVA::kCuts : return "Cuts";
-    Default(int(mva),"Cuts");
+    Default(Mva(), "");
     }
 }
 
-std::string Tagger::WeightName(TMVA::Types::EMVA mva) const
+std::string Tagger::WeightName() const
 {
     Info0;
-    return Name() + "_" + MethodName(mva) + "." + WeightFileExtension();
+    return Name() + "_" + MethodName() + "." + WeightFileExtension();
 }
 
-std::string Tagger::WeightFileName(TMVA::Types::EMVA mva) const
+std::string Tagger::WeightFileName() const
 {
     Info0;
-    return PathName(WeightName(mva), ".xml");
+    return PathName(WeightName(), ".xml");
 }
 
 std::string Tagger::WeightFileExtension() const

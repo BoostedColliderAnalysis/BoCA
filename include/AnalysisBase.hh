@@ -44,6 +44,8 @@ public:
 
     void Run(Output run);
 
+protected:
+
     void Initialize();
 
 //     void SetConfig(const Configuration &configuration);
@@ -59,8 +61,6 @@ public:
     void RunPlots();
 
     void RunCut();
-
-protected:
 
     virtual void SetFiles(Tag tag, Stage) = 0;
 
@@ -81,15 +81,18 @@ protected:
      * @brief Maximal number of Entries to analyse
      *
      */
-    virtual long EventNumberMax() const;
+    virtual long TrainNumberMax() const;
 
+    virtual long ReadNumberMax() const;
+
+    virtual long EventNumberMax(Stage stage) const;
 
     boca::Mass Mass() const;
 
     Momentum PreCut() const;
 
-    //      int EventNumberMax() const {
-    //         return configuration_.EventNumberMax();
+    //      int TrainNumberMax() const {
+    //         return configuration_.TrainNumberMax();
     //     };
 
     int BackgroundFileNumber() const;
@@ -134,7 +137,7 @@ private:
 
     void RunTagger(Stage stage);
 
-    void RunTrainer(TMVA::Types::EMVA mva);
+    void RunTrainer();
 
     void RunSignificance();
 
@@ -144,12 +147,12 @@ private:
 
 //     Configuration configuration_;
 
-    std::vector<boca::File> files_ = {};
+    std::vector<boca::File> files_;
 
     std::string WorkingPath();
 
 };
 
-void Run(AnalysisBase & analysis, Output run);
+// void Run(AnalysisBase & analysis, Output run);
 
 }

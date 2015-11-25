@@ -1,18 +1,15 @@
 #include "AnalysisTopPartnerSingleLeptonic.hh"
 #include "EventSingleLeptonicTagger.hh"
-#include "Debug.hh"
 
 template<typename Tagger>
 void Run(boca::Output output = boca::Output::normal)
 {
-    Info0;
     boca::naturalness::AnalysisSingleLeptonic<Tagger> analysis;
-    boca::Run(analysis, output);
+    analysis.Run(output);
 }
 
 int main()
 {
-    Info0;
     Run<boca::standardmodel::BottomTagger>();
     Run<boca::standardmodel::HiggsTagger>();
     Run<boca::standardmodel::BosonTagger>();

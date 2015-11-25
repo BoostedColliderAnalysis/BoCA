@@ -28,7 +28,7 @@ public:
      * @brief Constructor
      *
      */
-    Trainer(boca::Tagger& tagger, TMVA::Types::EMVA mva);
+    Trainer(boca::Tagger& tagger);
 
 private:
 
@@ -36,7 +36,7 @@ private:
      * @brief Book MVA methods
      *
      */
-    TMVA::MethodBase& BookMethod(TMVA::Types::EMVA mva);
+    TMVA::MethodBase& BookMethod();
 
     /**
      * @brief Add Variables
@@ -71,7 +71,7 @@ private:
 
     std::string FactoryOptions();
 
-    std::string MethodOptions(TMVA::Types::EMVA mva);
+    std::string MethodOptions();
 
     boca::Tagger const& Tagger() const;
 

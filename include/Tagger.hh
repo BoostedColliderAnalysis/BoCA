@@ -95,9 +95,9 @@ public:
 
     std::string FileName(Stage stage, Tag tag) const;
 
-    std::string MethodName(TMVA::Types::EMVA mva) const;
+    std::string MethodName() const;
 
-    std::string WeightFileName(TMVA::Types::EMVA mva) const;
+    std::string WeightFileName() const;
 
     std::string WeightFileExtension() const;
 
@@ -182,7 +182,7 @@ private:
 
     std::string PathName(std::string const& file_name, std::string const& suffix = ".root") const;
 
-    std::string WeightName(TMVA::Types::EMVA mva) const;
+    std::string WeightName() const;
 
     std::string BackgroundName() const;
 

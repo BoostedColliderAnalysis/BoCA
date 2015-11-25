@@ -3,13 +3,12 @@
  */
 #include "AnalysisTopPartnerSingleHadronic.hh"
 #include "EventSingleHadronicTagger.hh"
-// #include "VetoTopPartnerLeptonicTagger.hh"
 
 template<typename Tagger>
-void Run(boca::Output run = boca::Output::normal)
+void Run(boca::Output output = boca::Output::normal)
 {
     boca::naturalness::AnalysisSingleHadronic<Tagger> analysis;
-    boca::Run(analysis, run);
+    analysis.Run(output);
 }
 
 int main()

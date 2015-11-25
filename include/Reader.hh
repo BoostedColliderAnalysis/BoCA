@@ -76,7 +76,7 @@ public:
         std::streambuf* cout = std::cout.rdbuf();
         std::cout.rdbuf(cout_file.rdbuf());
         AddObservables();
-        BookMva(Tagger().Mva());
+        BookMva();
         std::cout.rdbuf(cout);
     }
 
@@ -205,10 +205,10 @@ private:
         for (auto const & spectator : Tagger().Spectators()) reader().AddSpectator(spectator.expression(), &spectator.value());
     }
 
-    TMVA::IMethod& BookMva(TMVA::Types::EMVA mva) {
+    TMVA::IMethod& BookMva() {
         std::lock_guard<std::mutex> guard(mutex_);
-        std::cout << Tagger().MethodName(mva) << "  " << Tagger().WeightFileName(mva) << std::endl;
-        return *reader().BookMVA(Tagger().MethodName(mva), Tagger().WeightFileName(mva));
+        std::cout << Tagger().MethodName() << "  " << Tagger().WeightFileName() << std::endl;
+        return *reader().BookMVA(Tagger().MethodName(), Tagger().WeightFileName());
     }
 
     TMVA::Reader& reader() {

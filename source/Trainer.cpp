@@ -20,13 +20,13 @@
 namespace boca
 {
 
-Trainer::Trainer(boca::Tagger& tagger, TMVA::Types::EMVA mva) : tagger_(tagger) , factory_(tagger.Name(), &OutputFile(), FactoryOptions())
+Trainer::Trainer(boca::Tagger& tagger) : tagger_(tagger) , factory_(tagger.Name(), &OutputFile(), FactoryOptions())
 {
     Info0;
     AddObservables();
     PrepareTrainingAndTestTree(AddAllTrees());
 //     TMVA::MethodBase& method =
-    BookMethod(mva);
+    BookMethod();
 //     const TMVA::Ranking& rank = *method.CreateRanking();
 //     rank.SetContext("test");
     Factory().TrainAllMethods();
@@ -135,15 +135,15 @@ void Trainer::PrepareTrainingAndTestTree(long event_number)
     Factory().PrepareTrainingAndTestTree(Tagger().Cut(), Tagger().Cut(), options);
 }
 
-TMVA::MethodBase& Trainer::BookMethod(TMVA::Types::EMVA mva)
+TMVA::MethodBase& Trainer::BookMethod()
 {
     Note0;
-    return *Factory().BookMethod(mva, Tagger().MethodName(mva), MethodOptions(mva));
+    return *Factory().BookMethod(Tagger().Mva(), Tagger().MethodName(), MethodOptions());
 }
-std::string Trainer::MethodOptions(TMVA::Types::EMVA mva)
+std::string Trainer::MethodOptions()
 {
     Options options;
-    switch (mva) {
+    switch (Tagger().Mva()) {
     case TMVA::Types::EMVA::kBDT :
         options.Add("NTrees", 1000);
         options.Add("MinNodeSize", 2.5, "%");
@@ -171,19 +171,7 @@ std::string Trainer::MethodOptions(TMVA::Types::EMVA mva)
         options.Add("FitMethod","GA");
         options.Add("EffSel");
         options.Add("VarProp","FSmart");
-
-
-
-
-
-//         options.Add("VarProp","FSmart");
-
-
-
-//         "FitMethod=GA:CutRangeMin[0]=-10:CutRangeMax[0]=10:VarProp[1]=FMax:EffSel:Steps=30:Cycles=3:PopSize=400:SC_steps=10:SC_rate=5:SC_factor=0.95"
-
-
-    default : break;
+        Default(Tagger().Mva(),"");
     }
     return options;
 }

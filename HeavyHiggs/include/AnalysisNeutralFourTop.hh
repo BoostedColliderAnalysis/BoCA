@@ -48,80 +48,80 @@ public:
             switch (process) {
             case Process::Htt:
                 switch (Int(this->Mass())) {
-                case 500 : return 0.911648 * pb;
-                case 700 : return 0.346647 * pb;
-                case 800 : return 0.225386 * pb;
-                case 1000 : return 0.10028 * pb;
-                case 1500 : return 0.0168305 * pb;
-                case 2000 : return 0.00345315 * pb;
+                case 500 : return 0.911648 * fb;
+                case 700 : return 0.346647 * fb;
+                case 800 : return 0.225386 * fb;
+                case 1000 : return 0.10028 * fb;
+                case 1500 : return 0.0168305 * fb;
+                case 2000 : return 0.00345315 * fb;
                 default:
                     Error("unhandled case");
-                    return pb;
+                    return fb;
                 }
             case Process::Htwb:
                 switch (Int(this->Mass())) {
-                case 500 : return pb;
-                case 700 : return pb;
-                case 800 : return pb;
-                case 1000 : return pb;
-                case 1500 : return pb;
-                case 2000 : return pb;
+                case 500 : return fb;
+                case 700 : return fb;
+                case 800 : return fb;
+                case 1000 : return fb;
+                case 1500 : return fb;
+                case 2000 : return fb;
                 default:
                     Error("unhandled case");
-                    return pb;
+                    return fb;
                 }
             default:
                 Error("unhandled case");
-                return pb;
+                return fb;
             };
         case Collider::FHC:
         case Collider::LE:
             switch (process) {
             case Process::Htt:
                 switch (Int(this->Mass())) {
-                case 500 : return 152.154 * pb;
-                case 700 : return 79.3982 * pb;
-                case 800 : return 60.9656 * pb;
-                case 1000 : return 36.5579 * pb;
-                case 1500 : return 12.4039 * pb;
-                case 2000 : return 5.09533 * pb;
-                case 3000 : return 1.21763 * pb;
-                case 4000 : return 0.385975 * pb;
-                case 5000 : return 0.14659 * pb;
-                case 6000 : return 0.062513 * pb;
-                case 7000 : return 0.026579 * pb;
-                case 8000 : return 0.0132781 * pb;
-                case 10000 : return 0.00380676 * pb;
+                case 500 : return 152.154 * fb;
+                case 700 : return 79.3982 * fb;
+                case 800 : return 60.9656 * fb;
+                case 1000 : return 36.5579 * fb;
+                case 1500 : return 12.4039 * fb;
+                case 2000 : return 5.09533 * fb;
+                case 3000 : return 1.21763 * fb;
+                case 4000 : return 0.385975 * fb;
+                case 5000 : return 0.14659 * fb;
+                case 6000 : return 0.062513 * fb;
+                case 7000 : return 0.026579 * fb;
+                case 8000 : return 0.0132781 * fb;
+                case 10000 : return 0.00380676 * fb;
                 default:
                     Error("unhandled case");
-                    return pb;
+                    return fb;
                 }
             case Process::Htwb:
                 switch (Int(this->Mass())) {
-                case 500 : return 117.041 * pb;
-                case 700 : return 79.5743 * pb;
-                case 800 : return 66.4861 * pb;
-                case 1000 : return 47.8374 * pb;
-                case 1500 : return 23.1449 * pb;
-                case 2000 : return 12.5153 * pb;
-                case 3000 : return 4.60995 * pb;
-                case 4000 : return 2.01434 * pb;
-                case 5000 : return 0.975944 * pb;
-                case 6000 : return 0.509747 * pb;
-                case 7000 : return 0.256938 * pb;
-                case 8000 : return 0.148312 * pb;
-                case 10000 : return 0.0539546 * pb;
+                case 500 : return 117.041 * fb;
+                case 700 : return 79.5743 * fb;
+                case 800 : return 66.4861 * fb;
+                case 1000 : return 47.8374 * fb;
+                case 1500 : return 23.1449 * fb;
+                case 2000 : return 12.5153 * fb;
+                case 3000 : return 4.60995 * fb;
+                case 4000 : return 2.01434 * fb;
+                case 5000 : return 0.975944 * fb;
+                case 6000 : return 0.509747 * fb;
+                case 7000 : return 0.256938 * fb;
+                case 8000 : return 0.148312 * fb;
+                case 10000 : return 0.0539546 * fb;
                 default:
                     Error("unhandled case");
-                    return pb;
+                    return fb;
                 }
             default:
                 Error("unhandled case");
-                return pb;
+                return fb;
             }
         default:
             Error("unhandled case");
-            return pb;
+            return fb;
         }
     }
 
@@ -129,35 +129,31 @@ public:
         switch (this->collider_type()) {
         case Collider::LHC :
             switch (process) {
-            case Process::ttwwbb : return pb;
-            case Process::ttwbb : return pb;
+            case Process::ttwwbb : return fb;
+            case Process::ttwbb : return fb;
             default:
                 Error("unhandled case");
-                return pb;
+                return fb;
             }
         case Collider::LE:
             switch (process) {
-            case Process::ttwwbb : return 396. * pb;
-            case Process::ttwbb : return 1.3204 * pb;
+            case Process::ttwwbb : return 396. * fb;
+            case Process::ttwbb : return 1.3204 * fb;
             default:
                 Error("unhandled case");
-                return pb;
+                return fb;
             }
         default:
             Error("unhandled case");
-            return pb;
+            return fb;
         }
     }
 
 
 private:
 
-//     std::string ProcessName() const override {
-//         return "NeutralFourTop";
-//     }
-
     int PassPreCut(Event const& event, Tag) const override {
-      std::vector<Particle> Particles = event.Partons().GenParticles();
+        std::vector<Particle> Particles = event.Partons().GenParticles();
 
         std::vector<Particle> Tops = CopyIfParticle(Particles, Id::top);
         std::vector<Particle> Bottoms = CopyIfParticle(Particles, Id::bottom);
@@ -176,16 +172,15 @@ private:
         int positive_lepton = 0;
         int negative_lepton = 0;
         for (auto const & lepton : Leptons) {
-            if (lepton.Pt() > this->LeptonPt() && lepton.Info().Charge() > 0)positive_lepton++;
-            if (lepton.Pt() > this->LeptonPt() && lepton.Info().Charge() < 0)negative_lepton++;
+            if (lepton.Pt() > this->LeptonPt() && lepton.Info().Charge() > 0) ++positive_lepton;
+            if (lepton.Pt() > this->LeptonPt() && lepton.Info().Charge() < 0) ++negative_lepton;
         }
 
         if (positive_lepton < 2 && negative_lepton < 2) return 0;
         if ((positive_lepton + negative_lepton) > 2) return 0;
 
         std::vector<Jet> jets = event.Hadrons().Jets();
-        if (jets.size() < 4)
-            return 0;
+        if (jets.size() < 4) return 0;
         return 1;
     }
 

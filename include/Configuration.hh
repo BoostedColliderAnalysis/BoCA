@@ -27,7 +27,7 @@ public:
 
     Momentum PreCut();
 
-    long EventNumberMax();
+    long TrainNumberMax();
 
     int BackgroundFileNumber();
 

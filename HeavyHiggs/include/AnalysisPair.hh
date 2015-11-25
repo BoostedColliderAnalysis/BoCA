@@ -68,7 +68,7 @@ public:
 
 private:
 
-    long EventNumberMax() const {
+    long TrainNumberMax() const {
         return 1000000;
         return 100000;
         return 10000;

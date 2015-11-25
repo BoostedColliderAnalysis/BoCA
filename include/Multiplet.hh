@@ -102,9 +102,9 @@ private:
 
     Angle Pull(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
-    Vector2<float> Point2(Vector2<float> const& point_1, MultipletBase const& multiplets_2) const;
+    Vector2<Angle> Point2(Vector2<Angle> const& point_1, MultipletBase const& multiplets_2) const;
 
-    float Distance(Line2<float> const& line, boca::Jet const& constituent) const;
+    Angle Distance(Line2<Angle> const& line, boca::Jet const& constituent) const;
 
 };
 

@@ -119,6 +119,7 @@ class CutResult
 {
 public:
   CutResult(InfoBranch const& info_branch);
+  void Inititialize();
   void Calculate();
   int XBin(float value) const;
   void AddPassed(std::vector<bool> passed){
@@ -133,7 +134,7 @@ public:
   std::vector<Crosssection> crosssection;
   InfoBranch info_branch_;
   std::vector<std::vector<bool>> passed_;
-  const static int steps = 9;
+  int steps;
 
   std::vector<float> XSec() const {
     std::vector<float> values;
@@ -149,9 +150,10 @@ class CutResults
 {
 public:
   CutResults();
+  void Inititialize();
   void Significances();
   void BestBin();
-  static float XValue(int value);
+  float XValue(int value) const;
   void ExtremeXValues();
   std::vector<CutResult> signals;
   std::vector<CutResult> backgrounds;

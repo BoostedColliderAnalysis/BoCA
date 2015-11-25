@@ -46,34 +46,45 @@ class AnalysisHeavyHiggs : public Analysis<Tagger>
 public:
 
     boca::Mass Mass() const {
-        return 1000. * GeV;
+        return 500. * GeV;
+        return 800. * GeV;
+        return 1. * TeV;
+        return 1.5 * TeV;
+        return 2. * TeV;
         return 300. * GeV;
         return 400. * GeV;
-        return 500. * GeV;
         return 600. * GeV;
         return 700. * GeV;
-        return 800. * GeV;
         return 900. * GeV;
-        return 2000. * GeV;
-        return 3000. * GeV;
-        return 4000. * GeV;
-        return 5000. * GeV;
-        return 7000. * GeV;
-        return 8000. * GeV;
-        return 10000. * GeV;
-        return 12000. * GeV;
-        return 15000. * GeV;
-        return 20000. * GeV;
+        return 3. * TeV;
+        return 4. * TeV;
+        return 5. * TeV;
+        return 7. * TeV;
+        return 8. * TeV;
+        return 10. * TeV;
+        return 12. * TeV;
+        return 15. * TeV;
+        return 20. * TeV;
     };
 
-    long EventNumberMax() const override {
-        return 1000;
+    long TrainNumberMax() const override {
         return 10000;
+        return 100000;
+        return 1000;
         return 500;
         return 10000000;
         return 1000000;
-        return 100000;
         return 10;
+    };
+
+    long ReadNumberMax() const override {
+      return 100000;
+      return 10000;
+      return 1000;
+      return 500;
+      return 10000000;
+      return 1000000;
+      return 10;
     };
 
     Collider collider_type() const {
@@ -85,7 +96,7 @@ public:
         switch (collider_type()) {
         case Collider::LHC :
             switch (Int(Mass())) {
-            case 500 : return 0. * GeV;
+            case 500 : return at_rest;
             case 1000 : return 250. * GeV;
             case 2000 : return 250. * GeV;
             case 3000 : return 250. * GeV;
@@ -93,14 +104,14 @@ public:
             }
         case Collider::LE :
             switch (Int(Mass())) {
-            case 500 : return 0. * GeV;
+            case 500 : return at_rest;
             case 1000 : return 300. * GeV;
             case 2000 : return 300. * GeV;
-            case 4000 : return 1500. * GeV;
-            case 6000 : return 2500. * GeV;
-            case 10000 : return 2500. * GeV;
-            case 15000 : return 2500. * GeV;
-            case 20000 : return 2500. * GeV;
+            case 4000 : return 1.5 * TeV;
+            case 6000 : return 2.5 * TeV;
+            case 10000 : return 2.5 * TeV;
+            case 15000 : return 2.5 * TeV;
+            case 20000 : return 2.5 * TeV;
             Default("Mass", at_rest);
             }
             Default("Collider", at_rest);
@@ -111,7 +122,7 @@ public:
         switch (collider_type()) {
         case Collider::LHC : return 30. * GeV;
         case Collider::LE : return 60. * GeV;
-        Default("Collider", 0. * GeV);
+        Default("Collider", at_rest);
         }
     };
 

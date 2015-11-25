@@ -42,6 +42,14 @@ int sgn(Value value)
     return (Value(0) < value) - (value < Value(0));
 }
 
+// template <class T>
+// int sgn(const T& z)
+// {
+//   return (z == 0) ? 0 : (z < 0) ? -1 : 1;
+// }
+
+
+
 template <typename Value>
 /**
  * @brief derives the square of the value
@@ -50,6 +58,12 @@ template <typename Value>
 Value sqr(Value value)
 {
     return value * value;
+}
+
+template<typename T>
+typename boost::units::multiply_typeof_helper<boost::units::quantity<T>, boost::units::quantity<T>>::type sqr(boost::units::quantity<T> const& t)
+{
+    return t * t;
 }
 
 template <typename Value>
