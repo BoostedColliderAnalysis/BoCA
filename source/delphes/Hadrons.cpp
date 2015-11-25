@@ -116,8 +116,7 @@ boost::optional<Jet> Hadrons::ConstituentGenParticle(TObject& object, std::vecto
     INFO(object.ClassName(), Name(jet_detail));
     if (is(jet_detail, JetDetail::isolation) && !Isolated(object, leptons)) return boost::none;
     ::delphes::GenParticle& particle = static_cast<::delphes::GenParticle&>(object);
-    boca::LorentzVector position(particle.X, particle.Y, particle.Z, particle.T);
-    Constituent constituent(particle.P4(), position, SubDetector::gen_particle, particle.Charge);
+    Constituent constituent(particle.P4(), LorentzVector(particle), SubDetector::gen_particle, particle.Charge);
     return Jet(particle.P4(), constituent);
 }
 
@@ -126,8 +125,7 @@ boost::optional<Jet> Hadrons::ConstituentTrack(TObject& object, std::vector< TOb
     INFO(object.ClassName(), Name(jet_detail));
     ::delphes::Track& track = static_cast<::delphes::Track&>(object);
     if (is(jet_detail, JetDetail::isolation) && !Isolated(*track.Particle.GetObject(), leptons)) return boost::none;
-    boca::LorentzVector position(track.X, track.Y, track.Z, track.T);
-    Constituent constituent(track.P4(), position, SubDetector::track, track.Charge);
+    Constituent constituent(track.P4(), LorentzVector(track), SubDetector::track, track.Charge);
     return Jet(track.P4(), constituent);
 }
 

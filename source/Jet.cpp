@@ -4,6 +4,7 @@
 
 #include "Jet.hh"
 #include "InfoRecombiner.hh"
+#include "Exception.hh"
 #include "Debug.hh"
 
 namespace boca
@@ -26,7 +27,7 @@ Jet::Jet(TLorentzVector const& vector, Constituent const& constituent) : PseudoJ
 
 Jet::Jet(TLorentzVector const& vector, std::vector<Constituent> const& constituents) : PseudoJet(vector)
 {
-  SetInfo(constituents);
+    SetInfo(constituents);
 }
 
 Jet::Jet(TLorentzVector const& vector, int charge) : PseudoJet(vector)
@@ -71,14 +72,21 @@ Jet::Jet(double const Momentum[4]) : PseudoJet(Momentum[1], Momentum[2], Momentu
 
 JetInfo const& Jet::Info() const
 {
-    if (has_user_info<JetInfo>()) return user_info<JetInfo>();
-    Error("No jet info");
+    if (!has_user_info<JetInfo>()) {
+        Error("No jet info");
+        throw Empty();
+//         SetInfo();
+    }
+    return user_info<JetInfo>();
 }
 
 JetInfo& Jet::Info()
 {
-    if (has_user_info<JetInfo>()) return static_cast<JetInfo&>(*user_info_shared_ptr().get());
-    Error("No jet info");
+    if (!has_user_info<JetInfo>()) {
+        Error("No jet info");
+        SetInfo();
+    }
+    return static_cast<JetInfo&>(*user_info_shared_ptr().get());
 }
 
 void Jet::SetInfo(JetInfo const& user_info)

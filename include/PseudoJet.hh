@@ -30,7 +30,7 @@ public:
 
     Momentum Pt() const;
 
-    boca::Energy Energy() const;;
+    boca::Energy Energy() const;
 
     boca::Mass Mass()const;
 

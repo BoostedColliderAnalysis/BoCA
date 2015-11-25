@@ -18,8 +18,8 @@ class AnalysisNeutralFourTop : public AnalysisHeavyHiggs<Tagger>
 
 public:
 
-    AnalysisNeutralFourTop() {
-//  this->pre_cuts().PtLowerCut().Set(Id::top,100);
+  AnalysisNeutralFourTop() {
+    DetectorGeometry::set_detector_type(DetectorType::CMS);
     }
 
     void SetFiles(Tag tag, Stage) final {
@@ -38,7 +38,6 @@ public:
     }
 
     std::string AnalysisName() const final {
-        //        return  "NeutralFourTop-" + ColliderName(collider_type()) + "-" + Name(PreCut()) + "-" + Name(Mass()) + "-Eta2.5";
         return  "NeutralFourTop-" + Name(this->collider_type()) + "-" + boca::Name(this->Mass());
     };
 
@@ -157,18 +156,10 @@ private:
 
         std::vector<Particle> Tops = CopyIfParticle(Particles, Id::top);
         std::vector<Particle> Bottoms = CopyIfParticle(Particles, Id::bottom);
-//         if(Bottoms.size() < 4) return 0;
-//
-//         if (Bottoms.at(0).Pt() < this->BottomPt()) return 0;
-//         if (Bottoms.at(1).Pt() < this->BottomPt()) return 0;
-//         if (Bottoms.at(2).Pt() < this->BottomPt()) return 0;
-//         if (Bottoms.at(3).Pt() < this->BottomPt()) return 0;
 
         if (event.Hadrons().MissingEt().Pt() < this->MissingEt()) return 0;
         std::vector<Jet> Leptons = SortedByPt(event.Leptons().leptons());
         if (Leptons.size() < 2) return 0;
-//      if (Leptons.at(0).Pt() < this->LeptonPt()) return 0;
-//  if (Leptons.at(1).Pt() < this->LeptonPt()) return 0;
         int positive_lepton = 0;
         int negative_lepton = 0;
         for (auto const & lepton : Leptons) {

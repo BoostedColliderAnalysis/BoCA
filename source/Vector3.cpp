@@ -162,7 +162,7 @@ void Vector3::RotateUz(Vector3 const& NewUzVector)
     } else if (u3 < 0.) {
         x_ = -x_; // phi=0 teta=pi
         z_ = -z_;
-    } else ;
+    } else {};
 }
 
 float Vector3::PseudoRapidity() const

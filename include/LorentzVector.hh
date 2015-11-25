@@ -13,6 +13,7 @@
 
 #include "Vector3.hh"
 #include "exroot/ExRootAnalysis.hh"
+#include "delphes/Delphes.hh"
 #include "Units.hh"
 
 class TLorentzVector;
@@ -79,6 +80,15 @@ public:
   LorentzVector(exroot::Tau const& Particle);
 
 
+  LorentzVector(::delphes::Track& track) {
+     p_ = Vector3(track.X, track.Y, track.Z);
+     e_ = track.T;
+  }
+
+  LorentzVector(::delphes::GenParticle& particle) {
+    p_ = Vector3(particle.X, particle.Y, particle.Z);
+    e_ = particle.T;
+  }
 
 
 

@@ -8,11 +8,11 @@
 namespace boca
 {
 
-Particle::Particle(TLorentzVector const& vector, Family const& family) : PseudoJet(vector), particle_info_(family) {};
+Particle::Particle(TLorentzVector const& vector, Family const& family) : PseudoJet(vector), particle_info_(family) {}
 
-Particle::Particle(exroot::GenParticle const& particle, int id) : PseudoJet(LorentzVector(particle)), particle_info_(id) {};
+Particle::Particle(exroot::GenParticle const& particle, int id) : PseudoJet(LorentzVector(particle)), particle_info_(id) {}
 
-Particle::Particle(exroot::LHEFParticle const& particle, int id) : PseudoJet(LorentzVector(particle)), particle_info_(id) {};
+Particle::Particle(exroot::LHEFParticle const& particle, int id) : PseudoJet(LorentzVector(particle)), particle_info_(id) {}
 
 ParticleInfo const& Particle::Info() const
 {

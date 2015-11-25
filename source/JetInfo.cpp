@@ -212,7 +212,7 @@ std::vector<Constituent> JetInfo::ApplyVertexResolution(std::vector<Constituent>
 bool JetInfo::VertexResultion(Constituent const& constituent) const
 {
     Debug(constituent.Position().Perp());
-    return (1. * constituent.Position().Vect().Perp() * mm > DetectorGeometry::TrackerDistanceMin() & 1. * constituent.Position().Vect().Perp() * mm < DetectorGeometry::TrackerDistanceMax() & boost::units::abs(1. * constituent.Momentum().Rapidity() * rad) < DetectorGeometry::TrackerEtaMax());
+    return (1. * constituent.Position().Vect().Perp() * mm > DetectorGeometry::TrackerDistanceMin() && 1. * constituent.Position().Vect().Perp() * mm < DetectorGeometry::TrackerDistanceMax() && boost::units::abs(1. * constituent.Momentum().Rapidity() * rad) < DetectorGeometry::TrackerEtaMax());
 }
 
 float JetInfo::ElectroMagneticRadius(Jet const& jet) const
