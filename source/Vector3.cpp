@@ -10,12 +10,12 @@
 #include "Vector3.hh"
 #include "Vector2.hh"
 #include <cmath>
-#include "TVector3.h"
+#include "Vector3.h"
 #include "Debug.hh"
 
 namespace boca {
 
-void Vector3::operator=(TVector3 const& vector)
+void Vector3::operator=(Vector3 const& vector)
 {
     x_ = vector.X();
     y_ = vector.Y();
@@ -60,18 +60,25 @@ float& Vector3::operator()(int i)
     return x_;
 }
 
+Vector3 & Vector3::operator *= (const Rotation & m){
+  //multiplication operator
+  return *this = m * (*this);
+}
+
+Vector3 & Vector3::Transform(const Rotation & m) {
+  //transform this vector with a Rotation
+  return *this = m * (*this);
+}
+
 float Vector3::Angle(Vector3 const& q) const
 {
 // return the angle w.r.t. another 3-vector
     float ptot2 = Mag2() * q.Mag2();
-    if (ptot2 <= 0)
-        return 0.0;
+    if (ptot2 <= 0) return 0.0;
     else {
         float arg = Dot(q) / std::sqrt(ptot2);
-        if (arg > 1.0)
-            arg = 1.0;
-        if (arg < -1.0)
-            arg = -1.0;
+        if (arg > 1.0) arg = 1.0;
+        if (arg < -1.0) arg = -1.0;
         return std::acos(arg);
     }
 }
