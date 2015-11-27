@@ -64,6 +64,7 @@ boost::optional<CutPlet> CutTagger::CutMethod(Event const& event) const
     boost::range::copy(jets | boost::adaptors::filtered([](Jet const & jet) {
         return jet.Info().BTag();
     }), std::back_inserter(bottoms));
+    if (bottoms.size() < 4) return boost::none;
     cut_plet.bottom_number_ = bottoms.size();
 
     boca::MissingEt missing_et = event.Hadrons().MissingEt();

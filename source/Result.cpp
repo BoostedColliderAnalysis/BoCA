@@ -222,7 +222,8 @@ CutResults::CutResults()
 
 void CutResults::Inititialize()
 {
-    int steps = signals.front().steps;
+    int steps = 0;
+    if (!signals.empty()) steps = signals.front().steps;
     significances.resize(steps, 0);
     crosssections.resize(steps, 0. * fb);
     acceptances.resize(steps, 0);
@@ -276,7 +277,7 @@ void CutResults::BestBin()
             ++counter;
         }
     }
-    Error(best_model_independent_bin,best_model_dependent_bin);
+    Error(best_model_independent_bin, best_model_dependent_bin);
 }
 
 float CutResults::XValue(int value) const
@@ -292,12 +293,12 @@ void CutResults::ExtremeXValues()
 //   for (auto const & result : backgrounds) {
 //     float min_0 = *boost::range::min_element(result.bdt);
 //     if (min_0 < min.x)
-    min.x = x_values.front();
+    if (!x_values.empty()) min.x = x_values.front();
 //   }
 //   for (auto const & result : signals) {
 //     float max_0 = *boost::range::max_element(result.bdt);
 //     if (max_0 > max.x)
-    max.x = x_values.back();
+    if (!x_values.empty()) max.x = x_values.back();
 //   }
 }
 

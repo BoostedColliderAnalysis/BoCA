@@ -190,6 +190,16 @@ static const Length m(1. * meter);
  */
 static const Length mm(1. * milli* meter);
 
+// auto operator"" _mm (double val) -> decltype(val * milli * meter)
+// {
+//   return val * milli * meter;
+// }
+
+// Length operator"" _mm(double x)
+// {
+//     return x * mm;
+// }
+
 /**
  * @brief Angle measured in radian
  *

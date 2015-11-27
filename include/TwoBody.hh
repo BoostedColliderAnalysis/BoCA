@@ -87,7 +87,7 @@ public:
     }
 
     float Ht() const override {
-        return Multiplet::Ht(Multiplet1(), Multiplet2());
+        return Multiplet::Ht(Multiplet1(), Multiplet2()) / GeV;
     }
 
     float DeltaRap() const {

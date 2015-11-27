@@ -124,19 +124,19 @@ public:
     }
 
     float Ht() const override {
-        return Ht12() + Multiplet3().Ht();
+      return Ht12() + Multiplet3().Ht();
     }
 
     float Ht12() const {
-        return Multiplet::Ht(Multiplet1(), Multiplet2());
+        return Multiplet::Ht(Multiplet1(), Multiplet2()) / GeV;
     }
 
     float Ht23() const {
-        return Multiplet::Ht(Multiplet2(), Multiplet3());
+      return Multiplet::Ht(Multiplet2(), Multiplet3()) / GeV;
     }
 
     float Ht13() const {
-        return Multiplet::Ht(Multiplet1(), Multiplet3());
+      return Multiplet::Ht(Multiplet1(), Multiplet3()) / GeV;
     }
 
     float DeltaRap() const {

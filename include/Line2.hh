@@ -62,16 +62,16 @@ public:
         // Consider the line extending the segment, parameterized as v + t (w - v).
         // We find projection of point p onto the line.
         // It falls where t = [(p-v) . (w-v)] / |w-v|^2
-        return Vector_1(point) * Vector() / Mod2();
+        return point * Vector() / Mod2();
     }
     Vector2<Value> Projection(Vector2<Value> const& point) const {
-      return point_1_ + Vector() * Paramter(point);
+        return point_1_ + Vector() * Paramter(point);
     }
-    ValueSquare Area() const {
+    ValueSquare SignedArea() const {
         return point_1_ ^ point_2_;
     }
     ValueSquare Area(Vector2<Value> const& point) const {
-        return boost::units::abs((Vector() ^ point) + Area());
+        return boost::units::abs((Vector() ^ point) + SignedArea());
     }
 private:
     Vector2<Value> point_1_; // v

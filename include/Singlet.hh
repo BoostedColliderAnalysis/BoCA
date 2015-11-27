@@ -18,9 +18,9 @@ class Singlet : public MultipletBase
 
 public:
 
-  Singlet() {};
+    Singlet() {};
 
-  Singlet(fastjet::PseudoJet const& jet);
+    Singlet(fastjet::PseudoJet const& jet);
 
     Singlet(boca::Jet const& jet);
 
@@ -29,7 +29,7 @@ public:
     }
 
     boca::Jet ConstituentJet() const {
-      return jet_;
+        return jet_;
     }
 
     std::vector<boca::Jet> Jets() const {
@@ -121,8 +121,8 @@ public:
     }
 
     float Bdt() const final {
-        if(UserInfo().Bdt() != UserInfo().Bdt()) return -1;
-        if(UserInfo().Bdt() != InitialValue()) return UserInfo().Bdt();
+        if (UserInfo().Bdt() != UserInfo().Bdt()) return -1;
+        if (UserInfo().Bdt() != InitialValue()) return UserInfo().Bdt();
         return -1;
     }
 
@@ -138,18 +138,18 @@ public:
 
     JetInfo const& UserInfo() const;
 
-    Vector2<float> Pull() const;
+    Vector2<AngleSquare> Pull() const override;
 
     boca::Jet& Jet() {
         return jet_;
     }
 
     float BottomBdt() const final {
-      return Bdt();
+        return Bdt();
     }
 
     float Rapidity() const {
-      return Rap() / rad;
+        return Rap() / rad;
     }
 
 private:
@@ -166,7 +166,7 @@ private:
 
     // save expensive results in mutable member variables
 
-    mutable Vector2<float> pull_;
+    mutable Vector2<AngleSquare> pull_;
 
     mutable bool has_pull_ = false;
 

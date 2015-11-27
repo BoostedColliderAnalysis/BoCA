@@ -1,6 +1,6 @@
 // @(#)root/physics:$Id$
 // Author: Pasha Murat   12/02/99
-// Jan Hajer 2015
+// Jan Hajer 2015 remove some stuff, make the class templated and compatible with boost units
 
 /*************************************************************************
  * Copyright(C) 1995-2000, Rene Brun and Fons Rademakers.               *
@@ -11,6 +11,7 @@
  *************************************************************************/
 
 #pragma once
+#include <type_traits>
 // #include <cmath>
 #include <boost/units/cmath.hpp>
 #include <iostream>
@@ -18,6 +19,9 @@
 
 namespace boca
 {
+
+template<typename Value, typename Value2>
+using ValueProduct = typename boost::units::multiply_typeof_helper<Value, Value2>::type;
 
 /**
  * @brief Copy of root::TVector2 in order to get rid of TObject
@@ -27,7 +31,22 @@ template<typename Value>
 class Vector2
 {
 public:
-  typedef typename boost::units::multiply_typeof_helper<Value, Value>::type ValueSquare;
+
+    template<typename Value2>
+    using ValueProduct = ValueProduct<Value, Value2>;
+
+    template<typename Value2>
+    using ValueQuotient = typename boost::units::divide_typeof_helper<Value, Value2>::type;
+
+
+    template <typename> struct IsQuantity : std::false_type { };
+    template <typename T> struct IsQuantity<boost::units::quantity<T>> : std::true_type { };
+
+    template<typename Value2>
+    using OnlyIfNotOrSameQuantity = typename std::enable_if < !IsQuantity<Value2>::value || std::is_same<Value, Value2>::value >::type;
+
+    template<typename Value2>
+    using OnlyIfNotQuantity = typename std::enable_if < !IsQuantity<Value2>::value >::type;
 
     /// constructor
     Vector2() {
@@ -61,14 +80,14 @@ public:
     }
 
     //set vector using mag and phi
-    void SetMagPhi(Value mag, Value phi) {
-        Value amag = std::abs(mag);
-        x_ = amag * std::cos(phi);
-        y_ = amag * std::sin(phi);
+    void SetMagPhi(Value mag, Angle phi) {
+        Value amag = Abs(mag, IsQuantity<Value>());
+        x_ = amag * boost::units::cos(phi);
+        y_ = amag * boost::units::sin(phi);
     }
 
     /// vector sum
-    template<typename Value2>
+    template <typename Value2, typename = OnlyIfNotOrSameQuantity<Value2>>
     Vector2& operator+=(Vector2<Value2> const& v) {
         x_ += v.x_;
         y_ += v.y_;
@@ -76,21 +95,15 @@ public:
     }
 
     /// vector difference
-    template<typename Value2>
+    template <typename Value2, typename = OnlyIfNotOrSameQuantity<Value2>>
     Vector2& operator-=(Vector2<Value2> const& v) {
         x_ -= v.x_;
         y_ -= v.y_;
         return *this;
     }
 
-    /// scalar product of 2 2-vectors
-    template<typename Value2>
-    Value operator*=(Vector2<Value2> const& v) {
-        return x_ * v.x_ + y_ * v.y_;
-    }
-
     /// product with scalar
-    template<typename Value2>
+    template < typename Value2, typename = OnlyIfNotQuantity<Value2> >
     Vector2& operator*=(Value2 s) {
         x_ *= s;
         y_ *= s;
@@ -98,7 +111,7 @@ public:
     }
 
     /// division by scalar
-    template<typename Value2>
+    template < typename Value2, typename = OnlyIfNotQuantity<Value2> >
     Vector2& operator/=(Value2 s) {
         x_ /= s;
         y_ /= s;
@@ -106,75 +119,35 @@ public:
     }
 
     /// vector sum
-    template<typename Value2>
-    friend Vector2<Value> operator+(Vector2<Value> const& v1, Vector2<Value2> const& v2) {
+    template <typename Value2, typename = OnlyIfNotOrSameQuantity<Value2>>
+    friend Vector2<Value> operator+(Vector2 const& v1, Vector2<Value2> const& v2) {
         return {v1.X() + v2.X(), v1.Y() + v2.Y()};
     }
 
-//     template<typename Value2>
-    friend Vector2 operator+(Vector2 const& v1, Value bias) {
-        return {v1.X() + bias, v1.Y() + bias};
-    }
-
-//     template<typename Value2>
-    friend Vector2 operator+(Value bias, Vector2 const& v1) {
-        return {v1.X() + bias, v1.Y() + bias};
-    }
-
-    template<typename Value2>
+    /// vector difference
+    template <typename Value2, typename = OnlyIfNotOrSameQuantity<Value2>>
     friend Vector2 operator-(Vector2 const& v1, Vector2<Value2> const& v2) {
         return {v1.X() - v2.X(), v1.Y() - v2.Y()};
     }
 
-    template<typename Value2>
-    friend Vector2 operator-(Vector2 const& v1, Value2 bias) {
-        return {v1.X() - bias, v1.Y() - bias};
-    }
 
-    template<typename Value2>
-    friend ValueSquare operator*(Vector2<Value> const& v1, Vector2<Value2> const& v2) {
-        return v1.X() * v2.X() + v1.Y() * v2.Y();
-    }
-
-//     template<typename Value2>
-    friend Vector2 operator*(Value s, Vector2 const& v) {
-        return {v.X()* s, v.Y()* s};
-    }
-
-    template<typename Value2>
-    friend Vector2 operator*(Vector2 const& v, Value2 s) {
-        return {v.X()* s, v.Y()* s};
-    }
-
-    template<typename Value2>
-    friend Vector2 operator/(Vector2 const& v, Value2 s) {
+    template <class U>
+    friend Vector2 <ValueQuotient<U>> operator/(const Vector2& v, const U& s) {
         return {v.X() / s, v.Y() / s};
-    }
+    };
 
     template<typename Value2>
-    friend ValueSquare operator^(Vector2 const& v1, Vector2<Value2> const& v2) {
+    friend ValueProduct<Value2> operator^(Vector2 const& v1, Vector2<Value2> const& v2) {
         return v1.X() * v2.Y() - v1.Y() * v2.X();
     }
 
-    ValueSquare Mod2() const {
+    ValueProduct<Value> Mod2() const {
         return x_ * x_ + y_ * y_;
     }
 
     /// return modulo of this vector
-//     Value Mod() const {
-//       return std::sqrt(Mod2());
-//     }
-    Value Mod() const {
-        return boost::units::sqrt(Mod2());
-    }
-
-
-    Value Px() const {
-        return x_;
-    }
-
-    Value Py() const {
-        return y_;
+    Value Mod() {
+        Mod(IsQuantity<Value>());
     }
 
     Value X() const {
@@ -185,13 +158,18 @@ public:
         return y_;
     }
 
-    /// return vector phi defined in [0,TWOPI]
-    Value Phi() const {
-        return M_PI + std::atan2(-y_, -x_);
+//     /// return vector phi defined in [0,TWOPI]
+//     Angle Phi() const {
+//         return M_PI + std::atan2(-y_, -x_);
+//     }
+
+/// return vector phi defined in [-pi, pi]
+    Angle Phi() {
+        Phi(IsQuantity<Value>());
     }
 
     template<typename Value2>
-    Value DeltaPhi(Vector2<Value2> const& v) const {
+    Angle DeltaPhi(Vector2<Value2> const& v) const {
         return Phi_mpi_pi(Phi() - v.Phi());
     }
 
@@ -206,21 +184,20 @@ public:
     }
 
     /// projection of *this to the direction of Vector2 vector `v'
-    template<typename Value2>
+    template <typename Value2, typename = OnlyIfNotOrSameQuantity<Value2>>
     Vector2 Proj(Vector2<Value2> const& v) const {
         return v * (((*this) * v) / v.Mod2());
     }
 
-// component of *this normal to `v'
-    template<typename Value2>
+    // component of *this normal to `v'
+    template <typename Value2, typename = OnlyIfNotOrSameQuantity<Value2>>
     Vector2 Norm(Vector2<Value2> const& v) const {
         return *this - Proj(v);
     }
 
 // rotates 2-vector by phi radians
-    template<typename Value2>
-    Vector2 Rotate(Value2 phi) const {
-        return {x_* std::cos(phi) - y_* std::sin(phi), x_* std::sin(phi) + y_* std::cos(phi)};
+    Vector2 Rotate(Angle phi) const {
+        return {x_* boost::units::cos(phi) - y_* boost::units::sin(phi), x_* boost::units::sin(phi) + y_* boost::units::cos(phi)};
     }
 
 private:
@@ -228,23 +205,59 @@ private:
     template<typename>
     friend class Vector2;
 
+    Value Mod(std::false_type) {
+        return std::sqrt(Mod2());
+    }
+
+    Value Mod(std::true_type) {
+        return boost::units::sqrt(Mod2());
+    }
+
+    Angle Phi(std::false_type) const {
+        return std::atan2(-y_, -x_) * rad;
+    }
+
+    Angle Phi(std::true_type) const {
+        return boost::units::atan2(-y_, -x_);
+    }
+
+    //set vector using mag and phi
+    Value Abs(Value mag, std::false_type) {
+        return std::abs(mag);
+    }
+
+    //set vector using mag and phi
+    Value Abs(Value mag, std::true_type) {
+        return boost::units::abs(mag);
+    }
+
     Value x_;
 
     Value y_;
 };
 
+template <typename> struct IsVector2 : std::false_type { };
+template <typename T> struct IsVector2<Vector2<T>> : std::true_type { };
+template<typename Value2>
+using OnlyIfNotVector = typename std::enable_if < !IsVector2<Value2>::value >::type;
 
+template <class T, class U>
+ValueProduct<T, U> operator*(const Vector2<T>& v1, const Vector2<U>& v2)
+{
+    return v1.X() * v2.X() + v1.Y() * v2.Y();
+};
 
-template <>
-inline float Vector2<float>::Mod() const {
-  return std::sqrt(Mod2());
-}
+template < class T, class U, typename = OnlyIfNotVector<U> >
+Vector2 <ValueProduct<T, U>> operator*(const Vector2<T>& v, const U& s)
+{
+    return {v.X()* s, v.Y()* s};
+};
 
-template <>
-inline double Vector2<double>::Mod() const {
-  return std::sqrt(Mod2());
-}
-
+template < class T, class U, typename = OnlyIfNotVector<U> >
+Vector2 <ValueProduct<T, U>> operator*(const U& s, const Vector2<T>& v)
+{
+    return {v.X()* s, v.Y()* s};
+};
 
 // returns phi angle in the interval [0,2*PI)
 template<typename Value>
@@ -273,3 +286,4 @@ Value Phi_mpi_pi(Value x)
 }
 
 }
+

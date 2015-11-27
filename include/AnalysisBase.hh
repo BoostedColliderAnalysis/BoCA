@@ -42,7 +42,7 @@ public:
 
     AnalysisBase();
 
-    void Run(Output run);
+    void Run(Output output);
 
 protected:
 

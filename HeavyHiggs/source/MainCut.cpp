@@ -1,9 +1,9 @@
-#include "AnalysisCut.hh"
+#include "AnalysisNeutralFourTop.hh"
 #include "CutTagger.hh"
 
 int main()
 {
-    boca::heavyhiggs::AnalysisCut<boca::heavyhiggs::CutTagger> analysis;
+    boca::heavyhiggs::AnalysisNeutralFourTop<boca::heavyhiggs::CutTagger> analysis;
     analysis.Run(boca::Output::cut);
 }
 

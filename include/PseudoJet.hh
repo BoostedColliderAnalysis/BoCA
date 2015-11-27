@@ -40,6 +40,8 @@ public:
 
     Angle DeltaRTo(fastjet::PseudoJet const& jet) const;
 
+    Angle DeltaPhiTo(fastjet::PseudoJet const& jet) const;
+
 };
 
 }

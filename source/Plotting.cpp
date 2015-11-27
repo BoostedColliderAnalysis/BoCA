@@ -596,7 +596,7 @@ CutResult Plotting::CutDistribution(TFile& file, std::string const& tree_name, T
 void Plotting::Cuts() const
 {
     Info0;
-    CutResults results = ReadCutFiles();
+    CutResults results(ReadCutFiles());
     results.Significances();
     LatexFile latex_file(Tagger().ExportFolderName());
     latex_file.Mass(double(results.signals.front().info_branch_.Mass) * GeV);

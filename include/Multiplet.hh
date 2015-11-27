@@ -50,11 +50,11 @@ protected:
 
     boca::Jet Jet(boca::Jet const& jet_1, boca::Jet const& jet_2) const;
 
-    Vector2<float> Pull() const override;
+    Vector2<AngleSquare> Pull() const override;
 
     Momentum DeltaPt(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
-    float Ht(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
+    Momentum Ht(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
     Angle DeltaRap(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 

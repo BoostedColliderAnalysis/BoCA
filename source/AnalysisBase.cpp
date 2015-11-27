@@ -248,12 +248,15 @@ void AnalysisBase::RunPlots()
 void AnalysisBase::RunCut()
 {
   Info0;
-  Info0;
   RunTagger(Stage::trainer);
   INFO("Analysis Loop done");
+  Initialize();
   RunTrainer();
+  Initialize();
   RunTagger(Stage::reader);
   Error(tagger().TreeNames(Tag::signal).size());
+  Initialize();
+  PrepareFiles(Stage::reader);
   Plotting plotting(tagger());
   plotting.Cuts();
 }

@@ -25,7 +25,7 @@ public:
         return {};
     }
 
-    Vector2<float> Pull() const {
+    Vector2<AngleSquare> Pull() const {
         return {};
     }
 

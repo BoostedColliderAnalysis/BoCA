@@ -15,7 +15,7 @@
 namespace boca
 {
 
-Vector2<float> Multiplet::Pull() const
+Vector2<AngleSquare> Multiplet::Pull() const
 {
     Error("do not end up here");
     return {};
@@ -46,9 +46,9 @@ Momentum Multiplet::DeltaPt(MultipletBase const& multiplets_1, MultipletBase con
     return delta_pt;
 }
 
-float Multiplet::Ht(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const
+Momentum Multiplet::Ht(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const
 {
-    return multiplets_1.Ht() + multiplets_2.Ht();
+    return double(multiplets_1.Ht() + multiplets_2.Ht()) * GeV;
 }
 
 Angle Multiplet::DeltaRap(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const
@@ -88,17 +88,20 @@ float Multiplet::Rho(MultipletBase const& jet_1, MultipletBase const& jet_2, boc
     return jet.Mass() / jet.Pt() / delta_r * 2. * rad;
 }
 
+static const AngleSquare rad2 = boost::units::pow<2>(rad);
+
 Angle Multiplet::Pull(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const
 {
-    Vector2<float> pull = multiplets_1.singlet().Pull();
-    Vector2<double> ref = multiplets_1.Reference(multiplets_2.Jet());
-    float pul_mag = pull.Mod();
-    float ref_mag = ref.Mod();
-    if (pul_mag == 0 || ref_mag == 0) return M_PI * rad;
-    double cos = ref * pull / pul_mag / ref_mag;
+    Vector2<AngleSquare> pull = multiplets_1.singlet().Pull();
+    Vector2<Angle> ref = multiplets_1.Reference(multiplets_2.Jet());
+    AngleSquare pul_mag = pull.Mod();
+    Angle ref_mag = ref.Mod();
+    if (pul_mag == 0. * rad2 || ref_mag == 0. * rad) return M_PI * rad;
+    double cos = ref * pull / ref_mag / pul_mag;
     if (cos > 1) cos = 1;
     if (cos < -1) cos = -1;
     return std::acos(cos) * rad;
+//     return boost::units::acos(cos * boost::units::si::si_dimensionless);
 }
 
 Angle Multiplet::PullDifference(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const
@@ -111,9 +114,6 @@ Angle Multiplet::PullSum(MultipletBase const& multiplets_1, MultipletBase const&
     return Pull(multiplets_2, multiplets_1);
 }
 
-// typedef boost::units::multiply_typeof_helper<Angle, Angle>::type AngleSquare;
-// typedef boost::units::multiply_typeof_helper<Energy, AngleSquare>::type AngleSquareMomentum;
-
 float Multiplet::Dipolarity(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2, boca::Singlet const& singlet) const
 {
     if (singlet.Pt() == at_rest) return 0;
@@ -121,10 +121,10 @@ float Multiplet::Dipolarity(MultipletBase const& multiplets_1, MultipletBase con
     Vector2<Angle> point_1(multiplets_1.Jet().Rap(), multiplets_1.Jet().Phi());
     Vector2<Angle> point_2 = Point2(point_1, multiplets_2);
     Line2<Angle> line(point_1, point_2);
-    auto dipolarity = 0. * rad * rad * GeV;
+    auto dipolarity = at_rest * rad2;
     for (auto const & constituent : singlet.Jet().Constituents()) dipolarity += constituent.Pt() * sqr(Distance(line, constituent));
     Angle delta_r = DeltaR(multiplets_1, multiplets_2);
-    if (delta_r == 0. * rad) return dipolarity / singlet.Jet().Pt() / rad / rad;
+    if (delta_r == 0. * rad) return dipolarity / singlet.Jet().Pt() / rad2;
     return dipolarity / singlet.Jet().Pt() / sqr(delta_r);
 }
 

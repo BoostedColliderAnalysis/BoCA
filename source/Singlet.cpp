@@ -1,8 +1,9 @@
 /**
  * Copyright (C) 2015 Jan Hajer
  */
-#include "Singlet.hh"
+#include <boost/units/absolute.hpp>
 
+#include "Singlet.hh"
 #include "DetectorGeometry.hh"
 #include "Vector.hh"
 #include "Math.hh"
@@ -84,14 +85,19 @@ int Singlet::Charge() const
     return sgn(UserInfo().Charge());
 }
 
-Vector2<float> Singlet::Pull() const
+using AngleSquareMomentum = typename boost::units::multiply_typeof_helper<AngleSquare, Momentum>::type;
+
+Vector2<AngleSquare> Singlet::Pull() const
 {
     if (has_pull_) return pull_;
     if(!jet_.has_constituents()) return {};
     std::vector<boca::Jet> constituents = JetVector(jet_.constituents());
     if(constituents.size() < 3) return {};
-    for (auto const& constituent : constituents) pull_ += Reference(constituent) * constituent.pt() * constituent.delta_R(jet_);
-    pull_ /= jet_.pt();
+    Vector2<AngleSquare> sum;
+    for (auto const& constituent : constituents) sum += Reference(constituent) * constituent.pt() * constituent.DeltaRTo(jet_);
+    fastjet::PseudoJet jet;
+    auto test = sum / jet_.pt();
+    pull_ = test;
     INFO(pull_.Y(),pull_.X(), constituents.size());
     has_pull_ = true;
     return pull_;
