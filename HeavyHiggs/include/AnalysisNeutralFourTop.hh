@@ -25,14 +25,14 @@ public:
     void SetFiles(Tag tag, Stage) final {
         switch (tag) {
         case Tag::signal :
-            this->NewFile(tag, Crosssection(Process::Htt), Process::Htt);
-            this->NewFile(tag, Crosssection(Process::Htwb), Process::Htwb);
+            this->NewFile(tag, Process::Htt);
+            this->NewFile(tag, Process::Htwb);
             break;
         case Tag::background :
-            if (this->template TaggerIs<JetPairTagger>()) this->NewFile(tag, Crosssection(Process::Htt), Process::Htt);
-            if (this->template TaggerIs<JetPairTagger>()) this->NewFile(tag, Crosssection(Process::Htwb), Process::Htwb);
-            this->NewFile(tag, Crosssection(Process::ttwwbb), Process::ttwwbb);
-            this->NewFile(tag, Crosssection(Process::ttwbb), Process::ttwbb);
+            if (this->template TaggerIs<JetPairTagger>()) this->NewFile(tag, Process::Htt);
+            if (this->template TaggerIs<JetPairTagger>()) this->NewFile(tag, Process::Htwb);
+            this->NewFile(tag, Process::ttwwbb);
+            this->NewFile(tag, Process::ttwbb);
             break;
         }
     }

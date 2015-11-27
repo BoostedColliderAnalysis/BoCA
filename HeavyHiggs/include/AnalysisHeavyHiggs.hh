@@ -170,11 +170,13 @@ public:
         }
     }
 
+    virtual boca::Crosssection Crosssection(Process process) const {};
+
     virtual void NewFile(Tag tag, Process process) {
-        boca::AnalysisBase::NewFile(tag, FileNames(process, tag), NiceName(process));
+        boca::AnalysisBase::NewFile(tag, FileNames(process, tag), this->Crosssection(process), NiceName(process));
     }
 
-    virtual void NewFile(Tag tag, Crosssection crosssection, Process process) {
+    virtual void NewFile(Tag tag, boca::Crosssection crosssection, Process process) {
         boca::AnalysisBase::NewFile(tag, FileNames(process, tag), crosssection, NiceName(process), Mass());
     }
 

@@ -20,8 +20,8 @@
 namespace boca
 {
 
-template<typename Value, typename Value2>
-using ValueProduct = typename boost::units::multiply_typeof_helper<Value, Value2>::type;
+template<typename Value, typename Value_2>
+using ValueProduct = typename boost::units::multiply_typeof_helper<Value, Value_2>::type;
 
 /**
  * @brief Copy of root::TVector2 in order to get rid of TObject
@@ -32,21 +32,21 @@ class Vector2
 {
 public:
 
-    template<typename Value2>
-    using ValueProduct = ValueProduct<Value, Value2>;
+    template<typename Value_2>
+    using ValueProduct = ValueProduct<Value, Value_2>;
 
-    template<typename Value2>
-    using ValueQuotient = typename boost::units::divide_typeof_helper<Value, Value2>::type;
+    template<typename Value_2>
+    using ValueQuotient = typename boost::units::divide_typeof_helper<Value, Value_2>::type;
 
 
     template <typename> struct IsQuantity : std::false_type { };
     template <typename T> struct IsQuantity<boost::units::quantity<T>> : std::true_type { };
 
-    template<typename Value2>
-    using OnlyIfNotOrSameQuantity = typename std::enable_if < !IsQuantity<Value2>::value || std::is_same<Value, Value2>::value >::type;
+    template<typename Value_2>
+    using OnlyIfNotOrSameQuantity = typename std::enable_if < !IsQuantity<Value_2>::value || std::is_same<Value, Value_2>::value >::type;
 
-    template<typename Value2>
-    using OnlyIfNotQuantity = typename std::enable_if < !IsQuantity<Value2>::value >::type;
+    template<typename Value_2>
+    using OnlyIfNotQuantity = typename std::enable_if < !IsQuantity<Value_2>::value >::type;
 
     /// constructor
     Vector2() {
@@ -55,90 +55,90 @@ public:
     }
 
     /// constructor
-    Vector2(Value x0, Value y0) {
-        x_ = x0;
-        y_ = y0;
+    Vector2(Value x, Value y) {
+        x_ = x;
+        y_ = y;
     }
 
     // setters
-    void Set(Vector2 const& v) {
-        x_ = v.x_;
-        y_ = v.y_;
+    void Set(Vector2 const& vector) {
+        x_ = vector.x_;
+        y_ = vector.y_;
     }
 
-    void Set(Value x0, Value y0) {
-        x_ = x0 ;
-        y_ = y0 ;
+    void Set(Value x, Value y) {
+        x_ = x ;
+        y_ = y ;
     }
 
-    void SetX(Value x0) {
-        x_ = x0;
+    void SetX(Value x) {
+        x_ = x;
     }
 
-    void SetY(Value y0) {
-        y_ = y0;
+    void SetY(Value y) {
+        y_ = y;
     }
 
     //set vector using mag and phi
-    void SetMagPhi(Value mag, Angle phi) {
-        Value amag = Abs(mag, IsQuantity<Value>());
-        x_ = amag * boost::units::cos(phi);
-        y_ = amag * boost::units::sin(phi);
+    void SetMagPhi(Value magnitude, Angle phi) {
+        Value absolute = Abs(magnitude, IsQuantity<Value>());
+        x_ = absolute * boost::units::cos(phi);
+        y_ = absolute * boost::units::sin(phi);
     }
 
     /// vector sum
-    template <typename Value2, typename = OnlyIfNotOrSameQuantity<Value2>>
-    Vector2& operator+=(Vector2<Value2> const& v) {
-        x_ += v.x_;
-        y_ += v.y_;
+    template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
+    Vector2& operator+=(Vector2<Value_2> const& vector) {
+        x_ += vector.x_;
+        y_ += vector.y_;
         return *this;
     }
 
     /// vector difference
-    template <typename Value2, typename = OnlyIfNotOrSameQuantity<Value2>>
-    Vector2& operator-=(Vector2<Value2> const& v) {
-        x_ -= v.x_;
-        y_ -= v.y_;
+    template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
+    Vector2& operator-=(Vector2<Value_2> const& vector) {
+        x_ -= vector.x_;
+        y_ -= vector.y_;
         return *this;
     }
 
     /// product with scalar
-    template < typename Value2, typename = OnlyIfNotQuantity<Value2> >
-    Vector2& operator*=(Value2 s) {
-        x_ *= s;
-        y_ *= s;
+    template < typename Value_2, typename = OnlyIfNotQuantity<Value_2> >
+    Vector2& operator*=(Value_2 scalar) {
+        x_ *= scalar;
+        y_ *= scalar;
         return *this;
     }
 
     /// division by scalar
-    template < typename Value2, typename = OnlyIfNotQuantity<Value2> >
-    Vector2& operator/=(Value2 s) {
-        x_ /= s;
-        y_ /= s;
+    template < typename Value_2, typename = OnlyIfNotQuantity<Value_2> >
+    Vector2& operator/=(Value_2 scalar) {
+        x_ /= scalar;
+        y_ /= scalar;
         return *this;
     }
 
     /// vector sum
-    template <typename Value2, typename = OnlyIfNotOrSameQuantity<Value2>>
-    friend Vector2<Value> operator+(Vector2 const& v1, Vector2<Value2> const& v2) {
-        return {v1.X() + v2.X(), v1.Y() + v2.Y()};
+    template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
+    friend Vector2<Value> operator+(Vector2 const& vector_1, Vector2<Value_2> const& vector_2) {
+        return {vector_1.X() + vector_2.X(), vector_1.Y() + vector_2.Y()};
     }
 
     /// vector difference
-    template <typename Value2, typename = OnlyIfNotOrSameQuantity<Value2>>
-    friend Vector2 operator-(Vector2 const& v1, Vector2<Value2> const& v2) {
-        return {v1.X() - v2.X(), v1.Y() - v2.Y()};
+    template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
+    friend Vector2 operator-(Vector2 const& vector_1, Vector2<Value_2> const& vector_2) {
+        return {vector_1.X() - vector_2.X(), vector_1.Y() - vector_2.Y()};
     }
 
 
-    template <class U>
-    friend Vector2 <ValueQuotient<U>> operator/(const Vector2& v, const U& s) {
-        return {v.X() / s, v.Y() / s};
+    template <class Value_2>
+    friend Vector2 <ValueQuotient<Value_2>> operator/(Vector2 const& vector, Value_2 const& scalar) {
+        return {vector.X() / scalar, vector.Y() / scalar};
     };
 
-    template<typename Value2>
-    friend ValueProduct<Value2> operator^(Vector2 const& v1, Vector2<Value2> const& v2) {
-        return v1.X() * v2.Y() - v1.Y() * v2.X();
+    template<typename Value_2>
+    friend ValueProduct<Value_2> operator^(Vector2 const& vector_1, Vector2<Value_2> const& vector_2) {
+        return vector_1.X() * vector_2.Y() - vector_1.Y() * vector_2.X();
     }
 
     ValueProduct<Value> Mod2() const {
@@ -146,7 +146,7 @@ public:
     }
 
     /// return modulo of this vector
-    Value Mod() {
+    Value Mod() const {
         Mod(IsQuantity<Value>());
     }
 
@@ -164,19 +164,19 @@ public:
 //     }
 
 /// return vector phi defined in [-pi, pi]
-    Angle Phi() {
+    Angle Phi() const {
         Phi(IsQuantity<Value>());
     }
 
-    template<typename Value2>
-    Angle DeltaPhi(Vector2<Value2> const& v) const {
-        return Phi_mpi_pi(Phi() - v.Phi());
+    template<typename Value_2>
+    Angle DeltaPhi(Vector2<Value_2> const& vector) const {
+        return Phi_mpi_pi(Phi() - vector.Phi());
     }
 
     /// unit vector in the direction of *this
     /// return module normalized to 1
     Vector2 Unit() const {
-        return (Mod2()) ? *this / Mod() : Vector2();
+        return Mod2() ? *this / Mod() : Vector2();
     }
 
     Vector2 Ort() const {
@@ -184,15 +184,15 @@ public:
     }
 
     /// projection of *this to the direction of Vector2 vector `v'
-    template <typename Value2, typename = OnlyIfNotOrSameQuantity<Value2>>
-    Vector2 Proj(Vector2<Value2> const& v) const {
-        return v * (((*this) * v) / v.Mod2());
+    template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
+    Vector2 Proj(Vector2<Value_2> const& vector) const {
+        return vector * (*this * vector / vector.Mod2());
     }
 
     // component of *this normal to `v'
-    template <typename Value2, typename = OnlyIfNotOrSameQuantity<Value2>>
-    Vector2 Norm(Vector2<Value2> const& v) const {
-        return *this - Proj(v);
+    template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
+    Vector2 Norm(Vector2<Value_2> const& vector) const {
+        return *this - Proj(vector);
     }
 
 // rotates 2-vector by phi radians
@@ -205,11 +205,11 @@ private:
     template<typename>
     friend class Vector2;
 
-    Value Mod(std::false_type) {
+    Value Mod(std::false_type) const {
         return std::sqrt(Mod2());
     }
 
-    Value Mod(std::true_type) {
+    Value Mod(std::true_type) const {
         return boost::units::sqrt(Mod2());
     }
 
@@ -222,12 +222,12 @@ private:
     }
 
     //set vector using mag and phi
-    Value Abs(Value mag, std::false_type) {
+    Value Abs(Value mag, std::false_type) const {
         return std::abs(mag);
     }
 
     //set vector using mag and phi
-    Value Abs(Value mag, std::true_type) {
+    Value Abs(Value mag, std::true_type) const {
         return boost::units::abs(mag);
     }
 
@@ -236,27 +236,31 @@ private:
     Value y_;
 };
 
-template <typename> struct IsVector2 : std::false_type { };
-template <typename T> struct IsVector2<Vector2<T>> : std::true_type { };
-template<typename Value2>
-using OnlyIfNotVector = typename std::enable_if < !IsVector2<Value2>::value >::type;
+template <typename>
+struct IsVector2 : std::false_type { };
 
-template <class T, class U>
-ValueProduct<T, U> operator*(const Vector2<T>& v1, const Vector2<U>& v2)
+template <typename Value>
+struct IsVector2<Vector2<Value>> : std::true_type { };
+
+template<typename Value>
+using OnlyIfNotVector = typename std::enable_if < !IsVector2<Value>::value >::type;
+
+template <class Value, class Value_2>
+ValueProduct<Value, Value_2> operator*(Vector2<Value> const& vector_1, const Vector2<Value_2>& vector_2)
 {
-    return v1.X() * v2.X() + v1.Y() * v2.Y();
+    return vector_1.X() * vector_2.X() + vector_1.Y() * vector_2.Y();
 };
 
-template < class T, class U, typename = OnlyIfNotVector<U> >
-Vector2 <ValueProduct<T, U>> operator*(const Vector2<T>& v, const U& s)
+template < class Value, class Value_2, typename = OnlyIfNotVector<Value_2> >
+Vector2 <ValueProduct<Value, Value_2>> operator*(Vector2<Value> const& vector, Value_2 const& scalar)
 {
-    return {v.X()* s, v.Y()* s};
+    return {vector.X()* scalar, vector.Y()* scalar};
 };
 
-template < class T, class U, typename = OnlyIfNotVector<U> >
-Vector2 <ValueProduct<T, U>> operator*(const U& s, const Vector2<T>& v)
+template < class Value, class Value_2, typename = OnlyIfNotVector<Value_2> >
+Vector2 <ValueProduct<Value, Value_2>> operator*(Value_2 const& scalar, Vector2<Value> const& vector)
 {
-    return {v.X()* s, v.Y()* s};
+    return {vector.X()* scalar, vector.Y()* scalar};
 };
 
 // returns phi angle in the interval [0,2*PI)
