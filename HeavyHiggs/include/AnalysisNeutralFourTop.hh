@@ -38,7 +38,7 @@ public:
     }
 
     std::string AnalysisName() const final {
-        return  "NeutralFourTop-" + Name(this->collider_type()) + "-" + boca::Name(this->Mass()) + "-4b";
+        return  "NeutralFourTop-" + Name(this->collider_type()) + "-" + boca::Name(this->Mass()) + "-window";
     }
 
     boca::Crosssection Crosssection(Process process) const {
