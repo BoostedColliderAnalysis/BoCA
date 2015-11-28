@@ -86,6 +86,15 @@ public:
         y_ = absolute * boost::units::sin(phi);
     }
 
+    // Comparisons
+    bool operator==(Vector2 const& vector) const {
+      return vector.x_ == x_ && vector.y_ == y_;
+    }
+
+    bool operator!=(Vector2 const& vector) const {
+      return vector.x_ != x_ || vector.y_ != y_ ;
+    }
+
     /// vector sum
     template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
     Vector2& operator+=(Vector2<Value_2> const& vector) {
@@ -118,6 +127,11 @@ public:
         return *this;
     }
 
+    // Unary minus
+    Vector2 operator-() const {
+      return {-x_, -y_};
+    }
+
     /// vector sum
     template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
     friend Vector2<Value> operator+(Vector2 const& vector_1, Vector2<Value_2> const& vector_2) {
@@ -139,6 +153,12 @@ public:
     template<typename Value_2>
     friend ValueProduct<Value_2> operator^(Vector2 const& vector_1, Vector2<Value_2> const& vector_2) {
         return vector_1.X() * vector_2.Y() - vector_1.Y() * vector_2.X();
+    }
+
+    // Scalar product
+    template <typename Value_2>
+    ValueProduct<Value_2> Dot(Vector2<Value_2> const& vector) const {
+      return x_ * vector.X() + y_ * vector.Y();
     }
 
     ValueProduct<Value> Mod2() const {

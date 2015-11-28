@@ -29,7 +29,7 @@ class LorentzVector {
 private:
 
 // 3 vector component
-    Vector3 p_;
+    Vector3<float> p_;
 
 // time or energy of (x,y,z,t) or (px,py,pz,e)
     float e_;
@@ -81,12 +81,12 @@ public:
 
 
   LorentzVector(::delphes::Track& track) {
-     p_ = Vector3(track.X, track.Y, track.Z);
+     p_ = Vector3<float>(track.X, track.Y, track.Z);
      e_ = track.T;
   }
 
   LorentzVector(::delphes::GenParticle& particle) {
-    p_ = Vector3(particle.X, particle.Y, particle.Z);
+    p_ = Vector3<float>(particle.X, particle.Y, particle.Z);
     e_ = particle.T;
   }
 
@@ -107,10 +107,10 @@ public:
     LorentzVector(float x, float y, float z, float t);
 
 // Constructor from an array, not checked!
-    LorentzVector(float const* carray);
+//     LorentzVector(float const* carray);
 
 // Constructor giving a 3-Vector and a time component.
-    LorentzVector(Vector3 vector3, float t);
+    LorentzVector(Vector3<float> vector3, float t);
 
 // Get position and time.
     float X() const;
@@ -139,10 +139,10 @@ public:
     void SetE(float a);
 
 // Get spatial component.
-    Vector3 Vect() const ;
+    Vector3<float> Vect() const ;
 
 // Set spatial component.
-    void SetVect(Vector3 const& vect3);
+    void SetVect(Vector3<float> const& vect3);
 
 // Get spatial vector components in spherical coordinate system.
     float Theta() const;
@@ -151,8 +151,8 @@ public:
     float Rho() const;
 
 // Set spatial vector components in spherical coordinate system.
-    void SetTheta(float theta);
-    void SetPhi(float phi);
+    void SetTheta(double theta);
+    void SetPhi(double phi);
     void SetRho(float rho);
 
 // Setters to provide the functionality (but a more meanigful name) of
@@ -165,7 +165,7 @@ public:
 
 // Getters into an arry
 // no checking!
-    void GetXYZT(float* carray) const;
+//     void GetXYZT(float* carray) const;
 
 // Get components by index.
     float operator()(int i) const;
@@ -205,11 +205,11 @@ public:
     void SetPerp(float);
 
 // Transverse component of the spatial vector w.r.t. given axis squared.
-    float Perp2(Vector3 const& v) const;
+    float Perp2(Vector3<float> const& v) const;
 
 // Transverse component of the spatial vector w.r.t. given axis.
-    float Pt(Vector3 const& v) const;
-    float Perp(Vector3 const& v) const;
+    float Pt(Vector3<float> const& v) const;
+    float Perp(Vector3<float> const& v) const;
 
 // Transverse energy squared.
     float Et2() const;
@@ -218,10 +218,10 @@ public:
     float Et() const;
 
 // Transverse energy w.r.t. given axis squared.
-    float Et2(Vector3 const&) const;
+    float Et2(Vector3<float> const&) const;
 
 // Transverse energy w.r.t. given axis.
-    float Et(Vector3 const&) const;
+    float Et(Vector3<float> const&) const;
 
     float DeltaPhi(const LorentzVector&) const;
     float DeltaR(const LorentzVector&) const;
@@ -229,7 +229,7 @@ public:
 //     Vector2<float> EtaPhiVector();
 
 // Angle wrt. another vector.
-    float Angle(Vector3 const& v) const;
+    float Angle(Vector3<float> const& v) const;
 
 // Invariant mass squared.
     float Mag2() const;
@@ -253,8 +253,8 @@ public:
     float operator * (const LorentzVector&) const;
 
 // Copy spatial coordinates, and set energy = sqrt(mass^2 + spatial^2)
-    void SetVectMag(Vector3 const& spatial, float magnitude);
-    void SetVectM(Vector3 const& spatial, float mass);
+    void SetVectMag(Vector3<float> const& spatial, float magnitude);
+    void SetVectM(Vector3<float> const& spatial, float mass);
 
 // Returns t +/- z.
 // Related to the positive/negative light-cone component,
@@ -263,11 +263,11 @@ public:
     float Minus() const;
 
 // Returns the spatial components divided by the time component.
-    Vector3 BoostVector() const ;
+    Vector3<float> BoostVector() const ;
 
 // Lorentz boost.
     void Boost(float, float, float);
-    void Boost(Vector3 const&);
+    void Boost(Vector3<float> const&);
 
 // Returns the rapidity, i.e. 0.5*ln((E+pz)/(E-pz))
     float Rapidity() const;
@@ -286,7 +286,7 @@ public:
     void RotateZ(float angle);
 
 // Rotates the reference frame from Uz to newUz (unit vector).
-    void RotateUz(Vector3& newUzVector);
+    void RotateUz(Vector3<float>& newUzVector);
 
 };
 

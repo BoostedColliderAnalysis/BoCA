@@ -83,9 +83,9 @@ LorentzVector::LorentzVector() : p_(), e_(0.0) {}
 
 LorentzVector::LorentzVector(float x, float y, float z, float t) : p_(x, y, z), e_(t) {}
 
-LorentzVector::LorentzVector(float const* x0) : p_(x0), e_(x0[3]) {}
+// LorentzVector::LorentzVector(float const* x0) : p_(x0), e_(x0[3]) {}
 
-LorentzVector::LorentzVector(Vector3 p, float e) : p_(std::move(p)), e_(e) {}
+LorentzVector::LorentzVector(Vector3<float> p, float e) : p_(std::move(p)), e_(e) {}
 
 float LorentzVector::operator()(int i) const
 {
@@ -154,23 +154,23 @@ void LorentzVector::SetPtEtaPhiE(float pt, float eta, float phi, float e)
     pt = std::abs(pt);
     SetXYZT(pt * std::cos(phi), pt * std::sin(phi), pt * sinh(eta) , e);
 }
-void LorentzVector::GetXYZT(float* carray) const
-{
-    p_.GetXYZ(carray);
-    carray[3] = e_;
-}
+// void LorentzVector::GetXYZT(float* carray) const
+// {
+//     p_.GetXYZ(carray);
+//     carray[3] = e_;
+// }
 float LorentzVector::Et() const
 {
     float etet = Et2();
     return E() < 0.0 ? -std::sqrt(etet) : std::sqrt(etet);
 }
-float LorentzVector::Et2(Vector3 const& v) const
+float LorentzVector::Et2(Vector3<float> const& v) const
 {
     float pt2 = p_.Perp2(v);
     float pv = p_.Dot(v.Unit());
     return pt2 == 0 ? 0 : E() * E() * pt2 / (pt2 + pv * pv);
 }
-float LorentzVector::Et(Vector3 const& v) const
+float LorentzVector::Et(Vector3<float> const& v) const
 {
     float etet = Et2(v);
     return E() < 0.0 ? -std::sqrt(etet) : std::sqrt(etet);
@@ -272,24 +272,24 @@ void LorentzVector::SetE(float a)
     SetT(a);
 }
 
-Vector3 LorentzVector::Vect() const
+Vector3<float> LorentzVector::Vect() const
 {
     return p_;
 }
 
-void LorentzVector::SetVect(Vector3 const& p)
+void LorentzVector::SetVect(Vector3<float> const& p)
 {
     p_ = p;
 }
 
 float LorentzVector::Phi() const
 {
-    return p_.Phi();
+    return p_.Phi() / rad;
 }
 
 float LorentzVector::Theta() const
 {
-    return p_.Theta();
+    return p_.Theta() / rad;
 }
 
 float LorentzVector::CosTheta() const
@@ -303,14 +303,14 @@ float LorentzVector::Rho() const
     return p_.Mag();
 }
 
-void LorentzVector::SetTheta(float th)
+void LorentzVector::SetTheta(double theta)
 {
-    p_.SetTheta(th);
+    p_.SetTheta(theta * rad);
 }
 
-void LorentzVector::SetPhi(float phi)
+void LorentzVector::SetPhi(double phi)
 {
-    p_.SetPhi(phi);
+    p_.SetPhi(phi * rad);
 }
 
 void LorentzVector::SetRho(float rho)
@@ -409,17 +409,17 @@ void LorentzVector::SetPerp(float r)
     p_.SetPerp(r);
 }
 
-float LorentzVector::Perp2(Vector3 const& v) const
+float LorentzVector::Perp2(Vector3<float> const& v) const
 {
     return p_.Perp2(v);
 }
 
-float LorentzVector::Perp(Vector3 const& v) const
+float LorentzVector::Perp(Vector3<float> const& v) const
 {
     return p_.Perp(v);
 }
 
-float LorentzVector::Pt(Vector3 const& v) const
+float LorentzVector::Pt(Vector3<float> const& v) const
 {
     return Perp(v);
 }
@@ -451,9 +451,9 @@ float LorentzVector::DrEtaPhi(LorentzVector const& v) const
 // }
 
 
-float LorentzVector::Angle(Vector3 const& v) const
+float LorentzVector::Angle(Vector3<float> const& v) const
 {
-    return p_.Angle(v);
+    return p_.angle(v);
 }
 
 float LorentzVector::Mag2() const
@@ -482,12 +482,12 @@ float LorentzVector::Beta() const
     return p_.Mag() / e_;
 }
 
-void LorentzVector::SetVectMag(Vector3 const& spatial, float magnitude)
+void LorentzVector::SetVectMag(Vector3<float> const& spatial, float magnitude)
 {
     SetXYZM(spatial.X(), spatial.Y(), spatial.Z(), magnitude);
 }
 
-void LorentzVector::SetVectM(Vector3 const& spatial, float mass)
+void LorentzVector::SetVectM(Vector3<float> const& spatial, float mass)
 {
     SetVectMag(spatial, mass);
 }
@@ -523,12 +523,12 @@ float LorentzVector::Minus() const
     return T() - Z();
 }
 
-Vector3 LorentzVector::BoostVector() const
+Vector3<float> LorentzVector::BoostVector() const
 {
-    return Vector3(X() / T(), Y() / T(), Z() / T());
+    return Vector3<float>(X() / T(), Y() / T(), Z() / T());
 }
 
-void LorentzVector::Boost(Vector3 const& b)
+void LorentzVector::Boost(Vector3<float> const& b)
 {
     Boost(b.X(), b.Y(), b.Z());
 }
@@ -553,7 +553,7 @@ void LorentzVector::RotateZ(float angle)
     p_.RotateZ(angle);
 }
 
-void LorentzVector::RotateUz(Vector3& newUzVector)
+void LorentzVector::RotateUz(Vector3<float>& newUzVector)
 {
     p_.RotateUz(newUzVector);
 }
