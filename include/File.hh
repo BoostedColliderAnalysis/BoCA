@@ -20,7 +20,7 @@ class File
 
 public:
 
-    File(Strings const& processes, std::string const& run_folder, std::string const& file_suffix, std::string const& nice_name = "", Crosssection crosssection = pb, Mass mass = massless);
+    File(std::vector<std::string> const& processes, std::string const& run_folder, std::string const& file_suffix, std::string const& nice_name = "", Crosssection crosssection = pb, Mass mass = massless);
 
 //     boca::TreeReader TreeReader();
 
@@ -39,7 +39,7 @@ public:
 
     std::string nice_name() const;
 
-    Strings Paths() const;
+    std::vector<std::string> Paths() const;
 
 protected:
 
@@ -51,7 +51,7 @@ private:
 
     std::string base_path_ = "$HOME/Development/MadGraph/";
 
-    Strings process_folders_;
+    std::vector<std::string> process_folders_;
 
     std::string run_folder_;
 

@@ -3,13 +3,12 @@
 #
 add_subdirectory(exroot)
 add_subdirectory(delphes)
+add_subdirectory(physics)
 
 add_include_path(../include)
 create_dictionary(Branches Branches.cpp ../include/LinkDef.hh)
 
 set(vector_sources
-Vector3.cpp
-LorentzVector.cpp
 EventShapes.cpp
 EventShape.cpp
 PseudoJet.cpp
@@ -19,12 +18,9 @@ Particle.cpp
 create_library(Vector vector_sources)
 
 set(global_sources
-Particles.cpp
 Debug.cpp
 Types.cpp
 Vector.cpp
-Math.cpp
-Units.cpp
 Exception.cpp
 )
 create_library(Global global_sources)

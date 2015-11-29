@@ -44,7 +44,7 @@ TreeReader::TreeReader(TChain& chain)
     tree_reader_.SetTree(chain_);
 }
 
-TreeReader::TreeReader(Strings const& paths, std::string const& tree_name)
+TreeReader::TreeReader(std::vector<std::string> const& paths, std::string const& tree_name)
 {
   INFO(tree_name, paths.front());
   source_ = Source::delphes;

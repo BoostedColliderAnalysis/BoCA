@@ -7,7 +7,7 @@
 #include "ParticleInfo.hh"
 #include "MomentumRange.hh"
 #include "Event.hh"
-#include "Math.hh"
+#include "physics/Math.hh"
 #include "Exception.hh"
 // #define NOTIFICATION
 #include "Debug.hh"

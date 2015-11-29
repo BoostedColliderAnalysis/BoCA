@@ -7,9 +7,9 @@
 #include "InfoRecombiner.hh"
 #include "JetInfo.hh"
 #include "Vector.hh"
-#include "Math.hh"
+#include "physics/Math.hh"
 #include "Sort.hh"
-#include "Units.hh"
+#include "physics/Units.hh"
 #include "Debug.hh"
 
 namespace boca

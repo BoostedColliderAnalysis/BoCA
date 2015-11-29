@@ -116,7 +116,7 @@ public:
 
 private:
 
-    int PassPreCut(Event const& event, Tag) const override {
+    int PassPreCut(Event const&, Tag) const override {
 //         std::vector<Particle> Particles = event.Partons().GenParticles();
 //
 //         std::vector<Particle> Tops = CopyIfParticle(Particles, Id::top);

@@ -6,7 +6,7 @@
 #include "Singlet.hh"
 #include "DetectorGeometry.hh"
 #include "Vector.hh"
-#include "Math.hh"
+#include "physics/Math.hh"
 #include "Debug.hh"
 
 namespace boca {
@@ -85,7 +85,7 @@ int Singlet::Charge() const
     return sgn(UserInfo().Charge());
 }
 
-using AngleSquareMomentum = typename boost::units::multiply_typeof_helper<AngleSquare, Momentum>::type;
+using AngleSquareMomentum = ValueProduct<AngleSquare, Momentum>;
 
 Vector2<AngleSquare> Singlet::Pull() const
 {
@@ -95,9 +95,7 @@ Vector2<AngleSquare> Singlet::Pull() const
     if(constituents.size() < 3) return {};
     Vector2<AngleSquare> sum;
     for (auto const& constituent : constituents) sum += Reference(constituent) * constituent.pt() * constituent.DeltaRTo(jet_);
-    fastjet::PseudoJet jet;
-    auto test = sum / jet_.pt();
-    pull_ = test;
+    pull_ = sum / jet_.pt();
     INFO(pull_.Y(),pull_.X(), constituents.size());
     has_pull_ = true;
     return pull_;

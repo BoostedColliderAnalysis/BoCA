@@ -211,7 +211,7 @@ void Tagger::ClearTreeNames()
     background_tree_names_.clear();
 }
 
-Strings Tagger::TreeNames(Tag tag) const
+std::vector<std::string> Tagger::TreeNames(Tag tag) const
 {
     Info0;
     switch (tag) {

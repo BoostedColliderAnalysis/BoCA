@@ -81,11 +81,11 @@ public:
     }
 
     float EmRadius() const {
-        return UserInfo().ElectroMagneticRadius(Jet());
+        return UserInfo().ElectroMagneticRadius(Jet()) / rad;
     }
 
     float TrackRadius() const {
-        return UserInfo().TrackRadius(Jet());
+        return UserInfo().TrackRadius(Jet()) / rad;
     }
 
     float MomentumFraction() const {
@@ -101,11 +101,11 @@ public:
     }
 
     float ClusterMass() const {
-        return UserInfo().ClusterMass();
+        return UserInfo().ClusterMass() / GeV;
     }
 
     float TrackMass() const {
-        return UserInfo().TrackMass();
+        return UserInfo().TrackMass() / GeV;
     }
 
     float FlightPath() const {

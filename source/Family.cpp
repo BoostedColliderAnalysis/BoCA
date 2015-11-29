@@ -30,7 +30,7 @@ Family::Family(Member const& id, Member const& mother_1_id, Member const& mother
     daughter_ids_.reserve(2);
 }
 
-Family::Family(TLorentzVector const& particle, LorentzVector const& mother, int particle_position, int id, int mother_position, int mother_id) : particle_(Member(particle, id, particle_position)), mother_(Member(mother, mother_id, mother_position))
+Family::Family(TLorentzVector const& particle, LorentzVector<Momentum> const& mother, int particle_position, int id, int mother_position, int mother_id) : particle_(Member(particle, id, particle_position)), mother_(Member(mother, mother_id, mother_position))
 {
     daughter_ids_.reserve(2);
 }

@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include "Vector2.hh"
+#include "physics/Vector2.hh"
 
 namespace boca
 {

@@ -3,7 +3,7 @@
  */
 #include "Doublet.hh"
 
-#include "Math.hh"
+#include "physics/Math.hh"
 #include "Debug.hh"
 
 namespace boca

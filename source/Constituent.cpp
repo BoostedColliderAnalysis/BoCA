@@ -3,17 +3,18 @@
  */
 #include "Constituent.hh"
 
-namespace boca {
+namespace boca
+{
 
 Constituent::Constituent() {}
 
-Constituent::Constituent(TLorentzVector const& momentum, const boca::LorentzVector& position)
+Constituent::Constituent(TLorentzVector const& momentum, LorentzVector<Length> const& position)
 {
     momentum_ = momentum;
     position_ = position;
 }
 
-Constituent::Constituent(TLorentzVector const& momentum, const boca::LorentzVector& position, const boca::SubDetector sub_detector, float charge)
+Constituent::Constituent(TLorentzVector const& momentum, LorentzVector<Length> const& position, const SubDetector sub_detector, float charge)
 {
     momentum_ = momentum;
     position_ = position;
@@ -39,27 +40,27 @@ Constituent::Constituent(TLorentzVector const& momentum, SubDetector sub_detecto
     sub_detector_ = sub_detector;
 }
 
-void Constituent::SetPosition(TLorentzVector const& position)
-{
-    position_ = position;
-}
+// void Constituent::SetPosition(TLorentzVector const& position)
+// {
+//     position_ = position;
+// }
 
-void Constituent::SetPosition(float x, float y, float z, float t)
-{
-    position_.SetXYZT(x, y, z, t);
-}
+// void Constituent::SetPosition(float x, float y, float z, float t)
+// {
+//     position_.SetXYZT(x, y, z, t);
+// }
 
 void Constituent::SetMomentum(TLorentzVector const& momentum)
 {
     momentum_ = momentum;
 }
 
-LorentzVector Constituent::Position() const
+LorentzVector<Length> Constituent::Position() const
 {
     return position_;
 }
 
-LorentzVector Constituent::Momentum() const
+LorentzVector<Momentum> Constituent::Momentum() const
 {
     return momentum_;
 }

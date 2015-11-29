@@ -7,7 +7,7 @@
 #include <boost/range/algorithm/min_element.hpp>
 #include <boost/range/algorithm/find.hpp>
 
-#include "Particles.hh"
+#include "physics/Particles.hh"
 #include "Particle.hh"
 #include "Jet.hh"
 #include "DetectorGeometry.hh"

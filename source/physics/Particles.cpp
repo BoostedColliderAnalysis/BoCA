@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2015 Jan Hajer
  */
-#include "Particles.hh"
+#include "physics/Particles.hh"
 #include "Types.hh"
 #include "Debug.hh"
 

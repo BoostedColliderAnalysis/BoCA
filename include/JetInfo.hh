@@ -7,7 +7,7 @@
 
 #include "Identification.hh"
 #include "Constituent.hh"
-#include "Math.hh"
+#include "physics/Math.hh"
 
 class Jet;
 namespace delphes
@@ -72,9 +72,9 @@ public:
 
     Energy VertexEnergy() const;
 
-    float ElectroMagneticRadius(boca::Jet const& jet) const;
+    Angle ElectroMagneticRadius(boca::Jet const& jet) const;
 
-    float TrackRadius(boca::Jet const& jet) const;
+    Angle TrackRadius(boca::Jet const& jet) const;
 
     float LeadingTrackMomentumFraction() const;
 
@@ -82,9 +82,9 @@ public:
 
     float ElectroMagneticFraction() const;
 
-    float ClusterMass() const;
+    Mass ClusterMass() const;
 
-    float TrackMass() const;
+    Mass TrackMass() const;
 
     bool BTag() const;
 

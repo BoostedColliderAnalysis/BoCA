@@ -4,10 +4,10 @@
 #pragma once
 
 #include "Identification.hh"
-#include "Vector2.hh"
+#include "physics/Vector2.hh"
 #include "Jet.hh"
 #include "Particle.hh"
-#include "Units.hh"
+#include "physics/Units.hh"
 
 namespace boca {
 

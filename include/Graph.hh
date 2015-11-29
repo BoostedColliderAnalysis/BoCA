@@ -21,7 +21,7 @@ class TExec;
 namespace boca
 {
 
-typedef std::vector<std::string> Strings;
+
 class Point;
 class Plot;
 class Result;
@@ -48,11 +48,11 @@ void AddHistogram(THStack& stack, TH1& histogram, TLegend& legend);
 
 TLegend Legend(Point const& min, float width, float height, std::string const& title = "");
 
-TLegend Legend(Orientation orientation, Strings const& entries, std::string const& title = "");
+TLegend Legend(Orientation orientation, std::vector<std::string> const& entries, std::string const& title = "");
 
 TLine Line(float bin, float y_min, float y_max, int index);
 
-void AddGraph(TGraph& graph, TMultiGraph& multi_graph, TLegend& legend, Strings const& names, int index);
+void AddGraph(TGraph& graph, TMultiGraph& multi_graph, TLegend& legend, std::vector<std::string> const& names, int index);
 
 void SetMultiGraph(TMultiGraph& multi_graph, Point const& min, Point const& max);
 

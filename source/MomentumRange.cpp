@@ -5,7 +5,7 @@
 #include "MomentumRange.hh"
 
 #include "DetectorGeometry.hh"
-#include "Math.hh"
+#include "physics/Math.hh"
 
 namespace boca {
 

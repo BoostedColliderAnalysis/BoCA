@@ -3,8 +3,8 @@
  */
 #pragma once
 
-#include "Particles.hh"
-#include "LorentzVector.hh"
+#include "physics/Particles.hh"
+#include "physics/LorentzVector.hh"
 
 class TLorentzVector;
 
@@ -28,11 +28,11 @@ public:
 
     Member(int id, int position);
 
-    Member(LorentzVector const& momentum, int id, int position);
+    Member(LorentzVector<boca::Momentum> const& momentum, int id, int position);
 
     Member(TLorentzVector const& momentum, int id, int position);
 
-    LorentzVector Momentum() const;
+    LorentzVector<boca::Momentum> Momentum() const;
 
     int Position() const;
 
@@ -42,7 +42,7 @@ public:
 
 private:
 
-    LorentzVector momentum_;
+    LorentzVector<boca::Momentum> momentum_;
 
     int position_ = EmptyPosition;
 

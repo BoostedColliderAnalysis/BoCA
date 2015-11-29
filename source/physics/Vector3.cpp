@@ -7,7 +7,7 @@
 //                 Warning-> Error in Double_t operator()
 //           2015  Jan Hajer
 
-#include "Vector2.hh"
+#include "physics/Vector2.hh"
 
 namespace boca {
 

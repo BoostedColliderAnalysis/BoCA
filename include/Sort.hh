@@ -8,8 +8,8 @@
 
 #include "Jet.hh"
 
-#include "LorentzVector.hh"
-#include "Particles.hh"
+#include "physics/LorentzVector.hh"
+#include "physics/Particles.hh"
 #include "JetInfo.hh"
 
 namespace boca
@@ -96,7 +96,7 @@ struct SortByPt {
     bool operator()(Jet const& jet_1, Jet const& jet_2) {
         return jet_1.pt() > jet_2.pt();
     }
-    bool operator()(LorentzVector const& lorentz_vector_1, LorentzVector const& lorentz_vector_2) {
+    bool operator()(LorentzVector<Momentum> const& lorentz_vector_1, LorentzVector<Momentum> const& lorentz_vector_2) {
         return (lorentz_vector_1.Pt() > lorentz_vector_2.Pt());
     }
 //     bool operator()(Constituent const& constituent_1, Constituent const& constituent_2) {

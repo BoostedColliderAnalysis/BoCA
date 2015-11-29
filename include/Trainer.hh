@@ -5,7 +5,7 @@
 
 #include "TMVA/Factory.h"
 
-#include "exroot/ExRootAnalysis.hh"
+#include "exroot/ExRootAnalysisForward.hh"
 #include "Identification.hh"
 
 namespace TMVA {

@@ -103,13 +103,13 @@ protected:
 
     virtual std::string FilePath() const;
 
-    void NewFile(boca::Tag tag, boca::Strings const& names, std::string const& nice_name = "");
+    void NewFile(boca::Tag tag, std::vector<std::string> const& names, std::string const& nice_name = "");
 
-    void NewFile(boca::Tag tag, boca::Strings const& names, Crosssection crosssection, std::string const& nice_name = "", boca::Mass mass = massless);
+    void NewFile(boca::Tag tag, std::vector<std::string> const& names, Crosssection crosssection, std::string const& nice_name = "", boca::Mass mass = massless);
 
-    boca::File File(Strings const& names, Crosssection crosssection, std::string const& nice_name = "", boca::Mass mass = massless) const;
+    boca::File File(std::vector<std::string> const& names, Crosssection crosssection, std::string const& nice_name = "", boca::Mass mass = massless) const;
 
-    boca::File File(Strings const& names, std::string const& nice_name = "") const;
+    boca::File File(std::vector<std::string> const& names, std::string const& nice_name = "") const;
 
     void NewFile(boca::Tag tag, std::string const& names, std::string const& nice_name = "");
 

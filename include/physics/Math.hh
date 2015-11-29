@@ -7,30 +7,10 @@
 #include <boost/range/algorithm/lower_bound.hpp>
 #include <boost/range/algorithm/min_element.hpp>
 #include <boost/range/algorithm/max_element.hpp>
-#include "Units.hh"
+#include "physics/Units.hh"
 
 namespace boca
 {
-
-/**
- * @brief Calcualte distance in eta phi space
- *
- */
-float Distance(float rapidity_1, float phi_1, float rapidity_2, float phi_2);
-
-/**
- * @brief Calcualte distance from center in eta phi space
- *
- */
-// float Length(float rapidity, float phi);
-
-/**
- * @brief Take care of phi angles around pi
- *
- */
-float DeltaPhi(float phi_1, float phi_2);
-
-float RestrictPhi(float phi);
 
 template <typename Value>
 /**
@@ -47,24 +27,6 @@ int sgn(Value value)
 // {
 //   return (z == 0) ? 0 : (z < 0) ? -1 : 1;
 // }
-
-
-
-template <typename Value>
-/**
- * @brief derives the square of the value
- *
- */
-Value sqr(Value value)
-{
-    return value * value;
-}
-
-template<typename T>
-typename boost::units::multiply_typeof_helper<boost::units::quantity<T>, boost::units::quantity<T>>::type sqr(boost::units::quantity<T> const& t)
-{
-    return t * t;
-}
 
 template <typename Value>
 int Closest(std::vector<Value> const& vector, Value value)
