@@ -5,6 +5,7 @@
 
 #include "FourVector.hh"
 #include "Types.hh"
+#include "Family.hh"
 #include "Debug.hh"
 
 namespace boca

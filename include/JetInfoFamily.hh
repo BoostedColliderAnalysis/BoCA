@@ -7,11 +7,10 @@
 #include <unordered_map>
 
 #include "fastjet/PseudoJet.hh"
-#include "fastjet/JetDefinition.hh"
 
 #include "Identification.hh"
-#include "Constituent.hh"
 #include "FourVector.hh"
+#include "Family.hh"
 
 namespace boca {
 
