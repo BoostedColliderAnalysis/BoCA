@@ -1,0 +1,5 @@
+<map id="boca::higgscpv::SignatureTagger" name="boca::higgscpv::SignatureTagger">
+<area shape="rect" id="node2" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; boca::MultipletSignature\l\&lt; boca::Octet62 \&gt;, SignatureLeptonic\lBranch \&gt;" alt="" coords="572,5,812,76"/>
+<area shape="rect" id="node3" href="$da/d42/classboca_1_1Tagger.html" title="Prepares multivariant analysis. " alt="" coords="5,19,104,46"/>
+<area shape="rect" id="node4" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="Tagger base class using Branch template. " alt="" coords="153,45,305,101"/>
+</map>

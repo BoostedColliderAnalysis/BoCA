@@ -1,0 +1,49 @@
+<map id="boca::naturalness::EventPairTagger" name="boca::naturalness::EventPairTagger">
+<area shape="rect" id="node2" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; MultipletEvent\&lt; Decuplet55\l \&gt;, EventBranch \&gt;" alt="" coords="1781,51,1976,107"/>
+<area shape="rect" id="node3" href="$da/d42/classboca_1_1Tagger.html" title="Prepares multivariant analysis. " alt="" coords="864,627,963,654"/>
+<area shape="rect" id="node12" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="Tagger base class using Branch template. " alt="" coords="1077,838,1229,894"/>
+<area shape="rect" id="node17" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; Jet, BottomBranch \&gt;" alt="" coords="1491,128,1645,169"/>
+<area shape="rect" id="node23" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; Decuplet55, MultiBranch \&gt;" alt="" coords="1473,1007,1663,1048"/>
+<area shape="rect" id="node26" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; Quintet, TopPartnerBranch \&gt;" alt="" coords="1778,1065,1979,1107"/>
+<area shape="rect" id="node30" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; Doublet, ZHadronicBranch \&gt;" alt="" coords="1468,785,1668,827"/>
+<area shape="rect" id="node35" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; Triplet, TopLeptonicBranch \&gt;" alt="" coords="1467,1247,1669,1288"/>
+<area shape="rect" id="node39" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; Doublet, WSemiBranch \&gt;" alt="" coords="1477,1129,1659,1171"/>
+<area shape="rect" id="node45" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; Triplet, TopHadronicBranch \&gt;" alt="" coords="1776,196,1981,237"/>
+<area shape="rect" id="node49" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; Doublet, WHadronicBranch \&gt;" alt="" coords="1465,371,1671,412"/>
+<area shape="rect" id="node4" href="$d9/dfc/classboca_1_1EventBranch.html" title="Class for saving event informations to root. " alt="" coords="1501,254,1635,281"/>
+<area shape="rect" id="node5" href="$db/df3/classboca_1_1MultiBranch.html" title="boca::MultiBranch" alt="" coords="1090,458,1217,485"/>
+<area shape="rect" id="node27" href="$d8/dce/classboca_1_1naturalness_1_1TopPartnerBranch.html" title="Higgs cpv tagger root tree structure. " alt="" coords="1501,673,1635,715"/>
+<area shape="rect" id="node46" href="$d7/de3/classboca_1_1standardmodel_1_1TopHadronicBranch.html" title="Top tagger root tree structure. " alt="" coords="1495,305,1641,347"/>
+<area shape="rect" id="node6" href="$d6/d3d/classboca_1_1PairBranch.html" title="boca::PairBranch" alt="" coords="852,678,975,705"/>
+<area shape="rect" id="node31" href="$da/d2b/classboca_1_1standardmodel_1_1ZHadronicBranch.html" title="Z tagger root tree structure. " alt="" coords="1082,556,1225,597"/>
+<area shape="rect" id="node36" href="$d0/dbf/classboca_1_1standardmodel_1_1TopLeptonicBranch.html" title="Top tagger root tree structure. " alt="" coords="1082,1209,1225,1251"/>
+<area shape="rect" id="node40" href="$d7/ded/classboca_1_1standardmodel_1_1WSemiBranch.html" title="Top tagger root tree structure. " alt="" coords="1082,1143,1225,1184"/>
+<area shape="rect" id="node50" href="$d8/db8/classboca_1_1standardmodel_1_1WHadronicBranch.html" title="Higgs tagger root tree structure. " alt="" coords="1082,392,1225,433"/>
+<area shape="rect" id="node7" href="$d8/d91/classboca_1_1ParticleBranch.html" title="Class for saving event informations to root. " alt="" coords="656,182,799,209"/>
+<area shape="rect" id="node18" href="$db/dd1/classboca_1_1standardmodel_1_1BottomBranch.html" title="Bottom tagger root tree structure. " alt="" coords="1082,5,1225,47"/>
+<area shape="rect" id="node8" href="$d8/db6/classboca_1_1BdtBranch.html" title="boca::BdtBranch" alt="" coords="488,182,607,209"/>
+<area shape="rect" id="node9" href="$dd/dfc/classboca_1_1ResultBranch.html" title="boca::ResultBranch" alt="" coords="301,182,439,209"/>
+<area shape="rect" id="node10" href="$dc/d87/classboca_1_1BaseBranch.html" title="Basic tree branches. " alt="" coords="123,182,252,209"/>
+<area shape="rect" id="node20" href="$de/d69/classboca_1_1Reader.html" title="read results of multivariant analysis wrapper for TMVA::Reader " alt="" coords="1769,729,1988,755"/>
+<area shape="rect" id="node14" href="$de/d69/classboca_1_1Reader.html" title="boca::Reader\&lt; standardmodel\l::BottomTagger \&gt;" alt="" coords="2250,131,2447,172"/>
+<area shape="rect" id="node15" href="$d1/da0/classboca_1_1ReaderBase.html" title="boca::ReaderBase" alt="" coords="1503,577,1633,603"/>
+<area shape="rect" id="node21" href="$de/d69/classboca_1_1Reader.html" title="boca::Reader\&lt; boca\l::naturalness::TopPartnerPair\lTagger \&gt;" alt="" coords="5221,147,5413,203"/>
+<area shape="rect" id="node24" href="$de/d69/classboca_1_1Reader.html" title="boca::Reader\&lt; boca\l::naturalness::TopPartnerLeptonic\lTagger \&gt;" alt="" coords="3872,939,4091,995"/>
+<area shape="rect" id="node28" href="$de/d69/classboca_1_1Reader.html" title="boca::Reader\&lt; standardmodel\l::BosonTagger \&gt;" alt="" coords="3079,747,3276,788"/>
+<area shape="rect" id="node32" href="$de/d69/classboca_1_1Reader.html" title="boca::Reader\&lt; boca\l::standardmodel::BottomTagger \&gt;" alt="" coords="2240,552,2457,593"/>
+<area shape="rect" id="node33" href="$de/d69/classboca_1_1Reader.html" title="boca::Reader\&lt; standardmodel\l::TopLeptonicTagger \&gt;" alt="" coords="3079,1008,3276,1049"/>
+<area shape="rect" id="node37" href="$de/d69/classboca_1_1Reader.html" title="boca::Reader\&lt; boca\l::standardmodel::WLeptonic\lTagger \&gt;" alt="" coords="2256,1023,2441,1079"/>
+<area shape="rect" id="node41" href="$de/d69/classboca_1_1Reader.html" title="boca::Reader\&lt; boca\l::naturalness::TopPartnerHadronic\lTagger \&gt;" alt="" coords="4581,783,4803,839"/>
+<area shape="rect" id="node43" href="$de/d69/classboca_1_1Reader.html" title="boca::Reader\&lt; standardmodel\l::TopHadronicTagger \&gt;" alt="" coords="3883,560,4080,601"/>
+<area shape="rect" id="node47" href="$de/d69/classboca_1_1Reader.html" title="boca::Reader\&lt; boca\l::standardmodel::WHadronic\lTagger \&gt;" alt="" coords="3083,449,3271,505"/>
+<area shape="rect" id="node16" href="$de/d6e/classboca_1_1standardmodel_1_1BottomTagger.html" title="Derived Tagger class for bottom jets. " alt="" coords="1807,131,1950,172"/>
+<area shape="rect" id="node19" href="$db/d5f/classboca_1_1BottomBase.html" title="Bottom tagger root tree structure base class. " alt="" coords="848,155,979,182"/>
+<area shape="rect" id="node22" href="$d8/dca/classboca_1_1naturalness_1_1TopPartnerPairTagger.html" title="Semi leptonic heavy higgs BDT tagger. " alt="" coords="4976,865,5125,907"/>
+<area shape="rect" id="node25" href="$db/da6/classboca_1_1naturalness_1_1TopPartnerLeptonicTagger.html" title="Semi leptonic heavy higgs BDT tagger. " alt="" coords="3501,995,3676,1036"/>
+<area shape="rect" id="node42" href="$d7/deb/classboca_1_1naturalness_1_1TopPartnerHadronicTagger.html" title="Semi leptonic heavy higgs BDT tagger. " alt="" coords="4233,751,4412,792"/>
+<area shape="rect" id="node29" href="$d7/def/classboca_1_1standardmodel_1_1BosonTagger.html" title="Derived Tagger class targeting W, Z and h bosons. " alt="" coords="2704,653,2847,695"/>
+<area shape="rect" id="node34" href="$d4/da8/classboca_1_1standardmodel_1_1TopLeptonicTagger.html" title="Top leptonic BDT tagger. " alt="" coords="2704,1075,2847,1116"/>
+<area shape="rect" id="node44" href="$d9/d48/classboca_1_1standardmodel_1_1TopHadronicTagger.html" title="Hadronic top BDT tagger. " alt="" coords="3517,496,3661,537"/>
+<area shape="rect" id="node48" href="$d1/dc2/classboca_1_1standardmodel_1_1WHadronicTagger.html" title="W BDT tagger. " alt="" coords="2704,384,2847,425"/>
+<area shape="rect" id="node38" href="$d4/d9e/classboca_1_1standardmodel_1_1WLeptonicTagger.html" title="Semi leptonic top BDT tagger. " alt="" coords="1807,1189,1950,1231"/>
+</map>

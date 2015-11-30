@@ -1,0 +1,37 @@
+<map id="HeavyHiggs/include/EventFusionTagger.hh" name="HeavyHiggs/include/EventFusionTagger.hh">
+<area shape="rect" id="node2" href="$d5/dae/HeavyHiggsSemiTagger_8hh.html" title="HeavyHiggsSemiTagger.hh" alt="" coords="977,95,1159,121"/>
+<area shape="rect" id="node49" href="$dd/dbc/MultipletEvent_8hh.html" title="MultipletEvent.hh" alt="" coords="1460,319,1583,345"/>
+<area shape="rect" id="node3" href="$d8/d6f/Branch_8hh.html" title="Branch.hh" alt="" coords="282,169,363,196"/>
+<area shape="rect" id="node10" href="$d5/d88/TopLeptonicTagger_8hh.html" title="TopLeptonicTagger.hh" alt="" coords="705,169,855,196"/>
+<area shape="rect" id="node43" href="$d4/d5c/TopHadronicTagger_8hh.html" title="TopHadronicTagger.hh" alt="" coords="991,169,1145,196"/>
+<area shape="rect" id="node47" href="$d2/d98/Sextet_8hh.html" title="multiplets/Sextet.hh" alt="" coords="1169,169,1308,196"/>
+<area shape="rect" id="node4" href="$d0/d79/Branches_8hh.html" title="Branches.hh" alt="" coords="414,543,509,569"/>
+<area shape="rect" id="node11" href="$de/dbb/BottomTagger_8hh.html" title="BottomTagger.hh" alt="" coords="620,319,743,345"/>
+<area shape="rect" id="node30" href="$d2/dd8/WLeptonicTagger_8hh.html" title="WLeptonicTagger.hh" alt="" coords="709,244,851,271"/>
+<area shape="rect" id="node35" href="$d7/db9/Triplet_8hh.html" title="multiplets/Triplet.hh" alt="" coords="1105,244,1241,271"/>
+<area shape="rect" id="node37" href="$df/d2c/Reader_8hh.html" title="Reader.hh" alt="" coords="432,319,515,345"/>
+<area shape="rect" id="node12" href="$de/d63/BranchesSm_8hh.html" title="BranchesSm.hh" alt="" coords="624,393,739,420"/>
+<area shape="rect" id="node13" href="$db/db5/TaggerTemplate_8hh.html" title="TaggerTemplate.hh" alt="" coords="763,393,898,420"/>
+<area shape="rect" id="node15" href="$d3/d96/ExRootAnalysis_8hh.html" title="exroot/ExRootAnalysis.hh" alt="" coords="866,468,1041,495"/>
+<area shape="rect" id="node16" href="$db/d31/Sort_8hh.html" title="Sort.hh" alt="" coords="651,543,715,569"/>
+<area shape="rect" id="node20" href="$d1/d8c/Tagger_8hh.html" title="Tagger.hh" alt="" coords="571,468,651,495"/>
+<area shape="rect" id="node27" href="$db/d60/Singlet_8hh.html" title="multiplets/Singlet.hh" alt="" coords="1507,543,1647,569"/>
+<area shape="rect" id="node29" href="$da/d59/PreCuts_8hh.html" title="PreCuts.hh" alt="" coords="399,468,487,495"/>
+<area shape="rect" id="node17" href="$dd/df7/Jet_8hh.html" title="Jet.hh" alt="" coords="769,707,828,733"/>
+<area shape="rect" id="node18" href="$d1/dce/JetInfo_8hh.html" title="JetInfo.hh" alt="" coords="759,781,839,808"/>
+<area shape="rect" id="node19" href="$db/da5/Particles_8hh.html" title="physics/Particles.hh" alt="" coords="721,625,861,651"/>
+<area shape="rect" id="node21" href="$d3/d7e/Vector_8hh.html" title="Vector.hh" alt="" coords="1122,543,1201,569"/>
+<area shape="rect" id="node25" href="$dd/df5/Particle_8hh.html" title="Particle.hh" alt="" coords="1653,707,1737,733"/>
+<area shape="rect" id="node26" href="$db/d66/DetectorGeometry_8hh.html" title="DetectorGeometry.hh" alt="" coords="936,625,1083,651"/>
+<area shape="rect" id="node28" href="$da/db5/MultipletBase_8hh.html" title="multiplets/MultipletBase.hh" alt="" coords="1669,625,1848,651"/>
+<area shape="rect" id="node31" href="$df/d3a/Doublet_8hh.html" title="multiplets/Doublet.hh" alt="" coords="869,319,1014,345"/>
+<area shape="rect" id="node32" href="$d0/d32/TwoBody_8hh.html" title="multiplets/TwoBody.hh" alt="" coords="1385,393,1540,420"/>
+<area shape="rect" id="node33" href="$d0/d7f/Multiplet_8hh.html" title="multiplets/Multiplet.hh" alt="" coords="1677,468,1827,495"/>
+<area shape="rect" id="node34" href="$dc/d4e/Line2_8hh.html" title="Line2.hh" alt="" coords="1790,543,1861,569"/>
+<area shape="rect" id="node36" href="$d1/dcf/SubJettiness_8hh.html" title="SubJettiness.hh" alt="" coords="1141,319,1257,345"/>
+<area shape="rect" id="node40" href="$d5/d85/ReaderBase_8hh.html" title="ReaderBase.hh" alt="" coords="184,393,296,420"/>
+<area shape="rect" id="node42" href="$dc/d76/Options_8hh.html" title="Options.hh" alt="" coords="320,393,405,420"/>
+<area shape="rect" id="node45" href="$db/d94/WHadronicTagger_8hh.html" title="WHadronicTagger.hh" alt="" coords="875,244,1021,271"/>
+<area shape="rect" id="node46" href="$d0/dd8/MomentumRange_8hh.html" title="MomentumRange.hh" alt="" coords="1066,468,1209,495"/>
+<area shape="rect" id="node50" href="$dd/d58/GlobalObservables_8hh.html" title="GlobalObservables.hh" alt="" coords="1502,468,1653,495"/>
+</map>

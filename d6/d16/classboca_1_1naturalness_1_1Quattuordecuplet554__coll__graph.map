@@ -1,0 +1,24 @@
+<map id="boca::naturalness::Quattuordecuplet554" name="boca::naturalness::Quattuordecuplet554">
+<area shape="rect" id="node2" href="$d8/d75/classboca_1_1ThreeBody.html" title="boca::ThreeBody\&lt; Quintet,\l Quintet, Quartet22 \&gt;" alt="" coords="3377,501,3556,542"/>
+<area shape="rect" id="node3" href="$d1/d5c/classboca_1_1Multiplet.html" title="boca::Multiplet" alt="" coords="1009,159,1116,185"/>
+<area shape="rect" id="node16" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; Doublet,\l Doublet \&gt;" alt="" coords="2272,125,2447,166"/>
+<area shape="rect" id="node18" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; boca\l::Singlet, boca::Singlet \&gt;" alt="" coords="1607,217,1773,258"/>
+<area shape="rect" id="node19" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; Multiplet\l_1, Multiplet_2 \&gt;" alt="" coords="1247,302,1421,343"/>
+<area shape="rect" id="node23" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; boca\l::Triplet, boca::Doublet \&gt;" alt="" coords="2865,273,3032,314"/>
+<area shape="rect" id="node25" href="$d6/d3b/classboca_1_1TwoBody.html" title="boca::TwoBody\&lt; boca\l::Doublet, boca::Singlet \&gt;" alt="" coords="2274,427,2445,469"/>
+<area shape="rect" id="node28" href="$d8/d75/classboca_1_1ThreeBody.html" title="boca::ThreeBody\&lt; Multiplet\l_1, Multiplet_2, Multiplet_3 \&gt;" alt="" coords="1239,538,1429,579"/>
+<area shape="rect" id="node4" href="$de/d8b/classboca_1_1MultipletBase.html" title="boca::MultipletBase" alt="" coords="543,161,680,188"/>
+<area shape="rect" id="node6" href="$db/def/classboca_1_1Singlet.html" title="Thin wrapper to make Jet behave like a Multiplet. Additionally this class astracts away the JetInfo u..." alt="" coords="813,303,912,329"/>
+<area shape="rect" id="node5" href="$d4/de7/classboca_1_1Identification.html" title="boca::Identification" alt="" coords="214,165,346,192"/>
+<area shape="rect" id="node7" href="$df/d8a/classboca_1_1JetInfo.html" title="Jet infos subclassed from Fastjet. " alt="" coords="562,220,661,247"/>
+<area shape="rect" id="node9" href="$d6/d09/classboca_1_1Jet.html" title="boca::Jet" alt="" coords="573,520,649,547"/>
+<area shape="rect" id="node10" href="$d5/d82/classboca_1_1PseudoJet.html" title="boca::PseudoJet" alt="" coords="220,520,340,547"/>
+<area shape="rect" id="node12" href="$d6/dfb/classboca_1_1Vector2.html" title="boca::Vector2\&lt; AngleSquare \&gt;" alt="" coords="511,303,712,329"/>
+<area shape="rect" id="node13" href="$d6/dfb/classboca_1_1Vector2.html" title="Copy of root::TVector2 in order to get rid of TObject. " alt="" coords="200,303,360,329"/>
+<area shape="rect" id="node15" href="$df/d7b/classboca_1_1Quartet22.html" title="boca::Quartet22" alt="" coords="2727,36,2841,63"/>
+<area shape="rect" id="node17" href="$d4/d01/classboca_1_1Doublet.html" title="boca::Doublet" alt="" coords="1975,228,2078,255"/>
+<area shape="rect" id="node22" href="$d6/d72/classboca_1_1Quintet.html" title="boca::Quintet" alt="" coords="3155,440,3255,467"/>
+<area shape="rect" id="node24" href="$de/dad/classboca_1_1Triplet.html" title="boca::Triplet" alt="" coords="2608,376,2703,403"/>
+<area shape="rect" id="node26" href="$db/d9b/classboca_1_1SubJettiness.html" title="boca::SubJettiness" alt="" coords="2292,376,2427,403"/>
+<area shape="rect" id="node27" href="$d1/d2f/classboca_1_1NSubJettiness.html" title="boca::NSubJettiness" alt="" coords="1955,343,2099,369"/>
+</map>

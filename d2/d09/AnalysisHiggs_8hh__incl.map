@@ -1,0 +1,28 @@
+<map id="StandardModel/include/AnalysisHiggs.hh" name="StandardModel/include/AnalysisHiggs.hh">
+<area shape="rect" id="node2" href="$df/d04/AnalysisStandardModel_8hh.html" title="AnalysisStandardModel.hh" alt="" coords="965,95,1143,121"/>
+<area shape="rect" id="node45" href="$de/dbb/BottomTagger_8hh.html" title="BottomTagger.hh" alt="" coords="1873,169,1995,196"/>
+<area shape="rect" id="node3" href="$d0/d02/Analysis_8hh.html" title="Analysis.hh" alt="" coords="1293,169,1383,196"/>
+<area shape="rect" id="node30" href="$d8/de8/Debug_8hh.html" title="Debug.hh" alt="" coords="1023,319,1101,345"/>
+<area shape="rect" id="node33" href="$db/d66/DetectorGeometry_8hh.html" title="DetectorGeometry.hh" alt="" coords="583,169,730,196"/>
+<area shape="rect" id="node36" href="$dc/d45/Units_8hh.html" title="physics/Units.hh" alt="" coords="597,244,717,271"/>
+<area shape="rect" id="node7" href="$d3/d96/ExRootAnalysis_8hh.html" title="exroot/ExRootAnalysis.hh" alt="" coords="2009,319,2184,345"/>
+<area shape="rect" id="node15" href="$de/d83/File_8hh.html" title="File.hh" alt="" coords="1769,319,1830,345"/>
+<area shape="rect" id="node17" href="$df/d2c/Reader_8hh.html" title="Reader.hh" alt="" coords="1415,244,1498,271"/>
+<area shape="rect" id="node29" href="$d1/dcf/AnalysisBase_8hh.html" title="AnalysisBase.hh" alt="" coords="1641,244,1761,271"/>
+<area shape="rect" id="node13" href="$d6/dd8/Types_8hh.html" title="Types.hh" alt="" coords="1655,401,1731,427"/>
+<area shape="rect" id="node16" href="$d5/df2/Event_8hh.html" title="Event.hh" alt="" coords="1437,401,1511,427"/>
+<area shape="rect" id="node20" href="$d5/d85/ReaderBase_8hh.html" title="ReaderBase.hh" alt="" coords="1286,319,1398,345"/>
+<area shape="rect" id="node21" href="$da/d59/PreCuts_8hh.html" title="PreCuts.hh" alt="" coords="1657,319,1745,345"/>
+<area shape="rect" id="node22" href="$d1/d8c/Tagger_8hh.html" title="Tagger.hh" alt="" coords="1854,319,1934,345"/>
+<area shape="rect" id="node27" href="$dc/d76/Options_8hh.html" title="Options.hh" alt="" coords="1126,319,1211,345"/>
+<area shape="rect" id="node23" href="$d0/d79/Branches_8hh.html" title="Branches.hh" alt="" coords="1536,401,1631,427"/>
+<area shape="rect" id="node34" href="$df/de2/InfoRecombiner_8hh.html" title="InfoRecombiner.hh" alt="" coords="308,244,440,271"/>
+<area shape="rect" id="node38" href="$dc/d6c/Prefixes_8hh.html" title="physics/Prefixes.hh" alt="" coords="361,319,499,345"/>
+<area shape="rect" id="node42" href="$d6/d2c/Si_8hh.html" title="Si.hh" alt="" coords="5,401,57,427"/>
+<area shape="rect" id="node43" href="$d5/d2d/Barn_8hh.html" title="Barn.hh" alt="" coords="82,401,149,427"/>
+<area shape="rect" id="node44" href="$d5/d40/ElectronVolt_8hh.html" title="ElectronVolt.hh" alt="" coords="173,401,284,427"/>
+<area shape="rect" id="node46" href="$de/d63/BranchesSm_8hh.html" title="BranchesSm.hh" alt="" coords="1877,244,1991,271"/>
+<area shape="rect" id="node47" href="$db/db5/TaggerTemplate_8hh.html" title="TaggerTemplate.hh" alt="" coords="2067,244,2201,271"/>
+<area shape="rect" id="node49" href="$db/d31/Sort_8hh.html" title="Sort.hh" alt="" coords="2698,319,2762,345"/>
+<area shape="rect" id="node50" href="$db/d60/Singlet_8hh.html" title="multiplets/Singlet.hh" alt="" coords="2345,319,2485,345"/>
+</map>

@@ -1,0 +1,92 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$da/d42/classboca_1_1Tagger.html" title="Prepares multivariant analysis. " alt="" coords="5,1541,104,1568"/>
+<area shape="rect" id="node2" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="Tagger base class using Branch template. " alt="" coords="201,5,353,61"/>
+<area shape="rect" id="node3" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; boca::MultipletSignature\l\&lt; boca::Octet62 \&gt;, SignatureLeptonic\lBranch \&gt;" alt="" coords="157,86,397,157"/>
+<area shape="rect" id="node5" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; CutPlet, HeavyHiggsCutBranch \&gt;" alt="" coords="161,181,393,222"/>
+<area shape="rect" id="node7" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; Decuplet532, SignatureSingle\lBranch \&gt;" alt="" coords="173,245,380,301"/>
+<area shape="rect" id="node9" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; Decuplet532, SignatureSingle\lHadronicBranch \&gt;" alt="" coords="173,325,380,381"/>
+<area shape="rect" id="node11" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; Decuplet55, MultiBranch \&gt;" alt="" coords="182,405,371,446"/>
+<area shape="rect" id="node13" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; Doublet, HeavyHiggsTauBranch \&gt;" alt="" coords="159,470,394,511"/>
+<area shape="rect" id="node15" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; Doublet, HiggsBranch \&gt;" alt="" coords="189,535,364,577"/>
+<area shape="rect" id="node17" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; Doublet, JetPairBranch \&gt;" alt="" coords="186,601,367,642"/>
+<area shape="rect" id="node19" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; Doublet, WHadronicBranch \&gt;" alt="" coords="174,666,379,707"/>
+<area shape="rect" id="node21" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; Doublet, WSemiBranch \&gt;" alt="" coords="185,731,368,773"/>
+<area shape="rect" id="node23" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; Doublet, ZHadronicBranch \&gt;" alt="" coords="177,797,377,838"/>
+<area shape="rect" id="node26" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; Jet, BottomBranch \&gt;" alt="" coords="199,862,354,903"/>
+<area shape="rect" id="node28" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; MultipletEvent\&lt; Decuplet532\l \&gt;, EventBranch \&gt;" alt="" coords="175,927,378,983"/>
+<area shape="rect" id="node31" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; MultipletEvent\&lt; Decuplet55\l \&gt;, EventBranch \&gt;" alt="" coords="179,1007,374,1063"/>
+<area shape="rect" id="node33" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; MultipletEvent\&lt; Octet332\l \&gt;, EventBranch \&gt;" alt="" coords="185,1087,368,1143"/>
+<area shape="rect" id="node36" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; MultipletEvent\&lt; Octet44\l \&gt;, EventChargedBranch \&gt;" alt="" coords="187,1167,366,1223"/>
+<area shape="rect" id="node38" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; MultipletEvent\&lt; Octet62\l \&gt;, EventBranch \&gt;" alt="" coords="189,1247,364,1303"/>
+<area shape="rect" id="node40" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; MultipletEvent\&lt; Octet62\l \&gt;, EventNeutralBranch \&gt;" alt="" coords="189,1327,364,1383"/>
+<area shape="rect" id="node42" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; MultipletEvent\&lt; Octet62\l \&gt;, EventNeutralFourTopBranch \&gt;" alt="" coords="167,1407,386,1463"/>
+<area shape="rect" id="node44" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; MultipletEvent\&lt; Quattuordecuplet554\l \&gt;, EventBranch \&gt;" alt="" coords="152,1487,401,1543"/>
+<area shape="rect" id="node46" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; MultipletEvent\&lt; Sextet\l \&gt;, EventFusionBranch \&gt;" alt="" coords="193,1567,361,1623"/>
+<area shape="rect" id="node48" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; MultipletSignature\l\&lt; Octet332 \&gt;, SignatureLepton\lTTaggerBranch \&gt;" alt="" coords="176,1647,377,1718"/>
+<area shape="rect" id="node50" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; MultipletSignature\l\&lt; Octet332 \&gt;, SignatureTTagger\lBranch \&gt;" alt="" coords="171,1742,382,1813"/>
+<area shape="rect" id="node52" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; MultipletSignature\l\&lt; Quartet211 \&gt;, SignatureLepton\lTaggerBranch \&gt;" alt="" coords="171,1837,383,1907"/>
+<area shape="rect" id="node54" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; Octet44, OctetChargedBranch \&gt;" alt="" coords="165,1931,388,1973"/>
+<area shape="rect" id="node56" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; Octet53, MultiBranch \&gt;" alt="" coords="192,1997,361,2038"/>
+<area shape="rect" id="node58" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; Octet62, OctetNeutralBranch \&gt;" alt="" coords="169,2062,384,2103"/>
+<area shape="rect" id="node60" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; Quartet22, HiggsPairBranch \&gt;" alt="" coords="172,2127,381,2169"/>
+<area shape="rect" id="node62" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; Quartet31, ChargedHiggsSemi\lBranch \&gt;" alt="" coords="171,2192,383,2248"/>
+<area shape="rect" id="node64" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; Quartet31, TripletJetPair\lBranch \&gt;" alt="" coords="189,2272,365,2328"/>
+<area shape="rect" id="node66" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; Quattuordecuplet554,\l SignatureBranch \&gt;" alt="" coords="197,2352,356,2408"/>
+<area shape="rect" id="node68" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; Quintet, TopPartnerBranch \&gt;" alt="" coords="176,2431,377,2473"/>
+<area shape="rect" id="node73" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; Septet, MultiBranch \&gt;" alt="" coords="196,2497,357,2538"/>
+<area shape="rect" id="node75" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; Sextet, HeavyHiggsLeptonic\lBranch \&gt;" alt="" coords="176,2561,377,2617"/>
+<area shape="rect" id="node77" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; Sextet, HeavyHiggsSemiBranch \&gt;" alt="" coords="159,2641,394,2682"/>
+<area shape="rect" id="node79" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; Sextet, TopLeptonicPairBranch \&gt;" alt="" coords="163,2706,390,2747"/>
+<area shape="rect" id="node81" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; Sextet, TripletPairBranch \&gt;" alt="" coords="181,2773,373,2814"/>
+<area shape="rect" id="node83" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; Singlet, TauBranch \&gt;" alt="" coords="198,2841,355,2882"/>
+<area shape="rect" id="node85" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; Triplet, ChargedHiggsLeptonic\lBranch \&gt;" alt="" coords="171,2911,382,2967"/>
+<area shape="rect" id="node87" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; Triplet, TopHadronicBranch \&gt;" alt="" coords="174,2999,379,3041"/>
+<area shape="rect" id="node89" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; Triplet, TopLeptonicBranch \&gt;" alt="" coords="175,3085,378,3126"/>
+<area shape="rect" id="node4" href="$db/d45/classboca_1_1higgscpv_1_1SignatureTagger.html" title="event BDT for " alt="" coords="470,101,643,142"/>
+<area shape="rect" id="node6" href="$dc/dd2/classboca_1_1heavyhiggs_1_1CutTagger.html" title="event BDT for semi leptonic heavy higgs " alt="" coords="460,176,653,203"/>
+<area shape="rect" id="node8" href="$de/d8c/classboca_1_1naturalness_1_1SignatureSingleLeptonicTagger.html" title="Semi leptonic heavy higgs BDT tagger. " alt="" coords="455,227,658,269"/>
+<area shape="rect" id="node10" href="$db/d25/classboca_1_1naturalness_1_1SignatureSingleHadronicTagger.html" title="Semi leptonic heavy higgs BDT tagger. " alt="" coords="454,293,659,334"/>
+<area shape="rect" id="node12" href="$d8/dca/classboca_1_1naturalness_1_1TopPartnerPairTagger.html" title="Semi leptonic heavy higgs BDT tagger. " alt="" coords="482,358,631,399"/>
+<area shape="rect" id="node14" href="$d2/dca/classboca_1_1heavyhiggs_1_1HeavyHiggsTauTagger.html" title="Semi leptonic top BDT tagger. " alt="" coords="455,423,659,465"/>
+<area shape="rect" id="node16" href="$d6/d30/classboca_1_1standardmodel_1_1HiggsTagger.html" title="Semi leptonic heavy higgs BDT tagger. " alt="" coords="485,489,628,530"/>
+<area shape="rect" id="node18" href="$da/ddc/classboca_1_1JetPairTagger.html" title="JetPair BDT tagger. " alt="" coords="487,555,626,581"/>
+<area shape="rect" id="node20" href="$d1/dc2/classboca_1_1standardmodel_1_1WHadronicTagger.html" title="W BDT tagger. " alt="" coords="485,606,628,647"/>
+<area shape="rect" id="node22" href="$d4/d9e/classboca_1_1standardmodel_1_1WLeptonicTagger.html" title="Semi leptonic top BDT tagger. " alt="" coords="485,671,628,713"/>
+<area shape="rect" id="node24" href="$d7/def/classboca_1_1standardmodel_1_1BosonTagger.html" title="Derived Tagger class targeting W, Z and h bosons. " alt="" coords="485,737,628,778"/>
+<area shape="rect" id="node25" href="$d9/dcd/classboca_1_1standardmodel_1_1ZHadronicTagger.html" title="Semi leptonic heavy higgs BDT tagger. " alt="" coords="485,802,628,843"/>
+<area shape="rect" id="node27" href="$de/d6e/classboca_1_1standardmodel_1_1BottomTagger.html" title="Derived Tagger class for bottom jets. " alt="" coords="485,867,628,909"/>
+<area shape="rect" id="node29" href="$d8/d44/classboca_1_1naturalness_1_1EventSingleHadronicTagger.html" title="Prepares multivariant analysis. " alt="" coords="465,933,649,974"/>
+<area shape="rect" id="node30" href="$d6/d6e/classboca_1_1naturalness_1_1EventSingleLeptonicTagger.html" title="Prepares multivariant analysis. " alt="" coords="466,998,647,1039"/>
+<area shape="rect" id="node32" href="$d7/d96/classboca_1_1naturalness_1_1EventPairTagger.html" title="Prepares multivariant analysis. " alt="" coords="490,1063,623,1105"/>
+<area shape="rect" id="node34" href="$de/dcb/classboca_1_1higgscpv_1_1EventLeptonTTagger.html" title="Prepares multivariant analysis. " alt="" coords="461,1129,652,1170"/>
+<area shape="rect" id="node35" href="$d6/d32/classboca_1_1higgscpv_1_1EventTTagger.html" title="Prepares multivariant analysis. " alt="" coords="457,1195,657,1221"/>
+<area shape="rect" id="node37" href="$d8/d4a/classboca_1_1heavyhiggs_1_1EventChargedTagger.html" title="event BDT for semi leptonic heavy higgs " alt="" coords="449,1246,664,1287"/>
+<area shape="rect" id="node39" href="$d7/dd6/classboca_1_1higgscpv_1_1EventTagger.html" title="Prepares multivariant analysis. " alt="" coords="461,1312,653,1339"/>
+<area shape="rect" id="node41" href="$dc/d65/classboca_1_1heavyhiggs_1_1EventNeutralTagger.html" title="event BDT for semi leptonic heavy higgs " alt="" coords="453,1363,661,1405"/>
+<area shape="rect" id="node43" href="$df/d9c/classboca_1_1heavyhiggs_1_1EventNeutralFourTopTagger.html" title="event BDT for semi leptonic heavy higgs " alt="" coords="453,1429,661,1470"/>
+<area shape="rect" id="node45" href="$df/dd5/classboca_1_1naturalness_1_1EventEffectiveTagger.html" title="Prepares multivariant analysis. " alt="" coords="483,1494,631,1535"/>
+<area shape="rect" id="node47" href="$d0/d67/classboca_1_1heavyhiggs_1_1EventFusionTagger.html" title="event BDT for semi leptonic heavy higgs " alt="" coords="454,1574,659,1615"/>
+<area shape="rect" id="node49" href="$de/d77/classboca_1_1higgscpv_1_1SignatureLeptonTTagger.html" title="event BDT for " alt="" coords="470,1662,643,1703"/>
+<area shape="rect" id="node51" href="$df/d3e/classboca_1_1higgscpv_1_1SignatureTTagger.html" title="event BDT for " alt="" coords="470,1742,643,1783"/>
+<area shape="rect" id="node53" href="$da/d1b/classboca_1_1higgscpv_1_1SignatureLeptonTagger.html" title="event BDT for " alt="" coords="470,1807,643,1849"/>
+<area shape="rect" id="node55" href="$dc/d14/classboca_1_1heavyhiggs_1_1SignatureChargedTagger.html" title="event BDT for semi leptonic heavy higgs " alt="" coords="463,1873,650,1914"/>
+<area shape="rect" id="node57" href="$d0/dea/classboca_1_1naturalness_1_1TopPartnerTopPairTagger.html" title="Semi leptonic heavy higgs BDT tagger. " alt="" coords="471,1938,642,1979"/>
+<area shape="rect" id="node59" href="$d7/d88/classboca_1_1heavyhiggs_1_1SignatureNeutralTagger.html" title="event BDT for semi leptonic heavy higgs " alt="" coords="463,2003,650,2045"/>
+<area shape="rect" id="node61" href="$d9/da3/classboca_1_1naturalness_1_1HiggsPairTagger.html" title="Semi leptonic heavy higgs BDT tagger. " alt="" coords="490,2069,623,2110"/>
+<area shape="rect" id="node63" href="$dc/d56/classboca_1_1heavyhiggs_1_1ChargedHiggsSemiTagger.html" title="Semi leptonic heavy higgs BDT tagger. " alt="" coords="466,2134,647,2175"/>
+<area shape="rect" id="node65" href="$d9/db7/classboca_1_1TripletJetPairTagger.html" title="JetPair BDT tagger. " alt="" coords="469,2200,644,2227"/>
+<area shape="rect" id="node67" href="$de/d3b/classboca_1_1naturalness_1_1SignatureEffectiveTagger.html" title="Semi leptonic heavy higgs BDT tagger. " alt="" coords="472,2251,641,2293"/>
+<area shape="rect" id="node69" href="$d7/deb/classboca_1_1naturalness_1_1TopPartnerHadronicTagger.html" title="Semi leptonic heavy higgs BDT tagger. " alt="" coords="467,2317,646,2358"/>
+<area shape="rect" id="node70" href="$db/da6/classboca_1_1naturalness_1_1TopPartnerLeptonicTagger.html" title="Semi leptonic heavy higgs BDT tagger. " alt="" coords="469,2382,644,2423"/>
+<area shape="rect" id="node71" href="$d5/d18/classboca_1_1naturalness_1_1VetoTopPartnerHadronicTagger.html" title="Semi leptonic heavy higgs BDT tagger. " alt="" coords="454,2447,659,2489"/>
+<area shape="rect" id="node72" href="$d5/db3/classboca_1_1naturalness_1_1VetoTopPartnerLeptonicTagger.html" title="Semi leptonic heavy higgs BDT tagger. " alt="" coords="455,2513,658,2554"/>
+<area shape="rect" id="node74" href="$d9/d56/classboca_1_1naturalness_1_1TopPartnerHiggsPairTagger.html" title="Semi leptonic heavy higgs BDT tagger. " alt="" coords="465,2578,648,2619"/>
+<area shape="rect" id="node76" href="$de/d90/classboca_1_1heavyhiggs_1_1HeavyHiggsLeptonicTagger.html" title="Leptonic heavy higgs BDT tagger. " alt="" coords="455,2643,659,2685"/>
+<area shape="rect" id="node78" href="$df/ddd/classboca_1_1heavyhiggs_1_1HeavyHiggsSemiTagger.html" title="Semi leptonic heavy higgs BDT tagger. " alt="" coords="455,2709,659,2750"/>
+<area shape="rect" id="node80" href="$d3/de5/classboca_1_1higgscpv_1_1TopLeptonicPairTagger.html" title="JetPair BDT tagger. " alt="" coords="462,2774,651,2815"/>
+<area shape="rect" id="node82" href="$d3/dbb/classboca_1_1higgscpv_1_1TopSemiPairTagger.html" title="JetPair BDT tagger. " alt="" coords="460,2839,653,2881"/>
+<area shape="rect" id="node84" href="$da/d13/classboca_1_1standardmodel_1_1TauTagger.html" title="Bottom BDT tagger. " alt="" coords="485,2905,628,2946"/>
+<area shape="rect" id="node86" href="$d3/dd4/classboca_1_1heavyhiggs_1_1ChargedHiggsLeptonicTagger.html" title="Leptonic heavy higgs BDT tagger. " alt="" coords="466,2970,647,3011"/>
+<area shape="rect" id="node88" href="$d9/d48/classboca_1_1standardmodel_1_1TopHadronicTagger.html" title="Hadronic top BDT tagger. " alt="" coords="485,3035,629,3077"/>
+<area shape="rect" id="node90" href="$d4/da8/classboca_1_1standardmodel_1_1TopLeptonicTagger.html" title="Top leptonic BDT tagger. " alt="" coords="485,3101,628,3142"/>
+</map>

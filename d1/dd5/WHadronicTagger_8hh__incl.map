@@ -1,0 +1,32 @@
+<map id="StandardModel/include/WHadronicTagger.hh" name="StandardModel/include/WHadronicTagger.hh">
+<area shape="rect" id="node3" href="$de/dbb/BottomTagger_8hh.html" title="BottomTagger.hh" alt="" coords="2010,169,2133,196"/>
+<area shape="rect" id="node11" href="$db/db5/TaggerTemplate_8hh.html" title="TaggerTemplate.hh" alt="" coords="2004,244,2139,271"/>
+<area shape="rect" id="node41" href="$df/d3a/Doublet_8hh.html" title="multiplets/Doublet.hh" alt="" coords="2233,95,2379,121"/>
+<area shape="rect" id="node44" href="$df/d2c/Reader_8hh.html" title="Reader.hh" alt="" coords="2593,244,2675,271"/>
+<area shape="rect" id="node4" href="$de/d63/BranchesSm_8hh.html" title="BranchesSm.hh" alt="" coords="1714,244,1829,271"/>
+<area shape="rect" id="node5" href="$d0/d79/Branches_8hh.html" title="Branches.hh" alt="" coords="1437,401,1532,427"/>
+<area shape="rect" id="node13" href="$d3/d96/ExRootAnalysis_8hh.html" title="exroot/ExRootAnalysis.hh" alt="" coords="689,319,864,345"/>
+<area shape="rect" id="node20" href="$db/d31/Sort_8hh.html" title="Sort.hh" alt="" coords="1855,401,1919,427"/>
+<area shape="rect" id="node30" href="$d1/d8c/Tagger_8hh.html" title="Tagger.hh" alt="" coords="2271,319,2351,345"/>
+<area shape="rect" id="node37" href="$db/d60/Singlet_8hh.html" title="multiplets/Singlet.hh" alt="" coords="2376,319,2516,345"/>
+<area shape="rect" id="node39" href="$da/d59/PreCuts_8hh.html" title="PreCuts.hh" alt="" coords="2027,319,2115,345"/>
+<area shape="rect" id="node19" href="$d6/dd8/Types_8hh.html" title="Types.hh" alt="" coords="1099,647,1175,673"/>
+<area shape="rect" id="node22" href="$dd/df7/Jet_8hh.html" title="Jet.hh" alt="" coords="2213,490,2271,517"/>
+<area shape="rect" id="node24" href="$d1/dce/JetInfo_8hh.html" title="JetInfo.hh" alt="" coords="2179,647,2259,673"/>
+<area shape="rect" id="node26" href="$d6/dc8/LorentzVector_8hh.html" title="physics/LorentzVector.hh" alt="" coords="1802,490,1973,517"/>
+<area shape="rect" id="node29" href="$db/da5/Particles_8hh.html" title="physics/Particles.hh" alt="" coords="2048,490,2188,517"/>
+<area shape="rect" id="node23" href="$d8/d42/PseudoJet_8hh.html" title="PseudoJet.hh" alt="" coords="2168,572,2271,599"/>
+<area shape="rect" id="node25" href="$d8/d85/Identification_8hh.html" title="Identification.hh" alt="" coords="2274,721,2389,748"/>
+<area shape="rect" id="node27" href="$d7/d06/DelphesForward_8hh.html" title="delphes/DelphesForward.hh" alt="" coords="1755,572,1939,599"/>
+<area shape="rect" id="node28" href="$d6/d1c/ExRootAnalysisForward_8hh.html" title="exroot/ExRootAnalysisForward.hh" alt="" coords="1510,572,1731,599"/>
+<area shape="rect" id="node33" href="$de/d1f/Observable_8hh.html" title="Observable.hh" alt="" coords="2079,721,2186,748"/>
+<area shape="rect" id="node34" href="$d3/d7e/Vector_8hh.html" title="Vector.hh" alt="" coords="2101,401,2180,427"/>
+<area shape="rect" id="node35" href="$d5/df2/Event_8hh.html" title="Event.hh" alt="" coords="2391,401,2466,427"/>
+<area shape="rect" id="node36" href="$d7/dcf/Exception_8hh.html" title="Exception.hh" alt="" coords="2490,401,2589,427"/>
+<area shape="rect" id="node38" href="$da/db5/MultipletBase_8hh.html" title="multiplets/MultipletBase.hh" alt="" coords="2802,401,2981,427"/>
+<area shape="rect" id="node40" href="$d4/d5f/PreCut_8hh.html" title="PreCut.hh" alt="" coords="1944,401,2025,427"/>
+<area shape="rect" id="node42" href="$d0/d32/TwoBody_8hh.html" title="multiplets/TwoBody.hh" alt="" coords="2229,169,2383,196"/>
+<area shape="rect" id="node43" href="$d0/d7f/Multiplet_8hh.html" title="multiplets/Multiplet.hh" alt="" coords="2343,244,2493,271"/>
+<area shape="rect" id="node47" href="$d5/d85/ReaderBase_8hh.html" title="ReaderBase.hh" alt="" coords="3003,319,3115,345"/>
+<area shape="rect" id="node49" href="$dc/d76/Options_8hh.html" title="Options.hh" alt="" coords="2591,319,2677,345"/>
+</map>

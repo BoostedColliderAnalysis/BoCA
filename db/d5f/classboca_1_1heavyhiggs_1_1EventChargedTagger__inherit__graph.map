@@ -1,0 +1,5 @@
+<map id="boca::heavyhiggs::EventChargedTagger" name="boca::heavyhiggs::EventChargedTagger">
+<area shape="rect" id="node2" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; MultipletEvent\&lt; Octet44\l \&gt;, EventChargedBranch \&gt;" alt="" coords="23,215,202,271"/>
+<area shape="rect" id="node3" href="$da/d42/classboca_1_1Tagger.html" title="Prepares multivariant analysis. " alt="" coords="78,5,177,32"/>
+<area shape="rect" id="node4" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="Tagger base class using Branch template. " alt="" coords="129,81,281,137"/>
+</map>

@@ -1,0 +1,34 @@
+<map id="StandardModel/include/TopHadronicTagger.hh" name="StandardModel/include/TopHadronicTagger.hh">
+<area shape="rect" id="node3" href="$db/d94/WHadronicTagger_8hh.html" title="WHadronicTagger.hh" alt="" coords="1631,95,1776,121"/>
+<area shape="rect" id="node48" href="$d7/db9/Triplet_8hh.html" title="multiplets/Triplet.hh" alt="" coords="1866,95,2002,121"/>
+<area shape="rect" id="node50" href="$d0/dd8/MomentumRange_8hh.html" title="MomentumRange.hh" alt="" coords="2348,319,2491,345"/>
+<area shape="rect" id="node4" href="$de/dbb/BottomTagger_8hh.html" title="BottomTagger.hh" alt="" coords="1518,169,1641,196"/>
+<area shape="rect" id="node9" href="$db/db5/TaggerTemplate_8hh.html" title="TaggerTemplate.hh" alt="" coords="1460,244,1595,271"/>
+<area shape="rect" id="node41" href="$df/d3a/Doublet_8hh.html" title="multiplets/Doublet.hh" alt="" coords="1862,169,2007,196"/>
+<area shape="rect" id="node43" href="$df/d2c/Reader_8hh.html" title="Reader.hh" alt="" coords="1688,244,1770,271"/>
+<area shape="rect" id="node5" href="$de/d63/BranchesSm_8hh.html" title="BranchesSm.hh" alt="" coords="1262,244,1377,271"/>
+<area shape="rect" id="node6" href="$d0/d79/Branches_8hh.html" title="Branches.hh" alt="" coords="1175,401,1270,427"/>
+<area shape="rect" id="node11" href="$d3/d96/ExRootAnalysis_8hh.html" title="exroot/ExRootAnalysis.hh" alt="" coords="512,319,687,345"/>
+<area shape="rect" id="node18" href="$db/d31/Sort_8hh.html" title="Sort.hh" alt="" coords="1306,401,1370,427"/>
+<area shape="rect" id="node26" href="$d1/d8c/Tagger_8hh.html" title="Tagger.hh" alt="" coords="1437,319,1517,345"/>
+<area shape="rect" id="node38" href="$db/d60/Singlet_8hh.html" title="multiplets/Singlet.hh" alt="" coords="2132,319,2272,345"/>
+<area shape="rect" id="node40" href="$da/d59/PreCuts_8hh.html" title="PreCuts.hh" alt="" coords="1541,319,1629,345"/>
+<area shape="rect" id="node17" href="$d6/dd8/Types_8hh.html" title="Types.hh" alt="" coords="415,647,491,673"/>
+<area shape="rect" id="node20" href="$dd/df7/Jet_8hh.html" title="Jet.hh" alt="" coords="2004,490,2062,517"/>
+<area shape="rect" id="node21" href="$d1/dce/JetInfo_8hh.html" title="JetInfo.hh" alt="" coords="1940,572,2020,599"/>
+<area shape="rect" id="node23" href="$d6/dc8/LorentzVector_8hh.html" title="physics/LorentzVector.hh" alt="" coords="1345,490,1516,517"/>
+<area shape="rect" id="node24" href="$db/da5/Particles_8hh.html" title="physics/Particles.hh" alt="" coords="2246,490,2386,517"/>
+<area shape="rect" id="node22" href="$d8/d85/Identification_8hh.html" title="Identification.hh" alt="" coords="1884,647,1998,673"/>
+<area shape="rect" id="node25" href="$d5/d40/ElectronVolt_8hh.html" title="ElectronVolt.hh" alt="" coords="2260,572,2371,599"/>
+<area shape="rect" id="node29" href="$de/d1f/Observable_8hh.html" title="Observable.hh" alt="" coords="1500,572,1606,599"/>
+<area shape="rect" id="node30" href="$d3/d7e/Vector_8hh.html" title="Vector.hh" alt="" coords="2283,401,2362,427"/>
+<area shape="rect" id="node36" href="$d5/df2/Event_8hh.html" title="Event.hh" alt="" coords="1668,401,1742,427"/>
+<area shape="rect" id="node37" href="$d7/dcf/Exception_8hh.html" title="Exception.hh" alt="" coords="1766,401,1865,427"/>
+<area shape="rect" id="node34" href="$dd/df5/Particle_8hh.html" title="Particle.hh" alt="" coords="2138,490,2222,517"/>
+<area shape="rect" id="node35" href="$db/d66/DetectorGeometry_8hh.html" title="DetectorGeometry.hh" alt="" coords="2410,490,2557,517"/>
+<area shape="rect" id="node39" href="$da/db5/MultipletBase_8hh.html" title="multiplets/MultipletBase.hh" alt="" coords="2065,401,2244,427"/>
+<area shape="rect" id="node42" href="$d0/d32/TwoBody_8hh.html" title="multiplets/TwoBody.hh" alt="" coords="2125,244,2280,271"/>
+<area shape="rect" id="node46" href="$d5/d85/ReaderBase_8hh.html" title="ReaderBase.hh" alt="" coords="1653,319,1765,345"/>
+<area shape="rect" id="node47" href="$dc/d76/Options_8hh.html" title="Options.hh" alt="" coords="1789,319,1874,345"/>
+<area shape="rect" id="node49" href="$d1/dcf/SubJettiness_8hh.html" title="SubJettiness.hh" alt="" coords="2031,169,2147,196"/>
+</map>

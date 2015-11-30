@@ -1,0 +1,5 @@
+<map id="boca::delphes::Partons" name="boca::delphes::Partons">
+<area shape="rect" id="node2" href="$d1/dfd/classboca_1_1Partons.html" title="particles for HAnalysis " alt="" coords="32,171,135,197"/>
+<area shape="rect" id="node3" href="$d3/d84/classboca_1_1FourVector.html" title="converts Clones to LorentzVectors and Jets " alt="" coords="22,95,145,121"/>
+<area shape="rect" id="node4" href="$d6/dde/classboca_1_1TreeReader.html" title="boca::TreeReader" alt="" coords="20,5,147,32"/>
+</map>

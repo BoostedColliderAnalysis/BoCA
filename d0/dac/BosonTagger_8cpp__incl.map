@@ -1,0 +1,35 @@
+<map id="StandardModel/source/BosonTagger.cpp" name="StandardModel/source/BosonTagger.cpp">
+<area shape="rect" id="node2" href="$dc/d06/BosonTagger_8hh.html" title="BosonTagger.hh" alt="" coords="1276,95,1393,121"/>
+<area shape="rect" id="node28" href="$d5/df2/Event_8hh.html" title="Event.hh" alt="" coords="653,401,728,427"/>
+<area shape="rect" id="node34" href="$d7/dcf/Exception_8hh.html" title="Exception.hh" alt="" coords="802,401,901,427"/>
+<area shape="rect" id="node39" href="$df/d3a/Doublet_8hh.html" title="multiplets/Doublet.hh" alt="" coords="1611,169,1756,196"/>
+<area shape="rect" id="node48" href="$d0/dd8/MomentumRange_8hh.html" title="MomentumRange.hh" alt="" coords="1970,401,2112,427"/>
+<area shape="rect" id="node49" href="$d8/de8/Debug_8hh.html" title="Debug.hh" alt="" coords="203,483,282,509"/>
+<area shape="rect" id="node3" href="$de/dbb/BottomTagger_8hh.html" title="BottomTagger.hh" alt="" coords="1174,169,1297,196"/>
+<area shape="rect" id="node9" href="$db/db5/TaggerTemplate_8hh.html" title="TaggerTemplate.hh" alt="" coords="1299,244,1434,271"/>
+<area shape="rect" id="node42" href="$df/d2c/Reader_8hh.html" title="Reader.hh" alt="" coords="736,244,818,271"/>
+<area shape="rect" id="node4" href="$de/d63/BranchesSm_8hh.html" title="BranchesSm.hh" alt="" coords="469,244,584,271"/>
+<area shape="rect" id="node5" href="$d0/d79/Branches_8hh.html" title="Branches.hh" alt="" coords="368,483,463,509"/>
+<area shape="rect" id="node11" href="$d3/d96/ExRootAnalysis_8hh.html" title="exroot/ExRootAnalysis.hh" alt="" coords="1208,319,1383,345"/>
+<area shape="rect" id="node16" href="$db/d31/Sort_8hh.html" title="Sort.hh" alt="" coords="1284,483,1348,509"/>
+<area shape="rect" id="node21" href="$d1/d8c/Tagger_8hh.html" title="Tagger.hh" alt="" coords="908,319,988,345"/>
+<area shape="rect" id="node36" href="$db/d60/Singlet_8hh.html" title="multiplets/Singlet.hh" alt="" coords="1754,401,1894,427"/>
+<area shape="rect" id="node38" href="$da/d59/PreCuts_8hh.html" title="PreCuts.hh" alt="" coords="1012,319,1100,345"/>
+<area shape="rect" id="node15" href="$d6/dd8/Types_8hh.html" title="Types.hh" alt="" coords="699,565,775,591"/>
+<area shape="rect" id="node17" href="$dd/df7/Jet_8hh.html" title="Jet.hh" alt="" coords="1229,565,1288,591"/>
+<area shape="rect" id="node18" href="$d1/dce/JetInfo_8hh.html" title="JetInfo.hh" alt="" coords="1285,647,1365,673"/>
+<area shape="rect" id="node19" href="$db/da5/Particles_8hh.html" title="physics/Particles.hh" alt="" coords="1531,565,1671,591"/>
+<area shape="rect" id="node20" href="$d5/d40/ElectronVolt_8hh.html" title="ElectronVolt.hh" alt="" coords="1546,647,1656,673"/>
+<area shape="rect" id="node22" href="$d3/d7e/Vector_8hh.html" title="Vector.hh" alt="" coords="1815,483,1894,509"/>
+<area shape="rect" id="node26" href="$dd/df5/Particle_8hh.html" title="Particle.hh" alt="" coords="1423,565,1507,591"/>
+<area shape="rect" id="node27" href="$db/d66/DetectorGeometry_8hh.html" title="DetectorGeometry.hh" alt="" coords="1866,565,2013,591"/>
+<area shape="rect" id="node29" href="$d0/d6b/Partons_8hh.html" title="Partons.hh" alt="" coords="712,483,797,509"/>
+<area shape="rect" id="node32" href="$d7/dac/Leptons_8hh.html" title="Leptons.hh" alt="" coords="600,483,687,509"/>
+<area shape="rect" id="node33" href="$dd/dee/Hadrons_8hh.html" title="Hadrons.hh" alt="" coords="487,483,576,509"/>
+<area shape="rect" id="node30" href="$df/dbc/FourVector_8hh.html" title="FourVector.hh" alt="" coords="570,565,674,591"/>
+<area shape="rect" id="node37" href="$da/db5/MultipletBase_8hh.html" title="multiplets/MultipletBase.hh" alt="" coords="1521,483,1700,509"/>
+<area shape="rect" id="node40" href="$d0/d32/TwoBody_8hh.html" title="multiplets/TwoBody.hh" alt="" coords="1830,244,1985,271"/>
+<area shape="rect" id="node41" href="$d0/d7f/Multiplet_8hh.html" title="multiplets/Multiplet.hh" alt="" coords="1858,319,2008,345"/>
+<area shape="rect" id="node45" href="$d5/d85/ReaderBase_8hh.html" title="ReaderBase.hh" alt="" coords="721,319,833,345"/>
+<area shape="rect" id="node46" href="$dc/d76/Options_8hh.html" title="Options.hh" alt="" coords="280,401,365,427"/>
+</map>

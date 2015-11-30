@@ -1,0 +1,11 @@
+<map id="boca::ThreeBody&lt; Multiplet_1, Multiplet_2, Multiplet_3 &gt;" name="boca::ThreeBody&lt; Multiplet_1, Multiplet_2, Multiplet_3 &gt;">
+<area shape="rect" id="node2" href="$d1/d5c/classboca_1_1Multiplet.html" title="boca::Multiplet" alt="" coords="173,430,280,457"/>
+<area shape="rect" id="node3" href="$de/d8b/classboca_1_1MultipletBase.html" title="boca::MultipletBase" alt="" coords="151,213,289,240"/>
+<area shape="rect" id="node5" href="$db/def/classboca_1_1Singlet.html" title="Thin wrapper to make Jet behave like a Multiplet. Additionally this class astracts away the JetInfo u..." alt="" coords="271,303,369,329"/>
+<area shape="rect" id="node4" href="$d4/de7/classboca_1_1Identification.html" title="boca::Identification" alt="" coords="154,117,286,143"/>
+<area shape="rect" id="node6" href="$df/d8a/classboca_1_1JetInfo.html" title="Jet infos subclassed from Fastjet. " alt="" coords="313,213,412,240"/>
+<area shape="rect" id="node8" href="$d6/d09/classboca_1_1Jet.html" title="boca::Jet" alt="" coords="46,213,122,240"/>
+<area shape="rect" id="node9" href="$d5/d82/classboca_1_1PseudoJet.html" title="boca::PseudoJet" alt="" coords="9,117,129,143"/>
+<area shape="rect" id="node11" href="$d6/dfb/classboca_1_1Vector2.html" title="boca::Vector2\&lt; AngleSquare \&gt;" alt="" coords="439,213,641,240"/>
+<area shape="rect" id="node12" href="$d6/dfb/classboca_1_1Vector2.html" title="Copy of root::TVector2 in order to get rid of TObject. " alt="" coords="463,117,623,143"/>
+</map>

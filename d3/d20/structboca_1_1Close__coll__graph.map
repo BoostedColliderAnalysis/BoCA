@@ -1,0 +1,15 @@
+<map id="boca::Close" name="boca::Close">
+<area shape="rect" id="node2" href="$db/dc7/classboca_1_1Particle.html" title="boca::Particle" alt="" coords="2270,73,2373,100"/>
+<area shape="rect" id="node3" href="$d5/d82/classboca_1_1PseudoJet.html" title="boca::PseudoJet" alt="" coords="1951,15,2071,41"/>
+<area shape="rect" id="node5" href="$d8/dd8/classboca_1_1ParticleInfo.html" title="Jet infos subclassed from Fastjet. " alt="" coords="1949,73,2073,100"/>
+<area shape="rect" id="node7" href="$d1/d78/classboca_1_1Family.html" title="boca::Family" alt="" coords="1721,107,1819,133"/>
+<area shape="rect" id="node8" href="$d7/d9c/classboca_1_1Member.html" title="boca::Member" alt="" coords="1429,107,1535,133"/>
+<area shape="rect" id="node9" href="$dd/d3e/classboca_1_1LorentzVector.html" title="boca::LorentzVector\l\&lt; boca::Momentum \&gt;" alt="" coords="1157,99,1304,141"/>
+<area shape="rect" id="node10" href="$d0/d7f/classboca_1_1LorentzVectorBase.html" title="boca::LorentzVectorBase\l\&lt; boca::Momentum \&gt;" alt="" coords="811,59,980,101"/>
+<area shape="rect" id="node11" href="$d3/da2/classboca_1_1Vector3.html" title="boca::Vector3\&lt; boca\l::Momentum \&gt;" alt="" coords="477,35,620,77"/>
+<area shape="rect" id="node12" href="$d3/da2/classboca_1_1Vector3.html" title="Copy of root::TVector3 in order to get rid of TObject. " alt="" coords="127,48,287,75"/>
+<area shape="rect" id="node14" href="$d0/d7f/classboca_1_1LorentzVectorBase.html" title="Copy of root::TLorentzVector in order to get rid of TObject which makes it unsuitable for heavy usage..." alt="" coords="464,101,633,142"/>
+<area shape="rect" id="node15" href="$dd/d3e/classboca_1_1LorentzVector.html" title="boca::LorentzVector\l\&lt; Value \&gt;" alt="" coords="826,125,965,166"/>
+<area shape="rect" id="node16" href="$db/d54/classboca_1_1DetectorGeometry.html" title="boca::DetectorGeometry" alt="" coords="2239,129,2404,156"/>
+<area shape="rect" id="node17" href="$d2/d04/classboca_1_1InfoRecombiner.html" title="boca::InfoRecombiner" alt="" coords="1936,144,2087,171"/>
+</map>

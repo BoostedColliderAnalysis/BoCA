@@ -1,0 +1,30 @@
+<map id="include/Plotting.hh" name="include/Plotting.hh">
+<area shape="rect" id="node3" href="$d1/d8c/Tagger_8hh.html" title="Tagger.hh" alt="" coords="381,80,461,107"/>
+<area shape="rect" id="node6" href="$de/d1f/Observable_8hh.html" title="Observable.hh" alt="" coords="179,155,285,181"/>
+<area shape="rect" id="node8" href="$d8/d85/Identification_8hh.html" title="Identification.hh" alt="" coords="385,543,500,569"/>
+<area shape="rect" id="node9" href="$d0/d79/Branches_8hh.html" title="Branches.hh" alt="" coords="397,393,491,420"/>
+<area shape="rect" id="node14" href="$d3/d7e/Vector_8hh.html" title="Vector.hh" alt="" coords="709,229,787,256"/>
+<area shape="rect" id="node39" href="$d5/df2/Event_8hh.html" title="Event.hh" alt="" coords="1064,155,1139,181"/>
+<area shape="rect" id="node48" href="$d7/dcf/Exception_8hh.html" title="Exception.hh" alt="" coords="1163,155,1261,181"/>
+<area shape="rect" id="node18" href="$db/da5/Particles_8hh.html" title="physics/Particles.hh" alt="" coords="525,543,665,569"/>
+<area shape="rect" id="node24" href="$dd/df5/Particle_8hh.html" title="Particle.hh" alt="" coords="1073,311,1157,338"/>
+<area shape="rect" id="node35" href="$dd/df7/Jet_8hh.html" title="Jet.hh" alt="" coords="1183,311,1241,338"/>
+<area shape="rect" id="node36" href="$db/d66/DetectorGeometry_8hh.html" title="DetectorGeometry.hh" alt="" coords="731,311,877,338"/>
+<area shape="rect" id="node19" href="$d5/d40/ElectronVolt_8hh.html" title="physics/ElectronVolt.hh" alt="" coords="668,625,828,651"/>
+<area shape="rect" id="node25" href="$d8/d42/PseudoJet_8hh.html" title="PseudoJet.hh" alt="" coords="1067,393,1170,420"/>
+<area shape="rect" id="node33" href="$da/d36/ParticleInfo_8hh.html" title="ParticleInfo.hh" alt="" coords="885,393,992,420"/>
+<area shape="rect" id="node27" href="$dc/d45/Units_8hh.html" title="physics/Units.hh" alt="" coords="1053,468,1173,495"/>
+<area shape="rect" id="node30" href="$d1/dce/JetInfo_8hh.html" title="JetInfo.hh" alt="" coords="1344,468,1424,495"/>
+<area shape="rect" id="node29" href="$dc/d6c/Prefixes_8hh.html" title="physics/Prefixes.hh" alt="" coords="998,543,1135,569"/>
+<area shape="rect" id="node31" href="$d3/d32/Constituent_8hh.html" title="Constituent.hh" alt="" coords="1469,543,1576,569"/>
+<area shape="rect" id="node32" href="$d7/d7f/Math_8hh.html" title="physics/Math.hh" alt="" coords="1326,543,1445,569"/>
+<area shape="rect" id="node34" href="$d0/d9c/Family_8hh.html" title="Family.hh" alt="" coords="899,468,978,495"/>
+<area shape="rect" id="node37" href="$df/de2/InfoRecombiner_8hh.html" title="InfoRecombiner.hh" alt="" coords="729,393,861,420"/>
+<area shape="rect" id="node40" href="$d0/d6b/Partons_8hh.html" title="Partons.hh" alt="" coords="1059,229,1144,256"/>
+<area shape="rect" id="node45" href="$d7/dac/Leptons_8hh.html" title="Leptons.hh" alt="" coords="1169,229,1255,256"/>
+<area shape="rect" id="node46" href="$dd/dee/Hadrons_8hh.html" title="Hadrons.hh" alt="" coords="1279,229,1369,256"/>
+<area shape="rect" id="node41" href="$df/dbc/FourVector_8hh.html" title="FourVector.hh" alt="" coords="1272,311,1376,338"/>
+<area shape="rect" id="node43" href="$d0/d5f/Flag_8hh.html" title="Flag.hh" alt="" coords="1387,393,1453,420"/>
+<area shape="rect" id="node44" href="$d6/d74/TreeReader_8hh.html" title="TreeReader.hh" alt="" coords="1477,393,1585,420"/>
+<area shape="rect" id="node47" href="$d6/dd8/Types_8hh.html" title="Types.hh" alt="" coords="1490,311,1566,338"/>
+</map>

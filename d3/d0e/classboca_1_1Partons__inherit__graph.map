@@ -1,0 +1,5 @@
+<map id="boca::Partons" name="boca::Partons">
+<area shape="rect" id="node3" href="$da/db6/classboca_1_1delphes_1_1Partons.html" title="delphes particles " alt="" coords="5,155,161,181"/>
+<area shape="rect" id="node4" href="$d9/d3f/classboca_1_1exroot_1_1Partons.html" title="MadGraph particles. " alt="" coords="186,155,333,181"/>
+<area shape="rect" id="node2" href="$d3/d84/classboca_1_1FourVector.html" title="converts Clones to LorentzVectors and Jets " alt="" coords="110,5,233,32"/>
+</map>

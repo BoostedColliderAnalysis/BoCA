@@ -1,0 +1,35 @@
+<map id="TopPartner/include/TopPartnerHiggsPairTagger.hh" name="TopPartner/include/TopPartnerHiggsPairTagger.hh">
+<area shape="rect" id="node2" href="$db/d56/Septet_8hh.html" title="Septet.hh" alt="" coords="230,95,309,121"/>
+<area shape="rect" id="node16" href="$d2/d88/TopPartnerLeptonicTagger_8hh.html" title="TopPartnerLeptonicTagger.hh" alt="" coords="548,95,741,121"/>
+<area shape="rect" id="node49" href="$d9/d80/BranchesTopPartner_8hh.html" title="BranchesTopPartner.hh" alt="" coords="866,169,1025,196"/>
+<area shape="rect" id="node50" href="$d1/d1b/HiggsTagger_8hh.html" title="HiggsTagger.hh" alt="" coords="727,169,842,196"/>
+<area shape="rect" id="node3" href="$d5/d5f/Quintet_8hh.html" title="multiplets/Quintet.hh" alt="" coords="198,169,341,196"/>
+<area shape="rect" id="node5" href="$df/d3a/Doublet_8hh.html" title="multiplets/Doublet.hh" alt="" coords="177,319,322,345"/>
+<area shape="rect" id="node4" href="$d7/db9/Triplet_8hh.html" title="multiplets/Triplet.hh" alt="" coords="152,244,288,271"/>
+<area shape="rect" id="node15" href="$d1/dcf/SubJettiness_8hh.html" title="SubJettiness.hh" alt="" coords="37,319,153,345"/>
+<area shape="rect" id="node6" href="$d0/d32/TwoBody_8hh.html" title="multiplets/TwoBody.hh" alt="" coords="151,393,306,420"/>
+<area shape="rect" id="node7" href="$db/d60/Singlet_8hh.html" title="multiplets/Singlet.hh" alt="" coords="8,565,148,591"/>
+<area shape="rect" id="node11" href="$d0/d7f/Multiplet_8hh.html" title="multiplets/Multiplet.hh" alt="" coords="131,475,280,502"/>
+<area shape="rect" id="node12" href="$d3/d7e/Vector_8hh.html" title="Vector.hh" alt="" coords="356,475,434,502"/>
+<area shape="rect" id="node8" href="$d1/dce/JetInfo_8hh.html" title="JetInfo.hh" alt="" coords="303,796,383,823"/>
+<area shape="rect" id="node9" href="$da/db5/MultipletBase_8hh.html" title="multiplets/MultipletBase.hh" alt="" coords="102,647,280,673"/>
+<area shape="rect" id="node10" href="$dd/df7/Jet_8hh.html" title="Jet.hh" alt="" coords="314,721,372,748"/>
+<area shape="rect" id="node13" href="$db/da5/Particles_8hh.html" title="physics/Particles.hh" alt="" coords="406,565,546,591"/>
+<area shape="rect" id="node17" href="$d5/d88/TopLeptonicTagger_8hh.html" title="TopLeptonicTagger.hh" alt="" coords="410,169,561,196"/>
+<area shape="rect" id="node48" href="$dc/d06/BosonTagger_8hh.html" title="BosonTagger.hh" alt="" coords="586,169,703,196"/>
+<area shape="rect" id="node18" href="$de/dbb/BottomTagger_8hh.html" title="BottomTagger.hh" alt="" coords="632,244,755,271"/>
+<area shape="rect" id="node42" href="$d2/dd8/WLeptonicTagger_8hh.html" title="WLeptonicTagger.hh" alt="" coords="414,244,557,271"/>
+<area shape="rect" id="node43" href="$df/d2c/Reader_8hh.html" title="Reader.hh" alt="" coords="830,244,912,271"/>
+<area shape="rect" id="node19" href="$de/d63/BranchesSm_8hh.html" title="BranchesSm.hh" alt="" coords="636,319,751,345"/>
+<area shape="rect" id="node25" href="$db/db5/TaggerTemplate_8hh.html" title="TaggerTemplate.hh" alt="" coords="477,319,612,345"/>
+<area shape="rect" id="node20" href="$d0/d79/Branches_8hh.html" title="Branches.hh" alt="" coords="2001,475,2096,502"/>
+<area shape="rect" id="node27" href="$d3/d96/ExRootAnalysis_8hh.html" title="exroot/ExRootAnalysis.hh" alt="" coords="1016,393,1190,420"/>
+<area shape="rect" id="node34" href="$db/d31/Sort_8hh.html" title="Sort.hh" alt="" coords="459,475,523,502"/>
+<area shape="rect" id="node37" href="$d1/d8c/Tagger_8hh.html" title="Tagger.hh" alt="" coords="1702,393,1782,420"/>
+<area shape="rect" id="node41" href="$da/d59/PreCuts_8hh.html" title="PreCuts.hh" alt="" coords="543,393,631,420"/>
+<area shape="rect" id="node33" href="$d6/dd8/Types_8hh.html" title="Types.hh" alt="" coords="1598,565,1674,591"/>
+<area shape="rect" id="node36" href="$d6/dc8/LorentzVector_8hh.html" title="physics/LorentzVector.hh" alt="" coords="792,565,963,591"/>
+<area shape="rect" id="node40" href="$de/d1f/Observable_8hh.html" title="Observable.hh" alt="" coords="1699,565,1806,591"/>
+<area shape="rect" id="node46" href="$d5/d85/ReaderBase_8hh.html" title="ReaderBase.hh" alt="" coords="1220,319,1332,345"/>
+<area shape="rect" id="node47" href="$dc/d76/Options_8hh.html" title="Options.hh" alt="" coords="876,319,962,345"/>
+</map>

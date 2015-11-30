@@ -1,0 +1,5 @@
+<map id="boca::heavyhiggs::HeavyHiggsTauTagger" name="boca::heavyhiggs::HeavyHiggsTauTagger">
+<area shape="rect" id="node2" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="boca::TaggerTemplate\l\&lt; Doublet, HeavyHiggsTauBranch \&gt;" alt="" coords="5,215,240,256"/>
+<area shape="rect" id="node3" href="$da/d42/classboca_1_1Tagger.html" title="Prepares multivariant analysis. " alt="" coords="88,5,187,32"/>
+<area shape="rect" id="node4" href="$dd/d8a/classboca_1_1TaggerTemplate.html" title="Tagger base class using Branch template. " alt="" coords="139,81,291,137"/>
+</map>

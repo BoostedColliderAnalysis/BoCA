@@ -1,0 +1,22 @@
+<map id="boca::Analysis&lt; Tagger &gt;" name="boca::Analysis&lt; Tagger &gt;">
+<area shape="rect" id="node3" href="$df/d89/classboca_1_1fusionpair_1_1Analysis.html" title="Analysis subclass defining the HiggsCPV Analysis. " alt="" coords="417,85,589,127"/>
+<area shape="rect" id="node4" href="$dd/d8c/classboca_1_1heavyhiggs_1_1AnalysisHeavyHiggs.html" title="Analysis for heavy higgs. " alt="" coords="412,151,595,192"/>
+<area shape="rect" id="node9" href="$d3/d0f/classboca_1_1higgscpv_1_1Analysis.html" title="HAnalysis subclass defining the HiggsCPV Analysis. " alt="" coords="419,231,587,272"/>
+<area shape="rect" id="node10" href="$d0/da0/classboca_1_1naturalness_1_1AnalysisNaturalness.html" title="Top partner analysis. " alt="" coords="432,325,575,381"/>
+<area shape="rect" id="node15" href="$d6/d8a/classboca_1_1standardmodel_1_1AnalysisStandardModel.html" title="Tagger ananlysis. " alt="" coords="420,679,587,735"/>
+<area shape="rect" id="node2" href="$d7/d62/classboca_1_1AnalysisBase.html" title="Base for all analyses. " alt="" coords="5,238,144,265"/>
+<area shape="rect" id="node5" href="$d3/d17/classboca_1_1heavyhiggs_1_1AnalysisCharged.html" title="HAnalysis subclass defining the HiggsCPV Analysis. " alt="" coords="645,5,828,47"/>
+<area shape="rect" id="node6" href="$d2/d68/classboca_1_1heavyhiggs_1_1AnalysisFusion.html" title="HAnalysis subclass defining the HiggsCPV Analysis. " alt="" coords="645,71,828,112"/>
+<area shape="rect" id="node7" href="$d9/df8/classboca_1_1heavyhiggs_1_1AnalysisNeutral.html" title="HAnalysis subclass defining the HiggsCPV Analysis. " alt="" coords="645,136,828,177"/>
+<area shape="rect" id="node8" href="$dd/d4e/classboca_1_1heavyhiggs_1_1AnalysisNeutralFourTop.html" title="boca::heavyhiggs::Analysis\lNeutralFourTop\&lt; Tagger \&gt;" alt="" coords="645,201,828,243"/>
+<area shape="rect" id="node11" href="$d5/d5d/classboca_1_1naturalness_1_1AnalysisEffective.html" title="Top partner analysis. " alt="" coords="643,267,831,308"/>
+<area shape="rect" id="node12" href="$d1/d14/classboca_1_1naturalness_1_1AnalysisPair.html" title="Top partner analysis. " alt="" coords="657,332,816,373"/>
+<area shape="rect" id="node13" href="$d9/d6a/classboca_1_1naturalness_1_1AnalysisSingleHadronic.html" title="Top partner analysis. " alt="" coords="657,397,817,453"/>
+<area shape="rect" id="node14" href="$d0/df4/classboca_1_1naturalness_1_1AnalysisSingleLeptonic.html" title="Top partner analysis. " alt="" coords="658,477,815,533"/>
+<area shape="rect" id="node16" href="$d0/dd3/classboca_1_1standardmodel_1_1AnalysisBoson.html" title="Higgs tagger analysis. " alt="" coords="646,556,827,597"/>
+<area shape="rect" id="node17" href="$d6/d64/classboca_1_1standardmodel_1_1AnalysisBottom.html" title="Bottom Tagger Analysis. " alt="" coords="643,621,830,663"/>
+<area shape="rect" id="node18" href="$d7/d17/classboca_1_1standardmodel_1_1AnalysisHiggs.html" title="Higgs tagger analysis. " alt="" coords="647,687,826,728"/>
+<area shape="rect" id="node19" href="$d0/d8b/classboca_1_1standardmodel_1_1AnalysisW.html" title="HAnalysis subclass defining the W Tagger ananlysis. " alt="" coords="658,752,815,793"/>
+<area shape="rect" id="node20" href="$df/dbf/classboca_1_1standardmodel_1_1AnalysisZ.html" title="W tagger ananlysis. " alt="" coords="661,817,813,859"/>
+<area shape="rect" id="node21" href="$d5/d44/classboca_1_1standardmodel_1_1TopAnalysis.html" title="Top Tagger ananlysis. " alt="" coords="653,883,820,924"/>
+</map>
