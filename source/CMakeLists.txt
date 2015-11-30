@@ -87,8 +87,6 @@ JetInfo.cpp
 ParticleInfo.cpp
 InfoRecombiner.cpp
 JetInfoFamily.cpp
-Reconstruction.cpp
-Discriminator.cpp
 )
 create_library(Analysis analysis_sources)
 

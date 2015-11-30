@@ -5,6 +5,7 @@
 
 #include "Types.hh"
 #include "FourVector.hh"
+#include "Jet.hh"
 
 namespace boca
 {

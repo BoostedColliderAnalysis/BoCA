@@ -37,7 +37,7 @@ Angle Singlet::Radius(boca::Jet const& jet) const
 {
     Info0;
     if (!jet.has_constituents()) return 0;
-    Angle delta_r = 0. * rad;
+    Angle delta_r = 0_rad;
     for (auto const& constituent : jet.constituents()) {
         Angle constituent_delta_r = jet.DeltaRTo(constituent);
         Debug(constituent_delta_r);
@@ -58,25 +58,24 @@ float Singlet::Spread(boca::Jet const& jet) const
         spread += constituent_delta_r / rad * constituent.pt();
         if (constituent_delta_r > delta_r) delta_r = constituent_delta_r;
     }
-    if (delta_r == 0. * rad) return 0;
+    if (delta_r == 0_rad) return 0;
     return spread / jet.pt() / delta_r * rad;
 }
 
 void Singlet::SetBdt(float bdt)
 {
-    if (jet_.has_user_info<JetInfo>()) static_cast<JetInfo&>(*jet_.user_info_shared_ptr().get()).SetBdt(bdt);
+    jet_.Info().SetBdt(bdt);
 }
 
 JetInfo const& Singlet::UserInfo() const
 {
-    if (!Jet().has_user_info<JetInfo>()) return jet_info_;
-    return Jet().user_info<JetInfo>();
+    return jet_.Info();
 }
 
 float Singlet::log(Length length) const
 {
-    if (length > 0. * mm) return std::log10(length / mm);
-    else return std::log10(DetectorGeometry::TrackerDistanceMin() / 10. / mm);
+    if (length > 0_mm) return std::log10(length / mm);
+    else return std::log10(DetectorGeometry::TrackerDistanceMin() / 10_mm);
 }
 
 int Singlet::Charge() const
@@ -95,8 +94,7 @@ Vector2<AngleSquare> Singlet::Pull() const
     if(constituents.size() < 3) return {};
     Vector2<AngleSquare> sum;
     for (auto const& constituent : constituents) sum += Reference(constituent) * constituent.pt() * constituent.DeltaRTo(jet_);
-    pull_ = sum / jet_.pt();
-    INFO(pull_.Y(),pull_.X(), constituents.size());
+    pull_ = sum  / jet_.pt();
     has_pull_ = true;
     return pull_;
 }

@@ -1,13 +1,10 @@
 /**
  * Copyright (C) 2015 Jan Hajer
  */
-#include "FourVector.hh"
-
-#include "TClonesArray.h"
 #include "delphes/Delphes.hh"
-#include "exroot/ExRootAnalysis.hh"
+
+#include "FourVector.hh"
 #include "Types.hh"
-#include "JetInfoFamily.hh"
 #include "Debug.hh"
 
 namespace boca
@@ -30,27 +27,15 @@ std::string Name(JetDetail jet_detail)
         case JetDetail::structure:
             name += "Structure";
             break;
-        default :
-            name += "";
+        default : name += "";
         }
     });
     return name;
 }
 
-FourVector::FourVector() :
-    check_four_vectors_(1),
-    check_value_(0.00001),
-    mass_check_value_(1)
-{
-    Info0;
-}
-
 void FourVector::NewEvent(TreeReader const& tree_reader)
 {
-//     std::vector<Family>topology_;
     tree_reader_ = &tree_reader;
-//     topology_.assign(tree_reader.ParticleSum(), Family(to_int(Id::empty)));
-//     INFO(topology_.size());
 }
 
 
@@ -110,6 +95,11 @@ std::string FourVector::PrintParticle(int position) const
 {
   if (position != -1) return Name(tree_reader().Objects<::delphes::GenParticle>(Branch::particle).At(position).PID);
     else return " ";
+}
+
+TreeReader const& FourVector::tree_reader() const
+{
+    return *tree_reader_;
 }
 
 }
