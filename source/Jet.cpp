@@ -35,32 +35,32 @@ Jet::Jet(TLorentzVector const& vector, int charge) : PseudoJet(vector)
     SetInfo(charge);
 }
 
-Jet::Jet(const exroot::Electron& electron) : PseudoJet(LorentzVector(electron))
+Jet::Jet(const exroot::Electron& electron) : PseudoJet(LorentzVector<Momentum>(electron))
 {
     SetInfo();
 }
 
-Jet::Jet(const exroot::GenJet& gen_jet) : PseudoJet(LorentzVector(gen_jet))
+Jet::Jet(const exroot::GenJet& gen_jet) : PseudoJet(LorentzVector<Momentum>(gen_jet))
 {
     SetInfo();
 }
 
-Jet::Jet(const exroot::Jet& jet) : PseudoJet(LorentzVector(jet))
+Jet::Jet(const exroot::Jet& jet) : PseudoJet(LorentzVector<Momentum>(jet))
 {
     SetInfo();
 }
 
-Jet::Jet(const exroot::Muon& muon) : PseudoJet(LorentzVector(muon))
+Jet::Jet(const exroot::Muon& muon) : PseudoJet(LorentzVector<Momentum>(muon))
 {
     SetInfo();
 }
 
-Jet::Jet(const exroot::Photon& photon) : PseudoJet(LorentzVector(photon))
+Jet::Jet(const exroot::Photon& photon) : PseudoJet(LorentzVector<Momentum>(photon))
 {
     SetInfo();
 }
 
-Jet::Jet(const exroot::Tau& tau) : PseudoJet(LorentzVector(tau))
+Jet::Jet(const exroot::Tau& tau) : PseudoJet(LorentzVector<Momentum>(tau))
 {
     SetInfo();
 }

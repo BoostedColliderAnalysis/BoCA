@@ -1,7 +1,7 @@
 #pragma once
 
 #include "TopLeptonicTagger.hh"
-#include "Sextet.hh"
+#include "multiplets/Sextet.hh"
 #include "BranchesHiggsCpv.hh"
 
 namespace boca

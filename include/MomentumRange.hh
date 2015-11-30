@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Jan Hajer
  */
 #pragma once
-#include "Particles.hh"
+#include "physics/Particles.hh"
 #include "Vector.hh"
 
 namespace boca

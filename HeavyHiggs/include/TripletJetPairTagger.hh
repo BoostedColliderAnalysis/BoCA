@@ -4,7 +4,7 @@
 #pragma once
 
 #include "TopHadronicTagger.hh"
-#include "Quartet.hh"
+#include "multiplets/Quartet.hh"
 
 namespace boca
 {

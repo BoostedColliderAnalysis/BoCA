@@ -15,7 +15,7 @@
 namespace boca
 {
 
-typedef std::vector<std::string> Strings;
+
 
 enum class Branch
 {
@@ -105,7 +105,7 @@ public:
 
     TreeReader(TChain& chain);
 
-    TreeReader(Strings const& paths, std::string const& tree_name);
+    TreeReader(std::vector<std::string> const& paths, std::string const& tree_name);
 
     long GetEntries() const;
 

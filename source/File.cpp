@@ -12,7 +12,7 @@
 namespace boca
 {
 
-File::File(Strings const& processes, std::string const& base_path, std::string const& file_suffix, std::string const& nice_name, Crosssection crosssection, Mass mass)
+File::File(std::vector<std::string> const& processes, std::string const& base_path, std::string const& file_suffix, std::string const& nice_name, Crosssection crosssection, Mass mass)
 {
     Info0;
     SetVariables();
@@ -75,10 +75,10 @@ void File::SetVariables()
     tag_name_ = "tag_1";
 }
 
-Strings File::Paths() const
+std::vector<std::string> File::Paths() const
 {
     Info0;
-    Strings FilePaths;
+    std::vector<std::string> FilePaths;
     for (auto const & process_folder : process_folders_) FilePaths.emplace_back(base_path_ + process_folder + file_suffix_);
     return FilePaths;
 }

@@ -1,5 +1,5 @@
 #include "TopLeptonicPairTagger.hh"
-#include "Quartet.hh"
+#include "multiplets/Quartet.hh"
 #include "WimpMass.hh"
 #include "Types.hh"
 #include "Event.hh"

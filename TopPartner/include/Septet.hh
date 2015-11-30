@@ -1,5 +1,5 @@
-#include "Quintet.hh"
-#include "Doublet.hh"
+#include "multiplets/Quintet.hh"
+#include "multiplets/Doublet.hh"
 
 namespace boca
 {

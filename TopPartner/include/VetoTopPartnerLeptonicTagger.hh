@@ -4,7 +4,7 @@
 #pragma once
 
 #include <functional>
-#include "Quintet.hh"
+#include "multiplets/Quintet.hh"
 #include "TopPartnerHadronicTagger.hh"
 #include "TopLeptonicTagger.hh"
 #include "HiggsTagger.hh"

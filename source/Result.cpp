@@ -8,7 +8,7 @@
 
 #include "Types.hh"
 #include "DetectorGeometry.hh"
-#include "Math.hh"
+#include "physics/Math.hh"
 // #define DEBUG
 #include "Debug.hh"
 

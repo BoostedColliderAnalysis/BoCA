@@ -7,8 +7,8 @@
 
 #include "WIMPMASS.h"
 
-#include "Quartet.hh"
-#include "Math.hh"
+#include "multiplets/Quartet.hh"
+#include "physics/Math.hh"
 #include "Types.hh"
 #include "Debug.hh"
 

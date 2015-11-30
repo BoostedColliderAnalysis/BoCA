@@ -4,7 +4,7 @@
 #include "fastjet/tools/MassDropTagger.hh"
 #include "fastjet/tools/Filter.hh"
 
-#include "Doublet.hh"
+#include "multiplets/Doublet.hh"
 #include "Event.hh"
 #include "ClusterSequence.hh"
 #include "Types.hh"

@@ -4,7 +4,7 @@
 #pragma once
 
 #include <map>
-#include "Particles.hh"
+#include "physics/Particles.hh"
 
 namespace boca
 {

@@ -31,7 +31,7 @@
 #include "Graph.hh"
 #include "Result.hh"
 #include "Canvas.hh"
-#include "Math.hh"
+#include "physics/Math.hh"
 #define INFORMATION
 #include "Debug.hh"
 
@@ -141,7 +141,7 @@ std::string Plotting::PlotHistograms(boca::Results& results) const
     Canvas canvas;
     THStack stack("", Tagger().NiceName().c_str());
     std::vector<TH1F> histograms;
-    Strings nice_names;
+    std::vector<std::string> nice_names;
     for (auto const & result : results.signals) {
         histograms.emplace_back(Histogram(result, results.max, results.min, &result - &results.signals.front()));
         nice_names.emplace_back(result.info_branch_.Name);
@@ -167,7 +167,7 @@ std::string Plotting::PlotEfficiencyGraph(Results const& results) const
     Canvas canvas;
     canvas.SetLog();
     TMultiGraph multi_graph("", Tagger().NiceName().c_str());
-    Strings nice_names;
+    std::vector<std::string> nice_names;
     std::vector<TGraph> graphs;
     for (auto const & result : results.signals) {
         nice_names.emplace_back(result.info_branch_.Name);
@@ -197,7 +197,7 @@ void Plotting::PlotAcceptanceGraph(Results const& results) const
 //         TMultiGraph multi_graph("", Tagger().NiceName().c_str());
         TMultiGraph multi_graph("", "");
         std::vector<TGraph> graphs;
-        Strings nice_names;
+        std::vector<std::string> nice_names;
         Point min(0.2, LargeNumber());
         Point max(0.9, 0);
         for (auto const & background : results.backgrounds) {
@@ -224,7 +224,7 @@ std::string Plotting::PlotCrosssectionsGraph(Results const& results) const
     Canvas canvas;
     canvas.SetLog();
     TMultiGraph multi_graph("", Tagger().NiceName().c_str());
-    Strings nice_names;
+    std::vector<std::string> nice_names;
     std::vector<TGraph> graphs;
     float min = LargeNumber();
     float max = 0;
@@ -625,7 +625,7 @@ std::string Plotting::PlotCutEfficiencyGraph(CutResults const& results) const
   Canvas canvas;
   canvas.SetLog();
   TMultiGraph multi_graph("", "Efficiencies");
-  Strings nice_names;
+  std::vector<std::string> nice_names;
   std::vector<TGraph> graphs;
   for (auto const & result : results.signals) {
     nice_names.emplace_back(result.info_branch_.Name);

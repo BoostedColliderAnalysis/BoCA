@@ -4,7 +4,7 @@
 
 #include "PseudoJet.hh"
 #include "TLorentzVector.h"
-#include "Particles.hh"
+#include "physics/Particles.hh"
 #include "Debug.hh"
 
 namespace boca
@@ -14,7 +14,7 @@ PseudoJet::PseudoJet() : fastjet::PseudoJet() {}
 
 PseudoJet::PseudoJet(TLorentzVector const& vector) : fastjet::PseudoJet(vector.Px(), vector.Py(), vector.Pz(), vector.E()) {}
 
-PseudoJet::PseudoJet(LorentzVector const& vector) : fastjet::PseudoJet(vector.Px(), vector.Py(), vector.Pz(), vector.E()) {}
+PseudoJet::PseudoJet(LorentzVector<Momentum> const& vector) : fastjet::PseudoJet(vector.Px() / GeV, vector.Py() / GeV, vector.Pz() / GeV, vector.E() / GeV) {}
 
 Momentum PseudoJet::Pt() const
 {

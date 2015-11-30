@@ -2,7 +2,7 @@
 
 #include "TopLeptonicTagger.hh"
 #include "BosonTagger.hh"
-#include "Quintet.hh"
+#include "multiplets/Quintet.hh"
 #include "BranchesTopPartner.hh"
 
 namespace boca

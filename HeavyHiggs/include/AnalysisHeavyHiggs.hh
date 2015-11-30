@@ -170,7 +170,10 @@ public:
         }
     }
 
-    virtual boca::Crosssection Crosssection(Process process) const {};
+    virtual boca::Crosssection Crosssection(Process ) const {
+      Error("No Crosssection");
+      return 0. * fb;
+    };
 
     virtual void NewFile(Tag tag, Process process) {
         boca::AnalysisBase::NewFile(tag, FileNames(process, tag), this->Crosssection(process), NiceName(process));
@@ -180,9 +183,9 @@ public:
         boca::AnalysisBase::NewFile(tag, FileNames(process, tag), crosssection, NiceName(process), Mass());
     }
 
-    Strings FileNames(Process process, Tag tag) const {
+    std::vector<std::string> FileNames(Process process, Tag tag) const {
         if (FileNumber(process) == 1) return {FileName(process, tag)};
-        Strings names;
+        std::vector<std::string> names;
         for (auto const & file_number : Range(FileNumber(process))) {
             if (file_number == 0) names.emplace_back(FileName(process, tag));
             else names.emplace_back(FileName(process, tag) + "_" + std::to_string(file_number));

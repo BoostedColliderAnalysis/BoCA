@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Quintet.hh"
+#include "multiplets/Quintet.hh"
 #include "TopHadronicTagger.hh"
 #include "BosonTagger.hh"
 #include "BranchesTopPartner.hh"

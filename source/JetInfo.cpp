@@ -9,7 +9,7 @@
 
 #include "delphes/Delphes.hh"
 #include "Vector.hh"
-#include "Math.hh"
+#include "physics/Math.hh"
 #include "Types.hh"
 
 // #define DEBUG
@@ -162,7 +162,7 @@ Length JetInfo::SumDisplacement() const
     Debug0;
     if (displaced_constituents_.empty()) return 0. * mm;
     return boost::accumulate(displaced_constituents_, 0. * mm, [](Length result, Constituent const & constituent) {
-        return (result + 1. * constituent.Position().Vect().Perp() * mm);
+        return (result + constituent.Position().Vect().Perp());
     });
 }
 
@@ -177,17 +177,17 @@ Length JetInfo::MaxDisplacement() const
 {
     Debug0;
     if(displaced_constituents_.empty()) return 0. * mm;
-    return 1. * (*boost::max_element(displaced_constituents_, [](Constituent const & constituent_1, Constituent const & constituent_2) {
+    return (*boost::max_element(displaced_constituents_, [](Constituent const & constituent_1, Constituent const & constituent_2) {
         return constituent_1.Position().Vect().Perp() > constituent_2.Position().Vect().Perp();
-    })).Position().Vect().Perp() * mm;
+    })).Position().Vect().Perp();
 }
 
 Mass JetInfo::VertexMass() const
 {
     Debug0;
-    Mass vertex_mass = 1. * boost::accumulate(displaced_constituents_, LorentzVector(), [](LorentzVector const & momentum, Constituent const & constituent) {
+    Mass vertex_mass = boost::accumulate(displaced_constituents_, LorentzVector<Momentum>(), [](LorentzVector<Momentum> const & momentum, Constituent const & constituent) {
         return momentum + constituent.Momentum();
-    }).M() * GeV;
+    }).M();
     Debug(vertex_mass);
     if (vertex_mass < DetectorGeometry::VertexMassMin()) return massless;
     return vertex_mass;
@@ -196,7 +196,7 @@ Mass JetInfo::VertexMass() const
 Energy JetInfo::VertexEnergy() const
 {
     Debug0;
-    return 1. * boost::accumulate(displaced_constituents_, Constituent()).Momentum().E() * GeV;
+    return boost::accumulate(displaced_constituents_, Constituent()).Momentum().E();
 }
 
 std::vector<Constituent> JetInfo::ApplyVertexResolution(std::vector<Constituent> constituents) const
@@ -212,32 +212,32 @@ std::vector<Constituent> JetInfo::ApplyVertexResolution(std::vector<Constituent>
 bool JetInfo::VertexResultion(Constituent const& constituent) const
 {
     Debug(constituent.Position().Perp());
-    return (1. * constituent.Position().Vect().Perp() * mm > DetectorGeometry::TrackerDistanceMin() && 1. * constituent.Position().Vect().Perp() * mm < DetectorGeometry::TrackerDistanceMax() && boost::units::abs(1. * constituent.Momentum().Rapidity() * rad) < DetectorGeometry::TrackerEtaMax());
+    return (constituent.Position().Vect().Perp() > DetectorGeometry::TrackerDistanceMin() && constituent.Position().Vect().Perp() < DetectorGeometry::TrackerDistanceMax() && abs(constituent.Momentum().Rapidity()) < DetectorGeometry::TrackerEtaMax());
 }
 
-float JetInfo::ElectroMagneticRadius(Jet const& jet) const
+Angle JetInfo::ElectroMagneticRadius(Jet const& jet) const
 {
     Debug0;
-    float energy = 0;
-    float weight = 0;
+    Energy energy = 0;
+    ValueProduct<Energy,Angle> weight = 0;
     for (auto const & constituent : constituents()) if (constituent.sub_detector() == SubDetector::photon) {
             energy += constituent.Momentum().Et();
-            weight += constituent.Momentum().Et() * jet.delta_R(Jet(constituent.Momentum()));
+            weight += constituent.Momentum().Et() * jet.DeltaRTo(Jet(constituent.Momentum()));
         }
-    if (energy == 0) return 0;
+    if (energy == 0. * GeV) return 0. * rad;
     else return weight / energy;
 }
 
-float JetInfo::TrackRadius(Jet const& jet) const
+Angle JetInfo::TrackRadius(Jet const& jet) const
 {
     Debug0;
-    float energy = 0;
-    float weight = 0;
+    Energy energy = 0;
+    ValueProduct<Energy,Angle> weight = 0;
     for (auto const & constituent : constituents()) if (constituent.sub_detector() == SubDetector::track) {
             energy += constituent.Momentum().Et();
-            weight += constituent.Momentum().Et() * jet.delta_R(Jet(constituent.Momentum()));
-        }
-    if (energy == 0) return 0;
+            weight += constituent.Momentum().Et() * jet.DeltaRTo(Jet(constituent.Momentum()));
+    }
+    if (energy == 0. * GeV) return 0. * rad;
     else return weight / energy;
 }
 
@@ -259,7 +259,7 @@ float JetInfo::LeadingTrackMomentumFraction() const
     std::sort(consts.begin(), consts.end(), [](Constituent const & constituent_1, Constituent const & constituent_2) {
         return (constituent_1.Momentum().Pt() > constituent_2.Momentum().Pt());
     });
-    float sum = boost::accumulate(consts, 0, [](float result, Constituent const & constituent) {
+    Momentum sum = boost::accumulate(consts, at_rest, [](Momentum result, Constituent const & constituent) {
         return (result + constituent.Momentum().Pt());
     });
     return consts.front().Momentum().Pt() / sum;
@@ -268,49 +268,43 @@ float JetInfo::LeadingTrackMomentumFraction() const
 float JetInfo::CoreEnergyFraction(Jet const& jet) const
 {
     Debug0;
-    float energy = 0;
-    float core_energy = 0;
+    Energy energy = 0;
+    Energy core_energy = 0;
     for (auto const & constituent : constituents()) if (constituent.sub_detector() == SubDetector::photon) {
             energy += constituent.Momentum().Et();
             if (jet.delta_R(Jet(constituent.Momentum())) < 0.2) core_energy += constituent.Momentum().Et();
         }
-    if (energy == 0) return 0;
-    else
-        return core_energy / energy;
+    if (energy == 0. * GeV) return 0;
+    else return core_energy / energy;
 }
 
 float JetInfo::ElectroMagneticFraction() const
 {
     Debug0;
-    float em_energy = 0;
-    float energy = 0;
+    Energy em_energy = 0. * GeV;
+    Energy energy = 0. * GeV;
     for (auto const & constituent : constituents()) {
         energy += constituent.Momentum().Et();
-        if (constituent.sub_detector() == SubDetector::photon)
-            em_energy += constituent.Momentum().Et();
+        if (constituent.sub_detector() == SubDetector::photon) em_energy += constituent.Momentum().Et();
     }
-    if (energy == 0)
-        return 0;
-    else
-        return em_energy / energy;
+    if (energy == 0. * GeV) return 0;
+    else return em_energy / energy;
 }
 
-float JetInfo::ClusterMass() const
+Mass JetInfo::ClusterMass() const
 {
     Debug0;
-    Jet jet;
-    for (auto const & constituent : constituents()) if (constituent.sub_detector() == SubDetector::photon)
-            jet += constituent.Momentum();
-    return jet.m();
+    LorentzVector<Momentum> jet;
+    for (auto const & constituent : constituents()) if (constituent.sub_detector() == SubDetector::photon) jet += constituent.Momentum();
+    return jet.Mass();
 }
 
-float JetInfo::TrackMass() const
+Mass JetInfo::TrackMass() const
 {
     Debug0;
-    Jet jet;
-    for (auto const & constituent : constituents()) if (constituent.sub_detector() == SubDetector::track)
-            jet += constituent.Momentum();
-    return jet.m();
+    LorentzVector<Momentum> jet;
+    for (auto const & constituent : constituents()) if (constituent.sub_detector() == SubDetector::track) jet += constituent.Momentum();
+    return jet.Mass();
 }
 
 int JetInfo::Charge() const
@@ -358,9 +352,9 @@ void JetInfo::SecondayVertex() const
     auto leading = boost::range::max_element(constituents_, [](Constituent const & consituent_1, Constituent const & constituent_2) {
         return consituent_1.Momentum().Pt() < constituent_2.Momentum().Pt();
     });
-    float x = (*leading).Position().X();
-    float y = (*leading).Position().Y();
-    float radius = (*leading).Position().Perp() / 2;
+    Length x = (*leading).Position().X();
+    Length y = (*leading).Position().Y();
+    Length radius = (*leading).Position().Perp() / 2.;
     std::vector<Constituent> constituents;
     auto constituent = std::copy_if(constituents_.begin(), constituents_.end(), constituents.begin(), [&](Constituent const & constituent) {
         return (constituent.Position().X() < x + radius && constituent.Position().X() > x - radius && constituent.Position().Y() < y + radius && constituent.Position().Y() > y - radius);

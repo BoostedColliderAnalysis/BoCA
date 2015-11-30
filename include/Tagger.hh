@@ -31,7 +31,7 @@ namespace boca
 {
 
 class PreCuts;
-typedef std::vector<std::string> Strings;
+
 typedef std::vector<Jet> Jets;
 
 enum class Stage
@@ -75,7 +75,7 @@ public:
 
     std::vector<Observable> const& Spectators() const;
 
-    Strings TreeNames(Tag tag) const;
+    std::vector<std::string> TreeNames(Tag tag) const;
 
     TCut Cut() const;
 
@@ -219,13 +219,13 @@ private:
      * @brief Names of the backgrund trees
      *
      */
-    Strings background_tree_names_;
+    std::vector<std::string> background_tree_names_;
 
     /**
      * @brief Names of the signal trees
      *
      */
-    Strings signal_tree_names_;
+    std::vector<std::string> signal_tree_names_;
 
     /**
      * @brief variables for the analysis

@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include "LorentzVector.hh"
+#include "physics/LorentzVector.hh"
 
 namespace boca {
 
@@ -17,9 +17,9 @@ public:
 
     Constituent();
 
-    Constituent(TLorentzVector const& momentum, LorentzVector const& position);
+    Constituent(TLorentzVector const& momentum, LorentzVector<Length> const& position);
 
-    Constituent(TLorentzVector const& momentum, LorentzVector const& position, SubDetector sub_detector, float charge = 0);
+    Constituent(TLorentzVector const& momentum, LorentzVector<Length> const& position, SubDetector sub_detector, float charge = 0);
 
     Constituent(TLorentzVector const& momentum);
 
@@ -27,15 +27,15 @@ public:
 
     Constituent(TLorentzVector const& momentum, SubDetector sub_detector);
 
-    void SetPosition(TLorentzVector const& position);
+//     void SetPosition(TLorentzVector const& position);
 
-    void SetPosition(float x, float y, float z, float t);
+//     void SetPosition(float x, float y, float z, float t);
 
     void SetMomentum(TLorentzVector const& momentum);
 
-    LorentzVector Position() const;
+    LorentzVector<Length> Position() const;
 
-    LorentzVector Momentum() const;
+    LorentzVector<boca::Momentum> Momentum() const;
 
     Constituent operator+(Constituent const& constituent);
 
@@ -51,9 +51,9 @@ private:
 
     SubDetector sub_detector_ = SubDetector::none;
 
-    LorentzVector position_;
+    LorentzVector<Length> position_;
 
-    LorentzVector momentum_;
+    LorentzVector<boca::Momentum> momentum_;
 
     int charge_ = 0;
 };

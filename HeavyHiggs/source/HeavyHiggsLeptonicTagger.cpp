@@ -1,7 +1,7 @@
 #include "HeavyHiggsLeptonicTagger.hh"
 
 #include "WimpMass.hh"
-#include "Quartet.hh"
+#include "multiplets/Quartet.hh"
 #include "Types.hh"
 #include "Event.hh"
 #include "Debug.hh"

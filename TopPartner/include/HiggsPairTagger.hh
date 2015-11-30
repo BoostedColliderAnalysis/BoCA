@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Quartet.hh"
+#include "multiplets/Quartet.hh"
 #include "HiggsTagger.hh"
 #include "BranchesTopPartner.hh"
 

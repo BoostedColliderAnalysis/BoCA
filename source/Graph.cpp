@@ -11,7 +11,7 @@
 #include "TExec.h"
 #include "TNamed.h"
 
-#include "Math.hh"
+#include "physics/Math.hh"
 #include "Canvas.hh"
 #include "Result.hh"
 #include "Debug.hh"
@@ -49,7 +49,7 @@ TLegend Legend(Point const& min, float width, float height, std::string const& t
     return legend;
 }
 
-TLegend Legend(Orientation orientation, Strings const& entries, std::string const& title)
+TLegend Legend(Orientation orientation, std::vector<std::string> const& entries, std::string const& title)
 {
     int letters = boost::range::max_element(entries, [](std::string const & entry_1, std::string const & entry_2) {
         return entry_1.size() < entry_2.size();
@@ -105,7 +105,7 @@ TLine Line(float bin, float y_min, float y_max, int index)
     return line;
 }
 
-void AddGraph(TGraph& graph, TMultiGraph& multi_graph, TLegend& legend, Strings const& names, int index)
+void AddGraph(TGraph& graph, TMultiGraph& multi_graph, TLegend& legend, std::vector<std::string> const& names, int index)
 {
     Canvas::SetPlotStyle(graph, index);
     multi_graph.Add(&graph);

@@ -62,14 +62,14 @@ long AnalysisBase::ReadNumberMax() const
   return TrainNumberMax();
 }
 
-void AnalysisBase::NewFile(boca::Tag tag, const boca::Strings& names, Crosssection crosssection, std::string const& nice_name, boca::Mass mass)
+void AnalysisBase::NewFile(boca::Tag tag, const std::vector<std::string>& names, Crosssection crosssection, std::string const& nice_name, boca::Mass mass)
 {
     Info0;
     files_.emplace_back(File(names, crosssection, nice_name, mass));
     tagger().AddTreeName(TreeName(names.front()), tag);
 }
 
-void AnalysisBase::NewFile(Tag tag, Strings const& names, std::string const& nice_name)
+void AnalysisBase::NewFile(Tag tag, std::vector<std::string> const& names, std::string const& nice_name)
 {
     Info0;
     files_.emplace_back(File(names, nice_name));
@@ -90,13 +90,13 @@ void AnalysisBase::NewFile(Tag tag, std::string const& name, std::string const& 
     tagger().AddTreeName(TreeName(name), tag);
 }
 
-File AnalysisBase::File(Strings const& names, std::string const& nice_name) const
+File AnalysisBase::File(std::vector<std::string> const& names, std::string const& nice_name) const
 {
     Info0;
     return boca::File(names, FilePath(), FileSuffix(), nice_name);
 }
 
-File AnalysisBase::File(Strings const& names, Crosssection crosssection, std::string const& nice_name, boca::Mass mass) const
+File AnalysisBase::File(std::vector<std::string> const& names, Crosssection crosssection, std::string const& nice_name, boca::Mass mass) const
 {
     Info0;
     return boca::File(names, FilePath(), FileSuffix(), nice_name, crosssection, mass);
@@ -281,7 +281,7 @@ std::string AnalysisBase::WorkingPath()
         // I'm not sure whether this can happen or not
         throw std::runtime_error("Insufficient storage");
     default: {
-//         std::ostringstream stream;
+//         std::ostd::vector<std::string>tream stream;
 //         stream << "Unrecognised error" << error;
 //         throw std::runtime_error(stream.str());
         throw std::runtime_error("Unrecognised error" + boost::lexical_cast<std::string>(error));

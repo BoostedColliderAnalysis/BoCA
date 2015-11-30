@@ -4,7 +4,7 @@
 #pragma once
 
 #include "fastjet/PseudoJet.hh"
-#include "Units.hh"
+#include "physics/Units.hh"
 #include "JetInfo.hh"
 
 class TLorentzVector;
@@ -22,7 +22,7 @@ public:
 
     PseudoJet(TLorentzVector const& vector);
 
-    PseudoJet(LorentzVector const& vector);
+    PseudoJet(LorentzVector<Momentum> const& vector);
 
     virtual UserInfoBase const& Info() const = 0;
 

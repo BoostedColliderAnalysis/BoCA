@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include "Doublet.hh"
+#include "multiplets/Doublet.hh"
 #include "BranchesSm.hh"
 #include "TaggerTemplate.hh"
 

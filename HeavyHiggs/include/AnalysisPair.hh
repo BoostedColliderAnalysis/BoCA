@@ -158,13 +158,13 @@ private:
     }
 
     File BackgroundFile(Process process, int) const {
-        Strings names;
+        std::vector<std::string> names;
         names.emplace_back(NameString(process));
         return File(names , BackgroundCrosssection(process));
     }
 
     File BackgroundFile(Process process, int, Production production) const {
-        Strings names;
+        std::vector<std::string> names;
         names.emplace_back(NameString(process, production));
         return File(names , BackgroundCrosssection(process));
     }

@@ -5,7 +5,7 @@
 
 #include "BottomTagger.hh"
 #include "WLeptonicTagger.hh"
-#include "Triplet.hh"
+#include "multiplets/Triplet.hh"
 #include "Reader.hh"
 
 namespace boca

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Septet.hh"
-#include "Octet.hh"
+#include "multiplets/Octet.hh"
 
 namespace boca
 {
