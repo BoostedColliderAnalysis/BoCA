@@ -28,10 +28,10 @@ Mass PseudoJet::Mass() const
 
 Angle PseudoJet::DeltaRTo(const fastjet::PseudoJet& jet) const
 {
-    if (delta_R(jet) == fastjet::pseudojet_invalid_rap) return 0. * rad;
+    if (delta_R(jet) == fastjet::pseudojet_invalid_rap) return 0_rad;
     if (delta_R(jet) > 100) {
         Error("invalid delta_r", delta_R(jet));
-        return 0. * rad;
+        return 0_rad;
     }
     return delta_R(jet) * rad;
 }
@@ -44,10 +44,10 @@ Angle PseudoJet::DeltaPhiTo(const fastjet::PseudoJet& jet) const
 
 Angle PseudoJet::Rap() const
 {
-    if (rap() == fastjet::pseudojet_invalid_rap) return 0. * rad;
+    if (rap() == fastjet::pseudojet_invalid_rap) return 0_rad;
     if (rap() > 100) {
         Error("invalid rap", rap());
-        return 0. * rad;
+        return 0_rad;
     }
     return rap() * rad;
 }

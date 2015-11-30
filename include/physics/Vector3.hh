@@ -148,12 +148,12 @@ public:
 
 // The azimuth angle. returns phi from -pi to pi
     boca::Angle Phi() const {
-        return x_ == 0 && y_ == 0 ? 0. * rad : atan2(y_, x_);
+        return x_ == 0 && y_ == 0 ? 0_rad : atan2(y_, x_);
     }
 
 // The polar angle.
     boca::Angle Theta() const {
-        return x_ == 0 && y_ == 0 && z_ == 0 ? 0. * rad : atan2(Perp(), z_);
+        return x_ == 0 && y_ == 0 && z_ == 0 ? 0_rad : atan2(Perp(), z_);
     }
 
 // Cosine of the polar angle.
@@ -240,7 +240,7 @@ public:
     boca::Angle Angle(Vector3 const& vector) const {
         // return the angle w.r.t. another 3-vector
         Value ptot2 = Mag2() * vector.Mag2();
-        if (ptot2 <= 0) return 0. * rad;
+        if (ptot2 <= 0) return 0_rad;
         else {
             Value arg = Dot(vector) / std::sqrt(ptot2);
             if (arg > 1) arg = 1;

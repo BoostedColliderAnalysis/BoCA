@@ -225,7 +225,7 @@ void CutResults::Inititialize()
     int steps = 0;
     if (!signals.empty()) steps = signals.front().steps;
     significances.resize(steps, 0);
-    crosssections.resize(steps, 0. * fb);
+    crosssections.resize(steps, 0_fb);
     acceptances.resize(steps, 0);
     x_values.resize(steps, 0);
     for (auto & x_value : x_values) x_value = XValue(&x_value - &x_values.front());
@@ -257,7 +257,7 @@ void CutResults::Significances()
 
         float exclusion = 2;
         if (signal_efficiencies > 0) crosssections.at(step) = (exclusion + std::sqrt(sqr(exclusion) + 4. * background_events)) * exclusion / 2. / signal_efficiencies / DetectorGeometry::Luminosity();
-        else crosssections.at(step) = 0. * fb;
+        else crosssections.at(step) = 0_fb;
     }
     BestBin();
 

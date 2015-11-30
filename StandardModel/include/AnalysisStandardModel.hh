@@ -59,12 +59,12 @@ protected:
     }
 
     Momentum LowerPtCut() const {
-        return 1000. * GeV;
-        return 500. * GeV;
-        return 350. * GeV;
-        return 700. * GeV;
-        return 800. * GeV;
-        return 1200. * GeV;
+        return 1000_GeV;
+        return 500_GeV;
+        return 350_GeV;
+        return 700_GeV;
+        return 800_GeV;
+        return 1200_GeV;
     }
 
     int BackgroundFileNumber() const {
@@ -83,20 +83,20 @@ protected:
 
     Momentum UpperPtCut() const {
         switch (Int(LowerPtCut())) {
-        case 700 : return 1000. * GeV;
-        case 1000 : return 1500. * GeV;
-        case 1200 : return 1500. * GeV;
-        case 500: return 1000. * GeV;
+        case 700 : return 1000_GeV;
+        case 1000 : return 1500_GeV;
+        case 1200 : return 1500_GeV;
+        case 500: return 1000_GeV;
         Default(LowerPtCut(), at_rest);
         }
     }
 
     Momentum MadGraphCut() const {
         switch (Int(LowerPtCut())) {
-        case 500: return 500. * GeV;
-        case 700 : return 500. * GeV;
-        case 1000 : return 1000. * GeV;
-        case 1200 : return 1000. * GeV;
+        case 500: return 500_GeV;
+        case 700 : return 500_GeV;
+        case 1000 : return 1000_GeV;
+        case 1200 : return 1000_GeV;
         Default(LowerPtCut(), at_rest);
         }
     }

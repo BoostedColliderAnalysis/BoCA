@@ -106,7 +106,7 @@ public:
                 case 10000 : return 0.0539546 * fb;
                     Default("Mass", fb)
                 }
-            case Process::ttwwbb : return 396. * fb;
+            case Process::ttwwbb : return 396_fb;
             case Process::ttwbb : return 1.3204 * fb;
                 Default("Process", fb)
             }

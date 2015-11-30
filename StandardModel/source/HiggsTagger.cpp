@@ -24,7 +24,7 @@ namespace standardmodel
 HiggsTagger::HiggsTagger()
 {
     Info0;
-    higgs_mass_window = 70. * GeV;
+    higgs_mass_window = 70_GeV;
 }
 
 int HiggsTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const
@@ -143,8 +143,8 @@ Doublet HiggsTagger::MassDrop(Doublet const& doublet) const
     Jet mass_drop_jet = mass_drop_tagger(exclusive_jets.front());
     if (mass_drop_jet == 0) throw Empty();
 
-    Angle radius = mass_drop_jet.pieces().at(0).delta_R(mass_drop_jet.pieces().at(1)) * rad;
-    radius = std::min(radius / 2., .3 * rad);
+    Angle radius = Jet(mass_drop_jet.pieces().at(0)).DeltaRTo(mass_drop_jet.pieces().at(1));
+    radius = std::min(radius / 2., .3_rad);
     fastjet::Filter filter(fastjet::JetDefinition(fastjet::cambridge_algorithm, radius / rad, &info_recombiner), fastjet::SelectorNHardest(3));
     Jet filtered_jet = filter.result(mass_drop_jet);
     if (!filtered_jet.has_pieces()) throw Empty();

@@ -19,7 +19,7 @@ namespace standardmodel
 BosonTagger::BosonTagger()
 {
     Info0;
-    boson_mass_window = 80. * GeV;
+    boson_mass_window = 80_GeV;
 }
 
 int BosonTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const

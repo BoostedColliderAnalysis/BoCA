@@ -122,18 +122,18 @@ private:
     }
 
     boca::Mass Mass() const {
-        return 400. * GeV;
-        return 600. * GeV;
-        return 1000. * GeV;
-        return 2000. * GeV;
-        return 3000. * GeV;
-        return 4000. * GeV;
-        return 5000. * GeV;
-        return 6000. * GeV;
-        return 7000. * GeV;
-        return 8000. * GeV;
-        return 9000. * GeV;
-        return 10000. * GeV;
+        return 400_GeV;
+        return 600_GeV;
+        return 1000_GeV;
+        return 2000_GeV;
+        return 3000_GeV;
+        return 4000_GeV;
+        return 5000_GeV;
+        return 6000_GeV;
+        return 7000_GeV;
+        return 8000_GeV;
+        return 9000_GeV;
+        return 10000_GeV;
     }
 
     void NewFile(Tag tag, Process process, Production production) {

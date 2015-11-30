@@ -24,15 +24,12 @@ int HeavyHiggsTauTagger::Train(Event const& event, PreCuts const&, Tag tag) cons
     Check(HiggsParticles.size() == 1, HiggsParticles.size());
     for (auto const & Particle : TauParticles) {
         std::sort(jets.begin(), jets.end(), MinDeltaRTo(Particle));
-        if (jets.front().DeltaRTo(Particle) < 0.4 * rad)
+        if (jets.front().DeltaRTo(Particle) < 0.4_rad)
             static_cast<JetInfo&>(*jets.front().user_info_shared_ptr().get()).SetTag(Tag::signal);
     }
     std::vector<Jet>NewCleanJets;
     for (auto const & jet : jets) {
-        if (!jet.has_user_info<JetInfo>())
-            continue;
-        if (jet.Info().Tag() != tag)
-            continue;
+        if (jet.Info().Tag() != tag) continue;
         NewCleanJets.emplace_back(jet);
     }
     std::vector<Doublet> doublets;

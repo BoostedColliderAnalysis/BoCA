@@ -46,25 +46,25 @@ class AnalysisHeavyHiggs : public Analysis<Tagger>
 public:
 
     boca::Mass Mass() const {
-        return 500. * GeV;
-        return 800. * GeV;
-        return 1. * TeV;
+        return 500_GeV;
+        return 800_GeV;
+        return 1_TeV;
         return 1.5 * TeV;
-        return 2. * TeV;
-        return 300. * GeV;
-        return 400. * GeV;
-        return 600. * GeV;
-        return 700. * GeV;
-        return 900. * GeV;
-        return 3. * TeV;
-        return 4. * TeV;
-        return 5. * TeV;
-        return 7. * TeV;
-        return 8. * TeV;
-        return 10. * TeV;
-        return 12. * TeV;
-        return 15. * TeV;
-        return 20. * TeV;
+        return 2_TeV;
+        return 300_GeV;
+        return 400_GeV;
+        return 600_GeV;
+        return 700_GeV;
+        return 900_GeV;
+        return 3_TeV;
+        return 4_TeV;
+        return 5_TeV;
+        return 7_TeV;
+        return 8_TeV;
+        return 10_TeV;
+        return 12_TeV;
+        return 15_TeV;
+        return 20_TeV;
     };
 
     long TrainNumberMax() const override {
@@ -97,16 +97,16 @@ public:
         case Collider::LHC :
             switch (Int(Mass())) {
             case 500 : return at_rest;
-            case 1000 : return 250. * GeV;
-            case 2000 : return 250. * GeV;
-            case 3000 : return 250. * GeV;
+            case 1000 : return 250_GeV;
+            case 2000 : return 250_GeV;
+            case 3000 : return 250_GeV;
             Default("Mass", at_rest);
             }
         case Collider::LE :
             switch (Int(Mass())) {
             case 500 : return at_rest;
-            case 1000 : return 300. * GeV;
-            case 2000 : return 300. * GeV;
+            case 1000 : return 300_GeV;
+            case 2000 : return 300_GeV;
             case 4000 : return 1.5 * TeV;
             case 6000 : return 2.5 * TeV;
             case 10000 : return 2.5 * TeV;
@@ -120,24 +120,24 @@ public:
 
     Momentum MissingEt() const {
         switch (collider_type()) {
-        case Collider::LHC : return 30. * GeV;
-        case Collider::LE : return 60. * GeV;
+        case Collider::LHC : return 30_GeV;
+        case Collider::LE : return 60_GeV;
         Default("Collider", at_rest);
         }
     };
 
     Momentum LeptonPt() const {
         switch (collider_type()) {
-        case Collider::LHC : return 50. * GeV;
-        case Collider::LE : return 100. * GeV;
+        case Collider::LHC : return 50_GeV;
+        case Collider::LE : return 100_GeV;
         Default("Collider", at_rest);
         }
     };
 
     Momentum BottomPt() const {
         switch (collider_type()) {
-        case Collider::LHC : return 20. * GeV;
-        case Collider::LE : return 40. * GeV;
+        case Collider::LHC : return 20_GeV;
+        case Collider::LE : return 40_GeV;
         Default("Collider", at_rest);
         }
     };
@@ -172,7 +172,7 @@ public:
 
     virtual boca::Crosssection Crosssection(Process ) const {
       Error("No Crosssection");
-      return 0. * fb;
+      return 0_fb;
     };
 
     virtual void NewFile(Tag tag, Process process) {

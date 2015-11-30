@@ -16,7 +16,7 @@ namespace standardmodel
 ZHadronicTagger::ZHadronicTagger()
 {
     Info0;
-    z_mass_window = 50. * GeV;
+    z_mass_window = 50_GeV;
 }
 
 int ZHadronicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Tag tag) const

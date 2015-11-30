@@ -46,14 +46,14 @@ Angle RestrictPhi(Angle phi)
         Error("function called with NaN");
         return phi;
     }
-    while (phi >= M_PI * rad) phi -= 2 * M_PI * rad;
-    while (phi < -M_PI * rad) phi += 2 * M_PI * rad;
+    while (phi >= M_PI * rad) phi -= M_PI * 2_rad;
+    while (phi < -M_PI * rad) phi += M_PI * 2_rad;
     return phi;
 }
 
 Angle Wrap(Angle phi)
 {
-    phi -= sgn(phi) * 2. * M_PI * rad;
+    phi -= sgn(phi) * M_PI * 2_rad;
     return phi;
 }
 

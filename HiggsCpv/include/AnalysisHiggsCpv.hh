@@ -34,8 +34,8 @@ public:
 //         this->pre_cuts().PtLowerCut().Set(Id::higgs,200);
         //         this->pre_cuts().MassLowerCut().Set(Id::higgs,105);
 //         this->pre_cuts().MassUpperCut().Set(Id::higgs,145);
-        this->pre_cuts().MassLowerCut().Set(Id::higgs, 50. * GeV);
-        this->pre_cuts().MassUpperCut().Set(Id::higgs, 150. * GeV);
+        this->pre_cuts().MassLowerCut().Set(Id::higgs, 50_GeV);
+        this->pre_cuts().MassUpperCut().Set(Id::higgs, 150_GeV);
         this->pre_cuts().SetSemiLeptonic(false);
 //         NoHiggs(-1);
 //         SingleHiggs(-1);
@@ -53,13 +53,13 @@ private:
         switch (tag) {
         case Tag::signal :
 	    //             this->NewFile(tag, "gg-tth", 0.0098);
-          this->NewFile(tag, "pp-tth", 0.02267 * pb, "tth");
+          this->NewFile(tag, "pp-tth", 0.02267_pb, "tth");
 	  //         this->NewFile(tag, "pp-ttx0-bbbbllnunu-1", 0.02071);
 	  //             this->NewFile(tag, "pp-ttx0-bbbbllnunu-1", 0.008937);
 	  //         this->NewFile(tag, "pp-ttx0-bbbbllnunu-0.5", 0.01193);
 	  break;
         case Tag::background :
-	  this->NewFile(tag, "pp-ttbb", 0.1266 * pb, "ttbb");
+	  this->NewFile(tag, "pp-ttbb", 0.1266_pb, "ttbb");
 	  //             this->NewFile(tag, "pp-ttbb-bbbbllnunu", 3.457);
             break;
         }

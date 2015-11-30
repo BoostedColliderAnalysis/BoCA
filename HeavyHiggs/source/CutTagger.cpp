@@ -41,7 +41,7 @@ std::vector<Lepton> Signed(std::vector<Lepton> leptons, int charge)
 std::vector<Lepton> Window(std::vector<Lepton> leptons)
 {
     if (leptons.size() < 2) return leptons;
-    if (boost::units::abs(Lepton(leptons.at(0) + leptons.at(1)).Mass() - MassOf(Id::Z)) < 10. * GeV) return {};
+    if (boost::units::abs(Lepton(leptons.at(0) + leptons.at(1)).Mass() - MassOf(Id::Z)) < 10_GeV) return {};
     return leptons;
 }
 
@@ -56,7 +56,7 @@ boost::optional<CutPlet> CutTagger::CutMethod(Event const& event) const
 
     electrons = Window(electrons);
 
-    std::vector<Jet> leptons = RemoveIfSoft(Join(electrons, muons), 15. * GeV);
+    std::vector<Jet> leptons = RemoveIfSoft(Join(electrons, muons), 15_GeV);
     if (electrons.size() + muons.size() != 2) return boost::none;
 
     std::vector<Lepton> positive = Signed(leptons, 1);
@@ -76,7 +76,7 @@ boost::optional<CutPlet> CutTagger::CutMethod(Event const& event) const
     cut_plet.bottom_number_ = bottoms.size();
 
     boca::MissingEt missing_et = event.Hadrons().MissingEt();
-    if (missing_et.Pt() < 30. * GeV) return boost::none;
+    if (missing_et.Pt() < 30_GeV) return boost::none;
     cut_plet.et_miss_ = missing_et.Pt();
 
     Momentum scalar_ht = event.Hadrons().ScalarHt();

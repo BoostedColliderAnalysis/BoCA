@@ -44,15 +44,12 @@ std::vector<Jet> TauTagger::CleanJets(std::vector<Jet>& jets, std::vector<Partic
     INFO("Clean Jets");
     for (auto const & Particle : Particles) {
         std::sort(jets.begin(), jets.end(), MinDeltaRTo(Particle));
-        if (jets.front().DeltaRTo(Particle) < 0.4 * rad)
+        if (jets.front().DeltaRTo(Particle) < 0.4_rad)
             static_cast<JetInfo&>(*jets.front().user_info_shared_ptr().get()).SetTag(Tag::signal);
     }
    std::vector<Jet>NewCleanJets;
     for (auto const & Jet : jets) {
-        if (!Jet.has_user_info<JetInfo>()) {
-            Error("Clean Jets", "No Jet Info");
-            continue;
-        }
+
 //         if (std::abs(Jet.rap()) > 2.5) continue;
 // if (Jet.m() < 0){
 //   Error("Clean Jets", "Massless Jet");
@@ -73,12 +70,8 @@ std::vector<Singlet> TauTagger::Multiplets(Event const& event, boca::PreCuts con
     std::vector<Singlet> final_jets;
     INFO("Jet Bdt");
    std::vector<Jet> jets = event.Hadrons().Jets();
-    for (auto const & jet : jets) {
-        if (!jet.has_user_info<JetInfo>()) {
-            Error("Jet Bdt", "No Jet Info");
-            continue;
-        }
-        static_cast<JetInfo&>(*jet.user_info_shared_ptr().get()).SetBdt(Bdt(jet, reader));
+    for (auto & jet : jets) {
+        jet.Info().SetBdt(Bdt(jet, reader));
         final_jets.emplace_back(Singlet(jet));
     }
     return final_jets;

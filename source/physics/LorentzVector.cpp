@@ -103,23 +103,23 @@ void LorentzVector< Momentum >::SetE(boca::Energy a)
 EnergySqr LorentzVector< Energy >::Et2() const
 {
     MomentumSqr pt2 = vector_3_.Perp2();
-    return pt2 == 0. * GeV * GeV ? 0. * GeV * GeV : E() * E() * pt2 / (pt2 + Z() * Z());
+    return pt2 == 0_GeV * GeV ? 0_GeV * GeV : E() * E() * pt2 / (pt2 + Z() * Z());
 }
 Energy LorentzVector< Momentum >::Et() const
 {
     EnergySqr etet = Et2();
-    return E() < 0. * GeV ? -sqrt(etet) : sqrt(etet);
+    return E() < 0_GeV ? -sqrt(etet) : sqrt(etet);
 }
 EnergySqr LorentzVector< Momentum >::Et2(const Vector3< Momentum >& v) const
 {
     MomentumSqr pt2 = vector_3_.Perp2(v);
     Momentum pv = vector_3_.Dot(v.Unit()) / GeV; // FIXME this looks fishy
-    return pt2 == 0. * GeV * GeV ? 0. * GeV * GeV : E() * E() * pt2 / (pt2 + pv * pv);
+    return pt2 == 0_GeV * GeV ? 0_GeV * GeV : E() * E() * pt2 / (pt2 + pv * pv);
 }
 Energy LorentzVector< Momentum >::Et(const Vector3< Momentum >& v) const
 {
     EnergySqr etet = Et2(v);
-    return E() < 0. * GeV ? -sqrt(etet) : sqrt(etet);
+    return E() < 0_GeV ? -sqrt(etet) : sqrt(etet);
 }
 MassSqr LorentzVector< Momentum >::M2() const
 {
@@ -140,7 +140,7 @@ MassSqr LorentzVector< Momentum >::Mt2() const
 Mass LorentzVector< Momentum >::Mt() const
 {
     MassSqr mm = Mt2();
-    return mm < 0. * GeV * GeV ? -sqrt(-mm) : sqrt(mm);
+    return mm < 0_GeV * GeV ? -sqrt(-mm) : sqrt(mm);
 }
 LorentzVector< Momentum >::LorentzVector()
 {

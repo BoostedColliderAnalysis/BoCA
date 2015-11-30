@@ -76,9 +76,9 @@ BOOST_UNITS_METRIC_PREFIX_2(24, yotta);
     { \
         return boost::units::quantity<unit, double>(x * multiplier * val); \
     } \
-    inline boost::units::quantity<unit, unsigned > operator "" _##prefix##suffix(unsigned long long x) \
+    inline boost::units::quantity<unit, double > operator "" _##prefix##suffix(unsigned long long x) \
     { \
-        return boost::units::quantity<unit, unsigned >(x * multiplier * val); \
+        return boost::units::quantity<unit, double >(x * multiplier * val); \
     } \
     static const boost::units::quantity<unit, double> prefix##suffix(1. * multiplier * val); \
 

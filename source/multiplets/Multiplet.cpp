@@ -54,7 +54,7 @@ Momentum Multiplet::Ht(MultipletBase const& multiplets_1, MultipletBase const& m
 Angle Multiplet::DeltaRap(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const
 {
     Angle delta_rap = multiplets_1.Rap() - multiplets_2.Rap();
-    if (boost::units::abs(delta_rap) > 100. * rad) return 0. * rad;
+    if (boost::units::abs(delta_rap) > 100_rad) return 0_rad;
     return delta_rap;
 }
 
@@ -66,7 +66,7 @@ Angle Multiplet::DeltaPhi(MultipletBase const& multiplets_1, MultipletBase const
 Angle Multiplet::DeltaR(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const
 {
     Angle delta_r = multiplets_1.Jet().DeltaRTo(multiplets_2.Jet());
-    if (boost::units::abs(delta_r) > 100. * rad) delta_r = 0. * rad;
+    if (boost::units::abs(delta_r) > 100_rad) delta_r = 0_rad;
 //         if (delta_r < DetectorGeometry::MinCellResolution()) delta_r = Singlet(Jet()).DeltaR();
     return delta_r;
 }
@@ -85,7 +85,7 @@ float Multiplet::Rho(MultipletBase const& jet_1, MultipletBase const& jet_2, boc
 {
     Angle delta_r = DeltaR(jet_1, jet_2);
     if (jet.Pt() < DetectorGeometry::MinCellPt() || delta_r < DetectorGeometry::MinCellResolution()) return 0;
-    return jet.Mass() / jet.Pt() / delta_r * 2. * rad;
+    return jet.Mass() / jet.Pt() / delta_r * 2_rad;
 }
 
 static const AngleSquare rad2 = boost::units::pow<2>(rad);
@@ -96,7 +96,7 @@ Angle Multiplet::Pull(MultipletBase const& multiplets_1, MultipletBase const& mu
     Vector2<Angle> ref = multiplets_1.Reference(multiplets_2.Jet());
     AngleSquare pul_mag = pull.Mod();
     Angle ref_mag = ref.Mod();
-    if (pul_mag == 0. * rad2 || ref_mag == 0. * rad) return M_PI * rad;
+    if (pul_mag == 0. * rad2 || ref_mag == 0_rad) return M_PI * rad;
     double cos = ref * pull / ref_mag / pul_mag;
     if (cos > 1) cos = 1;
     if (cos < -1) cos = -1;
@@ -124,7 +124,7 @@ float Multiplet::Dipolarity(MultipletBase const& multiplets_1, MultipletBase con
     auto dipolarity = at_rest * rad2;
     for (auto const & constituent : singlet.Jet().Constituents()) dipolarity += constituent.Pt() * sqr(Distance(line, constituent));
     Angle delta_r = DeltaR(multiplets_1, multiplets_2);
-    if (delta_r == 0. * rad) return dipolarity / singlet.Jet().Pt() / rad2;
+    if (delta_r == 0_rad) return dipolarity / singlet.Jet().Pt() / rad2;
     return dipolarity / singlet.Jet().Pt() / sqr(delta_r);
 }
 

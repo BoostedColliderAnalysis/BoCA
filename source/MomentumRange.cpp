@@ -75,7 +75,7 @@ bool MomentumRange::AboveLowerBound(Jet const& jet) const {
 }
 
 Momentum MomentumRange::Pt(Id id, Angle cone_size) {
-    return MassOf(id) * (2. * rad / cone_size);
+    return MassOf(id) * (2_rad / cone_size);
 }
 
 Momentum MomentumRange::PtMin(Id id, Angle cone_size) {

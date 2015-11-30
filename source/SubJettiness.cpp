@@ -2,7 +2,6 @@
  * Copyright (C) 2015 Jan Hajer
  */
 
-// #include "external/fastjet/contribs/Nsubjettiness/Nsubjettiness.hh"
 #include "fastjet/contrib/Nsubjettiness.hh"
 #include "SubJettiness.hh"
 #include "Jet.hh"

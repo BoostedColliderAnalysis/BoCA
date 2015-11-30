@@ -16,7 +16,7 @@ namespace standardmodel
 WLeptonicTagger::WLeptonicTagger()
 {
     Info0;
-    w_mass_window_ = 20. * GeV;
+    w_mass_window_ = 20_GeV;
 }
 
 int WLeptonicTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) const

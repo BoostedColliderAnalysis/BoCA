@@ -25,7 +25,7 @@ public:
     AnalysisZ() {
         this->pre_cuts().PtLowerCut().Set(Id::Z, this->LowerPtCut());
         this->pre_cuts().PtUpperCut().Set(Id::Z, this->UpperPtCut());
-//         this->pre_cuts().MassUpperCut().Set(Id::Z, 200. * GeV);
+//         this->pre_cuts().MassUpperCut().Set(Id::Z, 200_GeV);
         this->pre_cuts().TrackerMaxEta().Set(Id::Z, DetectorGeometry::TrackerEtaMax());
     }
 

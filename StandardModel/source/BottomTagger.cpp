@@ -18,7 +18,7 @@ namespace standardmodel
 BottomTagger::BottomTagger()
 {
     Info0;
-    bottom_max_mass_ = 75. * GeV;
+    bottom_max_mass_ = 75_GeV;
 }
 
 int BottomTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const
@@ -75,12 +75,7 @@ std::vector<Jet> BottomTagger::Multiplets(Event const& event, PreCuts const& pre
 Jet BottomTagger::Multiplet(Jet & jet, TMVA::Reader const& reader) const
 {
     Info0;
-//     if (jet.has_user_info<JetInfo>()) static_cast<JetInfo&>(*jet.user_info_shared_ptr().get()).SetBdt(Bdt(jet, reader));
     jet.Info().SetBdt(Bdt(jet, reader));
-//     else {
-//         Error("no user info");
-//       jet.user_info(new JetInfo(Bdt(jet, reader)));
-//     }
     return jet;
 }
 
@@ -92,7 +87,7 @@ bool BottomTagger::Problematic(Jet const& jet, PreCuts const& pre_cuts, Tag tag)
     if (boost::units::abs(jet.Rap()) > DetectorGeometry::TrackerEtaMax()) return true;
     switch (tag) {
     case Tag::signal :
-        if (jet.Info().SumDisplacement() == 0. * mm) return true;
+        if (jet.Info().SumDisplacement() == 0_mm) return true;
         break;
     case Tag::background : break;
     }
@@ -128,7 +123,6 @@ std::vector<Jet> BottomTagger::SubMultiplet(Jet const& jet, TMVA::Reader const& 
     Info0;
     std::vector<Jet> jets;
     for (auto & sub_jet : Tagger::SubJets(jet, sub_jet_number)) {
-        if (!sub_jet.has_user_info<JetInfo>()) continue;
         if (sub_jet.Mass() <= massless) continue;
         jets.emplace_back(Multiplet(sub_jet, reader));
     }

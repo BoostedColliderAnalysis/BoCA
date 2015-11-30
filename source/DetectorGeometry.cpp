@@ -43,45 +43,45 @@ DetectorType DetectorGeometry::detector_type()
 Momentum DetectorGeometry::JetMinPt()
 {
     switch (detector_type()) {
-    case DetectorType::CMS : return 20. * GeV;
-    case DetectorType::Spp : return 40. * GeV;
-    Default("Detector Type", 20. * GeV);
+    case DetectorType::CMS : return 20_GeV;
+    case DetectorType::Spp : return 40_GeV;
+    Default("Detector Type", 20_GeV);
     }
 }
 
 Angle DetectorGeometry::JetConeSize()
 {
     switch (detector_type()) {
-    case DetectorType::CMS : return 0.4 * rad;
-    case DetectorType::Spp : return 0.5 * rad;
-    Default("Detector Type", 0.5 * rad);
+    case DetectorType::CMS : return 0.4_rad;
+    case DetectorType::Spp : return 0.5_rad;
+    Default("Detector Type", 0.5_rad);
     }
 }
 
 Momentum DetectorGeometry::MinCellPt()
 {
     switch (detector_type()) {
-    case DetectorType::CMS : return .5 * GeV;
-    case DetectorType::Spp : return .5 * GeV;
-    Default("Detector Type", .5 * GeV);
+    case DetectorType::CMS : return .5_GeV;
+    case DetectorType::Spp : return .5_GeV;
+    Default("Detector Type", .5_GeV);
     }
 }
 
 Angle DetectorGeometry::MinCellResolution()
 {
     switch (detector_type()) {
-    case DetectorType::CMS : return .1 * rad;
-    case DetectorType::Spp : return .1 * rad;
-    Default("Detector Type", .1 * rad);
+    case DetectorType::CMS : return .1_rad;
+    case DetectorType::Spp : return .1_rad;
+    Default("Detector Type", .1_rad);
     }
 }
 
 Angle DetectorGeometry::TrackerEtaMax()
 {
     switch (detector_type()) {
-    case DetectorType::CMS : return 2.5 * rad;
-    case DetectorType::Spp : return 3.5 * rad;
-    Default("Detector Type", 2.5 * rad);
+    case DetectorType::CMS : return 2.5_rad;
+    case DetectorType::Spp : return 3.5_rad;
+    Default("Detector Type", 2.5_rad);
     }
 }
 
@@ -106,36 +106,36 @@ fastjet::JetDefinition DetectorGeometry::SubJetDefinition()
 Length DetectorGeometry::TrackerDistanceMin()
 {
     switch (detector_type()) {
-    case DetectorType::CMS : return 0.1 * mm;
-    case DetectorType::Spp : return 0.1 * mm;
-    Default("Detector Type", 0.1 * mm);
+    case DetectorType::CMS : return 0.1_mm;
+    case DetectorType::Spp : return 0.1_mm;
+    Default("Detector Type", 0.1_mm);
     }
 }
 
 Length DetectorGeometry::TrackerDistanceMax()
 {
     switch (detector_type()) {
-    case DetectorType::CMS : return 1. * m;
-    case DetectorType::Spp : return 1. * m;
-    Default("Detector Type", 1. * m);
+    case DetectorType::CMS : return 1_m;
+    case DetectorType::Spp : return 1_m;
+    Default("Detector Type", 1_m);
     }
 }
 
 Mass DetectorGeometry::VertexMassMin()
 {
     switch (detector_type()) {
-    case DetectorType::CMS : return 0.1 * GeV;
-    case DetectorType::Spp : return 0.1 * GeV;
-    Default("Detector Type", 0.1 * GeV);
+    case DetectorType::CMS : return 0.1_GeV;
+    case DetectorType::Spp : return 0.1_GeV;
+    Default("Detector Type", 0.1_GeV);
     }
 }
 
 Momentum DetectorGeometry::LeptonMinPt()
 {
     switch (detector_type()) {
-    case DetectorType::CMS : return 10. * GeV;
-    case DetectorType::Spp : return 20. * GeV;
-    Default("Detector Type", 10. * GeV);
+    case DetectorType::CMS : return 10_GeV;
+    case DetectorType::Spp : return 20_GeV;
+    Default("Detector Type", 10_GeV);
     }
 }
 

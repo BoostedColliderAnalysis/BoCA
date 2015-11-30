@@ -21,7 +21,7 @@ namespace standardmodel
 TopHadronicTagger::TopHadronicTagger()
 {
     Info0;
-    top_mass_window_ = 50. * GeV;
+    top_mass_window_ = 50_GeV;
 }
 
 int TopHadronicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Tag tag) const

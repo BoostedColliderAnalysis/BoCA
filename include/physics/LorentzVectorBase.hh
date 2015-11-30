@@ -349,7 +349,7 @@ public:
 // Returns the rapidity, i.e. 0.5*ln((E+pz)/(E-pz))
     boca::Angle Rapidity() const {
         //return rapidity
-        return 0.5 * rad * std::log((T() + Z()) / (T() - Z()));
+        return 0.5_rad * std::log((T() + Z()) / (T() - Z()));
     }
 
 // Returns the pseudo-rapidity, i.e. -ln(tan(theta/2))

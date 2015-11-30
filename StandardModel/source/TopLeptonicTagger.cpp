@@ -18,7 +18,7 @@ namespace standardmodel
 TopLeptonicTagger::TopLeptonicTagger() : w_leptonic_reader_(InitializeLeptonicReader())
 {
     Info0;
-    top_mass_window = 80. * GeV;
+    top_mass_window = 80_GeV;
 }
 
 int TopLeptonicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Tag tag) const
@@ -75,7 +75,7 @@ bool TopLeptonicTagger::Problematic(boca::Triplet const& triplet, boca::PreCuts 
     if (Problematic(triplet, pre_cuts)) return true;
     switch (tag) {
     case Tag::signal :
-        if (boost::units::abs(triplet.Mass() - MassOf(Id::top) + 40. * GeV) > top_mass_window) return true;
+        if (boost::units::abs(triplet.Mass() - MassOf(Id::top) + 40_GeV) > top_mass_window) return true;
         if (pre_cuts.NotParticleRho(triplet)) return true;
         break;
     case Tag::background : break;

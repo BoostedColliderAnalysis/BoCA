@@ -160,8 +160,8 @@ Jet JetInfo::VertexJet() const
 Length JetInfo::SumDisplacement() const
 {
     Debug0;
-    if (displaced_constituents_.empty()) return 0. * mm;
-    return boost::accumulate(displaced_constituents_, 0. * mm, [](Length result, Constituent const & constituent) {
+    if (displaced_constituents_.empty()) return 0_mm;
+    return boost::accumulate(displaced_constituents_, 0_mm, [](Length result, Constituent const & constituent) {
         return (result + constituent.Position().Vect().Perp());
     });
 }
@@ -169,14 +169,14 @@ Length JetInfo::SumDisplacement() const
 Length JetInfo::MeanDisplacement() const
 {
     Debug0;
-    if (displaced_constituents_.empty()) return 0. * mm;
+    if (displaced_constituents_.empty()) return 0_mm;
     return SumDisplacement() / double(displaced_constituents_.size());
 }
 
 Length JetInfo::MaxDisplacement() const
 {
     Debug0;
-    if(displaced_constituents_.empty()) return 0. * mm;
+    if(displaced_constituents_.empty()) return 0_mm;
     return (*boost::max_element(displaced_constituents_, [](Constituent const & constituent_1, Constituent const & constituent_2) {
         return constituent_1.Position().Vect().Perp() > constituent_2.Position().Vect().Perp();
     })).Position().Vect().Perp();
@@ -224,7 +224,7 @@ Angle JetInfo::ElectroMagneticRadius(Jet const& jet) const
             energy += constituent.Momentum().Et();
             weight += constituent.Momentum().Et() * jet.DeltaRTo(Jet(constituent.Momentum()));
         }
-    if (energy == 0. * GeV) return 0. * rad;
+    if (energy == 0_GeV) return 0_rad;
     else return weight / energy;
 }
 
@@ -237,7 +237,7 @@ Angle JetInfo::TrackRadius(Jet const& jet) const
             energy += constituent.Momentum().Et();
             weight += constituent.Momentum().Et() * jet.DeltaRTo(Jet(constituent.Momentum()));
     }
-    if (energy == 0. * GeV) return 0. * rad;
+    if (energy == 0_GeV) return 0_rad;
     else return weight / energy;
 }
 
@@ -274,20 +274,20 @@ float JetInfo::CoreEnergyFraction(Jet const& jet) const
             energy += constituent.Momentum().Et();
             if (jet.delta_R(Jet(constituent.Momentum())) < 0.2) core_energy += constituent.Momentum().Et();
         }
-    if (energy == 0. * GeV) return 0;
+    if (energy == 0_GeV) return 0;
     else return core_energy / energy;
 }
 
 float JetInfo::ElectroMagneticFraction() const
 {
     Debug0;
-    Energy em_energy = 0. * GeV;
-    Energy energy = 0. * GeV;
+    Energy em_energy = 0_GeV;
+    Energy energy = 0_GeV;
     for (auto const & constituent : constituents()) {
         energy += constituent.Momentum().Et();
         if (constituent.sub_detector() == SubDetector::photon) em_energy += constituent.Momentum().Et();
     }
-    if (energy == 0. * GeV) return 0;
+    if (energy == 0_GeV) return 0;
     else return em_energy / energy;
 }
 

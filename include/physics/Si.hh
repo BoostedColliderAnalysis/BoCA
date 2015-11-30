@@ -38,7 +38,7 @@ BOOST_UNITS_STATIC_CONSTANT(radians, boost::units::si::plane_angle);
 // returns phi angle in the interval [-PI,PI)
 Angle RestrictPhi(Angle phi);
 
-// Wrap phi by 2 pi around
+// Wrap phi around by 2 pi
 Angle Wrap(Angle phi);
 
 }

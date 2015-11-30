@@ -21,7 +21,7 @@ namespace standardmodel
 WHadronicTagger::WHadronicTagger()
 {
     Info0;
-    w_mass_window_ = 40. * GeV;
+    w_mass_window_ = 40_GeV;
 }
 
 int WHadronicTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const

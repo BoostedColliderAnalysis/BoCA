@@ -46,8 +46,8 @@ public:
 private:
 
     std::vector<Lepton> leptons_;
-    float scalar_ht_;
-    float missing_et_;
+    Momentum scalar_ht_;
+    Energy missing_et_;
     std::vector<Jet> jets_;
 
 };
