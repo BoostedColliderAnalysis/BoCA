@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include "MultipletBase.hh"
+#include "multiplets/MultipletBase.hh"
 
 namespace boca
 {

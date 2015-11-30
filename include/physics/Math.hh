@@ -7,7 +7,6 @@
 #include <boost/range/algorithm/lower_bound.hpp>
 #include <boost/range/algorithm/min_element.hpp>
 #include <boost/range/algorithm/max_element.hpp>
-#include "physics/Units.hh"
 
 namespace boca
 {
@@ -21,12 +20,6 @@ int sgn(Value value)
 {
     return (Value(0) < value) - (value < Value(0));
 }
-
-// template <class T>
-// int sgn(const T& z)
-// {
-//   return (z == 0) ? 0 : (z < 0) ? -1 : 1;
-// }
 
 template <typename Value>
 int Closest(std::vector<Value> const& vector, Value value)
@@ -53,12 +46,11 @@ float CeilToDigits(float value, int digits = 2);
 template <typename Value>
 Value min(std::vector<Value> vector, bool truncate = false)
 {
-    if (truncate) vector.erase(std::remove(vector.begin(), vector.end(), 0.), vector.end());
+    if (truncate) vector.erase(std::remove(vector.begin(), vector.end(), Value(0)), vector.end());
     return *boost::range::min_element(vector);
 }
 
 // template <>
-Crosssection min(std::vector<Crosssection> vector, bool truncate = false);
 
 template <typename Value>
 Value max(std::vector<Value> const& vector)

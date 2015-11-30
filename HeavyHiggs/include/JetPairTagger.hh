@@ -5,7 +5,7 @@
 
 #include "BottomTagger.hh"
 #include "TaggerTemplate.hh"
-#include "Doublet.hh"
+#include "multiplets/Doublet.hh"
 #include "Reader.hh"
 
 namespace boca

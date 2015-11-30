@@ -2,6 +2,7 @@
  * Copyright (C) 2015 Jan Hajer
  */
 #include "physics/Particles.hh"
+#include "physics/Prefixes.hh"
 #include "Types.hh"
 #include "Debug.hh"
 
@@ -88,50 +89,51 @@ std::string Name(Id id)
     case Id::proton : return "p";
     case Id::Delta_2 : return "Delta2";
     case Id::CP_violating_higgs : return "h";
-    Default(to_int(id), std::to_string(to_int(id)));
+        Default(to_int(id), std::to_string(to_int(id)));
     }
 }
 
 Mass MassOf(Id id)
 {
     switch (id) {
-    case Id::strange : return 0.095 * GeV;
-    case Id::charm : return 1.28 * GeV;
-    case Id::bottom : return 4.18 * GeV;
-    case Id::top : return 173.5 * GeV;
-    case Id::electron : return 0.000511 * GeV;
+    case Id::strange : return 0.095_GeV;
+    case Id::charm : return 1.28_GeV;
+    case Id::bottom : return 4.18_GeV;
+    case Id::top : return 173.5_GeV;
+    case Id::electron : return 0.000511_GeV;
     case Id::electron_neutrino : return massless;
-    case Id::muon : return 0.1134 * GeV;
+    case Id::muon : return 0.1134_GeV;
     case Id::muon_neutrino : return massless;
-    case Id::tau : return 1.776 * GeV;
+    case Id::tau : return 1.776_GeV;
     case Id::tau_neutrino : return massless;
     case Id::neutrino : return massless;
     case Id::photon : return massless;
-    case Id::Z : return 91.188 * GeV;
-    case Id::W : return 80.39 * GeV;
-    case Id::higgs : return 125. * GeV;
-    case Id::pi0 : return 0.13498 * GeV;
-    case Id::pion : return 0.13957 * GeV;
-    case Id::rho : return 0.77549 * GeV;
-    case Id::eta : return 0.54785 * GeV;
-    case Id::omega : return 0.78265 * GeV;
-    case Id::neutron : return 1.00866 * GeV;
-    case Id::proton : return 0.93827 * GeV;
+    case Id::Z : return 91.188_GeV;
+    case Id::W : return 80.39_GeV;
+    case Id::higgs : return 125._GeV;
+    case Id::pi0 : return 0.13498_GeV;
+    case Id::pion : return 0.13957_GeV;
+    case Id::rho : return 0.77549_GeV;
+    case Id::eta : return 0.54785_GeV;
+    case Id::omega : return 0.78265_GeV;
+    case Id::neutron : return 1.00866_GeV;
+    case Id::proton : return 0.93827_GeV;
     case Id::CP_violating_higgs : return MassOf(Id::higgs);
-    Default(to_int(id),massless);
+        Default(to_int(id), massless);
     }
 }
 
-std::vector<Id> MultiId(Id id){
-  switch(id){
+std::vector<Id> MultiId(Id id)
+{
+    switch (id) {
     case Id::neutrino : return {Id::electron_neutrino, Id::muon_neutrino, Id::tau_neutrino};
     case Id::charged_lepton : return {Id::electron, Id::muon, Id::tau};
     case Id::quark : return {Id::up, Id::down, Id::strange, Id::charm, Id::bottom, Id::top};
     case Id::neutral_boson : return {Id::higgs, Id::CP_violating_higgs, Id::Z
 //       , Id::W
-    };
-    Default(to_int(id),{});
-  }
+                                        };
+        Default(to_int(id), {});
+    }
 }
 
 }

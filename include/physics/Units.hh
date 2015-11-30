@@ -5,9 +5,7 @@
 
 #include <boost/units/cmath.hpp>
 
-# include "physics/Barn.hh"
-# include "physics/ElectronVolt.hh"
-# include "physics/Si.hh"
+# include "physics/Prefixes.hh"
 
 namespace boca
 {

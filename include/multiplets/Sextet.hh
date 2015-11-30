@@ -4,7 +4,7 @@
 #pragma once
 
 #include <boost/units/cmath.hpp>
-#include "Triplet.hh"
+#include "multiplets/Triplet.hh"
 
 namespace boca
 {

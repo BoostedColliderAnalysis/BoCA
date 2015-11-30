@@ -3,10 +3,10 @@
  */
 #pragma once
 
-#include "Sextet.hh"
-#include "Quintet.hh"
-#include "Quartet.hh"
-#include "ThreeBody.hh"
+#include "multiplets/Sextet.hh"
+#include "multiplets/Quintet.hh"
+#include "multiplets/Quartet.hh"
+#include "multiplets/ThreeBody.hh"
 
 namespace boca {
 

@@ -4,6 +4,7 @@
 add_subdirectory(exroot)
 add_subdirectory(delphes)
 add_subdirectory(physics)
+add_subdirectory(multiplets)
 
 add_include_path(../include)
 create_dictionary(Branches Branches.cpp ../include/LinkDef.hh)
@@ -38,17 +39,9 @@ create_library(Event event_sources)
 
 set(multiplet_sources
 Identification.cpp
-Singlet.cpp
-Multiplet.cpp
-Doublet.cpp
-Triplet.cpp
-Quartet.cpp
-Quintet.cpp
-Sextet.cpp
-Octet.cpp
 GlobalObservables.cpp
 )
-create_library(Multiplets multiplet_sources)
+create_library(Multiplets2 multiplet_sources)
 
 set(hep_tagger_source
 TopHadronicHep.cpp

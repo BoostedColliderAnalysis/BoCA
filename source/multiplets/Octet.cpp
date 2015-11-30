@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2015 Jan Hajer
  */
-#include "Octet.hh"
+#include "multiplets/Octet.hh"
 
 namespace boca {
 

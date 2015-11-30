@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2015 Jan Hajer
  */
-#include "Triplet.hh"
+#include "multiplets/Triplet.hh"
 
 namespace boca
 {

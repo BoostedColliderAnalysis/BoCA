@@ -3,7 +3,7 @@
 #include "Branch.hh"
 #include "TopLeptonicTagger.hh"
 #include "TopHadronicTagger.hh"
-#include "Sextet.hh"
+#include "multiplets/Sextet.hh"
 
 namespace boca
 {

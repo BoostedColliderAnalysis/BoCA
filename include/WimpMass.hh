@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include "Sextet.hh"
+#include "multiplets/Sextet.hh"
 
 namespace boca {
 

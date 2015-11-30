@@ -1,7 +1,7 @@
 #pragma once
 
 #include "TauTagger.hh"
-#include "Doublet.hh"
+#include "multiplets/Doublet.hh"
 #include "Reader.hh"
 #include "Branch.hh"
 

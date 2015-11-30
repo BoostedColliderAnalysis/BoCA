@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2015 Jan Hajer
  */
-#include "Doublet.hh"
+#include "multiplets/Doublet.hh"
 
 #include "physics/Math.hh"
 #include "Debug.hh"

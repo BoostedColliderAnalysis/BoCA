@@ -29,7 +29,7 @@ public:
         Info0;
         this->pre_cuts().PtLowerCut().Set(Id::top, this->LowerPtCut());
         this->pre_cuts().PtUpperCut().Set(Id::top, this->UpperPtCut());
-//         this->pre_cuts().MassUpperCut().Set(Id::top, 500);
+//         this->pre_cuts().MassUpperCut().Set(Id::top, 500 * GeV);
         this->pre_cuts().TrackerMaxEta().Set(Id::top, DetectorGeometry::TrackerEtaMax());
         this->pre_cuts().PtLowerCut().Set(Id::bottom, this->LowerPtCut() / 5.);
         this->pre_cuts().PtLowerCut().Set(Id::W, this->LowerPtCut() / 5.);

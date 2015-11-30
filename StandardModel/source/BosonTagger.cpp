@@ -3,7 +3,7 @@
  */
 #include "BosonTagger.hh"
 #include "Event.hh"
-#include "Doublet.hh"
+#include "multiplets/Doublet.hh"
 #include "MomentumRange.hh"
 #include "Exception.hh"
 // #define DEBUG

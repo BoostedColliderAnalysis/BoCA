@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include "Singlet.hh"
+#include "multiplets/Singlet.hh"
 
 namespace boca {
 

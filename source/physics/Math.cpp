@@ -1,11 +1,10 @@
 /**
  * Copyright (C) 2015 Jan Hajer
  */
-#include "physics/Math.hh"
 
 #include <cmath>
-#include <boost/range/algorithm/min_element.hpp>
 
+#include "physics/Math.hh"
 #include "Debug.hh"
 
 namespace boca
@@ -59,11 +58,6 @@ float RoundToError(float value, float error)
     return std::round(value * factor) / factor;
 }
 
-Crosssection min(std::vector< Crosssection > vector, bool truncate)
-{
-    if (truncate) vector.erase(std::remove(vector.begin(), vector.end(), 0. * fb), vector.end());
-    return *boost::range::min_element(vector);
-}
 
 }
 

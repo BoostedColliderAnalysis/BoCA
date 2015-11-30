@@ -3,10 +3,22 @@
  */
 
 #include "physics/Si.hh"
+#include "physics/Math.hh"
+#include "physics/Prefixes.hh"
 #include "Debug.hh"
 
 namespace boca
 {
+
+// Length operator"" _m(long double length)
+// {
+//     return double(length) * m;
+// }
+//
+// Length operator"" _mm(long double length)
+// {
+//   return double(length) * mm;
+// }
 
 float to_float(Length length)
 {
@@ -28,15 +40,21 @@ Angle to_angle(float angle)
     return double(angle) * rad;
 }
 
-boca::Angle RestrictPhi(boca::Angle x)
+Angle RestrictPhi(Angle phi)
 {
-    if (std::isnan(x.value())) {
+    if (std::isnan(phi.value())) {
         Error("function called with NaN");
-        return x;
+        return phi;
     }
-    while (x >= M_PI * rad) x -= 2 * M_PI * rad;
-    while (x < -M_PI * rad) x += 2 * M_PI * rad;
-    return x;
+    while (phi >= M_PI * rad) phi -= 2 * M_PI * rad;
+    while (phi < -M_PI * rad) phi += 2 * M_PI * rad;
+    return phi;
+}
+
+Angle Wrap(Angle phi)
+{
+    phi -= sgn(phi) * 2. * M_PI * rad;
+    return phi;
 }
 
 }

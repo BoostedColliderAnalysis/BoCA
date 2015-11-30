@@ -3,8 +3,8 @@
  */
 #pragma once
 
-#include "MultipletBase.hh"
-#include "Singlet.hh"
+#include "multiplets/MultipletBase.hh"
+#include "multiplets/Singlet.hh"
 #include "Line2.hh"
 
 namespace boca

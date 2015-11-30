@@ -2,7 +2,7 @@
 
 #include "ChargedHiggsSemiTagger.hh"
 #include "TripletJetPairTagger.hh"
-#include "Octet.hh"
+#include "multiplets/Octet.hh"
 
 namespace boca {
 

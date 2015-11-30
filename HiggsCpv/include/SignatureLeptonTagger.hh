@@ -3,7 +3,7 @@
 #include "MultipletSignature.hh"
 #include "HiggsTagger.hh"
 #include "TopLeptonicPairTagger.hh"
-#include "Octet.hh"
+#include "multiplets/Octet.hh"
 
 namespace boca
 {

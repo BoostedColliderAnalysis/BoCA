@@ -3,7 +3,7 @@
  */
 #include "TauTagger.hh"
 
-#include "Singlet.hh"
+#include "multiplets/Singlet.hh"
 #include "Sort.hh"
 #include "Vector.hh"
 #include "Event.hh"

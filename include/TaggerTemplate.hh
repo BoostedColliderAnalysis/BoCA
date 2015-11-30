@@ -9,7 +9,7 @@
 
 #include "Sort.hh"
 #include "Tagger.hh"
-#include "Singlet.hh"
+#include "multiplets/Singlet.hh"
 #include "PreCuts.hh"
 // #define INFORMATION
 // #include "Debug.hh"

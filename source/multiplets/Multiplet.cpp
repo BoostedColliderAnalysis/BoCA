@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2015 Jan Hajer
  */
-#include "Multiplet.hh"
+#include "multiplets/Multiplet.hh"
 
 #include "Line2.hh"
 #include "InfoRecombiner.hh"
@@ -133,7 +133,7 @@ Vector2<Angle> Multiplet::Point2(Vector2<Angle> const& point_1, MultipletBase co
     Angle phi = multiplets_2.Jet().Phi();
     Vector2<Angle> point_2(multiplets_2.Jet().Rap(), phi);
     auto distance_1 = (point_1 - point_2).Mod2();
-    phi -= sgn(phi) * 2. * M_PI * rad;
+    phi = Wrap(phi);
     Vector2<Angle> point_3(multiplets_2.Jet().Rap(), phi);
     auto distance_2 = (point_1 - point_3).Mod2();
     if (distance_2 < distance_1) return point_3;
@@ -144,7 +144,7 @@ Angle Multiplet::Distance(Line2<Angle> const& line, boca::Jet const& constituent
 {
     Angle phi = constituent.Phi();
     Angle distance_1 = line.DistanceToSegment(Vector2<Angle>(constituent.Rap(), phi));
-    phi -= sgn(phi) * 2. * M_PI * rad;
+    phi = Wrap(phi);
     Angle distance_2 = line.DistanceToSegment(Vector2<Angle>(constituent.Rap(), phi));
     return std::min(distance_1, distance_2);
 }

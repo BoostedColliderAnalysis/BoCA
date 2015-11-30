@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Octet.hh"
+#include "multiplets/Octet.hh"
 #include "TopPartnerLeptonicTagger.hh"
 #include "TopHadronicTagger.hh"
 #include "BranchesTopPartner.hh"

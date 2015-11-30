@@ -1,16 +1,16 @@
 /**
  * Copyright (C) 2015 Jan Hajer
  */
-#include "Quintet.hh"
+#include "multiplets/Sextet.hh"
 
 namespace boca {
 
-  Triplet const& Quintet::Triplet() const
+Triplet const& Sextet::Triplet1() const
 {
     return Multiplet1();
 }
 
-Doublet const& Quintet::Doublet() const
+Triplet const& Sextet::Triplet2() const
 {
     return Multiplet2();
 }

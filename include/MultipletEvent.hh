@@ -4,7 +4,7 @@
 #pragma once
 
 #include "GlobalObservables.hh"
-#include "TwoBody.hh"
+#include "multiplets/TwoBody.hh"
 
 namespace boca
 {

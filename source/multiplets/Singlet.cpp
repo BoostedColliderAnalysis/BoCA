@@ -3,7 +3,7 @@
  */
 #include <boost/units/absolute.hpp>
 
-#include "Singlet.hh"
+#include "multiplets/Singlet.hh"
 #include "DetectorGeometry.hh"
 #include "Vector.hh"
 #include "physics/Math.hh"

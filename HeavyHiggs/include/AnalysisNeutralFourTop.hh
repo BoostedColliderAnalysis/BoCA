@@ -3,7 +3,7 @@
 #include "AnalysisHeavyHiggs.hh"
 
 #include "JetPairTagger.hh"
-#include "Doublet.hh"
+#include "multiplets/Doublet.hh"
 #include "Debug.hh"
 
 namespace boca
