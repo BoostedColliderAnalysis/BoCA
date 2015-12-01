@@ -29,13 +29,13 @@ public:
 
     float BottomBdt(int number_1, int number_2) const;
 
-    float ScalarHt() const;
+    Momentum ScalarHt() const;
 
-    float LeptonHt() const;
+    Momentum LeptonHt() const;
 
-    float JetHt() const;
+    Momentum JetHt() const;
 
-    float MissingEt() const;
+    Energy MissingEt() const;
 
     boca::Singlet Singlet() const;
 

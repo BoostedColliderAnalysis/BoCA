@@ -4,7 +4,6 @@
 #pragma once
 
 #include "AnalysisStandardModel.hh"
-// #include "Vector.hh"
 
 namespace boca
 {

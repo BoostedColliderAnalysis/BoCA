@@ -4,151 +4,106 @@
 #pragma once
 
 #include "multiplets/MultipletBase.hh"
+#include "Jet.hh"
 
 namespace boca
 {
 
 /**
- * @brief Thin wrapper to make Jet behave like a Multiplet. Additionally this class astracts away the JetInfo user_info().
+ * @brief Thin wrapper to make Jet behave like a Multiplet.
  *
  */
-class Singlet : public MultipletBase
+class Singlet : public MultipletBase, public boca::Jet
 {
 
 public:
 
-    Singlet() {};
-
-    Singlet(fastjet::PseudoJet const& jet);
-
-    Singlet(boca::Jet const& jet);
+    using boca::Jet::Jet;
 
     boca::Jet Jet() const {
-        return jet_;
-    }
-
-    boca::Jet ConstituentJet() const {
-        return jet_;
+        return *this;
     }
 
     std::vector<boca::Jet> Jets() const {
-        return {Jet()};
+        return {*this};
     }
 
     bool Overlap(boca::Jet const& jet) const;
 
     bool Overlap(Singlet const& singlet) const;
 
-    float VertexMass() const {
-        return UserInfo().VertexMass() / GeV;
-    }
-
     float MaxDisplacement() const {
-        return log(UserInfo().MaxDisplacement());
+        return log(Info().MaxDisplacement());
     }
 
     float MeanDisplacement() const {
-        return log(UserInfo().MeanDisplacement());
+        return log(Info().MeanDisplacement());
     }
 
     float SumDisplacement() const {
-        return log(UserInfo().SumDisplacement());
+        return log(Info().SumDisplacement());
     }
 
-    float Multiplicity() const {
-        return UserInfo().VertexNumber();
-    }
-
-    float Radius() const {
-        return Radius(Jet()) / rad;
+    Angle Radius() const {
+        return Radius(Jet());
     }
 
     float Spread() const {
         return Spread(Jet());
     }
 
-    float VertexRadius() const {
-        return Radius(UserInfo().VertexJet()) / rad;
+    Angle VertexRadius() const {
+        return Radius(Info().VertexJet());
     }
 
     float VertexSpread() const {
-        return Spread(UserInfo().VertexJet());
+        return Spread(Info().VertexJet());
     }
 
     float EnergyFraction() const {
-        return UserInfo().VertexEnergy() / Jet().Energy();
+        return Info().VertexEnergy() / Jet().Energy();
     }
 
-    float EmRadius() const {
-        return UserInfo().ElectroMagneticRadius(Jet()) / rad;
+    Angle EmRadius() const {
+        return Info().ElectroMagneticRadius(Jet());
     }
 
-    float TrackRadius() const {
-        return UserInfo().TrackRadius(Jet()) / rad;
-    }
-
-    float MomentumFraction() const {
-        return UserInfo().LeadingTrackMomentumFraction();
+    Angle TrackRadius() const {
+        return Info().TrackRadius(Jet());
     }
 
     float CoreEnergyFraction() const {
-        return UserInfo().CoreEnergyFraction(Jet());
-    }
-
-    float EmFraction() const {
-        return UserInfo().ElectroMagneticFraction();
-    }
-
-    float ClusterMass() const {
-        return UserInfo().ClusterMass() / GeV;
-    }
-
-    float TrackMass() const {
-        return UserInfo().TrackMass() / GeV;
+        return Info().CoreEnergyFraction(Jet());
     }
 
     float FlightPath() const {
-        return log(UserInfo().MeanDisplacement());
+        return log(Info().MeanDisplacement());
     }
 
     float TrtHtFraction() const {
-        return Spread(UserInfo().VertexJet());
+        return Spread(Info().VertexJet());
     }
 
-    boca::Tag Tag() const {
-        return UserInfo().Tag();
+    Momentum Ht() const {
+        return Jet().Pt();
     }
 
-    float Bdt() const final {
-        if (UserInfo().Bdt() != UserInfo().Bdt()) return -1;
-        if (UserInfo().Bdt() != InitialValue()) return UserInfo().Bdt();
-        return -1;
-    }
-
-    float Ht() const {
-        return Jet().pt();
-    }
+    using boca::Jet::Pt;
+    using boca::Jet::Rap;
+    using boca::Jet::Phi;
 
     void SetBdt(float bdt) final;
+
+    float Bdt() const final;
 
     int Charge() const;
 
     Singlet const& singlet() const;
 
-    JetInfo const& UserInfo() const;
-
-    Vector2<AngleSquare> Pull() const override;
-
-    boca::Jet& Jet() {
-        return jet_;
-    }
+    Vector2<AngleSquare> PullVector() const;
 
     float BottomBdt() const final {
         return Bdt();
-    }
-
-    float Rapidity() const {
-        return Rap() / rad;
     }
 
 private:
@@ -158,10 +113,6 @@ private:
     Angle Radius(boca::Jet const& jet) const;
 
     float Spread(boca::Jet const& jet) const;
-
-    boca::Jet jet_;
-
-    JetInfo jet_info_;
 
     // save expensive results in mutable member variables
 

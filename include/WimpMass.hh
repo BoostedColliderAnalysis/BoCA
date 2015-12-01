@@ -8,6 +8,7 @@
 namespace boca {
 
 class Quartet22;
+class Particle;
 
 /**
  * @brief Wrapper for WimpMass class

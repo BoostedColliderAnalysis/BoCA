@@ -4,7 +4,6 @@
 add_subdirectory(exroot)
 add_subdirectory(delphes)
 add_subdirectory(physics)
-add_subdirectory(multiplets)
 
 add_include_path(../include)
 create_dictionary(Branches Branches.cpp ../include/LinkDef.hh)
@@ -17,6 +16,9 @@ Jet.cpp
 Particle.cpp
 )
 create_library(Vector vector_sources)
+
+
+add_subdirectory(multiplets)
 
 set(global_sources
 Debug.cpp

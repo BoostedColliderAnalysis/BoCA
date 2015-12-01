@@ -5,7 +5,7 @@
 
 #include "multiplets/Singlet.hh"
 #include "multiplets/Multiplet.hh"
-#include "Vector.hh"
+#include "physics/Particles.hh"
 
 namespace boca
 {
@@ -82,31 +82,31 @@ public:
         return Join(Multiplet1().Jets(), Multiplet2().Jets());
     }
 
-    float DeltaPt() const {
-        return (Multiplet1().Pt() - Multiplet2().Pt()) / GeV;
+    Momentum DeltaPt() const {
+        return (Multiplet1().Pt() - Multiplet2().Pt());
     }
 
-    float Ht() const override {
-        return Multiplet::Ht(Multiplet1(), Multiplet2()) / GeV;
+    Momentum Ht() const override {
+        return Multiplet::Ht(Multiplet1(), Multiplet2());
     }
 
-    float DeltaRap() const {
-        return Multiplet::DeltaRap(Multiplet1(), Multiplet2()) / rad;
+    Angle DeltaRap() const {
+        return Multiplet::DeltaRap(Multiplet1(), Multiplet2());
     }
 
-    float DeltaPhi() const {
-        return Multiplet::DeltaPhi(Multiplet1(), Multiplet2()) / rad;
+    Angle DeltaPhi() const {
+        return Multiplet::DeltaPhi(Multiplet1(), Multiplet2());
     }
 
-    float DeltaR() const {
-        return to_float(Multiplet::DeltaR(Multiplet1(), Multiplet2()));
+    Angle DeltaR() const {
+        return Multiplet::DeltaR(Multiplet1(), Multiplet2());
     }
 
-    float DeltaM() const {
-        return Multiplet::DeltaM(Multiplet1(), Multiplet2()) / GeV;
+    boca::Mass DeltaM() const {
+        return Multiplet::DeltaM(Multiplet1(), Multiplet2());
     }
 
-    float DeltaHt() const {
+    Momentum DeltaHt() const {
         return Multiplet::DeltaHt(Multiplet1(), Multiplet2());
     }
 
@@ -126,12 +126,12 @@ public:
         Multiplet::SetSinglet(Multiplet::Singlet(Multiplet1().singlet(), Multiplet2().singlet()));
     }
 
-    float PullDifference() const {
-        return Multiplet::PullDifference(Multiplet1(), Multiplet2()) / rad;
+    Angle Pull12() const {
+        return Multiplet::Pull(Multiplet1(), Multiplet2());
     }
 
-    float PullSum() const {
-        return Multiplet::PullSum(Multiplet1(), Multiplet2()) / rad;
+    Angle Pull21() const {
+        return Multiplet::Pull(Multiplet2(), Multiplet1());
     }
 
     float Dipolarity() const {

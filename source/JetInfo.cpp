@@ -310,7 +310,7 @@ Mass JetInfo::TrackMass() const
 int JetInfo::Charge() const
 {
     Debug0;
-    if (charge_ != LargeNumber()) return charge_;
+    if (charge_ != std::numeric_limits<int>::max()) return charge_;
     int charge = boost::accumulate(constituents_, 0, [](int charge, Constituent const & constituent) {
         return charge + constituent.charge();
     });
@@ -360,6 +360,14 @@ void JetInfo::SecondayVertex() const
         return (constituent.Position().X() < x + radius && constituent.Position().X() > x - radius && constituent.Position().Y() < y + radius && constituent.Position().Y() > y - radius);
     });
     constituents.resize(std::distance(constituents.begin(), constituent));
+}
+bool JetInfo::SubStructure() const
+{
+    return sub_structure_;
+}
+void JetInfo::SetSubStructure(bool sub_structure)
+{
+    sub_structure_ = sub_structure;
 }
 
 }

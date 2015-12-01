@@ -1,5 +1,6 @@
 #include "CutTagger.hh"
 #include "Event.hh"
+#include "physics/Math.hh"
 #include "boost/range.hpp"
 #include <boost/range/algorithm/copy.hpp>
 #include <boost/range/adaptors.hpp>
@@ -15,18 +16,18 @@ namespace heavyhiggs
 int CutTagger::Train(Event const& event, PreCuts const&, Tag) const
 {
     Info0;
-    std::vector<CutPlet> octets;
-    if (boost::optional<CutPlet> optional = CutMethod(event)) octets.emplace_back(*optional);
-    return SaveEntries(octets);
+    std::vector<CutVariables> variables;
+    if (boost::optional<CutVariables> optional = CutMethod(event)) variables.emplace_back(*optional);
+    return SaveEntries(variables);
 }
 
-std::vector<CutPlet> CutTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
+std::vector<CutVariables> CutTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
 {
     Info0;
-    std::vector<CutPlet> octets;
-    if (boost::optional<CutPlet> optional = CutMethod(event)) octets.emplace_back(*optional);
-    for (auto & octet : octets) octet.SetPassed(Cuts(octet, reader));
-    return ReduceResult(octets);
+    std::vector<CutVariables> variables;
+    if (boost::optional<CutVariables> optional = CutMethod(event)) variables.emplace_back(*optional);
+    for (auto & variable : variables) variable.SetPassed(Cuts(variable, reader));
+    return ReduceResult(variables);
 }
 
 std::vector<Lepton> Signed(std::vector<Lepton> leptons, int charge)
@@ -45,10 +46,10 @@ std::vector<Lepton> Window(std::vector<Lepton> leptons)
     return leptons;
 }
 
-boost::optional<CutPlet> CutTagger::CutMethod(Event const& event) const
+boost::optional<CutVariables> CutTagger::CutMethod(Event const& event) const
 {
     Info0;
-    CutPlet cut_plet;
+    CutVariables variables;
 
     std::vector<Lepton> electrons = event.Leptons().Electrons();
     std::vector<Lepton> muons = event.Leptons().Muons();
@@ -66,24 +67,24 @@ boost::optional<CutPlet> CutTagger::CutMethod(Event const& event) const
 
     std::vector<Jet> jets = event.Hadrons().Jets();
     if (jets.size() < 4) return boost::none;
-    cut_plet.jet_number_ = jets.size();
+    variables.jet_number_ = jets.size();
 
     std::vector<Jet> bottoms;
     boost::range::copy(jets | boost::adaptors::filtered([](Jet const & jet) {
         return jet.Info().BTag();
     }), std::back_inserter(bottoms));
     if (bottoms.size() < 4) return boost::none;
-    cut_plet.bottom_number_ = bottoms.size();
+    variables.bottom_number_ = bottoms.size();
 
     boca::MissingEt missing_et = event.Hadrons().MissingEt();
     if (missing_et.Pt() < 30_GeV) return boost::none;
-    cut_plet.et_miss_ = missing_et.Pt();
+    variables.et_miss_ = missing_et.Pt();
 
     Momentum scalar_ht = event.Hadrons().ScalarHt();
-    cut_plet.ht_ = scalar_ht;
+    variables.ht_ = scalar_ht;
 
-    if (cut_plet.IsNaN()) return boost::none;
-    return cut_plet;
+    if (variables.IsNaN()) return boost::none;
+    return variables;
 }
 
 std::string CutTagger::Name() const

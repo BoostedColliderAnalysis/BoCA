@@ -3,9 +3,6 @@
  */
 #include "multiplets/Doublet.hh"
 
-#include "physics/Math.hh"
-#include "Debug.hh"
-
 namespace boca
 {
 

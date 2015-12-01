@@ -3,7 +3,8 @@
  */
 #pragma once
 
-#include "multiplets/MultipletBase.hh"
+#include "Identification.hh"
+#include "physics/Units.hh"
 
 namespace boca
 {
@@ -12,29 +13,17 @@ namespace boca
  * @brief An octet composed of a sextet an a doublet
  *
  */
-class CutPlet : public MultipletBase
+class CutVariables : public Identification
 {
 
 public:
 
-    MultipletBase const& singlet() const {
-        return *this;
-    }
-
-    boca::Jet Jet() const {
-        return {};
-    }
-
-    Vector2<AngleSquare> Pull() const {
-        return {};
-    }
-
-    float Ht() const {
-        return ht_ / GeV;
+    Momentum Ht() const {
+        return ht_;
     };
 
-    float EtMiss() const {
-        return et_miss_ / GeV;
+    Energy EtMiss() const {
+        return et_miss_;
     };
 
     float JetNumber() const {
@@ -45,12 +34,12 @@ public:
         return bottom_number_;
     };
 
-    float InvariantMass() const {
-        return invariant_mass_ / GeV;
+    boca::Mass InvariantMass() const {
+        return invariant_mass_;
     };
 
-    float DeltaR() const {
-        return delta_r_ / rad;
+    Angle DeltaR() const {
+        return delta_r_;
     };
 
     int Charge() const {

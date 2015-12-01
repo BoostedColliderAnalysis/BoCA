@@ -198,7 +198,7 @@ void Plotting::PlotAcceptanceGraph(Results const& results) const
         TMultiGraph multi_graph("", "");
         std::vector<TGraph> graphs;
         std::vector<std::string> nice_names;
-        Point min(0.2, LargeNumber());
+        Point min(0.2, std::numeric_limits<float>::max());
         Point max(0.9, 0);
         for (auto const & background : results.backgrounds) {
             float min_y = background.pure_efficiency.at(Closest(signal.pure_efficiency, min.x));
@@ -208,7 +208,7 @@ void Plotting::PlotAcceptanceGraph(Results const& results) const
             graphs.emplace_back(TGraph(background.steps, &signal.pure_efficiency.front(), &background.pure_efficiency.front()));
             nice_names.emplace_back(background.info_branch_.Name);
         }
-        if (min.y == LargeNumber()) min.y = 0;
+        if (min.y == std::numeric_limits<float>::max()) min.y = 0;
         canvas.SetLog(min.y, max.y);
         TLegend legend = Legend(Orientation::right | Orientation::bottom, nice_names, signal.info_branch_.Name);
         for (auto & graph : graphs) AddGraph(graph, multi_graph, legend, nice_names, &graph - &graphs.front());
@@ -226,7 +226,7 @@ std::string Plotting::PlotCrosssectionsGraph(Results const& results) const
     TMultiGraph multi_graph("", Tagger().NiceName().c_str());
     std::vector<std::string> nice_names;
     std::vector<TGraph> graphs;
-    float min = LargeNumber();
+    float min = std::numeric_limits<float>::max();
     float max = 0;
     for (auto const & result : results.signals) {
         nice_names.emplace_back(result.info_branch_.Name);

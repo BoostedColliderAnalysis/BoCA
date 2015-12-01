@@ -5,6 +5,7 @@
 // #include <vector>
 #include <boost/range/algorithm_ext/erase.hpp>
 #include <boost/range/algorithm/find.hpp>
+#include <boost/range/algorithm/min_element.hpp>
 
 #include "Particle.hh"
 #include "Jet.hh"

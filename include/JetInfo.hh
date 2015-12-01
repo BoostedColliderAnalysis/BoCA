@@ -7,7 +7,6 @@
 
 #include "Identification.hh"
 #include "Constituent.hh"
-#include "physics/Math.hh"
 
 class Jet;
 namespace delphes
@@ -92,19 +91,14 @@ public:
 
     int Charge() const;
 
-//     boca::Family Family() const;
-
     void SetDelphesTags(::delphes::Jet const& jet);
 
     void SetConstituents(std::vector<Constituent> const& constituents);
 
-    bool SubStructure() const{
-      return sub_structure_;
-    }
+    bool SubStructure() const;
 
-    void SetSubStructure(bool sub_structure){
-      sub_structure_ = sub_structure;
-    }
+    void SetSubStructure(bool sub_structure);
+
     void SetBTag(bool b_tag);
 
     void SetCharge(int charge);
@@ -136,7 +130,7 @@ private:
 
     bool tau_tag_ = 0;
 
-    int charge_ = LargeNumber();
+    int charge_ = -9999;
 
     bool sub_structure_ = true;
 

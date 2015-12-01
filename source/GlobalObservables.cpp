@@ -68,32 +68,32 @@ float GlobalObservables::BottomBdt(int number_1, int number_2) const
     return (Jets().at(number_1 - 1).Info().Bdt() + Jets().at(number_2 - 1).Info().Bdt()) / 2;
 }
 
-float GlobalObservables::ScalarHt() const
+Momentum GlobalObservables::ScalarHt() const
 {
     Info0;
-    return scalar_ht_ / GeV;
+    return scalar_ht_;
 }
 
-float GlobalObservables::LeptonHt() const
+Momentum GlobalObservables::LeptonHt() const
 {
     Info0;
-    return boost::accumulate(leptons_, 0., [](float ht, Jet const & lepton) {
-        return ht + lepton.pt();
+    return boost::accumulate(leptons_, 0_eV, [](Momentum ht, Jet const & lepton) {
+        return ht + lepton.Pt();
     });
 }
 
-float GlobalObservables::JetHt() const
+Momentum GlobalObservables::JetHt() const
 {
     Info0;
-    return boost::accumulate(jets_, 0., [](float ht, Jet const & jet) {
-        return ht + jet.pt();
+    return boost::accumulate(jets_, 0_eV, [](Momentum ht, Jet const & jet) {
+        return ht + jet.Pt();
     });
 }
 
-float GlobalObservables::MissingEt() const
+Energy GlobalObservables::MissingEt() const
 {
     Info0;
-    return missing_et_ / GeV;
+    return missing_et_;
 }
 
 Singlet GlobalObservables::Singlet() const

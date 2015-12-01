@@ -31,8 +31,6 @@ int Closest(std::vector<Value> const& vector, Value value)
     return position - vector.begin();
 }
 
-int LargeNumber();
-
 float RoundError(float value);
 
 float RoundToDigits(float value, int digits = 3);

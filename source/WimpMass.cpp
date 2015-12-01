@@ -10,6 +10,7 @@
 #include "multiplets/Quartet.hh"
 #include "physics/Math.hh"
 #include "Types.hh"
+#include "Vector.hh"
 #include "Debug.hh"
 
 namespace boca
@@ -26,8 +27,7 @@ void WimpMass::Momentum(double momentum[4], Jet const& jet)
 std::vector<boca::Sextet> WimpMass::Sextets(std::vector<Quartet22> const& quartets, Jet const& missing_et)
 {
     std::vector<boca::Sextet> sextets;
-    for (auto const & quartet : quartets)
-        Join(sextets, Sextets(quartet, missing_et));
+    for (auto const & quartet : quartets) Join(sextets, Sextets(quartet, missing_et));
     return sextets;
 }
 
@@ -110,7 +110,7 @@ std::vector<boca::Sextet> WimpMass::Sextet(Quartet22 const& quartet, Jet const& 
             errors_2.emplace_back((neutrino + Particle(neutrino_2)).m());
 //             Debug("Neutrino 2 Error", (neutrino + neutrino_2).m());
         }
-        float error = LargeNumber();
+        float error = std::numeric_limits<float>::max();
         for (auto const & error_1 : errors_1)
             for (auto const & error_2 : errors_2) {
                 if (&error_1 - &errors_1.at(0) == &error_2 - &errors_2.at(0))

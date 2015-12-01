@@ -1,7 +1,6 @@
 #pragma once
 
 #include "AnalysisHeavyHiggs.hh"
-#include "Vector.hh"
 #include "Sort.hh"
 
 namespace boca

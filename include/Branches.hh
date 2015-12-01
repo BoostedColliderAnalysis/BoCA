@@ -8,6 +8,7 @@
 #include <iostream>
 #include "TObject.h"
 #include "Rtypes.h"
+#include "physics/Prefixes.hh"
 
 namespace boca
 {
@@ -127,10 +128,10 @@ public:
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         BdtBranch::Fill(multiplet);
-        Mass = multiplet.Jet().m();
-        Pt = multiplet.Jet().pt();
-        Rap = multiplet.Jet().rap();
-        Phi = multiplet.Jet().phi_std();
+        Mass = multiplet.Jet().Mass() / GeV;
+        Pt = multiplet.Jet().Pt() / GeV;
+        Rap = multiplet.Jet().Rap() / rad;
+        Phi = multiplet.Jet().Phi() / rad;
         Charge = multiplet.Charge();
     }
     Observables Variables();
@@ -167,14 +168,14 @@ public:
     }
     template<typename Singlet>
     void Fill2(Singlet const& singlet) {
-        VertexMass = singlet.VertexMass();
+        VertexMass = singlet.Info().VertexMass() / GeV;
         MaxDisplacement = singlet.MaxDisplacement();
         MeanDisplacement = singlet.MeanDisplacement();
         SumDisplacement = singlet.SumDisplacement();
-        Multiplicity = singlet.Multiplicity();
-        Radius = singlet.Radius();
+        Multiplicity = singlet.Info().VertexNumber();
+        Radius = singlet.Radius() / rad;
         Spread = singlet.Spread();
-        VertexRadius = singlet.VertexRadius();
+        VertexRadius = singlet.VertexRadius() / rad;
         VertexSpread = singlet.VertexSpread();
         EnergyFraction = singlet.EnergyFraction();
     }
@@ -199,23 +200,23 @@ public:
     float Rho;
     float Bdt1;
     float Bdt2;
-    float Pull;
-    float DeltaPull;
+    float Pull1;
+    float Pull2;
     float Dipolarity;
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         ParticleBranch::Fill(multiplet);
-        Ht = multiplet.Ht();
-        DeltaPt = multiplet.DeltaPt();
-        DeltaM = multiplet.DeltaM();
-        DeltaRap = multiplet.DeltaRap();
-        DeltaPhi = multiplet.DeltaPhi();
-        DeltaR = multiplet.DeltaR();
+        Ht = multiplet.Ht() / GeV;
+        DeltaPt = multiplet.DeltaPt() / GeV;
+        DeltaM = multiplet.DeltaM() / GeV;
+        DeltaRap = multiplet.DeltaRap() / rad;
+        DeltaPhi = multiplet.DeltaPhi() / rad;
+        DeltaR = multiplet.DeltaR() / rad;
         Rho = multiplet.Rho();
         Bdt1 = multiplet.Multiplet1().Bdt();
         Bdt2 = multiplet.Multiplet2().Bdt();
-        Pull = multiplet.PullSum();
-        DeltaPull = multiplet.PullDifference();
+        Pull1 = multiplet.Pull12() / rad;
+        Pull2 = multiplet.Pull21() / rad;
         Dipolarity = multiplet.Dipolarity();
     }
     Observables Variables();
@@ -234,7 +235,7 @@ public:
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         PairBranch::Fill(multiplet);
-        DeltaHt = multiplet.DeltaHt();
+        DeltaHt = multiplet.DeltaHt() / GeV;
     }
     Observables Variables();
 
@@ -277,8 +278,8 @@ public:
     float DeltaHt13;
     float Pull23;
     float Pull13;
-    float DeltaPull23;
-    float DeltaPull13;
+    float Pull32;
+    float Pull31;
     float Dipolarity23;
     float Dipolarity13;
 //   float Sphericity;
@@ -287,33 +288,33 @@ public:
     void Fill(Multiplet const& multiplet) {
         MultiBranch::Fill(multiplet);
         Bdt3 = multiplet.Multiplet3().Bdt();
-        Mass12 = multiplet.Jet12().m();
-        Mass23 = multiplet.Jet23().m();
-        Mass13 = multiplet.Jet13().m();
-        Pt12 = multiplet.Jet12().pt();
-        Pt23 = multiplet.Jet23().pt();
-        Pt13 = multiplet.Jet13().pt();
-        DeltaPt23 = multiplet.DeltaPt23();
-        DeltaPt13 = multiplet.DeltaPt13();
-        Ht12 = multiplet.Ht12();
-        Ht23 = multiplet.Ht23();
-        Ht13 = multiplet.Ht13();
+        Mass12 = multiplet.Jet12().Mass() / GeV;
+        Mass23 = multiplet.Jet23().Mass() / GeV;
+        Mass13 = multiplet.Jet13().Mass() / GeV;
+        Pt12 = multiplet.Jet12().Pt() / GeV;
+        Pt23 = multiplet.Jet23().Pt() / GeV;
+        Pt13 = multiplet.Jet13().Pt() / GeV;
+        DeltaPt23 = multiplet.DeltaPt23() / GeV;
+        DeltaPt13 = multiplet.DeltaPt13() / GeV;
+        Ht12 = multiplet.Ht12() / GeV;
+        Ht23 = multiplet.Ht23() / GeV;
+        Ht13 = multiplet.Ht13() / GeV;
         Rho23 = multiplet.Rho23();
         Rho13 = multiplet.Rho13();
-        DeltaRap23 = multiplet.DeltaRap23();
-        DeltaRap13 = multiplet.DeltaRap13();
-        DeltaPhi23 = multiplet.DeltaPhi23();
-        DeltaPhi13 = multiplet.DeltaPhi13();
-        DeltaR23 = multiplet.DeltaR23();
-        DeltaR13 = multiplet.DeltaR13();
-        DeltaM23 = multiplet.DeltaM23();
-        DeltaM13 = multiplet.DeltaM13();
-        DeltaHt23 = multiplet.DeltaHt23();
-        DeltaHt13 = multiplet.DeltaHt13();
-        Pull23 = multiplet.PullSum23();
-        Pull13 = multiplet.PullSum13();
-        DeltaPull23 = multiplet.PullDifference23();
-        DeltaPull13 = multiplet.PullDifference13();
+        DeltaRap23 = multiplet.DeltaRap23() / rad;
+        DeltaRap13 = multiplet.DeltaRap13() / rad;
+        DeltaPhi23 = multiplet.DeltaPhi23() / rad;
+        DeltaPhi13 = multiplet.DeltaPhi13() / rad;
+        DeltaR23 = multiplet.DeltaR23() / rad;
+        DeltaR13 = multiplet.DeltaR13() / rad;
+        DeltaM23 = multiplet.DeltaM23() / GeV;
+        DeltaM13 = multiplet.DeltaM13() / GeV;
+        DeltaHt23 = multiplet.DeltaHt23() / GeV;
+        DeltaHt13 = multiplet.DeltaHt13() / GeV;
+        Pull23 = multiplet.Pull23() / rad;
+        Pull13 = multiplet.Pull13() / rad;
+        Pull32 = multiplet.Pull32() / rad;
+        Pull31 = multiplet.Pull31() / rad;
         Dipolarity23 = multiplet.Dipolarity23();
         Dipolarity13 = multiplet.Dipolarity13();
         //     Aplanarity = signature.EventShape().Aplanarity(); // FIXME reenable this
@@ -353,14 +354,14 @@ public:
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         PairBranch::Fill(multiplet);
-        Jet1Pt = multiplet.Singlet1().Jet().pt();
-        Jet1Rap = multiplet.Singlet1().Jet().rap();
-        Jet1Phi = multiplet.Singlet1().Jet().phi();
-        Jet1Mass = multiplet.Singlet1().Jet().m();
-        Jet2Pt = multiplet.Singlet2().Jet().pt();
-        Jet2Rap = multiplet.Singlet2().Jet().rap();
-        Jet2Phi = multiplet.Singlet2().Jet().phi();
-        Jet2Mass = multiplet.Singlet2().Jet().m();
+        Jet1Pt = multiplet.Singlet1().Jet().Pt() / GeV;
+        Jet1Rap = multiplet.Singlet1().Jet().Rap() / rad;
+        Jet1Phi = multiplet.Singlet1().Jet().Phi() / rad;
+        Jet1Mass = multiplet.Singlet1().Jet().Mass() / GeV;
+        Jet2Pt = multiplet.Singlet2().Jet().Pt() / GeV;
+        Jet2Rap = multiplet.Singlet2().Jet().Rap() / rad;
+        Jet2Phi = multiplet.Singlet2().Jet().Phi() / rad;
+        Jet2Mass = multiplet.Singlet2().Jet().Mass() / GeV;
     }
     Observables Variables();
 
@@ -392,17 +393,17 @@ public:
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         PairBranch::Fill(multiplet);
-        BottomPt = multiplet.Singlet().Jet().pt();
+        BottomPt = multiplet.Singlet().Jet().Pt() / GeV;
 //         BottomRap = std::abs(multiplet.Singlet().rap());
-        BottomRap = multiplet.Singlet().Jet().rap();
-        BottomPhi = multiplet.Singlet().Jet().phi();
-        BottomMass = multiplet.Singlet().Jet().m();
+        BottomRap = multiplet.Singlet().Jet().Rap() / rad;
+        BottomPhi = multiplet.Singlet().Jet().Phi() / rad;
+        BottomMass = multiplet.Singlet().Jet().Mass() / GeV;
 //         BottomBdt = multiplet.Singlet().Info().Bdt();
-        TopPt = multiplet.Triplet().Jet().pt();
+        TopPt = multiplet.Triplet().Jet().Pt() / GeV;
 //         TopRap = std::abs(multiplet.Triplet().Jet().rap());
-        TopRap = multiplet.Triplet().Jet().rap();
-        TopPhi = multiplet.Triplet().Jet().phi();
-        TopMass = multiplet.Triplet().Jet().m();
+        TopRap = multiplet.Triplet().Jet().Rap() / rad;
+        TopPhi = multiplet.Triplet().Jet().Phi() / rad;
+        TopMass = multiplet.Triplet().Jet().Mass() / GeV;
         TopBdt = multiplet.Triplet().Bdt();
     }
     Observables Variables();
@@ -439,14 +440,14 @@ public:
         LeptonNumber = multiplet.GlobalObservables().LeptonNumber();
         JetNumber = multiplet.GlobalObservables().JetNumber();
         BottomNumber = multiplet.GlobalObservables().BottomNumber();
-        MissingEt = multiplet.GlobalObservables().MissingEt();
-        ScalarHt = multiplet.GlobalObservables().ScalarHt();
-        LeptonHt = multiplet.GlobalObservables().LeptonHt();
-        JetMass = multiplet.Rest().Jet().m();
-        JetPt = multiplet.Rest().Jet().pt();
-        JetHt = multiplet.GlobalObservables().JetHt();
-        JetRap = multiplet.Rest().Rapidity();
-        JetPhi = multiplet.Rest().Jet().phi();
+        MissingEt = multiplet.GlobalObservables().MissingEt() / GeV;
+        ScalarHt = multiplet.GlobalObservables().ScalarHt() / GeV;
+        LeptonHt = multiplet.GlobalObservables().LeptonHt() / GeV;
+        JetMass = multiplet.Rest().Jet().Mass() / GeV;
+        JetPt = multiplet.Rest().Jet().Pt() / GeV;
+        JetHt = multiplet.GlobalObservables().JetHt() / GeV;
+        JetRap = multiplet.Rest().Rap() / rad;
+        JetPhi = multiplet.Rest().Jet().Phi() / rad;
     }
     Observables Variables();
 

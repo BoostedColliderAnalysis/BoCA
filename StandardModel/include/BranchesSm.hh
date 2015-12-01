@@ -51,13 +51,13 @@ public:
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         ParticleBranch::Fill(multiplet);
-        EmRadius = multiplet.EmRadius();
-        TrackRadius = multiplet.TrackRadius();
-        MomentumFraction = multiplet.MomentumFraction();
+        EmRadius = multiplet.EmRadius() / rad;
+        TrackRadius = multiplet.TrackRadius() / rad;
+        MomentumFraction = multiplet.Info().LeadingTrackMomentumFraction();
         CoreEnergyFraction = multiplet.CoreEnergyFraction();
-        EmFraction = multiplet.EmFraction();
-        ClusterMass = multiplet.ClusterMass();
-        TrackMass = multiplet.TrackMass();
+        EmFraction = multiplet.Info().ElectroMagneticFraction();
+        ClusterMass = multiplet.Info().ClusterMass() / GeV;
+        TrackMass = multiplet.Info().TrackMass() / GeV;
         FlightPath = multiplet.FlightPath();
         TrtHtFraction = multiplet.TrtHtFraction();
     }

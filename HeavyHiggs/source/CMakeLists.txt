@@ -20,7 +20,7 @@ AnalysisHeavyHiggs.cpp
 AnalysisNeutral.cpp
 AnalysisCharged.cpp
 AnalysisFusion.cpp
-CutPlet.cpp
+CutVariables.cpp
 )
 create_library(AnalysisHeavyHiggs AnalysisSources)
 

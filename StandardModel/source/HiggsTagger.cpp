@@ -131,7 +131,7 @@ Doublet HiggsTagger::MassDrop(Doublet const& doublet) const
 {
     Info0;
     InfoRecombiner info_recombiner;
-    fastjet::JetDefinition jet_definition(fastjet::cambridge_algorithm, doublet.DeltaR() + to_float(DetectorGeometry::JetConeSize()) * 2, &info_recombiner);
+    fastjet::JetDefinition jet_definition(fastjet::cambridge_algorithm, (doublet.DeltaR() + 2. * DetectorGeometry::JetConeSize()) /rad, &info_recombiner);
 
     unsigned jet_number = 1;
     ClusterSequence cluster_sequence(doublet.Jet().constituents(), jet_definition);

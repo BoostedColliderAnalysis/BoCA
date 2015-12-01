@@ -31,7 +31,7 @@ public:
 
 protected:
 
-    virtual float Ht() const override = 0;
+    virtual Momentum Ht() const override = 0;
 
     virtual int Charge() const override = 0;
 
@@ -50,8 +50,6 @@ protected:
 
     boca::Jet Jet(boca::Jet const& jet_1, boca::Jet const& jet_2) const;
 
-    Vector2<AngleSquare> Pull() const override;
-
     Momentum DeltaPt(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
     Momentum Ht(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
@@ -64,13 +62,11 @@ protected:
 
     boca::Mass DeltaM(const boca::MultipletBase& multiplets_1, const boca::MultipletBase& multiplets_2) const;
 
-    float DeltaHt(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
+    Momentum DeltaHt(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
     float Rho(MultipletBase const& jet_1, MultipletBase const& jet_2, boca::Jet const& jet) const;
 
-    Angle PullDifference(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
-
-    Angle PullSum(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
+    Angle Pull(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
     float Dipolarity(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2, boca::Singlet const& singlet) const;
 
@@ -99,8 +95,6 @@ protected:
     mutable bool has_jet_ = false;
 
 private:
-
-    Angle Pull(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
 
     Vector2<Angle> Point2(Vector2<Angle> const& point_1, MultipletBase const& multiplets_2) const;
 

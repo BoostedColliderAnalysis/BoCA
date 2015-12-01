@@ -118,7 +118,7 @@ protected:
         }
     }
 
-    int SaveEntries(std::vector<MultipletTemplate> multiplets, size_t max = LargeNumber()) const {
+    int SaveEntries(std::vector<MultipletTemplate> multiplets, size_t max = std::numeric_limits<size_t>::max()) const {
 //         INFO(multiplets.size());
         if (multiplets.empty()) return 0;
         if (multiplets.size() > 1) multiplets = SortedByBdt(multiplets);

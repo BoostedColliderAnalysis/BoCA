@@ -111,91 +111,91 @@ public:
         return Join(Multiplet1().Jets(), Multiplet2().Jets(), Multiplet3().Jets());
     }
 
-    float DeltaPt() const {
-        return Multiplet::DeltaPt(Multiplet1(), Multiplet2()) / GeV;
+    Momentum DeltaPt() const {
+        return Multiplet::DeltaPt(Multiplet1(), Multiplet2());
     }
 
-    float DeltaPt23() const {
-        return Multiplet::DeltaPt(Multiplet2(), Multiplet3()) / GeV;
+    Momentum DeltaPt23() const {
+        return Multiplet::DeltaPt(Multiplet2(), Multiplet3());
     }
 
-    float DeltaPt13() const {
-        return Multiplet::DeltaPt(Multiplet1(), Multiplet3()) / GeV;
+    Momentum DeltaPt13() const {
+        return Multiplet::DeltaPt(Multiplet1(), Multiplet3());
     }
 
-    float Ht() const override {
+    Momentum Ht() const override {
       return Ht12() + Multiplet3().Ht();
     }
 
-    float Ht12() const {
-        return Multiplet::Ht(Multiplet1(), Multiplet2()) / GeV;
+    Momentum Ht12() const {
+        return Multiplet::Ht(Multiplet1(), Multiplet2());
     }
 
-    float Ht23() const {
-      return Multiplet::Ht(Multiplet2(), Multiplet3()) / GeV;
+    Momentum Ht23() const {
+      return Multiplet::Ht(Multiplet2(), Multiplet3());
     }
 
-    float Ht13() const {
-      return Multiplet::Ht(Multiplet1(), Multiplet3()) / GeV;
+    Momentum Ht13() const {
+      return Multiplet::Ht(Multiplet1(), Multiplet3());
     }
 
-    float DeltaRap() const {
-        return Multiplet::DeltaRap(Multiplet1(), Multiplet2()) / rad;
+    Angle DeltaRap() const {
+        return Multiplet::DeltaRap(Multiplet1(), Multiplet2());
     }
 
-    float DeltaRap23() const {
-        return Multiplet::DeltaRap(Multiplet2(), Multiplet3()) / rad;
+    Angle DeltaRap23() const {
+        return Multiplet::DeltaRap(Multiplet2(), Multiplet3());
     }
 
-    float DeltaRap13() const {
-        return Multiplet::DeltaRap(Multiplet1(), Multiplet3()) / rad;
+    Angle DeltaRap13() const {
+        return Multiplet::DeltaRap(Multiplet1(), Multiplet3());
     }
 
-    float DeltaPhi() const {
-        return Multiplet::DeltaPhi(Multiplet1(), Multiplet2()) / rad;
+    Angle DeltaPhi() const {
+        return Multiplet::DeltaPhi(Multiplet1(), Multiplet2());
     }
 
-    float DeltaPhi23() const {
-        return Multiplet::DeltaPhi(Multiplet2(), Multiplet3()) / rad;
+    Angle DeltaPhi23() const {
+        return Multiplet::DeltaPhi(Multiplet2(), Multiplet3());
     }
 
-    float DeltaPhi13() const {
-        return Multiplet::DeltaPhi(Multiplet1(), Multiplet3()) / rad;
+    Angle DeltaPhi13() const {
+        return Multiplet::DeltaPhi(Multiplet1(), Multiplet3());
     }
 
-    float DeltaR() const {
-        return Multiplet::DeltaR(Multiplet1(), Multiplet2()) / rad;
+    Angle DeltaR() const {
+        return Multiplet::DeltaR(Multiplet1(), Multiplet2());
     }
 
-    float DeltaR23() const {
-        return Multiplet::DeltaR(Multiplet2(), Multiplet3()) / rad;
+    Angle DeltaR23() const {
+        return Multiplet::DeltaR(Multiplet2(), Multiplet3());
     }
 
-    float DeltaR13() const {
-        return Multiplet::DeltaR(Multiplet1(), Multiplet3()) / rad;
+    Angle DeltaR13() const {
+        return Multiplet::DeltaR(Multiplet1(), Multiplet3());
     }
 
-    float DeltaM() const {
-        return Multiplet::DeltaM(Multiplet1(), Multiplet2()) / GeV;
+    boca::Mass DeltaM() const {
+        return Multiplet::DeltaM(Multiplet1(), Multiplet2());
     }
 
-    float DeltaM23() const {
-        return Multiplet::DeltaM(Multiplet2(), Multiplet3()) / GeV;
+    boca::Mass DeltaM23() const {
+        return Multiplet::DeltaM(Multiplet2(), Multiplet3());
     }
 
-    float DeltaM13() const {
-        return Multiplet::DeltaM(Multiplet1(), Multiplet3()) / GeV;
+    boca::Mass DeltaM13() const {
+        return Multiplet::DeltaM(Multiplet1(), Multiplet3());
     }
 
-    float DeltaHt() const {
+    Momentum DeltaHt() const {
         return Multiplet::DeltaHt(Multiplet1(), Multiplet2());
     }
 
-    float DeltaHt23() const {
+    Momentum DeltaHt23() const {
         return Multiplet::DeltaHt(Multiplet2(), Multiplet3());
     }
 
-    float DeltaHt13() const {
+    Momentum DeltaHt13() const {
         return Multiplet::DeltaHt(Multiplet1(), Multiplet3());
     }
 
@@ -215,29 +215,29 @@ public:
         return Multiplet::Charge(Multiplet1(), Multiplet2());
     }
 
-    float PullDifference() const {
-        return Multiplet::PullDifference(Multiplet1(), Multiplet2()) / rad;
+    Angle Pull12() const {
+        return Multiplet::Pull(Multiplet1(), Multiplet2());
     }
 
-    float PullSum() const {
-        return Multiplet::PullSum(Multiplet1(), Multiplet2()) / rad;
+    Angle Pull21() const {
+        return Multiplet::Pull(Multiplet2(), Multiplet1());
     }
 
 
-    float PullSum23() const {
-        return Multiplet::PullSum(Multiplet2(), Multiplet3()) / rad;
+    Angle Pull23() const {
+        return Multiplet::Pull(Multiplet2(), Multiplet3());
     }
 
-    float PullDifference23() const {
-        return Multiplet::PullDifference(Multiplet2(), Multiplet3()) / rad;
+    Angle Pull32() const {
+        return Multiplet::Pull(Multiplet3(), Multiplet2());
     }
 
-    float PullSum13() const {
-        return Multiplet::PullSum(Multiplet1(), Multiplet3()) / rad;
+    Angle Pull13() const {
+        return Multiplet::Pull(Multiplet1(), Multiplet3());
     }
 
-    float PullDifference13() const {
-        return Multiplet::PullDifference(Multiplet1(), Multiplet3()) / rad;
+    Angle Pull31() const {
+        return Multiplet::Pull(Multiplet3(), Multiplet1());
     }
 
     float Dipolarity() const {

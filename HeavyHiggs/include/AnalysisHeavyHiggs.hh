@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Analysis.hh"
-#include "Vector.hh"
 
 namespace boca
 {
@@ -49,7 +48,7 @@ public:
         return 500_GeV;
         return 800_GeV;
         return 1_TeV;
-        return 1.5 * TeV;
+        return 1.5_TeV;
         return 2_TeV;
         return 300_GeV;
         return 400_GeV;

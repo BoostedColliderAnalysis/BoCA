@@ -3,6 +3,7 @@
  */
 #include "multiplets/Multiplet.hh"
 
+#include "physics/Math.hh"
 #include "Vector.hh"
 #include "Sort.hh"
 #include "Line2.hh"
@@ -10,12 +11,6 @@
 
 namespace boca
 {
-
-Vector2<AngleSquare> Multiplet::Pull() const
-{
-    Error("do not end up here");
-    return {};
-}
 
 boca::Singlet Multiplet::Singlet(boca::Singlet const& singlet_1, boca::Singlet const& singlet_2) const
 {
@@ -44,7 +39,7 @@ Momentum Multiplet::DeltaPt(MultipletBase const& multiplets_1, MultipletBase con
 
 Momentum Multiplet::Ht(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const
 {
-    return double(multiplets_1.Ht() + multiplets_2.Ht()) * GeV;
+    return multiplets_1.Ht() + multiplets_2.Ht();
 }
 
 Angle Multiplet::DeltaRap(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const
@@ -72,7 +67,7 @@ Mass Multiplet::DeltaM(MultipletBase const& multiplets_1, MultipletBase const& m
     return multiplets_1.Mass() - multiplets_2.Mass();
 }
 
-float Multiplet::DeltaHt(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const
+Momentum Multiplet::DeltaHt(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const
 {
     return multiplets_1.Ht() - multiplets_2.Ht();
 }
@@ -86,7 +81,7 @@ float Multiplet::Rho(MultipletBase const& jet_1, MultipletBase const& jet_2, boc
 
 Angle Multiplet::Pull(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const
 {
-    Vector2<AngleSquare> pull = multiplets_1.singlet().Pull();
+    Vector2<AngleSquare> pull = multiplets_1.singlet().PullVector();
     Vector2<Angle> ref = multiplets_1.Reference(multiplets_2.Jet());
     AngleSquare pul_mag = pull.Mod();
     Angle ref_mag = ref.Mod();
@@ -96,16 +91,6 @@ Angle Multiplet::Pull(MultipletBase const& multiplets_1, MultipletBase const& mu
     if (cos < -1) cos = -1;
     return std::acos(cos) * rad;
 //     return boost::units::acos(cos * boost::units::si::si_dimensionless);
-}
-
-Angle Multiplet::PullDifference(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const
-{
-    return Pull(multiplets_1, multiplets_2);
-}
-
-Angle Multiplet::PullSum(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const
-{
-    return Pull(multiplets_2, multiplets_1);
 }
 
 float Multiplet::Dipolarity(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2, boca::Singlet const& singlet) const

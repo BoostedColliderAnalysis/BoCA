@@ -38,7 +38,7 @@ BaseBranch::~BaseBranch(){}
 
 float BaseBranch::InitialValue()
 {
-    return -11.1111111; // should be non integer
+    return -11.1111111; // must be non integer
 }
 
 Observables BaseBranch::Join(Observables const& observables_1, Observables const& observables_2)
@@ -158,14 +158,14 @@ PairBranch::PairBranch()
     Rho = InitialValue();
     Bdt1 = InitialValue();
     Bdt2 = InitialValue();
-    DeltaPull = InitialValue();
-    Pull = InitialValue();
+    Pull1 = InitialValue();
+    Pull2 = InitialValue();
     Dipolarity = InitialValue();
 }
 
 Observables PairBranch::Variables()
 {
-  return Join(ParticleBranch::Variables(), {PAIR(Ht, "H_{T}"), PAIR(DeltaPt, "#Delta P_{T}"), PAIR(DeltaM, "#Delta m"), PAIR(DeltaRap, "#Delta #eta"), PAIR(DeltaPhi, "#Delta #phi"), PAIR(DeltaR, "#Delta R"), PAIR(Rho, "#rho"), PAIR(Bdt1, "BDT_{1}"), PAIR(Bdt2, "BDT_{2}"),PAIR(Pull,"#theta"),PAIR(DeltaPull,"#Delta #theta"),PAIR(Dipolarity,"D")});
+  return Join(ParticleBranch::Variables(), {PAIR(Ht, "H_{T}"), PAIR(DeltaPt, "#Delta P_{T}"), PAIR(DeltaM, "#Delta m"), PAIR(DeltaRap, "#Delta #eta"), PAIR(DeltaPhi, "#Delta #phi"), PAIR(DeltaR, "#Delta R"), PAIR(Rho, "#rho"), PAIR(Bdt1, "BDT_{1}"), PAIR(Bdt2, "BDT_{2}"),PAIR(Pull1,"#theta_{1}"),PAIR(Pull2,"#theta_{2}"),PAIR(Dipolarity,"D")});
     //return Join(ParticleBranch::Variables() {PAIR(Ht), PAIR(DeltaPt), PAIR(DeltaM), PAIR(DeltaRap), PAIR(DeltaPhi), PAIR(DeltaR), PAIR(Rho)});
 }
 
@@ -212,8 +212,8 @@ TChannelBranch::TChannelBranch()
   DeltaHt13 = InitialValue();
   Pull23 = InitialValue();
   Pull13 = InitialValue();
-  DeltaPull23 = InitialValue();
-  DeltaPull13 = InitialValue();
+  Pull32 = InitialValue();
+  Pull31 = InitialValue();
   Dipolarity23 = InitialValue();
   Dipolarity13 = InitialValue();
 //   Sphericity = InitialValue();
@@ -222,7 +222,7 @@ TChannelBranch::TChannelBranch()
 
 Observables TChannelBranch::Variables()
 {
-  return Join(MultiBranch::Variables(), {PAIR(Bdt3), PAIR(Mass12), PAIR(Mass23), PAIR(Mass13), PAIR(Pt12), PAIR(Pt23), PAIR(Pt13), PAIR(DeltaPt23), PAIR(DeltaPt13), PAIR(Ht12), PAIR(Ht23), PAIR(Ht13), PAIR(Rho23), PAIR(Rho13), PAIR(DeltaRap23), PAIR(DeltaRap13), PAIR(DeltaPhi23), PAIR(DeltaPhi13), PAIR(DeltaR23), PAIR(DeltaR13), PAIR(DeltaM23), PAIR(DeltaM13), PAIR(DeltaHt23), PAIR(DeltaHt13), PAIR(Pull23), PAIR(Pull13), PAIR(DeltaPull23), PAIR(DeltaPull13), PAIR(Dipolarity23), PAIR(Dipolarity13)
+  return Join(MultiBranch::Variables(), {PAIR(Bdt3), PAIR(Mass12), PAIR(Mass23), PAIR(Mass13), PAIR(Pt12), PAIR(Pt23), PAIR(Pt13), PAIR(DeltaPt23), PAIR(DeltaPt13), PAIR(Ht12), PAIR(Ht23), PAIR(Ht13), PAIR(Rho23), PAIR(Rho13), PAIR(DeltaRap23), PAIR(DeltaRap13), PAIR(DeltaPhi23), PAIR(DeltaPhi13), PAIR(DeltaR23), PAIR(DeltaR13), PAIR(DeltaM23), PAIR(DeltaM13), PAIR(DeltaHt23), PAIR(DeltaHt13), PAIR(Pull23), PAIR(Pull13), PAIR(Pull32), PAIR(Pull31), PAIR(Dipolarity23), PAIR(Dipolarity13)
 //     , PAIR(Aplanarity), PAIR(Sphericity)
   });
 }

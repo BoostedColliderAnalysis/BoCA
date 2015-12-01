@@ -24,36 +24,36 @@ public:
 
     Triplet const& Triplet2() const;
 
-    float HardTopPt() const {
-        return std::max(Triplet1().Pt(), Triplet2().Pt()) / GeV;
+    Momentum HardTopPt() const {
+        return std::max(Triplet1().Pt(), Triplet2().Pt());
     }
 
-    float SoftTopPt() const {
-        return std::min(Triplet1().Pt(), Triplet2().Pt()) / GeV;
+    Momentum SoftTopPt() const {
+        return std::min(Triplet1().Pt(), Triplet2().Pt());
     }
 
-    float GetLargertripletDeltaR() const {
+    Angle GetLargertripletDeltaR() const {
         return std::max(Triplet1().DeltaR(), Triplet2().DeltaR());
     }
 
-    float GetSmallertripletDeltaR() const {
+    Angle GetSmallertripletDeltaR() const {
         return std::min(Triplet1().DeltaR(), Triplet2().DeltaR());
     }
 
-    float GetLargertripletDeltaRap() const {
+    Angle GetLargertripletDeltaRap() const {
         return std::max(Triplet1().DeltaRap(), Triplet2().DeltaRap());
     }
 
-    float GetSmallertripletDeltaRap() const {
+    Angle GetSmallertripletDeltaRap() const {
         return std::min(Triplet1().DeltaRap(), Triplet2().DeltaRap());
     }
 
-    float GetLargerTripleDeltaPhi() const {
-        return std::max(std::abs(Triplet1().DeltaPhi()), std::abs(Triplet2().DeltaPhi()));
+    Angle GetLargerTripleDeltaPhi() const {
+        return std::max(boost::units::abs(Triplet1().DeltaPhi()), boost::units::abs(Triplet2().DeltaPhi()));
     }
 
-    float GetSmallertripletDeltaPhi() const {
-        return std::min(std::abs(Triplet1().DeltaPhi()), std::abs(Triplet2().DeltaPhi()));
+    Angle GetSmallertripletDeltaPhi() const {
+        return std::min(boost::units::abs(Triplet1().DeltaPhi()), boost::units::abs(Triplet2().DeltaPhi()));
     }
 
     boca::Mass GetBetterTripleMass(Id id) const {

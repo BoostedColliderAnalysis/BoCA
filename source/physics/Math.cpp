@@ -10,11 +10,6 @@
 namespace boca
 {
 
-int LargeNumber()
-{
-    return 999999999;
-}
-
 float FloorToDigits(float value, int digits)
 {
     if (value == 0 || value != value) {

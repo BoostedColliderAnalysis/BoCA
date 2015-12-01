@@ -41,18 +41,18 @@ public:
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         PairBranch::Fill(multiplet);
-        LargerWDeltaR = multiplet.GetLargertripletDeltaR();
-        LargerWDeltaRap = multiplet.GetLargertripletDeltaRap();
-        LargerWDeltaPhi = multiplet.GetLargerTripleDeltaPhi();
-        SmallerWDeltaR = multiplet.GetSmallertripletDeltaR();
-        SmallerWDeltaRap = multiplet.GetSmallertripletDeltaRap();
-        SmallerWDeltaPhi = multiplet.GetSmallertripletDeltaPhi();
-        LargerNeutrinoDeltaR = multiplet.GetLargertripletDeltaR();
-        LargerNeutrinoDeltaRap = multiplet.GetLargertripletDeltaRap();
-        LargerNeutrinoDeltaPhi = multiplet.GetLargerTripleDeltaPhi();
-        SmallerNeutrinoDeltaR = multiplet.GetSmallertripletDeltaR();
-        SmallerNeutrinoDeltaRap = multiplet.GetSmallertripletDeltaRap();
-        SmallerNeutrinoDeltaPhi = multiplet.GetSmallertripletDeltaPhi();
+        LargerWDeltaR = multiplet.GetLargertripletDeltaR() / rad;
+        LargerWDeltaRap = multiplet.GetLargertripletDeltaRap() / rad;
+        LargerWDeltaPhi = multiplet.GetLargerTripleDeltaPhi() / rad;
+        SmallerWDeltaR = multiplet.GetSmallertripletDeltaR() / rad;
+        SmallerWDeltaRap = multiplet.GetSmallertripletDeltaRap() / rad;
+        SmallerWDeltaPhi = multiplet.GetSmallertripletDeltaPhi() / rad;
+        LargerNeutrinoDeltaR = multiplet.GetLargertripletDeltaR() / rad;
+        LargerNeutrinoDeltaRap = multiplet.GetLargertripletDeltaRap() / rad;
+        LargerNeutrinoDeltaPhi = multiplet.GetLargerTripleDeltaPhi() / rad;
+        SmallerNeutrinoDeltaR = multiplet.GetSmallertripletDeltaR() / rad;
+        SmallerNeutrinoDeltaRap = multiplet.GetSmallertripletDeltaRap() / rad;
+        SmallerNeutrinoDeltaPhi = multiplet.GetSmallertripletDeltaPhi() / rad;
     }
 
     Observables Variables();
@@ -155,11 +155,11 @@ public:
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         MultiBranch::Fill(multiplet);
-        HeavyHiggsMass = multiplet.Jet().m();
-        HeavyHiggsPt = multiplet.Jet().m();
-        TopDeltaR = multiplet.DeltaR();
-        TopDeltaRap = multiplet.DeltaRap();
-        TopDeltaPhi = multiplet.DeltaPhi();
+        HeavyHiggsMass = multiplet.Jet().Mass() / GeV;
+        HeavyHiggsPt = multiplet.Jet().Mass() / GeV;
+        TopDeltaR = multiplet.DeltaR() /rad;
+        TopDeltaRap = multiplet.DeltaRap() /rad;
+        TopDeltaPhi = multiplet.DeltaPhi() /rad;
         TopBdt = multiplet.Bdt();
         HeavyHiggsTag = int(multiplet.Tag());
     }
@@ -191,8 +191,8 @@ public:
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         PairBranch::Fill(multiplet);
-        LeptonPt = multiplet.Singlet1().Jet().pt();
-        NeutrinoPt = multiplet.Singlet2().Jet().pt();
+        LeptonPt = multiplet.Singlet1().Jet().Pt() / GeV;
+        NeutrinoPt = multiplet.Singlet2().Jet().Pt() / GeV;
     }
 
     Observables Variables();
@@ -241,14 +241,14 @@ public:
     template<typename Multiplet>
     void Fill(Multiplet const& event) {
         EventBranch::Fill(event);
-        HiggsMass = event.Signature().Sextet().Jet().m();
+        HiggsMass = event.Signature().Sextet().Jet().Mass() / GeV;
         HiggsBdt = event.Signature().Sextet().Bdt();
         SignatureBdt = event.Signature().Bdt();
-        PairRap = event.Signature().Doublet().DeltaRap();
+        PairRap = event.Signature().Doublet().DeltaRap() / rad;
         BottomBdt = event.Signature().BottomBdt();
         PairBottomBdt = event.Signature().Doublet().BottomBdt();
-        HardTopPt = event.Signature().Sextet().HardTopPt();
-        SoftTopPt = event.Signature().Sextet().SoftTopPt();
+        HardTopPt = event.Signature().Sextet().HardTopPt() / GeV;
+        SoftTopPt = event.Signature().Sextet().SoftTopPt() / GeV;
         BottomBdt1 = event.GlobalObservables().BottomBdt(1);
         BottomBdt2 = event.GlobalObservables().BottomBdt(2);
         BottomBdt3 = event.GlobalObservables().BottomBdt(3);
@@ -303,14 +303,14 @@ public:
     template<typename Multiplet>
     void Fill(Multiplet const& event) {
         EventBranch::Fill(event);
-        HiggsMass = event.Signature().Sextet().Jet().m();
+        HiggsMass = event.Signature().Sextet().Jet().Mass() / GeV;
         HiggsBdt = event.Signature().Sextet().Bdt();
         SignatureBdt = event.Signature().Bdt();
-        PairRap = event.Signature().Doublet().DeltaRap();
+        PairRap = event.Signature().Doublet().DeltaRap() / rad;
         BottomBdt = event.Signature().BottomBdt();
         PairBottomBdt = event.Signature().Doublet().BottomBdt();
-        HardTopPt = event.Signature().Sextet().HardTopPt();
-        SoftTopPt = event.Signature().Sextet().SoftTopPt();
+        HardTopPt = event.Signature().Sextet().HardTopPt() / GeV;
+        SoftTopPt = event.Signature().Sextet().SoftTopPt() / GeV;
         BottomBdt1 = event.GlobalObservables().BottomBdt(1);
         BottomBdt2 = event.GlobalObservables().BottomBdt(2);
         BottomBdt3 = event.GlobalObservables().BottomBdt(3);
@@ -352,7 +352,7 @@ public:
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         EventBranch::Fill(multiplet);
-        HiggsMass = multiplet.Jet().m();
+        HiggsMass = multiplet.Jet().Mass() / GeV;
     }
 
     Observables Variables();
@@ -392,10 +392,10 @@ public:
         PairBottomBdt = multiplet.Doublet().BottomBdt();
         PairBdt = multiplet.Doublet().Bdt();
         HiggsBdt = multiplet.Sextet().Bdt();
-        HardTopPt = multiplet.Sextet().HardTopPt();
-        SoftTopPt = multiplet.Sextet().SoftTopPt();
-        HiggsMass = multiplet.Sextet().Jet().m();
-        PairRap = multiplet.Doublet().DeltaRap();
+        HardTopPt = multiplet.Sextet().HardTopPt() / GeV;
+        SoftTopPt = multiplet.Sextet().SoftTopPt() / GeV;
+        HiggsMass = multiplet.Sextet().Jet().Mass() / GeV;
+        PairRap = multiplet.Doublet().DeltaRap() / rad;
     }
 
     Observables Variables();
@@ -433,8 +433,8 @@ public:
         PairBottomBdt = multiplet.Quartet2().BottomBdt();
         HiggsBdt = multiplet.Quartet1().Bdt();
         PairBdt = multiplet.Quartet2().Bdt();
-        HiggsMass = multiplet.Quartet1().Jet().m();
-        PairRap = multiplet.Quartet2().DeltaRap();
+        HiggsMass = multiplet.Quartet1().Jet().Mass() / GeV;
+        PairRap = multiplet.Quartet2().DeltaRap() / rad;
     }
 
     Observables Variables();
@@ -482,10 +482,10 @@ public:
     template<typename Multiplet>
     void Fill(Multiplet const& event) {
         EventBranch::Fill(event);
-        HiggsMass = event.Signature().Quartet1().Jet().m();
+        HiggsMass = event.Signature().Quartet1().Jet().Mass() / GeV;
         HiggsBdt = event.Signature().Quartet1().Bdt();
         SignatureBdt = event.Signature().Bdt();
-        PairRap = event.Signature().Quartet2().DeltaRap();
+        PairRap = event.Signature().Quartet2().DeltaRap() / rad;
         BottomBdt = event.Signature().BottomBdt();
         PairBottomBdt = event.Signature().Quartet2().BottomBdt();
         BottomBdt1 = event.GlobalObservables().BottomBdt(1);
@@ -501,7 +501,7 @@ public:
         BottomBdt56 = event.GlobalObservables().BottomBdt(5, 6);
         BottomBdt78 = event.GlobalObservables().BottomBdt(7, 8);
         RestBdt = event.GlobalObservables().BottomBdt();
-        LeptonHt = event.GlobalObservables().LeptonHt();
+        LeptonHt = event.GlobalObservables().LeptonHt() / GeV;
     }
 
     Observables Variables();
@@ -528,12 +528,12 @@ public:
   template<typename Multiplet>
   void Fill(Multiplet const& multiplet) {
     CutBranch::Fill(multiplet);
-    Ht = multiplet.Ht();
-    EtMiss = multiplet.EtMiss();
+    Ht = multiplet.Ht() / GeV;
+    EtMiss = multiplet.EtMiss() / GeV;
     NumberJet = multiplet.JetNumber();
     NumberBottom = multiplet.BottomNumber();
-    InvariantMass = multiplet.InvariantMass();
-    DeltaR = multiplet.DeltaR();
+    InvariantMass = multiplet.InvariantMass() / GeV;
+    DeltaR = multiplet.DeltaR() / rad;
   }
   virtual Observables Variables();
 
