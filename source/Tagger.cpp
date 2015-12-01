@@ -8,7 +8,6 @@
 
 #include "exroot/ExRootAnalysis.hh"
 #include "Tagger.hh"
-#include "JetInfo.hh"
 #include "DetectorGeometry.hh"
 #include "ReaderBase.hh"
 // #define INFORMATION

@@ -5,7 +5,6 @@
 #include "delphes/Delphes.hh"
 #include "Types.hh"
 #include "Debug.hh"
-#include "JetInfo.hh"
 
 namespace boca {
 

@@ -4,8 +4,7 @@
 #pragma once
 
 #include "fastjet/PseudoJet.hh"
-#include "physics/Units.hh"
-#include "JetInfo.hh"
+#include "physics/LorentzVector.hh"
 
 class TLorentzVector;
 

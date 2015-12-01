@@ -6,7 +6,6 @@
 
 #include "TopHadronicTagger.hh"
 #include "Event.hh"
-#include "InfoRecombiner.hh"
 #include "ParticleInfo.hh"
 #include "Exception.hh"
 // #define DEBUG

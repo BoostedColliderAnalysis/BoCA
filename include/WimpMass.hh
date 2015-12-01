@@ -24,7 +24,7 @@ public:
 
     std::vector<boca::Sextet> Sextets(Quartet22 const& quartet, Jet const& missing_et);
 
-    boca::Sextet Fake(Quartet22 const& quartet) const;
+    boca::Sextet Fake(boca::Quartet22 const& quartet) const;
 
 private:
 

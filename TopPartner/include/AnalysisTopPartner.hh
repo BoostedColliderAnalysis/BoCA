@@ -63,7 +63,7 @@ protected:
         return 6_TeV;
         return 10_TeV;
         return 8_TeV;
-        return 1500_GeV;
+        return 1.5_TeV;
         return 500_GeV;
         return 3_TeV;
     }

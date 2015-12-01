@@ -2,7 +2,6 @@
 
 #include "EventShapes.hh"
 #include "Analysis.hh"
-#include "JetInfo.hh"
 #include "TopLeptonicTagger.hh"
 #include "Debug.hh"
 

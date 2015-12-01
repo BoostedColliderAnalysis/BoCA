@@ -27,6 +27,8 @@ BOOST_UNITS_STATIC_CONSTANT(metres, boost::units::si::length);
  */
 using Angle = boost::units::quantity<boost::units::si::plane_angle>;
 
+using AngleSquare = typename boost::units::multiply_typeof_helper<Angle, Angle>::type;
+
 float to_float(Angle angle);
 
 Angle to_angle(float angle);

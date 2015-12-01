@@ -7,8 +7,6 @@
 #include "delphes/Delphes.hh"
 #include "delphes/Hadrons.hh"
 
-#include "JetInfo.hh"
-#include "InfoRecombiner.hh"
 #include "Vector.hh"
 #include "Sort.hh"
 #include "Exception.hh"

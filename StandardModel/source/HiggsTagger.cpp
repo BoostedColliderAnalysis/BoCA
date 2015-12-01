@@ -8,8 +8,6 @@
 #include "Event.hh"
 #include "ClusterSequence.hh"
 #include "Types.hh"
-#include "JetInfo.hh"
-#include "InfoRecombiner.hh"
 #include "HiggsTagger.hh"
 #include "MomentumRange.hh"
 #include "Exception.hh"

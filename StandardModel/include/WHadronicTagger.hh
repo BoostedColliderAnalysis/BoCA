@@ -30,7 +30,7 @@ public:
 
     std::vector<Doublet> Multiplets(std::vector<Jet> const& jets, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    boost::optional<Doublet> Multiplet(Jet const& jet, TMVA::Reader const& reader) const;
+    boost::optional<Doublet> Multiplet(boca::Jet jet, const TMVA::Reader& reader) const;
 
     boost::optional<Doublet> Multiplet(Jet const& jet_1, Jet const& jet_2, TMVA::Reader const& reader) const;
 

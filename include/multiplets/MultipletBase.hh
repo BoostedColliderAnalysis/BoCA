@@ -3,15 +3,10 @@
  */
 #pragma once
 
-#include "Identification.hh"
-#include "physics/Vector2.hh"
 #include "Jet.hh"
 #include "Particle.hh"
-#include "physics/Units.hh"
 
 namespace boca {
-
-using AngleSquare = typename boost::units::multiply_typeof_helper<Angle, Angle>::type;
 
 class MultipletBase : public Identification {
 

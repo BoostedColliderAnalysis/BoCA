@@ -34,8 +34,8 @@ public:
         else if (multiplet_2.Bdt() != InitialValue()) SetBdt(multiplet_2.Bdt());
     }
 
-    void SetJet(boca::Jet const& jet) {
-        static_cast<JetInfo&>(*jet.user_info_shared_ptr().get()).SetSubStructure(false);
+    void SetJet(boca::Jet jet) {
+        jet.Info().SetSubStructure(false);
         multiplet_1_ = Multiplet_1(jet / 2);
         multiplet_2_ = Multiplet_2(jet / 2);
         SetBdt((multiplet_1_.Bdt() + multiplet_2_.Bdt()) / 2);

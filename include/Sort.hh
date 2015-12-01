@@ -8,9 +8,7 @@
 
 #include "Jet.hh"
 
-#include "physics/LorentzVector.hh"
 #include "physics/Particles.hh"
-#include "JetInfo.hh"
 
 namespace boca
 {
@@ -122,7 +120,7 @@ struct SortByBdt {
         return multiplet_1.Bdt() > multiplet_2.Bdt();
     }
     bool operator()(Jet const& jet_1, Jet const& jet_2) {
-        return jet_1.user_info<boca::JetInfo>().Bdt() > jet_2.user_info<boca::JetInfo>().Bdt();
+      return jet_1.Info().Bdt() > jet_2.Info().Bdt();
     }
 };
 

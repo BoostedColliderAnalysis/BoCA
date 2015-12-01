@@ -91,7 +91,7 @@ JetInfo& Jet::Info()
 
 void Jet::SetInfo(JetInfo const& user_info)
 {
-    if (has_user_info<JetInfo>()) Error("Jet has already a user info, which gets overwritten");
+    if (has_user_info<JetInfo>()) Error("Jet has already a user info, which gets overwritten: data loss and memory leak");
     set_user_info(new JetInfo(user_info));
 }
 

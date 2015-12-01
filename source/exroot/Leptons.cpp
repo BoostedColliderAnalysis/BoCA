@@ -1,7 +1,6 @@
 #include "exroot/Leptons.hh"
 
 #include "exroot/ExRootAnalysis.hh"
-#include "JetInfo.hh"
 #include "Types.hh"
 #include "Debug.hh"
 

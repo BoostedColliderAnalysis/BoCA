@@ -6,6 +6,7 @@
 #include <boost/units/scale.hpp>
 #include <boost/units/make_scaled_unit.hpp>
 #include <boost/units/systems/si/dimensionless.hpp>
+#include <boost/units/pow.hpp>
 
 #include "Si.hh"
 #include "Barn.hh"
@@ -78,7 +79,7 @@ BOOST_UNITS_METRIC_PREFIX_2(24, yotta);
     } \
     inline boost::units::quantity<unit, double > operator "" _##prefix##suffix(unsigned long long x) \
     { \
-        return boost::units::quantity<unit, double >(x * multiplier * val); \
+        return boost::units::quantity<unit, double >(double(x) * multiplier * val); \
     } \
     static const boost::units::quantity<unit, double> prefix##suffix(1. * multiplier * val); \
 
@@ -144,5 +145,7 @@ BOOST_UNITS_LITERAL_SET(rad, boost::units::si::plane_angle, boost::units::si::ra
 BOOST_UNITS_LITERAL_SET(eV, electronvolt::Energy, ElectronVolt)
 BOOST_UNITS_LITERAL_SET(b, barn::Area, Barn)
 
+
+static const AngleSquare rad2 = boost::units::pow<2>(rad);
 
 }

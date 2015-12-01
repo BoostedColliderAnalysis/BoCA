@@ -6,6 +6,7 @@
 #include "Event.hh"
 #include "Vector.hh"
 #include "PreCuts.hh"
+#include "Exception.hh"
 // #define INFORMATION
 #include "Debug.hh"
 

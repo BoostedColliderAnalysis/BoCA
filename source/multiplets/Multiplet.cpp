@@ -3,13 +3,9 @@
  */
 #include "multiplets/Multiplet.hh"
 
-#include "Line2.hh"
-#include "InfoRecombiner.hh"
-#include "JetInfo.hh"
 #include "Vector.hh"
-#include "physics/Math.hh"
 #include "Sort.hh"
-#include "physics/Units.hh"
+#include "Line2.hh"
 #include "Debug.hh"
 
 namespace boca
@@ -87,8 +83,6 @@ float Multiplet::Rho(MultipletBase const& jet_1, MultipletBase const& jet_2, boc
     if (jet.Pt() < DetectorGeometry::MinCellPt() || delta_r < DetectorGeometry::MinCellResolution()) return 0;
     return jet.Mass() / jet.Pt() / delta_r * 2_rad;
 }
-
-static const AngleSquare rad2 = boost::units::pow<2>(rad);
 
 Angle Multiplet::Pull(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const
 {

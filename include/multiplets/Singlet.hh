@@ -3,7 +3,6 @@
  */
 #pragma once
 
-#include "JetInfo.hh"
 #include "multiplets/MultipletBase.hh"
 
 namespace boca

@@ -45,7 +45,7 @@ std::vector<Jet> TauTagger::CleanJets(std::vector<Jet>& jets, std::vector<Partic
     for (auto const & Particle : Particles) {
         std::sort(jets.begin(), jets.end(), MinDeltaRTo(Particle));
         if (jets.front().DeltaRTo(Particle) < 0.4_rad)
-            static_cast<JetInfo&>(*jets.front().user_info_shared_ptr().get()).SetTag(Tag::signal);
+            jets.front().Info().SetTag(Tag::signal);
     }
    std::vector<Jet>NewCleanJets;
     for (auto const & Jet : jets) {
