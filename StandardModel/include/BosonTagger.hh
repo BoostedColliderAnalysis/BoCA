@@ -38,7 +38,7 @@ public:
 
     std::string Name() const final;
 
-    std::string NiceName() const final;
+    std::string LatexName() const final;
 
     Doublet Multiplet(boca::Doublet& doublet, const boca::PreCuts& pre_cuts, const TMVA::Reader& reader) const;
 

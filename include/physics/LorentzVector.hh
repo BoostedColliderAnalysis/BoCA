@@ -89,16 +89,25 @@ public:
     void SetPz(Momentum a);
     void SetE(boca::Energy a);
     // Transverse energy squared.
-    EnergySqr Et2() const;
+    EnergySquare Et2() const;
 
     // Transverse energy.
     boca::Energy Et() const;
 
     // Transverse energy w.r.t. given axis squared.
-    EnergySqr Et2(Vector3<Momentum> const& v) const;
+    template<typename Value,  typename = OnlyIfNotQuantity<Value>>
+    EnergySquare Et2(Vector3<Value> const& vector) const {
+        MomentumSquare pt2 = vector_3_.Perp2(vector);
+        Momentum pv = vector_3_.Dot(vector.Unit());
+        return pt2 == 0. * GeV2 ? 0. * GeV2 : sqr(E()) * pt2 / (pt2 + sqr(pv));
+    }
 
     // Transverse energy w.r.t. given axis.
-    boca::Energy Et(Vector3<Momentum> const& v) const;
+    template<typename Value,  typename = OnlyIfNotQuantity<Value>>
+    boca::Energy Et(Vector3<Value> const& vector) const {
+        EnergySquare etet = Et2(vector);
+        return E() < 0_GeV ? -sqrt(etet) : sqrt(etet);
+    }
 
     // Setters to provide the functionality(but a more meanigful name) of
     void SetPxPyPzE(Momentum px, Momentum py, Momentum pz, boca::Energy energy);
@@ -107,13 +116,13 @@ public:
 
     void SetPtEtaPhiE(Momentum pt, boca::Angle eta, boca::Angle phi, boca::Energy energy);
 
-    MassSqr M2() const;
+    MassSquare M2() const;
 
     boca::Mass M() const;
     boca::Mass Mass() const;
 
     // Transverse mass squared.
-    MassSqr Mt2() const;
+    MassSquare Mt2() const;
 
     // Transverse mass.
     boca::Mass Mt() const;
@@ -122,7 +131,11 @@ public:
     Momentum Pt() const;
 
     // Transverse component of the spatial vector w.r.t. given axis.
-    Momentum Pt(Vector3<Momentum> const& vector) const;
+    template<typename Value,  typename = OnlyIfNotQuantity<Value>>
+    Momentum Pt(Vector3<Value> const& vector) const
+    {
+      return Perp(vector);
+    }
 };
 
 template<>
@@ -137,6 +150,8 @@ public:
     LorentzVector(::delphes::Track& track);
 
     LorentzVector(::delphes::GenParticle& particle);
+
+    void Smearing(Length amount);
 
 };
 

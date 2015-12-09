@@ -147,5 +147,6 @@ BOOST_UNITS_LITERAL_SET(b, barn::Area, Barn)
 
 
 static const AngleSquare rad2 = boost::units::pow<2>(rad);
+static const MomentumSquare GeV2 = boost::units::pow<2>(GeV);
 
 }

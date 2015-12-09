@@ -34,25 +34,49 @@ std::string Name(DetectorType detector_type);
 
 class DetectorGeometry
 {
+
 public:
+
     static Momentum JetMinPt();
+
     static Angle JetConeSize();
+
     static Momentum MinCellPt();
+
     static Angle MinCellResolution();
+
     static Angle TrackerEtaMax();
+
     static fastjet::JetDefinition JetDefinition();
+
+    static fastjet::JetDefinition JetDefinition(Angle const& jet_cone);
+
     static fastjet::JetDefinition SubJetDefinition();
+
     static Length TrackerDistanceMin();
+
     static Length TrackerDistanceMax();
+
     static Mass VertexMassMin();
+
     static Momentum LeptonMinPt();
+
     static boca::Luminosity Luminosity();
+
     static JetType jet_type();
+
     static void set_detector_type(DetectorType detector_type);
+
     static DetectorType detector_type();
+
+    static InfoRecombiner& Recombiner();
+
 private:
+
     static DetectorType detector_type_;
+
     static InfoRecombiner info_recombiner_;
+
 };
 
 }

@@ -100,28 +100,17 @@ void LorentzVector< Momentum >::SetE(boca::Energy a)
 {
     SetT(a);
 }
-EnergySqr LorentzVector< Energy >::Et2() const
+EnergySquare LorentzVector< Energy >::Et2() const
 {
-    MomentumSqr pt2 = vector_3_.Perp2();
-    return pt2 == 0_GeV * GeV ? 0_GeV * GeV : E() * E() * pt2 / (pt2 + Z() * Z());
+    MomentumSquare pt2 = vector_3_.Perp2();
+    return pt2 == 0. * GeV2 ? 0. * GeV2 : sqr(E()) * pt2 / (pt2 + sqr(Z()));
 }
 Energy LorentzVector< Momentum >::Et() const
 {
-    EnergySqr etet = Et2();
+    EnergySquare etet = Et2();
     return E() < 0_GeV ? -sqrt(etet) : sqrt(etet);
 }
-EnergySqr LorentzVector< Momentum >::Et2(const Vector3< Momentum >& v) const
-{
-    MomentumSqr pt2 = vector_3_.Perp2(v);
-    Momentum pv = vector_3_.Dot(v.Unit()) / GeV; // FIXME this looks fishy
-    return pt2 == 0_GeV * GeV ? 0_GeV * GeV : E() * E() * pt2 / (pt2 + pv * pv);
-}
-Energy LorentzVector< Momentum >::Et(const Vector3< Momentum >& v) const
-{
-    EnergySqr etet = Et2(v);
-    return E() < 0_GeV ? -sqrt(etet) : sqrt(etet);
-}
-MassSqr LorentzVector< Momentum >::M2() const
+MassSquare LorentzVector< Momentum >::M2() const
 {
     return Mag2();
 }
@@ -133,14 +122,14 @@ Mass LorentzVector< Momentum >::Mass() const
 {
     return Mag();
 }
-MassSqr LorentzVector< Momentum >::Mt2() const
+MassSquare LorentzVector< Momentum >::Mt2() const
 {
     return sqr(E()) - sqr(Z());
 }
 Mass LorentzVector< Momentum >::Mt() const
 {
-    MassSqr mm = Mt2();
-    return mm < 0_GeV * GeV ? -sqrt(-mm) : sqrt(mm);
+    MassSquare mt2 = Mt2();
+    return mt2 < 0. * GeV2 ? -sqrt(-mt2) : sqrt(mt2);
 }
 LorentzVector< Momentum >::LorentzVector()
 {
@@ -157,10 +146,6 @@ void LorentzVector< Momentum >::SetPxPyPzE(boca::Momentum px, boca::Momentum py,
 Momentum LorentzVector< Momentum >::Pt() const
 {
     return Perp();
-}
-Momentum LorentzVector< Momentum >::Pt(const Vector3< Momentum >& vector) const
-{
-    return Perp(vector);
 }
 
 LorentzVector< Momentum >::LorentzVector(const LorentzVectorBase<Momentum>& lorentz_vector)
@@ -186,9 +171,24 @@ LorentzVector< Length >::LorentzVector(delphes::Track& track)
   vector_3_ = Vector3<Length>(double(track.X) * mm, double(track.Y) * mm, double(track.Z) * mm);
   scalar_ = double(track.T) * mm;
 }
+
 LorentzVector< Length >::LorentzVector(delphes::GenParticle& particle)
 {
   SetVect(Vector3<Length>(double(particle.X) * mm, double(particle.Y) * mm, double(particle.Z) * mm));
   scalar_ = double(particle.T) * mm;
 }
+
+void LorentzVector< Length >::Smearing(Length amount)
+{
+    std::random_device random_device;
+    std::mt19937 generator(random_device());
+    std::normal_distribution<double> normal_distribution(0, amount / m);
+
+    scalar_ += normal_distribution(generator) * m;
+    vector_3_.X() += normal_distribution(generator) * m;
+    vector_3_.Y() += normal_distribution(generator) * m;
+    vector_3_.Z() += normal_distribution(generator) * m;
+
+}
+
 }

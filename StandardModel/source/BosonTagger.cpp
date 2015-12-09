@@ -115,7 +115,7 @@ std::string BosonTagger::Name() const
     return "Boson";
 }
 
-std::string BosonTagger::NiceName() const
+std::string BosonTagger::LatexName() const
 {
     return "B";
 }

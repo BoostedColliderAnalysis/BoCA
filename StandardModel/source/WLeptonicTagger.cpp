@@ -93,8 +93,8 @@ std::vector<Doublet> WLeptonicTagger::ReconstructNeutrino(Doublet const& doublet
     }
     Check(radicant != 0, "Radicant exactly zero", "implement this case!");
     float sqrt = std::sqrt(radicant);
-    float neutrino_1_e = (lepton.e() * linear_term - sqrt) / lepton_square;
-    float neutrino_1_pz = (sqr(lepton.pz()) * linear_term - lepton.e() * sqrt) / lepton.pz() / lepton_square;
+    double neutrino_1_e = (lepton.e() * linear_term - sqrt) / lepton_square;
+    double neutrino_1_pz = (sqr(lepton.pz()) * linear_term - lepton.e() * sqrt) / lepton.pz() / lepton_square;
     Jet neutrino_1(missing_et.px(), missing_et.py(), neutrino_1_pz, neutrino_1_e);
     Debug(neutrino_1);
     Doublet doublet1(lepton, neutrino_1);
@@ -117,7 +117,7 @@ std::string WLeptonicTagger::Name() const
     return "WLeptonic";
 }
 
-std::string WLeptonicTagger::NiceName() const
+std::string WLeptonicTagger::LatexName() const
 {
     return "W_{l}";
 }

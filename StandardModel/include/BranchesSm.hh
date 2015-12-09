@@ -206,6 +206,64 @@ private:
 };
 
 
+/**
+ *
+ * @brief Top tagger root tree structure
+ *
+ */
+class TopHadronicHepBranch : public MultiBranch, public BottomBase
+{
+public:
+  TopHadronicHepBranch();
+  float BottomMass;
+  float WMass;
+  float LeptonPt;
+  template<typename Multiplet>
+  void Fill(Multiplet const& multiplet) {
+    MultiBranch::Fill(multiplet);
+    BottomMass = multiplet.Singlet().Jet().Mass() / GeV;
+    WMass = multiplet.Doublet().Jet().Mass() / GeV;
+    LeptonPt = multiplet.Pt() / GeV;
+  }
+  Observables Variables();
+  Observables Spectators();
+private:
+  ClassDef(TopHadronicHepBranch, 1)
+};
+
+/**
+ *
+ * @brief Top tagger root tree structure
+ *
+ */
+class TruthBranch : public ResultBranch
+{
+public:
+  TruthBranch();
+  float TopPt;
+  float BottomPt;
+  float WPt;
+  float Quark1Pt;
+  float Quark2Pt;
+  float DeltaRTop;
+  float DeltaRW;
+  template<typename Multiplet>
+  void Fill(Multiplet const& multiplet) {
+    TopPt = multiplet.TopPt() / GeV;
+    BottomPt = multiplet.BottomPt() / GeV;
+    WPt = multiplet.WPt() / GeV;
+    Quark1Pt = multiplet.Quark1Pt() / GeV;
+    Quark2Pt = multiplet.Quark2Pt() / GeV;
+    DeltaRTop = multiplet.DeltaRTop() / rad;
+    DeltaRW = multiplet.DeltaRW() / rad;
+  }
+  Observables Variables(){return{};}
+  Observables Spectators(){return{};}
+private:
+  ClassDef(TruthBranch, 1)
+};
+
+
 }
 
 }

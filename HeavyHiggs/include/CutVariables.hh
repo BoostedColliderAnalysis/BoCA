@@ -56,6 +56,10 @@ public:
     int bottom_number_ = 0;
     boca::Mass invariant_mass_ = 0;
     Angle delta_r_ = 0;
+   Momentum leading_pt_ = 0;
+   Momentum second_leading_pt_ = 0;
+   Momentum bottom_min_pt_ = 0;
+   Angle bottom_max_rap_ = 0;
 
     std::vector<bool> passed_;
     void SetPassed(std::vector<bool> const& passed);

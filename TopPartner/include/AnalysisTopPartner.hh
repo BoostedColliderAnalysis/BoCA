@@ -31,7 +31,7 @@ enum class Process
 
 std::string Name(Process process);
 
-std::string NiceName(Process process);
+std::string LatexName(Process process);
 
 bool MassDependent(Process process);
 
@@ -183,7 +183,7 @@ protected:
 
     void NewFile(Tag tag, Process process) {
         Info0;
-        AnalysisBase::NewFile(tag, this->FileName(process), this->Crosssection(process), NiceName(process), Mass());
+        AnalysisBase::NewFile(tag, this->FileName(process), this->Crosssection(process), LatexName(process), Mass());
     }
 
 };

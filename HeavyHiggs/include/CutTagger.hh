@@ -3,6 +3,7 @@
 #include "TaggerTemplate.hh"
 #include "Branch.hh"
 #include "CutVariables.hh"
+#include  "TCanvas.h"
 
 namespace boca
 {
@@ -32,7 +33,7 @@ public:
 
 private:
 
-    boost::optional<CutVariables> CutMethod(Event const& event) const;
+  boost::optional<CutVariables> CutMethod(Event const& event) const;
 
 };
 

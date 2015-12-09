@@ -7,6 +7,7 @@
 #include <boost/range/algorithm/find.hpp>
 #include <boost/range/algorithm/min_element.hpp>
 
+#include "physics/Particles.hh"
 #include "Particle.hh"
 #include "Jet.hh"
 #include "DetectorGeometry.hh"
@@ -14,55 +15,67 @@
 namespace boca
 {
 
-std::vector<Particle> CopyIfParticle(std::vector<Particle> const& jets, Id id);
+std::vector<Particle> CopyIfParticle(std::vector<Particle> const& particles, Id id);
 
-std::vector<Particle> CopyIfParticles(std::vector<Particle> const& jets, Id id_1, Id id_2);
+std::vector<Particle> CopyIfParticles(std::vector<Particle> const& particles, Id id_1, Id id_2);
 
-std::vector<Particle> CopyIfParticles(std::vector<Particle> const& jets, std::vector<Id> ids);
+std::vector<Particle> CopyIfParticles(std::vector<Particle> const& particles, std::vector<Id> ids);
 
-std::vector<Particle> CopyIfNeutrino(std::vector<Particle> const& jets);
+std::vector<Particle> CopyIfNeutrino(std::vector<Particle> const& particles);
 
-std::vector<Particle> CopyIfLepton(std::vector<Particle> const& jets);
+std::vector<Particle> CopyIfLepton(std::vector<Particle> const& particles);
 
-std::vector<Particle> CopyIfExactParticle(std::vector<Particle> const& jets, int id);
+std::vector<Particle> CopyIfExactParticle(std::vector<Particle> const& particles, int id);
 
-std::vector<Particle> RemoveIfExactParticle(std::vector<Particle> jets, int id);
+std::vector<Particle> RemoveIfExactParticle(std::vector<Particle> particles, int id);
 
-std::vector<Jet> RemoveIfOutsidePtWindow(std::vector<Jet> jets, Momentum lower_cut, Momentum upper_cut);
+template <typename Multiplet>
+std::vector<Multiplet> RemoveIfOutsidePtWindow(std::vector<Multiplet> jets, Momentum lower_cut, Momentum upper_cut)
+{
+    return boost::range::remove_erase_if(jets, [lower_cut, upper_cut](Multiplet const & jet) {
+        return jet.Pt() < lower_cut || jet.Pt() > upper_cut;
+    });
+}
 
-std::vector<Particle> CopyIfFamily(std::vector<Particle> const& jets, Id id, Id mother_id);
+std::vector<Particle> CopyIfFamily(std::vector<Particle> const& particles, Id id, Id mother_id);
 
 /**
  * @brief returns only particles with the correct id and non fitting grand mother id
  *
  */
-std::vector<Particle> RemoveIfGrandFamily(std::vector<Particle> jets, Id id, Id grand_mother_id);
+std::vector<Particle> RemoveIfGrandFamily(std::vector<Particle> particles, Id id, Id grand_mother_id);
 
-std::vector<Particle> CopyIfParticle(std::vector<Particle> const& jets, Id id);
+std::vector<Particle> CopyIfParticle(std::vector<Particle> const& particles, Id id);
 
-std::vector<Particle> RemoveIfParticle(std::vector<Particle> jets, Id id);
+std::vector<Particle> RemoveIfParticle(std::vector<Particle> particles, Id id);
 
-std::vector<Particle> CopyIfMother(std::vector<Particle> const& jets, Id mother_id);
+std::vector<Particle> CopyIfMother(std::vector<Particle> const& particles, Id mother_id);
 
-std::vector<Particle> CopyIfGrandMother(std::vector<Particle> const& jets, Id grand_mother_id);
+std::vector<Particle> CopyIfMother(std::vector<Particle> const& particles, Particle mother);
 
-std::vector<Particle> CopyIfGrandGrandMother(std::vector<Particle> const& jets, Id grand_grand_mother_id);
+std::vector<Particle> CopyIfGrandMother(std::vector<Particle> const& particles, Id grand_mother_id);
 
-std::vector<Particle> RemoveIfMother(std::vector<Particle> jets, Id mother_id);
+std::vector<Particle> CopyIfGrandMother(std::vector<Particle> const& particles, Particle grand_mother);
 
-std::vector<Particle> RemoveIfSingleMother(std::vector<Particle> jets);
+std::vector<Particle> CopyIfGreatGrandMother(std::vector<Particle> const& particles, Id grand_grand_mother_id);
 
-std::vector<Particle> RemoveIfLetpon(std::vector<Particle> jets);
+std::vector<Particle> RemoveIfMother(std::vector<Particle> particles, Id mother_id);
 
-std::vector<Particle> RemoveIfQuark(std::vector<Particle> jets);
+std::vector<Particle> RemoveIfSingleMother(std::vector<Particle> particles);
 
-std::vector<Particle> CopyIfQuark(std::vector<Particle> const& jets);
+std::vector<Particle> RemoveIfLetpon(std::vector<Particle> particles);
 
-std::vector<Particle> CopyIf5Quark(std::vector<Particle> const& jets);
+std::vector<Particle> RemoveIfQuark(std::vector<Particle> particles);
+
+std::vector<Particle> CopyIfQuark(std::vector<Particle> const& particles);
+
+std::vector<Particle> CopyIf5Quark(std::vector<Particle> const& particles);
 
 std::vector<Particle> CopyIfDaughter(std::vector<Particle> const& particles, std::vector<Particle> const& daughters);
 
 std::vector<Particle> CopyIfGrandDaughter(std::vector<Particle> const& particles, std::vector<Particle> const& daughters);
+
+std::vector<Particle> CopyIfPosition(std::vector<Particle> const& particles, int position_1, int position_2);
 
 template<typename Multiplet>
 std::vector<Multiplet> RemoveIfSoft(std::vector<Multiplet> multiplets, Momentum pt_min)
@@ -80,9 +93,9 @@ std::vector<Multiplet> RemoveIfHard(std::vector<Multiplet> multiplets, Momentum 
     });
 }
 
-std::vector<Particle> RemoveIfSoft(std::vector<Particle> jets, Momentum pt_min);
+std::vector<Particle> RemoveIfSoft(std::vector<Particle> particles, Momentum pt_min);
 
-std::vector<Particle> RemoveIfHard(std::vector<Particle> jets, Momentum pt_max);
+std::vector<Particle> RemoveIfHard(std::vector<Particle> particles, Momentum pt_max);
 
 struct Close {
     Close(Particle const& particle) : particle_(particle) {}
@@ -130,9 +143,9 @@ bool FindInVector(const std::vector<Element> vector, const Element element)
 }
 
 template <typename Multiplet>
-Particle ClosestJet(std::vector<Particle> const& jets, Multiplet const& multiplet)
+Particle ClosestJet(std::vector<Particle> const& particles, Multiplet const& multiplet)
 {
-    return *boost::range::min_element(jets, [&](Jet const & jet_1, Jet const & jet_2) {
+    return *boost::range::min_element(particles, [&](Jet const & jet_1, Jet const & jet_2) {
         return jet_1.DeltaRTo(multiplet.Jet()) < jet_2.DeltaRTo(multiplet.Jet());
     });
 }

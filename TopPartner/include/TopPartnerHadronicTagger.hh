@@ -26,7 +26,7 @@ public:
 
     std::string Name() const final;
 
-    std::string NiceName() const final;
+    std::string LatexName() const final;
 
     std::vector<Particle> Particles(Event const& event) const;
 

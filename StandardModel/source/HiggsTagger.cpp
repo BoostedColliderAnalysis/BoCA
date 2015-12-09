@@ -66,7 +66,7 @@ std::vector<Particle> HiggsTagger::Particles(Event const& event) const
     return CopyIfParticles(event.Partons().GenParticles(), Id::higgs, Id::CP_violating_higgs);
 }
 
-boost::optional<Doublet> HiggsTagger::SetTag(Doublet& doublet, Jets& leptons, PreCuts const& pre_cuts, Tag tag) const
+boost::optional<Doublet> HiggsTagger::SetTag(Doublet& doublet, std::vector<Jet>& leptons, PreCuts const& pre_cuts, Tag tag) const
 {
     Info0;
     doublet = PrepareDoublet(doublet, leptons);
@@ -75,7 +75,7 @@ boost::optional<Doublet> HiggsTagger::SetTag(Doublet& doublet, Jets& leptons, Pr
     return doublet;
 }
 
-Doublet HiggsTagger::PrepareDoublet(Doublet& doublet, Jets& leptons) const
+Doublet HiggsTagger::PrepareDoublet(Doublet& doublet, std::vector<Jet>& leptons) const
 {
     Info0;
     //     doublet = MassDrop(doublet);
@@ -118,7 +118,7 @@ std::vector<Doublet> HiggsTagger::Multiplets(Event const& event, PreCuts const& 
     }));
 }
 
-boost::optional<Doublet> HiggsTagger::Multiplet(Doublet& doublet, Jets& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
+boost::optional<Doublet> HiggsTagger::Multiplet(Doublet& doublet, std::vector<Jet>& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
     Info0;
     doublet = PrepareDoublet(doublet, leptons);
@@ -156,7 +156,7 @@ std::string HiggsTagger::Name() const
     return "Higgs";
 }
 
-std::string HiggsTagger::NiceName() const
+std::string HiggsTagger::LatexName() const
 {
     return "h";
 }

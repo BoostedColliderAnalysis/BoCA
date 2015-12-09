@@ -20,7 +20,9 @@
 namespace boca
 {
 
-Trainer::Trainer(boca::Tagger& tagger) : tagger_(tagger) , factory_(tagger.Name(), &OutputFile(), FactoryOptions())
+Trainer::Trainer(boca::Tagger& tagger) :
+    tagger_(tagger) ,
+    factory_(tagger.Name(), &OutputFile(), FactoryOptions())
 {
     Info0;
     AddObservables();
@@ -168,28 +170,32 @@ std::string Trainer::MethodOptions()
         options.Add("DoBoostMonitor");
         break;
     case TMVA::Types::EMVA::kCuts :
-        options.Add("FitMethod","GA");
+        options.Add("FitMethod", "GA");
         options.Add("EffSel");
-        options.Add("VarProp","FSmart");
-        Default(Tagger().Mva(),"");
+        options.Add("VarProp", "FSmart");
+        Default(Tagger().Mva(), "");
     }
     return options;
 }
 
-Tagger const& Trainer::Tagger() const {
+Tagger const& Trainer::Tagger() const
+{
     return tagger_;
 }
 
-Tagger& Trainer::Tagger() {
-  return tagger_;
+Tagger& Trainer::Tagger()
+{
+    return tagger_;
 }
 
-TMVA::Factory& Trainer::Factory() {
+TMVA::Factory& Trainer::Factory()
+{
     return factory_;
 }
 
-TMVA::Factory const& Trainer::Factory() const {
-  return factory_;
+TMVA::Factory const& Trainer::Factory() const
+{
+    return factory_;
 }
 
 }

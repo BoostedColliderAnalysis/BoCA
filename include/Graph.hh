@@ -8,7 +8,6 @@
 
 #include "Flag.hh"
 
-class TH1F;
 class TH1;
 class TLegend;
 class TMultiGraph;
@@ -20,7 +19,6 @@ class TExec;
 
 namespace boca
 {
-
 
 class Point;
 class Plot;
@@ -63,8 +61,6 @@ void SetHistogram(TH2& histogram, Plot const& plot, EColor color, TExec& exec);
 void SetProfile(TH2& histogram, Plot const& signal, Plot const& background);
 
 void CommonHist(TH1& histogram, Plot const& plot, EColor color);
-
-
 
 TGraph CutGraph(CutResults const& results, std::vector<float> const& values, std::string const& title);
 TLine CutLine(float bin, float y_min, float y_max, int index);

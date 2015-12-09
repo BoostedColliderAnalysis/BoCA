@@ -29,19 +29,21 @@ public:
 
     std::vector<Triplet> Multiplets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
 
+    std::string Name() const final;
+
+    std::string LatexName() const final;
+
+    std::vector<Particle> Particles(boca::Event const& event) const;
+
+private:
+
     bool Problematic(Triplet const& triplet, PreCuts const& pre_cuts, Tag tag) const;
 
     bool Problematic(Triplet const& triplet, PreCuts const& pre_cuts) const;
 
-    Jet FakeLepton(Jet const& jet) const;
+    std::vector<Triplet> Triplets(Event const& event, std::function<Triplet(Triplet&)> const& function) const;
 
-    std::vector<Particle> Particles(boca::Event const& event) const;
-
-    std::string Name() const final;
-
-    std::string NiceName() const final;
-
-private:
+    Stage InitializeLeptonicReader();
 
     bool use_w_ = false;
 
@@ -51,9 +53,7 @@ private:
 
     Mass top_mass_window;
 
-    Stage InitializeLeptonicReader();
-
-   std::vector<Jet> Leptons(Event const& event,std::vector<Jet> const& jets) const;
+    Mass top_mass_shift;
 
 };
 

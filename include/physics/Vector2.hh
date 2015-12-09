@@ -76,12 +76,20 @@ public:
         y_ = absolute * boost::units::sin(phi);
     }
 
-    Value X() const {
+    Value const& X() const {
         return x_;
     }
 
-    Value Y() const {
+    Value const& Y() const {
         return y_;
+    }
+
+    Value & X() {
+      return x_;
+    }
+
+    Value & Y() {
+      return y_;
     }
 
     ValueProduct<Value> Mod2() const {

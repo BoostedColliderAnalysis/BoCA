@@ -26,10 +26,13 @@ class LorentzVectorBase
 
 public:
 
-    using ValueSqr = boca::ValueProduct<Value, Value>;
+    using ValueSquare = boca::ValueProduct<Value, Value>;
 
     template<typename Value_2>
     using ValueProduct = boca::ValueProduct<Value, Value_2>;
+
+    template<typename Value_2>
+    using ValueQuotient = typename boost::units::divide_typeof_helper<Value, Value_2>::type;
 
     template <typename> struct IsQuantity : std::false_type {};
     template <typename T> struct IsQuantity<boost::units::quantity<T>> : std::true_type {};
@@ -43,65 +46,37 @@ public:
 // Safe indexing of the coordinates when using with matrices, arrays, etc.
     enum { kX = 0, kY = 1, kZ = 2, kT = 3, kNUM_COORDINATES = 4, kSIZE = kNUM_COORDINATES };
 
-    LorentzVectorBase() : vector_3_(), scalar_(Value(0)) {}
+    LorentzVectorBase() :
+        vector_3_(),
+        scalar_(Value(0)) {}
 
 // Constructor giving the components x, y, z, t.
-    LorentzVectorBase(Value x, Value y, Value z, Value t) : vector_3_(x, y, z), scalar_(t) {}
+    LorentzVectorBase(Value x, Value y, Value z, Value t) :
+        vector_3_(x, y, z),
+        scalar_(t) {}
 
 // Constructor giving a 3-Vector and a time component.
-    LorentzVectorBase(Vector3<Value> vector3, Value t) : vector_3_(std::move(vector3)), scalar_(t) {}
-
-// Get position and time.
-    Value X() const {
-        return vector_3_.X();
-    }
-    Value Y() const {
-        return vector_3_.Y();
-    }
-    Value Z() const {
-        return vector_3_.Z();
-    }
-    Value T() const {
-        return scalar_;
-    }
+    LorentzVectorBase(Vector3<Value> vector3, Value t) :
+        vector_3_(std::move(vector3)),
+        scalar_(t) {}
 
 // Set position and time.
-    void SetX(Value a) {
-        vector_3_.SetX(a);
+    void SetX(Value x) {
+        vector_3_.SetX(x);
     }
-    void SetY(Value a) {
-        vector_3_.SetY(a);
+    void SetY(Value y) {
+        vector_3_.SetY(y);
     }
-    void SetZ(Value a) {
-        vector_3_.SetZ(a);
+    void SetZ(Value z) {
+        vector_3_.SetZ(z);
     }
-    void SetT(Value a) {
-        scalar_ = a;
-    }
-
-// Get spatial component.
-    Vector3<Value> Vect() const {
-        return vector_3_;
+    void SetT(Value t) {
+        scalar_ = t;
     }
 
 // Set spatial component.
     void SetVect(Vector3<Value> const& vector) {
         vector_3_ = vector;
-    }
-
-// Get spatial vector components in spherical coordinate system.
-    boca::Angle Theta() const {
-        return vector_3_.Theta();
-    }
-    Value CosTheta() const {
-        return vector_3_.CosTheta();
-    }
-    //returns phi from -pi to pi
-    boca::Angle Phi() const {
-        return vector_3_.Phi();
-    }
-    Value Rho() const {
-        return vector_3_.Mag();
     }
 
 // Set spatial vector components in spherical coordinate system.
@@ -124,110 +99,7 @@ public:
 
     void SetXYZM(Value x, Value y, Value z, Value m) {
         if (m >= Value(0)) SetXYZT(x, y, z, sqrt(sqr(x) + sqr(y) + sqr(z) + sqr(m)));
-        else SetXYZT(x, y, z, sqrt(std::max((sqr(x) + sqr(y) + sqr(z) - sqr(m)), ValueSqr(0))));
-    }
-
-// Getters into an arry
-// no checking!
-//     void GetXYZT(Value* carray) const;
-
-// Get components by index.
-    Value operator()(int i) const {
-        //dereferencing operatorconst
-        switch (i) {
-        case kX:
-        case kY:
-        case kZ: return vector_3_(i);
-        case kT: return scalar_;
-        default: std::cout << "bad index(%d) returning 0 " << i << std::endl;
-        }
-        return 0.;
-    }
-    Value operator[](int i) const {
-        return (*this)(i);
-    }
-
-// Set components by index.
-    Value& operator()(int i) {
-        //dereferencing operator
-        switch (i) {
-        case kX:
-        case kY:
-        case kZ: return vector_3_(i);
-        case kT: return scalar_;
-        default:  std::cout << "bad index(%d) returning &e_ " << i << std::endl;
-        }
-        return scalar_;
-    }
-    Value& operator[](int i) {
-        return (*this)(i);
-    }
-
-    // Additions.
-    template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
-    LorentzVectorBase operator+(const LorentzVectorBase<Value_2>& lorentz_vector) const {
-        return {vector_3_ + lorentz_vector.Vect(), scalar_ + lorentz_vector.T()};
-    }
-
-    template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
-    LorentzVectorBase& operator+=(LorentzVectorBase<Value_2> const& lorentz_vector) {
-        vector_3_ += lorentz_vector.Vect();
-        scalar_ += lorentz_vector.T();
-        return *this;
-    }
-
-    // Subtractions.
-    template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
-    LorentzVectorBase operator-(LorentzVectorBase<Value_2> const& lorentz_vector) const {
-        return {vector_3_ - lorentz_vector.Vect(), scalar_ - lorentz_vector.T()};
-    }
-
-    template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
-    LorentzVectorBase& operator-=(LorentzVectorBase<Value_2> const& lorentz_vector) {
-        vector_3_ -= lorentz_vector.Vect();
-        scalar_ -= lorentz_vector.T();
-        return *this;
-    }
-
-// Unary minus.
-    LorentzVectorBase operator-() const {
-        return { -X(), -Y(), -Z(), -T()};
-    }
-
-// Scaling with real numbers.
-//     LorentzVectorBase operator*(Value a) const {
-//         return {a * X(), a * Y(), a * Z(), a * T()};
-//     }
-
-    template <typename Value_2, typename = OnlyIfNotQuantity<Value_2>>
-    LorentzVectorBase& operator*=(Value_2 a) {
-        vector_3_ *= a;
-        scalar_ *= a;
-        return *this;
-    }
-
-    template <typename Value_2, typename = OnlyIfNotQuantity<Value_2>>
-    LorentzVectorBase& operator/=(Value_2 a) {
-      vector_3_ /= a;
-      scalar_ /= a;
-      return *this;
-    }
-
-// Comparisons.
-    bool operator==(LorentzVectorBase const& lorentz_vector) const {
-        return Vect() == lorentz_vector.Vect() && T() == lorentz_vector.T();
-    }
-    bool operator!=(LorentzVectorBase const& lorentz_vector) const {
-        return Vect() != lorentz_vector.Vect() || T() != lorentz_vector.T();
-    }
-
-// Transverse component of the spatial vector squared.
-    ValueSqr Perp2() const {
-        return vector_3_.Perp2();
-    }
-
-    Value Perp() const {
-        return vector_3_.Perp();
+        else SetXYZT(x, y, z, sqrt(std::max((sqr(x) + sqr(y) + sqr(z) - sqr(m)), ValueSquare(0))));
     }
 
 // Set the transverse component of the spatial vector.
@@ -235,8 +107,77 @@ public:
         vector_3_.SetPerp(perp);
     }
 
+    // Copy spatial coordinates, and set energy = sqrt(mass^2 + spatial^2)
+    void SetVectMag(Vector3<Value> const& spatial, Value magnitude) {
+        SetXYZM(spatial.X(), spatial.Y(), spatial.Z(), magnitude);
+    }
+
+    void SetVectM(Vector3<Value> const& spatial, Value mass) {
+        SetVectMag(spatial, mass);
+    }
+
+// Get position and time.
+    Value const& X() const {
+        return vector_3_.X();
+    }
+    Value const& Y() const {
+        return vector_3_.Y();
+    }
+    Value const& Z() const {
+        return vector_3_.Z();
+    }
+    Value const& T() const {
+        return scalar_;
+    }
+
+    Value& X() {
+        return vector_3_.X();
+    }
+    Value& Y() {
+        return vector_3_.Y();
+    }
+    Value& Z() {
+        return vector_3_.Z();
+    }
+    Value& T() {
+        return scalar_;
+    }
+
+// Get spatial component.
+    Vector3<Value> Vect() const {
+        return vector_3_;
+    }
+
+// Get spatial vector components in spherical coordinate system.
+    boca::Angle Theta() const {
+        return vector_3_.Theta();
+    }
+    Value CosTheta() const {
+        return vector_3_.CosTheta();
+    }
+    //returns phi from -pi to pi
+    boca::Angle Phi() const {
+        return vector_3_.Phi();
+    }
+    Value Rho() const {
+        return vector_3_.Mag();
+    }
+
+// Getters into an arry
+// no checking!
+//     void GetXYZT(Value* carray) const;
+
+// Transverse component of the spatial vector squared.
+    ValueSquare Perp2() const {
+        return vector_3_.Perp2();
+    }
+
+    Value Perp() const {
+        return vector_3_.Perp();
+    }
+
 // Transverse component of the spatial vector w.r.t. given axis squared.
-    ValueSqr Perp2(Vector3<Value> const& vector) const {
+    ValueSquare Perp2(Vector3<Value> const& vector) const {
         return vector_3_.Perp2(vector);
     }
 
@@ -249,9 +190,9 @@ public:
     }
 
     boca::Angle DeltaR(LorentzVectorBase const& lorentz_vector) const {
-        boca::Angle deta = Eta() - lorentz_vector.Eta();
-        boca::Angle dphi = RestrictPhi(Phi() - lorentz_vector.Phi());
-        return sqrt(sqr(deta) + sqr(dphi));
+        boca::Angle delta_eta = Eta() - lorentz_vector.Eta();
+        boca::Angle delta_phi = RestrictPhi(Phi() - lorentz_vector.Phi());
+        return sqrt(sqr(delta_eta) + sqr(delta_phi));
     }
 
     boca::Angle DrEtaPhi(LorentzVectorBase const& lorentz_vector) const {
@@ -268,13 +209,13 @@ public:
     }
 
 // Invariant mass squared.
-    ValueSqr Mag2() const {
+    ValueSquare Mag2() const {
         return sqr(T()) - vector_3_.Mag2();
     }
 // Invariant mass. If mag2() is negative then -sqrt(-mag2()) is returned.
     Value Mag() const {
-        ValueSqr mm = Mag2();
-        return mm < ValueSqr(0) ? -sqrt(-mm) : sqrt(mm);
+        ValueSquare mag2 = Mag2();
+        return mag2 < ValueSquare(0) ? -sqrt(-mag2) : sqrt(mag2);
     }
 
     double Beta() const {
@@ -286,24 +227,6 @@ public:
         return 1. / std::sqrt(1. - sqr(beta));
     }
 
-    // Scalar product.
-    template <typename Value_2>
-    ValueProduct<Value_2> Dot(LorentzVectorBase<Value_2> const& lorentz_vector) const {
-        return T() * lorentz_vector.T() - Z() * lorentz_vector.Z() - Y() * lorentz_vector.Y() - X() * lorentz_vector.X();
-    }
-
-//     ValueSqr operator*(LorentzVectorBase const& q) const {
-//         return Dot(q);
-//     }
-
-// Copy spatial coordinates, and set energy = sqrt(mass^2 + spatial^2)
-    void SetVectMag(Vector3<Value> const& spatial, Value magnitude) {
-        SetXYZM(spatial.X(), spatial.Y(), spatial.Z(), magnitude);
-    }
-
-    void SetVectM(Vector3<Value> const& spatial, Value mass) {
-        SetVectMag(spatial, mass);
-    }
 
 // Returns t +/- z.
 // Related to the positive/negative light-cone component,
@@ -331,15 +254,15 @@ public:
     }
 
 // Lorentz boost.
-    void Boost(Value bx, Value by, Value bz) {
+    void Boost(Value x, Value y, Value z) {
         //Boost this Lorentz vector
-        ValueSqr b2 = bx * bx + by * by + bz * bz;
-        Value gamma = 1.0 / std::sqrt(1.0 - b2);
-        ValueSqr bp = bx * X() + by * Y() + bz * Z();
-        Value gamma2 = b2 > 0 ? (gamma - 1.0) / b2 : 0.0;
-        SetX(X() + gamma2 * bp * bx + gamma * bx * T());
-        SetY(Y() + gamma2 * bp * by + gamma * by * T());
-        SetZ(Z() + gamma2 * bp * bz + gamma * bz * T());
+        ValueSquare b2 = sqr(x) + sqr(y) + sqr(z);
+        double gamma = 1. / std::sqrt(1. - b2);
+        ValueSquare bp = x * X() + y * Y() + z * Z();
+        double gamma2 = b2 > 0. ? (gamma - 1.) / b2 : 0.;
+        SetX(X() + gamma2 * bp * x + gamma * x * T());
+        SetY(Y() + gamma2 * bp * y + gamma * y * T());
+        SetZ(Z() + gamma2 * bp * z + gamma * z * T());
         SetT(gamma * (T() + bp));
     }
     void Boost(Vector3<Value> const& b) {
@@ -349,12 +272,16 @@ public:
 // Returns the rapidity, i.e. 0.5*ln((E+pz)/(E-pz))
     boca::Angle Rapidity() const {
         //return rapidity
-        return 0.5_rad * std::log((T() + Z()) / (T() - Z()));
+        return 0.5 * units::log(double((T() + Z()) / (T() - Z())));
     }
 
 // Returns the pseudo-rapidity, i.e. -ln(tan(theta/2))
     boca::Angle Eta() const {
         return PseudoRapidity();
+    }
+
+    boca::Angle Rap() const {
+        return Rapidity();
     }
 
     boca::Angle PseudoRapidity() const {
@@ -381,6 +308,120 @@ public:
         vector_3_.RotateUz(newUzVector);
     }
 
+    // Scalar product.
+    template <typename Value_2>
+    LorentzVectorBase<ValueProduct<Value_2>> Scale(Value_2 const& scalar) const {
+        return {scalar * X(), scalar * Y(), scalar * Z(), scalar * T()};
+    }
+
+    // Scalar product.
+    template <typename Value_2>
+    ValueProduct<Value_2> Dot(LorentzVectorBase<Value_2> const& lorentz_vector) const {
+        return T() * lorentz_vector.T() - Z() * lorentz_vector.Z() - Y() * lorentz_vector.Y() - X() * lorentz_vector.X();
+    }
+
+    //     ValueSqr operator*(LorentzVectorBase const& q) const {
+    //         return Dot(q);
+    //     }
+
+//     // Get components by index.
+//     Value operator()(int i) const {
+//         //dereferencing operatorconst
+//         switch (i) {
+//         case kX:
+//         case kY:
+//         case kZ: return vector_3_(i);
+//         case kT: return scalar_;
+//         default: std::cout << "bad index(%d) returning 0 " << i << std::endl;
+//         }
+//         return Value(0);
+//     }
+//     Value operator[](int i) const {
+//         return (*this)(i);
+//     }
+//
+//     // Set components by index.
+//     Value& operator()(int i) {
+//         //dereferencing operator
+//         switch (i) {
+//         case kX:
+//         case kY:
+//         case kZ: return vector_3_(i);
+//         case kT: return scalar_;
+//         default:  std::cout << "bad index(%d) returning &e_ " << i << std::endl;
+//         }
+//         return scalar_;
+//     }
+//
+//     Value& operator[](int i) {
+//         return (*this)(i);
+//     }
+
+    // Additions.
+    template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
+    LorentzVectorBase operator+(const LorentzVectorBase<Value_2>& lorentz_vector) const {
+        return {vector_3_ + lorentz_vector.Vect(), scalar_ + lorentz_vector.T()};
+    }
+
+    template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
+    LorentzVectorBase& operator+=(LorentzVectorBase<Value_2> const& lorentz_vector) {
+        vector_3_ += lorentz_vector.Vect();
+        scalar_ += lorentz_vector.T();
+        return *this;
+    }
+
+    // Subtractions.
+    template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
+    LorentzVectorBase operator-(LorentzVectorBase<Value_2> const& lorentz_vector) const {
+        return {vector_3_ - lorentz_vector.Vect(), scalar_ - lorentz_vector.T()};
+    }
+
+    // Divison by scalar
+    template <typename Value_2>
+    LorentzVectorBase<ValueQuotient<Value_2>> operator/(Value_2 const& scalar) const {
+        return Scale(1. / scalar);
+    }
+
+    template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
+    LorentzVectorBase& operator-=(LorentzVectorBase<Value_2> const& lorentz_vector) {
+        vector_3_ -= lorentz_vector.Vect();
+        scalar_ -= lorentz_vector.T();
+        return *this;
+    }
+
+    // Unary minus.
+    LorentzVectorBase operator-() const {
+        return { -X(), -Y(), -Z(), -T()};
+    }
+
+    // Scaling with real numbers.
+    //     LorentzVectorBase operator*(Value a) const {
+    //         return {a * X(), a * Y(), a * Z(), a * T()};
+    //     }
+
+    template <typename Value_2, typename = OnlyIfNotQuantity<Value_2>>
+    LorentzVectorBase& operator*=(Value_2 scalar) {
+        vector_3_ *= scalar;
+        scalar_ *= scalar;
+        return *this;
+    }
+
+    template <typename Value_2, typename = OnlyIfNotQuantity<Value_2>>
+    LorentzVectorBase& operator/=(Value_2 scalar) {
+        vector_3_ /= scalar;
+        scalar_ /= scalar;
+        return *this;
+    }
+
+    // Comparisons.
+    bool operator==(LorentzVectorBase const& lorentz_vector) const {
+        return Vect() == lorentz_vector.Vect() && T() == lorentz_vector.T();
+    }
+
+    bool operator!=(LorentzVectorBase const& lorentz_vector) const {
+        return Vect() != lorentz_vector.Vect() || T() != lorentz_vector.T();
+    }
+
 protected:
 
     // 3 vector component
@@ -402,22 +443,22 @@ using OnlyIfNotLorentzVectorBase = typename std::enable_if < !IsLorentzVectorBas
 
 // Scalar product of lorentzvectors.
 template <class Value, class Value_2>
-ValueProduct<Value, Value_2> operator*(LorentzVectorBase<Value> const& vector_1, LorentzVectorBase<Value_2> const& vector_2)
+ValueProduct<Value, Value_2> operator*(LorentzVectorBase<Value> const& lorentz_vector_1, LorentzVectorBase<Value_2> const& lorentz_vector_2)
 {
-    return vector_1.Dot(vector_2);
+    return lorentz_vector_1.Dot(lorentz_vector_2);
 }
 
 // Scaling of lorentzvectors with a real number
 template < class Value, class Value_2, typename = OnlyIfNotLorentzVectorBase<Value_2> >
-LorentzVectorBase <ValueProduct<Value, Value_2>> operator*(LorentzVectorBase<Value> const& vector, Value_2 scalar)
+LorentzVectorBase <ValueProduct<Value, Value_2>> operator*(LorentzVectorBase<Value> const& lorentz_vector, Value_2 scalar)
 {
-    return {scalar * vector.X(), scalar * vector.Y(), scalar * vector.Z(), scalar * vector.T()};
+    return lorentz_vector.Scale(scalar);
 }
 
-template < class Value, class Value_2, typename = OnlyIfNotLorentzVectorBase<Value_2> >
-LorentzVectorBase <ValueProduct<Value, Value_2>> operator*(Value_2 scalar, LorentzVectorBase<Value> const& vector)
+template < class Value, class Value_2, typename = OnlyIfNotLorentzVectorBase<Value> >
+LorentzVectorBase <ValueProduct<Value, Value_2>> operator*(Value scalar, LorentzVectorBase<Value_2> const& lorentz_vector)
 {
-    return {scalar * vector.X(), scalar * vector.Y(), scalar * vector.Z(), scalar * vector.T()};
+    return lorentz_vector.Scale(scalar);
 }
 
 }

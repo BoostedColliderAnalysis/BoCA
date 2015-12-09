@@ -7,8 +7,13 @@
 
 namespace boca {
 
-enum class SubDetector {
-    none, gen_particle, track, photon, tower, muon
+enum class DetectorPart {
+    none,
+    gen_particle,
+    track,
+    photon,
+    tower,
+    muon
 };
 
 class Constituent {
@@ -19,37 +24,39 @@ public:
 
     Constituent(TLorentzVector const& momentum, LorentzVector<Length> const& position);
 
-    Constituent(TLorentzVector const& momentum, LorentzVector<Length> const& position, SubDetector sub_detector, float charge = 0);
+    Constituent(TLorentzVector const& momentum, LorentzVector<Length> const& position, boca::DetectorPart detector_part, int charge = 0);
 
     Constituent(TLorentzVector const& momentum);
 
-    Constituent(TLorentzVector const& momentum, SubDetector sub_detector, float charge);
+    Constituent(TLorentzVector const& momentum, boca::DetectorPart detector_part, int charge);
 
-    Constituent(TLorentzVector const& momentum, SubDetector sub_detector);
-
-//     void SetPosition(TLorentzVector const& position);
-
-//     void SetPosition(float x, float y, float z, float t);
+    Constituent(TLorentzVector const& momentum, boca::DetectorPart detector_part);
 
     void SetMomentum(TLorentzVector const& momentum);
 
-    LorentzVector<Length> Position() const;
+    void SetCharge(int charge);
 
-    LorentzVector<boca::Momentum> Momentum() const;
+    void SetDetectorPart(boca::DetectorPart detector_part);
+
+    LorentzVector<Length> const& Position() const;
+
+    LorentzVector<boca::Momentum> const& Momentum() const;
+
+    LorentzVector<Length> & Position();
+
+    LorentzVector<boca::Momentum> & Momentum();
+
+    boca::DetectorPart DetectorPart() const;
+
+    int Charge() const;
+
+    void Smearing();
 
     Constituent operator+(Constituent const& constituent);
 
-    void SetDetector(SubDetector sub_detector);
-
-    SubDetector sub_detector() const;
-
-    int charge() const;
-
-    void set_charge(int charge);
-
 private:
 
-    SubDetector sub_detector_ = SubDetector::none;
+    boca::DetectorPart detector_part_ = boca::DetectorPart::none;
 
     LorentzVector<Length> position_;
 

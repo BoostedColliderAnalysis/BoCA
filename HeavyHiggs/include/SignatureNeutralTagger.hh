@@ -29,7 +29,7 @@ public:
 
 private:
 
-    std::vector<Octet62> GetHeavyHiggsevents(Jets& jets);
+    std::vector<Octet62> GetHeavyHiggsevents(std::vector<Jet>& jets);
 
     Reader<HeavyHiggsSemiTagger> heavy_higgs_semi_reader_;
 

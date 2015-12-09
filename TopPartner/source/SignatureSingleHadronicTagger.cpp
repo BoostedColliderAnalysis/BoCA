@@ -57,7 +57,7 @@ std::string SignatureSingleHadronicTagger::Name() const
     return "SignatureSingleHadronic";
 }
 
-std::string SignatureSingleHadronicTagger::NiceName() const
+std::string SignatureSingleHadronicTagger::LatexName() const
 {
     return "T_{h}t_{l}h";
 }

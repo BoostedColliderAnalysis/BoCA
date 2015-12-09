@@ -29,7 +29,7 @@ std::string Name(Collider collider);
 
 std::string Name(Process process);
 
-std::string NiceName(Process process);
+std::string LatexName(Process process);
 
 /**
  *
@@ -46,10 +46,10 @@ public:
 
     boca::Mass Mass() const {
         return 500_GeV;
-        return 800_GeV;
-        return 1_TeV;
-        return 1.5_TeV;
         return 2_TeV;
+        return 1.5_TeV;
+        return 1_TeV;
+        return 800_GeV;
         return 300_GeV;
         return 400_GeV;
         return 600_GeV;
@@ -106,11 +106,11 @@ public:
             case 500 : return at_rest;
             case 1000 : return 300_GeV;
             case 2000 : return 300_GeV;
-            case 4000 : return 1.5 * TeV;
-            case 6000 : return 2.5 * TeV;
-            case 10000 : return 2.5 * TeV;
-            case 15000 : return 2.5 * TeV;
-            case 20000 : return 2.5 * TeV;
+            case 4000 : return 1.5_TeV;
+            case 6000 : return 2.5_TeV;
+            case 10000 : return 2.5_TeV;
+            case 15000 : return 2.5_TeV;
+            case 20000 : return 2.5_TeV;
             Default("Mass", at_rest);
             }
             Default("Collider", at_rest);
@@ -147,6 +147,8 @@ public:
             switch (process) {
             case Process::ttwwbb : return 1;
             case  Process::ttwbb : return 1;
+            case  Process::Htt : return 1;
+            case  Process::Htwb : return 1;
             Default("Process", 1);
             }
         case Collider::LE :
@@ -175,11 +177,11 @@ public:
     };
 
     virtual void NewFile(Tag tag, Process process) {
-        boca::AnalysisBase::NewFile(tag, FileNames(process, tag), this->Crosssection(process), NiceName(process));
+        boca::AnalysisBase::NewFile(tag, FileNames(process, tag), this->Crosssection(process), LatexName(process));
     }
 
     virtual void NewFile(Tag tag, boca::Crosssection crosssection, Process process) {
-        boca::AnalysisBase::NewFile(tag, FileNames(process, tag), crosssection, NiceName(process), Mass());
+        boca::AnalysisBase::NewFile(tag, FileNames(process, tag), crosssection, LatexName(process), Mass());
     }
 
     std::vector<std::string> FileNames(Process process, Tag tag) const {

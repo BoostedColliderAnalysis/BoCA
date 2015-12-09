@@ -78,7 +78,7 @@ JetInfo::JetInfo(std::vector<Constituent> const& constituents, std::vector<Const
 JetInfo JetInfo::operator+(JetInfo const& jet_info)
 {
     Debug0;
-    JetInfo result(Join(this->constituents(), jet_info.constituents()), Join(this->displaced_constituents(), jet_info.displaced_constituents()));
+    JetInfo result(Join(this->Constituents(), jet_info.Constituents()), Join(this->DisplacedConstituents(), jet_info.DisplacedConstituents()));
     result.SetBTag(this->BTag() + jet_info.BTag());
     result.SetTauTag(this->TauTag() + jet_info.TauTag());
     result.SetCharge(this->Charge() + jet_info.Charge());
@@ -88,7 +88,7 @@ JetInfo JetInfo::operator+(JetInfo const& jet_info)
 JetInfo& JetInfo::operator+=(JetInfo const& jet_info)
 {
     Debug0;
-    this->AddConstituents(jet_info.constituents(), jet_info.displaced_constituents());
+    this->AddConstituents(jet_info.Constituents(), jet_info.DisplacedConstituents());
     this->b_tag_ += jet_info.BTag();
     this->tau_tag_ += jet_info.TauTag();
     this->charge_ += jet_info.Charge();
@@ -131,13 +131,13 @@ void JetInfo::AddConstituents(std::vector<Constituent> const& constituents, std:
     displaced_constituents_ = Join(displaced_constituents_, displaced_constituents);
 }
 
-std::vector<Constituent> JetInfo::constituents() const
+std::vector<Constituent> JetInfo::Constituents() const
 {
     Debug0;
     return constituents_;
 }
 
-std::vector<Constituent> JetInfo::displaced_constituents() const
+std::vector<Constituent> JetInfo::DisplacedConstituents() const
 {
     Debug0;
     return displaced_constituents_;
@@ -177,9 +177,9 @@ Length JetInfo::MaxDisplacement() const
 {
     Debug0;
     if(displaced_constituents_.empty()) return 0_mm;
-    return (*boost::max_element(displaced_constituents_, [](Constituent const & constituent_1, Constituent const & constituent_2) {
-        return constituent_1.Position().Vect().Perp() > constituent_2.Position().Vect().Perp();
-    })).Position().Vect().Perp();
+    return boost::max_element(displaced_constituents_, [](Constituent const & constituent_1, Constituent const & constituent_2) {
+        return constituent_1.Position().Vect().Perp() < constituent_2.Position().Vect().Perp();
+    })->Position().Vect().Perp();
 }
 
 Mass JetInfo::VertexMass() const
@@ -204,14 +204,17 @@ std::vector<Constituent> JetInfo::ApplyVertexResolution(std::vector<Constituent>
     Debug(constituents.size());
     if (constituents.empty()) return constituents;
     std::vector <Constituent> displaced_constituents;
-    for (auto const & constituent : constituents) if (VertexResultion(constituent)) displaced_constituents.emplace_back(constituent);
+    for (auto & constituent : constituents) if (VertexResultion(constituent)) displaced_constituents.emplace_back(constituent);
     Debug(displaced_constituents.size());
     return displaced_constituents;
 }
 
-bool JetInfo::VertexResultion(Constituent const& constituent) const
+bool JetInfo::VertexResultion(Constituent constituent) const
 {
     Debug(constituent.Position().Perp());
+    Length x = constituent.Position().X();
+    constituent.Smearing();
+    Debug(x, constituent.Position().X());
     return (constituent.Position().Vect().Perp() > DetectorGeometry::TrackerDistanceMin() && constituent.Position().Vect().Perp() < DetectorGeometry::TrackerDistanceMax() && abs(constituent.Momentum().Rapidity()) < DetectorGeometry::TrackerEtaMax());
 }
 
@@ -220,9 +223,9 @@ Angle JetInfo::ElectroMagneticRadius(Jet const& jet) const
     Debug0;
     Energy energy = 0;
     ValueProduct<Energy,Angle> weight = 0;
-    for (auto const & constituent : constituents()) if (constituent.sub_detector() == SubDetector::photon) {
+    for (auto const & constituent : Constituents()) if (constituent.DetectorPart() == DetectorPart::photon) {
             energy += constituent.Momentum().Et();
-            weight += constituent.Momentum().Et() * jet.DeltaRTo(Jet(constituent.Momentum()));
+            weight += constituent.Momentum().Et() * jet.DeltaRTo(constituent.Momentum());
         }
     if (energy == 0_GeV) return 0_rad;
     else return weight / energy;
@@ -233,36 +236,36 @@ Angle JetInfo::TrackRadius(Jet const& jet) const
     Debug0;
     Energy energy = 0;
     ValueProduct<Energy,Angle> weight = 0;
-    for (auto const & constituent : constituents()) if (constituent.sub_detector() == SubDetector::track) {
+    for (auto const & constituent : Constituents()) if (constituent.DetectorPart() == DetectorPart::track) {
             energy += constituent.Momentum().Et();
-            weight += constituent.Momentum().Et() * jet.DeltaRTo(Jet(constituent.Momentum()));
+            weight += constituent.Momentum().Et() * jet.DeltaRTo(constituent.Momentum());
     }
     if (energy == 0_GeV) return 0_rad;
     else return weight / energy;
 }
 
 struct IsDetector {
-    IsDetector(SubDetector sub_detector) {
-        sub_detector_ = sub_detector;
+    IsDetector(DetectorPart detector_part) {
+        detector_part_ = detector_part;
     }
     bool operator()(Constituent const& constituent) {
-        return constituent.sub_detector() != sub_detector_;
+        return constituent.DetectorPart() != detector_part_;
     }
-    SubDetector sub_detector_;
+    DetectorPart detector_part_;
 };
 
 float JetInfo::LeadingTrackMomentumFraction() const
 {
     Debug0;
-    std::vector<Constituent> consts = constituents();
-    consts = boost::range::remove_erase_if(consts, IsDetector(SubDetector::track));
-    std::sort(consts.begin(), consts.end(), [](Constituent const & constituent_1, Constituent const & constituent_2) {
+    std::vector<Constituent> constituents = Constituents();
+    constituents = boost::range::remove_erase_if(constituents, IsDetector(DetectorPart::track));
+    std::sort(constituents.begin(), constituents.end(), [](Constituent const & constituent_1, Constituent const & constituent_2) {
         return (constituent_1.Momentum().Pt() > constituent_2.Momentum().Pt());
     });
-    Momentum sum = boost::accumulate(consts, at_rest, [](Momentum result, Constituent const & constituent) {
+    Momentum sum = boost::accumulate(constituents, at_rest, [](Momentum result, Constituent const & constituent) {
         return (result + constituent.Momentum().Pt());
     });
-    return consts.front().Momentum().Pt() / sum;
+    return constituents.front().Momentum().Pt() / sum;
 }
 
 float JetInfo::CoreEnergyFraction(Jet const& jet) const
@@ -270,9 +273,9 @@ float JetInfo::CoreEnergyFraction(Jet const& jet) const
     Debug0;
     Energy energy = 0;
     Energy core_energy = 0;
-    for (auto const & constituent : constituents()) if (constituent.sub_detector() == SubDetector::photon) {
+    for (auto const & constituent : Constituents()) if (constituent.DetectorPart() == DetectorPart::photon) {
             energy += constituent.Momentum().Et();
-            if (jet.delta_R(Jet(constituent.Momentum())) < 0.2) core_energy += constituent.Momentum().Et();
+            if (jet.DeltaRTo(constituent.Momentum()) < 0.2_rad) core_energy += constituent.Momentum().Et();
         }
     if (energy == 0_GeV) return 0;
     else return core_energy / energy;
@@ -283,9 +286,9 @@ float JetInfo::ElectroMagneticFraction() const
     Debug0;
     Energy em_energy = 0_GeV;
     Energy energy = 0_GeV;
-    for (auto const & constituent : constituents()) {
+    for (auto const & constituent : Constituents()) {
         energy += constituent.Momentum().Et();
-        if (constituent.sub_detector() == SubDetector::photon) em_energy += constituent.Momentum().Et();
+        if (constituent.DetectorPart() == DetectorPart::photon) em_energy += constituent.Momentum().Et();
     }
     if (energy == 0_GeV) return 0;
     else return em_energy / energy;
@@ -295,7 +298,7 @@ Mass JetInfo::ClusterMass() const
 {
     Debug0;
     LorentzVector<Momentum> jet;
-    for (auto const & constituent : constituents()) if (constituent.sub_detector() == SubDetector::photon) jet += constituent.Momentum();
+    for (auto const & constituent : Constituents()) if (constituent.DetectorPart() == DetectorPart::photon) jet += constituent.Momentum();
     return jet.Mass();
 }
 
@@ -303,7 +306,7 @@ Mass JetInfo::TrackMass() const
 {
     Debug0;
     LorentzVector<Momentum> jet;
-    for (auto const & constituent : constituents()) if (constituent.sub_detector() == SubDetector::track) jet += constituent.Momentum();
+    for (auto const & constituent : Constituents()) if (constituent.DetectorPart() == DetectorPart::track) jet += constituent.Momentum();
     return jet.Mass();
 }
 
@@ -312,7 +315,7 @@ int JetInfo::Charge() const
     Debug0;
     if (charge_ != std::numeric_limits<int>::max()) return charge_;
     int charge = boost::accumulate(constituents_, 0, [](int charge, Constituent const & constituent) {
-        return charge + constituent.charge();
+        return charge + constituent.Charge();
     });
     return charge;
 }

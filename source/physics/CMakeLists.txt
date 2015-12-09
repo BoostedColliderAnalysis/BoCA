@@ -8,6 +8,7 @@ LorentzVector.cpp
 Barn.cpp
 ElectronVolt.cpp
 Si.cpp
+Vector3.cpp
 Particles.cpp
 )
 create_library(Physics PhysicsSources)

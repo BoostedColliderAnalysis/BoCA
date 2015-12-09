@@ -98,7 +98,7 @@ InfoBranch Trees::FillInfoBranch(const File& file)
     //         info_branch.EventNumber = std::min((long)tree_reader.GetEntries(), event_number_max);
     //         info_branch.EventNumber = event_number_2_;
     info_branch.Name = file.nice_name();
-    //         info_branch.NiceName = file.nice_name();
+    //         info_branch.LatexName = file.nice_name();
     return info_branch;
 }
 

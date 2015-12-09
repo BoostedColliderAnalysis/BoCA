@@ -118,11 +118,11 @@ protected:
         }
     }
 
-    int SaveEntries(std::vector<MultipletTemplate> multiplets, size_t max = std::numeric_limits<size_t>::max()) const {
+    int SaveEntries(std::vector<MultipletTemplate> multiplets, int max = std::numeric_limits<int>::max()) const {
 //         INFO(multiplets.size());
         if (multiplets.empty()) return 0;
         if (multiplets.size() > 1) multiplets = SortedByBdt(multiplets);
-        auto sum = std::min(multiplets.size(), max);
+        auto sum = std::min(int(multiplets.size()), max);
         for (auto const & counter : Range(sum)) {
             FillBranch(multiplets.at(counter));
             std::lock_guard<std::mutex> guard(mutex_);
@@ -132,6 +132,7 @@ protected:
     }
 
     int SaveEntries(std::vector<MultipletTemplate> multiplets, std::vector<Particle> particles, Tag tag, Id id = Id::empty) const {
+//       std::cout << "save entries" << std::endl;
 //         INFO(multiplets.size());
         return SaveEntries(BestMatches(multiplets, particles, tag, id));
     }

@@ -3,9 +3,6 @@
  */
 #pragma once
 
-#include <vector>
-#include <functional>
-
 #include "Member.hh"
 
 namespace boca
@@ -22,31 +19,23 @@ public:
 
     Family(int id, int mother_1_id, int mother_2_id);
 
-    Family(Member const& id, Member const& mother_1_id, Member const& mother_2_id, Member const& grand_mother_id, Member const& grand_grand_mother_id);
+    Family(Member const& particle, Member const& mother_1, Member const& mother_2, Member const& grand_mother, Member const& great_grand_mother);
 
     Family(TLorentzVector const& particle, LorentzVector<Momentum> const& mother, int particle_position, int id, int mother_position, int mother_id);
 
     bool operator==(Family const& family) const;
 
-    void AddDaughter(int daughter_id);
-
-    void SetMarker();
-
-    void UnSetMarker();
-
     bool Marker() const;
 
-    Member Particle() const;
+    Member const& Particle() const;
 
-    Member Mother() const;
+    Member const& Mother() const;
 
-    Member StepMother() const;
+    Member const& StepMother() const;
 
-    Member GrandMother() const;
+    Member const& GrandMother() const;
 
-    Member GreatGrandMother() const;
-
-    float Pt() const;
+    Member const& GreatGrandMother() const;
 
 private:
 
@@ -60,12 +49,6 @@ private:
 
     Member great_grand_mother_;
 
-    std::vector<int> daughter_ids_;
-
-    float pt_ = 0;
-
-    bool marker_ = false;
-
 };
 
 }
@@ -75,9 +58,7 @@ namespace std
 
 template <>
 struct hash<boca::Family> {
-    size_t operator()(boca::Family const& family) const {
-        return ((std::hash<int>()(family.Particle().Id())^ (std::hash<int>()(family.Mother().Id()) << 1)) >> 1);
-    }
+    size_t operator()(boca::Family const& family) const;
 };
 
 }

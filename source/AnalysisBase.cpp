@@ -197,13 +197,15 @@ void AnalysisBase::RunFullEfficiency()
 
 void AnalysisBase::RunTagger(Stage stage)
 {
-    Info0;
+  Info0;
+  Initialize();
     if (!Exists(tagger().FileName(stage, Tag::signal))) AnalysisLoop(stage);
 }
 
 void AnalysisBase::RunTrainer()
 {
-    Info0;
+  Info0;
+  Initialize();
     PrepareFiles(Stage::trainer);
     if (!Exists(tagger().WeightFileName())) {
         std::ofstream cout_file(tagger().FolderName() + ".txt");
@@ -217,7 +219,8 @@ void AnalysisBase::RunTrainer()
 
 void AnalysisBase::RunSignificance()
 {
-    Info0;
+  Info0;
+  Initialize();
     PrepareFiles(Stage::reader);
     if (!Exists(tagger().ExportFileName())) {
         Plotting plotting(tagger());
@@ -227,7 +230,8 @@ void AnalysisBase::RunSignificance()
 
 void AnalysisBase::RunEfficiency()
 {
-    Info0;
+  Info0;
+  Initialize();
     PrepareFiles(Stage::reader);
     if (!Exists(tagger().ExportFileName())) {
         Plotting plotting(tagger());
@@ -237,7 +241,8 @@ void AnalysisBase::RunEfficiency()
 
 void AnalysisBase::RunPlots()
 {
-    Info0;
+  Info0;
+  Initialize();
     PrepareFiles(Stage::reader);
     if (!Exists(tagger().ExportFolderName())) {
         Plotting plotting(tagger());

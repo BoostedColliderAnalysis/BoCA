@@ -39,7 +39,7 @@ std::vector<Particle> TopPartnerLeptonicTagger::Particles(Event const& event) co
 {
     std::vector<Particle> particles = event.Partons().GenParticles();
     std::vector<Particle> leptons = CopyIfLepton(particles);
-    std::vector<Particle>candidate = CopyIfGrandGrandMother(leptons, Id::top_partner);
+    std::vector<Particle>candidate = CopyIfGreatGrandMother(leptons, Id::top_partner);
     if (!candidate.empty()) {
         Check(leptons.size() == 1, leptons.size());
         int grand_grand_mother = candidate.front().Info().Family().GreatGrandMother().Id();
@@ -56,7 +56,7 @@ std::string TopPartnerLeptonicTagger::Name() const
 {
     return "TopPartnerLeptonic";
 }
-std::string TopPartnerLeptonicTagger::NiceName() const
+std::string TopPartnerLeptonicTagger::LatexName() const
 {
     return "T_{l}";
 }

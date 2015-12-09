@@ -92,7 +92,7 @@ struct SortByPt {
         return multiplet_1.Pt() > multiplet_2.Pt();
     }
     bool operator()(Jet const& jet_1, Jet const& jet_2) {
-        return jet_1.pt() > jet_2.pt();
+        return jet_1.Pt() > jet_2.Pt();
     }
     bool operator()(LorentzVector<Momentum> const& lorentz_vector_1, LorentzVector<Momentum> const& lorentz_vector_2) {
         return (lorentz_vector_1.Pt() > lorentz_vector_2.Pt());
@@ -107,6 +107,26 @@ template <class Multiplet>
 std::vector<Multiplet> SortedByPt(std::vector<Multiplet> multiplets)
 {
     return boost::range::sort(multiplets, SortByPt());
+}
+
+
+struct SortByRap {
+  template <typename Multiplet>
+  bool operator()(Multiplet const& multiplet_1, Multiplet const& multiplet_2) {
+    return boost::units::abs(multiplet_1.Rap()) > boost::units::abs(multiplet_2.Rap());
+  }
+  bool operator()(Jet const& jet_1, Jet const& jet_2) {
+    return boost::units::abs(jet_1.Rap()) > boost::units::abs(jet_2.Rap());
+  }
+  bool operator()(LorentzVector<Momentum> const& lorentz_vector_1, LorentzVector<Momentum> const& lorentz_vector_2) {
+    return boost::units::abs(lorentz_vector_1.Rap()) > boost::units::abs(lorentz_vector_2.Rap());
+  }
+};
+
+template <class Multiplet>
+std::vector<Multiplet> SortedByRap(std::vector<Multiplet> multiplets)
+{
+  return boost::range::sort(multiplets, SortByRap());
 }
 
 

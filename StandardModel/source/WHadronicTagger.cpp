@@ -9,6 +9,7 @@
 #include "Event.hh"
 #include "physics/Math.hh"
 #include "Exception.hh"
+#include "Font.hh"
 // #define NOTIFICATION
 #include "Debug.hh"
 
@@ -38,22 +39,28 @@ std::vector<Doublet> WHadronicTagger::Doublets(Event const& event, PreCuts const
 {
     Info0;
     std::vector<Jet> jets = bottom_reader_.Jets(event);
+
+    // softer than
     MomentumRange jet_range(Id::W, Id::W);
     std::vector<Doublet> doublets = Doublets(jet_range.SofterThanMax(jets), function);
+
     for (auto const & jet : jet_range.HarderThanMin(jets)) {
+
         MomentumRange w_jet_range(Id::W, SubJet(Id::W));
-        if (w_jet_range.InsideBounds(jet)) {
+        if (w_jet_range.BelowUpperBound(jet)) {
             std::vector<Jet> pieces = bottom_reader_.SubMultiplet(jet, 2);
             if (pieces.size() == 2) {
                 Doublet doublet(pieces.at(0), pieces.at(1));
                 if (boost::optional<Doublet> optional = function(doublet)) doublets.emplace_back(*optional);
             }
         }
+
         MomentumRange top_jet_range(Id::top, SubJet(Id::W));
         if (pre_cuts.DoSubJets(Id::W) && top_jet_range.InsideBounds(jet)) {
             std::vector<Jet> pieces = bottom_reader_.SubMultiplet(jet, 3);
             doublets = Join(doublets, Doublets(pieces, function));
         }
+
         MomentumRange boosted_range(SubJet(Id::W), SubJet(Id::top));
         if (pre_cuts.DoSubJets(Id::W) && boosted_range.InsideBounds(jet)) {
             std::vector<Jet> pieces = bottom_reader_.SubMultiplet(jet, 2);
@@ -181,9 +188,9 @@ std::string WHadronicTagger::Name() const
     return "WHadronic";
 }
 
-std::string WHadronicTagger::NiceName() const
+std::string WHadronicTagger::LatexName() const
 {
-    return "W_{h}";
+    return Formula("W_{h}^{#pm}");
 }
 
 }

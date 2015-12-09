@@ -39,7 +39,7 @@ std::string HiggsPairTagger::Name() const
 {
     return "HiggsPair";
 }
-std::string HiggsPairTagger::NiceName() const
+std::string HiggsPairTagger::LatexName() const
 {
     return "hh";
 }

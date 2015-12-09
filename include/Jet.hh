@@ -14,17 +14,25 @@ class Jet : public PseudoJet
 
 public:
 
-    using boca::PseudoJet::PseudoJet;
+//     using boca::PseudoJet::PseudoJet;
 
     Jet();
 
-    Jet(TLorentzVector const& vector, ::delphes::Jet const& jet);
+    Jet(double x, double y, double z, double e);
 
-    Jet(TLorentzVector const& vector, Constituent const& constituent);
+    Jet(fastjet::PseudoJet const& jet);
 
-    Jet(TLorentzVector const& vector, std::vector<Constituent> const& constituents);
+    Jet(LorentzVector<Momentum> const& lorentz_vector);
 
-    Jet(TLorentzVector const& vector, int charge);
+    Jet(TLorentzVector const& lorentz_vector);
+
+    Jet(TLorentzVector const& lorentz_vector, ::delphes::Jet const& jet);
+
+    Jet(TLorentzVector const& lorentz_vector, Constituent const& constituent);
+
+    Jet(TLorentzVector const& lorentz_vector, std::vector<Constituent> const& constituents);
+
+    Jet(TLorentzVector const& lorentz_vector, int charge);
 
     Jet(exroot::Electron const& electron);
 

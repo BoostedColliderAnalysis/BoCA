@@ -14,6 +14,7 @@ EventShape.cpp
 PseudoJet.cpp
 Jet.cpp
 Particle.cpp
+ClusterSequence.cpp
 )
 create_library(Vector vector_sources)
 
@@ -45,17 +46,13 @@ GlobalObservables.cpp
 )
 create_library(Multiplets2 multiplet_sources)
 
-set(hep_tagger_source
-TopHadronicHep.cpp
-)
-create_library(HepTagger hep_tagger_source)
-add_dependencies(HepTagger HepTopTagger)
-
 set(plot_sources
 Plotting.cpp
 Result.cpp
 LatexFile.cpp
 Canvas.cpp
+Style.cpp
+Font.cpp
 Graph.cpp
 )
 create_library(Plot plot_sources)
@@ -83,7 +80,6 @@ Member.cpp
 Family.cpp
 Constituent.cpp
 SubJettiness.cpp
-JetTag.cpp
 DetectorGeometry.cpp
 JetInfo.cpp
 ParticleInfo.cpp

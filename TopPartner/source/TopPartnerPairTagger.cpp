@@ -34,7 +34,7 @@ std::string TopPartnerPairTagger::Name() const
 {
     return "TopPartnerPair";
 }
-std::string TopPartnerPairTagger::NiceName() const
+std::string TopPartnerPairTagger::LatexName() const
 {
     return "T_{h} T_{l}";
 }

@@ -10,6 +10,15 @@
 namespace boca
 {
 
+template <typename> struct IsQuantity : std::false_type { };
+template <typename T> struct IsQuantity<boost::units::quantity<T>> : std::true_type { };
+
+template<typename Value>
+using OnlyIfQuantity = typename std::enable_if <IsQuantity<Value>::value >::type;
+
+template<typename Value>
+using OnlyIfNotQuantity = typename std::enable_if < !IsQuantity<Value>::value >::type;
+
 namespace units
 {
 
@@ -22,7 +31,7 @@ sinh(const boost::units::quantity<boost::units::si::plane_angle, Y>& theta)
     return sinh(theta.value());
 }
 
-/// sinh of theta in radians
+/// exp of theta in radians
 template<class Y>
 typename boost::units::dimensionless_quantity<boost::units::si::system, Y>::type
 exp(const boost::units::quantity<boost::units::si::plane_angle, Y>& theta)
@@ -31,26 +40,33 @@ exp(const boost::units::quantity<boost::units::si::plane_angle, Y>& theta)
   return exp(theta.value());
 }
 
+/// log returning Angle
+template<class Y>
+typename boost::units::quantity<boost::units::si::plane_angle, Y>::type
+log(const boost::units::dimensionless_quantity<boost::units::si::system, Y>& number)
+{
+  using std::log;
+  return log(number.value()) * rad;
+}
+
+// template
+template<class Y , typename = OnlyIfNotQuantity<Y>>
+inline Angle log(Y const& number)
+{
+  using std::log;
+  return log(number) * rad;
+}
+
 }
 
 template<typename Value, typename Value_2>
 using ValueProduct = typename boost::units::multiply_typeof_helper<Value, Value_2>::type;
 
 template<typename Value>
-using ValueSqr = typename boost::units::multiply_typeof_helper<Value, Value>::type;
+using ValueSquare = typename boost::units::multiply_typeof_helper<Value, Value>::type;
 
 template<typename Value>
 using ValueSqrt = typename boost::units::root_typeof_helper<Value, int>::type;
-
-template <typename> struct IsQuantity : std::false_type { };
-template <typename T> struct IsQuantity<boost::units::quantity<T>> : std::true_type { };
-
-template<typename Value>
-using OnlyIfQuantity = typename std::enable_if <IsQuantity<Value>::value >::type;
-
-template<typename Value>
-using OnlyIfNotQuantity = typename std::enable_if < !IsQuantity<Value>::value >::type;
-
 
 template<typename Value_2>
 double GetValue(Value_2 const& value)
@@ -107,6 +123,24 @@ Angle atan2(Value const& value_1, Value const& value_2, std::true_type)
 }
 
 template<typename Value>
+Angle acos(Value const& value_1)
+{
+  return acos(value_1, IsQuantity<Value>());
+}
+
+template<typename Value>
+Angle acos(Value const& value_1, std::false_type)
+{
+  return double(std::acos(value_1)) * rad;
+}
+
+template<typename Value>
+Angle acos(Value const& value_1, std::true_type)
+{
+  return boost::units::acos(value_1);
+}
+
+template<typename Value>
 Value abs(Value const& value)
 {
     return abs(value, IsQuantity<Value>());
@@ -125,7 +159,7 @@ Value abs(Value const& value, std::true_type)
 }
 
 template<typename Value>
-ValueSqr<Value> sqr(Value const& value)
+ValueSquare<Value> sqr(Value const& value)
 {
   return value * value;
 }

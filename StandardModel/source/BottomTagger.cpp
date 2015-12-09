@@ -7,7 +7,7 @@
 #include "Vector.hh"
 #include "PreCuts.hh"
 #include "Exception.hh"
-// #define INFORMATION
+// #define DEBUG
 #include "Debug.hh"
 
 namespace boca
@@ -57,6 +57,7 @@ std::vector<Jet> BottomTagger::Multiplets(std::vector<Jet> jets, std::function<J
     if (sub_jet_number > 1) jets = SubJets(jets, sub_jet_number);
     std::vector<Jet> final_jets;
     for (auto & jet : jets) try {
+      Debug(jet.m(),jet.rap(),jet.phi_std(),jet.has_user_info());
             final_jets.emplace_back(function(jet));
         } catch (std::exception&) {
             continue;
@@ -76,6 +77,7 @@ std::vector<Jet> BottomTagger::Multiplets(Event const& event, PreCuts const& pre
 Jet BottomTagger::Multiplet(Jet & jet, TMVA::Reader const& reader) const
 {
     Info0;
+    Debug(jet.m(),jet.rap(),jet.phi_std(),jet.has_user_info());
     jet.Info().SetBdt(Bdt(jet, reader));
     return jet;
 }
@@ -135,7 +137,7 @@ std::string BottomTagger::Name() const
     return "Bottom";
 }
 
-std::string BottomTagger::NiceName() const
+std::string BottomTagger::LatexName() const
 {
     return "b";
 }

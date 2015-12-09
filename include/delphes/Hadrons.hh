@@ -30,22 +30,22 @@ class Hadrons : public boca::Hadrons
 {
 
 public:
+
     std::vector<Jet> Jets() const final;
 
     Momentum ScalarHt() const final;
 
     boca::MissingEt MissingEt() const final;
 
+    std::vector<Jet> EFlow(JetDetail jet_detail) const;
 
 private:
 
     std::vector<TObject*> Leptons(JetDetail jet_detail) const;
 
-    std::vector<Jet> EFlowJets(boca::JetDetail jet_detail) const;
+    std::vector<Jet> EFlowJets(JetDetail jet_detail) const;
 
     std::vector<Jet> DelphesJets(JetDetail jet_detail) const;
-
-    std::vector<Jet> EFlow(JetDetail jet_detail) const;
 
     std::vector<Jet> GenJets() const;
 
@@ -69,15 +69,15 @@ private:
 
     std::vector<Jet> EFlowMuon(std::vector< TObject* > const& leptons, JetDetail jet_detail) const;
 
-    boost::optional<Jet> StructuredJet(::delphes::Jet const& delphes_jet, std::vector< TObject* > const& leptons, boca::JetDetail jet_detail) const;
+    boost::optional<Jet> StructuredJet(::delphes::Jet const& delphes_jet, std::vector< TObject* > const& leptons, JetDetail jet_detail) const;
 
-    boost::optional<Jet> ConstituentJet(TObject& object, std::vector<TObject*> const& leptons, JetDetail jet_detail, SubDetector sub_detector) const;
+    boost::optional<Jet> ConstituentJet(TObject& object, std::vector<TObject*> const& leptons, JetDetail jet_detail, DetectorPart detector_part) const;
 
     boost::optional<Jet> ConstituentGenParticle(TObject& object, std::vector<TObject*> const& leptons, JetDetail jet_detail) const;
 
     boost::optional<Jet> ConstituentTrack(TObject& object, std::vector<TObject*> const& leptons, JetDetail jet_detail) const;
 
-    boost::optional<Jet> ConstituentTower(TObject& object, std::vector<TObject*> const& leptons, JetDetail jet_detail, SubDetector sub_detector) const;
+    boost::optional<Jet> ConstituentTower(TObject& object, std::vector<TObject*> const& leptons, JetDetail jet_detail, DetectorPart detector_part) const;
 
     boost::optional<Jet> ConstituentMuon(TObject& object, std::vector<TObject*> const& leptons, JetDetail jet_detail) const;
 
@@ -86,3 +86,5 @@ private:
 }
 
 }
+
+

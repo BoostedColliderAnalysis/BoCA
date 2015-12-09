@@ -52,7 +52,7 @@ struct SortPairs {
     template <typename Template>
     bool operator()(std::pair<Template, float> const& pair_1, std::pair<Template, float> const& pair_2)
     {
-        return (pair_1.second < pair_2.second);
+        return pair_1.second < pair_2.second;
     }
 };
 
@@ -137,10 +137,8 @@ float JetInfoFamily::MaximalFraction() const
 {
     Info0;
     std::pair<int, float> maximal_weight = *std::max_element(id_fractions_.begin(), id_fractions_.end(), SortPairs());
-    if (GetWeightSum() == 0)
-        return 0;
-    else
-        return (maximal_weight.second / GetWeightSum());
+    if (GetWeightSum() == 0) return 0;
+    else return (maximal_weight.second / GetWeightSum());
 }
 
 int JetInfoFamily::MaximalId() const

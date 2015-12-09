@@ -2,28 +2,37 @@
 
 #include <boost/range/algorithm/min_element.hpp>
 #include <boost/range/algorithm/max_element.hpp>
+#include <boost/range/numeric.hpp>
 
 #include "THStack.h"
 #include "TLegendEntry.h"
 #include "TList.h"
 #include "TMultiGraph.h"
 #include "TH2.h"
+#include "TH1.h"
+#include "TAttLine.h"
+#include "TAttMarker.h"
 #include "TExec.h"
+#include "TLatex.h"
 #include "TNamed.h"
 
 #include "physics/Math.hh"
 #include "Canvas.hh"
+#include "Font.hh"
+#include "Style.hh"
 #include "Result.hh"
+#include "Font.hh"
 #include "Debug.hh"
 
-namespace boca{
+namespace boca
+{
 
 TH1F Histogram(Result const& result, Point& max, Point const& min, int index)
 {
     TH1F histogram(result.info_branch_.Name.c_str(), "", 50, FloorToDigits(min.x, 1), CeilToDigits(max.x, 1));
     for (auto const & bdt : result.bdt) histogram.Fill(bdt);
     if (histogram.Integral() != 0) histogram.Scale(1. / histogram.Integral());
-    Canvas::SetPlotStyle(histogram, index);
+    SetPlotStyle(histogram, index);
     float max_0 = histogram.GetBinContent(histogram.GetMaximumBin());
     if (max_0 > max.y) max.y = max_0;
     return histogram;
@@ -40,27 +49,51 @@ TLegend Legend(Point const& min, float width, float height, std::string const& t
     TLegend legend(min.x, min.y, min.x + width, min.y + height);
     if (!title.empty()) {
         legend.SetHeader(title.c_str());
-        Canvas::SetTextStyle(static_cast<TLegendEntry&>(*legend.GetListOfPrimitives()->First()));
+        SetTextStyle(static_cast<TLegendEntry&>(*legend.GetListOfPrimitives()->First()));
     }
     legend.SetBorderSize(0);
     legend.SetFillStyle(0);
-    Canvas::SetTextStyle(legend);
+//     legend.SetFillColorAlpha(kWhite, 0.1);
+    SetTextStyle(legend);
     legend.Draw();
     return legend;
 }
 
 TLegend Legend(Orientation orientation, std::vector<std::string> const& entries, std::string const& title)
 {
-    int letters = boost::range::max_element(entries, [](std::string const & entry_1, std::string const & entry_2) {
-        return entry_1.size() < entry_2.size();
-    })->size();
-    float letter_width = 0.01;
-    float letter_height = 0.06;
-    float image_width = 0.1;
-    float width = letter_width * letters + image_width;
-    float height = entries.size() * letter_height;
+//     std::vector<TLatex> latexes;
+//     for (auto const& entry : entries) {
+//         TLatex latex(0, 0, entry.c_str());
+//         SetTextStyle(latex);
+//         latexes.emplace_back(latex);
+//     }
+//     TLatex longest = *boost::range::max_element(latexes, [](TLatex & latex_1, TLatex & latex_2) {
+//         return latex_1.GetXsize() < latex_2.GetXsize();
+//     });
+
+    TLatex longest(0, 0, boost::range::max_element(entries, [](std::string const & entry_1, std::string const & entry_2) {
+        TLatex latex_1(0, 0, entry_1.c_str());
+        SetTextStyle(latex_1);
+        TLatex latex_2(0, 0, entry_2.c_str());
+        SetTextStyle(latex_2);
+        return latex_1.GetXsize() < latex_2.GetXsize();
+    })->c_str());
+
+    float image_width = TextSize() * 2;
+    float width = longest.GetXsize() + image_width;
+
+    float height = boost::accumulate(entries, 0., [](double height, std::string const & entry) {
+        TLatex latex(0, 0, entry.c_str());
+        SetTextStyle(latex);
+        return height + latex.GetYsize();
+    });
+    height += (entries.size() - 1) * TextSize() / 2;
+
     if (!title.empty()) {
-        height += letter_height;
+        TLatex latex(0, 0, title.c_str());
+        SetTextStyle(latex);
+        height += latex.GetYsize();
+        height += TextSize() / 2;
     }
     // default values for Orientation::center
     float x_shift = 0.5;
@@ -88,9 +121,9 @@ TLegend Legend(Orientation orientation, std::vector<std::string> const& entries,
         default : break;
         }
     });
-    float margin = 0.03;
-    float x_unit = 1. - gPad->GetLeftMargin() - gPad->GetRightMargin() - 2 * margin;
-    float y_unit = 1. - gPad->GetBottomMargin() - gPad->GetTopMargin() - 2 * margin;
+    float margin = TextSize() / 2;
+    float x_unit = 1. - gPad->GetLeftMargin() - gPad->GetRightMargin() - 2. * margin;
+    float y_unit = 1. - gPad->GetBottomMargin() - gPad->GetTopMargin() - 2. * margin;
     Point min;
     min.x = gPad->GetLeftMargin() + margin + x_shift * x_unit - x_offset;
     min.y = gPad->GetBottomMargin() + margin + y_shift * y_unit - y_offset;
@@ -100,14 +133,14 @@ TLegend Legend(Orientation orientation, std::vector<std::string> const& entries,
 TLine Line(float bin, float y_min, float y_max, int index)
 {
     TLine line(Results::XValue(bin), y_min, Results::XValue(bin), y_max);
-    Canvas::SetPlotStyle(line, index);
+    SetPlotStyle(line, index);
     if (bin != 0) line.Draw();
     return line;
 }
 
 void AddGraph(TGraph& graph, TMultiGraph& multi_graph, TLegend& legend, std::vector<std::string> const& names, int index)
 {
-    Canvas::SetPlotStyle(graph, index);
+    SetPlotStyle(graph, index);
     multi_graph.Add(&graph);
     legend.AddEntry(&graph, names.at(index).c_str(), "l");
 }
@@ -118,8 +151,8 @@ void SetMultiGraph(TMultiGraph& multi_graph, Point const& min, Point const& max)
     multi_graph.GetXaxis()->SetLimits(min.x, max.x);
     multi_graph.SetMaximum(max.y);
     multi_graph.SetMinimum(min.y);
-    Canvas::SetAxis(*multi_graph.GetXaxis(), "Signal acceptance");
-    Canvas::SetAxis(*multi_graph.GetYaxis(), "Background acceptance");
+    SetAxis(*multi_graph.GetXaxis(), "Signal acceptance");
+    SetAxis(*multi_graph.GetYaxis(), "Background acceptance");
 }
 
 TGraph Graph(Results const& results, std::vector<float> const& values, std::string const& title)
@@ -128,8 +161,8 @@ TGraph Graph(Results const& results, std::vector<float> const& values, std::stri
     graph.SetTitle("");
     graph.Draw("al");
     graph.GetXaxis()->SetLimits(results.min.x, results.max.x);
-    Canvas::SetAxis(*graph.GetXaxis(), "BDT");
-    Canvas::SetAxis(*graph.GetYaxis(), title.c_str());
+    SetAxis(*graph.GetXaxis(), "BDT");
+    SetAxis(*graph.GetYaxis(), title.c_str());
     return graph;
 }
 
@@ -168,7 +201,7 @@ void SetProfile(TH2& histogram, Plot const& signal, Plot const& background)
     for (auto const & point : background.points) histogram.Fill(point.x, point.y, point.z);
     Color().Heat();
     CommonHist(histogram, signal, kRed);
-    Canvas::SetAxis(*histogram.GetZaxis(),"BDT");
+    SetAxis(*histogram.GetZaxis(), "BDT");
 //     histogram.SetZTitle("BDT");
     histogram.SetMaximum(max);
     histogram.SetMinimum(min);
@@ -181,8 +214,8 @@ void CommonHist(TH1& histogram, Plot const& plot, EColor color)
     Info0;
     histogram.SetMarkerColor(color);
     histogram.SetLineColor(color);
-    Canvas::SetAxis(*histogram.GetXaxis(),plot.nice_name_x.c_str());
-    Canvas::SetAxis(*histogram.GetYaxis(),plot.nice_name_y.c_str());
+    SetAxis(*histogram.GetXaxis(), plot.nice_name_x.c_str());
+    SetAxis(*histogram.GetYaxis(), plot.nice_name_y.c_str());
 }
 
 
@@ -191,21 +224,21 @@ void CommonHist(TH1& histogram, Plot const& plot, EColor color)
 
 TGraph CutGraph(CutResults const& results, std::vector<float> const& values, std::string const& title)
 {
-  TGraph graph(results.signals.front().steps, &results.x_values.front(), &values.front());
-  graph.SetTitle("");
-  graph.Draw("al");
-  graph.GetXaxis()->SetLimits(results.min.x, results.max.x);
-  Canvas::SetAxis(*graph.GetXaxis(), "Signal efficiency");
-  Canvas::SetAxis(*graph.GetYaxis(), title.c_str());
-  return graph;
+    TGraph graph(results.signals.front().steps, &results.x_values.front(), &values.front());
+    graph.SetTitle("");
+    graph.Draw("al");
+    graph.GetXaxis()->SetLimits(results.min.x, results.max.x);
+    SetAxis(*graph.GetXaxis(), "Signal efficiency");
+    SetAxis(*graph.GetYaxis(), title.c_str());
+    return graph;
 }
 
 TLine CutLine(float bin, float y_min, float y_max, int index)
 {
-  TLine line(bin, y_min, bin, y_max);
-  Canvas::SetPlotStyle(line, index);
-  if (bin != 0) line.Draw();
-  return line;
+    TLine line(bin, y_min, bin, y_max);
+    SetPlotStyle(line, index);
+    if (bin != 0) line.Draw();
+    return line;
 }
 
 

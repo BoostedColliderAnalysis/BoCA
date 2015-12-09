@@ -14,9 +14,11 @@
 
 #include <iostream>
 
-#include "TVector3.h"
-#include "TRotation.h"
+// class TVector3;
+// #include "TVector3.h"
+// #include "TRotation.h"
 
+#include "TVector3.h"
 #include "physics/Vector2.hh"
 
 namespace boca
@@ -53,6 +55,8 @@ public:
 
     // Constructor
     Vector3(TVector3 const& vector) {
+//         std::cout << "must be double" << std::endl;
+//         std::cout << "vector not initiliazed" << std::endl;
         x_ = vector.X();
         y_ = vector.Y();
         z_ = vector.Z();
@@ -134,16 +138,28 @@ public:
     }
 
     // The components in cartesian coordinate system.
-    Value X() const {
+    Value const& X() const {
         return x_;
     }
 
-    Value Y() const {
+    Value const& Y() const {
         return y_;
     }
 
-    Value Z() const {
+    Value const& Z() const {
         return z_;
+    }
+
+    Value & X() {
+      return x_;
+    }
+
+    Value & Y() {
+      return y_;
+    }
+
+    Value & Z() {
+      return z_;
     }
 
 // The azimuth angle. returns phi from -pi to pi
@@ -229,11 +245,11 @@ public:
 
 // Vector orthogonal to this(Geant4).
     Vector3 Orthogonal() const {
-        Value x = x_ < 0 ? -x_ : x_;
-        Value y = y_ < 0 ? -y_ : y_;
-        Value z = z_ < 0 ? -z_ : z_;
-        if (x < y) return x < z ? Vector3(0, z_, -y_) : Vector3(y_, -x_, 0);
-        else return y < z ? Vector3(-z_, 0, x_) : Vector3(y_, -x_, 0);
+        Value x = x_ < Value(0) ? -x_ : x_;
+        Value y = y_ < Value(0) ? -y_ : y_;
+        Value z = z_ < Value(0) ? -z_ : z_;
+        if (x < y) return x < z ? Vector3(Value(0), z_, -y_) : Vector3(y_, -x_, Value(0));
+        else return y < z ? Vector3(-z_, Value(0), x_) : Vector3(y_, -x_, Value(0));
     }
 
 // The angle w.r.t. another 3-vector.
@@ -245,24 +261,24 @@ public:
             Value arg = Dot(vector) / std::sqrt(ptot2);
             if (arg > 1) arg = 1;
             if (arg < -1) arg = -1;
-            return std::acos(arg) * rad;
+            return acos(arg);
         }
     }
 
 // Returns the pseudo-rapidity, i.e. -ln(tan(theta/2))
-    Value PseudoRapidity() const {
+    boca::Angle PseudoRapidity() const {
         //Value m = Mag();
         //return 0.5*log((m+z_)/(m-z_) );
         // guard against Pt=0
         double cosTheta = CosTheta();
-        if (sqr(cosTheta) < 1) return -0.5 * std::log((1 - cosTheta) / (1 + cosTheta));
-        if (z_ == 0) return 0;
+        if (sqr(cosTheta) < 1) return -0.5 * units::log((1 - cosTheta) / (1 + cosTheta));
+        if (z_ == 0) return 0_rad;
         // Warning("PseudoRapidity","transvers momentum = 0! return +/- 10e10");
-        if (z_ > 0) return 10e10;
-        else return -10e10;
+        if (z_ > 0) return 10e10_rad;
+        else return -10e10_rad;
     }
 
-    Value Eta() const {
+    boca::Angle Eta() const {
         return PseudoRapidity();
     }
 
@@ -312,18 +328,18 @@ public:
             x_ = (x * z * px - y * py + x * square * pz) / square;
             y_ = (y * z * px + x * py + y * square * pz) / square;
             z_ = (z * z * px - px + z * square * pz) / square;
-        } else if (z < 0.) {
+        } else if (z < Value(0)) {
             x_ = -x_; // phi=0 teta=pi
             z_ = -z_;
         } else {};
     }
 
-    void Rotate(boca::Angle angle, const Vector3& axis) {
-        //rotate vector
-        TRotation trans;
-        trans.Rotate(angle / rad, axis);
-        operator*=(trans);
-    }
+//     void Rotate(boca::Angle angle, const Vector3& axis) {
+//         //rotate vector
+//         TRotation trans;
+//         trans.Rotate(angle, axis);
+//         operator*=(trans);
+//     }
     // Rotates around the axis specified by another Hep3Vector.
 
 //     Vector3& operator*=(const TRotation& m) {
@@ -348,128 +364,129 @@ public:
     // Scale with scalar
     template <typename Value_2>
     Vector3<ValueProduct<Value_2>> Scale(Value_2 const& scalar) const {
-      return {x_ * scalar, y_ * scalar, z_ * scalar};
+        return {x_ * scalar, y_ * scalar, z_ * scalar};
     }
 
     // Scalar product.
     template <typename Value_2>
     ValueProduct<Value_2> Dot(Vector3<Value_2> const& vector) const {
-      return x_ * vector.x_ + y_ * vector.y_ + z_ * vector.z_;
+        return x_ * vector.x_ + y_ * vector.y_ + z_ * vector.z_;
     }
 
-    // Cross product.
+    // Cross product
     template <typename Value_2>
     Vector3<ValueProduct<Value_2>> Cross(Vector3<Value_2> const& vector) const {
-      return {y_* vector.z_ - vector.y_ * z_, z_* vector.x_ - vector.z_ * x_, x_* vector.y_ - vector.x_ * y_};
+        return {y_* vector.z_ - vector.y_ * z_, z_* vector.x_ - vector.z_ * x_, x_* vector.y_ - vector.x_ * y_};
     }
 
+    // Triple product
     template <typename Value_2, typename Value_3>
     ValueCubed<Value_2, Value_3> Triple(Vector3<Value_2> const& vector_1, Vector3<Value_2> const& vector_2) {
-      return Cross(vector_1) * vector_2;
+        return Cross(vector_1) * vector_2;
     }
 
     // Addition.
     template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
     Vector3& operator+=(Vector3<Value_2> const& vector) {
-      x_ += vector.x_;
-      y_ += vector.y_;
-      z_ += vector.z_;
-      return *this;
+        x_ += vector.x_;
+        y_ += vector.y_;
+        z_ += vector.z_;
+        return *this;
     }
 
     // Subtraction
     template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
     Vector3& operator-=(Vector3<Value_2> const& vector) {
-      x_ -= vector.x_;
-      y_ -= vector.y_;
-      z_ -= vector.z_;
-      return *this;
+        x_ -= vector.x_;
+        y_ -= vector.y_;
+        z_ -= vector.z_;
+        return *this;
     }
 
     // Scaling with real numbers
     template < typename Value_2, typename = OnlyIfNotQuantity<Value_2> >
     Vector3& operator*=(Value_2 scalar) {
-      x_ *= scalar;
-      y_ *= scalar;
-      z_ *= scalar;
-      return *this;
+        x_ *= scalar;
+        y_ *= scalar;
+        z_ *= scalar;
+        return *this;
     }
 
     /// division by scalar
     template < typename Value_2, typename = OnlyIfNotQuantity<Value_2> >
     Vector3& operator/=(Value_2 scalar) {
-      x_ /= scalar;
-      y_ /= scalar;
-      z_ /= scalar;
-      return *this;
+        x_ /= scalar;
+        y_ /= scalar;
+        z_ /= scalar;
+        return *this;
     }
 
     // Addition of 3-vectors.
     template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
     friend Vector3 operator+(Vector3 const& vector_1, Vector3<Value_2> const& vector_2) {
-      return {vector_1.X() + vector_2.X(), vector_1.Y() + vector_2.Y(), vector_1.Z() + vector_2.Z()};
+        return {vector_1.X() + vector_2.X(), vector_1.Y() + vector_2.Y(), vector_1.Z() + vector_2.Z()};
     }
 
     // Subtraction of 3-vectors.
     template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
     friend Vector3 operator-(Vector3 const& vector_1, Vector3<Value_2> const& vector_2) {
-      return {vector_1.X() - vector_2.X(), vector_1.Y() - vector_2.Y(), vector_1.Z() - vector_2.Z()};
+        return {vector_1.X() - vector_2.X(), vector_1.Y() - vector_2.Y(), vector_1.Z() - vector_2.Z()};
     }
 
     template <typename Value_2>
     friend Vector3<ValueProduct<Value_2>> operator^(Vector3 const& vector_1, Vector3<Value_2> const& vector_2) {
-      return vector_1.Cross(vector_2);
+        return vector_1.Cross(vector_2);
     }
 
     template <typename Value_2>
     friend Vector3 <ValueQuotient<Value_2>> operator/(Vector3 const& vector, Value_2 const& scalar) {
-      return vector.Scale(1. / scalar);
+        return vector.Scale(1. / scalar);
     }
 
     // Get components by index
     Value operator()(int i) const {
-      //dereferencing operator const
-      switch (i) {
+        //dereferencing operator const
+        switch (i) {
         case 0 : return x_;
         case 1 : return y_;
         case 2 : return z_;
         default : std::cout << "bad index(%d) returning 0 " << i << std::endl;
-      }
-      return 0;
+        }
+        return 0;
     }
 
     Value operator[](int i) const {
-      return operator()(i);
+        return operator()(i);
     }
 
     // Set components by index.
     Value& operator()(int i) {
-      //dereferencing operator
-      switch (i) {
+        //dereferencing operator
+        switch (i) {
         case 0 : return x_;
         case 1 : return y_;
         case 2 : return z_;
         default : std::cout << "bad index(%d) returning &x_" <<  i << std::endl;
-      }
-      return x_;
+        }
+        return x_;
     }
 
     Value& operator[](int i) {
-      return operator()(i);
+        return operator()(i);
     }
 
     // Comparisons
     bool operator==(Vector3 const& vector) const {
-      return vector.x_ == x_ && vector.y_ == y_ && vector.z_ == z_;
+        return vector.x_ == x_ && vector.y_ == y_ && vector.z_ == z_;
     }
 
     bool operator!=(Vector3 const& vector) const {
-      return vector.x_ != x_ || vector.y_ != y_ || vector.z_ != z_;
+        return vector.x_ != x_ || vector.y_ != y_ || vector.z_ != z_;
     }
 
     // Unary minus
     Vector3 operator-() const {
-      return { -x_, -y_, -z_};
+        return { -x_, -y_, -z_};
     }
 
 private:
@@ -508,7 +525,7 @@ Vector3 <ValueProduct<Value, Value_2>> operator*(Vector3<Value> const& vector, V
 template < class Value, class Value_2, typename = OnlyIfNotVector3<Value_2> >
 Vector3 <ValueProduct<Value, Value_2>> operator*(Value_2 scalar, Vector3<Value> const& vector)
 {
-  return vector.Scale(scalar);
+    return vector.Scale(scalar);
 }
 
 // Vector3 operator*(TMatrix const&, Vector3 const& v)
@@ -518,5 +535,9 @@ Vector3 <ValueProduct<Value, Value_2>> operator*(Value_2 scalar, Vector3<Value> 
 //                    m(2, 0) * v.X() + m(2, 1) * v.Y() + m(2, 2) * v.Z());
 // }
 
-}
 
+
+// template
+// Vector3<double>::Vector3(TVector3 const& vector);
+
+}

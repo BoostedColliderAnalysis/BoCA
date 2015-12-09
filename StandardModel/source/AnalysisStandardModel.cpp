@@ -1,4 +1,5 @@
 #include "AnalysisStandardModel.hh"
+#include "Font.hh"
 #include "Debug.hh"
 
 namespace boca
@@ -36,27 +37,27 @@ std::string Name(Collider collider)
     }
 }
 
-std::string NiceName(Process process)
+std::string LatexName(Process process)
 {
     switch (process) {
-    case Process::bb : return "b";
-    case Process::cc : return "c";
-    case Process::qq : return "q";
-    case Process::gg : return "g";
-    case Process::hh : return "h";
-    case Process::hh_bb : return "h#lbar_{b}";
-    case Process::ww : return "W";
-    case Process::zz : return "Z";
-    case Process::zz_bb : return "Z#lbar_{b}";
-    case Process::tt_had : return "t_{h}";
-    case Process::tt_lep : return "t_{l}";
+    case Process::bb : return Formula("b");
+    case Process::cc : return Formula("c");
+    case Process::qq : return Formula("q");
+    case Process::gg : return Formula("g");
+    case Process::hh : return Formula("h");
+    case Process::hh_bb : return Formula("h#lbar_{b}");
+    case Process::ww : return Formula("W^{#pm}");
+    case Process::zz : return Formula("Z");
+    case Process::zz_bb : return Formula("Z#lbar_{b}");
+    case Process::tt_had : return Formula("t_{h}");
+    case Process::tt_lep : return Formula("t_{l}");
         Default(ProcessName(process), "");
     }
 }
 
 std::string Name(Process process)
 {
-  switch (process) {
+    switch (process) {
     case Process::bb : return "bottom";
     case Process::cc : return "charm";
     case Process::qq : return "quark";
@@ -68,8 +69,8 @@ std::string Name(Process process)
     case Process::zz_bb : return "Z";
     case Process::tt_had : return "top";
     case Process::tt_lep : return "top";
-    Default(Name(process), "");
-  }
+        Default(Name(process), "");
+    }
 }
 
 }

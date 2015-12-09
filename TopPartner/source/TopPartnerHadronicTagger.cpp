@@ -43,7 +43,7 @@ std::vector<Particle> TopPartnerHadronicTagger::Particles(Event const& event) co
     Info0;
     std::vector<Particle> particles = event.Partons().GenParticles();
     std::vector<Particle> quarks = CopyIfQuark(particles);
-    std::vector<Particle>candidate = CopyIfGrandGrandMother(quarks, Id::top_partner);
+    std::vector<Particle>candidate = CopyIfGreatGrandMother(quarks, Id::top_partner);
     if (!candidate.empty()) {
         int great_grand_mother = candidate.front().Info().Family().GreatGrandMother().Id();
         return CopyIfExactParticle(particles, great_grand_mother);
@@ -59,7 +59,7 @@ std::string TopPartnerHadronicTagger::Name() const
 {
     return "TopPartnerHadronic";
 }
-std::string TopPartnerHadronicTagger::NiceName() const
+std::string TopPartnerHadronicTagger::LatexName() const
 {
     return "T_{h}";
 }

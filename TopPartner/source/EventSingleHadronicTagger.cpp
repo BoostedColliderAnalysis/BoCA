@@ -44,7 +44,7 @@ std::string EventSingleHadronicTagger::Name() const
 {
     return "EventSingleHadronic";
 }
-std::string EventSingleHadronicTagger::NiceName() const
+std::string EventSingleHadronicTagger::LatexName() const
 {
     return "T_{h}t_{l}h";
 }

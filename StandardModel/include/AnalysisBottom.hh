@@ -43,7 +43,7 @@ public:
 private:
 
   std::string AnalysisName() const final {
-    return  Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-large";
+    return  Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-all";
 //       return  Name(production_channel()) + "_" + Name(this->collider_type()) + "_" + boca::Name(this->LowerPtCut()) + "-large-new";
     }
 
@@ -53,7 +53,7 @@ private:
 //         //         return Production::Associated;
 //     }
 
-    void SetFiles(Tag tag, Stage) final {
+    void SetFiles(Tag tag, Stage stage) final {
         switch (tag) {
         case Tag::signal :
             this->NewFile(tag, Process::bb);
@@ -62,9 +62,11 @@ private:
             this->NewFile(tag, Process::cc);
             this->NewFile(tag, Process::qq);
             this->NewFile(tag, Process::gg);
-            this->NewFile(tag, Process::tt_had);
-            this->NewFile(tag, Process::tt_lep);
-            this->NewFile(tag, Process::hh_bb);
+            if(stage == Stage::reader) {
+              this->NewFile(tag, Process::tt_had);
+//             this->NewFile(tag, Process::tt_lep);
+//             this->NewFile(tag, Process::hh_bb);
+            }
             this->NewFile(tag, Process::ww);
             this->NewFile(tag, Process::zz);
             break;

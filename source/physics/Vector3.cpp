@@ -7,9 +7,16 @@
 //                 Warning-> Error in Double_t operator()
 //           2015  Jan Hajer
 
-#include "physics/Vector2.hh"
+#include "TVector3.h"
+#include "physics/Vector3.hh"
 
 namespace boca {
 
-
+// template<>
+// Vector3< double >::Vector3(const TVector3& vector)
+// {
+//     x_ = vector.X();
+//     y_ = vector.Y();
+//     z_ = vector.Z();
+// }
 }

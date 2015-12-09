@@ -208,11 +208,15 @@ HeavyHiggsCutBranch::HeavyHiggsCutBranch()
   NumberBottom = int(InitialValue());
   InvariantMass = InitialValue();
   DeltaR = InitialValue();
+  LeptonPt1 = InitialValue();
+  LeptonPt2 = InitialValue();
+  BottomMinPt = InitialValue();
+  BottomMaxRap = InitialValue();
 }
 
 Observables HeavyHiggsCutBranch::Variables()
 {
-  return {PAIR(Ht), PAIR(EtMiss), PAIR(NumberJet), PAIR(NumberBottom)};
+  return {PAIR(Ht), PAIR(EtMiss)/*, PAIR(NumberJet), PAIR(NumberBottom)*/, PAIR(LeptonPt1), PAIR(LeptonPt2)};
 }
 
 }

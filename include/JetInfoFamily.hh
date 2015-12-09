@@ -7,6 +7,7 @@
 #include <unordered_map>
 
 #include "fastjet/PseudoJet.hh"
+#include "physics/Particles.hh"
 
 #include "Identification.hh"
 #include "FourVector.hh"

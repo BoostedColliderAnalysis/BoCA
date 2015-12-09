@@ -4,8 +4,10 @@
 #include "boost/range.hpp"
 #include <boost/range/algorithm/copy.hpp>
 #include <boost/range/adaptors.hpp>
+#include <boost/range/join.hpp>
 // #define INFORMATION
 #include "Debug.hh"
+
 
 namespace boca
 {
@@ -30,6 +32,8 @@ std::vector<CutVariables> CutTagger::Multiplets(Event const& event, PreCuts cons
     return ReduceResult(variables);
 }
 
+namespace {
+
 std::vector<Lepton> Signed(std::vector<Lepton> leptons, int charge)
 {
     std::vector<Lepton> chosen;
@@ -46,18 +50,42 @@ std::vector<Lepton> Window(std::vector<Lepton> leptons)
     return leptons;
 }
 
+std::vector<Lepton> IsolateLeptons(std::vector<Lepton> const& leptons, Jet const& jet)
+{
+    std::vector<Lepton> isolated;
+    for (auto const & lepton : leptons) if (lepton.Pt() > 50_GeV || jet.DeltaRTo(lepton) > 0.3_rad) isolated.emplace_back(lepton);
+    return isolated;
+}
+
+}
+
 boost::optional<CutVariables> CutTagger::CutMethod(Event const& event) const
 {
     Info0;
     CutVariables variables;
 
+    std::vector<Particle> particles = event.Partons().GenParticles();
+    std::vector<Particle> bottom = SortedByPt(CopyIfParticle(particles, Id::bottom));
+    if(bottom.empty()) return boost::none;
+
+    variables.bottom_min_pt_ = bottom.back().Pt();
+
+    bottom = SortedByRap(bottom);
+    variables.bottom_max_rap_ = boost::units::abs(bottom.front().Rap());
+
+    std::vector<Jet> jets = RemoveIfSoft(event.Hadrons().Jets(), 40_GeV);
     std::vector<Lepton> electrons = event.Leptons().Electrons();
     std::vector<Lepton> muons = event.Leptons().Muons();
-    if (electrons.size() + muons.size() != 2) return boost::none;
 
+    for (auto const & jet : jets) {
+        electrons = IsolateLeptons(electrons, jet);
+        muons = IsolateLeptons(muons, jet);
+    }
+
+    if (electrons.size() + muons.size() != 2) return boost::none;
     electrons = Window(electrons);
 
-    std::vector<Jet> leptons = RemoveIfSoft(Join(electrons, muons), 15_GeV);
+    std::vector<Lepton> leptons = SortedByPt(RemoveIfSoft(Join(electrons, muons), 15_GeV));
     if (electrons.size() + muons.size() != 2) return boost::none;
 
     std::vector<Lepton> positive = Signed(leptons, 1);
@@ -65,7 +93,9 @@ boost::optional<CutVariables> CutTagger::CutMethod(Event const& event) const
 
     if (positive.size() != 2 && negative.size() != 2) return boost::none;
 
-    std::vector<Jet> jets = event.Hadrons().Jets();
+    variables.leading_pt_ = leptons.at(0).Pt();
+    variables.second_leading_pt_ = leptons.at(1).Pt();
+
     if (jets.size() < 4) return boost::none;
     variables.jet_number_ = jets.size();
 
@@ -80,8 +110,7 @@ boost::optional<CutVariables> CutTagger::CutMethod(Event const& event) const
     if (missing_et.Pt() < 30_GeV) return boost::none;
     variables.et_miss_ = missing_et.Pt();
 
-    Momentum scalar_ht = event.Hadrons().ScalarHt();
-    variables.ht_ = scalar_ht;
+    variables.ht_ = event.Hadrons().ScalarHt();
 
     if (variables.IsNaN()) return boost::none;
     return variables;

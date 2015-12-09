@@ -18,6 +18,7 @@ std::string Name(Decay decay)
     switch (decay) {
     case Decay::hadronic : return "hadronic";
     case Decay::leptonic : return "leptonic";
+    case Decay::other : return "other";
     Default("decay","");
     }
 }

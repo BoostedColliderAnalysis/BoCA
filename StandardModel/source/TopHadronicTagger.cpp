@@ -8,6 +8,7 @@
 #include "Event.hh"
 #include "ParticleInfo.hh"
 #include "Exception.hh"
+#include "Font.hh"
 // #define DEBUG
 #include "Debug.hh"
 
@@ -21,14 +22,17 @@ TopHadronicTagger::TopHadronicTagger()
 {
     Info0;
     top_mass_window_ = 50_GeV;
+//     top_mass_window_ = MassOf(Id::top);
 }
 
 int TopHadronicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Tag tag) const
 {
     Info0;
-    return SaveEntries(Triplets(event, [&](Triplet & triplet,std::vector<Jet>const & leptons) {
+    int number = SaveEntries(Triplets(event, [&](Triplet & triplet, std::vector<Jet>const & leptons) {
         return Tripple(triplet, leptons, pre_cuts, tag);
     }), TopParticles(event), tag, Id::top);
+    Error(number);
+    return number;
 }
 
 std::vector<Particle>TopHadronicTagger::TopParticles(Event const& event) const
@@ -46,18 +50,19 @@ std::vector<Particle>TopHadronicTagger::TopParticles(Event const& event) const
 std::vector<Triplet> TopHadronicTagger::Triplets(Event const& event, Function const& function) const
 {
     Info0;
-   std::vector<Jet> jets = SortedByPt(bottom_reader_.Jets(event));
-   std::vector<Lepton> leptons = event.Leptons().leptons();
+    std::vector<Jet> jets = SortedByPt(bottom_reader_.Jets(event));
+    std::vector<Lepton> leptons = event.Leptons().leptons();
 
     INFO(jets.size(), leptons.size());
 
     MomentumRange three_jet_range(Id::W);
     MomentumRange two_jet_range(Id::W, Id::top);
-   std::vector<Jet>softer_than_top = two_jet_range.SofterThanMax(jets);
-    std::vector<Triplet> triplets = ThreeJets(softer_than_top, leptons, function, three_jet_range);
+    std::vector<Jet> softer_than_top = two_jet_range.SofterThanMax(jets);
+    std::vector<Triplet> triplets = ThreeJets(jets, leptons, function, three_jet_range);
 
-    for (auto const & jet : two_jet_range.HarderThanMin(jets)) {
-        if (two_jet_range.InsideBounds(jet)) triplets = Join(triplets, TwoJets(jets, jet, leptons, function, two_jet_range));
+//     for (auto const & jet : two_jet_range.HarderThanMin(jets)) {
+    for (auto const & jet : jets) {
+        if (two_jet_range.BelowUpperBound(jet)) triplets = Join(triplets, TwoJets(jets, jet, leptons, function, two_jet_range));
         MomentumRange three_sub_jet_range(Id::top, SubJet(Id::W));
         if (three_sub_jet_range.InsideBounds(jet)) triplets = Join(triplets, ThreeSubJets(jet, leptons, function, three_sub_jet_range));
         MomentumRange two_sub_jet_range((SubJet(Id::W)), (SubJet(Id::top)));
@@ -69,7 +74,7 @@ std::vector<Triplet> TopHadronicTagger::Triplets(Event const& event, Function co
     return triplets;
 }
 
-std::vector<Triplet> TopHadronicTagger::ThreeJets(std::vector<Jet> const& jets,std::vector<Jet> const& leptons, Function const& function, MomentumRange const& range) const
+std::vector<Triplet> TopHadronicTagger::ThreeJets(std::vector<Jet> const& jets, std::vector<Jet> const& leptons, Function const& function, MomentumRange const& range) const
 {
     INFO(jets.size());
     std::vector<Doublet> doublets = w_hadronic_reader_.Multiplets(range.SofterThanMax(jets));
@@ -77,23 +82,23 @@ std::vector<Triplet> TopHadronicTagger::ThreeJets(std::vector<Jet> const& jets,s
     return Triplets(doublets, jets, leptons, function, range);
 }
 
-std::vector<Triplet> TopHadronicTagger::TwoJets(std::vector<Jet> const& jets, Jet const& jet,std::vector<Jet> const& leptons, Function const& function, MomentumRange const& range) const
+std::vector<Triplet> TopHadronicTagger::TwoJets(std::vector<Jet> const& jets, Jet const& jet, std::vector<Jet> const& leptons, Function const& function, MomentumRange const& range) const
 {
     Info0;
     if (boost::optional<Doublet> optional = w_hadronic_reader_.SubMultiplet(jet)) {
         Doublet doublet = *optional;
         Debug(doublet.Pt(), doublet.Bdt());
-        if (!range.InsideBounds(doublet)) return {};
+//         if (!range.InsideBounds(doublet)) return {};
         return Triplets(doublet, jets, leptons, function, range);
     }
     return {};
 }
 
-std::vector<Triplet> TopHadronicTagger::ThreeSubJets(Jet const& jet,std::vector<Jet> const& leptons, Function const& function, MomentumRange const& range) const
+std::vector<Triplet> TopHadronicTagger::ThreeSubJets(Jet const& jet, std::vector<Jet> const& leptons, Function const& function, MomentumRange const& range) const
 {
     Info0;
     unsigned sub_jet_number = 3;
-   std::vector<Jet> pieces = bottom_reader_.SubMultiplet(jet, sub_jet_number);
+    std::vector<Jet> pieces = bottom_reader_.SubMultiplet(jet, sub_jet_number);
     return ordered_triplets(pieces, sub_jet_number, [&](Jet const & piece_1, Jet const & piece_2, Jet const & piece_3) -> boost::optional<Triplet> {
         if (boost::optional<Doublet> optional = w_hadronic_reader_.Multiplet(piece_2, piece_3)) {
             Doublet doublet = *optional;
@@ -104,12 +109,12 @@ std::vector<Triplet> TopHadronicTagger::ThreeSubJets(Jet const& jet,std::vector<
     });
 }
 
-std::vector<Triplet> TopHadronicTagger::TwoSubJets(Jet const& jet,std::vector<Jet> const& leptons, Function const& function, MomentumRange const& range) const
+std::vector<Triplet> TopHadronicTagger::TwoSubJets(Jet const& jet, std::vector<Jet> const& leptons, Function const& function, MomentumRange const& range) const
 {
     Info0;
     std::vector<Triplet> triplets;
     unsigned sub_jet_number = 2;
-   std::vector<Jet> pieces = bottom_reader_.SubMultiplet(jet, sub_jet_number);
+    std::vector<Jet> pieces = bottom_reader_.SubMultiplet(jet, sub_jet_number);
     if (pieces.size() == sub_jet_number) {
         for (size_t i = 0; i < pieces.size(); ++i) {
             auto piece_1 = pieces.at(i);
@@ -120,7 +125,7 @@ std::vector<Triplet> TopHadronicTagger::TwoSubJets(Jet const& jet,std::vector<Je
     return triplets;
 }
 
-boost::optional<Triplet> TopHadronicTagger::HighlyBoosted(Jet const& jet,std::vector<Jet> const& leptons, Function const& function) const
+boost::optional<Triplet> TopHadronicTagger::HighlyBoosted(Jet const& jet, std::vector<Jet> const& leptons, Function const& function) const
 {
     Info0;
     Triplet triplet(jet);
@@ -193,6 +198,31 @@ bool TopHadronicTagger::Problematic(Triplet const& triplet, boca::PreCuts const&
     return false;
 }
 
+namespace
+{
+
+void TruthLevel(Event const& event, PreCuts const& pre_cuts)
+{
+    Error0;
+    std::vector<Particle> particle = event.Partons().GenParticles();
+    std::vector<Particle> tops = CopyIfParticle(particle, Id::top);
+    for (auto const & top : tops) {
+        if (top.Pt() < pre_cuts.PtLowerCut().Get(Id::top) || top.Pt() > pre_cuts.PtUpperCut().Get(Id::top)) continue;
+        Error(top.Pt());
+        std::vector<Particle> bottoms = CopyIfMother(CopyIfParticle(particle, Id::bottom), top);
+        if (bottoms.empty()) continue;
+        Error(bottoms.front().Pt());
+        std::vector<Particle> Ws = CopyIfMother(CopyIfParticle(particle, Id::W), top);
+        if (Ws.empty()) continue;
+        Error(Ws.front().Pt());
+        std::vector<Particle> quarks = CopyIfGrandMother(CopyIfQuark(particle), top);
+        if (quarks.size() < 2) continue;
+        Error(top.Pt(), bottoms.front().Pt(), Ws.front().Pt(), quarks.at(0).Pt());
+    }
+}
+
+}
+
 bool TopHadronicTagger::Problematic(Triplet const& triplet, PreCuts const& pre_cuts) const
 {
     Debug0;
@@ -206,12 +236,16 @@ bool TopHadronicTagger::Problematic(Triplet const& triplet, PreCuts const& pre_c
 std::vector<Triplet> TopHadronicTagger::Multiplets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
     Info0;
-    return ReduceResult(Triplets(event, [&](Triplet & triplet,std::vector<Jet>const & leptons) {
+    std::vector<Triplet> triplets = ReduceResult(Triplets(event, [&](Triplet & triplet, std::vector<Jet>const & leptons) {
         return Multiplet(triplet, leptons, pre_cuts, reader);
     }));
+    Error(triplets.size());
+    triplets = SortedByBdt(triplets);
+    if (!triplets.empty()) if (triplets.front().Bdt() < 0) TruthLevel(event, pre_cuts);
+    return triplets;
 }
 
-boost::optional<Triplet> TopHadronicTagger::Multiplet(Triplet& triplet,std::vector<Jet> const& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
+boost::optional<Triplet> TopHadronicTagger::Multiplet(Triplet& triplet, std::vector<Jet> const& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
     Info0;
     if (Problematic(triplet, pre_cuts)) return boost::none;
@@ -244,14 +278,12 @@ std::vector< Triplet > TopHadronicTagger::ordered_triplets(std::vector<Jet> cons
 
 std::string TopHadronicTagger::Name() const
 {
-    Info0;
     return "TopHadronic";
 }
 
-std::string TopHadronicTagger::NiceName() const
+std::string TopHadronicTagger::LatexName() const
 {
-    Info0;
-    return "t_{h}";
+    return Formula("t_{h}");
 }
 
 }

@@ -326,7 +326,7 @@ std::string Name(Stage stage)
         Default("Stage", "");
     }
 }
-std::string Tagger::NiceName() const
+std::string Tagger::LatexName() const
 {
     Info0;
     return Name();

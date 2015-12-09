@@ -5,16 +5,26 @@
 #include "PseudoJet.hh"
 #include "TLorentzVector.h"
 #include "physics/Particles.hh"
+#include "Jet.hh"
+// #define DEBUG
 #include "Debug.hh"
 
 namespace boca
 {
 
-PseudoJet::PseudoJet() : fastjet::PseudoJet() {}
+PseudoJet::PseudoJet() :
+    fastjet::PseudoJet()
+{}
 
-PseudoJet::PseudoJet(TLorentzVector const& vector) : fastjet::PseudoJet(vector.Px(), vector.Py(), vector.Pz(), vector.E()) {}
+PseudoJet::PseudoJet(TLorentzVector const& vector) :
+    fastjet::PseudoJet(vector.Px(), vector.Py(), vector.Pz(), vector.E())
+{
+    Debug(vector.Px(), px(), vector.Py(), py());
+}
 
-PseudoJet::PseudoJet(LorentzVector<Momentum> const& vector) : fastjet::PseudoJet(vector.Px() / GeV, vector.Py() / GeV, vector.Pz() / GeV, vector.E() / GeV) {}
+PseudoJet::PseudoJet(LorentzVector<Momentum> const& vector) :
+    fastjet::PseudoJet(vector.Px() / GeV, vector.Py() / GeV, vector.Pz() / GeV, vector.E() / GeV)
+{}
 
 Momentum PseudoJet::Pt() const
 {
@@ -36,11 +46,16 @@ Angle PseudoJet::DeltaRTo(const fastjet::PseudoJet& jet) const
     return delta_R(jet) * rad;
 }
 
+Angle PseudoJet::DeltaRTo(LorentzVector< Momentum > const& lorentz_vector) const
+{
+    fastjet::PseudoJet jet(lorentz_vector.X() / GeV, lorentz_vector.Y() / GeV, lorentz_vector.Z() / GeV, lorentz_vector.T() / GeV);
+    return DeltaRTo(jet);
+}
+
 Angle PseudoJet::DeltaPhiTo(const fastjet::PseudoJet& jet) const
 {
     return delta_phi_to(jet) * rad;
 }
-
 
 Angle PseudoJet::Rap() const
 {
@@ -64,4 +79,5 @@ Energy PseudoJet::Energy() const
 
 
 }
+
 

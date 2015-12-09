@@ -109,18 +109,17 @@ private:
 
     void SetConstituent(Constituent const& constituent);
 
-
     void SetTauTag(bool tau_tag);
 
-    std::vector<Constituent> constituents() const;
+    std::vector<Constituent> Constituents() const;
 
-    std::vector<Constituent> displaced_constituents() const;
+    std::vector<Constituent> DisplacedConstituents() const;
 
     void SecondayVertex() const;
 
     std::vector<Constituent> ApplyVertexResolution(std::vector<Constituent> constituents) const;
 
-    bool VertexResultion(Constituent const& constituent) const;
+    bool VertexResultion(boca::Constituent constituent) const;
 
     std::vector<Constituent> constituents_;
 

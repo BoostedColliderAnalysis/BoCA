@@ -2,10 +2,16 @@
  * Copyright (C) 2015 Jan Hajer
  */
 #include "Member.hh"
+#include "physics/Particles.hh"
 #include "Types.hh"
 
 namespace boca
 {
+
+Member::Member()
+{
+    id_ = int(boca::Id::empty);
+}
 
 Member::Member(int id)
 {
@@ -29,7 +35,7 @@ Member::Member(TLorentzVector const& momentum, int id, int position)
     position_ = position;
     momentum_ = momentum;
 }
-LorentzVector< Momentum > Member::Momentum() const
+LorentzVector< Momentum >  const& Member::Momentum() const
 {
     return momentum_;
 }

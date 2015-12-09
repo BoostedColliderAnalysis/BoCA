@@ -32,8 +32,6 @@ namespace boca
 
 class PreCuts;
 
-typedef std::vector<Jet> Jets;
-
 enum class Stage
 {
     trainer,
@@ -63,7 +61,7 @@ public:
 
     virtual ResultBranch& Branch() = 0;
 
-    virtual std::string NiceName() const;
+    virtual std::string LatexName() const;
 
     virtual TMVA::Types::EMVA Mva() const;
 

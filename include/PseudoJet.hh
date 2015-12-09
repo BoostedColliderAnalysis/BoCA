@@ -39,6 +39,8 @@ public:
 
     Angle DeltaRTo(fastjet::PseudoJet const& jet) const;
 
+    Angle DeltaRTo(LorentzVector<Momentum> const& lorentz_vector) const;
+
     Angle DeltaPhiTo(fastjet::PseudoJet const& jet) const;
 
 };

@@ -111,7 +111,7 @@ std::string ZHadronicTagger::Name() const
     return "ZHadronic";
 }
 
-std::string ZHadronicTagger::NiceName() const
+std::string ZHadronicTagger::LatexName() const
 {
     Info0;
     return "Z";

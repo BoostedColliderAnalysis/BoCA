@@ -67,9 +67,9 @@ Energy to_energy(double energy);
 static const Momentum at_rest(0. * ElectronVolt);
 static const Mass massless(0. * ElectronVolt);
 
-using EnergySqr = typename boost::units::multiply_typeof_helper<boca::Energy, boca::Energy>::type;
-using MassSqr = typename boost::units::multiply_typeof_helper<Mass, Mass>::type;
-using MomentumSqr = typename boost::units::multiply_typeof_helper<Momentum, Momentum>::type;
+using EnergySquare = typename boost::units::multiply_typeof_helper<boca::Energy, boca::Energy>::type;
+using MassSquare = typename boost::units::multiply_typeof_helper<Mass, Mass>::type;
+using MomentumSquare = typename boost::units::multiply_typeof_helper<Momentum, Momentum>::type;
 
 }
 

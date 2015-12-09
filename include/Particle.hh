@@ -14,9 +14,13 @@ class Particle : public PseudoJet
 
 public:
 
-    using PseudoJet::PseudoJet;
+//     using PseudoJet::PseudoJet;
 
-    Particle() : PseudoJet() {};
+  Particle();
+
+    Particle(double x, double y, double z, double e);
+
+    Particle(fastjet::PseudoJet const& jet);
 
     Particle(TLorentzVector const& vector, Family const& family);
 
@@ -30,7 +34,8 @@ public:
 
 private:
 
-    ParticleInfo particle_info_;
+//   ParticleInfo particle_info_;
+  void SetInfo(ParticleInfo const & user_info = ParticleInfo());
 
 };
 

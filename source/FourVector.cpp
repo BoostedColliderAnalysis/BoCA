@@ -2,6 +2,7 @@
  * Copyright (C) 2015 Jan Hajer
  */
 #include "delphes/Delphes.hh"
+#include "physics/Particles.hh"
 
 #include "FourVector.hh"
 #include "Types.hh"

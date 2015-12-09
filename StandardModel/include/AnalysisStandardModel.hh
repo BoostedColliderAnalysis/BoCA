@@ -25,7 +25,7 @@ enum class Process
 
 std::string ProcessName(Process process);
 
-std::string NiceName(Process process);
+std::string LatexName(Process process);
 
 std::string Name(Process process);
 
@@ -51,20 +51,20 @@ class AnalysisStandardModel : public Analysis<Tagger>
 protected:
 
     long TrainNumberMax() const override {
-        return 10000;
         return 1000;
+        return 10000;
         return 100;
         return 5000;
         return 500;
     }
 
     Momentum LowerPtCut() const {
-        return 1000_GeV;
         return 500_GeV;
+        return 1_TeV;
         return 350_GeV;
         return 700_GeV;
         return 800_GeV;
-        return 1200_GeV;
+        return 1.2_TeV;
     }
 
     int BackgroundFileNumber() const {
@@ -76,17 +76,17 @@ protected:
     }
 
     Collider collider_type() const {
-        return Collider::LE;
         return Collider::LHC;
+        return Collider::LE;
         return Collider::FHC;
     }
 
     Momentum UpperPtCut() const {
         switch (Int(LowerPtCut())) {
-        case 700 : return 1000_GeV;
-        case 1000 : return 1500_GeV;
-        case 1200 : return 1500_GeV;
-        case 500: return 1000_GeV;
+        case 700 : return 1_TeV;
+        case 1000 : return 1.5_TeV;
+        case 1200 : return 1.5_TeV;
+        case 500: return 600_GeV;
         Default(LowerPtCut(), at_rest);
         }
     }
@@ -95,26 +95,30 @@ protected:
         switch (Int(LowerPtCut())) {
         case 500: return 500_GeV;
         case 700 : return 500_GeV;
-        case 1000 : return 1000_GeV;
-        case 1200 : return 1000_GeV;
+        case 1000 : return 1_TeV;
+        case 1200 : return 1_TeV;
         Default(LowerPtCut(), at_rest);
         }
     }
 
     Momentum LowerQuarkCut() const {
-        return LowerPtCut() * 0.9;
+        return LowerPtCut() * 1.01;
     }
 
     Momentum UpperQuarkCut() const {
-        return UpperPtCut() * 1.1;
+        return UpperPtCut() * 0.99;
     }
 
     void NewFile(Tag tag, Process process) {
-        boca::AnalysisBase::NewFile(tag, FileName(process), NiceName(process));
+        boca::AnalysisBase::NewFile(tag, FileName(process), LatexName(process));
     }
 
     std::string FileName(Process process) const {
-        return ProcessName(process) + "_" + boca::Name(MadGraphCut());
+      switch(collider_type()){
+        case Collider::LE : return ProcessName(process) + "_" + boca::Name(MadGraphCut());
+        case Collider::LHC : return ProcessName(process) + "_14TeV-" + boca::Name(MadGraphCut());
+        Default(ProcessName(process),"");
+      }
     }
 
     std::string FilePath() const final {

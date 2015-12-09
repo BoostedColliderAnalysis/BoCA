@@ -35,7 +35,7 @@ std::string EventPairTagger::Name() const
 {
     return "EventPair";
 }
-std::string EventPairTagger::NiceName() const
+std::string EventPairTagger::LatexName() const
 {
     return "T_{h} T_{l}";
 }

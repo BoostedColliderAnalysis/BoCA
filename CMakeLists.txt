@@ -56,6 +56,9 @@ endif()
 # Libraries
 add_subdirectory(source)
 
+# Download HEPTopTagger
+include(CMakeFiles/HEPTopTagger.cmake)
+
 add_subdirectory(StandardModel)
 add_subdirectory(HeavyHiggs)
 add_subdirectory(TopPartner)

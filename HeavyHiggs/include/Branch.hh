@@ -524,6 +524,10 @@ public:
   float NumberBottom;
   float InvariantMass;
   float DeltaR;
+  float LeptonPt1;
+  float LeptonPt2;
+  float BottomMinPt;
+  float BottomMaxRap;
 
   template<typename Multiplet>
   void Fill(Multiplet const& multiplet) {
@@ -534,6 +538,10 @@ public:
     NumberBottom = multiplet.BottomNumber();
     InvariantMass = multiplet.InvariantMass() / GeV;
     DeltaR = multiplet.DeltaR() / rad;
+    LeptonPt1 = multiplet.leading_pt_ / GeV;
+    LeptonPt2 = multiplet.second_leading_pt_ / GeV;
+    BottomMinPt = multiplet.bottom_min_pt_ / GeV;
+    BottomMaxRap = multiplet.bottom_max_rap_ / rad;
   }
   virtual Observables Variables();
 

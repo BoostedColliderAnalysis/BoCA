@@ -22,7 +22,7 @@ std::string Name(Process process)
     }
 }
 
-std::string NiceName(Process process)
+std::string LatexName(Process process)
 {
     Info0;
     switch (process) {
