@@ -17,29 +17,27 @@ class Histograms : public Canvas
 
 public:
 
-    Histograms(std::string const& path, std::string const& name, bool has_title = false);
+    Histograms(std::string const& path, std::string const& name, bool show_title = false);
 
     ~Histograms();
 
-    void AddHistogram(std::vector<float> const& values, std::string const& name, Limits& limits_x, Limits & limits_y);
+    void AddHistogram(std::vector<float> const& values, std::string const& name, Limits<float>& limits_x, Limits<float> & limits_y);
 
     void SetLegend(Orientation orientation, std::string const& title = "");
 
     void Draw();
 
-    void SetXAxis(std::string const& title, Limits const& limits = Limits());
+    void SetXAxis(std::string const& title, Limits<float> const& limits = Limits<float>());
 
-    void SetYAxis(std::string const& title, Limits const& limits = Limits());
+    void SetYAxis(std::string const& title, Limits<float> const& limits = Limits<float>());
 
     void AddLine(float x_value);
 
 private:
 
-    Limits LimitsY();
+    Limits<double> LimitsY();
 
     void AddHistograms();
-
-    void SetCorners(Point const& min, float width, float height);
 
     THStack stack_;
 

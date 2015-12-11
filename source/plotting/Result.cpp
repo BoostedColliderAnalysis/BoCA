@@ -301,7 +301,9 @@ void CutResults::ExtremeXValues()
 //     float max_0 = *boost::range::max_element(result.bdt);
 //     if (max_0 > max.x)
     if (!x_values.empty()) max.x = x_values.back();
-//   }
+    //   }
+    limits_x.SetMin(min.x);
+    limits_x.SetMax(max.x);
 }
 
 }

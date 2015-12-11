@@ -6,6 +6,7 @@
 namespace boca
 {
 
+template<typename Value>
 class Limits
 {
 public:
@@ -13,31 +14,31 @@ public:
         min_ = 0;
         max_ = 0;
     }
-    Limits(float min, float max) {
+    Limits(Value min, Value max) {
         min_ = min;
         max_ = max;
     }
-    void SetMin(float min) {
+    void SetMin(Value min) {
         min_ = min;
     }
-    void SetMax(float max) {
+    void SetMax(Value max) {
         max_ = max;
     }
-    float Min() const {
+    Value Min() const {
         return min_;
     }
-    float Max() const {
+    Value Max() const {
         return max_;
     }
     operator bool() const {
-        return min_ != 0. && max_ != 0.;
+        return min_ != Value(0) && max_ != Value(0);
     }
-    bool operator==(Limits const& limits) const {
+    bool operator==(Limits<Value> const& limits) const {
         return limits.min_ == min_ && limits.max_ == max_;
     }
 private:
-    float min_;
-    float max_;
+    Value min_;
+    Value max_;
 };
 
 class Canvas
@@ -45,28 +46,25 @@ class Canvas
 
 public:
 
-    Canvas(std::string const& path, std::string const& name, bool has_title = false);
-
+    Canvas(std::string const& path, std::string const& name, bool show_title = false);
 
     TCanvas const& canvas() const;
 
     TCanvas& canvas();
 
-    void SetLog(float min = 0.001, float max = 1);
-
-    void SetLog(Limits const& limits);
+    template<typename Value>
+    void SetLog(Limits<Value> const& limits)
+    {
+      if (!limits || (limits.Min() > Value(0) && limits.Min() / limits.Max() < 0.1)) canvas_.SetLogy();
+    }
 
     std::string SaveAs(std::string const& name);
 
-    std::string const& Title() const;
-
     std::string FileName() const;
 
-protected:
+protected :
 
-    std::string path_;
-
-    std::string title_;
+    std::string const& Title() const;
 
 private:
 
@@ -76,9 +74,13 @@ private:
      */
     void Fill();
 
-    void SetMargins(bool has_title);
+    void SetMargins(bool show_title);
 
     TCanvas canvas_;
+
+    std::string path_;
+
+    std::string title_;
 
 };
 

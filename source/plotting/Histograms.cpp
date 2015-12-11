@@ -12,10 +12,10 @@
 namespace boca
 {
 
-Histograms::Histograms(const std::string& path, const std::string& name, bool has_title):
-    Canvas(path, name, has_title)
+Histograms::Histograms(const std::string& path, const std::string& name, bool show_title):
+    Canvas(path, name, show_title)
 {
-    if (has_title) stack_.SetTitle(Title().c_str());
+    if (show_title) stack_.SetTitle(Title().c_str());
 }
 
 Histograms::~Histograms()
@@ -23,7 +23,7 @@ Histograms::~Histograms()
     SaveAs(FileName());
 }
 
-void Histograms::AddHistogram(std::vector<float> const& values, std::string const& name, Limits& limits_x, Limits& limits_y)
+void Histograms::AddHistogram(std::vector<float> const& values, std::string const& name, Limits<float>& limits_x, Limits<float>& limits_y)
 {
     TH1F histogram(name.c_str(), "", 50, FloorToDigits(limits_x.Min(), 1), CeilToDigits(limits_x.Max(), 1));
     for (auto const & bdt : values) histogram.Fill(bdt);
@@ -47,14 +47,14 @@ void Histograms::Draw()
     legend_.Draw();
 }
 
-void Histograms::SetXAxis(const std::string& title, const boca::Limits& limits)
+void Histograms::SetXAxis(const std::string& title, const boca::Limits<float>& limits)
 {
     Draw();
     SetAxis(*stack_.GetXaxis(), title.c_str());
     if (limits) stack_.GetXaxis()->SetLimits(limits.Min(), limits.Max());
 }
 
-void Histograms::SetYAxis(const std::string& title, const boca::Limits& limits)
+void Histograms::SetYAxis(const std::string& title, const boca::Limits<float>& limits)
 {
     Draw();
     SetLog(limits);
@@ -63,10 +63,10 @@ void Histograms::SetYAxis(const std::string& title, const boca::Limits& limits)
         stack_.GetYaxis()->SetLimits(limits.Min(), limits.Max());
         stack_.SetMinimum(limits.Min());
         stack_.SetMaximum(limits.Max());
-    }
+    } else SetLog(LimitsY());
 }
 
-boca::Limits Histograms::LimitsY()
+Limits<double> Histograms::LimitsY()
 {
     TAxis& axis = *stack_.GetYaxis();
     return {axis.GetXmin(), axis.GetXmax()};
@@ -83,11 +83,11 @@ void Histograms::AddHistograms()
 
 void Histograms::AddLine(float x_value)
 {
-  Limits y = LimitsY();
-  TLine line(x_value, y.Min(), x_value, y.Max() * 1.05);
-  SetPlotStyle(line, histograms_.size() + lines_.size() + 1);
-  if (x_value != 0) line.Draw();
-  lines_.emplace_back(line);
+    Limits<double> y = LimitsY();
+    TLine line(x_value, y.Min(), x_value, y.Max() * 1.05);
+    SetPlotStyle(line, histograms_.size() + lines_.size() + 1);
+    if (x_value != 0) line.Draw();
+    lines_.emplace_back(line);
 }
 
 }

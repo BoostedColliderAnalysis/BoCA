@@ -18,7 +18,7 @@
 namespace boca
 {
 
-Legend::Legend(const std::__cxx11::string& title)
+Legend::Legend(const std::string& title)
 {
     SetTitle(title);
     SetStyle();
@@ -158,7 +158,7 @@ void Legend::SetStyle()
     legend_.Draw();
 }
 
-void Legend::SetTitle(const std::__cxx11::string& title)
+void Legend::SetTitle(const std::string& title)
 {
     if (!title.empty()) {
         legend_.SetHeader(title.c_str());

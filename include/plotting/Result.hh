@@ -98,8 +98,8 @@ public:
     int best_acceptance_bin = 0;
     Point min;
     Point max;
-    Limits limits_x;
-    Limits limits_y;
+    Limits<float> limits_x;
+    Limits<float> limits_y;
 
     std::vector<float> Crosssections() const {
         std::vector<float> values;
@@ -169,6 +169,8 @@ public:
   int best_acceptance_bin = 0;
   Point min;
   Point max;
+  Limits<float> limits_x;
+  Limits<float> limits_y;
 
   std::vector<float> Crosssections() const {
     std::vector<float> values;
