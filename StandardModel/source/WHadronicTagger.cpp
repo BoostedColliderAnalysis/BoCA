@@ -9,7 +9,7 @@
 #include "Event.hh"
 #include "physics/Math.hh"
 #include "Exception.hh"
-#include "Font.hh"
+#include "plotting/Font.hh"
 // #define NOTIFICATION
 #include "Debug.hh"
 

@@ -5,6 +5,7 @@
 
 #include "Identification.hh"
 #include "Particle.hh"
+#include "physics/Particles.hh"
 #include "physics/Units.hh"
 
 namespace boca
@@ -41,6 +42,14 @@ public:
 
     Angle DeltaRTop() const {
       return W_.DeltaRTo(bottom_)  ;
+    }
+
+    float RhoTop() const {
+      return 2_rad * MassOf(Id::top) / DeltaRTop() / TopPt();
+    }
+
+    float RhoW() const {
+      return 2_rad * MassOf(Id::W) / DeltaRW() / WPt();
     }
 
     Angle DeltaRW() const {

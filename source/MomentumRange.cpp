@@ -10,6 +10,26 @@
 namespace boca
 {
 
+namespace
+{
+
+float Smearing()
+{
+    return 0.3;
+}
+
+double SmearingMin()
+{
+    return 1. - Smearing();
+}
+
+double SmearingMax()
+{
+    return 1. + Smearing();
+}
+
+}
+
 SubJet::SubJet(boca::Id id)
 {
     id_ = id;
@@ -104,21 +124,6 @@ Momentum MomentumRange::PtMin(Id id, Angle cone_size)
 Momentum MomentumRange::PtMax(Id id, Angle cone_size)
 {
     return Pt(id, cone_size) * SmearingMax();
-}
-
-float MomentumRange::Smearing() const
-{
-    return 0.3;
-}
-
-double MomentumRange::SmearingMin() const
-{
-    return 1. - Smearing();
-}
-
-double MomentumRange::SmearingMax() const
-{
-    return 1. + Smearing();
 }
 
 }

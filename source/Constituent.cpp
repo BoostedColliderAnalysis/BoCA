@@ -115,7 +115,7 @@ int Constituent::Charge() const
 void Constituent::Smearing()
 {
     Info0;
-    position_.Smearing(50_um);
+    position_.Smearing(45_um);
 }
 
 }

@@ -5,6 +5,7 @@
 
 #include "Branches.hh"
 #include "Flag.hh"
+#include "plotting/Canvas.hh"
 #include "physics/Units.hh"
 #include "../HeavyHiggs/include/Branch.hh"
 
@@ -97,6 +98,8 @@ public:
     int best_acceptance_bin = 0;
     Point min;
     Point max;
+    Limits limits_x;
+    Limits limits_y;
 
     std::vector<float> Crosssections() const {
         std::vector<float> values;

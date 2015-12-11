@@ -45,7 +45,7 @@ template<typename Value>
 std::string Column(int width, Value const& message)
 {
     std::stringstream stream;
-    stream  << std::boolalpha << std::left << std::setw(width) << std::setfill(' ') << boost::units::engineering_prefix << message;
+    stream  << std::boolalpha << std::setfill(' ') << std::left << boost::units::engineering_prefix << std::setw(width) << message << std::flush;
     return stream.str();
 }
 
@@ -53,7 +53,7 @@ template<typename Value>
 std::string ColumnRight(int width, Value const& message)
 {
     std::stringstream stream;
-    stream  << std::boolalpha << boost::units::engineering_prefix << std::right << std::setw(width) << std::setfill(' ') << message;
+    stream  << std::boolalpha << boost::units::engineering_prefix << std::right << std::setw(width) << std::setfill(' ') << message << std::flush;
     return stream.str();
 }
 
@@ -104,11 +104,19 @@ void Log(std::string const& file, int line, std::string const& name_space, std::
 }
 
 template<typename Value, typename Value2, typename Value3, typename Value4>
-void Log(std::string const& file, int line, std::string const& name_space, std::string const& class_name, std::string const& function, std::string const& variable, const Value value, std::string const& variable2, const Value2 value2, std::string const& variable3, const Value3 value3, std::string const& variable4, const Value4 value4)
+void Log(std::string const& file, int line, std::string const& name_space, std::string const& class_name, std::string const& function, std::string const& variable, const Value value, std::string const& variable2, const Value2 value2, std::string const& variable3, const Value3 value3, std::string const& variable4, const Value4 value4, bool final = true)
 {
     Log(file, line, name_space, class_name, function, variable, value, variable2, value2, variable3, value3, false);
     LogVariable(variable4, value4);
     std::cout << "\n";
+}
+
+template<typename Value, typename Value2, typename Value3, typename Value4, typename Value5>
+void Log(std::string const& file, int line, std::string const& name_space, std::string const& class_name, std::string const& function, std::string const& variable, const Value value, std::string const& variable2, const Value2 value2, std::string const& variable3, const Value3 value3, std::string const& variable4, const Value4 value4, std::string const& variable5, const Value5 value5)
+{
+  Log(file, line, name_space, class_name, function, variable, value, variable2, value2, variable3, value3, variable4, value4, false);
+  LogVariable(variable5, value5);
+  std::cout << "\n";
 }
 
 }
@@ -135,10 +143,12 @@ void Log(std::string const& file, int line, std::string const& name_space, std::
 
 #define LOG4(value, value2, value3, value4) ::boca::Log(NAMES, VARIABLE(value), VARIABLE(value2), VARIABLE(value3), VARIABLE(value4))
 
-#define LOG(arg0, arg1, arg2, arg3, arg4, arg, ...) arg
+#define LOG5(value, value2, value3, value4, value5) ::boca::Log(NAMES, VARIABLE(value), VARIABLE(value2), VARIABLE(value3), VARIABLE(value4), VARIABLE(value5))
+
+#define LOG(arg0, arg1, arg2, arg3, arg4, arg5, arg, ...) arg
 
 // #define LOGCHOOSE(...) LOG(,##__VA_ARGS__, LOG4, LOG3, LOG2, LOG1, LOG0)
-#define LOGCHOOSE(...) LOG(__VA_ARGS__, , LOG4, LOG3, LOG2, LOG1, )
+#define LOGCHOOSE(...) LOG(__VA_ARGS__, , LOG5, LOG4, LOG3, LOG2, LOG1, )
 
 #define ALIVE(...) LOGCHOOSE(__VA_ARGS__)(__VA_ARGS__)
 

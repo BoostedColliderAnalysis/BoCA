@@ -32,8 +32,8 @@ public:
         this->pre_cuts().PtUpperCut().Set(Id::top, this->UpperPtCut());
 //         this->pre_cuts().MassUpperCut().Set(Id::top, 500 * GeV);
         this->pre_cuts().TrackerMaxEta().Set(Id::top, DetectorGeometry::TrackerEtaMax());
-        this->pre_cuts().PtLowerCut().Set(Id::bottom, this->LowerPtCut() / 5.);
-        this->pre_cuts().PtLowerCut().Set(Id::W, this->LowerPtCut() / 5.);
+//         this->pre_cuts().PtLowerCut().Set(Id::bottom, this->LowerPtCut() / 5.);
+//         this->pre_cuts().PtLowerCut().Set(Id::W, this->LowerPtCut() / 5.);
     }
 
     static Decay TopDecay() {
@@ -47,7 +47,7 @@ private:
 
     std::string AnalysisName() const final {
         Info0;
-        return Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-" + Name(TopDecay()) + "-test";
+        return Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-" + Name(TopDecay()) + "-new-def-just_mass";
     }
 
     void SetFiles(Tag tag, Stage) final {
@@ -65,7 +65,7 @@ private:
             if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::hh);
             if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::bb);
             this->NewFile(tag, Process::cc);
-            this->NewFile(tag, Process::gg);
+//             this->NewFile(tag, Process::gg);
             this->NewFile(tag, Process::qq);
             //             if ((TopDecay() == Decay::hadronic || TopDecay() == Decay::other) && !this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_lep);
             this->NewFile(tag, Process::zz);
@@ -79,10 +79,10 @@ private:
         std::vector<Particle> particles = SortedByPt(event.Partons().GenParticles());
         particles = CopyIfPosition(particles, 6, 7);
 //         for (auto const & particle : particles) Error(particle.Info().Family().Particle().Id(), particle.Info().Family().Particle().Position(), particle.Pt());
-        particles = RemoveIfOutsidePtWindow(particles, this->LowerQuarkCut(), this->UpperQuarkCut());
-        if (particles.empty()) return 0;
+        particles = RemoveIfOutsidePtWindow(particles, this->LowerPtCut(), this->UpperPtCut());
+//         if (particles.empty()) return 0;
         if (particles.size() != 1) return 0;
-        Error(particles.size());
+//         Error(particles.size());
         return 1;
 //         if ((particles.at(0).Pt() > this->LowerQuarkCut() && particles.at(0).Pt() < this->UpperQuarkCut()) && (particles.at(1).Pt() > this->LowerQuarkCut() &&  particles.at(1).Pt() < this->UpperQuarkCut())) return 1;
 //         return 0;

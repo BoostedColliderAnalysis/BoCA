@@ -3,8 +3,8 @@
 #include "TAttText.h"
 #include "TAttLine.h"
 #include "TAttAxis.h"
-#include "Style.hh"
-#include "Font.hh"
+#include "plotting/Style.hh"
+#include "plotting/Font.hh"
 // #define INFORMATION
 #include "Debug.hh"
 

@@ -147,7 +147,6 @@ struct HasMother {
 
 std::vector<Particle> CopyIfMother(std::vector<Particle> const& particles, Id mother_id)
 {
-
     std::vector<Particle> daughters;
     boost::range::copy(particles | boost::adaptors::filtered(HasMother(mother_id)), std::back_inserter(daughters));
     return daughters;
@@ -281,14 +280,14 @@ std::vector<Particle> CopyIfDaughter(std::vector<Particle> const& particles, std
     return mothers;
 }
 
-std::vector<Particle> CopyIfGrandDaughter(std::vector<Particle> const& particles, std::vector<Particle> const& daughters)
+std::vector<Particle> CopyIfGrandDaughter(std::vector<Particle> const& particles, std::vector<Particle> const& grand_daughters)
 {
-    std::vector<Particle> mothers;
-    boost::range::copy(particles | boost::adaptors::filtered([&daughters](Particle const & particle) {
-        for (auto const & daughter : daughters) if (particle.Info().Family().Particle().Position() == daughter.Info().Family().GrandMother().Position()) return true;
+    std::vector<Particle> grand_mothers;
+    boost::range::copy(particles | boost::adaptors::filtered([&grand_daughters](Particle const & particle) {
+        for (auto const & daughter : grand_daughters) if (particle.Info().Family().Particle().Position() == daughter.Info().Family().GrandMother().Position()) return true;
         return false;
-    }), std::back_inserter(mothers));
-    return mothers;
+    }), std::back_inserter(grand_mothers));
+    return grand_mothers;
 }
 
 std::vector<Particle> CopyIfPosition(std::vector<Particle> const& particles, int position_1, int position_2)

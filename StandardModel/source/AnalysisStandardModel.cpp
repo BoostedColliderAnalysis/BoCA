@@ -1,5 +1,5 @@
 #include "AnalysisStandardModel.hh"
-#include "Font.hh"
+#include "plotting/Font.hh"
 #include "Debug.hh"
 
 namespace boca

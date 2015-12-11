@@ -247,6 +247,8 @@ public:
   float Quark2Pt;
   float DeltaRTop;
   float DeltaRW;
+  float RhoTop;
+  float RhoW;
   template<typename Multiplet>
   void Fill(Multiplet const& multiplet) {
     TopPt = multiplet.TopPt() / GeV;
@@ -256,6 +258,8 @@ public:
     Quark2Pt = multiplet.Quark2Pt() / GeV;
     DeltaRTop = multiplet.DeltaRTop() / rad;
     DeltaRW = multiplet.DeltaRW() / rad;
+    RhoTop = multiplet.RhoTop();
+    RhoW = multiplet.RhoW();
   }
   Observables Variables(){return{};}
   Observables Spectators(){return{};}

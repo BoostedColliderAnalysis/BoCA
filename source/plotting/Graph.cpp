@@ -1,11 +1,10 @@
-# include "Graph.hh"
+#include "plotting/Graph.hh"
 
 #include <boost/range/algorithm/min_element.hpp>
 #include <boost/range/algorithm/max_element.hpp>
 #include <boost/range/numeric.hpp>
 
 #include "THStack.h"
-#include "TLegendEntry.h"
 #include "TList.h"
 #include "TMultiGraph.h"
 #include "TH2.h"
@@ -17,11 +16,13 @@
 #include "TNamed.h"
 
 #include "physics/Math.hh"
-#include "Canvas.hh"
-#include "Font.hh"
-#include "Style.hh"
-#include "Result.hh"
-#include "Font.hh"
+#include "plotting/Canvas.hh"
+#include "plotting/Font.hh"
+#include "plotting/Style.hh"
+#include "plotting/Result.hh"
+#include "plotting/Font.hh"
+#include "plotting/Legend.hh"
+#include "plotting/Graphs.hh"
 #include "Debug.hh"
 
 namespace boca
@@ -38,96 +39,10 @@ TH1F Histogram(Result const& result, Point& max, Point const& min, int index)
     return histogram;
 }
 
-void AddHistogram(THStack& stack, TH1& histogram, TLegend& legend)
+void AddHistogram(THStack& stack, TH1& histogram, Legend& legend)
 {
     stack.Add(&histogram);
-    legend.AddEntry(&histogram, histogram.GetName(), "l");
-}
-
-TLegend Legend(Point const& min, float width, float height, std::string const& title)
-{
-    TLegend legend(min.x, min.y, min.x + width, min.y + height);
-    if (!title.empty()) {
-        legend.SetHeader(title.c_str());
-        SetTextStyle(static_cast<TLegendEntry&>(*legend.GetListOfPrimitives()->First()));
-    }
-    legend.SetBorderSize(0);
-    legend.SetFillStyle(0);
-//     legend.SetFillColorAlpha(kWhite, 0.1);
-    SetTextStyle(legend);
-    legend.Draw();
-    return legend;
-}
-
-TLegend Legend(Orientation orientation, std::vector<std::string> const& entries, std::string const& title)
-{
-//     std::vector<TLatex> latexes;
-//     for (auto const& entry : entries) {
-//         TLatex latex(0, 0, entry.c_str());
-//         SetTextStyle(latex);
-//         latexes.emplace_back(latex);
-//     }
-//     TLatex longest = *boost::range::max_element(latexes, [](TLatex & latex_1, TLatex & latex_2) {
-//         return latex_1.GetXsize() < latex_2.GetXsize();
-//     });
-
-    TLatex longest(0, 0, boost::range::max_element(entries, [](std::string const & entry_1, std::string const & entry_2) {
-        TLatex latex_1(0, 0, entry_1.c_str());
-        SetTextStyle(latex_1);
-        TLatex latex_2(0, 0, entry_2.c_str());
-        SetTextStyle(latex_2);
-        return latex_1.GetXsize() < latex_2.GetXsize();
-    })->c_str());
-
-    float image_width = TextSize() * 2;
-    float width = longest.GetXsize() + image_width;
-
-    float height = boost::accumulate(entries, 0., [](double height, std::string const & entry) {
-        TLatex latex(0, 0, entry.c_str());
-        SetTextStyle(latex);
-        return height + latex.GetYsize();
-    });
-    height += (entries.size() - 1) * TextSize() / 2;
-
-    if (!title.empty()) {
-        TLatex latex(0, 0, title.c_str());
-        SetTextStyle(latex);
-        height += latex.GetYsize();
-        height += TextSize() / 2;
-    }
-    // default values for Orientation::center
-    float x_shift = 0.5;
-    float y_shift = 0.5;
-    float x_offset = width / 4; // FIXME why is this necessary; why not 1/2?
-    float y_offset = height / 2;
-    FlagSwitch(orientation, [&](Orientation orientation) {
-        switch (orientation) {
-        case Orientation::left:
-            x_shift = 0;
-            x_offset = 0;
-            break;
-        case Orientation::right:
-            x_shift = 1;
-            x_offset = width / 2; // FIXME why is this necessary; why not 1?
-            break;
-        case Orientation::top:
-            y_shift = 1;
-            y_offset = height;
-            break;
-        case Orientation::bottom:
-            y_shift = 0;
-            y_offset = 0;
-            break;
-        default : break;
-        }
-    });
-    float margin = TextSize() / 2;
-    float x_unit = 1. - gPad->GetLeftMargin() - gPad->GetRightMargin() - 2. * margin;
-    float y_unit = 1. - gPad->GetBottomMargin() - gPad->GetTopMargin() - 2. * margin;
-    Point min;
-    min.x = gPad->GetLeftMargin() + margin + x_shift * x_unit - x_offset;
-    min.y = gPad->GetBottomMargin() + margin + y_shift * y_unit - y_offset;
-    return Legend(min, width, height, title);
+    legend.AddEntry(histogram, histogram.GetName());
 }
 
 TLine Line(float bin, float y_min, float y_max, int index)
@@ -138,11 +53,19 @@ TLine Line(float bin, float y_min, float y_max, int index)
     return line;
 }
 
-void AddGraph(TGraph& graph, TMultiGraph& multi_graph, TLegend& legend, std::vector<std::string> const& names, int index)
+TLine Line(float bin, Limits const& y, int index)
+{
+  TLine line(Results::XValue(bin), y.Min(), Results::XValue(bin), y.Max());
+  SetPlotStyle(line, index);
+  if (bin != 0) line.Draw();
+  return line;
+}
+
+void AddGraph(TGraph& graph, TMultiGraph& multi_graph, Legend& legend, std::vector<std::string> const& names, int index)
 {
     SetPlotStyle(graph, index);
     multi_graph.Add(&graph);
-    legend.AddEntry(&graph, names.at(index).c_str(), "l");
+    legend.AddEntry(graph, names.at(index));
 }
 
 void SetMultiGraph(TMultiGraph& multi_graph, Point const& min, Point const& max)

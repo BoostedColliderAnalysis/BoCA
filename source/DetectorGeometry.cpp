@@ -103,6 +103,7 @@ fastjet::JetDefinition DetectorGeometry::JetDefinition()
 
 fastjet::JetDefinition DetectorGeometry::JetDefinition(Angle const& jet_cone)
 {
+//     Error(info_recombiner_.description());
     return fastjet::JetDefinition(fastjet::cambridge_aachen_algorithm, jet_cone / rad, &info_recombiner_);
 }
 

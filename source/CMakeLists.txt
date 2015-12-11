@@ -4,6 +4,7 @@
 add_subdirectory(exroot)
 add_subdirectory(delphes)
 add_subdirectory(physics)
+add_subdirectory(plotting)
 
 add_include_path(../include)
 create_dictionary(Branches Branches.cpp ../include/LinkDef.hh)
@@ -45,17 +46,6 @@ Identification.cpp
 GlobalObservables.cpp
 )
 create_library(Multiplets2 multiplet_sources)
-
-set(plot_sources
-Plotting.cpp
-Result.cpp
-LatexFile.cpp
-Canvas.cpp
-Style.cpp
-Font.cpp
-Graph.cpp
-)
-create_library(Plot plot_sources)
 
 set(tagger_sources
 Tagger.cpp

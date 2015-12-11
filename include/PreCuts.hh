@@ -55,7 +55,23 @@ public:
 
     bool OutsideTracker(Id id, Jet const& jet) const;
 
+    template <typename>
+    struct IsVector : std::false_type {};
+
+    template <typename Value>
+    struct IsVector<std::vector<Value>> : std::true_type {};
+
+    template<typename Value>
+    using OnlyIfNotVector = typename std::enable_if < !IsVector<Value>::value >::type;
+
     template <typename Multiplet>
+    std::vector<Multiplet> ApplyCuts(Id id, std::vector<Multiplet> const& multiplets) const {
+        std::vector<Multiplet> good;
+        for (auto const & multiplet : multiplets) if (ApplyCuts(id, multiplet)) good.emplace_back(multiplet);
+        return good;
+    }
+
+    template <typename Multiplet, typename = OnlyIfNotVector<Multiplet>>
     bool ApplyCuts(Id id, Multiplet const& multiplet) const {
         return PtTooSmall(id, multiplet) || PtTooLarge(id, multiplet) || MassTooSmall(id, multiplet) || MassTooLarge(id, multiplet) || OutsideTracker(id, multiplet);
     }

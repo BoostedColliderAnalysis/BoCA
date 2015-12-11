@@ -11,7 +11,7 @@
 #include "delphes/Hadrons.hh"
 #include "HEPTopTagger.hh"
 #include "Exception.hh"
-#include "Font.hh"
+#include "plotting/Font.hh"
 // #define DEBUG
 #include "Debug.hh"
 
@@ -80,7 +80,8 @@ std::vector<Triplet> TopHadronicHep::Triplets(Event const& event, PreCuts const&
 {
     Info0;
     std::vector<Jet> jets = static_cast<delphes::Hadrons const&>(event.Hadrons()).EFlow(JetDetail::structure | JetDetail::isolation);
-    Debug(jets.size());
+    if (jets.empty()) return {};
+//     Error(jets.size(),pre_cuts.JetConeMax(Id::top));
     boca::ClusterSequence cluster_sequence(jets, DetectorGeometry::JetDefinition(pre_cuts.JetConeMax(Id::top)));
     jets = SortedByPt(cluster_sequence.InclusiveJets(pre_cuts.PtLowerCut().Get(Id::top)));
     std::vector<Triplet> triplets;

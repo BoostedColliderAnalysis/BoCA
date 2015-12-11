@@ -1,5 +1,5 @@
 #include "Rtypes.h"
-#include "Font.hh"
+#include "plotting/Font.hh"
 // #define INFORMATION
 #include "Debug.hh"
 

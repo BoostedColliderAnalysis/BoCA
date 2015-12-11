@@ -137,7 +137,7 @@ public:
         std::lock_guard<std::mutex> object_sum_guard(object_sum_mutex_);
         object_sum_ += number;
         std::lock_guard<std::mutex> event_sum_guard(event_sum_mutex_);
-        ++event_sum_;
+        if(number) ++event_sum_;
     }
 
     bool KeepGoing(long max) {
@@ -192,7 +192,7 @@ public:
         {
         Info0;
         event_number_ = FirstEntry(object_sum_max, core_number);
-        max_ = core_sum;
+        core_sum_ = core_sum;
         info_branch_ = FillInfoBranch(second().file());
     }
 
@@ -229,6 +229,7 @@ public:
     void PreCutPassed(){}
 
     void SaveEntry() {
+//         Error(branch_writer().event_sum());
         info_branch().EventNumber = branch_writer().event_sum();
         std::lock_guard<std::mutex> tagger_guard(tagger_.mutex_);
         static_cast<InfoBranch&>(*branch_writer().tree_branch().NewEntry()) = info_branch();
@@ -241,8 +242,9 @@ public:
         return tree_reader().ReadEntry(event_number());
     }
 
-    void Increment() {
-        event_number() += max_;
+    void Increment(int number) {
+        branch_writer().Increment(number);
+        event_number() += core_sum_;
     }
 
     bool KeepGoing() {
@@ -291,7 +293,7 @@ private:
 
     long event_number_;
 
-    int max_;
+    int core_sum_;
 };
 
 /**
@@ -370,11 +372,7 @@ private:
 
     void ThirdLoop(Third<Tagger>& third) {
         Info0;
-        while (third.branch_writer().KeepGoing(EventNumberMax(third.second().first().stage())) && third.KeepGoing()) {
-          int number = FourthLoop(third);
-          third.Increment();
-          third.branch_writer().Increment(number);
-        }
+        while (third.branch_writer().KeepGoing(EventNumberMax(third.second().first().stage())) && third.KeepGoing()) third.Increment(FourthLoop(third));
     }
 
     int FourthLoop(Third<Tagger>& third) const {
@@ -383,6 +381,7 @@ private:
         Event event(third.tree_reader(), third.second().file().source());
         if (!PassPreCut(event, third.second().first().tag())) return 0;
         int number = Switch(event, third);
+//         Error(number);
         third.SaveEntry();
         return number;
     }

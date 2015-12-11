@@ -8,7 +8,7 @@
 
 #include "File.hh"
 #include "AnalysisBase.hh"
-#include "Plotting.hh"
+#include "plotting/Plotting.hh"
 #include "Event.hh"
 #include "Trainer.hh"
 #include "ParticleInfo.hh"

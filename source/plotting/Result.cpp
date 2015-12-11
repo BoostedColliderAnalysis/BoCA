@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2015 Jan Hajer
  */
-#include "Result.hh"
+#include "plotting/Result.hh"
 
 #include <boost/range/algorithm/min_element.hpp>
 #include <boost/range/algorithm/max_element.hpp>
@@ -145,6 +145,8 @@ void Results::ExtremeXValues()
         float max_0 = *boost::range::max_element(result.bdt);
         if (max_0 > max.x) max.x = max_0;
     }
+    limits_x.SetMin(min.x);
+    limits_x.SetMax(max.x);
 }
 
 

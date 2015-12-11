@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2015 Jan Hajer
  */
-#include "Plotting.hh"
+#include "plotting/Plotting.hh"
 
 #include <fstream>
 #include <algorithm>
@@ -21,17 +21,20 @@
 #include "TColor.h"
 #include "TExec.h"
 #include "THStack.h"
-#include "TLegendEntry.h"
+// #include "TLegendEntry.h"
 
 #include "exroot/ExRootAnalysis.hh"
 #include "Vector.hh"
 #include "Types.hh"
 #include "Branches.hh"
-#include "LatexFile.hh"
-#include "Graph.hh"
-#include "Result.hh"
-#include "Canvas.hh"
-#include "Style.hh"
+#include "plotting/LatexFile.hh"
+#include "plotting/Legend.hh"
+#include "plotting/Graph.hh"
+#include "plotting/Graphs.hh"
+#include "plotting/Result.hh"
+#include "plotting/Canvas.hh"
+#include "plotting/Style.hh"
+#include "plotting/Histograms.hh"
 #include "physics/Math.hh"
 // #define INFORMATION
 #include "Debug.hh"
@@ -108,7 +111,6 @@ Result Plotting::BdtDistribution(TFile& file, std::string const& tree_name, TFil
     TClonesArray& clones_array = *tree_reader.UseBranch(branch_name.c_str());
     exroot::TreeWriter tree_writer(&export_file, tree_name.c_str());
     exroot::TreeBranch& result_branch = *tree_writer.NewBranch(branch_name.c_str(), BdtBranch::Class());
-    long entries = 0;
     for (auto const & event_number : Range(tree_reader.GetEntries())) {
         tree_reader.ReadEntry(event_number);
         for (auto const & entry : Range(clones_array.GetEntriesFast())) {
@@ -117,7 +119,6 @@ Result Plotting::BdtDistribution(TFile& file, std::string const& tree_name, TFil
             Check(bdt_value >= -1 && bdt_value <= 1, bdt_value);
             static_cast<BdtBranch&>(*result_branch.NewEntry()).Bdt = bdt_value;
             result.AddBdt(bdt_value);
-            ++entries;
         }
         tree_writer.Fill();
         tree_writer.Clear();
@@ -140,129 +141,152 @@ InfoBranch Plotting::InfoBranch(TFile& file, std::string const& tree_name) const
 std::string Plotting::PlotHistograms(boca::Results& results) const
 {
     Info0;
-    Canvas canvas;
-    THStack stack("", Tagger().LatexName().c_str());
-    std::vector<TH1F> histograms;
-    std::vector<std::string> nice_names;
-    for (auto const & result : results.signals) {
-        histograms.emplace_back(Histogram(result, results.max, results.min, &result - &results.signals.front()));
-        nice_names.emplace_back(result.info_branch_.Name);
-    }
-    for (auto const & result : results.backgrounds) {
-        histograms.emplace_back(Histogram(result, results.max, results.min, &result - &results.backgrounds.front() + results.signals.size()));
-        nice_names.emplace_back(result.info_branch_.Name);
-    }
-    TLegend legend = Legend(Orientation::top, nice_names);
-    for (auto & histogram : histograms) AddHistogram(stack, histogram, legend);
-    stack.Draw("nostack");
-    SetAxis(*stack.GetXaxis(), "BDT");
-    SetAxis(*stack.GetYaxis(), "N");
-    TLine line = Line(results.best_model_dependent_bin, stack.GetYaxis()->GetXmin(), /*stack.GetYaxis()->GetXmax() */results.max.y * 1.05, results.signals.size() + results.backgrounds.size() + 1);
-    TLine line2 = Line(results.best_model_independent_bin, stack.GetYaxis()->GetXmin(), /*stack.GetYaxis()->GetXmax()*/results.max.y * 1.05, results.signals.size() + results.backgrounds.size() + 2);
-    legend.Draw();
-    return canvas.SaveAs(Tagger().ExportFolderName() + "-Bdt");
+    Histograms stack(Tagger().ExportFolderName(), "Bdt");
+    for (auto const & result : results.signals) stack.AddHistogram(result.bdt, result.info_branch_.Name, results.limits_x, results.limits_y);
+    for (auto const & result : results.backgrounds) stack.AddHistogram(result.bdt, result.info_branch_.Name, results.limits_x, results.limits_y);
+    stack.SetLegend(Orientation::top);
+    stack.SetXAxis("BDT");
+    stack.SetYAxis("N");
+    stack.AddLine(Results::XValue(results.best_model_dependent_bin));
+    stack.AddLine(Results::XValue(results.best_model_independent_bin));
+//     TLine line = Line(results.best_model_dependent_bin, stack.LimitsY(), results.max.y * 1.05, results.signals.size() + results.backgrounds.size() + 1);
+//     TLine line2 = Line(results.best_model_independent_bin, stack.LimitsY(), results.max.y * 1.05, results.signals.size() + results.backgrounds.size() + 2);
+    return stack.FileName();
 }
 
 std::string Plotting::PlotEfficiencyGraph(Results const& results) const
 {
     Info0;
-    Canvas canvas;
-    canvas.SetLog();
-    TMultiGraph multi_graph("", Tagger().LatexName().c_str());
-    std::vector<std::string> nice_names;
-    std::vector<TGraph> graphs;
-    for (auto const & result : results.signals) {
-        nice_names.emplace_back(result.info_branch_.Name);
-        graphs.emplace_back(TGraph(result.steps, &results.x_values.front(), &result.efficiency.front()));
-    }
-    for (auto const & result : results.backgrounds) {
-        nice_names.emplace_back(result.info_branch_.Name);
-        graphs.emplace_back(TGraph(result.steps, &results.x_values.front(), &result.efficiency.front()));
-    }
-    TLegend legend = Legend(Orientation::bottom | Orientation::left, nice_names);
-    for (auto & graph : graphs) AddGraph(graph, multi_graph, legend, nice_names, &graph - &graphs.front());
-    multi_graph.Draw("al");
-    multi_graph.GetXaxis()->SetLimits(results.min.x, results.max.x);
-    SetAxis(*multi_graph.GetXaxis(), "BDT");
-    SetAxis(*multi_graph.GetYaxis(), "Efficiency");
-    TLine line = Line(results.best_model_dependent_bin , multi_graph.GetYaxis()->GetXmin(), multi_graph.GetYaxis()->GetXmax(), results.signals.size() + results.backgrounds.size() + 1);
-    TLine line2 = Line(results.best_model_independent_bin, multi_graph.GetYaxis()->GetXmin(), multi_graph.GetYaxis()->GetXmax(), results.signals.size() + results.backgrounds.size() + 2);
-    legend.Draw();
-    return canvas.SaveAs(Tagger().ExportFolderName() + "-Efficiency");
+    Graphs multi_graph(Tagger().ExportFolderName(), "Efficiency");
+    multi_graph.SetLog();
+    for (auto const & result : results.signals) multi_graph.AddGraph(results.x_values, result.efficiency, result.info_branch_.Name);
+    for (auto const & result : results.backgrounds) multi_graph.AddGraph(results.x_values, result.efficiency, result.info_branch_.Name);
+    multi_graph.SetLegend(Orientation::bottom | Orientation::left);
+    Limits x(results.min.x, results.max.x);
+    multi_graph.SetXAxis("BDT", x);
+    multi_graph.SetYAxis("Efficiency");
+    multi_graph.AddLine(Results::XValue(results.best_model_dependent_bin));
+    multi_graph.AddLine(Results::XValue(results.best_model_independent_bin));
+
+//     TLine line = Line(results.best_model_dependent_bin , multi_graph.LimitsY(), results.signals.size() + results.backgrounds.size() + 1);
+//     TLine line2 = Line(results.best_model_independent_bin, multi_graph.LimitsY(), results.signals.size() + results.backgrounds.size() + 2);
+    return multi_graph.FileName();
 }
+
+// void Plotting::PlotAcceptanceGraph(Results const& results) const
+// {
+//     Info0;
+//     for (auto const & signal : results.signals) {
+//         Canvas canvas;
+// //         TMultiGraph multi_graph("", Tagger().LatexName().c_str());
+//         TMultiGraph multi_graph("", "");
+//         std::vector<TGraph> graphs;
+//         std::vector<std::string> nice_names;
+//         Point min(0.2, std::numeric_limits<float>::max());
+//         Point max(0.9, 0);
+//         for (auto const & background : results.backgrounds) {
+//             float min_y = background.pure_efficiency.at(Closest(signal.pure_efficiency, min.x));
+//             if (min_y < min.y && min_y > 0) min.y = min_y;
+//             float max_y = background.pure_efficiency.at(Closest(signal.pure_efficiency, max.x));
+//             if (max_y > max.y) max.y = max_y;
+//             graphs.emplace_back(TGraph(background.steps, &signal.pure_efficiency.front(), &background.pure_efficiency.front()));
+//             nice_names.emplace_back(background.info_branch_.Name);
+//         }
+//         if (min.y == std::numeric_limits<float>::max()) min.y = 0;
+//         canvas.SetLog(min.y, max.y);
+//         Legend legend(Orientation::right | Orientation::bottom, nice_names, signal.info_branch_.Name);
+//         for (auto & graph : graphs) AddGraph(graph, multi_graph, legend, nice_names, &graph - &graphs.front());
+//         SetMultiGraph(multi_graph, min, max);
+//         legend.Draw();
+//         canvas.SaveAs(Tagger().ExportFolderName() /*+ "-" + signal.info_branch_.Name*/ + "-Acceptance");
+//     }
+// }
 
 void Plotting::PlotAcceptanceGraph(Results const& results) const
 {
     Info0;
     for (auto const & signal : results.signals) {
-        Canvas canvas;
-//         TMultiGraph multi_graph("", Tagger().LatexName().c_str());
-        TMultiGraph multi_graph("", "");
-        std::vector<TGraph> graphs;
-        std::vector<std::string> nice_names;
-        Point min(0.2, std::numeric_limits<float>::max());
-        Point max(0.9, 0);
+        Graphs multi_graph(Tagger().ExportFolderName(), "Acceptance");
+        Limits limit_x(0.2, 0.9);
+        Limits limit_y(std::numeric_limits<float>::max(), 0);
         for (auto const & background : results.backgrounds) {
-            float min_y = background.pure_efficiency.at(Closest(signal.pure_efficiency, min.x));
-            if (min_y < min.y && min_y > 0) min.y = min_y;
-            float max_y = background.pure_efficiency.at(Closest(signal.pure_efficiency, max.x));
-            if (max_y > max.y) max.y = max_y;
-            graphs.emplace_back(TGraph(background.steps, &signal.pure_efficiency.front(), &background.pure_efficiency.front()));
-            nice_names.emplace_back(background.info_branch_.Name);
+            float min_y = background.efficiency.at(Closest(signal.efficiency, limit_x.Min()));
+            if (min_y < limit_y.Min() && min_y > 0) limit_y.SetMin(min_y);
+            float max_y = background.efficiency.at(Closest(signal.efficiency, limit_x.Max()));
+            if (max_y > limit_y.Max()) limit_y.SetMax(max_y);
+            multi_graph.AddGraph(signal.efficiency, background.efficiency, background.info_branch_.Name);
         }
-        if (min.y == std::numeric_limits<float>::max()) min.y = 0;
-        canvas.SetLog(min.y, max.y);
-        TLegend legend = Legend(Orientation::right | Orientation::bottom, nice_names, signal.info_branch_.Name);
-        for (auto & graph : graphs) AddGraph(graph, multi_graph, legend, nice_names, &graph - &graphs.front());
-        SetMultiGraph(multi_graph, min, max);
-        legend.Draw();
-        canvas.SaveAs(Tagger().ExportFolderName() + "-" + signal.info_branch_.Name + "-Acceptance");
+        if (limit_y.Min() == std::numeric_limits<float>::max()) limit_y.SetMin(0);
+        multi_graph.SetLegend(Orientation::right | Orientation::bottom, signal.info_branch_.Name);
+        multi_graph.SetXAxis("Signal acceptance", limit_x);
+        multi_graph.SetYAxis("Background acceptance", limit_y);
     }
 }
 
 std::string Plotting::PlotCrosssectionsGraph(Results const& results) const
 {
     Info0;
-    Canvas canvas;
-    canvas.SetLog();
-    TMultiGraph multi_graph("", Tagger().LatexName().c_str());
-    std::vector<std::string> nice_names;
-    std::vector<TGraph> graphs;
-    float min = std::numeric_limits<float>::max();
-    float max = 0;
+    Graphs multi_graph(Tagger().ExportFolderName(), "Crosssection");
+    multi_graph.SetLog();
+//     std::vector<std::string> nice_names;
+//     std::vector<TGraph> graphs;
+    Limits limits_y(std::numeric_limits<float>::max(), 0);
+//     float min = std::numeric_limits<float>::max();
+//     float max = 0;
     for (auto const & result : results.signals) {
-        nice_names.emplace_back(result.info_branch_.Name);
-        graphs.emplace_back(TGraph(result.steps, &results.x_values.front(), &result.XSec().front()));
+//         nice_names.emplace_back(result.info_branch_.Name);
+//         graphs.emplace_back(TGraph(result.steps, &results.x_values.front(), &result.XSec().front()));
+        multi_graph.AddGraph(results.x_values, result.XSec(), result.info_branch_.Name);
         float xsec = *boost::range::min_element(result.crosssection) / fb;
-        if (min > xsec) min = xsec;
+//         if (min > xsec) min = xsec;
+        if (limits_y.Min() > xsec) limits_y.SetMin(xsec);
         xsec = *boost::range::max_element(result.crosssection) / fb;
-        if (max > xsec) max = xsec;
+//         if (max > xsec) max = xsec;
+        if (limits_y.Max() > xsec) limits_y.SetMax(xsec);
     }
     for (auto const & result : results.backgrounds) {
-        nice_names.emplace_back(result.info_branch_.Name);
-        graphs.emplace_back(TGraph(result.steps, &results.x_values.front(), &result.XSec().front()));
+        multi_graph.AddGraph(results.x_values, result.XSec(), result.info_branch_.Name);
+//         nice_names.emplace_back(result.info_branch_.Name);
+//         graphs.emplace_back(TGraph(result.steps, &results.x_values.front(), &result.XSec().front()));
         float xsec = *boost::range::min_element(result.crosssection) / fb;
-        if (min > xsec) min = xsec;
+//         if (min > xsec) min = xsec;
+        if (limits_y.Min() > xsec) limits_y.SetMin(xsec);
         xsec = *boost::range::max_element(result.crosssection) / fb;
-        if (max > xsec) max = xsec;
+//         if (max > xsec) max = xsec;
+        if (limits_y.Max() > xsec) limits_y.SetMax(xsec);
     }
-    TLegend legend = Legend(Orientation::bottom | Orientation::left, nice_names);
-    for (auto & graph : graphs) AddGraph(graph, multi_graph, legend, nice_names, &graph - &graphs.front());
-    multi_graph.Draw("al");
-    multi_graph.GetXaxis()->SetLimits(results.min.x, results.max.x);
-    multi_graph.GetYaxis()->SetLimits(min, max);
-    SetAxis(*multi_graph.GetXaxis(), "BDT");
-    SetAxis(*multi_graph.GetYaxis(), "Crosssection [fb]");
-    TLine line = Line(results.best_model_dependent_bin , multi_graph.GetYaxis()->GetXmin(), multi_graph.GetYaxis()->GetXmax(), results.signals.size() + results.backgrounds.size() + 1);
-    TLine line2 = Line(results.best_model_independent_bin, multi_graph.GetYaxis()->GetXmin(), multi_graph.GetYaxis()->GetXmax(), results.signals.size() + results.backgrounds.size() + 2);
-    legend.Draw();
-    return canvas.SaveAs(Tagger().ExportFolderName() + "-Crosssection");
+//     Legend legend(Orientation::bottom | Orientation::left, nice_names);
+    multi_graph.SetLegend(Orientation::bottom | Orientation::left);
+//     for (auto & graph : graphs) AddGraph(graph, multi_graph, legend, nice_names, &graph - &graphs.front());
+//     multi_graph.Draw("al");
+    multi_graph.SetXAxis("BDT", results.limits_x);
+    multi_graph.SetYAxis("Crosssection [fb]", limits_y);
+//     multi_graph.GetXaxis()->SetLimits(results.min.x, results.max.x);
+//     multi_graph.GetYaxis()->SetLimits(min, max);
+//     SetAxis(*multi_graph.GetXaxis(), "BDT");
+//     SetAxis(*multi_graph.GetYaxis(), "Crosssection [fb]");
+//     TLine line = Line(results.best_model_dependent_bin , multi_graph.GetYaxis()->GetXmin(), multi_graph.GetYaxis()->GetXmax(), results.signals.size() + results.backgrounds.size() + 1);
+//     TLine line = Line(results.best_model_dependent_bin , multi_graph.LimitsY(), results.signals.size() + results.backgrounds.size() + 1);
+//     TLine line2 = Line(results.best_model_independent_bin, multi_graph.LimitsY(), results.signals.size() + results.backgrounds.size() + 2);
+    multi_graph.AddLine(Results::XValue(results.best_model_dependent_bin));
+    multi_graph.AddLine(Results::XValue(results.best_model_independent_bin));
+//     legend.Draw();
+//     return canvas.SaveAs(Tagger().ExportFolderName() + "-Crosssection");
+    return multi_graph.FileName();
 }
 
 std::string Plotting::PlotModelDependentGraph(Results& results) const
 {
     Info0;
-    Canvas canvas;
+    Graphs multi_graph(Tagger().ExportFolderName(), "Significance");
+    multi_graph.AddGraph(results.x_values, results.significances, "Significance");
+    multi_graph.SetXAxis("BDT", results.limits_x);
+    multi_graph.SetYAxis("Significance");
+    multi_graph.AddLine(Results::XValue(results.best_model_dependent_bin));
+    return multi_graph.FileName();
+
+
+    Canvas canvas(Tagger().ExportFolderName(), "Significance");
     TGraph graph = Graph(results, results.significances, "Significance");
     TLine line  = Line(results.best_model_dependent_bin, graph.GetYaxis()->GetXmin(), graph.GetYaxis()->GetXmax(), results.signals.size() + results.backgrounds.size() + 1);
     return canvas.SaveAs(Tagger().ExportFolderName() + "-Significance");
@@ -271,7 +295,7 @@ std::string Plotting::PlotModelDependentGraph(Results& results) const
 std::string Plotting::PlotCrosssectionGraph(Results& results) const
 {
     Info0;
-    Canvas canvas;
+    Canvas canvas(Tagger().ExportFolderName(), "SB");
     TGraph graph = Graph(results, results.acceptances, "S/#sqrt{B}");
     TLine line  = Line(results.best_acceptance_bin, graph.GetYaxis()->GetXmin(), graph.GetYaxis()->GetXmax(), results.signals.size() + results.backgrounds.size() + 3);
     return canvas.SaveAs(Tagger().ExportFolderName() + "-SB");
@@ -280,7 +304,7 @@ std::string Plotting::PlotCrosssectionGraph(Results& results) const
 std::string Plotting::PlotModelIndependentGraph(Results& results) const
 {
     Info0;
-    Canvas canvas;
+    Canvas canvas(Tagger().ExportFolderName(), "Exclusion");
     TGraph graph = Graph(results, results.Crosssections(), "Crosssection");
     canvas.SetLog(min(results.crosssections, true) / fb, max(results.crosssections) / fb);
     TLine line  = Line(results.best_model_independent_bin, graph.GetYaxis()->GetXmin(), graph.GetYaxis()->GetXmax(), results.signals.size() + results.backgrounds.size() + 2);
@@ -404,7 +428,7 @@ void Plotting::PlotDetails(Plot& signal, Plot& background, Stage stage) const
 void Plotting::PlotHistogram(Plot const& signal, Plot const& background, Point const& min, Point const& max) const
 {
     INFO(min.x, min.y, max.x, max.y);
-    Canvas canvas;
+    Canvas canvas(Tagger().ExportFolderName() + "/" + "Hist-" + background.tree_name, signal.name_x + "-" + signal.name_y);
     canvas.canvas().SetBottomMargin(0.15);
     int bin_number = 20;
     TExec exec_1;
@@ -413,11 +437,10 @@ void Plotting::PlotHistogram(Plot const& signal, Plot const& background, Point c
     TExec exec_2;
     TH2F signal_histogram("", Tagger().LatexName().c_str(), bin_number, min.x, max.x, bin_number, min.y, max.y);
     SetHistogram(signal_histogram, signal, kRed, exec_2);
-    TLegend legend = Legend(Point(0.35, 0), 0.3, 0.1);
-    legend.SetNColumns(2);
-    legend.SetColumnSeparation(0.2);
-    legend.AddEntry(&signal_histogram, "Signal", "l");
-    legend.AddEntry(&background_histogram, "Background", "l");
+    Legend legend(Point(0.35, 0), 0.3, 0.1);
+    legend.TwoColumn();
+    legend.AddEntry(signal_histogram, "Signal");
+    legend.AddEntry(background_histogram, "Background");
     mkdir(Tagger().ExportFolderName().c_str(), 0700);
     canvas.SaveAs(Tagger().ExportFolderName() + "/" + "Hist-" + background.tree_name + "-" + signal.name_x + "-" + signal.name_y);
 }
@@ -425,7 +448,7 @@ void Plotting::PlotHistogram(Plot const& signal, Plot const& background, Point c
 void Plotting::PlotProfile(Plot const& signal, Plot const& background, Point const& min, Point const& max) const
 {
     Info0;
-    Canvas canvas;
+    Canvas canvas(Tagger().ExportFolderName() + "/" + "Prof-" + background.tree_name, signal.name_x + "-" + signal.name_y);
     canvas.canvas().SetRightMargin(0.15);
     int bin_number = 30;
     TProfile2D profile("", Tagger().LatexName().c_str(), bin_number, min.x, max.x, bin_number, min.y, max.y);
@@ -614,7 +637,7 @@ void Plotting::Cuts() const
 std::string Plotting::PlotCutResult(boca::CutResults& results) const
 {
     Info0;
-    Canvas canvas;
+    Canvas canvas(Tagger().ExportFolderName(), "Significance");
     TGraph graph = CutGraph(results, results.significances, "Significance");
     TLine line  = CutLine(results.XValue(results.best_model_dependent_bin), graph.GetYaxis()->GetXmin(), graph.GetYaxis()->GetXmax(), results.signals.size() + results.backgrounds.size() + 1);
     return canvas.SaveAs(Tagger().ExportFolderName() + "-Significance");
@@ -624,7 +647,7 @@ std::string Plotting::PlotCutResult(boca::CutResults& results) const
 std::string Plotting::PlotCutEfficiencyGraph(CutResults const& results) const
 {
     Info0;
-    Canvas canvas;
+    Canvas canvas(Tagger().ExportFolderName(), "Efficiency");
     canvas.SetLog();
     TMultiGraph multi_graph("", "Efficiencies");
     std::vector<std::string> nice_names;
@@ -637,7 +660,7 @@ std::string Plotting::PlotCutEfficiencyGraph(CutResults const& results) const
         nice_names.emplace_back(result.info_branch_.Name);
         graphs.emplace_back(TGraph(result.steps, &results.x_values.front(), &result.efficiency.front()));
     }
-    TLegend legend = Legend(Orientation::bottom | Orientation::left, nice_names);
+    Legend legend(Orientation::bottom | Orientation::left, nice_names);
     for (auto & graph : graphs) AddGraph(graph, multi_graph, legend, nice_names, &graph - &graphs.front());
     multi_graph.Draw("al");
     multi_graph.GetXaxis()->SetLimits(results.min.x, results.max.x);
@@ -701,7 +724,7 @@ std::string Plotting::EfficienciesRow(CutResult const& result, int index, Tag ta
 std::string Plotting::PlotModelIndependentGraph(CutResults& results) const
 {
     Info0;
-    Canvas canvas;
+    Canvas canvas(Tagger().ExportFolderName(), "Exclusion");
     TGraph graph = CutGraph(results, results.Crosssections(), "Crosssection");
     canvas.SetLog(min(results.crosssections, true) / fb, max(results.crosssections) / fb);
     TLine line  = CutLine(results.XValue(results.best_model_independent_bin), graph.GetYaxis()->GetXmin(), graph.GetYaxis()->GetXmax(), results.signals.size() + results.backgrounds.size() + 2);
