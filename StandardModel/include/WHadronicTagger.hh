@@ -22,6 +22,8 @@ namespace standardmodel
 class WHadronicTagger : public TaggerTemplate<Doublet, WHadronicBranch>
 {
 
+  using Function = std::function<boost::optional<Doublet>(Doublet&)>;
+
 public:
 
     WHadronicTagger();
@@ -44,15 +46,15 @@ private:
 
     std::vector<Particle> Particles(Event const& event) const;
 
-    std::vector<Doublet> Doublets(Event const& event, PreCuts const& pre_cuts, std::function<boost::optional<Doublet>(Doublet&)> const& function) const;
+    std::vector<Doublet> Doublets(Event const& event, PreCuts const& pre_cuts, Function const& function) const;
 
-    std::vector<Doublet> Doublets(std::vector<Jet> const& jets, std::function<boost::optional<Doublet>(Doublet&)> const& function) const;
+    std::vector<Doublet> Doublets(std::vector<Jet> const& jets, Function const& function) const;
 
     boost::optional<Doublet> CheckDoublet(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const;
 
     std::vector<Doublet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
 
-    boost::optional<Doublet> SubDoublet(Jet const& jet, std::function<boost::optional<Doublet>(Doublet&)> const& function) const;
+    boost::optional<Doublet> SubDoublet(Jet const& jet, Function const& function) const;
 
     bool Problematic(boca::Doublet const& doublet, boca::PreCuts const& pre_cuts, Tag tag) const;
 

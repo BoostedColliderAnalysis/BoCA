@@ -20,9 +20,6 @@ std::string Name(JetDetail jet_detail)
         case JetDetail::plain:
             name += "Plain";
             break;
-        case JetDetail::tagging:
-            name += "Tagging";
-            break;
         case JetDetail::isolation:
             name += "Isolation";
             break;

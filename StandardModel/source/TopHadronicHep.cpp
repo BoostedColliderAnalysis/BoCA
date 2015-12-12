@@ -112,7 +112,7 @@ std::string TopHadronicHep::Name() const
 std::string TopHadronicHep::LatexName() const
 {
     Info0;
-    return Formula("t_{h}") + "^{hep}";
+    return Formula("t") + Formula("_{h}") + "^{hep}";
 }
 
 }

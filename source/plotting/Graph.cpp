@@ -63,7 +63,7 @@ void SetProfile(TH2& histogram, Plot const& signal, Plot const& background)
     for (auto const & point : background.points) histogram.Fill(point.x, point.y, point.z);
     Color().Heat();
     CommonHist(histogram, signal, kRed);
-    SetAxis(*histogram.GetZaxis(), "BDT");
+    SetTitle(*histogram.GetZaxis(), "BDT");
 //     histogram.SetZTitle("BDT");
     histogram.SetMaximum(max);
     histogram.SetMinimum(min);
@@ -76,8 +76,8 @@ void CommonHist(TH1& histogram, Plot const& plot, EColor color)
     Info0;
     histogram.SetMarkerColor(color);
     histogram.SetLineColor(color);
-    SetAxis(*histogram.GetXaxis(), plot.nice_name_x.c_str());
-    SetAxis(*histogram.GetYaxis(), plot.nice_name_y.c_str());
+    SetTitle(*histogram.GetXaxis(), plot.nice_name_x.c_str());
+    SetTitle(*histogram.GetYaxis(), plot.nice_name_y.c_str());
 }
 
 

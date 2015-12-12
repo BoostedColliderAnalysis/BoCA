@@ -22,9 +22,9 @@ public:
 
     std::vector<Lepton> leptons() const;
 
-    virtual std::vector<Jet> Electrons() const = 0;
+    virtual std::vector<Lepton> Electrons() const = 0;
 
-    virtual std::vector<Jet> Muons() const = 0;
+    virtual std::vector<Lepton> Muons() const = 0;
 
 };
 

@@ -29,8 +29,7 @@ enum class JetDetail
 {
     plain = 1 << 0,
     structure = 1 << 1,
-    tagging = 1 << 2,
-    isolation = 1 << 3,
+    isolation = 1 << 2,
 };
 
 template<>

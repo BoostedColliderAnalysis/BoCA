@@ -5,26 +5,30 @@
 
 #include "../Leptons.hh"
 
-namespace boca {
+namespace boca
+{
 
-namespace delphes {
+namespace delphes
+{
 
 /**
  * @brief Delphes leptons
  *
  */
-class Leptons : public boca::Leptons {
+class Leptons : public boca::Leptons
+{
 
 public:
-  std::vector<Jet> Electrons() const final;
 
-  std::vector<Jet> Muons() const final;
+    std::vector<Lepton> Electrons() const final;
+
+    std::vector<Lepton> Muons() const final;
 
 private:
 
-    std::vector<Jet> Electrons(JetDetail jet_detail) const;
+    std::vector<Lepton> Electrons(JetDetail jet_detail) const;
 
-    std::vector<Jet> Muons(boca::JetDetail jet_detail) const;
+    std::vector<Lepton> Muons(boca::JetDetail jet_detail) const;
 
 
 };

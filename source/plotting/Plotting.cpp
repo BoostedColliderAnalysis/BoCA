@@ -30,6 +30,8 @@
 #include "plotting/Canvas.hh"
 #include "plotting/Style.hh"
 #include "plotting/Histograms.hh"
+#include "plotting/Histogram2Dim.hh"
+#include "plotting/Profile.hh"
 #include "Vector.hh"
 #include "Types.hh"
 #include "Branches.hh"
@@ -440,33 +442,44 @@ void Plotting::PlotDetails(Plot& signal, Plot& background, Stage stage) const
 void Plotting::PlotHistogram(Plot const& signal, Plot const& background, Point const& min, Point const& max) const
 {
     INFO(min.x, min.y, max.x, max.y);
-    Canvas canvas(Tagger().ExportFolderName() + "/" + "Hist-" + background.tree_name, signal.name_x + "-" + signal.name_y);
-    canvas.canvas().SetBottomMargin(0.15);
+//     Canvas canvas(Tagger().ExportFolderName() + "/" + "Hist-" + background.tree_name, signal.name_x + "-" + signal.name_y);
+    Histogram2Dim histogram(Tagger().ExportFolderName() + "/" + "Hist-" + background.tree_name, signal.name_x + "-" + signal.name_y);
+    histogram.canvas().SetBottomMargin(0.15);
     int bin_number = 20;
-    TExec exec_1;
-    TH2F background_histogram("", Tagger().LatexName().c_str(), bin_number, min.x, max.x, bin_number, min.y, max.y);
-    SetHistogram(background_histogram, background, kBlue, exec_1);
-    TExec exec_2;
-    TH2F signal_histogram("", Tagger().LatexName().c_str(), bin_number, min.x, max.x, bin_number, min.y, max.y);
-    SetHistogram(signal_histogram, signal, kRed, exec_2);
-    Legend legend(Point(0.35, 0), 0.3, 0.1);
-    legend.TwoColumn();
-    legend.AddEntry(signal_histogram, "Signal");
-    legend.AddEntry(background_histogram, "Background");
-    mkdir(Tagger().ExportFolderName().c_str(), 0700);
-    canvas.SaveAs(Tagger().ExportFolderName() + "/" + "Hist-" + background.tree_name + "-" + signal.name_x + "-" + signal.name_y);
+
+    histogram.AddHistogram(Tagger().LatexName(), bin_number, min, max, background.points, kBlue);
+//     TExec exec_1;
+//     TH2F background_histogram("", Tagger().LatexName().c_str(), bin_number, min.x, max.x, bin_number, min.y, max.y);
+//     SetHistogram(background_histogram, background, kBlue, exec_1);
+    histogram.AddHistogram(Tagger().LatexName(), bin_number, min, max, signal.points, kRed);
+//     TExec exec_2;
+//     TH2F signal_histogram("", Tagger().LatexName().c_str(), bin_number, min.x, max.x, bin_number, min.y, max.y);
+//     SetHistogram(signal_histogram, signal, kRed, exec_2);
+    histogram.SetLegend(Point(0.35, 0), 0.3, 0.1);
+//     Legend legend(Point(0.35, 0), 0.3, 0.1);
+//     legend.TwoColumn();
+    histogram.Legend().TwoColumn();
+//     legend.AddEntry(signal_histogram, "Signal");
+//     legend.AddEntry(background_histogram, "Background");
+//     mkdir(Tagger().ExportFolderName().c_str(), 0700);
+    histogram.SetXAxis(signal.nice_name_x.c_str());
+    histogram.SetYAxis(signal.nice_name_y.c_str());
+
+//     histogram.SaveAs(Tagger().ExportFolderName() + "/" + "Hist-" + background.tree_name + "-" + signal.name_x + "-" + signal.name_y);
 }
 
 void Plotting::PlotProfile(Plot const& signal, Plot const& background, Point const& min, Point const& max) const
 {
     Info0;
-    Canvas canvas(Tagger().ExportFolderName() + "/" + "Prof-" + background.tree_name, signal.name_x + "-" + signal.name_y);
-    canvas.canvas().SetRightMargin(0.15);
+//     Canvas canvas(Tagger().ExportFolderName() + "/" + "Prof-" + background.tree_name, signal.name_x + "-" + signal.name_y);
+    Profile profile(Tagger().ExportFolderName() + "/" + "Prof-" + background.tree_name, signal.name_x + "-" + signal.name_y);
+    profile.canvas().SetRightMargin(0.15);
     int bin_number = 30;
-    TProfile2D profile("", Tagger().LatexName().c_str(), bin_number, min.x, max.x, bin_number, min.y, max.y);
-    SetProfile(profile, signal, background);
+//     TProfile2D profile("", Tagger().LatexName().c_str(), bin_number, min.x, max.x, bin_number, min.y, max.y);
+    profile.SetDimensions(Tagger().LatexName(), bin_number, min, max);
+    profile.SetProfile(signal, background);
     mkdir(Tagger().ExportFolderName().c_str(), 0700);
-    canvas.SaveAs(Tagger().ExportFolderName() + "/" + "Prof-" + background.tree_name + "-" + signal.name_x + "-" + signal.name_y);
+    profile.SaveAs(Tagger().ExportFolderName() + "/" + "Prof-" + background.tree_name + "-" + signal.name_x + "-" + signal.name_y);
 }
 
 std::vector<Plots> Plotting::Import(Stage stage, Tag tag) const

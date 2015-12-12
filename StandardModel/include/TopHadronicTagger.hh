@@ -6,10 +6,11 @@
 #include <functional>
 #include "WHadronicTagger.hh"
 #include "multiplets/Triplet.hh"
-#include "MomentumRange.hh"
 
 namespace boca
 {
+
+class MomentumRange;
 
 namespace standardmodel
 {

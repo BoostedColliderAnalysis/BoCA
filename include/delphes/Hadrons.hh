@@ -49,16 +49,6 @@ private:
 
     std::vector<Jet> GenJets() const;
 
-    template <typename Clone>
-    std::vector<Constituent> JetId(Clone& clone) const {
-        std::vector<Constituent> constituents;
-        for (auto const & particle_number : Range(clone.Particles.GetEntriesFast())) {
-//             Family family = BranchFamily(*clone.Particles.At(particle_number));
-            constituents.emplace_back(Constituent(clone.P4()/*, family*/));
-        }
-        return constituents;
-    }
-
     bool Isolated(TObject const& object, std::vector<TObject*> const& leptons) const;
 
     std::vector<Jet> EFlowTrack(std::vector< TObject* > const& leptons, JetDetail jet_detail) const;

@@ -38,8 +38,8 @@ public:
 
     static Decay TopDecay() {
         Info0;
-        return Decay::hadronic;
         return Decay::other;
+        return Decay::hadronic;
         return Decay::leptonic;
     }
 
@@ -47,7 +47,7 @@ private:
 
     std::string AnalysisName() const final {
         Info0;
-        return Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-" + Name(TopDecay()) + "-new-def-comlete";
+        return Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-" + Name(TopDecay()) + "-new-def-test-gluon";
     }
 
     void SetFiles(Tag tag, Stage) final {
@@ -62,14 +62,14 @@ private:
             break;
         case Tag::background :
             if (TopDecay() == Decay::leptonic && !this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_had);
-            if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::hh);
-            if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::bb);
-            this->NewFile(tag, Process::cc);
-//             this->NewFile(tag, Process::gg);
-            this->NewFile(tag, Process::qq);
+//             if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::hh);
+//             if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::bb);
+//             this->NewFile(tag, Process::cc);
+            this->NewFile(tag, Process::gg);
+//             this->NewFile(tag, Process::qq);
             //             if ((TopDecay() == Decay::hadronic || TopDecay() == Decay::other) && !this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_lep);
-            this->NewFile(tag, Process::zz);
-            if (!this->template TaggerIs<WHadronicTagger>() && !this->template TaggerIs<WLeptonicTagger>()) this->NewFile(tag, Process::ww);
+//             this->NewFile(tag, Process::zz);
+//             if (!this->template TaggerIs<WHadronicTagger>() && !this->template TaggerIs<WLeptonicTagger>()) this->NewFile(tag, Process::ww);
             break;
         }
     }
@@ -77,15 +77,10 @@ private:
     int PassPreCut(Event const& event, Tag) const final {
         Info0;
         std::vector<Particle> particles = SortedByPt(event.Partons().GenParticles());
-        particles = CopyIfPosition(particles, 6, 7);
-//         for (auto const & particle : particles) Error(particle.Info().Family().Particle().Id(), particle.Info().Family().Particle().Position(), particle.Pt());
+        particles = CopyIfDrellYan(particles);
         particles = RemoveIfOutsidePtWindow(particles, this->LowerPtCut(), this->UpperPtCut());
-//         if (particles.empty()) return 0;
         if (particles.size() != 1) return 0;
-//         Error(particles.size());
         return 1;
-//         if ((particles.at(0).Pt() > this->LowerQuarkCut() && particles.at(0).Pt() < this->UpperQuarkCut()) && (particles.at(1).Pt() > this->LowerQuarkCut() &&  particles.at(1).Pt() < this->UpperQuarkCut())) return 1;
-//         return 0;
     }
 
 };

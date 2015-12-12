@@ -31,22 +31,20 @@ int WHadronicTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag)
     std::vector<Doublet> doublets = Doublets(event, pre_cuts, [&](Doublet & doublet) {
         return CheckDoublet(doublet, pre_cuts, tag);
     });
-    std::vector<Particle> w_particles = Particles(event);
-    return SaveEntries(BestMatches(doublets, w_particles, tag, Id::W));
+    return SaveEntries(doublets, Particles(event), tag, Id::W);
 }
 
-std::vector<Doublet> WHadronicTagger::Doublets(Event const& event, PreCuts const& pre_cuts, std::function<boost::optional<Doublet>(Doublet&)> const& function) const
+std::vector<Doublet> WHadronicTagger::Doublets(Event const& event, PreCuts const& pre_cuts, Function const& function) const
 {
     Info0;
     std::vector<Jet> jets = bottom_reader_.Jets(event);
 
-    // softer than
-    MomentumRange jet_range(Id::W, Id::W);
-    std::vector<Doublet> doublets = Doublets(jet_range.SofterThanMax(jets), function);
+    MomentumRange two_jet_range(Id::W);
+    std::vector<Doublet> doublets = Doublets(two_jet_range.SofterThanMax(jets), function);
 
-    for (auto const & jet : jet_range.HarderThanMin(jets)) {
+    MomentumRange w_jet_range(Id::W, SubJet(Id::W));
+    for (auto const & jet : w_jet_range.HarderThanMin(jets)) {
 
-        MomentumRange w_jet_range(Id::W, SubJet(Id::W));
         if (w_jet_range.BelowUpperBound(jet)) {
             std::vector<Jet> pieces = bottom_reader_.SubMultiplet(jet, 2);
             if (pieces.size() == 2) {
@@ -95,7 +93,7 @@ boost::optional<Doublet> WHadronicTagger::CheckDoublet(Doublet doublet, PreCuts 
     return doublet;
 }
 
-std::vector<Doublet> WHadronicTagger::Doublets(std::vector<Jet> const& jets, std::function<boost::optional<Doublet>(Doublet&)> const& function) const
+std::vector<Doublet> WHadronicTagger::Doublets(std::vector<Jet> const& jets, Function const& function) const
 {
     return unordered_pairs(jets, [&](Jet const & jet_1, Jet const & jet_2) {
         Doublet doublet(jet_1, jet_2);
@@ -165,7 +163,7 @@ boost::optional<Doublet> WHadronicTagger::SubMultiplet(Jet const& jet, TMVA::Rea
     });
 }
 
-boost::optional<Doublet> WHadronicTagger::SubDoublet(Jet const& jet, std::function<boost::optional<Doublet>(Doublet&)> const& function) const
+boost::optional<Doublet> WHadronicTagger::SubDoublet(Jet const& jet, Function const& function) const
 {
     Info0;
     std::vector<Jet> pieces = bottom_reader_.SubMultiplet(jet, 2);

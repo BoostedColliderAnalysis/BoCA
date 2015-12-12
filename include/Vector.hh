@@ -77,6 +77,8 @@ std::vector<Particle> CopyIfGrandDaughter(std::vector<Particle> const& particles
 
 std::vector<Particle> CopyIfPosition(std::vector<Particle> const& particles, int position_1, int position_2);
 
+std::vector<Particle> CopyIfDrellYan(std::vector<Particle> const& particles);
+
 template<typename Multiplet>
 std::vector<Multiplet> RemoveIfSoft(std::vector<Multiplet> multiplets, Momentum pt_min)
 {

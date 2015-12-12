@@ -298,5 +298,9 @@ std::vector<Particle> CopyIfPosition(std::vector<Particle> const& particles, int
     }), std::back_inserter(good));
     return good;
 }
+std::vector< Particle > CopyIfDrellYan(const std::vector< Particle >& particles)
+{
+    return CopyIfPosition(particles, 6, 7);
+}
 
 }

@@ -20,7 +20,9 @@ enum class Orientation
     left = 1 << 1,
     right = 1 << 2,
     top = 1 << 3,
-    bottom = 1 << 4
+    bottom = 1 << 4,
+    inside = 1 << 5,
+    outside = 1 << 6
 };
 
 template<>
@@ -41,6 +43,8 @@ public:
     Legend(Orientation orientation, std::vector<std::string> const& entries, std::string const& title = "");
 
     void SetOrientation(Orientation orientation, std::vector<std::string> const& entries, std::string const& title);
+
+    void Set(Point const& min, float width, float height, std::string const& title = "");
 
     void SetOrientation(Orientation orientation, std::string const& title);
 

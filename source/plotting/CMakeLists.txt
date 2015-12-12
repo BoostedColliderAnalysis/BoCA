@@ -9,6 +9,8 @@ Legend.cpp
 LatexFile.cpp
 Canvas.cpp
 Histograms.cpp
+Histogram2Dim.cpp
+Profile.cpp
 Graphs.cpp
 Style.cpp
 Font.cpp
