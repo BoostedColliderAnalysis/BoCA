@@ -48,15 +48,13 @@ template<typename Tagger>
 class AnalysisStandardModel : public Analysis<Tagger>
 {
 
-protected:
+public:
 
-    long TrainNumberMax() const override {
-        return 10000;
-        return 1000;
-        return 100;
-        return 5000;
-        return 500;
+    AnalysisStandardModel() {
+        if (collider_type() == Collider::LHC) DetectorGeometry::set_detector_type(DetectorType::CMS);
     }
+
+protected:
 
     Momentum LowerPtCut() const {
         return 500_GeV;
@@ -67,19 +65,12 @@ protected:
         return 1.2_TeV;
     }
 
-    int BackgroundFileNumber() const {
-        return 1;
-        return 2;
-        return 4;
-        return 5;
-        return 10;
-    }
-
     Collider collider_type() const {
         return Collider::LHC;
         return Collider::LE;
         return Collider::FHC;
     }
+
 
     Momentum UpperPtCut() const {
         switch (Int(LowerPtCut())) {
@@ -87,18 +78,11 @@ protected:
         case 1000 : return 1.5_TeV;
         case 1200 : return 1.5_TeV;
         case 500: return 600_GeV;
-        Default(LowerPtCut(), at_rest);
+            Default(LowerPtCut(), at_rest);
         }
     }
-
-    Momentum MadGraphCut() const {
-        switch (Int(LowerPtCut())) {
-        case 500: return 500_GeV;
-        case 700 : return 500_GeV;
-        case 1000 : return 1_TeV;
-        case 1200 : return 1_TeV;
-        Default(LowerPtCut(), at_rest);
-        }
+    void NewFile(Tag tag, Process process) {
+        boca::AnalysisBase::NewFile(tag, FileName(process), LatexName(process));
     }
 
     Momentum LowerQuarkCut() const {
@@ -109,16 +93,39 @@ protected:
         return UpperPtCut() * 0.99;
     }
 
-    void NewFile(Tag tag, Process process) {
-        boca::AnalysisBase::NewFile(tag, FileName(process), LatexName(process));
+private:
+
+    long TrainNumberMax() const override {
+        return 10000;
+        return 1000;
+        return 100;
+        return 5000;
+        return 500;
+    }
+
+    int BackgroundFileNumber() const {
+        return 1;
+        return 2;
+        return 4;
+        return 5;
+        return 10;
+    }
+    Momentum MadGraphCut() const {
+        switch (Int(LowerPtCut())) {
+        case 500: return 500_GeV;
+        case 700 : return 500_GeV;
+        case 1000 : return 1_TeV;
+        case 1200 : return 1_TeV;
+            Default(LowerPtCut(), at_rest);
+        }
     }
 
     std::string FileName(Process process) const {
-      switch(collider_type()){
+        switch (collider_type()) {
         case Collider::LE : return ProcessName(process) + "_" + boca::Name(MadGraphCut());
         case Collider::LHC : return ProcessName(process) + "_14TeV-" + boca::Name(MadGraphCut());
-        Default(ProcessName(process),"");
-      }
+            Default(ProcessName(process), "");
+        }
     }
 
     std::string FilePath() const final {

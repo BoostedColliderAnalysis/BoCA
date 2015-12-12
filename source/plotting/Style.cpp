@@ -14,7 +14,7 @@ namespace boca
 namespace
 {
 
-void SetStyle(TAttAxis& axis)
+void SetAxis(TAttAxis& axis)
 {
     Info0;
     axis.SetTitleFont(FontCode());
@@ -30,17 +30,17 @@ void SetTitle(TAxis& axis, std::string const& title)
     Info0;
     axis.SetTitle(title.c_str());
     axis.CenterTitle();
-    SetStyle(axis);
+    SetAxis(axis);
 }
 
-void SetStyle(TAttText& text)
+void SetText(TAttText& text)
 {
     Info0;
     text.SetTextFont(FontCode());
     text.SetTextSize(TextSize());
 }
 
-void SetStyle(TAttLine& line, int index)
+void SetLine(TAttLine& line, int index)
 {
     Info0;
     line.SetLineColor(ColorCode(index));

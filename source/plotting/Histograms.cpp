@@ -28,7 +28,7 @@ void Histograms::AddHistogram(std::vector<float> const& values, std::string cons
     TH1F histogram(name.c_str(), "", 50, FloorToDigits(limits_x.Min(), 1), CeilToDigits(limits_x.Max(), 1));
     for (auto const & bdt : values) histogram.Fill(bdt);
     if (histogram.Integral() != 0) histogram.Scale(1. / histogram.Integral());
-    SetStyle(histogram, histograms_.size());
+    SetLine(histogram, histograms_.size());
     float max_0 = histogram.GetBinContent(histogram.GetMaximumBin());
     if (max_0 > limits_y.Max()) limits_y.SetMax(max_0);
     histogram.SetTitle(name.c_str());
@@ -85,7 +85,7 @@ void Histograms::AddLine(float x_value)
 {
     Limits<double> y = LimitsY();
     TLine line(x_value, y.Min(), x_value, y.Max() * 1.05);
-    SetStyle(line, histograms_.size() + lines_.size() + 1);
+    SetLine(line, histograms_.size() + lines_.size() + 1);
     if (x_value != 0) line.Draw();
     lines_.emplace_back(line);
 }

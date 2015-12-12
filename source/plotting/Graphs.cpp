@@ -26,7 +26,7 @@ void Graphs::AddGraph(std::vector<float> const& xs, std::vector<float> const& ys
 {
     Check(xs.size() == ys.size(), xs.size(), ys.size());
     TGraph graph(xs.size(), &xs.front(), &ys.front());
-    SetStyle(graph, graphs_.size());
+    SetLine(graph, graphs_.size());
     graph.SetTitle(name.c_str());
     graphs_.emplace_back(graph);
 }
@@ -55,10 +55,10 @@ void Graphs::SetYAxis(const std::string& title, const boca::Limits<float>& limit
     Draw();
     SetTitle(*multi_graph_.GetYaxis(), title.c_str());
     if (limits) {
-        SetLog(limits);
         multi_graph_.GetYaxis()->SetLimits(limits.Min(), limits.Max());
         multi_graph_.SetMinimum(limits.Min());
         multi_graph_.SetMaximum(limits.Max());
+        SetLog(limits);
     } else SetLog(LimitsY());
 }
 
@@ -81,7 +81,7 @@ void Graphs::AddLine(float x_value)
 {
     Limits<double> y = LimitsY();
     TLine line(x_value, y.Min(), x_value, y.Max());
-    SetStyle(line, graphs_.size() + lines_.size() + 1);
+    SetLine(line, graphs_.size() + lines_.size() + 1);
     if (x_value != 0) line.Draw();
     lines_.emplace_back(line);
 }

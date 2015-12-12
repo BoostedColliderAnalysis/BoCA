@@ -14,6 +14,13 @@ namespace boca
 
 class Point;
 
+/**
+ * @brief Orientation of the Legend
+ *
+ * the default position is inside center center
+ * only deviations from this position need to be requested
+ *
+ */
 enum class Orientation
 {
     center = 1 << 0,

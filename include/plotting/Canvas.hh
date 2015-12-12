@@ -55,7 +55,7 @@ public:
     template<typename Value>
     void SetLog(Limits<Value> const& limits)
     {
-      if (!limits || (limits.Min() > Value(0) && limits.Min() / limits.Max() < 0.1)) canvas_.SetLogy();
+      if (limits.Min() > Value(0) && limits.Min() / limits.Max() < 0.1) canvas_.SetLogy();
     }
 
     std::string SaveAs(std::string const& name);

@@ -82,6 +82,7 @@ std::vector<Triplet> TopHadronicHep::Triplets(Event const& event, PreCuts const&
     std::vector<Jet> jets = static_cast<delphes::Hadrons const&>(event.Hadrons()).EFlow(JetDetail::structure | JetDetail::isolation);
     if (jets.empty()) return {};
 //     Error(jets.size(),pre_cuts.JetConeMax(Id::top));
+    if(jets.size() == 306) return {}; /// FIXME remove this nasty hack which seems to be necissary for a specific gluon file
     boca::ClusterSequence cluster_sequence(jets, DetectorGeometry::JetDefinition(pre_cuts.JetConeMax(Id::top)));
     jets = SortedByPt(cluster_sequence.InclusiveJets(pre_cuts.PtLowerCut().Get(Id::top)));
     std::vector<Triplet> triplets;

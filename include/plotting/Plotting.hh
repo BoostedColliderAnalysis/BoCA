@@ -6,19 +6,9 @@
 #include <functional>
 
 #include "Tagger.hh"
-#include "TTree.h"
 
-// class TTree;
-class TProfile2D;
 class TFile;
-
-class ExRootTreeBranch;
-class ExRootTreeReader;
-namespace exroot
-{
-typedef ::ExRootTreeBranch TreeBranch;
-typedef ::ExRootTreeReader TreeReader;
-}
+class TTree;
 
 namespace boca
 {

@@ -1,5 +1,8 @@
 
 
+#include <boost/range/algorithm/min_element.hpp>
+#include <boost/range/algorithm/max_element.hpp>
+
 #include "TAxis.h"
 #include "TExec.h"
 
@@ -65,7 +68,7 @@ void Profile::SetYAxis(const std::string& title, const boca::Limits<float>& limi
 
 }
 
-void Profile::SetDimensions(const std::__cxx11::string& name, int bins, const Point& min, const Point& max)
+void Profile::SetDimensions(const std::string& name, int bins, const Point& min, const Point& max)
 {
     //TProfile2D profile("", Tagger().LatexName().c_str(), bin_number, min.x, max.x, bin_number, min.y, max.y);
   profile_.SetBins(bins,min.x,max.x);

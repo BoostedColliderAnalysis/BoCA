@@ -9,9 +9,9 @@ class TAxis;
 namespace boca
 {
 
-void SetStyle(TAttText& text);
+void SetText(TAttText& text);
 
-void SetStyle(TAttLine& line, int index);
+void SetLine(TAttLine& line, int index);
 
 void SetTitle(TAxis& axis, std::string const& title);
 
