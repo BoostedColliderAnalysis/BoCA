@@ -51,7 +51,7 @@ float Height(std::vector<std::string> const& entries, std::string const& title)
     return height;
 }
 
-Point Position(Orientation orientation, float width, float height)
+Vector2<float> Position(Orientation orientation, float width, float height)
 {
     float x_shift = 0.5;
     float y_shift = 0.5;
@@ -105,9 +105,9 @@ Point Position(Orientation orientation, float width, float height)
     float margin = TextSize() / 2;
     float x_unit = 1. - gPad->GetLeftMargin() - gPad->GetRightMargin() - 2. * margin;
     float y_unit = 1. - gPad->GetBottomMargin() - gPad->GetTopMargin() - 2. * margin;
-    Point min;
-    min.x = gPad->GetLeftMargin() + margin + x_shift * x_unit - x_offset;
-    min.y = gPad->GetBottomMargin() + margin + y_shift * y_unit - y_offset;
+    Vector2<float> min;
+    min.SetX(gPad->GetLeftMargin() + margin + x_shift * x_unit - x_offset);
+    min.SetY(gPad->GetBottomMargin() + margin + y_shift * y_unit - y_offset);
     return min;
 }
 
@@ -125,7 +125,7 @@ Legend::Legend()
 }
 
 
-Legend::Legend(Point const& min, float width, float height, std::string const& title)
+Legend::Legend(Vector2<float> const& min, float width, float height, std::string const& title)
 {
     SetCorners(min, width, height);
     SetTitle(title);
@@ -139,7 +139,7 @@ Legend::Legend(Orientation orientation, std::vector<std::string> const& entries,
     SetStyle();
 }
 
-void Legend::Set(Point const& min, float width, float height, std::string const& title)
+void Legend::Set(Vector2<float> const& min, float width, float height, std::string const& title)
 {
     SetCorners(min, width, height);
     SetTitle(title);
@@ -150,7 +150,7 @@ void Legend::SetOrientation(Orientation orientation, std::vector<std::string> co
 {
     float width = Width(entries);
     float height = Height(entries, title);
-    Point min = Position(orientation, width, height);
+    Vector2<float> min = Position(orientation, width, height);
     SetCorners(min, width, height);
 }
 
@@ -180,12 +180,12 @@ void Legend::TwoColumn()
     legend_.SetColumnSeparation(0.2);
 }
 
-void Legend::SetCorners(Point const& min, float width, float height)
+void Legend::SetCorners(Vector2<float> const& min, float width, float height)
 {
-    legend_.SetX1(min.x);
-    legend_.SetX2(min.x + width);
-    legend_.SetY1(min.y);
-    legend_.SetY2(min.y + height);
+    legend_.SetX1(min.X());
+    legend_.SetX2(min.X() + width);
+    legend_.SetY1(min.Y());
+    legend_.SetY2(min.Y() + height);
 }
 
 void Legend::SetStyle()

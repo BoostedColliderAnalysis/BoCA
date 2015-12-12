@@ -25,7 +25,7 @@ public:
 
     void SetLegend(Orientation orientation, std::string const& title = "");
 
-    void SetLegend(Point const& point, float width, float height, std::string const& title = "");
+    void SetLegend(Vector2<float> const& point, float width, float height, std::string const& title = "");
 
     void Draw();
 
@@ -33,7 +33,7 @@ public:
 
     void SetYAxis(std::string const& title, Limits<float> const& limits = Limits<float>());
 
-    void AddHistogram(std::string const& name, int bins,  Point const& min, Point const& max, std::vector<Point> const& points, EColor color);
+    void AddHistogram(std::string const& name, int bins,  Vector2<float> const& min, Vector2<float> const& max, std::vector<Vector3<float>> const& points, EColor color);
 
     boca::Legend & Legend(){
       return legend_;

@@ -31,7 +31,7 @@ void Histogram2Dim::SetLegend(boca::Orientation orientation, const std::string& 
     legend_.SetOrientation(orientation, title);
 }
 
-void Histogram2Dim::SetLegend(Point const& point, float width, float height, std::string const& title)
+void Histogram2Dim::SetLegend(Vector2<float> const& point, float width, float height, std::string const& title)
 {
   legend_.Set(point, width, height);
 }
@@ -66,14 +66,14 @@ void Histogram2Dim::SetYAxis(const std::string& title, const boca::Limits<float>
 }
 
 
-void Histogram2Dim::AddHistogram(std::string const& name, int bins,  Point const& min, Point const& max, std::vector<Point> const& points, EColor color)
+void Histogram2Dim::AddHistogram(std::string const& name, int bins,  Vector2<float> const& min, Vector2<float> const& max, std::vector<Vector3<float>> const& points, EColor color)
 {
     Info0;
-    TH2F histogram("", name.c_str(), bins, min.x, max.x, bins, min.y, max.y);
+    TH2F histogram("", name.c_str(), bins, min.X(), max.X(), bins, min.Y(), max.Y());
 
     std::string options = "cont1 same";
     histogram.Draw(options.c_str());
-    for (auto const & point : points) histogram.Fill(point.x, point.y);
+    for (auto const & point : points) histogram.Fill(point.X(), point.Y());
     histogram.SetContour(20);
 
 //   CommonHist(histogram, plot, color);

@@ -33,7 +33,7 @@ void SetHistogram(TH2& histogram, Plot const& plot, EColor color, TExec& exec)
     Info0;
     std::string options = "cont1 same";
     histogram.Draw(options.c_str());
-    for (auto const & point : plot.points) histogram.Fill(point.x, point.y);
+    for (auto const & point : plot.Data()) histogram.Fill(point.X(), point.Y());
     histogram.SetContour(20);
     switch (color) {
     case kRed :
@@ -53,14 +53,14 @@ void SetHistogram(TH2& histogram, Plot const& plot, EColor color, TExec& exec)
 void SetProfile(TH2& histogram, Plot const& signal, Plot const& background)
 {
     Info0;
-    float max = (*boost::range::max_element(signal.points, [](Point const & a, Point const & b) {
-        return a.z < b.z;
-    })).z;
-    float min = (*boost::range::min_element(background.points, [](Point const & a, Point const & b) {
-        return a.z < b.z;
-    })).z;
-    for (auto const & point : signal.points) histogram.Fill(point.x, point.y, point.z);
-    for (auto const & point : background.points) histogram.Fill(point.x, point.y, point.z);
+    float max = (*boost::range::max_element(signal.Data(), [](Vector3<float> const & a, Vector3<float> const & b) {
+        return a.Z() < b.Z();
+    })).Z();
+    float min = (*boost::range::min_element(background.Data(), [](Vector3<float> const & a, Vector3<float> const & b) {
+        return a.Z() < b.Z();
+    })).Z();
+    for (auto const & point : signal.Data()) histogram.Fill(point.X(), point.Y(), point.Z());
+    for (auto const & point : background.Data()) histogram.Fill(point.X(), point.Y(), point.Z());
     Color().Heat();
     CommonHist(histogram, signal, kRed);
     SetTitle(*histogram.GetZaxis(), "BDT");
@@ -74,10 +74,6 @@ void SetProfile(TH2& histogram, Plot const& signal, Plot const& background)
 void CommonHist(TH1& histogram, Plot const& plot, EColor color)
 {
     Info0;
-    histogram.SetMarkerColor(color);
-    histogram.SetLineColor(color);
-    SetTitle(*histogram.GetXaxis(), plot.nice_name_x.c_str());
-    SetTitle(*histogram.GetYaxis(), plot.nice_name_y.c_str());
 }
 
 

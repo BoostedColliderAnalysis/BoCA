@@ -7,7 +7,6 @@
 #include <algorithm>
 #include <numeric>
 
-#include <boost/range/algorithm/sort.hpp>
 #include <boost/range/algorithm/min_element.hpp>
 #include <boost/range/algorithm/max_element.hpp>
 #include <boost/range/algorithm_ext/erase.hpp>
@@ -137,8 +136,8 @@ std::string Plotting::PlotHistograms(boca::Results& results) const
     histograms.SetYAxis("N");
     histograms.AddLine(Results::XValue(results.best_model_dependent_bin));
     histograms.AddLine(Results::XValue(results.best_model_independent_bin));
-//     TLine line = Line(results.best_model_dependent_bin, histograms.LimitsY(), results.max.y * 1.05, results.signals.size() + results.backgrounds.size() + 1);
-//     TLine line2 = Line(results.best_model_independent_bin, histograms.LimitsY(), results.max.y * 1.05, results.signals.size() + results.backgrounds.size() + 2);
+//     TLine line = Line(results.best_model_dependent_bin, histograms.LimitsY(), results.max.Y() * 1.05, results.signals.size() + results.backgrounds.size() + 1);
+//     TLine line2 = Line(results.best_model_independent_bin, histograms.LimitsY(), results.max.Y() * 1.05, results.signals.size() + results.backgrounds.size() + 2);
     return histograms.FileName();
 }
 
@@ -169,18 +168,18 @@ std::string Plotting::PlotEfficiencyGraph(Results const& results) const
 //         TMultiGraph graphs("", "");
 //         std::vector<TGraph> graphs;
 //         std::vector<std::string> nice_names;
-//         Point min(0.2, std::numeric_limits<float>::max());
-//         Point max(0.9, 0);
+//         Vector2<float> min(0.2, std::numeric_limits<float>::max());
+//         Vector2<float> max(0.9, 0);
 //         for (auto const & background : results.backgrounds) {
-//             float min_y = background.pure_efficiency.at(Closest(signal.pure_efficiency, min.x));
-//             if (min_y < min.y && min_y > 0) min.y = min_y;
-//             float max_y = background.pure_efficiency.at(Closest(signal.pure_efficiency, max.x));
-//             if (max_y > max.y) max.y = max_y;
+//             float min_y = background.pure_efficiency.at(Closest(signal.pure_efficiency, min.X()));
+//             if (min_y < min.Y() && min_y > 0) min.Y() = min_y;
+//             float max_y = background.pure_efficiency.at(Closest(signal.pure_efficiency, max.X()));
+//             if (max_y > max.Y()) max.Y() = max_y;
 //             graphs.emplace_back(TGraph(background.steps, &signal.pure_efficiency.front(), &background.pure_efficiency.front()));
 //             nice_names.emplace_back(background.info_branch_.Name);
 //         }
-//         if (min.y == std::numeric_limits<float>::max()) min.y = 0;
-//         canvas.SetLog(min.y, max.y);
+//         if (min.Y() == std::numeric_limits<float>::max()) min.Y() = 0;
+//         canvas.SetLog(min.Y(), max.Y());
 //         Legend legend(Orientation::right | Orientation::bottom, nice_names, signal.info_branch_.Name);
 //         for (auto & graph : graphs) AddGraph(graph, graphs, legend, nice_names, &graph - &graphs.front());
 //         SetMultiGraph(graphs, min, max);
@@ -248,7 +247,7 @@ std::string Plotting::PlotCrosssectionsGraph(Results const& results) const
 //     graphs.Draw("al");
     graphs.SetXAxis("BDT", results.limits_x);
     graphs.SetYAxis("Crosssection [fb]", limits_y);
-//     graphs.GetXaxis()->SetLimits(results.min.x, results.max.x);
+//     graphs.GetXaxis()->SetLimits(results.min.X(), results.max.X());
 //     graphs.GetYaxis()->SetLimits(min, max);
 //     SetAxis(*graphs.GetXaxis(), "BDT");
 //     SetAxis(*graphs.GetYaxis(), "Crosssection [fb]");
@@ -373,8 +372,8 @@ void Plotting::RunPlots() const
         std::vector<Plots> backgrounds = Import(stage, Tag::background);
         Plots background = backgrounds.front();
         if (backgrounds.size() > 1) {
-            background = std::accumulate(backgrounds.begin() + 1, backgrounds.end(), background, [](Plots & sum, Plots const & elem) {
-                for (auto & plot : sum.plots) plot.points = Join(plot.points, elem.plots.at(&plot - &sum.plots.front()).points);
+            background = std::accumulate(backgrounds.begin() + 1, backgrounds.end(), background, [](Plots & sum, Plots const & plots) {
+                for (auto & plot : sum.plots) plot.Join(plots.plots.at(&plot - &sum.plots.front()).Data());
                 return sum;
             });
             background.name = "background";
@@ -386,38 +385,38 @@ void Plotting::RunPlots() const
 void Plotting::DoPlot(Plots& signals, Plots& backgrounds, Stage stage) const
 {
     Info0;
-    Names nice_names = unordered_pairs(tagger_.Branch().Variables(), [&](Obs const & variable_1, Obs const & variable_2) {
+    NamePairs latex_names = unordered_pairs(tagger_.Branch().Variables(), [&](Obs const & variable_1, Obs const & variable_2) {
         return std::make_pair(variable_1.nice_name(), variable_2.nice_name());
     });
-    Names names = unordered_pairs(tagger_.Branch().Variables(), [&](Obs const & variable_1, Obs const & variable_2) {
+    NamePairs names = unordered_pairs(tagger_.Branch().Variables(), [&](Obs const & variable_1, Obs const & variable_2) {
         return std::make_pair(variable_1.name(), variable_2.name());
     });
-    signals.SetNames(names, nice_names);
-    backgrounds.SetNames(names, nice_names);
+    signals.SetNames(names, latex_names);
+    backgrounds.SetNames(names, latex_names);
     for (auto & signal : signals.plots) PlotDetails(signal, backgrounds.plots.at(&signal - &signals.plots.front()), stage);
 }
 
 void Plotting::PlotDetails(Plot& signal, Plot& background, Stage stage) const
 {
-    INFO(signal.points.size(), background.points.size());
-    Plot signal_x = CoreVector(signal, [](Point const & a, Point const & b) {
-        return a.x < b.x;
+    INFO(signal.Data().size(), background.Data().size());
+    std::vector<Vector3<float>> signal_x = signal.CoreData([](Vector3<float> const & a, Vector3<float> const & b) {
+        return a.X() < b.X();
     });
-    Plot signal_y = CoreVector(signal, [](Point const & a, Point const & b) {
-        return a.y < b.y;
+    std::vector<Vector3<float>> signal_y = signal.CoreData([](Vector3<float> const & a, Vector3<float> const & b) {
+        return a.Y() < b.Y();
     });
-    Plot background_x = CoreVector(background, [](Point const & a, Point const & b) {
-        return a.x < b.x;
+    std::vector<Vector3<float>> background_x = background.CoreData([](Vector3<float> const & a, Vector3<float> const & b) {
+        return a.X() < b.X();
     });
-    Plot background_y = CoreVector(background, [](Point const & a, Point const & b) {
-        return a.y < b.y;
+    std::vector<Vector3<float>> background_y = background.CoreData([](Vector3<float> const & a, Vector3<float> const & b) {
+        return a.Y() < b.Y();
     });
-    Point min;
-    min.x = std::min(signal_x.points.front().x, background_x.points.front().x);
-    min.y = std::min(signal_y.points.front().y, background_y.points.front().y);
-    Point max;
-    max.x = std::max(signal_x.points.back().x, background_x.points.back().x);
-    max.y = std::max(signal_y.points.back().y, background_y.points.back().y);
+    Vector2<float> min;
+    min.X() = std::min(signal_x.front().X(), background_x.front().X());
+    min.Y() = std::min(signal_y.front().Y(), background_y.front().Y());
+    Vector2<float> max;
+    max.X() = std::max(signal_x.back().X(), background_x.back().X());
+    max.Y() = std::max(signal_y.back().Y(), background_y.back().Y());
     switch (stage) {
     case Stage::trainer :
         PlotHistogram(signal, background, min, max);
@@ -428,47 +427,47 @@ void Plotting::PlotDetails(Plot& signal, Plot& background, Stage stage) const
     }
 }
 
-void Plotting::PlotHistogram(Plot const& signal, Plot const& background, Point const& min, Point const& max) const
+void Plotting::PlotHistogram(Plot const& signal, Plot const& background, Vector2<float> const& min, Vector2<float> const& max) const
 {
-    INFO(min.x, min.y, max.x, max.y);
+    INFO(min.X(), min.Y(), max.X(), max.Y());
 //     Canvas canvas(Tagger().ExportFolderName() + "/" + "Hist-" + background.tree_name, signal.name_x + "-" + signal.name_y);
-    Histogram2Dim histogram(Tagger().ExportFolderName() + "/" + "Hist-" + background.tree_name, signal.name_x + "-" + signal.name_y);
+    Histogram2Dim histogram(Tagger().ExportFolderName() + "/" + "Hist-" + background.Title().Name(), signal.XAxis().Name() + "-" + signal.YAxis().Name());
     histogram.canvas().SetBottomMargin(0.15);
     int bin_number = 20;
 
-    histogram.AddHistogram(Tagger().LatexName(), bin_number, min, max, background.points, kBlue);
+    histogram.AddHistogram(Tagger().LatexName(), bin_number, min, max, background.Data(), kBlue);
 //     TExec exec_1;
-//     TH2F background_histogram("", Tagger().LatexName().c_str(), bin_number, min.x, max.x, bin_number, min.y, max.y);
+//     TH2F background_histogram("", Tagger().LatexName().c_str(), bin_number, min.X(), max.X(), bin_number, min.Y(), max.Y());
 //     SetHistogram(background_histogram, background, kBlue, exec_1);
-    histogram.AddHistogram(Tagger().LatexName(), bin_number, min, max, signal.points, kRed);
+    histogram.AddHistogram(Tagger().LatexName(), bin_number, min, max, signal.Data(), kRed);
 //     TExec exec_2;
-//     TH2F signal_histogram("", Tagger().LatexName().c_str(), bin_number, min.x, max.x, bin_number, min.y, max.y);
+//     TH2F signal_histogram("", Tagger().LatexName().c_str(), bin_number, min.X(), max.X(), bin_number, min.Y(), max.Y());
 //     SetHistogram(signal_histogram, signal, kRed, exec_2);
-    histogram.SetLegend(Point(0.35, 0), 0.3, 0.1);
-//     Legend legend(Point(0.35, 0), 0.3, 0.1);
+    histogram.SetLegend(Vector2<float>(0.35, 0), 0.3, 0.1);
+//     Legend legend(Vector3<float>(0.35, 0), 0.3, 0.1);
 //     legend.TwoColumn();
     histogram.Legend().TwoColumn();
 //     legend.AddEntry(signal_histogram, "Signal");
 //     legend.AddEntry(background_histogram, "Background");
 //     mkdir(Tagger().ExportFolderName().c_str(), 0700);
-    histogram.SetXAxis(signal.nice_name_x.c_str());
-    histogram.SetYAxis(signal.nice_name_y.c_str());
+    histogram.SetXAxis(signal.XAxis().LatexName().c_str());
+    histogram.SetYAxis(signal.YAxis().LatexName().c_str());
 
 //     histogram.SaveAs(Tagger().ExportFolderName() + "/" + "Hist-" + background.tree_name + "-" + signal.name_x + "-" + signal.name_y);
 }
 
-void Plotting::PlotProfile(Plot const& signal, Plot const& background, Point const& min, Point const& max) const
+void Plotting::PlotProfile(Plot const& signal, Plot const& background, Vector2<float> const& min, Vector2<float> const& max) const
 {
     Info0;
 //     Canvas canvas(Tagger().ExportFolderName() + "/" + "Prof-" + background.tree_name, signal.name_x + "-" + signal.name_y);
-    Profile profile(Tagger().ExportFolderName() + "/" + "Prof-" + background.tree_name, signal.name_x + "-" + signal.name_y);
+    Profile profile(Tagger().ExportFolderName() + "/" + "Prof-" + background.Title().Name(), signal.XAxis().Name() + "-" + signal.YAxis().Name());
     profile.canvas().SetRightMargin(0.15);
     int bin_number = 30;
-//     TProfile2D profile("", Tagger().LatexName().c_str(), bin_number, min.x, max.x, bin_number, min.y, max.y);
+//     TProfile2D profile("", Tagger().LatexName().c_str(), bin_number, min.X(), max.X(), bin_number, min.Y(), max.Y());
     profile.SetDimensions(Tagger().LatexName(), bin_number, min, max);
     profile.SetProfile(signal, background);
     mkdir(Tagger().ExportFolderName().c_str(), 0700);
-    profile.SaveAs(Tagger().ExportFolderName() + "/" + "Prof-" + background.tree_name + "-" + signal.name_x + "-" + signal.name_y);
+    profile.SaveAs(Tagger().ExportFolderName() + "/" + "Prof-" + background.Title().Name() + "-" + signal.XAxis().Name() + "-" + signal.YAxis().Name());
 }
 
 std::vector<Plots> Plotting::Import(Stage stage, Tag tag) const
@@ -524,24 +523,13 @@ Plot Plotting::ReadTree(TTree& tree, std::string const& leaf_1_name, std::string
         Detail(tree.GetEntries(), entry);
         tree.GetEntry(entry);
         Detail(branch_size, leaf_values_1.size(), leaf_values_2.size());
-        for (auto const & element : Range(branch_size)) plot.Add(Point(leaf_values_1.at(element), leaf_values_2.at(element), bdt_values.at(element)));
+        for (auto const & element : Range(branch_size)) plot.Add(Vector3<float>(leaf_values_1.at(element), leaf_values_2.at(element), bdt_values.at(element)));
     }
     return plot;
 }
 
 
-Plot Plotting::CoreVector(Plot& plot, std::function<bool (Point const&, Point const&)> const& function) const
-{
-    Info0;
-    // TODO sorting the whole vector when you just want to get rid of the extrem values might not be the fastest solution
-    boost::range::sort(plot.points, [&](Point const & a, Point const & b) {
-        return function(a, b);
-    });
-    int cut_off = plot.points.size() / 25;
-    plot.points.erase(plot.points.begin(), plot.points.begin() + cut_off);
-    plot.points.erase(plot.points.end() - cut_off, plot.points.end());
-    return plot;
-}
+
 
 Tagger const& Plotting::Tagger() const
 {
@@ -687,7 +675,7 @@ std::string Plotting::PlotCutEfficiencyGraph(CutResults const& results) const
 //     graphs.Draw("al");
     graphs.SetXAxis("Calculated", results.limits_x);
     graphs.SetYAxis("Measured");
-//     graphs.GetXaxis()->SetLimits(results.min.x, results.max.x);
+//     graphs.GetXaxis()->SetLimits(results.min.X(), results.max.X());
 //     SetAxis(*graphs.GetXaxis(), "Calculated");
 //     SetAxis(*graphs.GetYaxis(), "Measured");
     graphs.AddLine(results.XValue(results.best_model_dependent_bin));

@@ -36,7 +36,7 @@ void Profile::SetLegend(boca::Orientation orientation, const std::string& title)
     legend_.SetOrientation(orientation, title);
 }
 
-void Profile::SetLegend(Point const& point, float width, float height, std::string const& title)
+void Profile::SetLegend(Vector2<float> const& point, float width, float height, std::string const& title)
 {
     legend_.Set(point, width, height);
 }
@@ -68,34 +68,34 @@ void Profile::SetYAxis(const std::string& title, const boca::Limits<float>& limi
 
 }
 
-void Profile::SetDimensions(const std::string& name, int bins, const Point& min, const Point& max)
+void Profile::SetDimensions(const std::string& name, int bins, const Vector2<float>& min, const Vector2<float>& max)
 {
-    //TProfile2D profile("", Tagger().LatexName().c_str(), bin_number, min.x, max.x, bin_number, min.y, max.y);
-  profile_.SetBins(bins,min.x,max.x);
+    //TProfile2D profile("", Tagger().LatexName().c_str(), bin_number, min.X(), max.X(), bin_number, min.Y(), max.Y());
+  profile_.SetBins(bins,min.X(),max.X());
     profile_.SetName(name.c_str());
-//     profile_.GetXaxis()->SetMinimum(min.x);
-//     profile_.GetYaxis()->SetMinimum(min.y);
-//     profile_.GetXaxis()->SetMaximum(max.x);
-//     profile_.GetYaxis()->SetMaximum(max.y);
+//     profile_.GetXaxis()->SetMinimum(min.X());
+//     profile_.GetYaxis()->SetMinimum(min.Y());
+//     profile_.GetXaxis()->SetMaximum(max.X());
+//     profile_.GetYaxis()->SetMaximum(max.Y());
 }
 
 void Profile::SetProfile(Plot const& signal, Plot const& background)
 {
     Info0;
-    float max = (*boost::range::max_element(signal.points, [](Point const & a, Point const & b) {
-        return a.z < b.z;
-    })).z;
-    float min = (*boost::range::min_element(background.points, [](Point const & a, Point const & b) {
-        return a.z < b.z;
-    })).z;
-    for (auto const & point : signal.points) profile_.Fill(point.x, point.y, point.z);
-    for (auto const & point : background.points) profile_.Fill(point.x, point.y, point.z);
+    float max = (*boost::range::max_element(signal.Data(), [](Vector3<float> const & a, Vector3<float> const & b) {
+        return a.Z() < b.Z();
+    })).Z();
+    float min = (*boost::range::min_element(background.Data(), [](Vector3<float> const & a, Vector3<float> const & b) {
+        return a.Z() < b.Z();
+    })).Z();
+    for (auto const & point : signal.Data()) profile_.Fill(point.X(), point.Y(), point.Z());
+    for (auto const & point : background.Data()) profile_.Fill(point.X(), point.Y(), point.Z());
     Color().Heat();
 //   CommonHist(histogram, signal, kRed);
     profile_.SetMarkerColor(kRed);
     profile_.SetLineColor(kRed);
-    SetTitle(*profile_.GetXaxis(), signal.nice_name_x.c_str());
-    SetTitle(*profile_.GetYaxis(), signal.nice_name_y.c_str());
+    SetTitle(*profile_.GetXaxis(), signal.XAxis().LatexName().c_str());
+    SetTitle(*profile_.GetYaxis(), signal.YAxis().LatexName().c_str());
     SetTitle(*profile_.GetZaxis(), "BDT");
 
     //     profile_.SetZTitle("BDT");

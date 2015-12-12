@@ -15,18 +15,18 @@
 namespace boca
 {
 
-void Plots::SetNames(Names const& names, Names const& nice_names)
+  void Plots::SetNames(NamePairs const& names, NamePairs const& latex_names)
 {
-    Info0;
-    for (auto & plot : plots) {
-        int index = &plot - &plots.front();
-        plot.nice_name_x = nice_names.at(index).first;
-        plot.nice_name_y = nice_names.at(index).second;
-        plot.name = info_branch.Name;
-        plot.name_x = names.at(index).first;
-        plot.name_y = names.at(index).second;
-        plot.tree_name = name;
-    }
+  Info0;
+  for (auto & plot : plots) {
+    int index = &plot - &plots.front();
+    plot.XAxis().SetName(names.at(index).first);
+    plot.XAxis().SetLatexName(latex_names.at(index).first);
+    plot.YAxis().SetName(names.at(index).second);
+    plot.YAxis().SetLatexName(latex_names.at(index).second);
+    plot.Title().SetName(name);
+    plot.Title().SetLatexName(info_branch.Name);
+  }
 }
 
 Result::Result(InfoBranch const& info_branch)
@@ -139,14 +139,12 @@ void Results::ExtremeXValues()
     Info0;
     for (auto const & result : backgrounds) {
         float min_0 = *boost::range::min_element(result.bdt);
-        if (min_0 < min.x) min.x = min_0;
+        if (min_0 < limits_x.Min()) limits_x.SetMin(min_0);
     }
     for (auto const & result : signals) {
         float max_0 = *boost::range::max_element(result.bdt);
-        if (max_0 > max.x) max.x = max_0;
+        if (max_0 > limits_x.Max()) limits_x.SetMax(max_0);
     }
-    limits_x.SetMin(min.x);
-    limits_x.SetMax(max.x);
 }
 
 
@@ -295,15 +293,77 @@ void CutResults::ExtremeXValues()
 //   for (auto const & result : backgrounds) {
 //     float min_0 = *boost::range::min_element(result.bdt);
 //     if (min_0 < min.x)
-    if (!x_values.empty()) min.x = x_values.front();
+    if (!x_values.empty()) limits_x.SetMin(x_values.front());
 //   }
 //   for (auto const & result : signals) {
 //     float max_0 = *boost::range::max_element(result.bdt);
 //     if (max_0 > max.x)
-    if (!x_values.empty()) max.x = x_values.back();
+    if (!x_values.empty()) limits_x.SetMax(x_values.back());
     //   }
-    limits_x.SetMin(min.x);
-    limits_x.SetMax(max.x);
+}
+const std::__cxx11::string& Names::Name() const
+{
+    return name_;
+}
+const std::__cxx11::string& Names::LatexName() const
+{
+    return latex_name_;
+}
+void Names::SetName(const std::__cxx11::string& name)
+{
+    name_ = name;
+}
+void Names::SetLatexName(const std::__cxx11::string& latex_name)
+{
+    latex_name_ = latex_name;
+}
+const Names& Plot::XAxis() const
+{
+    return x_axis_;
+}
+const Names& Plot::YAxis() const
+{
+    return y_axis_;
+}
+const Names& Plot::Title() const
+{
+    return title_;
+}
+Names& Plot::XAxis()
+{
+    return x_axis_;
+}
+Names& Plot::YAxis()
+{
+    return y_axis_;
+}
+Names& Plot::Title()
+{
+    return title_;
+}
+void Plot::Add(const Vector3< float >& point)
+{
+    data_.emplace_back(point);
+}
+const std::vector< Vector3< float > >& Plot::Data() const
+{
+    return data_;
+}
+void Plot::Join(const std::vector< Vector3< float > >& data)
+{
+    data_ = boca::Join(data_, data);
+}
+std::vector< Vector3< float > > Plot::CoreData(std::function<bool (Vector3<float> const&, Vector3<float> const&)> const& function) const
+{
+    std::vector<Vector3<float>> data = data_;
+    // TODO sorting the whole vector when you just want to get rid of the extrem values might not be the fastest solution
+    boost::range::sort(data, [&](Vector3<float> const & a, Vector3<float> const & b) {
+        return function(a, b);
+    });
+    int cut_off = data.size() / 25;
+    data.erase(data.end() - cut_off, data.end());
+    data.erase(data.begin(), data.begin() + cut_off);
+    return data;
 }
 
 }

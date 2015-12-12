@@ -14,11 +14,13 @@ namespace boca
 {
 
 class Plots;
+class Plots2;
 class Result;
 class Results;
 class CutResult;
 class CutResults;
 class Point;
+class Plot2;
 class Plot;
 
 /**
@@ -46,7 +48,7 @@ public:
 
 private:
 
-    void DoPlot(boca::Plots& signals, boca::Plots& backgrounds, boca::Stage stage) const;
+    void DoPlot(Plots& signals, Plots& backgrounds, boca::Stage stage) const;
 
     void PlotDetails(boca::Plot& signal, boca::Plot& background, Stage stage) const;
 
@@ -56,9 +58,9 @@ private:
 
     Plot ReadTree(TTree& tree, std::string const& leaf_1_name, std::string const& leaf_2_name, Stage stage) const;
 
-    void PlotHistogram(const boca::Plot& signal, const boca::Plot& background, const boca::Point& min, const boca::Point& max) const;
+    void PlotHistogram(const boca::Plot& signal, const boca::Plot& background, const Vector2<float> & min, const Vector2<float> & max) const;
 
-    void PlotProfile(const boca::Plot& signal, const boca::Plot& background, const boca::Point& min, const boca::Point& max) const;
+    void PlotProfile(const boca::Plot& signal, const boca::Plot& background, const Vector2<float> & min, const Vector2<float> & max) const;
 
     void SetPad() const;
 
@@ -91,8 +93,6 @@ private:
     std::string PlotModelDependentGraph(boca::Results& results) const;
 
     std::string PlotModelIndependentGraph(boca::Results& results) const;
-
-    Plot CoreVector(Plot& plot, std::function<bool(Point const&, Point const&)> const& function) const;
 
     void SetBranch(TTree &tree, int &value, std::string const& name) const;
 

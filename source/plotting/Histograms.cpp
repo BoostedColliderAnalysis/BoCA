@@ -1,13 +1,13 @@
 
 
 #include "TAxis.h"
-#include "Debug.hh"
 #include "plotting/Style.hh"
 #include "plotting/Legend.hh"
 #include "plotting/Result.hh"
 #include "physics/Math.hh"
 
 #include "plotting/Histograms.hh"
+#include "Debug.hh"
 
 namespace boca
 {
