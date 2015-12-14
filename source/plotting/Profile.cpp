@@ -26,7 +26,7 @@ Profile::Profile(const std::string& path, const std::string& name, bool show_tit
 
 Profile::~Profile()
 {
-  SaveAs(FileName());
+    SaveAs(FileName());
 //   mkdir(Tagger().ExportFolderName().c_str(), 0700);
 //   SaveAs(Tagger().ExportFolderName() + "/" + "Prof-" + background.tree_name + "-" + signal.name_x + "-" + signal.name_y);
 }
@@ -36,9 +36,9 @@ void Profile::SetLegend(boca::Orientation orientation, const std::string& title)
     legend_.SetOrientation(orientation, title);
 }
 
-void Profile::SetLegend(Vector2<float> const& point, float width, float height, std::string const& title)
+void Profile::SetLegend(Rectangle<float> const& rectangle, std::string const& title)
 {
-    legend_.Set(point, width, height);
+    legend_.Set(rectangle);
 }
 
 void Profile::Draw()
@@ -47,7 +47,7 @@ void Profile::Draw()
     legend_.Draw();
 }
 
-void Profile::SetXAxis(const std::string& title, const boca::Limits<float>& limits)
+void Profile::SetXAxis(const std::string& title, const boca::Bounds<float>& limits)
 {
     Draw();
     SetTitle(*profile_.GetXaxis(), title.c_str());
@@ -55,7 +55,7 @@ void Profile::SetXAxis(const std::string& title, const boca::Limits<float>& limi
 
 }
 
-void Profile::SetYAxis(const std::string& title, const boca::Limits<float>& limits)
+void Profile::SetYAxis(const std::string& title, const boca::Bounds<float>& limits)
 {
     Draw();
     SetLog(limits);
@@ -68,10 +68,10 @@ void Profile::SetYAxis(const std::string& title, const boca::Limits<float>& limi
 
 }
 
-void Profile::SetDimensions(const std::string& name, int bins, const Vector2<float>& min, const Vector2<float>& max)
+void Profile::SetDimensions(const std::string& name, int bins, Rectangle<float> const& bounds)
 {
     //TProfile2D profile("", Tagger().LatexName().c_str(), bin_number, min.X(), max.X(), bin_number, min.Y(), max.Y());
-  profile_.SetBins(bins,min.X(),max.X());
+    profile_.SetBins(bins, bounds.XMin(), bounds.XMax());
     profile_.SetName(name.c_str());
 //     profile_.GetXaxis()->SetMinimum(min.X());
 //     profile_.GetYaxis()->SetMinimum(min.Y());

@@ -263,7 +263,7 @@ void AnalysisBase::RunCut()
   Initialize();
   PrepareFiles(Stage::reader);
   Plotting plotting(tagger());
-  plotting.Cuts();
+  plotting.OptimalCuts();
 }
 
 std::string AnalysisBase::WorkingPath()
@@ -280,10 +280,9 @@ std::string AnalysisBase::WorkingPath()
         // EINVAL can't happen - size argument > 0
         // path_length_max includes the terminating nul,
         // so ERANGE should not be returned
-    case EACCES:
-        throw std::runtime_error("Access denied");
-    case ENOMEM:
-        // I'm not sure whether this can happen or not
+    case EACCES : throw std::runtime_error("Access denied");
+    case ENOMEM :
+      // I'm not sure whether this can happen or not
         throw std::runtime_error("Insufficient storage");
     default: {
 //         std::ostd::vector<std::string>tream stream;

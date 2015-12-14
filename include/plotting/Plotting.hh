@@ -6,6 +6,7 @@
 #include <functional>
 
 #include "Tagger.hh"
+#include "physics/Rectangle.hh"
 
 class TFile;
 class TTree;
@@ -14,13 +15,10 @@ namespace boca
 {
 
 class Plots;
-class Plots2;
 class Result;
 class Results;
-class CutResult;
-class CutResults;
-class Point;
-class Plot2;
+class Result;
+class Results;
 class Plot;
 
 /**
@@ -44,9 +42,17 @@ public:
 
     void RunPlots() const;
 
-    void Cuts() const;
+//     void Cuts() const;
 
 private:
+
+    Results ReadBdtFiles() const;
+
+    std::vector<Result> ReadBdtFile(TFile& export_file, boca::Tag tag) const;
+
+    Result BdtDistribution(TFile& file, std::string const& tree_name, TFile& export_file) const;
+
+    Result CutDistribution(TFile& file, std::string const& tree_name, TFile& export_file) const;
 
     void DoPlot(Plots& signals, Plots& backgrounds, boca::Stage stage) const;
 
@@ -58,15 +64,9 @@ private:
 
     Plot ReadTree(TTree& tree, std::string const& leaf_1_name, std::string const& leaf_2_name, Stage stage) const;
 
-    void PlotHistogram(const boca::Plot& signal, const boca::Plot& background, const Vector2<float> & min, const Vector2<float> & max) const;
+    void PlotHistogram(const boca::Plot& signal, const boca::Plot& background, Rectangle<float> const& bounds) const;
 
-    void PlotProfile(const boca::Plot& signal, const boca::Plot& background, const Vector2<float> & min, const Vector2<float> & max) const;
-
-    void SetPad() const;
-
-    Results ReadBdtFiles() const;
-
-    std::vector<Result> ReadBdtFile(TFile& export_file, boca::Tag tag) const;
+    void PlotProfile(const boca::Plot& signal, const boca::Plot& background, Rectangle<float> const& bounds) const;
 
     void PlotAcceptanceGraph(const boca::Results& results) const;
 
@@ -77,8 +77,6 @@ private:
     std::string PlotHistograms(boca::Results& results) const;
 
     boca::InfoBranch InfoBranch(TFile& file, std::string const& tree_name) const;
-
-    Result BdtDistribution(TFile& file, std::string const& tree_name, TFile& export_file) const;
 
     std::string BestValueTable(Results const& results) const;
 
@@ -94,38 +92,36 @@ private:
 
     std::string PlotModelIndependentGraph(boca::Results& results) const;
 
-    void SetBranch(TTree &tree, int &value, std::string const& name) const;
+    void SetBranch(TTree& tree, int& value, std::string const& name) const;
 
-    void SetBranch(TTree &tree, std::vector<float> &values, std::string const& name) const;
+    void SetBranch(TTree& tree, std::vector<float>& values, std::string const& name) const;
 
     boca::Tagger const& Tagger() const;
 
     boca::Tagger& tagger_;
 
-    std::string BestValueTable(CutResults const& results) const;
+//     std::string BestValueTable(Results const& results) const;
 
-    std::string BestValueRow(CutResults const& results, int bin, std::string const& name) const;
-
-
+//     std::string BestValueRow(Results const& results, int bin, std::string const& name) const;
 
 
 
 
-    CutResults ReadCutFiles() const;
 
-    std::vector<CutResult> ReadCutFile(TFile& export_file, boca::Tag tag) const;
 
-    CutResult CutDistribution(TFile& file, std::string const& tree_name, TFile& export_file) const;
+//     Results ReadCutFiles() const;
+//
+//     std::vector<Result> ReadCutFile(TFile& export_file, boca::Tag tag) const;
+//
+//     std::string PlotResult(boca::Results& results) const;
+//
+//     std::string PlotCutEfficiencyGraph(const Results& results) const;
 
-    std::string PlotCutResult(boca::CutResults& results) const;
+//     std::string EfficienciesTable(Results const& results, int bin) const;
 
-    std::string PlotCutEfficiencyGraph(const CutResults& results) const;
+//     std::string EfficienciesRow(const Result& result, int index, boca::Tag tag, int bin) const;
 
-    std::string EfficienciesTable(CutResults const& results, int bin) const;
-
-    std::string EfficienciesRow(const CutResult& result, int index, boca::Tag tag, int bin) const;
-
-    std::string PlotModelIndependentGraph(CutResults& results) const;
+//     std::string PlotModelIndependentGraph(Results& results) const;
 
 };
 

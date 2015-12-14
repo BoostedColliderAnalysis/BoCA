@@ -63,7 +63,7 @@ long TreeReader::GetEntries() const
 
 bool TreeReader::ReadEntry(long number)
 {
-    INFO(number);
+  INFO(number);
     std::lock_guard<std::mutex> guard(mutex_);
     bool valid = tree_reader_.SetEntry(number) == TTreeReader::kEntryValid;
     Check(valid, "not a valid entry", number);

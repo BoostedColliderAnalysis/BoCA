@@ -31,9 +31,9 @@ void Histogram2Dim::SetLegend(boca::Orientation orientation, const std::string& 
     legend_.SetOrientation(orientation, title);
 }
 
-void Histogram2Dim::SetLegend(Vector2<float> const& point, float width, float height, std::string const& title)
+void Histogram2Dim::SetLegend(Rectangle<float> const& rectangle, std::string const& title)
 {
-  legend_.Set(point, width, height);
+    legend_.Set(rectangle);
 }
 
 void Histogram2Dim::Draw()
@@ -42,34 +42,34 @@ void Histogram2Dim::Draw()
     legend_.Draw();
 }
 
-void Histogram2Dim::SetXAxis(const std::string& title, const boca::Limits<float>& limits)
+void Histogram2Dim::SetXAxis(std::string const& title, Bounds<float> const& bounds)
 {
     Draw();
     for (auto & histogram : histograms_) {
         SetTitle(*histogram.GetXaxis(), title.c_str());
-        if (limits) histogram.GetXaxis()->SetLimits(limits.Min(), limits.Max());
+        if (bounds) histogram.GetXaxis()->SetLimits(bounds.Min(), bounds.Max());
     }
 }
 
-void Histogram2Dim::SetYAxis(const std::string& title, const boca::Limits<float>& limits)
+void Histogram2Dim::SetYAxis(std::string const& title, Bounds<float> const& bounds)
 {
     Draw();
-    SetLog(limits);
+    SetLog(bounds);
     for (auto & histogram : histograms_) {
         SetTitle(*histogram.GetYaxis(), title.c_str());
-        if (limits) {
-            histogram.GetYaxis()->SetLimits(limits.Min(), limits.Max());
-            histogram.SetMinimum(limits.Min());
-            histogram.SetMaximum(limits.Max());
+        if (bounds) {
+            histogram.GetYaxis()->SetLimits(bounds.Min(), bounds.Max());
+            histogram.SetMinimum(bounds.Min());
+            histogram.SetMaximum(bounds.Max());
         };
     }
 }
 
 
-void Histogram2Dim::AddHistogram(std::string const& name, int bins,  Vector2<float> const& min, Vector2<float> const& max, std::vector<Vector3<float>> const& points, EColor color)
+void Histogram2Dim::AddHistogram(std::string const& name, int bins, Rectangle<float> const& bounds, std::vector<Vector3<float>> const& points, EColor color)
 {
     Info0;
-    TH2F histogram("", name.c_str(), bins, min.X(), max.X(), bins, min.Y(), max.Y());
+    TH2F histogram("", name.c_str(), bins, bounds.XMin(), bounds.XMax(), bins, bounds.YMin(), bounds.YMax());
 
     std::string options = "cont1 same";
     histogram.Draw(options.c_str());
@@ -103,6 +103,10 @@ void Histogram2Dim::SetExec(EColor color)
     }
     exec.Draw();
     execs_.emplace_back(exec);
+}
+Legend& Histogram2Dim::Legend()
+{
+    return legend_;
 }
 
 

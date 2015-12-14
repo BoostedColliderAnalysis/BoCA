@@ -77,6 +77,11 @@ std::vector<Particle> CopyIfGrandDaughter(std::vector<Particle> const& particles
 
 std::vector<Particle> CopyIfPosition(std::vector<Particle> const& particles, int position_1, int position_2);
 
+/**
+ * @brief Copy the two particles which are on the DY position
+ *
+ * here we assume that the DY particle are always on position 6 and 7
+ */
 std::vector<Particle> CopyIfDrellYan(std::vector<Particle> const& particles);
 
 template<typename Multiplet>

@@ -23,14 +23,14 @@ Histograms::~Histograms()
     SaveAs(FileName());
 }
 
-void Histograms::AddHistogram(std::vector<float> const& values, std::string const& name, Limits<float>& limits_x, Limits<float>& limits_y)
+void Histograms::AddHistogram(std::vector<float> const& values, std::string const& name, Rectangle<float>& bounds)
 {
-    TH1F histogram(name.c_str(), "", 50, FloorToDigits(limits_x.Min(), 1), CeilToDigits(limits_x.Max(), 1));
+    TH1F histogram(name.c_str(), "", 50, FloorToDigits(bounds.XMin(), 1), CeilToDigits(bounds.XMax(), 1));
     for (auto const & bdt : values) histogram.Fill(bdt);
     if (histogram.Integral() != 0) histogram.Scale(1. / histogram.Integral());
     SetLine(histogram, histograms_.size());
     float max_0 = histogram.GetBinContent(histogram.GetMaximumBin());
-    if (max_0 > limits_y.Max()) limits_y.SetMax(max_0);
+    if (max_0 > bounds.YMax()) bounds.SetYMax(max_0);
     histogram.SetTitle(name.c_str());
     histograms_.emplace_back(histogram);
 }
@@ -47,26 +47,26 @@ void Histograms::Draw()
     legend_.Draw();
 }
 
-void Histograms::SetXAxis(const std::string& title, const boca::Limits<float>& limits)
+void Histograms::SetXAxis(const std::string& title, const boca::Bounds<float>& bounds)
 {
     Draw();
     SetTitle(*stack_.GetXaxis(), title.c_str());
-    if (limits) stack_.GetXaxis()->SetLimits(limits.Min(), limits.Max());
+    if (bounds) stack_.GetXaxis()->SetLimits(bounds.Min(), bounds.Max());
 }
 
-void Histograms::SetYAxis(const std::string& title, const boca::Limits<float>& limits)
+void Histograms::SetYAxis(const std::string& title, const boca::Bounds<float>& bounds)
 {
     Draw();
-    SetLog(limits);
+    SetLog(bounds);
     SetTitle(*stack_.GetYaxis(), title.c_str());
-    if (limits) {
-        stack_.GetYaxis()->SetLimits(limits.Min(), limits.Max());
-        stack_.SetMinimum(limits.Min());
-        stack_.SetMaximum(limits.Max());
+    if (bounds) {
+        stack_.GetYaxis()->SetLimits(bounds.Min(), bounds.Max());
+        stack_.SetMinimum(bounds.Min());
+        stack_.SetMaximum(bounds.Max());
     } else SetLog(LimitsY());
 }
 
-Limits<double> Histograms::LimitsY()
+Bounds<double> Histograms::LimitsY()
 {
     TAxis& axis = *stack_.GetYaxis();
     return {axis.GetXmin(), axis.GetXmax()};
@@ -83,7 +83,7 @@ void Histograms::AddHistograms()
 
 void Histograms::AddLine(float x_value)
 {
-    Limits<double> y = LimitsY();
+    Bounds<double> y = LimitsY();
     TLine line(x_value, y.Min(), x_value, y.Max() * 1.05);
     SetLine(line, histograms_.size() + lines_.size() + 1);
     if (x_value != 0) line.Draw();

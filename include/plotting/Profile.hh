@@ -5,9 +5,6 @@
 #include "plotting/Canvas.hh"
 #include "plotting/Legend.hh"
 
-class Plot2;
-// class EColor;
-
 namespace boca
 {
 
@@ -22,17 +19,17 @@ public:
 
     void SetLegend(Orientation orientation, std::string const& title = "");
 
-    void SetLegend(Vector2<float> const& point, float width, float height, std::string const& title = "");
+    void SetLegend(Rectangle<float> const& rectangle, std::string const& title = "");
 
     void Draw();
 
-    void SetXAxis(std::string const& title, Limits<float> const& limits = Limits<float>());
+    void SetXAxis(std::string const& title, Bounds<float> const& bounds = Bounds<float>());
 
-    void SetYAxis(std::string const& title, Limits<float> const& limits = Limits<float>());
+    void SetYAxis(std::string const& title, Bounds<float> const& bounds = Bounds<float>());
 
     void SetProfile(Plot const& signal, Plot const& background);
 
-    void SetDimensions(std::string const& name, int bins, Vector2<float> const& min, Vector2<float> const& max);
+    void SetDimensions(std::string const& name, int bins, Rectangle<float> const& bounds);
 
     boca::Legend & Legend();
 

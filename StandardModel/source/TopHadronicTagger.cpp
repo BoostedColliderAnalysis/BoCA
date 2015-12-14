@@ -27,23 +27,19 @@ void TruthLevel(Event const& event, PreCuts const& pre_cuts)
     Info0;
     std::vector<Particle> particle = event.Partons().GenParticles();
     std::vector<Particle> tops = CopyIfParticle(particle, Id::top);
-//     if (tops.size() != 1) return;
     for (auto const & top : tops) {
         if (top.Pt() < pre_cuts.PtLowerCut().Get(Id::top) || top.Pt() > pre_cuts.PtUpperCut().Get(Id::top)) continue;
-//         Error(top.Pt());
         std::vector<Particle> bottoms = CopyIfMother(CopyIfParticle(particle, Id::bottom), top);
         if (bottoms.empty()) continue;
-//         Error(bottoms.front().Pt());
         std::vector<Particle> Ws = CopyIfMother(CopyIfParticle(particle, Id::W), top);
         if (Ws.empty()) continue;
-//         Error(Ws.front().Pt());
         std::vector<Particle> quarks = CopyIfGrandMother(CopyIfQuark(particle), top);
         if (quarks.size() < 2) continue;
         quarks = SortedByPt(quarks);
-        Error(top.Pt(), bottoms.front().Pt(), Ws.front().Pt(), quarks.at(0).Pt(), quarks.at(1).Pt());
+        Debug(top.Pt(), bottoms.front().Pt(), Ws.front().Pt(), quarks.at(0).Pt(), quarks.at(1).Pt());
         Angle delta_r_top = Ws.front().DeltaRTo(bottoms.front());
         Angle delat_r_w = quarks.at(0).DeltaRTo(quarks.at(1));
-        Error(delta_r_top, delat_r_w);
+        Debug(delta_r_top, delat_r_w);
     }
 }
 
@@ -249,7 +245,7 @@ std::vector<Triplet> TopHadronicTagger::Multiplets(Event const& event, boca::Pre
 
     ++event_number;
     triplet_number += triplets.size();
-    Error(event_number, triplet_number);
+    Debug(event_number, triplet_number);
 
     return triplets;
 }

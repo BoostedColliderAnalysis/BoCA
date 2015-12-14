@@ -16,7 +16,6 @@
 
 #include "physics/Math.hh"
 #include "plotting/Graph.hh"
-#include "plotting/Canvas.hh"
 #include "plotting/Font.hh"
 #include "plotting/Style.hh"
 #include "plotting/Result.hh"

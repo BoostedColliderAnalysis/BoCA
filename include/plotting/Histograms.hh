@@ -21,21 +21,21 @@ public:
 
     ~Histograms();
 
-    void AddHistogram(std::vector<float> const& values, std::string const& name, Limits<float>& limits_x, Limits<float> & limits_y);
+    void AddHistogram(std::vector<float> const& values, std::string const& name, Rectangle<float>& bounds);
 
     void SetLegend(Orientation orientation, std::string const& title = "");
 
     void Draw();
 
-    void SetXAxis(std::string const& title, Limits<float> const& limits = Limits<float>());
+    void SetXAxis(std::string const& title, Bounds<float> const& bounds = Bounds<float>());
 
-    void SetYAxis(std::string const& title, Limits<float> const& limits = Limits<float>());
+    void SetYAxis(std::string const& title, Bounds<float> const& bounds = Bounds<float>());
 
     void AddLine(float x_value);
 
 private:
 
-    Limits<double> LimitsY();
+    Bounds<double> LimitsY();
 
     void AddHistograms();
 

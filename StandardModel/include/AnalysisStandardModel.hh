@@ -58,7 +58,11 @@ protected:
 
     Momentum LowerPtCut() const {
         return 500_GeV;
+        return 2.5_TeV;
+        return 2_TeV;
+        return 1.5_TeV;
         return 1_TeV;
+        return 4_TeV;
         return 350_GeV;
         return 700_GeV;
         return 800_GeV;
@@ -74,10 +78,14 @@ protected:
 
     Momentum UpperPtCut() const {
         switch (Int(LowerPtCut())) {
+        case 500 : return 600_GeV;
         case 700 : return 1_TeV;
         case 1000 : return 1.5_TeV;
         case 1200 : return 1.5_TeV;
-        case 500: return 600_GeV;
+        case 1500 : return 2_TeV;
+        case 2000 : return 2.5_TeV;
+        case 2500 : return 3_TeV;
+        case 4000 : return 5_TeV;
             Default(LowerPtCut(), at_rest);
         }
     }
@@ -116,6 +124,10 @@ private:
         case 700 : return 500_GeV;
         case 1000 : return 1_TeV;
         case 1200 : return 1_TeV;
+        case 1500 : return 1_TeV;
+        case 2000 : return 1_TeV;
+        case 2500 : return 1_TeV;
+        case 4000 : return 1_TeV;
             Default(LowerPtCut(), at_rest);
         }
     }

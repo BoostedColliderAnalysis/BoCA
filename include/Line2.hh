@@ -31,10 +31,10 @@ public:
         return (point - Projection(point)).Mod(); // second implementation
         return Area(point) / Mod(); // first implementation
     }
-    Vector2<Value> Point_1() const {
+    Vector2<Value> const& Point_1() const {
         return point_1_;
     }
-    Vector2<Value> Point_2() const {
+    Vector2<Value> const& Point_2() const {
         return point_2_;
     }
     Value Mod() const {

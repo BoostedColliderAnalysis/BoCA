@@ -94,7 +94,8 @@ TopHadronicBranch::TopHadronicBranch()
 
 Observables TopHadronicBranch::Variables()
 {
-    return Join(BottomBase::Variables(), {PAIR(DeltaHt, "#Delta H_{T}"), PAIR(Bdt1, "BDT_{1}"), PAIR(Bdt2, "BDT_{2}"), PAIR(Mass, "m"), PAIR(DeltaPt, "#Delta P_{T}"), PAIR(DeltaM, "#Delta m"), PAIR(DeltaRap, "#Delta #eta"), PAIR(DeltaPhi, "#Delta #phi"), PAIR(DeltaR, "#Delta R"), PAIR(Rho, "#rho"), PAIR(BottomMass, "m_{b}"), PAIR(WMass, "m_{W}"), PAIR(Pull1, "#theta_{1}"), PAIR(Pull2, "#theta_{2}"), PAIR(Dipolarity, "D")}); // everything
+  return {PAIR(Mass, "m"), PAIR(WMass, "m_{W}")}; // masses
+  return Join(BottomBase::Variables(), {PAIR(DeltaHt, "#Delta H_{T}"), PAIR(Bdt1, "BDT_{1}"), PAIR(Bdt2, "BDT_{2}"), PAIR(Mass, "m"), PAIR(DeltaPt, "#Delta P_{T}"), PAIR(DeltaM, "#Delta m"), PAIR(DeltaRap, "#Delta #eta"), PAIR(DeltaPhi, "#Delta #phi"), PAIR(DeltaR, "#Delta R"), PAIR(Rho, "#rho"), PAIR(BottomMass, "m_{b}"), PAIR(WMass, "m_{W}"), PAIR(Pull1, "#theta_{1}"), PAIR(Pull2, "#theta_{2}"), PAIR(Dipolarity, "D")}); // everything
     return Join(BottomBase::Variables(), {PAIR(DeltaHt, "#Delta H_{T}"), PAIR(Mass, "m"), PAIR(DeltaPt, "#Delta P_{T}"), PAIR(DeltaM, "#Delta m"), PAIR(DeltaRap, "#Delta #eta"), PAIR(DeltaPhi, "#Delta #phi"), PAIR(DeltaR, "#Delta R"), PAIR(Rho, "#rho"), PAIR(BottomMass, "m_{b}"), PAIR(WMass, "m_{W}"), PAIR(Pull1, "#theta_{1}"), PAIR(Pull2, "#theta_{2}"), PAIR(Dipolarity, "D")}); // bottom
     return {PAIR(DeltaHt, "#Delta H_{T}"), PAIR(Mass, "m"), PAIR(DeltaPt, "#Delta P_{T}"), PAIR(DeltaM, "#Delta m"), PAIR(DeltaRap, "#Delta #eta"), PAIR(DeltaPhi, "#Delta #phi"), PAIR(DeltaR, "#Delta R"), PAIR(Rho, "#rho"), PAIR(BottomMass, "m_{b}"), PAIR(WMass, "m_{W}")}; // kinematics
     return {PAIR(Mass, "m")}; // just mass
@@ -152,6 +153,7 @@ TopHadronicHepBranch::TopHadronicHepBranch()
 
 Observables TopHadronicHepBranch::Variables()
 {
+    return {PAIR(Mass, "m"), PAIR(WMass, "m_{W}")}; // masses
     return {PAIR(DeltaHt, "#Delta H_{T}"), PAIR(Mass, "m"), PAIR(DeltaPt, "#Delta P_{T}"), PAIR(DeltaM, "#Delta m"), PAIR(DeltaRap, "#Delta #eta"), PAIR(DeltaPhi, "#Delta #phi"), PAIR(DeltaR, "#Delta R"), PAIR(Rho, "#rho"), PAIR(BottomMass, "m_{b}"), PAIR(WMass, "m_{W}")}; // kinematics
     return {PAIR(Mass, "m")}; // just mass
     return Join(BottomBase::Variables(), {PAIR(DeltaHt, "#Delta H_{T}"), PAIR(Mass, "m"), PAIR(DeltaPt, "#Delta P_{T}"), PAIR(DeltaM, "#Delta m"), PAIR(DeltaRap, "#Delta #eta"), PAIR(DeltaPhi, "#Delta #phi"), PAIR(DeltaR, "#Delta R"), PAIR(Rho, "#rho"), PAIR(BottomMass, "m_{b}"), PAIR(WMass, "m_{W}"), PAIR(Pull1, "#theta_{1}"), PAIR(Pull2, "#theta_{2}"), PAIR(Dipolarity, "D")}); // bottom info

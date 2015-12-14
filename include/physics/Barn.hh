@@ -47,4 +47,6 @@ Luminosity to_luminosity(float luminosity);
 
 Crosssection min(std::vector<Crosssection> vector, bool truncate = false);
 
+std::vector< float > FloatVector(std::vector<Crosssection> const& crosssections);
+
 }

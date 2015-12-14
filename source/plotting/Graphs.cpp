@@ -43,26 +43,27 @@ void Graphs::Draw()
     legend_.Draw();
 }
 
-void Graphs::SetXAxis(const std::string& title, const boca::Limits<float>& limits)
+void Graphs::SetXAxis(const std::string& title, const boca::Bounds<float>& bounds)
 {
     Draw();
     SetTitle(*multi_graph_.GetXaxis(), title.c_str());
-    if (limits) multi_graph_.GetXaxis()->SetLimits(limits.Min(), limits.Max());
+    if (bounds) multi_graph_.GetXaxis()->SetLimits(bounds.Min(), bounds.Max());
 }
 
-void Graphs::SetYAxis(const std::string& title, const boca::Limits<float>& limits)
+void Graphs::SetYAxis(const std::string& title, const boca::Bounds<float>& bounds)
 {
     Draw();
     SetTitle(*multi_graph_.GetYaxis(), title.c_str());
-    if (limits) {
-        multi_graph_.GetYaxis()->SetLimits(limits.Min(), limits.Max());
-        multi_graph_.SetMinimum(limits.Min());
-        multi_graph_.SetMaximum(limits.Max());
-        SetLog(limits);
-    } else SetLog(LimitsY());
+    if (bounds) {
+        multi_graph_.GetYaxis()->SetLimits(bounds.Min(), bounds.Max());
+        multi_graph_.SetMinimum(bounds.Min());
+        multi_graph_.SetMaximum(bounds.Max());
+        SetLog(bounds);
+    }
+//     else SetLog();
 }
 
-Limits<double> Graphs::LimitsY()
+Bounds<double> Graphs::LimitsY()
 {
     TAxis& axis = *multi_graph_.GetYaxis();
     return {axis.GetXmin(), axis.GetXmax()};
@@ -79,7 +80,7 @@ void Graphs::AddGraphs()
 
 void Graphs::AddLine(float x_value)
 {
-    Limits<double> y = LimitsY();
+    Bounds<double> y = LimitsY();
     TLine line(x_value, y.Min(), x_value, y.Max());
     SetLine(line, graphs_.size() + lines_.size() + 1);
     if (x_value != 0) line.Draw();

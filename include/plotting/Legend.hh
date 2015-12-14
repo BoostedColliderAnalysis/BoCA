@@ -8,11 +8,10 @@
 #include "TLegend.h"
 
 #include "Flag.hh"
-#include "physics/Vector2.hh"
+#include "physics/Rectangle.hh"
 
 namespace boca
 {
-
 
 /**
  * @brief Orientation of the Legend
@@ -45,13 +44,13 @@ public:
 
     Legend(std::string const& title);
 
-    Legend(Vector2<float> const& min, float width, float height, std::string const& title = "");
+    Legend(boca::Rectangle<float> const& rectangle, std::string const& title = "");
 
     Legend(Orientation orientation, std::vector<std::string> const& entries, std::string const& title = "");
 
     void SetOrientation(Orientation orientation, std::vector<std::string> const& entries, std::string const& title);
 
-    void Set(Vector2<float> const& min, float width, float height, std::string const& title = "");
+    void Set(boca::Rectangle<float> const& rectangle, std::string const& title = "");
 
     void SetOrientation(Orientation orientation, std::string const& title);
 
@@ -63,11 +62,13 @@ public:
 
 private:
 
-    void SetCorners(Vector2<float> const& min, float width, float height);
+    void SetCorners(boca::Rectangle<float> const& rectangle);
 
     void SetStyle();
 
     void SetTitle(std::string const& title);
+
+    boca::Rectangle<double> Rectangle();
 
     TLegend legend_;
 };

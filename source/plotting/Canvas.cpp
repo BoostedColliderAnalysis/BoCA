@@ -81,5 +81,9 @@ const std::string& Canvas::Title() const
 {
     return title_;
 }
+void Canvas::SetLog()
+{
+    canvas_.SetLogy();
+}
 
 }

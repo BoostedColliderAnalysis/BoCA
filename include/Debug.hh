@@ -52,9 +52,11 @@ std::string Column(int width, Value const& message)
 template<typename Value>
 std::string ColumnRight(int width, Value const& message)
 {
-    std::stringstream stream;
-    stream  << std::boolalpha << boost::units::engineering_prefix << std::right << std::setw(width) << std::setfill(' ') << message << std::flush;
-    return stream.str();
+    std::stringstream stream_1;
+    stream_1 << std::boolalpha << boost::units::engineering_prefix << message;
+    std::stringstream stream_2;
+    stream_2 << std::right << std::setw(width) << std::setfill(' ') << stream_1.str();
+    return stream_2.str();
 }
 
 int ValueLength();
