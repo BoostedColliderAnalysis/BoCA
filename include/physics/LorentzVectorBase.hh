@@ -32,7 +32,7 @@ public:
     using ValueProduct = boca::ValueProduct<Value, Value_2>;
 
     template<typename Value_2>
-    using ValueQuotient = typename boost::units::divide_typeof_helper<Value, Value_2>::type;
+    using ValueQuotient = ValueQuotient<Value, Value_2>;
 
     template <typename> struct IsQuantity : std::false_type {};
     template <typename T> struct IsQuantity<boost::units::quantity<T>> : std::true_type {};

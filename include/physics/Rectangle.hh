@@ -15,114 +15,128 @@ class Rectangle
 
 public:
 
-    Rectangle() {
-        x_min_ = Value(0);
-        x_max_ = Value(0);
-        y_min_ = Value(0);
-        y_max_ = Value(0);
+    Rectangle() {}
+
+    Rectangle(Bounds<Value> x, Bounds<Value> y) :
+        x_(x),
+        y_(y)
+    {}
+
+    Rectangle(Vector2<Value> min, Vector2<Value> max) :
+        x_( {min.X(), max.X()}),
+        y_( {min.Y(), max.Y()})
+    {}
+
+    Rectangle(Vector2<Value> min, Value width, Value height) :
+        x_( {min.X(), min.X() + width}),
+        y_( {min.Y(), min.Y() + height})
+    {}
+
+    Rectangle(Value x_min, Value x_max, Value y_min, Value y_max) :
+        x_( {x_min, x_max}),
+        y_( {y_min, y_max})
+    {}
+
+    void SetX(Bounds<Value> const& x) {
+        x_ = x;
     }
 
-    Rectangle(Bounds<Value> x, Bounds<Value> y) {
-        x_min_ = x.Min();
-        x_max_ = x.Max();
-        y_min_ = y.Min();
-        y_max_ = y.Max();
+    void SetY(Bounds<Value> const& y) {
+        y_ = y;
     }
 
-    Rectangle(Vector2<Value> min, Vector2<Value> max) {
-        x_min_ = min.X();
-        x_max_ = max.X();
-        y_min_ = min.Y();
-        y_max_ = max.Y();
-        CheckHierachy();
+    void ResetY() {
+        y_ = Bounds<Value>();
     }
 
-    Rectangle(Vector2<Value> min, Value width, Value height) {
-        x_min_ = min.X();
-        x_max_ = min.X() + width;
-        y_min_ = min.Y();
-        y_max_ = min.Y() + height;
-        CheckHierachy();
-    }
-
-    Rectangle(Value x_min, Value x_max, Value y_min, Value y_max) {
-        x_min_ = x_min;
-        x_max_ = x_max;
-        y_min_ = y_min;
-        y_max_ = y_max;
-        CheckHierachy();
-    }
-
-    Value const& XMin() const {
-        return x_min_;
-    }
-
-    Value const& XMax() const {
-        return x_max_;
-    }
-
-    Value const& YMin() const {
-        return y_min_;
-    }
-
-    Value const& YMax() const {
-        return y_max_;
-    }
-
-    Vector2<Value> Min() const {
-        return {x_min_, y_min_};
-    }
-
-    Vector2<Value> Max() const {
-        return {x_max_, y_max_};
-    }
-
-    Bounds<Value> Horizontal() const {
-        return {x_min_, x_max_};
-    }
-
-    Bounds<Value> Vertical() const {
-        return {y_min_, y_max_};
-    }
-
-    Value Width() const {
-        return x_max_ - x_min_;
-    }
-
-    Value Height() const {
-        return y_max_ - y_min_;
+    void ResetX() {
+        x_ = Bounds<Value>();
     }
 
     void SetXMin(Value x_min) {
-        x_min_ = x_min;
-        CheckHierachy();
+        x_.SetMin(x_min);
     }
 
     void SetXMax(Value x_max) {
-        x_max_ = x_max;
-        CheckHierachy();
+        x_.SetMax(x_max);
     }
 
     void SetYMin(Value y_min) {
-        y_min_ = y_min;
-        CheckHierachy();
+        y_.SetMin(y_min);
     }
 
     void SetYMax(Value y_max) {
-        y_max_ = y_max;
-        CheckHierachy();
+        y_.SetMax(y_max);
+    }
+
+    void UpdateX(Bounds<Value> const& x) {
+        x_.Update(x);
+    }
+
+    void UpdateXMin(Value x_min) {
+        x_.UpdateMin(x_min);
+    }
+
+    void UpdateXMax(Value x_max) {
+        x_.UpdateMax(x_max);
+    }
+
+    void UpdateY(Bounds<Value> const& y) {
+        y_.Update(y);
+    }
+
+    void UpdateYMin(Value y_min) {
+        y_.UpdateMin(y_min);
+    }
+
+    void UpdateYMax(Value y_max) {
+        y_.UpdateMax(y_max);
+    }
+
+    Value XMin() const {
+        return x_.Min();
+    }
+
+    Value XMax() const {
+        return x_.Max();
+    }
+
+    Value YMin() const {
+        return y_.Min();
+    }
+
+    Value YMax() const {
+        return y_.Max();
+    }
+
+    Vector2<Value> Min() const {
+        return {x_.Min(), y_.Min()};
+    }
+
+    Vector2<Value> Max() const {
+        return {x_.Max(), y_.Max()};
+    }
+
+    Bounds<Value> const& Horizontal() const {
+        return x_;
+    }
+
+    Bounds<Value> const& Vertical() const {
+        return y_;
+    }
+
+    Value Width() const {
+        return x_.Length();
+    }
+
+    Value Height() const {
+        return y_.Length();
     }
 
 private:
 
-    void CheckHierachy() {
-        if (x_min_ != Value(0) && x_max_ != Value(0) && x_min_ > x_max_) std::cout << "Minimal x value: " << x_min_ << " is greater than maximal x value: " << x_max_ << std::endl;
-        if (y_min_ != Value(0) && y_max_ != Value(0) && y_min_ > y_max_) std::cout << "Minimal y value: " << y_min_ << " is greater than maximal y value: " << y_max_ << std::endl;
-    }
-    Value x_min_;
-    Value y_min_;
-    Value x_max_;
-    Value y_max_;
+    Bounds<Value> x_;
+    Bounds<Value> y_;
 
 };
 

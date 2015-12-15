@@ -45,10 +45,10 @@ class AnalysisHeavyHiggs : public Analysis<Tagger>
 public:
 
     boca::Mass Mass() const {
+        return 1_TeV;
         return 500_GeV;
         return 2_TeV;
         return 1.5_TeV;
-        return 1_TeV;
         return 800_GeV;
         return 300_GeV;
         return 400_GeV;

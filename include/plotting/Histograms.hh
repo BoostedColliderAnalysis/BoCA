@@ -1,6 +1,7 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
-
-#include <vector>
 
 #include "TH1F.h"
 #include "THStack.h"
@@ -36,6 +37,8 @@ public:
 private:
 
     Bounds<double> LimitsY();
+
+    Bounds<double> LimitsX();
 
     void AddHistograms();
 

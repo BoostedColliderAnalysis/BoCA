@@ -3,8 +3,6 @@
  */
 #pragma once
 
-#include <string>
-
 #include "TLegend.h"
 
 #include "Flag.hh"

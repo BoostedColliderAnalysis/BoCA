@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "TCanvas.h"
@@ -20,6 +23,7 @@ public:
 
     template<typename Value>
     void SetLog(Bounds<Value> const& bounds) {
+//       std::cout << bounds.Min() << " " <<  bounds.Max() <<std::endl;
         if (bounds.Min() > Value(0) && bounds.Min() / bounds.Max() < 0.1) canvas_.SetLogy();
     }
 
@@ -28,6 +32,8 @@ public:
     std::string SaveAs(std::string const& name);
 
     std::string FileName() const;
+
+    std::string FileBaseName() const;
 
 protected :
 

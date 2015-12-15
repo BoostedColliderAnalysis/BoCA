@@ -1,8 +1,9 @@
-
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "TAxis.h"
 #include "TAttText.h"
 #include "TAttLine.h"
-#include "TAttAxis.h"
 #include "plotting/Style.hh"
 #include "plotting/Font.hh"
 // #define INFORMATION
@@ -18,9 +19,9 @@ void SetAxis(TAttAxis& axis)
 {
     Info0;
     axis.SetTitleFont(FontCode());
-    axis.SetTitleSize(TextSize());
+    axis.SetTitleSize(TextHeight());
     axis.SetLabelFont(FontCode());
-    axis.SetLabelSize(LabelSize());
+    axis.SetLabelSize(LabelHeight());
 }
 
 }
@@ -37,7 +38,7 @@ void SetText(TAttText& text)
 {
     Info0;
     text.SetTextFont(FontCode());
-    text.SetTextSize(TextSize());
+    text.SetTextSize(TextHeight());
 }
 
 void SetLine(TAttLine& line, int index)

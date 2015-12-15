@@ -1,10 +1,12 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
-
-#include <vector>
 
 #include "TH2F.h"
 #include "TExec.h"
 
+#include "physics/Vector3.hh"
 #include "plotting/Canvas.hh"
 #include "plotting/Legend.hh"
 

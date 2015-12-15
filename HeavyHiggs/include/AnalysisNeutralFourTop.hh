@@ -23,7 +23,7 @@ public:
     }
 
     std::string AnalysisName() const final {
-        return  "NeutralFourTop-" + Name(this->collider_type()) + "-" + boca::Name(this->Mass()) + "-test";
+        return  "NeutralFourTop-" + Name(this->collider_type()) + "-" + boca::Name(this->Mass()) + "-harder";
     }
 
     void SetFiles(Tag tag, Stage) final {

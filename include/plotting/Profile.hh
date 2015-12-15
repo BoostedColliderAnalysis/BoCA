@@ -1,7 +1,11 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "TProfile.h"
 
+#include "plotting/Plot.hh"
 #include "plotting/Canvas.hh"
 #include "plotting/Legend.hh"
 

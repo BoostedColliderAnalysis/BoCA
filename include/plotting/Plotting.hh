@@ -17,8 +17,6 @@ namespace boca
 class Plots;
 class Result;
 class Results;
-class Result;
-class Results;
 class Plot;
 
 /**
@@ -99,29 +97,6 @@ private:
     boca::Tagger const& Tagger() const;
 
     boca::Tagger& tagger_;
-
-//     std::string BestValueTable(Results const& results) const;
-
-//     std::string BestValueRow(Results const& results, int bin, std::string const& name) const;
-
-
-
-
-
-
-//     Results ReadCutFiles() const;
-//
-//     std::vector<Result> ReadCutFile(TFile& export_file, boca::Tag tag) const;
-//
-//     std::string PlotResult(boca::Results& results) const;
-//
-//     std::string PlotCutEfficiencyGraph(const Results& results) const;
-
-//     std::string EfficienciesTable(Results const& results, int bin) const;
-
-//     std::string EfficienciesRow(const Result& result, int index, boca::Tag tag, int bin) const;
-
-//     std::string PlotModelIndependentGraph(Results& results) const;
 
 };
 

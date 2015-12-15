@@ -5,6 +5,9 @@ add_include_path(../../include/)
 set(plot_sources
 Plotting.cpp
 Result.cpp
+Results.cpp
+Plot.cpp
+Plots.cpp
 Legend.cpp
 LatexFile.cpp
 Canvas.cpp
@@ -14,6 +17,5 @@ Profile.cpp
 Graphs.cpp
 Style.cpp
 Font.cpp
-Graph.cpp
 )
 create_library(Plot plot_sources)

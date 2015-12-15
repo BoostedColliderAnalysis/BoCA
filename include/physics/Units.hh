@@ -62,6 +62,9 @@ inline Angle log(Y const& number)
 template<typename Value, typename Value_2>
 using ValueProduct = typename boost::units::multiply_typeof_helper<Value, Value_2>::type;
 
+template<typename Value, typename Value_2>
+using ValueQuotient = typename boost::units::divide_typeof_helper<Value, Value_2>::type;
+
 template<typename Value>
 using ValueSquare = typename boost::units::multiply_typeof_helper<Value, Value>::type;
 

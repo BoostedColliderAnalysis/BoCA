@@ -43,7 +43,7 @@ private:
 
     std::string AnalysisName() const final {
         Info0;
-        return Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-" + Name(TopDecay()) + "-new-def-two-masses-2";
+        return Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-" + Name(TopDecay()) + "";
     }
 
     void SetFiles(Tag tag, Stage) final {

@@ -1,21 +1,15 @@
-
-
-#include "TAxis.h"
-#include "TExec.h"
-
-#include "physics/Math.hh"
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "plotting/Style.hh"
-#include "plotting/Legend.hh"
-#include "plotting/Result.hh"
 #include "plotting/Histogram2Dim.hh"
-#include "plotting/Graph.hh"
 
 #include "Debug.hh"
 
 namespace boca
 {
 
-Histogram2Dim::Histogram2Dim(const std::string& path, const std::string& name, bool show_title):
+Histogram2Dim::Histogram2Dim(std::string const& path, std::string const& name, bool show_title):
     Canvas(path, name, show_title)
 {
 //     if (show_title) histogram_.SetTitle(Title().c_str());
@@ -26,7 +20,7 @@ Histogram2Dim::~Histogram2Dim()
     SaveAs(FileName());
 }
 
-void Histogram2Dim::SetLegend(boca::Orientation orientation, const std::string& title)
+void Histogram2Dim::SetLegend(boca::Orientation orientation, std::string const& title)
 {
     legend_.SetOrientation(orientation, title);
 }

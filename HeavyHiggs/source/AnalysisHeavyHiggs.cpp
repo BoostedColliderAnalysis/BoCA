@@ -1,9 +1,11 @@
 #include "AnalysisHeavyHiggs.hh"
 #include "Debug.hh"
 
-namespace boca {
+namespace boca
+{
 
-namespace heavyhiggs {
+namespace heavyhiggs
+{
 
 std::string Name(Collider collider)
 {
@@ -26,9 +28,9 @@ std::string Name(Process process)
     case Process::Hbb:
         return "H0bb-ljbbbb";
     case Process::Htt:
-      return "Htt-lljjbbbb";
+        return "Htt-lljjbbbb";
     case Process::Htwb:
-      return "Htwb-lljjbbbb";
+        return "Htwb-lljjbbbb";
     case Process::H0:
         return "H0-ljbb";
     case Process::Htb:
@@ -36,11 +38,11 @@ std::string Name(Process process)
     case Process::tt:
         return "tt_inc";
     case Process::tttt:
-      return "tttt";
+        return "tttt";
     case Process::ttwwbb:
-      return "ttwwbb";
+        return "ttwwbb";
     case Process::ttwbb:
-      return "ttwbb";
+        return "ttwbb";
     case Process::tt2:
         return "tt_inc+";
     default:
@@ -52,28 +54,17 @@ std::string Name(Process process)
 std::string LatexName(Process process)
 {
     switch (process) {
-    case Process::Hbb:
-        return "Hbb";
-    case Process::Htt:
-      return "Htt";
-    case Process::Htwb:
-      return "Htwb";
-    case Process::ttwwbb:
-      return "ttwwbb";
-    case Process::ttwbb:
-      return "ttwbb";
-    case Process::H0:
-        return "H";
-    case Process::Htb:
-        return "H+-tb";
-    case Process::tt:
-        return "tt";
-    case Process::tttt:
-        return "tttt";
-    case Process::tt2:
-        return "tt";
-    default:
-        Error("unhandled case");
+    case Process::Hbb : return "H/Ab#bar{b}";
+    case Process::Htt : return "H/At#bar{t}";
+    case Process::Htwb : return "H/AtW^{#pm}b";
+    case Process::ttwwbb : return "t#bar{t}W^{#pm}W^{#mp}b#bar{b}";
+    case Process::ttwbb : return "t#bar{t}W^{#pm}b#bar{b}";
+    case Process::H0 : return "H/A";
+    case Process::Htb : return "H^{#pm}tb";
+    case Process::tt : return "t#bar{t}";
+    case Process::tttt : return "t#bar{t}t#bar{t}";
+    case Process::tt2 : return "t#bar{t}";
+    default : Error("unhandled case");
         return "";
     }
 }

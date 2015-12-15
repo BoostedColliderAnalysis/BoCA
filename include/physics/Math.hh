@@ -5,6 +5,7 @@
 
 #include <algorithm>
 #include <boost/range/algorithm/lower_bound.hpp>
+#include <boost/range/algorithm/upper_bound.hpp>
 
 namespace boca
 {
@@ -20,9 +21,19 @@ int sgn(Value value)
 }
 
 template <typename Value>
-int Closest(std::vector<Value> const& vector, Value value)
+int LowerBound(std::vector<Value> const& vector, Value value)
 {
     auto position = boost::range::lower_bound(vector, value, [](float a, float b) {
+        return a > b;
+    });
+    if (position == vector.end()) return 0;
+    return position - vector.begin();
+}
+
+template <typename Value>
+int UpperBound(std::vector<Value> const& vector, Value value)
+{
+    auto position = boost::range::upper_bound(vector, value, [](float a, float b) {
         return a > b;
     });
     if (position == vector.end()) return 0;
@@ -38,11 +49,5 @@ float RoundToError(float value, float error);
 float FloorToDigits(float value, int digits = 2);
 
 float CeilToDigits(float value, int digits = 2);
-
-template <typename Value>
-std::pair<Value, Value> minmax(std::vector<Value> const& vector)
-{
-    return *std::minmax_element(vector.begin(), vector.end());
-}
 
 }

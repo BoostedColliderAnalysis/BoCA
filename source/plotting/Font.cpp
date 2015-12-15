@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "Rtypes.h"
 #include "plotting/Font.hh"
 // #define INFORMATION
@@ -54,7 +57,7 @@ int FontNumber(Font font, Style style)
 
 }
 
-float TextSize()
+float TextHeight()
 {
     Info0;
     switch (Precision()) {
@@ -64,7 +67,7 @@ float TextSize()
     }
 }
 
-float LabelSize()
+float LabelHeight()
 {
     Info0;
     switch (Precision()) {

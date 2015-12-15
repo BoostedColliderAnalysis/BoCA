@@ -1,6 +1,7 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
-
-#include <vector>
 
 #include "TGraph.h"
 #include "TMultiGraph.h"
@@ -37,6 +38,8 @@ private:
 
     Bounds<double> LimitsY();
 
+    Bounds<double> LimitsX();
+
     void AddGraphs();
 
     TMultiGraph multi_graph_;
@@ -46,6 +49,8 @@ private:
     std::vector<TGraph> graphs_;
 
     std::vector<TLine> lines_;
+
+    Rectangle<float> bounds_;
 
 };
 

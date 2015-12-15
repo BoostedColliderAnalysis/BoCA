@@ -1,24 +1,20 @@
-
-
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include <boost/range/algorithm/min_element.hpp>
 #include <boost/range/algorithm/max_element.hpp>
 
-#include "TAxis.h"
-#include "TExec.h"
+#include "Branches.hh"
 
-#include "physics/Math.hh"
 #include "plotting/Style.hh"
-#include "plotting/Legend.hh"
-#include "plotting/Result.hh"
 #include "plotting/Profile.hh"
-#include "plotting/Graph.hh"
 
 #include "Debug.hh"
 
 namespace boca
 {
 
-Profile::Profile(const std::string& path, const std::string& name, bool show_title):
+Profile::Profile(std::string const& path, std::string const& name, bool show_title):
     Canvas(path, name, show_title)
 {
 //     if (show_title) histogram_.SetTitle(Title().c_str());
@@ -31,7 +27,7 @@ Profile::~Profile()
 //   SaveAs(Tagger().ExportFolderName() + "/" + "Prof-" + background.tree_name + "-" + signal.name_x + "-" + signal.name_y);
 }
 
-void Profile::SetLegend(boca::Orientation orientation, const std::string& title)
+void Profile::SetLegend(boca::Orientation orientation, std::string const& title)
 {
     legend_.SetOrientation(orientation, title);
 }
@@ -47,7 +43,7 @@ void Profile::Draw()
     legend_.Draw();
 }
 
-void Profile::SetXAxis(const std::string& title, const boca::Bounds<float>& limits)
+void Profile::SetXAxis(std::string const& title, boca::Bounds<float> const& limits)
 {
     Draw();
     SetTitle(*profile_.GetXaxis(), title.c_str());
@@ -55,7 +51,7 @@ void Profile::SetXAxis(const std::string& title, const boca::Bounds<float>& limi
 
 }
 
-void Profile::SetYAxis(const std::string& title, const boca::Bounds<float>& limits)
+void Profile::SetYAxis(std::string const& title, boca::Bounds<float> const& limits)
 {
     Draw();
     SetLog(limits);
@@ -68,7 +64,7 @@ void Profile::SetYAxis(const std::string& title, const boca::Bounds<float>& limi
 
 }
 
-void Profile::SetDimensions(const std::string& name, int bins, Rectangle<float> const& bounds)
+void Profile::SetDimensions(std::string const& name, int bins, Rectangle<float> const& bounds)
 {
     //TProfile2D profile("", Tagger().LatexName().c_str(), bin_number, min.X(), max.X(), bin_number, min.Y(), max.Y());
     profile_.SetBins(bins, bounds.XMin(), bounds.XMax());

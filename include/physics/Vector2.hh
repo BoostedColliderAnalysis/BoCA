@@ -30,7 +30,7 @@ public:
     using ValueProduct = ValueProduct<Value, Value_2>;
 
     template<typename Value_2>
-    using ValueQuotient = typename boost::units::divide_typeof_helper<Value, Value_2>::type;
+    using ValueQuotient = ValueQuotient<Value, Value_2>;
 
     template<typename Value_2>
     using OnlyIfNotOrSameQuantity = typename std::enable_if < !IsQuantity<Value_2>::value || std::is_same<Value, Value_2>::value >::type;

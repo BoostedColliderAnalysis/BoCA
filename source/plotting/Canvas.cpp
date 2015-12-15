@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "TPad.h"
 #include "TStyle.h"
 
@@ -29,7 +32,7 @@ Canvas::Canvas(std::string const& path, std::string const& name, bool show_title
     title_ = name;
     gStyle->SetOptStat("");
     gStyle->SetTitleFont(FontCode(), "t");
-    gStyle->SetTitleFontSize(TextSize());
+    gStyle->SetTitleFontSize(TextHeight());
     gPad->SetTickx();
     gPad->SetTicky();
     Fill();
@@ -38,7 +41,12 @@ Canvas::Canvas(std::string const& path, std::string const& name, bool show_title
 
 std::string Canvas::FileName() const
 {
-    return path_ + "-" + title_ + ExportFileSuffix();
+    return FileBaseName() + ExportFileSuffix();
+}
+
+std::string Canvas::FileBaseName() const
+{
+    return path_ + "-" + title_ ;
 }
 
 void Canvas::Fill()
@@ -54,11 +62,11 @@ void Canvas::Fill()
 
 void Canvas::SetMargins(bool show_title)
 {
-    canvas_.SetLeftMargin(2 * TextSize());
-    if (show_title) canvas_.SetTopMargin(TextSize() * 1.5);
-    else canvas_.SetTopMargin(TextSize() / 4);
-    canvas_.SetRightMargin(TextSize() / 3);
-    canvas_.SetBottomMargin(2. * TextSize());
+    canvas_.SetLeftMargin(2 * TextHeight());
+    if (show_title) canvas_.SetTopMargin(TextHeight() * 1.5);
+    else canvas_.SetTopMargin(TextHeight() / 3);
+    canvas_.SetRightMargin(TextHeight() / 3);
+    canvas_.SetBottomMargin(2. * TextHeight());
 }
 
 std::string Canvas::SaveAs(std::string const& name)
@@ -77,7 +85,7 @@ TCanvas& Canvas::canvas()
 {
     return canvas_;
 }
-const std::string& Canvas::Title() const
+std::string const& Canvas::Title() const
 {
     return title_;
 }

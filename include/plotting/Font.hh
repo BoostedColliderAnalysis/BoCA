@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include <string>
@@ -26,9 +29,9 @@ struct Flag<Style> {
     static const bool enable = true;
 };
 
-float TextSize();
+float TextHeight();
 
-float LabelSize();
+float LabelHeight();
 
 int ColorCode(int number);
 
