@@ -47,7 +47,7 @@ std::vector<MultipletEvent<Sextet>> EventFusionTagger::Multiplets(Event const& e
     INFO("event Tags");
     std::vector<Sextet> sextets = heavy_higgs_semi_reader_.Multiplets(event);
    std::vector<Jet> jets = bottom_reader_.Jets(event);
-   std::vector<Jet> Leptons = event.Leptons().leptons();
+   std::vector<Lepton> leptons = event.Leptons().leptons();
     std::vector<MultipletEvent<Sextet>> sextet_events;
     for (auto const& sextet : sextets) {
         MultipletEvent<Sextet> multiplet_event(sextet, event, jets);

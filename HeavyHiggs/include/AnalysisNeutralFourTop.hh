@@ -123,7 +123,7 @@ private:
 //         std::vector<Particle> Bottoms = CopyIfParticle(Particles, Id::bottom);
 //
 //         if (event.Hadrons().MissingEt().Pt() < this->MissingEt()) return 0;
-//         std::vector<Jet> Leptons = SortedByPt(event.Leptons().leptons());
+//         std::vector<Lepton> leptons = SortedByPt(event.Leptons().leptons());
 //         if (Leptons.size() < 2) return 0;
 //         int positive_lepton = 0;
 //         int negative_lepton = 0;

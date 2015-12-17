@@ -16,6 +16,7 @@ namespace delphes
 
 namespace boca
 {
+class InfoRecombiner;
 class Jet;
 
 /**

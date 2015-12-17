@@ -17,6 +17,11 @@ EventSingleLeptonicTagger.cpp
 EventSingleHadronicTagger.cpp
 EventPairTagger.cpp
 EventEffectiveTagger.cpp
+ResonanceTagger.cpp
+NewPartnerHadronicTagger.cpp
+NewPartnerLeptonicTagger.cpp
+NewPartnerPairTagger.cpp
+EventNewPairTagger.cpp
 )
 create_library(AnalysisTopPartner AnalysisSources)
 
@@ -24,3 +29,4 @@ create_executable(TopPartnerSingleLeptonic MainSingleLeptonic.cpp)
 create_executable(TopPartnerSingleHadronic MainSingleHadronic.cpp)
 create_executable(TopPartnerPair MainPair.cpp)
 create_executable(TopPartnerEffective MainEffective.cpp)
+create_executable(TopPartnerNewPair MainNewPair.cpp)

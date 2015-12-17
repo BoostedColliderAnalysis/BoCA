@@ -2,6 +2,7 @@
  * Copyright (C) 2015 Jan Hajer
  */
 
+#include "exroot/ExRootAnalysis.hh"
 #include "Jet.hh"
 #include "InfoRecombiner.hh"
 #include "Exception.hh"
@@ -68,7 +69,7 @@ Jet::Jet(TLorentzVector const& lorentz_vector, int charge) :
 Jet::Jet(const exroot::Electron& electron) :
     PseudoJet(LorentzVector<Momentum>(electron))
 {
-    SetInfo();
+    SetInfo(int(electron.Charge));
 }
 
 Jet::Jet(const exroot::GenJet& gen_jet) :
@@ -86,7 +87,7 @@ Jet::Jet(const exroot::Jet& jet) :
 Jet::Jet(const exroot::Muon& muon) :
     PseudoJet(LorentzVector<Momentum>(muon))
 {
-    SetInfo();
+    SetInfo(int(muon.Charge));
 }
 
 Jet::Jet(const exroot::Photon& photon) :

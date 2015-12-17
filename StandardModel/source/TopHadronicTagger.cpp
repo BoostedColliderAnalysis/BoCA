@@ -10,7 +10,7 @@
 #include "Exception.hh"
 #include "ParticleInfo.hh"
 #include "MomentumRange.hh"
-// #define DEBUG
+// #define INFORMATION
 #include "Debug.hh"
 
 namespace boca
@@ -58,8 +58,8 @@ int TopHadronicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, 
     int number = SaveEntries(Triplets(event, [&](Triplet & triplet, std::vector<Jet>const & leptons) {
         return Tripple(triplet, leptons, pre_cuts, tag);
     }), Particles(event, pre_cuts), tag, Id::top);
-    Debug(number);
-    if (number == 0) TruthLevel(event, pre_cuts);
+    INFO(number);
+//     if (number == 0) TruthLevel(event, pre_cuts);
     return number;
 }
 
@@ -67,10 +67,16 @@ std::vector<Particle> TopHadronicTagger::Particles(Event const& event, boca::Pre
 {
     Info0;
     std::vector<Particle> particles = event.Partons().GenParticles();
+    Debug(particles.size());
     std::vector<Particle> quarks = CopyIfQuark(particles);
+    Debug(quarks.size());
     quarks = CopyIfGrandMother(quarks, Id::top);
+    Debug(quarks.size());
     std::vector<Particle> tops = CopyIfGrandDaughter(particles, quarks);
-    return pre_cuts.ApplyCuts(Id::top, tops);
+    Debug(tops.size());
+    tops = pre_cuts.ApplyCuts(Id::top, tops);
+    Debug(tops.size());
+    return tops;
 }
 
 std::vector<Triplet> TopHadronicTagger::Triplets(Event const& event, Function const& function) const

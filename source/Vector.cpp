@@ -256,20 +256,6 @@ std::vector<Particle> CopyIf5Quark(std::vector<Particle> const& particles)
     return quarks;
 }
 
-std::vector<Particle> RemoveIfSoft(std::vector<Particle> particles, Momentum pt_min)
-{
-    return boost::range::remove_erase_if(particles, [&](Jet const & jet) {
-        return jet.Pt() < pt_min;
-    });
-}
-
-std::vector<Particle> RemoveIfHard(std::vector<Particle> particles, Momentum pt_max)
-{
-    return boost::range::remove_erase_if(particles, [&](Jet const & jet) {
-        return jet.Pt() > pt_max;
-    });
-}
-
 std::vector<Particle> CopyIfDaughter(std::vector<Particle> const& particles, std::vector<Particle> const& daughters)
 {
     std::vector<Particle> mothers;

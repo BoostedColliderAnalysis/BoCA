@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include <string>

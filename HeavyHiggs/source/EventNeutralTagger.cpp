@@ -26,7 +26,7 @@ std::vector<MultipletEvent<Octet62>> EventNeutralTagger::Multiplets(boca::Event 
     INFO("event Tags");
     std::vector<Octet62> octets = signature_neutral_reader_.Multiplets(event);
    std::vector<Jet> jets = bottom_reader_.Jets(event);
-   std::vector<Jet> Leptons = event.Leptons().leptons();
+   std::vector<Lepton> leptons = event.Leptons().leptons();
     std::vector<MultipletEvent<Octet62>> multiplet_events;
     for (auto const& octet : octets) {
         MultipletEvent<Octet62> multiplet_event(octet, event, jets);

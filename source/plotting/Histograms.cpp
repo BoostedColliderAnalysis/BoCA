@@ -69,16 +69,16 @@ void Histograms::SetYAxis(std::string const& title, boca::Bounds<float> const& b
         stack_.GetYaxis()->SetLimits(bounds.Min(), bounds.Max());
         stack_.SetMinimum(bounds.Min());
         stack_.SetMaximum(bounds.Max());
-    } else SetLog(LimitsY());
+    } else SetLog(BoundsY());
 }
 
-Bounds<double> Histograms::LimitsY()
+Bounds<double> Histograms::BoundsY()
 {
     if (!stack_.GetYaxis()) return {};
     return {stack_.GetYaxis()->GetXmin(), stack_.GetYaxis()->GetXmax()};
 }
 
-Bounds<double> Histograms::LimitsX()
+Bounds<double> Histograms::BoundsX()
 {
   Info0;
   if (!stack_.GetXaxis()) return {};
@@ -97,8 +97,8 @@ void Histograms::AddHistograms()
 
 void Histograms::AddLine(float x_value)
 {
-    if (!LimitsX().Inside(x_value)) return;
-    Bounds<double> y = LimitsY();
+    if (!BoundsX().Inside(x_value)) return;
+    Bounds<double> y = BoundsY();
     TLine line(x_value, y.Min(), x_value, y.Max() * 1.05);
     SetLine(line, histograms_.size() + lines_.size() + 1);
     if (x_value != 0) line.Draw();

@@ -3,6 +3,9 @@
  */
 #pragma once
 
+#include <boost/range/algorithm/max_element.hpp>
+#include <boost/range/algorithm/min_element.hpp>
+
 #include "physics/Vector2.hh"
 #include "physics/Bounds.hh"
 
@@ -69,28 +72,28 @@ public:
         y_.SetMax(y_max);
     }
 
-    void UpdateX(Bounds<Value> const& x) {
-        x_.Update(x);
+    void WidenX(Bounds<Value> const& x) {
+        x_.Widen(x);
     }
 
-    void UpdateXMin(Value x_min) {
-        x_.UpdateMin(x_min);
+    void WidenXMin(Value x_min) {
+        x_.WidenMin(x_min);
     }
 
-    void UpdateXMax(Value x_max) {
-        x_.UpdateMax(x_max);
+    void WidenXMax(Value x_max) {
+        x_.WidenMax(x_max);
     }
 
-    void UpdateY(Bounds<Value> const& y) {
-        y_.Update(y);
+    void WidenY(Bounds<Value> const& y) {
+        y_.Widen(y);
     }
 
-    void UpdateYMin(Value y_min) {
-        y_.UpdateMin(y_min);
+    void WidenYMin(Value y_min) {
+        y_.WidenMin(y_min);
     }
 
-    void UpdateYMax(Value y_max) {
-        y_.UpdateMax(y_max);
+    void WidenYMax(Value y_max) {
+        y_.WidenMax(y_max);
     }
 
     Value XMin() const {
@@ -133,6 +136,60 @@ public:
         return y_.Length();
     }
 
+    template <typename Value2>
+    void WidenY(Bounds<Value> const& x, std::vector<Value2> const& xs, std::vector<Value2> const& ys) {
+//         std::cout << x.Min() << "  " <<  x.Max() << std::endl;
+//         for (auto & x : xs) std::cout << x << std::endl;
+        int min_x;
+        int max_x;
+        if (std::is_sorted(xs.begin(), xs.end(), [](Value2 a, Value2 b) {
+        return a < b;
+    })) {
+            std::cout << "smaller" << std::endl;
+            min_x = boost::range::lower_bound(xs, Value2(x.Min())) - xs.begin();
+            max_x = boost::range::upper_bound(xs, Value2(x.Max())) - xs.begin();
+        } else
+            if (std::is_sorted(xs.begin(), xs.end(), [](Value2 a, Value2 b) {
+        return a > b;
+            })) {
+              y_.Widen( {*boost::range::min_element(ys), *boost::range::max_element(ys)});
+              if(y_ == Bounds<Value>(0,0)) y_ = Bounds<Value>(0.001,1);
+              return;
+            std::cout << "larger" << std::endl;
+            min_x = boost::range::upper_bound(xs, Value2(x.Max())) - xs.begin();
+            max_x = boost::range::lower_bound(xs, Value2(x.Min())) - xs.begin();
+        } else std::cout << "not sorted" << std::endl;
+//         if (min_x == 0) min_x = boost::range::upper_bound(xs, Value2(x.Min()), [](Value2 a, Value2 b) {
+//             return a > b;
+//         }) - xs.begin();
+//         if (max_x == 0) max_x = boost::range::upper_bound(xs, Value2(x.Max()), [](Value2 a, Value2 b) {
+//             return a > b;
+//         }) - xs.begin();
+//         std::cout << min_x << "  " <<  max_x << std::endl;
+        auto min = std::min_element(ys.begin() + min_x, ys.begin() + max_x, [](Value2 a, Value2 b) {
+            return a != 0 ? a < b : a > b;
+        });
+        auto max = std::max_element(ys.begin() + min_x, ys.begin() + max_x);
+//         std::for_each(ys.begin() + min_x, ys.begin() + max_x, [](auto & a) {
+//             std::cout << a << std::endl;
+//         });
+//         std::cout << *min << "  " <<  *max << std::endl;
+        y_.Widen( {std::min(*min, *max), std::max(*min, *max)});
+        //FIXME remove this ugly hack
+        if(y_ == Bounds<Value>(0,0)) y_ = Bounds<Value>(0.001,1);
+    }
+
+    template <typename Value2>
+    void WidenX(Bounds<Value> const& y, std::vector<Value2> const& xs, std::vector<Value2> const& ys) {
+        int min_y = boost::range::upper_bound(ys, Value2(y.Min())) - ys.begin();
+        int max_y = boost::range::lower_bound(ys, Value2(y.Max())) - ys.begin();
+        auto min = std::min_element(xs.begin() + min_y, xs.begin() + max_y, [](Value2 a, Value2 b) {
+            return a != 0 ? a < b : a > b;
+        });
+        auto max = std::max_element(xs.begin() + min_y, xs.begin() + max_y);
+        x_.Widen( {std::min(*min, *max), std::max(*min, *max)});
+    }
+
 private:
 
     Bounds<Value> x_;
@@ -141,3 +198,4 @@ private:
 };
 
 }
+

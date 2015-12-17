@@ -36,9 +36,9 @@ public:
 
 private:
 
-    Bounds<double> LimitsY();
+    Bounds<double> BoundsY();
 
-    Bounds<double> LimitsX();
+    Bounds<double> BoundsX();
 
     void AddHistograms();
 

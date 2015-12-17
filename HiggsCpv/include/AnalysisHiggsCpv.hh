@@ -106,7 +106,7 @@ private:
 
 
 //     std::string FilePath() const final {
-//         return this->working_path_; // < ------ does it work? might cause problems
+//         return this->WorkingPath();
 //         return "~/Projects/HiggsCpv/Analysis/";
 //         return "/Users/jingren/HEP/Research/JanH/tth-analysis/";
 //     }

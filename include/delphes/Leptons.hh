@@ -24,12 +24,7 @@ public:
 
     std::vector<Lepton> Muons() const final;
 
-private:
-
-    std::vector<Lepton> Electrons(JetDetail jet_detail) const;
-
-    std::vector<Lepton> Muons(boca::JetDetail jet_detail) const;
-
+    std::vector<Lepton> Photons() const final;
 
 };
 

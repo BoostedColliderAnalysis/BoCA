@@ -57,13 +57,14 @@ public:
 protected:
 
     Momentum LowerPtCut() const {
-        return 3_TeV;
-        return 500_GeV;
-        return 2.5_TeV;
-        return 2_TeV;
-        return 1.5_TeV;
         return 1_TeV;
+        return 1.5_TeV;
+        return 2_TeV;
+        return 2.5_TeV;
+        return 3_TeV;
+        return 3.5_TeV;
         return 4_TeV;
+        return 500_GeV;
         return 350_GeV;
         return 700_GeV;
         return 800_GeV;
@@ -87,7 +88,8 @@ protected:
         case 2000 : return 2.5_TeV;
         case 2500 : return 3_TeV;
         case 3000 : return 3.5_TeV;
-        case 4000 : return 5_TeV;
+        case 3500 : return 4_TeV;
+        case 4000 : return 4.5_TeV;
             Default(LowerPtCut(), at_rest);
         }
     }
@@ -106,8 +108,8 @@ protected:
 private:
 
     long TrainNumberMax() const override {
-        return 1000;
         return 10000;
+        return 1000;
         return 100;
         return 5000;
         return 500;
@@ -120,6 +122,7 @@ private:
         return 5;
         return 10;
     }
+
     Momentum MadGraphCut() const {
         switch (Int(LowerPtCut())) {
         case 500: return 500_GeV;
@@ -130,6 +133,7 @@ private:
         case 2000 : return 1_TeV;
         case 2500 : return 1_TeV;
         case 3000 : return 1_TeV;
+        case 3500 : return 1_TeV;
         case 4000 : return 1_TeV;
             Default(LowerPtCut(), at_rest);
         }
@@ -144,7 +148,7 @@ private:
     }
 
     std::string FilePath() const final {
-        return this->working_path_ + "../";
+        return this->WorkingPath() + "../";
     }
 
 };

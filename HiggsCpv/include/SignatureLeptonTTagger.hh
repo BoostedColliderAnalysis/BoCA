@@ -27,7 +27,7 @@ public:
 
     std::string Name() const final;
 
-   std::vector<Jet> Leptons(Event const& event) const;
+   std::vector<Lepton> leptons(Event const& event) const;
 
 private:
 

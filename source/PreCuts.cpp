@@ -2,6 +2,7 @@
  * Copyright (C) 2015 Jan Hajer
  */
 #include "PreCuts.hh"
+#include "DetectorGeometry.hh"
 
 namespace boca
 {
@@ -37,9 +38,7 @@ bool PreCuts::OutsideTracker(Id id, const Jet& jet) const
 }
 bool PreCuts::DoSubJets(Id id) const
 {
-    bool set = consider_building_block_.IsSet(id);
-    if (!set) return true;
-    return consider_building_block_.Get(id);
+    return (consider_building_block_.IsSet(id)) ? consider_building_block_.Get(id) : true;
 }
 PreCut< Momentum >& PreCuts::PtLowerCut()
 {
@@ -91,7 +90,7 @@ const PreCut< bool >& PreCuts::ConsiderBuildingBlock() const
 }
 Angle PreCuts::JetConeMax(boca::Id id) const
 {
-    return 2_rad * MassOf(id) / PtLowerCut().Get(id);
+    return (PtLowerCut().IsSet(id)) ? 2_rad * double(MassOf(id) / PtLowerCut().Get(id)) : DetectorGeometry::JetConeSize();
 }
 
 }

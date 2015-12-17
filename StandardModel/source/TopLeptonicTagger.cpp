@@ -23,7 +23,7 @@ Lepton FakeLepton(Jet const& jet)
     return DetectorGeometry::LeptonMinPt() / jet.Pt() * jet;
 }
 
-std::vector<Jet> Leptons(Event const& event, std::vector<Jet> const& jets)
+std::vector<Lepton> Leptons(Event const& event, std::vector<Jet> const& jets)
 {
     Info0;
     bool do_fake_leptons = false;

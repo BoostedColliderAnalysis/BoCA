@@ -71,7 +71,7 @@ private:
 
     std::string FactoryOptions();
 
-    std::string MethodOptions();
+    std::string MethodOptions() const;
 
     boca::Tagger const& Tagger() const;
 

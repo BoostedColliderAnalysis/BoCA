@@ -123,9 +123,11 @@ protected:
 
     PreCuts& pre_cuts();
 
-    std::string working_path_;
+//     std::string working_path_;
 
     void PrintGeneratorLevel(Event const& event, bool signature = false) const;
+
+    std::string WorkingPath() const;
 
 private:
 
@@ -148,8 +150,6 @@ private:
 //     Configuration configuration_;
 
     std::vector<boca::File> files_;
-
-    std::string WorkingPath();
 
 };
 

@@ -26,6 +26,8 @@ public:
 
     virtual std::vector<Lepton> Muons() const = 0;
 
+    virtual std::vector<Lepton> Photons() const = 0;
+
 };
 
 }

@@ -83,17 +83,17 @@ private:
 //     }
 
     int PassPreCut(Event const& event, Tag) const override {
-      std::vector<Particle> Particles = event.Partons().GenParticles();
-       std::vector<Particle> Tops = CopyIfParticle(Particles, Id::top);
-        if (Tops.size() != 2) return 0;
+      std::vector<Particle> particles = event.Partons().GenParticles();
+       std::vector<Particle> tops = CopyIfParticle(particles, Id::top);
+        if (tops.size() != 2) return 0;
         else {
-            if (Tops.at(0).Pt() < this->PreCut()) return 0;
-            if (Tops.at(1).Pt() < this->PreCut()) return 0;
+            if (tops.at(0).Pt() < this->PreCut()) return 0;
+            if (tops.at(1).Pt() < this->PreCut()) return 0;
         }
         if (event.Hadrons().MissingEt().Pt() < this->MissingEt()) return 0;
-       std::vector<Jet> Leptons = SortedByPt(event.Leptons().leptons());
-        if (Leptons.empty()) return 0;
-        if (Leptons.front().Pt() < this->LeptonPt()) return 0;
+       std::vector<Lepton> leptons = SortedByPt(event.Leptons().leptons());
+       if (leptons.empty()) return 0;
+       if (leptons.front().Pt() < this->LeptonPt()) return 0;
        std::vector<Jet> jets = event.Hadrons().Jets();
         if (jets.size() < 4) return 0;
         return 1;

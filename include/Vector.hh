@@ -100,10 +100,6 @@ std::vector<Multiplet> RemoveIfHard(std::vector<Multiplet> multiplets, Momentum 
     });
 }
 
-std::vector<Particle> RemoveIfSoft(std::vector<Particle> particles, Momentum pt_min);
-
-std::vector<Particle> RemoveIfHard(std::vector<Particle> particles, Momentum pt_max);
-
 struct Close {
     Close(Particle const& particle) : particle_(particle) {}
     template <typename Multiplet>

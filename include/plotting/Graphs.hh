@@ -36,9 +36,9 @@ public:
 
 private:
 
-    Bounds<double> LimitsY();
+    Bounds<double> BoundsY();
 
-    Bounds<double> LimitsX();
+    Bounds<double> BoundsX();
 
     void AddGraphs();
 
@@ -49,6 +49,8 @@ private:
     std::vector<TGraph> graphs_;
 
     std::vector<TLine> lines_;
+
+    std::vector<std::pair<std::vector<float>, std::vector<float>>> datas_;
 
     Rectangle<float> bounds_;
 

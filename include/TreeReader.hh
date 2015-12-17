@@ -121,8 +121,11 @@ public:
 
     template<typename Object>
     TTreeReaderArray<Object>& Objects(Branch branch) const {
-        if (!Has(branch)) std::cout << BranchName(branch) << " does not exist" << std::endl;
+        if (!Has(branch)) {
+          std::cout << BranchName(branch) << " does not exist " << map_.size() << std::endl;
+//           return {};
 //          return TTreeReaderArray<Object>();
+        }
 //         std::cout << "Reading " << BranchName(branch) << std::endl;
         return const_cast<TTreeReaderArray<Object> &>(std::dynamic_pointer_cast<TreeReaderArray<Object>>(map_.at(branch))->tree_reader_array());
     }

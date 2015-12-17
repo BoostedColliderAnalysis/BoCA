@@ -5,10 +5,14 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 project(BoCA CXX)
 
-# Load some basic macros which are needed later on
 include(CMakeFiles/CMakeConfig.cmake)
 find_package(Boost 1.43)
+# find_package(Boost 1.43 COMPONENTS system filesystem REQUIRED)
 add_include_path(${Boost_INCLUDE_DIRS})
+# add_libraries(
+#   ${Boost_FILESYSTEM_LIBRARY}
+#   ${Boost_SYSTEM_LIBRARY}
+# )
 
 # set build type to debug
 if( NOT CMAKE_BUILD_TYPE )

@@ -67,7 +67,7 @@ public:
     template <typename Multiplet>
     std::vector<Multiplet> ApplyCuts(Id id, std::vector<Multiplet> const& multiplets) const {
         std::vector<Multiplet> good;
-        for (auto const & multiplet : multiplets) if (ApplyCuts(id, multiplet)) good.emplace_back(multiplet);
+        for (auto const & multiplet : multiplets) if (!ApplyCuts(id, multiplet)) good.emplace_back(multiplet);
         return good;
     }
 

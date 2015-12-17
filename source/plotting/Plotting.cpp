@@ -75,12 +75,11 @@ std::vector<Result> Plotting::ReadBdtFile(TFile& export_file, Tag tag) const
     std::vector<Result> results;
     switch (Tagger().Mva()) {
     case TMVA::Types::EMVA::kBDT : for (auto const & tree_name : Tagger().TreeNames(tag)) results.emplace_back(BdtDistribution(file, tree_name, export_file));
-        break;
+        return results;
     case TMVA::Types::EMVA::kCuts: for (auto const & tree_name : Tagger().TreeNames(tag)) results.emplace_back(CutDistribution(file, tree_name, export_file));
-        break;
-    default : Error(Tagger().Mva());
+        return results;
+        Default(Tagger().Mva(), results);
     }
-    return results;
 }
 
 Result Plotting::BdtDistribution(TFile& file, std::string const& tree_name, TFile& export_file) const
@@ -134,7 +133,7 @@ InfoBranch Plotting::InfoBranch(TFile& file, std::string const& tree_name) const
 {
     INFO(tree_name);
     exroot::TreeReader tree_reader(static_cast<TTree*>(file.Get(tree_name.c_str())));
-    Error(tree_name, Tagger().WeightBranchName());
+    INFO(tree_name, Tagger().WeightBranchName());
     TClonesArray* clones_array = tree_reader.UseBranch(Tagger().WeightBranchName().c_str());
     tree_reader.ReadEntry(tree_reader.GetEntries() - 1);
     return static_cast<boca::InfoBranch&>(*clones_array->Last());

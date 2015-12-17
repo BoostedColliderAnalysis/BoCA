@@ -43,23 +43,23 @@ void Profile::Draw()
     legend_.Draw();
 }
 
-void Profile::SetXAxis(std::string const& title, boca::Bounds<float> const& limits)
+void Profile::SetXAxis(std::string const& title, boca::Bounds<float> const& bounds)
 {
     Draw();
     SetTitle(*profile_.GetXaxis(), title.c_str());
-    if (limits) profile_.GetXaxis()->SetLimits(limits.Min(), limits.Max());
+    if (bounds) profile_.GetXaxis()->SetLimits(bounds.Min(), bounds.Max());
 
 }
 
-void Profile::SetYAxis(std::string const& title, boca::Bounds<float> const& limits)
+void Profile::SetYAxis(std::string const& title, boca::Bounds<float> const& bounds)
 {
     Draw();
-    SetLog(limits);
+    SetLog(bounds);
     SetTitle(*profile_.GetYaxis(), title.c_str());
-    if (limits) {
-        profile_.GetYaxis()->SetLimits(limits.Min(), limits.Max());
-        profile_.SetMinimum(limits.Min());
-        profile_.SetMaximum(limits.Max());
+    if (bounds) {
+        profile_.GetYaxis()->SetLimits(bounds.Min(), bounds.Max());
+        profile_.SetMinimum(bounds.Min());
+        profile_.SetMaximum(bounds.Max());
     };
 
 }

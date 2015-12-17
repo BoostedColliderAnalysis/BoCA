@@ -189,7 +189,7 @@ std::string Tagger::BackgroundFileName(Stage stage) const
 }
 std::string Tagger::AnalysisName() const
 {
-    INFO(analysis_name_);
+    Error(analysis_name_);
     return analysis_name_;
 }
 std::vector<Observable> const& Tagger::Variables() const
@@ -228,7 +228,7 @@ TCut Tagger::Cut() const
 
 void Tagger::SetAnalysisName(std::string const& analysis_name)
 {
-    INFO(analysis_name);
+    Error(analysis_name);
     analysis_name_ = analysis_name;
 }
 

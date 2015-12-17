@@ -12,8 +12,8 @@ class Bounds
 {
 public:
     Bounds() :
-        min_(std::numeric_limits<Value>::max()),
-        max_(std::numeric_limits<Value>::lowest())
+        min_(InitialMin()),
+        max_(InitialMax())
     {}
 
     Bounds(Value min, Value max) :
@@ -32,18 +32,18 @@ public:
         CheckHierachy();
     }
 
-    void Update(Bounds<Value> const& bound) {
-        UpdateMin(bound.Min());
-        UpdateMax(bound.Max());
+    void Widen(Bounds<Value> const& bound) {
+        WidenMin(bound.Min());
+        WidenMax(bound.Max());
     }
 
-    void UpdateMin(Value min) {
+    void WidenMin(Value min) {
         if (min > min_) return;
-        if (min == 0) return;
+//         if (min == 0) return;
         min_ = min;
     }
 
-    void UpdateMax(Value max) {
+    void WidenMax(Value max) {
         if (max < max_) return;
         max_ = max;
     }
@@ -56,16 +56,16 @@ public:
         return max_;
     }
 
-    Value Floor() const{
-      return FloorToDigits(min_);
+    Value Floor() const {
+        return FloorToDigits(min_);
     }
 
     Value Ceil() const {
-      return CeilToDigits(max_);
+        return CeilToDigits(max_);
     }
 
-    bool Inside(Value value){
-      return value > min_ && value < max_;
+    bool Inside(Value value) {
+        return value > min_ && value < max_;
     }
 
     Value Length() const {
@@ -73,7 +73,7 @@ public:
     }
 
     operator bool() const {
-        return min_ != std::numeric_limits<Value>::max() && max_ != std::numeric_limits<Value>::lowest();
+        return min_ != InitialMin() && max_ != InitialMax();
     }
 
     //FIXME why is the return dimension for quantities not correct?
@@ -84,8 +84,15 @@ public:
 
 private:
     void CheckHierachy() {
-        if (min_ != std::numeric_limits<Value>::max() && max_ != std::numeric_limits<Value>::lowest() && min_ > max_) std::cout << "Minimal value: " << min_ << " is greater than maximal value: " << max_ << std::endl;
+        if (min_ != InitialMin() && max_ != InitialMax() && min_ > max_) std::cout << "Minimal value: " << min_ << " is greater than maximal value: " << max_ << std::endl;
     }
+    Value InitialMin() const {
+        return std::numeric_limits<Value>::max();
+    }
+    Value InitialMax() const {
+        return std::numeric_limits<Value>::lowest();
+    }
+
     Value min_;
     Value max_;
 };
@@ -93,7 +100,14 @@ private:
 template <typename Value>
 Bounds<Value> MinMax(std::vector<Value> const& vector)
 {
-  auto minmax = std::minmax_element(vector.begin(), vector.end());
+    auto minmax = std::minmax_element(vector.begin(), vector.end());
+    return {*minmax.first, *minmax.second};
+}
+
+template <typename Iterator, typename Value>
+Bounds<Value> MinMax(Iterator begin, Iterator end)
+{
+  auto minmax = std::minmax_element(begin, end);
   return {*minmax.first, *minmax.second};
 }
 

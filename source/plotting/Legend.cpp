@@ -15,7 +15,7 @@
 #include "plotting/Style.hh"
 #include "plotting/Font.hh"
 
-#define INFORMATION
+// #define INFORMATION
 #include "Debug.hh"
 
 namespace boca

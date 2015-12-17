@@ -19,6 +19,9 @@ public:
   std::vector<Lepton> Electrons() const final;
 
   std::vector<Lepton> Muons() const final;
+
+  std::vector<Lepton> Photons() const final;
+
 };
 
 }
