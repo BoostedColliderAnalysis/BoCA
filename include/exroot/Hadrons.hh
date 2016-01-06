@@ -23,6 +23,9 @@ class Hadrons : public boca::Hadrons
 {
 
 public:
+
+    Hadrons(boca::TreeReader const& tree_reader);
+
     std::vector<Jet> Jets() const final;
 
     /**

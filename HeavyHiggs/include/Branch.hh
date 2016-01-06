@@ -538,10 +538,10 @@ public:
     NumberBottom = multiplet.BottomNumber();
     InvariantMass = multiplet.InvariantMass() / GeV;
     DeltaR = multiplet.DeltaR() / rad;
-    LeptonPt1 = multiplet.leading_pt_ / GeV;
-    LeptonPt2 = multiplet.second_leading_pt_ / GeV;
-    BottomMinPt = multiplet.bottom_min_pt_ / GeV;
-    BottomMaxRap = multiplet.bottom_max_rap_ / rad;
+    LeptonPt1 = multiplet.LeadingPt() / GeV;
+    LeptonPt2 = multiplet.SecondLeadingPt() / GeV;
+    BottomMinPt = multiplet.BottomMinPt() / GeV;
+    BottomMaxRap = multiplet.BottomMaxRap() / rad;
   }
   virtual Observables Variables();
 

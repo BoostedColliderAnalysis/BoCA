@@ -13,7 +13,7 @@ namespace heavyhiggs {
 int HeavyHiggsLeptonicTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
     Info0;
-    Mass mass = event.mass();
+//     Mass mass = event.mass();
     std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
     Jet missing_et = event.Hadrons().MissingEt();
     std::vector<Particle> particles = event.Partons().GenParticles();
@@ -29,15 +29,13 @@ int HeavyHiggsLeptonicTagger::Train(Event const& event, PreCuts const&, Tag tag)
             WimpMass wimp_mass;
             Presextets = wimp_mass.Sextet(quartet, missing_et, neutrinos, tag);
             for (auto const& sextet : Presextets) {
-                if (tag == Tag::signal && sextet.Mass() < mass / 2.)
-                    continue;
+//                 if (tag == Tag::signal && sextet.Mass() < mass / 2.) continue;
                 sextets.emplace_back(sextet);
             }
         }
     }
     INFO(sextets.size());
-    if (tag == Tag::signal)
-        sextets = BestMass(sextets, mass);
+//     if (tag == Tag::signal) sextets = BestMass(sextets, mass);
     return SaveEntries(sextets);
 }
 

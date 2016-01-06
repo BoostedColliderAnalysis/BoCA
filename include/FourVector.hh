@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <iostream>
 
+#include "delphes/DelphesForward.hh"
 #include "Flag.hh"
 #include "TreeReader.hh"
 
@@ -57,27 +58,21 @@ class FourVector
 
 public:
 
+  FourVector(boca::TreeReader const& tree_reader);
 
 protected:
 
-    void NewEvent(TreeReader const& tree_reader);
-
-    template<typename Data>
-    void PrintCell(Data const data) const {
-        std::cout << std::right << std::setw(9) << std::setfill(' ') << data;
-    }
-
     void PrintTruthLevel(Severity severity) const;
 
-    std::string PrintParticle(int Position) const;
-
-    TreeReader const& tree_reader() const;
-
-    const TreeReader* tree_reader_;
-
-    int source_;
+    boca::TreeReader const& TreeReader() const;
 
 private:
+
+    std::string PrintParticle(int position) const;
+
+    void PrintCells(::delphes::GenParticle const& particle) const;
+
+    const boca::TreeReader* tree_reader_;
 
 };
 

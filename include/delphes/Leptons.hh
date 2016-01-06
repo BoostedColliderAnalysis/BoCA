@@ -20,6 +20,8 @@ class Leptons : public boca::Leptons
 
 public:
 
+    Leptons(boca::TreeReader const& tree_reader);
+
     std::vector<Lepton> Electrons() const final;
 
     std::vector<Lepton> Muons() const final;

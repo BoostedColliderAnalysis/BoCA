@@ -16,13 +16,27 @@ namespace heavyhiggs
 
 enum class Process
 {
-    H0, Hbb, Htt, Htb, tt, tt2, tttt, tttb, ttwbb, ttwcc, Htwb, ttwwbb
+    H0,
+    Hbb,
+    Htt,
+    Htb,
+    tt,
+    tt2,
+    tttt,
+    tttwb,
+    tttb,
+    ttwbb,
+    ttwcc,
+    Htwb,
+    ttwwbb
 
 };
 
 enum class Collider
 {
-    LHC, FHC, LE
+    LHC,
+    FHC,
+    LE
 };
 
 std::string Name(Collider collider);
@@ -67,6 +81,7 @@ public:
     };
 
     long TrainNumberMax() const override {
+        return 100;
         return 10000;
         return 100000;
         return 1000;
@@ -77,13 +92,14 @@ public:
     };
 
     long ReadNumberMax() const override {
-      return 100000;
-      return 10000;
-      return 1000;
-      return 500;
-      return 10000000;
-      return 1000000;
-      return 10;
+        return 100;
+        return 100000;
+        return 10000;
+        return 1000;
+        return 500;
+        return 10000000;
+        return 1000000;
+        return 10;
     };
 
     Collider collider_type() const {
@@ -99,7 +115,7 @@ public:
             case 1000 : return 250_GeV;
             case 2000 : return 250_GeV;
             case 3000 : return 250_GeV;
-            Default("Mass", at_rest);
+                Default("Mass", at_rest);
             }
         case Collider::LE :
             switch (Int(Mass())) {
@@ -111,7 +127,7 @@ public:
             case 10000 : return 2.5_TeV;
             case 15000 : return 2.5_TeV;
             case 20000 : return 2.5_TeV;
-            Default("Mass", at_rest);
+                Default("Mass", at_rest);
             }
             Default("Collider", at_rest);
         }
@@ -121,7 +137,7 @@ public:
         switch (collider_type()) {
         case Collider::LHC : return 30_GeV;
         case Collider::LE : return 60_GeV;
-        Default("Collider", at_rest);
+            Default("Collider", at_rest);
         }
     };
 
@@ -129,7 +145,7 @@ public:
         switch (collider_type()) {
         case Collider::LHC : return 50_GeV;
         case Collider::LE : return 100_GeV;
-        Default("Collider", at_rest);
+            Default("Collider", at_rest);
         }
     };
 
@@ -137,7 +153,7 @@ public:
         switch (collider_type()) {
         case Collider::LHC : return 20_GeV;
         case Collider::LE : return 40_GeV;
-        Default("Collider", at_rest);
+            Default("Collider", at_rest);
         }
     };
 
@@ -149,13 +165,15 @@ public:
             case  Process::ttwbb : return 1;
             case  Process::Htt : return 1;
             case  Process::Htwb : return 1;
-            Default("Process", 1);
+            case  Process::tttt : return 1;
+            case  Process::tttwb : return 1;
+                Default("Process", 1);
             }
         case Collider::LE :
             switch (process) {
             case  Process::ttwwbb : return 2;
             case  Process::ttwbb : return 1;
-            Default("Process", 1);
+                Default("Process", 1);
             }
             Default("Collider", 1);
         }
@@ -167,13 +185,15 @@ public:
         case Process::Htwb : return "_" + boca::Name(Mass());
         case Process::ttwwbb : return "";
         case Process::ttwbb : return "";
+        case Process::tttt : return "";
+        case Process::tttwb : return "";
             Default("Process", "");
         }
     }
 
-    virtual boca::Crosssection Crosssection(Process ) const {
-      Error("No Crosssection");
-      return 0_fb;
+    virtual boca::Crosssection Crosssection(Process) const {
+        Error("No Crosssection");
+        return 0_fb;
     };
 
     virtual void NewFile(Tag tag, Process process) {
@@ -198,7 +218,7 @@ public:
         switch (tag) {
         case Tag::signal : return Name(process) + Suffix(process) + "_" + Name(collider_type());
         case Tag::background : return Name(process) + Suffix(process) + "_" + Name(collider_type());
-        Default("Tag", "");
+            Default("Tag", "");
         }
     }
 

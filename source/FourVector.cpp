@@ -12,6 +12,17 @@
 namespace boca
 {
 
+namespace
+{
+
+template<typename Data>
+void PrintCell(Data data)
+{
+    std::cout << std::right << std::setw(9) << std::setfill(' ') << data;
+}
+
+}
+
 std::string Name(JetDetail jet_detail)
 {
     std::string name;
@@ -31,12 +42,6 @@ std::string Name(JetDetail jet_detail)
     });
     return name;
 }
-
-void FourVector::NewEvent(TreeReader const& tree_reader)
-{
-    tree_reader_ = &tree_reader;
-}
-
 
 void FourVector::PrintTruthLevel(const boca::Severity severity) const
 {
@@ -63,42 +68,44 @@ void FourVector::PrintTruthLevel(const boca::Severity severity) const
         PrintCell("Py");
         PrintCell("Pz");
         std::cout << "\n";
-        //         for (auto const& Position : HRange(tree_reader().GetParticleSum())) {
-        for (auto const& Particle : tree_reader().Objects<::delphes::GenParticle>(Branch::particle)) {
-//             ::delphes::GenParticle& Particle = static_cast<::delphes::GenParticle&>(tree_reader().Particle(Position));
-//             PrintCell(Position);
-//             PrintCell(Name(topology_.at(Position).Particle().Id()));
-//             PrintCell(topology_.at(Position).Particle().Position());
-//             PrintCell(Name(topology_.at(Position).Mother().Id()));
-//             PrintCell(topology_.at(Position).Mother().Position());
-            PrintCell(Particle.Status);
-            PrintCell(Name(Particle.PID));
-            PrintCell(Particle.M1);
-            PrintCell(PrintParticle(Particle.M1));
-            PrintCell(Particle.M2);
-            PrintCell(PrintParticle(Particle.M2));
-            PrintCell(Particle.D1);
-            PrintCell(PrintParticle(Particle.D1));
-            PrintCell(Particle.D2);
-            PrintCell(PrintParticle(Particle.D2));
-            PrintCell(Particle.E);
-            PrintCell(Particle.Px);
-            PrintCell(Particle.Py);
-            PrintCell(Particle.Pz);
-            std::cout << "\n";
-        }
+        //         for (auto const& Position : HRange(TreeReader().GetParticleSum())) {
+        for (auto const & particle : TreeReader().Objects<::delphes::GenParticle>(Branch::particle)) PrintCells(particle);
     }
+}
+
+boca::TreeReader const& FourVector::TreeReader() const
+{
+    return *tree_reader_;
 }
 
 std::string FourVector::PrintParticle(int position) const
 {
-  if (position != -1) return Name(tree_reader().Objects<::delphes::GenParticle>(Branch::particle).At(position).PID);
-    else return " ";
+    if (position == -1) return " ";
+    return Name(TreeReader().Objects<::delphes::GenParticle>(Branch::particle).At(position).PID);
 }
 
-TreeReader const& FourVector::tree_reader() const
+void FourVector::PrintCells(const delphes::GenParticle& particle) const
 {
-    return *tree_reader_;
+    PrintCell(particle.Status);
+    PrintCell(Name(particle.PID));
+    PrintCell(particle.M1);
+    PrintCell(PrintParticle(particle.M1));
+    PrintCell(particle.M2);
+    PrintCell(PrintParticle(particle.M2));
+    PrintCell(particle.D1);
+    PrintCell(PrintParticle(particle.D1));
+    PrintCell(particle.D2);
+    PrintCell(PrintParticle(particle.D2));
+    PrintCell(particle.E);
+    PrintCell(particle.Px);
+    PrintCell(particle.Py);
+    PrintCell(particle.Pz);
+    std::cout << "\n";
+}
+
+FourVector::FourVector(boca::TreeReader const& tree_reader)
+{
+    tree_reader_ = &tree_reader;
 }
 
 }

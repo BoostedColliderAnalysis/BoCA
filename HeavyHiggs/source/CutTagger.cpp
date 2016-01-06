@@ -1,13 +1,11 @@
-#include "CutTagger.hh"
-#include "Event.hh"
-#include "physics/Math.hh"
 #include "boost/range.hpp"
 #include <boost/range/algorithm/copy.hpp>
 #include <boost/range/adaptors.hpp>
-#include <boost/range/join.hpp>
-// #define INFORMATION
+#include "physics/Math.hh"
+#include "CutTagger.hh"
+#include "Event.hh"
+#define DEBUG
 #include "Debug.hh"
-
 
 namespace boca
 {
@@ -32,10 +30,12 @@ std::vector<CutVariables> CutTagger::Multiplets(Event const& event, PreCuts cons
     return ReduceResult(variables);
 }
 
-namespace {
-
-std::vector<Lepton> Signed(std::vector<Lepton> leptons, int charge)
+namespace
 {
+
+std::vector<Lepton> Signed(std::vector<Lepton> const& leptons, int charge)
+{
+    Info0;
     std::vector<Lepton> chosen;
     boost::range::copy(leptons | boost::adaptors::filtered([charge](Jet const & jet_1) {
         return sgn(jet_1.Info().Charge()) == sgn(charge);
@@ -43,8 +43,9 @@ std::vector<Lepton> Signed(std::vector<Lepton> leptons, int charge)
     return chosen;
 }
 
-std::vector<Lepton> Window(std::vector<Lepton> leptons)
+std::vector<Lepton> Window(std::vector<Lepton> const& leptons)
 {
+    Info0;
     if (leptons.size() < 2) return leptons;
     if (boost::units::abs(Lepton(leptons.at(0) + leptons.at(1)).Mass() - MassOf(Id::Z)) < 10_GeV) return {};
     return leptons;
@@ -52,6 +53,7 @@ std::vector<Lepton> Window(std::vector<Lepton> leptons)
 
 std::vector<Lepton> IsolateLeptons(std::vector<Lepton> const& leptons, Jet const& jet)
 {
+    Info0;
     std::vector<Lepton> isolated;
     for (auto const & lepton : leptons) if (lepton.Pt() > 50_GeV || jet.DeltaRTo(lepton) > 0.3_rad) isolated.emplace_back(lepton);
     return isolated;
@@ -66,12 +68,13 @@ boost::optional<CutVariables> CutTagger::CutMethod(Event const& event) const
 
     std::vector<Particle> particles = event.Partons().GenParticles();
     std::vector<Particle> bottom = SortedByPt(CopyIfParticle(particles, Id::bottom));
-    if(bottom.empty()) return boost::none;
+    Debug(bottom.size());
+    if (bottom.empty()) return boost::none;
 
-    variables.bottom_min_pt_ = bottom.back().Pt();
+    variables.SetBottomMinPt(bottom.back().Pt());
 
     bottom = SortedByRap(bottom);
-    variables.bottom_max_rap_ = boost::units::abs(bottom.front().Rap());
+    variables.SetBottomMaxRap(boost::units::abs(bottom.front().Rap()));
 
     std::vector<Jet> jets = RemoveIfSoft(event.Hadrons().Jets(), 40_GeV);
     std::vector<Lepton> electrons = event.Leptons().Electrons();
@@ -82,36 +85,43 @@ boost::optional<CutVariables> CutTagger::CutMethod(Event const& event) const
         muons = IsolateLeptons(muons, jet);
     }
 
+    Debug(electrons.size(), muons.size());
     if (electrons.size() + muons.size() != 2) return boost::none;
     electrons = Window(electrons);
 
     std::vector<Lepton> leptons = SortedByPt(RemoveIfSoft(Join(electrons, muons), 15_GeV));
+    Debug(electrons.size(), muons.size());
     if (electrons.size() + muons.size() != 2) return boost::none;
 
     std::vector<Lepton> positive = Signed(leptons, 1);
     std::vector<Lepton> negative = Signed(leptons, -1);
 
+    Debug(positive.size(), negative.size());
     if (positive.size() != 2 && negative.size() != 2) return boost::none;
 
-    variables.leading_pt_ = leptons.at(0).Pt();
-    variables.second_leading_pt_ = leptons.at(1).Pt();
+    variables.SetLeadingPt(leptons.at(0).Pt());
+    variables.SetSecondLeadingPt(leptons.at(1).Pt());
 
+    Debug(jets.size());
     if (jets.size() < 4) return boost::none;
-    variables.jet_number_ = jets.size();
+    variables.SetJetNumber(jets.size());
 
     std::vector<Jet> bottoms;
     boost::range::copy(jets | boost::adaptors::filtered([](Jet const & jet) {
         return jet.Info().BTag();
     }), std::back_inserter(bottoms));
+    Debug(bottoms.size());
     if (bottoms.size() < 4) return boost::none;
-    variables.bottom_number_ = bottoms.size();
+    variables.SetBottomNumber(bottoms.size());
 
     boca::MissingEt missing_et = event.Hadrons().MissingEt();
+    Debug(missing_et.Pt());
     if (missing_et.Pt() < 30_GeV) return boost::none;
-    variables.et_miss_ = missing_et.Pt();
+    variables.SetEtMiss(missing_et.Pt());
 
-    variables.ht_ = event.Hadrons().ScalarHt();
+    variables.SetHt(event.Hadrons().ScalarHt());
 
+    Debug(variables.IsNaN());
     if (variables.IsNaN()) return boost::none;
     return variables;
 }
@@ -119,6 +129,11 @@ boost::optional<CutVariables> CutTagger::CutMethod(Event const& event) const
 std::string CutTagger::Name() const
 {
     return "Cut";
+}
+
+TMVA::Types::EMVA CutTagger::Mva() const
+{
+    return TMVA::Types::EMVA::kCuts;
 }
 
 }

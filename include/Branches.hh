@@ -103,7 +103,7 @@ public:
   template<typename Multiplet>
   void Fill(Multiplet const& multiplet) {
     ResultBranch::Fill(multiplet);
-    passed_ = multiplet.passed_;
+    passed_ = multiplet.Passed();
   }
 
 private:

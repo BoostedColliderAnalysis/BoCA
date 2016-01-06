@@ -5,12 +5,12 @@
 #include "Types.hh"
 #include "Debug.hh"
 
-namespace boca {
-
-void Partons::NewEvent(TreeReader const& tree_reader)
+namespace boca
 {
-    Info0;
-    FourVector::NewEvent(tree_reader);
-}
+
+Partons::Partons(boca::TreeReader const& tree_reader):
+    FourVector(tree_reader) {}
+
+Partons::~Partons() {}
 
 }

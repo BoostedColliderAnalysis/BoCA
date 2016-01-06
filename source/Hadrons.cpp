@@ -4,13 +4,11 @@
 #include "Hadrons.hh"
 #include "Debug.hh"
 
-namespace boca {
-
-void Hadrons::NewEvent(TreeReader const& tree_reader)
+namespace boca
 {
-    Info0;
-    FourVector::NewEvent(tree_reader);
-}
+
+Hadrons::Hadrons(boca::TreeReader const& tree_reader) :
+    FourVector(tree_reader) {}
 
 Momentum Hadrons::ScalarHt() const
 {

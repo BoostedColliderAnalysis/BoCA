@@ -5,12 +5,6 @@
 
 #include "../Partons.hh"
 
-class GenParticle;
-namespace delphes
-{
-typedef ::GenParticle GenParticle;
-}
-
 namespace boca
 {
 
@@ -21,10 +15,12 @@ namespace delphes
  * @brief delphes particles
  *
  */
-class Partons  : public boca::Partons
+class Partons : public boca::Partons
 {
 
 public:
+
+    Partons(boca::TreeReader const& tree_reader);
 
     std::vector<Particle> Particles() const final;
 

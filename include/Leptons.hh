@@ -16,9 +16,9 @@ class Leptons : public FourVector {
 
 public:
 
-    virtual ~Leptons();
+    Leptons(boca::TreeReader const& tree_reader);
 
-    void NewEvent(TreeReader const& tree_reader);
+    virtual ~Leptons();
 
     std::vector<Lepton> leptons() const;
 

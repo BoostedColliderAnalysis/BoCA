@@ -5,22 +5,28 @@
 
 #include "../Leptons.hh"
 
-namespace boca {
+namespace boca
+{
 
-namespace exroot {
+namespace exroot
+{
 
 /**
  * @brief PGS leptons
  *
  */
-class Leptons : public boca::Leptons {
+class Leptons : public boca::Leptons
+{
 
 public:
-  std::vector<Lepton> Electrons() const final;
 
-  std::vector<Lepton> Muons() const final;
+    Leptons(boca::TreeReader const& tree_reader);
 
-  std::vector<Lepton> Photons() const final;
+    std::vector<Lepton> Electrons() const final;
+
+    std::vector<Lepton> Muons() const final;
+
+    std::vector<Lepton> Photons() const final;
 
 };
 

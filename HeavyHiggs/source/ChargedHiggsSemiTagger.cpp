@@ -9,7 +9,7 @@ namespace heavyhiggs {
 int ChargedHiggsSemiTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
     Info0;
-    Mass mass = event.mass();
+//     Mass mass = event.mass();
     Jet HiggsBoson;
     if (tag == Tag::signal) {
        std::vector<Particle> HiggsParticles = event.Partons().GenParticles();
@@ -57,15 +57,15 @@ int ChargedHiggsSemiTagger::Train(Event const& event, PreCuts const&, Tag tag) c
         for (auto const& Jet : BottomJets) {
             if (triplet.Jet().DeltaRTo(Jet) < DetectorGeometry::JetConeSize()) continue;
             Quartet31 quartet(triplet, Jet);
-            if (tag == Tag::signal && quartet.Mass() < mass / 2.) continue;
-            if (tag == Tag::signal && quartet.Mass() > mass * 3. / 2.) continue;
+//             if (tag == Tag::signal && quartet.Mass() < mass / 2.) continue;
+//             if (tag == Tag::signal && quartet.Mass() > mass * 3. / 2.) continue;
             if (tag == Tag::signal && quartet.DeltaRTo(HiggsBoson) > 2. * DetectorGeometry::JetConeSize()) continue;
             quartets.emplace_back(quartet);
         }
     INFO(quartets.size());
     if (tag == Tag::signal && quartets.size() > 1) {
         INFO(quartets.size());
-        quartets = SortedByMassTo(quartets, mass);
+//         quartets = SortedByMassTo(quartets, mass);
         quartets.erase(quartets.begin() + 1, quartets.end());
     }
     return SaveEntries(quartets);

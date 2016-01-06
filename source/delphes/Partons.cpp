@@ -14,6 +14,9 @@ namespace boca
 namespace delphes
 {
 
+Partons::Partons(boca::TreeReader const& tree_reader) :
+    boca::Partons(tree_reader) {}
+
 std::vector<Particle> Partons::Particles() const
 {
     return Particles(Status::stable);
@@ -29,7 +32,7 @@ std::vector<Particle> Partons::Particles(Status min_status) const
     Info0;
     std::vector<Particle> particles;
     int position = 0;
-    TTreeReaderArray<::delphes::GenParticle>& gen_particles = tree_reader().Objects<::delphes::GenParticle>(Branch::particle);
+    TTreeReaderArray<::delphes::GenParticle>& gen_particles = TreeReader().Objects<::delphes::GenParticle>(Branch::particle);
     for (auto const & gen_particle : gen_particles) {
         if (gen_particle.Status < to_int(min_status)) break;
         Detail(gen_particle.PID);
@@ -63,11 +66,12 @@ std::vector<Particle> Partons::Particles(Status min_status) const
 
 // Member Partons::Mother(::delphes::GenParticle& particle){
 //   if (particle.M1 == EmptyPosition) return {};
-//   ::delphes::GenParticle mother = tree_reader().Objects<::delphes::GenParticle>(Branch::particle).At(particle.M1);
+//   ::delphes::GenParticle mother = TreeReader().Objects<::delphes::GenParticle>(Branch::particle).At(particle.M1);
 //   return {mother.PID, particle.M1};
 // }
 
 }
 
 }
+
 

@@ -6,17 +6,15 @@
 #include "Vector.hh"
 #include "Debug.hh"
 
-namespace boca {
+namespace boca
+{
+
+Leptons::Leptons(boca::TreeReader const& tree_reader) :
+    FourVector(tree_reader) {}
 
 Leptons::~Leptons()
 {
-  Info0;
-}
-
-void Leptons::NewEvent(TreeReader const& tree_reader)
-{
     Info0;
-    FourVector::NewEvent(tree_reader);
 }
 
 std::vector<Lepton> Leptons::leptons() const

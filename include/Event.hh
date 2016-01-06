@@ -28,36 +28,15 @@ class Event
 
 public:
 
-    Event();
-
-    Event(Source source);
-
     Event(TreeReader const& tree_reader, Source source);
 
     virtual ~Event();
 
-    void NewEvent(TreeReader const& tree_reader);
+    boca::Hadrons const& Hadrons() const;
 
-    const boca::Hadrons& Hadrons() const {
-        return *hadrons_;
-    }
+    boca::Leptons const& Leptons() const;
 
-    const boca::Leptons& Leptons() const {
-        return *leptons_;
-    }
-
-
-    const boca::Partons& Partons() const {
-        return *partons_;
-    }
-
-    Mass mass() const {
-        return mass_;
-    }
-
-    void SetMass(Mass const& mass) {
-        mass_ = mass;
-    }
+    boca::Partons const& Partons() const;
 
 private:
 
@@ -80,8 +59,6 @@ private:
     boca::Hadrons* hadrons_ = nullptr;
 
     Source source_;
-
-    Mass mass_;
 
 };
 

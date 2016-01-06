@@ -6,19 +6,21 @@
 #include "Particle.hh"
 #include "FourVector.hh"
 
-namespace boca {
+namespace boca
+{
 
 /**
  * @brief particles for HAnalysis
  *
  */
-class Partons : public FourVector {
+class Partons : public FourVector
+{
 
 public:
 
-    virtual ~Partons() {};
+    Partons(boca::TreeReader const& tree_reader);
 
-    void NewEvent(const TreeReader& tree_reader);
+    virtual ~Partons();
 
     virtual std::vector<Particle> Particles() const = 0;
 

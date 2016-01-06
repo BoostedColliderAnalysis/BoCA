@@ -57,6 +57,7 @@ public:
 protected:
 
     Momentum LowerPtCut() const {
+        return 500_GeV;
         return 1_TeV;
         return 1.5_TeV;
         return 2_TeV;
@@ -64,7 +65,6 @@ protected:
         return 3_TeV;
         return 3.5_TeV;
         return 4_TeV;
-        return 500_GeV;
         return 350_GeV;
         return 700_GeV;
         return 800_GeV;
@@ -72,8 +72,8 @@ protected:
     }
 
     Collider collider_type() const {
-        return Collider::LE;
         return Collider::LHC;
+        return Collider::LE;
         return Collider::FHC;
     }
 

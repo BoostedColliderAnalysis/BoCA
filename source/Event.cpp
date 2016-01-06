@@ -19,54 +19,29 @@ std::string Name(Decay decay)
     case Decay::hadronic : return "hadronic";
     case Decay::leptonic : return "leptonic";
     case Decay::other : return "other";
-    Default("decay","");
-    }
-}
-
-Event::Event() {}
-
-Event::Event(Source source)
-{
-    Info0;
-    source_ = source;
-    switch (source_) {
-    case Source::delphes :
-        partons_ = new delphes::Partons();
-        hadrons_ = new delphes::Hadrons();
-        leptons_ = new delphes::Leptons();
-        break;
-    case Source::pgs :
-        leptons_ = new exroot::Leptons();
-        hadrons_ = new exroot::Hadrons();
-        break;
-    case Source::parton :
-        partons_ = new exroot::Partons();
-        break;
+        Default("decay", "");
     }
 }
 
 Event::Event(TreeReader const& tree_reader, Source source)
 {
-
     Info0;
     source_ = source;
     switch (source_) {
     case Source::delphes :
-        partons_ = new delphes::Partons();
-        hadrons_ = new delphes::Hadrons();
-        leptons_ = new delphes::Leptons();
+        partons_ = new delphes::Partons(tree_reader);
+        hadrons_ = new delphes::Hadrons(tree_reader);
+        leptons_ = new delphes::Leptons(tree_reader);
         break;
     case Source::pgs :
-        leptons_ = new exroot::Leptons();
-        hadrons_ = new exroot::Hadrons();
+        leptons_ = new exroot::Leptons(tree_reader);
+        hadrons_ = new exroot::Hadrons(tree_reader);
         break;
     case Source::parton :
-        partons_ = new exroot::Partons();
+        partons_ = new exroot::Partons(tree_reader);
         break;
     }
-    NewEvent(tree_reader);
 }
-
 
 Event::~Event()
 {
@@ -90,23 +65,20 @@ Event::~Event()
     hadrons_ = nullptr;
 }
 
-void Event::NewEvent(TreeReader const& tree_reader)
+Hadrons const& Event::Hadrons() const
 {
-    Info0;
-    switch (source_) {
-    case Source::delphes :
-        partons_->NewEvent(tree_reader);
-        hadrons_->NewEvent(tree_reader);
-        leptons_->NewEvent(tree_reader);
-        break;
-    case Source::pgs :
-        hadrons_->NewEvent(tree_reader);
-        leptons_->NewEvent(tree_reader);
-        break;
-    case Source::parton:
-        partons_->NewEvent(tree_reader);
-        break;
-    }
+    return *hadrons_;
+}
+
+Leptons const& Event::Leptons() const
+{
+    return *leptons_;
+}
+
+Partons const& Event::Partons() const
+{
+    return *partons_;
 }
 
 }
+

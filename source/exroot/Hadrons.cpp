@@ -2,15 +2,20 @@
 #include "exroot/Hadrons.hh"
 #include "Debug.hh"
 
-namespace boca {
+namespace boca
+{
 
-namespace exroot {
+namespace exroot
+{
 
- std::vector<Jet> Hadrons::Jets() const
+Hadrons::Hadrons(boca::TreeReader const& tree_reader) :
+    boca::Hadrons(tree_reader) {}
+
+std::vector<Jet> Hadrons::Jets() const
 {
     Info0;
     std::vector<Jet> jets;
-    for (auto const& exroot_jet : tree_reader().Objects<::exroot::Jet>(Branch::jet)) {
+    for (auto const & exroot_jet : TreeReader().Objects<::exroot::Jet>(Branch::jet)) {
         Jet jet(exroot_jet);
         jet.Info().SetBTag(exroot_jet.BTag);
         jets.emplace_back(jet);

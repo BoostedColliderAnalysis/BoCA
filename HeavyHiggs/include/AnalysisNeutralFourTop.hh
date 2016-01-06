@@ -23,7 +23,7 @@ public:
     }
 
     std::string AnalysisName() const final {
-        return  "NeutralFourTop-" + Name(this->collider_type()) + "-" + boca::Name(this->Mass()) + "-harder";
+        return  "NeutralFourTop-" + Name(this->collider_type()) + "-" + boca::Name(this->Mass()) + "-new-bg";
     }
 
     void SetFiles(Tag tag, Stage) final {
@@ -35,7 +35,8 @@ public:
         case Tag::background :
             if (this->template TaggerIs<JetPairTagger>()) this->NewFile(tag, Process::Htt);
             if (this->template TaggerIs<JetPairTagger>()) this->NewFile(tag, Process::Htwb);
-            this->NewFile(tag, Process::ttwwbb);
+            this->NewFile(tag, Process::tttt);
+            this->NewFile(tag, Process::tttwb);
             this->NewFile(tag, Process::ttwbb);
             break;
         }
@@ -49,6 +50,7 @@ public:
                 switch (Int(this->Mass())) {
                 case 500 : return 0.911648_fb;
                 case 700 : return 0.346647_fb;
+                case 750 : return 0.307192_fb;
                 case 800 : return 0.225386_fb;
                 case 1000 : return 0.10028_fb;
                 case 1500 : return 0.0168305_fb;
@@ -59,14 +61,18 @@ public:
                 switch (Int(this->Mass())) {
                 case 500 : return 0.471031_fb;
                 case 700 : return 0.216664_fb;
+                case 750 : return 0.188463_fb;
                 case 800 : return 0.150792_fb;
                 case 1000 : return 0.0758434_fb;
                 case 1500 : return 0.0159789_fb;
                 case 2000 : return 0.00384621_fb;
                     Default("Mass", fb)
                 }
-            case Process::ttwwbb : return 2.126_fb;
-            case Process::ttwbb : return  0.13588_fb;
+//             case Process::ttwwbb : return 2.126_fb;
+//             case Process::ttwbb : return 0.13588_fb;
+            case Process::tttt : return 0.4849_fb;
+            case Process::tttwb : return 0.06012_fb;
+            case Process::ttwbb :return  0.03284_fb;
                 Default("Process", fb)
             };
         case Collider::FHC:

@@ -19,12 +19,9 @@ class Hadrons : public FourVector
 
 public:
 
-    virtual ~Hadrons() {};
+    Hadrons(boca::TreeReader const& tree_reader);
 
-    /**
-     * @brief Initialize New event
-     */
-    void NewEvent(TreeReader const& tree_reader);
+    virtual ~Hadrons() {};
 
     virtual std::vector<Jet> Jets() const = 0;
 

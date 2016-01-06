@@ -4,13 +4,8 @@
 #pragma once
 
 #include "../Hadrons.hh"
+#include "DelphesForward.hh"
 #include "Constituent.hh"
-
-class Jet;
-namespace delphes
-{
-typedef ::Jet Jet;
-}
 
 namespace boca
 {
@@ -30,6 +25,8 @@ class Hadrons : public boca::Hadrons
 {
 
 public:
+
+    Hadrons(boca::TreeReader const& tree_reader);
 
     std::vector<Jet> Jets() const final;
 

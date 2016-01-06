@@ -3,7 +3,6 @@
 #include "TaggerTemplate.hh"
 #include "Branch.hh"
 #include "CutVariables.hh"
-#include  "TCanvas.h"
 
 namespace boca
 {
@@ -27,13 +26,11 @@ public:
 
     std::string Name() const final;
 
-    TMVA::Types::EMVA Mva() const final {
-        return TMVA::Types::EMVA::kCuts;
-    }
+    TMVA::Types::EMVA Mva() const final;
 
 private:
 
-  boost::optional<CutVariables> CutMethod(Event const& event) const;
+    boost::optional<CutVariables> CutMethod(Event const& event) const;
 
 };
 
