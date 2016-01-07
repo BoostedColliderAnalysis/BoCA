@@ -118,8 +118,8 @@ public:
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         PairBranch::Fill(multiplet);
-        LeptonPt = multiplet.Singlet1().Jet().pt();
-        NeutrinoPt = multiplet.Singlet2().Jet().pt();
+        LeptonPt = multiplet.Singlet1().Jet().Pt() / GeV;
+        NeutrinoPt = multiplet.Singlet2().Jet().Pt() / GeV;
     }
     Observables Variables();
 
@@ -144,9 +144,9 @@ public:
     void Fill(Multiplet const& multiplet) {
         MultiBranch::Fill(multiplet);
         BottomBase::Fill(multiplet);
-        BottomMass = multiplet.Singlet().Jet().m();
-        WMass = multiplet.Doublet().Jet().m();
-        LeptonPt = multiplet.pt();
+        BottomMass = multiplet.Singlet().Jet().Mass() / GeV;
+        WMass = multiplet.Doublet().Jet().Mass() / GeV;
+        LeptonPt = multiplet.LeptonPt() / GeV;
     }
     Observables Variables();
     Observables Spectators();
@@ -170,8 +170,8 @@ public:
     void Fill(Multiplet const& multiplet) {
         PairBranch::Fill(multiplet);
         BottomBase::Fill(multiplet);
-        BottomPt = multiplet.Singlet().Jet().pt();
-        LeptonPt = multiplet.Doublet().Jet().pt(); // FIXME what is with the case of W
+        BottomPt = multiplet.Singlet().Jet().Pt() / GeV;
+        LeptonPt = multiplet.Doublet().Jet().Pt() / GeV; // FIXME what is with the case of W
     }
     Observables Variables();
     Observables Spectators();

@@ -21,19 +21,19 @@ Singlet const& Triplet::Singlet() const
     return Multiplet2();
 }
 
-void Triplet::set_sub_jettiness()
+void Triplet::SetSubJettiness()
 {
-  sub_jettiness_ = SubJettiness(Singlet().Jet());
+  sub_jettiness_ = boca::SubJettiness(Singlet().Jet());
 }
 
-float Triplet::pt() const
+Momentum Triplet::LeptonPt() const
 {
-  return pt_ / GeV;
+  return lepton_pt_;
 }
 
-void Triplet::set_pt(Momentum pt)
+void Triplet::SetLeptonPt(Momentum pt)
 {
-  pt_ = pt;
+  lepton_pt_ = pt;
 }
 
 }

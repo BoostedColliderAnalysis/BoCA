@@ -180,7 +180,7 @@ void Legend::SetOrientation(Orientation orientation, std::string const& title)
     std::vector<std::string> entries;
     auto list = legend_.GetListOfPrimitives()->MakeIterator();
     TLegendEntry* entry;
-    while (entry = static_cast<TLegendEntry*>(list->Next())) entries.emplace_back(entry->GetLabel());
+    while ((entry = static_cast<TLegendEntry*>(list->Next()))) entries.emplace_back(entry->GetLabel());
     SetOrientation(orientation, entries, title);
     SetTitle(title);
 }

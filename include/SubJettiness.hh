@@ -49,9 +49,9 @@ public:
 
     SubJettiness(Jet const& jet);
 
-    NSubJettiness beta_1();
+    NSubJettiness const& beta_1() const;
 
-    NSubJettiness beta_2();
+    NSubJettiness const& beta_2() const;
 
 private:
 

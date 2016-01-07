@@ -16,27 +16,27 @@ Observable::Observable(float& value, std::string const& expression, std::string 
     Debug(expression_, type_, value_, title_);
 }
 
-float &Observable::value() const
+float &Observable::Value() const
 {
     return *value_;
 }
 
-std::string Observable::expression() const
+std::string Observable::Expression() const
 {
     return expression_;
 }
 
-std::string Observable::title() const
+std::string Observable::Title() const
 {
     return title_;
 }
 
-std::string Observable::unit() const
+std::string Observable::Unit() const
 {
     return unit_;
 }
 
-char Observable::type() const
+char Observable::Type() const
 {
     return type_;
 }

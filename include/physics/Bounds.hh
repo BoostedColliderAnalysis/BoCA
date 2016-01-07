@@ -79,7 +79,7 @@ public:
     //FIXME why is the return dimension for quantities not correct?
     template<typename Value2>
     friend Bounds<ValueQuotient<Value, Value2>> operator/(Bounds const& bounds, Value2 const& scalar) {
-        return {Min() / scalar, Max() / scalar};
+        return {bounds.Min() / scalar, bounds.Max() / scalar};
     }
 
 private:

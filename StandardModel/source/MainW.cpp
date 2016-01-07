@@ -19,5 +19,6 @@ int main()
     case boca::Decay::leptonic :
         Run<boca::standardmodel::WLeptonicTagger>(boca::Output::efficiency);
         break;
+    defaul : break;
     }
 }

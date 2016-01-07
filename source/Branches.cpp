@@ -11,27 +11,27 @@
 
 namespace boca {
 
-Obs::Obs(float & value, std::string const& name, std::string const& nice_name) : value_(&value)
+  Obs::Obs(float & value, std::string const& name, std::string const& latex_name) : value_(&value)
 {
     name_ = name;
-    if(nice_name == "") nice_name_ = name;
-    else nice_name_ = nice_name;
+    if(latex_name == "") latex_name_ = name;
+    else latex_name_ = latex_name;
 //     std::cout << value << " " << name << " " << nice_name << std::endl;
 }
 
-float& Obs::value() const
+float& Obs::Value() const
 {
     return *value_;
 }
 
-std::string Obs::name() const
+std::string Obs::Name() const
 {
     return name_;
 }
 
-std::string Obs::nice_name() const
+std::string Obs::LatexName() const
 {
-    return nice_name_;
+    return latex_name_;
 }
 
 BaseBranch::~BaseBranch(){}

@@ -1,6 +1,8 @@
 /**
  * Copyright (C) 2015 Jan Hajer
  */
+#include "ThePEG/Vectors/Lorentz5Vector.h"
+#include "ThePEG/EventRecord/Particle.h"
 #include "EventShape.hh"
 #include "Jet.hh"
 // #include "fastjet/PseudoJet.hh"
@@ -60,7 +62,8 @@ void EventShape::SetJets(const std::vector< Jet >& jets)
 
 
 //       EventShapes event_shapes;
-    EventShapes().reset(ptrs);
+//     EventShapes().reset(ptrs);
+    EventShapes().reset(jets);
     //         Error(EventShapes().aplanarity());
     //         Error(EventShapes().sphericity());
 

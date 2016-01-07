@@ -58,8 +58,8 @@ void Trainer::AddObservables()
     Info0;
     TMVA::gConfig().GetIONames().fWeightFileDir = Tagger().AnalysisName();
     TMVA::gConfig().GetIONames().fWeightFileExtension = Tagger().WeightFileExtension();
-    for (auto const & observable : Tagger().Variables()) Factory().AddVariable(observable.expression(), observable.title(), observable.unit(), observable.type());
-    for (auto const & spectator : Tagger().Spectators()) Factory().AddSpectator(spectator.expression(), spectator.title(), spectator.unit(), spectator.type());
+    for (auto const & observable : Tagger().Variables()) Factory().AddVariable(observable.Expression(), observable.Title(), observable.Unit(), observable.Type());
+    for (auto const & spectator : Tagger().Spectators()) Factory().AddSpectator(spectator.Expression(), spectator.Title(), spectator.Unit(), spectator.Type());
 }
 
 long Trainer::AddAllTrees()
@@ -131,7 +131,7 @@ TTree& Trainer::Tree(std::string const& tree_name, Tag tag)
     if (file.GetListOfKeys()) {
         auto list = file.GetListOfKeys()->MakeIterator();
         TTree* tree;
-        while (tree = static_cast<TTree*>(list->Next())) Error(tree->GetName());
+        while ((tree = static_cast<TTree*>(list->Next()))) Error(tree->GetName());
     }
     if (!file.GetListOfKeys()->Contains(tree_name.c_str())) Error("no tree", tree_name);
     return static_cast<TTree&>(*file.Get(tree_name.c_str()));

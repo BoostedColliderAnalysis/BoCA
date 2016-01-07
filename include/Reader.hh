@@ -201,8 +201,8 @@ private:
 
     void AddObservables() {
         std::lock_guard<std::mutex> guard(mutex_);
-        for (auto const & observable : Tagger().Variables()) reader().AddVariable(observable.expression(), &observable.value());
-        for (auto const & spectator : Tagger().Spectators()) reader().AddSpectator(spectator.expression(), &spectator.value());
+        for (auto const & observable : Tagger().Variables()) reader().AddVariable(observable.Expression(), &observable.Value());
+        for (auto const & spectator : Tagger().Spectators()) reader().AddSpectator(spectator.Expression(), &spectator.Value());
     }
 
     TMVA::IMethod& BookMva() {

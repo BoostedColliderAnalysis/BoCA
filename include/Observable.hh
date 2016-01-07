@@ -13,15 +13,15 @@ public:
 
     Observable(float& value, std::string const& expression, std::string const& title, std::string const& unit);
 
-    float& value() const;
+    float& Value() const;
 
-    std::string expression() const;
+    std::string Expression() const;
 
-    std::string title() const;
+    std::string Title() const;
 
-    std::string unit() const;
+    std::string Unit() const;
 
-    char type() const;
+    char Type() const;
 
 private:
 

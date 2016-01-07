@@ -11,7 +11,7 @@ create_dictionary(Branches Branches.cpp ../include/LinkDef.hh)
 
 set(vector_sources
 EventShapes.cpp
-EventShape.cpp
+# EventShape.cpp
 PseudoJet.cpp
 Jet.cpp
 Particle.cpp

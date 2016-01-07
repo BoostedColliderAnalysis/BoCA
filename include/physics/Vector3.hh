@@ -13,6 +13,7 @@
 #pragma once
 
 #include <iostream>
+#include <boost/units/cmath.hpp>
 
 // class TVector3;
 // #include "TVector3.h"
@@ -36,13 +37,16 @@ public:
 
     template<typename Value_2>
     using ValueProduct = ValueProduct<Value, Value_2>;
-    using ValueSquared = ValueProduct<Value>;
+
+    using ValueSquare = boca::ValueSquare<Value>;
 
     template<typename Value_2, typename Value_3>
     using ValueCubed = boca::ValueProduct<ValueProduct<Value_2>, Value_3>;
 
     template<typename Value_2>
     using ValueQuotient = ValueQuotient<Value, Value_2>;
+
+    using ValueInverse = boost::units::divide_typeof_helper<double, Value>;
 
     template<typename Value_2>
     using OnlyIfNotOrSameQuantity = typename std::enable_if < !IsQuantity<Value_2>::value || std::is_same<Value, Value_2>::value >::type;
@@ -150,16 +154,16 @@ public:
         return z_;
     }
 
-    Value & X() {
-      return x_;
+    Value& X() {
+        return x_;
     }
 
-    Value & Y() {
-      return y_;
+    Value& Y() {
+        return y_;
     }
 
-    Value & Z() {
-      return z_;
+    Value& Z() {
+        return z_;
     }
 
 // The azimuth angle. returns phi from -pi to pi
@@ -179,7 +183,7 @@ public:
     }
 
 // The magnitude squared(rho^2 in spherical coordinate system).
-    ValueSquared Mag2() const {
+    ValueSquare Mag2() const {
         return sqr(x_) + sqr(y_) + sqr(z_);
     }
 
@@ -190,7 +194,7 @@ public:
     }
 
 // The transverse component squared(R^2 in cylindrical coordinate system).
-    ValueSquared Perp2() const {
+    ValueSquare Perp2() const {
         return sqr(x_) + sqr(y_);
     }
 
@@ -202,12 +206,12 @@ public:
 
     // The transverse component w.r.t. given axis squared.
     template <typename Value_2>
-    ValueSquared Perp2(Vector3<Value_2> const& vector) const {
+    ValueSquare Perp2(Vector3<Value_2> const& vector) const {
         auto other_mag2 = vector.Mag2();
         auto mixing = Dot(vector);
-        ValueSquared this_mag_2 = Mag2();
+        ValueSquare this_mag_2 = Mag2();
         if (other_mag2 >  boca::ValueProduct<Value_2, Value_2>(0)) this_mag_2 -= sqr(mixing) / other_mag2;
-        if (this_mag_2 < ValueSquared(0)) this_mag_2 = ValueSquared(0);
+        if (this_mag_2 < ValueSquare(0)) this_mag_2 = ValueSquare(0);
         return this_mag_2;
     }
 
@@ -235,12 +239,30 @@ public:
         return DeltaR(vector);
     }
 
-// Unit vector parallel to this.
-    Vector3 Unit() const {
-        // return unit vector parallel to this.
-        ValueSquared tot2 = Mag2();
-        double tot = tot2 > ValueSquared(0) ? 1. / GetValue(sqrt(tot2)) : 1.;
-        return Vector3(x_ * tot, y_ * tot, z_ * tot);
+// // Unit vector parallel to this.
+//     Vector3<double> Unit() const {
+//         // return unit vector parallel to this.
+//         ValueSquare tot2 = Mag2();
+//         ValueInverse tot = tot2 > ValueSquare(0) ? 1. / sqrt(tot2) : 1. / Value(1.);
+//         return {x_ * tot, y_ * tot, z_ * tot};
+//     }
+
+
+    Vector3<double> Unit() const {
+        return Unit(IsQuantity<Value>());
+    }
+
+    Vector3<double> Unit(std::true_type) const {
+        ValueSquare tot2 = Mag2();
+        if (tot2 == ValueSquare(0)) return {x_.value(), y_.value(), z_.value()};
+        auto tot = 1. / boost::units::sqrt(tot2);
+        return {x_ * tot, y_ * tot, z_ * tot};
+    }
+
+    Vector3<double> Unit(std::false_type) const {
+        Value tot2 = Mag2();
+        Value tot = tot2 > Value(0) ? 1. / std::sqrt(tot2) : 1.;
+        return {x_ * tot, y_ * tot, z_ * tot};
     }
 
 // Vector orthogonal to this(Geant4).
@@ -252,17 +274,16 @@ public:
         else return y < z ? Vector3(-z_, Value(0), x_) : Vector3(y_, -x_, Value(0));
     }
 
+    using Value4 = typename boost::units::multiply_typeof_helper<ValueSquare, ValueSquare>::type;
 // The angle w.r.t. another 3-vector.
     boca::Angle Angle(Vector3 const& vector) const {
         // return the angle w.r.t. another 3-vector
-        Value ptot2 = Mag2() * vector.Mag2();
-        if (ptot2 <= 0) return 0_rad;
-        else {
-            Value arg = Dot(vector) / std::sqrt(ptot2);
-            if (arg > 1) arg = 1;
-            if (arg < -1) arg = -1;
-            return acos(arg);
-        }
+        Value4 ptot2 = Mag2() * vector.Mag2();
+        if (ptot2 <= Value4(0)) return 0_rad;
+        auto arg = double(Dot(vector) / sqrt(ptot2));
+        if (arg > 1) arg = 1;
+        if (arg < -1) arg = -1;
+        return acos(arg);
     }
 
 // Returns the pseudo-rapidity, i.e. -ln(tan(theta/2))
@@ -319,7 +340,7 @@ public:
         Value x = vector.x_;
         Value y = vector.y_;
         Value z = vector.z_;
-        ValueSquared square = sqr(x) + sqr(y);
+        ValueSquare square = sqr(x) + sqr(y);
         if (square) {
             square = std::sqrt(square);
             Value px = x_;
@@ -370,13 +391,13 @@ public:
     // Scalar product.
     template <typename Value_2>
     ValueProduct<Value_2> Dot(Vector3<Value_2> const& vector) const {
-        return x_ * vector.x_ + y_ * vector.y_ + z_ * vector.z_;
+        return x_ * vector.X() + y_ * vector.Y() + z_ * vector.Z();
     }
 
     // Cross product
     template <typename Value_2>
     Vector3<ValueProduct<Value_2>> Cross(Vector3<Value_2> const& vector) const {
-        return {y_* vector.z_ - vector.y_ * z_, z_* vector.x_ - vector.z_ * x_, x_* vector.y_ - vector.x_ * y_};
+        return {y_ * vector.Z() - vector.Y()* z_, z_ * vector.X() - vector.Z()* x_, x_ * vector.Y() - vector.X()* y_};
     }
 
     // Triple product

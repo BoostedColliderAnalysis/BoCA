@@ -63,12 +63,12 @@ SubJettiness::SubJettiness(Jet const& jet)
     beta_2_ = NSubJettiness(jet, kt_axes, 2);
 }
 
-NSubJettiness SubJettiness::beta_1()
+NSubJettiness const& SubJettiness::beta_1() const
 {
     return beta_1_;
 }
 
-NSubJettiness SubJettiness::beta_2()
+NSubJettiness const& SubJettiness::beta_2() const
 {
     return beta_2_;
 }

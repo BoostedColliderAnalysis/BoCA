@@ -106,6 +106,7 @@ void Result::Calculate()
         }
         break;
     }
+    default : Error(mva_, "Default case");
     }
 
     for (auto const & step : Range(Steps())) {

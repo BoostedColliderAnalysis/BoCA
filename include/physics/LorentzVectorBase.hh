@@ -11,6 +11,8 @@
 
 #pragma once
 
+#include <limits.h>
+
 #include "Vector3.hh"
 
 namespace boca
@@ -26,7 +28,7 @@ class LorentzVectorBase
 
 public:
 
-    using ValueSquare = boca::ValueProduct<Value, Value>;
+    using ValueSquare = boca::ValueSquare<Value>;
 
     template<typename Value_2>
     using ValueProduct = boca::ValueProduct<Value, Value_2>;
@@ -176,8 +178,9 @@ public:
         return vector_3_.Perp();
     }
 
-// Transverse component of the spatial vector w.r.t. given axis squared.
-    ValueSquare Perp2(Vector3<Value> const& vector) const {
+    // Transverse component of the spatial vector w.r.t. given axis squared.
+    template <typename Value_2>
+    ValueSquare Perp2(Vector3<Value_2> const& vector) const {
         return vector_3_.Perp2(vector);
     }
 
@@ -248,24 +251,41 @@ public:
         return T() - Z();
     }
 
+    /**
+     * Boost from reference frame into this vector's rest
+     * frame: \f$\frac{\vec{x}}{t}\f$.
+     */
 // Returns the spatial components divided by the time component.
-    Vector3<Value> BoostVector() const {
-        return {X() / T(), Y() / T(), Z() / T()};
+    Vector3<double> BoostVector() const {
+        if (T() == Value(0)) {
+            if (Rho() > Value(0)) std::cout << "boostVector computed for LorentzVector with t=0 -- infinite result" << std::endl;
+            return {};
+        }
+        return Vector3<double>(X() / T(), Y() / T(), Z() / T());
+    }
+
+    /**
+     * Boost from reference frame into this vector's rest
+     * frame: \f$-\frac{\vec{x}}{t}\f$.
+     */
+    Vector3<double> BoostIntoRestFrame() const {
+        return -BoostVector();
     }
 
 // Lorentz boost.
-    void Boost(Value x, Value y, Value z) {
+    void Boost(double x, double y, double z) {
         //Boost this Lorentz vector
-        ValueSquare b2 = sqr(x) + sqr(y) + sqr(z);
+        double b2 = sqr(x) + sqr(y) + sqr(z);
         double gamma = 1. / std::sqrt(1. - b2);
-        ValueSquare bp = x * X() + y * Y() + z * Z();
+        Value bp = x * X() + y * Y() + z * Z();
         double gamma2 = b2 > 0. ? (gamma - 1.) / b2 : 0.;
         SetX(X() + gamma2 * bp * x + gamma * x * T());
         SetY(Y() + gamma2 * bp * y + gamma * y * T());
         SetZ(Z() + gamma2 * bp * z + gamma * z * T());
         SetT(gamma * (T() + bp));
     }
-    void Boost(Vector3<Value> const& b) {
+
+    void Boost(Vector3<double> const& b) {
         Boost(b.X(), b.Y(), b.Z());
     }
 
@@ -274,6 +294,23 @@ public:
         //return rapidity
         return 0.5 * units::log(double((T() + Z()) / (T() - Z())));
     }
+
+
+    /// Rapidity with respect to another vector
+    boca::Angle Rapidity(Vector3<double> const& ref) const {
+        double r = ref.Mag2();
+        if (r == 0) {
+          std::cout << "A zero vector used as reference to LorentzVector rapidity" << std::endl;
+          return 0;
+        }
+        Value vdotu = Vect().Dot(ref) / std::sqrt(r);
+        if (vdotu == Value(0)) return 0_rad;
+        if (T() <= Value(0)) std::cout << "Tried to take rapidity of negative-energy Lorentz vector" << std::endl;
+        Value pt = sqrt(units::max(sqr(T() * std::numeric_limits<double>::epsilon()), Perp2(ref) + Mag2()));
+        boca::Angle rap = units::log(((T() + abs(Z())) / pt).value());
+        return Z() > Value(0) ? rap : -rap;
+    }
+
 
 // Returns the pseudo-rapidity, i.e. -ln(tan(theta/2))
     boca::Angle Eta() const {
@@ -318,6 +355,8 @@ public:
     template <typename Value_2>
     ValueProduct<Value_2> Dot(LorentzVectorBase<Value_2> const& lorentz_vector) const {
         return T() * lorentz_vector.T() - Z() * lorentz_vector.Z() - Y() * lorentz_vector.Y() - X() * lorentz_vector.X();
+        return T() * lorentz_vector.T() - Vect().Dot(lorentz_vector.Vect());
+        ;
     }
 
     //     ValueSqr operator*(LorentzVectorBase const& q) const {
@@ -462,4 +501,5 @@ LorentzVectorBase <ValueProduct<Value, Value_2>> operator*(Value scalar, Lorentz
 }
 
 }
+
 

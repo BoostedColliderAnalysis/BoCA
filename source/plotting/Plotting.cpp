@@ -169,6 +169,7 @@ std::string Plotting::PlotEfficiencyGraph(Results const& results) const
         graphs.SetXAxis("Calculated", results.Bounds().Horizontal());
         graphs.SetYAxis("Measured");
         break;
+    default : Error(Tagger().Mva(), "case not handled");
     }
     graphs.AddLine(results.BestModelDependentValue());
     graphs.AddLine(results.BestModelInDependentValue());
@@ -307,10 +308,10 @@ void Plotting::DoPlot(Plots& signals, Plots& backgrounds, Stage stage) const
 {
     Info0;
     NamePairs latex_names = unordered_pairs(tagger_.Branch().Variables(), [&](Obs const & variable_1, Obs const & variable_2) {
-        return std::make_pair(variable_1.nice_name(), variable_2.nice_name());
+        return std::make_pair(variable_1.LatexName(), variable_2.LatexName());
     });
     NamePairs names = unordered_pairs(tagger_.Branch().Variables(), [&](Obs const & variable_1, Obs const & variable_2) {
-        return std::make_pair(variable_1.name(), variable_2.name());
+        return std::make_pair(variable_1.Name(), variable_2.Name());
     });
     signals.SetNames(names, latex_names);
     backgrounds.SetNames(names, latex_names);
@@ -402,7 +403,7 @@ Plots Plotting::PlotResult(TFile& file, std::string const& tree_name, Stage stag
     TTree& tree = static_cast<TTree&>(*file.Get(tree_name.c_str()));
     tree.SetMakeClass(1);
     plots.plots() = unordered_pairs(tagger_.Branch().Variables(), [&](Obs const & variable_1, Obs const & variable_2) {
-        return ReadTree(tree, variable_1.name(), variable_2.name(), stage);
+        return ReadTree(tree, variable_1.Name(), variable_2.Name(), stage);
     });
     plots.SetName(tree_name);
     Debug(plots.plots().size(), tagger_.Branch().Variables().size());

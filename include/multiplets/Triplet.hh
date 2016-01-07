@@ -20,19 +20,19 @@ public:
 
     boca::Singlet const& Singlet() const;
 
-    void set_sub_jettiness();
+    void SetSubJettiness();
 
-    float pt() const;
+    Momentum LeptonPt() const;
 
-    void set_pt(Momentum pt);
+    void SetLeptonPt(Momentum pt);
 
-    SubJettiness sub_jettiness() const;
+    boca::SubJettiness SubJettiness() const;
 
 private:
 
-    SubJettiness sub_jettiness_;
+    boca::SubJettiness sub_jettiness_;
 
-    Momentum pt_;
+    Momentum lepton_pt_;
 
 };
 

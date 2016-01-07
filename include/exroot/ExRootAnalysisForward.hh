@@ -3,8 +3,6 @@
  */
 #pragma once
 
-
-
 class TRootLHEFEvent;
 class TRootLHEFParticle;
 class TRootGenEvent;

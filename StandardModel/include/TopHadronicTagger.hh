@@ -70,8 +70,6 @@ private:
 
     Momentum LeptonPt(Triplet const& triplet, std::vector<Lepton> const& leptons) const;
 
-    std::vector<Triplet> ordered_triplets(std::vector<Jet> const& jets, unsigned sub_jet_number, std::function<boost::optional<Triplet>(Jet const& piece_1, Jet const& piece_2, Jet const& piece_3)> const& function) const;
-
     Reader<BottomTagger> bottom_reader_;
 
     Reader<WHadronicTagger> w_hadronic_reader_;

@@ -200,12 +200,12 @@ private:
 
     void AddVariables() {
 //         Info0;
-        for (auto const & variable : Branch().Variables()) AddVariable(variable.value(), variable.name());
+        for (auto const & variable : Branch().Variables()) AddVariable(variable.Value(), variable.Name());
     }
 
     void AddSpectators() {
 //         Info0;
-        for (auto const & spectator : Branch().Spectators()) AddSpectator(spectator.value(), spectator.name());
+        for (auto const & spectator : Branch().Spectators()) AddSpectator(spectator.Value(), spectator.Name());
     }
 
     void FillBranch(MultipletTemplate const& multiplet) const {

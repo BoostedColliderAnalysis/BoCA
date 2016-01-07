@@ -16,14 +16,14 @@ namespace boca
 class Obs
 {
 public:
-    Obs(float& value, std::string const& name, std::string const& nice_name = "");
-    float& value() const;
-    std::string name() const;
-    std::string nice_name() const;
+    Obs(float& value, std::string const& name, std::string const& latex_name = "");
+    float& Value() const;
+    std::string Name() const;
+    std::string LatexName() const;
 private:
     float* value_;
     std::string name_;
-    std::string nice_name_;
+    std::string latex_name_;
 };
 typedef std::vector<boca::Obs> Observables;
 

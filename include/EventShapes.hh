@@ -10,13 +10,13 @@
 
 #pragma once
 
-#include "ThePEG/Interface/Interfaced.h"
-#include "ThePEG/Handlers/AnalysisHandler.h"
-#include "ThePEG/Vectors/Lorentz5Vector.h"
-#include "ThePEG/Vectors/ThreeVector.h"
-#include "ThePEG/EventRecord/Particle.h"
+// #include "ThePEG/Vectors/Lorentz5Vector.h"
+// #include "ThePEG/EventRecord/Particle.h"
+#include "Jet.hh"
+#include "physics/Vector3.hh"
 
-namespace boca {
+namespace boca
+{
 
 /**
  *
@@ -25,7 +25,7 @@ namespace boca {
  * the calculation.
  *
  */
-class EventShapes: public ThePEG::Interfaced
+class EventShapes //: public ThePEG::Interfaced
 {
 
 public:
@@ -33,17 +33,25 @@ public:
     /**
      * The default constructor.
      */
-    EventShapes() : _thrustDone(false), _spherDone(false), _linTenDone(false),
-        _hemDone(false), _useCmBoost(false),
-        _mPlus(), _mMinus(), _bPlus(), _bMinus()
+    EventShapes() :
+        _thrustDone(false),
+        _spherDone(false),
+        _linTenDone(false),
+        _hemDone(false),
+        _useCmBoost(false),
+        _mPlus(),
+        _mMinus(),
+        _bPlus(),
+        _bMinus()
     {}
 
     /**
      *  Member to reset the particles to be considered
      */
-    void reset(const ThePEG::tPVector& part) {
+    void reset(std::vector<Jet> const& part) {
         _pv.resize(part.size());
-        for (unsigned int ix = 0; ix < part.size(); ++ix) _pv[ix] = part[ix]->momentum();
+        for (unsigned int ix = 0; ix < part.size(); ++ix) _pv[ix] = part[ix].Vector();
+//       _pv = part;
         _thrustDone = false;
         _spherDone  = false;
         _linTenDone = false;
@@ -93,7 +101,7 @@ public:
     /**
      *  The thrust axis
      */
-    ThePEG::Axis thrustAxis() {
+    Vector3<double> thrustAxis() {
         checkThrust();
         return _thrustAxis[0];
     }
@@ -101,7 +109,7 @@ public:
     /**
      *  The major axis
      */
-    ThePEG::Axis majorAxis() {
+    Vector3<double> majorAxis() {
         checkThrust();
         return _thrustAxis[1];
     }
@@ -109,7 +117,7 @@ public:
     /**
      *  The minor axis
      */
-    ThePEG::Axis minorAxis() {
+    Vector3<double> minorAxis() {
         checkThrust();
         return _thrustAxis[2];
     }
@@ -148,7 +156,7 @@ public:
     /**
      *  The eigenvectors in order of descending eigenvalue
      */
-    std::vector<ThePEG::Axis> linTenEigenVectors() {
+    std::vector<Vector3<double>> linTenEigenVectors() {
         checkLinTen();
         return _linTenAxis;
     }
@@ -187,7 +195,7 @@ public:
     /**
      *  The sphericity axis
      */
-    ThePEG::Axis sphericityAxis() {
+    Vector3<double> sphericityAxis() {
         checkSphericity();
         return _spherAxis[0];
     }
@@ -204,7 +212,7 @@ public:
     /**
      *  The sphericity eigenvectors
      */
-    std::vector<ThePEG::Axis> sphericityEigenVectors() {
+    std::vector<Vector3<double>> sphericityEigenVectors() {
         checkSphericity();
         return _spherAxis;
     }  //@}
@@ -288,24 +296,22 @@ public:
     /**
      *  The scaled momentum \f$\xi=-\log\left( p/E_{\rm beam}\right)\f$.
      */
-    double getXi(const ThePEG::Lorentz5Momentum& p,
-                 const ThePEG::Energy& Ebeam) {
-      return ((Ebeam > 0 * ThePEG::MeV && p.vect().mag() > 0 * ThePEG::MeV) ?
-                log(Ebeam / p.vect().mag()) : -1.);
+    double getXi(const LorentzVector<Momentum>& p, const Energy& Ebeam) {
+        return ((Ebeam > 0_GeV && p.Vect().Mag() > 0_GeV) ? std::log(Ebeam / p.Vect().Mag()) : -1.);
     }
 
     /**
      *  Transverse momentum with respect to the beam
      */
-    ThePEG::Energy getPt(const ThePEG::Lorentz5Momentum& p) {
-        return p.perp();
+    Energy getPt(const LorentzVector<Momentum>& p) {
+        return p.Perp();
     }
 
     /**
      *  Rapidity with respect to the beam direction
      */
-    double getRapidity(const ThePEG::Lorentz5Momentum& p) {
-        return (p.t() > p.z() ? p.rapidity() : 1e99);
+    Angle getRapidity(const LorentzVector<Momentum>& p) {
+        return (p.T() > p.Z() ? p.Rapidity() : 1e99_rad);
     }
     //@}
 
@@ -316,60 +322,58 @@ public:
     /**
      *  Transverse momentum with respect to the thrust axis in the event plane
      */
-    ThePEG::Energy ptInT(const ThePEG::Lorentz5Momentum& p) {
+    Energy ptInT(const LorentzVector<Momentum>& p) {
         checkThrust();
-        return p.vect() * _thrustAxis[1];
+        return p.Vect() * _thrustAxis[1];
     }
 
     /**
      *  Transverse momentum with respect to the thrust axis out of the
      *  event plane
      */
-    ThePEG::Energy ptOutT(const ThePEG::Lorentz5Momentum& p) {
+    Energy ptOutT(const LorentzVector<Momentum>& p) {
         checkThrust();
-        return p.vect() * _thrustAxis[2];
+        return p.Vect() * _thrustAxis[2];
     }
 
     /**
      *  Rapidity with respect to the thrust axis
      */
-    double yT(const ThePEG::Lorentz5Momentum& p) {
+    Angle yT(const LorentzVector<Momentum>& p) {
         checkThrust();
-        return (p.t() > p.vect() * _thrustAxis[0] ?
-                p.rapidity(_thrustAxis[0]) : 1e99);
+        return (p.T() > p.Vect() * _thrustAxis[0] ? p.Rapidity(_thrustAxis[0]) : 1e99_rad);
     }
 
     /**
      *  Transverse momentum with respect to the sphericity axis in the
      *  event plane
      */
-    ThePEG::Energy ptInS(const ThePEG::Lorentz5Momentum& p) {
+    Energy ptInS(const LorentzVector<Momentum>& p) {
         checkSphericity();
-        return p.vect() * _spherAxis[1];
+        return p.Vect() * _spherAxis[1];
     }
 
     /**
      *  Transverse momentum with respect to the sphericity axis out of the
      *  event plane
      */
-    ThePEG::Energy ptOutS(const ThePEG::Lorentz5Momentum& p) {
+    Energy ptOutS(const LorentzVector<Momentum>& p) {
         checkSphericity();
-        return p.vect() * _spherAxis[2];
+        return p.Vect() * _spherAxis[2];
     }
 
     /**
      *  Rapidity with respect to the sphericity axis
      */
-    double yS(const ThePEG::Lorentz5Momentum& p) {
+    Angle yS(const LorentzVector<Momentum>& p) {
         checkSphericity();
-        return (p.t() > p.vect() * _spherAxis[0] ?
-                p.rapidity(_spherAxis[0]) : 1e99);
+        return (p.T() > p.Vect() * _spherAxis[0] ? p.Rapidity(_spherAxis[0]) : 1e99_rad);
     }
     //@}
 
 
     /**
-     * ThePEG::Energy-energy correlation (EEC) @param hi is the histogram and has
+     * Energy-energy correlation (EEC) @param hi is the histogram and has
      * to be provided externally It is understood that the range of the
      * histogam is -1 < cos(chi) < 1.  hi.front() contains the bin [-1 <
      * cos(chi) < -1+delta] and hi.back() the bin [1-delta < cos(chi) <
@@ -408,7 +412,7 @@ public:
      * before the main function starts or when this class is dynamically
      * loaded.
      */
-    static void Init();
+//     static void Init();
 
 protected:
 
@@ -418,12 +422,12 @@ protected:
      * Make a simple clone of this object.  @return a pointer to the new
      * object.
      */
-  virtual ThePEG::IBPtr clone() const override { return new_ptr(*this); }
+//   virtual ThePEG::IBPtr clone() const override { return new_ptr(*this); }
 
     /** Make a clone of this object, possibly modifying the cloned object
      * to make it sane.  @return a pointer to the new object.
      */
-  virtual ThePEG::IBPtr fullclone() const override { return new_ptr(*this); }
+//   virtual ThePEG::IBPtr fullclone() const override { return new_ptr(*this); }
     //@}
 
 private:
@@ -512,30 +516,30 @@ private:
     /**
      * The eigenvector of @param T to a given eigenvalue @param lam
      */
-    ThePEG::Axis eigenvector(const double T[3][3], const double& lam);
+    Vector3<double> eigenvector(const double T[3][3], const double& lam);
 
     /**
      * The eigenvectors of @param T corresponding to the eigenvectors
      * @param lam . The ordering of the vectors corresponds to the
      * ordering of the eigenvalues.
      */
-    std::vector<ThePEG::Axis> eigenvectors(const double T[3][3], const std::vector<double>& lam);
+    std::vector<Vector3<double>> eigenvectors(const double T[3][3], const std::vector<double>& lam);
 
     /**
      *  Member to calculate the thrust
      * @param p The three vectors
-     * @param t The thrust-squared (up to an ThePEG::Energy scale factor)
+     * @param t The thrust-squared (up to an Energy scale factor)
      * @param taxis The thrust axis
      */
-    void calcT(const std::vector<ThePEG::Momentum3>& p, ThePEG::Energy2& t, ThePEG::Axis& taxis);
+    void calcT(const std::vector<Vector3<Momentum>>& p, EnergySquare& t, Vector3<double>& taxis);
 
     /**
      *  Member to calculate the major
      * @param p The three vectors
-     * @param m The major-squared (up to an ThePEG::Energy scale factor)
+     * @param m The major-squared (up to an Energy scale factor)
      * @param maxis The major axis
      */
-    void calcM(const std::vector<ThePEG::Momentum3>& p, ThePEG::Energy2& m, ThePEG::Axis& maxis);
+    void calcM(const std::vector<Vector3<Momentum>>& p, EnergySquare& m, Vector3<double>& maxis);
     //@}
 
 private:
@@ -544,7 +548,7 @@ private:
      * The static object used to initialize the description of this class.
      * Indicates that this is a concrete class with persistent data.
      */
-    static ThePEG::NoPIOClassDescription<EventShapes> initEventShapes;
+//     static ThePEG::NoPIOClassDescription<EventShapes> initEventShapes;
 
     /**
      * The assignment operator is private and must never be called.
@@ -557,7 +561,8 @@ private:
     /**
      *  Vector of particle momenta to be analysed
      */
-    std::vector<ThePEG::Lorentz5Momentum> _pv;
+//     std::vector<LorentzVector<Momentum>> _pv;
+    std::vector<LorentzVector<Momentum>> _pv;
 
     /**
      *  Various event shape axes
@@ -566,17 +571,17 @@ private:
     /**
      *  The thrust related axes
      */
-    std::vector<ThePEG::Axis> _thrustAxis;
+    std::vector<Vector3<double>> _thrustAxis;
 
     /**
      *  The sphericity related axes
      */
-    std::vector<ThePEG::Axis> _spherAxis;
+    std::vector<Vector3<double>> _spherAxis;
 
     /**
      *  The linearised tensor axes
      */
-    std::vector<ThePEG::Axis> _linTenAxis;
+    std::vector<Vector3<double>> _linTenAxis;
     //@}
 
     /**
