@@ -137,7 +137,8 @@ public:
         std::lock_guard<std::mutex> object_sum_guard(object_sum_mutex_);
         object_sum_ += number;
         std::lock_guard<std::mutex> event_sum_guard(event_sum_mutex_);
-        if(number) ++event_sum_;
+//         if(number)
+          ++event_sum_;
     }
 
     bool KeepGoing(long max) {
@@ -302,7 +303,6 @@ private:
  * The subclasses have to be instantiated with a Tagger as template argument.
  * Subclasses should be templated classes.
  * @author Jan Hajer
- * @copyright Copyright (C) 2015 Jan Hajer
  * @date 2015
  * @license GPL 3
  *

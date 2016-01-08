@@ -59,11 +59,12 @@ class AnalysisHeavyHiggs : public Analysis<Tagger>
 public:
 
     boca::Mass Mass() const {
-        return 1_TeV;
-        return 500_GeV;
-        return 2_TeV;
-        return 1.5_TeV;
+        return 750_GeV;
         return 800_GeV;
+        return 1.5_TeV;
+        return 2_TeV;
+        return 500_GeV;
+        return 1_TeV;
         return 300_GeV;
         return 400_GeV;
         return 600_GeV;
@@ -92,9 +93,9 @@ public:
     };
 
     long ReadNumberMax() const override {
-        return 100;
         return 100000;
         return 10000;
+        return 100;
         return 1000;
         return 500;
         return 10000000;
@@ -162,17 +163,17 @@ public:
         case Collider::LHC :
             switch (process) {
             case Process::ttwwbb : return 1;
-            case  Process::ttwbb : return 1;
-            case  Process::Htt : return 1;
-            case  Process::Htwb : return 1;
-            case  Process::tttt : return 1;
-            case  Process::tttwb : return 1;
+            case Process::ttwbb : return 1;
+            case Process::Htt : return 1;
+            case Process::Htwb : return 1;
+            case Process::tttt : return 1;
+            case Process::tttwb : return 1;
                 Default("Process", 1);
             }
         case Collider::LE :
             switch (process) {
-            case  Process::ttwwbb : return 2;
-            case  Process::ttwbb : return 1;
+            case Process::ttwwbb : return 2;
+            case Process::ttwbb : return 1;
                 Default("Process", 1);
             }
             Default("Collider", 1);
@@ -181,11 +182,11 @@ public:
 
     std::string Suffix(Process process) const {
         switch (process) {
-        case Process::Htt : return "_" + boca::Name(Mass());
+        case Process::Htt :
         case Process::Htwb : return "_" + boca::Name(Mass());
-        case Process::ttwwbb : return "";
-        case Process::ttwbb : return "";
-        case Process::tttt : return "";
+        case Process::ttwwbb :
+        case Process::ttwbb :
+        case Process::tttt :
         case Process::tttwb : return "";
             Default("Process", "");
         }

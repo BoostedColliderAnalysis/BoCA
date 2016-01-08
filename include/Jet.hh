@@ -56,9 +56,7 @@ public:
 
     std::vector<Jet> Constituents() const;
 
-    LorentzVector<Momentum> Vector() const {
-        return {px()* GeV, py()* GeV, pz()* GeV, e()* GeV};
-    }
+    LorentzVector<Momentum> Vector() const;
 
 private:
 

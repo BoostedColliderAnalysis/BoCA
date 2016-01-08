@@ -6,38 +6,37 @@
 #include "EventShapes.hh"
 #include "Identification.hh"
 
-namespace boca {
+namespace boca
+{
 
 /**
  * @brief An event composed of a multiplet an a singlet made up from the remaining jets
  *
  */
 template <typename Multiplet_1>
-class MultipletSignature : public Identification {
+class MultipletSignature : public Identification
+{
 
 public:
 
-  MultipletSignature(Multiplet_1 const& multiplet) {
+    MultipletSignature(Multiplet_1 const& multiplet) :
+        event_shapes_(multiplet.Jets()) {
         multiplet_ = multiplet;
-        event_shape_.reset(multiplet.Jets());
-
     }
 
-    const Multiplet_1 &Multiplet() const
-    {
-      return multiplet_;
+    Multiplet_1 const& Multiplet() const {
+        return multiplet_;
     }
 
-    const boca::EventShape& EventShape() const
-    {
-        return event_shape_;
+    boca::EventShapes const& EventShapes() const {
+        return event_shapes_;
     }
 
 private:
 
-  boca::EventShapes event_shape_;
+    boca::EventShapes event_shapes_;
 
-  Multiplet_1 multiplet_;
+    Multiplet_1 multiplet_;
 
 };
 

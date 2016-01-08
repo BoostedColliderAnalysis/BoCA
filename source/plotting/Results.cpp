@@ -138,7 +138,7 @@ float Results::BestModelInDependentValue() const
 float Results::BestAcceptanceValue() const
 {
     Info0;
-    return XValue(BestModelDependentBin());
+    return XValue(BestAcceptanceBin());
 }
 
 int Results::Steps() const
@@ -160,14 +160,15 @@ void Results::CalculateSignificances()
     Info0;
     for (auto const & step : Range(Steps())) {
         float signal_events = 0;
-        float signal_efficiencies = 0;
-        float crosssection = 0;
+
+        Crosssection signal_efficiencies_crossection = 0_fb;
+        Crosssection crosssection = 0_fb;
         for (auto const & signal : signals_) {
             signal_events += signal.Events().at(step);
-            signal_efficiencies += signal.Efficiencies().at(step) * signal.InfoBranch().Crosssection;
-            if (signal.InfoBranch().Crosssection > crosssection) crosssection = signal.InfoBranch().Crosssection;
+            signal_efficiencies_crossection += double(signal.Efficiencies().at(step) * signal.InfoBranch().Crosssection) * fb;
+            if (double(signal.InfoBranch().Crosssection) * fb > crosssection) crosssection = double(signal.InfoBranch().Crosssection) * fb;
         }
-        signal_efficiencies /= crosssection;
+        float signal_efficiencies = signal_efficiencies_crossection / crosssection;
         float background_events = 0;
 //         float background_efficiencies = 0;
         for (auto const & background : backgrounds_) {

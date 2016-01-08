@@ -4,7 +4,7 @@
 #include "physics/Math.hh"
 #include "CutTagger.hh"
 #include "Event.hh"
-#define DEBUG
+// #define DEBUG
 #include "Debug.hh"
 
 namespace boca
@@ -76,7 +76,7 @@ boost::optional<CutVariables> CutTagger::CutMethod(Event const& event) const
     bottom = SortedByRap(bottom);
     variables.SetBottomMaxRap(boost::units::abs(bottom.front().Rap()));
 
-    std::vector<Jet> jets = RemoveIfSoft(event.Hadrons().Jets(), 40_GeV);
+    std::vector<Jet> jets = RemoveIfSoft(bottom_reader_.Jets(event), 40_GeV);
     std::vector<Lepton> electrons = event.Leptons().Electrons();
     std::vector<Lepton> muons = event.Leptons().Muons();
 
@@ -108,13 +108,14 @@ boost::optional<CutVariables> CutTagger::CutMethod(Event const& event) const
 
     std::vector<Jet> bottoms;
     boost::range::copy(jets | boost::adaptors::filtered([](Jet const & jet) {
-        return jet.Info().BTag();
+//         return jet.Info().BTag();
+        return jet.Info().Bdt() > 0;
     }), std::back_inserter(bottoms));
     Debug(bottoms.size());
     if (bottoms.size() < 4) return boost::none;
     variables.SetBottomNumber(bottoms.size());
 
-    boca::MissingEt missing_et = event.Hadrons().MissingEt();
+    MissingEt missing_et = event.Hadrons().MissingEt();
     Debug(missing_et.Pt());
     if (missing_et.Pt() < 30_GeV) return boost::none;
     variables.SetEtMiss(missing_et.Pt());

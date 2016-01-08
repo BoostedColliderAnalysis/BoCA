@@ -63,7 +63,7 @@ void EventShape::SetJets(const std::vector< Jet >& jets)
 
 //       EventShapes event_shapes;
 //     EventShapes().reset(ptrs);
-    EventShapes().reset(jets);
+    EventShapes().Reset(jets);
     //         Error(EventShapes().aplanarity());
     //         Error(EventShapes().sphericity());
 
@@ -71,12 +71,12 @@ void EventShape::SetJets(const std::vector< Jet >& jets)
 
 float EventShape::Sphericity() const
 {
-    return const_cast<boca::EventShapes &>(EventShapes()).sphericity();
+    return const_cast<boca::EventShapes &>(EventShapes()).Sphericity();
 }
 
 float EventShape::Aplanarity() const
 {
-  return const_cast<boca::EventShapes &>(EventShapes()).aplanarity();
+  return const_cast<boca::EventShapes &>(EventShapes()).Aplanarity();
 }
 
 }

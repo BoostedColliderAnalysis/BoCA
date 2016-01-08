@@ -63,11 +63,7 @@ void Graphs::SetXAxis(std::string const& title, boca::Bounds<float> const& bound
     if (bounds) {
         bounds_.SetX(bounds);
         bounds_.ResetY();
-        for (auto const & data : datas_) {
-//             std::vector<double> xs(graph.GetX(), graph.GetX() + graph.GetMaxSize());
-//             std::vector<double> ys(graph.GetY(), graph.GetY() + graph.GetMaxSize());
-            bounds_.WidenY(bounds, data.first, data.second);
-        }
+        for (auto const & data : datas_) bounds_.WidenY(bounds, data.first, data.second);
     }
     AddGraphs();
     if (!multi_graph_.GetXaxis()) return;

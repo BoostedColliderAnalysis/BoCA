@@ -17,6 +17,7 @@
 #include "plotting/Histogram2Dim.hh"
 #include "plotting/Profile.hh"
 #include "plotting/Plots.hh"
+#include "plotting/Font.hh"
 #include "Branches.hh"
 
 // #define INFORMATION
@@ -195,7 +196,15 @@ std::string Plotting::PlotCrosssectionsGraph(Results const& results) const
     for (auto const & result : results.Signals()) graphs.AddGraph(results.XValues(), FloatVector(result.Crosssections()), result.InfoBranch().Name);
     for (auto const & result : results.Backgrounds()) graphs.AddGraph(results.XValues(), FloatVector(result.Crosssections()), result.InfoBranch().Name);
     graphs.SetLegend(Orientation::bottom | Orientation::left);
-    graphs.SetXAxis("BDT", results.Bounds().Horizontal());
+    switch (Tagger().Mva()) {
+    case TMVA::Types::EMVA::kBDT :
+        graphs.SetXAxis("BDT", results.Bounds().Horizontal());
+        break;
+    case TMVA::Types::EMVA::kCuts :
+        graphs.SetXAxis("MVA", results.Bounds().Horizontal());
+        break;
+    default : Error(Tagger().Mva(), "case not handled");
+    }
     graphs.SetYAxis("Crosssection [fb]");
     graphs.AddLine(results.BestModelDependentValue());
     graphs.AddLine(results.BestModelInDependentValue());
@@ -207,7 +216,15 @@ std::string Plotting::PlotModelDependentGraph(Results& results) const
     Info0;
     Graphs graphs(Tagger().ExportFolderName(), "Significance");
     graphs.AddGraph(results.XValues(), results.Significances());
-    graphs.SetXAxis("BDT", results.Bounds().Horizontal());
+    switch (Tagger().Mva()) {
+      case TMVA::Types::EMVA::kBDT :
+        graphs.SetXAxis("BDT", results.Bounds().Horizontal());
+        break;
+      case TMVA::Types::EMVA::kCuts :
+        graphs.SetXAxis("MVA", results.Bounds().Horizontal());
+        break;
+      default : Error(Tagger().Mva(), "case not handled");
+    }
     graphs.SetYAxis("Significance");
     graphs.AddLine(results.BestModelDependentValue());
     return graphs.FileBaseName();
@@ -218,8 +235,16 @@ std::string Plotting::PlotCrosssectionGraph(Results& results) const
     Info0;
     Graphs graphs(Tagger().ExportFolderName(), "SB");
     graphs.AddGraph(results.XValues(), results.Acceptances());
-    graphs.SetXAxis("BDT", results.Bounds().Horizontal());
-    graphs.SetYAxis("S/#sqrt{B}");
+    switch (Tagger().Mva()) {
+      case TMVA::Types::EMVA::kBDT :
+        graphs.SetXAxis("BDT", results.Bounds().Horizontal());
+        break;
+      case TMVA::Types::EMVA::kCuts :
+        graphs.SetXAxis("MVA", results.Bounds().Horizontal());
+        break;
+      default : Error(Tagger().Mva(), "case not handled");
+    }
+    graphs.SetYAxis(Formula("S/#sqrt{B}"));
     graphs.AddLine(results.BestAcceptanceValue());
     return graphs.FileBaseName();
 }
@@ -229,7 +254,15 @@ std::string Plotting::PlotModelIndependentGraph(Results& results) const
     Info0;
     Graphs graphs(Tagger().ExportFolderName(), "Exclusion");
     graphs.AddGraph(results.XValues(), FloatVector(results.ModelIndependentCrosssection()));
-    graphs.SetXAxis("BDT", results.Bounds().Horizontal());
+    switch (Tagger().Mva()) {
+      case TMVA::Types::EMVA::kBDT :
+        graphs.SetXAxis("BDT", results.Bounds().Horizontal());
+        break;
+      case TMVA::Types::EMVA::kCuts :
+        graphs.SetXAxis("MVA", results.Bounds().Horizontal());
+        break;
+      default : Error(Tagger().Mva(), "case not handled");
+    }
     graphs.SetYAxis("Crosssection");
     graphs.AddLine(results.BestModelInDependentValue());
     return graphs.FileBaseName();

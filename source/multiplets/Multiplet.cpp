@@ -1,12 +1,14 @@
 /**
  * Copyright (C) 2015 Jan Hajer
  */
-#include "multiplets/Multiplet.hh"
+
+#include <boost/math/constants/constants.hpp>
 
 #include "physics/Math.hh"
 #include "Vector.hh"
 #include "Sort.hh"
 #include "Line2.hh"
+#include "multiplets/Multiplet.hh"
 #include "Debug.hh"
 
 namespace boca
@@ -85,7 +87,7 @@ Angle Multiplet::Pull(MultipletBase const& multiplets_1, MultipletBase const& mu
     Vector2<Angle> ref = multiplets_1.Reference(multiplets_2.Jet());
     AngleSquare pul_mag = pull.Mod();
     Angle ref_mag = ref.Mod();
-    if (pul_mag == 0. * rad2 || ref_mag == 0_rad) return M_PI * rad;
+    if (pul_mag == 0. * rad2 || ref_mag == 0_rad) return boost::math::constants::pi<double>() * rad;
     double cos = ref * pull / ref_mag / pul_mag;
     if (cos > 1) cos = 1;
     if (cos < -1) cos = -1;

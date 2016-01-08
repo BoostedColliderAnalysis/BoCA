@@ -2,6 +2,8 @@
 
 #include "TaggerTemplate.hh"
 #include "Branch.hh"
+#include "BottomTagger.hh"
+#include "Reader.hh"
 #include "CutVariables.hh"
 
 namespace boca
@@ -31,6 +33,8 @@ public:
 private:
 
     boost::optional<CutVariables> CutMethod(Event const& event) const;
+
+    Reader<standardmodel::BottomTagger> bottom_reader_;
 
 };
 

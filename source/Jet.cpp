@@ -164,6 +164,10 @@ std::vector< Jet > Jet::Constituents() const
     Error("no constituents");
     return {};
 }
+LorentzVector< Momentum > Jet::Vector() const
+{
+    return {px()* GeV, py()* GeV, pz()* GeV, e()* GeV};
+}
 
 }
 

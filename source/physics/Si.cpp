@@ -2,6 +2,7 @@
  * Copyright (C) 2015 Jan Hajer
  */
 
+#include <boost/math/constants/constants.hpp>
 #include "physics/Si.hh"
 #include "physics/Math.hh"
 #include "physics/Prefixes.hh"
@@ -46,14 +47,14 @@ Angle RestrictPhi(Angle phi)
         Error("function called with NaN");
         return phi;
     }
-    while (phi >= M_PI * rad) phi -= M_PI * 2_rad;
-    while (phi < -M_PI * rad) phi += M_PI * 2_rad;
+    while (phi >= boost::math::constants::pi<double>() * rad) phi -= boost::math::constants::pi<double>() * 2_rad;
+    while (phi < -boost::math::constants::pi<double>() * rad) phi += boost::math::constants::pi<double>() * 2_rad;
     return phi;
 }
 
 Angle Wrap(Angle phi)
 {
-    phi -= sgn(phi) * M_PI * 2_rad;
+    phi -= sgn(phi) * boost::math::constants::pi<double>() * 2_rad;
     return phi;
 }
 
