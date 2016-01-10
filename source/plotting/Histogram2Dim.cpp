@@ -27,7 +27,7 @@ void Histogram2Dim::SetLegend(boca::Orientation orientation, std::string const& 
 
 void Histogram2Dim::SetLegend(Rectangle<float> const& rectangle, std::string const& title)
 {
-    legend_.Set(rectangle);
+    legend_.Set(rectangle, title);
 }
 
 void Histogram2Dim::Draw()

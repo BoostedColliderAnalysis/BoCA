@@ -64,7 +64,7 @@ add_subdirectory(source)
 include(CMakeFiles/HEPTopTagger.cmake)
 
 add_subdirectory(StandardModel)
+add_subdirectory(HiggsCpv)
 add_subdirectory(HeavyHiggs)
 add_subdirectory(TopPartner)
-# add_subdirectory(HiggsCpv)
 

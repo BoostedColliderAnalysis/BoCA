@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "TFile.h"
 #include "TTree.h"
@@ -12,7 +12,7 @@
 namespace boca
 {
 
-File::File(std::vector<std::string> const& processes, std::string const& base_path, std::string const& file_suffix, std::string const& nice_name, Crosssection crosssection, Mass mass)
+File::File(std::vector<std::string> const& processes, std::string const& base_path, std::string const& file_suffix, std::string const& nice_name, boca::Crosssection crosssection, boca::Mass mass)
 {
     Info0;
     SetVariables();
@@ -20,19 +20,19 @@ File::File(std::vector<std::string> const& processes, std::string const& base_pa
     base_path_ = base_path;
     file_suffix_ = file_suffix;
     crosssection_ = crosssection;
-    nice_name_ = nice_name;
+    names_.SetLatexName(nice_name);
     mass_ = mass;
 }
 
-std::string File::file_suffix() const
+std::string File::FileSuffix() const
 {
     Info0;
-    switch (source()) {
-    case Source::delphes :
+    switch (Source()) {
+    case boca::Source::delphes :
         return "_delphes_events.root";
-    case Source::parton :
+    case boca::Source::parton :
         return "_unweighted_events.root";
-    case Source::pgs :
+    case boca::Source::pgs :
         return "_pgs_events.root";
     default :
         Error("file suffix", "no source");
@@ -40,15 +40,15 @@ std::string File::file_suffix() const
     }
 }
 
-std::string File::tree_name() const
+std::string File::TreeName() const
 {
     Info0;
-    switch (source()) {
-    case Source::delphes :
+    switch (Source()) {
+    case boca::Source::delphes :
         return "Delphes";
-    case Source::parton :
+    case boca::Source::parton :
         return "LHEF";
-    case Source::pgs :
+    case boca::Source::pgs :
         return "LHCO";
     default :
         Error("tree name", "no tree name");
@@ -91,34 +91,43 @@ std::vector<std::string> File::Paths() const
 //     return {Paths(), tree_name()};
 // }
 
-Crosssection File::crosssection() const
+boca::Crosssection File::Crosssection() const
 {
     Info0;
     return crosssection_;
 }
 
-Crosssection File::crosssection_error() const
+boca::Crosssection File::CrosssectionError() const
 {
     Info0;
     return crosssection_error_;
 }
 
-Mass File::mass() const
+boca::Mass File::Mass() const
 {
     Info0;
     return mass_;
 }
 
-Source File::source() const
+boca::Source File::Source() const
 {
     Info0;
     return source_;
 }
 
-std::string File::nice_name() const
+// std::string File::LatexName() const
+// {
+//     Info0;
+//     return names_.LatexName();
+// }
+std::string File::Name() const
 {
-    Info0;
-    return nice_name_;
+    return names_.Name();
+}
+
+Names File::Names() const
+{
+    return names_;
 }
 
 

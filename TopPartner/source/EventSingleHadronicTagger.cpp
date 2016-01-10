@@ -2,6 +2,7 @@
  * Copyright (C) 2015 Jan Hajer
  */
 #include "EventSingleHadronicTagger.hh"
+#include "plotting/Font.hh"
 // #define DEBUG
 #include "Debug.hh"
 
@@ -46,7 +47,7 @@ std::string EventSingleHadronicTagger::Name() const
 }
 std::string EventSingleHadronicTagger::LatexName() const
 {
-    return "T_{h}t_{l}h";
+    return Formula("T_{h}t_{l}h");
 }
 
 }

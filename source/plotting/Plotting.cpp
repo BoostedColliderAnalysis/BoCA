@@ -47,7 +47,7 @@ void Plotting::OptimalCuts() const
     Results results = ReadBdtFiles();
     results.CalculateSignificances();
     LatexFile latex_file(Tagger().ExportFolderName());
-    latex_file.Mass(double(results.Signals().front().InfoBranch().Mass) * GeV);
+    latex_file.Mass(results.Signals().front().InfoBranch().Mass());
     if (Tagger().Mva() == TMVA::Types::EMVA::kBDT) latex_file.IncludeGraphic(PlotHistograms(results), "BDT Distribution");
     latex_file.IncludeGraphic(PlotEfficiencyGraph(results), "Efficiency");
     latex_file.IncludeGraphic(PlotCrosssectionsGraph(results), "Crosssection in fb");
@@ -140,12 +140,12 @@ InfoBranch Plotting::InfoBranch(TFile& file, std::string const& tree_name) const
     return static_cast<boca::InfoBranch&>(*clones_array->Last());
 }
 
-std::string Plotting::PlotHistograms(boca::Results& results) const
+std::string Plotting::PlotHistograms(Results const& results) const
 {
     Info0;
     Histograms histograms(Tagger().ExportFolderName(), "Bdt");
-    for (auto const & result : results.Signals()) histograms.AddHistogram(result.Bdts(), result.InfoBranch().Name, results.Bounds());
-    for (auto const & result : results.Backgrounds()) histograms.AddHistogram(result.Bdts(), result.InfoBranch().Name, results.Bounds());
+    for (auto const & result : results.Signals()) histograms.AddHistogram(result.Bdts(), result.InfoBranch().LatexName(), results.Bounds());
+    for (auto const & result : results.Backgrounds()) histograms.AddHistogram(result.Bdts(), result.InfoBranch().LatexName(), results.Bounds());
     histograms.SetLegend(Orientation::top);
     histograms.SetXAxis("BDT");
     histograms.SetYAxis("N");
@@ -158,8 +158,8 @@ std::string Plotting::PlotEfficiencyGraph(Results const& results) const
 {
     Info0;
     Graphs graphs(Tagger().ExportFolderName(), "Efficiency");
-    for (auto const & result : results.Signals()) graphs.AddGraph(results.XValues(), result.Efficiencies(), result.InfoBranch().Name);
-    for (auto const & result : results.Backgrounds()) graphs.AddGraph(results.XValues(), result.Efficiencies(), result.InfoBranch().Name);
+    for (auto const & result : results.Signals()) graphs.AddGraph(results.XValues(), result.Efficiencies(), result.InfoBranch().LatexName());
+    for (auto const & result : results.Backgrounds()) graphs.AddGraph(results.XValues(), result.Efficiencies(), result.InfoBranch().LatexName());
     graphs.SetLegend(Orientation::bottom | Orientation::left);
     switch (Tagger().Mva()) {
     case TMVA::Types::EMVA::kBDT :
@@ -182,8 +182,8 @@ void Plotting::PlotAcceptanceGraph(Results const& results) const
     Info0;
     for (auto const & signal : results.Signals()) {
         Graphs graphs(Tagger().ExportFolderName(), "Acceptance" + std::to_string(&signal - &results.Signals().front()));
-        for (auto const & background : results.Backgrounds()) graphs.AddGraph(signal.Efficiencies(), background.Efficiencies(), background.InfoBranch().Name);
-        graphs.SetLegend(Orientation::right | Orientation::bottom, signal.InfoBranch().Name);
+        for (auto const & background : results.Backgrounds()) graphs.AddGraph(signal.Efficiencies(), background.Efficiencies(), background.InfoBranch().LatexName());
+        graphs.SetLegend(Orientation::right | Orientation::bottom, signal.InfoBranch().LatexName());
         graphs.SetXAxis("Signal acceptance", {0.2, 0.9});
         graphs.SetYAxis("Background acceptance");
     }
@@ -193,8 +193,8 @@ std::string Plotting::PlotCrosssectionsGraph(Results const& results) const
 {
     Info0;
     Graphs graphs(Tagger().ExportFolderName(), "Crosssection");
-    for (auto const & result : results.Signals()) graphs.AddGraph(results.XValues(), FloatVector(result.Crosssections()), result.InfoBranch().Name);
-    for (auto const & result : results.Backgrounds()) graphs.AddGraph(results.XValues(), FloatVector(result.Crosssections()), result.InfoBranch().Name);
+    for (auto const & result : results.Signals()) graphs.AddGraph(results.XValues(), FloatVector(result.Crosssections()), result.InfoBranch().LatexName());
+    for (auto const & result : results.Backgrounds()) graphs.AddGraph(results.XValues(), FloatVector(result.Crosssections()), result.InfoBranch().LatexName());
     graphs.SetLegend(Orientation::bottom | Orientation::left);
     switch (Tagger().Mva()) {
     case TMVA::Types::EMVA::kBDT :
@@ -211,7 +211,7 @@ std::string Plotting::PlotCrosssectionsGraph(Results const& results) const
     return graphs.FileBaseName();
 }
 
-std::string Plotting::PlotModelDependentGraph(Results& results) const
+std::string Plotting::PlotModelDependentGraph(Results const& results) const
 {
     Info0;
     Graphs graphs(Tagger().ExportFolderName(), "Significance");
@@ -230,7 +230,7 @@ std::string Plotting::PlotModelDependentGraph(Results& results) const
     return graphs.FileBaseName();
 }
 
-std::string Plotting::PlotCrosssectionGraph(Results& results) const
+std::string Plotting::PlotCrosssectionGraph(Results const& results) const
 {
     Info0;
     Graphs graphs(Tagger().ExportFolderName(), "SB");
@@ -249,7 +249,7 @@ std::string Plotting::PlotCrosssectionGraph(Results& results) const
     return graphs.FileBaseName();
 }
 
-std::string Plotting::PlotModelIndependentGraph(Results& results) const
+std::string Plotting::PlotModelIndependentGraph(Results const& results) const
 {
     Info0;
     Graphs graphs(Tagger().ExportFolderName(), "Exclusion");
@@ -308,11 +308,11 @@ std::string Plotting::EfficienciesRow(Result const& result, int index, Tag tag, 
     Info0;
     std::stringstream row;
     row << " \\verb|" << Tagger().TreeNames(tag).at(index) << "|";
-    row << "\n  & " << result.InfoBranch().EventNumber;
+    row << "\n  & " << result.InfoBranch().EventNumber();
     row << "\n  & " << result.EventSums().at(bin);
     row << "\n  & " << RoundToDigits(result.Efficiencies().at(bin));
-    row << "\n  & " << RoundToDigits(result.InfoBranch().Crosssection);
-    row << "\n  & " << RoundToDigits(to_crosssection(result.InfoBranch().Crosssection) * DetectorGeometry::Luminosity() * result.Efficiencies().at(bin));
+    row << "\n  & " << RoundToDigits(result.InfoBranch().Crosssection() / fb);
+    row << "\n  & " << RoundToDigits(result.InfoBranch().Crosssection() * DetectorGeometry::Luminosity() * result.Efficiencies().at(bin));
     row << "\n \\\\";
     return row.str();
 }
@@ -340,14 +340,11 @@ void Plotting::RunPlots() const
 void Plotting::DoPlot(Plots& signals, Plots& backgrounds, Stage stage) const
 {
     Info0;
-    NamePairs latex_names = unordered_pairs(tagger_.Branch().Variables(), [&](Obs const & variable_1, Obs const & variable_2) {
-        return std::make_pair(variable_1.LatexName(), variable_2.LatexName());
+    NamePairs names = unordered_pairs(tagger_.Branch().Variables(), [&](Observable const & variable_1, Observable const & variable_2) {
+        return std::make_pair(variable_1.Names(), variable_2.Names());
     });
-    NamePairs names = unordered_pairs(tagger_.Branch().Variables(), [&](Obs const & variable_1, Obs const & variable_2) {
-        return std::make_pair(variable_1.Name(), variable_2.Name());
-    });
-    signals.SetNames(names, latex_names);
-    backgrounds.SetNames(names, latex_names);
+    signals.SetNames(names);
+    backgrounds.SetNames(names);
     for (auto & signal : signals.plots()) PlotDetails(signal, backgrounds.plots().at(&signal - &signals.plots().front()), stage);
 }
 
@@ -435,7 +432,7 @@ Plots Plotting::PlotResult(TFile& file, std::string const& tree_name, Stage stag
     Plots plots(InfoBranch(file, tree_name));
     TTree& tree = static_cast<TTree&>(*file.Get(tree_name.c_str()));
     tree.SetMakeClass(1);
-    plots.plots() = unordered_pairs(tagger_.Branch().Variables(), [&](Obs const & variable_1, Obs const & variable_2) {
+    plots.plots() = unordered_pairs(tagger_.Branch().Variables(), [&](Observable const & variable_1, Observable const & variable_2) {
         return ReadTree(tree, variable_1.Name(), variable_2.Name(), stage);
     });
     plots.SetName(tree_name);

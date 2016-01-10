@@ -1,10 +1,10 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
 #include "Event.hh"
-// #include "TreeReader.hh"
+#include "Names.hh"
 
 namespace boca
 {
@@ -20,24 +20,25 @@ class File
 
 public:
 
-    File(std::vector<std::string> const& processes, std::string const& run_folder, std::string const& file_suffix, std::string const& nice_name = "", Crosssection crosssection = pb, Mass mass = massless);
-
-//     boca::TreeReader TreeReader();
+    File(std::vector<std::string> const& processes, std::string const& run_folder, std::string const& file_suffix, std::string const& nice_name = "", boca::Crosssection crosssection = pb, boca::Mass mass = massless);
 
     std::string Title() const;
 
-    Crosssection crosssection() const;
+    boca::Crosssection Crosssection() const;
 
-    std::string file_suffix() const;
+    boca::Crosssection CrosssectionError() const;
 
-    Crosssection crosssection_error() const;
+    boca::Mass Mass() const;
 
-    Mass mass() const;
-    Source source() const;
+    boca::Source Source() const;
 
-    std::string tree_name() const;
+    std::string TreeName() const;
 
-    std::string nice_name() const;
+    std::string LatexName() const;
+
+    std::string Name() const;
+
+    boca::Names Names()const;
 
     std::vector<std::string> Paths() const;
 
@@ -49,6 +50,8 @@ protected:
 
 private:
 
+    std::string FileSuffix() const;
+
     std::string base_path_ = "$HOME/Development/MadGraph/";
 
     std::vector<std::string> process_folders_;
@@ -59,17 +62,17 @@ private:
 
     std::string tree_name_;
 
-    Crosssection crosssection_ = pb;
+    boca::Crosssection crosssection_ = pb;
 
-    Crosssection crosssection_error_ = 0;
+    boca::Crosssection crosssection_error_ = 0;
 
-    Mass mass_ = massless;
+    boca::Mass mass_ = massless;
 
     std::string file_suffix_ = ".root";
 
-    std::string nice_name_;
+    boca::Names names_;
 
-    Source source_ = Source::delphes;
+    boca::Source source_ = boca::Source::delphes;
 
 };
 

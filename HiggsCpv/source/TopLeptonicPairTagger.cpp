@@ -17,8 +17,8 @@ int TopLeptonicPairTagger::Train(Event const& event, boca::PreCuts const&, Tag t
     Info0;
     std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
     Debug(triplets.size());
-   std::vector<Jet> particles = event.Partons().GenParticles();
-   std::vector<Jet> top_particles = CopyIfParticle(particles, Id::top);
+   std::vector<Particle> particles = event.Partons().GenParticles();
+   std::vector<Particle> top_particles = CopyIfParticle(particles, Id::top);
     Check(top_particles.size() == 2, top_particles.size());
 //    std::vector<Jet>neutrinos = CopyIfNeutrino(particles);
     if (top_particles.size() != 2 && tag == Tag::signal) Debug(particles.size());
@@ -45,7 +45,7 @@ std::vector<Sextet> TopLeptonicPairTagger::TruthLevel(Event const& event, std::v
 {
     switch (tag) {
     case Tag::signal : {
-       std::vector<Jet> tops = CopyIfParticle(event.Partons().GenParticles(), Id::top);
+      std::vector<Particle> tops = CopyIfParticle(event.Partons().GenParticles(), Id::top);
         std::vector<Sextet> final_sextets;
         for (auto const& sextet : sextets) {
             bool truth_level = false;

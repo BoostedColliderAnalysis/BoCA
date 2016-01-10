@@ -22,8 +22,8 @@ public:
     template<typename Multiplet>
     void Fill(Multiplet const& signature) {
         boca::TChannelBranch::Fill(signature.Multiplet());
-        Aplanarity = signature.EventShape().Aplanarity();
-        Sphericity = signature.EventShape().Sphericity();
+        Aplanarity = signature.EventShapes().Aplanarity();
+        Sphericity = signature.EventShapes().Sphericity();
     }
     Observables Variables();
 private:
@@ -92,31 +92,31 @@ public:
         Pt12 = signature.Multiplet().Jet12().pt();
         Pt23 = signature.Multiplet().Jet23().pt();
         Pt13 = signature.Multiplet().Jet13().pt();
-        DeltaPt23 = signature.Multiplet().DeltaPt23();
-        DeltaPt13 = signature.Multiplet().DeltaPt13();
-        Ht12 = signature.Multiplet().Ht12();
-        Ht23 = signature.Multiplet().Ht23();
-        Ht13 = signature.Multiplet().Ht13();
+        DeltaPt23 = signature.Multiplet().DeltaPt23() / GeV;
+        DeltaPt13 = signature.Multiplet().DeltaPt13() / GeV;
+        Ht12 = signature.Multiplet().Ht12() / GeV;
+        Ht23 = signature.Multiplet().Ht23() / GeV;
+        Ht13 = signature.Multiplet().Ht13() / GeV;
         Rho23 = signature.Multiplet().Rho23();
         Rho13 = signature.Multiplet().Rho13();
-        DeltaRap23 = signature.Multiplet().DeltaRap23();
-        DeltaRap13 = signature.Multiplet().DeltaRap13();
-        DeltaPhi23 = signature.Multiplet().DeltaPhi23();
-        DeltaPhi13 = signature.Multiplet().DeltaPhi13();
-        DeltaR23 = signature.Multiplet().DeltaR23();
-        DeltaR13 = signature.Multiplet().DeltaR13();
-        DeltaM23 = signature.Multiplet().DeltaM23();
-        DeltaM13 = signature.Multiplet().DeltaM13();
-        DeltaHt23 = signature.Multiplet().DeltaHt23();
-        DeltaHt13 = signature.Multiplet().DeltaHt13();
-        Pull23 = signature.Multiplet().PullSum23();
-        Pull13 = signature.Multiplet().PullSum13();
-        DeltaPull23 = signature.Multiplet().PullDifference23();
-        DeltaPull13 = signature.Multiplet().PullDifference13();
+        DeltaRap23 = signature.Multiplet().DeltaRap23() / rad;
+        DeltaRap13 = signature.Multiplet().DeltaRap13() / rad;
+        DeltaPhi23 = signature.Multiplet().DeltaPhi23() / rad;
+        DeltaPhi13 = signature.Multiplet().DeltaPhi13() / rad;
+        DeltaR23 = signature.Multiplet().DeltaR23() / rad;
+        DeltaR13 = signature.Multiplet().DeltaR13() / rad;
+        DeltaM23 = signature.Multiplet().DeltaM23() / GeV;
+        DeltaM13 = signature.Multiplet().DeltaM13() / GeV;
+        DeltaHt23 = signature.Multiplet().DeltaHt23() / GeV;
+        DeltaHt13 = signature.Multiplet().DeltaHt13() / GeV;
+        Pull23 = signature.Multiplet().Pull23() / rad;
+        Pull13 = signature.Multiplet().Pull13() / rad;
+        DeltaPull23 = signature.Multiplet().Pull32() / rad;
+        DeltaPull13 = signature.Multiplet().Pull31() / rad;
         Dipolarity23 = signature.Multiplet().Dipolarity23();
         Dipolarity13 = signature.Multiplet().Dipolarity13();
-        Aplanarity = signature.EventShape().Aplanarity();
-        Sphericity = signature.EventShape().Sphericity();
+        Aplanarity = signature.EventShapes().Aplanarity();
+        Sphericity = signature.EventShapes().Sphericity();
     }
     Observables Variables();
 
@@ -146,12 +146,12 @@ public:
         boca::MultiBranch::Fill(signature.Multiplet());
         BottomBdt = signature.Multiplet().BottomBdt();
         PairBottomBdt = signature.Multiplet().Doublet().BottomBdt();
-        HardTopPt = signature.Multiplet().Sextet().HardTopPt();
-        SoftTopPt = signature.Multiplet().Sextet().SoftTopPt();
-        HiggsMass = signature.Multiplet().Doublet().Jet().m();
-        PairRap = signature.Multiplet().Sextet().DeltaRap();
-        Aplanarity = signature.EventShape().Aplanarity();
-        Sphericity = signature.EventShape().Sphericity();
+        HardTopPt = signature.Multiplet().Sextet().HardTopPt() / GeV;
+        SoftTopPt = signature.Multiplet().Sextet().SoftTopPt() / GeV;
+        HiggsMass = signature.Multiplet().Doublet().Jet().Mass() / GeV;
+        PairRap = signature.Multiplet().Sextet().DeltaRap() / rad;
+        Aplanarity = signature.EventShapes().Aplanarity();
+        Sphericity = signature.EventShapes().Sphericity();
 //         BottomBdt = multiplet.BottomBdt();
 //         PairBottomBdt = multiplet.PairBottomBdt();
 //         HardTopPt = multiplet.Sextet().HardTopPt();
@@ -189,10 +189,10 @@ public:
         PairBottomBdt = multiplet.PairBottomBdt();
         PairBdt = multiplet.Doublet().Bdt();
         HiggsBdt = multiplet.Sextet().Bdt();
-        HardTopPt = multiplet.Sextet().HardTopPt();
-        SoftTopPt = multiplet.Sextet().SoftTopPt();
-        HiggsMass = multiplet.Sextet().Jet().m();
-        PairRap = multiplet.Doublet().DeltaRap();
+        HardTopPt = multiplet.Sextet().HardTopPt() / GeV;
+        SoftTopPt = multiplet.Sextet().SoftTopPt() / GeV;
+        HiggsMass = multiplet.Sextet().Jet().Mass() / GeV;
+        PairRap = multiplet.Doublet().DeltaRap() / rad;
     }
 private:
     ClassDef(OctetBranch, 1)

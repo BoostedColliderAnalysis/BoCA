@@ -160,13 +160,12 @@ void Results::CalculateSignificances()
     Info0;
     for (auto const & step : Range(Steps())) {
         float signal_events = 0;
-
         Crosssection signal_efficiencies_crossection = 0_fb;
         Crosssection crosssection = 0_fb;
         for (auto const & signal : signals_) {
             signal_events += signal.Events().at(step);
-            signal_efficiencies_crossection += double(signal.Efficiencies().at(step) * signal.InfoBranch().Crosssection) * fb;
-            if (double(signal.InfoBranch().Crosssection) * fb > crosssection) crosssection = double(signal.InfoBranch().Crosssection) * fb;
+            signal_efficiencies_crossection += double(signal.Efficiencies().at(step)) * signal.InfoBranch().Crosssection();
+            if (signal.InfoBranch().Crosssection() > crosssection) crosssection = signal.InfoBranch().Crosssection();
         }
         float signal_efficiencies = signal_efficiencies_crossection / crosssection;
         float background_events = 0;

@@ -22,7 +22,7 @@ public:
 
     ~Histograms();
 
-    void AddHistogram(std::vector<float> const& values, std::string const& name, Rectangle<float>& bounds);
+    void AddHistogram(std::vector<float> const& values, std::string const& name, Rectangle<float> const& bounds);
 
     void SetLegend(Orientation orientation, std::string const& title = "");
 
@@ -49,6 +49,8 @@ private:
     std::vector<TH1F> histograms_;
 
     std::vector<TLine> lines_;
+
+    Rectangle<float> bounds_;
 
 };
 

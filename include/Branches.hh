@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -9,23 +9,12 @@
 #include "TObject.h"
 #include "Rtypes.h"
 #include "physics/Prefixes.hh"
+#include "Observable.hh"
 
 namespace boca
 {
 
-class Obs
-{
-public:
-    Obs(float& value, std::string const& name, std::string const& latex_name = "");
-    float& Value() const;
-    std::string Name() const;
-    std::string LatexName() const;
-private:
-    float* value_;
-    std::string name_;
-    std::string latex_name_;
-};
-typedef std::vector<boca::Obs> Observables;
+typedef std::vector<boca::Observable> Observables;
 
 /**
  * @brief Basic tree branches
@@ -51,12 +40,23 @@ class InfoBranch : public BaseBranch
 {
 public:
     InfoBranch();
-    float Crosssection;
-    float CrosssectionError;
-    float Mass;
-    float EventNumber;
-    std::string Name;
+    boca::Crosssection Crosssection() const;
+    boca::Crosssection CrosssectionError() const;
+    boca::Mass Mass() const;
+    int EventNumber() const;
+    std::string Name() const;
+    std::string LatexName() const;
+    void SetCrosssection(boca::Crosssection crosssection);
+    void SetCrosssectionError(boca::Crosssection crosssection_error);
+    void SetMass(boca::Mass mass);
+    void SetEventNumber(int event_number);
+    void SetNames(Names const& names);
 private:
+    float crosssection;
+    float crosssection_error;
+    float mass;
+    int event_number;
+    Names names;
     ClassDef(InfoBranch, 1)
 };
 
@@ -78,17 +78,17 @@ private:
 class BdtBranch : public ResultBranch
 {
 public:
-  BdtBranch();
-  float Bdt;
-  template<typename Multiplet>
-  void Fill(Multiplet const& multiplet) {
-    ResultBranch::Fill(multiplet);
-    Bdt = multiplet.Bdt();
-  }
-  virtual Observables Variables();
-  virtual Observables Spectators();
+    BdtBranch();
+    float Bdt;
+    template<typename Multiplet>
+    void Fill(Multiplet const& multiplet) {
+        ResultBranch::Fill(multiplet);
+        Bdt = multiplet.Bdt();
+    }
+    virtual Observables Variables();
+    virtual Observables Spectators();
 private:
-  ClassDef(BdtBranch, 1)
+    ClassDef(BdtBranch, 1)
 };
 
 
@@ -97,18 +97,18 @@ class CutBranch : public ResultBranch
 
 public:
 
-  CutBranch(){};
-  std::vector<bool> passed_;
+    CutBranch() {};
+    std::vector<bool> passed_;
 
-  template<typename Multiplet>
-  void Fill(Multiplet const& multiplet) {
-    ResultBranch::Fill(multiplet);
-    passed_ = multiplet.Passed();
-  }
+    template<typename Multiplet>
+    void Fill(Multiplet const& multiplet) {
+        ResultBranch::Fill(multiplet);
+        passed_ = multiplet.Passed();
+    }
 
 private:
 
-  ClassDef(CutBranch, 1)
+    ClassDef(CutBranch, 1)
 
 };
 

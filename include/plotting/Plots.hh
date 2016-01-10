@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -9,13 +9,13 @@
 namespace boca
 {
 
-typedef std::vector<std::pair<std::string, std::string>> NamePairs;
+using NamePairs = std::vector<std::pair<Names, Names>>;
 
 class Plots
 {
 public:
     Plots(InfoBranch const& info_branch);
-    void SetNames(NamePairs const& names, NamePairs const& latex_names);
+    void SetNames(NamePairs const& names);
     std::vector<Plot> const& plots() const;
     std::vector<Plot>& plots();
     void SetName(std::string const& name);

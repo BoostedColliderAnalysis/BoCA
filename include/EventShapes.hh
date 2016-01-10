@@ -44,12 +44,6 @@ public:
     */
     void Reset(std::vector<Jet> const& jets);
 
-private:
-
-    void Initialize();
-
-public:
-
     /**
     * Member functions to return thrust related shapes
     */
@@ -57,37 +51,37 @@ public:
     /**
     * The thrust
     */
-    double Thrust();
+    double Thrust() const;
 
     /**
     * The major
     */
-    double ThrustMajor();
+    double ThrustMajor() const;
 
     /**
     * The minor
     */
-    double ThrustMinor();
+    double ThrustMinor() const;
 
     /**
     * The oblateness
     */
-    double Oblateness();
+    double Oblateness() const;
 
     /**
     * The thrust axis
     */
-    Vector3<double> ThrustAxis();
+    Vector3<double> ThrustAxis() const;
 
     /**
     * The major axis
     */
-    Vector3<double> MajorAxis();
+    Vector3<double> MajorAxis() const;
 
     /**
     * The minor axis
     */
-    Vector3<double> MinorAxis();
+    Vector3<double> MinorAxis() const;
     //@}
 
     /**
@@ -97,23 +91,22 @@ public:
     /**
     * The C parameter
     */
-    double CParameter();
+    double CParameter() const;
 
     /**
     * The D parameter
     */
-    double DParameter();
+    double DParameter() const;
 
     /**
     * The eigenvalues in descending order
     */
-    std::vector<double> LinTenEigenValues();
-
+    std::vector<double> LinTenEigenValues() const;
 
     /**
     * The eigenvectors in order of descending eigenvalue
     */
-    std::vector<Vector3<double>> LinTenEigenVectors();
+    std::vector<Vector3<double>> LinTenEigenVectors() const;
 
     //@}
 
@@ -124,34 +117,32 @@ public:
     /**
     * The sphericity
     */
-    double Sphericity();
+    double Sphericity() const;
 
     /**
     * The aplanarity
     */
-    double Aplanarity();
-
+    double Aplanarity() const;
 
     /**
     * The planarity
     */
-    double Planarity();
+    double Planarity() const;
 
     /**
     * The sphericity axis
     */
-    Vector3<double> SphericityAxis();
-
+    Vector3<double> SphericityAxis() const;
 
     /**
     * The sphericity eigenvalues
     */
-    std::vector<double> SphericityEigenValues();
+    std::vector<double> SphericityEigenValues() const;
 
     /**
     * The sphericity eigenvectors
     */
-    std::vector<Vector3<double>> SphericityEigenVectors();
+    std::vector<Vector3<double>> SphericityEigenVectors() const;
 
     //@}
 
@@ -163,19 +154,19 @@ public:
     * The high hemishpere mass squared divided by the visible energy
     * squared
     */
-    double MHigh2();
+    double MHigh2() const;
 
     /**
     * The low hemishpere mass squared divided by the visible energy
     * squared
     */
-    double MLow2();
+    double MLow2() const;
 
     /**
     * The difference between the
     * hemishpere masses squared divided by the visible energy squared
     */
-    double MDiff2();
+    double MDiff2() const;
 
     //@}
 
@@ -186,23 +177,22 @@ public:
     /**
     * The wide jet broadening
     */
-    double BMax();
+    double BMax() const;
 
     /**
     * The narrow jet broadening
     */
-    double BMin();
+    double BMin() const;
 
     /**
     * The sum of the jet broadenings
     */
-    double BSum();
-
+    double BSum() const;
 
     /**
     * The difference of the jet broadenings
     */
-    double BDiff();
+    double BDiff() const;
     //@}
 
     /**
@@ -213,17 +203,17 @@ public:
     /**
     * The scaled momentum \f$\xi=-\log\left( p/E_{\rm beam}\right)\f$.
     */
-    double ScaledMomentum(const LorentzVector<Momentum>& p, const Energy& Ebeam);
+    double ScaledMomentum(LorentzVector<Momentum> const& p, const Energy& Ebeam) const;
 
     /**
     * Transverse momentum with respect to the beam
     */
-    Energy Pt(const LorentzVector<Momentum>& p);
+    Energy Pt(LorentzVector<Momentum> const& p) const;
 
     /**
     * Rapidity with respect to the beam direction
     */
-    Angle Rapidity(const LorentzVector<Momentum>& p);
+    Angle Rapidity(LorentzVector<Momentum> const& p) const;
     //@}
 
     /**
@@ -234,37 +224,36 @@ public:
     /**
     * Transverse momentum with respect to the thrust axis in the event plane
     */
-    Momentum PtInT(const LorentzVector<Momentum>& p);
+    Momentum PtInT(LorentzVector<Momentum> const& p) const;
 
     /**
     * Transverse momentum with respect to the thrust axis out of the
     * event plane
     */
-    Momentum PtOutT(const LorentzVector<Momentum>& p);
+    Momentum PtOutT(LorentzVector<Momentum> const& p) const;
 
     /**
     * Rapidity with respect to the thrust axis
     */
-    Angle RapidityT(const LorentzVector<Momentum>& p);
+    Angle RapidityT(LorentzVector<Momentum> const& p) const;
 
     /**
     * Transverse momentum with respect to the sphericity axis in the
     * event plane
     */
-    Momentum PtInS(const LorentzVector<Momentum>& p);
+    Momentum PtInS(LorentzVector<Momentum> const& p) const;
 
     /**
     * Transverse momentum with respect to the sphericity axis out of the
     * event plane
     */
-    Momentum PtOutS(const LorentzVector<Momentum>& p);
+    Momentum PtOutS(LorentzVector<Momentum> const& p) const;
 
     /**
     * Rapidity with respect to the sphericity axis
     */
-    Angle RapidityS(const LorentzVector<Momentum>& p);
+    Angle RapidityS(LorentzVector<Momentum> const& p) const;
     //@}
-
 
     /**
     * Energy-energy correlation (EEC) @param hi is the histogram and has
@@ -274,21 +263,23 @@ public:
     * 1]. delta = 2/hi.size(). We use classical indices to access the
     * vector.
     */
-    void BookEEC(std::vector<double>& hi);
+    void BookEEC(std::vector<double>& hi) const;
 
     /**
     * Before writing the histogram it has to be normalized according to
     * the number of events.
     */
-    void NormalizeEEC(std::vector<double>& hi, long evts);
+    void NormalizeEEC(std::vector<double>& hi, long evts) const;
 
     /**
     * The asymmetry of EEC is calculated from a given \f$\cos\chi\f$ and
     * EEC histogram, which is a std::vector<double> as described above.
     */
-    double AEEC(std::vector<double>& hi, double& coschi);
+    double AEEC(std::vector<double>& hi, double& coschi) const;
 
 private:
+
+  void Initialize();
 
     /**
     * Check whether the initialization of a certain class of event shapes
@@ -299,25 +290,25 @@ private:
     * Check if thrust related variables have been calculated and if not
     * do so
     */
-    void CheckThrust();
+    void CheckThrust() const;
 
     /**
     * Check if the linear tensor related variables have been calculated
     * and if not do so
     */
-    void CheckLinTen();
+    void CheckLinTen() const;
 
     /**
     * Check if the quadratic tensor related variables have been
     * calculated and if not do so
     */
-    void CheckSphericity();
+    void CheckSphericity() const;
 
     /**
     * Check if the hemisphere mass variables and jet broadenings have
     * been calculated and if not do so
     */
-    void CheckHemispheres();
+    void CheckHemispheres() const;
     //@}
 
     /**
@@ -327,12 +318,12 @@ private:
     /**
     * Calculate the hemisphere masses and jet broadenings
     */
-    void CalcHemisphereMasses();
+    void CalcHemisphereMasses() const;
 
     /**
     * Calculate the thrust and related axes
     */
-    void CalculateThrust();
+    void CalculateThrust() const;
 
     /**
     * Diagonalize the tensors @param linear switch between
@@ -340,7 +331,7 @@ private:
     * whether to boost into cm frame of all momenta first, or not
     * (default off, and no interface to this).
     */
-    void DiagonalizeTensors(bool linear, bool cmboost);
+    void DiagonalizeTensors(bool linear, bool cmboost) const;
 
     /**
     * Quite general diagonalization of a symmetric Matrix T, given as an
@@ -349,19 +340,19 @@ private:
     * the eigenvalue problem and no numerical approximation, based on
     * Cardano's formula. @param T Matrix to be diagonalised
     */
-    std::vector<double> Eigenvalues(const double T[3][3]);
+    std::vector<double> Eigenvalues(const double T[3][3]) const;
 
     /**
     * The eigenvector of @param T to a given eigenvalue @param lam
     */
-    Vector3<double> eigenvector(const double T[3][3], const double& lam);
+    Vector3<double> Eigenvector(const double T[3][3], const double& lam) const;
 
     /**
     * The eigenvectors of @param T corresponding to the eigenvectors
     * @param lam . The ordering of the vectors corresponds to the
     * ordering of the eigenvalues.
     */
-    std::vector<Vector3<double>> Eigenvectors(const double T[3][3], const std::vector<double>& lam);
+    std::vector<Vector3<double>> Eigenvectors(const double T[3][3], const std::vector<double>& lam) const;
 
     /**
     * Member to calculate the thrust
@@ -369,7 +360,7 @@ private:
     * @param t The thrust-squared (up to an Energy scale factor)
     * @param taxis The thrust axis
     */
-    void CalcT(const std::vector<Vector3<Momentum>>& p, EnergySquare& t, Vector3<double>& taxis);
+    void CalcT(const std::vector< boca::Vector3< boca::Momentum > >& p, boca::EnergySquare& t, boca::Vector3< double >& taxis) const;
 
     /**
     * Member to calculate the major
@@ -377,10 +368,8 @@ private:
     * @param m The major-squared (up to an Energy scale factor)
     * @param maxis The major axis
     */
-    void CalcM(const std::vector<Vector3<Momentum>>& p, EnergySquare& m, Vector3<double>& maxis);
+    void CalcM(const std::vector<Vector3<Momentum>>& p, EnergySquare& m, Vector3<double>& maxis) const;
     //@}
-
-private:
 
     /**
     * Vector of particle momenta to be analysed
@@ -394,17 +383,17 @@ private:
     /**
     * The thrust related axes
     */
-    std::vector<Vector3<double>> thrust_axis_;
+    mutable std::vector<Vector3<double>> thrust_axis_;
 
     /**
     * The sphericity related axes
     */
-    std::vector<Vector3<double>> spher_axis_;
+    mutable std::vector<Vector3<double>> spher_axis_;
 
     /**
     * The linearised tensor axes
     */
-    std::vector<Vector3<double>> lin_ten_axis_;
+    mutable std::vector<Vector3<double>> lin_ten_axis_;
     //@}
 
     /**
@@ -414,17 +403,17 @@ private:
     /**
     * Values of thrust related variables
     */
-    std::vector<double> thrust_;
+    mutable std::vector<double> thrust_;
 
     /**
     * Values of sphericity related variables
     */
-    std::vector<double> spher_;
+    mutable std::vector<double> spher_;
 
     /**
     * Values of linearized tensor related variables
     */
-    std::vector<double> lin_ten_;
+    mutable std::vector<double> lin_ten_;
     //@}
 
     /**
@@ -434,22 +423,22 @@ private:
     /**
     * Whether or not the thrust is calculated
     */
-    bool thrust_done_;
+    mutable bool thrust_done_;
 
     /**
     * Whether or not the sphericity is calculated
     */
-    bool spher_done_;
+    mutable bool spher_done_;
 
     /**
     * Whether or not the linearizes tensor is calculated
     */
-    bool lin_ten_done_;
+    mutable bool lin_ten_done_;
 
     /**
     * Whether or not the hemisphere masses have been calculated
     */
-    bool hem_done_;
+    mutable bool hem_done_;
     //@}
 
     /**
@@ -464,12 +453,12 @@ private:
     /**
     * The high hemisphere mass
     */
-    double m_plus_;
+    mutable double m_plus_;
 
     /**
     * The low hemisphere mass
     */
-    double m_minus_;
+    mutable double m_minus_;
     //@}
 
     /**
@@ -479,13 +468,14 @@ private:
     /**
     * The wide jet broadening
     */
-    double b_plus_;
+    mutable double b_plus_;
 
     /**
     * The narrow jet broadening
     */
-    double b_minus_;
+    mutable double b_minus_;
     //@}
+
 };
 
 }

@@ -2,6 +2,8 @@
  * Copyright (C) 2015 Jan Hajer
  */
 
+// #include <boost/filesystem.hpp>
+
 #include "TMVA/Reader.h"
 
 #include "ClusterSequence.hh"
@@ -189,7 +191,9 @@ std::string Tagger::BackgroundFileName(Stage stage) const
 }
 std::string Tagger::AnalysisName() const
 {
+//     analysis_name_ = boost::filesystem::current_path().filename().string();
     Error(analysis_name_);
+
     return analysis_name_;
 }
 std::vector<Observable> const& Tagger::Variables() const

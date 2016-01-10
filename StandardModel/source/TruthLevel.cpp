@@ -28,7 +28,7 @@ int TruthLevel::Train(Event const& event, PreCuts const& pre_cuts, Tag) const
 
 
 
-std::vector<TruthVariables> TruthLevel::Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
+std::vector<TruthVariables> TruthLevel::Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const&) const
 {
     Info0;
     return Jets(event, pre_cuts, [&](Particle & jet) {

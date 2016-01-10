@@ -15,15 +15,15 @@ int SignatureLeptonTagger::Train(Event const& event, boca::PreCuts const&, Tag t
     Info0;
    std::vector<Lepton> leptons = event.Leptons().leptons();
     if (leptons.size() < 2) return 0;
-   std::vector<Jet> particles = event.Partons().GenParticles();
-   std::vector<Jet> lepton_particle = CopyIfParticles(particles, Id::electron, Id::muon);
+   std::vector<Particle> particles = event.Partons().GenParticles();
+   std::vector<Particle> lepton_particle = CopyIfParticles(particles, Id::electron, Id::muon);
 //     Error(lepton_particle);
     lepton_particle = CopyIfGrandMother(lepton_particle, Id::top);
 //     Error(lepton_particle);
-   std::vector<Jet> final_leptons = CopyIfClose(leptons, lepton_particle);
+    std::vector<Lepton> final_leptons = CopyIfClose(leptons, lepton_particle);
 //     Error(final_leptons);
     std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
-   std::vector<Jet> higgses = CopyIfParticles(particles, Id::higgs, Id::CP_violating_higgs);
+    std::vector<Particle> higgses = CopyIfParticles(particles, Id::higgs, Id::CP_violating_higgs);
     std::vector<Doublet> final_doublets = BestMatches(doublets, higgses, tag);
 
     std::vector<MultipletSignature<Quartet211>> quartets = triples(final_leptons, final_doublets, [&](Singlet const& singlet_1, Singlet const& singlet_2, Doublet const& doublet) {

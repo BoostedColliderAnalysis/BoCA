@@ -1,4 +1,5 @@
 #include  "AnalysisTopPartner.hh"
+#include  "plotting/Font.hh"
 
 namespace boca
 {
@@ -26,13 +27,13 @@ std::string LatexName(Process process)
 {
     Info0;
     switch (process) {
-    case Process::TT : return "T_{h}T_{l}";
-    case Process::ttBjj : return "t_{l}t_{h}Bjj";
-    case Process::tthBjj : return "t_{l}t_{h}hBjj";
-    case Process::TthLep : return "T_{l}t_{h}h";
-    case Process::TthHad : return "T_{h}t_{l}h";
-    case Process::TThh : return "T_{l}T_{h}hh";
-    case Process::ttBB : return "t_{l}t_{h}BB";
+    case Process::TT : return Formula("T_{h}T_{l}");
+    case Process::ttBjj : return Formula("t_{l}t_{h}Bjj");
+    case Process::tthBjj : return Formula("t_{l}t_{h}hBjj");
+    case Process::TthLep : return Formula("T_{l}t_{h}h");
+    case Process::TthHad : return Formula("T_{h}t_{l}h");
+    case Process::TThh : return Formula("T_{l}T_{h}hh");
+    case Process::ttBB : return Formula("t_{l}t_{h}BB");
     Default("Process","");
     }
 }

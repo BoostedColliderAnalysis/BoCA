@@ -8,6 +8,7 @@ add_subdirectory(plotting)
 
 add_include_path(../include)
 create_dictionary(Branches Branches.cpp ../include/LinkDef.hh)
+create_dictionary(Names Names.cpp ../include/LinkDef.hh)
 
 set(vector_sources
 EventShapes.cpp
@@ -50,6 +51,7 @@ create_library(Multiplets2 multiplet_sources)
 set(tagger_sources
 Tagger.cpp
 ReaderBase.cpp
+# Names.cpp
 Observable.cpp
 MomentumRange.cpp
 PreCuts.cpp

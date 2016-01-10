@@ -110,13 +110,13 @@ void Result::Calculate()
     }
 
     for (auto const & step : Range(Steps())) {
-        efficiencies_.at(step) = float(event_sums_.at(step)) / InfoBranch().EventNumber;
+        efficiencies_.at(step) = float(event_sums_.at(step)) / InfoBranch().EventNumber();
         pure_efficiencies_.at(step) = float(event_sums_.at(step)) / event_sums_.front();
-        crosssections_.at(step) = to_crosssection(InfoBranch().Crosssection * efficiencies_.at(step));
+        crosssections_.at(step) = InfoBranch().Crosssection() * double(efficiencies_.at(step));
         events_.at(step) = crosssections_.at(step) * DetectorGeometry::Luminosity();
         Debug(efficiencies_.at(step), events_.at(step));
     }
-    INFO(InfoBranch().EventNumber, event_sums_.front());
+    INFO(InfoBranch().EventNumber(), event_sums_.front());
 }
 
 int Result::XBin(float value) const

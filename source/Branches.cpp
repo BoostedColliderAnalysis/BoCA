@@ -9,32 +9,10 @@
 #include "Pair.hh"
 // #include "Debug.hh"
 
-namespace boca {
-
-  Obs::Obs(float & value, std::string const& name, std::string const& latex_name) : value_(&value)
+namespace boca
 {
-    name_ = name;
-    if(latex_name == "") latex_name_ = name;
-    else latex_name_ = latex_name;
-//     std::cout << value << " " << name << " " << nice_name << std::endl;
-}
 
-float& Obs::Value() const
-{
-    return *value_;
-}
-
-std::string Obs::Name() const
-{
-    return name_;
-}
-
-std::string Obs::LatexName() const
-{
-    return latex_name_;
-}
-
-BaseBranch::~BaseBranch(){}
+BaseBranch::~BaseBranch() {}
 
 float BaseBranch::InitialValue()
 {
@@ -52,26 +30,70 @@ Observables BaseBranch::Join(Observables const& observables_1, Observables const
 
 Observables BaseBranch::Join(Observables const& observables_1, Observables const& observables_2, Observables const& observables_3)
 {
-  Observables joined;
-  joined.reserve(observables_1.size() + observables_2.size() + observables_3.size());
-  joined.insert(joined.end(), observables_1.begin(), observables_1.end());
-  joined.insert(joined.end(), observables_2.begin(), observables_2.end());
-  joined.insert(joined.end(), observables_3.begin(), observables_3.end());
-  return joined;
+    Observables joined;
+    joined.reserve(observables_1.size() + observables_2.size() + observables_3.size());
+    joined.insert(joined.end(), observables_1.begin(), observables_1.end());
+    joined.insert(joined.end(), observables_2.begin(), observables_2.end());
+    joined.insert(joined.end(), observables_3.begin(), observables_3.end());
+    return joined;
 }
 
 float BottomBase::InValue()
 {
-  return BaseBranch::InitialValue();
+    return BaseBranch::InitialValue();
 }
 
 InfoBranch::InfoBranch()
 {
-    Crosssection = InitialValue();
-    CrosssectionError = InitialValue();
-    EventNumber = int(InitialValue());
-    Mass = InitialValue();
-    Name = "";
+    crosssection = InitialValue();
+    crosssection_error = InitialValue();
+    event_number = int(InitialValue());
+    mass = InitialValue();
+}
+
+boca::Crosssection InfoBranch::Crosssection() const
+{
+    return double(crosssection) * fb;
+}
+boca::Crosssection InfoBranch::CrosssectionError() const
+{
+  return double(crosssection_error) * fb;
+}
+int InfoBranch::EventNumber() const
+{
+    return event_number;
+}
+boca::Mass InfoBranch::Mass() const
+{
+    return double(mass) * GeV;
+}
+std::string InfoBranch::Name() const
+{
+    return names.Name();
+}
+std::string InfoBranch::LatexName() const
+{
+    return names.LatexName();
+}
+void InfoBranch::SetCrosssection(boca::Crosssection crosssection_)
+{
+    crosssection = crosssection_ / fb;
+}
+void InfoBranch::SetCrosssectionError(boca::Crosssection crosssection_error_)
+{
+    crosssection_error = crosssection_error_ / fb;
+}
+void InfoBranch::SetEventNumber(int event_number_)
+{
+    event_number = event_number_;
+}
+void InfoBranch::SetMass(boca::Mass mass_)
+{
+    mass = mass_ / GeV;
+}
+void InfoBranch::SetNames(Names const& names_)
+{
+    names = names_;
 }
 
 ResultBranch::ResultBranch()
@@ -86,22 +108,22 @@ Observables ResultBranch::Variables()
 
 Observables ResultBranch::Spectators()
 {
-  return {PAIR(Tag)};
+    return {PAIR(Tag)};
 }
 
 BdtBranch::BdtBranch()
 {
-  Bdt = InitialValue();
+    Bdt = InitialValue();
 }
 
 Observables BdtBranch::Variables()
 {
-  return {};
+    return {};
 }
 
 Observables BdtBranch::Spectators()
 {
-  return {PAIR(Bdt)};
+    return {PAIR(Bdt)};
 }
 
 ParticleBranch::ParticleBranch()
@@ -165,7 +187,7 @@ PairBranch::PairBranch()
 
 Observables PairBranch::Variables()
 {
-  return Join(ParticleBranch::Variables(), {PAIR(Ht, "H_{T}"), PAIR(DeltaPt, "#Delta P_{T}"), PAIR(DeltaM, "#Delta m"), PAIR(DeltaRap, "#Delta #eta"), PAIR(DeltaPhi, "#Delta #phi"), PAIR(DeltaR, "#Delta R"), PAIR(Rho, "#rho"), PAIR(Bdt1, "BDT_{1}"), PAIR(Bdt2, "BDT_{2}"),PAIR(Pull1,"#theta_{1}"),PAIR(Pull2,"#theta_{2}"),PAIR(Dipolarity,"D")});
+    return Join(ParticleBranch::Variables(), {PAIR(Ht, "H_{T}"), PAIR(DeltaPt, "#Delta P_{T}"), PAIR(DeltaM, "#Delta m"), PAIR(DeltaRap, "#Delta #eta"), PAIR(DeltaPhi, "#Delta #phi"), PAIR(DeltaR, "#Delta R"), PAIR(Rho, "#rho"), PAIR(Bdt1, "BDT_{1}"), PAIR(Bdt2, "BDT_{2}"), PAIR(Pull1, "#theta_{1}"), PAIR(Pull2, "#theta_{2}"), PAIR(Dipolarity, "D")});
     //return Join(ParticleBranch::Variables() {PAIR(Ht), PAIR(DeltaPt), PAIR(DeltaM), PAIR(DeltaRap), PAIR(DeltaPhi), PAIR(DeltaR), PAIR(Rho)});
 }
 
@@ -186,45 +208,45 @@ Observables MultiBranch::Variables()
 
 TChannelBranch::TChannelBranch()
 {
-  Bdt3 = InitialValue();
-  Mass12 = InitialValue();
-  Mass23 = InitialValue();
-  Mass13 = InitialValue();
-  DeltaPt23 = InitialValue();
-  DeltaPt13 = InitialValue();
-  Pt12 = InitialValue();
-  Pt23 = InitialValue();
-  Pt13 = InitialValue();
-  Ht12 = InitialValue();
-  Ht23 = InitialValue();
-  Ht13 = InitialValue();
-  Rho23 = InitialValue();
-  Rho13 = InitialValue();
-  DeltaRap23 = InitialValue();
-  DeltaRap13 = InitialValue();
-  DeltaPhi23 = InitialValue();
-  DeltaPhi13 = InitialValue();
-  DeltaR23 = InitialValue();
-  DeltaR13 = InitialValue();
-  DeltaM23 = InitialValue();
-  DeltaM13 = InitialValue();
-  DeltaHt23 = InitialValue();
-  DeltaHt13 = InitialValue();
-  Pull23 = InitialValue();
-  Pull13 = InitialValue();
-  Pull32 = InitialValue();
-  Pull31 = InitialValue();
-  Dipolarity23 = InitialValue();
-  Dipolarity13 = InitialValue();
+    Bdt3 = InitialValue();
+    Mass12 = InitialValue();
+    Mass23 = InitialValue();
+    Mass13 = InitialValue();
+    DeltaPt23 = InitialValue();
+    DeltaPt13 = InitialValue();
+    Pt12 = InitialValue();
+    Pt23 = InitialValue();
+    Pt13 = InitialValue();
+    Ht12 = InitialValue();
+    Ht23 = InitialValue();
+    Ht13 = InitialValue();
+    Rho23 = InitialValue();
+    Rho13 = InitialValue();
+    DeltaRap23 = InitialValue();
+    DeltaRap13 = InitialValue();
+    DeltaPhi23 = InitialValue();
+    DeltaPhi13 = InitialValue();
+    DeltaR23 = InitialValue();
+    DeltaR13 = InitialValue();
+    DeltaM23 = InitialValue();
+    DeltaM13 = InitialValue();
+    DeltaHt23 = InitialValue();
+    DeltaHt13 = InitialValue();
+    Pull23 = InitialValue();
+    Pull13 = InitialValue();
+    Pull32 = InitialValue();
+    Pull31 = InitialValue();
+    Dipolarity23 = InitialValue();
+    Dipolarity13 = InitialValue();
 //   Sphericity = InitialValue();
 //   Aplanarity = InitialValue();
 }
 
 Observables TChannelBranch::Variables()
 {
-  return Join(MultiBranch::Variables(), {PAIR(Bdt3), PAIR(Mass12), PAIR(Mass23), PAIR(Mass13), PAIR(Pt12), PAIR(Pt23), PAIR(Pt13), PAIR(DeltaPt23), PAIR(DeltaPt13), PAIR(Ht12), PAIR(Ht23), PAIR(Ht13), PAIR(Rho23), PAIR(Rho13), PAIR(DeltaRap23), PAIR(DeltaRap13), PAIR(DeltaPhi23), PAIR(DeltaPhi13), PAIR(DeltaR23), PAIR(DeltaR13), PAIR(DeltaM23), PAIR(DeltaM13), PAIR(DeltaHt23), PAIR(DeltaHt13), PAIR(Pull23), PAIR(Pull13), PAIR(Pull32), PAIR(Pull31), PAIR(Dipolarity23), PAIR(Dipolarity13)
+    return Join(MultiBranch::Variables(), {PAIR(Bdt3), PAIR(Mass12), PAIR(Mass23), PAIR(Mass13), PAIR(Pt12), PAIR(Pt23), PAIR(Pt13), PAIR(DeltaPt23), PAIR(DeltaPt13), PAIR(Ht12), PAIR(Ht23), PAIR(Ht13), PAIR(Rho23), PAIR(Rho13), PAIR(DeltaRap23), PAIR(DeltaRap13), PAIR(DeltaPhi23), PAIR(DeltaPhi13), PAIR(DeltaR23), PAIR(DeltaR13), PAIR(DeltaM23), PAIR(DeltaM13), PAIR(DeltaHt23), PAIR(DeltaHt13), PAIR(Pull23), PAIR(Pull13), PAIR(Pull32), PAIR(Pull31), PAIR(Dipolarity23), PAIR(Dipolarity13)
 //     , PAIR(Aplanarity), PAIR(Sphericity)
-  });
+                                          });
 }
 
 JetPairBranch::JetPairBranch()

@@ -112,7 +112,7 @@ void Log(std::string const& file, int line, std::string const& name_space, std::
 {
     Log(file, line, name_space, class_name, function, variable, value, variable2, value2, variable3, value3, false);
     LogVariable(variable4, value4);
-    std::cout << "\n";
+    if (final) std::cout << "\n";
 }
 
 template<typename Value, typename Value2, typename Value3, typename Value4, typename Value5>

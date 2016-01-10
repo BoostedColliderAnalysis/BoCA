@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "plotting/Plots.hh"
 
@@ -9,17 +9,17 @@
 namespace boca
 {
 
-void Plots::SetNames(NamePairs const& names, NamePairs const& latex_names)
+void Plots::SetNames(NamePairs const& names)
 {
     Info0;
     for (auto & plot : plots_) {
         int index = &plot - &plots_.front();
-        plot.XAxis().SetName(names.at(index).first);
-        plot.XAxis().SetLatexName(latex_names.at(index).first);
-        plot.YAxis().SetName(names.at(index).second);
-        plot.YAxis().SetLatexName(latex_names.at(index).second);
+        plot.XAxis().SetName(names.at(index).first.Name());
+        plot.XAxis().SetLatexName(names.at(index).first.LatexName());
+        plot.YAxis().SetName(names.at(index).second.Name());
+        plot.YAxis().SetLatexName(names.at(index).second.LatexName());
         plot.Title().SetName(name_);
-        plot.Title().SetLatexName(info_branch_.Name);
+        plot.Title().SetLatexName(info_branch_.Name());
     }
 }
 

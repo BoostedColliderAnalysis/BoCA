@@ -29,7 +29,7 @@ protected:
 
     std::string AnalysisName() const final {
         Info0;
-        return "Single-Hadronic-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass()) + "-multi";
+        return "Single-Hadronic-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass()) + "-2016-2";
     }
 
     void SetFiles(Tag tag, Stage) final {
@@ -41,7 +41,8 @@ protected:
             break;
         case Tag::background :
             if (this->template TaggerIs<VetoTopPartnerLeptonicTagger>()) this->NewFile(tag, Process::TthHad);
-//             else if (!this->template TaggerIs<TopPartnerHadronicTagger>())
+            else
+//             if (!this->template TaggerIs<TopPartnerHadronicTagger>())
               this->NewFile(tag, Process::TT);
             if (!this->template TaggerIs<VetoTopPartnerLeptonicTagger>()) {
 //                 this->NewFile(tag, Process::ttBB);

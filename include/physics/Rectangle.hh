@@ -3,6 +3,9 @@
  */
 #pragma once
 
+// #include <algorithm>
+// #include <functional>
+
 #include <boost/range/algorithm/max_element.hpp>
 #include <boost/range/algorithm/min_element.hpp>
 #include <boost/range/algorithm_ext/is_sorted.hpp>
@@ -73,6 +76,11 @@ public:
         y_.SetMax(y_max);
     }
 
+    void Widen(Rectangle<Value> const& bounds) {
+        x_.Widen(bounds.Horizontal());
+        y_.Widen(bounds.Vertical());
+    }
+
     void WidenX(Bounds<Value> const& x) {
         x_.Widen(x);
     }
@@ -138,49 +146,61 @@ public:
     }
 
     template <typename Value2>
-    void WidenY(Bounds<Value> const& bound, std::vector<Value2> const& xs, std::vector<Value2> const& ys) {
-        std::cout << "bound min " << bound.Min() << " bound max " << bound.Max() << std::endl;
-        int min_x;
-        int max_x;
-        if (boost::range::is_sorted(xs, [](Value2 a, Value2 b) {
-        return a < b;
-    })) {
+    void WidenY(Bounds<Value> const& bound_x, std::vector<Value2> const& xs, std::vector<Value2> const& ys) {
+        std::cout << "bound min " << bound_x.Min() << " bound max " << bound_x.Max() << std::endl;
+        Bounds<int> bound;
+        if (boost::range::is_sorted(xs, Smaller<Value2>())) {
             std::cout << "smaller" << std::endl;
-            min_x = boost::range::lower_bound(xs, Value2(bound.Min())) - xs.begin();
-            max_x = boost::range::upper_bound(xs, Value2(bound.Max())) - xs.begin();
-        } else if (boost::range::is_sorted(xs, [](Value2 a, Value2 b) {
-        return a > b;
-    })) {
+            bound.SetMin(boost::range::lower_bound(xs, Value2(bound_x.Min())) - xs.begin());
+            bound.SetMax(boost::range::upper_bound(xs, Value2(bound_x.Max())) - xs.begin());
+        } else if (boost::range::is_sorted(xs, Larger<Value2>())) {
             std::cout << "larger" << std::endl;
-            y_.Widen( {*boost::range::min_element(ys), *boost::range::max_element(ys)});
-            if (y_ == Bounds<Value>(0, 0)) y_ = Bounds<Value>(0.001, 1);
-            return;
-            min_x = boost::range::upper_bound(xs, Value2(bound.Max())) - xs.begin();
-            max_x = boost::range::lower_bound(xs, Value2(bound.Min())) - xs.begin();
-        } else std::cout << "not sorted" << std::endl;
-        std::cout << "min_x " << min_x << " max_x " << max_x << std::endl;
-        auto min = *std::min_element(ys.begin() + min_x, ys.begin() + max_x, [](Value2 a, Value2 b) {
-            return a != 0 ? a < b : a > b;
-        });
-        auto max = *std::max_element(ys.begin() + min_x, ys.begin() + max_x);
-        std::cout << "min " << min << " max " << max << std::endl;
-        y_.Widen( {std::min(min, max), std::max(min, max)});
-        //FIXME remove this ugly hack
-//         if (y_ == Bounds<Value>(0, 0)) y_ = Bounds<Value>(0.001, 1);
+            bound.SetMin(boost::range::lower_bound(xs, Value2(bound_x.Max()), Larger<Value2>()) - xs.begin());
+            bound.SetMax(boost::range::upper_bound(xs, Value2(bound_x.Min()), Larger<Value2>()) - xs.begin());
+        } else {
+            std::cout << "not sorted" << std::endl;
+            bound.SetMin(0);
+            bound.SetMax(xs.size());
+        }
+        std::cout << "min_x " << bound.Min() << " max_x " << bound.Max() << std::endl;
+        Bounds<Value2> bound_y;
+        bound_y.SetMin(*std::min_element(ys.begin() + bound.Min(), ys.begin() + bound.Max(), SmallerButNonZero<Value2>()));
+        bound_y.SetMax(*std::max_element(ys.begin() + bound.Min(), ys.begin() + bound.Max()));
+        std::cout << "min " << bound_y.Min() << " max " << bound_y.Max() << std::endl;
+        y_.Widen(bound_y);
     }
 
     template <typename Value2>
     void WidenX(Bounds<Value> const& y, std::vector<Value2> const& xs, std::vector<Value2> const& ys) {
         int min_y = boost::range::upper_bound(ys, Value2(y.Min())) - ys.begin();
         int max_y = boost::range::lower_bound(ys, Value2(y.Max())) - ys.begin();
-        auto min = std::min_element(xs.begin() + min_y, xs.begin() + max_y, [](Value2 a, Value2 b) {
-            return a != 0 ? a < b : a > b;
-        });
+        auto min = std::min_element(xs.begin() + min_y, xs.begin() + max_y, SmallerButNonZero<Value2>());
         auto max = std::max_element(xs.begin() + min_y, xs.begin() + max_y);
         x_.Widen( {std::min(*min, *max), std::max(*min, *max)});
     }
 
 private:
+
+    template <typename Value2>
+    std::function<bool(Value2 a, Value2 b)> Smaller() {
+        return [](Value2 a, Value2 b) {
+            return a < b;
+        };
+    }
+
+    template <typename Value2>
+    std::function<bool(Value2 a, Value2 b)> SmallerButNonZero() {
+        return [](Value2 a, Value2 b) {
+            return a != 0 ? a < b : a > b;
+        };
+    }
+
+    template <typename Value2>
+    std::function<bool(Value2 a, Value2 b)> Larger() {
+        return [](Value2 a, Value2 b) {
+            return a > b;
+        };
+    }
 
     Bounds<Value> x_;
     Bounds<Value> y_;

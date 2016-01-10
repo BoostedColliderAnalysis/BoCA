@@ -58,8 +58,8 @@ void Trainer::AddObservables()
     Info0;
     TMVA::gConfig().GetIONames().fWeightFileDir = Tagger().AnalysisName();
     TMVA::gConfig().GetIONames().fWeightFileExtension = Tagger().WeightFileExtension();
-    for (auto const & observable : Tagger().Variables()) Factory().AddVariable(observable.Expression(), observable.Title(), observable.Unit(), observable.Type());
-    for (auto const & spectator : Tagger().Spectators()) Factory().AddSpectator(spectator.Expression(), spectator.Title(), spectator.Unit(), spectator.Type());
+    for (auto const & observable : Tagger().Variables()) Factory().AddVariable(observable.Expression(), observable.Name(), observable.Unit(), observable.Type());
+    for (auto const & spectator : Tagger().Spectators()) Factory().AddSpectator(spectator.Expression(), spectator.Name(), spectator.Unit(), spectator.Type());
 }
 
 long Trainer::AddAllTrees()
@@ -120,7 +120,7 @@ float Trainer::Weight(exroot::TreeReader& tree_reader)
     TClonesArray* clones_array = tree_reader.UseBranch(Tagger().WeightBranchName().c_str());
     Check(clones_array, "no " + Tagger().WeightBranchName() + " Branch");
     tree_reader.ReadEntry(0);
-    return static_cast<InfoBranch&>(*clones_array->First()).Crosssection / tree_reader.GetEntries();
+    return static_cast<InfoBranch&>(*clones_array->First()).Crosssection() / fb / tree_reader.GetEntries();
 }
 
 TTree& Trainer::Tree(std::string const& tree_name, Tag tag)

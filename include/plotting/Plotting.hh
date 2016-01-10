@@ -70,9 +70,9 @@ private:
 
     std::string PlotCrosssectionsGraph(const boca::Results& results) const;
 
-    std::string PlotCrosssectionGraph(Results& results) const;
+    std::string PlotCrosssectionGraph(const boca::Results& results) const;
 
-    std::string PlotHistograms(boca::Results& results) const;
+    std::string PlotHistograms(boca::Results const& results) const;
 
     boca::InfoBranch InfoBranch(TFile& file, std::string const& tree_name) const;
 
@@ -86,9 +86,9 @@ private:
 
     std::string PlotEfficiencyGraph(const boca::Results& results) const;
 
-    std::string PlotModelDependentGraph(boca::Results& results) const;
+    std::string PlotModelDependentGraph(const boca::Results& results) const;
 
-    std::string PlotModelIndependentGraph(boca::Results& results) const;
+    std::string PlotModelIndependentGraph(const boca::Results& results) const;
 
     void SetBranch(TTree& tree, int& value, std::string const& name) const;
 

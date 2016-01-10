@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -92,7 +92,7 @@ public:
             break;
         }
         tree_branch_ = tree_writer_.NewBranch(tagger_.WeightBranchName().c_str(), InfoBranch::Class());
-        for (auto const & path : second().file().Paths()) chain_.AddFile(path.c_str(), TChain::kBigNumber, second().file().tree_name().c_str());
+        for (auto const & path : second().file().Paths()) chain_.AddFile(path.c_str(), TChain::kBigNumber, second().file().TreeName().c_str());
     }
 
     void Write() {
@@ -189,7 +189,7 @@ public:
         , reader_(branch_writer.reader())
         , tagger_(branch_writer.tagger())
 //         , tree_reader_(branch_writer.chain())
-        , tree_reader_(second().file().Paths(), second().file().tree_name())
+        , tree_reader_(second().file().Paths(), second().file().TreeName())
         {
         Info0;
         event_number_ = FirstEntry(object_sum_max, core_number);
@@ -205,10 +205,10 @@ public:
     InfoBranch FillInfoBranch(boca::File const& file)  {
         Info0;
         InfoBranch info_branch;
-        info_branch.Crosssection = file.crosssection() / fb;
-        info_branch.CrosssectionError = file.crosssection_error() / fb;
-        info_branch.Mass = file.mass() / GeV;
-        info_branch.Name = file.nice_name();
+        info_branch.SetCrosssection(file.Crosssection());
+        info_branch.SetCrosssectionError(file.CrosssectionError());
+        info_branch.SetMass(file.Mass());
+        info_branch.SetNames(file.Names());
         return info_branch;
     }
 
@@ -231,7 +231,7 @@ public:
 
     void SaveEntry() {
 //         Error(branch_writer().event_sum());
-        info_branch().EventNumber = branch_writer().event_sum();
+        info_branch().SetEventNumber(branch_writer().event_sum());
         std::lock_guard<std::mutex> tagger_guard(tagger_.mutex_);
         static_cast<InfoBranch&>(*branch_writer().tree_branch().NewEntry()) = info_branch();
         branch_writer().tree_writer().Fill();
@@ -378,7 +378,7 @@ private:
     int FourthLoop(Third<Tagger>& third) const {
         Info0;
         if (!third.ReadEntry()) return 0;
-        Event event(third.tree_reader(), third.second().file().source());
+        Event event(third.tree_reader(), third.second().file().Source());
         if (!PassPreCut(event, third.second().first().tag())) return 0;
         int number = Switch(event, third);
 //         Error(number);

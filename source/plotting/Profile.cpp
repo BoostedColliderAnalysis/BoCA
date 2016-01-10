@@ -34,7 +34,7 @@ void Profile::SetLegend(boca::Orientation orientation, std::string const& title)
 
 void Profile::SetLegend(Rectangle<float> const& rectangle, std::string const& title)
 {
-    legend_.Set(rectangle);
+    legend_.Set(rectangle, title);
 }
 
 void Profile::Draw()

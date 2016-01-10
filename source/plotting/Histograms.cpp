@@ -25,15 +25,16 @@ Histograms::~Histograms()
     SaveAs(FileName());
 }
 
-void Histograms::AddHistogram(std::vector<float> const& values, std::string const& name, Rectangle<float>& bounds)
+void Histograms::AddHistogram(std::vector<float> const& values, std::string const& name, Rectangle<float> const& bounds)
 {
     INFO(name);
     TH1F histogram(name.c_str(), "", 50, FloorToDigits(bounds.XMin(), 1), CeilToDigits(bounds.XMax(), 1));
     for (auto const & bdt : values) histogram.Fill(bdt);
     if (histogram.Integral() != 0) histogram.Scale(1. / histogram.Integral());
     SetLine(histogram, histograms_.size());
-    float max_0 = histogram.GetBinContent(histogram.GetMaximumBin());
-    if (max_0 > bounds.YMax()) bounds.SetYMax(max_0);
+//     float max_0 = histogram.GetBinContent(histogram.GetMaximumBin());
+//     if (max_0 > bounds.YMax()) bounds.SetYMax(max_0);
+    bounds_.Widen(bounds);
     histogram.SetTitle(name.c_str());
     histograms_.emplace_back(histogram);
 }

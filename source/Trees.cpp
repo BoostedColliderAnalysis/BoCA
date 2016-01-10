@@ -92,12 +92,12 @@ InfoBranch Trees::FillInfoBranch(const File& file)
 {
     Info0;
     InfoBranch info_branch;
-    info_branch.Crosssection = file.crosssection() / fb;
-    info_branch.CrosssectionError = file.crosssection_error() / fb;
-    info_branch.Mass = file.mass() / GeV;
+    info_branch.Crosssection = file.Crosssection() / fb;
+    info_branch.CrosssectionError = file.CrosssectionError() / fb;
+    info_branch.Mass = file.Mass() / GeV;
     //         info_branch.EventNumber = std::min((long)tree_reader.GetEntries(), event_number_max);
     //         info_branch.EventNumber = event_number_2_;
-    info_branch.Name = file.nice_name();
+    info_branch.Name = file.LatexName();
     //         info_branch.LatexName = file.nice_name();
     return info_branch;
 }

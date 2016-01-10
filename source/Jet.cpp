@@ -28,7 +28,7 @@ Jet::Jet(double x, double y, double z, double e) :
     SetInfo();
 }
 
-Jet::Jet(const LorentzVector<Momentum>& lorentz_vector) :
+Jet::Jet(LorentzVector<Momentum> const& lorentz_vector) :
     PseudoJet(lorentz_vector.Px() / GeV, lorentz_vector.Py() / GeV, lorentz_vector.Pz() / GeV, lorentz_vector.E() / GeV)
 {
     SetInfo();
