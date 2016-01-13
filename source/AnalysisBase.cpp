@@ -238,9 +238,11 @@ void AnalysisBase::RunPlots()
 {
     Info0;
     if (Exists(tagger().ExportFolderName())) return;
-    PrepareFiles(Stage::reader);
     Plotting plotting(tagger());
-    plotting.RunPlots();
+    PrepareFiles(Stage::trainer);
+    plotting.RunPlots(Stage::trainer);
+    PrepareFiles(Stage::reader);
+    plotting.RunPlots(Stage::reader);
 }
 
 void AnalysisBase::RunCut()
@@ -265,36 +267,34 @@ std::string AnalysisBase::WorkingPath() const
 //     return path;
 }
 
-void AnalysisBase::Run(Output run)
+void AnalysisBase::Run(Output output)
 {
     Info0;
     Initialize();
     //   analysis.PreRequisits<analysis.tagger()::type>(analysis,run);
-    switch (run) {
-    case Output::fast :
-        RunFast();
-        break;
-    case Output::normal :
-        RunNormal();
-        break;
-    case Output::efficiency :
-        RunFullEfficiency();
-        //       RunPlots();
-        break;
-    case Output::significance :
-        RunFullSignificance();
-        RunPlots();
-        break;
-    case Output::plot :
-        RunNormal();
-        RunPlots();
-        break;
-    case Output::cut :
-        RunCut();
-        break;
-        Default("run",);
-    }
-    if (is(run, Output::plot)) RunPlots();
+    FlagSwitch(output, [&](Output output_2) {
+        switch (output_2) {
+        case Output::fast :
+            RunFast();
+            break;
+        case Output::normal :
+            RunNormal();
+            break;
+        case Output::efficiency :
+            RunFullEfficiency();
+            break;
+        case Output::significance :
+            RunFullSignificance();
+            break;
+        case Output::plot :
+            RunPlots();
+            break;
+        case Output::cut :
+            RunCut();
+            break;
+            Default(to_int(output_2),);
+        }
+    });
 }
 
 void AnalysisBase::PrintGeneratorLevel(Event const& event, bool signature) const

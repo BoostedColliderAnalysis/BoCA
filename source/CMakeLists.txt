@@ -53,6 +53,7 @@ Tagger.cpp
 ReaderBase.cpp
 # Names.cpp
 Observable.cpp
+Observables.cpp
 MomentumRange.cpp
 PreCuts.cpp
 Trainer.cpp
@@ -66,7 +67,7 @@ create_library(Wimp wimp_sources)
 add_dependencies(Wimp WimpMass)
 
 set(analysis_sources
-Configuration.cpp
+# Configuration.cpp
 AnalysisBase.cpp
 Member.cpp
 Family.cpp

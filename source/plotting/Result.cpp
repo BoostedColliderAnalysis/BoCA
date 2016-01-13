@@ -44,6 +44,12 @@ std::vector<float> const& Result::Efficiencies() const
     return efficiencies_;
 }
 
+std::vector<float> const& Result::PureEfficiencies() const
+{
+  Info0;
+  return pure_efficiencies_;
+}
+
 std::vector<Crosssection> const& Result::Crosssections() const
 {
     Info0;

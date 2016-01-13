@@ -43,6 +43,16 @@ public:
 
     Angle DeltaPhiTo(fastjet::PseudoJet const& jet) const;
 
+    boca::MassSquare MassSquare() const;
+
+    Momentum Px() const;
+
+    Momentum Py() const;
+
+    Momentum Pz() const;
+
+    boca::Energy Energy();
+
 };
 
 }

@@ -209,7 +209,7 @@ public:
         auto other_mag2 = vector.Mag2();
         auto mixing = Dot(vector);
         ValueSquare this_mag_2 = Mag2();
-        if (other_mag2 >  boca::ValueProduct<Value_2, Value_2>(0)) this_mag_2 -= sqr(mixing) / other_mag2;
+        if (other_mag2 >  boca::ValueSquare<Value_2>(0)) this_mag_2 -= sqr(mixing) / other_mag2;
         if (this_mag_2 < ValueSquare(0)) this_mag_2 = ValueSquare(0);
         return this_mag_2;
     }

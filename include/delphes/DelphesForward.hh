@@ -48,3 +48,26 @@ typedef ::HectorHit HectorHit;
 typedef ::Candidate Candidate;
 
 }
+
+// namespace delphes {
+//
+//   class Event;
+//   class LHCOEvent;
+//   class LHEFEvent;
+//   class HepMCEvent;
+//   class GenParticle;
+//   class Vertex;
+//   class MissingET;
+//   class ScalarHT;
+//   class Rho;
+//   class Weight;
+//   class Photon;
+//   class Electron;
+//   class Muon;
+//   class Jet;
+//   class Track;
+//   class Tower;
+//   class HectorHit;
+//   class Candidate;
+//
+// }

@@ -17,6 +17,7 @@ int main()
     Run<boca::standardmodel::HiggsTagger>();
     Run<boca::standardmodel::BosonTagger>();
     Run<boca::standardmodel::WHadronicTagger>(boca::Output::efficiency);
+    Run<boca::standardmodel::WLeptonicTagger>(boca::Output::efficiency);
     Run<boca::standardmodel::TopHadronicTagger>(boca::Output::efficiency);
     Run<boca::standardmodel::TopLeptonicTagger>(boca::Output::efficiency);
     Run<boca::naturalness::TopPartnerHadronicTagger>(boca::Output::efficiency);

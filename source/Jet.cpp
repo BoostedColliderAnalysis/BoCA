@@ -22,14 +22,26 @@ Jet::Jet(fastjet::PseudoJet const& jet) :
     PseudoJet(jet)
 {}
 
+Jet::Jet(fastjet::PseudoJet const& jet, JetInfo const& info) :
+    PseudoJet(jet)
+{
+  SetInfo(info);
+}
+
 Jet::Jet(double x, double y, double z, double e) :
     PseudoJet(x, y, z, e)
 {
     SetInfo();
 }
 
+Jet::Jet(Momentum x, Momentum y, Momentum z, boca::Energy e) :
+    PseudoJet(x / GeV, y / GeV, z / GeV, e / GeV)
+{
+    SetInfo();
+}
+
 Jet::Jet(LorentzVector<Momentum> const& lorentz_vector) :
-    PseudoJet(lorentz_vector.Px() / GeV, lorentz_vector.Py() / GeV, lorentz_vector.Pz() / GeV, lorentz_vector.E() / GeV)
+    PseudoJet(lorentz_vector)
 {
     SetInfo();
 }
@@ -128,7 +140,7 @@ JetInfo& Jet::Info()
 
 void Jet::SetInfo(JetInfo const& user_info)
 {
-    if (has_user_info()) Error("Jet has already a user info, which gets overwritten: data loss and memory leak");
+    if (has_user_info()) Error("Jet has already a user info, which is beeing overwritten, this leads to data loss and leaking memory");
     set_user_info(new JetInfo(user_info));
 }
 

@@ -3,11 +3,11 @@
  */
 #pragma once
 
-#include "TProfile.h"
+#include "TProfile2D.h"
 
+#include "physics/Rectangle.hh"
 #include "plotting/Plot.hh"
 #include "plotting/Canvas.hh"
-#include "plotting/Legend.hh"
 
 namespace boca
 {
@@ -17,31 +17,31 @@ class Profile : public Canvas
 
 public:
 
-    Profile(std::string const& path, std::string const& name, bool show_title = false);
+    Profile(std::string const& path, std::string const& folder, std::string const& name, bool show_title = false);
 
     ~Profile();
 
-    void SetLegend(Orientation orientation, std::string const& title = "");
+    void SetXAxis(std::string const& title);
 
-    void SetLegend(Rectangle<float> const& rectangle, std::string const& title = "");
+    void SetYAxis(std::string const& title);
 
-    void Draw();
-
-    void SetXAxis(std::string const& title, Bounds<float> const& bounds = Bounds<float>());
-
-    void SetYAxis(std::string const& title, Bounds<float> const& bounds = Bounds<float>());
+    void SetZAxis(std::string const& title, int bins);
 
     void SetProfile(Plot const& signal, Plot const& background);
 
     void SetDimensions(std::string const& name, int bins, Rectangle<float> const& bounds);
 
-    boca::Legend & Legend();
-
 private:
 
-    boca::Legend legend_;
+    void SetDimensions(int x_bins, int y_bins, Rectangle<float> const& bounds);
 
-    TProfile profile_;
+    void Draw();
+
+    TProfile2D profile_;
+
+    Bounds<float> bounds_;
+
+    Rectangle<float> rectangle_;
 
 };
 

@@ -18,8 +18,8 @@ namespace
 std::string ExportFileSuffix()
 {
     Info0;
-    return ".pdf";
     return ".svg";
+    return ".pdf";
     return ".png";
 }
 
@@ -46,7 +46,12 @@ std::string Canvas::FileName() const
 
 std::string Canvas::FileBaseName() const
 {
-    return path_ + "-" + title_ ;
+    return path_ + "/" + title_ ;
+}
+
+std::string Canvas::Path() const
+{
+ return path_;
 }
 
 void Canvas::Fill()
@@ -66,7 +71,7 @@ void Canvas::SetMargins(bool show_title)
     if (show_title) canvas_.SetTopMargin(TextHeight() * 1.5);
     else canvas_.SetTopMargin(TextHeight() / 3);
     canvas_.SetRightMargin(TextHeight() / 3);
-    canvas_.SetBottomMargin(2. * TextHeight());
+    canvas_.SetBottomMargin(2.1 * TextHeight());
 }
 
 std::string Canvas::SaveAs(std::string const& name)

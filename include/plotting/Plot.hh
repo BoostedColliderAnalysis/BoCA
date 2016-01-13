@@ -22,6 +22,8 @@ public:
     std::vector<Vector3<float>> CoreData(std::function<bool (Vector3<float> const&, Vector3<float> const&)> const& function) const;
     void Add(Vector3<float> const& point);
     void Join(std::vector<Vector3<float>> const& data);
+    bool x_is_int = false;
+    bool y_is_int = false;
 private:
     std::vector<Vector3<float>> data_;
     Names x_axis_;

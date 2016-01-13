@@ -32,6 +32,12 @@ public:
         CheckHierachy();
     }
 
+    void Set(Value min, Value max) {
+        min_ = min;
+        max_ = max;
+        CheckHierachy();
+    }
+
     void Widen(Bounds<Value> const& bound) {
         WidenMin(bound.Min());
         WidenMax(bound.Max());
@@ -82,6 +88,11 @@ public:
         return {bounds.Min() / scalar, bounds.Max() / scalar};
     }
 
+    void Log() {
+        if(min_ != Value(0)) min_ = std::log10(min_);
+        if(max_ != Value(0)) max_ = std::log10(max_);
+    }
+
 private:
     void CheckHierachy() {
         if (min_ != InitialMin() && max_ != InitialMax() && min_ > max_) std::cout << "Minimal value: " << min_ << " is greater than maximal value: " << max_ << std::endl;
@@ -107,8 +118,8 @@ Bounds<Value> MinMax(std::vector<Value> const& vector)
 template <typename Iterator, typename Value>
 Bounds<Value> MinMax(Iterator begin, Iterator end)
 {
-  auto minmax = std::minmax_element(begin, end);
-  return {*minmax.first, *minmax.second};
+    auto minmax = std::minmax_element(begin, end);
+    return {*minmax.first, *minmax.second};
 }
 
 }

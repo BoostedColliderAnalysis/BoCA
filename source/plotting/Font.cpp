@@ -105,6 +105,12 @@ std::string Formula(std::string const& text, Font font)
     return "#font[" + std::to_string(FontCode(font, Style::italic)) + "]{" + text + "}";
 }
 
+std::string Text(std::string const& text, Font font)
+{
+  INFO(text);
+  return "#font[" + std::to_string(FontCode(font, Style::normal)) + "]{" + text + "}";
+}
+
 int FontCode(Font font, Style style)
 {
     Info0;

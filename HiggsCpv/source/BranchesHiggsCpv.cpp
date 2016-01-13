@@ -14,12 +14,12 @@ SignatureTTaggerBranch::SignatureTTaggerBranch()
 
 Observables SignatureTTaggerBranch::Variables()
 {
-    return {PAIR(Aplanarity), PAIR(Sphericity)};
+    return PAIR(Aplanarity) + PAIR(Sphericity);
 }
 
 Observables SignatureLeptonTTaggerBranch::Variables()
 {
-    return {PAIR(Ht, "H_{T}"), PAIR(DeltaPt, "#Delta P_{T}"), PAIR(DeltaM, "#Delta m"), PAIR(DeltaRap, "#Delta #eta"), PAIR(DeltaPhi, "#Delta #phi"), PAIR(DeltaR, "#Delta R"), PAIR(Rho, "#rho"), PAIR(DeltaHt, "#Delta H_{T}"), PAIR(Bdt3), PAIR(Mass12), PAIR(Mass23), PAIR(Mass13), PAIR(Pt12), PAIR(Pt23), PAIR(Pt13), PAIR(DeltaPt23), PAIR(DeltaPt13), PAIR(Ht12), PAIR(Ht23), PAIR(Ht13), PAIR(Rho23), PAIR(Rho13), PAIR(DeltaRap23), PAIR(DeltaRap13), PAIR(DeltaPhi23), PAIR(DeltaPhi13), PAIR(DeltaR23), PAIR(DeltaR13), PAIR(DeltaM23), PAIR(DeltaM13), PAIR(DeltaHt23), PAIR(DeltaHt13), PAIR(Pull23), PAIR(Pull13), PAIR(Pull32), PAIR(Pull31), PAIR(Dipolarity23), PAIR(Dipolarity13), PAIR(Aplanarity), PAIR(Sphericity)};
+    return PAIR(Ht, "H_{T}") + PAIR(DeltaPt, "#Delta P_{T}") + PAIR(DeltaM, "#Delta m") + PAIR(DeltaRap, "#Delta #eta") + PAIR(DeltaPhi, "#Delta #phi") + PAIR(DeltaR, "#Delta R") + PAIR(Rho, "#rho") + PAIR(DeltaHt, "#Delta H_{T}") + PAIR(Bdt3) + PAIR(Mass12) + PAIR(Mass23) + PAIR(Mass13) + PAIR(Pt12) + PAIR(Pt23) + PAIR(Pt13) + PAIR(DeltaPt23) + PAIR(DeltaPt13) + PAIR(Ht12) + PAIR(Ht23) + PAIR(Ht13) + PAIR(Rho23) + PAIR(Rho13) + PAIR(DeltaRap23) + PAIR(DeltaRap13) + PAIR(DeltaPhi23) + PAIR(DeltaPhi13) + PAIR(DeltaR23) + PAIR(DeltaR13) + PAIR(DeltaM23) + PAIR(DeltaM13) + PAIR(DeltaHt23) + PAIR(DeltaHt13) + PAIR(Pull23) + PAIR(Pull13) + PAIR(Pull32) + PAIR(Pull31) + PAIR(Dipolarity23) + PAIR(Dipolarity13) + PAIR(Aplanarity) + PAIR(Sphericity);
 }
 
 
@@ -61,8 +61,7 @@ SignatureLeptonTaggerBranch::SignatureLeptonTaggerBranch()
 
 Observables SignatureLeptonTaggerBranch::Variables()
 {
-    return Join(ParticleBranch::Variables(), {PAIR(Ht, "H_{T}"), PAIR(DeltaPt, "#Delta P_{T}"), PAIR(DeltaM, "#Delta m"), PAIR(DeltaRap, "#Delta #eta"), PAIR(DeltaPhi, "#Delta #phi"), PAIR(DeltaR, "#Delta R"), PAIR(Rho, "#rho"), PAIR(Bdt1, "BDT_{1}"), PAIR(Pull1, "#theta_{1}"), PAIR(Pull2, "#theta_{2}"), PAIR(Dipolarity, "D"), PAIR(DeltaHt, "#Delta H_{T}"), PAIR(Mass12), PAIR(Mass23), PAIR(Mass13), PAIR(Pt12), PAIR(Pt23), PAIR(Pt13), PAIR(DeltaPt23), PAIR(DeltaPt13), PAIR(Ht12), PAIR(Ht23), PAIR(Ht13), PAIR(Rho23), PAIR(Rho13), PAIR(DeltaRap23), PAIR(DeltaRap13), PAIR(DeltaPhi23), PAIR(DeltaPhi13), PAIR(DeltaR23), PAIR(DeltaR13), PAIR(DeltaM23), PAIR(DeltaM13), PAIR(DeltaHt23), PAIR(DeltaHt13), PAIR(Pull23), PAIR(Pull13), PAIR(DeltaPull13), PAIR(Dipolarity23), PAIR(Dipolarity13), PAIR(Aplanarity), PAIR(Sphericity)}
-               );
+    return ParticleBranch::Variables() + PAIR(Ht, "H_{T}") + PAIR(DeltaPt, "#Delta P_{T}") + PAIR(DeltaM, "#Delta m") + PAIR(DeltaRap, "#Delta #eta") + PAIR(DeltaPhi, "#Delta #phi") + PAIR(DeltaR, "#Delta R") + PAIR(Rho, "#rho") + PAIR(Bdt1, "BDT_{1}") + PAIR(Pull1, "#theta_{1}") + PAIR(Pull2, "#theta_{2}") + PAIR(Dipolarity, "D") + PAIR(DeltaHt, "#Delta H_{T}") + PAIR(Mass12) + PAIR(Mass23) + PAIR(Mass13) + PAIR(Pt12) + PAIR(Pt23) + PAIR(Pt13) + PAIR(DeltaPt23) + PAIR(DeltaPt13) + PAIR(Ht12) + PAIR(Ht23) + PAIR(Ht13) + PAIR(Rho23) + PAIR(Rho13) + PAIR(DeltaRap23) + PAIR(DeltaRap13) + PAIR(DeltaPhi23) + PAIR(DeltaPhi13) + PAIR(DeltaR23) + PAIR(DeltaR13) + PAIR(DeltaM23) + PAIR(DeltaM13) + PAIR(DeltaHt23) + PAIR(DeltaHt13) + PAIR(Pull23) + PAIR(Pull13) + PAIR(DeltaPull13) + PAIR(Dipolarity23) + PAIR(Dipolarity13) + PAIR(Aplanarity) + PAIR(Sphericity);
 }
 
 SignatureLeptonicBranch::SignatureLeptonicBranch()
@@ -126,19 +125,22 @@ QuartetPairBranch::QuartetPairBranch()
 }
 Observables SignatureLeptonicBranch::Variables()
 {
-    return Join(MultiBranch::Variables(), {PAIR(BottomBdt), PAIR(PairBottomBdt), PAIR(HardTopPt), PAIR(SoftTopPt), PAIR(HiggsMass), PAIR(PairRap), PAIR(Aplanarity), PAIR(Sphericity)});
+    return MultiBranch::Variables() + PAIR(BottomBdt) + PAIR(PairBottomBdt) + PAIR(HardTopPt) + PAIR(SoftTopPt) + PAIR(HiggsMass) + PAIR(PairRap) + PAIR(Aplanarity) + PAIR(Sphericity);
 }
+
 Observables TripletPairBranch::Variables()
 {
-    return Join(PairBranch::Variables(), {PAIR(BottomPt), PAIR(BottomRap), PAIR(BottomPhi), PAIR(BottomMass), PAIR(TopPt), PAIR(TopRap), PAIR(TopPhi), PAIR(TopMass), PAIR(TopBdt)});
+    return PairBranch::Variables() + PAIR(BottomPt) + PAIR(BottomRap) + PAIR(BottomPhi) + PAIR(BottomMass) + PAIR(TopPt) + PAIR(TopRap) + PAIR(TopPhi) + PAIR(TopMass) + PAIR(TopBdt);
 }
+
 Observables EventBranch::Variables()
 {
-    return Join(MultiBranch::Variables(), {PAIR(JetNumber), PAIR(BottomNumber), PAIR(MissingEt), PAIR(ScalarHt), PAIR(LeptonHt), PAIR(JetMass), PAIR(JetPt), PAIR(JetHt), PAIR(JetRap), PAIR(JetPhi)});
+    return MultiBranch::Variables() + PAIR(JetNumber) + PAIR(BottomNumber) + PAIR(MissingEt) + PAIR(ScalarHt) + PAIR(LeptonHt) + PAIR(JetMass) + PAIR(JetPt) + PAIR(JetHt) + PAIR(JetRap) + PAIR(JetPhi);
 }
+
 Observables EventBranch::Spectators()
 {
-    return Join(MultiBranch::Variables(), {PAIR(LeptonNumber)});
+  return MultiBranch::Spectators() + PAIR(LeptonNumber);
 }
 }
 }

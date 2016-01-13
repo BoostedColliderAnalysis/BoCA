@@ -73,6 +73,13 @@ macro(create_dictionary dictionary_name dictionary_source link_def)
   install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${dictionary_name}Dict_rdict.pcm DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 endmacro()
 
+macro(create_dictionary2 dictionary_name dictionary_source link_def)
+  message("Dictionary:   ${dictionary_name} <- ${dictionary_source} & ${link_def}")
+  set(dictionary_file ${dictionary_name}Dict.cpp)
+  ROOT_GENERATE_DICTIONARY("../../source/delphes/${dictionary_source}" "${link_def}" "${dictionary_file}" "${include_directories}")
+  create_library(${dictionary_name} dictionary_file "-w")
+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${dictionary_name}Dict_rdict.pcm DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+endmacro()
 
 macro(add_libraries link_library_sources)
   message("Link Library: ${link_library_sources}")

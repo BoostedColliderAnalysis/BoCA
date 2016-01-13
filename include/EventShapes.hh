@@ -279,7 +279,10 @@ public:
 
 private:
 
-  void Initialize();
+    /**
+     * Initialize variables and get LorentzVector from Jets
+     */
+    void Initialize();
 
     /**
     * Check whether the initialization of a certain class of event shapes
@@ -360,7 +363,7 @@ private:
     * @param t The thrust-squared (up to an Energy scale factor)
     * @param taxis The thrust axis
     */
-    void CalcT(const std::vector< boca::Vector3< boca::Momentum > >& p, boca::EnergySquare& t, boca::Vector3< double >& taxis) const;
+    void CalcT(std::vector<Vector3<Momentum>> const& p, EnergySquare& t, Vector3< double >& taxis) const;
 
     /**
     * Member to calculate the major
@@ -368,13 +371,18 @@ private:
     * @param m The major-squared (up to an Energy scale factor)
     * @param maxis The major axis
     */
-    void CalcM(const std::vector<Vector3<Momentum>>& p, EnergySquare& m, Vector3<double>& maxis) const;
+    void CalcM(std::vector<Vector3<Momentum>> const& p, EnergySquare& m, Vector3<double>& maxis) const;
     //@}
 
     /**
     * Vector of particle momenta to be analysed
     */
     std::vector<LorentzVector<Momentum>> lorentz_vectors_;
+
+    /**
+     * Whether ot not to boost to the CMS frame for the tensor diagonalizations
+     */
+    bool use_cm_boost_;
 
     /**
     * Various event shape axes
@@ -440,11 +448,6 @@ private:
     */
     mutable bool hem_done_;
     //@}
-
-    /**
-    * Whether ot not to boost to the CMS frame for the tensor diagonalizations
-    */
-    bool use_cm_boost_;
 
     /**
     * Hemisphere masses

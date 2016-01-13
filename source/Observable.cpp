@@ -7,24 +7,12 @@
 namespace boca
 {
 
-Observable::Observable(float& value, std::string const& expression, std::string const& title, std::string const& unit) :
-    value_(&value)
-{
-    expression_ = expression;
-    names_.SetName(title);
-    unit_ = unit;
-    if (value == int(value)) type_ = 'I';
-    else type_ = 'F';
-    Debug(expression_, type_, value_, names_.Name());
-}
-
 Observable::Observable(float& value, std::string const& name, std::string const& latex_name) :
     value_(&value)
 {
-    names_.SetName(name);
-    if (latex_name.empty()) names_.SetLatexName(name);
-    else names_.SetLatexName(latex_name);
-    //     std::cout << value << " " << name << " " << nice_name << std::endl;
+    is_int_ = (value == int(value)) ? true : false;
+    names_.Set(name, latex_name);
+    Debug(branch_name_, is_int_, value_, names_.Name());
 }
 
 float& Observable::Value() const
@@ -34,7 +22,7 @@ float& Observable::Value() const
 
 std::string Observable::Expression() const
 {
-    return expression_;
+    return branch_name_ + "." + Name();
 }
 
 std::string Observable::Name() const
@@ -44,12 +32,13 @@ std::string Observable::Name() const
 
 std::string Observable::Unit() const
 {
-    return unit_;
+    return "";
 }
 
 char Observable::Type() const
 {
-    return type_;
+  if(is_int_) return 'I';
+  return 'F';
 }
 
 std::string Observable::LatexName() const
@@ -57,9 +46,19 @@ std::string Observable::LatexName() const
     return names_.LatexName();
 }
 
-const Names& Observable::Names() const
+Names const& Observable::Names() const
 {
     return names_;
+}
+
+void Observable::SetBranchName(std::string const& branch_name)
+{
+    branch_name_ = branch_name;
+}
+
+bool Observable::IsInt() const
+{
+    return is_int_;
 }
 
 }

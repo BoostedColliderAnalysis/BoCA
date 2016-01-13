@@ -3,7 +3,9 @@
  */
 #pragma once
 
+#include <boost/units/systems/si/io.hpp>
 #include "Branches.hh"
+#include "physics/Particles.hh"
 
 namespace boca
 {
@@ -109,10 +111,10 @@ public:
  * @brief Top tagger root tree structure
  *
  */
-class WSemiBranch : public PairBranch
+class WLeptonicBranch : public PairBranch
 {
 public:
-    WSemiBranch();
+    WLeptonicBranch();
     float LeptonPt;
     float NeutrinoPt;
     template<typename Multiplet>
@@ -124,7 +126,7 @@ public:
     Observables Variables();
 
 private:
-    ClassDef(WSemiBranch, 1)
+    ClassDef(WLeptonicBranch, 1)
 };
 
 
@@ -214,21 +216,21 @@ private:
 class TopHadronicHepBranch : public MultiBranch, public BottomBase
 {
 public:
-  TopHadronicHepBranch();
-  float BottomMass;
-  float WMass;
-  float LeptonPt;
-  template<typename Multiplet>
-  void Fill(Multiplet const& multiplet) {
-    MultiBranch::Fill(multiplet);
-    BottomMass = multiplet.Singlet().Jet().Mass() / GeV;
-    WMass = multiplet.Doublet().Jet().Mass() / GeV;
-    LeptonPt = multiplet.Pt() / GeV;
-  }
-  Observables Variables();
-  Observables Spectators();
+    TopHadronicHepBranch();
+    float BottomMass;
+    float WMass;
+    float LeptonPt;
+    template<typename Multiplet>
+    void Fill(Multiplet const& multiplet) {
+        MultiBranch::Fill(multiplet);
+        BottomMass = multiplet.Singlet().Jet().Mass() / GeV;
+        WMass = multiplet.Doublet().Jet().Mass() / GeV;
+        LeptonPt = multiplet.Pt() / GeV;
+    }
+    Observables Variables();
+    Observables Spectators();
 private:
-  ClassDef(TopHadronicHepBranch, 1)
+    ClassDef(TopHadronicHepBranch, 1)
 };
 
 /**
@@ -239,32 +241,36 @@ private:
 class TruthBranch : public ResultBranch
 {
 public:
-  TruthBranch();
-  float TopPt;
-  float BottomPt;
-  float WPt;
-  float Quark1Pt;
-  float Quark2Pt;
-  float DeltaRTop;
-  float DeltaRW;
-  float RhoTop;
-  float RhoW;
-  template<typename Multiplet>
-  void Fill(Multiplet const& multiplet) {
-    TopPt = multiplet.TopPt() / GeV;
-    BottomPt = multiplet.BottomPt() / GeV;
-    WPt = multiplet.WPt() / GeV;
-    Quark1Pt = multiplet.Quark1Pt() / GeV;
-    Quark2Pt = multiplet.Quark2Pt() / GeV;
-    DeltaRTop = multiplet.DeltaRTop() / rad;
-    DeltaRW = multiplet.DeltaRW() / rad;
-    RhoTop = multiplet.RhoTop();
-    RhoW = multiplet.RhoW();
-  }
-  Observables Variables(){return{};}
-  Observables Spectators(){return{};}
+    TruthBranch();
+    float TopPt;
+    float BottomPt;
+    float WPt;
+    float Quark1Pt;
+    float Quark2Pt;
+    float DeltaRTop;
+    float DeltaRW;
+    float RhoTop;
+    float RhoW;
+    template<typename Multiplet>
+    void Fill(Multiplet const& multiplet) {
+        TopPt = multiplet.TopPt() / GeV;
+        BottomPt = multiplet.BottomPt() / GeV;
+        WPt = multiplet.WPt() / GeV;
+        Quark1Pt = multiplet.Quark1Pt() / GeV;
+        Quark2Pt = multiplet.Quark2Pt() / GeV;
+        DeltaRTop = multiplet.DeltaRTop() / rad;
+        DeltaRW = multiplet.DeltaRW() / rad;
+        RhoTop = multiplet.RhoTop();
+        RhoW = multiplet.RhoW();
+    }
+    Observables Variables() {
+        return {};
+    }
+    Observables Spectators() {
+        return {};
+    }
 private:
-  ClassDef(TruthBranch, 1)
+    ClassDef(TruthBranch, 1)
 };
 
 

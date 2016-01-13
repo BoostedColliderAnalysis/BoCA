@@ -26,10 +26,10 @@ struct root_typeof_helper<quantity<Y>, static_rational<1, 2>> {
 /// specialize root typeof helper
 template<>
 struct root_typeof_helper<double, double> {
-  typedef double type;
-  static type value(double x) {
-    return std::sqrt(x);
-  }
+    typedef double type;
+    static type value(double x) {
+        return std::sqrt(x);
+    }
 };
 
 }

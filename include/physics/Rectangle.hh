@@ -129,6 +129,14 @@ public:
         return {x_.Max(), y_.Max()};
     }
 
+    Bounds<Value> & Horizontal()  {
+      return x_;
+    }
+
+    Bounds<Value> & Vertical()  {
+      return y_;
+    }
+
     Bounds<Value> const& Horizontal() const {
         return x_;
     }

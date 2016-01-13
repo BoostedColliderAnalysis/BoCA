@@ -32,14 +32,7 @@ void Tagger::Initialize()
 
 TMVA::Types::EMVA Tagger::Mva() const
 {
-   return TMVA::Types::EMVA::kBDT;
-}
-
-Observable Tagger::NewObservable(float& value, std::string const& title) const
-{
-    INFO(title);
-    std::string expression = BranchName(Stage::trainer) + "." + title;
-    return Observable(value, expression, title, "");
+    return TMVA::Types::EMVA::kBDT;
 }
 
 float Tagger::Bdt(TMVA::Reader const& reader) const
@@ -242,7 +235,7 @@ std::string Tagger::MethodName() const
     switch (Mva()) {
     case TMVA::Types::EMVA::kBDT : return "Bdt";
     case TMVA::Types::EMVA::kCuts : return "Cuts";
-    Default(Mva(), "");
+        Default(Mva(), "");
     }
 }
 
@@ -298,15 +291,17 @@ void Tagger::NewBranch(exroot::TreeWriter& tree_writer, Stage stage)
     tree_branch_ = tree_writer.NewBranch(Name(stage).c_str(), &Class());
 }
 
-void Tagger::AddVariable(float& value, std::string const& title)
+void Tagger::AddVariable(Observable& observable)
 {
-    INFO(value, title);
-    variables_.emplace_back(NewObservable(value, title));
+    Info0;
+    observable.SetBranchName(BranchName(Stage::trainer));
+    variables_.emplace_back(observable);
 }
-void Tagger::AddSpectator(float& value, std::string const& title)
+void Tagger::AddSpectator(Observable& observable)
 {
-    INFO(value, title);
-    spectators_.emplace_back(NewObservable(value, title));
+    Info0;
+    observable.SetBranchName(BranchName(Stage::trainer));
+    spectators_.emplace_back(observable);
 }
 void Tagger::ClearObservables()
 {

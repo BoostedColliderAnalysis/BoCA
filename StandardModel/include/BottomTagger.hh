@@ -5,6 +5,7 @@
 
 #include "BranchesSm.hh"
 #include "TaggerTemplate.hh"
+#include "multiplets/Singlet.hh"
 
 
 namespace boca
@@ -87,6 +88,5 @@ inline void TaggerTemplate<Jet, standardmodel::BottomBranch>::FillBranch(Jet con
     //     Info0;
     branch_.Fill(Singlet(multiplet));
 }
-
 
 }

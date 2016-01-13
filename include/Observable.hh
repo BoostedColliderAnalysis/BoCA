@@ -13,8 +13,6 @@ class Observable
 
 public:
 
-    Observable(float& value, std::string const& expression, std::string const& title, std::string const& unit);
-
     Observable(float& value, std::string const& name, std::string const& latex_name = "");
 
     float& Value() const;
@@ -31,15 +29,17 @@ public:
 
     boca::Names const& Names() const;
 
+    void SetBranchName(std::string const& branch_name);
+
+    bool IsInt() const;
+
 private:
 
-    std::string expression_;
-
-    std::string unit_;
+    std::string branch_name_;
 
     boca::Names names_;
 
-    char type_;
+    bool is_int_;
 
     float* value_;
 

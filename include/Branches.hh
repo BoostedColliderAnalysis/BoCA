@@ -3,18 +3,19 @@
  */
 #pragma once
 
-#include <vector>
+// #include <vector>
 #include <string>
 #include <iostream>
+
 #include "TObject.h"
 #include "Rtypes.h"
+
 #include "physics/Prefixes.hh"
-#include "Observable.hh"
+
+#include "Observables.hh"
 
 namespace boca
 {
-
-typedef std::vector<boca::Observable> Observables;
 
 /**
  * @brief Basic tree branches
@@ -26,8 +27,6 @@ public:
     virtual ~BaseBranch();
     static float InitialValue();
 protected:
-    static Observables Join(Observables const& observables_1, Observables const& observables_2);
-    static Observables Join(Observables const& observables_1, Observables const& observables_2, Observables const& observables_3);
 private:
     ClassDef(BaseBranch, 1)
 };
@@ -461,7 +460,6 @@ public:
     void Red();
     void Blue();
     void Heat();
-    std::vector<int> Table(std::vector<double>& length, std::vector<double>& red, std::vector<double>& green, std::vector<double>& blue);
 };
 
 }

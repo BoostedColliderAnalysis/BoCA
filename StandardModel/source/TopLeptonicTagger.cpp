@@ -5,6 +5,7 @@
 #include "Event.hh"
 #include "ParticleInfo.hh"
 #include "Exception.hh"
+#include "plotting/Font.hh"
 // #define DEBUG
 #include "Debug.hh"
 
@@ -26,9 +27,8 @@ Lepton FakeLepton(Jet const& jet)
 std::vector<Lepton> Leptons(Event const& event, std::vector<Jet> const& jets)
 {
     Info0;
-    bool do_fake_leptons = false;
-    std::vector<Lepton> leptons = event.Leptons().leptons();
-    leptons = RemoveIfSoft(leptons, DetectorGeometry::LeptonMinPt());
+    bool do_fake_leptons = true;
+    std::vector<Lepton> leptons = RemoveIfSoft(event.Leptons().leptons(), DetectorGeometry::LeptonMinPt());
     if (do_fake_leptons && leptons.empty()) leptons.emplace_back(FakeLepton(jets.front()));
     Debug(jets.size(), leptons.size());
     return leptons;
@@ -36,12 +36,13 @@ std::vector<Lepton> Leptons(Event const& event, std::vector<Jet> const& jets)
 
 }
 
-TopLeptonicTagger::TopLeptonicTagger() : use_w_(false), w_leptonic_reader_(InitializeLeptonicReader())
+TopLeptonicTagger::TopLeptonicTagger() :
+    use_w_(true),
+    w_leptonic_reader_(InitializeLeptonicReader())
 {
     Info0;
-    top_mass_window = 80_GeV;
-    if (use_w_) top_mass_shift = 0_GeV;
-    else top_mass_shift = 40_GeV;
+    top_mass_window_ = 80_GeV;
+    top_mass_shift_ = use_w_ ? 0_GeV : 40_GeV;
 }
 
 int TopLeptonicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Tag tag) const
@@ -58,8 +59,7 @@ std::vector<Particle> TopLeptonicTagger::Particles(Event const& event) const
 {
     Info0;
     std::vector<Particle> particles = event.Partons().GenParticles();
-    std::vector<Particle> leptons = CopyIfLepton(particles);
-    leptons = CopyIfGrandMother(leptons, Id::top);
+    std::vector<Particle> leptons = CopyIfGrandMother(CopyIfLepton(particles), Id::top);
     return CopyIfGrandDaughter(particles, leptons);
 }
 
@@ -69,7 +69,7 @@ bool TopLeptonicTagger::Problematic(boca::Triplet const& triplet, boca::PreCuts 
     if (Problematic(triplet, pre_cuts)) return true;
     switch (tag) {
     case Tag::signal :
-        if (boost::units::abs(triplet.Mass() - MassOf(Id::top) + top_mass_shift) > top_mass_window) return true;
+        if (boost::units::abs(triplet.Mass() - MassOf(Id::top) + top_mass_shift_) > top_mass_window_) return true;
         if (pre_cuts.NotParticleRho(triplet)) return true;
         break;
     case Tag::background : break;
@@ -114,8 +114,7 @@ std::vector<Triplet> TopLeptonicTagger::Multiplets(Event const& event, boca::Pre
 Stage TopLeptonicTagger::InitializeLeptonicReader()
 {
     Info0;
-    if (use_w_) return Stage::reader;
-    else return Stage::trainer;
+    return use_w_ ? Stage::reader : Stage::trainer;
 }
 
 std::string TopLeptonicTagger::Name() const
@@ -125,7 +124,7 @@ std::string TopLeptonicTagger::Name() const
 
 std::string TopLeptonicTagger::LatexName() const
 {
-    return "t_{l}";
+    return Formula("t_{l}");
 }
 
 }

@@ -47,5 +47,16 @@ void SetLine(TAttLine& line, int index)
     line.SetLineColor(ColorCode(index));
     line.SetLineStyle(index + 1);
 }
+void SetLogarithmic(TAxis& axis)
+{
+    Info0;
+    int bins = axis.GetNbins();
+    float min = axis.GetXmin();
+    float max = axis.GetXmax();
+    float width = (max - min) / bins;
+    std::vector<double> new_bins;
+    for (int bin = 0; bin <= bins; bin++) new_bins.emplace_back(std::pow(10., min + bin * width));
+    axis.Set(bins, &new_bins.front());
+}
 
 }

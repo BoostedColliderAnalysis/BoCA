@@ -45,15 +45,15 @@ private:
 
     Stage InitializeLeptonicReader();
 
-    bool use_w_ = false;
+    bool use_w_;
 
     Reader<BottomTagger> bottom_reader_;
 
     Reader<WLeptonicTagger> w_leptonic_reader_;
 
-    Mass top_mass_window;
+    Mass top_mass_window_;
 
-    Mass top_mass_shift;
+    Mass top_mass_shift_;
 
 };
 

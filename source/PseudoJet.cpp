@@ -76,6 +76,26 @@ Energy PseudoJet::Energy() const
 {
     return e() * GeV;
 }
+boca::MassSquare PseudoJet::MassSquare() const
+{
+    return m2() * GeV2;
+}
+Momentum PseudoJet::Py() const
+{
+    return py() * GeV;
+}
+Momentum PseudoJet::Pz() const
+{
+    return pz() * GeV;
+}
+Energy PseudoJet::Energy()
+{
+    return e() * GeV;
+}
+Momentum PseudoJet::Px() const
+{
+    return px() * GeV;
+}
 
 
 }

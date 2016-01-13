@@ -8,12 +8,6 @@
 #include "Identification.hh"
 #include "Constituent.hh"
 
-class Jet;
-namespace delphes
-{
-  typedef ::Jet Jet;
-}
-
 namespace boca
 {
 class InfoRecombiner;

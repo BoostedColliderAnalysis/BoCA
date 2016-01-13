@@ -17,7 +17,7 @@ namespace standardmodel
  * @brief Semi leptonic top BDT tagger
  *
  */
-class WLeptonicTagger : public TaggerTemplate<Doublet, WSemiBranch>
+class WLeptonicTagger : public TaggerTemplate<Doublet, WLeptonicBranch>
 {
 
 public:
@@ -34,9 +34,13 @@ public:
 
 private:
 
+    std::vector<Doublet> Doublets(Event const& event, std::function<boost::optional<Doublet>(Doublet&)> const& function) const;
+
     std::vector<Particle> Particles(Event const& event) const;
 
-    bool Problematic(Doublet const& doublet, Tag tag) const;
+    bool Problematic(Doublet const& doublet, PreCuts const& pre_cuts, Tag tag) const;
+
+    bool Problematic(Doublet const& doublet, PreCuts const& pre_cuts) const;
 
     std::vector<Doublet> ReconstructNeutrino(Doublet const& doublet) const;
 

@@ -45,15 +45,13 @@ include(CMakeFiles/External.cmake)
 include(CMakeFiles/FindMadGraph.cmake)
 
 # libConfig
-include(CMakeFiles/FindLibConfig.cmake)
-add_libraries(${LIBCONFIGPP_LIBRARIES})
-
-# the PEG
-# include(CMakeFiles/FindThePeg.cmake)
-# add_libraries(${THEPEG_LIBRARY})
+# include(CMakeFiles/FindLibConfig.cmake)
+# add_libraries(${LIBCONFIGPP_LIBRARIES})
 
 # Doxygen
-if(CMAKE_BUILD_TYPE MATCHES "Release")
+# if(CMAKE_BUILD_TYPE MATCHES "Release")
+set(DO_DOXYGEN FALSE)
+if(DO_DOXYGEN)
 include(CMakeFiles/UseDoxygen.cmake)
 endif()
 

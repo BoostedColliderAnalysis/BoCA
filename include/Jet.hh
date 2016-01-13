@@ -20,7 +20,11 @@ public:
 
     Jet(double x, double y, double z, double e);
 
+    Jet(Momentum x, Momentum y, Momentum z, boca::Energy e);
+
     Jet(fastjet::PseudoJet const& jet);
+
+    Jet(fastjet::PseudoJet const& jet, JetInfo const& info);
 
     Jet(LorentzVector<Momentum> const& lorentz_vector);
 

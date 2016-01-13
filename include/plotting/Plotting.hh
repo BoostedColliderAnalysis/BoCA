@@ -38,9 +38,7 @@ public:
 
     void OptimalCuts() const;
 
-    void RunPlots() const;
-
-//     void Cuts() const;
+    void RunPlots(Stage stage) const;
 
 private:
 

@@ -5,7 +5,7 @@
 
 #include "TCanvas.h"
 
-#include "physics/Bounds.hh"
+#include "physics/Rectangle.hh"
 
 namespace boca
 {
@@ -23,8 +23,14 @@ public:
 
     template<typename Value>
     void SetLog(Bounds<Value> const& bounds) {
-//       std::cout << bounds.Min() << " " <<  bounds.Max() <<std::endl;
+        //       std::cout << bounds.Min() << " " <<  bounds.Max() <<std::endl;
         if (bounds.Min() > Value(0) && bounds.Min() / bounds.Max() < 0.1) canvas_.SetLogy();
+    }
+
+    template<typename Value>
+    void SetLog(Rectangle<Value> const& bounds) {
+        if (bounds.XMin() > Value(0) && bounds.XMin() / bounds.XMax() < 0.01) canvas_.SetLogx();
+        if (bounds.YMin() > Value(0) && bounds.YMin() / bounds.YMax() < 0.01) canvas_.SetLogy();
     }
 
     void SetLog();
@@ -38,6 +44,8 @@ public:
 protected :
 
     std::string const& Title() const;
+
+    std::string Path() const;
 
 private:
 

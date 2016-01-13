@@ -12,6 +12,7 @@
 #include "Branches.hh"
 #include "Vector.hh"
 #include "Event.hh"
+#include "Filter.hh"
 // #include "Exception.hh"
 
 namespace TMVA
@@ -75,6 +76,8 @@ public:
 
     std::vector<std::string> TreeNames(Tag tag) const;
 
+    std::vector<std::string> TreeNames(Stage stage, Tag tag) const;
+
     TCut Cut() const;
 
     std::string AnalysisName() const;
@@ -119,13 +122,11 @@ protected:
 
     virtual void DefineVariables() = 0;
 
-   std::vector<Jet>SubJets(Jet const& jet, int sub_jet_number) const;
+    std::vector<Jet>SubJets(Jet const& jet, int sub_jet_number) const;
 
-    Observable NewObservable(float& value, std::string const& title) const;
+    void AddVariable(Observable& observable);
 
-    void AddVariable(float& value, std::string const& title);
-
-    void AddSpectator(float& value, std::string const& title);
+    void AddSpectator(Observable& observable);
 
     void ClearObservables();
 
@@ -149,7 +150,7 @@ protected:
 
     template<typename Multiplet>
     std::vector<Multiplet> SetClosestLepton(Event const& event, std::vector<Multiplet>& multiplets) const {
-       std::vector<Lepton> leptons = event.Leptons().leptons();
+        std::vector<Lepton> leptons = event.Leptons().leptons();
         if (leptons.empty()) return multiplets;
         for (auto & multiplet : multiplets) {
             try {
@@ -162,12 +163,20 @@ protected:
     }
 
     template<typename Multiplet>
-    Multiplet SetClosestLepton(Multiplet& multiplet,std::vector<Jet>& leptons) const {
+    Multiplet SetClosestLepton(Multiplet& multiplet, std::vector<Jet>& leptons) const {
         if (leptons.empty()) leptons.emplace_back(multiplet.Jet() * (DetectorGeometry::LeptonMinPt() / multiplet.Pt()));
         auto lepton = ClosestJet(leptons, multiplet);
         multiplet.LeptonPt = lepton.pt();
         multiplet.LeptonDeltaR = lepton.delta_R(multiplet.Jet());
         return multiplet;
+    }
+
+    void AddToFilter(std::string observable) {
+        filter_.Set(observable);
+    }
+
+    boca::Filter const& Filter() const {
+        return filter_;
     }
 
 private:
@@ -236,6 +245,8 @@ private:
      *
      */
     std::vector<Observable> spectators_;
+
+    boca::Filter filter_;
 
 };
 

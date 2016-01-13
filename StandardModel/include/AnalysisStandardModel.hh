@@ -20,7 +20,18 @@ namespace standardmodel
 
 enum class Process
 {
-    tt, tt_lep, tt_had, hh, hh_bb, zz, zz_bb, ww, bb, cc, qq, gg
+    tt,
+    tt_lep,
+    tt_had,
+    hh,
+    hh_bb,
+    zz,
+    zz_bb,
+    ww,
+    bb,
+    cc,
+    qq,
+    gg
 };
 
 std::string ProcessName(Process process);
@@ -58,6 +69,7 @@ protected:
 
     Momentum LowerPtCut() const {
         return 500_GeV;
+        return 600_GeV;
         return 1_TeV;
         return 1.5_TeV;
         return 2_TeV;
@@ -77,10 +89,10 @@ protected:
         return Collider::FHC;
     }
 
-
     Momentum UpperPtCut() const {
         switch (Int(LowerPtCut())) {
         case 500 : return 600_GeV;
+        case 600 : return 700_GeV;
         case 700 : return 1_TeV;
         case 1000 : return 1.5_TeV;
         case 1200 : return 1.5_TeV;
@@ -126,6 +138,7 @@ private:
     Momentum MadGraphCut() const {
         switch (Int(LowerPtCut())) {
         case 500: return 500_GeV;
+        case 600: return 500_GeV;
         case 700 : return 500_GeV;
         case 1000 : return 1_TeV;
         case 1200 : return 1_TeV;

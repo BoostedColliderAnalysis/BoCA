@@ -20,6 +20,7 @@ public:
     std::vector<float> const& Bdts() const;
     std::vector<float> const& Events() const;
     std::vector<float> const& Efficiencies() const;
+    std::vector<float> const& PureEfficiencies() const;
     std::vector<Crosssection> const& Crosssections() const;
     std::vector<int> const& EventSums() const;
     int Steps() const;

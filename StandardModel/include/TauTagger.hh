@@ -5,6 +5,7 @@
 
 #include "BranchesSm.hh"
 #include "TaggerTemplate.hh"
+#include "multiplets/Singlet.hh"
 
 namespace boca
 {
