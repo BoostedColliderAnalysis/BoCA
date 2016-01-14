@@ -1,6 +1,7 @@
 /**
  * Copyright (C) 2015 Jan Hajer
  */
+#include <sys/stat.h>
 #include "TPad.h"
 #include "TStyle.h"
 
@@ -18,8 +19,8 @@ namespace
 std::string ExportFileSuffix()
 {
     Info0;
-    return ".svg";
     return ".pdf";
+    return ".svg";
     return ".png";
 }
 
@@ -28,6 +29,7 @@ std::string ExportFileSuffix()
 Canvas::Canvas(std::string const& path, std::string const& name, bool show_title)
 {
     Info0;
+//     mkdir(path.c_str(), 0700);
     path_ = path;
     title_ = name;
     gStyle->SetOptStat("");
@@ -46,12 +48,12 @@ std::string Canvas::FileName() const
 
 std::string Canvas::FileBaseName() const
 {
-    return path_ + "/" + title_ ;
+    return path_ + "-" + title_ ;
 }
 
 std::string Canvas::Path() const
 {
- return path_;
+    return path_;
 }
 
 void Canvas::Fill()

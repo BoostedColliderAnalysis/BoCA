@@ -6,7 +6,7 @@
 #include "TH2F.h"
 #include "TExec.h"
 
-#include "physics/Vector3.hh"
+#include "plotting/Plot.hh"
 #include "plotting/Canvas.hh"
 #include "plotting/Legend.hh"
 
@@ -24,21 +24,21 @@ public:
 
     void SetLegend(Orientation orientation, std::string const& title = "");
 
-    void SetLegend(Rectangle<float> const& rectangle, std::string const& title = "");
+    void SetXAxis(std::string const& title);
 
-    void Draw();
+    void SetYAxis(std::string const& title);
 
-    void SetXAxis(std::string const& title, Bounds<float> const& bounds = Bounds<float>());
+    void AddHistogram(std::string const& name, int bins, Rectangle<float> const& bounds, Plot const& points, EColor color);
 
-    void SetYAxis(std::string const& title, Bounds<float> const& bounds = Bounds<float>());
-
-    void AddHistogram(std::string const& name, int bins, Rectangle<float> const& bounds, std::vector<Vector3<float>> const& points, EColor color);
-
-    boca::Legend & Legend();
+    std::string FileBaseName() const override;
 
 private:
 
-    void SetExec(EColor color);
+    boca::Legend & Legend();
+
+    void Draw();
+
+    TExec Exec(EColor color);
 
     boca::Legend legend_;
 

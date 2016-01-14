@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <utility>
 #include "physics/Units.hh"
 #include "physics/Math.hh"
 
@@ -36,6 +37,12 @@ public:
         min_ = min;
         max_ = max;
         CheckHierachy();
+    }
+
+    void Set(std::pair<Value, Value> const pair) {
+      min_ = pair.first;
+      max_ = pair.second;
+      CheckHierachy();
     }
 
     void Widen(Bounds<Value> const& bound) {

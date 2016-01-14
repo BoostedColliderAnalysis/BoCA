@@ -243,6 +243,7 @@ void AnalysisBase::RunPlots()
     plotting.RunPlots(Stage::trainer);
     PrepareFiles(Stage::reader);
     plotting.RunPlots(Stage::reader);
+//     if (Exists(tagger().ExportFileName())) std::remove(tagger().ExportFileName().c_str());
 }
 
 void AnalysisBase::RunCut()

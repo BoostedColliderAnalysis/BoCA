@@ -3,6 +3,7 @@
  */
 #include "BranchesSm.hh"
 #include "Pair.hh"
+#include "plotting/Font.hh"
 
 namespace boca
 {
@@ -71,14 +72,13 @@ WLeptonicBranch::WLeptonicBranch()
 
 Observables WLeptonicBranch::Variables()
 {
-    return ResultBranch::Variables() + PAIR(Pt, "p_T") + PAIR(Ht) + PAIR(DeltaPt) + PAIR(DeltaRap) + PAIR(DeltaPhi) + PAIR(DeltaR) + PAIR(Rho) + PAIR(LeptonPt) + PAIR(NeutrinoPt);
+    return ResultBranch::Variables() + PAIR(Pt, Formula("p_T") + " [GeV]") + PAIR(Ht) + PAIR(DeltaPt) + PAIR(DeltaRap) + PAIR(DeltaPhi) + PAIR(DeltaR) + PAIR(Rho) + PAIR(LeptonPt) + PAIR(NeutrinoPt);
 }
 
 TopHadronicBranch::TopHadronicBranch()
 {
-//   std::cout << "we are here\n";
-//     BottomMass = InitialValue();
-//     WMass = InitialValue();
+    BottomMass = InitialValue();
+    WMass = InitialValue();
     LeptonPt = InitialValue();
 //     Tau1_1 = InitialValue();
 //     Tau2_1 = InitialValue();
@@ -94,15 +94,15 @@ TopHadronicBranch::TopHadronicBranch()
 
 Observables TopHadronicBranch::Variables()
 {
-    return BottomBase::Variables() + PAIR(DeltaHt, "#Delta H_{T}") + PAIR(Bdt1, "BDT_{1}") + PAIR(Bdt2, "BDT_{2}") + PAIR(Mass, "m") + PAIR(DeltaPt, "#Delta P_{T}") + PAIR(DeltaM, "#Delta m") + PAIR(DeltaRap, "#Delta #eta") + PAIR(DeltaPhi, "#Delta #phi") + PAIR(DeltaR, "#Delta R") + PAIR(Rho, "#rho") + PAIR(BottomMass, "m_{b}") + PAIR(WMass, "m_{W}") + PAIR(Pull1, "#theta_{1}") + PAIR(Pull2, "#theta_{2}") + PAIR(Dipolarity, "D"); // everything
-    return PAIR(Mass, "m") + PAIR(WMass, "m_{W}"); // masses
-    return BottomBase::Variables() + PAIR(DeltaHt, "#Delta H_{T}") + PAIR(Mass, "m") + PAIR(DeltaPt, "#Delta P_{T}") + PAIR(DeltaM, "#Delta m") + PAIR(DeltaRap, "#Delta #eta") + PAIR(DeltaPhi, "#Delta #phi") + PAIR(DeltaR, "#Delta R") + PAIR(Rho, "#rho") + PAIR(BottomMass, "m_{b}") + PAIR(WMass, "m_{W}") + PAIR(Pull1, "#theta_{1}") + PAIR(Pull2, "#theta_{2}") + PAIR(Dipolarity, "D"); // bottom
-    return PAIR(DeltaHt, "#Delta H_{T}") + PAIR(Mass, "m") + PAIR(DeltaPt, "#Delta P_{T}") + PAIR(DeltaM, "#Delta m") + PAIR(DeltaRap, "#Delta #eta") + PAIR(DeltaPhi, "#Delta #phi") + PAIR(DeltaR, "#Delta R") + PAIR(Rho, "#rho") + PAIR(BottomMass, "m_{b}") + PAIR(WMass, "m_{W}"); // kinematics
-    return PAIR(Mass, "m"); // just mass
-    return PAIR(DeltaHt, "#Delta H_{T}") + PAIR(Mass, "m") + PAIR(DeltaPt, "#Delta P_{T}") + PAIR(DeltaM, "#Delta m") + PAIR(DeltaRap, "#Delta #eta") + PAIR(DeltaPhi, "#Delta #phi") + PAIR(DeltaR, "#Delta R") + PAIR(Rho, "#rho") + PAIR(BottomMass, "m_{b}") + PAIR(WMass, "m_{W}") + PAIR(Pull1, "#theta_{1}") + PAIR(Pull2, "#theta_{2}") + PAIR(Dipolarity, "D"); // subjet info
-    return PAIR(DeltaHt, "#Delta H_{T}") + PAIR(Bdt1, "BDT_{1}") + PAIR(Bdt2, "BDT_{2}") + PAIR(Mass, "m") + PAIR(DeltaPt, "#Delta P_{T}") + PAIR(DeltaM, "#Delta m") + PAIR(DeltaRap, "#Delta #eta") + PAIR(DeltaPhi, "#Delta #phi") + PAIR(DeltaR, "#Delta R") + PAIR(Rho, "#rho") + PAIR(BottomMass, "m_{b}") + PAIR(WMass, "m_{W}"); // kinematics + bdts
-    return PAIR(Mass, "m") + PAIR(Bdt1, "BDT_{1}"); // mass and W bdt
-    return PAIR(Mass, "m") + PAIR(Bdt1, "BDT_{1}") + PAIR(Bdt2, "BDT_{2}"); // mass and bdt
+    return BottomBase::Variables() + PAIR(DeltaHt, Formula("#Delta H_{T}") + " [GeV]") + PAIR(Bdt1, "BDT" + Formula("_{W}")) + PAIR(Bdt2, "BDT" + Formula("_{b}")) + PAIR(Mass, Formula("m") + " [GeV]") + PAIR(DeltaPt, Formula("#Delta P_{T}") + " [GeV]") + PAIR(DeltaM, Formula("#Delta m") + " [GeV]") + PAIR(DeltaRap, Formula("#Delta #eta")) + PAIR(DeltaPhi, Formula("#Delta #phi")) + PAIR(DeltaR, Formula("#Delta R")) + PAIR(Rho, Formula("#rho")) + PAIR(BottomMass, Formula("m_{b}") + " [GeV]") + PAIR(WMass, Formula("m_{W}") + " [GeV]") + PAIR(Pull1, Formula("#theta_{1}")) + PAIR(Pull2, Formula("#theta_{2}")) + PAIR(Dipolarity, Formula("D")); // everything
+    return PAIR(Mass, Formula("m") + " [GeV]") + PAIR(WMass, Formula("m_{W}") + " [GeV]"); // masses
+    return BottomBase::Variables() + PAIR(DeltaHt, Formula("#Delta H_{T}") + " [GeV]") + PAIR(Mass, Formula("m") + " [GeV]") + PAIR(DeltaPt, Formula("#Delta P_{T}") + " [GeV]") + PAIR(DeltaM, Formula("#Delta m") + " [GeV]") + PAIR(DeltaRap, Formula("#Delta #eta")) + PAIR(DeltaPhi, Formula("#Delta #phi")) + PAIR(DeltaR, Formula("#Delta R")) + PAIR(Rho, Formula("#rho")) + PAIR(BottomMass, Formula("m_{b}") + " [GeV]") + PAIR(WMass, Formula("m_{W}") + " [GeV]") + PAIR(Pull1, Formula("#theta_{1}")) + PAIR(Pull2, Formula("#theta_{2}")) + PAIR(Dipolarity, Formula("D")); // bottom
+    return PAIR(DeltaHt, Formula("#Delta H_{T}") + " [GeV]") + PAIR(Mass, Formula("m") + " [GeV]") + PAIR(DeltaPt, Formula("#Delta P_{T}") + " [GeV]") + PAIR(DeltaM, Formula("#Delta m") + " [GeV]") + PAIR(DeltaRap, Formula("#Delta #eta")) + PAIR(DeltaPhi, Formula("#Delta #phi")) + PAIR(DeltaR, Formula("#Delta R")) + PAIR(Rho, Formula("#rho")) + PAIR(BottomMass, Formula("m_{b}") + " [GeV]") + PAIR(WMass, Formula("m_{W}") + " [GeV]"); // kinematics
+    return PAIR(Mass, Formula("m") + " [GeV]"); // just mass
+    return PAIR(DeltaHt, Formula("#Delta H_{T}") + " [GeV]") + PAIR(Mass, Formula("m") + " [GeV]") + PAIR(DeltaPt, Formula("#Delta P_{T}") + " [GeV]") + PAIR(DeltaM, Formula("#Delta m") + " [GeV]") + PAIR(DeltaRap, Formula("#Delta #eta")) + PAIR(DeltaPhi, Formula("#Delta #phi")) + PAIR(DeltaR, Formula("#Delta R")) + PAIR(Rho, Formula("#rho")) + PAIR(BottomMass, Formula("m_{b}") + " [GeV]") + PAIR(WMass, Formula("m_{W}") + " [GeV]") + PAIR(Pull1, Formula("#theta_{1}")) + PAIR(Pull2, Formula("#theta_{2}")) + PAIR(Dipolarity, Formula("D")); // subjet info
+    return PAIR(DeltaHt, Formula("#Delta H_{T}") + " [GeV]") + PAIR(Bdt1, "BDT" + Formula("_{W}")) + PAIR(Bdt2, "BDT" + Formula("_{b}")) + PAIR(Mass, Formula("m") + " [GeV]") + PAIR(DeltaPt, Formula("#Delta P_{T}") + " [GeV]") + PAIR(DeltaM, Formula("#Delta m") + " [GeV]") + PAIR(DeltaRap, Formula("#Delta #eta")) + PAIR(DeltaPhi, Formula("#Delta #phi")) + PAIR(DeltaR, Formula("#Delta R")) + PAIR(Rho, Formula("#rho")) + PAIR(BottomMass, Formula("m_{b}") + " [GeV]") + PAIR(WMass, Formula("m_{W}") + " [GeV]"); // kinematics + bdts
+    return PAIR(Mass, Formula("m") + " [GeV]") + PAIR(Bdt1, "BDT" + Formula("_{W}")); // mass and W bdt
+    return PAIR(Mass, Formula("m") + " [GeV]") + PAIR(Bdt1, "BDT" + Formula("_{W}")) + PAIR(Bdt2, "BDT" + Formula("_{b}")); // mass and bdt
     return MultiBranch::Variables() + BottomBase::Variables() +  Observables(PAIR(LeptonPt));
     return MultiBranch::Variables() + BottomBase::Variables(); // FIXME usually we use the lepton pt
 }
@@ -120,7 +120,7 @@ TopLeptonicBranch::TopLeptonicBranch()
 
 Observables TopLeptonicBranch::Variables()
 {
-    Observables observables = BottomBase::Variables() + ParticleBranch::Variables() + PAIR(Ht) + PAIR(DeltaPt) + PAIR(DeltaM) + PAIR(DeltaRap) + PAIR(DeltaPhi) + PAIR(DeltaR) + PAIR(Rho) + PAIR(Bdt2) + PAIR(BottomPt) + PAIR(LeptonPt) + PAIR(Pull2, "#theta") + PAIR(Dipolarity, "D");
+    Observables observables = BottomBase::Variables() + ParticleBranch::Variables() + PAIR(Ht) + PAIR(DeltaPt) + PAIR(DeltaM) + PAIR(DeltaRap) + PAIR(DeltaPhi) + PAIR(DeltaR) + PAIR(Rho) + PAIR(Bdt2) + PAIR(BottomPt) + PAIR(LeptonPt) + PAIR(Pull2, Formula("#theta")) + PAIR(Dipolarity, Formula("D"));
 //   return use_w ? Join(observables, {PAIR(Bdt1)}) : observables;
     return observables;
 
@@ -155,17 +155,19 @@ Observables HiggsBranch::Spectators()
 TopHadronicHepBranch::TopHadronicHepBranch()
 {
     LeptonPt = InitialValue();
+    BottomMass = InitialValue();
+    WMass = InitialValue();
 }
 
 Observables TopHadronicHepBranch::Variables()
 {
-    return PAIR(Mass, "m") + PAIR(WMass, "m_{W}"); // masses
-    return PAIR(DeltaHt, "#Delta H_{T}") + PAIR(Mass, "m") + PAIR(DeltaPt, "#Delta P_{T}") + PAIR(DeltaM, "#Delta m") + PAIR(DeltaRap, "#Delta #eta") + PAIR(DeltaPhi, "#Delta #phi") + PAIR(DeltaR, "#Delta R") + PAIR(Rho, "#rho") + PAIR(BottomMass, "m_{b}") + PAIR(WMass, "m_{W}"); // kinematics
-    return PAIR(Mass, "m"); // just mass
-    return BottomBase::Variables() + PAIR(DeltaHt, "#Delta H_{T}") + PAIR(Mass, "m") + PAIR(DeltaPt, "#Delta P_{T}") + PAIR(DeltaM, "#Delta m") + PAIR(DeltaRap, "#Delta #eta") + PAIR(DeltaPhi, "#Delta #phi") + PAIR(DeltaR, "#Delta R") + PAIR(Rho, "#rho") + PAIR(BottomMass, "m_{b}") + PAIR(WMass, "m_{W}") + PAIR(Pull1, "#theta_{1}") + PAIR(Pull2, "#theta_{2}") + PAIR(Dipolarity, "D"); // bottom info
-    return PAIR(DeltaHt, "#Delta H_{T}") + PAIR(Mass, "m") + PAIR(DeltaPt, "#Delta P_{T}") + PAIR(DeltaM, "#Delta m") + PAIR(DeltaRap, "#Delta #eta") + PAIR(DeltaPhi, "#Delta #phi") + PAIR(DeltaR, "#Delta R") + PAIR(Rho, "#rho") + PAIR(BottomMass, "m_{b}") + PAIR(WMass, "m_{W}") + PAIR(Pull1, "#theta_{1}") + PAIR(Pull2, "#theta_{2}") + PAIR(Dipolarity, "D"); // subjet info
-    return PAIR(DeltaHt, "#Delta H_{T}") + PAIR(Mass, "m") + PAIR(Pt, "p_T") + PAIR(Ht, "H_{T}") + PAIR(DeltaPt, "#Delta P_{T}") + PAIR(DeltaM, "#Delta m") + PAIR(DeltaRap, "#Delta #eta") + PAIR(DeltaPhi, "#Delta #phi") + PAIR(DeltaR, "#Delta R") + PAIR(Rho, "#rho") + PAIR(Pull1, "#theta_{1}") + PAIR(Pull2, "#theta_{2}") + PAIR(Dipolarity, "D");
-    return PAIR(LeptonPt) + PAIR(DeltaHt, "#Delta H_{T}") + PAIR(Mass, "m") + PAIR(Pt, "p_T") + PAIR(Ht, "H_{T}") + PAIR(DeltaPt, "#Delta P_{T}") + PAIR(DeltaM, "#Delta m") + PAIR(DeltaRap, "#Delta #eta") + PAIR(DeltaPhi, "#Delta #phi") + PAIR(DeltaR, "#Delta R") + PAIR(Rho, "#rho") + PAIR(Bdt1, "BDT_{1}") + PAIR(Bdt2, "BDT_{2}") + PAIR(Pull1, "#theta_{1}") + PAIR(Pull2, "#theta_{2}") + PAIR(Dipolarity, "D");
+    return PAIR(Mass, Formula("m") + " [GeV]") + PAIR(WMass, Formula("m_{W}") + " [GeV]"); // masses
+    return PAIR(DeltaHt, Formula("#Delta H_{T}") + " [GeV]") + PAIR(Mass, Formula("m") + " [GeV]") + PAIR(DeltaPt, Formula("#Delta P_{T}") + " [GeV]") + PAIR(DeltaM, Formula("#Delta m") + " [GeV]") + PAIR(DeltaRap, Formula("#Delta #eta")) + PAIR(DeltaPhi, Formula("#Delta #phi")) + PAIR(DeltaR, Formula("#Delta R")) + PAIR(Rho, Formula("#rho")) + PAIR(BottomMass, Formula("m_{b}") + " [GeV]") + PAIR(WMass, Formula("m_{W}") + " [GeV]"); // kinematics
+    return PAIR(Mass, Formula("m") + " [GeV]"); // just mass
+    return BottomBase::Variables() + PAIR(DeltaHt, Formula("#Delta H_{T}") + " [GeV]") + PAIR(Mass, Formula("m") + " [GeV]") + PAIR(DeltaPt, Formula("#Delta P_{T}") + " [GeV]") + PAIR(DeltaM, Formula("#Delta m") + " [GeV]") + PAIR(DeltaRap, Formula("#Delta #eta")) + PAIR(DeltaPhi, Formula("#Delta #phi")) + PAIR(DeltaR, Formula("#Delta R")) + PAIR(Rho, Formula("#rho")) + PAIR(BottomMass, Formula("m_{b}") + " [GeV]") + PAIR(WMass, Formula("m_{W}") + " [GeV]") + PAIR(Pull1, Formula("#theta_{1}")) + PAIR(Pull2, Formula("#theta_{2}")) + PAIR(Dipolarity, Formula("D")); // bottom info
+    return PAIR(DeltaHt, Formula("#Delta H_{T}") + " [GeV]") + PAIR(Mass, Formula("m") + " [GeV]") + PAIR(DeltaPt, Formula("#Delta P_{T}") + " [GeV]") + PAIR(DeltaM, Formula("#Delta m") + " [GeV]") + PAIR(DeltaRap, Formula("#Delta #eta")) + PAIR(DeltaPhi, Formula("#Delta #phi")) + PAIR(DeltaR, Formula("#Delta R")) + PAIR(Rho, Formula("#rho")) + PAIR(BottomMass, Formula("m_{b}") + " [GeV]") + PAIR(WMass, Formula("m_{W}") + " [GeV]") + PAIR(Pull1, Formula("#theta_{1}")) + PAIR(Pull2, Formula("#theta_{2}")) + PAIR(Dipolarity, Formula("D")); // subjet info
+    return PAIR(DeltaHt, Formula("#Delta H_{T}") + " [GeV]") + PAIR(Mass, Formula("m") + " [GeV]") + PAIR(Pt, Formula("p_T") + " [GeV]") + PAIR(Ht, Formula("H_{T}") + " [GeV]") + PAIR(DeltaPt, Formula("#Delta P_{T}") + " [GeV]") + PAIR(DeltaM, Formula("#Delta m") + " [GeV]") + PAIR(DeltaRap, Formula("#Delta #eta")) + PAIR(DeltaPhi, Formula("#Delta #phi")) + PAIR(DeltaR, Formula("#Delta R")) + PAIR(Rho, Formula("#rho")) + PAIR(Pull1, Formula("#theta_{1}")) + PAIR(Pull2, Formula("#theta_{2}")) + PAIR(Dipolarity, Formula("D"));
+    return PAIR(LeptonPt) + PAIR(DeltaHt, Formula("#Delta H_{T}") + " [GeV]") + PAIR(Mass, Formula("m") + " [GeV]") + PAIR(Pt, Formula("p_T") + " [GeV]") + PAIR(Ht, Formula("H_{T}") + " [GeV]") + PAIR(DeltaPt, Formula("#Delta P_{T}") + " [GeV]") + PAIR(DeltaM, Formula("#Delta m") + " [GeV]") + PAIR(DeltaRap, Formula("#Delta #eta")) + PAIR(DeltaPhi, Formula("#Delta #phi")) + PAIR(DeltaR, Formula("#Delta R")) + PAIR(Rho, Formula("#rho")) + PAIR(Bdt1, "BDT" + Formula("_{W}")) + PAIR(Bdt2, "BDT" + Formula("_{b}")) + PAIR(Pull1, Formula("#theta_{1}")) + PAIR(Pull2, Formula("#theta_{2}")) + PAIR(Dipolarity, Formula("D"));
 }
 
 Observables TopHadronicHepBranch::Spectators()

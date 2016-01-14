@@ -368,40 +368,21 @@ void Plotting::PlotDetails(Plot& signal, Plot& background, Stage stage) const
     bounds.SetYMin(std::min(signal_y.front().Y(), background_y.front().Y()));
     bounds.SetYMax(std::max(signal_y.back().Y(), background_y.back().Y()));
     switch (stage) {
-    case Stage::trainer : return
-//       PlotHistogram(signal, background, bounds)
-            ;
+    case Stage::trainer : return PlotHistogram(signal, background, bounds);
     case Stage::reader : return PlotProfile(signal, background, bounds);
     }
 }
 
 void Plotting::PlotHistogram(Plot const& signal, Plot const& background, Rectangle<float> const& bounds) const
 {
-//     INFO(min.X(), min.Y(), max.X(), max.Y());
-//     Canvas canvas(Tagger().ExportFolderName() + "/" + "Hist-" + background.tree_name, signal.name_x + "-" + signal.name_y);
-    mkdir(Tagger().ExportFolderName().c_str(), 0700);
-    Histogram2Dim histogram(Tagger().ExportFolderName() + "/" + "Hist-" + background.Title().Name(), signal.XAxis().Name() + "-" + signal.YAxis().Name());
-    histogram.canvas().SetBottomMargin(0.15);
+    INFO(signal.Data().size(), background.Data().size());
+    Histogram2Dim histogram(Tagger().ExportFolderName(), signal.XAxis().Name() + "-" + signal.YAxis().Name());
     int bin_number = 20;
-
-    histogram.AddHistogram(Tagger().LatexName(), bin_number, bounds, background.Data(), kBlue);
-//     TExec exec_1;
-//     TH2F background_histogram("", Tagger().LatexName().c_str(), bin_number, min.X(), max.X(), bin_number, min.Y(), max.Y());
-//     SetHistogram(background_histogram, background, kBlue, exec_1);
-    histogram.AddHistogram(Tagger().LatexName(), bin_number, bounds, signal.Data(), kRed);
-//     TExec exec_2;
-//     TH2F signal_histogram("", Tagger().LatexName().c_str(), bin_number, min.X(), max.X(), bin_number, min.Y(), max.Y());
-//     SetHistogram(signal_histogram, signal, kRed, exec_2);
-    histogram.SetLegend(Rectangle<float>(Vector2<float>(0.35, 0), 0.3, 0.1));
-//     Legend legend(Vector3<float>(0.35, 0), 0.3, 0.1);
-//     legend.TwoColumn();
-    histogram.Legend().TwoColumn();
-//     legend.AddEntry(signal_histogram, "Signal");
-//     legend.AddEntry(background_histogram, "Background");
-    histogram.SetXAxis(signal.XAxis().LatexName().c_str());
-    histogram.SetYAxis(signal.YAxis().LatexName().c_str());
-
-//     histogram.SaveAs(Tagger().ExportFolderName() + "/" + "Hist-" + background.tree_name + "-" + signal.name_x + "-" + signal.name_y);
+    histogram.AddHistogram("Background", bin_number, bounds, background, kBlue);
+    histogram.AddHistogram("Signal", bin_number, bounds, signal, kRed);
+    histogram.SetLegend(Orientation::top | Orientation::outside);
+    histogram.SetXAxis(signal.XAxis().LatexName());
+    histogram.SetYAxis(signal.YAxis().LatexName());
 }
 
 void Plotting::PlotProfile(Plot const& signal, Plot const& background, Rectangle<float> const& bounds) const
@@ -432,8 +413,8 @@ Plots Plotting::PlotResult(TFile& file, std::string const& tree_name, Stage stag
     tree.SetMakeClass(1);
     plots.plots() = unordered_pairs(tagger_.Branch().Variables().Vector(), [&](Observable const & variable_1, Observable const & variable_2) {
         Plot plot = ReadTree(tree, variable_1.Name(), variable_2.Name(), stage);
-        plot.x_is_int= variable_1.IsInt();
-        plot.y_is_int= variable_2.IsInt();
+        plot.x_is_int = variable_1.IsInt();
+        plot.y_is_int = variable_2.IsInt();
         return plot;
     });
     plots.SetName(tree_name);

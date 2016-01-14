@@ -25,8 +25,8 @@ enum class Orientation
     right = 1 << 2,
     top = 1 << 3,
     bottom = 1 << 4,
-    inside = 1 << 5,
-    outside = 1 << 6
+    outside = 1 << 5
+//     inside = 1 << 6,
 };
 
 template<>
@@ -60,6 +60,10 @@ public:
 
 private:
 
+    float Width(std::vector<std::string> const& entries) const;
+
+    float Height(std::vector<std::string> const& entries, std::string const& title) const;
+
     void SetCorners(boca::Rectangle<float> const& rectangle);
 
     void SetStyle();
@@ -69,6 +73,8 @@ private:
     boca::Rectangle<double> Rectangle();
 
     TLegend legend_;
+
+    int columns_ = 1;
 };
 
 }

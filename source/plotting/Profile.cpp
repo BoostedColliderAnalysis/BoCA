@@ -12,7 +12,7 @@
 #include "Branches.hh"
 #include "Types.hh"
 
-#define INFORMATION
+// #define INFORMATION
 #include "Debug.hh"
 
 namespace boca
@@ -92,6 +92,10 @@ void Profile::SetProfile(Plot const& signal, Plot const& background)
         return a.Z() < b.Z();
     });
     bounds_.Set(minmax.first->Z(), minmax.second->Z());
+}
+std::string Profile::FileBaseName() const
+{
+    return Path() + "/" + Title() ;
 }
 
 }

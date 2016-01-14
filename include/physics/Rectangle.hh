@@ -4,7 +4,7 @@
 #pragma once
 
 // #include <algorithm>
-// #include <functional>
+// #include <pair>
 
 #include <boost/range/algorithm/max_element.hpp>
 #include <boost/range/algorithm/min_element.hpp>
@@ -50,6 +50,14 @@ public:
 
     void SetY(Bounds<Value> const& y) {
         y_ = y;
+    }
+
+    void SetX(std::pair<Value, Value> const& x) {
+      x_.Set(x);
+    }
+
+    void SetY(std::pair<Value, Value> const& y) {
+      y_.Set(y);
     }
 
     void ResetY() {
@@ -155,6 +163,7 @@ public:
 
     template <typename Value2>
     void WidenY(Bounds<Value> const& bound_x, std::vector<Value2> const& xs, std::vector<Value2> const& ys) {
+//         y_.Widen({0.001,1});      
         std::cout << "bound min " << bound_x.Min() << " bound max " << bound_x.Max() << std::endl;
         Bounds<int> bound;
         if (boost::range::is_sorted(xs, Smaller<Value2>())) {

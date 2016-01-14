@@ -119,7 +119,7 @@ ParticleBranch::ParticleBranch()
 
 Observables ParticleBranch::Variables()
 {
-    return ResultBranch::Variables() + PAIR(Mass, Formula("m")) + PAIR(Pt, Formula("p_{T}"));
+  return ResultBranch::Variables() + PAIR(Mass, Formula("m") + " [GeV]") + PAIR(Pt, Formula("p_{T}") + " [GeV]");
 }
 
 Observables ParticleBranch::Spectators()
@@ -143,7 +143,7 @@ BottomBase::BottomBase()
 
 Observables BottomBase::Variables()
 {
-    return PAIR(VertexMass, Formula("m_{V}")) + PAIR(MaxDisplacement, Formula("log(#Delta d_{max})")) + PAIR(MeanDisplacement, Formula("log(#Delta d_{mean})")) + PAIR(SumDisplacement, Formula("log(#Delta d_{sum})")) + PAIR(Multiplicity, Formula("n_{V}")) + PAIR(Radius, Formula("r")) + PAIR(Spread, Formula("s")) + PAIR(VertexRadius, Formula("r_{V}")) + PAIR(VertexSpread, Formula("s_{V}")) + PAIR(EnergyFraction, Formula("f_{E}"));
+    return PAIR(VertexMass, Formula("m_{V}") + " [GeV]") + PAIR(MaxDisplacement, "log(" + Formula("#Delta d") + "_{max} / mm)") + PAIR(MeanDisplacement, "log(" + Formula("#Delta d") + "_{mean} / mm)") + PAIR(SumDisplacement, "log(" + Formula("#Delta d") + "_{sum} / mm)") + PAIR(Multiplicity, Formula("n_{V}")) + PAIR(Radius, Formula("r")) + PAIR(Spread, Formula("s")) + PAIR(VertexRadius, Formula("r_{V}")) + PAIR(VertexSpread, Formula("s_{V}")) + PAIR(EnergyFraction, Formula("f_{E}"));
 }
 
 Observables BottomBase::Spectators()
@@ -169,7 +169,7 @@ PairBranch::PairBranch()
 
 Observables PairBranch::Variables()
 {
-    return ParticleBranch::Variables() + PAIR(Ht, "H_{T}") + PAIR(DeltaPt, "#Delta P_{T}") + PAIR(DeltaM, "#Delta m") + PAIR(DeltaRap, "#Delta #eta") + PAIR(DeltaPhi, "#Delta #phi") + PAIR(DeltaR, "#Delta R") + PAIR(Rho, "#rho") + PAIR(Bdt1, "BDT_{1}") + PAIR(Bdt2, "BDT_{2}") + PAIR(Pull1, "#theta_{1}") + PAIR(Pull2, "#theta_{2}") + PAIR(Dipolarity, "D");
+  return ParticleBranch::Variables() + PAIR(Ht, Formula("H_{T}") + " [GeV]") + PAIR(DeltaPt, Formula("#Delta P_{T}") + " [GeV]") + PAIR(DeltaM, Formula("#Delta m") + " [GeV]") + PAIR(DeltaRap, Formula("#Delta #eta")) + PAIR(DeltaPhi, Formula("#Delta #phi")) + PAIR(DeltaR, Formula("#Delta R")) + PAIR(Rho, Formula("#rho")) + PAIR(Bdt1, "BDT_{1}") + PAIR(Bdt2, "BDT_{2}") + PAIR(Pull1, Formula("#theta_{1}")) + PAIR(Pull2, Formula("#theta_{2}")) + PAIR(Dipolarity, Formula("D"));
     //return ParticleBranch::Variables() + PAIR(Ht) + PAIR(DeltaPt) + PAIR(DeltaM) + PAIR(DeltaRap) + PAIR(DeltaPhi) + PAIR(DeltaR) + PAIR(Rho);
 }
 
@@ -185,7 +185,7 @@ MultiBranch::MultiBranch()
 
 Observables MultiBranch::Variables()
 {
-    return PairBranch::Variables() + PAIR(DeltaHt, "#Delta H_{T}");
+  return PairBranch::Variables() + PAIR(DeltaHt, Formula("#Delta H_{T}") + " [GeV]");
 }
 
 TChannelBranch::TChannelBranch()
@@ -304,7 +304,8 @@ Observables EventBranch::Variables()
 
 }
 
-namespace {
+namespace
+{
 
 std::vector<int> Table(std::vector<double>& length, std::vector<double>& red, std::vector<double>& green, std::vector<double>& blue)
 {

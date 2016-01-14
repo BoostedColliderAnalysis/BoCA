@@ -39,7 +39,7 @@ public:
 
     std::string FileName() const;
 
-    std::string FileBaseName() const;
+    virtual std::string FileBaseName() const;
 
 protected :
 
@@ -59,9 +59,9 @@ private:
 
     TCanvas canvas_;
 
-    std::string path_;
-
     std::string title_;
+
+    std::string path_;
 
 };
 

@@ -31,6 +31,8 @@ public:
 
     void SetDimensions(std::string const& name, int bins, Rectangle<float> const& bounds);
 
+    std::string FileBaseName() const override;
+
 private:
 
     void SetDimensions(int x_bins, int y_bins, Rectangle<float> const& bounds);
