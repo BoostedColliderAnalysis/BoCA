@@ -26,8 +26,8 @@
 namespace boca
 {
 
-  class Jet;
-  class Particle;
+class Jet;
+class Particle;
 
 std::string Shorten(std::string const& pretty_function, size_t brake);
 
@@ -44,11 +44,11 @@ std::string FileName(std::string const& file);
 template<typename Value>
 std::string Column(int width, Value const& message)
 {
-  std::stringstream stream_1;
-  stream_1 << std::boolalpha << boost::units::engineering_prefix << message;
-  std::stringstream stream_2;
-  stream_2 << std::left << std::setw(width) << std::setfill(' ') << stream_1.str();
-  return stream_2.str();
+    std::stringstream stream_1;
+    stream_1 << std::boolalpha << boost::units::engineering_prefix << message;
+    std::stringstream stream_2;
+    stream_2 << std::left << std::setw(width) << std::setfill(' ') << stream_1.str();
+    return stream_2.str();
 }
 
 template<typename Value>
@@ -81,7 +81,20 @@ void LogVariable(std::string const& variable, const std::vector<Value>& values)
 void LogVariable(std::string const&, char const* value);
 
 void LogVariable(std::string const& variable, Jet const& jet);
+
 void LogVariable(std::string const& variable, Particle const& jet);
+
+// template<typename Value>
+// void LogVariable(std::string const& variable, Bound<Value> const& bound){
+//   LogVariable(variable, bound.Min());
+//   LogVariable(variable, bound.Max());
+// }
+//
+// template<typename Value>
+// void LogVariable(std::string const& variable, Rectangle<Value> const& bound){
+//   LogVariable(variable, bound.Horizontal());
+//   LogVariable(variable, bound.Vertical());
+// }
 
 template<typename Value>
 void Log(std::string const& file, int line, std::string const& name_space, std::string const& class_name, std::string const& function, std::string const& variable, Value value, bool final = true)
@@ -118,9 +131,9 @@ void Log(std::string const& file, int line, std::string const& name_space, std::
 template<typename Value, typename Value2, typename Value3, typename Value4, typename Value5>
 void Log(std::string const& file, int line, std::string const& name_space, std::string const& class_name, std::string const& function, std::string const& variable, const Value value, std::string const& variable2, const Value2 value2, std::string const& variable3, const Value3 value3, std::string const& variable4, const Value4 value4, std::string const& variable5, const Value5 value5)
 {
-  Log(file, line, name_space, class_name, function, variable, value, variable2, value2, variable3, value3, variable4, value4, false);
-  LogVariable(variable5, value5);
-  std::cout << "\n";
+    Log(file, line, name_space, class_name, function, variable, value, variable2, value2, variable3, value3, variable4, value4, false);
+    LogVariable(variable5, value5);
+    std::cout << "\n";
 }
 
 }

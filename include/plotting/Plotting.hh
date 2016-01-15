@@ -3,8 +3,6 @@
  */
 #pragma once
 
-#include <functional>
-
 #include "Tagger.hh"
 #include "physics/Rectangle.hh"
 
@@ -64,11 +62,11 @@ private:
 
     void PlotProfile(const boca::Plot& signal, const boca::Plot& background, Rectangle<float> const& bounds) const;
 
-    void PlotAcceptanceGraph(const boca::Results& results) const;
+    void PlotAcceptanceGraph(Results const& results) const;
 
-    std::string PlotCrosssectionsGraph(const boca::Results& results) const;
+    std::string PlotCrosssectionsGraph(Results const& results) const;
 
-    std::string PlotCrosssectionGraph(const boca::Results& results) const;
+    std::string PlotCrosssectionGraph(Results const& results) const;
 
     std::string PlotHistograms(boca::Results const& results) const;
 
@@ -82,11 +80,11 @@ private:
 
     std::string EfficienciesRow(const Result& result, int index, boca::Tag tag, int bin) const;
 
-    std::string PlotEfficiencyGraph(const boca::Results& results) const;
+    std::string PlotEfficiencyGraph(Results const& results) const;
 
-    std::string PlotModelDependentGraph(const boca::Results& results) const;
+    std::string PlotModelDependentGraph(Results const& results) const;
 
-    std::string PlotModelIndependentGraph(const boca::Results& results) const;
+    std::string PlotModelIndependentGraph(Results const& results) const;
 
     void SetBranch(TTree& tree, int& value, std::string const& name) const;
 

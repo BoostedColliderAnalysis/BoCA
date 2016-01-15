@@ -127,6 +127,13 @@ std::string TopLeptonicTagger::LatexName() const
     return Formula("t_{l}");
 }
 
+boca::Filter TopLeptonicTagger::Filter() const
+{
+    boca::Filter filter("Pull1");
+    if(!use_w_) filter.Add("BDT1");
+    return filter;
+}
+
 }
 
 }

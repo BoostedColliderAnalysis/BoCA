@@ -53,6 +53,10 @@ std::string InfoBranch::Name() const
 {
     return names.Name();
 }
+boca::Names InfoBranch::Names() const
+{
+  return names;
+}
 std::string InfoBranch::LatexName() const
 {
     return names.LatexName();
@@ -73,7 +77,7 @@ void InfoBranch::SetMass(boca::Mass mass_)
 {
     mass = mass_ / GeV;
 }
-void InfoBranch::SetNames(Names const& names_)
+void InfoBranch::SetNames(boca::Names const& names_)
 {
     names = names_;
 }
@@ -311,8 +315,8 @@ std::vector<int> Table(std::vector<double>& length, std::vector<double>& red, st
 {
     std::vector<int> colors(50);
     int color_table = TColor::CreateGradientColorTable(length.size(), &length.front(), &red.front(), &green.front(), &blue.front(), colors.size());
-    for (size_t step = 0; step < colors.size(); ++step) colors.at(step) = color_table + step;
-    // for (auto & color : colors) color = color_table + (&color - &colors.front());
+//     for (size_t step = 0; step < colors.size(); ++step) colors.at(step) = color_table + step;
+    for (auto & color : colors) color = color_table + (&color - &colors.front());
     return colors;
 }
 
@@ -338,7 +342,7 @@ void Color::Blue()
     std::vector<double> red = { 1, 0};
     std::vector<double> green = { 1, 0};
     std::vector<double> blue = { 1, 1};
-    std::vector<double> length = { 0, 1 };
+    std::vector<double> length = { 0, 1};
     static std::vector<int> colors;
     static bool initialized = false;
     if (!initialized) {
@@ -365,7 +369,3 @@ void Color::Heat()
 }
 
 }
-
-
-
-

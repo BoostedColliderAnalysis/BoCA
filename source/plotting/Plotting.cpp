@@ -1,14 +1,12 @@
 /**
  * Copyright (C) 2015 Jan Hajer
  */
-#include <sys/stat.h>
-
 #include "TFile.h"
-#include "TDirectoryFile.h"
 #include "TClonesArray.h"
 #include "TTree.h"
 
 #include "exroot/ExRootAnalysis.hh"
+
 #include "plotting/Plotting.hh"
 #include "plotting/LatexFile.hh"
 #include "plotting/Graphs.hh"
@@ -393,7 +391,7 @@ void Plotting::PlotProfile(Plot const& signal, Plot const& background, Rectangle
     profile.SetProfile(signal, background);
     profile.SetXAxis(signal.XAxis().LatexName());
     profile.SetYAxis(signal.YAxis().LatexName());
-    profile.SetZAxis("BDT", 30);
+    profile.SetZAxis("BDT_{" + signal.Title().LatexName() + "}", 30);
 }
 
 std::vector<Plots> Plotting::Import(Stage stage, Tag tag) const

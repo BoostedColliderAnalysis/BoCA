@@ -44,18 +44,19 @@ public:
     boca::Mass Mass() const;
     int EventNumber() const;
     std::string Name() const;
+    boca::Names Names() const;
     std::string LatexName() const;
     void SetCrosssection(boca::Crosssection crosssection);
     void SetCrosssectionError(boca::Crosssection crosssection_error);
     void SetMass(boca::Mass mass);
     void SetEventNumber(int event_number);
-    void SetNames(Names const& names);
+    void SetNames(boca::Names const& names);
 private:
     float crosssection;
     float crosssection_error;
     float mass;
     int event_number;
-    Names names;
+    boca::Names names;
     ClassDef(InfoBranch, 1)
 };
 

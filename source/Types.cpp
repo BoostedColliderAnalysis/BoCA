@@ -8,11 +8,10 @@
 
 namespace boca {
 
-bool Exists(std::string const& name)
-{
+bool Exists(std::string const& name) {
   INFO(name);
   struct stat buffer;
-  return (stat(name.c_str(), &buffer) == 0);
+  return stat(name.c_str(), &buffer) == 0;
 }
 
 }

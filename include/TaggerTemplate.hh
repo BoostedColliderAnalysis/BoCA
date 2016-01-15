@@ -43,6 +43,7 @@ public:
         FillBranch(multiplet);
         std::vector<bool> passed;
         int steps = 50;
+        // TODO why is this a 2?
         for (auto const & effeciency : Range(2, steps)) passed.emplace_back(Tagger::Cut(reader, float(effeciency) / steps));
         return passed;
     }

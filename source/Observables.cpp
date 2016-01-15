@@ -45,7 +45,7 @@ std::vector< Observable > Observables::ApplyFilter() const
 {
     std::vector<Observable> observables = observables_;
     observables = boost::range::remove_erase_if(observables, [&](Observable const & observable) {
-        return filter_.Check(observable.Name());
+        return filter_.IsSet(observable.Name());
     });
     return observables;
 }

@@ -26,8 +26,6 @@ public:
 
     void SetLegend(Orientation orientation, std::string const& title = "");
 
-    void Draw();
-
     void SetXAxis(std::string const& title, Bounds<float> const& bounds = Bounds<float>());
 
     void SetYAxis(std::string const& title, Bounds<float> const& bounds = Bounds<float>());
@@ -35,6 +33,8 @@ public:
     void AddLine(float x_value);
 
 private:
+
+    void Draw();
 
     Bounds<double> BoundsY();
 

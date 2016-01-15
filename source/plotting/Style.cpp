@@ -6,6 +6,7 @@
 #include "TAttLine.h"
 #include "plotting/Style.hh"
 #include "plotting/Font.hh"
+#include "Types.hh"
 // #define INFORMATION
 #include "Debug.hh"
 
@@ -55,7 +56,8 @@ void SetLogarithmic(TAxis& axis)
     float max = axis.GetXmax();
     float width = (max - min) / bins;
     std::vector<double> new_bins;
-    for (int bin = 0; bin <= bins; bin++) new_bins.emplace_back(std::pow(10., min + bin * width));
+//     for (int bin = 0; bin <= bins; ++bin) new_bins.emplace_back(std::pow(10., min + bin * width));
+    for (auto const& bin : Range(bins)) new_bins.emplace_back(std::pow(10., min + bin * width));
     axis.Set(bins, &new_bins.front());
 }
 

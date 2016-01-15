@@ -171,13 +171,7 @@ protected:
         return multiplet;
     }
 
-    void AddToFilter(std::string observable) {
-        filter_.Set(observable);
-    }
-
-    boca::Filter const& Filter() const {
-        return filter_;
-    }
+    virtual boca::Filter Filter() const;
 
 private:
 
@@ -208,7 +202,6 @@ private:
     std::string Name(Stage stage) const;
 
     std::string BranchName(Stage stage, Tag tag) const;
-
 
     /**
      * @brief Tree Branch pointer saving the results
@@ -245,8 +238,6 @@ private:
      *
      */
     std::vector<Observable> spectators_;
-
-    boca::Filter filter_;
 
 };
 

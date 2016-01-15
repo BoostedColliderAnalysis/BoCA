@@ -29,11 +29,13 @@ public:
 
     std::vector<Triplet> Multiplets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
 
+    std::vector<Particle> Particles(boca::Event const& event) const;
+
     std::string Name() const final;
 
     std::string LatexName() const final;
 
-    std::vector<Particle> Particles(boca::Event const& event) const;
+    boca::Filter Filter() const final;
 
 private:
 

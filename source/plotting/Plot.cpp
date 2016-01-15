@@ -70,7 +70,6 @@ std::vector< Vector3< float > > Plot::CoreData(std::function<bool (Vector3<float
 {
     Info0;
     std::vector<Vector3<float>> data = data_;
-    // TODO sorting the whole vector when you just want to get rid of the extrem values might not be the fastest solution
     boost::range::sort(data, [&](Vector3<float> const & a, Vector3<float> const & b) {
         return function(a, b);
     });

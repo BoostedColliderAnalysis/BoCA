@@ -342,6 +342,10 @@ std::string Tagger::PathName(std::string const& file_name, std::string const& su
     INFO(file_name, suffix);
     return AnalysisName() + "/" + file_name + suffix;
 }
+Filter Tagger::Filter() const
+{
+    return {};
+}
 
 }
 

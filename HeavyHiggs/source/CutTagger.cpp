@@ -13,23 +13,6 @@ namespace boca
 namespace heavyhiggs
 {
 
-int CutTagger::Train(Event const& event, PreCuts const&, Tag) const
-{
-    Info0;
-    std::vector<CutVariables> variables;
-    if (boost::optional<CutVariables> optional = CutMethod(event)) variables.emplace_back(*optional);
-    return SaveEntries(variables);
-}
-
-std::vector<CutVariables> CutTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
-{
-    Info0;
-    std::vector<CutVariables> variables;
-    if (boost::optional<CutVariables> optional = CutMethod(event)) variables.emplace_back(*optional);
-    for (auto & variable : variables) variable.SetPassed(Cuts(variable, reader));
-    return ReduceResult(variables);
-}
-
 namespace
 {
 
@@ -59,6 +42,23 @@ std::vector<Lepton> IsolateLeptons(std::vector<Lepton> const& leptons, Jet const
     return isolated;
 }
 
+}
+
+int CutTagger::Train(Event const& event, PreCuts const&, Tag) const
+{
+    Info0;
+    std::vector<CutVariables> variables;
+    if (boost::optional<CutVariables> optional = CutMethod(event)) variables.emplace_back(*optional);
+    return SaveEntries(variables);
+}
+
+std::vector<CutVariables> CutTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
+{
+    Info0;
+    std::vector<CutVariables> variables;
+    if (boost::optional<CutVariables> optional = CutMethod(event)) variables.emplace_back(*optional);
+    for (auto & variable : variables) variable.SetPassed(Cuts(variable, reader));
+    return ReduceResult(variables);
 }
 
 boost::optional<CutVariables> CutTagger::CutMethod(Event const& event) const
