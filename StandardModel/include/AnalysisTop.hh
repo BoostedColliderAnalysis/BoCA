@@ -34,9 +34,9 @@ public:
 
     static Decay TopDecay() {
         Info0;
+        return Decay::leptonic;
         return Decay::hadronic;
         return Decay::other;
-        return Decay::leptonic;
     }
 
 private:
@@ -62,7 +62,7 @@ private:
             if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::bb);
             this->NewFile(tag, Process::cc);
             this->NewFile(tag, Process::gg);
-            this->NewFile(tag, Process::qq);
+            if (!this->template TaggerIs<WLeptonicTagger>()) this->NewFile(tag, Process::qq);
             if ((TopDecay() == Decay::hadronic || TopDecay() == Decay::other) && !this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_lep);
             this->NewFile(tag, Process::zz);
             if (!this->template TaggerIs<WHadronicTagger>() && !this->template TaggerIs<WLeptonicTagger>()) this->NewFile(tag, Process::ww);

@@ -3,14 +3,15 @@
  */
 #pragma once
 
-#include "Tagger.hh"
 #include "PreCuts.hh"
+#include "Phase.hh"
 #include "File.hh"
 
 namespace boca
 {
 
   class File;
+  class Tagger;
 
   enum class Output
   {
@@ -66,8 +67,7 @@ protected:
 
     virtual int PassPreCut(Event const&, Tag tag) const = 0;
 
-    virtual Tagger const& tagger() const = 0;
-
+    virtual boca::Tagger const& Tagger() const = 0;
 
     void ClearFiles();
 
@@ -131,7 +131,7 @@ protected:
 
 private:
 
-    virtual Tagger& tagger() = 0;
+    virtual boca::Tagger& Tagger() = 0;
 
     virtual void AnalysisLoop(Stage stage) = 0;
 

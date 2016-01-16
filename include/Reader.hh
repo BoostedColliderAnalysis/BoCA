@@ -24,7 +24,7 @@ namespace boca
  * wrapper for TMVA::Reader
  *
  */
-template<typename TaggerTemplate>
+template<typename Tagger_>
 class Reader : public ReaderBase
 {
 
@@ -176,7 +176,7 @@ public:
         return Tagger().SubMultiplet(input, reader());
     }
 
-    TaggerTemplate const& Tagger() const {
+    Tagger_ const& Tagger() const {
         return tagger_;
     }
 
@@ -216,14 +216,14 @@ private:
 //         return *reader_.get();
     }
 
-    TaggerTemplate& Tagger() {
+    Tagger_& Tagger() {
         return tagger_;
     }
 
 //     std::shared_ptr<TMVA::Reader> reader_;
     TMVA::Reader* reader_  = nullptr;
 
-    TaggerTemplate tagger_;
+    Tagger_ tagger_;
 
     Stage stage_;
 

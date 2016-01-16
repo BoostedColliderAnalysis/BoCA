@@ -50,8 +50,8 @@ include(CMakeFiles/FindMadGraph.cmake)
 
 # Doxygen
 # if(CMAKE_BUILD_TYPE MATCHES "Release")
-set(DO_DOXYGEN FALSE)
-if(DO_DOXYGEN)
+set(DO_DOXYGEN 1)
+if(DO_DOXYGEN MATCHES 1)
 include(CMakeFiles/UseDoxygen.cmake)
 endif()
 

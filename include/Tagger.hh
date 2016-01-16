@@ -7,13 +7,10 @@
 
 #include "TMVA/Types.h"
 
-#include "Observable.hh"
-#include "Identification.hh"
 #include "Branches.hh"
 #include "Vector.hh"
 #include "Event.hh"
-#include "Filter.hh"
-// #include "Exception.hh"
+#include "Phase.hh"
 
 namespace TMVA
 {
@@ -33,12 +30,6 @@ namespace boca
 
 class PreCuts;
 
-enum class Stage
-{
-    trainer,
-    reader
-};
-
 std::string Name(Stage stage);
 
 /**
@@ -55,8 +46,6 @@ public:
     virtual int SaveBdt(Event const&, PreCuts const&, TMVA::Reader const&) const = 0;
 
     virtual int Train(Event const&, PreCuts const&, const Tag) const = 0;
-
-//     virtual float ReadBdt(TClonesArray const&, int) const = 0;
 
     virtual const ResultBranch& Branch() const = 0;
 
@@ -166,8 +155,8 @@ protected:
     Multiplet SetClosestLepton(Multiplet& multiplet, std::vector<Jet>& leptons) const {
         if (leptons.empty()) leptons.emplace_back(multiplet.Jet() * (DetectorGeometry::LeptonMinPt() / multiplet.Pt()));
         auto lepton = ClosestJet(leptons, multiplet);
-        multiplet.LeptonPt = lepton.pt();
-        multiplet.LeptonDeltaR = lepton.delta_R(multiplet.Jet());
+        multiplet.SetLeptonPt(lepton.Pt());
+        multiplet.SetLeptonDeltaR(lepton.DeltaRTo(multiplet.Jet()));
         return multiplet;
     }
 

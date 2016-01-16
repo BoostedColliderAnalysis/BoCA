@@ -57,6 +57,14 @@ private:
 
     Mass top_mass_shift_;
 
+//     std::vector<std::shared_ptr<Tagger>> Prerequisite() {
+//         return
+// //         Join(
+//         {new BottomTagger, new  WLeptonicTagger}
+// //         , bottom_reader_.Tagger().Prerequisite(), w_leptonic_reader_.Tagger().Prerequisite())
+// ;
+//     }
+
 };
 
 }

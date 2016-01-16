@@ -78,7 +78,7 @@ private:
 
     int PassPreCut(Event const& event, Tag) const final {
       //         if(this->template TaggerIs<WLeptonicTagger>()) return 0;
-      //         if(this->template TaggerIs<TopLeptonicTagger>()) static_cast<TopLeptonicTagger&>(this->tagger()).semi_leptonic = false;
+      //         if(this->template TaggerIs<TopLeptonicTagger>()) static_cast<TopLeptonicTagger&>(this->Tagger()).semi_leptonic = false;
        std::vector<Lepton> leptons = SortedByPt(event.Leptons().leptons());
         if (leptons.size() < 2) return 0;
 //         if (leptons.at(1).Pt() < 40) return 0;

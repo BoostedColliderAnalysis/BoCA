@@ -1,6 +1,5 @@
 #pragma once
 
-#include <vector>
 #include "Observable.hh"
 #include "Filter.hh"
 

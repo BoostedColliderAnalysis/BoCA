@@ -120,13 +120,8 @@ TopLeptonicBranch::TopLeptonicBranch()
 
 Observables TopLeptonicBranch::Variables()
 {
-    Observables observables = BottomBase::Variables() + ParticleBranch::Variables() + PAIR(Ht) + PAIR(DeltaPt) + PAIR(DeltaM) + PAIR(DeltaRap) + PAIR(DeltaPhi) + PAIR(DeltaR) + PAIR(Rho) + PAIR(Bdt2) + PAIR(BottomPt) + PAIR(LeptonPt) + PAIR(Pull2, Formula("#theta")) + PAIR(Dipolarity, Formula("D"));
-//   return use_w ? Join(observables, {PAIR(Bdt1)}) : observables;
+    Observables observables = BottomBase::Variables() + ParticleBranch::Variables() + PAIR(Ht) + PAIR(DeltaPt) + PAIR(DeltaM) + PAIR(DeltaRap) + PAIR(DeltaPhi) + PAIR(DeltaR) + PAIR(Rho) + PAIR(Bdt2) + PAIR(BottomPt) + PAIR(LeptonPt) + PAIR(Pull1, Formula("#theta_{1}")) + PAIR(Pull2, Formula("#theta")) + PAIR(Dipolarity, Formula("D")) + PAIR(Bdt1);
     return observables;
-
-//   Observables observables;
-//   if(filter.Set()) observables
-
 }
 
 Observables TopLeptonicBranch::Spectators()

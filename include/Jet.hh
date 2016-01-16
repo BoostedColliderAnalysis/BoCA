@@ -14,8 +14,6 @@ class Jet : public PseudoJet
 
 public:
 
-//     using boca::PseudoJet::PseudoJet;
-
     Jet();
 
     Jet(double x, double y, double z, double e);
@@ -68,9 +66,9 @@ private:
 
 };
 
-using Lepton  = Jet;
+using Lepton = Jet;
 
-using MissingEt  = Jet;
+using MissingEt = Jet;
 
 std::vector<Jet> JetVector(std::vector<fastjet::PseudoJet> const& pseudo_jets);
 

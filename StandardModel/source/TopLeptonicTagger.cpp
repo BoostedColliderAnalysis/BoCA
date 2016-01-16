@@ -29,7 +29,7 @@ std::vector<Lepton> Leptons(Event const& event, std::vector<Jet> const& jets)
     Info0;
     bool do_fake_leptons = true;
     std::vector<Lepton> leptons = RemoveIfSoft(event.Leptons().leptons(), DetectorGeometry::LeptonMinPt());
-    if (do_fake_leptons && leptons.empty()) leptons.emplace_back(FakeLepton(jets.front()));
+    if (do_fake_leptons && leptons.empty() && !jets.empty()) leptons.emplace_back(FakeLepton(jets.front()));
     Debug(jets.size(), leptons.size());
     return leptons;
 }

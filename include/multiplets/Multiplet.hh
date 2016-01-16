@@ -15,9 +15,21 @@ class Multiplet : public MultipletBase
 
 public:
 
-    float LeptonPt = 0;
+    void SetLeptonPt(Momentum const& lepton_pt) {
+        lepton_pt_ = lepton_pt;
+    }
 
-    float LeptonDeltaR = 0;
+    void SetLeptonDeltaR(Angle const& lepton_delta_r) {
+        lepton_delta_r_ = lepton_delta_r;
+    }
+
+    Momentum LeptonPt() const {
+        return lepton_pt_;
+    }
+
+    Angle LeptonDeltaR() const {
+        return lepton_delta_r_;
+    }
 
     boca::Singlet const& singlet() const override {
         if (!has_singlet_) SetSinglet();
@@ -95,6 +107,10 @@ protected:
     mutable bool has_jet_ = false;
 
 private:
+
+    Momentum lepton_pt_ = 0;
+
+    Angle lepton_delta_r_ = 0;
 
     Vector2<Angle> Point2(Vector2<Angle> const& point_1, MultipletBase const& multiplets_2) const;
 

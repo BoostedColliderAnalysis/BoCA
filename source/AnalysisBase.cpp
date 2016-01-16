@@ -26,14 +26,14 @@ AnalysisBase::AnalysisBase()
 
 void AnalysisBase::Initialize()
 {
-    Error(tagger().Name());
+    Error(Tagger().Name());
 //     working_path_ = WorkingPath();
 //     if (AnalysisName() != AnalysisBase::AnalysisName())
 //     INFO(working_path_, AnalysisName());
     mkdir(AnalysisName().c_str(), 0700);
 //     else Error(AnalysisName());
-    tagger().SetAnalysisName(AnalysisName());
-    tagger().Initialize();
+    Tagger().SetAnalysisName(AnalysisName());
+    Tagger().Initialize();
 }
 
 
@@ -67,28 +67,28 @@ void AnalysisBase::NewFile(boca::Tag tag, const std::vector<std::string>& names,
 {
     Info0;
     files_.emplace_back(File(names, crosssection, nice_name, mass));
-    tagger().AddTreeName(TreeName(names.front()), tag);
+    Tagger().AddTreeName(TreeName(names.front()), tag);
 }
 
 void AnalysisBase::NewFile(Tag tag, std::vector<std::string> const& names, std::string const& nice_name)
 {
     Info0;
     files_.emplace_back(File(names, nice_name));
-    tagger().AddTreeName(TreeName(names.front()), tag);
+    Tagger().AddTreeName(TreeName(names.front()), tag);
 }
 
 void AnalysisBase::NewFile(boca::Tag tag, std::string const& name, Crosssection crosssection, std::string const& nice_name, boca::Mass mass)
 {
     Info0;
     files_.emplace_back(File( {name}, crosssection, nice_name, mass));
-    tagger().AddTreeName(TreeName(name), tag);
+    Tagger().AddTreeName(TreeName(name), tag);
 }
 
 void AnalysisBase::NewFile(Tag tag, std::string const& name, std::string const& nice_name)
 {
     Info0;
     files_.emplace_back(File( {name}, nice_name));
-    tagger().AddTreeName(TreeName(name), tag);
+    Tagger().AddTreeName(TreeName(name), tag);
 }
 
 File AnalysisBase::File(std::vector<std::string> const& names, std::string const& nice_name) const
@@ -186,7 +186,7 @@ void AnalysisBase::ClearFiles()
 {
     Info0;
     files_.clear();
-    tagger().ClearTreeNames();
+    Tagger().ClearTreeNames();
 }
 
 void AnalysisBase::RunFullEfficiency()
@@ -199,19 +199,19 @@ void AnalysisBase::RunFullEfficiency()
 void AnalysisBase::RunTagger(Stage stage)
 {
     Info0;
-    if (Exists(tagger().FileName(stage, Tag::signal))) return;
+    if (Exists(Tagger().FileName(stage, Tag::signal))) return;
     AnalysisLoop(stage);
 }
 
 void AnalysisBase::RunTrainer()
 {
     Info0;
-    if (Exists(tagger().WeightFileName())) return;
+    if (Exists(Tagger().WeightFileName())) return;
     PrepareFiles(Stage::trainer);
-    std::ofstream cout_file(tagger().FolderName() + ".txt");
+    std::ofstream cout_file(Tagger().FolderName() + ".txt");
     std::streambuf* cout = std::cout.rdbuf();
     std::cout.rdbuf(cout_file.rdbuf());
-    Trainer trainer(tagger());
+    Trainer trainer(Tagger());
     std::cout.rdbuf(cout);
 }
 
@@ -219,31 +219,31 @@ void AnalysisBase::RunTrainer()
 void AnalysisBase::RunSignificance()
 {
     Info0;
-    if (Exists(tagger().ExportFileName())) return;
+    if (Exists(Tagger().ExportFileName())) return;
     PrepareFiles(Stage::reader);
-    Plotting plotting(tagger());
+    Plotting plotting(Tagger());
     plotting.OptimalCuts();
 }
 
 void AnalysisBase::RunEfficiency()
 {
     Info0;
-    if (Exists(tagger().ExportFileName())) return;
+    if (Exists(Tagger().ExportFileName())) return;
     PrepareFiles(Stage::reader);
-    Plotting plotting(tagger());
+    Plotting plotting(Tagger());
     plotting.TaggingEfficiency();
 }
 
 void AnalysisBase::RunPlots()
 {
     Info0;
-    if (Exists(tagger().ExportFolderName())) return;
-    Plotting plotting(tagger());
+    if (Exists(Tagger().ExportFolderName())) return;
+    Plotting plotting(Tagger());
     PrepareFiles(Stage::trainer);
     plotting.RunPlots(Stage::trainer);
     PrepareFiles(Stage::reader);
     plotting.RunPlots(Stage::reader);
-//     if (Exists(tagger().ExportFileName())) std::remove(tagger().ExportFileName().c_str());
+//     if (Exists(Tagger().ExportFileName())) std::remove(Tagger().ExportFileName().c_str());
 }
 
 void AnalysisBase::RunCut()
@@ -253,9 +253,9 @@ void AnalysisBase::RunCut()
     INFO("Analysis Loop done");
     RunTrainer();
     RunTagger(Stage::reader);
-    Error(tagger().TreeNames(Tag::signal).size());
+    Error(Tagger().TreeNames(Tag::signal).size());
     PrepareFiles(Stage::reader);
-    Plotting plotting(tagger());
+    Plotting plotting(Tagger());
     plotting.OptimalCuts();
 }
 
@@ -272,7 +272,7 @@ void AnalysisBase::Run(Output output)
 {
     Info0;
     Initialize();
-    //   analysis.PreRequisits<analysis.tagger()::type>(analysis,run);
+    //   analysis.PreRequisits<analysis.Tagger()::type>(analysis,run);
     FlagSwitch(output, [&](Output output_2) {
         switch (output_2) {
         case Output::fast :

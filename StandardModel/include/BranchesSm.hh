@@ -197,8 +197,8 @@ public:
     void Fill(Multiplet const& multiplet) {
         PairBranch::Fill(multiplet);
         BottomBase::Fill(multiplet);
-        LeptonPt = multiplet.LeptonPt;
-        LeptonDeltaR = multiplet.LeptonDeltaR;
+        LeptonPt = multiplet.LeptonPt() / GeV;
+        LeptonDeltaR = multiplet.LeptonDeltaR() / rad;
     }
     Observables Variables();
     Observables Spectators();

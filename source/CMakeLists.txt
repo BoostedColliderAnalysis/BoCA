@@ -51,7 +51,8 @@ create_library(Multiplets2 multiplet_sources)
 set(tagger_sources
 Tagger.cpp
 ReaderBase.cpp
-# Names.cpp
+Phase.cpp
+Files.cpp
 Observable.cpp
 Observables.cpp
 MomentumRange.cpp
