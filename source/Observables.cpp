@@ -3,6 +3,7 @@
 
 #include "Observables.hh"
 #include "Vector.hh"
+#include "Debug.hh"
 namespace boca
 {
 // namespace
@@ -31,24 +32,25 @@ void Observables::AddObservable(const Observable& observable)
 }
 std::vector< Observable > Observables::Vector() const
 {
-    return ApplyFilter();
+//     return ApplyFilter();
+  return observables_;
 }
 const Filter& Observables::Filt() const
 {
-    return filter_;
+//     return filter_;
 }
 void Observables::AddFilter(const Filter& filter)
 {
-    filter_ = filter;
-}
-std::vector< Observable > Observables::ApplyFilter() const
-{
-    std::vector<Observable> observables = observables_;
-    observables = boost::range::remove_erase_if(observables, [&](Observable const & observable) {
-        return filter_.IsSet(observable.Name());
+//     filter_ = filter;
+//     std::vector<Observable> observables = observables_;
+  observables_ = boost::range::remove_erase_if(observables_, [&](Observable const & observable) {
+        return filter.IsSet(observable.Name());
     });
-    return observables;
+//     return observables;
 }
+// std::vector< Observable > Observables::ApplyFilter() const
+// {
+// }
 Observables operator+(const Observables& observables_1, const Observables& observables_2)
 {
     return Join(observables_1.Vector(), observables_2.Vector());

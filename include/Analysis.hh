@@ -68,7 +68,7 @@ private:
                     branch_writer_mutex.lock();
                     Third<Tagger_> third(branch_writer, core, cores, TrainNumberMax());
                     branch_writer_mutex.unlock();
-                    ThirdLoop(third);
+                    ReadEvents(third);
                 }));
             }
             for (auto & thread : threads) thread.join();
@@ -76,16 +76,16 @@ private:
             int cores = 1;
             int core = 0;
             Third<Tagger_> third(branch_writer, core, cores, TrainNumberMax());
-            ThirdLoop(third);
+            ReadEvents(third);
         }
         branch_writer.Write();
     }
 
-    void ThirdLoop(Third<Tagger_>& third) {
-        while (third.BranchWriter().KeepGoing(EventNumberMax(third.Files().Phase().Stage())) && third.KeepGoing()) third.Increment(FourthLoop(third));
+    void ReadEvents(Third<Tagger_>& third) {
+        while (third.BranchWriter().KeepGoing(EventNumberMax(third.Files().Phase().Stage())) && third.KeepGoing()) third.Increment(ReadEvent(third));
     }
 
-    int FourthLoop(Third<Tagger_>& third) const {
+    int ReadEvent(Third<Tagger_>& third) const {
         if (!third.ReadEntry()) return 0;
         Event event(third.TreeReader(), third.Files().Import().Source());
         if (!PassPreCut(event, third.Files().Phase().Tag())) return 0;

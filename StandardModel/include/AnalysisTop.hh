@@ -3,8 +3,6 @@
 #include "AnalysisStandardModel.hh"
 #include "WHadronicTagger.hh"
 #include "WLeptonicTagger.hh"
-// #define INFORMATION
-#include "Debug.hh"
 
 namespace boca
 {
@@ -26,28 +24,24 @@ class TopAnalysis : public AnalysisStandardModel<Tagger>
 public:
 
     TopAnalysis() {
-        Info0;
         this->pre_cuts().PtLowerCut().Set(Id::top, this->LowerPtCut());
         this->pre_cuts().PtUpperCut().Set(Id::top, this->UpperPtCut());
         this->pre_cuts().TrackerMaxEta().Set(Id::top, DetectorGeometry::TrackerEtaMax());
     }
 
     static Decay TopDecay() {
-        Info0;
-        return Decay::leptonic;
         return Decay::hadronic;
+        return Decay::leptonic;
         return Decay::other;
     }
 
 private:
 
     std::string AnalysisName() const final {
-        Info0;
         return Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-" + Name(TopDecay()) + "new-event";
     }
 
     void SetFiles(Tag tag, Stage) final {
-        Info0;
         switch (tag) {
         case Tag::signal :
             if (TopDecay() == Decay::hadronic || TopDecay() == Decay::other || this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_had);
@@ -71,7 +65,6 @@ private:
     }
 
     int PassPreCut(Event const& event, Tag) const final {
-        Info0;
         std::vector<Particle> particles = SortedByPt(event.Partons().GenParticles());
         particles = CopyIfDrellYan(particles);
         particles = RemoveIfOutsidePtWindow(particles, this->LowerPtCut(), this->UpperPtCut());

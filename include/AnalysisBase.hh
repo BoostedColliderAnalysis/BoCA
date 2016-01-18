@@ -5,28 +5,27 @@
 
 #include "PreCuts.hh"
 #include "Phase.hh"
-#include "File.hh"
 
 namespace boca
 {
 
-  class File;
-  class Tagger;
+class File;
+class Tagger;
 
-  enum class Output
-  {
+enum class Output
+{
     fast = 1 << 0,
     normal = 1 << 1,
     significance = 1 << 2,
     efficiency = 1 << 3,
     plot = 1 << 4,
     cut = 1 << 5
-  };
+};
 
-  template<>
-  struct Flag<Output> {
+template<>
+struct Flag<Output> {
     static const bool enable = true;
-  };
+};
 
 /**
  * @brief Base for all analyses.

@@ -4,7 +4,6 @@
 #pragma once
 
 #include "multiplets/MultipletBase.hh"
-#include "Jet.hh"
 
 namespace boca
 {

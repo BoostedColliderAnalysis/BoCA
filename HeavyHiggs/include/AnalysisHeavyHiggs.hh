@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Analysis.hh"
-#include "Debug.hh"
 
 namespace boca
 {
@@ -117,7 +116,8 @@ public:
             case 1000 : return 250_GeV;
             case 2000 : return 250_GeV;
             case 3000 : return 250_GeV;
-                Default("Mass", at_rest);
+            default : std::cout << "Switch default for Mass of " << Mass() << std::endl;
+                return at_rest;
             }
         case Collider::LE :
             switch (Int(Mass())) {
@@ -129,9 +129,11 @@ public:
             case 10000 : return 2.5_TeV;
             case 15000 : return 2.5_TeV;
             case 20000 : return 2.5_TeV;
-                Default("Mass", at_rest);
+            default : std::cout << "Switch default for Mass of " << Mass() << std::endl;
+                return at_rest;
             }
-            Default("Collider", at_rest);
+        default : std::cout << "Switch default for Collider " << to_int(collider_type()) << std::endl;
+            return at_rest;
         }
     };
 
@@ -139,7 +141,8 @@ public:
         switch (collider_type()) {
         case Collider::LHC : return 30_GeV;
         case Collider::LE : return 60_GeV;
-            Default("Collider", at_rest);
+        default : std::cout << "Switch default for Collider " << to_int(collider_type()) << std::endl;
+            return at_rest;
         }
     };
 
@@ -147,7 +150,8 @@ public:
         switch (collider_type()) {
         case Collider::LHC : return 50_GeV;
         case Collider::LE : return 100_GeV;
-            Default("Collider", at_rest);
+        default : std::cout << "Switch default for Collider " << to_int(collider_type()) << std::endl;
+            return at_rest;
         }
     };
 
@@ -155,7 +159,8 @@ public:
         switch (collider_type()) {
         case Collider::LHC : return 20_GeV;
         case Collider::LE : return 40_GeV;
-            Default("Collider", at_rest);
+        default : std::cout << "Switch default for Collider " << to_int(collider_type()) << std::endl;
+            return at_rest;
         }
     };
 
@@ -169,15 +174,18 @@ public:
             case Process::Htwb : return 1;
             case Process::tttt : return 1;
             case Process::tttwb : return 1;
-                Default("Process", 1);
+            default : std::cout << "Switch default for Process " << to_int(process) << std::endl;
+                return 1;
             }
         case Collider::LE :
             switch (process) {
             case Process::ttwwbb : return 2;
             case Process::ttwbb : return 1;
-                Default("Process", 1);
+            default : std::cout << "Switch default for Process " << to_int(process) << std::endl;
+                return 1;
             }
-            Default("Collider", 1);
+        default : std::cout << "Switch default for Collider " << to_int(collider_type()) << std::endl;
+            return 1;
         }
     }
 
@@ -189,12 +197,13 @@ public:
         case Process::ttwbb :
         case Process::tttt :
         case Process::tttwb : return "";
-            Default("Process", "");
+        default : std::cout << "Switch default for Process " << to_int(process) << std::endl;
+            return "";
         }
     }
 
     virtual boca::Crosssection Crosssection(Process) const {
-        Error("No Crosssection");
+        std::cout << "No Crosssection" << std::endl;
         return 0_fb;
     };
 
@@ -220,7 +229,8 @@ public:
         switch (tag) {
         case Tag::signal : return Name(process) + Suffix(process) + "_" + Name(collider_type());
         case Tag::background : return Name(process) + Suffix(process) + "_" + Name(collider_type());
-            Default("Tag", "");
+        default : std::cout << "Switch default for Tag " << to_int(tag) << std::endl;
+            return "";
         }
     }
 

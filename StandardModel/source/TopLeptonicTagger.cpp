@@ -21,7 +21,7 @@ namespace
 Lepton FakeLepton(Jet const& jet)
 {
     Info0;
-    return DetectorGeometry::LeptonMinPt() / jet.Pt() * jet;
+    return jet * (DetectorGeometry::LeptonMinPt() / jet.Pt());
 }
 
 std::vector<Lepton> Leptons(Event const& event, std::vector<Jet> const& jets)
@@ -37,7 +37,7 @@ std::vector<Lepton> Leptons(Event const& event, std::vector<Jet> const& jets)
 }
 
 TopLeptonicTagger::TopLeptonicTagger() :
-    use_w_(true),
+    use_w_(false),
     w_leptonic_reader_(InitializeLeptonicReader())
 {
     Info0;
@@ -89,6 +89,7 @@ std::vector<Triplet> TopLeptonicTagger::Triplets(Event const& event, std::functi
     Info0;
     std::vector<Jet> jets = SortedByPt(bottom_reader_.Jets(event));
     std::vector<Lepton> leptons = Leptons(event, jets);
+    Debug(jets.size(), leptons.size());
     std::vector<Doublet> doublets;
     if (use_w_) doublets = w_leptonic_reader_.Multiplets(event);
     else for (auto const & lepton : leptons) doublets.emplace_back(Doublet(lepton));

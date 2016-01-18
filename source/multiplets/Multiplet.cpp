@@ -151,6 +151,32 @@ void Multiplet::SetPlainJet(boca::Jet const& jet) const
     jet_ = jet;
     has_jet_ = true;
 }
+void Multiplet::SetLeptonPt(const Momentum& lepton_pt)
+{
+    lepton_pt_ = lepton_pt;
+}
+void Multiplet::SetLeptonDeltaR(const Angle& lepton_delta_r)
+{
+    lepton_delta_r_ = lepton_delta_r;
+}
+Momentum Multiplet::LeptonPt() const
+{
+    return lepton_pt_;
+}
+Angle Multiplet::LeptonDeltaR() const
+{
+    return lepton_delta_r_;
+}
+const Singlet& Multiplet::singlet() const
+{
+    if (!has_singlet_) SetSinglet();
+    return singlet_;
+}
+Jet Multiplet::Jet() const
+{
+    if (!has_jet_) SetPlainJet();
+    return jet_;
+}
 
 }
 

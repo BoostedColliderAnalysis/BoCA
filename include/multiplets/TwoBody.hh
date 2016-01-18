@@ -3,7 +3,6 @@
  */
 #pragma once
 
-#include "multiplets/Singlet.hh"
 #include "multiplets/Multiplet.hh"
 #include "physics/Particles.hh"
 

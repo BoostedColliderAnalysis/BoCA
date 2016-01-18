@@ -10,11 +10,6 @@
 #include "PreCuts.hh"
 #include "Tagger.hh"
 #include "Options.hh"
-// #define INFORMATION
-// #include "Debug.hh"
-// #ifndef Info0
-// #define Info0
-// #endif
 
 namespace boca
 {

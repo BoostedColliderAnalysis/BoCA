@@ -3,7 +3,6 @@
  */
 #pragma once
 
-#include "multiplets/MultipletBase.hh"
 #include "multiplets/Singlet.hh"
 #include "Line2.hh"
 
@@ -15,31 +14,17 @@ class Multiplet : public MultipletBase
 
 public:
 
-    void SetLeptonPt(Momentum const& lepton_pt) {
-        lepton_pt_ = lepton_pt;
-    }
+    void SetLeptonPt(Momentum const& lepton_pt);
 
-    void SetLeptonDeltaR(Angle const& lepton_delta_r) {
-        lepton_delta_r_ = lepton_delta_r;
-    }
+    void SetLeptonDeltaR(Angle const& lepton_delta_r);
 
-    Momentum LeptonPt() const {
-        return lepton_pt_;
-    }
+    Momentum LeptonPt() const;
 
-    Angle LeptonDeltaR() const {
-        return lepton_delta_r_;
-    }
+    Angle LeptonDeltaR() const;
 
-    boca::Singlet const& singlet() const override {
-        if (!has_singlet_) SetSinglet();
-        return singlet_;
-    }
+    boca::Singlet const& singlet() const override;
 
-    boca::Jet Jet() const final {
-        if (!has_jet_) SetPlainJet();
-        return jet_;
-    }
+    boca::Jet Jet() const final;
 
 protected:
 

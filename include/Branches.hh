@@ -15,6 +15,8 @@
 namespace boca
 {
 
+class File;
+
 /**
  * @brief Basic tree branches
  *
@@ -37,6 +39,7 @@ class InfoBranch : public BaseBranch
 {
 public:
     InfoBranch();
+    InfoBranch(File const& file);
     boca::Crosssection Crosssection() const;
     boca::Crosssection CrosssectionError() const;
     boca::Mass Mass() const;

@@ -12,23 +12,14 @@ template<typename Tagger_>
 class Third
 {
 public:
-    Third(boca::BranchWriter<Tagger_>& branch_writer, int core_number, int core_sum, int object_sum_max)
-        : branch_writer_(branch_writer)
-        , reader_(branch_writer.Reader())
-        , tagger_(branch_writer.Tagger())
-        , tree_reader_(Files().Import().Paths(), Files().Import().TreeName()) {
+    Third(boca::BranchWriter<Tagger_>& branch_writer, int core_number, int core_sum, int object_sum_max) :
+        branch_writer_(branch_writer),
+        reader_(branch_writer.Reader()),
+        tagger_(branch_writer.Tagger()),
+        tree_reader_(Files().Import().Paths(), Files().Import().TreeName()),
+        info_branch_(Files().Import()) {
         event_number_ = FirstEntry(object_sum_max, core_number);
         core_sum_ = core_sum;
-        info_branch_ = FillInfoBranch(Files().Import());
-    }
-
-    boca::InfoBranch FillInfoBranch(boca::File const& file)  {
-        boca::InfoBranch info_branch;
-        info_branch.SetCrosssection(file.Crosssection());
-        info_branch.SetCrosssectionError(file.CrosssectionError());
-        info_branch.SetMass(file.Mass());
-        info_branch.SetNames(file.Names());
-        return info_branch;
     }
 
     long FirstEntry(long object_sum_max, int core_number)  {

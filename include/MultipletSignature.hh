@@ -4,7 +4,6 @@
 #pragma once
 
 #include "EventShapes.hh"
-#include "Identification.hh"
 
 namespace boca
 {
@@ -41,5 +40,3 @@ private:
 };
 
 }
-
-

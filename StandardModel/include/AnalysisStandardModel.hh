@@ -4,7 +4,6 @@
 #pragma once
 
 #include "Analysis.hh"
-#include "Debug.hh"
 
 namespace boca
 {
@@ -100,7 +99,8 @@ protected:
         case 3000 : return 3.5_TeV;
         case 3500 : return 4_TeV;
         case 4000 : return 4.5_TeV;
-            Default(LowerPtCut(), at_rest);
+        default : std::cout << "Switch default for LowerPtCut of " << LowerPtCut() << std::endl;
+            return at_rest;
         }
     }
     void NewFile(Tag tag, Process process) {
@@ -119,8 +119,8 @@ private:
 
     long TrainNumberMax() const override {
         return 10000;
-        return 1000;
         return 100;
+        return 1000;
         return 5000;
         return 500;
     }
@@ -146,7 +146,8 @@ private:
         case 3000 : return 1_TeV;
         case 3500 : return 1_TeV;
         case 4000 : return 1_TeV;
-            Default(LowerPtCut(), at_rest);
+        default : std::cout << "Switch default for LowerPtCut of " << LowerPtCut() << std::endl;
+        return at_rest;
         }
     }
 
@@ -154,7 +155,8 @@ private:
         switch (collider_type()) {
         case Collider::LE : return ProcessName(process) + "_" + boca::Name(MadGraphCut());
         case Collider::LHC : return ProcessName(process) + "_14TeV-" + boca::Name(MadGraphCut());
-            Default(ProcessName(process), "");
+        default : std::cout << "Switch default for process " << ProcessName(process) << std::endl;
+        return "";
         }
     }
 

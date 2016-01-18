@@ -23,9 +23,9 @@ public:
     friend Observables operator+(Observables const& observables_1, Observables const& observables_2);
     friend Observables operator+(Observables& observables, Observable const& observable);
 private:
-    std::vector<Observable> ApplyFilter() const;
+//     std::vector<Observable> ApplyFilter() const;
     std::vector<Observable> observables_;
-    Filter filter_;
+//     Filter filter_;
 };
 
 Observables operator+(Observable const& observable_1, Observable const& observable_2);

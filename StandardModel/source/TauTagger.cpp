@@ -2,8 +2,7 @@
  * Copyright (C) 2015 Jan Hajer
  */
 #include "TauTagger.hh"
-
-#include "multiplets/Singlet.hh"
+  
 #include "Sort.hh"
 #include "Vector.hh"
 #include "Event.hh"

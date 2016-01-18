@@ -7,6 +7,7 @@
 #include "TStyle.h"
 #include "TClass.h"
 #include "Pair.hh"
+#include "File.hh"
 #include "plotting/Font.hh"
 // #include "Debug.hh"
 
@@ -29,8 +30,17 @@ InfoBranch::InfoBranch()
 {
     crosssection = InitialValue();
     crosssection_error = InitialValue();
-    event_number = int(InitialValue());
     mass = InitialValue();
+    event_number = 0;
+}
+
+InfoBranch::InfoBranch(File const& file)
+{
+  SetCrosssection(file.Crosssection());
+  SetCrosssectionError(file.CrosssectionError());
+  SetMass(file.Mass());
+  SetNames(file.Names());
+  event_number = 0;
 }
 
 boca::Crosssection InfoBranch::Crosssection() const

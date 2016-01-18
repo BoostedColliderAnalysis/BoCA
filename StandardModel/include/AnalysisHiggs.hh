@@ -59,7 +59,6 @@ private:
     }
 
     int PassPreCut(Event const& , Tag) const final {
-      Info0;
           return 1;
 //        std::vector<Jet> jets = SortedByPt(event.Hadrons().Jets());
 //         if (jets.size() < 2) return 0;
