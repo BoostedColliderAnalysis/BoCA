@@ -1,13 +1,12 @@
 #pragma once
 
 #include "Analysis.hh"
-#include "Vector.hh"
 
-namespace analysis
+namespace boca
 {
 
 /**
- * @brief Namespace for the heavy higgs analyses
+ * @brief Heavy higgs analyses
  *
  */
 
@@ -17,20 +16,34 @@ namespace heavyhiggs
 
 enum class Process
 {
-    H0, Hbb, Htt, Htb, tt, tt2, tttt, tttb, ttwbb, ttwcc, Htwb, ttwwbb
+    H0,
+    Hbb,
+    Htt,
+    Htb,
+    tt,
+    tt2,
+    tttt,
+    tttwb,
+    tttb,
+    ttwbb,
+    ttwcc,
+    Htwb,
+    ttwwbb
 
 };
 
 enum class Collider
 {
-    LHC, FHC, LE
+    LHC,
+    FHC,
+    LE
 };
 
 std::string Name(Collider collider);
 
 std::string Name(Process process);
 
-std::string NiceName(Process process);
+std::string LatexName(Process process);
 
 /**
  *
@@ -45,172 +58,167 @@ class AnalysisHeavyHiggs : public Analysis<Tagger>
 
 public:
 
-    int Mass() const {
-        //     return 300;
-        //     return 400;
-        //         return 500;
-        //     return 600;
-        //     return 700;
-        //             return 800;
-        //     return 900;
-        //         return 1000;
-//                 return 2000;
-        //            return 3000;
-        //         return 4000;
-//                         return 5000;
-        return 7000;
-        //         return 8000;
-        //                 return 10000;
-        //                 return 12000;
-        //                 return 15000;
-        //                return 20000;
+    boca::Mass Mass() const {
+        return 750_GeV;
+        return 800_GeV;
+        return 1.5_TeV;
+        return 2_TeV;
+        return 500_GeV;
+        return 1_TeV;
+        return 300_GeV;
+        return 400_GeV;
+        return 600_GeV;
+        return 700_GeV;
+        return 900_GeV;
+        return 3_TeV;
+        return 4_TeV;
+        return 5_TeV;
+        return 7_TeV;
+        return 8_TeV;
+        return 10_TeV;
+        return 12_TeV;
+        return 15_TeV;
+        return 20_TeV;
     };
 
-    int PreCut() const {
-        switch (collider_type()) {
-        case Collider::LHC :
-            switch (Mass()) {
-            case 500 :
-                return 0;
-            case 1000 :
-                return 250;
-            case 2000 :
-                return 250;
-            case 3000 :
-                return 250;
-            default :
-                return 0;
-            }
-        case Collider::LE :
-            switch (Mass()) {
-            case 500 :
-                return 0;
-            case 1000 :
-                return 300;
-            case 2000 :
-                return 300;
-            case 4000 :
-                return 1500;
-            case 6000 :
-                return 2500;
-            case 10000 :
-                return 2500;
-            case 15000 :
-                return 2500;
-            case 20000 :
-                return 2500;
-            default :
-                return 0;
-            }
-        default :
-            return 0;
-        }
-    };
-
-    long EventNumberMax() const override {
-        //            return 10000000;
-        //                   return 1000000;
-        //         return 100000;
+    long TrainNumberMax() const override {
+        return 100;
         return 10000;
-        //                 return 1000;
-        //                         return 500;
-        //                         return 10;
+        return 100000;
+        return 1000;
+        return 500;
+        return 10000000;
+        return 1000000;
+        return 10;
+    };
+
+    long ReadNumberMax() const override {
+        return 100000;
+        return 10000;
+        return 100;
+        return 1000;
+        return 500;
+        return 10000000;
+        return 1000000;
+        return 10;
     };
 
     Collider collider_type() const {
-//         return Collider::LHC;
-        //       return FHC;
+        return Collider::LHC;
         return Collider::LE;
     };
 
-    float MissingEt() const {
+    Momentum PreCut() const {
         switch (collider_type()) {
         case Collider::LHC :
-            return 30;
+            switch (Int(Mass())) {
+            case 500 : return at_rest;
+            case 1000 : return 250_GeV;
+            case 2000 : return 250_GeV;
+            case 3000 : return 250_GeV;
+            default : std::cout << "Switch default for Mass of " << Mass() << std::endl;
+                return at_rest;
+            }
         case Collider::LE :
-            return 60;
-        default :
-            return 0;
+            switch (Int(Mass())) {
+            case 500 : return at_rest;
+            case 1000 : return 300_GeV;
+            case 2000 : return 300_GeV;
+            case 4000 : return 1.5_TeV;
+            case 6000 : return 2.5_TeV;
+            case 10000 : return 2.5_TeV;
+            case 15000 : return 2.5_TeV;
+            case 20000 : return 2.5_TeV;
+            default : std::cout << "Switch default for Mass of " << Mass() << std::endl;
+                return at_rest;
+            }
+        default : std::cout << "Switch default for Collider " << to_int(collider_type()) << std::endl;
+            return at_rest;
         }
     };
 
-    float LeptonPt() const {
+    Momentum MissingEt() const {
         switch (collider_type()) {
-        case Collider::LHC :
-            return 50;
-        case Collider::LE :
-            return 100;
-        default :
-            return 0;
+        case Collider::LHC : return 30_GeV;
+        case Collider::LE : return 60_GeV;
+        default : std::cout << "Switch default for Collider " << to_int(collider_type()) << std::endl;
+            return at_rest;
         }
     };
 
-    float BottomPt() const {
+    Momentum LeptonPt() const {
         switch (collider_type()) {
-        case Collider::LHC :
-            return 20;
-        case Collider::LE :
-            return 40;
-        default :
-            return 0;
+        case Collider::LHC : return 50_GeV;
+        case Collider::LE : return 100_GeV;
+        default : std::cout << "Switch default for Collider " << to_int(collider_type()) << std::endl;
+            return at_rest;
         }
     };
 
-
+    Momentum BottomPt() const {
+        switch (collider_type()) {
+        case Collider::LHC : return 20_GeV;
+        case Collider::LE : return 40_GeV;
+        default : std::cout << "Switch default for Collider " << to_int(collider_type()) << std::endl;
+            return at_rest;
+        }
+    };
 
     int FileNumber(Process process) const {
         switch (collider_type()) {
         case Collider::LHC :
             switch (process) {
-            case  Process::ttwwbb :
-                return 1;
-            case  Process::ttwbb :
-                return 1;
-                //                 return 1; // < this must be removed !!
-            default :
+            case Process::ttwwbb : return 1;
+            case Process::ttwbb : return 1;
+            case Process::Htt : return 1;
+            case Process::Htwb : return 1;
+            case Process::tttt : return 1;
+            case Process::tttwb : return 1;
+            default : std::cout << "Switch default for Process " << to_int(process) << std::endl;
                 return 1;
             }
         case Collider::LE :
             switch (process) {
-            case  Process::ttwwbb:
-                return 2;
-            case  Process::ttwbb:
-                return 1;
-            default :
+            case Process::ttwwbb : return 2;
+            case Process::ttwbb : return 1;
+            default : std::cout << "Switch default for Process " << to_int(process) << std::endl;
                 return 1;
             }
-        default :
+        default : std::cout << "Switch default for Collider " << to_int(collider_type()) << std::endl;
             return 1;
         }
     }
 
     std::string Suffix(Process process) const {
         switch (process) {
-        case Process::Htt:
-            return "_" + std::to_string(Mass()) + "GeV";
-        case Process::Htwb:
-            return "_" + std::to_string(Mass()) + "GeV";
-        case Process::ttwwbb:
-            return "";
-        case Process::ttwbb:
-            return "";
-        default:
+        case Process::Htt :
+        case Process::Htwb : return "_" + boca::Name(Mass());
+        case Process::ttwwbb :
+        case Process::ttwbb :
+        case Process::tttt :
+        case Process::tttwb : return "";
+        default : std::cout << "Switch default for Process " << to_int(process) << std::endl;
             return "";
         }
     }
 
+    virtual boca::Crosssection Crosssection(Process) const {
+        std::cout << "No Crosssection" << std::endl;
+        return 0_fb;
+    };
+
     virtual void NewFile(Tag tag, Process process) {
-        analysis::AnalysisBase::NewFile(tag, FileNames(process, tag), NiceName(process));
+        boca::AnalysisBase::NewFile(tag, FileNames(process, tag), this->Crosssection(process), LatexName(process));
     }
 
-    virtual void NewFile(Tag tag, float crosssection, Process process) {
-        analysis::AnalysisBase::NewFile(tag, FileNames(process, tag), crosssection, NiceName(process), Mass());
+    virtual void NewFile(Tag tag, boca::Crosssection crosssection, Process process) {
+        boca::AnalysisBase::NewFile(tag, FileNames(process, tag), crosssection, LatexName(process), Mass());
     }
 
-    Strings FileNames(Process process, Tag tag) const {
+    std::vector<std::string> FileNames(Process process, Tag tag) const {
         if (FileNumber(process) == 1) return {FileName(process, tag)};
-        Strings names;
-        for (auto const& file_number : Range(FileNumber(process))) {
+        std::vector<std::string> names;
+        for (auto const & file_number : Range(FileNumber(process))) {
             if (file_number == 0) names.emplace_back(FileName(process, tag));
             else names.emplace_back(FileName(process, tag) + "_" + std::to_string(file_number));
         }
@@ -219,10 +227,10 @@ public:
 
     virtual std::string FileName(Process process, Tag tag) const {
         switch (tag) {
-        case Tag::signal:
-            return Name(process) + Suffix(process) + "_" + Name(collider_type());
-        case Tag::background:
-            return Name(process) + Suffix(process) + "_" + Name(collider_type());
+        case Tag::signal : return Name(process) + Suffix(process) + "_" + Name(collider_type());
+        case Tag::background : return Name(process) + Suffix(process) + "_" + Name(collider_type());
+        default : std::cout << "Switch default for Tag " << to_int(tag) << std::endl;
+            return "";
         }
     }
 

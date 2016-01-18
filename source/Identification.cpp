@@ -1,23 +1,26 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "Identification.hh"
+#include "Branches.hh"
+#include "Debug.hh"
 
-namespace analysis {
+namespace boca
+{
 
 std::string Name(Tag tag)
 {
     switch (tag) {
-    case  Tag::signal:
-        return "Signal";
-    case  Tag::background:
-        return "Background";
+    case Tag::signal : return "Signal";
+    case Tag::background : return "Background";
+    Default("tag","");
     }
 }
 
 Identification::Identification()
 {
-    bdt_ = initial_value();
-    tag_ = analysis::Tag::background;
-    flag_ = false;
-    degenerate_ = false;
+    bdt_ = InitialValue();
+    tag_ = boca::Tag::background;
 }
 
 void Identification::SetBdt(float bdt)
@@ -42,31 +45,23 @@ void Identification::SetTag(enum Tag tag)
 
 void Identification::SetTag(enum Tag tag_1, enum Tag tag_2)
 {
-    if (tag_1 == analysis::Tag::signal || tag_2 == analysis::Tag::signal)
-        tag_ = analysis::Tag::signal;
-    else
-        tag_ = analysis::Tag::background;
+    if (tag_1 == boca::Tag::signal || tag_2 == boca::Tag::signal) tag_ = boca::Tag::signal;
+    else tag_ = boca::Tag::background;
 }
 
-analysis::Tag Identification::Tag() const
+boca::Tag Identification::Tag() const
 {
     return tag_;
 }
 
-
-void Identification::SetFlag(bool flag)
+float Identification::InitialValue()
 {
-    flag_ = flag;
+    return BaseBranch::InitialValue();
 }
 
-void Identification::SetFlag(bool flag_1, bool flag_2)
+bool Identification::operator<(Identification const& multiplet) const
 {
-    flag_ = flag_1 && flag_2;
-}
-
-bool Identification::Flag() const
-{
-    return flag_;
+    return Bdt() > multiplet.Bdt();
 }
 
 }

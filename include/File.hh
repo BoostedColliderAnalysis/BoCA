@@ -1,13 +1,13 @@
+/**
+ * Copyright (C) 2015-2016 Jan Hajer
+ */
 #pragma once
 
-#include  "exroot/ExRootAnalysis.hh"
-#include "ClonesArrays.hh"
 #include "Event.hh"
+#include "Names.hh"
 
-namespace analysis
+namespace boca
 {
-
-typedef std::vector<std::string> Strings;
 
 /**
  * @brief Input file infos
@@ -20,65 +20,27 @@ class File
 
 public:
 
-    File(Strings const& processes, std::string const& run_folder, std::string const& file_suffix, std::string const& nice_name = "", float crosssection = 1, float mass = 0);
+    File(std::vector<std::string> const& processes, std::string const& run_folder, std::string const& file_suffix, std::string const& nice_name = "", boca::Crosssection crosssection = pb, boca::Mass mass = massless);
 
-    /**
-     * @brief destructor
-     *
-     */
-    ~File();
-
-    exroot::TreeReader TreeReader();
-
-    ClonesArrays clones_arrays();
-
-    Event event();
-
-    /**
-     * @brief Name of Process
-     *
-     */
     std::string Title() const;
 
-    float crosssection() const {
-        return crosssection_;
-    }
+    boca::Crosssection Crosssection() const;
 
-//     void set_crosssection(float crosssection)
-//     {
-//         crosssection_ = crosssection;
-//     }
-//
-//     void set_crosssection_error(float crosssection_error)
-//     {
-//         crosssection_error_ = crosssection_error;
-//     }
-//
-//     void set_mass(float mass)
-//     {
-//         mass_ = mass;
-//     }
+    boca::Crosssection CrosssectionError() const;
 
-    std::string file_suffix() const;
+    boca::Mass Mass() const;
 
-    float crosssection_error() const {
-        return crosssection_error_;
-    }
+    boca::Source Source() const;
 
-    float mass() const {
-        return mass_;
-    }
-    Source source() const {
-        return source_;
-    }
+    std::string TreeName() const;
 
-    std::string tree_name() const;
+    std::string LatexName() const;
 
-    std::string nice_name() const {
-        return nice_name_;
-    }
+    std::string Name() const;
 
-    Strings Paths() const;
+    boca::Names Names()const;
+
+    std::vector<std::string> Paths() const;
 
 protected:
 
@@ -88,14 +50,11 @@ protected:
 
 private:
 
+    std::string FileSuffix() const;
+
     std::string base_path_ = "$HOME/Development/MadGraph/";
 
-    std::string BasePath(){
-      return @MadGraphPath@;
-      return "$HOME/Development/MadGraph/";
-    }
-
-    Strings process_folders_;
+    std::vector<std::string> process_folders_;
 
     std::string run_folder_;
 
@@ -103,19 +62,18 @@ private:
 
     std::string tree_name_;
 
-    float crosssection_ = 1;
+    boca::Crosssection crosssection_ = pb;
 
-    float crosssection_error_ = 0;
+    boca::Crosssection crosssection_error_ = 0;
 
-    float mass_ = 0;
+    boca::Mass mass_ = massless;
 
     std::string file_suffix_ = ".root";
 
-    std::string nice_name_;
+    boca::Names names_;
 
-    Source source_ = Source::delphes;
+    boca::Source source_ = boca::Source::delphes;
 
-    TChain* chain_ = nullptr;
 };
 
 }

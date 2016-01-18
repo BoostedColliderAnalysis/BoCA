@@ -2,7 +2,7 @@
 
 #include "Branches.hh"
 
-namespace analysis
+namespace boca
 {
 
 namespace higgscpv
@@ -13,82 +13,33 @@ namespace higgscpv
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class SignatureTTaggerBranch : public analysis::MultiBranch
+class SignatureTTaggerBranch : public boca::TChannelBranch
 {
 public:
-    SignatureTTaggerBranch();
-    float Bdt3;
-    float Mass12;
-    float Mass23;
-    float Mass13;
-    float Pt12;
-    float Pt23;
-    float Pt13;
-    float DeltaPt23;
-    float DeltaPt13;
-    float Ht12;
-    float Ht23;
-    float Ht13;
-    float Rho23;
-    float Rho13;
-    float DeltaRap23;
-    float DeltaRap13;
-    float DeltaPhi23;
-    float DeltaPhi13;
-    float DeltaR23;
-    float DeltaR13;
-    float DeltaM23;
-    float DeltaM13;
-    float DeltaHt23;
-    float DeltaHt13;
-    float Pull23;
-    float Pull13;
-    float DeltaPull23;
-    float DeltaPull13;
-    float Dipolarity23;
-    float Dipolarity13;
+  SignatureTTaggerBranch();
     float Sphericity;
     float Aplanarity;
     template<typename Multiplet>
     void Fill(Multiplet const& signature) {
-        analysis::MultiBranch::Fill(signature.Multiplet());
-        Bdt3 = signature.Multiplet().Multiplet3().Bdt();
-        Mass12 = signature.Multiplet().Jet12().m();
-        Mass23 = signature.Multiplet().Jet23().m();
-        Mass13 = signature.Multiplet().Jet13().m();
-        Pt12 = signature.Multiplet().Jet12().pt();
-        Pt23 = signature.Multiplet().Jet23().pt();
-        Pt13 = signature.Multiplet().Jet13().pt();
-        DeltaPt23 = signature.Multiplet().DeltaPt23();
-        DeltaPt13 = signature.Multiplet().DeltaPt13();
-        Ht12 = signature.Multiplet().Ht12();
-        Ht23 = signature.Multiplet().Ht23();
-        Ht13 = signature.Multiplet().Ht13();
-        Rho23 = signature.Multiplet().Rho23();
-        Rho13 = signature.Multiplet().Rho13();
-        DeltaRap23 = signature.Multiplet().DeltaRap23();
-        DeltaRap13 = signature.Multiplet().DeltaRap13();
-        DeltaPhi23 = signature.Multiplet().DeltaPhi23();
-        DeltaPhi13 = signature.Multiplet().DeltaPhi13();
-        DeltaR23 = signature.Multiplet().DeltaR23();
-        DeltaR13 = signature.Multiplet().DeltaR13();
-        DeltaM23 = signature.Multiplet().DeltaM23();
-        DeltaM13 = signature.Multiplet().DeltaM13();
-        DeltaHt23 = signature.Multiplet().DeltaHt23();
-        DeltaHt13 = signature.Multiplet().DeltaHt13();
-        Pull23 = signature.Multiplet().PullSum23();
-        Pull13 = signature.Multiplet().PullSum13();
-        DeltaPull23 = signature.Multiplet().PullDifference23();
-        DeltaPull13 = signature.Multiplet().PullDifference13();
-        Dipolarity23 = signature.Multiplet().Dipolarity23();
-        Dipolarity13 = signature.Multiplet().Dipolarity13();
-        Aplanarity = signature.EventShape().Aplanarity();
-        Sphericity = signature.EventShape().Sphericity();
+        boca::TChannelBranch::Fill(signature.Multiplet());
+        Aplanarity = signature.EventShapes().Aplanarity();
+        Sphericity = signature.EventShapes().Sphericity();
     }
-    Observables Variables() const;
-
+    Observables Variables();
 private:
     ClassDef(SignatureTTaggerBranch, 1)
+};
+class SignatureLeptonTTaggerBranch : public SignatureTTaggerBranch
+{
+public:
+    template<typename Multiplet>
+    void Fill(Multiplet const& signature) {
+        SignatureTTaggerBranch::Fill(signature);
+    }
+    Observables Variables();
+
+private:
+    ClassDef(SignatureLeptonTTaggerBranch, 1)
 };
 
 
@@ -97,7 +48,7 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class SignatureLeptonTaggerBranch : public analysis::MultiBranch
+class SignatureLeptonTaggerBranch : public boca::MultiBranch
 {
 public:
     SignatureLeptonTaggerBranch();
@@ -134,40 +85,40 @@ public:
     float Aplanarity;
     template<typename Multiplet>
     void Fill(Multiplet const& signature) {
-        analysis::MultiBranch::Fill(signature.Multiplet());
+        boca::MultiBranch::Fill(signature.Multiplet());
         Mass12 = signature.Multiplet().Jet12().m();
         Mass23 = signature.Multiplet().Jet23().m();
         Mass13 = signature.Multiplet().Jet13().m();
         Pt12 = signature.Multiplet().Jet12().pt();
         Pt23 = signature.Multiplet().Jet23().pt();
         Pt13 = signature.Multiplet().Jet13().pt();
-        DeltaPt23 = signature.Multiplet().DeltaPt23();
-        DeltaPt13 = signature.Multiplet().DeltaPt13();
-        Ht12 = signature.Multiplet().Ht12();
-        Ht23 = signature.Multiplet().Ht23();
-        Ht13 = signature.Multiplet().Ht13();
+        DeltaPt23 = signature.Multiplet().DeltaPt23() / GeV;
+        DeltaPt13 = signature.Multiplet().DeltaPt13() / GeV;
+        Ht12 = signature.Multiplet().Ht12() / GeV;
+        Ht23 = signature.Multiplet().Ht23() / GeV;
+        Ht13 = signature.Multiplet().Ht13() / GeV;
         Rho23 = signature.Multiplet().Rho23();
         Rho13 = signature.Multiplet().Rho13();
-        DeltaRap23 = signature.Multiplet().DeltaRap23();
-        DeltaRap13 = signature.Multiplet().DeltaRap13();
-        DeltaPhi23 = signature.Multiplet().DeltaPhi23();
-        DeltaPhi13 = signature.Multiplet().DeltaPhi13();
-        DeltaR23 = signature.Multiplet().DeltaR23();
-        DeltaR13 = signature.Multiplet().DeltaR13();
-        DeltaM23 = signature.Multiplet().DeltaM23();
-        DeltaM13 = signature.Multiplet().DeltaM13();
-        DeltaHt23 = signature.Multiplet().DeltaHt23();
-        DeltaHt13 = signature.Multiplet().DeltaHt13();
-        Pull23 = signature.Multiplet().PullSum23();
-        Pull13 = signature.Multiplet().PullSum13();
-        DeltaPull23 = signature.Multiplet().PullDifference23();
-        DeltaPull13 = signature.Multiplet().PullDifference13();
+        DeltaRap23 = signature.Multiplet().DeltaRap23() / rad;
+        DeltaRap13 = signature.Multiplet().DeltaRap13() / rad;
+        DeltaPhi23 = signature.Multiplet().DeltaPhi23() / rad;
+        DeltaPhi13 = signature.Multiplet().DeltaPhi13() / rad;
+        DeltaR23 = signature.Multiplet().DeltaR23() / rad;
+        DeltaR13 = signature.Multiplet().DeltaR13() / rad;
+        DeltaM23 = signature.Multiplet().DeltaM23() / GeV;
+        DeltaM13 = signature.Multiplet().DeltaM13() / GeV;
+        DeltaHt23 = signature.Multiplet().DeltaHt23() / GeV;
+        DeltaHt13 = signature.Multiplet().DeltaHt13() / GeV;
+        Pull23 = signature.Multiplet().Pull23() / rad;
+        Pull13 = signature.Multiplet().Pull13() / rad;
+        DeltaPull23 = signature.Multiplet().Pull32() / rad;
+        DeltaPull13 = signature.Multiplet().Pull31() / rad;
         Dipolarity23 = signature.Multiplet().Dipolarity23();
         Dipolarity13 = signature.Multiplet().Dipolarity13();
-        Aplanarity = signature.EventShape().Aplanarity();
-        Sphericity = signature.EventShape().Sphericity();
+        Aplanarity = signature.EventShapes().Aplanarity();
+        Sphericity = signature.EventShapes().Sphericity();
     }
-    Observables Variables() const;
+    Observables Variables();
 
 private:
     ClassDef(SignatureLeptonTaggerBranch, 1)
@@ -178,7 +129,7 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class SignatureLeptonicBranch : public analysis::MultiBranch
+class SignatureLeptonicBranch : public boca::MultiBranch
 {
 public:
     SignatureLeptonicBranch();
@@ -192,15 +143,15 @@ public:
     float Aplanarity;
     template<typename Multiplet>
     void Fill(Multiplet const& signature) {
-        analysis::MultiBranch::Fill(signature.Multiplet());
+        boca::MultiBranch::Fill(signature.Multiplet());
         BottomBdt = signature.Multiplet().BottomBdt();
         PairBottomBdt = signature.Multiplet().Doublet().BottomBdt();
-        HardTopPt = signature.Multiplet().Sextet().HardTopPt();
-        SoftTopPt = signature.Multiplet().Sextet().SoftTopPt();
-        HiggsMass = signature.Multiplet().Doublet().Jet().m();
-        PairRap = signature.Multiplet().Sextet().DeltaRap();
-        Aplanarity = signature.EventShape().Aplanarity();
-        Sphericity = signature.EventShape().Sphericity();
+        HardTopPt = signature.Multiplet().Sextet().HardTopPt() / GeV;
+        SoftTopPt = signature.Multiplet().Sextet().SoftTopPt() / GeV;
+        HiggsMass = signature.Multiplet().Doublet().Jet().Mass() / GeV;
+        PairRap = signature.Multiplet().Sextet().DeltaRap() / rad;
+        Aplanarity = signature.EventShapes().Aplanarity();
+        Sphericity = signature.EventShapes().Sphericity();
 //         BottomBdt = multiplet.BottomBdt();
 //         PairBottomBdt = multiplet.PairBottomBdt();
 //         HardTopPt = multiplet.Sextet().HardTopPt();
@@ -208,7 +159,7 @@ public:
 //         HiggsMass = multiplet.Doublet().Jet().m();
 //         PairRap = multiplet.Sextet().DeltaRap();
     }
-    Observables Variables() const;
+    Observables Variables();
 
 private:
     ClassDef(SignatureLeptonicBranch, 1)
@@ -219,7 +170,7 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class OctetBranch : public analysis::MultiBranch
+class OctetBranch : public boca::MultiBranch
 {
 public:
     OctetBranch();
@@ -233,15 +184,15 @@ public:
     float SoftTopPt;
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-        analysis::MultiBranch::Fill(multiplet);
+        boca::MultiBranch::Fill(multiplet);
         BottomBdt = multiplet.BottomBdt();
         PairBottomBdt = multiplet.PairBottomBdt();
         PairBdt = multiplet.Doublet().Bdt();
         HiggsBdt = multiplet.Sextet().Bdt();
-        HardTopPt = multiplet.Sextet().HardTopPt();
-        SoftTopPt = multiplet.Sextet().SoftTopPt();
-        HiggsMass = multiplet.Sextet().Jet().m();
-        PairRap = multiplet.Doublet().DeltaRap();
+        HardTopPt = multiplet.Sextet().HardTopPt() / GeV;
+        SoftTopPt = multiplet.Sextet().SoftTopPt() / GeV;
+        HiggsMass = multiplet.Sextet().Jet().Mass() / GeV;
+        PairRap = multiplet.Doublet().DeltaRap() / rad;
     }
 private:
     ClassDef(OctetBranch, 1)
@@ -252,7 +203,7 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class EventBranch : public analysis::EventBranch
+class EventBranch : public boca::EventBranch
 {
 
 public:
@@ -260,10 +211,10 @@ public:
     EventBranch();
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-        analysis::EventBranch::Fill(multiplet);
+        boca::EventBranch::Fill(multiplet);
     }
-    Observables Variables() const;
-    Observables Spectators() const;
+    Observables Variables();
+    Observables Spectators();
 
 private:
 
@@ -276,7 +227,7 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class TopLeptonicPairBranch : public analysis::MultiBranch
+class TopLeptonicPairBranch : public boca::MultiBranch
 {
 public:
     TopLeptonicPairBranch();
@@ -293,7 +244,7 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class TripletPairBranch : public analysis::PairBranch
+class TripletPairBranch : public boca::PairBranch
 {
 public:
     TripletPairBranch();
@@ -317,7 +268,7 @@ public:
         BottomRap = multiplet.Triplet1().Jet().rap();
         BottomPhi = multiplet.Triplet1().Jet().phi();
         BottomMass = multiplet.Triplet1().Jet().m();
-        //         BottomBdt = multiplet.singlet().user_info<JetInfo>().Bdt();
+        //         BottomBdt = multiplet.singlet().Info().Bdt();
         TopPt = multiplet.Triplet2().Jet().pt();
         //         TopRap = std::abs(multiplet.triplet().Jet().rap());
         TopRap = multiplet.Triplet2().Jet().rap();
@@ -325,7 +276,7 @@ public:
         TopMass = multiplet.Triplet2().Jet().m();
         TopBdt = multiplet.Triplet2().Bdt();
     }
-    Observables Variables() const;
+    Observables Variables();
 
 private:
     ClassDef(TripletPairBranch, 1)
@@ -336,7 +287,7 @@ private:
  * @brief Higgs tagger root tree structure
  *
  */
-class QuartetPairBranch : public analysis::PairBranch
+class QuartetPairBranch : public boca::PairBranch
 {
 
     QuartetPairBranch();
@@ -363,7 +314,7 @@ class QuartetPairBranch : public analysis::PairBranch
         BottomRap = multiplet.Doublet1().Jet().rap();
         BottomPhi = multiplet.Doublet1().Jet().phi();
         BottomMass = multiplet.Doublet1().Jet().m();
-        //         BottomBdt = multiplet.singlet().user_info<JetInfo>().Bdt();
+        //         BottomBdt = multiplet.singlet().Info().Bdt();
         TopPt = multiplet.Doublet2().Jet().pt();
         //         TopRap = std::abs(multiplet.triplet().Jet().rap());
         TopRap = multiplet.Doublet2().Jet().rap();

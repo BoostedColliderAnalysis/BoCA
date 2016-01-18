@@ -1,13 +1,19 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
+#include "ThePEG/Vectors/Lorentz5Vector.h"
+#include "ThePEG/EventRecord/Particle.h"
 #include "EventShape.hh"
-#include "fastjet/PseudoJet.hh"
+#include "Jet.hh"
+// #include "fastjet/PseudoJet.hh"
 
-namespace analysis {
+namespace boca {
 
 class Peg
 {
 
 public:
-  Peg(fastjet::PseudoJet const& jet) {
+  Peg(Jet const& jet) {
     SetMomentum(jet);
     SetPointer();
   }
@@ -20,7 +26,7 @@ public:
     return ThePEG::Lorentz5Momentum(Vector(x, y, z, t) * ThePEG::GeV);
   }
 
-  void SetMomentum(fastjet::PseudoJet const& jet) {
+  void SetMomentum(Jet const& jet) {
     momentum = Momentum(jet.px(), jet.py(), jet.pz(), jet.e());
   }
 
@@ -34,16 +40,16 @@ public:
   ThePEG::ParticleData particle_data;
 };
 
-void EventShape::SetJets(const std::vector< fastjet::PseudoJet >& jets)
+void EventShape::SetJets(const std::vector< Jet >& jets)
 {
     std::vector<ThePEG::Lorentz5Momentum> momenta;
     std::vector<ThePEG::ParticleData> particle_datas(jets.size());
     std::vector<ThePEG::PPtr> pointers;
     std::vector<ThePEG::Ptr<ThePEG::Particle>::transient_pointer> ptrs;
     for (auto const& jet : jets) {
-        int i = &jet - &jets[0];
+        int index = &jet - &jets.front();
         momenta.emplace_back(ThePEG::Lorentz5Momentum(ThePEG::Lorentz5Vector<double>(jet.px(), jet.py(), jet.pz(), jet.e())* ThePEG::GeV));
-        pointers.emplace_back(particle_datas.at(i).produceParticle(momenta.at(i)));
+        pointers.emplace_back(particle_datas.at(index).produceParticle(momenta.at(index)));
     }
     for (auto const& pointer : pointers) ptrs.emplace_back(pointer);
 
@@ -56,7 +62,8 @@ void EventShape::SetJets(const std::vector< fastjet::PseudoJet >& jets)
 
 
 //       EventShapes event_shapes;
-    EventShapes().reset(ptrs);
+//     EventShapes().reset(ptrs);
+    EventShapes().Reset(jets);
     //         Error(EventShapes().aplanarity());
     //         Error(EventShapes().sphericity());
 
@@ -64,11 +71,12 @@ void EventShape::SetJets(const std::vector< fastjet::PseudoJet >& jets)
 
 float EventShape::Sphericity() const
 {
-    return const_cast<analysis::EventShapes &>(EventShapes()).sphericity();
+    return const_cast<boca::EventShapes &>(EventShapes()).Sphericity();
 }
+
 float EventShape::Aplanarity() const
 {
-  return const_cast<analysis::EventShapes &>(EventShapes()).aplanarity();
+  return const_cast<boca::EventShapes &>(EventShapes()).Aplanarity();
 }
 
 }

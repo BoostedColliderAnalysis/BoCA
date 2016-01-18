@@ -1,8 +1,11 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
-#include "Singlet.hh"
+#include "multiplets/Singlet.hh"
 
-namespace analysis {
+namespace boca {
 
 class Event;
 
@@ -10,7 +13,7 @@ class GlobalObservables {
 
 public:
 
-    void SetEvent(Event const& event, analysis::Jets const& jets);
+    void SetEvent(Event const& event, std::vector<Jet> const& jets);
 
     void SetEvent(Event const& event);
 
@@ -26,26 +29,26 @@ public:
 
     float BottomBdt(int number_1, int number_2) const;
 
-    float ScalarHt() const;
+    Momentum ScalarHt() const;
 
-    float LeptonHt() const;
+    Momentum LeptonHt() const;
 
-    float JetHt() const;
+    Momentum JetHt() const;
 
-    float MissingEt() const;
+    Energy MissingEt() const;
 
-    analysis::Singlet Singlet() const;
+    boca::Singlet Singlet() const;
 
-    analysis::Jets Jets() const;
+    std::vector<Jet> Jets() const;
 
-    void SetJets(const analysis::Jets jets);
+    void SetJets(const std::vector<Jet> jets);
 
 private:
 
-    analysis::Jets leptons_;
-    float scalar_ht_;
-    float missing_et_;
-    analysis::Jets jets_;
+    std::vector<Lepton> leptons_;
+    Momentum scalar_ht_;
+    Energy missing_et_;
+    std::vector<Jet> jets_;
 
 };
 

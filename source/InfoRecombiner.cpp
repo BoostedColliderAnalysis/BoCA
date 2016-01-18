@@ -1,9 +1,12 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "InfoRecombiner.hh"
 #include "JetInfo.hh"
 
-namespace analysis {
+namespace boca {
 
-InfoRecombiner::InfoRecombiner(fastjet::RecombinationScheme recombination_scheme): fastjet::JetDefinition::DefaultRecombiner(recombination_scheme) {}
+  InfoRecombiner::InfoRecombiner(fastjet::RecombinationScheme recombination_scheme) : fastjet::JetDefinition::DefaultRecombiner(recombination_scheme) {}
 
 std::string InfoRecombiner::description() const
 {

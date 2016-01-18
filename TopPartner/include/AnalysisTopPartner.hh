@@ -1,152 +1,189 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "Analysis.hh"
-#include "Vector.hh"
+// #define INFORMATION
 #include "Debug.hh"
 
-namespace analysis
+namespace boca
 {
 
-namespace toppartner
+/**
+ * @brief Naturalness measurment
+ *
+ */
+namespace naturalness
 {
 
 enum class Process
 {
-    Tth,
+    TthLep,
+    TthHad,
     TT,
     ttBjj,
     tthBjj,
+    ttBBjj,
+    ttBB,
     TThh
 };
+
+std::string Name(Process process);
+
+std::string LatexName(Process process);
+
+bool MassDependent(Process process);
 
 /**
  *
  * @brief Top partner analysis
  *
- * \author Jan Hajer
+ * @author Jan Hajer
  *
  */
 template<typename Tagger>
-class AnalysisNaturalness : public analysis::Analysis<Tagger>
+class AnalysisNaturalness : public boca::Analysis<Tagger>
 {
-
 public:
 
-protected:
-
-    int Mass() const {
-      return 2000;
-      return 10000;
+    AnalysisNaturalness() {
+        Info0;
+// DetectorGeometry::set_detector_type(DetectorType::CMS);
     }
 
-    long EventNumberMax() const override {
+protected:
+
+    boca::Mass Mass() const {
+        Info0;
+        return 2_TeV;
+        return 1_TeV;
+        return 4_TeV;
+        return 6_TeV;
+        return 10_TeV;
+        return 8_TeV;
+        return 1.5_TeV;
+        return 500_GeV;
+        return 3_TeV;
+    }
+
+    long TrainNumberMax() const override {
+        Info0;
         return 1000;
-        return 5000;
-        return 3000;
-        return 500;
-        return 100;
+        return 10000;
         return 10;
-    }
-
-    std::string FilePath() const final {
-        return "~/Projects/TopPartner/Analysis/";
+        return 100;
+        return 5000;
     }
 
 protected:
 
-    int PreCut() const {
-        return 0;
-        return 200;
+    Momentum PreCut() const {
+        Info0;
+        return 0_GeV;
+        return 200_GeV;
     }
 
-    int JetPreCut() const {
-        return 100;
-        return 0;
+    Momentum JetPreCut() const {
+        Info0;
+        return 0_GeV;
+        return 100_GeV;
     }
 
-    float Crosssection(Process process) const {
-        float crosssection;
-        switch (process) {
-        case Process::Tth : crosssection = 0.004964;
-            break;
-        case Process::TT :
-          switch (Mass()) {
-            case 2000 : crosssection = 0.264;
-                break;
-            case 10000 : crosssection = 2.485e-05;
-                break;
-            default : crosssection = 0;
-            Error("wrong mass", Mass());
+    boca::Crosssection Crosssection(Process process) const {
+        Info0;
+        switch (DetectorGeometry::detector_type()) {
+        case DetectorType::CMS : {
+            switch (process) {
+            case Process::TT :
+                switch (Int(Mass())) {
+                case 500 : return 0.5156 * 2_pb;
+                case 1000 : return 0.01041 * 2_pb;
+                case 1500 : return 0.0005753 * 2_pb;
+                case 2000 : return 4.787e-05 * 2_pb;
+                case 3000 : return 5.019e-07 * 2_pb;
+                case 4000 : return 7.022e-09 * 2_pb;
+                    Default(Mass(), pb);
+                }
+            case Process::ttBjj : return 0.03024 * 2_pb;
+            case Process::ttBB : return 0.0004068 * 2_pb;
+                Default(Name(process), pb);
             }
-            break;
-        case Process::ttBjj :
-            switch (PreCut()) {
-            case 0 : crosssection = 1.669;
-                break;
-            case 200 : crosssection = 0.1754;
-                break;
-            }
-            break;
-        case Process::tthBjj :
-            switch (PreCut()) {
-            case 0 : crosssection = 0.02535;
-                break;
-            case 200 : crosssection = 0.02535;
-                break;
-            }
-            break;
-        case Process::TThh : crosssection = 3.057e-05;
-            break;
         }
-        return crosssection * 2 * 1000;
+        case DetectorType::Spp : {
+            switch (process) {
+            case Process::TthLep :
+                switch (Int(Mass())) {
+                case 1000 : return 0.004304_pb;
+                case 2000 : return 0.0002919_pb;
+                case 4000 : return 1.154e-05_pb;
+                case 6000 : return 4.7344e-6_pb;
+                case 8000 : return 8.466e-7_pb;
+                case 10000 : return 1.97e-7_pb;
+                    Default(Mass(), pb);
+                }
+            case Process::TthHad :
+                switch (Int(Mass())) {
+                case 1000 : return 0.004304_pb;
+                case 2000 : return 0.0002919_pb;
+                case 4000 : return 1.154e-05_pb;
+                case 6000 : return 4.7344e-6_pb;
+                case 8000 : return 8.466e-7_pb;
+                case 10000 : return 1.97e-7_pb;
+                    Default(Mass(), pb);
+                }
+            case Process::TT :
+                switch (Int(Mass())) {
+                case 1000 : return 2.499 * 2_pb;
+                case 2000 : return 0.09375 * 2_pb;
+                case 4000 : return 0.002363 * 2_pb;
+                case 6000 : return 0.0003115 * 2_pb;
+                case 8000 : return 4.655e-5 * 2_pb;
+                case 10000 : return 9.101e-06 * 2_pb;
+                    Default(Mass(), pb);
+                }
+            case Process::ttBjj :
+                switch (Int(PreCut())) {
+                case 0 : return 1.669 * 2_pb;
+                case 200 : return 0.1754 * 2_pb;
+                    Default(Mass(), pb);
+                }
+            case Process::tthBjj :
+                switch (Int(PreCut())) {
+                case 0 : return 0.02535 * 2_pb;
+                case 200 : return 0.02535 * 2_pb;
+                    Default(Mass(), pb);
+                }
+            case Process::TThh :
+                switch (Int(Mass())) {
+                case 2000 : return 1.143e-7 * 2_pb;
+                case 4000 : return 9.95e-10 * 2_pb;
+                case 6000 : return 3.579e-11 * 2_pb;
+                case 8000 : return 2.305e-12 * 2_pb;
+                case 10000 : return 2.029e-13 * 2_pb;
+                    Default(Mass(), pb);
+                }
+            case Process::ttBB : return 0.03206 * 2_pb;
+                Default(Name(process), pb);
+            }
+        }
+        Default(Name(DetectorGeometry::detector_type()), pb);
+        }
     }
 
-    std::string Name(Process process) const {
-        switch (process) {
-        case Process::TT : {
-            std::string name = "pp-TT-tthB-bbbbjjjjlv";
-//             std::string name = "pp-TT-ttBB";
-            switch (Mass()) {
-            case 2000 : return name + "-2000GeV";
-            case 10000 : return name + "-10000GeV";
-            default : return name;
-            Error("wrong mass", Mass());
-            }
-        }
-        case Process::ttBjj : {
-            std::string name = "PP-ttBJJ";
-            switch (PreCut()) {
-            case 0 : return name + "-0GeV";
-            case 200 : return name + "-200GeV";
-            }
-        }
-        case Process::tthBjj : {
-            std::string name = "PP-tthB";
-            switch (PreCut()) {
-            case 0 : return name + "-0GeV";
-            case 200 : return name + "-200GeV";
-            }
-        }
-        case Process::Tth : return "PP-Tth-ttBh";
-        case Process::TThh : return "PP-TThh";
-        default: Error("no case");
-        }
-    }
-
-    std::string NiceName(Process process) const {
-        switch (process) {
-        case Process::TT : return "#tilde t_{h}#tilde t_{l}";
-        case Process::ttBjj : return "t_{l}t_{h}B^{0}jj";
-        case Process::tthBjj : return "t_{l}t_{h}hB^{0}jj";
-        case Process::Tth : return "#tilde t_{l}t_{h}h";
-        case Process::TThh : return "#tilde t_{l}#tilde t_{h}hh";
-        default: Error("no case");
-        }
-//         (" + std::to_string(PreCut()) + " GeV)";
+    std::string FileName(Process process) const {
+        Info0;
+        std::string protons;
+        if(MassDependent(process)) protons = "pp";
+        else protons = "PP";
+        std::string name = protons + "-" + Name(process) + "-" + boca::Name(DetectorGeometry::detector_type());
+        if (MassDependent(process)) name += "-" + boca::Name(Mass());
+        return name;
     }
 
     void NewFile(Tag tag, Process process) {
-        AnalysisBase::NewFile(tag, this->Name(process), this->Crosssection(process), this->NiceName(process));
+        Info0;
+        AnalysisBase::NewFile(tag, this->FileName(process), this->Crosssection(process), LatexName(process), Mass());
     }
 
 };
@@ -154,3 +191,4 @@ protected:
 }
 
 }
+

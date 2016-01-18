@@ -1,29 +1,29 @@
-#pragma once
+#include "multiplets/Quintet.hh"
+#include "multiplets/Doublet.hh"
 
-#include "Quintet.hh"
+namespace boca
+{
 
-namespace analysis {
+  namespace naturalness
+  {
 
-namespace toppartner {
-
-class Septet : public TwoBody<analysis::Quintet, analysis::Doublet> {
-
-public:
-
-    using TwoBody<analysis::Quintet, analysis::Doublet>::TwoBody;
-
-    analysis::Quintet Quintet() const
+    class Septet : public TwoBody<boca::Quintet, boca::Doublet>
     {
+
+    public:
+
+      using TwoBody<boca::Quintet, boca::Doublet>::TwoBody;
+
+      boca::Quintet const& Quintet() const {
         return Multiplet1();
-    }
+      }
 
-    analysis::Doublet Doublet() const
-    {
+      boca::Doublet const& Doublet() const {
         return Multiplet2();
-    }
+      }
 
-};
+    };
 
-}
+  }
 
 }

@@ -1,82 +1,96 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "PreCuts.hh"
+#include "DetectorGeometry.hh"
 
-namespace analysis
+namespace boca
 {
 
-void PreCuts::SetPtLowerCut(Id id, float value)
-{
-    pt_lower_cut_.emplace(id, value);
-}
-float PreCuts::PtLowerCut(Id id) const
-{
-    try {
-        return pt_lower_cut_.at(id);
-    } catch (const std::out_of_range&) {
-        return 0;
-    }
-}
-void PreCuts::SetPtUpperCut(Id id, float value)
-{
-    pt_upper_cut_.emplace(id, value);
-}
-float PreCuts::PtUpperCut(const analysis::Id id) const
-{
-    try {
-        return pt_upper_cut_.at(id);
-    } catch (const std::out_of_range&) {
-        return 0;
-    }
-}
-void PreCuts::SetMassLowerCut(Id id, float value)
-{
-    mass_lower_cut_.emplace(id, value);
-}
-float PreCuts::MassLowerCut(Id id) const
-{
-    try {
-        return mass_lower_cut_.at(id);
-    } catch (const std::out_of_range&) {
-        return 0;
-    }
-}
-void PreCuts::SetMassUpperCut(Id id, float value)
-{
-    mass_upper_cut_.emplace(id, value);
-}
-float PreCuts::MassUpperCut(Id id) const
-{
-    try {
-        return mass_upper_cut_.at(id);
-    } catch (const std::out_of_range&) {
-        return 0;
-    }
-}
-void PreCuts::SetTrackerMaxEta(Id id, float value)
-{
-    tracker_eta_upper_cut_.emplace(id, value);
-}
-float PreCuts::TrackerMaxEta(Id id) const
-{
-    try {
-        return tracker_eta_upper_cut_.at(id);
-    } catch (const std::out_of_range&) {
-        return 0;
-    }
-}
-bool PreCuts::DoSubJets() const
-{
-    return do_sub_jets_;
-}
-void PreCuts::SetSubJets(bool do_sub_jets)
-{
-    do_sub_jets_ = do_sub_jets;
-}
 bool PreCuts::SemiLeptonic() const
 {
     return semi_leptonic_;
 }
+
 void PreCuts::SetSemiLeptonic(bool semi_leptonic)
 {
     semi_leptonic_ = semi_leptonic;
 }
+bool PreCuts::PtTooSmall(Id id, const Jet& jet) const
+{
+    return pt_lower_cut_.IsSet(id) && pt_lower_cut_.Get(id) > jet.Pt();
+}
+bool PreCuts::PtTooLarge(Id id, const Jet& jet) const
+{
+    return pt_upper_cut_.IsSet(id) && pt_upper_cut_.Get(id) < jet.Pt();
+}
+bool PreCuts::MassTooSmall(Id id, const Jet& jet) const
+{
+    return mass_lower_cut_.IsSet(id) && mass_lower_cut_.Get(id) > jet.Mass();
+}
+bool PreCuts::MassTooLarge(Id id, const Jet& jet) const
+{
+    return mass_upper_cut_.IsSet(id) && mass_upper_cut_.Get(id) < jet.Mass();
+}
+bool PreCuts::OutsideTracker(Id id, const Jet& jet) const
+{
+    return tracker_eta_upper_cut_.IsSet(id) && tracker_eta_upper_cut_.Get(id) < boost::units::abs(jet.Rap());
+}
+bool PreCuts::DoSubJets(Id id) const
+{
+    return (consider_building_block_.IsSet(id)) ? consider_building_block_.Get(id) : true;
+}
+PreCut< Momentum >& PreCuts::PtLowerCut()
+{
+    return pt_lower_cut_;
+}
+PreCut< Momentum >& PreCuts::PtUpperCut()
+{
+    return pt_upper_cut_;
+}
+PreCut< Mass >& PreCuts::MassLowerCut()
+{
+    return mass_lower_cut_;
+}
+PreCut< Mass >& PreCuts::MassUpperCut()
+{
+    return mass_upper_cut_;
+}
+PreCut< Angle >& PreCuts::TrackerMaxEta()
+{
+    return tracker_eta_upper_cut_;
+}
+PreCut< bool >& PreCuts::ConsiderBuildingBlock()
+{
+    return consider_building_block_;
+}
+const PreCut< Momentum >& PreCuts::PtLowerCut() const
+{
+    return pt_lower_cut_;
+}
+const PreCut< Momentum >& PreCuts::PtUpperCut() const
+{
+    return pt_upper_cut_;
+}
+const PreCut< Mass >& PreCuts::MassLowerCut() const
+{
+    return mass_lower_cut_;
+}
+const PreCut< Mass >& PreCuts::MassUpperCut() const
+{
+    return mass_upper_cut_;
+}
+const PreCut< Angle >& PreCuts::TrackerMaxEta() const
+{
+    return tracker_eta_upper_cut_;
+}
+const PreCut< bool >& PreCuts::ConsiderBuildingBlock() const
+{
+    return consider_building_block_;
+}
+Angle PreCuts::JetConeMax(boca::Id id) const
+{
+    return (PtLowerCut().IsSet(id)) ? 2_rad * double(MassOf(id) / PtLowerCut().Get(id)) : DetectorGeometry::JetConeSize();
+}
+
 }

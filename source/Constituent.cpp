@@ -1,121 +1,121 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "Constituent.hh"
+#include "Debug.hh"
 
-namespace analysis {
-
-Constituent::Constituent() {};
-
-Constituent::Constituent(TLorentzVector const& momentum, const analysis::LorentzVector& position, const analysis::Family& family)
+namespace boca
 {
-    momentum_ = momentum;
-    position_ = position;
-    family_ = family;
+
+Constituent::Constituent()
+{
+    Info0;
 }
 
-Constituent::Constituent(TLorentzVector const& momentum, const analysis::LorentzVector& position)
+Constituent::Constituent(TLorentzVector const& momentum, LorentzVector<Length> const& position)
 {
+    Info0;
     momentum_ = momentum;
     position_ = position;
 }
 
-Constituent::Constituent(TLorentzVector const& momentum, const analysis::LorentzVector& position, const analysis::SubDetector sub_detector, float charge)
+Constituent::Constituent(TLorentzVector const& momentum, LorentzVector<Length> const& position, boca::DetectorPart detector_part, int charge)
 {
+    Info0;
     momentum_ = momentum;
     position_ = position;
-    sub_detector_ = sub_detector;
+    detector_part_ = detector_part;
     charge_ = charge;
-}
-
-Constituent::Constituent(TLorentzVector const& momentum, Family const& family)
-{
-    momentum_ = momentum;
-    family_ = family;
-}
-
-Constituent::Constituent(LorentzVector const& momentum, Family const& family)
-{
-    momentum_ = momentum;
-    family_ = family;
 }
 
 Constituent::Constituent(TLorentzVector const& momentum)
 {
+    Info0;
     momentum_ = momentum;
 }
 
-Constituent::Constituent(TLorentzVector const& momentum, SubDetector sub_detector, float charge)
+Constituent::Constituent(TLorentzVector const& momentum, boca::DetectorPart detector_part, int charge)
 {
+    Info0;
     momentum_ = momentum;
-    sub_detector_ = sub_detector;
+    detector_part_ = detector_part;
     charge_ = charge;
 }
 
-Constituent::Constituent(TLorentzVector const& momentum, SubDetector sub_detector)
+Constituent::Constituent(TLorentzVector const& momentum, boca::DetectorPart detector_part)
 {
+    Info0;
     momentum_ = momentum;
-    sub_detector_ = sub_detector;
-}
-
-void Constituent::SetPosition(TLorentzVector const& position)
-{
-    position_ = position;
-}
-
-void Constituent::SetPosition(float x, float y, float z, float t)
-{
-    position_.SetXYZT(x, y, z, t);
+    detector_part_ = detector_part;
 }
 
 void Constituent::SetMomentum(TLorentzVector const& momentum)
 {
+    Info0;
     momentum_ = momentum;
 }
 
-void Constituent::SetFamily(Family const& family)
+LorentzVector<Length> const& Constituent::Position() const
 {
-    family_ = family;
-}
-
-LorentzVector Constituent::Position() const
-{
+    Info0;
     return position_;
 }
 
-LorentzVector Constituent::Momentum() const
+LorentzVector<Momentum> const& Constituent::Momentum() const
 {
+    Info0;
     return momentum_;
 }
 
-Family Constituent::family() const
+LorentzVector<Length> & Constituent::Position()
 {
-    return family_;
+  Info0;
+  return position_;
+}
+
+LorentzVector<Momentum> & Constituent::Momentum()
+{
+  Info0;
+  return momentum_;
 }
 
 Constituent Constituent::operator+(Constituent const& constituent)
 {
+    Info0;
     position_ += constituent.position_;
     momentum_ += constituent.momentum_;
     charge_ += constituent.charge_;
     return *this;
 }
 
-void Constituent::SetDetector(SubDetector detector)
+void Constituent::SetDetectorPart(boca::DetectorPart detector_part)
 {
-    sub_detector_ = detector;
+    Info0;
+    detector_part_ = detector_part;
 }
 
-SubDetector Constituent::sub_detector() const
+DetectorPart Constituent::DetectorPart() const
 {
-    return sub_detector_;
+    Info0;
+    return detector_part_;
 }
 
-void Constituent::set_charge(int charge)
+void Constituent::SetCharge(int charge)
 {
+    Info0;
     charge_ = charge;
 }
 
-int Constituent::charge() const
+int Constituent::Charge() const
 {
+    Info0;
     return charge_;
+}
+
+void Constituent::Smearing()
+{
+    Info0;
+    position_.Smearing(45_um);
 }
 
 }

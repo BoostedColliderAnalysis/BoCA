@@ -2,29 +2,26 @@
 
 #include "../../include/Branches.hh"
 
-namespace analysis {
+namespace boca
+{
 
-namespace toppartner {
+namespace naturalness
+{
 
 /**
  *
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class TopPartnerBranch : public MultiBranch {
-
+class TopPartnerBranch : public MultiBranch
+{
 public:
-
     template<typename Multiplet>
-    void Fill(Multiplet const& multiplet)
-    {
+    void Fill(Multiplet const& multiplet) {
         MultiBranch::Fill(multiplet);
     }
-
 private:
-
     ClassDef(TopPartnerBranch, 1)
-
 };
 
 /**
@@ -32,53 +29,72 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class HiggsPairBranch : public MultiBranch {
-
+class HiggsPairBranch : public MultiBranch
+{
 public:
-
     template<typename Multiplet>
-    void Fill(Multiplet const& multiplet)
-    {
+    void Fill(Multiplet const& multiplet) {
         MultiBranch::Fill(multiplet);
     }
-
 private:
-
     ClassDef(HiggsPairBranch, 1)
-
 };
 
-class SignatureBranch : public MultiBranch {
-
+class SignatureBranch : public MultiBranch
+{
 public:
-
     template<typename Multiplet>
-    void Fill(Multiplet const& multiplet)
-    {
+    void Fill(Multiplet const& multiplet) {
         MultiBranch::Fill(multiplet);
     }
-
 private:
-
     ClassDef(SignatureBranch, 1)
-
 };
 
-class EventBranch : public analysis::EventBranch {
+class SignatureSingleBranch : public TChannelBranch
+{
+public:
+  SignatureSingleBranch();
+  float VetoBdt;
+  template<typename Multiplet>
+  void Fill(Multiplet const& multiplet) {
+    TChannelBranch::Fill(multiplet);
+    VetoBdt = multiplet.VetoBdt();
+  }
+  Observables Variables();
+private:
+  ClassDef(SignatureSingleBranch, 1)
+};
 
+class SignatureSingleHadronicBranch : public TChannelBranch
+{
+public:
+    SignatureSingleHadronicBranch();
+    float VetoBdt;
+    float TopPt;
+    float HiggsPt;
+    template<typename Multiplet>
+    void Fill(Multiplet const& multiplet) {
+        TChannelBranch::Fill(multiplet);
+        VetoBdt = multiplet.VetoBdt();
+        TopPt = multiplet.Triplet().Jet().pt();
+        HiggsPt = multiplet.Doublet().Jet().pt();
+    }
+    Observables Variables();
+private:
+  ClassDef(SignatureSingleHadronicBranch, 1)
+};
+
+class EventBranch : public boca::EventBranch
+{
 public:
     template<typename Multiplet>
-    void Fill(Multiplet const& multiplet)
-    {
-        analysis::EventBranch::Fill(multiplet);
+    void Fill(Multiplet const& multiplet) {
+        boca::EventBranch::Fill(multiplet);
     }
-    Observables Variables() const;
-    Observables Spectators() const;
-
+    Observables Variables();
 private:
-
     ClassDef(EventBranch, 1)
-
 };
 
 }

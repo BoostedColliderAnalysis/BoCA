@@ -1,43 +1,40 @@
 #include "SignatureEffectiveTagger.hh"
+#include "Exception.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
-namespace toppartner {
-
-SignatureEffectiveTagger::SignatureEffectiveTagger()
-{
-  Info();
-    DefineVariables();
-}
+namespace naturalness {
 
 int SignatureEffectiveTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
-    Info();
-    std::vector<Quattuordecuplet> quattuordecuplets = pairs(top_partner_pair_reader_.Multiplets(event), higgs_pair_reader_.Multiplets(event), [tag](Decuplet55 const& decuplet, Quartet22 const& quartet) {
-        Quattuordecuplet quattuordecuplet(decuplet, quartet);
-        if (quattuordecuplet.Overlap()) throw "overlap";
+    Info0;
+    return SaveEntries(Quattuordecuplets(event, [&](Quattuordecuplet554 &quattuordecuplet){
         quattuordecuplet.SetTag(tag);
         return quattuordecuplet;
-    });
-    return SaveEntries(quattuordecuplets);
+    }));
 }
 
-std::vector<Quattuordecuplet> SignatureEffectiveTagger::Multiplets(Event const& event, analysis::PreCuts const&, TMVA::Reader const& reader) const
+std::vector<Quattuordecuplet554> SignatureEffectiveTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
-    Info();
-    std::vector<Decuplet55> decuplets = top_partner_pair_reader_.Multiplets(event);
-    std::vector<Quartet22> quartets = higgs_pair_reader_.Multiplets(event);
-    std::vector<Quattuordecuplet> quattuordecuplets;
-    for (auto const& decuplet : decuplets) {
-        for (auto const& quartet : quartets) {
-            Quattuordecuplet quattuordecuplet(decuplet, quartet);
-            if (quattuordecuplet.Overlap()) continue;
-            quattuordecuplet.SetBdt(Bdt(quattuordecuplet, reader));
-            quattuordecuplets.emplace_back(quattuordecuplet);
-        }
-    }
-    return ReduceResult(quattuordecuplets);
+    Info0;
+    return ReduceResult(Quattuordecuplets(event, [&](Quattuordecuplet554 & quattuordecuplet) {
+      quattuordecuplet.SetBdt(Bdt(quattuordecuplet, reader));
+      return quattuordecuplet;
+    }));
+}
+
+std::vector<Quattuordecuplet554> SignatureEffectiveTagger::Quattuordecuplets(boca::Event const& event, std::function< Quattuordecuplet554(Quattuordecuplet554&)> const& function) const
+{
+  return triples(top_partner_hadronic_reader_.Multiplets(event), top_partner_leptonic_reader_.Multiplets(event), higgs_pair_reader_.Multiplets(event), [&](Quintet const & quintet_1, Quintet const & quintet_2, Quartet22 const & quartet) {
+    Quattuordecuplet554 quattuordecuplet(quintet_1, quintet_2, quartet);
+    if (quattuordecuplet.Overlap()) throw Overlap();
+    return function(quattuordecuplet);
+  });
+}
+std::string SignatureEffectiveTagger::Name() const
+{
+    return "Signature";
 }
 
 }

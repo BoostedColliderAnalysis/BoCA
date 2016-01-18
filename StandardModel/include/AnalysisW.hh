@@ -1,16 +1,13 @@
 #pragma once
 
 #include "AnalysisStandardModel.hh"
+#include "WHadronicTagger.hh"
 
-namespace analysis {
+namespace boca
+{
 
-namespace standardmodel {
-
-enum class Decay {
-    leptonic, hadronic
-};
-
-std::string WName(const Decay decay);
+namespace standardmodel
+{
 
 /**
  *
@@ -20,55 +17,56 @@ std::string WName(const Decay decay);
  *
  */
 template <typename Tagger>
-class AnalysisW : public AnalysisStandardModel<Tagger> {
+class AnalysisW : public AnalysisStandardModel<Tagger>
+{
 
 public:
 
-    AnalysisW()
-    {
-        this->set_tagger_analysis_name(ProjectName());
-        this->pre_cuts().SetPtLowerCut(Id::W, this->LowerPtCut());
-        this->pre_cuts().SetPtUpperCut(Id::W, this->UpperPtCut());
-        this->pre_cuts().SetMassUpperCut(Id::W, 200);
-        //     pre_cuts().SetTrackerMaxEta(Id::top, DetectorGeometry::TrackerEtaMax);
+    AnalysisW() {
+        this->pre_cuts().PtLowerCut().Set(Id::W, this->LowerPtCut());
+        this->pre_cuts().PtUpperCut().Set(Id::W, this->UpperPtCut());
+//         this->pre_cuts().MassUpperCut().Set(Id::W, 200_GeV);
+        //     pre_cuts().TrackerMaxEta().Set(Id::top, DetectorGeometry::TrackerEtaMax);
+        this->pre_cuts().ConsiderBuildingBlock().Set(Id::W, false);
     }
 
-    Decay WDecay() const
-    {
+    static Decay WDecay() {
         return Decay::hadronic;
-        //         return Decay::leptonic;
+        return Decay::leptonic;
     }
 
 private:
 
-    std::string ProjectName() const final
-    {
-        return  "WTagger-" + Name(this->collider_type()) + "-" + std::to_string(this->LowerPtCut()) + "GeV-" + Name(Process::tt) + "-jan";
+    std::string AnalysisName() const final {
+        return Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-bottom";
     }
 
 
-    void SetFiles(Tag tag) final {
-        switch (tag)
-        {
+    void SetFiles(Tag tag, Stage stage) final {
+        switch (tag) {
         case Tag::signal :
-            this->NewFile(tag , Process::ww);
+            if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::ww);
+            if (this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::bb);
+            if (this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_had);
+            if (this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_lep);
+            if (this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::hh);
             break;
         case Tag::background :
-            this->NewFile(tag , Process::tt_lep);
-            this->NewFile(tag , Process::tt_had);
-            this->NewFile(tag , Process::hh);
-            this->NewFile(tag , Process::zz);
-            this->NewFile(tag , Process::bb);
-            this->NewFile(tag , Process::cc);
-            this->NewFile(tag , Process::qq);
-            this->NewFile(tag , Process::gg);
+            this->NewFile(tag, Process::zz);
+            this->NewFile(tag, Process::qq);
+            this->NewFile(tag, Process::gg);
+            this->NewFile(tag, Process::cc);
+            if (this->template TaggerIs<WHadronicTagger>() && stage == Stage::reader) this->NewFile(tag, Process::tt_had);
+            if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::hh_bb);
+            if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::bb);
+            if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_lep);
             break;
         }
     }
-    int PassPreCut(Event const& event, Tag) const final
-    {
-      Jets particles = fastjet::sorted_by_pt(event.Partons().GenParticles());
-      if ((particles.at(0).pt() > this->LowerQuarkCut() && particles.at(0).pt() < this->UpperQuarkCut()) && (particles.at(1).pt() > this->LowerQuarkCut() &&  particles.at(1).pt() < this->UpperQuarkCut())) return 1;
+    int PassPreCut(Event const& event, Tag) const final {
+        return 1;
+       std::vector<Particle> particles = SortedByPt(event.Partons().GenParticles());
+        if ((particles.at(0).Pt() > this->LowerQuarkCut() && particles.at(0).Pt() < this->UpperQuarkCut()) && (particles.at(1).Pt() > this->LowerQuarkCut() &&  particles.at(1).Pt() < this->UpperQuarkCut())) return 1;
         return 0;
     }
 

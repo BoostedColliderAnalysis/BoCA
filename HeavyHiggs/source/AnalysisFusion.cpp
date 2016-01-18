@@ -1,6 +1,6 @@
 #include "AnalysisFusion.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace heavyhiggs {
 

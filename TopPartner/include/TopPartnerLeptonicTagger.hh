@@ -1,55 +1,42 @@
 #pragma once
 
 #include "TopLeptonicTagger.hh"
-#include "HiggsTagger.hh"
-#include "Quintet.hh"
+#include "BosonTagger.hh"
+#include "multiplets/Quintet.hh"
 #include "BranchesTopPartner.hh"
 
-namespace analysis
+namespace boca
 {
 
-namespace toppartner
+namespace naturalness
 {
 
 /**
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class TopPartnerLeptonicTagger : public BranchTagger<TopPartnerBranch>
+class TopPartnerLeptonicTagger : public TaggerTemplate<Quintet, TopPartnerBranch>
 {
 
 public:
 
-    TopPartnerLeptonicTagger();
+    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
 
-    int Train(Event const& event, PreCuts const& pre_cuts,
-              Tag tag) const final;
+    std::vector<Quintet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
 
-    std::vector<Quintet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
+    std::string Name() const final;
 
-    int GetBdt(Event const& event, PreCuts const& pre_cuts,
-               TMVA::Reader const& reader) const final {
-        return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
-    }
+    std::string LatexName() const final;
 
-    auto Multiplets(Event const& event, TMVA::Reader const& reader) {
-        PreCuts pre_cuts;
-        return Multiplets(event, pre_cuts, reader);
-    }
-
-    std::string Name() const final {
-        return "TopPartnerSemi";
-    }
-
-    std::string NiceName() const final {
-      return "#tilde t_{l}";
-    }
+    std::vector<Particle> Particles(Event const& event) const;
 
 private:
 
-    Reader<TopLeptonicTagger> top_leptonic_reader_;
+    std::vector<Quintet> Quintets(Event const& event, std::function<Quintet(Quintet&)> const& function) const;
 
-    Reader<HiggsTagger> higgs_hadronic_reader_;
+    Reader<standardmodel::TopLeptonicTagger> top_reader_;
+
+    Reader<standardmodel::BosonTagger> boson_reader_;
 };
 
 }

@@ -1,11 +1,19 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
-#include "Family.hh"
+#include "physics/LorentzVector.hh"
 
-namespace analysis {
+namespace boca {
 
-enum class SubDetector {
-    none, gen_particle, track, photon, tower, muon
+enum class DetectorPart {
+    none,
+    gen_particle,
+    track,
+    photon,
+    tower,
+    muon
 };
 
 class Constituent {
@@ -14,55 +22,45 @@ public:
 
     Constituent();
 
-    Constituent(TLorentzVector const& momentum, LorentzVector const& position, Family const& family);
+    Constituent(TLorentzVector const& momentum, LorentzVector<Length> const& position);
 
-    Constituent(TLorentzVector const& momentum, LorentzVector const& position);
-
-    Constituent(TLorentzVector const& momentum, LorentzVector const& position, SubDetector sub_detector, float charge = 0);
-
-    Constituent(TLorentzVector const& momentum, Family const& family);
-
-    Constituent(LorentzVector const& momentum, Family const& family);
+    Constituent(TLorentzVector const& momentum, LorentzVector<Length> const& position, boca::DetectorPart detector_part, int charge = 0);
 
     Constituent(TLorentzVector const& momentum);
 
-    Constituent(TLorentzVector const& momentum, SubDetector sub_detector, float charge);
+    Constituent(TLorentzVector const& momentum, boca::DetectorPart detector_part, int charge);
 
-    Constituent(TLorentzVector const& momentum, SubDetector sub_detector);
-
-    void SetPosition(TLorentzVector const& position);
-
-    void SetPosition(float x, float y, float z, float t);
+    Constituent(TLorentzVector const& momentum, boca::DetectorPart detector_part);
 
     void SetMomentum(TLorentzVector const& momentum);
 
-    void SetFamily(Family const& family);
+    void SetCharge(int charge);
 
-    LorentzVector Position() const;
+    void SetDetectorPart(boca::DetectorPart detector_part);
 
-    LorentzVector Momentum() const;
+    LorentzVector<Length> const& Position() const;
 
-    Family family() const;
+    LorentzVector<boca::Momentum> const& Momentum() const;
+
+    LorentzVector<Length> & Position();
+
+    LorentzVector<boca::Momentum> & Momentum();
+
+    boca::DetectorPart DetectorPart() const;
+
+    int Charge() const;
+
+    void Smearing();
 
     Constituent operator+(Constituent const& constituent);
 
-    void SetDetector(SubDetector sub_detector);
-
-    SubDetector sub_detector() const;
-
-    int charge() const;
-
-    void set_charge(int charge);
-
 private:
 
-    SubDetector sub_detector_ = SubDetector::none;
+    boca::DetectorPart detector_part_ = boca::DetectorPart::none;
 
-    LorentzVector position_;
+    LorentzVector<Length> position_;
 
-    LorentzVector momentum_;
-
-    analysis::Family family_;
+    LorentzVector<boca::Momentum> momentum_;
 
     int charge_ = 0;
 };

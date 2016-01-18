@@ -1,24 +1,30 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
+#include "Particle.hh"
 #include "FourVector.hh"
 
-namespace analysis {
+namespace boca
+{
 
 /**
  * @brief particles for HAnalysis
  *
  */
-class Partons : public FourVector {
+class Partons : public FourVector
+{
 
 public:
 
-    virtual ~Partons() {};
+    Partons(boca::TreeReader const& tree_reader);
 
-    void NewEvent(const analysis::ClonesArrays& clones_arrays);
+    virtual ~Partons();
 
-    virtual Jets Particles() const = 0;
+    virtual std::vector<Particle> Particles() const = 0;
 
-    virtual Jets GenParticles() const = 0;
+    virtual std::vector<Particle> GenParticles() const = 0;
 
 };
 

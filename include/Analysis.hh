@@ -1,154 +1,117 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
-#include "AnalysisBase.hh"
-#include "Reader.hh"
-#include "Trees.hh"
-#include "File.hh"
+#include <thread>
 
-namespace analysis {
+#include "Third.hh"
+#include "AnalysisBase.hh"
+
+namespace boca
+{
 
 /**
- * @brief Analysis provides main analysis loops and logic.
+ * @brief provides main analysis loops and logic.
  * @details This class has to be subclassed for each analysis.
  * The subclasses have to be instantiated with a Tagger as template argument.
  * Subclasses should be templated classes.
  * @author Jan Hajer
- * @copyright Copyright (C) 2015 Jan Hajer
  * @date 2015
  * @license GPL 3
  *
  */
-template<typename Tagger>
-class Analysis : public AnalysisBase {
+template<typename Tagger_>
+class Analysis : public AnalysisBase
+{
 
 public:
 
-  /**
-   * @brief Main analysis loop which has to be called by main.cpp
-   *
-   */
-  void AnalysisLoop(Stage stage) final {
-        Initialize();
-        Reader<Tagger> reader(stage);
-        for (auto const& tag : std::vector<Tag> {Tag::signal, Tag::background})
-        {
-            Files files(tagger().ExportFileName(stage, tag), stage, tag);
-            ClearFiles();
-            SetFiles(tag);
-            for (auto& file : this->files(tag)) {
-                files.set_file(file);
-                AnalyseFile(files, reader);
-            }
-            files.export_file().Close();
-        }
+    /**
+     * @brief Main analysis loop which has to be called by main.cpp
+     *
+     */
+    void AnalysisLoop(Stage stage) final {
+        for (auto const & tag : std::vector<Tag> {Tag::signal, Tag::background}) FirstLoop({stage, tag});
     }
 
 protected:
 
-  /**
-   * @brief getter for Tagger
-   *
-   * @return const analysis::Tagger&
-   */
-  Tagger const&tagger() const final { return tagger_; }
-
-    /**
-     * @brief setter for AnalysisName of Tagger
-     * @details must be set in each analysis in order for Tagger to know about the folder structure
-     *
-     */
-    void set_tagger_analysis_name(std::string const& name){
-      tagger().SetAnalysisName(name);
+    template<typename Class>
+    bool TaggerIs() const {
+        return typeid(tagger_).hash_code() == typeid(Class).hash_code();
     }
-
-    /**
-     * @brief getter for Tagger
-     *
-     * @return analysis::Tagger&
-     */
-    Tagger &tagger() final { return tagger_; }
 
 private:
 
-  /**
-   * @brief Analysis performed on each file
-   *
-   */
-  void AnalyseFile(Files& files, Reader<Tagger>& reader)
-    {
-        Trees trees(files);
-        SetTreeBranch(files.stage(), trees.tree_writer(), reader);
-        trees.UseBranches(files.file(), tagger().WeightBranchName());
-        if (files.stage() == Stage::reader) {
-            trees.entry = std::min(long(trees.tree_reader().GetEntries()), EventNumberMax()) / 2;    // TODO fix corner cases
-        }
-//         exroot::ProgressBar progress_bar(std::min(long(trees.tree_reader().GetEntries()), EventNumberMax()));
-        for (; trees.entry < trees.tree_reader().GetEntries(); ++trees.entry) {
-            ++trees.event_number_;
-            DoAnalysis(files, trees, reader);
-//             progress_bar.Update(trees.object_sum());
-            if (trees.object_sum() >= EventNumberMax()) break;
-        }
-//         progress_bar.Finish();
-        trees.WriteTree();
+    void FirstLoop(Phase first) {
+        TFile export_file(Tagger().ExportFileName(first.Stage(), first.Tag()).c_str(), "Recreate");
+        ClearFiles();
+        SetFiles(first.Tag(), first.Stage());
+        for (auto & file : this->Files(first.Tag())) SecondLoop( {first, file, export_file});
     }
 
     /**
-     * @brief Set exroot::TreeBranch of exroot::TreeWriter to the pointer in the right Tagger
+     * @brief Analysis performed on each file
      *
      */
-    void SetTreeBranch(Stage stage, exroot::TreeWriter& tree_writer, Reader<Tagger>& reader)
-    {
-        switch (stage) {
-        case Stage::trainer :
-            tagger().SetTreeBranch(tree_writer, stage);
-            break;
-        case Stage::reader :
-            reader.SetTreeBranch(tree_writer, stage);
-            break;
+    void SecondLoop(boca::Files files) {
+        BranchWriter<Tagger_> branch_writer(files, tagger_);
+        bool do_threading = false;
+        if (do_threading) {
+            std::mutex branch_writer_mutex;
+            std::vector<std::thread> threads;
+//         int cores = std::thread::hardware_concurrency(); // breaks in the tree reader, find  a cheap way to store the position of the data
+            int cores = 1;
+            for (auto core : Range(cores)) {
+                threads.emplace_back(std::thread([&, core, cores] {
+                    branch_writer_mutex.lock();
+                    Third<Tagger_> third(branch_writer, core, cores, TrainNumberMax());
+                    branch_writer_mutex.unlock();
+                    ReadEvents(third);
+                }));
+            }
+            for (auto & thread : threads) thread.join();
+        } else {
+            int cores = 1;
+            int core = 0;
+            Third<Tagger_> third(branch_writer, core, cores, TrainNumberMax());
+            ReadEvents(third);
+        }
+        branch_writer.Write();
+    }
+
+    void ReadEvents(Third<Tagger_>& third) {
+        while (third.BranchWriter().KeepGoing(EventNumberMax(third.Files().Phase().Stage())) && third.KeepGoing()) third.Increment(ReadEvent(third));
+    }
+
+    int ReadEvent(Third<Tagger_>& third) const {
+        if (!third.ReadEntry()) return 0;
+        Event event(third.TreeReader(), third.Files().Import().Source());
+        if (!PassPreCut(event, third.Files().Phase().Tag())) return 0;
+        int number = Switch(event, third);
+//         Error(number);
+        third.SaveEntry();
+        return number;
+    }
+
+    int Switch(Event const& event, Third<Tagger_>& third) const {
+        switch (third.Files().Phase().Stage()) {
+        case Stage::trainer : return third.Tagger().Train(event, pre_cuts(), third.Files().Phase().Tag());
+        case Stage::reader : return third.Reader().Bdt(event, pre_cuts());
+        default : return 0;
         }
     }
 
-    /**
-     * @brief Checks for PreCuts and saves the results of each analysis.
-     *
-     */
-    void DoAnalysis(Files const& files, Trees& trees, Reader<Tagger> const& reader) const
-    {
-        trees.NewEvent(files.file().mass());
-        int pre_cut = PassPreCut(trees.event(), files.tag());
-        if (pre_cut > 0) {
-          ++trees.pre_cut_number_;
-          trees.SaveAnalysis(RunAnalysis(trees.event(), reader, files.stage(), files.tag()));
-        }
-        trees.tree_writer().Clear();
+    Tagger_& Tagger() final {
+        return tagger_;
     }
 
-    /**
-     * @brief Starts the analysis on each Event
-     *
-     * @return int number of safed objects
-     */
-    int RunAnalysis(Event const& event, Reader<Tagger> const& reader, Stage stage, Tag tag) const
-    {
-        switch (stage) {
-        case Stage::trainer :
-            return tagger_.Train(event, pre_cuts(), tag);
-        case Stage::reader :
-            return reader.Bdt(event, pre_cuts());
-        default :
-            return 0;
-        }
+    Tagger_ const& Tagger() const final {
+        return tagger_;
     }
 
-    /**
-     * @brief Tagger template
-     *
-     */
-    Tagger tagger_;
+    Tagger_ tagger_;
 
 };
 

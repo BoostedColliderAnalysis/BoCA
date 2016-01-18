@@ -1,24 +1,32 @@
 create_dictionary(BranchTopPartner BranchesTopPartner.cpp ../include/LinkDefTopPartner.hh)
 
 set(AnalysisSources
+AnalysisTopPartner.cpp
 TopPartnerHadronicTagger.cpp
 TopPartnerLeptonicTagger.cpp
 HiggsPairTagger.cpp
 TopPartnerPairTagger.cpp
 TopPartnerHiggsPairTagger.cpp
 TopPartnerTopPairTagger.cpp
-Septet.cpp
-Nonet.cpp
-Decuplet.cpp
-Quattuordecuplet.cpp
-SignatureSingleTagger.cpp
+SignatureSingleLeptonicTagger.cpp
+SignatureSingleHadronicTagger.cpp
 SignatureEffectiveTagger.cpp
-EventSingleTagger.cpp
+VetoTopPartnerLeptonicTagger.cpp
+VetoTopPartnerHadronicTagger.cpp
+EventSingleLeptonicTagger.cpp
+EventSingleHadronicTagger.cpp
 EventPairTagger.cpp
 EventEffectiveTagger.cpp
+ResonanceTagger.cpp
+NewPartnerHadronicTagger.cpp
+NewPartnerLeptonicTagger.cpp
+NewPartnerPairTagger.cpp
+EventNewPairTagger.cpp
 )
 create_library(AnalysisTopPartner AnalysisSources)
 
-create_executable(TopPartnerSingle MainSingle.cpp)
+create_executable(TopPartnerSingleLeptonic MainSingleLeptonic.cpp)
+create_executable(TopPartnerSingleHadronic MainSingleHadronic.cpp)
 create_executable(TopPartnerPair MainPair.cpp)
 create_executable(TopPartnerEffective MainEffective.cpp)
+create_executable(TopPartnerNewPair MainNewPair.cpp)

@@ -1,19 +1,13 @@
 #include "HiggsPairTagger.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
-namespace toppartner {
-
-HiggsPairTagger::HiggsPairTagger()
-{
-  Info();
-    DefineVariables();
-}
+namespace naturalness {
 
 int HiggsPairTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
-    Info("Higgs Tags");
+    INFO("Higgs Tags");
     std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
     std::vector<Quartet22> quartets;
     for (auto doublet_1 = doublets.begin(); doublet_1 != doublets.end(); ++doublet_1) {
@@ -27,7 +21,7 @@ int HiggsPairTagger::Train(Event const& event, PreCuts const&, Tag tag) const
     return SaveEntries(quartets);
 }
 
-std::vector<Quartet22> HiggsPairTagger::Multiplets(Event const& event, analysis::PreCuts const&, TMVA::Reader const& reader) const
+std::vector<Quartet22> HiggsPairTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
     std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
     std::vector<Quartet22> quartets;
@@ -40,6 +34,14 @@ std::vector<Quartet22> HiggsPairTagger::Multiplets(Event const& event, analysis:
         }
     }
     return ReduceResult(quartets);
+}
+std::string HiggsPairTagger::Name() const
+{
+    return "HiggsPair";
+}
+std::string HiggsPairTagger::LatexName() const
+{
+    return "hh";
 }
 
 }

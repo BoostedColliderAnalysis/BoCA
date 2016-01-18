@@ -2,28 +2,22 @@
 #include "Event.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace heavyhiggs {
 
-EventFusionTagger::EventFusionTagger()
-{
-  Info();
-    DefineVariables();
-}
-
 int EventFusionTagger::Train(Event const& event, PreCuts const& , Tag tag) const
 {
-    Info("event Tags");
-    Jets jets = bottom_reader_.Multiplets(event);
-    Jets leptons = event.Leptons().leptons();
+    INFO("event Tags");
+   std::vector<Jet> jets = bottom_reader_.Jets(event);
+   std::vector<Lepton> leptons = event.Leptons().leptons();
     std::vector<Sextet> sextets = heavy_higgs_semi_reader_.Multiplets(event);
-    Jets HiggsParticles = event.Partons().GenParticles();
-    Jets Even = CopyIfFamily(HiggsParticles, Id::heavy_higgs, Id::gluon);
-    Jets Odd = CopyIfFamily(HiggsParticles, Id::CP_odd_higgs, Id::gluon);
+    std::vector<Particle> HiggsParticles = event.Partons().GenParticles();
+    std::vector<Particle>Even = CopyIfFamily(HiggsParticles, Id::heavy_higgs, Id::gluon);
+    std::vector<Particle>Odd = CopyIfFamily(HiggsParticles, Id::CP_odd_higgs, Id::gluon);
     HiggsParticles = Even;
     HiggsParticles.insert(HiggsParticles.end(), Odd.begin(), Odd.end());
-    fastjet::PseudoJet HiggsBoson;
+    Particle HiggsBoson;
     if (tag == Tag::signal) {
         if (HiggsParticles.size() == 1)
             HiggsBoson = HiggsParticles.front();
@@ -50,10 +44,10 @@ int EventFusionTagger::Train(Event const& event, PreCuts const& , Tag tag) const
 
 std::vector<MultipletEvent<Sextet>> EventFusionTagger::Multiplets(Event const& event, PreCuts const& , TMVA::Reader const& reader) const
 {
-    Info("event Tags");
+    INFO("event Tags");
     std::vector<Sextet> sextets = heavy_higgs_semi_reader_.Multiplets(event);
-    Jets jets = bottom_reader_.Multiplets(event);
-    Jets Leptons = event.Leptons().leptons();
+   std::vector<Jet> jets = bottom_reader_.Jets(event);
+   std::vector<Lepton> leptons = event.Leptons().leptons();
     std::vector<MultipletEvent<Sextet>> sextet_events;
     for (auto const& sextet : sextets) {
         MultipletEvent<Sextet> multiplet_event(sextet, event, jets);
@@ -61,6 +55,10 @@ std::vector<MultipletEvent<Sextet>> EventFusionTagger::Multiplets(Event const& e
         sextet_events.emplace_back(multiplet_event);
     }
     return ReduceResult(sextet_events);
+}
+std::string EventFusionTagger::Name() const
+{
+    return "EventFusion";
 }
 
 }

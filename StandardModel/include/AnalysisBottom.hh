@@ -1,22 +1,25 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "AnalysisStandardModel.hh"
-#include "Vector.hh"
+#include "Sort.hh"
 
-namespace analysis
+namespace boca
 {
 
 namespace standardmodel
 {
 
-enum class Production
-{
-    DYP,
-    VBF,
-    Associated
-};
+// enum class Production
+// {
+//     DYP,
+//     VBF,
+//     Associated
+// };
 
-std::string Name(const Production production_channel);
+// std::string Name(const Production production_channel);
 
 /**
  *
@@ -32,49 +35,52 @@ class AnalysisBottom : public AnalysisStandardModel<Tagger>
 public:
 
     AnalysisBottom() {
-        this->set_tagger_analysis_name(ProjectName());
-        this->pre_cuts().SetPtLowerCut(Id::bottom, this->LowerPtCut());
-        this->pre_cuts().SetPtUpperCut(Id::bottom, this->UpperPtCut());
-        this->pre_cuts().SetTrackerMaxEta(Id::bottom, DetectorGeometry::TrackerEtaMax());
-        this->pre_cuts().SetSubJets(false);
+        this->pre_cuts().PtLowerCut().Set(Id::bottom, this->LowerPtCut());
+        this->pre_cuts().PtUpperCut().Set(Id::bottom, this->UpperPtCut());
+        this->pre_cuts().TrackerMaxEta().Set(Id::bottom, DetectorGeometry::TrackerEtaMax());
+        this->pre_cuts().ConsiderBuildingBlock().Set(Id::bottom, false);
     }
 
 private:
 
-    std::string ProjectName() const final {
-        return  Name(production_channel()) + Name(this->collider_type()) + "_" + std::to_string(this->MadGraphCut()) + "GeV-jan";
+    std::string AnalysisName() const final {
+        return  Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-all-new";
+//       return  Name(production_channel()) + "_" + Name(this->collider_type()) + "_" + boca::Name(this->LowerPtCut()) + "-large-new";
     }
 
+//     Production production_channel() const {
+//         return Production::DYP;
+//         //         return Production::VBF;
+//         //         return Production::Associated;
+//     }
 
-    Production production_channel() const {
-        return Production::DYP;
-        //         return Production::VBF;
-        //         return Production::Associated;
-    }
-
-    void SetFiles(Tag tag) final {
+    void SetFiles(Tag tag, Stage stage) final {
         switch (tag) {
         case Tag::signal :
             this->NewFile(tag, Process::bb);
-            //     NewFile(tag,Process::tt);
-            //     NewFile(tag,Process::bb);
             break;
         case Tag::background :
             this->NewFile(tag, Process::cc);
-            //     NewFile(tag,Process::tt);
-            //     NewFile(tag,Process::ttcc);
-            //     NewFile(tag,Process::ttjj);
             this->NewFile(tag, Process::qq);
             this->NewFile(tag, Process::gg);
-//             this->NewFile(tag, Process::hh);
+            if (stage == Stage::reader) {
+                this->NewFile(tag, Process::tt_had);
+                this->NewFile(tag, Process::tt_lep);
+//             this->NewFile(tag, Process::hh_bb);
+            }
             this->NewFile(tag, Process::ww);
+            this->NewFile(tag, Process::zz);
             break;
         }
-
     }
 
     int PassPreCut(Event const& event, Tag) const final {
-        Jets jets = event.Hadrons().Jets();
+        std::vector<Particle> particles = SortedByPt(event.Partons().GenParticles());
+        particles = CopyIfDrellYan(particles);
+        particles = RemoveIfOutsidePtWindow(particles, this->LowerPtCut(), this->UpperPtCut());
+        if (particles.size() != 1) return 0;
+        return 1;
+        std::vector<Jet> jets = event.Hadrons().Jets();
         jets = RemoveIfOutsidePtWindow(jets, this->LowerPtCut(), this->UpperPtCut());
         return jets.size();
     }

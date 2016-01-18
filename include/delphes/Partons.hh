@@ -1,25 +1,34 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "../Partons.hh"
 
-namespace analysis {
+namespace boca
+{
 
-namespace delphes {
+namespace delphes
+{
 
 /**
  * @brief delphes particles
  *
  */
-class Partons  : public analysis::Partons {
+class Partons : public boca::Partons
+{
 
 public:
-  Jets Particles() const final;
 
-  Jets GenParticles() const final;
+    Partons(boca::TreeReader const& tree_reader);
+
+    std::vector<Particle> Particles() const final;
+
+    std::vector<Particle> GenParticles() const final;
 
 private:
 
-    Jets Particles(const Status max_status) const;
+    std::vector<Particle> Particles(Status max_status) const;
 
 };
 

@@ -1,20 +1,14 @@
 #pragma once
 
 #include "AnalysisStandardModel.hh"
+#include "WHadronicTagger.hh"
+#include "WLeptonicTagger.hh"
 
-namespace analysis
+namespace boca
 {
 
 namespace standardmodel
 {
-
-enum class Decay
-{
-    leptonic,
-    hadronic
-};
-
-std::string Name(const Decay decay);
 
 /**
  *
@@ -30,53 +24,52 @@ class TopAnalysis : public AnalysisStandardModel<Tagger>
 public:
 
     TopAnalysis() {
-        this->set_tagger_analysis_name(ProjectName());
-        this->pre_cuts().SetPtLowerCut(Id::top, this->LowerPtCut());
-        this->pre_cuts().SetPtUpperCut(Id::top, this->UpperPtCut());
-//         this->pre_cuts().SetMassUpperCut(Id::top, 500);
-        this->pre_cuts().SetTrackerMaxEta(Id::top, DetectorGeometry::TrackerEtaMax());
-        this->pre_cuts().SetPtLowerCut(Id::bottom, this->LowerPtCut() / 5);
-        this->pre_cuts().SetPtLowerCut(Id::W, this->LowerPtCut() / 5);
+        this->pre_cuts().PtLowerCut().Set(Id::top, this->LowerPtCut());
+        this->pre_cuts().PtUpperCut().Set(Id::top, this->UpperPtCut());
+        this->pre_cuts().TrackerMaxEta().Set(Id::top, DetectorGeometry::TrackerEtaMax());
     }
 
-    Decay TopDecay() const {
-        return Decay::leptonic;
+    static Decay TopDecay() {
         return Decay::hadronic;
+        return Decay::leptonic;
+        return Decay::other;
     }
 
 private:
 
-    std::string ProjectName() const final {
-        return  Name(this->collider_type()) + "-" + std::to_string(this->LowerPtCut()) + "GeV-" + Name(Process::tt) + "-" + Name(TopDecay()) + "-jan";
+    std::string AnalysisName() const final {
+        return Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-" + Name(TopDecay()) + "new-event";
     }
 
-    void SetFiles(Tag tag) final {
+    void SetFiles(Tag tag, Stage) final {
         switch (tag) {
         case Tag::signal :
-            if (TopDecay() == Decay::hadronic || this->tagger().Name() == "Bottom") this->NewFile(tag, Process::tt_had);
-            if (this->tagger().Name() == "Bottom") this->NewFile(tag, Process::hh);
-            if (this->tagger().Name() == "Bottom") this->NewFile(tag, Process::bb);
-            if (TopDecay() == Decay::leptonic || this->tagger().Name() == "Bottom") this->NewFile(tag, Process::tt_lep);
-            if (this->tagger().Name() == "WHadronic") this->NewFile(tag, Process::ww);
+            if (TopDecay() == Decay::hadronic || TopDecay() == Decay::other || this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_had);
+            if (this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::hh);
+            if (this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::bb);
+            if (TopDecay() == Decay::leptonic || this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_lep);
+            if (this->template TaggerIs<WHadronicTagger>() || this->template TaggerIs<WLeptonicTagger>()) this->NewFile(tag, Process::ww);
             break;
         case Tag::background :
-            if (TopDecay() == Decay::leptonic && this->tagger().Name() != "Bottom") this->NewFile(tag, Process::tt_had);
-            if (this->tagger().Name() != "Bottom") this->NewFile(tag, Process::hh);
-            if (this->tagger().Name() != "Bottom") this->NewFile(tag, Process::bb);
+            if (TopDecay() == Decay::leptonic && !this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_had);
+            if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::hh);
+            if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::bb);
             this->NewFile(tag, Process::cc);
             this->NewFile(tag, Process::gg);
-            this->NewFile(tag, Process::qq);
-            if (TopDecay() == Decay::hadronic && this->tagger().Name() != "Bottom") this->NewFile(tag, Process::tt_lep);
+            if (!this->template TaggerIs<WLeptonicTagger>()) this->NewFile(tag, Process::qq);
+            if ((TopDecay() == Decay::hadronic || TopDecay() == Decay::other) && !this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_lep);
             this->NewFile(tag, Process::zz);
-            if (this->tagger().Name() != "WHadronic") this->NewFile(tag, Process::ww);
+            if (!this->template TaggerIs<WHadronicTagger>() && !this->template TaggerIs<WLeptonicTagger>()) this->NewFile(tag, Process::ww);
             break;
         }
     }
 
     int PassPreCut(Event const& event, Tag) const final {
-        Jets particles = fastjet::sorted_by_pt(event.Partons().GenParticles());
-        if ((particles.at(0).pt() > this->LowerQuarkCut() && particles.at(0).pt() < this->UpperQuarkCut()) && (particles.at(1).pt() > this->LowerQuarkCut() &&  particles.at(1).pt() < this->UpperQuarkCut())) return 1;
-        return 0;
+        std::vector<Particle> particles = SortedByPt(event.Partons().GenParticles());
+        particles = CopyIfDrellYan(particles);
+        particles = RemoveIfOutsidePtWindow(particles, this->LowerPtCut(), this->UpperPtCut());
+        if (particles.size() != 1) return 0;
+        return 1;
     }
 
 };

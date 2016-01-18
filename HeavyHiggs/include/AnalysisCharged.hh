@@ -1,10 +1,13 @@
 #pragma once
 
 #include "AnalysisHeavyHiggs.hh"
+#include "Sort.hh"
 
-namespace analysis {
+namespace boca
+{
 
-namespace heavyhiggs {
+namespace heavyhiggs
+{
 
 /**
  *
@@ -14,18 +17,13 @@ namespace heavyhiggs {
  *
  */
 template<typename Tagger>
-class AnalysisCharged : public AnalysisHeavyHiggs<Tagger> {
+class AnalysisCharged : public AnalysisHeavyHiggs<Tagger>
+{
 
 public:
 
-    AnalysisCharged()
-    {
-        this->tagger().SetAnalysisName(ProjectName());
-    }
-
-    void SetFiles(Tag tag) final {
-        switch (tag)
-        {
+    void SetFiles(Tag tag, Stage) final {
+        switch (tag) {
         case Tag::signal :
             this->NewFile(tag, Process::Htb);
             break;
@@ -35,110 +33,80 @@ public:
         }
     }
 
-    std::string ProcessName() const
-    {
-        return "Charged";
-    }
+//     std::string ProcessName() const {
+//         return "Charged";
+//     }
 
-    std::string ProjectName() const final
-    {
-        return  ProcessName() + "-" + Name(this->collider_type()) + "-" + std::to_string(this->PreCut()) + "GeV-" + std::to_string(this->Mass()) + "GeV";
+    std::string AnalysisName() const final {
+      return  "Charged-" + Name(this->collider_type()) + "-" + boca::Name(this->PreCut()) + "-" + boca::Name(this->Mass());
     }
 
 private:
 
-    float SignalCrosssection() const
-    {
+    Crosssection SignalCrosssection() const {
         switch (this->collider_type()) {
         case Collider::LHC:
             switch (this->Mass()) {
-            case 500:
-                return 3.0495761279999996;
-            case 1000:
-                return 0.22623192864;
-            case 2000:
-                return 0.005720855039999999;
-            case 3000:
-                return 0.0003035467008;
-            case 4000:
-                return 0.000020556093312;
+            case 500 : return 3.0495761279999996 * fb;
+            case 1000 : return 0.22623192864 * fb;
+            case 2000 : return 0.005720855039999999 * fb;
+            case 3000 : return 0.0003035467008 * fb;
+            case 4000 : return 0.000020556093312 * fb;
             default:
 //                 Error("Signal Crosssection", "unhandled case");
-                return 1;
+                return fb;
             } ;
         case Collider::LE:
             switch (this->Mass()) {
-            case 500:
-                return 247.86995327999998;
-            case 700:
-                return 109.26120959999999;
-            case 1000:
-                return 39.81212064;
-            case 1500:
-                return 10.639675008;
-            case 2000:
-                return 3.8189750399999998;
-            case 3000:
-                return 0.7737415487999998;
-            case 4000:
-                return 0.22421177856;
-            case 5000:
-                return 0.07985005056;
-            case 6000:
-                return 0.03297554496;
-            case 8000:
-                return 0.007364981375999998;
-            case 10000:
-                return 0.0020553163775999996;
-            case 12000:
-                return 0.0006632091647999999;
-            case 15000:
-                return 0.00014951794176;
-            case 20000:
-                return 0.000016388469792;
+            case 500 : return 247.86995327999998 * fb;
+            case 700 : return 109.26120959999999 * fb;
+            case 1000 : return 39.81212064 * fb;
+            case 1500 : return 10.639675008 * fb;
+            case 2000 : return 3.8189750399999998 * fb;
+            case 3000 : return 0.7737415487999998 * fb;
+            case 4000 : return 0.22421177856 * fb;
+            case 5000 : return 0.07985005056 * fb;
+            case 6000 : return 0.03297554496 * fb;
+            case 8000 : return 0.007364981375999998 * fb;
+            case 10000 : return 0.0020553163775999996 * fb;
+            case 12000 : return 0.0006632091647999999 * fb;
+            case 15000 : return 0.00014951794176 * fb;
+            case 20000 : return 0.000016388469792 * fb;
             default:
 //                 Error("Signal Crosssection", "unhandled case");
-                return 1;
+                return fb;
             }
         default:
 //             Error("Signal Crosssection", "unhandled case");
-            return 1;
+            return fb;
         }
     }
 
-    int PassPreCut(Event const& event, Tag) const
-    {
-//         Info("pass pre cut");
-        Jets Particles = event.Partons().GenParticles();
-        Jets Quarks = fastjet::sorted_by_pt(CopyIf5Quark(Particles));
-        Quarks = fastjet::sorted_by_pt(RemoveIfMother(Quarks, Id::top));
-        if (Quarks.empty()) {
+    int PassPreCut(Event const& event, Tag) const {
+//         INFO("pass pre cut");
+      std::vector<Particle> particles = event.Partons().GenParticles();
+      std::vector<Particle> quarks = SortedByPt(CopyIf5Quark(particles));
+        quarks = SortedByPt(RemoveIfMother(quarks, Id::top));
+        if (quarks.empty()) {
             //       if (Tag == Tag::signal && PreCut() > 0 && !(Tagger == BottomTagger || Tagger == HBottomReader))
             //       if (PreCut() > 0)
 //             Error("Not enough bottom quarks", Quarks.size());
             return 0;
-        } else if (Quarks.front().pt() < this->PreCut())
-            return 0;
-        Jets TopQuarks = fastjet::sorted_by_pt(CopyIfParticle(Particles, Id::top));
+        } else if (quarks.front().Pt() < this->PreCut()) return 0;
+        std::vector<Particle> TopQuarks = SortedByPt(CopyIfParticle(particles, Id::top));
         if (TopQuarks.size() != 2) {
 //             Error("Not enough top quarks", TopQuarks.size());
             return 0;
-        } else if (TopQuarks.front().pt() < this->PreCut())
-            return 0;
-        if (event.Hadrons().MissingEt().pt() < this->MissingEt())
-            return 0;
-        Jets Leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
-        if (Leptons.empty())
-            return 0;
-        if (Leptons.front().pt() < this->LeptonPt())
-            return 0;
-        Jets jets = event.Hadrons().Jets();
-        if (jets.size() < 4)
-            return 0;
+        } else if (TopQuarks.front().Pt() < this->PreCut()) return 0;
+        if (event.Hadrons().MissingEt().Pt() < this->MissingEt()) return 0;
+        std::vector<Lepton> leptons = SortedByPt(event.Leptons().leptons());
+        if (leptons.empty()) return 0;
+        if (leptons.front().Pt() < this->LeptonPt()) return 0;
+       std::vector<Jet> jets = event.Hadrons().Jets();
+        if (jets.size() < 4) return 0;
         return 1;
     }
-    int BackgroundFileNumber() const
-    {
+    int BackgroundFileNumber() const {
         switch (this->collider_type()) {
         case Collider::LHC :
             switch (this->PreCut()) {
@@ -160,10 +128,10 @@ private:
                 return 19;
             case 300 :
                 return 61; // < should be switched on
-            //                 return 1;
+                //                 return 1;
             case 0 :
                 return 118; // < should be switched on
-            //                 return 1;
+                //                 return 1;
             default :
                 return 1;
             }
@@ -172,31 +140,24 @@ private:
         }
     }
 
-    float BackgroundCrosssection(Process) const
-    {
+    Crosssection BackgroundCrosssection(Process) const {
         switch (this->collider_type()) {
         case Collider::LHC :
             switch (this->PreCut()) {
-            case 0 :
-                return 97.54 * 2 * 1000;
-            case 250 :
-                return 4.206 * 2 * 1000;
+            case 0 : return 97.54 * 2 * fb;
+            case 250 : return 4.206 * 2 * fb;
             }
         case Collider::LE: {
             switch (this->PreCut()) {
-            case 0 :
-                return 3564 * 2 * 1000;
-            case 300 :
-                return 187.3 * 2 * 1000;
-            case 1500 :
-                return 0.447 * 2 * 1000;
-            case 2500 :
-                return 0.0442 * 2 * 1000;
+            case 0 : return 3564. * 2 * fb;
+            case 300 : return 187.3 * 2 * fb;
+            case 1500 : return 0.447 * 2 * fb;
+            case 2500 : return 0.0442 * 2 * fb;
             }
         }
         default :
 //             Error("unhandled case");
-            return 1;
+            return fb;
         }
     }
 

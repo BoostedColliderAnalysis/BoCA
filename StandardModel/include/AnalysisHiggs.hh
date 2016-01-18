@@ -1,10 +1,13 @@
 #pragma once
 
 #include "AnalysisStandardModel.hh"
+#include "BottomTagger.hh"
 
-namespace analysis {
+namespace boca
+{
 
-namespace standardmodel {
+namespace standardmodel
+{
 /**
  *
  * @brief Higgs tagger analysis
@@ -13,58 +16,54 @@ namespace standardmodel {
  *
  */
 template<typename Tagger>
-class AnalysisHiggs : public AnalysisStandardModel<Tagger> {
+class AnalysisHiggs : public AnalysisStandardModel<Tagger>
+{
 
 public:
 
-    AnalysisHiggs()
-    {
-        this->set_tagger_analysis_name(ProjectName());
-        this->pre_cuts().SetPtLowerCut(Id::higgs, this->LowerPtCut());
-        this->pre_cuts().SetPtUpperCut(Id::higgs, this->UpperPtCut());
-        this->pre_cuts().SetPtLowerCut(Id::bottom, this->LowerPtCut() / 5);
-        this->pre_cuts().SetPtUpperCut(Id::bottom, this->UpperPtCut() / 5);
-        this->pre_cuts().SetMassUpperCut(Id::higgs, 250);
-        this->pre_cuts().SetTrackerMaxEta(Id::higgs, DetectorGeometry::TrackerEtaMax());
-        this->pre_cuts().SetTrackerMaxEta(Id::bottom, DetectorGeometry::TrackerEtaMax());
+    AnalysisHiggs() {
+        this->pre_cuts().PtLowerCut().Set(Id::higgs, this->LowerPtCut());
+        this->pre_cuts().PtUpperCut().Set(Id::higgs, this->UpperPtCut());
+//         this->pre_cuts().PtLowerCut().Set(Id::bottom, this->LowerPtCut() / 5.);
+//         this->pre_cuts().PtUpperCut().Set(Id::bottom, this->UpperPtCut() / 5.);
+//         this->pre_cuts().MassUpperCut().Set(Id::higgs, 250_GeV);
+        this->pre_cuts().TrackerMaxEta().Set(Id::higgs, DetectorGeometry::TrackerEtaMax());
+        this->pre_cuts().TrackerMaxEta().Set(Id::bottom, DetectorGeometry::TrackerEtaMax());
     }
 
 private:
 
-    std::string ProjectName() const final
-    {
-        return  "HiggsTagger-" + Name(this->collider_type()) + "-" + std::to_string(this->LowerPtCut()) + "GeV-jan";
+    std::string AnalysisName() const final {
+        return Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-jet-1";
     }
 
-    void SetFiles(Tag tag) final {
-        switch (tag)
-        {
+    void SetFiles(Tag tag, Stage) final {
+        switch (tag) {
         case Tag::signal :
             this->NewFile(tag, Process::hh_bb);
-            if (this->tagger().Name() == "Bottom") this->NewFile(tag, Process::bb);
-            if (this->tagger().Name() == "Bottom") this->NewFile(tag, Process::tt_had);
-            if (this->tagger().Name() == "Bottom") this->NewFile(tag, Process::tt_lep);
+            if (this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_had);
+            if (this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::bb);
+            if (this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_lep);
             break;
         case Tag::background :
-            if (this->tagger().Name() != "Bottom") this->NewFile(tag, Process::tt_had);
-            if (this->tagger().Name() != "Bottom") this->NewFile(tag, Process::tt_lep);
+            if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_had);
+            if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::bb);
+            if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_lep);
             this->NewFile(tag, Process::zz);
-            this->NewFile(tag, Process::ww);
-            if (this->tagger().Name() != "Bottom") this->NewFile(tag, Process::bb);
+            this->NewFile(tag, Process::gg);
             this->NewFile(tag, Process::cc);
             this->NewFile(tag, Process::qq);
-            this->NewFile(tag, Process::gg);
+            this->NewFile(tag, Process::ww);
             break;
         }
     }
 
-    int PassPreCut(Event const& event, Tag) const final
-    {
-        Jets jets = fastjet::sorted_by_pt(event.Hadrons().Jets());
-        if (jets.empty()) return 0;
-        if (jets.front().pt() < this->LowerPtCut()) return 0;
-        Jets particles = fastjet::sorted_by_pt(event.Partons().GenParticles());
-        if ((particles.at(0).pt() > this->LowerQuarkCut() && particles.at(0).pt() < this->UpperQuarkCut()) && (particles.at(1).pt() > this->LowerQuarkCut() &&  particles.at(1).pt() < this->UpperQuarkCut())) return 1;
+    int PassPreCut(Event const& , Tag) const final {
+          return 1;
+//        std::vector<Jet> jets = SortedByPt(event.Hadrons().Jets());
+//         if (jets.size() < 2) return 0;
+//         if ((jets.at(0).Pt() > this->LowerPtCut() && jets.at(0).Pt() < this->UpperPtCut()) &&
+//           (jets.at(1).Pt() > this->LowerPtCut() && jets.at(1).Pt() < this->UpperPtCut())) return 1;
         return 0;
     }
 

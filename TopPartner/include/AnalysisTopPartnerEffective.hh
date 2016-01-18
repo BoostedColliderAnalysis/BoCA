@@ -3,10 +3,10 @@
 #include "AnalysisTopPartner.hh"
 #include "Debug.hh"
 
-namespace analysis
+namespace boca
 {
 
-namespace toppartner
+namespace naturalness
 {
 
 /**
@@ -20,32 +20,26 @@ template<typename Tagger>
 class AnalysisEffective : public AnalysisNaturalness<Tagger>
 {
 
-public:
-
-  AnalysisEffective() {
-        this->tagger().SetAnalysisName(ProjectName());
-    }
-
 protected:
 
-    std::string ProjectName() const final {
-        return  ProcessName() + "-" + std::to_string(this->PreCut()) + "GeV-test-save";
+  std::string AnalysisName() const final {
+    return "Naturalness-Effective-" + boca::Name(this->PreCut()) + "-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass()) + "-remove-again";
     }
 
-    std::string ProcessName() const final {
-      return "Naturalness-Effective";
-    }
+//     std::string ProcessName() const final {
+//       return "Naturalness-Effective";
+//     }
 
-    void SetFiles(Tag tag) final {
+    void SetFiles(Tag tag, Stage) final {
         switch (tag) {
         case Tag::signal :
           this->NewFile(tag, Process::TThh);
             break;
         case Tag::background :
-          this->NewFile(tag, Process::Tth);
-            this->NewFile(tag, Process::ttBjj);
-            this->NewFile(tag, Process::tthBjj);
+//             this->NewFile(tag, Process::Tth);
             this->NewFile(tag, Process::TT);
+            this->NewFile(tag, Process::ttBB);
+            this->NewFile(tag, Process::ttBjj);
             break;
         }
     }
@@ -53,17 +47,17 @@ protected:
 private:
 
     int PassPreCut(Event const& , Tag ) const final {
-//         Jets jets = fastjet::sorted_by_pt(event.Hadrons().Jets());
+//        std::vector<Jet> jets = SortedByPt(event.Hadrons().Jets());
 //         if(jets.size() < 3) return 0;
-//         if(jets.at(2).pt() < this->JetPreCut()) return 0;
+//         if(jets.at(2).Pt() < this->JetPreCut()) return 0;
 //
 //
-//         Jets particles = event.Partons().GenParticles();
+//        std::vector<Jet> particles = event.Partons().GenParticles();
 //         particles = RemoveIfSoft(particles, this->PreCut());
-//         Jets tops = CopyIfParticle(particles, Id::top);
-//         Jets higgs = CopyIfParticle(particles, Id::higgs);
-//         Jets vectors = CopyIfParticles(particles, Id::Z, Id::W);
-//         Jets partner = CopyIfParticle(particles, Id::top_partner);
+//        std::vector<Jet> tops = CopyIfParticle(particles, Id::top);
+//        std::vector<Jet> higgs = CopyIfParticle(particles, Id::higgs);
+//        std::vector<Jet>vectors = CopyIfParticles(particles, Id::Z, Id::W);
+//        std::vector<Jet> partner = CopyIfParticle(particles, Id::top_partner);
 //         if (tag == Tag::signal && partner.size() != 1) {
 //             return 0;
 //         }

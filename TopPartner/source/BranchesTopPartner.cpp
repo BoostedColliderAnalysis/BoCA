@@ -1,20 +1,37 @@
 #include "BranchesTopPartner.hh"
 #include "Pair.hh"
 
-namespace analysis
+namespace boca
 {
 
-namespace toppartner
+namespace naturalness
 {
 
-Observables EventBranch::Variables() const
+SignatureSingleBranch::SignatureSingleBranch()
 {
-    return Join(MultiBranch::Variables(), {PAIR(LeptonNumber), PAIR(BottomNumber), PAIR(JetNumber), PAIR(MissingEt), PAIR(ScalarHt), PAIR(LeptonHt), PAIR(JetMass), PAIR(JetPt), PAIR(JetHt), PAIR(JetRap), PAIR(JetPhi)});
+    VetoBdt = InitialValue();
 }
 
-Observables EventBranch::Spectators() const
+Observables SignatureSingleBranch::Variables()
 {
-  return Join(MultiBranch::Spectators(), {});
+    return boca::TChannelBranch::Variables() + PAIR(VetoBdt);
+}
+
+SignatureSingleHadronicBranch::SignatureSingleHadronicBranch()
+{
+    VetoBdt = InitialValue();
+    TopPt = InitialValue();
+    HiggsPt = InitialValue();
+}
+
+Observables SignatureSingleHadronicBranch::Variables()
+{
+    return boca::TChannelBranch::Variables() + PAIR(VetoBdt) + PAIR(TopPt) + PAIR(HiggsPt);
+}
+
+Observables EventBranch::Variables()
+{
+    return MultiBranch::Variables() + PAIR(LeptonNumber) + PAIR(BottomNumber) + PAIR(JetNumber) + PAIR(MissingEt) + PAIR(ScalarHt) + PAIR(LeptonHt) + PAIR(JetMass) + PAIR(JetPt) + PAIR(JetHt) + PAIR(JetRap) + PAIR(JetPhi);
 }
 
 }

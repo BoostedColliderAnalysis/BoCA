@@ -1,24 +1,25 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "Leptons.hh"
 
 #include "Vector.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca
+{
+
+Leptons::Leptons(boca::TreeReader const& tree_reader) :
+    FourVector(tree_reader) {}
 
 Leptons::~Leptons()
 {
-  Info();
+    Info0;
 }
 
-void Leptons::NewEvent(const ClonesArrays& clones_arrays)
+std::vector<Lepton> Leptons::leptons() const
 {
-    Info();
-    FourVector::NewEvent(clones_arrays);
-}
-
-Jets Leptons::leptons() const
-{
-    Info();
+    Info0;
     return Join(Electrons(), Muons());
 }
 

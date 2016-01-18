@@ -2,21 +2,15 @@
 #include "Event.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace heavyhiggs {
 
-EventNeutralTagger::EventNeutralTagger()
+int EventNeutralTagger::Train(boca::Event const& event, PreCuts const&, Tag tag) const
 {
-  Info();
-    DefineVariables();
-}
-
-int EventNeutralTagger::Train(analysis::Event const& event, PreCuts const&, Tag tag) const
-{
-    Info("event Tags");
-    Jets jets = bottom_reader_.Multiplets(event);
-    Jets leptons = event.Leptons().leptons();
+    INFO("event Tags");
+   std::vector<Jet> jets = bottom_reader_.Jets(event);
+   std::vector<Lepton> leptons = event.Leptons().leptons();
     std::vector<Octet62> octets = signature_neutral_reader_.Multiplets(event);
     std::vector<MultipletEvent<Octet62>> events;
     for (auto const& octet : octets) {
@@ -27,12 +21,12 @@ int EventNeutralTagger::Train(analysis::Event const& event, PreCuts const&, Tag 
     return SaveEntries(events);
 }
 
-std::vector<MultipletEvent<Octet62>> EventNeutralTagger::Multiplets(analysis::Event const& event, analysis::PreCuts const&, TMVA::Reader const& reader) const
+std::vector<MultipletEvent<Octet62>> EventNeutralTagger::Multiplets(boca::Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
-    Info("event Tags");
+    INFO("event Tags");
     std::vector<Octet62> octets = signature_neutral_reader_.Multiplets(event);
-    Jets jets = bottom_reader_.Multiplets(event);
-    Jets Leptons = event.Leptons().leptons();
+   std::vector<Jet> jets = bottom_reader_.Jets(event);
+   std::vector<Lepton> leptons = event.Leptons().leptons();
     std::vector<MultipletEvent<Octet62>> multiplet_events;
     for (auto const& octet : octets) {
         MultipletEvent<Octet62> multiplet_event(octet, event, jets);
@@ -42,8 +36,12 @@ std::vector<MultipletEvent<Octet62>> EventNeutralTagger::Multiplets(analysis::Ev
     std::sort(multiplet_events.begin(), multiplet_events.end());
     if (multiplet_events.size() > 1)
         multiplet_events.erase(multiplet_events.begin() + 1, multiplet_events.end());
-    Info("event Number", multiplet_events.size(), jets.size());
+    INFO("event Number", multiplet_events.size(), jets.size());
     return multiplet_events;
+}
+std::string EventNeutralTagger::Name() const
+{
+    return "EventNeutral";
 }
 
 }

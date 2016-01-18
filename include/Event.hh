@@ -1,52 +1,42 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "Partons.hh"
 #include "Leptons.hh"
 #include "Hadrons.hh"
 
-namespace analysis {
+namespace boca
+{
+
+enum class Decay
+{
+    leptonic,
+    hadronic,
+    other
+};
+
+std::string Name(Decay decay);
 
 /**
  * @brief Base class for the event Topology
  *
  */
-class Event {
+class Event
+{
 
 public:
 
-    Event();
+    Event(TreeReader const& tree_reader, Source source);
 
-    Event(const Source source);
+    virtual ~Event();
 
-    ~Event();
+    boca::Hadrons const& Hadrons() const;
 
-    void NewEvent(const ClonesArrays& clones_arrays);
+    boca::Leptons const& Leptons() const;
 
-    const analysis::Hadrons& Hadrons() const
-    {
-        return *hadrons_;
-    }
-
-    const analysis::Leptons& Leptons() const
-    {
-        return *leptons_;
-    }
-
-
-    const analysis::Partons& Partons() const
-    {
-        return *partons_;
-    }
-
-    float mass() const
-    {
-        return mass_;
-    }
-
-    void SetMass(float mass)
-    {
-        mass_ = mass;
-    }
+    boca::Partons const& Partons() const;
 
 private:
 
@@ -54,23 +44,21 @@ private:
      * @brief Particles
      *
      */
-  analysis::Partons *partons_ = nullptr;
+    boca::Partons* partons_ = nullptr;
 
     /**
      * @brief Leptons
      *
      */
-  analysis::Leptons *leptons_ = nullptr;
+    boca::Leptons* leptons_ = nullptr;
 
     /**
      * @brief Jets
      *
      */
-  analysis::Hadrons *hadrons_ = nullptr;
+    boca::Hadrons* hadrons_ = nullptr;
 
     Source source_;
-
-    float mass_;
 
 };
 

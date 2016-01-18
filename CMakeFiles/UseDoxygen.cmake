@@ -11,21 +11,6 @@ set(DOXYFILE_LATEX OFF)
 # DOXYFILE_HTML_DIR - Directory relative to DOXYFILE_OUTPUT_DIR where the Doxygen html output is stored. Defaults to "html".
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 macro(usedoxygen_set_default name value type docstring)
  if(NOT DEFINED "${name}")
   set("${name}" "${value}" CACHE "${type}" "${docstring}")
@@ -39,7 +24,7 @@ if(DOXYGEN_FOUND)
 #   PATHS ${CMAKE_CURRENT_SOURCE_DIR}/CMakeFiles ${CMAKE_ROOT}/Modules/
 #   NO_DEFAULT_PATH
 #   DOC "Path to the doxygen configuration template file")
-set(DOXYFILE_IN ${CMAKE_CURRENT_SOURCE_DIR}/CMakeFiles/Doxyfile.in)
+set(DOXYFILE_IN ${CMAKE_CURRENT_SOURCE_DIR}/doc/Doxyfile.in)
 set(DOXYFILE "${CMAKE_CURRENT_BINARY_DIR}/Doxyfile")
 include(FindPackageHandleStandardArgs)
 FIND_PACKAGE_HANDLE_STANDARD_ARGS(DOXYFILE_IN DEFAULT_MSG "DOXYFILE_IN")
@@ -126,9 +111,9 @@ endif()
   set(DOXYFILE_GENERATE_LATEX "NO")
  endif()
  configure_file("${DOXYFILE_IN}" "${DOXYFILE}" @ONLY)
- get_target_property(DOC_TARGET doc TYPE)
- if(NOT DOC_TARGET)
-  add_custom_target(doc)
- endif()
- add_dependencies(doc doxygen)
+#  get_target_property(DOC_TARGET doc TYPE)
+#  if(NOT DOC_TARGET)
+#   add_custom_target(doc)
+#  endif()
+#  add_dependencies(doc doxygen)
 endif()

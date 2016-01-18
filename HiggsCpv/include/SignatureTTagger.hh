@@ -1,48 +1,41 @@
 #pragma once
 
+#include "MultipletSignature.hh"
 #include "HiggsTagger.hh"
 #include "TopLeptonicPairTagger.hh"
-#include "MultipletSignature.hh"
-#include "Octet.hh"
+#include "multiplets/Octet.hh"
 
-namespace analysis {
+namespace boca
+{
 
-namespace higgscpv {
+namespace higgscpv
+{
 
 /**
  *
  * @brief event BDT for
  *
  */
-class SignatureTTagger : public BranchTagger<SignatureTTaggerBranch> {
+class SignatureTTagger : public TaggerTemplate<MultipletSignature< Octet332 >, SignatureTTaggerBranch>
+{
 
 public:
 
-    SignatureTTagger();
+    int Train(Event const& event, boca::PreCuts const&, Tag tag) const final;
 
-    int Train(Event const& event, analysis::PreCuts const&, Tag tag) const override;
+    std::vector< MultipletSignature< Octet332 > > Multiplets(boca::Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const final;
 
-    std::vector< MultipletSignature< Octet332 > > Multiplets(analysis::Event const& event, analysis::PreCuts const&, TMVA::Reader const& reader) const;
-
-    int GetBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final {
-      return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
+    std::string Name() const final {
+        return "TChannel";
     }
-
-    auto Multiplets(Event const& event, TMVA::Reader const& reader)
-    {
-        PreCuts pre_cuts;
-        return Multiplets(event, pre_cuts, reader);
-    }
-
-    std::string Name() const final { return "TChannel"; }
 
 private:
 
-  MultipletSignature<Octet332> Signature(analysis::Triplet const& triplet_1, analysis::Triplet const& triplet_2, analysis::Doublet const& doublet) const;
+    MultipletSignature<Octet332> Signature(boca::Triplet const& triplet_1, boca::Triplet const& triplet_2, boca::Doublet const& doublet) const;
 
-    Reader<HiggsTagger> higgs_reader_;
+    Reader<standardmodel::HiggsTagger> higgs_reader_;
 
-    Reader<TopLeptonicTagger> top_reader_;
+    Reader<standardmodel::TopLeptonicTagger> top_reader_;
 
 };
 

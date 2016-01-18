@@ -1,41 +1,64 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "Observable.hh"
+#include "Debug.hh"
 
-namespace analysis {
-
-Observable::Observable(float& value, std::string const& expression, std::string const& title, std::string const& unit) : value_(value)
+namespace boca
 {
-    expression_ = expression;
-    title_ = title;
-    unit_ = unit;
-    if (value == int(value))
-        type_ = 'I';
-    else
-        type_ = 'F';
+
+Observable::Observable(float& value, std::string const& name, std::string const& latex_name) :
+    value_(&value)
+{
+    is_int_ = (value == int(value)) ? true : false;
+    names_.Set(name, latex_name);
+    Debug(branch_name_, is_int_, value_, names_.Name());
 }
 
-float& Observable::value() const
+float& Observable::Value() const
 {
-    return value_;
+    return *value_;
 }
 
-std::string Observable::expression() const
+std::string Observable::Expression() const
 {
-    return expression_;
+    return branch_name_ + "." + Name();
 }
 
-std::string Observable::title() const
+std::string Observable::Name() const
 {
-    return title_;
+    return names_.Name();
 }
 
-std::string Observable::unit() const
+std::string Observable::Unit() const
 {
-    return unit_;
+    return "";
 }
 
-char Observable::type() const
+char Observable::Type() const
 {
-    return type_;
+  if(is_int_) return 'I';
+  return 'F';
+}
+
+std::string Observable::LatexName() const
+{
+    return names_.LatexName();
+}
+
+Names const& Observable::Names() const
+{
+    return names_;
+}
+
+void Observable::SetBranchName(std::string const& branch_name)
+{
+    branch_name_ = branch_name;
+}
+
+bool Observable::IsInt() const
+{
+    return is_int_;
 }
 
 }

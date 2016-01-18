@@ -5,38 +5,28 @@
 #include "BranchesTopPartner.hh"
 #include "Decuplet.hh"
 
-namespace analysis
+namespace boca
 {
 
-namespace toppartner
+namespace naturalness
 {
 
 /**
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class TopPartnerPairTagger : public BranchTagger<MultiBranch>
+class TopPartnerPairTagger : public TaggerTemplate<Decuplet55, MultiBranch>
 {
 
 public:
 
-    TopPartnerPairTagger();
-
     int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
 
-    std::vector<Decuplet55> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
+    std::vector<Decuplet55> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
 
-    int GetBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final {
-        return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
-    }
+    std::string Name() const final;
 
-    std::string Name() const final {
-        return "TopPartnerPair";
-    }
-
-    std::string NiceName() const final {
-      return "#tilde t_{h} #tilde t_{l}";
-    }
+    std::string LatexName() const final;
 
 private:
 

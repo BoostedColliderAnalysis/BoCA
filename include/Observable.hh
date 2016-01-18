@@ -1,36 +1,47 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
-#include <string>
+#include "Names.hh"
 
-namespace analysis {
+namespace boca
+{
 
-class Observable {
+class Observable
+{
 
 public:
 
-    Observable(float& value, std::string const& expression, std::string const& title, std::string const& unit);
+    Observable(float& value, std::string const& name, std::string const& latex_name = "");
 
-    float& value() const;
+    float& Value() const;
 
-    std::string expression() const;
+    std::string Expression() const;
 
-    std::string title() const;
+    std::string Name() const;
 
-    std::string unit() const;
+    std::string LatexName() const;
 
-    char type() const;
+    std::string Unit() const;
+
+    char Type() const;
+
+    boca::Names const& Names() const;
+
+    void SetBranchName(std::string const& branch_name);
+
+    bool IsInt() const;
 
 private:
 
-    std::string expression_;
+    std::string branch_name_;
 
-    std::string title_;
+    boca::Names names_;
 
-    std::string unit_;
+    bool is_int_;
 
-    char type_;
-
-    float& value_;
+    float* value_;
 
 };
 

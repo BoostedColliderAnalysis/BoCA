@@ -1,24 +1,25 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "Hadrons.hh"
 #include "Debug.hh"
 
-namespace analysis {
-
-void Hadrons::NewEvent(const ClonesArrays& clones_arrays)
+namespace boca
 {
-    Info();
-    FourVector::NewEvent(clones_arrays);
-}
 
-float Hadrons::ScalarHt() const
+Hadrons::Hadrons(boca::TreeReader const& tree_reader) :
+    FourVector(tree_reader) {}
+
+Momentum Hadrons::ScalarHt() const
 {
     Error("No Scalar Ht");
-    return 0;
+    return at_rest;
 }
 
-fastjet::PseudoJet Hadrons::MissingEt() const
+boca::MissingEt Hadrons::MissingEt() const
 {
     Error("No Mising Et");
-    return fastjet::PseudoJet {};
+    return {};
 }
 
 }

@@ -1,8 +1,9 @@
 #pragma once
 
 #include "AnalysisHeavyHiggs.hh"
+#include "Sort.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace heavyhiggs {
 
@@ -18,12 +19,7 @@ class AnalysisFusion : public AnalysisHeavyHiggs<Tagger> {
 
 public:
 
-    AnalysisFusion()
-    {
-        this->tagger().SetAnalysisName(ProjectName());
-    }
-
-    void SetFiles(Tag tag) final {
+    void SetFiles(Tag tag, Stage) final {
         switch (tag)
         {
         case Tag::signal :
@@ -35,14 +31,14 @@ public:
         }
     }
 
-    std::string ProcessName() const override
-    {
-        return "Fusion";
-    }
+//     std::string ProcessName() const override
+//     {
+//         return "Fusion";
+//     }
 
-    std::string ProjectName() const final
+    std::string AnalysisName() const final
     {
-        return  ProcessName() + "-" + Name(this->collider_type()) + "-" + std::to_string(this->PreCut()) + "GeV-" + std::to_string(this->Mass()) + "GeV";
+      return  "Fusion-" + Name(this->collider_type()) + "-" + boca::Name(this->PreCut()) + "-" + boca::Name(this->Mass());
     }
 
 private:
@@ -86,95 +82,67 @@ private:
         }
     };
 
-    float SignalCrosssection() const
+    Crosssection SignalCrosssection() const
     {
         switch (this->collider_type()) {
         case Collider::LHC:
             switch (this->Mass()) {
-            case 400 :
-                return 1463.1219866990498;
-            case 500:
-                return 512.5992335098167;
-            case 1000:
-                return 10.942712198242141;
-            case 2000:
-                return 0.10283305582403454;
-            case 3000:
-                return 0.003583086718061121;
-            case 4000:
-                return 0.00020344209136808554;
+            case 400 : return 1463.1219866990498 * fb;
+            case 500 : return 512.5992335098167 * fb;
+            case 1000 : return 10.942712198242141 * fb;
+            case 2000 : return 0.10283305582403454 * fb;
+            case 3000 : return 0.003583086718061121 * fb;
+            case 4000 : return 0.00020344209136808554 * fb;
             default:
 //                 Error("unhandled case");
-                return 1;
+                return pb;
             } ;
         case Collider::LE:
             switch (this->Mass()) {
             // tan beta = 2
-            case 400 :
-                return 48385.16604388162;
-            case 500 :
-                return 21753.261647408788;
-            case 700 :
-                return 5388.806849750459;
-            case 800:
-                return 2987.6531326979493;
-            case 1000:
-                return 1062.9847850641604;
-            case 1500:
-                return 148.78718745483314;
-            case 2000:
-                return 33.76298845204924;
-            case 3000:
-                return 3.715444262833449;
-            case 4000:
-                return 0.7052693313851425;
-            case 5000:
-                return 0.1841745400744028;
-            case 6000:
-                return 0.058156868371520024;
-            case 8000:
-                return 0.008651760976852958;
-            case 10000:
-                return 0.0018198636858628185;
-            case 12000:
-                return 0.0004674423191995998;
-            case 15000:
-                return 0.000046; //<this is just wrong get the right numbers
-            case 20000:
-                return 0.0000046; //<this is just wrong get the right numbers
+            case 400 : return 48385.16604388162 * fb;
+            case 500 : return 21753.261647408788 * fb;
+            case 700 : return 5388.806849750459 * fb;
+            case 800 : return 2987.6531326979493 * fb;
+            case 1000 : return 1062.9847850641604 * fb;
+            case 1500 : return 148.78718745483314 * fb;
+            case 2000 : return 33.76298845204924 * fb;
+            case 3000 : return 3.715444262833449 * fb;
+            case 4000 : return 0.7052693313851425 * fb;
+            case 5000 : return 0.1841745400744028 * fb;
+            case 6000 : return 0.058156868371520024 * fb;
+            case 8000 : return 0.008651760976852958 * fb;
+            case 10000 : return 0.0018198636858628185 * fb;
+            case 12000 : return 0.0004674423191995998 * fb;
+            case 15000 : return 0.000046 * fb; //<this is just wrong get the right numbers
+            case 20000 : return 0.0000046 * fb; //<this is just wrong get the right numbers
             default:
 //                 Error("unhandled case");
-                return 1;
+                return pb;
             }
         default:
 //             Error("unhandled case");
-            return 1;
+            return pb;
         }
     }
 
     int PassPreCut(Event const& event, Tag) const final
     {
-        Jets Particles = event.Partons().GenParticles();
-        Particles = CopyIfParticle(Particles, Id::top);
-        if (Particles.size() != 2) {
+       std::vector<Particle> particles = event.Partons().GenParticles();
+        particles = CopyIfParticle(particles, Id::top);
+        if (particles.size() != 2) {
 //             Error("Not enough top quarks", Particles.size());
             return 0;
         } else {
-            if (Particles.at(0).pt() < this->PreCut())
-                return 0;
-            if (Particles.at(1).pt() < this->PreCut())
-                return 0;
+          if (particles.at(0).Pt() < this->PreCut()) return 0;
+          if (particles.at(1).Pt() < this->PreCut()) return 0;
         }
-        if (event.Hadrons().MissingEt().pt() < this->MissingEt())
-            return 0;
-        Jets Leptons = fastjet::sorted_by_pt(event.Leptons().leptons());
-        if (Leptons.empty())
-            return 0;
-        if (Leptons.front().pt() < this->LeptonPt())
-            return 0;
-        Jets jets = event.Hadrons().Jets();
-        if (jets.size() < 4)
-            return 0;
+        if (event.Hadrons().MissingEt().Pt() < this->MissingEt()) return 0;
+       std::vector<Lepton> leptons = SortedByPt(event.Leptons().leptons());
+       if (leptons.empty()) return 0;
+       if (leptons.front().Pt() < this->LeptonPt()) return 0;
+       std::vector<Jet> jets = event.Hadrons().Jets();
+        if (jets.size() < 4) return 0;
         return 1;
     }
 

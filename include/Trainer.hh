@@ -1,14 +1,18 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
-#include "Identification.hh"
-#include "exroot/ExRootAnalysis.hh"
 #include "TMVA/Factory.h"
+
+#include "exroot/ExRootAnalysisForward.hh"
+#include "Identification.hh"
 
 namespace TMVA {
 class MethodBDT;
 }
 
-namespace analysis {
+namespace boca {
 
 class Tagger;
 
@@ -24,7 +28,7 @@ public:
      * @brief Constructor
      *
      */
-    Trainer(analysis::Tagger& tagger, TMVA::Types::EMVA mva);
+    Trainer(boca::Tagger& tagger);
 
 private:
 
@@ -32,20 +36,20 @@ private:
      * @brief Book MVA methods
      *
      */
-    TMVA::MethodBDT& BookMethod(TMVA::Types::EMVA mva);
+    TMVA::MethodBase& BookMethod();
 
     /**
      * @brief Add Variables
      */
-    void AddVariables();
+    void AddObservables();
 
     /**
      * @brief Get Trees
      *
      */
-    long GetTrees();
+    long AddAllTrees();
 
-    long GetTree(Tag tag);
+    long AddTrees(Tag tag);
 
     /**
      * @brief Prepare Trainig and Test Trees
@@ -53,33 +57,31 @@ private:
      */
     void PrepareTrainingAndTestTree(long event_number);
 
-    long AddTree(std::string const& tree_name, analysis::Tag tag);
+    long AddTree(std::string const& tree_name, boca::Tag tag);
 
     long Entries(exroot::TreeReader& tree_reader);
 
     float Weight(exroot::TreeReader& tree_reader);
 
-    TTree &Tree(std::string const& tree_name, analysis::Tag tag);
+    TTree &Tree(std::string const& tree_name, boca::Tag tag);
 
     exroot::TreeReader TreeReader(std::string const& tree_name, Tag tag);
 
-    TFile* OutputFile() const;
+    TFile& OutputFile() const;
 
     std::string FactoryOptions();
 
-    std::string MethodOptions(TMVA::Types::EMVA mva);
+    std::string MethodOptions() const;
 
-    analysis::Tagger& Tagger() const
-    {
-        return tagger_;
-    }
+    boca::Tagger const& Tagger() const;
 
-    TMVA::Factory& Factory()
-    {
-        return factory_;
-    }
+    boca::Tagger & Tagger();
 
-    analysis::Tagger& tagger_;
+    TMVA::Factory const& Factory() const;
+
+    TMVA::Factory& Factory();
+
+    boca::Tagger& tagger_;
 
     TMVA::Factory factory_;
 

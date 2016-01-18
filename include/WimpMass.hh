@@ -1,10 +1,14 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
-#include "Sextet.hh"
+#include "multiplets/Sextet.hh"
 
-namespace analysis {
+namespace boca {
 
 class Quartet22;
+class Particle;
 
 /**
  * @brief Wrapper for WimpMass class
@@ -15,24 +19,19 @@ class WimpMass {
 
 public:
 
-    std::vector<analysis::Sextet> Sextets(const std::vector<Quartet22>& quartets, fastjet::PseudoJet const& missing_et);
+    std::vector<boca::Sextet> Sextets(std::vector<Quartet22> const& quartets, Jet const& missing_et);
 
-    std::vector<analysis::Sextet> Sextet(const Quartet22& quartet, fastjet::PseudoJet const& missing_et, Jets const& neutrinos, Tag tag);
+    std::vector<boca::Sextet> Sextet(Quartet22 const& quartet, Jet const& missing_et,std::vector<Particle> const& neutrinos, Tag tag);
 
-    std::vector<analysis::Sextet> Sextets(const Quartet22& quartet, fastjet::PseudoJet const& missing_et);
+    std::vector<boca::Sextet> Sextets(Quartet22 const& quartet, Jet const& missing_et);
 
-    analysis::Sextet Fake(const Quartet22& quartet) const;
+    boca::Sextet Fake(boca::Quartet22 const& quartet) const;
 
 private:
 
-    void Momentum(double momentum[4], fastjet::PseudoJet const& jet);
+    void Momentum(double momentum[4], Jet const& jet);
 
-    fastjet::PseudoJet PseudoJet(const double Momentum[4]) const
-    {
-        // wimpmass (E,px,py,pz)
-        // fastjet (px,py,pz,E)
-        return fastjet::PseudoJet(Momentum[1], Momentum[2], Momentum[3], Momentum[0]);
-    }
+//     Jet PseudoJet(double const Momentum[4]) const;
 
 };
 

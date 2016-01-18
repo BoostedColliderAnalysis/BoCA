@@ -1,24 +1,33 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include <string>
+#include <vector>
 #include <sstream>
 #include <iomanip>
-#include <algorithm>
 #include <iostream>
-#include "fastjet/PseudoJet.hh"
+#include <boost/units/systems/si/io.hpp>
 
 // FIXME do we really want to write non standard compliant code?
-#pragma GCC diagnostic ignored "-Wgnu-zero-variadic-macro-arguments"
+// #pragma GCC diagnostic ignored "-Wgnu-zero-variadic-macro-arguments"
 // #pragma GCC diagnostic ignored "-Wmacro-redefined"
-#pragma clang diagnostic ignored "-Wgnu-zero-variadic-macro-arguments"
-#pragma clang diagnostic ignored "-Wmacro-redefined"
+// #pragma clang diagnostic ignored "-Wgnu-zero-variadic-macro-arguments"
+// #pragma clang diagnostic ignored "-Wmacro-redefined"
 
 // defined by cmake for debug runs
 #ifndef NDEBUG
 #define NOTIFICATION
 #endif
+// #define DEBUG
+// #define INFORMATION
 
-namespace analysis {
+namespace boca
+{
+
+class Jet;
+class Particle;
 
 std::string Shorten(std::string const& pretty_function, size_t brake);
 
@@ -33,19 +42,23 @@ std::string FunctionName(std::string const& pretty_function);
 std::string FileName(std::string const& file);
 
 template<typename Value>
-std::string Column(int width, const Value& message)
+std::string Column(int width, Value const& message)
 {
-    std::stringstream ss;
-    ss << std::left << std::setw(width) << std::setfill(' ') << message;
-    return ss.str();
+    std::stringstream stream_1;
+    stream_1 << std::boolalpha << boost::units::engineering_prefix << message;
+    std::stringstream stream_2;
+    stream_2 << std::left << std::setw(width) << std::setfill(' ') << stream_1.str();
+    return stream_2.str();
 }
 
 template<typename Value>
-std::string ColumnRight(int width, const Value& message)
+std::string ColumnRight(int width, Value const& message)
 {
-    std::stringstream ss;
-    ss << std::right << std::setw(width) << std::setfill(' ') << message;
-    return ss.str();
+    std::stringstream stream_1;
+    stream_1 << std::boolalpha << boost::units::engineering_prefix << message;
+    std::stringstream stream_2;
+    stream_2 << std::right << std::setw(width) << std::setfill(' ') << stream_1.str();
+    return stream_2.str();
 }
 
 int ValueLength();
@@ -53,7 +66,7 @@ int ValueLength();
 void Log(std::string const& file, int line, std::string const& name_space, std::string const& class_name, std::string const& function, bool final = true);
 
 template<typename Value>
-void LogVariable(std::string const& variable, const Value& value)
+void LogVariable(std::string const& variable, Value const& value)
 {
     std::cout << Column(ValueLength(), variable) << Column(ValueLength(), value);
 }
@@ -61,23 +74,34 @@ void LogVariable(std::string const& variable, const Value& value)
 template<typename Value>
 void LogVariable(std::string const& variable, const std::vector<Value>& values)
 {
-//     for (auto const& value : values)
-//         LogVariable(variable, values);
-        LogVariable(variable, values.size());
+//     for (auto const& value : values) LogVariable(variable, values);
+    LogVariable(variable, values.size());
 }
 
-void LogVariable(const std::string&, char const* value);
+void LogVariable(std::string const&, char const* value);
 
-// template<>
-void LogVariable(std::string const& variable, fastjet::PseudoJet const& jet);
+void LogVariable(std::string const& variable, Jet const& jet);
+
+void LogVariable(std::string const& variable, Particle const& jet);
+
+// template<typename Value>
+// void LogVariable(std::string const& variable, Bound<Value> const& bound){
+//   LogVariable(variable, bound.Min());
+//   LogVariable(variable, bound.Max());
+// }
+//
+// template<typename Value>
+// void LogVariable(std::string const& variable, Rectangle<Value> const& bound){
+//   LogVariable(variable, bound.Horizontal());
+//   LogVariable(variable, bound.Vertical());
+// }
 
 template<typename Value>
-void Log(std::string const& file, int line, std::string const& name_space, std::string const& class_name, std::string const& function, std::string const& variable = "", const Value value = 0, bool final = true)
+void Log(std::string const& file, int line, std::string const& name_space, std::string const& class_name, std::string const& function, std::string const& variable, Value value, bool final = true)
 {
     Log(file, line, name_space, class_name, function, false);
     LogVariable(variable, value);
-    if (final)
-        std::cout << std::endl;
+    if (final) std::cout << "\n";
 }
 
 template<typename Value, typename Value2>
@@ -85,8 +109,7 @@ void Log(std::string const& file, int line, std::string const& name_space, std::
 {
     Log(file, line, name_space, class_name, function, variable, value, false);
     LogVariable(variable2, value2);
-    if (final)
-        std::cout << std::endl;
+    if (final) std::cout << "\n";
 }
 
 template<typename Value, typename Value2, typename Value3>
@@ -94,94 +117,119 @@ void Log(std::string const& file, int line, std::string const& name_space, std::
 {
     Log(file, line, name_space, class_name, function, variable, value, variable2, value2, false);
     LogVariable(variable3, value3);
-    if (final)
-        std::cout << std::endl;
+    if (final) std::cout << "\n";
 }
 
 template<typename Value, typename Value2, typename Value3, typename Value4>
-void Log(std::string const& file, int line, std::string const& name_space, std::string const& class_name, std::string const& function, std::string const& variable, const Value value, std::string const& variable2, const Value2 value2, std::string const& variable3, const Value3 value3, std::string const& variable4, const Value4 value4)
+void Log(std::string const& file, int line, std::string const& name_space, std::string const& class_name, std::string const& function, std::string const& variable, const Value value, std::string const& variable2, const Value2 value2, std::string const& variable3, const Value3 value3, std::string const& variable4, const Value4 value4, bool final = true)
 {
     Log(file, line, name_space, class_name, function, variable, value, variable2, value2, variable3, value3, false);
     LogVariable(variable4, value4);
-    std::cout << std::endl;
+    if (final) std::cout << "\n";
+}
+
+template<typename Value, typename Value2, typename Value3, typename Value4, typename Value5>
+void Log(std::string const& file, int line, std::string const& name_space, std::string const& class_name, std::string const& function, std::string const& variable, const Value value, std::string const& variable2, const Value2 value2, std::string const& variable3, const Value3 value3, std::string const& variable4, const Value4 value4, std::string const& variable5, const Value5 value5)
+{
+    Log(file, line, name_space, class_name, function, variable, value, variable2, value2, variable3, value3, variable4, value4, false);
+    LogVariable(variable5, value5);
+    std::cout << "\n";
 }
 
 }
 
-#define FILE_NAME ::analysis::FileName(__FILE__)
+#define FILE_NAME ::boca::FileName(__FILE__)
 
-#define NAMESPACE_NAME ::analysis::NameSpaceName(__PRETTY_FUNCTION__)
+#define NAMESPACE_NAME ::boca::NameSpaceName(__PRETTY_FUNCTION__)
 
-#define CLASS_NAME ::analysis::ClassName(__PRETTY_FUNCTION__)
+#define CLASS_NAME ::boca::ClassName(__PRETTY_FUNCTION__)
 
-#define FUNCTION_NAME ::analysis::FunctionName(__PRETTY_FUNCTION__)
+#define FUNCTION_NAME ::boca::FunctionName(__PRETTY_FUNCTION__)
 
 #define NAMES FILE_NAME, __LINE__, NAMESPACE_NAME, CLASS_NAME, FUNCTION_NAME
 
-#define LOG0() ::analysis::Log(NAMES)
+#define VARIABLE(value) #value, value
 
-#define NAME(value) #value, value
+#define LOG0 ::boca::Log(NAMES)
 
-#define LOG1(value1) ::analysis::Log(NAMES, NAME(value1))
+#define LOG1(value) ::boca::Log(NAMES, VARIABLE(value))
 
-#define LOG2(value, value2) ::analysis::Log(NAMES, NAME(value), NAME(value2))
+#define LOG2(value, value2) ::boca::Log(NAMES, VARIABLE(value), VARIABLE(value2))
 
-#define LOG3(value, value2, value3) ::analysis::Log(NAMES, NAME(value), NAME(value2), NAME(value3))
+#define LOG3(value, value2, value3) ::boca::Log(NAMES, VARIABLE(value), VARIABLE(value2), VARIABLE(value3))
 
-#define LOG4(value, value2, value3, value4) ::analysis::Log(NAMES, NAME(value), NAME(value2), NAME(value3), NAME(value4))
+#define LOG4(value, value2, value3, value4) ::boca::Log(NAMES, VARIABLE(value), VARIABLE(value2), VARIABLE(value3), VARIABLE(value4))
 
-#define LOG(arg0, arg1, arg2, arg3, arg4, arg, ...) arg
+#define LOG5(value, value2, value3, value4, value5) ::boca::Log(NAMES, VARIABLE(value), VARIABLE(value2), VARIABLE(value3), VARIABLE(value4), VARIABLE(value5))
 
-#define LOGCHOOSE(...) LOG(, ##__VA_ARGS__, LOG4, LOG3, LOG2, LOG1, LOG0)
+#define LOG(arg0, arg1, arg2, arg3, arg4, arg5, arg, ...) arg
+
+// #define LOGCHOOSE(...) LOG(,##__VA_ARGS__, LOG4, LOG3, LOG2, LOG1, LOG0)
+#define LOGCHOOSE(...) LOG(__VA_ARGS__, , LOG5, LOG4, LOG3, LOG2, LOG1, )
 
 #define ALIVE(...) LOGCHOOSE(__VA_ARGS__)(__VA_ARGS__)
 
 #define DEAD(...) do { if (0) ALIVE(__VA_ARGS__); } while (0)
 
+#define DEAD0 do { if (0) LOG0; } while (0)
+
 #define Error(...) ALIVE(__VA_ARGS__)
+#define Error0 LOG0
 
-#ifdef NDEBUG
-#define Note(...) DEAD(__VA_ARGS__)
-#define Info(...) DEAD(__VA_ARGS__)
-#define Debug(...) DEAD(__VA_ARGS__)
-#define Detail(...) DEAD(__VA_ARGS__)
-// #else
-#endif
-
-#ifdef NOTIFICATION
-#define Note(...) ALIVE(__VA_ARGS__)
-#define Info(...) DEAD(__VA_ARGS__)
-#define Debug(...) DEAD(__VA_ARGS__)
-#define Detail(...) DEAD(__VA_ARGS__)
-// #else
-#endif
-
-#ifdef INFORMATION
-#define Note(...) ALIVE(__VA_ARGS__)
-#define Info(...) ALIVE(__VA_ARGS__)
-#define Debug(...) DEAD(__VA_ARGS__)
-#define Detail(...) DEAD(__VA_ARGS__)
-// #else
-#endif
-
-#ifdef DEBUG
-#define Note(...) ALIVE(__VA_ARGS__)
-#define Info(...) ALIVE(__VA_ARGS__)
-#define Debug(...) ALIVE(__VA_ARGS__)
-#define Detail(...) DEAD(__VA_ARGS__)
-// #else
-#endif
-
-#ifdef DETAILED
-#define Note(...) ALIVE(__VA_ARGS__)
-#define Info(...) ALIVE(__VA_ARGS__)
-#define Debug(...) ALIVE(__VA_ARGS__)
+#if defined(DETAILED)
 #define Detail(...) ALIVE(__VA_ARGS__)
+#define Detail0 LOG0
+#else
+#define Detail(...) DEAD(__VA_ARGS__)
+#define Detail0 DEAD0
 #endif
-// #endif
-// #endif
-// #endif
-// #endif
+
+#if defined(DETAILED) || defined(DEBUG)
+#define Debug(...) ALIVE(__VA_ARGS__)
+#define Debug0 LOG0
+#else
+#define Debug(...) DEAD(__VA_ARGS__)
+#define Debug0 DEAD0
+#endif
+
+#if defined(DETAILED) || defined(DEBUG) || defined(INFORMATION)
+#define INFO(...) ALIVE(__VA_ARGS__)
+#define Info0 LOG0
+#else
+#define INFO(...) DEAD(__VA_ARGS__)
+#define Info0 DEAD0
+#endif
+
+#if defined(DETAILED) || defined(DEBUG) || defined(INFORMATION) || defined(NOTIFICATION)
+#define Note(...) ALIVE(__VA_ARGS__)
+#define Note0 LOG0
+#else
+#define Note(...) DEAD(__VA_ARGS__)
+#define Note0 DEAD0
+#endif
 
 #define Check(condition, ...) if(!(condition)) { Error(__VA_ARGS__); }
-// #define DebugCheck(condition, ...) if(!(condition)) { Debug(__VA_ARGS__); }
+#define DebugCheck(condition, ...) if(!(condition)) { Debug(__VA_ARGS__); }
+
+
+
+// #define Default(condition) default : Error("Switch Default", condition); break;
+#define Default(condition, value) default : Error("Switch Default", condition); return value;
+
+
+// #include "Logging.hh"
+
+
+
+// #define HAS_ARGS_IMPL2(_1, _2, _3, N, ...) N
+// #define HAS_ARGS_SOURCE() MULTI, MULTI, ONE, ERROR
+//
+// #define HAS_ARGS_IMPL(...) HAS_ARGS_IMPL2(__VA_ARGS__)
+// #define HAS_ARGS(...) HAS_ARGS_IMPL(__VA_ARGS__, HAS_ARGS_SOURCE())
+//
+// #define MACRO_ONE(x) ONE_ARG: x
+// #define MACRO_MULTI(...) MULTI_ARG: __VA_ARGS__
+//
+// #define DISAMBIGUATE2(args, ...) MACRO_ ## args (__VA_ARGS__)
+// #define DISAMBIGUATE(args, ...) DISAMBIGUATE2(args, __VA_ARGS__)
+// #define Error(...) DISAMBIGUATE(HAS_ARGS(__VA_ARGS__), __VA_ARGS__)

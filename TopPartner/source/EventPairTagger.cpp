@@ -1,43 +1,43 @@
 #include "EventPairTagger.hh"
-#define DEBUG
+// #define DEBUG
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
-namespace toppartner {
+namespace naturalness {
 
-EventPairTagger::EventPairTagger()
+  int EventPairTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
-    Info();
-    DefineVariables();
-}
-
-int EventPairTagger::Train(Event const& event, PreCuts const&, Tag tag) const
-{
-    Info();
-    Jets jets = bottom_reader_.Multiplets(event);
-    std::vector<Decuplet55> decuplets = signature_reader_.Multiplets(event);
+    Info0;
+   std::vector<Jet> jets = bottom_reader_.Jets(event);
     std::vector<MultipletEvent<Decuplet55>> multipletevents;
-    for (auto const& decuplet : decuplets) {
+    for (auto const& decuplet : signature_reader_.Multiplets(event)) {
         MultipletEvent<Decuplet55> multipletevent(decuplet, event, jets);
         multipletevent.SetTag(tag);
         multipletevents.emplace_back(multipletevent);
     }
-    return SaveEntries(ReduceResult(multipletevents, 1));
+    return SaveEntries(multipletevents, 1);
 }
 
-std::vector<MultipletEvent<Decuplet55>> EventPairTagger::Multiplets(analysis::Event const& event, analysis::PreCuts const&, TMVA::Reader const& reader) const
+std::vector<MultipletEvent<Decuplet55>> EventPairTagger::Multiplets(boca::Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
-    Info();
-    Jets jets = bottom_reader_.Multiplets(event);
-    std::vector<Decuplet55> decuplets = signature_reader_.Multiplets(event);
+    Info0;
+   std::vector<Jet> jets = bottom_reader_.Jets(event);
     std::vector<MultipletEvent<Decuplet55>> multiplet_events;
-    for (auto const& decuplet : decuplets) {
+    for (auto const& decuplet : signature_reader_.Multiplets(event)) {
         MultipletEvent<Decuplet55> multiplet_event(decuplet, event, jets);
         multiplet_event.SetBdt(Bdt(multiplet_event, reader));
         multiplet_events.emplace_back(multiplet_event);
     }
     return ReduceResult(multiplet_events,1);
+}
+std::string EventPairTagger::Name() const
+{
+    return "EventPair";
+}
+std::string EventPairTagger::LatexName() const
+{
+    return "T_{h} T_{l}";
 }
 
 }

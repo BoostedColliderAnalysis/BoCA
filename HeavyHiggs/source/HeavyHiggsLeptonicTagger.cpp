@@ -1,30 +1,24 @@
 #include "HeavyHiggsLeptonicTagger.hh"
 
 #include "WimpMass.hh"
-#include "Quartet.hh"
+#include "multiplets/Quartet.hh"
 #include "Types.hh"
 #include "Event.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace heavyhiggs {
 
-HeavyHiggsLeptonicTagger::HeavyHiggsLeptonicTagger()
-{
-  Info();
-    DefineVariables();
-}
-
 int HeavyHiggsLeptonicTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
-    Info();
-    float mass = event.mass();
+    Info0;
+//     Mass mass = event.mass();
     std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
-    fastjet::PseudoJet missing_et = event.Hadrons().MissingEt();
-    Jets particles = event.Partons().GenParticles();
-    Jets neutrinos = CopyIfNeutrino(particles);
-    Info(triplets.size());
+    Jet missing_et = event.Hadrons().MissingEt();
+    std::vector<Particle> particles = event.Partons().GenParticles();
+    std::vector<Particle> neutrinos = CopyIfNeutrino(particles);
+    INFO(triplets.size());
     std::vector<Sextet> sextets;
     for (auto const& triplet_1 : triplets) {
         for (auto const& triplet_2 : triplets) {
@@ -35,23 +29,21 @@ int HeavyHiggsLeptonicTagger::Train(Event const& event, PreCuts const&, Tag tag)
             WimpMass wimp_mass;
             Presextets = wimp_mass.Sextet(quartet, missing_et, neutrinos, tag);
             for (auto const& sextet : Presextets) {
-                if (tag == Tag::signal && sextet.Jet().m() < mass / 2)
-                    continue;
+//                 if (tag == Tag::signal && sextet.Mass() < mass / 2.) continue;
                 sextets.emplace_back(sextet);
             }
         }
     }
-    Info(sextets.size());
-    if (tag == Tag::signal)
-        sextets = BestMass(sextets, mass);
+    INFO(sextets.size());
+//     if (tag == Tag::signal) sextets = BestMass(sextets, mass);
     return SaveEntries(sextets);
 }
 
-std::vector<Sextet>  HeavyHiggsLeptonicTagger::Multiplets(Event const& event, TMVA::Reader const& reader) const
+std::vector<Sextet>  HeavyHiggsLeptonicTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
 {
-    Info();
+    Info0;
     std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
-    fastjet::PseudoJet missing_et = event.Hadrons().MissingEt();
+    Jet missing_et = event.Hadrons().MissingEt();
     std::vector<Sextet> sextets;
     for (auto const& triplet_1 : triplets) {
         for (auto const& triplet_2 : triplets) {
@@ -68,6 +60,10 @@ std::vector<Sextet>  HeavyHiggsLeptonicTagger::Multiplets(Event const& event, TM
         }
     }
     return ReduceResult(sextets);
+}
+std::string HeavyHiggsLeptonicTagger::Name() const
+{
+    return "HeavyHiggsLeptonic";
 }
 
 }

@@ -4,22 +4,16 @@
 #include "Event.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace higgscpv {
 
-TopSemiPairTagger::TopSemiPairTagger()
+int TopSemiPairTagger::Train(boca::Event const& event, boca::PreCuts const&, Tag tag) const
 {
-  Info();
-    DefineVariables();
-}
-
-int TopSemiPairTagger::Train(analysis::Event const& event, analysis::PreCuts const&, Tag tag) const
-{
-    Info();
+    Info0;
     std::vector<Triplet> triplets_hadronic = top_hadronic_reader_.Multiplets(event);
     std::vector<Triplet> triplets_leptonic = top_leptonic_reader_.Multiplets(event);
-    Jets top_particles = event.Partons().GenParticles();
+   std::vector<Particle> top_particles = event.Partons().GenParticles();
     top_particles = CopyIfParticle(top_particles, Id::top);
     if (top_particles.size() != 2 && tag == Tag::signal) Error(top_particles.size());
     std::vector<Triplet> final_triplets_hadronic;
@@ -55,7 +49,7 @@ int TopSemiPairTagger::Train(analysis::Event const& event, analysis::PreCuts con
     return SaveEntries(sextets);
 }
 
-std::vector<Sextet> TopSemiPairTagger::Multiplets(Event const& event, TMVA::Reader const& reader) const
+std::vector<Sextet> TopSemiPairTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
 {
     std::vector<Triplet> triplets_leptonic = top_leptonic_reader_.Multiplets(event);
     std::vector<Triplet> triplets_hadronic = top_hadronic_reader_.Multiplets(event);
@@ -68,6 +62,10 @@ std::vector<Sextet> TopSemiPairTagger::Multiplets(Event const& event, TMVA::Read
             sextets.emplace_back(sextet);
         }
     return ReduceResult(sextets);
+}
+std::string TopSemiPairTagger::Name() const
+{
+    return "TopSemiPair";
 }
 
 }

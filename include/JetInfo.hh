@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "fastjet/PseudoJet.hh"
@@ -5,16 +8,10 @@
 #include "Identification.hh"
 #include "Constituent.hh"
 
+namespace boca
+{
+class InfoRecombiner;
 class Jet;
-namespace delphes
-{
-typedef ::Jet Jet;
-}
-
-namespace analysis
-{
-
-typedef std::vector<fastjet::PseudoJet> Jets;
 
 /**
  * @brief Jet infos subclassed from Fastjet
@@ -45,9 +42,9 @@ public:
 
     JetInfo(std::vector<Constituent> const& constituents);
 
-    JetInfo operator+(const JetInfo &jet_info);
+    JetInfo operator+(JetInfo const&jet_info);
 
-    JetInfo& operator+=(const JetInfo &jet_info);
+    JetInfo& operator+=(JetInfo const&jet_info);
 
     void AddConstituent(Constituent const& constituent);
 
@@ -55,33 +52,33 @@ public:
 
     void AddConstituents(std::vector<Constituent> const& constituents, std::vector<Constituent> const& displaced_constituents);
 
-    float VertexMass() const;
+    Mass VertexMass() const;
 
-    float MaxDisplacement() const;
+    Length MaxDisplacement() const;
 
-    float MeanDisplacement() const;
+    Length MeanDisplacement() const;
 
-    float SumDisplacement() const;
+    Length SumDisplacement() const;
 
     int VertexNumber() const;
 
-    fastjet::PseudoJet VertexJet() const;
+    boca::Jet VertexJet() const;
 
-    float VertexEnergy() const;
+    Energy VertexEnergy() const;
 
-    float ElectroMagneticRadius(fastjet::PseudoJet const& jet) const;
+    Angle ElectroMagneticRadius(boca::Jet const& jet) const;
 
-    float TrackRadius(fastjet::PseudoJet const& jet) const;
+    Angle TrackRadius(boca::Jet const& jet) const;
 
     float LeadingTrackMomentumFraction() const;
 
-    float CoreEnergyFraction(fastjet::PseudoJet const& jet) const;
+    float CoreEnergyFraction(boca::Jet const& jet) const;
 
     float ElectroMagneticFraction() const;
 
-    float ClusterMass() const;
+    Mass ClusterMass() const;
 
-    float TrackMass() const;
+    Mass TrackMass() const;
 
     bool BTag() const;
 
@@ -89,19 +86,17 @@ public:
 
     int Charge() const;
 
-    analysis::Family Family() const;
-
     void SetDelphesTags(::delphes::Jet const& jet);
 
     void SetConstituents(std::vector<Constituent> const& constituents);
 
-    bool SubStructure() const{
-      return sub_structure_;
-    }
+    bool SubStructure() const;
 
-    void SetSubStructure(bool sub_structure){
-      sub_structure_ = sub_structure;
-    }
+    void SetSubStructure(bool sub_structure);
+
+    void SetBTag(bool b_tag);
+
+    void SetCharge(int charge);
 
 private:
 
@@ -109,21 +104,17 @@ private:
 
     void SetConstituent(Constituent const& constituent);
 
-    void SetBTag(bool b_tag);
-
     void SetTauTag(bool tau_tag);
 
-    void SetCharge(int charge);
+    std::vector<Constituent> Constituents() const;
 
-    std::vector<Constituent> constituents() const;
-
-    std::vector<Constituent> displaced_constituents() const;
+    std::vector<Constituent> DisplacedConstituents() const;
 
     void SecondayVertex() const;
 
     std::vector<Constituent> ApplyVertexResolution(std::vector<Constituent> constituents) const;
 
-    bool VertexResultion(Constituent const& constituent) const;
+    bool VertexResultion(boca::Constituent constituent) const;
 
     std::vector<Constituent> constituents_;
 
@@ -133,7 +124,7 @@ private:
 
     bool tau_tag_ = 0;
 
-    int charge_;
+    int charge_ = -9999;
 
     bool sub_structure_ = true;
 

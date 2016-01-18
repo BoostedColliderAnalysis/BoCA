@@ -1,4 +1,6 @@
-#include "Trainer.hh"
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 
 #include "TClonesArray.h"
 #include "TFile.h"
@@ -7,20 +9,26 @@
 #include "TMVA/MethodBDT.h"
 #include "TMVA/Ranking.h"
 
+#include "exroot/ExRootAnalysis.hh"
+#include "Trainer.hh"
 #include "Types.hh"
 #include "Tagger.hh"
+#include "Options.hh"
+// #define DEBUG
 #include "Debug.hh"
 
-namespace analysis
+namespace boca
 {
 
-  Trainer::Trainer(analysis::Tagger& tagger, TMVA::Types::EMVA mva) : tagger_(tagger) , factory_(tagger.Name(), OutputFile(), FactoryOptions())
+Trainer::Trainer(boca::Tagger& tagger) :
+    tagger_(tagger) ,
+    factory_(tagger.Name(), &OutputFile(), FactoryOptions())
 {
-    Error();
-    AddVariables();
-    PrepareTrainingAndTestTree(GetTrees());
-//     TMVA::MethodBDT& method =
-    BookMethod(mva);
+    Info0;
+    AddObservables();
+    PrepareTrainingAndTestTree(AddAllTrees());
+//     TMVA::MethodBase& method =
+    BookMethod();
 //     const TMVA::Ranking& rank = *method.CreateRanking();
 //     rank.SetContext("test");
     Factory().TrainAllMethods();
@@ -31,40 +39,48 @@ namespace analysis
 
 std::string Trainer::FactoryOptions()
 {
-    return "!Color:!DrawProgressBar";
+    Info0;
+    Options options("Color", false);
+//     options.Add("V");
+//     options.Add("Silent", false);
+    options.Add("DrawProgressBar", false);
+    return options;
 }
 
-TFile* Trainer::OutputFile() const
+TFile& Trainer::OutputFile() const
 {
-    return TFile::Open(Tagger().FactoryFileName().c_str(), "Recreate");
+    Info0;
+    return *TFile::Open(Tagger().FactoryFileName().c_str(), "Recreate");
 }
 
-void Trainer::AddVariables()
+void Trainer::AddObservables()
 {
-    Note();
+    Info0;
     TMVA::gConfig().GetIONames().fWeightFileDir = Tagger().AnalysisName();
     TMVA::gConfig().GetIONames().fWeightFileExtension = Tagger().WeightFileExtension();
-    for (auto const& observable : Tagger().Variables()) Factory().AddVariable(observable.expression(), observable.title(), observable.unit(), observable.type());
-    for (auto const& spectator : Tagger().Spectators()) Factory().AddSpectator(spectator.expression(), spectator.title(), spectator.unit(), spectator.type());
+    for (auto const & observable : Tagger().Variables()) Factory().AddVariable(observable.Expression(), observable.Name(), observable.Unit(), observable.Type());
+    for (auto const & spectator : Tagger().Spectators()) Factory().AddSpectator(spectator.Expression(), spectator.Name(), spectator.Unit(), spectator.Type());
 }
 
-long Trainer::GetTrees()
+long Trainer::AddAllTrees()
 {
-    Note();
-    return std::min(GetTree(Tag::signal), GetTree(Tag::background)) / 2;
+    Info0;
+    return std::min(AddTrees(Tag::background), AddTrees(Tag::signal)) / 2;
 }
 
-long Trainer::GetTree(Tag tag)
+long Trainer::AddTrees(Tag tag)
 {
+    Info0;
     long number = 0;
-    for (auto const& tree_name : Tagger().TreeNames(tag)) number += AddTree(tree_name, tag);
+    for (auto const & tree_name : Tagger().TreeNames(tag)) number += AddTree(tree_name, tag);
     return number;
 }
 
 long Trainer::AddTree(std::string const& tree_name, Tag tag)
 {
-    Debug(tree_name, Name(tag));
+    INFO(tree_name, Name(tag));
     TTree& tree = Tree(tree_name, tag);
+//     TTree& tree2 = Tree(tree_name, tag);
     exroot::TreeReader tree_reader = TreeReader(tree_name, tag);
     float weight = Weight(tree_reader);
     Note(weight);
@@ -81,63 +97,118 @@ long Trainer::AddTree(std::string const& tree_name, Tag tag)
 
 exroot::TreeReader Trainer::TreeReader(std::string const& tree_name, Tag tag)
 {
-   return exroot::TreeReader(&Tree(tree_name, tag));
+    Info0;
+    return exroot::TreeReader(&Tree(tree_name, tag));
 }
 
 long Trainer::Entries(exroot::TreeReader& tree_reader)
 {
+    Info0;
     long entries = 0;
-    TClonesArray& clones_array = *tree_reader.UseBranch(Tagger().BranchName(Stage::trainer).c_str());
-    for (auto const& entry : Range(tree_reader.GetEntries())) {
+    TClonesArray* clones_array = tree_reader.UseBranch(Tagger().BranchName(Stage::trainer).c_str());
+    Check(clones_array, "no " + Tagger().BranchName(Stage::trainer) + " Branch");
+    for (auto const & entry : Range(tree_reader.GetEntries())) {
         tree_reader.ReadEntry(entry);
-        entries += clones_array.GetEntries();
+        entries += clones_array->GetEntries();
     }
     return entries;
 }
 
 float Trainer::Weight(exroot::TreeReader& tree_reader)
 {
-    TClonesArray& clones_array = *tree_reader.UseBranch(Tagger().WeightBranchName().c_str());
+    INFO(Tagger().WeightBranchName());
+    TClonesArray* clones_array = tree_reader.UseBranch(Tagger().WeightBranchName().c_str());
+    Check(clones_array, "no " + Tagger().WeightBranchName() + " Branch");
     tree_reader.ReadEntry(0);
-    return static_cast<InfoBranch&>(*clones_array.First()).Crosssection / tree_reader.GetEntries();
+    return static_cast<InfoBranch&>(*clones_array->First()).Crosssection() / fb / tree_reader.GetEntries();
 }
 
 TTree& Trainer::Tree(std::string const& tree_name, Tag tag)
 {
-    Note(Tagger().FileName(Stage::trainer, tag));
-    if (!Exists(Tagger().FileName(Stage::trainer, tag).c_str())) Error("File not found", Tagger().FileName(Stage::trainer, tag));
+    INFO(Tagger().FileName(Stage::trainer, tag));
+    if (!Exists(Tagger().FileName(Stage::trainer, tag))) Error("File not found", Tagger().FileName(Stage::trainer, tag));
     TFile& file = *TFile::Open(Tagger().FileName(Stage::trainer, tag).c_str());
-    if (!file.GetListOfKeys()->Contains(tree_name.c_str())) Error("no tree");
+    if (file.GetListOfKeys()) {
+        auto list = file.GetListOfKeys()->MakeIterator();
+        TTree* tree;
+        while ((tree = static_cast<TTree*>(list->Next()))) Error(tree->GetName());
+    }
+    if (!file.GetListOfKeys()->Contains(tree_name.c_str())) Error("no tree", tree_name);
     return static_cast<TTree&>(*file.Get(tree_name.c_str()));
 }
 
 void Trainer::PrepareTrainingAndTestTree(long event_number)
 {
-    Error();
-    std::string number_options = "nTrain_Background=" + std::to_string(event_number) + ":nTest_Background=" + std::to_string(event_number) + ":nTrain_Signal=" + std::to_string(event_number) + ":nTest_Signal=" + std::to_string(event_number);
-//     std::string TrainingAndTestOptions = "nTrain_Signal=0:nTrain_Background=0:SplitMode=Random:NormMode=Numevents:!V";
-    std::string training_and_test_options = number_options + "SplitMode=Block";
-    Factory().PrepareTrainingAndTestTree(Tagger().Cut(), Tagger().Cut(), training_and_test_options);
+    Info0;
+    Options options;
+//     options.Add("SplitMode", "Block");
+    options.Add("nTrain_Background", event_number);
+    options.Add("nTest_Background", event_number);
+    options.Add("nTrain_Signal", event_number);
+    options.Add("nTest_Signal", event_number);
+    Factory().PrepareTrainingAndTestTree(Tagger().Cut(), Tagger().Cut(), options);
 }
 
-TMVA::MethodBDT& Trainer::BookMethod(TMVA::Types::EMVA mva)
+TMVA::MethodBase& Trainer::BookMethod()
 {
-    Note();
-    return static_cast<TMVA::MethodBDT&>(*Factory().BookMethod(mva, Tagger().MethodName(mva), MethodOptions(mva)));
+    Info0;
+    return *Factory().BookMethod(Tagger().Mva(), Tagger().MethodName(), MethodOptions());
 }
-
-std::string Trainer::MethodOptions(TMVA::Types::EMVA mva)
+std::string Trainer::MethodOptions() const
 {
-    switch (mva) {
+    Info0;
+    Options options;
+    switch (Tagger().Mva()) {
     case TMVA::Types::EMVA::kBDT :
-        // return "NTrees=1000:MinNodeSize=2.5%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=20";
-        return "NTrees=1000:MinNodeSize=2.5%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=20";
-        //:VarTransform=D
-        // return "!H:!V:NTrees=1000:MinNodeSize=1.5%:BoostType=Grad:Shrinkage=0.10:UseBaggedGrad:UseRandomisedTrees:GradBaggingFraction=0.5:nCuts=20:MaxDepth=4";
-        //:CreateMVAPdfs:DoBoostMonitor";
-    default :
-        return "";
+        options.Add("NTrees", 1000);
+        options.Add("MinNodeSize", 2.5, "%");
+        options.Add("MaxDepth", 3);
+        options.Add("BoostType", "AdaBoost");
+        options.Add("AdaBoostBeta", 0.5);
+        options.Add("UseBaggedBoost");
+        options.Add("BaggedSampleFraction", 0.5);
+        options.Add("SeparationType", "GiniIndex");
+        options.Add("nCuts", 20);
+        break;
+    case TMVA::Types::EMVA::kLikelihood :
+        options.Add("VarTransform", "D");
+        options.Add("MinNodeSize", 1.5, "%");
+        options.Add("BoostType", "Grad");
+        options.Add("Shrinkage", 0.10);
+        options.Add("UseBaggedGrad");
+        options.Add("UseRandomisedTrees");
+        options.Add("GradBaggingFraction", 0.5);
+        options.Add("MaxDepth", 4);
+        options.Add("CreateMVAPdfs");
+        options.Add("DoBoostMonitor");
+        break;
+    case TMVA::Types::EMVA::kCuts :
+        options.Add("FitMethod", "GA");
+        options.Add("EffSel");
+        options.Add("VarProp", "FSmart");
+        Default(Tagger().Mva(), "");
     }
+    return options;
+}
+
+Tagger const& Trainer::Tagger() const
+{
+    return tagger_;
+}
+
+Tagger& Trainer::Tagger()
+{
+    return tagger_;
+}
+
+TMVA::Factory& Trainer::Factory()
+{
+    return factory_;
+}
+
+TMVA::Factory const& Trainer::Factory() const
+{
+    return factory_;
 }
 
 }

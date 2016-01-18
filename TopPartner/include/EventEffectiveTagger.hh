@@ -3,44 +3,30 @@
 #include "SignatureEffectiveTagger.hh"
 #include "MultipletEvent.hh"
 
-namespace analysis {
+namespace boca {
 
-namespace toppartner {
+namespace naturalness {
 
 /**
  *
  * @brief Prepares multivariant analysis
  *
  */
-class EventEffectiveTagger : public BranchTagger<EventBranch> {
+class EventEffectiveTagger : public TaggerTemplate<MultipletEvent<Quattuordecuplet554>,EventBranch> {
 
 public:
 
-    EventEffectiveTagger();
+    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
 
-    int Train(Event const& event, PreCuts const& pre_cuts,
-              Tag tag) const override;
+    std::vector<MultipletEvent<Quattuordecuplet554>> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
 
-    std::vector<MultipletEvent<Quattuordecuplet>> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
-
-    int GetBdt(Event const& event, PreCuts const& pre_cuts,
-               TMVA::Reader const& reader) const final {
-                 return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
-    }
-
-    auto Multiplets(Event const& event, TMVA::Reader const& reader)
-    {
-        PreCuts pre_cuts;
-        return Multiplets(event, pre_cuts, reader);
-    }
-
-    std::string Name() const final { return "Event"; }
+    std::string Name() const final;
 
 private:
 
     Reader<SignatureEffectiveTagger> signature_reader_;
 
-    Reader<BottomTagger> bottom_reader_;
+    Reader<standardmodel::BottomTagger> bottom_reader_;
 
 };
 

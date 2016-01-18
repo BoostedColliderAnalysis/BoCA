@@ -1,41 +1,41 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
-#include "Particles.hh"
-#include "LorentzVector.hh"
+#include "PseudoJet.hh"
+#include "ParticleInfo.hh"
 
-class TLorentzVector;
+namespace boca
+{
 
-namespace analysis {
-
-class Particle {
+class Particle : public PseudoJet
+{
 
 public:
 
-    Particle() {}
+//     using PseudoJet::PseudoJet;
 
-    Particle(int id);
+  Particle();
 
-    Particle(Id id);
+    Particle(double x, double y, double z, double e);
 
-    Particle(Id id, int position);
+    Particle(fastjet::PseudoJet const& jet);
 
-    Particle(LorentzVector const& momentum, int id, int position);
+    Particle(TLorentzVector const& vector, Family const& family);
 
-    Particle(TLorentzVector const& momentum, int id, int position);
+    Particle(exroot::GenParticle const& particle, int id);
 
-    LorentzVector momentum() const;
+    Particle(exroot::LHEFParticle const& particle, int id);
 
-    int position() const;
+    ParticleInfo const& Info() const;
 
-    int id() const;
+    ParticleInfo& Info();
 
 private:
 
-    LorentzVector momentum_;
-
-    int position_ = EmptyPosition;
-
-    int id_ = int(Id::empty);
+//   ParticleInfo particle_info_;
+  void SetInfo(ParticleInfo const & user_info = ParticleInfo());
 
 };
 

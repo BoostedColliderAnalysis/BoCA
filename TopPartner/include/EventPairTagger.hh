@@ -2,49 +2,37 @@
 
 #include "TopPartnerPairTagger.hh"
 #include "MultipletEvent.hh"
+#include "AnalysisBase.hh"
 
-namespace analysis {
+namespace boca
+{
 
-namespace toppartner {
+namespace naturalness
+{
 
 /**
  *
  * @brief Prepares multivariant analysis
  *
  */
-class EventPairTagger : public BranchTagger<EventBranch> {
+class EventPairTagger : public TaggerTemplate<MultipletEvent<Decuplet55>,EventBranch>
+{
 
 public:
 
-    EventPairTagger();
-
     int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
 
-    std::vector<MultipletEvent<Decuplet55>> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
+    std::vector<MultipletEvent<Decuplet55>> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
 
-    int GetBdt(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final {
-                 return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
-    }
+    std::string Name() const final;
 
-    auto Multiplets(Event const& event, TMVA::Reader const& reader)
-    {
-        PreCuts pre_cuts;
-        return Multiplets(event, pre_cuts, reader);
-    }
-
-    std::string Name() const final {
-      return "EventPair";
-    }
-
-    std::string NiceName() const final {
-      return "#tilde t_{h} #tilde t_{l}";
-    }
+    std::string LatexName() const final;
 
 private:
 
     Reader<TopPartnerPairTagger> signature_reader_;
 
-    Reader<BottomTagger> bottom_reader_;
+    Reader<standardmodel::BottomTagger> bottom_reader_;
 
 };
 

@@ -2,21 +2,15 @@
 #include "Event.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca {
 
 namespace heavyhiggs {
 
-EventChargedTagger::EventChargedTagger()
+int EventChargedTagger::Train(boca::Event const& event, boca::PreCuts const&, Tag tag) const
 {
-    Info();
-    DefineVariables();
-}
-
-int EventChargedTagger::Train(analysis::Event const& event, analysis::PreCuts const&, Tag tag) const
-{
-    Info();
-    Jets jets = bottom_reader_.Multiplets(event);
-    Jets Leptons = event.Leptons().leptons();
+    Info0;
+   std::vector<Jet> jets = bottom_reader_.Jets(event);
+   std::vector<Lepton> leptons = event.Leptons().leptons();
     std::vector<Octet44> octets = signature_semi_reader_.Multiplets(event);
     std::vector<MultipletEvent<Octet44>> events;
     for (auto const& octet : octets) {
@@ -30,8 +24,8 @@ int EventChargedTagger::Train(analysis::Event const& event, analysis::PreCuts co
 
 std::vector<MultipletEvent<Octet44>> EventChargedTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
 {
-    Info();
-    Jets jets = bottom_reader_.Multiplets(event);
+    Info0;
+   std::vector<Jet> jets = bottom_reader_.Jets(event);
     std::vector<Octet44> octets = signature_semi_reader_.Multiplets(event);
     std::vector<MultipletEvent<Octet44>> multiplet_events;
     for (auto& octet : octets) {
@@ -40,6 +34,10 @@ std::vector<MultipletEvent<Octet44>> EventChargedTagger::Multiplets(Event const&
         multiplet_events.emplace_back(multiplet_event);
     }
     return ReduceResult(multiplet_events, 1);
+}
+std::string EventChargedTagger::Name() const
+{
+    return "EventCharged";
 }
 
 }

@@ -1,8 +1,13 @@
+#
+# Copyright (C) 2015 Jan Hajer
+#
+
 # set path to madgraph folder
 set(
-MadGraphDir
-~/Development/MadGraph
-~/madness/MadGraph
+  MadGraphDir
+  ~/Development/madgraph
+  ~/madness/MadGraph
+  ~/HEP/MadGraph5_v1_5_14
 )
 
 find_path(
@@ -33,7 +38,7 @@ add_include_path(${DelphesDir} SYSTEM)
 
 find_library(
   DelphesLibrary
-  NAMES Delphes
+  NAMES DelphesNoFastJet
   HINTS ${DelphesDir}
   DOC "Delphes library installed by MadGraph"
 )

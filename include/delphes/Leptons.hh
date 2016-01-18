@@ -1,28 +1,32 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "../Leptons.hh"
 
-namespace analysis {
+namespace boca
+{
 
-namespace delphes {
+namespace delphes
+{
 
 /**
  * @brief Delphes leptons
  *
  */
-class Leptons : public analysis::Leptons {
+class Leptons : public boca::Leptons
+{
 
 public:
-  analysis::Jets Electrons() const final;
 
-  analysis::Jets Muons() const final;
+    Leptons(boca::TreeReader const& tree_reader);
 
-private:
+    std::vector<Lepton> Electrons() const final;
 
-    analysis::Jets Electrons(JetDetail jet_detail) const;
+    std::vector<Lepton> Muons() const final;
 
-    analysis::Jets Muons(analysis::JetDetail jet_detail) const;
-
+    std::vector<Lepton> Photons() const final;
 
 };
 

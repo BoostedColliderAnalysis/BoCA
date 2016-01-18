@@ -1,7 +1,15 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include "classes/DelphesClasses.h"
+// #include "delphes/DelphesClasses.h"
 
+/**
+ * @brief Delphes
+ *
+ */
 namespace delphes {
 
 typedef ::Event Event;

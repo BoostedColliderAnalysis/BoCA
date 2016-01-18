@@ -1,46 +1,35 @@
 #pragma once
 
 #include "TopLeptonicTagger.hh"
-#include "Sextet.hh"
+#include "multiplets/Sextet.hh"
 #include "BranchesHiggsCpv.hh"
 
-namespace analysis {
+namespace boca
+{
 
-namespace higgscpv {
+namespace higgscpv
+{
 
 /**
  * @brief JetPair BDT tagger
  *
  */
-class TopLeptonicPairTagger : public BranchTagger<TopLeptonicPairBranch> {
+class TopLeptonicPairTagger : public TaggerTemplate<Sextet, TopLeptonicPairBranch>
+{
 
 public:
 
-    TopLeptonicPairTagger();
+    int Train(Event const& event, boca::PreCuts const&, Tag tag) const final;
 
-    int Train(Event const& event, analysis::PreCuts const&,
-              Tag tag) const override;
+    std::vector<Sextet> Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const final;
 
-    std::vector<Sextet> Multiplets(Event const& event, analysis::PreCuts const&, TMVA::Reader const& reader) const;
+    std::string Name() const final;
 
-    int GetBdt(Event const& event, PreCuts const& pre_cuts,
-               TMVA::Reader const& reader) const final {
-                 return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
-    }
-
-    auto Multiplets(Event const& event, TMVA::Reader const& reader)
-    {
-        PreCuts pre_cuts;
-        return Multiplets(event, pre_cuts, reader);
-    }
-
-    std::string Name() const final { return "TopLeptonicPair"; }
-
-    std::vector<Sextet> TruthLevel(analysis::Event const& event, std::vector< analysis::Sextet > sextets, Tag tag) const;
+    std::vector<Sextet> TruthLevel(boca::Event const& event, std::vector< boca::Sextet > sextets, Tag tag) const;
 
 private:
 
-    Reader<TopLeptonicTagger> top_leptonic_reader_;
+    Reader<standardmodel::TopLeptonicTagger> top_leptonic_reader_;
 
 };
 

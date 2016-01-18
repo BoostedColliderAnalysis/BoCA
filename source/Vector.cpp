@@ -1,251 +1,292 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "Vector.hh"
 
+#include <boost/range/algorithm_ext/erase.hpp>
+#include <boost/range/algorithm/copy.hpp>
+#include <boost/range/adaptors.hpp>
+
 #include "Types.hh"
-#include "JetInfo.hh"
+#include "ParticleInfo.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca
+{
 
 struct IsParticle {
-    IsParticle(Id id_1)
-    {
+    IsParticle(Id id_1) {
         id_1_ = id_1;
         id_2_ = id_1;
     }
-    IsParticle(Id id_1, Id id_2)
-    {
+    IsParticle(Id id_1, Id id_2) {
         id_1_ = id_1;
         id_2_ = id_2;
     }
-    bool operator()(fastjet::PseudoJet const& jet)
-    {
-        unsigned id = std::abs(jet.user_info<JetInfo>().Family().particle().id());
+    bool operator()(Particle const& jet) const {
+        unsigned id = std::abs(jet.Info().Family().Particle().Id());
         Debug(id, to_unsigned(id_1_));
-        return (id == to_unsigned(id_1_) || id == to_unsigned(id_2_));
+        return id == to_unsigned(id_1_) || id == to_unsigned(id_2_);
     }
     Id id_1_;
     Id id_2_;
 };
 
-Jets CopyIfParticle(Jets const& jets, Id id)
+struct IsParticles {
+    IsParticles(std::vector<Id> const& ids) {
+        ids_ = ids;
+    }
+    bool operator()(Particle const& jet) const {
+        unsigned id = std::abs(jet.Info().Family().Particle().Id());
+        return std::find_if(ids_.begin(), ids_.end(), [&](Id id_2) {
+            return id == to_unsigned(id_2);
+        }) != ids_.end();
+    }
+    std::vector<Id> ids_;
+};
+
+std::vector<Particle> CopyIfParticle(std::vector<Particle> const& particles, Id id)
 {
-    if (jets.empty()) return jets;
-    Jets final_jets(jets.size());
-    auto jet = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), IsParticle(id));
-    final_jets.resize(std::distance(final_jets.begin(), jet));
-    return final_jets;
+    std::vector<Particle> matches;
+    boost::range::copy(particles | boost::adaptors::filtered(IsParticle(id)), std::back_inserter(matches));
+    return matches;
 }
 
-Jets CopyIfParticles(Jets const& jets, Id id_1, Id id_2)
+std::vector<Particle> CopyIfParticles(std::vector<Particle> const& particles, Id id_1, Id id_2)
 {
-    if (jets.empty()) return jets;
-    Jets final_jets(jets.size());
-    auto iterator = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), IsParticle(id_1, id_2));
-    final_jets.resize(std::distance(final_jets.begin(), iterator));
-    return final_jets;
+    std::vector<Particle> matches;
+    boost::range::copy(particles | boost::adaptors::filtered(IsParticle(id_1, id_2)), std::back_inserter(matches));
+    return matches;
+}
+
+std::vector<Particle> CopyIfParticles(std::vector<Particle> const& particles, std::vector<Id> ids)
+{
+    std::vector<Particle> matches;
+    boost::range::copy(particles | boost::adaptors::filtered(IsParticles(ids)), std::back_inserter(matches));
+    return matches;
 }
 
 struct IsExactParticle {
-    IsExactParticle(int id)
-    {
+    IsExactParticle(int id) {
         id_ = id;
     }
-    bool operator()(fastjet::PseudoJet const& Jet)
-    {
-        return (Jet.user_info<JetInfo>().Family().particle().id() == id_);
+    bool operator()(Particle const& Jet) const {
+        return Jet.Info().Family().Particle().Id() == id_;
     }
     int id_;
 };
 
-Jets CopyIfExactParticle(Jets const& jets, int id)
+std::vector<Particle> CopyIfExactParticle(std::vector<Particle> const& particles, int id)
 {
-    if (jets.empty()) return jets;
-    Jets final_jets(jets.size());
-    auto iterator = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), IsExactParticle(id));
-    final_jets.resize(std::distance(final_jets.begin(), iterator));
-    return final_jets;
+    std::vector<Particle> matches;
+    boost::range::copy(particles | boost::adaptors::filtered(IsExactParticle(id)), std::back_inserter(matches));
+    return matches;
 }
 
-Jets RemoveIfExactParticle(Jets jets, int id)
+std::vector<Particle> RemoveIfExactParticle(std::vector<Particle> particles, int id)
 {
-    if (jets.empty()) return jets;
-    jets.erase(std::remove_if(jets.begin(), jets.end(), IsExactParticle(id)), jets.end());
-    return jets;
+    return boost::range::remove_erase_if(particles, IsExactParticle(id));
 }
 
-Jets CopyIfNeutrino(Jets const& jets)
+std::vector<Particle> CopyIfNeutrino(std::vector<Particle> const& particles)
 {
-    if (jets.empty())
-        return jets;
-    Jets final_jets(jets.size());
-    auto jet = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), [](fastjet::PseudoJet const& jet)
-        {
-          unsigned id = std::abs(jet.user_info<JetInfo>().Family().particle().id());
-          return (id == to_unsigned(Id::electron_neutrino) || id == to_unsigned(Id::muon_neutrino) || id == to_unsigned(Id::tau_neutrino));
-        });
-    final_jets.resize(std::distance(final_jets.begin(), jet));
-    return final_jets;
+    std::vector<Particle> neutrinos;
+    boost::range::copy(particles | boost::adaptors::filtered([](Particle const & jet) {
+        unsigned id = std::abs(jet.Info().Family().Particle().Id());
+        return id == to_unsigned(Id::electron_neutrino) || id == to_unsigned(Id::muon_neutrino) || id == to_unsigned(Id::tau_neutrino);
+    }), std::back_inserter(neutrinos));
+    return neutrinos;
 }
 
-Jets RemoveIfOutsidePtWindow(analysis::Jets jets, float lower_cut, float upper_cut)
+std::vector<Particle> CopyIfLepton(std::vector<Particle> const& particles)
 {
-    if (jets.empty()) return jets;
-    jets.erase(std::remove_if(jets.begin(), jets.end(), [lower_cut, upper_cut](fastjet::PseudoJet const& jet)
-    {
-      return (jet.pt() < lower_cut || jet.pt() > upper_cut);
-    }), jets.end());
-    return jets;
+    std::vector<Particle> leptons;
+    boost::range::copy(particles | boost::adaptors::filtered([](Particle const & jet) {
+        unsigned id = std::abs(jet.Info().Family().Particle().Id());
+        return id == to_unsigned(Id::electron) || id == to_unsigned(Id::muon);
+    }), std::back_inserter(leptons));
+    return leptons;
 }
 
-Jets CopyIfFamily(Jets const& jets, Id id, Id mother_id)
+std::vector<Particle> CopyIfFamily(std::vector<Particle> const& particles, Id id, Id mother_id)
 {
-    if (jets.empty()) return jets;
-    Jets final_jets(jets.size());
-    auto jet = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), [id,mother_id](fastjet::PseudoJet const& Jet)
-    {
-      unsigned particle = std::abs(Jet.user_info<JetInfo>().Family().particle().id());
-      unsigned mother = std::abs(Jet.user_info<JetInfo>().Family().mother_1().id());
-      return (particle == to_unsigned(id) && mother == to_unsigned(mother_id));
+    std::vector<Particle> matches;
+    boost::range::copy(particles | boost::adaptors::filtered([id, mother_id](Particle const & Jet) {
+        unsigned particle = std::abs(Jet.Info().Family().Particle().Id());
+        unsigned mother = std::abs(Jet.Info().Family().Mother().Id());
+        return particle == to_unsigned(id) && mother == to_unsigned(mother_id);
+    }), std::back_inserter(matches));
+    return matches;
+}
+
+std::vector<Particle> RemoveIfGrandFamily(std::vector<Particle> jets, Id id , Id grand_mother_id)
+{
+    return boost::range::remove_erase_if(jets, [id, grand_mother_id](Particle const & Jet) {
+        unsigned particle = std::abs(Jet.Info().Family().Particle().Id());
+        if (particle != to_unsigned(id)) return true;
+        unsigned grand_mother = Jet.Info().Family().GrandMother().Id();
+        return grand_mother == to_unsigned(grand_mother_id);
     });
-    final_jets.resize(std::distance(final_jets.begin(), jet));
-    return final_jets;
 }
 
-Jets RemoveIfGrandFamily(Jets jets, Id id , Id grand_mother_id)
+std::vector<Particle> RemoveIfParticle(std::vector<Particle> particles, Id id)
 {
-    if (jets.empty()) return jets;
-    jets.erase(std::remove_if(jets.begin(), jets.end(), [id, grand_mother_id](fastjet::PseudoJet const& Jet)
-    {
-      unsigned particle = std::abs(Jet.user_info<JetInfo>().Family().particle().id());
-      if(particle != to_unsigned(id)) return true;
-      unsigned grand_mother = Jet.user_info<JetInfo>().Family().grand_mother().id();
-      return (grand_mother == to_unsigned(grand_mother_id));
-    }), jets.end());
-    return jets;
-}
-
-Jets RemoveIfParticle(Jets jets, Id id)
-{
-    if (jets.empty()) return jets;
-    jets.erase(std::remove_if(jets.begin(), jets.end(), IsParticle(id)), jets.end());
-    return jets;
+    return boost::range::remove_erase_if(particles, IsParticle(id));
 }
 
 struct HasMother {
-    HasMother(Id mother_id)
-    {
+    HasMother(Id mother_id) {
         mother_id_ = mother_id;
     }
-    bool operator()(fastjet::PseudoJet const& jet)
-    {
-        unsigned id = std::abs(jet.user_info<JetInfo>().Family().mother_1().id());
+    bool operator()(Particle const& particle) const {
+        unsigned id = std::abs(particle.Info().Family().Mother().Id());
         return id == to_unsigned(mother_id_);
     }
     Id mother_id_;
 };
 
-Jets CopyIfMother(Jets const& jets, Id mother_id)
+std::vector<Particle> CopyIfMother(std::vector<Particle> const& particles, Id mother_id)
 {
-    if (jets.empty()) return jets;
-    Jets final_jets(jets.size());
-    auto jet = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), HasMother(mother_id));
-    final_jets.resize(std::distance(final_jets.begin(), jet));
-    return final_jets;
-}
-Jets RemoveIfMother(Jets jets, Id mother_id)
-{
-    jets.erase(std::remove_if(jets.begin(), jets.end(), HasMother(mother_id)), jets.end());
-    return jets;
+    std::vector<Particle> daughters;
+    boost::range::copy(particles | boost::adaptors::filtered(HasMother(mother_id)), std::back_inserter(daughters));
+    return daughters;
 }
 
-Jets CopyIfGrandMother(Jets const& jets, Id grand_mother_id)
+std::vector<Particle> CopyIfMother(std::vector<Particle> const& particles, Particle mother)
 {
-  if (jets.empty()) return jets;
-  Jets final_jets(jets.size());
-  auto jet = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), [&](fastjet::PseudoJet const& jet){
-    unsigned grand_mother = std::abs(jet.user_info<JetInfo>().Family().grand_mother().id());
-    return grand_mother == to_unsigned(grand_mother_id);
-  });
-  final_jets.resize(std::distance(final_jets.begin(), jet));
-  return final_jets;
+    std::vector<Particle> daughters;
+    boost::range::copy(particles | boost::adaptors::filtered([&](Particle const & particle) {
+        return particle.Info().Family().Mother().Position() == mother.Info().Family().Particle().Position();
+    }), std::back_inserter(daughters));
+    return daughters;
+}
+
+std::vector<Particle> CopyIfGrandMother(std::vector<Particle> const& particles, Particle grand_mother)
+{
+    std::vector<Particle> daughters;
+    boost::range::copy(particles | boost::adaptors::filtered([&](Particle const & particle) {
+        return particle.Info().Family().GrandMother().Position() == grand_mother.Info().Family().Particle().Position();
+    }), std::back_inserter(daughters));
+    return daughters;
+}
+
+std::vector<Particle> RemoveIfMother(std::vector<Particle> particles, Id mother_id)
+{
+    return boost::range::remove_erase_if(particles, HasMother(mother_id));
+}
+
+std::vector<Particle> CopyIfGrandMother(std::vector<Particle> const& particles, Id grand_mother_id)
+{
+
+    std::vector<Particle> grand_mothers;
+    boost::range::copy(particles | boost::adaptors::filtered([&](Particle const & jet) {
+        unsigned grand_mother = std::abs(jet.Info().Family().GrandMother().Id());
+        return grand_mother == to_unsigned(grand_mother_id);
+    }), std::back_inserter(grand_mothers));
+    return grand_mothers;
+}
+
+std::vector<Particle> CopyIfGreatGrandMother(std::vector<Particle> const& particles, Id grand_grand_mother_id)
+{
+
+    std::vector<Particle> great_grand_mothers;
+    boost::range::copy(particles | boost::adaptors::filtered([&](Particle const & jet) {
+        unsigned grand_grand_mother = std::abs(jet.Info().Family().GreatGrandMother().Id());
+        return grand_grand_mother == to_unsigned(grand_grand_mother_id);
+    }), std::back_inserter(great_grand_mothers));
+    return great_grand_mothers;
 }
 
 
 struct IsSingleMother {
-  bool operator()(fastjet::PseudoJet const& Jet)
-  {
-    unsigned id = std::abs(Jet.user_info<JetInfo>().Family().mother_2().id());
-    return id == to_unsigned(Id::empty);
-  }
+    bool operator()(Particle const& Jet) const {
+        unsigned id = std::abs(Jet.Info().Family().StepMother().Id());
+        return id == to_unsigned(Id::empty);
+    }
 };
 
-Jets RemoveIfSingleMother(Jets jets)
+std::vector<Particle> RemoveIfSingleMother(std::vector<Particle> particles)
 {
-  jets.erase(std::remove_if(jets.begin(), jets.end(), IsSingleMother()), jets.end());
-  return jets;
+    return boost::range::remove_erase_if(particles, IsSingleMother());
 }
 
 struct IsLepton {
-    bool operator()(fastjet::PseudoJet const& jet)
-    {
-        unsigned id = std::abs(jet.user_info<JetInfo>().Family().particle().id());
-        return (id == to_unsigned(Id::electron) || id == to_unsigned(Id::muon) || id == to_unsigned(Id::tau) || id == to_unsigned(Id::tau_neutrino) || id == to_unsigned(Id::muon_neutrino) || id == to_unsigned(Id::electron_neutrino));
+    bool operator()(Particle const& jet) const {
+        unsigned id = std::abs(jet.Info().Family().Particle().Id());
+        return id == to_unsigned(Id::electron) || id == to_unsigned(Id::muon) || id == to_unsigned(Id::tau) || id == to_unsigned(Id::tau_neutrino) || id == to_unsigned(Id::muon_neutrino) || id == to_unsigned(Id::electron_neutrino);
     }
 };
 
-Jets RemoveIfLetpon(Jets jets)
+std::vector<Particle> RemoveIfLetpon(std::vector<Particle> particles)
 {
-    jets.erase(std::remove_if(jets.begin(), jets.end(), IsLepton()), jets.end());
-    return jets;
+    return boost::range::remove_erase_if(particles, IsLepton());
 }
 
 struct IsQuark {
-    bool operator()(fastjet::PseudoJet const& jet)
-    {
-        unsigned id = std::abs(jet.user_info<JetInfo>().Family().particle().id());
-        return (id == to_unsigned(Id::up) || id == to_unsigned(Id::down) || id == to_unsigned(Id::charm) || id == to_unsigned(Id::strange) || id == to_unsigned(Id::bottom) || id == to_unsigned(Id::top));
+    bool operator()(Particle const& jet) const {
+        unsigned id = std::abs(jet.Info().Family().Particle().Id());
+        return id == to_unsigned(Id::up) || id == to_unsigned(Id::down) || id == to_unsigned(Id::charm) || id == to_unsigned(Id::strange) || id == to_unsigned(Id::bottom) || id == to_unsigned(Id::top);
     }
 };
 
-Jets RemoveIfQuark(Jets jets)
+std::vector<Particle> RemoveIfQuark(std::vector<Particle> jets)
 {
-    jets.erase(std::remove_if(jets.begin(), jets.end(), IsQuark()), jets.end());
-    return jets;
+    return boost::range::remove_erase_if(jets, IsQuark());
 }
 
-Jets CopyIfQuark(Jets const& jets)
+std::vector<Particle> CopyIfQuark(std::vector<Particle> const& particles)
 {
-    if (jets.empty()) return jets;
-    Jets final_jets(jets.size());
-    auto jet = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), IsQuark());
-    final_jets.resize(std::distance(final_jets.begin(), jet));
-    return final_jets;
+    std::vector<Particle> quarks;
+    boost::range::copy(particles | boost::adaptors::filtered(IsQuark()), std::back_inserter(quarks));
+    return quarks;
 }
 
 struct Is5Quark {
-    bool operator()(fastjet::PseudoJet const& jet)
-    {
-        unsigned id = std::abs(jet.user_info<JetInfo>().Family().particle().id());
-        return (id == to_unsigned(Id::up) || id == to_unsigned(Id::down) || id == to_unsigned(Id::charm) || id == to_unsigned(Id::strange) || id == to_unsigned(Id::bottom));
+    bool operator()(Particle const& jet) const {
+        unsigned id = std::abs(jet.Info().Family().Particle().Id());
+        return id == to_unsigned(Id::up) || id == to_unsigned(Id::down) || id == to_unsigned(Id::charm) || id == to_unsigned(Id::strange) || id == to_unsigned(Id::bottom);
     }
 };
 
-Jets CopyIf5Quark(Jets const& jets)
+std::vector<Particle> CopyIf5Quark(std::vector<Particle> const& particles)
 {
-    if (jets.empty()) return jets;
-    Jets final_jets(jets.size());
-    auto jet = std::copy_if(jets.begin(), jets.end(), final_jets.begin(), Is5Quark());
-    final_jets.resize(std::distance(final_jets.begin(), jet));
-    return final_jets;
+
+    std::vector<Particle> quarks;
+    boost::range::copy(particles | boost::adaptors::filtered(Is5Quark()), std::back_inserter(quarks));
+    return quarks;
 }
 
-Jets RemoveIfSoft(Jets jets, float pt_min)
+std::vector<Particle> CopyIfDaughter(std::vector<Particle> const& particles, std::vector<Particle> const& daughters)
 {
-    jets.erase(std::remove_if(jets.begin(), jets.end(), [&](fastjet::PseudoJet const& jet){
-        return jet.pt() < pt_min;
-    }), jets.end());
-    return jets;
+    std::vector<Particle> mothers;
+    boost::range::copy(particles | boost::adaptors::filtered([&daughters](Particle const & particle) {
+        for (auto const & daughter : daughters) if (particle.Info().Family().Particle().Position() == daughter.Info().Family().Mother().Position()) return true;
+        return false;
+    }), std::back_inserter(mothers));
+    return mothers;
+}
+
+std::vector<Particle> CopyIfGrandDaughter(std::vector<Particle> const& particles, std::vector<Particle> const& grand_daughters)
+{
+    std::vector<Particle> grand_mothers;
+    boost::range::copy(particles | boost::adaptors::filtered([&grand_daughters](Particle const & particle) {
+        for (auto const & daughter : grand_daughters) if (particle.Info().Family().Particle().Position() == daughter.Info().Family().GrandMother().Position()) return true;
+        return false;
+    }), std::back_inserter(grand_mothers));
+    return grand_mothers;
+}
+
+std::vector<Particle> CopyIfPosition(std::vector<Particle> const& particles, int position_1, int position_2)
+{
+    std::vector<Particle> good;
+    boost::range::copy(particles | boost::adaptors::filtered([&](Particle const & particle) {
+        return particle.Info().Family().Particle().Position() == position_1 || particle.Info().Family().Particle().Position() == position_2;
+    }), std::back_inserter(good));
+    return good;
+}
+std::vector< Particle > CopyIfDrellYan(const std::vector< Particle >& particles)
+{
+    return CopyIfPosition(particles, 6, 7);
 }
 
 }
-

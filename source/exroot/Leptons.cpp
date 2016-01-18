@@ -1,38 +1,40 @@
 #include "exroot/Leptons.hh"
 
 #include "exroot/ExRootAnalysis.hh"
-#include "JetInfo.hh"
 #include "Types.hh"
 #include "Debug.hh"
 
-namespace analysis {
-
-namespace exroot {
-
-Jets Leptons::Electrons() const
+namespace boca
 {
-    Info();
-    Jets electrons;
-    for (auto const& electron_number : Range(clones_arrays().ElectronSum())) {
-        ::exroot::Electron electron = static_cast<::exroot::Electron&>(clones_arrays().Electron(electron_number));
-        fastjet::PseudoJet electron_jet = PseudoJet(electron);
-        electron_jet.set_user_info(new JetInfo(int(electron.Charge)));
-        electrons.emplace_back(electron_jet);
-    }
-    return electrons;
+
+namespace exroot
+{
+
+Leptons::Leptons(boca::TreeReader const& tree_reader) :
+    boca::Leptons(tree_reader) {}
+
+std::vector<Lepton> Leptons::Electrons() const
+{
+    Info0;
+    std::vector<Lepton> leptons;
+    for (auto const electron : TreeReader().Objects<::exroot::Electron>(Branch::electron)) leptons.emplace_back(Lepton(electron));
+    return leptons;
 }
 
-Jets Leptons::Muons() const
+std::vector<Lepton> Leptons::Muons() const
 {
-    Info();
-    Jets muons;
-    for (auto const& muon_number : Range(clones_arrays().MuonSum())) {
-        ::exroot::Muon& muon = static_cast<::exroot::Muon&>(clones_arrays().Muon(muon_number));
-        fastjet::PseudoJet muon_jet = PseudoJet(muon);
-        muon_jet.set_user_info(new JetInfo(int(muon.Charge)));
-        muons.emplace_back(muon_jet);
-    }
-    return muons;
+    Info0;
+    std::vector<Lepton> leptons;
+    for (auto const & muon : TreeReader().Objects<::exroot::Muon>(Branch::muon)) leptons.emplace_back(Lepton(muon));
+    return leptons;
+}
+
+std::vector<Lepton> Leptons::Photons() const
+{
+    Info0;
+    std::vector<Lepton> photons;
+    for (auto const & photon : TreeReader().Objects<::exroot::Photon>(Branch::photon)) photons.emplace_back(Lepton(photon));
+    return photons;
 }
 
 }

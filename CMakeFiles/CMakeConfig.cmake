@@ -1,10 +1,19 @@
+#
+# Copyright (C) 2015 Jan Hajer
+#
+
 unset(link_libraries CACHE)
 unset(include_directories CACHE)
 
 # set library and excecutable destination
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-# set(CMAKE_INSTALL_PREFIX ~)
+#set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR})
+
+if(APPLE)
+  set(CMAKE_MACOSX_RPATH ON)
+endif()
 
 # set library versions
 set(major_version 0)
@@ -29,32 +38,52 @@ macro(add_include_path relative_directory)
     CACHE INTERNAL include_directories FORCE
   )
   include_directories(${ARGV1} ${include_directories})
-endmacro(add_include_path)
+endmacro()
 
 macro(create_library library_name library_sources)
   message("Library:      ${library_name} <- ${${library_sources}} ${ARGV2}")
   if(${ARGC} GREATER 2)
     set_source_files_properties(${${library_sources}} PROPERTIES COMPILE_FLAGS ${ARGV2})
   endif(${ARGC} GREATER 2)
-  add_library(${library_name} SHARED ${${library_sources}})
+  if(APPLE)
+    add_library(${library_name} STATIC ${${library_sources}})
+  else()
+    add_library(${library_name} SHARED ${${library_sources}})
+  endif()
   target_link_libraries(${library_name} ${link_libraries})
   set_target_properties(${library_name} PROPERTIES ${library_properties})
   install(TARGETS ${library_name} DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
   add_libraries(${library_name})
-endmacro(create_library)
+endmacro()
 
 macro(create_executable executable_name executable_source)
   message("Executable:   ${executable_name} <- ${executable_source}")
   add_executable(${executable_name} ${executable_source})
   target_link_libraries(${executable_name} ${link_libraries})
-endmacro(create_executable)
+endmacro()
 
 macro(create_dictionary dictionary_name dictionary_source link_def)
   message("Dictionary:   ${dictionary_name} <- ${dictionary_source} & ${link_def}")
   set(dictionary_file ${dictionary_name}Dict.cpp)
+#   message("ROOT INCLUDE DIRECTORIES: ${include_directories}")
   ROOT_GENERATE_DICTIONARY("../source/${dictionary_source}" "${link_def}" "${dictionary_file}" "${include_directories}")
+#   get_filename_component(BaseName ${dictionary_name} NAME_WE)
+#   ROOT_GENERATE_DICTIONARY("${dictionary_file}" "../include/${BaseName}.hh" LINKDEF "${link_def}" "-s ../source/${dictionary_source}")
   create_library(${dictionary_name} dictionary_file "-w")
-endmacro(create_dictionary)
+#   install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${dictionary_name}Dict_rdict.pcm DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+ add_custom_command(
+  TARGET ${CMAKE_CURRENT_BINARY_DIR}/${dictionary_name}Dict_rdict.pcm
+  COMMAND ${CMAKE_COMMAND} copy ${CMAKE_CURRENT_BINARY_DIR}/${dictionary_name}Dict_rdict.pcm ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
+  )
+endmacro()
+
+macro(create_dictionary2 dictionary_name dictionary_source link_def)
+  message("Dictionary:   ${dictionary_name} <- ${dictionary_source} & ${link_def}")
+  set(dictionary_file ${dictionary_name}Dict.cpp)
+  ROOT_GENERATE_DICTIONARY("../../source/delphes/${dictionary_source}" "${link_def}" "${dictionary_file}" "${include_directories}")
+  create_library(${dictionary_name} dictionary_file "-w")
+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${dictionary_name}Dict_rdict.pcm DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+endmacro()
 
 macro(add_libraries link_library_sources)
   message("Link Library: ${link_library_sources}")
@@ -63,4 +92,4 @@ macro(add_libraries link_library_sources)
     ${link_library_sources}
     CACHE INTERNAL link_libraries FORCE
   )
-endmacro(add_libraries)
+endmacro()

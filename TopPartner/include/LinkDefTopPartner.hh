@@ -1,10 +1,3 @@
 #ifdef __MAKECINT__
-
-#pragma link off all globals;
-#pragma link off all classes;
-#pragma link off all functions;
-#pragma link C++ nestedclasses;
-
-#pragma link C++ defined_in "BranchesTopPartner.hh";
-
+#pragma link C++ defined_in "../../../TopPartner/include/BranchesTopPartner.hh";
 #endif

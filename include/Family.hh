@@ -1,12 +1,15 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
-#include <vector>
+#include "Member.hh"
 
-#include "Particle.hh"
+namespace boca
+{
 
-namespace analysis {
-
-class Family {
+class Family
+{
 
 public:
 
@@ -14,88 +17,48 @@ public:
 
     Family(int id);
 
-    Family(Id id);
-
-    Family(Id id, Id mother_id);
-
     Family(int id, int mother_1_id, int mother_2_id);
 
-    Family(Id id, Id mother_1_id, Id mother_2_id);
+    Family(Member const& particle, Member const& mother_1, Member const& mother_2, Member const& grand_mother, Member const& great_grand_mother);
 
-    Family(int id, int mother_1_id, int mother_2_id, int grand_mother_id);
-
-    Family(Id id, Id mother_1_id, Id mother_2_id, Id grand_mother_id);
-
-    Family(int particle_position, Id id, int mother_position, Id mother_id);
-
-    Family(TLorentzVector const& particle, LorentzVector const& mother, int particle_position, int id, int mother_position, int mother_id);
+    Family(TLorentzVector const& particle, LorentzVector<Momentum> const& mother, int particle_position, int id, int mother_position, int mother_id);
 
     bool operator==(Family const& family) const;
 
-    void AddDaughter(int daughter_id);
-
-    void SetMarker();
-
-    void UnSetMarker();
-
     bool Marker() const;
 
-    Particle particle() const
-    {
-        return particle_;
-    }
+    Member const& Particle() const;
 
-    Particle mother_1() const
-    {
-        return mother_1_;
-    }
+    Member const& Mother() const;
 
-    Particle mother_2() const
-    {
-        return mother_2_;
-    }
+    Member const& StepMother() const;
 
-    Particle grand_mother() const
-    {
-        return grand_mother_;
-    }
+    Member const& GrandMother() const;
 
-    float Pt() const
-    {
-        return pt_;
-    }
+    Member const& GreatGrandMother() const;
 
 private:
 
-    Particle particle_;
+    Member particle_;
 
-    Particle mother_1_;
+    Member mother_;
 
-    Particle mother_2_;
+    Member step_mother_;
 
-    Particle grand_mother_;
+    Member grand_mother_;
 
-    std::vector<int> daughter_ids_;//(2);
-
-    float pt_ = 0;
-
-    bool marker_ = false;
+    Member great_grand_mother_;
 
 };
 
 }
 
-namespace std {
+namespace std
+{
 
 template <>
-struct hash<analysis::Family> {
-    size_t operator()(const analysis::Family& Family) const
-    {
-        return ((std::hash<int>()(Family.particle().id())
-                 ^ (std::hash<int>()(Family.mother_1().id()) << 1)) >> 1)
-               //                ^ (std::hash<int>()(Family.mother_2().Id) << 1)
-               ;
-    }
+struct hash<boca::Family> {
+    size_t operator()(boca::Family const& family) const;
 };
 
 }

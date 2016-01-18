@@ -1,44 +1,71 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
+
+#include "TLorentzVector.h"
 #include "Particle.hh"
-#include "Types.hh"
+#include "Debug.hh"
 
-namespace analysis {
+namespace boca
+{
 
-Particle::Particle(int id)
+Particle::Particle() :
+    PseudoJet()
 {
-    id_ = id;
-}
-Particle::Particle(Id id)
-{
-    id_ = to_int(id);
-}
-Particle::Particle(LorentzVector const& momentum, int id, int position)
-{
-    id_ = id;
-    position_ = position;
-    momentum_ = momentum;
+    SetInfo();
 }
 
-Particle::Particle(Id id, int position)
+Particle::Particle(fastjet::PseudoJet const& particle) :
+    PseudoJet(particle)
+{}
+
+Particle::Particle(double x, double y, double z, double e) :
+    PseudoJet(x, y, z, e)
 {
-    id_ = to_int(id);
-    position_ = position;
+    SetInfo();
 }
-Particle::Particle(TLorentzVector const& momentum, int id, int position)
+
+Particle::Particle(TLorentzVector const& vector, Family const& family) :
+    PseudoJet(vector)
 {
-    id_ = id;
-    position_ = position;
-    momentum_ = momentum;
+    SetInfo(family);
 }
-LorentzVector Particle::momentum() const
+
+Particle::Particle(exroot::GenParticle const& particle, int id) :
+    PseudoJet(LorentzVector<Momentum>(particle))
 {
-    return momentum_;
+    SetInfo(Family(id));
 }
-int Particle::position() const
+
+Particle::Particle(exroot::LHEFParticle const& particle, int id) :
+    PseudoJet(LorentzVector<Momentum>(particle))
 {
-    return position_;
+    SetInfo(Family(id));
 }
-int Particle::id() const
+
+ParticleInfo const& Particle::Info() const
 {
-    return id_;
+    if (!has_user_info<ParticleInfo>()) {
+        Error("No particle info");
+        const_cast<Particle&>(*this).SetInfo();
+    }
+    return user_info<ParticleInfo>();
 }
+
+ParticleInfo& Particle::Info()
+{
+    if (!has_user_info<ParticleInfo>()) {
+        Error("No particle info");
+        SetInfo();
+    }
+    return static_cast<ParticleInfo&>(*user_info_shared_ptr().get());
 }
+
+void Particle::SetInfo(ParticleInfo const& user_info)
+{
+    if (has_user_info()) Error("Particle has already a user info, which gets overwritten: data loss and memory leak");
+    set_user_info(new ParticleInfo(user_info));
+}
+
+}
+

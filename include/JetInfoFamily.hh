@@ -1,16 +1,19 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #pragma once
 
 #include <map>
 #include <unordered_map>
 
 #include "fastjet/PseudoJet.hh"
-#include "fastjet/JetDefinition.hh"
+#include "physics/Particles.hh"
 
 #include "Identification.hh"
-#include "Constituent.hh"
 #include "FourVector.hh"
+#include "Family.hh"
 
-namespace analysis {
+namespace boca {
 
 /**
  * @brief Jet infos subclassed from Fastjet

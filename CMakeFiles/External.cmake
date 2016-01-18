@@ -1,3 +1,7 @@
+#
+# Copyright (C) 2015 Jan Hajer
+#
+
 include(ExternalProject)
 
 ExternalProject_Add(Mt2
@@ -26,23 +30,37 @@ PATCH_COMMAND
 && ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/WimpMassExamples.cmake <SOURCE_DIR>/examples/CMakeLists.txt
 INSTALL_COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/External/WimpMass/examples/sqsq_pythia_events.lhe <BINARY_DIR>/bin/
 )
-
 ExternalProject_Get_Property(WimpMass SOURCE_DIR)
 add_include_path(${SOURCE_DIR}/WIMPMASS)
 add_libraries(${CMAKE_BINARY_DIR}/WimpMass/lib/libWimpMass.so)
 
-ExternalProject_Add(HepTopTagger
-URL http://www.thphys.uni-heidelberg.de/~plehn/includes/heptoptagger/heptop_v1.0.tar.gz
-URL_MD5 a92b1eaa8b009d32a3f5cc34b627d4d2
-SOURCE_DIR  ${CMAKE_SOURCE_DIR}/External/HepTopTagger
-BINARY_DIR ${CMAKE_BINARY_DIR}/HepTopTagger
-PATCH_COMMAND
-   ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/CMakeConfig.cmake <SOURCE_DIR>/CMakeFiles/CMakeConfig.cmake
-&& ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/HepTopTagger.cmake <SOURCE_DIR>/CMakeLists.txt
-&& ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/Findfastjet.cmake <SOURCE_DIR>/CMakeFiles/Findfastjet.cmake
-&& patch <SOURCE_DIR>/example_toptagger.cc < ${CMAKE_SOURCE_DIR}/CMakeFiles/TopTaggerPatch.diff
-INSTALL_COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/External/HepTopTagger/sample_event.dat <BINARY_DIR>/bin/
-)
+# ExternalProject_Add(HepTopTagger
+# URL http://www.thphys.uni-heidelberg.de/~plehn/includes/heptoptagger/heptop_v1.0.tar.gz
+# URL_MD5 a92b1eaa8b009d32a3f5cc34b627d4d2
+# SOURCE_DIR  ${CMAKE_SOURCE_DIR}/External/HepTopTagger
+# BINARY_DIR ${CMAKE_BINARY_DIR}/HepTopTagger
+# PATCH_COMMAND
+#    ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/CMakeConfig.cmake <SOURCE_DIR>/CMakeFiles/CMakeConfig.cmake
+# && ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/HepTopTagger.cmake <SOURCE_DIR>/CMakeLists.txt
+# && ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/Findfastjet.cmake <SOURCE_DIR>/CMakeFiles/Findfastjet.cmake
+# && patch <SOURCE_DIR>/example_toptagger.cc < ${CMAKE_SOURCE_DIR}/CMakeFiles/TopTaggerPatch.diff
+# INSTALL_COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/External/HepTopTagger/sample_event.dat <BINARY_DIR>/bin/
+# )
+# ExternalProject_Get_Property(HepTopTagger SOURCE_DIR)
+# add_include_path(${SOURCE_DIR})
 
-ExternalProject_Get_Property(HepTopTagger SOURCE_DIR)
-add_include_path(${SOURCE_DIR})
+# ExternalProject_Add(Delphes
+# GIT_REPOSITORY https://github.com/delphes/delphes.git
+# GIT_TAG 3.3.0
+# SOURCE_DIR  ${CMAKE_SOURCE_DIR}/External/Delphes
+# BINARY_DIR ${CMAKE_BINARY_DIR}/Delphes
+# PATCH_COMMAND
+#    ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/CMakeConfig.cmake <SOURCE_DIR>/CMakeFiles/CMakeConfig.cmake
+# && ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/FindROOT.cmake <SOURCE_DIR>/CMakeFiles/FindROOT.cmake
+# && ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/Delphes.cmake <SOURCE_DIR>/CMakeLists.txt
+# && ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/DelphesExRoot.cmake <SOURCE_DIR>/external/ExRootAnalysis/CMakeLists.txt
+# && ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/CMakeFiles/DelphesClasses.cmake <SOURCE_DIR>/classes/CMakeLists.txt
+# )
+#
+# ExternalProject_Get_Property(Delphes SOURCE_DIR)
+# add_include_path(${SOURCE_DIR})

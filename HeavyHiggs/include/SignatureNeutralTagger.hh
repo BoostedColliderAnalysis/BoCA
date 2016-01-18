@@ -3,38 +3,33 @@
 #include "HeavyHiggsSemiTagger.hh"
 #include "HeavyHiggsSemiTagger.hh"
 #include "JetPairTagger.hh"
-#include "Octet.hh"
+#include "multiplets/Octet.hh"
 
-namespace analysis {
+namespace boca
+{
 
-namespace heavyhiggs {
+namespace heavyhiggs
+{
 
 /**
  *
  * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class SignatureNeutralTagger : public BranchTagger<OctetNeutralBranch> {
+class SignatureNeutralTagger : public TaggerTemplate<Octet62, OctetNeutralBranch>
+{
 
 public:
 
-    SignatureNeutralTagger();
+    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
 
-    int Train(Event const& event, PreCuts const& pre_cuts,
-              Tag tag) const final;
+    std::vector<Octet62> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
 
-    std::vector<Octet62> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
-
-    int GetBdt(Event const& event, PreCuts const& pre_cuts,
-               TMVA::Reader const& reader) const final {
-                 return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
-    }
-
-    std::string Name() const final { return "SignatureNeutral"; }
+    std::string Name() const final;
 
 private:
 
-    std::vector<Octet62> GetHeavyHiggsevents(Jets& jets);
+    std::vector<Octet62> GetHeavyHiggsevents(std::vector<Jet>& jets);
 
     Reader<HeavyHiggsSemiTagger> heavy_higgs_semi_reader_;
 

@@ -1,122 +1,118 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
+// #include <numeric>
+#include <boost/range/numeric.hpp>
+
 #include "GlobalObservables.hh"
-#include "InfoRecombiner.hh"
 #include "Event.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca
+{
 
-void GlobalObservables::SetEvent(analysis::Event const& event, const analysis::Jets&)
+void GlobalObservables::SetEvent(boca::Event const& event, const std::vector<Jet>&)
 {
     leptons_ = event.Leptons().leptons();
     scalar_ht_ = event.Hadrons().ScalarHt();
-    missing_et_ = event.Hadrons().MissingEt().pt();
+    missing_et_ = event.Hadrons().MissingEt().Pt();
 }
 
-void GlobalObservables::SetEvent(analysis::Event const& event)
+void GlobalObservables::SetEvent(boca::Event const& event)
 {
-  leptons_ = event.Leptons().leptons();
-  scalar_ht_ = event.Hadrons().ScalarHt();
-  missing_et_ = event.Hadrons().MissingEt().pt();
+    leptons_ = event.Leptons().leptons();
+    scalar_ht_ = event.Hadrons().ScalarHt();
+    missing_et_ = event.Hadrons().MissingEt().Pt();
 }
 
 int GlobalObservables::LeptonNumber() const
 {
-    Info();
+    Info0;
     return leptons_.size();
 }
 
 int GlobalObservables::JetNumber() const
 {
-    Info();
+    Info0;
     return Jets().size();
 }
 
 int GlobalObservables::BottomNumber() const
 {
-    Info();
-    analysis::Jets bottoms;
-    for (auto const& jet : Jets()) if (jet.user_info<JetInfo>().Bdt() > 0)
-            bottoms.emplace_back(jet);
+    Info0;
+    std::vector<Jet> bottoms;
+    for (auto const & jet : Jets()) if (jet.Info().Bdt() > 0) bottoms.emplace_back(jet);
     return bottoms.size();
 }
 
 float GlobalObservables::BottomBdt() const
 {
-    Info();
-    if (Jets().empty())
-        return 0;
-    return std::accumulate(jets_.begin(), jets_.end(), 0., [](float bdt, fastjet::PseudoJet const& jet) {
-        return bdt + jet.user_info<JetInfo>().Bdt();
+    Info0;
+    return boost::accumulate(jets_, 0., [](float bdt, Jet const & jet) {
+        return bdt + jet.Info().Bdt();
     }) / JetNumber();
 }
 
 float GlobalObservables::BottomBdt(int number) const
 {
-    Info();
-    if (number > JetNumber())
-        return 0;
-    return Jets().at(number - 1).user_info<JetInfo>().Bdt();
+    Info0;
+    if (number > JetNumber()) return 0;
+    return Jets().at(number - 1).Info().Bdt();
 }
 
 float GlobalObservables::BottomBdt(int number_1, int number_2) const
 {
-    Info();
-    if (number_1 > JetNumber())
-        return 0;
-    if (number_2 > JetNumber())
-        return 0;
-    return (Jets().at(number_1 - 1).user_info<JetInfo>().Bdt() + Jets().at(number_2 - 1).user_info<JetInfo>().Bdt()) / 2;
+    Info0;
+    if (number_1 > JetNumber()) return 0;
+    if (number_2 > JetNumber()) return 0;
+    return (Jets().at(number_1 - 1).Info().Bdt() + Jets().at(number_2 - 1).Info().Bdt()) / 2;
 }
 
-float GlobalObservables::ScalarHt() const
+Momentum GlobalObservables::ScalarHt() const
 {
-    Info();
+    Info0;
     return scalar_ht_;
 }
 
-float GlobalObservables::LeptonHt() const
+Momentum GlobalObservables::LeptonHt() const
 {
-    Info();
-    if (leptons_.empty())
-        return 0;
-    return std::accumulate(leptons_.begin(), leptons_.end(), 0., [](float ht, fastjet::PseudoJet const& lepton) {
-        return ht + lepton.pt();
+    Info0;
+    return boost::accumulate(leptons_, 0_eV, [](Momentum ht, Jet const & lepton) {
+        return ht + lepton.Pt();
     });
 }
 
-float GlobalObservables::JetHt() const
+Momentum GlobalObservables::JetHt() const
 {
-    Info();
-    if (Jets().empty())
-        return 0;
-    return std::accumulate(jets_.begin(), jets_.end(), 0., [](float ht, fastjet::PseudoJet const& jet) {
-        return ht + jet.pt();
+    Info0;
+    return boost::accumulate(jets_, 0_eV, [](Momentum ht, Jet const & jet) {
+        return ht + jet.Pt();
     });
 }
 
-float GlobalObservables::MissingEt() const
+Energy GlobalObservables::MissingEt() const
 {
-    Info();
+    Info0;
     return missing_et_;
 }
 
 Singlet GlobalObservables::Singlet() const
 {
-    Info();
-    fastjet::PseudoJet jet(fastjet::join(Jets(),InfoRecombiner()));
-    jet.set_user_info(new JetInfo(BottomBdt()));
-    return analysis::Singlet(jet);
+    Info0;
+    Jet jet = Join(Jets());
+    jet.Info().SetBdt(BottomBdt());
+    return boca::Singlet(jet);
 }
 
-Jets GlobalObservables::Jets() const
+std::vector<Jet> GlobalObservables::Jets() const
 {
-    Info();
+    Info0;
     return jets_;
 }
 
-void GlobalObservables::SetJets(const analysis::Jets jets)
+void GlobalObservables::SetJets(const std::vector<Jet> jets)
 {
-    Info();
+    Info0;
     jets_ = jets;
 }
 

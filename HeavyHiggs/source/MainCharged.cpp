@@ -1,24 +1,21 @@
 #include "AnalysisCharged.hh"
 #include "EventChargedTagger.hh"
 
+template<typename Tagger>
+void Run(boca::Output output = boca::Output::fast)
+{
+    boca::heavyhiggs::AnalysisCharged<Tagger> analysis;
+    analysis.Run(output);
+}
+
 int main()
 {
-    analysis::heavyhiggs::AnalysisCharged<analysis::BottomTagger> bottom_analysis;
-    bottom_analysis.RunFast();
-    analysis::heavyhiggs::AnalysisCharged<analysis::WHadronicTagger> w_hadronic_analysis;
-    w_hadronic_analysis.RunFast();
-    analysis::heavyhiggs::AnalysisCharged<analysis::WLeptonicTagger> w_leptonic_analysis;
-    w_leptonic_analysis.RunFast();
-    analysis::heavyhiggs::AnalysisCharged<analysis::TopHadronicTagger> top_hadronic_analysis;
-    top_hadronic_analysis.RunFast();
-    analysis::heavyhiggs::AnalysisCharged<analysis::TopLeptonicTagger> tops_leptonic_analysis;
-    tops_leptonic_analysis.RunFast();
-    analysis::heavyhiggs::AnalysisCharged<analysis::heavyhiggs::ChargedHiggsSemiTagger> heavy_higgs_leptonic_analysis;
-    heavy_higgs_leptonic_analysis.RunFast();
-    analysis::heavyhiggs::AnalysisCharged<analysis::TripletJetPairTagger> jet_pair_analysis;
-    jet_pair_analysis.RunFast();
-    analysis::heavyhiggs::AnalysisCharged<analysis::heavyhiggs::SignatureChargedTagger> signature_leptonic_analysis;
-    signature_leptonic_analysis.RunFast();
-    analysis::heavyhiggs::AnalysisCharged<analysis::heavyhiggs::EventChargedTagger> event_leptonic_analysis;
-    event_leptonic_analysis.RunFullSignificance();
+    Run<boca::standardmodel::BottomTagger>();
+    Run<boca::standardmodel::WHadronicTagger>();
+    Run<boca::standardmodel::WLeptonicTagger>();
+    Run<boca::standardmodel::TopHadronicTagger>();
+    Run<boca::standardmodel::TopLeptonicTagger>();
+    Run<boca::heavyhiggs::ChargedHiggsSemiTagger>();
+    Run<boca::heavyhiggs::SignatureChargedTagger>();
+    Run<boca::heavyhiggs::EventChargedTagger>(boca::Output::significance);
 }

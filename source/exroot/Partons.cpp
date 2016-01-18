@@ -1,36 +1,36 @@
 #include "exroot/Partons.hh"
 
 #include "exroot/ExRootAnalysis.hh"
-#include "JetInfo.hh"
+#include "ParticleInfo.hh"
 #include "Types.hh"
 #include "Debug.hh"
 
-namespace analysis {
+namespace boca
+{
 
-namespace exroot {
+namespace exroot
+{
 
-Jets Partons::Particles() const
+Partons::Partons(boca::TreeReader const& tree_reader) :
+    boca::Partons(tree_reader) {}
+
+std::vector<Particle> Partons::Particles() const
 {
     return Particles(Status::stable);
 }
 
-Jets Partons::GenParticles() const
+std::vector<Particle> Partons::GenParticles() const
 {
     return Particles(Status::generator);
 }
 
-Jets Partons::Particles(const Status max_status) const
+std::vector<Particle> Partons::Particles(Status max_status) const
 {
-    Info(clones_arrays().ParticleSum());
-    Jets particles;
-    for (auto const& particle_number : Range(clones_arrays().ParticleSum())) {
-        TRootLHEFParticle& particle = static_cast<TRootLHEFParticle&>(clones_arrays().Particle(particle_number));
+    Info0;
+    std::vector<Particle> particles;
+    for (auto const & particle : TreeReader().Objects<::exroot::LHEFParticle>(Branch::particle)) {
         if (particle.Status < to_int(max_status)) break;
-        Family family(particle.PID);
-        Constituent constituent(LorentzVector(particle), family);
-        fastjet::PseudoJet jet = PseudoJet(particle);
-        jet.set_user_info(new JetInfo(constituent));
-        particles.emplace_back(jet);
+        particles.emplace_back(Particle(particle, particle.PID));
     }
     return particles;
 }
