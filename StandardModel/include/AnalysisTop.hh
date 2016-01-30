@@ -30,15 +30,15 @@ public:
     }
 
     static Decay TopDecay() {
-        return Decay::hadronic;
         return Decay::leptonic;
+        return Decay::hadronic;
         return Decay::other;
     }
 
 private:
 
     std::string AnalysisName() const final {
-        return Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-" + Name(TopDecay()) + "new-event";
+        return Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-" + Name(TopDecay()) + "-with-w";
     }
 
     void SetFiles(Tag tag, Stage) final {
@@ -68,8 +68,7 @@ private:
         std::vector<Particle> particles = SortedByPt(event.Partons().GenParticles());
         particles = CopyIfDrellYan(particles);
         particles = RemoveIfOutsidePtWindow(particles, this->LowerPtCut(), this->UpperPtCut());
-        if (particles.size() != 1) return 0;
-        return 1;
+        return particles.size() == 1 ? 1 : 0;
     }
 
 };

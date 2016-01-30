@@ -37,7 +37,7 @@ std::vector<Lepton> Leptons(Event const& event, std::vector<Jet> const& jets)
 }
 
 TopLeptonicTagger::TopLeptonicTagger() :
-    use_w_(false),
+    use_w_(true),
     w_leptonic_reader_(InitializeLeptonicReader())
 {
     Info0;

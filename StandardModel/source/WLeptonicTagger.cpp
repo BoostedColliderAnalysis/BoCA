@@ -14,6 +14,28 @@ namespace boca
 namespace standardmodel
 {
 
+namespace
+{
+
+Lepton FakeLepton(Jet const& jet)
+{
+    Info0;
+    return jet * (DetectorGeometry::LeptonMinPt() / jet.Pt());
+}
+
+std::vector<Lepton> Leptons(Event const& event)
+{
+    Info0;
+    bool do_fake_leptons = true;
+    std::vector<Lepton> leptons = RemoveIfSoft(event.Leptons().leptons(), DetectorGeometry::LeptonMinPt());
+    std::vector<Jet> jets = SortedByPt(event.Hadrons().Jets());
+    if (do_fake_leptons && leptons.empty() && !jets.empty()) leptons.emplace_back(FakeLepton(jets.front()));
+    Debug(jets.size(), leptons.size());
+    return leptons;
+}
+
+}
+
 WLeptonicTagger::WLeptonicTagger()
 {
     Info0;
@@ -70,7 +92,8 @@ std::vector<Doublet>  WLeptonicTagger::Multiplets(Event const& event, PreCuts co
 std::vector<Doublet> WLeptonicTagger::Doublets(Event const& event, std::function<boost::optional<Doublet>(Doublet&)> const& function) const
 {
     Info0;
-    std::vector<Lepton> leptons = SortedByPt(event.Leptons().leptons());
+//     std::vector<Lepton> leptons = SortedByPt(event.Leptons().leptons());
+    std::vector<Lepton> leptons = Leptons(event);
     MissingEt missing_et = event.Hadrons().MissingEt();
     std::vector<Doublet> doublets;
     for (auto const & lepton : leptons) {

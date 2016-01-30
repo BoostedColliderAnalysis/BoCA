@@ -41,16 +41,10 @@ const Filter& Observables::Filt() const
 }
 void Observables::AddFilter(const Filter& filter)
 {
-//     filter_ = filter;
-//     std::vector<Observable> observables = observables_;
   observables_ = boost::range::remove_erase_if(observables_, [&](Observable const & observable) {
         return filter.IsSet(observable.Name());
     });
-//     return observables;
 }
-// std::vector< Observable > Observables::ApplyFilter() const
-// {
-// }
 Observables operator+(const Observables& observables_1, const Observables& observables_2)
 {
     return Join(observables_1.Vector(), observables_2.Vector());
