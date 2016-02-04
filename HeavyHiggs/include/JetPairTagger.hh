@@ -11,6 +11,9 @@
 namespace boca
 {
 
+namespace heavyhiggs
+{
+
 /**
  * @brief JetPair BDT tagger
  *
@@ -26,16 +29,24 @@ public:
 
     std::string Name() const final;
 
-    std::vector<Particle> BottomPair(Event const& event, Tag tag) const;
+    std::vector<Particle> PairBottomQuarks(Event const& event, Tag tag) const;
 
-    bool CheckIfBadBottom(boca::Doublet const& doublet,std::vector<Particle> const& jets) const;
+    bool CheckIfBadBottom(boca::Doublet const& doublet, std::vector<Particle> const& jets) const;
 
     std::vector<Particle> HiggsParticle(Event const& event, Tag tag) const;
 
+    Doublet TruthDoubletPair(Doublet const& doublet, std::vector<Particle> const& bottoms, Tag tag) const;
+
 private:
+
+    std::vector<Jet> TruthJetPair(Event const& event, std::vector<Jet>& jets, Tag tag) const;
+
+    std::vector<Doublet> TruthDoubletPairs(Event const& event, std::vector<Doublet>& doublets, Tag tag) const;
 
     Reader<standardmodel::BottomTagger> bottom_reader_;
 
 };
+
+}
 
 }

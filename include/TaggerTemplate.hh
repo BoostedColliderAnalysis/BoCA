@@ -10,6 +10,7 @@
 #include "Sort.hh"
 #include "Tagger.hh"
 #include "PreCuts.hh"
+#include "Filter.hh"
 // #define INFORMATION
 // #include "Debug.hh"
 
@@ -56,7 +57,7 @@ public:
 protected:
 
     std::vector<Multiplet_> ReduceResult(std::vector<Multiplet_> multiplets, size_t max = 4) const {
-        // DebugCheck(multiplets.size() >= max, multiplets.size());
+        // DEBUG_CHECK(multiplets.size() >= max, multiplets.size());
         if (multiplets.empty()) return multiplets;
         multiplets = SortedByBdt(multiplets);
         multiplets.erase(multiplets.begin() + std::min(max, multiplets.size()), multiplets.end());
@@ -128,7 +129,7 @@ protected:
         AddSpectators();
     }
 
-    virtual std::vector<Multiplet_> Multiplets(Event const&, PreCuts const&, TMVA::Reader const&) const = 0;
+    virtual auto Multiplets(Event const&, PreCuts const&, TMVA::Reader const&) const -> std::vector<Multiplet_> = 0;
 
     std::vector<Multiplet_> Multiplets(Event const& event, TMVA::Reader const& reader) const {
         PreCuts pre_cuts;

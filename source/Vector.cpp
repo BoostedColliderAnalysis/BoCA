@@ -25,7 +25,7 @@ struct IsParticle {
     }
     bool operator()(Particle const& jet) const {
         unsigned id = std::abs(jet.Info().Family().Particle().Id());
-        Debug(id, to_unsigned(id_1_));
+        DEBUG(id, to_unsigned(id_1_));
         return id == to_unsigned(id_1_) || id == to_unsigned(id_2_);
     }
     Id id_1_;

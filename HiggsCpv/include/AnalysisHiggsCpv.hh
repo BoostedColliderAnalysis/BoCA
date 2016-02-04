@@ -29,7 +29,7 @@ class Analysis : public boca::Analysis<Tagger>
 public:
 
     Analysis() {
-        DetectorGeometry::set_detector_type(DetectorType::CMS);
+        DetectorGeometry::SetDetectorType(DetectorType::CMS);
 //         this->pre_cuts().PtLowerCut().Set(Id::higgs,200);
         //         this->pre_cuts().MassLowerCut().Set(Id::higgs,105);
 //         this->pre_cuts().MassUpperCut().Set(Id::higgs,145);
@@ -86,20 +86,20 @@ private:
 //        std::vector<Jet>gen_particles = event.Partons().GenParticles();
 //        std::vector<Jet> higgs = CopyIfParticles(gen_particles, Id::CP_violating_higgs, Id::higgs);
 //         if (higgs.empty()) {
-//         Error(NoHiggs(), higgs.size());
+//         ERROR(NoHiggs(), higgs.size());
 //             return 1;
 //         }
 //         if(higgs.front().Pt() < 200) return 0;
 //         static int pre_cut=0;
 //         ++pre_cut;
-//         Error(pre_cut);
+//         ERROR(pre_cut);
 //         Particle particle = higgs.front().Info().constituents().front().family().Particle();
 //         Particle mother1 = higgs.front().Info().constituents().front().family().Mother();
 //         Particle mother2 = higgs.front().Info().constituents().front().family().mother_2();
 //         Particle grand_mother = higgs.front().Info().constituents().front().family().GrandMother();
-// //         Error(particle.Id(),mother1.Id(),mother2.Id(),grand_mother.Id());
+// //         ERROR(particle.Id(),mother1.Id(),mother2.Id(),grand_mother.Id());
 //         higgs = RemoveIfSingleMother(higgs);
-//         Error(SingleHiggs(), higgs.size());
+//         ERROR(SingleHiggs(), higgs.size());
 //         return higgs.size();
         return 1;
     }

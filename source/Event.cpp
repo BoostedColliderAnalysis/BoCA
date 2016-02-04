@@ -8,6 +8,8 @@
 #include "exroot/Leptons.hh"
 #include "exroot/Hadrons.hh"
 #include "exroot/Partons.hh"
+#include "Vector.hh"
+#include "DetectorGeometry.hh"
 #include "Debug.hh"
 
 namespace boca
@@ -19,13 +21,13 @@ std::string Name(Decay decay)
     case Decay::hadronic : return "hadronic";
     case Decay::leptonic : return "leptonic";
     case Decay::other : return "other";
-        Default("decay", "");
+        DEFAULT("decay", "");
     }
 }
 
-Event::Event(TreeReader const& tree_reader, Source source)
+Event::Event(TreeReader const& tree_reader, Source source) : isolation_(*this, tree_reader)
 {
-    Info0;
+    INFO0;
     source_ = source;
     switch (source_) {
     case Source::delphes :
@@ -45,7 +47,7 @@ Event::Event(TreeReader const& tree_reader, Source source)
 
 Event::~Event()
 {
-    Info0;
+    INFO0;
     switch (source_) {
     case Source::delphes :
         delete partons_;
@@ -72,12 +74,41 @@ Hadrons const& Event::Hadrons() const
 
 Leptons const& Event::Leptons() const
 {
-    return *leptons_;
+    INFO(Name(DetectorGeometry::DetectorType()));
+    switch (DetectorGeometry::DetectorType()) {
+    case DetectorType::CMS :
+        return isolation_;
+        return *leptons_;
+    case DetectorType::Spp :
+        return isolation_;
+        return *leptons_;
+        DEFAULT("DetectorType", *leptons_)
+    }
 }
 
 Partons const& Event::Partons() const
 {
     return *partons_;
+}
+
+std::vector<Lepton> Event::IsolatedLeptons()
+{
+    INFO0;
+    std::vector<Lepton> leptons;
+    for (auto const & lepton : leptons_->leptons()) {
+        if (lepton.Pt() > DetectorGeometry::HardLeptonMomentum()) {
+            leptons.emplace_back(lepton);
+            continue;
+        }
+        bool isolated = true;
+        for (auto const & jet : hadrons_->Jets())
+            if (Close(lepton, DetectorGeometry::IsolationConeSize())(jet) && jet.Pt() / lepton.Pt() > DetectorGeometry::IsolationFraction()) {
+                isolated = false;
+                break;
+            }
+        if (isolated) leptons.emplace_back(lepton);
+    }
+    return leptons;
 }
 
 }

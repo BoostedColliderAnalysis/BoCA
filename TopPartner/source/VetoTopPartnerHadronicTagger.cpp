@@ -4,7 +4,7 @@
 #include "VetoTopPartnerHadronicTagger.hh"
 #include "Decuplet.hh"
 #include "ParticleInfo.hh"
-// #define DEBUG
+// #define DEBUGGING
 // #define INFORMATION
 #include "Debug.hh"
 
@@ -16,7 +16,7 @@ namespace naturalness
 
 int VetoTopPartnerHadronicTagger::Train(Event const& event, PreCuts const& , Tag tag) const
 {
-    Info0;
+    INFO0;
     return SaveEntries(Quintets(event, [&](Quintet & quintet) {
         quintet.SetTag(tag);
         return quintet;
@@ -25,7 +25,7 @@ int VetoTopPartnerHadronicTagger::Train(Event const& event, PreCuts const& , Tag
 
 std::vector<Quintet> VetoTopPartnerHadronicTagger::Multiplets(Event const& event, boca::PreCuts const& , TMVA::Reader const& reader) const
 {
-    Info0;
+    INFO0;
     return ReduceResult(Quintets(event, [&](Quintet & quintet) {
         quintet.SetBdt(Bdt(quintet, reader));
         return quintet;
@@ -51,7 +51,7 @@ std::vector<Particle> VetoTopPartnerHadronicTagger::Particles(Event const& event
 
 std::vector<Quintet> VetoTopPartnerHadronicTagger::Quintets(Event const& event, std::function<Quintet(Quintet&)> const& function) const
 {
-    Info0;
+    INFO0;
     std::vector<Triplet> triplets = top_reader_.Multiplets(event);
     std::vector<Quintet> quintets = partner_reader_.Multiplets(event);
     std::vector<Quintet> vetos;

@@ -26,6 +26,8 @@ public:
 
     std::string Name() const final;
 
+    std::string LatexName() const final;
+
 private:
 
     std::vector<Quattuordecuplet554> Quattuordecuplets(Event const& event, std::function<Quattuordecuplet554(Quattuordecuplet554&)> const& function) const;

@@ -27,19 +27,19 @@ void GlobalObservables::SetEvent(boca::Event const& event)
 
 int GlobalObservables::LeptonNumber() const
 {
-    Info0;
+    INFO0;
     return leptons_.size();
 }
 
 int GlobalObservables::JetNumber() const
 {
-    Info0;
+    INFO0;
     return Jets().size();
 }
 
 int GlobalObservables::BottomNumber() const
 {
-    Info0;
+    INFO0;
     std::vector<Jet> bottoms;
     for (auto const & jet : Jets()) if (jet.Info().Bdt() > 0) bottoms.emplace_back(jet);
     return bottoms.size();
@@ -47,7 +47,8 @@ int GlobalObservables::BottomNumber() const
 
 float GlobalObservables::BottomBdt() const
 {
-    Info0;
+    INFO0;
+    if(Jets().empty()) return -1;
     return boost::accumulate(jets_, 0., [](float bdt, Jet const & jet) {
         return bdt + jet.Info().Bdt();
     }) / JetNumber();
@@ -55,14 +56,14 @@ float GlobalObservables::BottomBdt() const
 
 float GlobalObservables::BottomBdt(int number) const
 {
-    Info0;
-    if (number > JetNumber()) return 0;
+    INFO0;
+    if (number > JetNumber()) return -1;
     return Jets().at(number - 1).Info().Bdt();
 }
 
 float GlobalObservables::BottomBdt(int number_1, int number_2) const
 {
-    Info0;
+    INFO0;
     if (number_1 > JetNumber()) return 0;
     if (number_2 > JetNumber()) return 0;
     return (Jets().at(number_1 - 1).Info().Bdt() + Jets().at(number_2 - 1).Info().Bdt()) / 2;
@@ -70,13 +71,13 @@ float GlobalObservables::BottomBdt(int number_1, int number_2) const
 
 Momentum GlobalObservables::ScalarHt() const
 {
-    Info0;
+    INFO0;
     return scalar_ht_;
 }
 
 Momentum GlobalObservables::LeptonHt() const
 {
-    Info0;
+    INFO0;
     return boost::accumulate(leptons_, 0_eV, [](Momentum ht, Jet const & lepton) {
         return ht + lepton.Pt();
     });
@@ -84,7 +85,7 @@ Momentum GlobalObservables::LeptonHt() const
 
 Momentum GlobalObservables::JetHt() const
 {
-    Info0;
+    INFO0;
     return boost::accumulate(jets_, 0_eV, [](Momentum ht, Jet const & jet) {
         return ht + jet.Pt();
     });
@@ -92,13 +93,13 @@ Momentum GlobalObservables::JetHt() const
 
 Energy GlobalObservables::MissingEt() const
 {
-    Info0;
+    INFO0;
     return missing_et_;
 }
 
 Singlet GlobalObservables::Singlet() const
 {
-    Info0;
+    INFO0;
     Jet jet = Join(Jets());
     jet.Info().SetBdt(BottomBdt());
     return boca::Singlet(jet);
@@ -106,13 +107,13 @@ Singlet GlobalObservables::Singlet() const
 
 std::vector<Jet> GlobalObservables::Jets() const
 {
-    Info0;
+    INFO0;
     return jets_;
 }
 
 void GlobalObservables::SetJets(const std::vector<Jet> jets)
 {
-    Info0;
+    INFO0;
     jets_ = jets;
 }
 

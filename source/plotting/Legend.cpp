@@ -37,10 +37,10 @@ float EntrySeparation()
 Vector2<float> Position(Orientation orientation, float width, float height)
 {
     INFO(width, height);
-//     Check(is(orientation, Orientation::left | Orientation::right), to_int(orientation), "Should the legend be placed on the left or on the right?");
-//     Check(is(orientation, Orientation::top | Orientation::bottom), to_int(orientation), "Should the legend be placed at the top or at the bottom?");
-//     Check(is(orientation, Orientation::inside | Orientation::outside), "Should the legend beplaced inside or outside?");
-//     Check(orientation == Orientation::outside, "On which side should the legend be placed?");
+//     CHECK(is(orientation, Orientation::left | Orientation::right), to_int(orientation), "Should the legend be placed on the left or on the right?");
+//     CHECK(is(orientation, Orientation::top | Orientation::bottom), to_int(orientation), "Should the legend be placed at the top or at the bottom?");
+//     CHECK(is(orientation, Orientation::inside | Orientation::outside), "Should the legend beplaced inside or outside?");
+//     CHECK(orientation == Orientation::outside, "On which side should the legend be placed?");
     float x_shift = 0.5;
     float y_shift = 0.5;
     float x_offset = width / 2;
@@ -145,40 +145,40 @@ float Legend::Height(std::vector<std::string> const& entries, std::string const&
 
 Legend::Legend(std::string const& title)
 {
-    Info0;
+    INFO0;
     SetTitle(title);
 }
 
 Legend::Legend()
 {
-    Info0;
+    INFO0;
 }
 
 
 Legend::Legend(boca::Rectangle<float> const& rectangle, std::string const& title)
 {
-    Info0;
+    INFO0;
     SetCorners(rectangle);
     SetTitle(title);
 }
 
 Legend::Legend(Orientation orientation, std::vector<std::string> const& entries, std::string const& title)
 {
-    Info0;
+    INFO0;
     SetOrientation(orientation, entries, title);
     SetTitle(title);
 }
 
 void Legend::Set(boca::Rectangle<float> const& rectangle, std::string const& title)
 {
-    Info0;
+    INFO0;
     SetCorners(rectangle);
     SetTitle(title);
 }
 
 void Legend::SetOrientation(Orientation orientation, std::vector<std::string> const& entries, std::string const& title)
 {
-    Info0;
+    INFO0;
     float width = Width(entries);
     float height = Height(entries, title);
     Vector2<float> min = Position(orientation, width, height);
@@ -187,7 +187,7 @@ void Legend::SetOrientation(Orientation orientation, std::vector<std::string> co
 
 void Legend::SetOrientation(Orientation orientation, std::string const& title)
 {
-    Info0;
+    INFO0;
     std::vector<std::string> entries;
     auto list = legend_.GetListOfPrimitives()->MakeIterator();
     TLegendEntry* entry;
@@ -198,7 +198,7 @@ void Legend::SetOrientation(Orientation orientation, std::string const& title)
 
 void Legend::Draw()
 {
-    Info0;
+    INFO0;
     legend_.SetCornerRadius(TextHeight() / Rectangle().Width() / 6);
     legend_.SetBorderSize(0);
     legend_.SetLineWidth(0);
@@ -207,13 +207,13 @@ void Legend::Draw()
 
 void Legend::AddEntry(TObject const& object, std::string const& name)
 {
-    Info0;
+    INFO0;
     legend_.AddEntry(&object, name.c_str(), "l");
 }
 
 void Legend::TwoColumn()
 {
-    Info0;
+    INFO0;
     columns_ = 2;
     legend_.SetNColumns(2);
     legend_.SetColumnSeparation(0.2);
@@ -231,7 +231,7 @@ void Legend::SetCorners(boca::Rectangle<float> const& rectangle)
 
 void Legend::SetStyle()
 {
-    Info0;
+    INFO0;
     SetText(legend_);
     legend_.SetFillColorAlpha(kWhite, 0.75);
     legend_.SetMargin(RepresentationWidth() / Rectangle().Width());
@@ -239,7 +239,7 @@ void Legend::SetStyle()
 
 void Legend::SetTitle(std::string const& title)
 {
-    Info0;
+    INFO0;
     if (title.empty()) return;
     legend_.SetHeader(title.c_str());
     SetText(static_cast<TLegendEntry&>(*legend_.GetListOfPrimitives()->First()));

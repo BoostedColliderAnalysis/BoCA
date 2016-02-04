@@ -46,7 +46,7 @@ std::string Name(JetDetail jet_detail)
 void FourVector::PrintTruthLevel(const boca::Severity severity) const
 {
     std::vector<Family>topology_;
-    Error("Code is disabled");
+    ERROR("Code is disabled");
     if (to_int(severity) <= 0) {
         PrintCell("Position");
         PrintCell("Top Part");

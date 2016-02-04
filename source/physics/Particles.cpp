@@ -89,7 +89,7 @@ std::string Name(Id id)
     case Id::proton : return "p";
     case Id::Delta_2 : return "Delta2";
     case Id::CP_violating_higgs : return "h";
-        Default(to_int(id), std::to_string(to_int(id)));
+        DEFAULT(to_int(id), std::to_string(to_int(id)));
     }
 }
 
@@ -119,7 +119,7 @@ Mass MassOf(Id id)
     case Id::neutron : return 1.00866_GeV;
     case Id::proton : return 0.93827_GeV;
     case Id::CP_violating_higgs : return MassOf(Id::higgs);
-        Default(to_int(id), massless);
+        DEFAULT(to_int(id), massless);
     }
 }
 
@@ -132,7 +132,7 @@ std::vector<Id> MultiId(Id id)
     case Id::neutral_boson : return {Id::higgs, Id::CP_violating_higgs, Id::Z
 //       , Id::W
                                         };
-        Default(to_int(id), {});
+        DEFAULT(to_int(id), {});
     }
 }
 

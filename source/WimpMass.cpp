@@ -40,20 +40,20 @@ std::vector<boca::Sextet> WimpMass::Sextets(Quartet22 const& quartet, Jet const&
     Momentum(structure.p5, quartet.Doublet1().Singlet1().Jet());
     Momentum(structure.p6, quartet.Doublet2().Singlet1().Jet());
     Momentum(structure.pmiss, missing_et);
-//     Debug("Lepton 1 (p3)", PseudoJet(structure.p3));
-//     Debug("Lepton 2 (p4)" , PseudoJet(structure.p4));
-//     Debug("Jet 1 (p5)" , PseudoJet(structure.p5));
-//     Debug("Jet 2 (p6)" , PseudoJet(structure.p6));
-//     Debug("PMiss" , PseudoJet(structure.pmiss));
+//     DEBUG("Lepton 1 (p3)", PseudoJet(structure.p3));
+//     DEBUG("Lepton 2 (p4)" , PseudoJet(structure.p4));
+//     DEBUG("Jet 1 (p5)" , PseudoJet(structure.p5));
+//     DEBUG("Jet 2 (p6)" , PseudoJet(structure.p6));
+//     DEBUG("PMiss" , PseudoJet(structure.pmiss));
     double momentum_1[4][4], momentum_2[4][4];
     int solution_sum;
     solve22(structure, MassOf(Id::electron_neutrino) / GeV, MassOf(Id::W) / GeV, MassOf(Id::top) / GeV, solution_sum, momentum_1, momentum_2);
-    Debug("Number solutions", solution_sum);
+    DEBUG("Number solutions", solution_sum);
     std::vector<boca::Sextet> sextets;
     for (auto const & solution_number : Range(solution_sum)) {
-        Debug("Solution ", solution_number);
-//         Debug("Neutrino 1 (p1)" , PseudoJet(momentum_1[solution_number]));
-//         Debug("Neutrino 2 (p2)" , PseudoJet(momentum_2[solution_number]));
+        DEBUG("Solution ", solution_number);
+//         DEBUG("Neutrino 1 (p1)" , PseudoJet(momentum_1[solution_number]));
+//         DEBUG("Neutrino 2 (p2)" , PseudoJet(momentum_2[solution_number]));
         Doublet doublet_1(quartet.Doublet1().Singlet2().Jet(), Jet(momentum_1[solution_number]));
         if (doublet_1.Mass() <= massless) continue;
         Doublet doublet_2(quartet.Doublet2().Singlet2().Jet(), Jet(momentum_2[solution_number]));
@@ -69,15 +69,15 @@ std::vector<boca::Sextet> WimpMass::Sextets(Quartet22 const& quartet, Jet const&
         sextet.SetTag(quartet.Tag());
         sextet.SetBdt(quartet.Bdt());
         sextets.emplace_back(sextet);
-        Debug("TriplePair Bdt", sextet.Bdt(), quartet.Bdt());
-        //         Debug("Neutrino masses", Jet1.m(), Jet2.m());
-//         Debug("W masses", (PseudoJet(momentum_1[solution_number]) + quartet.Doublet1().Singlet2().Jet()).m(), (PseudoJet(momentum_2[solution_number]) + quartet.Doublet2().Singlet2().Jet()).m());
-//         Debug("top masses", (PseudoJet(momentum_1[solution_number]) + quartet.Doublet1().Singlet2().Jet() + quartet.Doublet1().Singlet1().Jet()).m(), (PseudoJet(momentum_2[solution_number]) + quartet.Doublet2().Singlet2().Jet() + quartet.Doublet2().Singlet1().Jet()).m());
-        //         Debug("Higg mass", (Jet1 + Pair1.PseudoJet2() + Pair1.PseudoJet1() + Jet2 + Pair2.PseudoJet2() + Pair1.PseudoJet1()).m());
+        DEBUG("TriplePair Bdt", sextet.Bdt(), quartet.Bdt());
+        //         DEBUG("Neutrino masses", Jet1.m(), Jet2.m());
+//         DEBUG("W masses", (PseudoJet(momentum_1[solution_number]) + quartet.Doublet1().Singlet2().Jet()).m(), (PseudoJet(momentum_2[solution_number]) + quartet.Doublet2().Singlet2().Jet()).m());
+//         DEBUG("top masses", (PseudoJet(momentum_1[solution_number]) + quartet.Doublet1().Singlet2().Jet() + quartet.Doublet1().Singlet1().Jet()).m(), (PseudoJet(momentum_2[solution_number]) + quartet.Doublet2().Singlet2().Jet() + quartet.Doublet2().Singlet1().Jet()).m());
+        //         DEBUG("Higg mass", (Jet1 + Pair1.PseudoJet2() + Pair1.PseudoJet1() + Jet2 + Pair2.PseudoJet2() + Pair1.PseudoJet1()).m());
     }
     if (solution_sum == 0) {
 //         if (counter_ == 10) {
-//             Error("No Solution", counter_);
+//             ERROR("No Solution", counter_);
 //             return sextets;
 //         }
 //         ++counter_;
@@ -91,24 +91,24 @@ std::vector<boca::Sextet> WimpMass::Sextet(Quartet22 const& quartet, Jet const& 
 {
     INFO("Triple Pair");
     std::vector<boca::Sextet> sextets = Sextets(quartet, missing_et);
-    Debug("Number Solutions", sextets.size());
+    DEBUG("Number Solutions", sextets.size());
     if (sextets.empty())
         return sextets;
 //     if (Neutrinos.size() < 2) return sextets;
-    for (auto const & neutrino : neutrinos) Debug(neutrino);
-//     Debug(neutrinos.at(0) + neutrinos.at(1));
-    Debug(missing_et);
+    for (auto const & neutrino : neutrinos) DEBUG(neutrino);
+//     DEBUG(neutrinos.at(0) + neutrinos.at(1));
+    DEBUG(missing_et);
     std::map<float, boca::Sextet> map;
     for (auto const & sextet : sextets) {
         Jet neutrino_1 = sextet.Triplet1().Doublet().Singlet2().Jet();
         Jet neutrino_2 = sextet.Triplet2().Doublet().Singlet2().Jet();
         std::vector<float> errors_1, errors_2;
         for (auto const & neutrino : neutrinos) {
-            //             Error("Neutrino Mass", Neutrino.m());
+            //             ERROR("Neutrino Mass", Neutrino.m());
             errors_1.emplace_back((neutrino + Particle(neutrino_1)).m());
-//             Debug("Neutrino 1 Error", (neutrino + neutrino_1).m());
+//             DEBUG("Neutrino 1 Error", (neutrino + neutrino_1).m());
             errors_2.emplace_back((neutrino + Particle(neutrino_2)).m());
-//             Debug("Neutrino 2 Error", (neutrino + neutrino_2).m());
+//             DEBUG("Neutrino 2 Error", (neutrino + neutrino_2).m());
         }
         float error = std::numeric_limits<float>::max();
         for (auto const & error_1 : errors_1)
@@ -129,10 +129,10 @@ std::vector<boca::Sextet> WimpMass::Sextet(Quartet22 const& quartet, Jet const& 
 //             }
 //         }
         map[error] = sextet;
-        Debug("TriplePair Bdt", sextet.Bdt());
+        DEBUG("TriplePair Bdt", sextet.Bdt());
     }
     for (auto const & pair : map)
-        Debug("Neutrino Error Sum", pair.first);
+        DEBUG("Neutrino Error Sum", pair.first);
     if (tag == Tag::signal)
         map.erase(std::next(map.begin()), map.end());
     else

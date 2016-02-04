@@ -38,7 +38,7 @@ public:
 private:
 
     std::string AnalysisName() const final {
-        return Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-bottom";
+        return Name(this->Collider()) + "-" + boca::Name(this->LowerPtCut()) + "-bottom";
     }
 
 

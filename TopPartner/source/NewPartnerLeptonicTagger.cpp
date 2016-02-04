@@ -11,7 +11,7 @@ namespace naturalness
 
 int NewPartnerLeptonicTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
-    Info0;
+    INFO0;
     return SaveEntries(Quintets(event, [&](Quintet & quintet) {
         quintet.SetTag(tag);
         return quintet;
@@ -41,7 +41,7 @@ std::vector<Particle> NewPartnerLeptonicTagger::Particles(Event const& event) co
     std::vector<Particle> leptons = CopyIfLepton(particles);
     std::vector<Particle>candidate = CopyIfGreatGrandMother(leptons, Id::top_partner);
     if (!candidate.empty()) {
-        Check(leptons.size() == 1, leptons.size());
+        CHECK(leptons.size() == 1, leptons.size());
         int grand_grand_mother = candidate.front().Info().Family().GreatGrandMother().Id();
         return CopyIfExactParticle(particles, grand_grand_mother);
     } else { // this is necessary because madspin doesnt label relations correctly

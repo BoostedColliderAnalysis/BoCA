@@ -64,8 +64,8 @@ void EventShape::SetJets(const std::vector< Jet >& jets)
 //       EventShapes event_shapes;
 //     EventShapes().reset(ptrs);
     EventShapes().Reset(jets);
-    //         Error(EventShapes().aplanarity());
-    //         Error(EventShapes().sphericity());
+    //         ERROR(EventShapes().aplanarity());
+    //         ERROR(EventShapes().sphericity());
 
 }
 

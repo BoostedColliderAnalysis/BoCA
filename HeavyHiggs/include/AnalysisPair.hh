@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Analysis.hh"
+#include "Debug.hh"
 
 namespace boca
 {
@@ -90,16 +91,10 @@ private:
 
     Id MotherId(Production production) const {
         switch (production) {
-        case Production::DYP :
-            return Id::Z;
-//             return Id::gluon;
-        case Production::VBF :
-            return Id::bottom;
-        case Production::Associated :
-            return Id::gluon;
-        default:
-            Error("MotherId", "unhandeld case");
-            return Id::empty;
+        case Production::DYP : return Id::Z;
+        case Production::VBF : return Id::bottom;
+        case Production::Associated : return Id::gluon;
+        DEFAULT(to_int(production), Id::empty);
         }
     }
 

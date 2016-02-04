@@ -23,9 +23,9 @@ public:
 
     PseudoJet(LorentzVector<Momentum> const& vector);
 
-    virtual UserInfoBase const& Info() const = 0;
+    virtual UserInfoBase const& Info() const;
 
-    virtual UserInfoBase& Info() = 0;
+    virtual UserInfoBase& Info();
 
     Momentum Pt() const;
 

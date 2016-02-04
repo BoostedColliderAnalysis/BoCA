@@ -38,14 +38,14 @@ public:
 
     std::string AnalysisName() const final
     {
-      return  "Fusion-" + Name(this->collider_type()) + "-" + boca::Name(this->PreCut()) + "-" + boca::Name(this->Mass());
+      return  "Fusion-" + Name(this->Collider()) + "-" + boca::Name(this->PreCut()) + "-" + boca::Name(this->Mass());
     }
 
 private:
 
     int BackgroundFileNumber() const
     {
-        switch (this->collider_type()) {
+        switch (this->Collider()) {
         case Collider::LHC :
             switch (this->PreCut()) {
             case  0 :
@@ -84,7 +84,7 @@ private:
 
     Crosssection SignalCrosssection() const
     {
-        switch (this->collider_type()) {
+        switch (this->Collider()) {
         case Collider::LHC:
             switch (this->Mass()) {
             case 400 : return 1463.1219866990498 * fb;
@@ -94,7 +94,7 @@ private:
             case 3000 : return 0.003583086718061121 * fb;
             case 4000 : return 0.00020344209136808554 * fb;
             default:
-//                 Error("unhandled case");
+//                 ERROR("unhandled case");
                 return pb;
             } ;
         case Collider::LE:
@@ -117,11 +117,11 @@ private:
             case 15000 : return 0.000046 * fb; //<this is just wrong get the right numbers
             case 20000 : return 0.0000046 * fb; //<this is just wrong get the right numbers
             default:
-//                 Error("unhandled case");
+//                 ERROR("unhandled case");
                 return pb;
             }
         default:
-//             Error("unhandled case");
+//             ERROR("unhandled case");
             return pb;
         }
     }
@@ -131,7 +131,7 @@ private:
        std::vector<Particle> particles = event.Partons().GenParticles();
         particles = CopyIfParticle(particles, Id::top);
         if (particles.size() != 2) {
-//             Error("Not enough top quarks", Particles.size());
+//             ERROR("Not enough top quarks", Particles.size());
             return 0;
         } else {
           if (particles.at(0).Pt() < this->PreCut()) return 0;

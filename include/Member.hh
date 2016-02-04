@@ -14,7 +14,6 @@ namespace boca
  * @brief Position outside of a vector
  *
  */
-static int EmptyPosition = -1;
 
 class Member
 {
@@ -39,11 +38,13 @@ public:
 
     void Set(int id, int position);
 
+    static int EmptyPosition();
+
 private:
 
     LorentzVector<boca::Momentum> momentum_;
 
-    int position_ = EmptyPosition;
+    int position_ = EmptyPosition();
 
     int id_;
 

@@ -22,13 +22,13 @@ enum class Precision
 
 int Precision()
 {
-    Info0;
+    INFO0;
     return 2;
 }
 
 int FontNumber(Font font, Style style)
 {
-    Info0;
+    INFO0;
     switch (font) {
     case Font::times:
         if (style == Style::italic) return 1;
@@ -59,7 +59,7 @@ int FontNumber(Font font, Style style)
 
 float TextHeight()
 {
-    Info0;
+    INFO0;
     switch (Precision()) {
     case 2 : return 0.07;
     case 3 : return 20;
@@ -69,7 +69,7 @@ float TextHeight()
 
 float LabelHeight()
 {
-    Info0;
+    INFO0;
     switch (Precision()) {
     case 2 : return 0.05;
     case 3 : return 15;
@@ -79,7 +79,7 @@ float LabelHeight()
 
 int ColorCode(int number)
 {
-    Info0;
+    INFO0;
     switch (number) {
     case 0 : return kBlack;
     case 1 : return kRed;
@@ -113,7 +113,7 @@ std::string Text(std::string const& text, Font font)
 
 int FontCode(Font font, Style style)
 {
-    Info0;
+    INFO0;
     return 10 * FontNumber(font, style) + Precision();
 }
 

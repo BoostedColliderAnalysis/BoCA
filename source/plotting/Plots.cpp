@@ -3,7 +3,7 @@
  */
 #include "plotting/Plots.hh"
 
-// #define DEBUG
+// #define DEBUGGING
 #include "Debug.hh"
 
 namespace boca
@@ -11,7 +11,7 @@ namespace boca
 
 void Plots::SetNames(NamePairs const& names)
 {
-    Info0;
+    INFO0;
     for (auto & plot : plots_) {
         int index = &plot - &plots_.front();
         plot.XAxis() = names.at(index).first;
@@ -25,25 +25,25 @@ void Plots::SetNames(NamePairs const& names)
 
 Plots::Plots(const InfoBranch& info_branch)
 {
-    Info0;
+    INFO0;
     info_branch_ = info_branch;
 }
 
 std::vector<Plot> const& Plots::plots() const
 {
-    Info0;
+    INFO0;
     return plots_;
 }
 
 std::vector<Plot> & Plots::plots()
 {
-    Info0;
+    INFO0;
     return plots_;
 }
 
 void Plots::SetName(std::string const& name)
 {
-    Info0;
+    INFO0;
     name_ = name;
 }
 

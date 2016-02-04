@@ -30,7 +30,7 @@ int ChargedHiggsLeptonicTagger::Train(Event const& event, PreCuts const&, const 
 
 
         if (tag == Tag::signal && triplets.size() > 1) {
-            Error("Higgs Candidates", triplets.size());
+            ERROR("Higgs Candidates", triplets.size());
             std::sort(triplets.begin(), triplets.end());
             triplets.erase(triplets.begin() + 1, triplets.end());
         }

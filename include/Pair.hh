@@ -1,12 +1,12 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
-#define PAIR1(value) boca::Observable(value, #value, #value)
-#define PAIR2(value, string) boca::Observable(value, #value, string)
+#define OBSERVABLE_1(value) boca::Observable(value, #value, #value)
+#define OBSERVABLE_2(value, string) boca::Observable(value, #value, string)
 
 #define ARGUMENTS(arg1, arg2, arg, ...) arg
-#define PAIRCHOOSE(...) ARGUMENTS(__VA_ARGS__, PAIR2, PAIR1, )
+#define OBSERVABLE_CHOOSE(...) ARGUMENTS(__VA_ARGS__, OBSERVABLE_2, OBSERVABLE_1, )
 
-#define PAIR(...) PAIRCHOOSE(__VA_ARGS__)(__VA_ARGS__)
+#define OBSERVABLE(...) OBSERVABLE_CHOOSE(__VA_ARGS__)(__VA_ARGS__)

@@ -6,7 +6,7 @@
 #include "Jet.hh"
 #include "InfoRecombiner.hh"
 #include "Exception.hh"
-// #define DEBUG
+// #define DEBUGGING
 #include "Debug.hh"
 
 namespace boca
@@ -55,14 +55,14 @@ Jet::Jet(TLorentzVector const& lorentz_vector) :
 Jet::Jet(TLorentzVector const& lorentz_vector, ::delphes::Jet const& jet) :
     PseudoJet(lorentz_vector)
 {
-    Debug(px(), py(), pz(), m());
+    DEBUG(px(), py(), pz(), m());
     SetInfo(jet);
 }
 
 Jet::Jet(TLorentzVector const& lorentz_vector, Constituent const& constituent) :
     PseudoJet(lorentz_vector)
 {
-    Debug(px(), py(), pz(), m());
+    DEBUG(px(), py(), pz(), m());
     SetInfo(constituent);
 }
 
@@ -123,7 +123,7 @@ Jet::Jet(double const Momentum[4]) :
 JetInfo const& Jet::Info() const
 {
     if (!has_user_info<JetInfo>()) {
-        Error("No jet info");
+        ERROR("No jet info");
         const_cast<Jet&>(*this).SetInfo();
     }
     return user_info<JetInfo>();
@@ -132,7 +132,7 @@ JetInfo const& Jet::Info() const
 JetInfo& Jet::Info()
 {
     if (!has_user_info<JetInfo>()) {
-        Error("No jet info");
+        ERROR("No jet info");
         SetInfo();
     }
     return static_cast<JetInfo&>(*user_info_shared_ptr().get());
@@ -140,13 +140,13 @@ JetInfo& Jet::Info()
 
 void Jet::SetInfo(JetInfo const& user_info)
 {
-    if (has_user_info()) Error("Jet has already a user info, which is beeing overwritten, this leads to data loss and leaking memory");
+    if (has_user_info()) ERROR("Jet has already a user info, which is beeing overwritten, this leads to data loss and leaking memory");
     set_user_info(new JetInfo(user_info));
 }
 
 std::vector< Jet > JetVector(std::vector< fastjet::PseudoJet > const& pseudo_jets)
 {
-    Info0;
+    INFO0;
     std::vector<Jet> jets;
     for (auto const & pseudo_jet : pseudo_jets) jets.emplace_back(pseudo_jet);
     return jets;
@@ -154,7 +154,7 @@ std::vector< Jet > JetVector(std::vector< fastjet::PseudoJet > const& pseudo_jet
 
 std::vector< fastjet::PseudoJet > PseudoJetVector(std::vector< Jet > const& jets)
 {
-    Info0;
+    INFO0;
     std::vector<fastjet::PseudoJet> pseudo_jets;
     for (auto const & jet : jets) pseudo_jets.emplace_back(jet);
     return pseudo_jets;
@@ -162,7 +162,7 @@ std::vector< fastjet::PseudoJet > PseudoJetVector(std::vector< Jet > const& jets
 
 Jet Join(std::vector< Jet > const& jets)
 {
-    Info0;
+    INFO0;
     return fastjet::join(PseudoJetVector(jets), InfoRecombiner());
 }
 
@@ -173,7 +173,7 @@ void Jet::SetDelphesTags(const delphes::Jet& delphes_jet)
 std::vector< Jet > Jet::Constituents() const
 {
     if (has_constituents()) return JetVector(constituents());
-    Error("no constituents");
+    ERROR("no constituents");
     return {};
 }
 LorentzVector< Momentum > Jet::Vector() const

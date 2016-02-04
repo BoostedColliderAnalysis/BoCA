@@ -40,11 +40,11 @@ int UpperBound(std::vector<Value> const& vector, Value value)
     return position - vector.begin();
 }
 
-float RoundError(float value);
+float RoundERROR(float value);
 
 float RoundToDigits(float value, int digits = 3);
 
-float RoundToError(float value, float error);
+float RoundToERROR(float value, float error);
 
 float FloorToDigits(float value, int digits = 2);
 

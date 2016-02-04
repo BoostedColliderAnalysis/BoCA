@@ -18,7 +18,7 @@ int TripletJetPairTagger::Train(boca::Event const& event, boca::PreCuts const&, 
 //     std::vector<Doublet> doublets = WTagger.SaveBdt(jets, WReader);
     //     std::vector<Triplet> triplets = top_hadronic_tagger.SaveBdt(doublets, jets, TopHadronicReader);
 //     std::vector<Triplet> triplets = top_hadronic_tagger.SaveBdt(jets, top_hadronic_reader_, WTagger, WReader, bottom_tagger_, bottom_reader_);
-    Debug("Number of Hadronic Tops", triplets.size());
+    DEBUG("Number of Hadronic Tops", triplets.size());
 //     for (auto const& Jet : jets) {
 //        std::vector<Jet> Pieces = WTagger.GetSubJets(Jet, 2);
 //         Pieces = bottom_tagger_.GetJetBdt(Pieces, BottomReader); // TODO reenable this
@@ -41,7 +41,7 @@ int TripletJetPairTagger::Train(boca::Event const& event, boca::PreCuts const&, 
     std::vector<Particle> TopParticles = event.Partons().GenParticles();
     TopParticles = CopyIfFamily(TopParticles, Id::top, Id::gluon);
     if (TopParticles.size() != 1 && tag == Tag::signal)
-        Error("Where is the Top?", TopParticles.size());
+        ERROR("Where is the Top?", TopParticles.size());
     std::vector<Triplet> Finaltriplets;
     switch (tag) {
     case Tag::signal :
@@ -58,7 +58,7 @@ int TripletJetPairTagger::Train(boca::Event const& event, boca::PreCuts const&, 
 std::vector<Particle> BottomParticles = event.Partons().GenParticles();
     BottomParticles = CopyIfFamily(BottomParticles, Id::bottom, Id::gluon);
     if (BottomParticles.size() != 1 && tag == Tag::signal)
-        Error("Where is the Bottom?", BottomParticles.size());
+        ERROR("Where is the Bottom?", BottomParticles.size());
    std::vector<Jet>FinalJets;
     switch (tag) {
     case  Tag::signal :
@@ -83,7 +83,7 @@ std::vector<Particle> BottomParticles = event.Partons().GenParticles();
 //             if (quartet.Tag() != Tag) continue;
             quartets.emplace_back(quartet);
         }
-    Debug("Number of Jet Pairs", quartets.size());
+    DEBUG("Number of Jet Pairs", quartets.size());
     if (tag == Tag::signal && quartets.size() > 1) {
         quartets = SortedByMaxDeltaRap(quartets);
 //         std::sort(quartets.begin(), quartets.end(), SortedByDeltaRap());

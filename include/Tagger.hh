@@ -41,17 +41,17 @@ class Tagger
 
 public:
 
-    virtual std::string Name() const = 0;
+    virtual auto Name() const -> std::string = 0;
 
     virtual int SaveBdt(Event const&, PreCuts const&, TMVA::Reader const&) const = 0;
 
-    virtual int Train(Event const&, PreCuts const&, const Tag) const = 0;
+    virtual auto Train(Event const&, PreCuts const&, const Tag) const -> int= 0;
 
     virtual const ResultBranch& Branch() const = 0;
 
     virtual ResultBranch& Branch() = 0;
 
-    virtual std::string LatexName() const;
+    virtual auto LatexName() const -> std::string;
 
     virtual TMVA::Types::EMVA Mva() const;
 

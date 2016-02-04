@@ -21,17 +21,17 @@ namespace boca
 
 AnalysisBase::AnalysisBase()
 {
-    Info0;
+    INFO0;
 }
 
 void AnalysisBase::Initialize()
 {
-    Error(Tagger().Name());
+    ERROR(Tagger().Name());
 //     working_path_ = WorkingPath();
 //     if (AnalysisName() != AnalysisBase::AnalysisName())
 //     INFO(working_path_, AnalysisName());
     mkdir(AnalysisName().c_str(), 0700);
-//     else Error(AnalysisName());
+//     else ERROR(AnalysisName());
     Tagger().SetAnalysisName(AnalysisName());
     Tagger().Initialize();
 }
@@ -39,13 +39,13 @@ void AnalysisBase::Initialize()
 
 std::vector<File> AnalysisBase::Files(Tag tag)
 {
-    Error(Name(tag));
+    ERROR(Name(tag));
     return files_;
 }
 
 void AnalysisBase::PrepareFiles(Stage stage)
 {
-    Info0;
+    INFO0;
     ClearFiles();
     SetFiles(Tag::signal, stage);
     SetFiles(Tag::background, stage);
@@ -53,53 +53,53 @@ void AnalysisBase::PrepareFiles(Stage stage)
 
 long AnalysisBase::TrainNumberMax() const
 {
-    Info0;
+    INFO0;
     return 100000;
 }
 
 long AnalysisBase::ReadNumberMax() const
 {
-    Info0;
+    INFO0;
     return TrainNumberMax();
 }
 
 void AnalysisBase::NewFile(boca::Tag tag, const std::vector<std::string>& names, Crosssection crosssection, std::string const& nice_name, boca::Mass mass)
 {
-    Info0;
+    INFO0;
     files_.emplace_back(File(names, crosssection, nice_name, mass));
     Tagger().AddTreeName(TreeName(names.front()), tag);
 }
 
 void AnalysisBase::NewFile(Tag tag, std::vector<std::string> const& names, std::string const& nice_name)
 {
-    Info0;
+    INFO0;
     files_.emplace_back(File(names, nice_name));
     Tagger().AddTreeName(TreeName(names.front()), tag);
 }
 
 void AnalysisBase::NewFile(boca::Tag tag, std::string const& name, Crosssection crosssection, std::string const& nice_name, boca::Mass mass)
 {
-    Info0;
+    INFO0;
     files_.emplace_back(File( {name}, crosssection, nice_name, mass));
     Tagger().AddTreeName(TreeName(name), tag);
 }
 
 void AnalysisBase::NewFile(Tag tag, std::string const& name, std::string const& nice_name)
 {
-    Info0;
+    INFO0;
     files_.emplace_back(File( {name}, nice_name));
     Tagger().AddTreeName(TreeName(name), tag);
 }
 
 File AnalysisBase::File(std::vector<std::string> const& names, std::string const& nice_name) const
 {
-    Info0;
+    INFO0;
     return boca::File(names, FilePath(), FileSuffix(), nice_name);
 }
 
 File AnalysisBase::File(std::vector<std::string> const& names, Crosssection crosssection, std::string const& nice_name, boca::Mass mass) const
 {
-    Info0;
+    INFO0;
     return boca::File(names, FilePath(), FileSuffix(), nice_name, crosssection, mass);
 }
 
@@ -110,58 +110,58 @@ File AnalysisBase::File(std::vector<std::string> const& names, Crosssection cros
 
 std::string AnalysisBase::TreeName(std::string const& name) const
 {
-    Info0;
+    INFO0;
     return name + "-run_01";
 }
 
 PreCuts const& AnalysisBase::pre_cuts() const
 {
-    Info0;
+    INFO0;
     return pre_cuts_;
 }
 
 PreCuts& AnalysisBase::pre_cuts()
 {
-    Info0;
+    INFO0;
     return pre_cuts_;
 }
 
 std::string AnalysisBase::FileSuffix() const
 {
-    Info0;
+    INFO0;
     return ".root";
 }
 
 std::string AnalysisBase::FilePath() const
 {
-    Info0;
+    INFO0;
     return WorkingPath();
 }
 
 int AnalysisBase::BackgroundFileNumber() const
 {
-    Info0;
+    INFO0;
 //     return configuration_.BackgroundFileNumber();
     return 1;
 }
 
 Momentum AnalysisBase::PreCut() const
 {
-    Info0;
+    INFO0;
 //     return configuration_.PreCut();
     return 0;
 }
 
 boca::Mass AnalysisBase::Mass() const
 {
-    Info0;
+    INFO0;
 //     return configuration_.Mass();
     return 1_GeV;
 }
 
 void AnalysisBase::RunFast()
 {
-    Info0;
+    INFO0;
     RunTagger(Stage::trainer);
     INFO("Analysis Loop done");
     RunTrainer();
@@ -169,7 +169,7 @@ void AnalysisBase::RunFast()
 
 void AnalysisBase::RunNormal()
 {
-    Info0;
+    INFO0;
     RunFast();
     RunTagger(Stage::reader);
     INFO("Analysis Loop done");
@@ -177,35 +177,35 @@ void AnalysisBase::RunNormal()
 
 void AnalysisBase::RunFullSignificance()
 {
-    Info0;
+    INFO0;
     RunNormal();
     RunSignificance();
 }
 
 void AnalysisBase::ClearFiles()
 {
-    Info0;
+    INFO0;
     files_.clear();
     Tagger().ClearTreeNames();
 }
 
 void AnalysisBase::RunFullEfficiency()
 {
-    Info0;
+    INFO0;
     RunNormal();
     RunEfficiency();
 }
 
 void AnalysisBase::RunTagger(Stage stage)
 {
-    Info0;
+    INFO0;
     if (Exists(Tagger().FileName(stage, Tag::signal))) return;
     AnalysisLoop(stage);
 }
 
 void AnalysisBase::RunTrainer()
 {
-    Info0;
+    INFO0;
     if (Exists(Tagger().WeightFileName())) return;
     PrepareFiles(Stage::trainer);
     std::ofstream cout_file(Tagger().FolderName() + ".txt");
@@ -218,7 +218,7 @@ void AnalysisBase::RunTrainer()
 
 void AnalysisBase::RunSignificance()
 {
-    Info0;
+    INFO0;
     if (Exists(Tagger().ExportFileName())) return;
     PrepareFiles(Stage::reader);
     Plotting plotting(Tagger());
@@ -227,7 +227,7 @@ void AnalysisBase::RunSignificance()
 
 void AnalysisBase::RunEfficiency()
 {
-    Info0;
+    INFO0;
     if (Exists(Tagger().ExportFileName())) return;
     PrepareFiles(Stage::reader);
     Plotting plotting(Tagger());
@@ -236,7 +236,7 @@ void AnalysisBase::RunEfficiency()
 
 void AnalysisBase::RunPlots()
 {
-    Info0;
+    INFO0;
     if (Exists(Tagger().ExportFolderName())) return;
     Plotting plotting(Tagger());
     PrepareFiles(Stage::trainer);
@@ -248,12 +248,12 @@ void AnalysisBase::RunPlots()
 
 void AnalysisBase::RunCut()
 {
-    Info0;
+    INFO0;
     RunTagger(Stage::trainer);
     INFO("Analysis Loop done");
     RunTrainer();
     RunTagger(Stage::reader);
-    Error(Tagger().TreeNames(Tag::signal).size());
+    ERROR(Tagger().TreeNames(Tag::signal).size());
     PrepareFiles(Stage::reader);
     Plotting plotting(Tagger());
     plotting.OptimalCuts();
@@ -261,54 +261,48 @@ void AnalysisBase::RunCut()
 
 std::string AnalysisBase::WorkingPath() const
 {
-    Info0;
+    INFO0;
     return "./";
 //     std::string path = boost::filesystem::current_path().string() + "/";
-//     Error(path);
+//     ERROR(path);
 //     return path;
 }
 
 void AnalysisBase::Run(Output output)
 {
-    Info0;
+    INFO0;
     Initialize();
     //   analysis.PreRequisits<analysis.Tagger()::type>(analysis,run);
     FlagSwitch(output, [&](Output output_2) {
         switch (output_2) {
-        case Output::fast :
-            RunFast();
+        case Output::fast : RunFast();
             break;
-        case Output::normal :
-            RunNormal();
+        case Output::normal : RunNormal();
             break;
-        case Output::efficiency :
-            RunFullEfficiency();
+        case Output::efficiency : RunFullEfficiency();
             break;
-        case Output::significance :
-            RunFullSignificance();
+        case Output::significance : RunFullSignificance();
             break;
-        case Output::plot :
-            RunPlots();
+        case Output::plot : RunPlots();
             break;
-        case Output::cut :
-            RunCut();
+        case Output::cut : RunCut();
             break;
-            Default(to_int(output_2),);
+            DEFAULT(to_int(output_2));
         }
     });
 }
 
 void AnalysisBase::PrintGeneratorLevel(Event const& event, bool signature) const
 {
-    Info0;
-    std::vector<Particle> particles = event.Partons().GenParticles();
+    INFO0;
+    auto particles = event.Partons().GenParticles();
     for (auto const & particle : particles) {
-        Family family = particle.Info().Family();
+        auto family = particle.Info().Family();
         if (signature && family.StepMother().Id() == 0) continue;
-        std::string id = Name(family.Particle().Id());
-        std::string mother = Name(family.Mother().Id());
-        std::string mother2 = Name(family.StepMother().Id());
-        Error(id, mother, mother2);
+        auto id = Name(family.Particle().Id());
+        auto mother = Name(family.Mother().Id());
+        auto mother2 = Name(family.StepMother().Id());
+        ERROR(id, mother, mother2);
     }
 }
 
@@ -317,7 +311,7 @@ long int AnalysisBase::EventNumberMax(Stage stage) const
     switch (stage) {
     case Stage::trainer : return TrainNumberMax();
     case Stage::reader : return ReadNumberMax();
-        Default("Stage", 0);
+        DEFAULT("Stage", 0);
     }
 }
 

@@ -38,13 +38,13 @@ public:
 //     }
 
     std::string AnalysisName() const final {
-      return  "Charged-" + Name(this->collider_type()) + "-" + boca::Name(this->PreCut()) + "-" + boca::Name(this->Mass());
+      return  "Charged-" + Name(this->Collider()) + "-" + boca::Name(this->PreCut()) + "-" + boca::Name(this->Mass());
     }
 
 private:
 
     Crosssection SignalCrosssection() const {
-        switch (this->collider_type()) {
+        switch (this->Collider()) {
         case Collider::LHC:
             switch (this->Mass()) {
             case 500 : return 3.0495761279999996 * fb;
@@ -53,7 +53,7 @@ private:
             case 3000 : return 0.0003035467008 * fb;
             case 4000 : return 0.000020556093312 * fb;
             default:
-//                 Error("Signal Crosssection", "unhandled case");
+//                 ERROR("Signal Crosssection", "unhandled case");
                 return fb;
             } ;
         case Collider::LE:
@@ -73,11 +73,11 @@ private:
             case 15000 : return 0.00014951794176 * fb;
             case 20000 : return 0.000016388469792 * fb;
             default:
-//                 Error("Signal Crosssection", "unhandled case");
+//                 ERROR("Signal Crosssection", "unhandled case");
                 return fb;
             }
         default:
-//             Error("Signal Crosssection", "unhandled case");
+//             ERROR("Signal Crosssection", "unhandled case");
             return fb;
         }
     }
@@ -90,12 +90,12 @@ private:
         if (quarks.empty()) {
             //       if (Tag == Tag::signal && PreCut() > 0 && !(Tagger == BottomTagger || Tagger == HBottomReader))
             //       if (PreCut() > 0)
-//             Error("Not enough bottom quarks", Quarks.size());
+//             ERROR("Not enough bottom quarks", Quarks.size());
             return 0;
         } else if (quarks.front().Pt() < this->PreCut()) return 0;
         std::vector<Particle> TopQuarks = SortedByPt(CopyIfParticle(particles, Id::top));
         if (TopQuarks.size() != 2) {
-//             Error("Not enough top quarks", TopQuarks.size());
+//             ERROR("Not enough top quarks", TopQuarks.size());
             return 0;
         } else if (TopQuarks.front().Pt() < this->PreCut()) return 0;
         if (event.Hadrons().MissingEt().Pt() < this->MissingEt()) return 0;
@@ -107,7 +107,7 @@ private:
         return 1;
     }
     int BackgroundFileNumber() const {
-        switch (this->collider_type()) {
+        switch (this->Collider()) {
         case Collider::LHC :
             switch (this->PreCut()) {
             case 0 :
@@ -141,7 +141,7 @@ private:
     }
 
     Crosssection BackgroundCrosssection(Process) const {
-        switch (this->collider_type()) {
+        switch (this->Collider()) {
         case Collider::LHC :
             switch (this->PreCut()) {
             case 0 : return 97.54 * 2 * fb;
@@ -156,7 +156,7 @@ private:
             }
         }
         default :
-//             Error("unhandled case");
+//             ERROR("unhandled case");
             return fb;
         }
     }

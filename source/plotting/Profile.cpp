@@ -28,14 +28,14 @@ Profile::Profile(std::string const& path, std::string const& folder, std::string
 
 Profile::~Profile()
 {
-    Info0;
+    INFO0;
     Draw();
     SaveAs(FileName());
 }
 
 void Profile::Draw()
 {
-    Info0;
+    INFO0;
     Color().Heat();
     profile_.Draw("colz");
 }
@@ -75,13 +75,13 @@ void Profile::SetDimensions(std::string const& name, int bins, Rectangle<float> 
 
 void Profile::SetDimensions(int bin_x, int bin_y, Rectangle<float> const& bounds)
 {
-    Info0;
+    INFO0;
     profile_.SetBins(bin_x, bounds.XMin(), bounds.XMax(), bin_y, bounds.YMin(), bounds.YMax());
 }
 
 void Profile::SetProfile(Plot const& signal, Plot const& background)
 {
-    Info0;
+    INFO0;
     if (signal.x_is_int) SetDimensions(std::floor(rectangle_.Width()), profile_.GetNbinsY(), rectangle_);
     if (signal.y_is_int) SetDimensions(profile_.GetNbinsX(), std::floor(rectangle_.Height()), rectangle_);
     if (canvas().GetLogx()) SetLogarithmic(*profile_.GetXaxis());

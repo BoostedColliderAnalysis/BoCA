@@ -1,7 +1,7 @@
 #include "../include/SignatureLeptonTagger.hh"
 #include "Event.hh"
 #include "Exception.hh"
-// #define DEBUG
+// #define DEBUGGING
 #include "Debug.hh"
 
 namespace boca
@@ -12,16 +12,16 @@ namespace higgscpv
 
 int SignatureLeptonTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) const
 {
-    Info0;
+    INFO0;
    std::vector<Lepton> leptons = event.Leptons().leptons();
     if (leptons.size() < 2) return 0;
    std::vector<Particle> particles = event.Partons().GenParticles();
    std::vector<Particle> lepton_particle = CopyIfParticles(particles, Id::electron, Id::muon);
-//     Error(lepton_particle);
+//     ERROR(lepton_particle);
     lepton_particle = CopyIfGrandMother(lepton_particle, Id::top);
-//     Error(lepton_particle);
+//     ERROR(lepton_particle);
     std::vector<Lepton> final_leptons = CopyIfClose(leptons, lepton_particle);
-//     Error(final_leptons);
+//     ERROR(final_leptons);
     std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
     std::vector<Particle> higgses = CopyIfParticles(particles, Id::higgs, Id::CP_violating_higgs);
     std::vector<Doublet> final_doublets = BestMatches(doublets, higgses, tag);
@@ -31,15 +31,15 @@ int SignatureLeptonTagger::Train(Event const& event, boca::PreCuts const&, Tag t
         quartet.SetTag(tag);
         return quartet;
     });
-    Debug(quartets.size());
+    DEBUG(quartets.size());
     if (tag == Tag::signal) quartets = ReduceResult(quartets, 1);
-    Debug(quartets.size());
+    DEBUG(quartets.size());
     return  SaveEntries(quartets);
 }
 
 std::vector<MultipletSignature<Quartet211>> SignatureLeptonTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
 {
-    Info0;
+    INFO0;
    std::vector<Lepton> leptons = event.Leptons().leptons();
     if (leptons.size() < 2) return {};
     std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);

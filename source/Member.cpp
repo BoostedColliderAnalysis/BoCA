@@ -56,4 +56,9 @@ void Member::Set(int id, int position)
     position_ = position;
 }
 
+int Member::EmptyPosition()
+{
+    return -1;
+}
+
 }

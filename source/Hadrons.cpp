@@ -12,13 +12,13 @@ Hadrons::Hadrons(boca::TreeReader const& tree_reader) :
 
 Momentum Hadrons::ScalarHt() const
 {
-    Error("No Scalar Ht");
+    ERROR("No Scalar Ht");
     return at_rest;
 }
 
 boca::MissingEt Hadrons::MissingEt() const
 {
-    Error("No Mising Et");
+    ERROR("No Mising Et");
     return {};
 }
 

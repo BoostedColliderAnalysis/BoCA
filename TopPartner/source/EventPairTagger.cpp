@@ -1,5 +1,5 @@
 #include "EventPairTagger.hh"
-// #define DEBUG
+// #define DEBUGGING
 #include "Debug.hh"
 
 namespace boca {
@@ -8,7 +8,7 @@ namespace naturalness {
 
   int EventPairTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
-    Info0;
+    INFO0;
    std::vector<Jet> jets = bottom_reader_.Jets(event);
     std::vector<MultipletEvent<Decuplet55>> multipletevents;
     for (auto const& decuplet : signature_reader_.Multiplets(event)) {
@@ -21,7 +21,7 @@ namespace naturalness {
 
 std::vector<MultipletEvent<Decuplet55>> EventPairTagger::Multiplets(boca::Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
-    Info0;
+    INFO0;
    std::vector<Jet> jets = bottom_reader_.Jets(event);
     std::vector<MultipletEvent<Decuplet55>> multiplet_events;
     for (auto const& decuplet : signature_reader_.Multiplets(event)) {

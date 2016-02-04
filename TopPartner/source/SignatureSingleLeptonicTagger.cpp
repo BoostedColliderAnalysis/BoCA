@@ -12,7 +12,7 @@ namespace naturalness
 
 int SignatureSingleLeptonicTagger::Train(Event const& event, PreCuts const& , Tag tag) const
 {
-    Info0;
+    INFO0;
     std::vector<Decuplet532> decuplets = Decuplets(event, [&](Decuplet532 & decuplet) {
         decuplet.SetTag(tag);
         return decuplet;
@@ -23,7 +23,7 @@ int SignatureSingleLeptonicTagger::Train(Event const& event, PreCuts const& , Ta
 
 std::vector<Decuplet532> SignatureSingleLeptonicTagger::Multiplets(Event const& event, boca::PreCuts const& , TMVA::Reader const& reader) const
 {
-    Info0;
+    INFO0;
     return ReduceResult(Decuplets(event, [&](Decuplet532 & decuplet) {
         decuplet.SetBdt(Bdt(decuplet, reader));
         return decuplet;
@@ -32,7 +32,7 @@ std::vector<Decuplet532> SignatureSingleLeptonicTagger::Multiplets(Event const& 
 
 std::vector<Decuplet532> SignatureSingleLeptonicTagger::Decuplets(Event const& event, std::function<Decuplet532(Decuplet532&)> const& function) const
 {
-  Info0;
+  INFO0;
   std::vector<Triplet> triplets = top_reader_.Multiplets(event);
   std::vector<Quintet> quintets = partner_reader_.Multiplets(event);
   std::vector<Decuplet532> decuplets;
@@ -49,7 +49,7 @@ std::vector<Decuplet532> SignatureSingleLeptonicTagger::Decuplets(Event const& e
       }
     }
   }
-  Debug(decuplets.size());
+  DEBUG(decuplets.size());
   return decuplets;
 }
 

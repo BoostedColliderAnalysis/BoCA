@@ -13,7 +13,7 @@ Hadrons::Hadrons(boca::TreeReader const& tree_reader) :
 
 std::vector<Jet> Hadrons::Jets() const
 {
-    Info0;
+    INFO0;
     std::vector<Jet> jets;
     for (auto const & exroot_jet : TreeReader().Objects<::exroot::Jet>(Branch::jet)) {
         Jet jet(exroot_jet);

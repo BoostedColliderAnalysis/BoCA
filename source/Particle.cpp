@@ -46,7 +46,7 @@ Particle::Particle(exroot::LHEFParticle const& particle, int id) :
 ParticleInfo const& Particle::Info() const
 {
     if (!has_user_info<ParticleInfo>()) {
-        Error("No particle info");
+        ERROR("No particle info");
         const_cast<Particle&>(*this).SetInfo();
     }
     return user_info<ParticleInfo>();
@@ -55,7 +55,7 @@ ParticleInfo const& Particle::Info() const
 ParticleInfo& Particle::Info()
 {
     if (!has_user_info<ParticleInfo>()) {
-        Error("No particle info");
+        ERROR("No particle info");
         SetInfo();
     }
     return static_cast<ParticleInfo&>(*user_info_shared_ptr().get());
@@ -63,7 +63,7 @@ ParticleInfo& Particle::Info()
 
 void Particle::SetInfo(ParticleInfo const& user_info)
 {
-    if (has_user_info()) Error("Particle has already a user info, which gets overwritten: data loss and memory leak");
+    if (has_user_info()) ERROR("Particle has already a user info, which gets overwritten: data loss and memory leak");
     set_user_info(new ParticleInfo(user_info));
 }
 

@@ -5,12 +5,14 @@
 
 #include "PreCuts.hh"
 #include "Phase.hh"
+#include "Flag.hh"
 
 namespace boca
 {
 
 class File;
 class Tagger;
+class Event;
 
 enum class Output
 {
@@ -48,8 +50,6 @@ protected:
 
     void Initialize();
 
-//     void SetConfig(const Configuration &configuration);
-
     void RunFast();
 
     void RunNormal();
@@ -76,10 +76,6 @@ protected:
 
     virtual std::string AnalysisName() const = 0;
 
-    /**
-     * @brief Maximal number of Entries to analyse
-     *
-     */
     virtual long TrainNumberMax() const;
 
     virtual long ReadNumberMax() const;
@@ -90,15 +86,7 @@ protected:
 
     Momentum PreCut() const;
 
-    //      int TrainNumberMax() const {
-    //         return configuration_.TrainNumberMax();
-    //     };
-
     int BackgroundFileNumber() const;
-
-    //      ColliderType collider_type() const {
-    //         return configuration_.collider_type();
-    //     }
 
     virtual std::string FilePath() const;
 
@@ -114,15 +102,11 @@ protected:
 
     void NewFile(boca::Tag tag, std::string const& names, Crosssection crosssection, std::string const& nice_name = "", boca::Mass mass = massless);
 
-//     std::string FileName(std::string const& name) const = 0;
-
     std::string TreeName(std::string const& name) const;
 
     PreCuts const& pre_cuts() const;
 
     PreCuts& pre_cuts();
-
-//     std::string working_path_;
 
     void PrintGeneratorLevel(Event const& event, bool signature = false) const;
 
@@ -146,12 +130,8 @@ private:
 
     PreCuts pre_cuts_;
 
-//     Configuration configuration_;
-
     std::vector<boca::File> files_;
 
 };
-
-// void Run(AnalysisBase & analysis, Output run);
 
 }

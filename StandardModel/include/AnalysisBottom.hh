@@ -44,8 +44,8 @@ public:
 private:
 
     std::string AnalysisName() const final {
-        return  Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-all-new";
-//       return  Name(production_channel()) + "_" + Name(this->collider_type()) + "_" + boca::Name(this->LowerPtCut()) + "-large-new";
+        return  Name(this->Collider()) + "-" + boca::Name(this->LowerPtCut()) + "-all-new";
+//       return  Name(production_channel()) + "_" + Name(this->Collider()) + "_" + boca::Name(this->LowerPtCut()) + "-large-new";
     }
 
 //     Production production_channel() const {

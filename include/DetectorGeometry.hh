@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -32,6 +32,10 @@ enum class DetectorType
 
 std::string Name(DetectorType detector_type);
 
+/**
+ * @brief Detector and Collider specific constants
+ *
+ */
 class DetectorGeometry
 {
 
@@ -63,17 +67,25 @@ public:
 
     static boca::Luminosity Luminosity();
 
-    static JetType jet_type();
+    static boca::JetType JetType();
 
-    static void set_detector_type(DetectorType detector_type);
+    static void SetDetectorType(boca::DetectorType detector_type);
 
-    static DetectorType detector_type();
+    static boca::DetectorType DetectorType();
 
     static InfoRecombiner& Recombiner();
 
+    static Angle IsolationConeSize();
+
+    static Momentum HardLeptonMomentum();
+
+    static float IsolationFraction();
+
+    static Momentum ForwardJetPt();
+
 private:
 
-    static DetectorType detector_type_;
+    static boca::DetectorType detector_type_;
 
     static InfoRecombiner info_recombiner_;
 

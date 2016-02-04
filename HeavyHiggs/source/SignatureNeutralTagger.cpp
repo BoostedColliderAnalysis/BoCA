@@ -10,13 +10,13 @@ namespace heavyhiggs
 
 int SignatureNeutralTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
-    Info0;
+    INFO0;
     std::vector<Particle> higgs = heavy_higgs_semi_reader_.Tagger().HiggsParticle(event, tag);
     std::vector<Sextet> sextets = heavy_higgs_semi_reader_.Multiplets(event);
     sextets = BestMatches(sextets, higgs, tag);
 
     std::vector<Doublet> doublets = jet_pair_reader_.Multiplets(event);
-    std::vector<Particle> bottoms = SortedByPt(jet_pair_reader_.Tagger().BottomPair(event, tag));
+    std::vector<Particle> bottoms = SortedByPt(jet_pair_reader_.Tagger().PairBottomQuarks(event, tag));
 
     std::vector<Particle> particles = event.Partons().GenParticles();
     std::vector<Particle> tops = CopyIfParticle(particles, Id::top);
@@ -33,7 +33,7 @@ int SignatureNeutralTagger::Train(Event const& event, PreCuts const&, Tag tag) c
         }
     }
 
-//     Error(one_close_to_top, two_close_to_top);
+//     ERROR(one_close_to_top, two_close_to_top);
     static int close_to_top_ = 0;
     if (one_close_to_top == 6) {
         ++close_to_top_;
@@ -48,7 +48,7 @@ int SignatureNeutralTagger::Train(Event const& event, PreCuts const&, Tag tag) c
                 if ((Close(bottoms.at(0))(doublet.Singlet1().Jet()) && Close(bottoms.at(1))(doublet.Singlet2().Jet())) || (Close(bottoms.at(1))(doublet.Singlet1().Jet()) && Close(bottoms.at(0))(doublet.Singlet2().Jet()))) final_doublets.emplace_back(doublet);
 
             }
-        } else Error(bottoms.size());
+        } else ERROR(bottoms.size());
         break;
     case Tag::background :
         final_doublets = doublets;
@@ -73,7 +73,7 @@ int SignatureNeutralTagger::Train(Event const& event, PreCuts const&, Tag tag) c
     if (one_close_to_top < 6 && final_doublets.size() > 0 && octets.size() == 0) {
         ++zero_octets;
     }
-//     Error(close_to_top_, zero_doublets, zero_octets);
+//     ERROR(close_to_top_, zero_doublets, zero_octets);
 
     if (tag == Tag::signal && octets.size() > 1) {
         INFO(octets.size());
@@ -87,7 +87,7 @@ int SignatureNeutralTagger::Train(Event const& event, PreCuts const&, Tag tag) c
 
 std::vector<Octet62> SignatureNeutralTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
 {
-    Info0;
+    INFO0;
     std::vector<Doublet> doublets = jet_pair_reader_.Multiplets(event);
     std::vector<Sextet> sextets = heavy_higgs_semi_reader_.Multiplets(event);
     std::vector<Octet62> octets;
@@ -99,9 +99,36 @@ std::vector<Octet62> SignatureNeutralTagger::Multiplets(Event const& event, PreC
             octets.emplace_back(octet);
         }
     }
-//     if(octets.size()==0)Error(octets.size(), doublets.size(), sextets.size());
+//     if(octets.size()==0)ERROR(octets.size(), doublets.size(), sextets.size());
     return ReduceResult(octets);
 }
+
+std::vector<Octet62> SignatureNeutralTagger::CleanOctets(Event const& event, std::vector<Octet62> const& octets, Tag tag) const
+{
+    std::vector<Octet62> final_octets;
+    std::vector<Particle> bottoms = jet_pair_reader_.Tagger().PairBottomQuarks(event, tag);
+    //   CHECK((tag==Tag::signal && bottoms.size()==2) || (tag==Tag::background && bottoms.size() == 2), bottoms.size());
+    std::vector<Particle> higgses = heavy_higgs_semi_reader_.Tagger().HiggsParticle(event, tag);
+    //   CHECK((tag==Tag::signal && higgses.size()==1) || (tag==Tag::background && higgses.size() == 0), higgses.size());
+    //   ERROR(bottoms.size());
+    for (auto const & octet : octets) {
+        switch (tag) {
+        case Tag::signal : for (const auto & higgs : higgses) if (!Close(higgs)(octet.Sextet())) continue;
+            break;
+        case Tag::background  :
+            //         ERROR("What are we doing here?");
+            break;
+        }
+        try {
+            Doublet doublet = jet_pair_reader_.Tagger().TruthDoubletPair(octet.Doublet(), bottoms, tag);
+        } catch (char const*) {
+            continue;
+        }
+        final_octets.emplace_back(octet);
+    }
+    return final_octets;
+}
+
 std::string SignatureNeutralTagger::Name() const
 {
     return "SignatureNeutral";

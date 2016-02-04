@@ -14,16 +14,16 @@ namespace higgscpv
 
 int TopLeptonicPairTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) const
 {
-    Info0;
+    INFO0;
     std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
-    Debug(triplets.size());
+    DEBUG(triplets.size());
    std::vector<Particle> particles = event.Partons().GenParticles();
    std::vector<Particle> top_particles = CopyIfParticle(particles, Id::top);
-    Check(top_particles.size() == 2, top_particles.size());
+    CHECK(top_particles.size() == 2, top_particles.size());
 //    std::vector<Jet>neutrinos = CopyIfNeutrino(particles);
-    if (top_particles.size() != 2 && tag == Tag::signal) Debug(particles.size());
+    if (top_particles.size() != 2 && tag == Tag::signal) DEBUG(particles.size());
     std::vector<Triplet> final_triplets = BestMatches(triplets, top_particles, tag);
-//     Check(final_triplets.size()==2, final_triplets.size());
+//     CHECK(final_triplets.size()==2, final_triplets.size());
     std::vector<Sextet> sextets = unordered_pairs(final_triplets, [](Triplet const& triplet_1, Triplet const& triplet_2) {
       Quartet22 quartet(Doublet(triplet_1.Singlet().Jet(), triplet_1.Doublet().Jet()), Doublet(triplet_2.Singlet().Jet(), triplet_2.Doublet().Jet()));
         if (quartet.Overlap()) throw Overlap();
@@ -35,7 +35,7 @@ int TopLeptonicPairTagger::Train(Event const& event, boca::PreCuts const&, Tag t
     });
 
     if (tag == Tag::signal && sextets.size() > 1) {
-        Debug(sextets.size());
+        DEBUG(sextets.size());
         sextets = BestRapidity(sextets);
     }
     return SaveEntries(sextets);
@@ -58,7 +58,7 @@ std::vector<Sextet> TopLeptonicPairTagger::TruthLevel(Event const& event, std::v
         return final_sextets;
     }
     case Tag::background : return sextets;
-    Default("Tag",{});
+    DEFAULT("Tag",{});
     }
 }
 

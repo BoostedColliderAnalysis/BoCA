@@ -21,13 +21,13 @@ namespace standardmodel
 
 WHadronicTagger::WHadronicTagger()
 {
-    Info0;
+    INFO0;
     w_mass_window_ = 40_GeV;
 }
 
 int WHadronicTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const
 {
-    Info0;
+    INFO0;
     std::vector<Doublet> doublets = Doublets(event, pre_cuts, [&](Doublet & doublet) {
         return CheckDoublet(doublet, pre_cuts, tag);
     });
@@ -36,7 +36,7 @@ int WHadronicTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag)
 
 std::vector<Doublet> WHadronicTagger::Doublets(Event const& event, PreCuts const& pre_cuts, Function const& function) const
 {
-    Info0;
+    INFO0;
     std::vector<Jet> jets = bottom_reader_.Jets(event);
 
     MomentumRange two_jet_range(Id::W);
@@ -125,7 +125,7 @@ bool WHadronicTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cut
 
 std::vector<Doublet> WHadronicTagger::Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
-    Info0;
+    INFO0;
     std::vector<Doublet> doublets = Doublets(event, pre_cuts, [&](Doublet & doublet) {
         return Multiplet(doublet, pre_cuts, reader);
     });
@@ -134,7 +134,7 @@ std::vector<Doublet> WHadronicTagger::Multiplets(Event const& event, PreCuts con
 
 boost::optional<Doublet> WHadronicTagger::Multiplet(Doublet& doublet, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
-    Info0;
+    INFO0;
     if (Problematic(doublet, pre_cuts)) return boost::none;
     doublet.SetBdt(Bdt(doublet, reader));
     return doublet;
@@ -142,7 +142,7 @@ boost::optional<Doublet> WHadronicTagger::Multiplet(Doublet& doublet, PreCuts co
 
 std::vector<Doublet> WHadronicTagger::Multiplets(std::vector<Jet> const& jets, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
-    Info0;
+    INFO0;
     return Doublets(jets, [&](Doublet & doublet) {
         return Multiplet(doublet, pre_cuts, reader);
     });
@@ -165,7 +165,7 @@ boost::optional<Doublet> WHadronicTagger::SubMultiplet(Jet const& jet, TMVA::Rea
 
 boost::optional<Doublet> WHadronicTagger::SubDoublet(Jet const& jet, Function const& function) const
 {
-    Info0;
+    INFO0;
     std::vector<Jet> pieces = bottom_reader_.SubMultiplet(jet, 2);
     if (pieces.empty()) return boost::none;
     Doublet doublet;

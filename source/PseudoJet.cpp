@@ -6,7 +6,7 @@
 #include "TLorentzVector.h"
 #include "physics/Particles.hh"
 #include "Jet.hh"
-// #define DEBUG
+// #define DEBUGGING
 #include "Debug.hh"
 
 namespace boca
@@ -19,7 +19,7 @@ PseudoJet::PseudoJet() :
 PseudoJet::PseudoJet(TLorentzVector const& vector) :
     fastjet::PseudoJet(vector.Px(), vector.Py(), vector.Pz(), vector.E())
 {
-    Debug(vector.Px(), px(), vector.Py(), py());
+    DEBUG(vector.Px(), px(), vector.Py(), py());
 }
 
 PseudoJet::PseudoJet(LorentzVector<Momentum> const& vector) :
@@ -40,7 +40,7 @@ Angle PseudoJet::DeltaRTo(const fastjet::PseudoJet& jet) const
 {
     if (delta_R(jet) == fastjet::pseudojet_invalid_rap) return 0_rad;
     if (delta_R(jet) > 100) {
-        Error("invalid delta_r", delta_R(jet));
+        ERROR("invalid delta_r", delta_R(jet));
         return 0_rad;
     }
     return delta_R(jet) * rad;
@@ -61,7 +61,7 @@ Angle PseudoJet::Rap() const
 {
     if (rap() == fastjet::pseudojet_invalid_rap) return 0_rad;
     if (rap() > 100) {
-        Error("invalid rap", rap());
+        ERROR("invalid rap", rap());
         return 0_rad;
     }
     return rap() * rad;
@@ -95,6 +95,14 @@ Energy PseudoJet::Energy()
 Momentum PseudoJet::Px() const
 {
     return px() * GeV;
+}
+const PseudoJet::UserInfoBase& PseudoJet::Info() const
+{
+    return *new UserInfoBase;
+}
+PseudoJet::UserInfoBase& PseudoJet::Info()
+{
+    return *new UserInfoBase;
 }
 
 

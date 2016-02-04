@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -11,36 +11,6 @@ namespace boca
 
 bool Exists(std::string const& name);
 
-/**
- * @brief provides an integer with the necessary information to act as counter for a range based for loop
- *
- */
-// class Range
-// {
-// public:
-//     Range(int sum) : last_(sum), iterator_(0) {}
-//
-//     Range(int low, int sum) : last_(sum), iterator_(std::max(low - 1, 0)) {}
-//
-//     Range const& begin() const {
-//         return *this;
-//     }
-//     Range const& end() const {
-//         return *this;
-//     }
-//     bool operator!=(Range const&) const {
-//         return iterator_ < last_;
-//     }
-//     void operator++() {
-//         ++iterator_;
-//     }
-//     int operator*() const {
-//         return iterator_;
-//     }
-// private:
-//     int last_;
-//     int iterator_;
-// };
 template<typename Integer>
 boost::integer_range<Integer> Range(Integer last) {
   return boost::integer_range<Integer>(0, last);

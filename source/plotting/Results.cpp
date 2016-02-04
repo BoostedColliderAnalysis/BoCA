@@ -8,7 +8,7 @@
 //
 #include "Types.hh"
 #include "DetectorGeometry.hh"
-// #define DEBUG
+// #define DEBUGGING
 #include "Debug.hh"
 
 namespace boca
@@ -16,79 +16,79 @@ namespace boca
 
 std::vector<Result> const& Results::Signals() const
 {
-    Info0;
+    INFO0;
     return signals_;
 }
 
 std::vector<Result> const& Results::Backgrounds() const
 {
-    Info0;
+    INFO0;
     return backgrounds_;
 }
 
 int Results::BestModelDependentBin() const
 {
-    Info0;
+    INFO0;
     return best_model_dependent_bin_;
 }
 
 int Results::BestModelInDependentBin() const
 {
-    Info0;
+    INFO0;
     return best_model_independent_bin_;
 }
 
 int Results::BestAcceptanceBin() const
 {
-    Info0;
+    INFO0;
     return best_acceptance_bin_;
 }
 
 Rectangle<float> const& Results::Bounds() const
 {
-    Info0;
+    INFO0;
     return bounds_;
 }
 
 Rectangle<float> & Results::Bounds()
 {
-    Info0;
+    INFO0;
     return bounds_;
 }
 
 std::vector<float> const& Results::XValues() const
 {
-    Info0;
+    INFO0;
     return x_values_;
 }
 
 std::vector<float> const& Results::Significances() const
 {
-    Info0;
+    INFO0;
     return significances_;
 }
 
 std::vector<float> const& Results::Acceptances() const
 {
-    Info0;
+    INFO0;
     return acceptances_;
 }
 
 std::vector<Crosssection> const& Results::ModelIndependentCrosssection() const
 {
-    Info0;
+    INFO0;
     return crosssections_;
 }
 
 std::vector<Crosssection>& Results::ModelIndependentCrosssection()
 {
-    Info0;
+    INFO0;
     return crosssections_;
 }
 
 Results::Results(std::vector<Result> signals, std::vector<Result> backgrounds)
 {
-    Info0;
+    INFO0;
     signals_ = signals;
     backgrounds_ = backgrounds;
     significances_.resize(Steps(), 0);
@@ -101,7 +101,7 @@ Results::Results(std::vector<Result> signals, std::vector<Result> backgrounds)
 
 void Results::ExtremeXValues()
 {
-    Info0;
+    INFO0;
     switch (Mva()) {
     case TMVA::Types::kBDT : {
         for (auto const & result : backgrounds_) {
@@ -119,45 +119,45 @@ void Results::ExtremeXValues()
         if (!x_values_.empty()) bounds_.SetXMax(x_values_.back());
         break;
     }
-    Default(Mva(),);
+    DEFAULT(Mva());
     }
 }
 
 float Results::BestModelDependentValue() const
 {
-    Info0;
+    INFO0;
     return XValue(BestModelDependentBin());
 }
 
 float Results::BestModelInDependentValue() const
 {
-    Info0;
+    INFO0;
     return XValue(BestModelInDependentBin());
 }
 
 float Results::BestAcceptanceValue() const
 {
-    Info0;
+    INFO0;
     return XValue(BestAcceptanceBin());
 }
 
 int Results::Steps() const
 {
-    Info0;
+    INFO0;
     if (signals_.empty()) return 0;
     return signals_.front().Steps();
 }
 
 TMVA::Types::EMVA Results::Mva() const
 {
-    Info0;
+    INFO0;
     if (signals_.empty()) return TMVA::Types::kVariable;
     return signals_.front().Mva();
 }
 
 void Results::CalculateSignificances()
 {
-    Info0;
+    INFO0;
     for (auto const & step : Range(Steps())) {
         float signal_events = 0;
         Crosssection signal_efficiencies_crossection = 0_fb;
@@ -188,7 +188,7 @@ void Results::CalculateSignificances()
 
 void Results::BestBin()
 {
-    Info0;
+    INFO0;
     std::vector<float> efficiencies(backgrounds_.size(), 0);
     int counter = 0;
     for (auto const & number : Range(backgrounds_.size())) {
@@ -200,7 +200,7 @@ void Results::BestBin()
             ++counter;
         }
     }
-    Error(best_model_dependent_bin_, best_model_independent_bin_, best_acceptance_bin_);
+    ERROR(best_model_dependent_bin_, best_model_independent_bin_, best_acceptance_bin_);
 }
 
 float Results::XValue(int value) const
@@ -209,7 +209,7 @@ float Results::XValue(int value) const
     switch (Mva()) {
     case TMVA::Types::kBDT : return 2. * value / Steps() - 1;
     case TMVA::Types::kCuts : return (1. + value) / (Steps() + 1);
-    Default(Mva(),0);
+    DEFAULT(Mva(),0);
     }
 }
 

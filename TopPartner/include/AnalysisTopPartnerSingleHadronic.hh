@@ -28,12 +28,12 @@ class AnalysisSingleHadronic : public AnalysisNaturalness<Tagger>
 protected:
 
     std::string AnalysisName() const final {
-        Info0;
-        return "Single-Hadronic-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass()) + "-2016-2";
+        INFO0;
+        return "Single-Hadronic-" + Name(DetectorGeometry::DetectorType()) + "-" + boca::Name(this->Mass()) + "-2016-2";
     }
 
     void SetFiles(Tag tag, Stage) final {
-        Info0;
+        INFO0;
         switch (tag) {
         case Tag::signal :
             if (this->template TaggerIs<VetoTopPartnerLeptonicTagger>()) this->NewFile(tag, Process::TT);
@@ -56,16 +56,16 @@ private:
 //         TopPartnerHadronicTagger partner_tagger;
 
     int PassPreCut(Event const& , Tag) const final {
-        Info0;
+        INFO0;
 //       if(tag == Tag::signal){
 //        std::vector<Jet> partner = partner_tagger.Particles(event);
 //         if(partner.empty()) return 0;
 //       }
 //       static int counter = 0;
 //       ++counter;
-//     Error(counter);
+//     ERROR(counter);
 
-//      Error0;
+//      ERROR0;
 //      this->PrintGeneratorLevel(event);
 
 //        std::vector<Jet> jets = SortedByPt(event.Hadrons().Jets());

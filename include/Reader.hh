@@ -77,7 +77,7 @@ public:
 
 
 //     Reader() : reader_(std::make_shared<TMVA::Reader>(Options())) {
-// //         Info0;
+// //         INFO0;
 //         stage_ = Stage::reader;
 //         Initialize(stage_);
 //     }
@@ -142,13 +142,17 @@ public:
         return Tagger().Jets(input, pre_cuts, reader());
     }
 
+    auto Particles(Event const& event) const {
+        return Tagger().Particles(event);
+    }
+
 //     template <typename Input1, typename Input2>
 //     auto Multiplets(Input1 &input_1, Input2 &input_2) const {
 //         return Tagger().Multiplets(input_1, input_2, reader());
 //     }
 
-    auto Multiplet(Jet & input) const {
-      return Tagger().Multiplet(input, reader());
+    auto Multiplet(Jet& input) const {
+        return Tagger().Multiplet(input, reader());
     }
 
     template <typename Input>

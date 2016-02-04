@@ -14,12 +14,12 @@ Leptons::Leptons(boca::TreeReader const& tree_reader) :
 
 Leptons::~Leptons()
 {
-    Info0;
+    INFO0;
 }
 
 std::vector<Lepton> Leptons::leptons() const
 {
-    Info0;
+    INFO0;
     return Join(Electrons(), Muons());
 }
 

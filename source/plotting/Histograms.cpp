@@ -14,13 +14,13 @@ namespace boca
 Histograms::Histograms(std::string const& path, std::string const& name, bool show_title):
     Canvas(path, name, show_title)
 {
-    Info0;
+    INFO0;
     if (show_title) stack_.SetTitle(Title().c_str());
 }
 
 Histograms::~Histograms()
 {
-    Info0;
+    INFO0;
     Draw();
     SaveAs(FileName());
 }
@@ -48,7 +48,7 @@ void Histograms::SetLegend(boca::Orientation orientation, std::string const& tit
 
 void Histograms::Draw()
 {
-    Info0;
+    INFO0;
     stack_.Draw("nostack");
     if (histograms_.size() > 1) legend_.Draw();
     for (auto & line : lines_) line.Draw();
@@ -81,7 +81,7 @@ Bounds<double> Histograms::BoundsY()
 
 Bounds<double> Histograms::BoundsX()
 {
-  Info0;
+  INFO0;
   if (!stack_.GetXaxis()) return {};
   return {stack_.GetXaxis()->GetXmin(), stack_.GetXaxis()->GetXmax()};
 }

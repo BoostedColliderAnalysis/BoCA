@@ -31,19 +31,19 @@ float CeilToDigits(float value, int digits) {
     return std::ceil(value * factor) / factor;
 }
 
-float RoundError(float value){
+float RoundERROR(float value){
     return RoundToDigits(value, 2);
 }
 
 float RoundToDigits(float value, int digits) {
-    Info0;
+    INFO0;
     if (value == 0 || value != value) return 0;
     float factor = Factor(value, digits);
     return std::round(value * factor) / factor;
 }
 
-float RoundToError(float value, float error) {
-    Info0;
+float RoundToERROR(float value, float error) {
+    INFO0;
     if (value == 0 || value != value) return 0;
     float factor = Factor(error, 2);
     return std::round(value * factor) / factor;

@@ -4,7 +4,7 @@
 #include "VetoTopPartnerLeptonicTagger.hh"
 #include "Decuplet.hh"
 #include "ParticleInfo.hh"
-// #define DEBUG
+// #define DEBUGGING
 // #define INFORMATION
 #include "Debug.hh"
 
@@ -16,7 +16,7 @@ namespace naturalness
 
 int VetoTopPartnerLeptonicTagger::Train(Event const& event, PreCuts const& , Tag tag) const
 {
-    Info0;
+    INFO0;
     return SaveEntries(Quintets(event, [&](Quintet & quintet) {
         quintet.SetTag(tag);
         return quintet;
@@ -25,7 +25,7 @@ int VetoTopPartnerLeptonicTagger::Train(Event const& event, PreCuts const& , Tag
 
 std::vector<Quintet> VetoTopPartnerLeptonicTagger::Multiplets(Event const& event, boca::PreCuts const& , TMVA::Reader const& reader) const
 {
-    Info0;
+    INFO0;
     return ReduceResult(Quintets(event, [&](Quintet & quintet) {
         quintet.SetBdt(Bdt(quintet, reader));
         return quintet;
@@ -51,7 +51,7 @@ std::vector<Particle> VetoTopPartnerLeptonicTagger::Particles(Event const& event
 
 std::vector<Quintet> VetoTopPartnerLeptonicTagger::Quintets(Event const& event, std::function<Quintet(Quintet&)> const& function) const
 {
-    Info0;
+    INFO0;
     std::vector<Quintet> quintets = partner_reader_.Multiplets(event);
     std::vector<Triplet> triplets = top_reader_.Multiplets(event);
     std::vector<Quintet> vetos;
@@ -63,7 +63,7 @@ std::vector<Quintet> VetoTopPartnerLeptonicTagger::Quintets(Event const& event, 
                 Decuplet532 decuplet(quintet, triplet, doublet);
                 if (decuplet.Overlap()) continue;
                 vetos.emplace_back(function(veto));
-                if(veto.Mass() != veto.Mass()) Error(veto.Mass());
+                if(veto.Mass() != veto.Mass()) ERROR(veto.Mass());
                 break;
             }
         }

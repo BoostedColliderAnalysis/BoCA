@@ -35,6 +35,7 @@ set(event_sources
 File.cpp
 TreeReader.cpp
 Event.cpp
+Isolation.cpp
 FourVector.cpp
 Partons.cpp
 Leptons.cpp

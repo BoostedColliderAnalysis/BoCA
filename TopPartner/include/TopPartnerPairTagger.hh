@@ -2,7 +2,6 @@
 
 #include "TopPartnerHadronicTagger.hh"
 #include "TopPartnerLeptonicTagger.hh"
-#include "BranchesTopPartner.hh"
 #include "Decuplet.hh"
 
 namespace boca

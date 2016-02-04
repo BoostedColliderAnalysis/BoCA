@@ -44,7 +44,7 @@ Angle to_angle(float angle)
 Angle RestrictPhi(Angle phi)
 {
     if (std::isnan(phi.value())) {
-        Error("function called with NaN");
+        ERROR("function called with NaN");
         return phi;
     }
     while (phi >= boost::math::constants::pi<double>() * rad) phi -= boost::math::constants::pi<double>() * 2_rad;

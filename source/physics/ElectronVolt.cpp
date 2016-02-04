@@ -1,7 +1,6 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
-
 
 #include <sstream>
 
@@ -37,21 +36,6 @@ std::string Name(Energy energy)
     string.erase(boost::range::remove_if(string, isspace), string.end());
     return string;
 }
-
-// Energy operator"" _eV(long double length)
-// {
-//     return double(length) * eV;
-// }
-//
-// Energy operator"" _GeV(long double length)
-// {
-//     return double(length) * GeV;
-// }
-//
-// Energy operator"" _TeV(long double length)
-// {
-//     return double(length) * TeV;
-// }
 
 int Int(Momentum energy)
 {

@@ -14,12 +14,12 @@ SignatureTTaggerBranch::SignatureTTaggerBranch()
 
 Observables SignatureTTaggerBranch::Variables()
 {
-    return PAIR(Aplanarity) + PAIR(Sphericity);
+    return OBSERVABLE(Aplanarity) + OBSERVABLE(Sphericity);
 }
 
 Observables SignatureLeptonTTaggerBranch::Variables()
 {
-    return PAIR(Ht, "H_{T}") + PAIR(DeltaPt, "#Delta P_{T}") + PAIR(DeltaM, "#Delta m") + PAIR(DeltaRap, "#Delta #eta") + PAIR(DeltaPhi, "#Delta #phi") + PAIR(DeltaR, "#Delta R") + PAIR(Rho, "#rho") + PAIR(DeltaHt, "#Delta H_{T}") + PAIR(Bdt3) + PAIR(Mass12) + PAIR(Mass23) + PAIR(Mass13) + PAIR(Pt12) + PAIR(Pt23) + PAIR(Pt13) + PAIR(DeltaPt23) + PAIR(DeltaPt13) + PAIR(Ht12) + PAIR(Ht23) + PAIR(Ht13) + PAIR(Rho23) + PAIR(Rho13) + PAIR(DeltaRap23) + PAIR(DeltaRap13) + PAIR(DeltaPhi23) + PAIR(DeltaPhi13) + PAIR(DeltaR23) + PAIR(DeltaR13) + PAIR(DeltaM23) + PAIR(DeltaM13) + PAIR(DeltaHt23) + PAIR(DeltaHt13) + PAIR(Pull23) + PAIR(Pull13) + PAIR(Pull32) + PAIR(Pull31) + PAIR(Dipolarity23) + PAIR(Dipolarity13) + PAIR(Aplanarity) + PAIR(Sphericity);
+    return OBSERVABLE(Ht, "H_{T}") + OBSERVABLE(DeltaPt, "#Delta P_{T}") + OBSERVABLE(DeltaM, "#Delta m") + OBSERVABLE(DeltaRap, "#Delta #eta") + OBSERVABLE(DeltaPhi, "#Delta #phi") + OBSERVABLE(DeltaR, "#Delta R") + OBSERVABLE(Rho, "#rho") + OBSERVABLE(DeltaHt, "#Delta H_{T}") + OBSERVABLE(Bdt3) + OBSERVABLE(Mass12) + OBSERVABLE(Mass23) + OBSERVABLE(Mass13) + OBSERVABLE(Pt12) + OBSERVABLE(Pt23) + OBSERVABLE(Pt13) + OBSERVABLE(DeltaPt23) + OBSERVABLE(DeltaPt13) + OBSERVABLE(Ht12) + OBSERVABLE(Ht23) + OBSERVABLE(Ht13) + OBSERVABLE(Rho23) + OBSERVABLE(Rho13) + OBSERVABLE(DeltaRap23) + OBSERVABLE(DeltaRap13) + OBSERVABLE(DeltaPhi23) + OBSERVABLE(DeltaPhi13) + OBSERVABLE(DeltaR23) + OBSERVABLE(DeltaR13) + OBSERVABLE(DeltaM23) + OBSERVABLE(DeltaM13) + OBSERVABLE(DeltaHt23) + OBSERVABLE(DeltaHt13) + OBSERVABLE(Pull23) + OBSERVABLE(Pull13) + OBSERVABLE(Pull32) + OBSERVABLE(Pull31) + OBSERVABLE(Dipolarity23) + OBSERVABLE(Dipolarity13) + OBSERVABLE(Aplanarity) + OBSERVABLE(Sphericity);
 }
 
 
@@ -61,7 +61,7 @@ SignatureLeptonTaggerBranch::SignatureLeptonTaggerBranch()
 
 Observables SignatureLeptonTaggerBranch::Variables()
 {
-    return ParticleBranch::Variables() + PAIR(Ht, "H_{T}") + PAIR(DeltaPt, "#Delta P_{T}") + PAIR(DeltaM, "#Delta m") + PAIR(DeltaRap, "#Delta #eta") + PAIR(DeltaPhi, "#Delta #phi") + PAIR(DeltaR, "#Delta R") + PAIR(Rho, "#rho") + PAIR(Bdt1, "BDT_{1}") + PAIR(Pull1, "#theta_{1}") + PAIR(Pull2, "#theta_{2}") + PAIR(Dipolarity, "D") + PAIR(DeltaHt, "#Delta H_{T}") + PAIR(Mass12) + PAIR(Mass23) + PAIR(Mass13) + PAIR(Pt12) + PAIR(Pt23) + PAIR(Pt13) + PAIR(DeltaPt23) + PAIR(DeltaPt13) + PAIR(Ht12) + PAIR(Ht23) + PAIR(Ht13) + PAIR(Rho23) + PAIR(Rho13) + PAIR(DeltaRap23) + PAIR(DeltaRap13) + PAIR(DeltaPhi23) + PAIR(DeltaPhi13) + PAIR(DeltaR23) + PAIR(DeltaR13) + PAIR(DeltaM23) + PAIR(DeltaM13) + PAIR(DeltaHt23) + PAIR(DeltaHt13) + PAIR(Pull23) + PAIR(Pull13) + PAIR(DeltaPull13) + PAIR(Dipolarity23) + PAIR(Dipolarity13) + PAIR(Aplanarity) + PAIR(Sphericity);
+    return ParticleBranch::Variables() + OBSERVABLE(Ht, "H_{T}") + OBSERVABLE(DeltaPt, "#Delta P_{T}") + OBSERVABLE(DeltaM, "#Delta m") + OBSERVABLE(DeltaRap, "#Delta #eta") + OBSERVABLE(DeltaPhi, "#Delta #phi") + OBSERVABLE(DeltaR, "#Delta R") + OBSERVABLE(Rho, "#rho") + OBSERVABLE(Bdt1, "BDT_{1}") + OBSERVABLE(Pull1, "#theta_{1}") + OBSERVABLE(Pull2, "#theta_{2}") + OBSERVABLE(Dipolarity, "D") + OBSERVABLE(DeltaHt, "#Delta H_{T}") + OBSERVABLE(Mass12) + OBSERVABLE(Mass23) + OBSERVABLE(Mass13) + OBSERVABLE(Pt12) + OBSERVABLE(Pt23) + OBSERVABLE(Pt13) + OBSERVABLE(DeltaPt23) + OBSERVABLE(DeltaPt13) + OBSERVABLE(Ht12) + OBSERVABLE(Ht23) + OBSERVABLE(Ht13) + OBSERVABLE(Rho23) + OBSERVABLE(Rho13) + OBSERVABLE(DeltaRap23) + OBSERVABLE(DeltaRap13) + OBSERVABLE(DeltaPhi23) + OBSERVABLE(DeltaPhi13) + OBSERVABLE(DeltaR23) + OBSERVABLE(DeltaR13) + OBSERVABLE(DeltaM23) + OBSERVABLE(DeltaM13) + OBSERVABLE(DeltaHt23) + OBSERVABLE(DeltaHt13) + OBSERVABLE(Pull23) + OBSERVABLE(Pull13) + OBSERVABLE(DeltaPull13) + OBSERVABLE(Dipolarity23) + OBSERVABLE(Dipolarity13) + OBSERVABLE(Aplanarity) + OBSERVABLE(Sphericity);
 }
 
 SignatureLeptonicBranch::SignatureLeptonicBranch()
@@ -125,22 +125,22 @@ QuartetPairBranch::QuartetPairBranch()
 }
 Observables SignatureLeptonicBranch::Variables()
 {
-    return MultiBranch::Variables() + PAIR(BottomBdt) + PAIR(PairBottomBdt) + PAIR(HardTopPt) + PAIR(SoftTopPt) + PAIR(HiggsMass) + PAIR(PairRap) + PAIR(Aplanarity) + PAIR(Sphericity);
+    return MultiBranch::Variables() + OBSERVABLE(BottomBdt) + OBSERVABLE(PairBottomBdt) + OBSERVABLE(HardTopPt) + OBSERVABLE(SoftTopPt) + OBSERVABLE(HiggsMass) + OBSERVABLE(PairRap) + OBSERVABLE(Aplanarity) + OBSERVABLE(Sphericity);
 }
 
 Observables TripletPairBranch::Variables()
 {
-    return PairBranch::Variables() + PAIR(BottomPt) + PAIR(BottomRap) + PAIR(BottomPhi) + PAIR(BottomMass) + PAIR(TopPt) + PAIR(TopRap) + PAIR(TopPhi) + PAIR(TopMass) + PAIR(TopBdt);
+    return PairBranch::Variables() + OBSERVABLE(BottomPt) + OBSERVABLE(BottomRap) + OBSERVABLE(BottomPhi) + OBSERVABLE(BottomMass) + OBSERVABLE(TopPt) + OBSERVABLE(TopRap) + OBSERVABLE(TopPhi) + OBSERVABLE(TopMass) + OBSERVABLE(TopBdt);
 }
 
 Observables EventBranch::Variables()
 {
-    return MultiBranch::Variables() + PAIR(JetNumber) + PAIR(BottomNumber) + PAIR(MissingEt) + PAIR(ScalarHt) + PAIR(LeptonHt) + PAIR(JetMass) + PAIR(JetPt) + PAIR(JetHt) + PAIR(JetRap) + PAIR(JetPhi);
+    return MultiBranch::Variables() + OBSERVABLE(JetNumber) + OBSERVABLE(BottomNumber) + OBSERVABLE(MissingEt) + OBSERVABLE(ScalarHt) + OBSERVABLE(LeptonHt) + OBSERVABLE(JetMass) + OBSERVABLE(JetPt) + OBSERVABLE(JetHt) + OBSERVABLE(JetRap) + OBSERVABLE(JetPhi);
 }
 
 Observables EventBranch::Spectators()
 {
-  return MultiBranch::Spectators() + PAIR(LeptonNumber);
+  return MultiBranch::Spectators() + OBSERVABLE(LeptonNumber);
 }
 }
 }

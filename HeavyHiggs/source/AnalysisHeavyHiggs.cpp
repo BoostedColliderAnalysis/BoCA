@@ -14,7 +14,7 @@ std::string Name(Collider collider)
     case Collider::LHC : return "14TeV";
     case Collider::FHC : return "100TeV";
     case Collider::LE : return "LE";
-    Default("Collider","");
+    DEFAULT("Collider","");
     }
 }
 
@@ -32,7 +32,7 @@ std::string Name(Process process)
     case Process::ttwwbb : return "ttwwbb";
     case Process::ttwbb : return "ttwbb";
     case Process::tt2 : return "tt_inc+";
-        Default("Process", "");
+        DEFAULT("Process", "");
     }
 }
 
@@ -50,7 +50,7 @@ std::string LatexName(Process process)
     case Process::tttt : return Formula("t#bar{t}t#bar{t}");
     case Process::tttwb : return Formula("t#bar{t}W^{#pm}b");
     case Process::tt2 : return Formula("t#bar{t}");
-        Default("Process", "");
+        DEFAULT("Process", "");
     }
 }
 

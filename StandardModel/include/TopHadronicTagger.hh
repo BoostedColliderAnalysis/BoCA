@@ -22,8 +22,6 @@ namespace standardmodel
 class TopHadronicTagger : public TaggerTemplate<Triplet, TopHadronicBranch>
 {
 
-    using Function = std::function<boost::optional<Triplet>(Triplet&, std::vector<Jet> const&)>;
-
 public:
 
     TopHadronicTagger();
@@ -36,9 +34,11 @@ public:
 
     std::string LatexName() const final;
 
-    std::vector<Particle> Particles(Event const& event, boca::PreCuts const& pre_cuts) const;
+    std::vector<Particle> Particles(Event const& event) const;
 
 private:
+
+    using Function = std::function<boost::optional<Triplet>(Triplet&, std::vector<Jet> const&)>;
 
     std::vector<Triplet> ThreeJets(std::vector<Jet> const& jets, std::vector<Lepton> const& leptons, Function const& function, MomentumRange const& range) const;
 

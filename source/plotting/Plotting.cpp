@@ -27,12 +27,12 @@ namespace boca
 Plotting::Plotting(boca::Tagger& tagger) :
     tagger_(tagger)
 {
-    Info0;
+    INFO0;
 }
 
 void Plotting::TaggingEfficiency() const
 {
-    Info0;
+    INFO0;
     Results results = ReadBdtFiles();
     PlotHistograms(results);
     PlotEfficiencyGraph(results);
@@ -41,7 +41,7 @@ void Plotting::TaggingEfficiency() const
 
 void Plotting::OptimalCuts() const
 {
-    Info0;
+    INFO0;
     Results results = ReadBdtFiles();
     results.CalculateSignificances();
     LatexFile latex_file(Tagger().ExportFolderName());
@@ -59,17 +59,17 @@ void Plotting::OptimalCuts() const
 
 Results Plotting::ReadBdtFiles() const
 {
-    Info0;
+    INFO0;
     TFile file(Tagger().ExportFileName().c_str(), "Recreate");
     return Results(ReadBdtFile(file, Tag::signal), ReadBdtFile(file, Tag::background));
 }
 
 std::vector<Result> Plotting::ReadBdtFile(TFile& export_file, Tag tag) const
 {
-    Info0;
+    INFO0;
     std::string file_name = Tagger().FileName(Stage::reader, tag);
-    Debug(file_name);
-    if (!Exists(file_name)) Error("non existent", file_name);
+    DEBUG(file_name);
+    if (!Exists(file_name)) ERROR("non existent", file_name);
     TFile file(file_name.c_str(), "Read");
     std::vector<Result> results;
     switch (Tagger().Mva()) {
@@ -77,15 +77,15 @@ std::vector<Result> Plotting::ReadBdtFile(TFile& export_file, Tag tag) const
         return results;
     case TMVA::Types::EMVA::kCuts: for (auto const & tree_name : Tagger().TreeNames(tag)) results.emplace_back(CutDistribution(file, tree_name, export_file));
         return results;
-        Default(Tagger().Mva(), results);
+        DEFAULT(Tagger().Mva(), results);
     }
 }
 
 Result Plotting::BdtDistribution(TFile& file, std::string const& tree_name, TFile& export_file) const
 {
-    Info0;
+    INFO0;
     std::string branch_name = Tagger().BranchName(Stage::reader);
-    Debug(branch_name);
+    DEBUG(branch_name);
     exroot::TreeReader tree_reader(static_cast<TTree*>(file.Get(tree_name.c_str())));
     TClonesArray& clones_array = *tree_reader.UseBranch(branch_name.c_str());
     exroot::TreeWriter tree_writer(&export_file, tree_name.c_str());
@@ -132,7 +132,7 @@ InfoBranch Plotting::InfoBranch(TFile& file, std::string const& tree_name) const
 {
     INFO(tree_name);
     exroot::TreeReader tree_reader(static_cast<TTree*>(file.Get(tree_name.c_str())));
-    Error(tree_name, Tagger().WeightBranchName());
+    ERROR(tree_name, Tagger().WeightBranchName());
     TClonesArray* clones_array = tree_reader.UseBranch(Tagger().WeightBranchName().c_str());
     tree_reader.ReadEntry(tree_reader.GetEntries() - 1);
     return static_cast<boca::InfoBranch&>(*clones_array->Last());
@@ -140,7 +140,7 @@ InfoBranch Plotting::InfoBranch(TFile& file, std::string const& tree_name) const
 
 std::string Plotting::PlotHistograms(Results const& results) const
 {
-    Info0;
+    INFO0;
     Histograms histograms(Tagger().ExportFolderName(), "Bdt");
     for (auto const & result : results.Signals()) histograms.AddHistogram(result.Bdts(), result.InfoBranch().LatexName(), results.Bounds());
     for (auto const & result : results.Backgrounds()) histograms.AddHistogram(result.Bdts(), result.InfoBranch().LatexName(), results.Bounds());
@@ -154,7 +154,7 @@ std::string Plotting::PlotHistograms(Results const& results) const
 
 std::string Plotting::PlotEfficiencyGraph(Results const& results) const
 {
-    Info0;
+    INFO0;
     Graphs graphs(Tagger().ExportFolderName(), "Efficiency");
     for (auto const & result : results.Signals()) graphs.AddGraph(results.XValues(), result.Efficiencies(), result.InfoBranch().LatexName());
     for (auto const & result : results.Backgrounds()) graphs.AddGraph(results.XValues(), result.Efficiencies(), result.InfoBranch().LatexName());
@@ -168,7 +168,7 @@ std::string Plotting::PlotEfficiencyGraph(Results const& results) const
         graphs.SetXAxis("Calculated", results.Bounds().Horizontal());
         graphs.SetYAxis("Measured");
         break;
-    default : Error(Tagger().Mva(), "case not handled");
+    default : ERROR(Tagger().Mva(), "case not handled");
     }
     graphs.AddLine(results.BestModelDependentValue());
     graphs.AddLine(results.BestModelInDependentValue());
@@ -177,7 +177,7 @@ std::string Plotting::PlotEfficiencyGraph(Results const& results) const
 
 void Plotting::PlotAcceptanceGraph(Results const& results) const
 {
-    Info0;
+    INFO0;
     for (auto const & signal : results.Signals()) {
         Graphs graphs(Tagger().ExportFolderName(), "Acceptance" + std::to_string(&signal - &results.Signals().front()));
         for (auto const & background : results.Backgrounds()) graphs.AddGraph(signal.PureEfficiencies(), background.PureEfficiencies(), background.InfoBranch().LatexName());
@@ -189,7 +189,7 @@ void Plotting::PlotAcceptanceGraph(Results const& results) const
 
 std::string Plotting::PlotCrosssectionsGraph(Results const& results) const
 {
-    Info0;
+    INFO0;
     Graphs graphs(Tagger().ExportFolderName(), "Crosssection");
     for (auto const & result : results.Signals()) graphs.AddGraph(results.XValues(), FloatVector(result.Crosssections()), result.InfoBranch().LatexName());
     for (auto const & result : results.Backgrounds()) graphs.AddGraph(results.XValues(), FloatVector(result.Crosssections()), result.InfoBranch().LatexName());
@@ -201,7 +201,7 @@ std::string Plotting::PlotCrosssectionsGraph(Results const& results) const
     case TMVA::Types::EMVA::kCuts :
         graphs.SetXAxis("MVA", results.Bounds().Horizontal());
         break;
-    default : Error(Tagger().Mva(), "case not handled");
+    default : ERROR(Tagger().Mva(), "case not handled");
     }
     graphs.SetYAxis("Crosssection [fb]");
     graphs.AddLine(results.BestModelDependentValue());
@@ -211,7 +211,7 @@ std::string Plotting::PlotCrosssectionsGraph(Results const& results) const
 
 std::string Plotting::PlotModelDependentGraph(Results const& results) const
 {
-    Info0;
+    INFO0;
     Graphs graphs(Tagger().ExportFolderName(), "Significance");
     graphs.AddGraph(results.XValues(), results.Significances());
     switch (Tagger().Mva()) {
@@ -221,7 +221,7 @@ std::string Plotting::PlotModelDependentGraph(Results const& results) const
     case TMVA::Types::EMVA::kCuts :
         graphs.SetXAxis("MVA", results.Bounds().Horizontal());
         break;
-    default : Error(Tagger().Mva(), "case not handled");
+    default : ERROR(Tagger().Mva(), "case not handled");
     }
     graphs.SetYAxis("Significance");
     graphs.AddLine(results.BestModelDependentValue());
@@ -230,7 +230,7 @@ std::string Plotting::PlotModelDependentGraph(Results const& results) const
 
 std::string Plotting::PlotCrosssectionGraph(Results const& results) const
 {
-    Info0;
+    INFO0;
     Graphs graphs(Tagger().ExportFolderName(), "SB");
     graphs.AddGraph(results.XValues(), results.Acceptances());
     switch (Tagger().Mva()) {
@@ -240,7 +240,7 @@ std::string Plotting::PlotCrosssectionGraph(Results const& results) const
     case TMVA::Types::EMVA::kCuts :
         graphs.SetXAxis("MVA", results.Bounds().Horizontal());
         break;
-    default : Error(Tagger().Mva(), "case not handled");
+    default : ERROR(Tagger().Mva(), "case not handled");
     }
     graphs.SetYAxis(Formula("S/#sqrt{B}"));
     graphs.AddLine(results.BestAcceptanceValue());
@@ -249,7 +249,7 @@ std::string Plotting::PlotCrosssectionGraph(Results const& results) const
 
 std::string Plotting::PlotModelIndependentGraph(Results const& results) const
 {
-    Info0;
+    INFO0;
     Graphs graphs(Tagger().ExportFolderName(), "Exclusion");
     graphs.AddGraph(results.XValues(), FloatVector(results.ModelIndependentCrosssection()));
     switch (Tagger().Mva()) {
@@ -259,7 +259,7 @@ std::string Plotting::PlotModelIndependentGraph(Results const& results) const
     case TMVA::Types::EMVA::kCuts :
         graphs.SetXAxis("MVA", results.Bounds().Horizontal());
         break;
-    default : Error(Tagger().Mva(), "case not handled");
+    default : ERROR(Tagger().Mva(), "case not handled");
     }
     graphs.SetYAxis("Crosssection");
     graphs.AddLine(results.BestModelInDependentValue());
@@ -268,7 +268,7 @@ std::string Plotting::PlotModelIndependentGraph(Results const& results) const
 
 std::string Plotting::BestValueTable(Results const& results) const
 {
-    Info0;
+    INFO0;
     std::stringstream table;
     table << "    Model\n  & Cut\n  & $p$-value\n  & Crosssection [fb]";
     table << "\n \\\\ \\midrule\n   ";
@@ -280,7 +280,7 @@ std::string Plotting::BestValueTable(Results const& results) const
 
 std::string Plotting::BestValueRow(Results const& results, int bin, std::string const& name) const
 {
-    Info0;
+    INFO0;
     std::stringstream row;
     row << " " << name;
     row << "\n  & " << RoundToDigits(results.XValue(bin));
@@ -292,7 +292,7 @@ std::string Plotting::BestValueRow(Results const& results, int bin, std::string 
 
 std::string Plotting::EfficienciesTable(Results const& results, int bin) const
 {
-    Info0;
+    INFO0;
     std::stringstream table;
     table << "    Sample\n  & before\n  & after\n  & Efficiency\n  & $\\sigma$  [fb]\n  & $N_{\\mathcal L = \\unit[" << RoundToDigits(DetectorGeometry::Luminosity() * fb) << "]{fb^{-1}}}$";
     table << "\n \\\\ \\midrule\n   ";
@@ -303,7 +303,7 @@ std::string Plotting::EfficienciesTable(Results const& results, int bin) const
 
 std::string Plotting::EfficienciesRow(Result const& result, int index, Tag tag, int bin) const
 {
-    Info0;
+    INFO0;
     std::stringstream row;
     row << " \\verb|" << Tagger().TreeNames(tag).at(index) << "|";
     row << "\n  & " << result.InfoBranch().EventNumber();
@@ -317,10 +317,10 @@ std::string Plotting::EfficienciesRow(Result const& result, int index, Tag tag, 
 
 void Plotting::RunPlots(Stage stage) const
 {
-    Info0;
-    Debug(Tagger().FileName(stage, Tag::signal), Tagger().TreeNames(Tag::signal).size());
+    INFO0;
+    DEBUG(Tagger().FileName(stage, Tag::signal), Tagger().TreeNames(Tag::signal).size());
     std::vector<Plots> signals = Import(stage, Tag::signal);
-    Debug(Tagger().FileName(stage, Tag::background), Tagger().TreeNames(Tag::background).size());
+    DEBUG(Tagger().FileName(stage, Tag::background), Tagger().TreeNames(Tag::background).size());
     std::vector<Plots> backgrounds = Import(stage, Tag::background);
     Plots background = backgrounds.front();
     if (backgrounds.size() > 1) {
@@ -336,7 +336,7 @@ void Plotting::RunPlots(Stage stage) const
 
 void Plotting::DoPlot(Plots& signals, Plots& backgrounds, Stage stage) const
 {
-    Info0;
+    INFO0;
     NamePairs names = unordered_pairs(tagger_.Branch().Variables().Vector(), [&](Observable const & variable_1, Observable const & variable_2) {
         return std::make_pair(variable_1.Names(), variable_2.Names());
     });
@@ -385,7 +385,7 @@ void Plotting::PlotHistogram(Plot const& signal, Plot const& background, Rectang
 
 void Plotting::PlotProfile(Plot const& signal, Plot const& background, Rectangle<float> const& bounds) const
 {
-    Info0;
+    INFO0;
     Profile profile(Tagger().ExportFolderName(), signal.Title().Name(), signal.XAxis().Name() + "-" + signal.YAxis().Name());
     profile.SetDimensions(Tagger().LatexName(), 30, bounds);
     profile.SetProfile(signal, background);
@@ -416,16 +416,16 @@ Plots Plotting::PlotResult(TFile& file, std::string const& tree_name, Stage stag
         return plot;
     });
     plots.SetName(tree_name);
-    Debug(plots.plots().size(), tagger_.Branch().Variables().Vector().size());
+    DEBUG(plots.plots().size(), tagger_.Branch().Variables().Vector().size());
     return plots;
 }
 
 Plot Plotting::ReadTree(TTree& tree, std::string const& leaf_1_name, std::string const& leaf_2_name, Stage stage) const
 {
-    Info0;
+    INFO0;
     tree.SetBranchStatus("*", false);
     std::string branch_name = Tagger().BranchName(stage);
-    Debug(branch_name);
+    DEBUG(branch_name);
 
     int branch_value = 0;
     SetBranch(tree, branch_value, branch_name);
@@ -446,9 +446,9 @@ Plot Plotting::ReadTree(TTree& tree, std::string const& leaf_1_name, std::string
 
     Plot plot;
     for (auto const & entry : Range(tree.GetEntries())) {
-        Detail(tree.GetEntries(), entry);
+        DETAIL(tree.GetEntries(), entry);
         tree.GetEntry(entry);
-        Detail(branch_size, leaf_values_1.size(), leaf_values_2.size());
+        DETAIL(branch_size, leaf_values_1.size(), leaf_values_2.size());
         for (auto const & element : Range(branch_size)) plot.Add(Vector3<float>(leaf_values_1.at(element), leaf_values_2.at(element), bdt_values.at(element)));
     }
     return plot;

@@ -90,7 +90,7 @@ private:
         Event event(third.TreeReader(), third.Files().Import().Source());
         if (!PassPreCut(event, third.Files().Phase().Tag())) return 0;
         int number = Switch(event, third);
-//         Error(number);
+//         ERROR(number);
         third.SaveEntry();
         return number;
     }

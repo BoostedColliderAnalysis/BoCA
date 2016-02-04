@@ -18,7 +18,7 @@ char const* Empty::what() const throw ()
     return "Empty or too small container";
 }
 
-char const* Isolation::what() const throw ()
+char const* Isolated::what() const throw ()
 {
     return "not isolated";
 }

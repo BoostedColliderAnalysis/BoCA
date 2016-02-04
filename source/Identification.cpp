@@ -13,7 +13,7 @@ std::string Name(Tag tag)
     switch (tag) {
     case Tag::signal : return "Signal";
     case Tag::background : return "Background";
-    Default("tag","");
+    DEFAULT("tag","");
     }
 }
 

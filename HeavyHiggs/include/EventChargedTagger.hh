@@ -27,6 +27,8 @@ public:
 
 private:
 
+    std::vector<MultipletEvent<Octet44>> Events(Event const& event, std::function<MultipletEvent<Octet44>(MultipletEvent<Octet44> &)> const& function) const;
+
     Reader<standardmodel::BottomTagger> bottom_reader_;
 
     Reader<SignatureChargedTagger> signature_semi_reader_;

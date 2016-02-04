@@ -1,5 +1,6 @@
 #include "SignatureEffectiveTagger.hh"
 #include "Exception.hh"
+#include "plotting/Font.hh"
 #include "Debug.hh"
 
 namespace boca {
@@ -8,7 +9,7 @@ namespace naturalness {
 
 int SignatureEffectiveTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
-    Info0;
+    INFO0;
     return SaveEntries(Quattuordecuplets(event, [&](Quattuordecuplet554 &quattuordecuplet){
         quattuordecuplet.SetTag(tag);
         return quattuordecuplet;
@@ -17,7 +18,7 @@ int SignatureEffectiveTagger::Train(Event const& event, PreCuts const&, Tag tag)
 
 std::vector<Quattuordecuplet554> SignatureEffectiveTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
-    Info0;
+    INFO0;
     return ReduceResult(Quattuordecuplets(event, [&](Quattuordecuplet554 & quattuordecuplet) {
       quattuordecuplet.SetBdt(Bdt(quattuordecuplet, reader));
       return quattuordecuplet;
@@ -32,9 +33,15 @@ std::vector<Quattuordecuplet554> SignatureEffectiveTagger::Quattuordecuplets(boc
     return function(quattuordecuplet);
   });
 }
+
 std::string SignatureEffectiveTagger::Name() const
 {
     return "Signature";
+}
+
+std::string SignatureEffectiveTagger::LatexName() const
+{
+    return Formula("T_{h} T_{l} h h");
 }
 
 }

@@ -1,4 +1,6 @@
-
+/**
+ * Copyright (C) 2015-2016 Jan Hajer
+ */
 #include "ClusterSequence.hh"
 
 namespace boca

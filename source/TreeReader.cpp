@@ -11,7 +11,7 @@ namespace boca
 
 std::string BranchName(Branch branch)
 {
-    Debug0;
+    DEBUG0;
     switch (branch) {
     case Branch::particle : return "Particle";
     case Branch::photon : return "Photon";
@@ -28,7 +28,7 @@ std::string BranchName(Branch branch)
     case Branch::gen_jet : return "GenJet";
     case Branch::scalar_ht : return "ScalarHT";
     case Branch::tau : return "Tau";
-        Default("Branch", "");
+        DEFAULT("Branch", "");
     }
 }
 
@@ -36,7 +36,7 @@ std::mutex TreeReader::mutex_;
 
 TreeReader::TreeReader(TChain& chain)
 {
-    Info0;
+    INFO0;
     source_ = Source::delphes;
     chain_ = &chain;
     NewElements();
@@ -56,7 +56,7 @@ TreeReader::TreeReader(std::vector<std::string> const& paths, std::string const&
 
 long TreeReader::GetEntries() const
 {
-    Info0;
+    INFO0;
     std::lock_guard<std::mutex> guard(mutex_);
     return tree_reader_.GetEntries(false);
 }
@@ -66,7 +66,7 @@ bool TreeReader::ReadEntry(long number)
   INFO(number);
     std::lock_guard<std::mutex> guard(mutex_);
     bool valid = tree_reader_.SetEntry(number) == TTreeReader::kEntryValid;
-    Check(valid, "not a valid entry", number);
+    CHECK(valid, "not a valid entry", number);
     if(!valid) return valid;
     for (auto & pair : map_) pair.second->Fill();
     return valid;
@@ -74,7 +74,7 @@ bool TreeReader::ReadEntry(long number)
 
 void TreeReader::NewElements()
 {
-    Info0;
+    INFO0;
     switch (source_) {
     case Source::delphes :
         NewElement<delphes::GenParticle>(Branch::particle);

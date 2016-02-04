@@ -32,7 +32,7 @@ public:
 private:
 
     std::string AnalysisName() const final {
-        return Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-large-2";
+        return Name(this->Collider()) + "-" + boca::Name(this->LowerPtCut()) + "-large-2";
     }
 
 

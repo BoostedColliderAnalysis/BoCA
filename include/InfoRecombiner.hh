@@ -18,7 +18,7 @@ public:
   std::string description() const final;
 
   /**
-   * @brief recombine jet_1 and jet_2 and put result into jet
+   * @brief recombine jet_1 and jet_2 and store result in jet
    *
    */
   void recombine(fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2, fastjet::PseudoJet& jet) const final;

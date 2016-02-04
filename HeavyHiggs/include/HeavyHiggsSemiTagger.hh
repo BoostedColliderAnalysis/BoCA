@@ -28,7 +28,7 @@ public:
 
     std::vector<Particle> TopParticles(Event const& event, Decay decay) const;
 
-    std::vector<Particle> HiggsParticle(Event const& event, Tag tag) const;
+    static std::vector<Particle> HiggsParticle(Event const& event, Tag tag);
 
     std::vector<Triplet> FinalTriplet(Event const& event, Tag tag, Decay decay) const;
 

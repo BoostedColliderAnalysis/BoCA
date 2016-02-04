@@ -10,17 +10,11 @@
 #include <iostream>
 #include <boost/units/systems/si/io.hpp>
 
-// FIXME do we really want to write non standard compliant code?
-// #pragma GCC diagnostic ignored "-Wgnu-zero-variadic-macro-arguments"
-// #pragma GCC diagnostic ignored "-Wmacro-redefined"
-// #pragma clang diagnostic ignored "-Wgnu-zero-variadic-macro-arguments"
-// #pragma clang diagnostic ignored "-Wmacro-redefined"
-
 // defined by cmake for debug runs
 #ifndef NDEBUG
 #define NOTIFICATION
 #endif
-// #define DEBUG
+// #define DEBUGGING
 // #define INFORMATION
 
 namespace boca
@@ -173,53 +167,53 @@ void Log(std::string const& file, int line, std::string const& name_space, std::
 
 #define DEAD0 do { if (0) LOG0; } while (0)
 
-#define Error(...) ALIVE(__VA_ARGS__)
-#define Error0 LOG0
+#define ERROR(...) ALIVE(__VA_ARGS__)
+#define ERROR0 LOG0
 
 #if defined(DETAILED)
-#define Detail(...) ALIVE(__VA_ARGS__)
-#define Detail0 LOG0
+#define DETAIL(...) ALIVE(__VA_ARGS__)
+#define DETAIL0 LOG0
 #else
-#define Detail(...) DEAD(__VA_ARGS__)
-#define Detail0 DEAD0
+#define DETAIL(...) DEAD(__VA_ARGS__)
+#define DETAIL0 DEAD0
 #endif
 
-#if defined(DETAILED) || defined(DEBUG)
-#define Debug(...) ALIVE(__VA_ARGS__)
-#define Debug0 LOG0
+#if defined(DETAILED) || defined(DEBUGGING)
+#define DEBUG(...) ALIVE(__VA_ARGS__)
+#define DEBUG0 LOG0
 #else
-#define Debug(...) DEAD(__VA_ARGS__)
-#define Debug0 DEAD0
+#define DEBUG(...) DEAD(__VA_ARGS__)
+#define DEBUG0 DEAD0
 #endif
 
-#if defined(DETAILED) || defined(DEBUG) || defined(INFORMATION)
+#if defined(DETAILED) || defined(DEBUGGING) || defined(INFORMATION)
 #define INFO(...) ALIVE(__VA_ARGS__)
-#define Info0 LOG0
+#define INFO0 LOG0
 #else
 #define INFO(...) DEAD(__VA_ARGS__)
-#define Info0 DEAD0
+#define INFO0 DEAD0
 #endif
 
-#if defined(DETAILED) || defined(DEBUG) || defined(INFORMATION) || defined(NOTIFICATION)
-#define Note(...) ALIVE(__VA_ARGS__)
-#define Note0 LOG0
+#if defined(DETAILED) || defined(DEBUGGING) || defined(INFORMATION) || defined(NOTIFICATION)
+#define NOTE(...) ALIVE(__VA_ARGS__)
+#define NOTE0 LOG0
 #else
-#define Note(...) DEAD(__VA_ARGS__)
-#define Note0 DEAD0
+#define NOTE(...) DEAD(__VA_ARGS__)
+#define NOTE0 DEAD0
 #endif
 
-#define Check(condition, ...) if(!(condition)) { Error(__VA_ARGS__); }
-#define DebugCheck(condition, ...) if(!(condition)) { Debug(__VA_ARGS__); }
+#define CHECK(condition, ...) if(!(condition)) { ERROR(__VA_ARGS__); }
+#define DEBUG_CHECK(condition, ...) if(!(condition)) { DEBUG(__VA_ARGS__); }
 
+#define DEFAULT_1(condition) default : ERROR("Switch Default", condition); break;
+#define DEFAULT_2(condition, value) default : ERROR("Switch Default", condition); return value;
 
+#define DEFAULT_ARGUMENTS(arg1, arg2, arg, ...) arg
+#define DEFAULT_CHOOSE(...) DEFAULT_ARGUMENTS(__VA_ARGS__, DEFAULT_2, DEFAULT_1, )
 
-// #define Default(condition) default : Error("Switch Default", condition); break;
-#define Default(condition, value) default : Error("Switch Default", condition); return value;
-
+#define DEFAULT(...) DEFAULT_CHOOSE(__VA_ARGS__)(__VA_ARGS__)
 
 // #include "Logging.hh"
-
-
 
 // #define HAS_ARGS_IMPL2(_1, _2, _3, N, ...) N
 // #define HAS_ARGS_SOURCE() MULTI, MULTI, ONE, ERROR
@@ -232,4 +226,4 @@ void Log(std::string const& file, int line, std::string const& name_space, std::
 //
 // #define DISAMBIGUATE2(args, ...) MACRO_ ## args (__VA_ARGS__)
 // #define DISAMBIGUATE(args, ...) DISAMBIGUATE2(args, __VA_ARGS__)
-// #define Error(...) DISAMBIGUATE(HAS_ARGS(__VA_ARGS__), __VA_ARGS__)
+// #define ERROR(...) DISAMBIGUATE(HAS_ARGS(__VA_ARGS__), __VA_ARGS__)

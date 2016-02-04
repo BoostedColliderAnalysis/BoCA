@@ -3,8 +3,9 @@
  */
 #pragma once
 
-#include "Event.hh"
 #include "Names.hh"
+#include "physics/Units.hh"
+#include "TreeReader.hh"
 
 namespace boca
 {
@@ -26,7 +27,7 @@ public:
 
     boca::Crosssection Crosssection() const;
 
-    boca::Crosssection CrosssectionError() const;
+    boca::Crosssection CrosssectionERROR() const;
 
     boca::Mass Mass() const;
 

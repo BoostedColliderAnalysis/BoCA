@@ -8,7 +8,7 @@ namespace heavyhiggs {
 
 int ChargedHiggsSemiTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
-    Info0;
+    INFO0;
 //     Mass mass = event.mass();
     Jet HiggsBoson;
     if (tag == Tag::signal) {
@@ -16,7 +16,7 @@ int ChargedHiggsSemiTagger::Train(Event const& event, PreCuts const&, Tag tag) c
         HiggsParticles = CopyIfParticle(HiggsParticles, Id::charged_higgs);
         if (tag == Tag::signal) {
             if (HiggsParticles.size() == 1) HiggsBoson = HiggsParticles.front();
-            else Error(HiggsParticles.size());
+            else ERROR(HiggsParticles.size());
         }
     }
    std::vector<Jet> jets = bottom_reader_.Jets(event);
@@ -27,7 +27,7 @@ int ChargedHiggsSemiTagger::Train(Event const& event, PreCuts const&, Tag tag) c
     Particle TopQuark;
     if (TopParticles.size() == 1) TopQuark = TopParticles.front();
     else
-        Error(TopParticles.size());
+        ERROR(TopParticles.size());
     std::vector<Triplet> Finaltriplets;
     switch (tag) {
     case Tag::signal:
@@ -44,7 +44,7 @@ int ChargedHiggsSemiTagger::Train(Event const& event, PreCuts const&, Tag tag) c
         BottomParticles = CopyIfFamily(BottomParticles, Id::bottom, Id::charged_higgs);
         Jet BottomQuark;
         if (BottomParticles.size() == 1) BottomQuark = BottomParticles.front();
-        else Error(BottomParticles.size());
+        else ERROR(BottomParticles.size());
         for (auto const& Jet : jets)  if (Jet.DeltaRTo(BottomQuark) < DetectorGeometry::JetConeSize()) BottomJets.emplace_back(Jet);
         break;
     }

@@ -10,18 +10,18 @@ namespace heavyhiggs
 
 int HeavyHiggsTauTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
-    Info0;
+    INFO0;
     std::vector<Jet> jets;// = tau_reader_.Multiplets(event);
     INFO(jets.size());
     Jet MissingEt = event.Hadrons().MissingEt();
     std::vector<Particle> TauParticles = event.Partons().GenParticles();
     TauParticles = CopyIfParticle(TauParticles, Id::tau);
 //     TauParticles.erase(std::remove_if(TauParticles.begin(), TauParticles.end(), WrongAbsId(Id::tau)), TauParticles.end());
-    Check(TauParticles.size() == 1, TauParticles.size());
+    CHECK(TauParticles.size() == 1, TauParticles.size());
     std::vector<Particle> HiggsParticles = event.Partons().GenParticles();
     HiggsParticles = CopyIfParticle(HiggsParticles, Id::charged_higgs);
 //     HiggsParticles.erase(std::remove_if(HiggsParticles.begin(), HiggsParticles.end(), WrongAbsId(Id::charged_higgs)), HiggsParticles.end());
-    Check(HiggsParticles.size() == 1, HiggsParticles.size());
+    CHECK(HiggsParticles.size() == 1, HiggsParticles.size());
     for (auto const & Particle : TauParticles) {
         std::sort(jets.begin(), jets.end(), MinDeltaRTo(Particle));
         if (jets.front().DeltaRTo(Particle) < 0.4_rad)
@@ -50,7 +50,7 @@ int HeavyHiggsTauTagger::Train(Event const& event, PreCuts const&, Tag tag) cons
 
 std::vector<Doublet>  HeavyHiggsTauTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
 {
-    Info0;
+    INFO0;
     std::vector<Jet> jets;// = tau_reader_.Multiplets(event);
     INFO(jets.size());
     Jet missing_et = event.Hadrons().MissingEt();

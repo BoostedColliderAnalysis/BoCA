@@ -18,7 +18,7 @@ namespace
 
 std::string ExportFileSuffix()
 {
-    Info0;
+    INFO0;
     return ".pdf";
     return ".svg";
     return ".png";
@@ -28,7 +28,7 @@ std::string ExportFileSuffix()
 
 Canvas::Canvas(std::string const& path, std::string const& name, bool show_title)
 {
-    Info0;
+    INFO0;
 //     mkdir(path.c_str(), 0700);
     path_ = path;
     title_ = name;
@@ -58,7 +58,7 @@ std::string Canvas::Path() const
 
 void Canvas::Fill()
 {
-    Info0;
+    INFO0;
     canvas_.SetFillColor(0);
     canvas_.SetFillStyle(0);
     gPad->SetFillColor(0);
@@ -78,7 +78,7 @@ void Canvas::SetMargins(bool show_title)
 
 std::string Canvas::SaveAs(std::string const& name)
 {
-    Info0;
+    INFO0;
     canvas_.SaveAs(name.c_str());
     return name;
 }

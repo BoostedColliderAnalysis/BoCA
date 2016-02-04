@@ -18,7 +18,7 @@ namespace
 
 void SetAxis(TAttAxis& axis)
 {
-    Info0;
+    INFO0;
     axis.SetTitleFont(FontCode());
     axis.SetTitleSize(TextHeight());
     axis.SetLabelFont(FontCode());
@@ -29,7 +29,7 @@ void SetAxis(TAttAxis& axis)
 
 void SetTitle(TAxis& axis, std::string const& title)
 {
-    Info0;
+    INFO0;
     axis.SetTitle(title.c_str());
     axis.CenterTitle();
     SetAxis(axis);
@@ -37,20 +37,20 @@ void SetTitle(TAxis& axis, std::string const& title)
 
 void SetText(TAttText& text)
 {
-    Info0;
+    INFO0;
     text.SetTextFont(FontCode());
     text.SetTextSize(TextHeight());
 }
 
 void SetLine(TAttLine& line, int index)
 {
-    Info0;
+    INFO0;
     line.SetLineColor(ColorCode(index));
     line.SetLineStyle(index + 1);
 }
 void SetLogarithmic(TAxis& axis)
 {
-    Info0;
+    INFO0;
     int bins = axis.GetNbins();
     float min = axis.GetXmin();
     float max = axis.GetXmax();

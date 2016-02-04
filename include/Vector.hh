@@ -100,21 +100,24 @@ std::vector<Multiplet> RemoveIfHard(std::vector<Multiplet> multiplets, Momentum 
     });
 }
 
-struct Close {
-    Close(Particle const& particle) : particle_(particle) {}
-    template <typename Multiplet>
-    bool operator()(Multiplet const& multiplet) {
-        return multiplet.DeltaRTo(particle_) < DetectorGeometry::JetConeSize();
+class Close
+{
+public:
+    Close(PseudoJet const& particle) :
+        particle_(particle) ,
+        cone_size_(DetectorGeometry::JetConeSize())
+    {}
+    Close(PseudoJet const& particle, Angle cone_size) :
+        particle_(particle) ,
+        cone_size_(cone_size)
+    {}
+    template <typename Multiplet_>
+    bool operator()(Multiplet_ const& multiplet) {
+        return multiplet.DeltaRTo(particle_) < cone_size_;
     }
-    bool operator()(Jet const& jet) {
-//       std::cout<< jet.DeltaRTo(particle_) << std::endl;
-        return jet.DeltaRTo(particle_) < DetectorGeometry::JetConeSize();
-    }
-    bool operator()(Particle const& jet) {
-        //       std::cout<< jet.DeltaRTo(particle_) << std::endl;
-        return jet.DeltaRTo(particle_) < DetectorGeometry::JetConeSize();
-    }
-    Particle particle_;
+private:
+    PseudoJet particle_;
+    Angle cone_size_;
 };
 
 template <typename Multiplet>

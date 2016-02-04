@@ -16,13 +16,13 @@ namespace boca
 Graphs::Graphs(std::string const& path, std::string const& name, bool show_title):
     Canvas(path, name, show_title)
 {
-    Info0;
+    INFO0;
     if (show_title) multi_graph_.SetTitle(Title().c_str());
 }
 
 Graphs::~Graphs()
 {
-    Info0;
+    INFO0;
     Draw();
     SaveAs(FileName());
 }
@@ -30,7 +30,7 @@ Graphs::~Graphs()
 void Graphs::AddGraph(std::vector<float> const& xs, std::vector<float> const& ys, std::string const& name)
 {
     INFO(xs.size(), ys.size(), name);
-    Check(xs.size() == ys.size() && xs.size() > 0, xs.size(), ys.size());
+    CHECK(xs.size() == ys.size() && xs.size() > 0, xs.size(), ys.size());
     std::vector<float> xs2 = xs;
     bounds_.WidenX(MinMax(boost::remove_erase(xs2, 0)));
     std::vector<float> ys2 = ys;
@@ -51,7 +51,7 @@ void Graphs::SetLegend(boca::Orientation orientation, std::string const& title)
 
 void Graphs::Draw()
 {
-    Info0;
+    INFO0;
     multi_graph_.Draw("al");
     if (graphs_.size() > 1) legend_.Draw();
     for (auto & line : lines_) line.Draw();
@@ -96,21 +96,21 @@ void Graphs::SetYAxis(std::string const& title, boca::Bounds<float> const&)
 
 Bounds<double> Graphs::BoundsY()
 {
-    Info0;
+    INFO0;
     if (!multi_graph_.GetYaxis()) return {};
     return {multi_graph_.GetYaxis()->GetXmin(), multi_graph_.GetYaxis()->GetXmax()};
 }
 
 Bounds<double> Graphs::BoundsX()
 {
-    Info0;
+    INFO0;
     if (!multi_graph_.GetXaxis()) return {};
     return {multi_graph_.GetXaxis()->GetXmin(), multi_graph_.GetXaxis()->GetXmax()};
 }
 
 void Graphs::AddGraphs()
 {
-    Info0;
+    INFO0;
     Draw();
     if (multi_graph_.GetListOfGraphs()) return;
     for (auto & graph : graphs_) {

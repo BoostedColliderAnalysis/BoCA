@@ -17,9 +17,6 @@ EventNeutralFourTopTagger.cpp
 CutTagger.cpp
 AnalysisPair.cpp
 AnalysisHeavyHiggs.cpp
-AnalysisNeutral.cpp
-AnalysisCharged.cpp
-AnalysisFusion.cpp
 CutVariables.cpp
 )
 create_library(AnalysisHeavyHiggs AnalysisSources)

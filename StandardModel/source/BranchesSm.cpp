@@ -36,7 +36,7 @@ TauBranch::TauBranch()
 
 Observables TauBranch::Variables()
 {
-    return ParticleBranch::Variables() + PAIR(EmRadius) + PAIR(TrackRadius) + PAIR(MomentumFraction) + PAIR(CoreEnergyFraction) + PAIR(EmFraction) + PAIR(ClusterMass) + PAIR(TrackMass) + PAIR(FlightPath) + PAIR(TrtHtFraction);
+    return ParticleBranch::Variables() + OBSERVABLE(EmRadius) + OBSERVABLE(TrackRadius) + OBSERVABLE(MomentumFraction) + OBSERVABLE(CoreEnergyFraction) + OBSERVABLE(EmFraction) + OBSERVABLE(ClusterMass) + OBSERVABLE(TrackMass) + OBSERVABLE(FlightPath) + OBSERVABLE(TrtHtFraction);
 }
 
 Observables TauBranch::Spectators()
@@ -72,7 +72,7 @@ WLeptonicBranch::WLeptonicBranch()
 
 Observables WLeptonicBranch::Variables()
 {
-    return ResultBranch::Variables() + PAIR(Pt, Formula("p_T") + " [GeV]") + PAIR(Ht) + PAIR(DeltaPt) + PAIR(DeltaRap) + PAIR(DeltaPhi) + PAIR(DeltaR) + PAIR(Rho) + PAIR(LeptonPt) + PAIR(NeutrinoPt);
+    return ResultBranch::Variables() + OBSERVABLE(Pt, Formula("p_T") + " [GeV]") + OBSERVABLE(Ht) + OBSERVABLE(DeltaPt) + OBSERVABLE(DeltaRap) + OBSERVABLE(DeltaPhi) + OBSERVABLE(DeltaR) + OBSERVABLE(Rho) + OBSERVABLE(LeptonPt) + OBSERVABLE(NeutrinoPt);
 }
 
 TopHadronicBranch::TopHadronicBranch()
@@ -94,16 +94,16 @@ TopHadronicBranch::TopHadronicBranch()
 
 Observables TopHadronicBranch::Variables()
 {
-    return BottomBase::Variables() + PAIR(DeltaHt, Formula("#Delta H_{T}") + " [GeV]") + PAIR(Bdt1, "BDT" + Formula("_{W}")) + PAIR(Bdt2, "BDT" + Formula("_{b}")) + PAIR(Mass, Formula("m") + " [GeV]") + PAIR(DeltaPt, Formula("#Delta P_{T}") + " [GeV]") + PAIR(DeltaM, Formula("#Delta m") + " [GeV]") + PAIR(DeltaRap, Formula("#Delta #eta")) + PAIR(DeltaPhi, Formula("#Delta #phi")) + PAIR(DeltaR, Formula("#Delta R")) + PAIR(Rho, Formula("#rho")) + PAIR(BottomMass, Formula("m_{b}") + " [GeV]") + PAIR(WMass, Formula("m_{W}") + " [GeV]") + PAIR(Pull1, Formula("#theta_{1}")) + PAIR(Pull2, Formula("#theta_{2}")) + PAIR(Dipolarity, Formula("D")); // everything
-    return PAIR(Mass, Formula("m") + " [GeV]") + PAIR(WMass, Formula("m_{W}") + " [GeV]"); // masses
-    return BottomBase::Variables() + PAIR(DeltaHt, Formula("#Delta H_{T}") + " [GeV]") + PAIR(Mass, Formula("m") + " [GeV]") + PAIR(DeltaPt, Formula("#Delta P_{T}") + " [GeV]") + PAIR(DeltaM, Formula("#Delta m") + " [GeV]") + PAIR(DeltaRap, Formula("#Delta #eta")) + PAIR(DeltaPhi, Formula("#Delta #phi")) + PAIR(DeltaR, Formula("#Delta R")) + PAIR(Rho, Formula("#rho")) + PAIR(BottomMass, Formula("m_{b}") + " [GeV]") + PAIR(WMass, Formula("m_{W}") + " [GeV]") + PAIR(Pull1, Formula("#theta_{1}")) + PAIR(Pull2, Formula("#theta_{2}")) + PAIR(Dipolarity, Formula("D")); // bottom
-    return PAIR(DeltaHt, Formula("#Delta H_{T}") + " [GeV]") + PAIR(Mass, Formula("m") + " [GeV]") + PAIR(DeltaPt, Formula("#Delta P_{T}") + " [GeV]") + PAIR(DeltaM, Formula("#Delta m") + " [GeV]") + PAIR(DeltaRap, Formula("#Delta #eta")) + PAIR(DeltaPhi, Formula("#Delta #phi")) + PAIR(DeltaR, Formula("#Delta R")) + PAIR(Rho, Formula("#rho")) + PAIR(BottomMass, Formula("m_{b}") + " [GeV]") + PAIR(WMass, Formula("m_{W}") + " [GeV]"); // kinematics
-    return PAIR(Mass, Formula("m") + " [GeV]"); // just mass
-    return PAIR(DeltaHt, Formula("#Delta H_{T}") + " [GeV]") + PAIR(Mass, Formula("m") + " [GeV]") + PAIR(DeltaPt, Formula("#Delta P_{T}") + " [GeV]") + PAIR(DeltaM, Formula("#Delta m") + " [GeV]") + PAIR(DeltaRap, Formula("#Delta #eta")) + PAIR(DeltaPhi, Formula("#Delta #phi")) + PAIR(DeltaR, Formula("#Delta R")) + PAIR(Rho, Formula("#rho")) + PAIR(BottomMass, Formula("m_{b}") + " [GeV]") + PAIR(WMass, Formula("m_{W}") + " [GeV]") + PAIR(Pull1, Formula("#theta_{1}")) + PAIR(Pull2, Formula("#theta_{2}")) + PAIR(Dipolarity, Formula("D")); // subjet info
-    return PAIR(DeltaHt, Formula("#Delta H_{T}") + " [GeV]") + PAIR(Bdt1, "BDT" + Formula("_{W}")) + PAIR(Bdt2, "BDT" + Formula("_{b}")) + PAIR(Mass, Formula("m") + " [GeV]") + PAIR(DeltaPt, Formula("#Delta P_{T}") + " [GeV]") + PAIR(DeltaM, Formula("#Delta m") + " [GeV]") + PAIR(DeltaRap, Formula("#Delta #eta")) + PAIR(DeltaPhi, Formula("#Delta #phi")) + PAIR(DeltaR, Formula("#Delta R")) + PAIR(Rho, Formula("#rho")) + PAIR(BottomMass, Formula("m_{b}") + " [GeV]") + PAIR(WMass, Formula("m_{W}") + " [GeV]"); // kinematics + bdts
-    return PAIR(Mass, Formula("m") + " [GeV]") + PAIR(Bdt1, "BDT" + Formula("_{W}")); // mass and W bdt
-    return PAIR(Mass, Formula("m") + " [GeV]") + PAIR(Bdt1, "BDT" + Formula("_{W}")) + PAIR(Bdt2, "BDT" + Formula("_{b}")); // mass and bdt
-    return MultiBranch::Variables() + BottomBase::Variables() +  Observables(PAIR(LeptonPt));
+    return BottomBase::Variables() + OBSERVABLE(DeltaHt, Formula("#Delta H_{T}") + " [GeV]") + OBSERVABLE(Bdt1, "BDT" + Formula("_{W}")) + OBSERVABLE(Bdt2, "BDT" + Formula("_{b}")) + OBSERVABLE(Mass, Formula("m") + " [GeV]") + OBSERVABLE(DeltaPt, Formula("#Delta P_{T}") + " [GeV]") + OBSERVABLE(DeltaM, Formula("#Delta m") + " [GeV]") + OBSERVABLE(DeltaRap, Formula("#Delta #eta")) + OBSERVABLE(DeltaPhi, Formula("#Delta #phi")) + OBSERVABLE(DeltaR, Formula("#Delta R")) + OBSERVABLE(Rho, Formula("#rho")) + OBSERVABLE(BottomMass, Formula("m_{b}") + " [GeV]") + OBSERVABLE(WMass, Formula("m_{W}") + " [GeV]") + OBSERVABLE(Pull1, Formula("#theta_{1}")) + OBSERVABLE(Pull2, Formula("#theta_{2}")) + OBSERVABLE(Dipolarity, Formula("D")); // everything
+    return OBSERVABLE(Mass, Formula("m") + " [GeV]") + OBSERVABLE(WMass, Formula("m_{W}") + " [GeV]"); // masses
+    return BottomBase::Variables() + OBSERVABLE(DeltaHt, Formula("#Delta H_{T}") + " [GeV]") + OBSERVABLE(Mass, Formula("m") + " [GeV]") + OBSERVABLE(DeltaPt, Formula("#Delta P_{T}") + " [GeV]") + OBSERVABLE(DeltaM, Formula("#Delta m") + " [GeV]") + OBSERVABLE(DeltaRap, Formula("#Delta #eta")) + OBSERVABLE(DeltaPhi, Formula("#Delta #phi")) + OBSERVABLE(DeltaR, Formula("#Delta R")) + OBSERVABLE(Rho, Formula("#rho")) + OBSERVABLE(BottomMass, Formula("m_{b}") + " [GeV]") + OBSERVABLE(WMass, Formula("m_{W}") + " [GeV]") + OBSERVABLE(Pull1, Formula("#theta_{1}")) + OBSERVABLE(Pull2, Formula("#theta_{2}")) + OBSERVABLE(Dipolarity, Formula("D")); // bottom
+    return OBSERVABLE(DeltaHt, Formula("#Delta H_{T}") + " [GeV]") + OBSERVABLE(Mass, Formula("m") + " [GeV]") + OBSERVABLE(DeltaPt, Formula("#Delta P_{T}") + " [GeV]") + OBSERVABLE(DeltaM, Formula("#Delta m") + " [GeV]") + OBSERVABLE(DeltaRap, Formula("#Delta #eta")) + OBSERVABLE(DeltaPhi, Formula("#Delta #phi")) + OBSERVABLE(DeltaR, Formula("#Delta R")) + OBSERVABLE(Rho, Formula("#rho")) + OBSERVABLE(BottomMass, Formula("m_{b}") + " [GeV]") + OBSERVABLE(WMass, Formula("m_{W}") + " [GeV]"); // kinematics
+    return OBSERVABLE(Mass, Formula("m") + " [GeV]"); // just mass
+    return OBSERVABLE(DeltaHt, Formula("#Delta H_{T}") + " [GeV]") + OBSERVABLE(Mass, Formula("m") + " [GeV]") + OBSERVABLE(DeltaPt, Formula("#Delta P_{T}") + " [GeV]") + OBSERVABLE(DeltaM, Formula("#Delta m") + " [GeV]") + OBSERVABLE(DeltaRap, Formula("#Delta #eta")) + OBSERVABLE(DeltaPhi, Formula("#Delta #phi")) + OBSERVABLE(DeltaR, Formula("#Delta R")) + OBSERVABLE(Rho, Formula("#rho")) + OBSERVABLE(BottomMass, Formula("m_{b}") + " [GeV]") + OBSERVABLE(WMass, Formula("m_{W}") + " [GeV]") + OBSERVABLE(Pull1, Formula("#theta_{1}")) + OBSERVABLE(Pull2, Formula("#theta_{2}")) + OBSERVABLE(Dipolarity, Formula("D")); // subjet info
+    return OBSERVABLE(DeltaHt, Formula("#Delta H_{T}") + " [GeV]") + OBSERVABLE(Bdt1, "BDT" + Formula("_{W}")) + OBSERVABLE(Bdt2, "BDT" + Formula("_{b}")) + OBSERVABLE(Mass, Formula("m") + " [GeV]") + OBSERVABLE(DeltaPt, Formula("#Delta P_{T}") + " [GeV]") + OBSERVABLE(DeltaM, Formula("#Delta m") + " [GeV]") + OBSERVABLE(DeltaRap, Formula("#Delta #eta")) + OBSERVABLE(DeltaPhi, Formula("#Delta #phi")) + OBSERVABLE(DeltaR, Formula("#Delta R")) + OBSERVABLE(Rho, Formula("#rho")) + OBSERVABLE(BottomMass, Formula("m_{b}") + " [GeV]") + OBSERVABLE(WMass, Formula("m_{W}") + " [GeV]"); // kinematics + bdts
+    return OBSERVABLE(Mass, Formula("m") + " [GeV]") + OBSERVABLE(Bdt1, "BDT" + Formula("_{W}")); // mass and W bdt
+    return OBSERVABLE(Mass, Formula("m") + " [GeV]") + OBSERVABLE(Bdt1, "BDT" + Formula("_{W}")) + OBSERVABLE(Bdt2, "BDT" + Formula("_{b}")); // mass and bdt
+    return MultiBranch::Variables() + BottomBase::Variables() +  Observables(OBSERVABLE(LeptonPt));
     return MultiBranch::Variables() + BottomBase::Variables(); // FIXME usually we use the lepton pt
 }
 
@@ -120,7 +120,7 @@ TopLeptonicBranch::TopLeptonicBranch()
 
 Observables TopLeptonicBranch::Variables()
 {
-    Observables observables = BottomBase::Variables() + ParticleBranch::Variables() + PAIR(Ht) + PAIR(DeltaPt) + PAIR(DeltaM) + PAIR(DeltaRap) + PAIR(DeltaPhi) + PAIR(DeltaR) + PAIR(Rho) + PAIR(Bdt2) + PAIR(BottomPt) + PAIR(LeptonPt) + PAIR(Pull1, Formula("#theta_{1}")) + PAIR(Pull2, Formula("#theta")) + PAIR(Dipolarity, Formula("D")) + PAIR(Bdt1);
+    Observables observables = BottomBase::Variables() + ParticleBranch::Variables() + OBSERVABLE(Ht) + OBSERVABLE(DeltaPt) + OBSERVABLE(DeltaM) + OBSERVABLE(DeltaRap) + OBSERVABLE(DeltaPhi) + OBSERVABLE(DeltaR) + OBSERVABLE(Rho) + OBSERVABLE(Bdt2) + OBSERVABLE(BottomPt) + OBSERVABLE(LeptonPt) + OBSERVABLE(Pull1, Formula("#theta_{1}")) + OBSERVABLE(Pull2, Formula("#theta")) + OBSERVABLE(Dipolarity, Formula("D")) + OBSERVABLE(Bdt1);
     return observables;
 }
 
@@ -137,8 +137,8 @@ HiggsBranch::HiggsBranch()
 
 Observables HiggsBranch::Variables()
 {
-//   return {PAIR(Mass) + PAIR(Bdt1) + PAIR(Bdt2)};
-    return PairBranch::Variables() + BottomBase::Variables() + PAIR(LeptonPt) + PAIR(LeptonDeltaR);
+//   return {OBSERVABLE(Mass) + OBSERVABLE(Bdt1) + OBSERVABLE(Bdt2)};
+    return PairBranch::Variables() + BottomBase::Variables() + OBSERVABLE(LeptonPt) + OBSERVABLE(LeptonDeltaR);
 }
 
 Observables HiggsBranch::Spectators()
@@ -156,13 +156,13 @@ TopHadronicHepBranch::TopHadronicHepBranch()
 
 Observables TopHadronicHepBranch::Variables()
 {
-    return PAIR(Mass, Formula("m") + " [GeV]") + PAIR(WMass, Formula("m_{W}") + " [GeV]"); // masses
-    return PAIR(DeltaHt, Formula("#Delta H_{T}") + " [GeV]") + PAIR(Mass, Formula("m") + " [GeV]") + PAIR(DeltaPt, Formula("#Delta P_{T}") + " [GeV]") + PAIR(DeltaM, Formula("#Delta m") + " [GeV]") + PAIR(DeltaRap, Formula("#Delta #eta")) + PAIR(DeltaPhi, Formula("#Delta #phi")) + PAIR(DeltaR, Formula("#Delta R")) + PAIR(Rho, Formula("#rho")) + PAIR(BottomMass, Formula("m_{b}") + " [GeV]") + PAIR(WMass, Formula("m_{W}") + " [GeV]"); // kinematics
-    return PAIR(Mass, Formula("m") + " [GeV]"); // just mass
-    return BottomBase::Variables() + PAIR(DeltaHt, Formula("#Delta H_{T}") + " [GeV]") + PAIR(Mass, Formula("m") + " [GeV]") + PAIR(DeltaPt, Formula("#Delta P_{T}") + " [GeV]") + PAIR(DeltaM, Formula("#Delta m") + " [GeV]") + PAIR(DeltaRap, Formula("#Delta #eta")) + PAIR(DeltaPhi, Formula("#Delta #phi")) + PAIR(DeltaR, Formula("#Delta R")) + PAIR(Rho, Formula("#rho")) + PAIR(BottomMass, Formula("m_{b}") + " [GeV]") + PAIR(WMass, Formula("m_{W}") + " [GeV]") + PAIR(Pull1, Formula("#theta_{1}")) + PAIR(Pull2, Formula("#theta_{2}")) + PAIR(Dipolarity, Formula("D")); // bottom info
-    return PAIR(DeltaHt, Formula("#Delta H_{T}") + " [GeV]") + PAIR(Mass, Formula("m") + " [GeV]") + PAIR(DeltaPt, Formula("#Delta P_{T}") + " [GeV]") + PAIR(DeltaM, Formula("#Delta m") + " [GeV]") + PAIR(DeltaRap, Formula("#Delta #eta")) + PAIR(DeltaPhi, Formula("#Delta #phi")) + PAIR(DeltaR, Formula("#Delta R")) + PAIR(Rho, Formula("#rho")) + PAIR(BottomMass, Formula("m_{b}") + " [GeV]") + PAIR(WMass, Formula("m_{W}") + " [GeV]") + PAIR(Pull1, Formula("#theta_{1}")) + PAIR(Pull2, Formula("#theta_{2}")) + PAIR(Dipolarity, Formula("D")); // subjet info
-    return PAIR(DeltaHt, Formula("#Delta H_{T}") + " [GeV]") + PAIR(Mass, Formula("m") + " [GeV]") + PAIR(Pt, Formula("p_T") + " [GeV]") + PAIR(Ht, Formula("H_{T}") + " [GeV]") + PAIR(DeltaPt, Formula("#Delta P_{T}") + " [GeV]") + PAIR(DeltaM, Formula("#Delta m") + " [GeV]") + PAIR(DeltaRap, Formula("#Delta #eta")) + PAIR(DeltaPhi, Formula("#Delta #phi")) + PAIR(DeltaR, Formula("#Delta R")) + PAIR(Rho, Formula("#rho")) + PAIR(Pull1, Formula("#theta_{1}")) + PAIR(Pull2, Formula("#theta_{2}")) + PAIR(Dipolarity, Formula("D"));
-    return PAIR(LeptonPt) + PAIR(DeltaHt, Formula("#Delta H_{T}") + " [GeV]") + PAIR(Mass, Formula("m") + " [GeV]") + PAIR(Pt, Formula("p_T") + " [GeV]") + PAIR(Ht, Formula("H_{T}") + " [GeV]") + PAIR(DeltaPt, Formula("#Delta P_{T}") + " [GeV]") + PAIR(DeltaM, Formula("#Delta m") + " [GeV]") + PAIR(DeltaRap, Formula("#Delta #eta")) + PAIR(DeltaPhi, Formula("#Delta #phi")) + PAIR(DeltaR, Formula("#Delta R")) + PAIR(Rho, Formula("#rho")) + PAIR(Bdt1, "BDT" + Formula("_{W}")) + PAIR(Bdt2, "BDT" + Formula("_{b}")) + PAIR(Pull1, Formula("#theta_{1}")) + PAIR(Pull2, Formula("#theta_{2}")) + PAIR(Dipolarity, Formula("D"));
+    return OBSERVABLE(Mass, Formula("m") + " [GeV]") + OBSERVABLE(WMass, Formula("m_{W}") + " [GeV]"); // masses
+    return OBSERVABLE(DeltaHt, Formula("#Delta H_{T}") + " [GeV]") + OBSERVABLE(Mass, Formula("m") + " [GeV]") + OBSERVABLE(DeltaPt, Formula("#Delta P_{T}") + " [GeV]") + OBSERVABLE(DeltaM, Formula("#Delta m") + " [GeV]") + OBSERVABLE(DeltaRap, Formula("#Delta #eta")) + OBSERVABLE(DeltaPhi, Formula("#Delta #phi")) + OBSERVABLE(DeltaR, Formula("#Delta R")) + OBSERVABLE(Rho, Formula("#rho")) + OBSERVABLE(BottomMass, Formula("m_{b}") + " [GeV]") + OBSERVABLE(WMass, Formula("m_{W}") + " [GeV]"); // kinematics
+    return OBSERVABLE(Mass, Formula("m") + " [GeV]"); // just mass
+    return BottomBase::Variables() + OBSERVABLE(DeltaHt, Formula("#Delta H_{T}") + " [GeV]") + OBSERVABLE(Mass, Formula("m") + " [GeV]") + OBSERVABLE(DeltaPt, Formula("#Delta P_{T}") + " [GeV]") + OBSERVABLE(DeltaM, Formula("#Delta m") + " [GeV]") + OBSERVABLE(DeltaRap, Formula("#Delta #eta")) + OBSERVABLE(DeltaPhi, Formula("#Delta #phi")) + OBSERVABLE(DeltaR, Formula("#Delta R")) + OBSERVABLE(Rho, Formula("#rho")) + OBSERVABLE(BottomMass, Formula("m_{b}") + " [GeV]") + OBSERVABLE(WMass, Formula("m_{W}") + " [GeV]") + OBSERVABLE(Pull1, Formula("#theta_{1}")) + OBSERVABLE(Pull2, Formula("#theta_{2}")) + OBSERVABLE(Dipolarity, Formula("D")); // bottom info
+    return OBSERVABLE(DeltaHt, Formula("#Delta H_{T}") + " [GeV]") + OBSERVABLE(Mass, Formula("m") + " [GeV]") + OBSERVABLE(DeltaPt, Formula("#Delta P_{T}") + " [GeV]") + OBSERVABLE(DeltaM, Formula("#Delta m") + " [GeV]") + OBSERVABLE(DeltaRap, Formula("#Delta #eta")) + OBSERVABLE(DeltaPhi, Formula("#Delta #phi")) + OBSERVABLE(DeltaR, Formula("#Delta R")) + OBSERVABLE(Rho, Formula("#rho")) + OBSERVABLE(BottomMass, Formula("m_{b}") + " [GeV]") + OBSERVABLE(WMass, Formula("m_{W}") + " [GeV]") + OBSERVABLE(Pull1, Formula("#theta_{1}")) + OBSERVABLE(Pull2, Formula("#theta_{2}")) + OBSERVABLE(Dipolarity, Formula("D")); // subjet info
+    return OBSERVABLE(DeltaHt, Formula("#Delta H_{T}") + " [GeV]") + OBSERVABLE(Mass, Formula("m") + " [GeV]") + OBSERVABLE(Pt, Formula("p_T") + " [GeV]") + OBSERVABLE(Ht, Formula("H_{T}") + " [GeV]") + OBSERVABLE(DeltaPt, Formula("#Delta P_{T}") + " [GeV]") + OBSERVABLE(DeltaM, Formula("#Delta m") + " [GeV]") + OBSERVABLE(DeltaRap, Formula("#Delta #eta")) + OBSERVABLE(DeltaPhi, Formula("#Delta #phi")) + OBSERVABLE(DeltaR, Formula("#Delta R")) + OBSERVABLE(Rho, Formula("#rho")) + OBSERVABLE(Pull1, Formula("#theta_{1}")) + OBSERVABLE(Pull2, Formula("#theta_{2}")) + OBSERVABLE(Dipolarity, Formula("D"));
+    return OBSERVABLE(LeptonPt) + OBSERVABLE(DeltaHt, Formula("#Delta H_{T}") + " [GeV]") + OBSERVABLE(Mass, Formula("m") + " [GeV]") + OBSERVABLE(Pt, Formula("p_T") + " [GeV]") + OBSERVABLE(Ht, Formula("H_{T}") + " [GeV]") + OBSERVABLE(DeltaPt, Formula("#Delta P_{T}") + " [GeV]") + OBSERVABLE(DeltaM, Formula("#Delta m") + " [GeV]") + OBSERVABLE(DeltaRap, Formula("#Delta #eta")) + OBSERVABLE(DeltaPhi, Formula("#Delta #phi")) + OBSERVABLE(DeltaR, Formula("#Delta R")) + OBSERVABLE(Rho, Formula("#rho")) + OBSERVABLE(Bdt1, "BDT" + Formula("_{W}")) + OBSERVABLE(Bdt2, "BDT" + Formula("_{b}")) + OBSERVABLE(Pull1, Formula("#theta_{1}")) + OBSERVABLE(Pull2, Formula("#theta_{2}")) + OBSERVABLE(Dipolarity, Formula("D"));
 }
 
 Observables TopHadronicHepBranch::Spectators()

@@ -16,7 +16,7 @@ namespace standardmodel
 
 int TauTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
-    Info0;
+    INFO0;
    std::vector<Jet> jets = event.Hadrons().Jets();
     INFO("Number Jets", jets.size());
    std::vector<Particle> Particles = event.Partons().GenParticles();
@@ -51,12 +51,12 @@ std::vector<Jet> TauTagger::CleanJets(std::vector<Jet>& jets, std::vector<Partic
 
 //         if (std::abs(Jet.rap()) > 2.5) continue;
 // if (Jet.m() < 0){
-//   Error("Clean Jets", "Massless Jet");
+//   ERROR("Clean Jets", "Massless Jet");
 //           continue;
 //         }
 //         if (Tag == Tag::signal && Jet.Info().SumDisplacement() == 0) continue;
         if (Jet.Info().Tag() != tag) {
-//   Error("Clean Jets", "Not Tagged Jet");
+//   ERROR("Clean Jets", "Not Tagged Jet");
             continue;
         }
         NewCleanJets.emplace_back(Jet);

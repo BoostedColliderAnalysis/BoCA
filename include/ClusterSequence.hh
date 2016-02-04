@@ -1,4 +1,6 @@
-
+/**
+ * Copyright (C) 2015-2016 Jan Hajer
+ */
 #pragma once
 #include "fastjet/ClusterSequence.hh"
 #include "Jet.hh"
@@ -6,7 +8,11 @@
 namespace boca
 {
 
-class ClusterSequence
+  /**
+   * @brief Wrapper around fastjet:ClusterSequence taking care of memory managment
+   *
+   */
+  class ClusterSequence
 {
 
 public :

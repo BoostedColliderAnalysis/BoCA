@@ -22,7 +22,7 @@ int EventFusionTagger::Train(Event const& event, PreCuts const& , Tag tag) const
         if (HiggsParticles.size() == 1)
             HiggsBoson = HiggsParticles.front();
         else
-            Error("Where is the Higgs?", HiggsParticles.size());
+            ERROR("Where is the Higgs?", HiggsParticles.size());
         std::sort(sextets.begin(), sextets.end(), MinDeltaRTo(HiggsParticles.front()));
         if (sextets.size() > 1)
             sextets.erase(sextets.begin() + 1, sextets.end());
@@ -31,7 +31,7 @@ int EventFusionTagger::Train(Event const& event, PreCuts const& , Tag tag) const
     if (sextets.empty())
         return 0;
     if (tag == Tag::signal && sextets.size() > 1) {
-        Error("more than one event", sextets.size());
+        ERROR("more than one event", sextets.size());
         std::sort(sextets.begin(), sextets.end());
         sextets.erase(sextets.begin() + 1, sextets.end());
     }

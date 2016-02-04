@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015-2016 Jan Hajer
+ */
 #include "BranchesTopPartner.hh"
 #include "Pair.hh"
 
@@ -14,7 +17,7 @@ SignatureSingleBranch::SignatureSingleBranch()
 
 Observables SignatureSingleBranch::Variables()
 {
-    return boca::TChannelBranch::Variables() + PAIR(VetoBdt);
+    return boca::TChannelBranch::Variables() + OBSERVABLE(VetoBdt);
 }
 
 SignatureSingleHadronicBranch::SignatureSingleHadronicBranch()
@@ -26,12 +29,12 @@ SignatureSingleHadronicBranch::SignatureSingleHadronicBranch()
 
 Observables SignatureSingleHadronicBranch::Variables()
 {
-    return boca::TChannelBranch::Variables() + PAIR(VetoBdt) + PAIR(TopPt) + PAIR(HiggsPt);
+    return boca::TChannelBranch::Variables() + OBSERVABLE(VetoBdt) + OBSERVABLE(TopPt) + OBSERVABLE(HiggsPt);
 }
 
 Observables EventBranch::Variables()
 {
-    return MultiBranch::Variables() + PAIR(LeptonNumber) + PAIR(BottomNumber) + PAIR(JetNumber) + PAIR(MissingEt) + PAIR(ScalarHt) + PAIR(LeptonHt) + PAIR(JetMass) + PAIR(JetPt) + PAIR(JetHt) + PAIR(JetRap) + PAIR(JetPhi);
+    return MultiBranch::Variables() + OBSERVABLE(LeptonNumber) + OBSERVABLE(BottomNumber) + OBSERVABLE(JetNumber) + OBSERVABLE(MissingEt) + OBSERVABLE(ScalarHt) + OBSERVABLE(LeptonHt) + OBSERVABLE(JetMass) + OBSERVABLE(JetPt) + OBSERVABLE(JetHt) + OBSERVABLE(JetRap) + OBSERVABLE(JetPhi);
 }
 
 }

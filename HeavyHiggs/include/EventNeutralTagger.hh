@@ -3,16 +3,19 @@
 #include "MultipletEvent.hh"
 #include "SignatureNeutralTagger.hh"
 
-namespace boca {
+namespace boca
+{
 
-namespace heavyhiggs {
+namespace heavyhiggs
+{
 
 /**
  *
  * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class EventNeutralTagger : public TaggerTemplate<MultipletEvent<Octet62>,EventNeutralBranch> {
+class EventNeutralTagger : public TaggerTemplate<MultipletEvent<Octet62>, EventNeutralBranch>
+{
 
 public:
 
@@ -23,6 +26,8 @@ public:
     std::string Name() const final;
 
 private:
+
+    std::vector<MultipletEvent<Octet62>> Events(Event const& event, std::function<MultipletEvent<Octet62>(MultipletEvent<Octet62> &)> const& function) const;
 
     Reader<SignatureNeutralTagger> signature_neutral_reader_;
 

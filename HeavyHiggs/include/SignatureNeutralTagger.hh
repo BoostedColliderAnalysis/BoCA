@@ -27,6 +27,8 @@ public:
 
     std::string Name() const final;
 
+    std::vector<Octet62> CleanOctets(Event const& event, std::vector<Octet62> const& octets, Tag tag) const;
+
 private:
 
     std::vector<Octet62> GetHeavyHiggsevents(std::vector<Jet>& jets);

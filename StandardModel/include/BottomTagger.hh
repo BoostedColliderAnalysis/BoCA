@@ -85,7 +85,7 @@ private:
 template<>
 inline void TaggerTemplate<Jet, standardmodel::BottomBranch>::FillBranch(Jet const& multiplet) const
 {
-    //     Info0;
+    //     INFO0;
     branch_.Fill(Singlet(multiplet));
 }
 

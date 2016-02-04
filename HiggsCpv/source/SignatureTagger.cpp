@@ -8,13 +8,13 @@ namespace higgscpv {
 
 int SignatureTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) const
 {
-    Info0;
+    INFO0;
     std::vector<Sextet> sextets = triplet_pair_reader_.Tagger().TruthLevel(event,triplet_pair_reader_.Multiplets(event),tag);
-    Debug(sextets.size());
+    DEBUG(sextets.size());
     std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
     std::vector<Particle> higgses = CopyIfParticles(event.Partons().GenParticles(), Id::higgs, Id::CP_violating_higgs);
     std::vector<Doublet> final_doublets = BestMatches(doublets,higgses,tag);
-    Debug(final_doublets.size());
+    DEBUG(final_doublets.size());
     std::vector<MultipletSignature<Octet62>> octets;
     for (auto const& doublet : final_doublets) {
         for (auto const& sextet : sextets) {
@@ -25,14 +25,14 @@ int SignatureTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) co
         }
     }
 //     if (tag == Tag::signal && octets.size() != 1)
-    Debug(octets.size());
+    DEBUG(octets.size());
     if (tag == Tag::signal) octets = ReduceResult(octets, 1);
     return SaveEntries(octets);
 }
 
 std::vector<MultipletSignature<Octet62>> SignatureTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
 {
-    Info0;
+    INFO0;
     std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
     INFO(doublets.size());
     std::vector<Sextet> sextets = triplet_pair_reader_.Multiplets(event);

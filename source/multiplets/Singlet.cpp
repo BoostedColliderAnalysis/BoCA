@@ -24,12 +24,12 @@ bool Singlet::Overlap(Singlet const& singlet) const
 
 Angle Singlet::Radius(boca::Jet const& jet) const
 {
-    Info0;
+    INFO0;
     if (!jet.has_constituents()) return 0;
     Angle delta_r = 0_rad;
     for (auto const & constituent : jet.Constituents()) {
         Angle constituent_delta_r = jet.DeltaRTo(constituent);
-        Debug(constituent_delta_r);
+        DEBUG(constituent_delta_r);
         if (constituent_delta_r > delta_r) delta_r = constituent_delta_r;
     }
     return delta_r;
@@ -38,7 +38,7 @@ using AngleMomentum = ValueProduct<Angle, Momentum>;
 
 float Singlet::Spread(boca::Jet const& jet) const
 {
-    Info0;
+    INFO0;
     if (!jet.has_constituents()) return 0;
 //     Angle delta_r = Radius(jet);
     Angle delta_r = 0;

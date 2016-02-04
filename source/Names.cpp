@@ -2,7 +2,7 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "Names.hh"
-// #define DEBUG
+// #define DEBUGGING
 #include "Debug.hh"
 
 namespace boca
@@ -22,25 +22,25 @@ Names::Names(std::string const& name, std::string const& latex_name)
 
 std::string const& Names::Name() const
 {
-    Info0;
+    INFO0;
     return name_;
 }
 
 std::string const& Names::LatexName() const
 {
-    Info0;
-    return (!latex_name_.empty()) ? latex_name_ : name_;
+    INFO0;
+    return latex_name_.empty() ? name_ : latex_name_;
 }
 
 void Names::SetName(std::string const& name)
 {
-    Info0;
+    INFO0;
     name_ = name;
 }
 
 void Names::SetLatexName(std::string const& latex_name)
 {
-    Info0;
+    INFO0;
     latex_name_ = latex_name;
 }
 

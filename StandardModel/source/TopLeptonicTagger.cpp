@@ -6,7 +6,7 @@
 #include "ParticleInfo.hh"
 #include "Exception.hh"
 #include "plotting/Font.hh"
-// #define DEBUG
+// #define DEBUGGING
 #include "Debug.hh"
 
 namespace boca
@@ -20,17 +20,17 @@ namespace
 
 Lepton FakeLepton(Jet const& jet)
 {
-    Info0;
+    INFO0;
     return jet * (DetectorGeometry::LeptonMinPt() / jet.Pt());
 }
 
 std::vector<Lepton> Leptons(Event const& event, std::vector<Jet> const& jets)
 {
-    Info0;
+    INFO0;
     bool do_fake_leptons = true;
     std::vector<Lepton> leptons = RemoveIfSoft(event.Leptons().leptons(), DetectorGeometry::LeptonMinPt());
     if (do_fake_leptons && leptons.empty() && !jets.empty()) leptons.emplace_back(FakeLepton(jets.front()));
-    Debug(jets.size(), leptons.size());
+    DEBUG(jets.size(), leptons.size());
     return leptons;
 }
 
@@ -40,14 +40,14 @@ TopLeptonicTagger::TopLeptonicTagger() :
     use_w_(true),
     w_leptonic_reader_(InitializeLeptonicReader())
 {
-    Info0;
+    INFO0;
     top_mass_window_ = 80_GeV;
     top_mass_shift_ = use_w_ ? 0_GeV : 40_GeV;
 }
 
 int TopLeptonicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Tag tag) const
 {
-    Info0;
+    INFO0;
     return SaveEntries(Triplets(event, [&](Triplet & triplet) {
         if (Problematic(triplet, pre_cuts, tag)) throw boca::Problematic();
         triplet.SetTag(tag);
@@ -57,7 +57,7 @@ int TopLeptonicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, 
 
 std::vector<Particle> TopLeptonicTagger::Particles(Event const& event) const
 {
-    Info0;
+    INFO0;
     std::vector<Particle> particles = event.Partons().GenParticles();
     std::vector<Particle> leptons = CopyIfGrandMother(CopyIfLepton(particles), Id::top);
     return CopyIfGrandDaughter(particles, leptons);
@@ -65,7 +65,7 @@ std::vector<Particle> TopLeptonicTagger::Particles(Event const& event) const
 
 bool TopLeptonicTagger::Problematic(boca::Triplet const& triplet, boca::PreCuts const& pre_cuts, Tag tag) const
 {
-    Info0;
+    INFO0;
     if (Problematic(triplet, pre_cuts)) return true;
     switch (tag) {
     case Tag::signal :
@@ -79,24 +79,24 @@ bool TopLeptonicTagger::Problematic(boca::Triplet const& triplet, boca::PreCuts 
 
 bool TopLeptonicTagger::Problematic(Triplet const& triplet, PreCuts const& pre_cuts) const
 {
-    Info0;
+    INFO0;
     if (pre_cuts.ApplyCuts(Id::top, triplet)) return true;
     return false;
 }
 
 std::vector<Triplet> TopLeptonicTagger::Triplets(Event const& event, std::function<Triplet(Triplet&)> const& function) const
 {
-    Info0;
+    INFO0;
     std::vector<Jet> jets = SortedByPt(bottom_reader_.Jets(event));
     std::vector<Lepton> leptons = Leptons(event, jets);
-    Debug(jets.size(), leptons.size());
+    DEBUG(jets.size(), leptons.size());
     std::vector<Doublet> doublets;
     if (use_w_) doublets = w_leptonic_reader_.Multiplets(event);
     else for (auto const & lepton : leptons) doublets.emplace_back(Doublet(lepton));
     std::vector<Triplet> triplets = pairs(doublets, jets, [&](Doublet const & doublet, Jet const & jet) {
-        Debug(doublet.Rap(), jet.rap());
+        DEBUG(doublet.Rap(), jet.rap());
         Triplet triplet(doublet, jet);
-        if (triplet.Mass() != triplet.Mass()) Error(triplet.Mass());
+        if (triplet.Mass() != triplet.Mass()) ERROR(triplet.Mass());
         return function(triplet);
     });
     return triplets;
@@ -104,7 +104,7 @@ std::vector<Triplet> TopLeptonicTagger::Triplets(Event const& event, std::functi
 
 std::vector<Triplet> TopLeptonicTagger::Multiplets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
-    Info0;
+    INFO0;
     return ReduceResult(Triplets(event, [&](Triplet & triplet) {
         if (Problematic(triplet, pre_cuts)) throw boca::Problematic();
         triplet.SetBdt(Bdt(triplet, reader));
@@ -114,7 +114,7 @@ std::vector<Triplet> TopLeptonicTagger::Multiplets(Event const& event, boca::Pre
 
 Stage TopLeptonicTagger::InitializeLeptonicReader()
 {
-    Info0;
+    INFO0;
     return use_w_ ? Stage::reader : Stage::trainer;
 }
 

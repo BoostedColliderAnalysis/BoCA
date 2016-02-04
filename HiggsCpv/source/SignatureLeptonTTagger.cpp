@@ -1,7 +1,7 @@
 #include "../include/SignatureLeptonTTagger.hh"
 #include "Event.hh"
 #include "Exception.hh"
-// #define DEBUG
+// #define DEBUGGING
 #include "Debug.hh"
 
 namespace boca
@@ -12,12 +12,12 @@ namespace higgscpv
 
 int SignatureLeptonTTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) const
 {
-    Info0;
+    INFO0;
     std::vector<Lepton> triplets = event.Leptons().leptons();
     if (tag == Tag::signal) {
         std::vector<Particle> leptons = Leptons(event);
         triplets = BestMatches(triplets, leptons, tag);
-        Debug(triplets.size(), leptons.size());
+        DEBUG(triplets.size(), leptons.size());
     }
 
     std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
@@ -25,7 +25,7 @@ int SignatureLeptonTTagger::Train(Event const& event, boca::PreCuts const&, Tag 
         std::vector<Particle> particles = event.Partons().GenParticles();
         std::vector<Particle> higgses = CopyIfParticles(particles, Id::higgs, Id::CP_violating_higgs);
         doublets = BestMatches(doublets, higgses, tag);
-        Debug(doublets.size(), higgses.size());
+        DEBUG(doublets.size(), higgses.size());
     }
 
     std::vector<MultipletSignature<Octet332>> octets = triples(triplets, doublets, [&](Triplet const & triplet_1, Triplet const & triplet_2, Doublet const & doublet) {
@@ -33,7 +33,7 @@ int SignatureLeptonTTagger::Train(Event const& event, boca::PreCuts const&, Tag 
         octet.SetTag(tag);
         return octet;
     });
-    Debug(octets.size());
+    DEBUG(octets.size());
     return SaveEntries(octets, 1);
 }
 
@@ -55,7 +55,7 @@ MultipletSignature<Octet332> SignatureLeptonTTagger::Signature(Triplet const& tr
 
 std::vector<MultipletSignature<Octet332>> SignatureLeptonTTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
 {
-    Info0;
+    INFO0;
     std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
     INFO(doublets.size());
     std::vector<Jet> triplets = event.Leptons().leptons();
@@ -65,7 +65,7 @@ std::vector<MultipletSignature<Octet332>> SignatureLeptonTTagger::Multiplets(Eve
         octet.SetBdt(Bdt(octet, reader));
         return octet;
     });
-    Debug(octets.size());
+    DEBUG(octets.size());
     return ReduceResult(octets);
 }
 std::string SignatureLeptonTTagger::Name() const

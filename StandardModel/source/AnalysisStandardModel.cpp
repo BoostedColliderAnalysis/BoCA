@@ -23,7 +23,7 @@ std::string ProcessName(Process process)
     case Process::ww : return "ww";
     case Process::zz : return "zz";
     case Process::zz_bb : return "zz_bb";
-        Default(to_int(process), "");
+        DEFAULT(to_int(process), "");
     }
 }
 
@@ -33,7 +33,7 @@ std::string Name(Collider collider)
     case Collider::LHC : return "14TeV";
     case Collider::FHC : return "100TeV";
     case Collider::LE : return "100TeV";
-        Default(to_int(collider), "");
+        DEFAULT(to_int(collider), "");
     }
 }
 
@@ -51,7 +51,7 @@ std::string LatexName(Process process)
     case Process::zz_bb : return Formula("Z#lbar_{b}");
     case Process::tt_had : return Formula("t_{h}");
     case Process::tt_lep : return Formula("t_{l}");
-        Default(ProcessName(process), "");
+        DEFAULT(ProcessName(process), "");
     }
 }
 
@@ -69,7 +69,7 @@ std::string Name(Process process)
     case Process::zz_bb : return "Z";
     case Process::tt_had : return "top";
     case Process::tt_lep : return "top";
-        Default(Name(process), "");
+        DEFAULT(Name(process), "");
     }
 }
 

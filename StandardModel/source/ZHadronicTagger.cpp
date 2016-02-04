@@ -15,13 +15,13 @@ namespace standardmodel
 
 ZHadronicTagger::ZHadronicTagger()
 {
-    Info0;
+    INFO0;
     z_mass_window = 50_GeV;
 }
 
 int ZHadronicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Tag tag) const
 {
-    Info0;
+    INFO0;
     return SaveEntries(Doublets(event, [&](Doublet & doublet) {
         return SetTag(doublet, pre_cuts, tag);
     }), Particles(event), tag, Id::Z);
@@ -29,7 +29,7 @@ int ZHadronicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Ta
 
 std::vector<Doublet> ZHadronicTagger::Doublets(Event const& event, std::function<boost::optional<Doublet>(Doublet&)> function) const
 {
-    Info0;
+    INFO0;
    std::vector<Jet> jets = bottom_reader_.Jets(event);
     MomentumRange jet_range(Id::Z, Id::Z);
     std::vector<Doublet> doublets = unordered_pairs(jet_range.SofterThanMax(jets), [&](Jet const & jet_1, Jet const & jet_2) {
@@ -55,7 +55,7 @@ std::vector<Doublet> ZHadronicTagger::Doublets(Event const& event, std::function
 
 boost::optional<Doublet> ZHadronicTagger::SetTag(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const
 {
-    Info0;
+    INFO0;
     if (Problematic(doublet, pre_cuts, tag)) return boost::none;
     doublet.SetTag(tag);
     return doublet;
@@ -63,13 +63,13 @@ boost::optional<Doublet> ZHadronicTagger::SetTag(Doublet doublet, PreCuts const&
 
 std::vector<Particle> ZHadronicTagger::Particles(Event const& event) const
 {
-    Info0;
+    INFO0;
     return CopyIfParticle(event.Partons().GenParticles(), Id::Z);
 }
 
 bool ZHadronicTagger::Problematic(boca::Doublet const& doublet, boca::PreCuts const& pre_cuts, Tag tag) const
 {
-    Info0;
+    INFO0;
     if (Problematic(doublet, pre_cuts))return true;
     switch (tag) {
     case Tag::signal :
@@ -84,14 +84,14 @@ bool ZHadronicTagger::Problematic(boca::Doublet const& doublet, boca::PreCuts co
 
 bool ZHadronicTagger::Problematic(boca::Doublet const& doublet, boca::PreCuts const& pre_cuts) const
 {
-    Info0;
+    INFO0;
     if (pre_cuts.ApplyCuts(Id::Z, doublet)) return true;
     return false;
 }
 
 std::vector<Doublet> ZHadronicTagger::Multiplets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
-    Info0;
+    INFO0;
     return ReduceResult(Doublets(event, [&](Doublet & doublet) {
         return Multiplet(doublet, pre_cuts, reader);
     }));
@@ -99,7 +99,7 @@ std::vector<Doublet> ZHadronicTagger::Multiplets(Event const& event, boca::PreCu
 
 boost::optional<Doublet> ZHadronicTagger::Multiplet(Doublet& doublet, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
-    Info0;
+    INFO0;
     if (Problematic(doublet, pre_cuts)) return boost::none;
     doublet.SetBdt(Bdt(doublet, reader));
     return doublet;
@@ -107,13 +107,13 @@ boost::optional<Doublet> ZHadronicTagger::Multiplet(Doublet& doublet, PreCuts co
 
 std::string ZHadronicTagger::Name() const
 {
-    Info0;
+    INFO0;
     return "ZHadronic";
 }
 
 std::string ZHadronicTagger::LatexName() const
 {
-    Info0;
+    INFO0;
     return "Z";
 }
 

@@ -6,6 +6,7 @@
 #include "Partons.hh"
 #include "Leptons.hh"
 #include "Hadrons.hh"
+#include "Isolation.hh"
 
 namespace boca
 {
@@ -38,13 +39,11 @@ public:
 
     boca::Partons const& Partons() const;
 
+    std::vector<Lepton> IsolatedLeptons();
+
 private:
 
-    /**
-     * @brief Particles
-     *
-     */
-    boca::Partons* partons_ = nullptr;
+    friend class Isolation;
 
     /**
      * @brief Leptons
@@ -53,10 +52,18 @@ private:
     boca::Leptons* leptons_ = nullptr;
 
     /**
+     * @brief Particles
+     *
+     */
+    boca::Partons* partons_ = nullptr;
+
+    /**
      * @brief Jets
      *
      */
     boca::Hadrons* hadrons_ = nullptr;
+
+    Isolation isolation_;
 
     Source source_;
 

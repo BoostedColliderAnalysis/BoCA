@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015 Jan Hajer
+ */
 #include "ResonanceTagger.hh"
 #include "ParticleInfo.hh"
 #include "Exception.hh"
@@ -11,7 +14,7 @@ namespace naturalness
 
 int ResonanceTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
-    Info0;
+    INFO0;
     return SaveEntries(Doublets(event, [&](Doublet & doublet) {
         doublet.SetTag(tag);
         return doublet;
