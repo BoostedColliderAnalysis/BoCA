@@ -12,6 +12,7 @@ int main()
 {
     Run<boca::standardmodel::BottomTagger>();
     Run<boca::standardmodel::WHadronicTagger>();
+    Run<boca::standardmodel::WLeptonicTagger>();
     Run<boca::standardmodel::HiggsTagger>();
     Run<boca::standardmodel::BosonTagger>();
     Run<boca::standardmodel::TopHadronicTagger>();

@@ -27,12 +27,12 @@ class AnalysisSingleHadronic : public AnalysisNaturalness<Tagger>
 
 protected:
 
-    std::string AnalysisName() const final {
+    std::string AnalysisName() const override {
         INFO0;
         return "Single-Hadronic-" + Name(DetectorGeometry::DetectorType()) + "-" + boca::Name(this->Mass()) + "-2016-2";
     }
 
-    void SetFiles(Tag tag, Stage) final {
+    void SetFiles(Tag tag, Stage)override {
         INFO0;
         switch (tag) {
         case Tag::signal :
@@ -55,7 +55,7 @@ protected:
 private:
 //         TopPartnerHadronicTagger partner_tagger;
 
-    int PassPreCut(Event const& , Tag) const final {
+    int PassPreCut(Event const& , Tag) const override {
         INFO0;
 //       if(tag == Tag::signal){
 //        std::vector<Jet> partner = partner_tagger.Particles(event);

@@ -3,16 +3,12 @@
  */
 #pragma once
 
-// #include "TClonesArray.h"
-
 #include "exroot/ExRootAnalysis.hh"
 
 #include "Sort.hh"
 #include "Tagger.hh"
 #include "PreCuts.hh"
 #include "Filter.hh"
-// #define INFORMATION
-// #include "Debug.hh"
 
 namespace boca
 {
@@ -42,15 +38,15 @@ public:
         std::vector<bool> passed;
         int steps = 50;
         // TODO why is this a 2?
-        for (auto const & effeciency : Range(2, steps)) passed.emplace_back(Tagger::Cut(reader, float(effeciency) / steps));
+        for (auto const & effeciency : IntegerRange(2, steps)) passed.emplace_back(Tagger::Cut(reader, float(effeciency) / steps));
         return passed;
     }
 
-    Branch_& Branch() final {
+    Branch_& Branch()override {
         return branch_;
     }
 
-    int SaveBdt(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const final {
+    int SaveBdt(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const override {
         return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
     }
 
@@ -99,7 +95,7 @@ protected:
         if (multiplets.empty()) return 0;
         if (multiplets.size() > 1) multiplets = SortedByBdt(multiplets);
         auto sum = std::min(int(multiplets.size()), max);
-        for (auto const & counter : Range(sum)) {
+        for (auto const & counter : IntegerRange(sum)) {
             FillBranch(multiplets.at(counter));
             std::lock_guard<std::mutex> guard(mutex_);
             static_cast<Branch_&>(*TreeBranch().NewEntry()) = Branch();
@@ -119,7 +115,7 @@ protected:
         }
     }
 
-    TClass& Class() const final {
+    TClass& Class() const override {
         return *Branch_::Class();
     }
 
@@ -138,7 +134,7 @@ protected:
 
 private:
 
-    Branch_ const& Branch() const final {
+    Branch_ const& Branch() const override {
         return branch_;
     }
 

@@ -9,7 +9,7 @@
 namespace boca
 {
 
-std::string BranchName(Branch branch)
+std::string Name(Branch branch)
 {
     DEBUG0;
     switch (branch) {
@@ -109,8 +109,17 @@ void TreeReader::NewElements()
 
 bool TreeReader::Has(Branch branch) const
 {
-    INFO(BranchName(branch));
+    INFO(boca::Name(branch));
     return map_.find(branch) != map_.end();
+}
+std::string Name(Source source)
+{
+    switch (source) {
+    case Source::delphes : return "Delphes";
+    case Source::pgs : return "PGS";
+    case Source::parton : return "Parton";
+        DEFAULT("Source", "");
+    }
 }
 
 }

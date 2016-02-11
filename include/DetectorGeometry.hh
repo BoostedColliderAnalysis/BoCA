@@ -20,6 +20,8 @@ enum class JetType
     e_flow_jet //< Jet formed from the eflow Variables according to the parameter set in DetectorGeometry
 };
 
+std::string Name(JetType jet_type);
+
 /**
  * @brief Detector type indicates which kind of detector geometry is going to be used
  *

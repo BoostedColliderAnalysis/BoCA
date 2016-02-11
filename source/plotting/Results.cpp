@@ -44,16 +44,16 @@ int Results::BestAcceptanceBin() const
     return best_acceptance_bin_;
 }
 
-Rectangle<float> const& Results::Bounds() const
+Rectangle<float> const& Results::Range() const
 {
     INFO0;
-    return bounds_;
+    return range_;
 }
 
-Rectangle<float> & Results::Bounds()
+Rectangle<float> & Results::Range()
 {
     INFO0;
-    return bounds_;
+    return range_;
 }
 
 std::vector<float> const& Results::XValues() const
@@ -106,17 +106,17 @@ void Results::ExtremeXValues()
     case TMVA::Types::kBDT : {
         for (auto const & result : backgrounds_) {
             float min_0 = *boost::range::min_element(result.Bdts());
-            if (min_0 < bounds_.XMin()) bounds_.SetXMin(min_0);
+            if (min_0 < range_.XMin()) range_.SetXMin(min_0);
         }
         for (auto const & result : signals_) {
             float max_0 = *boost::range::max_element(result.Bdts());
-            if (max_0 > bounds_.XMax()) bounds_.SetXMax(max_0);
+            if (max_0 > range_.XMax()) range_.SetXMax(max_0);
         }
         break;
     }
     case TMVA::Types::kCuts : {
-        if (!x_values_.empty()) bounds_.SetXMin(x_values_.front());
-        if (!x_values_.empty()) bounds_.SetXMax(x_values_.back());
+        if (!x_values_.empty()) range_.SetXMin(x_values_.front());
+        if (!x_values_.empty()) range_.SetXMax(x_values_.back());
         break;
     }
     DEFAULT(Mva());
@@ -158,7 +158,7 @@ TMVA::Types::EMVA Results::Mva() const
 void Results::CalculateSignificances()
 {
     INFO0;
-    for (auto const & step : Range(Steps())) {
+    for (auto const & step : IntegerRange(Steps())) {
         float signal_events = 0;
         Crosssection signal_efficiencies_crossection = 0_fb;
         Crosssection crosssection = 0_fb;
@@ -191,7 +191,7 @@ void Results::BestBin()
     INFO0;
     std::vector<float> efficiencies(backgrounds_.size(), 0);
     int counter = 0;
-    for (auto const & number : Range(backgrounds_.size())) {
+    for (auto const & number : IntegerRange(backgrounds_.size())) {
         while (efficiencies.at(number) == 0 && counter < Steps()) {
             best_model_dependent_bin_ = std::distance(significances_.begin(), std::max_element(std::begin(significances_), std::end(significances_) - counter));
             best_model_independent_bin_ = std::distance(crosssections_.begin(), std::min_element(std::begin(crosssections_), std::end(crosssections_) - counter));

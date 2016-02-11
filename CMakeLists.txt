@@ -6,13 +6,13 @@ cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 project(BoCA CXX)
 
 include(CMakeFiles/CMakeConfig.cmake)
-find_package(Boost 1.43)
-# find_package(Boost 1.43 COMPONENTS system filesystem REQUIRED)
+# find_package(Boost 1.43)
+find_package(Boost 1.43 COMPONENTS system filesystem REQUIRED)
 add_include_path(${Boost_INCLUDE_DIRS})
-# add_libraries(
-#   ${Boost_FILESYSTEM_LIBRARY}
-#   ${Boost_SYSTEM_LIBRARY}
-# )
+add_libraries(
+  ${Boost_FILESYSTEM_LIBRARY}
+  ${Boost_SYSTEM_LIBRARY}
+)
 
 # set build type to debug
 if( NOT CMAKE_BUILD_TYPE )
@@ -22,7 +22,7 @@ endif()
 # set c++ flags
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -g -fPIC")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0 -Wall -Wextra -pedantic -Wpointer-arith -Wold-style-cast -Wno-unknown-pragmas -std=c++1y")
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -std=c++1y")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O2 -std=c++1y")
 
 # ROOT
 include(CMakeFiles/FindROOT.cmake)

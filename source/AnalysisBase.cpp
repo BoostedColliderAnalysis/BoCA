@@ -32,8 +32,7 @@ void AnalysisBase::Initialize()
 //     INFO(working_path_, AnalysisName());
     mkdir(AnalysisName().c_str(), 0700);
 //     else ERROR(AnalysisName());
-    Tagger().SetAnalysisName(AnalysisName());
-    Tagger().Initialize();
+    Tagger().Initialize(AnalysisName());
 }
 
 
@@ -103,24 +102,19 @@ File AnalysisBase::File(std::vector<std::string> const& names, Crosssection cros
     return boca::File(names, FilePath(), FileSuffix(), nice_name, crosssection, mass);
 }
 
-// std::string AnalysisBase::FileName(std::string const&) const
-// {
-//   return "Process_" + Name(PreCut());
-// }
-
 std::string AnalysisBase::TreeName(std::string const& name) const
 {
     INFO0;
     return name + "-run_01";
 }
 
-PreCuts const& AnalysisBase::pre_cuts() const
+boca::PreCuts const& AnalysisBase::PreCuts() const
 {
     INFO0;
     return pre_cuts_;
 }
 
-PreCuts& AnalysisBase::pre_cuts()
+boca::PreCuts& AnalysisBase::PreCuts()
 {
     INFO0;
     return pre_cuts_;
@@ -143,20 +137,6 @@ int AnalysisBase::BackgroundFileNumber() const
     INFO0;
 //     return configuration_.BackgroundFileNumber();
     return 1;
-}
-
-Momentum AnalysisBase::PreCut() const
-{
-    INFO0;
-//     return configuration_.PreCut();
-    return 0;
-}
-
-boca::Mass AnalysisBase::Mass() const
-{
-    INFO0;
-//     return configuration_.Mass();
-    return 1_GeV;
 }
 
 void AnalysisBase::RunFast()
@@ -273,8 +253,8 @@ void AnalysisBase::Run(Output output)
     INFO0;
     Initialize();
     //   analysis.PreRequisits<analysis.Tagger()::type>(analysis,run);
-    FlagSwitch(output, [&](Output output_2) {
-        switch (output_2) {
+    FlagSwitch(output, [&](Output output) {
+        switch (output) {
         case Output::fast : RunFast();
             break;
         case Output::normal : RunNormal();
@@ -287,7 +267,7 @@ void AnalysisBase::Run(Output output)
             break;
         case Output::cut : RunCut();
             break;
-            DEFAULT(to_int(output_2));
+            DEFAULT(to_int(output));
         }
     });
 }
@@ -311,7 +291,7 @@ long int AnalysisBase::EventNumberMax(Stage stage) const
     switch (stage) {
     case Stage::trainer : return TrainNumberMax();
     case Stage::reader : return ReadNumberMax();
-        DEFAULT("Stage", 0);
+        DEFAULT(Name(stage), 0);
     }
 }
 

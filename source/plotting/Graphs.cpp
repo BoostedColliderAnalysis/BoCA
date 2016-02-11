@@ -7,7 +7,7 @@
 
 #include "plotting/Style.hh"
 #include "plotting/Graphs.hh"
-#define INFORMATION
+// #define INFORMATION
 #include "Debug.hh"
 
 namespace boca
@@ -32,9 +32,9 @@ void Graphs::AddGraph(std::vector<float> const& xs, std::vector<float> const& ys
     INFO(xs.size(), ys.size(), name);
     CHECK(xs.size() == ys.size() && xs.size() > 0, xs.size(), ys.size());
     std::vector<float> xs2 = xs;
-    bounds_.WidenX(MinMax(boost::remove_erase(xs2, 0)));
+    range_.WidenX(MinMax(boost::remove_erase(xs2, 0)));
     std::vector<float> ys2 = ys;
-    bounds_.WidenY(MinMax(boost::remove_erase(ys2, 0)));
+    range_.WidenY(MinMax(boost::remove_erase(ys2, 0)));
     TGraph graph(xs.size(), &xs.front(), &ys.front());
     SetLine(graph, graphs_.size());
     graph.SetTitle(name.c_str());
@@ -57,51 +57,51 @@ void Graphs::Draw()
     for (auto & line : lines_) line.Draw();
 }
 
-void Graphs::SetXAxis(std::string const& title, boca::Bounds<float> const& bounds)
+void Graphs::SetXAxis(std::string const& title, boca::Range<float> const& range)
 {
     INFO(title);
-    if (bounds) {
-        bounds_.SetX(bounds);
-        bounds_.ResetY();
-        for (auto const & data : datas_) bounds_.WidenY(bounds, data.first, data.second);
+    if (range) {
+        range_.SetX(range);
+        range_.ResetY();
+        for (auto const & data : datas_) range_.WidenY(range, data.first, data.second);
     }
     AddGraphs();
     if (!multi_graph_.GetXaxis()) return;
-    INFO("set title",bounds_.Horizontal().Floor(), bounds_.Horizontal().Ceil());
+    INFO("set title",range_.Horizontal().Floor(), range_.Horizontal().Ceil());
     SetTitle(*multi_graph_.GetXaxis(), title);
-    multi_graph_.GetXaxis()->SetLimits(bounds_.Horizontal().Floor(), bounds_.Horizontal().Ceil());
+    multi_graph_.GetXaxis()->SetLimits(range_.Horizontal().Floor(), range_.Horizontal().Ceil());
 }
 
-void Graphs::SetYAxis(std::string const& title, boca::Bounds<float> const&)
+void Graphs::SetYAxis(std::string const& title, boca::Range<float> const&)
 {
     INFO(title);
-//     if (bounds) {
-//         bounds_.SetY(bounds);
-//         bounds_.ResetX();
+//     if (range) {
+//         range_.SetY(range);
+//         range_.ResetX();
 //         for (auto const & graph : graphs_) {
 //             std::vector<double> xs(graph.GetX(), graph.GetX() + graph.GetMaxSize());
 //             std::vector<double> ys(graph.GetY(), graph.GetY() + graph.GetMaxSize());
-//             bounds_.WidenX(bounds, xs, ys);
+//             range_.WidenX(range, xs, ys);
 //         }
 //     }
     AddGraphs();
     if (!multi_graph_.GetYaxis()) return;
-    INFO("set title",bounds_.Vertical().Floor(),bounds_.Vertical().Ceil());
+    INFO("set title",range_.Vertical().Floor(),range_.Vertical().Ceil());
     SetTitle(*multi_graph_.GetYaxis(), title);
-    multi_graph_.GetYaxis()->SetLimits(bounds_.Vertical().Floor(), bounds_.Vertical().Ceil());
-    multi_graph_.SetMinimum(bounds_.Vertical().Floor());
-    multi_graph_.SetMaximum(bounds_.Vertical().Ceil());
-    SetLog(bounds_.Vertical());
+    multi_graph_.GetYaxis()->SetLimits(range_.Vertical().Floor(), range_.Vertical().Ceil());
+    multi_graph_.SetMinimum(range_.Vertical().Floor());
+    multi_graph_.SetMaximum(range_.Vertical().Ceil());
+    SetLog(range_.Vertical());
 }
 
-Bounds<double> Graphs::BoundsY()
+Range<double> Graphs::RangeY()
 {
     INFO0;
     if (!multi_graph_.GetYaxis()) return {};
     return {multi_graph_.GetYaxis()->GetXmin(), multi_graph_.GetYaxis()->GetXmax()};
 }
 
-Bounds<double> Graphs::BoundsX()
+Range<double> Graphs::RangeX()
 {
     INFO0;
     if (!multi_graph_.GetXaxis()) return {};
@@ -122,8 +122,8 @@ void Graphs::AddGraphs()
 void Graphs::AddLine(float x_value)
 {
     INFO(x_value);
-    if (!BoundsX().Inside(x_value)) return;
-    Bounds<double> y = BoundsY();
+    if (!RangeX().Inside(x_value)) return;
+    Range<double> y = RangeY();
     TLine line(x_value, y.Min(), x_value, y.Max());
     SetLine(line, graphs_.size() + lines_.size());
     lines_.emplace_back(line);

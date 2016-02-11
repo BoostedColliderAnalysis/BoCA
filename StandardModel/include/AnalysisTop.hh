@@ -24,9 +24,9 @@ class TopAnalysis : public AnalysisStandardModel<Tagger>
 public:
 
     TopAnalysis() {
-        this->pre_cuts().PtLowerCut().Set(Id::top, this->LowerPtCut());
-        this->pre_cuts().PtUpperCut().Set(Id::top, this->UpperPtCut());
-        this->pre_cuts().TrackerMaxEta().Set(Id::top, DetectorGeometry::TrackerEtaMax());
+        this->PreCuts().PtLowerCut().Set(Id::top, this->LowerPtCut());
+        this->PreCuts().PtUpperCut().Set(Id::top, this->UpperPtCut());
+        this->PreCuts().TrackerMaxEta().Set(Id::top, DetectorGeometry::TrackerEtaMax());
     }
 
     static Decay TopDecay() {
@@ -37,11 +37,11 @@ public:
 
 private:
 
-    std::string AnalysisName() const final {
+    std::string AnalysisName() const override {
         return Name(this->Collider()) + "-" + boca::Name(this->LowerPtCut()) + "-" + Name(TopDecay()) + "-with-w";
     }
 
-    void SetFiles(Tag tag, Stage) final {
+    void SetFiles(Tag tag, Stage)override {
         switch (tag) {
         case Tag::signal :
             if (TopDecay() == Decay::hadronic || TopDecay() == Decay::other || this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::tt_had);
@@ -64,7 +64,7 @@ private:
         }
     }
 
-    int PassPreCut(Event const& event, Tag) const final {
+    int PassPreCut(Event const& event, Tag) const override {
         std::vector<Particle> particles = SortedByPt(event.Partons().GenParticles());
         particles = CopyIfDrellYan(particles);
         particles = RemoveIfOutsidePtWindow(particles, this->LowerPtCut(), this->UpperPtCut());

@@ -22,8 +22,8 @@ public:
     float BestModelDependentValue()const;
     float BestModelInDependentValue()const;
     float BestAcceptanceValue()const;
-    Rectangle<float> const& Bounds()const;
-    Rectangle<float>& Bounds();
+    Rectangle<float> const& Range()const;
+    Rectangle<float>& Range();
     float XValue(int value) const;
     std::vector<float> const& XValues()const;
     std::vector<float> const& Significances()const;
@@ -35,7 +35,7 @@ private:
     TMVA::Types::EMVA Mva() const;
     void ExtremeXValues();
     void BestBin();
-    Rectangle<float> bounds_;
+    Rectangle<float> range_;
     std::vector<Result> signals_;
     std::vector<Result> backgrounds_;
     std::vector<float> significances_;

@@ -58,9 +58,9 @@ private:
 
     Plot ReadTree(TTree& tree, std::string const& leaf_1_name, std::string const& leaf_2_name, Stage stage) const;
 
-    void PlotHistogram(const boca::Plot& signal, const boca::Plot& background, Rectangle<float> const& bounds) const;
+    void PlotHistogram(const boca::Plot& signal, const boca::Plot& background, Rectangle<float> const& range) const;
 
-    void PlotProfile(const boca::Plot& signal, const boca::Plot& background, Rectangle<float> const& bounds) const;
+    void PlotProfile(const boca::Plot& signal, const boca::Plot& background, Rectangle<float> const& range) const;
 
     void PlotAcceptanceGraph(Results const& results) const;
 

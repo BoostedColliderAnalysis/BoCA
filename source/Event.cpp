@@ -82,7 +82,7 @@ Leptons const& Event::Leptons() const
     case DetectorType::Spp :
         return isolation_;
         return *leptons_;
-        DEFAULT("DetectorType", *leptons_)
+        DEFAULT(Name(DetectorGeometry::DetectorType()), *leptons_)
     }
 }
 

@@ -17,11 +17,11 @@ class TopPartnerTopPairTagger : public TaggerTemplate<Octet53,MultiBranch> {
 
 public:
 
-    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
+    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const override;
 
-    std::vector<Octet53> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
+    std::vector<Octet53> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
 
-    std::string Name() const final;
+    std::string Name() const override;
 
 private:
 

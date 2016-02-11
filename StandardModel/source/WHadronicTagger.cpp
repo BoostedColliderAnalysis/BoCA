@@ -54,13 +54,13 @@ std::vector<Doublet> WHadronicTagger::Doublets(Event const& event, PreCuts const
         }
 
         MomentumRange top_jet_range(Id::top, SubJet(Id::W));
-        if (pre_cuts.DoSubJets(Id::W) && top_jet_range.InsideBounds(jet)) {
+        if (pre_cuts.DoSubJets(Id::W) && top_jet_range.InsideRange(jet)) {
             std::vector<Jet> pieces = bottom_reader_.SubMultiplet(jet, 3);
             doublets = Join(doublets, Doublets(pieces, function));
         }
 
         MomentumRange boosted_range((SubJet(Id::W)), (SubJet(Id::top)));
-        if (pre_cuts.DoSubJets(Id::W) && boosted_range.InsideBounds(jet)) {
+        if (pre_cuts.DoSubJets(Id::W) && boosted_range.InsideRange(jet)) {
             std::vector<Jet> pieces = bottom_reader_.SubMultiplet(jet, 2);
             for (auto piece : pieces) {
                 Doublet doublet(piece);

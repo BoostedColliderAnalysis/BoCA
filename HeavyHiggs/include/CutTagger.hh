@@ -22,13 +22,13 @@ class CutTagger : public TaggerTemplate<CutVariables, HeavyHiggsCutBranch>
 
 public:
 
-    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
+    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const override;
 
-    std::vector<CutVariables> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
+    std::vector<CutVariables> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
 
-    std::string Name() const final;
+    std::string Name() const override;
 
-    TMVA::Types::EMVA Mva() const final;
+    TMVA::Types::EMVA Mva() const override;
 
 private:
 

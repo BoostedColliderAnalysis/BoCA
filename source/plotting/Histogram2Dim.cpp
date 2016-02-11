@@ -59,12 +59,12 @@ void Histogram2Dim::SetYAxis(std::string const& title)
     for (auto & histogram : histograms_) SetTitle(*histogram.GetYaxis(), title.c_str());
 }
 
-void Histogram2Dim::AddHistogram(std::string const& name, int bins, Rectangle<float> const& bounds, Plot const& plot, EColor color)
+void Histogram2Dim::AddHistogram(std::string const& name, int bins, Rectangle<float> const& range, Plot const& plot, EColor color)
 {
     INFO0;
-    int x_bin = plot.x_is_int ? std::floor(bounds.Width()) : bins;
-    int y_bin = plot.y_is_int ? std::floor(bounds.Height()) : bins;
-    TH2F histogram(name.c_str(), "", x_bin, bounds.XMin(), bounds.XMax(), y_bin, bounds.YMin(), bounds.YMax());
+    int x_bin = plot.x_is_int ? std::floor(range.Width()) : bins;
+    int y_bin = plot.y_is_int ? std::floor(range.Height()) : bins;
+    TH2F histogram(name.c_str(), "", x_bin, range.XMin(), range.XMax(), y_bin, range.YMin(), range.YMax());
     for (auto const & point : plot.Data()) histogram.Fill(point.X(), point.Y());
     histogram.SetContour(20);
     histogram.SetMarkerColor(color);

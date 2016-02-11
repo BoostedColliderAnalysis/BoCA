@@ -15,13 +15,13 @@ public:
 
   InfoRecombiner(fastjet::RecombinationScheme recombination_scheme = fastjet::E_scheme);
 
-  std::string description() const final;
+  std::string description() const override;
 
   /**
    * @brief recombine jet_1 and jet_2 and store result in jet
    *
    */
-  void recombine(fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2, fastjet::PseudoJet& jet) const final;
+  void recombine(fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2, fastjet::PseudoJet& jet) const override;
 
 };
 

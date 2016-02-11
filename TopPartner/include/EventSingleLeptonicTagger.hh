@@ -22,11 +22,11 @@ class EventSingleLeptonicTagger : public TaggerTemplate<MultipletEvent<Decuplet5
 
 public:
 
-    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
+    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const override;
 
-    std::vector<MultipletEvent<Decuplet532>> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
+    std::vector<MultipletEvent<Decuplet532>> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
 
-    std::string Name() const final;
+    std::string Name() const override;
 
 private:
 

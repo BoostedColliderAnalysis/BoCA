@@ -55,9 +55,7 @@ public:
 
     virtual TMVA::Types::EMVA Mva() const;
 
-    void Initialize();
-
-    static void SetAnalysisName(std::string const& analysis_name);
+    void Initialize(std::string const& analysis_name);
 
     std::vector<Observable> const& Variables() const;
 

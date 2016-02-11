@@ -115,7 +115,7 @@ void Result::Calculate()
     default : ERROR(mva_, "Default case");
     }
 
-    for (auto const & step : Range(Steps())) {
+    for (auto const & step : IntegerRange(Steps())) {
         efficiencies_.at(step) = float(event_sums_.at(step)) / InfoBranch().EventNumber();
         pure_efficiencies_.at(step) = float(event_sums_.at(step)) / event_sums_.front();
         crosssections_.at(step) = InfoBranch().Crosssection() * double(efficiencies_.at(step));

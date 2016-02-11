@@ -26,9 +26,9 @@ public:
 
     void SetLegend(Orientation orientation, std::string const& title = "");
 
-    void SetXAxis(std::string const& title, Bounds<float> const& bounds = Bounds<float>());
+    void SetXAxis(std::string const& title, Range<float> const& range = Range<float>());
 
-    void SetYAxis(std::string const& title, Bounds<float> const& bounds = Bounds<float>());
+    void SetYAxis(std::string const& title, Range<float> const& range = Range<float>());
 
     void AddLine(float x_value);
 
@@ -36,9 +36,9 @@ private:
 
     void Draw();
 
-    Bounds<double> BoundsY();
+    Range<double> RangeY();
 
-    Bounds<double> BoundsX();
+    Range<double> RangeX();
 
     void AddGraphs();
 
@@ -52,7 +52,7 @@ private:
 
     std::vector<std::pair<std::vector<float>, std::vector<float>>> datas_;
 
-    Rectangle<float> bounds_;
+    Rectangle<float> range_;
 
 };
 

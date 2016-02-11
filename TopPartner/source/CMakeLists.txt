@@ -3,6 +3,7 @@ create_dictionary(BranchTopPartner BranchesTopPartner.cpp ../include/LinkDefTopP
 set(AnalysisSources
 AnalysisTopPartner.cpp
 TopPartnerHadronicTagger.cpp
+TopPartnerHadronicChargedTagger.cpp
 TopPartnerLeptonicTagger.cpp
 HiggsPairTagger.cpp
 TopPartnerPairTagger.cpp

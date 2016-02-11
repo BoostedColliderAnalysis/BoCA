@@ -25,19 +25,19 @@ class AnalysisEffective : public AnalysisNaturalness<Tagger>
 
 protected:
 
-    std::string AnalysisName() const final {
-        return "Naturalness-Effective-" + boca::Name(this->PreCut()) + "-" + Name(DetectorGeometry::DetectorType()) + "-" + boca::Name(this->Mass()) + "-remove-again";
+    std::string AnalysisName() const override {
+        return "Naturalness-Effective-" + Name(DetectorGeometry::DetectorType()) + "-" + boca::Name(this->Mass()) + "-calgrind";
     }
 
-    void SetFiles(Tag tag, Stage) final {
+    void SetFiles(Tag tag, Stage)override {
         switch (tag) {
         case Tag::signal :
             this->NewFile(tag, Process::TThh);
             break;
         case Tag::background :
-            this->NewFile(tag, Process::TT);
-            this->NewFile(tag, Process::ttBB);
-            this->NewFile(tag, Process::ttBjj);
+//             this->NewFile(tag, Process::TT);
+//             this->NewFile(tag, Process::ttBB);
+//             this->NewFile(tag, Process::ttBjj);
             this->NewFile(tag, Process::ttWWWW);
             this->NewFile(tag, Process::ttWWWB);
             this->NewFile(tag, Process::ttWWBB);
@@ -49,7 +49,7 @@ protected:
 
 private:
 
-    int PassPreCut(Event const& , Tag) const final {
+    int PassPreCut(Event const& , Tag) const override {
         return 1;
     }
 

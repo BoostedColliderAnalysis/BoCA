@@ -32,13 +32,13 @@ public:
     /**
      * @brief Train the bottom tagger with pre cuts
      */
-    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
+    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const override;
 
     /**
      * @brief Return all jets of the event with bottom bdt value considering pre cuts
      *
      */
-    std::vector<Jet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
+    std::vector<Jet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
 
     /**
      * @brief Return all jets of the event with bottom bdt value considering pre cuts
@@ -58,9 +58,9 @@ public:
      */
     Jet Multiplet(Jet & jet, TMVA::Reader const& reader) const;
 
-    std::string Name() const final;
+    std::string Name() const override;
 
-    std::string LatexName() const final;
+    std::string LatexName() const override;
 
 private:
 

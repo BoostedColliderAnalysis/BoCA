@@ -61,6 +61,26 @@ Member const& Family::GreatGrandMother() const
 {
     return great_grand_mother_;
 }
+void Family::SetParticle(Member particle)
+{
+    particle_ = particle;
+}
+void Family::SetMother(Member mother)
+{
+    mother_ = mother;
+}
+void Family::SetStepMother(Member step_mother)
+{
+    step_mother_ = step_mother;
+}
+void Family::SetGrandMother(Member grand_mother)
+{
+    grand_mother_ = grand_mother;
+}
+void Family::SetGreatGrandMother(Member great_grand_mother)
+{
+    great_grand_mother_ = great_grand_mother;
+}
 
 }
 namespace std

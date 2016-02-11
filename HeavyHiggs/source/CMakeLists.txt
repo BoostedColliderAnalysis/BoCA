@@ -15,6 +15,7 @@ EventChargedTagger.cpp
 EventFusionTagger.cpp
 EventNeutralFourTopTagger.cpp
 CutTagger.cpp
+CutTaggerNeutral.cpp
 AnalysisPair.cpp
 AnalysisHeavyHiggs.cpp
 CutVariables.cpp
@@ -27,3 +28,4 @@ create_executable(HeavyHiggsCharged MainCharged.cpp)
 create_executable(HeavyHiggsFusion MainFusion.cpp)
 create_executable(HeavyHiggsNeutralFourTop MainNeutralFourTop.cpp)
 create_executable(HeavyHiggsCut MainCut.cpp)
+create_executable(HeavyHiggsCutNeutral MainCutNeutral.cpp)

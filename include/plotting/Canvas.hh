@@ -22,15 +22,15 @@ public:
     TCanvas& canvas();
 
     template<typename Value>
-    void SetLog(Bounds<Value> const& bounds) {
-        //       std::cout << bounds.Min() << " " <<  bounds.Max() <<std::endl;
-        if (bounds.Min() > Value(0) && bounds.Min() / bounds.Max() < 0.1) canvas_.SetLogy();
+    void SetLog(Range<Value> const& range) {
+        //       std::cout << range.Min() << " " <<  range.Max() <<std::endl;
+        if (range.Min() > Value(0) && range.Min() / range.Max() < 0.1) canvas_.SetLogy();
     }
 
     template<typename Value>
-    void SetLog(Rectangle<Value> const& bounds) {
-        if (bounds.XMin() > Value(0) && bounds.XMin() / bounds.XMax() < 0.01) canvas_.SetLogx();
-        if (bounds.YMin() > Value(0) && bounds.YMin() / bounds.YMax() < 0.01) canvas_.SetLogy();
+    void SetLog(Rectangle<Value> const& range) {
+        if (range.XMin() > Value(0) && range.XMin() / range.XMax() < 0.01) canvas_.SetLogx();
+        if (range.YMin() > Value(0) && range.YMin() / range.YMax() < 0.01) canvas_.SetLogy();
     }
 
     void SetLog();

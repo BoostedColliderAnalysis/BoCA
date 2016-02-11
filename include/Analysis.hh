@@ -31,7 +31,7 @@ public:
      * @brief Main analysis loop which has to be called by main.cpp
      *
      */
-    void AnalysisLoop(Stage stage) final {
+    void AnalysisLoop(Stage stage)override {
         for (auto const & tag : std::vector<Tag> {Tag::signal, Tag::background}) FirstLoop({stage, tag});
     }
 
@@ -63,7 +63,7 @@ private:
             std::vector<std::thread> threads;
 //         int cores = std::thread::hardware_concurrency(); // breaks in the tree reader, find  a cheap way to store the position of the data
             int cores = 1;
-            for (auto core : Range(cores)) {
+            for (auto core : IntegerRange(cores)) {
                 threads.emplace_back(std::thread([&, core, cores] {
                     branch_writer_mutex.lock();
                     Third<Tagger_> third(branch_writer, core, cores, TrainNumberMax());
@@ -97,17 +97,17 @@ private:
 
     int Switch(Event const& event, Third<Tagger_>& third) const {
         switch (third.Files().Phase().Stage()) {
-        case Stage::trainer : return third.Tagger().Train(event, pre_cuts(), third.Files().Phase().Tag());
-        case Stage::reader : return third.Reader().Bdt(event, pre_cuts());
+        case Stage::trainer : return third.Tagger().Train(event, PreCuts(), third.Files().Phase().Tag());
+        case Stage::reader : return third.Reader().Bdt(event, PreCuts());
         default : return 0;
         }
     }
 
-    Tagger_& Tagger() final {
+    Tagger_& Tagger()override {
         return tagger_;
     }
 
-    Tagger_ const& Tagger() const final {
+    Tagger_ const& Tagger() const override {
         return tagger_;
     }
 

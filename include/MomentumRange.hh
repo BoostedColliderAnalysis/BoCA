@@ -44,7 +44,7 @@ public:
 
     bool AboveLowerBound(Jet const& jet) const;
     template <typename Multiplet>
-    bool InsideBounds(Multiplet const& multiplet) const {
+    bool InsideRange(Multiplet const& multiplet) const {
         return AboveLowerBound(multiplet) && BelowUpperBound(multiplet);
     }
 

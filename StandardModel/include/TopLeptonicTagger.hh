@@ -27,15 +27,15 @@ public:
 
     int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const override;
 
-    std::vector<Triplet> Multiplets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
+    std::vector<Triplet> Multiplets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
 
     std::vector<Particle> Particles(boca::Event const& event) const;
 
-    std::string Name() const final;
+    std::string Name() const override;
 
-    std::string LatexName() const final;
+    std::string LatexName() const override;
 
-    boca::Filter Filter() const final;
+    boca::Filter Filter() const override;
 
 private:
 

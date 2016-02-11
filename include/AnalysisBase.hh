@@ -68,12 +68,6 @@ protected:
 
     virtual boca::Tagger const& Tagger() const = 0;
 
-    void ClearFiles();
-
-    std::vector<boca::File> Files(Tag tag);
-
-    void PrepareFiles(Stage stage);
-
     virtual std::string AnalysisName() const = 0;
 
     virtual long TrainNumberMax() const;
@@ -82,13 +76,15 @@ protected:
 
     virtual long EventNumberMax(Stage stage) const;
 
-    boca::Mass Mass() const;
+    virtual std::string FilePath() const;
 
-    Momentum PreCut() const;
+    void ClearFiles();
+
+    std::vector<boca::File> Files(Tag tag);
+
+    void PrepareFiles(Stage stage);
 
     int BackgroundFileNumber() const;
-
-    virtual std::string FilePath() const;
 
     void NewFile(boca::Tag tag, std::vector<std::string> const& names, std::string const& nice_name = "");
 
@@ -104,9 +100,9 @@ protected:
 
     std::string TreeName(std::string const& name) const;
 
-    PreCuts const& pre_cuts() const;
+    boca::PreCuts const& PreCuts() const;
 
-    PreCuts& pre_cuts();
+    boca::PreCuts& PreCuts();
 
     void PrintGeneratorLevel(Event const& event, bool signature = false) const;
 
@@ -128,7 +124,7 @@ private:
 
     void RunEfficiency();
 
-    PreCuts pre_cuts_;
+    boca::PreCuts pre_cuts_;
 
     std::vector<boca::File> files_;
 

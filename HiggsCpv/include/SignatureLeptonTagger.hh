@@ -21,11 +21,11 @@ class SignatureLeptonTagger : public TaggerTemplate<MultipletSignature< Quartet2
 
 public:
 
-    int Train(Event const& event, boca::PreCuts const&, Tag tag) const final;
+    int Train(Event const& event, boca::PreCuts const&, Tag tag) const override;
 
-    std::vector< MultipletSignature< Quartet211 > > Multiplets(boca::Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const final;
+    std::vector< MultipletSignature< Quartet211 > > Multiplets(boca::Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const override;
 
-    std::string Name() const final;
+    std::string Name() const override;
 
 private:
 

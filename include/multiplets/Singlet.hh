@@ -91,9 +91,9 @@ public:
     using boca::Jet::Rap;
     using boca::Jet::Phi;
 
-    void SetBdt(float bdt) final;
+    void SetBdt(float bdt) override;
 
-    float Bdt() const final;
+    float Bdt() const override;
 
     int Charge() const;
 
@@ -101,7 +101,7 @@ public:
 
     Vector2<AngleSquare> PullVector() const;
 
-    float BottomBdt() const final {
+    float BottomBdt() const override {
         return Bdt();
     }
 

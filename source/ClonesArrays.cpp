@@ -80,7 +80,8 @@ void ClonesArrays::UseBranches(exroot::TreeReader& tree_reader)
 TClonesArray& ClonesArrays::ClonesArray(Branch branch) const
 {
     DEBUG(BranchName(branch));
-    if (!clones_arrays_.at(branch)) ERROR("Not in branch", BranchName(branch));
+    if (!IsSet(branch)) ERROR("Not in branch", BranchName(branch));
+    NOTE("clones_arrays_.at(branch)");
     return *clones_arrays_.at(branch);
 }
 
@@ -95,6 +96,11 @@ int ClonesArrays::EntrySum(Branch branch) const
 {
     DEBUG(BranchName(branch), ClonesArray(branch).GetEntriesFast());
     return ClonesArray(branch).GetEntriesFast();
+}
+
+bool ClonesArrays::IsSet(Branch branch) const
+{
+    return clones_arrays_.find(branch) != clones_arrays_.end();
 }
 
 }

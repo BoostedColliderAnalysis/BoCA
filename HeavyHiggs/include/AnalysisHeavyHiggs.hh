@@ -28,7 +28,8 @@ enum class Process
     ttwbb,
     ttwcc,
     Htwb,
-    ttwwbb
+    ttwwbb,
+    hbb
 
 };
 
@@ -59,6 +60,7 @@ class AnalysisHeavyHiggs : public Analysis<Tagger>
 public:
 
     boca::Mass Mass() const {
+        return 400_GeV;
         return 750_GeV;
         return 800_GeV;
         return 1.5_TeV;
@@ -66,7 +68,6 @@ public:
         return 500_GeV;
         return 1_TeV;
         return 300_GeV;
-        return 400_GeV;
         return 600_GeV;
         return 700_GeV;
         return 900_GeV;
@@ -82,8 +83,8 @@ public:
     };
 
     long TrainNumberMax() const override {
-        return 100;
         return 10000;
+        return 100;
         return 100000;
         return 1000;
         return 500;
@@ -112,6 +113,7 @@ public:
         switch (Collider()) {
         case boca::heavyhiggs::Collider::LHC :
             switch (Int(Mass())) {
+            case 400 : return at_rest;
             case 500 : return at_rest;
             case 1000 : return 250_GeV;
             case 2000 : return 250_GeV;
@@ -121,6 +123,7 @@ public:
             }
         case boca::heavyhiggs::Collider::LE :
             switch (Int(Mass())) {
+            case 400 : return at_rest;
             case 500 : return at_rest;
             case 1000 : return 300_GeV;
             case 2000 : return 300_GeV;
@@ -204,7 +207,7 @@ public:
 
     virtual boca::Crosssection Crosssection(Process) const {
         std::cout << "No Crosssection" << std::endl;
-        return 0_fb;
+        return 1_fb;
     };
 
     virtual void NewFile(Tag tag, Process process) {
@@ -218,7 +221,7 @@ public:
     std::vector<std::string> FileNames(Process process, Tag tag) const {
         if (FileNumber(process) == 1) return {FileName(process, tag)};
         std::vector<std::string> names;
-        for (auto const & file_number : Range(FileNumber(process))) {
+        for (auto const & file_number : IntegerRange(FileNumber(process))) {
             if (file_number == 0) names.emplace_back(FileName(process, tag));
             else names.emplace_back(FileName(process, tag) + "_" + std::to_string(file_number));
         }
@@ -226,9 +229,11 @@ public:
     }
 
     virtual std::string FileName(Process process, Tag tag) const {
+      std::cout << "file name: " << Name(process) + Suffix(process) + "_" + Name(Collider()) << std::endl;
         switch (tag) {
-        case Tag::signal : return Name(process) + Suffix(process) + "_" + Name(Collider());
-        case Tag::background : return Name(process) + Suffix(process) + "_" + Name(Collider());
+          case Tag::signal : return "pp-" + Name(process) + Suffix(process) + "-" + Name(Collider()) + "-" + boca::Name(Mass());
+          case Tag::background : return "pp-" + Name(process) + Suffix(process) + "-" + Name(Collider()) + "-" + boca::Name(Mass());
+//         case Tag::background : return Name(process) + Suffix(process) + "_" + Name(Collider());
         default : std::cout << "Switch default for Tag " << to_int(tag) << std::endl;
             return "";
         }

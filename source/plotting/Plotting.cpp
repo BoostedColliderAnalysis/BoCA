@@ -91,9 +91,9 @@ Result Plotting::BdtDistribution(TFile& file, std::string const& tree_name, TFil
     exroot::TreeWriter tree_writer(&export_file, tree_name.c_str());
     exroot::TreeBranch& branch = *tree_writer.NewBranch(branch_name.c_str(), BdtBranch::Class());
     std::vector<float> bdts;
-    for (auto const & event_number : Range(tree_reader.GetEntries())) {
+    for (auto const & event_number : IntegerRange(tree_reader.GetEntries())) {
         tree_reader.ReadEntry(event_number);
-        for (auto const & entry : Range(clones_array.GetEntriesFast())) {
+        for (auto const & entry : IntegerRange(clones_array.GetEntriesFast())) {
             float bdt =  static_cast<BdtBranch&>(*clones_array.At(entry)).Bdt;
             static_cast<BdtBranch&>(*branch.NewEntry()).Bdt = bdt;
             bdts.emplace_back(bdt);
@@ -114,9 +114,9 @@ Result Plotting::CutDistribution(TFile& file, std::string const& tree_name, TFil
     exroot::TreeWriter tree_writer(&export_file, tree_name.c_str());
     exroot::TreeBranch& branch = *tree_writer.NewBranch(branch_name.c_str(), CutBranch::Class());
     std::vector<std::vector<bool>> passed_matrix;
-    for (auto const & event_number : Range(tree_reader.GetEntries())) {
+    for (auto const & event_number : IntegerRange(tree_reader.GetEntries())) {
         tree_reader.ReadEntry(event_number);
-        for (auto const & entry : Range(clones_array.GetEntriesFast())) {
+        for (auto const & entry : IntegerRange(clones_array.GetEntriesFast())) {
             std::vector<bool> passed_vector = dynamic_cast<CutBranch&>(*clones_array.At(entry)).passed_;
             static_cast<CutBranch&>(*branch.NewEntry()).passed_ = passed_vector;
             passed_matrix.emplace_back(passed_vector);
@@ -142,8 +142,8 @@ std::string Plotting::PlotHistograms(Results const& results) const
 {
     INFO0;
     Histograms histograms(Tagger().ExportFolderName(), "Bdt");
-    for (auto const & result : results.Signals()) histograms.AddHistogram(result.Bdts(), result.InfoBranch().LatexName(), results.Bounds());
-    for (auto const & result : results.Backgrounds()) histograms.AddHistogram(result.Bdts(), result.InfoBranch().LatexName(), results.Bounds());
+    for (auto const & result : results.Signals()) histograms.AddHistogram(result.Bdts(), result.InfoBranch().LatexName(), results.Range());
+    for (auto const & result : results.Backgrounds()) histograms.AddHistogram(result.Bdts(), result.InfoBranch().LatexName(), results.Range());
     histograms.SetLegend(Orientation::top);
     histograms.SetXAxis("BDT");
     histograms.SetYAxis("N");
@@ -161,11 +161,11 @@ std::string Plotting::PlotEfficiencyGraph(Results const& results) const
     graphs.SetLegend(Orientation::bottom | Orientation::left);
     switch (Tagger().Mva()) {
     case TMVA::Types::EMVA::kBDT :
-        graphs.SetXAxis("BDT", results.Bounds().Horizontal());
+        graphs.SetXAxis("BDT", results.Range().Horizontal());
         graphs.SetYAxis("Efficiency");
         break;
     case TMVA::Types::EMVA::kCuts :
-        graphs.SetXAxis("Calculated", results.Bounds().Horizontal());
+        graphs.SetXAxis("Calculated", results.Range().Horizontal());
         graphs.SetYAxis("Measured");
         break;
     default : ERROR(Tagger().Mva(), "case not handled");
@@ -196,10 +196,10 @@ std::string Plotting::PlotCrosssectionsGraph(Results const& results) const
     graphs.SetLegend(Orientation::bottom | Orientation::left);
     switch (Tagger().Mva()) {
     case TMVA::Types::EMVA::kBDT :
-        graphs.SetXAxis("BDT", results.Bounds().Horizontal());
+        graphs.SetXAxis("BDT", results.Range().Horizontal());
         break;
     case TMVA::Types::EMVA::kCuts :
-        graphs.SetXAxis("MVA", results.Bounds().Horizontal());
+        graphs.SetXAxis("MVA", results.Range().Horizontal());
         break;
     default : ERROR(Tagger().Mva(), "case not handled");
     }
@@ -216,10 +216,10 @@ std::string Plotting::PlotModelDependentGraph(Results const& results) const
     graphs.AddGraph(results.XValues(), results.Significances());
     switch (Tagger().Mva()) {
     case TMVA::Types::EMVA::kBDT :
-        graphs.SetXAxis("BDT", results.Bounds().Horizontal());
+        graphs.SetXAxis("BDT", results.Range().Horizontal());
         break;
     case TMVA::Types::EMVA::kCuts :
-        graphs.SetXAxis("MVA", results.Bounds().Horizontal());
+        graphs.SetXAxis("MVA", results.Range().Horizontal());
         break;
     default : ERROR(Tagger().Mva(), "case not handled");
     }
@@ -235,10 +235,10 @@ std::string Plotting::PlotCrosssectionGraph(Results const& results) const
     graphs.AddGraph(results.XValues(), results.Acceptances());
     switch (Tagger().Mva()) {
     case TMVA::Types::EMVA::kBDT :
-        graphs.SetXAxis("BDT", results.Bounds().Horizontal());
+        graphs.SetXAxis("BDT", results.Range().Horizontal());
         break;
     case TMVA::Types::EMVA::kCuts :
-        graphs.SetXAxis("MVA", results.Bounds().Horizontal());
+        graphs.SetXAxis("MVA", results.Range().Horizontal());
         break;
     default : ERROR(Tagger().Mva(), "case not handled");
     }
@@ -254,10 +254,10 @@ std::string Plotting::PlotModelIndependentGraph(Results const& results) const
     graphs.AddGraph(results.XValues(), FloatVector(results.ModelIndependentCrosssection()));
     switch (Tagger().Mva()) {
     case TMVA::Types::EMVA::kBDT :
-        graphs.SetXAxis("BDT", results.Bounds().Horizontal());
+        graphs.SetXAxis("BDT", results.Range().Horizontal());
         break;
     case TMVA::Types::EMVA::kCuts :
-        graphs.SetXAxis("MVA", results.Bounds().Horizontal());
+        graphs.SetXAxis("MVA", results.Range().Horizontal());
         break;
     default : ERROR(Tagger().Mva(), "case not handled");
     }
@@ -360,34 +360,34 @@ void Plotting::PlotDetails(Plot& signal, Plot& background, Stage stage) const
     std::vector<Vector3<float>> background_y = background.CoreData([](Vector3<float> const & a, Vector3<float> const & b) {
         return a.Y() < b.Y();
     });
-    Rectangle<float> bounds;
-    bounds.SetXMin(std::min(signal_x.front().X(), background_x.front().X()));
-    bounds.SetXMax(std::max(signal_x.back().X(), background_x.back().X()));
-    bounds.SetYMin(std::min(signal_y.front().Y(), background_y.front().Y()));
-    bounds.SetYMax(std::max(signal_y.back().Y(), background_y.back().Y()));
+    Rectangle<float> range;
+    range.SetXMin(std::min(signal_x.front().X(), background_x.front().X()));
+    range.SetXMax(std::max(signal_x.back().X(), background_x.back().X()));
+    range.SetYMin(std::min(signal_y.front().Y(), background_y.front().Y()));
+    range.SetYMax(std::max(signal_y.back().Y(), background_y.back().Y()));
     switch (stage) {
-    case Stage::trainer : return PlotHistogram(signal, background, bounds);
-    case Stage::reader : return PlotProfile(signal, background, bounds);
+    case Stage::trainer : return PlotHistogram(signal, background, range);
+    case Stage::reader : return PlotProfile(signal, background, range);
     }
 }
 
-void Plotting::PlotHistogram(Plot const& signal, Plot const& background, Rectangle<float> const& bounds) const
+void Plotting::PlotHistogram(Plot const& signal, Plot const& background, Rectangle<float> const& range) const
 {
     INFO(signal.Data().size(), background.Data().size());
     Histogram2Dim histogram(Tagger().ExportFolderName(), signal.XAxis().Name() + "-" + signal.YAxis().Name());
     int bin_number = 20;
-    histogram.AddHistogram("Background", bin_number, bounds, background, kBlue);
-    histogram.AddHistogram("Signal", bin_number, bounds, signal, kRed);
+    histogram.AddHistogram("Background", bin_number, range, background, kBlue);
+    histogram.AddHistogram("Signal", bin_number, range, signal, kRed);
     histogram.SetLegend(Orientation::top | Orientation::outside);
     histogram.SetXAxis(signal.XAxis().LatexName());
     histogram.SetYAxis(signal.YAxis().LatexName());
 }
 
-void Plotting::PlotProfile(Plot const& signal, Plot const& background, Rectangle<float> const& bounds) const
+void Plotting::PlotProfile(Plot const& signal, Plot const& background, Rectangle<float> const& range) const
 {
     INFO0;
     Profile profile(Tagger().ExportFolderName(), signal.Title().Name(), signal.XAxis().Name() + "-" + signal.YAxis().Name());
-    profile.SetDimensions(Tagger().LatexName(), 30, bounds);
+    profile.SetDimensions(Tagger().LatexName(), 30, range);
     profile.SetProfile(signal, background);
     profile.SetXAxis(signal.XAxis().LatexName());
     profile.SetYAxis(signal.YAxis().LatexName());
@@ -445,11 +445,11 @@ Plot Plotting::ReadTree(TTree& tree, std::string const& leaf_1_name, std::string
     SetBranch(tree, bdt_values, branch_name + ".Bdt");
 
     Plot plot;
-    for (auto const & entry : Range(tree.GetEntries())) {
+    for (auto const & entry : IntegerRange(tree.GetEntries())) {
         DETAIL(tree.GetEntries(), entry);
         tree.GetEntry(entry);
         DETAIL(branch_size, leaf_values_1.size(), leaf_values_2.size());
-        for (auto const & element : Range(branch_size)) plot.Add(Vector3<float>(leaf_values_1.at(element), leaf_values_2.at(element), bdt_values.at(element)));
+        for (auto const & element : IntegerRange(branch_size)) plot.Add(Vector3<float>(leaf_values_1.at(element), leaf_values_2.at(element), bdt_values.at(element)));
     }
     return plot;
 }

@@ -137,7 +137,7 @@ public:
         return Multiplet::Dipolarity(Multiplet1(), Multiplet2(), singlet());
     }
 
-    float BottomBdt() const final {
+    float BottomBdt() const override {
         return Multiplet::BottomBdt(Multiplet1(), Multiplet2());
     };
 

@@ -24,7 +24,7 @@ public:
 
     boca::Singlet const& singlet() const override;
 
-    boca::Jet Jet() const final;
+    boca::Jet Jet() const override;
 
 protected:
 

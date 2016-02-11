@@ -59,7 +59,7 @@ public:
 
 protected:
 
-    boca::Mass Mass() const {
+    auto Mass() const {
         INFO0;
         return 2_TeV;
         return 1_TeV;
@@ -83,19 +83,19 @@ protected:
 
 protected:
 
-    Momentum PreCut() const {
+    auto PreCut() const {
         INFO0;
         return 0_GeV;
         return 200_GeV;
     }
 
-    Momentum JetPreCut() const {
+    auto JetPreCut() const {
         INFO0;
         return 0_GeV;
         return 100_GeV;
     }
 
-    boca::Crosssection Crosssection(Process process) const {
+    auto Crosssection(Process process) const {
         INFO0;
         switch (DetectorGeometry::DetectorType()) {
         case DetectorType::CMS : {
@@ -169,6 +169,11 @@ protected:
                     DEFAULT(Mass(), pb);
                 }
             case Process::ttBB : return 0.03206 * 2_pb;
+            case Process::ttWWWW : return 1_pb;
+            case Process::ttWWWB : return 1_pb;
+            case Process::ttWWBB : return 1_pb;
+            case Process::ttWBBB : return 1_pb;
+            case Process::ttBBBB : return 1_pb;
                 DEFAULT(Name(process), pb);
             }
         }
@@ -176,12 +181,10 @@ protected:
         }
     }
 
-    std::string FileName(Process process) const {
+    auto FileName(Process process) const {
         INFO0;
-        std::string protons;
-        if(MassDependent(process)) protons = "pp";
-        else protons = "PP";
-        std::string name = protons + "-" + Name(process) + "-" + boca::Name(DetectorGeometry::DetectorType());
+        std::string name = MassDependent(process) ? "pp" : "PP";
+        name += "-" + Name(process) + "-" + boca::Name(DetectorGeometry::DetectorType());
         if (MassDependent(process)) name += "-" + boca::Name(Mass());
         return name;
     }

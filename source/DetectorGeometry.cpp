@@ -27,7 +27,7 @@ std::string Name(DetectorType detector_type)
     switch (detector_type) {
     case DetectorType::CMS : return "LHC";
     case DetectorType::Spp : return "100TeV";
-        DEFAULT("Detector Type", "");
+        DEFAULT(Name(detector_type), "");
     }
 }
 
@@ -51,7 +51,7 @@ Momentum DetectorGeometry::JetMinPt()
     switch (DetectorType()) {
     case boca::DetectorType::CMS : return 20_GeV;
     case boca::DetectorType::Spp : return 40_GeV;
-        DEFAULT("Detector Type", 20_GeV);
+        DEFAULT(Name(DetectorType()), 20_GeV);
     }
 }
 
@@ -60,7 +60,7 @@ Angle DetectorGeometry::JetConeSize()
     switch (DetectorType()) {
     case boca::DetectorType::CMS : return 0.4_rad;
     case boca::DetectorType::Spp : return 0.5_rad;
-        DEFAULT("Detector Type", 0.5_rad);
+        DEFAULT(Name(DetectorType()), 0.5_rad);
     }
 }
 
@@ -79,7 +79,7 @@ Angle DetectorGeometry::TrackerEtaMax()
     switch (DetectorType()) {
     case boca::DetectorType::CMS : return 2.5_rad;
     case boca::DetectorType::Spp : return 3.5_rad;
-        DEFAULT("Detector Type", 2.5_rad);
+        DEFAULT(Name(DetectorType()), 2.5_rad);
     }
 }
 
@@ -119,7 +119,7 @@ Momentum DetectorGeometry::LeptonMinPt()
     switch (DetectorType()) {
     case boca::DetectorType::CMS : return 10_GeV;
     case boca::DetectorType::Spp : return 20_GeV;
-        DEFAULT("Detector Type", 10_GeV);
+        DEFAULT(Name(DetectorType()), 10_GeV);
     }
 }
 
@@ -130,7 +130,7 @@ Luminosity DetectorGeometry::Luminosity()
         return 3000. / fb;
         return 300. / fb;
     case boca::DetectorType::Spp : return 3000. / fb;
-        DEFAULT("Detector Type", 300.  / fb);
+        DEFAULT(Name(DetectorType()), 300.  / fb);
     }
 }
 
@@ -140,7 +140,7 @@ boca::JetType DetectorGeometry::JetType()
     case boca::DetectorType::CMS : return boca::JetType::jet;
     case boca::DetectorType::Spp : return boca::JetType::jet;
         //         return JetType::e_flow_jet;
-        DEFAULT("Detector Type", boca::JetType::jet);
+        DEFAULT(Name(DetectorType()), boca::JetType::jet);
     }
 }
 
@@ -154,7 +154,7 @@ Momentum DetectorGeometry::HardLeptonMomentum()
     switch (DetectorType()) {
     case boca::DetectorType::CMS : return 50_GeV;
     case boca::DetectorType::Spp : return 100_GeV;
-        DEFAULT("Detector Type", 50_GeV);
+        DEFAULT(Name(DetectorType()), 50_GeV);
     }
 }
 
@@ -166,6 +166,15 @@ float DetectorGeometry::IsolationFraction()
 Momentum DetectorGeometry::ForwardJetPt()
 {
     return 40_GeV;
+}
+std::__cxx11::string Name(JetType jet_type)
+{
+    switch (jet_type) {
+    case JetType::jet : return "Jet";
+    case JetType::gen_jet : return "GenJet";
+    case JetType::e_flow_jet : return "EFlowJet";
+        DEFAULT("Jet Type", "");
+    }
 }
 
 }

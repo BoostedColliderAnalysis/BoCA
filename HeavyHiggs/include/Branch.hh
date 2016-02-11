@@ -551,6 +551,45 @@ private:
 
 };
 
+class HeavyHiggsCutNeutralBranch : public CutBranch
+{
+
+public:
+
+  HeavyHiggsCutNeutralBranch();
+//   float Ht;
+//   float EtMiss;
+//   float NumberJet;
+//   float NumberBottom;
+//   float InvariantMass;
+//   float DeltaR;
+  float LeptonPt1;
+  float LeptonPt2;
+//   float BottomMinPt;
+//   float BottomMaxRap;
+
+  template<typename Multiplet>
+  void Fill(Multiplet const& multiplet) {
+    CutBranch::Fill(multiplet);
+//     Ht = multiplet.Ht() / GeV;
+//     EtMiss = multiplet.EtMiss() / GeV;
+//     NumberJet = multiplet.JetNumber();
+//     NumberBottom = multiplet.BottomNumber();
+//     InvariantMass = multiplet.InvariantMass() / GeV;
+//     DeltaR = multiplet.DeltaR() / rad;
+    LeptonPt1 = multiplet.LeadingPt() / GeV;
+    LeptonPt2 = multiplet.SecondLeadingPt() / GeV;
+//     BottomMinPt = multiplet.BottomMinPt() / GeV;
+//     BottomMaxRap = multiplet.BottomMaxRap() / rad;
+  }
+  virtual Observables Variables();
+
+private:
+
+  ClassDef(HeavyHiggsCutNeutralBranch, 1)
+
+};
+
 }
 
 }

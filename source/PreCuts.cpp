@@ -16,26 +16,6 @@ void PreCuts::SetSemiLeptonic(bool semi_leptonic)
 {
     semi_leptonic_ = semi_leptonic;
 }
-bool PreCuts::PtTooSmall(Id id, const Jet& jet) const
-{
-    return pt_lower_cut_.IsSet(id) && pt_lower_cut_.Get(id) > jet.Pt();
-}
-bool PreCuts::PtTooLarge(Id id, const Jet& jet) const
-{
-    return pt_upper_cut_.IsSet(id) && pt_upper_cut_.Get(id) < jet.Pt();
-}
-bool PreCuts::MassTooSmall(Id id, const Jet& jet) const
-{
-    return mass_lower_cut_.IsSet(id) && mass_lower_cut_.Get(id) > jet.Mass();
-}
-bool PreCuts::MassTooLarge(Id id, const Jet& jet) const
-{
-    return mass_upper_cut_.IsSet(id) && mass_upper_cut_.Get(id) < jet.Mass();
-}
-bool PreCuts::OutsideTracker(Id id, const Jet& jet) const
-{
-    return tracker_eta_upper_cut_.IsSet(id) && tracker_eta_upper_cut_.Get(id) < boost::units::abs(jet.Rap());
-}
 bool PreCuts::DoSubJets(Id id) const
 {
     return (consider_building_block_.IsSet(id)) ? consider_building_block_.Get(id) : true;

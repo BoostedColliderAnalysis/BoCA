@@ -47,7 +47,7 @@ class Analysis : public boca::Analysis<Tagger>
 
 public:
 
-    void SetFiles(Tag tag, Stage) final {
+    void SetFiles(Tag tag, Stage)override {
         switch (tag) {
         case Tag::signal :
             this->NewFile(tag, Process::bb, Production::VBF);

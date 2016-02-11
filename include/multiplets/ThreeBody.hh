@@ -252,7 +252,7 @@ public:
         return Multiplet::Dipolarity(Multiplet1(), Multiplet3(), Jet13());
     }
 
-    float BottomBdt() const final {
+    float BottomBdt() const override {
         return (Multiplet1().BottomBdt() + Multiplet2().BottomBdt() + Multiplet3().BottomBdt()) / 3;
     };
 

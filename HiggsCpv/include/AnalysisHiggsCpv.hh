@@ -30,12 +30,12 @@ public:
 
     Analysis() {
         DetectorGeometry::SetDetectorType(DetectorType::CMS);
-//         this->pre_cuts().PtLowerCut().Set(Id::higgs,200);
-        //         this->pre_cuts().MassLowerCut().Set(Id::higgs,105);
-//         this->pre_cuts().MassUpperCut().Set(Id::higgs,145);
-        this->pre_cuts().MassLowerCut().Set(Id::higgs, 50_GeV);
-        this->pre_cuts().MassUpperCut().Set(Id::higgs, 150_GeV);
-        this->pre_cuts().SetSemiLeptonic(false);
+//         this->PreCuts().PtLowerCut().Set(Id::higgs,200);
+        //         this->PreCuts().MassLowerCut().Set(Id::higgs,105);
+//         this->PreCuts().MassUpperCut().Set(Id::higgs,145);
+        this->PreCuts().MassLowerCut().Set(Id::higgs, 50_GeV);
+        this->PreCuts().MassUpperCut().Set(Id::higgs, 150_GeV);
+        this->PreCuts().SetSemiLeptonic(false);
 //         NoHiggs(-1);
 //         SingleHiggs(-1);
     }
@@ -44,11 +44,11 @@ protected:
 
 private:
 
-    std::string AnalysisName() const final {
+    std::string AnalysisName() const override {
         return  "CPV-after-tahoe";
     }
 
-    void SetFiles(Tag tag, Stage) final {
+    void SetFiles(Tag tag, Stage)override {
         switch (tag) {
         case Tag::signal :
 	    //             this->NewFile(tag, "gg-tth", 0.0098);
@@ -68,7 +68,7 @@ private:
      * @brief Maximal number of Entries to analyse
      *
      */
-    long TrainNumberMax() const final {
+    long TrainNumberMax() const override {
         return 1000;
         return 5000;
         return 10000;
@@ -76,7 +76,7 @@ private:
         return 10;
     }
 
-    int PassPreCut(Event const& event, Tag) const final {
+    int PassPreCut(Event const& event, Tag) const override {
       //         if(this->template TaggerIs<WLeptonicTagger>()) return 0;
       //         if(this->template TaggerIs<TopLeptonicTagger>()) static_cast<TopLeptonicTagger&>(this->Tagger()).semi_leptonic = false;
        std::vector<Lepton> leptons = SortedByPt(event.Leptons().leptons());
@@ -105,7 +105,7 @@ private:
     }
 
 
-//     std::string FilePath() const final {
+//     std::string FilePath() const override {
 //         return this->WorkingPath();
 //         return "~/Projects/HiggsCpv/Analysis/";
 //         return "/Users/jingren/HEP/Research/JanH/tth-analysis/";

@@ -219,6 +219,25 @@ Observables HeavyHiggsCutBranch::Variables()
     return OBSERVABLE(Ht) + OBSERVABLE(EtMiss)/* + OBSERVABLE(NumberJet) + OBSERVABLE(NumberBottom)*/ + OBSERVABLE(LeptonPt1) + OBSERVABLE(LeptonPt2);
 }
 
+HeavyHiggsCutNeutralBranch::HeavyHiggsCutNeutralBranch()
+{
+//   Ht = InitialValue();
+//   EtMiss = InitialValue();
+//   NumberJet = int(InitialValue());
+//   NumberBottom = int(InitialValue());
+//   InvariantMass = InitialValue();
+//   DeltaR = InitialValue();
+    LeptonPt1 = InitialValue();
+    LeptonPt2 = InitialValue();
+//   BottomMinPt = InitialValue();
+//   BottomMaxRap = InitialValue();
+}
+
+Observables HeavyHiggsCutNeutralBranch::Variables()
+{
+    return OBSERVABLE(LeptonPt1) + OBSERVABLE(LeptonPt2);
+}
+
 }
 
 }

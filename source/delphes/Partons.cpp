@@ -14,6 +14,36 @@ namespace boca
 namespace delphes
 {
 
+// namespace
+// {
+//
+// Member Partons::Mother(::delphes::GenParticle& particle)
+// {
+//     if (particle.M1 == Member::EmptyPosition()) return {};
+//     ::delphes::GenParticle mother = TreeReader().Objects<::delphes::GenParticle>(Branch::particle).At(particle.M1);
+//     return {mother.PID, particle.M1};
+// }
+//
+// Family GrandMother(TTreeReaderArray<::delphes::GenParticle>& gen_particles, int mother_pos)
+// {
+//     if (mother_pos == Member::EmptyPosition()) return {};
+//     auto gen_mother = gen_particles.At(mother_pos);
+//     ::delphes::GenParticle gen_grand_mother = gen_particles.At(gen_mother.M1);
+//     Family family =  GreatGrandMother(gen_particles, gen_grand_mother.M1);
+//     family.SetGrandMother(Member(gen_grand_mother.PID, gen_mother.M1));
+//     return family;
+// }
+//
+// Family GreatGrandMother(TTreeReaderArray<::delphes::GenParticle>& gen_particles, int gen_grand_mother_pos)
+// {
+//     if (gen_grand_mother_pos == Member::EmptyPosition()) return {};
+//     Family family;
+//     family.SetGreatGrandMother(Member(gen_particles.At(gen_grand_mother_pos).PID, gen_grand_mother_pos))    ;
+//     return family;
+// }
+//
+// }
+
 Partons::Partons(boca::TreeReader const& tree_reader) :
     boca::Partons(tree_reader) {}
 
@@ -32,7 +62,7 @@ std::vector<Particle> Partons::Particles(Status min_status) const
     INFO0;
     std::vector<Particle> particles;
     int position = 0;
-    auto & gen_particles = TreeReader().Objects<::delphes::GenParticle>(Branch::particle);
+    auto& gen_particles = TreeReader().Objects<::delphes::GenParticle>(Branch::particle);
     for (auto const & gen_particle : gen_particles) {
         if (gen_particle.Status < to_int(min_status)) break;
         DETAIL(gen_particle.PID);
@@ -43,17 +73,17 @@ std::vector<Particle> Partons::Particles(Status min_status) const
             auto gen_mother = gen_particles.At(gen_particle.M1);
             mother.Set(gen_mother.PID, gen_particle.M1);
             if (gen_mother.M1 != Member::EmptyPosition()) {
-                auto & gen_grand_mother = gen_particles.At(gen_mother.M1);
+                auto& gen_grand_mother = gen_particles.At(gen_mother.M1);
                 grand_mother.Set(gen_grand_mother.PID, gen_mother.M1);
                 if (gen_grand_mother.M1 != Member::EmptyPosition()) {
-                    auto & gen_great_grand_mother = gen_particles.At(gen_grand_mother.M1);
+                    auto& gen_great_grand_mother = gen_particles.At(gen_grand_mother.M1);
                     great_grand_mother.Set(gen_great_grand_mother.PID, gen_grand_mother.M1);
                 }
             }
         }
         Member mother_2;
         if (gen_particle.M2 != Member::EmptyPosition()) {
-            auto & gen_mother2 = gen_particles.At(gen_particle.M2);
+            auto& gen_mother2 = gen_particles.At(gen_particle.M2);
             mother_2.Set(gen_mother2.PID, gen_particle.M2);
         }
         Member particle(gen_particle.PID, position);
@@ -63,31 +93,6 @@ std::vector<Particle> Partons::Particles(Status min_status) const
     }
     return particles;
 }
-
-// Member GrandMother(TTreeReaderArray<::delphes::GenParticle>& gen_particles, ::delphes::GenParticle gen_mother){
-//   if (gen_mother.M1 != Member::EmptyPosition()) {
-//     ::delphes::GenParticle gen_grand_mother = gen_particles.At(gen_mother.M1);
-//     grand_mother.Set(gen_grand_mother.PID, gen_mother.M1);
-//     GreatGrandMother(gen_particles, gen_grand_mother);
-//   }
-//
-// }
-//
-// Member GreatGrandMother(TTreeReaderArray<::delphes::GenParticle>& gen_particles, ::delphes::GenParticle gen_grand_mother)
-// {
-//     Member great_grand_mother;
-//     if (gen_grand_mother.M1 != Member::EmptyPosition()) {
-//         ::delphes::GenParticle& gen_great_grand_mother = gen_particles.At(gen_grand_mother.M1);
-//         great_grand_mother.Set(gen_great_grand_mother.PID, gen_grand_mother.M1);
-//     }
-//     return great_grand_mother;
-// }
-
-// Member Partons::Mother(::delphes::GenParticle& particle){
-//   if (particle.M1 == Member::EmptyPosition()) return {};
-//   ::delphes::GenParticle mother = TreeReader().Objects<::delphes::GenParticle>(Branch::particle).At(particle.M1);
-//   return {mother.PID, particle.M1};
-// }
 
 }
 

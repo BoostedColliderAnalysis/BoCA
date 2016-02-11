@@ -22,22 +22,22 @@ class AnalysisBoson : public AnalysisStandardModel<Tagger>
 public:
 
     AnalysisBoson() {
-        this->pre_cuts().PtLowerCut().Set(Id::neutral_boson, this->LowerPtCut());
-        this->pre_cuts().PtUpperCut().Set(Id::neutral_boson, this->UpperPtCut());
-//         this->pre_cuts().PtLowerCut().Set(Id::bottom, this->LowerPtCut() / 5.);
-//         this->pre_cuts().PtUpperCut().Set(Id::bottom, this->UpperPtCut() / 5.);
-//         this->pre_cuts().MassUpperCut().Set(Id::neutral_boson, 250_GeV);
-        this->pre_cuts().TrackerMaxEta().Set(Id::neutral_boson, DetectorGeometry::TrackerEtaMax());
-        this->pre_cuts().TrackerMaxEta().Set(Id::bottom, DetectorGeometry::TrackerEtaMax());
+        this->PreCuts().PtLowerCut().Set(Id::neutral_boson, this->LowerPtCut());
+        this->PreCuts().PtUpperCut().Set(Id::neutral_boson, this->UpperPtCut());
+//         this->PreCuts().PtLowerCut().Set(Id::bottom, this->LowerPtCut() / 5.);
+//         this->PreCuts().PtUpperCut().Set(Id::bottom, this->UpperPtCut() / 5.);
+//         this->PreCuts().MassUpperCut().Set(Id::neutral_boson, 250_GeV);
+        this->PreCuts().TrackerMaxEta().Set(Id::neutral_boson, DetectorGeometry::TrackerEtaMax());
+        this->PreCuts().TrackerMaxEta().Set(Id::bottom, DetectorGeometry::TrackerEtaMax());
     }
 
 private:
 
-    std::string AnalysisName() const final {
+    std::string AnalysisName() const override {
         return  Name(this->Collider()) + "-" + boca::Name(this->LowerPtCut()) + "-large";
     }
 
-    void SetFiles(Tag tag, Stage stage) final {
+    void SetFiles(Tag tag, Stage stage)override {
         switch (tag) {
         case Tag::signal :
             this->NewFile(tag, Process::hh_bb);
@@ -60,7 +60,7 @@ private:
 
     }
 
-    int PassPreCut(Event const& , Tag) const final {
+    int PassPreCut(Event const& , Tag) const override {
           return 1;
 //        std::vector<Jet> jets = SortedByPt(event.Hadrons().Jets());
 //         if (jets.empty()) return 0;

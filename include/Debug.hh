@@ -14,8 +14,9 @@
 #ifndef NDEBUG
 #define NOTIFICATION
 #endif
-// #define DEBUGGING
+#define DEBUGGING
 // #define INFORMATION
+// #define NOTIFICATION
 
 namespace boca
 {

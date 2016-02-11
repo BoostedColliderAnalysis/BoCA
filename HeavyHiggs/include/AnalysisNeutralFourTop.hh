@@ -22,11 +22,11 @@ public:
         DetectorGeometry::SetDetectorType(DetectorType::CMS);
     }
 
-    std::string AnalysisName() const final {
+    std::string AnalysisName() const override {
         return  "NeutralFourTop-" + Name(this->Collider()) + "-" + boca::Name(this->Mass()) + "-new-bg";
     }
 
-    void SetFiles(Tag tag, Stage) final {
+    void SetFiles(Tag tag, Stage)override {
         switch (tag) {
         case Tag::signal :
             this->NewFile(tag, Process::Htt);
@@ -55,7 +55,7 @@ public:
                 case 1000 : return 0.10028_fb;
                 case 1500 : return 0.0168305_fb;
                 case 2000 : return 0.00345315_fb;
-                    DEFAULT("Mass", fb)
+                    DEFAULT(Int(this->Mass()), fb)
                 }
             case Process::Htwb:
                 switch (Int(this->Mass())) {
@@ -66,14 +66,14 @@ public:
                 case 1000 : return 0.0758434_fb;
                 case 1500 : return 0.0159789_fb;
                 case 2000 : return 0.00384621_fb;
-                    DEFAULT("Mass", fb)
+                    DEFAULT(Int(this->Mass()), fb)
                 }
 //             case Process::ttwwbb : return 2.126_fb;
 //             case Process::ttwbb : return 0.13588_fb;
             case Process::tttt : return 0.4849_fb;
             case Process::tttwb : return 0.06012_fb;
             case Process::ttwbb :return  0.03284_fb;
-                DEFAULT("Process", fb)
+                DEFAULT(Name(process), fb)
             };
         case Collider::FHC:
         case Collider::LE:
@@ -93,7 +93,7 @@ public:
                 case 7000 : return 0.026579_fb;
                 case 8000 : return 0.0132781_fb;
                 case 10000 : return 0.00380676_fb;
-                    DEFAULT("Mass", fb)
+                    DEFAULT(Int(this->Mass()), fb)
                 }
             case Process::Htwb:
                 switch (Int(this->Mass())) {
@@ -110,13 +110,13 @@ public:
                 case 7000 : return 0.256938_fb;
                 case 8000 : return 0.148312_fb;
                 case 10000 : return 0.0539546_fb;
-                    DEFAULT("Mass", fb)
+                    DEFAULT(Int(this->Mass()), fb)
                 }
             case Process::ttwwbb : return 396_fb;
             case Process::ttwbb : return 1.3204_fb;
-                DEFAULT("Process", fb)
+                DEFAULT(Name(process), fb)
             }
-            DEFAULT("Collider", fb)
+            DEFAULT(Name(this->Collider()), fb)
         }
     }
 

@@ -27,7 +27,7 @@ public:
 
     boca::Crosssection Crosssection() const;
 
-    boca::Crosssection CrosssectionERROR() const;
+    boca::Crosssection CrosssectionError() const;
 
     boca::Mass Mass() const;
 

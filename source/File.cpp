@@ -31,7 +31,7 @@ std::string File::FileSuffix() const
     case boca::Source::delphes : return "_delphes_events.root";
     case boca::Source::parton : return "_unweighted_events.root";
     case boca::Source::pgs : return "_pgs_events.root";
-    DEFAULT("Source", "");
+    DEFAULT(boca::Name(Source()), "");
     }
 }
 
@@ -42,7 +42,7 @@ std::string File::TreeName() const
     case boca::Source::delphes : return "Delphes";
     case boca::Source::parton : return "LHEF";
     case boca::Source::pgs : return "LHCO";
-    DEFAULT("source", "");
+    DEFAULT(boca::Name(Source()), "");
     }
 }
 
@@ -79,7 +79,7 @@ boca::Crosssection File::Crosssection() const
     return crosssection_;
 }
 
-boca::Crosssection File::CrosssectionERROR() const
+boca::Crosssection File::CrosssectionError() const
 {
     INFO0;
     return crosssection_error_;

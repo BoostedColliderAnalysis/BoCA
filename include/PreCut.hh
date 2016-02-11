@@ -19,6 +19,14 @@ public:
         pre_cut_.emplace(id, value);
     }
 
+    bool TooLarge(Id id, Value value) const {
+      return IsSet(id) && Get(id) < value;
+    }
+
+    bool TooSmall(Id id, Value value) const {
+      return IsSet(id) && Get(id) > value;
+    }
+
     bool IsSet(Id id) const {
         return pre_cut_.find(id) != pre_cut_.end();
     }

@@ -23,9 +23,10 @@ std::mutex Tagger::mutex_;
 
 std::string Tagger::analysis_name_;
 
-void Tagger::Initialize()
+void Tagger::Initialize(std::string const& analysis_name)
 {
-    INFO0;
+    INFO(analysis_name);
+    if(!analysis_name.empty()) analysis_name_ = analysis_name;
     ClearTreeNames();
     DefineVariables();
     INFO("done");
@@ -135,7 +136,7 @@ std::string Tagger::Name(Stage stage) const
     switch (stage) {
     case Stage::trainer : return Name();
     case Stage::reader : return ReaderName();
-        DEFAULT("Stage", "");
+        DEFAULT(boca::Name(stage), "");
     }
 }
 std::string Tagger::Name(Stage stage, Tag tag) const
@@ -145,7 +146,7 @@ std::string Tagger::Name(Stage stage, Tag tag) const
     switch (tag) {
     case Tag::signal : return name;
     case Tag::background : return BackgroundName(name);
-        DEFAULT("Tag", "");
+        DEFAULT(boca::Name(tag), "");
     }
 }
 
@@ -155,7 +156,7 @@ std::string Tagger::FileName(Stage stage, Tag tag) const
     switch (tag) {
     case Tag::signal : return SignalFileName(stage);
     case Tag::background : return BackgroundFileName(stage);
-        DEFAULT("Tag", "");
+        DEFAULT(boca::Name(tag), "");
     }
 }
 
@@ -167,7 +168,7 @@ std::string Tagger::SignalFileName(Stage stage) const
     case Stage::trainer : break;
     case Stage::reader : name = ReaderName(name);
         break;
-        DEFAULT("Stage", "");
+        DEFAULT(boca::Name(stage), "");
     }
     return PathName(name);
 }
@@ -214,7 +215,7 @@ std::vector<std::string> Tagger::TreeNames(Tag tag) const
     switch (tag) {
     case Tag::signal : return signal_tree_names_;
     case Tag::background : return background_tree_names_;
-        DEFAULT("Tag", {});
+        DEFAULT(boca::Name(tag), {});
     }
 }
 
@@ -222,12 +223,6 @@ TCut Tagger::Cut() const
 {
     INFO0;
     return TCut();
-}
-
-void Tagger::SetAnalysisName(std::string const& analysis_name)
-{
-    ERROR(analysis_name);
-    analysis_name_ = analysis_name;
 }
 
 std::string Tagger::MethodName() const
@@ -319,11 +314,11 @@ exroot::TreeBranch& Tagger::TreeBranch() const
 
 std::string Name(Stage stage)
 {
-    INFO(Name(stage));
+    INFO(boca::Name(stage));
     switch (stage) {
     case Stage::trainer : return "Trainer";
     case Stage::reader : return "Reader";
-        DEFAULT("Stage", "");
+        DEFAULT(boca::Name(stage), "");
     }
 }
 auto Tagger::LatexName() const -> std::string

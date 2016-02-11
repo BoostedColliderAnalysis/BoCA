@@ -4,6 +4,7 @@
 #pragma once
 
 #include "Jet.hh"
+#include "physics/Range.hh"
 
 #include "PreCut.hh"
 
@@ -22,38 +23,28 @@ public:
 
     template <typename Multiplet>
     bool PtTooSmall(Id id, Multiplet const& multiplet) const {
-        return pt_lower_cut_.IsSet(id) && pt_lower_cut_.Get(id) > multiplet.Pt();
+      return pt_lower_cut_.TooSmall(id, multiplet.Pt());
     }
-
-    bool PtTooSmall(Id id, Jet const& jet) const;
 
     template <typename Multiplet>
     bool PtTooLarge(Id id, Multiplet const& multiplet) const {
-        return pt_upper_cut_.IsSet(id) && pt_upper_cut_.Get(id) < multiplet.Pt();
+        return pt_upper_cut_.TooLarge(id, multiplet.Pt());
     }
-
-    bool PtTooLarge(Id id, Jet const& jet) const;
 
     template <typename Multiplet>
     bool MassTooSmall(Id id, Multiplet const& multiplet) const {
-        return mass_lower_cut_.IsSet(id) && mass_lower_cut_.Get(id) > multiplet.Mass();
+      return mass_lower_cut_.TooSmall(id, multiplet.Mass());
     }
-
-    bool MassTooSmall(Id id, Jet const& jet) const;
 
     template <typename Multiplet>
     bool MassTooLarge(Id id, Multiplet const& multiplet) const {
-        return mass_upper_cut_.IsSet(id) && mass_upper_cut_.Get(id) < multiplet.Mass();
+      return mass_upper_cut_.TooLarge(id, multiplet.Mass());
     }
-
-    bool MassTooLarge(Id id, Jet const& jet) const;
 
     template <typename Multiplet>
     bool OutsideTracker(Id id, Multiplet const& multiplet) const {
-        return tracker_eta_upper_cut_.IsSet(id) && tracker_eta_upper_cut_.Get(id) < boost::units::abs(multiplet.Rap());
+      return tracker_eta_upper_cut_.TooLarge(id, boost::units::abs(multiplet.Rap()));
     }
-
-    bool OutsideTracker(Id id, Jet const& jet) const;
 
     template <typename>
     struct IsVector : std::false_type {};
@@ -83,8 +74,8 @@ public:
     void SetSemiLeptonic(bool semi_leptonic);
 
     template <typename Multiplet>
-    bool NotParticleRho(Multiplet const& multiplet, float min = 0.5, float max = 2) const {
-        return multiplet.Rho() > 0 && (multiplet.Rho() < min || multiplet.Rho() > max);
+    bool NotParticleRho(Multiplet const& multiplet, Range<float> range = Range<float>(0.5, 2)) const {
+        return multiplet.Rho() > 0 && (multiplet.Rho() < range.Min() || multiplet.Rho() > range.Max());
     }
 
     template<typename Multiplet>

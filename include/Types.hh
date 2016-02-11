@@ -12,12 +12,12 @@ namespace boca
 bool Exists(std::string const& name);
 
 template<typename Integer>
-boost::integer_range<Integer> Range(Integer last) {
+boost::integer_range<Integer> IntegerRange(Integer last) {
   return boost::integer_range<Integer>(0, last);
 }
 
 template<typename Integer>
-boost::integer_range<Integer> Range(Integer first, Integer last) {
+boost::integer_range<Integer> IntegerRange(Integer first, Integer last) {
   BOOST_ASSERT( first <= last );
   return boost::integer_range<Integer>(first, last);
 }

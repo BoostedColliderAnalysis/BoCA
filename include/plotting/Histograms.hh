@@ -22,23 +22,23 @@ public:
 
     ~Histograms();
 
-    void AddHistogram(std::vector<float> const& values, std::string const& name, Rectangle<float> const& bounds);
+    void AddHistogram(std::vector<float> const& values, std::string const& name, Rectangle<float> const& range);
 
     void SetLegend(Orientation orientation, std::string const& title = "");
 
     void Draw();
 
-    void SetXAxis(std::string const& title, Bounds<float> const& bounds = Bounds<float>());
+    void SetXAxis(std::string const& title, Range<float> const& range = Range<float>());
 
-    void SetYAxis(std::string const& title, Bounds<float> const& bounds = Bounds<float>());
+    void SetYAxis(std::string const& title, Range<float> const& range = Range<float>());
 
     void AddLine(float x_value);
 
 private:
 
-    Bounds<double> BoundsY();
+    Range<double> RangeY();
 
-    Bounds<double> BoundsX();
+    Range<double> RangeX();
 
     void AddHistograms();
 
@@ -50,7 +50,7 @@ private:
 
     std::vector<TLine> lines_;
 
-    Rectangle<float> bounds_;
+    Rectangle<float> range_;
 
 };
 

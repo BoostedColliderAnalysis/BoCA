@@ -9,15 +9,15 @@ namespace boca
 {
 
 template<typename Value>
-class Bounds
+class Range
 {
 public:
-    Bounds() :
+    Range() :
         min_(InitialMin()),
         max_(InitialMax())
     {}
 
-    Bounds(Value min, Value max) :
+    Range(Value min, Value max) :
         min_(min),
         max_(max) {
         CheckHierachy();
@@ -40,12 +40,12 @@ public:
     }
 
     void Set(std::pair<Value, Value> const pair) {
-      min_ = pair.first;
-      max_ = pair.second;
-      CheckHierachy();
+        min_ = pair.first;
+        max_ = pair.second;
+        CheckHierachy();
     }
 
-    void Widen(Bounds<Value> const& bound) {
+    void Widen(Range<Value> const& bound) {
         WidenMin(bound.Min());
         WidenMax(bound.Max());
     }
@@ -91,13 +91,13 @@ public:
 
     //FIXME why is the return dimension for quantities not correct?
     template<typename Value2>
-    friend Bounds<ValueQuotient<Value, Value2>> operator/(Bounds const& bounds, Value2 const& scalar) {
-        return {bounds.Min() / scalar, bounds.Max() / scalar};
+    friend Range<ValueQuotient<Value, Value2>> operator/(Range const& range, Value2 const& scalar) {
+        return {range.Min() / scalar, range.Max() / scalar};
     }
 
     void Log() {
-        if(min_ != Value(0)) min_ = std::log10(min_);
-        if(max_ != Value(0)) max_ = std::log10(max_);
+        if (min_ != Value(0)) min_ = std::log10(min_);
+        if (max_ != Value(0)) max_ = std::log10(max_);
     }
 
 private:
@@ -116,14 +116,14 @@ private:
 };
 
 template <typename Value>
-Bounds<Value> MinMax(std::vector<Value> const& vector)
+Range<Value> MinMax(std::vector<Value> const& vector)
 {
     auto minmax = std::minmax_element(vector.begin(), vector.end());
     return {*minmax.first, *minmax.second};
 }
 
 template <typename Iterator, typename Value>
-Bounds<Value> MinMax(Iterator begin, Iterator end)
+Range<Value> MinMax(Iterator begin, Iterator end)
 {
     auto minmax = std::minmax_element(begin, end);
     return {*minmax.first, *minmax.second};

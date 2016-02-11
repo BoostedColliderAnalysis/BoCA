@@ -37,7 +37,7 @@ InfoBranch::InfoBranch()
 InfoBranch::InfoBranch(File const& file)
 {
   SetCrosssection(file.Crosssection());
-  SetCrosssectionERROR(file.CrosssectionERROR());
+  SetCrosssectionError(file.CrosssectionError());
   SetMass(file.Mass());
   SetNames(file.Names());
   event_number = 0;
@@ -47,7 +47,7 @@ boca::Crosssection InfoBranch::Crosssection() const
 {
     return double(crosssection) * fb;
 }
-boca::Crosssection InfoBranch::CrosssectionERROR() const
+boca::Crosssection InfoBranch::CrosssectionError() const
 {
     return double(crosssection_error) * fb;
 }
@@ -75,7 +75,7 @@ void InfoBranch::SetCrosssection(boca::Crosssection crosssection_)
 {
     crosssection = crosssection_ / fb;
 }
-void InfoBranch::SetCrosssectionERROR(boca::Crosssection crosssection_error_)
+void InfoBranch::SetCrosssectionError(boca::Crosssection crosssection_error_)
 {
     crosssection_error = crosssection_error_ / fb;
 }

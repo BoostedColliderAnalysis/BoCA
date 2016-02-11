@@ -22,7 +22,7 @@ class AnalysisCharged : public AnalysisHeavyHiggs<Tagger>
 
 public:
 
-    void SetFiles(Tag tag, Stage) final {
+    void SetFiles(Tag tag, Stage)override {
         switch (tag) {
         case Tag::signal :
             this->NewFile(tag, Process::Htb);
@@ -37,7 +37,7 @@ public:
 //         return "Charged";
 //     }
 
-    std::string AnalysisName() const final {
+    std::string AnalysisName() const override {
       return  "Charged-" + Name(this->Collider()) + "-" + boca::Name(this->PreCut()) + "-" + boca::Name(this->Mass());
     }
 

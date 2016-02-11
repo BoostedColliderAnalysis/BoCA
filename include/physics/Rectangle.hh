@@ -3,15 +3,12 @@
  */
 #pragma once
 
-// #include <algorithm>
-// #include <pair>
-
 #include <boost/range/algorithm/max_element.hpp>
 #include <boost/range/algorithm/min_element.hpp>
 #include <boost/range/algorithm_ext/is_sorted.hpp>
 
 #include "physics/Vector2.hh"
-#include "physics/Bounds.hh"
+#include "physics/Range.hh"
 
 namespace boca
 {
@@ -24,7 +21,7 @@ public:
 
     Rectangle() {}
 
-    Rectangle(Bounds<Value> x, Bounds<Value> y) :
+    Rectangle(Range<Value> x, Range<Value> y) :
         x_(x),
         y_(y)
     {}
@@ -44,11 +41,11 @@ public:
         y_( {y_min, y_max})
     {}
 
-    void SetX(Bounds<Value> const& x) {
+    void SetX(Range<Value> const& x) {
         x_ = x;
     }
 
-    void SetY(Bounds<Value> const& y) {
+    void SetY(Range<Value> const& y) {
         y_ = y;
     }
 
@@ -61,11 +58,11 @@ public:
     }
 
     void ResetY() {
-        y_ = Bounds<Value>();
+        y_ = Range<Value>();
     }
 
     void ResetX() {
-        x_ = Bounds<Value>();
+        x_ = Range<Value>();
     }
 
     void SetXMin(Value x_min) {
@@ -84,12 +81,12 @@ public:
         y_.SetMax(y_max);
     }
 
-    void Widen(Rectangle<Value> const& bounds) {
-        x_.Widen(bounds.Horizontal());
-        y_.Widen(bounds.Vertical());
+    void Widen(Rectangle<Value> const& range) {
+        x_.Widen(range.Horizontal());
+        y_.Widen(range.Vertical());
     }
 
-    void WidenX(Bounds<Value> const& x) {
+    void WidenX(Range<Value> const& x) {
         x_.Widen(x);
     }
 
@@ -101,7 +98,7 @@ public:
         x_.WidenMax(x_max);
     }
 
-    void WidenY(Bounds<Value> const& y) {
+    void WidenY(Range<Value> const& y) {
         y_.Widen(y);
     }
 
@@ -137,19 +134,19 @@ public:
         return {x_.Max(), y_.Max()};
     }
 
-    Bounds<Value> & Horizontal()  {
+    Range<Value> & Horizontal()  {
       return x_;
     }
 
-    Bounds<Value> & Vertical()  {
+    Range<Value> & Vertical()  {
       return y_;
     }
 
-    Bounds<Value> const& Horizontal() const {
+    Range<Value> const& Horizontal() const {
         return x_;
     }
 
-    Bounds<Value> const& Vertical() const {
+    Range<Value> const& Vertical() const {
         return y_;
     }
 
@@ -162,10 +159,10 @@ public:
     }
 
     template <typename Value2>
-    void WidenY(Bounds<Value> const& bound_x, std::vector<Value2> const& xs, std::vector<Value2> const& ys) {
-//         y_.Widen({0.001,1});      
+    void WidenY(Range<Value> const& bound_x, std::vector<Value2> const& xs, std::vector<Value2> const& ys) {
+//         y_.Widen({0.001,1});
         std::cout << "bound min " << bound_x.Min() << " bound max " << bound_x.Max() << std::endl;
-        Bounds<int> bound;
+        Range<int> bound;
         if (boost::range::is_sorted(xs, Smaller<Value2>())) {
             std::cout << "smaller" << std::endl;
             bound.SetMin(boost::range::lower_bound(xs, Value2(bound_x.Min())) - xs.begin());
@@ -180,7 +177,7 @@ public:
             bound.SetMax(xs.size());
         }
         std::cout << "min_x " << bound.Min() << " max_x " << bound.Max() << std::endl;
-        Bounds<Value2> bound_y;
+        Range<Value2> bound_y;
         bound_y.SetMin(*std::min_element(ys.begin() + bound.Min(), ys.begin() + bound.Max(), SmallerButNonZero<Value2>()));
         bound_y.SetMax(*std::max_element(ys.begin() + bound.Min(), ys.begin() + bound.Max()));
         std::cout << "min " << bound_y.Min() << " max " << bound_y.Max() << std::endl;
@@ -188,7 +185,7 @@ public:
     }
 
     template <typename Value2>
-    void WidenX(Bounds<Value> const& y, std::vector<Value2> const& xs, std::vector<Value2> const& ys) {
+    void WidenX(Range<Value> const& y, std::vector<Value2> const& xs, std::vector<Value2> const& ys) {
         int min_y = boost::range::upper_bound(ys, Value2(y.Min())) - ys.begin();
         int max_y = boost::range::lower_bound(ys, Value2(y.Max())) - ys.begin();
         auto min = std::min_element(xs.begin() + min_y, xs.begin() + max_y, SmallerButNonZero<Value2>());
@@ -219,8 +216,8 @@ private:
         };
     }
 
-    Bounds<Value> x_;
-    Bounds<Value> y_;
+    Range<Value> x_;
+    Range<Value> y_;
 
 };
 

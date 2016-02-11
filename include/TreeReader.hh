@@ -15,8 +15,6 @@
 namespace boca
 {
 
-
-
 enum class Branch
 {
     particle,
@@ -36,7 +34,7 @@ enum class Branch
     tau
 };
 
-std::string BranchName(Branch branch);
+std::string Name(Branch branch);
 
 enum class Source
 {
@@ -44,6 +42,8 @@ enum class Source
     pgs,
     parton
 };
+
+std::string Name(Source source);
 
 class TreeReaderArrayBase
 {
@@ -58,15 +58,15 @@ class TreeReaderArray : public TreeReaderArrayBase
 
 public:
 
-    TreeReaderArray(TTreeReader& tree_reader, Branch branch) : tree_reader_array_(TTreeReaderArray<Object>(tree_reader, BranchName(branch).c_str())) , branch_(branch) {}
+    TreeReaderArray(TTreeReader& tree_reader, Branch branch) : tree_reader_array_(TTreeReaderArray<Object>(tree_reader, Name(branch).c_str())) , branch_(branch) {}
 
     void Fill() {
 
-      if(tree_reader_array_.GetReadStatus() == ROOT::TTreeReaderValueBase::kReadError) std::cout << "Tree Reader read error in Branch " << BranchName(branch_) << std::endl;
+        if (tree_reader_array_.GetReadStatus() == ROOT::TTreeReaderValueBase::kReadError) std::cout << "Tree Reader read error in Branch " << Name(branch_) << std::endl;
 
 //         vector_ = vector(tree_reader_array_);
-      begin_ = tree_reader_array_.begin();
-      end_ = tree_reader_array_.end();
+        begin_ = tree_reader_array_.begin();
+        end_ = tree_reader_array_.end();
     }
 
 //     std::vector<Object> vector()  {
@@ -122,7 +122,7 @@ public:
     template<typename Object>
     TTreeReaderArray<Object>& Objects(Branch branch) const {
         if (!Has(branch)) {
-          std::cout << BranchName(branch) << " does not exist " << map_.size() << std::endl;
+            std::cout << Name(branch) << " does not exist " << map_.size() << std::endl;
 //           return {};
 //          return TTreeReaderArray<Object>();
         }

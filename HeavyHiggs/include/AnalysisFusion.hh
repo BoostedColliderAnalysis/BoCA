@@ -19,7 +19,7 @@ class AnalysisFusion : public AnalysisHeavyHiggs<Tagger> {
 
 public:
 
-    void SetFiles(Tag tag, Stage) final {
+    void SetFiles(Tag tag, Stage)override {
         switch (tag)
         {
         case Tag::signal :

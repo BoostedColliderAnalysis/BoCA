@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -24,15 +24,15 @@ class TopHadronicTagger : public TaggerTemplate<Triplet, TopHadronicBranch>
 
 public:
 
-    TopHadronicTagger();
+    TopHadronicTagger(Id id = Id::top);
 
-    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
+    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const override;
 
     std::vector<Triplet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
-    std::string Name() const final;
+    std::string Name() const override;
 
-    std::string LatexName() const final;
+    std::string LatexName() const override;
 
     std::vector<Particle> Particles(Event const& event) const;
 
@@ -75,6 +75,8 @@ private:
     Reader<WHadronicTagger> w_hadronic_reader_;
 
     Mass top_mass_window_;
+
+    Id id_;
 
 };
 

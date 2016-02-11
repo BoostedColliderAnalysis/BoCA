@@ -1,10 +1,7 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
-
 #include <boost/range/algorithm/adjacent_find.hpp>
-// #include <boost/range/algorithm/max_element.hpp>
-// #include <boost/range/adaptors.hpp>
 
 #include "plotting/Font.hh"
 #include "TopHadronicTagger.hh"
@@ -24,13 +21,13 @@ namespace standardmodel
 namespace
 {
 
-void TruthLevel(Event const& event, PreCuts const& pre_cuts)
+void TruthLevel(Event const& event, PreCuts const& pre_cuts, Id id)
 {
     INFO0;
     std::vector<Particle> particle = event.Partons().GenParticles();
-    std::vector<Particle> tops = CopyIfParticle(particle, Id::top);
+    std::vector<Particle> tops = CopyIfParticle(particle, id);
     for (auto const & top : tops) {
-        if (top.Pt() < pre_cuts.PtLowerCut().Get(Id::top) || top.Pt() > pre_cuts.PtUpperCut().Get(Id::top)) continue;
+        if (top.Pt() < pre_cuts.PtLowerCut().Get(id) || top.Pt() > pre_cuts.PtUpperCut().Get(id)) continue;
         std::vector<Particle> bottoms = CopyIfMother(CopyIfParticle(particle, Id::bottom), top);
         if (bottoms.empty()) continue;
         std::vector<Particle> Ws = CopyIfMother(CopyIfParticle(particle, Id::W), top);
@@ -76,11 +73,12 @@ std::vector< Triplet > ordered_triplets(std::vector<Jet> const& jets, std::funct
 
 }
 
-TopHadronicTagger::TopHadronicTagger()
+TopHadronicTagger::TopHadronicTagger(Id id)
 {
     INFO0;
+    id_ = id;
 //     top_mass_window_ = 80_GeV;
-    top_mass_window_ = 2. * MassOf(Id::top);
+    top_mass_window_ = 2. * MassOf(id_);
 }
 
 int TopHadronicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Tag tag) const
@@ -88,7 +86,7 @@ int TopHadronicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, 
     INFO0;
     int number = SaveEntries(Triplets(event, [&](Triplet & triplet, std::vector<Jet>const & leptons) {
         return Tripple(triplet, leptons, pre_cuts, tag);
-    }), pre_cuts.ApplyCuts(Id::top, Particles(event)), tag, Id::top);
+    }), pre_cuts.ApplyCuts(id_, Particles(event)), tag, id_);
     INFO(number);
 //     if (number == 0) TruthLevel(event, pre_cuts);
     return number;
@@ -101,7 +99,7 @@ std::vector<Particle> TopHadronicTagger::Particles(Event const& event) const
     DEBUG(particles.size());
     std::vector<Particle> quarks = CopyIfQuark(particles);
     DEBUG(quarks.size());
-    quarks = CopyIfGrandMother(quarks, Id::top);
+    quarks = CopyIfGrandMother(quarks, id_);
     DEBUG(quarks.size());
     std::vector<Particle> tops = CopyIfGrandDaughter(particles, quarks);
     DEBUG(tops.size());
@@ -117,16 +115,16 @@ std::vector<Triplet> TopHadronicTagger::Triplets(Event const& event, Function co
     MomentumRange three_jet_range(Id::W);
     std::vector<Triplet> triplets = ThreeJets(three_jet_range.SofterThanMax(jets), leptons, function, three_jet_range);
 
-    MomentumRange two_jet_range(Id::W, Id::top);
+    MomentumRange two_jet_range(Id::W, id_);
     for (auto const & jet : two_jet_range.InsidePtWindow(jets)) triplets = Join(triplets, TwoJets(two_jet_range.SofterThanMax(jets), jet, leptons, function, two_jet_range));
 
-    MomentumRange three_sub_jet_range(Id::top, SubJet(Id::W));
+    MomentumRange three_sub_jet_range(id_, SubJet(Id::W));
     for (auto const & jet : three_sub_jet_range.HarderThanMin(jets)) {
-        if (three_sub_jet_range.InsideBounds(jet)) triplets = Join(triplets, ThreeSubJets(jet, leptons, function, three_sub_jet_range));
-        MomentumRange two_sub_jet_range((SubJet(Id::W)), (SubJet(Id::top)));
-        if (two_sub_jet_range.InsideBounds(jet)) triplets = Join(triplets, TwoSubJets(jet, leptons, function, two_sub_jet_range));
-        MomentumRange one_sub_jet_range((SubJet(Id::top)));
-        if (one_sub_jet_range.InsideBounds(jet)) if (boost::optional<Triplet> optional = HighlyBoosted(jet, leptons, function)) triplets.emplace_back(*optional);
+        if (three_sub_jet_range.InsideRange(jet)) triplets = Join(triplets, ThreeSubJets(jet, leptons, function, three_sub_jet_range));
+        MomentumRange two_sub_jet_range((SubJet(Id::W)), (SubJet(id_)));
+        if (two_sub_jet_range.InsideRange(jet)) triplets = Join(triplets, TwoSubJets(jet, leptons, function, two_sub_jet_range));
+        MomentumRange one_sub_jet_range((SubJet(id_)));
+        if (one_sub_jet_range.InsideRange(jet)) if (boost::optional<Triplet> optional = HighlyBoosted(jet, leptons, function)) triplets.emplace_back(*optional);
     }
     INFO(triplets.size());
     return triplets;
@@ -197,7 +195,7 @@ boost::optional<Triplet> TopHadronicTagger::Tripple(boca::Doublet const& doublet
     INFO0;
     Triplet triplet(doublet, jet);
     DEBUG(triplet.Pt(), range.Min(), range.Max());
-    if (!range.InsideBounds(triplet)) return boost::none;
+    if (!range.InsideRange(triplet)) return boost::none;
     if (check_overlap && triplet.Overlap()) return boost::none;
     return function(triplet, leptons);
 }
@@ -228,13 +226,7 @@ bool TopHadronicTagger::Problematic(Triplet const& triplet, boca::PreCuts const&
     if (Problematic(triplet, pre_cuts)) return true;
     switch (tag) {
     case Tag::signal:
-        if (pre_cuts.OutSideMassWindow(triplet, top_mass_window_ , Id::top)) return true;
-//         if (boost::units::abs(triplet.Mass() - MassOf(Id::top)) > top_mass_window_) return true;
-//         if (pre_cuts.NotParticleRho(triplet)) return true;
-//         if (std::abs(triplet.Doublet().Mass() - Mass(Id::W)) > 40) return true;
-//         if (triplet.Doublet().Bdt() < 1) return true;
-//         if (triplet.Singlet().Bdt() < 1) return true;
-//         if (triplet.Pt() > DetectorGeometry::LeptonMinPt()) return true;
+        if (pre_cuts.OutSideMassWindow(triplet, top_mass_window_ , id_)) return true;
         break;
     case Tag::background : break;
     }
@@ -244,10 +236,7 @@ bool TopHadronicTagger::Problematic(Triplet const& triplet, boca::PreCuts const&
 bool TopHadronicTagger::Problematic(Triplet const& triplet, PreCuts const& pre_cuts) const
 {
     DEBUG0;
-    if (pre_cuts.ApplyCuts(Id::top, triplet)) return true;
-    // FIXME the top tagger is very slow, due to many calls of Bdt(), therfore we have to reduce the number of candidates
-//     if (boost::units::abs(triplet.Mass() - MassOf(Id::top)) > 2. * top_mass_window_) return true;
-//     if ((triplet.Rho() < 0.4 || triplet.Rho() > 2) && triplet.Rho() > 0) return true;
+    if (pre_cuts.ApplyCuts(id_, triplet)) return true;
     return false;
 }
 
@@ -258,15 +247,15 @@ std::vector<Triplet> TopHadronicTagger::Multiplets(Event const& event, boca::Pre
         return Multiplet(triplet, leptons, pre_cuts, reader);
     }));
 //     ERROR(triplets.size());
-    triplets = SortedByBdt(triplets);
-    if (!triplets.empty()) if (triplets.front().Bdt() < 0) TruthLevel(event, pre_cuts);
+//     triplets = SortedByBdt(triplets);
+//     if (!triplets.empty()) if (triplets.front().Bdt() < 0) TruthLevel(event, pre_cuts, id_);
 
-    static int event_number = 0;
-    static int triplet_number = 0;
-
-    ++event_number;
-    triplet_number += triplets.size();
-    DEBUG(event_number, triplet_number);
+//     static int event_number = 0;
+//     static int triplet_number = 0;
+//
+//     ++event_number;
+//     triplet_number += triplets.size();
+//     DEBUG(event_number, triplet_number);
 
     return triplets;
 }

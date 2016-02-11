@@ -278,6 +278,8 @@ public:
 
 private:
 
+    bool IsSet(Branch branch) const;
+
     std::map<Branch, TClonesArray*> clones_arrays_;
 
     Source source_;

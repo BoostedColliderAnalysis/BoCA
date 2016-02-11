@@ -41,14 +41,14 @@ public:
     InfoBranch();
     InfoBranch(File const& file);
     boca::Crosssection Crosssection() const;
-    boca::Crosssection CrosssectionERROR() const;
+    boca::Crosssection CrosssectionError() const;
     boca::Mass Mass() const;
     int EventNumber() const;
     std::string Name() const;
     boca::Names Names() const;
     std::string LatexName() const;
     void SetCrosssection(boca::Crosssection crosssection);
-    void SetCrosssectionERROR(boca::Crosssection crosssection_error);
+    void SetCrosssectionError(boca::Crosssection crosssection_error);
     void SetMass(boca::Mass mass);
     void SetEventNumber(int event_number);
     void SetNames(boca::Names const& names);

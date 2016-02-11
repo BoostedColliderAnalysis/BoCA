@@ -26,12 +26,12 @@ class AnalysisSingleLeptonic : public AnalysisNaturalness<Tagger>
 
 protected:
 
-    std::string AnalysisName() const final {
+    std::string AnalysisName() const override {
         INFO0;
         return "Single-Leptonic-" + Name(DetectorGeometry::DetectorType()) + "-" + boca::Name(this->Mass()) + "-dipolarity";
     }
 
-    void SetFiles(Tag tag, Stage) final {
+    void SetFiles(Tag tag, Stage)override {
         INFO0;
         switch (tag) {
         case Tag::signal :
@@ -52,7 +52,7 @@ protected:
 private:
 //   TopPartnerLeptonicTagger partner_tagger_;
 
-    int PassPreCut(Event const&, Tag) const final {
+    int PassPreCut(Event const&, Tag) const override {
         INFO0;
 //     if(tag == Tag::signal){
 //      std::vector<Jet> partner = partner_tagger.Particles(event);

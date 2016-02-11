@@ -50,7 +50,7 @@ std::vector<boca::Sextet> WimpMass::Sextets(Quartet22 const& quartet, Jet const&
     solve22(structure, MassOf(Id::electron_neutrino) / GeV, MassOf(Id::W) / GeV, MassOf(Id::top) / GeV, solution_sum, momentum_1, momentum_2);
     DEBUG("Number solutions", solution_sum);
     std::vector<boca::Sextet> sextets;
-    for (auto const & solution_number : Range(solution_sum)) {
+    for (auto const & solution_number : IntegerRange(solution_sum)) {
         DEBUG("Solution ", solution_number);
 //         DEBUG("Neutrino 1 (p1)" , PseudoJet(momentum_1[solution_number]));
 //         DEBUG("Neutrino 2 (p2)" , PseudoJet(momentum_2[solution_number]));

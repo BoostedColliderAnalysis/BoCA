@@ -37,6 +37,16 @@ public:
 
     Member const& GreatGrandMother() const;
 
+    void SetParticle(Member particle);
+
+    void SetMother(Member mother);
+
+    void SetStepMother(Member step_mother);
+
+    void SetGrandMother(Member grand_mother);
+
+    void SetGreatGrandMother(Member great_grand_mother);
+
 private:
 
     Member particle_;

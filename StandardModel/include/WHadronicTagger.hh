@@ -28,7 +28,7 @@ public:
 
     WHadronicTagger();
 
-    int Train(Event const& event, PreCuts const& pre_cuts, const Tag Tag) const final;
+    int Train(Event const& event, PreCuts const& pre_cuts, const Tag Tag) const override;
 
     std::vector<Doublet> Multiplets(std::vector<Jet> const& jets, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
 
@@ -38,9 +38,9 @@ public:
 
     boost::optional<Doublet> SubMultiplet(Jet const& jet, TMVA::Reader const& reader) const;
 
-    std::string Name() const final;
+    std::string Name() const override;
 
-    std::string LatexName() const final;
+    std::string LatexName() const override;
 
 private:
 
@@ -52,7 +52,7 @@ private:
 
     boost::optional<Doublet> CheckDoublet(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const;
 
-    std::vector<Doublet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
+    std::vector<Doublet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
 
     boost::optional<Doublet> SubDoublet(Jet const& jet, Function const& function) const;
 
