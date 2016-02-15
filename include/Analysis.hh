@@ -7,6 +7,7 @@
 
 #include "Third.hh"
 #include "AnalysisBase.hh"
+#include "Event.hh"
 
 namespace boca
 {

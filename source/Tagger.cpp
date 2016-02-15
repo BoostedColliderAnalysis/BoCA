@@ -311,16 +311,6 @@ exroot::TreeBranch& Tagger::TreeBranch() const
     INFO0;
     return *tree_branch_;
 }
-
-std::string Name(Stage stage)
-{
-    INFO(boca::Name(stage));
-    switch (stage) {
-    case Stage::trainer : return "Trainer";
-    case Stage::reader : return "Reader";
-        DEFAULT(boca::Name(stage), "");
-    }
-}
 auto Tagger::LatexName() const -> std::string
 {
     INFO0;

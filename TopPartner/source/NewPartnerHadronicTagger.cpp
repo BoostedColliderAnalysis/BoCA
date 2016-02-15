@@ -45,13 +45,13 @@ std::vector<Particle> NewPartnerHadronicTagger::Particles(Event const& event) co
     std::vector<Particle> quarks = CopyIfQuark(particles);
     std::vector<Particle> candidate = CopyIfGreatGrandMother(quarks, Id::top_partner);
     if (!candidate.empty()) {
-        int great_grand_mother = candidate.front().Info().Family().GreatGrandMother().Id();
+        int great_grand_mother = candidate.front().Info().Family().Member(Relative::great_grand_mother).Id();
         return CopyIfExactParticle(particles, great_grand_mother);
     } else {
         candidate = CopyIfGrandMother(quarks, Id::top_partner);
         candidate = CopyIfMother(candidate, Id::W);
         if (candidate.empty()) return {};
-        int grand_mother = candidate.front().Info().Family().GrandMother().Id();
+        int grand_mother = candidate.front().Info().Family().Member(Relative::grand_mother).Id();
         return CopyIfExactParticle(particles, grand_mother);
     }
 }

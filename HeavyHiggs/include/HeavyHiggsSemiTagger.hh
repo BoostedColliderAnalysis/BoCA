@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Branch.hh"
+#include "BranchesHeavyHiggs.hh"
 #include "TopLeptonicTagger.hh"
 #include "TopHadronicTagger.hh"
 #include "multiplets/Sextet.hh"

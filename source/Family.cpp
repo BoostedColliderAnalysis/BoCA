@@ -2,92 +2,62 @@
  * Copyright (C) 2015 Jan Hajer
  */
 #include "Family.hh"
+#include "Debug.hh"
+#include "Types.hh"
 
 namespace boca
 {
 
+std::string Name(Relative relative)
+{
+    switch (relative) {
+    case Relative::none : return "None";
+    case Relative::particle : return "Particle";
+    case Relative::mother : return "Mother";
+    case Relative::step_mother : return "StepMother";
+    case Relative::grand_mother : return "GrandMother";
+    case Relative::great_grand_mother : return "GreatGrandMother";
+        DEFAULT(to_int(relative), "");
+    }
+}
+
+Relative Mother(Relative relative)
+{
+    switch (relative) {
+    case Relative::particle : return Relative::mother;
+    case Relative::mother : return Relative::grand_mother;
+    case Relative::grand_mother : return Relative::great_grand_mother;
+    default : return Relative::none;
+    }
+}
+
+Relative StepMother(Relative relative)
+{
+    return relative == Relative::particle ? Relative::step_mother : Relative::none;
+}
+
 Family::Family()
 {}
 
-Family::Family(int id)
-    : particle_(Member(id))
-    , mother_(Member(id))
-{}
-
-Family::Family(int id, int mother_1_id, int mother_2_id)
-    : particle_(Member(id))
-    , mother_(Member(mother_1_id))
-    , step_mother_(Member(mother_2_id))
-{}
-
-Family::Family(Member const& particle, Member const& mother_1, Member const& mother_2, Member const& grand_mother, Member const& great_grand_mother)
-    : particle_(particle)
-    , mother_(mother_1)
-    , step_mother_(mother_2)
-    , grand_mother_(grand_mother)
-    , great_grand_mother_(great_grand_mother)
-{}
-
-Family::Family(TLorentzVector const& particle, LorentzVector<Momentum> const& mother, int particle_position, int id, int mother_position, int mother_id)
-    : particle_(Member(particle, id, particle_position)), mother_(Member(mother, mother_id, mother_position))
-{}
-
-bool Family::operator==(Family const& family) const
+Family::Family(boca::Member const& member, Relative relative)
 {
-    return (particle_.Id() == family.Particle().Id() && mother_.Id() == family.Mother().Id());
+    SetMember(member, relative);
 }
 
-Member const& Family::Particle() const
+void Family::SetMember(boca::Member const& member, Relative relative)
 {
-    return particle_;
+    CHECK(!Has(relative), "Family member overwritten");
+    members_.emplace(relative, member);
 }
 
-Member const& Family::StepMother() const
+boca::Member Family::Member(Relative relative) const
 {
-    return step_mother_;
+    return Has(relative) ? members_.at(relative) : boca::Member();
 }
 
-Member const& Family::Mother() const
+bool Family::Has(Relative relative) const
 {
-    return mother_;
-}
-
-Member const& Family::GrandMother() const
-{
-    return grand_mother_;
-}
-
-Member const& Family::GreatGrandMother() const
-{
-    return great_grand_mother_;
-}
-void Family::SetParticle(Member particle)
-{
-    particle_ = particle;
-}
-void Family::SetMother(Member mother)
-{
-    mother_ = mother;
-}
-void Family::SetStepMother(Member step_mother)
-{
-    step_mother_ = step_mother;
-}
-void Family::SetGrandMother(Member grand_mother)
-{
-    grand_mother_ = grand_mother;
-}
-void Family::SetGreatGrandMother(Member great_grand_mother)
-{
-    great_grand_mother_ = great_grand_mother;
+    return members_.find(relative) != members_.end();
 }
 
 }
-namespace std
-{
-std::size_t hash< boca::Family >::operator()(const boca::Family& family) const
-{
-    return (std::hash<int>()(family.Particle().Id()) ^ (std::hash<int>()(family.Mother().Id()) << 1)) >> 1;
-}
-}
-

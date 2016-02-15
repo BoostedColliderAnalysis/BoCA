@@ -52,9 +52,11 @@ void Plotting::OptimalCuts() const
     latex_file.IncludeGraphic(PlotModelIndependentGraph(results), "Minimization of the crosssection for the model-independent result");
     latex_file.IncludeGraphic(PlotModelDependentGraph(results), "Maximization of the significance for the model-dependent result");
     latex_file.IncludeGraphic(PlotCrosssectionGraph(results), "Maximization of $S/\\sqrt B$");
+    latex_file.IncludeGraphic(PlotSBGraph(results), "Maximization of $S/B$");
+    latex_file.IncludeGraphic(PlotSBvsSsqrtBGraph(results), "$S/B$ versus $S/\\sqrt B$");
     latex_file.Table("rlllll", EfficienciesTable(results, results.BestModelInDependentBin()), "Model independent efficiencies");
     latex_file.Table("rlllll", EfficienciesTable(results, results.BestModelDependentBin()), "Model dependent efficiencies");
-    latex_file.Table("rlll", BestValueTable(results), "Results for the optimal model-(in)dependent cuts");
+    latex_file.Table("rllllll", BestValueTable(results), "Results for the optimal model-(in)dependent cuts");
 }
 
 Results Plotting::ReadBdtFiles() const
@@ -146,7 +148,7 @@ std::string Plotting::PlotHistograms(Results const& results) const
     for (auto const & result : results.Backgrounds()) histograms.AddHistogram(result.Bdts(), result.InfoBranch().LatexName(), results.Range());
     histograms.SetLegend(Orientation::top);
     histograms.SetXAxis("BDT");
-    histograms.SetYAxis("N");
+    histograms.SetYAxis(Formula("N"));
     histograms.AddLine(results.BestModelDependentValue());
     histograms.AddLine(results.BestModelInDependentValue());
     return histograms.FileBaseName();
@@ -187,13 +189,8 @@ void Plotting::PlotAcceptanceGraph(Results const& results) const
     }
 }
 
-std::string Plotting::PlotCrosssectionsGraph(Results const& results) const
+void Plotting::SetDefaultXAxis(Graphs& graphs, Results const& results) const
 {
-    INFO0;
-    Graphs graphs(Tagger().ExportFolderName(), "Crosssection");
-    for (auto const & result : results.Signals()) graphs.AddGraph(results.XValues(), FloatVector(result.Crosssections()), result.InfoBranch().LatexName());
-    for (auto const & result : results.Backgrounds()) graphs.AddGraph(results.XValues(), FloatVector(result.Crosssections()), result.InfoBranch().LatexName());
-    graphs.SetLegend(Orientation::bottom | Orientation::left);
     switch (Tagger().Mva()) {
     case TMVA::Types::EMVA::kBDT :
         graphs.SetXAxis("BDT", results.Range().Horizontal());
@@ -201,8 +198,18 @@ std::string Plotting::PlotCrosssectionsGraph(Results const& results) const
     case TMVA::Types::EMVA::kCuts :
         graphs.SetXAxis("MVA", results.Range().Horizontal());
         break;
-    default : ERROR(Tagger().Mva(), "case not handled");
+        DEFAULT(Tagger().Mva());
     }
+}
+
+std::string Plotting::PlotCrosssectionsGraph(Results const& results) const
+{
+    INFO0;
+    Graphs graphs(Tagger().ExportFolderName(), "Crosssection");
+    for (auto const & result : results.Signals()) graphs.AddGraph(results.XValues(), FloatVector(result.Crosssections()), result.InfoBranch().LatexName());
+    for (auto const & result : results.Backgrounds()) graphs.AddGraph(results.XValues(), FloatVector(result.Crosssections()), result.InfoBranch().LatexName());
+    graphs.SetLegend(Orientation::bottom | Orientation::left);
+    SetDefaultXAxis(graphs, results);
     graphs.SetYAxis("Crosssection [fb]");
     graphs.AddLine(results.BestModelDependentValue());
     graphs.AddLine(results.BestModelInDependentValue());
@@ -214,15 +221,7 @@ std::string Plotting::PlotModelDependentGraph(Results const& results) const
     INFO0;
     Graphs graphs(Tagger().ExportFolderName(), "Significance");
     graphs.AddGraph(results.XValues(), results.Significances());
-    switch (Tagger().Mva()) {
-    case TMVA::Types::EMVA::kBDT :
-        graphs.SetXAxis("BDT", results.Range().Horizontal());
-        break;
-    case TMVA::Types::EMVA::kCuts :
-        graphs.SetXAxis("MVA", results.Range().Horizontal());
-        break;
-    default : ERROR(Tagger().Mva(), "case not handled");
-    }
+    SetDefaultXAxis(graphs, results);
     graphs.SetYAxis("Significance");
     graphs.AddLine(results.BestModelDependentValue());
     return graphs.FileBaseName();
@@ -231,19 +230,32 @@ std::string Plotting::PlotModelDependentGraph(Results const& results) const
 std::string Plotting::PlotCrosssectionGraph(Results const& results) const
 {
     INFO0;
-    Graphs graphs(Tagger().ExportFolderName(), "SB");
+    Graphs graphs(Tagger().ExportFolderName(), "SsqrtB");
     graphs.AddGraph(results.XValues(), results.Acceptances());
-    switch (Tagger().Mva()) {
-    case TMVA::Types::EMVA::kBDT :
-        graphs.SetXAxis("BDT", results.Range().Horizontal());
-        break;
-    case TMVA::Types::EMVA::kCuts :
-        graphs.SetXAxis("MVA", results.Range().Horizontal());
-        break;
-    default : ERROR(Tagger().Mva(), "case not handled");
-    }
+    SetDefaultXAxis(graphs, results);
     graphs.SetYAxis(Formula("S/#sqrt{B}"));
     graphs.AddLine(results.BestAcceptanceValue());
+    return graphs.FileBaseName();
+}
+
+std::string Plotting::PlotSBGraph(Results const& results) const
+{
+    INFO0;
+    Graphs graphs(Tagger().ExportFolderName(), "SB");
+    graphs.AddGraph(results.XValues(), results.SOverB());
+    SetDefaultXAxis(graphs, results);
+    graphs.SetYAxis(Formula("S/B"));
+    graphs.AddLine(results.BestSOverBValue());
+    return graphs.FileBaseName();
+}
+
+std::string Plotting::PlotSBvsSsqrtBGraph(Results const& results) const
+{
+    INFO0;
+    Graphs graphs(Tagger().ExportFolderName(), "SBvsSsqrtB");
+    graphs.AddGraph(results.SOverB(), results.Acceptances());
+    graphs.SetXAxis(Formula("S/B"));
+    graphs.SetYAxis(Formula("S/#sqrt{B}"));
     return graphs.FileBaseName();
 }
 
@@ -251,17 +263,9 @@ std::string Plotting::PlotModelIndependentGraph(Results const& results) const
 {
     INFO0;
     Graphs graphs(Tagger().ExportFolderName(), "Exclusion");
-    graphs.AddGraph(results.XValues(), FloatVector(results.ModelIndependentCrosssection()));
-    switch (Tagger().Mva()) {
-    case TMVA::Types::EMVA::kBDT :
-        graphs.SetXAxis("BDT", results.Range().Horizontal());
-        break;
-    case TMVA::Types::EMVA::kCuts :
-        graphs.SetXAxis("MVA", results.Range().Horizontal());
-        break;
-    default : ERROR(Tagger().Mva(), "case not handled");
-    }
-    graphs.SetYAxis("Crosssection");
+    for (auto const & signal : results.Signals()) graphs.AddGraph(results.XValues(), FloatVector(signal.ModelIndependent()), signal.InfoBranch().LatexName());
+    SetDefaultXAxis(graphs, results);
+    graphs.SetYAxis("Exclusion crosssection [fb]");
     graphs.AddLine(results.BestModelInDependentValue());
     return graphs.FileBaseName();
 }
@@ -270,7 +274,8 @@ std::string Plotting::BestValueTable(Results const& results) const
 {
     INFO0;
     std::stringstream table;
-    table << "    Model\n  & Cut\n  & $p$-value\n  & Crosssection [fb]";
+    table << "    Model\n  & Cut\n  & $p$-value\n";
+    for(auto const & signal : results.Signals()) table << " & $\\sigma$("<< signal.InfoBranch().Name() <<") [fb]";
     table << "\n \\\\ \\midrule\n   ";
     table << BestValueRow(results, results.BestModelDependentBin(), "Dependet");
     table << BestValueRow(results, results.BestModelInDependentBin(), "Independet");
@@ -285,7 +290,7 @@ std::string Plotting::BestValueRow(Results const& results, int bin, std::string 
     row << " " << name;
     row << "\n  & " << RoundToDigits(results.XValue(bin));
     row << "\n  & " << RoundToDigits(results.Significances().at(bin));
-    row << "\n  & " << RoundToDigits(results.ModelIndependentCrosssection().at(bin) / fb);
+    for(auto const & signal : results.Signals()) row << "\n  & " << RoundToDigits(signal.ModelIndependent().at(bin) / fb);
     row << "\n \\\\";
     return row.str();
 }

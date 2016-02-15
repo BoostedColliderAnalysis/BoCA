@@ -23,7 +23,7 @@ JetInfoFamily::JetInfoFamily(float bdt)
 void JetInfoFamily::AddDaughter(int)
 {
 //     if (!constituents().empty()) {
-//         ERROR(constituents().size(), constituents().front().family().Particle().Id());
+//         ERROR(constituents().size(), constituents().front().family().Member(Relative::particle).Id());
 //         constituents().front().family().AddDaughter(daughter);
 //         return;
 //     }
@@ -37,7 +37,7 @@ std::unordered_map<Family, float> JetInfoFamily::FamilyFractions()
 
 void JetInfoFamily::AddFamily(Family const& family, float weight)
 {
-    DEBUG(family.Particle().Id(), family.Mother().Id(), weight);
+    DEBUG(family.Member(Relative::particle).Id(), family.Member(Relative::mother).Id(), weight);
     family_fractions_[family] += weight;
 }
 
@@ -81,12 +81,12 @@ void JetInfoFamily::ExtractFraction(int id)
     INFO(id);
     ExtractFamilyFraction();
     for (auto const& pair : family_fractions_) {
-        if (pair.first.Particle().Id() == id || pair.first.Mother().Id() == id)
+        if (pair.first.Member(Relative::particle).Id() == id || pair.first.Member(Relative::mother).Id() == id)
             AddParticle(id, pair.second);
-        else if (pair.first.Particle().Id() == -id || pair.first.Mother().Id() == -id)
+        else if (pair.first.Member(Relative::particle).Id() == -id || pair.first.Member(Relative::mother).Id() == -id)
             AddParticle(-id, pair.second);
         else
-            AddParticle(pair.first.Particle().Id(), pair.second);
+            AddParticle(pair.first.Member(Relative::particle).Id(), pair.second);
     }
 }
 
@@ -94,8 +94,8 @@ void JetInfoFamily::ExtractFraction(int id, int mother_id)
 {
     INFO(id, mother_id);
     for (auto const& pair : family_fractions_) {
-        if (std::abs(pair.first.Particle().Id()) == id && std::abs(pair.first.Mother().Id()) == mother_id)
-            AddParticle(pair.first.Particle().Id(), pair.second);
+        if (std::abs(pair.first.Member(Relative::particle).Id()) == id && std::abs(pair.first.Member(Relative::mother).Id()) == mother_id)
+            AddParticle(pair.first.Member(Relative::particle).Id(), pair.second);
         else
             AddParticle(Id::isr, pair.second);
     }
@@ -106,10 +106,10 @@ void JetInfoFamily::ExtractAbsFraction(int id)
     INFO(id);
     ExtractFamilyFraction();
     for (auto const& pair : family_fractions_) {
-        if (std::abs(pair.first.Particle().Id()) == id || std::abs(pair.first.Mother().Id()) == id)
+        if (std::abs(pair.first.Member(Relative::particle).Id()) == id || std::abs(pair.first.Member(Relative::mother).Id()) == id)
             AddParticle(id, pair.second);
         else
-            AddParticle(pair.first.Particle().Id(), pair.second);
+            AddParticle(pair.first.Member(Relative::particle).Id(), pair.second);
     }
 }
 
@@ -160,13 +160,13 @@ void JetInfoFamily::PrintAllconstituentInfos(Severity) const
 {
     DEBUG0;
 //     for (auto const& constituent : constituents())
-//         Print(severity, "Jet Fraction", Name(constituent.family().Particle().Id()), Name(constituent.family().Mother().Id()), constituent.family().Particle().Momentum.Pt(), constituent.family().Mother().Momentum.Pt());
+//         Print(severity, "Jet Fraction", Name(constituent.family().Member(Relative::particle).Id()), Name(constituent.family().Member(Relative::mother).Id()), constituent.family().Member(Relative::particle).Momentum.Pt(), constituent.family().Member(Relative::mother).Momentum.Pt());
 }
 void JetInfoFamily::PrintAllFamInfos(Severity) const
 {
     DEBUG0;
 //     for (auto const& family_fraction : family_fractions_)
-//         Print(severity, "Family Fraction", Name(family_fraction.first.Particle().Id()), Name(family_fraction.first.Mother().Id()), family_fraction.first.Particle().Momentum.Pt(), family_fraction.first.Mother().Momentum.Pt());
+//         Print(severity, "Family Fraction", Name(family_fraction.first.Member(Relative::particle).Id()), Name(family_fraction.first.Member(Relative::mother).Id()), family_fraction.first.Member(Relative::particle).Momentum.Pt(), family_fraction.first.Member(Relative::mother).Momentum.Pt());
 }
 
 

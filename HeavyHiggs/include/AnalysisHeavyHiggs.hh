@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Analysis.hh"
+#include "DetectorGeometry.hh"
+#include "Debug.hh"
 
 namespace boca
 {
@@ -59,14 +61,18 @@ class AnalysisHeavyHiggs : public Analysis<Tagger>
 
 public:
 
+    AnalysisHeavyHiggs() {
+        if (Collider() == heavyhiggs::Collider::LHC) DetectorGeometry::SetDetectorType(DetectorType::CMS);
+    }
+
     boca::Mass Mass() const {
+        return 500_GeV;
+        return 1_TeV;
         return 400_GeV;
         return 750_GeV;
         return 800_GeV;
         return 1.5_TeV;
         return 2_TeV;
-        return 500_GeV;
-        return 1_TeV;
         return 300_GeV;
         return 600_GeV;
         return 700_GeV;
@@ -171,12 +177,14 @@ public:
         switch (Collider()) {
         case boca::heavyhiggs::Collider::LHC :
             switch (process) {
+            case Process::Hbb : return 1;
             case Process::ttwwbb : return 1;
             case Process::ttwbb : return 1;
             case Process::Htt : return 1;
             case Process::Htwb : return 1;
             case Process::tttt : return 1;
             case Process::tttwb : return 1;
+            case Process::tt : return 1;
             default : std::cout << "Switch default for Process " << to_int(process) << std::endl;
                 return 1;
             }
@@ -194,21 +202,63 @@ public:
 
     std::string Suffix(Process process) const {
         switch (process) {
-        case Process::Htt :
+        case Process::Hbb : return "";
+        case Process::Htt : return "";
         case Process::Htwb : return "_" + boca::Name(Mass());
-        case Process::ttwwbb :
-        case Process::ttwbb :
-        case Process::tttt :
+        case Process::ttwwbb : return "";
+        case Process::ttwbb : return "";
+        case Process::tttt : return "";
         case Process::tttwb : return "";
+        case Process::tt : return "";
         default : std::cout << "Switch default for Process " << to_int(process) << std::endl;
             return "";
         }
     }
 
-    virtual boca::Crosssection Crosssection(Process) const {
-        std::cout << "No Crosssection" << std::endl;
-        return 1_fb;
-    };
+    virtual boca::Crosssection Crosssection(Process process) const {
+        switch (process) {
+        case Process::Hbb :
+            switch (this->Collider()) {
+            case heavyhiggs::Collider::LHC:
+                switch (Int(Mass())) {
+                case 500 : return 25.52_fb;
+                case 1000 : return 1.278_fb;
+                case 2000 : return 0.02190_fb;
+                    DEFAULT(Int(Mass()), fb);
+                }
+            case heavyhiggs::Collider::FHC:
+            case heavyhiggs::Collider::LE:
+                switch (Int(Mass())) {
+                case 500 : return 973.5_fb;
+                case 1000 : return 123.0_fb;
+                case 1500 : return 28.62_fb;
+                case 2000 : return 9.485_fb;
+                case 3000 : return 1.754_fb;
+                case 4000 : return 0.4851_fb;
+                case 5000 : return 0.1669_fb;
+                case 6000 : return 0.06731_fb;
+                case 7000 : return 0.02937_fb;
+                case 8000 : return 0.01425_fb;
+                case 10000 : return 0.003842_fb;
+                case 12000 : return 0.001221_fb;
+                case 15000 : return 0.0002650_fb;
+                case 20000 : return 0.00002821_fb;
+                    DEFAULT(Int(Mass()), fb);
+                }
+                DEFAULT(to_int(this->Collider()), fb);
+            }
+        case Process::tt :
+            switch (this->Collider()) {
+            case heavyhiggs::Collider::LHC:
+                switch (Int(PreCut())) {
+                case 0 : return 97.54 * 2 * 1000_fb;
+                case 250 : return 5.698 * 2 * 1000_fb;
+                    DEFAULT(Int(PreCut()), fb);
+                }
+            }
+        }
+    }
+
 
     virtual void NewFile(Tag tag, Process process) {
         boca::AnalysisBase::NewFile(tag, FileNames(process, tag), this->Crosssection(process), LatexName(process));
@@ -229,10 +279,10 @@ public:
     }
 
     virtual std::string FileName(Process process, Tag tag) const {
-      std::cout << "file name: " << Name(process) + Suffix(process) + "_" + Name(Collider()) << std::endl;
+        std::cout << "file name: " << Name(process) + Suffix(process) + "_" + Name(Collider()) << std::endl;
         switch (tag) {
-          case Tag::signal : return "pp-" + Name(process) + Suffix(process) + "-" + Name(Collider()) + "-" + boca::Name(Mass());
-          case Tag::background : return "pp-" + Name(process) + Suffix(process) + "-" + Name(Collider()) + "-" + boca::Name(Mass());
+        case Tag::signal : return Name(process) + Suffix(process) + "-" + Name(Collider()) + "_" + boca::Name(Mass());
+        case Tag::background : return Name(process) + Suffix(process) + "-" + Name(Collider()) + "-" + boca::Name(PreCut());
 //         case Tag::background : return Name(process) + Suffix(process) + "_" + Name(Collider());
         default : std::cout << "Switch default for Tag " << to_int(tag) << std::endl;
             return "";

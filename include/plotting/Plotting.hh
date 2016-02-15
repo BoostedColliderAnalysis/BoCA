@@ -16,6 +16,7 @@ class Plots;
 class Result;
 class Results;
 class Plot;
+class Graphs;
 
 /**
  * @brief Presents result of multivariant analysis
@@ -68,6 +69,10 @@ private:
 
     std::string PlotCrosssectionGraph(Results const& results) const;
 
+    std::string PlotSBGraph(Results const& results) const;
+
+    std::string PlotSBvsSsqrtBGraph(Results const& results) const;
+
     std::string PlotHistograms(boca::Results const& results) const;
 
     boca::InfoBranch InfoBranch(TFile& file, std::string const& tree_name) const;
@@ -89,6 +94,8 @@ private:
     void SetBranch(TTree& tree, int& value, std::string const& name) const;
 
     void SetBranch(TTree& tree, std::vector<float>& values, std::string const& name) const;
+
+    void SetDefaultXAxis(Graphs& graphs, Results const& results) const;
 
     boca::Tagger const& Tagger() const;
 

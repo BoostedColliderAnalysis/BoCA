@@ -99,8 +99,7 @@ boost::optional<CutVariables> CutTagger::CutMethod(Event const& event) const
     DEBUG(positive.size(), negative.size());
     if (positive.size() != 2 && negative.size() != 2) return boost::none;
 
-    variables.SetLeadingPt(leptons.at(0).Pt());
-    variables.SetSecondLeadingPt(leptons.at(1).Pt());
+    variables.SetLeptonPts(leptons);
 
     DEBUG(jets.size());
     if (jets.size() < 4) return boost::none;

@@ -4,6 +4,7 @@
 #pragma once
 
 #include "Analysis.hh"
+#include "DetectorGeometry.hh"
 
 namespace boca
 {

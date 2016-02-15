@@ -1,7 +1,7 @@
 #pragma once
 
 #include "TaggerTemplate.hh"
-#include "Branch.hh"
+#include "BranchesHeavyHiggs.hh"
 #include "BottomTagger.hh"
 #include "Reader.hh"
 #include "CutVariables.hh"

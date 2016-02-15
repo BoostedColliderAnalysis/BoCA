@@ -6,6 +6,8 @@
 #include <boost/range/algorithm_ext/erase.hpp>
 #include <boost/range/algorithm/find.hpp>
 #include <boost/range/algorithm/min_element.hpp>
+#include <boost/range/algorithm/copy.hpp>
+#include <boost/range/adaptors.hpp>
 
 #include "physics/Particles.hh"
 #include "Particle.hh"
@@ -76,6 +78,15 @@ std::vector<Particle> CopyIfDaughter(std::vector<Particle> const& particles, std
 std::vector<Particle> CopyIfGrandDaughter(std::vector<Particle> const& particles, std::vector<Particle> const& daughters);
 
 std::vector<Particle> CopyIfPosition(std::vector<Particle> const& particles, int position_1, int position_2);
+
+template<typename Multiplet_>
+std::vector<Multiplet_> CopyIfTag(std::vector<Multiplet_> const& multiplets, float value = 0){
+  std::vector<Multiplet_> tags;
+  boost::range::copy(multiplets | boost::adaptors::filtered([value](Multiplet_ const& multiplet){
+    return multiplet.Bdt() > 0;
+  }), std::back_inserter(tags));
+  return tags;
+}
 
 /**
  * @brief Copy the two particles which are on the DY position

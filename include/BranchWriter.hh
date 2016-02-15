@@ -5,6 +5,7 @@
 
 #include "exroot/ExRootAnalysis.hh"
 #include "Reader.hh"
+#include "Branches.hh"
 #include "Files.hh"
 
 namespace boca
@@ -15,11 +16,11 @@ class BranchWriter
 {
 
 public:
-    BranchWriter(boca::Files& files, Tagger_& tagger)
-        : files_(files)
-        , tagger_(tagger)
-        , reader_(files.Phase().Stage())
-        , tree_writer_(&(files.Export()), files.Import().Title().c_str()) {
+    BranchWriter(boca::Files& files, Tagger_& tagger) :
+        files_(files),
+        tagger_(tagger),
+        reader_(files.Phase().Stage()),
+        tree_writer_(&(files.Export()), files.Import().Title().c_str()) {
         Initialize();
     }
 

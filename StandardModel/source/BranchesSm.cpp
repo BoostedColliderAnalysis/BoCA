@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Jan Hajer
  */
 #include "BranchesSm.hh"
-#include "Pair.hh"
+#include "OBSERVABLE.hh"
 #include "plotting/Font.hh"
 
 namespace boca

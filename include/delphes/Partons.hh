@@ -28,7 +28,7 @@ public:
 
 private:
 
-    std::vector<Particle> Particles(Status max_status) const;
+  std::vector<Particle> Particles(Status max_status) const;
 
 };
 

@@ -1,7 +1,6 @@
 /**
  * Copyright (C) 2015 Jan Hajer
  */
-#include <sys/stat.h>
 #include "TPad.h"
 #include "TStyle.h"
 
@@ -29,7 +28,6 @@ std::string ExportFileSuffix()
 Canvas::Canvas(std::string const& path, std::string const& name, bool show_title)
 {
     INFO0;
-//     mkdir(path.c_str(), 0700);
     path_ = path;
     title_ = name;
     gStyle->SetOptStat("");
@@ -69,10 +67,10 @@ void Canvas::Fill()
 
 void Canvas::SetMargins(bool show_title)
 {
-    canvas_.SetLeftMargin(2 * TextHeight());
-    if (show_title) canvas_.SetTopMargin(TextHeight() * 1.5);
-    else canvas_.SetTopMargin(TextHeight() / 3);
-    canvas_.SetRightMargin(TextHeight() / 3);
+    INFO0;
+    canvas_.SetLeftMargin(TextHeight() * 2);
+    canvas_.SetTopMargin(TextHeight() * show_title ? 1.5 : 1);
+    canvas_.SetRightMargin(TextHeight() * 1.1);
     canvas_.SetBottomMargin(2.1 * TextHeight());
 }
 

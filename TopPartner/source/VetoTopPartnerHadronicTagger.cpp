@@ -38,13 +38,13 @@ std::vector<Particle> VetoTopPartnerHadronicTagger::Particles(Event const& event
     std::vector<Particle> quarks = CopyIfQuark(particles);
     std::vector<Particle> candidate = CopyIfGreatGrandMother(quarks, Id::top_partner);
     if (!candidate.empty()) {
-        int grand_grand_mother = candidate.front().Info().Family().GreatGrandMother().Id();
+        int grand_grand_mother = candidate.front().Info().Family().Member(Relative::great_grand_mother).Id();
         return CopyIfExactParticle(particles, grand_grand_mother);
     } else {
         candidate = CopyIfGrandMother(quarks, Id::top_partner);
         candidate = CopyIfMother(candidate, Id::W);
         if (candidate.empty()) return {};
-        int grand_mother = candidate.front().Info().Family().GrandMother().Id();
+        int grand_mother = candidate.front().Info().Family().Member(Relative::grand_mother).Id();
         return CopyIfExactParticle(particles, grand_mother);
     }
 }

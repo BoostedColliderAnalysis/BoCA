@@ -3,7 +3,7 @@
 #include "TauTagger.hh"
 #include "multiplets/Doublet.hh"
 #include "Reader.hh"
-#include "Branch.hh"
+#include "BranchesHeavyHiggs.hh"
 
 namespace boca
 {

@@ -42,13 +42,13 @@ std::vector<Particle> NewPartnerLeptonicTagger::Particles(Event const& event) co
     std::vector<Particle>candidate = CopyIfGreatGrandMother(leptons, Id::top_partner);
     if (!candidate.empty()) {
         CHECK(leptons.size() == 1, leptons.size());
-        int grand_grand_mother = candidate.front().Info().Family().GreatGrandMother().Id();
+        int grand_grand_mother = candidate.front().Info().Family().Member(Relative::great_grand_mother).Id();
         return CopyIfExactParticle(particles, grand_grand_mother);
     } else { // this is necessary because madspin doesnt label relations correctly
         candidate = CopyIfGrandMother(leptons, Id::top_partner);
         candidate = CopyIfMother(candidate, Id::W);
         if (candidate.empty()) return {};
-        int grand_mother = candidate.front().Info().Family().GrandMother().Id();
+        int grand_mother = candidate.front().Info().Family().Member(Relative::grand_mother).Id();
         return CopyIfExactParticle(particles, grand_mother);
     }
 }

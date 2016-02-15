@@ -2,7 +2,7 @@
 
 #include "TopLeptonicTagger.hh"
 #include "multiplets/Sextet.hh"
-#include "Branch.hh"
+#include "BranchesHeavyHiggs.hh"
 
 namespace boca
 {

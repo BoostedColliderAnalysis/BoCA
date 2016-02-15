@@ -2,6 +2,7 @@
 
 #include "AnalysisHeavyHiggs.hh"
 #include "Sort.hh"
+#include "Vector.hh"
 
 namespace boca
 {
@@ -38,14 +39,14 @@ public:
 //     }
 
     std::string AnalysisName() const override {
-      return  "Charged-" + Name(this->Collider()) + "-" + boca::Name(this->PreCut()) + "-" + boca::Name(this->Mass());
+        return  "Charged-" + Name(this->Collider()) + "-" + boca::Name(this->PreCut()) + "-" + boca::Name(this->Mass());
     }
 
 private:
 
     Crosssection SignalCrosssection() const {
         switch (this->Collider()) {
-        case Collider::LHC:
+        case heavyhiggs::Collider::LHC:
             switch (this->Mass()) {
             case 500 : return 3.0495761279999996 * fb;
             case 1000 : return 0.22623192864 * fb;
@@ -56,7 +57,7 @@ private:
 //                 ERROR("Signal Crosssection", "unhandled case");
                 return fb;
             } ;
-        case Collider::LE:
+        case heavyhiggs::Collider::LE:
             switch (this->Mass()) {
             case 500 : return 247.86995327999998 * fb;
             case 700 : return 109.26120959999999 * fb;
@@ -84,8 +85,8 @@ private:
 
     int PassPreCut(Event const& event, Tag) const {
 //         INFO("pass pre cut");
-      std::vector<Particle> particles = event.Partons().GenParticles();
-      std::vector<Particle> quarks = SortedByPt(CopyIf5Quark(particles));
+        std::vector<Particle> particles = event.Partons().GenParticles();
+        std::vector<Particle> quarks = SortedByPt(CopyIf5Quark(particles));
         quarks = SortedByPt(RemoveIfMother(quarks, Id::top));
         if (quarks.empty()) {
             //       if (Tag == Tag::signal && PreCut() > 0 && !(Tagger == BottomTagger || Tagger == HBottomReader))
@@ -102,13 +103,13 @@ private:
         std::vector<Lepton> leptons = SortedByPt(event.Leptons().leptons());
         if (leptons.empty()) return 0;
         if (leptons.front().Pt() < this->LeptonPt()) return 0;
-       std::vector<Jet> jets = event.Hadrons().Jets();
+        std::vector<Jet> jets = event.Hadrons().Jets();
         if (jets.size() < 4) return 0;
         return 1;
     }
     int BackgroundFileNumber() const {
         switch (this->Collider()) {
-        case Collider::LHC :
+        case heavyhiggs::Collider::LHC :
             switch (this->PreCut()) {
             case 0 :
                 //                 return 1;
@@ -118,7 +119,7 @@ private:
             default :
                 return 1;
             }
-        case Collider::LE :
+        case heavyhiggs::Collider::LE :
             switch (this->PreCut()) {
             case 2500 :
                 return 28;
@@ -142,12 +143,12 @@ private:
 
     Crosssection BackgroundCrosssection(Process) const {
         switch (this->Collider()) {
-        case Collider::LHC :
+        case heavyhiggs::Collider::LHC :
             switch (this->PreCut()) {
             case 0 : return 97.54 * 2 * fb;
             case 250 : return 4.206 * 2 * fb;
             }
-        case Collider::LE: {
+        case heavyhiggs::Collider::LE: {
             switch (this->PreCut()) {
             case 0 : return 3564. * 2 * fb;
             case 300 : return 187.3 * 2 * fb;

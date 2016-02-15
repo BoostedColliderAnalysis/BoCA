@@ -14,6 +14,8 @@ enum class Stage
     reader
 };
 
+std::string Name(Stage stage);
+
 class Phase
 {
 public:

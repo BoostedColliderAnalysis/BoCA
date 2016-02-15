@@ -157,9 +157,9 @@ public:
         MultiBranch::Fill(multiplet);
         HeavyHiggsMass = multiplet.Jet().Mass() / GeV;
         HeavyHiggsPt = multiplet.Jet().Mass() / GeV;
-        TopDeltaR = multiplet.DeltaR() /rad;
-        TopDeltaRap = multiplet.DeltaRap() /rad;
-        TopDeltaPhi = multiplet.DeltaPhi() /rad;
+        TopDeltaR = multiplet.DeltaR() / rad;
+        TopDeltaRap = multiplet.DeltaRap() / rad;
+        TopDeltaPhi = multiplet.DeltaPhi() / rad;
         TopBdt = multiplet.Bdt();
         HeavyHiggsTag = int(multiplet.Tag());
     }
@@ -517,37 +517,37 @@ class HeavyHiggsCutBranch : public CutBranch
 
 public:
 
-  HeavyHiggsCutBranch();
-  float Ht;
-  float EtMiss;
-  float NumberJet;
-  float NumberBottom;
-  float InvariantMass;
-  float DeltaR;
-  float LeptonPt1;
-  float LeptonPt2;
-  float BottomMinPt;
-  float BottomMaxRap;
+    HeavyHiggsCutBranch();
+    float Ht;
+    float EtMiss;
+    float NumberJet;
+    float NumberBottom;
+    float InvariantMass;
+    float DeltaR;
+    float LeptonPt1;
+    float LeptonPt2;
+    float BottomMinPt;
+    float BottomMaxRap;
 
-  template<typename Multiplet>
-  void Fill(Multiplet const& multiplet) {
-    CutBranch::Fill(multiplet);
-    Ht = multiplet.Ht() / GeV;
-    EtMiss = multiplet.EtMiss() / GeV;
-    NumberJet = multiplet.JetNumber();
-    NumberBottom = multiplet.BottomNumber();
-    InvariantMass = multiplet.InvariantMass() / GeV;
-    DeltaR = multiplet.DeltaR() / rad;
-    LeptonPt1 = multiplet.LeadingPt() / GeV;
-    LeptonPt2 = multiplet.SecondLeadingPt() / GeV;
-    BottomMinPt = multiplet.BottomMinPt() / GeV;
-    BottomMaxRap = multiplet.BottomMaxRap() / rad;
-  }
-  virtual Observables Variables();
+    template<typename Multiplet>
+    void Fill(Multiplet const& multiplet) {
+        CutBranch::Fill(multiplet);
+        Ht = multiplet.Ht() / GeV;
+        EtMiss = multiplet.EtMiss() / GeV;
+        NumberJet = multiplet.JetNumber();
+        NumberBottom = multiplet.BottomNumber();
+        InvariantMass = multiplet.InvariantMass() / GeV;
+        DeltaR = multiplet.DeltaR() / rad;
+        LeptonPt1 = multiplet.LeptonPt(1) / GeV;
+        LeptonPt2 = multiplet.LeptonPt(2) / GeV;
+        BottomMinPt = multiplet.BottomMinPt() / GeV;
+        BottomMaxRap = multiplet.BottomMaxRap() / rad;
+    }
+    virtual Observables Variables();
 
 private:
 
-  ClassDef(HeavyHiggsCutBranch, 1)
+    ClassDef(HeavyHiggsCutBranch, 1)
 
 };
 
@@ -556,37 +556,31 @@ class HeavyHiggsCutNeutralBranch : public CutBranch
 
 public:
 
-  HeavyHiggsCutNeutralBranch();
-//   float Ht;
-//   float EtMiss;
-//   float NumberJet;
-//   float NumberBottom;
-//   float InvariantMass;
-//   float DeltaR;
-  float LeptonPt1;
-  float LeptonPt2;
-//   float BottomMinPt;
-//   float BottomMaxRap;
+    HeavyHiggsCutNeutralBranch();
+    float JetPt1;
+    float JetPt2;
+    float JetPt3;
+    float JetPt4;
+    float Ht;
+    float BottomNumber;
+    float LeptonPt;
 
-  template<typename Multiplet>
-  void Fill(Multiplet const& multiplet) {
-    CutBranch::Fill(multiplet);
-//     Ht = multiplet.Ht() / GeV;
-//     EtMiss = multiplet.EtMiss() / GeV;
-//     NumberJet = multiplet.JetNumber();
-//     NumberBottom = multiplet.BottomNumber();
-//     InvariantMass = multiplet.InvariantMass() / GeV;
-//     DeltaR = multiplet.DeltaR() / rad;
-    LeptonPt1 = multiplet.LeadingPt() / GeV;
-    LeptonPt2 = multiplet.SecondLeadingPt() / GeV;
-//     BottomMinPt = multiplet.BottomMinPt() / GeV;
-//     BottomMaxRap = multiplet.BottomMaxRap() / rad;
-  }
-  virtual Observables Variables();
+    template<typename Multiplet>
+    void Fill(Multiplet const& multiplet) {
+        CutBranch::Fill(multiplet);
+        JetPt1 = multiplet.JetPt(1) / GeV;
+        JetPt2 = multiplet.JetPt(2) / GeV;
+        JetPt3 = multiplet.JetPt(3) / GeV;
+        JetPt4 = multiplet.JetPt(4) / GeV;
+        LeptonPt = multiplet.LeptonPt(1) / GeV;
+        Ht = multiplet.Ht() / GeV;
+        BottomNumber = multiplet.BottomNumber();
+    }
+    virtual Observables Variables();
 
 private:
 
-  ClassDef(HeavyHiggsCutNeutralBranch, 1)
+    ClassDef(HeavyHiggsCutNeutralBranch, 1)
 
 };
 

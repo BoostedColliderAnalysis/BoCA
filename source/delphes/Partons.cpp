@@ -1,11 +1,10 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "delphes/Delphes.hh"
 #include "delphes/Partons.hh"
 
 #include "Types.hh"
-#include "ParticleInfo.hh"
 #include "Debug.hh"
 
 namespace boca
@@ -14,35 +13,26 @@ namespace boca
 namespace delphes
 {
 
-// namespace
-// {
-//
-// Member Partons::Mother(::delphes::GenParticle& particle)
-// {
-//     if (particle.M1 == Member::EmptyPosition()) return {};
-//     ::delphes::GenParticle mother = TreeReader().Objects<::delphes::GenParticle>(Branch::particle).At(particle.M1);
-//     return {mother.PID, particle.M1};
-// }
-//
-// Family GrandMother(TTreeReaderArray<::delphes::GenParticle>& gen_particles, int mother_pos)
-// {
-//     if (mother_pos == Member::EmptyPosition()) return {};
-//     auto gen_mother = gen_particles.At(mother_pos);
-//     ::delphes::GenParticle gen_grand_mother = gen_particles.At(gen_mother.M1);
-//     Family family =  GreatGrandMother(gen_particles, gen_grand_mother.M1);
-//     family.SetGrandMother(Member(gen_grand_mother.PID, gen_mother.M1));
-//     return family;
-// }
-//
-// Family GreatGrandMother(TTreeReaderArray<::delphes::GenParticle>& gen_particles, int gen_grand_mother_pos)
-// {
-//     if (gen_grand_mother_pos == Member::EmptyPosition()) return {};
-//     Family family;
-//     family.SetGreatGrandMother(Member(gen_particles.At(gen_grand_mother_pos).PID, gen_grand_mother_pos))    ;
-//     return family;
-// }
-//
-// }
+namespace
+{
+
+auto Family(TTreeReaderArray<::delphes::GenParticle>& gen_particles, boca::Family& family, Relative relative, int position)
+{
+    if (relative == Relative::none) return family;
+    if (position == Member::EmptyPosition()) return family;
+    family.SetMember( {gen_particles.At(position).PID, position}, relative);
+    Family(gen_particles, family, Mother(relative), gen_particles.At(position).M1);
+    Family(gen_particles, family, StepMother(relative), gen_particles.At(position).M2);
+    return family;
+}
+
+auto Family(TTreeReaderArray<::delphes::GenParticle>& particles, Relative relative, int position)
+{
+    boca::Family family;
+    return Family(particles, family, relative, position);
+}
+
+}
 
 Partons::Partons(boca::TreeReader const& tree_reader) :
     boca::Partons(tree_reader) {}
@@ -61,34 +51,11 @@ std::vector<Particle> Partons::Particles(Status min_status) const
 {
     INFO0;
     std::vector<Particle> particles;
-    int position = 0;
     auto& gen_particles = TreeReader().Objects<::delphes::GenParticle>(Branch::particle);
-    for (auto const & gen_particle : gen_particles) {
-        if (gen_particle.Status < to_int(min_status)) break;
-        DETAIL(gen_particle.PID);
-        Member mother;
-        Member grand_mother;
-        Member great_grand_mother;
-        if (gen_particle.M1 != Member::EmptyPosition()) {
-            auto gen_mother = gen_particles.At(gen_particle.M1);
-            mother.Set(gen_mother.PID, gen_particle.M1);
-            if (gen_mother.M1 != Member::EmptyPosition()) {
-                auto& gen_grand_mother = gen_particles.At(gen_mother.M1);
-                grand_mother.Set(gen_grand_mother.PID, gen_mother.M1);
-                if (gen_grand_mother.M1 != Member::EmptyPosition()) {
-                    auto& gen_great_grand_mother = gen_particles.At(gen_grand_mother.M1);
-                    great_grand_mother.Set(gen_great_grand_mother.PID, gen_grand_mother.M1);
-                }
-            }
-        }
-        Member mother_2;
-        if (gen_particle.M2 != Member::EmptyPosition()) {
-            auto& gen_mother2 = gen_particles.At(gen_particle.M2);
-            mother_2.Set(gen_mother2.PID, gen_particle.M2);
-        }
-        Member particle(gen_particle.PID, position);
-        Family family(particle, mother, mother_2, grand_mother, great_grand_mother);
-        particles.emplace_back(Particle(gen_particle.P4(), family));
+    auto position = 0;
+    for (auto const & particle : gen_particles) {
+        if (particle.Status < to_int(min_status)) break;
+        particles.emplace_back(Particle(particle.P4(), Family(gen_particles, Relative::particle, position)));
         ++position;
     }
     return particles;
@@ -97,5 +64,3 @@ std::vector<Particle> Partons::Particles(Status min_status) const
 }
 
 }
-
-

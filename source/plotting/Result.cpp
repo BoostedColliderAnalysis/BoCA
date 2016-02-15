@@ -86,6 +86,7 @@ void Result::Inititialize()
     events_.resize(Steps(), 0);
     efficiencies_.resize(Steps(), 0);
     crosssections_.resize(Steps(), 0);
+    model_independent_.resize(Steps(), 0);
     pure_efficiencies_.resize(Steps(), 0);
     event_sums_.resize(Steps(), 0);
     bins_.resize(Steps(), 0);
@@ -139,6 +140,14 @@ TMVA::Types::EMVA const& Result::Mva() const
 {
     INFO0;
     return mva_;
+}
+void Result::SetModelIndependent(Crosssection crosssection, int step)
+{
+    model_independent_.at(step) = crosssection;
+}
+std::vector< Crosssection > Result::ModelIndependent() const
+{
+    return model_independent_;
 }
 
 }

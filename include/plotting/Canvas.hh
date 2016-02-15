@@ -24,7 +24,7 @@ public:
     template<typename Value>
     void SetLog(Range<Value> const& range) {
         //       std::cout << range.Min() << " " <<  range.Max() <<std::endl;
-        if (range.Min() > Value(0) && range.Min() / range.Max() < 0.1) canvas_.SetLogy();
+        if (range.Min() > Value(0) && range.Min() / range.Max() < 0.01) canvas_.SetLogy();
     }
 
     template<typename Value>

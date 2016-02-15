@@ -29,9 +29,6 @@ namespace boca
 {
 
 class PreCuts;
-
-std::string Name(Stage stage);
-
 /**
  * @brief Prepares multivariant analysis
  *
@@ -55,7 +52,7 @@ public:
 
     virtual TMVA::Types::EMVA Mva() const;
 
-    void Initialize(std::string const& analysis_name);
+    void Initialize(std::string const& analysis_name = "");
 
     std::vector<Observable> const& Variables() const;
 

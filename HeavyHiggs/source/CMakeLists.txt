@@ -1,4 +1,4 @@
-create_dictionary(BranchHeavyHiggs Branch.cpp ../include/LinkDefHeavyHiggs.hh)
+create_dictionary(BranchHeavyHiggs BranchesHeavyHiggs.cpp ../include/LinkDefHeavyHiggs.hh)
 
 set(AnalysisSources
 JetPairTagger.cpp

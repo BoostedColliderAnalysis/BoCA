@@ -79,7 +79,7 @@ DetectorGeometry.cpp
 JetInfo.cpp
 ParticleInfo.cpp
 InfoRecombiner.cpp
-JetInfoFamily.cpp
+# JetInfoFamily.cpp
 )
 create_library(Analysis analysis_sources)
 

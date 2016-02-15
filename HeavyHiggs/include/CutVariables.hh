@@ -3,8 +3,7 @@
  */
 #pragma once
 
-#include "Identification.hh"
-#include "physics/Units.hh"
+#include "Jet.hh"
 
 namespace boca
 {
@@ -25,16 +24,14 @@ public:
     void SetEtMiss(Energy et_miss);
     void SetBottomMinPt(Momentum bottom_min_pt);
     void SetBottomMaxRap(Angle bottom_max_rap);
-    void SetLeadingPt(Momentum leading_pt);
-    void SetSecondLeadingPt(Momentum second_leading_pt);
+    void SetLeptonPts(std::vector<Lepton> leptons);
     int JetNumber() const;
     int BottomNumber() const;
     int Charge() const;
     float BottomBdt() const;
     Angle DeltaR() const;
     Mass InvariantMass() const;
-    Momentum LeadingPt() const;
-    Momentum SecondLeadingPt() const;
+    Momentum LeptonPt(int number) const;
     Momentum BottomMinPt() const;
     Angle BottomMaxRap() const;
     Momentum Ht() const;
@@ -42,6 +39,8 @@ public:
     void SetPassed(std::vector<bool> const& passed);
     bool IsNaN();
     std::vector<bool> Passed() const;
+    void SetJetPts(std::vector<Jet> const& jets);
+    Momentum JetPt(int number) const;
 
 private:
 
@@ -50,8 +49,8 @@ private:
     Mass invariant_mass_ = 0;
     Energy ht_ = 0;
     Energy et_miss_ = 0;
-    Momentum leading_pt_ = 0;
-    Momentum second_leading_pt_ = 0;
+    std::vector<Momentum> lepton_pts_;
+    std::vector<Momentum> jet_pts_;
     Momentum bottom_min_pt_ = 0;
     Angle delta_r_ = 0;
     Angle bottom_max_rap_ = 0;

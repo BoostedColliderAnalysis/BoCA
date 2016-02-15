@@ -1,5 +1,5 @@
-#include "Branch.hh"
-#include "Pair.hh"
+#include "BranchesHeavyHiggs.hh"
+#include "OBSERVABLE.hh"
 
 namespace boca
 {
@@ -23,12 +23,22 @@ HeavyHiggsLeptonicBranch::HeavyHiggsLeptonicBranch()
     SmallerNeutrinoDeltaR = InitialValue();
 }
 
+boca::Observables HeavyHiggsLeptonicBranch::Variables()
+{
+    return ParticleBranch::Variables() + OBSERVABLE(LargerWDeltaR) + OBSERVABLE(LargerWDeltaRap) + OBSERVABLE(LargerWDeltaPhi) + OBSERVABLE(SmallerWDeltaR) + OBSERVABLE(SmallerWDeltaRap) + OBSERVABLE(SmallerWDeltaPhi) + OBSERVABLE(LargerNeutrinoDeltaR) + OBSERVABLE(LargerNeutrinoDeltaRap) + OBSERVABLE(LargerNeutrinoDeltaPhi) + OBSERVABLE(SmallerNeutrinoDeltaR) + OBSERVABLE(SmallerNeutrinoDeltaRap) + OBSERVABLE(SmallerNeutrinoDeltaPhi);
+}
+
 HeavyHiggsSemiBranch::HeavyHiggsSemiBranch() {}
 
 ChargedHiggsSemiBranch::ChargedHiggsSemiBranch()
 {
 //     Flag = int(InitialValue());
 }
+
+// Observables ChargedHiggsSemiBranch::Spectators()
+// {
+//     return ParticleBranch::Spectators() + OBSERVABLE(Flag);
+// }
 
 ChargedHiggsLeptonicBranch::ChargedHiggsLeptonicBranch()
 {
@@ -53,10 +63,25 @@ ChargedHiggsLeptonicBranch::ChargedHiggsLeptonicBranch()
     HeavyHiggsTag = int(InitialValue());
 }
 
+Observables ChargedHiggsLeptonicBranch::Variables()
+{
+    return ParticleBranch::Variables() + OBSERVABLE(HeavyHiggsMass) + OBSERVABLE(HeavyHiggsPt) + OBSERVABLE(TopDeltaR) + OBSERVABLE(TopDeltaRap) + OBSERVABLE(TopDeltaPhi) + OBSERVABLE(TopBdt);
+}
+
+Observables ChargedHiggsLeptonicBranch::Spectators()
+{
+    return ParticleBranch::Spectators() + OBSERVABLE(HeavyHiggsTag);
+}
+
 HeavyHiggsTauBranch::HeavyHiggsTauBranch()
 {
     NeutrinoPt = InitialValue();
     LeptonPt = InitialValue();
+}
+
+Observables HeavyHiggsTauBranch::Variables()
+{
+    return ParticleBranch::Variables() + OBSERVABLE(LeptonPt) + OBSERVABLE(NeutrinoPt);
 }
 
 EventNeutralBranch::EventNeutralBranch()
@@ -82,6 +107,11 @@ EventNeutralBranch::EventNeutralBranch()
     BottomBdt78 = InitialValue();
 }
 
+Observables EventNeutralBranch::Variables()
+{
+    return EventBranch::Variables() + OBSERVABLE(HiggsMass) + OBSERVABLE(HiggsBdt) + OBSERVABLE(SignatureBdt) + OBSERVABLE(PairRap) + OBSERVABLE(BottomBdt) + OBSERVABLE(PairBottomBdt) + OBSERVABLE(BottomBdt1) + OBSERVABLE(BottomBdt2) + OBSERVABLE(BottomBdt3) + OBSERVABLE(BottomBdt4) + OBSERVABLE(BottomBdt5) + OBSERVABLE(BottomBdt6) + OBSERVABLE(BottomBdt7) + OBSERVABLE(BottomBdt8) + OBSERVABLE(BottomBdt12) + OBSERVABLE(BottomBdt34) + OBSERVABLE(BottomBdt56) + OBSERVABLE(BottomBdt78);
+}
+
 EventNeutralFourTopBranch::EventNeutralFourTopBranch()
 {
     HiggsMass = InitialValue();
@@ -105,9 +135,19 @@ EventNeutralFourTopBranch::EventNeutralFourTopBranch()
     BottomBdt78 = InitialValue();
 }
 
+Observables EventNeutralFourTopBranch::Variables()
+{
+    return EventBranch::Variables() + OBSERVABLE(HiggsMass) + OBSERVABLE(HiggsBdt) + OBSERVABLE(SignatureBdt) + OBSERVABLE(PairRap) + OBSERVABLE(BottomBdt) + OBSERVABLE(BottomBdt1) + OBSERVABLE(BottomBdt2) + OBSERVABLE(BottomBdt3) + OBSERVABLE(BottomBdt4) + OBSERVABLE(BottomBdt5) + OBSERVABLE(BottomBdt6) + OBSERVABLE(BottomBdt7) + OBSERVABLE(BottomBdt8) + OBSERVABLE(BottomBdt12) + OBSERVABLE(BottomBdt34) + OBSERVABLE(BottomBdt56) + OBSERVABLE(BottomBdt78);
+}
+
 EventFusionBranch::EventFusionBranch()
 {
     HiggsMass = InitialValue();
+}
+
+Observables EventFusionBranch::Variables()
+{
+    return EventBranch::Variables() + OBSERVABLE(HiggsMass);
 }
 
 OctetNeutralBranch::OctetNeutralBranch()
@@ -122,6 +162,11 @@ OctetNeutralBranch::OctetNeutralBranch()
     SoftTopPt = InitialValue();
 }
 
+Observables OctetNeutralBranch::Variables()
+{
+    return MultiBranch::Variables() + OBSERVABLE(HiggsMass) + OBSERVABLE(HiggsBdt) + OBSERVABLE(PairBdt) + OBSERVABLE(PairRap) + OBSERVABLE(BottomBdt) + OBSERVABLE(HardTopPt) + OBSERVABLE(SoftTopPt) + OBSERVABLE(PairBottomBdt);
+}
+
 OctetChargedBranch::OctetChargedBranch()
 {
     HiggsMass = InitialValue();
@@ -130,6 +175,11 @@ OctetChargedBranch::OctetChargedBranch()
     PairBottomBdt = InitialValue();
     HiggsBdt = InitialValue();
     PairBdt = InitialValue();
+}
+
+Observables OctetChargedBranch::Variables()
+{
+    return MultiBranch::Variables() + OBSERVABLE(HiggsMass) + OBSERVABLE(HiggsBdt) + OBSERVABLE(PairBdt) + OBSERVABLE(PairRap) + OBSERVABLE(BottomBdt) + OBSERVABLE(PairBottomBdt);
 }
 
 EventChargedBranch::EventChargedBranch()
@@ -154,50 +204,9 @@ EventChargedBranch::EventChargedBranch()
     BottomBdt78 = InitialValue();
 }
 
-
-boca::Observables HeavyHiggsLeptonicBranch::Variables()
-{
-    return ParticleBranch::Variables() + OBSERVABLE(LargerWDeltaR) + OBSERVABLE(LargerWDeltaRap) + OBSERVABLE(LargerWDeltaPhi) + OBSERVABLE(SmallerWDeltaR) + OBSERVABLE(SmallerWDeltaRap) + OBSERVABLE(SmallerWDeltaPhi) + OBSERVABLE(LargerNeutrinoDeltaR) + OBSERVABLE(LargerNeutrinoDeltaRap) + OBSERVABLE(LargerNeutrinoDeltaPhi) + OBSERVABLE(SmallerNeutrinoDeltaR) + OBSERVABLE(SmallerNeutrinoDeltaRap) + OBSERVABLE(SmallerNeutrinoDeltaPhi);
-}
-Observables ChargedHiggsLeptonicBranch::Variables()
-{
-    return ParticleBranch::Variables() + OBSERVABLE(HeavyHiggsMass) + OBSERVABLE(HeavyHiggsPt) + OBSERVABLE(TopDeltaR) + OBSERVABLE(TopDeltaRap) + OBSERVABLE(TopDeltaPhi) + OBSERVABLE(TopBdt);
-}
-Observables ChargedHiggsLeptonicBranch::Spectators()
-{
-    return ParticleBranch::Spectators() + OBSERVABLE(HeavyHiggsTag);
-}
-Observables HeavyHiggsTauBranch::Variables()
-{
-    return ParticleBranch::Variables() + OBSERVABLE(LeptonPt) + OBSERVABLE(NeutrinoPt);
-}
-Observables EventNeutralBranch::Variables()
-{
-    return EventBranch::Variables() + OBSERVABLE(HiggsMass) + OBSERVABLE(HiggsBdt) + OBSERVABLE(SignatureBdt) + OBSERVABLE(PairRap) + OBSERVABLE(BottomBdt) + OBSERVABLE(PairBottomBdt) + OBSERVABLE(BottomBdt1) + OBSERVABLE(BottomBdt2) + OBSERVABLE(BottomBdt3) + OBSERVABLE(BottomBdt4) + OBSERVABLE(BottomBdt5) + OBSERVABLE(BottomBdt6) + OBSERVABLE(BottomBdt7) + OBSERVABLE(BottomBdt8) + OBSERVABLE(BottomBdt12) + OBSERVABLE(BottomBdt34) + OBSERVABLE(BottomBdt56) + OBSERVABLE(BottomBdt78);
-}
-Observables EventFusionBranch::Variables()
-{
-    return EventBranch::Variables() + OBSERVABLE(HiggsMass);
-}
-Observables OctetNeutralBranch::Variables()
-{
-    return MultiBranch::Variables() + OBSERVABLE(HiggsMass) + OBSERVABLE(HiggsBdt) + OBSERVABLE(PairBdt) + OBSERVABLE(PairRap) + OBSERVABLE(BottomBdt) + OBSERVABLE(HardTopPt) + OBSERVABLE(SoftTopPt) + OBSERVABLE(PairBottomBdt);
-}
-Observables OctetChargedBranch::Variables()
-{
-    return MultiBranch::Variables() + OBSERVABLE(HiggsMass) + OBSERVABLE(HiggsBdt) + OBSERVABLE(PairBdt) + OBSERVABLE(PairRap) + OBSERVABLE(BottomBdt) + OBSERVABLE(PairBottomBdt);
-}
 Observables EventChargedBranch::Variables()
 {
     return EventBranch::Variables() + OBSERVABLE(HiggsMass) + OBSERVABLE(HiggsBdt) + OBSERVABLE(SignatureBdt) + OBSERVABLE(PairRap) + OBSERVABLE(BottomBdt) + OBSERVABLE(PairBottomBdt) + OBSERVABLE(BottomBdt1) + OBSERVABLE(BottomBdt2) + OBSERVABLE(BottomBdt3) + OBSERVABLE(BottomBdt4) + OBSERVABLE(BottomBdt5) + OBSERVABLE(BottomBdt6) + OBSERVABLE(BottomBdt7) + OBSERVABLE(BottomBdt8) + OBSERVABLE(BottomBdt12) + OBSERVABLE(BottomBdt34) + OBSERVABLE(BottomBdt56) + OBSERVABLE(BottomBdt78);
-}
-// Observables ChargedHiggsSemiBranch::Spectators()
-// {
-//     return ParticleBranch::Spectators() + OBSERVABLE(Flag);
-// }
-Observables EventNeutralFourTopBranch::Variables()
-{
-    return EventBranch::Variables() + OBSERVABLE(HiggsMass) + OBSERVABLE(HiggsBdt) + OBSERVABLE(SignatureBdt) + OBSERVABLE(PairRap) + OBSERVABLE(BottomBdt) + OBSERVABLE(BottomBdt1) + OBSERVABLE(BottomBdt2) + OBSERVABLE(BottomBdt3) + OBSERVABLE(BottomBdt4) + OBSERVABLE(BottomBdt5) + OBSERVABLE(BottomBdt6) + OBSERVABLE(BottomBdt7) + OBSERVABLE(BottomBdt8) + OBSERVABLE(BottomBdt12) + OBSERVABLE(BottomBdt34) + OBSERVABLE(BottomBdt56) + OBSERVABLE(BottomBdt78);
 }
 
 HeavyHiggsCutBranch::HeavyHiggsCutBranch()
@@ -221,21 +230,18 @@ Observables HeavyHiggsCutBranch::Variables()
 
 HeavyHiggsCutNeutralBranch::HeavyHiggsCutNeutralBranch()
 {
-//   Ht = InitialValue();
-//   EtMiss = InitialValue();
-//   NumberJet = int(InitialValue());
-//   NumberBottom = int(InitialValue());
-//   InvariantMass = InitialValue();
-//   DeltaR = InitialValue();
-    LeptonPt1 = InitialValue();
-    LeptonPt2 = InitialValue();
-//   BottomMinPt = InitialValue();
-//   BottomMaxRap = InitialValue();
+    JetPt1 = InitialValue();
+    JetPt2 = InitialValue();
+    JetPt3 = InitialValue();
+    JetPt4 = InitialValue();
+    Ht = InitialValue();
+    BottomNumber = int(InitialValue());
+    LeptonPt = InitialValue();
 }
 
 Observables HeavyHiggsCutNeutralBranch::Variables()
 {
-    return OBSERVABLE(LeptonPt1) + OBSERVABLE(LeptonPt2);
+    return OBSERVABLE(JetPt1) + OBSERVABLE(JetPt2) +  OBSERVABLE(JetPt3) + OBSERVABLE(JetPt4) +  OBSERVABLE(Ht) + OBSERVABLE(BottomNumber) + OBSERVABLE(LeptonPt);
 }
 
 }

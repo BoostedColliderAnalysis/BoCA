@@ -253,8 +253,8 @@ void AnalysisBase::Run(Output output)
     INFO0;
     Initialize();
     //   analysis.PreRequisits<analysis.Tagger()::type>(analysis,run);
-    FlagSwitch(output, [&](Output output) {
-        switch (output) {
+    FlagSwitch(output, [&](Output output_2) {
+        switch (output_2) {
         case Output::fast : RunFast();
             break;
         case Output::normal : RunNormal();
@@ -278,10 +278,10 @@ void AnalysisBase::PrintGeneratorLevel(Event const& event, bool signature) const
     auto particles = event.Partons().GenParticles();
     for (auto const & particle : particles) {
         auto family = particle.Info().Family();
-        if (signature && family.StepMother().Id() == 0) continue;
-        auto id = Name(family.Particle().Id());
-        auto mother = Name(family.Mother().Id());
-        auto mother2 = Name(family.StepMother().Id());
+        if (signature && family.Member(Relative::step_mother).Id() == 0) continue;
+        auto id = Name(family.Member(Relative::particle).Id());
+        auto mother = Name(family.Member(Relative::mother).Id());
+        auto mother2 = Name(family.Member(Relative::step_mother).Id());
         ERROR(id, mother, mother2);
     }
 }

@@ -14,9 +14,7 @@ class Particle : public PseudoJet
 
 public:
 
-//     using PseudoJet::PseudoJet;
-
-  Particle();
+    Particle();
 
     Particle(double x, double y, double z, double e);
 
@@ -34,8 +32,7 @@ public:
 
 private:
 
-//   ParticleInfo particle_info_;
-  void SetInfo(ParticleInfo const & user_info = ParticleInfo());
+    void SetInfo(ParticleInfo const& user_info = ParticleInfo());
 
 };
 

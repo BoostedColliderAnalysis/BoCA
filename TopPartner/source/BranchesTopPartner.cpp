@@ -2,7 +2,7 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "BranchesTopPartner.hh"
-#include "Pair.hh"
+#include "OBSERVABLE.hh"
 
 namespace boca
 {

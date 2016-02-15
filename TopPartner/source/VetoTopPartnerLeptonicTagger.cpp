@@ -38,13 +38,13 @@ std::vector<Particle> VetoTopPartnerLeptonicTagger::Particles(Event const& event
     std::vector<Particle> leptons = CopyIfLepton(particles);
     std::vector<Particle>candidate = CopyIfGreatGrandMother(leptons, Id::top_partner);
     if (!candidate.empty()) {
-        int great_grand_mother = candidate.front().Info().Family().GreatGrandMother().Id();
+        int great_grand_mother = candidate.front().Info().Family().Member(Relative::great_grand_mother).Id();
         return CopyIfExactParticle(particles, great_grand_mother);
     } else {
         candidate = CopyIfGrandMother(leptons, Id::top_partner);
         candidate = CopyIfMother(candidate, Id::W);
         if (candidate.empty()) return {};
-        int grand_mother = candidate.front().Info().Family().GrandMother().Id();
+        int grand_mother = candidate.front().Info().Family().Member(Relative::grand_mother).Id();
         return CopyIfExactParticle(particles, grand_mother);
     }
 }

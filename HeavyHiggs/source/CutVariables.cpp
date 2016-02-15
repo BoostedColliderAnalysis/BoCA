@@ -1,6 +1,7 @@
 /**
  * Copyright (C) 2015 Jan Hajer
  */
+#include "boost/range/algorithm/sort.hpp"
 #include "CutVariables.hh"
 #include "Debug.hh"
 
@@ -75,21 +76,16 @@ void CutVariables::SetBottomMaxRap(Angle bottom_max_rap)
 {
     bottom_max_rap_ = bottom_max_rap;
 }
-void CutVariables::SetLeadingPt(Momentum leading_pt)
+void CutVariables::SetLeptonPts(std::vector<Lepton> leptons)
 {
-    leading_pt_ = leading_pt;
+  for (auto const & lepton : leptons) lepton_pts_.emplace_back(lepton.Pt());
+  boost::range::sort(lepton_pts_, [](Momentum const & pt_1, Momentum const & pt_2) {
+    return pt_1 > pt_2;
+  });
 }
-void CutVariables::SetSecondLeadingPt(Momentum second_leading_pt)
+Momentum CutVariables::LeptonPt(int number) const
 {
-    second_leading_pt_ = second_leading_pt;
-}
-Momentum CutVariables::LeadingPt() const
-{
-    return leading_pt_;
-}
-Momentum CutVariables::SecondLeadingPt() const
-{
-    return second_leading_pt_;
+  return lepton_pts_.size() >= number ? lepton_pts_.at(number - 1) : at_rest;
 }
 Momentum CutVariables::BottomMinPt() const
 {
@@ -102,6 +98,18 @@ Angle CutVariables::BottomMaxRap() const
 std::vector< bool > CutVariables::Passed() const
 {
     return passed_;
+}
+void CutVariables::SetJetPts(std::vector<Jet> const& jets)
+{
+    for (auto const & jet : jets) jet_pts_.emplace_back(jet.Pt());
+    boost::range::sort(jet_pts_, [](Momentum const & pt_1, Momentum const & pt_2) {
+        return pt_1 > pt_2;
+    });
+}
+
+Momentum CutVariables::JetPt(int number) const
+{
+    return jet_pts_.size() >= number ? jet_pts_.at(number - 1) : at_rest;
 }
 
 }

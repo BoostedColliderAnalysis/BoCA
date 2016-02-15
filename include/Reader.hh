@@ -2,14 +2,14 @@
  * Copyright (C) 2015 Jan Hajer
  */
 #pragma once
-#include <memory>
 
 #include "TMVA/Reader.h"
 
 #include "ReaderBase.hh"
 #include "PreCuts.hh"
-#include "Tagger.hh"
+#include "Phase.hh"
 #include "Options.hh"
+#include "Event.hh"
 
 namespace boca
 {
@@ -25,48 +25,29 @@ class Reader : public ReaderBase
 
 public:
 
-    Reader() : reader_(new TMVA::Reader(Options())) {
-        Initialize(Stage::reader);
-    }
-
-    Reader(Stage stage) : reader_(new TMVA::Reader(Options())) {
-        Initialize(stage);
-    }
-
-    ~Reader() {
-        std::lock_guard<std::mutex> guard(mutex_);
-        delete reader_;
-        reader_ = nullptr;
-    }
-
-    Reader(const Reader& that) :
-        reader_(new TMVA::Reader(Options()))
-        ,
-        tagger_(that.tagger_) {
-        Initialize(that.stage_);
-    }
-
-    Reader& operator=(Reader const& that) {
-        if (&that == this) return *this;
-        reader_ = new TMVA::Reader(Options());
-        tagger_ = that.tagger_;
-        Initialize(that.stage_);
-        delete that.reader_;
-        that.reader_ = nullptr;
-        return *this;
-    }
-
-    void Initialize(Stage stage) {
+    Reader(Stage stage = Stage::reader) :
+        reader_(Options()) {
         stage_ = stage;
         Tagger().Initialize();
-        switch (stage) {
-        case Stage::trainer : break;
-        case Stage::reader : Initialize();
-            break;
-        }
+        Initialize();
+    }
+
+    Reader(Reader const& reader) :
+        reader_(Options()),
+        stage_(reader.stage_),
+        tagger_(reader.tagger_) {
+        Initialize();
+    }
+
+    Reader(Reader const && reader) :
+        reader_(Options()),
+        stage_(std::move(reader.stage_)),
+        tagger_(std::move(reader.tagger_)) {
+        Initialize();
     }
 
     void Initialize() {
+        if (stage_ == Stage::trainer) return;
         std::ofstream cout_file(Tagger().AnalysisName() + "/Reader.txt", std::ios_base::app | std::ios_base::out);
         std::streambuf* cout = std::cout.rdbuf();
         std::cout.rdbuf(cout_file.rdbuf());
@@ -75,55 +56,19 @@ public:
         std::cout.rdbuf(cout);
     }
 
-
-//     Reader() : reader_(std::make_shared<TMVA::Reader>(Options())) {
-// //         INFO0;
-//         stage_ = Stage::reader;
-//         Initialize(stage_);
-//     }
-//
-//     Reader(Stage stage) : reader_(std::make_shared<TMVA::Reader>(Options())) {
-// //         INFO(Name(stage), tagger_.Name());
-//         stage_ = stage;
-//         Initialize(stage);
-//     }
-//
-//     void Initialize(Stage stage) {
-// //         INFO(Name(stage_), tagger_.Name());
-//         switch (stage) {
-//         case Stage::trainer :
-//             Tagger().Initialize();
-//             break;
-//         case Stage::reader :
-//             Tagger().Initialize();
-//             Initialize();
-//             break;
-//         }
-//     }
-//
-//     void Initialize() {
-// //         INFO(Name(stage_), tagger_.Name());
-//         std::ofstream cout_file(Tagger().AnalysisName() + "/Reader.txt", std::ios_base::app | std::ios_base::out);
-//         std::streambuf* cout = std::cout.rdbuf();
-//         std::cout.rdbuf(cout_file.rdbuf());
-//         AddObservables();
-//         BookMva(TMVA::Types::EMVA::kBDT);
-//         std::cout.rdbuf(cout);
-//     }
-
     int Bdt(Event const& event, PreCuts const& pre_cuts) const {
-        return Tagger().SaveBdt(event, pre_cuts, reader());
+        return Tagger().SaveBdt(event, pre_cuts, TReader());
     }
 
-    template <typename Multiplet>
-    float Bdt(Multiplet const& multiplet) const {
-        return Tagger().Bdt(multiplet, reader());
+    template <typename Multiplet_>
+    float Bdt(Multiplet_ const& multiplet) const {
+        return Tagger().Bdt(multiplet, TReader());
     }
 
-    template <typename Plet>
-    Plet Multiplet(Plet multiplet, PreCuts const& pre_cuts) const {
+    template <typename Multiplet_>
+    Multiplet_ Multiplet(Multiplet_ multiplet, PreCuts const& pre_cuts) const {
         try {
-            return Tagger().Multiplet(multiplet, pre_cuts, reader());
+            return Tagger().Multiplet(multiplet, pre_cuts, TReader());
         } catch (std::exception const&) {
             multiplet.SetBdt(-1);
             return multiplet;
@@ -133,46 +78,41 @@ public:
     template <typename Input>
     auto Multiplets(Input const& input) const {
         PreCuts pre_cuts;
-        return Tagger().Multiplets(input, pre_cuts, reader());
+        return Tagger().Multiplets(input, pre_cuts, TReader());
     }
 
     template <typename Input>
     auto Jets(Input const& input) const {
         PreCuts pre_cuts;
-        return Tagger().Jets(input, pre_cuts, reader());
+        return Tagger().Jets(input, pre_cuts, TReader());
     }
 
     auto Particles(Event const& event) const {
         return Tagger().Particles(event);
     }
 
-//     template <typename Input1, typename Input2>
-//     auto Multiplets(Input1 &input_1, Input2 &input_2) const {
-//         return Tagger().Multiplets(input_1, input_2, reader());
-//     }
-
     auto Multiplet(Jet& input) const {
-        return Tagger().Multiplet(input, reader());
+        return Tagger().Multiplet(input, TReader());
     }
 
     template <typename Input>
     auto Multiplet(Input const& input) const {
-        return Tagger().Multiplet(input, reader());
+        return Tagger().Multiplet(input, TReader());
     }
 
     template <typename Input1, typename Input2>
     auto Multiplet(Input1 const& input_1, Input2 const& input_2) const {
-        return Tagger().Multiplet(input_1, input_2, reader());
+        return Tagger().Multiplet(input_1, input_2, TReader());
     }
 
     template <typename Input>
     auto SubMultiplet(Input const& input, int number) const {
-        return Tagger().SubMultiplet(input, reader(), number);
+        return Tagger().SubMultiplet(input, TReader(), number);
     }
 
     template <typename Input>
     auto SubMultiplet(Input const& input) const {
-        return Tagger().SubMultiplet(input, reader());
+        return Tagger().SubMultiplet(input, TReader());
     }
 
     Tagger_ const& Tagger() const {
@@ -183,50 +123,46 @@ public:
         Tagger().NewBranch(tree_writer, stage);
     }
 
-    TMVA::Reader const& reader() const {
-        return *reader_;
-//         return *reader_.get();
-    }
-
 private:
 
     std::string Options() const {
-        boca::Options options;
+        boca::Options options("Color", false);
 //         options.Add("V", false);
-        options.Add("Color", false);
 //         options.Add("Silent");
         return options;
     }
 
     void AddObservables() {
         std::lock_guard<std::mutex> guard(mutex_);
-        for (auto const & observable : Tagger().Variables()) reader().AddVariable(observable.Expression(), &observable.Value());
-        for (auto const & spectator : Tagger().Spectators()) reader().AddSpectator(spectator.Expression(), &spectator.Value());
+        for (auto const & variable : Tagger().Variables()) TReader().AddVariable(variable.Expression(), &variable.Value());
+        for (auto const & spectator : Tagger().Spectators()) TReader().AddSpectator(spectator.Expression(), &spectator.Value());
     }
 
     TMVA::IMethod& BookMva() {
         std::lock_guard<std::mutex> guard(mutex_);
         std::cout << Tagger().MethodName() << "  " << Tagger().WeightFileName() << std::endl;
-        return *reader().BookMVA(Tagger().MethodName(), Tagger().WeightFileName());
+        return *TReader().BookMVA(Tagger().MethodName(), Tagger().WeightFileName());
     }
 
-    TMVA::Reader& reader() {
-        return *reader_;
-//         return *reader_.get();
+    TMVA::Reader& TReader() {
+        return reader_;
+    }
+
+    TMVA::Reader const& TReader() const {
+        return reader_;
     }
 
     Tagger_& Tagger() {
         return tagger_;
     }
 
-//     std::shared_ptr<TMVA::Reader> reader_;
-    TMVA::Reader* reader_  = nullptr;
+    TMVA::Reader reader_;
 
     Tagger_ tagger_;
 
     Stage stage_;
 
-
 };
 
 }
+

@@ -2,6 +2,7 @@
 
 #include "AnalysisHeavyHiggs.hh"
 #include "Sort.hh"
+#include "Vector.hh"
 
 namespace boca {
 
