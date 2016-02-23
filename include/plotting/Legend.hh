@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -20,6 +20,7 @@ namespace boca
  */
 enum class Orientation
 {
+    none = 0,
     center = 1 << 0,
     left = 1 << 1,
     right = 1 << 2,

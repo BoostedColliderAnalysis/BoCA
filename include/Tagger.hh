@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -11,6 +11,7 @@
 #include "Vector.hh"
 #include "Event.hh"
 #include "Phase.hh"
+#include "physics/Range.hh"
 
 namespace TMVA
 {
@@ -156,6 +157,8 @@ protected:
     }
 
     virtual boca::Filter Filter() const;
+
+    Range<float> MvaRange() const;
 
 private:
 

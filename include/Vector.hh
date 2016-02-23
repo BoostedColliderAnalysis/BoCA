@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 // #include <vector>
@@ -211,7 +211,7 @@ template < typename Element,
  * @brief forms all \f$(n^2 - n)\f$ ordered pairs of vector elements, applies to them the function and returns a vector of its results
  *
  */
-auto ordered_pairs(std::vector<Element> const& container, Function function)
+auto OrderedPairs(std::vector<Element> const& container, Function function)
 {
     std::vector<Result> results;
     for (auto element_1 = container.begin(); element_1 != container.end(); ++element_1) {
@@ -232,7 +232,7 @@ template < typename Element, typename Function, typename Result = typename std::
  * @brief forms all \f$(n^2 - n) / 2\f$ unordered pairs, applies to them the function and returns a vector of its results
  *
  */
-auto unordered_pairs(std::vector<Element> const& container, Function function)
+auto UnorderedPairs(std::vector<Element> const& container, Function function)
 {
     std::vector<Result> results;
     for (auto element_1 = container.begin(); element_1 != container.end(); ++element_1) {
@@ -249,7 +249,7 @@ template < typename Element1, typename Element2, typename Function, typename Res
  * @brief forms all \f$n \times m\f$ pairs of the elements in the two containers, applies the function and returns a vector of its elements
  *
  */
-auto pairs(std::vector<Element1> const& container_1, std::vector<Element2> const& container_2, Function function)
+auto Pairs(std::vector<Element1> const& container_1, std::vector<Element2> const& container_2, Function function)
 {
     std::vector<Result> results;
     for (auto const & element_1 : container_1) {
@@ -267,7 +267,7 @@ template < typename Element1, typename Element2, typename Function, typename Res
  * @brief forms all \f$(n^2 - n) / 2 \times m\f$ triples, applies to them the function and returns a vector of its results
  *
  */
-auto triples(std::vector<Element1> const& container_1, std::vector<Element2> const& container_2, Function function)
+auto Triples(std::vector<Element1> const& container_1, std::vector<Element2> const& container_2, Function function)
 {
     std::vector<Result> results;
     for (auto element_1 = container_1.begin(); element_1 != container_1.end(); ++element_1) {
@@ -290,7 +290,7 @@ template < typename Element1,
  * @brief forms all \f$(n^2 - n) / 2 \times m\f$ triples, applies to them the function and returns a vector of its results
  *
  */
-auto triples(std::vector<Element1> const& container_1, std::vector<Element2> const& container_2, std::vector<Element3> const& container_3, Function function)
+auto Triples(std::vector<Element1> const& container_1, std::vector<Element2> const& container_2, std::vector<Element3> const& container_3, Function function)
 {
     std::vector<Result> results;
     for (auto const & element_1 : container_1) {

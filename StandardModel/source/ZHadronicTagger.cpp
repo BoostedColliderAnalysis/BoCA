@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "ZHadronicTagger.hh"
 #include "MomentumRange.hh"
@@ -32,7 +32,7 @@ std::vector<Doublet> ZHadronicTagger::Doublets(Event const& event, std::function
     INFO0;
    std::vector<Jet> jets = bottom_reader_.Jets(event);
     MomentumRange jet_range(Id::Z, Id::Z);
-    std::vector<Doublet> doublets = unordered_pairs(jet_range.SofterThanMax(jets), [&](Jet const & jet_1, Jet const & jet_2) {
+    std::vector<Doublet> doublets = UnorderedPairs(jet_range.SofterThanMax(jets), [&](Jet const & jet_1, Jet const & jet_2) {
         Doublet doublet(jet_1, jet_2);
         if (boost::optional<Doublet> optional_doublet = function(doublet)) return *optional_doublet;
         throw boca::Problematic();

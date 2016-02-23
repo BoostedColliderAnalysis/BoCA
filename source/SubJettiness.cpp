@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 
 #include "fastjet/contrib/Nsubjettiness.hh"
@@ -43,14 +43,12 @@ float NSubJettiness::tau_3() const
 
 float NSubJettiness::tau_2_1() const
 {
-    if (tau_1_ > 0) return tau_2_1_;
-    return 0;
+    return tau_1_ > 0 ? tau_2_1_ : 0;
 }
 
 float NSubJettiness::tau_3_2() const
 {
-    if (tau_2_ > 0) return tau_3_2_;
-    return 0;
+    return tau_2_ > 0 ? tau_3_2_ : 0;
 }
 
 SubJettiness::SubJettiness() {}

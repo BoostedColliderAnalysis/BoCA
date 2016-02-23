@@ -18,6 +18,16 @@ namespace boca
  *
  */
 
+std::string Name(JetType jet_type)
+{
+    switch (jet_type) {
+    case JetType::jet : return "Jet";
+    case JetType::gen_jet : return "GenJet";
+    case JetType::e_flow_jet : return "EFlowJet";
+        DEFAULT("Jet Type", "");
+    }
+}
+
 DetectorType DetectorGeometry::detector_type_ = boca::DetectorType::Spp;
 
 InfoRecombiner DetectorGeometry::info_recombiner_ = InfoRecombiner();
@@ -85,18 +95,18 @@ Angle DetectorGeometry::TrackerEtaMax()
 
 fastjet::JetDefinition DetectorGeometry::JetDefinition()
 {
-    return fastjet::JetDefinition(fastjet::antikt_algorithm, JetConeSize() / rad, &info_recombiner_);
+    return fastjet::JetDefinition(fastjet::antikt_algorithm, JetConeSize() / rad, &Recombiner());
 }
 
 fastjet::JetDefinition DetectorGeometry::JetDefinition(Angle const& jet_cone)
 {
-    return fastjet::JetDefinition(fastjet::cambridge_aachen_algorithm, jet_cone / rad, &info_recombiner_);
+    return fastjet::JetDefinition(fastjet::cambridge_aachen_algorithm, jet_cone / rad, &Recombiner());
 }
 
 
 fastjet::JetDefinition DetectorGeometry::SubJetDefinition()
 {
-    return fastjet::JetDefinition(fastjet::kt_algorithm, JetConeSize() / rad, &info_recombiner_);
+    return fastjet::JetDefinition(fastjet::kt_algorithm, JetConeSize() / rad, &Recombiner());
 }
 
 Length DetectorGeometry::TrackerDistanceMin()
@@ -129,8 +139,10 @@ Luminosity DetectorGeometry::Luminosity()
     case boca::DetectorType::CMS :
         return 3000. / fb;
         return 300. / fb;
-    case boca::DetectorType::Spp : return 3000. / fb;
-        DEFAULT(Name(DetectorType()), 300.  / fb);
+    case boca::DetectorType::Spp :
+        return 30000. / fb;
+        return 3000. / fb;
+        DEFAULT(Name(DetectorType()), 3000.  / fb);
     }
 }
 
@@ -166,15 +178,6 @@ float DetectorGeometry::IsolationFraction()
 Momentum DetectorGeometry::ForwardJetPt()
 {
     return 40_GeV;
-}
-std::__cxx11::string Name(JetType jet_type)
-{
-    switch (jet_type) {
-    case JetType::jet : return "Jet";
-    case JetType::gen_jet : return "GenJet";
-    case JetType::e_flow_jet : return "EFlowJet";
-        DEFAULT("Jet Type", "");
-    }
 }
 
 }

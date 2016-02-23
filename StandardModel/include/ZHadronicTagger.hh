@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -17,7 +17,7 @@ namespace standardmodel
 {
 
 /**
- * @brief Semi leptonic heavy higgs BDT tagger
+ * @brief BDT tagger for hadroniccaly decaying Z bosons
  *
  */
 class ZHadronicTagger : public TaggerTemplate<Doublet, ZHadronicBranch>

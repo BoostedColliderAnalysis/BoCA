@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "ResonanceTagger.hh"
 #include "ParticleInfo.hh"
@@ -23,7 +23,7 @@ int ResonanceTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 
 std::vector<Doublet> ResonanceTagger::Doublets(Event const& event, std::function<Doublet(Doublet&)> const& function) const
 {
-    return unordered_pairs(event.Leptons().Photons(), [&](Lepton const & photon_1, Lepton const & photon_2) {
+    return UnorderedPairs(event.Leptons().Photons(), [&](Lepton const & photon_1, Lepton const & photon_2) {
         Doublet doublet(photon_1, photon_2);
         if (doublet.Overlap()) throw Overlap();
         return function(doublet);

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -19,7 +19,7 @@ namespace boca
  */
 enum class Id
 {
-    empty = 0,
+    none = 0,
     down = 1,
     up = 2,
     strange = 3,
@@ -45,6 +45,7 @@ enum class Id
     W = 24,
     higgs = 25, ///< Higgs boson
     neutral_boson = 26, ///< Multi particle containing neutral bosons
+    bosons = 27, ///< Multi particle containing neutral bosons
     Z_partner = 32,
     Z_partner_2 = 33,
     W_partner = 34,
@@ -98,6 +99,10 @@ std::string Name(int id);
 std::string Name(Id id);
 
 Mass MassOf(Id id);
+
+Id Lightest(Id id);
+
+Id Heavyest(Id id);
 
 std::vector<Id> MultiId(Id id);
 

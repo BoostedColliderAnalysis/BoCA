@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -16,6 +16,7 @@ class Event;
 
 enum class Output
 {
+    none = 0,
     fast = 1 << 0,
     normal = 1 << 1,
     significance = 1 << 2,
@@ -24,15 +25,19 @@ enum class Output
     cut = 1 << 5
 };
 
+std::string Name(Output output);
+
 template<>
 struct Flag<Output> {
     static const bool enable = true;
 };
 
+extern std::string _analysis_name_; //< global variabel; FIXME remove again; is necesarry due to bug in root
+
 /**
  * @brief Base for all analyses.
  * @author Jan Hajer
- * @copyright Copyright (C) 2015 Jan Hajer
+ * @copyright Copyright (C) 2015-2016 Jan Hajer
  * @date 2015
  * @license GPL 3
  *

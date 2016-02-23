@@ -27,7 +27,7 @@ int SignatureTTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) c
 //     std::vector<Doublet> final_doublets = BestMatches(doublets, higgses, tag);
     DEBUG(doublets.size(), higgses.size(), final_doublets.size());
 
-    std::vector<MultipletSignature<Octet332>> octets = triples(final_triplets, final_doublets, [&](Triplet const & triplet_1, Triplet const & triplet_2, Doublet const & doublet) {
+    std::vector<MultipletSignature<Octet332>> octets = Triples(final_triplets, final_doublets, [&](Triplet const & triplet_1, Triplet const & triplet_2, Doublet const & doublet) {
         MultipletSignature<Octet332> octet = Signature(triplet_1, triplet_2, doublet);
         octet.SetTag(tag);
         return octet;
@@ -52,7 +52,7 @@ std::vector<MultipletSignature<Octet332>> SignatureTTagger::Multiplets(Event con
     INFO(doublets.size());
     std::vector<Triplet> triplets = top_reader_.Multiplets(event);
     INFO(triplets.size());
-    std::vector<MultipletSignature<Octet332>> octets = triples(triplets, doublets, [&](Triplet const & triplet_1, Triplet const & triplet_2, Doublet const & doublet) {
+    std::vector<MultipletSignature<Octet332>> octets = Triples(triplets, doublets, [&](Triplet const & triplet_1, Triplet const & triplet_2, Doublet const & doublet) {
         MultipletSignature<Octet332> octet = Signature(triplet_1, triplet_2, doublet);
         octet.SetBdt(Bdt(octet, reader));
         return octet;

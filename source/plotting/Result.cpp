@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "plotting/Result.hh"
 #include "Types.hh"
@@ -143,6 +143,7 @@ TMVA::Types::EMVA const& Result::Mva() const
 }
 void Result::SetModelIndependent(Crosssection crosssection, int step)
 {
+  INFO0;
     model_independent_.at(step) = crosssection;
 }
 std::vector< Crosssection > Result::ModelIndependent() const

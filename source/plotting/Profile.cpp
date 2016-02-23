@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 
 #include <sys/stat.h>
@@ -36,7 +36,7 @@ Profile::~Profile()
 void Profile::Draw()
 {
     INFO0;
-    Color().Heat();
+    Heat();
     profile_.Draw("colz");
 }
 

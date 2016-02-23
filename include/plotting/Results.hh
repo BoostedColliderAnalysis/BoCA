@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -31,8 +31,6 @@ public:
     std::vector<float> const& Significances()const;
     std::vector<float> const& Acceptances()const;
     std::vector<float> const& SOverB() const;
-    std::vector<Crosssection> const& ModelIndependentCrosssection()const;
-    std::vector<Crosssection>& ModelIndependentCrosssection();
 private:
     void CalculateSignificances(int step);
     float SignalEvents(int step) const;
@@ -41,7 +39,7 @@ private:
     float Acceptances(float signal_events, float background_events) const;
     float SOverB(float signal_events, float background_events) const;
     Crosssection BackgroundEfficiencyCrosssection(int step) const;
-    Crosssection ModelIndependentCrosssection(Result signal, int step) const;
+    Crosssection ModelIndependentCrosssection(double signal_efficiency, int step) const;
     int Steps() const;
     TMVA::Types::EMVA Mva() const;
     void ExtremeXValues();
@@ -52,7 +50,6 @@ private:
     std::vector<float> significances_;
     std::vector<float> acceptances_;
     std::vector<float> s_over_b_;
-    std::vector<Crosssection> crosssections_;
     std::vector<float> x_values_;
     int best_model_dependent_bin_ = 0;
     int best_model_independent_bin_ = 0;

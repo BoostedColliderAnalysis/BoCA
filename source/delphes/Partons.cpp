@@ -4,6 +4,7 @@
 #include "delphes/Delphes.hh"
 #include "delphes/Partons.hh"
 
+#include "physics/Particles.hh"
 #include "Types.hh"
 #include "Debug.hh"
 
@@ -59,6 +60,42 @@ std::vector<Particle> Partons::Particles(Status min_status) const
         ++position;
     }
     return particles;
+}
+
+namespace
+{
+
+template<typename Data>
+void PrintCell(Data data)
+{
+    std::cout << std::right << std::setw(9) << std::setfill(' ') << data;
+}
+
+}
+
+void Partons::PrintCells(const ::delphes::GenParticle& particle) const
+{
+    PrintCell(particle.Status);
+    PrintCell(Name(particle.PID));
+    PrintCell(particle.M1);
+    PrintCell(PrintParticle(particle.M1));
+    PrintCell(particle.M2);
+    PrintCell(PrintParticle(particle.M2));
+    PrintCell(particle.D1);
+    PrintCell(PrintParticle(particle.D1));
+    PrintCell(particle.D2);
+    PrintCell(PrintParticle(particle.D2));
+    PrintCell(particle.E);
+    PrintCell(particle.Px);
+    PrintCell(particle.Py);
+    PrintCell(particle.Pz);
+    std::cout << "\n";
+}
+
+std::string Partons::PrintParticle(int position) const
+{
+    if (position == -1) return " ";
+    return Name(TreeReader().Objects<::delphes::GenParticle>(Branch::particle).At(position).PID);
 }
 
 }

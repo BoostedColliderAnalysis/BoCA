@@ -1,7 +1,7 @@
 #pragma once
 
-#include "TopPartnerHadronicTagger.hh"
-#include "TopPartnerLeptonicTagger.hh"
+#include "TopPartnerHadronicNeutralTagger.hh"
+#include "TopPartnerLeptonicNeutralTagger.hh"
 #include "Decuplet.hh"
 
 namespace boca
@@ -29,9 +29,9 @@ public:
 
 private:
 
-    Reader<TopPartnerHadronicTagger> top_partner_hadronic_reader_;
+    Reader<TopPartnerHadronicNeutralTagger> top_partner_hadronic_reader_;
 
-    Reader<TopPartnerLeptonicTagger> top_partner_leptonic_reader_;
+    Reader<TopPartnerLeptonicNeutralTagger> top_partner_leptonic_reader_;
 };
 
 }

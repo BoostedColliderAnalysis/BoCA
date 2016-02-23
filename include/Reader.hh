@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -28,7 +28,6 @@ public:
     Reader(Stage stage = Stage::reader) :
         reader_(Options()) {
         stage_ = stage;
-        Tagger().Initialize();
         Initialize();
     }
 
@@ -47,6 +46,7 @@ public:
     }
 
     void Initialize() {
+        Tagger().Initialize();
         if (stage_ == Stage::trainer) return;
         std::ofstream cout_file(Tagger().AnalysisName() + "/Reader.txt", std::ios_base::app | std::ios_base::out);
         std::streambuf* cout = std::cout.rdbuf();
@@ -70,19 +70,19 @@ public:
         try {
             return Tagger().Multiplet(multiplet, pre_cuts, TReader());
         } catch (std::exception const&) {
-            multiplet.SetBdt(-1);
+            multiplet.SetBdt(Tagger().MvaRange().Min());
             return multiplet;
         }
     }
 
-    template <typename Input>
-    auto Multiplets(Input const& input) const {
+    template <typename Input_>
+    auto Multiplets(Input_ const& input) const {
         PreCuts pre_cuts;
         return Tagger().Multiplets(input, pre_cuts, TReader());
     }
 
-    template <typename Input>
-    auto Jets(Input const& input) const {
+    template <typename Input_>
+    auto Jets(Input_ const& input) const {
         PreCuts pre_cuts;
         return Tagger().Jets(input, pre_cuts, TReader());
     }
@@ -95,23 +95,23 @@ public:
         return Tagger().Multiplet(input, TReader());
     }
 
-    template <typename Input>
-    auto Multiplet(Input const& input) const {
+    template <typename Input_>
+    auto Multiplet(Input_ const& input) const {
         return Tagger().Multiplet(input, TReader());
     }
 
-    template <typename Input1, typename Input2>
-    auto Multiplet(Input1 const& input_1, Input2 const& input_2) const {
+    template <typename Input_1_, typename Input_2_>
+    auto Multiplet(Input_1_ const& input_1, Input_2_ const& input_2) const {
         return Tagger().Multiplet(input_1, input_2, TReader());
     }
 
-    template <typename Input>
-    auto SubMultiplet(Input const& input, int number) const {
+    template <typename Input_>
+    auto SubMultiplet(Input_ const& input, int number) const {
         return Tagger().SubMultiplet(input, TReader(), number);
     }
 
-    template <typename Input>
-    auto SubMultiplet(Input const& input) const {
+    template <typename Input_>
+    auto SubMultiplet(Input_ const& input) const {
         return Tagger().SubMultiplet(input, TReader());
     }
 
@@ -121,6 +121,19 @@ public:
 
     void NewBranch(exroot::TreeWriter& tree_writer, Stage stage) {
         Tagger().NewBranch(tree_writer, stage);
+    }
+
+    template<typename Multiplet_>
+    auto Transform(Event const& event) const {
+        std::vector<Multiplet_> quintets;
+        for (auto const & multiplet : Multiplets(event)) quintets.emplace_back(Multiplet_(multiplet));
+        return quintets;
+    }
+
+protected:
+
+    TMVA::Reader const& TReader() const {
+        return reader_;
     }
 
 private:
@@ -145,10 +158,6 @@ private:
     }
 
     TMVA::Reader& TReader() {
-        return reader_;
-    }
-
-    TMVA::Reader const& TReader() const {
         return reader_;
     }
 

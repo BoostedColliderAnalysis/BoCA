@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "AnalysisTopPartnerSingleHadronic.hh"
 #include "EventSingleHadronicTagger.hh"
@@ -20,8 +20,8 @@ int main()
     Run<boca::standardmodel::WLeptonicTagger>(boca::Output::efficiency);
     Run<boca::standardmodel::TopHadronicTagger>(boca::Output::efficiency);
     Run<boca::standardmodel::TopLeptonicTagger>(boca::Output::efficiency);
-    Run<boca::naturalness::TopPartnerHadronicTagger>(boca::Output::efficiency);
-//     Run<boca::naturalness::TopPartnerLeptonicTagger>();
+    Run<boca::naturalness::TopPartnerHadronicNeutralTagger>(boca::Output::efficiency);
+//     Run<boca::naturalness::TopPartnerLeptonicNeutralTagger>();
     Run<boca::naturalness::VetoTopPartnerLeptonicTagger>(boca::Output::significance);
     Run<boca::naturalness::SignatureSingleHadronicTagger>(boca::Output::significance);
     Run<boca::naturalness::EventSingleHadronicTagger>(boca::Output::significance);

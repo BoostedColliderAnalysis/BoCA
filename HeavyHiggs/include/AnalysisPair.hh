@@ -94,7 +94,7 @@ private:
         case Production::DYP : return Id::Z;
         case Production::VBF : return Id::bottom;
         case Production::Associated : return Id::gluon;
-        DEFAULT(to_int(production), Id::empty);
+        DEFAULT(to_int(production), Id::none);
         }
     }
 

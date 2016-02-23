@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -68,10 +68,10 @@ protected:
     }
 
     template<typename Multiplet_2>
-    std::vector<Multiplet_2> BestMatch(std::vector<Multiplet_2> const& multiplets, std::vector<Particle> const& particles, Id id = Id::empty) const {
+    std::vector<Multiplet_2> BestMatch(std::vector<Multiplet_2> const& multiplets, std::vector<Particle> const& particles, Id id = Id::none) const {
         std::vector<Multiplet_2> close = CopyIfClose(multiplets, particles);
         close = SortedByBdt(close);
-        if (id != Id::empty) close = SortedByMassTo(close, id);
+        if (id != Id::none) close = SortedByMassTo(close, id);
         return std::vector<Multiplet_2>(&close[0], &close[std::min(close.size(), particles.size())]);
     }
 
@@ -81,7 +81,7 @@ protected:
     }
 
     template<typename Multiplet_2>
-    std::vector<Multiplet_2> BestMatches(std::vector<Multiplet_2> multiplets, std::vector<Particle> const& particles, Tag tag, Id id = Id::empty) const {
+    std::vector<Multiplet_2> BestMatches(std::vector<Multiplet_2> multiplets, std::vector<Particle> const& particles, Tag tag, Id id = Id::none) const {
         if (multiplets.empty()) return multiplets;
         multiplets = SortedByBdt(multiplets);
         switch (tag) {
@@ -103,7 +103,7 @@ protected:
         return sum;
     }
 
-    int SaveEntries(std::vector<Multiplet_> multiplets, std::vector<Particle> particles, Tag tag, Id id = Id::empty) const {
+    int SaveEntries(std::vector<Multiplet_> multiplets, std::vector<Particle> particles, Tag tag, Id id = Id::none) const {
         return SaveEntries(BestMatches(multiplets, particles, tag, id));
     }
 

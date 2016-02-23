@@ -11,7 +11,7 @@ namespace standardmodel
 {
 
 /**
- * @brief prepares the data for the top tagger
+ * @brief BDT tagger for hadronically decaying top quarks based on the HEP top tagger
  *
  */
 class TopHadronicHep : public TaggerTemplate<Triplet, TopHadronicHepBranch>

@@ -15,7 +15,7 @@ namespace naturalness
  * @brief Semi leptonic heavy higgs BDT tagger
  *
  */
-class SignatureEffectiveTagger : public TaggerTemplate<Quattuordecuplet554, SignatureBranch>
+class SignatureEffectiveTagger : public TaggerTemplate<Quattuordecuplet554, boca::SignatureBranch>
 {
 
 public:
@@ -32,9 +32,11 @@ private:
 
     std::vector<Quattuordecuplet554> Quattuordecuplets(Event const& event, std::function<Quattuordecuplet554(Quattuordecuplet554&)> const& function) const;
 
-    Reader<TopPartnerHadronicTagger> top_partner_hadronic_reader_;
+//     TopPartnerHadronicTagger top_partner_hadronic_reader_;
+//     TopPartnerLeptonicTagger top_partner_leptonic_reader_;
 
-    Reader<TopPartnerLeptonicTagger> top_partner_leptonic_reader_;
+    Reader<TopPartnerHadronicNeutralTagger> top_partner_hadronic_reader_;
+    Reader<TopPartnerLeptonicNeutralTagger> top_partner_leptonic_reader_;
 
     Reader<HiggsPairTagger> higgs_pair_reader_;
 };

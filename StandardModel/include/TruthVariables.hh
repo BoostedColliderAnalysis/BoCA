@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -12,7 +12,7 @@ namespace boca
 {
 
 /**
- * @brief An octet composed of a sextet an a doublet
+ * @brief Variables for truth level analyses
  *
  */
 class TruthVariables : public Identification

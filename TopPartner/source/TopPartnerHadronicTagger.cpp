@@ -1,7 +1,4 @@
 #include "TopPartnerHadronicTagger.hh"
-#include "Event.hh"
-#include "ParticleInfo.hh"
-#include "Exception.hh"
 #include "Debug.hh"
 
 namespace boca
@@ -13,55 +10,34 @@ namespace naturalness
 int TopPartnerHadronicTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
     INFO0;
-    return SaveEntries(Quintets(event, [&](Quintet & quintet) {
-        quintet.SetTag(tag);
-        return quintet;
-    }), Particles(event), tag);
+//     return SaveEntries(Join(neutral_.Multiplets(event), charged_.Transform<Quintet>(event)), Particles(event), tag);
 }
 
-std::vector<Quintet> TopPartnerHadronicTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
+std::vector<Quintet> TopPartnerHadronicTagger::Multiplets(Event const& event, boca::PreCuts const&) const
 {
     INFO0;
-    return ReduceResult(Quintets(event, [&](Quintet & quintet) {
-        quintet.SetBdt(Bdt(quintet, reader));
-        return quintet;
-    }));
-}
-
-std::vector<Quintet> TopPartnerHadronicTagger::Quintets(Event const& event, std::function<Quintet(Quintet&)> const& function) const
-{
-    INFO0;
-    return pairs(top_reader_.Multiplets(event), boson_reader_.Multiplets(event), [&](Triplet const & triplet, Doublet const & doublet) {
-        Quintet quintet(triplet, doublet);
-        if (quintet.Overlap()) throw Overlap();
-        return function(quintet);
-    });
+    return ReduceResult(Join(neutral_.Multiplets(event), charged_.Transform<Quintet>(event)));
 }
 
 std::vector<Particle> TopPartnerHadronicTagger::Particles(Event const& event) const
 {
-    INFO0;
-    std::vector<Particle> particles = event.Partons().GenParticles();
-    std::vector<Particle> quarks = CopyIfQuark(particles);
-    std::vector<Particle>candidate = CopyIfGreatGrandMother(quarks, Id::top_partner);
-    if (!candidate.empty()) {
-        int great_grand_mother = candidate.front().Info().Family().Member(Relative::great_grand_mother).Id();
-        return CopyIfExactParticle(particles, great_grand_mother);
-    } else {
-        candidate = CopyIfGrandMother(quarks, Id::top_partner);
-        candidate = CopyIfMother(candidate, Id::W);
-        if (candidate.empty()) return {};
-        int grand_mother = candidate.front().Info().Family().Member(Relative::grand_mother).Id();
-        return CopyIfExactParticle(particles, grand_mother);
-    }
+  return Join(charged_.Tagger().Particles(event), neutral_.Tagger().Particles(event));
 }
+
 std::string TopPartnerHadronicTagger::Name() const
 {
     return "TopPartnerHadronic";
 }
+
 std::string TopPartnerHadronicTagger::LatexName() const
 {
     return "T_{h}";
+}
+
+std::vector< Quintet > TopPartnerHadronicTagger::Multiplets(const Event& event) const
+{
+    PreCuts pre_cuts;
+    return Multiplets(event, pre_cuts);
 }
 
 }

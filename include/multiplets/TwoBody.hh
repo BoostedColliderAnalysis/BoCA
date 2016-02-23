@@ -1,10 +1,11 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
 #include "multiplets/Multiplet.hh"
 #include "physics/Particles.hh"
+#include "Vector.hh"
 
 namespace boca
 {

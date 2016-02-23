@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 
 #include <boost/math/constants/constants.hpp>
@@ -10,16 +10,6 @@
 
 namespace boca
 {
-
-// Length operator"" _m(long double length)
-// {
-//     return double(length) * m;
-// }
-//
-// Length operator"" _mm(long double length)
-// {
-//   return double(length) * mm;
-// }
 
 float to_float(Length length)
 {

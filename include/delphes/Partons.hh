@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -28,7 +28,11 @@ public:
 
 private:
 
-  std::vector<Particle> Particles(Status max_status) const;
+    std::vector<Particle> Particles(Status max_status) const;
+
+    std::string PrintParticle(int position) const;
+
+    void PrintCells(const ::delphes::GenParticle& particle) const;
 
 };
 

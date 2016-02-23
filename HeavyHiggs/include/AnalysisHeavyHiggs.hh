@@ -66,8 +66,8 @@ public:
     }
 
     boca::Mass Mass() const {
-        return 500_GeV;
         return 1_TeV;
+        return 500_GeV;
         return 400_GeV;
         return 750_GeV;
         return 800_GeV;

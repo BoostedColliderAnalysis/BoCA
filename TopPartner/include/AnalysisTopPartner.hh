@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -62,8 +62,8 @@ protected:
 
     auto Mass() const {
         INFO0;
-        return 2_TeV;
         return 1_TeV;
+        return 2_TeV;
         return 4_TeV;
         return 6_TeV;
         return 10_TeV;
@@ -162,7 +162,8 @@ protected:
                 }
             case Process::TThh :
                 switch (Int(Mass())) {
-                case 2000 : return 1.143e-7 * 2_pb;
+                case 1000 : return 7.101e-07 * 2_pb;
+                case 2000 : return 3.059e-08 * 2_pb;
                 case 4000 : return 9.95e-10 * 2_pb;
                 case 6000 : return 3.579e-11 * 2_pb;
                 case 8000 : return 2.305e-12 * 2_pb;
@@ -170,11 +171,11 @@ protected:
                     DEFAULT(Mass(), pb);
                 }
             case Process::ttBB : return 0.03206 * 2_pb;
-            case Process::ttWWWW : return 1_pb;
-            case Process::ttWWWB : return 1_pb;
-            case Process::ttWWBB : return 1_pb;
-            case Process::ttWBBB : return 1_pb;
-            case Process::ttBBBB : return 1_pb;
+            case Process::ttWWWW : return 0.24093E-05 * 2_pb;
+            case Process::ttWWWB : return 0.70031E-06 * 2_pb;
+            case Process::ttWWBB : return 0.71735E-06 * 2_pb;
+            case Process::ttWBBB : return 0.32324E-06 * 2_pb;
+            case Process::ttBBBB : return 0.30222E-06 * 2_pb;
                 DEFAULT(Name(process), pb);
             }
         }
@@ -184,7 +185,8 @@ protected:
 
     auto FileName(Process process) const {
         INFO0;
-        std::string name = MassDependent(process) ? "pp" : "PP";
+//         std::string name = MassDependent(process) ? "pp" : "PP";
+        std::string name = "PP";
         name += "-" + Name(process) + "-" + boca::Name(DetectorGeometry::DetectorType());
         if (MassDependent(process)) name += "-" + boca::Name(Mass());
         return name;

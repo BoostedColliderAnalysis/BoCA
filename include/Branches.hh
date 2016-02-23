@@ -249,10 +249,10 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class TChannelBranch : public MultiBranch
+class SignatureBranch : public MultiBranch
 {
 public:
-    TChannelBranch();
+    SignatureBranch();
     float Bdt3;
     float Mass12;
     float Mass23;
@@ -324,7 +324,7 @@ public:
     Observables Variables();
 
 private:
-    ClassDef(TChannelBranch, 1)
+    ClassDef(SignatureBranch, 1)
 };
 
 /**
@@ -459,9 +459,64 @@ private:
 class Color
 {
 public:
-    void Red();
-    void Blue();
-    void Heat();
+    Color();
+protected:
+    virtual std::vector<double> RedPart() const;
+    virtual std::vector<double> GreenPart() const;
+    virtual std::vector<double> BluePart() const;
+    virtual std::vector<double> Length() const;
+    virtual std::vector<int>& Colors() = 0;
+    virtual bool& Initialized() = 0;
+private:
+    std::vector<int>& Palette();
+    void Initialize();
 };
+
+class Red
+{
+public:
+    static std::string Action();
+private:
+    std::vector<double> RedPart() const;
+    std::vector<int>& Colors();
+    bool& Initialized();
+    static std::vector<int> colors_;
+    static bool initialized_;
+};
+
+class Blue
+{
+public:
+    static std::string Action();
+private:
+    std::vector<double> BluePart() const;
+    std::vector<int>& Colors();
+    bool& Initialized();
+    static std::vector<int> colors_;
+    static bool initialized_;
+};
+
+class Heat
+{
+public:
+    static std::string Action();
+private:
+    std::vector<double> RedPart() const;
+    std::vector<double> GreenPart() const;
+    std::vector<double> BluePart() const;
+    std::vector<double> Length() const;
+    std::vector<int>& Colors();
+    bool& Initialized();
+    static std::vector<int> colors_;
+    static bool initialized_;
+};
+
+// class Color
+// {
+// public:
+//     void Red();
+//     void Blue();
+//     void Heat();
+// };
 
 }

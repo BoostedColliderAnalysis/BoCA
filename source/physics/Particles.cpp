@@ -1,6 +1,8 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
+#include "boost/range/algorithm/min_element.hpp"
+#include "boost/range/algorithm/max_element.hpp"
 #include "physics/Particles.hh"
 #include "physics/Prefixes.hh"
 #include "Types.hh"
@@ -18,7 +20,7 @@ std::string Name(int id)
 std::string Name(Id id)
 {
     switch (id) {
-    case Id::empty: return " ";
+    case Id::none: return " ";
     case Id::down : return "d";
     case Id::up : return "u";
     case Id::strange : return "s";
@@ -44,6 +46,7 @@ std::string Name(Id id)
     case Id::W : return "W";
     case Id::higgs : return "h";
     case Id::neutral_boson : return "B0";
+    case Id::bosons : return "B";
     case Id::Z_partner : return "Z_2";
     case Id::Z_partner_2 : return "Z_3";
     case Id::W_partner : return "W_2";
@@ -118,6 +121,7 @@ Mass MassOf(Id id)
     case Id::omega : return 0.78265_GeV;
     case Id::neutron : return 1.00866_GeV;
     case Id::proton : return 0.93827_GeV;
+    case Id::top_partner: return 1_TeV; //< FIXME remove again
     case Id::CP_violating_higgs : return MassOf(Id::higgs);
         DEFAULT(to_int(id), massless);
     }
@@ -129,11 +133,29 @@ std::vector<Id> MultiId(Id id)
     case Id::neutrino : return {Id::electron_neutrino, Id::muon_neutrino, Id::tau_neutrino};
     case Id::charged_lepton : return {Id::electron, Id::muon, Id::tau};
     case Id::quark : return {Id::up, Id::down, Id::strange, Id::charm, Id::bottom, Id::top};
-    case Id::neutral_boson : return {Id::higgs, Id::CP_violating_higgs, Id::Z
-//       , Id::W
-                                        };
-        DEFAULT(to_int(id), {});
+    case Id::neutral_boson : return {Id::higgs, Id::CP_violating_higgs, Id::Z};
+    case Id::bosons : return {Id::higgs, Id::CP_violating_higgs, Id::Z, Id::W};
+        DEFAULT(to_int(id), {id});
     }
 }
+
+Id Lightest(Id id)
+{
+    std::vector<Id> multi = MultiId(id);
+    if (multi.size() == 1) return id;
+    return *boost::range::min_element(multi, [](Id id_1, Id id_2) {
+        return MassOf(id_1) < MassOf(id_2);
+    });
+}
+
+Id Heavyest(Id id)
+{
+    std::vector<Id> multi = MultiId(id);
+    if (multi.size() == 1) return id;
+    return *boost::range::max_element(multi, [](Id id_1, Id id_2) {
+        return MassOf(id_1) < MassOf(id_2);
+    });
+}
+
 
 }

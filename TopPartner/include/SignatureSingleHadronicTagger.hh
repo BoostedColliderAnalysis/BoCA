@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -34,7 +34,7 @@ private:
 
     std::vector<Decuplet532> Decuplets(Event const& event, std::function<Decuplet532(Decuplet532&)> const& function) const;
 
-    Reader<TopPartnerHadronicTagger> partner_reader_;
+    Reader<TopPartnerHadronicNeutralTagger> partner_reader_;
 
     Reader<standardmodel::TopLeptonicTagger> top_reader_;
 

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -14,7 +14,7 @@ namespace standardmodel
 {
 
 /**
- * @brief Bottom BDT tagger
+ * @brief BDT tagger for tau leptons
  *
  */
 class TauTagger : public TaggerTemplate<Singlet, TauBranch>

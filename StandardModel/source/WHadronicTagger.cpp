@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #include <boost/range/algorithm/adjacent_find.hpp>
 
@@ -95,7 +95,7 @@ boost::optional<Doublet> WHadronicTagger::CheckDoublet(Doublet doublet, PreCuts 
 
 std::vector<Doublet> WHadronicTagger::Doublets(std::vector<Jet> const& jets, Function const& function) const
 {
-    return unordered_pairs(jets, [&](Jet const & jet_1, Jet const & jet_2) {
+    return UnorderedPairs(jets, [&](Jet const & jet_1, Jet const & jet_2) {
         Doublet doublet(jet_1, jet_2);
         if (boost::optional<Doublet> optional = function(doublet)) return *optional;
         throw boca::Problematic();

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -40,7 +40,7 @@ protected:
             break;
         case Tag::background :
             if (this->template TaggerIs<VetoTopPartnerHadronicTagger>()) this->NewFile(tag, Process::TthLep);
-            else if (!this->template TaggerIs<TopPartnerLeptonicTagger>()) this->NewFile(tag, Process::TT);
+            else if (!this->template TaggerIs<TopPartnerLeptonicNeutralTagger>()) this->NewFile(tag, Process::TT);
             if (!this->template TaggerIs<VetoTopPartnerHadronicTagger>()) {
                 this->NewFile(tag, Process::ttBB);
                 this->NewFile(tag, Process::ttBjj);
@@ -50,7 +50,7 @@ protected:
     }
 
 private:
-//   TopPartnerLeptonicTagger partner_tagger_;
+//   TopPartnerLeptonicNeutralTagger partner_tagger_;
 
     int PassPreCut(Event const&, Tag) const override {
         INFO0;

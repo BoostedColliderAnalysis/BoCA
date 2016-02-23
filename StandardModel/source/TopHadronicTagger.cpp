@@ -77,8 +77,7 @@ TopHadronicTagger::TopHadronicTagger(Id id)
 {
     INFO0;
     id_ = id;
-//     top_mass_window_ = 80_GeV;
-    top_mass_window_ = 2. * MassOf(id_);
+    if(id_ == Id::top) top_mass_window_ = 2. * MassOf(id_);
 }
 
 int TopHadronicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Tag tag) const
@@ -226,7 +225,7 @@ bool TopHadronicTagger::Problematic(Triplet const& triplet, boca::PreCuts const&
     if (Problematic(triplet, pre_cuts)) return true;
     switch (tag) {
     case Tag::signal:
-        if (pre_cuts.OutSideMassWindow(triplet, top_mass_window_ , id_)) return true;
+        if (id_ == Id::top && pre_cuts.OutSideMassWindow(triplet, top_mass_window_ , id_)) return true;
         break;
     case Tag::background : break;
     }

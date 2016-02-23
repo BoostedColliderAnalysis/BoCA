@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #include <iostream>
 #include "Branches.hh"
@@ -36,11 +36,11 @@ InfoBranch::InfoBranch()
 
 InfoBranch::InfoBranch(File const& file)
 {
-  SetCrosssection(file.Crosssection());
-  SetCrosssectionError(file.CrosssectionError());
-  SetMass(file.Mass());
-  SetNames(file.Names());
-  event_number = 0;
+    SetCrosssection(file.Crosssection());
+    SetCrosssectionError(file.CrosssectionError());
+    SetMass(file.Mass());
+    SetNames(file.Names());
+    event_number = 0;
 }
 
 boca::Crosssection InfoBranch::Crosssection() const
@@ -65,7 +65,7 @@ std::string InfoBranch::Name() const
 }
 boca::Names InfoBranch::Names() const
 {
-  return names;
+    return names;
 }
 std::string InfoBranch::LatexName() const
 {
@@ -133,12 +133,12 @@ ParticleBranch::ParticleBranch()
 
 Observables ParticleBranch::Variables()
 {
-  return ResultBranch::Variables() + OBSERVABLE(Mass, Formula("m") + " [GeV]") + OBSERVABLE(Pt, Formula("p_{T}") + " [GeV]");
+    return ResultBranch::Variables() + OBSERVABLE(Mass, Formula("m") + " [GeV]") + OBSERVABLE(Pt, Formula("p_{T}") + " [GeV]");
 }
 
 Observables ParticleBranch::Spectators()
 {
-    return ResultBranch::Spectators() + OBSERVABLE(Charge) + OBSERVABLE(Rap) + OBSERVABLE(Phi);
+    return ResultBranch::Spectators() + OBSERVABLE(Charge, "e") + OBSERVABLE(Rap, "#eta") + OBSERVABLE(Phi, "#phi");
 }
 
 BottomBase::BottomBase()
@@ -183,7 +183,7 @@ PairBranch::PairBranch()
 
 Observables PairBranch::Variables()
 {
-  return ParticleBranch::Variables() + OBSERVABLE(Ht, Formula("H_{T}") + " [GeV]") + OBSERVABLE(DeltaPt, Formula("#Delta P_{T}") + " [GeV]") + OBSERVABLE(DeltaM, Formula("#Delta m") + " [GeV]") + OBSERVABLE(DeltaRap, Formula("#Delta #eta")) + OBSERVABLE(DeltaPhi, Formula("#Delta #phi")) + OBSERVABLE(DeltaR, Formula("#Delta R")) + OBSERVABLE(Rho, Formula("#rho")) + OBSERVABLE(Bdt1, "BDT_{1}") + OBSERVABLE(Bdt2, "BDT_{2}") + OBSERVABLE(Pull1, Formula("#theta_{1}")) + OBSERVABLE(Pull2, Formula("#theta_{2}")) + OBSERVABLE(Dipolarity, Formula("D"));
+    return ParticleBranch::Variables() + OBSERVABLE(Ht, Formula("H_{T}") + " [GeV]") + OBSERVABLE(DeltaPt, Formula("#Delta P_{T}") + " [GeV]") + OBSERVABLE(DeltaM, Formula("#Delta m") + " [GeV]") + OBSERVABLE(DeltaRap, Formula("#Delta #eta")) + OBSERVABLE(DeltaPhi, Formula("#Delta #phi")) + OBSERVABLE(DeltaR, Formula("#Delta R")) + OBSERVABLE(Rho, Formula("#rho")) + OBSERVABLE(Bdt1, "BDT_{1}") + OBSERVABLE(Bdt2, "BDT_{2}") + OBSERVABLE(Pull1, Formula("#theta_{1}")) + OBSERVABLE(Pull2, Formula("#theta_{2}")) + OBSERVABLE(Dipolarity, Formula("D"));
     //return ParticleBranch::Variables() + OBSERVABLE(Ht) + OBSERVABLE(DeltaPt) + OBSERVABLE(DeltaM) + OBSERVABLE(DeltaRap) + OBSERVABLE(DeltaPhi) + OBSERVABLE(DeltaR) + OBSERVABLE(Rho);
 }
 
@@ -199,10 +199,10 @@ MultiBranch::MultiBranch()
 
 Observables MultiBranch::Variables()
 {
-  return PairBranch::Variables() + OBSERVABLE(DeltaHt, Formula("#Delta H_{T}") + " [GeV]");
+    return PairBranch::Variables() + OBSERVABLE(DeltaHt, Formula("#Delta H_{T}") + " [GeV]");
 }
 
-TChannelBranch::TChannelBranch()
+SignatureBranch::SignatureBranch()
 {
     Bdt3 = InitialValue();
     Mass12 = InitialValue();
@@ -238,9 +238,9 @@ TChannelBranch::TChannelBranch()
 //   Aplanarity = InitialValue();
 }
 
-Observables TChannelBranch::Variables()
+Observables SignatureBranch::Variables()
 {
-    return MultiBranch::Variables() + OBSERVABLE(Bdt3) + OBSERVABLE(Mass12) + OBSERVABLE(Mass23) + OBSERVABLE(Mass13) + OBSERVABLE(Pt12) + OBSERVABLE(Pt23) + OBSERVABLE(Pt13) + OBSERVABLE(DeltaPt23) + OBSERVABLE(DeltaPt13) + OBSERVABLE(Ht12) + OBSERVABLE(Ht23) + OBSERVABLE(Ht13) + OBSERVABLE(Rho23) + OBSERVABLE(Rho13) + OBSERVABLE(DeltaRap23) + OBSERVABLE(DeltaRap13) + OBSERVABLE(DeltaPhi23) + OBSERVABLE(DeltaPhi13) + OBSERVABLE(DeltaR23) + OBSERVABLE(DeltaR13) + OBSERVABLE(DeltaM23) + OBSERVABLE(DeltaM13) + OBSERVABLE(DeltaHt23) + OBSERVABLE(DeltaHt13) + OBSERVABLE(Pull23) + OBSERVABLE(Pull13) + OBSERVABLE(Pull32) + OBSERVABLE(Pull31) + OBSERVABLE(Dipolarity23) + OBSERVABLE(Dipolarity13)
+    return MultiBranch::Variables() + OBSERVABLE(Bdt3, "BDT_{3}") + OBSERVABLE(Mass12, "m_{12}") + OBSERVABLE(Mass23, "m_{23}") + OBSERVABLE(Mass13, "m_{13}") + OBSERVABLE(Pt12, "p_{T}^{12}") + OBSERVABLE(Pt23, "p_{T}^{23}") + OBSERVABLE(Pt13, "p_{T}^{13}") + OBSERVABLE(DeltaPt23, "#Delta p_{T}^{23}") + OBSERVABLE(DeltaPt13, "#Delta p_{T}^{13}") + OBSERVABLE(Ht12, "H_{T}^{12}") + OBSERVABLE(Ht23, "H_{T}^{23}") + OBSERVABLE(Ht13, "H_{T}^{13}") + OBSERVABLE(Rho23, "#rho_{23}") + OBSERVABLE(Rho13, "#rho_{13}") + OBSERVABLE(DeltaRap23, "#Delta#eta_{23}") + OBSERVABLE(DeltaRap13, "#Delta#eta_{13}") + OBSERVABLE(DeltaPhi23, "#Delta#phi_{23}") + OBSERVABLE(DeltaPhi13, "#Delta#phi_{13}") + OBSERVABLE(DeltaR23, "#Delta R_{23}") + OBSERVABLE(DeltaR13, "#Delta R_{13}") + OBSERVABLE(DeltaM23, "#Delta m_{23}") + OBSERVABLE(DeltaM13, "#Delta m_{13}") + OBSERVABLE(DeltaHt23, "#Delta H_{T}^{23}") + OBSERVABLE(DeltaHt13, "#Delta H_{T}^{13}") + OBSERVABLE(Pull23, "#theta_{23}") + OBSERVABLE(Pull13, "#theta_{13}") + OBSERVABLE(Pull32, "#theta_{32}") + OBSERVABLE(Pull31, "#theta_{31}") + OBSERVABLE(Dipolarity23, "D_{23}") + OBSERVABLE(Dipolarity13, "D_{13}")
 //      + OBSERVABLE(Aplanarity) + OBSERVABLE(Sphericity)
            ;
 }
@@ -318,64 +318,164 @@ Observables EventBranch::Variables()
 
 }
 
-namespace
-{
+// namespace
+// {
+//
+// std::vector<int> Table(std::vector<double>& length, std::vector<double>& red, std::vector<double>& green, std::vector<double>& blue)
+// {
+//     std::vector<int> colors(50);
+//     int color_table = TColor::CreateGradientColorTable(length.size(), &length.front(), &red.front(), &green.front(), &blue.front(), colors.size());
+//     for (auto & color : colors) color = color_table + (&color - &colors.front());
+//     return colors;
+// }
+//
+// void Colors(bool& initialized, std::vector<double>& length, std::vector<double>& red, std::vector<double>& green, std::vector<double>& blue, std::vector<int>& colors)
+// {
+//     if (!initialized) {
+//         colors = Table(length, red, green, blue);
+//         initialized = true;
+//     }
+//     gStyle->SetPalette(colors.size(), &colors.front());
+// }
+//
+// }
+//
+// void Color::Red()
+// {
+//     std::vector<double> red = { 1, 1};
+//     std::vector<double> green = { 1, 0};
+//     std::vector<double> blue = { 1, 0};
+//     std::vector<double> length = { 0, 1};
+//     static std::vector<int> colors;
+//     static bool initialized = false;
+//     Colors(initialized, length, red, green, blue, colors);
+// }
+//
+// void Color::Blue()
+// {
+//     std::vector<double> red = { 1, 0};
+//     std::vector<double> green = { 1, 0};
+//     std::vector<double> blue = { 1, 1};
+//     std::vector<double> length = { 0, 1};
+//     static std::vector<int> colors;
+//     static bool initialized = false;
+//     Colors(initialized, length, red, green, blue, colors);
+// }
+//
+// void Color::Heat()
+// {
+//     std::vector<double> length = { 0., 0.34, 0.61, 0.84, 1. };
+//     std::vector<double> red = { 0., 0., 0.87, 1., 0.51 };
+//     std::vector<double> green = { 0., 0.81, 1., 0.2, 0. };
+//     std::vector<double> blue = { 0.51, 1., 0.12, 0., 0. };
+//     static std::vector<int> colors;
+//     static bool initialized = false;
+//     Colors(initialized, length, red, green, blue, colors);
+// }
 
-std::vector<int> Table(std::vector<double>& length, std::vector<double>& red, std::vector<double>& green, std::vector<double>& blue)
+bool Red::initialized_ = false;
+std::vector<int> Red::colors_;
+
+bool Blue::initialized_ = false;
+std::vector<int> Blue::colors_;
+
+bool Heat::initialized_ = false;
+std::vector<int> Heat::colors_;
+
+Color::Color()
 {
-    std::vector<int> colors(50);
-    int color_table = TColor::CreateGradientColorTable(length.size(), &length.front(), &red.front(), &green.front(), &blue.front(), colors.size());
-//     for (size_t step = 0; step < colors.size(); ++step) colors.at(step) = color_table + step;
-    for (auto & color : colors) color = color_table + (&color - &colors.front());
-    return colors;
+    Initialize();
+    gStyle->SetPalette(Palette().size(), &Palette().front());
+}
+void Color::Initialize()
+{
+    if (Initialized()) return;
+    Colors().reserve(50);
+    int color_table = TColor::CreateGradientColorTable(Length().size(), &Length().front(), &RedPart().front(), &GreenPart().front(), &BluePart().front(), Colors().size());
+    for (auto & color : Colors()) color = color_table + (&color - &Colors().front());
+    Initialized() = true;
+}
+std::vector< double > Color::RedPart() const
+{
+    return { 1, 0};
+}
+std::vector< double > Color::GreenPart() const
+{
+    return { 1, 0};
+}
+std::vector< double > Color::BluePart() const
+{
+    return { 1, 0};
+}
+std::vector< double > Color::Length() const
+{
+    return { 0, 1};
 }
 
+std::vector< double > Red::RedPart() const
+{
+    return { 1, 1};
+}
+std::string Red::Action()
+{
+    return "boca::Red();";
 }
 
-void Color::Red()
+std::vector< double > Blue::BluePart() const
 {
-    std::vector<double> red = { 1, 1};
-    std::vector<double> green = { 1, 0};
-    std::vector<double> blue = { 1, 0};
-    std::vector<double> length = { 0, 1};
-    static std::vector<int> colors;
-    static bool initialized = false;
-    if (!initialized) {
-        colors = Table(length, red, green, blue);
-        initialized = true;
-    }
-    gStyle->SetPalette(colors.size(), &colors.front());
+    return { 1, 1};
 }
-
-void Color::Blue()
+std::string Blue::Action()
 {
-    std::vector<double> red = { 1, 0};
-    std::vector<double> green = { 1, 0};
-    std::vector<double> blue = { 1, 1};
-    std::vector<double> length = { 0, 1};
-    static std::vector<int> colors;
-    static bool initialized = false;
-    if (!initialized) {
-        colors = Table(length, red, green, blue);
-        initialized = true;
-    }
-    gStyle->SetPalette(colors.size(), &colors.front());
+    return "boca::Blue();";
 }
-
-void Color::Heat()
+std::vector< double > Heat::RedPart() const
 {
-    std::vector<double> length = { 0.00, 0.34, 0.61, 0.84, 1.00 };
-    std::vector<double> red = { 0.00, 0.00, 0.87, 1.00, 0.51 };
-    std::vector<double> green = { 0.00, 0.81, 1.00, 0.20, 0.00 };
-    std::vector<double> blue = { 0.51, 1.00, 0.12, 0.00, 0.00 };
-    static std::vector<int> colors;
-    static bool initialized = false;
-    if (!initialized) {
-        colors = Table(length, red, green, blue);
-        initialized = true;
-        return;
-    }
-    gStyle->SetPalette(colors.size(), &colors.front());
+    return { 0., 0., 0.87, 1., 0.51 };
+}
+std::vector< double > Heat::GreenPart() const
+{
+    return { 0., 0.81, 1., 0.2, 0. };
+}
+std::vector< double > Heat::BluePart() const
+{
+    return { 0.51, 1., 0.12, 0., 0. };
+}
+std::vector< double > Heat::Length() const
+{
+    return { 0., 0.34, 0.61, 0.84, 1. };
+}
+std::string Heat::Action()
+{
+    return "boca::Heat();";
+}
+std::vector< int >& Red::Colors()
+{
+    return colors_;
+}
+bool& Red::Initialized()
+{
+    return initialized_;
+}
+std::vector< int >& Blue::Colors()
+{
+    return colors_;
+}
+bool& Blue::Initialized()
+{
+    return initialized_;
+}
+std::vector< int >& Heat::Colors()
+{
+    return colors_;
+}
+bool& Heat::Initialized()
+{
+    return initialized_;
+}
+std::vector< int >& Color::Palette()
+{
+    return Colors();
 }
 
 }

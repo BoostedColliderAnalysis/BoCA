@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "Vector.hh"
 
@@ -197,7 +197,7 @@ std::vector<Particle> CopyIfGreatGrandMother(std::vector<Particle> const& partic
 struct IsSingleMother {
     bool operator()(Particle const& Jet) const {
         unsigned id = std::abs(Jet.Info().Family().Member(Relative::step_mother).Id());
-        return id == to_unsigned(Id::empty);
+        return id == to_unsigned(Id::none);
     }
 };
 

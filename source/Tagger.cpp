@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 
 // #include <boost/filesystem.hpp>
@@ -10,6 +10,7 @@
 
 #include "exroot/ExRootAnalysis.hh"
 #include "Tagger.hh"
+#include "AnalysisBase.hh"
 #include "Filter.hh"
 #include "DetectorGeometry.hh"
 #include "ReaderBase.hh"
@@ -187,9 +188,8 @@ std::string Tagger::BackgroundFileName(Stage stage) const
 std::string Tagger::AnalysisName() const
 {
 //     analysis_name_ = boost::filesystem::current_path().filename().string();
-    ERROR(analysis_name_);
-
-    return analysis_name_;
+    ERROR(analysis_name_, _analysis_name_);
+    return !analysis_name_.empty() ? analysis_name_ : _analysis_name_;
 }
 std::vector<Observable> const& Tagger::Variables() const
 {
@@ -331,6 +331,13 @@ std::string Tagger::PathName(std::string const& file_name, std::string const& su
 Filter Tagger::Filter() const
 {
     return {};
+}
+boca::Range< float > Tagger::MvaRange() const
+{
+    switch (Mva()) {
+    case TMVA::Types::kCuts : return { -1 , 1};
+    case TMVA::Types::kBDT : return {0 , 1};
+    }
 }
 
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "fastjet/tools/MassDropTagger.hh"
 #include "fastjet/tools/Filter.hh"
@@ -39,7 +39,7 @@ std::vector<Doublet> HiggsTagger::Doublets(Event const& event, std::function<boo
     INFO0;
    std::vector<Jet> jets =  event.Hadrons().Jets();
     MomentumRange jet_range(Id::higgs, Id::higgs);
-    std::vector<Doublet> doublets = unordered_pairs(jet_range.SofterThanMax(jets), [&](Jet const & jet_1, Jet const & jet_2) {
+    std::vector<Doublet> doublets = UnorderedPairs(jet_range.SofterThanMax(jets), [&](Jet const & jet_1, Jet const & jet_2) {
         Doublet doublet(jet_1, jet_2);
         if (!jet_range.BelowUpperBound(doublet)) throw boca::Problematic();
         if (boost::optional<Doublet> optional_doublet = function(doublet)) return *optional_doublet;

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -18,9 +18,9 @@ namespace standardmodel
 
 
 /**
- * @brief Derived Tagger class targeting W, Z and h bosons.
+ * @brief BDT tagger for W, Z and Higgs bosons.
  * @author Jan Hajer
- * @copyright Copyright (C) 2015 Jan Hajer
+ * @copyright Copyright (C) 2015-2016 Jan Hajer
  * @date 2015
  * @license GPL 3
  *

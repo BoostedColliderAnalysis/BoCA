@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -14,7 +14,8 @@ namespace standardmodel
 {
 
 /**
- * @brief Semi leptonic top BDT tagger
+ * @brief BDT tagger for leptonically decaying W bosons
+ * neutrino momentum reconstruction from missing transverser energy
  *
  */
 class WLeptonicTagger : public TaggerTemplate<Doublet, WLeptonicBranch>

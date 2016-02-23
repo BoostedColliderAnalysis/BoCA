@@ -1,12 +1,13 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "plotting/Results.hh"
 
 #include <boost/range/algorithm/min_element.hpp>
 #include <boost/range/algorithm/max_element.hpp>
-//
+
 #include "Types.hh"
+#include "physics/Units.hh"
 #include "DetectorGeometry.hh"
 // #define DEBUGGING
 #include "Debug.hh"
@@ -86,25 +87,12 @@ std::vector<float> const& Results::SOverB() const
     return s_over_b_;
 }
 
-std::vector<Crosssection> const& Results::ModelIndependentCrosssection() const
-{
-    INFO0;
-    return crosssections_;
-}
-
-std::vector<Crosssection>& Results::ModelIndependentCrosssection()
-{
-    INFO0;
-    return crosssections_;
-}
-
 Results::Results(std::vector<Result> signals, std::vector<Result> backgrounds)
 {
     INFO0;
     signals_ = signals;
     backgrounds_ = backgrounds;
     significances_.resize(Steps(), 0);
-    crosssections_.resize(Steps(), 0_fb);
     acceptances_.resize(Steps(), 0);
     s_over_b_.resize(Steps(), 0);
     x_values_.resize(Steps(), 0);
@@ -179,7 +167,7 @@ void Results::CalculateSignificances(int step)
     significances_.at(step) = Significance(signal_events, background_events);
     acceptances_.at(step) = Acceptances(signal_events, background_events);
     s_over_b_.at(step) = SOverB(signal_events, background_events);
-    for (auto & signal : signals_) signal.SetModelIndependent(ModelIndependentCrosssection(signal, step), step);
+    for (auto & signal : signals_) signal.SetModelIndependent(ModelIndependentCrosssection(signal.Efficiencies().at(step), step), step);
 }
 
 namespace
@@ -189,8 +177,23 @@ int BestBin(std::vector<Value> vector, int step)
 {
     return std::distance(vector.begin(), std::max_element(std::begin(vector), std::end(vector) - step));
 }
+
+int BestMIBin(std::vector<Result> const& signals_, int step)
+{
+    std::map<Crosssection, int> map;
+    for (auto const & signal : signals_) {
+        auto vector = signal.ModelIndependent();
+        auto min = std::min_element(std::begin(vector), std::end(vector) - step, [](Crosssection i, Crosssection j) {
+          return i > 0_b ? i < j : i > j;
+        });
+        auto dist = std::distance(vector.begin(), min);
+        map.emplace(*min, dist);
+        ERROR(*min, dist);
+    }
+    return map.rbegin()->second;
 }
 
+}
 void Results::BestBins()
 {
     INFO0;
@@ -199,14 +202,13 @@ void Results::BestBins()
     for (auto const & number : IntegerRange(backgrounds_.size())) {
         while (efficiencies.at(number) == 0 && counter < Steps()) {
             best_model_dependent_bin_ = BestBin(significances_, counter);
-            best_model_independent_bin_ = BestBin(crosssections_, counter);
-            efficiencies.at(number) = backgrounds_.at(number).Efficiencies().at(best_model_independent_bin_);
+            best_model_independent_bin_ = BestMIBin(signals_, counter);
+            efficiencies.at(number) = backgrounds_.at(number).Efficiencies().at(best_model_dependent_bin_);
             best_acceptance_bin_ = BestBin(acceptances_, counter);
             best_s_over_b_bin_ = BestBin(s_over_b_, counter);
             ++counter;
         }
     }
-    ERROR(best_model_dependent_bin_, best_model_independent_bin_, best_acceptance_bin_, best_s_over_b_bin_);
 }
 
 float Results::XValue(int value) const
@@ -221,6 +223,7 @@ float Results::XValue(int value) const
 
 float Results::SignalEvents(int step) const
 {
+    INFO0;
     auto events = 0.;
     for (auto const & signal : signals_) events += signal.Events().at(step);
     return events;
@@ -228,6 +231,7 @@ float Results::SignalEvents(int step) const
 
 float Results::BackgroundEvents(int step) const
 {
+    INFO0;
     auto events = 0;
     for (auto const & background : backgrounds_) events += background.Events().at(step);
     return events;
@@ -235,35 +239,40 @@ float Results::BackgroundEvents(int step) const
 
 float Results::Significance(float signal_events, float background_events) const
 {
+    INFO0;
     return signal_events + background_events > 0 ? signal_events / std::sqrt(signal_events + background_events) : 0;
 }
 
 float Results::Acceptances(float signal_events, float background_events) const
 {
+    INFO0;
     return background_events > 0 ? signal_events / std::sqrt(background_events) : 0;
 }
 
 float Results::SOverB(float signal_events, float background_events) const
 {
+    INFO0;
     return background_events > 0 ? signal_events / background_events : 0;
 }
 
 Crosssection Results::BackgroundEfficiencyCrosssection(int step) const
 {
-    Crosssection value = 0_fb;
+    INFO0;
+    Crosssection value = 0_b;
     for (auto const & background : backgrounds_) value += double(background.Efficiencies().at(step)) * background.InfoBranch().Crosssection();
     return value;
 }
 
-Crosssection Results::ModelIndependentCrosssection(Result signal, int step) const
+Crosssection Results::ModelIndependentCrosssection(double signal_efficiency, int step) const
 {
+    INFO0;
+    if (signal_efficiency == 0) return 0_b;
     auto s_over_b_ = 0.01;
-    double eff = signal.Efficiencies().at(step);
-    return eff > 0 ? BackgroundEfficiencyCrosssection(step) / eff * s_over_b_ : 0_fb;
-
-    float exclusion = 2;
-    return eff > 0 ? (exclusion + std::sqrt(sqr(exclusion) + 4. * BackgroundEvents(step))) * exclusion / 2. / eff / DetectorGeometry::Luminosity() : 0_fb;
-
+    Crosssection sigma_s_over_b = BackgroundEfficiencyCrosssection(step) / signal_efficiency * s_over_b_;
+    auto exclusion = 2.;
+    auto numerator = exclusion + std::sqrt(sqr(exclusion) + 4. * BackgroundEvents(step));
+    Crosssection sigma_sig = numerator * exclusion / 2. / signal_efficiency / DetectorGeometry::Luminosity();
+    return max(sigma_s_over_b, sigma_sig);
 }
 
 }

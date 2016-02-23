@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Septet.hh"
-#include "TopPartnerLeptonicTagger.hh"
+#include "TopPartnerLeptonicNeutralTagger.hh"
 #include "HiggsTagger.hh"
 #include "BranchesTopPartner.hh"
 
@@ -25,7 +25,7 @@ public:
 
 private:
 
-    Reader<TopPartnerLeptonicTagger> top_partner_hadronic_reader_;
+    Reader<TopPartnerLeptonicNeutralTagger> top_partner_hadronic_reader_;
 
     Reader<standardmodel::HiggsTagger> higgs_reader_;
 };

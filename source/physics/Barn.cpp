@@ -35,7 +35,7 @@ std::vector< float > FloatVector(const std::vector< boca::Crosssection >& crosss
 {
     std::vector<float> values;
     values.reserve(crosssections.size());
-    for (auto const & xsec : crosssections) values.emplace_back(xsec / fb);
+    for (auto const & xsec : crosssections) values.emplace_back(float(xsec / fb));
     return values;
 }
 

@@ -16,7 +16,7 @@ namespace standardmodel
 {
 
 /**
- * @brief Hadronic top BDT tagger
+ * @brief BDT tagger for hadronically decaying top quarks
  *
  */
 class TopHadronicTagger : public TaggerTemplate<Triplet, TopHadronicBranch>

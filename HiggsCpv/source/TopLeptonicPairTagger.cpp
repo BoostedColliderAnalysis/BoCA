@@ -24,7 +24,7 @@ int TopLeptonicPairTagger::Train(Event const& event, boca::PreCuts const&, Tag t
     if (top_particles.size() != 2 && tag == Tag::signal) DEBUG(particles.size());
     std::vector<Triplet> final_triplets = BestMatches(triplets, top_particles, tag);
 //     CHECK(final_triplets.size()==2, final_triplets.size());
-    std::vector<Sextet> sextets = unordered_pairs(final_triplets, [](Triplet const& triplet_1, Triplet const& triplet_2) {
+    std::vector<Sextet> sextets = UnorderedPairs(final_triplets, [](Triplet const& triplet_1, Triplet const& triplet_2) {
       Quartet22 quartet(Doublet(triplet_1.Singlet().Jet(), triplet_1.Doublet().Jet()), Doublet(triplet_2.Singlet().Jet(), triplet_2.Doublet().Jet()));
         if (quartet.Overlap()) throw Overlap();
       quartet.Doublet1().SetBdt(triplet_1.Bdt());
@@ -66,7 +66,7 @@ std::vector<Sextet> TopLeptonicPairTagger::Multiplets(Event const& event, boca::
 {
     std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
     INFO(triplets.size());
-    std::vector<Sextet>  sextets = unordered_pairs(triplets, [&](Triplet const& triplet_1, Triplet const& triplet_2) {
+    std::vector<Sextet>  sextets = UnorderedPairs(triplets, [&](Triplet const& triplet_1, Triplet const& triplet_2) {
         Quartet22 quartet(Doublet(triplet_1.Singlet().Jet(), triplet_1.Doublet().Jet()), Doublet(triplet_2.Singlet().Jet(), triplet_2.Doublet().Jet()));
         if (quartet.Overlap()) throw Overlap();
         quartet.Doublet1().SetBdt(triplet_1.Bdt());

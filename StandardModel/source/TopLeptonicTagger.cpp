@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "TopLeptonicTagger.hh"
 #include "Event.hh"
@@ -36,12 +36,13 @@ std::vector<Lepton> Leptons(Event const& event, std::vector<Jet> const& jets)
 
 }
 
-TopLeptonicTagger::TopLeptonicTagger() :
+TopLeptonicTagger::TopLeptonicTagger(Id id) :
+    id_(id),
     use_w_(true),
     w_leptonic_reader_(InitializeLeptonicReader())
 {
     INFO0;
-    top_mass_window_ = 80_GeV;
+    if(id_ == Id::top)  top_mass_window_ = 80_GeV;
     top_mass_shift_ = use_w_ ? 0_GeV : 40_GeV;
 }
 
@@ -59,7 +60,7 @@ std::vector<Particle> TopLeptonicTagger::Particles(Event const& event) const
 {
     INFO0;
     std::vector<Particle> particles = event.Partons().GenParticles();
-    std::vector<Particle> leptons = CopyIfGrandMother(CopyIfLepton(particles), Id::top);
+    std::vector<Particle> leptons = CopyIfGrandMother(CopyIfLepton(particles), id_);
     return CopyIfGrandDaughter(particles, leptons);
 }
 
@@ -69,7 +70,7 @@ bool TopLeptonicTagger::Problematic(boca::Triplet const& triplet, boca::PreCuts 
     if (Problematic(triplet, pre_cuts)) return true;
     switch (tag) {
     case Tag::signal :
-        if (boost::units::abs(triplet.Mass() - MassOf(Id::top) + top_mass_shift_) > top_mass_window_) return true;
+        if(id_ == Id::top && boost::units::abs(triplet.Mass() - MassOf(id_) + top_mass_shift_) > top_mass_window_) return true;
         if (pre_cuts.NotParticleRho(triplet)) return true;
         break;
     case Tag::background : break;
@@ -80,7 +81,7 @@ bool TopLeptonicTagger::Problematic(boca::Triplet const& triplet, boca::PreCuts 
 bool TopLeptonicTagger::Problematic(Triplet const& triplet, PreCuts const& pre_cuts) const
 {
     INFO0;
-    if (pre_cuts.ApplyCuts(Id::top, triplet)) return true;
+    if (pre_cuts.ApplyCuts(id_, triplet)) return true;
     return false;
 }
 
@@ -93,10 +94,10 @@ std::vector<Triplet> TopLeptonicTagger::Triplets(Event const& event, std::functi
     std::vector<Doublet> doublets;
     if (use_w_) doublets = w_leptonic_reader_.Multiplets(event);
     else for (auto const & lepton : leptons) doublets.emplace_back(Doublet(lepton));
-    std::vector<Triplet> triplets = pairs(doublets, jets, [&](Doublet const & doublet, Jet const & jet) {
+    std::vector<Triplet> triplets = Pairs(doublets, jets, [&](Doublet const & doublet, Jet const & jet) {
         DEBUG(doublet.Rap(), jet.rap());
         Triplet triplet(doublet, jet);
-        if (triplet.Mass() != triplet.Mass()) ERROR(triplet.Mass());
+        CHECK(triplet.Mass() == triplet.Mass(), triplet.Mass());
         return function(triplet);
     });
     return triplets;

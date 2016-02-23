@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #include <boost/range/algorithm/max_element.hpp>
 #include <boost/range/numeric.hpp>

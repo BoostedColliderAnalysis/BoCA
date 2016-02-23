@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "BosonTagger.hh"
 #include "Event.hh"
@@ -42,14 +42,14 @@ std::vector<Doublet> BosonTagger::Doublets(Event const& event, std::function<Dou
 {
     INFO0;
    std::vector<Jet> jets =  bottom_reader_.Jets(event);
-    MomentumRange jet_range(Id::Z, Id::higgs);
-    std::vector<Doublet> doublets = unordered_pairs(jet_range.SofterThanMax(jets), [&](Jet const & jet_1, Jet const & jet_2) {
+    MomentumRange jet_range(Id::W, Id::higgs);
+    std::vector<Doublet> doublets = UnorderedPairs(jet_range.SofterThanMax(jets), [&](Jet const & jet_1, Jet const & jet_2) {
         Doublet doublet(jet_1, jet_2);
         if (!jet_range.BelowUpperBound(doublet)) throw boca::Problematic();
         return function(doublet);
     });
     for (auto const & jet : jet_range.HarderThanMin(jets)) {
-        MomentumRange sub_jet_range((SubJet(Id::Z)), (SubJet(Id::higgs)));
+        MomentumRange sub_jet_range((SubJet(Id::W)), (SubJet(Id::higgs)));
         if (sub_jet_range.BelowUpperBound(jet)) try {
                 unsigned sub_jet_number = 2;
                std::vector<Jet> pieces = bottom_reader_.SubMultiplet(jet, sub_jet_number);
@@ -69,7 +69,7 @@ std::vector<Particle> BosonTagger::Particles(Event const& event) const
 {
     INFO0;
     std::vector<Particle> particles = event.Partons().GenParticles();
-    return CopyIfParticles(particles, MultiId(Id::neutral_boson));
+    return CopyIfParticles(particles, MultiId(Id::bosons));
 }
 
 bool BosonTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts, Tag tag) const
@@ -79,7 +79,7 @@ bool BosonTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts, T
     switch (tag) {
     case Tag::signal :
         if (pre_cuts.NotParticleRho(doublet)) return true;
-        if (boost::units::abs(doublet.Mass() - (MassOf(Id::Z) + MassOf(Id::higgs)) / 2.) > boson_mass_window) return true;
+        if (boost::units::abs(doublet.Mass() - (MassOf(Id::W) + MassOf(Id::higgs)) / 2.) > boson_mass_window) return true;
         break;
     case Tag::background :
         break;
@@ -90,7 +90,7 @@ bool BosonTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts, T
 bool BosonTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts) const
 {
     INFO0;
-    if (pre_cuts.ApplyCuts(Id::neutral_boson, doublet)) return true;
+    if (pre_cuts.ApplyCuts(Id::bosons, doublet)) return true;
     return false;
 }
 

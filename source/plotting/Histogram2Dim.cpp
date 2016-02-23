@@ -1,10 +1,11 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #include <sys/stat.h>
 #include "plotting/Style.hh"
 #include "plotting/Histogram2Dim.hh"
 #include "plotting/Font.hh"
+#include "Branches.hh"
 // #define INFORMATION
 #include "Debug.hh"
 
@@ -78,11 +79,11 @@ TExec Histogram2Dim::Exec(EColor color)
     INFO0;
     TExec exec;
     switch (color) {
-    case kRed : exec.SetAction("boca::Color().Red();");
+      case kRed : exec.SetAction(Red::Action().c_str());
         break;
-    case kBlue : exec.SetAction("boca::Color().Blue();");
+      case kBlue : exec.SetAction(Blue::Action().c_str());
         break;
-    default : ERROR("unsupported color");
+    DEFAULT(color);
     }
     return exec;
 }
@@ -91,7 +92,7 @@ Legend& Histogram2Dim::Legend()
 {
     return legend_;
 }
-std::__cxx11::string Histogram2Dim::FileBaseName() const
+std::string Histogram2Dim::FileBaseName() const
 {
     return Path() + "/" + Title() ;
 }

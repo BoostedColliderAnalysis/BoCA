@@ -51,14 +51,14 @@ private:
     ClassDef(SignatureBranch, 1)
 };
 
-class SignatureSingleBranch : public TChannelBranch
+class SignatureSingleBranch : public SignatureBranch
 {
 public:
   SignatureSingleBranch();
   float VetoBdt;
   template<typename Multiplet>
   void Fill(Multiplet const& multiplet) {
-    TChannelBranch::Fill(multiplet);
+    SignatureBranch::Fill(multiplet);
     VetoBdt = multiplet.VetoBdt();
   }
   Observables Variables();
@@ -66,7 +66,7 @@ private:
   ClassDef(SignatureSingleBranch, 1)
 };
 
-class SignatureSingleHadronicBranch : public TChannelBranch
+class SignatureSingleHadronicBranch : public SignatureBranch
 {
 public:
     SignatureSingleHadronicBranch();
@@ -75,7 +75,7 @@ public:
     float HiggsPt;
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-        TChannelBranch::Fill(multiplet);
+        SignatureBranch::Fill(multiplet);
         VetoBdt = multiplet.VetoBdt();
         TopPt = multiplet.Triplet().Jet().pt();
         HiggsPt = multiplet.Doublet().Jet().pt();

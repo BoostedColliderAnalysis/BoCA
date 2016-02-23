@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -16,7 +16,7 @@ namespace standardmodel
 {
 
 /**
- * @brief W BDT tagger
+ * @brief BDT tagger for hadronically decaying W bosons
  *
  */
 class WHadronicTagger : public TaggerTemplate<Doublet, WHadronicBranch>

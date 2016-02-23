@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -15,9 +15,9 @@ namespace standardmodel
 {
 
 /**
- * @brief Derived Tagger class for bottom jets.
+ * @brief BDT tagger for bottom jets.
  * @author Jan Hajer
- * @copyright Copyright (C) 2015 Jan Hajer
+ * @copyright Copyright (C) 2015-2016 Jan Hajer
  * @date 2015
  * @license GPL 3
  *
@@ -85,7 +85,6 @@ private:
 template<>
 inline void TaggerTemplate<Jet, standardmodel::BottomBranch>::FillBranch(Jet const& multiplet) const
 {
-    //     INFO0;
     branch_.Fill(Singlet(multiplet));
 }
 

@@ -17,7 +17,7 @@ SignatureSingleBranch::SignatureSingleBranch()
 
 Observables SignatureSingleBranch::Variables()
 {
-    return boca::TChannelBranch::Variables() + OBSERVABLE(VetoBdt);
+    return SignatureBranch::Variables() + OBSERVABLE(VetoBdt, "BDT_{V}");
 }
 
 SignatureSingleHadronicBranch::SignatureSingleHadronicBranch()
@@ -29,12 +29,12 @@ SignatureSingleHadronicBranch::SignatureSingleHadronicBranch()
 
 Observables SignatureSingleHadronicBranch::Variables()
 {
-    return boca::TChannelBranch::Variables() + OBSERVABLE(VetoBdt) + OBSERVABLE(TopPt) + OBSERVABLE(HiggsPt);
+    return SignatureBranch::Variables() + OBSERVABLE(VetoBdt, "BDT_{V}") + OBSERVABLE(TopPt, "p_{T}^{t}") + OBSERVABLE(HiggsPt, "p_{T}^{h}");
 }
 
 Observables EventBranch::Variables()
 {
-    return MultiBranch::Variables() + OBSERVABLE(LeptonNumber) + OBSERVABLE(BottomNumber) + OBSERVABLE(JetNumber) + OBSERVABLE(MissingEt) + OBSERVABLE(ScalarHt) + OBSERVABLE(LeptonHt) + OBSERVABLE(JetMass) + OBSERVABLE(JetPt) + OBSERVABLE(JetHt) + OBSERVABLE(JetRap) + OBSERVABLE(JetPhi);
+    return MultiBranch::Variables() + OBSERVABLE(LeptonNumber, "##l") + OBSERVABLE(BottomNumber, "##b") + OBSERVABLE(JetNumber, "##j") + OBSERVABLE(MissingEt, "E_{T}^{miss}") + OBSERVABLE(ScalarHt, "H_{T}^{scalar}") + OBSERVABLE(LeptonHt, "H_{T}^{l}") + OBSERVABLE(JetMass, "m_{j}") + OBSERVABLE(JetPt, "p_{T}^{j}") + OBSERVABLE(JetHt, "H_{T}^{j}") + OBSERVABLE(JetRap, "#eta_{j}") + OBSERVABLE(JetPhi, "#phi_{j}");
 }
 
 }

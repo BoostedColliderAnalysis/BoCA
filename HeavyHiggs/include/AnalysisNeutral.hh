@@ -52,7 +52,7 @@ private:
             case 2000 : return 0.02190 * fb;
                 DEFAULT(to_int(this->Mass()), fb);
             }
-        case heavyhiggs::Collider::FHC: return 1_fb;
+        case heavyhiggs::Collider::FHC: return fb;
         case heavyhiggs::Collider::LE:
             switch (this->Mass()) {
             case 500 : return 973.5 * fb;
@@ -81,7 +81,7 @@ private:
 
     int PassPreCut(Event const& event, Tag tag) const override {
 //         ERROR0;
-//         if (tag == Tag::background) return 1;
+        if (tag == Tag::background) return 1;
         std::vector<Particle> particles = event.Partons().GenParticles();
 //         for (auto const & particle : particles) ERROR(boca::Name(particle.Info().Family().Member(Relative::particle).Id()), boca::Name(particle.Info().Family().Member(Relative::mother).Id()), boca::Name(particle.Info().Family().Member(Relative::step_mother).Id()), boca::Name(particle.Info().Family().Member(Relative::grand_mother).Id()));
         std::vector<Particle> bottoms = SortedByPt(CopyIfParticle(particles, Id::bottom));

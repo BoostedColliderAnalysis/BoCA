@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -40,12 +40,6 @@ public:
     void ExtractAbsFraction(int id);
 
     void ExtractFraction(int id, int mother_id);
-
-    void PrintAllInfos(Severity severity) const;
-
-    void PrintAllconstituentInfos(Severity severity) const;
-
-    void PrintAllFamInfos(Severity severity) const;
 
     float MaximalFraction() const;
 

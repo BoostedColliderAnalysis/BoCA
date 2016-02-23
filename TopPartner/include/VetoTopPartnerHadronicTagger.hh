@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
 #include <functional>
 #include "multiplets/Quintet.hh"
-#include "TopPartnerLeptonicTagger.hh"
+#include "TopPartnerLeptonicNeutralTagger.hh"
 #include "TopHadronicTagger.hh"
 #include "HiggsTagger.hh"
 
@@ -38,7 +38,7 @@ private:
 
     std::vector<Quintet> Quintets(Event const& event, std::function<Quintet(Quintet&)> const& function) const;
 
-    Reader<TopPartnerLeptonicTagger> partner_reader_;
+    Reader<TopPartnerLeptonicNeutralTagger> partner_reader_;
 
     Reader<standardmodel::TopHadronicTagger> top_reader_;
 

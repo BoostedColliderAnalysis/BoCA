@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 
 #include <sys/stat.h>
@@ -19,10 +19,37 @@
 namespace boca
 {
 
+std::string Name(Output output)
+{
+    std::string name;
+    FlagSwitch(output, [&](Output output) {
+        switch (output) {
+        case Output::none : name += "None";
+            break;
+        case Output::fast : name += "Fast";
+            break;
+        case Output::normal : name += "Normal";
+            break;
+        case Output::significance : name += "Significance";
+            break;
+        case Output::efficiency : name += "Efficiency";
+            break;
+        case Output::plot : name += "Plot";
+            break;
+        case Output::cut : name += "Cut";
+            break;
+            DEFAULT(to_int(output));
+        }
+    });
+    return name;
+}
+
 AnalysisBase::AnalysisBase()
 {
     INFO0;
 }
+
+std::string _analysis_name_;
 
 void AnalysisBase::Initialize()
 {
@@ -33,6 +60,7 @@ void AnalysisBase::Initialize()
     mkdir(AnalysisName().c_str(), 0700);
 //     else ERROR(AnalysisName());
     Tagger().Initialize(AnalysisName());
+    _analysis_name_ = AnalysisName();
 }
 
 
@@ -250,7 +278,7 @@ std::string AnalysisBase::WorkingPath() const
 
 void AnalysisBase::Run(Output output)
 {
-    INFO0;
+    INFO(Name(output));
     Initialize();
     //   analysis.PreRequisits<analysis.Tagger()::type>(analysis,run);
     FlagSwitch(output, [&](Output output_2) {
@@ -267,7 +295,7 @@ void AnalysisBase::Run(Output output)
             break;
         case Output::cut : RunCut();
             break;
-            DEFAULT(to_int(output));
+            DEFAULT(Name(output_2));
         }
     });
 }

@@ -10,7 +10,7 @@ namespace standardmodel
 {
 /**
  *
- * @brief W tagger ananlysis
+ * @brief Z tagger ananlysis
  *
  * @author Jan Hajer
  *

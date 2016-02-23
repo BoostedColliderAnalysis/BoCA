@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "Member.hh"
 #include "physics/Particles.hh"
@@ -10,7 +10,7 @@ namespace boca
 
 Member::Member()
 {
-    id_ = int(boca::Id::empty);
+    id_ = int(boca::Id::none);
 }
 
 Member::Member(int id)

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "TFile.h"
 #include "TClonesArray.h"
@@ -132,9 +132,11 @@ Result Plotting::CutDistribution(TFile& file, std::string const& tree_name, TFil
 
 InfoBranch Plotting::InfoBranch(TFile& file, std::string const& tree_name) const
 {
-    INFO(tree_name);
-    exroot::TreeReader tree_reader(static_cast<TTree*>(file.Get(tree_name.c_str())));
-    ERROR(tree_name, Tagger().WeightBranchName());
+    ERROR(file.GetName() ,tree_name);
+    auto * tree = static_cast<TTree*>(file.Get(tree_name.c_str()));
+    ERROR(tree->GetName());
+    exroot::TreeReader tree_reader(tree);
+    ERROR(Tagger().WeightBranchName());
     TClonesArray* clones_array = tree_reader.UseBranch(Tagger().WeightBranchName().c_str());
     tree_reader.ReadEntry(tree_reader.GetEntries() - 1);
     return static_cast<boca::InfoBranch&>(*clones_array->Last());
@@ -170,7 +172,7 @@ std::string Plotting::PlotEfficiencyGraph(Results const& results) const
         graphs.SetXAxis("Calculated", results.Range().Horizontal());
         graphs.SetYAxis("Measured");
         break;
-    default : ERROR(Tagger().Mva(), "case not handled");
+    DEFAULT(Tagger().Mva());
     }
     graphs.AddLine(results.BestModelDependentValue());
     graphs.AddLine(results.BestModelInDependentValue());
@@ -342,7 +344,7 @@ void Plotting::RunPlots(Stage stage) const
 void Plotting::DoPlot(Plots& signals, Plots& backgrounds, Stage stage) const
 {
     INFO0;
-    NamePairs names = unordered_pairs(tagger_.Branch().Variables().Vector(), [&](Observable const & variable_1, Observable const & variable_2) {
+    NamePairs names = UnorderedPairs(tagger_.Branch().Variables().Vector(), [&](Observable const & variable_1, Observable const & variable_2) {
         return std::make_pair(variable_1.Names(), variable_2.Names());
     });
     signals.SetNames(names);
@@ -414,7 +416,7 @@ Plots Plotting::PlotResult(TFile& file, std::string const& tree_name, Stage stag
     Plots plots(InfoBranch(file, tree_name));
     TTree& tree = static_cast<TTree&>(*file.Get(tree_name.c_str()));
     tree.SetMakeClass(1);
-    plots.plots() = unordered_pairs(tagger_.Branch().Variables().Vector(), [&](Observable const & variable_1, Observable const & variable_2) {
+    plots.plots() = UnorderedPairs(tagger_.Branch().Variables().Vector(), [&](Observable const & variable_1, Observable const & variable_2) {
         Plot plot = ReadTree(tree, variable_1.Name(), variable_2.Name(), stage);
         plot.x_is_int = variable_1.IsInt();
         plot.y_is_int = variable_2.IsInt();

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "multiplets/Octet.hh"
-#include "TopPartnerLeptonicTagger.hh"
+#include "TopPartnerLeptonicNeutralTagger.hh"
 #include "TopHadronicTagger.hh"
 #include "BranchesTopPartner.hh"
 
@@ -25,7 +25,7 @@ public:
 
 private:
 
-    Reader<TopPartnerLeptonicTagger> top_partner_reader_;
+    Reader<TopPartnerLeptonicNeutralTagger> top_partner_reader_;
 
     Reader<standardmodel::TopHadronicTagger> top_reader_;
 };

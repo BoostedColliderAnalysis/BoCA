@@ -26,7 +26,7 @@ int SignatureLeptonTagger::Train(Event const& event, boca::PreCuts const&, Tag t
     std::vector<Particle> higgses = CopyIfParticles(particles, Id::higgs, Id::CP_violating_higgs);
     std::vector<Doublet> final_doublets = BestMatches(doublets, higgses, tag);
 
-    std::vector<MultipletSignature<Quartet211>> quartets = triples(final_leptons, final_doublets, [&](Singlet const& singlet_1, Singlet const& singlet_2, Doublet const& doublet) {
+    std::vector<MultipletSignature<Quartet211>> quartets = Triples(final_leptons, final_doublets, [&](Singlet const& singlet_1, Singlet const& singlet_2, Doublet const& doublet) {
         MultipletSignature<Quartet211> quartet = Signature(doublet, singlet_1, singlet_2);
         quartet.SetTag(tag);
         return quartet;
@@ -44,7 +44,7 @@ std::vector<MultipletSignature<Quartet211>> SignatureLeptonTagger::Multiplets(Ev
     if (leptons.size() < 2) return {};
     std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
     INFO(doublets.size());
-    std::vector<MultipletSignature<Quartet211>> quartets = triples(leptons, doublets, [&](Singlet const& singlet_1, Singlet const& singlet_2, Doublet const& doublet) {
+    std::vector<MultipletSignature<Quartet211>> quartets = Triples(leptons, doublets, [&](Singlet const& singlet_1, Singlet const& singlet_2, Doublet const& doublet) {
         MultipletSignature<Quartet211> quartet = Signature(doublet, singlet_1, singlet_2);
         quartet.SetBdt(Bdt(quartet, reader));
         return quartet;

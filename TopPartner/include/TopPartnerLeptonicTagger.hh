@@ -1,9 +1,7 @@
 #pragma once
 
-#include "TopLeptonicTagger.hh"
-#include "BosonTagger.hh"
-#include "multiplets/Quintet.hh"
-#include "BranchesTopPartner.hh"
+#include "TopPartnerLeptonicChargedTagger.hh"
+#include "TopPartnerLeptonicNeutralTagger.hh"
 
 namespace boca
 {
@@ -12,7 +10,7 @@ namespace naturalness
 {
 
 /**
- * @brief Semi leptonic heavy higgs BDT tagger
+ * @brief Top partner to bottom and W BDT tagger
  *
  */
 class TopPartnerLeptonicTagger : public TaggerTemplate<Quintet, TopPartnerBranch>
@@ -20,23 +18,26 @@ class TopPartnerLeptonicTagger : public TaggerTemplate<Quintet, TopPartnerBranch
 
 public:
 
-    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const override;
+    int Train(Event const& event, PreCuts const&, Tag tag) const;
 
-    std::vector<Quintet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
+    std::vector<Quintet> Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const&) const{}
+
+    std::vector<Quintet> Multiplets(Event const& event, boca::PreCuts const&) const;
+
+    std::vector<Quintet> Multiplets(Event const& event) const;
+
+    std::vector<Particle> Particles(Event const& event) const;
 
     std::string Name() const override;
 
     std::string LatexName() const override;
 
-    std::vector<Particle> Particles(Event const& event) const;
-
 private:
 
-    std::vector<Quintet> Quintets(Event const& event, std::function<Quintet(Quintet&)> const& function) const;
+    Reader<TopPartnerLeptonicChargedTagger> charged_;
 
-    Reader<standardmodel::TopLeptonicTagger> top_reader_;
+    Reader<TopPartnerLeptonicNeutralTagger> neutral_;
 
-    Reader<standardmodel::BosonTagger> boson_reader_;
 };
 
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "JetInfoFamily.hh"
 
@@ -146,28 +146,5 @@ int JetInfoFamily::MaximalId() const
     DEBUG0;
     return std::max_element(id_fractions_.begin(), id_fractions_.end(), SortPairs())->first;
 }
-
-void JetInfoFamily::PrintAllInfos(Severity) const
-{
-    DEBUG0;
-//     for (auto pair = id_fractions_.begin(); pair != id_fractions_.end(); ++pair) {
-//         if (GetWeightSum() == 0) Print(severity, "Jet Fraction", Name((*pair).first), 0);
-//         else Print(severity, "Jet Fraction", Name((*pair).first), (*pair).second / GetWeightSum());
-//     }
-}
-
-void JetInfoFamily::PrintAllconstituentInfos(Severity) const
-{
-    DEBUG0;
-//     for (auto const& constituent : constituents())
-//         Print(severity, "Jet Fraction", Name(constituent.family().Member(Relative::particle).Id()), Name(constituent.family().Member(Relative::mother).Id()), constituent.family().Member(Relative::particle).Momentum.Pt(), constituent.family().Member(Relative::mother).Momentum.Pt());
-}
-void JetInfoFamily::PrintAllFamInfos(Severity) const
-{
-    DEBUG0;
-//     for (auto const& family_fraction : family_fractions_)
-//         Print(severity, "Family Fraction", Name(family_fraction.first.Member(Relative::particle).Id()), Name(family_fraction.first.Member(Relative::mother).Id()), family_fraction.first.Member(Relative::particle).Momentum.Pt(), family_fraction.first.Member(Relative::mother).Momentum.Pt());
-}
-
 
 }

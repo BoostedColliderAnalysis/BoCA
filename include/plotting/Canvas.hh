@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -24,13 +24,13 @@ public:
     template<typename Value>
     void SetLog(Range<Value> const& range) {
         //       std::cout << range.Min() << " " <<  range.Max() <<std::endl;
-        if (range.Min() > Value(0) && range.Min() / range.Max() < 0.01) canvas_.SetLogy();
+        if (range.Min() > Value(0) && range.Min() / range.Max() < 0.05) canvas_.SetLogy();
     }
 
     template<typename Value>
     void SetLog(Rectangle<Value> const& range) {
-        if (range.XMin() > Value(0) && range.XMin() / range.XMax() < 0.01) canvas_.SetLogx();
-        if (range.YMin() > Value(0) && range.YMin() / range.YMax() < 0.01) canvas_.SetLogy();
+        if (range.XMin() > Value(0) && range.XMin() / range.XMax() < 0.05) canvas_.SetLogx();
+        if (range.YMin() > Value(0) && range.YMin() / range.YMax() < 0.05) canvas_.SetLogy();
     }
 
     void SetLog();

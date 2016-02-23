@@ -13,7 +13,7 @@ namespace higgscpv
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class SignatureTTaggerBranch : public boca::TChannelBranch
+class SignatureTTaggerBranch : public boca::SignatureBranch
 {
 public:
   SignatureTTaggerBranch();
@@ -21,7 +21,7 @@ public:
     float Aplanarity;
     template<typename Multiplet>
     void Fill(Multiplet const& signature) {
-        boca::TChannelBranch::Fill(signature.Multiplet());
+        boca::SignatureBranch::Fill(signature.Multiplet());
         Aplanarity = signature.EventShapes().Aplanarity();
         Sphericity = signature.EventShapes().Sphericity();
     }

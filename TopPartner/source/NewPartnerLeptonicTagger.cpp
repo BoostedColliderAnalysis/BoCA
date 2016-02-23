@@ -20,7 +20,7 @@ int NewPartnerLeptonicTagger::Train(Event const& event, PreCuts const&, Tag tag)
 
 std::vector<Quintet> NewPartnerLeptonicTagger::Quintets(Event const& event, std::function<Quintet(Quintet&)> const& function) const
 {
-    return pairs(top_reader_.Multiplets(event), boson_reader_.Multiplets(event), [&](Triplet const & triplet, Doublet const & doublet) {
+    return Pairs(top_reader_.Multiplets(event), boson_reader_.Multiplets(event), [&](Triplet const & triplet, Doublet const & doublet) {
         Quintet quintet(triplet, doublet);
         if (quintet.Overlap()) throw Overlap();
         return function(quintet);
