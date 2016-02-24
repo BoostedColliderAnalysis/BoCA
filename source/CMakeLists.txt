@@ -83,3 +83,6 @@ InfoRecombiner.cpp
 )
 create_library(Analysis analysis_sources)
 
+add_executable(root-browser Browser.cpp)
+target_link_libraries(root-browser ${ROOT_LIBRARIES})
+install (TARGETS root-browser DESTINATION ~/.bin)

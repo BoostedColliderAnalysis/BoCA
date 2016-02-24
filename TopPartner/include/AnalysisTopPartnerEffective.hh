@@ -26,7 +26,7 @@ class AnalysisEffective : public AnalysisNaturalness<Tagger>
 protected:
 
     std::string AnalysisName() const override {
-        return "Naturalness-Effective-" + Name(DetectorGeometry::DetectorType()) + "-" + boca::Name(this->Mass()) + "-neutral";
+        return "Naturalness-Effective-" + Name(DetectorGeometry::DetectorType()) + "-" + boca::Name(this->Mass()) + "-neutral-truth";
     }
 
     void SetFiles(Tag tag, Stage)override {
@@ -35,9 +35,6 @@ protected:
             this->NewFile(tag, Process::TThh);
             break;
         case Tag::background :
-//             this->NewFile(tag, Process::TT);
-//             this->NewFile(tag, Process::ttBB);
-//             this->NewFile(tag, Process::ttBjj);
             this->NewFile(tag, Process::ttWWWW);
             this->NewFile(tag, Process::ttWWWB);
             this->NewFile(tag, Process::ttWWBB);

@@ -22,12 +22,12 @@ class AnalysisBoson : public AnalysisStandardModel<Tagger>
 public:
 
     AnalysisBoson() {
-        this->PreCuts().PtLowerCut().Set(Id::neutral_boson, this->LowerPtCut());
-        this->PreCuts().PtUpperCut().Set(Id::neutral_boson, this->UpperPtCut());
+        this->PreCuts().PtLowerCut().Set(MultiId::neutral_boson, this->LowerPtCut());
+        this->PreCuts().PtUpperCut().Set(MultiId::neutral_boson, this->UpperPtCut());
 //         this->PreCuts().PtLowerCut().Set(Id::bottom, this->LowerPtCut() / 5.);
 //         this->PreCuts().PtUpperCut().Set(Id::bottom, this->UpperPtCut() / 5.);
-//         this->PreCuts().MassUpperCut().Set(Id::neutral_boson, 250_GeV);
-        this->PreCuts().TrackerMaxEta().Set(Id::neutral_boson, DetectorGeometry::TrackerEtaMax());
+        //         this->PreCuts().MassUpperCut().Set(MultiId::neutral_boson, 250_GeV);
+        this->PreCuts().TrackerMaxEta().Set(MultiId::neutral_boson, DetectorGeometry::TrackerEtaMax());
         this->PreCuts().TrackerMaxEta().Set(Id::bottom, DetectorGeometry::TrackerEtaMax());
     }
 

@@ -22,7 +22,7 @@ int SignatureTTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) c
     DEBUG(triplets.size(), tops.size(), final_triplets.size());
 
     std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
-    std::vector<Particle> higgses = CopyIfParticles(particles, Id::higgs, Id::CP_violating_higgs);
+    std::vector<Particle> higgses = CopyIfParticles(particles, {Id::higgs, Id::CP_violating_higgs});
     std::vector<Doublet> final_doublets = doublets;
 //     std::vector<Doublet> final_doublets = BestMatches(doublets, higgses, tag);
     DEBUG(doublets.size(), higgses.size(), final_doublets.size());

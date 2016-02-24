@@ -54,16 +54,16 @@ private:
 class SignatureSingleBranch : public SignatureBranch
 {
 public:
-  SignatureSingleBranch();
-  float VetoBdt;
-  template<typename Multiplet>
-  void Fill(Multiplet const& multiplet) {
-    SignatureBranch::Fill(multiplet);
-    VetoBdt = multiplet.VetoBdt();
-  }
-  Observables Variables();
+    SignatureSingleBranch();
+    float VetoBdt;
+    template<typename Multiplet>
+    void Fill(Multiplet const& multiplet) {
+        SignatureBranch::Fill(multiplet);
+        VetoBdt = multiplet.VetoBdt();
+    }
+    Observables Variables();
 private:
-  ClassDef(SignatureSingleBranch, 1)
+    ClassDef(SignatureSingleBranch, 1)
 };
 
 class SignatureSingleHadronicBranch : public SignatureBranch
@@ -82,7 +82,7 @@ public:
     }
     Observables Variables();
 private:
-  ClassDef(SignatureSingleHadronicBranch, 1)
+    ClassDef(SignatureSingleHadronicBranch, 1)
 };
 
 class EventBranch : public boca::EventBranch
@@ -92,9 +92,36 @@ public:
     void Fill(Multiplet const& multiplet) {
         boca::EventBranch::Fill(multiplet);
     }
-    Observables Variables();
 private:
     ClassDef(EventBranch, 1)
+};
+
+/**
+ *
+ * @brief Top tagger root tree structure
+ *
+ */
+class TruthBranch : public ResultBranch
+{
+public:
+    TruthBranch();
+    float TopPt;
+    float LeptonPt;
+    float BosonNumber;
+    float HardBosonNumber;
+    float SoftestBosonPt;
+    float DetectableBosonNumber;
+    template<typename Multiplet>
+    void Fill(Multiplet const& multiplet) {
+        TopPt = multiplet.TopPt(0) / GeV;
+        LeptonPt = multiplet.LeptonPt(0) / GeV;
+        BosonNumber = multiplet.BosonNumber();
+        HardBosonNumber = multiplet.HardBosonNumber();
+        SoftestBosonPt = multiplet.SoftBosonPt() / GeV;
+        DetectableBosonNumber = multiplet.DetectableBosonNumber();
+    }
+private:
+    ClassDef(TruthBranch, 1)
 };
 
 }

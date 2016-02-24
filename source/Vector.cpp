@@ -1,6 +1,7 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
+#include "boost/range/algorithm/find_if.hpp"
 #include "Vector.hh"
 
 #include "Types.hh"
@@ -10,142 +11,143 @@
 namespace boca
 {
 
-struct IsParticle {
-    IsParticle(Id id_1) {
-        id_1_ = id_1;
-        id_2_ = id_1;
+struct RelativeIs {
+    RelativeIs(Relative relative, Id id) {
+        relative_ = relative;
+        ids_ = {id};
     }
-    IsParticle(Id id_1, Id id_2) {
-        id_1_ = id_1;
-        id_2_ = id_2;
-    }
-    bool operator()(Particle const& jet) const {
-        unsigned id = std::abs(jet.Info().Family().Member(Relative::particle).Id());
-        DEBUG(id, to_unsigned(id_1_));
-        return id == to_unsigned(id_1_) || id == to_unsigned(id_2_);
-    }
-    Id id_1_;
-    Id id_2_;
-};
-
-struct IsParticles {
-    IsParticles(std::vector<Id> const& ids) {
+    RelativeIs(Relative relative, std::vector<Id> ids) {
+        relative_ = relative;
         ids_ = ids;
     }
     bool operator()(Particle const& jet) const {
-        unsigned id = std::abs(jet.Info().Family().Member(Relative::particle).Id());
-        return std::find_if(ids_.begin(), ids_.end(), [&](Id id_2) {
-            return id == to_unsigned(id_2);
+        return boost::range::find_if(ids_, [&](Id id) {
+            return std::abs(jet.Info().Family().Member(relative_).Id()) == to_unsigned(id);
         }) != ids_.end();
     }
+    Relative relative_;
     std::vector<Id> ids_;
 };
 
-std::vector<Particle> CopyIfParticle(std::vector<Particle> const& particles, Id id)
+struct RelativeIsExactly {
+    RelativeIsExactly(Relative relative, int id) {
+        relative_ = relative;
+        ids_ = {id};
+    }
+    RelativeIsExactly(Relative relative, std::vector<int> ids) {
+        relative_ = relative;
+        ids_ = ids;
+    }
+    bool operator()(Particle const& jet) const {
+        return boost::range::find_if(ids_, [&](int id) {
+            return jet.Info().Family().Member(relative_).Id() == id;
+        }) != ids_.end();
+    }
+    Relative relative_;
+    std::vector<int> ids_;
+};
+
+std::vector<Particle> CopyIfRelativeIs(std::vector<Particle> const& particles, Relative relative, Id id)
 {
     std::vector<Particle> matches;
-    boost::range::copy(particles | boost::adaptors::filtered(IsParticle(id)), std::back_inserter(matches));
+    boost::range::copy(particles | boost::adaptors::filtered(RelativeIs(relative, id)), std::back_inserter(matches));
     return matches;
 }
 
-std::vector<Particle> CopyIfParticles(std::vector<Particle> const& particles, Id id_1, Id id_2)
+std::vector<Particle> CopyIfRelativeIs(std::vector<Particle> const& particles, Relative relative, std::vector<Id> ids)
 {
     std::vector<Particle> matches;
-    boost::range::copy(particles | boost::adaptors::filtered(IsParticle(id_1, id_2)), std::back_inserter(matches));
+    boost::range::copy(particles | boost::adaptors::filtered(RelativeIs(relative, ids)), std::back_inserter(matches));
     return matches;
+}
+
+std::vector<Particle> CopyIfRelativeIsExactly(std::vector<Particle> const& particles, Relative relative, int id)
+{
+    std::vector<Particle> matches;
+    boost::range::copy(particles | boost::adaptors::filtered(RelativeIsExactly(relative, id)), std::back_inserter(matches));
+    return matches;
+}
+
+std::vector<Particle> CopyIfRelativeIsExactly(std::vector<Particle> const& particles, Relative relative, std::vector<int> ids)
+{
+    std::vector<Particle> matches;
+    boost::range::copy(particles | boost::adaptors::filtered(RelativeIsExactly(relative, ids)), std::back_inserter(matches));
+    return matches;
+}
+
+std::vector<Particle> RemoveIfRelativeIs(std::vector<Particle> particles, Relative relative, Id id)
+{
+    return boost::range::remove_erase_if(particles, RelativeIs(relative, id));
+}
+
+std::vector<Particle> RemoveIfRelativeIs(std::vector<Particle> particles, Relative relative, std::vector<Id> id)
+{
+    return boost::range::remove_erase_if(particles, RelativeIs(relative, id));
+}
+
+std::vector<Particle> RemoveIfRelativeIsExactly(std::vector<Particle> particles, Relative relative, int id)
+{
+    return boost::range::remove_erase_if(particles, RelativeIsExactly(relative, id));
+}
+
+std::vector<Particle> RemoveIfRelativeIsExactly(std::vector<Particle> particles, Relative relative, std::vector<int> id)
+{
+    return boost::range::remove_erase_if(particles, RelativeIsExactly(relative, id));
+}
+
+std::vector<Particle> CopyIfParticle(std::vector<Particle> const& particles, Id id)
+{
+    return CopyIfRelativeIs(particles, Relative::particle, id);
 }
 
 std::vector<Particle> CopyIfParticles(std::vector<Particle> const& particles, std::vector<Id> ids)
 {
-    std::vector<Particle> matches;
-    boost::range::copy(particles | boost::adaptors::filtered(IsParticles(ids)), std::back_inserter(matches));
-    return matches;
+    return CopyIfRelativeIs(particles, Relative::particle, ids);
 }
-
-struct IsExactParticle {
-    IsExactParticle(int id) {
-        id_ = id;
-    }
-    bool operator()(Particle const& Jet) const {
-        return Jet.Info().Family().Member(Relative::particle).Id() == id_;
-    }
-    int id_;
-};
 
 std::vector<Particle> CopyIfExactParticle(std::vector<Particle> const& particles, int id)
 {
-    std::vector<Particle> matches;
-    boost::range::copy(particles | boost::adaptors::filtered(IsExactParticle(id)), std::back_inserter(matches));
-    return matches;
+    return CopyIfRelativeIsExactly(particles, Relative::particle, id);
 }
 
 std::vector<Particle> RemoveIfExactParticle(std::vector<Particle> particles, int id)
 {
-    return boost::range::remove_erase_if(particles, IsExactParticle(id));
+    return RemoveIfRelativeIsExactly(particles, Relative::particle, id);
 }
 
 std::vector<Particle> CopyIfNeutrino(std::vector<Particle> const& particles)
 {
-    std::vector<Particle> neutrinos;
-    boost::range::copy(particles | boost::adaptors::filtered([](Particle const & jet) {
-        unsigned id = std::abs(jet.Info().Family().Member(Relative::particle).Id());
-        return id == to_unsigned(Id::electron_neutrino) || id == to_unsigned(Id::muon_neutrino) || id == to_unsigned(Id::tau_neutrino);
-    }), std::back_inserter(neutrinos));
-    return neutrinos;
+    return CopyIfRelativeIs(particles, Relative::particle, Resolve(MultiId::neutrino));
 }
 
 std::vector<Particle> CopyIfLepton(std::vector<Particle> const& particles)
 {
-    std::vector<Particle> leptons;
-    boost::range::copy(particles | boost::adaptors::filtered([](Particle const & jet) {
-        unsigned id = std::abs(jet.Info().Family().Member(Relative::particle).Id());
-        return id == to_unsigned(Id::electron) || id == to_unsigned(Id::muon);
-    }), std::back_inserter(leptons));
-    return leptons;
+    return CopyIfRelativeIs(particles, Relative::particle, Resolve(MultiId::charged_lepton));
 }
 
 std::vector<Particle> CopyIfFamily(std::vector<Particle> const& particles, Id id, Id mother_id)
 {
-    std::vector<Particle> matches;
-    boost::range::copy(particles | boost::adaptors::filtered([id, mother_id](Particle const & Jet) {
-        unsigned particle = std::abs(Jet.Info().Family().Member(Relative::particle).Id());
-        unsigned mother = std::abs(Jet.Info().Family().Member(Relative::mother).Id());
-        return particle == to_unsigned(id) && mother == to_unsigned(mother_id);
-    }), std::back_inserter(matches));
-    return matches;
+    return CopyIfRelativeIs(CopyIfRelativeIs(particles, Relative::particle, id), Relative::mother, mother_id);
 }
 
-std::vector<Particle> RemoveIfGrandFamily(std::vector<Particle> jets, Id id , Id grand_mother_id)
+std::vector<Particle> RemoveIfGrandFamily(std::vector<Particle> particles, Id id , Id grand_mother_id)
 {
-    return boost::range::remove_erase_if(jets, [id, grand_mother_id](Particle const & Jet) {
-        unsigned particle = std::abs(Jet.Info().Family().Member(Relative::particle).Id());
-        if (particle != to_unsigned(id)) return true;
-        unsigned grand_mother = Jet.Info().Family().Member(Relative::grand_mother).Id();
-        return grand_mother == to_unsigned(grand_mother_id);
-    });
+    return CopyIfRelativeIs(CopyIfRelativeIs(particles, Relative::particle, id), Relative::grand_mother, grand_mother_id);
 }
 
 std::vector<Particle> RemoveIfParticle(std::vector<Particle> particles, Id id)
 {
-    return boost::range::remove_erase_if(particles, IsParticle(id));
+    return RemoveIfRelativeIs(particles, Relative::particle, id);
 }
-
-struct HasMother {
-    HasMother(Id mother_id) {
-        mother_id_ = mother_id;
-    }
-    bool operator()(Particle const& particle) const {
-        unsigned id = std::abs(particle.Info().Family().Member(Relative::mother).Id());
-        return id == to_unsigned(mother_id_);
-    }
-    Id mother_id_;
-};
 
 std::vector<Particle> CopyIfMother(std::vector<Particle> const& particles, Id mother_id)
 {
-    std::vector<Particle> daughters;
-    boost::range::copy(particles | boost::adaptors::filtered(HasMother(mother_id)), std::back_inserter(daughters));
-    return daughters;
+    return CopyIfRelativeIs(particles, Relative::mother, mother_id);
+}
+
+std::vector<Particle> CopyIfMother(std::vector<Particle> const& particles, std::vector<Id> mother_id)
+{
+    return CopyIfRelativeIs(particles, Relative::mother, mother_id);
 }
 
 std::vector<Particle> CopyIfMother(std::vector<Particle> const& particles, Particle mother)
@@ -168,88 +170,47 @@ std::vector<Particle> CopyIfGrandMother(std::vector<Particle> const& particles, 
 
 std::vector<Particle> RemoveIfMother(std::vector<Particle> particles, Id mother_id)
 {
-    return boost::range::remove_erase_if(particles, HasMother(mother_id));
+    return RemoveIfRelativeIs(particles, Relative::mother, mother_id);
+}
+
+std::vector<Particle> RemoveIfMother(std::vector<Particle> particles, std::vector<Id> ids)
+{
+    return RemoveIfRelativeIs(particles, Relative::mother, ids);
 }
 
 std::vector<Particle> CopyIfGrandMother(std::vector<Particle> const& particles, Id grand_mother_id)
 {
-
-    std::vector<Particle> grand_mothers;
-    boost::range::copy(particles | boost::adaptors::filtered([&](Particle const & jet) {
-        unsigned grand_mother = std::abs(jet.Info().Family().Member(Relative::grand_mother).Id());
-        return grand_mother == to_unsigned(grand_mother_id);
-    }), std::back_inserter(grand_mothers));
-    return grand_mothers;
+    return CopyIfRelativeIs(particles, Relative::grand_mother, grand_mother_id);
 }
 
-std::vector<Particle> CopyIfGreatGrandMother(std::vector<Particle> const& particles, Id grand_grand_mother_id)
+std::vector<Particle> CopyIfGreatGrandMother(std::vector<Particle> const& particles, Id great_grand_mother_id)
 {
-
-    std::vector<Particle> great_grand_mothers;
-    boost::range::copy(particles | boost::adaptors::filtered([&](Particle const & jet) {
-        unsigned grand_grand_mother = std::abs(jet.Info().Family().Member(Relative::great_grand_mother).Id());
-        return grand_grand_mother == to_unsigned(grand_grand_mother_id);
-    }), std::back_inserter(great_grand_mothers));
-    return great_grand_mothers;
+    return CopyIfRelativeIs(particles, Relative::great_grand_mother, great_grand_mother_id);
 }
-
-
-struct IsSingleMother {
-    bool operator()(Particle const& Jet) const {
-        unsigned id = std::abs(Jet.Info().Family().Member(Relative::step_mother).Id());
-        return id == to_unsigned(Id::none);
-    }
-};
 
 std::vector<Particle> RemoveIfSingleMother(std::vector<Particle> particles)
 {
-    return boost::range::remove_erase_if(particles, IsSingleMother());
+    return RemoveIfRelativeIs(particles, Relative::step_mother, Id::none);
 }
-
-struct IsLepton {
-    bool operator()(Particle const& jet) const {
-        unsigned id = std::abs(jet.Info().Family().Member(Relative::particle).Id());
-        return id == to_unsigned(Id::electron) || id == to_unsigned(Id::muon) || id == to_unsigned(Id::tau) || id == to_unsigned(Id::tau_neutrino) || id == to_unsigned(Id::muon_neutrino) || id == to_unsigned(Id::electron_neutrino);
-    }
-};
 
 std::vector<Particle> RemoveIfLetpon(std::vector<Particle> particles)
 {
-    return boost::range::remove_erase_if(particles, IsLepton());
+    return RemoveIfRelativeIs(particles, Relative::particle, Resolve(MultiId::charged_lepton));
 }
 
-struct IsQuark {
-    bool operator()(Particle const& jet) const {
-        unsigned id = std::abs(jet.Info().Family().Member(Relative::particle).Id());
-        return id == to_unsigned(Id::up) || id == to_unsigned(Id::down) || id == to_unsigned(Id::charm) || id == to_unsigned(Id::strange) || id == to_unsigned(Id::bottom) || id == to_unsigned(Id::top);
-    }
-};
-
-std::vector<Particle> RemoveIfQuark(std::vector<Particle> jets)
+std::vector<Particle> RemoveIfQuark(std::vector<Particle> particles)
 {
-    return boost::range::remove_erase_if(jets, IsQuark());
+    return RemoveIfRelativeIs(particles, Relative::particle, Resolve(MultiId::quark));
 }
 
 std::vector<Particle> CopyIfQuark(std::vector<Particle> const& particles)
 {
-    std::vector<Particle> quarks;
-    boost::range::copy(particles | boost::adaptors::filtered(IsQuark()), std::back_inserter(quarks));
-    return quarks;
+    return CopyIfRelativeIs(particles, Relative::particle, Resolve(MultiId::quark));
 }
-
-struct Is5Quark {
-    bool operator()(Particle const& jet) const {
-        unsigned id = std::abs(jet.Info().Family().Member(Relative::particle).Id());
-        return id == to_unsigned(Id::up) || id == to_unsigned(Id::down) || id == to_unsigned(Id::charm) || id == to_unsigned(Id::strange) || id == to_unsigned(Id::bottom);
-    }
-};
 
 std::vector<Particle> CopyIf5Quark(std::vector<Particle> const& particles)
 {
-
-    std::vector<Particle> quarks;
-    boost::range::copy(particles | boost::adaptors::filtered(Is5Quark()), std::back_inserter(quarks));
-    return quarks;
+    return CopyIfRelativeIs(particles, Relative::particle, Resolve(MultiId::five_quark));
 }
 
 std::vector<Particle> CopyIfDaughter(std::vector<Particle> const& particles, std::vector<Particle> const& daughters)

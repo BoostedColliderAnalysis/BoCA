@@ -28,7 +28,6 @@ enum class Id
     top = 6,
     bottom_partner = 7,
     top_partner = 8,
-    quark = 9,
     electron = 11,
     electron_neutrino = 12,
     muon = 13,
@@ -37,15 +36,11 @@ enum class Id
     tau_neutrino = 16,
     tau_partner = 17,
     tau_neutrino_partner = 18,
-    charged_lepton = 19,
-    neutrino = 20,
     gluon = 21,
     photon = 22,
     Z = 23,
     W = 24,
     higgs = 25, ///< Higgs boson
-    neutral_boson = 26, ///< Multi particle containing neutral bosons
-    bosons = 27, ///< Multi particle containing neutral bosons
     Z_partner = 32,
     Z_partner_2 = 33,
     W_partner = 34,
@@ -100,10 +95,24 @@ std::string Name(Id id);
 
 Mass MassOf(Id id);
 
-Id Lightest(Id id);
+enum class MultiId
+{
+    quark,
+    five_quark,
+    charged_lepton,
+    neutrino,
+    neutral_boson, ///< Multi particle containing neutral bosons
+    bosons ///< Multi particle containing neutral bosons
+};
 
-Id Heavyest(Id id);
+std::string Name(MultiId multi_id);
 
-std::vector<Id> MultiId(Id id);
+Mass MasOf(MultiId multi_id);
+
+std::vector<Id> Resolve(MultiId multi_id);
+
+Id Lightest(MultiId multi_id);
+
+Id Heavyest(MultiId multi_id);
 
 }

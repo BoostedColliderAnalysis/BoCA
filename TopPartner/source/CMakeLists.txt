@@ -26,6 +26,7 @@ NewPartnerHadronicTagger.cpp
 NewPartnerLeptonicTagger.cpp
 NewPartnerPairTagger.cpp
 EventNewPairTagger.cpp
+TruthLevel.cpp
 )
 create_library(AnalysisTopPartner AnalysisSources)
 
@@ -34,3 +35,4 @@ create_executable(TopPartnerSingleHadronic MainSingleHadronic.cpp)
 create_executable(TopPartnerPair MainPair.cpp)
 create_executable(TopPartnerEffective MainEffective.cpp)
 create_executable(TopPartnerNewPair MainNewPair.cpp)
+create_executable(TopPartnerTruth MainTruth.cpp)

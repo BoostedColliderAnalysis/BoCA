@@ -63,7 +63,7 @@ std::vector<Doublet> HiggsTagger::Doublets(Event const& event, std::function<boo
 std::vector<Particle> HiggsTagger::Particles(Event const& event) const
 {
     INFO0;
-    return CopyIfParticles(event.Partons().GenParticles(), Id::higgs, Id::CP_violating_higgs);
+    return CopyIfParticles(event.Partons().GenParticles(), {Id::higgs, Id::CP_violating_higgs});
 }
 
 boost::optional<Doublet> HiggsTagger::SetTag(Doublet& doublet, std::vector<Jet>& leptons, PreCuts const& pre_cuts, Tag tag) const

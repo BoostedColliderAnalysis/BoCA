@@ -32,9 +32,14 @@ Observables SignatureSingleHadronicBranch::Variables()
     return SignatureBranch::Variables() + OBSERVABLE(VetoBdt, "BDT_{V}") + OBSERVABLE(TopPt, "p_{T}^{t}") + OBSERVABLE(HiggsPt, "p_{T}^{h}");
 }
 
-Observables EventBranch::Variables()
+TruthBranch::TruthBranch()
 {
-    return MultiBranch::Variables() + OBSERVABLE(LeptonNumber, "##l") + OBSERVABLE(BottomNumber, "##b") + OBSERVABLE(JetNumber, "##j") + OBSERVABLE(MissingEt, "E_{T}^{miss}") + OBSERVABLE(ScalarHt, "H_{T}^{scalar}") + OBSERVABLE(LeptonHt, "H_{T}^{l}") + OBSERVABLE(JetMass, "m_{j}") + OBSERVABLE(JetPt, "p_{T}^{j}") + OBSERVABLE(JetHt, "H_{T}^{j}") + OBSERVABLE(JetRap, "#eta_{j}") + OBSERVABLE(JetPhi, "#phi_{j}");
+  TopPt = InitialValue();
+  LeptonPt = InitialValue();
+  SoftestBosonPt = InitialValue();
+  BosonNumber = int(InitialValue());
+  HardBosonNumber = int(InitialValue());
+  DetectableBosonNumber = int(InitialValue());
 }
 
 }

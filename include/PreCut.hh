@@ -19,12 +19,16 @@ public:
         pre_cut_.emplace(id, value);
     }
 
+    void Set(MultiId multi_id, Value value) {
+        for (auto const & id : Resolve(multi_id)) Set(id, value);
+    }
+
     bool TooLarge(Id id, Value value) const {
-      return IsSet(id) && Get(id) < value;
+        return IsSet(id) && Get(id) < value;
     }
 
     bool TooSmall(Id id, Value value) const {
-      return IsSet(id) && Get(id) > value;
+        return IsSet(id) && Get(id) > value;
     }
 
     bool IsSet(Id id) const {
@@ -42,3 +46,4 @@ private:
 };
 
 }
+

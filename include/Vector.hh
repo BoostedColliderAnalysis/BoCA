@@ -17,9 +17,11 @@
 namespace boca
 {
 
-std::vector<Particle> CopyIfParticle(std::vector<Particle> const& particles, Id id);
+std::vector<Particle> CopyIfRelativeIs(std::vector<Particle> const& particles, Relative relative, Id id);
 
-std::vector<Particle> CopyIfParticles(std::vector<Particle> const& particles, Id id_1, Id id_2);
+std::vector<Particle> CopyIfRelativeIs(std::vector<Particle> const& particles, Relative relative, std::vector<Id> ids);
+
+std::vector<Particle> CopyIfParticle(std::vector<Particle> const& particles, Id id);
 
 std::vector<Particle> CopyIfParticles(std::vector<Particle> const& particles, std::vector<Id> ids);
 
@@ -53,6 +55,8 @@ std::vector<Particle> RemoveIfParticle(std::vector<Particle> particles, Id id);
 
 std::vector<Particle> CopyIfMother(std::vector<Particle> const& particles, Id mother_id);
 
+std::vector<Particle> CopyIfMother(std::vector<Particle> const& particles, std::vector<Id> mother_id);
+
 std::vector<Particle> CopyIfMother(std::vector<Particle> const& particles, Particle mother);
 
 std::vector<Particle> CopyIfGrandMother(std::vector<Particle> const& particles, Id grand_mother_id);
@@ -62,6 +66,8 @@ std::vector<Particle> CopyIfGrandMother(std::vector<Particle> const& particles, 
 std::vector<Particle> CopyIfGreatGrandMother(std::vector<Particle> const& particles, Id grand_grand_mother_id);
 
 std::vector<Particle> RemoveIfMother(std::vector<Particle> particles, Id mother_id);
+
+std::vector<Particle> RemoveIfMother(std::vector<Particle> particles, std::vector<Id> mother_ids);
 
 std::vector<Particle> RemoveIfSingleMother(std::vector<Particle> particles);
 
@@ -204,13 +210,13 @@ std::vector<Element> Join(std::vector<Element> const& vector_1, std::vector<Elem
     return joined;
 }
 
-template < typename Element,
-         typename Function,
-         typename Result = typename std::result_of<Function&(Element, Element)>::type >
 /**
  * @brief forms all \f$(n^2 - n)\f$ ordered pairs of vector elements, applies to them the function and returns a vector of its results
  *
  */
+template < typename Element,
+         typename Function,
+         typename Result = typename std::result_of<Function&(Element, Element)>::type >
 auto OrderedPairs(std::vector<Element> const& container, Function function)
 {
     std::vector<Result> results;
@@ -227,11 +233,11 @@ auto OrderedPairs(std::vector<Element> const& container, Function function)
     return results;
 }
 
-template < typename Element, typename Function, typename Result = typename std::result_of<Function&(Element, Element)>::type >
 /**
  * @brief forms all \f$(n^2 - n) / 2\f$ unordered pairs, applies to them the function and returns a vector of its results
  *
  */
+template < typename Element, typename Function, typename Result = typename std::result_of<Function&(Element, Element)>::type >
 auto UnorderedPairs(std::vector<Element> const& container, Function function)
 {
     std::vector<Result> results;
@@ -244,11 +250,11 @@ auto UnorderedPairs(std::vector<Element> const& container, Function function)
     return results;
 }
 
-template < typename Element1, typename Element2, typename Function, typename Result = typename std::result_of<Function&(Element1, Element2)>::type >
 /**
  * @brief forms all \f$n \times m\f$ pairs of the elements in the two containers, applies the function and returns a vector of its elements
  *
  */
+template < typename Element1, typename Element2, typename Function, typename Result = typename std::result_of<Function&(Element1, Element2)>::type >
 auto Pairs(std::vector<Element1> const& container_1, std::vector<Element2> const& container_2, Function function)
 {
     std::vector<Result> results;

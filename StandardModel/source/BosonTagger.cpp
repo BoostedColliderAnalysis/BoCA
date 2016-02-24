@@ -69,7 +69,7 @@ std::vector<Particle> BosonTagger::Particles(Event const& event) const
 {
     INFO0;
     std::vector<Particle> particles = event.Partons().GenParticles();
-    return CopyIfParticles(particles, MultiId(Id::bosons));
+    return CopyIfParticles(particles, Resolve(MultiId::bosons));
 }
 
 bool BosonTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts, Tag tag) const
@@ -90,7 +90,7 @@ bool BosonTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts, T
 bool BosonTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts) const
 {
     INFO0;
-    if (pre_cuts.ApplyCuts(Id::bosons, doublet)) return true;
+    if (pre_cuts.ApplyCuts(MultiId::bosons, doublet)) return true;
     return false;
 }
 

@@ -23,7 +23,7 @@ int SignatureLeptonTTagger::Train(Event const& event, boca::PreCuts const&, Tag 
     std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
     if (tag == Tag::signal) {
         std::vector<Particle> particles = event.Partons().GenParticles();
-        std::vector<Particle> higgses = CopyIfParticles(particles, Id::higgs, Id::CP_violating_higgs);
+        std::vector<Particle> higgses = CopyIfParticles(particles, {Id::higgs, Id::CP_violating_higgs});
         doublets = BestMatches(doublets, higgses, tag);
         DEBUG(doublets.size(), higgses.size());
     }

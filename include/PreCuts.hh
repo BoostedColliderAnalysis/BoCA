@@ -23,7 +23,7 @@ public:
 
     template <typename Multiplet>
     bool PtTooSmall(Id id, Multiplet const& multiplet) const {
-      return pt_lower_cut_.TooSmall(id, multiplet.Pt());
+        return pt_lower_cut_.TooSmall(id, multiplet.Pt());
     }
 
     template <typename Multiplet>
@@ -33,17 +33,29 @@ public:
 
     template <typename Multiplet>
     bool MassTooSmall(Id id, Multiplet const& multiplet) const {
-      return mass_lower_cut_.TooSmall(id, multiplet.Mass());
+        return mass_lower_cut_.TooSmall(id, multiplet.Mass());
     }
 
     template <typename Multiplet>
     bool MassTooLarge(Id id, Multiplet const& multiplet) const {
-      return mass_upper_cut_.TooLarge(id, multiplet.Mass());
+        return mass_upper_cut_.TooLarge(id, multiplet.Mass());
     }
 
     template <typename Multiplet>
     bool OutsideTracker(Id id, Multiplet const& multiplet) const {
-      return tracker_eta_upper_cut_.TooLarge(id, boost::units::abs(multiplet.Rap()));
+        return tracker_eta_upper_cut_.TooLarge(id, boost::units::abs(multiplet.Rap()));
+    }
+
+    template <typename Multiplet>
+    std::vector<Multiplet> ApplyCuts(MultiId multi_id, std::vector<Multiplet> const& multiplets) const {
+        return ApplyCuts(Resolve(multi_id).front(), multiplets);
+    }
+
+    template <typename Multiplet>
+    std::vector<Multiplet> ApplyCuts(Id id, std::vector<Multiplet> const& multiplets) const {
+        std::vector<Multiplet> good;
+        for (auto const & multiplet : multiplets) if (!ApplyCuts(id, multiplet)) good.emplace_back(multiplet);
+        return good;
     }
 
     template <typename>
@@ -55,16 +67,14 @@ public:
     template<typename Value>
     using OnlyIfNotVector = typename std::enable_if < !IsVector<Value>::value >::type;
 
-    template <typename Multiplet>
-    std::vector<Multiplet> ApplyCuts(Id id, std::vector<Multiplet> const& multiplets) const {
-        std::vector<Multiplet> good;
-        for (auto const & multiplet : multiplets) if (!ApplyCuts(id, multiplet)) good.emplace_back(multiplet);
-        return good;
-    }
-
     template <typename Multiplet, typename = OnlyIfNotVector<Multiplet>>
     bool ApplyCuts(Id id, Multiplet const& multiplet) const {
         return PtTooSmall(id, multiplet) || PtTooLarge(id, multiplet) || MassTooSmall(id, multiplet) || MassTooLarge(id, multiplet) || OutsideTracker(id, multiplet);
+    }
+
+    template <typename Multiplet, typename = OnlyIfNotVector<Multiplet>>
+    bool ApplyCuts(MultiId id, Multiplet const& multiplet) const {
+        return ApplyCuts(Resolve(id).front(), multiplet);
     }
 
     bool DoSubJets(Id id) const;
