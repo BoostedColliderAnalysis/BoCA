@@ -35,9 +35,9 @@ public:
 
     std::string LatexName() const override;
 
-private:
-
     std::vector<Particle> Particles(Event const& event) const;
+
+private:
 
     std::vector<Doublet> Doublets(Event const& event, std::function<boost::optional<Doublet>(Doublet&)> const& function) const;
 

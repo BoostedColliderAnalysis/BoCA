@@ -3,6 +3,7 @@
  */
 // #include <numeric>
 #include <boost/range/numeric.hpp>
+#include <boost/range/algorithm/count_if.hpp>
 
 #include "GlobalObservables.hh"
 #include "Event.hh"
@@ -11,8 +12,14 @@
 namespace boca
 {
 
-void GlobalObservables::SetEvent(boca::Event const& event, const std::vector<Jet>&)
+GlobalObservables::GlobalObservables(const Event& event)
 {
+    SetEvent(event);
+}
+
+void GlobalObservables::SetEvent(boca::Event const& event, const std::vector<Jet>& jets)
+{
+    jets_ = jets;
     leptons_ = event.Leptons().leptons();
     scalar_ht_ = event.Hadrons().ScalarHt();
     missing_et_ = event.Hadrons().MissingEt().Pt();
@@ -20,6 +27,7 @@ void GlobalObservables::SetEvent(boca::Event const& event, const std::vector<Jet
 
 void GlobalObservables::SetEvent(boca::Event const& event)
 {
+    jets_ = event.Hadrons().Jets();
     leptons_ = event.Leptons().leptons();
     scalar_ht_ = event.Hadrons().ScalarHt();
     missing_et_ = event.Hadrons().MissingEt().Pt();
@@ -40,15 +48,15 @@ int GlobalObservables::JetNumber() const
 int GlobalObservables::BottomNumber() const
 {
     INFO0;
-    std::vector<Jet> bottoms;
-    for (auto const & jet : Jets()) if (jet.Info().Bdt() > 0) bottoms.emplace_back(jet);
-    return bottoms.size();
+    return boost::range::count_if(Jets(), [](Jet const & jet) {
+        return jet.Info().Bdt() > 0;
+    });
 }
 
 float GlobalObservables::BottomBdt() const
 {
     INFO0;
-    if(Jets().empty()) return -1;
+    if (Jets().empty()) return -1;
     return boost::accumulate(jets_, 0., [](float bdt, Jet const & jet) {
         return bdt + jet.Info().Bdt();
     }) / JetNumber();

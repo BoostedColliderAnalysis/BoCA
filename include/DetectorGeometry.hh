@@ -47,6 +47,8 @@ public:
 
     static Angle JetConeSize();
 
+    static Angle OverlapConeSize();
+
     static Momentum MinCellPt();
 
     static Angle MinCellResolution();

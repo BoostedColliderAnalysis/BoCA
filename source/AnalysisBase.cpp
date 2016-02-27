@@ -295,7 +295,7 @@ void AnalysisBase::Run(Output output)
             break;
         case Output::cut : RunCut();
             break;
-            DEFAULT(Name(output_2));
+//             DEFAULT(Name(output_2));
         }
     });
 }

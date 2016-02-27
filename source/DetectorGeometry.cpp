@@ -69,9 +69,14 @@ Angle DetectorGeometry::JetConeSize()
 {
     switch (DetectorType()) {
     case boca::DetectorType::CMS : return 0.4_rad;
-    case boca::DetectorType::Spp : return 0.5_rad;
+    case boca::DetectorType::Spp : return 0.4_rad;
         DEFAULT(Name(DetectorType()), 0.5_rad);
     }
+}
+
+Angle DetectorGeometry::OverlapConeSize()
+{
+    return 0.2_rad;
 }
 
 Momentum DetectorGeometry::MinCellPt()

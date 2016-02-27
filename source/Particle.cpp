@@ -67,5 +67,13 @@ void Particle::SetInfo(ParticleInfo const& user_info)
     set_user_info(new ParticleInfo(user_info));
 }
 
+std::vector< Particle > ParticleVector(std::vector< fastjet::PseudoJet > const& pseudo_jets)
+{
+    INFO0;
+    std::vector<Particle> jets;
+    for (auto const & pseudo_jet : pseudo_jets) jets.emplace_back(pseudo_jet);
+    return jets;
+}
+
 }
 

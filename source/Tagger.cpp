@@ -188,7 +188,7 @@ std::string Tagger::BackgroundFileName(Stage stage) const
 std::string Tagger::AnalysisName() const
 {
 //     analysis_name_ = boost::filesystem::current_path().filename().string();
-    ERROR(analysis_name_, _analysis_name_);
+//     ERROR(analysis_name_, _analysis_name_);
     return !analysis_name_.empty() ? analysis_name_ : _analysis_name_;
 }
 std::vector<Observable> const& Tagger::Variables() const

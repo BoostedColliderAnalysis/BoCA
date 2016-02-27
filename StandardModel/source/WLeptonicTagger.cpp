@@ -79,7 +79,7 @@ std::vector<Particle> WLeptonicTagger::Particles(Event const& event) const
     return CopyIfDaughter(CopyIfParticle(particles, Id::W), leptons);
 }
 
-std::vector<Doublet>  WLeptonicTagger::Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
+std::vector<Doublet> WLeptonicTagger::Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
     INFO0;
     return ReduceResult(Doublets(event, [&](Doublet & doublet) -> boost::optional<Doublet> {

@@ -27,7 +27,11 @@ public:
 
     std::string LatexName() const override;
 
+    std::vector<Particle> Particles(const boca::Event& event, boca::Tag tag) const;
+
 private:
+
+    std::vector<Quartet22> Quartets(Event const& event, std::function<Quartet22(Quartet22&)> const& function) const;
 
     Reader<standardmodel::HiggsTagger> higgs_reader_;
 };

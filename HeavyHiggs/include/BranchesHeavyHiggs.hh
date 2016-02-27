@@ -551,7 +551,9 @@ private:
 
 };
 
-class HeavyHiggsCutNeutralBranch : public CutBranch
+class HeavyHiggsCutNeutralBranch : public
+// CutBranch
+BdtBranch
 {
 
 public:
@@ -567,7 +569,8 @@ public:
 
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-        CutBranch::Fill(multiplet);
+//         CutBranch::Fill(multiplet);
+        BdtBranch::Fill(multiplet);
         JetPt1 = multiplet.JetPt(1) / GeV;
         JetPt2 = multiplet.JetPt(2) / GeV;
         JetPt3 = multiplet.JetPt(3) / GeV;

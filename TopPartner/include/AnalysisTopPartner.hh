@@ -120,54 +120,32 @@ protected:
             switch (process) {
             case Process::TthLep :
                 switch (Int(Mass())) {
-                case 1000 : return 0.004304_pb;
-                case 2000 : return 0.0002919_pb;
-                case 4000 : return 1.154e-05_pb;
-                case 6000 : return 4.7344e-6_pb;
-                case 8000 : return 8.466e-7_pb;
-                case 10000 : return 1.97e-7_pb;
+                case 1000 : return 0.003087_pb;
                     DEFAULT(Mass(), pb);
                 }
             case Process::TthHad :
                 switch (Int(Mass())) {
-                case 1000 : return 0.004304_pb;
-                case 2000 : return 0.0002919_pb;
-                case 4000 : return 1.154e-05_pb;
-                case 6000 : return 4.7344e-6_pb;
-                case 8000 : return 8.466e-7_pb;
-                case 10000 : return 1.97e-7_pb;
+                case 1000 : return 0.003087_pb;
                     DEFAULT(Mass(), pb);
                 }
             case Process::TT :
                 switch (Int(Mass())) {
-                case 1000 : return 2.499 * 2_pb;
-                case 2000 : return 0.09375 * 2_pb;
-                case 4000 : return 0.002363 * 2_pb;
-                case 6000 : return 0.0003115 * 2_pb;
-                case 8000 : return 4.655e-5 * 2_pb;
-                case 10000 : return 9.101e-06 * 2_pb;
+                case 1000 : return 0.3919 * 2_pb;
                     DEFAULT(Mass(), pb);
                 }
             case Process::ttBjj :
                 switch (Int(PreCut())) {
                 case 0 : return 1.669 * 2_pb;
-                case 200 : return 0.1754 * 2_pb;
                     DEFAULT(Mass(), pb);
                 }
             case Process::tthBjj :
                 switch (Int(PreCut())) {
                 case 0 : return 0.02535 * 2_pb;
-                case 200 : return 0.02535 * 2_pb;
                     DEFAULT(Mass(), pb);
                 }
             case Process::TThh :
                 switch (Int(Mass())) {
-                case 1000 : return 7.101e-07 * 2_pb;
-                case 2000 : return 3.059e-08 * 2_pb;
-                case 4000 : return 9.95e-10 * 2_pb;
-                case 6000 : return 3.579e-11 * 2_pb;
-                case 8000 : return 2.305e-12 * 2_pb;
-                case 10000 : return 2.029e-13 * 2_pb;
+                case 1000 : return 4.374e-07 * 2_pb;
                     DEFAULT(Mass(), pb);
                 }
             case Process::ttBB : return 0.03206 * 2_pb;

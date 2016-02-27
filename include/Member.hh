@@ -5,8 +5,6 @@
 
 #include "physics/LorentzVector.hh"
 
-class TLorentzVector;
-
 namespace boca
 {
 
@@ -39,6 +37,10 @@ public:
     void Set(int id, int position);
 
     static int EmptyPosition();
+
+    bool operator==(Member const& member);
+
+    bool operator!=(Member const& member);
 
 private:
 

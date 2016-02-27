@@ -36,4 +36,6 @@ private:
 
 };
 
+std::vector<Particle> ParticleVector(std::vector<fastjet::PseudoJet> const& pseudo_jets);
+
 }

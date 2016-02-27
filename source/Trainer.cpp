@@ -114,7 +114,7 @@ long Trainer::Entries(exroot::TreeReader& tree_reader)
 
 float Trainer::Weight(exroot::TreeReader& tree_reader)
 {
-    ERROR(Tagger().WeightBranchName());
+    INFO(Tagger().WeightBranchName());
     auto* clones_array = tree_reader.UseBranch(Tagger().WeightBranchName().c_str());
     CHECK(clones_array, "no " + Tagger().WeightBranchName() + " Branch");
     tree_reader.ReadEntry(0);
@@ -124,14 +124,14 @@ float Trainer::Weight(exroot::TreeReader& tree_reader)
 TTree& Trainer::Tree(std::string const& tree_name, Tag tag)
 {
     INFO(Tagger().FileName(Stage::trainer, tag));
-    if (!Exists(Tagger().FileName(Stage::trainer, tag))) ERROR("File not found", Tagger().FileName(Stage::trainer, tag));
+    CHECK(Exists(Tagger().FileName(Stage::trainer, tag)), "File not found", Tagger().FileName(Stage::trainer, tag));
     TFile& file = *TFile::Open(Tagger().FileName(Stage::trainer, tag).c_str());
-    if (file.GetListOfKeys()) {
-        auto list = file.GetListOfKeys()->MakeIterator();
-        TTree* tree;
-        while ((tree = static_cast<TTree*>(list->Next()))) ERROR(tree->GetName());
-    }
-    if (!file.GetListOfKeys()->Contains(tree_name.c_str())) ERROR("no tree", tree_name);
+//     if (file.GetListOfKeys()) {
+//         auto list = file.GetListOfKeys()->MakeIterator();
+//         TTree* tree;
+//         while ((tree = static_cast<TTree*>(list->Next()))) ERROR(tree->GetName());
+//     }
+    CHECK(file.GetListOfKeys()->Contains(tree_name.c_str()), "no tree", tree_name);
     return static_cast<TTree&>(*file.Get(tree_name.c_str()));
 }
 

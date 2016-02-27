@@ -427,6 +427,22 @@ Plots Plotting::PlotResult(TFile& file, std::string const& tree_name, Stage stag
     return plots;
 }
 
+namespace{
+
+void SetBranch(TTree& tree, std::vector< float >& values, std::string const& name)
+{
+    tree.SetBranchStatus(name.c_str(), true);
+    tree.SetBranchAddress(name.c_str(), &values.front());
+}
+
+void SetBranch(TTree& tree, int& value, std::string const& name)
+{
+    tree.SetBranchStatus(name.c_str(), true);
+    tree.SetBranchAddress(name.c_str(), &value);
+}
+
+}
+
 Plot Plotting::ReadTree(TTree& tree, std::string const& leaf_1_name, std::string const& leaf_2_name, Stage stage) const
 {
     INFO0;
@@ -459,18 +475,6 @@ Plot Plotting::ReadTree(TTree& tree, std::string const& leaf_1_name, std::string
         for (auto const & element : IntegerRange(branch_size)) plot.Add(Vector3<float>(leaf_values_1.at(element), leaf_values_2.at(element), bdt_values.at(element)));
     }
     return plot;
-}
-
-void Plotting::SetBranch(TTree& tree, std::vector< float >& values, std::string const& name) const
-{
-    tree.SetBranchStatus(name.c_str(), true);
-    tree.SetBranchAddress(name.c_str(), &values.front());
-}
-
-void Plotting::SetBranch(TTree& tree, int& value, std::string const& name) const
-{
-    tree.SetBranchStatus(name.c_str(), true);
-    tree.SetBranchAddress(name.c_str(), &value);
 }
 
 Tagger const& Plotting::Tagger() const

@@ -35,6 +35,10 @@ public:
         for (auto const & path : Files().Import().Paths()) chain_.AddFile(path.c_str(), TChain::kBigNumber, Files().Import().TreeName().c_str());
     }
 
+    ~BranchWriter() {
+        std::cout << "PreCut ratio: " << RoundToDigits(float(object_sum_) / event_sum_) << std::endl;
+    }
+
     void Write() {
         std::lock_guard<std::mutex> object_sum_guard(object_sum_mutex_);
         if (object_sum_) TreeWriter().Write();

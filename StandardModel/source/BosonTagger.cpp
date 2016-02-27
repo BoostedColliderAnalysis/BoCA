@@ -68,8 +68,7 @@ std::vector<Doublet> BosonTagger::Doublets(Event const& event, std::function<Dou
 std::vector<Particle> BosonTagger::Particles(Event const& event) const
 {
     INFO0;
-    std::vector<Particle> particles = event.Partons().GenParticles();
-    return CopyIfParticles(particles, Resolve(MultiId::bosons));
+    return CopyIfParticles(event.Partons().GenParticles(), Resolve(MultiId::bosons));
 }
 
 bool BosonTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts, Tag tag) const
@@ -81,8 +80,7 @@ bool BosonTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts, T
         if (pre_cuts.NotParticleRho(doublet)) return true;
         if (boost::units::abs(doublet.Mass() - (MassOf(Id::W) + MassOf(Id::higgs)) / 2.) > boson_mass_window) return true;
         break;
-    case Tag::background :
-        break;
+    case Tag::background : break;
     }
     return false;
 }

@@ -66,8 +66,8 @@ public:
     }
 
     boca::Mass Mass() const {
-        return 1_TeV;
         return 500_GeV;
+        return 1_TeV;
         return 400_GeV;
         return 750_GeV;
         return 800_GeV;
@@ -100,12 +100,12 @@ public:
     };
 
     long ReadNumberMax() const override {
+        return 10000000;
         return 100000;
         return 10000;
         return 100;
         return 1000;
         return 500;
-        return 10000000;
         return 1000000;
         return 10;
     };
@@ -184,7 +184,7 @@ public:
             case Process::Htwb : return 1;
             case Process::tttt : return 1;
             case Process::tttwb : return 1;
-            case Process::tt : return 1;
+            case Process::tt : return 50;
             default : std::cout << "Switch default for Process " << to_int(process) << std::endl;
                 return 1;
             }
@@ -279,7 +279,7 @@ public:
     }
 
     virtual std::string FileName(Process process, Tag tag) const {
-        std::cout << "file name: " << Name(process) + Suffix(process) + "_" + Name(Collider()) << std::endl;
+//         std::cout << "file name: " << Name(process) + Suffix(process) + "_" + Name(Collider()) << std::endl;
         switch (tag) {
         case Tag::signal : return Name(process) + Suffix(process) + "-" + Name(Collider()) + "_" + boca::Name(Mass());
         case Tag::background : return Name(process) + Suffix(process) + "-" + Name(Collider()) + "-" + boca::Name(PreCut());

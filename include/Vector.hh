@@ -7,6 +7,7 @@
 #include <boost/range/algorithm/find.hpp>
 #include <boost/range/algorithm/min_element.hpp>
 #include <boost/range/algorithm/copy.hpp>
+#include <boost/range/algorithm/remove_if.hpp>
 #include <boost/range/adaptors.hpp>
 
 #include "physics/Particles.hh"
@@ -33,10 +34,10 @@ std::vector<Particle> CopyIfExactParticle(std::vector<Particle> const& particles
 
 std::vector<Particle> RemoveIfExactParticle(std::vector<Particle> particles, int id);
 
-template <typename Multiplet>
-std::vector<Multiplet> RemoveIfOutsidePtWindow(std::vector<Multiplet> jets, Momentum lower_cut, Momentum upper_cut)
+template <typename Multiplet_>
+std::vector<Multiplet_> RemoveIfOutsidePtWindow(std::vector<Multiplet_> jets, Momentum lower_cut, Momentum upper_cut)
 {
-    return boost::range::remove_erase_if(jets, [lower_cut, upper_cut](Multiplet const & jet) {
+    return boost::range::remove_erase_if(jets, [lower_cut, upper_cut](Multiplet_ const & jet) {
         return jet.Pt() < lower_cut || jet.Pt() > upper_cut;
     });
 }
@@ -101,18 +102,18 @@ std::vector<Multiplet_> CopyIfTag(std::vector<Multiplet_> const& multiplets, flo
  */
 std::vector<Particle> CopyIfDrellYan(std::vector<Particle> const& particles);
 
-template<typename Multiplet>
-std::vector<Multiplet> RemoveIfSoft(std::vector<Multiplet> multiplets, Momentum pt_min)
+template<typename Multiplet_>
+std::vector<Multiplet_> RemoveIfSoft(std::vector<Multiplet_> multiplets, Momentum pt_min)
 {
-    return boost::range::remove_erase_if(multiplets, [&](Multiplet const & multiplet) {
+    return boost::range::remove_erase_if(multiplets, [&](Multiplet_ const & multiplet) {
         return multiplet.Pt() < pt_min;
     });
 }
 
-template<typename Multiplet>
-std::vector<Multiplet> RemoveIfHard(std::vector<Multiplet> multiplets, Momentum pt_max)
+template<typename Multiplet_>
+std::vector<Multiplet_> RemoveIfHard(std::vector<Multiplet_> multiplets, Momentum pt_max)
 {
-    return boost::range::remove_erase_if(multiplets, [&](Multiplet const & multiplet) {
+    return boost::range::remove_erase_if(multiplets, [&](Multiplet_ const & multiplet) {
         return multiplet.Pt() > pt_max;
     });
 }
@@ -137,23 +138,23 @@ private:
     Angle cone_size_;
 };
 
-template <typename Multiplet>
-std::vector<Multiplet> RemoveIfClose(std::vector<Multiplet> jets, std::vector<Particle> const& particles)
+template <typename Multiplet_>
+std::vector<Multiplet_> RemoveIfClose(std::vector<Multiplet_> jets, std::vector<Particle> const& particles)
 {
-    for (auto const & particle : particles) jets.erase(std::remove_if(jets.begin(), jets.end(), Close(particle)), jets.end());
+    for (auto const & particle : particles) jets.erase(boost::range::remove_if(jets, Close(particle)), jets.end());
     return jets;
 }
 
-template <typename Multiplet>
-std::vector<Multiplet> CopyIfClose(std::vector<Multiplet> const& multiplets, std::vector<Particle> const& particles)
+template <typename Multiplet_>
+std::vector<Multiplet_> CopyIfClose(std::vector<Multiplet_> const& multiplets, std::vector<Particle> const& particles)
 {
     if (multiplets.empty()) return multiplets;
-    std::vector<Multiplet> final_multiplets;
+    std::vector<Multiplet_> final_multiplets;
     for (auto const & particle : particles) for (auto const & multiplet : multiplets) if (Close(particle)(multiplet)) final_multiplets.emplace_back(multiplet);
     return final_multiplets;
 
 //     if (multiplets.empty()) return multiplets;
-//     std::vector<Multiplet> final_multiplets(multiplets.size());
+//     std::vector<Multiplet_> final_multiplets(multiplets.size());
 //     auto multiplet = std::copy_if(multiplets.begin(), multiplets.end(), final_multiplets.begin(), Close(particle)(multiplet));
 //     final_multiplets.resize(std::distance(final_multiplets.begin(), multiplet));
 //     return final_multiplets;
@@ -165,16 +166,16 @@ bool FindInVector(const std::vector<Element> vector, const Element element)
     return boost::range::find(vector, element) != vector.end();
 }
 
-template <typename Multiplet>
-Particle ClosestJet(std::vector<Particle> const& particles, Multiplet const& multiplet)
+template <typename Multiplet_>
+Particle ClosestJet(std::vector<Particle> const& particles, Multiplet_ const& multiplet)
 {
     return *boost::range::min_element(particles, [&](Jet const & jet_1, Jet const & jet_2) {
         return jet_1.DeltaRTo(multiplet.Jet()) < jet_2.DeltaRTo(multiplet.Jet());
     });
 }
 
-template <typename Multiplet>
-Jet ClosestJet(std::vector<Jet> const& jets, Multiplet const& multiplet)
+template <typename Multiplet_>
+Jet ClosestJet(std::vector<Jet> const& jets, Multiplet_ const& multiplet)
 {
     return *boost::range::min_element(jets, [&](Jet const & jet_1, Jet const & jet_2) {
         return jet_1.DeltaRTo(multiplet.Jet()) < jet_2.DeltaRTo(multiplet.Jet());

@@ -4,6 +4,7 @@
 #include "Member.hh"
 #include "physics/Particles.hh"
 #include "Types.hh"
+#include "Debug.hh"
 
 namespace boca
 {
@@ -59,6 +60,18 @@ void Member::Set(int id, int position)
 int Member::EmptyPosition()
 {
     return -1;
+}
+
+bool Member::operator==(Member const& member)
+{
+    CHECK(Position() != EmptyPosition(), Position());
+    return Position() == member.Position();
+}
+
+bool Member::operator!=(Member const& member)
+{
+  CHECK(Position() != EmptyPosition(), Position());
+  return Position() != member.Position();
 }
 
 }

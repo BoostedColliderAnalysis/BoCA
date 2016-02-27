@@ -26,7 +26,7 @@ class AnalysisEffective : public AnalysisNaturalness<Tagger>
 protected:
 
     std::string AnalysisName() const override {
-        return "Naturalness-Effective-" + Name(DetectorGeometry::DetectorType()) + "-" + boca::Name(this->Mass()) + "-neutral-truth";
+        return "Naturalness-Effective-" + Name(DetectorGeometry::DetectorType()) + "-" + boca::Name(this->Mass()) + "-neutral-small-cone";
     }
 
     void SetFiles(Tag tag, Stage)override {
@@ -46,7 +46,9 @@ protected:
 
 private:
 
-    int PassPreCut(Event const& , Tag) const override {
+    int PassPreCut(Event const& event, Tag) const override {
+        if (event.Hadrons().Jets().size() < 5) return 0;
+        if (event.Leptons().leptons().size() < 1) return 0;
         return 1;
     }
 

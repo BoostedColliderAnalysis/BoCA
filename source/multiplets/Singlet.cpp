@@ -14,7 +14,7 @@ namespace boca
 
 bool Singlet::Overlap(boca::Jet const& jet) const
 {
-    return Close(jet)(Jet());
+    return Close(jet, DetectorGeometry::OverlapConeSize())(Jet());
 }
 
 bool Singlet::Overlap(Singlet const& singlet) const

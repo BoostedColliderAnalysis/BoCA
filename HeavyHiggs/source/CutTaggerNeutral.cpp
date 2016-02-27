@@ -1,10 +1,7 @@
-#include "boost/range.hpp"
-#include <boost/range/algorithm/copy.hpp>
-#include <boost/range/adaptors.hpp>
-#include "physics/Math.hh"
+// #include "physics/Math.hh"
 #include "CutTaggerNeutral.hh"
-#include "Event.hh"
-#include "Vector.hh"
+// #include "Event.hh"
+// #include "Vector.hh"
 // #define DEBUGGING
 #include "Debug.hh"
 
@@ -27,7 +24,7 @@ std::vector<CutVariables> CutTaggerNeutral::Multiplets(Event const& event, PreCu
     INFO0;
     std::vector<CutVariables> variables;
     if (boost::optional<CutVariables> optional = CutMethod(event)) variables.emplace_back(*optional);
-    for (auto & variable : variables) variable.SetPassed(Cuts(variable, reader));
+    for (auto & variable : variables) Mva() == TMVA::Types::EMVA::kCuts ? variable.SetPassed(Cuts(variable, reader)) : variable.SetBdt(Bdt(variable, reader));
     return ReduceResult(variables);
 }
 
@@ -40,7 +37,7 @@ boost::optional<CutVariables> CutTaggerNeutral::CutMethod(Event const& event) co
     variables.SetHt(event.Hadrons().ScalarHt());
     std::vector<Jet> bottoms;
     for (auto const& jet : jets) if(jet.Info().Bdt() > 0) bottoms.emplace_back(jet);
-    if(bottoms.size() < 4) return boost::none;
+    if(bottoms.size() < 3) return boost::none;
     variables.SetBottomNumber(bottoms.size());
     variables.SetLeptonPts(event.Leptons().leptons());
     return variables;
@@ -53,6 +50,7 @@ std::string CutTaggerNeutral::Name() const
 
 TMVA::Types::EMVA CutTaggerNeutral::Mva() const
 {
+    return TMVA::Types::EMVA::kBDT;
     return TMVA::Types::EMVA::kCuts;
 }
 

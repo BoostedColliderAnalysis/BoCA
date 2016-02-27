@@ -120,6 +120,7 @@ public:
         SoftestBosonPt = multiplet.SoftBosonPt() / GeV;
         DetectableBosonNumber = multiplet.DetectableBosonNumber();
     }
+    virtual Observables Variables();
 private:
     ClassDef(TruthBranch, 1)
 };

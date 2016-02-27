@@ -10,7 +10,7 @@
 namespace boca
 {
 
-template <typename Multiplet_1, typename Multiplet_2>
+template <typename Multiplet_1_, typename Multiplet_2_>
 class TwoBody : public Multiplet
 {
 
@@ -18,7 +18,7 @@ public:
 
     TwoBody() {};
 
-    TwoBody(Multiplet_1 const& multiplet_1, Multiplet_2 const& multiplet_2) {
+    TwoBody(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2) {
         SetMultiplets(multiplet_1, multiplet_2);
     }
 
@@ -26,7 +26,7 @@ public:
         SetJet(jet);
     }
 
-    void SetMultiplets(Multiplet_1 const& multiplet_1, Multiplet_2 const& multiplet_2) {
+    void SetMultiplets(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2) {
         multiplet_1_ = multiplet_1;
         multiplet_2_ = multiplet_2;
         if (multiplet_1.Bdt() != InitialValue() && multiplet_2.Bdt() != InitialValue()) SetBdt(multiplet_1.Bdt(), multiplet_2.Bdt());
@@ -36,29 +36,29 @@ public:
 
     void SetJet(boca::Jet jet) {
         jet.Info().SetSubStructure(false);
-        multiplet_1_ = Multiplet_1(jet / 2);
-        multiplet_2_ = Multiplet_2(jet / 2);
+        multiplet_1_ = Multiplet_1_(jet / 2);
+        multiplet_2_ = Multiplet_2_(jet / 2);
         SetBdt((multiplet_1_.Bdt() + multiplet_2_.Bdt()) / 2);
     }
 
-    Multiplet_1& Multiplet1() {
+    Multiplet_1_& Multiplet1() {
         return multiplet_1_;
     }
 
-    Multiplet_1 const& Multiplet1() const {
+    Multiplet_1_ const& Multiplet1() const {
         return multiplet_1_;
     }
 
-    Multiplet_2& Multiplet2() {
+    Multiplet_2_& Multiplet2() {
         return multiplet_2_;
     }
 
-    Multiplet_2 const& Multiplet2() const {
+    Multiplet_2_ const& Multiplet2() const {
         return multiplet_2_;
     }
 
-    template <typename Multiplet3>
-    bool Overlap(Multiplet3 const& multiplet) const {
+    template <typename Multiplet_3_>
+    bool Overlap(Multiplet_3_ const& multiplet) const {
         return (multiplet.Overlap(multiplet_1_) || multiplet.Overlap(multiplet_2_));
     }
 
@@ -144,19 +144,19 @@ public:
 
 protected:
 
-    void SetMultiplet1(Multiplet_1 const& multiplet_1) {
+    void SetMultiplet1(Multiplet_1_ const& multiplet_1) {
         multiplet_1_ = multiplet_1;
     }
 
-    void SetMultiplet2(Multiplet_2 const& multiplet_2) {
+    void SetMultiplet2(Multiplet_2_ const& multiplet_2) {
         multiplet_2_ = multiplet_2;
     }
 
 private:
 
-    Multiplet_1 multiplet_1_;
+    Multiplet_1_ multiplet_1_;
 
-    Multiplet_2 multiplet_2_;
+    Multiplet_2_ multiplet_2_;
 
 };
 

@@ -91,10 +91,6 @@ private:
 
     std::string PlotModelIndependentGraph(Results const& results) const;
 
-    void SetBranch(TTree& tree, int& value, std::string const& name) const;
-
-    void SetBranch(TTree& tree, std::vector<float>& values, std::string const& name) const;
-
     void SetDefaultXAxis(Graphs& graphs, Results const& results) const;
 
     boca::Tagger const& Tagger() const;

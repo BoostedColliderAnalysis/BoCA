@@ -34,12 +34,17 @@ Observables SignatureSingleHadronicBranch::Variables()
 
 TruthBranch::TruthBranch()
 {
-  TopPt = InitialValue();
-  LeptonPt = InitialValue();
-  SoftestBosonPt = InitialValue();
-  BosonNumber = int(InitialValue());
-  HardBosonNumber = int(InitialValue());
-  DetectableBosonNumber = int(InitialValue());
+    TopPt = InitialValue();
+    LeptonPt = InitialValue();
+    SoftestBosonPt = InitialValue();
+    BosonNumber = int(InitialValue());
+    HardBosonNumber = int(InitialValue());
+    DetectableBosonNumber = int(InitialValue());
+}
+
+Observables TruthBranch::Variables()
+{
+    return OBSERVABLE(TopPt) + OBSERVABLE(LeptonPt) + OBSERVABLE(HardBosonNumber) + OBSERVABLE(SoftestBosonPt) + OBSERVABLE(DetectableBosonNumber);
 }
 
 }

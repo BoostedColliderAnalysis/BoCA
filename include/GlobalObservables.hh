@@ -5,13 +5,17 @@
 
 #include "multiplets/Singlet.hh"
 
-namespace boca {
+namespace boca
+{
 
 class Event;
 
-class GlobalObservables {
+class GlobalObservables : public Identification
+{
 
 public:
+
+    GlobalObservables(Event const& event);
 
     void SetEvent(Event const& event, std::vector<Jet> const& jets);
 

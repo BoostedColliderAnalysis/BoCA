@@ -28,10 +28,9 @@ WHadronicTagger::WHadronicTagger()
 int WHadronicTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const
 {
     INFO0;
-    std::vector<Doublet> doublets = Doublets(event, pre_cuts, [&](Doublet & doublet) {
+    return SaveEntries(Doublets(event, pre_cuts, [&](Doublet & doublet) {
         return CheckDoublet(doublet, pre_cuts, tag);
-    });
-    return SaveEntries(doublets, Particles(event), tag, Id::W);
+    }), Particles(event), tag, Id::W);
 }
 
 std::vector<Doublet> WHadronicTagger::Doublets(Event const& event, PreCuts const& pre_cuts, Function const& function) const

@@ -20,8 +20,8 @@ int main()
     Run<boca::naturalness::HiggsPairTagger>();
     Run<boca::naturalness::TopPartnerHadronicNeutralTagger>();
     Run<boca::naturalness::TopPartnerLeptonicNeutralTagger>();
-    Run<boca::naturalness::TopPartnerHadronicChargedTagger>();
-    Run<boca::naturalness::TopPartnerLeptonicChargedTagger>();
+//     Run<boca::naturalness::TopPartnerHadronicChargedTagger>();
+//     Run<boca::naturalness::TopPartnerLeptonicChargedTagger>();
 //     Run<boca::naturalness::TopPartnerHadronicTagger>();
 //     Run<boca::naturalness::TopPartnerLeptonicTagger>();
     Run<boca::naturalness::SignatureEffectiveTagger>(boca::Output::efficiency | boca::Output::plot);
