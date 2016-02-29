@@ -66,8 +66,8 @@ public:
     }
 
     boca::Mass Mass() const {
-        return 500_GeV;
         return 1_TeV;
+        return 500_GeV;
         return 400_GeV;
         return 750_GeV;
         return 800_GeV;
@@ -184,7 +184,7 @@ public:
             case Process::Htwb : return 1;
             case Process::tttt : return 1;
             case Process::tttwb : return 1;
-            case Process::tt : return 50;
+            case Process::tt : return 20;
             default : std::cout << "Switch default for Process " << to_int(process) << std::endl;
                 return 1;
             }

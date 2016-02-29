@@ -417,6 +417,50 @@ private:
  * @brief Class for saving event informations to root
  *
  */
+class GlobalObservableBranch : public BdtBranch
+{
+public:
+  GlobalObservableBranch();
+
+  float LeptonNumber;
+  float JetNumber;
+  float BottomNumber;
+  float MissingEt;
+  float ScalarHt;
+  float LeptonHt;
+  float JetPt1;
+  float JetPt2;
+  float JetPt3;
+  float JetPt4;
+  float LeptonPt1;
+  float LeptonPt2;
+
+  template<typename Multiplet>
+  void Fill(Multiplet const& multiplet) {
+    BdtBranch::Fill(multiplet);
+    LeptonNumber = multiplet.LeptonNumber();
+    JetNumber = multiplet.JetNumber();
+    BottomNumber = multiplet.BottomNumber();
+    MissingEt = multiplet.MissingEt() / GeV;
+    ScalarHt = multiplet.ScalarHt() / GeV;
+    LeptonHt = multiplet.LeptonHt() / GeV;
+    LeptonPt1 = multiplet.LeptonPt(1) / GeV;
+    LeptonPt2 = multiplet.LeptonPt(2) / GeV;
+    JetPt1 = multiplet.JetPt(1) / GeV;
+    JetPt2 = multiplet.JetPt(2) / GeV;
+    JetPt3 = multiplet.JetPt(3) / GeV;
+    JetPt4 = multiplet.JetPt(4) / GeV;
+  }
+  Observables Variables();
+
+private:
+  ClassDef(GlobalObservableBranch, 1)
+};
+
+/**
+ * @brief Class for saving event informations to root
+ *
+ */
 class EventBranch : public MultiBranch
 {
 public:
@@ -455,68 +499,5 @@ public:
 private:
     ClassDef(EventBranch, 1)
 };
-
-class Color
-{
-public:
-    Color();
-protected:
-    virtual std::vector<double> RedPart() const;
-    virtual std::vector<double> GreenPart() const;
-    virtual std::vector<double> BluePart() const;
-    virtual std::vector<double> Length() const;
-    virtual std::vector<int>& Colors() = 0;
-    virtual bool& Initialized() = 0;
-private:
-    std::vector<int>& Palette();
-    void Initialize();
-};
-
-class Red
-{
-public:
-    static std::string Action();
-private:
-    std::vector<double> RedPart() const;
-    std::vector<int>& Colors();
-    bool& Initialized();
-    static std::vector<int> colors_;
-    static bool initialized_;
-};
-
-class Blue
-{
-public:
-    static std::string Action();
-private:
-    std::vector<double> BluePart() const;
-    std::vector<int>& Colors();
-    bool& Initialized();
-    static std::vector<int> colors_;
-    static bool initialized_;
-};
-
-class Heat
-{
-public:
-    static std::string Action();
-private:
-    std::vector<double> RedPart() const;
-    std::vector<double> GreenPart() const;
-    std::vector<double> BluePart() const;
-    std::vector<double> Length() const;
-    std::vector<int>& Colors();
-    bool& Initialized();
-    static std::vector<int> colors_;
-    static bool initialized_;
-};
-
-// class Color
-// {
-// public:
-//     void Red();
-//     void Blue();
-//     void Heat();
-// };
 
 }

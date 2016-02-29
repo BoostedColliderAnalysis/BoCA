@@ -96,6 +96,40 @@ private:
     ClassDef(EventBranch, 1)
 };
 
+
+
+/**
+ * @brief Class for saving event informations to root
+ *
+ */
+class NewEventBranch : public MultiBranch
+{
+public:
+  NewEventBranch();
+
+  float JetMass;
+  float JetPt;
+  float JetHt;
+  float JetRap;
+  float JetPhi;
+  float GlobBdt;
+
+  template<typename Multiplet>
+  void Fill(Multiplet const& multiplet) {
+    MultiBranch::Fill(multiplet);
+    GlobBdt = multiplet.GlobalObservables().Bdt();
+    JetMass = multiplet.Rest().Jet().Mass() / GeV;
+    JetPt = multiplet.Rest().Jet().Pt() / GeV;
+    JetHt = multiplet.GlobalObservables().JetHt() / GeV;
+    JetRap = multiplet.Rest().Rap() / rad;
+    JetPhi = multiplet.Rest().Jet().Phi() / rad;
+  }
+  Observables Variables();
+
+private:
+  ClassDef(NewEventBranch, 1)
+};
+
 /**
  *
  * @brief Top tagger root tree structure
@@ -110,7 +144,9 @@ public:
     float BosonNumber;
     float HardBosonNumber;
     float SoftestBosonPt;
+    float HardestBosonPt;
     float DetectableBosonNumber;
+    float BosonDeltaRMin;
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         TopPt = multiplet.TopPt(0) / GeV;
@@ -118,7 +154,9 @@ public:
         BosonNumber = multiplet.BosonNumber();
         HardBosonNumber = multiplet.HardBosonNumber();
         SoftestBosonPt = multiplet.SoftBosonPt() / GeV;
+        HardestBosonPt = multiplet.HardBosonPt() / GeV;
         DetectableBosonNumber = multiplet.DetectableBosonNumber();
+        BosonDeltaRMin = multiplet.BosonDeltaRMin() / rad;
     }
     virtual Observables Variables();
 private:

@@ -9,7 +9,7 @@
 #include "plotting/Profile.hh"
 #include "plotting/Font.hh"
 
-#include "Branches.hh"
+#include "Colors.hh"
 #include "Types.hh"
 
 // #define INFORMATION

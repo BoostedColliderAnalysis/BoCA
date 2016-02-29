@@ -22,7 +22,8 @@ enum class Output
     significance = 1 << 2,
     efficiency = 1 << 3,
     plot = 1 << 4,
-    cut = 1 << 5
+    cut = 1 << 5,
+    plot_hist = 1 << 6
 };
 
 std::string Name(Output output);
@@ -64,6 +65,8 @@ protected:
     void RunFullEfficiency();
 
     void RunPlots();
+
+    void RunPlotHist();
 
     void RunCut();
 

@@ -5,6 +5,7 @@
 
 #include <boost/range/algorithm/min_element.hpp>
 #include <boost/range/algorithm/max_element.hpp>
+#include <boost/range/numeric.hpp>
 
 #include "Types.hh"
 #include "physics/Units.hh"
@@ -184,7 +185,7 @@ int BestMIBin(std::vector<Result> const& signals_, int step)
     for (auto const & signal : signals_) {
         auto vector = signal.ModelIndependent();
         auto min = std::min_element(std::begin(vector), std::end(vector) - step, [](Crosssection i, Crosssection j) {
-          return i > 0_b ? i < j : i > j;
+            return i > 0_b ? i < j : i > j;
         });
         auto dist = std::distance(vector.begin(), min);
         map.emplace(*min, dist);
@@ -224,23 +225,23 @@ float Results::XValue(int value) const
 float Results::SignalEvents(int step) const
 {
     INFO0;
-    auto events = 0.;
-    for (auto const & signal : signals_) events += signal.Events().at(step);
-    return events;
+    return boost::accumulate(signals_, 0., [&](float sum, Result const & signal) {
+        return sum + signal.Events().at(step);
+    });
 }
 
 float Results::BackgroundEvents(int step) const
 {
     INFO0;
-    auto events = 0;
-    for (auto const & background : backgrounds_) events += background.Events().at(step);
-    return events;
+    return boost::accumulate(backgrounds_, 0., [&](float sum, Result const & background) {
+        return sum + background.Events().at(step);
+    });
 }
 
 float Results::Significance(float signal_events, float background_events) const
 {
     INFO0;
-    return signal_events + background_events > 0 ? signal_events / std::sqrt(signal_events + background_events) : 0;
+    return /*signal_events +*/ background_events > 0 ? signal_events / std::sqrt(signal_events + background_events) : 0;
 }
 
 float Results::Acceptances(float signal_events, float background_events) const
@@ -258,9 +259,9 @@ float Results::SOverB(float signal_events, float background_events) const
 Crosssection Results::BackgroundEfficiencyCrosssection(int step) const
 {
     INFO0;
-    Crosssection value = 0_b;
-    for (auto const & background : backgrounds_) value += double(background.Efficiencies().at(step)) * background.InfoBranch().Crosssection();
-    return value;
+    return boost::accumulate(backgrounds_, 0_b, [&](Crosssection sum, Result const & background) {
+        return sum  + double(background.Efficiencies().at(step)) * background.InfoBranch().Crosssection();
+    });
 }
 
 Crosssection Results::ModelIndependentCrosssection(double signal_efficiency, int step) const
@@ -272,7 +273,7 @@ Crosssection Results::ModelIndependentCrosssection(double signal_efficiency, int
     auto exclusion = 2.;
     auto numerator = exclusion + std::sqrt(sqr(exclusion) + 4. * BackgroundEvents(step));
     Crosssection sigma_sig = numerator * exclusion / 2. / signal_efficiency / DetectorGeometry::Luminosity();
-    return max(sigma_s_over_b, sigma_sig);
+    return sigma_s_over_b > 0_b && sigma_sig > 0_b ? max(sigma_s_over_b, sigma_sig) : 0_b;
 }
 
 }

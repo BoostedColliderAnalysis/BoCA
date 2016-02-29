@@ -7,7 +7,7 @@
 
 #include "plotting/Style.hh"
 #include "plotting/Graphs.hh"
-// #define INFORMATION
+#define INFORMATION
 #include "Debug.hh"
 
 namespace boca
@@ -44,8 +44,9 @@ void Graphs::AddGraph(std::vector<float> const& xs, std::vector<float> const& ys
 
 void Graphs::SetLegend(boca::Orientation orientation, std::string const& title)
 {
-    INFO(title);
+    INFO(title, Name(orientation));
     AddGraphs();
+    for(auto & line : lines_) if(!line.second.empty()) legend_.AddEntry(line.first, line.second);
     legend_.SetOrientation(orientation, title);
 }
 
@@ -53,8 +54,8 @@ void Graphs::Draw()
 {
     INFO0;
     multi_graph_.Draw("al");
-    if (graphs_.size() > 1) legend_.Draw();
-    for (auto & line : lines_) line.Draw();
+    for (auto & line : lines_) line.first.Draw();
+    legend_.Draw();
 }
 
 void Graphs::SetXAxis(std::string const& title, boca::Range<float> const& range)
@@ -115,18 +116,18 @@ void Graphs::AddGraphs()
     if (multi_graph_.GetListOfGraphs()) return;
     for (auto & graph : graphs_) {
         multi_graph_.Add(&graph);
-        legend_.AddEntry(graph, graph.GetTitle());
+        if(graphs_.size() > 1) legend_.AddEntry(graph, graph.GetTitle());
     }
 }
 
-void Graphs::AddLine(float x_value)
+void Graphs::AddLine(float x_value, std::string const& title)
 {
     INFO(x_value);
     if (!RangeX().Inside(x_value)) return;
     Range<double> y = RangeY();
     TLine line(x_value, y.Min(), x_value, y.Max());
     SetLine(line, graphs_.size() + lines_.size());
-    lines_.emplace_back(line);
+    lines_.emplace_back(std::make_pair(line, title));
 }
 
 }

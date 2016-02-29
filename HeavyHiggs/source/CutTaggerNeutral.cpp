@@ -1,8 +1,4 @@
-// #include "physics/Math.hh"
 #include "CutTaggerNeutral.hh"
-// #include "Event.hh"
-// #include "Vector.hh"
-// #define DEBUGGING
 #include "Debug.hh"
 
 namespace boca

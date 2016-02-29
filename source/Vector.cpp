@@ -1,6 +1,7 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
+#include<functional>
 #include "boost/range/algorithm/find_if.hpp"
 #include "Vector.hh"
 
@@ -176,6 +177,13 @@ std::vector<Particle> RemoveIfMother(std::vector<Particle> particles, Id mother_
 std::vector<Particle> RemoveIfMother(std::vector<Particle> particles, std::vector<Id> ids)
 {
     return RemoveIfRelativeIs(particles, Relative::mother, ids);
+}
+
+std::vector<Particle> RemoveIfOnlyMother(std::vector<Particle> particles, Id id)
+{
+    return boost::range::remove_erase_if(particles, [&](Particle const & particle) {
+        return RelativeIs(Relative::mother, id)(particle) && RelativeIs(Relative::step_mother, Id::none)(particle);
+    });
 }
 
 std::vector<Particle> CopyIfGrandMother(std::vector<Particle> const& particles, Id grand_mother_id)

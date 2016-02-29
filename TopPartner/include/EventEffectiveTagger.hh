@@ -1,18 +1,22 @@
 #pragma once
 
 #include "SignatureEffectiveTagger.hh"
+#include "EventTagger.hh"
 #include "MultipletEvent.hh"
 
-namespace boca {
+namespace boca
+{
 
-namespace naturalness {
+namespace naturalness
+{
 
 /**
  *
  * @brief Prepares multivariant analysis
  *
  */
-class EventEffectiveTagger : public TaggerTemplate<MultipletEvent<Quattuordecuplet554>,EventBranch> {
+class EventEffectiveTagger : public TaggerTemplate<MultipletEvent<Quattuordecuplet554>, NewEventBranch>
+{
 
 public:
 
@@ -32,6 +36,8 @@ private:
     Reader<SignatureEffectiveTagger> signature_reader_;
 
     Reader<standardmodel::BottomTagger> bottom_reader_;
+
+    Reader<EventTagger> event_reader_;
 
 };
 

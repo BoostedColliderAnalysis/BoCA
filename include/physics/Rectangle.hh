@@ -161,26 +161,26 @@ public:
     template <typename Value2>
     void WidenY(Range<Value> const& bound_x, std::vector<Value2> const& xs, std::vector<Value2> const& ys) {
 //         y_.Widen({0.001,1});
-        std::cout << "bound min " << bound_x.Min() << " bound max " << bound_x.Max() << std::endl;
+//         std::cout << "bound min " << bound_x.Min() << " bound max " << bound_x.Max() << std::endl;
         Range<int> bound;
         if (boost::range::is_sorted(xs, Smaller<Value2>())) {
-            std::cout << "smaller" << std::endl;
+//             std::cout << "smaller" << std::endl;
             bound.SetMin(boost::range::lower_bound(xs, Value2(bound_x.Min())) - xs.begin());
             bound.SetMax(boost::range::upper_bound(xs, Value2(bound_x.Max())) - xs.begin());
         } else if (boost::range::is_sorted(xs, Larger<Value2>())) {
-            std::cout << "larger" << std::endl;
+//             std::cout << "larger" << std::endl;
             bound.SetMin(boost::range::lower_bound(xs, Value2(bound_x.Max()), Larger<Value2>()) - xs.begin());
             bound.SetMax(boost::range::upper_bound(xs, Value2(bound_x.Min()), Larger<Value2>()) - xs.begin());
         } else {
-            std::cout << "not sorted" << std::endl;
+//             std::cout << "not sorted" << std::endl;
             bound.SetMin(0);
             bound.SetMax(xs.size());
         }
-        std::cout << "min_x " << bound.Min() << " max_x " << bound.Max() << std::endl;
+//         std::cout << "min_x " << bound.Min() << " max_x " << bound.Max() << std::endl;
         Range<Value2> bound_y;
         bound_y.SetMin(*std::min_element(ys.begin() + bound.Min(), ys.begin() + bound.Max(), SmallerButNonZero<Value2>()));
         bound_y.SetMax(*std::max_element(ys.begin() + bound.Min(), ys.begin() + bound.Max()));
-        std::cout << "min " << bound_y.Min() << " max " << bound_y.Max() << std::endl;
+//         std::cout << "min " << bound_y.Min() << " max " << bound_y.Max() << std::endl;
         y_.Widen(bound_y);
     }
 

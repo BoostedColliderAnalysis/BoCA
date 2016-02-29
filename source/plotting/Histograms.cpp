@@ -50,7 +50,7 @@ void Histograms::Draw()
 {
     INFO0;
     stack_.Draw("nostack");
-    if (histograms_.size() > 1) legend_.Draw();
+    legend_.Draw();
     for (auto & line : lines_) line.Draw();
 }
 
@@ -91,18 +91,19 @@ void Histograms::AddHistograms()
     if (stack_.GetHists()) return;
     for (auto & graph : histograms_) {
         stack_.Add(&graph);
-        legend_.AddEntry(graph, graph.GetTitle());
+        if (histograms_.size() > 1) legend_.AddEntry(graph, graph.GetTitle());
     }
     Draw();
 }
 
-void Histograms::AddLine(float x_value)
+void Histograms::AddLine(float x_value, std::string const& title)
 {
     if (!RangeX().Inside(x_value)) return;
     Range<double> y = RangeY();
     TLine line(x_value, y.Min(), x_value, y.Max() * 1.05);
     SetLine(line, histograms_.size() + lines_.size() + 1);
     if (x_value != 0) line.Draw();
+    if(!title.empty()) legend_.AddEntry(line, title);
     lines_.emplace_back(line);
 }
 

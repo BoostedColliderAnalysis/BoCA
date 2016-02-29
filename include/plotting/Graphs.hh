@@ -30,7 +30,7 @@ public:
 
     void SetYAxis(std::string const& title, Range<float> const& range = Range<float>());
 
-    void AddLine(float x_value);
+    void AddLine(float x_value, std::string const& title = "");
 
 private:
 
@@ -48,7 +48,7 @@ private:
 
     std::vector<TGraph> graphs_;
 
-    std::vector<TLine> lines_;
+    std::vector<std::pair<TLine, std::string>> lines_;
 
     std::vector<std::pair<std::vector<float>, std::vector<float>>> datas_;
 

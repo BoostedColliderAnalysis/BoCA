@@ -1,6 +1,8 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
+#include <boost/range/numeric.hpp>
+
 #include "TFile.h"
 #include "TClonesArray.h"
 #include "TTree.h"
@@ -151,8 +153,8 @@ std::string Plotting::PlotHistograms(Results const& results) const
     histograms.SetLegend(Orientation::top);
     histograms.SetXAxis("BDT");
     histograms.SetYAxis(Formula("N"));
-    histograms.AddLine(results.BestModelDependentValue());
     histograms.AddLine(results.BestModelInDependentValue());
+    histograms.AddLine(results.BestModelDependentValue());
     return histograms.FileBaseName();
 }
 
@@ -268,7 +270,9 @@ std::string Plotting::PlotModelIndependentGraph(Results const& results) const
     for (auto const & signal : results.Signals()) graphs.AddGraph(results.XValues(), FloatVector(signal.ModelIndependent()), signal.InfoBranch().LatexName());
     SetDefaultXAxis(graphs, results);
     graphs.SetYAxis("Exclusion crosssection [fb]");
-    graphs.AddLine(results.BestModelInDependentValue());
+    graphs.AddLine(results.BestModelInDependentValue(), "Independent");
+    graphs.AddLine(results.BestModelDependentValue(), "Dependent");
+    graphs.SetLegend(Orientation::bottom | Orientation::left, "Model");
     return graphs.FileBaseName();
 }
 
@@ -279,8 +283,8 @@ std::string Plotting::BestValueTable(Results const& results) const
     table << "    Model\n  & Cut\n  & $p$-value\n";
     for(auto const & signal : results.Signals()) table << " & $\\sigma$("<< signal.InfoBranch().Name() <<") [fb]";
     table << "\n \\\\ \\midrule\n   ";
-    table << BestValueRow(results, results.BestModelDependentBin(), "Dependet");
-    table << BestValueRow(results, results.BestModelInDependentBin(), "Independet");
+    table << BestValueRow(results, results.BestModelDependentBin(), "Dependent");
+    table << BestValueRow(results, results.BestModelInDependentBin(), "Independent");
     table << BestValueRow(results, results.BestAcceptanceBin(), "$S/\\sqrt B$");
     return table.str();
 }
@@ -330,15 +334,12 @@ void Plotting::RunPlots(Stage stage) const
     DEBUG(Tagger().FileName(stage, Tag::background), Tagger().TreeNames(Tag::background).size());
     std::vector<Plots> backgrounds = Import(stage, Tag::background);
     Plots background = backgrounds.front();
-    if (backgrounds.size() > 1) {
         background = std::accumulate(backgrounds.begin() + 1, backgrounds.end(), background, [](Plots & sum, Plots const & plots) {
             for (auto & plot : sum.plots()) plot.Join(plots.plots().at(&plot - &sum.plots().front()).Data());
             return sum;
         });
         background.SetName("background");
-    }
     for (auto & signal : signals) DoPlot(signal, background, stage);
-
 }
 
 void Plotting::DoPlot(Plots& signals, Plots& backgrounds, Stage stage) const
@@ -476,6 +477,23 @@ Plot Plotting::ReadTree(TTree& tree, std::string const& leaf_1_name, std::string
     }
     return plot;
 }
+
+void Plotting::RunPlotHist() const
+{
+  INFO0;
+  std::vector<Plots> plots = Join(Import(Stage::trainer, Tag::background), Import(Stage::trainer, Tag::signal));
+//   PlotVariables(plots);
+}
+
+// void Plotting::PlotVariables(std::vector<Plots>  const& plots, std::string const& name){
+//   Histograms histograms(Tagger().ExportFolderName(), name);
+//   for (auto const & plot : plots) histograms.AddHistogram(plot.Data().X(), plot.XAxis().LatexName());
+//   histograms.SetLegend(Orientation::top);
+//   histograms.SetXAxis("");
+//   histograms.SetYAxis(Formula("N"));
+//   return histograms.FileBaseName();
+//
+// }
 
 Tagger const& Plotting::Tagger() const
 {

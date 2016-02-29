@@ -27,6 +27,14 @@ public:
         boca::TwoBody<Multiplet_1, boca::Singlet>::SetMultiplets(multiplet, global_observables_.Singlet());
     }
 
+    MultipletEvent(Multiplet_1 const& multiplet, std::vector<Jet>& jets, GlobalObservables const& global_observables) {
+        global_observables_ = global_observables;
+        std::vector<Jet> unique_jets;
+        for (auto const & jet : jets) if (!multiplet.Overlap(jet)) unique_jets.emplace_back(jet);
+        global_observables_.SetJets(unique_jets);
+        boca::TwoBody<Multiplet_1, boca::Singlet>::SetMultiplets(multiplet, global_observables_.Singlet());
+    }
+
     Multiplet_1 Signature() const {
         return boca::TwoBody<Multiplet_1, boca::Singlet>::Multiplet1();
     }

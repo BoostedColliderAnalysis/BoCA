@@ -15,11 +15,30 @@
 #include "plotting/Style.hh"
 #include "plotting/Font.hh"
 
-// #define INFORMATION
+#define INFORMATION
 #include "Debug.hh"
 
 namespace boca
 {
+
+std::string Name(Orientation orientation)
+{
+    std::string name;
+    FlagSwitch(orientation, [&](Orientation orientation_1) {
+        switch (orientation_1) {
+        case Orientation::none : name += " None"; break;
+        case Orientation::center : name += " Center"; break;
+        case Orientation::left : name += " Left"; break;
+        case Orientation::right : name += " Right"; break;
+        case Orientation::top : name += " Top"; break;
+        case Orientation::bottom : name += " Bottom"; break;
+        case Orientation::outside : name += " Outside"; break;
+        default : name += std::to_string(to_int(orientation_1)); break;
+        }
+    });
+    INFO(to_int(orientation), name);
+    return name;
+}
 
 namespace
 {
@@ -45,10 +64,11 @@ Vector2<float> Position(Orientation orientation, float width, float height)
     float y_shift = 0.5;
     float x_offset = width / 2;
     float y_offset = height / 2;
+    INFO(Name(orientation));
     if (is(orientation, Orientation::outside)) {
         INFO("Outside");
-        FlagSwitch(orientation, [&](Orientation orientation) {
-            switch (orientation) {
+        FlagSwitch(orientation, [&](Orientation orientation_1) {
+            switch (orientation_1) {
             case Orientation::left:
                 x_shift = 0;
                 x_offset = width;
@@ -69,9 +89,9 @@ Vector2<float> Position(Orientation orientation, float width, float height)
             }
         });
     } else {
-        FlagSwitch(orientation, [&](Orientation orientation) {
+        FlagSwitch(orientation, [&](Orientation orientation_1) {
             INFO("Inside");
-            switch (orientation) {
+            switch (orientation_1) {
             case Orientation::left:
                 x_shift = 0;
                 x_offset = 0;
@@ -127,14 +147,17 @@ float Legend::Width(std::vector<std::string> const& entries) const
 
 float Legend::Height(std::vector<std::string> const& entries, std::string const& title) const
 {
-  INFO(entries.size(), title);
-    float height = boost::accumulate(entries, 0., [](double height, std::string const & entry) {
+    INFO(entries.size(), title);
+    float height = boost::accumulate(entries, 0., [](float height, std::string const & entry) {
         TLatex latex(0, 0, entry.c_str());
         SetText(latex);
+        INFO(entry, latex.GetYsize());
         return height + latex.GetYsize();
     });
+    INFO(height);
     height += (entries.size() - 1) * EntrySeparation();
     height /= columns_; // TODO must be more sofisticated
+    INFO(height);
     if (title.empty()) return height;
     TLatex latex(0, 0, title.c_str());
     SetText(latex);
@@ -188,6 +211,7 @@ void Legend::SetOrientation(Orientation orientation, std::vector<std::string> co
 void Legend::SetOrientation(Orientation orientation, std::string const& title)
 {
     INFO0;
+    if(!legend_.GetListOfPrimitives()) return;
     std::vector<std::string> entries;
     auto list = legend_.GetListOfPrimitives()->MakeIterator();
     TLegendEntry* entry;
@@ -199,6 +223,7 @@ void Legend::SetOrientation(Orientation orientation, std::string const& title)
 void Legend::Draw()
 {
     INFO0;
+    if (!legend_.GetListOfPrimitives() || legend_.GetListOfPrimitives()->GetSize() == 0) return;
     legend_.SetCornerRadius(TextHeight() / Rectangle().Width() / 6);
     legend_.SetBorderSize(0);
     legend_.SetLineWidth(0);

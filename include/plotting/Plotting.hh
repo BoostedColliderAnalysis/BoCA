@@ -39,6 +39,8 @@ public:
 
     void RunPlots(Stage stage) const;
 
+    void RunPlotHist() const;
+
 private:
 
     Results ReadBdtFiles() const;

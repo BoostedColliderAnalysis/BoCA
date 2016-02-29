@@ -27,6 +27,7 @@ NewPartnerLeptonicTagger.cpp
 NewPartnerPairTagger.cpp
 EventNewPairTagger.cpp
 TruthLevel.cpp
+TruthVariables.cpp
 )
 create_library(AnalysisTopPartner AnalysisSources)
 

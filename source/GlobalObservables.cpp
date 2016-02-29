@@ -7,6 +7,7 @@
 
 #include "GlobalObservables.hh"
 #include "Event.hh"
+#include "Sort.hh"
 #include "Debug.hh"
 
 namespace boca
@@ -19,16 +20,16 @@ GlobalObservables::GlobalObservables(const Event& event)
 
 void GlobalObservables::SetEvent(boca::Event const& event, const std::vector<Jet>& jets)
 {
-    jets_ = jets;
-    leptons_ = event.Leptons().leptons();
+    SetJets(jets);
+    SetLeptons(event.Leptons().leptons());
     scalar_ht_ = event.Hadrons().ScalarHt();
     missing_et_ = event.Hadrons().MissingEt().Pt();
 }
 
 void GlobalObservables::SetEvent(boca::Event const& event)
 {
-    jets_ = event.Hadrons().Jets();
-    leptons_ = event.Leptons().leptons();
+    SetJets(event.Hadrons().Jets());
+    SetLeptons(event.Leptons().leptons());
     scalar_ht_ = event.Hadrons().ScalarHt();
     missing_et_ = event.Hadrons().MissingEt().Pt();
 }
@@ -119,10 +120,28 @@ std::vector<Jet> GlobalObservables::Jets() const
     return jets_;
 }
 
-void GlobalObservables::SetJets(const std::vector<Jet> jets)
+void GlobalObservables::SetJets(std::vector<Jet> const& jets)
 {
     INFO0;
-    jets_ = jets;
+    jets_ = SortedByPt(jets);
+}
+
+void GlobalObservables::SetLeptons(std::vector<Lepton> const& leptons)
+{
+  INFO0;
+  leptons_ = SortedByPt(leptons);
+}
+
+GlobalObservables::GlobalObservables() {}
+
+Momentum GlobalObservables::JetPt(int number) const
+{
+    return jets_.size() >= number ? jets_.at(number - 1).Pt() : at_rest;
+}
+
+Momentum GlobalObservables::LeptonPt(int number) const
+{
+    return leptons_.size() >= number ? leptons_.at(number - 1).Pt() : at_rest;
 }
 
 }

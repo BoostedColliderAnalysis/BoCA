@@ -72,6 +72,8 @@ std::vector<Particle> RemoveIfMother(std::vector<Particle> particles, std::vecto
 
 std::vector<Particle> RemoveIfSingleMother(std::vector<Particle> particles);
 
+std::vector<Particle> RemoveIfOnlyMother(std::vector<Particle> particles, Id mother_id);
+
 std::vector<Particle> RemoveIfLetpon(std::vector<Particle> particles);
 
 std::vector<Particle> RemoveIfQuark(std::vector<Particle> particles);

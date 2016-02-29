@@ -15,6 +15,8 @@ class GlobalObservables : public Identification
 
 public:
 
+    GlobalObservables();
+
     GlobalObservables(Event const& event);
 
     void SetEvent(Event const& event, std::vector<Jet> const& jets);
@@ -39,20 +41,29 @@ public:
 
     Momentum JetHt() const;
 
+    Momentum JetPt(int number) const;
+
+    Momentum LeptonPt(int number) const;
+
     Energy MissingEt() const;
 
     boca::Singlet Singlet() const;
 
     std::vector<Jet> Jets() const;
 
-    void SetJets(const std::vector<Jet> jets);
+    void SetJets(std::vector<Jet> const& jets);
+
+    void SetLeptons(std::vector<Lepton> const& leptons);
 
 private:
 
-    std::vector<Lepton> leptons_;
-    Momentum scalar_ht_;
-    Energy missing_et_;
     std::vector<Jet> jets_;
+
+    std::vector<Lepton> leptons_;
+
+    Momentum scalar_ht_;
+
+    Energy missing_et_;
 
 };
 

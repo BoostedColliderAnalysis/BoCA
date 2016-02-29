@@ -4,6 +4,7 @@
 add_subdirectory(exroot)
 add_subdirectory(delphes)
 add_subdirectory(physics)
+create_dictionary(Colors Colors.cpp ../include/LinkDef.hh)
 add_subdirectory(plotting)
 
 add_include_path(../include)

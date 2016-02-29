@@ -32,7 +32,7 @@ public:
 
     void SetYAxis(std::string const& title, Range<float> const& range = Range<float>());
 
-    void AddLine(float x_value);
+    void AddLine(float x_value, std::string const& title = "");
 
 private:
 

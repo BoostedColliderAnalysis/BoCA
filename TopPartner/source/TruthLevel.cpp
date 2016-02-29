@@ -39,7 +39,14 @@ std::vector<TruthVariables> TruthLevel::Jets(Event const& event, PreCuts const& 
     truths.SetLeptons(CopyIfGrandMother(CopyIfParticles(particle, Resolve(MultiId::charged_lepton)), Id::top));
     truths.SetBosons(RemoveIfMother(CopyIfParticles(particle, Resolve(MultiId::bosons)), Resolve(MultiId::bosons)));
     truths.SetTops(CopyIfParticle(particle, Id::top));
-    truths.SetJets(RemoveIfMother(CopyIfDaughter(particle, CopyIfMother(RemoveIfSoft(CopyIfQuark(particle), 40_GeV), Resolve(MultiId::bosons))), Resolve(MultiId::bosons)));
+    auto detectable = RemoveIfOnlyMother(RemoveIfMother(CopyIfDaughter(particle, CopyIfMother(RemoveIfSoft(CopyIfQuark(particle), 40_GeV), Resolve(MultiId::bosons))), Resolve(MultiId::bosons)), Id::top);
+    std::vector<Particle> alone;
+    for (auto const & particle_1 : detectable) {
+        bool overlap = false;
+        for (auto const & particle_2 : detectable) if (particle_1 != particle_2 && particle_1.DeltaRTo(particle_2) < 0.1_rad) overlap = true;
+        if (!overlap) alone.emplace_back(particle_1);
+    }
+    truths.SetDetectable(alone);
     return {truths};
 }
 

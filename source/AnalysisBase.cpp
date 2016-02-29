@@ -254,6 +254,15 @@ void AnalysisBase::RunPlots()
 //     if (Exists(Tagger().ExportFileName())) std::remove(Tagger().ExportFileName().c_str());
 }
 
+void AnalysisBase::RunPlotHist()
+{
+  INFO0;
+  if (Exists(Tagger().ExportFolderName())) return;
+  Plotting plotting(Tagger());
+  PrepareFiles(Stage::trainer);
+  plotting.RunPlotHist();
+}
+
 void AnalysisBase::RunCut()
 {
     INFO0;
@@ -294,7 +303,9 @@ void AnalysisBase::Run(Output output)
         case Output::plot : RunPlots();
             break;
         case Output::cut : RunCut();
-            break;
+               break;
+        case Output::plot_hist : RunPlotHist();
+               break;
 //             DEFAULT(Name(output_2));
         }
     });

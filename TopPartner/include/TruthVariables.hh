@@ -5,10 +5,6 @@
 
 #include "Identification.hh"
 #include "Particle.hh"
-#include "physics/Particles.hh"
-#include "physics/Units.hh"
-#include "Sort.hh"
-#include "Vector.hh"
 
 namespace boca
 {
@@ -25,56 +21,40 @@ class TruthVariables : public Identification
 
 public:
 
-    Momentum LeptonPt(int number) const {
-//         std::cout << "lepton pt " << number << "  " << leptons_.size() << std::endl;
-        return leptons_.size() > number ? leptons_.at(number).Pt() : at_rest;
-    }
+    Momentum LeptonPt(int number) const;
 
-    Momentum TopPt(int number) const {
-//         std::cout << "top pt " << number << "  " << tops_.size() << std::endl;
-        return tops_.size() > number ? tops_.at(number).Pt() : at_rest;
-    }
+    Momentum TopPt(int number) const;
 
-    int BosonNumber() const {
-        return bosons_.size();
-    }
+    int BosonNumber() const;
 
-    int HardBosonNumber() const {
-      return RemoveIfSoft(bosons_, 20_GeV).size();
-    }
+    int HardBosonNumber() const;
 
-    int DetectableBosonNumber() const {
-      return jets_.size();
-    }
+    int DetectableBosonNumber() const;
 
-    Momentum SoftBosonPt() const {
-      return bosons_.empty() ? at_rest : bosons_.back().Pt();
-    }
+    Momentum HardBosonPt() const;
 
-    void SetLeptons(std::vector<Particle> const& leptons) {
-        leptons_ = SortedByPt(leptons);
-    }
+    Momentum SoftBosonPt() const;
 
-    void SetBosons(std::vector<Particle> const& bosons) {
-        bosons_ = SortedByPt(bosons);
-    }
+    Angle BosonDeltaRMin()const;
 
-    void SetTops(std::vector<Particle> const& tops) {
-        tops_ = SortedByPt(tops);
-    }
+    void SetLeptons(std::vector<Particle> const& leptons);
 
-    void SetJets(std::vector<Particle> const& jets) {
-      jets_ = SortedByPt(jets);
-    }
+    void SetBosons(std::vector<Particle> const& bosons);
+
+    void SetTops(std::vector<Particle> const& tops);
+
+    void SetDetectable(std::vector<Particle> const& jets);
 
 private:
-    std::vector<Particle> leptons_ = {};
-    std::vector<Particle> bosons_ = {};
-    std::vector<Particle> tops_ = {};
-    std::vector<Particle> jets_ = {};
+    std::vector<Particle> leptons_;
+
+    std::vector<Particle> bosons_;
+
+    std::vector<Particle> tops_;
+
+    std::vector<Particle> detectable_;
 
 };
-
 
 }
 

@@ -88,13 +88,15 @@ typename FlagReturn<Enum, bool>::type is(Enum enum_1, Enum enum_2)
 }
 
 template<typename Enum, typename Function>
-typename FlagReturn<Enum, void>::type FlagSwitch(Enum enum_1, Function function)
+// typename FlagReturn<Enum, void>::type
+void FlagSwitch(Enum enum_1, Function function)
 {
-    Enum mask = Enum(1);
+    Enum mask = Enum(1); // define mask of lowest enum value
     while (to_bool(enum_1)) {
-        function(enum_1 & mask);
-        enum_1 &= ~mask;
-        mask <<= Enum(1);
+        Enum pure = enum_1 & mask; // project onto mask value
+        if (pure != Enum(0)) function(pure); // if non-zero apply function
+        enum_1 &= ~mask; // remove mask value from enum
+        mask <<= Enum(1); // increment mask value
     }
 }
 

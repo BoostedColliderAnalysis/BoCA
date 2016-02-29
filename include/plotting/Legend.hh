@@ -35,6 +35,8 @@ struct Flag<Orientation> {
     static const bool enable = true;
 };
 
+std::string Name(Orientation orientation);
+
 class Legend
 {
 public:
