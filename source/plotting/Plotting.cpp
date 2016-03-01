@@ -268,11 +268,11 @@ std::string Plotting::PlotModelIndependentGraph(Results const& results) const
     INFO0;
     Graphs graphs(Tagger().ExportFolderName(), "Exclusion");
     for (auto const & signal : results.Signals()) graphs.AddGraph(results.XValues(), FloatVector(signal.ModelIndependent()), signal.InfoBranch().LatexName());
-    SetDefaultXAxis(graphs, results);
-    graphs.SetYAxis("Exclusion crosssection [fb]");
-    graphs.AddLine(results.BestModelInDependentValue(), "Independent");
     graphs.AddLine(results.BestModelDependentValue(), "Dependent");
-    graphs.SetLegend(Orientation::bottom | Orientation::left, "Model");
+    graphs.AddLine(results.BestModelInDependentValue(), "Independent");
+    graphs.SetLegend(Orientation::left | Orientation::bottom, "Model");
+    graphs.SetYAxis("Exclusion crosssection [fb]");
+    SetDefaultXAxis(graphs, results);
     return graphs.FileBaseName();
 }
 

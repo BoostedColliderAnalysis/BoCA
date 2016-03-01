@@ -274,6 +274,7 @@ Crosssection Results::ModelIndependentCrosssection(double signal_efficiency, int
     auto numerator = exclusion + std::sqrt(sqr(exclusion) + 4. * BackgroundEvents(step));
     Crosssection sigma_sig = numerator * exclusion / 2. / signal_efficiency / DetectorGeometry::Luminosity();
     return sigma_s_over_b > 0_b && sigma_sig > 0_b ? max(sigma_s_over_b, sigma_sig) : 0_b;
+//     return sigma_s_over_b > 0_b && sigma_sig > 0_b ? max(sigma_s_over_b, sigma_sig) / (0.22 * 0.65 * 2) : 0_b; // FIXME this can not stay here!!!!!!!!!!!
 }
 
 }

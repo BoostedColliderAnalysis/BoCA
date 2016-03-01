@@ -2,6 +2,7 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "Rtypes.h"
+#include "Types.hh"
 #include "plotting/Font.hh"
 // #define INFORMATION
 #include "Debug.hh"
@@ -50,8 +51,7 @@ int FontNumber(Font font, Style style)
         if (style == Style::bold) return 14;
         if (style == (Style::italic | Style::bold)) return 14;
         return 12;
-    default :
-        return 13;
+        DEFAULT(to_int(font), 13);
     }
 }
 
@@ -107,8 +107,8 @@ std::string Formula(std::string const& text, Font font)
 
 std::string Text(std::string const& text, Font font)
 {
-  INFO(text);
-  return "#font[" + std::to_string(FontCode(font, Style::normal)) + "]{" + text + "}";
+    INFO(text);
+    return "#font[" + std::to_string(FontCode(font, Style::normal)) + "]{" + text + "}";
 }
 
 int FontCode(Font font, Style style)

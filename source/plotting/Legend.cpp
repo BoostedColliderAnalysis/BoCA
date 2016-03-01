@@ -15,7 +15,7 @@
 #include "plotting/Style.hh"
 #include "plotting/Font.hh"
 
-#define INFORMATION
+// #define INFORMATION
 #include "Debug.hh"
 
 namespace boca
@@ -140,7 +140,7 @@ float Legend::Width(std::vector<std::string> const& entries) const
         SetText(latex_2);
         return latex_1.GetXsize() < latex_2.GetXsize();
     })->c_str());
-    float extra_width = 0.3 * TextHeight();
+    float extra_width = 0.5 * TextHeight();
     float width = longest.GetXsize() + RepresentationWidth() + extra_width;
     return width * columns_;  // TODO must be more sofisticated
 }
@@ -148,7 +148,7 @@ float Legend::Width(std::vector<std::string> const& entries) const
 float Legend::Height(std::vector<std::string> const& entries, std::string const& title) const
 {
     INFO(entries.size(), title);
-    float height = boost::accumulate(entries, 0., [](float height, std::string const & entry) {
+    auto height = boost::accumulate(entries, 0., [](float height, std::string const & entry) {
         TLatex latex(0, 0, entry.c_str());
         SetText(latex);
         INFO(entry, latex.GetYsize());
@@ -240,7 +240,7 @@ void Legend::TwoColumn()
 {
     INFO0;
     columns_ = 2;
-    legend_.SetNColumns(2);
+    legend_.SetNColumns(columns_);
     legend_.SetColumnSeparation(0.2);
 }
 

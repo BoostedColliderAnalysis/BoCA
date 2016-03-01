@@ -51,7 +51,11 @@ void Histograms::Draw()
     INFO0;
     stack_.Draw("nostack");
     legend_.Draw();
-    for (auto & line : lines_) line.Draw();
+    for (auto & line : lines_) {
+        line.SetY1(RangeY().Min());
+        line.SetY2(RangeY().Max());
+        line.Draw();
+    }
 }
 
 void Histograms::SetXAxis(std::string const& title, boca::Range<float> const& range)
@@ -81,9 +85,9 @@ Range<double> Histograms::RangeY()
 
 Range<double> Histograms::RangeX()
 {
-  INFO0;
-  if (!stack_.GetXaxis()) return {};
-  return {stack_.GetXaxis()->GetXmin(), stack_.GetXaxis()->GetXmax()};
+    INFO0;
+    if (!stack_.GetXaxis()) return {};
+    return {stack_.GetXaxis()->GetXmin(), stack_.GetXaxis()->GetXmax()};
 }
 
 void Histograms::AddHistograms()
@@ -103,7 +107,7 @@ void Histograms::AddLine(float x_value, std::string const& title)
     TLine line(x_value, y.Min(), x_value, y.Max() * 1.05);
     SetLine(line, histograms_.size() + lines_.size() + 1);
     if (x_value != 0) line.Draw();
-    if(!title.empty()) legend_.AddEntry(line, title);
+    if (!title.empty()) legend_.AddEntry(line, title);
     lines_.emplace_back(line);
 }
 

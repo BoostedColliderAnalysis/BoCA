@@ -7,7 +7,7 @@
 
 #include "plotting/Style.hh"
 #include "plotting/Graphs.hh"
-#define INFORMATION
+// #define INFORMATION
 #include "Debug.hh"
 
 namespace boca
@@ -46,7 +46,7 @@ void Graphs::SetLegend(boca::Orientation orientation, std::string const& title)
 {
     INFO(title, Name(orientation));
     AddGraphs();
-    for(auto & line : lines_) if(!line.second.empty()) legend_.AddEntry(line.first, line.second);
+    for (auto & line : lines_) if (!line.second.empty()) legend_.AddEntry(line.first, line.second);
     legend_.SetOrientation(orientation, title);
 }
 
@@ -54,7 +54,11 @@ void Graphs::Draw()
 {
     INFO0;
     multi_graph_.Draw("al");
-    for (auto & line : lines_) line.first.Draw();
+    for (auto & line : lines_) {
+      line.first.SetY1(RangeY().Min());
+      line.first.SetY2(RangeY().Max());
+      line.first.Draw();
+    }
     legend_.Draw();
 }
 
@@ -68,7 +72,7 @@ void Graphs::SetXAxis(std::string const& title, boca::Range<float> const& range)
     }
     AddGraphs();
     if (!multi_graph_.GetXaxis()) return;
-    INFO("set title",range_.Horizontal().Floor(), range_.Horizontal().Ceil());
+    INFO("set title", range_.Horizontal().Floor(), range_.Horizontal().Ceil());
     SetTitle(*multi_graph_.GetXaxis(), title);
     multi_graph_.GetXaxis()->SetLimits(range_.Horizontal().Floor(), range_.Horizontal().Ceil());
 }
@@ -87,7 +91,7 @@ void Graphs::SetYAxis(std::string const& title, boca::Range<float> const&)
 //     }
     AddGraphs();
     if (!multi_graph_.GetYaxis()) return;
-    INFO("set title",range_.Vertical().Floor(),range_.Vertical().Ceil());
+    INFO("set title", range_.Vertical().Floor(), range_.Vertical().Ceil());
     SetTitle(*multi_graph_.GetYaxis(), title);
     multi_graph_.GetYaxis()->SetLimits(range_.Vertical().Floor(), range_.Vertical().Ceil());
     multi_graph_.SetMinimum(range_.Vertical().Floor());
@@ -116,14 +120,15 @@ void Graphs::AddGraphs()
     if (multi_graph_.GetListOfGraphs()) return;
     for (auto & graph : graphs_) {
         multi_graph_.Add(&graph);
-        if(graphs_.size() > 1) legend_.AddEntry(graph, graph.GetTitle());
+        if (graphs_.size() > 1) legend_.AddEntry(graph, graph.GetTitle());
     }
 }
 
 void Graphs::AddLine(float x_value, std::string const& title)
 {
     INFO(x_value);
-    if (!RangeX().Inside(x_value)) return;
+//     if (!RangeX().Inside(x_value)) return;
+    if (x_value <= -1 ) return; // FIXME reenable proper check
     Range<double> y = RangeY();
     TLine line(x_value, y.Min(), x_value, y.Max());
     SetLine(line, graphs_.size() + lines_.size());
