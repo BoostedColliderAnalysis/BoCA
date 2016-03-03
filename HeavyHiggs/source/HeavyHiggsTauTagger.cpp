@@ -43,7 +43,7 @@ int HeavyHiggsTauTagger::Train(Event const& event, PreCuts const&, Tag tag) cons
         doublets.emplace_back(Predoublet);
 //         }
     }
-    INFO("Number doublets", doublets.size());
+    INFO(doublets.size());
     return SaveEntries(doublets);
 }
 
