@@ -40,6 +40,8 @@ private:
     float SOverB(float signal_events, float background_events) const;
     Crosssection BackgroundEfficiencyCrosssection(int step) const;
     Crosssection ModelIndependentCrosssection(double signal_efficiency, int step) const;
+    Crosssection ModelIndependentCrosssectionSig(double signal_efficiency, int step) const;
+    Crosssection ModelIndependentCrosssectionSB(double signal_efficiency, int step) const;
     int Steps() const;
     TMVA::Types::EMVA Mva() const;
     void ExtremeXValues();

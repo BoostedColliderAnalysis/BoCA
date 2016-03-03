@@ -66,8 +66,8 @@ public:
     }
 
     boca::Mass Mass() const {
-        return 1_TeV;
         return 500_GeV;
+        return 1_TeV;
         return 400_GeV;
         return 750_GeV;
         return 800_GeV;
@@ -221,6 +221,7 @@ public:
             switch (this->Collider()) {
             case heavyhiggs::Collider::LHC:
                 switch (Int(Mass())) {
+//                 case 500 : return 100_fb; // FIXME this is the wrong value
                 case 500 : return 25.52_fb;
                 case 1000 : return 1.278_fb;
                 case 2000 : return 0.02190_fb;

@@ -3,6 +3,7 @@
 #include "physics/Units.hh"
 #include "Sort.hh"
 #include "Vector.hh"
+#include "Debug.hh"
 
 namespace boca
 {
@@ -48,15 +49,33 @@ void TruthVariables::SetLeptons(const std::vector< Particle >& leptons)
 }
 void TruthVariables::SetBosons(const std::vector< Particle >& bosons)
 {
+    CHECK(bosons.size() == 4, bosons.size());
     bosons_ = SortedByPt(bosons);
 }
 void TruthVariables::SetTops(const std::vector< Particle >& tops)
 {
+    CHECK(tops.size() == 2, tops.size());
     tops_ = SortedByPt(tops);
 }
 void TruthVariables::SetDetectable(const std::vector< Particle >& jets)
 {
     detectable_ = SortedByPt(jets);
+}
+Energy TruthVariables::MissingEt() const
+{
+    return missing_et_.Pt();
+}
+Momentum TruthVariables::ScalarHt() const
+{
+    return scalar_ht_;
+}
+void TruthVariables::SetMissingEt(boca::MissingEt const& missing_et)
+{
+    missing_et_ = missing_et;
+}
+void TruthVariables::SetScalarHt(Momentum const& scalar_ht)
+{
+    scalar_ht_ = scalar_ht;
 }
 }
 }

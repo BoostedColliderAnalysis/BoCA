@@ -25,18 +25,45 @@ std::string ExportFileSuffix()
 
 }
 
+Canvas::Canvas()
+{
+    Initialize();
+}
+
 Canvas::Canvas(std::string const& path, std::string const& name, bool show_title)
+{
+    INFO0;
+    Initialize(path, name, show_title);
+}
+
+void Canvas::Initialize(std::string const& path, std::string const& name, bool show_title)
+{
+    Initialize(path, name);
+    SetMargins(show_title);
+}
+
+void Canvas::Initialize(std::string const& path, std::string const& name)
 {
     INFO0;
     path_ = path;
     title_ = name;
+    Initialize();
+}
+
+void Canvas::Initialize()
+{
+    INFO0;
     gStyle->SetOptStat("");
     gStyle->SetTitleFont(FontCode(), "t");
     gStyle->SetTitleFontSize(TextHeight());
     gPad->SetTickx();
     gPad->SetTicky();
-    Fill();
-    SetMargins(show_title);
+    canvas_.SetFillColor(0);
+    canvas_.SetFillStyle(0);
+    gPad->SetFillColor(0);
+    gPad->SetFillStyle(0);
+    gPad->SetFrameFillColor(0);
+    gPad->SetFrameFillStyle(0);
 }
 
 std::string Canvas::FileName() const
@@ -52,17 +79,6 @@ std::string Canvas::FileBaseName() const
 std::string Canvas::Path() const
 {
     return path_;
-}
-
-void Canvas::Fill()
-{
-    INFO0;
-    canvas_.SetFillColor(0);
-    canvas_.SetFillStyle(0);
-    gPad->SetFillColor(0);
-    gPad->SetFillStyle(0);
-    gPad->SetFrameFillColor(0);
-    gPad->SetFrameFillStyle(0);
 }
 
 void Canvas::SetMargins(bool show_title)

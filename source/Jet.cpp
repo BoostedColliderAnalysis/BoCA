@@ -180,6 +180,10 @@ LorentzVector< Momentum > Jet::Vector() const
 {
     return {px()* GeV, py()* GeV, pz()* GeV, e()* GeV};
 }
+float Jet::Bdt() const
+{
+    return Info().Bdt();
+}
 
 }
 

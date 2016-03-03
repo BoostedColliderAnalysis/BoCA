@@ -46,8 +46,8 @@ std::vector<float> const& Result::Efficiencies() const
 
 std::vector<float> const& Result::PureEfficiencies() const
 {
-  INFO0;
-  return pure_efficiencies_;
+    INFO0;
+    return pure_efficiencies_;
 }
 
 std::vector<Crosssection> const& Result::Crosssections() const
@@ -87,6 +87,8 @@ void Result::Inititialize()
     efficiencies_.resize(Steps(), 0);
     crosssections_.resize(Steps(), 0);
     model_independent_.resize(Steps(), 0);
+    model_independent_sig_.resize(Steps(), 0);
+    model_independent_sb_.resize(Steps(), 0);
     pure_efficiencies_.resize(Steps(), 0);
     event_sums_.resize(Steps(), 0);
     bins_.resize(Steps(), 0);
@@ -143,12 +145,30 @@ TMVA::Types::EMVA const& Result::Mva() const
 }
 void Result::SetModelIndependent(Crosssection crosssection, int step)
 {
-  INFO0;
+    INFO0;
     model_independent_.at(step) = crosssection;
 }
 std::vector< Crosssection > Result::ModelIndependent() const
 {
     return model_independent_;
+}
+void Result::SetModelIndependentSB(Crosssection crosssection, int step)
+{
+  INFO0;
+  model_independent_sb_.at(step) = crosssection;
+}
+std::vector< Crosssection > Result::ModelIndependentSB() const
+{
+  return model_independent_sb_;
+}
+void Result::SetModelIndependentSig(Crosssection crosssection, int step)
+{
+  INFO0;
+  model_independent_sig_.at(step) = crosssection;
+}
+std::vector< Crosssection > Result::ModelIndependentSig() const
+{
+  return model_independent_sig_;
 }
 
 }

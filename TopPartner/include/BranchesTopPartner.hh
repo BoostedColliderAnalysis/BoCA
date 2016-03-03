@@ -135,7 +135,7 @@ private:
  * @brief Top tagger root tree structure
  *
  */
-class TruthBranch : public ResultBranch
+class TruthBranch : public BdtBranch
 {
 public:
     TruthBranch();
@@ -147,6 +147,8 @@ public:
     float HardestBosonPt;
     float DetectableBosonNumber;
     float BosonDeltaRMin;
+    float MissingEt;
+    float ScalarHt;
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         TopPt = multiplet.TopPt(0) / GeV;
@@ -157,6 +159,8 @@ public:
         HardestBosonPt = multiplet.HardBosonPt() / GeV;
         DetectableBosonNumber = multiplet.DetectableBosonNumber();
         BosonDeltaRMin = multiplet.BosonDeltaRMin() / rad;
+        MissingEt = multiplet.MissingEt() / GeV;
+        ScalarHt = multiplet.ScalarHt() / GeV;
     }
     virtual Observables Variables();
 private:

@@ -2,6 +2,7 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #include <boost/range/numeric.hpp>
+#include <boost/range/join.hpp>
 
 #include "TFile.h"
 #include "TClonesArray.h"
@@ -19,6 +20,7 @@
 #include "plotting/Plots.hh"
 #include "plotting/Font.hh"
 #include "Branches.hh"
+#include "Vector.hh"
 
 // #define INFORMATION
 #include "Debug.hh"
@@ -52,6 +54,8 @@ void Plotting::OptimalCuts() const
     latex_file.IncludeGraphic(PlotEfficiencyGraph(results), "Efficiency");
     latex_file.IncludeGraphic(PlotCrosssectionsGraph(results), "Crosssection in fb");
     latex_file.IncludeGraphic(PlotModelIndependentGraph(results), "Minimization of the crosssection for the model-independent result");
+    latex_file.IncludeGraphic(PlotModelIndependentGraphSig(results), "Model indep sig");
+    latex_file.IncludeGraphic(PlotModelIndependentGraphSB(results), "Model indep s/b");
     latex_file.IncludeGraphic(PlotModelDependentGraph(results), "Maximization of the significance for the model-dependent result");
     latex_file.IncludeGraphic(PlotCrosssectionGraph(results), "Maximization of $S/\\sqrt B$");
     latex_file.IncludeGraphic(PlotSBGraph(results), "Maximization of $S/B$");
@@ -134,14 +138,21 @@ Result Plotting::CutDistribution(TFile& file, std::string const& tree_name, TFil
 
 InfoBranch Plotting::InfoBranch(TFile& file, std::string const& tree_name) const
 {
-    ERROR(file.GetName() ,tree_name);
-    auto * tree = static_cast<TTree*>(file.Get(tree_name.c_str()));
-    ERROR(tree->GetName());
+    INFO(file.GetName() , tree_name);
+    auto* tree = static_cast<TTree*>(file.Get(tree_name.c_str()));
+    INFO(tree->GetName());
     exroot::TreeReader tree_reader(tree);
-    ERROR(Tagger().WeightBranchName());
+    INFO(Tagger().WeightBranchName());
     TClonesArray* clones_array = tree_reader.UseBranch(Tagger().WeightBranchName().c_str());
+    if (!clones_array) ERROR("empty clones array");
+    INFO(tree_reader.GetEntries());
     tree_reader.ReadEntry(tree_reader.GetEntries() - 1);
-    return static_cast<boca::InfoBranch&>(*clones_array->Last());
+    TObject* object = clones_array->Last();
+    if (!object) {
+        ERROR("no object for casting");
+        return boca::InfoBranch();
+    }
+    return static_cast<boca::InfoBranch&>(*object);
 }
 
 std::string Plotting::PlotHistograms(Results const& results) const
@@ -174,7 +185,7 @@ std::string Plotting::PlotEfficiencyGraph(Results const& results) const
         graphs.SetXAxis("Calculated", results.Range().Horizontal());
         graphs.SetYAxis("Measured");
         break;
-    DEFAULT(Tagger().Mva());
+        DEFAULT(Tagger().Mva());
     }
     graphs.AddLine(results.BestModelDependentValue());
     graphs.AddLine(results.BestModelInDependentValue());
@@ -276,12 +287,38 @@ std::string Plotting::PlotModelIndependentGraph(Results const& results) const
     return graphs.FileBaseName();
 }
 
+std::string Plotting::PlotModelIndependentGraphSB(Results const& results) const
+{
+  INFO0;
+  Graphs graphs(Tagger().ExportFolderName(), "ExclusionSB");
+  for (auto const & signal : results.Signals()) graphs.AddGraph(results.XValues(), FloatVector(signal.ModelIndependentSB()), signal.InfoBranch().LatexName());
+  graphs.AddLine(results.BestModelDependentValue(), "Dependent");
+  graphs.AddLine(results.BestModelInDependentValue(), "Independent");
+  graphs.SetLegend(Orientation::left | Orientation::bottom, "Model");
+  graphs.SetYAxis("Exclusion crosssection [fb]");
+  SetDefaultXAxis(graphs, results);
+  return graphs.FileBaseName();
+}
+
+std::string Plotting::PlotModelIndependentGraphSig(Results const& results) const
+{
+  INFO0;
+  Graphs graphs(Tagger().ExportFolderName(), "ExclusionSig");
+  for (auto const & signal : results.Signals()) graphs.AddGraph(results.XValues(), FloatVector(signal.ModelIndependentSig()), signal.InfoBranch().LatexName());
+  graphs.AddLine(results.BestModelDependentValue(), "Dependent");
+  graphs.AddLine(results.BestModelInDependentValue(), "Independent");
+  graphs.SetLegend(Orientation::left | Orientation::bottom, "Model");
+  graphs.SetYAxis("Exclusion crosssection [fb]");
+  SetDefaultXAxis(graphs, results);
+  return graphs.FileBaseName();
+}
+
 std::string Plotting::BestValueTable(Results const& results) const
 {
     INFO0;
     std::stringstream table;
     table << "    Model\n  & Cut\n  & $p$-value\n";
-    for(auto const & signal : results.Signals()) table << " & $\\sigma$("<< signal.InfoBranch().Name() <<") [fb]";
+    for (auto const & signal : results.Signals()) table << " & $\\sigma$(" << signal.InfoBranch().Name() << ") [fb]";
     table << "\n \\\\ \\midrule\n   ";
     table << BestValueRow(results, results.BestModelDependentBin(), "Dependent");
     table << BestValueRow(results, results.BestModelInDependentBin(), "Independent");
@@ -296,7 +333,7 @@ std::string Plotting::BestValueRow(Results const& results, int bin, std::string 
     row << " " << name;
     row << "\n  & " << RoundToDigits(results.XValue(bin));
     row << "\n  & " << RoundToDigits(results.Significances().at(bin));
-    for(auto const & signal : results.Signals()) row << "\n  & " << RoundToDigits(signal.ModelIndependent().at(bin) / fb);
+    for (auto const & signal : results.Signals()) row << "\n  & " << RoundToDigits(signal.ModelIndependent().at(bin) / fb);
     row << "\n \\\\";
     return row.str();
 }
@@ -334,11 +371,11 @@ void Plotting::RunPlots(Stage stage) const
     DEBUG(Tagger().FileName(stage, Tag::background), Tagger().TreeNames(Tag::background).size());
     std::vector<Plots> backgrounds = Import(stage, Tag::background);
     Plots background = backgrounds.front();
-        background = std::accumulate(backgrounds.begin() + 1, backgrounds.end(), background, [](Plots & sum, Plots const & plots) {
-            for (auto & plot : sum.plots()) plot.Join(plots.plots().at(&plot - &sum.plots().front()).Data());
-            return sum;
-        });
-        background.SetName("background");
+    background = std::accumulate(backgrounds.begin() + 1, backgrounds.end(), background, [](Plots & sum, Plots const & plots) {
+        for (auto & plot : sum.PlotVector()) plot.Join(plots.PlotVector().at(&plot - &sum.PlotVector().front()).Data());
+        return sum;
+    });
+    background.Names().SetName("background");
     for (auto & signal : signals) DoPlot(signal, background, stage);
 }
 
@@ -350,7 +387,7 @@ void Plotting::DoPlot(Plots& signals, Plots& backgrounds, Stage stage) const
     });
     signals.SetNames(names);
     backgrounds.SetNames(names);
-    for (auto & signal : signals.plots()) PlotDetails(signal, backgrounds.plots().at(&signal - &signals.plots().front()), stage);
+    for (auto & signal : signals.PlotVector()) PlotDetails(signal, backgrounds.PlotVector().at(&signal - &signals.PlotVector().front()), stage);
 }
 
 void Plotting::PlotDetails(Plot& signal, Plot& background, Stage stage) const
@@ -416,19 +453,20 @@ Plots Plotting::PlotResult(TFile& file, std::string const& tree_name, Stage stag
     INFO(tree_name);
     Plots plots(InfoBranch(file, tree_name));
     TTree& tree = static_cast<TTree&>(*file.Get(tree_name.c_str()));
-    tree.SetMakeClass(1);
-    plots.plots() = UnorderedPairs(tagger_.Branch().Variables().Vector(), [&](Observable const & variable_1, Observable const & variable_2) {
+    tree.SetMakeClass(true);
+    plots.PlotVector() = UnorderedPairs(tagger_.Branch().Variables().Vector(), [&](Observable const & variable_1, Observable const & variable_2) {
         Plot plot = ReadTree(tree, variable_1.Name(), variable_2.Name(), stage);
         plot.x_is_int = variable_1.IsInt();
         plot.y_is_int = variable_2.IsInt();
         return plot;
     });
-    plots.SetName(tree_name);
-    DEBUG(plots.plots().size(), tagger_.Branch().Variables().Vector().size());
+    plots.Names().SetName(tree_name);
+    DEBUG(plots.PlotVector().size(), tagger_.Branch().Variables().Vector().size());
     return plots;
 }
 
-namespace{
+namespace
+{
 
 void SetBranch(TTree& tree, std::vector< float >& values, std::string const& name)
 {
@@ -478,22 +516,103 @@ Plot Plotting::ReadTree(TTree& tree, std::string const& leaf_1_name, std::string
     return plot;
 }
 
-void Plotting::RunPlotHist() const
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+std::vector<Plots> Plotting::Import2() const
 {
-  INFO0;
-  std::vector<Plots> plots = Join(Import(Stage::trainer, Tag::background), Import(Stage::trainer, Tag::signal));
-//   PlotVariables(plots);
+    std::vector<Plots> results;
+    for (auto const & variable : tagger_.Branch().Variables().Vector()) results.emplace_back(PlotResult3(variable));
+    return results;
 }
 
-// void Plotting::PlotVariables(std::vector<Plots>  const& plots, std::string const& name){
-//   Histograms histograms(Tagger().ExportFolderName(), name);
-//   for (auto const & plot : plots) histograms.AddHistogram(plot.Data().X(), plot.XAxis().LatexName());
-//   histograms.SetLegend(Orientation::top);
-//   histograms.SetXAxis("");
-//   histograms.SetYAxis(Formula("N"));
-//   return histograms.FileBaseName();
-//
-// }
+Plots Plotting::PlotResult3(Observable const& variable) const
+{
+    ERROR0;
+    Plots plots;
+    plots.Names() = variable.Names();
+    for (auto const & tag : std::vector<Tag>({Tag::signal, Tag::background})) PlotResult2(variable, tag, plots);
+    return plots;
+}
+
+
+Plots Plotting::PlotResult2(Observable const& variable, Tag tag, Plots& plots) const
+{
+    ERROR(Name(tag));
+    TFile file(Tagger().FileName(Stage::trainer, tag).c_str(), "Read");
+    std::vector<boca::InfoBranch> branches;
+    std::vector<std::string>  names = Tagger().TreeNames(tag);
+    for (auto const & tree_name : names) {
+        if (branches.size() < names.size()) branches.emplace_back(InfoBranch(file, tree_name));
+        TTree& tree = static_cast<TTree&>(*file.Get(tree_name.c_str()));
+        tree.SetMakeClass(true);
+        Plot plot = ReadTree2(tree, variable.Name());
+        plot.x_is_int = variable.IsInt();
+        plot.Title() = branches.at(&tree_name - &names.front()).Names();
+        plots.PlotVector().emplace_back(plot);
+    }
+    return plots;
+}
+
+Plot Plotting::ReadTree2(TTree& tree, std::string const& leaf_name) const
+{
+    INFO0;
+    tree.SetBranchStatus("*", false);
+    std::string branch_name = Tagger().BranchName(Stage::trainer);
+    DEBUG(branch_name);
+
+    int branch_value = 0;
+    SetBranch(tree, branch_value, branch_name);
+
+    int branch_size = 0;
+    SetBranch(tree, branch_size, branch_name + "_size");
+
+    //FIXME remove this magic number
+    size_t max_value = 200;
+    std::vector<float> leaf_values(max_value);
+    SetBranch(tree, leaf_values, branch_name + "." + leaf_name);
+
+
+    Plot plot;
+    for (auto const & entry : IntegerRange(tree.GetEntries())) {
+        DETAIL(tree.GetEntries(), entry);
+        tree.GetEntry(entry);
+        for (auto const & element : IntegerRange(branch_size)) plot.Add(Vector3<float>(leaf_values.at(element), 0, 0));
+    }
+    return plot;
+}
+
+
+void Plotting::RunPlotHist() const
+{
+    INFO0;
+    for (auto const & plots : Import2()) PlotVariables(plots);
+}
+
+void Plotting::PlotVariables(Plots const& plots) const
+{
+
+    Histograms histograms(Tagger().ExportFolderName(), plots.Names().Name());
+    for (auto const & plot : plots.PlotVector()) histograms.AddHistogram(plot.XData(), plot.Title().LatexName(), plots.XRange(), plot.x_is_int);
+    histograms.SetLog();
+    histograms.SetLegend(Orientation::outside | Orientation::right);
+    histograms.SetYAxis(Formula("N"));
+    histograms.SetXAxis(plots.Names().LatexName());
+}
 
 Tagger const& Plotting::Tagger() const
 {

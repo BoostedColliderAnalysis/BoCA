@@ -4,6 +4,7 @@
 #pragma once
 
 #include "Names.hh"
+#include "physics/Range.hh"
 #include "physics/Vector3.hh"
 
 namespace boca
@@ -19,11 +20,14 @@ public:
     Names& YAxis();
     Names& Title();
     std::vector<Vector3<float>> const& Data() const;
+    std::vector<float> XData() const;
+    std::vector<float> XCoreData() const;
     std::vector<Vector3<float>> CoreData(std::function<bool (Vector3<float> const&, Vector3<float> const&)> const& function) const;
     void Add(Vector3<float> const& point);
     void Join(std::vector<Vector3<float>> const& data);
     bool x_is_int = false;
     bool y_is_int = false;
+    Range<float> XRange() const;
 private:
     std::vector<Vector3<float>> data_;
     Names x_axis_;

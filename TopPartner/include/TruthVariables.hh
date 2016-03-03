@@ -5,6 +5,7 @@
 
 #include "Identification.hh"
 #include "Particle.hh"
+#include "Jet.hh"
 
 namespace boca
 {
@@ -45,6 +46,15 @@ public:
 
     void SetDetectable(std::vector<Particle> const& jets);
 
+    Energy MissingEt() const;
+
+    Momentum ScalarHt() const;
+
+    void SetMissingEt(boca::MissingEt const& missing_et);
+
+    void SetScalarHt(Momentum const& scalar_ht);
+
+
 private:
     std::vector<Particle> leptons_;
 
@@ -53,6 +63,10 @@ private:
     std::vector<Particle> tops_;
 
     std::vector<Particle> detectable_;
+
+    boca::MissingEt missing_et_;
+
+    Momentum scalar_ht_;
 
 };
 

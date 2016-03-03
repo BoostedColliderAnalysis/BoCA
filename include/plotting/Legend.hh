@@ -61,6 +61,8 @@ public:
 
     void TwoColumn();
 
+    boca::Rectangle<double> Rectangle();
+
 private:
 
     float Width(std::vector<std::string> const& entries) const;
@@ -72,8 +74,6 @@ private:
     void SetStyle();
 
     void SetTitle(std::string const& title);
-
-    boca::Rectangle<double> Rectangle();
 
     TLegend legend_;
 

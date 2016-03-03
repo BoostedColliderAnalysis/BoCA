@@ -18,11 +18,17 @@ class Histograms : public Canvas
 
 public:
 
+    Histograms();
+
     Histograms(std::string const& path, std::string const& name, bool show_title = false);
 
     ~Histograms();
 
+    void Initialize(std::string const& path, std::string const& name, bool show_title = false);
+
     void AddHistogram(std::vector<float> const& values, std::string const& name, Rectangle<float> const& range);
+
+    void AddHistogram(std::vector<float> const& values, std::string const& name, Range<float> const& range, bool is_int = false);
 
     void SetLegend(Orientation orientation, std::string const& title = "");
 

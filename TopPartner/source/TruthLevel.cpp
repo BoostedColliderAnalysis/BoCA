@@ -34,12 +34,12 @@ std::vector<TruthVariables> TruthLevel::Multiplets(Event const& event, PreCuts c
 std::vector<TruthVariables> TruthLevel::Jets(Event const& event, PreCuts const& pre_cuts, std::function<Particle(Particle&)>)const
 {
     INFO0;
-    std::vector<Particle> particle = event.Partons().GenParticles();
     TruthVariables truths;
+    std::vector<Particle> particle = event.Partons().GenParticles();
     truths.SetLeptons(CopyIfGrandMother(CopyIfParticles(particle, Resolve(MultiId::charged_lepton)), Id::top));
-    truths.SetBosons(RemoveIfMother(CopyIfParticles(particle, Resolve(MultiId::bosons)), Resolve(MultiId::bosons)));
+    truths.SetBosons(RemoveIfOnlyMother(RemoveIfMother(CopyIfParticles(particle, Resolve(MultiId::neutral_boson)), Resolve(MultiId::neutral_boson)), Id::top));
     truths.SetTops(CopyIfParticle(particle, Id::top));
-    auto detectable = RemoveIfOnlyMother(RemoveIfMother(CopyIfDaughter(particle, CopyIfMother(RemoveIfSoft(CopyIfQuark(particle), 40_GeV), Resolve(MultiId::bosons))), Resolve(MultiId::bosons)), Id::top);
+    auto detectable = RemoveIfOnlyMother(RemoveIfMother(CopyIfDaughter(particle, CopyIfMother(RemoveIfSoft(CopyIfQuark(particle), 40_GeV), Resolve(MultiId::neutral_boson))), Resolve(MultiId::neutral_boson)), Id::top);
     std::vector<Particle> alone;
     for (auto const & particle_1 : detectable) {
         bool overlap = false;
@@ -47,6 +47,8 @@ std::vector<TruthVariables> TruthLevel::Jets(Event const& event, PreCuts const& 
         if (!overlap) alone.emplace_back(particle_1);
     }
     truths.SetDetectable(alone);
+    truths.SetMissingEt(event.Hadrons().MissingEt());
+    truths.SetScalarHt(event.Hadrons().ScalarHt());
     return {truths};
 }
 

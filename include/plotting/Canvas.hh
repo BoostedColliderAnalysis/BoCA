@@ -15,7 +15,13 @@ class Canvas
 
 public:
 
+    Canvas();
+
     Canvas(std::string const& path, std::string const& name, bool show_title = false);
+
+    void Initialize(std::string const& path, std::string const& name, bool show_title);
+
+    void Initialize(std::string const& path, std::string const& name);
 
     TCanvas const& canvas() const;
 
@@ -53,7 +59,7 @@ private:
      * @brief Make plot backgrounds transparent
      *
      */
-    void Fill();
+    void Initialize();
 
     void SetMargins(bool show_title);
 

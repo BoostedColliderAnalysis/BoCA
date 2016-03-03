@@ -9,7 +9,9 @@
 namespace boca
 {
 
-Plots::Plots(const InfoBranch& info_branch)
+Plots::Plots() {}
+
+Plots::Plots(boca::InfoBranch const& info_branch)
 {
     INFO0;
     info_branch_ = info_branch;
@@ -26,22 +28,45 @@ void Plots::SetNames(NamePairs const& names)
     }
 }
 
-std::vector<Plot> const& Plots::plots() const
+void Plots::SetNames(std::vector<boca::Names> const& names)
+{
+    INFO0;
+    for (auto & plot : plots_) {
+        int index = &plot - &plots_.front();
+        plot.XAxis() = names.at(index);
+        plot.Title() = info_branch_.Names();
+    }
+}
+
+std::vector<Plot> const& Plots::PlotVector() const
 {
     INFO0;
     return plots_;
 }
 
-std::vector<Plot> & Plots::plots()
+std::vector<Plot>& Plots::PlotVector()
 {
     INFO0;
     return plots_;
 }
 
-void Plots::SetName(std::string const& name)
+boca::Range< float > Plots::XRange() const
 {
-    INFO0;
-    name_ = name;
+    Range<float> range;
+    for (auto const & plot : plots_) range.Widen(plot.XRange());
+    return range;
+}
+Names& Plots::Names()
+{
+    return names_;
+}
+Names const& Plots::Names() const
+{
+  return names_;
+}
+boca::InfoBranch const& Plots::InfoBranch() const
+{
+    return info_branch_;
 }
 
 }

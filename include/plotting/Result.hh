@@ -27,6 +27,10 @@ public:
     TMVA::Types::EMVA const& Mva() const;
     void SetModelIndependent(Crosssection crosssection, int step);
     std::vector<Crosssection> ModelIndependent() const;
+    void SetModelIndependentSB(Crosssection crosssection, int step);
+    std::vector<Crosssection> ModelIndependentSB() const;
+    void SetModelIndependentSig(Crosssection crosssection, int step);
+    std::vector<Crosssection> ModelIndependentSig() const;
 private:
     void Inititialize();
     void Calculate();
@@ -39,6 +43,8 @@ private:
     std::vector<float> bdts_;
     std::vector<Crosssection> crosssections_;
     std::vector<Crosssection> model_independent_;
+    std::vector<Crosssection> model_independent_sb_;
+    std::vector<Crosssection> model_independent_sig_;
     boca::InfoBranch info_branch_;
     std::vector<std::vector<bool>> passed_;
     TMVA::Types::EMVA mva_;

@@ -14,15 +14,21 @@ using NamePairs = std::vector<std::pair<Names, Names>>;
 class Plots
 {
 public:
-    Plots(InfoBranch const& info_branch);
+    Plots();
+    Plots(boca::InfoBranch const& info_branch);
     void SetNames(NamePairs const& names);
-    std::vector<Plot> const& plots() const;
-    std::vector<Plot>& plots();
-    void SetName(std::string const& name);
+    void SetNames(const std::vector< boca::Names >& names);
+    std::vector<Plot> const& PlotVector() const;
+    std::vector<Plot>& PlotVector();
+//     void SetName(std::string const& name);
+    boca::Names & Names();
+    boca::Names const& Names() const;
+    Range<float> XRange() const;
+    boca::InfoBranch const& InfoBranch()const;
 private:
     std::vector<Plot> plots_;
-    InfoBranch info_branch_;
-    std::string name_;
+    boca:: InfoBranch info_branch_;
+    boca::Names names_;
 };
 
 }

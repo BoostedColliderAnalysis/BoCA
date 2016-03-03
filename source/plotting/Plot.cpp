@@ -3,6 +3,7 @@
  */
 
 #include <boost/range/algorithm/sort.hpp>
+#include <boost/range/algorithm/transform.hpp>
 
 #include "plotting/Plot.hh"
 #include "Vector.hh"
@@ -77,6 +78,28 @@ std::vector< Vector3< float > > Plot::CoreData(std::function<bool (Vector3<float
     data.erase(data.end() - cut_off, data.end());
     data.erase(data.begin(), data.begin() + cut_off);
     return data;
+}
+std::vector< float > Plot::XData() const
+{
+    std::vector<float> x_data(data_.size());
+    boost::range::transform(data_, std::back_inserter(x_data), [](Vector3<float> const & vector) {
+        return vector.X();
+    });
+    return x_data;
+}
+boca::Range< float > Plot::XRange() const
+{
+    return MinMax(XCoreData());
+}
+std::vector< float > Plot::XCoreData() const
+{
+  INFO0;
+  std::vector<float> data = XData();
+  boost::range::sort(data);
+  int cut_off = data.size() / 25;
+  data.erase(data.end() - cut_off, data.end());
+  data.erase(data.begin(), data.begin() + cut_off);
+  return data;
 }
 
 }

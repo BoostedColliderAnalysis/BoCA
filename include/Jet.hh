@@ -60,6 +60,8 @@ public:
 
     LorentzVector<Momentum> Vector() const;
 
+    float Bdt() const;
+
 private:
 
     void SetInfo(JetInfo const& user_info = JetInfo());

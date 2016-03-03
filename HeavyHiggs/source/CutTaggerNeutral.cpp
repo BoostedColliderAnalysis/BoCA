@@ -46,8 +46,8 @@ std::string CutTaggerNeutral::Name() const
 
 TMVA::Types::EMVA CutTaggerNeutral::Mva() const
 {
-    return TMVA::Types::EMVA::kBDT;
     return TMVA::Types::EMVA::kCuts;
+    return TMVA::Types::EMVA::kBDT;
 }
 
 }

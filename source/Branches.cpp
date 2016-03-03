@@ -1,14 +1,11 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include <iostream>
-#include "Branches.hh"
-#include "TStyle.h"
-#include "TClass.h"
-#include "OBSERVABLE.hh"
-#include "File.hh"
 #include "plotting/Font.hh"
-// #include "Debug.hh"
+#include "Branches.hh"
+#include "File.hh"
+#include "OBSERVABLE.hh"
+#include "Debug.hh"
 
 namespace boca
 {

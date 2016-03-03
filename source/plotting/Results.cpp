@@ -168,6 +168,8 @@ void Results::CalculateSignificances(int step)
     significances_.at(step) = Significance(signal_events, background_events);
     acceptances_.at(step) = Acceptances(signal_events, background_events);
     s_over_b_.at(step) = SOverB(signal_events, background_events);
+    for (auto & signal : signals_) signal.SetModelIndependentSig(ModelIndependentCrosssectionSig(signal.Efficiencies().at(step), step), step);
+    for (auto & signal : signals_) signal.SetModelIndependentSB(ModelIndependentCrosssectionSB(signal.Efficiencies().at(step), step), step);
     for (auto & signal : signals_) signal.SetModelIndependent(ModelIndependentCrosssection(signal.Efficiencies().at(step), step), step);
 }
 
@@ -240,19 +242,16 @@ float Results::BackgroundEvents(int step) const
 
 float Results::Significance(float signal_events, float background_events) const
 {
-    INFO0;
     return /*signal_events +*/ background_events > 0 ? signal_events / std::sqrt(signal_events + background_events) : 0;
 }
 
 float Results::Acceptances(float signal_events, float background_events) const
 {
-    INFO0;
     return background_events > 0 ? signal_events / std::sqrt(background_events) : 0;
 }
 
 float Results::SOverB(float signal_events, float background_events) const
 {
-    INFO0;
     return background_events > 0 ? signal_events / background_events : 0;
 }
 
@@ -264,17 +263,40 @@ Crosssection Results::BackgroundEfficiencyCrosssection(int step) const
     });
 }
 
-Crosssection Results::ModelIndependentCrosssection(double signal_efficiency, int step) const
+namespace
+{
+
+constexpr double ScalingFactor()
+{
+    return 1; // FIXME should usually be 1
+    return 1. / (0.22 * 0.65 * 2);
+}
+
+}
+
+Crosssection Results::ModelIndependentCrosssectionSB(double signal_efficiency, int step) const
 {
     INFO0;
     if (signal_efficiency == 0) return 0_b;
     auto s_over_b_ = 0.01;
-    Crosssection sigma_s_over_b = BackgroundEfficiencyCrosssection(step) / signal_efficiency * s_over_b_;
+    return BackgroundEfficiencyCrosssection(step) / signal_efficiency * s_over_b_ * ScalingFactor();
+}
+
+Crosssection Results::ModelIndependentCrosssectionSig(double signal_efficiency, int step) const
+{
+    INFO0;
+    if (signal_efficiency == 0) return 0_b;
     auto exclusion = 2.;
     auto numerator = exclusion + std::sqrt(sqr(exclusion) + 4. * BackgroundEvents(step));
-    Crosssection sigma_sig = numerator * exclusion / 2. / signal_efficiency / DetectorGeometry::Luminosity();
-    return sigma_s_over_b > 0_b && sigma_sig > 0_b ? max(sigma_s_over_b, sigma_sig) : 0_b;
-//     return sigma_s_over_b > 0_b && sigma_sig > 0_b ? max(sigma_s_over_b, sigma_sig) / (0.22 * 0.65 * 2) : 0_b; // FIXME this can not stay here!!!!!!!!!!!
+    return numerator * exclusion / 2. / signal_efficiency / DetectorGeometry::Luminosity() * ScalingFactor();
+}
+
+Crosssection Results::ModelIndependentCrosssection(double signal_efficiency, int step) const
+{
+    INFO0;
+    auto sig = ModelIndependentCrosssectionSig(signal_efficiency, step);
+    auto sb = ModelIndependentCrosssectionSB(signal_efficiency, step);
+    return sig > 0_b && sb > 0_b ? max(sig, sb) : 0_b;
 }
 
 }

@@ -2,6 +2,7 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "BranchesTopPartner.hh"
+#include "plotting/Font.hh"
 #include "OBSERVABLE.hh"
 
 namespace boca
@@ -42,26 +43,28 @@ TruthBranch::TruthBranch()
     HardBosonNumber = int(InitialValue());
     DetectableBosonNumber = int(InitialValue());
     BosonDeltaRMin = InitialValue();
+    MissingEt = InitialValue();
+    ScalarHt = InitialValue();
 }
 
 Observables TruthBranch::Variables()
 {
-    return OBSERVABLE(TopPt) + OBSERVABLE(LeptonPt) + OBSERVABLE(HardBosonNumber) + OBSERVABLE(SoftestBosonPt) + OBSERVABLE(DetectableBosonNumber) + OBSERVABLE(HardestBosonPt) + OBSERVABLE(BosonDeltaRMin);
+    return OBSERVABLE(TopPt, Formula("p_{T}(t)")) + OBSERVABLE(LeptonPt, Formula("p_{T}(l)")) + OBSERVABLE(HardBosonNumber, Formula("#B^{0}") + "_{hard}") + OBSERVABLE(SoftestBosonPt, Formula("p_{T}(B^{0})") + "_{soft}") + OBSERVABLE(DetectableBosonNumber, Formula("#B^{0}") + "_{detect}") + OBSERVABLE(HardestBosonPt, Formula("p_{T}(B)") + "_{hard}") + OBSERVABLE(BosonDeltaRMin, Formula("#Delta R(B,B)") + "_{min}") + OBSERVABLE(MissingEt, Formula("E_{T}") + "^{miss}") + OBSERVABLE(ScalarHt, Formula("H_{T}"));
 }
 
 NewEventBranch::NewEventBranch()
 {
-  GlobBdt = InitialValue();
-  JetMass = InitialValue();
-  JetPt = InitialValue();
-  JetHt = InitialValue();
-  JetRap = InitialValue();
-  JetPhi = InitialValue();
+    GlobBdt = InitialValue();
+    JetMass = InitialValue();
+    JetPt = InitialValue();
+    JetHt = InitialValue();
+    JetRap = InitialValue();
+    JetPhi = InitialValue();
 }
 
 Observables NewEventBranch::Variables()
 {
-  return MultiBranch::Variables() + OBSERVABLE(GlobBdt, "BDT_{global}") + OBSERVABLE(JetMass, "m_{j}") + OBSERVABLE(JetPt, "p_{T}^{j}") + OBSERVABLE(JetHt, "H_{T}^{j}") + OBSERVABLE(JetRap, "#eta_{j}") + OBSERVABLE(JetPhi, "#phi_{j}");
+    return MultiBranch::Variables() + OBSERVABLE(GlobBdt, "BDT_{global}") + OBSERVABLE(JetMass, "m_{j}") + OBSERVABLE(JetPt, "p_{T}^{j}") + OBSERVABLE(JetHt, "H_{T}^{j}") + OBSERVABLE(JetRap, "#eta_{j}") + OBSERVABLE(JetPhi, "#phi_{j}");
 }
 
 }

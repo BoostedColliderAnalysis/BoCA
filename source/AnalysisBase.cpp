@@ -257,7 +257,7 @@ void AnalysisBase::RunPlots()
 void AnalysisBase::RunPlotHist()
 {
   INFO0;
-  if (Exists(Tagger().ExportFolderName())) return;
+//   if (Exists(Tagger().ExportFolderName())) return;
   Plotting plotting(Tagger());
   PrepareFiles(Stage::trainer);
   plotting.RunPlotHist();
