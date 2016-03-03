@@ -23,9 +23,8 @@ int HeavyHiggsTauTagger::Train(Event const& event, PreCuts const&, Tag tag) cons
 //     HiggsParticles.erase(std::remove_if(HiggsParticles.begin(), HiggsParticles.end(), WrongAbsId(Id::charged_higgs)), HiggsParticles.end());
     CHECK(HiggsParticles.size() == 1, HiggsParticles.size());
     for (auto const & Particle : TauParticles) {
-        std::sort(jets.begin(), jets.end(), MinDeltaRTo(Particle));
-        if (jets.front().DeltaRTo(Particle) < 0.4_rad)
-            jets.front().Info().SetTag(Tag::signal);
+        SortedByMinDeltaRTo(jets, Particle);
+        if (jets.front().DeltaRTo(Particle) < 0.4_rad) jets.front().Info().SetTag(Tag::signal);
     }
     std::vector<Jet>NewCleanJets;
     for (auto const & jet : jets) {

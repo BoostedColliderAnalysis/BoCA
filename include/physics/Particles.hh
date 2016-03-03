@@ -107,7 +107,7 @@ enum class MultiId
 
 std::string Name(MultiId multi_id);
 
-Mass MasOf(MultiId multi_id);
+Mass MassOf(MultiId multi_id);
 
 std::vector<Id> Resolve(MultiId multi_id);
 

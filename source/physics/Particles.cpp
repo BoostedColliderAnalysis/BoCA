@@ -133,7 +133,7 @@ std::string Name(MultiId multi_id)
     }
 }
 
-Mass MasOf(MultiId multi_id)
+Mass MassOf(MultiId multi_id)
 {
     switch (multi_id) {
     case MultiId::neutrino : return massless;

@@ -4,15 +4,16 @@
 #pragma once
 
 #include <boost/range/algorithm/sort.hpp>
+#include <boost/units/cmath.hpp>
 #include "physics/Particles.hh"
 
 namespace boca
 {
 
-template<typename Multiplet>
-std::vector<Multiplet> SortedByMinDeltaRTo(std::vector<Multiplet> multiplets, Jet const& jet)
+template<typename Multiplet_1_, typename Multiplet_2_>
+std::vector<Multiplet_1_> SortedByMinDeltaRTo(std::vector<Multiplet_1_> multiplets, Multiplet_2_ const& jet)
 {
-    return boost::range::sort(multiplets, [& jet](Multiplet const & multiplet1, Multiplet const & multiplet2) {
+    return boost::range::sort(multiplets, [& jet](Multiplet_1_ const & multiplet1, Multiplet_1_ const & multiplet2) {
         return multiplet1.DeltaRTo(jet) < multiplet2.DeltaRTo(jet);
     });
 }

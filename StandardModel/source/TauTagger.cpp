@@ -2,7 +2,7 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "TauTagger.hh"
-  
+
 #include "Sort.hh"
 #include "Vector.hh"
 #include "Event.hh"
@@ -42,9 +42,8 @@ std::vector<Jet> TauTagger::CleanJets(std::vector<Jet>& jets, std::vector<Partic
 {
     INFO("Clean Jets");
     for (auto const & Particle : Particles) {
-        std::sort(jets.begin(), jets.end(), MinDeltaRTo(Particle));
-        if (jets.front().DeltaRTo(Particle) < 0.4_rad)
-            jets.front().Info().SetTag(Tag::signal);
+        SortedByMinDeltaRTo(jets, Particle);
+        if (jets.front().DeltaRTo(Particle) < 0.4_rad) jets.front().Info().SetTag(Tag::signal);
     }
    std::vector<Jet>NewCleanJets;
     for (auto const & Jet : jets) {
