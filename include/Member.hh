@@ -9,7 +9,7 @@ namespace boca
 {
 
 /**
- * @brief Position outside of a vector
+ * @brief Family member with id, position, and 4-momentum
  *
  */
 

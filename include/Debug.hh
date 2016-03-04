@@ -203,7 +203,7 @@ void Log(std::string const& file, int line, std::string const& name_space, std::
 #define NOTE0 DEAD0
 #endif
 
-#define CHECK(condition, ...) if(!(condition)) { ERROR(__VA_ARGS__); }
+#define CHECK(condition, ...) if(!(condition)) { ERROR("Check failed", __VA_ARGS__); }
 #define DEBUG_CHECK(condition, ...) if(!(condition)) { DEBUG(__VA_ARGS__); }
 
 #define DEFAULT_1(condition) default : ERROR("Switch Default", condition); break;

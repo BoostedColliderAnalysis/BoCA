@@ -6,6 +6,7 @@
 #include "Event.hh"
 #include "PreCuts.hh"
 #include "Exception.hh"
+#include "physics/Particles.hh"
 // #define DEBUGGING
 #include "Debug.hh"
 
@@ -35,11 +36,18 @@ std::vector<TruthVariables> TruthLevel::Jets(Event const& event, PreCuts const& 
 {
     INFO0;
     TruthVariables truths;
-    std::vector<Particle> particle = event.Partons().GenParticles();
-    truths.SetLeptons(CopyIfGrandMother(CopyIfParticles(particle, Resolve(MultiId::charged_lepton)), Id::top));
-    truths.SetBosons(RemoveIfOnlyMother(RemoveIfMother(CopyIfParticles(particle, Resolve(MultiId::neutral_boson)), Resolve(MultiId::neutral_boson)), Id::top));
-    truths.SetTops(CopyIfParticle(particle, Id::top));
-    auto detectable = RemoveIfOnlyMother(RemoveIfMother(CopyIfDaughter(particle, CopyIfMother(RemoveIfSoft(CopyIfQuark(particle), 40_GeV), Resolve(MultiId::neutral_boson))), Resolve(MultiId::neutral_boson)), Id::top);
+    std::vector<Particle> particles = event.Partons().GenParticles();
+    std::vector<Particle> bosons = CopyFirst(RemoveIfMother(CopyIfParticles(particles, Resolve(MultiId::bosons)),Id::higgs),6);
+    if(bosons.size() > 6) for (auto const & boson : bosons) {
+        Member particle = boson.Info().Family().Member(Relative::particle);
+        Member mother = boson.Info().Family().Member(Relative::mother);
+        Member step_mother = boson.Info().Family().Member(Relative::step_mother);
+        INFO(boca::Name(particle.Id()), boca::Name(mother.Id()), boca::Name(step_mother.Id()));
+    }
+    truths.SetLeptons(CopyIfGrandMother(CopyIfParticles(particles, Resolve(MultiId::charged_lepton)), Id::top));
+    truths.SetBosons(bosons);
+    truths.SetTops(CopyIfParticle(particles, Id::top));
+    auto detectable = CopyIfDaughter(bosons, RemoveIfSoft(CopyIfQuark(particles), 40_GeV));
     std::vector<Particle> alone;
     for (auto const & particle_1 : detectable) {
         bool overlap = false;
@@ -66,4 +74,5 @@ std::string TruthLevel::LatexName() const
 }
 
 }
+
 

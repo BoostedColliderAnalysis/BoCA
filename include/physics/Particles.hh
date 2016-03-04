@@ -102,7 +102,7 @@ enum class MultiId
     charged_lepton,
     neutrino,
     neutral_boson, ///< Multi particle containing neutral bosons
-    bosons ///< Multi particle containing neutral bosons
+    bosons ///< Multi particle containing bosons
 };
 
 std::string Name(MultiId multi_id);

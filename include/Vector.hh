@@ -88,13 +88,16 @@ std::vector<Particle> CopyIfGrandDaughter(std::vector<Particle> const& particles
 
 std::vector<Particle> CopyIfPosition(std::vector<Particle> const& particles, int position_1, int position_2);
 
+std::vector<Particle> CopyFirst(std::vector<Particle> particles, int number);
+
 template<typename Multiplet_>
-std::vector<Multiplet_> CopyIfTag(std::vector<Multiplet_> const& multiplets, float value = 0){
-  std::vector<Multiplet_> tags;
-  boost::range::copy(multiplets | boost::adaptors::filtered([value](Multiplet_ const& multiplet){
-    return multiplet.Bdt() > 0;
-  }), std::back_inserter(tags));
-  return tags;
+std::vector<Multiplet_> CopyIfTag(std::vector<Multiplet_> const& multiplets, float value = 0)
+{
+    std::vector<Multiplet_> tags;
+    boost::range::copy(multiplets | boost::adaptors::filtered([value](Multiplet_ const & multiplet) {
+        return multiplet.Bdt() > 0;
+    }), std::back_inserter(tags));
+    return tags;
 }
 
 /**
@@ -168,18 +171,10 @@ bool FindInVector(const std::vector<Element> vector, const Element element)
     return boost::range::find(vector, element) != vector.end();
 }
 
-template <typename Multiplet_>
-Particle ClosestJet(std::vector<Particle> const& particles, Multiplet_ const& multiplet)
+template <typename Multiplet_1_, typename Multiplet_2_>
+Multiplet_1_ ClosestJet(std::vector<Multiplet_1_> const& particles, Multiplet_2_ const& multiplet)
 {
     return *boost::range::min_element(particles, [&](Jet const & jet_1, Jet const & jet_2) {
-        return jet_1.DeltaRTo(multiplet.Jet()) < jet_2.DeltaRTo(multiplet.Jet());
-    });
-}
-
-template <typename Multiplet_>
-Jet ClosestJet(std::vector<Jet> const& jets, Multiplet_ const& multiplet)
-{
-    return *boost::range::min_element(jets, [&](Jet const & jet_1, Jet const & jet_2) {
         return jet_1.DeltaRTo(multiplet.Jet()) < jet_2.DeltaRTo(multiplet.Jet());
     });
 }
@@ -188,10 +183,10 @@ Jet ClosestJet(std::vector<Jet> const& jets, Multiplet_ const& multiplet)
  * @brief Join two std::vector
  *
  */
-template <typename Element>
-std::vector<Element> Join(std::vector<Element> const& vector_1, std::vector<Element> const& vector_2)
+template <typename Element_>
+std::vector<Element_> Join(std::vector<Element_> const& vector_1, std::vector<Element_> const& vector_2)
 {
-    std::vector<Element> joined;
+    std::vector<Element_> joined;
     joined.reserve(vector_1.size() + vector_2.size());
     joined.insert(joined.end(), vector_1.begin(), vector_1.end());
     joined.insert(joined.end(), vector_2.begin(), vector_2.end());
@@ -202,10 +197,10 @@ std::vector<Element> Join(std::vector<Element> const& vector_1, std::vector<Elem
  * @brief Join three std::vector
  *
  */
-template <typename Element>
-std::vector<Element> Join(std::vector<Element> const& vector_1, std::vector<Element> const& vector_2, std::vector<Element> const& vector_3)
+template <typename Element_>
+std::vector<Element_> Join(std::vector<Element_> const& vector_1, std::vector<Element_> const& vector_2, std::vector<Element_> const& vector_3)
 {
-    std::vector<Element> joined;
+    std::vector<Element_> joined;
     joined.reserve(vector_1.size() + vector_2.size() + vector_3.size());
     joined.insert(joined.end(), vector_1.begin(), vector_1.end());
     joined.insert(joined.end(), vector_2.begin(), vector_2.end());
@@ -217,10 +212,10 @@ std::vector<Element> Join(std::vector<Element> const& vector_1, std::vector<Elem
  * @brief forms all \f$(n^2 - n)\f$ ordered pairs of vector elements, applies to them the function and returns a vector of its results
  *
  */
-template < typename Element,
+template < typename Element_,
          typename Function,
-         typename Result = typename std::result_of<Function&(Element, Element)>::type >
-auto OrderedPairs(std::vector<Element> const& container, Function function)
+         typename Result = typename std::result_of<Function&(Element_, Element_)>::type >
+auto OrderedPairs(std::vector<Element_> const& container, Function function)
 {
     std::vector<Result> results;
     for (auto element_1 = container.begin(); element_1 != container.end(); ++element_1) {
@@ -240,10 +235,10 @@ auto OrderedPairs(std::vector<Element> const& container, Function function)
  * @brief forms all \f$(n^2 - n) / 2\f$ unordered pairs, applies to them the function and returns a vector of its results
  *
  */
-template < typename Element, typename Function, typename Result = typename std::result_of<Function&(Element, Element)>::type >
-auto UnorderedPairs(std::vector<Element> const& container, Function function)
+template < typename Element_, typename Function_, typename Result_ = typename std::result_of<Function_&(Element_, Element_)>::type >
+auto UnorderedPairs(std::vector<Element_> const& container, Function_ function)
 {
-    std::vector<Result> results;
+    std::vector<Result_> results;
     for (auto element_1 = container.begin(); element_1 != container.end(); ++element_1) {
         for (auto element_2 = std::next(element_1); element_2 != container.end(); ++element_2)
             try {
@@ -257,10 +252,10 @@ auto UnorderedPairs(std::vector<Element> const& container, Function function)
  * @brief forms all \f$n \times m\f$ pairs of the elements in the two containers, applies the function and returns a vector of its elements
  *
  */
-template < typename Element1, typename Element2, typename Function, typename Result = typename std::result_of<Function&(Element1, Element2)>::type >
-auto Pairs(std::vector<Element1> const& container_1, std::vector<Element2> const& container_2, Function function)
+template < typename Element_1_, typename Element_2_, typename Function_, typename Result_ = typename std::result_of<Function_&(Element_1_, Element_2_)>::type >
+auto Pairs(std::vector<Element_1_> const& container_1, std::vector<Element_2_> const& container_2, Function_ function)
 {
-    std::vector<Result> results;
+    std::vector<Result_> results;
     for (auto const & element_1 : container_1) {
         for (auto const & element_2 : container_2) {
             try {
@@ -271,14 +266,14 @@ auto Pairs(std::vector<Element1> const& container_1, std::vector<Element2> const
     return results;
 }
 
-template < typename Element1, typename Element2, typename Function, typename Result = typename std::result_of<Function&(Element1, Element1, Element2)>::type >
+template < typename Element_1_, typename Element_2_, typename Function_, typename Result_ = typename std::result_of<Function_&(Element_1_, Element_1_, Element_2_)>::type >
 /**
  * @brief forms all \f$(n^2 - n) / 2 \times m\f$ triples, applies to them the function and returns a vector of its results
  *
  */
-auto Triples(std::vector<Element1> const& container_1, std::vector<Element2> const& container_2, Function function)
+auto Triples(std::vector<Element_1_> const& container_1, std::vector<Element_2_> const& container_2, Function_ function)
 {
-    std::vector<Result> results;
+    std::vector<Result_> results;
     for (auto element_1 = container_1.begin(); element_1 != container_1.end(); ++element_1) {
         for (auto element_2 = std::next(element_1); element_2 != container_1.end(); ++element_2)
             for (auto & element_3 : container_2) {
@@ -290,18 +285,18 @@ auto Triples(std::vector<Element1> const& container_1, std::vector<Element2> con
     return results;
 }
 
-template < typename Element1,
-         typename Element2,
-         typename Element3,
-         typename Function,
-         typename Result = typename std::result_of<Function&(Element1, Element2, Element3)>::type >
+template < typename Element_1_,
+         typename Element_2_,
+         typename Element_3_,
+         typename Function_,
+         typename Result_ = typename std::result_of<Function_&(Element_1_, Element_2_, Element_3_)>::type >
 /**
  * @brief forms all \f$(n^2 - n) / 2 \times m\f$ triples, applies to them the function and returns a vector of its results
  *
  */
-auto Triples(std::vector<Element1> const& container_1, std::vector<Element2> const& container_2, std::vector<Element3> const& container_3, Function function)
+auto Triples(std::vector<Element_1_> const& container_1, std::vector<Element_2_> const& container_2, std::vector<Element_3_> const& container_3, Function_ function)
 {
-    std::vector<Result> results;
+    std::vector<Result_> results;
     for (auto const & element_1 : container_1) {
         for (auto const & element_2 : container_2) {
             for (auto const & element_3 : container_3) {

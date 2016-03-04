@@ -3,6 +3,7 @@
  */
 #include<functional>
 #include "boost/range/algorithm/find_if.hpp"
+#include "boost/range/algorithm/sort.hpp"
 #include "Vector.hh"
 
 #include "Types.hh"
@@ -249,6 +250,16 @@ std::vector<Particle> CopyIfPosition(std::vector<Particle> const& particles, int
     }), std::back_inserter(good));
     return good;
 }
+
+std::vector<Particle> CopyFirst(std::vector<Particle> particles, int number)
+{
+    if (particles.size() <= number) return particles;
+    particles = boost::range::sort(particles, [](Particle const & particle_1, Particle const & particle_2) {
+        return particle_1.Info().Family().Member(Relative::particle).Position() < particle_2.Info().Family().Member(Relative::particle).Position();
+    });
+    return {particles.begin(), particles.begin() + number};
+}
+
 std::vector< Particle > CopyIfDrellYan(const std::vector< Particle >& particles)
 {
     return CopyIfPosition(particles, 6, 7);

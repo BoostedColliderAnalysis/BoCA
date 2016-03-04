@@ -39,7 +39,7 @@ Momentum TruthVariables::SoftBosonPt() const
 }
 Angle TruthVariables::BosonDeltaRMin() const
 {
-    return *boost::min_element(UnorderedPairs(bosons_, [](Particle const & particle_1, Particle const & particle_2) {
+    return bosons_.empty() ? 0_rad : *boost::min_element(UnorderedPairs(bosons_, [](Particle const & particle_1, Particle const & particle_2) {
         return particle_1.DeltaRTo(particle_2);
     }));
 }
@@ -49,7 +49,7 @@ void TruthVariables::SetLeptons(const std::vector< Particle >& leptons)
 }
 void TruthVariables::SetBosons(const std::vector< Particle >& bosons)
 {
-    CHECK(bosons.size() == 4, bosons.size());
+    CHECK(bosons.size() == 6, bosons.size());
     bosons_ = SortedByPt(bosons);
 }
 void TruthVariables::SetTops(const std::vector< Particle >& tops)
