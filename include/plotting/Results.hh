@@ -31,6 +31,8 @@ public:
     std::vector<float> const& Significances()const;
     std::vector<float> const& Acceptances()const;
     std::vector<float> const& SOverB() const;
+    void Efficiencies();
+    std::vector<float> const& SelectedEfficiencies() const;;
 private:
     void CalculateSignificances(int step);
     float SignalEvents(int step) const;
@@ -57,6 +59,7 @@ private:
     int best_model_independent_bin_ = 0;
     int best_acceptance_bin_ = 0;
     int best_s_over_b_bin_ = 0;
+    std::vector<float> selected_efficiencies_;
 };
 
 }

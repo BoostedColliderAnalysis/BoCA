@@ -47,8 +47,8 @@ protected:
 private:
 
     int PassPreCut(Event const& event, Tag) const override {
-        if (event.Hadrons().Jets().size() < 5) return 0;
-        if (event.Leptons().leptons().size() < 1) return 0;
+//         if (event.Hadrons().Jets().size() < 5) return 0;
+//         if (event.Leptons().leptons().size() < 1) return 0;
         return 1;
     }
 

@@ -54,8 +54,12 @@ public:
 
     void SetScalarHt(Momentum const& scalar_ht);
 
+    void SetJets(std::vector<Jet> const& jets);
+
+    Momentum JetPt(int number) const;
 
 private:
+
     std::vector<Particle> leptons_;
 
     std::vector<Particle> bosons_;
@@ -63,6 +67,8 @@ private:
     std::vector<Particle> tops_;
 
     std::vector<Particle> detectable_;
+
+    std::vector<Jet> jets_;
 
     boca::MissingEt missing_et_;
 

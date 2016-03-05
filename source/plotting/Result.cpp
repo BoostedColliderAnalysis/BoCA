@@ -170,5 +170,17 @@ std::vector< Crosssection > Result::ModelIndependentSig() const
 {
   return model_independent_sig_;
 }
+std::vector<float > const& Result::SelectedEfficiencies() const
+{
+    return selected_efficiencies_;
+}
+void Result::AddSelectedEfficiency(float selected_efficiency)
+{
+    selected_efficiencies_.emplace_back(selected_efficiency);
+}
+void Result::AddSelectedEfficiency(int index)
+{
+  selected_efficiencies_.emplace_back(PureEfficiencies().at(index));
+}
 
 }

@@ -12,6 +12,7 @@ LatexFile::LatexFile(std::string const& name)
     latex_file_ << "\\documentclass[a4paper,11pt]{article}\n\n"
                 << "\\usepackage{booktabs}\n"
                 << "\\usepackage{graphicx}\n"
+                << "\\usepackage{amsmath}\n"
                 // << "\\usepackage[landscape]{geometry}\n"
                 << "\\usepackage[cm]{fullpage}\n"
                 << "\\usepackage{units}\n"
@@ -45,6 +46,11 @@ void LatexFile::IncludeGraphic(std::string file_name, std::string caption)
 {
     latex_file_ << "\n\\begin{figure}\n\\centering\n\\includegraphics[width=0.5\\textwidth]{{{../" + file_name + "}}}\n\\caption{" + caption + ".}\n\\end{figure}\n";
 //         return "\n\\begin{figure}\n\\centering\n\\scalebox{0.6}{\\input{" + file_name + "}}\n\\caption{" + caption + ".}\n\\end{figure}\n";
+}
+
+void LatexFile::IncludeGraphic(std::vector< std::string > const& file_names, std::string const& caption)
+{
+    for (auto const & name : file_names) IncludeGraphic(name, caption);
 }
 
 void LatexFile::Table(std::string const& header, std::string const& content, std::string caption)

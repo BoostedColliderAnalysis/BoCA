@@ -8,6 +8,7 @@
 #include <boost/range/numeric.hpp>
 
 #include "Types.hh"
+#include "Vector.hh"
 #include "physics/Units.hh"
 #include "DetectorGeometry.hh"
 // #define DEBUGGING
@@ -97,7 +98,7 @@ Results::Results(std::vector<Result> signals, std::vector<Result> backgrounds)
     acceptances_.resize(Steps(), 0);
     s_over_b_.resize(Steps(), 0);
     x_values_.resize(Steps(), 0);
-    for (auto & x_value : x_values_) x_value = XValue(&x_value - &x_values_.front());
+    for (auto & x_value : x_values_) x_value = XValue(Position(x_values_, x_value));
     ExtremeXValues();
 }
 
@@ -214,6 +215,23 @@ void Results::BestBins()
     }
 }
 
+void Results::Efficiencies()
+{
+    INFO0;
+    int steps = 10;
+    auto sig_eff = signals_.front().PureEfficiencies();
+    for (float eff : IntegerRange(1, steps)) {
+        float& elem = *(boost::range::lower_bound(sig_eff, eff / steps, [](float i, float j) {
+            return i > j;
+        }) - 1);
+        signals_.front().AddSelectedEfficiency(elem);
+        int index = Position(sig_eff, elem);
+        selected_efficiencies_.emplace_back(XValue(index));
+        if (index >= sig_eff.size()) index = 0;
+        for (auto & background : backgrounds_) background.AddSelectedEfficiency(index);
+    }
+}
+
 float Results::XValue(int value) const
 {
     INFO(value);
@@ -297,6 +315,10 @@ Crosssection Results::ModelIndependentCrosssection(double signal_efficiency, int
     auto sig = ModelIndependentCrosssectionSig(signal_efficiency, step);
     auto sb = ModelIndependentCrosssectionSB(signal_efficiency, step);
     return sig > 0_b && sb > 0_b ? max(sig, sb) : 0_b;
+}
+const std::vector< float >& Results::SelectedEfficiencies() const
+{
+    return selected_efficiencies_;
 }
 
 }

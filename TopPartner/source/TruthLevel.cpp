@@ -57,6 +57,7 @@ std::vector<TruthVariables> TruthLevel::Jets(Event const& event, PreCuts const& 
     truths.SetDetectable(alone);
     truths.SetMissingEt(event.Hadrons().MissingEt());
     truths.SetScalarHt(event.Hadrons().ScalarHt());
+    truths.SetJets(event.Hadrons().Jets());
     return {truths};
 }
 

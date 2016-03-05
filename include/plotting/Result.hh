@@ -31,6 +31,9 @@ public:
     std::vector<Crosssection> ModelIndependentSB() const;
     void SetModelIndependentSig(Crosssection crosssection, int step);
     std::vector<Crosssection> ModelIndependentSig() const;
+    std::vector<float> const& SelectedEfficiencies() const;
+    void AddSelectedEfficiency(float selected_efficiency);
+    void AddSelectedEfficiency(int selected_efficiency);
 private:
     void Inititialize();
     void Calculate();
@@ -48,6 +51,7 @@ private:
     boca::InfoBranch info_branch_;
     std::vector<std::vector<bool>> passed_;
     TMVA::Types::EMVA mva_;
+    std::vector<float> selected_efficiencies_;
 };
 
 }

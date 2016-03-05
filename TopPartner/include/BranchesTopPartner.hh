@@ -149,6 +149,7 @@ public:
     float BosonDeltaRMin;
     float MissingEt;
     float ScalarHt;
+    float JetPt;
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         TopPt = multiplet.TopPt(0) / GeV;
@@ -161,6 +162,7 @@ public:
         BosonDeltaRMin = multiplet.BosonDeltaRMin() / rad;
         MissingEt = multiplet.MissingEt() / GeV;
         ScalarHt = multiplet.ScalarHt() / GeV;
+        JetPt = multiplet.JetPt(0) / GeV;
     }
     virtual Observables Variables();
 private:

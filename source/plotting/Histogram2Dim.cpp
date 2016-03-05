@@ -6,6 +6,7 @@
 #include "plotting/Histogram2Dim.hh"
 #include "plotting/Font.hh"
 #include "Colors.hh"
+#include "Vector.hh"
 // #define INFORMATION
 #include "Debug.hh"
 
@@ -42,7 +43,7 @@ void Histogram2Dim::Draw()
     bool first = true;
     for (auto & histogram : histograms_) {
         histogram.Draw(options.c_str());
-        execs_.at(&histogram - &histograms_.front()).Draw();
+        execs_.at(Position(histograms_, histogram)).Draw();
         if (first) options += " same";
     }
     legend_.Draw();
@@ -79,11 +80,11 @@ TExec Histogram2Dim::Exec(EColor color)
     INFO0;
     TExec exec;
     switch (color) {
-      case kRed : exec.SetAction(Red::Action().c_str());
+    case kRed : exec.SetAction(Red::Action().c_str());
         break;
-      case kBlue : exec.SetAction(Blue::Action().c_str());
+    case kBlue : exec.SetAction(Blue::Action().c_str());
         break;
-    DEFAULT(color);
+        DEFAULT(color);
     }
     return exec;
 }

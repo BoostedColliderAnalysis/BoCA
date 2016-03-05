@@ -18,7 +18,7 @@ Color::Color()
 
 void Color::Initialize()
 {
-    if (Palette().size() > 0) return;
+    if (!Palette().empty()) return;
     CHECK(Length().size() == red().size(), red().size());
     CHECK(Length().size() == green().size(), green().size());
     CHECK(Length().size() == blue().size(), blue().size());
@@ -117,60 +117,5 @@ std::string Heat::Action()
 {
     return "boca::Heat();";
 }
-
-// namespace
-// {
-//
-// std::vector<int> Table(std::vector<double>& length, std::vector<double>& red, std::vector<double>& green, std::vector<double>& blue)
-// {
-//     std::vector<int> colors(50);
-//     int color_table = TColor::CreateGradientColorTable(length.size(), &length.front(), &red.front(), &green.front(), &blue.front(), colors.size());
-//     for (auto & color : colors) color = color_table + (&color - &colors.front());
-//     return colors;
-// }
-//
-// void Colors(bool& initialized, std::vector<double>& length, std::vector<double>& red, std::vector<double>& green, std::vector<double>& blue, std::vector<int>& colors)
-// {
-//     if (!initialized) {
-//         colors = Table(length, red, green, blue);
-//         initialized = true;
-//     }
-//     gStyle->SetPalette(colors.size(), &colors.front());
-// }
-//
-// }
-//
-// void Color::Red()
-// {
-//     std::vector<double> red = { 1, 1};
-//     std::vector<double> green = { 1, 0};
-//     std::vector<double> blue = { 1, 0};
-//     std::vector<double> length = { 0, 1};
-//     static std::vector<int> colors;
-//     static bool initialized = false;
-//     Colors(initialized, length, red, green, blue, colors);
-// }
-//
-// void Color::Blue()
-// {
-//     std::vector<double> red = { 1, 0};
-//     std::vector<double> green = { 1, 0};
-//     std::vector<double> blue = { 1, 1};
-//     std::vector<double> length = { 0, 1};
-//     static std::vector<int> colors;
-//     static bool initialized = false;
-//     Colors(initialized, length, red, green, blue, colors);
-// }
-//
-// void Color::Heat()
-// {
-//     std::vector<double> length = { 0., 0.34, 0.61, 0.84, 1. };
-//     std::vector<double> red = { 0., 0., 0.87, 1., 0.51 };
-//     std::vector<double> green = { 0., 0.81, 1., 0.2, 0. };
-//     std::vector<double> blue = { 0.51, 1., 0.12, 0., 0. };
-//     static std::vector<int> colors;
-//     static bool initialized = false;
-//     Colors(initialized, length, red, green, blue, colors);
-// }
 
 }

@@ -24,6 +24,8 @@ public:
 
     void IncludeGraphic(std::string file_name, std::string caption);
 
+    void IncludeGraphic(std::vector<std::string>  const& file_names, std::string  const& caption);
+
     void Table(std::string const& header, std::string const& content, std::string caption);
 
     void Mass(boca::Mass mass);

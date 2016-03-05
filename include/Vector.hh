@@ -165,8 +165,14 @@ std::vector<Multiplet_> CopyIfClose(std::vector<Multiplet_> const& multiplets, s
 //     return final_multiplets;
 }
 
-template <typename Element>
-bool FindInVector(const std::vector<Element> vector, const Element element)
+template <typename Element_>
+int Position(std::vector<Element_> const& vector, Element_ const& element)
+{
+    return std::addressof(element) - std::addressof(vector.front());
+}
+
+template <typename Element_>
+bool FindInVector(const std::vector<Element_> vector, const Element_ element)
 {
     return boost::range::find(vector, element) != vector.end();
 }

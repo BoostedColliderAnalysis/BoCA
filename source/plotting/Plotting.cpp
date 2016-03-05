@@ -38,9 +38,12 @@ void Plotting::TaggingEfficiency() const
 {
     INFO0;
     Results results = ReadBdtFiles();
-    PlotHistograms(results);
-    PlotEfficiencyGraph(results);
-    PlotAcceptanceGraph(results);
+    results.Efficiencies();
+    LatexFile latex_file(Tagger().ExportFolderName());
+    latex_file.IncludeGraphic(PlotHistograms(results), "BDT Distribution");
+    latex_file.IncludeGraphic(PlotAcceptanceGraph(results), "Acceptance");
+    latex_file.IncludeGraphic(PlotEfficiencyGraph(results), "Efficiency");
+    latex_file.Table("rllllllllll", CutEfficiencyTable(results), "Tagging rates and fake rates");
 }
 
 void Plotting::OptimalCuts() const
@@ -192,16 +195,19 @@ std::string Plotting::PlotEfficiencyGraph(Results const& results) const
     return graphs.FileBaseName();
 }
 
-void Plotting::PlotAcceptanceGraph(Results const& results) const
+std::vector<std::string> Plotting::PlotAcceptanceGraph(Results const& results) const
 {
     INFO0;
+    std::vector<std::string> names;
     for (auto const & signal : results.Signals()) {
-        Graphs graphs(Tagger().ExportFolderName(), "Acceptance" + std::to_string(&signal - &results.Signals().front()));
+        Graphs graphs(Tagger().ExportFolderName(), "Acceptance" + std::to_string(Position(results.Signals(), signal)));
         for (auto const & background : results.Backgrounds()) graphs.AddGraph(signal.PureEfficiencies(), background.PureEfficiencies(), background.InfoBranch().LatexName());
         graphs.SetLegend(Orientation::right | Orientation::bottom, signal.InfoBranch().LatexName());
         graphs.SetXAxis("Signal acceptance", {0.2, 0.9});
         graphs.SetYAxis("Background acceptance");
+        names.emplace_back(graphs.FileBaseName());
     }
+    return names;
 }
 
 void Plotting::SetDefaultXAxis(Graphs& graphs, Results const& results) const
@@ -289,28 +295,28 @@ std::string Plotting::PlotModelIndependentGraph(Results const& results) const
 
 std::string Plotting::PlotModelIndependentGraphSB(Results const& results) const
 {
-  INFO0;
-  Graphs graphs(Tagger().ExportFolderName(), "ExclusionSB");
-  for (auto const & signal : results.Signals()) graphs.AddGraph(results.XValues(), FloatVector(signal.ModelIndependentSB()), signal.InfoBranch().LatexName());
-  graphs.AddLine(results.BestModelDependentValue(), "Dependent");
-  graphs.AddLine(results.BestModelInDependentValue(), "Independent");
-  graphs.SetLegend(Orientation::left | Orientation::bottom, "Model");
-  graphs.SetYAxis("Exclusion crosssection [fb]");
-  SetDefaultXAxis(graphs, results);
-  return graphs.FileBaseName();
+    INFO0;
+    Graphs graphs(Tagger().ExportFolderName(), "ExclusionSB");
+    for (auto const & signal : results.Signals()) graphs.AddGraph(results.XValues(), FloatVector(signal.ModelIndependentSB()), signal.InfoBranch().LatexName());
+    graphs.AddLine(results.BestModelDependentValue(), "Dependent");
+    graphs.AddLine(results.BestModelInDependentValue(), "Independent");
+    graphs.SetLegend(Orientation::left | Orientation::bottom, "Model");
+    graphs.SetYAxis("Exclusion crosssection [fb]");
+    SetDefaultXAxis(graphs, results);
+    return graphs.FileBaseName();
 }
 
 std::string Plotting::PlotModelIndependentGraphSig(Results const& results) const
 {
-  INFO0;
-  Graphs graphs(Tagger().ExportFolderName(), "ExclusionSig");
-  for (auto const & signal : results.Signals()) graphs.AddGraph(results.XValues(), FloatVector(signal.ModelIndependentSig()), signal.InfoBranch().LatexName());
-  graphs.AddLine(results.BestModelDependentValue(), "Dependent");
-  graphs.AddLine(results.BestModelInDependentValue(), "Independent");
-  graphs.SetLegend(Orientation::left | Orientation::bottom, "Model");
-  graphs.SetYAxis("Exclusion crosssection [fb]");
-  SetDefaultXAxis(graphs, results);
-  return graphs.FileBaseName();
+    INFO0;
+    Graphs graphs(Tagger().ExportFolderName(), "ExclusionSig");
+    for (auto const & signal : results.Signals()) graphs.AddGraph(results.XValues(), FloatVector(signal.ModelIndependentSig()), signal.InfoBranch().LatexName());
+    graphs.AddLine(results.BestModelDependentValue(), "Dependent");
+    graphs.AddLine(results.BestModelInDependentValue(), "Independent");
+    graphs.SetLegend(Orientation::left | Orientation::bottom, "Model");
+    graphs.SetYAxis("Exclusion crosssection [fb]");
+    SetDefaultXAxis(graphs, results);
+    return graphs.FileBaseName();
 }
 
 std::string Plotting::BestValueTable(Results const& results) const
@@ -353,12 +359,36 @@ std::string Plotting::EfficienciesRow(Result const& result, int index, Tag tag, 
 {
     INFO0;
     std::stringstream row;
-    row << " \\verb|" << Tagger().TreeNames(tag).at(index) << "|";
+//     row << " \\verb|" << Tagger().TreeNames(tag).at(index) << "|";
+    row << " \\verb|" << result.InfoBranch().LatexName() << "|";
     row << "\n  & " << result.InfoBranch().EventNumber();
     row << "\n  & " << result.EventSums().at(bin);
     row << "\n  & " << RoundToDigits(result.Efficiencies().at(bin));
     row << "\n  & " << RoundToDigits(result.InfoBranch().Crosssection() / fb);
     row << "\n  & " << RoundToDigits(result.InfoBranch().Crosssection() * DetectorGeometry::Luminosity() * result.Efficiencies().at(bin));
+    row << "\n \\\\";
+    return row.str();
+}
+
+std::string Plotting::CutEfficiencyTable(Results const& results) const
+{
+    INFO0;
+    std::stringstream table;
+    table << "  & \\multicolumn{9}{c}{Pure Efficiencies [\\%]}\n \\\\\n    BDT value";
+    for (auto const & eff : results.SelectedEfficiencies()) table << "\n  & " << RoundToDigits(eff);
+    table << "\n \\\\ \\midrule\n   ";
+    for (auto const & result : results.Signals()) table << CutEfficiencyRow(result, &result - &results.Signals().front(), Tag::signal);
+    for (auto const & result : results.Backgrounds()) table << CutEfficiencyRow(result, &result - &results.Backgrounds().front(), Tag::background);
+    return table.str();
+}
+
+std::string Plotting::CutEfficiencyRow(Result const& result, int index, Tag tag) const
+{
+    INFO0;
+    std::stringstream row;
+    //   row << " \\verb|" << Tagger().TreeNames(tag).at(index) << "|";
+    row << " \\verb|" << result.InfoBranch().LatexName() << "|";
+    for (auto const & eff : result.SelectedEfficiencies()) row << "\n  & " << RoundToDigits(eff * 100);
     row << "\n \\\\";
     return row.str();
 }
@@ -372,7 +402,7 @@ void Plotting::RunPlots(Stage stage) const
     std::vector<Plots> backgrounds = Import(stage, Tag::background);
     Plots background = backgrounds.front();
     background = std::accumulate(backgrounds.begin() + 1, backgrounds.end(), background, [](Plots & sum, Plots const & plots) {
-        for (auto & plot : sum.PlotVector()) plot.Join(plots.PlotVector().at(&plot - &sum.PlotVector().front()).Data());
+        for (auto & plot : sum.PlotVector()) plot.Join(plots.PlotVector().at(Position(sum.PlotVector(), plot)).Data());
         return sum;
     });
     background.Names().SetName("background");
@@ -387,7 +417,7 @@ void Plotting::DoPlot(Plots& signals, Plots& backgrounds, Stage stage) const
     });
     signals.SetNames(names);
     backgrounds.SetNames(names);
-    for (auto & signal : signals.PlotVector()) PlotDetails(signal, backgrounds.PlotVector().at(&signal - &signals.PlotVector().front()), stage);
+    for (auto & signal : signals.PlotVector()) PlotDetails(signal, backgrounds.PlotVector().at(Position(signals.PlotVector(), signal)), stage);
 }
 
 void Plotting::PlotDetails(Plot& signal, Plot& background, Stage stage) const
@@ -545,7 +575,7 @@ Plots Plotting::PlotResult3(Observable const& variable) const
     ERROR0;
     Plots plots;
     plots.Names() = variable.Names();
-    for (auto const & tag : std::vector<Tag>({Tag::signal, Tag::background})) PlotResult2(variable, tag, plots);
+    for (auto const & tag : std::vector<Tag>( {Tag::signal, Tag::background})) PlotResult2(variable, tag, plots);
     return plots;
 }
 
@@ -562,7 +592,7 @@ Plots Plotting::PlotResult2(Observable const& variable, Tag tag, Plots& plots) c
         tree.SetMakeClass(true);
         Plot plot = ReadTree2(tree, variable.Name());
         plot.x_is_int = variable.IsInt();
-        plot.Title() = branches.at(&tree_name - &names.front()).Names();
+        plot.Title() = branches.at(Position(names, tree_name)).Names();
         plots.PlotVector().emplace_back(plot);
     }
     return plots;
@@ -620,4 +650,5 @@ Tagger const& Plotting::Tagger() const
 }
 
 }
+
 

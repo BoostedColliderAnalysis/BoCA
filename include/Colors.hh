@@ -57,12 +57,4 @@ private:
     static std::vector<int> palette_;
 };
 
-// class Color
-// {
-// public:
-//     void Red();
-//     void Blue();
-//     void Heat();
-// };
-
 }
