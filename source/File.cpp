@@ -24,6 +24,18 @@ File::File(std::vector<std::string> const& processes, std::string const& base_pa
     mass_ = mass;
 }
 
+File::File(std::vector<std::string> const& processes, std::string const& base_path, std::string const& file_suffix, boca::Names const& nice_name, boca::Crosssection crosssection, boca::Mass mass)
+{
+  INFO0;
+  SetVariables();
+  process_folders_ = processes;
+  base_path_ = base_path;
+  file_suffix_ = file_suffix;
+  crosssection_ = crosssection;
+  names_ = nice_name;
+  mass_ = mass;
+}
+
 std::string File::FileSuffix() const
 {
     INFO0;

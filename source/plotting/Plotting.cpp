@@ -46,6 +46,22 @@ void Plotting::TaggingEfficiency() const
     latex_file.Table("rllllllllll", CutEfficiencyTable(results), "Tagging rates and fake rates");
 }
 
+namespace
+{
+
+std::string Significance(int min = 0)
+{
+    return " $\\frac{S}{\\sqrt{S + B}}" + (min > 0 ? "\\geq" + std::to_string(min) + "$ " : "$ ");
+}
+
+std::string Ratio(int min = 0)
+{
+    return " $\\frac{S}{B}" + (min > 0 ? "\\geq \\unit[" + std::to_string(min) + "]{\\%}$ " : "$ ");
+
+}
+
+}
+
 void Plotting::OptimalCuts() const
 {
     INFO0;
@@ -56,16 +72,25 @@ void Plotting::OptimalCuts() const
     if (Tagger().Mva() == TMVA::Types::EMVA::kBDT) latex_file.IncludeGraphic(PlotHistograms(results), "BDT Distribution");
     latex_file.IncludeGraphic(PlotEfficiencyGraph(results), "Efficiency");
     latex_file.IncludeGraphic(PlotCrosssectionsGraph(results), "Crosssection in fb");
-    latex_file.IncludeGraphic(PlotModelIndependentGraph(results), "Minimization of the crosssection for the model-independent result");
-    latex_file.IncludeGraphic(PlotModelIndependentGraphSig(results), "Model indep sig");
-    latex_file.IncludeGraphic(PlotModelIndependentGraphSB(results), "Model indep s/b");
-    latex_file.IncludeGraphic(PlotModelDependentGraph(results), "Maximization of the significance for the model-dependent result");
-    latex_file.IncludeGraphic(PlotCrosssectionGraph(results), "Maximization of $S/\\sqrt B$");
-    latex_file.IncludeGraphic(PlotSBGraph(results), "Maximization of $S/B$");
-    latex_file.IncludeGraphic(PlotSBvsSsqrtBGraph(results), "$S/B$ versus $S/\\sqrt B$");
-    latex_file.Table("rlllll", EfficienciesTable(results, results.BestModelInDependentBin()), "Model independent efficiencies");
-    latex_file.Table("rlllll", EfficienciesTable(results, results.BestModelDependentBin()), "Model dependent efficiencies");
+    latex_file.IncludeGraphic(PlotModelDependentGraph(results), "Maximization of" + Significance());
+    latex_file.IncludeGraphic(PlotSBGraph(results), "Maximization of" + Ratio());
+    latex_file.IncludeGraphic(PlotCrosssectionGraph(results), "Maximization of $\\frac{S}{\\sqrt B}$");
+    latex_file.IncludeGraphic(PlotModelIndependentGraph(results), "Minimization of model independent crosssection for" + Significance(2) + "and" + Ratio(1));
+    latex_file.IncludeGraphic(PlotModelIndependentGraphSig(results), "Minimization of the model independent crosssection for" + Significance(2));
+    latex_file.IncludeGraphic(PlotModelIndependentGraphSB(results), "Minimization of model independent cross section for" + Ratio(1));
+    latex_file.IncludeGraphic(PlotSBvsSsqrtBGraph(results), Ratio() + "versus" + Significance());
+    latex_file.Table("rlllll", EfficienciesTable(results, results.BestModelDependentBin()), "Model dependent efficiencies calculated by maximizing the Significance");
+    latex_file.Table("rlllll", EfficienciesTableMI(results, results.BestModelInDependentBin(), [](Result const & result) {
+        return result.ModelIndependent();
+    }), "Model independent efficiencies calculated bu minimizing the exclusion cross section for" + Significance(2) + "and" + Ratio(1));
+    latex_file.Table("rlllll", EfficienciesTableMI(results, results.BestAcceptanceBin(), [](Result const & result) {
+        return result.ModelIndependentSig();
+    }), "Model independent efficiencies calculated bu minimizing the exclusion cross section for" + Significance(2));
+    latex_file.Table("rlllll", EfficienciesTableMI(results, results.BestSOverBBin(), [](Result const & result) {
+        return result.ModelIndependentSB();
+    }), "Model independent efficiencies calculated bu minimizing the exclusion cross section for" + Ratio(1));
     latex_file.Table("rllllll", BestValueTable(results), "Results for the optimal model-(in)dependent cuts");
+    latex_file.Table("rllllll", BestValueTableDoubleCheck(results), "Model independent cross section for the model dependent cut");
 }
 
 Results Plotting::ReadBdtFiles() const
@@ -229,11 +254,11 @@ std::string Plotting::PlotCrosssectionsGraph(Results const& results) const
     Graphs graphs(Tagger().ExportFolderName(), "Crosssection");
     for (auto const & result : results.Signals()) graphs.AddGraph(results.XValues(), FloatVector(result.Crosssections()), result.InfoBranch().LatexName());
     for (auto const & result : results.Backgrounds()) graphs.AddGraph(results.XValues(), FloatVector(result.Crosssections()), result.InfoBranch().LatexName());
+    graphs.AddLine(results.BestModelDependentValue());
+    graphs.AddLine(results.BestModelInDependentValue());
     graphs.SetLegend(Orientation::bottom | Orientation::left);
     SetDefaultXAxis(graphs, results);
     graphs.SetYAxis("Crosssection [fb]");
-    graphs.AddLine(results.BestModelDependentValue());
-    graphs.AddLine(results.BestModelInDependentValue());
     return graphs.FileBaseName();
 }
 
@@ -242,9 +267,9 @@ std::string Plotting::PlotModelDependentGraph(Results const& results) const
     INFO0;
     Graphs graphs(Tagger().ExportFolderName(), "Significance");
     graphs.AddGraph(results.XValues(), results.Significances());
+    graphs.AddLine(results.BestModelDependentValue(), "Significance");
     SetDefaultXAxis(graphs, results);
     graphs.SetYAxis("Significance");
-    graphs.AddLine(results.BestModelDependentValue());
     return graphs.FileBaseName();
 }
 
@@ -253,9 +278,9 @@ std::string Plotting::PlotCrosssectionGraph(Results const& results) const
     INFO0;
     Graphs graphs(Tagger().ExportFolderName(), "SsqrtB");
     graphs.AddGraph(results.XValues(), results.Acceptances());
+    graphs.AddLine(results.BestAcceptanceValue());
     SetDefaultXAxis(graphs, results);
     graphs.SetYAxis(Formula("S/#sqrt{B}"));
-    graphs.AddLine(results.BestAcceptanceValue());
     return graphs.FileBaseName();
 }
 
@@ -264,9 +289,9 @@ std::string Plotting::PlotSBGraph(Results const& results) const
     INFO0;
     Graphs graphs(Tagger().ExportFolderName(), "SB");
     graphs.AddGraph(results.XValues(), results.SOverB());
+    graphs.AddLine(results.BestSOverBValue());
     SetDefaultXAxis(graphs, results);
     graphs.SetYAxis(Formula("S/B"));
-    graphs.AddLine(results.BestSOverBValue());
     return graphs.FileBaseName();
 }
 
@@ -274,9 +299,9 @@ std::string Plotting::PlotSBvsSsqrtBGraph(Results const& results) const
 {
     INFO0;
     Graphs graphs(Tagger().ExportFolderName(), "SBvsSsqrtB");
-    graphs.AddGraph(results.SOverB(), results.Acceptances());
+    graphs.AddGraph(results.SOverB(), results.Significances());
     graphs.SetXAxis(Formula("S/B"));
-    graphs.SetYAxis(Formula("S/#sqrt{B}"));
+    graphs.SetYAxis(Formula("S/#sqrt{S+B}"));
     return graphs.FileBaseName();
 }
 
@@ -285,9 +310,10 @@ std::string Plotting::PlotModelIndependentGraph(Results const& results) const
     INFO0;
     Graphs graphs(Tagger().ExportFolderName(), "Exclusion");
     for (auto const & signal : results.Signals()) graphs.AddGraph(results.XValues(), FloatVector(signal.ModelIndependent()), signal.InfoBranch().LatexName());
-    graphs.AddLine(results.BestModelDependentValue(), "Dependent");
-    graphs.AddLine(results.BestModelInDependentValue(), "Independent");
-    graphs.SetLegend(Orientation::left | Orientation::bottom, "Model");
+    graphs.AddLine(results.BestModelInDependentValue(), "Crosssection");
+    graphs.AddLine(results.BestAcceptanceValue(), "Crosssection (" + Formula("S/#sqrt{S+B}") + ")");
+    graphs.AddLine(results.BestSOverBValue(), "Crosssection (" + Formula("S/B") + ")");
+    graphs.SetLegend(Orientation::top | Orientation::right, "Minimization");
     graphs.SetYAxis("Exclusion crosssection [fb]");
     SetDefaultXAxis(graphs, results);
     return graphs.FileBaseName();
@@ -298,9 +324,10 @@ std::string Plotting::PlotModelIndependentGraphSB(Results const& results) const
     INFO0;
     Graphs graphs(Tagger().ExportFolderName(), "ExclusionSB");
     for (auto const & signal : results.Signals()) graphs.AddGraph(results.XValues(), FloatVector(signal.ModelIndependentSB()), signal.InfoBranch().LatexName());
-    graphs.AddLine(results.BestModelDependentValue(), "Dependent");
-    graphs.AddLine(results.BestModelInDependentValue(), "Independent");
-    graphs.SetLegend(Orientation::left | Orientation::bottom, "Model");
+    graphs.AddLine(results.BestModelInDependentValue(), "Crosssection");
+    graphs.AddLine(results.BestAcceptanceValue(), "Crosssection (" + Formula("S/#sqrt{S+B}") + ")");
+    graphs.AddLine(results.BestSOverBValue(), "Crosssection (" + Formula("S/B") + ")");
+    graphs.SetLegend(Orientation::top | Orientation::right, "Minimization");
     graphs.SetYAxis("Exclusion crosssection [fb]");
     SetDefaultXAxis(graphs, results);
     return graphs.FileBaseName();
@@ -311,9 +338,10 @@ std::string Plotting::PlotModelIndependentGraphSig(Results const& results) const
     INFO0;
     Graphs graphs(Tagger().ExportFolderName(), "ExclusionSig");
     for (auto const & signal : results.Signals()) graphs.AddGraph(results.XValues(), FloatVector(signal.ModelIndependentSig()), signal.InfoBranch().LatexName());
-    graphs.AddLine(results.BestModelDependentValue(), "Dependent");
-    graphs.AddLine(results.BestModelInDependentValue(), "Independent");
-    graphs.SetLegend(Orientation::left | Orientation::bottom, "Model");
+    graphs.AddLine(results.BestModelInDependentValue(), "Crosssection");
+    graphs.AddLine(results.BestAcceptanceValue(), "Crosssection (" + Formula("S/#sqrt{S+B}") + ")");
+    graphs.AddLine(results.BestSOverBValue(), "Crosssection (" + Formula("S/B") + ")");
+    graphs.SetLegend(Orientation::top | Orientation::right, "Minimization");
     graphs.SetYAxis("Exclusion crosssection [fb]");
     SetDefaultXAxis(graphs, results);
     return graphs.FileBaseName();
@@ -326,20 +354,51 @@ std::string Plotting::BestValueTable(Results const& results) const
     table << "    Model\n  & Cut\n  & $p$-value\n";
     for (auto const & signal : results.Signals()) table << " & $\\sigma$(" << signal.InfoBranch().Name() << ") [fb]";
     table << "\n \\\\ \\midrule\n   ";
-    table << BestValueRow(results, results.BestModelDependentBin(), "Dependent");
-    table << BestValueRow(results, results.BestModelInDependentBin(), "Independent");
-    table << BestValueRow(results, results.BestAcceptanceBin(), "$S/\\sqrt B$");
+    table << BestValueRow(results, results.BestModelDependentBin(), "Significance", [](Result const & result) {
+        return result.ModelIndependentSig();
+    });
+    table << BestValueRow(results, results.BestModelInDependentBin(), "Crosssection (" + Significance() + "+" + Ratio() + ")", [](Result const & result) {
+        return result.ModelIndependent();
+    });
+    table << BestValueRow(results, results.BestAcceptanceBin(), "Crosssection (" + Significance() + ")", [](Result const & result) {
+        return result.ModelIndependentSig();
+    });
+    table << BestValueRow(results, results.BestSOverBBin(), "Crosssection (" + Ratio() + ")", [](Result const & result) {
+        return result.ModelIndependentSB();
+    });
     return table.str();
 }
 
-std::string Plotting::BestValueRow(Results const& results, int bin, std::string const& name) const
+std::string Plotting::BestValueTableDoubleCheck(Results const& results) const
+{
+    INFO0;
+    std::stringstream table;
+    table << "    Model\n  & Cut\n  & $p$-value\n";
+    for (auto const & signal : results.Signals()) table << " & $\\sigma$(" << signal.InfoBranch().Name() << ") [fb]";
+    table << "\n \\\\ \\midrule\n   ";
+    table << BestValueRow(results, results.BestModelDependentBin(), "Significance", [](Result const & result) {
+        return result.ModelIndependentSig();
+    });
+    table << BestValueRow(results, results.BestModelDependentBin(), "Crosssection (" + Significance() + "+" + Ratio() + ")", [](Result const & result) {
+        return result.ModelIndependent();
+    });
+    table << BestValueRow(results, results.BestModelDependentBin(), "Crosssection (" + Significance() + ")", [](Result const & result) {
+        return result.ModelIndependentSig();
+    });
+    table << BestValueRow(results, results.BestModelDependentBin(), "Crosssection (" + Ratio() + ")", [](Result const & result) {
+        return result.ModelIndependentSB();
+    });
+    return table.str();
+}
+
+std::string Plotting::BestValueRow(Results const& results, int bin, std::string const& name, std::function<std::vector<Crosssection>(Result const&)> const& function) const
 {
     INFO0;
     std::stringstream row;
     row << " " << name;
     row << "\n  & " << RoundToDigits(results.XValue(bin));
     row << "\n  & " << RoundToDigits(results.Significances().at(bin));
-    for (auto const & signal : results.Signals()) row << "\n  & " << RoundToDigits(signal.ModelIndependent().at(bin) / fb);
+    for (auto const & signal : results.Signals()) row << "\n  & " << RoundToDigits(function(signal).at(bin) / fb);
     row << "\n \\\\";
     return row.str();
 }
@@ -350,8 +409,8 @@ std::string Plotting::EfficienciesTable(Results const& results, int bin) const
     std::stringstream table;
     table << "    Sample\n  & before\n  & after\n  & Efficiency\n  & $\\sigma$  [fb]\n  & $N_{\\mathcal L = \\unit[" << RoundToDigits(DetectorGeometry::Luminosity() * fb) << "]{fb^{-1}}}$";
     table << "\n \\\\ \\midrule\n   ";
-    for (auto const & result : results.Signals()) table << EfficienciesRow(result, &result - &results.Signals().front(), Tag::signal, bin);
-    for (auto const & result : results.Backgrounds()) table << EfficienciesRow(result, &result - &results.Backgrounds().front(), Tag::background, bin);
+    for (auto const & result : results.Signals()) table << EfficienciesRow(result, Position(results.Signals(), result), Tag::signal, bin);
+    for (auto const & result : results.Backgrounds()) table << EfficienciesRow(result, Position(results.Backgrounds(), result), Tag::background, bin);
     return table.str();
 }
 
@@ -364,10 +423,42 @@ std::string Plotting::EfficienciesRow(Result const& result, int index, Tag tag, 
     row << "\n  & " << result.InfoBranch().EventNumber();
     row << "\n  & " << result.EventSums().at(bin);
     row << "\n  & " << RoundToDigits(result.Efficiencies().at(bin));
-    row << "\n  & " << RoundToDigits(result.InfoBranch().Crosssection() / fb);
-    row << "\n  & " << RoundToDigits(result.InfoBranch().Crosssection() * DetectorGeometry::Luminosity() * result.Efficiencies().at(bin));
+    row << "\n  & " << RoundToDigits(result.InfoBranch().Crosssection() / fb * Results::ScalingFactor());
+    row << "\n  & " << RoundToDigits(result.InfoBranch().Crosssection() * DetectorGeometry::Luminosity() * result.Efficiencies().at(bin) * Results::ScalingFactor());
     row << "\n \\\\";
     return row.str();
+}
+
+std::string Plotting::EfficienciesTableMI(Results const& results, int bin, std::function<std::vector<Crosssection>(Result const&)> const& function) const
+{
+    INFO0;
+    std::stringstream table;
+    table << "    Sample\n  & before\n  & after\n  & Efficiency\n  & $\\sigma$  [fb]\n";
+    table << "\n \\\\ \\midrule\n   ";
+    for (auto const & result : results.Signals()) table << EfficienciesRowMI(result, Position(results.Signals(), result), Tag::signal, bin, function);
+    for (auto const & result : results.Backgrounds()) table << EfficienciesRowMI(result, Position(results.Backgrounds(), result), Tag::background, bin);
+    return table.str();
+}
+
+std::string Plotting::EfficienciesRowMI(Result const& result, int index, Tag tag, int bin, std::function<std::vector<Crosssection>(Result const&)> const& function) const
+{
+    INFO0;
+    std::stringstream row;
+    row << " \\verb|" << result.InfoBranch().LatexName() << "|";
+    row << "\n  & " << result.InfoBranch().EventNumber();
+    row << "\n  & " << result.EventSums().at(bin);
+    row << "\n  & " << RoundToDigits(result.Efficiencies().at(bin));
+    row << "\n  & " << RoundToDigits(function(result).at(bin) / fb);
+    row << "\n \\\\";
+    return row.str();
+}
+
+std::string Plotting::EfficienciesRowMI(Result const& result, int index, Tag tag, int bin) const
+{
+    INFO0;
+    return EfficienciesRowMI(result, index, tag, bin, [](Result const & result) {
+        return std::vector<Crosssection>(result.Steps(), result.InfoBranch().Crosssection() * Results::ScalingFactor());
+    });
 }
 
 std::string Plotting::CutEfficiencyTable(Results const& results) const
@@ -377,8 +468,8 @@ std::string Plotting::CutEfficiencyTable(Results const& results) const
     table << "  & \\multicolumn{9}{c}{Pure Efficiencies [\\%]}\n \\\\\n    BDT value";
     for (auto const & eff : results.SelectedEfficiencies()) table << "\n  & " << RoundToDigits(eff);
     table << "\n \\\\ \\midrule\n   ";
-    for (auto const & result : results.Signals()) table << CutEfficiencyRow(result, &result - &results.Signals().front(), Tag::signal);
-    for (auto const & result : results.Backgrounds()) table << CutEfficiencyRow(result, &result - &results.Backgrounds().front(), Tag::background);
+    for (auto const & result : results.Signals()) table << CutEfficiencyRow(result, Position(results.Signals(), result), Tag::signal);
+    for (auto const & result : results.Backgrounds()) table << CutEfficiencyRow(result, Position(results.Backgrounds(), result), Tag::background);
     return table.str();
 }
 

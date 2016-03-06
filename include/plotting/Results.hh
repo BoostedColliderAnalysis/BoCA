@@ -32,7 +32,8 @@ public:
     std::vector<float> const& Acceptances()const;
     std::vector<float> const& SOverB() const;
     void Efficiencies();
-    std::vector<float> const& SelectedEfficiencies() const;;
+    std::vector<float> const& SelectedEfficiencies() const;
+    static double ScalingFactor();
 private:
     void CalculateSignificances(int step);
     float SignalEvents(int step) const;

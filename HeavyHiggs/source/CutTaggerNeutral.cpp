@@ -32,7 +32,7 @@ boost::optional<CutVariables> CutTaggerNeutral::CutMethod(Event const& event) co
     variables.SetJetPts(jets);
     variables.SetHt(event.Hadrons().ScalarHt());
     std::vector<Jet> bottoms;
-    for (auto const& jet : jets) if(jet.Info().Bdt() > 0) bottoms.emplace_back(jet);
+    for (auto const& jet : jets) if(jet.Info().Bdt() > 0.05) bottoms.emplace_back(jet);
     if(bottoms.size() < 3) return boost::none;
     variables.SetBottomNumber(bottoms.size());
     variables.SetLeptonPts(event.Leptons().leptons());

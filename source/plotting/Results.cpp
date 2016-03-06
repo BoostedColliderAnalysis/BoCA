@@ -182,11 +182,12 @@ int BestBin(std::vector<Value> vector, int step)
     return std::distance(vector.begin(), std::max_element(std::begin(vector), std::end(vector) - step));
 }
 
-int BestMIBin(std::vector<Result> const& signals_, int step)
+int BestMIBin(std::vector<Result> const& signals_, int step, std::function<std::vector<Crosssection>(Result const&)> const& function)
 {
     std::map<Crosssection, int> map;
     for (auto const & signal : signals_) {
-        auto vector = signal.ModelIndependent();
+//         auto vector = signal.ModelIndependent();
+        auto vector = function(signal);
         auto min = std::min_element(std::begin(vector), std::end(vector) - step, [](Crosssection i, Crosssection j) {
             return i > 0_b ? i < j : i > j;
         });
@@ -206,10 +207,18 @@ void Results::BestBins()
     for (auto const & number : IntegerRange(backgrounds_.size())) {
         while (efficiencies.at(number) == 0 && counter < Steps()) {
             best_model_dependent_bin_ = BestBin(significances_, counter);
-            best_model_independent_bin_ = BestMIBin(signals_, counter);
+            best_model_independent_bin_ = BestMIBin(signals_, counter, [](Result const & signal) {
+                return signal.ModelIndependent();
+            });
             efficiencies.at(number) = backgrounds_.at(number).Efficiencies().at(best_model_dependent_bin_);
-            best_acceptance_bin_ = BestBin(acceptances_, counter);
-            best_s_over_b_bin_ = BestBin(s_over_b_, counter);
+            best_acceptance_bin_ = BestMIBin(signals_, counter, [](Result const & signal) {
+                return signal.ModelIndependentSig();
+            });
+            //BestBin(acceptances_, counter);
+            best_s_over_b_bin_ = BestMIBin(signals_, counter, [](Result const & signal) {
+                return signal.ModelIndependentSB();
+            });
+            //BestBin(s_over_b_, counter);
             ++counter;
         }
     }
@@ -281,15 +290,10 @@ Crosssection Results::BackgroundEfficiencyCrosssection(int step) const
     });
 }
 
-namespace
+double Results::ScalingFactor()
 {
-
-constexpr double ScalingFactor()
-{
+    return 1. / (0.22 * 0.65 * 2); // remove semileptonic branching ratio
     return 1; // FIXME should usually be 1
-    return 1. / (0.22 * 0.65 * 2);
-}
-
 }
 
 Crosssection Results::ModelIndependentCrosssectionSB(double signal_efficiency, int step) const

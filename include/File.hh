@@ -23,6 +23,8 @@ public:
 
     File(std::vector<std::string> const& processes, std::string const& run_folder, std::string const& file_suffix, std::string const& nice_name = "", boca::Crosssection crosssection = pb, boca::Mass mass = massless);
 
+    File(std::vector<std::string> const& processes, std::string const& run_folder, std::string const& file_suffix, boca::Names const& nice_name, boca::Crosssection crosssection = pb, boca::Mass mass = massless);
+
     std::string Title() const;
 
     boca::Crosssection Crosssection() const;

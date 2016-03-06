@@ -5,6 +5,7 @@
 
 #include "PreCuts.hh"
 #include "Phase.hh"
+#include "Names.hh"
 #include "Flag.hh"
 
 namespace boca
@@ -94,17 +95,21 @@ protected:
 
     int BackgroundFileNumber() const;
 
-    void NewFile(boca::Tag tag, std::vector<std::string> const& names, std::string const& nice_name = "");
+    void NewFile(Tag tag, std::vector<std::string> const& names, std::string const& nice_name = "");
 
-    void NewFile(boca::Tag tag, std::vector<std::string> const& names, Crosssection crosssection, std::string const& nice_name = "", boca::Mass mass = massless);
+    void NewFile(Tag tag, std::vector<std::string> const& names, Crosssection crosssection, Names const& nice_name, Mass mass = massless);
 
-    boca::File File(std::vector<std::string> const& names, Crosssection crosssection, std::string const& nice_name = "", boca::Mass mass = massless) const;
+    void NewFile(Tag tag, std::vector<std::string> const& names, Crosssection crosssection, std::string const& nice_name = "", Mass mass = massless);
+
+    boca::File File(std::vector<std::string> const& names, Crosssection crosssection, std::string const& nice_name = "", Mass mass = massless) const;
 
     boca::File File(std::vector<std::string> const& names, std::string const& nice_name = "") const;
 
-    void NewFile(boca::Tag tag, std::string const& names, std::string const& nice_name = "");
+    boca::File File(const std::vector< std::__cxx11::string >& names, const boca::Names& nice_name, boca::Crosssection crosssection, const boca::Mass& mass) const;
 
-    void NewFile(boca::Tag tag, std::string const& names, Crosssection crosssection, std::string const& nice_name = "", boca::Mass mass = massless);
+    void NewFile(Tag tag, std::string const& names, std::string const& nice_name = "");
+
+    void NewFile(Tag tag, std::string const& names, Crosssection crosssection, std::string const& nice_name = "", Mass mass = massless);
 
     std::string TreeName(std::string const& name) const;
 

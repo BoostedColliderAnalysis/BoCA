@@ -89,11 +89,19 @@ private:
 
     std::string BestValueTable(Results const& results) const;
 
-    std::string BestValueRow(Results const& results, int bin, std::string const& name) const;
+    std::string BestValueTableDoubleCheck(Results const& results) const;
+
+    std::string BestValueRow(Results const& results, int bin, std::string const& name, std::function<std::vector<Crosssection>(Result const&)> const& function) const;
 
     std::string EfficienciesTable(Results const& results, int bin) const;
 
     std::string EfficienciesRow(const Result& result, int index, Tag tag, int bin) const;
+
+    std::string EfficienciesTableMI(Results const& results, int bin, std::function<std::vector<Crosssection>(Result const&)> const& function) const;
+
+    std::string EfficienciesRowMI(const Result& result, int index, Tag tag, int bin, std::function<std::vector<Crosssection>(Result const&)> const& function) const;
+
+    std::string EfficienciesRowMI(const Result& result, int index, Tag tag, int bin) const;
 
     std::string CutEfficiencyTable(Results const& results) const;
 

@@ -3,6 +3,7 @@
  */
 #include "plotting/Plots.hh"
 
+#include "Vector.hh"
 // #define DEBUGGING
 #include "Debug.hh"
 
@@ -21,7 +22,7 @@ void Plots::SetNames(NamePairs const& names)
 {
     INFO0;
     for (auto & plot : plots_) {
-        int index = &plot - &plots_.front();
+        int index = Position(plots_, plot);
         plot.XAxis() = names.at(index).first;
         plot.YAxis() = names.at(index).second;
         plot.Title() = info_branch_.Names();
@@ -32,8 +33,7 @@ void Plots::SetNames(std::vector<boca::Names> const& names)
 {
     INFO0;
     for (auto & plot : plots_) {
-        int index = &plot - &plots_.front();
-        plot.XAxis() = names.at(index);
+        plot.XAxis() = names.at(Position(plots_, plot));
         plot.Title() = info_branch_.Names();
     }
 }
@@ -62,7 +62,7 @@ Names& Plots::Names()
 }
 Names const& Plots::Names() const
 {
-  return names_;
+    return names_;
 }
 boca::InfoBranch const& Plots::InfoBranch() const
 {

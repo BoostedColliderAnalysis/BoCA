@@ -66,8 +66,8 @@ public:
     }
 
     boca::Mass Mass() const {
-        return 500_GeV;
         return 1_TeV;
+        return 500_GeV;
         return 400_GeV;
         return 750_GeV;
         return 800_GeV;
@@ -266,7 +266,7 @@ public:
     }
 
     virtual void NewFile(Tag tag, boca::Crosssection crosssection, Process process) {
-        boca::AnalysisBase::NewFile(tag, FileNames(process, tag), crosssection, LatexName(process), Mass());
+        boca::AnalysisBase::NewFile(tag, FileNames(process, tag), crosssection, Names(Name(process), LatexName(process)), Mass());
     }
 
     std::vector<std::string> FileNames(Process process, Tag tag) const {
