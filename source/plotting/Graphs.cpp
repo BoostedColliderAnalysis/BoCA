@@ -35,7 +35,7 @@ void Graphs::AddGraph(std::vector<float> const& xs, std::vector<float> const& ys
     range_.WidenX(MinMax(boost::remove_erase(xs2, 0)));
     std::vector<float> ys2 = ys;
     range_.WidenY(MinMax(boost::remove_erase(ys2, 0)));
-    TGraph graph(xs.size(), &xs.front(), &ys.front());
+    TGraph graph(xs.size(), xs.data(), ys.data());
     SetLine(graph, graphs_.size());
     graph.SetTitle(name.c_str());
     graphs_.emplace_back(graph);

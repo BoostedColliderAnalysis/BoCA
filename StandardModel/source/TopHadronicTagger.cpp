@@ -48,7 +48,7 @@ std::vector< Triplet > ordered_doublets(std::vector<Jet> const& jets, std::funct
     std::vector<Triplet> triplets;
     unsigned sub_jet_number = 2;
     if (jets.size() < sub_jet_number) return triplets;
-    for (size_t i = 0; i < jets.size(); ++i) {
+    for (std::size_t i = 0; i < jets.size(); ++i) {
         auto piece_1 = jets.at(i);
         auto piece_2 = jets.at((i + 1) % sub_jet_number);
         if (boost::optional<Triplet> optional = function(piece_1, piece_2)) triplets.emplace_back(*optional);
@@ -62,7 +62,7 @@ std::vector< Triplet > ordered_triplets(std::vector<Jet> const& jets, std::funct
     std::vector<Triplet> triplets;
     unsigned sub_jet_number = 3;
     if (jets.size() < sub_jet_number) return triplets;
-    for (size_t i = 0; i < jets.size(); ++i) {
+    for (std::size_t i = 0; i < jets.size(); ++i) {
         auto piece_1 = jets.at(i);
         auto piece_2 = jets.at((i + 1) % sub_jet_number);
         auto piece_3 = jets.at((i + 2) % sub_jet_number);
@@ -77,7 +77,7 @@ TopHadronicTagger::TopHadronicTagger(Id id)
 {
     INFO0;
     id_ = id;
-    if(id_ == Id::top) top_mass_window_ = 2. * MassOf(id_);
+    if (id_ == Id::top) top_mass_window_ = 2. * MassOf(id_);
 }
 
 int TopHadronicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Tag tag) const
@@ -133,7 +133,11 @@ std::vector<Triplet> TopHadronicTagger::ThreeJets(std::vector<Jet> const& jets, 
 {
     INFO(jets.size());
     std::vector<Doublet> doublets = w_hadronic_reader_.Multiplets(jets);
-    return Triplets(doublets, jets, leptons, function, range);
+    std::vector<Jet> bottoms = jets;
+    for (auto const & doublet : doublets) bottoms = boost::range::remove_erase_if(bottoms, [&](Jet const & jet) {
+       return Close(doublet.Singlet1())(jet) || Close(doublet.Singlet2())(jet);
+    });
+    return Triplets(doublets, ReduceResult(bottoms), leptons, function, range);
 }
 
 std::vector<Triplet> TopHadronicTagger::TwoJets(std::vector<Jet> const& jets, Jet const& jet, std::vector<Lepton> const& leptons, Function const& function, MomentumRange const& range) const

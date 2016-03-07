@@ -12,7 +12,7 @@ namespace boca
  * @brief event BDT for semi leptonic heavy higgs
  *
  */
-class EventTagger : public TaggerTemplate<GlobalObservables, GlobalObservableBranch>
+class GlobalTagger : public TaggerTemplate<GlobalObservables, GlobalObservableBranch>
 {
 
 public:

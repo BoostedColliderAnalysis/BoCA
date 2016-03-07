@@ -55,17 +55,13 @@ Observables TruthBranch::Variables()
 
 NewEventBranch::NewEventBranch()
 {
-    GlobBdt = InitialValue();
-    JetMass = InitialValue();
-    JetPt = InitialValue();
-    JetHt = InitialValue();
-    JetRap = InitialValue();
-    JetPhi = InitialValue();
+    GlobalBdt = InitialValue();
+    SignatureBdt = InitialValue();
 }
 
 Observables NewEventBranch::Variables()
 {
-    return MultiBranch::Variables() + OBSERVABLE(GlobBdt, "BDT_{global}") + OBSERVABLE(JetMass, "m_{j}") + OBSERVABLE(JetPt, "p_{T}^{j}") + OBSERVABLE(JetHt, "H_{T}^{j}") + OBSERVABLE(JetRap, "#eta_{j}") + OBSERVABLE(JetPhi, "#phi_{j}");
+    return BdtBranch::Variables() + OBSERVABLE(GlobalBdt, "BDT_{global}") + OBSERVABLE(SignatureBdt, "BDT_{Signature}");
 }
 
 }

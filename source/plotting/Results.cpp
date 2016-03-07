@@ -292,8 +292,9 @@ Crosssection Results::BackgroundEfficiencyCrosssection(int step) const
 
 double Results::ScalingFactor()
 {
+    return 1; // should usually be 1
+    ERROR("Semi leptonic BR is beeing removed");
     return 1. / (0.22 * 0.65 * 2); // remove semileptonic branching ratio
-    return 1; // FIXME should usually be 1
 }
 
 Crosssection Results::ModelIndependentCrosssectionSB(double signal_efficiency, int step) const
@@ -320,6 +321,7 @@ Crosssection Results::ModelIndependentCrosssection(double signal_efficiency, int
     auto sb = ModelIndependentCrosssectionSB(signal_efficiency, step);
     return sig > 0_b && sb > 0_b ? max(sig, sb) : 0_b;
 }
+
 const std::vector< float >& Results::SelectedEfficiencies() const
 {
     return selected_efficiencies_;

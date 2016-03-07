@@ -27,19 +27,19 @@ find_library(
 )
 add_libraries(${ExRootLibrary})
 
-find_path(
-  DelphesDir
-  NAMES classes/DelphesClasses.h
-  PATHS ${MadGraphDir}
-  PATH_SUFFIXES Delphes
-  DOC "Path to Delphes installed by MadGraph"
-)
-add_include_path(${DelphesDir} SYSTEM)
-
-find_library(
-  DelphesLibrary
-  NAMES DelphesNoFastJet
-  HINTS ${DelphesDir}
-  DOC "Delphes library installed by MadGraph"
-)
-add_libraries(${DelphesLibrary})
+# find_path(
+#   DelphesDir
+#   NAMES classes/DelphesClasses.h
+#   PATHS ${MadGraphDir}
+#   PATH_SUFFIXES Delphes
+#   DOC "Path to Delphes installed by MadGraph"
+# )
+# add_include_path(${DelphesDir} SYSTEM)
+#
+# find_library(
+#   DelphesLibrary
+#   NAMES DelphesNoFastJet
+#   HINTS ${DelphesDir}
+#   DOC "Delphes library installed by MadGraph"
+# )
+# add_libraries(${DelphesLibrary})

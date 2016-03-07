@@ -47,7 +47,8 @@ create_library(Event event_sources)
 set(multiplet_sources
 Identification.cpp
 GlobalObservables.cpp
-EventTagger.cpp
+GlobalTagger.cpp
+# EventTagger.cpp
 )
 create_library(Multiplets2 multiplet_sources)
 

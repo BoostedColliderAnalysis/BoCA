@@ -20,7 +20,7 @@ File::File(std::vector<std::string> const& processes, std::string const& base_pa
     base_path_ = base_path;
     file_suffix_ = file_suffix;
     crosssection_ = crosssection;
-    names_.SetLatexName(nice_name);
+    names_.Set(nice_name);
     mass_ = mass;
 }
 

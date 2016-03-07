@@ -15,7 +15,7 @@ int SignatureEffectiveTagger::Train(Event const& event, PreCuts const&, Tag tag)
     return SaveEntries(Quattuordecuplets(event, [&](Quattuordecuplet554 & quattuordecuplet) {
         quattuordecuplet.SetTag(tag);
         return quattuordecuplet;
-    }));
+    }), tag);
 }
 
 std::vector<Quattuordecuplet554> SignatureEffectiveTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
@@ -24,7 +24,7 @@ std::vector<Quattuordecuplet554> SignatureEffectiveTagger::Multiplets(Event cons
     return ReduceResult(Quattuordecuplets(event, [&](Quattuordecuplet554 & quattuordecuplet) {
         quattuordecuplet.SetBdt(Bdt(quattuordecuplet, reader));
         return quattuordecuplet;
-    }));
+    }), 1);
 }
 
 std::vector<Quattuordecuplet554> SignatureEffectiveTagger::Quattuordecuplets(boca::Event const& event, std::function< Quattuordecuplet554(Quattuordecuplet554&)> const& function) const

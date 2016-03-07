@@ -102,32 +102,23 @@ private:
  * @brief Class for saving event informations to root
  *
  */
-class NewEventBranch : public MultiBranch
+class NewEventBranch : public BdtBranch
 {
 public:
-  NewEventBranch();
+    NewEventBranch();
 
-  float JetMass;
-  float JetPt;
-  float JetHt;
-  float JetRap;
-  float JetPhi;
-  float GlobBdt;
+    float SignatureBdt;
+    float GlobalBdt;
 
-  template<typename Multiplet>
-  void Fill(Multiplet const& multiplet) {
-    MultiBranch::Fill(multiplet);
-    GlobBdt = multiplet.GlobalObservables().Bdt();
-    JetMass = multiplet.Rest().Jet().Mass() / GeV;
-    JetPt = multiplet.Rest().Jet().Pt() / GeV;
-    JetHt = multiplet.GlobalObservables().JetHt() / GeV;
-    JetRap = multiplet.Rest().Rap() / rad;
-    JetPhi = multiplet.Rest().Jet().Phi() / rad;
-  }
-  Observables Variables();
+    template<typename Multiplet>
+    void Fill(Multiplet const& multiplet) {
+        SignatureBdt = multiplet.Signature().Bdt();
+        GlobalBdt = multiplet.GlobalObservables().Bdt();
+    }
+    Observables Variables();
 
 private:
-  ClassDef(NewEventBranch, 1)
+    ClassDef(NewEventBranch, 1)
 };
 
 /**

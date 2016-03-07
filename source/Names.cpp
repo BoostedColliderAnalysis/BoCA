@@ -50,5 +50,11 @@ void Names::Set(const std::string& name, const std::string& latex_name)
     name_ = name;
 }
 
+void Names::Set(const std::string& name)
+{
+  latex_name_ = name;
+  name_ = name;
+}
+
 
 }

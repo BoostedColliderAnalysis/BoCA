@@ -24,9 +24,9 @@ namespace boca
 class Jet;
 class Particle;
 
-std::string Shorten(std::string const& pretty_function, size_t brake);
+std::string Shorten(std::string const& pretty_function, std::size_t brake);
 
-std::string Shorten2(std::string const& pretty_function, size_t brake);
+std::string Shorten2(std::string const& pretty_function, std::size_t brake);
 
 std::string NameSpaceName(std::string const& pretty_function);
 

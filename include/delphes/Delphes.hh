@@ -3,8 +3,8 @@
  */
 #pragma once
 
-#include "classes/DelphesClasses.h"
-// #include "delphes/DelphesClasses.h"
+// #include "classes/DelphesClasses.h"
+#include "delphes/DelphesClasses.h"
 
 /**
  * @brief Delphes

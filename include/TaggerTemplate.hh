@@ -52,7 +52,7 @@ public:
 
 protected:
 
-    std::vector<Multiplet_> ReduceResult(std::vector<Multiplet_> multiplets, size_t max = 4) const {
+    std::vector<Multiplet_> ReduceResult(std::vector<Multiplet_> multiplets, std::size_t max = 4) const {
         // DEBUG_CHECK(multiplets.size() >= max, multiplets.size());
         if (multiplets.empty()) return multiplets;
         multiplets = SortedByBdt(multiplets);
@@ -60,7 +60,7 @@ protected:
         return multiplets;
     }
 
-    std::vector<Multiplet_> BestRapidity(std::vector<Multiplet_> multiplets, size_t number = 1) const {
+    std::vector<Multiplet_> BestRapidity(std::vector<Multiplet_> multiplets, std::size_t number = 1) const {
         if (multiplets.size() <= number) return multiplets;
         multiplets = SortedByMaxDeltaRap(multiplets);
         multiplets.erase(multiplets.begin() + number, multiplets.end());

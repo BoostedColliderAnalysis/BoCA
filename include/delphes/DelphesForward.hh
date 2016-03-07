@@ -49,6 +49,10 @@ typedef ::Candidate Candidate;
 
 }
 
+/**
+ * @brief Delphes
+ *
+ */
 // namespace delphes {
 //
 //   class Event;

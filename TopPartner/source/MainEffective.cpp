@@ -25,6 +25,6 @@ int main()
 //     Run<boca::naturalness::TopPartnerHadronicTagger>();
 //     Run<boca::naturalness::TopPartnerLeptonicTagger>();
     Run<boca::naturalness::SignatureEffectiveTagger>(boca::Output::significance | boca::Output::plot);
-    Run<boca::EventTagger>(boca::Output::significance | boca::Output::plot);
+    Run<boca::GlobalTagger>(boca::Output::significance | boca::Output::plot);
     Run<boca::naturalness::EventEffectiveTagger>(boca::Output::significance | boca::Output::plot);
 }

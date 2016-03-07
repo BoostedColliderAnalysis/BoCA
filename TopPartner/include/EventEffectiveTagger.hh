@@ -1,8 +1,8 @@
 #pragma once
 
 #include "SignatureEffectiveTagger.hh"
-#include "EventTagger.hh"
-#include "MultipletEvent.hh"
+#include "GlobalTagger.hh"
+#include "EventMultiplet.hh"
 
 namespace boca
 {
@@ -15,14 +15,14 @@ namespace naturalness
  * @brief Prepares multivariant analysis
  *
  */
-class EventEffectiveTagger : public TaggerTemplate<MultipletEvent<Quattuordecuplet554>, NewEventBranch>
+class EventEffectiveTagger : public TaggerTemplate<EventMultiplet<Quattuordecuplet554>, NewEventBranch>
 {
 
 public:
 
     int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const override;
 
-    std::vector<MultipletEvent<Quattuordecuplet554>> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
+    std::vector<EventMultiplet<Quattuordecuplet554>> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
 
     std::string Name() const override;
 
@@ -31,13 +31,11 @@ public:
 
 private:
 
-    std::vector<MultipletEvent<Quattuordecuplet554>> Events(Event const& event, std::function< MultipletEvent<Quattuordecuplet554>(MultipletEvent<Quattuordecuplet554>&)> const& function) const;
+    std::vector<EventMultiplet<Quattuordecuplet554>> Events(Event const& event, std::function< EventMultiplet<Quattuordecuplet554>(EventMultiplet<Quattuordecuplet554>&)> const& function) const;
 
     Reader<SignatureEffectiveTagger> signature_reader_;
 
-    Reader<standardmodel::BottomTagger> bottom_reader_;
-
-    Reader<EventTagger> event_reader_;
+    Reader<GlobalTagger> global_reader_;
 
 };
 

@@ -13,12 +13,19 @@
 namespace boca
 {
 
+GlobalObservables::GlobalObservables() {}
+
 GlobalObservables::GlobalObservables(const Event& event)
 {
     SetEvent(event);
 }
 
-void GlobalObservables::SetEvent(boca::Event const& event, const std::vector<Jet>& jets)
+GlobalObservables::GlobalObservables(const Event& event, const std::vector<boca::Jet>& jets)
+{
+    SetEvent(event, jets);
+}
+
+void GlobalObservables::SetEvent(boca::Event const& event, const std::vector<boca::Jet>& jets)
 {
     SetJets(jets);
     SetLeptons(event.Leptons().leptons());
@@ -49,8 +56,8 @@ int GlobalObservables::JetNumber() const
 int GlobalObservables::BottomNumber() const
 {
     INFO0;
-    return boost::range::count_if(Jets(), [](Jet const & jet) {
-        return jet.Info().Bdt() > 0;
+    return boost::range::count_if(Jets(), [](boca::Jet const & jet) {
+        return jet.Info().Bdt() > 0.05;
     });
 }
 
@@ -58,7 +65,7 @@ float GlobalObservables::BottomBdt() const
 {
     INFO0;
     if (Jets().empty()) return -1;
-    return boost::accumulate(jets_, 0., [](float bdt, Jet const & jet) {
+    return boost::accumulate(jets_, 0., [](float bdt, boca::Jet const & jet) {
         return bdt + jet.Info().Bdt();
     }) / JetNumber();
 }
@@ -87,7 +94,7 @@ Momentum GlobalObservables::ScalarHt() const
 Momentum GlobalObservables::LeptonHt() const
 {
     INFO0;
-    return boost::accumulate(leptons_, 0_eV, [](Momentum ht, Jet const & lepton) {
+    return boost::accumulate(leptons_, 0_eV, [](Momentum ht, boca::Jet const & lepton) {
         return ht + lepton.Pt();
     });
 }
@@ -95,7 +102,7 @@ Momentum GlobalObservables::LeptonHt() const
 Momentum GlobalObservables::JetHt() const
 {
     INFO0;
-    return boost::accumulate(jets_, 0_eV, [](Momentum ht, Jet const & jet) {
+    return boost::accumulate(jets_, 0_eV, [](Momentum ht, boca::Jet const & jet) {
         return ht + jet.Pt();
     });
 }
@@ -109,7 +116,7 @@ Energy GlobalObservables::MissingEt() const
 Singlet GlobalObservables::Singlet() const
 {
     INFO0;
-    Jet jet = Join(Jets());
+    boca::Jet jet = Join(Jets());
     jet.Info().SetBdt(BottomBdt());
     return boca::Singlet(jet);
 }
@@ -120,7 +127,7 @@ std::vector<Jet> GlobalObservables::Jets() const
     return jets_;
 }
 
-void GlobalObservables::SetJets(std::vector<Jet> const& jets)
+void GlobalObservables::SetJets(std::vector<boca::Jet> const& jets)
 {
     INFO0;
     jets_ = SortedByPt(jets);
@@ -128,11 +135,9 @@ void GlobalObservables::SetJets(std::vector<Jet> const& jets)
 
 void GlobalObservables::SetLeptons(std::vector<Lepton> const& leptons)
 {
-  INFO0;
-  leptons_ = SortedByPt(leptons);
+    INFO0;
+    leptons_ = SortedByPt(leptons);
 }
-
-GlobalObservables::GlobalObservables() {}
 
 Momentum GlobalObservables::JetPt(int number) const
 {
@@ -142,6 +147,18 @@ Momentum GlobalObservables::JetPt(int number) const
 Momentum GlobalObservables::LeptonPt(int number) const
 {
     return leptons_.size() >= number ? leptons_.at(number - 1).Pt() : at_rest;
+}
+Momentum GlobalObservables::Ht() const
+{
+    return JetHt() + LeptonHt();
+}
+float GlobalObservables::BottomBdt()
+{
+    return 0;
+}
+int GlobalObservables::Charge() const
+{
+    return 0; // FIXME implement this
 }
 
 }

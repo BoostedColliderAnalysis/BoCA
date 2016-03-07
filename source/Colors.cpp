@@ -23,13 +23,13 @@ void Color::Initialize()
     CHECK(Length().size() == green().size(), green().size());
     CHECK(Length().size() == blue().size(), blue().size());
     Palette().reserve(50);
-    int color_table = TColor::CreateGradientColorTable(Length().size(), &Length().front(), &red().front(), &green().front(), &blue().front(), Palette().size());
-    for (auto & color : Palette()) color = color_table + (&color - &Palette().front());
+    auto color_table = TColor::CreateGradientColorTable(Length().size(), Length().data(), red().data(), green().data(), blue().data(), Palette().size());
+    for (auto & color : Palette()) color = color_table + (&color - Palette().data());
 }
 
 void Color::SetPalette()
 {
-    gStyle->SetPalette(Palette().size(), &Palette().front());
+    gStyle->SetPalette(Palette().size(), Palette().data());
 }
 
 std::vector< double > Color::red() const

@@ -1,4 +1,4 @@
-#include "../include/EventTagger.hh"
+#include "../include/GlobalTagger.hh"
 #include "Debug.hh"
 
 namespace boca
@@ -7,7 +7,7 @@ namespace boca
 namespace higgscpv
 {
 
-int EventTagger::Train(boca::Event const& event, boca::PreCuts const&, Tag tag) const
+int GlobalTagger::Train(boca::Event const& event, boca::PreCuts const&, Tag tag) const
 {
     INFO0;
    std::vector<Jet> jets = bottom_reader_.Jets(event);
@@ -22,7 +22,7 @@ int EventTagger::Train(boca::Event const& event, boca::PreCuts const&, Tag tag) 
     return SaveEntries(ReduceResult(multipletevents, 1));
 }
 
-std::vector<MultipletEvent<Octet62>> EventTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
+std::vector<MultipletEvent<Octet62>> GlobalTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
 {
     INFO0;
    std::vector<Jet> jets = bottom_reader_.Jets(event);
@@ -35,7 +35,7 @@ std::vector<MultipletEvent<Octet62>> EventTagger::Multiplets(Event const& event,
     }
     return ReduceResult(multiplet_events);
 }
-std::string EventTagger::Name() const
+std::string GlobalTagger::Name() const
 {
     return "Event";
 }

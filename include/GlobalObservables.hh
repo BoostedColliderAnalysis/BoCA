@@ -3,6 +3,7 @@
  */
 #pragma once
 
+#include "multiplets/MultipletBase.hh"
 #include "multiplets/Singlet.hh"
 
 namespace boca
@@ -10,7 +11,7 @@ namespace boca
 
 class Event;
 
-class GlobalObservables : public Identification
+class GlobalObservables : public MultipletBase
 {
 
 public:
@@ -19,7 +20,9 @@ public:
 
     GlobalObservables(Event const& event);
 
-    void SetEvent(Event const& event, std::vector<Jet> const& jets);
+    GlobalObservables(Event const& event, std::vector<boca::Jet> const& jets);
+
+    void SetEvent(Event const& event, std::vector<boca::Jet> const& jets);
 
     void SetEvent(Event const& event);
 
@@ -41,6 +44,10 @@ public:
 
     Momentum JetHt() const;
 
+    Momentum Ht() const override;
+
+    int Charge() const override;
+
     Momentum JetPt(int number) const;
 
     Momentum LeptonPt(int number) const;
@@ -49,15 +56,21 @@ public:
 
     boca::Singlet Singlet() const;
 
-    std::vector<Jet> Jets() const;
+    std::vector<boca::Jet> Jets() const;
 
-    void SetJets(std::vector<Jet> const& jets);
+    void SetJets(std::vector<boca::Jet> const& jets);
 
     void SetLeptons(std::vector<Lepton> const& leptons);
 
+    boca::Singlet const& singlet() const override {return Join(Jets());};
+
+    boca::Jet Jet() const override {return Join(Jets());};
+
+    float BottomBdt();
+
 private:
 
-    std::vector<Jet> jets_;
+    std::vector<boca::Jet> jets_;
 
     std::vector<Lepton> leptons_;
 

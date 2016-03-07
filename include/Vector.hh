@@ -7,7 +7,6 @@
 #include <boost/range/algorithm/find.hpp>
 #include <boost/range/algorithm/min_element.hpp>
 #include <boost/range/algorithm/copy.hpp>
-#include <boost/range/algorithm/remove_if.hpp>
 #include <boost/range/adaptors.hpp>
 
 #include "physics/Particles.hh"
@@ -146,7 +145,7 @@ private:
 template <typename Multiplet_>
 std::vector<Multiplet_> RemoveIfClose(std::vector<Multiplet_> jets, std::vector<Particle> const& particles)
 {
-    for (auto const & particle : particles) jets.erase(boost::range::remove_if(jets, Close(particle)), jets.end());
+    for (auto const & particle : particles) jets = boost::range::remove_erase_if(jets, Close(particle));
     return jets;
 }
 
@@ -168,7 +167,7 @@ std::vector<Multiplet_> CopyIfClose(std::vector<Multiplet_> const& multiplets, s
 template <typename Element_>
 int Position(std::vector<Element_> const& vector, Element_ const& element)
 {
-    return std::addressof(element) - std::addressof(vector.front());
+    return std::addressof(element) - vector.data();
 }
 
 template <typename Element_>

@@ -419,7 +419,8 @@ std::string Plotting::EfficienciesRow(Result const& result, int index, Tag tag, 
     INFO0;
     std::stringstream row;
 //     row << " \\verb|" << Tagger().TreeNames(tag).at(index) << "|";
-    row << " \\verb|" << result.InfoBranch().LatexName() << "|";
+//     row << " \\verb|" << result.InfoBranch().LatexName() << "|";
+    row << result.InfoBranch().Name();
     row << "\n  & " << result.InfoBranch().EventNumber();
     row << "\n  & " << result.EventSums().at(bin);
     row << "\n  & " << RoundToDigits(result.Efficiencies().at(bin));
@@ -444,7 +445,8 @@ std::string Plotting::EfficienciesRowMI(Result const& result, int index, Tag tag
 {
     INFO0;
     std::stringstream row;
-    row << " \\verb|" << result.InfoBranch().LatexName() << "|";
+//     row << " \\verb|" << result.InfoBranch().LatexName() << "|";
+    row << result.InfoBranch().Name();
     row << "\n  & " << result.InfoBranch().EventNumber();
     row << "\n  & " << result.EventSums().at(bin);
     row << "\n  & " << RoundToDigits(result.Efficiencies().at(bin));
@@ -478,7 +480,8 @@ std::string Plotting::CutEfficiencyRow(Result const& result, int index, Tag tag)
     INFO0;
     std::stringstream row;
     //   row << " \\verb|" << Tagger().TreeNames(tag).at(index) << "|";
-    row << " \\verb|" << result.InfoBranch().LatexName() << "|";
+//     row << " \\verb|" << result.InfoBranch().LatexName() << "|";
+    row << result.InfoBranch().Name();
     for (auto const & eff : result.SelectedEfficiencies()) row << "\n  & " << RoundToDigits(eff * 100);
     row << "\n \\\\";
     return row.str();
@@ -592,7 +595,7 @@ namespace
 void SetBranch(TTree& tree, std::vector< float >& values, std::string const& name)
 {
     tree.SetBranchStatus(name.c_str(), true);
-    tree.SetBranchAddress(name.c_str(), &values.front());
+    tree.SetBranchAddress(name.c_str(), values.data());
 }
 
 void SetBranch(TTree& tree, int& value, std::string const& name)
@@ -617,7 +620,7 @@ Plot Plotting::ReadTree(TTree& tree, std::string const& leaf_1_name, std::string
     SetBranch(tree, branch_size, branch_name + "_size");
 
     //FIXME remove this magic number
-    size_t max_value = 200;
+    std::size_t max_value = 200;
     std::vector<float> leaf_values_1(max_value);
     SetBranch(tree, leaf_values_1, branch_name + "." + leaf_1_name);
 
@@ -703,7 +706,7 @@ Plot Plotting::ReadTree2(TTree& tree, std::string const& leaf_name) const
     SetBranch(tree, branch_size, branch_name + "_size");
 
     //FIXME remove this magic number
-    size_t max_value = 200;
+    std::size_t max_value = 200;
     std::vector<float> leaf_values(max_value);
     SetBranch(tree, leaf_values, branch_name + "." + leaf_name);
 

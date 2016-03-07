@@ -1,15 +1,14 @@
 #
 # Copyright (C) 2015-2016 Jan Hajer
 #
-add_include_path(../../include/)
+add_include_path(../../include/delphes)
 
-# set(DelphesSources
-# DelphesClasses.cc
-# DelphesFactory.cc
-# )
-# create_library(Delphes DelphesSources)
-# create_dictionary2(DelphesFactory DelphesFactory.cc ../include/delphes/ClassesLinkDef.h)
-# create_dictionary2(Delphes DelphesClasses.cc ../include/delphes/ClassesLinkDef.h)
+set(DelphesFactorySources
+DelphesFactory.cc
+)
+create_library(DelphesFactory DelphesFactorySources)
+
+create_dictionary2(Delphes DelphesClasses.cc ../../include/delphes/ClassesLinkDef.h)
 
 set(EventDelphesSources
 Partons.cpp

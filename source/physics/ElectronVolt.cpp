@@ -4,7 +4,7 @@
 
 #include <sstream>
 
-#include <boost/range/algorithm/remove_if.hpp>
+#include <boost/range/algorithm_ext/erase.hpp>
 #include <boost/units/systems/si/io.hpp>
 
 #include "physics/ElectronVolt.hh"
@@ -33,8 +33,7 @@ std::string Name(Energy energy)
     std::stringstream stream;
     stream << boost::units::engineering_prefix << energy;
     std::string string = stream.str();
-    string.erase(boost::range::remove_if(string, isspace), string.end());
-    return string;
+    return boost::range::remove_erase_if(string, isspace);
 }
 
 int Int(Momentum energy)

@@ -19,6 +19,7 @@ public:
     void SetName(std::string const& name);
     void SetLatexName(std::string const& latex_name);
     void Set(std::string const& name, std::string const& latex_name);
+    void Set(std::string const& name);
 private:
     std::string name_;
     std::string latex_name_;
