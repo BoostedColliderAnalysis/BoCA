@@ -52,7 +52,8 @@ public:
 
 protected:
 
-    std::vector<Multiplet_> ReduceResult(std::vector<Multiplet_> multiplets, std::size_t max = 4) const {
+    template<typename Multiplet_2_>
+    std::vector<Multiplet_2_> ReduceResult(std::vector<Multiplet_2_> multiplets, std::size_t max = 4) const {
         // DEBUG_CHECK(multiplets.size() >= max, multiplets.size());
         if (multiplets.empty()) return multiplets;
         multiplets = SortedByBdt(multiplets);

@@ -133,11 +133,11 @@ std::vector<Triplet> TopHadronicTagger::ThreeJets(std::vector<Jet> const& jets, 
 {
     INFO(jets.size());
     std::vector<Doublet> doublets = w_hadronic_reader_.Multiplets(jets);
-    std::vector<Jet> bottoms = jets;
-    for (auto const & doublet : doublets) bottoms = boost::range::remove_erase_if(bottoms, [&](Jet const & jet) {
-       return Close(doublet.Singlet1())(jet) || Close(doublet.Singlet2())(jet);
-    });
-    return Triplets(doublets, ReduceResult(bottoms), leptons, function, range);
+//     std::vector<Jet> bottoms = jets;
+//     for (auto const & doublet : doublets) bottoms = boost::range::remove_erase_if(bottoms, [&](Jet const & jet) {
+//        return Close(doublet.Singlet1())(jet) || Close(doublet.Singlet2())(jet);
+//     });
+    return Triplets(doublets, ReduceResult(jets), leptons, function, range);
 }
 
 std::vector<Triplet> TopHadronicTagger::TwoJets(std::vector<Jet> const& jets, Jet const& jet, std::vector<Lepton> const& leptons, Function const& function, MomentumRange const& range) const
@@ -228,8 +228,7 @@ bool TopHadronicTagger::Problematic(Triplet const& triplet, boca::PreCuts const&
     DEBUG0;
     if (Problematic(triplet, pre_cuts)) return true;
     switch (tag) {
-    case Tag::signal:
-        if (id_ == Id::top && pre_cuts.OutSideMassWindow(triplet, top_mass_window_ , id_)) return true;
+    case Tag::signal : if (id_ == Id::top && pre_cuts.OutSideMassWindow(triplet, top_mass_window_ , id_)) return true;
         break;
     case Tag::background : break;
     }
