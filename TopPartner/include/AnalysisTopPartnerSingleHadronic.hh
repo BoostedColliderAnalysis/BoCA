@@ -6,6 +6,8 @@
 #include "AnalysisTopPartner.hh"
 #include "EventSingleHadronicTagger.hh"
 #include "VetoTopPartnerLeptonicTagger.hh"
+#include "TopPartnerLeptonicNeutralTagger.hh"
+#include "TopPartnerHadronicTagger.hh"
 #include "Debug.hh"
 
 namespace boca
@@ -29,24 +31,22 @@ protected:
 
     std::string AnalysisName() const override {
         INFO0;
-        return "Single-Hadronic-" + Name(DetectorGeometry::DetectorType()) + "-" + boca::Name(this->Mass()) + "-2016-2";
+        return "Single-Hadronic-" + Name(DetectorGeometry::DetectorType()) + "-" + boca::Name(this->Mass()) + "-new-global-full-big";
     }
 
     void SetFiles(Tag tag, Stage)override {
         INFO0;
         switch (tag) {
         case Tag::signal :
-            if (this->template TaggerIs<VetoTopPartnerLeptonicTagger>()) this->NewFile(tag, Process::TT);
+          if (this->template TaggerIs<VetoTopPartnerLeptonicTagger>() || this->template TaggerIs<TopPartnerLeptonicNeutralTagger>()) this->NewFile(tag, Process::TT);
             else this->NewFile(tag, Process::TthHad);
             break;
         case Tag::background :
-            if (this->template TaggerIs<VetoTopPartnerLeptonicTagger>()) this->NewFile(tag, Process::TthHad);
-            else
-//             if (!this->template TaggerIs<TopPartnerHadronicTagger>())
-              this->NewFile(tag, Process::TT);
-            if (!this->template TaggerIs<VetoTopPartnerLeptonicTagger>()) {
-//                 this->NewFile(tag, Process::ttBB);
-//                 this->NewFile(tag, Process::ttBjj);
+          if (this->template TaggerIs<VetoTopPartnerLeptonicTagger>() || this->template TaggerIs<TopPartnerLeptonicNeutralTagger>()) this->NewFile(tag, Process::TthHad);
+            else if (!this->template TaggerIs<TopPartnerHadronicTagger>()) this->NewFile(tag, Process::TT);
+            if (!this->template TaggerIs<VetoTopPartnerLeptonicTagger>() || !this->template TaggerIs<TopPartnerLeptonicNeutralTagger>()) {
+                this->NewFile(tag, Process::ttBB);
+                this->NewFile(tag, Process::ttBjj);
             }
             break;
         }
@@ -82,7 +82,7 @@ private:
 //         if (tag == Tag::signal && partner.size() != 1) {
 //             return 0;
 //         }
-//         if (tops.size() < 2 || (higgs.size() < 1 && vectors.size() < 1)) {
+//         if (tops.size() < 2 || (higgs.empty() && vectors.empty())) {
 //             return 0;
 //         }
         return 1;

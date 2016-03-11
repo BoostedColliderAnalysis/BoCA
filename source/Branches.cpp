@@ -10,7 +10,7 @@
 namespace boca
 {
 
-BaseBranch::~BaseBranch() {}
+// BaseBranch::~BaseBranch() {}
 
 float BaseBranch::InitialValue()
 {
@@ -134,7 +134,7 @@ Observables ParticleBranch::Variables()
 
 Observables ParticleBranch::Spectators()
 {
-    return ResultBranch::Spectators() + OBSERVABLE(Charge, "e") + OBSERVABLE(Rap, "#eta") + OBSERVABLE(Phi, "#phi");
+    return ResultBranch::Spectators() + OBSERVABLE(Charge, "e") + OBSERVABLE(Rap, "#eta") + OBSERVABLE(Phi, "\\phi");
 }
 
 BottomBase::BottomBase()
@@ -153,7 +153,7 @@ BottomBase::BottomBase()
 
 Observables BottomBase::Variables()
 {
-    return OBSERVABLE(VertexMass, Formula("m_{V}") + " [GeV]") + OBSERVABLE(MaxDisplacement, "log(" + Formula("#Delta d") + "_{max} / mm)") + OBSERVABLE(MeanDisplacement, "log(" + Formula("#Delta d") + "_{mean} / mm)") + OBSERVABLE(SumDisplacement, "log(" + Formula("#Delta d") + "_{sum} / mm)") + OBSERVABLE(Multiplicity, Formula("n_{V}")) + OBSERVABLE(Radius, Formula("r")) + OBSERVABLE(Spread, Formula("s")) + OBSERVABLE(VertexRadius, Formula("r_{V}")) + OBSERVABLE(VertexSpread, Formula("s_{V}")) + OBSERVABLE(EnergyFraction, Formula("f_{E}"));
+    return OBSERVABLE(VertexMass, Formula("m_{V}") + " [GeV]") + OBSERVABLE(MaxDisplacement, "log(" + Formula("\\Delta d") + "_{max} / mm)") + OBSERVABLE(MeanDisplacement, "log(" + Formula("\\Delta d") + "_{mean} / mm)") + OBSERVABLE(SumDisplacement, "log(" + Formula("\\Delta d") + "_{sum} / mm)") + OBSERVABLE(Multiplicity, Formula("n_{V}")) + OBSERVABLE(Radius, Formula("r")) + OBSERVABLE(Spread, Formula("s")) + OBSERVABLE(VertexRadius, Formula("r_{V}")) + OBSERVABLE(VertexSpread, Formula("s_{V}")) + OBSERVABLE(EnergyFraction, Formula("f_{E}"));
 }
 
 Observables BottomBase::Spectators()
@@ -179,7 +179,7 @@ PairBranch::PairBranch()
 
 Observables PairBranch::Variables()
 {
-    return ParticleBranch::Variables() + OBSERVABLE(Ht, Formula("H_{T}") + " [GeV]") + OBSERVABLE(DeltaPt, Formula("#Delta P_{T}") + " [GeV]") + OBSERVABLE(DeltaM, Formula("#Delta m") + " [GeV]") + OBSERVABLE(DeltaRap, Formula("#Delta #eta")) + OBSERVABLE(DeltaPhi, Formula("#Delta #phi")) + OBSERVABLE(DeltaR, Formula("#Delta R")) + OBSERVABLE(Rho, Formula("#rho")) + OBSERVABLE(Bdt1, "BDT_{1}") + OBSERVABLE(Bdt2, "BDT_{2}") + OBSERVABLE(Pull1, Formula("#theta_{1}")) + OBSERVABLE(Pull2, Formula("#theta_{2}")) + OBSERVABLE(Dipolarity, Formula("D"));
+    return ParticleBranch::Variables() + OBSERVABLE(Ht, Formula("H_{T}") + " [GeV]") + OBSERVABLE(DeltaPt, Formula("\\Delta P_{T}") + " [GeV]") + OBSERVABLE(DeltaM, Formula("\\Delta m") + " [GeV]") + OBSERVABLE(DeltaRap, Formula("\\Delta #eta")) + OBSERVABLE(DeltaPhi, Formula("\\Delta \\phi")) + OBSERVABLE(DeltaR, Formula("\\Delta R")) + OBSERVABLE(Rho, Formula("\rho")) + OBSERVABLE(Bdt1, "BDT_{1}") + OBSERVABLE(Bdt2, "BDT_{2}") + OBSERVABLE(Pull1, Formula("#theta_{1}")) + OBSERVABLE(Pull2, Formula("#theta_{2}")) + OBSERVABLE(Dipolarity, Formula("D"));
     //return ParticleBranch::Variables() + OBSERVABLE(Ht) + OBSERVABLE(DeltaPt) + OBSERVABLE(DeltaM) + OBSERVABLE(DeltaRap) + OBSERVABLE(DeltaPhi) + OBSERVABLE(DeltaR) + OBSERVABLE(Rho);
 }
 
@@ -195,7 +195,7 @@ MultiBranch::MultiBranch()
 
 Observables MultiBranch::Variables()
 {
-    return PairBranch::Variables() + OBSERVABLE(DeltaHt, Formula("#Delta H_{T}") + " [GeV]");
+    return PairBranch::Variables() + OBSERVABLE(DeltaHt, Formula("\\Delta H_{T}") + " [GeV]");
 }
 
 SignatureBranch::SignatureBranch()
@@ -230,15 +230,13 @@ SignatureBranch::SignatureBranch()
     Pull31 = InitialValue();
     Dipolarity23 = InitialValue();
     Dipolarity13 = InitialValue();
-//   Sphericity = InitialValue();
-//   Aplanarity = InitialValue();
+    Sphericity = InitialValue();
+    Aplanarity = InitialValue();
 }
 
 Observables SignatureBranch::Variables()
 {
-    return MultiBranch::Variables() + OBSERVABLE(Bdt3, "BDT_{3}") + OBSERVABLE(Mass12, "m_{12}") + OBSERVABLE(Mass23, "m_{23}") + OBSERVABLE(Mass13, "m_{13}") + OBSERVABLE(Pt12, "p_{T}^{12}") + OBSERVABLE(Pt23, "p_{T}^{23}") + OBSERVABLE(Pt13, "p_{T}^{13}") + OBSERVABLE(DeltaPt23, "#Delta p_{T}^{23}") + OBSERVABLE(DeltaPt13, "#Delta p_{T}^{13}") + OBSERVABLE(Ht12, "H_{T}^{12}") + OBSERVABLE(Ht23, "H_{T}^{23}") + OBSERVABLE(Ht13, "H_{T}^{13}") + OBSERVABLE(Rho23, "#rho_{23}") + OBSERVABLE(Rho13, "#rho_{13}") + OBSERVABLE(DeltaRap23, "#Delta#eta_{23}") + OBSERVABLE(DeltaRap13, "#Delta#eta_{13}") + OBSERVABLE(DeltaPhi23, "#Delta#phi_{23}") + OBSERVABLE(DeltaPhi13, "#Delta#phi_{13}") + OBSERVABLE(DeltaR23, "#Delta R_{23}") + OBSERVABLE(DeltaR13, "#Delta R_{13}") + OBSERVABLE(DeltaM23, "#Delta m_{23}") + OBSERVABLE(DeltaM13, "#Delta m_{13}") + OBSERVABLE(DeltaHt23, "#Delta H_{T}^{23}") + OBSERVABLE(DeltaHt13, "#Delta H_{T}^{13}") + OBSERVABLE(Pull23, "#theta_{23}") + OBSERVABLE(Pull13, "#theta_{13}") + OBSERVABLE(Pull32, "#theta_{32}") + OBSERVABLE(Pull31, "#theta_{31}") + OBSERVABLE(Dipolarity23, "D_{23}") + OBSERVABLE(Dipolarity13, "D_{13}")
-//      + OBSERVABLE(Aplanarity) + OBSERVABLE(Sphericity)
-           ;
+    return MultiBranch::Variables() + OBSERVABLE(Bdt3, "BDT_{3}") + OBSERVABLE(Mass12, "m_{12}") + OBSERVABLE(Mass23, "m_{23}") + OBSERVABLE(Mass13, "m_{13}") + OBSERVABLE(Pt12, "p_{T}^{12}") + OBSERVABLE(Pt23, "p_{T}^{23}") + OBSERVABLE(Pt13, "p_{T}^{13}") + OBSERVABLE(DeltaPt23, "\\Delta p_{T}^{23}") + OBSERVABLE(DeltaPt13, "\\Delta p_{T}^{13}") + OBSERVABLE(Ht12, "H_{T}^{12}") + OBSERVABLE(Ht23, "H_{T}^{23}") + OBSERVABLE(Ht13, "H_{T}^{13}") + OBSERVABLE(Rho23, "\rho_{23}") + OBSERVABLE(Rho13, "\rho_{13}") + OBSERVABLE(DeltaRap23, "\\Delta#eta_{23}") + OBSERVABLE(DeltaRap13, "\\Delta#eta_{13}") + OBSERVABLE(DeltaPhi23, "\\Delta\\phi_{23}") + OBSERVABLE(DeltaPhi13, "\\Delta\\phi_{13}") + OBSERVABLE(DeltaR23, "\\Delta R_{23}") + OBSERVABLE(DeltaR13, "\\Delta R_{13}") + OBSERVABLE(DeltaM23, "\\Delta m_{23}") + OBSERVABLE(DeltaM13, "\\Delta m_{13}") + OBSERVABLE(DeltaHt23, "\\Delta H_{T}^{23}") + OBSERVABLE(DeltaHt13, "\\Delta H_{T}^{13}") + OBSERVABLE(Pull23, "#theta_{23}") + OBSERVABLE(Pull13, "#theta_{13}") + OBSERVABLE(Pull32, "#theta_{32}") + OBSERVABLE(Pull31, "#theta_{31}") + OBSERVABLE(Dipolarity23, "D_{23}") + OBSERVABLE(Dipolarity13, "D_{13}") + OBSERVABLE(Aplanarity, "#slashed{P}") + OBSERVABLE(Sphericity, "S");
 }
 
 JetPairBranch::JetPairBranch()
@@ -331,7 +329,7 @@ EventBranch::EventBranch()
 
 Observables EventBranch::Variables()
 {
-    return MultiBranch::Variables() + OBSERVABLE(LeptonNumber, "##l") + OBSERVABLE(BottomNumber, "##b") + OBSERVABLE(JetNumber, "##j") + OBSERVABLE(MissingEt, "E_{T}^{miss}") + OBSERVABLE(ScalarHt, "H_{T}^{scalar}") + OBSERVABLE(LeptonHt, "H_{T}^{l}") + OBSERVABLE(JetMass, "m_{j}") + OBSERVABLE(JetPt, "p_{T}^{j}") + OBSERVABLE(JetHt, "H_{T}^{j}") + OBSERVABLE(JetRap, "#eta_{j}") + OBSERVABLE(JetPhi, "#phi_{j}");
+    return MultiBranch::Variables() + OBSERVABLE(LeptonNumber, "##l") + OBSERVABLE(BottomNumber, "##b") + OBSERVABLE(JetNumber, "##j") + OBSERVABLE(MissingEt, "E_{T}^{miss}") + OBSERVABLE(ScalarHt, "H_{T}^{scalar}") + OBSERVABLE(LeptonHt, "H_{T}^{l}") + OBSERVABLE(JetMass, "m_{j}") + OBSERVABLE(JetPt, "p_{T}^{j}") + OBSERVABLE(JetHt, "H_{T}^{j}") + OBSERVABLE(JetRap, "#eta_{j}") + OBSERVABLE(JetPhi, "\\phi_{j}");
 }
 
 }

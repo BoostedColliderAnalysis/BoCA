@@ -135,10 +135,10 @@ int Multiplet::Charge(MultipletBase const& multiplets_1, MultipletBase const& mu
     return sgn(multiplets_1.Charge() + multiplets_2.Charge());
 }
 
-float Multiplet::BottomBdt(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const
-{
-    return (multiplets_1.BottomBdt() + multiplets_2.BottomBdt()) / 2 ;
-}
+// float Multiplet::BottomBdt(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const
+// {
+//     return (multiplets_1.BottomBdt() + multiplets_2.BottomBdt()) / 2 ;
+// }
 
 void Multiplet::SetSinglet(boca::Singlet const& singlet) const
 {

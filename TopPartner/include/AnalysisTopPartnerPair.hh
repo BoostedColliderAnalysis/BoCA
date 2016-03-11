@@ -65,7 +65,7 @@ private:
 
 //         ERROR(partner.size());
 
-//         if (tops.size() < 2 || (higgs.size() < 1 && vectors.size() < 1)) return 0;
+//         if (tops.size() < 2 || (higgs.empty() && vectors.empty())) return 0;
         return 1;
     }
 

@@ -1,5 +1,9 @@
+/**
+ * Copyright (C) 2015-2016 Jan Hajer
+ */
 #include "EventEffectiveTagger.hh"
 #include "plotting/Font.hh"
+// #define DEBUGGING
 #include "Debug.hh"
 
 namespace boca
@@ -28,10 +32,9 @@ std::vector<EventMultiplet<Quattuordecuplet554>> EventEffectiveTagger::Multiplet
 
 std::vector<EventMultiplet<Quattuordecuplet554>> EventEffectiveTagger::Events(Event const& event, std::function< EventMultiplet<Quattuordecuplet554>(EventMultiplet<Quattuordecuplet554>&)> const& function) const
 {
-    auto octets = signature_reader_.Multiplets(event);
     auto global_observables = global_reader_.Multiplets(event).front();
     std::vector<EventMultiplet<Quattuordecuplet554>> events;
-    for (auto const & octet : octets) {
+    for (auto const & octet : signature_reader_.Multiplets(event)) {
         EventMultiplet<Quattuordecuplet554> multiplet_event(octet, global_observables);
         events.emplace_back(function(multiplet_event));
     }

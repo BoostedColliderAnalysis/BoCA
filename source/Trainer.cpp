@@ -2,16 +2,13 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 
-#include "TClonesArray.h"
-#include "TFile.h"
+#include "boost/range/algorithm/max_element.hpp"
 
 #include "TMVA/Config.h"
 #include "TMVA/MethodBDT.h"
-#include "TMVA/Ranking.h"
 
 #include "exroot/ExRootAnalysis.hh"
 #include "Trainer.hh"
-#include "Types.hh"
 #include "Tagger.hh"
 #include "Options.hh"
 // #define DEBUGGING
@@ -27,12 +24,8 @@ Trainer::Trainer(boca::Tagger& tagger) :
     INFO0;
     AddObservables();
     PrepareTrainingAndTestTree(AddAllTrees());
-//     TMVA::MethodBase& method =
     BookMethod();
-//     const TMVA::Ranking& rank = *method.CreateRanking();
-//     rank.SetContext("test");
     Factory().TrainAllMethods();
-//     rank.Print();
     Factory().TestAllMethods();
     Factory().EvaluateAllMethods();
 }
@@ -80,7 +73,6 @@ long Trainer::AddTree(std::string const& tree_name, Tag tag)
 {
     INFO(tree_name, Name(tag));
     TTree& tree = Tree(tree_name, tag);
-//     TTree& tree2 = Tree(tree_name, tag);
     exroot::TreeReader tree_reader = TreeReader(tree_name, tag);
     float weight = Weight(tree_reader);
     NOTE(weight);
@@ -126,13 +118,11 @@ TTree& Trainer::Tree(std::string const& tree_name, Tag tag)
     INFO(Tagger().FileName(Stage::trainer, tag));
     CHECK(Exists(Tagger().FileName(Stage::trainer, tag)), "File not found", Tagger().FileName(Stage::trainer, tag));
     TFile& file = *TFile::Open(Tagger().FileName(Stage::trainer, tag).c_str());
-//     if (file.GetListOfKeys()) {
-//         auto list = file.GetListOfKeys()->MakeIterator();
-//         TTree* tree;
-//         while ((tree = static_cast<TTree*>(list->Next()))) ERROR(tree->GetName());
-//     }
     CHECK(file.GetListOfKeys()->Contains(tree_name.c_str()), "no tree", tree_name);
-    return static_cast<TTree&>(*file.Get(tree_name.c_str()));
+    auto* tree = static_cast<TTree*>(file.Get(tree_name.c_str()));
+    if (!tree) ERROR("no tree");
+    if (!tree->GetListOfBranches()) ERROR("no branches");
+    return *tree;
 }
 
 void Trainer::PrepareTrainingAndTestTree(long event_number)
@@ -147,11 +137,31 @@ void Trainer::PrepareTrainingAndTestTree(long event_number)
     Factory().PrepareTrainingAndTestTree(Tagger().Cut(), Tagger().Cut(), options);
 }
 
-TMVA::MethodBase& Trainer::BookMethod()
+std::vector<double> Trainer::BookMethod()
 {
     INFO0;
-    return *Factory().BookMethod(Tagger().Mva(), Tagger().MethodName(), MethodOptions());
+    auto* method = Factory().BookMethod(Tagger().Mva(), Tagger().MethodName(), MethodOptions());
+    if (!method) return {};
+    TMVA::Event::SetIsTraining(true);
+    std::vector<double> importance;
+    switch (method->GetMethodType()) {
+    case TMVA::Types::EMVA::kBDT : {
+        auto& mva = static_cast<TMVA::MethodBDT&>(*method);
+        mva.TrainMethod();
+        importance = mva.GetVariableImportance();
+        mva.Reset();
+        break;
+    }
+    case TMVA::Types::EMVA::kCuts : break;
+        DEFAULT(method->GetMethodName());
+    }
+//     for (auto const & value : importance) ERROR(value);
+    auto & max = *boost::range::max_element(importance);
+    auto pos = Position(importance, max);
+    ERROR(Tagger().Variables().at(pos).Name());
+    return importance;
 }
+
 std::string Trainer::MethodOptions() const
 {
     INFO0;
@@ -185,7 +195,7 @@ std::string Trainer::MethodOptions() const
         options.Add("EffSel");
         options.Add("VarProp", "FSmart");
         break;
-        DEFAULT(Tagger().Mva(), "");
+        DEFAULT(Tagger().MvaName(), "");
     }
     return options;
 }

@@ -106,15 +106,22 @@ void AnalysisBase::NewFile(Tag tag, std::vector<std::string> const& names, std::
 
 void AnalysisBase::NewFile(Tag tag, std::vector<std::string> const& names, Crosssection crosssection, Names const& nice_name, Mass mass)
 {
-  INFO0;
-  files_.emplace_back(File(names, nice_name,crosssection, mass));
-  Tagger().AddTreeName(TreeName(names.front()), tag);
+    INFO0;
+    files_.emplace_back(File(names, nice_name, crosssection, mass));
+    Tagger().AddTreeName(TreeName(names.front()), tag);
 }
 
 void AnalysisBase::NewFile(Tag tag, std::string const& name, Crosssection crosssection, std::string const& nice_name, Mass mass)
 {
     INFO0;
     files_.emplace_back(File( {name}, crosssection, nice_name, mass));
+    Tagger().AddTreeName(TreeName(name), tag);
+}
+
+void AnalysisBase::NewFile(Tag tag, std::string const& name, Crosssection crosssection, Names const& nice_name, Mass mass)
+{
+    INFO0;
+    files_.emplace_back(File( {name}, nice_name, crosssection, mass));
     Tagger().AddTreeName(TreeName(name), tag);
 }
 
@@ -127,8 +134,8 @@ void AnalysisBase::NewFile(Tag tag, std::string const& name, std::string const& 
 
 File AnalysisBase::File(std::vector<std::string> const& names, Names const& nice_name, Crosssection crosssection, Mass const& mass) const
 {
-  INFO0;
-  return boca::File(names, FilePath(), FileSuffix(), nice_name, crosssection, mass);
+    INFO0;
+    return boca::File(names, FilePath(), FileSuffix(), nice_name, crosssection, mass);
 }
 
 File AnalysisBase::File(std::vector<std::string> const& names, std::string const& nice_name) const
@@ -269,11 +276,11 @@ void AnalysisBase::RunPlots()
 
 void AnalysisBase::RunPlotHist()
 {
-  INFO0;
+    INFO0;
 //   if (Exists(Tagger().ExportFolderName())) return;
-  Plotting plotting(Tagger());
-  PrepareFiles(Stage::trainer);
-  plotting.RunPlotHist();
+    Plotting plotting(Tagger());
+    PrepareFiles(Stage::trainer);
+    plotting.RunPlotHist();
 }
 
 void AnalysisBase::RunCut()
@@ -316,10 +323,10 @@ void AnalysisBase::Run(Output output)
         case Output::plot : RunPlots();
             break;
         case Output::cut : RunCut();
-               break;
+            break;
         case Output::plot_hist : RunPlotHist();
-               break;
-//             DEFAULT(Name(output_2));
+            break;
+            DEFAULT(Name(output_2));
         }
     });
 }

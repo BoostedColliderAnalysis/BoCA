@@ -85,7 +85,7 @@ void Canvas::SetMargins(bool show_title)
 {
     INFO0;
     canvas_.SetLeftMargin(TextHeight() * 2);
-    canvas_.SetTopMargin(TextHeight() * show_title ? 1.5 : 1);
+    canvas_.SetTopMargin(TextHeight() * (show_title ? 1.5 : 1));
     canvas_.SetRightMargin(TextHeight() * 1.1);
     canvas_.SetBottomMargin(2.1 * TextHeight());
 }

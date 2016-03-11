@@ -30,7 +30,7 @@ SignatureSingleHadronicBranch::SignatureSingleHadronicBranch()
 
 Observables SignatureSingleHadronicBranch::Variables()
 {
-    return SignatureBranch::Variables() + OBSERVABLE(VetoBdt, "BDT_{V}") + OBSERVABLE(TopPt, "p_{T}^{t}") + OBSERVABLE(HiggsPt, "p_{T}^{h}");
+    return SignatureBranch::Variables() + OBSERVABLE(VetoBdt, "BDT_{V}") + OBSERVABLE(TopPt, "p_{T}(t)") + OBSERVABLE(HiggsPt, "p_{T}(h)");
 }
 
 TruthBranch::TruthBranch()
@@ -50,7 +50,7 @@ TruthBranch::TruthBranch()
 
 Observables TruthBranch::Variables()
 {
-    return OBSERVABLE(TopPt, Formula("p_{T}(t)")) + OBSERVABLE(LeptonPt, Formula("p_{T}(l)")) + OBSERVABLE(HardBosonNumber, Formula("#B^{0}") + "_{hard}") + OBSERVABLE(SoftestBosonPt, Formula("p_{T}(B^{0})") + "_{soft}") + OBSERVABLE(DetectableBosonNumber, Formula("#B^{0}") + "_{detect}") + OBSERVABLE(HardestBosonPt, Formula("p_{T}(B)") + "_{hard}") + OBSERVABLE(BosonDeltaRMin, Formula("#Delta R(B,B)") + "_{min}") + OBSERVABLE(MissingEt, Formula("E_{T}") + "^{miss}") + OBSERVABLE(ScalarHt, Formula("H_{T}")) + OBSERVABLE(JetPt, Formula("p_{T}(j)"));
+    return OBSERVABLE(TopPt, Formula("p_{T}(t)")) + OBSERVABLE(LeptonPt, Formula("p_{T}(l)")) + OBSERVABLE(HardBosonNumber, Formula("#B^{0}") + "_{hard}") + OBSERVABLE(SoftestBosonPt, Formula("p_{T}(B^{0})") + "_{soft}") + OBSERVABLE(DetectableBosonNumber, Formula("#B^{0}") + "_{detect}") + OBSERVABLE(HardestBosonPt, Formula("p_{T}(B)") + "_{hard}") + OBSERVABLE(BosonDeltaRMin, Formula("\\Delta R(B,B)") + "_{min}") + OBSERVABLE(MissingEt, Formula("E_{T}") + "^{miss}") + OBSERVABLE(ScalarHt, Formula("H_{T}")) + OBSERVABLE(JetPt, Formula("p_{T}(j)"));
 }
 
 NewEventBranch::NewEventBranch()

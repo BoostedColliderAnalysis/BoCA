@@ -15,7 +15,7 @@ int TopPartnerLeptonicNeutralTagger::Train(Event const& event, PreCuts const&, T
     return SaveEntries(Quintets(event, [&](Quintet & quintet) {
         quintet.SetTag(tag);
         return quintet;
-    }), Particles(event), tag);
+    }), Particles(event, tag), tag);
 }
 
 std::vector<Quintet> TopPartnerLeptonicNeutralTagger::Quintets(Event const& event, std::function<Quintet(Quintet&)> const& function) const
@@ -35,29 +35,24 @@ std::vector<Quintet> TopPartnerLeptonicNeutralTagger::Multiplets(Event const& ev
     }));
 }
 
-std::vector<Particle> TopPartnerLeptonicNeutralTagger::Particles(Event const& event) const
+std::vector<Particle> TopPartnerLeptonicNeutralTagger::Particles(Event const& event, Tag tag) const
 {
-    std::vector<Particle> particles = event.Partons().GenParticles();
-    std::vector<Particle> leptons = CopyIfLepton(particles);
-    std::vector<Particle> candidate = CopyIfGreatGrandMother(leptons, Id::top_partner);
-    if (!candidate.empty()) {
-//         CHECK(leptons.size() == 1, leptons.size());
-        int grand_grand_mother = candidate.front().Info().Family().Member(Relative::great_grand_mother).Id();
-        std::vector<Particle> top_partners = CopyIfExactParticle(particles, grand_grand_mother);
-        CHECK(top_partners.size() == 1, top_partners.size())
-        return top_partners;
-    } else { // this is necessary because madspin doesnt label relations correctly
+    auto particles = event.Partons().GenParticles();
+    auto leptons = CopyIfLepton(particles);
+    auto candidate = CopyIfGreatGrandMother(leptons, Id::top_partner);
+    int id;
+    if (candidate.empty()) { // this is necessary because madspin doesnt label relations correctly
         candidate = CopyIfGrandMother(leptons, Id::top_partner);
         candidate = CopyIfMother(candidate, Id::W);
         if (candidate.empty()) {
-            ERROR("no leptonic top partners");
+            if(tag == Tag::signal) ERROR("no leptonic top partners");
             return {};
         }
-        int grand_mother = candidate.front().Info().Family().Member(Relative::grand_mother).Id();
-        std::vector<Particle> top_partners = CopyIfExactParticle(particles, grand_mother);
-        CHECK(top_partners.size() == 1, top_partners.size())
-        return top_partners;
-    }
+        id = candidate.front().Info().Family().Member(Relative::grand_mother).Id();
+    } else id = candidate.front().Info().Family().Member(Relative::great_grand_mother).Id();
+    auto top_partners = CopyIfExactParticle(particles, id);
+    if(tag == Tag::signal) CHECK(top_partners.size() == 1, top_partners.size())
+    return top_partners;
 }
 
 std::string TopPartnerLeptonicNeutralTagger::Name() const

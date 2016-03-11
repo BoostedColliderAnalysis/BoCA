@@ -56,7 +56,7 @@ int SignatureNeutralTagger::Train(Event const& event, PreCuts const&, Tag tag) c
     }
 
     static int zero_doublets = 0;
-    if (one_close_to_top < 6 && final_doublets.size() == 0) {
+    if (one_close_to_top < 6 && final_doublets.empty()) {
         ++zero_doublets;
     }
 
@@ -70,7 +70,7 @@ int SignatureNeutralTagger::Train(Event const& event, PreCuts const&, Tag tag) c
         }
     }
     static int zero_octets = 0;
-    if (one_close_to_top < 6 && final_doublets.size() > 0 && octets.size() == 0) {
+    if (one_close_to_top < 6 && !final_doublets.empty() && octets.empty()) {
         ++zero_octets;
     }
 //     ERROR(close_to_top_, zero_doublets, zero_octets);
@@ -109,7 +109,7 @@ std::vector<Octet62> SignatureNeutralTagger::CleanOctets(Event const& event, std
     std::vector<Particle> bottoms = jet_pair_reader_.Tagger().PairBottomQuarks(event, tag);
     //   CHECK((tag==Tag::signal && bottoms.size()==2) || (tag==Tag::background && bottoms.size() == 2), bottoms.size());
     std::vector<Particle> higgses = heavy_higgs_semi_reader_.Tagger().HiggsParticle(event, tag);
-    //   CHECK((tag==Tag::signal && higgses.size()==1) || (tag==Tag::background && higgses.size() == 0), higgses.size());
+    //   CHECK((tag==Tag::signal && higgses.size()==1) || (tag==Tag::background && higgses.empty()), higgses.size());
     //   ERROR(bottoms.size());
     for (auto const & octet : octets) {
         switch (tag) {

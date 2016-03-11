@@ -219,24 +219,24 @@ public:
     float PairRap;
     float HiggsBdt;
     float SignatureBdt;
-    float BottomBdt;
-    float PairBottomBdt;
+//     float BottomBdt;
+//     float PairBottomBdt;
 
     float HardTopPt;
     float SoftTopPt;
 
-    float BottomBdt1;
-    float BottomBdt2;
-    float BottomBdt3;
-    float BottomBdt4;
-    float BottomBdt5;
-    float BottomBdt6;
-    float BottomBdt7;
-    float BottomBdt8;
-    float BottomBdt12;
-    float BottomBdt34;
-    float BottomBdt56;
-    float BottomBdt78;
+//     float BottomBdt1;
+//     float BottomBdt2;
+//     float BottomBdt3;
+//     float BottomBdt4;
+//     float BottomBdt5;
+//     float BottomBdt6;
+//     float BottomBdt7;
+//     float BottomBdt8;
+//     float BottomBdt12;
+//     float BottomBdt34;
+//     float BottomBdt56;
+//     float BottomBdt78;
 
     template<typename Multiplet>
     void Fill(Multiplet const& event) {
@@ -245,22 +245,22 @@ public:
         HiggsBdt = event.Signature().Sextet().Bdt();
         SignatureBdt = event.Signature().Bdt();
         PairRap = event.Signature().Doublet().DeltaRap() / rad;
-        BottomBdt = event.Signature().BottomBdt();
-        PairBottomBdt = event.Signature().Doublet().BottomBdt();
+//         BottomBdt = event.Signature().BottomBdt();
+//         PairBottomBdt = event.Signature().Doublet().BottomBdt();
         HardTopPt = event.Signature().Sextet().HardTopPt() / GeV;
         SoftTopPt = event.Signature().Sextet().SoftTopPt() / GeV;
-        BottomBdt1 = event.GlobalObservables().BottomBdt(1);
-        BottomBdt2 = event.GlobalObservables().BottomBdt(2);
-        BottomBdt3 = event.GlobalObservables().BottomBdt(3);
-        BottomBdt4 = event.GlobalObservables().BottomBdt(4);
-        BottomBdt5 = event.GlobalObservables().BottomBdt(5);
-        BottomBdt6 = event.GlobalObservables().BottomBdt(6);
-        BottomBdt7 = event.GlobalObservables().BottomBdt(7);
-        BottomBdt8 = event.GlobalObservables().BottomBdt(8);
-        BottomBdt12 = event.GlobalObservables().BottomBdt(1, 2);
-        BottomBdt34 = event.GlobalObservables().BottomBdt(3, 4);
-        BottomBdt56 = event.GlobalObservables().BottomBdt(5, 6);
-        BottomBdt78 = event.GlobalObservables().BottomBdt(7, 8);
+//         BottomBdt1 = event.GlobalObservables().BottomBdt(1);
+//         BottomBdt2 = event.GlobalObservables().BottomBdt(2);
+//         BottomBdt3 = event.GlobalObservables().BottomBdt(3);
+//         BottomBdt4 = event.GlobalObservables().BottomBdt(4);
+//         BottomBdt5 = event.GlobalObservables().BottomBdt(5);
+//         BottomBdt6 = event.GlobalObservables().BottomBdt(6);
+//         BottomBdt7 = event.GlobalObservables().BottomBdt(7);
+//         BottomBdt8 = event.GlobalObservables().BottomBdt(8);
+//         BottomBdt12 = event.GlobalObservables().BottomBdt(1, 2);
+//         BottomBdt34 = event.GlobalObservables().BottomBdt(3, 4);
+//         BottomBdt56 = event.GlobalObservables().BottomBdt(5, 6);
+//         BottomBdt78 = event.GlobalObservables().BottomBdt(7, 8);
     }
 
     Observables Variables();
@@ -281,24 +281,24 @@ public:
     float PairRap;
     float HiggsBdt;
     float SignatureBdt;
-    float BottomBdt;
-    float PairBottomBdt;
+//     float BottomBdt;
+//     float PairBottomBdt;
 
     float HardTopPt;
     float SoftTopPt;
 
-    float BottomBdt1;
-    float BottomBdt2;
-    float BottomBdt3;
-    float BottomBdt4;
-    float BottomBdt5;
-    float BottomBdt6;
-    float BottomBdt7;
-    float BottomBdt8;
-    float BottomBdt12;
-    float BottomBdt34;
-    float BottomBdt56;
-    float BottomBdt78;
+//     float BottomBdt1;
+//     float BottomBdt2;
+//     float BottomBdt3;
+//     float BottomBdt4;
+//     float BottomBdt5;
+//     float BottomBdt6;
+//     float BottomBdt7;
+//     float BottomBdt8;
+//     float BottomBdt12;
+//     float BottomBdt34;
+//     float BottomBdt56;
+//     float BottomBdt78;
 
     template<typename Multiplet>
     void Fill(Multiplet const& event) {
@@ -307,22 +307,22 @@ public:
         HiggsBdt = event.Signature().Sextet().Bdt();
         SignatureBdt = event.Signature().Bdt();
         PairRap = event.Signature().Doublet().DeltaRap() / rad;
-        BottomBdt = event.Signature().BottomBdt();
-        PairBottomBdt = event.Signature().Doublet().BottomBdt();
+//         BottomBdt = event.Signature().BottomBdt();
+//         PairBottomBdt = event.Signature().Doublet().BottomBdt();
         HardTopPt = event.Signature().Sextet().HardTopPt() / GeV;
         SoftTopPt = event.Signature().Sextet().SoftTopPt() / GeV;
-        BottomBdt1 = event.GlobalObservables().BottomBdt(1);
-        BottomBdt2 = event.GlobalObservables().BottomBdt(2);
-        BottomBdt3 = event.GlobalObservables().BottomBdt(3);
-        BottomBdt4 = event.GlobalObservables().BottomBdt(4);
-        BottomBdt5 = event.GlobalObservables().BottomBdt(5);
-        BottomBdt6 = event.GlobalObservables().BottomBdt(6);
-        BottomBdt7 = event.GlobalObservables().BottomBdt(7);
-        BottomBdt8 = event.GlobalObservables().BottomBdt(8);
-        BottomBdt12 = event.GlobalObservables().BottomBdt(1, 2);
-        BottomBdt34 = event.GlobalObservables().BottomBdt(3, 4);
-        BottomBdt56 = event.GlobalObservables().BottomBdt(5, 6);
-        BottomBdt78 = event.GlobalObservables().BottomBdt(7, 8);
+//         BottomBdt1 = event.GlobalObservables().BottomBdt(1);
+//         BottomBdt2 = event.GlobalObservables().BottomBdt(2);
+//         BottomBdt3 = event.GlobalObservables().BottomBdt(3);
+//         BottomBdt4 = event.GlobalObservables().BottomBdt(4);
+//         BottomBdt5 = event.GlobalObservables().BottomBdt(5);
+//         BottomBdt6 = event.GlobalObservables().BottomBdt(6);
+//         BottomBdt7 = event.GlobalObservables().BottomBdt(7);
+//         BottomBdt8 = event.GlobalObservables().BottomBdt(8);
+//         BottomBdt12 = event.GlobalObservables().BottomBdt(1, 2);
+//         BottomBdt34 = event.GlobalObservables().BottomBdt(3, 4);
+//         BottomBdt56 = event.GlobalObservables().BottomBdt(5, 6);
+//         BottomBdt78 = event.GlobalObservables().BottomBdt(7, 8);
     }
 
     Observables Variables();
@@ -378,8 +378,8 @@ public:
 
     float HiggsMass;
     float PairRap;
-    float BottomBdt;
-    float PairBottomBdt;
+//     float BottomBdt;
+//     float PairBottomBdt;
     float HiggsBdt;
     float PairBdt;
     float HardTopPt;
@@ -388,8 +388,8 @@ public:
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         MultiBranch::Fill(multiplet);
-        BottomBdt = multiplet.BottomBdt();
-        PairBottomBdt = multiplet.Doublet().BottomBdt();
+//         BottomBdt = multiplet.BottomBdt();
+//         PairBottomBdt = multiplet.Doublet().BottomBdt();
         PairBdt = multiplet.Doublet().Bdt();
         HiggsBdt = multiplet.Sextet().Bdt();
         HardTopPt = multiplet.Sextet().HardTopPt() / GeV;
@@ -420,8 +420,8 @@ public:
 
     float HiggsMass;
     float PairRap;
-    float BottomBdt;
-    float PairBottomBdt;
+//     float BottomBdt;
+//     float PairBottomBdt;
     float HiggsBdt;
     float PairBdt;
 
@@ -429,8 +429,8 @@ public:
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         MultiBranch::Fill(multiplet);
-        BottomBdt = multiplet.BottomBdt();
-        PairBottomBdt = multiplet.Quartet2().BottomBdt();
+//         BottomBdt = multiplet.BottomBdt();
+//         PairBottomBdt = multiplet.Quartet2().BottomBdt();
         HiggsBdt = multiplet.Quartet1().Bdt();
         PairBdt = multiplet.Quartet2().Bdt();
         HiggsMass = multiplet.Quartet1().Jet().Mass() / GeV;
@@ -461,23 +461,23 @@ public:
     float PairRap;
     float HiggsBdt;
     float SignatureBdt;
-    float BottomBdt;
-    float PairBottomBdt;
+//     float BottomBdt;
+//     float PairBottomBdt;
 
-    float RestBdt;
+//     float RestBdt;
 
-    float BottomBdt1;
-    float BottomBdt2;
-    float BottomBdt3;
-    float BottomBdt4;
-    float BottomBdt5;
-    float BottomBdt6;
-    float BottomBdt7;
-    float BottomBdt8;
-    float BottomBdt12;
-    float BottomBdt34;
-    float BottomBdt56;
-    float BottomBdt78;
+//     float BottomBdt1;
+//     float BottomBdt2;
+//     float BottomBdt3;
+//     float BottomBdt4;
+//     float BottomBdt5;
+//     float BottomBdt6;
+//     float BottomBdt7;
+//     float BottomBdt8;
+//     float BottomBdt12;
+//     float BottomBdt34;
+//     float BottomBdt56;
+//     float BottomBdt78;
 
     template<typename Multiplet>
     void Fill(Multiplet const& event) {
@@ -486,21 +486,21 @@ public:
         HiggsBdt = event.Signature().Quartet1().Bdt();
         SignatureBdt = event.Signature().Bdt();
         PairRap = event.Signature().Quartet2().DeltaRap() / rad;
-        BottomBdt = event.Signature().BottomBdt();
-        PairBottomBdt = event.Signature().Quartet2().BottomBdt();
-        BottomBdt1 = event.GlobalObservables().BottomBdt(1);
-        BottomBdt2 = event.GlobalObservables().BottomBdt(2);
-        BottomBdt3 = event.GlobalObservables().BottomBdt(3);
-        BottomBdt4 = event.GlobalObservables().BottomBdt(4);
-        BottomBdt5 = event.GlobalObservables().BottomBdt(5);
-        BottomBdt6 = event.GlobalObservables().BottomBdt(6);
-        BottomBdt7 = event.GlobalObservables().BottomBdt(7);
-        BottomBdt8 = event.GlobalObservables().BottomBdt(8);
-        BottomBdt12 = event.GlobalObservables().BottomBdt(1, 2);
-        BottomBdt34 = event.GlobalObservables().BottomBdt(3, 4);
-        BottomBdt56 = event.GlobalObservables().BottomBdt(5, 6);
-        BottomBdt78 = event.GlobalObservables().BottomBdt(7, 8);
-        RestBdt = event.GlobalObservables().BottomBdt();
+//         BottomBdt = event.Signature().BottomBdt();
+//         PairBottomBdt = event.Signature().Quartet2().BottomBdt();
+//         BottomBdt1 = event.GlobalObservables().BottomBdt(1);
+//         BottomBdt2 = event.GlobalObservables().BottomBdt(2);
+//         BottomBdt3 = event.GlobalObservables().BottomBdt(3);
+//         BottomBdt4 = event.GlobalObservables().BottomBdt(4);
+//         BottomBdt5 = event.GlobalObservables().BottomBdt(5);
+//         BottomBdt6 = event.GlobalObservables().BottomBdt(6);
+//         BottomBdt7 = event.GlobalObservables().BottomBdt(7);
+//         BottomBdt8 = event.GlobalObservables().BottomBdt(8);
+//         BottomBdt12 = event.GlobalObservables().BottomBdt(1, 2);
+//         BottomBdt34 = event.GlobalObservables().BottomBdt(3, 4);
+//         BottomBdt56 = event.GlobalObservables().BottomBdt(5, 6);
+//         BottomBdt78 = event.GlobalObservables().BottomBdt(7, 8);
+//         RestBdt = event.GlobalObservables().BottomBdt();
         LeptonHt = event.GlobalObservables().LeptonHt() / GeV;
     }
 

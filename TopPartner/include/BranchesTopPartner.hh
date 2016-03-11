@@ -40,16 +40,16 @@ private:
     ClassDef(HiggsPairBranch, 1)
 };
 
-class SignatureBranch : public MultiBranch
-{
-public:
-    template<typename Multiplet>
-    void Fill(Multiplet const& multiplet) {
-        MultiBranch::Fill(multiplet);
-    }
-private:
-    ClassDef(SignatureBranch, 1)
-};
+// class SignatureBranch : public MultiBranch
+// {
+// public:
+//     template<typename Multiplet>
+//     void Fill(Multiplet const& multiplet) {
+//         MultiBranch::Fill(multiplet);
+//     }
+// private:
+//     ClassDef(SignatureBranch, 1)
+// };
 
 class SignatureSingleBranch : public SignatureBranch
 {
@@ -112,6 +112,7 @@ public:
 
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
+        boca::BdtBranch::Fill(multiplet);
         SignatureBdt = multiplet.Signature().Bdt();
         GlobalBdt = multiplet.GlobalObservables().Bdt();
     }

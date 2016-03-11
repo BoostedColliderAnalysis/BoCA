@@ -54,7 +54,7 @@ int TripletJetPairTagger::Train(boca::Event const& event, boca::PreCuts const&, 
     }
 //     std::sort(triplets.begin(), triplets.end(), MinDeltaR(TopParticles.front()));
 //     if (Tag == Tag::signal && triplets.size() > 1) triplets.erase(triplets.begin() + 1, triplets.end());
-//     if (Tag == HBackground && triplets.size() > 0) triplets.erase(triplets.begin());
+//     if (Tag == HBackground && !triplets.empty()) triplets.erase(triplets.begin());
 std::vector<Particle> BottomParticles = event.Partons().GenParticles();
     BottomParticles = CopyIfFamily(BottomParticles, Id::bottom, Id::gluon);
     if (BottomParticles.size() != 1 && tag == Tag::signal)
@@ -71,7 +71,7 @@ std::vector<Particle> BottomParticles = event.Partons().GenParticles();
     }
 //     std::sort(jets.begin(), jets.end(), MinDeltaR(BottomParticles.front()));
 //     if (Tag == Tag::signal && triplets.size() > 1) jets.erase(jets.begin() + 1, jets.end());
-//     if (Tag == HBackground && jets.size() > 0) jets.erase(jets.begin());
+//     if (Tag == HBackground && !jets.empty()) jets.erase(jets.begin());
     std::vector<Quartet31> quartets;
     for (auto const& triplet : triplets)
         for (auto const& Jet : jets) {

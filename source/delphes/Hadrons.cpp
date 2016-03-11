@@ -67,7 +67,7 @@ std::vector<TObject*> Hadrons::Leptons(JetDetail jet_detail) const
 
 std::vector<Jet> Hadrons::DelphesJets(JetDetail jet_detail) const
 {
-    std::vector<TObject*> leptons = Leptons(jet_detail);
+    auto leptons = Leptons(jet_detail);
     std::vector<Jet> jets;
     for (auto const & delphes_jet : TreeReader().Objects<::delphes::Jet>(Branch::jet)) {
         FlagSwitch(jet_detail, [&](JetDetail jet_detail_int) {
@@ -95,7 +95,7 @@ boost::optional<Jet> Hadrons::StructuredJet(::delphes::Jet const& delphes_jet, s
         else DEBUG("Constituent is not isolated");
     }
     if (constituents.empty()) return boost::none;
-    Jet jet = Join(constituents);
+    auto jet = Join(constituents);
     jet.SetDelphesTags(delphes_jet);
     DEBUG(jet.m(), jet.rap(), jet.phi_std(), jet.has_user_info());
     DEBUG(jet.Mass(), jet.Rap(), jet.Phi(), jet.has_user_info());
@@ -117,14 +117,14 @@ boost::optional<Jet> Hadrons::ConstituentGenParticle(TObject& object, std::vecto
 {
     INFO(object.ClassName(), Name(jet_detail));
     if (is(jet_detail, JetDetail::isolation) && !Isolated(object, leptons)) return boost::none;
-    ::delphes::GenParticle& particle = static_cast<::delphes::GenParticle&>(object);
+    auto & particle = static_cast<::delphes::GenParticle&>(object);
     return Jet(particle.P4(), Constituent(particle.P4(), LorentzVector<Length>(particle), DetectorPart::gen_particle, particle.Charge));
 }
 
 boost::optional<Jet> Hadrons::ConstituentTrack(TObject& object, std::vector< TObject* > const& leptons, JetDetail jet_detail) const
 {
     INFO(object.ClassName(), Name(jet_detail));
-    ::delphes::Track& track = static_cast<::delphes::Track&>(object);
+    auto & track = static_cast<::delphes::Track&>(object);
     if (is(jet_detail, JetDetail::isolation) && !Isolated(*track.Particle.GetObject(), leptons)) return boost::none;
     return Jet(track.P4(), Constituent(track.P4(), LorentzVector<Length>(track), DetectorPart::track, track.Charge));
 }
@@ -132,7 +132,7 @@ boost::optional<Jet> Hadrons::ConstituentTrack(TObject& object, std::vector< TOb
 boost::optional<Jet> Hadrons::ConstituentTower(TObject& object, std::vector< TObject* > const& leptons, JetDetail jet_detail, DetectorPart detector_part) const
 {
     INFO0;
-    ::delphes::Tower& tower = static_cast<::delphes::Tower&>(object);
+    auto & tower = static_cast<::delphes::Tower&>(object);
     if (is(jet_detail, JetDetail::isolation)) for (auto const & particle_number : IntegerRange(tower.Particles.GetEntriesFast())) if (!Isolated(*tower.Particles.At(particle_number), leptons)) return boost::none;
     return Jet(tower.P4(), Constituent(tower.P4(), detector_part));
 }
@@ -140,7 +140,7 @@ boost::optional<Jet> Hadrons::ConstituentTower(TObject& object, std::vector< TOb
 boost::optional<Jet> Hadrons::ConstituentMuon(TObject& object, std::vector< TObject* > const& leptons, JetDetail jet_detail) const
 {
     INFO0;
-    ::delphes::Muon& muon = static_cast<::delphes::Muon&>(object);
+    auto & muon = static_cast<::delphes::Muon&>(object);
     if (is(jet_detail, JetDetail::isolation) && !Isolated(*muon.Particle.GetObject(), leptons)) return boost::none;
     return Jet(muon.P4(), Constituent(muon.P4(), DetectorPart::muon, muon.Charge));
 }
@@ -148,7 +148,7 @@ boost::optional<Jet> Hadrons::ConstituentMuon(TObject& object, std::vector< TObj
 bool Hadrons::Isolated(TObject const& object, std::vector<TObject*> const& leptons) const
 {
     DEBUG0;
-    bool isolated = true;
+    auto isolated = true;
     for (auto const & lepton : leptons) if (&object == lepton) isolated = false;
     DEBUG_CHECK(isolated, isolated);
     return isolated;
@@ -164,7 +164,7 @@ std::vector<Jet> Hadrons::EFlowJets(JetDetail jet_detail) const
 std::vector<Jet> Hadrons::EFlow(JetDetail jet_detail) const
 {
     INFO0;
-    std::vector<TObject*> leptons = Leptons(jet_detail);
+    auto leptons = Leptons(jet_detail);
     std::vector<Jet> jets;
     if (TreeReader().Has(Branch::e_flow_track)) jets = Join(jets, EFlowTrack(leptons, jet_detail));
     if (TreeReader().Has(Branch::e_flow_photon)) jets = Join(jets, EFlowPhoton(leptons, jet_detail));

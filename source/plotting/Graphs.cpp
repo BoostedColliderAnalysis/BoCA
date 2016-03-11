@@ -30,7 +30,7 @@ Graphs::~Graphs()
 void Graphs::AddGraph(std::vector<float> const& xs, std::vector<float> const& ys, std::string const& name)
 {
     INFO(xs.size(), ys.size(), name);
-    CHECK(xs.size() == ys.size() && xs.size() > 0, xs.size(), ys.size());
+    CHECK(xs.size() == ys.size() && !xs.empty(), xs.size(), ys.size());
     std::vector<float> xs2 = xs;
     range_.WidenX(MinMax(boost::remove_erase(xs2, 0)));
     std::vector<float> ys2 = ys;

@@ -37,7 +37,7 @@ int HeavyHiggsTauTagger::Train(Event const& event, PreCuts const&, Tag tag) cons
 //         std::vector<Doublet> Postdoublets = GetNeutrinos(Predoublet);
 //         std::sort(Postdoublets.begin(), Postdoublets.end(), MinDeltaR(HiggsParticles.front()));
 //         if (Tag == Tag::signal && Postdoublets.size() > 1) Postdoublets.erase(Postdoublets.begin() + 1, Postdoublets.end());
-//         if (Tag == HBackground && Postdoublets.size() > 0) Postdoublets.erase(Postdoublets.begin());
+//         if (Tag == HBackground && !Postdoublets.empty()) Postdoublets.erase(Postdoublets.begin());
 //         for (auto & Postdoublet : Postdoublets) {
         Predoublet.SetTag(tag);
         doublets.emplace_back(Predoublet);

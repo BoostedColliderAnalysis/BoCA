@@ -32,7 +32,7 @@ protected:
 
     virtual int Charge() const override = 0;
 
-    virtual float BottomBdt() const override = 0;
+//     virtual float BottomBdt() const override = 0;
 
     virtual std::vector<boca::Jet> Jets() const = 0;
 

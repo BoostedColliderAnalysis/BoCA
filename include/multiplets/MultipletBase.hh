@@ -23,7 +23,7 @@ public:
 
     virtual int Charge() const = 0;
 
-    virtual float BottomBdt() const = 0;
+//     virtual float BottomBdt() const = 0;
 
     boca::Mass Mass() const {
         return Jet().Mass();

@@ -5,6 +5,7 @@
 
 #include "AnalysisTopPartner.hh"
 #include "EventSingleLeptonicTagger.hh"
+#include "TopPartnerHadronicNeutralTagger.hh"
 #include "Debug.hh"
 
 namespace boca
@@ -28,20 +29,20 @@ protected:
 
     std::string AnalysisName() const override {
         INFO0;
-        return "Single-Leptonic-" + Name(DetectorGeometry::DetectorType()) + "-" + boca::Name(this->Mass()) + "-dipolarity";
+        return "Single-Leptonic-" + Name(DetectorGeometry::DetectorType()) + "-" + boca::Name(this->Mass()) + "-new-top";
     }
 
     void SetFiles(Tag tag, Stage)override {
         INFO0;
         switch (tag) {
         case Tag::signal :
-            if (this->template TaggerIs<VetoTopPartnerHadronicTagger>()) this->NewFile(tag, Process::TT);
+            if (this->template TaggerIs<VetoTopPartnerHadronicTagger>() || this->template TaggerIs<TopPartnerHadronicNeutralTagger>()) this->NewFile(tag, Process::TT);
             else this->NewFile(tag, Process::TthLep);
             break;
         case Tag::background :
-            if (this->template TaggerIs<VetoTopPartnerHadronicTagger>()) this->NewFile(tag, Process::TthLep);
+            if (this->template TaggerIs<VetoTopPartnerHadronicTagger>() || this->template TaggerIs<TopPartnerHadronicNeutralTagger>()) this->NewFile(tag, Process::TthLep);
             else if (!this->template TaggerIs<TopPartnerLeptonicNeutralTagger>()) this->NewFile(tag, Process::TT);
-            if (!this->template TaggerIs<VetoTopPartnerHadronicTagger>()) {
+            if (!this->template TaggerIs<VetoTopPartnerHadronicTagger>() || this->template TaggerIs<TopPartnerHadronicNeutralTagger>()) {
                 this->NewFile(tag, Process::ttBB);
                 this->NewFile(tag, Process::ttBjj);
             }
@@ -72,7 +73,7 @@ private:
 //         if (tag == Tag::signal && partner.size() != 1) {
 //             return 0;
 //         }
-//         if (tops.size() < 2 || (higgs.size() < 1 && vectors.size() < 1)) {
+//         if (tops.size() < 2 || (higgs.empty() && vectors.empty())) {
 //             return 0;
 //         }
         return 1;

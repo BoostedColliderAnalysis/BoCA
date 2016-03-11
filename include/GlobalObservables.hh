@@ -62,11 +62,9 @@ public:
 
     void SetLeptons(std::vector<Lepton> const& leptons);
 
-    boca::Singlet const& singlet() const override {return Join(Jets());};
+    boca::Singlet const& singlet() const override;
 
-    boca::Jet Jet() const override {return Join(Jets());};
-
-    float BottomBdt();
+    boca::Jet Jet() const override;
 
 private:
 
@@ -77,6 +75,10 @@ private:
     Momentum scalar_ht_;
 
     Energy missing_et_;
+
+    mutable boca::Singlet singlet_;
+
+    mutable bool has_singlet_ = false;
 
 };
 

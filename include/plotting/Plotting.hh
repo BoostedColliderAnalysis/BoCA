@@ -43,23 +43,23 @@ public:
 
 private:
 
-    Results ReadBdtFiles() const;
+    Results ReadBdtFiles(boca::Stage stage) const;
 
-    std::vector<Result> ReadBdtFile(TFile& export_file, Tag tag) const;
+    std::vector<Result> ReadBdtFile(TFile& export_file, Phase const& phase) const;
 
-    Result BdtDistribution(TFile& file, std::string const& tree_name, TFile& export_file) const;
+    Result BdtDistribution(const boca::Phase& phase, int tree_number, TFile& export_file) const;
 
-    Result CutDistribution(TFile& file, std::string const& tree_name, TFile& export_file) const;
+    Result CutDistribution(const boca::Phase& phase, int tree_number, TFile& export_file) const;
 
     void DoPlot(Plots& signals, Plots& backgrounds, Stage stage) const;
 
     void PlotDetails(Plot& signal, Plot& background, Stage stage) const;
 
-    std::vector<Plots> Import(Stage stage, Tag tag) const;
+    std::vector<Plots> Import(Phase const& phase) const;
 
     std::vector<Plots> Import2() const;
 
-    Plots PlotResult(TFile& file, std::string const& tree_name, Stage stage) const;
+    Plots PlotResult(TFile& file, int tree_number, const boca::Phase& phase) const;
 
     Plots PlotResult2(const Observable& variable, Tag tag, Plots& plots) const;
 
@@ -85,7 +85,7 @@ private:
 
     std::string PlotHistograms(Results const& results) const;
 
-    boca::InfoBranch InfoBranch(TFile& file, std::string const& tree_name) const;
+    std::pair<boca::InfoBranch, int> InfoBranch(Phase const& phase, int tree_number) const;
 
     std::string BestValueTable(Results const& results) const;
 
@@ -107,6 +107,10 @@ private:
 
     std::string CutEfficiencyRow(Result const& result, int index, Tag tag) const;
 
+    std::string TruthLevelCutTable(Results const& results) const;
+
+    std::string TruthLevelCutRow(Result const& result, Tag tag) const;
+
     std::string PlotEfficiencyGraph(Results const& results) const;
 
     std::string PlotModelDependentGraph(Results const& results) const;
@@ -120,6 +124,8 @@ private:
     void SetDefaultXAxis(Graphs& graphs, Results const& results) const;
 
     void PlotVariables(Plots const& plots) const;
+
+    std::unique_ptr< TFile > File(Phase const& phase) const;
 
     boca::Tagger const& Tagger() const;
 

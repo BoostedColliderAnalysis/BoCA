@@ -17,14 +17,14 @@ int main()
     Run<boca::standardmodel::BosonTagger>();
     Run<boca::standardmodel::TopHadronicTagger>();
     Run<boca::standardmodel::TopLeptonicTagger>();
-    Run<boca::naturalness::HiggsPairTagger>();
-    Run<boca::naturalness::TopPartnerHadronicNeutralTagger>();
-    Run<boca::naturalness::TopPartnerLeptonicNeutralTagger>();
+    Run<boca::naturalness::HiggsPairTagger>(boca::Output::efficiency);
+    Run<boca::naturalness::TopPartnerHadronicNeutralTagger>(boca::Output::efficiency);
+    Run<boca::naturalness::TopPartnerLeptonicNeutralTagger>(boca::Output::efficiency);
 //     Run<boca::naturalness::TopPartnerHadronicChargedTagger>();
 //     Run<boca::naturalness::TopPartnerLeptonicChargedTagger>();
 //     Run<boca::naturalness::TopPartnerHadronicTagger>();
 //     Run<boca::naturalness::TopPartnerLeptonicTagger>();
-    Run<boca::naturalness::SignatureEffectiveTagger>(boca::Output::significance | boca::Output::plot);
-    Run<boca::GlobalTagger>(boca::Output::significance | boca::Output::plot);
-    Run<boca::naturalness::EventEffectiveTagger>(boca::Output::significance | boca::Output::plot);
+    Run<boca::naturalness::SignatureEffectiveTagger>(boca::Output::significance);
+    Run<boca::GlobalTagger>(boca::Output::significance);
+    Run<boca::naturalness::EventEffectiveTagger>(boca::Output::significance);
 }

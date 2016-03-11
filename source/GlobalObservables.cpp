@@ -150,15 +150,24 @@ Momentum GlobalObservables::LeptonPt(int number) const
 }
 Momentum GlobalObservables::Ht() const
 {
-    return JetHt() + LeptonHt();
+    return ScalarHt();
 }
-float GlobalObservables::BottomBdt()
-{
-    return 0;
-}
+
 int GlobalObservables::Charge() const
 {
     return 0; // FIXME implement this
+}
+Jet GlobalObservables::Jet() const
+{
+    return Join(Jets());
+}
+const Singlet& GlobalObservables::singlet() const
+{
+    if (!has_singlet_) {
+        singlet_ = Join(Jets());
+        has_singlet_ = true;
+    }
+    return singlet_;
 }
 
 }

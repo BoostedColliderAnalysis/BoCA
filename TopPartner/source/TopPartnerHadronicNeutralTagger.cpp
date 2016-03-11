@@ -41,24 +41,24 @@ std::vector<Quintet> TopPartnerHadronicNeutralTagger::Quintets(Event const& even
 std::vector<Particle> TopPartnerHadronicNeutralTagger::Particles(Event const& event) const
 {
     INFO0;
-    std::vector<Particle> particles = event.Partons().GenParticles();
-    std::vector<Particle> quarks = CopyIfQuark(particles);
-    std::vector<Particle>candidate = CopyIfGreatGrandMother(quarks, Id::top_partner);
-    if (!candidate.empty()) {
-        int great_grand_mother = candidate.front().Info().Family().Member(Relative::great_grand_mother).Id();
-        return CopyIfExactParticle(particles, great_grand_mother);
-    } else {
+    auto particles = event.Partons().GenParticles();
+    auto quarks = CopyIfQuark(particles);
+    auto candidate = CopyIfGreatGrandMother(quarks, Id::top_partner);
+    int id;
+    if (candidate.empty()) {
         candidate = CopyIfGrandMother(quarks, Id::top_partner);
         candidate = CopyIfMother(candidate, Id::W);
         if (candidate.empty()) return {};
-        int grand_mother = candidate.front().Info().Family().Member(Relative::grand_mother).Id();
-        return CopyIfExactParticle(particles, grand_mother);
-    }
+        id = candidate.front().Info().Family().Member(Relative::grand_mother).Id();
+    } else id = candidate.front().Info().Family().Member(Relative::great_grand_mother).Id();
+    return CopyIfExactParticle(particles, id);
 }
+
 std::string TopPartnerHadronicNeutralTagger::Name() const
 {
     return "TopPartnerHadronicNeutral";
 }
+
 std::string TopPartnerHadronicNeutralTagger::LatexName() const
 {
     return "T_{h}";

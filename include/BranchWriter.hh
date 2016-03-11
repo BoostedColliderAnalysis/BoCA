@@ -66,10 +66,10 @@ public:
         return event_sum_;
     }
 
-    void Increment() {
-        std::lock_guard<std::mutex> object_sum_guard(object_sum_mutex_);
-        ++object_sum_;
-    }
+//     void Increment() {
+//         std::lock_guard<std::mutex> object_sum_guard(object_sum_mutex_);
+//         ++object_sum_;
+//     }
 
     void Increment(int number) {
         std::lock_guard<std::mutex> object_sum_guard(object_sum_mutex_);

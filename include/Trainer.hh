@@ -36,7 +36,7 @@ private:
      * @brief Book MVA methods
      *
      */
-    TMVA::MethodBase& BookMethod();
+    std::vector<double> BookMethod();
 
     /**
      * @brief Add Variables

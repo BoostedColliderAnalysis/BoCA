@@ -27,7 +27,7 @@ std::string Tagger::analysis_name_;
 void Tagger::Initialize(std::string const& analysis_name)
 {
     INFO(analysis_name);
-    if(!analysis_name.empty()) analysis_name_ = analysis_name;
+    if (!analysis_name.empty()) analysis_name_ = analysis_name;
     ClearTreeNames();
     DefineVariables();
     INFO("done");
@@ -36,6 +36,11 @@ void Tagger::Initialize(std::string const& analysis_name)
 TMVA::Types::EMVA Tagger::Mva() const
 {
     return TMVA::Types::EMVA::kBDT;
+}
+
+std::string Tagger::MvaName() const
+{
+    return std::string(TMVA::Types::Instance().GetMethodName(Mva()));
 }
 
 float Tagger::Bdt(TMVA::Reader const& reader) const
@@ -81,6 +86,12 @@ std::string Tagger::BranchName(Stage stage, Tag tag) const
 {
     INFO0;
     return Name(stage, tag);
+}
+
+std::string Tagger::BranchName(Phase const& phase) const
+{
+  INFO0;
+  return Name(phase);
 }
 
 std::string Tagger::TrainerName() const
@@ -140,15 +151,20 @@ std::string Tagger::Name(Stage stage) const
         DEFAULT(boca::Name(stage), "");
     }
 }
-std::string Tagger::Name(Stage stage, Tag tag) const
+std::string Tagger::Name(Phase const& phase) const
 {
     INFO0;
-    std::string name = Tagger::Name(stage);
-    switch (tag) {
+    std::string name = Tagger::Name(phase.Stage());
+    switch (phase.Tag()) {
     case Tag::signal : return name;
     case Tag::background : return BackgroundName(name);
-        DEFAULT(boca::Name(tag), "");
+        DEFAULT(boca::Name(phase.Tag()), "");
     }
+}
+std::string Tagger::Name(Stage stage, Tag tag) const
+{
+  INFO0;
+  return Tagger::Name(Phase(stage, tag));
 }
 
 std::string Tagger::FileName(Stage stage, Tag tag) const
@@ -159,6 +175,16 @@ std::string Tagger::FileName(Stage stage, Tag tag) const
     case Tag::background : return BackgroundFileName(stage);
         DEFAULT(boca::Name(tag), "");
     }
+}
+
+std::string Tagger::FileName(Phase const& phase) const
+{
+  INFO0;
+  switch (phase.Tag()) {
+    case Tag::signal : return SignalFileName(phase.Stage());
+    case Tag::background : return BackgroundFileName(phase.Stage());
+    DEFAULT(boca::Name(phase.Tag()), "");
+  }
 }
 
 std::string Tagger::SignalFileName(Stage stage) const
@@ -217,6 +243,12 @@ std::vector<std::string> Tagger::TreeNames(Tag tag) const
     case Tag::background : return background_tree_names_;
         DEFAULT(boca::Name(tag), {});
     }
+}
+
+std::vector<std::string> Tagger::TreeNames(Phase const& phase) const
+{
+  INFO0;
+  return TreeNames(phase.Tag());
 }
 
 TCut Tagger::Cut() const
@@ -337,6 +369,7 @@ boca::Range< float > Tagger::MvaRange() const
     switch (Mva()) {
     case TMVA::Types::kCuts : return { -1 , 1};
     case TMVA::Types::kBDT : return {0 , 1};
+    DEFAULT(MvaName(),boca::Range< float >(0,0));
     }
 }
 

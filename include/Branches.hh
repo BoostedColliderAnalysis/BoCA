@@ -21,7 +21,7 @@ class File;
 class BaseBranch : public TObject
 {
 public:
-    virtual ~BaseBranch();
+//     virtual ~BaseBranch();
     static float InitialValue();
 protected:
 private:
@@ -179,7 +179,7 @@ public:
     }
     virtual Observables Variables();
     virtual Observables Spectators();
-    virtual ~BottomBase() {};
+//     virtual ~BottomBase() {};
 private:
     ClassDef(BottomBase, 1)
     float InValue();
@@ -280,8 +280,8 @@ public:
     float Pull31;
     float Dipolarity23;
     float Dipolarity13;
-//   float Sphericity;
-//   float Aplanarity;
+    float Sphericity;
+    float Aplanarity;
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         MultiBranch::Fill(multiplet);
@@ -315,8 +315,8 @@ public:
         Pull31 = multiplet.Pull31() / rad;
         Dipolarity23 = multiplet.Dipolarity23();
         Dipolarity13 = multiplet.Dipolarity13();
-        //     Aplanarity = signature.EventShape().Aplanarity(); // FIXME reenable this
-//     Sphericity = signature.EventShape().Sphericity(); // FIXME reenable this
+        Aplanarity = multiplet.EventShapes().Aplanarity();
+        Sphericity = multiplet.EventShapes().Sphericity();
     }
     Observables Variables();
 

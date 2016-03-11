@@ -26,6 +26,12 @@ const InfoBranch& Result::InfoBranch() const
     return info_branch_;
 }
 
+const InfoBranch& Result::TrainerInfoBranch() const
+{
+  INFO0;
+  return trainer_info_branch_;
+}
+
 std::vector<float> const& Result::Bdts() const
 {
     INFO0;
@@ -80,6 +86,28 @@ Result::Result(boca::InfoBranch const& info_branch, std::vector<std::vector<bool
     Inititialize();
 }
 
+Result::Result(boca::InfoBranch const& info_branch, std::pair<boca::InfoBranch,int> const& trainer_info_branch, std::vector<float> const& bdts, TMVA::Types::EMVA mva)
+{
+  INFO0;
+  info_branch_ = info_branch;
+  trainer_info_branch_ = trainer_info_branch.first;
+  trainer_size_ = trainer_info_branch.second;
+  bdts_ = bdts;
+  mva_ = mva;
+  Inititialize();
+}
+
+Result::Result(boca::InfoBranch const& info_branch, std::pair<boca::InfoBranch,int> const& trainer_info_branch, std::vector<std::vector<bool>> const& passed, TMVA::Types::EMVA mva)
+{
+  INFO0;
+  info_branch_ = info_branch;
+  trainer_info_branch_ = trainer_info_branch.first;
+  trainer_size_ = trainer_info_branch.second;
+  passed_ = passed;
+  mva_ = mva;
+  Inititialize();
+}
+
 void Result::Inititialize()
 {
     INFO0;
@@ -115,7 +143,7 @@ void Result::Calculate()
         }
         break;
     }
-    default : ERROR(mva_, "Default case");
+    DEFAULT(mva_);
     }
 
     for (auto const & step : IntegerRange(Steps())) {
@@ -181,6 +209,10 @@ void Result::AddSelectedEfficiency(float selected_efficiency)
 void Result::AddSelectedEfficiency(int index)
 {
   selected_efficiencies_.emplace_back(PureEfficiencies().at(index));
+}
+int Result::TrainerSize() const
+{
+    return trainer_size_;
 }
 
 }

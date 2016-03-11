@@ -89,27 +89,27 @@ EventNeutralBranch::EventNeutralBranch()
     HiggsMass = InitialValue();
     HiggsBdt = InitialValue();
     SignatureBdt = InitialValue();
-    BottomBdt = InitialValue();
-    PairBottomBdt = InitialValue();
+//     BottomBdt = InitialValue();
+//     PairBottomBdt = InitialValue();
     HardTopPt = InitialValue();
     SoftTopPt = InitialValue();
-    BottomBdt1 = InitialValue();
-    BottomBdt2 = InitialValue();
-    BottomBdt3 = InitialValue();
-    BottomBdt4 = InitialValue();
-    BottomBdt5 = InitialValue();
-    BottomBdt6 = InitialValue();
-    BottomBdt7 = InitialValue();
-    BottomBdt8 = InitialValue();
-    BottomBdt12 = InitialValue();
-    BottomBdt34 = InitialValue();
-    BottomBdt56 = InitialValue();
-    BottomBdt78 = InitialValue();
+//     BottomBdt1 = InitialValue();
+//     BottomBdt2 = InitialValue();
+//     BottomBdt3 = InitialValue();
+//     BottomBdt4 = InitialValue();
+//     BottomBdt5 = InitialValue();
+//     BottomBdt6 = InitialValue();
+//     BottomBdt7 = InitialValue();
+//     BottomBdt8 = InitialValue();
+//     BottomBdt12 = InitialValue();
+//     BottomBdt34 = InitialValue();
+//     BottomBdt56 = InitialValue();
+//     BottomBdt78 = InitialValue();
 }
 
 Observables EventNeutralBranch::Variables()
 {
-    return EventBranch::Variables() + OBSERVABLE(HiggsMass) + OBSERVABLE(HiggsBdt) + OBSERVABLE(SignatureBdt) + OBSERVABLE(PairRap) + OBSERVABLE(BottomBdt) + OBSERVABLE(PairBottomBdt) + OBSERVABLE(BottomBdt1) + OBSERVABLE(BottomBdt2) + OBSERVABLE(BottomBdt3) + OBSERVABLE(BottomBdt4) + OBSERVABLE(BottomBdt5) + OBSERVABLE(BottomBdt6) + OBSERVABLE(BottomBdt7) + OBSERVABLE(BottomBdt8) + OBSERVABLE(BottomBdt12) + OBSERVABLE(BottomBdt34) + OBSERVABLE(BottomBdt56) + OBSERVABLE(BottomBdt78);
+    return EventBranch::Variables() + OBSERVABLE(HiggsMass) + OBSERVABLE(HiggsBdt) + OBSERVABLE(SignatureBdt) + OBSERVABLE(PairRap)/* + OBSERVABLE(BottomBdt) + OBSERVABLE(PairBottomBdt) + OBSERVABLE(BottomBdt1) + OBSERVABLE(BottomBdt2) + OBSERVABLE(BottomBdt3) + OBSERVABLE(BottomBdt4) + OBSERVABLE(BottomBdt5) + OBSERVABLE(BottomBdt6) + OBSERVABLE(BottomBdt7) + OBSERVABLE(BottomBdt8) + OBSERVABLE(BottomBdt12) + OBSERVABLE(BottomBdt34) + OBSERVABLE(BottomBdt56) + OBSERVABLE(BottomBdt78)*/;
 }
 
 EventNeutralFourTopBranch::EventNeutralFourTopBranch()
@@ -117,27 +117,27 @@ EventNeutralFourTopBranch::EventNeutralFourTopBranch()
     HiggsMass = InitialValue();
     HiggsBdt = InitialValue();
     SignatureBdt = InitialValue();
-    BottomBdt = InitialValue();
-    PairBottomBdt = InitialValue();
+//     BottomBdt = InitialValue();
+//     PairBottomBdt = InitialValue();
     HardTopPt = InitialValue();
     SoftTopPt = InitialValue();
-    BottomBdt1 = InitialValue();
-    BottomBdt2 = InitialValue();
-    BottomBdt3 = InitialValue();
-    BottomBdt4 = InitialValue();
-    BottomBdt5 = InitialValue();
-    BottomBdt6 = InitialValue();
-    BottomBdt7 = InitialValue();
-    BottomBdt8 = InitialValue();
-    BottomBdt12 = InitialValue();
-    BottomBdt34 = InitialValue();
-    BottomBdt56 = InitialValue();
-    BottomBdt78 = InitialValue();
+//     BottomBdt1 = InitialValue();
+//     BottomBdt2 = InitialValue();
+//     BottomBdt3 = InitialValue();
+//     BottomBdt4 = InitialValue();
+//     BottomBdt5 = InitialValue();
+//     BottomBdt6 = InitialValue();
+//     BottomBdt7 = InitialValue();
+//     BottomBdt8 = InitialValue();
+//     BottomBdt12 = InitialValue();
+//     BottomBdt34 = InitialValue();
+//     BottomBdt56 = InitialValue();
+//     BottomBdt78 = InitialValue();
 }
 
 Observables EventNeutralFourTopBranch::Variables()
 {
-    return EventBranch::Variables() + OBSERVABLE(HiggsMass) + OBSERVABLE(HiggsBdt) + OBSERVABLE(SignatureBdt) + OBSERVABLE(PairRap) + OBSERVABLE(BottomBdt) + OBSERVABLE(BottomBdt1) + OBSERVABLE(BottomBdt2) + OBSERVABLE(BottomBdt3) + OBSERVABLE(BottomBdt4) + OBSERVABLE(BottomBdt5) + OBSERVABLE(BottomBdt6) + OBSERVABLE(BottomBdt7) + OBSERVABLE(BottomBdt8) + OBSERVABLE(BottomBdt12) + OBSERVABLE(BottomBdt34) + OBSERVABLE(BottomBdt56) + OBSERVABLE(BottomBdt78);
+    return EventBranch::Variables() + OBSERVABLE(HiggsMass) + OBSERVABLE(HiggsBdt) + OBSERVABLE(SignatureBdt) + OBSERVABLE(PairRap) /*+ OBSERVABLE(BottomBdt) + OBSERVABLE(BottomBdt1) + OBSERVABLE(BottomBdt2) + OBSERVABLE(BottomBdt3) + OBSERVABLE(BottomBdt4) + OBSERVABLE(BottomBdt5) + OBSERVABLE(BottomBdt6) + OBSERVABLE(BottomBdt7) + OBSERVABLE(BottomBdt8) + OBSERVABLE(BottomBdt12) + OBSERVABLE(BottomBdt34) + OBSERVABLE(BottomBdt56) + OBSERVABLE(BottomBdt78)*/;
 }
 
 EventFusionBranch::EventFusionBranch()
@@ -154,8 +154,8 @@ OctetNeutralBranch::OctetNeutralBranch()
 {
     HiggsMass = InitialValue();
     PairRap = InitialValue();
-    BottomBdt = InitialValue();
-    PairBottomBdt = InitialValue();
+//     BottomBdt = InitialValue();
+//     PairBottomBdt = InitialValue();
     HiggsBdt = InitialValue();
     PairBdt = InitialValue();
     HardTopPt = InitialValue();
@@ -164,22 +164,22 @@ OctetNeutralBranch::OctetNeutralBranch()
 
 Observables OctetNeutralBranch::Variables()
 {
-    return MultiBranch::Variables() + OBSERVABLE(HiggsMass) + OBSERVABLE(HiggsBdt) + OBSERVABLE(PairBdt) + OBSERVABLE(PairRap) + OBSERVABLE(BottomBdt) + OBSERVABLE(HardTopPt) + OBSERVABLE(SoftTopPt) + OBSERVABLE(PairBottomBdt);
+    return MultiBranch::Variables() + OBSERVABLE(HiggsMass) + OBSERVABLE(HiggsBdt) + OBSERVABLE(PairBdt) + OBSERVABLE(PairRap) + /*OBSERVABLE(BottomBdt) +*/ OBSERVABLE(HardTopPt) + OBSERVABLE(SoftTopPt) /*+ OBSERVABLE(PairBottomBdt)*/;
 }
 
 OctetChargedBranch::OctetChargedBranch()
 {
     HiggsMass = InitialValue();
     PairRap = InitialValue();
-    BottomBdt = InitialValue();
-    PairBottomBdt = InitialValue();
+//     BottomBdt = InitialValue();
+//     PairBottomBdt = InitialValue();
     HiggsBdt = InitialValue();
     PairBdt = InitialValue();
 }
 
 Observables OctetChargedBranch::Variables()
 {
-    return MultiBranch::Variables() + OBSERVABLE(HiggsMass) + OBSERVABLE(HiggsBdt) + OBSERVABLE(PairBdt) + OBSERVABLE(PairRap) + OBSERVABLE(BottomBdt) + OBSERVABLE(PairBottomBdt);
+    return MultiBranch::Variables() + OBSERVABLE(HiggsMass) + OBSERVABLE(HiggsBdt) + OBSERVABLE(PairBdt) + OBSERVABLE(PairRap)/* + OBSERVABLE(BottomBdt) + OBSERVABLE(PairBottomBdt)*/;
 }
 
 EventChargedBranch::EventChargedBranch()
@@ -188,25 +188,25 @@ EventChargedBranch::EventChargedBranch()
     PairRap = InitialValue();
     HiggsBdt = InitialValue();
     SignatureBdt = InitialValue();
-    BottomBdt = InitialValue();
-    PairBottomBdt = InitialValue();
-    BottomBdt1 = InitialValue();
-    BottomBdt2 = InitialValue();
-    BottomBdt3 = InitialValue();
-    BottomBdt4 = InitialValue();
-    BottomBdt5 = InitialValue();
-    BottomBdt6 = InitialValue();
-    BottomBdt7 = InitialValue();
-    BottomBdt8 = InitialValue();
-    BottomBdt12 = InitialValue();
-    BottomBdt34 = InitialValue();
-    BottomBdt56 = InitialValue();
-    BottomBdt78 = InitialValue();
+//     BottomBdt = InitialValue();
+//     PairBottomBdt = InitialValue();
+//     BottomBdt1 = InitialValue();
+//     BottomBdt2 = InitialValue();
+//     BottomBdt3 = InitialValue();
+//     BottomBdt4 = InitialValue();
+//     BottomBdt5 = InitialValue();
+//     BottomBdt6 = InitialValue();
+//     BottomBdt7 = InitialValue();
+//     BottomBdt8 = InitialValue();
+//     BottomBdt12 = InitialValue();
+//     BottomBdt34 = InitialValue();
+//     BottomBdt56 = InitialValue();
+//     BottomBdt78 = InitialValue();
 }
 
 Observables EventChargedBranch::Variables()
 {
-    return EventBranch::Variables() + OBSERVABLE(HiggsMass) + OBSERVABLE(HiggsBdt) + OBSERVABLE(SignatureBdt) + OBSERVABLE(PairRap) + OBSERVABLE(BottomBdt) + OBSERVABLE(PairBottomBdt) + OBSERVABLE(BottomBdt1) + OBSERVABLE(BottomBdt2) + OBSERVABLE(BottomBdt3) + OBSERVABLE(BottomBdt4) + OBSERVABLE(BottomBdt5) + OBSERVABLE(BottomBdt6) + OBSERVABLE(BottomBdt7) + OBSERVABLE(BottomBdt8) + OBSERVABLE(BottomBdt12) + OBSERVABLE(BottomBdt34) + OBSERVABLE(BottomBdt56) + OBSERVABLE(BottomBdt78);
+    return EventBranch::Variables() + OBSERVABLE(HiggsMass) + OBSERVABLE(HiggsBdt) + OBSERVABLE(SignatureBdt) + OBSERVABLE(PairRap) /*+ OBSERVABLE(BottomBdt) + OBSERVABLE(PairBottomBdt) + OBSERVABLE(BottomBdt1) + OBSERVABLE(BottomBdt2) + OBSERVABLE(BottomBdt3) + OBSERVABLE(BottomBdt4) + OBSERVABLE(BottomBdt5) + OBSERVABLE(BottomBdt6) + OBSERVABLE(BottomBdt7) + OBSERVABLE(BottomBdt8) + OBSERVABLE(BottomBdt12) + OBSERVABLE(BottomBdt34) + OBSERVABLE(BottomBdt56) + OBSERVABLE(BottomBdt78)*/;
 }
 
 HeavyHiggsCutBranch::HeavyHiggsCutBranch()

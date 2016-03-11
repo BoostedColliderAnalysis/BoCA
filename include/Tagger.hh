@@ -53,6 +53,8 @@ public:
 
     virtual TMVA::Types::EMVA Mva() const;
 
+    std::string MvaName() const;
+
     void Initialize(std::string const& analysis_name = "");
 
     std::vector<Observable> const& Variables() const;
@@ -61,7 +63,7 @@ public:
 
     std::vector<std::string> TreeNames(Tag tag) const;
 
-    std::vector<std::string> TreeNames(Stage stage, Tag tag) const;
+    std::vector<std::string> TreeNames(Phase const& phase) const;
 
     TCut Cut() const;
 
@@ -80,6 +82,10 @@ public:
     std::string FolderName() const;
 
     std::string FileName(Stage stage, Tag tag) const;
+
+    std::string FileName(Phase const& phase) const;
+
+    std::string BranchName(Phase const& phase) const;
 
     std::string MethodName() const;
 
@@ -185,6 +191,8 @@ private:
     std::string ExportName() const;
 
     std::string Name(Stage stage, Tag tag) const;
+
+    std::string Name(Phase const& phase) const;
 
     std::string Name(Stage stage) const;
 

@@ -1,3 +1,6 @@
+/**
+ * Copyright (C) 2015-2016 Jan Hajer
+ */
 #pragma once
 
 #include "SignatureEffectiveTagger.hh"
@@ -27,7 +30,6 @@ public:
     std::string Name() const override;
 
     std::string LatexName() const override;
-
 
 private:
 

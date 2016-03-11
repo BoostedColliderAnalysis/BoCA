@@ -15,8 +15,11 @@ class Result
 {
 public:
     Result(boca::InfoBranch const& info_branch, std::vector<float> const& bdts, TMVA::Types::EMVA mva);
+    Result(boca::InfoBranch const& info_branch, std::pair<boca::InfoBranch,int> const& trainer_info_branch, std::vector<float> const& bdts, TMVA::Types::EMVA mva);
     Result(boca::InfoBranch const& info_branch, std::vector<std::vector<bool>> const& passed, TMVA::Types::EMVA mva);
+    Result(boca::InfoBranch const& info_branch, std::pair<boca::InfoBranch,int> const& trainer_info_branch, std::vector<std::vector<bool>> const& passed, TMVA::Types::EMVA mva);
     boca::InfoBranch const& InfoBranch() const;
+    boca::InfoBranch const& TrainerInfoBranch() const;
     std::vector<float> const& Bdts() const;
     std::vector<float> const& Events() const;
     std::vector<float> const& Efficiencies() const;
@@ -34,6 +37,7 @@ public:
     std::vector<float> const& SelectedEfficiencies() const;
     void AddSelectedEfficiency(float selected_efficiency);
     void AddSelectedEfficiency(int selected_efficiency);
+    int TrainerSize() const;
 private:
     void Inititialize();
     void Calculate();
@@ -49,6 +53,8 @@ private:
     std::vector<Crosssection> model_independent_sb_;
     std::vector<Crosssection> model_independent_sig_;
     boca::InfoBranch info_branch_;
+    boca::InfoBranch trainer_info_branch_;
+    int trainer_size_;
     std::vector<std::vector<bool>> passed_;
     TMVA::Types::EMVA mva_;
     std::vector<float> selected_efficiencies_;

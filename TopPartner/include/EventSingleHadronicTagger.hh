@@ -4,7 +4,8 @@
 #pragma once
 
 #include "SignatureSingleHadronicTagger.hh"
-#include "MultipletEvent.hh"
+#include "GlobalTagger.hh"
+#include "EventMultiplet.hh"
 
 namespace boca
 {
@@ -17,14 +18,14 @@ namespace naturalness
  * @brief Prepares multivariant analysis
  *
  */
-class EventSingleHadronicTagger : public TaggerTemplate<MultipletEvent<Decuplet532>, EventBranch>
+class EventSingleHadronicTagger : public TaggerTemplate<EventMultiplet<Decuplet532>, NewEventBranch>
 {
 
 public:
 
     int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const override;
 
-    std::vector<MultipletEvent<Decuplet532>> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
+    std::vector<EventMultiplet<Decuplet532>> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
 
     std::string Name() const override;
 
@@ -32,11 +33,11 @@ public:
 
 private:
 
-    std::vector<MultipletEvent<Decuplet532>> Events(Event const& event, std::function<MultipletEvent<Decuplet532>(MultipletEvent<Decuplet532> &)> const& function) const;
+    std::vector<EventMultiplet<Decuplet532>> Events(Event const& event, std::function<EventMultiplet<Decuplet532>(EventMultiplet<Decuplet532> &)> const& function) const;
 
     Reader<SignatureSingleHadronicTagger> signature_reader_;
 
-    Reader<standardmodel::BottomTagger> bottom_reader_;
+    Reader<GlobalTagger> global_reader_;
 
 };
 

@@ -257,6 +257,8 @@ public:
                     DEFAULT(Int(PreCut()), fb);
                 }
             }
+        default : std::cout << "Switch default for Process " << to_int(process) << std::endl;
+            return 0_fb;
         }
     }
 

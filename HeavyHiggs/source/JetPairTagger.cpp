@@ -44,7 +44,7 @@ namespace heavyhiggs
 //             if (std::abs((*jet1).rap()) > std::abs((*jet2).rap())) doublet.SetMultiplets(*jet1, *jet2);
 //             else doublet.SetMultiplets(*jet2, *jet1);
 //
-//             if (bottoms.size() == 2 && higgs.size() > 0 && tag == Tag::background) {
+//             if (bottoms.size() == 2 && !higgs.empty() && tag == Tag::background) {
 //                 if (CheckIfBadBottom(doublet, bottoms)) continue;
 //             }
 //
@@ -126,7 +126,7 @@ int JetPairTagger::Train(const Event& event, const PreCuts&, Tag tag) const
             Doublet doublet;
             if (std::abs((*jet1).rap()) > std::abs((*jet2).rap())) doublet.SetMultiplets(*jet1, *jet2);
             else doublet.SetMultiplets(*jet2, *jet1);
-            if (tag == Tag::background && higgs.size() > 0 && bottoms.size() == 2 && CheckIfBadBottom(doublet, bottoms)) continue;
+            if (tag == Tag::background && !higgs.empty() && bottoms.size() == 2 && CheckIfBadBottom(doublet, bottoms)) continue;
             if (doublet.Overlap())continue;
 //             for (auto jet : jets) if (jet != *jet1 && jet != *jet2) doublet.AddRestJet(jet); // FIXME reactivate this
             if (doublet.Jets().size() != jets.size() - 2) ERROR("to many jets in the rest jet vector");

@@ -19,7 +19,7 @@ public:
 
     using boca::Jet::Jet;
 
-    boca::Jet Jet() const {
+    boca::Jet Jet() const override {
         return *this;
     }
 
@@ -83,7 +83,7 @@ public:
         return Spread(Info().VertexJet());
     }
 
-    Momentum Ht() const {
+    Momentum Ht() const override {
         return Jet().Pt();
     }
 
@@ -95,15 +95,15 @@ public:
 
     float Bdt() const override;
 
-    int Charge() const;
+    int Charge() const override;
 
-    Singlet const& singlet() const;
+    Singlet const& singlet() const override;
 
     Vector2<AngleSquare> PullVector() const;
 
-    float BottomBdt() const override {
-        return Bdt();
-    }
+//     float BottomBdt() const override {
+//         return Bdt();
+//     }
 
 private:
 

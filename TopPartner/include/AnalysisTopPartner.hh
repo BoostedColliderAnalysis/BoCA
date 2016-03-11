@@ -75,8 +75,8 @@ protected:
 
     long TrainNumberMax() const override {
         INFO0;
-        return 1000;
         return 10000;
+        return 1000;
         return 10;
         return 100;
         return 5000;
@@ -172,7 +172,7 @@ protected:
 
     void NewFile(Tag tag, Process process) {
         INFO0;
-        AnalysisBase::NewFile(tag, this->FileName(process), this->Crosssection(process), LatexName(process), Mass());
+        AnalysisBase::NewFile(tag, this->FileName(process), this->Crosssection(process), Names(Name(process), LatexName(process)), Mass());
     }
 
 };
