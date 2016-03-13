@@ -1,5 +1,5 @@
 #include "ChargedHiggsLeptonicTagger.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca {
 
@@ -15,7 +15,7 @@ int ChargedHiggsLeptonicTagger::Train(Event const& event, PreCuts const&, const 
         std::vector<Triplet> triplets;
         for (auto const& triplet : triplets) {
             for (auto const& Jet : jets)  {
-                if (triplet.Singlet1().Jet() == Jet) continue;
+                if (triplet.Singlet1() == Jet) continue;
                 Triplet triplet(triplet, Jet);
     //             triplet.SetTag(GetTag(triplet));
                 if (triplet.Tag() != tag) continue;
@@ -48,7 +48,7 @@ std::vector<Triplet>  ChargedHiggsLeptonicTagger::Multiplets(Event const&, PreCu
 //     std::vector<Triplet> triplets;
 //     for (auto const& doublet : doublets) {
 //         for (auto const& jet : jets)  {
-//             if (doublet.Singlet1().Jet() == jet) continue;
+//             if (doublet.Singlet1() == jet) continue;
 //             Triplet triplet(doublet, jet);
 // //             triplet.SetTag(GetTag(triplet));
 // //             std::vector<Quartet31> Prequartets;

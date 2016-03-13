@@ -8,7 +8,7 @@
 #include "VetoTopPartnerLeptonicTagger.hh"
 #include "TopPartnerLeptonicNeutralTagger.hh"
 #include "TopPartnerHadronicTagger.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {

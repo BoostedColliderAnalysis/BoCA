@@ -190,6 +190,14 @@ public:
         return Multiplet::DeltaM(Multiplet1(), Multiplet3());
     }
 
+    boca::Mass Mass() const {
+      return Jet().Mass();
+    }
+
+    Angle DeltaRTo(boca::PseudoJet const& jet) const override {
+      return Jet().DeltaRTo(jet);
+    }
+
     Momentum DeltaHt() const {
         return Multiplet::DeltaHt(Multiplet1(), Multiplet2());
     }

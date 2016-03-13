@@ -7,7 +7,7 @@
 #include "MomentumRange.hh"
 #include "Exception.hh"
 // #define DEBUGGING
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {
@@ -58,7 +58,8 @@ std::vector<Doublet> BosonTagger::Doublets(Event const& event, std::function<Dou
                 doublets.emplace_back(function(doublet));
             } catch (std::exception const&) {}
         if (sub_jet_range.AboveLowerBound(jet)) try {
-                Doublet doublet(jet);
+                Doublet doublet;
+                doublet.Enforce(jet);
                 doublets.emplace_back(function(doublet));
             } catch (std::exception const&) {}
     }

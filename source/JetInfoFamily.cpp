@@ -6,7 +6,7 @@
 #include <numeric>
 #include "Types.hh"
 #include "delphes/Delphes.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca {
 

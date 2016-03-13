@@ -7,7 +7,7 @@
 #include "Types.hh"
 #include "File.hh"
 // #define INFORMATION
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {

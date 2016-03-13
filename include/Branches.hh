@@ -352,14 +352,14 @@ public:
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         PairBranch::Fill(multiplet);
-        Jet1Pt = multiplet.Singlet1().Jet().Pt() / GeV;
-        Jet1Rap = multiplet.Singlet1().Jet().Rap() / rad;
-        Jet1Phi = multiplet.Singlet1().Jet().Phi() / rad;
-        Jet1Mass = multiplet.Singlet1().Jet().Mass() / GeV;
-        Jet2Pt = multiplet.Singlet2().Jet().Pt() / GeV;
-        Jet2Rap = multiplet.Singlet2().Jet().Rap() / rad;
-        Jet2Phi = multiplet.Singlet2().Jet().Phi() / rad;
-        Jet2Mass = multiplet.Singlet2().Jet().Mass() / GeV;
+        Jet1Pt = multiplet.Singlet1().Pt() / GeV;
+        Jet1Rap = multiplet.Singlet1().Rap() / rad;
+        Jet1Phi = multiplet.Singlet1().Phi() / rad;
+        Jet1Mass = multiplet.Singlet1().Mass() / GeV;
+        Jet2Pt = multiplet.Singlet2().Pt() / GeV;
+        Jet2Rap = multiplet.Singlet2().Rap() / rad;
+        Jet2Phi = multiplet.Singlet2().Phi() / rad;
+        Jet2Mass = multiplet.Singlet2().Mass() / GeV;
     }
     Observables Variables();
 
@@ -391,11 +391,11 @@ public:
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         PairBranch::Fill(multiplet);
-        BottomPt = multiplet.Singlet().Jet().Pt() / GeV;
+        BottomPt = multiplet.Singlet().Pt() / GeV;
 //         BottomRap = std::abs(multiplet.Singlet().rap());
-        BottomRap = multiplet.Singlet().Jet().Rap() / rad;
-        BottomPhi = multiplet.Singlet().Jet().Phi() / rad;
-        BottomMass = multiplet.Singlet().Jet().Mass() / GeV;
+        BottomRap = multiplet.Singlet().Rap() / rad;
+        BottomPhi = multiplet.Singlet().Phi() / rad;
+        BottomMass = multiplet.Singlet().Mass() / GeV;
 //         BottomBdt = multiplet.Singlet().Info().Bdt();
         TopPt = multiplet.Triplet().Jet().Pt() / GeV;
 //         TopRap = std::abs(multiplet.Triplet().Jet().rap());

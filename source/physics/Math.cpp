@@ -5,7 +5,7 @@
 #include <cmath>
 
 #include "physics/Math.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {

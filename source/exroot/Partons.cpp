@@ -3,7 +3,7 @@
 #include "exroot/ExRootAnalysis.hh"
 #include "ParticleInfo.hh"
 #include "Types.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {

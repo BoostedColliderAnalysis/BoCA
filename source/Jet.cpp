@@ -7,7 +7,7 @@
 #include "InfoRecombiner.hh"
 #include "Exception.hh"
 // #define DEBUGGING
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {
@@ -25,7 +25,7 @@ Jet::Jet(fastjet::PseudoJet const& jet) :
 Jet::Jet(fastjet::PseudoJet const& jet, JetInfo const& info) :
     PseudoJet(jet)
 {
-  SetInfo(info);
+    SetInfo(info);
 }
 
 Jet::Jet(double x, double y, double z, double e) :
@@ -143,6 +143,13 @@ void Jet::SetInfo(JetInfo const& user_info)
     if (has_user_info()) ERROR("Jet has already a user info, which is beeing overwritten, this leads to data loss and leaking memory");
     set_user_info(new JetInfo(user_info));
 }
+
+void Jet::ResetInfo(const JetInfo& user_info)
+{
+    if (!has_user_info()) ERROR("You can not reset a non existing user info");
+    static_cast<JetInfo&>(*user_info_shared_ptr().get()) = user_info;
+}
+
 
 std::vector< Jet > JetVector(std::vector< fastjet::PseudoJet > const& pseudo_jets)
 {

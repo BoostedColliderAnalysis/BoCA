@@ -2,7 +2,7 @@
 
 #include "exroot/ExRootAnalysis.hh"
 #include "Types.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {

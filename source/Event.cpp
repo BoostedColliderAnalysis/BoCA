@@ -10,7 +10,7 @@
 #include "exroot/Partons.hh"
 #include "Vector.hh"
 #include "DetectorGeometry.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {

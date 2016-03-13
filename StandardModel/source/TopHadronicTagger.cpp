@@ -10,7 +10,7 @@
 #include "ParticleInfo.hh"
 #include "MomentumRange.hh"
 // #define INFORMATION
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {
@@ -170,7 +170,8 @@ std::vector<Triplet> TopHadronicTagger::TwoSubJets(Jet const& jet, std::vector<L
 boost::optional<Triplet> TopHadronicTagger::HighlyBoosted(Jet const& jet, std::vector<Lepton> const& leptons, Function const& function) const
 {
     INFO0;
-    Triplet triplet(jet);
+    Triplet triplet;
+    triplet.Enforce(jet);
     triplet.Doublet().SetBdt(0);
     return function(triplet, leptons);
 }

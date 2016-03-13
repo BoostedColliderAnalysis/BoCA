@@ -4,7 +4,7 @@
 #include "Observables.hh"
 #include "Vector.hh"
 #include "Filter.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 namespace boca
 {
 

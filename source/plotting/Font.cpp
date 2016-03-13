@@ -5,7 +5,7 @@
 #include "Types.hh"
 #include "plotting/Font.hh"
 // #define INFORMATION
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {

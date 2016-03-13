@@ -27,7 +27,7 @@ public:
 
     std::string LatexName() const override;
 
-    std::vector<Particle> Particles(const boca::Event& event, boca::Tag tag) const;
+    std::vector<std::pair<Particle, Particle>> Particles(const boca::Event& event, boca::Tag tag) const;
 
 private:
 

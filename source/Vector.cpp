@@ -8,7 +8,7 @@
 
 #include "Types.hh"
 #include "ParticleInfo.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {

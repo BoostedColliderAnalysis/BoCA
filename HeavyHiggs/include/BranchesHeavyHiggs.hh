@@ -191,8 +191,8 @@ public:
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         PairBranch::Fill(multiplet);
-        LeptonPt = multiplet.Singlet1().Jet().Pt() / GeV;
-        NeutrinoPt = multiplet.Singlet2().Jet().Pt() / GeV;
+        LeptonPt = multiplet.Singlet1().Pt() / GeV;
+        NeutrinoPt = multiplet.Singlet2().Pt() / GeV;
     }
 
     Observables Variables();

@@ -11,7 +11,7 @@
 #include "Exception.hh"
 #include "plotting/Font.hh"
 // #define NOTIFICATION
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {
@@ -62,12 +62,14 @@ std::vector<Doublet> WHadronicTagger::Doublets(Event const& event, PreCuts const
         if (pre_cuts.DoSubJets(Id::W) && boosted_range.InsideRange(jet)) {
             std::vector<Jet> pieces = bottom_reader_.SubMultiplet(jet, 2);
             for (auto piece : pieces) {
-                Doublet doublet(piece);
+                Doublet doublet;
+                doublet.Enforce(piece);
                 if (boost::optional<Doublet> optional = function(doublet)) doublets.emplace_back(*optional);
             }
         }
         if (boosted_range.AboveLowerBound(jet)) {
-            Doublet doublet(jet);
+            Doublet doublet;
+            doublet.Enforce(jet);
             if (boost::optional<Doublet> optional = function(doublet)) doublets.emplace_back(*optional);
         }
     }
@@ -149,7 +151,8 @@ std::vector<Doublet> WHadronicTagger::Multiplets(std::vector<Jet> const& jets, P
 boost::optional<Doublet> WHadronicTagger::Multiplet(Jet jet, TMVA::Reader const& reader) const
 {
     PreCuts pre_cuts;
-    Doublet doublet(jet);
+    Doublet doublet;
+    doublet.Enforce(jet);
     return Multiplet(doublet, pre_cuts, reader);
 }
 
@@ -167,8 +170,8 @@ boost::optional<Doublet> WHadronicTagger::SubDoublet(Jet const& jet, Function co
     std::vector<Jet> pieces = bottom_reader_.SubMultiplet(jet, 2);
     if (pieces.empty()) return boost::none;
     Doublet doublet;
-    if (pieces.size() == 1) doublet.SetJet(pieces.front());
-    else doublet.SetMultiplets(pieces.at(0), pieces.at(1));
+    if (pieces.size() == 1) doublet.Enforce(pieces.front());
+    else doublet = Doublet(pieces.at(0), pieces.at(1));
     return function(doublet);
 }
 
@@ -186,7 +189,7 @@ std::string WHadronicTagger::Name() const
 
 std::string WHadronicTagger::LatexName() const
 {
-    return Formula("W_{h}^{#pm}");
+    return Formula("W_{h}^{\\pm}");
 }
 
 }

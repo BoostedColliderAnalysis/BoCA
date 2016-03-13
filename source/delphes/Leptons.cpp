@@ -4,7 +4,7 @@
 #include "delphes/Leptons.hh"
 #include "delphes/Delphes.hh"
 #include "Types.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {

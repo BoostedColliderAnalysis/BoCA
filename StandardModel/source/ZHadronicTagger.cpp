@@ -5,7 +5,7 @@
 #include "MomentumRange.hh"
 #include "Event.hh"
 #include "Exception.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {
@@ -46,7 +46,8 @@ std::vector<Doublet> ZHadronicTagger::Doublets(Event const& event, std::function
                 if (boost::optional<Doublet> optional = function(doublet)) doublets.emplace_back(*optional);
             } catch (std::exception&) {}
         if (sub_jet_range.AboveLowerBound(jet)) {
-            Doublet doublet(jet);
+            Doublet doublet;
+            doublet.Enforce(jet);
             if (boost::optional<Doublet> optional_doublet = function(doublet)) doublets.emplace_back(*optional_doublet);
         }
     }

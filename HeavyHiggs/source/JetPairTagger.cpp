@@ -5,7 +5,7 @@
 #include "HeavyHiggsSemiTagger.hh"
 #include "Event.hh"
 #include "Sort.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {
@@ -90,7 +90,7 @@ std::vector<Particle>JetPairTagger::PairBottomQuarks(Event const& event, Tag tag
 
 bool JetPairTagger::CheckIfBadBottom(boca::Doublet const& doublet, std::vector<Particle> const& jets)const
 {
-    if ((Close(jets.at(0))(doublet.Singlet1().Jet()) && Close(jets.at(1))(doublet.Singlet2().Jet())) || (Close(jets.at(1))(doublet.Singlet1().Jet()) && Close(jets.at(0))(doublet.Singlet2().Jet())))return true;
+    if ((Close(jets.at(0))(doublet.Singlet1()) && Close(jets.at(1))(doublet.Singlet2())) || (Close(jets.at(1))(doublet.Singlet1()) && Close(jets.at(0))(doublet.Singlet2())))return true;
     else return false;
 
 }
@@ -124,8 +124,8 @@ int JetPairTagger::Train(const Event& event, const PreCuts&, Tag tag) const
     for (auto jet1 = bottom_jets.begin(); jet1 != bottom_jets.end(); ++jet1)
         for (auto jet2 = jet1 + 1; jet2 != bottom_jets.end(); ++jet2) {
             Doublet doublet;
-            if (std::abs((*jet1).rap()) > std::abs((*jet2).rap())) doublet.SetMultiplets(*jet1, *jet2);
-            else doublet.SetMultiplets(*jet2, *jet1);
+            if (std::abs((*jet1).rap()) > std::abs((*jet2).rap())) doublet = Doublet(*jet1, *jet2);
+            else doublet = Doublet(*jet2, *jet1);
             if (tag == Tag::background && !higgs.empty() && bottoms.size() == 2 && CheckIfBadBottom(doublet, bottoms)) continue;
             if (doublet.Overlap())continue;
 //             for (auto jet : jets) if (jet != *jet1 && jet != *jet2) doublet.AddRestJet(jet); // FIXME reactivate this
@@ -181,7 +181,7 @@ Doublet JetPairTagger::TruthDoubletPair(Doublet const& doublet, std::vector<Part
             ERROR(bottoms.size());
             break;
         }
-        if ((Close(bottoms.at(0))(doublet.Singlet1().Jet()) && Close(bottoms.at(1))(doublet.Singlet2().Jet())) || (Close(bottoms.at(1))(doublet.Singlet1().Jet()) && Close(bottoms.at(0))(doublet.Singlet2().Jet()))) {
+        if ((Close(bottoms.at(0))(doublet.Singlet1()) && Close(bottoms.at(1))(doublet.Singlet2())) || (Close(bottoms.at(1))(doublet.Singlet1()) && Close(bottoms.at(0))(doublet.Singlet2()))) {
             return doublet;
         }
         break;
@@ -197,10 +197,9 @@ std::vector<Doublet> JetPairTagger::Multiplets(const Event& event, const PreCuts
     for (auto jet_1 = jets.begin(); jet_1 != jets.end(); ++jet_1)
         for (auto jet_2 = jet_1 + 1; jet_2 != jets.end(); ++jet_2) {
             Doublet doublet;
-            if (std::abs((*jet_1).rap()) > std::abs((*jet_2).rap())) doublet.SetMultiplets(*jet_1, *jet_2);
-            else doublet.SetMultiplets(*jet_2, *jet_1);
+            if (std::abs((*jet_1).rap()) > std::abs((*jet_2).rap())) doublet = Doublet(*jet_1, *jet_2);
+            else doublet = Doublet(*jet_2, *jet_1);
             if (doublet.Overlap())continue;
-//             for (auto jet : jets)  if (jet != *jet_1 && jet != *jet_2) doublet.AddRestJet(jet); // FIXME reactivate this
             if (doublet.Jets().size() != jets.size() - 2) ERROR("to many jets in the rest jet vector");
             doublet.SetBdt(Bdt(doublet, reader));
             doublets.emplace_back(doublet);

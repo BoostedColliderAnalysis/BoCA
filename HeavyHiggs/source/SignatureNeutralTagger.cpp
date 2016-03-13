@@ -1,6 +1,6 @@
 #include "SignatureNeutralTagger.hh"
 #include "Event.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {
@@ -28,8 +28,8 @@ int SignatureNeutralTagger::Train(Event const& event, PreCuts const&, Tag tag) c
     if (top_higgs.size() == 2) {
 
         for (auto const & doublet : doublets) {
-            if ((Close(top_higgs.at(0))(doublet.Singlet1().Jet()) && Close(top_higgs.at(1))(doublet.Singlet2().Jet())) || (Close(top_higgs.at(1))(doublet.Singlet1().Jet()) && Close(top_higgs.at(0))(doublet.Singlet2().Jet()))) two_close_to_top++;
-            if ((Close(top_higgs.at(0))(doublet.Singlet1().Jet()) || Close(top_higgs.at(1))(doublet.Singlet2().Jet())) || (Close(top_higgs.at(1))(doublet.Singlet1().Jet()) || Close(top_higgs.at(0))(doublet.Singlet2().Jet()))) one_close_to_top++;
+            if ((Close(top_higgs.at(0))(doublet.Singlet1()) && Close(top_higgs.at(1))(doublet.Singlet2())) || (Close(top_higgs.at(1))(doublet.Singlet1()) && Close(top_higgs.at(0))(doublet.Singlet2()))) two_close_to_top++;
+            if ((Close(top_higgs.at(0))(doublet.Singlet1()) || Close(top_higgs.at(1))(doublet.Singlet2())) || (Close(top_higgs.at(1))(doublet.Singlet1()) || Close(top_higgs.at(0))(doublet.Singlet2()))) one_close_to_top++;
         }
     }
 
@@ -45,7 +45,7 @@ int SignatureNeutralTagger::Train(Event const& event, PreCuts const&, Tag tag) c
         if (bottoms.size() == 2) {
 
             for (auto const & doublet : doublets) {
-                if ((Close(bottoms.at(0))(doublet.Singlet1().Jet()) && Close(bottoms.at(1))(doublet.Singlet2().Jet())) || (Close(bottoms.at(1))(doublet.Singlet1().Jet()) && Close(bottoms.at(0))(doublet.Singlet2().Jet()))) final_doublets.emplace_back(doublet);
+                if ((Close(bottoms.at(0))(doublet.Singlet1()) && Close(bottoms.at(1))(doublet.Singlet2())) || (Close(bottoms.at(1))(doublet.Singlet1()) && Close(bottoms.at(0))(doublet.Singlet2()))) final_doublets.emplace_back(doublet);
 
             }
         } else ERROR(bottoms.size());

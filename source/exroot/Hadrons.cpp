@@ -1,6 +1,6 @@
 #include "exroot/ExRootAnalysis.hh"
 #include "exroot/Hadrons.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {

@@ -9,6 +9,7 @@
 #include "Tagger.hh"
 #include "PreCuts.hh"
 #include "Filter.hh"
+#include "Debug.hh"
 
 namespace boca
 {
@@ -52,8 +53,8 @@ public:
 
 protected:
 
-    template<typename Multiplet_2_>
-    std::vector<Multiplet_2_> ReduceResult(std::vector<Multiplet_2_> multiplets, std::size_t max = 4) const {
+    template<typename Multiplet_2__>
+    std::vector<Multiplet_2__> ReduceResult(std::vector<Multiplet_2__> multiplets, std::size_t max = 4) const {
         // DEBUG_CHECK(multiplets.size() >= max, multiplets.size());
         if (multiplets.empty()) return multiplets;
         multiplets = SortedByBdt(multiplets);
@@ -68,21 +69,71 @@ protected:
         return multiplets;
     }
 
-    template<typename Multiplet_2>
-    std::vector<Multiplet_2> BestMatch(std::vector<Multiplet_2> const& multiplets, std::vector<Particle> const& particles, Id id = Id::none) const {
-        std::vector<Multiplet_2> close = CopyIfClose(multiplets, particles);
-        close = SortedByBdt(close);
-        if (id != Id::none) close = SortedByMassTo(close, id);
-        return std::vector<Multiplet_2>(&close[0], &close[std::min(close.size(), particles.size())]);
+//     template<typename Multiplet_2_>
+//     std::vector<Multiplet_2_> BestMatch(std::vector<Multiplet_2_> const& multiplets, std::vector<Particle> const& particles, Id id = Id::none) const {
+//         std::vector<Multiplet_2_> close = CopyIfClose(multiplets, particles);
+//         close = SortedByBdt(close);
+//         if (id != Id::none) close = SortedByMassTo(close, id);
+//         return std::vector<Multiplet_2_>(close.data(), &close.at(std::min(close.size(), particles.size())));
+//     }
+
+    template<typename Multiplet_2_, typename Particle_>
+    std::vector<Multiplet_2_> BestMatch(std::vector<Multiplet_2_> const& multiplets, std::vector<Particle_> const& particles, Id id = Id::none) const {
+        if (Debug()) boca::Debug("multiplets", multiplets.size(), "particles", particles.size());
+        if (multiplets.empty()) return multiplets;
+        std::vector<Multiplet_2_> best;
+        for (auto const & particle : particles) best = Join(best, BestMatch(multiplets, particle, id));
+        if (Debug()) boca::Debug("best", best.size());
+        return best;
     }
 
-    template<typename Multiplet_2>
-    std::vector<Multiplet_2> RemoveBestMatch(std::vector<Multiplet_2> const& multiplets, std::vector<Particle> const& particles) const {
+    template<typename Multiplet_2_, typename Particle_>
+    std::vector<Multiplet_2_> BestMatch(std::vector<Multiplet_2_> const& multiplets, Particle_ const& particle, Id id = Id::none) const {
+        if (Debug()) boca::Debug("multiplets", multiplets.size());
+        if (multiplets.empty()) return multiplets;
+        auto close = CopyIfClose(multiplets, particle);
+        close = id == Id::none ? SortedByBdt(close) : SortedByMassTo(close, id);
+        if (Debug()) boca::Debug("close", close.size());
+        if (close.empty()) return close;
+        return {close.front()};
+    }
+
+//     template<typename Multiplet_2_>
+//     std::vector<Multiplet_2_> BestMatch(std::vector<Multiplet_2_> const& multiplets, std::vector<std::pair<Particle, Particle>> const& particles, Id id = Id::none) const {
+//         if (Debug()) boca::Debug("multiplets", multiplets.size(), "particles", particles.size());
+//         if (multiplets.empty()) return multiplets;
+//         auto close = CopyIfClose(multiplets, particles);
+//         if (close.empty()) return close;
+//         close = id == Id::none ? SortedByBdt(close) : SortedByMassTo(close, id);
+//         if (Debug()) boca::Debug("close", close.size());
+//         return close.empty() ? close : std::vector<Multiplet_2_>(close.data(), &close.at(std::min(close.size(), particles.size()) - 1));
+//     }
+
+    template<typename Multiplet_2_>
+    std::vector<Multiplet_2_> RemoveBestMatch(std::vector<Multiplet_2_> const& multiplets, std::vector<Particle> const& particles) const {
         return RemoveIfClose(multiplets, particles);
     }
 
-    template<typename Multiplet_2>
-    std::vector<Multiplet_2> BestMatches(std::vector<Multiplet_2> multiplets, std::vector<Particle> const& particles, Tag tag, Id id = Id::none) const {
+    template<typename Multiplet_2_>
+    std::vector<Multiplet_2_> RemoveBestMatch(std::vector<Multiplet_2_> const& multiplets, std::vector<std::pair<Particle, Particle>> const& particles) const {
+        return RemoveIfClose(multiplets, particles);
+    }
+
+    template<typename Multiplet_2_>
+    std::vector<Multiplet_2_> BestMatches(std::vector<Multiplet_2_> multiplets, std::vector<Particle> const& particles, Tag tag, Id id = Id::none) const {
+        if (Debug()) boca::Debug("multiplets", multiplets.size(), "particles", particles.size());
+        if (multiplets.empty()) return multiplets;
+        multiplets = SortedByBdt(multiplets);
+        switch (tag) {
+        case Tag::signal : return BestMatch(multiplets, particles, id);
+        case Tag::background : return RemoveBestMatch(multiplets, particles);
+        default : return multiplets;
+        }
+    }
+
+    template<typename Multiplet_2_>
+    std::vector<Multiplet_2_> BestMatches(std::vector<Multiplet_2_> multiplets, std::vector<std::pair<Particle, Particle>> const& particles, Tag tag, Id id = Id::none) const {
+        if (Debug()) boca::Debug("multiplets", multiplets.size(), "particles", particles.size());
         if (multiplets.empty()) return multiplets;
         multiplets = SortedByBdt(multiplets);
         switch (tag) {
@@ -105,6 +156,7 @@ protected:
     }
 
     int SaveEntries(std::vector<Multiplet_> multiplets, std::vector<Particle> particles, Tag tag, Id id = Id::none) const {
+        if (Debug()) boca::Debug("multiplets", multiplets.size(), "particles", particles.size());
         return SaveEntries(BestMatches(multiplets, particles, tag, id));
     }
 
@@ -114,6 +166,10 @@ protected:
         case Tag::background : return SaveEntries(multiplets);
         default : return {};
         }
+    }
+
+    int SaveEntries(std::vector<Multiplet_> multiplets, std::vector<std::pair<Particle, Particle>> particles, Tag tag, Id id = Id::none) const {
+        return SaveEntries(BestMatches(multiplets, particles, tag, id));
     }
 
     TClass& Class() const override {
@@ -157,6 +213,10 @@ private:
     *
     */
     mutable Branch_ branch_;
+
+    constexpr bool Debug() const {
+        return false;
+    }
 
 };
 

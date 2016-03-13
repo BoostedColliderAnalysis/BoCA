@@ -51,7 +51,7 @@ private:
 
     bool Problematic(Doublet const& doublet, PreCuts const& pre_cuts) const;
 
-    Doublet MassDrop(Doublet const& doublet) const;
+    boost::optional<Doublet> MassDrop(Doublet const& doublet) const;
 
     Reader<BottomTagger> bottom_reader_;
 

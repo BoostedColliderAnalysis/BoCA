@@ -1,5 +1,5 @@
 #include "TopPartnerLeptonicTagger.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {

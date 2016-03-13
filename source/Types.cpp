@@ -4,7 +4,7 @@
 #include "Types.hh"
 
 #include <sys/stat.h>
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca {
 

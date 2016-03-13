@@ -30,10 +30,6 @@ private:
 
     std::vector<Particle> Particles(Status max_status) const;
 
-    std::string PrintParticle(int position) const;
-
-    void PrintCells(const ::delphes::GenParticle& particle) const;
-
 };
 
 }

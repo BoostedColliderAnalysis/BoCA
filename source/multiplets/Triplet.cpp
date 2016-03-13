@@ -23,7 +23,7 @@ Singlet const& Triplet::Singlet() const
 
 void Triplet::SetSubJettiness()
 {
-  sub_jettiness_ = boca::SubJettiness(Singlet().Jet());
+  sub_jettiness_ = boca::SubJettiness(Singlet());
 }
 
 Momentum Triplet::LeptonPt() const

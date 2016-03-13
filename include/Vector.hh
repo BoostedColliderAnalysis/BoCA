@@ -150,19 +150,55 @@ std::vector<Multiplet_> RemoveIfClose(std::vector<Multiplet_> jets, std::vector<
 }
 
 template <typename Multiplet_>
-std::vector<Multiplet_> CopyIfClose(std::vector<Multiplet_> const& multiplets, std::vector<Particle> const& particles)
+bool CrossComparison(Multiplet_ const& multiplet, std::pair<Particle, Particle> const& particles)
+{
+    return (Close(particles.first)(multiplet.Multiplet1()) && Close(particles.second)(multiplet.Multiplet2())) || (Close(particles.first)(multiplet.Multiplet2()) && Close(particles.second)(multiplet.Multiplet1()));
+}
+
+template <typename Multiplet_>
+std::vector<Multiplet_> RemoveIfClose(std::vector<Multiplet_> jets, std::vector<std::pair<Particle, Particle>> const& particles)
+{
+    for (auto const & particle : particles) jets = boost::range::remove_erase_if(jets, [&](Multiplet_ const & multiplet) {
+        return CrossComparison(multiplet, particle);
+    });
+    return jets;
+}
+
+template <typename Multiplet_, typename Particle_>
+std::vector<Multiplet_> CopyIfClose(std::vector<Multiplet_> const& multiplets, std::vector<Particle_> const& particles)
 {
     if (multiplets.empty()) return multiplets;
-    std::vector<Multiplet_> final_multiplets;
-    for (auto const & particle : particles) for (auto const & multiplet : multiplets) if (Close(particle)(multiplet)) final_multiplets.emplace_back(multiplet);
-    return final_multiplets;
-
-//     if (multiplets.empty()) return multiplets;
-//     std::vector<Multiplet_> final_multiplets(multiplets.size());
-//     auto multiplet = std::copy_if(multiplets.begin(), multiplets.end(), final_multiplets.begin(), Close(particle)(multiplet));
-//     final_multiplets.resize(std::distance(final_multiplets.begin(), multiplet));
-//     return final_multiplets;
+    std::vector<Multiplet_> close_multiplets;
+    for (auto const & particle : particles) close_multiplets = Join(close_multiplets, CopyIfClose(multiplets, particle));
+    return close_multiplets;
 }
+
+template <typename Multiplet_>
+std::vector<Multiplet_> CopyIfClose(std::vector<Multiplet_> const& multiplets, Particle const& particle)
+{
+  if (multiplets.empty()) return multiplets;
+  std::vector<Multiplet_> close_multiplets;
+  for (auto const & multiplet : multiplets) if (Close(particle)(multiplet)) close_multiplets.emplace_back(multiplet);
+  return close_multiplets;
+}
+
+template <typename Multiplet_>
+std::vector<Multiplet_> CopyIfClose(std::vector<Multiplet_> const& multiplets, std::pair<Particle, Particle> const& particle)
+{
+    if (multiplets.empty()) return multiplets;
+    std::vector<Multiplet_> close_multiplets;
+    for (auto const & multiplet : multiplets) if (CrossComparison(multiplet, particle)) close_multiplets.emplace_back(multiplet);
+    return close_multiplets;
+}
+
+// template <typename Multiplet_>
+// std::vector<Multiplet_> CopyIfClose(std::vector<Multiplet_> const& multiplets, std::vector<std::pair<Particle, Particle>> const& particles)
+// {
+//     if (multiplets.empty()) return multiplets;
+//     std::vector<Multiplet_> final_multiplets;
+//     for (auto const & particle : particles) for (auto const & multiplet : multiplets) if (CrossComparison(multiplet, particle)) final_multiplets.emplace_back(multiplet);
+//     return final_multiplets;
+// }
 
 template <typename Element_>
 int Position(std::vector<Element_> const& vector, Element_ const& element)

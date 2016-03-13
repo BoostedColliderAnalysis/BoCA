@@ -15,7 +15,7 @@
 #include "DetectorGeometry.hh"
 #include "ReaderBase.hh"
 // #define INFORMATION
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {
@@ -106,10 +106,16 @@ std::string Tagger::FactoryFileName() const
     return PathName(TrainerName());
 }
 
-std::string Tagger::ExportFileName(Stage stage, Tag tag) const
+std::string Tagger::ExportFileName(Phase const& phase) const
 {
     INFO0;
-    return PathName(Name(stage, tag));
+    return ExportFileName(phase.Stage(), phase.Tag());
+}
+
+std::string Tagger::ExportFileName(Stage stage, Tag tag) const
+{
+  INFO0;
+  return PathName(Name(stage, tag));
 }
 
 std::string Tagger::ExportName() const

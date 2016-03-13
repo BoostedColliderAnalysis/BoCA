@@ -2,7 +2,7 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "Family.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 #include "Types.hh"
 
 namespace boca

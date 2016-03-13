@@ -3,7 +3,7 @@
  */
 #include "SignatureSingleHadronicTagger.hh"
 // #define INFORMATION
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {

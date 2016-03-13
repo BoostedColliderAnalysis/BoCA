@@ -3,26 +3,24 @@
  */
 
 #include <boost/math/constants/constants.hpp>
+#include <boost/range/algorithm/unique.hpp>
 
 #include "physics/Math.hh"
 #include "Vector.hh"
 #include "Sort.hh"
 #include "Line2.hh"
 #include "multiplets/Multiplet.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {
 
 boca::Singlet Multiplet::Singlet(boca::Singlet const& singlet_1, boca::Singlet const& singlet_2) const
 {
-    std::vector<fastjet::PseudoJet> constituents;
-    if (singlet_1.Jet().has_constituents()) constituents = singlet_1.Jet().constituents();
-    else constituents.emplace_back(singlet_1.Jet());
-    if (singlet_2.Jet().has_constituents()) constituents = Join(constituents, singlet_2.Jet().constituents());
-    else constituents.emplace_back(singlet_2.Jet());
+    std::vector<fastjet::PseudoJet> constituents(singlet_1.has_constituents() ? singlet_1.constituents() : PseudoJetVector(singlet_1.Jets()));
+    constituents = Join(constituents, singlet_2.has_constituents() ? singlet_2.constituents() : PseudoJetVector(singlet_2.Jets()));
     constituents = fastjet::sorted_by_pt(constituents);
-    constituents.erase(std::unique(constituents.begin(), constituents.end()), constituents.end());
+    boost::erase(constituents, boost::unique<boost::return_next_end>(constituents));
     return fastjet::join(constituents, InfoRecombiner());
 }
 
@@ -58,7 +56,7 @@ Angle Multiplet::DeltaPhi(MultipletBase const& multiplets_1, MultipletBase const
 
 Angle Multiplet::DeltaR(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const
 {
-    Angle delta_r = multiplets_1.Jet().DeltaRTo(multiplets_2.Jet());
+    Angle delta_r = multiplets_1.DeltaRTo(multiplets_2.Jet());
     if (boost::units::abs(delta_r) > 100_rad) delta_r = 0_rad;
 //         if (delta_r < DetectorGeometry::MinCellResolution()) delta_r = Singlet(Jet()).DeltaR();
     return delta_r;
@@ -98,15 +96,17 @@ Angle Multiplet::Pull(MultipletBase const& multiplets_1, MultipletBase const& mu
 float Multiplet::Dipolarity(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2, boca::Singlet const& singlet) const
 {
     if (singlet.Pt() == at_rest) return 0;
-    if (!singlet.Jet().has_constituents()) return 0;
+    if (!singlet.has_constituents()) return 0;
     Vector2<Angle> point_1(multiplets_1.Jet().Rap(), multiplets_1.Jet().Phi());
     Vector2<Angle> point_2 = Point2(point_1, multiplets_2);
     Line2<Angle> line(point_1, point_2);
     auto dipolarity = at_rest * rad2;
-    for (auto const & constituent : singlet.Jet().Constituents()) dipolarity += constituent.Pt() * sqr(Distance(line, constituent));
+    for (auto const & constituent : singlet.Constituents()) dipolarity += constituent.Pt() * sqr(Distance(line, constituent));
     Angle delta_r = DeltaR(multiplets_1, multiplets_2);
-    if (delta_r == 0_rad) return dipolarity / singlet.Jet().Pt() / rad2;
-    return dipolarity / singlet.Jet().Pt() / sqr(delta_r);
+    if (delta_r == 0_rad) return dipolarity / singlet.Pt() / rad2;
+    float dip = dipolarity / singlet.Pt() / sqr(delta_r);
+    CHECK(dip < 10, dip, dipolarity, singlet.Pt(), delta_r);
+    return dip;
 }
 
 Vector2<Angle> Multiplet::Point2(Vector2<Angle> const& point_1, MultipletBase const& multiplets_2)const

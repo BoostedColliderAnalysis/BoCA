@@ -4,7 +4,7 @@
 #pragma once
 
 #include "AnalysisTopPartner.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {

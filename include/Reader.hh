@@ -125,9 +125,13 @@ public:
 
     template<typename Multiplet_>
     auto Transform(Event const& event) const {
-        std::vector<Multiplet_> quintets;
-        for (auto const & multiplet : Multiplets(event)) quintets.emplace_back(Multiplet_(multiplet));
-        return quintets;
+        std::vector<Multiplet_> multiplets;
+        for (auto const & multiplet : Multiplets(event)) {
+            Multiplet_ new_multiplet;
+            new_multiplet.Enforce(multiplet);
+            multiplets.emplace_back(new_multiplet);
+        }
+        return multiplets;
     }
 
 protected:

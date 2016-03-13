@@ -2,7 +2,7 @@
 #include "Event.hh"
 #include "Exception.hh"
 // #define INFORMATION
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {

@@ -31,7 +31,7 @@ public:
 
     boca::Energy Energy() const;
 
-    boca::Mass Mass()const;
+    boca::Mass Mass() const;
 
     Angle Rap() const;
 

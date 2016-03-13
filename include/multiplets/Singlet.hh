@@ -12,12 +12,17 @@ namespace boca
  * @brief Thin wrapper to make Jet behave like a Multiplet.
  *
  */
-class Singlet : public MultipletBase, public boca::Jet
+class Singlet : public boca::Jet, public MultipletBase
 {
 
 public:
 
     using boca::Jet::Jet;
+
+    void Enforce(boca::Jet const& jet) {
+        reset(jet);
+        ResetInfo(jet.Info());
+    }
 
     boca::Jet Jet() const override {
         return *this;
@@ -25,6 +30,14 @@ public:
 
     std::vector<boca::Jet> Jets() const {
         return {*this};
+    }
+
+    boca::Mass Mass() const override {
+        boca::Jet::Mass();
+    }
+
+    Angle DeltaRTo(boca::PseudoJet const& jet) const override {
+        return boca::Jet::DeltaRTo(jet);
     }
 
     bool Overlap(boca::Jet const& jet) const;

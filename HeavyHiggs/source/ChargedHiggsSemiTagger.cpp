@@ -1,6 +1,6 @@
 #include "ChargedHiggsSemiTagger.hh"
 #include "Event.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca {
 
@@ -78,7 +78,7 @@ std::vector<Quartet31> ChargedHiggsSemiTagger::Multiplets(Event const& event, bo
     std::vector<Quartet31> quartets;
     for (auto const& triplet : triplets)
         for (auto const& jet : jets) {
-            if (Close(jet)(triplet.Singlet().Jet())) continue;
+            if (Close(jet)(triplet.Singlet())) continue;
             Quartet31 quartet(triplet, jet);
             quartet.SetBdt(Bdt(quartet, reader));
             quartets.emplace_back(quartet);

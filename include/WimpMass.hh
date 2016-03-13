@@ -29,10 +29,6 @@ public:
 
 private:
 
-    void Momentum(double momentum[4], Jet const& jet);
-
-//     Jet PseudoJet(double const Momentum[4]) const;
-
 };
 
 }

@@ -14,7 +14,7 @@
 #include "Trainer.hh"
 #include "ParticleInfo.hh"
 // #define INFORMATION
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {

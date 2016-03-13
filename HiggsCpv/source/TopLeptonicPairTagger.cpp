@@ -3,7 +3,7 @@
 #include "WimpMass.hh"
 #include "Types.hh"
 #include "Event.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 #include "Exception.hh"
 
 namespace boca
@@ -25,7 +25,7 @@ int TopLeptonicPairTagger::Train(Event const& event, boca::PreCuts const&, Tag t
     std::vector<Triplet> final_triplets = BestMatches(triplets, top_particles, tag);
 //     CHECK(final_triplets.size()==2, final_triplets.size());
     std::vector<Sextet> sextets = UnorderedPairs(final_triplets, [](Triplet const& triplet_1, Triplet const& triplet_2) {
-      Quartet22 quartet(Doublet(triplet_1.Singlet().Jet(), triplet_1.Doublet().Jet()), Doublet(triplet_2.Singlet().Jet(), triplet_2.Doublet().Jet()));
+      Quartet22 quartet(Doublet(triplet_1.Singlet(), triplet_1.Doublet().Jet()), Doublet(triplet_2.Singlet(), triplet_2.Doublet().Jet()));
         if (quartet.Overlap()) throw Overlap();
       quartet.Doublet1().SetBdt(triplet_1.Bdt());
       quartet.Doublet2().SetBdt(triplet_2.Bdt());
@@ -67,7 +67,7 @@ std::vector<Sextet> TopLeptonicPairTagger::Multiplets(Event const& event, boca::
     std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
     INFO(triplets.size());
     std::vector<Sextet>  sextets = UnorderedPairs(triplets, [&](Triplet const& triplet_1, Triplet const& triplet_2) {
-        Quartet22 quartet(Doublet(triplet_1.Singlet().Jet(), triplet_1.Doublet().Jet()), Doublet(triplet_2.Singlet().Jet(), triplet_2.Doublet().Jet()));
+        Quartet22 quartet(Doublet(triplet_1.Singlet(), triplet_1.Doublet().Jet()), Doublet(triplet_2.Singlet(), triplet_2.Doublet().Jet()));
         if (quartet.Overlap()) throw Overlap();
         quartet.Doublet1().SetBdt(triplet_1.Bdt());
         quartet.Doublet2().SetBdt(triplet_2.Bdt());

@@ -7,7 +7,7 @@
 #include "physics/Particles.hh"
 #include "Jet.hh"
 // #define DEBUGGING
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {

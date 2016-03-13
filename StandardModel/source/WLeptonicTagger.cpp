@@ -6,7 +6,7 @@
 #include "Event.hh"
 #include "plotting/Font.hh"
 // #define DEBUGGING
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {
@@ -111,8 +111,8 @@ static const EnergySixth GeV6 = boost::units::pow<6>(GeV);
 std::vector<Doublet> WLeptonicTagger::ReconstructNeutrino(Doublet const& doublet) const
 {
     INFO0;
-    Lepton lepton = doublet.Singlet1().Jet();
-    MissingEt missing_et = doublet.Singlet2().Jet();
+    Lepton lepton = doublet.Singlet1();
+    MissingEt missing_et = doublet.Singlet2();
     EnergySquare linear_term = (sqr(MassOf(Id::W)) - lepton.MassSquare()) / 2. + missing_et.Px() * lepton.Px() + missing_et.Py() * lepton.Py();
     MomentumSquare lepton_pz_square = sqr(lepton.Pz());
     EnergySquare lepton_square = sqr(lepton.Energy()) - lepton_pz_square;

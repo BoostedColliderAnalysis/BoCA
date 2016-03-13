@@ -46,6 +46,10 @@ public:
 
     Momentum Ht() const override;
 
+    boca::Mass Mass() const override;
+
+    Angle DeltaRTo(boca::PseudoJet const& jet) const override;
+
     int Charge() const override;
 
     Momentum JetPt(int number) const;

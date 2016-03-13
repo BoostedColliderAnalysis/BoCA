@@ -4,7 +4,7 @@
 #include "multiplets/Quartet.hh"
 #include "Types.hh"
 #include "Event.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca {
 
@@ -22,7 +22,7 @@ int HeavyHiggsLeptonicTagger::Train(Event const& event, PreCuts const&, Tag tag)
     std::vector<Sextet> sextets;
     for (auto const& triplet_1 : triplets) {
         for (auto const& triplet_2 : triplets) {
-            Quartet22 quartet(Doublet(triplet_1.Singlet().Jet(), triplet_1.Doublet().Jet()), Doublet(triplet_2.Singlet().Jet(), triplet_2.Doublet().Jet()));
+            Quartet22 quartet(Doublet(triplet_1.Singlet(), triplet_1.Doublet().Jet()), Doublet(triplet_2.Singlet(), triplet_2.Doublet().Jet()));
             if (quartet.Overlap())
                 continue;
             std::vector<Sextet> Presextets;
@@ -47,7 +47,7 @@ std::vector<Sextet>  HeavyHiggsLeptonicTagger::Multiplets(Event const& event, Pr
     std::vector<Sextet> sextets;
     for (auto const& triplet_1 : triplets) {
         for (auto const& triplet_2 : triplets) {
-            Quartet22 quartet(Doublet(triplet_1.Singlet().Jet(), triplet_1.Doublet().Jet()), Doublet(triplet_2.Singlet().Jet(), triplet_2.Doublet().Jet()));
+            Quartet22 quartet(Doublet(triplet_1.Singlet(), triplet_1.Doublet().Jet()), Doublet(triplet_2.Singlet(), triplet_2.Doublet().Jet()));
             if (quartet.Overlap())
                 continue;
             std::vector<Sextet> pre_sextets;

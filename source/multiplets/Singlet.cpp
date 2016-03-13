@@ -7,7 +7,7 @@
 #include "DetectorGeometry.hh"
 #include "Vector.hh"
 #include "physics/Math.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {

@@ -32,8 +32,8 @@ public:
      * @brief Main analysis loop which has to be called by main.cpp
      *
      */
-    void AnalysisLoop(Stage stage)override {
-        for (auto const & tag : std::vector<Tag> {Tag::signal, Tag::background}) FirstLoop({stage, tag});
+    void AnalysisLoop(Stage stage) override {
+        for (auto const & tag : std::vector<Tag> {Tag::signal, Tag::background}) TagLoop({stage, tag});
     }
 
 protected:
@@ -45,18 +45,18 @@ protected:
 
 private:
 
-    void FirstLoop(Phase first) {
-        TFile export_file(Tagger().ExportFileName(first.Stage(), first.Tag()).c_str(), "Recreate");
+    void TagLoop(Phase phase) {
+        TFile export_file(Tagger().ExportFileName(phase).c_str(), "Recreate");
         ClearFiles();
-        SetFiles(first.Tag(), first.Stage());
-        for (auto & file : this->Files(first.Tag())) SecondLoop( {first, file, export_file});
+        SetFiles(phase.Tag(), phase.Stage());
+        for (auto & file : this->Files(phase.Tag())) FileLoop( {phase, file, export_file});
     }
 
     /**
      * @brief Analysis performed on each file
      *
      */
-    void SecondLoop(boca::Files files) {
+    void FileLoop(boca::Files files) {
         BranchWriter<Tagger_> branch_writer(files, tagger_);
         bool do_threading = false;
         if (do_threading) {

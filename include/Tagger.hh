@@ -77,6 +77,8 @@ public:
 
     std::string ExportFileName(Stage stage, Tag tag) const;
 
+    std::string ExportFileName(Phase const& phase) const;
+
     std::string ExportFolderName() const;
 
     std::string FolderName() const;

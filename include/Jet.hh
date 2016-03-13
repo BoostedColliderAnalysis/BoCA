@@ -62,9 +62,14 @@ public:
 
     float Bdt() const;
 
-private:
+protected:
 
     void SetInfo(JetInfo const& user_info = JetInfo());
+
+    void ResetInfo(JetInfo const& user_info);
+
+private:
+
 
 };
 

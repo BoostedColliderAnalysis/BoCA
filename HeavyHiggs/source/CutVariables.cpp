@@ -3,7 +3,7 @@
  */
 #include "boost/range/algorithm/sort.hpp"
 #include "CutVariables.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {

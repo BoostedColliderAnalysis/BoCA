@@ -12,7 +12,7 @@
 #include "physics/Units.hh"
 #include "DetectorGeometry.hh"
 // #define DEBUGGING
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {

@@ -5,6 +5,7 @@
 
 #include "multiplets/Multiplet.hh"
 #include "physics/Particles.hh"
+#include "ClusterSequence.hh"
 #include "Vector.hh"
 
 namespace boca
@@ -19,14 +20,6 @@ public:
     TwoBody() {};
 
     TwoBody(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2) {
-        SetMultiplets(multiplet_1, multiplet_2);
-    }
-
-    TwoBody(boca::Jet const& jet) {
-        SetJet(jet);
-    }
-
-    void SetMultiplets(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2) {
         multiplet_1_ = multiplet_1;
         multiplet_2_ = multiplet_2;
         if (multiplet_1.Bdt() != InitialValue() && multiplet_2.Bdt() != InitialValue()) SetBdt(multiplet_1.Bdt(), multiplet_2.Bdt());
@@ -34,11 +27,28 @@ public:
         else if (multiplet_2.Bdt() != InitialValue()) SetBdt(multiplet_2.Bdt());
     }
 
-    void SetJet(boca::Jet jet) {
+    template<typename Multiplet_3_, typename Multiplet_4_>
+    void Enforce(TwoBody<Multiplet_3_, Multiplet_4_> const& multiplet) {
+        multiplet_1_.Enforce(multiplet.Multiplet1());
+        multiplet_2_.Enforce(multiplet.Multiplet2());
+        SetBdt(multiplet.Bdt());
+    }
+
+    void Enforce(boca::Jet const& jet) {
+        if (!jet.has_constituents() || jet.Constituents().size() < 2) return EnforceJet(jet);
+        ClusterSequence cluster_sequence(jet.Constituents(), DetectorGeometry::SubJetDefinition());
+        auto jets = cluster_sequence.ExclusiveJetsUpTo(2);
+        if (jets.size() != 2) std::cout << "not the sub-jet number we expected: " << jets.size();
+        multiplet_1_.Enforce(jets.at(0));
+        multiplet_2_.Enforce(jets.at(1));
+        SetBdt(jet.Bdt());
+    }
+
+    void EnforceJet(boca::Jet jet) {
         jet.Info().SetSubStructure(false);
-        multiplet_1_ = Multiplet_1_(jet / 2);
-        multiplet_2_ = Multiplet_2_(jet / 2);
-        SetBdt((multiplet_1_.Bdt() + multiplet_2_.Bdt()) / 2);
+        multiplet_1_.Enforce(jet / 2);
+        multiplet_2_.Enforce(jet / 2);
+        SetBdt(jet.Bdt());
     }
 
     Multiplet_1_& Multiplet1() {
@@ -59,15 +69,15 @@ public:
 
     template <typename Multiplet_3_>
     bool Overlap(Multiplet_3_ const& multiplet) const {
-        return (multiplet.Overlap(multiplet_1_) || multiplet.Overlap(multiplet_2_));
+        return multiplet.Overlap(multiplet_1_) || multiplet.Overlap(multiplet_2_);
     }
 
     bool Overlap(boca::Singlet const& singlet) const {
-        return (multiplet_1_.Overlap(singlet) || multiplet_2_.Overlap(singlet));
+        return multiplet_1_.Overlap(singlet) || multiplet_2_.Overlap(singlet);
     }
 
     bool Overlap(boca::Jet const& jet) const {
-        return (multiplet_1_.Overlap(jet) || multiplet_2_.Overlap(jet));
+        return multiplet_1_.Overlap(jet) || multiplet_2_.Overlap(jet);
     }
 
     bool Overlap() const {
@@ -80,6 +90,14 @@ public:
 
     std::vector<boca::Jet> Jets() const override  {
         return Join(Multiplet1().Jets(), Multiplet2().Jets());
+    }
+
+    boca::Mass Mass() const {
+        return Jet().Mass();
+    }
+
+    Angle DeltaRTo(boca::PseudoJet const& jet) const override {
+        return Jet().DeltaRTo(jet);
     }
 
     Momentum DeltaPt() const {
@@ -137,10 +155,6 @@ public:
     float Dipolarity() const {
         return Multiplet::Dipolarity(Multiplet1(), Multiplet2(), singlet());
     }
-
-//     float BottomBdt() const override {
-//         return Multiplet::BottomBdt(Multiplet1(), Multiplet2());
-//     };
 
 protected:
 

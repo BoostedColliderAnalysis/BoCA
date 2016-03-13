@@ -3,7 +3,7 @@
 #include "EventShapes.hh"
 #include "Analysis.hh"
 #include "TopLeptonicTagger.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {

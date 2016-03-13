@@ -13,7 +13,7 @@
 #include "Exception.hh"
 #include "plotting/Font.hh"
 // #define DEBUGGING
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {

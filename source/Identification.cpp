@@ -3,7 +3,7 @@
  */
 #include "Identification.hh"
 #include "Branches.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {

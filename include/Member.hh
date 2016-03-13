@@ -34,6 +34,8 @@ public:
 
     int Id() const;
 
+    std::string Name() const;
+
     void Set(int id, int position);
 
     static int EmptyPosition();

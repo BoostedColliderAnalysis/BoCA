@@ -6,7 +6,7 @@
 
 #include "physics/Particles.hh"
 #include "Types.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {
@@ -31,6 +31,36 @@ auto Family(TTreeReaderArray<::delphes::GenParticle>& particles, Relative relati
 {
     boca::Family family;
     return Family(particles, family, relative, position);
+}
+
+template<typename Data>
+void PrintCell(Data data)
+{
+  std::cout << std::right << std::setw(9) << std::setfill(' ') << data;
+}
+
+void PrintCells(Particle const& particle)
+{
+  //     PrintCell(particle.Status);
+  PrintCell(particle.Info().Family().Member(Relative::particle).Name());
+  PrintCell(particle.Info().Family().Member(Relative::mother).Name());
+  PrintCell(particle.Info().Family().Member(Relative::step_mother).Name());
+  PrintCell(particle.Info().Family().Member(Relative::particle).Position());
+  PrintCell(particle.Info().Family().Member(Relative::mother).Position());
+  PrintCell(particle.Info().Family().Member(Relative::step_mother).Position());
+  //     PrintCell(particle.M1);
+  //     PrintCell(PrintParticle(particle.M1));
+  //     PrintCell(particle.M2);
+  //     PrintCell(PrintParticle(particle.M2));
+  //     PrintCell(particle.D1);
+  //     PrintCell(PrintParticle(particle.D1));
+  //     PrintCell(particle.D2);
+  //     PrintCell(PrintParticle(particle.D2));
+  //     PrintCell(particle.E);
+  //     PrintCell(particle.Px);
+  //     PrintCell(particle.Py);
+  //     PrintCell(particle.Pz);
+  std::cout << "\n";
 }
 
 }
@@ -58,44 +88,9 @@ std::vector<Particle> Partons::Particles(Status min_status) const
         if (particle.Status < to_int(min_status)) break;
         particles.emplace_back(Particle(particle.P4(), Family(gen_particles, Relative::particle, position)));
         ++position;
+//         PrintCells(particles.back());
     }
     return particles;
-}
-
-namespace
-{
-
-template<typename Data>
-void PrintCell(Data data)
-{
-    std::cout << std::right << std::setw(9) << std::setfill(' ') << data;
-}
-
-}
-
-void Partons::PrintCells(const ::delphes::GenParticle& particle) const
-{
-    PrintCell(particle.Status);
-    PrintCell(Name(particle.PID));
-    PrintCell(particle.M1);
-    PrintCell(PrintParticle(particle.M1));
-    PrintCell(particle.M2);
-    PrintCell(PrintParticle(particle.M2));
-    PrintCell(particle.D1);
-    PrintCell(PrintParticle(particle.D1));
-    PrintCell(particle.D2);
-    PrintCell(PrintParticle(particle.D2));
-    PrintCell(particle.E);
-    PrintCell(particle.Px);
-    PrintCell(particle.Py);
-    PrintCell(particle.Pz);
-    std::cout << "\n";
-}
-
-std::string Partons::PrintParticle(int position) const
-{
-    if (position == -1) return " ";
-    return Name(TreeReader().Objects<::delphes::GenParticle>(Branch::particle).At(position).PID);
 }
 
 }

@@ -5,7 +5,7 @@
 #include "CutTagger.hh"
 #include "Event.hh"
 // #define DEBUGGING
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {

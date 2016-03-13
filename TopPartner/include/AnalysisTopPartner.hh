@@ -6,7 +6,7 @@
 #include "Analysis.hh"
 #include "DetectorGeometry.hh"
 // #define INFORMATION
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {
@@ -75,8 +75,8 @@ protected:
 
     long TrainNumberMax() const override {
         INFO0;
-        return 10000;
         return 1000;
+        return 10000;
         return 10;
         return 100;
         return 5000;

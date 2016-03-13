@@ -1,5 +1,5 @@
 #include "../include/GlobalTagger.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {

@@ -1,7 +1,7 @@
 #include "SignatureEffectiveTagger.hh"
 #include "Exception.hh"
 #include "plotting/Font.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {

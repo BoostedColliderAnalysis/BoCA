@@ -6,7 +6,7 @@
 #include "AnalysisTopPartner.hh"
 #include "EventSingleLeptonicTagger.hh"
 #include "TopPartnerHadronicNeutralTagger.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {

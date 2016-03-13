@@ -1,5 +1,5 @@
 #include "Phase.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 #include "Types.hh"
 namespace boca
 {

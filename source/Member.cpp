@@ -4,7 +4,7 @@
 #include "Member.hh"
 #include "physics/Particles.hh"
 #include "Types.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {
@@ -49,6 +49,11 @@ int Member::Position() const
 int Member::Id() const
 {
     return id_;
+}
+
+std::string Member::Name() const
+{
+  return boca::Name(Id());
 }
 
 void Member::Set(int id, int position)

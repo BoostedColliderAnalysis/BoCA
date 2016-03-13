@@ -8,7 +8,7 @@
 #include "GlobalObservables.hh"
 #include "Event.hh"
 #include "Sort.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {
@@ -157,10 +157,12 @@ int GlobalObservables::Charge() const
 {
     return 0; // FIXME implement this
 }
+
 Jet GlobalObservables::Jet() const
 {
     return Join(Jets());
 }
+
 const Singlet& GlobalObservables::singlet() const
 {
     if (!has_singlet_) {
@@ -168,6 +170,15 @@ const Singlet& GlobalObservables::singlet() const
         has_singlet_ = true;
     }
     return singlet_;
+}
+
+Mass GlobalObservables::Mass() const
+{
+    return Jet().Mass();
+}
+Angle GlobalObservables::DeltaRTo(const PseudoJet& jet) const
+{
+    return Jet().DeltaRTo(jet);
 }
 
 }

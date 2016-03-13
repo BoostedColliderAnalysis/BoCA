@@ -5,7 +5,7 @@
 #include "TStyle.h"
 
 #include "Colors.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {

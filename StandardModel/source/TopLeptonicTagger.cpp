@@ -7,7 +7,7 @@
 #include "Exception.hh"
 #include "plotting/Font.hh"
 // #define DEBUGGING
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {
@@ -42,7 +42,7 @@ TopLeptonicTagger::TopLeptonicTagger(Id id) :
     w_leptonic_reader_(InitializeLeptonicReader())
 {
     INFO0;
-    if(id_ == Id::top)  top_mass_window_ = 80_GeV;
+    if (id_ == Id::top)  top_mass_window_ = 80_GeV;
     top_mass_shift_ = use_w_ ? 0_GeV : 40_GeV;
 }
 
@@ -70,7 +70,7 @@ bool TopLeptonicTagger::Problematic(boca::Triplet const& triplet, boca::PreCuts 
     if (Problematic(triplet, pre_cuts)) return true;
     switch (tag) {
     case Tag::signal :
-        if(id_ == Id::top && boost::units::abs(triplet.Mass() - MassOf(id_) + top_mass_shift_) > top_mass_window_) return true;
+        if (id_ == Id::top && boost::units::abs(triplet.Mass() - MassOf(id_) + top_mass_shift_) > top_mass_window_) return true;
         if (pre_cuts.NotParticleRho(triplet)) return true;
         break;
     case Tag::background : break;
@@ -93,7 +93,11 @@ std::vector<Triplet> TopLeptonicTagger::Triplets(Event const& event, std::functi
     DEBUG(jets.size(), leptons.size());
     std::vector<Doublet> doublets;
     if (use_w_) doublets = w_leptonic_reader_.Multiplets(event);
-    else for (auto const & lepton : leptons) doublets.emplace_back(Doublet(lepton));
+    else for (auto const & lepton : leptons) {
+            Doublet doublet;
+            doublet.Enforce(lepton);
+            doublets.emplace_back(doublet);
+        }
     std::vector<Triplet> triplets = Pairs(doublets, jets, [&](Doublet const & doublet, Jet const & jet) {
         DEBUG(doublet.Rap(), jet.rap());
         Triplet triplet(doublet, jet);
@@ -132,7 +136,7 @@ std::string TopLeptonicTagger::LatexName() const
 boca::Filter TopLeptonicTagger::Filter() const
 {
     boca::Filter filter("Pull1");
-    if(!use_w_) filter.Add("BDT1");
+    if (!use_w_) filter.Add("BDT1");
     return filter;
 }
 

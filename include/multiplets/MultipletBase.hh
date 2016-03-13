@@ -23,11 +23,9 @@ public:
 
     virtual int Charge() const = 0;
 
-//     virtual float BottomBdt() const = 0;
+    virtual boca::Mass Mass() const = 0;
 
-    boca::Mass Mass() const {
-        return Jet().Mass();
-    }
+    virtual Angle DeltaRTo(boca::PseudoJet const& jet) const = 0;
 
     Momentum Pt() const {
         return Jet().Pt();
@@ -39,10 +37,6 @@ public:
 
     Angle Phi() const {
         return Jet().Phi();
-    }
-
-    Angle DeltaRTo(boca::PseudoJet const& jet) const {
-        return Jet().DeltaRTo(jet);
     }
 
     /**

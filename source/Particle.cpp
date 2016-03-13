@@ -4,7 +4,7 @@
 
 #include "TLorentzVector.h"
 #include "Particle.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {

@@ -6,7 +6,7 @@
 #include "ParticleInfo.hh"
 // #define DEBUGGING
 // #define INFORMATION
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {

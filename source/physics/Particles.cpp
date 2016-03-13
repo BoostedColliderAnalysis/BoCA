@@ -6,7 +6,7 @@
 #include "physics/Particles.hh"
 #include "physics/Prefixes.hh"
 #include "Types.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {
