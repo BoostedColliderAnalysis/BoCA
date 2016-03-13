@@ -97,7 +97,7 @@ float Multiplet::Dipolarity(MultipletBase const& multiplets_1, MultipletBase con
 {
     if (singlet.Pt() == at_rest) return 0;
     if (!singlet.has_constituents()) return 0;
-    Vector2<Angle> point_1(multiplets_1.Jet().Rap(), multiplets_1.Jet().Phi());
+    Vector2<Angle> point_1(multiplets_1.Rap(), multiplets_1.Phi());
     Vector2<Angle> point_2 = Point2(point_1, multiplets_2);
     Line2<Angle> line(point_1, point_2);
     auto dipolarity = at_rest * rad2;
@@ -111,11 +111,11 @@ float Multiplet::Dipolarity(MultipletBase const& multiplets_1, MultipletBase con
 
 Vector2<Angle> Multiplet::Point2(Vector2<Angle> const& point_1, MultipletBase const& multiplets_2)const
 {
-    Angle phi = multiplets_2.Jet().Phi();
-    Vector2<Angle> point_2(multiplets_2.Jet().Rap(), phi);
+    Angle phi = multiplets_2.Phi();
+    Vector2<Angle> point_2(multiplets_2.Rap(), phi);
     auto distance_1 = (point_1 - point_2).Mod2();
     phi = Wrap(phi);
-    Vector2<Angle> point_3(multiplets_2.Jet().Rap(), phi);
+    Vector2<Angle> point_3(multiplets_2.Rap(), phi);
     auto distance_2 = (point_1 - point_3).Mod2();
     if (distance_2 < distance_1) return point_3;
     return point_2;

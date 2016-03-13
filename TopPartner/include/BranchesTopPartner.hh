@@ -77,8 +77,8 @@ public:
     void Fill(Multiplet const& multiplet) {
         SignatureBranch::Fill(multiplet);
         VetoBdt = multiplet.VetoBdt();
-        TopPt = multiplet.Triplet().Jet().pt();
-        HiggsPt = multiplet.Doublet().Jet().pt();
+        TopPt = multiplet.Triplet().Pt() / GeV;
+        HiggsPt = multiplet.Doublet().Pt() / GeV;
     }
     Observables Variables();
 private:

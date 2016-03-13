@@ -126,10 +126,10 @@ public:
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         BdtBranch::Fill(multiplet);
-        Mass = multiplet.Jet().Mass() / GeV;
-        Pt = multiplet.Jet().Pt() / GeV;
-        Rap = multiplet.Jet().Rap() / rad;
-        Phi = multiplet.Jet().Phi() / rad;
+        Mass = multiplet.Mass() / GeV;
+        Pt = multiplet.Pt() / GeV;
+        Rap = multiplet.Rap() / rad;
+        Phi = multiplet.Phi() / rad;
         Charge = multiplet.Charge();
     }
     Observables Variables();
@@ -397,11 +397,11 @@ public:
         BottomPhi = multiplet.Singlet().Phi() / rad;
         BottomMass = multiplet.Singlet().Mass() / GeV;
 //         BottomBdt = multiplet.Singlet().Info().Bdt();
-        TopPt = multiplet.Triplet().Jet().Pt() / GeV;
-//         TopRap = std::abs(multiplet.Triplet().Jet().rap());
-        TopRap = multiplet.Triplet().Jet().Rap() / rad;
-        TopPhi = multiplet.Triplet().Jet().Phi() / rad;
-        TopMass = multiplet.Triplet().Jet().Mass() / GeV;
+        TopPt = multiplet.Triplet().Pt() / GeV;
+//         TopRap = std::abs(multiplet.Triplet().rap());
+        TopRap = multiplet.Triplet().Rap() / rad;
+        TopPhi = multiplet.Triplet().Phi() / rad;
+        TopMass = multiplet.Triplet().Mass() / GeV;
         TopBdt = multiplet.Triplet().Bdt();
     }
     Observables Variables();
@@ -485,11 +485,11 @@ public:
         MissingEt = multiplet.GlobalObservables().MissingEt() / GeV;
         ScalarHt = multiplet.GlobalObservables().ScalarHt() / GeV;
         LeptonHt = multiplet.GlobalObservables().LeptonHt() / GeV;
-        JetMass = multiplet.Rest().Jet().Mass() / GeV;
-        JetPt = multiplet.Rest().Jet().Pt() / GeV;
+        JetMass = multiplet.Rest().Mass() / GeV;
+        JetPt = multiplet.Rest().Pt() / GeV;
         JetHt = multiplet.GlobalObservables().JetHt() / GeV;
         JetRap = multiplet.Rest().Rap() / rad;
-        JetPhi = multiplet.Rest().Jet().Phi() / rad;
+        JetPhi = multiplet.Rest().Phi() / rad;
     }
     Observables Variables();
 

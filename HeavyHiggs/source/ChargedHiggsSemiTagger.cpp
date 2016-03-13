@@ -55,7 +55,7 @@ int ChargedHiggsSemiTagger::Train(Event const& event, PreCuts const&, Tag tag) c
     std::vector<Quartet31> quartets;
     for (auto const& triplet : Finaltriplets)
         for (auto const& Jet : BottomJets) {
-            if (triplet.Jet().DeltaRTo(Jet) < DetectorGeometry::JetConeSize()) continue;
+            if (triplet.DeltaRTo(Jet) < DetectorGeometry::JetConeSize()) continue;
             Quartet31 quartet(triplet, Jet);
 //             if (tag == Tag::signal && quartet.Mass() < mass / 2.) continue;
 //             if (tag == Tag::signal && quartet.Mass() > mass * 3. / 2.) continue;

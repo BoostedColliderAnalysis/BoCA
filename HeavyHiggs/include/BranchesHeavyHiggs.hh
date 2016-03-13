@@ -155,8 +155,8 @@ public:
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         MultiBranch::Fill(multiplet);
-        HeavyHiggsMass = multiplet.Jet().Mass() / GeV;
-        HeavyHiggsPt = multiplet.Jet().Mass() / GeV;
+        HeavyHiggsMass = multiplet.Mass() / GeV;
+        HeavyHiggsPt = multiplet.Mass() / GeV;
         TopDeltaR = multiplet.DeltaR() / rad;
         TopDeltaRap = multiplet.DeltaRap() / rad;
         TopDeltaPhi = multiplet.DeltaPhi() / rad;
@@ -241,7 +241,7 @@ public:
     template<typename Multiplet>
     void Fill(Multiplet const& event) {
         EventBranch::Fill(event);
-        HiggsMass = event.Signature().Sextet().Jet().Mass() / GeV;
+        HiggsMass = event.Signature().Sextet().Mass() / GeV;
         HiggsBdt = event.Signature().Sextet().Bdt();
         SignatureBdt = event.Signature().Bdt();
         PairRap = event.Signature().Doublet().DeltaRap() / rad;
@@ -303,7 +303,7 @@ public:
     template<typename Multiplet>
     void Fill(Multiplet const& event) {
         EventBranch::Fill(event);
-        HiggsMass = event.Signature().Sextet().Jet().Mass() / GeV;
+        HiggsMass = event.Signature().Sextet().Mass() / GeV;
         HiggsBdt = event.Signature().Sextet().Bdt();
         SignatureBdt = event.Signature().Bdt();
         PairRap = event.Signature().Doublet().DeltaRap() / rad;
@@ -352,7 +352,7 @@ public:
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         EventBranch::Fill(multiplet);
-        HiggsMass = multiplet.Jet().Mass() / GeV;
+        HiggsMass = multiplet.Mass() / GeV;
     }
 
     Observables Variables();
@@ -394,7 +394,7 @@ public:
         HiggsBdt = multiplet.Sextet().Bdt();
         HardTopPt = multiplet.Sextet().HardTopPt() / GeV;
         SoftTopPt = multiplet.Sextet().SoftTopPt() / GeV;
-        HiggsMass = multiplet.Sextet().Jet().Mass() / GeV;
+        HiggsMass = multiplet.Sextet().Mass() / GeV;
         PairRap = multiplet.Doublet().DeltaRap() / rad;
     }
 
@@ -433,7 +433,7 @@ public:
 //         PairBottomBdt = multiplet.Quartet2().BottomBdt();
         HiggsBdt = multiplet.Quartet1().Bdt();
         PairBdt = multiplet.Quartet2().Bdt();
-        HiggsMass = multiplet.Quartet1().Jet().Mass() / GeV;
+        HiggsMass = multiplet.Quartet1().Mass() / GeV;
         PairRap = multiplet.Quartet2().DeltaRap() / rad;
     }
 
@@ -482,7 +482,7 @@ public:
     template<typename Multiplet>
     void Fill(Multiplet const& event) {
         EventBranch::Fill(event);
-        HiggsMass = event.Signature().Quartet1().Jet().Mass() / GeV;
+        HiggsMass = event.Signature().Quartet1().Mass() / GeV;
         HiggsBdt = event.Signature().Quartet1().Bdt();
         SignatureBdt = event.Signature().Bdt();
         PairRap = event.Signature().Quartet2().DeltaRap() / rad;
