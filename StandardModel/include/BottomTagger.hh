@@ -3,8 +3,8 @@
  */
 #pragma once
 
-#include "BranchesSm.hh"
 #include "TaggerTemplate.hh"
+#include "BranchesSm.hh"
 #include "multiplets/Singlet.hh"
 
 

@@ -1,6 +1,7 @@
 #include "../include/SignatureLeptonTTagger.hh"
 #include "Event.hh"
 #include "Exception.hh"
+#include "Particles.hh"
 // #define DEBUGGING
 #include "DEBUG.hh"
 
@@ -29,7 +30,7 @@ int SignatureLeptonTTagger::Train(Event const& event, boca::PreCuts const&, Tag 
     }
 
     std::vector<MultipletSignature<Octet332>> octets = Triples(triplets, doublets, [&](Triplet const & triplet_1, Triplet const & triplet_2, Doublet const & doublet) {
-        MultipletSignature<Octet332> octet = Signature(triplet_1, triplet_2, doublet);
+        auto octet = Signature(triplet_1, triplet_2, doublet);
         octet.SetTag(tag);
         return octet;
     });
@@ -61,7 +62,7 @@ std::vector<MultipletSignature<Octet332>> SignatureLeptonTTagger::Multiplets(Eve
     std::vector<Jet> triplets = event.Leptons().leptons();
     INFO(triplets.size());
     std::vector<MultipletSignature<Octet332>> octets = Triples(triplets, doublets, [&](Triplet const & triplet_1, Triplet const & triplet_2, Doublet const & doublet) {
-        MultipletSignature<Octet332> octet = Signature(triplet_1, triplet_2, doublet);
+        auto octet = Signature(triplet_1, triplet_2, doublet);
         octet.SetBdt(Bdt(octet, reader));
         return octet;
     });

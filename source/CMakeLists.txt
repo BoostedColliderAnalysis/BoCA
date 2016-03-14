@@ -27,7 +27,7 @@ add_subdirectory(multiplets)
 set(global_sources
 Debug.cpp
 Types.cpp
-Vector.cpp
+Particles.cpp
 Exception.cpp
 )
 create_library(Global global_sources)

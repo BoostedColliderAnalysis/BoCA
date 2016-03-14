@@ -4,6 +4,7 @@
 #pragma once
 #include "physics/Particles.hh"
 #include "Vector.hh"
+#include "Jet.hh"
 
 namespace boca
 {

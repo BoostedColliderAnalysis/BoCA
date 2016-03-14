@@ -3,7 +3,7 @@
  */
 #include "VetoTopPartnerLeptonicTagger.hh"
 #include "Decuplet.hh"
-#include "ParticleInfo.hh"
+#include "Particles.hh"
 // #define DEBUGGING
 // #define INFORMATION
 #include "DEBUG.hh"

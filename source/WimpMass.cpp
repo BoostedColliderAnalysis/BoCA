@@ -1,17 +1,17 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "WimpMass.hh"
+#include "WIMPMASS.h"
 
 #include <map>
 #include <boost/range/algorithm/transform.hpp>
 
-#include "WIMPMASS.h"
-
 #include "multiplets/Quartet.hh"
 #include "physics/Math.hh"
+#include "WimpMass.hh"
 #include "Types.hh"
 #include "Vector.hh"
+#include "Particle.hh"
 #include "DEBUG.hh"
 
 namespace boca
@@ -33,7 +33,7 @@ void SetMomentum(double momentum[4], Jet const& jet)
 std::vector<boca::Sextet> WimpMass::Sextets(std::vector<Quartet22> const& quartets, Jet const& missing_et)
 {
     std::vector<boca::Sextet> sextets;
-    for (auto const & quartet : quartets) sextets = Join(sextets, Sextets(quartet, missing_et));
+    for (auto const & quartet : quartets) Insert(sextets, Sextets(quartet, missing_et));
     return sextets;
 }
 

@@ -2,7 +2,7 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "ResonanceTagger.hh"
-#include "ParticleInfo.hh"
+#include "Particles.hh"
 #include "Exception.hh"
 #include "DEBUG.hh"
 

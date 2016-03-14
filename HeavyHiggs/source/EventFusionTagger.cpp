@@ -1,5 +1,6 @@
 #include "EventFusionTagger.hh"
 #include "Event.hh"
+#include "Particles.hh"
 #include "DEBUG.hh"
 
 namespace boca

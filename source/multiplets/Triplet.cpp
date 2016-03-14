@@ -21,19 +21,4 @@ Singlet const& Triplet::Singlet() const
     return Multiplet2();
 }
 
-void Triplet::SetSubJettiness()
-{
-  sub_jettiness_ = boca::SubJettiness(Singlet());
-}
-
-Momentum Triplet::LeptonPt() const
-{
-  return lepton_pt_;
-}
-
-void Triplet::SetLeptonPt(Momentum pt)
-{
-  lepton_pt_ = pt;
-}
-
 }

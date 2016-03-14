@@ -1,5 +1,6 @@
 #include "HeavyHiggsSemiTagger.hh"
 #include "Event.hh"
+#include "Particles.hh"
 #include "DEBUG.hh"
 
 namespace boca
@@ -64,7 +65,7 @@ std::vector<Particle> HeavyHiggsSemiTagger::HiggsParticle(Event const& event, Ta
     std::vector<Particle> particles = event.Partons().GenParticles();
     std::vector<Particle> even = CopyIfFamily(particles, Id::heavy_higgs, Id::gluon);
     std::vector<Particle> odd = CopyIfFamily(particles, Id::CP_odd_higgs, Id::gluon);
-    return  Join(even, odd);
+    return  Combine(even, odd);
 }
 
 std::string HeavyHiggsSemiTagger::Name() const

@@ -24,7 +24,7 @@ public:
     std::vector<float> XCoreData() const;
     std::vector<Vector3<float>> CoreData(std::function<bool (Vector3<float> const&, Vector3<float> const&)> const& function) const;
     void Add(Vector3<float> const& point);
-    void Join(std::vector<Vector3<float>> const& data);
+    void Insert(std::vector<Vector3<float>> const& data);
     bool x_is_int = false;
     bool y_is_int = false;
     Range<float> XRange() const;

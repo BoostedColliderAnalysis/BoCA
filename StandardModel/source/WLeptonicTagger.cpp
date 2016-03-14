@@ -4,6 +4,7 @@
 #include "WLeptonicTagger.hh"
 
 #include "Event.hh"
+#include "Particles.hh"
 #include "plotting/Font.hh"
 // #define DEBUGGING
 #include "DEBUG.hh"

@@ -1,5 +1,4 @@
 #include "TopPartnerHiggsPairTagger.hh"
-#include "Vector.hh"
 #include "Exception.hh"
 #include "DEBUG.hh"
 

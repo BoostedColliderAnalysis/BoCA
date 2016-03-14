@@ -166,10 +166,10 @@ std::vector<Jet> Hadrons::EFlow(JetDetail jet_detail) const
     INFO0;
     auto leptons = Leptons(jet_detail);
     std::vector<Jet> jets;
-    if (TreeReader().Has(Branch::e_flow_track)) jets = Join(jets, EFlowTrack(leptons, jet_detail));
-    if (TreeReader().Has(Branch::e_flow_photon)) jets = Join(jets, EFlowPhoton(leptons, jet_detail));
-    if (TreeReader().Has(Branch::e_flow_neutral_hadron)) jets = Join(jets, EFlowHadron(leptons, jet_detail));
-    if (TreeReader().Has(Branch::e_flow_muon)) jets = Join(jets, EFlowMuon(leptons, jet_detail));
+    if (TreeReader().Has(Branch::e_flow_track)) Insert(jets, EFlowTrack(leptons, jet_detail));
+    if (TreeReader().Has(Branch::e_flow_photon)) Insert(jets, EFlowPhoton(leptons, jet_detail));
+    if (TreeReader().Has(Branch::e_flow_neutral_hadron)) Insert(jets, EFlowHadron(leptons, jet_detail));
+    if (TreeReader().Has(Branch::e_flow_muon)) Insert(jets, EFlowMuon(leptons, jet_detail));
     return jets;
 }
 

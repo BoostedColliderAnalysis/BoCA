@@ -4,7 +4,7 @@
 #include "TauTagger.hh"
 
 #include "Sort.hh"
-#include "Vector.hh"
+#include "Particles.hh"
 #include "Event.hh"
 #include "DEBUG.hh"
 

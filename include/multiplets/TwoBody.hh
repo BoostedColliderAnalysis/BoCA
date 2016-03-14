@@ -4,9 +4,10 @@
 #pragma once
 
 #include "multiplets/Multiplet.hh"
+#include "multiplets/Multiplets.hh"
 #include "physics/Particles.hh"
-#include "ClusterSequence.hh"
 #include "Vector.hh"
+#include "ClusterSequence.hh"
 
 namespace boca
 {
@@ -84,76 +85,60 @@ public:
         return multiplet_1_.Overlap(multiplet_2_);
     }
 
-    void SetPlainJet() const override {
-        Multiplet::SetPlainJet(Multiplet::Jet(Multiplet1().Jet(), Multiplet2().Jet()));
-    }
-
-    std::vector<boca::Jet> Jets() const override  {
-        return Join(Multiplet1().Jets(), Multiplet2().Jets());
-    }
-
-    boca::Mass Mass() const {
-        return Jet().Mass();
-    }
-
-    Angle DeltaRTo(boca::PseudoJet const& jet) const override {
-        return Jet().DeltaRTo(jet);
+    std::vector<boca::Jet> Jets() const {
+      return Combine(Multiplet1().Jets(), Multiplet2().Jets());
     }
 
     Momentum DeltaPt() const {
         return (Multiplet1().Pt() - Multiplet2().Pt());
     }
 
-    Momentum Ht() const override {
-        return Multiplet::Ht(Multiplet1(), Multiplet2());
+    Momentum Ht() const {
+        return boca::Ht(Multiplet1(), Multiplet2());
     }
 
     Angle DeltaRap() const {
-        return Multiplet::DeltaRap(Multiplet1(), Multiplet2());
+        return boca::DeltaRap(Multiplet1(), Multiplet2());
     }
 
     Angle DeltaPhi() const {
-        return Multiplet::DeltaPhi(Multiplet1(), Multiplet2());
+        return boca::DeltaPhi(Multiplet1(), Multiplet2());
     }
 
     Angle DeltaR() const {
-        return Multiplet::DeltaR(Multiplet1(), Multiplet2());
+        return boca::DeltaR(Multiplet1(), Multiplet2());
     }
 
     boca::Mass DeltaM() const {
-        return Multiplet::DeltaM(Multiplet1(), Multiplet2());
+        return boca::DeltaM(Multiplet1(), Multiplet2());
     }
 
     Momentum DeltaHt() const {
-        return Multiplet::DeltaHt(Multiplet1(), Multiplet2());
+        return boca::DeltaHt(Multiplet1(), Multiplet2());
     }
 
     float Rho() const {
-        return Multiplet::Rho(Multiplet1(), Multiplet2(), Jet());
+        return boca::Rho(Multiplet1(), Multiplet2(), Jet());
     }
 
     boca::Mass MassDifferenceTo(Id id) const {
         return boost::units::abs(Mass() - MassOf(id));
     }
 
-    int Charge() const override {
-        return Multiplet::Charge(Multiplet1(), Multiplet2());
-    }
-
-    void SetSinglet() const override {
-        Multiplet::SetSinglet(Multiplet::Singlet(Multiplet1().singlet(), Multiplet2().singlet()));
+    int Charge() const {
+        return boca::Charge(Multiplet1(), Multiplet2());
     }
 
     Angle Pull12() const {
-        return Multiplet::Pull(Multiplet1(), Multiplet2());
+        return boca::Pull(Multiplet1(), Multiplet2());
     }
 
     Angle Pull21() const {
-        return Multiplet::Pull(Multiplet2(), Multiplet1());
+        return boca::Pull(Multiplet2(), Multiplet1());
     }
 
     float Dipolarity() const {
-        return Multiplet::Dipolarity(Multiplet1(), Multiplet2(), singlet());
+        return boca::Dipolarity(Multiplet1(), Multiplet2(), singlet());
     }
 
 protected:
@@ -167,6 +152,14 @@ protected:
     }
 
 private:
+
+    void SetPlainJet() const override {
+        Multiplet::SetPlainJet(MakeJet(Multiplet1(), Multiplet2()));
+    }
+
+    void SetSinglet() const override {
+        Multiplet::SetSinglet(MakeSinglet(Multiplet1(), Multiplet2()));
+    }
 
     Multiplet_1_ multiplet_1_;
 

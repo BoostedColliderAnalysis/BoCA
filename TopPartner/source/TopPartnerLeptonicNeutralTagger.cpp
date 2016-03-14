@@ -1,5 +1,6 @@
 #include "TopPartnerLeptonicNeutralTagger.hh"
 #include "plotting/Font.hh"
+#include "Particles.hh"
 #include "Exception.hh"
 #include "DEBUG.hh"
 

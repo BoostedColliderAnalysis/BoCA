@@ -7,6 +7,7 @@
 #include "ClusterSequence.hh"
 #include "DetectorGeometry.hh"
 #include "PreCuts.hh"
+#include "Particles.hh"
 #include "Sort.hh"
 #include "delphes/Hadrons.hh"
 #include "HEPTopTagger.hh"

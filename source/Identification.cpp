@@ -38,15 +38,14 @@ float Identification::Bdt() const
     return bdt_;
 }
 
-void Identification::SetTag(enum Tag tag)
+void Identification::SetTag(boca::Tag tag)
 {
     tag_ = tag;
 }
 
-void Identification::SetTag(enum Tag tag_1, enum Tag tag_2)
+void Identification::SetTag(boca::Tag tag_1, boca::Tag tag_2)
 {
-    if (tag_1 == boca::Tag::signal || tag_2 == boca::Tag::signal) tag_ = boca::Tag::signal;
-    else tag_ = boca::Tag::background;
+    tag_ = tag_1 == boca::Tag::signal || tag_2 == boca::Tag::signal ? boca::Tag::signal : boca::Tag::background;
 }
 
 boca::Tag Identification::Tag() const

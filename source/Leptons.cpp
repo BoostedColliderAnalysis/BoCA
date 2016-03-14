@@ -20,7 +20,7 @@ Leptons::~Leptons()
 std::vector<Lepton> Leptons::leptons() const
 {
     INFO0;
-    return Join(Electrons(), Muons());
+    return Combine(Electrons(), Muons());
 }
 
 }

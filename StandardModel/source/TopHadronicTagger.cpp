@@ -7,7 +7,7 @@
 #include "TopHadronicTagger.hh"
 #include "Event.hh"
 #include "Exception.hh"
-#include "ParticleInfo.hh"
+#include "Particles.hh"
 #include "MomentumRange.hh"
 // #define INFORMATION
 #include "DEBUG.hh"
@@ -115,13 +115,13 @@ std::vector<Triplet> TopHadronicTagger::Triplets(Event const& event, Function co
     std::vector<Triplet> triplets = ThreeJets(three_jet_range.SofterThanMax(jets), leptons, function, three_jet_range);
 
     MomentumRange two_jet_range(Id::W, id_);
-    for (auto const & jet : two_jet_range.InsidePtWindow(jets)) triplets = Join(triplets, TwoJets(two_jet_range.SofterThanMax(jets), jet, leptons, function, two_jet_range));
+    for (auto const & jet : two_jet_range.InsidePtWindow(jets)) Insert(triplets, TwoJets(two_jet_range.SofterThanMax(jets), jet, leptons, function, two_jet_range));
 
     MomentumRange three_sub_jet_range(id_, SubJet(Id::W));
     for (auto const & jet : three_sub_jet_range.HarderThanMin(jets)) {
-        if (three_sub_jet_range.InsideRange(jet)) triplets = Join(triplets, ThreeSubJets(jet, leptons, function, three_sub_jet_range));
+      if (three_sub_jet_range.InsideRange(jet)) Insert(triplets, ThreeSubJets(jet, leptons, function, three_sub_jet_range));
         MomentumRange two_sub_jet_range((SubJet(Id::W)), (SubJet(id_)));
-        if (two_sub_jet_range.InsideRange(jet)) triplets = Join(triplets, TwoSubJets(jet, leptons, function, two_sub_jet_range));
+        if (two_sub_jet_range.InsideRange(jet)) Insert(triplets, TwoSubJets(jet, leptons, function, two_sub_jet_range));
         MomentumRange one_sub_jet_range((SubJet(id_)));
         if (one_sub_jet_range.InsideRange(jet)) if (boost::optional<Triplet> optional = HighlyBoosted(jet, leptons, function)) triplets.emplace_back(*optional);
     }
@@ -180,7 +180,7 @@ std::vector<Triplet> TopHadronicTagger::Triplets(std::vector<boca::Doublet> cons
 {
     INFO(doublets.size());
     std::vector<Triplet> triplets;
-    for (auto const & doublet : doublets) triplets = Join(triplets, Triplets(doublet, jets, leptons, function, range));
+    for (auto const & doublet : doublets) Insert(triplets, Triplets(doublet, jets, leptons, function, range));
     INFO(triplets.size());
     return triplets;
 }
@@ -217,7 +217,7 @@ boost::optional<Triplet> TopHadronicTagger::Tripple(Triplet& triplet, std::vecto
 Momentum TopHadronicTagger::LeptonPt(Triplet const& triplet, std::vector<Lepton> const& leptons) const
 {
     Momentum pt = at_rest;
-    for (auto const & lepton : leptons) if (lepton.Pt() > pt && Close(lepton)(triplet)) pt = lepton.Pt();
+    for (auto const & lepton : leptons) if (lepton.Pt() > pt && Close<Lepton>(lepton)(triplet)) pt = lepton.Pt();
     return pt;
 //     return boost::max_element(leptons | boost::adaptors::filtered(Close(triplet)), [](Lepton const & lepton_1, Lepton const & lepton_2) {
 //         return lepton_1.Pt() < lepton_2.Pt();

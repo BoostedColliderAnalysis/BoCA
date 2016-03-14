@@ -1,8 +1,6 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include <boost/units/absolute.hpp>
-
 #include "multiplets/Singlet.hh"
 #include "DetectorGeometry.hh"
 #include "Vector.hh"
@@ -14,15 +12,7 @@ namespace boca
 
 bool Singlet::Overlap(boca::Jet const& jet) const
 {
-    return DeltaRTo(jet) < DetectorGeometry::OverlapConeSize();
-//     return Close(jet, DetectorGeometry::OverlapConeSize())(Jet());
-}
-
-bool Singlet::Overlap(Singlet const& singlet) const
-{
-    return DeltaRTo(singlet) < DetectorGeometry::OverlapConeSize();
-//   return Overlap(singlet.Jet());
-//   return Close(singlet, DetectorGeometry::OverlapConeSize())(*this);
+    return PseudoJet::DeltaRTo(jet) < DetectorGeometry::OverlapConeSize();
 }
 
 Angle Singlet::Radius(boca::Jet const& jet) const
@@ -65,6 +55,16 @@ float Singlet::Bdt() const
     return Info().Bdt();
 }
 
+void Singlet::SetTag(boca::Tag tag)
+{
+  Info().SetTag(tag);
+}
+
+boca::Tag Singlet::Tag() const
+{
+  return Info().Tag();
+}
+
 float Singlet::log(Length length) const
 {
     INFO(length);
@@ -87,7 +87,7 @@ Vector2<AngleSquare> Singlet::PullVector() const
     std::vector<boca::Jet> constituents = Constituents();
     if (constituents.size() < 3) return {};
     Vector2<AngleSquare> sum;
-    for (auto const & constituent : constituents) sum += Reference(constituent) * constituent.pt() * constituent.DeltaRTo(*this);
+    for (auto const & constituent : constituents) sum += PseudoJet::DeltaTo(constituent) * constituent.pt() * PseudoJet::DeltaRTo(constituent);
     pull_ = sum  / pt();
     has_pull_ = true;
     return pull_;
@@ -96,6 +96,76 @@ Vector2<AngleSquare> Singlet::PullVector() const
 const Singlet& Singlet::singlet() const
 {
     return *this;
+}
+
+void Singlet::Enforce(const boca::Jet& jet)
+{
+    reset(jet);
+    ResetInfo(jet.Info());
+}
+Jet Singlet::Jet() const
+{
+    return *this;
+}
+std::vector< Jet > Singlet::Jets() const
+{
+    return {*this};
+}
+float Singlet::MaxDisplacement() const
+{
+    return log(Info().MaxDisplacement());
+}
+float Singlet::MeanDisplacement() const
+{
+    return log(Info().MeanDisplacement());
+}
+float Singlet::SumDisplacement() const
+{
+    return log(Info().SumDisplacement());
+}
+Angle Singlet::Radius() const
+{
+    return Radius(Jet());
+}
+float Singlet::Spread() const
+{
+    return Spread(Jet());
+}
+Angle Singlet::VertexRadius() const
+{
+    return Radius(Info().VertexJet());
+}
+float Singlet::VertexSpread() const
+{
+    return Spread(Info().VertexJet());
+}
+float Singlet::EnergyFraction() const
+{
+    return Info().VertexEnergy() / Energy();
+}
+Angle Singlet::EmRadius() const
+{
+    return Info().ElectroMagneticRadius(Jet());
+}
+Angle Singlet::TrackRadius() const
+{
+    return Info().TrackRadius(Jet());
+}
+float Singlet::CoreEnergyFraction() const
+{
+    return Info().CoreEnergyFraction(Jet());
+}
+float Singlet::FlightPath() const
+{
+    return log(Info().MeanDisplacement());
+}
+float Singlet::TrtHtFraction() const
+{
+    return Spread(Info().VertexJet());
+}
+Momentum Singlet::Ht() const
+{
+    return Pt();
 }
 
 }

@@ -6,6 +6,7 @@
 
 #include "multiplets/Doublet.hh"
 #include "Event.hh"
+#include "Particles.hh"
 #include "ClusterSequence.hh"
 #include "Types.hh"
 #include "HiggsTagger.hh"

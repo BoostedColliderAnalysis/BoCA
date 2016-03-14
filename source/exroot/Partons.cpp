@@ -1,7 +1,6 @@
 #include "exroot/Partons.hh"
 
 #include "exroot/ExRootAnalysis.hh"
-#include "ParticleInfo.hh"
 #include "Types.hh"
 #include "DEBUG.hh"
 

@@ -1,5 +1,6 @@
 #include "SignatureNeutralTagger.hh"
 #include "Event.hh"
+#include "Particles.hh"
 #include "DEBUG.hh"
 
 namespace boca
@@ -22,14 +23,14 @@ int SignatureNeutralTagger::Train(Event const& event, PreCuts const&, Tag tag) c
     std::vector<Particle> tops = CopyIfParticle(particles, Id::top);
     std::vector<Particle> tops_even = CopyIfMother(tops, Id::heavy_higgs);
     std::vector<Particle> tops_odd = CopyIfMother(tops, Id::CP_odd_higgs);
-    std::vector<Particle> top_higgs = Join(tops_even, tops_odd);
+    std::vector<Particle> top_higgs = Combine(tops_even, tops_odd);
     int  one_close_to_top = 0, two_close_to_top = 0;
 
     if (top_higgs.size() == 2) {
 
         for (auto const & doublet : doublets) {
-            if ((Close(top_higgs.at(0))(doublet.Singlet1()) && Close(top_higgs.at(1))(doublet.Singlet2())) || (Close(top_higgs.at(1))(doublet.Singlet1()) && Close(top_higgs.at(0))(doublet.Singlet2()))) two_close_to_top++;
-            if ((Close(top_higgs.at(0))(doublet.Singlet1()) || Close(top_higgs.at(1))(doublet.Singlet2())) || (Close(top_higgs.at(1))(doublet.Singlet1()) || Close(top_higgs.at(0))(doublet.Singlet2()))) one_close_to_top++;
+            if ((Close<Jet>(top_higgs.at(0))(doublet.Singlet1()) && Close<Jet>(top_higgs.at(1))(doublet.Singlet2())) || (Close<Jet>(top_higgs.at(1))(doublet.Singlet1()) && Close<Jet>(top_higgs.at(0))(doublet.Singlet2()))) two_close_to_top++;
+            if ((Close<Jet>(top_higgs.at(0))(doublet.Singlet1()) || Close<Jet>(top_higgs.at(1))(doublet.Singlet2())) || (Close<Jet>(top_higgs.at(1))(doublet.Singlet1()) || Close<Jet>(top_higgs.at(0))(doublet.Singlet2()))) one_close_to_top++;
         }
     }
 
@@ -45,7 +46,7 @@ int SignatureNeutralTagger::Train(Event const& event, PreCuts const&, Tag tag) c
         if (bottoms.size() == 2) {
 
             for (auto const & doublet : doublets) {
-                if ((Close(bottoms.at(0))(doublet.Singlet1()) && Close(bottoms.at(1))(doublet.Singlet2())) || (Close(bottoms.at(1))(doublet.Singlet1()) && Close(bottoms.at(0))(doublet.Singlet2()))) final_doublets.emplace_back(doublet);
+                if ((Close<Jet>(bottoms.at(0))(doublet.Singlet1()) && Close<Jet>(bottoms.at(1))(doublet.Singlet2())) || (Close<Jet>(bottoms.at(1))(doublet.Singlet1()) && Close<Jet>(bottoms.at(0))(doublet.Singlet2()))) final_doublets.emplace_back(doublet);
 
             }
         } else ERROR(bottoms.size());
@@ -113,7 +114,7 @@ std::vector<Octet62> SignatureNeutralTagger::CleanOctets(Event const& event, std
     //   ERROR(bottoms.size());
     for (auto const & octet : octets) {
         switch (tag) {
-        case Tag::signal : for (const auto & higgs : higgses) if (!Close(higgs)(octet.Sextet())) continue;
+        case Tag::signal : for (const auto & higgs : higgses) if (!Close<Jet>(higgs)(octet.Sextet())) continue;
             break;
         case Tag::background  :
             //         ERROR("What are we doing here?");

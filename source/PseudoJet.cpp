@@ -33,11 +33,10 @@ Momentum PseudoJet::Pt() const
 
 Mass PseudoJet::Mass() const
 {
-    ERROR(m());
     return m() * GeV;
 }
 
-Angle PseudoJet::DeltaRTo(const fastjet::PseudoJet& jet) const
+Angle PseudoJet::DeltaRTo(const PseudoJet& jet) const
 {
     if (delta_R(jet) == fastjet::pseudojet_invalid_rap) return 0_rad;
     if (delta_R(jet) > 100) {
@@ -53,9 +52,14 @@ Angle PseudoJet::DeltaRTo(LorentzVector< Momentum > const& lorentz_vector) const
     return DeltaRTo(jet);
 }
 
-Angle PseudoJet::DeltaPhiTo(const fastjet::PseudoJet& jet) const
+Angle PseudoJet::DeltaPhiTo(const PseudoJet& jet) const
 {
     return delta_phi_to(jet) * rad;
+}
+
+Angle PseudoJet::DeltaRapTo(const PseudoJet& jet) const
+{
+  return jet.Rap() - Rap();
 }
 
 Angle PseudoJet::Rap() const
@@ -77,36 +81,47 @@ Energy PseudoJet::Energy() const
 {
     return e() * GeV;
 }
+
 boca::MassSquare PseudoJet::MassSquare() const
 {
     return m2() * GeV2;
 }
+
 Momentum PseudoJet::Py() const
 {
     return py() * GeV;
 }
+
 Momentum PseudoJet::Pz() const
 {
     return pz() * GeV;
 }
+
 Energy PseudoJet::Energy()
 {
     return e() * GeV;
 }
+
 Momentum PseudoJet::Px() const
 {
     return px() * GeV;
 }
+
 const PseudoJet::UserInfoBase& PseudoJet::Info() const
 {
+    ERROR("probably wrong user info");
     return *new UserInfoBase;
 }
+
 PseudoJet::UserInfoBase& PseudoJet::Info()
 {
+    ERROR("probably wrong user info");
     return *new UserInfoBase;
 }
 
-
+Vector2< Angle > PseudoJet::DeltaTo(const PseudoJet& jet) const
+{
+    return {DeltaRapTo(jet), DeltaPhiTo(jet)};
 }
 
-
+}

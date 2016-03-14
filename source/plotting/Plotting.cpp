@@ -524,7 +524,7 @@ void Plotting::RunPlots(Stage stage) const
     std::vector<Plots> backgrounds = Import(Phase(stage, Tag::background));
     Plots background = backgrounds.front();
     background = std::accumulate(backgrounds.begin() + 1, backgrounds.end(), background, [](Plots & sum, Plots const & plots) {
-        for (auto & plot : sum.PlotVector()) plot.Join(plots.PlotVector().at(Position(sum.PlotVector(), plot)).Data());
+        for (auto & plot : sum.PlotVector()) plot.Insert(plots.PlotVector().at(Position(sum.PlotVector(), plot)).Data());
         return sum;
     });
     background.Names().SetName("background");

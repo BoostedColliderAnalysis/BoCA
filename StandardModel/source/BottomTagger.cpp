@@ -4,7 +4,7 @@
 #include "BottomTagger.hh"
 
 #include "Event.hh"
-#include "Vector.hh"
+#include "Particles.hh"
 #include "PreCuts.hh"
 #include "Exception.hh"
 // #define DEBUGGING
@@ -48,8 +48,8 @@ std::vector<Jet> BottomTagger::Jets(Event const& event, PreCuts const& pre_cuts,
     INFO(jets.size());
     std::vector<Jet> bottoms = Multiplets(jets, function);
     if (pre_cuts.DoSubJets(Id::bottom)) {
-        bottoms = Join(bottoms, Multiplets(jets, function, 2));
-        bottoms = Join(bottoms, Multiplets(jets, function, 3));
+        Insert(bottoms, Multiplets(jets, function, 2));
+        Insert(bottoms, Multiplets(jets, function, 3));
     }
     INFO(bottoms.size());
     return bottoms;
@@ -112,7 +112,7 @@ std::vector<Jet> BottomTagger::SubJets(std::vector<Jet> const& jets, int sub_jet
 {
     INFO0;
     std::vector<Jet> subjets;
-    for (auto const & jet : jets) subjets = Join(subjets, Tagger::SubJets(jet, sub_jet_number));
+    for (auto const & jet : jets) Insert(subjets, Tagger::SubJets(jet, sub_jet_number));
     return subjets;
 }
 

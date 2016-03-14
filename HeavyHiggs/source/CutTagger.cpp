@@ -4,6 +4,7 @@
 #include "physics/Math.hh"
 #include "CutTagger.hh"
 #include "Event.hh"
+#include "Particles.hh"
 // #define DEBUGGING
 #include "DEBUG.hh"
 
@@ -89,7 +90,7 @@ boost::optional<CutVariables> CutTagger::CutMethod(Event const& event) const
     if (electrons.size() + muons.size() != 2) return boost::none;
     electrons = Window(electrons);
 
-    std::vector<Lepton> leptons = SortedByPt(RemoveIfSoft(Join(electrons, muons), 15_GeV));
+    std::vector<Lepton> leptons = SortedByPt(RemoveIfSoft(Combine(electrons, muons), 15_GeV));
     DEBUG(electrons.size(), muons.size());
     if (electrons.size() + muons.size() != 2) return boost::none;
 

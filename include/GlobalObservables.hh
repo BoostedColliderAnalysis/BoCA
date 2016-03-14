@@ -3,7 +3,6 @@
  */
 #pragma once
 
-#include "multiplets/MultipletBase.hh"
 #include "multiplets/Singlet.hh"
 
 namespace boca
@@ -11,7 +10,7 @@ namespace boca
 
 class Event;
 
-class GlobalObservables : public MultipletBase
+class GlobalObservables : public Identification
 {
 
 public:
@@ -44,13 +43,13 @@ public:
 
     Momentum JetHt() const;
 
-    Momentum Ht() const override;
+    Momentum Ht() const;
 
-    boca::Mass Mass() const override;
+    boca::Mass Mass() const;
 
-    Angle DeltaRTo(boca::PseudoJet const& jet) const override;
+    Angle DeltaRTo(boca::PseudoJet const& jet) const;
 
-    int Charge() const override;
+    int Charge() const;
 
     Momentum JetPt(int number) const;
 
@@ -66,9 +65,9 @@ public:
 
     void SetLeptons(std::vector<Lepton> const& leptons);
 
-    boca::Singlet const& singlet() const override;
+    boca::Singlet const& singlet() const;
 
-    boca::Jet Jet() const override;
+    boca::Jet Jet() const;
 
 private:
 

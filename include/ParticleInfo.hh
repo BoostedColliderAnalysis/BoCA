@@ -20,12 +20,6 @@ class ParticleInfo: public fastjet::PseudoJet::UserInfoBase
 
 public:
 
-//     friend class InfoRecombiner;
-
-    /**
-     * @brief Constructor
-     *
-     */
     ParticleInfo();
 
     ParticleInfo(boca::Family const& family);

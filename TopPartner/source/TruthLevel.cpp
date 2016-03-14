@@ -7,6 +7,7 @@
 #include "PreCuts.hh"
 #include "Exception.hh"
 #include "physics/Particles.hh"
+#include "Particles.hh"
 // #define DEBUGGING
 #include "DEBUG.hh"
 

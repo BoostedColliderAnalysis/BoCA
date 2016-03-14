@@ -23,18 +23,18 @@ void Observables::AddObservable(Observable const& observable)
 }
 std::vector< Observable > Observables::Vector() const
 {
-  return observables_;
+    return observables_;
 }
 
 void Observables::AddFilter(const Filter& filter)
 {
-  observables_ = boost::range::remove_erase_if(observables_, [&](Observable const & observable) {
+    observables_ = boost::range::remove_erase_if(observables_, [&](Observable const & observable) {
         return filter.IsSet(observable.Name());
     });
 }
 Observables operator+(Observables const& observables_1, Observables const& observables_2)
 {
-    return Join(observables_1.Vector(), observables_2.Vector());
+    return Combine(observables_1.Vector(), observables_2.Vector());
 }
 Observables operator+(Observables& observables, Observable const& observable)
 {

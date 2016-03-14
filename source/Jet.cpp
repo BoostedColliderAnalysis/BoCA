@@ -4,9 +4,6 @@
 
 #include "exroot/ExRootAnalysis.hh"
 #include "Jet.hh"
-#include "InfoRecombiner.hh"
-#include "Exception.hh"
-// #define DEBUGGING
 #include "DEBUG.hh"
 
 namespace boca
@@ -173,20 +170,28 @@ Jet Join(std::vector< Jet > const& jets)
     return fastjet::join(PseudoJetVector(jets), InfoRecombiner());
 }
 
+Jet Join(Jet const& jet_1, Jet const& jet_2)
+{
+  return fastjet::join(jet_1, jet_2, InfoRecombiner());
+}
+
 void Jet::SetDelphesTags(const delphes::Jet& delphes_jet)
 {
     Info().SetDelphesTags(delphes_jet);
 }
+
 std::vector< Jet > Jet::Constituents() const
 {
     if (has_constituents()) return JetVector(constituents());
     ERROR("no constituents");
     return {};
 }
+
 LorentzVector< Momentum > Jet::Vector() const
 {
     return {px()* GeV, py()* GeV, pz()* GeV, e()* GeV};
 }
+
 float Jet::Bdt() const
 {
     return Info().Bdt();

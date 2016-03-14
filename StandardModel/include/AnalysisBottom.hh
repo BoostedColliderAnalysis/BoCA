@@ -6,7 +6,7 @@
 #include "AnalysisStandardModel.hh"
 #include "Sort.hh"
 #include "Particle.hh"
-#include "Vector.hh"
+#include "Particles.hh"
 #include "Event.hh"
 
 namespace boca

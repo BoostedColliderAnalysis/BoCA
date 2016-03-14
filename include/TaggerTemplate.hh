@@ -5,8 +5,8 @@
 
 #include "exroot/ExRootAnalysis.hh"
 
-#include "Sort.hh"
 #include "Tagger.hh"
+#include "Sort.hh"
 #include "PreCuts.hh"
 #include "Filter.hh"
 #include "Debug.hh"
@@ -82,7 +82,7 @@ protected:
         if (Debug()) boca::Debug("multiplets", multiplets.size(), "particles", particles.size());
         if (multiplets.empty()) return multiplets;
         std::vector<Multiplet_2_> best;
-        for (auto const & particle : particles) best = Join(best, BestMatch(multiplets, particle, id));
+        for (auto const & particle : particles) Insert(best, BestMatch(multiplets, particle, id));
         if (Debug()) boca::Debug("best", best.size());
         return best;
     }
@@ -144,8 +144,8 @@ protected:
     }
 
     int SaveEntries(std::vector<Multiplet_> multiplets, int max = std::numeric_limits<int>::max()) const {
-        if (multiplets.empty()) return 0;
         if (multiplets.size() > 1) multiplets = SortedByBdt(multiplets);
+        if (multiplets.empty()) return 0;
         auto sum = std::min(int(multiplets.size()), max);
         for (auto const & counter : IntegerRange(sum)) {
             FillBranch(multiplets.at(counter));

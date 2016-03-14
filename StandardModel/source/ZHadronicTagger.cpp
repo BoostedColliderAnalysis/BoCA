@@ -4,6 +4,7 @@
 #include "ZHadronicTagger.hh"
 #include "MomentumRange.hh"
 #include "Event.hh"
+#include "Particles.hh"
 #include "Exception.hh"
 #include "DEBUG.hh"
 

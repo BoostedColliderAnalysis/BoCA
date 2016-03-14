@@ -1,13 +1,15 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include<functional>
+// #include <functional>
 #include "boost/range/algorithm/find_if.hpp"
 #include "boost/range/algorithm/sort.hpp"
-#include "Vector.hh"
+#include <boost/range/algorithm_ext/erase.hpp>
+#include <boost/range/algorithm/copy.hpp>
+#include <boost/range/adaptors.hpp>
 
 #include "Types.hh"
-#include "ParticleInfo.hh"
+#include "Particles.hh"
 #include "DEBUG.hh"
 
 namespace boca

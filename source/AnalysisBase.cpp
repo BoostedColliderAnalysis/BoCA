@@ -12,7 +12,6 @@
 #include "plotting/Plotting.hh"
 #include "Event.hh"
 #include "Trainer.hh"
-#include "ParticleInfo.hh"
 // #define INFORMATION
 #include "DEBUG.hh"
 

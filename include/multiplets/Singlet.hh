@@ -3,7 +3,11 @@
  */
 #pragma once
 
-#include "multiplets/MultipletBase.hh"
+#include <boost/range/algorithm/unique.hpp>
+#include <boost/range/algorithm_ext/erase.hpp>
+
+#include "Jet.hh"
+#include "Vector.hh"
 
 namespace boca
 {
@@ -12,111 +16,93 @@ namespace boca
  * @brief Thin wrapper to make Jet behave like a Multiplet.
  *
  */
-class Singlet : public boca::Jet, public MultipletBase
+class Singlet : public boca::Jet
 {
 
 public:
 
     using boca::Jet::Jet;
 
-    void Enforce(boca::Jet const& jet) {
-        reset(jet);
-        ResetInfo(jet.Info());
-    }
+    void Enforce(boca::Jet const& jet);
 
-    boca::Jet Jet() const override {
-        return *this;
-    }
+    boca::Jet Jet() const;
 
-    std::vector<boca::Jet> Jets() const {
-        return {*this};
-    }
-
-    boca::Mass Mass() const override {
-        boca::Jet::Mass();
-    }
-
-    Angle DeltaRTo(boca::PseudoJet const& jet) const override {
-        return boca::Jet::DeltaRTo(jet);
-    }
+    std::vector<boca::Jet> Jets() const;
 
     bool Overlap(boca::Jet const& jet) const;
 
-    bool Overlap(Singlet const& singlet) const;
+    float MaxDisplacement() const;
 
-    float MaxDisplacement() const {
-        return log(Info().MaxDisplacement());
-    }
+    float MeanDisplacement() const;
 
-    float MeanDisplacement() const {
-        return log(Info().MeanDisplacement());
-    }
+    float SumDisplacement() const;
 
-    float SumDisplacement() const {
-        return log(Info().SumDisplacement());
-    }
+    Angle Radius() const;
 
-    Angle Radius() const {
-        return Radius(Jet());
-    }
+    float Spread() const;
 
-    float Spread() const {
-        return Spread(Jet());
-    }
+    Angle VertexRadius() const;
 
-    Angle VertexRadius() const {
-        return Radius(Info().VertexJet());
-    }
+    float VertexSpread() const;
 
-    float VertexSpread() const {
-        return Spread(Info().VertexJet());
-    }
+    float EnergyFraction() const;
 
-    float EnergyFraction() const {
-        return Info().VertexEnergy() / Jet().Energy();
-    }
+    Angle EmRadius() const;
 
-    Angle EmRadius() const {
-        return Info().ElectroMagneticRadius(Jet());
-    }
+    Angle TrackRadius() const;
 
-    Angle TrackRadius() const {
-        return Info().TrackRadius(Jet());
-    }
+    float CoreEnergyFraction() const;
 
-    float CoreEnergyFraction() const {
-        return Info().CoreEnergyFraction(Jet());
-    }
+    float FlightPath() const;
 
-    float FlightPath() const {
-        return log(Info().MeanDisplacement());
-    }
+    float TrtHtFraction() const;
 
-    float TrtHtFraction() const {
-        return Spread(Info().VertexJet());
-    }
+    Momentum Ht() const;
 
-    Momentum Ht() const override {
-        return Jet().Pt();
-    }
+    void SetBdt(float bdt);
 
-    using boca::Jet::Pt;
-    using boca::Jet::Rap;
-    using boca::Jet::Phi;
+    float Bdt() const;
 
-    void SetBdt(float bdt) override;
+    void SetTag(boca::Tag tag);
 
-    float Bdt() const override;
+    boca::Tag Tag() const;
 
-    int Charge() const override;
+    int Charge() const;
 
-    Singlet const& singlet() const override;
+    Singlet const& singlet() const;
 
     Vector2<AngleSquare> PullVector() const;
 
-//     float BottomBdt() const override {
-//         return Bdt();
-//     }
+    template<typename Multiplet_>
+    using NotJet = typename std::enable_if < !std::is_same<Multiplet_, boca::Jet>::value && !std::is_same<Multiplet_, boca::PseudoJet>::value >::type;
+
+    template <typename Multiplet_, typename = NotJet<Multiplet_>>
+    Angle DeltaPhiTo(Multiplet_ const& jet) const {
+        return Jet().DeltaPhiTo(jet.Jet());
+    }
+
+    using PseudoJet::DeltaPhiTo;
+
+    template <typename Multiplet_, typename = NotJet<Multiplet_>>
+    Angle DeltaRTo(Multiplet_ const& jet) const {
+        return Jet().DeltaRTo(jet.Jet());
+    }
+
+    using PseudoJet::DeltaRTo;
+
+    template <typename Multiplet_, typename = NotJet<Multiplet_>>
+    Angle DeltaRapTo(Multiplet_ const& jet) const {
+        return Jet().DeltaRapTo(jet.Jet());
+    }
+
+    using PseudoJet::DeltaRapTo;
+
+    template <typename Multiplet_, typename = NotJet<Multiplet_>>
+    Vector2<Angle> DeltaTo(Multiplet_ const& jet) const {
+        return Jet().DeltaTo(jet.Jet());
+    }
+
+    using PseudoJet::DeltaTo;
 
 private:
 
@@ -134,6 +120,14 @@ private:
 
 };
 
+template<typename Multiplet_1_, typename Multiplet_2_>
+boca::Singlet MakeSinglet(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2){
+  std::vector<fastjet::PseudoJet> constituents(multiplet_1.singlet().has_constituents() ? multiplet_1.singlet().constituents() : PseudoJetVector(multiplet_1.singlet().Jets()));
+  Insert(constituents, multiplet_2.singlet().has_constituents() ? multiplet_2.singlet().constituents() : PseudoJetVector(multiplet_2.singlet().Jets()));
+  constituents = fastjet::sorted_by_pt(constituents);
+  boost::erase(constituents, boost::unique<boost::return_next_end>(constituents));
+  return fastjet::join(constituents, InfoRecombiner());
+}
 
 }
 

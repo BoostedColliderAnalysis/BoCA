@@ -3,7 +3,6 @@
  */
 #pragma once
 
-#include <boost/units/cmath.hpp>
 #include "multiplets/Triplet.hh"
 
 namespace boca
@@ -24,61 +23,37 @@ public:
 
     Triplet const& Triplet2() const;
 
-    Momentum HardTopPt() const {
-        return std::max(Triplet1().Pt(), Triplet2().Pt());
-    }
+    Triplet & Triplet1();
 
-    Momentum SoftTopPt() const {
-        return std::min(Triplet1().Pt(), Triplet2().Pt());
-    }
+    Triplet & Triplet2();
 
-    Angle GetLargertripletDeltaR() const {
-        return std::max(Triplet1().DeltaR(), Triplet2().DeltaR());
-    }
+    Momentum HardTopPt() const;
 
-    Angle GetSmallertripletDeltaR() const {
-        return std::min(Triplet1().DeltaR(), Triplet2().DeltaR());
-    }
+    Momentum SoftTopPt() const;
 
-    Angle GetLargertripletDeltaRap() const {
-        return std::max(Triplet1().DeltaRap(), Triplet2().DeltaRap());
-    }
+    Angle GetLargertripletDeltaR() const;
 
-    Angle GetSmallertripletDeltaRap() const {
-        return std::min(Triplet1().DeltaRap(), Triplet2().DeltaRap());
-    }
+    Angle GetSmallertripletDeltaR() const;
 
-    Angle GetLargerTripleDeltaPhi() const {
-        return std::max(boost::units::abs(Triplet1().DeltaPhi()), boost::units::abs(Triplet2().DeltaPhi()));
-    }
+    Angle GetLargertripletDeltaRap() const;
 
-    Angle GetSmallertripletDeltaPhi() const {
-        return std::min(boost::units::abs(Triplet1().DeltaPhi()), boost::units::abs(Triplet2().DeltaPhi()));
-    }
+    Angle GetSmallertripletDeltaRap() const;
 
-    boca::Mass GetBetterTripleMass(Id id) const {
-        return boost::units::fmin(Triplet1().MassDifferenceTo(id), Triplet2().MassDifferenceTo(id));
-    }
+    Angle GetLargerTripleDeltaPhi() const;
 
-    boca::Mass GetWorseTripleMass(Id id) const {
-        return boost::units::fmax(Triplet1().MassDifferenceTo(id), Triplet2().MassDifferenceTo(id));
-    }
+    Angle GetSmallertripletDeltaPhi() const;
 
-    boca::Mass GetBetterPairMass(Id id) const {
-        return boost::units::fmin(Triplet1().Doublet().MassDifferenceTo(id), Triplet2().Doublet().MassDifferenceTo(id));
-    }
+    boca::Mass GetBetterTripleMass(Id id) const;
 
-    boca::Mass GetWorsePairMass(Id id) const {
-        return boost::units::fmax(Triplet1().Doublet().MassDifferenceTo(id), Triplet2().Doublet().MassDifferenceTo(id));
-    }
+    boca::Mass GetWorseTripleMass(Id id) const;
 
-    boca::Mass GetBetterJetMass(Id id) const {
-        return boost::units::fmin(Triplet1().MassDifferenceTo(id), Triplet2().MassDifferenceTo(id));
-    }
+    boca::Mass GetBetterPairMass(Id id) const;
 
-    boca::Mass GetWorseJetMass(Id id) const {
-        return boost::units::fmax(Triplet1().MassDifferenceTo(id), Triplet2().MassDifferenceTo(id));
-    }
+    boca::Mass GetWorsePairMass(Id id) const;
+
+    boca::Mass GetBetterJetMass(Id id) const;
+
+    boca::Mass GetWorseJetMass(Id id) const;
 
 };
 

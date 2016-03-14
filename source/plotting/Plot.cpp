@@ -61,10 +61,10 @@ const std::vector< Vector3< float > >& Plot::Data() const
     return data_;
 }
 
-void Plot::Join(const std::vector< Vector3< float > >& data)
+void Plot::Insert(std::vector<Vector3<float>> const& data)
 {
     INFO0;
-    data_ = boca::Join(data_, data);
+    boca::Insert(data_, data);
 }
 
 std::vector< Vector3< float > > Plot::CoreData(std::function<bool (Vector3<float> const&, Vector3<float> const&)> const& function) const

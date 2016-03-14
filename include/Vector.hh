@@ -2,36 +2,16 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
-// #include <vector>
 #include <boost/range/algorithm_ext/erase.hpp>
 #include <boost/range/algorithm/find.hpp>
 #include <boost/range/algorithm/min_element.hpp>
 #include <boost/range/algorithm/copy.hpp>
 #include <boost/range/adaptors.hpp>
-
-#include "physics/Particles.hh"
-#include "Particle.hh"
-#include "Jet.hh"
+//
 #include "DetectorGeometry.hh"
 
 namespace boca
 {
-
-std::vector<Particle> CopyIfRelativeIs(std::vector<Particle> const& particles, Relative relative, Id id);
-
-std::vector<Particle> CopyIfRelativeIs(std::vector<Particle> const& particles, Relative relative, std::vector<Id> ids);
-
-std::vector<Particle> CopyIfParticle(std::vector<Particle> const& particles, Id id);
-
-std::vector<Particle> CopyIfParticles(std::vector<Particle> const& particles, std::vector<Id> ids);
-
-std::vector<Particle> CopyIfNeutrino(std::vector<Particle> const& particles);
-
-std::vector<Particle> CopyIfLepton(std::vector<Particle> const& particles);
-
-std::vector<Particle> CopyIfExactParticle(std::vector<Particle> const& particles, int id);
-
-std::vector<Particle> RemoveIfExactParticle(std::vector<Particle> particles, int id);
 
 template <typename Multiplet_>
 std::vector<Multiplet_> RemoveIfOutsidePtWindow(std::vector<Multiplet_> jets, Momentum lower_cut, Momentum upper_cut)
@@ -40,54 +20,6 @@ std::vector<Multiplet_> RemoveIfOutsidePtWindow(std::vector<Multiplet_> jets, Mo
         return jet.Pt() < lower_cut || jet.Pt() > upper_cut;
     });
 }
-
-std::vector<Particle> CopyIfFamily(std::vector<Particle> const& particles, Id id, Id mother_id);
-
-/**
- * @brief returns only particles with the correct id and non fitting grand mother id
- *
- */
-std::vector<Particle> RemoveIfGrandFamily(std::vector<Particle> particles, Id id, Id grand_mother_id);
-
-std::vector<Particle> CopyIfParticle(std::vector<Particle> const& particles, Id id);
-
-std::vector<Particle> RemoveIfParticle(std::vector<Particle> particles, Id id);
-
-std::vector<Particle> CopyIfMother(std::vector<Particle> const& particles, Id mother_id);
-
-std::vector<Particle> CopyIfMother(std::vector<Particle> const& particles, std::vector<Id> mother_id);
-
-std::vector<Particle> CopyIfMother(std::vector<Particle> const& particles, Particle mother);
-
-std::vector<Particle> CopyIfGrandMother(std::vector<Particle> const& particles, Id grand_mother_id);
-
-std::vector<Particle> CopyIfGrandMother(std::vector<Particle> const& particles, Particle grand_mother);
-
-std::vector<Particle> CopyIfGreatGrandMother(std::vector<Particle> const& particles, Id grand_grand_mother_id);
-
-std::vector<Particle> RemoveIfMother(std::vector<Particle> particles, Id mother_id);
-
-std::vector<Particle> RemoveIfMother(std::vector<Particle> particles, std::vector<Id> mother_ids);
-
-std::vector<Particle> RemoveIfSingleMother(std::vector<Particle> particles);
-
-std::vector<Particle> RemoveIfOnlyMother(std::vector<Particle> particles, Id mother_id);
-
-std::vector<Particle> RemoveIfLetpon(std::vector<Particle> particles);
-
-std::vector<Particle> RemoveIfQuark(std::vector<Particle> particles);
-
-std::vector<Particle> CopyIfQuark(std::vector<Particle> const& particles);
-
-std::vector<Particle> CopyIf5Quark(std::vector<Particle> const& particles);
-
-std::vector<Particle> CopyIfDaughter(std::vector<Particle> const& particles, std::vector<Particle> const& daughters);
-
-std::vector<Particle> CopyIfGrandDaughter(std::vector<Particle> const& particles, std::vector<Particle> const& daughters);
-
-std::vector<Particle> CopyIfPosition(std::vector<Particle> const& particles, int position_1, int position_2);
-
-std::vector<Particle> CopyFirst(std::vector<Particle> particles, int number);
 
 template<typename Multiplet_>
 std::vector<Multiplet_> CopyIfTag(std::vector<Multiplet_> const& multiplets, float value = 0)
@@ -98,13 +30,6 @@ std::vector<Multiplet_> CopyIfTag(std::vector<Multiplet_> const& multiplets, flo
     }), std::back_inserter(tags));
     return tags;
 }
-
-/**
- * @brief Copy the two particles which are on the DY position
- *
- * here we assume that the DY particle are always on position 6 and 7
- */
-std::vector<Particle> CopyIfDrellYan(std::vector<Particle> const& particles);
 
 template<typename Multiplet_>
 std::vector<Multiplet_> RemoveIfSoft(std::vector<Multiplet_> multiplets, Momentum pt_min)
@@ -122,71 +47,72 @@ std::vector<Multiplet_> RemoveIfHard(std::vector<Multiplet_> multiplets, Momentu
     });
 }
 
+template <typename Multiplet_1_>
 class Close
 {
 public:
-    Close(PseudoJet const& particle) :
+    Close(Multiplet_1_ const& particle) :
         particle_(particle) ,
         cone_size_(DetectorGeometry::JetConeSize())
     {}
-    Close(PseudoJet const& particle, Angle cone_size) :
+    Close(Multiplet_1_ const& particle, Angle cone_size) :
         particle_(particle) ,
         cone_size_(cone_size)
     {}
-    template <typename Multiplet_>
-    bool operator()(Multiplet_ const& multiplet) {
+    template <typename Multiplet_2_>
+    bool operator()(Multiplet_2_ const& multiplet) {
         return multiplet.DeltaRTo(particle_) < cone_size_;
     }
 private:
-    PseudoJet particle_;
+    Multiplet_1_ particle_;
     Angle cone_size_;
 };
 
-template <typename Multiplet_>
-std::vector<Multiplet_> RemoveIfClose(std::vector<Multiplet_> jets, std::vector<Particle> const& particles)
+template <typename Multiplet_1_, typename Multiplet_2_>
+std::vector<Multiplet_1_> RemoveIfClose(std::vector<Multiplet_1_> jets, std::vector<Multiplet_2_> const& particles)
 {
-    for (auto const & particle : particles) jets = boost::range::remove_erase_if(jets, Close(particle));
+    for (auto const & particle : particles) jets = boost::range::remove_erase_if(jets, Close<Multiplet_2_>(particle));
     return jets;
 }
 
-template <typename Multiplet_>
-bool CrossComparison(Multiplet_ const& multiplet, std::pair<Particle, Particle> const& particles)
+template <typename Multiplet_1_, typename Multiplet_2_>
+bool CrossComparison(Multiplet_1_ const& multiplet, std::pair<Multiplet_2_, Multiplet_2_> const& particles)
 {
-    return (Close(particles.first)(multiplet.Multiplet1()) && Close(particles.second)(multiplet.Multiplet2())) || (Close(particles.first)(multiplet.Multiplet2()) && Close(particles.second)(multiplet.Multiplet1()));
+    return (Close<Multiplet_2_>(particles.first)(multiplet.Multiplet1()) && Close<Multiplet_2_>(particles.second)(multiplet.Multiplet2())) || (Close<Multiplet_2_>(particles.first)(multiplet.Multiplet2()) && Close<Multiplet_2_>(particles.second)(multiplet.Multiplet1()));
 }
 
-template <typename Multiplet_>
-std::vector<Multiplet_> RemoveIfClose(std::vector<Multiplet_> jets, std::vector<std::pair<Particle, Particle>> const& particles)
+template <typename Multiplet_1_, typename Multiplet_2_>
+std::vector<Multiplet_1_> RemoveIfClose(std::vector<Multiplet_1_> jets, std::vector<std::pair<Multiplet_2_, Multiplet_2_>> const& particles)
 {
-    for (auto const & particle : particles) jets = boost::range::remove_erase_if(jets, [&](Multiplet_ const & multiplet) {
+    for (auto const & particle : particles) jets = boost::range::remove_erase_if(jets, [&](Multiplet_1_ const & multiplet) {
         return CrossComparison(multiplet, particle);
     });
     return jets;
 }
 
-template <typename Multiplet_, typename Particle_>
-std::vector<Multiplet_> CopyIfClose(std::vector<Multiplet_> const& multiplets, std::vector<Particle_> const& particles)
+template <typename Multiplet_1_, typename Multiplet_2_>
+std::vector<Multiplet_1_> CopyIfClose(std::vector<Multiplet_1_> const& multiplets, std::vector<Multiplet_2_> const& particles)
 {
     if (multiplets.empty()) return multiplets;
-    std::vector<Multiplet_> close_multiplets;
-    for (auto const & particle : particles) close_multiplets = Join(close_multiplets, CopyIfClose(multiplets, particle));
+    std::vector<Multiplet_1_> close_multiplets;
+    for (auto const & particle : particles) Insert(close_multiplets, CopyIfClose(multiplets, particle));
     return close_multiplets;
 }
 
-template <typename Multiplet_>
-std::vector<Multiplet_> CopyIfClose(std::vector<Multiplet_> const& multiplets, Particle const& particle)
+template <typename Multiplet_1_, typename Multiplet_2_>
+std::vector<Multiplet_1_> CopyIfClose(std::vector<Multiplet_1_> const& multiplets, Multiplet_2_ const& particle)
 {
     if (multiplets.empty()) return multiplets;
-    std::vector<Multiplet_> close_multiplets;
-    for (auto const & multiplet : multiplets) if (Close(particle)(multiplet)) close_multiplets.emplace_back(multiplet);
+    std::vector<Multiplet_1_> close_multiplets;
+    for (auto const & multiplet : multiplets) if (Close<Multiplet_2_>(particle)(multiplet)) close_multiplets.emplace_back(multiplet);
     return close_multiplets;
 }
 
-template <typename Multiplet_>
-std::vector<Multiplet_> CopyIfClose(std::vector<Multiplet_> const& multiplets, std::pair<Particle, Particle> const& particle)
+template <typename Multiplet_1_, typename Multiplet_2_>
+std::vector<Multiplet_1_> CopyIfClose(std::vector<Multiplet_1_> const& multiplets, std::pair<Multiplet_2_, Multiplet_2_> const& particle)
 {
     if (multiplets.empty()) return multiplets;
-    std::vector<Multiplet_> close_multiplets;
+    std::vector<Multiplet_1_> close_multiplets;
     for (auto const & multiplet : multiplets) if (CrossComparison(multiplet, particle)) close_multiplets.emplace_back(multiplet);
     return close_multiplets;
 }
@@ -213,40 +139,61 @@ bool FindInVector(const std::vector<Element_> vector, const Element_ element)
 }
 
 template <typename Multiplet_1_, typename Multiplet_2_>
-Multiplet_1_ ClosestJet(std::vector<Multiplet_1_> const& particles, Multiplet_2_ const& multiplet)
+Multiplet_1_ ClosestJet(std::vector<Multiplet_1_> const& multiplets, Multiplet_2_ const& multiplet)
 {
-    return *boost::range::min_element(particles, [&](Jet const & jet_1, Jet const & jet_2) {
-        return multiplet.DeltaRTo(jet_1) < multiplet.DeltaRTo(jet_2);
+    return *boost::range::min_element(multiplets, [&](Multiplet_1_ const & multiplet_1, Multiplet_1_ const & multiplet_2) {
+        return multiplet.DeltaRTo(multiplet_1) < multiplet.DeltaRTo(multiplet_2);
     });
 }
 
 /**
- * @brief Join two std::vector
+ * @brief Combine two std::vector
  *
  */
 template <typename Element_>
-std::vector<Element_> Join(std::vector<Element_> const& vector_1, std::vector<Element_> const& vector_2)
+std::vector<Element_> Combine(std::vector<Element_> const& vector_1, std::vector<Element_> const& vector_2)
 {
-    std::vector<Element_> joined;
-    joined.reserve(vector_1.size() + vector_2.size());
-    joined.insert(joined.end(), vector_1.begin(), vector_1.end());
-    joined.insert(joined.end(), vector_2.begin(), vector_2.end());
-    return joined;
+    std::vector<Element_> combined;
+    combined.reserve(vector_1.size() + vector_2.size());
+    combined.insert(combined.end(), vector_1.begin(), vector_1.end());
+    combined.insert(combined.end(), vector_2.begin(), vector_2.end());
+    return combined;
 }
 
 /**
- * @brief Join three std::vector
+ * @brief Combine three std::vector
  *
  */
 template <typename Element_>
-std::vector<Element_> Join(std::vector<Element_> const& vector_1, std::vector<Element_> const& vector_2, std::vector<Element_> const& vector_3)
+std::vector<Element_> Combine(std::vector<Element_> const& vector_1, std::vector<Element_> const& vector_2, std::vector<Element_> const& vector_3)
 {
-    std::vector<Element_> joined;
-    joined.reserve(vector_1.size() + vector_2.size() + vector_3.size());
-    joined.insert(joined.end(), vector_1.begin(), vector_1.end());
-    joined.insert(joined.end(), vector_2.begin(), vector_2.end());
-    joined.insert(joined.end(), vector_3.begin(), vector_3.end());
-    return joined;
+    std::vector<Element_> combined;
+    combined.reserve(vector_1.size() + vector_2.size() + vector_3.size());
+    combined.insert(combined.end(), vector_1.begin(), vector_1.end());
+    combined.insert(combined.end(), vector_2.begin(), vector_2.end());
+    combined.insert(combined.end(), vector_3.begin(), vector_3.end());
+    return combined;
+}
+
+/**
+ * @brief Insert two std::vector
+ *
+ */
+template <typename Element_>
+void Insert(std::vector<Element_> & vector_1, std::vector<Element_> const& vector_2)
+{
+  vector_1.insert(vector_1.end(), vector_2.begin(), vector_2.end());
+}
+
+/**
+ * @brief Insert three std::vector
+ *
+ */
+template <typename Element_>
+void Insert(std::vector<Element_> & vector_1, std::vector<Element_> const& vector_2, std::vector<Element_> const& vector_3)
+{
+  vector_1.insert(vector_1.end(), vector_2.begin(), vector_2.end());
+  vector_1.insert(vector_1.end(), vector_3.begin(), vector_3.end());
 }
 
 /**
@@ -349,6 +296,5 @@ auto Triples(std::vector<Element_1_> const& container_1, std::vector<Element_2_>
     }
     return results;
 }
-
 
 }

@@ -61,7 +61,7 @@ private:
 
 //     std::vector<std::shared_ptr<Tagger>> Prerequisite() {
 //         return
-// //         Join(
+// //         Combine(
 //         {new BottomTagger, new  WLeptonicTagger}
 // //         , bottom_reader_.Tagger().Prerequisite(), w_leptonic_reader_.Tagger().Prerequisite())
 // ;

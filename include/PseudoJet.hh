@@ -37,11 +37,15 @@ public:
 
     Angle Phi() const;
 
-    Angle DeltaRTo(fastjet::PseudoJet const& jet) const;
+    Angle DeltaRTo(PseudoJet const& jet) const;
 
     Angle DeltaRTo(LorentzVector<Momentum> const& lorentz_vector) const;
 
-    Angle DeltaPhiTo(fastjet::PseudoJet const& jet) const;
+    Angle DeltaPhiTo(PseudoJet const& jet) const;
+
+    Angle DeltaRapTo(PseudoJet const& jet) const;
+
+    Vector2<Angle> DeltaTo(PseudoJet const& jet) const;
 
     boca::MassSquare MassSquare() const;
 
@@ -52,6 +56,8 @@ public:
     Momentum Pz() const;
 
     boca::Energy Energy();
+
+//     std::vector<PseudoJet> Constituents() const;
 
 };
 

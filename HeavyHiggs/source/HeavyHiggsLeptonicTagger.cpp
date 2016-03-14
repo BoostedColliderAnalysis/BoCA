@@ -4,6 +4,7 @@
 #include "multiplets/Quartet.hh"
 #include "Types.hh"
 #include "Event.hh"
+#include "Particles.hh"
 #include "DEBUG.hh"
 
 namespace boca {
@@ -13,7 +14,6 @@ namespace heavyhiggs {
 int HeavyHiggsLeptonicTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
     INFO0;
-//     Mass mass = event.mass();
     std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
     Jet missing_et = event.Hadrons().MissingEt();
     std::vector<Particle> particles = event.Partons().GenParticles();
@@ -23,13 +23,11 @@ int HeavyHiggsLeptonicTagger::Train(Event const& event, PreCuts const&, Tag tag)
     for (auto const& triplet_1 : triplets) {
         for (auto const& triplet_2 : triplets) {
             Quartet22 quartet(Doublet(triplet_1.Singlet(), triplet_1.Doublet().Jet()), Doublet(triplet_2.Singlet(), triplet_2.Doublet().Jet()));
-            if (quartet.Overlap())
-                continue;
+            if (quartet.Overlap()) continue;
             std::vector<Sextet> Presextets;
             WimpMass wimp_mass;
             Presextets = wimp_mass.Sextet(quartet, missing_et, neutrinos, tag);
             for (auto const& sextet : Presextets) {
-//                 if (tag == Tag::signal && sextet.Mass() < mass / 2.) continue;
                 sextets.emplace_back(sextet);
             }
         }

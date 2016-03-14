@@ -1,6 +1,6 @@
 #include "NewPartnerHadronicTagger.hh"
 #include "Event.hh"
-#include "ParticleInfo.hh"
+#include "Particles.hh"
 #include "Exception.hh"
 #include "DEBUG.hh"
 

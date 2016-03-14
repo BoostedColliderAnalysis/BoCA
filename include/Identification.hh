@@ -26,7 +26,7 @@ public:
 
     virtual float Bdt() const;
 
-    void SetTag(Tag tag);
+    void SetTag(boca::Tag tag);
 
     void SetTag(boca::Tag tag_1, boca::Tag tag_2);
 

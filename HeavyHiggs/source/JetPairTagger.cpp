@@ -5,6 +5,7 @@
 #include "HeavyHiggsSemiTagger.hh"
 #include "Event.hh"
 #include "Sort.hh"
+#include "Particles.hh"
 #include "DEBUG.hh"
 
 namespace boca
@@ -90,7 +91,7 @@ std::vector<Particle>JetPairTagger::PairBottomQuarks(Event const& event, Tag tag
 
 bool JetPairTagger::CheckIfBadBottom(boca::Doublet const& doublet, std::vector<Particle> const& jets)const
 {
-    if ((Close(jets.at(0))(doublet.Singlet1()) && Close(jets.at(1))(doublet.Singlet2())) || (Close(jets.at(1))(doublet.Singlet1()) && Close(jets.at(0))(doublet.Singlet2())))return true;
+  if ((Close<Jet>(jets.at(0))(doublet.Singlet1()) && Close<Jet>(jets.at(1))(doublet.Singlet2())) || (Close<Jet>(jets.at(1))(doublet.Singlet1()) && Close<Jet>(jets.at(0))(doublet.Singlet2())))return true;
     else return false;
 
 }
@@ -101,7 +102,7 @@ std::vector<Particle> JetPairTagger::HiggsParticle(Event const& event, Tag tag) 
     std::vector<Particle> particles = event.Partons().GenParticles();
     std::vector<Particle> even = CopyIfFamily(particles, Id::heavy_higgs, Id::gluon);
     std::vector<Particle> odd = CopyIfFamily(particles, Id::CP_odd_higgs, Id::gluon);
-    return Join(even, odd);
+    return Combine(even, odd);
 }
 
 std::string JetPairTagger::Name() const
@@ -150,8 +151,8 @@ std::vector<Jet> JetPairTagger::TruthJetPair(Event const& event, std::vector<Jet
         if (bottoms.size() != 2) ERROR(bottoms.size());
         for (const auto & bottom : bottoms) {
             jets = SortedByMinDeltaRTo(jets, bottom);
-            if (Close(jets.at(1))(bottom)) continue;
-            if (Close(jets.at(0))(bottom)) bottom_jets.emplace_back(jets.front());
+            if (Close<Jet>(jets.at(1))(bottom)) continue;
+            if (Close<Jet>(jets.at(0))(bottom)) bottom_jets.emplace_back(jets.front());
         }
         break;
     case Tag::background :
@@ -181,7 +182,7 @@ Doublet JetPairTagger::TruthDoubletPair(Doublet const& doublet, std::vector<Part
             ERROR(bottoms.size());
             break;
         }
-        if ((Close(bottoms.at(0))(doublet.Singlet1()) && Close(bottoms.at(1))(doublet.Singlet2())) || (Close(bottoms.at(1))(doublet.Singlet1()) && Close(bottoms.at(0))(doublet.Singlet2()))) {
+        if ((Close<Jet>(bottoms.at(0))(doublet.Singlet1()) && Close<Jet>(bottoms.at(1))(doublet.Singlet2())) || (Close<Jet>(bottoms.at(1))(doublet.Singlet1()) && Close<Jet>(bottoms.at(0))(doublet.Singlet2()))) {
             return doublet;
         }
         break;

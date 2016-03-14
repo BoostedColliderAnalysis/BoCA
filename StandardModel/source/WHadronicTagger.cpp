@@ -4,11 +4,11 @@
 #include <boost/range/algorithm/adjacent_find.hpp>
 
 #include "WHadronicTagger.hh"
-#include "ParticleInfo.hh"
 #include "MomentumRange.hh"
 #include "Event.hh"
 #include "physics/Math.hh"
 #include "Exception.hh"
+#include "Particles.hh"
 #include "plotting/Font.hh"
 // #define NOTIFICATION
 #include "DEBUG.hh"
@@ -55,7 +55,7 @@ std::vector<Doublet> WHadronicTagger::Doublets(Event const& event, PreCuts const
         MomentumRange top_jet_range(Id::top, SubJet(Id::W));
         if (pre_cuts.DoSubJets(Id::W) && top_jet_range.InsideRange(jet)) {
             std::vector<Jet> pieces = bottom_reader_.SubMultiplet(jet, 3);
-            doublets = Join(doublets, Doublets(pieces, function));
+            Insert(doublets, Doublets(pieces, function));
         }
 
         MomentumRange boosted_range((SubJet(Id::W)), (SubJet(Id::top)));

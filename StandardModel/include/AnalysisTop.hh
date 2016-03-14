@@ -3,6 +3,7 @@
 #include "AnalysisStandardModel.hh"
 #include "WHadronicTagger.hh"
 #include "WLeptonicTagger.hh"
+#include "Particles.hh"
 
 namespace boca
 {

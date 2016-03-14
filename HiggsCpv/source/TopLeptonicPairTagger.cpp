@@ -3,6 +3,8 @@
 #include "WimpMass.hh"
 #include "Types.hh"
 #include "Event.hh"
+#include "Particles.hh"
+#include "Vector.hh"
 #include "DEBUG.hh"
 #include "Exception.hh"
 
@@ -30,7 +32,7 @@ int TopLeptonicPairTagger::Train(Event const& event, boca::PreCuts const&, Tag t
       quartet.Doublet1().SetBdt(triplet_1.Bdt());
       quartet.Doublet2().SetBdt(triplet_2.Bdt());
         WimpMass wimp_mass;
-        //             sextets = Join(sextets, wimp_mass.Sextet(quartet, event.Hadrons().MissingEt(), neutrinos, tag));
+        //             Insert(sextets, wimp_mass.Sextet(quartet, event.Hadrons().MissingEt(), neutrinos, tag));
         return wimp_mass.Fake(quartet);
     });
 

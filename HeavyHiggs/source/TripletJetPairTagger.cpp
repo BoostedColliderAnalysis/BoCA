@@ -4,6 +4,7 @@
 #include "TripletJetPairTagger.hh"
 #include "Sort.hh"
 #include "Event.hh"
+#include "Particles.hh"
 #include "DEBUG.hh"
 
 namespace boca {
@@ -45,7 +46,7 @@ int TripletJetPairTagger::Train(boca::Event const& event, boca::PreCuts const&, 
     std::vector<Triplet> Finaltriplets;
     switch (tag) {
     case Tag::signal :
-        for (auto const& triplet : triplets) if (Close(TopParticles.front())(triplet))
+        for (auto const& triplet : triplets) if (Close<Particle>(TopParticles.front())(triplet))
                 Finaltriplets.emplace_back(triplet);
         break;
     case Tag::background :
@@ -62,7 +63,7 @@ std::vector<Particle> BottomParticles = event.Partons().GenParticles();
    std::vector<Jet>FinalJets;
     switch (tag) {
     case  Tag::signal :
-        for (auto const& Jet : jets) if (Close(BottomParticles.front())(Jet))
+        for (auto const& Jet : jets) if (Close<Particle>(BottomParticles.front())(Jet))
                 FinalJets.emplace_back(Jet);
         break;
     case Tag::background :
