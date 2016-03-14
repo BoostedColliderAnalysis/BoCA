@@ -45,7 +45,7 @@ int TripletJetPairTagger::Train(boca::Event const& event, boca::PreCuts const&, 
     std::vector<Triplet> Finaltriplets;
     switch (tag) {
     case Tag::signal :
-        for (auto const& triplet : triplets) if (Close(TopParticles.front())(triplet.Jet()))
+        for (auto const& triplet : triplets) if (Close(TopParticles.front())(triplet))
                 Finaltriplets.emplace_back(triplet);
         break;
     case Tag::background :

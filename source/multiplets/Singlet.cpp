@@ -14,12 +14,15 @@ namespace boca
 
 bool Singlet::Overlap(boca::Jet const& jet) const
 {
-    return Close(jet, DetectorGeometry::OverlapConeSize())(Jet());
+    return DeltaRTo(jet) < DetectorGeometry::OverlapConeSize();
+//     return Close(jet, DetectorGeometry::OverlapConeSize())(Jet());
 }
 
 bool Singlet::Overlap(Singlet const& singlet) const
 {
-    return Overlap(singlet.Jet());
+    return DeltaRTo(singlet) < DetectorGeometry::OverlapConeSize();
+//   return Overlap(singlet.Jet());
+//   return Close(singlet, DetectorGeometry::OverlapConeSize())(*this);
 }
 
 Angle Singlet::Radius(boca::Jet const& jet) const

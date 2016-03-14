@@ -25,10 +25,14 @@ BottomTagger::BottomTagger()
 int BottomTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const
 {
     INFO0;
-    return SaveEntries(Jets(event, pre_cuts, [&](Jet & jet) {
+    auto jets = Jets(event, pre_cuts, [&](Jet & jet) {
         if (Problematic(jet, pre_cuts, tag)) throw boca::Problematic();
         return jet;
-    }), Particles(event), tag);
+    });
+
+    for( auto const & jet : jets) ERROR(jet.m(), jet.Mass());
+
+    return SaveEntries(jets, Particles(event), tag);
 }
 
 std::vector<Particle> BottomTagger::Particles(Event const& event) const

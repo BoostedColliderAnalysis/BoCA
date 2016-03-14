@@ -21,10 +21,10 @@ int EventLeptonTTagger::Train(boca::Event const& event, boca::PreCuts const&, Ta
         for (auto const & octet : octets) {
             int match = 0;
             for (auto const & lepton : leptons) {
-                if (Close(octet.Multiplet().Triplet1().Jet())(lepton)) match |= 1 << 0;
-                if (Close(octet.Multiplet().Triplet2().Jet())(lepton)) match |= 1 << 1;
+                if (Close(lepton)(octet.Multiplet().Triplet1())) match |= 1 << 0;
+                if (Close(lepton)(octet.Multiplet().Triplet2())) match |= 1 << 1;
             }
-            for (auto const & higgs : higgses) if (Close(octet.Multiplet().Doublet().Jet())(higgs)) match |= 1 << 2;
+            for (auto const & higgs : higgses) if (Close((higgs)octet.Multiplet().Doublet())) match |= 1 << 2;
             if (match == 7) final_octets.emplace_back(octet);
         }
     } else final_octets = octets;

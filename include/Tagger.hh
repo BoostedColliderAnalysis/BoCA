@@ -160,7 +160,7 @@ protected:
         if (leptons.empty()) leptons.emplace_back(multiplet.Jet() * (DetectorGeometry::LeptonMinPt() / multiplet.Pt()));
         auto lepton = ClosestJet(leptons, multiplet);
         multiplet.SetLeptonPt(lepton.Pt());
-        multiplet.SetLeptonDeltaR(lepton.DeltaRTo(multiplet.Jet()));
+        multiplet.SetLeptonDeltaR(multiplet.DeltaRTo(lepton));
         return multiplet;
     }
 

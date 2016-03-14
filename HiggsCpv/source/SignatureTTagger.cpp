@@ -39,7 +39,7 @@ int SignatureTTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) c
 MultipletSignature<Octet332> SignatureTTagger::Signature(Triplet const& triplet_1, Triplet const& triplet_2, Doublet const& doublet) const
 {
     Octet332 octet;
-    if ((triplet_1.Jet() + doublet.Jet()).m() > (triplet_2.Jet() + doublet.Jet()).m()) octet.SetMultiplets(triplet_1, triplet_2, doublet);
+    if ((triplet_1.Jet() + doublet.Jet()).Mass() > (triplet_2.Jet() + doublet.Jet()).Mass()) octet.SetMultiplets(triplet_1, triplet_2, doublet);
     else octet.SetMultiplets(triplet_2, triplet_1, doublet);
     if (octet.Overlap()) throw Overlap();
     return MultipletSignature<Octet332>(octet);

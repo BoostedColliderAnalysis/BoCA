@@ -55,7 +55,7 @@ std::vector<MultipletSignature<Quartet211>> SignatureLeptonTagger::Multiplets(Ev
 MultipletSignature<Quartet211> SignatureLeptonTagger::Signature(Doublet const& doublet, Singlet const& singlet_1, Singlet const& singlet_2) const
 {
     Quartet211 quartet;
-    if ((doublet.Jet() + singlet_1.Jet()).m() > (doublet.Jet() + singlet_2.Jet()).m()) quartet.SetMultiplets(doublet, singlet_1, singlet_2);
+    if ((doublet.Jet() + singlet_1.Jet()).Mass() > (doublet.Jet() + singlet_2.Jet()).Mass()) quartet.SetMultiplets(doublet, singlet_1, singlet_2);
     else quartet.SetMultiplets(doublet, singlet_2, singlet_1);
     if (quartet.Overlap()) throw Overlap();
     return MultipletSignature<Quartet211>(quartet);

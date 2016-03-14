@@ -8,6 +8,7 @@
 #include "physics/Prefixes.hh"
 
 #include "Observables.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {
@@ -126,6 +127,7 @@ public:
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         BdtBranch::Fill(multiplet);
+        ERROR(multiplet.Mass());
         Mass = multiplet.Mass() / GeV;
         Pt = multiplet.Pt() / GeV;
         Rap = multiplet.Rap() / rad;

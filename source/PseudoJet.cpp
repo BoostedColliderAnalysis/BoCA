@@ -33,6 +33,7 @@ Momentum PseudoJet::Pt() const
 
 Mass PseudoJet::Mass() const
 {
+    ERROR(m());
     return m() * GeV;
 }
 

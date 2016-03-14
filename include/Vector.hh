@@ -176,10 +176,10 @@ std::vector<Multiplet_> CopyIfClose(std::vector<Multiplet_> const& multiplets, s
 template <typename Multiplet_>
 std::vector<Multiplet_> CopyIfClose(std::vector<Multiplet_> const& multiplets, Particle const& particle)
 {
-  if (multiplets.empty()) return multiplets;
-  std::vector<Multiplet_> close_multiplets;
-  for (auto const & multiplet : multiplets) if (Close(particle)(multiplet)) close_multiplets.emplace_back(multiplet);
-  return close_multiplets;
+    if (multiplets.empty()) return multiplets;
+    std::vector<Multiplet_> close_multiplets;
+    for (auto const & multiplet : multiplets) if (Close(particle)(multiplet)) close_multiplets.emplace_back(multiplet);
+    return close_multiplets;
 }
 
 template <typename Multiplet_>
@@ -216,7 +216,7 @@ template <typename Multiplet_1_, typename Multiplet_2_>
 Multiplet_1_ ClosestJet(std::vector<Multiplet_1_> const& particles, Multiplet_2_ const& multiplet)
 {
     return *boost::range::min_element(particles, [&](Jet const & jet_1, Jet const & jet_2) {
-        return jet_1.DeltaRTo(multiplet.Jet()) < jet_2.DeltaRTo(multiplet.Jet());
+        return multiplet.DeltaRTo(jet_1) < multiplet.DeltaRTo(jet_2);
     });
 }
 

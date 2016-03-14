@@ -149,7 +149,7 @@ protected:
         auto sum = std::min(int(multiplets.size()), max);
         for (auto const & counter : IntegerRange(sum)) {
             FillBranch(multiplets.at(counter));
-            std::lock_guard<std::mutex> guard(mutex_);
+//             std::lock_guard<std::mutex> guard(mutex_);
             static_cast<Branch_&>(*TreeBranch().NewEntry()) = Branch();
         }
         return sum;

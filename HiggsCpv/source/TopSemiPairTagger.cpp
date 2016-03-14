@@ -19,7 +19,7 @@ int TopSemiPairTagger::Train(boca::Event const& event, boca::PreCuts const&, Tag
     std::vector<Triplet> final_triplets_hadronic;
     switch (tag) {
     case Tag::signal :
-        for (auto const& triplet : triplets_hadronic) if (Close(top_particles.front())(triplet.Jet())) final_triplets_hadronic.emplace_back(triplet);
+        for (auto const& triplet : triplets_hadronic) if (Close(top_particles.front())(triplet)) final_triplets_hadronic.emplace_back(triplet);
         break;
     case Tag::background      :
         final_triplets_hadronic = triplets_hadronic;
@@ -28,7 +28,7 @@ int TopSemiPairTagger::Train(boca::Event const& event, boca::PreCuts const&, Tag
     std::vector<Triplet> final_triplets_leptonic;
     switch (tag) {
     case Tag::signal :
-        for (auto const& triplet : triplets_leptonic) if (Close(top_particles.front())(triplet.Jet())) final_triplets_leptonic.emplace_back(triplet);
+        for (auto const& triplet : triplets_leptonic) if (Close(top_particles.front())(triplet)) final_triplets_leptonic.emplace_back(triplet);
         break;
     case Tag::background :
         final_triplets_leptonic = triplets_leptonic;
