@@ -22,10 +22,10 @@ int HiggsPairTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 std::vector<Quartet22> HiggsPairTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
     INFO0;
-    return ReduceResult(Quartets(event, [&](Quartet22 & quartet) {
+    return Quartets(event, [&](Quartet22 & quartet) {
         quartet.SetBdt(Bdt(quartet, reader));
         return quartet;
-    }));
+    });
 }
 
 std::vector<std::pair<Particle, Particle>> HiggsPairTagger::Particles(Event const& event, Tag tag) const
@@ -57,7 +57,7 @@ std::vector<std::pair<Particle, Particle>> HiggsPairTagger::Particles(Event cons
 std::vector<Quartet22> HiggsPairTagger::Quartets(Event const& event, std::function<Quartet22(Quartet22&)> const& function) const
 {
     INFO0;
-    auto higgses = higgs_reader_.Multiplets(event);
+    auto higgses = higgs_reader_.Multiplets(event, 8);
     auto pair = UnorderedPairs(higgses, [&](Doublet const & doublet_1, Doublet const & doublet_2) {
         Quartet22 quartet(doublet_1, doublet_2);
         if (quartet.Overlap()) throw Overlap();

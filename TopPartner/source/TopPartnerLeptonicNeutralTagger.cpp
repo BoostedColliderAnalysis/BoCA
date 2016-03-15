@@ -21,7 +21,7 @@ int TopPartnerLeptonicNeutralTagger::Train(Event const& event, PreCuts const&, T
 
 std::vector<Quintet> TopPartnerLeptonicNeutralTagger::Quintets(Event const& event, std::function<Quintet(Quintet&)> const& function) const
 {
-    return Pairs(top_reader_.Multiplets(event), boson_reader_.Multiplets(event), [&](Triplet const & triplet, Doublet const & doublet) {
+    return Pairs(top_reader_.Multiplets(event), boson_reader_.Multiplets(event,8), [&](Triplet const & triplet, Doublet const & doublet) {
         Quintet quintet(triplet, doublet);
         if (quintet.Overlap()) throw Overlap();
         return function(quintet);
@@ -30,10 +30,10 @@ std::vector<Quintet> TopPartnerLeptonicNeutralTagger::Quintets(Event const& even
 
 std::vector<Quintet> TopPartnerLeptonicNeutralTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
-    return ReduceResult(Quintets(event, [&](Quintet & quintet) {
+    return Quintets(event, [&](Quintet & quintet) {
         quintet.SetBdt(Bdt(quintet, reader));
         return quintet;
-    }));
+    });
 }
 
 std::vector<Particle> TopPartnerLeptonicNeutralTagger::Particles(Event const& event, Tag tag) const

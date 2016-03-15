@@ -36,7 +36,7 @@ std::vector<Octet53> TopPartnerTopPairTagger::Multiplets(Event const& event, boc
             octets.emplace_back(octet);
         }
     }
-    return ReduceResult(octets);
+    return octets;
 }
 
 std::string TopPartnerTopPairTagger::Name() const

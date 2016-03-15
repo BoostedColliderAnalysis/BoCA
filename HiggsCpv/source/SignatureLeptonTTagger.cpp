@@ -67,7 +67,7 @@ std::vector<MultipletSignature<Octet332>> SignatureLeptonTTagger::Multiplets(Eve
         return octet;
     });
     DEBUG(octets.size());
-    return ReduceResult(octets);
+    return octets;
 }
 std::string SignatureLeptonTTagger::Name() const
 {

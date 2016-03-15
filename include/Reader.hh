@@ -9,6 +9,7 @@
 #include "PreCuts.hh"
 #include "Phase.hh"
 #include "Options.hh"
+#include "Sort.hh"
 #include "Event.hh"
 
 namespace boca
@@ -76,9 +77,9 @@ public:
     }
 
     template <typename Input_>
-    auto Multiplets(Input_ const& input) const {
+    auto Multiplets(Input_ const& input, std::size_t number = 4) const {
         PreCuts pre_cuts;
-        return Tagger().Multiplets(input, pre_cuts, TReader());
+        return Tagger().ReducedMultiplets(input, pre_cuts, TReader(), number);
     }
 
     template <typename Input_>

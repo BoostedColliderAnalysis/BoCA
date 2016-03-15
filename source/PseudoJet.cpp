@@ -33,17 +33,12 @@ Momentum PseudoJet::Pt() const
 
 Mass PseudoJet::Mass() const
 {
-    return m() * GeV;
+   return m() > 0 ? m() * GeV : massless;
 }
 
 Angle PseudoJet::DeltaRTo(const PseudoJet& jet) const
 {
-    if (delta_R(jet) == fastjet::pseudojet_invalid_rap) return 0_rad;
-    if (delta_R(jet) > 100) {
-        ERROR("invalid delta_r", delta_R(jet));
-        return 0_rad;
-    }
-    return delta_R(jet) * rad;
+    return delta_R(jet) == fastjet::pseudojet_invalid_rap ? 0_rad : delta_R(jet) * rad;
 }
 
 Angle PseudoJet::DeltaRTo(LorentzVector< Momentum > const& lorentz_vector) const
@@ -59,17 +54,12 @@ Angle PseudoJet::DeltaPhiTo(const PseudoJet& jet) const
 
 Angle PseudoJet::DeltaRapTo(const PseudoJet& jet) const
 {
-  return jet.Rap() - Rap();
+    return jet.Rap() - Rap();
 }
 
 Angle PseudoJet::Rap() const
 {
-    if (rap() == fastjet::pseudojet_invalid_rap) return 0_rad;
-    if (rap() > 100) {
-        ERROR("invalid rap", rap());
-        return 0_rad;
-    }
-    return rap() * rad;
+  return rap() == fastjet::pseudojet_invalid_rap ? 0_rad : rap() * rad;
 }
 
 Angle PseudoJet::Phi() const

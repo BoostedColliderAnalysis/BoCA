@@ -53,7 +53,7 @@ std::vector<MultipletEvent<Sextet>> EventFusionTagger::Multiplets(Event const& e
         multiplet_event.SetBdt(Bdt(multiplet_event, reader));
         sextet_events.emplace_back(multiplet_event);
     }
-    return ReduceResult(sextet_events);
+    return ReduceResult(sextet_events,1);
 }
 std::string EventFusionTagger::Name() const
 {

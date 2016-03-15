@@ -110,7 +110,7 @@ std::vector<Quartet31>  TripletJetPairTagger::Multiplets(Event const& event, boc
             quartet.SetBdt(Bdt(quartet, reader));
             quartets.emplace_back(quartet);
         }
-    return ReduceResult(quartets);
+    return quartets;
 }
 std::string TripletJetPairTagger::Name() const
 {

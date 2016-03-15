@@ -51,10 +51,25 @@ public:
         return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
     }
 
+    template<typename Input_>
+    std::vector<Multiplet_> ReducedMultiplets(const Input_& event, const PreCuts& pre_cuts, const TMVA::Reader& reader, std::size_t max = 4) const {
+        return ReduceResult(Multiplets(event, pre_cuts, reader), max);
+    }
+
+//     template<typename Input_>
+//     std::vector<Multiplet_> ReducedMultiplets(const Input_& event, const TMVA::Reader& reader, std::size_t max = 4) const {
+//       PreCuts pre_cuts;
+//       return ReduceResult(Multiplets(event, pre_cuts, reader), max);
+//     }
+
+    virtual std::vector<Multiplet_> Multiplets(std::vector<Jet> const&, PreCuts const&, TMVA::Reader const&) const {
+        std::cout << "Never end up here!" << std::endl;
+    }
+
 protected:
 
-    template<typename Multiplet_2__>
-    std::vector<Multiplet_2__> ReduceResult(std::vector<Multiplet_2__> multiplets, std::size_t max = 4) const {
+    template<typename Multiplet_2_>
+    std::vector<Multiplet_2_> ReduceResult(std::vector<Multiplet_2_> multiplets, std::size_t max = 4) const {
         // DEBUG_CHECK(multiplets.size() >= max, multiplets.size());
         if (multiplets.empty()) return multiplets;
         multiplets = SortedByBdt(multiplets);

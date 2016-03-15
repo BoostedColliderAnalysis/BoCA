@@ -43,7 +43,7 @@ std::vector<Octet44> SignatureChargedTagger::Multiplets(Event const& event, boca
             octets.emplace_back(octet);
         }
     }
-    return ReduceResult(octets);
+    return octets;
 }
 std::string SignatureChargedTagger::Name() const
 {

@@ -18,7 +18,6 @@ bool Singlet::Overlap(boca::Jet const& jet) const
 Angle Singlet::Radius(boca::Jet const& jet) const
 {
     INFO0;
-    if (!jet.has_constituents()) return 0;
     Angle delta_r = 0_rad;
     for (auto const & constituent : jet.Constituents()) {
         Angle constituent_delta_r = jet.DeltaRTo(constituent);
@@ -32,8 +31,6 @@ using AngleMomentum = ValueProduct<Angle, Momentum>;
 float Singlet::Spread(boca::Jet const& jet) const
 {
     INFO0;
-    if (!jet.has_constituents()) return 0;
-//     Angle delta_r = Radius(jet);
     Angle delta_r = 0;
     AngleMomentum spread = 0_rad * GeV;
     for (auto const & constituent : jet.Constituents()) {
@@ -83,7 +80,6 @@ using AngleSquareMomentum = ValueProduct<AngleSquare, Momentum>;
 Vector2<AngleSquare> Singlet::PullVector() const
 {
     if (has_pull_) return pull_;
-    if (!has_constituents()) return {};
     std::vector<boca::Jet> constituents = Constituents();
     if (constituents.size() < 3) return {};
     Vector2<AngleSquare> sum;

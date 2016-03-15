@@ -32,10 +32,10 @@ std::vector<Doublet> ResonanceTagger::Doublets(Event const& event, std::function
 
 std::vector<Doublet> ResonanceTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
-    return ReduceResult(Doublets(event, [&](Doublet & doublet) {
+    return Doublets(event, [&](Doublet & doublet) {
         doublet.SetBdt(Bdt(doublet, reader));
         return doublet;
-    }));
+    });
 }
 
 std::vector<Particle> ResonanceTagger::Particles(Event const& event) const

@@ -57,7 +57,7 @@ std::vector<Sextet>  HeavyHiggsLeptonicTagger::Multiplets(Event const& event, Pr
             }
         }
     }
-    return ReduceResult(sextets);
+    return sextets;
 }
 std::string HeavyHiggsLeptonicTagger::Name() const
 {

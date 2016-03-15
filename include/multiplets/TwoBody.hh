@@ -36,7 +36,7 @@ public:
     }
 
     void Enforce(boca::Jet const& jet) {
-        if (!jet.has_constituents() || jet.Constituents().size() < 2) return EnforceJet(jet);
+        if (jet.Constituents().size() < 2) return EnforceJet(jet);
         ClusterSequence cluster_sequence(jet.Constituents(), DetectorGeometry::SubJetDefinition());
         auto jets = cluster_sequence.ExclusiveJetsUpTo(2);
         if (jets.size() != 2) std::cout << "not the sub-jet number we expected: " << jets.size();

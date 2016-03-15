@@ -74,6 +74,8 @@ public:
       return Jet().DeltaTo(jet);
     }
 
+    std::vector<boca::Jet> Constituents() const;
+
     void SetSubJettiness();
 
     boca::SubJettiness SubJettiness() const;

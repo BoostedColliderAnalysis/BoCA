@@ -39,7 +39,7 @@ std::vector<Sextet>  HeavyHiggsSemiTagger::Multiplets(Event const& event, PreCut
             sextet.SetBdt(Bdt(sextet, reader));
             sextets.emplace_back(sextet);
         }
-    return ReduceResult(sextets);
+    return sextets;
 }
 
 std::vector<Triplet> HeavyHiggsSemiTagger::FinalTriplet(Event const& event, Tag tag, Decay decay) const

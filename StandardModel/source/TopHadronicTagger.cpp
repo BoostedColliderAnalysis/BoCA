@@ -246,9 +246,9 @@ bool TopHadronicTagger::Problematic(Triplet const& triplet, PreCuts const& pre_c
 std::vector<Triplet> TopHadronicTagger::Multiplets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
     INFO0;
-    std::vector<Triplet> triplets = ReduceResult(Triplets(event, [&](Triplet & triplet, std::vector<Jet>const & leptons) {
+    std::vector<Triplet> triplets = Triplets(event, [&](Triplet & triplet, std::vector<Jet>const & leptons) {
         return Multiplet(triplet, leptons, pre_cuts, reader);
-    }));
+    });
 //     ERROR(triplets.size());
 //     triplets = SortedByBdt(triplets);
 //     if (!triplets.empty()) if (triplets.front().Bdt() < 0) TruthLevel(event, pre_cuts, id_);

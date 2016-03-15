@@ -22,10 +22,10 @@ int NewPartnerHadronicTagger::Train(Event const& event, PreCuts const&, Tag tag)
 std::vector<Quintet> NewPartnerHadronicTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
     INFO0;
-    return ReduceResult(Quintets(event, [&](Quintet & quintet) {
+    return Quintets(event, [&](Quintet & quintet) {
         quintet.SetBdt(Bdt(quintet, reader));
         return quintet;
-    }));
+    });
 }
 
 std::vector<Quintet> NewPartnerHadronicTagger::Quintets(Event const& event, std::function<Quintet(Quintet&)> const& function) const

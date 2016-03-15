@@ -64,7 +64,7 @@ std::vector<Doublet>  HeavyHiggsTauTagger::Multiplets(Event const& event, PreCut
         doublets.emplace_back(pre_doublet);
 //         }
     }
-    return ReduceResult(doublets);
+    return doublets;
 }
 
 }

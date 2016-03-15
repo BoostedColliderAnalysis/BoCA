@@ -22,16 +22,16 @@ int TopPartnerHadronicNeutralTagger::Train(Event const& event, PreCuts const&, T
 std::vector<Quintet> TopPartnerHadronicNeutralTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
     INFO0;
-    return ReduceResult(Quintets(event, [&](Quintet & quintet) {
+    return Quintets(event, [&](Quintet & quintet) {
         quintet.SetBdt(Bdt(quintet, reader));
         return quintet;
-    }));
+    });
 }
 
 std::vector<Quintet> TopPartnerHadronicNeutralTagger::Quintets(Event const& event, std::function<Quintet(Quintet&)> const& function) const
 {
     INFO0;
-    return Pairs(top_reader_.Multiplets(event), boson_reader_.Multiplets(event), [&](Triplet const & triplet, Doublet const & doublet) {
+    return Pairs(top_reader_.Multiplets(event), boson_reader_.Multiplets(event,8), [&](Triplet const & triplet, Doublet const & doublet) {
         Quintet quintet(triplet, doublet);
         if (quintet.Overlap()) throw Overlap();
         return function(quintet);

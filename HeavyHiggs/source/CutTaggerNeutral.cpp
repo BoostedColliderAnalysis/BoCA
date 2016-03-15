@@ -21,7 +21,7 @@ std::vector<CutVariables> CutTaggerNeutral::Multiplets(Event const& event, PreCu
     std::vector<CutVariables> variables;
     if (boost::optional<CutVariables> optional = CutMethod(event)) variables.emplace_back(*optional);
     for (auto & variable : variables) Mva() == TMVA::Types::EMVA::kCuts ? variable.SetPassed(Cuts(variable, reader)) : variable.SetBdt(Bdt(variable, reader));
-    return ReduceResult(variables);
+    return variables;
 }
 
 boost::optional<CutVariables> CutTaggerNeutral::CutMethod(Event const& event) const

@@ -29,10 +29,10 @@ std::vector<Quintet> NewPartnerLeptonicTagger::Quintets(Event const& event, std:
 
 std::vector<Quintet> NewPartnerLeptonicTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
-    return ReduceResult(Quintets(event, [&](Quintet & quintet) {
+    return Quintets(event, [&](Quintet & quintet) {
         quintet.SetBdt(Bdt(quintet, reader));
         return quintet;
-    }));
+    });
 }
 
 std::vector<Particle> NewPartnerLeptonicTagger::Particles(Event const& event) const

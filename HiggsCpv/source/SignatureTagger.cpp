@@ -26,8 +26,7 @@ int SignatureTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) co
     }
 //     if (tag == Tag::signal && octets.size() != 1)
     DEBUG(octets.size());
-    if (tag == Tag::signal) octets = ReduceResult(octets, 1);
-    return SaveEntries(octets);
+    return SaveEntries(octets, tag);
 }
 
 std::vector<MultipletSignature<Octet62>> SignatureTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
@@ -47,7 +46,7 @@ std::vector<MultipletSignature<Octet62>> SignatureTagger::Multiplets(Event const
             octets.emplace_back(octet_signature);
         }
     }
-    return ReduceResult(octets);
+    return octets;
 }
 std::string SignatureTagger::Name() const
 {

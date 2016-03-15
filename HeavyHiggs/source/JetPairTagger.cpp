@@ -205,7 +205,7 @@ std::vector<Doublet> JetPairTagger::Multiplets(const Event& event, const PreCuts
             doublet.SetBdt(Bdt(doublet, reader));
             doublets.emplace_back(doublet);
         }
-    return ReduceResult(doublets, 6);
+    return doublets;
 }
 
 }

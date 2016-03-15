@@ -81,7 +81,7 @@ std::vector<Sextet> TopLeptonicPairTagger::Multiplets(Event const& event, boca::
 //             }
     });
     INFO(sextets.size());
-    return ReduceResult(sextets);
+    return sextets;
 }
 std::string TopLeptonicPairTagger::Name() const
 {

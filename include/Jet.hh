@@ -94,11 +94,6 @@ Jet MakeJet(Jet const& jet, Multiplet_ const& multiplet) {
   return fastjet::join(jet, multiplet.Jet(), InfoRecombiner());
 }
 
-template<typename Multiplet_>
-Jet MakeJet(Multiplet_ const& multiplet_1, Multiplet_ const& multiplet_2) {
-  return fastjet::join(multiplet_1.Jet(), multiplet_2.Jet(), InfoRecombiner());
-}
-
 Jet Join(Jet const& jet_1, Jet const& jet_2);
 
 }

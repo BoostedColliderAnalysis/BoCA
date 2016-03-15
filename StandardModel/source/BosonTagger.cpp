@@ -97,9 +97,9 @@ bool BosonTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts) c
 std::vector<Doublet> BosonTagger::Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
     INFO0;
-    return ReduceResult(Doublets(event, [&](Doublet & doublet) {
+    return Doublets(event, [&](Doublet & doublet) {
         return Multiplet(doublet, pre_cuts, reader);
-    }));
+    });
 }
 
 Doublet BosonTagger::Multiplet(Doublet& doublet, PreCuts const& pre_cuts, TMVA::Reader const& reader) const

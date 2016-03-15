@@ -60,8 +60,7 @@ bool Tagger::Cut(TMVA::Reader const& reader, float eff) const
 std::vector<Jet> Tagger::SubJets(Jet const& jet, int sub_jet_number) const
 {
     INFO0;
-    if (!jet.has_pieces()) return {};
-    ClusterSequence cluster_sequence(jet.constituents(), DetectorGeometry::SubJetDefinition());
+    ClusterSequence cluster_sequence(jet.Constituents(), DetectorGeometry::SubJetDefinition());
     return cluster_sequence.ExclusiveJetsUpTo(sub_jet_number);
 }
 

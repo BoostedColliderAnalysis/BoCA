@@ -30,9 +30,9 @@ std::vector<Quattuordecuplet554> SignatureEffectiveTagger::Multiplets(Event cons
 std::vector<Quattuordecuplet554> SignatureEffectiveTagger::Quattuordecuplets(boca::Event const& event, std::function< Quattuordecuplet554(Quattuordecuplet554&)> const& function) const
 {
     INFO0;
-    auto hadronic = top_partner_hadronic_reader_.Multiplets(event);
-    auto leptonic = top_partner_leptonic_reader_.Multiplets(event);
-    auto higgs_pairs = higgs_pair_reader_.Multiplets(event);
+    auto hadronic = top_partner_hadronic_reader_.Multiplets(event, 8);
+    auto leptonic = top_partner_leptonic_reader_.Multiplets(event, 8);
+    auto higgs_pairs = higgs_pair_reader_.Multiplets(event, 8);
     auto signatures = Triples(hadronic, leptonic, higgs_pairs, [&](Quintet const & quintet_1, Quintet const & quintet_2, Quartet22 const & quartet) {
         Quattuordecuplet554 quattuordecuplet(quintet_1, quintet_2, quartet);
         if (quattuordecuplet.Overlap()) throw Overlap();

@@ -61,7 +61,7 @@ std::vector<Sextet> TopSemiPairTagger::Multiplets(Event const& event, PreCuts co
             sextet.SetBdt(Bdt(sextet, reader));
             sextets.emplace_back(sextet);
         }
-    return ReduceResult(sextets);
+    return sextets;
 }
 std::string TopSemiPairTagger::Name() const
 {

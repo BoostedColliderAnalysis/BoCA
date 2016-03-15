@@ -7,6 +7,7 @@
 #include <boost/range/algorithm_ext/erase.hpp>
 
 #include "Jet.hh"
+#include "Sort.hh"
 #include "Vector.hh"
 
 namespace boca
@@ -122,11 +123,11 @@ private:
 
 template<typename Multiplet_1_, typename Multiplet_2_>
 boca::Singlet MakeSinglet(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2){
-  std::vector<fastjet::PseudoJet> constituents(multiplet_1.singlet().has_constituents() ? multiplet_1.singlet().constituents() : PseudoJetVector(multiplet_1.singlet().Jets()));
-  Insert(constituents, multiplet_2.singlet().has_constituents() ? multiplet_2.singlet().constituents() : PseudoJetVector(multiplet_2.singlet().Jets()));
-  constituents = fastjet::sorted_by_pt(constituents);
+  auto constituents = multiplet_1.singlet().Constituents();
+  Insert(constituents, multiplet_2.singlet().Constituents());
+  constituents = SortedByPt(constituents);
   boost::erase(constituents, boost::unique<boost::return_next_end>(constituents));
-  return fastjet::join(constituents, InfoRecombiner());
+  return Join(constituents);
 }
 
 }

@@ -101,7 +101,7 @@ std::vector<Octet62> SignatureNeutralTagger::Multiplets(Event const& event, PreC
         }
     }
 //     if(octets.size()==0)ERROR(octets.size(), doublets.size(), sextets.size());
-    return ReduceResult(octets);
+    return octets;
 }
 
 std::vector<Octet62> SignatureNeutralTagger::CleanOctets(Event const& event, std::vector<Octet62> const& octets, Tag tag) const

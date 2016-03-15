@@ -16,7 +16,7 @@ int TopPartnerHadronicTagger::Train(Event const& event, PreCuts const&, Tag tag)
 std::vector<Quintet> TopPartnerHadronicTagger::Multiplets(Event const& event, boca::PreCuts const&) const
 {
     INFO0;
-    return ReduceResult(Combine(neutral_.Multiplets(event), charged_.Transform<Quintet>(event)));
+    return Combine(neutral_.Multiplets(event), charged_.Transform<Quintet>(event));
 }
 
 std::vector<Particle> TopPartnerHadronicTagger::Particles(Event const& event) const

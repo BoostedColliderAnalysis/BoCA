@@ -59,7 +59,7 @@ std::vector<CutVariables> CutTagger::Multiplets(Event const& event, PreCuts cons
     std::vector<CutVariables> variables;
     if (boost::optional<CutVariables> optional = CutMethod(event)) variables.emplace_back(*optional);
     for (auto & variable : variables) variable.SetPassed(Cuts(variable, reader));
-    return ReduceResult(variables);
+    return variables;
 }
 
 boost::optional<CutVariables> CutTagger::CutMethod(Event const& event) const

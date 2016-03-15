@@ -36,7 +36,7 @@ int EventLeptonTTagger::Train(boca::Event const& event, boca::PreCuts const&, Ta
         multipletevent.SetTag(tag);
         multipletevents.emplace_back(multipletevent);
     }
-    return SaveEntries(ReduceResult(multipletevents, 1));
+    return SaveEntries(multipletevents, 1);
 }
 
 std::vector<MultipletEvent<Octet332>> EventLeptonTTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
@@ -50,7 +50,7 @@ std::vector<MultipletEvent<Octet332>> EventLeptonTTagger::Multiplets(Event const
         multiplet_event.SetBdt(Bdt(multiplet_event, reader));
         multiplet_events.emplace_back(multiplet_event);
     }
-    return ReduceResult(multiplet_events);
+    return ReduceResult(multiplet_events,1);
 }
 std::string EventLeptonTTagger::Name() const
 {

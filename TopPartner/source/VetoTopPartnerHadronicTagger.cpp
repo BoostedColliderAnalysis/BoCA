@@ -26,10 +26,10 @@ int VetoTopPartnerHadronicTagger::Train(Event const& event, PreCuts const& , Tag
 std::vector<Quintet> VetoTopPartnerHadronicTagger::Multiplets(Event const& event, boca::PreCuts const& , TMVA::Reader const& reader) const
 {
     INFO0;
-    return ReduceResult(Quintets(event, [&](Quintet & quintet) {
+    return Quintets(event, [&](Quintet & quintet) {
         quintet.SetBdt(Bdt(quintet, reader));
         return quintet;
-    }));
+    });
 }
 
 std::vector<Particle> VetoTopPartnerHadronicTagger::Particles(Event const& event) const

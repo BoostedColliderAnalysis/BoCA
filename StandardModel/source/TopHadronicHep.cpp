@@ -70,11 +70,11 @@ bool TopHadronicHep::Problematic(Triplet const& triplet, PreCuts const& pre_cuts
 std::vector<Triplet> TopHadronicHep::Multiplets(const Event& event, const boca::PreCuts& pre_cuts, const TMVA::Reader& reader) const
 {
     INFO0;
-    return ReduceResult(Triplets(event, pre_cuts, [&](Triplet & triplet) {
+    return Triplets(event, pre_cuts, [&](Triplet & triplet) {
         if (Problematic(triplet, pre_cuts)) throw boca::Problematic();
         triplet.SetBdt(Bdt(triplet, reader));
         return triplet;
-    }));
+    });
 }
 
 std::vector<Triplet> TopHadronicHep::Triplets(Event const& event, PreCuts const& pre_cuts, std::function<Triplet(Triplet&)> const& function) const

@@ -16,7 +16,7 @@ int TopPartnerLeptonicTagger::Train(Event const& event, PreCuts const&, Tag tag)
 std::vector<Quintet> TopPartnerLeptonicTagger::Multiplets(Event const& event, boca::PreCuts const&) const
 {
     INFO0;
-    return ReduceResult(Combine(neutral_.Multiplets(event), charged_.Transform<Quintet>(event)));
+    return Combine(neutral_.Multiplets(event), charged_.Transform<Quintet>(event));
 }
 
 std::vector<Particle> TopPartnerLeptonicTagger::Particles(Event const& event) const

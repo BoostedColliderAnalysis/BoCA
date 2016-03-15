@@ -57,8 +57,6 @@ public:
 
     boca::Energy Energy();
 
-//     std::vector<PseudoJet> Constituents() const;
-
 };
 
 }

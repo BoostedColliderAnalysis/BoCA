@@ -58,7 +58,7 @@ std::vector<MultipletSignature<Octet332>> SignatureTTagger::Multiplets(Event con
         return octet;
     });
     DEBUG(octets.size());
-    return ReduceResult(octets);
+    return octets;
 }
 
 }

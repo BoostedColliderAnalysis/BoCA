@@ -94,9 +94,9 @@ bool ZHadronicTagger::Problematic(boca::Doublet const& doublet, boca::PreCuts co
 std::vector<Doublet> ZHadronicTagger::Multiplets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
     INFO0;
-    return ReduceResult(Doublets(event, [&](Doublet & doublet) {
+    return Doublets(event, [&](Doublet & doublet) {
         return Multiplet(doublet, pre_cuts, reader);
-    }));
+    });
 }
 
 boost::optional<Doublet> ZHadronicTagger::Multiplet(Doublet& doublet, PreCuts const& pre_cuts, TMVA::Reader const& reader) const

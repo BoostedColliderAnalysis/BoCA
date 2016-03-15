@@ -82,6 +82,10 @@ boca::Mass Multiplet::Mass() const
 {
     return Jet().Mass();
 }
+std::vector<boca::Jet> Multiplet::Constituents() const
+{
+    return Jet().Constituents();
+}
 
 }
 

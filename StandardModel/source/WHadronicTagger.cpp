@@ -129,7 +129,7 @@ std::vector<Doublet> WHadronicTagger::Multiplets(Event const& event, PreCuts con
     std::vector<Doublet> doublets = Doublets(event, pre_cuts, [&](Doublet & doublet) {
         return Multiplet(doublet, pre_cuts, reader);
     });
-    return ReduceResult(doublets);
+    return doublets;
 }
 
 boost::optional<Doublet> WHadronicTagger::Multiplet(Doublet& doublet, PreCuts const& pre_cuts, TMVA::Reader const& reader) const

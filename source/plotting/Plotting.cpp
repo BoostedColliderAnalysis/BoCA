@@ -22,7 +22,7 @@
 #include "Branches.hh"
 #include "Vector.hh"
 
-#define INFORMATION
+// #define INFORMATION
 #include "DEBUG.hh"
 
 namespace boca

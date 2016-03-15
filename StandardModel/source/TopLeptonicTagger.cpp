@@ -110,11 +110,11 @@ std::vector<Triplet> TopLeptonicTagger::Triplets(Event const& event, std::functi
 std::vector<Triplet> TopLeptonicTagger::Multiplets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
     INFO0;
-    return ReduceResult(Triplets(event, [&](Triplet & triplet) {
+    return Triplets(event, [&](Triplet & triplet) {
         if (Problematic(triplet, pre_cuts)) throw boca::Problematic();
         triplet.SetBdt(Bdt(triplet, reader));
         return triplet;
-    }));
+    });
 }
 
 Stage TopLeptonicTagger::InitializeLeptonicReader()

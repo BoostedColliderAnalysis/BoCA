@@ -114,9 +114,9 @@ std::vector<Doublet> HiggsTagger::Multiplets(Event const& event, PreCuts const& 
 {
     INFO0;
     auto leptons = event.Leptons().leptons();
-    return ReduceResult(Doublets(event, [&](Doublet & doublet) {
+    return Doublets(event, [&](Doublet & doublet) {
         return Multiplet(doublet, leptons, pre_cuts, reader);
-    }));
+    });
 }
 
 boost::optional<Doublet> HiggsTagger::Multiplet(Doublet& doublet, std::vector<Jet>& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
@@ -131,7 +131,7 @@ boost::optional<Doublet> HiggsTagger::Multiplet(Doublet& doublet, std::vector<Je
 boost::optional<Doublet> HiggsTagger::MassDrop(Doublet const& doublet) const
 {
     INFO0;
-    ClusterSequence cluster_sequence(doublet.Jet().constituents(), DetectorGeometry::JetDefinition(doublet.DeltaR() + 2. * DetectorGeometry::JetConeSize()));
+    ClusterSequence cluster_sequence(doublet.Constituents(), DetectorGeometry::JetDefinition(doublet.DeltaR() + 2. * DetectorGeometry::JetConeSize()));
     auto exclusive_jets = cluster_sequence.ExclusiveJets(1);
     if (exclusive_jets.empty()) return boost::none;
     fastjet::MassDropTagger mass_drop_tagger(0.667, 0.09);
