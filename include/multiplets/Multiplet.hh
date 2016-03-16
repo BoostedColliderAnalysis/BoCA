@@ -5,6 +5,7 @@
 
 #include "multiplets/Singlet.hh"
 #include "SubJettiness.hh"
+#include "ClosestLepton.hh"
 #include "Particle.hh"
 
 namespace boca
@@ -15,15 +16,11 @@ class Multiplet : public Identification
 
 public:
 
-    void SetLeptonPt(Momentum const& lepton_pt);
+    void SetClosestLepton(std::vector<boca::Lepton> const& leptons);
 
-    void SetLeptonDeltaR(Angle const& lepton_delta_r);
+    ClosestLepton Lepton() const;
 
-    Momentum LeptonPt() const;
-
-    Angle LeptonDeltaR() const;
-
-    boca::Singlet const& singlet() const;
+    boca::Singlet const& ConstituentJet() const;
 
     boca::Jet Jet() const;
 
@@ -36,7 +33,7 @@ public:
     Angle Phi() const;
 
     template<typename Multiplet_>
-    using NotJet = typename std::enable_if < !std::is_same<Multiplet_, boca::Jet>::value && !std::is_same<Multiplet_, boca::PseudoJet>::value  && !std::is_same<Multiplet_, boca::Particle>::value>::type;
+    using NotJet = typename std::enable_if < !std::is_same<Multiplet_, boca::Jet>::value && !std::is_same<Multiplet_, boca::PseudoJet>::value && !std::is_same<Multiplet_, boca::Particle>::value >::type;
 
     template <typename Multiplet_, typename = NotJet<Multiplet_>>
     Angle DeltaPhiTo(Multiplet_ const& multiplet) const {
@@ -58,25 +55,15 @@ public:
         return Jet().DeltaTo(multiplet.Jet());
     }
 
-    Angle DeltaPhiTo(PseudoJet const& jet) const {
-      return Jet().DeltaPhiTo(jet);
-    }
+    Angle DeltaPhiTo(PseudoJet const& jet) const;
 
-    Angle DeltaRTo(PseudoJet const& jet) const {
-      return Jet().DeltaRTo(jet);
-    }
+    Angle DeltaRTo(PseudoJet const& jet) const;
 
-    Angle DeltaRapTo(PseudoJet const& jet) const {
-      return Jet().DeltaRapTo(jet);
-    }
+    Angle DeltaRapTo(PseudoJet const& jet) const;
 
-    Vector2<Angle> DeltaTo(PseudoJet const& jet) const {
-      return Jet().DeltaTo(jet);
-    }
+    Vector2<Angle> DeltaTo(PseudoJet const& jet) const;
 
     std::vector<boca::Jet> Constituents() const;
-
-    void SetSubJettiness();
 
     boca::SubJettiness SubJettiness() const;
 
@@ -92,11 +79,7 @@ protected:
 
 private:
 
-    boca::SubJettiness sub_jettiness_;
-
-    Momentum lepton_pt_ = 0_eV;
-
-    Angle lepton_delta_r_ = 0_rad;
+    ClosestLepton closest_lepton_;
 
     mutable boca::Singlet singlet_;
 

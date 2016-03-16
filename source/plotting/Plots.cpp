@@ -50,9 +50,9 @@ std::vector<Plot>& Plots::PlotVector()
     return plots_;
 }
 
-boca::Range< float > Plots::XRange() const
+boca::Range< double > Plots::XRange() const
 {
-    Range<float> range;
+    Range<double> range;
     for (auto const & plot : plots_) range.Widen(plot.XRange());
     return range;
 }

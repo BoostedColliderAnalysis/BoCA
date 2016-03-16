@@ -64,6 +64,20 @@ Observables NewEventBranch::Variables()
     return BdtBranch::Variables() + OBSERVABLE(GlobalBdt, "BDT_{global}") + OBSERVABLE(SignatureBdt, "BDT_{Signature}");
 }
 
+CompleteBranch::CompleteBranch()
+{
+}
+
+Observables CompleteBranch::Variables()
+{
+  return SignatureSingleHadronicBranch::Variables() + GlobalBase::Variables();
+}
+
+Observables CompleteBranch::Spectators()
+{
+  return SignatureSingleHadronicBranch::Spectators() + GlobalBase::Spectators();
+}
+
 }
 
 }

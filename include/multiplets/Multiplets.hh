@@ -16,7 +16,10 @@ template<typename Multiplet_1_, typename Multiplet_2_>
 Momentum DeltaPt(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2)
 {
     Momentum delta_pt  = multiplet_1.Pt() - multiplet_2.Pt();
-    if (delta_pt != delta_pt) return at_rest;
+    if (delta_pt != delta_pt) {
+        std::cout << "Bad delta pt" << std::endl;
+        return at_rest;
+    }
     return delta_pt;
 }
 
@@ -30,7 +33,10 @@ template<typename Multiplet_1_, typename Multiplet_2_>
 Angle DeltaRap(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2)
 {
     Angle delta_rap = multiplet_1.Rap() - multiplet_2.Rap();
-    if (boost::units::abs(delta_rap) > 100_rad) return 0_rad;
+    if (boost::units::abs(delta_rap) > 100_rad) {
+        std::cout << "Bad delta rap" << std::endl;
+        return 0_rad;
+    }
     return delta_rap;
 }
 
@@ -44,7 +50,10 @@ template<typename Multiplet_1_, typename Multiplet_2_>
 Angle DeltaR(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2)
 {
     Angle delta_r = multiplet_1.DeltaRTo(multiplet_2); //FIXME THIS HAS TO BE SWITCHED ON!!!!
-    if (boost::units::abs(delta_r) > 100_rad) delta_r = 0_rad;
+    if (boost::units::abs(delta_r) > 100_rad) {
+        std::cout << "Bad delta R" << std::endl;
+        return 0_rad;
+    }
     //         if (delta_r < DetectorGeometry::MinCellResolution()) delta_r = Singlet(Jet()).DeltaR();
     return delta_r;
 }
@@ -62,7 +71,7 @@ Momentum DeltaHt(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_
 }
 
 template<typename Multiplet_1_, typename Multiplet_2_>
-float Rho(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2, boca::Jet const& jet)
+double Rho(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2, boca::Jet const& jet)
 {
     Angle delta_r = DeltaR(multiplet_1, multiplet_2);
     if (jet.Pt() < DetectorGeometry::MinCellPt() || delta_r < DetectorGeometry::MinCellResolution()) return 0;
@@ -72,7 +81,7 @@ float Rho(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2, boca
 template<typename Multiplet_1_, typename Multiplet_2_>
 Angle Pull(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2)
 {
-    Vector2<AngleSquare> pull = multiplet_1.singlet().PullVector();
+    Vector2<AngleSquare> pull = multiplet_1.ConstituentJet().PullVector();
     Vector2<Angle> ref = multiplet_1.DeltaTo(multiplet_2);
     AngleSquare pul_mag = pull.Mod();
     Angle ref_mag = ref.Mod();
@@ -98,7 +107,7 @@ Vector2<Angle> Point2(Vector2<Angle> const& point, Multiplet_ const& multiplet)
 }
 
 template<typename Multiplet_1_, typename Multiplet_2_>
-float Dipolarity(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2, boca::Singlet const& singlet)
+double Dipolarity(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2, boca::Singlet const& singlet)
 {
     if (singlet.Pt() == at_rest) return 0;
     if (!singlet.has_constituents()) return 0;
@@ -109,7 +118,7 @@ float Dipolarity(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_
     for (auto const & constituent : singlet.Constituents()) dipolarity += constituent.Pt() * sqr(line.Distance(constituent));
     Angle delta_r = DeltaR(multiplet_1, multiplet_2);
     if (delta_r == 0_rad) return dipolarity / singlet.Pt() / rad2;
-    float dip = dipolarity / singlet.Pt() / sqr(delta_r);
+    double dip = dipolarity / singlet.Pt() / sqr(delta_r);
 //     CHECK(dip < 10, dip, dipolarity, singlet.Pt(), delta_r);
     return dip;
 }

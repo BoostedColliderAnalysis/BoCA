@@ -41,7 +41,7 @@ int Int(Momentum energy)
     return energy / GeV;
 }
 
-float to_float(Energy energy)
+double to_double(Energy energy)
 {
     return energy / GeV;
 }

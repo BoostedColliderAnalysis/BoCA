@@ -279,7 +279,7 @@ public:
         // return the angle w.r.t. another 3-vector
         Value4 ptot2 = Mag2() * vector.Mag2();
         if (ptot2 <= Value4(0)) return 0_rad;
-        auto arg = double(Dot(vector) / sqrt(ptot2));
+        double arg = Dot(vector) / sqrt(ptot2);
         if (arg > 1) arg = 1;
         if (arg < -1) arg = -1;
         return acos(arg);

@@ -29,21 +29,21 @@ public:
 
     void SetProfile(Plot const& signal, Plot const& background);
 
-    void SetDimensions(std::string const& name, int bins, Rectangle<float> const& range);
+    void SetDimensions(std::string const& name, int bins, Rectangle<double> const& range);
 
     std::string FileBaseName() const override;
 
 private:
 
-    void SetDimensions(int x_bins, int y_bins, Rectangle<float> const& range);
+    void SetDimensions(int x_bins, int y_bins, Rectangle<double> const& range);
 
     void Draw();
 
     TProfile2D profile_;
 
-    Range<float> range_;
+    Range<double> range_;
 
-    Rectangle<float> rectangle_;
+    Rectangle<double> rectangle_;
 
 };
 

@@ -83,7 +83,7 @@ public:
 
     static Momentum HardLeptonMomentum();
 
-    static float IsolationFraction();
+    static double IsolationFraction();
 
     static Momentum ForwardJetPt();
 

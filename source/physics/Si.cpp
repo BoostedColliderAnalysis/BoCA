@@ -11,22 +11,22 @@
 namespace boca
 {
 
-float to_float(Length length)
+double to_double(Length length)
 {
     return (length / mm);
 }
 
-Length to_length(float length)
+Length to_length(double length)
 {
     return double(length) * mm;
 }
 
-float to_float(Angle angle)
+double to_double(Angle angle)
 {
     return (angle / rad);
 }
 
-Angle to_angle(float angle)
+Angle to_angle(double angle)
 {
     return double(angle) * rad;
 }

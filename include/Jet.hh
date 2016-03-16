@@ -61,7 +61,7 @@ public:
 
     LorentzVector<Momentum> Vector() const;
 
-    float Bdt() const;
+    double Bdt() const;
 
 protected:
 

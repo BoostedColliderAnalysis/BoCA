@@ -192,7 +192,7 @@ LorentzVector< Momentum > Jet::Vector() const
     return {Px(), Py(), Pz(), Energy()};
 }
 
-float Jet::Bdt() const
+double Jet::Bdt() const
 {
     return Info().Bdt();
 }

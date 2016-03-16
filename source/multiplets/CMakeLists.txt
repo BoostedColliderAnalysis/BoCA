@@ -5,6 +5,7 @@ add_include_path(../../include/)
 
 set(multiplet_sources
 Singlet.cpp
+ClosestLepton.cpp
 Multiplet.cpp
 Doublet.cpp
 Triplet.cpp

@@ -4,7 +4,6 @@
 #pragma once
 
 #include "Partons.hh"
-#include "Leptons.hh"
 #include "Hadrons.hh"
 #include "Isolation.hh"
 

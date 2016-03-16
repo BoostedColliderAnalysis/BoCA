@@ -62,7 +62,7 @@ public:
     }
 
     template <typename Multiplet_>
-    float Bdt(Multiplet_ const& multiplet) const {
+    double Bdt(Multiplet_ const& multiplet) const {
         return Tagger().Bdt(multiplet, TReader());
     }
 

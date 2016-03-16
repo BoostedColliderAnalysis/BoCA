@@ -131,11 +131,11 @@ Result Plotting::BdtDistribution(Phase const& phase, int tree_number, TFile& exp
     TClonesArray& clones_array = *tree_reader.UseBranch(branch_name.c_str());
     exroot::TreeWriter tree_writer(&export_file, Tagger().TreeNames(phase).at(tree_number).c_str());
     exroot::TreeBranch& branch = *tree_writer.NewBranch(branch_name.c_str(), BdtBranch::Class());
-    std::vector<float> bdts;
+    std::vector<double> bdts;
     for (auto const & event_number : IntegerRange(tree_reader.GetEntries())) {
         tree_reader.ReadEntry(event_number);
         for (auto const & entry : IntegerRange(clones_array.GetEntriesFast())) {
-            float bdt =  static_cast<BdtBranch&>(*clones_array.At(entry)).Bdt;
+            double bdt =  static_cast<BdtBranch&>(*clones_array.At(entry)).Bdt;
             static_cast<BdtBranch&>(*branch.NewEntry()).Bdt = bdt;
             bdts.emplace_back(bdt);
         }
@@ -510,7 +510,7 @@ std::string Plotting::TruthLevelCutRow(Result const& result, Tag tag) const
     INFO0;
     std::stringstream row;
     row << "$" << result.InfoBranch().Name() << "$";
-    row << "\n  & " << RoundToDigits(float(result.TrainerSize()) / result.TrainerInfoBranch().EventNumber());
+    row << "\n  & " << RoundToDigits(double(result.TrainerSize()) / result.TrainerInfoBranch().EventNumber());
     row << "\n \\\\";
     return row.str();
 }
@@ -545,19 +545,19 @@ void Plotting::DoPlot(Plots& signals, Plots& backgrounds, Stage stage) const
 void Plotting::PlotDetails(Plot& signal, Plot& background, Stage stage) const
 {
     INFO(signal.Data().size(), background.Data().size());
-    std::vector<Vector3<float>> signal_x = signal.CoreData([](Vector3<float> const & a, Vector3<float> const & b) {
+    std::vector<Vector3<double>> signal_x = signal.CoreData([](Vector3<double> const & a, Vector3<double> const & b) {
         return a.X() < b.X();
     });
-    std::vector<Vector3<float>> signal_y = signal.CoreData([](Vector3<float> const & a, Vector3<float> const & b) {
+    std::vector<Vector3<double>> signal_y = signal.CoreData([](Vector3<double> const & a, Vector3<double> const & b) {
         return a.Y() < b.Y();
     });
-    std::vector<Vector3<float>> background_x = background.CoreData([](Vector3<float> const & a, Vector3<float> const & b) {
+    std::vector<Vector3<double>> background_x = background.CoreData([](Vector3<double> const & a, Vector3<double> const & b) {
         return a.X() < b.X();
     });
-    std::vector<Vector3<float>> background_y = background.CoreData([](Vector3<float> const & a, Vector3<float> const & b) {
+    std::vector<Vector3<double>> background_y = background.CoreData([](Vector3<double> const & a, Vector3<double> const & b) {
         return a.Y() < b.Y();
     });
-    Rectangle<float> range;
+    Rectangle<double> range;
     range.SetXMin(std::min(signal_x.front().X(), background_x.front().X()));
     range.SetXMax(std::max(signal_x.back().X(), background_x.back().X()));
     range.SetYMin(std::min(signal_y.front().Y(), background_y.front().Y()));
@@ -568,7 +568,7 @@ void Plotting::PlotDetails(Plot& signal, Plot& background, Stage stage) const
     }
 }
 
-void Plotting::PlotHistogram(Plot const& signal, Plot const& background, Rectangle<float> const& range) const
+void Plotting::PlotHistogram(Plot const& signal, Plot const& background, Rectangle<double> const& range) const
 {
     INFO(signal.Data().size(), background.Data().size());
     Histogram2Dim histogram(Tagger().ExportFolderName(), signal.XAxis().Name() + "-" + signal.YAxis().Name());
@@ -580,7 +580,7 @@ void Plotting::PlotHistogram(Plot const& signal, Plot const& background, Rectang
     histogram.SetYAxis(signal.YAxis().LatexName());
 }
 
-void Plotting::PlotProfile(Plot const& signal, Plot const& background, Rectangle<float> const& range) const
+void Plotting::PlotProfile(Plot const& signal, Plot const& background, Rectangle<double> const& range) const
 {
     INFO0;
     Profile profile(Tagger().ExportFolderName(), signal.Title().Name(), signal.XAxis().Name() + "-" + signal.YAxis().Name());
@@ -620,7 +620,7 @@ Plots Plotting::PlotResult(TFile& file, int tree_number, Phase const& phase) con
 namespace
 {
 
-void SetBranch(TTree& tree, std::vector< float >& values, std::string const& name)
+void SetBranch(TTree& tree, std::vector< double >& values, std::string const& name)
 {
     tree.SetBranchStatus(name.c_str(), true);
     tree.SetBranchAddress(name.c_str(), values.data());
@@ -649,13 +649,13 @@ Plot Plotting::ReadTree(TTree& tree, std::string const& leaf_1_name, std::string
 
     //FIXME remove this magic number
     std::size_t max_value = 200;
-    std::vector<float> leaf_values_1(max_value);
+    std::vector<double> leaf_values_1(max_value);
     SetBranch(tree, leaf_values_1, branch_name + "." + leaf_1_name);
 
-    std::vector<float> leaf_values_2(max_value);
+    std::vector<double> leaf_values_2(max_value);
     SetBranch(tree, leaf_values_2, branch_name + "." + leaf_2_name);
 
-    std::vector<float> bdt_values(max_value);
+    std::vector<double> bdt_values(max_value);
     SetBranch(tree, bdt_values, branch_name + ".Bdt");
 
     Plot plot;
@@ -663,7 +663,7 @@ Plot Plotting::ReadTree(TTree& tree, std::string const& leaf_1_name, std::string
         DETAIL(tree.GetEntries(), entry);
         tree.GetEntry(entry);
         DETAIL(branch_size, leaf_values_1.size(), leaf_values_2.size());
-        for (auto const & element : IntegerRange(branch_size)) plot.Add(Vector3<float>(leaf_values_1.at(element), leaf_values_2.at(element), bdt_values.at(element)));
+        for (auto const & element : IntegerRange(branch_size)) plot.Add(Vector3<double>(leaf_values_1.at(element), leaf_values_2.at(element), bdt_values.at(element)));
     }
     return plot;
 }
@@ -736,7 +736,7 @@ Plot Plotting::ReadTree2(TTree& tree, std::string const& leaf_name) const
 
     //FIXME remove this magic number
     std::size_t max_value = 200;
-    std::vector<float> leaf_values(max_value);
+    std::vector<double> leaf_values(max_value);
     SetBranch(tree, leaf_values, branch_name + "." + leaf_name);
 
 
@@ -744,7 +744,7 @@ Plot Plotting::ReadTree2(TTree& tree, std::string const& leaf_name) const
     for (auto const & entry : IntegerRange(tree.GetEntries())) {
         DETAIL(tree.GetEntries(), entry);
         tree.GetEntry(entry);
-        for (auto const & element : IntegerRange(branch_size)) plot.Add(Vector3<float>(leaf_values.at(element), 0, 0));
+        for (auto const & element : IntegerRange(branch_size)) plot.Add(Vector3<double>(leaf_values.at(element), 0, 0));
     }
     return plot;
 }

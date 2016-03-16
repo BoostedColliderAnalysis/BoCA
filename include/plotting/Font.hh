@@ -30,9 +30,9 @@ struct Flag<Style> {
     static const bool enable = true;
 };
 
-float TextHeight();
+double TextHeight();
 
-float LabelHeight();
+double LabelHeight();
 
 int ColorCode(int number);
 

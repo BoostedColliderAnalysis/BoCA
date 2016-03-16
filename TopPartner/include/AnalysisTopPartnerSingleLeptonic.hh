@@ -29,7 +29,7 @@ protected:
 
     std::string AnalysisName() const override {
         INFO0;
-        return "Single-Leptonic-" + Name(DetectorGeometry::DetectorType()) + "-" + boca::Name(this->Mass()) + "-new-top";
+        return "Single-Leptonic-" + Name(DetectorGeometry::DetectorType()) + "-" + boca::Name(this->Mass()) + "-new-higgs";
     }
 
     void SetFiles(Tag tag, Stage)override {

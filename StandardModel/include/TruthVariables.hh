@@ -44,11 +44,11 @@ public:
         return W_.DeltaRTo(bottom_)  ;
     }
 
-    float RhoTop() const {
+    double RhoTop() const {
         return 2_rad * MassOf(Id::top) / DeltaRTop() / TopPt();
     }
 
-    float RhoW() const {
+    double RhoW() const {
         return 2_rad * MassOf(Id::W) / DeltaRW() / WPt();
     }
 

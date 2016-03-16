@@ -84,7 +84,7 @@ public:
     void SetSemiLeptonic(bool semi_leptonic);
 
     template <typename Multiplet>
-    bool NotParticleRho(Multiplet const& multiplet, Range<float> range = Range<float>(0.5, 2)) const {
+    bool NotParticleRho(Multiplet const& multiplet, Range<double> range = Range<double>(0.5, 2)) const {
         return multiplet.Rho() > 0 && (multiplet.Rho() < range.Min() || multiplet.Rho() > range.Max());
     }
 

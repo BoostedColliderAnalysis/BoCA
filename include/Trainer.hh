@@ -61,7 +61,7 @@ private:
 
     long Entries(exroot::TreeReader& tree_reader);
 
-    float Weight(exroot::TreeReader& tree_reader);
+    double Weight(exroot::TreeReader& tree_reader);
 
     TTree &Tree(std::string const& tree_name, boca::Tag tag);
 

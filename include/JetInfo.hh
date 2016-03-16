@@ -30,7 +30,7 @@ public:
      */
     JetInfo();
 
-    JetInfo(float bdt);
+    JetInfo(double bdt);
 
     JetInfo(::delphes::Jet const& jet);
 
@@ -70,11 +70,11 @@ public:
 
     Angle TrackRadius(boca::Jet const& jet) const;
 
-    float LeadingTrackMomentumFraction() const;
+    double LeadingTrackMomentumFraction() const;
 
-    float CoreEnergyFraction(boca::Jet const& jet) const;
+    double CoreEnergyFraction(boca::Jet const& jet) const;
 
-    float ElectroMagneticFraction() const;
+    double ElectroMagneticFraction() const;
 
     Mass ClusterMass() const;
 

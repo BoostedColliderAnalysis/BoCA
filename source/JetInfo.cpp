@@ -24,7 +24,7 @@ JetInfo::JetInfo()
     DEBUG0;
 }
 
-JetInfo::JetInfo(float bdt)
+JetInfo::JetInfo(double bdt)
 {
     DEBUG0;
     SetBdt(bdt);
@@ -255,7 +255,7 @@ struct IsDetector {
     DetectorPart detector_part_;
 };
 
-float JetInfo::LeadingTrackMomentumFraction() const
+double JetInfo::LeadingTrackMomentumFraction() const
 {
     DEBUG0;
     std::vector<Constituent> constituents = Constituents();
@@ -269,7 +269,7 @@ float JetInfo::LeadingTrackMomentumFraction() const
     return constituents.front().Momentum().Pt() / sum;
 }
 
-float JetInfo::CoreEnergyFraction(Jet const& jet) const
+double JetInfo::CoreEnergyFraction(Jet const& jet) const
 {
     DEBUG0;
     Energy energy = 0;
@@ -282,7 +282,7 @@ float JetInfo::CoreEnergyFraction(Jet const& jet) const
     else return core_energy / energy;
 }
 
-float JetInfo::ElectroMagneticFraction() const
+double JetInfo::ElectroMagneticFraction() const
 {
     DEBUG0;
     Energy em_energy = 0_GeV;

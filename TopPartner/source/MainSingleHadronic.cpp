@@ -3,6 +3,7 @@
  */
 #include "AnalysisTopPartnerSingleHadronic.hh"
 #include "EventSingleHadronicTagger.hh"
+#include "CompleteSingleHadronicTagger.hh"
 
 template<typename Tagger>
 void Run(boca::Output output = boca::Output::normal)
@@ -26,5 +27,6 @@ int main()
     Run<boca::naturalness::SignatureSingleHadronicTagger>(boca::Output::significance);
     Run<boca::GlobalTagger>(boca::Output::significance | boca::Output::plot);
     Run<boca::naturalness::EventSingleHadronicTagger>(boca::Output::significance);
+    Run<boca::naturalness::CompleteSingleHadronicTagger>(boca::Output::significance);
 }
 

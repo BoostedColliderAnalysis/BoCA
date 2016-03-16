@@ -208,20 +208,9 @@ boost::optional<Triplet> TopHadronicTagger::Tripple(Triplet& triplet, std::vecto
 {
     INFO0;
     if (Problematic(triplet, pre_cuts, tag)) return boost::none;
-    triplet.SetLeptonPt(LeptonPt(triplet, leptons));
-    NSubJettiness(triplet);
+    triplet.SetClosestLepton(leptons);
     triplet.SetTag(tag);
     return triplet;
-}
-
-Momentum TopHadronicTagger::LeptonPt(Triplet const& triplet, std::vector<Lepton> const& leptons) const
-{
-    Momentum pt = at_rest;
-    for (auto const & lepton : leptons) if (lepton.Pt() > pt && Close<Lepton>(lepton)(triplet)) pt = lepton.Pt();
-    return pt;
-//     return boost::max_element(leptons | boost::adaptors::filtered(Close(triplet)), [](Lepton const & lepton_1, Lepton const & lepton_2) {
-//         return lepton_1.Pt() < lepton_2.Pt();
-//     })->Pt();
 }
 
 bool TopHadronicTagger::Problematic(Triplet const& triplet, boca::PreCuts const& pre_cuts, Tag tag) const
@@ -267,17 +256,9 @@ boost::optional<Triplet> TopHadronicTagger::Multiplet(Triplet& triplet, std::vec
 {
     INFO0;
     if (Problematic(triplet, pre_cuts)) return boost::none;
-    triplet.SetLeptonPt(LeptonPt(triplet, leptons));
-    NSubJettiness(triplet);
+    triplet.SetClosestLepton(leptons);
     triplet.SetBdt(Bdt(triplet, reader));
     return triplet;
-}
-
-void TopHadronicTagger::NSubJettiness(Triplet& triplet) const
-{
-    INFO0;
-    return;
-    triplet.SetSubJettiness();
 }
 
 std::string TopHadronicTagger::Name() const

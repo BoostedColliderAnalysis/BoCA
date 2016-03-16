@@ -32,37 +32,37 @@ public:
 
     bool Overlap(boca::Jet const& jet) const;
 
-    float MaxDisplacement() const;
+    double MaxDisplacement() const;
 
-    float MeanDisplacement() const;
+    double MeanDisplacement() const;
 
-    float SumDisplacement() const;
+    double SumDisplacement() const;
 
     Angle Radius() const;
 
-    float Spread() const;
+    double Spread() const;
 
     Angle VertexRadius() const;
 
-    float VertexSpread() const;
+    double VertexSpread() const;
 
-    float EnergyFraction() const;
+    double EnergyFraction() const;
 
     Angle EmRadius() const;
 
     Angle TrackRadius() const;
 
-    float CoreEnergyFraction() const;
+    double CoreEnergyFraction() const;
 
-    float FlightPath() const;
+    double FlightPath() const;
 
-    float TrtHtFraction() const;
+    double TrtHtFraction() const;
 
     Momentum Ht() const;
 
-    void SetBdt(float bdt);
+    void SetBdt(double bdt);
 
-    float Bdt() const;
+    double Bdt() const;
 
     void SetTag(boca::Tag tag);
 
@@ -70,7 +70,7 @@ public:
 
     int Charge() const;
 
-    Singlet const& singlet() const;
+    Singlet const& ConstituentJet() const;
 
     Vector2<AngleSquare> PullVector() const;
 
@@ -107,11 +107,11 @@ public:
 
 private:
 
-    float log(Length length) const;
+    double Log(Length length) const;
 
     Angle Radius(boca::Jet const& jet) const;
 
-    float Spread(boca::Jet const& jet) const;
+    double Spread(boca::Jet const& jet) const;
 
     // save expensive results in mutable member variables
 
@@ -122,12 +122,11 @@ private:
 };
 
 template<typename Multiplet_1_, typename Multiplet_2_>
-boca::Singlet MakeSinglet(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2){
-  auto constituents = multiplet_1.singlet().Constituents();
-  Insert(constituents, multiplet_2.singlet().Constituents());
-  constituents = SortedByPt(constituents);
-  boost::erase(constituents, boost::unique<boost::return_next_end>(constituents));
-  return Join(constituents);
+boca::Singlet MakeSinglet(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2)
+{
+    auto constituents = SortedByPt(Combine(multiplet_1.ConstituentJet().Constituents(), multiplet_2.ConstituentJet().Constituents()));
+    boost::erase(constituents, boost::unique<boost::return_next_end>(constituents));
+    return Join(constituents);
 }
 
 }

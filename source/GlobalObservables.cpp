@@ -61,23 +61,23 @@ int GlobalObservables::BottomNumber() const
     });
 }
 
-float GlobalObservables::BottomBdt() const
+double GlobalObservables::BottomBdt() const
 {
     INFO0;
     if (Jets().empty()) return -1;
-    return boost::accumulate(jets_, 0., [](float bdt, boca::Jet const & jet) {
+    return boost::accumulate(jets_, 0., [](double bdt, boca::Jet const & jet) {
         return bdt + jet.Info().Bdt();
     }) / JetNumber();
 }
 
-float GlobalObservables::BottomBdt(int number) const
+double GlobalObservables::BottomBdt(int number) const
 {
     INFO0;
     if (number > JetNumber()) return -1;
     return Jets().at(number - 1).Info().Bdt();
 }
 
-float GlobalObservables::BottomBdt(int number_1, int number_2) const
+double GlobalObservables::BottomBdt(int number_1, int number_2) const
 {
     INFO0;
     if (number_1 > JetNumber()) return 0;
@@ -163,7 +163,7 @@ Jet GlobalObservables::Jet() const
     return Join(Jets());
 }
 
-const Singlet& GlobalObservables::singlet() const
+const Singlet& GlobalObservables::ConstituentJet() const
 {
     if (!has_singlet_) {
         singlet_ = Join(Jets());

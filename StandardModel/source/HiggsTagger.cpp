@@ -68,7 +68,7 @@ std::vector<Particle> HiggsTagger::Particles(Event const& event) const
     return CopyIfParticles(event.Partons().GenParticles(), {Id::higgs, Id::CP_violating_higgs});
 }
 
-boost::optional<Doublet> HiggsTagger::SetTag(Doublet& doublet, std::vector<Jet>& leptons, PreCuts const& pre_cuts, Tag tag) const
+boost::optional<Doublet> HiggsTagger::SetTag(Doublet& doublet, std::vector<Lepton>& leptons, PreCuts const& pre_cuts, Tag tag) const
 {
     INFO0;
     doublet = PrepareDoublet(doublet, leptons);
@@ -77,14 +77,14 @@ boost::optional<Doublet> HiggsTagger::SetTag(Doublet& doublet, std::vector<Jet>&
     return doublet;
 }
 
-Doublet HiggsTagger::PrepareDoublet(Doublet& doublet, std::vector<Jet>& leptons) const
+Doublet HiggsTagger::PrepareDoublet(Doublet& doublet, std::vector<Lepton>& leptons) const
 {
     INFO0;
 //     if (auto optional_doublet = MassDrop(doublet)) doublet = *optional_doublet;
     Jet jet_1 = doublet.Singlet1();
     Jet jet_2 = doublet.Singlet2();
     doublet = Doublet(bottom_reader_.Multiplet(jet_1), bottom_reader_.Multiplet(jet_2));
-    SetClosestLepton(doublet, leptons);
+    doublet.SetClosestLepton(leptons);
     return doublet;
 }
 
@@ -119,7 +119,7 @@ std::vector<Doublet> HiggsTagger::Multiplets(Event const& event, PreCuts const& 
     });
 }
 
-boost::optional<Doublet> HiggsTagger::Multiplet(Doublet& doublet, std::vector<Jet>& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
+boost::optional<Doublet> HiggsTagger::Multiplet(Doublet& doublet, std::vector<Lepton>& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
     INFO0;
     doublet = PrepareDoublet(doublet, leptons);

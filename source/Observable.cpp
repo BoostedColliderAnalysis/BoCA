@@ -10,9 +10,8 @@ namespace boca
 Observable::Observable(float& value, std::string const& name, std::string const& latex_name) :
     value_(&value)
 {
-    is_int_ = (value == int(value)) ? true : false;
     names_.Set(name, latex_name);
-    DEBUG(branch_name_, is_int_, value_, names_.Name());
+    DEBUG(branch_name_, value_, names_.Name());
 }
 
 float& Observable::Value() const
@@ -37,8 +36,7 @@ std::string Observable::Unit() const
 
 char Observable::Type() const
 {
-  if(is_int_) return 'I';
-  return 'F';
+    return IsInt() ? 'I' : 'F';
 }
 
 std::string Observable::LatexName() const
@@ -58,7 +56,7 @@ void Observable::SetBranchName(std::string const& branch_name)
 
 bool Observable::IsInt() const
 {
-    return is_int_;
+    return Value() == int(Value());
 }
 
 }

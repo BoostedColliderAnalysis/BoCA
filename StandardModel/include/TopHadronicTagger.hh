@@ -66,10 +66,6 @@ private:
 
     bool Problematic(Triplet const& triplet, PreCuts const& pre_cuts) const;
 
-    void NSubJettiness(Triplet& triplet) const;
-
-    Momentum LeptonPt(Triplet const& triplet, std::vector<Lepton> const& leptons) const;
-
     Reader<BottomTagger> bottom_reader_;
 
     Reader<WHadronicTagger> w_hadronic_reader_;

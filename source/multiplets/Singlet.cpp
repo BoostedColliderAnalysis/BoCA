@@ -28,7 +28,7 @@ Angle Singlet::Radius(boca::Jet const& jet) const
 }
 using AngleMomentum = ValueProduct<Angle, Momentum>;
 
-float Singlet::Spread(boca::Jet const& jet) const
+double Singlet::Spread(boca::Jet const& jet) const
 {
     INFO0;
     Angle delta_r = 0;
@@ -42,12 +42,12 @@ float Singlet::Spread(boca::Jet const& jet) const
     return spread / jet.Pt() / delta_r;
 }
 
-void Singlet::SetBdt(float bdt)
+void Singlet::SetBdt(double bdt)
 {
     Info().SetBdt(bdt);
 }
 
-float Singlet::Bdt() const
+double Singlet::Bdt() const
 {
     return Info().Bdt();
 }
@@ -62,11 +62,10 @@ boca::Tag Singlet::Tag() const
   return Info().Tag();
 }
 
-float Singlet::log(Length length) const
+double Singlet::Log(Length length) const
 {
     INFO(length);
-    if (length > 0_mm) return std::log10(length / mm);
-    return std::log10(DetectorGeometry::TrackerDistanceMin() / 10_mm);
+    return std::log10(length < nm ? DetectorGeometry::TrackerDistanceMin() / cm : length / mm);
 }
 
 int Singlet::Charge() const
@@ -80,7 +79,7 @@ using AngleSquareMomentum = ValueProduct<AngleSquare, Momentum>;
 Vector2<AngleSquare> Singlet::PullVector() const
 {
     if (has_pull_) return pull_;
-    std::vector<boca::Jet> constituents = Constituents();
+    auto constituents = Constituents();
     if (constituents.size() < 3) return {};
     Vector2<AngleSquare> sum;
     for (auto const & constituent : constituents) sum += PseudoJet::DeltaTo(constituent) * constituent.pt() * PseudoJet::DeltaRTo(constituent);
@@ -89,7 +88,7 @@ Vector2<AngleSquare> Singlet::PullVector() const
     return pull_;
 }
 
-const Singlet& Singlet::singlet() const
+const Singlet& Singlet::ConstituentJet() const
 {
     return *this;
 }
@@ -107,23 +106,23 @@ std::vector< Jet > Singlet::Jets() const
 {
     return {*this};
 }
-float Singlet::MaxDisplacement() const
+double Singlet::MaxDisplacement() const
 {
-    return log(Info().MaxDisplacement());
+    return Log(Info().MaxDisplacement());
 }
-float Singlet::MeanDisplacement() const
+double Singlet::MeanDisplacement() const
 {
-    return log(Info().MeanDisplacement());
+    return Log(Info().MeanDisplacement());
 }
-float Singlet::SumDisplacement() const
+double Singlet::SumDisplacement() const
 {
-    return log(Info().SumDisplacement());
+    return Log(Info().SumDisplacement());
 }
 Angle Singlet::Radius() const
 {
     return Radius(Jet());
 }
-float Singlet::Spread() const
+double Singlet::Spread() const
 {
     return Spread(Jet());
 }
@@ -131,11 +130,11 @@ Angle Singlet::VertexRadius() const
 {
     return Radius(Info().VertexJet());
 }
-float Singlet::VertexSpread() const
+double Singlet::VertexSpread() const
 {
     return Spread(Info().VertexJet());
 }
-float Singlet::EnergyFraction() const
+double Singlet::EnergyFraction() const
 {
     return Info().VertexEnergy() / Energy();
 }
@@ -147,15 +146,15 @@ Angle Singlet::TrackRadius() const
 {
     return Info().TrackRadius(Jet());
 }
-float Singlet::CoreEnergyFraction() const
+double Singlet::CoreEnergyFraction() const
 {
     return Info().CoreEnergyFraction(Jet());
 }
-float Singlet::FlightPath() const
+double Singlet::FlightPath() const
 {
-    return log(Info().MeanDisplacement());
+    return Log(Info().MeanDisplacement());
 }
-float Singlet::TrtHtFraction() const
+double Singlet::TrtHtFraction() const
 {
     return Spread(Info().VertexJet());
 }

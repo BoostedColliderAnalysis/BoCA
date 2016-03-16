@@ -107,7 +107,7 @@ public:
 
     std::string ReaderName(std::string const& name) const;
 
-    static std::mutex mutex_;
+//     static std::mutex mutex_;
 
 protected:
 
@@ -125,48 +125,48 @@ protected:
 
     exroot::TreeBranch& TreeBranch() const;
 
-    float Bdt(TMVA::Reader const& reader) const;
+    double Bdt(TMVA::Reader const& reader) const;
 
-    bool Cut(TMVA::Reader const& reader, float eff) const;
+    bool Cut(TMVA::Reader const& reader, double eff) const;
 
-    template<typename Multiplet>
-    Multiplet SetTag(Multiplet& multiplet, Tag tag) const {
-        multiplet.SetTag(tag);
-        return multiplet;
-    }
+//     template<typename Multiplet>
+//     Multiplet SetTag(Multiplet& multiplet, Tag tag) const {
+//         multiplet.SetTag(tag);
+//         return multiplet;
+//     }
+//
+//     template<typename Multiplet>
+//     Multiplet SetBdt(Multiplet& multiplet, TMVA::Reader const& reader) const {
+//         multiplet.SetBdt(Bdt(multiplet, reader));
+//         return multiplet;
+//     }
 
-    template<typename Multiplet>
-    Multiplet SetBdt(Multiplet& multiplet, TMVA::Reader const& reader) const {
-        multiplet.SetBdt(Bdt(multiplet, reader));
-        return multiplet;
-    }
-
-    template<typename Multiplet>
-    std::vector<Multiplet> SetClosestLepton(Event const& event, std::vector<Multiplet>& multiplets) const {
-        std::vector<Lepton> leptons = event.Leptons().leptons();
-        if (leptons.empty()) return multiplets;
-        for (auto & multiplet : multiplets) {
-            try {
-                SetClosestLepton(multiplet, leptons);
-            } catch (std::exception const&) {
-                continue;
-            }
-        }
-        return multiplets;
-    }
-
-    template<typename Multiplet>
-    Multiplet SetClosestLepton(Multiplet& multiplet, std::vector<Jet>& leptons) const {
-        if (leptons.empty()) leptons.emplace_back(multiplet.Jet() * (DetectorGeometry::LeptonMinPt() / multiplet.Pt()));
-        auto lepton = ClosestJet(leptons, multiplet);
-        multiplet.SetLeptonPt(lepton.Pt());
-        multiplet.SetLeptonDeltaR(multiplet.DeltaRTo(lepton));
-        return multiplet;
-    }
+//     template<typename Multiplet>
+//     std::vector<Multiplet> SetClosestLepton(Event const& event, std::vector<Multiplet>& multiplets) const {
+//         std::vector<Lepton> leptons = event.Leptons().leptons();
+//         if (leptons.empty()) return multiplets;
+//         for (auto & multiplet : multiplets) {
+//             try {
+//                 SetClosestLepton(multiplet, leptons);
+//             } catch (std::exception const&) {
+//                 continue;
+//             }
+//         }
+//         return multiplets;
+//     }
+//
+//     template<typename Multiplet>
+//     Multiplet SetClosestLepton(Multiplet& multiplet, std::vector<Lepton>& leptons) const {
+//         if (leptons.empty()) leptons.emplace_back(multiplet.Jet() * (DetectorGeometry::LeptonMinPt() / multiplet.Pt()));
+//         auto lepton = ClosestJet(leptons, multiplet);
+//         multiplet.SetLeptonPt(lepton.Pt());
+//         multiplet.SetLeptonDeltaR(multiplet.DeltaRTo(lepton));
+//         return multiplet;
+//     }
 
     virtual boca::Filter Filter() const;
 
-    Range<float> MvaRange() const;
+    Range<double> MvaRange() const;
 
 private:
 

@@ -31,11 +31,11 @@ public:
 
     int BottomNumber() const;
 
-    float BottomBdt() const;
+    double BottomBdt() const;
 
-    float BottomBdt(int number) const;
+    double BottomBdt(int number) const;
 
-    float BottomBdt(int number_1, int number_2) const;
+    double BottomBdt(int number_1, int number_2) const;
 
     Momentum ScalarHt() const;
 
@@ -65,7 +65,7 @@ public:
 
     void SetLeptons(std::vector<Lepton> const& leptons);
 
-    boca::Singlet const& singlet() const;
+    boca::Singlet const& ConstituentJet() const;
 
     boca::Jet Jet() const;
 

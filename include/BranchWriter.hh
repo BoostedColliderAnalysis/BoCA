@@ -36,7 +36,7 @@ public:
     }
 
     ~BranchWriter() {
-        std::cout << "PreCut ratio: " << RoundToDigits(float(object_sum_) / event_sum_) << std::endl;
+        std::cout << "PreCut ratio: " << RoundToDigits(double(object_sum_) / event_sum_) << std::endl;
     }
 
     void Write() {

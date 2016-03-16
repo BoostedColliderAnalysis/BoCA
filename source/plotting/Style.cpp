@@ -52,9 +52,9 @@ void SetLogarithmic(TAxis& axis)
 {
     INFO0;
     int bins = axis.GetNbins();
-    float min = axis.GetXmin();
-    float max = axis.GetXmax();
-    float width = (max - min) / bins;
+    double min = axis.GetXmin();
+    double max = axis.GetXmax();
+    double width = (max - min) / bins;
     std::vector<double> log_bins;
     for (auto const& bin : IntegerRange(bins)) log_bins.emplace_back(std::pow(10., min + bin * width));
     axis.Set(bins, log_bins.data());

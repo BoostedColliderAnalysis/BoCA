@@ -49,29 +49,29 @@ Names& Plot::Title()
     return title_;
 }
 
-void Plot::Add(const Vector3< float >& point)
+void Plot::Add(const Vector3< double >& point)
 {
     INFO0;
     data_.emplace_back(point);
 }
 
-const std::vector< Vector3< float > >& Plot::Data() const
+const std::vector< Vector3< double > >& Plot::Data() const
 {
     INFO0;
     return data_;
 }
 
-void Plot::Insert(std::vector<Vector3<float>> const& data)
+void Plot::Insert(std::vector<Vector3<double>> const& data)
 {
     INFO0;
     boca::Insert(data_, data);
 }
 
-std::vector< Vector3< float > > Plot::CoreData(std::function<bool (Vector3<float> const&, Vector3<float> const&)> const& function) const
+std::vector< Vector3< double > > Plot::CoreData(std::function<bool (Vector3<double> const&, Vector3<double> const&)> const& function) const
 {
     INFO0;
-    std::vector<Vector3<float>> data = data_;
-    boost::range::sort(data, [&](Vector3<float> const & a, Vector3<float> const & b) {
+    std::vector<Vector3<double>> data = data_;
+    boost::range::sort(data, [&](Vector3<double> const & a, Vector3<double> const & b) {
         return function(a, b);
     });
     int cut_off = data.size() / 25;
@@ -79,22 +79,22 @@ std::vector< Vector3< float > > Plot::CoreData(std::function<bool (Vector3<float
     data.erase(data.begin(), data.begin() + cut_off);
     return data;
 }
-std::vector< float > Plot::XData() const
+std::vector< double > Plot::XData() const
 {
-    std::vector<float> x_data(data_.size());
-    boost::range::transform(data_, std::back_inserter(x_data), [](Vector3<float> const & vector) {
+    std::vector<double> x_data(data_.size());
+    boost::range::transform(data_, std::back_inserter(x_data), [](Vector3<double> const & vector) {
         return vector.X();
     });
     return x_data;
 }
-boca::Range< float > Plot::XRange() const
+boca::Range< double > Plot::XRange() const
 {
     return MinMax(XCoreData());
 }
-std::vector< float > Plot::XCoreData() const
+std::vector< double > Plot::XCoreData() const
 {
   INFO0;
-  std::vector<float> data = XData();
+  std::vector<double> data = XData();
   boost::range::sort(data);
   int cut_off = data.size() / 25;
   data.erase(data.end() - cut_off, data.end());

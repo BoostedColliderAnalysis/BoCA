@@ -117,7 +117,7 @@ public:
         return boca::DeltaHt(Multiplet1(), Multiplet2());
     }
 
-    float Rho() const {
+    double Rho() const {
         return boca::Rho(Multiplet1(), Multiplet2(), Jet());
     }
 
@@ -137,8 +137,8 @@ public:
         return boca::Pull(Multiplet2(), Multiplet1());
     }
 
-    float Dipolarity() const {
-        return boca::Dipolarity(Multiplet1(), Multiplet2(), singlet());
+    double Dipolarity() const {
+        return boca::Dipolarity(Multiplet1(), Multiplet2(), ConstituentJet());
     }
 
 protected:

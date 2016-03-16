@@ -45,13 +45,13 @@ public:
 
     Legend(std::string const& title);
 
-    Legend(boca::Rectangle<float> const& rectangle, std::string const& title = "");
+    Legend(boca::Rectangle<double> const& rectangle, std::string const& title = "");
 
     Legend(Orientation orientation, std::vector<std::string> const& entries, std::string const& title = "");
 
     void SetOrientation(Orientation orientation, std::vector<std::string> const& entries, std::string const& title);
 
-    void Set(boca::Rectangle<float> const& rectangle, std::string const& title = "");
+    void Set(boca::Rectangle<double> const& rectangle, std::string const& title = "");
 
     void SetOrientation(Orientation orientation, std::string const& title);
 
@@ -65,11 +65,11 @@ public:
 
 private:
 
-    float Width(std::vector<std::string> const& entries) const;
+    double Width(std::vector<std::string> const& entries) const;
 
-    float Height(std::vector<std::string> const& entries, std::string const& title) const;
+    double Height(std::vector<std::string> const& entries, std::string const& title) const;
 
-    void SetCorners(boca::Rectangle<float> const& rectangle);
+    void SetCorners(boca::Rectangle<double> const& rectangle);
 
     void SetStyle();
 

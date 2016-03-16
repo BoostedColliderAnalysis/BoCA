@@ -57,7 +57,7 @@ int FontNumber(Font font, Style style)
 
 }
 
-float TextHeight()
+double TextHeight()
 {
     INFO0;
     switch (Precision()) {
@@ -67,7 +67,7 @@ float TextHeight()
     }
 }
 
-float LabelHeight()
+double LabelHeight()
 {
     INFO0;
     switch (Precision()) {

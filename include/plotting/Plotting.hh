@@ -69,9 +69,9 @@ private:
 
     Plot ReadTree2(TTree& tree, std::string const& leaf_name) const;
 
-    void PlotHistogram(const Plot& signal, const Plot& background, Rectangle<float> const& range) const;
+    void PlotHistogram(const Plot& signal, const Plot& background, Rectangle<double> const& range) const;
 
-    void PlotProfile(const Plot& signal, const Plot& background, Rectangle<float> const& range) const;
+    void PlotProfile(const Plot& signal, const Plot& background, Rectangle<double> const& range) const;
 
     std::vector<std::string> PlotAcceptanceGraph(Results const& results) const;
 

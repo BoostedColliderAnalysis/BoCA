@@ -162,8 +162,7 @@ public:
     float EnergyFraction;
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-        Fill2(multiplet.singlet());
-//         Fill2(multiplet);
+        Fill2(multiplet.ConstituentJet());
     }
     template<typename Singlet>
     void Fill2(Singlet const& singlet) {
@@ -180,10 +179,9 @@ public:
     }
     virtual Observables Variables();
     virtual Observables Spectators();
-//     virtual ~BottomBase() {};
 private:
-    ClassDef(BottomBase, 1)
     float InValue();
+    ClassDef(BottomBase, 1)
 };
 
 class PairBranch : public ParticleBranch
@@ -201,7 +199,7 @@ public:
     float Bdt2;
     float Pull1;
     float Pull2;
-    float Dipolarity;
+//     float Dipolarity;
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         ParticleBranch::Fill(multiplet);
@@ -216,7 +214,7 @@ public:
         Bdt2 = multiplet.Multiplet2().Bdt();
         Pull1 = multiplet.Pull12() / rad;
         Pull2 = multiplet.Pull21() / rad;
-        Dipolarity = multiplet.Dipolarity();
+//         Dipolarity = multiplet.Dipolarity();
     }
     Observables Variables();
     Observables Spectators();
@@ -279,8 +277,8 @@ public:
     float Pull13;
     float Pull32;
     float Pull31;
-    float Dipolarity23;
-    float Dipolarity13;
+//     float Dipolarity23;
+//     float Dipolarity13;
     float Sphericity;
     float Aplanarity;
     template<typename Multiplet>
@@ -314,8 +312,8 @@ public:
         Pull13 = multiplet.Pull13() / rad;
         Pull32 = multiplet.Pull32() / rad;
         Pull31 = multiplet.Pull31() / rad;
-        Dipolarity23 = multiplet.Dipolarity23();
-        Dipolarity13 = multiplet.Dipolarity13();
+//         Dipolarity23 = multiplet.Dipolarity23();
+//         Dipolarity13 = multiplet.Dipolarity13();
         Aplanarity = multiplet.EventShapes().Aplanarity();
         Sphericity = multiplet.EventShapes().Sphericity();
     }
@@ -415,10 +413,10 @@ private:
  * @brief Class for saving event informations to root
  *
  */
-class GlobalObservableBranch : public BdtBranch
+class GlobalBase
 {
 public:
-  GlobalObservableBranch();
+  GlobalBase();
 
   float LeptonNumber;
   float JetNumber;
@@ -435,7 +433,6 @@ public:
 
   template<typename Multiplet>
   void Fill(Multiplet const& multiplet) {
-    BdtBranch::Fill(multiplet);
     LeptonNumber = multiplet.LeptonNumber();
     JetNumber = multiplet.JetNumber();
     BottomNumber = multiplet.BottomNumber();
@@ -449,7 +446,30 @@ public:
     JetPt3 = multiplet.JetPt(3) / GeV;
     JetPt4 = multiplet.JetPt(4) / GeV;
   }
+  virtual Observables Variables();
+  virtual Observables Spectators();
+
+private:
+  float InValue();
+  ClassDef(GlobalBase, 1)
+};
+
+/**
+ * @brief Class for saving event informations to root
+ *
+ */
+class GlobalObservableBranch : public BdtBranch, public GlobalBase
+{
+public:
+  GlobalObservableBranch();
+
+  template<typename Multiplet>
+  void Fill(Multiplet const& multiplet) {
+    BdtBranch::Fill(multiplet);
+    GlobalBase::Fill(multiplet);
+  }
   Observables Variables();
+  Observables Spectators();
 
 private:
   ClassDef(GlobalObservableBranch, 1)

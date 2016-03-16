@@ -179,7 +179,7 @@ Angle atan2(Value const& value_1, Value const& value_2)
 template<typename Value>
 Angle atan2(Value const& value_1, Value const& value_2, std::false_type)
 {
-    return double(std::atan2(value_1, value_2)) * rad;
+    return std::atan2(value_1, value_2) * rad;
 }
 
 template<typename Value>
@@ -197,7 +197,7 @@ Angle acos(Value const& value_1)
 template<typename Value>
 Angle acos(Value const& value_1, std::false_type)
 {
-    return double(std::acos(value_1)) * rad;
+    return std::acos(value_1) * rad;
 }
 
 template<typename Value>

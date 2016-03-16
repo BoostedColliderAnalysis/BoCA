@@ -39,8 +39,6 @@ private:
 
     boca::Names names_;
 
-    bool is_int_;
-
     float* value_;
 
 };

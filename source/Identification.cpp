@@ -23,17 +23,17 @@ Identification::Identification()
     tag_ = boca::Tag::background;
 }
 
-void Identification::SetBdt(float bdt)
+void Identification::SetBdt(double bdt)
 {
     bdt_ = bdt;
 }
 
-void Identification::SetBdt(float bdt_1, float bdt_2)
+void Identification::SetBdt(double bdt_1, double bdt_2)
 {
     bdt_ = (bdt_1 + bdt_2) / 2;
 }
 
-float Identification::Bdt() const
+double Identification::Bdt() const
 {
     return bdt_;
 }
@@ -53,7 +53,7 @@ boca::Tag Identification::Tag() const
     return tag_;
 }
 
-float Identification::InitialValue()
+double Identification::InitialValue()
 {
     return BaseBranch::InitialValue();
 }

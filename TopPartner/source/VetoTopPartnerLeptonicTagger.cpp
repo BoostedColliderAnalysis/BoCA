@@ -60,7 +60,7 @@ std::vector<Quintet> VetoTopPartnerLeptonicTagger::Quintets(Event const& event, 
             Quintet veto(triplet, doublet);
             if (veto.Overlap()) continue;
             for (auto const & quintet : quintets) {
-                Decuplet532 decuplet(quintet, triplet, doublet);
+                Decuplet55 decuplet(quintet, veto);
                 if (decuplet.Overlap()) continue;
                 vetos.emplace_back(function(veto));
                 if(veto.Mass() != veto.Mass()) ERROR(veto.Mass());

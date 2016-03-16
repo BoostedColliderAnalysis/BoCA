@@ -61,7 +61,7 @@ void Histogram2Dim::SetYAxis(std::string const& title)
     for (auto & histogram : histograms_) SetTitle(*histogram.GetYaxis(), title.c_str());
 }
 
-void Histogram2Dim::AddHistogram(std::string const& name, int bins, Rectangle<float> const& range, Plot const& plot, EColor color)
+void Histogram2Dim::AddHistogram(std::string const& name, int bins, Rectangle<double> const& range, Plot const& plot, EColor color)
 {
     INFO0;
     int x_bin = plot.x_is_int ? std::floor(range.Width()) : bins;

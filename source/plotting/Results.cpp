@@ -53,37 +53,37 @@ int Results::BestSOverBBin() const
     return best_s_over_b_bin_;
 }
 
-Rectangle<float> const& Results::Range() const
+Rectangle<double> const& Results::Range() const
 {
     INFO0;
     return range_;
 }
 
-Rectangle<float>& Results::Range()
+Rectangle<double>& Results::Range()
 {
     INFO0;
     return range_;
 }
 
-std::vector<float> const& Results::XValues() const
+std::vector<double> const& Results::XValues() const
 {
     INFO0;
     return x_values_;
 }
 
-std::vector<float> const& Results::Significances() const
+std::vector<double> const& Results::Significances() const
 {
     INFO0;
     return significances_;
 }
 
-std::vector<float> const& Results::Acceptances() const
+std::vector<double> const& Results::Acceptances() const
 {
     INFO0;
     return acceptances_;
 }
 
-std::vector<float> const& Results::SOverB() const
+std::vector<double> const& Results::SOverB() const
 {
     INFO0;
     return s_over_b_;
@@ -118,25 +118,25 @@ void Results::ExtremeXValues()
     }
 }
 
-float Results::BestModelDependentValue() const
+double Results::BestModelDependentValue() const
 {
     INFO0;
     return XValue(BestModelDependentBin());
 }
 
-float Results::BestModelInDependentValue() const
+double Results::BestModelInDependentValue() const
 {
     INFO0;
     return XValue(BestModelInDependentBin());
 }
 
-float Results::BestAcceptanceValue() const
+double Results::BestAcceptanceValue() const
 {
     INFO0;
     return XValue(BestAcceptanceBin());
 }
 
-float Results::BestSOverBValue() const
+double Results::BestSOverBValue() const
 {
     INFO0;
     return XValue(BestSOverBBin());
@@ -202,7 +202,7 @@ int BestMIBin(std::vector<Result> const& signals_, int step, std::function<std::
 void Results::BestBins()
 {
     INFO0;
-    std::vector<float> efficiencies(backgrounds_.size(), 0);
+    std::vector<double> efficiencies(backgrounds_.size(), 0);
     int counter = 0;
     for (auto const & number : IntegerRange(backgrounds_.size())) {
         while (efficiencies.at(number) == 0 && counter < Steps()) {
@@ -229,8 +229,8 @@ void Results::Efficiencies()
     INFO0;
     int steps = 10;
     auto sig_eff = signals_.front().PureEfficiencies();
-    for (float eff : IntegerRange(1, steps)) {
-        float& elem = *(boost::range::lower_bound(sig_eff, eff / steps, [](float i, float j) {
+    for (double eff : IntegerRange(1, steps)) {
+        double& elem = *(boost::range::lower_bound(sig_eff, eff / steps, [](double i, double j) {
             return i > j;
         }) - 1);
         signals_.front().AddSelectedEfficiency(elem);
@@ -241,7 +241,7 @@ void Results::Efficiencies()
     }
 }
 
-float Results::XValue(int value) const
+double Results::XValue(int value) const
 {
     INFO(value);
     switch (Mva()) {
@@ -251,33 +251,33 @@ float Results::XValue(int value) const
     }
 }
 
-float Results::SignalEvents(int step) const
+double Results::SignalEvents(int step) const
 {
     INFO0;
-    return boost::accumulate(signals_, 0., [&](float sum, Result const & signal) {
+    return boost::accumulate(signals_, 0., [&](double sum, Result const & signal) {
         return sum + signal.Events().at(step);
     });
 }
 
-float Results::BackgroundEvents(int step) const
+double Results::BackgroundEvents(int step) const
 {
     INFO0;
-    return boost::accumulate(backgrounds_, 0., [&](float sum, Result const & background) {
+    return boost::accumulate(backgrounds_, 0., [&](double sum, Result const & background) {
         return sum + background.Events().at(step);
     });
 }
 
-float Results::Significance(float signal_events, float background_events) const
+double Results::Significance(double signal_events, double background_events) const
 {
     return /*signal_events +*/ background_events > 0 ? signal_events / std::sqrt(signal_events + background_events) : 0;
 }
 
-float Results::Acceptances(float signal_events, float background_events) const
+double Results::Acceptances(double signal_events, double background_events) const
 {
     return background_events > 0 ? signal_events / std::sqrt(background_events) : 0;
 }
 
-float Results::SOverB(float signal_events, float background_events) const
+double Results::SOverB(double signal_events, double background_events) const
 {
     return background_events > 0 ? signal_events / background_events : 0;
 }
@@ -322,7 +322,7 @@ Crosssection Results::ModelIndependentCrosssection(double signal_efficiency, int
     return sig > 0_b && sb > 0_b ? max(sig, sb) : 0_b;
 }
 
-const std::vector< float >& Results::SelectedEfficiencies() const
+const std::vector< double >& Results::SelectedEfficiencies() const
 {
     return selected_efficiencies_;
 }

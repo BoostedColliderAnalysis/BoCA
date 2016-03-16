@@ -43,27 +43,27 @@ std::string Name(Orientation orientation)
 namespace
 {
 
-float RepresentationWidth()
+double RepresentationWidth()
 {
     return TextHeight() * 0.7;
 }
 
-float EntrySeparation()
+double EntrySeparation()
 {
     return TextHeight() / 3;
 }
 
-Vector2<float> Position(Orientation orientation, float width, float height)
+Vector2<double> Position(Orientation orientation, double width, double height)
 {
     INFO(width, height);
 //     CHECK(is(orientation, Orientation::left | Orientation::right), to_int(orientation), "Should the legend be placed on the left or on the right?");
 //     CHECK(is(orientation, Orientation::top | Orientation::bottom), to_int(orientation), "Should the legend be placed at the top or at the bottom?");
 //     CHECK(is(orientation, Orientation::inside | Orientation::outside), "Should the legend beplaced inside or outside?");
 //     CHECK(orientation == Orientation::outside, "On which side should the legend be placed?");
-    float x_shift = 0.5;
-    float y_shift = 0.5;
-    float x_offset = width / 2;
-    float y_offset = height / 2;
+    double x_shift = 0.5;
+    double y_shift = 0.5;
+    double x_offset = width / 2;
+    double y_offset = height / 2;
     INFO(Name(orientation));
     if (is(orientation, Orientation::outside)) {
         INFO("Outside");
@@ -112,16 +112,16 @@ Vector2<float> Position(Orientation orientation, float width, float height)
             }
         });
     }
-    Vector2<float> min;
-    float margin = TextHeight() / 2;
+    Vector2<double> min;
+    double margin = TextHeight() / 2;
     if (is(orientation, Orientation::outside)) {
         INFO("Outside");
         min.SetX(-margin + x_shift - x_offset);
         min.SetY(-margin + y_shift - y_offset);
     } else {
         INFO("Inside");
-        float x_unit = 1. - gPad->GetLeftMargin() - gPad->GetRightMargin() - 2. * margin;
-        float y_unit = 1. - gPad->GetBottomMargin() - gPad->GetTopMargin() - 2. * margin;
+        double x_unit = 1. - gPad->GetLeftMargin() - gPad->GetRightMargin() - 2. * margin;
+        double y_unit = 1. - gPad->GetBottomMargin() - gPad->GetTopMargin() - 2. * margin;
         min.SetX(gPad->GetLeftMargin() + margin + x_shift * x_unit - x_offset);
         min.SetY(gPad->GetBottomMargin() + margin + y_shift * y_unit - y_offset);
     }
@@ -131,7 +131,7 @@ Vector2<float> Position(Orientation orientation, float width, float height)
 
 }
 
-float Legend::Width(std::vector<std::string> const& entries) const
+double Legend::Width(std::vector<std::string> const& entries) const
 {
     INFO(entries.size());
     TLatex longest(0, 0, boost::range::max_element(entries, [](std::string const & entry_1, std::string const & entry_2) {
@@ -141,15 +141,15 @@ float Legend::Width(std::vector<std::string> const& entries) const
         SetText(latex_2);
         return latex_1.GetXsize() < latex_2.GetXsize();
     })->c_str());
-    float extra_width = 0.5 * TextHeight();
-    float width = longest.GetXsize() + RepresentationWidth() + extra_width;
+    double extra_width = 0.5 * TextHeight();
+    double width = longest.GetXsize() + RepresentationWidth() + extra_width;
     return width * columns_;  // TODO must be more sofisticated
 }
 
-float Legend::Height(std::vector<std::string> const& entries, std::string const& title) const
+double Legend::Height(std::vector<std::string> const& entries, std::string const& title) const
 {
     INFO(entries.size(), title);
-    auto height = boost::accumulate(entries, 0., [](float height, std::string const & entry) {
+    auto height = boost::accumulate(entries, 0., [](double height, std::string const & entry) {
         TLatex latex(0, 0, entry.c_str());
         SetText(latex);
         INFO(entry, latex.GetYsize());
@@ -179,7 +179,7 @@ Legend::Legend()
 }
 
 
-Legend::Legend(boca::Rectangle<float> const& rectangle, std::string const& title)
+Legend::Legend(boca::Rectangle<double> const& rectangle, std::string const& title)
 {
     INFO0;
     SetCorners(rectangle);
@@ -193,7 +193,7 @@ Legend::Legend(Orientation orientation, std::vector<std::string> const& entries,
     SetTitle(title);
 }
 
-void Legend::Set(boca::Rectangle<float> const& rectangle, std::string const& title)
+void Legend::Set(boca::Rectangle<double> const& rectangle, std::string const& title)
 {
     INFO0;
     SetCorners(rectangle);
@@ -203,10 +203,10 @@ void Legend::Set(boca::Rectangle<float> const& rectangle, std::string const& tit
 void Legend::SetOrientation(Orientation orientation, std::vector<std::string> const& entries, std::string const& title)
 {
     INFO0;
-    float width = Width(entries);
-    float height = Height(entries, title);
-    Vector2<float> min = Position(orientation, width, height);
-    SetCorners(boca::Rectangle<float>(min, width, height));
+    double width = Width(entries);
+    double height = Height(entries, title);
+    Vector2<double> min = Position(orientation, width, height);
+    SetCorners(boca::Rectangle<double>(min, width, height));
 }
 
 void Legend::SetOrientation(Orientation orientation, std::string const& title)
@@ -245,7 +245,7 @@ void Legend::TwoColumn()
     legend_.SetColumnSeparation(0.2);
 }
 
-void Legend::SetCorners(boca::Rectangle<float> const& rectangle)
+void Legend::SetCorners(boca::Rectangle<double> const& rectangle)
 {
     INFO(rectangle.XMin(), rectangle.XMax(), rectangle.YMin(), rectangle.YMax());
     legend_.SetX1(rectangle.XMin());

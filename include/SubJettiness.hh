@@ -2,6 +2,7 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
+#include "Jet.hh"
 
 namespace fastjet
 {
@@ -13,7 +14,6 @@ class AxesDefinition;
 
 namespace boca
 {
-class Jet;
 
 class NSubJettiness
 {
@@ -24,19 +24,19 @@ public:
 
     NSubJettiness(Jet const& jet, fastjet::contrib::AxesDefinition const& axes, int beta);
 
-    float tau_1() const;
-    float tau_2() const;
-    float tau_3() const;
-    float tau_2_1() const;
-    float tau_3_2() const;
+    double tau_1() const;
+    double tau_2() const;
+    double tau_3() const;
+    double tau_2_1() const;
+    double tau_3_2() const;
 
 private:
 
-    float tau_1_;
-    float tau_2_;
-    float tau_3_;
-    float tau_2_1_;
-    float tau_3_2_;
+    double tau_1_;
+    double tau_2_;
+    double tau_3_;
+    double tau_2_1_;
+    double tau_3_2_;
 };
 
 
@@ -49,15 +49,13 @@ public:
 
     SubJettiness(Jet const& jet);
 
-    NSubJettiness const& beta_1() const;
+    NSubJettiness beta_1() const;
 
-    NSubJettiness const& beta_2() const;
+    NSubJettiness beta_2() const;
 
 private:
 
-    NSubJettiness beta_1_;
-
-    NSubJettiness beta_2_;
+    Jet jet_;
 
 };
 

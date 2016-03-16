@@ -23,7 +23,7 @@ public:
 //     void SetName(std::string const& name);
     boca::Names & Names();
     boca::Names const& Names() const;
-    Range<float> XRange() const;
+    Range<double> XRange() const;
     boca::InfoBranch const& InfoBranch()const;
 private:
     std::vector<Plot> plots_;

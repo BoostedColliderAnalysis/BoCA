@@ -123,6 +123,27 @@ private:
 };
 
 /**
+ * @brief Class for saving event informations to root
+ *
+ */
+class CompleteBranch : public SignatureSingleHadronicBranch, GlobalBase
+{
+public:
+  CompleteBranch();
+
+  template<typename Multiplet>
+  void Fill(Multiplet const& multiplet) {
+    SignatureSingleHadronicBranch::Fill(multiplet.Signature());
+    GlobalBase::Fill(multiplet.GlobalObservables());
+  }
+  Observables Variables();
+  Observables Spectators();
+
+private:
+  ClassDef(CompleteBranch, 1)
+};
+
+/**
  *
  * @brief Top tagger root tree structure
  *

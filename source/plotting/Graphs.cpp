@@ -27,13 +27,13 @@ Graphs::~Graphs()
     SaveAs(FileName());
 }
 
-void Graphs::AddGraph(std::vector<float> const& xs, std::vector<float> const& ys, std::string const& name)
+void Graphs::AddGraph(std::vector<double> const& xs, std::vector<double> const& ys, std::string const& name)
 {
     INFO(xs.size(), ys.size(), name);
     CHECK(xs.size() == ys.size() && !xs.empty(), xs.size(), ys.size());
-    std::vector<float> xs2 = xs;
+    std::vector<double> xs2 = xs;
     range_.WidenX(MinMax(boost::remove_erase(xs2, 0)));
-    std::vector<float> ys2 = ys;
+    std::vector<double> ys2 = ys;
     range_.WidenY(MinMax(boost::remove_erase(ys2, 0)));
     TGraph graph(xs.size(), xs.data(), ys.data());
     SetLine(graph, graphs_.size());
@@ -62,7 +62,7 @@ void Graphs::Draw()
     legend_.Draw();
 }
 
-void Graphs::SetXAxis(std::string const& title, boca::Range<float> const& range)
+void Graphs::SetXAxis(std::string const& title, boca::Range<double> const& range)
 {
     INFO(title);
     if (range) {
@@ -77,7 +77,7 @@ void Graphs::SetXAxis(std::string const& title, boca::Range<float> const& range)
     multi_graph_.GetXaxis()->SetLimits(range_.Horizontal().Floor(), range_.Horizontal().Ceil());
 }
 
-void Graphs::SetYAxis(std::string const& title, boca::Range<float> const&)
+void Graphs::SetYAxis(std::string const& title, boca::Range<double> const&)
 {
     INFO(title);
 //     if (range) {
@@ -124,7 +124,7 @@ void Graphs::AddGraphs()
     }
 }
 
-void Graphs::AddLine(float x_value, std::string const& title)
+void Graphs::AddLine(double x_value, std::string const& title)
 {
     INFO(x_value);
 //     if (!RangeX().Inside(x_value)) return;

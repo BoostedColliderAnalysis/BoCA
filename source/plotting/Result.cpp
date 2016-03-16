@@ -32,25 +32,25 @@ const InfoBranch& Result::TrainerInfoBranch() const
   return trainer_info_branch_;
 }
 
-std::vector<float> const& Result::Bdts() const
+std::vector<double> const& Result::Bdts() const
 {
     INFO0;
     return bdts_;
 }
 
-std::vector<float> const& Result::Events() const
+std::vector<double> const& Result::Events() const
 {
     INFO0;
     return events_;
 }
 
-std::vector<float> const& Result::Efficiencies() const
+std::vector<double> const& Result::Efficiencies() const
 {
     INFO0;
     return efficiencies_;
 }
 
-std::vector<float> const& Result::PureEfficiencies() const
+std::vector<double> const& Result::PureEfficiencies() const
 {
     INFO0;
     return pure_efficiencies_;
@@ -68,7 +68,7 @@ std::vector<int> const& Result::EventSums() const
     return event_sums_;
 }
 
-Result::Result(boca::InfoBranch const& info_branch, std::vector<float> const& bdts, TMVA::Types::EMVA mva)
+Result::Result(boca::InfoBranch const& info_branch, std::vector<double> const& bdts, TMVA::Types::EMVA mva)
 {
     INFO0;
     info_branch_ = info_branch;
@@ -86,7 +86,7 @@ Result::Result(boca::InfoBranch const& info_branch, std::vector<std::vector<bool
     Inititialize();
 }
 
-Result::Result(boca::InfoBranch const& info_branch, std::pair<boca::InfoBranch,int> const& trainer_info_branch, std::vector<float> const& bdts, TMVA::Types::EMVA mva)
+Result::Result(boca::InfoBranch const& info_branch, std::pair<boca::InfoBranch,int> const& trainer_info_branch, std::vector<double> const& bdts, TMVA::Types::EMVA mva)
 {
   INFO0;
   info_branch_ = info_branch;
@@ -147,8 +147,8 @@ void Result::Calculate()
     }
 
     for (auto const & step : IntegerRange(Steps())) {
-        efficiencies_.at(step) = float(event_sums_.at(step)) / InfoBranch().EventNumber();
-        pure_efficiencies_.at(step) = float(event_sums_.at(step)) / event_sums_.front();
+        efficiencies_.at(step) = double(event_sums_.at(step)) / InfoBranch().EventNumber();
+        pure_efficiencies_.at(step) = double(event_sums_.at(step)) / event_sums_.front();
         crosssections_.at(step) = InfoBranch().Crosssection() * double(efficiencies_.at(step));
         events_.at(step) = crosssections_.at(step) * DetectorGeometry::Luminosity();
         DEBUG(efficiencies_.at(step), events_.at(step));
@@ -156,7 +156,7 @@ void Result::Calculate()
     INFO(InfoBranch().EventNumber(), event_sums_.front());
 }
 
-int Result::XBin(float value) const
+int Result::XBin(double value) const
 {
     INFO(value);
     switch (mva_) {
@@ -198,11 +198,11 @@ std::vector< Crosssection > Result::ModelIndependentSig() const
 {
   return model_independent_sig_;
 }
-std::vector<float > const& Result::SelectedEfficiencies() const
+std::vector<double > const& Result::SelectedEfficiencies() const
 {
     return selected_efficiencies_;
 }
-void Result::AddSelectedEfficiency(float selected_efficiency)
+void Result::AddSelectedEfficiency(double selected_efficiency)
 {
     selected_efficiencies_.emplace_back(selected_efficiency);
 }

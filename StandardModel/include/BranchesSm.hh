@@ -148,7 +148,7 @@ public:
         BottomBase::Fill(multiplet);
         BottomMass = multiplet.Singlet().Mass() / GeV;
         WMass = multiplet.Doublet().Mass() / GeV;
-        LeptonPt = multiplet.LeptonPt() / GeV;
+        LeptonPt = multiplet.Lepton().Pt() / GeV;
     }
     Observables Variables();
     Observables Spectators();
@@ -197,8 +197,8 @@ public:
     void Fill(Multiplet const& multiplet) {
         PairBranch::Fill(multiplet);
         BottomBase::Fill(multiplet);
-        LeptonPt = multiplet.LeptonPt() / GeV;
-        LeptonDeltaR = multiplet.LeptonDeltaR() / rad;
+        LeptonPt = multiplet.Lepton().Pt() / GeV;
+        LeptonDeltaR = multiplet.Lepton().DeltaR() / rad;
     }
     Observables Variables();
     Observables Spectators();

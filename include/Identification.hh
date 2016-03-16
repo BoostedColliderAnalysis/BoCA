@@ -20,11 +20,11 @@ public:
 
     Identification();
 
-    virtual void SetBdt(float bdt);
+    virtual void SetBdt(double bdt);
 
-    void SetBdt(float bdt_1, float bdt_2);
+    void SetBdt(double bdt_1, double bdt_2);
 
-    virtual float Bdt() const;
+    virtual double Bdt() const;
 
     void SetTag(boca::Tag tag);
 
@@ -32,14 +32,14 @@ public:
 
     boca::Tag Tag() const;
 
-    static float InitialValue();
+    static double InitialValue();
 
     /// largest bdt in front
     bool operator<(Identification const& multiplet) const;
 
 private:
 
-    float bdt_;
+    double bdt_;
 
     boca::Tag tag_;
 

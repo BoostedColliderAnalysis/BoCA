@@ -13,7 +13,7 @@ namespace boca
 namespace
 {
 
-float Smearing()
+double Smearing()
 {
     return 0.3;
 }

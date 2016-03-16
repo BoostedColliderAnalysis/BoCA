@@ -60,7 +60,7 @@ void Profile::SetZAxis(const std::string& title, int bins)
     profile_.SetContour(bins);
 }
 
-void Profile::SetDimensions(std::string const& name, int bins, Rectangle<float> const& range)
+void Profile::SetDimensions(std::string const& name, int bins, Rectangle<double> const& range)
 {
     INFO(name);
 
@@ -73,7 +73,7 @@ void Profile::SetDimensions(std::string const& name, int bins, Rectangle<float> 
     profile_.SetName(name.c_str());
 }
 
-void Profile::SetDimensions(int bin_x, int bin_y, Rectangle<float> const& range)
+void Profile::SetDimensions(int bin_x, int bin_y, Rectangle<double> const& range)
 {
     INFO0;
     profile_.SetBins(bin_x, range.XMin(), range.XMax(), bin_y, range.YMin(), range.YMax());
@@ -88,7 +88,7 @@ void Profile::SetProfile(Plot const& signal, Plot const& background)
     if (canvas().GetLogy()) SetLogarithmic(*profile_.GetYaxis());
     for (auto const & point : signal.Data()) profile_.Fill(point.X(), point.Y(), point.Z());
     for (auto const & point : background.Data()) profile_.Fill(point.X(), point.Y(), point.Z());
-    auto minmax = std::minmax_element(signal.Data().begin(), signal.Data().end(), [](Vector3<float> const & a, Vector3<float> const & b) {
+    auto minmax = std::minmax_element(signal.Data().begin(), signal.Data().end(), [](Vector3<double> const & a, Vector3<double> const & b) {
         return a.Z() < b.Z();
     });
     range_.Set(minmax.first->Z(), minmax.second->Z());

@@ -24,12 +24,12 @@ class TaggerTemplate : public Tagger
 
 public:
 
-    float Bdt(Multiplet_ const& multiplet, TMVA::Reader const& reader) const {
+    double Bdt(Multiplet_ const& multiplet, TMVA::Reader const& reader) const {
         FillBranch(multiplet);
         return Tagger::Bdt(reader);
     }
 
-    bool Cut(Multiplet_ const& multiplet, TMVA::Reader const& reader, float effeciency) const {
+    bool Cut(Multiplet_ const& multiplet, TMVA::Reader const& reader, double effeciency) const {
         FillBranch(multiplet);
         return Tagger::Cut(reader, effeciency);
     }
@@ -39,7 +39,7 @@ public:
         std::vector<bool> passed;
         int steps = 50;
         // TODO why is this a 2?
-        for (auto const & effeciency : IntegerRange(2, steps)) passed.emplace_back(Tagger::Cut(reader, float(effeciency) / steps));
+        for (auto const & effeciency : IntegerRange(2, steps)) passed.emplace_back(Tagger::Cut(reader, double(effeciency) / steps));
         return passed;
     }
 

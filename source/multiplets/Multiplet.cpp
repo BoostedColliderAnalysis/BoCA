@@ -21,27 +21,17 @@ void Multiplet::SetPlainJet(boca::Jet const& jet) const
     has_jet_ = true;
 }
 
-void Multiplet::SetLeptonPt(const Momentum& lepton_pt)
+void Multiplet::SetClosestLepton(std::vector<boca::Lepton> const& leptons)
 {
-    lepton_pt_ = lepton_pt;
+    closest_lepton_ = ClosestLepton(Jet(), leptons);
 }
 
-void Multiplet::SetLeptonDeltaR(const Angle& lepton_delta_r)
+ClosestLepton Multiplet::Lepton() const
 {
-    lepton_delta_r_ = lepton_delta_r;
+  return closest_lepton_;
 }
 
-Momentum Multiplet::LeptonPt() const
-{
-    return lepton_pt_;
-}
-
-Angle Multiplet::LeptonDeltaR() const
-{
-    return lepton_delta_r_;
-}
-
-const Singlet& Multiplet::singlet() const
+const Singlet& Multiplet::ConstituentJet() const
 {
     if (!has_singlet_) SetSinglet();
     return singlet_;
@@ -68,14 +58,9 @@ Angle Multiplet::Phi() const
     return Jet().Phi();
 }
 
-void Multiplet::SetSubJettiness()
-{
-    sub_jettiness_ = boca::SubJettiness(Singlet());
-}
-
 boca::SubJettiness Multiplet::SubJettiness() const
 {
-    return sub_jettiness_;
+    return boca::SubJettiness(Singlet());
 }
 
 boca::Mass Multiplet::Mass() const
@@ -85,6 +70,22 @@ boca::Mass Multiplet::Mass() const
 std::vector<boca::Jet> Multiplet::Constituents() const
 {
     return Jet().Constituents();
+}
+Angle Multiplet::DeltaPhiTo(const PseudoJet& jet) const
+{
+    return Jet().DeltaPhiTo(jet);
+}
+Angle Multiplet::DeltaRTo(const PseudoJet& jet) const
+{
+    return Jet().DeltaRTo(jet);
+}
+Angle Multiplet::DeltaRapTo(const PseudoJet& jet) const
+{
+    return Jet().DeltaRapTo(jet);
+}
+Vector2< Angle > Multiplet::DeltaTo(const PseudoJet& jet) const
+{
+    return Jet().DeltaTo(jet);
 }
 
 }

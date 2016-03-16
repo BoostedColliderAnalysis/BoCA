@@ -175,7 +175,7 @@ Momentum DetectorGeometry::HardLeptonMomentum()
     }
 }
 
-float DetectorGeometry::IsolationFraction()
+double DetectorGeometry::IsolationFraction()
 {
     return 1;
 }

@@ -15,7 +15,7 @@ JetInfoFamily::JetInfoFamily()
     DEBUG0;
 }
 
-JetInfoFamily::JetInfoFamily(float bdt)
+JetInfoFamily::JetInfoFamily(double bdt)
 {
     SetBdt(bdt);
 }
@@ -30,12 +30,12 @@ void JetInfoFamily::AddDaughter(int)
     ERROR("No constituent");
 }
 
-std::unordered_map<Family, float> JetInfoFamily::FamilyFractions()
+std::unordered_map<Family, double> JetInfoFamily::FamilyFractions()
 {
     return family_fractions_;
 }
 
-void JetInfoFamily::AddFamily(Family const& family, float weight)
+void JetInfoFamily::AddFamily(Family const& family, double weight)
 {
     DEBUG(family.Member(Relative::particle).Id(), family.Member(Relative::mother).Id(), weight);
     family_fractions_[family] += weight;
@@ -50,7 +50,7 @@ void JetInfoFamily::ExtractFamilyFraction()
 
 struct SortPairs {
     template <typename Template>
-    bool operator()(std::pair<Template, float> const& pair_1, std::pair<Template, float> const& pair_2)
+    bool operator()(std::pair<Template, double> const& pair_1, std::pair<Template, double> const& pair_2)
     {
         return pair_1.second < pair_2.second;
     }
@@ -62,14 +62,14 @@ Family JetInfoFamily::MaximalFamily()
     return std::max_element(family_fractions_.begin(), family_fractions_.end(), SortPairs())->first;
 }
 
-void JetInfoFamily::AddParticle(int constituent_id, float weight)
+void JetInfoFamily::AddParticle(int constituent_id, double weight)
 {
     DEBUG(constituent_id, weight);
     id_fractions_[constituent_id] += weight;
     DETAIL(id_fractions_[constituent_id]);
 }
 
-void JetInfoFamily::AddParticle(Id constituent_id, float weight)
+void JetInfoFamily::AddParticle(Id constituent_id, double weight)
 {
     DEBUG(Name(constituent_id), weight);
     id_fractions_[int(constituent_id)] += weight;
@@ -113,17 +113,17 @@ void JetInfoFamily::ExtractAbsFraction(int id)
     }
 }
 
-float JetInfoFamily::GetWeightSum() const
+double JetInfoFamily::GetWeightSum() const
 {
     DEBUG(id_fractions_.size());
-    float weight_sum = std::accumulate(begin(id_fractions_), end(id_fractions_), 0.0, [](float previous, std::pair<int, float> const& pair) {
+    double weight_sum = std::accumulate(begin(id_fractions_), end(id_fractions_), 0.0, [](double previous, std::pair<int, double> const& pair) {
         return (previous + pair.second);
     });
     DETAIL(weight_sum);
     return weight_sum;
 }
 
-float JetInfoFamily::Fraction(int id) const
+double JetInfoFamily::Fraction(int id) const
 {
     INFO(id);
     if (!id_fractions_.count(id))
@@ -133,10 +133,10 @@ float JetInfoFamily::Fraction(int id) const
     return (id_fractions_.at(id) / GetWeightSum());
 }
 
-float JetInfoFamily::MaximalFraction() const
+double JetInfoFamily::MaximalFraction() const
 {
     INFO0;
-    std::pair<int, float> maximal_weight = *std::max_element(id_fractions_.begin(), id_fractions_.end(), SortPairs());
+    std::pair<int, double> maximal_weight = *std::max_element(id_fractions_.begin(), id_fractions_.end(), SortPairs());
     if (GetWeightSum() == 0) return 0;
     else return (maximal_weight.second / GetWeightSum());
 }

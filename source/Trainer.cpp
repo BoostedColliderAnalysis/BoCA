@@ -74,7 +74,7 @@ long Trainer::AddTree(std::string const& tree_name, Tag tag)
     INFO(tree_name, Name(tag));
     TTree& tree = Tree(tree_name, tag);
     exroot::TreeReader tree_reader = TreeReader(tree_name, tag);
-    float weight = Weight(tree_reader);
+    double weight = Weight(tree_reader);
     NOTE(weight);
     switch (tag) {
     case Tag::signal : Factory().AddSignalTree(&tree, weight);
@@ -104,7 +104,7 @@ long Trainer::Entries(exroot::TreeReader& tree_reader)
     return entries;
 }
 
-float Trainer::Weight(exroot::TreeReader& tree_reader)
+double Trainer::Weight(exroot::TreeReader& tree_reader)
 {
     INFO(Tagger().WeightBranchName());
     auto* clones_array = tree_reader.UseBranch(Tagger().WeightBranchName().c_str());

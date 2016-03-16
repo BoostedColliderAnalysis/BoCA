@@ -38,12 +38,12 @@ void Histograms::Initialize(std::string const& path, std::string const& name, bo
     if (show_title) stack_.SetTitle(Title().c_str());
 }
 
-void Histograms::AddHistogram(std::vector<float> const& values, std::string const& name, Range<float> const& range, bool is_int)
+void Histograms::AddHistogram(std::vector<double> const& values, std::string const& name, Range<double> const& range, bool is_int)
 {
     ERROR(name);
     range_.WidenX(range);
-    float min = FloorToDigits(range.Min(), 1);
-    float max = CeilToDigits(range.Max(), 1);
+    double min = FloorToDigits(range.Min(), 1);
+    double max = CeilToDigits(range.Max(), 1);
     int bins = is_int ? max - min : 50;
     TH1F histogram(name.c_str(), "", bins, min , max);
     for (auto const & bdt : values) histogram.Fill(bdt);
@@ -53,7 +53,7 @@ void Histograms::AddHistogram(std::vector<float> const& values, std::string cons
     histograms_.emplace_back(histogram);
 }
 
-void Histograms::AddHistogram(std::vector<float> const& values, std::string const& name, Rectangle<float> const& range)
+void Histograms::AddHistogram(std::vector<double> const& values, std::string const& name, Rectangle<double> const& range)
 {
     INFO(name);
     range_.WidenY(range.Vertical());
@@ -80,7 +80,7 @@ void Histograms::Draw()
     }
 }
 
-void Histograms::SetXAxis(std::string const& title, boca::Range<float> const& range)
+void Histograms::SetXAxis(std::string const& title, boca::Range<double> const& range)
 {
     INFO(title);
     AddHistograms();
@@ -89,7 +89,7 @@ void Histograms::SetXAxis(std::string const& title, boca::Range<float> const& ra
     if (range) stack_.GetXaxis()->SetLimits(range.Min(), range.Max());
 }
 
-void Histograms::SetYAxis(std::string const& title, boca::Range<float> const& range)
+void Histograms::SetYAxis(std::string const& title, boca::Range<double> const& range)
 {
     INFO(title);
     AddHistograms();
@@ -128,7 +128,7 @@ void Histograms::AddHistograms()
     Draw();
 }
 
-void Histograms::AddLine(float x_value, std::string const& title)
+void Histograms::AddLine(double x_value, std::string const& title)
 {
     INFO(title);
     if (!RangeX().Inside(x_value)) return;

@@ -19,6 +19,7 @@ VetoTopPartnerLeptonicTagger.cpp
 VetoTopPartnerHadronicTagger.cpp
 EventSingleLeptonicTagger.cpp
 EventSingleHadronicTagger.cpp
+CompleteSingleHadronicTagger.cpp
 EventPairTagger.cpp
 EventEffectiveTagger.cpp
 ResonanceTagger.cpp

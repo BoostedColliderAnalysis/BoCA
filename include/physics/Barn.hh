@@ -31,9 +31,9 @@ BOOST_UNITS_STATIC_CONSTANT(Barns, barn::Area);
  */
 using Crosssection = boost::units::quantity<barn::Area>;
 
-float to_float(Crosssection crosssection);
+double to_double(Crosssection crosssection);
 
-Crosssection to_crosssection(float crosssection);
+Crosssection to_crosssection(double crosssection);
 
 /**
  * @brief Luminosity measured in 1 / barn
@@ -41,12 +41,12 @@ Crosssection to_crosssection(float crosssection);
  */
 using Luminosity = boost::units::quantity<barn::Luminosity>;
 
-float to_float(Luminosity luminosity);
+double to_double(Luminosity luminosity);
 
-Luminosity to_luminosity(float luminosity);
+Luminosity to_luminosity(double luminosity);
 
 Crosssection min(std::vector<Crosssection> vector, bool truncate = false);
 
-std::vector< float > FloatVector(std::vector<Crosssection> const& crosssections);
+std::vector< double > FloatVector(std::vector<Crosssection> const& crosssections);
 
 }

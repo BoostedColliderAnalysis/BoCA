@@ -79,8 +79,8 @@ public:
     float Pull13;
     float DeltaPull23;
     float DeltaPull13;
-    float Dipolarity23;
-    float Dipolarity13;
+//     float Dipolarity23;
+//     float Dipolarity13;
     float Sphericity;
     float Aplanarity;
     template<typename Multiplet>
@@ -113,8 +113,8 @@ public:
         Pull13 = signature.Multiplet().Pull13() / rad;
         DeltaPull23 = signature.Multiplet().Pull32() / rad;
         DeltaPull13 = signature.Multiplet().Pull31() / rad;
-        Dipolarity23 = signature.Multiplet().Dipolarity23();
-        Dipolarity13 = signature.Multiplet().Dipolarity13();
+//         Dipolarity23 = signature.Multiplet().Dipolarity23();
+//         Dipolarity13 = signature.Multiplet().Dipolarity13();
         Aplanarity = signature.EventShapes().Aplanarity();
         Sphericity = signature.EventShapes().Sphericity();
     }
@@ -264,11 +264,11 @@ public:
     void Fill(Multiplet const& multiplet) {
         PairBranch::Fill(multiplet);
         BottomPt = multiplet.Triplet1().Pt() / GeV;
-        //         BottomRap = std::abs(multiplet.singlet().Rap() / rad);
+        //         BottomRap = std::abs(multiplet.Rap() / rad);
         BottomRap = multiplet.Triplet1().Rap() / rad;
         BottomPhi = multiplet.Triplet1().Phi() / rad;
         BottomMass = multiplet.Triplet1().Mass() / GeV;
-        //         BottomBdt = multiplet.singlet().Info().Bdt();
+        //         BottomBdt = multiplet.Info().Bdt();
         TopPt = multiplet.Triplet2().Pt() / GeV;
         //         TopRap = std::abs(multiplet.triplet().Rap() / rad);
         TopRap = multiplet.Triplet2().Rap() / rad;
@@ -310,11 +310,11 @@ class QuartetPairBranch : public boca::PairBranch
     void Fill(Multiplet const& multiplet) {
         PairBranch::Fill(multiplet);
         BottomPt = multiplet.Doublet1().Pt() / GeV;
-        //         BottomRap = std::abs(multiplet.singlet().Rap() / rad);
+        //         BottomRap = std::abs(multiplet.Rap() / rad);
         BottomRap = multiplet.Doublet1().Rap() / rad;
         BottomPhi = multiplet.Doublet1().Phi() / rad;
         BottomMass = multiplet.Doublet1().Mass() / GeV;
-        //         BottomBdt = multiplet.singlet().Info().Bdt();
+        //         BottomBdt = multiplet.Info().Bdt();
         TopPt = multiplet.Doublet2().Pt() / GeV;
         //         TopRap = std::abs(multiplet.triplet().Rap() / rad);
         TopRap = multiplet.Doublet2().Rap() / rad;

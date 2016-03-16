@@ -28,7 +28,7 @@ public:
     int JetNumber() const;
     int BottomNumber() const;
     int Charge() const;
-    float BottomBdt() const;
+    double BottomBdt() const;
     Angle DeltaR() const;
     Mass InvariantMass() const;
     Momentum LeptonPt(int number) const;

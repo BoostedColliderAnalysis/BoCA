@@ -22,15 +22,15 @@ public:
 
     ~Graphs();
 
-    void AddGraph(std::vector<float> const& xs, std::vector<float> const& ys, std::string const& name = "");
+    void AddGraph(std::vector<double> const& xs, std::vector<double> const& ys, std::string const& name = "");
 
     void SetLegend(Orientation orientation, std::string const& title = "");
 
-    void SetXAxis(std::string const& title, Range<float> const& range = Range<float>());
+    void SetXAxis(std::string const& title, Range<double> const& range = Range<double>());
 
-    void SetYAxis(std::string const& title, Range<float> const& range = Range<float>());
+    void SetYAxis(std::string const& title, Range<double> const& range = Range<double>());
 
-    void AddLine(float x_value, std::string const& title = "");
+    void AddLine(double x_value, std::string const& title = "");
 
 private:
 
@@ -50,9 +50,9 @@ private:
 
     std::vector<std::pair<TLine, std::string>> lines_;
 
-    std::vector<std::pair<std::vector<float>, std::vector<float>>> datas_;
+    std::vector<std::pair<std::vector<double>, std::vector<double>>> datas_;
 
-    Rectangle<float> range_;
+    Rectangle<double> range_;
 
 };
 

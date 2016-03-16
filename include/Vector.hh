@@ -22,7 +22,7 @@ std::vector<Multiplet_> RemoveIfOutsidePtWindow(std::vector<Multiplet_> jets, Mo
 }
 
 template<typename Multiplet_>
-std::vector<Multiplet_> CopyIfTag(std::vector<Multiplet_> const& multiplets, float value = 0)
+std::vector<Multiplet_> CopyIfTag(std::vector<Multiplet_> const& multiplets, double value = 0)
 {
     std::vector<Multiplet_> tags;
     boost::range::copy(multiplets | boost::adaptors::filtered([value](Multiplet_ const & multiplet) {

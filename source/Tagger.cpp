@@ -20,7 +20,7 @@
 namespace boca
 {
 
-std::mutex Tagger::mutex_;
+// std::mutex Tagger::mutex_;
 
 std::string Tagger::analysis_name_;
 
@@ -43,17 +43,17 @@ std::string Tagger::MvaName() const
     return std::string(TMVA::Types::Instance().GetMethodName(Mva()));
 }
 
-float Tagger::Bdt(TMVA::Reader const& reader) const
+double Tagger::Bdt(TMVA::Reader const& reader) const
 {
     INFO0;
-    std::lock_guard<std::mutex> guard(ReaderBase::mutex_);
+//     std::lock_guard<std::mutex> guard(ReaderBase::mutex_);
     return const_cast<TMVA::Reader&>(reader).EvaluateMVA(MethodName());  // TODO get rid of the const cast
 }
 
-bool Tagger::Cut(TMVA::Reader const& reader, float eff) const
+bool Tagger::Cut(TMVA::Reader const& reader, double eff) const
 {
     INFO0;
-    std::lock_guard<std::mutex> guard(ReaderBase::mutex_);
+//     std::lock_guard<std::mutex> guard(ReaderBase::mutex_);
     return const_cast<TMVA::Reader&>(reader).EvaluateMVA(MethodName(), eff);  // TODO get rid of the const cast
 }
 
@@ -369,12 +369,12 @@ Filter Tagger::Filter() const
 {
     return {};
 }
-boca::Range< float > Tagger::MvaRange() const
+boca::Range< double > Tagger::MvaRange() const
 {
     switch (Mva()) {
     case TMVA::Types::kCuts : return { -1 , 1};
     case TMVA::Types::kBDT : return {0 , 1};
-    DEFAULT(MvaName(),boca::Range< float >(0,0));
+    DEFAULT(MvaName(),boca::Range< double >(0,0));
     }
 }
 

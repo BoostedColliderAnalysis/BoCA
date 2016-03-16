@@ -40,7 +40,7 @@ int CutVariables::Charge() const
 {
     return 0;
 }
-float CutVariables::BottomBdt() const
+double CutVariables::BottomBdt() const
 {
     return 0;
 }

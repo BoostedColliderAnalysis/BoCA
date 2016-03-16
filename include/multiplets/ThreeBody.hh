@@ -182,15 +182,15 @@ public:
         return boca::DeltaHt(Multiplet1(), Multiplet3());
     }
 
-    float Rho() const {
+    double Rho() const {
         return boca::Rho(Multiplet1(), Multiplet2(), Jet12());
     }
 
-    float Rho23() const {
+    double Rho23() const {
         return boca::Rho(Multiplet2(), Multiplet3(), Jet23());
     }
 
-    float Rho13() const {
+    double Rho13() const {
         return boca::Rho(Multiplet1(), Multiplet3(), Jet13());
     }
 
@@ -222,23 +222,23 @@ public:
         return boca::Pull(Multiplet3(), Multiplet1());
     }
 
-    float Dipolarity() const {
+    double Dipolarity() const {
         return boca::Dipolarity(Multiplet1(), Multiplet2(), Jet12());
     }
 
-    float Dipolarity23() const {
+    double Dipolarity23() const {
         return boca::Dipolarity(Multiplet2(), Multiplet3(), Jet23());
     }
 
-    float Dipolarity13() const {
+    double Dipolarity13() const {
         return boca::Dipolarity(Multiplet1(), Multiplet3(), Jet13());
     }
 
-    void SetVetoBdt(float bdt) {
+    void SetVetoBdt(double bdt) {
         veto_bdt_ = bdt;
     }
 
-    float VetoBdt() const {
+    double VetoBdt() const {
         return veto_bdt_;
     }
 
@@ -326,7 +326,7 @@ private:
 
     boca::EventShapes event_shapes_;
 
-    float veto_bdt_;
+    double veto_bdt_;
 
     Multiplet_1 multiplet_1_;
 
