@@ -47,17 +47,9 @@ std::vector<Doublet> HiggsTagger::Doublets(Event const& event, std::function<boo
         throw boca::Problematic();
     });
     for (auto const & jet : jet_range.HarderThanMin(jets)) {
-//         MomentumRange sub_jet_range((SubJet(Id::higgs)), (SubJet(Id::higgs)));
-//         if (sub_jet_range.BelowUpperBound(jet)) try {
-//                 auto pieces = Tagger::SubJets(jet, 2);
-//                 Doublet doublet(pieces.at(0), pieces.at(1));
-// //                 if (auto optional_doublet = function(doublet)) doublets.emplace_back(*optional_doublet);
-//             } catch (std::exception const&) {}
-//         if (sub_jet_range.AboveLowerBound(jet)) {
         Doublet doublet;
         doublet.Enforce(jet);
         if (auto optional_doublet = function(doublet)) doublets.emplace_back(*optional_doublet);
-//         }
     }
     return doublets;
 }
@@ -161,3 +153,6 @@ std::string HiggsTagger::LatexName() const
 }
 
 }
+
+
+

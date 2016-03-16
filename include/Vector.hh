@@ -6,12 +6,51 @@
 #include <boost/range/algorithm/find.hpp>
 #include <boost/range/algorithm/min_element.hpp>
 #include <boost/range/algorithm/copy.hpp>
+#include <boost/range/algorithm_ext/push_back.hpp>
+#include <boost/range/algorithm/transform.hpp>
 #include <boost/range/adaptors.hpp>
 //
 #include "DetectorGeometry.hh"
 
 namespace boca
 {
+
+template<typename Result_, typename Input_, typename Function_>
+std::vector<Result_> Transform(Input_ const& inputs, Function_ const& function)
+{
+    std::vector<Result_> results;
+    if (inputs.empty()) return results;
+    results.reserve(inputs.size());
+    boost::range::transform(inputs, std::back_inserter(results), function);
+//     boost::range::push_back(results, inputs | boost::adaptors::transformed(function));
+    return results;
+}
+
+template<typename Result_, typename Input_, typename Function_>
+std::vector<Result_> TransformIf(Input_ const& inputs, Function_ const& function_1, Function_ const& function_2)
+{
+    std::vector<Result_> results;
+    if (inputs.empty()) return results;
+    boost::range::push_back(results, inputs | boost::adaptors::filtered(function_1) | boost::adaptors::transformed(function_2));
+    return results;
+}
+
+template<typename Elements_, typename Function_>
+std::vector<Elements_> CopyIf(std::vector<Elements_> const& inputs, Function_ const& function)
+{
+    std::vector<Elements_> results;
+    if (inputs.empty()) return results;
+    boost::range::push_back(results, inputs | boost::adaptors::filtered(function));
+    return results;
+}
+
+template<typename Elements_, typename Function_>
+std::vector<Elements_> CopyIf(std::vector<Elements_>& inputs, Function_ const& function)
+{
+    std::vector<Elements_> results;
+    boost::range::push_back(results, inputs | boost::adaptors::filtered(function));
+    return results;
+}
 
 template <typename Multiplet_>
 std::vector<Multiplet_> RemoveIfOutsidePtWindow(std::vector<Multiplet_> jets, Momentum lower_cut, Momentum upper_cut)
@@ -24,11 +63,9 @@ std::vector<Multiplet_> RemoveIfOutsidePtWindow(std::vector<Multiplet_> jets, Mo
 template<typename Multiplet_>
 std::vector<Multiplet_> CopyIfTag(std::vector<Multiplet_> const& multiplets, double value = 0)
 {
-    std::vector<Multiplet_> tags;
-    boost::range::copy(multiplets | boost::adaptors::filtered([value](Multiplet_ const & multiplet) {
+    return CopyIf(multiplets, [value](Multiplet_ const & multiplet) {
         return multiplet.Bdt() > 0;
-    }), std::back_inserter(tags));
-    return tags;
+    });
 }
 
 template<typename Multiplet_>
@@ -102,19 +139,17 @@ std::vector<Multiplet_1_> CopyIfClose(std::vector<Multiplet_1_> const& multiplet
 template <typename Multiplet_1_, typename Multiplet_2_>
 std::vector<Multiplet_1_> CopyIfClose(std::vector<Multiplet_1_> const& multiplets, Multiplet_2_ const& particle)
 {
-    if (multiplets.empty()) return multiplets;
-    std::vector<Multiplet_1_> close_multiplets;
-    for (auto const & multiplet : multiplets) if (Close<Multiplet_2_>(particle)(multiplet)) close_multiplets.emplace_back(multiplet);
-    return close_multiplets;
+    return CopyIf(multiplets, [&](Multiplet_1_ const & multiplet) {
+        return Close<Multiplet_2_>(particle)(multiplet);
+    });
 }
 
 template <typename Multiplet_1_, typename Multiplet_2_>
 std::vector<Multiplet_1_> CopyIfClose(std::vector<Multiplet_1_> const& multiplets, std::pair<Multiplet_2_, Multiplet_2_> const& particle)
 {
-    if (multiplets.empty()) return multiplets;
-    std::vector<Multiplet_1_> close_multiplets;
-    for (auto const & multiplet : multiplets) if (CrossComparison(multiplet, particle)) close_multiplets.emplace_back(multiplet);
-    return close_multiplets;
+    return CopyIf(multiplets, [&](Multiplet_1_ const & multiplet) {
+        return CrossComparison(multiplet, particle);
+    });
 }
 
 // template <typename Multiplet_>
@@ -180,9 +215,9 @@ std::vector<Element_> Combine(std::vector<Element_> const& vector_1, std::vector
  *
  */
 template <typename Element_>
-void Insert(std::vector<Element_> & vector_1, std::vector<Element_> const& vector_2)
+void Insert(std::vector<Element_>& vector_1, std::vector<Element_> const& vector_2)
 {
-  vector_1.insert(vector_1.end(), vector_2.begin(), vector_2.end());
+    vector_1.insert(vector_1.end(), vector_2.begin(), vector_2.end());
 }
 
 /**
@@ -190,10 +225,10 @@ void Insert(std::vector<Element_> & vector_1, std::vector<Element_> const& vecto
  *
  */
 template <typename Element_>
-void Insert(std::vector<Element_> & vector_1, std::vector<Element_> const& vector_2, std::vector<Element_> const& vector_3)
+void Insert(std::vector<Element_>& vector_1, std::vector<Element_> const& vector_2, std::vector<Element_> const& vector_3)
 {
-  vector_1.insert(vector_1.end(), vector_2.begin(), vector_2.end());
-  vector_1.insert(vector_1.end(), vector_3.begin(), vector_3.end());
+    vector_1.insert(vector_1.end(), vector_2.begin(), vector_2.end());
+    vector_1.insert(vector_1.end(), vector_3.begin(), vector_3.end());
 }
 
 /**
@@ -298,3 +333,14 @@ auto Triples(std::vector<Element_1_> const& container_1, std::vector<Element_2_>
 }
 
 }
+
+
+
+
+
+
+
+
+
+
+

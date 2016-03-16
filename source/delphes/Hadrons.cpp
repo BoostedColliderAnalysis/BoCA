@@ -214,7 +214,7 @@ std::vector<Jet> Hadrons::EFlowMuon(std::vector< TObject* > const& leptons, JetD
 {
     INFO0;
     std::vector<Jet> e_flow_jets;
-    for (auto  & e_flow_muon : TreeReader().Objects<::delphes::Muon>(Branch::e_flow_muon)) {
+    for (auto & e_flow_muon : TreeReader().Objects<::delphes::Muon>(Branch::e_flow_muon)) {
         if (is(jet_detail, JetDetail::structure)) {
             if (boost::optional<Jet> optional = ConstituentJet(e_flow_muon, leptons, jet_detail, DetectorPart::muon)) e_flow_jets.emplace_back(*optional);
         } else e_flow_jets.emplace_back(e_flow_muon.P4());
@@ -225,4 +225,5 @@ std::vector<Jet> Hadrons::EFlowMuon(std::vector< TObject* > const& leptons, JetD
 }
 
 }
+
 

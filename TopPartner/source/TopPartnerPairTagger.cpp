@@ -12,9 +12,7 @@ namespace naturalness
 int TopPartnerPairTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
     INFO0;
-    return SaveEntries(Pairs(top_partner_hadronic_reader_.Multiplets(event), top_partner_leptonic_reader_.Multiplets(event), [&](Quintet const & quintet_1, Quintet const & quintet_2) {
-        Decuplet55 decuplet(quintet_1, quintet_2);
-        if (decuplet.Overlap()) throw Overlap();
+    return SaveEntries(Decuplets(event, [&](Decuplet55 & decuplet) {
         decuplet.SetTag(tag);
         return decuplet;
     }), 1);
@@ -23,11 +21,19 @@ int TopPartnerPairTagger::Train(Event const& event, PreCuts const&, Tag tag) con
 std::vector<Decuplet55> TopPartnerPairTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
 {
     INFO0;
+    return Decuplets(event, [&](Decuplet55 & decuplet) {
+        decuplet.SetBdt(Bdt(decuplet, reader));
+        return decuplet;
+    });
+}
+
+std::vector<Decuplet55> TopPartnerPairTagger::Decuplets(Event const& event, std::function<Decuplet55(Decuplet55&)> const& function) const
+{
+    INFO0;
     return Pairs(top_partner_hadronic_reader_.Multiplets(event), top_partner_leptonic_reader_.Multiplets(event), [&](Quintet const & quintet_1, Quintet const & quintet_2) {
         Decuplet55 decuplet(quintet_1, quintet_2);
         if (decuplet.Overlap()) throw Overlap();
-        decuplet.SetBdt(Bdt(decuplet, reader));
-        return decuplet;
+        return function(decuplet);
     });
 }
 

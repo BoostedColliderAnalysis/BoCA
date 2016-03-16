@@ -104,14 +104,13 @@ Results Plotting::ReadBdtFiles(Stage stage) const
 std::vector<Result> Plotting::ReadBdtFile(TFile& export_file, Phase const& phase) const
 {
     INFO0;
-    std::vector<Result> results;
-    switch (Tagger().Mva()) {
-    case TMVA::Types::EMVA::kBDT : for (auto const & tree_number : IntegerRange(Tagger().TreeNames(phase).size())) results.emplace_back(BdtDistribution(phase, tree_number, export_file));
-        return results;
-    case TMVA::Types::EMVA::kCuts: for (auto const & tree_number : IntegerRange(Tagger().TreeNames(phase).size())) results.emplace_back(CutDistribution(phase, tree_number, export_file));
-        return results;
-        DEFAULT(Tagger().Mva(), results);
-    }
+    return Transform<Result>(IntegerRange(Tagger().TreeNames(phase).size()), [&](int tree_number) {
+        switch (Tagger().Mva()) {
+        case TMVA::Types::EMVA::kBDT : return BdtDistribution(phase, tree_number, export_file);
+        case TMVA::Types::EMVA::kCuts : return CutDistribution(phase, tree_number, export_file);
+            DEFAULT(Tagger().MvaName());
+        }
+    });
 }
 
 std::unique_ptr<TFile> Plotting::File(Phase const& phase) const
@@ -687,9 +686,9 @@ Plot Plotting::ReadTree(TTree& tree, std::string const& leaf_1_name, std::string
 
 std::vector<Plots> Plotting::Import2() const
 {
-    std::vector<Plots> results;
-    for (auto const & variable : tagger_.Branch().Variables().Vector()) results.emplace_back(PlotResult3(variable));
-    return results;
+    return Transform<Plots>(tagger_.Branch().Variables().Vector(), [this](Observable const & variable) {
+        return PlotResult3(variable);
+    });
 }
 
 Plots Plotting::PlotResult3(Observable const& variable) const

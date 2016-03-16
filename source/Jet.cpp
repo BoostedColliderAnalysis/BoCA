@@ -4,6 +4,7 @@
 
 #include "exroot/ExRootAnalysis.hh"
 #include "Jet.hh"
+#include "Vector.hh"
 #include "DEBUG.hh"
 
 namespace boca
@@ -151,17 +152,17 @@ void Jet::ResetInfo(const JetInfo& user_info)
 std::vector< Jet > JetVector(std::vector< fastjet::PseudoJet > const& pseudo_jets)
 {
     INFO0;
-    std::vector<Jet> jets;
-    for (auto const & pseudo_jet : pseudo_jets) jets.emplace_back(pseudo_jet);
-    return jets;
+    return Transform<Jet>(pseudo_jets, [](auto const & pseudo_jet) {
+        return pseudo_jet;
+    });
 }
 
 std::vector< fastjet::PseudoJet > PseudoJetVector(std::vector< Jet > const& jets)
 {
     INFO0;
-    std::vector<fastjet::PseudoJet> pseudo_jets;
-    for (auto const & jet : jets) pseudo_jets.emplace_back(jet);
-    return pseudo_jets;
+    return Transform<fastjet::PseudoJet>(jets, [](auto const & jet) {
+        return jet;
+    });
 }
 
 Jet Join(std::vector< Jet > const& jets)

@@ -4,6 +4,7 @@
 
 #include "TLorentzVector.h"
 #include "Particle.hh"
+#include "Vector.hh"
 #include "DEBUG.hh"
 
 namespace boca
@@ -70,9 +71,9 @@ void Particle::SetInfo(ParticleInfo const& user_info)
 std::vector< Particle > ParticleVector(std::vector< fastjet::PseudoJet > const& pseudo_jets)
 {
     INFO0;
-    std::vector<Particle> jets;
-    for (auto const & pseudo_jet : pseudo_jets) jets.emplace_back(pseudo_jet);
-    return jets;
+    return Transform<Particle>(pseudo_jets, [](auto const & pseudo_jet) {
+        return pseudo_jet;
+    });
 }
 
 }

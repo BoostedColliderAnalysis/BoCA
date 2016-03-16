@@ -7,6 +7,7 @@
 #include "physics/Range.hh"
 
 #include "PreCut.hh"
+#include "Vector.hh"
 
 namespace boca
 {
@@ -53,9 +54,9 @@ public:
 
     template <typename Multiplet>
     std::vector<Multiplet> ApplyCuts(Id id, std::vector<Multiplet> const& multiplets) const {
-        std::vector<Multiplet> good;
-        for (auto const & multiplet : multiplets) if (!ApplyCuts(id, multiplet)) good.emplace_back(multiplet);
-        return good;
+        return CopyIf(multiplets, [=](Multiplet const & multiplet) {
+            return !ApplyCuts(id, multiplet);
+        });
     }
 
     template <typename>

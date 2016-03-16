@@ -115,7 +115,7 @@ int Constituent::Charge() const
 void Constituent::Smearing()
 {
     DEBUG0;
-    position_.Smearing(45_um);
+    position_.Smearing(45_um); // TODO make this momentum dependent
 }
 
 }

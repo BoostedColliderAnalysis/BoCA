@@ -153,9 +153,9 @@ int JetInfo::VertexNumber() const
 boca::Jet JetInfo::VertexJet() const
 {
     DEBUG0;
-    std::vector<Jet> jets;
-    for (auto const & consituent : displaced_constituents_) jets.emplace_back(consituent.Momentum());
-    return Join(jets);
+    return Join(Transform<Jet>(displaced_constituents_, [](auto const & consituent) {
+        return consituent.Momentum();
+    }));
 }
 
 Length JetInfo::SumDisplacement() const
@@ -203,20 +203,19 @@ Energy JetInfo::VertexEnergy() const
 std::vector<Constituent> JetInfo::ApplyVertexResolution(std::vector<Constituent> constituents) const
 {
     DEBUG(constituents.size());
-    if (constituents.empty()) return constituents;
-    std::vector <Constituent> displaced_constituents;
-    for (auto & constituent : constituents) if (VertexResultion(constituent)) displaced_constituents.emplace_back(constituent);
-    DEBUG(displaced_constituents.size());
-    return displaced_constituents;
+    return CopyIf(constituents, [&](Constituent & constituent) {
+        return VertexResultion(constituent);
+    });
 }
 
 bool JetInfo::VertexResultion(Constituent constituent) const
 {
     DEBUG(constituent.Position().Perp());
-    Length x = constituent.Position().X();
+//     Length x = constituent.Position().X();
     constituent.Smearing();
     DEBUG(x, constituent.Position().X());
-    return (constituent.Position().Vect().Perp() > DetectorGeometry::TrackerDistanceMin() && constituent.Position().Vect().Perp() < DetectorGeometry::TrackerDistanceMax() && abs(constituent.Momentum().Rapidity()) < DetectorGeometry::TrackerEtaMax());
+    auto perp = constituent.Position().Vect().Perp();
+    return (perp > DetectorGeometry::TrackerDistanceMin() && perp < DetectorGeometry::TrackerDistanceMax() && abs(constituent.Momentum().Rapidity()) < DetectorGeometry::TrackerEtaMax());
 }
 
 Angle JetInfo::ElectroMagneticRadius(Jet const& jet) const

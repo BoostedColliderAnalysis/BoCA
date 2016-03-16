@@ -34,26 +34,24 @@ std::vector<Quintet> VetoTopPartnerHadronicTagger::Multiplets(Event const& event
 
 std::vector<Particle> VetoTopPartnerHadronicTagger::Particles(Event const& event) const
 {
-    std::vector<Particle> particles = event.Partons().GenParticles();
-    std::vector<Particle> quarks = CopyIfQuark(particles);
-    std::vector<Particle> candidate = CopyIfGreatGrandMother(quarks, Id::top_partner);
-    if (!candidate.empty()) {
-        int grand_grand_mother = candidate.front().Info().Family().Member(Relative::great_grand_mother).Id();
-        return CopyIfExactParticle(particles, grand_grand_mother);
-    } else {
+    auto particles = event.Partons().GenParticles();
+    auto quarks = CopyIfQuark(particles);
+    auto candidate = CopyIfGreatGrandMother(quarks, Id::top_partner);
+    int id;
+    if (candidate.empty()) {
         candidate = CopyIfGrandMother(quarks, Id::top_partner);
         candidate = CopyIfMother(candidate, Id::W);
         if (candidate.empty()) return {};
-        int grand_mother = candidate.front().Info().Family().Member(Relative::grand_mother).Id();
-        return CopyIfExactParticle(particles, grand_mother);
-    }
+        id = candidate.front().Info().Family().Member(Relative::grand_mother).Id();
+    } else id = candidate.front().Info().Family().Member(Relative::great_grand_mother).Id();
+    return CopyIfExactParticle(particles, id);
 }
 
 std::vector<Quintet> VetoTopPartnerHadronicTagger::Quintets(Event const& event, std::function<Quintet(Quintet&)> const& function) const
 {
     INFO0;
-    std::vector<Triplet> triplets = top_reader_.Multiplets(event);
-    std::vector<Quintet> quintets = partner_reader_.Multiplets(event);
+    auto triplets = top_reader_.Multiplets(event);
+    auto quintets = partner_reader_.Multiplets(event);
     std::vector<Quintet> vetos;
     for (auto const & doublet : higgs_reader_.Multiplets(event)) {
         for (auto const & triplet : triplets) {
@@ -79,7 +77,6 @@ std::string VetoTopPartnerHadronicTagger::LatexName() const
 {
     return "#slash{T}_{h}";
 }
-
 
 }
 

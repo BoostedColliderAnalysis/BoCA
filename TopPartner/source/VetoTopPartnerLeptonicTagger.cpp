@@ -34,26 +34,23 @@ std::vector<Quintet> VetoTopPartnerLeptonicTagger::Multiplets(Event const& event
 
 std::vector<Particle> VetoTopPartnerLeptonicTagger::Particles(Event const& event) const
 {
-    std::vector<Particle> particles = event.Partons().GenParticles();
-    std::vector<Particle> leptons = CopyIfLepton(particles);
-    std::vector<Particle>candidate = CopyIfGreatGrandMother(leptons, Id::top_partner);
-    if (!candidate.empty()) {
-        int great_grand_mother = candidate.front().Info().Family().Member(Relative::great_grand_mother).Id();
-        return CopyIfExactParticle(particles, great_grand_mother);
-    } else {
-        candidate = CopyIfGrandMother(leptons, Id::top_partner);
-        candidate = CopyIfMother(candidate, Id::W);
+    auto particles = event.Partons().GenParticles();
+    auto leptons = CopyIfLepton(particles);
+    auto candidate = CopyIfGreatGrandMother(leptons, Id::top_partner);
+    int id;
+    if (candidate.empty()) {
+        candidate = CopyIfMother(CopyIfGrandMother(leptons, Id::top_partner), Id::W);
         if (candidate.empty()) return {};
-        int grand_mother = candidate.front().Info().Family().Member(Relative::grand_mother).Id();
-        return CopyIfExactParticle(particles, grand_mother);
-    }
+        id = candidate.front().Info().Family().Member(Relative::grand_mother).Id();
+    } else id = candidate.front().Info().Family().Member(Relative::great_grand_mother).Id();
+    return CopyIfExactParticle(particles, id);
 }
 
 std::vector<Quintet> VetoTopPartnerLeptonicTagger::Quintets(Event const& event, std::function<Quintet(Quintet&)> const& function) const
 {
     INFO0;
-    std::vector<Quintet> quintets = partner_reader_.Multiplets(event);
-    std::vector<Triplet> triplets = top_reader_.Multiplets(event);
+    auto quintets = partner_reader_.Multiplets(event);
+    auto triplets = top_reader_.Multiplets(event);
     std::vector<Quintet> vetos;
     for (auto const & doublet : higgs_reader_.Multiplets(event)) {
         for (auto const & triplet : triplets) {
@@ -63,7 +60,7 @@ std::vector<Quintet> VetoTopPartnerLeptonicTagger::Quintets(Event const& event, 
                 Decuplet55 decuplet(quintet, veto);
                 if (decuplet.Overlap()) continue;
                 vetos.emplace_back(function(veto));
-                if(veto.Mass() != veto.Mass()) ERROR(veto.Mass());
+                if (veto.Mass() != veto.Mass()) ERROR(veto.Mass());
                 break;
             }
         }

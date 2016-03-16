@@ -36,11 +36,11 @@ public:
 
     std::vector<bool> Cuts(Multiplet_ const& multiplet, TMVA::Reader const& reader) const {
         FillBranch(multiplet);
-        std::vector<bool> passed;
         int steps = 50;
         // TODO why is this a 2?
-        for (auto const & effeciency : IntegerRange(2, steps)) passed.emplace_back(Tagger::Cut(reader, double(effeciency) / steps));
-        return passed;
+        return Transform<bool>(IntegerRange(2, steps), [&](int effeciency) {
+            return Tagger::Cut(reader, double(effeciency) / steps);
+        });
     }
 
     Branch_& Branch()override {

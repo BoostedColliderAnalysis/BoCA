@@ -7,6 +7,7 @@
 #include "plotting/Style.hh"
 #include "plotting/Font.hh"
 #include "Types.hh"
+#include "Vector.hh"
 // #define INFORMATION
 #include "DEBUG.hh"
 
@@ -55,9 +56,9 @@ void SetLogarithmic(TAxis& axis)
     double min = axis.GetXmin();
     double max = axis.GetXmax();
     double width = (max - min) / bins;
-    std::vector<double> log_bins;
-    for (auto const& bin : IntegerRange(bins)) log_bins.emplace_back(std::pow(10., min + bin * width));
-    axis.Set(bins, log_bins.data());
+    axis.Set(bins, Transform<double>(IntegerRange(bins), [=](int bin) {
+        return std::pow(10., min + bin * width);
+    }).data());
 }
 
 }

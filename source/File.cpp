@@ -5,6 +5,7 @@
 #include "TTree.h"
 
 #include "Types.hh"
+#include "Vector.hh"
 #include "File.hh"
 // #define INFORMATION
 #include "DEBUG.hh"
@@ -26,14 +27,14 @@ File::File(std::vector<std::string> const& processes, std::string const& base_pa
 
 File::File(std::vector<std::string> const& processes, std::string const& base_path, std::string const& file_suffix, boca::Names const& nice_name, boca::Crosssection crosssection, boca::Mass mass)
 {
-  INFO0;
-  SetVariables();
-  process_folders_ = processes;
-  base_path_ = base_path;
-  file_suffix_ = file_suffix;
-  crosssection_ = crosssection;
-  names_ = nice_name;
-  mass_ = mass;
+    INFO0;
+    SetVariables();
+    process_folders_ = processes;
+    base_path_ = base_path;
+    file_suffix_ = file_suffix;
+    crosssection_ = crosssection;
+    names_ = nice_name;
+    mass_ = mass;
 }
 
 std::string File::FileSuffix() const
@@ -43,7 +44,7 @@ std::string File::FileSuffix() const
     case boca::Source::delphes : return "_delphes_events.root";
     case boca::Source::parton : return "_unweighted_events.root";
     case boca::Source::pgs : return "_pgs_events.root";
-    DEFAULT(boca::Name(Source()), "");
+        DEFAULT(boca::Name(Source()), "");
     }
 }
 
@@ -54,7 +55,7 @@ std::string File::TreeName() const
     case boca::Source::delphes : return "Delphes";
     case boca::Source::parton : return "LHEF";
     case boca::Source::pgs : return "LHCO";
-    DEFAULT(boca::Name(Source()), "");
+        DEFAULT(boca::Name(Source()), "");
     }
 }
 
@@ -80,9 +81,9 @@ void File::SetVariables()
 std::vector<std::string> File::Paths() const
 {
     INFO0;
-    std::vector<std::string> FilePaths;
-    for (auto const & process_folder : process_folders_) FilePaths.emplace_back(base_path_ + process_folder + file_suffix_);
-    return FilePaths;
+    return Transform<std::string>(process_folders_, [&](auto const & process_folder) {
+        return base_path_ + process_folder + file_suffix_;
+    });
 }
 
 boca::Crosssection File::Crosssection() const

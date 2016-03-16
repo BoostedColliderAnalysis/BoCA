@@ -29,6 +29,8 @@ public:
 
 private:
 
+    std::vector<Decuplet55> Decuplets(Event const& event, std::function<Decuplet55(Decuplet55&)> const& function) const;
+
     Reader<TopPartnerHadronicNeutralTagger> top_partner_hadronic_reader_;
 
     Reader<TopPartnerLeptonicNeutralTagger> top_partner_leptonic_reader_;
