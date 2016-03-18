@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -61,7 +61,7 @@ std::string Name(Energy energy);
 // int to_int(Energy energy);
 
 int Int(Momentum energy);
-float to_float(Energy energy);
+double to_double(Energy energy);
 Energy to_energy(double energy);
 
 static const Momentum at_rest(0. * ElectronVolt);

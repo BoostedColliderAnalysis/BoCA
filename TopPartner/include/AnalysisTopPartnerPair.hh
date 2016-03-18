@@ -1,10 +1,10 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
 #include "AnalysisTopPartner.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {
@@ -25,18 +25,18 @@ class AnalysisPair : public AnalysisNaturalness<Tagger>
 
 protected:
 
-    std::string AnalysisName() const final {
-        Info0;
-        return "Naturalness-Pair-" + boca::Name(this->PreCut()) + "-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass()) + "-full";
+    std::string AnalysisName() const override {
+        INFO0;
+        return "Naturalness-Pair-" + boca::Name(this->PreCut()) + "-" + Name(DetectorGeometry::DetectorType()) + "-" + boca::Name(this->Mass()) + "-full";
     }
 
-//     std::string ProcessName() const final {
-//         Info0;
+//     std::string ProcessName() const override {
+//         INFO0;
 //         return "Naturalness-Pair";
 //     }
 
-    void SetFiles(Tag tag, Stage) final {
-        Info0;
+    void SetFiles(Tag tag, Stage)override {
+        INFO0;
         switch (tag) {
         case Tag::signal :
             this->NewFile(tag, Process::TT);
@@ -51,8 +51,8 @@ protected:
 
 private:
 
-    int PassPreCut(Event const&, Tag) const final {
-        Info0;
+    int PassPreCut(Event const&, Tag) const override {
+        INFO0;
 //        std::vector<Jet> particles = event.Partons().GenParticles();
 //         particles = RemoveIfSoft(particles, this->PreCut());
 //        std::vector<Jet> tops = CopyIfParticle(particles, Id::top);
@@ -63,9 +63,9 @@ private:
 //        std::vector<Jet> tchannel = RemoveIfMother(higgs,Id::top);
 //         tchannel = RemoveIfMother(tchannel,Id::top_partner);
 
-//         Error(partner.size());
+//         ERROR(partner.size());
 
-//         if (tops.size() < 2 || (higgs.size() < 1 && vectors.size() < 1)) return 0;
+//         if (tops.size() < 2 || (higgs.empty() && vectors.empty())) return 0;
         return 1;
     }
 

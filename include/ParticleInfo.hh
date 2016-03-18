@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -20,12 +20,6 @@ class ParticleInfo: public fastjet::PseudoJet::UserInfoBase
 
 public:
 
-//     friend class InfoRecombiner;
-
-    /**
-     * @brief Constructor
-     *
-     */
     ParticleInfo();
 
     ParticleInfo(boca::Family const& family);

@@ -12,7 +12,7 @@ HiggsTagger.cpp
 TopHadronicTagger.cpp
 TopLeptonicTagger.cpp
 TruthLevel.cpp
-TruthVariables.cpp
+# TruthVariables.cpp
 )
 create_library(SmTagger sm_tagger_sources)
 

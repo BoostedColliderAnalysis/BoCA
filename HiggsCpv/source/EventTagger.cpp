@@ -1,5 +1,5 @@
-#include "../include/EventTagger.hh"
-#include "Debug.hh"
+#include "../include/GlobalTagger.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {
@@ -7,9 +7,9 @@ namespace boca
 namespace higgscpv
 {
 
-int EventTagger::Train(boca::Event const& event, boca::PreCuts const&, Tag tag) const
+int GlobalTagger::Train(boca::Event const& event, boca::PreCuts const&, Tag tag) const
 {
-    Info0;
+    INFO0;
    std::vector<Jet> jets = bottom_reader_.Jets(event);
     std::vector<MultipletSignature<Octet62>> octets = signature_reader_.Multiplets(event);
     INFO(octets.size());
@@ -19,12 +19,12 @@ int EventTagger::Train(boca::Event const& event, boca::PreCuts const&, Tag tag) 
         multipletevent.SetTag(tag);
         multipletevents.emplace_back(multipletevent);
     }
-    return SaveEntries(ReduceResult(multipletevents, 1));
+    return SaveEntries(multipletevents, 1);
 }
 
-std::vector<MultipletEvent<Octet62>> EventTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
+std::vector<MultipletEvent<Octet62>> GlobalTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
 {
-    Info0;
+    INFO0;
    std::vector<Jet> jets = bottom_reader_.Jets(event);
     std::vector<MultipletSignature<Octet62>> octets = signature_reader_.Multiplets(event);
     std::vector<MultipletEvent<Octet62>> multiplet_events;
@@ -33,9 +33,9 @@ std::vector<MultipletEvent<Octet62>> EventTagger::Multiplets(Event const& event,
         multiplet_event.SetBdt(Bdt(multiplet_event, reader));
         multiplet_events.emplace_back(multiplet_event);
     }
-    return ReduceResult(multiplet_events);
+    return ReduceResult(multiplet_events, 1);
 }
-std::string EventTagger::Name() const
+std::string GlobalTagger::Name() const
 {
     return "Event";
 }

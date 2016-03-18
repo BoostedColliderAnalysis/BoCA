@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -20,9 +20,9 @@ public:
 
     int Train(const boca::Event& event, boca::PreCuts const& pre_cuts, Tag tag) const override;
 
-    std::vector<Quartet31> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
+    std::vector<Quartet31> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
 
-    std::string Name() const final;
+    std::string Name() const override;
 
 private:
 

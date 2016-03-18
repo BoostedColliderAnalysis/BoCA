@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -23,25 +23,29 @@ public:
 
     PseudoJet(LorentzVector<Momentum> const& vector);
 
-    virtual UserInfoBase const& Info() const = 0;
+    virtual UserInfoBase const& Info() const;
 
-    virtual UserInfoBase& Info() = 0;
+    virtual UserInfoBase& Info();
 
     Momentum Pt() const;
 
     boca::Energy Energy() const;
 
-    boca::Mass Mass()const;
+    boca::Mass Mass() const;
 
     Angle Rap() const;
 
     Angle Phi() const;
 
-    Angle DeltaRTo(fastjet::PseudoJet const& jet) const;
+    Angle DeltaRTo(PseudoJet const& jet) const;
 
     Angle DeltaRTo(LorentzVector<Momentum> const& lorentz_vector) const;
 
-    Angle DeltaPhiTo(fastjet::PseudoJet const& jet) const;
+    Angle DeltaPhiTo(PseudoJet const& jet) const;
+
+    Angle DeltaRapTo(PseudoJet const& jet) const;
+
+    Vector2<Angle> DeltaTo(PseudoJet const& jet) const;
 
     boca::MassSquare MassSquare() const;
 

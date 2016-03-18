@@ -1,13 +1,13 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "ClonesArrays.hh"
 
 #include "TClonesArray.h"
 #include "TObjArray.h"
 #include "exroot/ExRootAnalysis.hh"
-// #define DEBUG
-#include "Debug.hh"
+// #define DEBUGGING
+#include "DEBUG.hh"
 
 namespace boca
 {
@@ -21,7 +21,7 @@ ClonesArrays::ClonesArrays(Source source)
 
 std::string ClonesArrays::BranchName(Branch branch) const
 {
-    Debug0;
+    DEBUG0;
     switch (branch) {
     case Branch::particle : return "Particle";
     case Branch::photon : return "Photon";
@@ -39,20 +39,20 @@ std::string ClonesArrays::BranchName(Branch branch) const
     case Branch::scalar_ht : return "ScalarHT";
     case Branch::tau : return "Tau";
     default :
-        Error("Unnamed branch");
+        ERROR("Unnamed branch");
         return "";
     }
 }
 
 Source ClonesArrays::source() const
 {
-    Debug0;
+    DEBUG0;
     return source_;
 }
 
 std::vector<Branch> ClonesArrays::Branches() const
 {
-    Debug0;
+    DEBUG0;
     switch (source()) {
     case Source::delphes :
         return {Branch::particle, Branch::photon, Branch::electron, Branch::muon, Branch::jet, Branch::missing_et, Branch::track, Branch::tower, Branch::e_flow_track, Branch::e_flow_photon, Branch::e_flow_neutral_hadron, Branch::gen_jet, Branch::scalar_ht};
@@ -67,34 +67,34 @@ std::vector<Branch> ClonesArrays::Branches() const
 
 void ClonesArrays::UseBranches(exroot::TreeReader& tree_reader)
 {
-    Debug0;
+    DEBUG0;
     for (auto const & branch : Branches()) clones_arrays_.emplace(branch, tree_reader.UseBranch(BranchName(branch).c_str()));
 }
 
-// void ClonesArrays::UseBranches(boca::TreeReader& tree_reader)
-// {
-//   Debug0;
-//   for (auto const & branch : Branches()) clones_arrays_.emplace(branch, &tree_reader.UseBranch(BranchName(branch)));
-// }
-
 TClonesArray& ClonesArrays::ClonesArray(Branch branch) const
 {
-    Debug(BranchName(branch));
-    if (!clones_arrays_.at(branch)) Error("Not in branch", BranchName(branch));
+    DEBUG(BranchName(branch));
+    if (!IsSet(branch)) ERROR("Not in branch", BranchName(branch));
+    NOTE("clones_arrays_.at(branch)");
     return *clones_arrays_.at(branch);
 }
 
 TObject& ClonesArrays::Object(Branch branch, int number) const
 {
-    Debug(BranchName(branch), number);
-    if (!ClonesArray(branch).At(number)) Error("Not in branch", BranchName(branch));
+    DEBUG(BranchName(branch), number);
+    if (!ClonesArray(branch).At(number)) ERROR("Not in branch", BranchName(branch));
     return *ClonesArray(branch).At(number);
 }
 
 int ClonesArrays::EntrySum(Branch branch) const
 {
-    Debug(BranchName(branch), ClonesArray(branch).GetEntriesFast());
+    DEBUG(BranchName(branch), ClonesArray(branch).GetEntriesFast());
     return ClonesArray(branch).GetEntriesFast();
+}
+
+bool ClonesArrays::IsSet(Branch branch) const
+{
+    return clones_arrays_.find(branch) != clones_arrays_.end();
 }
 
 }

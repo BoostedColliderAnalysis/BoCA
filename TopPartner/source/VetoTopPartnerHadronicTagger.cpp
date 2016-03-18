@@ -1,12 +1,12 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "VetoTopPartnerHadronicTagger.hh"
 #include "Decuplet.hh"
-#include "ParticleInfo.hh"
-// #define DEBUG
+#include "Particles.hh"
+// #define DEBUGGING
 // #define INFORMATION
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {
@@ -16,7 +16,7 @@ namespace naturalness
 
 int VetoTopPartnerHadronicTagger::Train(Event const& event, PreCuts const& , Tag tag) const
 {
-    Info0;
+    INFO0;
     return SaveEntries(Quintets(event, [&](Quintet & quintet) {
         quintet.SetTag(tag);
         return quintet;
@@ -25,35 +25,33 @@ int VetoTopPartnerHadronicTagger::Train(Event const& event, PreCuts const& , Tag
 
 std::vector<Quintet> VetoTopPartnerHadronicTagger::Multiplets(Event const& event, boca::PreCuts const& , TMVA::Reader const& reader) const
 {
-    Info0;
-    return ReduceResult(Quintets(event, [&](Quintet & quintet) {
+    INFO0;
+    return Quintets(event, [&](Quintet & quintet) {
         quintet.SetBdt(Bdt(quintet, reader));
         return quintet;
-    }));
+    });
 }
 
 std::vector<Particle> VetoTopPartnerHadronicTagger::Particles(Event const& event) const
 {
-    std::vector<Particle> particles = event.Partons().GenParticles();
-    std::vector<Particle> quarks = CopyIfQuark(particles);
-    std::vector<Particle> candidate = CopyIfGreatGrandMother(quarks, Id::top_partner);
-    if (!candidate.empty()) {
-        int grand_grand_mother = candidate.front().Info().Family().GreatGrandMother().Id();
-        return CopyIfExactParticle(particles, grand_grand_mother);
-    } else {
+    auto particles = event.Partons().GenParticles();
+    auto quarks = CopyIfQuark(particles);
+    auto candidate = CopyIfGreatGrandMother(quarks, Id::top_partner);
+    int id;
+    if (candidate.empty()) {
         candidate = CopyIfGrandMother(quarks, Id::top_partner);
         candidate = CopyIfMother(candidate, Id::W);
         if (candidate.empty()) return {};
-        int grand_mother = candidate.front().Info().Family().GrandMother().Id();
-        return CopyIfExactParticle(particles, grand_mother);
-    }
+        id = candidate.front().Info().Family().Member(Relative::grand_mother).Id();
+    } else id = candidate.front().Info().Family().Member(Relative::great_grand_mother).Id();
+    return CopyIfExactParticle(particles, id);
 }
 
 std::vector<Quintet> VetoTopPartnerHadronicTagger::Quintets(Event const& event, std::function<Quintet(Quintet&)> const& function) const
 {
-    Info0;
-    std::vector<Triplet> triplets = top_reader_.Multiplets(event);
-    std::vector<Quintet> quintets = partner_reader_.Multiplets(event);
+    INFO0;
+    auto triplets = top_reader_.Multiplets(event);
+    auto quintets = partner_reader_.Multiplets(event);
     std::vector<Quintet> vetos;
     for (auto const & doublet : higgs_reader_.Multiplets(event)) {
         for (auto const & triplet : triplets) {
@@ -79,7 +77,6 @@ std::string VetoTopPartnerHadronicTagger::LatexName() const
 {
     return "#slash{T}_{h}";
 }
-
 
 }
 

@@ -1,6 +1,6 @@
 // @(#)root/physics:$Id$
 // Author: Pasha Murat   12/02/99
-// Jan Hajer 2015 remove some stuff, make the class templated and compatible with boost units
+// Jan Hajer 2015  make the class templated and compatible with boost units
 
 /*************************************************************************
  * Copyright(C) 1995-2000, Rene Brun and Fons Rademakers.               *
@@ -35,6 +35,9 @@ public:
     template<typename Value_2>
     using OnlyIfNotOrSameQuantity = typename std::enable_if < !IsQuantity<Value_2>::value || std::is_same<Value, Value_2>::value >::type;
 
+    template<typename Value_2>
+    using OnlyIfQuantity = typename std::enable_if < IsQuantity<Value_2>::value>::type;
+
     /// Constructor
     Vector2() {
         x_ = 0;
@@ -47,10 +50,17 @@ public:
         y_ = y;
     }
 
+    /// Constructor
+    template<typename Value_2, typename = OnlyIfQuantity<Value_2>>
+    Vector2(Vector2<Value_2> const& vector) {
+        x_ = Value(vector.X());
+        y_ = Value(vector.Y());
+    }
+
     /// Set vector
     void Set(Vector2 const& vector) {
-        x_ = vector.x_;
-        y_ = vector.y_;
+        x_ = vector.X();
+        y_ = vector.Y();
     }
 
     /// Set x and y
@@ -84,12 +94,12 @@ public:
         return y_;
     }
 
-    Value & X() {
-      return x_;
+    Value& X() {
+        return x_;
     }
 
-    Value & Y() {
-      return y_;
+    Value& Y() {
+        return y_;
     }
 
     ValueProduct<Value> Mod2() const {
@@ -147,13 +157,21 @@ public:
     // scale with scalar
     template <typename Value_2>
     Vector2 <ValueProduct<Value_2>> Scale(Value_2 const& scalar) const {
-        return {X() * scalar, Y() * scalar};
+        return {X()* scalar, Y()* scalar};
     }
 
     // signed area
     template <typename Value_2>
     ValueProduct<Value_2> SignedArea(Vector2<Value_2> const& vector) const {
         return X() * vector.Y() - Y() * vector.X();
+    }
+
+    // assignment operator including casting
+    template <typename Value_2, typename = OnlyIfQuantity<Value_2>>
+    Vector2& operator=(Vector2<Value_2> const& vector) {
+        x_ = Value(vector.X());
+        y_ = Value(vector.Y());
+        return *this;
     }
 
     /// vector sum
@@ -206,7 +224,7 @@ public:
     }
 
     template <typename Value_2>
-    friend Vector2 <ValueQuotient<Value_2>> operator/(Vector2 const& vector, Value_2 const& scalar) {
+    friend auto operator/(Vector2 const& vector, Value_2 const& scalar) {
         return vector.Scale(1. / scalar);
     }
 
@@ -241,19 +259,19 @@ template<typename Value>
 using OnlyIfNotVector2 = typename std::enable_if < !IsVector2<Value>::value >::type;
 
 template <class Value, class Value_2>
-ValueProduct<Value, Value_2> operator*(Vector2<Value> const& vector_1, const Vector2<Value_2>& vector_2)
+auto operator*(Vector2<Value> const& vector_1, const Vector2<Value_2>& vector_2)
 {
     return vector_1.Dot(vector_2);
 }
 
 template < class Value, class Value_2, typename = OnlyIfNotVector2<Value_2> >
-Vector2 <ValueProduct<Value, Value_2>> operator*(Vector2<Value> const& vector, Value_2 const& scalar)
+auto operator*(Vector2<Value> const& vector, Value_2 const& scalar)
 {
     return vector.Scale(scalar);
 }
 
 template < class Value, class Value_2, typename = OnlyIfNotVector2<Value> >
-Vector2 <ValueProduct<Value, Value_2>> operator*(Value const& scalar, Vector2<Value_2> const& vector)
+auto operator*(Value const& scalar, Vector2<Value_2> const& vector)
 {
     return vector.Scale(scalar);
 }

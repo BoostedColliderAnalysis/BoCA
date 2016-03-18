@@ -1,51 +1,54 @@
 #include "ChargedHiggsSemiTagger.hh"
 #include "Event.hh"
-#include "Debug.hh"
+#include "Particles.hh"
+#include "DEBUG.hh"
 
-namespace boca {
+namespace boca
+{
 
-namespace heavyhiggs {
+namespace heavyhiggs
+{
 
 int ChargedHiggsSemiTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
-    Info0;
+    INFO0;
 //     Mass mass = event.mass();
     Jet HiggsBoson;
     if (tag == Tag::signal) {
-       std::vector<Particle> HiggsParticles = event.Partons().GenParticles();
+        std::vector<Particle> HiggsParticles = event.Partons().GenParticles();
         HiggsParticles = CopyIfParticle(HiggsParticles, Id::charged_higgs);
         if (tag == Tag::signal) {
             if (HiggsParticles.size() == 1) HiggsBoson = HiggsParticles.front();
-            else Error(HiggsParticles.size());
+            else ERROR(HiggsParticles.size());
         }
     }
-   std::vector<Jet> jets = bottom_reader_.Jets(event);
+    std::vector<Jet> jets = bottom_reader_.Jets(event);
     std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
 //     int WSemiId = w_semi_tagger.WSemiId(event);
-   std::vector<Particle> TopParticles = top_leptonic_reader_.Tagger().Particles(event);
+    std::vector<Particle> TopParticles = top_leptonic_reader_.Tagger().Particles(event);
 //     TopParticles = CopyIfExactParticle(TopParticles, TopSemiId);
     Particle TopQuark;
     if (TopParticles.size() == 1) TopQuark = TopParticles.front();
     else
-        Error(TopParticles.size());
+        ERROR(TopParticles.size());
     std::vector<Triplet> Finaltriplets;
     switch (tag) {
     case Tag::signal:
-        for (auto const& triplet : triplets) if (triplet.DeltaRTo(TopQuark) < DetectorGeometry::JetConeSize()) Finaltriplets.emplace_back(triplet);
+        for (auto const & triplet : triplets) if (triplet.DeltaRTo(TopQuark) < DetectorGeometry::JetConeSize()) Finaltriplets.emplace_back(triplet);
         break;
     case Tag::background :
         Finaltriplets = triplets;
         break;
     }
-   std::vector<Jet> BottomJets;
+    std::vector<Jet> BottomJets;
     switch (tag) {
     case Tag::signal : {
-      std::vector<Particle> BottomParticles = event.Partons().GenParticles();
+        std::vector<Particle> BottomParticles = event.Partons().GenParticles();
         BottomParticles = CopyIfFamily(BottomParticles, Id::bottom, Id::charged_higgs);
         Jet BottomQuark;
         if (BottomParticles.size() == 1) BottomQuark = BottomParticles.front();
-        else Error(BottomParticles.size());
-        for (auto const& Jet : jets)  if (Jet.DeltaRTo(BottomQuark) < DetectorGeometry::JetConeSize()) BottomJets.emplace_back(Jet);
+        else ERROR(BottomParticles.size());
+        for (auto const & Jet : jets)  if (Jet.DeltaRTo(BottomQuark) < DetectorGeometry::JetConeSize()) BottomJets.emplace_back(Jet);
         break;
     }
     case Tag::background :
@@ -53,9 +56,9 @@ int ChargedHiggsSemiTagger::Train(Event const& event, PreCuts const&, Tag tag) c
         break;
     }
     std::vector<Quartet31> quartets;
-    for (auto const& triplet : Finaltriplets)
-        for (auto const& Jet : BottomJets) {
-            if (triplet.Jet().DeltaRTo(Jet) < DetectorGeometry::JetConeSize()) continue;
+    for (auto const & triplet : Finaltriplets)
+        for (auto const & Jet : BottomJets) {
+            if (triplet.DeltaRTo(Jet) < DetectorGeometry::JetConeSize()) continue;
             Quartet31 quartet(triplet, Jet);
 //             if (tag == Tag::signal && quartet.Mass() < mass / 2.) continue;
 //             if (tag == Tag::signal && quartet.Mass() > mass * 3. / 2.) continue;
@@ -73,17 +76,17 @@ int ChargedHiggsSemiTagger::Train(Event const& event, PreCuts const&, Tag tag) c
 
 std::vector<Quartet31> ChargedHiggsSemiTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
-   std::vector<Jet> jets = bottom_reader_.Jets(event);
-    std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
+    auto jets = bottom_reader_.Jets(event);
+    auto triplets = top_leptonic_reader_.Multiplets(event);
     std::vector<Quartet31> quartets;
-    for (auto const& triplet : triplets)
-        for (auto const& jet : jets) {
-            if (Close(jet)(triplet.Singlet().Jet())) continue;
+    for (auto const & triplet : triplets)
+        for (auto const & jet : jets) {
+            if (Close<Jet>(jet)(triplet.Singlet())) continue;
             Quartet31 quartet(triplet, jet);
             quartet.SetBdt(Bdt(quartet, reader));
             quartets.emplace_back(quartet);
         }
-    return ReduceResult(quartets);
+    return quartets;
 }
 std::string ChargedHiggsSemiTagger::Name() const
 {

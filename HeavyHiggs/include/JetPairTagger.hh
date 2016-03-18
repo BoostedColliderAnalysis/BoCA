@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -11,6 +11,9 @@
 namespace boca
 {
 
+namespace heavyhiggs
+{
+
 /**
  * @brief JetPair BDT tagger
  *
@@ -20,22 +23,30 @@ class JetPairTagger : public TaggerTemplate<Doublet, JetPairBranch>
 
 public:
 
-    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
+    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const override;
 
-    std::vector<Doublet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
+    std::vector<Doublet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
 
-    std::string Name() const final;
+    std::string Name() const override;
 
-    std::vector<Particle> BottomPair(Event const& event, Tag tag) const;
+    std::vector<Particle> PairBottomQuarks(Event const& event, Tag tag) const;
 
-    bool CheckIfBadBottom(boca::Doublet const& doublet,std::vector<Particle> const& jets) const;
+    bool CheckIfBadBottom(boca::Doublet const& doublet, std::vector<Particle> const& jets) const;
 
     std::vector<Particle> HiggsParticle(Event const& event, Tag tag) const;
 
+    Doublet TruthDoubletPair(Doublet const& doublet, std::vector<Particle> const& bottoms, Tag tag) const;
+
 private:
+
+    std::vector<Jet> TruthJetPair(Event const& event, std::vector<Jet>& jets, Tag tag) const;
+
+    std::vector<Doublet> TruthDoubletPairs(Event const& event, std::vector<Doublet>& doublets, Tag tag) const;
 
     Reader<standardmodel::BottomTagger> bottom_reader_;
 
 };
+
+}
 
 }

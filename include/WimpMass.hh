@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -28,10 +28,6 @@ public:
     boca::Sextet Fake(boca::Quartet22 const& quartet) const;
 
 private:
-
-    void Momentum(double momentum[4], Jet const& jet);
-
-//     Jet PseudoJet(double const Momentum[4]) const;
 
 };
 

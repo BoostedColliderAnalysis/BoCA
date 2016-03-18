@@ -1,10 +1,13 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
 #include "AnalysisStandardModel.hh"
 #include "Sort.hh"
+#include "Particle.hh"
+#include "Particles.hh"
+#include "Event.hh"
 
 namespace boca
 {
@@ -35,17 +38,17 @@ class AnalysisBottom : public AnalysisStandardModel<Tagger>
 public:
 
     AnalysisBottom() {
-        this->pre_cuts().PtLowerCut().Set(Id::bottom, this->LowerPtCut());
-        this->pre_cuts().PtUpperCut().Set(Id::bottom, this->UpperPtCut());
-        this->pre_cuts().TrackerMaxEta().Set(Id::bottom, DetectorGeometry::TrackerEtaMax());
-        this->pre_cuts().ConsiderBuildingBlock().Set(Id::bottom, false);
+        this->PreCuts().PtLowerCut().Set(Id::bottom, this->LowerPtCut());
+        this->PreCuts().PtUpperCut().Set(Id::bottom, this->UpperPtCut());
+        this->PreCuts().TrackerMaxEta().Set(Id::bottom, DetectorGeometry::TrackerEtaMax());
+        this->PreCuts().ConsiderBuildingBlock().Set(Id::bottom, false);
     }
 
 private:
 
-    std::string AnalysisName() const final {
-        return  Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-all-new";
-//       return  Name(production_channel()) + "_" + Name(this->collider_type()) + "_" + boca::Name(this->LowerPtCut()) + "-large-new";
+    std::string AnalysisName() const override {
+        return  Name(this->Collider()) + "-" + boca::Name(this->LowerPtCut()) + "-all-new";
+//       return  Name(production_channel()) + "_" + Name(this->Collider()) + "_" + boca::Name(this->LowerPtCut()) + "-large-new";
     }
 
 //     Production production_channel() const {
@@ -54,7 +57,7 @@ private:
 //         //         return Production::Associated;
 //     }
 
-    void SetFiles(Tag tag, Stage stage) final {
+    void SetFiles(Tag tag, Stage stage)override {
         switch (tag) {
         case Tag::signal :
             this->NewFile(tag, Process::bb);
@@ -74,7 +77,7 @@ private:
         }
     }
 
-    int PassPreCut(Event const& event, Tag) const final {
+    int PassPreCut(Event const& event, Tag) const override {
         std::vector<Particle> particles = SortedByPt(event.Partons().GenParticles());
         particles = CopyIfDrellYan(particles);
         particles = RemoveIfOutsidePtWindow(particles, this->LowerPtCut(), this->UpperPtCut());

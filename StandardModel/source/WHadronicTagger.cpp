@@ -1,17 +1,17 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #include <boost/range/algorithm/adjacent_find.hpp>
 
 #include "WHadronicTagger.hh"
-#include "ParticleInfo.hh"
 #include "MomentumRange.hh"
 #include "Event.hh"
 #include "physics/Math.hh"
 #include "Exception.hh"
+#include "Particles.hh"
 #include "plotting/Font.hh"
 // #define NOTIFICATION
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {
@@ -21,22 +21,21 @@ namespace standardmodel
 
 WHadronicTagger::WHadronicTagger()
 {
-    Info0;
+    INFO0;
     w_mass_window_ = 40_GeV;
 }
 
 int WHadronicTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const
 {
-    Info0;
-    std::vector<Doublet> doublets = Doublets(event, pre_cuts, [&](Doublet & doublet) {
+    INFO0;
+    return SaveEntries(Doublets(event, pre_cuts, [&](Doublet & doublet) {
         return CheckDoublet(doublet, pre_cuts, tag);
-    });
-    return SaveEntries(doublets, Particles(event), tag, Id::W);
+    }), Particles(event), tag, Id::W);
 }
 
 std::vector<Doublet> WHadronicTagger::Doublets(Event const& event, PreCuts const& pre_cuts, Function const& function) const
 {
-    Info0;
+    INFO0;
     std::vector<Jet> jets = bottom_reader_.Jets(event);
 
     MomentumRange two_jet_range(Id::W);
@@ -45,30 +44,25 @@ std::vector<Doublet> WHadronicTagger::Doublets(Event const& event, PreCuts const
     MomentumRange w_jet_range(Id::W, SubJet(Id::W));
     for (auto const & jet : w_jet_range.HarderThanMin(jets)) {
 
-        if (w_jet_range.BelowUpperBound(jet)) {
-            std::vector<Jet> pieces = bottom_reader_.SubMultiplet(jet, 2);
-            if (pieces.size() == 2) {
-                Doublet doublet(pieces.at(0), pieces.at(1));
-                if (boost::optional<Doublet> optional = function(doublet)) doublets.emplace_back(*optional);
-            }
-        }
-
         MomentumRange top_jet_range(Id::top, SubJet(Id::W));
-        if (pre_cuts.DoSubJets(Id::W) && top_jet_range.InsideBounds(jet)) {
+        if (pre_cuts.DoSubJets(Id::W) && top_jet_range.InsideRange(jet)) {
             std::vector<Jet> pieces = bottom_reader_.SubMultiplet(jet, 3);
-            doublets = Join(doublets, Doublets(pieces, function));
+            Insert(doublets, Doublets(pieces, function));
         }
 
         MomentumRange boosted_range((SubJet(Id::W)), (SubJet(Id::top)));
-        if (pre_cuts.DoSubJets(Id::W) && boosted_range.InsideBounds(jet)) {
+        if (pre_cuts.DoSubJets(Id::W) && boosted_range.InsideRange(jet)) {
             std::vector<Jet> pieces = bottom_reader_.SubMultiplet(jet, 2);
             for (auto piece : pieces) {
-                Doublet doublet(piece);
+                Doublet doublet;
+                doublet.Enforce(piece);
                 if (boost::optional<Doublet> optional = function(doublet)) doublets.emplace_back(*optional);
             }
         }
-        if (boosted_range.AboveLowerBound(jet)) {
-            Doublet doublet(jet);
+
+        if (w_jet_range.BelowUpperBound(jet) || boosted_range.AboveLowerBound(jet)) {
+            Doublet doublet;
+            doublet.Enforce(jet);
             if (boost::optional<Doublet> optional = function(doublet)) doublets.emplace_back(*optional);
         }
     }
@@ -77,13 +71,13 @@ std::vector<Doublet> WHadronicTagger::Doublets(Event const& event, PreCuts const
 
 std::vector<Particle> WHadronicTagger::Particles(Event const& event) const
 {
-    std::vector<Particle> particles = event.Partons().GenParticles();
-    std::vector<Particle> quarks = CopyIfMother(CopyIfQuark(particles), Id::W);
+    auto particles = event.Partons().GenParticles();
+    auto quarks = CopyIfMother(CopyIfQuark(particles), Id::W);
     if (quarks.empty()) return {};
-    std::vector<int> ids;
-    for (auto const & quark : quarks) ids.emplace_back(quark.Info().Family().Mother().Id());
-    if (boost::range::adjacent_find(ids, std::not_equal_to<int>()) == ids.end()) return CopyIfExactParticle(particles, ids.front());
-    else return CopyIfParticle(particles, Id::W);
+    auto ids = Transform(quarks, [](Particle const & quark) {
+        return quark.Info().Family().Member(Relative::mother).Id();
+    });
+    return boost::range::adjacent_find(ids, std::not_equal_to<int>()) == ids.end() ? CopyIfExactParticle(particles, ids.front()) : CopyIfParticle(particles, Id::W);
 }
 
 boost::optional<Doublet> WHadronicTagger::CheckDoublet(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const
@@ -95,7 +89,7 @@ boost::optional<Doublet> WHadronicTagger::CheckDoublet(Doublet doublet, PreCuts 
 
 std::vector<Doublet> WHadronicTagger::Doublets(std::vector<Jet> const& jets, Function const& function) const
 {
-    return unordered_pairs(jets, [&](Jet const & jet_1, Jet const & jet_2) {
+    return UnorderedPairs(jets, [&](Jet const & jet_1, Jet const & jet_2) {
         Doublet doublet(jet_1, jet_2);
         if (boost::optional<Doublet> optional = function(doublet)) return *optional;
         throw boca::Problematic();
@@ -119,22 +113,22 @@ bool WHadronicTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cut
 bool WHadronicTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts) const
 {
     if (pre_cuts.ApplyCuts(Id::W, doublet)) return true;
-//     if (double(doublet.DeltaR()) < DetectorGeometry::MinCellResolution() && doublet.DeltaR() > 0) return true;
+//     if (doublet.DeltaR() < DetectorGeometry::MinCellResolution() && doublet.DeltaR() > 0) return true;
     return false;
 }
 
 std::vector<Doublet> WHadronicTagger::Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
-    Info0;
+    INFO0;
     std::vector<Doublet> doublets = Doublets(event, pre_cuts, [&](Doublet & doublet) {
         return Multiplet(doublet, pre_cuts, reader);
     });
-    return ReduceResult(doublets);
+    return doublets;
 }
 
 boost::optional<Doublet> WHadronicTagger::Multiplet(Doublet& doublet, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
-    Info0;
+    INFO0;
     if (Problematic(doublet, pre_cuts)) return boost::none;
     doublet.SetBdt(Bdt(doublet, reader));
     return doublet;
@@ -142,7 +136,7 @@ boost::optional<Doublet> WHadronicTagger::Multiplet(Doublet& doublet, PreCuts co
 
 std::vector<Doublet> WHadronicTagger::Multiplets(std::vector<Jet> const& jets, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
-    Info0;
+    INFO0;
     return Doublets(jets, [&](Doublet & doublet) {
         return Multiplet(doublet, pre_cuts, reader);
     });
@@ -151,7 +145,8 @@ std::vector<Doublet> WHadronicTagger::Multiplets(std::vector<Jet> const& jets, P
 boost::optional<Doublet> WHadronicTagger::Multiplet(Jet jet, TMVA::Reader const& reader) const
 {
     PreCuts pre_cuts;
-    Doublet doublet(jet);
+    Doublet doublet;
+    doublet.Enforce(jet);
     return Multiplet(doublet, pre_cuts, reader);
 }
 
@@ -165,12 +160,12 @@ boost::optional<Doublet> WHadronicTagger::SubMultiplet(Jet const& jet, TMVA::Rea
 
 boost::optional<Doublet> WHadronicTagger::SubDoublet(Jet const& jet, Function const& function) const
 {
-    Info0;
+    INFO0;
     std::vector<Jet> pieces = bottom_reader_.SubMultiplet(jet, 2);
     if (pieces.empty()) return boost::none;
     Doublet doublet;
-    if (pieces.size() == 1) doublet.SetJet(pieces.front());
-    else doublet.SetMultiplets(pieces.at(0), pieces.at(1));
+    if (pieces.size() == 1) doublet.Enforce(pieces.front());
+    else doublet = Doublet(pieces.at(0), pieces.at(1));
     return function(doublet);
 }
 
@@ -188,7 +183,7 @@ std::string WHadronicTagger::Name() const
 
 std::string WHadronicTagger::LatexName() const
 {
-    return Formula("W_{h}^{#pm}");
+    return Formula("W_{h}^{\\pm}");
 }
 
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -26,7 +26,7 @@ public:
 
     Hadrons(boca::TreeReader const& tree_reader);
 
-    std::vector<Jet> Jets() const final;
+    std::vector<Jet> Jets() const override;
 
     /**
      * @brief AnalyseJet calls AnalyseEFlow

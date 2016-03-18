@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -22,9 +22,9 @@ public:
 
     Partons(boca::TreeReader const& tree_reader);
 
-    std::vector<Particle> Particles() const final;
+    std::vector<Particle> Particles() const override;
 
-    std::vector<Particle> GenParticles() const final;
+    std::vector<Particle> GenParticles() const override;
 
 private:
 

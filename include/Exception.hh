@@ -28,7 +28,7 @@ public:
     char const* what() const throw ();
 };
 
-class Isolation : public std::exception
+class Isolated : public std::exception
 {
 public:
     char const* what() const throw ();

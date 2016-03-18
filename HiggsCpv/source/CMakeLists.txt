@@ -7,7 +7,7 @@ SignatureTagger.cpp
 SignatureTTagger.cpp
 SignatureLeptonTagger.cpp
 SignatureLeptonTTagger.cpp
-EventTagger.cpp
+GlobalTagger.cpp
 EventTTagger.cpp
 EventLeptonTTagger.cpp
 )

@@ -1,20 +1,17 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
 #include "physics/LorentzVector.hh"
 
-class TLorentzVector;
-
 namespace boca
 {
 
 /**
- * @brief Position outside of a vector
+ * @brief Family member with id, position, and 4-momentum
  *
  */
-static int EmptyPosition = -1;
 
 class Member
 {
@@ -37,13 +34,21 @@ public:
 
     int Id() const;
 
+    std::string Name() const;
+
     void Set(int id, int position);
+
+    static int EmptyPosition();
+
+    bool operator==(Member const& member);
+
+    bool operator!=(Member const& member);
 
 private:
 
     LorentzVector<boca::Momentum> momentum_;
 
-    int position_ = EmptyPosition;
+    int position_ = EmptyPosition();
 
     int id_;
 

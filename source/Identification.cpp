@@ -1,9 +1,9 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "Identification.hh"
 #include "Branches.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {
@@ -13,7 +13,7 @@ std::string Name(Tag tag)
     switch (tag) {
     case Tag::signal : return "Signal";
     case Tag::background : return "Background";
-    Default("tag","");
+    DEFAULT("tag","");
     }
 }
 
@@ -23,30 +23,29 @@ Identification::Identification()
     tag_ = boca::Tag::background;
 }
 
-void Identification::SetBdt(float bdt)
+void Identification::SetBdt(double bdt)
 {
     bdt_ = bdt;
 }
 
-void Identification::SetBdt(float bdt_1, float bdt_2)
+void Identification::SetBdt(double bdt_1, double bdt_2)
 {
     bdt_ = (bdt_1 + bdt_2) / 2;
 }
 
-float Identification::Bdt() const
+double Identification::Bdt() const
 {
     return bdt_;
 }
 
-void Identification::SetTag(enum Tag tag)
+void Identification::SetTag(boca::Tag tag)
 {
     tag_ = tag;
 }
 
-void Identification::SetTag(enum Tag tag_1, enum Tag tag_2)
+void Identification::SetTag(boca::Tag tag_1, boca::Tag tag_2)
 {
-    if (tag_1 == boca::Tag::signal || tag_2 == boca::Tag::signal) tag_ = boca::Tag::signal;
-    else tag_ = boca::Tag::background;
+    tag_ = tag_1 == boca::Tag::signal || tag_2 == boca::Tag::signal ? boca::Tag::signal : boca::Tag::background;
 }
 
 boca::Tag Identification::Tag() const
@@ -54,7 +53,7 @@ boca::Tag Identification::Tag() const
     return tag_;
 }
 
-float Identification::InitialValue()
+double Identification::InitialValue()
 {
     return BaseBranch::InitialValue();
 }

@@ -1,27 +1,27 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "Constituent.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {
 
 Constituent::Constituent()
 {
-    Info0;
+    DEBUG0;
 }
 
 Constituent::Constituent(TLorentzVector const& momentum, LorentzVector<Length> const& position)
 {
-    Info0;
+    DEBUG0;
     momentum_ = momentum;
     position_ = position;
 }
 
 Constituent::Constituent(TLorentzVector const& momentum, LorentzVector<Length> const& position, boca::DetectorPart detector_part, int charge)
 {
-    Info0;
+    DEBUG0;
     momentum_ = momentum;
     position_ = position;
     detector_part_ = detector_part;
@@ -30,13 +30,13 @@ Constituent::Constituent(TLorentzVector const& momentum, LorentzVector<Length> c
 
 Constituent::Constituent(TLorentzVector const& momentum)
 {
-    Info0;
+    DEBUG0;
     momentum_ = momentum;
 }
 
 Constituent::Constituent(TLorentzVector const& momentum, boca::DetectorPart detector_part, int charge)
 {
-    Info0;
+    DEBUG0;
     momentum_ = momentum;
     detector_part_ = detector_part;
     charge_ = charge;
@@ -44,44 +44,44 @@ Constituent::Constituent(TLorentzVector const& momentum, boca::DetectorPart dete
 
 Constituent::Constituent(TLorentzVector const& momentum, boca::DetectorPart detector_part)
 {
-    Info0;
+    DEBUG0;
     momentum_ = momentum;
     detector_part_ = detector_part;
 }
 
 void Constituent::SetMomentum(TLorentzVector const& momentum)
 {
-    Info0;
+    DEBUG0;
     momentum_ = momentum;
 }
 
 LorentzVector<Length> const& Constituent::Position() const
 {
-    Info0;
+    DEBUG0;
     return position_;
 }
 
 LorentzVector<Momentum> const& Constituent::Momentum() const
 {
-    Info0;
+    DEBUG0;
     return momentum_;
 }
 
-LorentzVector<Length> & Constituent::Position()
+LorentzVector<Length>& Constituent::Position()
 {
-  Info0;
-  return position_;
+    DEBUG0;
+    return position_;
 }
 
-LorentzVector<Momentum> & Constituent::Momentum()
+LorentzVector<Momentum>& Constituent::Momentum()
 {
-  Info0;
-  return momentum_;
+    DEBUG0;
+    return momentum_;
 }
 
 Constituent Constituent::operator+(Constituent const& constituent)
 {
-    Info0;
+    DEBUG0;
     position_ += constituent.position_;
     momentum_ += constituent.momentum_;
     charge_ += constituent.charge_;
@@ -90,32 +90,32 @@ Constituent Constituent::operator+(Constituent const& constituent)
 
 void Constituent::SetDetectorPart(boca::DetectorPart detector_part)
 {
-    Info0;
+    DEBUG0;
     detector_part_ = detector_part;
 }
 
 DetectorPart Constituent::DetectorPart() const
 {
-    Info0;
+    DEBUG0;
     return detector_part_;
 }
 
 void Constituent::SetCharge(int charge)
 {
-    Info0;
+    DEBUG0;
     charge_ = charge;
 }
 
 int Constituent::Charge() const
 {
-    Info0;
+    DEBUG0;
     return charge_;
 }
 
 void Constituent::Smearing()
 {
-    Info0;
-    position_.Smearing(45_um);
+    DEBUG0;
+    position_.Smearing(45_um); // TODO make this momentum dependent
 }
 
 }

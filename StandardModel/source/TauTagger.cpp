@@ -1,12 +1,12 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "TauTagger.hh"
-  
+
 #include "Sort.hh"
-#include "Vector.hh"
+#include "Particles.hh"
 #include "Event.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {
@@ -16,17 +16,17 @@ namespace standardmodel
 
 int TauTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
-    Info0;
-   std::vector<Jet> jets = event.Hadrons().Jets();
-    INFO("Number Jets", jets.size());
-   std::vector<Particle> Particles = event.Partons().GenParticles();
+    INFO0;
+    std::vector<Jet> jets = event.Hadrons().Jets();
+    INFO(jets.size());
+    std::vector<Particle> Particles = event.Partons().GenParticles();
     Particles = CopyIfParticle(Particles, Id::tau);
 //     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(Id::tau)), Particles.end());
 //     if(Particles.size()!=1)
-    INFO("Tau Partilces", Particles.size());
-   std::vector<Jet> final_jets = CleanJets(jets, Particles, tag);
+    INFO(Particles.size());
+    std::vector<Jet> final_jets = CleanJets(jets, Particles, tag);
 //     if(FinalJets.size()!=1)
-    INFO("Tau Jets", final_jets.size());
+    INFO(final_jets.size());
 //    std::vector<Jet> Pieces = GetSubJets(jets, Particles, Tag, 2);
 //     FinalJets.insert(FinalJets.end(), Pieces.begin(), Pieces.end());
 //
@@ -40,23 +40,22 @@ int TauTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 
 std::vector<Jet> TauTagger::CleanJets(std::vector<Jet>& jets, std::vector<Particle> const& Particles, Tag tag) const
 {
-    INFO("Clean Jets");
+    INFO0;
     for (auto const & Particle : Particles) {
-        std::sort(jets.begin(), jets.end(), MinDeltaRTo(Particle));
-        if (jets.front().DeltaRTo(Particle) < 0.4_rad)
-            jets.front().Info().SetTag(Tag::signal);
+        SortedByMinDeltaRTo(jets, Particle);
+        if (jets.front().DeltaRTo(Particle) < 0.4_rad) jets.front().Info().SetTag(Tag::signal);
     }
-   std::vector<Jet>NewCleanJets;
+    std::vector<Jet> NewCleanJets;
     for (auto const & Jet : jets) {
 
 //         if (std::abs(Jet.rap()) > 2.5) continue;
 // if (Jet.m() < 0){
-//   Error("Clean Jets", "Massless Jet");
+//   ERROR("Clean Jets", "Massless Jet");
 //           continue;
 //         }
 //         if (Tag == Tag::signal && Jet.Info().SumDisplacement() == 0) continue;
         if (Jet.Info().Tag() != tag) {
-//   Error("Clean Jets", "Not Tagged Jet");
+//   ERROR("Clean Jets", "Not Tagged Jet");
             continue;
         }
         NewCleanJets.emplace_back(Jet);
@@ -67,8 +66,8 @@ std::vector<Jet> TauTagger::CleanJets(std::vector<Jet>& jets, std::vector<Partic
 std::vector<Singlet> TauTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
 {
     std::vector<Singlet> final_jets;
-    INFO("Jet Bdt");
-   std::vector<Jet> jets = event.Hadrons().Jets();
+    INFO0;
+    std::vector<Jet> jets = event.Hadrons().Jets();
     for (auto & jet : jets) {
         jet.Info().SetBdt(Bdt(jet, reader));
         final_jets.emplace_back(Singlet(jet));

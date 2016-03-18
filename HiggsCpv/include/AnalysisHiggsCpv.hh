@@ -3,7 +3,7 @@
 #include "EventShapes.hh"
 #include "Analysis.hh"
 #include "TopLeptonicTagger.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {
@@ -29,13 +29,13 @@ class Analysis : public boca::Analysis<Tagger>
 public:
 
     Analysis() {
-        DetectorGeometry::set_detector_type(DetectorType::CMS);
-//         this->pre_cuts().PtLowerCut().Set(Id::higgs,200);
-        //         this->pre_cuts().MassLowerCut().Set(Id::higgs,105);
-//         this->pre_cuts().MassUpperCut().Set(Id::higgs,145);
-        this->pre_cuts().MassLowerCut().Set(Id::higgs, 50_GeV);
-        this->pre_cuts().MassUpperCut().Set(Id::higgs, 150_GeV);
-        this->pre_cuts().SetSemiLeptonic(false);
+        DetectorGeometry::SetDetectorType(DetectorType::CMS);
+//         this->PreCuts().PtLowerCut().Set(Id::higgs,200);
+        //         this->PreCuts().MassLowerCut().Set(Id::higgs,105);
+//         this->PreCuts().MassUpperCut().Set(Id::higgs,145);
+        this->PreCuts().MassLowerCut().Set(Id::higgs, 50_GeV);
+        this->PreCuts().MassUpperCut().Set(Id::higgs, 150_GeV);
+        this->PreCuts().SetSemiLeptonic(false);
 //         NoHiggs(-1);
 //         SingleHiggs(-1);
     }
@@ -44,11 +44,11 @@ protected:
 
 private:
 
-    std::string AnalysisName() const final {
+    std::string AnalysisName() const override {
         return  "CPV-after-tahoe";
     }
 
-    void SetFiles(Tag tag, Stage) final {
+    void SetFiles(Tag tag, Stage)override {
         switch (tag) {
         case Tag::signal :
 	    //             this->NewFile(tag, "gg-tth", 0.0098);
@@ -68,7 +68,7 @@ private:
      * @brief Maximal number of Entries to analyse
      *
      */
-    long TrainNumberMax() const final {
+    long TrainNumberMax() const override {
         return 1000;
         return 5000;
         return 10000;
@@ -76,7 +76,7 @@ private:
         return 10;
     }
 
-    int PassPreCut(Event const& event, Tag) const final {
+    int PassPreCut(Event const& event, Tag) const override {
       //         if(this->template TaggerIs<WLeptonicTagger>()) return 0;
       //         if(this->template TaggerIs<TopLeptonicTagger>()) static_cast<TopLeptonicTagger&>(this->Tagger()).semi_leptonic = false;
        std::vector<Lepton> leptons = SortedByPt(event.Leptons().leptons());
@@ -86,26 +86,26 @@ private:
 //        std::vector<Jet>gen_particles = event.Partons().GenParticles();
 //        std::vector<Jet> higgs = CopyIfParticles(gen_particles, Id::CP_violating_higgs, Id::higgs);
 //         if (higgs.empty()) {
-//         Error(NoHiggs(), higgs.size());
+//         ERROR(NoHiggs(), higgs.size());
 //             return 1;
 //         }
 //         if(higgs.front().Pt() < 200) return 0;
 //         static int pre_cut=0;
 //         ++pre_cut;
-//         Error(pre_cut);
+//         ERROR(pre_cut);
 //         Particle particle = higgs.front().Info().constituents().front().family().Particle();
 //         Particle mother1 = higgs.front().Info().constituents().front().family().Mother();
 //         Particle mother2 = higgs.front().Info().constituents().front().family().mother_2();
 //         Particle grand_mother = higgs.front().Info().constituents().front().family().GrandMother();
-// //         Error(particle.Id(),mother1.Id(),mother2.Id(),grand_mother.Id());
+// //         ERROR(particle.Id(),mother1.Id(),mother2.Id(),grand_mother.Id());
 //         higgs = RemoveIfSingleMother(higgs);
-//         Error(SingleHiggs(), higgs.size());
+//         ERROR(SingleHiggs(), higgs.size());
 //         return higgs.size();
         return 1;
     }
 
 
-//     std::string FilePath() const final {
+//     std::string FilePath() const override {
 //         return this->WorkingPath();
 //         return "~/Projects/HiggsCpv/Analysis/";
 //         return "/Users/jingren/HEP/Research/JanH/tth-analysis/";

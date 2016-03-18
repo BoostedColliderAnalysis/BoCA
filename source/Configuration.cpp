@@ -1,8 +1,8 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "Configuration.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 
 namespace boca {
@@ -22,10 +22,10 @@ boca::Mass Configuration::Mass()
     try {
         return double(config().lookup("Mass")) * GeV;
     } catch (libconfig::SettingNotFoundException const& setting_not_found_exception) {
-        Error("No 'Mass' setting in configuration file");
+        ERROR("No 'Mass' setting in configuration file");
         throw;
     } catch (libconfig::SettingTypeException const& setting_type_exception) {
-        Error("'Mass' setting has wrong type");
+        ERROR("'Mass' setting has wrong type");
         throw;
     }
 }
@@ -35,10 +35,10 @@ Momentum Configuration::PreCut()
     try {
         return double(config().lookup("PreCut")) * GeV;
     } catch (libconfig::SettingNotFoundException const& setting_not_found_exception) {
-        Error("No 'PreCut' setting in configuration file");
+        ERROR("No 'PreCut' setting in configuration file");
         throw;
     } catch (libconfig::SettingTypeException const& setting_type_exception) {
-        Error("'PreCut' setting has wrong type");
+        ERROR("'PreCut' setting has wrong type");
         throw;
     }
 }
@@ -48,10 +48,10 @@ long Configuration::TrainNumberMax()
     try {
         return config().lookup("EventNumberMax");
     } catch (libconfig::SettingNotFoundException const& setting_not_found_exception) {
-        Error("No 'EventNumberMax' setting in configuration file");
+        ERROR("No 'EventNumberMax' setting in configuration file");
         throw;
     } catch (libconfig::SettingTypeException const& setting_type_exception) {
-        Error("'EventNumberMax' setting has wrong type");
+        ERROR("'EventNumberMax' setting has wrong type");
         throw;
     }
 }
@@ -61,10 +61,10 @@ int Configuration::BackgroundFileNumber()
     try {
         return config().lookup("BackgroundFileNumber");
     } catch (libconfig::SettingNotFoundException const& setting_not_found_exception) {
-        Error("No 'BackgroundFileNumber' setting in configuration file");
+        ERROR("No 'BackgroundFileNumber' setting in configuration file");
         throw;
     } catch (libconfig::SettingTypeException const& setting_type_exception) {
-        Error("'BackgroundFileNumber' setting has wrong type");
+        ERROR("'BackgroundFileNumber' setting has wrong type");
         throw;
     }
 }
@@ -77,10 +77,10 @@ ColliderType Configuration::ColliderType()
         else if (Collider == "LE") return boca::ColliderType::LE;
         else if (Collider == "FHC") return boca::ColliderType::FHC;
     } catch (libconfig::SettingNotFoundException const& setting_not_found_exception) {
-        Error("No 'ColliderType' setting in configuration file");
+        ERROR("No 'ColliderType' setting in configuration file");
         throw;
     } catch (libconfig::SettingTypeException const& setting_type_exception) {
-        Error("'ColliderType' setting has wrong type");
+        ERROR("'ColliderType' setting has wrong type");
         throw;
     }
     return boca::ColliderType::LHC;
@@ -96,9 +96,9 @@ void Configuration::WriteConfig(std::string const& config_name)
     libconfig::Setting& collider_type = root.add("ColliderType",  libconfig::Setting::TypeString) = "LE";
     try {
         config().writeFile(ConfigFile(config_name).c_str());
-        Error("New configuration successfully written to", ConfigFile(config_name));
+        ERROR("New configuration successfully written to", ConfigFile(config_name));
     } catch (libconfig::FileIOException const& file_io_exception) {
-        Error("I/O error while writing file", ConfigFile(config_name));
+        ERROR("I/O error while writing file", ConfigFile(config_name));
     }
 }
 
@@ -107,10 +107,10 @@ void Configuration::ReadConfig(std::string const& config_name)
     try {
         config().readFile(ConfigFile(config_name).c_str());
     } catch (libconfig::FileIOException const& file_io_exception) {
-        Error("I/O error while reading file");
+        ERROR("I/O error while reading file");
         WriteConfig(config_name);
     } catch (const libconfig::ParseException& ParseException) {
-        Error("Parse error at", ParseException.getFile(), ParseException.getLine(), ParseException.getError());
+        ERROR("Parse error at", ParseException.getFile(), ParseException.getLine(), ParseException.getERROR());
     }
 }
 

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -23,7 +23,7 @@ int sgn(Value value)
 template <typename Value>
 int LowerBound(std::vector<Value> const& vector, Value value)
 {
-    auto position = boost::range::lower_bound(vector, value, [](float a, float b) {
+    auto position = boost::range::lower_bound(vector, value, [](double a, double b) {
         return a > b;
     });
     if (position == vector.end()) return 0;
@@ -33,21 +33,21 @@ int LowerBound(std::vector<Value> const& vector, Value value)
 template <typename Value>
 int UpperBound(std::vector<Value> const& vector, Value value)
 {
-    auto position = boost::range::upper_bound(vector, value, [](float a, float b) {
+    auto position = boost::range::upper_bound(vector, value, [](double a, double b) {
         return a > b;
     });
     if (position == vector.end()) return 0;
     return position - vector.begin();
 }
 
-float RoundError(float value);
+double RoundERROR(double value);
 
-float RoundToDigits(float value, int digits = 3);
+double RoundToDigits(double value, int digits = 3);
 
-float RoundToError(float value, float error);
+double RoundToERROR(double value, double error);
 
-float FloorToDigits(float value, int digits = 2);
+double FloorToDigits(double value, int digits = 2);
 
-float CeilToDigits(float value, int digits = 2);
+double CeilToDigits(double value, int digits = 2);
 
 }

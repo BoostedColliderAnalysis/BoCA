@@ -1,14 +1,15 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "TAxis.h"
 #include "TAttText.h"
 #include "TAttLine.h"
-#include "plotting/Style.hh"
+// #include "plotting/Style.hh"
 #include "plotting/Font.hh"
 #include "Types.hh"
+#include "Vector.hh"
 // #define INFORMATION
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {
@@ -18,7 +19,7 @@ namespace
 
 void SetAxis(TAttAxis& axis)
 {
-    Info0;
+    INFO0;
     axis.SetTitleFont(FontCode());
     axis.SetTitleSize(TextHeight());
     axis.SetLabelFont(FontCode());
@@ -29,7 +30,7 @@ void SetAxis(TAttAxis& axis)
 
 void SetTitle(TAxis& axis, std::string const& title)
 {
-    Info0;
+    INFO0;
     axis.SetTitle(title.c_str());
     axis.CenterTitle();
     SetAxis(axis);
@@ -37,28 +38,28 @@ void SetTitle(TAxis& axis, std::string const& title)
 
 void SetText(TAttText& text)
 {
-    Info0;
+    INFO0;
     text.SetTextFont(FontCode());
     text.SetTextSize(TextHeight());
 }
 
 void SetLine(TAttLine& line, int index)
 {
-    Info0;
+    INFO0;
     line.SetLineColor(ColorCode(index));
     line.SetLineStyle(index + 1);
 }
+
 void SetLogarithmic(TAxis& axis)
 {
-    Info0;
+    INFO0;
     int bins = axis.GetNbins();
-    float min = axis.GetXmin();
-    float max = axis.GetXmax();
-    float width = (max - min) / bins;
-    std::vector<double> new_bins;
-//     for (int bin = 0; bin <= bins; ++bin) new_bins.emplace_back(std::pow(10., min + bin * width));
-    for (auto const& bin : Range(bins)) new_bins.emplace_back(std::pow(10., min + bin * width));
-    axis.Set(bins, &new_bins.front());
+    double min = axis.GetXmin();
+    double width = (axis.GetXmax() - min) / bins;
+    axis.Set(bins, Transform(IntegerRange(bins), [=](int bin) {
+        return std::pow(10., min + bin * width);
+    }).data());
 }
 
 }
+

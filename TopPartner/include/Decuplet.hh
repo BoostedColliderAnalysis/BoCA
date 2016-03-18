@@ -65,10 +65,6 @@ class Decuplet532 : public ThreeBody<boca::Quintet, boca::Triplet, boca::Doublet
 
 public:
 
-//     Decuplet532(boca::Quintet const& quintet_1, boca::Quintet const& quintet_2) {
-//       SetMultiplets(quintet_1, quintet_2.Triplet(), quintet_2.Doublet());
-//     }
-
     using ThreeBody<boca::Quintet, boca::Triplet, boca::Doublet>::ThreeBody;
 
     boca::Quintet const& Quintet() const {

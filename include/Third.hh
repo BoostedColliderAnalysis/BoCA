@@ -34,9 +34,11 @@ public:
 
     void PreCutPassed() {}
 
-    void SaveEntry() {
+    void SaveEntry(int number) {
+        Increment(number);
+        if(number == 0) return;
         InfoBranch().SetEventNumber(BranchWriter().EventSum());
-        std::lock_guard<std::mutex> tagger_guard(tagger_.mutex_);
+//         std::lock_guard<std::mutex> tagger_guard(tagger_.mutex_);
         static_cast<boca::InfoBranch&>(*BranchWriter().TreeBranch().NewEntry()) = InfoBranch();
         BranchWriter().TreeWriter().Fill();
         BranchWriter().TreeWriter().Clear();
@@ -47,12 +49,12 @@ public:
     }
 
     void Increment(int number) {
-        BranchWriter().Increment(number);
         EventNumber() += core_sum_;
+        BranchWriter().Increment(number);
     }
 
-    bool KeepGoing() {
-        return EventNumber() < GetEntries();
+    bool KeepGoing(int number) {
+        return EventNumber() < GetEntries() && branch_writer_.KeepGoing(number);
     }
 
     boca::TreeReader& TreeReader() {

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #include <boost/range/algorithm_ext/erase.hpp>
 
@@ -7,8 +7,8 @@
 
 #include "plotting/Style.hh"
 #include "plotting/Graphs.hh"
-#define INFORMATION
-#include "Debug.hh"
+// #define INFORMATION
+#include "DEBUG.hh"
 
 namespace boca
 {
@@ -16,26 +16,26 @@ namespace boca
 Graphs::Graphs(std::string const& path, std::string const& name, bool show_title):
     Canvas(path, name, show_title)
 {
-    Info0;
+    INFO0;
     if (show_title) multi_graph_.SetTitle(Title().c_str());
 }
 
 Graphs::~Graphs()
 {
-    Info0;
+    INFO0;
     Draw();
     SaveAs(FileName());
 }
 
-void Graphs::AddGraph(std::vector<float> const& xs, std::vector<float> const& ys, std::string const& name)
+void Graphs::AddGraph(std::vector<double> const& xs, std::vector<double> const& ys, std::string const& name)
 {
     INFO(xs.size(), ys.size(), name);
-    Check(xs.size() == ys.size() && xs.size() > 0, xs.size(), ys.size());
-    std::vector<float> xs2 = xs;
-    bounds_.WidenX(MinMax(boost::remove_erase(xs2, 0)));
-    std::vector<float> ys2 = ys;
-    bounds_.WidenY(MinMax(boost::remove_erase(ys2, 0)));
-    TGraph graph(xs.size(), &xs.front(), &ys.front());
+    CHECK(xs.size() == ys.size() && !xs.empty(), xs.size(), ys.size());
+    std::vector<double> xs2 = xs;
+    range_.WidenX(MinMax(boost::remove_erase(xs2, 0)));
+    std::vector<double> ys2 = ys;
+    range_.WidenY(MinMax(boost::remove_erase(ys2, 0)));
+    TGraph graph(xs.size(), xs.data(), ys.data());
     SetLine(graph, graphs_.size());
     graph.SetTitle(name.c_str());
     graphs_.emplace_back(graph);
@@ -44,89 +44,95 @@ void Graphs::AddGraph(std::vector<float> const& xs, std::vector<float> const& ys
 
 void Graphs::SetLegend(boca::Orientation orientation, std::string const& title)
 {
-    INFO(title);
+    INFO(title, Name(orientation));
     AddGraphs();
+    for (auto & line : lines_) if (!line.second.empty()) legend_.AddEntry(line.first, line.second);
     legend_.SetOrientation(orientation, title);
 }
 
 void Graphs::Draw()
 {
-    Info0;
+    INFO0;
     multi_graph_.Draw("al");
-    if (graphs_.size() > 1) legend_.Draw();
-    for (auto & line : lines_) line.Draw();
+    for (auto & line : lines_) {
+      line.first.SetY1(RangeY().Min());
+      line.first.SetY2(RangeY().Max());
+      line.first.Draw();
+    }
+    legend_.Draw();
 }
 
-void Graphs::SetXAxis(std::string const& title, boca::Bounds<float> const& bounds)
+void Graphs::SetXAxis(std::string const& title, boca::Range<double> const& range)
 {
     INFO(title);
-    if (bounds) {
-        bounds_.SetX(bounds);
-        bounds_.ResetY();
-        for (auto const & data : datas_) bounds_.WidenY(bounds, data.first, data.second);
+    if (range) {
+        range_.SetX(range);
+        range_.ResetY();
+        for (auto const & data : datas_) range_.WidenY(range, data.first, data.second);
     }
     AddGraphs();
     if (!multi_graph_.GetXaxis()) return;
-    INFO("set title",bounds_.Horizontal().Floor(), bounds_.Horizontal().Ceil());
+    INFO("set title", range_.Horizontal().Floor(), range_.Horizontal().Ceil());
     SetTitle(*multi_graph_.GetXaxis(), title);
-    multi_graph_.GetXaxis()->SetLimits(bounds_.Horizontal().Floor(), bounds_.Horizontal().Ceil());
+    multi_graph_.GetXaxis()->SetLimits(range_.Horizontal().Floor(), range_.Horizontal().Ceil());
 }
 
-void Graphs::SetYAxis(std::string const& title, boca::Bounds<float> const&)
+void Graphs::SetYAxis(std::string const& title, boca::Range<double> const&)
 {
     INFO(title);
-//     if (bounds) {
-//         bounds_.SetY(bounds);
-//         bounds_.ResetX();
+//     if (range) {
+//         range_.SetY(range);
+//         range_.ResetX();
 //         for (auto const & graph : graphs_) {
 //             std::vector<double> xs(graph.GetX(), graph.GetX() + graph.GetMaxSize());
 //             std::vector<double> ys(graph.GetY(), graph.GetY() + graph.GetMaxSize());
-//             bounds_.WidenX(bounds, xs, ys);
+//             range_.WidenX(range, xs, ys);
 //         }
 //     }
     AddGraphs();
     if (!multi_graph_.GetYaxis()) return;
-    INFO("set title",bounds_.Vertical().Floor(),bounds_.Vertical().Ceil());
+    INFO("set title", range_.Vertical().Floor(), range_.Vertical().Ceil());
     SetTitle(*multi_graph_.GetYaxis(), title);
-    multi_graph_.GetYaxis()->SetLimits(bounds_.Vertical().Floor(), bounds_.Vertical().Ceil());
-    multi_graph_.SetMinimum(bounds_.Vertical().Floor());
-    multi_graph_.SetMaximum(bounds_.Vertical().Ceil());
-    SetLog(bounds_.Vertical());
+    multi_graph_.GetYaxis()->SetLimits(range_.Vertical().Floor(), range_.Vertical().Ceil());
+    multi_graph_.SetMinimum(range_.Vertical().Floor());
+    multi_graph_.SetMaximum(range_.Vertical().Ceil());
+    SetLog(range_.Vertical());
 }
 
-Bounds<double> Graphs::BoundsY()
+Range<double> Graphs::RangeY()
 {
-    Info0;
+    INFO0;
     if (!multi_graph_.GetYaxis()) return {};
     return {multi_graph_.GetYaxis()->GetXmin(), multi_graph_.GetYaxis()->GetXmax()};
 }
 
-Bounds<double> Graphs::BoundsX()
+Range<double> Graphs::RangeX()
 {
-    Info0;
+    INFO0;
     if (!multi_graph_.GetXaxis()) return {};
     return {multi_graph_.GetXaxis()->GetXmin(), multi_graph_.GetXaxis()->GetXmax()};
 }
 
 void Graphs::AddGraphs()
 {
-    Info0;
+    INFO0;
     Draw();
     if (multi_graph_.GetListOfGraphs()) return;
     for (auto & graph : graphs_) {
         multi_graph_.Add(&graph);
-        legend_.AddEntry(graph, graph.GetTitle());
+        if (graphs_.size() > 1) legend_.AddEntry(graph, graph.GetTitle());
     }
 }
 
-void Graphs::AddLine(float x_value)
+void Graphs::AddLine(double x_value, std::string const& title)
 {
     INFO(x_value);
-    if (!BoundsX().Inside(x_value)) return;
-    Bounds<double> y = BoundsY();
+//     if (!RangeX().Inside(x_value)) return;
+    if (x_value <= -1 ) return; // FIXME reenable proper check
+    Range<double> y = RangeY();
     TLine line(x_value, y.Min(), x_value, y.Max());
     SetLine(line, graphs_.size() + lines_.size());
-    lines_.emplace_back(line);
+    lines_.emplace_back(std::make_pair(line, title));
 }
 
 }

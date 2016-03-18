@@ -1,10 +1,12 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
-#include "multiplets/Singlet.hh"
 #include "multiplets/Multiplet.hh"
+#include "multiplets/Multiplets.hh"
+#include "EventShapes.hh"
+#include "Vector.hh"
 
 namespace boca
 {
@@ -19,10 +21,7 @@ public:
 
     ThreeBody(Multiplet_1 const& multiplet_1, Multiplet_2 const& multiplet_2, const Multiplet_3& multiplet_3) {
         SetMultiplets(multiplet_1, multiplet_2, multiplet_3);
-    }
-
-    ThreeBody(boca::Jet const& jet) {
-        SetJet(jet);
+        event_shapes_.Reset(Jets());
     }
 
     void SetMultiplets(Multiplet_1 const& multiplet_1, Multiplet_2 const& multiplet_2, const Multiplet_3& multiplet_3) {
@@ -30,14 +29,6 @@ public:
         multiplet_2_ = multiplet_2;
         multiplet_3_ = multiplet_3;
         SetBdt((multiplet_1_.Bdt() + multiplet_2_.Bdt() + multiplet_3_.Bdt()) / 3);
-    }
-
-    void SetJet(boca::Jet jet) {
-        jet.Info().SetSubStructure(false);
-        multiplet_1_ = Multiplet_1(jet / 3);
-        multiplet_2_ = Multiplet_2(jet / 3);
-        multiplet_3_ = Multiplet_3(jet / 3);
-        SetBdt((multiplet_1_.Bdt() + multiplet_2_.Bdt() + multiplet_2_.Bdt()) / 3);
     }
 
     Multiplet_1 const& Multiplet1() const {
@@ -48,7 +39,7 @@ public:
         return multiplet_2_;
     }
 
-    const Multiplet_3& Multiplet3() const {
+    Multiplet_3 const& Multiplet3() const {
         return multiplet_3_;
     }
 
@@ -69,200 +60,202 @@ public:
         return multiplet_1_.Overlap(multiplet_2_) || multiplet_1_.Overlap(multiplet_3_) || multiplet_2_.Overlap(multiplet_3_);
     }
 
-    void SetSinglet() const override {
-        Multiplet::SetSinglet(Multiplet::Singlet(Singlet12(), Multiplet3().singlet()));
+    boca::Singlet const& ConstituentJet12() const {
+        if (!has_constituent_jet_12_) SetConstituentJet12(Multiplet1(), Multiplet2());
+        return constituent_jet_12_;
     }
 
-    boca::Singlet const& Singlet12() const {
-        if (!has_singlet_12_) SetSinglet12(Multiplet::Singlet(Multiplet1().singlet(), Multiplet2().singlet()));
-        return singlet_12_;
+    boca::Singlet const& ConstituentJet23() const {
+        if (!has_constituent_jet_23_) SetConstituentJet23(Multiplet2(), Multiplet3());
+        return constituent_jet_23_;
     }
 
-    boca::Singlet const& Singlet23() const {
-        if (!has_singlet_23_) SetSinglet23(Multiplet::Singlet(Multiplet2().singlet(), Multiplet3().singlet()));
-        return singlet_23_;
-    }
-
-    boca::Singlet const& Singlet13() const {
-        if (!has_singlet_13_) SetSinglet13(Multiplet::Singlet(Multiplet1().singlet(), Multiplet3().singlet()));
-        return singlet_13_;
-    }
-
-    void SetPlainJet() const override {
-        Multiplet::SetPlainJet(Multiplet::Jet(Jet12(), Multiplet3().Jet()));
+    boca::Singlet const& ConstituentJet13() const {
+        if (!has_constituent_jet_13_) SetConstituentJet13(Multiplet1(), Multiplet3());
+        return constituent_jet_13_;
     }
 
     boca::Jet const& Jet12() const {
-        if (!has_jet_12_) SetJet12(Multiplet::Jet(Multiplet1().Jet(), Multiplet2().Jet()));
+        if (!has_jet_12_) SetJet12(Multiplet1(), Multiplet2());
         return jet_12_;
     }
 
     boca::Jet const& Jet23() const {
-        if (!has_jet_23_) SetJet23(Multiplet::Jet(Multiplet2().Jet(), Multiplet3().Jet()));
+        if (!has_jet_23_) SetJet23(Multiplet2(), Multiplet3());
         return jet_23_;
     }
 
     boca::Jet const& Jet13() const {
-        if (!has_jet_13_) SetJet13(Multiplet::Jet(Multiplet1().Jet(), Multiplet3().Jet()));
+        if (!has_jet_13_) SetJet13(Multiplet1(), Multiplet3());
         return jet_13_;
     }
 
-    std::vector<boca::Jet> Jets() const override {
-        return Join(Multiplet1().Jets(), Multiplet2().Jets(), Multiplet3().Jets());
+    std::vector<boca::Jet> Jets() const {
+        return Combine(Multiplet1().Jets(), Multiplet2().Jets(), Multiplet3().Jets());
     }
 
     Momentum DeltaPt() const {
-        return Multiplet::DeltaPt(Multiplet1(), Multiplet2());
+        return boca::DeltaPt(Multiplet1(), Multiplet2());
     }
 
     Momentum DeltaPt23() const {
-        return Multiplet::DeltaPt(Multiplet2(), Multiplet3());
+        return boca::DeltaPt(Multiplet2(), Multiplet3());
     }
 
     Momentum DeltaPt13() const {
-        return Multiplet::DeltaPt(Multiplet1(), Multiplet3());
+        return boca::DeltaPt(Multiplet1(), Multiplet3());
     }
 
-    Momentum Ht() const override {
-      return Ht12() + Multiplet3().Ht();
+    Momentum Ht() const {
+        return Ht12() + Multiplet3().Ht();
     }
 
     Momentum Ht12() const {
-        return Multiplet::Ht(Multiplet1(), Multiplet2());
+        return boca::Ht(Multiplet1(), Multiplet2());
     }
 
     Momentum Ht23() const {
-      return Multiplet::Ht(Multiplet2(), Multiplet3());
+        return boca::Ht(Multiplet2(), Multiplet3());
     }
 
     Momentum Ht13() const {
-      return Multiplet::Ht(Multiplet1(), Multiplet3());
+        return boca::Ht(Multiplet1(), Multiplet3());
     }
 
     Angle DeltaRap() const {
-        return Multiplet::DeltaRap(Multiplet1(), Multiplet2());
+        return boca::DeltaRap(Multiplet1(), Multiplet2());
     }
 
     Angle DeltaRap23() const {
-        return Multiplet::DeltaRap(Multiplet2(), Multiplet3());
+        return boca::DeltaRap(Multiplet2(), Multiplet3());
     }
 
     Angle DeltaRap13() const {
-        return Multiplet::DeltaRap(Multiplet1(), Multiplet3());
+        return boca::DeltaRap(Multiplet1(), Multiplet3());
     }
 
     Angle DeltaPhi() const {
-        return Multiplet::DeltaPhi(Multiplet1(), Multiplet2());
+        return boca::DeltaPhi(Multiplet1(), Multiplet2());
     }
 
     Angle DeltaPhi23() const {
-        return Multiplet::DeltaPhi(Multiplet2(), Multiplet3());
+        return boca::DeltaPhi(Multiplet2(), Multiplet3());
     }
 
     Angle DeltaPhi13() const {
-        return Multiplet::DeltaPhi(Multiplet1(), Multiplet3());
+        return boca::DeltaPhi(Multiplet1(), Multiplet3());
     }
 
     Angle DeltaR() const {
-        return Multiplet::DeltaR(Multiplet1(), Multiplet2());
+        return boca::DeltaR(Multiplet1(), Multiplet2());
     }
 
     Angle DeltaR23() const {
-        return Multiplet::DeltaR(Multiplet2(), Multiplet3());
+        return boca::DeltaR(Multiplet2(), Multiplet3());
     }
 
     Angle DeltaR13() const {
-        return Multiplet::DeltaR(Multiplet1(), Multiplet3());
+        return boca::DeltaR(Multiplet1(), Multiplet3());
     }
 
     boca::Mass DeltaM() const {
-        return Multiplet::DeltaM(Multiplet1(), Multiplet2());
+        return boca::DeltaM(Multiplet1(), Multiplet2());
     }
 
     boca::Mass DeltaM23() const {
-        return Multiplet::DeltaM(Multiplet2(), Multiplet3());
+        return boca::DeltaM(Multiplet2(), Multiplet3());
     }
 
     boca::Mass DeltaM13() const {
-        return Multiplet::DeltaM(Multiplet1(), Multiplet3());
+        return boca::DeltaM(Multiplet1(), Multiplet3());
     }
 
     Momentum DeltaHt() const {
-        return Multiplet::DeltaHt(Multiplet1(), Multiplet2());
+        return boca::DeltaHt(Multiplet1(), Multiplet2());
     }
 
     Momentum DeltaHt23() const {
-        return Multiplet::DeltaHt(Multiplet2(), Multiplet3());
+        return boca::DeltaHt(Multiplet2(), Multiplet3());
     }
 
     Momentum DeltaHt13() const {
-        return Multiplet::DeltaHt(Multiplet1(), Multiplet3());
+        return boca::DeltaHt(Multiplet1(), Multiplet3());
     }
 
-    float Rho() const {
-        return Multiplet::Rho(Multiplet1(), Multiplet2(), Jet12());
+    double Rho() const {
+        return boca::Rho(Multiplet1(), Multiplet2(), Jet12());
     }
 
-    float Rho23() const {
-        return Multiplet::Rho(Multiplet2(), Multiplet3(), Jet23());
+    double Rho23() const {
+        return boca::Rho(Multiplet2(), Multiplet3(), Jet23());
     }
 
-    float Rho13() const {
-        return Multiplet::Rho(Multiplet1(), Multiplet3(), Jet13());
+    double Rho13() const {
+        return boca::Rho(Multiplet1(), Multiplet3(), Jet13());
     }
 
-    int Charge() const override {
-        return Multiplet::Charge(Multiplet1(), Multiplet2());
+    int Charge() const {
+        return Charge12() + Multiplet3().Charge();
+    }
+
+    int Charge12() const {
+        return boca::Charge(Multiplet1(), Multiplet2());
+    }
+
+    int Charge23() const {
+        return boca::Charge(Multiplet2(), Multiplet3());
+    }
+
+    int Charge13() const {
+        return boca::Charge(Multiplet1(), Multiplet3());
     }
 
     Angle Pull12() const {
-        return Multiplet::Pull(Multiplet1(), Multiplet2());
+        return boca::Pull(Multiplet1(), Multiplet2());
     }
 
     Angle Pull21() const {
-        return Multiplet::Pull(Multiplet2(), Multiplet1());
+        return boca::Pull(Multiplet2(), Multiplet1());
     }
 
-
     Angle Pull23() const {
-        return Multiplet::Pull(Multiplet2(), Multiplet3());
+        return boca::Pull(Multiplet2(), Multiplet3());
     }
 
     Angle Pull32() const {
-        return Multiplet::Pull(Multiplet3(), Multiplet2());
+        return boca::Pull(Multiplet3(), Multiplet2());
     }
 
     Angle Pull13() const {
-        return Multiplet::Pull(Multiplet1(), Multiplet3());
+        return boca::Pull(Multiplet1(), Multiplet3());
     }
 
     Angle Pull31() const {
-        return Multiplet::Pull(Multiplet3(), Multiplet1());
+        return boca::Pull(Multiplet3(), Multiplet1());
     }
 
-    float Dipolarity() const {
-        return Multiplet::Dipolarity(Multiplet1(), Multiplet2(), Jet12());
+    double Dipolarity() const {
+        return boca::Dipolarity(Multiplet1(), Multiplet2(), ConstituentJet12());
     }
 
-    float Dipolarity23() const {
-        return Multiplet::Dipolarity(Multiplet2(), Multiplet3(), Jet23());
+    double Dipolarity23() const {
+        return boca::Dipolarity(Multiplet2(), Multiplet3(), ConstituentJet23());
     }
 
-    float Dipolarity13() const {
-        return Multiplet::Dipolarity(Multiplet1(), Multiplet3(), Jet13());
+    double Dipolarity13() const {
+        return boca::Dipolarity(Multiplet1(), Multiplet3(), ConstituentJet13());
     }
 
-    float BottomBdt() const final {
-        return (Multiplet1().BottomBdt() + Multiplet2().BottomBdt() + Multiplet3().BottomBdt()) / 3;
-    };
-
-    void SetVetoBdt(float bdt) {
+    void SetVetoBdt(double bdt) {
         veto_bdt_ = bdt;
-//         SetBdt((multiplet_1_.Bdt() + multiplet_2_.Bdt() + multiplet_3_.Bdt() - VetoBdt()) / 4);
     }
 
-    float VetoBdt() const {
+    double VetoBdt() const {
         return veto_bdt_;
+    }
+
+    boca::EventShapes const& EventShapes() const {
+        return event_shapes_;
     }
 
 protected:
@@ -281,59 +274,61 @@ protected:
 
 private:
 
-    float veto_bdt_;
+    void SetJet() const override {
+        Multiplet::SetJet(Jet12(), Multiplet3());
+    }
 
-    Multiplet_1 multiplet_1_;
-
-    Multiplet_2 multiplet_2_;
-
-    Multiplet_3 multiplet_3_;
-
-    void SetJet12(boca::Jet const& jet) const {
-        jet_12_ = jet;
+    template<typename Multiplet_1_, typename Multiplet_2_>
+    void SetJet12(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2) const {
+        jet_12_ = Join(multiplet_1, multiplet_2);
         has_jet_12_ = true;
     }
 
-    void SetJet23(boca::Jet const& jet) const {
-        jet_23_ = jet;
+    template<typename Multiplet_1_, typename Multiplet_2_>
+    void SetJet23(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2) const {
+        jet_23_ = Join(multiplet_1, multiplet_2);
         has_jet_23_ = true;
     }
 
-    void SetJet13(boca::Jet const& jet) const {
-        jet_13_ = jet;
+    template<typename Multiplet_1_, typename Multiplet_2_>
+    void SetJet13(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2) const {
+        jet_13_ = Join(multiplet_1, multiplet_2);
         has_jet_13_ = true;
     }
 
-    void SetSinglet12(boca::Singlet const& singlet) const {
-        singlet_12_ = singlet;
-        has_singlet_12_ = true;
+    void SetConstituentJet() const override {
+        Multiplet::SetConstituentJet(ConstituentJet12(), Multiplet3());
     }
 
-    void SetSinglet23(boca::Singlet const& singlet) const {
-        singlet_23_ = singlet;
-        has_singlet_23_ = true;
+    template<typename Multiplet_1_, typename Multiplet_2_>
+    void SetConstituentJet12(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2) const {
+        constituent_jet_12_ = JoinConstituents(multiplet_1, multiplet_2);
+        has_constituent_jet_12_ = true;
     }
 
-    void SetSinglet13(boca::Singlet const& singlet) const {
-        singlet_13_ = singlet;
-        has_singlet_13_ = true;
+    template<typename Multiplet_1_, typename Multiplet_2_>
+    void SetConstituentJet23(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2) const {
+        constituent_jet_23_ = JoinConstituents(multiplet_1, multiplet_2);
+        has_constituent_jet_23_ = true;
     }
 
-//     mutable Jet constiuent_jet_;
+    template<typename Multiplet_1_, typename Multiplet_2_>
+    void SetConstituentJet13(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2) const {
+        constituent_jet_13_ = JoinConstituents(multiplet_1, multiplet_2);
+        has_constituent_jet_13_ = true;
+    }
 
-mutable boca::Jet jet_12_;
+    mutable boca::Jet jet_12_;
 
-mutable boca::Jet jet_23_;
+    mutable boca::Jet jet_23_;
 
-mutable boca::Jet jet_13_;
+    mutable boca::Jet jet_13_;
 
-    mutable boca::Singlet singlet_12_;
+    mutable boca::Singlet constituent_jet_12_;
 
-    mutable boca::Singlet singlet_23_;
+    mutable boca::Singlet constituent_jet_23_;
 
-    mutable boca::Singlet singlet_13_;
-
-//     mutable bool has_singlet_ = false;
+    mutable boca::Singlet constituent_jet_13_;
 
     mutable bool has_jet_12_ = false;
 
@@ -341,11 +336,21 @@ mutable boca::Jet jet_13_;
 
     mutable bool has_jet_13_ = false;
 
-    mutable bool has_singlet_12_ = false;
+    mutable bool has_constituent_jet_12_ = false;
 
-    mutable bool has_singlet_23_ = false;
+    mutable bool has_constituent_jet_23_ = false;
 
-    mutable bool has_singlet_13_ = false;
+    mutable bool has_constituent_jet_13_ = false;
+
+    boca::EventShapes event_shapes_;
+
+    double veto_bdt_;
+
+    Multiplet_1 multiplet_1_;
+
+    Multiplet_2 multiplet_2_;
+
+    Multiplet_3 multiplet_3_;
 
 };
 

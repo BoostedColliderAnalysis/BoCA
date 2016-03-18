@@ -3,7 +3,9 @@
 #include "WimpMass.hh"
 #include "Types.hh"
 #include "Event.hh"
-#include "Debug.hh"
+#include "Particles.hh"
+#include "Vector.hh"
+#include "DEBUG.hh"
 #include "Exception.hh"
 
 namespace boca
@@ -14,28 +16,28 @@ namespace higgscpv
 
 int TopLeptonicPairTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) const
 {
-    Info0;
+    INFO0;
     std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
-    Debug(triplets.size());
+    DEBUG(triplets.size());
    std::vector<Particle> particles = event.Partons().GenParticles();
    std::vector<Particle> top_particles = CopyIfParticle(particles, Id::top);
-    Check(top_particles.size() == 2, top_particles.size());
+    CHECK(top_particles.size() == 2, top_particles.size());
 //    std::vector<Jet>neutrinos = CopyIfNeutrino(particles);
-    if (top_particles.size() != 2 && tag == Tag::signal) Debug(particles.size());
+    if (top_particles.size() != 2 && tag == Tag::signal) DEBUG(particles.size());
     std::vector<Triplet> final_triplets = BestMatches(triplets, top_particles, tag);
-//     Check(final_triplets.size()==2, final_triplets.size());
-    std::vector<Sextet> sextets = unordered_pairs(final_triplets, [](Triplet const& triplet_1, Triplet const& triplet_2) {
-      Quartet22 quartet(Doublet(triplet_1.Singlet().Jet(), triplet_1.Doublet().Jet()), Doublet(triplet_2.Singlet().Jet(), triplet_2.Doublet().Jet()));
+//     CHECK(final_triplets.size()==2, final_triplets.size());
+    std::vector<Sextet> sextets = UnorderedPairs(final_triplets, [](Triplet const& triplet_1, Triplet const& triplet_2) {
+      Quartet22 quartet(Doublet(triplet_1.Singlet(), triplet_1.Doublet().Jet()), Doublet(triplet_2.Singlet(), triplet_2.Doublet().Jet()));
         if (quartet.Overlap()) throw Overlap();
       quartet.Doublet1().SetBdt(triplet_1.Bdt());
       quartet.Doublet2().SetBdt(triplet_2.Bdt());
         WimpMass wimp_mass;
-        //             sextets = Join(sextets, wimp_mass.Sextet(quartet, event.Hadrons().MissingEt(), neutrinos, tag));
+        //             Insert(sextets, wimp_mass.Sextet(quartet, event.Hadrons().MissingEt(), neutrinos, tag));
         return wimp_mass.Fake(quartet);
     });
 
     if (tag == Tag::signal && sextets.size() > 1) {
-        Debug(sextets.size());
+        DEBUG(sextets.size());
         sextets = BestRapidity(sextets);
     }
     return SaveEntries(sextets);
@@ -58,7 +60,7 @@ std::vector<Sextet> TopLeptonicPairTagger::TruthLevel(Event const& event, std::v
         return final_sextets;
     }
     case Tag::background : return sextets;
-    Default("Tag",{});
+    DEFAULT(boca::Name(tag),{});
     }
 }
 
@@ -66,8 +68,8 @@ std::vector<Sextet> TopLeptonicPairTagger::Multiplets(Event const& event, boca::
 {
     std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
     INFO(triplets.size());
-    std::vector<Sextet>  sextets = unordered_pairs(triplets, [&](Triplet const& triplet_1, Triplet const& triplet_2) {
-        Quartet22 quartet(Doublet(triplet_1.Singlet().Jet(), triplet_1.Doublet().Jet()), Doublet(triplet_2.Singlet().Jet(), triplet_2.Doublet().Jet()));
+    std::vector<Sextet>  sextets = UnorderedPairs(triplets, [&](Triplet const& triplet_1, Triplet const& triplet_2) {
+        Quartet22 quartet(Doublet(triplet_1.Singlet(), triplet_1.Doublet().Jet()), Doublet(triplet_2.Singlet(), triplet_2.Doublet().Jet()));
         if (quartet.Overlap()) throw Overlap();
         quartet.Doublet1().SetBdt(triplet_1.Bdt());
         quartet.Doublet2().SetBdt(triplet_2.Bdt());
@@ -79,7 +81,7 @@ std::vector<Sextet> TopLeptonicPairTagger::Multiplets(Event const& event, boca::
 //             }
     });
     INFO(sextets.size());
-    return ReduceResult(sextets);
+    return sextets;
 }
 std::string TopLeptonicPairTagger::Name() const
 {

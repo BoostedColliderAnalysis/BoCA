@@ -1,11 +1,10 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
-
 
 #include <sstream>
 
-#include <boost/range/algorithm/remove_if.hpp>
+#include <boost/range/algorithm_ext/erase.hpp>
 #include <boost/units/systems/si/io.hpp>
 
 #include "physics/ElectronVolt.hh"
@@ -34,31 +33,15 @@ std::string Name(Energy energy)
     std::stringstream stream;
     stream << boost::units::engineering_prefix << energy;
     std::string string = stream.str();
-    string.erase(boost::range::remove_if(string, isspace), string.end());
-    return string;
+    return boost::range::remove_erase_if(string, isspace);
 }
-
-// Energy operator"" _eV(long double length)
-// {
-//     return double(length) * eV;
-// }
-//
-// Energy operator"" _GeV(long double length)
-// {
-//     return double(length) * GeV;
-// }
-//
-// Energy operator"" _TeV(long double length)
-// {
-//     return double(length) * TeV;
-// }
 
 int Int(Momentum energy)
 {
     return energy / GeV;
 }
 
-float to_float(Energy energy)
+double to_double(Energy energy)
 {
     return energy / GeV;
 }

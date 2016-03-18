@@ -1,6 +1,7 @@
 #include "TopPartnerPairTagger.hh"
 #include "Exception.hh"
-#include "Debug.hh"
+#include "plotting/Font.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {
@@ -10,35 +11,43 @@ namespace naturalness
 
 int TopPartnerPairTagger::Train(Event const& event, PreCuts const&, Tag tag) const
 {
-    Info0;
-    std::vector<Decuplet55> decuplets = pairs(top_partner_hadronic_reader_.Multiplets(event), top_partner_leptonic_reader_.Multiplets(event), [&](Quintet const & quintet_1, Quintet const & quintet_2) {
-        Decuplet55 decuplet(quintet_1, quintet_2);
-        if (decuplet.Overlap()) throw Overlap();
+    INFO0;
+    return SaveEntries(Decuplets(event, [&](Decuplet55 & decuplet) {
         decuplet.SetTag(tag);
         return decuplet;
-    });
-    return SaveEntries(decuplets, 1);
+    }), 1);
 }
 
-std::vector<Decuplet55> TopPartnerPairTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
+std::vector<Decuplet55> TopPartnerPairTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
 {
-    Info0;
-    return ReduceResult(pairs(top_partner_hadronic_reader_.Multiplets(event), top_partner_leptonic_reader_.Multiplets(event), [&](Quintet const & quintet_1, Quintet const & quintet_2) {
-        Decuplet55 decuplet(quintet_1, quintet_2);
-        if (decuplet.Overlap()) throw Overlap();
+    INFO0;
+    return Decuplets(event, [&](Decuplet55 & decuplet) {
         decuplet.SetBdt(Bdt(decuplet, reader));
         return decuplet;
-    }));
+    });
 }
+
+std::vector<Decuplet55> TopPartnerPairTagger::Decuplets(Event const& event, std::function<Decuplet55(Decuplet55&)> const& function) const
+{
+    INFO0;
+    return Pairs(top_partner_hadronic_reader_.Multiplets(event), top_partner_leptonic_reader_.Multiplets(event), [&](Quintet const & quintet_1, Quintet const & quintet_2) {
+        Decuplet55 decuplet(quintet_1, quintet_2);
+        if (decuplet.Overlap()) throw Overlap();
+        return function(decuplet);
+    });
+}
+
 std::string TopPartnerPairTagger::Name() const
 {
     return "TopPartnerPair";
 }
+
 std::string TopPartnerPairTagger::LatexName() const
 {
-    return "T_{h} T_{l}";
+    return Formula("T_{h} T_{l}");
 }
 
 }
 
 }
+

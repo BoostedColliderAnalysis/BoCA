@@ -13,7 +13,7 @@ namespace higgscpv
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class SignatureTTaggerBranch : public boca::TChannelBranch
+class SignatureTTaggerBranch : public boca::SignatureBranch
 {
 public:
   SignatureTTaggerBranch();
@@ -21,7 +21,7 @@ public:
     float Aplanarity;
     template<typename Multiplet>
     void Fill(Multiplet const& signature) {
-        boca::TChannelBranch::Fill(signature.Multiplet());
+        boca::SignatureBranch::Fill(signature.Multiplet());
         Aplanarity = signature.EventShapes().Aplanarity();
         Sphericity = signature.EventShapes().Sphericity();
     }
@@ -79,19 +79,19 @@ public:
     float Pull13;
     float DeltaPull23;
     float DeltaPull13;
-    float Dipolarity23;
-    float Dipolarity13;
+//     float Dipolarity23;
+//     float Dipolarity13;
     float Sphericity;
     float Aplanarity;
     template<typename Multiplet>
     void Fill(Multiplet const& signature) {
         boca::MultiBranch::Fill(signature.Multiplet());
-        Mass12 = signature.Multiplet().Jet12().m();
-        Mass23 = signature.Multiplet().Jet23().m();
-        Mass13 = signature.Multiplet().Jet13().m();
-        Pt12 = signature.Multiplet().Jet12().pt();
-        Pt23 = signature.Multiplet().Jet23().pt();
-        Pt13 = signature.Multiplet().Jet13().pt();
+        Mass12 = signature.Multiplet().Jet12().Mass() / GeV;
+        Mass23 = signature.Multiplet().Jet23().Mass() / GeV;
+        Mass13 = signature.Multiplet().Jet13().Mass() / GeV;
+        Pt12 = signature.Multiplet().Jet12().Pt() / GeV;
+        Pt23 = signature.Multiplet().Jet23().Pt() / GeV;
+        Pt13 = signature.Multiplet().Jet13().Pt() / GeV;
         DeltaPt23 = signature.Multiplet().DeltaPt23() / GeV;
         DeltaPt13 = signature.Multiplet().DeltaPt13() / GeV;
         Ht12 = signature.Multiplet().Ht12() / GeV;
@@ -113,8 +113,8 @@ public:
         Pull13 = signature.Multiplet().Pull13() / rad;
         DeltaPull23 = signature.Multiplet().Pull32() / rad;
         DeltaPull13 = signature.Multiplet().Pull31() / rad;
-        Dipolarity23 = signature.Multiplet().Dipolarity23();
-        Dipolarity13 = signature.Multiplet().Dipolarity13();
+//         Dipolarity23 = signature.Multiplet().Dipolarity23();
+//         Dipolarity13 = signature.Multiplet().Dipolarity13();
         Aplanarity = signature.EventShapes().Aplanarity();
         Sphericity = signature.EventShapes().Sphericity();
     }
@@ -148,7 +148,7 @@ public:
         PairBottomBdt = signature.Multiplet().Doublet().BottomBdt();
         HardTopPt = signature.Multiplet().Sextet().HardTopPt() / GeV;
         SoftTopPt = signature.Multiplet().Sextet().SoftTopPt() / GeV;
-        HiggsMass = signature.Multiplet().Doublet().Jet().Mass() / GeV;
+        HiggsMass = signature.Multiplet().Doublet().Mass() / GeV;
         PairRap = signature.Multiplet().Sextet().DeltaRap() / rad;
         Aplanarity = signature.EventShapes().Aplanarity();
         Sphericity = signature.EventShapes().Sphericity();
@@ -156,7 +156,7 @@ public:
 //         PairBottomBdt = multiplet.PairBottomBdt();
 //         HardTopPt = multiplet.Sextet().HardTopPt();
 //         SoftTopPt = multiplet.Sextet().SoftTopPt();
-//         HiggsMass = multiplet.Doublet().Jet().m();
+//         HiggsMass = multiplet.Doublet().Mass() / GeV;
 //         PairRap = multiplet.Sextet().DeltaRap();
     }
     Observables Variables();
@@ -191,7 +191,7 @@ public:
         HiggsBdt = multiplet.Sextet().Bdt();
         HardTopPt = multiplet.Sextet().HardTopPt() / GeV;
         SoftTopPt = multiplet.Sextet().SoftTopPt() / GeV;
-        HiggsMass = multiplet.Sextet().Jet().Mass() / GeV;
+        HiggsMass = multiplet.Sextet().Mass() / GeV;
         PairRap = multiplet.Doublet().DeltaRap() / rad;
     }
 private:
@@ -263,17 +263,17 @@ public:
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         PairBranch::Fill(multiplet);
-        BottomPt = multiplet.Triplet1().Jet().pt();
-        //         BottomRap = std::abs(multiplet.singlet().rap());
-        BottomRap = multiplet.Triplet1().Jet().rap();
-        BottomPhi = multiplet.Triplet1().Jet().phi();
-        BottomMass = multiplet.Triplet1().Jet().m();
-        //         BottomBdt = multiplet.singlet().Info().Bdt();
-        TopPt = multiplet.Triplet2().Jet().pt();
-        //         TopRap = std::abs(multiplet.triplet().Jet().rap());
-        TopRap = multiplet.Triplet2().Jet().rap();
-        TopPhi = multiplet.Triplet2().Jet().phi();
-        TopMass = multiplet.Triplet2().Jet().m();
+        BottomPt = multiplet.Triplet1().Pt() / GeV;
+        //         BottomRap = std::abs(multiplet.Rap() / rad);
+        BottomRap = multiplet.Triplet1().Rap() / rad;
+        BottomPhi = multiplet.Triplet1().Phi() / rad;
+        BottomMass = multiplet.Triplet1().Mass() / GeV;
+        //         BottomBdt = multiplet.Info().Bdt();
+        TopPt = multiplet.Triplet2().Pt() / GeV;
+        //         TopRap = std::abs(multiplet.triplet().Rap() / rad);
+        TopRap = multiplet.Triplet2().Rap() / rad;
+        TopPhi = multiplet.Triplet2().Phi() / rad;
+        TopMass = multiplet.Triplet2().Mass() / GeV;
         TopBdt = multiplet.Triplet2().Bdt();
     }
     Observables Variables();
@@ -309,17 +309,17 @@ class QuartetPairBranch : public boca::PairBranch
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         PairBranch::Fill(multiplet);
-        BottomPt = multiplet.Doublet1().Jet().pt();
-        //         BottomRap = std::abs(multiplet.singlet().rap());
-        BottomRap = multiplet.Doublet1().Jet().rap();
-        BottomPhi = multiplet.Doublet1().Jet().phi();
-        BottomMass = multiplet.Doublet1().Jet().m();
-        //         BottomBdt = multiplet.singlet().Info().Bdt();
-        TopPt = multiplet.Doublet2().Jet().pt();
-        //         TopRap = std::abs(multiplet.triplet().Jet().rap());
-        TopRap = multiplet.Doublet2().Jet().rap();
-        TopPhi = multiplet.Doublet2().Jet().phi();
-        TopMass = multiplet.Doublet2().Jet().m();
+        BottomPt = multiplet.Doublet1().Pt() / GeV;
+        //         BottomRap = std::abs(multiplet.Rap() / rad);
+        BottomRap = multiplet.Doublet1().Rap() / rad;
+        BottomPhi = multiplet.Doublet1().Phi() / rad;
+        BottomMass = multiplet.Doublet1().Mass() / GeV;
+        //         BottomBdt = multiplet.Info().Bdt();
+        TopPt = multiplet.Doublet2().Pt() / GeV;
+        //         TopRap = std::abs(multiplet.triplet().Rap() / rad);
+        TopRap = multiplet.Doublet2().Rap() / rad;
+        TopPhi = multiplet.Doublet2().Phi() / rad;
+        TopMass = multiplet.Doublet2().Mass() / GeV;
         TopBdt = multiplet.Doublet2().Bdt();
     }
 

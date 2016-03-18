@@ -10,7 +10,7 @@ namespace standardmodel
 {
 /**
  *
- * @brief W tagger ananlysis
+ * @brief Z tagger ananlysis
  *
  * @author Jan Hajer
  *
@@ -23,20 +23,20 @@ public:
 
 
     AnalysisZ() {
-        this->pre_cuts().PtLowerCut().Set(Id::Z, this->LowerPtCut());
-        this->pre_cuts().PtUpperCut().Set(Id::Z, this->UpperPtCut());
-//         this->pre_cuts().MassUpperCut().Set(Id::Z, 200_GeV);
-        this->pre_cuts().TrackerMaxEta().Set(Id::Z, DetectorGeometry::TrackerEtaMax());
+        this->PreCuts().PtLowerCut().Set(Id::Z, this->LowerPtCut());
+        this->PreCuts().PtUpperCut().Set(Id::Z, this->UpperPtCut());
+//         this->PreCuts().MassUpperCut().Set(Id::Z, 200_GeV);
+        this->PreCuts().TrackerMaxEta().Set(Id::Z, DetectorGeometry::TrackerEtaMax());
     }
 
 private:
 
-    std::string AnalysisName() const final {
-        return Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-large-2";
+    std::string AnalysisName() const override {
+        return Name(this->Collider()) + "-" + boca::Name(this->LowerPtCut()) + "-large-2";
     }
 
 
-    void SetFiles(Tag tag, Stage stage) final {
+    void SetFiles(Tag tag, Stage stage)override {
         switch (tag) {
         case Tag::signal :
             if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::zz);
@@ -58,7 +58,7 @@ private:
             break;
         }
     }
-    int PassPreCut(Event const& , Tag) const final {
+    int PassPreCut(Event const& , Tag) const override {
         return 1;
 //        std::vector<Jet> particles = SortedByPt(event.Partons().GenParticles());
 //         if ((particles.at(0).Pt() > this->LowerQuarkCut() && particles.at(0).Pt() < this->UpperQuarkCut()) && (particles.at(1).Pt() > this->LowerQuarkCut() &&  particles.at(1).Pt() < this->UpperQuarkCut())) return 1;

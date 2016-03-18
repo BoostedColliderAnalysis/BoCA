@@ -2,7 +2,7 @@
 #include "EventNeutralTagger.hh"
 
 template<typename Tagger>
-void Run(boca::Output output = boca::Output::normal)
+void Run(boca::Output output = boca::Output::fast)
 {
     boca::heavyhiggs::AnalysisNeutral<Tagger> analysis;
     analysis.Run(output);
@@ -10,13 +10,13 @@ void Run(boca::Output output = boca::Output::normal)
 
 int main()
 {
-    Run<boca::standardmodel::BottomTagger>(boca::Output::fast);
-    Run<boca::standardmodel::WHadronicTagger>(boca::Output::fast);
-    Run<boca::standardmodel::WLeptonicTagger>(boca::Output::fast);
-    Run<boca::standardmodel::TopHadronicTagger>(boca::Output::fast);
-    Run<boca::standardmodel::TopLeptonicTagger>(boca::Output::fast);
-    Run<boca::JetPairTagger>(boca::Output::fast);
-    Run<boca::heavyhiggs::HeavyHiggsSemiTagger>(boca::Output::fast);
-    Run<boca::heavyhiggs::SignatureNeutralTagger>(boca::Output::fast);
+    Run<boca::standardmodel::BottomTagger>();
+    Run<boca::standardmodel::WHadronicTagger>();
+    Run<boca::standardmodel::WLeptonicTagger>();
+    Run<boca::standardmodel::TopHadronicTagger>();
+    Run<boca::standardmodel::TopLeptonicTagger>();
+    Run<boca::heavyhiggs::JetPairTagger>();
+    Run<boca::heavyhiggs::HeavyHiggsSemiTagger>();
+    Run<boca::heavyhiggs::SignatureNeutralTagger>();
     Run<boca::heavyhiggs::EventNeutralTagger>(boca::Output::significance);
 }

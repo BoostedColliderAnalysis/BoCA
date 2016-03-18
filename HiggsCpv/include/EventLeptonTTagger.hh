@@ -16,11 +16,11 @@ class EventLeptonTTagger : public TaggerTemplate<MultipletEvent<Octet332>,EventB
 
 public:
 
-    int Train(Event const& event, boca::PreCuts const&, Tag tag) const final;
+    int Train(Event const& event, boca::PreCuts const&, Tag tag) const override;
 
-    std::vector<MultipletEvent<Octet332>> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
+    std::vector<MultipletEvent<Octet332>> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
 
-    std::string Name() const final;
+    std::string Name() const override;
 
 private:
 

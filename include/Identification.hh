@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -20,26 +20,26 @@ public:
 
     Identification();
 
-    virtual void SetBdt(float bdt);
+    virtual void SetBdt(double bdt);
 
-    void SetBdt(float bdt_1, float bdt_2);
+    void SetBdt(double bdt_1, double bdt_2);
 
-    virtual float Bdt() const;
+    virtual double Bdt() const;
 
-    void SetTag(Tag tag);
+    void SetTag(boca::Tag tag);
 
     void SetTag(boca::Tag tag_1, boca::Tag tag_2);
 
     boca::Tag Tag() const;
 
-    static float InitialValue();
+    static double InitialValue();
 
     /// largest bdt in front
     bool operator<(Identification const& multiplet) const;
 
 private:
 
-    float bdt_;
+    double bdt_;
 
     boca::Tag tag_;
 

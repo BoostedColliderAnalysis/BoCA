@@ -3,8 +3,9 @@
  */
 #pragma once
 
-#include "Event.hh"
 #include "Names.hh"
+#include "physics/Units.hh"
+#include "TreeReader.hh"
 
 namespace boca
 {
@@ -21,6 +22,8 @@ class File
 public:
 
     File(std::vector<std::string> const& processes, std::string const& run_folder, std::string const& file_suffix, std::string const& nice_name = "", boca::Crosssection crosssection = pb, boca::Mass mass = massless);
+
+    File(std::vector<std::string> const& processes, std::string const& run_folder, std::string const& file_suffix, boca::Names const& nice_name, boca::Crosssection crosssection = pb, boca::Mass mass = massless);
 
     std::string Title() const;
 
@@ -44,11 +47,13 @@ public:
 
 protected:
 
-    void  SetVariables();
-
     std::string MadGraphFilePath() const;
 
 private:
+
+    std::string TagName() const;
+
+    std::string RunFolder() const;
 
     std::string FileSuffix() const;
 
@@ -59,15 +64,9 @@ private:
 
     std::vector<std::string> process_folders_;
 
-    std::string run_folder_;
-
-    std::string tag_name_;
-
-    std::string tree_name_;
-
     boca::Crosssection crosssection_ = pb;
 
-    boca::Crosssection crosssection_error_ = 0;
+    boca::Crosssection crosssection_error_ = 0_b;
 
     boca::Mass mass_ = massless;
 

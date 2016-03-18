@@ -1,9 +1,10 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
 #include "Analysis.hh"
+#include "DetectorGeometry.hh"
 
 namespace boca
 {
@@ -59,7 +60,7 @@ class AnalysisStandardModel : public Analysis<Tagger>
 public:
 
     AnalysisStandardModel() {
-        if (collider_type() == Collider::LHC) DetectorGeometry::set_detector_type(DetectorType::CMS);
+        if (Collider() == boca::standardmodel::Collider::LHC) DetectorGeometry::SetDetectorType(DetectorType::CMS);
     }
 
 protected:
@@ -80,10 +81,10 @@ protected:
         return 1.2_TeV;
     }
 
-    Collider collider_type() const {
-        return Collider::LHC;
-        return Collider::LE;
-        return Collider::FHC;
+    boca::standardmodel::Collider Collider() const {
+        return boca::standardmodel::Collider::LHC;
+        return boca::standardmodel::Collider::LE;
+        return boca::standardmodel::Collider::FHC;
     }
 
     Momentum UpperPtCut() const {
@@ -147,20 +148,20 @@ private:
         case 3500 : return 1_TeV;
         case 4000 : return 1_TeV;
         default : std::cout << "Switch default for LowerPtCut of " << LowerPtCut() << std::endl;
-        return at_rest;
+            return at_rest;
         }
     }
 
     std::string FileName(Process process) const {
-        switch (collider_type()) {
-        case Collider::LE : return ProcessName(process) + "_" + boca::Name(MadGraphCut());
-        case Collider::LHC : return ProcessName(process) + "_14TeV-" + boca::Name(MadGraphCut());
+        switch (Collider()) {
+        case boca::standardmodel::Collider::LE : return ProcessName(process) + "_" + boca::Name(MadGraphCut());
+        case boca::standardmodel::Collider::LHC : return ProcessName(process) + "_14TeV-" + boca::Name(MadGraphCut());
         default : std::cout << "Switch default for process " << ProcessName(process) << std::endl;
-        return "";
+            return "";
         }
     }
 
-    std::string FilePath() const final {
+    std::string FilePath() const override {
         return this->WorkingPath() + "../";
     }
 

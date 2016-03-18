@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -8,6 +8,14 @@
 
 namespace boca
 {
+
+enum class Status
+{
+    none = 0,
+    stable = 1,
+    unstable = 2,
+    generator = 3
+};
 
 /**
  * @brief particles for HAnalysis

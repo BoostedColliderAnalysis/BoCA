@@ -1,12 +1,12 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "VetoTopPartnerLeptonicTagger.hh"
 #include "Decuplet.hh"
-#include "ParticleInfo.hh"
-// #define DEBUG
+#include "Particles.hh"
+// #define DEBUGGING
 // #define INFORMATION
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {
@@ -16,7 +16,7 @@ namespace naturalness
 
 int VetoTopPartnerLeptonicTagger::Train(Event const& event, PreCuts const& , Tag tag) const
 {
-    Info0;
+    INFO0;
     return SaveEntries(Quintets(event, [&](Quintet & quintet) {
         quintet.SetTag(tag);
         return quintet;
@@ -25,45 +25,42 @@ int VetoTopPartnerLeptonicTagger::Train(Event const& event, PreCuts const& , Tag
 
 std::vector<Quintet> VetoTopPartnerLeptonicTagger::Multiplets(Event const& event, boca::PreCuts const& , TMVA::Reader const& reader) const
 {
-    Info0;
-    return ReduceResult(Quintets(event, [&](Quintet & quintet) {
+    INFO0;
+    return Quintets(event, [&](Quintet & quintet) {
         quintet.SetBdt(Bdt(quintet, reader));
         return quintet;
-    }));
+    });
 }
 
 std::vector<Particle> VetoTopPartnerLeptonicTagger::Particles(Event const& event) const
 {
-    std::vector<Particle> particles = event.Partons().GenParticles();
-    std::vector<Particle> leptons = CopyIfLepton(particles);
-    std::vector<Particle>candidate = CopyIfGreatGrandMother(leptons, Id::top_partner);
-    if (!candidate.empty()) {
-        int great_grand_mother = candidate.front().Info().Family().GreatGrandMother().Id();
-        return CopyIfExactParticle(particles, great_grand_mother);
-    } else {
-        candidate = CopyIfGrandMother(leptons, Id::top_partner);
-        candidate = CopyIfMother(candidate, Id::W);
+    auto particles = event.Partons().GenParticles();
+    auto leptons = CopyIfLepton(particles);
+    auto candidate = CopyIfGreatGrandMother(leptons, Id::top_partner);
+    int id;
+    if (candidate.empty()) {
+        candidate = CopyIfMother(CopyIfGrandMother(leptons, Id::top_partner), Id::W);
         if (candidate.empty()) return {};
-        int grand_mother = candidate.front().Info().Family().GrandMother().Id();
-        return CopyIfExactParticle(particles, grand_mother);
-    }
+        id = candidate.front().Info().Family().Member(Relative::grand_mother).Id();
+    } else id = candidate.front().Info().Family().Member(Relative::great_grand_mother).Id();
+    return CopyIfExactParticle(particles, id);
 }
 
 std::vector<Quintet> VetoTopPartnerLeptonicTagger::Quintets(Event const& event, std::function<Quintet(Quintet&)> const& function) const
 {
-    Info0;
-    std::vector<Quintet> quintets = partner_reader_.Multiplets(event);
-    std::vector<Triplet> triplets = top_reader_.Multiplets(event);
+    INFO0;
+    auto quintets = partner_reader_.Multiplets(event);
+    auto triplets = top_reader_.Multiplets(event);
     std::vector<Quintet> vetos;
-    for (auto const & doublet : higgs_reader_.Multiplets(event)) {
+    for (auto const & doublet : higgs_reader_.Multiplets(event,6)) {
         for (auto const & triplet : triplets) {
             Quintet veto(triplet, doublet);
             if (veto.Overlap()) continue;
             for (auto const & quintet : quintets) {
-                Decuplet532 decuplet(quintet, triplet, doublet);
+                Decuplet55 decuplet(quintet, veto);
                 if (decuplet.Overlap()) continue;
                 vetos.emplace_back(function(veto));
-                if(veto.Mass() != veto.Mass()) Error(veto.Mass());
+                if (veto.Mass() != veto.Mass()) ERROR(veto.Mass());
                 break;
             }
         }

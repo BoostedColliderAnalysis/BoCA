@@ -1,36 +1,45 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
 #include "PreCuts.hh"
 #include "Phase.hh"
+#include "Names.hh"
+#include "Flag.hh"
 
 namespace boca
 {
 
 class File;
 class Tagger;
+class Event;
 
 enum class Output
 {
+    none = 0,
     fast = 1 << 0,
     normal = 1 << 1,
     significance = 1 << 2,
     efficiency = 1 << 3,
     plot = 1 << 4,
-    cut = 1 << 5
+    cut = 1 << 5,
+    plot_hist = 1 << 6
 };
+
+std::string Name(Output output);
 
 template<>
 struct Flag<Output> {
     static const bool enable = true;
 };
 
+extern std::string _analysis_name_; //< global variabel; FIXME remove again; is necesarry due to bug in root
+
 /**
  * @brief Base for all analyses.
  * @author Jan Hajer
- * @copyright Copyright (C) 2015 Jan Hajer
+ * @copyright Copyright (C) 2015-2016 Jan Hajer
  * @date 2015
  * @license GPL 3
  *
@@ -48,8 +57,6 @@ protected:
 
     void Initialize();
 
-//     void SetConfig(const Configuration &configuration);
-
     void RunFast();
 
     void RunNormal();
@@ -60,6 +67,8 @@ protected:
 
     void RunPlots();
 
+    void RunPlotHist();
+
     void RunCut();
 
     virtual void SetFiles(Tag tag, Stage) = 0;
@@ -68,61 +77,47 @@ protected:
 
     virtual boca::Tagger const& Tagger() const = 0;
 
-    void ClearFiles();
-
-    std::vector<boca::File> Files(Tag tag);
-
-    void PrepareFiles(Stage stage);
-
     virtual std::string AnalysisName() const = 0;
 
-    /**
-     * @brief Maximal number of Entries to analyse
-     *
-     */
     virtual long TrainNumberMax() const;
 
     virtual long ReadNumberMax() const;
 
     virtual long EventNumberMax(Stage stage) const;
 
-    boca::Mass Mass() const;
+    virtual std::string FilePath() const;
 
-    Momentum PreCut() const;
+    void ClearFiles();
 
-    //      int TrainNumberMax() const {
-    //         return configuration_.TrainNumberMax();
-    //     };
+    std::vector<boca::File> Files(Tag tag);
+
+    void PrepareFiles(Stage stage);
 
     int BackgroundFileNumber() const;
 
-    //      ColliderType collider_type() const {
-    //         return configuration_.collider_type();
-    //     }
+    void NewFile(Tag tag, std::vector<std::string> const& names, std::string const& nice_name = "");
 
-    virtual std::string FilePath() const;
+    void NewFile(Tag tag, std::vector<std::string> const& names, Crosssection crosssection, Names const& nice_name, Mass mass = massless);
 
-    void NewFile(boca::Tag tag, std::vector<std::string> const& names, std::string const& nice_name = "");
+    void NewFile(Tag tag, std::vector<std::string> const& names, Crosssection crosssection, std::string const& nice_name = "", Mass mass = massless);
 
-    void NewFile(boca::Tag tag, std::vector<std::string> const& names, Crosssection crosssection, std::string const& nice_name = "", boca::Mass mass = massless);
-
-    boca::File File(std::vector<std::string> const& names, Crosssection crosssection, std::string const& nice_name = "", boca::Mass mass = massless) const;
+    boca::File File(std::vector<std::string> const& names, Crosssection crosssection, std::string const& nice_name = "", Mass mass = massless) const;
 
     boca::File File(std::vector<std::string> const& names, std::string const& nice_name = "") const;
 
-    void NewFile(boca::Tag tag, std::string const& names, std::string const& nice_name = "");
+    boca::File File(const std::vector< std::string >& names, const boca::Names& nice_name, boca::Crosssection crosssection, const boca::Mass& mass) const;
 
-    void NewFile(boca::Tag tag, std::string const& names, Crosssection crosssection, std::string const& nice_name = "", boca::Mass mass = massless);
+    void NewFile(Tag tag, std::string const& names, std::string const& nice_name = "");
 
-//     std::string FileName(std::string const& name) const = 0;
+    void NewFile(Tag tag, std::string const& names, Crosssection crosssection, std::string const& nice_name = "", Mass mass = massless);
+
+    void NewFile(Tag tag, std::string const& names, Crosssection crosssection, Names const& nice_name, Mass mass = massless);
 
     std::string TreeName(std::string const& name) const;
 
-    PreCuts const& pre_cuts() const;
+    boca::PreCuts const& PreCuts() const;
 
-    PreCuts& pre_cuts();
-
-//     std::string working_path_;
+    boca::PreCuts& PreCuts();
 
     void PrintGeneratorLevel(Event const& event, bool signature = false) const;
 
@@ -144,14 +139,10 @@ private:
 
     void RunEfficiency();
 
-    PreCuts pre_cuts_;
-
-//     Configuration configuration_;
+    boca::PreCuts pre_cuts_;
 
     std::vector<boca::File> files_;
 
 };
-
-// void Run(AnalysisBase & analysis, Output run);
 
 }

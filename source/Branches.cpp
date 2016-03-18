@@ -1,20 +1,16 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
-#include <iostream>
-#include "Branches.hh"
-#include "TColor.h"
-#include "TStyle.h"
-#include "TClass.h"
-#include "Pair.hh"
-#include "File.hh"
 #include "plotting/Font.hh"
-// #include "Debug.hh"
+#include "Branches.hh"
+#include "File.hh"
+#include "OBSERVABLE.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {
 
-BaseBranch::~BaseBranch() {}
+// BaseBranch::~BaseBranch() {}
 
 float BaseBranch::InitialValue()
 {
@@ -36,11 +32,11 @@ InfoBranch::InfoBranch()
 
 InfoBranch::InfoBranch(File const& file)
 {
-  SetCrosssection(file.Crosssection());
-  SetCrosssectionError(file.CrosssectionError());
-  SetMass(file.Mass());
-  SetNames(file.Names());
-  event_number = 0;
+    SetCrosssection(file.Crosssection());
+    SetCrosssectionError(file.CrosssectionError());
+    SetMass(file.Mass());
+    SetNames(file.Names());
+    event_number = 0;
 }
 
 boca::Crosssection InfoBranch::Crosssection() const
@@ -65,7 +61,7 @@ std::string InfoBranch::Name() const
 }
 boca::Names InfoBranch::Names() const
 {
-  return names;
+    return names;
 }
 std::string InfoBranch::LatexName() const
 {
@@ -104,7 +100,7 @@ Observables ResultBranch::Variables()
 
 Observables ResultBranch::Spectators()
 {
-    return PAIR(Tag);
+    return OBSERVABLE(Tag);
 }
 
 BdtBranch::BdtBranch()
@@ -119,7 +115,7 @@ Observables BdtBranch::Variables()
 
 Observables BdtBranch::Spectators()
 {
-    return PAIR(Bdt);
+    return OBSERVABLE(Bdt);
 }
 
 ParticleBranch::ParticleBranch()
@@ -133,12 +129,12 @@ ParticleBranch::ParticleBranch()
 
 Observables ParticleBranch::Variables()
 {
-  return ResultBranch::Variables() + PAIR(Mass, Formula("m") + " [GeV]") + PAIR(Pt, Formula("p_{T}") + " [GeV]");
+    return ResultBranch::Variables() + OBSERVABLE(Mass, Formula("m") + " [GeV]") + OBSERVABLE(Pt, Formula("p_{T}") + " [GeV]");
 }
 
 Observables ParticleBranch::Spectators()
 {
-    return ResultBranch::Spectators() + PAIR(Charge) + PAIR(Rap) + PAIR(Phi);
+    return ResultBranch::Spectators() + OBSERVABLE(Charge, "e") + OBSERVABLE(Rap, "\\eta") + OBSERVABLE(Phi, "\\phi");
 }
 
 BottomBase::BottomBase()
@@ -157,7 +153,7 @@ BottomBase::BottomBase()
 
 Observables BottomBase::Variables()
 {
-    return PAIR(VertexMass, Formula("m_{V}") + " [GeV]") + PAIR(MaxDisplacement, "log(" + Formula("#Delta d") + "_{max} / mm)") + PAIR(MeanDisplacement, "log(" + Formula("#Delta d") + "_{mean} / mm)") + PAIR(SumDisplacement, "log(" + Formula("#Delta d") + "_{sum} / mm)") + PAIR(Multiplicity, Formula("n_{V}")) + PAIR(Radius, Formula("r")) + PAIR(Spread, Formula("s")) + PAIR(VertexRadius, Formula("r_{V}")) + PAIR(VertexSpread, Formula("s_{V}")) + PAIR(EnergyFraction, Formula("f_{E}"));
+    return OBSERVABLE(VertexMass, Formula("m_{V}") + " [GeV]") + OBSERVABLE(MaxDisplacement, "log(" + Formula("\\Delta d") + "_{max} / mm)") + OBSERVABLE(MeanDisplacement, "log(" + Formula("\\Delta d") + "_{mean} / mm)") + OBSERVABLE(SumDisplacement, "log(" + Formula("\\Delta d") + "_{sum} / mm)") + OBSERVABLE(Multiplicity, Formula("n_{V}")) + OBSERVABLE(Radius, Formula("r")) + OBSERVABLE(Spread, Formula("s")) + OBSERVABLE(VertexRadius, Formula("r_{V}")) + OBSERVABLE(VertexSpread, Formula("s_{V}")) + OBSERVABLE(EnergyFraction, Formula("f_{E}"));
 }
 
 Observables BottomBase::Spectators()
@@ -178,13 +174,13 @@ PairBranch::PairBranch()
     Bdt2 = InitialValue();
     Pull1 = InitialValue();
     Pull2 = InitialValue();
-    Dipolarity = InitialValue();
+//     Dipolarity = InitialValue();
 }
 
 Observables PairBranch::Variables()
 {
-  return ParticleBranch::Variables() + PAIR(Ht, Formula("H_{T}") + " [GeV]") + PAIR(DeltaPt, Formula("#Delta P_{T}") + " [GeV]") + PAIR(DeltaM, Formula("#Delta m") + " [GeV]") + PAIR(DeltaRap, Formula("#Delta #eta")) + PAIR(DeltaPhi, Formula("#Delta #phi")) + PAIR(DeltaR, Formula("#Delta R")) + PAIR(Rho, Formula("#rho")) + PAIR(Bdt1, "BDT_{1}") + PAIR(Bdt2, "BDT_{2}") + PAIR(Pull1, Formula("#theta_{1}")) + PAIR(Pull2, Formula("#theta_{2}")) + PAIR(Dipolarity, Formula("D"));
-    //return ParticleBranch::Variables() + PAIR(Ht) + PAIR(DeltaPt) + PAIR(DeltaM) + PAIR(DeltaRap) + PAIR(DeltaPhi) + PAIR(DeltaR) + PAIR(Rho);
+    return ParticleBranch::Variables() + OBSERVABLE(Ht, Formula("H_{T}") + " [GeV]") + OBSERVABLE(DeltaPt, Formula("\\Delta P_{T}") + " [GeV]") + OBSERVABLE(DeltaM, Formula("\\Delta m") + " [GeV]") + OBSERVABLE(DeltaRap, Formula("\\Delta \\eta")) + OBSERVABLE(DeltaPhi, Formula("\\Delta \\phi")) + OBSERVABLE(DeltaR, Formula("\\Delta R")) + OBSERVABLE(Rho, Formula("\\rho")) + OBSERVABLE(Bdt1, "BDT_{1}") + OBSERVABLE(Bdt2, "BDT_{2}") + OBSERVABLE(Pull1, Formula("#theta_{1}")) + OBSERVABLE(Pull2, Formula("#theta_{2}")) /*+ OBSERVABLE(Dipolarity, Formula("D"))*/;
+    //return ParticleBranch::Variables() + OBSERVABLE(Ht) + OBSERVABLE(DeltaPt) + OBSERVABLE(DeltaM) + OBSERVABLE(DeltaRap) + OBSERVABLE(DeltaPhi) + OBSERVABLE(DeltaR) + OBSERVABLE(Rho);
 }
 
 Observables PairBranch::Spectators()
@@ -199,10 +195,10 @@ MultiBranch::MultiBranch()
 
 Observables MultiBranch::Variables()
 {
-  return PairBranch::Variables() + PAIR(DeltaHt, Formula("#Delta H_{T}") + " [GeV]");
+    return PairBranch::Variables() + OBSERVABLE(DeltaHt, Formula("\\Delta H_{T}") + " [GeV]");
 }
 
-TChannelBranch::TChannelBranch()
+SignatureBranch::SignatureBranch()
 {
     Bdt3 = InitialValue();
     Mass12 = InitialValue();
@@ -232,17 +228,15 @@ TChannelBranch::TChannelBranch()
     Pull13 = InitialValue();
     Pull32 = InitialValue();
     Pull31 = InitialValue();
-    Dipolarity23 = InitialValue();
-    Dipolarity13 = InitialValue();
-//   Sphericity = InitialValue();
-//   Aplanarity = InitialValue();
+//     Dipolarity23 = InitialValue();
+//     Dipolarity13 = InitialValue();
+    Sphericity = InitialValue();
+    Aplanarity = InitialValue();
 }
 
-Observables TChannelBranch::Variables()
+Observables SignatureBranch::Variables()
 {
-    return MultiBranch::Variables() + PAIR(Bdt3) + PAIR(Mass12) + PAIR(Mass23) + PAIR(Mass13) + PAIR(Pt12) + PAIR(Pt23) + PAIR(Pt13) + PAIR(DeltaPt23) + PAIR(DeltaPt13) + PAIR(Ht12) + PAIR(Ht23) + PAIR(Ht13) + PAIR(Rho23) + PAIR(Rho13) + PAIR(DeltaRap23) + PAIR(DeltaRap13) + PAIR(DeltaPhi23) + PAIR(DeltaPhi13) + PAIR(DeltaR23) + PAIR(DeltaR13) + PAIR(DeltaM23) + PAIR(DeltaM13) + PAIR(DeltaHt23) + PAIR(DeltaHt13) + PAIR(Pull23) + PAIR(Pull13) + PAIR(Pull32) + PAIR(Pull31) + PAIR(Dipolarity23) + PAIR(Dipolarity13)
-//      + PAIR(Aplanarity) + PAIR(Sphericity)
-           ;
+    return MultiBranch::Variables() + OBSERVABLE(Bdt3, "BDT_{3}") + OBSERVABLE(Mass12, "m_{12}") + OBSERVABLE(Mass23, "m_{23}") + OBSERVABLE(Mass13, "m_{13}") + OBSERVABLE(Pt12, "p_{T}^{12}") + OBSERVABLE(Pt23, "p_{T}^{23}") + OBSERVABLE(Pt13, "p_{T}^{13}") + OBSERVABLE(DeltaPt23, "\\Delta p_{T}^{23}") + OBSERVABLE(DeltaPt13, "\\Delta p_{T}^{13}") + OBSERVABLE(Ht12, "H_{T}^{12}") + OBSERVABLE(Ht23, "H_{T}^{23}") + OBSERVABLE(Ht13, "H_{T}^{13}") + OBSERVABLE(Rho23, "\\rho_{23}") + OBSERVABLE(Rho13, "\\rho_{13}") + OBSERVABLE(DeltaRap23, "\\Delta\\eta_{23}") + OBSERVABLE(DeltaRap13, "\\Delta\\eta_{13}") + OBSERVABLE(DeltaPhi23, "\\Delta\\phi_{23}") + OBSERVABLE(DeltaPhi13, "\\Delta\\phi_{13}") + OBSERVABLE(DeltaR23, "\\Delta R_{23}") + OBSERVABLE(DeltaR13, "\\Delta R_{13}") + OBSERVABLE(DeltaM23, "\\Delta m_{23}") + OBSERVABLE(DeltaM13, "\\Delta m_{13}") + OBSERVABLE(DeltaHt23, "\\Delta H_{T}^{23}") + OBSERVABLE(DeltaHt13, "\\Delta H_{T}^{13}") + OBSERVABLE(Pull23, "#theta_{23}") + OBSERVABLE(Pull13, "#theta_{13}") + OBSERVABLE(Pull32, "#theta_{32}") + OBSERVABLE(Pull31, "#theta_{31}") /*+ OBSERVABLE(Dipolarity23, "D_{23}") + OBSERVABLE(Dipolarity13, "D_{13}")*/ + OBSERVABLE(Aplanarity, "#slashed{P}") + OBSERVABLE(Sphericity, "S");
 }
 
 JetPairBranch::JetPairBranch()
@@ -273,7 +267,7 @@ JetPairBranch::JetPairBranch()
 
 Observables JetPairBranch::Variables()
 {
-    return PairBranch::Variables() + PAIR(Jet1Mass) + PAIR(Jet1Pt) + PAIR(Jet1Rap) + PAIR(Jet1Phi) + PAIR(Jet2Mass) + PAIR(Jet2Pt) + PAIR(Jet2Rap) + PAIR(Jet2Phi);
+    return PairBranch::Variables() + OBSERVABLE(Jet1Mass) + OBSERVABLE(Jet1Pt) + OBSERVABLE(Jet1Rap) + OBSERVABLE(Jet1Phi) + OBSERVABLE(Jet2Mass) + OBSERVABLE(Jet2Pt) + OBSERVABLE(Jet2Rap) + OBSERVABLE(Jet2Phi);
 }
 
 TripletJetPairBranch::TripletJetPairBranch()
@@ -294,7 +288,52 @@ TripletJetPairBranch::TripletJetPairBranch()
 
 Observables TripletJetPairBranch::Variables()
 {
-    return PairBranch::Variables() + PAIR(BottomPt) + PAIR(BottomRap) + PAIR(BottomPhi) + PAIR(BottomMass) + PAIR(TopPt) + PAIR(TopRap) + PAIR(TopPhi) + PAIR(TopMass) + PAIR(TopBdt);
+    return PairBranch::Variables() + OBSERVABLE(BottomPt) + OBSERVABLE(BottomRap) + OBSERVABLE(BottomPhi) + OBSERVABLE(BottomMass) + OBSERVABLE(TopPt) + OBSERVABLE(TopRap) + OBSERVABLE(TopPhi) + OBSERVABLE(TopMass) + OBSERVABLE(TopBdt);
+}
+
+
+float GlobalBase::InValue()
+{
+    return BaseBranch::InitialValue();
+}
+
+GlobalBase::GlobalBase()
+{
+    LeptonNumber = int(InValue());
+    JetNumber = int(InValue());
+    BottomNumber = int(InValue());
+    MissingEt = InValue();
+    ScalarHt = InValue();
+    LeptonHt = InValue();
+    JetPt1 = InValue();
+    JetPt2 = InValue();
+    JetPt3 = InValue();
+    JetPt4 = InValue();
+    LeptonPt1 = InValue();
+    LeptonPt2 = InValue();
+}
+
+Observables GlobalBase::Variables()
+{
+    return OBSERVABLE(LeptonNumber, "#l") + OBSERVABLE(BottomNumber, "#b") + OBSERVABLE(JetNumber, "#j") + OBSERVABLE(MissingEt, "E_{T}^{miss}") + OBSERVABLE(ScalarHt, "H_{T}^{scalar}") + OBSERVABLE(LeptonHt, "H_{T}^{l}") + OBSERVABLE(JetPt1, "p_{T}(j_{1})") + OBSERVABLE(JetPt2, "p_{T}(j_{2})") + OBSERVABLE(JetPt3, "p_{T}(j_{3})") + OBSERVABLE(JetPt4, "p_{T}(j_{4})") + OBSERVABLE(LeptonPt1, "p_{T}(l_{1})") + OBSERVABLE(LeptonPt2, "p_{T}(l_{2})");
+}
+
+Observables GlobalBase::Spectators()
+{
+    return {};
+}
+
+GlobalObservableBranch::GlobalObservableBranch()
+{}
+
+Observables GlobalObservableBranch::Variables()
+{
+    return BdtBranch::Variables() + GlobalBase::Variables();
+}
+
+Observables GlobalObservableBranch::Spectators()
+{
+    return BdtBranch::Spectators() + GlobalBase::Spectators();
 }
 
 EventBranch::EventBranch()
@@ -314,68 +353,7 @@ EventBranch::EventBranch()
 
 Observables EventBranch::Variables()
 {
-    return MultiBranch::Variables() + PAIR(LeptonNumber) + PAIR(JetNumber) + PAIR(BottomNumber) + PAIR(MissingEt) + PAIR(ScalarHt) + PAIR(LeptonHt) + PAIR(JetMass) + PAIR(JetPt) + PAIR(JetHt) + PAIR(JetRap) + PAIR(JetPhi);
-
-}
-
-namespace
-{
-
-std::vector<int> Table(std::vector<double>& length, std::vector<double>& red, std::vector<double>& green, std::vector<double>& blue)
-{
-    std::vector<int> colors(50);
-    int color_table = TColor::CreateGradientColorTable(length.size(), &length.front(), &red.front(), &green.front(), &blue.front(), colors.size());
-//     for (size_t step = 0; step < colors.size(); ++step) colors.at(step) = color_table + step;
-    for (auto & color : colors) color = color_table + (&color - &colors.front());
-    return colors;
-}
-
-}
-
-void Color::Red()
-{
-    std::vector<double> red = { 1, 1};
-    std::vector<double> green = { 1, 0};
-    std::vector<double> blue = { 1, 0};
-    std::vector<double> length = { 0, 1};
-    static std::vector<int> colors;
-    static bool initialized = false;
-    if (!initialized) {
-        colors = Table(length, red, green, blue);
-        initialized = true;
-    }
-    gStyle->SetPalette(colors.size(), &colors.front());
-}
-
-void Color::Blue()
-{
-    std::vector<double> red = { 1, 0};
-    std::vector<double> green = { 1, 0};
-    std::vector<double> blue = { 1, 1};
-    std::vector<double> length = { 0, 1};
-    static std::vector<int> colors;
-    static bool initialized = false;
-    if (!initialized) {
-        colors = Table(length, red, green, blue);
-        initialized = true;
-    }
-    gStyle->SetPalette(colors.size(), &colors.front());
-}
-
-void Color::Heat()
-{
-    std::vector<double> length = { 0.00, 0.34, 0.61, 0.84, 1.00 };
-    std::vector<double> red = { 0.00, 0.00, 0.87, 1.00, 0.51 };
-    std::vector<double> green = { 0.00, 0.81, 1.00, 0.20, 0.00 };
-    std::vector<double> blue = { 0.51, 1.00, 0.12, 0.00, 0.00 };
-    static std::vector<int> colors;
-    static bool initialized = false;
-    if (!initialized) {
-        colors = Table(length, red, green, blue);
-        initialized = true;
-        return;
-    }
-    gStyle->SetPalette(colors.size(), &colors.front());
+    return MultiBranch::Variables() + OBSERVABLE(LeptonNumber, "#l") + OBSERVABLE(BottomNumber, "#b") + OBSERVABLE(JetNumber, "#j") + OBSERVABLE(MissingEt, "E_{T}^{miss}") + OBSERVABLE(ScalarHt, "H_{T}^{scalar}") + OBSERVABLE(LeptonHt, "H_{T}^{l}") + OBSERVABLE(JetMass, "m_{j}") + OBSERVABLE(JetPt, "p_{T}^{j}") + OBSERVABLE(JetHt, "H_{T}^{j}") + OBSERVABLE(JetRap, "\\eta_{j}") + OBSERVABLE(JetPhi, "\\phi_{j}");
 }
 
 }

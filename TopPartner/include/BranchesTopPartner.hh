@@ -40,33 +40,33 @@ private:
     ClassDef(HiggsPairBranch, 1)
 };
 
-class SignatureBranch : public MultiBranch
+// class SignatureBranch : public MultiBranch
+// {
+// public:
+//     template<typename Multiplet>
+//     void Fill(Multiplet const& multiplet) {
+//         MultiBranch::Fill(multiplet);
+//     }
+// private:
+//     ClassDef(SignatureBranch, 1)
+// };
+
+class SignatureSingleBranch : public SignatureBranch
 {
 public:
+    SignatureSingleBranch();
+    float VetoBdt;
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-        MultiBranch::Fill(multiplet);
+        SignatureBranch::Fill(multiplet);
+        VetoBdt = multiplet.VetoBdt();
     }
+    Observables Variables();
 private:
-    ClassDef(SignatureBranch, 1)
+    ClassDef(SignatureSingleBranch, 1)
 };
 
-class SignatureSingleBranch : public TChannelBranch
-{
-public:
-  SignatureSingleBranch();
-  float VetoBdt;
-  template<typename Multiplet>
-  void Fill(Multiplet const& multiplet) {
-    TChannelBranch::Fill(multiplet);
-    VetoBdt = multiplet.VetoBdt();
-  }
-  Observables Variables();
-private:
-  ClassDef(SignatureSingleBranch, 1)
-};
-
-class SignatureSingleHadronicBranch : public TChannelBranch
+class SignatureSingleHadronicBranch : public SignatureBranch
 {
 public:
     SignatureSingleHadronicBranch();
@@ -75,14 +75,14 @@ public:
     float HiggsPt;
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-        TChannelBranch::Fill(multiplet);
+        SignatureBranch::Fill(multiplet);
         VetoBdt = multiplet.VetoBdt();
-        TopPt = multiplet.Triplet().Jet().pt();
-        HiggsPt = multiplet.Doublet().Jet().pt();
+        TopPt = multiplet.Triplet().Pt() / GeV;
+        HiggsPt = multiplet.Doublet().Pt() / GeV;
     }
     Observables Variables();
 private:
-  ClassDef(SignatureSingleHadronicBranch, 1)
+    ClassDef(SignatureSingleHadronicBranch, 1)
 };
 
 class EventBranch : public boca::EventBranch
@@ -92,9 +92,120 @@ public:
     void Fill(Multiplet const& multiplet) {
         boca::EventBranch::Fill(multiplet);
     }
-    Observables Variables();
 private:
     ClassDef(EventBranch, 1)
+};
+
+
+
+/**
+ * @brief Class for saving event informations to root
+ *
+ */
+class NewEventBranch : public BdtBranch
+{
+public:
+    NewEventBranch();
+
+    float SignatureBdt;
+    float GlobalBdt;
+
+    template<typename Multiplet>
+    void Fill(Multiplet const& multiplet) {
+        boca::BdtBranch::Fill(multiplet);
+        SignatureBdt = multiplet.Signature().Bdt();
+        GlobalBdt = multiplet.GlobalObservables().Bdt();
+    }
+    Observables Variables();
+
+private:
+    ClassDef(NewEventBranch, 1)
+};
+
+/**
+ * @brief Class for saving event informations to root
+ *
+ */
+class NewEventBranch2 : public BdtBranch, GlobalBase
+{
+public:
+    NewEventBranch2();
+
+    float SignatureBdt;
+    float VetoBdt;
+
+    template<typename Multiplet>
+    void Fill(Multiplet const& multiplet) {
+        boca::BdtBranch::Fill(multiplet);
+        GlobalBase::Fill(multiplet.GlobalObservables());
+        SignatureBdt = multiplet.Signature().Bdt();
+        VetoBdt = multiplet.Signature().VetoBdt();
+    }
+    Observables Variables();
+    Observables Spectators();
+
+private:
+    ClassDef(NewEventBranch2, 1)
+};
+
+/**
+ * @brief Class for saving event informations to root
+ *
+ */
+class CompleteBranch : public SignatureSingleHadronicBranch, GlobalBase
+{
+public:
+    CompleteBranch();
+
+    template<typename Multiplet>
+    void Fill(Multiplet const& multiplet) {
+        SignatureSingleHadronicBranch::Fill(multiplet.Signature());
+        GlobalBase::Fill(multiplet.GlobalObservables());
+    }
+    Observables Variables();
+    Observables Spectators();
+
+private:
+    ClassDef(CompleteBranch, 1)
+};
+
+/**
+ *
+ * @brief Top tagger root tree structure
+ *
+ */
+class TruthBranch : public BdtBranch
+{
+public:
+    TruthBranch();
+    float TopPt;
+    float LeptonPt;
+    float BosonNumber;
+    float HardBosonNumber;
+    float SoftestBosonPt;
+    float HardestBosonPt;
+    float DetectableBosonNumber;
+    float BosonDeltaRMin;
+    float MissingEt;
+    float ScalarHt;
+    float JetPt;
+    template<typename Multiplet>
+    void Fill(Multiplet const& multiplet) {
+        TopPt = multiplet.TopPt(0) / GeV;
+        LeptonPt = multiplet.LeptonPt(0) / GeV;
+        BosonNumber = multiplet.BosonNumber();
+        HardBosonNumber = multiplet.HardBosonNumber();
+        SoftestBosonPt = multiplet.SoftBosonPt() / GeV;
+        HardestBosonPt = multiplet.HardBosonPt() / GeV;
+        DetectableBosonNumber = multiplet.DetectableBosonNumber();
+        BosonDeltaRMin = multiplet.BosonDeltaRMin() / rad;
+        MissingEt = multiplet.MissingEt() / GeV;
+        ScalarHt = multiplet.ScalarHt() / GeV;
+        JetPt = multiplet.JetPt(0) / GeV;
+    }
+    virtual Observables Variables();
+private:
+    ClassDef(TruthBranch, 1)
 };
 
 }

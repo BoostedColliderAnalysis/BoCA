@@ -1,14 +1,16 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
 #include "multiplets/TwoBody.hh"
 #include "multiplets/Singlet.hh"
 
-namespace boca {
+namespace boca
+{
 
-class Doublet : public TwoBody<boca::Singlet, boca::Singlet> {
+class Doublet : public TwoBody<boca::Singlet, boca::Singlet>
+{
 
 public:
 

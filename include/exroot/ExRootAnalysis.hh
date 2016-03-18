@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -69,9 +69,9 @@ private:
 //     template<typename Function>
 //     void Read(std::string const& name, Function const& function) {
 //         TClonesArray& clones_array = *tree_reader_.UseBranch(name.c_str());
-//         for (auto const & event_number : Range(tree_reader_.GetEntries())) {
+//         for (auto const & event_number : IntegerRange(tree_reader_.GetEntries())) {
 //             tree_reader_.ReadEntry(event_number);
-//             for (auto const & entry : Range(clones_array.GetEntriesFast())) {
+//             for (auto const & entry : IntegerRange(clones_array.GetEntriesFast())) {
 //                 function(entry);
 //             }
 // //             tree_writer.Fill();

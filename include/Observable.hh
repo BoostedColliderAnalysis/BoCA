@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -38,8 +38,6 @@ private:
     std::string branch_name_;
 
     boca::Names names_;
-
-    bool is_int_;
 
     float* value_;
 

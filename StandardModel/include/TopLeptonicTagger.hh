@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -15,7 +15,7 @@ namespace standardmodel
 {
 
 /**
- * @brief Top leptonic BDT tagger
+ * @brief BDT tagger for leptonically decaying top quarks
  *
  */
 class TopLeptonicTagger : public TaggerTemplate<Triplet, TopLeptonicBranch>
@@ -23,19 +23,19 @@ class TopLeptonicTagger : public TaggerTemplate<Triplet, TopLeptonicBranch>
 
 public:
 
-    TopLeptonicTagger();
+    TopLeptonicTagger(Id id = Id::top);
 
     int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const override;
 
-    std::vector<Triplet> Multiplets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
+    std::vector<Triplet> Multiplets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
 
     std::vector<Particle> Particles(boca::Event const& event) const;
 
-    std::string Name() const final;
+    std::string Name() const override;
 
-    std::string LatexName() const final;
+    std::string LatexName() const override;
 
-    boca::Filter Filter() const final;
+    boca::Filter Filter() const override;
 
 private:
 
@@ -57,9 +57,11 @@ private:
 
     Mass top_mass_shift_;
 
+    Id id_;
+
 //     std::vector<std::shared_ptr<Tagger>> Prerequisite() {
 //         return
-// //         Join(
+// //         Combine(
 //         {new BottomTagger, new  WLeptonicTagger}
 // //         , bottom_reader_.Tagger().Prerequisite(), w_leptonic_reader_.Tagger().Prerequisite())
 // ;

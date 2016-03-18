@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "TopHadronicHep.hh"
 
@@ -7,13 +7,14 @@
 #include "ClusterSequence.hh"
 #include "DetectorGeometry.hh"
 #include "PreCuts.hh"
+#include "Particles.hh"
 #include "Sort.hh"
 #include "delphes/Hadrons.hh"
 #include "HEPTopTagger.hh"
 #include "Exception.hh"
 #include "plotting/Font.hh"
-// #define DEBUG
-#include "Debug.hh"
+// #define DEBUGGING
+#include "DEBUG.hh"
 
 namespace boca
 {
@@ -29,7 +30,7 @@ TopHadronicHep::TopHadronicHep()
 
 int TopHadronicHep::Train(const Event& event, const PreCuts& pre_cuts, Tag tag) const
 {
-    Info0;
+    INFO0;
     return SaveEntries(Triplets(event, pre_cuts, [&](Triplet & triplet) {
         if (Problematic(triplet, pre_cuts, tag)) throw boca::Problematic();
         triplet.SetTag(tag);
@@ -39,7 +40,7 @@ int TopHadronicHep::Train(const Event& event, const PreCuts& pre_cuts, Tag tag) 
 
 std::vector<Particle>TopHadronicHep::Particles(Event const& event) const
 {
-    Info0;
+    INFO0;
     std::vector<Particle> particles = event.Partons().GenParticles();
     std::vector<Particle> quarks = CopyIfGrandMother(CopyIfQuark(particles), Id::top);
     return CopyIfGrandDaughter(particles, quarks);
@@ -47,7 +48,7 @@ std::vector<Particle>TopHadronicHep::Particles(Event const& event) const
 
 bool TopHadronicHep::Problematic(boca::Triplet const& triplet, boca::PreCuts const& pre_cuts, Tag tag) const
 {
-    Info0;
+    INFO0;
     if (Problematic(triplet, pre_cuts)) return true;
     switch (tag) {
     case Tag::signal :
@@ -61,27 +62,27 @@ bool TopHadronicHep::Problematic(boca::Triplet const& triplet, boca::PreCuts con
 
 bool TopHadronicHep::Problematic(Triplet const& triplet, PreCuts const& pre_cuts) const
 {
-    Info0;
+    INFO0;
     if (pre_cuts.ApplyCuts(Id::top, triplet)) return true;
     return false;
 }
 
 std::vector<Triplet> TopHadronicHep::Multiplets(const Event& event, const boca::PreCuts& pre_cuts, const TMVA::Reader& reader) const
 {
-    Info0;
-    return ReduceResult(Triplets(event, pre_cuts, [&](Triplet & triplet) {
+    INFO0;
+    return Triplets(event, pre_cuts, [&](Triplet & triplet) {
         if (Problematic(triplet, pre_cuts)) throw boca::Problematic();
         triplet.SetBdt(Bdt(triplet, reader));
         return triplet;
-    }));
+    });
 }
 
 std::vector<Triplet> TopHadronicHep::Triplets(Event const& event, PreCuts const& pre_cuts, std::function<Triplet(Triplet&)> const& function) const
 {
-    Info0;
+    INFO0;
     std::vector<Jet> jets = static_cast<delphes::Hadrons const&>(event.Hadrons()).EFlow(JetDetail::structure | JetDetail::isolation);
     if (jets.empty()) return {};
-//     Error(jets.size(),pre_cuts.JetConeMax(Id::top));
+//     ERROR(jets.size(),pre_cuts.JetConeMax(Id::top));
     if(jets.size() == 306) return {}; /// FIXME remove this nasty hack which seems to be necissary for a specific gluon file
     boca::ClusterSequence cluster_sequence(jets, DetectorGeometry::JetDefinition(pre_cuts.JetConeMax(Id::top)));
     jets = SortedByPt(cluster_sequence.InclusiveJets(pre_cuts.PtLowerCut().Get(Id::top)));
@@ -92,7 +93,7 @@ std::vector<Triplet> TopHadronicHep::Triplets(Event const& event, PreCuts const&
         top_tagger.run_tagger();
         if (top_tagger.top_subjets().size() < 3) continue;
         Triplet triplet(Doublet(top_tagger.top_subjets().at(1), top_tagger.top_subjets().at(2)), top_tagger.top_subjets().at(0));
-        Debug(triplet.Mass());
+        DEBUG(triplet.Mass());
         try {
             triplet = function(triplet);
         } catch (std::exception const& exception) {
@@ -106,13 +107,13 @@ std::vector<Triplet> TopHadronicHep::Triplets(Event const& event, PreCuts const&
 
 std::string TopHadronicHep::Name() const
 {
-    Info0;
+    INFO0;
     return "TopHadronicHep";
 }
 
 std::string TopHadronicHep::LatexName() const
 {
-    Info0;
+    INFO0;
     return Formula("t") + Formula("_{h}") + "^{hep}";
 }
 

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -21,10 +21,20 @@ public:
 
     MultipletEvent(Multiplet_1 const& multiplet, Event const& event, std::vector<Jet>& jets) {
         global_observables_.SetEvent(event);
-        std::vector<Jet> unique_jets;
-        for (auto const & jet : jets) if (!multiplet.Overlap(jet)) unique_jets.emplace_back(jet);
-        global_observables_.SetJets(unique_jets);
-        boca::TwoBody<Multiplet_1, boca::Singlet>::SetMultiplets(multiplet, global_observables_.Singlet());
+        global_observables_.SetJets(CopyIf(jets, [&](Jet const & jet) {
+            return !multiplet.Overlap(jet);
+        }));
+        TwoBody<Multiplet_1, boca::Singlet>::SetMultiplet1(multiplet);
+        TwoBody<Multiplet_1, boca::Singlet>::SetMultiplet2(global_observables_.Singlet());
+    }
+
+    MultipletEvent(Multiplet_1 const& multiplet, std::vector<Jet>& jets, GlobalObservables const& global_observables) {
+        global_observables_ = global_observables;
+        global_observables_.SetJets(jets, CopyIf([&](Jet const & jet) {
+          return !multiplet.Overlap(jet);
+        }));
+        TwoBody<Multiplet_1, boca::Singlet>::SetMultiplet1(multiplet);
+        TwoBody<Multiplet_1, boca::Singlet>::SetMultiplet2(global_observables_.Singlet());
     }
 
     Multiplet_1 Signature() const {
@@ -46,5 +56,6 @@ private:
 };
 
 }
+
 
 

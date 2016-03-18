@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -19,6 +19,7 @@ enum class Font
 
 enum class Style
 {
+    none = 0,
     normal = 1 << 0,
     bold = 1 << 1,
     italic = 1 << 2
@@ -29,9 +30,9 @@ struct Flag<Style> {
     static const bool enable = true;
 };
 
-float TextHeight();
+double TextHeight();
 
-float LabelHeight();
+double LabelHeight();
 
 int ColorCode(int number);
 

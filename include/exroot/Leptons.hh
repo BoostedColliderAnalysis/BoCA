@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -22,11 +22,11 @@ public:
 
     Leptons(boca::TreeReader const& tree_reader);
 
-    std::vector<Lepton> Electrons() const final;
+    std::vector<Lepton> Electrons() const override;
 
-    std::vector<Lepton> Muons() const final;
+    std::vector<Lepton> Muons() const override;
 
-    std::vector<Lepton> Photons() const final;
+    std::vector<Lepton> Photons() const override;
 
 };
 

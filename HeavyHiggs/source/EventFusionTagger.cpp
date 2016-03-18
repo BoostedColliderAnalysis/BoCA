@@ -1,37 +1,36 @@
 #include "EventFusionTagger.hh"
 #include "Event.hh"
-#include "Debug.hh"
+#include "Particles.hh"
+#include "DEBUG.hh"
 
-namespace boca {
+namespace boca
+{
 
-namespace heavyhiggs {
+namespace heavyhiggs
+{
 
 int EventFusionTagger::Train(Event const& event, PreCuts const& , Tag tag) const
 {
-    INFO("event Tags");
-   std::vector<Jet> jets = bottom_reader_.Jets(event);
-   std::vector<Lepton> leptons = event.Leptons().leptons();
+    INFO0;
+    std::vector<Jet> jets = bottom_reader_.Jets(event);
+    std::vector<Lepton> leptons = event.Leptons().leptons();
     std::vector<Sextet> sextets = heavy_higgs_semi_reader_.Multiplets(event);
     std::vector<Particle> HiggsParticles = event.Partons().GenParticles();
-    std::vector<Particle>Even = CopyIfFamily(HiggsParticles, Id::heavy_higgs, Id::gluon);
-    std::vector<Particle>Odd = CopyIfFamily(HiggsParticles, Id::CP_odd_higgs, Id::gluon);
+    std::vector<Particle> Even = CopyIfFamily(HiggsParticles, Id::heavy_higgs, Id::gluon);
+    std::vector<Particle> Odd = CopyIfFamily(HiggsParticles, Id::CP_odd_higgs, Id::gluon);
     HiggsParticles = Even;
     HiggsParticles.insert(HiggsParticles.end(), Odd.begin(), Odd.end());
     Particle HiggsBoson;
     if (tag == Tag::signal) {
-        if (HiggsParticles.size() == 1)
-            HiggsBoson = HiggsParticles.front();
-        else
-            Error("Where is the Higgs?", HiggsParticles.size());
-        std::sort(sextets.begin(), sextets.end(), MinDeltaRTo(HiggsParticles.front()));
-        if (sextets.size() > 1)
-            sextets.erase(sextets.begin() + 1, sextets.end());
+        if (HiggsParticles.size() == 1) HiggsBoson = HiggsParticles.front();
+        else ERROR("Where is the Higgs?", HiggsParticles.size());
+        SortedByMinDeltaRTo(sextets, HiggsParticles.front());
+        if (sextets.size() > 1) sextets.erase(sextets.begin() + 1, sextets.end());
     }
 //     std::vector<EventFusionBranch> eventSemiBranches;
-    if (sextets.empty())
-        return 0;
+    if (sextets.empty()) return 0;
     if (tag == Tag::signal && sextets.size() > 1) {
-        Error("more than one event", sextets.size());
+        ERROR("more than one event", sextets.size());
         std::sort(sextets.begin(), sextets.end());
         sextets.erase(sextets.begin() + 1, sextets.end());
     }
@@ -44,17 +43,17 @@ int EventFusionTagger::Train(Event const& event, PreCuts const& , Tag tag) const
 
 std::vector<MultipletEvent<Sextet>> EventFusionTagger::Multiplets(Event const& event, PreCuts const& , TMVA::Reader const& reader) const
 {
-    INFO("event Tags");
+    INFO0;
     std::vector<Sextet> sextets = heavy_higgs_semi_reader_.Multiplets(event);
-   std::vector<Jet> jets = bottom_reader_.Jets(event);
-   std::vector<Lepton> leptons = event.Leptons().leptons();
+    std::vector<Jet> jets = bottom_reader_.Jets(event);
+    std::vector<Lepton> leptons = event.Leptons().leptons();
     std::vector<MultipletEvent<Sextet>> sextet_events;
-    for (auto const& sextet : sextets) {
+    for (auto const & sextet : sextets) {
         MultipletEvent<Sextet> multiplet_event(sextet, event, jets);
         multiplet_event.SetBdt(Bdt(multiplet_event, reader));
         sextet_events.emplace_back(multiplet_event);
     }
-    return ReduceResult(sextet_events);
+    return ReduceResult(sextet_events,1);
 }
 std::string EventFusionTagger::Name() const
 {

@@ -7,6 +7,7 @@
 
 #include "Third.hh"
 #include "AnalysisBase.hh"
+#include "Event.hh"
 
 namespace boca
 {
@@ -31,8 +32,8 @@ public:
      * @brief Main analysis loop which has to be called by main.cpp
      *
      */
-    void AnalysisLoop(Stage stage) final {
-        for (auto const & tag : std::vector<Tag> {Tag::signal, Tag::background}) FirstLoop({stage, tag});
+    void AnalysisLoop(Stage stage) override {
+        for (auto const & tag : std::vector<Tag> {Tag::signal, Tag::background}) TagLoop({stage, tag});
     }
 
 protected:
@@ -44,18 +45,18 @@ protected:
 
 private:
 
-    void FirstLoop(Phase first) {
-        TFile export_file(Tagger().ExportFileName(first.Stage(), first.Tag()).c_str(), "Recreate");
+    void TagLoop(Phase phase) {
+        TFile export_file(Tagger().ExportFileName(phase).c_str(), "Recreate");
         ClearFiles();
-        SetFiles(first.Tag(), first.Stage());
-        for (auto & file : this->Files(first.Tag())) SecondLoop( {first, file, export_file});
+        SetFiles(phase.Tag(), phase.Stage());
+        for (auto & file : this->Files(phase.Tag())) FileLoop( {phase, file, export_file});
     }
 
     /**
      * @brief Analysis performed on each file
      *
      */
-    void SecondLoop(boca::Files files) {
+    void FileLoop(boca::Files files) {
         BranchWriter<Tagger_> branch_writer(files, tagger_);
         bool do_threading = false;
         if (do_threading) {
@@ -63,7 +64,7 @@ private:
             std::vector<std::thread> threads;
 //         int cores = std::thread::hardware_concurrency(); // breaks in the tree reader, find  a cheap way to store the position of the data
             int cores = 1;
-            for (auto core : Range(cores)) {
+            for (auto core : IntegerRange(cores)) {
                 threads.emplace_back(std::thread([&, core, cores] {
                     branch_writer_mutex.lock();
                     Third<Tagger_> third(branch_writer, core, cores, TrainNumberMax());
@@ -82,32 +83,29 @@ private:
     }
 
     void ReadEvents(Third<Tagger_>& third) {
-        while (third.BranchWriter().KeepGoing(EventNumberMax(third.Files().Phase().Stage())) && third.KeepGoing()) third.Increment(ReadEvent(third));
+      while (third.KeepGoing(EventNumberMax(third.Files().Phase().Stage()))) ReadEvent(third);
     }
 
-    int ReadEvent(Third<Tagger_>& third) const {
-        if (!third.ReadEntry()) return 0;
+    void ReadEvent(Third<Tagger_>& third) const {
+        if (!third.ReadEntry()) return;
         Event event(third.TreeReader(), third.Files().Import().Source());
-        if (!PassPreCut(event, third.Files().Phase().Tag())) return 0;
-        int number = Switch(event, third);
-//         Error(number);
-        third.SaveEntry();
-        return number;
+        if (!PassPreCut(event, third.Files().Phase().Tag())) return;
+        third.SaveEntry(Switch(event, third));
     }
 
     int Switch(Event const& event, Third<Tagger_>& third) const {
         switch (third.Files().Phase().Stage()) {
-        case Stage::trainer : return third.Tagger().Train(event, pre_cuts(), third.Files().Phase().Tag());
-        case Stage::reader : return third.Reader().Bdt(event, pre_cuts());
+        case Stage::trainer : return third.Tagger().Train(event, PreCuts(), third.Files().Phase().Tag());
+        case Stage::reader : return third.Reader().Bdt(event, PreCuts());
         default : return 0;
         }
     }
 
-    Tagger_& Tagger() final {
+    Tagger_& Tagger()override {
         return tagger_;
     }
 
-    Tagger_ const& Tagger() const final {
+    Tagger_ const& Tagger() const override {
         return tagger_;
     }
 

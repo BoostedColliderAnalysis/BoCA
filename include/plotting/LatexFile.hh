@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -23,6 +23,8 @@ public:
 //     }
 
     void IncludeGraphic(std::string file_name, std::string caption);
+
+    void IncludeGraphic(std::vector<std::string>  const& file_names, std::string  const& caption);
 
     void Table(std::string const& header, std::string const& content, std::string caption);
 

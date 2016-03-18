@@ -1,15 +1,15 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "ParticleInfo.hh"
 
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca {
 
 ParticleInfo::ParticleInfo()
 {
-    Debug0;
+    DEBUG0;
 }
 
 ParticleInfo::ParticleInfo(boca::Family const& family)

@@ -1,10 +1,10 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "Leptons.hh"
 
 #include "Vector.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {
@@ -14,13 +14,13 @@ Leptons::Leptons(boca::TreeReader const& tree_reader) :
 
 Leptons::~Leptons()
 {
-    Info0;
+    INFO0;
 }
 
 std::vector<Lepton> Leptons::leptons() const
 {
-    Info0;
-    return Join(Electrons(), Muons());
+    INFO0;
+    return Combine(Electrons(), Muons());
 }
 
 }

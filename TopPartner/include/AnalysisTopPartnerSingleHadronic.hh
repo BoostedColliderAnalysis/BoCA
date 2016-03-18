@@ -1,12 +1,15 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
 #include "AnalysisTopPartner.hh"
 #include "EventSingleHadronicTagger.hh"
 #include "VetoTopPartnerLeptonicTagger.hh"
-#include "Debug.hh"
+#include "TopPartnerLeptonicNeutralTagger.hh"
+#include "TopPartnerHadronicTagger.hh"
+#define INFORMATION
+#include "DEBUG.hh"
 
 namespace boca
 {
@@ -27,26 +30,24 @@ class AnalysisSingleHadronic : public AnalysisNaturalness<Tagger>
 
 protected:
 
-    std::string AnalysisName() const final {
-        Info0;
-        return "Single-Hadronic-" + Name(DetectorGeometry::detector_type()) + "-" + boca::Name(this->Mass()) + "-2016-2";
+    std::string AnalysisName() const override {
+        INFO0;
+        return "Single-Hadronic-" + Name(DetectorGeometry::DetectorType()) + "-" + boca::Name(this->Mass()) + "-large";
     }
 
-    void SetFiles(Tag tag, Stage) final {
-        Info0;
+    void SetFiles(Tag tag, Stage)override {
+        INFO0;
         switch (tag) {
         case Tag::signal :
-            if (this->template TaggerIs<VetoTopPartnerLeptonicTagger>()) this->NewFile(tag, Process::TT);
+          if (this->template TaggerIs<VetoTopPartnerLeptonicTagger>() || this->template TaggerIs<TopPartnerLeptonicNeutralTagger>()) this->NewFile(tag, Process::TT);
             else this->NewFile(tag, Process::TthHad);
             break;
         case Tag::background :
-            if (this->template TaggerIs<VetoTopPartnerLeptonicTagger>()) this->NewFile(tag, Process::TthHad);
-            else
-//             if (!this->template TaggerIs<TopPartnerHadronicTagger>())
-              this->NewFile(tag, Process::TT);
-            if (!this->template TaggerIs<VetoTopPartnerLeptonicTagger>()) {
-//                 this->NewFile(tag, Process::ttBB);
-//                 this->NewFile(tag, Process::ttBjj);
+          if (this->template TaggerIs<VetoTopPartnerLeptonicTagger>() || this->template TaggerIs<TopPartnerLeptonicNeutralTagger>()) this->NewFile(tag, Process::TthHad);
+            else if (!this->template TaggerIs<TopPartnerHadronicTagger>()) this->NewFile(tag, Process::TT);
+            if (!this->template TaggerIs<VetoTopPartnerLeptonicTagger>() || !this->template TaggerIs<TopPartnerLeptonicNeutralTagger>()) {
+                this->NewFile(tag, Process::ttBB);
+                this->NewFile(tag, Process::ttBjj);
             }
             break;
         }
@@ -55,17 +56,17 @@ protected:
 private:
 //         TopPartnerHadronicTagger partner_tagger;
 
-    int PassPreCut(Event const& , Tag) const final {
-        Info0;
+    int PassPreCut(Event const& , Tag) const override {
+        INFO0;
 //       if(tag == Tag::signal){
 //        std::vector<Jet> partner = partner_tagger.Particles(event);
 //         if(partner.empty()) return 0;
 //       }
 //       static int counter = 0;
 //       ++counter;
-//     Error(counter);
+//     ERROR(counter);
 
-//      Error0;
+//      ERROR0;
 //      this->PrintGeneratorLevel(event);
 
 //        std::vector<Jet> jets = SortedByPt(event.Hadrons().Jets());
@@ -82,7 +83,7 @@ private:
 //         if (tag == Tag::signal && partner.size() != 1) {
 //             return 0;
 //         }
-//         if (tops.size() < 2 || (higgs.size() < 1 && vectors.size() < 1)) {
+//         if (tops.size() < 2 || (higgs.empty() && vectors.empty())) {
 //             return 0;
 //         }
         return 1;

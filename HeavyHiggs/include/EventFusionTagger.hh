@@ -19,11 +19,11 @@ class EventFusionTagger : public TaggerTemplate<MultipletEvent<Sextet>, EventFus
 
 public:
 
-    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
+    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const override;
 
-    std::vector<MultipletEvent<Sextet>> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
+    std::vector<MultipletEvent<Sextet>> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
 
-    std::string Name() const final;
+    std::string Name() const override;
 
 private:
 

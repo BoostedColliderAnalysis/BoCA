@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -29,11 +29,11 @@ public:
      */
     JetInfoFamily();
 
-    JetInfoFamily(float bdt);
+    JetInfoFamily(double bdt);
 
     void AddDaughter(int daughter);
 
-    std::unordered_map<Family, float> FamilyFractions();
+    std::unordered_map<Family, double> FamilyFractions();
 
     void ExtractFraction(int id);
 
@@ -41,19 +41,13 @@ public:
 
     void ExtractFraction(int id, int mother_id);
 
-    void PrintAllInfos(Severity severity) const;
+    double MaximalFraction() const;
 
-    void PrintAllconstituentInfos(Severity severity) const;
-
-    void PrintAllFamInfos(Severity severity) const;
-
-    float MaximalFraction() const;
-
-    float Fraction(int id) const;
+    double Fraction(int id) const;
 
     int MaximalId() const;
 
-    void AddFamily(Family const& family, float weight);
+    void AddFamily(Family const& family, double weight);
 
     void ExtractFamilyFraction();
 
@@ -61,15 +55,15 @@ public:
 
 private:
 
-    void AddParticle(int constituent_id, float weight);
+    void AddParticle(int constituent_id, double weight);
 
-    void AddParticle(Id constituent_id, float weight);
+    void AddParticle(Id constituent_id, double weight);
 
-    float GetWeightSum() const;
+    double GetWeightSum() const;
 
-    std::unordered_map<Family, float> family_fractions_;
+    std::unordered_map<Family, double> family_fractions_;
 
-    std::map<int, float> id_fractions_;
+    std::map<int, double> id_fractions_;
 
 };
 

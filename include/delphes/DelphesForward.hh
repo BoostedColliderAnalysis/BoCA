@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -49,6 +49,10 @@ typedef ::Candidate Candidate;
 
 }
 
+/**
+ * @brief Delphes
+ *
+ */
 // namespace delphes {
 //
 //   class Event;

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -17,7 +17,7 @@ namespace standardmodel
 {
 
 /**
- * @brief Semi leptonic heavy higgs BDT tagger
+ * @brief BDT tagger for hadroniccaly decaying Z bosons
  *
  */
 class ZHadronicTagger : public TaggerTemplate<Doublet, ZHadronicBranch>
@@ -27,13 +27,13 @@ public:
 
     ZHadronicTagger();
 
-    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
+    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const override;
 
-    std::vector<Doublet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
+    std::vector<Doublet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
 
-    std::string Name() const final;
+    std::string Name() const override;
 
-    std::string LatexName() const final;
+    std::string LatexName() const override;
 
 private:
 

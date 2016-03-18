@@ -1,10 +1,10 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
-#include "classes/DelphesClasses.h"
-// #include "delphes/DelphesClasses.h"
+// #include "classes/DelphesClasses.h"
+#include "delphes/DelphesClasses.h"
 
 /**
  * @brief Delphes

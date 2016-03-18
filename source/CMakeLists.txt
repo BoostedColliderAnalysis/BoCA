@@ -1,9 +1,10 @@
 #
-# Copyright (C) 2015 Jan Hajer
+# Copyright (C) 2015-2016 Jan Hajer
 #
 add_subdirectory(exroot)
 add_subdirectory(delphes)
 add_subdirectory(physics)
+create_dictionary(Colors Colors.cpp ../include/LinkDef.hh)
 add_subdirectory(plotting)
 
 add_include_path(../include)
@@ -26,7 +27,7 @@ add_subdirectory(multiplets)
 set(global_sources
 Debug.cpp
 Types.cpp
-Vector.cpp
+Particles.cpp
 Exception.cpp
 )
 create_library(Global global_sources)
@@ -35,6 +36,7 @@ set(event_sources
 File.cpp
 TreeReader.cpp
 Event.cpp
+Isolation.cpp
 FourVector.cpp
 Partons.cpp
 Leptons.cpp
@@ -45,6 +47,8 @@ create_library(Event event_sources)
 set(multiplet_sources
 Identification.cpp
 GlobalObservables.cpp
+GlobalTagger.cpp
+# EventTagger.cpp
 )
 create_library(Multiplets2 multiplet_sources)
 
@@ -78,7 +82,10 @@ DetectorGeometry.cpp
 JetInfo.cpp
 ParticleInfo.cpp
 InfoRecombiner.cpp
-JetInfoFamily.cpp
+# JetInfoFamily.cpp
 )
 create_library(Analysis analysis_sources)
 
+add_executable(root-browser Browser.cpp)
+target_link_libraries(root-browser ${ROOT_LIBRARIES})
+install (TARGETS root-browser DESTINATION ~/.bin)

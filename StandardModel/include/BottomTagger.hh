@@ -1,10 +1,10 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
-#include "BranchesSm.hh"
 #include "TaggerTemplate.hh"
+#include "BranchesSm.hh"
 #include "multiplets/Singlet.hh"
 
 
@@ -15,9 +15,9 @@ namespace standardmodel
 {
 
 /**
- * @brief Derived Tagger class for bottom jets.
+ * @brief BDT tagger for bottom jets.
  * @author Jan Hajer
- * @copyright Copyright (C) 2015 Jan Hajer
+ * @copyright Copyright (C) 2015-2016 Jan Hajer
  * @date 2015
  * @license GPL 3
  *
@@ -32,13 +32,13 @@ public:
     /**
      * @brief Train the bottom tagger with pre cuts
      */
-    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
+    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const override;
 
     /**
      * @brief Return all jets of the event with bottom bdt value considering pre cuts
      *
      */
-    std::vector<Jet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
+    std::vector<Jet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
 
     /**
      * @brief Return all jets of the event with bottom bdt value considering pre cuts
@@ -58,9 +58,9 @@ public:
      */
     Jet Multiplet(Jet & jet, TMVA::Reader const& reader) const;
 
-    std::string Name() const final;
+    std::string Name() const override;
 
-    std::string LatexName() const final;
+    std::string LatexName() const override;
 
 private:
 
@@ -85,7 +85,6 @@ private:
 template<>
 inline void TaggerTemplate<Jet, standardmodel::BottomBranch>::FillBranch(Jet const& multiplet) const
 {
-    //     Info0;
     branch_.Fill(Singlet(multiplet));
 }
 

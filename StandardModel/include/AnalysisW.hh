@@ -23,11 +23,11 @@ class AnalysisW : public AnalysisStandardModel<Tagger>
 public:
 
     AnalysisW() {
-        this->pre_cuts().PtLowerCut().Set(Id::W, this->LowerPtCut());
-        this->pre_cuts().PtUpperCut().Set(Id::W, this->UpperPtCut());
-//         this->pre_cuts().MassUpperCut().Set(Id::W, 200_GeV);
-        //     pre_cuts().TrackerMaxEta().Set(Id::top, DetectorGeometry::TrackerEtaMax);
-        this->pre_cuts().ConsiderBuildingBlock().Set(Id::W, false);
+        this->PreCuts().PtLowerCut().Set(Id::W, this->LowerPtCut());
+        this->PreCuts().PtUpperCut().Set(Id::W, this->UpperPtCut());
+//         this->PreCuts().MassUpperCut().Set(Id::W, 200_GeV);
+        //     PreCuts().TrackerMaxEta().Set(Id::top, DetectorGeometry::TrackerEtaMax);
+        this->PreCuts().ConsiderBuildingBlock().Set(Id::W, false);
     }
 
     static Decay WDecay() {
@@ -37,12 +37,12 @@ public:
 
 private:
 
-    std::string AnalysisName() const final {
-        return Name(this->collider_type()) + "-" + boca::Name(this->LowerPtCut()) + "-bottom";
+    std::string AnalysisName() const override {
+        return Name(this->Collider()) + "-" + boca::Name(this->LowerPtCut()) + "-bottom";
     }
 
 
-    void SetFiles(Tag tag, Stage stage) final {
+    void SetFiles(Tag tag, Stage stage)override {
         switch (tag) {
         case Tag::signal :
             if (!this->template TaggerIs<BottomTagger>()) this->NewFile(tag, Process::ww);
@@ -63,7 +63,7 @@ private:
             break;
         }
     }
-    int PassPreCut(Event const& event, Tag) const final {
+    int PassPreCut(Event const& event, Tag) const override {
         return 1;
        std::vector<Particle> particles = SortedByPt(event.Partons().GenParticles());
         if ((particles.at(0).Pt() > this->LowerQuarkCut() && particles.at(0).Pt() < this->UpperQuarkCut()) && (particles.at(1).Pt() > this->LowerQuarkCut() &&  particles.at(1).Pt() < this->UpperQuarkCut())) return 1;

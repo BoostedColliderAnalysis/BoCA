@@ -3,48 +3,70 @@
  */
 #include "plotting/Plots.hh"
 
-// #define DEBUG
-#include "Debug.hh"
+#include "Vector.hh"
+// #define DEBUGGING
+#include "DEBUG.hh"
 
 namespace boca
 {
 
-void Plots::SetNames(NamePairs const& names)
-{
-    Info0;
-    for (auto & plot : plots_) {
-        int index = &plot - &plots_.front();
-        plot.XAxis() = names.at(index).first;
-//         plot.XAxis().SetLatexName(names.at(index).first.LatexName());
-        plot.YAxis() = names.at(index).second;
-//         plot.YAxis().SetLatexName(names.at(index).second.LatexName());
-        plot.Title() = info_branch_.Names();
-//         plot.Title().SetLatexName(info_branch_.LatexName());
-    }
-}
+Plots::Plots() {}
 
-Plots::Plots(const InfoBranch& info_branch)
+Plots::Plots(boca::InfoBranch const& info_branch)
 {
-    Info0;
+    INFO0;
     info_branch_ = info_branch;
 }
 
-std::vector<Plot> const& Plots::plots() const
+void Plots::SetNames(NamePairs const& names)
 {
-    Info0;
+    INFO0;
+    for (auto & plot : plots_) {
+        int index = Position(plots_, plot);
+        plot.XAxis() = names.at(index).first;
+        plot.YAxis() = names.at(index).second;
+        plot.Title() = info_branch_.Names();
+    }
+}
+
+void Plots::SetNames(std::vector<boca::Names> const& names)
+{
+    INFO0;
+    for (auto & plot : plots_) {
+        plot.XAxis() = names.at(Position(plots_, plot));
+        plot.Title() = info_branch_.Names();
+    }
+}
+
+std::vector<Plot> const& Plots::PlotVector() const
+{
+    INFO0;
     return plots_;
 }
 
-std::vector<Plot> & Plots::plots()
+std::vector<Plot>& Plots::PlotVector()
 {
-    Info0;
+    INFO0;
     return plots_;
 }
 
-void Plots::SetName(std::string const& name)
+boca::Range< double > Plots::XRange() const
 {
-    Info0;
-    name_ = name;
+    Range<double> range;
+    for (auto const & plot : plots_) range.Widen(plot.XRange());
+    return range;
+}
+Names& Plots::Names()
+{
+    return names_;
+}
+Names const& Plots::Names() const
+{
+    return names_;
+}
+boca::InfoBranch const& Plots::InfoBranch() const
+{
+    return info_branch_;
 }
 
 }

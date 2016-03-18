@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -30,6 +30,15 @@ public:
         if (Mod2() == ValueSquare(0)) return Distance_1(point); // v == w case
         return (point - Projection(point)).Mod(); // second implementation
         return Area(point) / Mod(); // first implementation
+    }
+    template<typename Jet_>
+    Angle Distance(Jet_ const& jet)
+    {
+      auto phi = jet.Phi();
+      auto distance_1 = DistanceToSegment(Vector2<Angle>(jet.Rap(), phi));
+      phi = Wrap(phi);
+      auto distance_2 = DistanceToSegment(Vector2<Angle>(jet.Rap(), phi));
+      return std::min(distance_1, distance_2);
     }
     Vector2<Value> const& Point_1() const {
         return point_1_;

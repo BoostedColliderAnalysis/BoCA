@@ -1,14 +1,13 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
-#include <sys/stat.h>
 #include "TPad.h"
 #include "TStyle.h"
 
 #include "plotting/Canvas.hh"
 #include "plotting/Font.hh"
 // #define INFORMATION
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {
@@ -18,7 +17,7 @@ namespace
 
 std::string ExportFileSuffix()
 {
-    Info0;
+    INFO0;
     return ".pdf";
     return ".svg";
     return ".png";
@@ -26,19 +25,45 @@ std::string ExportFileSuffix()
 
 }
 
+Canvas::Canvas()
+{
+    Initialize();
+}
+
 Canvas::Canvas(std::string const& path, std::string const& name, bool show_title)
 {
-    Info0;
-//     mkdir(path.c_str(), 0700);
+    INFO0;
+    Initialize(path, name, show_title);
+}
+
+void Canvas::Initialize(std::string const& path, std::string const& name, bool show_title)
+{
+    Initialize(path, name);
+    SetMargins(show_title);
+}
+
+void Canvas::Initialize(std::string const& path, std::string const& name)
+{
+    INFO0;
     path_ = path;
     title_ = name;
+    Initialize();
+}
+
+void Canvas::Initialize()
+{
+    INFO0;
     gStyle->SetOptStat("");
     gStyle->SetTitleFont(FontCode(), "t");
     gStyle->SetTitleFontSize(TextHeight());
     gPad->SetTickx();
     gPad->SetTicky();
-    Fill();
-    SetMargins(show_title);
+    canvas_.SetFillColor(0);
+    canvas_.SetFillStyle(0);
+    gPad->SetFillColor(0);
+    gPad->SetFillStyle(0);
+    gPad->SetFrameFillColor(0);
+    gPad->SetFrameFillStyle(0);
 }
 
 std::string Canvas::FileName() const
@@ -56,29 +81,18 @@ std::string Canvas::Path() const
     return path_;
 }
 
-void Canvas::Fill()
-{
-    Info0;
-    canvas_.SetFillColor(0);
-    canvas_.SetFillStyle(0);
-    gPad->SetFillColor(0);
-    gPad->SetFillStyle(0);
-    gPad->SetFrameFillColor(0);
-    gPad->SetFrameFillStyle(0);
-}
-
 void Canvas::SetMargins(bool show_title)
 {
-    canvas_.SetLeftMargin(2 * TextHeight());
-    if (show_title) canvas_.SetTopMargin(TextHeight() * 1.5);
-    else canvas_.SetTopMargin(TextHeight() / 3);
-    canvas_.SetRightMargin(TextHeight() / 3);
+    INFO0;
+    canvas_.SetLeftMargin(TextHeight() * 2);
+    canvas_.SetTopMargin(TextHeight() * (show_title ? 1.5 : 1));
+    canvas_.SetRightMargin(TextHeight() * 1.1);
     canvas_.SetBottomMargin(2.1 * TextHeight());
 }
 
 std::string Canvas::SaveAs(std::string const& name)
 {
-    Info0;
+    INFO0;
     canvas_.SaveAs(name.c_str());
     return name;
 }

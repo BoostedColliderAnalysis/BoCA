@@ -1,8 +1,8 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "plotting/LatexFile.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {
@@ -12,6 +12,7 @@ LatexFile::LatexFile(std::string const& name)
     latex_file_ << "\\documentclass[a4paper,11pt]{article}\n\n"
                 << "\\usepackage{booktabs}\n"
                 << "\\usepackage{graphicx}\n"
+                << "\\usepackage{amsmath}\n"
                 // << "\\usepackage[landscape]{geometry}\n"
                 << "\\usepackage[cm]{fullpage}\n"
                 << "\\usepackage{units}\n"
@@ -47,6 +48,11 @@ void LatexFile::IncludeGraphic(std::string file_name, std::string caption)
 //         return "\n\\begin{figure}\n\\centering\n\\scalebox{0.6}{\\input{" + file_name + "}}\n\\caption{" + caption + ".}\n\\end{figure}\n";
 }
 
+void LatexFile::IncludeGraphic(std::vector< std::string > const& file_names, std::string const& caption)
+{
+    for (auto const & name : file_names) IncludeGraphic(name, caption);
+}
+
 void LatexFile::Table(std::string const& header, std::string const& content, std::string caption)
 {
     latex_file_ << "\n\\begin{table}\n\\centering\n\\begin{tabular}{" << header << "}\n    \\toprule\n";
@@ -56,7 +62,7 @@ void LatexFile::Table(std::string const& header, std::string const& content, std
 
 void LatexFile::Mass(boca::Mass mass)
 {
-    Info0;
+    INFO0;
     if (mass > massless) {
         std::stringstream mass_string;
         mass_string << boost::units::engineering_prefix << "\\section*{Mass = " << mass << "}\n";

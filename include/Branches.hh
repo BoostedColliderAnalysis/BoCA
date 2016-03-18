@@ -3,10 +3,7 @@
  */
 #pragma once
 
-#include <iostream>
-
 #include "TObject.h"
-#include "Rtypes.h"
 
 #include "physics/Prefixes.hh"
 
@@ -24,7 +21,7 @@ class File;
 class BaseBranch : public TObject
 {
 public:
-    virtual ~BaseBranch();
+//     virtual ~BaseBranch();
     static float InitialValue();
 protected:
 private:
@@ -129,10 +126,10 @@ public:
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         BdtBranch::Fill(multiplet);
-        Mass = multiplet.Jet().Mass() / GeV;
-        Pt = multiplet.Jet().Pt() / GeV;
-        Rap = multiplet.Jet().Rap() / rad;
-        Phi = multiplet.Jet().Phi() / rad;
+        Mass = multiplet.Mass() / GeV;
+        Pt = multiplet.Pt() / GeV;
+        Rap = multiplet.Rap() / rad;
+        Phi = multiplet.Phi() / rad;
         Charge = multiplet.Charge();
     }
     Observables Variables();
@@ -165,7 +162,7 @@ public:
     float EnergyFraction;
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-        Fill2(multiplet.singlet());
+        Fill2(multiplet.ConstituentJet());
     }
     template<typename Singlet>
     void Fill2(Singlet const& singlet) {
@@ -182,10 +179,9 @@ public:
     }
     virtual Observables Variables();
     virtual Observables Spectators();
-    virtual ~BottomBase() {};
 private:
-    ClassDef(BottomBase, 1)
     float InValue();
+    ClassDef(BottomBase, 1)
 };
 
 class PairBranch : public ParticleBranch
@@ -203,7 +199,7 @@ public:
     float Bdt2;
     float Pull1;
     float Pull2;
-    float Dipolarity;
+//     float Dipolarity;
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         ParticleBranch::Fill(multiplet);
@@ -218,7 +214,7 @@ public:
         Bdt2 = multiplet.Multiplet2().Bdt();
         Pull1 = multiplet.Pull12() / rad;
         Pull2 = multiplet.Pull21() / rad;
-        Dipolarity = multiplet.Dipolarity();
+//         Dipolarity = multiplet.Dipolarity();
     }
     Observables Variables();
     Observables Spectators();
@@ -249,10 +245,10 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class TChannelBranch : public MultiBranch
+class SignatureBranch : public MultiBranch
 {
 public:
-    TChannelBranch();
+    SignatureBranch();
     float Bdt3;
     float Mass12;
     float Mass23;
@@ -281,10 +277,10 @@ public:
     float Pull13;
     float Pull32;
     float Pull31;
-    float Dipolarity23;
-    float Dipolarity13;
-//   float Sphericity;
-//   float Aplanarity;
+//     float Dipolarity23;
+//     float Dipolarity13;
+    float Sphericity;
+    float Aplanarity;
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         MultiBranch::Fill(multiplet);
@@ -316,15 +312,15 @@ public:
         Pull13 = multiplet.Pull13() / rad;
         Pull32 = multiplet.Pull32() / rad;
         Pull31 = multiplet.Pull31() / rad;
-        Dipolarity23 = multiplet.Dipolarity23();
-        Dipolarity13 = multiplet.Dipolarity13();
-        //     Aplanarity = signature.EventShape().Aplanarity(); // FIXME reenable this
-//     Sphericity = signature.EventShape().Sphericity(); // FIXME reenable this
+//         Dipolarity23 = multiplet.Dipolarity23();
+//         Dipolarity13 = multiplet.Dipolarity13();
+        Aplanarity = multiplet.EventShapes().Aplanarity();
+        Sphericity = multiplet.EventShapes().Sphericity();
     }
     Observables Variables();
 
 private:
-    ClassDef(TChannelBranch, 1)
+    ClassDef(SignatureBranch, 1)
 };
 
 /**
@@ -355,14 +351,14 @@ public:
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         PairBranch::Fill(multiplet);
-        Jet1Pt = multiplet.Singlet1().Jet().Pt() / GeV;
-        Jet1Rap = multiplet.Singlet1().Jet().Rap() / rad;
-        Jet1Phi = multiplet.Singlet1().Jet().Phi() / rad;
-        Jet1Mass = multiplet.Singlet1().Jet().Mass() / GeV;
-        Jet2Pt = multiplet.Singlet2().Jet().Pt() / GeV;
-        Jet2Rap = multiplet.Singlet2().Jet().Rap() / rad;
-        Jet2Phi = multiplet.Singlet2().Jet().Phi() / rad;
-        Jet2Mass = multiplet.Singlet2().Jet().Mass() / GeV;
+        Jet1Pt = multiplet.Singlet1().Pt() / GeV;
+        Jet1Rap = multiplet.Singlet1().Rap() / rad;
+        Jet1Phi = multiplet.Singlet1().Phi() / rad;
+        Jet1Mass = multiplet.Singlet1().Mass() / GeV;
+        Jet2Pt = multiplet.Singlet2().Pt() / GeV;
+        Jet2Rap = multiplet.Singlet2().Rap() / rad;
+        Jet2Phi = multiplet.Singlet2().Phi() / rad;
+        Jet2Mass = multiplet.Singlet2().Mass() / GeV;
     }
     Observables Variables();
 
@@ -394,23 +390,89 @@ public:
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         PairBranch::Fill(multiplet);
-        BottomPt = multiplet.Singlet().Jet().Pt() / GeV;
+        BottomPt = multiplet.Singlet().Pt() / GeV;
 //         BottomRap = std::abs(multiplet.Singlet().rap());
-        BottomRap = multiplet.Singlet().Jet().Rap() / rad;
-        BottomPhi = multiplet.Singlet().Jet().Phi() / rad;
-        BottomMass = multiplet.Singlet().Jet().Mass() / GeV;
+        BottomRap = multiplet.Singlet().Rap() / rad;
+        BottomPhi = multiplet.Singlet().Phi() / rad;
+        BottomMass = multiplet.Singlet().Mass() / GeV;
 //         BottomBdt = multiplet.Singlet().Info().Bdt();
-        TopPt = multiplet.Triplet().Jet().Pt() / GeV;
-//         TopRap = std::abs(multiplet.Triplet().Jet().rap());
-        TopRap = multiplet.Triplet().Jet().Rap() / rad;
-        TopPhi = multiplet.Triplet().Jet().Phi() / rad;
-        TopMass = multiplet.Triplet().Jet().Mass() / GeV;
+        TopPt = multiplet.Triplet().Pt() / GeV;
+//         TopRap = std::abs(multiplet.Triplet().rap());
+        TopRap = multiplet.Triplet().Rap() / rad;
+        TopPhi = multiplet.Triplet().Phi() / rad;
+        TopMass = multiplet.Triplet().Mass() / GeV;
         TopBdt = multiplet.Triplet().Bdt();
     }
     Observables Variables();
 
 private:
     ClassDef(TripletJetPairBranch, 1)
+};
+
+/**
+ * @brief Class for saving event informations to root
+ *
+ */
+class GlobalBase
+{
+public:
+  GlobalBase();
+
+  float LeptonNumber;
+  float JetNumber;
+  float BottomNumber;
+  float MissingEt;
+  float ScalarHt;
+  float LeptonHt;
+  float JetPt1;
+  float JetPt2;
+  float JetPt3;
+  float JetPt4;
+  float LeptonPt1;
+  float LeptonPt2;
+
+  template<typename Multiplet>
+  void Fill(Multiplet const& multiplet) {
+    LeptonNumber = multiplet.LeptonNumber();
+    JetNumber = multiplet.JetNumber();
+    BottomNumber = multiplet.BottomNumber();
+    MissingEt = multiplet.MissingEt() / GeV;
+    ScalarHt = multiplet.ScalarHt() / GeV;
+    LeptonHt = multiplet.LeptonHt() / GeV;
+    LeptonPt1 = multiplet.LeptonPt(1) / GeV;
+    LeptonPt2 = multiplet.LeptonPt(2) / GeV;
+    JetPt1 = multiplet.JetPt(1) / GeV;
+    JetPt2 = multiplet.JetPt(2) / GeV;
+    JetPt3 = multiplet.JetPt(3) / GeV;
+    JetPt4 = multiplet.JetPt(4) / GeV;
+  }
+  virtual Observables Variables();
+  virtual Observables Spectators();
+
+private:
+  float InValue();
+  ClassDef(GlobalBase, 1)
+};
+
+/**
+ * @brief Class for saving event informations to root
+ *
+ */
+class GlobalObservableBranch : public BdtBranch, public GlobalBase
+{
+public:
+  GlobalObservableBranch();
+
+  template<typename Multiplet>
+  void Fill(Multiplet const& multiplet) {
+    BdtBranch::Fill(multiplet);
+    GlobalBase::Fill(multiplet);
+  }
+  Observables Variables();
+  Observables Spectators();
+
+private:
+  ClassDef(GlobalObservableBranch, 1)
 };
 
 /**
@@ -444,24 +506,16 @@ public:
         MissingEt = multiplet.GlobalObservables().MissingEt() / GeV;
         ScalarHt = multiplet.GlobalObservables().ScalarHt() / GeV;
         LeptonHt = multiplet.GlobalObservables().LeptonHt() / GeV;
-        JetMass = multiplet.Rest().Jet().Mass() / GeV;
-        JetPt = multiplet.Rest().Jet().Pt() / GeV;
+        JetMass = multiplet.Rest().Mass() / GeV;
+        JetPt = multiplet.Rest().Pt() / GeV;
         JetHt = multiplet.GlobalObservables().JetHt() / GeV;
         JetRap = multiplet.Rest().Rap() / rad;
-        JetPhi = multiplet.Rest().Jet().Phi() / rad;
+        JetPhi = multiplet.Rest().Phi() / rad;
     }
     Observables Variables();
 
 private:
     ClassDef(EventBranch, 1)
-};
-
-class Color
-{
-public:
-    void Red();
-    void Blue();
-    void Heat();
 };
 
 }

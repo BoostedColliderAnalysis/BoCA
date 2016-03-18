@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -20,6 +20,7 @@ namespace boca
  */
 enum class Orientation
 {
+    none = 0,
     center = 1 << 0,
     left = 1 << 1,
     right = 1 << 2,
@@ -34,6 +35,8 @@ struct Flag<Orientation> {
     static const bool enable = true;
 };
 
+std::string Name(Orientation orientation);
+
 class Legend
 {
 public:
@@ -42,13 +45,13 @@ public:
 
     Legend(std::string const& title);
 
-    Legend(boca::Rectangle<float> const& rectangle, std::string const& title = "");
+    Legend(boca::Rectangle<double> const& rectangle, std::string const& title = "");
 
     Legend(Orientation orientation, std::vector<std::string> const& entries, std::string const& title = "");
 
     void SetOrientation(Orientation orientation, std::vector<std::string> const& entries, std::string const& title);
 
-    void Set(boca::Rectangle<float> const& rectangle, std::string const& title = "");
+    void Set(boca::Rectangle<double> const& rectangle, std::string const& title = "");
 
     void SetOrientation(Orientation orientation, std::string const& title);
 
@@ -58,19 +61,19 @@ public:
 
     void TwoColumn();
 
+    boca::Rectangle<double> Rectangle();
+
 private:
 
-    float Width(std::vector<std::string> const& entries) const;
+    double Width(std::vector<std::string> const& entries) const;
 
-    float Height(std::vector<std::string> const& entries, std::string const& title) const;
+    double Height(std::vector<std::string> const& entries, std::string const& title) const;
 
-    void SetCorners(boca::Rectangle<float> const& rectangle);
+    void SetCorners(boca::Rectangle<double> const& rectangle);
 
     void SetStyle();
 
     void SetTitle(std::string const& title);
-
-    boca::Rectangle<double> Rectangle();
 
     TLegend legend_;
 

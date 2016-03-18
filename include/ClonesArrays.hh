@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -277,6 +277,8 @@ public:
     }
 
 private:
+
+    bool IsSet(Branch branch) const;
 
     std::map<Branch, TClonesArray*> clones_arrays_;
 

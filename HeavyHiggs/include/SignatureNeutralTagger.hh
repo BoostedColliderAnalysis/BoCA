@@ -21,11 +21,13 @@ class SignatureNeutralTagger : public TaggerTemplate<Octet62, OctetNeutralBranch
 
 public:
 
-    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
+    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const override;
 
-    std::vector<Octet62> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
+    std::vector<Octet62> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
 
-    std::string Name() const final;
+    std::string Name() const override;
+
+    std::vector<Octet62> CleanOctets(Event const& event, std::vector<Octet62> const& octets, Tag tag) const;
 
 private:
 

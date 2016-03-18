@@ -1,12 +1,14 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
 // #include <boost/math/constants/constants.hpp>
 #include <boost/units/scale.hpp>
+#include <boost/units/quantity.hpp>
 #include <boost/units/make_scaled_unit.hpp>
 #include <boost/units/systems/si/dimensionless.hpp>
+#include <boost/units/systems/si/length.hpp>
 #include <boost/units/pow.hpp>
 
 #include "Si.hh"
@@ -30,8 +32,8 @@ namespace boca
 // redefine prefixes in boca namespace
 // TODO find a way to import the prefixes into boca namespace without reimplementing them or including the full si namespace
 #define BOOST_UNITS_METRIC_PREFIX_2(exponent, name) \
-    using name ## _type = boost::units::make_scaled_unit<boost::units::si::dimensionless, boost::units::scale<10, boost::units::static_rational<exponent> > >::type; \
-    BOOST_UNITS_STATIC_CONSTANT(name, name ## _type)
+ using name ## _type = boost::units::make_scaled_unit<boost::units::si::dimensionless, boost::units::scale<10, boost::units::static_rational<exponent> > >::type; \
+ BOOST_UNITS_STATIC_CONSTANT(name, name ## _type)
 BOOST_UNITS_METRIC_PREFIX_2(-24, yocto);
 BOOST_UNITS_METRIC_PREFIX_2(-21, zepto);
 BOOST_UNITS_METRIC_PREFIX_2(-18, atto);
@@ -72,42 +74,39 @@ BOOST_UNITS_METRIC_PREFIX_2(24, yotta);
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+#define BOOST_UNITS_LITERAL(suffix, quant, unit, prefix, exponent) \
+ inline boost::units::quantity<quant, double> operator "" _##prefix##suffix(long double x) { \
+  return boost::units::quantity<quant, double>(x * std::pow(10, exponent) * unit); \
+ } \
+ inline boost::units::quantity<quant, double > operator "" _##prefix##suffix(unsigned long long x) { \
+  return boost::units::quantity<quant, double >(double(x) * std::pow(10, exponent) * unit); \
+ } \
+ static const boost::units::quantity<quant, double> prefix##suffix(1. * std::pow(10, exponent) * unit); \
 
-#define BOOST_UNITS_LITERAL(suffix, unit, val, prefix, multiplier) \
-    inline boost::units::quantity<unit, double> operator "" _##prefix##suffix(long double x) \
-    { \
-        return boost::units::quantity<unit, double>(x * multiplier * val); \
-    } \
-    inline boost::units::quantity<unit, double > operator "" _##prefix##suffix(unsigned long long x) \
-    { \
-        return boost::units::quantity<unit, double >(double(x) * multiplier * val); \
-    } \
-    static const boost::units::quantity<unit, double> prefix##suffix(1. * multiplier * val); \
+#define BOOST_UNITS_LITERAL_SET(suffix, quant, unit) \
+ BOOST_UNITS_LITERAL(suffix, quant, unit, Y, 24) \
+ BOOST_UNITS_LITERAL(suffix, quant, unit, Z, 21) \
+ BOOST_UNITS_LITERAL(suffix, quant, unit, E, 18) \
+ BOOST_UNITS_LITERAL(suffix, quant, unit, P, 15) \
+ BOOST_UNITS_LITERAL(suffix, quant, unit, T, 12) \
+ BOOST_UNITS_LITERAL(suffix, quant, unit, G, 9) \
+ BOOST_UNITS_LITERAL(suffix, quant, unit, M, 6) \
+ BOOST_UNITS_LITERAL(suffix, quant, unit, k, 3) \
+ BOOST_UNITS_LITERAL(suffix, quant, unit, h, 2) \
+ BOOST_UNITS_LITERAL(suffix, quant, unit, da, 1) \
+ BOOST_UNITS_LITERAL(suffix, quant, unit, , 0) \
+ BOOST_UNITS_LITERAL(suffix, quant, unit, d, -1) \
+ BOOST_UNITS_LITERAL(suffix, quant, unit, c, -2) \
+ BOOST_UNITS_LITERAL(suffix, quant, unit, m, -3) \
+ BOOST_UNITS_LITERAL(suffix, quant, unit, u, -6) \
+ BOOST_UNITS_LITERAL(suffix, quant, unit, n, -9) \
+ BOOST_UNITS_LITERAL(suffix, quant, unit, p, -12) \
+ BOOST_UNITS_LITERAL(suffix, quant, unit, f, -15) \
+ BOOST_UNITS_LITERAL(suffix, quant, unit, a, -18) \
+ BOOST_UNITS_LITERAL(suffix, quant, unit, z, -21) \
+ BOOST_UNITS_LITERAL(suffix, quant, unit, y, -24)
 
-#define BOOST_UNITS_LITERAL_SET(suffix, unit, val) \
-    BOOST_UNITS_LITERAL(suffix, unit, val, Y, 1000000000000000000000000.0) \
-    BOOST_UNITS_LITERAL(suffix, unit, val, Z, 1000000000000000000000.0) \
-    BOOST_UNITS_LITERAL(suffix, unit, val, E, 1000000000000000000.0) \
-    BOOST_UNITS_LITERAL(suffix, unit, val, P, 1000000000000000.0) \
-    BOOST_UNITS_LITERAL(suffix, unit, val, T, 1000000000000.0) \
-    BOOST_UNITS_LITERAL(suffix, unit, val, G, 1000000000.0) \
-    BOOST_UNITS_LITERAL(suffix, unit, val, M, 1000000.0) \
-    BOOST_UNITS_LITERAL(suffix, unit, val, k, 1000.0) \
-    BOOST_UNITS_LITERAL(suffix, unit, val, h, 100.0) \
-    BOOST_UNITS_LITERAL(suffix, unit, val, da, 10.0) \
-    BOOST_UNITS_LITERAL(suffix, unit, val, , 1.0) \
-    BOOST_UNITS_LITERAL(suffix, unit, val, d, 0.1) \
-    BOOST_UNITS_LITERAL(suffix, unit, val, c, 0.01) \
-    BOOST_UNITS_LITERAL(suffix, unit, val, m, 0.001) \
-    BOOST_UNITS_LITERAL(suffix, unit, val, u, 0.000001) \
-    BOOST_UNITS_LITERAL(suffix, unit, val, n, 0.00000001) \
-    BOOST_UNITS_LITERAL(suffix, unit, val, p, 0.00000000001) \
-    BOOST_UNITS_LITERAL(suffix, unit, val, f, 0.00000000000001) \
-    BOOST_UNITS_LITERAL(suffix, unit, val, a, 0.00000000000000001) \
-    BOOST_UNITS_LITERAL(suffix, unit, val, z, 0.00000000000000000001) \
-    BOOST_UNITS_LITERAL(suffix, unit, val, y, 0.00000000000000000000001)
-
-BOOST_UNITS_LITERAL_SET(m, boost::units::si::length, boost::units::si::metre)
+    BOOST_UNITS_LITERAL_SET(m, boost::units::si::length, boost::units::si::metre)
 // BOOST_UNITS_LITERAL_SET(g, mass, 0.001 * kilogram)
 // BOOST_UNITS_LITERAL_SET(s, time, second)
 // BOOST_UNITS_LITERAL_SET(A, current, ampere)
@@ -115,7 +114,7 @@ BOOST_UNITS_LITERAL_SET(m, boost::units::si::length, boost::units::si::metre)
 // BOOST_UNITS_LITERAL_SET(mol, amount, mole)
 // BOOST_UNITS_LITERAL_SET(cd, luminous_intensity, candela)
 // BOOST_UNITS_LITERAL_SET(Hz, frequency, hertz)
-BOOST_UNITS_LITERAL_SET(rad, boost::units::si::plane_angle, boost::units::si::radian)
+    BOOST_UNITS_LITERAL_SET(rad, boost::units::si::plane_angle, boost::units::si::radian)
 // BOOST_UNITS_LITERAL_SET(sr, solid_angle, steradian)
 // BOOST_UNITS_LITERAL_SET(N, force, newton)
 // BOOST_UNITS_LITERAL_SET(Pa, pressure, pascal)
@@ -145,7 +144,6 @@ BOOST_UNITS_LITERAL_SET(rad, boost::units::si::plane_angle, boost::units::si::ra
 // BOOST_UNITS_LITERAL_SET(t, mass, 1000.0 * kilogram)
 BOOST_UNITS_LITERAL_SET(eV, electronvolt::Energy, ElectronVolt)
 BOOST_UNITS_LITERAL_SET(b, barn::Area, Barn)
-
 
 static const AngleSquare rad2 = boost::units::pow<2>(rad);
 static const MomentumSquare GeV2 = boost::units::pow<2>(GeV);

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -129,6 +129,9 @@ template<typename Value, typename Value_2>
 using ValueQuotient = typename boost::units::divide_typeof_helper<Value, Value_2>::type;
 
 template<typename Value>
+using ValueInvers = typename boost::units::divide_typeof_helper<double, Value>::type;
+
+template<typename Value>
 using ValueSquare = typename boost::units::multiply_typeof_helper<Value, Value>::type;
 
 template<typename Value>
@@ -179,7 +182,7 @@ Angle atan2(Value const& value_1, Value const& value_2)
 template<typename Value>
 Angle atan2(Value const& value_1, Value const& value_2, std::false_type)
 {
-    return double(std::atan2(value_1, value_2)) * rad;
+    return std::atan2(value_1, value_2) * rad;
 }
 
 template<typename Value>
@@ -197,7 +200,7 @@ Angle acos(Value const& value_1)
 template<typename Value>
 Angle acos(Value const& value_1, std::false_type)
 {
-    return double(std::acos(value_1)) * rad;
+    return std::acos(value_1) * rad;
 }
 
 template<typename Value>
@@ -222,6 +225,24 @@ template<typename Value>
 Value abs(Value const& value, std::true_type)
 {
     return boost::units::abs(value);
+}
+
+template<typename Value>
+Value max(Value const& value_1, Value const& value_2)
+{
+  return max2(value_1, value_2, IsQuantity<Value>());
+}
+
+template<typename Value>
+Value max2(Value const& value_1, Value const& value_2, std::false_type)
+{
+  return std::max(value_1, value_2);
+}
+
+template<typename Value>
+Value max2(Value const& value_1, Value const& value_2, std::true_type)
+{
+  return units::max(value_1, value_2);
 }
 
 template<typename Value>

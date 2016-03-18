@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -14,7 +14,8 @@ namespace standardmodel
 {
 
 /**
- * @brief Semi leptonic top BDT tagger
+ * @brief BDT tagger for leptonically decaying W bosons
+ * neutrino momentum reconstruction from missing transverser energy
  *
  */
 class WLeptonicTagger : public TaggerTemplate<Doublet, WLeptonicBranch>
@@ -24,13 +25,13 @@ public:
 
     WLeptonicTagger();
 
-    int Train(Event const& event, PreCuts const& , Tag tag) const final;
+    int Train(Event const& event, PreCuts const& , Tag tag) const override;
 
-    std::vector<Doublet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
+    std::vector<Doublet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
 
-    std::string Name() const final;
+    std::string Name() const override;
 
-    std::string LatexName() const final;
+    std::string LatexName() const override;
 
 private:
 

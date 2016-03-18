@@ -1,44 +1,42 @@
 #include "EventNeutralFourTopTagger.hh"
 #include "Event.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 
-namespace boca {
+namespace boca
+{
 
-namespace heavyhiggs {
+namespace heavyhiggs
+{
 
 int EventNeutralFourTopTagger::Train(boca::Event const& event, PreCuts const& , Tag tag) const
 {
-    Info0;
-   std::vector<Jet> jets = bottom_reader_.Jets(event);
-   std::vector<Lepton> leptons = event.Leptons().leptons();
+    INFO0;
+    std::vector<Jet> jets = bottom_reader_.Jets(event);
+    std::vector<Lepton> leptons = event.Leptons().leptons();
     std::vector<Octet62> octets = signature_neutral_reader_.Multiplets(event);
+    octets = signature_neutral_reader_.Tagger().CleanOctets(event, octets, tag);
     std::vector<MultipletEvent<Octet62>> events;
-    for (auto const& octet : octets) {
+    for (auto const & octet : octets) {
         MultipletEvent<Octet62> octetevent(octet, event, jets);
         octetevent.SetTag(tag);
         events.emplace_back(octetevent);
     }
-    std::sort(events.begin(),events.end());
     return SaveEntries(events, 1);
 }
 
 std::vector<MultipletEvent<Octet62>> EventNeutralFourTopTagger::Multiplets(Event const& event, PreCuts const& , TMVA::Reader const& reader) const
 {
-    Info0;
+    INFO0;
     std::vector<Octet62> octets = signature_neutral_reader_.Multiplets(event);
-   std::vector<Jet> jets = bottom_reader_.Jets(event);
-   std::vector<Lepton> leptons = event.Leptons().leptons();
-    std::vector<MultipletEvent<Octet62>> multiplet_events;
-    for (auto const& octet : octets) {
+    std::vector<Jet> jets = bottom_reader_.Jets(event);
+    std::vector<Lepton> leptons = event.Leptons().leptons();
+    std::vector<MultipletEvent<Octet62>> events;
+    for (auto const & octet : octets) {
         MultipletEvent<Octet62> multiplet_event(octet, event, jets);
         multiplet_event.SetBdt(Bdt(multiplet_event, reader));
-        multiplet_events.emplace_back(multiplet_event);
+        events.emplace_back(multiplet_event);
     }
-    std::sort(multiplet_events.begin(), multiplet_events.end());
-    if (multiplet_events.size() > 1)
-        multiplet_events.erase(multiplet_events.begin() + 1, multiplet_events.end());
-    INFO(multiplet_events.size(), jets.size());
-    return multiplet_events;
+    return ReduceResult(events, 1);
 }
 std::string EventNeutralFourTopTagger::Name() const
 {

@@ -1,6 +1,6 @@
 #include "../include/SignatureTagger.hh"
 #include "Event.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca {
 
@@ -8,13 +8,13 @@ namespace higgscpv {
 
 int SignatureTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) const
 {
-    Info0;
+    INFO0;
     std::vector<Sextet> sextets = triplet_pair_reader_.Tagger().TruthLevel(event,triplet_pair_reader_.Multiplets(event),tag);
-    Debug(sextets.size());
+    DEBUG(sextets.size());
     std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
-    std::vector<Particle> higgses = CopyIfParticles(event.Partons().GenParticles(), Id::higgs, Id::CP_violating_higgs);
+    std::vector<Particle> higgses = CopyIfParticles(event.Partons().GenParticles(), {Id::higgs, Id::CP_violating_higgs});
     std::vector<Doublet> final_doublets = BestMatches(doublets,higgses,tag);
-    Debug(final_doublets.size());
+    DEBUG(final_doublets.size());
     std::vector<MultipletSignature<Octet62>> octets;
     for (auto const& doublet : final_doublets) {
         for (auto const& sextet : sextets) {
@@ -25,14 +25,13 @@ int SignatureTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) co
         }
     }
 //     if (tag == Tag::signal && octets.size() != 1)
-    Debug(octets.size());
-    if (tag == Tag::signal) octets = ReduceResult(octets, 1);
-    return SaveEntries(octets);
+    DEBUG(octets.size());
+    return SaveEntries(octets, tag);
 }
 
 std::vector<MultipletSignature<Octet62>> SignatureTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
 {
-    Info0;
+    INFO0;
     std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);
     INFO(doublets.size());
     std::vector<Sextet> sextets = triplet_pair_reader_.Multiplets(event);
@@ -47,7 +46,7 @@ std::vector<MultipletSignature<Octet62>> SignatureTagger::Multiplets(Event const
             octets.emplace_back(octet_signature);
         }
     }
-    return ReduceResult(octets);
+    return octets;
 }
 std::string SignatureTagger::Name() const
 {

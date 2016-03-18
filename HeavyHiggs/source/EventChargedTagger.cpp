@@ -1,40 +1,45 @@
 #include "EventChargedTagger.hh"
 #include "Event.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 
-namespace boca {
+namespace boca
+{
 
-namespace heavyhiggs {
+namespace heavyhiggs
+{
 
 int EventChargedTagger::Train(boca::Event const& event, boca::PreCuts const&, Tag tag) const
 {
-    Info0;
-   std::vector<Jet> jets = bottom_reader_.Jets(event);
-   std::vector<Lepton> leptons = event.Leptons().leptons();
-    std::vector<Octet44> octets = signature_semi_reader_.Multiplets(event);
-    std::vector<MultipletEvent<Octet44>> events;
-    for (auto const& octet : octets) {
-        MultipletEvent<Octet44> octetevent(octet, event, jets);
-        octetevent.SetTag(tag);
-        events.emplace_back(octetevent);
-    }
-    return SaveEntries(ReduceResult(events, 1));
+    INFO0;
+    return SaveEntries(Events(event, [&](MultipletEvent<Octet44>& multiplet_event) {
+        multiplet_event.SetTag(tag);
+        return multiplet_event;
+    }), tag);
 }
 
 
 std::vector<MultipletEvent<Octet44>> EventChargedTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
 {
-    Info0;
-   std::vector<Jet> jets = bottom_reader_.Jets(event);
+    INFO0;
+    return ReduceResult(Events(event, [&](MultipletEvent<Octet44>& multiplet_event) {
+        multiplet_event.SetBdt(Bdt(multiplet_event, reader));
+        return multiplet_event;
+    }), 1);
+}
+
+std::vector<MultipletEvent<Octet44>> EventChargedTagger::Events(Event const& event, std::function<MultipletEvent<Octet44>(MultipletEvent<Octet44> &)> const& function) const
+{
+    INFO0;
+    std::vector<Jet> jets = bottom_reader_.Jets(event);
     std::vector<Octet44> octets = signature_semi_reader_.Multiplets(event);
     std::vector<MultipletEvent<Octet44>> multiplet_events;
-    for (auto& octet : octets) {
+    for (auto & octet : octets) {
         MultipletEvent<Octet44> multiplet_event(octet, event, jets);
-        multiplet_event.SetBdt(Bdt(multiplet_event, reader));
-        multiplet_events.emplace_back(multiplet_event);
+        multiplet_events.emplace_back(function(multiplet_event));
     }
-    return ReduceResult(multiplet_events, 1);
+    return multiplet_events;
 }
+
 std::string EventChargedTagger::Name() const
 {
     return "EventCharged";

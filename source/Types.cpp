@@ -1,10 +1,10 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "Types.hh"
 
 #include <sys/stat.h>
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca {
 

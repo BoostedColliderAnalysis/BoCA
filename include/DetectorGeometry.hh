@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -20,6 +20,8 @@ enum class JetType
     e_flow_jet //< Jet formed from the eflow Variables according to the parameter set in DetectorGeometry
 };
 
+std::string Name(JetType jet_type);
+
 /**
  * @brief Detector type indicates which kind of detector geometry is going to be used
  *
@@ -32,6 +34,10 @@ enum class DetectorType
 
 std::string Name(DetectorType detector_type);
 
+/**
+ * @brief Detector and Collider specific constants
+ *
+ */
 class DetectorGeometry
 {
 
@@ -40,6 +46,8 @@ public:
     static Momentum JetMinPt();
 
     static Angle JetConeSize();
+
+    static Angle OverlapConeSize();
 
     static Momentum MinCellPt();
 
@@ -63,17 +71,25 @@ public:
 
     static boca::Luminosity Luminosity();
 
-    static JetType jet_type();
+    static boca::JetType JetType();
 
-    static void set_detector_type(DetectorType detector_type);
+    static void SetDetectorType(boca::DetectorType detector_type);
 
-    static DetectorType detector_type();
+    static boca::DetectorType DetectorType();
 
     static InfoRecombiner& Recombiner();
 
+    static Angle IsolationConeSize();
+
+    static Momentum HardLeptonMomentum();
+
+    static double IsolationFraction();
+
+    static Momentum ForwardJetPt();
+
 private:
 
-    static DetectorType detector_type_;
+    static boca::DetectorType detector_type_;
 
     static InfoRecombiner info_recombiner_;
 

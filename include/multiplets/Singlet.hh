@@ -1,9 +1,14 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
-#include "multiplets/MultipletBase.hh"
+#include <boost/range/algorithm/unique.hpp>
+#include <boost/range/algorithm_ext/erase.hpp>
+
+#include "Jet.hh"
+#include "Sort.hh"
+#include "Vector.hh"
 
 namespace boca
 {
@@ -12,106 +17,97 @@ namespace boca
  * @brief Thin wrapper to make Jet behave like a Multiplet.
  *
  */
-class Singlet : public MultipletBase, public boca::Jet
+class Singlet : public boca::Jet
 {
 
 public:
 
     using boca::Jet::Jet;
 
-    boca::Jet Jet() const {
-        return *this;
-    }
+    void Enforce(boca::Jet const& jet);
 
-    std::vector<boca::Jet> Jets() const {
-        return {*this};
-    }
+    boca::Jet Jet() const;
+
+    std::vector<boca::Jet> Jets() const;
 
     bool Overlap(boca::Jet const& jet) const;
 
-    bool Overlap(Singlet const& singlet) const;
+    double MaxDisplacement() const;
 
-    float MaxDisplacement() const {
-        return log(Info().MaxDisplacement());
-    }
+    double MeanDisplacement() const;
 
-    float MeanDisplacement() const {
-        return log(Info().MeanDisplacement());
-    }
+    double SumDisplacement() const;
 
-    float SumDisplacement() const {
-        return log(Info().SumDisplacement());
-    }
+    Angle Radius() const;
 
-    Angle Radius() const {
-        return Radius(Jet());
-    }
+    double Spread() const;
 
-    float Spread() const {
-        return Spread(Jet());
-    }
+    Angle VertexRadius() const;
 
-    Angle VertexRadius() const {
-        return Radius(Info().VertexJet());
-    }
+    double VertexSpread() const;
 
-    float VertexSpread() const {
-        return Spread(Info().VertexJet());
-    }
+    double EnergyFraction() const;
 
-    float EnergyFraction() const {
-        return Info().VertexEnergy() / Jet().Energy();
-    }
+    Angle EmRadius() const;
 
-    Angle EmRadius() const {
-        return Info().ElectroMagneticRadius(Jet());
-    }
+    Angle TrackRadius() const;
 
-    Angle TrackRadius() const {
-        return Info().TrackRadius(Jet());
-    }
+    double CoreEnergyFraction() const;
 
-    float CoreEnergyFraction() const {
-        return Info().CoreEnergyFraction(Jet());
-    }
+    double FlightPath() const;
 
-    float FlightPath() const {
-        return log(Info().MeanDisplacement());
-    }
+    double TrtHtFraction() const;
 
-    float TrtHtFraction() const {
-        return Spread(Info().VertexJet());
-    }
+    Momentum Ht() const;
 
-    Momentum Ht() const {
-        return Jet().Pt();
-    }
+    void SetBdt(double bdt);
 
-    using boca::Jet::Pt;
-    using boca::Jet::Rap;
-    using boca::Jet::Phi;
+    double Bdt() const;
 
-    void SetBdt(float bdt) final;
+    void SetTag(boca::Tag tag);
 
-    float Bdt() const final;
+    boca::Tag Tag() const;
 
     int Charge() const;
 
-    Singlet const& singlet() const;
+    Singlet const& ConstituentJet() const;
 
     Vector2<AngleSquare> PullVector() const;
 
-    float BottomBdt() const final {
-        return Bdt();
+    template<typename Multiplet_>
+    using NotJet = typename std::enable_if < !std::is_same<Multiplet_, boca::Jet>::value && !std::is_same<Multiplet_, boca::PseudoJet>::value >::type;
+
+    template <typename Multiplet_, typename = NotJet<Multiplet_>>
+    Angle DeltaPhiTo(Multiplet_ const& jet) const {
+        return Jet().DeltaPhiTo(jet.Jet());
     }
+
+    using PseudoJet::DeltaPhiTo;
+
+    template <typename Multiplet_, typename = NotJet<Multiplet_>>
+    Angle DeltaRTo(Multiplet_ const& jet) const {
+        return Jet().DeltaRTo(jet.Jet());
+    }
+
+    using PseudoJet::DeltaRTo;
+
+    template <typename Multiplet_, typename = NotJet<Multiplet_>>
+    Angle DeltaRapTo(Multiplet_ const& jet) const {
+        return Jet().DeltaRapTo(jet.Jet());
+    }
+
+    using PseudoJet::DeltaRapTo;
+
+    template <typename Multiplet_, typename = NotJet<Multiplet_>>
+    Vector2<Angle> DeltaTo(Multiplet_ const& jet) const {
+        return Jet().DeltaTo(jet.Jet());
+    }
+
+    using PseudoJet::DeltaTo;
 
 private:
 
-    float log(Length length) const;
-
-    Angle Radius(boca::Jet const& jet) const;
-
-    float Spread(boca::Jet const& jet) const;
+    double Log(Length length) const;
 
     // save expensive results in mutable member variables
 
@@ -119,8 +115,11 @@ private:
 
     mutable bool has_pull_ = false;
 
-};
+    mutable Angle radius_;
 
+    mutable bool has_radius_ = false;
+
+};
 
 }
 

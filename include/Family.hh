@@ -1,12 +1,30 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
+#include <map>
 #include "Member.hh"
 
 namespace boca
 {
+
+enum class Relative
+{
+    none,
+    particle,
+    mother,
+    step_mother,
+    grand_mother,
+    great_grand_mother
+};
+
+std::string Name(Relative relative);
+
+Relative Mother(Relative relative);
+
+Relative StepMother(Relative relative);
+
 
 class Family
 {
@@ -15,50 +33,18 @@ public:
 
     Family();
 
-    Family(int id);
+    Family(boca::Member const& member, Relative relative);
 
-    Family(int id, int mother_1_id, int mother_2_id);
+    void SetMember(boca::Member const& member, Relative relative);
 
-    Family(Member const& particle, Member const& mother_1, Member const& mother_2, Member const& grand_mother, Member const& great_grand_mother);
-
-    Family(TLorentzVector const& particle, LorentzVector<Momentum> const& mother, int particle_position, int id, int mother_position, int mother_id);
-
-    bool operator==(Family const& family) const;
-
-    bool Marker() const;
-
-    Member const& Particle() const;
-
-    Member const& Mother() const;
-
-    Member const& StepMother() const;
-
-    Member const& GrandMother() const;
-
-    Member const& GreatGrandMother() const;
+    boca::Member Member(Relative relative) const;
 
 private:
 
-    Member particle_;
+    bool Has(Relative relative) const;
 
-    Member mother_;
+    std::map<Relative, boca::Member> members_;
 
-    Member step_mother_;
-
-    Member grand_mother_;
-
-    Member great_grand_mother_;
-
-};
-
-}
-
-namespace std
-{
-
-template <>
-struct hash<boca::Family> {
-    size_t operator()(boca::Family const& family) const;
 };
 
 }

@@ -1,13 +1,14 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "BosonTagger.hh"
 #include "Event.hh"
+#include "Particles.hh"
 #include "multiplets/Doublet.hh"
 #include "MomentumRange.hh"
 #include "Exception.hh"
-// #define DEBUG
-#include "Debug.hh"
+// #define DEBUGGING
+#include "DEBUG.hh"
 
 namespace boca
 {
@@ -18,13 +19,13 @@ namespace standardmodel
 
 BosonTagger::BosonTagger()
 {
-    Info0;
+    INFO0;
     boson_mass_window = 80_GeV;
 }
 
 int BosonTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const
 {
-    Info0;
+    INFO0;
     return SaveEntries(Doublets(event, [&](Doublet & doublet) {
         return CheckDoublet(doublet, pre_cuts, tag);
     }), Particles(event), tag);
@@ -32,7 +33,7 @@ int BosonTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) con
 
 Doublet BosonTagger::CheckDoublet(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const
 {
-    Info0;
+    INFO0;
     if (Problematic(doublet, pre_cuts, tag)) throw boca::Problematic();
     doublet.SetTag(tag);
     return doublet;
@@ -40,16 +41,16 @@ Doublet BosonTagger::CheckDoublet(Doublet doublet, PreCuts const& pre_cuts, Tag 
 
 std::vector<Doublet> BosonTagger::Doublets(Event const& event, std::function<Doublet(Doublet&)> const& function) const
 {
-    Info0;
+    INFO0;
    std::vector<Jet> jets =  bottom_reader_.Jets(event);
-    MomentumRange jet_range(Id::Z, Id::higgs);
-    std::vector<Doublet> doublets = unordered_pairs(jet_range.SofterThanMax(jets), [&](Jet const & jet_1, Jet const & jet_2) {
+    MomentumRange jet_range(Id::W, Id::higgs);
+    std::vector<Doublet> doublets = UnorderedPairs(jet_range.SofterThanMax(jets), [&](Jet const & jet_1, Jet const & jet_2) {
         Doublet doublet(jet_1, jet_2);
         if (!jet_range.BelowUpperBound(doublet)) throw boca::Problematic();
         return function(doublet);
     });
     for (auto const & jet : jet_range.HarderThanMin(jets)) {
-        MomentumRange sub_jet_range((SubJet(Id::Z)), (SubJet(Id::higgs)));
+        MomentumRange sub_jet_range((SubJet(Id::W)), (SubJet(Id::higgs)));
         if (sub_jet_range.BelowUpperBound(jet)) try {
                 unsigned sub_jet_number = 2;
                std::vector<Jet> pieces = bottom_reader_.SubMultiplet(jet, sub_jet_number);
@@ -58,7 +59,8 @@ std::vector<Doublet> BosonTagger::Doublets(Event const& event, std::function<Dou
                 doublets.emplace_back(function(doublet));
             } catch (std::exception const&) {}
         if (sub_jet_range.AboveLowerBound(jet)) try {
-                Doublet doublet(jet);
+                Doublet doublet;
+                doublet.Enforce(jet);
                 doublets.emplace_back(function(doublet));
             } catch (std::exception const&) {}
     }
@@ -67,44 +69,42 @@ std::vector<Doublet> BosonTagger::Doublets(Event const& event, std::function<Dou
 
 std::vector<Particle> BosonTagger::Particles(Event const& event) const
 {
-    Info0;
-    std::vector<Particle> particles = event.Partons().GenParticles();
-    return CopyIfParticles(particles, MultiId(Id::neutral_boson));
+    INFO0;
+    return CopyIfParticles(event.Partons().GenParticles(), Resolve(MultiId::bosons));
 }
 
 bool BosonTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts, Tag tag) const
 {
-    Info0;
+    INFO0;
     if (Problematic(doublet, pre_cuts)) return true;
     switch (tag) {
     case Tag::signal :
         if (pre_cuts.NotParticleRho(doublet)) return true;
-        if (boost::units::abs(doublet.Mass() - (MassOf(Id::Z) + MassOf(Id::higgs)) / 2.) > boson_mass_window) return true;
+        if (boost::units::abs(doublet.Mass() - (MassOf(Id::W) + MassOf(Id::higgs)) / 2.) > boson_mass_window) return true;
         break;
-    case Tag::background :
-        break;
+    case Tag::background : break;
     }
     return false;
 }
 
 bool BosonTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts) const
 {
-    Info0;
-    if (pre_cuts.ApplyCuts(Id::neutral_boson, doublet)) return true;
+    INFO0;
+    if (pre_cuts.ApplyCuts(MultiId::bosons, doublet)) return true;
     return false;
 }
 
 std::vector<Doublet> BosonTagger::Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
-    Info0;
-    return ReduceResult(Doublets(event, [&](Doublet & doublet) {
+    INFO0;
+    return Doublets(event, [&](Doublet & doublet) {
         return Multiplet(doublet, pre_cuts, reader);
-    }));
+    });
 }
 
 Doublet BosonTagger::Multiplet(Doublet& doublet, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
-    Info0;
+    INFO0;
     if (Problematic(doublet, pre_cuts)) throw boca::Problematic();
     doublet.SetBdt(Bdt(doublet, reader));
     return doublet;

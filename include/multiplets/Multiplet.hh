@@ -1,105 +1,102 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
 #include "multiplets/Singlet.hh"
-#include "Line2.hh"
+#include "SubJettiness.hh"
+#include "ClosestLepton.hh"
+#include "Particle.hh"
+#include "Multiplets.hh"
 
 namespace boca
 {
 
-class Multiplet : public MultipletBase
+class Multiplet : public Identification
 {
 
 public:
 
-    void SetLeptonPt(Momentum const& lepton_pt);
+    void SetClosestLepton(std::vector<boca::Lepton> const& leptons);
 
-    void SetLeptonDeltaR(Angle const& lepton_delta_r);
+    ClosestLepton Lepton() const;
 
-    Momentum LeptonPt() const;
+    boca::Singlet const& ConstituentJet() const;
 
-    Angle LeptonDeltaR() const;
+    boca::Jet Jet() const;
 
-    boca::Singlet const& singlet() const override;
+    boca::Mass Mass() const;
 
-    boca::Jet Jet() const final;
+    Momentum Pt() const;
+
+    Angle Rap() const;
+
+    Angle Phi() const;
+
+    template<typename Multiplet_>
+    using NotJet = typename std::enable_if < !std::is_same<Multiplet_, boca::Jet>::value && !std::is_same<Multiplet_, boca::PseudoJet>::value && !std::is_same<Multiplet_, boca::Particle>::value >::type;
+
+    template <typename Multiplet_, typename = NotJet<Multiplet_>>
+    Angle DeltaPhiTo(Multiplet_ const& multiplet) const {
+        return Jet().DeltaPhiTo(multiplet.Jet());
+    }
+
+    template <typename Multiplet_, typename = NotJet<Multiplet_>>
+    Angle DeltaRTo(Multiplet_ const& multiplet) const {
+        return Jet().DeltaRTo(multiplet.Jet());
+    }
+
+    template <typename Multiplet_, typename = NotJet<Multiplet_>>
+    Angle DeltaRapTo(Multiplet_ const& multiplet) const {
+        return Jet().DeltaRapTo(multiplet.Jet());
+    }
+
+    template <typename Multiplet_, typename = NotJet<Multiplet_>>
+    Vector2<Angle> DeltaTo(Multiplet_ const& multiplet) const {
+        return Jet().DeltaTo(multiplet.Jet());
+    }
+
+    Angle DeltaPhiTo(PseudoJet const& jet) const;
+
+    Angle DeltaRTo(PseudoJet const& jet) const;
+
+    Angle DeltaRapTo(PseudoJet const& jet) const;
+
+    Vector2<Angle> DeltaTo(PseudoJet const& jet) const;
+
+    std::vector<boca::Jet> Constituents() const;
+
+    boca::SubJettiness SubJettiness() const;
 
 protected:
 
-    virtual Momentum Ht() const override = 0;
+    template<typename Multiplet_1_, typename Multiplet_2_>
+    void SetConstituentJet(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2) const {
+        constituent_jet_ = JoinConstituents(multiplet_1, multiplet_2);
+        has_constituent_jet_ = true;
+    }
 
-    virtual int Charge() const override = 0;
+    virtual void SetConstituentJet() const = 0;
 
-    virtual float BottomBdt() const override = 0;
+    template<typename Multiplet_1_, typename Multiplet_2_>
+    void SetJet(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2) const {
+        jet_ = Join(multiplet_1, multiplet_2);
+        has_jet_ = true;
+    }
 
-    virtual std::vector<boca::Jet> Jets() const = 0;
-
-    /**
-     * @brief join the two jets
-     *
-     * @details this function becomes expensive very fast.
-     *          save the result in an temporary variable
-     *
-     */
-    boca::Singlet Singlet(boca::Singlet const& singlet_1, boca::Singlet const& singlet_2) const;
-
-    boca::Jet Jet(boca::Jet const& jet_1, boca::Jet const& jet_2) const;
-
-    Momentum DeltaPt(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
-
-    Momentum Ht(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
-
-    Angle DeltaRap(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
-
-    Angle DeltaPhi(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
-
-    Angle DeltaR(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
-
-    boca::Mass DeltaM(const boca::MultipletBase& multiplets_1, const boca::MultipletBase& multiplets_2) const;
-
-    Momentum DeltaHt(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
-
-    float Rho(MultipletBase const& jet_1, MultipletBase const& jet_2, boca::Jet const& jet) const;
-
-    Angle Pull(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
-
-    float Dipolarity(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2, boca::Singlet const& singlet) const;
-
-    int Charge(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
-
-    float BottomBdt(MultipletBase const& multiplets_1, MultipletBase const& multiplets_2) const;
-
-    void SetSinglet(boca::Singlet const& singlet) const;
-
-    virtual void SetSinglet() const = 0;
-
-    void SetPlainJet(boca::Jet const& jet) const;
-
-    virtual void SetPlainJet() const = 0;
-
-    /**
-     * @brief store intermediate results
-     *
-     */
-    mutable boca::Singlet singlet_;
-
-    mutable boca::Jet jet_;
-
-    mutable bool has_singlet_ = false;
-
-    mutable bool has_jet_ = false;
+    virtual void SetJet() const = 0;
 
 private:
 
-    Momentum lepton_pt_ = 0;
+    ClosestLepton closest_lepton_;
 
-    Angle lepton_delta_r_ = 0;
+    mutable boca::Singlet constituent_jet_;
 
-    Vector2<Angle> Point2(Vector2<Angle> const& point_1, MultipletBase const& multiplets_2) const;
+    mutable boca::Jet jet_;
 
-    Angle Distance(Line2<Angle> const& line, boca::Jet const& constituent) const;
+    mutable bool has_constituent_jet_ = false;
+
+    mutable bool has_jet_ = false;
 
 };
 

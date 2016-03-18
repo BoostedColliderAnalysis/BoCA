@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -12,6 +12,7 @@ namespace boca
 {
 class InfoRecombiner;
 class Jet;
+class Singlet;
 
 /**
  * @brief Jet infos subclassed from Fastjet
@@ -30,7 +31,7 @@ public:
      */
     JetInfo();
 
-    JetInfo(float bdt);
+    JetInfo(double bdt);
 
     JetInfo(::delphes::Jet const& jet);
 
@@ -62,7 +63,7 @@ public:
 
     int VertexNumber() const;
 
-    boca::Jet VertexJet() const;
+    boca::Singlet VertexJet() const;
 
     Energy VertexEnergy() const;
 
@@ -70,11 +71,11 @@ public:
 
     Angle TrackRadius(boca::Jet const& jet) const;
 
-    float LeadingTrackMomentumFraction() const;
+    double LeadingTrackMomentumFraction() const;
 
-    float CoreEnergyFraction(boca::Jet const& jet) const;
+    double CoreEnergyFraction(boca::Jet const& jet) const;
 
-    float ElectroMagneticFraction() const;
+    double ElectroMagneticFraction() const;
 
     Mass ClusterMass() const;
 
@@ -124,7 +125,7 @@ private:
 
     bool tau_tag_ = 0;
 
-    int charge_ = -9999;
+    int charge_ = 0;
 
     bool sub_structure_ = true;
 

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -15,22 +15,28 @@ class Canvas
 
 public:
 
+    Canvas();
+
     Canvas(std::string const& path, std::string const& name, bool show_title = false);
+
+    void Initialize(std::string const& path, std::string const& name, bool show_title);
+
+    void Initialize(std::string const& path, std::string const& name);
 
     TCanvas const& canvas() const;
 
     TCanvas& canvas();
 
     template<typename Value>
-    void SetLog(Bounds<Value> const& bounds) {
-        //       std::cout << bounds.Min() << " " <<  bounds.Max() <<std::endl;
-        if (bounds.Min() > Value(0) && bounds.Min() / bounds.Max() < 0.1) canvas_.SetLogy();
+    void SetLog(Range<Value> const& range) {
+        //       std::cout << range.Min() << " " <<  range.Max() <<std::endl;
+        if (range.Min() > Value(0) && range.Min() / range.Max() < 0.05) canvas_.SetLogy();
     }
 
     template<typename Value>
-    void SetLog(Rectangle<Value> const& bounds) {
-        if (bounds.XMin() > Value(0) && bounds.XMin() / bounds.XMax() < 0.01) canvas_.SetLogx();
-        if (bounds.YMin() > Value(0) && bounds.YMin() / bounds.YMax() < 0.01) canvas_.SetLogy();
+    void SetLog(Rectangle<Value> const& range) {
+        if (range.XMin() > Value(0) && range.XMin() / range.XMax() < 0.05) canvas_.SetLogx();
+        if (range.YMin() > Value(0) && range.YMin() / range.YMax() < 0.05) canvas_.SetLogy();
     }
 
     void SetLog();
@@ -53,7 +59,7 @@ private:
      * @brief Make plot backgrounds transparent
      *
      */
-    void Fill();
+    void Initialize();
 
     void SetMargins(bool show_title);
 

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -28,7 +28,7 @@ public:
 
     void SetYAxis(std::string const& title);
 
-    void AddHistogram(std::string const& name, int bins, Rectangle<float> const& bounds, Plot const& points, EColor color);
+    void AddHistogram(std::string const& name, int bins, Rectangle<double> const& range, Plot const& points, EColor color);
 
     std::string FileBaseName() const override;
 

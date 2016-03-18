@@ -1,14 +1,16 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
 #include "multiplets/Triplet.hh"
 #include "multiplets/ThreeBody.hh"
 
-namespace boca {
+namespace boca
+{
 
-class Quartet22 : public TwoBody<Doublet, Doublet> {
+class Quartet22 : public TwoBody<Doublet, Doublet>
+{
 
 public:
 
@@ -24,7 +26,8 @@ public:
 
 };
 
-class Quartet31 : public TwoBody<boca::Triplet, boca::Singlet> {
+class Quartet31 : public TwoBody<boca::Triplet, boca::Singlet>
+{
 
 public:
 
@@ -36,17 +39,18 @@ public:
 
 };
 
-class Quartet211 : public ThreeBody<boca::Doublet, boca::Singlet, boca::Singlet> {
+class Quartet211 : public ThreeBody<boca::Doublet, boca::Singlet, boca::Singlet>
+{
 
 public:
 
-  using ThreeBody<boca::Doublet, boca::Singlet, boca::Singlet>::ThreeBody;
+    using ThreeBody<boca::Doublet, boca::Singlet, boca::Singlet>::ThreeBody;
 
-  boca::Doublet const& Doublet() const;
+    boca::Doublet const& Doublet() const;
 
-  boca::Singlet const& Singlet1() const;
+    boca::Singlet const& Singlet1() const;
 
-  boca::Singlet const& Singlet2() const;
+    boca::Singlet const& Singlet2() const;
 
 };
 

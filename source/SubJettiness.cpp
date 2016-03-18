@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 
 #include "fastjet/contrib/Nsubjettiness.hh"
@@ -26,51 +26,48 @@ NSubJettiness::NSubJettiness(Jet const& jet, fastjet::contrib::AxesDefinition co
     tau_3_2_ = n_subjettiness_32(jet);
 }
 
-float NSubJettiness::tau_1() const
+double NSubJettiness::tau_1() const
 {
     return tau_1_;
 }
 
-float NSubJettiness::tau_2() const
+double NSubJettiness::tau_2() const
 {
     return tau_2_;
 }
 
-float NSubJettiness::tau_3() const
+double NSubJettiness::tau_3() const
 {
     return tau_3_;
 }
 
-float NSubJettiness::tau_2_1() const
+double NSubJettiness::tau_2_1() const
 {
-    if (tau_1_ > 0) return tau_2_1_;
-    return 0;
+    return tau_1_ > 0 ? tau_2_1_ : 0;
 }
 
-float NSubJettiness::tau_3_2() const
+double NSubJettiness::tau_3_2() const
 {
-    if (tau_2_ > 0) return tau_3_2_;
-    return 0;
+    return tau_2_ > 0 ? tau_3_2_ : 0;
 }
 
 SubJettiness::SubJettiness() {}
 
 SubJettiness::SubJettiness(Jet const& jet)
 {
+    jet_ = jet;
+}
+
+NSubJettiness SubJettiness::beta_1() const
+{
     fastjet::contrib::OnePass_WTA_KT_Axes wta_kt_axes;
-    beta_1_ = NSubJettiness(jet, wta_kt_axes, 1);
+    return NSubJettiness(jet_, wta_kt_axes, 1);
+}
+
+NSubJettiness SubJettiness::beta_2() const
+{
     fastjet::contrib::OnePass_KT_Axes kt_axes;
-    beta_2_ = NSubJettiness(jet, kt_axes, 2);
-}
-
-NSubJettiness const& SubJettiness::beta_1() const
-{
-    return beta_1_;
-}
-
-NSubJettiness const& SubJettiness::beta_2() const
-{
-    return beta_2_;
+    return NSubJettiness(jet_, kt_axes, 2);
 }
 
 

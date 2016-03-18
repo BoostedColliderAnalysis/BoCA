@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -29,21 +29,21 @@ public:
 
     void SetProfile(Plot const& signal, Plot const& background);
 
-    void SetDimensions(std::string const& name, int bins, Rectangle<float> const& bounds);
+    void SetDimensions(std::string const& name, int bins, Rectangle<double> const& range);
 
     std::string FileBaseName() const override;
 
 private:
 
-    void SetDimensions(int x_bins, int y_bins, Rectangle<float> const& bounds);
+    void SetDimensions(int x_bins, int y_bins, Rectangle<double> const& range);
 
     void Draw();
 
     TProfile2D profile_;
 
-    Bounds<float> bounds_;
+    Range<double> range_;
 
-    Rectangle<float> rectangle_;
+    Rectangle<double> rectangle_;
 
 };
 

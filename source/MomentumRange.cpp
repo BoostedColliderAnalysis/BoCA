@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 
 #include "MomentumRange.hh"
@@ -13,7 +13,7 @@ namespace boca
 namespace
 {
 
-float Smearing()
+double Smearing()
 {
     return 0.3;
 }

@@ -1,10 +1,11 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "Rtypes.h"
+#include "Types.hh"
 #include "plotting/Font.hh"
 // #define INFORMATION
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {
@@ -22,13 +23,13 @@ enum class Precision
 
 int Precision()
 {
-    Info0;
+    INFO0;
     return 2;
 }
 
 int FontNumber(Font font, Style style)
 {
-    Info0;
+    INFO0;
     switch (font) {
     case Font::times:
         if (style == Style::italic) return 1;
@@ -50,16 +51,15 @@ int FontNumber(Font font, Style style)
         if (style == Style::bold) return 14;
         if (style == (Style::italic | Style::bold)) return 14;
         return 12;
-    default :
-        return 13;
+        DEFAULT(to_int(font), 13);
     }
 }
 
 }
 
-float TextHeight()
+double TextHeight()
 {
-    Info0;
+    INFO0;
     switch (Precision()) {
     case 2 : return 0.07;
     case 3 : return 20;
@@ -67,9 +67,9 @@ float TextHeight()
     }
 }
 
-float LabelHeight()
+double LabelHeight()
 {
-    Info0;
+    INFO0;
     switch (Precision()) {
     case 2 : return 0.05;
     case 3 : return 15;
@@ -79,7 +79,7 @@ float LabelHeight()
 
 int ColorCode(int number)
 {
-    Info0;
+    INFO0;
     switch (number) {
     case 0 : return kBlack;
     case 1 : return kRed;
@@ -107,13 +107,13 @@ std::string Formula(std::string const& text, Font font)
 
 std::string Text(std::string const& text, Font font)
 {
-  INFO(text);
-  return "#font[" + std::to_string(FontCode(font, Style::normal)) + "]{" + text + "}";
+    INFO(text);
+    return "#font[" + std::to_string(FontCode(font, Style::normal)) + "]{" + text + "}";
 }
 
 int FontCode(Font font, Style style)
 {
-    Info0;
+    INFO0;
     return 10 * FontNumber(font, style) + Precision();
 }
 

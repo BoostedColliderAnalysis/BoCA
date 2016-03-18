@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -120,8 +120,8 @@ public:
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         PairBranch::Fill(multiplet);
-        LeptonPt = multiplet.Singlet1().Jet().Pt() / GeV;
-        NeutrinoPt = multiplet.Singlet2().Jet().Pt() / GeV;
+        LeptonPt = multiplet.Singlet1().Pt() / GeV;
+        NeutrinoPt = multiplet.Singlet2().Pt() / GeV;
     }
     Observables Variables();
 
@@ -146,9 +146,9 @@ public:
     void Fill(Multiplet const& multiplet) {
         MultiBranch::Fill(multiplet);
         BottomBase::Fill(multiplet);
-        BottomMass = multiplet.Singlet().Jet().Mass() / GeV;
-        WMass = multiplet.Doublet().Jet().Mass() / GeV;
-        LeptonPt = multiplet.LeptonPt() / GeV;
+        BottomMass = multiplet.Singlet().Mass() / GeV;
+        WMass = multiplet.Doublet().Mass() / GeV;
+        LeptonPt = multiplet.Lepton().Pt() / GeV;
     }
     Observables Variables();
     Observables Spectators();
@@ -172,8 +172,8 @@ public:
     void Fill(Multiplet const& multiplet) {
         PairBranch::Fill(multiplet);
         BottomBase::Fill(multiplet);
-        BottomPt = multiplet.Singlet().Jet().Pt() / GeV;
-        LeptonPt = multiplet.Doublet().Jet().Pt() / GeV; // FIXME what is with the case of W
+        BottomPt = multiplet.Singlet().Pt() / GeV;
+        LeptonPt = multiplet.Doublet().Pt() / GeV; // FIXME what is with the case of W
     }
     Observables Variables();
     Observables Spectators();
@@ -197,8 +197,8 @@ public:
     void Fill(Multiplet const& multiplet) {
         PairBranch::Fill(multiplet);
         BottomBase::Fill(multiplet);
-        LeptonPt = multiplet.LeptonPt() / GeV;
-        LeptonDeltaR = multiplet.LeptonDeltaR() / rad;
+        LeptonPt = multiplet.Lepton().Pt() / GeV;
+        LeptonDeltaR = multiplet.Lepton().DeltaR() / rad;
     }
     Observables Variables();
     Observables Spectators();
@@ -223,8 +223,8 @@ public:
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         MultiBranch::Fill(multiplet);
-        BottomMass = multiplet.Singlet().Jet().Mass() / GeV;
-        WMass = multiplet.Doublet().Jet().Mass() / GeV;
+        BottomMass = multiplet.Singlet().Mass() / GeV;
+        WMass = multiplet.Doublet().Mass() / GeV;
         LeptonPt = multiplet.Pt() / GeV;
     }
     Observables Variables();

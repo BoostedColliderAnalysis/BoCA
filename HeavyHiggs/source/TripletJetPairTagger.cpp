@@ -1,10 +1,11 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "TripletJetPairTagger.hh"
 #include "Sort.hh"
 #include "Event.hh"
-#include "Debug.hh"
+#include "Particles.hh"
+#include "DEBUG.hh"
 
 namespace boca {
 
@@ -18,7 +19,7 @@ int TripletJetPairTagger::Train(boca::Event const& event, boca::PreCuts const&, 
 //     std::vector<Doublet> doublets = WTagger.SaveBdt(jets, WReader);
     //     std::vector<Triplet> triplets = top_hadronic_tagger.SaveBdt(doublets, jets, TopHadronicReader);
 //     std::vector<Triplet> triplets = top_hadronic_tagger.SaveBdt(jets, top_hadronic_reader_, WTagger, WReader, bottom_tagger_, bottom_reader_);
-    Debug("Number of Hadronic Tops", triplets.size());
+    DEBUG("Number of Hadronic Tops", triplets.size());
 //     for (auto const& Jet : jets) {
 //        std::vector<Jet> Pieces = WTagger.GetSubJets(Jet, 2);
 //         Pieces = bottom_tagger_.GetJetBdt(Pieces, BottomReader); // TODO reenable this
@@ -41,11 +42,11 @@ int TripletJetPairTagger::Train(boca::Event const& event, boca::PreCuts const&, 
     std::vector<Particle> TopParticles = event.Partons().GenParticles();
     TopParticles = CopyIfFamily(TopParticles, Id::top, Id::gluon);
     if (TopParticles.size() != 1 && tag == Tag::signal)
-        Error("Where is the Top?", TopParticles.size());
+        ERROR("Where is the Top?", TopParticles.size());
     std::vector<Triplet> Finaltriplets;
     switch (tag) {
     case Tag::signal :
-        for (auto const& triplet : triplets) if (Close(TopParticles.front())(triplet.Jet()))
+        for (auto const& triplet : triplets) if (Close<Particle>(TopParticles.front())(triplet))
                 Finaltriplets.emplace_back(triplet);
         break;
     case Tag::background :
@@ -54,15 +55,15 @@ int TripletJetPairTagger::Train(boca::Event const& event, boca::PreCuts const&, 
     }
 //     std::sort(triplets.begin(), triplets.end(), MinDeltaR(TopParticles.front()));
 //     if (Tag == Tag::signal && triplets.size() > 1) triplets.erase(triplets.begin() + 1, triplets.end());
-//     if (Tag == HBackground && triplets.size() > 0) triplets.erase(triplets.begin());
+//     if (Tag == HBackground && !triplets.empty()) triplets.erase(triplets.begin());
 std::vector<Particle> BottomParticles = event.Partons().GenParticles();
     BottomParticles = CopyIfFamily(BottomParticles, Id::bottom, Id::gluon);
     if (BottomParticles.size() != 1 && tag == Tag::signal)
-        Error("Where is the Bottom?", BottomParticles.size());
+        ERROR("Where is the Bottom?", BottomParticles.size());
    std::vector<Jet>FinalJets;
     switch (tag) {
     case  Tag::signal :
-        for (auto const& Jet : jets) if (Close(BottomParticles.front())(Jet))
+        for (auto const& Jet : jets) if (Close<Particle>(BottomParticles.front())(Jet))
                 FinalJets.emplace_back(Jet);
         break;
     case Tag::background :
@@ -71,7 +72,7 @@ std::vector<Particle> BottomParticles = event.Partons().GenParticles();
     }
 //     std::sort(jets.begin(), jets.end(), MinDeltaR(BottomParticles.front()));
 //     if (Tag == Tag::signal && triplets.size() > 1) jets.erase(jets.begin() + 1, jets.end());
-//     if (Tag == HBackground && jets.size() > 0) jets.erase(jets.begin());
+//     if (Tag == HBackground && !jets.empty()) jets.erase(jets.begin());
     std::vector<Quartet31> quartets;
     for (auto const& triplet : triplets)
         for (auto const& Jet : jets) {
@@ -83,7 +84,7 @@ std::vector<Particle> BottomParticles = event.Partons().GenParticles();
 //             if (quartet.Tag() != Tag) continue;
             quartets.emplace_back(quartet);
         }
-    Debug("Number of Jet Pairs", quartets.size());
+    DEBUG("Number of Jet Pairs", quartets.size());
     if (tag == Tag::signal && quartets.size() > 1) {
         quartets = SortedByMaxDeltaRap(quartets);
 //         std::sort(quartets.begin(), quartets.end(), SortedByDeltaRap());
@@ -109,7 +110,7 @@ std::vector<Quartet31>  TripletJetPairTagger::Multiplets(Event const& event, boc
             quartet.SetBdt(Bdt(quartet, reader));
             quartets.emplace_back(quartet);
         }
-    return ReduceResult(quartets);
+    return quartets;
 }
 std::string TripletJetPairTagger::Name() const
 {

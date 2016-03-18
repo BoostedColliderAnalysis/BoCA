@@ -1,10 +1,9 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
 #include "multiplets/Doublet.hh"
-#include "SubJettiness.hh"
 
 namespace boca {
 
@@ -20,19 +19,7 @@ public:
 
     boca::Singlet const& Singlet() const;
 
-    void SetSubJettiness();
-
-    Momentum LeptonPt() const;
-
-    void SetLeptonPt(Momentum pt);
-
-    boca::SubJettiness SubJettiness() const;
-
 private:
-
-    boca::SubJettiness sub_jettiness_;
-
-    Momentum lepton_pt_;
 
 };
 

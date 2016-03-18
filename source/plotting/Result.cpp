@@ -1,70 +1,76 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "plotting/Result.hh"
 #include "Types.hh"
 #include "DetectorGeometry.hh"
-// #define DEBUG
-#include "Debug.hh"
+// #define DEBUGGING
+#include "DEBUG.hh"
 
 namespace boca
 {
 
 int Result::Steps() const
 {
-    Info0;
+    INFO0;
     switch (mva_) {
     case TMVA::Types::EMVA::kBDT : return 200;
     case TMVA::Types::EMVA::kCuts : return passed_.front().size();
-        Default(mva_, 0);
+        DEFAULT(mva_, 0);
     }
 }
 
 const InfoBranch& Result::InfoBranch() const
 {
-    Info0;
+    INFO0;
     return info_branch_;
 }
 
-std::vector<float> const& Result::Bdts() const
+const InfoBranch& Result::TrainerInfoBranch() const
 {
-    Info0;
+    INFO0;
+    return trainer_info_branch_;
+}
+
+std::vector<double> const& Result::Bdts() const
+{
+    INFO0;
     return bdts_;
 }
 
-std::vector<float> const& Result::Events() const
+std::vector<double> const& Result::Events() const
 {
-    Info0;
+    INFO0;
     return events_;
 }
 
-std::vector<float> const& Result::Efficiencies() const
+std::vector<double> const& Result::Efficiencies() const
 {
-    Info0;
+    INFO0;
     return efficiencies_;
 }
 
-std::vector<float> const& Result::PureEfficiencies() const
+std::vector<double> const& Result::PureEfficiencies() const
 {
-  Info0;
-  return pure_efficiencies_;
+    INFO0;
+    return pure_efficiencies_;
 }
 
 std::vector<Crosssection> const& Result::Crosssections() const
 {
-    Info0;
+    INFO0;
     return crosssections_;
 }
 
 std::vector<int> const& Result::EventSums() const
 {
-    Info0;
+    INFO0;
     return event_sums_;
 }
 
-Result::Result(boca::InfoBranch const& info_branch, std::vector<float> const& bdts, TMVA::Types::EMVA mva)
+Result::Result(boca::InfoBranch const& info_branch, std::vector<double> const& bdts, TMVA::Types::EMVA mva)
 {
-    Info0;
+    INFO0;
     info_branch_ = info_branch;
     bdts_ = bdts;
     mva_ = mva;
@@ -73,8 +79,30 @@ Result::Result(boca::InfoBranch const& info_branch, std::vector<float> const& bd
 
 Result::Result(boca::InfoBranch const& info_branch, std::vector<std::vector<bool>> const& passed, TMVA::Types::EMVA mva)
 {
-    Info0;
+    INFO0;
     info_branch_ = info_branch;
+    passed_ = passed;
+    mva_ = mva;
+    Inititialize();
+}
+
+Result::Result(boca::InfoBranch const& info_branch, std::pair<boca::InfoBranch, int> const& trainer_info_branch, std::vector<double> const& bdts, TMVA::Types::EMVA mva)
+{
+    INFO0;
+    info_branch_ = info_branch;
+    trainer_info_branch_ = trainer_info_branch.first;
+    trainer_size_ = trainer_info_branch.second;
+    bdts_ = bdts;
+    mva_ = mva;
+    Inititialize();
+}
+
+Result::Result(boca::InfoBranch const& info_branch, std::pair<boca::InfoBranch, int> const& trainer_info_branch, std::vector<std::vector<bool>> const& passed, TMVA::Types::EMVA mva)
+{
+    INFO0;
+    info_branch_ = info_branch;
+    trainer_info_branch_ = trainer_info_branch.first;
+    trainer_size_ = trainer_info_branch.second;
     passed_ = passed;
     mva_ = mva;
     Inititialize();
@@ -82,10 +110,13 @@ Result::Result(boca::InfoBranch const& info_branch, std::vector<std::vector<bool
 
 void Result::Inititialize()
 {
-    Info0;
+    INFO0;
     events_.resize(Steps(), 0);
     efficiencies_.resize(Steps(), 0);
     crosssections_.resize(Steps(), 0);
+    model_independent_.resize(Steps(), 0);
+    model_independent_sig_.resize(Steps(), 0);
+    model_independent_sb_.resize(Steps(), 0);
     pure_efficiencies_.resize(Steps(), 0);
     event_sums_.resize(Steps(), 0);
     bins_.resize(Steps(), 0);
@@ -94,7 +125,7 @@ void Result::Inititialize()
 
 void Result::Calculate()
 {
-    Info0;
+    INFO0;
     switch (mva_) {
     case TMVA::Types::EMVA::kBDT : {
         for (auto const & bdt : bdts_) ++bins_.at(XBin(bdt));
@@ -112,33 +143,76 @@ void Result::Calculate()
         }
         break;
     }
-    default : Error(mva_, "Default case");
+    DEFAULT(mva_);
     }
 
-    for (auto const & step : Range(Steps())) {
-        efficiencies_.at(step) = float(event_sums_.at(step)) / InfoBranch().EventNumber();
-        pure_efficiencies_.at(step) = float(event_sums_.at(step)) / event_sums_.front();
+    for (auto const & step : IntegerRange(Steps())) {
+        efficiencies_.at(step) = double(event_sums_.at(step)) / InfoBranch().EventNumber();
+        pure_efficiencies_.at(step) = double(event_sums_.at(step)) / event_sums_.front();
         crosssections_.at(step) = InfoBranch().Crosssection() * double(efficiencies_.at(step));
         events_.at(step) = crosssections_.at(step) * DetectorGeometry::Luminosity();
-        Debug(efficiencies_.at(step), events_.at(step));
+        DEBUG(efficiencies_.at(step), events_.at(step));
     }
     INFO(InfoBranch().EventNumber(), event_sums_.front());
 }
 
-int Result::XBin(float value) const
+int Result::XBin(double value) const
 {
     INFO(value);
     switch (mva_) {
     case TMVA::Types::kBDT : return std::floor((value + 1) * (Steps() - 1) / 2);
     case TMVA::Types::kCuts : return std::floor((value - 1) * (Steps() - 1) * 10);
-        Default(mva_, 0);
+        DEFAULT(mva_, 0);
     }
 }
 
 TMVA::Types::EMVA const& Result::Mva() const
 {
-    Info0;
+    INFO0;
     return mva_;
+}
+void Result::SetModelIndependent(Crosssection crosssection, int step)
+{
+    INFO0;
+    model_independent_.at(step) = crosssection;
+}
+std::vector< Crosssection > Result::ModelIndependent() const
+{
+    return model_independent_;
+}
+void Result::SetModelIndependentSB(Crosssection crosssection, int step)
+{
+    INFO0;
+    model_independent_sb_.at(step) = crosssection;
+}
+std::vector< Crosssection > Result::ModelIndependentSB() const
+{
+    return model_independent_sb_;
+}
+void Result::SetModelIndependentSig(Crosssection crosssection, int step)
+{
+    INFO0;
+    model_independent_sig_.at(step) = crosssection;
+}
+std::vector< Crosssection > Result::ModelIndependentSig() const
+{
+    return model_independent_sig_;
+}
+std::vector<double > const& Result::SelectedEfficiencies() const
+{
+    return selected_efficiencies_;
+}
+void Result::AddSelectedEfficiency(double selected_efficiency)
+{
+    selected_efficiencies_.emplace_back(selected_efficiency);
+}
+void Result::AddSelectedEfficiency(int index)
+{
+    selected_efficiencies_.emplace_back(PureEfficiencies().at(index));
+}
+int Result::TrainerSize() const
+{
+    return trainer_size_;
 }
 
 }

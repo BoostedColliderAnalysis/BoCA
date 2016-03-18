@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
 #include <functional>
 #include "multiplets/Quintet.hh"
-#include "TopPartnerLeptonicTagger.hh"
+#include "TopPartnerLeptonicNeutralTagger.hh"
 #include "TopHadronicTagger.hh"
 #include "HiggsTagger.hh"
 
@@ -24,13 +24,13 @@ class VetoTopPartnerHadronicTagger : public TaggerTemplate<Quintet, TopPartnerBr
 
 public:
 
-    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
+    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const override;
 
-    std::vector<Quintet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const final;
+    std::vector<Quintet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
 
-    std::string Name() const final;
+    std::string Name() const override;
 
-    std::string LatexName() const final;
+    std::string LatexName() const override;
 
 private:
 
@@ -38,7 +38,7 @@ private:
 
     std::vector<Quintet> Quintets(Event const& event, std::function<Quintet(Quintet&)> const& function) const;
 
-    Reader<TopPartnerLeptonicTagger> partner_reader_;
+    Reader<TopPartnerLeptonicNeutralTagger> partner_reader_;
 
     Reader<standardmodel::TopHadronicTagger> top_reader_;
 

@@ -5,6 +5,7 @@
 
 #include "exroot/ExRootAnalysis.hh"
 #include "Reader.hh"
+#include "Branches.hh"
 #include "Files.hh"
 
 namespace boca
@@ -15,11 +16,11 @@ class BranchWriter
 {
 
 public:
-    BranchWriter(boca::Files& files, Tagger_& tagger)
-        : files_(files)
-        , tagger_(tagger)
-        , reader_(files.Phase().Stage())
-        , tree_writer_(&(files.Export()), files.Import().Title().c_str()) {
+    BranchWriter(boca::Files& files, Tagger_& tagger) :
+        files_(files),
+        tagger_(tagger),
+        reader_(files.Phase().Stage()),
+        tree_writer_(&(files.Export()), files.Import().Title().c_str()) {
         Initialize();
     }
 
@@ -32,6 +33,10 @@ public:
         }
         tree_branch_ = tree_writer_.NewBranch(tagger_.WeightBranchName().c_str(), InfoBranch::Class());
         for (auto const & path : Files().Import().Paths()) chain_.AddFile(path.c_str(), TChain::kBigNumber, Files().Import().TreeName().c_str());
+    }
+
+    ~BranchWriter() {
+        std::cout << "PreCut ratio: " << RoundToDigits(double(object_sum_) / event_sum_) << std::endl;
     }
 
     void Write() {
@@ -61,10 +66,10 @@ public:
         return event_sum_;
     }
 
-    void Increment() {
-        std::lock_guard<std::mutex> object_sum_guard(object_sum_mutex_);
-        ++object_sum_;
-    }
+//     void Increment() {
+//         std::lock_guard<std::mutex> object_sum_guard(object_sum_mutex_);
+//         ++object_sum_;
+//     }
 
     void Increment(int number) {
         std::lock_guard<std::mutex> object_sum_guard(object_sum_mutex_);

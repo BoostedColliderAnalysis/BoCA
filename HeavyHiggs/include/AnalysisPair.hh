@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Analysis.hh"
+#include "DEBUG.hh"
 
 namespace boca
 {
@@ -46,7 +47,7 @@ class Analysis : public boca::Analysis<Tagger>
 
 public:
 
-    void SetFiles(Tag tag, Stage) final {
+    void SetFiles(Tag tag, Stage)override {
         switch (tag) {
         case Tag::signal :
             this->NewFile(tag, Process::bb, Production::VBF);
@@ -90,16 +91,10 @@ private:
 
     Id MotherId(Production production) const {
         switch (production) {
-        case Production::DYP :
-            return Id::Z;
-//             return Id::gluon;
-        case Production::VBF :
-            return Id::bottom;
-        case Production::Associated :
-            return Id::gluon;
-        default:
-            Error("MotherId", "unhandeld case");
-            return Id::empty;
+        case Production::DYP : return Id::Z;
+        case Production::VBF : return Id::bottom;
+        case Production::Associated : return Id::gluon;
+        DEFAULT(to_int(production), Id::none);
         }
     }
 

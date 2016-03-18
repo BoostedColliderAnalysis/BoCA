@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -16,29 +16,29 @@ namespace standardmodel
 {
 
 /**
- * @brief Hadronic top BDT tagger
+ * @brief BDT tagger for hadronically decaying top quarks
  *
  */
 class TopHadronicTagger : public TaggerTemplate<Triplet, TopHadronicBranch>
 {
 
-    using Function = std::function<boost::optional<Triplet>(Triplet&, std::vector<Jet> const&)>;
-
 public:
 
-    TopHadronicTagger();
+    TopHadronicTagger(Id id = Id::top);
 
-    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const final;
+    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const override;
 
-    std::vector<Triplet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
+    std::vector<Triplet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
 
-    std::string Name() const final;
+    std::string Name() const override;
 
-    std::string LatexName() const final;
+    std::string LatexName() const override;
 
-    std::vector<Particle> Particles(Event const& event, boca::PreCuts const& pre_cuts) const;
+    std::vector<Particle> Particles(Event const& event) const;
 
 private:
+
+    using Function = std::function<boost::optional<Triplet>(Triplet&, std::vector<Jet> const&)>;
 
     std::vector<Triplet> ThreeJets(std::vector<Jet> const& jets, std::vector<Lepton> const& leptons, Function const& function, MomentumRange const& range) const;
 
@@ -66,15 +66,13 @@ private:
 
     bool Problematic(Triplet const& triplet, PreCuts const& pre_cuts) const;
 
-    void NSubJettiness(Triplet& triplet) const;
-
-    Momentum LeptonPt(Triplet const& triplet, std::vector<Lepton> const& leptons) const;
-
     Reader<BottomTagger> bottom_reader_;
 
     Reader<WHadronicTagger> w_hadronic_reader_;
 
     Mass top_mass_window_;
+
+    Id id_;
 
 };
 

@@ -1,5 +1,5 @@
 #include "ChargedHiggsLeptonicTagger.hh"
-#include "Debug.hh"
+#include "DEBUG.hh"
 
 namespace boca {
 
@@ -7,7 +7,7 @@ namespace heavyhiggs {
 
 int ChargedHiggsLeptonicTagger::Train(Event const& event, PreCuts const&, const Tag) const
 {
-    INFO("Higgs Tags");
+    INFO0;
    std::vector<Jet> jets = bottom_reader_.Jets(event);
     std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
     INFO(triplets.size());
@@ -15,7 +15,7 @@ int ChargedHiggsLeptonicTagger::Train(Event const& event, PreCuts const&, const 
         std::vector<Triplet> triplets;
         for (auto const& triplet : triplets) {
             for (auto const& Jet : jets)  {
-                if (triplet.Singlet1().Jet() == Jet) continue;
+                if (triplet.Singlet1() == Jet) continue;
                 Triplet triplet(triplet, Jet);
     //             triplet.SetTag(GetTag(triplet));
                 if (triplet.Tag() != tag) continue;
@@ -30,7 +30,7 @@ int ChargedHiggsLeptonicTagger::Train(Event const& event, PreCuts const&, const 
 
 
         if (tag == Tag::signal && triplets.size() > 1) {
-            Error("Higgs Candidates", triplets.size());
+            ERROR("Higgs Candidates", triplets.size());
             std::sort(triplets.begin(), triplets.end());
             triplets.erase(triplets.begin() + 1, triplets.end());
         }
@@ -41,14 +41,14 @@ int ChargedHiggsLeptonicTagger::Train(Event const& event, PreCuts const&, const 
 
 std::vector<Triplet>  ChargedHiggsLeptonicTagger::Multiplets(Event const&, PreCuts const& , TMVA::Reader const&) const
 {
-    INFO("Bdt");
+    INFO0;
 //    std::vector<Jet> jets = bottom_reader_.Jets(event);
 //     std::vector<Doublet> doublets = top_leptonic_reader_.Multiplets(event);
 //
 //     std::vector<Triplet> triplets;
 //     for (auto const& doublet : doublets) {
 //         for (auto const& jet : jets)  {
-//             if (doublet.Singlet1().Jet() == jet) continue;
+//             if (doublet.Singlet1() == jet) continue;
 //             Triplet triplet(doublet, jet);
 // //             triplet.SetTag(GetTag(triplet));
 // //             std::vector<Quartet31> Prequartets;
@@ -59,7 +59,6 @@ std::vector<Triplet>  ChargedHiggsLeptonicTagger::Multiplets(Event const&, PreCu
 // //             }
 //         }
 //     }
-//     return ReduceResult(triplets);
     return std::vector<Triplet>{};
 }
 

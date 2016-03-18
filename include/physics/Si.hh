@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -29,9 +29,9 @@ using Angle = boost::units::quantity<boost::units::si::plane_angle>;
 
 using AngleSquare = typename boost::units::multiply_typeof_helper<Angle, Angle>::type;
 
-float to_float(Angle angle);
+double to_double(Angle angle);
 
-Angle to_angle(float angle);
+Angle to_angle(double angle);
 
 BOOST_UNITS_STATIC_CONSTANT(radian, boost::units::si::plane_angle);
 

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -22,23 +22,23 @@ public:
 
     ~Graphs();
 
-    void AddGraph(std::vector<float> const& xs, std::vector<float> const& ys, std::string const& name = "");
+    void AddGraph(std::vector<double> const& xs, std::vector<double> const& ys, std::string const& name = "");
 
     void SetLegend(Orientation orientation, std::string const& title = "");
 
-    void SetXAxis(std::string const& title, Bounds<float> const& bounds = Bounds<float>());
+    void SetXAxis(std::string const& title, Range<double> const& range = Range<double>());
 
-    void SetYAxis(std::string const& title, Bounds<float> const& bounds = Bounds<float>());
+    void SetYAxis(std::string const& title, Range<double> const& range = Range<double>());
 
-    void AddLine(float x_value);
+    void AddLine(double x_value, std::string const& title = "");
 
 private:
 
     void Draw();
 
-    Bounds<double> BoundsY();
+    Range<double> RangeY();
 
-    Bounds<double> BoundsX();
+    Range<double> RangeX();
 
     void AddGraphs();
 
@@ -48,11 +48,11 @@ private:
 
     std::vector<TGraph> graphs_;
 
-    std::vector<TLine> lines_;
+    std::vector<std::pair<TLine, std::string>> lines_;
 
-    std::vector<std::pair<std::vector<float>, std::vector<float>>> datas_;
+    std::vector<std::pair<std::vector<double>, std::vector<double>>> datas_;
 
-    Rectangle<float> bounds_;
+    Rectangle<double> range_;
 
 };
 

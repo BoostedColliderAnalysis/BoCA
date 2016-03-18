@@ -1,216 +1,330 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "plotting/Results.hh"
 
 #include <boost/range/algorithm/min_element.hpp>
 #include <boost/range/algorithm/max_element.hpp>
-//
+#include <boost/range/numeric.hpp>
+
 #include "Types.hh"
+#include "Vector.hh"
+#include "physics/Units.hh"
 #include "DetectorGeometry.hh"
-// #define DEBUG
-#include "Debug.hh"
+// #define DEBUGGING
+#include "DEBUG.hh"
 
 namespace boca
 {
 
 std::vector<Result> const& Results::Signals() const
 {
-    Info0;
+    INFO0;
     return signals_;
 }
 
 std::vector<Result> const& Results::Backgrounds() const
 {
-    Info0;
+    INFO0;
     return backgrounds_;
 }
 
 int Results::BestModelDependentBin() const
 {
-    Info0;
+    INFO0;
     return best_model_dependent_bin_;
 }
 
 int Results::BestModelInDependentBin() const
 {
-    Info0;
+    INFO0;
     return best_model_independent_bin_;
 }
 
 int Results::BestAcceptanceBin() const
 {
-    Info0;
+    INFO0;
     return best_acceptance_bin_;
 }
 
-Rectangle<float> const& Results::Bounds() const
+int Results::BestSOverBBin() const
 {
-    Info0;
-    return bounds_;
+    INFO0;
+    return best_s_over_b_bin_;
 }
 
-Rectangle<float> & Results::Bounds()
+Rectangle<double> const& Results::Range() const
 {
-    Info0;
-    return bounds_;
+    INFO0;
+    return range_;
 }
 
-std::vector<float> const& Results::XValues() const
+Rectangle<double>& Results::Range()
 {
-    Info0;
+    INFO0;
+    return range_;
+}
+
+std::vector<double> const& Results::XValues() const
+{
+    INFO0;
     return x_values_;
 }
 
-std::vector<float> const& Results::Significances() const
+std::vector<double> const& Results::Significances() const
 {
-    Info0;
+    INFO0;
     return significances_;
 }
 
-std::vector<float> const& Results::Acceptances() const
+std::vector<double> const& Results::Acceptances() const
 {
-    Info0;
+    INFO0;
     return acceptances_;
 }
 
-std::vector<Crosssection> const& Results::ModelIndependentCrosssection() const
+std::vector<double> const& Results::SOverB() const
 {
-    Info0;
-    return crosssections_;
-}
-
-std::vector<Crosssection>& Results::ModelIndependentCrosssection()
-{
-    Info0;
-    return crosssections_;
+    INFO0;
+    return s_over_b_;
 }
 
 Results::Results(std::vector<Result> signals, std::vector<Result> backgrounds)
 {
-    Info0;
+    INFO0;
     signals_ = signals;
     backgrounds_ = backgrounds;
     significances_.resize(Steps(), 0);
-    crosssections_.resize(Steps(), 0_fb);
     acceptances_.resize(Steps(), 0);
+    s_over_b_.resize(Steps(), 0);
     x_values_.resize(Steps(), 0);
-    for (auto & x_value : x_values_) x_value = XValue(&x_value - &x_values_.front());
+    for (auto & x_value : x_values_) x_value = XValue(Position(x_values_, x_value));
     ExtremeXValues();
 }
 
 void Results::ExtremeXValues()
 {
-    Info0;
+    INFO0;
     switch (Mva()) {
-    case TMVA::Types::kBDT : {
-        for (auto const & result : backgrounds_) {
-            float min_0 = *boost::range::min_element(result.Bdts());
-            if (min_0 < bounds_.XMin()) bounds_.SetXMin(min_0);
-        }
-        for (auto const & result : signals_) {
-            float max_0 = *boost::range::max_element(result.Bdts());
-            if (max_0 > bounds_.XMax()) bounds_.SetXMax(max_0);
-        }
+    case TMVA::Types::kBDT :
+        for (auto const & signal : signals_) range_.WidenXMax(*boost::range::max_element(signal.Bdts()));
+        for (auto const & background : backgrounds_) range_.WidenXMin(*boost::range::min_element(background.Bdts()));
         break;
-    }
-    case TMVA::Types::kCuts : {
-        if (!x_values_.empty()) bounds_.SetXMin(x_values_.front());
-        if (!x_values_.empty()) bounds_.SetXMax(x_values_.back());
+    case TMVA::Types::kCuts :
+        if (!x_values_.empty()) range_.SetXMin(x_values_.front());
+        if (!x_values_.empty()) range_.SetXMax(x_values_.back());
         break;
-    }
-    Default(Mva(),);
+        DEFAULT(Mva());
     }
 }
 
-float Results::BestModelDependentValue() const
+double Results::BestModelDependentValue() const
 {
-    Info0;
+    INFO0;
     return XValue(BestModelDependentBin());
 }
 
-float Results::BestModelInDependentValue() const
+double Results::BestModelInDependentValue() const
 {
-    Info0;
+    INFO0;
     return XValue(BestModelInDependentBin());
 }
 
-float Results::BestAcceptanceValue() const
+double Results::BestAcceptanceValue() const
 {
-    Info0;
+    INFO0;
     return XValue(BestAcceptanceBin());
+}
+
+double Results::BestSOverBValue() const
+{
+    INFO0;
+    return XValue(BestSOverBBin());
 }
 
 int Results::Steps() const
 {
-    Info0;
-    if (signals_.empty()) return 0;
-    return signals_.front().Steps();
+    INFO0;
+    return signals_.empty() ? 0 : signals_.front().Steps();
 }
 
 TMVA::Types::EMVA Results::Mva() const
 {
-    Info0;
-    if (signals_.empty()) return TMVA::Types::kVariable;
-    return signals_.front().Mva();
+    INFO0;
+    return signals_.empty() ? TMVA::Types::kVariable : signals_.front().Mva();
 }
 
-void Results::CalculateSignificances()
+void Results::CalculateSignificances(double scaling)
 {
-    Info0;
-    for (auto const & step : Range(Steps())) {
-        float signal_events = 0;
-        Crosssection signal_efficiencies_crossection = 0_fb;
-        Crosssection crosssection = 0_fb;
-        for (auto const & signal : signals_) {
-            signal_events += signal.Events().at(step);
-            signal_efficiencies_crossection += double(signal.Efficiencies().at(step)) * signal.InfoBranch().Crosssection();
-            if (signal.InfoBranch().Crosssection() > crosssection) crosssection = signal.InfoBranch().Crosssection();
-        }
-        float signal_efficiencies = signal_efficiencies_crossection / crosssection;
-        float background_events = 0;
-//         float background_efficiencies = 0;
-        for (auto const & background : backgrounds_) {
-            background_events += background.Events().at(step);
-//             background_efficiencies += background.Efficiencies().at(step);
-        }
-        if (signal_events + background_events > 0) significances_.at(step) = signal_events / std::sqrt(signal_events + background_events);
-        else significances_.at(step) = 0;
-        if (background_events > 0) acceptances_.at(step) = signal_events / std::sqrt(background_events);
-        else acceptances_.at(step) = 0;
+    INFO0;
+    for (auto const & step : IntegerRange(Steps())) CalculateSignificances(scaling, step);
+    BestBins();
+}
 
-        float exclusion = 2;
-        if (signal_efficiencies > 0) crosssections_.at(step) = (exclusion + std::sqrt(sqr(exclusion) + 4. * background_events)) * exclusion / 2. / signal_efficiencies / DetectorGeometry::Luminosity();
-        else crosssections_.at(step) = 0_fb;
+void Results::CalculateSignificances(double scaling, int step)
+{
+    INFO0;
+    auto signal_events = SignalEvents(step) * scaling;
+    auto background_events = BackgroundEvents(step);
+    significances_.at(step) = Significance(signal_events, background_events);
+    acceptances_.at(step) = Acceptances(signal_events, background_events);
+    s_over_b_.at(step) = SOverB(signal_events, background_events);
+    for (auto & signal : signals_) signal.SetModelIndependentSig(ModelIndependentCrosssectionSig(signal.Efficiencies().at(step), step), step);
+    for (auto & signal : signals_) signal.SetModelIndependentSB(ModelIndependentCrosssectionSB(signal.Efficiencies().at(step), step), step);
+    for (auto & signal : signals_) signal.SetModelIndependent(ModelIndependentCrosssection(signal.Efficiencies().at(step), step), step);
+}
+
+namespace
+{
+template <typename Value>
+int BestBin(std::vector<Value> vector, int step)
+{
+    return std::distance(vector.begin(), std::max_element(std::begin(vector), std::end(vector) - step));
+}
+
+int BestMIBin(std::vector<Result> const& signals_, int step, std::function<std::vector<Crosssection>(Result const&)> const& function)
+{
+    std::map<Crosssection, int> map;
+    for (auto const & signal : signals_) {
+//         auto vector = signal.ModelIndependent();
+        auto vector = function(signal);
+        auto min = std::min_element(std::begin(vector), std::end(vector) - step, [](Crosssection i, Crosssection j) {
+            return i > 0_b ? i < j : i > j;
+        });
+        auto dist = std::distance(vector.begin(), min);
+        map.emplace(*min, dist);
+        ERROR(*min, dist);
     }
-    BestBin();
+    return map.rbegin()->second;
 }
 
-void Results::BestBin()
+}
+void Results::BestBins()
 {
-    Info0;
-    std::vector<float> efficiencies(backgrounds_.size(), 0);
+    INFO0;
+    std::vector<double> efficiencies(backgrounds_.size(), 0);
     int counter = 0;
-    for (auto const & number : Range(backgrounds_.size())) {
+    for (auto const & number : IntegerRange(backgrounds_.size())) {
         while (efficiencies.at(number) == 0 && counter < Steps()) {
-            best_model_dependent_bin_ = std::distance(significances_.begin(), std::max_element(std::begin(significances_), std::end(significances_) - counter));
-            best_model_independent_bin_ = std::distance(crosssections_.begin(), std::min_element(std::begin(crosssections_), std::end(crosssections_) - counter));
-            efficiencies.at(number) = backgrounds_.at(number).Efficiencies().at(best_model_independent_bin_);
-            best_acceptance_bin_ = std::distance(acceptances_.begin(), std::max_element(std::begin(acceptances_), std::end(acceptances_) - counter));
+            best_model_dependent_bin_ = BestBin(significances_, counter);
+            best_model_independent_bin_ = BestMIBin(signals_, counter, [](Result const & signal) {
+                return signal.ModelIndependent();
+            });
+            efficiencies.at(number) = backgrounds_.at(number).Efficiencies().at(best_model_dependent_bin_);
+            best_acceptance_bin_ = BestMIBin(signals_, counter, [](Result const & signal) {
+                return signal.ModelIndependentSig();
+            });
+            //BestBin(acceptances_, counter);
+            best_s_over_b_bin_ = BestMIBin(signals_, counter, [](Result const & signal) {
+                return signal.ModelIndependentSB();
+            });
+            //BestBin(s_over_b_, counter);
             ++counter;
         }
     }
-    Error(best_model_dependent_bin_, best_model_independent_bin_, best_acceptance_bin_);
 }
 
-float Results::XValue(int value) const
+void Results::Efficiencies()
+{
+    INFO0;
+    int steps = 10;
+    auto sig_eff = signals_.front().PureEfficiencies();
+    for (double eff : IntegerRange(1, steps)) {
+        double& elem = *(boost::range::lower_bound(sig_eff, eff / steps, [](double i, double j) {
+            return i > j;
+        }) - 1);
+        signals_.front().AddSelectedEfficiency(elem);
+        int index = Position(sig_eff, elem);
+        selected_efficiencies_.emplace_back(XValue(index));
+        if (index >= sig_eff.size()) index = 0;
+        for (auto & background : backgrounds_) background.AddSelectedEfficiency(index);
+    }
+}
+
+double Results::XValue(int value) const
 {
     INFO(value);
     switch (Mva()) {
     case TMVA::Types::kBDT : return 2. * value / Steps() - 1;
     case TMVA::Types::kCuts : return (1. + value) / (Steps() + 1);
-    Default(Mva(),0);
+        DEFAULT(Mva(), 0);
     }
+}
+
+double Results::SignalEvents(int step) const
+{
+    INFO0;
+    return boost::accumulate(signals_, 0., [&](double sum, Result const & signal) {
+        return sum + signal.Events().at(step);
+    });
+}
+
+double Results::BackgroundEvents(int step) const
+{
+    INFO0;
+    return boost::accumulate(backgrounds_, 0., [&](double sum, Result const & background) {
+        return sum + background.Events().at(step);
+    });
+}
+
+double Results::Significance(double signal_events, double background_events) const
+{
+    return /*signal_events +*/ background_events > 0 ? signal_events / std::sqrt(signal_events + background_events) : 0;
+}
+
+double Results::Acceptances(double signal_events, double background_events) const
+{
+    return background_events > 0 ? signal_events / std::sqrt(background_events) : 0;
+}
+
+double Results::SOverB(double signal_events, double background_events) const
+{
+    return background_events > 0 ? signal_events / background_events : 0;
+}
+
+Crosssection Results::BackgroundEfficiencyCrosssection(int step) const
+{
+    INFO0;
+    return boost::accumulate(backgrounds_, 0_b, [&](Crosssection sum, Result const & background) {
+        return sum  + double(background.Efficiencies().at(step)) * background.InfoBranch().Crosssection();
+    });
+}
+
+double Results::ScalingFactor()
+{
+    return 1; // should usually be 1
+    ERROR("Semi leptonic BR is beeing removed");
+    return 1. / (0.22 * 0.65 * 2); // remove semileptonic branching ratio
+}
+
+Crosssection Results::ModelIndependentCrosssectionSB(double signal_efficiency, int step) const
+{
+    INFO0;
+    if (signal_efficiency == 0) return 0_b;
+    auto s_over_b_ = 0.01;
+    return BackgroundEfficiencyCrosssection(step) / signal_efficiency * s_over_b_ * ScalingFactor();
+}
+
+Crosssection Results::ModelIndependentCrosssectionSig(double signal_efficiency, int step) const
+{
+    INFO0;
+    if (signal_efficiency == 0) return 0_b;
+    auto exclusion = 2.;
+    auto numerator = exclusion + std::sqrt(sqr(exclusion) + 4. * BackgroundEvents(step));
+    return numerator * exclusion / 2. / signal_efficiency / DetectorGeometry::Luminosity() * ScalingFactor();
+}
+
+Crosssection Results::ModelIndependentCrosssection(double signal_efficiency, int step) const
+{
+    INFO0;
+    auto sig = ModelIndependentCrosssectionSig(signal_efficiency, step);
+    auto sb = ModelIndependentCrosssectionSB(signal_efficiency, step);
+    return sig > 0_b && sb > 0_b ? max(sig, sb) : 0_b;
+}
+
+const std::vector< double >& Results::SelectedEfficiencies() const
+{
+    return selected_efficiencies_;
 }
 
 }

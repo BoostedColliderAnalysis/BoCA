@@ -1,6 +1,6 @@
 #pragma once
 
-#include <mutex>
+// #include <mutex>
 #include <memory>
 #include <vector>
 #include <map>
@@ -10,12 +10,10 @@
 #include "TTreeReader.h"
 #include "TTreeReaderArray.h"
 #include "TTreeReaderValue.h"
-#include "TLeaf.h"
+// #include "TLeaf.h"
 
 namespace boca
 {
-
-
 
 enum class Branch
 {
@@ -36,7 +34,7 @@ enum class Branch
     tau
 };
 
-std::string BranchName(Branch branch);
+std::string Name(Branch branch);
 
 enum class Source
 {
@@ -45,10 +43,11 @@ enum class Source
     parton
 };
 
+std::string Name(Source source);
+
 class TreeReaderArrayBase
 {
 public:
-//     virtual ~TreeReaderArrayBase() = 0;
     virtual void Fill() = 0 ;
 };
 
@@ -58,24 +57,15 @@ class TreeReaderArray : public TreeReaderArrayBase
 
 public:
 
-    TreeReaderArray(TTreeReader& tree_reader, Branch branch) : tree_reader_array_(TTreeReaderArray<Object>(tree_reader, BranchName(branch).c_str())) , branch_(branch) {}
+    TreeReaderArray(TTreeReader& tree_reader, Branch branch) : tree_reader_array_(TTreeReaderArray<Object>(tree_reader, Name(branch).c_str())) , branch_(branch) {}
 
     void Fill() {
-
-      if(tree_reader_array_.GetReadStatus() == ROOT::TTreeReaderValueBase::kReadError) std::cout << "Tree Reader read error in Branch " << BranchName(branch_) << std::endl;
-
-//         vector_ = vector(tree_reader_array_);
-      begin_ = tree_reader_array_.begin();
-      end_ = tree_reader_array_.end();
+        if (tree_reader_array_.GetReadStatus() == ROOT::TTreeReaderValueBase::kReadError) std::cout << "Tree Reader read error in Branch " << Name(branch_) << std::endl;
+        begin_ = tree_reader_array_.begin();
+        end_ = tree_reader_array_.end();
     }
 
-//     std::vector<Object> vector()  {
-//         vector_ = vector(tree_reader_array_);
-//       return vector_;
-//     };
-
     TTreeReaderArray<Object>& tree_reader_array() {
-//         std::cout << "Returning " << BranchName(branch_) << std::endl;
         return tree_reader_array_;
     }
 
@@ -103,38 +93,17 @@ class TreeReader
 
 public:
 
-    TreeReader(TChain& chain);
-
     TreeReader(std::vector<std::string> const& paths, std::string const& tree_name);
 
     long GetEntries() const;
 
     bool ReadEntry(long number);
 
-//     template<typename Object>
-//     std::vector< Object >Vector(Branch branch) const {
-//       if(!Has(branch)) return {};
-// //       return std::dynamic_pointer_cast<TreeReaderArray<Object>>(map.at(branch))->vector();
-//       auto object = std::dynamic_pointer_cast<TreeReaderArray<Object>>(map.at(branch));
-//       return {object->begin, object->end};
-//     }
-
     template<typename Object>
     TTreeReaderArray<Object>& Objects(Branch branch) const {
-        if (!Has(branch)) {
-          std::cout << BranchName(branch) << " does not exist " << map_.size() << std::endl;
-//           return {};
-//          return TTreeReaderArray<Object>();
-        }
-//         std::cout << "Reading " << BranchName(branch) << std::endl;
+        if (!Has(branch)) std::cout << Name(branch) << " does not exist " << map_.size() << std::endl;
         return const_cast<TTreeReaderArray<Object> &>(std::dynamic_pointer_cast<TreeReaderArray<Object>>(map_.at(branch))->tree_reader_array());
     }
-
-//     template<typename Object>
-//     std::vector< Object > Objects(Branch branch) const {
-// //       if(!Has(branch)) return TTreeReaderArray<Object>();
-//       return Vector<Object>(branch);
-//     }
 
     bool Has(Branch branch) const;
 
@@ -151,13 +120,11 @@ private:
 
     std::map<Branch, std::shared_ptr<TreeReaderArrayBase>> map_;
 
-    TChain* chain_;
-
     TChain chain_2_;
 
     TTreeReader tree_reader_;
 
-    static std::mutex mutex_;
+//     static std::mutex mutex_;
 
     Source source_;
 

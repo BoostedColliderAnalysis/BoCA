@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -60,9 +60,16 @@ public:
 
     LorentzVector<Momentum> Vector() const;
 
-private:
+    double Bdt() const;
+
+protected:
 
     void SetInfo(JetInfo const& user_info = JetInfo());
+
+    void ResetInfo(JetInfo const& user_info);
+
+private:
+
 
 };
 
@@ -75,5 +82,7 @@ std::vector<Jet> JetVector(std::vector<fastjet::PseudoJet> const& pseudo_jets);
 std::vector<fastjet::PseudoJet> PseudoJetVector(std::vector<Jet> const& jets);
 
 Jet Join(std::vector<Jet> const& jets);
+
+Jet Join(Jet const& jet_1, Jet const& jet_2);
 
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015 Jan Hajer
+ * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
 
@@ -36,7 +36,7 @@ private:
      * @brief Book MVA methods
      *
      */
-    TMVA::MethodBase& BookMethod();
+    std::vector<double> BookMethod();
 
     /**
      * @brief Add Variables
@@ -61,7 +61,7 @@ private:
 
     long Entries(exroot::TreeReader& tree_reader);
 
-    float Weight(exroot::TreeReader& tree_reader);
+    double Weight(exroot::TreeReader& tree_reader);
 
     TTree &Tree(std::string const& tree_name, boca::Tag tag);
 
