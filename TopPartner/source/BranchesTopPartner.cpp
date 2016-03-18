@@ -64,18 +64,34 @@ Observables NewEventBranch::Variables()
     return BdtBranch::Variables() + OBSERVABLE(GlobalBdt, "BDT_{global}") + OBSERVABLE(SignatureBdt, "BDT_{Signature}");
 }
 
+NewEventBranch2::NewEventBranch2()
+{
+    VetoBdt = InitialValue();
+    SignatureBdt = InitialValue();
+}
+
+Observables NewEventBranch2::Variables()
+{
+    return BdtBranch::Variables() + GlobalBase::Variables() + OBSERVABLE(VetoBdt, "BDT_{veto}") + OBSERVABLE(SignatureBdt, "BDT_{Signature}");
+}
+
+Observables NewEventBranch2::Spectators()
+{
+  return BdtBranch::Spectators() + GlobalBase::Spectators();
+}
+
 CompleteBranch::CompleteBranch()
 {
 }
 
 Observables CompleteBranch::Variables()
 {
-  return SignatureSingleHadronicBranch::Variables() + GlobalBase::Variables();
+    return SignatureSingleHadronicBranch::Variables() + GlobalBase::Variables();
 }
 
 Observables CompleteBranch::Spectators()
 {
-  return SignatureSingleHadronicBranch::Spectators() + GlobalBase::Spectators();
+    return SignatureSingleHadronicBranch::Spectators() + GlobalBase::Spectators();
 }
 
 }

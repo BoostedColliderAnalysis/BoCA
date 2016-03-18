@@ -18,7 +18,7 @@ namespace naturalness
  * @brief Prepares multivariant analysis
  *
  */
-class EventSingleHadronicTagger : public TaggerTemplate<EventMultiplet<Decuplet532>, NewEventBranch>
+class EventSingleHadronicTagger : public TaggerTemplate<EventMultiplet<Decuplet532>, NewEventBranch2>
 {
 
 public:

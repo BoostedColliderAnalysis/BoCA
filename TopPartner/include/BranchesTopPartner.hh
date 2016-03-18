@@ -126,21 +126,47 @@ private:
  * @brief Class for saving event informations to root
  *
  */
+class NewEventBranch2 : public BdtBranch, GlobalBase
+{
+public:
+    NewEventBranch2();
+
+    float SignatureBdt;
+    float VetoBdt;
+
+    template<typename Multiplet>
+    void Fill(Multiplet const& multiplet) {
+        boca::BdtBranch::Fill(multiplet);
+        GlobalBase::Fill(multiplet.GlobalObservables());
+        SignatureBdt = multiplet.Signature().Bdt();
+        VetoBdt = multiplet.Signature().VetoBdt();
+    }
+    Observables Variables();
+    Observables Spectators();
+
+private:
+    ClassDef(NewEventBranch2, 1)
+};
+
+/**
+ * @brief Class for saving event informations to root
+ *
+ */
 class CompleteBranch : public SignatureSingleHadronicBranch, GlobalBase
 {
 public:
-  CompleteBranch();
+    CompleteBranch();
 
-  template<typename Multiplet>
-  void Fill(Multiplet const& multiplet) {
-    SignatureSingleHadronicBranch::Fill(multiplet.Signature());
-    GlobalBase::Fill(multiplet.GlobalObservables());
-  }
-  Observables Variables();
-  Observables Spectators();
+    template<typename Multiplet>
+    void Fill(Multiplet const& multiplet) {
+        SignatureSingleHadronicBranch::Fill(multiplet.Signature());
+        GlobalBase::Fill(multiplet.GlobalObservables());
+    }
+    Observables Variables();
+    Observables Spectators();
 
 private:
-  ClassDef(CompleteBranch, 1)
+    ClassDef(CompleteBranch, 1)
 };
 
 /**

@@ -22,9 +22,9 @@ Angle Singlet::Radius() const
     INFO0;
     if (has_radius_) return radius_;
     auto constituents = Constituents();
-    radius_ = constituents.size() < 2 ? 0_rad : DeltaRTo(*boost::range::max_element(Constituents(), [this](boca::Jet const & jet_1, boca::Jet const & jet_2) {
+    radius_ = constituents.size() > 1 ? DeltaRTo(*boost::range::max_element(Constituents(), [this](boca::Jet const & jet_1, boca::Jet const & jet_2) {
         return DeltaRTo(jet_1) < DeltaRTo(jet_2);
-    }));
+    })) : 0_rad;
     has_radius_ = true;
     return radius_;
 }
@@ -34,9 +34,9 @@ using AngleMomentum = ValueProduct<Angle, Momentum>;
 double Singlet::Spread() const
 {
     INFO0;
-    return Radius() == 0_rad || Pt() <= 0_eV ? 0. : double(boost::accumulate(Constituents(), 0_rad * eV, [this](AngleMomentum & sum, boca::Jet const & constituent) {
+    return Radius() > 0_rad && Pt() > 0_eV ? double(boost::accumulate(Constituents(), 0_rad * eV, [this](AngleMomentum & sum, boca::Jet const & constituent) {
         return sum + DeltaRTo(constituent) * constituent.Pt();
-    }) / Pt() / Radius());
+    }) / Pt() / Radius()) : 0;
 }
 
 void Singlet::SetBdt(double bdt)
@@ -80,7 +80,7 @@ Vector2<AngleSquare> Singlet::PullVector() const
     auto sum = boost::accumulate(constituents, Vector2<AngleSquareMomentum>(), [this](Vector2<AngleSquareMomentum>& sum , boca::Jet const & constituent) {
         return sum + PseudoJet::DeltaTo(constituent) * constituent.Pt() * PseudoJet::DeltaRTo(constituent);
     });
-    pull_ = Pt() <= 0_eV ? Vector2<AngleSquare>() : Vector2<AngleSquare>((sum  / Pt()));
+    pull_ = Pt() > 0_eV ? Vector2<AngleSquare>((sum  / Pt())) : Vector2<AngleSquare>();
     has_pull_ = true;
     return pull_;
 }

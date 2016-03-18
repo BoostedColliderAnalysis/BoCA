@@ -9,18 +9,6 @@
 namespace boca
 {
 
-void Multiplet::SetSinglet(boca::Singlet const& singlet) const
-{
-    singlet_ = singlet;
-    has_singlet_ = true;
-}
-
-void Multiplet::SetPlainJet(boca::Jet const& jet) const
-{
-    jet_ = jet;
-    has_jet_ = true;
-}
-
 void Multiplet::SetClosestLepton(std::vector<boca::Lepton> const& leptons)
 {
     closest_lepton_ = ClosestLepton(Jet(), leptons);
@@ -28,18 +16,18 @@ void Multiplet::SetClosestLepton(std::vector<boca::Lepton> const& leptons)
 
 ClosestLepton Multiplet::Lepton() const
 {
-  return closest_lepton_;
+    return closest_lepton_;
 }
 
 const Singlet& Multiplet::ConstituentJet() const
 {
-    if (!has_singlet_) SetSinglet();
-    return singlet_;
+    if (!has_constituent_jet_) SetConstituentJet();
+    return constituent_jet_;
 }
 
 Jet Multiplet::Jet() const
 {
-    if (!has_jet_) SetPlainJet();
+    if (!has_jet_) SetJet();
     return jet_;
 }
 

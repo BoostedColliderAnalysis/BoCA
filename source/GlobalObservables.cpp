@@ -165,9 +165,9 @@ Jet GlobalObservables::Jet() const
 
 const Singlet& GlobalObservables::ConstituentJet() const
 {
-    if (!has_singlet_) {
+    if (!has_constituent_jet_) {
         singlet_ = Join(Jets());
-        has_singlet_ = true;
+        has_constituent_jet_ = true;
     }
     return singlet_;
 }

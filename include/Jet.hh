@@ -4,7 +4,6 @@
 #pragma once
 
 #include "PseudoJet.hh"
-#include "InfoRecombiner.hh"
 #include "JetInfo.hh"
 
 namespace boca
@@ -83,16 +82,6 @@ std::vector<Jet> JetVector(std::vector<fastjet::PseudoJet> const& pseudo_jets);
 std::vector<fastjet::PseudoJet> PseudoJetVector(std::vector<Jet> const& jets);
 
 Jet Join(std::vector<Jet> const& jets);
-
-template<typename Multiplet_1_, typename Multiplet_2_>
-Jet MakeJet(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2) {
-    return fastjet::join(multiplet_1.Jet(), multiplet_2.Jet(), InfoRecombiner());
-}
-
-template<typename Multiplet_>
-Jet MakeJet(Jet const& jet, Multiplet_ const& multiplet) {
-  return fastjet::join(jet, multiplet.Jet(), InfoRecombiner());
-}
 
 Jet Join(Jet const& jet_1, Jet const& jet_2);
 

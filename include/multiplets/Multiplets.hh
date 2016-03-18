@@ -16,12 +16,7 @@ namespace boca
 template<typename Multiplet_1_, typename Multiplet_2_>
 Momentum DeltaPt(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2)
 {
-    Momentum delta_pt  = multiplet_1.Pt() - multiplet_2.Pt();
-    if (delta_pt != delta_pt) {
-        std::cout << "Bad delta pt" << std::endl;
-        return at_rest;
-    }
-    return delta_pt;
+    return multiplet_1.Pt() - multiplet_2.Pt();
 }
 
 template<typename Multiplet_1_, typename Multiplet_2_>
@@ -33,12 +28,7 @@ Momentum Ht(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2)
 template<typename Multiplet_1_, typename Multiplet_2_>
 Angle DeltaRap(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2)
 {
-    Angle delta_rap = multiplet_1.Rap() - multiplet_2.Rap();
-    if (boost::units::abs(delta_rap) > 100_rad) {
-        std::cout << "Bad delta rap" << std::endl;
-        return 0_rad;
-    }
-    return delta_rap;
+    return multiplet_1.Rap() - multiplet_2.Rap();
 }
 
 template<typename Multiplet_1_, typename Multiplet_2_>
@@ -50,13 +40,7 @@ Angle DeltaPhi(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2)
 template<typename Multiplet_1_, typename Multiplet_2_>
 Angle DeltaR(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2)
 {
-    Angle delta_r = multiplet_1.DeltaRTo(multiplet_2); //FIXME THIS HAS TO BE SWITCHED ON!!!!
-    if (boost::units::abs(delta_r) > 100_rad) {
-        std::cout << "Bad delta R" << std::endl;
-        return 0_rad;
-    }
-    //         if (delta_r < DetectorGeometry::MinCellResolution()) delta_r = Singlet(Jet()).DeltaR();
-    return delta_r;
+    return multiplet_1.DeltaRTo(multiplet_2);
 }
 
 template<typename Multiplet_1_, typename Multiplet_2_>
@@ -74,9 +58,8 @@ Momentum DeltaHt(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_
 template<typename Multiplet_1_, typename Multiplet_2_>
 double Rho(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2, boca::Jet const& jet)
 {
-    Angle delta_r = DeltaR(multiplet_1, multiplet_2);
-    if (jet.Pt() < DetectorGeometry::MinCellPt() || delta_r < DetectorGeometry::MinCellResolution()) return 0;
-    return jet.Mass() / jet.Pt() / delta_r * 2_rad;
+    auto delta_r = DeltaR(multiplet_1, multiplet_2);
+    return jet.Pt() > DetectorGeometry::MinCellPt() && delta_r > DetectorGeometry::MinCellResolution() ? double(jet.Mass() / jet.Pt() / delta_r * 2_rad) : 0;
 }
 
 template<typename Multiplet_1_, typename Multiplet_2_>
@@ -103,8 +86,7 @@ Vector2<Angle> Point2(Vector2<Angle> const& point, Multiplet_ const& multiplet)
     phi = Wrap(phi);
     Vector2<Angle> point_3(multiplet.Rap(), phi);
     auto distance_2 = (point - point_3).Mod2();
-    if (distance_2 < distance_1) return point_3;
-    return point_2;
+    return distance_2 < distance_1 ? point_3 : point_2;
 }
 
 using AngleSquareMomentum = ValueProduct<AngleSquare, Momentum>;
@@ -112,7 +94,7 @@ using AngleSquareMomentum = ValueProduct<AngleSquare, Momentum>;
 template<typename Multiplet_1_, typename Multiplet_2_>
 double Dipolarity(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2, boca::Singlet const& singlet)
 {
-    if (singlet.Pt() == at_rest) return 0;
+    if (singlet.Pt() <= at_rest) return 0;
     if (!singlet.has_constituents()) return 0;
     Vector2<Angle> point_1(multiplet_1.Rap(), multiplet_1.Phi());
     auto point_2 = Point2(point_1, multiplet_2);
@@ -121,13 +103,39 @@ double Dipolarity(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet
         return sum + constituent.Pt() * sqr(line.Distance(constituent));
     });
     auto delta_r = DeltaR(multiplet_1, multiplet_2);
-    return delta_r == 0_rad ?  0 : dipolarity / singlet.Pt() / sqr(delta_r);
+    return delta_r > 0_rad ? dipolarity / singlet.Pt() / sqr(delta_r) : 0;
 }
 
 template<typename Multiplet_1_, typename Multiplet_2_>
 int Charge(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2)
 {
     return multiplet_1.Charge() + multiplet_2.Charge();
+}
+
+template<typename Multiplet_1_, typename Multiplet_2_>
+Jet Join(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2)
+{
+  return Join(multiplet_1.Jet(), multiplet_2.Jet());
+}
+
+template<typename Multiplet_>
+Jet Join(Jet const& jet, Multiplet_ const& multiplet)
+{
+  return Join(jet, multiplet.Jet());
+}
+
+template<typename Multiplet_>
+Jet Join(Multiplet_ const& multiplet, Jet const& jet)
+{
+  return Join(jet, multiplet.Jet());
+}
+
+template<typename Multiplet_1_, typename Multiplet_2_>
+boca::Singlet JoinConstituents(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2)
+{
+  auto constituents = SortedByPt(Combine(multiplet_1.ConstituentJet().Constituents(), multiplet_2.ConstituentJet().Constituents()));
+  boost::erase(constituents, boost::unique<boost::return_next_end>(constituents));
+  return Join(constituents);
 }
 
 }

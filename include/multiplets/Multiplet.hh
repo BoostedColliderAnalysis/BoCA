@@ -7,6 +7,7 @@
 #include "SubJettiness.hh"
 #include "ClosestLepton.hh"
 #include "Particle.hh"
+#include "Multiplets.hh"
 
 namespace boca
 {
@@ -69,23 +70,31 @@ public:
 
 protected:
 
-    void SetSinglet(boca::Singlet const& singlet) const;
+    template<typename Multiplet_1_, typename Multiplet_2_>
+    void SetConstituentJet(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2) const {
+        constituent_jet_ = JoinConstituents(multiplet_1, multiplet_2);
+        has_constituent_jet_ = true;
+    }
 
-    virtual void SetSinglet() const = 0;
+    virtual void SetConstituentJet() const = 0;
 
-    void SetPlainJet(boca::Jet const& jet) const;
+    template<typename Multiplet_1_, typename Multiplet_2_>
+    void SetJet(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2) const {
+        jet_ = Join(multiplet_1, multiplet_2);
+        has_jet_ = true;
+    }
 
-    virtual void SetPlainJet() const = 0;
+    virtual void SetJet() const = 0;
 
 private:
 
     ClosestLepton closest_lepton_;
 
-    mutable boca::Singlet singlet_;
+    mutable boca::Singlet constituent_jet_;
 
     mutable boca::Jet jet_;
 
-    mutable bool has_singlet_ = false;
+    mutable bool has_constituent_jet_ = false;
 
     mutable bool has_jet_ = false;
 

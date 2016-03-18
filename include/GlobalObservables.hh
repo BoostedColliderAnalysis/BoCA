@@ -81,7 +81,7 @@ private:
 
     mutable boca::Singlet singlet_;
 
-    mutable bool has_singlet_ = false;
+    mutable bool has_constituent_jet_ = false;
 
 };
 

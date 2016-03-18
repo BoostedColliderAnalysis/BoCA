@@ -153,12 +153,12 @@ protected:
 
 private:
 
-    void SetPlainJet() const override {
-        Multiplet::SetPlainJet(MakeJet(Multiplet1(), Multiplet2()));
+    void SetJet() const override {
+        Multiplet::SetJet(Multiplet1(), Multiplet2());
     }
 
-    void SetSinglet() const override {
-        Multiplet::SetSinglet(MakeSinglet(Multiplet1(), Multiplet2()));
+    void SetConstituentJet() const override {
+        Multiplet::SetConstituentJet(Multiplet1(), Multiplet2());
     }
 
     Multiplet_1_ multiplet_1_;

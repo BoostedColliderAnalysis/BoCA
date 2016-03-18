@@ -121,13 +121,5 @@ private:
 
 };
 
-template<typename Multiplet_1_, typename Multiplet_2_>
-boca::Singlet MakeSinglet(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2)
-{
-    auto constituents = SortedByPt(Combine(multiplet_1.ConstituentJet().Constituents(), multiplet_2.ConstituentJet().Constituents()));
-    boost::erase(constituents, boost::unique<boost::return_next_end>(constituents));
-    return Join(constituents);
-}
-
 }
 
