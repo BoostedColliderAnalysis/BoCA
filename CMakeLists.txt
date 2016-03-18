@@ -43,7 +43,7 @@ include(CMakeFiles/External.cmake)
 
 # MadGraph
 include(CMakeFiles/FindMadGraph.cmake)
-configure_file(File.hh.in ${CMAKE_BINARY_DIR}/include/File.hh)
+# configure_file(File.hh.in ${CMAKE_BINARY_DIR}/include/File.hh)
 
 # libConfig
 # include(CMakeFiles/FindLibConfig.cmake)

@@ -52,7 +52,10 @@ private:
 
     std::string FileSuffix() const;
 
-    std::string base_path_ = "$HOME/Development/MadGraph/";
+    std::string BasePath(){
+      return "$HOME/Development/MadGraph/";
+//       return @MadGraphPath@;
+    }
 
     std::vector<std::string> process_folders_;
 
