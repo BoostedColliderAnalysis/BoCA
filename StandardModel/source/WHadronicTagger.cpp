@@ -44,14 +44,6 @@ std::vector<Doublet> WHadronicTagger::Doublets(Event const& event, PreCuts const
     MomentumRange w_jet_range(Id::W, SubJet(Id::W));
     for (auto const & jet : w_jet_range.HarderThanMin(jets)) {
 
-        if (w_jet_range.BelowUpperBound(jet)) {
-            std::vector<Jet> pieces = bottom_reader_.SubMultiplet(jet, 2);
-            if (pieces.size() == 2) {
-                Doublet doublet(pieces.at(0), pieces.at(1));
-                if (boost::optional<Doublet> optional = function(doublet)) doublets.emplace_back(*optional);
-            }
-        }
-
         MomentumRange top_jet_range(Id::top, SubJet(Id::W));
         if (pre_cuts.DoSubJets(Id::W) && top_jet_range.InsideRange(jet)) {
             std::vector<Jet> pieces = bottom_reader_.SubMultiplet(jet, 3);
@@ -67,7 +59,8 @@ std::vector<Doublet> WHadronicTagger::Doublets(Event const& event, PreCuts const
                 if (boost::optional<Doublet> optional = function(doublet)) doublets.emplace_back(*optional);
             }
         }
-        if (boosted_range.AboveLowerBound(jet)) {
+
+        if (w_jet_range.BelowUpperBound(jet) || boosted_range.AboveLowerBound(jet)) {
             Doublet doublet;
             doublet.Enforce(jet);
             if (boost::optional<Doublet> optional = function(doublet)) doublets.emplace_back(*optional);
@@ -78,10 +71,10 @@ std::vector<Doublet> WHadronicTagger::Doublets(Event const& event, PreCuts const
 
 std::vector<Particle> WHadronicTagger::Particles(Event const& event) const
 {
-    std::vector<Particle> particles = event.Partons().GenParticles();
-    std::vector<Particle> quarks = CopyIfMother(CopyIfQuark(particles), Id::W);
+    auto particles = event.Partons().GenParticles();
+    auto quarks = CopyIfMother(CopyIfQuark(particles), Id::W);
     if (quarks.empty()) return {};
-    std::vector<int> ids = Transform<int>(quarks, [](Particle const & quark) {
+    auto ids = Transform(quarks, [](Particle const & quark) {
         return quark.Info().Family().Member(Relative::mother).Id();
     });
     return boost::range::adjacent_find(ids, std::not_equal_to<int>()) == ids.end() ? CopyIfExactParticle(particles, ids.front()) : CopyIfParticle(particles, Id::W);

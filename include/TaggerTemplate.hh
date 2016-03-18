@@ -38,7 +38,7 @@ public:
         FillBranch(multiplet);
         int steps = 50;
         // TODO why is this a 2?
-        return Transform<bool>(IntegerRange(2, steps), [&](int effeciency) {
+        return Transform(IntegerRange(2, steps), [&](int effeciency) {
             return Tagger::Cut(reader, double(effeciency) / steps);
         });
     }

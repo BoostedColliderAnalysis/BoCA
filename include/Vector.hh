@@ -15,10 +15,31 @@
 namespace boca
 {
 
-template<typename Result_, typename Input_, typename Function_>
-std::vector<Result_> Transform(Input_ const& inputs, Function_ const& function)
+// For generic types, directly use the result of the signature of its 'operator()'
+template <typename Function_>
+struct function_traits : public function_traits<decltype(&Function_::operator())>
+{};
+
+// we specialize for pointers to member function
+template <typename Class_, typename Return_, typename... Arguments_>
+struct function_traits<Return_(Class_::*)(Arguments_...) const> {
+    // arity is the number of arguments.
+    enum { arity = sizeof...(Arguments_) };
+
+    typedef Return_ result_type;
+
+    template <std::size_t number>
+    struct arg {
+        // the i-th argument is equivalent to the i-th tuple element of a tuple composed of those arguments.
+        typedef typename std::tuple_element<number, std::tuple<Arguments_...>>::type type;
+    };
+};
+
+template <typename Input_, typename Function_>
+auto Transform(Input_ const& inputs, Function_ function)
 {
-    std::vector<Result_> results;
+    using Result = typename function_traits<decltype(function)>::result_type;
+    std::vector<Result> results;
     if (inputs.empty()) return results;
     results.reserve(inputs.size());
     boost::range::transform(inputs, std::back_inserter(results), function);
@@ -39,17 +60,14 @@ template<typename Elements_, typename Function_>
 std::vector<Elements_> CopyIf(std::vector<Elements_> const& inputs, Function_ const& function)
 {
     std::vector<Elements_> results;
-    if (inputs.empty()) return results;
-    boost::range::push_back(results, inputs | boost::adaptors::filtered(function));
-    return results;
+    return inputs.empty() ? results : boost::range::push_back(results, inputs | boost::adaptors::filtered(function));
 }
 
 template<typename Elements_, typename Function_>
 std::vector<Elements_> CopyIf(std::vector<Elements_>& inputs, Function_ const& function)
 {
     std::vector<Elements_> results;
-    boost::range::push_back(results, inputs | boost::adaptors::filtered(function));
-    return results;
+    return inputs.empty() ? results : boost::range::push_back(results, inputs | boost::adaptors::filtered(function));
 }
 
 template <typename Multiplet_>
@@ -60,11 +78,15 @@ std::vector<Multiplet_> RemoveIfOutsidePtWindow(std::vector<Multiplet_> jets, Mo
     });
 }
 
+/**
+ * @brief Copy if Bdt value of multiplet is larger than value (default = 0)
+ *
+ */
 template<typename Multiplet_>
 std::vector<Multiplet_> CopyIfTag(std::vector<Multiplet_> const& multiplets, double value = 0)
 {
     return CopyIf(multiplets, [value](Multiplet_ const & multiplet) {
-        return multiplet.Bdt() > 0;
+        return multiplet.Bdt() > value;
     });
 }
 
@@ -333,14 +355,3 @@ auto Triples(std::vector<Element_1_> const& container_1, std::vector<Element_2_>
 }
 
 }
-
-
-
-
-
-
-
-
-
-
-

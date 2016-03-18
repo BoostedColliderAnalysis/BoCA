@@ -154,17 +154,17 @@ TMVA::Types::EMVA Results::Mva() const
     return signals_.empty() ? TMVA::Types::kVariable : signals_.front().Mva();
 }
 
-void Results::CalculateSignificances()
+void Results::CalculateSignificances(double scaling)
 {
     INFO0;
-    for (auto const & step : IntegerRange(Steps())) CalculateSignificances(step);
+    for (auto const & step : IntegerRange(Steps())) CalculateSignificances(scaling, step);
     BestBins();
 }
 
-void Results::CalculateSignificances(int step)
+void Results::CalculateSignificances(double scaling, int step)
 {
     INFO0;
-    auto signal_events = SignalEvents(step);
+    auto signal_events = SignalEvents(step) * scaling;
     auto background_events = BackgroundEvents(step);
     significances_.at(step) = Significance(signal_events, background_events);
     acceptances_.at(step) = Acceptances(signal_events, background_events);

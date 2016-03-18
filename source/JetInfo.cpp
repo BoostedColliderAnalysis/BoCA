@@ -11,7 +11,7 @@
 #include "Vector.hh"
 #include "physics/Math.hh"
 #include "Types.hh"
-#include "Jet.hh"
+#include "multiplets/Singlet.hh"
 
 // #define DEBUGGING
 #include "DEBUG.hh"
@@ -150,10 +150,10 @@ int JetInfo::VertexNumber() const
     return displaced_constituents_.size();
 }
 
-boca::Jet JetInfo::VertexJet() const
+boca::Singlet JetInfo::VertexJet() const
 {
     DEBUG0;
-    return Join(Transform<Jet>(displaced_constituents_, [](auto const & consituent) {
+    return Join(Transform(displaced_constituents_, [](Constituent const & consituent) -> Jet {
         return consituent.Momentum();
     }));
 }
@@ -161,8 +161,7 @@ boca::Jet JetInfo::VertexJet() const
 Length JetInfo::SumDisplacement() const
 {
     DEBUG0;
-    if (displaced_constituents_.empty()) return 0_mm;
-    return boost::accumulate(displaced_constituents_, 0_mm, [](Length result, Constituent const & constituent) {
+    return displaced_constituents_.empty() ? 0_m : boost::accumulate(displaced_constituents_, 0_m, [](Length result, Constituent const & constituent) {
         return result + constituent.Position().Vect().Perp();
     });
 }
@@ -170,15 +169,13 @@ Length JetInfo::SumDisplacement() const
 Length JetInfo::MeanDisplacement() const
 {
     DEBUG0;
-    if (displaced_constituents_.empty()) return 0_mm;
-    return SumDisplacement() / double(displaced_constituents_.size());
+    return displaced_constituents_.empty() ? 0_m  : SumDisplacement() / double(displaced_constituents_.size());
 }
 
 Length JetInfo::MaxDisplacement() const
 {
     DEBUG0;
-    if (displaced_constituents_.empty()) return 0_mm;
-    return boost::max_element(displaced_constituents_, [](Constituent const & constituent_1, Constituent const & constituent_2) {
+    return displaced_constituents_.empty() ? 0_m : boost::max_element(displaced_constituents_, [](Constituent const & constituent_1, Constituent const & constituent_2) {
         return constituent_1.Position().Vect().Perp() < constituent_2.Position().Vect().Perp();
     })->Position().Vect().Perp();
 }
@@ -186,12 +183,11 @@ Length JetInfo::MaxDisplacement() const
 Mass JetInfo::VertexMass() const
 {
     DEBUG0;
-    Mass vertex_mass = boost::accumulate(displaced_constituents_, LorentzVector<Momentum>(), [](LorentzVector<Momentum> const & momentum, Constituent const & constituent) {
+    auto vertex_mass = boost::accumulate(displaced_constituents_, LorentzVector<Momentum>(), [](LorentzVector<Momentum> const & momentum, Constituent const & constituent) {
         return momentum + constituent.Momentum();
     }).M();
     DEBUG(vertex_mass);
-    if (vertex_mass < DetectorGeometry::VertexMassMin()) return massless;
-    return vertex_mass;
+    return vertex_mass < DetectorGeometry::VertexMassMin() ? massless : vertex_mass;
 }
 
 Energy JetInfo::VertexEnergy() const
@@ -213,7 +209,7 @@ bool JetInfo::VertexResultion(Constituent constituent) const
     DEBUG(constituent.Position().Perp());
 //     Length x = constituent.Position().X();
     constituent.Smearing();
-    DEBUG(x, constituent.Position().X());
+//     DEBUG(x, constituent.Position().X());
     auto perp = constituent.Position().Vect().Perp();
     return (perp > DetectorGeometry::TrackerDistanceMin() && perp < DetectorGeometry::TrackerDistanceMax() && abs(constituent.Momentum().Rapidity()) < DetectorGeometry::TrackerEtaMax());
 }
@@ -221,27 +217,25 @@ bool JetInfo::VertexResultion(Constituent constituent) const
 Angle JetInfo::ElectroMagneticRadius(Jet const& jet) const
 {
     DEBUG0;
-    Energy energy = 0;
-    ValueProduct<Energy, Angle> weight = 0;
+    auto energy = 0_eV;
+    auto weight = 0_eV * rad;
     for (auto const & constituent : Constituents()) if (constituent.DetectorPart() == DetectorPart::photon) {
             energy += constituent.Momentum().Et();
             weight += constituent.Momentum().Et() * jet.DeltaRTo(constituent.Momentum());
         }
-    if (energy == 0_GeV) return 0_rad;
-    else return weight / energy;
+    return energy == 0_eV ? 0_rad : Angle(weight / energy);
 }
 
 Angle JetInfo::TrackRadius(Jet const& jet) const
 {
     DEBUG0;
-    Energy energy = 0;
-    ValueProduct<Energy, Angle> weight = 0;
+    auto energy = 0_eV;
+    auto weight = 0_eV * rad;
     for (auto const & constituent : Constituents()) if (constituent.DetectorPart() == DetectorPart::track) {
             energy += constituent.Momentum().Et();
             weight += constituent.Momentum().Et() * jet.DeltaRTo(constituent.Momentum());
         }
-    if (energy == 0_GeV) return 0_rad;
-    else return weight / energy;
+    return energy == 0_eV ? 0_rad : Angle(weight / energy);
 }
 
 struct IsDetector {
@@ -277,21 +271,19 @@ double JetInfo::CoreEnergyFraction(Jet const& jet) const
             energy += constituent.Momentum().Et();
             if (jet.DeltaRTo(constituent.Momentum()) < 0.2_rad) core_energy += constituent.Momentum().Et();
         }
-    if (energy == 0_GeV) return 0;
-    else return core_energy / energy;
+    return energy == 0_eV ? 0. : double(core_energy / energy);
 }
 
 double JetInfo::ElectroMagneticFraction() const
 {
     DEBUG0;
-    Energy em_energy = 0_GeV;
-    Energy energy = 0_GeV;
+    Energy em_energy = 0_eV;
+    Energy energy = 0_eV;
     for (auto const & constituent : Constituents()) {
         energy += constituent.Momentum().Et();
         if (constituent.DetectorPart() == DetectorPart::photon) em_energy += constituent.Momentum().Et();
     }
-    if (energy == 0_GeV) return 0;
-    else return em_energy / energy;
+    return energy == 0_eV ? 0. : double(em_energy / energy);
 }
 
 Mass JetInfo::ClusterMass() const
@@ -313,41 +305,40 @@ Mass JetInfo::TrackMass() const
 int JetInfo::Charge() const
 {
     DEBUG0;
-    if (charge_ != std::numeric_limits<int>::max()) return charge_;
-    int charge = boost::accumulate(constituents_, 0, [](int charge, Constituent const & constituent) {
+    return boost::accumulate(constituents_, 0, [](int charge, Constituent const & constituent) {
         return charge + constituent.Charge();
     });
-    return charge;
 }
+
 void JetInfo::SetCharge(int charge)
 {
     DEBUG0;
     charge_ = charge;
 }
+
 bool JetInfo::TauTag() const
 {
     DEBUG0;
     return tau_tag_;
 }
+
 void JetInfo::SetTauTag(bool tau_tag)
 {
     DEBUG0;
     tau_tag_ = tau_tag;
 }
+
 bool JetInfo::BTag() const
 {
     DEBUG0;
     return b_tag_;
 }
+
 void JetInfo::SetBTag(bool b_tag)
 {
     DEBUG0;
     b_tag_ = b_tag;
 }
-// Family JetInfo::Family() const
-// {
-//     return constituents().front().family();
-// }
 
 void JetInfo::SecondayVertex() const
 {

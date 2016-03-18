@@ -129,6 +129,9 @@ template<typename Value, typename Value_2>
 using ValueQuotient = typename boost::units::divide_typeof_helper<Value, Value_2>::type;
 
 template<typename Value>
+using ValueInvers = typename boost::units::divide_typeof_helper<double, Value>::type;
+
+template<typename Value>
 using ValueSquare = typename boost::units::multiply_typeof_helper<Value, Value>::type;
 
 template<typename Value>

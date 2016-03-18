@@ -47,11 +47,13 @@ public:
 
 protected:
 
-    void  SetVariables();
-
     std::string MadGraphFilePath() const;
 
 private:
+
+    std::string TagName() const;
+
+    std::string RunFolder() const;
 
     std::string FileSuffix() const;
 
@@ -59,15 +61,9 @@ private:
 
     std::vector<std::string> process_folders_;
 
-    std::string run_folder_;
-
-    std::string tag_name_;
-
-    std::string tree_name_;
-
     boca::Crosssection crosssection_ = pb;
 
-    boca::Crosssection crosssection_error_ = 0;
+    boca::Crosssection crosssection_error_ = 0_b;
 
     boca::Mass mass_ = massless;
 

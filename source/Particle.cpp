@@ -71,7 +71,7 @@ void Particle::SetInfo(ParticleInfo const& user_info)
 std::vector< Particle > ParticleVector(std::vector< fastjet::PseudoJet > const& pseudo_jets)
 {
     INFO0;
-    return Transform<Particle>(pseudo_jets, [](auto const & pseudo_jet) {
+    return Transform(pseudo_jets, [](fastjet::PseudoJet const & pseudo_jet) -> Particle {
         return pseudo_jet;
     });
 }

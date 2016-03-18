@@ -28,8 +28,8 @@ const InfoBranch& Result::InfoBranch() const
 
 const InfoBranch& Result::TrainerInfoBranch() const
 {
-  INFO0;
-  return trainer_info_branch_;
+    INFO0;
+    return trainer_info_branch_;
 }
 
 std::vector<double> const& Result::Bdts() const
@@ -86,26 +86,26 @@ Result::Result(boca::InfoBranch const& info_branch, std::vector<std::vector<bool
     Inititialize();
 }
 
-Result::Result(boca::InfoBranch const& info_branch, std::pair<boca::InfoBranch,int> const& trainer_info_branch, std::vector<double> const& bdts, TMVA::Types::EMVA mva)
+Result::Result(boca::InfoBranch const& info_branch, std::pair<boca::InfoBranch, int> const& trainer_info_branch, std::vector<double> const& bdts, TMVA::Types::EMVA mva)
 {
-  INFO0;
-  info_branch_ = info_branch;
-  trainer_info_branch_ = trainer_info_branch.first;
-  trainer_size_ = trainer_info_branch.second;
-  bdts_ = bdts;
-  mva_ = mva;
-  Inititialize();
+    INFO0;
+    info_branch_ = info_branch;
+    trainer_info_branch_ = trainer_info_branch.first;
+    trainer_size_ = trainer_info_branch.second;
+    bdts_ = bdts;
+    mva_ = mva;
+    Inititialize();
 }
 
-Result::Result(boca::InfoBranch const& info_branch, std::pair<boca::InfoBranch,int> const& trainer_info_branch, std::vector<std::vector<bool>> const& passed, TMVA::Types::EMVA mva)
+Result::Result(boca::InfoBranch const& info_branch, std::pair<boca::InfoBranch, int> const& trainer_info_branch, std::vector<std::vector<bool>> const& passed, TMVA::Types::EMVA mva)
 {
-  INFO0;
-  info_branch_ = info_branch;
-  trainer_info_branch_ = trainer_info_branch.first;
-  trainer_size_ = trainer_info_branch.second;
-  passed_ = passed;
-  mva_ = mva;
-  Inititialize();
+    INFO0;
+    info_branch_ = info_branch;
+    trainer_info_branch_ = trainer_info_branch.first;
+    trainer_size_ = trainer_info_branch.second;
+    passed_ = passed;
+    mva_ = mva;
+    Inititialize();
 }
 
 void Result::Inititialize()
@@ -182,21 +182,21 @@ std::vector< Crosssection > Result::ModelIndependent() const
 }
 void Result::SetModelIndependentSB(Crosssection crosssection, int step)
 {
-  INFO0;
-  model_independent_sb_.at(step) = crosssection;
+    INFO0;
+    model_independent_sb_.at(step) = crosssection;
 }
 std::vector< Crosssection > Result::ModelIndependentSB() const
 {
-  return model_independent_sb_;
+    return model_independent_sb_;
 }
 void Result::SetModelIndependentSig(Crosssection crosssection, int step)
 {
-  INFO0;
-  model_independent_sig_.at(step) = crosssection;
+    INFO0;
+    model_independent_sig_.at(step) = crosssection;
 }
 std::vector< Crosssection > Result::ModelIndependentSig() const
 {
-  return model_independent_sig_;
+    return model_independent_sig_;
 }
 std::vector<double > const& Result::SelectedEfficiencies() const
 {
@@ -208,7 +208,7 @@ void Result::AddSelectedEfficiency(double selected_efficiency)
 }
 void Result::AddSelectedEfficiency(int index)
 {
-  selected_efficiencies_.emplace_back(PureEfficiencies().at(index));
+    selected_efficiencies_.emplace_back(PureEfficiencies().at(index));
 }
 int Result::TrainerSize() const
 {

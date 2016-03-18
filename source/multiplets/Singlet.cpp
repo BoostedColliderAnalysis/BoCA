@@ -1,6 +1,8 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
+#include <boost/range/numeric.hpp>
+#include <boost/range/algorithm/max_element.hpp>
 #include "multiplets/Singlet.hh"
 #include "DetectorGeometry.hh"
 #include "Vector.hh"
@@ -15,31 +17,26 @@ bool Singlet::Overlap(boca::Jet const& jet) const
     return PseudoJet::DeltaRTo(jet) < DetectorGeometry::OverlapConeSize();
 }
 
-Angle Singlet::Radius(boca::Jet const& jet) const
+Angle Singlet::Radius() const
 {
     INFO0;
-    Angle delta_r = 0_rad;
-    for (auto const & constituent : jet.Constituents()) {
-        Angle constituent_delta_r = jet.DeltaRTo(constituent);
-        DEBUG(constituent_delta_r);
-        if (constituent_delta_r > delta_r) delta_r = constituent_delta_r;
-    }
-    return delta_r;
+    if (has_radius_) return radius_;
+    auto constituents = Constituents();
+    radius_ = constituents.size() < 2 ? 0_rad : DeltaRTo(*boost::range::max_element(Constituents(), [this](boca::Jet const & jet_1, boca::Jet const & jet_2) {
+        return DeltaRTo(jet_1) < DeltaRTo(jet_2);
+    }));
+    has_radius_ = true;
+    return radius_;
 }
+
 using AngleMomentum = ValueProduct<Angle, Momentum>;
 
-double Singlet::Spread(boca::Jet const& jet) const
+double Singlet::Spread() const
 {
     INFO0;
-    Angle delta_r = 0;
-    AngleMomentum spread = 0_rad * GeV;
-    for (auto const & constituent : jet.Constituents()) {
-        Angle constituent_delta_r = jet.DeltaRTo(constituent);
-        spread += constituent_delta_r * constituent.Pt();
-        if (constituent_delta_r > delta_r) delta_r = constituent_delta_r;
-    }
-    if (delta_r == 0_rad) return 0;
-    return spread / jet.Pt() / delta_r;
+    return Radius() == 0_rad || Pt() <= 0_eV ? 0. : double(boost::accumulate(Constituents(), 0_rad * eV, [this](AngleMomentum & sum, boca::Jet const & constituent) {
+        return sum + DeltaRTo(constituent) * constituent.Pt();
+    }) / Pt() / Radius());
 }
 
 void Singlet::SetBdt(double bdt)
@@ -54,12 +51,12 @@ double Singlet::Bdt() const
 
 void Singlet::SetTag(boca::Tag tag)
 {
-  Info().SetTag(tag);
+    Info().SetTag(tag);
 }
 
 boca::Tag Singlet::Tag() const
 {
-  return Info().Tag();
+    return Info().Tag();
 }
 
 double Singlet::Log(Length length) const
@@ -70,8 +67,7 @@ double Singlet::Log(Length length) const
 
 int Singlet::Charge() const
 {
-//       return UserInfo().Charge();
-    return sgn(Info().Charge());
+    return Info().Charge();
 }
 
 using AngleSquareMomentum = ValueProduct<AngleSquare, Momentum>;
@@ -81,9 +77,10 @@ Vector2<AngleSquare> Singlet::PullVector() const
     if (has_pull_) return pull_;
     auto constituents = Constituents();
     if (constituents.size() < 3) return {};
-    Vector2<AngleSquare> sum;
-    for (auto const & constituent : constituents) sum += PseudoJet::DeltaTo(constituent) * constituent.pt() * PseudoJet::DeltaRTo(constituent);
-    pull_ = sum  / pt();
+    auto sum = boost::accumulate(constituents, Vector2<AngleSquareMomentum>(), [this](Vector2<AngleSquareMomentum>& sum , boca::Jet const & constituent) {
+        return sum + PseudoJet::DeltaTo(constituent) * constituent.Pt() * PseudoJet::DeltaRTo(constituent);
+    });
+    pull_ = Pt() <= 0_eV ? Vector2<AngleSquare>() : Vector2<AngleSquare>((sum  / Pt()));
     has_pull_ = true;
     return pull_;
 }
@@ -118,21 +115,13 @@ double Singlet::SumDisplacement() const
 {
     return Log(Info().SumDisplacement());
 }
-Angle Singlet::Radius() const
-{
-    return Radius(Jet());
-}
-double Singlet::Spread() const
-{
-    return Spread(Jet());
-}
 Angle Singlet::VertexRadius() const
 {
-    return Radius(Info().VertexJet());
+    return Info().VertexJet().Radius();
 }
 double Singlet::VertexSpread() const
 {
-    return Spread(Info().VertexJet());
+    return Info().VertexJet().Spread();
 }
 double Singlet::EnergyFraction() const
 {
@@ -156,7 +145,7 @@ double Singlet::FlightPath() const
 }
 double Singlet::TrtHtFraction() const
 {
-    return Spread(Info().VertexJet());
+    return Info().VertexJet().Spread();
 }
 Momentum Singlet::Ht() const
 {

@@ -83,15 +83,16 @@ void Plotting::OptimalCuts() const
     latex_file.Table("rlllll", EfficienciesTable(results, results.BestModelDependentBin()), "Model dependent efficiencies calculated by maximizing the Significance");
     latex_file.Table("rlllll", EfficienciesTableMI(results, results.BestModelInDependentBin(), [](Result const & result) {
         return result.ModelIndependent();
-    }), "Model independent efficiencies calculated bu minimizing the exclusion cross section for " + Significance(2) + " and " + Ratio(1));
+    }), "Model independent efficiencies calculated by minimizing the exclusion cross section for " + Significance(2) + " and " + Ratio(1));
     latex_file.Table("rlllll", EfficienciesTableMI(results, results.BestAcceptanceBin(), [](Result const & result) {
         return result.ModelIndependentSig();
-    }), "Model independent efficiencies calculated bu minimizing the exclusion cross section for " + Significance(2));
+    }), "Model independent efficiencies calculated by minimizing the exclusion cross section for " + Significance(2));
     latex_file.Table("rlllll", EfficienciesTableMI(results, results.BestSOverBBin(), [](Result const & result) {
         return result.ModelIndependentSB();
-    }), "Model independent efficiencies calculated bu minimizing the exclusion cross section for " + Ratio(1));
+    }), "Model independent efficiencies calculated by minimizing the exclusion cross section for " + Ratio(1));
     latex_file.Table("rllllll", BestValueTable(results), "Results for the optimal model-(in)dependent cuts");
     latex_file.Table("rllllll", BestValueTableDoubleCheck(results), "Model independent cross section for the model dependent cut");
+    latex_file.Table("rllllll", ScalingTable(results), "Scaling");
 }
 
 Results Plotting::ReadBdtFiles(Stage stage) const
@@ -104,7 +105,7 @@ Results Plotting::ReadBdtFiles(Stage stage) const
 std::vector<Result> Plotting::ReadBdtFile(TFile& export_file, Phase const& phase) const
 {
     INFO0;
-    return Transform<Result>(IntegerRange(Tagger().TreeNames(phase).size()), [&](int tree_number) {
+    return Transform(IntegerRange(Tagger().TreeNames(phase).size()), [&](int tree_number) {
         switch (Tagger().Mva()) {
         case TMVA::Types::EMVA::kBDT : return BdtDistribution(phase, tree_number, export_file);
         case TMVA::Types::EMVA::kCuts : return CutDistribution(phase, tree_number, export_file);
@@ -397,6 +398,29 @@ std::string Plotting::BestValueTableDoubleCheck(Results const& results) const
     return table.str();
 }
 
+std::string Plotting::ScalingTable(Results const& results)const{
+  INFO0;
+  std::stringstream table;
+//   table << "    Model\n  & Cut\n  & $p$-value\n";
+//   for (auto const & signal : results.Signals()) table << " & $\\sigma$(" << signal.InfoBranch().Name() << ") [fb]";
+//   table << "\n \\\\ \\midrule\n   ";
+  table << ScalingRow(results);
+  return table.str();
+
+}
+
+std::string Plotting::ScalingRow(Results const& results) const
+{
+  INFO0;
+  std::stringstream row;
+//   row << " " << name;
+//   row << "\n  & " << RoundToDigits(results.XValue(bin));
+//   row << "\n  & " << RoundToDigits(results.Significances().at(bin));
+//   for (auto const & signal : results.Signals()) row << "\n  & " << RoundToDigits(function(signal).at(bin) / fb);
+//   row << "\n \\\\";
+  return row.str();
+}
+
 std::string Plotting::BestValueRow(Results const& results, int bin, std::string const& name, std::function<std::vector<Crosssection>(Result const&)> const& function) const
 {
     INFO0;
@@ -686,7 +710,7 @@ Plot Plotting::ReadTree(TTree& tree, std::string const& leaf_1_name, std::string
 
 std::vector<Plots> Plotting::Import2() const
 {
-    return Transform<Plots>(tagger_.Branch().Variables().Vector(), [this](Observable const & variable) {
+    return Transform(tagger_.Branch().Variables().Vector(), [this](Observable const & variable) {
         return PlotResult3(variable);
     });
 }

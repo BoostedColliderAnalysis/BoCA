@@ -4,6 +4,7 @@
 #pragma once
 
 #include <boost/math/constants/constants.hpp>
+#include <boost/range/numeric.hpp>
 #include "physics/Math.hh"
 #include "Line2.hh"
 #include "multiplets/Singlet.hh"
@@ -106,27 +107,27 @@ Vector2<Angle> Point2(Vector2<Angle> const& point, Multiplet_ const& multiplet)
     return point_2;
 }
 
+using AngleSquareMomentum = ValueProduct<AngleSquare, Momentum>;
+
 template<typename Multiplet_1_, typename Multiplet_2_>
 double Dipolarity(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2, boca::Singlet const& singlet)
 {
     if (singlet.Pt() == at_rest) return 0;
     if (!singlet.has_constituents()) return 0;
     Vector2<Angle> point_1(multiplet_1.Rap(), multiplet_1.Phi());
-    Vector2<Angle> point_2 = Point2(point_1, multiplet_2);
+    auto point_2 = Point2(point_1, multiplet_2);
     Line2<Angle> line(point_1, point_2);
-    auto dipolarity = at_rest * rad2;
-    for (auto const & constituent : singlet.Constituents()) dipolarity += constituent.Pt() * sqr(line.Distance(constituent));
-    Angle delta_r = DeltaR(multiplet_1, multiplet_2);
-    if (delta_r == 0_rad) return dipolarity / singlet.Pt() / rad2;
-    double dip = dipolarity / singlet.Pt() / sqr(delta_r);
-//     CHECK(dip < 10, dip, dipolarity, singlet.Pt(), delta_r);
-    return dip;
+    auto dipolarity = boost::accumulate(singlet.Constituents(), at_rest * rad2, [&](AngleSquareMomentum & sum, Jet const & constituent) {
+        return sum + constituent.Pt() * sqr(line.Distance(constituent));
+    });
+    auto delta_r = DeltaR(multiplet_1, multiplet_2);
+    return delta_r == 0_rad ?  0 : dipolarity / singlet.Pt() / sqr(delta_r);
 }
 
 template<typename Multiplet_1_, typename Multiplet_2_>
 int Charge(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2)
 {
-    return sgn(multiplet_1.Charge() + multiplet_2.Charge());
+    return multiplet_1.Charge() + multiplet_2.Charge();
 }
 
 }

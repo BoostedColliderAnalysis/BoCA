@@ -52,7 +52,7 @@ std::vector<Quintet> VetoTopPartnerLeptonicTagger::Quintets(Event const& event, 
     auto quintets = partner_reader_.Multiplets(event);
     auto triplets = top_reader_.Multiplets(event);
     std::vector<Quintet> vetos;
-    for (auto const & doublet : higgs_reader_.Multiplets(event)) {
+    for (auto const & doublet : higgs_reader_.Multiplets(event,6)) {
         for (auto const & triplet : triplets) {
             Quintet veto(triplet, doublet);
             if (veto.Overlap()) continue;

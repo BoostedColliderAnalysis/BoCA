@@ -152,7 +152,7 @@ void Jet::ResetInfo(const JetInfo& user_info)
 std::vector< Jet > JetVector(std::vector< fastjet::PseudoJet > const& pseudo_jets)
 {
     INFO0;
-    return Transform<Jet>(pseudo_jets, [](auto const & pseudo_jet) {
+    return Transform(pseudo_jets, [](fastjet::PseudoJet const & pseudo_jet) -> Jet {
         return pseudo_jet;
     });
 }
@@ -160,7 +160,7 @@ std::vector< Jet > JetVector(std::vector< fastjet::PseudoJet > const& pseudo_jet
 std::vector< fastjet::PseudoJet > PseudoJetVector(std::vector< Jet > const& jets)
 {
     INFO0;
-    return Transform<fastjet::PseudoJet>(jets, [](auto const & jet) {
+    return Transform(jets, [](Jet const & jet) -> fastjet::PseudoJet {
         return jet;
     });
 }

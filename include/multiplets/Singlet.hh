@@ -109,15 +109,15 @@ private:
 
     double Log(Length length) const;
 
-    Angle Radius(boca::Jet const& jet) const;
-
-    double Spread(boca::Jet const& jet) const;
-
     // save expensive results in mutable member variables
 
     mutable Vector2<AngleSquare> pull_;
 
     mutable bool has_pull_ = false;
+
+    mutable Angle radius_;
+
+    mutable bool has_radius_ = false;
 
 };
 

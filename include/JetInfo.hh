@@ -12,6 +12,7 @@ namespace boca
 {
 class InfoRecombiner;
 class Jet;
+class Singlet;
 
 /**
  * @brief Jet infos subclassed from Fastjet
@@ -62,7 +63,7 @@ public:
 
     int VertexNumber() const;
 
-    boca::Jet VertexJet() const;
+    boca::Singlet VertexJet() const;
 
     Energy VertexEnergy() const;
 
@@ -124,7 +125,7 @@ private:
 
     bool tau_tag_ = 0;
 
-    int charge_ = -9999;
+    int charge_ = 0;
 
     bool sub_structure_ = true;
 

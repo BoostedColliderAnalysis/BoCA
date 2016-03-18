@@ -32,17 +32,17 @@ std::string Name(Branch branch)
     }
 }
 
-std::mutex TreeReader::mutex_;
-
-TreeReader::TreeReader(TChain& chain)
+std::string Name(Source source)
 {
-    INFO0;
-    source_ = Source::delphes;
-    chain_ = &chain;
-    NewElements();
-    std::lock_guard<std::mutex> guard(mutex_);
-    tree_reader_.SetTree(chain_);
+  switch (source) {
+    case Source::delphes : return "Delphes";
+    case Source::pgs : return "PGS";
+    case Source::parton : return "Parton";
+    DEFAULT("Source", "");
+  }
 }
+
+// std::mutex TreeReader::mutex_;
 
 TreeReader::TreeReader(std::vector<std::string> const& paths, std::string const& tree_name)
 {
@@ -50,21 +50,21 @@ TreeReader::TreeReader(std::vector<std::string> const& paths, std::string const&
   source_ = Source::delphes;
   for (auto const & path : paths) chain_2_.AddFile(path.c_str(), TChain::kBigNumber, tree_name.c_str());
   NewElements();
-  std::lock_guard<std::mutex> guard(mutex_);
+//   std::lock_guard<std::mutex> guard(mutex_);
   tree_reader_.SetTree(&chain_2_);
 }
 
 long TreeReader::GetEntries() const
 {
     INFO0;
-    std::lock_guard<std::mutex> guard(mutex_);
+//     std::lock_guard<std::mutex> guard(mutex_);
     return tree_reader_.GetEntries(false);
 }
 
 bool TreeReader::ReadEntry(long number)
 {
   INFO(number);
-    std::lock_guard<std::mutex> guard(mutex_);
+//     std::lock_guard<std::mutex> guard(mutex_);
     bool valid = tree_reader_.SetEntry(number) == TTreeReader::kEntryValid;
     CHECK(valid, "not a valid entry", number);
     if(!valid) return valid;
@@ -111,15 +111,6 @@ bool TreeReader::Has(Branch branch) const
 {
     INFO(boca::Name(branch));
     return map_.find(branch) != map_.end();
-}
-std::string Name(Source source)
-{
-    switch (source) {
-    case Source::delphes : return "Delphes";
-    case Source::pgs : return "PGS";
-    case Source::parton : return "Parton";
-        DEFAULT("Source", "");
-    }
 }
 
 }

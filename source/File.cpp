@@ -16,7 +16,6 @@ namespace boca
 File::File(std::vector<std::string> const& processes, std::string const& base_path, std::string const& file_suffix, std::string const& nice_name, boca::Crosssection crosssection, boca::Mass mass)
 {
     INFO0;
-    SetVariables();
     process_folders_ = processes;
     base_path_ = base_path;
     file_suffix_ = file_suffix;
@@ -28,7 +27,6 @@ File::File(std::vector<std::string> const& processes, std::string const& base_pa
 File::File(std::vector<std::string> const& processes, std::string const& base_path, std::string const& file_suffix, boca::Names const& nice_name, boca::Crosssection crosssection, boca::Mass mass)
 {
     INFO0;
-    SetVariables();
     process_folders_ = processes;
     base_path_ = base_path;
     file_suffix_ = file_suffix;
@@ -62,26 +60,31 @@ std::string File::TreeName() const
 std::string File::Title() const
 {
     INFO0;
-    return process_folders_.front() + "-" + run_folder_;
+    return process_folders_.front() + "-" + RunFolder();
 }
 
 std::string File::MadGraphFilePath() const
 {
     INFO0;
-    return base_path_ + process_folders_.front() + "/events/" + run_folder_ + "/";
+    return base_path_ + process_folders_.front() + "/events/" + RunFolder() + "/";
 }
 
-void File::SetVariables()
+std::string File::TagName() const
 {
     INFO0;
-    run_folder_ = "run_01";
-    tag_name_ = "tag_1";
+    return "tag_1";
+}
+
+std::string File::RunFolder() const
+{
+    INFO0;
+    return "run_01";
 }
 
 std::vector<std::string> File::Paths() const
 {
     INFO0;
-    return Transform<std::string>(process_folders_, [&](auto const & process_folder) {
+    return Transform(process_folders_, [&](std::string const & process_folder) {
         return base_path_ + process_folder + file_suffix_;
     });
 }

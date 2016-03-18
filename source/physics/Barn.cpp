@@ -36,7 +36,7 @@ Crosssection min(std::vector< Crosssection > vector, bool truncate)
 
 std::vector< double > FloatVector(const std::vector< boca::Crosssection >& crosssections)
 {
-    return Transform<double>(crosssections, [](Crosssection const & crosssection) {
+    return Transform(crosssections, [](Crosssection const & crosssection) -> double {
         return crosssection / fb;
     });
 }

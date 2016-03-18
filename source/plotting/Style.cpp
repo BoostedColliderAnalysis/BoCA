@@ -4,7 +4,7 @@
 #include "TAxis.h"
 #include "TAttText.h"
 #include "TAttLine.h"
-#include "plotting/Style.hh"
+// #include "plotting/Style.hh"
 #include "plotting/Font.hh"
 #include "Types.hh"
 #include "Vector.hh"
@@ -49,14 +49,14 @@ void SetLine(TAttLine& line, int index)
     line.SetLineColor(ColorCode(index));
     line.SetLineStyle(index + 1);
 }
+
 void SetLogarithmic(TAxis& axis)
 {
     INFO0;
     int bins = axis.GetNbins();
     double min = axis.GetXmin();
-    double max = axis.GetXmax();
-    double width = (max - min) / bins;
-    axis.Set(bins, Transform<double>(IntegerRange(bins), [=](int bin) {
+    double width = (axis.GetXmax() - min) / bins;
+    axis.Set(bins, Transform(IntegerRange(bins), [=](int bin) {
         return std::pow(10., min + bin * width);
     }).data());
 }

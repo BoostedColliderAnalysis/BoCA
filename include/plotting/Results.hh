@@ -13,7 +13,7 @@ class Results
 {
 public:
     Results(std::vector<Result> signals, std::vector<Result> backgrounds);
-    void CalculateSignificances();
+    void CalculateSignificances(double scaling = 1);
     std::vector<Result> const& Signals()const;
     std::vector<Result> const& Backgrounds()const;
     int BestModelDependentBin()const;
@@ -35,7 +35,7 @@ public:
     std::vector<double> const& SelectedEfficiencies() const;
     static double ScalingFactor();
 private:
-    void CalculateSignificances(int step);
+    void CalculateSignificances(double scaling, int step);
     double SignalEvents(int step) const;
     double BackgroundEvents(int step) const;
     double Significance(double signal_events, double background_events) const;

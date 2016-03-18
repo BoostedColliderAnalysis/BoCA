@@ -223,15 +223,15 @@ public:
     }
 
     double Dipolarity() const {
-        return boca::Dipolarity(Multiplet1(), Multiplet2(), Jet12());
+        return boca::Dipolarity(Multiplet1(), Multiplet2(), Singlet12());
     }
 
     double Dipolarity23() const {
-        return boca::Dipolarity(Multiplet2(), Multiplet3(), Jet23());
+        return boca::Dipolarity(Multiplet2(), Multiplet3(), Singlet23());
     }
 
     double Dipolarity13() const {
-        return boca::Dipolarity(Multiplet1(), Multiplet3(), Jet13());
+        return boca::Dipolarity(Multiplet1(), Multiplet3(), Singlet13());
     }
 
     void SetVetoBdt(double bdt) {

@@ -69,16 +69,16 @@ std::vector<Jet> Hadrons::DelphesJets(JetDetail jet_detail) const
 {
     auto leptons = Leptons(jet_detail);
     std::vector<Jet> jets;
-    for (auto const & delphes_jet : TreeReader().Objects<::delphes::Jet>(Branch::jet)) {
+    for (auto const & jet : TreeReader().Objects<::delphes::Jet>(Branch::jet)) {
         FlagSwitch(jet_detail, [&](JetDetail jet_detail_int) {
             switch (jet_detail_int) {
-            case JetDetail::plain: jets.emplace_back(delphes_jet.P4(), delphes_jet);
+            case JetDetail::plain: jets.emplace_back(jet.P4(), jet);
                 break;
             case JetDetail::structure :
-                if (boost::optional<Jet> optional = StructuredJet(delphes_jet, leptons, jet_detail)) jets.emplace_back(*optional);
+                if (boost::optional<Jet> optional = StructuredJet(jet, leptons, jet_detail)) jets.emplace_back(*optional);
                 break;
             case JetDetail::isolation : break;
-            default : break;
+                DEFAULT(Name(jet_detail_int));
             }
         });
     }
@@ -117,14 +117,14 @@ boost::optional<Jet> Hadrons::ConstituentGenParticle(TObject& object, std::vecto
 {
     INFO(object.ClassName(), Name(jet_detail));
     if (is(jet_detail, JetDetail::isolation) && !Isolated(object, leptons)) return boost::none;
-    auto & particle = static_cast<::delphes::GenParticle&>(object);
+    auto& particle = static_cast<::delphes::GenParticle&>(object);
     return Jet(particle.P4(), Constituent(particle.P4(), LorentzVector<Length>(particle), DetectorPart::gen_particle, particle.Charge));
 }
 
 boost::optional<Jet> Hadrons::ConstituentTrack(TObject& object, std::vector< TObject* > const& leptons, JetDetail jet_detail) const
 {
     INFO(object.ClassName(), Name(jet_detail));
-    auto & track = static_cast<::delphes::Track&>(object);
+    auto& track = static_cast<::delphes::Track&>(object);
     if (is(jet_detail, JetDetail::isolation) && !Isolated(*track.Particle.GetObject(), leptons)) return boost::none;
     return Jet(track.P4(), Constituent(track.P4(), LorentzVector<Length>(track), DetectorPart::track, track.Charge));
 }
@@ -132,7 +132,7 @@ boost::optional<Jet> Hadrons::ConstituentTrack(TObject& object, std::vector< TOb
 boost::optional<Jet> Hadrons::ConstituentTower(TObject& object, std::vector< TObject* > const& leptons, JetDetail jet_detail, DetectorPart detector_part) const
 {
     INFO0;
-    auto & tower = static_cast<::delphes::Tower&>(object);
+    auto& tower = static_cast<::delphes::Tower&>(object);
     if (is(jet_detail, JetDetail::isolation)) for (auto const & particle_number : IntegerRange(tower.Particles.GetEntriesFast())) if (!Isolated(*tower.Particles.At(particle_number), leptons)) return boost::none;
     return Jet(tower.P4(), Constituent(tower.P4(), detector_part));
 }
@@ -140,7 +140,7 @@ boost::optional<Jet> Hadrons::ConstituentTower(TObject& object, std::vector< TOb
 boost::optional<Jet> Hadrons::ConstituentMuon(TObject& object, std::vector< TObject* > const& leptons, JetDetail jet_detail) const
 {
     INFO0;
-    auto & muon = static_cast<::delphes::Muon&>(object);
+    auto& muon = static_cast<::delphes::Muon&>(object);
     if (is(jet_detail, JetDetail::isolation) && !Isolated(*muon.Particle.GetObject(), leptons)) return boost::none;
     return Jet(muon.P4(), Constituent(muon.P4(), DetectorPart::muon, muon.Charge));
 }
@@ -148,10 +148,8 @@ boost::optional<Jet> Hadrons::ConstituentMuon(TObject& object, std::vector< TObj
 bool Hadrons::Isolated(TObject const& object, std::vector<TObject*> const& leptons) const
 {
     DEBUG0;
-    auto isolated = true;
-    for (auto const & lepton : leptons) if (&object == lepton) isolated = false;
-    DEBUG_CHECK(isolated, isolated);
-    return isolated;
+    for (auto const & lepton : leptons) if (&object == lepton) return false;
+    return true;
 }
 
 std::vector<Jet> Hadrons::EFlowJets(JetDetail jet_detail) const
@@ -180,7 +178,7 @@ std::vector<Jet> Hadrons::EFlowTrack(std::vector< TObject* > const& leptons, Jet
     for (auto & e_flow_track : TreeReader().Objects<::delphes::Track>(Branch::e_flow_track)) {
         if (is(jet_detail, JetDetail::structure)) {
             if (boost::optional<Jet> optional = ConstituentJet(e_flow_track, leptons, jet_detail, DetectorPart::track)) e_flow_jets.emplace_back(*optional);
-        } else e_flow_jets.emplace_back(Jet(e_flow_track.P4()));
+        } else e_flow_jets.emplace_back(e_flow_track.P4());
     }
     DEBUG(e_flow_jets.size());
     return e_flow_jets;
