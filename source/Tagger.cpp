@@ -22,12 +22,19 @@ namespace boca
 
 // std::mutex Tagger::mutex_;
 
-std::string Tagger::analysis_name_;
+// std::string Tagger::analysis_name_;
+
+// small memory leak, but better than static variable Initialization hell
+std::string& analysis_name_()
+{
+    static auto* analysis_name = new std::string;
+    return *analysis_name;
+}
 
 void Tagger::Initialize(std::string const& analysis_name)
 {
     INFO(analysis_name);
-    if (!analysis_name.empty()) analysis_name_ = analysis_name;
+    if (!analysis_name.empty()) analysis_name_() = analysis_name;
     ClearTreeNames();
     DefineVariables();
     INFO("done");
@@ -47,14 +54,14 @@ double Tagger::Bdt(TMVA::Reader const& reader) const
 {
     INFO0;
 //     std::lock_guard<std::mutex> guard(ReaderBase::mutex_);
-    return const_cast<TMVA::Reader&>(reader).EvaluateMVA(MethodName());  // TODO get rid of the const cast
+    return const_cast<TMVA::Reader&>(reader).EvaluateMVA(MethodName());  // const cast is necessary because TMVA is not using const getters
 }
 
 bool Tagger::Cut(TMVA::Reader const& reader, double eff) const
 {
     INFO0;
 //     std::lock_guard<std::mutex> guard(ReaderBase::mutex_);
-    return const_cast<TMVA::Reader&>(reader).EvaluateMVA(MethodName(), eff);  // TODO get rid of the const cast
+    return const_cast<TMVA::Reader&>(reader).EvaluateMVA(MethodName(), eff);  // const cast is necessary because TMVA is not using const getters
 }
 
 std::vector<Jet> Tagger::SubJets(Jet const& jet, int sub_jet_number) const
@@ -89,8 +96,8 @@ std::string Tagger::BranchName(Stage stage, Tag tag) const
 
 std::string Tagger::BranchName(Phase const& phase) const
 {
-  INFO0;
-  return Name(phase);
+    INFO0;
+    return Name(phase);
 }
 
 std::string Tagger::TrainerName() const
@@ -113,8 +120,8 @@ std::string Tagger::ExportFileName(Phase const& phase) const
 
 std::string Tagger::ExportFileName(Stage stage, Tag tag) const
 {
-  INFO0;
-  return PathName(Name(stage, tag));
+    INFO0;
+    return PathName(Name(stage, tag));
 }
 
 std::string Tagger::ExportName() const
@@ -168,8 +175,8 @@ std::string Tagger::Name(Phase const& phase) const
 }
 std::string Tagger::Name(Stage stage, Tag tag) const
 {
-  INFO0;
-  return Tagger::Name(Phase(stage, tag));
+    INFO0;
+    return Tagger::Name(Phase(stage, tag));
 }
 
 std::string Tagger::FileName(Stage stage, Tag tag) const
@@ -184,12 +191,12 @@ std::string Tagger::FileName(Stage stage, Tag tag) const
 
 std::string Tagger::FileName(Phase const& phase) const
 {
-  INFO0;
-  switch (phase.Tag()) {
+    INFO0;
+    switch (phase.Tag()) {
     case Tag::signal : return SignalFileName(phase.Stage());
     case Tag::background : return BackgroundFileName(phase.Stage());
-    DEFAULT(boca::Name(phase.Tag()), "");
-  }
+        DEFAULT(boca::Name(phase.Tag()), "");
+    }
 }
 
 std::string Tagger::SignalFileName(Stage stage) const
@@ -220,7 +227,7 @@ std::string Tagger::AnalysisName() const
 {
 //     analysis_name_ = boost::filesystem::current_path().filename().string();
 //     ERROR(analysis_name_, _analysis_name_);
-    return !analysis_name_.empty() ? analysis_name_ : _analysis_name_;
+    return !analysis_name_().empty() ? analysis_name_() : _analysis_name_;
 }
 std::vector<Observable> const& Tagger::Variables() const
 {
@@ -252,8 +259,8 @@ std::vector<std::string> Tagger::TreeNames(Tag tag) const
 
 std::vector<std::string> Tagger::TreeNames(Phase const& phase) const
 {
-  INFO0;
-  return TreeNames(phase.Tag());
+    INFO0;
+    return TreeNames(phase.Tag());
 }
 
 TCut Tagger::Cut() const
@@ -374,7 +381,7 @@ boca::Range< double > Tagger::MvaRange() const
     switch (Mva()) {
     case TMVA::Types::kCuts : return { -1 , 1};
     case TMVA::Types::kBDT : return {0 , 1};
-    DEFAULT(MvaName(),boca::Range< double >(0,0));
+        DEFAULT(MvaName(), boca::Range< double >(0, 0));
     }
 }
 

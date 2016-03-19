@@ -2,6 +2,8 @@
 
 #include <sstream>
 
+class TString;
+
 namespace boca
 {
 
@@ -10,11 +12,9 @@ class Options
 
 public:
 
-    Options() {}
+    Options();
 
-    Options(std::string const& string, bool do_it = true) {
-        Add(string, do_it);
-    }
+    Options(std::string const& string, bool do_it = true);
 
     template<typename Value>
     Options(std::string const& string, Value value) {
@@ -26,11 +26,7 @@ public:
         Add(string, value, unit);
     }
 
-    void Add(std::string const& string, bool do_it = true) {
-        Separator();
-        if (!do_it) options_ << "!";
-        options_ << string;
-    }
+    void Add(std::string const& string, bool do_it = true);
 
     template<typename Value>
     void Add(std::string const& string, Value value) {
@@ -44,24 +40,15 @@ public:
         options_ << string << "=" << value << unit;
     }
 
-    std::string str() const {
-        return options_.str();
-    }
+    std::string str() const;
 
-    operator std::string() const {
-        return str();
-    }
+    operator std::string() const;
 
-    operator TString() const {
-        return str();
-    }
+    operator TString() const;
 
 private:
 
-    void Separator() {
-        if (!first_) options_ << ":";
-        first_ = false;
-    }
+    void Separator();
 
     std::stringstream options_;
 

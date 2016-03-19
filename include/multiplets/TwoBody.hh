@@ -86,7 +86,7 @@ public:
     }
 
     std::vector<boca::Jet> Jets() const {
-      return Combine(Multiplet1().Jets(), Multiplet2().Jets());
+        return Combine(Multiplet1().Jets(), Multiplet2().Jets());
     }
 
     Momentum DeltaPt() const {
@@ -153,12 +153,12 @@ protected:
 
 private:
 
-    void SetJet() const override {
-        Multiplet::SetJet(Multiplet1(), Multiplet2());
+    boca::Jet GetJet() const override {
+        return Join(Multiplet1(), Multiplet2());
     }
 
-    void SetConstituentJet() const override {
-        Multiplet::SetConstituentJet(Multiplet1(), Multiplet2());
+    Singlet GetConstituentJet() const override {
+        return JoinConstituents(Multiplet1(), Multiplet2());
     }
 
     Multiplet_1_ multiplet_1_;

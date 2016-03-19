@@ -20,13 +20,18 @@ bool Singlet::Overlap(boca::Jet const& jet) const
 Angle Singlet::Radius() const
 {
     INFO0;
-    if (has_radius_) return radius_;
+    return radius_.Get([this]() {
+        return GetRadius();
+    });
+}
+
+Angle Singlet::GetRadius() const
+{
+    INFO0;
     auto constituents = Constituents();
-    radius_ = constituents.size() > 1 ? DeltaRTo(*boost::range::max_element(Constituents(), [this](boca::Jet const & jet_1, boca::Jet const & jet_2) {
+    return constituents.size() > 1 ? DeltaRTo(*boost::range::max_element(constituents, [this](boca::Jet const & jet_1, boca::Jet const & jet_2) {
         return DeltaRTo(jet_1) < DeltaRTo(jet_2);
     })) : 0_rad;
-    has_radius_ = true;
-    return radius_;
 }
 
 using AngleMomentum = ValueProduct<Angle, Momentum>;
@@ -70,19 +75,24 @@ int Singlet::Charge() const
     return Info().Charge();
 }
 
-using AngleSquareMomentum = ValueProduct<AngleSquare, Momentum>;
-
 Vector2<AngleSquare> Singlet::PullVector() const
 {
-    if (has_pull_) return pull_;
+    INFO0;
+    return pull_.Get([this]() {
+        return GetPullVector();
+    });
+}
+
+using AngleSquareMomentum = ValueProduct<AngleSquare, Momentum>;
+
+Vector2<AngleSquare> Singlet::GetPullVector() const
+{
+    if (Pt() <= 0_eV) return {};
     auto constituents = Constituents();
     if (constituents.size() < 3) return {};
-    auto sum = boost::accumulate(constituents, Vector2<AngleSquareMomentum>(), [this](Vector2<AngleSquareMomentum>& sum , boca::Jet const & constituent) {
+    return boost::accumulate(constituents, Vector2<AngleSquareMomentum>(), [this](Vector2<AngleSquareMomentum>& sum , boca::Jet const & constituent) {
         return sum + PseudoJet::DeltaTo(constituent) * constituent.Pt() * PseudoJet::DeltaRTo(constituent);
-    });
-    pull_ = Pt() > 0_eV ? Vector2<AngleSquare>((sum  / Pt())) : Vector2<AngleSquare>();
-    has_pull_ = true;
-    return pull_;
+    }) / Pt();
 }
 
 const Singlet& Singlet::ConstituentJet() const

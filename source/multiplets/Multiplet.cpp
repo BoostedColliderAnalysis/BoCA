@@ -21,14 +21,16 @@ ClosestLepton Multiplet::Lepton() const
 
 const Singlet& Multiplet::ConstituentJet() const
 {
-    if (!has_constituent_jet_) SetConstituentJet();
-    return constituent_jet_;
+    return constituent_jet_.Get([this]() {
+        return GetConstituentJet();
+    });
 }
 
 Jet Multiplet::Jet() const
 {
-    if (!has_jet_) SetJet();
-    return jet_;
+    return jet_.Get([this]() {
+        return GetJet();
+    });
 }
 
 Momentum Multiplet::Pt() const
@@ -55,22 +57,27 @@ boca::Mass Multiplet::Mass() const
 {
     return Jet().Mass();
 }
+
 std::vector<boca::Jet> Multiplet::Constituents() const
 {
     return Jet().Constituents();
 }
+
 Angle Multiplet::DeltaPhiTo(const PseudoJet& jet) const
 {
     return Jet().DeltaPhiTo(jet);
 }
+
 Angle Multiplet::DeltaRTo(const PseudoJet& jet) const
 {
     return Jet().DeltaRTo(jet);
 }
+
 Angle Multiplet::DeltaRapTo(const PseudoJet& jet) const
 {
     return Jet().DeltaRapTo(jet);
 }
+
 Vector2< Angle > Multiplet::DeltaTo(const PseudoJet& jet) const
 {
     return Jet().DeltaTo(jet);

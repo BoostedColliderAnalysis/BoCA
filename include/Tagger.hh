@@ -210,7 +210,7 @@ private:
      * @brief Name of the Analysis
      *
      */
-    static std::string analysis_name_;
+//     static std::string analysis_name_;
 
     /**
      * @brief Names of the backgrund trees
