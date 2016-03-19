@@ -31,12 +31,6 @@ public:
 
     int BottomNumber() const;
 
-    double BottomBdt() const;
-
-    double BottomBdt(int number) const;
-
-    double BottomBdt(int number_1, int number_2) const;
-
     Momentum ScalarHt() const;
 
     Momentum LeptonHt() const;
@@ -56,8 +50,6 @@ public:
     Momentum LeptonPt(int number) const;
 
     Energy MissingEt() const;
-
-    boca::Singlet Singlet() const;
 
     std::vector<boca::Jet> Jets() const;
 
@@ -79,9 +71,9 @@ private:
 
     Energy missing_et_;
 
-    mutable boca::Singlet singlet_;
+    Mutable<boca::Jet> jet_;
 
-    mutable bool has_constituent_jet_ = false;
+    Mutable<boca::Singlet> constituent_jet_;
 
 };
 

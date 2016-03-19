@@ -9,6 +9,7 @@
 #include "Jet.hh"
 #include "Sort.hh"
 #include "Vector.hh"
+#include "Mutable.hh"
 
 namespace boca
 {
@@ -107,17 +108,17 @@ public:
 
 private:
 
+    Angle GetRadius() const;
+
+    Vector2<AngleSquare> GetPullVector() const;
+
     double Log(Length length) const;
 
     // save expensive results in mutable member variables
 
-    mutable Vector2<AngleSquare> pull_;
+    Mutable<Vector2<AngleSquare>> pull_;
 
-    mutable bool has_pull_ = false;
-
-    mutable Angle radius_;
-
-    mutable bool has_radius_ = false;
+    Mutable<Angle> radius_;
 
 };
 

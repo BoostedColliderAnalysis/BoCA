@@ -439,12 +439,12 @@ public:
     MissingEt = multiplet.MissingEt() / GeV;
     ScalarHt = multiplet.ScalarHt() / GeV;
     LeptonHt = multiplet.LeptonHt() / GeV;
-    LeptonPt1 = multiplet.LeptonPt(1) / GeV;
-    LeptonPt2 = multiplet.LeptonPt(2) / GeV;
-    JetPt1 = multiplet.JetPt(1) / GeV;
-    JetPt2 = multiplet.JetPt(2) / GeV;
-    JetPt3 = multiplet.JetPt(3) / GeV;
-    JetPt4 = multiplet.JetPt(4) / GeV;
+    LeptonPt1 = multiplet.LeptonPt(0) / GeV;
+    LeptonPt2 = multiplet.LeptonPt(1) / GeV;
+    JetPt1 = multiplet.JetPt(0) / GeV;
+    JetPt2 = multiplet.JetPt(1) / GeV;
+    JetPt3 = multiplet.JetPt(2) / GeV;
+    JetPt4 = multiplet.JetPt(3) / GeV;
   }
   virtual Observables Variables();
   virtual Observables Spectators();

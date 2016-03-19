@@ -70,7 +70,6 @@ protected:
 
 private:
 
-
 };
 
 using Lepton = Jet;

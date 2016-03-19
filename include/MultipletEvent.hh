@@ -25,7 +25,7 @@ public:
             return !multiplet.Overlap(jet);
         }));
         TwoBody<Multiplet_1, boca::Singlet>::SetMultiplet1(multiplet);
-        TwoBody<Multiplet_1, boca::Singlet>::SetMultiplet2(global_observables_.Singlet());
+        TwoBody<Multiplet_1, boca::Singlet>::SetMultiplet2(global_observables_.ConstituentJet());
     }
 
     MultipletEvent(Multiplet_1 const& multiplet, std::vector<Jet>& jets, GlobalObservables const& global_observables) {
@@ -34,7 +34,7 @@ public:
           return !multiplet.Overlap(jet);
         }));
         TwoBody<Multiplet_1, boca::Singlet>::SetMultiplet1(multiplet);
-        TwoBody<Multiplet_1, boca::Singlet>::SetMultiplet2(global_observables_.Singlet());
+        TwoBody<Multiplet_1, boca::Singlet>::SetMultiplet2(global_observables_.ConstituentJet());
     }
 
     Multiplet_1 Signature() const {

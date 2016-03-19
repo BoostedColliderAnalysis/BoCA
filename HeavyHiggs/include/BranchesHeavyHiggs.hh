@@ -571,11 +571,11 @@ public:
     void Fill(Multiplet const& multiplet) {
         CutBranch::Fill(multiplet);
 //         BdtBranch::Fill(multiplet);
-        JetPt1 = multiplet.JetPt(1) / GeV;
-        JetPt2 = multiplet.JetPt(2) / GeV;
-        JetPt3 = multiplet.JetPt(3) / GeV;
-        JetPt4 = multiplet.JetPt(4) / GeV;
-        LeptonPt = multiplet.LeptonPt(1) / GeV;
+        JetPt1 = multiplet.JetPt(0) / GeV;
+        JetPt2 = multiplet.JetPt(1) / GeV;
+        JetPt3 = multiplet.JetPt(2) / GeV;
+        JetPt4 = multiplet.JetPt(3) / GeV;
+        LeptonPt = multiplet.LeptonPt(0) / GeV;
         Ht = multiplet.Ht() / GeV;
         BottomNumber = multiplet.BottomNumber();
     }

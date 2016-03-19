@@ -1,7 +1,6 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-// #include <numeric>
 #include <boost/range/numeric.hpp>
 #include <boost/range/algorithm/count_if.hpp>
 
@@ -61,30 +60,6 @@ int GlobalObservables::BottomNumber() const
     });
 }
 
-double GlobalObservables::BottomBdt() const
-{
-    INFO0;
-    if (Jets().empty()) return -1;
-    return boost::accumulate(jets_, 0., [](double bdt, boca::Jet const & jet) {
-        return bdt + jet.Info().Bdt();
-    }) / JetNumber();
-}
-
-double GlobalObservables::BottomBdt(int number) const
-{
-    INFO0;
-    if (number > JetNumber()) return -1;
-    return Jets().at(number - 1).Info().Bdt();
-}
-
-double GlobalObservables::BottomBdt(int number_1, int number_2) const
-{
-    INFO0;
-    if (number_1 > JetNumber()) return 0;
-    if (number_2 > JetNumber()) return 0;
-    return (Jets().at(number_1 - 1).Info().Bdt() + Jets().at(number_2 - 1).Info().Bdt()) / 2;
-}
-
 Momentum GlobalObservables::ScalarHt() const
 {
     INFO0;
@@ -113,14 +88,6 @@ Energy GlobalObservables::MissingEt() const
     return missing_et_;
 }
 
-Singlet GlobalObservables::Singlet() const
-{
-    INFO0;
-    boca::Jet jet = Join(Jets());
-    jet.Info().SetBdt(BottomBdt());
-    return boca::Singlet(jet);
-}
-
 std::vector<Jet> GlobalObservables::Jets() const
 {
     INFO0;
@@ -141,13 +108,14 @@ void GlobalObservables::SetLeptons(std::vector<Lepton> const& leptons)
 
 Momentum GlobalObservables::JetPt(int number) const
 {
-    return jets_.size() >= number ? jets_.at(number - 1).Pt() : at_rest;
+    return jets_.size() > number ? jets_.at(number).Pt() : at_rest;
 }
 
 Momentum GlobalObservables::LeptonPt(int number) const
 {
-    return leptons_.size() >= number ? leptons_.at(number - 1).Pt() : at_rest;
+    return leptons_.size() > number ? leptons_.at(number).Pt() : at_rest;
 }
+
 Momentum GlobalObservables::Ht() const
 {
     return ScalarHt();
@@ -155,21 +123,25 @@ Momentum GlobalObservables::Ht() const
 
 int GlobalObservables::Charge() const
 {
-    return 0; // FIXME implement this
+    return boost::accumulate(Jets(), 0, [](int sum, boca::Jet const & jet) {
+        return sum + jet.Info().Charge();
+    });
 }
 
 Jet GlobalObservables::Jet() const
 {
-    return Join(Jets());
+    return jet_.Get([this]() {
+        return Join(Jets());
+    });
 }
 
 const Singlet& GlobalObservables::ConstituentJet() const
 {
-    if (!has_constituent_jet_) {
-        singlet_ = Join(Jets());
-        has_constituent_jet_ = true;
-    }
-    return singlet_;
+    return constituent_jet_.Get([this]() {
+        std::vector<boca::Jet> jets;
+        for (auto const & jet : Jets()) Insert(jets, jet.Constituents());
+        return Join(jets);
+    });
 }
 
 Mass GlobalObservables::Mass() const

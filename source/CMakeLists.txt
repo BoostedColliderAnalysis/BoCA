@@ -29,6 +29,7 @@ Debug.cpp
 Types.cpp
 Particles.cpp
 Exception.cpp
+Options.cpp
 )
 create_library(Global global_sources)
 
