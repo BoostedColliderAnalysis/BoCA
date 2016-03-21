@@ -176,6 +176,11 @@ Jet Join(Jet const& jet_1, Jet const& jet_2)
     return fastjet::join(jet_1, jet_2, InfoRecombiner());
 }
 
+Jet Join(Jet const& jet_1, Jet const& jet_2, Jet const& jet_3)
+{
+  return fastjet::join(jet_1, jet_2, jet_3, InfoRecombiner());
+}
+
 void Jet::SetDelphesTags(const delphes::Jet& delphes_jet)
 {
     Info().SetDelphesTags(delphes_jet);

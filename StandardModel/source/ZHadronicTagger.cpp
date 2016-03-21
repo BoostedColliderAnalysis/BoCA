@@ -31,26 +31,22 @@ int ZHadronicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Ta
 std::vector<Doublet> ZHadronicTagger::Doublets(Event const& event, std::function<boost::optional<Doublet>(Doublet&)> function) const
 {
     INFO0;
-   std::vector<Jet> jets = bottom_reader_.Jets(event);
+    auto jets = event.Hadrons().Jets();
     MomentumRange jet_range(Id::Z, Id::Z);
-    std::vector<Doublet> doublets = UnorderedPairs(jet_range.SofterThanMax(jets), [&](Jet const & jet_1, Jet const & jet_2) {
-        Doublet doublet(jet_1, jet_2);
+    std::vector<Jet> soft;
+    for(auto & jet : jet_range.SofterThanMax(jets)) soft.emplace_back(bottom_reader_.Multiplet(jet));
+
+    auto doublets = UnorderedPairs(soft, [&](Jet const & jet_1, Jet const & jet_2) {
+      Doublet doublet(jet_1, jet_2);
+      if (!jet_range.BelowUpperBound(doublet)) throw boca::Problematic();
         if (boost::optional<Doublet> optional_doublet = function(doublet)) return *optional_doublet;
-        throw boca::Problematic();
+        else throw boca::Problematic();
     });
 
     for (auto const & jet : jet_range.HarderThanMin(jets)) {
-        MomentumRange sub_jet_range((SubJet(Id::Z)), (SubJet(Id::Z)));
-        if (sub_jet_range.BelowUpperBound(jet)) try {
-               std::vector<Jet> pieces = bottom_reader_.SubMultiplet(jet, 2);
-                Doublet doublet(pieces.at(0), pieces.at(1));
-                if (boost::optional<Doublet> optional = function(doublet)) doublets.emplace_back(*optional);
-            } catch (std::exception&) {}
-        if (sub_jet_range.AboveLowerBound(jet)) {
-            Doublet doublet;
-            doublet.Enforce(jet);
-            if (boost::optional<Doublet> optional_doublet = function(doublet)) doublets.emplace_back(*optional_doublet);
-        }
+        Doublet doublet;
+        doublet.Enforce(bottom_reader_.SubMultiplet(jet, 2));
+        if (boost::optional<Doublet> optional = function(doublet)) doublets.emplace_back(*optional);
     }
     return doublets;
 }

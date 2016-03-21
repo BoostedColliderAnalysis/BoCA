@@ -38,18 +38,18 @@ int HiggsTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) con
 std::vector<Doublet> HiggsTagger::Doublets(Event const& event, std::function<boost::optional<Doublet>(Doublet&)> const& function) const
 {
     INFO0;
-    auto jets =  event.Hadrons().Jets();
+    auto jets = event.Hadrons().Jets();
     MomentumRange jet_range(Id::higgs, Id::higgs);
     auto doublets = UnorderedPairs(jet_range.SofterThanMax(jets), [&](Jet const & jet_1, Jet const & jet_2) {
         Doublet doublet(jet_1, jet_2);
         if (!jet_range.BelowUpperBound(doublet)) throw boca::Problematic();
-        if (auto optional_doublet = function(doublet)) return *optional_doublet;
+        if (auto optional = function(doublet)) return *optional;
         throw boca::Problematic();
     });
     for (auto const & jet : jet_range.HarderThanMin(jets)) {
         Doublet doublet;
         doublet.Enforce(jet);
-        if (auto optional_doublet = function(doublet)) doublets.emplace_back(*optional_doublet);
+        if (auto optional = function(doublet)) doublets.emplace_back(*optional);
     }
     return doublets;
 }
@@ -69,15 +69,15 @@ boost::optional<Doublet> HiggsTagger::SetTag(Doublet& doublet, std::vector<Lepto
     return doublet;
 }
 
-Doublet HiggsTagger::PrepareDoublet(Doublet& doublet, std::vector<Lepton>& leptons) const
+Doublet HiggsTagger::PrepareDoublet(Doublet const& doublet, std::vector<Lepton>& leptons) const
 {
     INFO0;
-//     if (auto optional_doublet = MassDrop(doublet)) doublet = *optional_doublet;
+    //     if (auto optional = MassDrop(doublet)) prepared = *optional;
     Jet jet_1 = doublet.Singlet1();
     Jet jet_2 = doublet.Singlet2();
-    doublet = Doublet(bottom_reader_.Multiplet(jet_1), bottom_reader_.Multiplet(jet_2));
-    doublet.SetClosestLepton(leptons);
-    return doublet;
+    Doublet prepared(bottom_reader_.Multiplet(jet_1), bottom_reader_.Multiplet(jet_2));
+    prepared.SetClosestLepton(leptons);
+    return prepared;
 }
 
 bool HiggsTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts, Tag tag) const

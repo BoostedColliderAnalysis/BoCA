@@ -3,12 +3,43 @@
  */
 #pragma once
 
+#include <boost/range/algorithm/unique.hpp>
+#include <boost/range/algorithm_ext/erase.hpp>
+#include "Sort.hh"
+#include "Vector.hh"
+
 #include "multiplets/Multiplet.hh"
 #include "physics/Particles.hh"
 #include "ClusterSequence.hh"
 
 namespace boca
 {
+
+template<typename Multiplet_1_, typename Multiplet_2_>
+Jet Join(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2)
+{
+    return Join(multiplet_1.Jet(), multiplet_2.Jet());
+}
+
+template<typename Multiplet_1_, typename Multiplet_2_>
+boca::Singlet JoinConstituents(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2)
+{
+    auto constituents = SortedByPt(Combine(multiplet_1.Constituents(), multiplet_2.Constituents()));
+    boost::erase(constituents, boost::unique<boost::return_next_end>(constituents));
+    return Join(constituents);
+}
+
+template<typename Multiplet_>
+Jet Join(Jet const& jet, Multiplet_ const& multiplet)
+{
+    return Join(jet, multiplet.Jet());
+}
+
+template<typename Multiplet_>
+Jet Join(Multiplet_ const& multiplet, Jet const& jet)
+{
+    return Join(jet, multiplet.Jet());
+}
 
 template <typename Multiplet_1_, typename Multiplet_2_>
 class TwoBody : public Multiplet
@@ -34,20 +65,33 @@ public:
     }
 
     void Enforce(boca::Jet const& jet) {
-        if (jet.Constituents().size() < 2) return EnforceJet(jet);
+        Enforce(jet, jet.Bdt());
+    }
+
+    void Enforce(std::vector<boca::Jet> const& jets) {
+        if (jets.empty()) return;
+        if (jets.size() == 1) return EnforceJet(jets.front(), jets.front().Bdt());
+        multiplet_1_.Enforce(jets.at(0));
+        multiplet_2_.Enforce(jets.at(1));
+        SetBdt(jets.at(0).Bdt(), jets.at(1).Bdt());
+        if (jets.size() > 2) std::cout << "to many jets to enforce a multiplet" << std::endl;
+    }
+
+    void Enforce(boca::Jet const& jet, double bdt) {
+        if (jet.Constituents().size() < 2) return EnforceJet(jet, bdt);
         ClusterSequence cluster_sequence(jet.Constituents(), DetectorGeometry::SubJetDefinition());
         auto jets = cluster_sequence.ExclusiveJetsUpTo(2);
         if (jets.size() != 2) std::cout << "not the sub-jet number we expected: " << jets.size();
-        multiplet_1_.Enforce(jets.at(0));
-        multiplet_2_.Enforce(jets.at(1));
-        SetBdt(jet.Bdt());
+        multiplet_1_.Enforce(jets.at(0), bdt);
+        multiplet_2_.Enforce(jets.at(1), bdt);
+        SetBdt(bdt);
     }
 
-    void EnforceJet(boca::Jet jet) {
+    void EnforceJet(boca::Jet jet, double bdt) {
         jet.Info().SetSubStructure(false);
-        multiplet_1_.Enforce(jet / 2);
-        multiplet_2_.Enforce(jet / 2);
-        SetBdt(jet.Bdt());
+        multiplet_1_.Enforce(jet / 2, bdt);
+        multiplet_2_.Enforce(jet / 2, bdt);
+        SetBdt(bdt);
     }
 
     Multiplet_1_& Multiplet1() {
@@ -150,6 +194,11 @@ public:
         return ConstituentJet().Pull(DeltaTo(multiplet));
     }
 
+    void Set(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2) {
+        multiplet_1_ = multiplet_1;
+        multiplet_2_ = multiplet_2;
+    }
+
 protected:
 
     void SetMultiplet1(Multiplet_1_ const& multiplet_1) {
@@ -177,3 +226,4 @@ private:
 };
 
 }
+

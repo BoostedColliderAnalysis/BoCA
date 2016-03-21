@@ -57,9 +57,11 @@ public:
 
     void SetLeptons(std::vector<Lepton> const& leptons);
 
-    boca::Singlet const& ConstituentJet() const;
+    boca::Singlet ConstituentJet() const;
 
     boca::Jet Jet() const;
+
+    std::vector<boca::Jet> Constituents() const;
 
 private:
 

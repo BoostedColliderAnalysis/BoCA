@@ -45,7 +45,7 @@ private:
 
     boost::optional<Doublet> SetTag(boca::Doublet& doublet, std::vector<Lepton>& leptons, const boca::PreCuts& pre_cuts, boca::Tag tag) const;
 
-    Doublet PrepareDoublet(boca::Doublet& doublet, std::vector<Lepton>& leptons) const;
+    Doublet PrepareDoublet(boca::Doublet const& doublet, std::vector<Lepton>& leptons) const;
 
     bool Problematic(Doublet const& doublet, PreCuts const& pre_cuts, Tag tag) const;
 

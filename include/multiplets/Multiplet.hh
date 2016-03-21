@@ -89,30 +89,4 @@ private:
 
 };
 
-template<typename Multiplet_1_, typename Multiplet_2_>
-Jet Join(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2)
-{
-    return Join(multiplet_1.Jet(), multiplet_2.Jet());
-}
-
-template<typename Multiplet_>
-Jet Join(Jet const& jet, Multiplet_ const& multiplet)
-{
-    return Join(jet, multiplet.Jet());
-}
-
-template<typename Multiplet_>
-Jet Join(Multiplet_ const& multiplet, Jet const& jet)
-{
-    return Join(jet, multiplet.Jet());
-}
-
-template<typename Multiplet_1_, typename Multiplet_2_>
-boca::Singlet JoinConstituents(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2)
-{
-    auto constituents = SortedByPt(Combine(multiplet_1.ConstituentJet().Constituents(), multiplet_2.ConstituentJet().Constituents()));
-    boost::erase(constituents, boost::unique<boost::return_next_end>(constituents));
-    return Join(constituents);
-}
-
 }

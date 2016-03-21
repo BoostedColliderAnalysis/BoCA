@@ -3,13 +3,7 @@
  */
 #pragma once
 
-#include <boost/range/algorithm/unique.hpp>
-#include <boost/range/algorithm_ext/erase.hpp>
-#include <boost/math/constants/constants.hpp>
-
 #include "Jet.hh"
-#include "Sort.hh"
-#include "Vector.hh"
 #include "Mutable.hh"
 #include "Line2.hh"
 
@@ -30,6 +24,8 @@ public:
     using boca::Jet::Jet;
 
     void Enforce(boca::Jet const& jet);
+
+    void Enforce(boca::Jet const& jet, double bdt);
 
     boca::Jet Jet() const;
 
@@ -77,7 +73,7 @@ public:
 
     Singlet const& ConstituentJet() const;
 
-    Vector2<AngleSquare> PullVector() const;
+    Vector2<AngleSquare> Pull() const;
 
     template<typename Multiplet_>
     using NotJet = typename std::enable_if < !std::is_same<Multiplet_, boca::Jet>::value && !std::is_same<Multiplet_, boca::PseudoJet>::value >::type;
@@ -112,7 +108,7 @@ public:
 
     template<typename Multiplet_>
     Angle Pull(Multiplet_ const& multiplet) const {
-      return Pull(DeltaTo(multiplet));
+        return Pull(DeltaTo(multiplet));
     }
 
     Angle Pull(Vector2<Angle> const& reference) const;
@@ -123,7 +119,7 @@ private:
 
     Angle GetRadius() const;
 
-    Vector2<AngleSquare> GetPullVector() const;
+    Vector2<AngleSquare> GetPull() const;
 
     double Log(Length length) const;
 

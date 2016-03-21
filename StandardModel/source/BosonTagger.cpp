@@ -31,38 +31,32 @@ int BosonTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) con
     }), Particles(event), tag);
 }
 
-Doublet BosonTagger::CheckDoublet(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const
+boost::optional<Doublet> BosonTagger::CheckDoublet(Doublet doublet, PreCuts const& pre_cuts, Tag tag) const
 {
     INFO0;
-    if (Problematic(doublet, pre_cuts, tag)) throw boca::Problematic();
+    if (Problematic(doublet, pre_cuts, tag)) return boost::none;
     doublet.SetTag(tag);
     return doublet;
 }
 
-std::vector<Doublet> BosonTagger::Doublets(Event const& event, std::function<Doublet(Doublet&)> const& function) const
+std::vector<Doublet> BosonTagger::Doublets(Event const& event, std::function<boost::optional<Doublet>(Doublet&)> const& function) const
 {
     INFO0;
-   std::vector<Jet> jets =  bottom_reader_.Jets(event);
+    auto jets =  bottom_reader_.Jets(event);
     MomentumRange jet_range(Id::W, Id::higgs);
-    std::vector<Doublet> doublets = UnorderedPairs(jet_range.SofterThanMax(jets), [&](Jet const & jet_1, Jet const & jet_2) {
+    std::vector<Jet> soft;
+    for (auto & jet : jet_range.SofterThanMax(jets)) soft.emplace_back(bottom_reader_.Multiplet(jet));
+
+    auto doublets = UnorderedPairs(soft, [&](Jet const & jet_1, Jet const & jet_2) {
         Doublet doublet(jet_1, jet_2);
         if (!jet_range.BelowUpperBound(doublet)) throw boca::Problematic();
-        return function(doublet);
+        if (boost::optional<Doublet> optional = function(doublet)) return *optional;
+        else throw boca::Problematic();
     });
     for (auto const & jet : jet_range.HarderThanMin(jets)) {
-        MomentumRange sub_jet_range((SubJet(Id::W)), (SubJet(Id::higgs)));
-        if (sub_jet_range.BelowUpperBound(jet)) try {
-                unsigned sub_jet_number = 2;
-               std::vector<Jet> pieces = bottom_reader_.SubMultiplet(jet, sub_jet_number);
-                if (pieces.size() < sub_jet_number) continue;
-                Doublet doublet(pieces.at(0), pieces.at(1));
-                doublets.emplace_back(function(doublet));
-            } catch (std::exception const&) {}
-        if (sub_jet_range.AboveLowerBound(jet)) try {
-                Doublet doublet;
-                doublet.Enforce(jet);
-                doublets.emplace_back(function(doublet));
-            } catch (std::exception const&) {}
+        Doublet doublet;
+        doublet.Enforce(bottom_reader_.SubMultiplet(jet, 2));
+        if (boost::optional<Doublet> optional = function(doublet)) doublets.emplace_back(*optional);
     }
     return doublets;
 }
@@ -102,10 +96,10 @@ std::vector<Doublet> BosonTagger::Multiplets(Event const& event, PreCuts const& 
     });
 }
 
-Doublet BosonTagger::Multiplet(Doublet& doublet, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
+boost::optional<Doublet> BosonTagger::Multiplet(Doublet& doublet, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
     INFO0;
-    if (Problematic(doublet, pre_cuts)) throw boca::Problematic();
+    if (Problematic(doublet, pre_cuts)) return boost::none;
     doublet.SetBdt(Bdt(doublet, reader));
     return doublet;
 }
