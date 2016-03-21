@@ -4,9 +4,7 @@
 #pragma once
 
 #include "multiplets/Multiplet.hh"
-#include "multiplets/Multiplets.hh"
 #include "physics/Particles.hh"
-#include "Vector.hh"
 #include "ClusterSequence.hh"
 
 namespace boca
@@ -90,35 +88,35 @@ public:
     }
 
     Momentum DeltaPt() const {
-        return (Multiplet1().Pt() - Multiplet2().Pt());
+        return Multiplet2().Pt() - Multiplet1().Pt();
     }
 
     Momentum Ht() const {
-        return boca::Ht(Multiplet1(), Multiplet2());
+        return Multiplet1().Ht() + Multiplet2().Ht();
     }
 
     Angle DeltaRap() const {
-        return boca::DeltaRap(Multiplet1(), Multiplet2());
+        return Multiplet1().DeltaRapTo(Multiplet2());
     }
 
     Angle DeltaPhi() const {
-        return boca::DeltaPhi(Multiplet1(), Multiplet2());
+        return Multiplet1().DeltaPhiTo(Multiplet2());
     }
 
     Angle DeltaR() const {
-        return boca::DeltaR(Multiplet1(), Multiplet2());
+        return Multiplet1().DeltaRTo(Multiplet2());
     }
 
     boca::Mass DeltaM() const {
-        return boca::DeltaM(Multiplet1(), Multiplet2());
+        return Multiplet2().Mass() - Multiplet1().Mass();
     }
 
     Momentum DeltaHt() const {
-        return boca::DeltaHt(Multiplet1(), Multiplet2());
+        return Multiplet2().Ht() - Multiplet1().Ht();
     }
 
     double Rho() const {
-        return boca::Rho(Multiplet1(), Multiplet2(), Jet());
+        return Pt() > DetectorGeometry::MinCellPt() && DeltaR() > DetectorGeometry::MinCellResolution() ? double(Mass() / Pt() / DeltaR() * 2_rad) : 0;
     }
 
     boca::Mass MassDifferenceTo(Id id) const {
@@ -126,19 +124,30 @@ public:
     }
 
     int Charge() const {
-        return boca::Charge(Multiplet1(), Multiplet2());
+        return Multiplet1().Charge() + Multiplet2().Charge();
     }
 
     Angle Pull12() const {
-        return boca::Pull(Multiplet1(), Multiplet2());
+        return Multiplet1().Pull(Multiplet2());
     }
 
     Angle Pull21() const {
-        return boca::Pull(Multiplet2(), Multiplet1());
+        return Multiplet2().Pull(Multiplet1());
+    }
+
+    Line2<Angle> Line() const {
+        auto angles_1 = Multiplet1().Angles();
+        return {angles_1, Multiplet2().Angles(angles_1)};
     }
 
     double Dipolarity() const {
-        return boca::Dipolarity(Multiplet1(), Multiplet2(), ConstituentJet());
+        if (Pt() <= at_rest || DeltaR() <= 0_rad) return 0;
+        return ConstituentJet().Dipolarity(Line()) / Pt() / sqr(DeltaR());
+    }
+
+    template<typename Multiplet_>
+    Angle Pull(Multiplet_ const& multiplet) const {
+        return ConstituentJet().Pull(DeltaTo(multiplet));
     }
 
 protected:

@@ -5,14 +5,18 @@
 
 #include <boost/range/algorithm/unique.hpp>
 #include <boost/range/algorithm_ext/erase.hpp>
+#include <boost/math/constants/constants.hpp>
 
 #include "Jet.hh"
 #include "Sort.hh"
 #include "Vector.hh"
 #include "Mutable.hh"
+#include "Line2.hh"
 
 namespace boca
 {
+
+using AngleSquareMomentum = ValueProduct<AngleSquare, Momentum>;
 
 /**
  * @brief Thin wrapper to make Jet behave like a Multiplet.
@@ -105,6 +109,15 @@ public:
     }
 
     using PseudoJet::DeltaTo;
+
+    template<typename Multiplet_>
+    Angle Pull(Multiplet_ const& multiplet) const {
+      return Pull(DeltaTo(multiplet));
+    }
+
+    Angle Pull(Vector2<Angle> const& reference) const;
+
+    AngleSquareMomentum Dipolarity(Line2<Angle> const& line) const;
 
 private:
 

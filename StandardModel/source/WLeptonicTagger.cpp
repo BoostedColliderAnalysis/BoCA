@@ -58,7 +58,9 @@ bool WLeptonicTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cut
     INFO0;
     if (Problematic(doublet, pre_cuts)) return true;
     switch (tag) {
-    case Tag::signal : if (pre_cuts.OutSideMassWindow(doublet, w_mass_window_, Id::W)) return true;
+    case Tag::signal :
+        if (pre_cuts.OutSideMassWindow(doublet, w_mass_window_, Id::W)) return true;
+        if (pre_cuts.NotParticleRho(doublet)) return true;
         break;
     case Tag::background : break;
     }

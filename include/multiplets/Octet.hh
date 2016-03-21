@@ -73,11 +73,11 @@ public:
 
     using boca::ThreeBody<boca::Triplet, boca::Triplet, boca::Doublet>::ThreeBody;
 
-    boca::Triplet const& Triplet1() const;;
+    boca::Triplet const& Triplet1() const;
 
-    boca::Triplet const& Triplet2() const;;
+    boca::Triplet const& Triplet2() const;
 
-    boca::Doublet const& Doublet() const;;
+    boca::Doublet const& Doublet() const;
 
 };
 

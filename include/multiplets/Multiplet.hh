@@ -7,7 +7,6 @@
 #include "SubJettiness.hh"
 #include "ClosestLepton.hh"
 #include "Particle.hh"
-#include "Multiplets.hh"
 
 namespace boca
 {
@@ -21,7 +20,7 @@ public:
 
     ClosestLepton Lepton() const;
 
-    boca::Singlet const& ConstituentJet() const;
+    boca::Singlet ConstituentJet() const;
 
     boca::Jet Jet() const;
 
@@ -32,6 +31,10 @@ public:
     Angle Rap() const;
 
     Angle Phi() const;
+
+    Vector2<Angle> Angles() const;
+
+    Vector2<Angle> Angles(Vector2<Angle> const& angles) const;
 
     template<typename Multiplet_>
     using NotJet = typename std::enable_if < !std::is_same<Multiplet_, boca::Jet>::value && !std::is_same<Multiplet_, boca::PseudoJet>::value && !std::is_same<Multiplet_, boca::Particle>::value >::type;
@@ -66,6 +69,8 @@ public:
 
     std::vector<boca::Jet> Constituents() const;
 
+    bool HasConstituents() const;
+
     boca::SubJettiness SubJettiness() const;
 
 protected:
@@ -83,5 +88,31 @@ private:
     Mutable<boca::Jet> jet_;
 
 };
+
+template<typename Multiplet_1_, typename Multiplet_2_>
+Jet Join(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2)
+{
+    return Join(multiplet_1.Jet(), multiplet_2.Jet());
+}
+
+template<typename Multiplet_>
+Jet Join(Jet const& jet, Multiplet_ const& multiplet)
+{
+    return Join(jet, multiplet.Jet());
+}
+
+template<typename Multiplet_>
+Jet Join(Multiplet_ const& multiplet, Jet const& jet)
+{
+    return Join(jet, multiplet.Jet());
+}
+
+template<typename Multiplet_1_, typename Multiplet_2_>
+boca::Singlet JoinConstituents(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2)
+{
+    auto constituents = SortedByPt(Combine(multiplet_1.ConstituentJet().Constituents(), multiplet_2.ConstituentJet().Constituents()));
+    boost::erase(constituents, boost::unique<boost::return_next_end>(constituents));
+    return Join(constituents);
+}
 
 }

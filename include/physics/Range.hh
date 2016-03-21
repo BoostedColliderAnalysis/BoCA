@@ -81,6 +81,17 @@ public:
         return value > min_ && value < max_;
     }
 
+    bool Outside(Value value) {
+      return value < min_ || value > max_;
+    }
+
+    Value Constrain(Value value)
+    {
+      if (value > Max()) value = Max();
+      if (value < Min()) value = Min();
+      return value;
+    }
+
     Value Length() const {
         return max_ - min_;
     }

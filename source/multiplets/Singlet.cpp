@@ -7,6 +7,7 @@
 #include "DetectorGeometry.hh"
 #include "Vector.hh"
 #include "physics/Math.hh"
+#include "physics/Range.hh"
 #include "DEBUG.hh"
 
 namespace boca
@@ -83,15 +84,15 @@ Vector2<AngleSquare> Singlet::PullVector() const
     });
 }
 
-using AngleSquareMomentum = ValueProduct<AngleSquare, Momentum>;
 
 Vector2<AngleSquare> Singlet::GetPullVector() const
 {
     if (Pt() <= 0_eV) return {};
-    auto constituents = Constituents();
-    if (constituents.size() < 3) return {};
-    return boost::accumulate(constituents, Vector2<AngleSquareMomentum>(), [this](Vector2<AngleSquareMomentum>& sum , boca::Jet const & constituent) {
-        return sum + PseudoJet::DeltaTo(constituent) * constituent.Pt() * PseudoJet::DeltaRTo(constituent);
+//     auto constituents = Constituents();
+//     if (constituents.size() < 3) return {};
+    if (!has_constituents()) return 0;
+    return boost::accumulate(Constituents(), Vector2<AngleSquareMomentum>(), [this](Vector2<AngleSquareMomentum>& sum , boca::Jet const & constituent) {
+        return sum + DeltaTo(constituent) * constituent.Pt() * DeltaRTo(constituent);
     }) / Pt();
 }
 
@@ -160,6 +161,23 @@ double Singlet::TrtHtFraction() const
 Momentum Singlet::Ht() const
 {
     return Pt();
+}
+
+AngleSquareMomentum Singlet::Dipolarity(const Line2< Angle >& line) const
+{
+    if (!has_constituents()) return 0;
+    return boost::accumulate(Constituents(), at_rest * rad2, [&](AngleSquareMomentum & sum, boca::Jet const & constituent) {
+        return sum + constituent.Pt() * sqr(line.Distance(constituent));
+    });
+}
+
+Angle Singlet::Pull(const Vector2< Angle >& reference) const
+{
+    if (reference.Mod2() <= 0. * rad2 || PullVector().Mod2() <= 0. * rad2 * rad2) return boost::math::constants::pi<double>() * rad;
+    double cos = reference * PullVector() / reference.Mod() / PullVector().Mod();
+    Range<double> range(-1, 1);
+    return std::acos(range.Constrain(cos)) * rad;
+    //     return boost::units::acos(cos * boost::units::si::si_dimensionless);
 }
 
 }

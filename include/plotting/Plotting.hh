@@ -89,13 +89,11 @@ private:
 
     std::string BestValueTable(Results const& results) const;
 
-    std::string BestValueTableDoubleCheck(Results const& results) const;
-
     std::string BestValueRow(Results const& results, int bin, std::string const& name, std::function<std::vector<Crosssection>(Result const&)> const& function) const;
 
-    std::string ScalingTable(Results const& results) const;
+    std::string ScalingTable(boca::Results& results) const;
 
-    std::string ScalingRow(Results const& results) const;
+    std::string ScalingRow(const boca::Results& results, double factor) const;
 
     std::string EfficienciesTable(Results const& results, int bin) const;
 
@@ -138,3 +136,4 @@ private:
 };
 
 }
+

@@ -33,7 +33,7 @@ Momentum PseudoJet::Pt() const
 
 Mass PseudoJet::Mass() const
 {
-   return m() > 0 ? m() * GeV : massless;
+    return m() > 0 ? m() * GeV : massless;
 }
 
 Angle PseudoJet::DeltaRTo(const PseudoJet& jet) const
@@ -59,7 +59,7 @@ Angle PseudoJet::DeltaRapTo(const PseudoJet& jet) const
 
 Angle PseudoJet::Rap() const
 {
-  return rap() == fastjet::pseudojet_invalid_rap ? 0_rad : rap() * rad;
+    return rap() == fastjet::pseudojet_invalid_rap ? 0_rad : rap() * rad;
 }
 
 Angle PseudoJet::Phi() const
@@ -112,6 +112,22 @@ PseudoJet::UserInfoBase& PseudoJet::Info()
 Vector2< Angle > PseudoJet::DeltaTo(const PseudoJet& jet) const
 {
     return {DeltaRapTo(jet), DeltaPhiTo(jet)};
+}
+
+Vector2< Angle > PseudoJet::Angles() const
+{
+    return {Rap(), Phi()};
+}
+
+Vector2<Angle> PseudoJet::Angles(Vector2<Angle> const& angles) const
+{
+  Angle phi = Phi();
+  Vector2<Angle> angles_1(Rap(), phi);
+  auto distance_1 = (angles - angles_1).Mod2();
+  phi = Wrap(phi);
+  Vector2<Angle> angles_2(Rap(), phi);
+  auto distance_2 = (angles - angles_2).Mod2();
+  return distance_2 < distance_1 ? angles_2 : angles_1;
 }
 
 }

@@ -19,7 +19,7 @@ ClosestLepton Multiplet::Lepton() const
     return closest_lepton_;
 }
 
-const Singlet& Multiplet::ConstituentJet() const
+Singlet Multiplet::ConstituentJet() const
 {
     return constituent_jet_.Get([this]() {
         return GetConstituentJet();
@@ -48,6 +48,17 @@ Angle Multiplet::Phi() const
     return Jet().Phi();
 }
 
+Vector2< Angle > Multiplet::Angles() const
+{
+    return Jet().Angles();
+
+}
+
+Vector2< Angle > Multiplet::Angles(const Vector2< Angle >& angles) const
+{
+    return Jet().Angles(angles);
+}
+
 boca::SubJettiness Multiplet::SubJettiness() const
 {
     return boca::SubJettiness(Singlet());
@@ -60,7 +71,7 @@ boca::Mass Multiplet::Mass() const
 
 std::vector<boca::Jet> Multiplet::Constituents() const
 {
-    return Jet().Constituents();
+    return ConstituentJet().Constituents();
 }
 
 Angle Multiplet::DeltaPhiTo(const PseudoJet& jet) const
@@ -81,6 +92,11 @@ Angle Multiplet::DeltaRapTo(const PseudoJet& jet) const
 Vector2< Angle > Multiplet::DeltaTo(const PseudoJet& jet) const
 {
     return Jet().DeltaTo(jet);
+}
+
+bool Multiplet::HasConstituents() const
+{
+    return ConstituentJet().has_constituents();
 }
 
 }

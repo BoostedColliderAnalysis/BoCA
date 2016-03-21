@@ -200,10 +200,14 @@ Observables MultiBranch::Variables()
 
 SignatureBranch::SignatureBranch()
 {
+    Ht = InitialValue();
+    Bdt1 = InitialValue();
+    Bdt2 = InitialValue();
     Bdt3 = InitialValue();
     Mass12 = InitialValue();
     Mass23 = InitialValue();
     Mass13 = InitialValue();
+    DeltaPt12 = InitialValue();
     DeltaPt23 = InitialValue();
     DeltaPt13 = InitialValue();
     Pt12 = InitialValue();
@@ -212,14 +216,19 @@ SignatureBranch::SignatureBranch()
     Ht12 = InitialValue();
     Ht23 = InitialValue();
     Ht13 = InitialValue();
+    Rho12 = InitialValue();
     Rho23 = InitialValue();
     Rho13 = InitialValue();
+    DeltaRap12 = InitialValue();
     DeltaRap23 = InitialValue();
     DeltaRap13 = InitialValue();
+    DeltaPhi12 = InitialValue();
     DeltaPhi23 = InitialValue();
     DeltaPhi13 = InitialValue();
+    DeltaR12 = InitialValue();
     DeltaR23 = InitialValue();
     DeltaR13 = InitialValue();
+    DeltaM12 = InitialValue();
     DeltaM23 = InitialValue();
     DeltaM13 = InitialValue();
     DeltaHt23 = InitialValue();
@@ -236,10 +245,10 @@ SignatureBranch::SignatureBranch()
 
 Observables SignatureBranch::Variables()
 {
-    return MultiBranch::Variables() + OBSERVABLE(Bdt3, "BDT_{3}") + OBSERVABLE(Mass12, "m_{12}") + OBSERVABLE(Mass23, "m_{23}") + OBSERVABLE(Mass13, "m_{13}") + OBSERVABLE(Pt12, "p_{T}^{12}") + OBSERVABLE(Pt23, "p_{T}^{23}") + OBSERVABLE(Pt13, "p_{T}^{13}") + OBSERVABLE(DeltaPt23, "\\Delta p_{T}^{23}") + OBSERVABLE(DeltaPt13, "\\Delta p_{T}^{13}") + OBSERVABLE(Ht12, "H_{T}^{12}") + OBSERVABLE(Ht23, "H_{T}^{23}") + OBSERVABLE(Ht13, "H_{T}^{13}") + OBSERVABLE(Rho23, "\\rho_{23}") + OBSERVABLE(Rho13, "\\rho_{13}") + OBSERVABLE(DeltaRap23, "\\Delta\\eta_{23}") + OBSERVABLE(DeltaRap13, "\\Delta\\eta_{13}") + OBSERVABLE(DeltaPhi23, "\\Delta\\phi_{23}") + OBSERVABLE(DeltaPhi13, "\\Delta\\phi_{13}") + OBSERVABLE(DeltaR23, "\\Delta R_{23}") + OBSERVABLE(DeltaR13, "\\Delta R_{13}") + OBSERVABLE(DeltaM23, "\\Delta m_{23}") + OBSERVABLE(DeltaM13, "\\Delta m_{13}") + OBSERVABLE(DeltaHt23, "\\Delta H_{T}^{23}") + OBSERVABLE(DeltaHt13, "\\Delta H_{T}^{13}") + OBSERVABLE(Pull23, "#theta_{23}") + OBSERVABLE(Pull13, "#theta_{13}") + OBSERVABLE(Pull32, "#theta_{32}") + OBSERVABLE(Pull31, "#theta_{31}") /*+ OBSERVABLE(Dipolarity23, "D_{23}") + OBSERVABLE(Dipolarity13, "D_{13}")*/ + OBSERVABLE(Aplanarity, "#slashed{P}") + OBSERVABLE(Sphericity, "S");
+    return ParticleBranch::Variables() + OBSERVABLE(Ht, "H_{T}") + OBSERVABLE(Bdt1, "BDT_{1}") + OBSERVABLE(Bdt2, "BDT_{2}") + OBSERVABLE(Bdt3, "BDT_{3}") + OBSERVABLE(Mass12, "m_{12}") + OBSERVABLE(Mass23, "m_{23}") + OBSERVABLE(Mass13, "m_{13}") + OBSERVABLE(Pt12, "p_{T}^{12}") + OBSERVABLE(Pt23, "p_{T}^{23}") + OBSERVABLE(Pt13, "p_{T}^{13}") + OBSERVABLE(DeltaPt12, "\\Delta p_{T}^{12}") + OBSERVABLE(DeltaPt23, "\\Delta p_{T}^{23}") + OBSERVABLE(DeltaPt13, "\\Delta p_{T}^{13}") + OBSERVABLE(Ht12, "H_{T}^{12}") + OBSERVABLE(Ht23, "H_{T}^{23}") + OBSERVABLE(Ht13, "H_{T}^{13}") + OBSERVABLE(Rho12, "\\rho_{12}") + OBSERVABLE(Rho23, "\\rho_{23}") + OBSERVABLE(Rho13, "\\rho_{13}") + OBSERVABLE(DeltaRap12, "\\Delta\\eta_{12}") + OBSERVABLE(DeltaRap23, "\\Delta\\eta_{23}") + OBSERVABLE(DeltaRap12, "\\Delta\\eta_{12}") + OBSERVABLE(DeltaRap13, "\\Delta\\eta_{13}") + OBSERVABLE(DeltaPhi23, "\\Delta\\phi_{23}") + OBSERVABLE(DeltaPhi13, "\\Delta\\phi_{13}") + OBSERVABLE(DeltaR12, "\\Delta R_{12}") + OBSERVABLE(DeltaR23, "\\Delta R_{23}") + OBSERVABLE(DeltaR13, "\\Delta R_{13}") + OBSERVABLE(DeltaM12, "\\Delta m_{12}") + OBSERVABLE(DeltaM23, "\\Delta m_{23}") + OBSERVABLE(DeltaM13, "\\Delta m_{13}") + OBSERVABLE(DeltaHt12, "\\Delta H_{T}^{12}") + OBSERVABLE(DeltaHt23, "\\Delta H_{T}^{23}") + OBSERVABLE(DeltaHt13, "\\Delta H_{T}^{13}") + OBSERVABLE(Pull23, "#theta_{23}") + OBSERVABLE(Pull13, "#theta_{13}") + OBSERVABLE(Pull32, "#theta_{32}") + OBSERVABLE(Pull31, "#theta_{31}") /*+ OBSERVABLE(Dipolarity23, "D_{23}") + OBSERVABLE(Dipolarity13, "D_{13}")*/ + OBSERVABLE(Aplanarity, "#slashed{P}") + OBSERVABLE(Sphericity, "S");
 }
 
-JetPairBranch::JetPairBranch()
+        JetPairBranch::JetPairBranch()
 {
 //     DeltaM = InitialValue();
     Jet1Mass = InitialValue();

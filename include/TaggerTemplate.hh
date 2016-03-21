@@ -64,6 +64,7 @@ public:
 
     virtual std::vector<Multiplet_> Multiplets(std::vector<Jet> const&, PreCuts const&, TMVA::Reader const&) const {
         std::cout << "Never end up here!" << std::endl;
+        return {};
     }
 
 protected:

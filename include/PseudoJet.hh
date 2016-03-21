@@ -47,6 +47,10 @@ public:
 
     Vector2<Angle> DeltaTo(PseudoJet const& jet) const;
 
+    Vector2<Angle> Angles() const;
+
+    Vector2<Angle> Angles(Vector2<Angle> const& angles) const;
+
     boca::MassSquare MassSquare() const;
 
     Momentum Px() const;

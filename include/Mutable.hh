@@ -10,40 +10,41 @@ class Mutable
 {
 public:
 
-    Mutable() {};
-
-    Mutable(std::function<Member_()> const& function) :
-        function_(function)
-    {}
+//     Mutable() {};
+//
+//     Mutable(std::function<Member_()> const& function) :
+//         function_(function)
+//     {}
 
     void SetFunction(std::function<Member_()> const& function) const {
-        function_ = function;
+        if (!function_) function_ = function;
     }
 
     Member_ const& Get(std::function<Member_()> const& function) const {
-        if (!function_) SetFunction(function);
-        if (!set_) Set();
+        SetFunction(function);
+        Set();
         return member_;
     }
 
-    Member_ const& Get()const {
-      if (!set_) Set();
-      return member_;
-    }
+//     Member_ const& Get()const {
+//       if (!set_) Set();
+//       return member_;
+//     }
 
     void Set() const {
+        if (set_) return;
         if (!function_) std::cout << "defining function of mutable class got lost" << std::endl;
         member_ = function_();
         set_ = true;
     }
 
-    Member_ const* operator->() const {
-        return &Get();
-    }
+//     Member_ const* operator->() const {
+//         return &Get();
+//     }
 
-    Member_ const& operator*() const {
-        return Get();
-    }
+//     Member_ const& operator*() const {
+//         return Get();
+//     }
 
 private:
     mutable Member_ member_;
@@ -52,10 +53,10 @@ private:
 };
 
 
-template<typename Member_>
-Mutable<Member_> MakeMutable(std::function<Member_()> const& function)
-{
-    return Mutable<Member_>(function);
-}
+// template<typename Member_>
+// Mutable<Member_> MakeMutable(std::function<Member_()> const& function)
+// {
+//     return Mutable<Member_>(function);
+// }
 
 }
