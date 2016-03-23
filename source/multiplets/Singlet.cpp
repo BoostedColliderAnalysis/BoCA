@@ -70,9 +70,6 @@ Vector2<AngleSquare> Singlet::Pull() const
 Vector2<AngleSquare> Singlet::GetPull() const
 {
     if (Pt() <= 0_eV || !has_constituents()) return {};
-//     auto constituents = Constituents();
-//     if (constituents.size() < 3) return {};
-//     if (!has_constituents()) return {};
     return boost::accumulate(Constituents(), Vector2<AngleSquareMomentum>(), [this](Vector2<AngleSquareMomentum>& sum , boca::Jet const & constituent) {
         return sum + DeltaTo(constituent) * constituent.Pt() * DeltaRTo(constituent);
     }) / Pt();
@@ -90,8 +87,7 @@ Angle Singlet::Pull(const Vector2< Angle >& reference) const
 {
     if (reference.Mod2() <= 0. * rad2 || Pull().Mod2() <= 0. * rad2 * rad2) return boost::math::constants::pi<double>() * rad;
     Range<double> range(-1, 1);
-    return std::acos(range.Constrain(reference * Pull() / reference.Mod() / Pull().Mod())) * rad;
-    //     return boost::units::acos(cos * boost::units::si::si_dimensionless);
+    return acos(range.Constrain(reference * Pull() / reference.Mod() / Pull().Mod()));
 }
 
 const Singlet& Singlet::ConstituentJet() const
@@ -149,7 +145,7 @@ double Singlet::VertexSpread() const
 
 double Singlet::EnergyFraction() const
 {
-    return Info().VertexEnergy() / Energy();
+    return Energy() > 0_eV ? double(Info().VertexEnergy() / Energy()) : 0.;
 }
 
 Angle Singlet::EmRadius() const

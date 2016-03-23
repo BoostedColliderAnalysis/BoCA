@@ -24,20 +24,20 @@ namespace
 void TruthLevel(Event const& event, PreCuts const& pre_cuts, Id id)
 {
     INFO0;
-    std::vector<Particle> particle = event.Partons().GenParticles();
-    std::vector<Particle> tops = CopyIfParticle(particle, id);
+    auto particle = event.Partons().GenParticles();
+    auto tops = CopyIfParticle(particle, id);
     for (auto const & top : tops) {
-        if (top.Pt() < pre_cuts.PtLowerCut().Get(id) || top.Pt() > pre_cuts.PtUpperCut().Get(id)) continue;
-        std::vector<Particle> bottoms = CopyIfMother(CopyIfParticle(particle, Id::bottom), top);
+        if (pre_cuts.ApplyCuts(id, top)) continue;
+//         if (top.Pt() < pre_cuts.PtLowerCut().Get(id) || top.Pt() > pre_cuts.PtUpperCut().Get(id)) continue;
+        auto bottoms = CopyIfMother(CopyIfParticle(particle, Id::bottom), top);
         if (bottoms.empty()) continue;
-        std::vector<Particle> Ws = CopyIfMother(CopyIfParticle(particle, Id::W), top);
+        auto Ws = CopyIfMother(CopyIfParticle(particle, Id::W), top);
         if (Ws.empty()) continue;
-        std::vector<Particle> quarks = CopyIfGrandMother(CopyIfQuark(particle), top);
+        auto quarks = SortedByPt(CopyIfGrandMother(CopyIfQuark(particle), top));
         if (quarks.size() < 2) continue;
-        quarks = SortedByPt(quarks);
         DEBUG(top.Pt(), bottoms.front().Pt(), Ws.front().Pt(), quarks.at(0).Pt(), quarks.at(1).Pt());
-        Angle delta_r_top = Ws.front().DeltaRTo(bottoms.front());
-        Angle delat_r_w = quarks.at(0).DeltaRTo(quarks.at(1));
+        auto delta_r_top = Ws.front().DeltaRTo(bottoms.front());
+        auto delat_r_w = quarks.at(0).DeltaRTo(quarks.at(1));
         DEBUG(delta_r_top, delat_r_w);
     }
 }
@@ -94,13 +94,11 @@ int TopHadronicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, 
 std::vector<Particle> TopHadronicTagger::Particles(Event const& event) const
 {
     INFO0;
-    std::vector<Particle> particles = event.Partons().GenParticles();
+    auto particles = event.Partons().GenParticles();
     DEBUG(particles.size());
-    std::vector<Particle> quarks = CopyIfQuark(particles);
+    auto quarks = CopyIfGrandMother(CopyIfQuark(particles), id_);
     DEBUG(quarks.size());
-    quarks = CopyIfGrandMother(quarks, id_);
-    DEBUG(quarks.size());
-    std::vector<Particle> tops = CopyIfGrandDaughter(particles, quarks);
+    auto tops = CopyIfGrandDaughter(particles, quarks);
     DEBUG(tops.size());
     return tops;
 }
@@ -108,11 +106,11 @@ std::vector<Particle> TopHadronicTagger::Particles(Event const& event) const
 std::vector<Triplet> TopHadronicTagger::Triplets(Event const& event, Function const& function) const
 {
     INFO0;
-    std::vector<Jet> jets = SortedByPt(bottom_reader_.Jets(event));
-    std::vector<Lepton> leptons = event.Leptons().leptons();
+    auto jets = SortedByPt(bottom_reader_.Jets(event));
+    auto leptons = event.Leptons().leptons();
 
     MomentumRange three_jet_range(Id::W);
-    std::vector<Triplet> triplets = ThreeJets(three_jet_range.SofterThanMax(jets), leptons, function, three_jet_range);
+    auto triplets = ThreeJets(three_jet_range.SofterThanMax(jets), leptons, function, three_jet_range);
 
     MomentumRange two_jet_range(Id::W, id_);
     for (auto const & jet : two_jet_range.InsidePtWindow(jets)) Insert(triplets, TwoJets(two_jet_range.SofterThanMax(jets), jet, leptons, function, two_jet_range));
@@ -132,12 +130,7 @@ std::vector<Triplet> TopHadronicTagger::Triplets(Event const& event, Function co
 std::vector<Triplet> TopHadronicTagger::ThreeJets(std::vector<Jet> const& jets, std::vector<Lepton> const& leptons, Function const& function, MomentumRange const& range) const
 {
     INFO(jets.size());
-    std::vector<Doublet> doublets = w_hadronic_reader_.Multiplets(jets);
-//     std::vector<Jet> bottoms = jets;
-//     for (auto const & doublet : doublets) bottoms = boost::range::remove_erase_if(bottoms, [&](Jet const & jet) {
-//        return Close(doublet.Singlet1())(jet) || Close(doublet.Singlet2())(jet);
-//     });
-    return Triplets(doublets, ReduceResult(jets), leptons, function, range);
+    return Triplets(w_hadronic_reader_.Multiplets(jets), ReduceResult(jets), leptons, function, range);
 }
 
 std::vector<Triplet> TopHadronicTagger::TwoJets(std::vector<Jet> const& jets, Jet const& jet, std::vector<Lepton> const& leptons, Function const& function, MomentumRange const& range) const

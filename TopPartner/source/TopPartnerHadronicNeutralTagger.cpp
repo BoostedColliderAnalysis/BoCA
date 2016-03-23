@@ -31,7 +31,7 @@ std::vector<Quintet> TopPartnerHadronicNeutralTagger::Multiplets(Event const& ev
 std::vector<Quintet> TopPartnerHadronicNeutralTagger::Quintets(Event const& event, std::function<Quintet(Quintet&)> const& function) const
 {
     INFO0;
-    return Pairs(top_reader_.Multiplets(event), boson_reader_.Multiplets(event,8), [&](Triplet const & triplet, Doublet const & doublet) {
+    return Pairs(top_reader_.Multiplets(event,8), boson_reader_.Multiplets(event,8), [&](Triplet const & triplet, Doublet const & doublet) {
         Quintet quintet(triplet, doublet);
         if (quintet.Overlap()) throw Overlap();
         return function(quintet);

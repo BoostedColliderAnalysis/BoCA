@@ -18,7 +18,7 @@ namespace naturalness
  * @brief Prepares multivariant analysis
  *
  */
-class EventEffectiveTagger : public TaggerTemplate<EventMultiplet<Quattuordecuplet554>, NewEventBranch>
+class EventEffectiveTagger : public TaggerTemplate<EventMultiplet<Quattuordecuplet554>, NewEventBranch3>
 {
 
 public:

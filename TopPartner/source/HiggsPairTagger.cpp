@@ -57,17 +57,12 @@ std::vector<std::pair<Particle, Particle>> HiggsPairTagger::Particles(Event cons
 std::vector<Quartet22> HiggsPairTagger::Quartets(Event const& event, std::function<Quartet22(Quartet22&)> const& function) const
 {
     INFO0;
-    auto higgses = higgs_reader_.Multiplets(event, 8);
+    auto higgses = higgs_reader_.Multiplets(event, 16);
     auto pair = UnorderedPairs(higgses, [&](Doublet const & doublet_1, Doublet const & doublet_2) {
         Quartet22 quartet(doublet_1, doublet_2);
         if (quartet.Overlap()) throw Overlap();
         return function(quartet);
     });
-//     for (auto const & higgs : higgses) {
-//         Quartet22 quartet;
-//         quartet.Enforce(higgs);
-//         pair.emplace_back(function(quartet));
-    //     }
     INFO(pair.size());
     return pair;
 }

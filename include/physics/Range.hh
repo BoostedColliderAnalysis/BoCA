@@ -23,6 +23,13 @@ public:
         CheckHierachy();
     }
 
+    template<typename Value_2>
+    Range(Value_2 min, Value_2 max) :
+        min_(Value(min)),
+        max_(Value(max)) {
+        CheckHierachy();
+    }
+
     void SetMin(Value min) {
         min_ = min;
         CheckHierachy();
@@ -82,14 +89,14 @@ public:
     }
 
     bool Outside(Value value) {
-      return value < min_ || value > max_;
+        return value < min_ || value > max_;
     }
 
-    Value Constrain(Value value)
-    {
-      if (value > Max()) value = Max();
-      if (value < Min()) value = Min();
-      return value;
+    template<typename Value_2>
+    Value Constrain(Value_2 value) {
+        if (Value(value) > Max()) value = Max();
+        if (Value(value) < Min()) value = Min();
+        return value;
     }
 
     Value Length() const {

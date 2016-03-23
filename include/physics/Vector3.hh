@@ -64,28 +64,41 @@ public:
         y_ = vector.Y();
         z_ = vector.Z();
     }
+
+    // Constructor
+    template<typename Value_2>
+    Vector3(Vector3<Value_2> const& vector) {
+      x_ = Value(vector.X());
+      y_ = Value(vector.Y());
+      z_ = Value(vector.Z());
+    }
+
     void SetX(Value x) {
         x_ = x;
     }
+
     void SetY(Value y) {
         y_ = y;
     }
+
     void SetZ(Value z) {
         z_ = z;
     }
+
     void SetXYZ(Value x, Value y, Value z) {
         x_ = x;
         y_ = y;
         z_ = z;
     }
-    void SetPtEtaPhi(Value pt, boca::Angle eta, boca::Angle phi) {
+
         //set Pt, Eta and Phi
+    void SetPtEtaPhi(Value pt, boca::Angle eta, boca::Angle phi) {
         Value apt = abs(pt);
         SetXYZ(apt * boost::units::cos(phi), apt * boost::units::sin(phi), apt / boost::units::tan(2.0 * boost::units::atan(units::exp(-eta))));
     }
 
-    void SetPtThetaPhi(Value pt, boca::Angle theta, boca::Angle phi) {
         //set Pt, Theta and Phi
+    void SetPtThetaPhi(Value pt, boca::Angle theta, boca::Angle phi) {
         x_ = pt * boost::units::cos(phi);
         y_ = pt * boost::units::sin(phi);
         double tanTheta = boost::units::tan(theta);
@@ -94,7 +107,6 @@ public:
 
     // Set phi keeping mag and theta constant(BaBar).
     void SetPhi(boca::Angle phi) {
-        // Set phi keeping mag and theta constant(BaBar).
         Value perp = Perp();
         SetX(perp * boost::units::cos(phi));
         SetY(perp * boost::units::sin(phi));
@@ -102,7 +114,6 @@ public:
 
     // Set theta keeping mag and phi constant(BaBar).
     void SetTheta(boca::Angle theta) {
-        // Set theta keeping mag and phi constant(BaBar).
         Value magnitude = Mag();
         boca::Angle phi = Phi();
         SetX(magnitude * boost::units::sin(theta) * boost::units::cos(phi));

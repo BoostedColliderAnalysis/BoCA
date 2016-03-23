@@ -13,9 +13,118 @@
 #pragma once
 
 #include "Jet.hh"
+#include "Mutable.hh"
 
 namespace boca
 {
+
+template<typename Value_>
+class EventShape
+{
+public:
+    EventShape() {}
+    EventShape(Vector3<Value_> vector, Value_ scalar) {
+        Set(vector, scalar);
+    }
+    void Set(Vector3<Value_> vector, Value_ scalar) {
+        vector_ = vector;
+        scalar_ = scalar;
+    }
+    void Set(Vector3<Value_> vector) {
+        vector_ = vector;
+    }
+    void Set(Value_ scalar) {
+        scalar_ = scalar;
+    }
+    Vector3<Value_>& Vector() {
+        return vector_;
+    }
+    Value_& Scalar() {
+        return scalar_;
+    }
+    Vector3<Value_> const& Vector() const {
+        return vector_;
+    }
+    Value_ const& Scalar() const {
+        return scalar_;
+    }
+    EventShape& operator+=(EventShape<Value_> const& event_shape) {
+        vector_ += event_shape.Vector();
+        scalar_ += event_shape.Scalar();
+        return *this;
+    }
+private:
+    Vector3<Value_> vector_;
+    Value_ scalar_ = Value_(0);
+};
+
+
+/**
+ * Hemisphere masses
+ */
+class HemisphereMasses
+{
+
+public:
+    void SetM(double m_minus, double m_plus) {
+        if (m_plus < m_minus) std::swap(m_plus, m_minus);
+        m_plus_ = m_plus;
+        m_minus_ = m_minus;
+    }
+    void SetB(double b_minus, double b_plus) {
+        if (b_plus < b_minus) std::swap(b_plus, b_minus);
+        b_plus_ = b_plus;
+        b_minus_ = b_minus;
+    }
+    double MHigh2() const {
+        return m_plus_;
+    }
+    double MLow2() const {
+        return m_minus_;
+    }
+    double MDiff2() const {
+        return m_plus_ - m_minus_;
+    }
+    double BMax() const {
+        return b_plus_;
+    }
+    double BMin() const {
+        return b_minus_;
+    }
+    double BSum() const {
+        return b_plus_ + b_minus_;
+    }
+    double BDiff() const {
+        return b_plus_ - b_minus_;
+    }
+private:
+    /**
+     * The high hemisphere mass
+     */
+    double m_plus_ = 0;
+
+    /**
+     * The low hemisphere mass
+     */
+    double m_minus_ = 0;
+//@}
+
+    /**
+     * The jet broadenings
+     */
+//@{
+    /**
+     * The wide jet broadening
+     */
+    double b_plus_ = 0;
+
+    /**
+     * The narrow jet broadening
+     */
+    double b_minus_ = 0;
+//@}
+
+};
 
 /**
  *
@@ -279,10 +388,10 @@ public:
 
 private:
 
-    /**
-     * Initialize variables and get LorentzVector from Jets
-     */
-    void Initialize();
+
+    template<typename Value_>
+    using Vector = std::array<Value_, 3>;
+    using Matrix = Vector<Vector<double>>;
 
     /**
     * Check whether the initialization of a certain class of event shapes
@@ -293,25 +402,25 @@ private:
     * Check if thrust related variables have been calculated and if not
     * do so
     */
-    void CheckThrust() const;
+    Vector<EventShape<double>> Thrusts() const;
 
     /**
     * Check if the linear tensor related variables have been calculated
     * and if not do so
     */
-    void CheckLinTen() const;
+    Vector<EventShape<double>> LinearTensors() const;
 
     /**
     * Check if the quadratic tensor related variables have been
     * calculated and if not do so
     */
-    void CheckSphericity() const;
+    Vector<EventShape<double>> SphericalTensors() const;
 
     /**
     * Check if the hemisphere mass variables and jet broadenings have
     * been calculated and if not do so
     */
-    void CheckHemispheres() const;
+    HemisphereMasses HemispheresMasses() const;
     //@}
 
     /**
@@ -321,12 +430,12 @@ private:
     /**
     * Calculate the hemisphere masses and jet broadenings
     */
-    void CalcHemisphereMasses() const;
+    HemisphereMasses GetHemisphereMasses() const;
 
     /**
     * Calculate the thrust and related axes
     */
-    void CalculateThrust() const;
+    Vector<EventShape<double>> GetThrusts() const;
 
     /**
     * Diagonalize the tensors @param linear switch between
@@ -334,7 +443,9 @@ private:
     * whether to boost into cm frame of all momenta first, or not
     * (default off, and no interface to this).
     */
-    void DiagonalizeTensors(bool linear, bool cmboost) const;
+    Vector<EventShape<double>> DiagonalizeTensors(bool linear) const;
+    Vector<EventShape<double>> DiagonalizeLinearTensors() const;
+    Vector<EventShape<double>> DiagonalizeSphericalTensors() const;
 
     /**
     * Quite general diagonalization of a symmetric Matrix T, given as an
@@ -343,19 +454,21 @@ private:
     * the eigenvalue problem and no numerical approximation, based on
     * Cardano's formula. @param T Matrix to be diagonalised
     */
-    std::vector<double> Eigenvalues(const double T[3][3]) const;
+    Vector<double> Eigenvalues(Matrix const& matrix) const;
+
+    Vector<EventShape<double>> EigenSystem(Matrix const& matrix) const;
 
     /**
-    * The eigenvector of @param T to a given eigenvalue @param lam
+     * The eigenvector of @param T to a given eigenvalue @param eigenvalue
     */
-    Vector3<double> Eigenvector(const double T[3][3], const double& lam) const;
+    Vector3<double> Eigenvector(Matrix const& matrix, const double& eigenvalue) const;
 
     /**
-    * The eigenvectors of @param T corresponding to the eigenvectors
+     * The eigenvectors of @param T corresponding to the eigenvalues
     * @param lam . The ordering of the vectors corresponds to the
     * ordering of the eigenvalues.
     */
-    std::vector<Vector3<double>> Eigenvectors(const double T[3][3], const std::vector<double>& lam) const;
+    Vector<Vector3<double>> Eigenvectors(Matrix const& matrix, const Vector<double>& eigenvalues) const;
 
     /**
     * Member to calculate the thrust
@@ -363,7 +476,7 @@ private:
     * @param t The thrust-squared (up to an Energy scale factor)
     * @param taxis The thrust axis
     */
-    void CalcT(std::vector<Vector3<Momentum>> const& p, EnergySquare& t, Vector3< double >& taxis) const;
+    EventShape< Momentum > CalcT(const std::vector< Vector3< boca::Momentum > >& vectors) const;
 
     /**
     * Member to calculate the major
@@ -371,7 +484,7 @@ private:
     * @param m The major-squared (up to an Energy scale factor)
     * @param maxis The major axis
     */
-    void CalcM(std::vector<Vector3<Momentum>> const& p, EnergySquare& m, Vector3<double>& maxis) const;
+    EventShape< Momentum > CalcM(const std::vector< Vector3< boca::Momentum > >& vectors) const;
     //@}
 
     /**
@@ -382,102 +495,29 @@ private:
     /**
      * Whether ot not to boost to the CMS frame for the tensor diagonalizations
      */
-    bool use_cm_boost_;
+    bool use_cm_boost_ = false;
 
     /**
-    * Various event shape axes
-    */
+     * Various event shapes
+     */
     //@{
     /**
-    * The thrust related axes
-    */
-    mutable std::vector<Vector3<double>> thrust_axis_;
+     * The thrust related axes
+     */
+    Mutable<Vector<EventShape<double>>> thrusts_;
 
     /**
-    * The sphericity related axes
-    */
-    mutable std::vector<Vector3<double>> spher_axis_;
+     * The sphericity related axes
+     */
+    Mutable<Vector<EventShape<double>>> spherical_tensors_;
 
     /**
-    * The linearised tensor axes
-    */
-    mutable std::vector<Vector3<double>> lin_ten_axis_;
+     * The linearised tensor axes
+     */
+    Mutable<Vector<EventShape<double>>> linear_tensors_;
     //@}
 
-    /**
-    * Values of axis related event shapes
-    */
-    //@{
-    /**
-    * Values of thrust related variables
-    */
-    mutable std::vector<double> thrust_;
-
-    /**
-    * Values of sphericity related variables
-    */
-    mutable std::vector<double> spher_;
-
-    /**
-    * Values of linearized tensor related variables
-    */
-    mutable std::vector<double> lin_ten_;
-    //@}
-
-    /**
-    * Whether or not certain event axes have been calculated
-    */
-    //@{
-    /**
-    * Whether or not the thrust is calculated
-    */
-    mutable bool thrust_done_;
-
-    /**
-    * Whether or not the sphericity is calculated
-    */
-    mutable bool spher_done_;
-
-    /**
-    * Whether or not the linearizes tensor is calculated
-    */
-    mutable bool lin_ten_done_;
-
-    /**
-    * Whether or not the hemisphere masses have been calculated
-    */
-    mutable bool hem_done_;
-    //@}
-
-    /**
-    * Hemisphere masses
-    */
-    //@{
-    /**
-    * The high hemisphere mass
-    */
-    mutable double m_plus_;
-
-    /**
-    * The low hemisphere mass
-    */
-    mutable double m_minus_;
-    //@}
-
-    /**
-    * The jet broadenings
-    */
-    //@{
-    /**
-    * The wide jet broadening
-    */
-    mutable double b_plus_;
-
-    /**
-    * The narrow jet broadening
-    */
-    mutable double b_minus_;
-    //@}
+    Mutable<HemisphereMasses> hemishpere_masses_;
 
 };
 

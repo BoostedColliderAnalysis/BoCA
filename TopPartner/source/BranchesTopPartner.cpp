@@ -80,6 +80,21 @@ Observables NewEventBranch2::Spectators()
   return BdtBranch::Spectators() + GlobalBase::Spectators();
 }
 
+NewEventBranch3::NewEventBranch3()
+{
+  SignatureBdt = InitialValue();
+}
+
+Observables NewEventBranch3::Variables()
+{
+  return BdtBranch::Variables() + GlobalBase::Variables() + OBSERVABLE(SignatureBdt, "BDT_{Signature}");
+}
+
+Observables NewEventBranch3::Spectators()
+{
+  return BdtBranch::Spectators() + GlobalBase::Spectators();
+}
+
 CompleteBranch::CompleteBranch()
 {
 }

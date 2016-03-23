@@ -152,6 +152,31 @@ private:
  * @brief Class for saving event informations to root
  *
  */
+class NewEventBranch3 : public BdtBranch, GlobalBase
+{
+public:
+  NewEventBranch3();
+
+  float SignatureBdt;
+  float VetoBdt;
+
+  template<typename Multiplet>
+  void Fill(Multiplet const& multiplet) {
+    boca::BdtBranch::Fill(multiplet);
+    GlobalBase::Fill(multiplet.GlobalObservables());
+    SignatureBdt = multiplet.Signature().Bdt();
+  }
+  Observables Variables();
+  Observables Spectators();
+
+private:
+  ClassDef(NewEventBranch3, 1)
+};
+
+/**
+ * @brief Class for saving event informations to root
+ *
+ */
 class CompleteBranch : public SignatureSingleHadronicBranch, GlobalBase
 {
 public:

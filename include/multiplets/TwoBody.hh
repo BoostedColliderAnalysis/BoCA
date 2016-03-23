@@ -15,32 +15,6 @@
 namespace boca
 {
 
-template<typename Multiplet_1_, typename Multiplet_2_>
-Jet Join(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2)
-{
-    return Join(multiplet_1.Jet(), multiplet_2.Jet());
-}
-
-template<typename Multiplet_1_, typename Multiplet_2_>
-boca::Singlet JoinConstituents(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2)
-{
-    auto constituents = SortedByPt(Combine(multiplet_1.Constituents(), multiplet_2.Constituents()));
-    boost::erase(constituents, boost::unique<boost::return_next_end>(constituents));
-    return Join(constituents);
-}
-
-template<typename Multiplet_>
-Jet Join(Jet const& jet, Multiplet_ const& multiplet)
-{
-    return Join(jet, multiplet.Jet());
-}
-
-template<typename Multiplet_>
-Jet Join(Multiplet_ const& multiplet, Jet const& jet)
-{
-    return Join(jet, multiplet.Jet());
-}
-
 template <typename Multiplet_1_, typename Multiplet_2_>
 class TwoBody : public Multiplet
 {
@@ -224,6 +198,32 @@ private:
     Multiplet_2_ multiplet_2_;
 
 };
+
+template<typename Multiplet_1_, typename Multiplet_2_>
+Jet Join(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2)
+{
+    return Join(multiplet_1.Jet(), multiplet_2.Jet());
+}
+
+template<typename Multiplet_1_, typename Multiplet_2_>
+boca::Singlet JoinConstituents(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2)
+{
+    auto constituents = SortedByPt(Combine(multiplet_1.Constituents(), multiplet_2.Constituents()));
+    boost::erase(constituents, boost::unique<boost::return_next_end>(constituents));
+    return Join(constituents);
+}
+
+template<typename Multiplet_>
+Jet Join(Jet const& jet, Multiplet_ const& multiplet)
+{
+    return Join(jet, multiplet.Jet());
+}
+
+template<typename Multiplet_>
+Jet Join(Multiplet_ const& multiplet, Jet const& jet)
+{
+    return Join(jet, multiplet.Jet());
+}
 
 }
 

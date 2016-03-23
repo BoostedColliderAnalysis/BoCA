@@ -32,6 +32,7 @@ std::vector<EventMultiplet<Quattuordecuplet554>> EventEffectiveTagger::Multiplet
 
 std::vector<EventMultiplet<Quattuordecuplet554>> EventEffectiveTagger::Events(Event const& event, std::function< EventMultiplet<Quattuordecuplet554>(EventMultiplet<Quattuordecuplet554>&)> const& function) const
 {
+  INFO0;
     auto global_observables = global_reader_.Multiplets(event).front();
     std::vector<EventMultiplet<Quattuordecuplet554>> events;
     for (auto const & octet : signature_reader_.Multiplets(event)) {

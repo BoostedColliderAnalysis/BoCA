@@ -190,6 +190,12 @@ int Position(std::vector<Element_> const& vector, Element_ const& element)
 }
 
 template <typename Element_>
+int Position(std::array<Element_, 3> const& vector, Element_ const& element)
+{
+  return std::addressof(element) - vector.data();
+}
+
+template <typename Element_>
 bool FindInVector(const std::vector<Element_> vector, const Element_ element)
 {
     return boost::range::find(vector, element) != vector.end();
@@ -347,6 +353,38 @@ auto Triples(std::vector<Element_1_> const& container_1, std::vector<Element_2_>
             for (auto const & element_3 : container_3) {
                 try {
                     results.emplace_back(function(element_1, element_2, element_3));
+                } catch (std::exception const&) {}
+            }
+        }
+    }
+    return results;
+}
+
+template < typename Element_1_,
+         typename Element_2_,
+         typename Element_3_,
+         typename Function_1_,
+         typename Function_2_,
+         typename Result_1_ = typename std::result_of<Function_1_&(Element_1_, Element_2_)>::type,
+         typename Result_2_ = typename std::result_of<Function_2_&(Result_1_, Element_3_)>::type >
+/**
+ * @brief forms all \f$(n^2 - n) / 2 \times m\f$ triples, applies to them the function and returns a vector of its results
+ *
+ */
+auto Triples(std::vector<Element_1_> const& container_1, std::vector<Element_2_> const& container_2, std::vector<Element_3_> const& container_3, Function_1_ function_1, Function_2_ function_2)
+{
+    std::vector<Result_2_> results;
+    for (auto const & element_1 : container_1) {
+        for (auto const & element_2 : container_2) {
+            Result_1_ pair;
+            try {
+                pair = function_1(element_1, element_2);
+            } catch (std::exception const&) {
+                continue;
+            }
+            for (auto const & element_3 : container_3) {
+                try {
+                    results.emplace_back(function_2(pair, element_3));
                 } catch (std::exception const&) {}
             }
         }

@@ -34,12 +34,12 @@ std::vector<Doublet> ZHadronicTagger::Doublets(Event const& event, std::function
     auto jets = event.Hadrons().Jets();
     MomentumRange jet_range(Id::Z, Id::Z);
     std::vector<Jet> soft;
-    for(auto & jet : jet_range.SofterThanMax(jets)) soft.emplace_back(bottom_reader_.Multiplet(jet));
+    for (auto & jet : jet_range.SofterThanMax(jets)) soft.emplace_back(bottom_reader_.Multiplet(jet));
 
     auto doublets = UnorderedPairs(soft, [&](Jet const & jet_1, Jet const & jet_2) {
-      Doublet doublet(jet_1, jet_2);
-      if (!jet_range.BelowUpperBound(doublet)) throw boca::Problematic();
-        if (boost::optional<Doublet> optional_doublet = function(doublet)) return *optional_doublet;
+        Doublet doublet(jet_1, jet_2);
+        if (!jet_range.BelowUpperBound(doublet)) throw boca::Problematic();
+        if (boost::optional<Doublet> optional = function(doublet)) return *optional;
         else throw boca::Problematic();
     });
 

@@ -21,7 +21,7 @@ int TopPartnerLeptonicNeutralTagger::Train(Event const& event, PreCuts const&, T
 
 std::vector<Quintet> TopPartnerLeptonicNeutralTagger::Quintets(Event const& event, std::function<Quintet(Quintet&)> const& function) const
 {
-    return Pairs(top_reader_.Multiplets(event), boson_reader_.Multiplets(event,8), [&](Triplet const & triplet, Doublet const & doublet) {
+    return Pairs(top_reader_.Multiplets(event, 8), boson_reader_.Multiplets(event, 8), [&](Triplet const & triplet, Doublet const & doublet) {
         Quintet quintet(triplet, doublet);
         if (quintet.Overlap()) throw Overlap();
         return function(quintet);
@@ -46,14 +46,14 @@ std::vector<Particle> TopPartnerLeptonicNeutralTagger::Particles(Event const& ev
         candidate = CopyIfGrandMother(leptons, Id::top_partner);
         candidate = CopyIfMother(candidate, Id::W);
         if (candidate.empty()) {
-            if(tag == Tag::signal) ERROR("no leptonic top partners");
+            if (tag == Tag::signal) ERROR("no leptonic top partners");
             return {};
         }
         id = candidate.front().Info().Family().Member(Relative::grand_mother).Id();
     } else id = candidate.front().Info().Family().Member(Relative::great_grand_mother).Id();
     auto top_partners = CopyIfExactParticle(particles, id);
-    if(tag == Tag::signal) CHECK(top_partners.size() == 1, top_partners.size())
-    return top_partners;
+    if (tag == Tag::signal) CHECK(top_partners.size() == 1, top_partners.size())
+        return top_partners;
 }
 
 std::string TopPartnerLeptonicNeutralTagger::Name() const

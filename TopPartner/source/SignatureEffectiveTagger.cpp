@@ -30,18 +30,34 @@ std::vector<Quattuordecuplet554> SignatureEffectiveTagger::Multiplets(Event cons
 std::vector<Quattuordecuplet554> SignatureEffectiveTagger::Quattuordecuplets(boca::Event const& event, std::function< Quattuordecuplet554(Quattuordecuplet554&)> const& function) const
 {
     INFO0;
-    auto hadronic = top_partner_hadronic_reader_.Multiplets(event, 4);
-    auto leptonic = top_partner_leptonic_reader_.Multiplets(event, 4);
+    auto hadronic = top_partner_hadronic_reader_.Multiplets(event, 8);
+    auto leptonic = top_partner_leptonic_reader_.Multiplets(event, 8);
     auto higgs_pairs = higgs_pair_reader_.Multiplets(event, 8);
-    auto signatures = Triples(hadronic, leptonic, higgs_pairs, [&](Quintet const & quintet_1, Quintet const & quintet_2, Quartet22 const & quartet) {
-        Quattuordecuplet554 quattuordecuplet(quintet_1, quintet_2, quartet);
+    auto signatures = Triples(hadronic, leptonic, higgs_pairs, [&](Quintet const & quintet_1, Quintet const & quintet_2) {
+        Decuplet55 decuplet(quintet_1, quintet_2);
+        if (decuplet.Overlap()) throw Overlap();
+        return decuplet;
+    }, [&](Decuplet55 const & decuplet, Quartet22 const & quartet) {
+        Quattuordecuplet554 quattuordecuplet;
+        quattuordecuplet.SetMultiplets12(decuplet, quartet);
         if (quattuordecuplet.Overlap()) throw Overlap();
         return function(quattuordecuplet);
     });
+    if (!signatures.empty()) {
+        auto a = signatures.front().EventShapes().Thrust();
+        ERROR(a);
+        auto b = signatures.front().EventShapes().Aplanarity();
+        ERROR(b);
+        auto c = signatures.front().EventShapes().MDiff2();
+        ERROR(c);
+        auto d = signatures.front().EventShapes().DParameter();
+        ERROR(d);
+    }
+
     static int sig = 0;
     static int eve = 0;
     ++eve;
-    if(!signatures.empty()) ++sig;
+    if (!signatures.empty()) ++sig;
     double fraction = double(sig) / eve;
 
     ERROR(signatures.size(), hadronic.size(), leptonic.size(), higgs_pairs.size(), fraction);

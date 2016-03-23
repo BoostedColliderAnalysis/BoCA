@@ -34,7 +34,6 @@ public:
 
     ThreeBody(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2, const Multiplet_3_& multiplet_3) {
         SetMultiplets(multiplet_1, multiplet_2, multiplet_3);
-        event_shapes_.Reset(Jets());
     }
 
     void SetMultiplets(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2, const Multiplet_3_& multiplet_3) {
@@ -42,6 +41,18 @@ public:
         multiplet_2_ = multiplet_2;
         multiplet_3_ = multiplet_3;
         SetBdt((multiplet_1_.Bdt() + multiplet_2_.Bdt() + multiplet_3_.Bdt()) / 3);
+    }
+
+    void SetMultiplets12(TwoBody<Multiplet_1_, Multiplet_2_> const& multiplet_12, Multiplet_3_ const& multiplet_3) {
+        SetMultiplets(multiplet_12.Multiplet1(), multiplet_12.Multiplet2(), multiplet_3);
+    }
+
+    void SetMultiplets23(TwoBody<Multiplet_2_, Multiplet_3_> const& multiplet_23, Multiplet_1_ const& multiplet_1) {
+        SetMultiplets(multiplet_1, multiplet_23.Multiplet1(), multiplet_23.Multiplet2());
+    }
+
+    void SetMultiplets13(TwoBody<Multiplet_1_, Multiplet_3_> const& multiplet_13, Multiplet_2_ const& multiplet_2) {
+        SetMultiplets(multiplet_13.Multiplet1(), multiplet_2, multiplet_13.Multiplet2());
     }
 
     Multiplet_1_ const& Multiplet1() const {
@@ -94,7 +105,9 @@ public:
     }
 
     boca::EventShapes EventShapes() const {
-        return event_shapes_;
+        return event_shapes_.Get([this]() {
+            return boca::EventShapes(Jets());
+        });
     }
 
     TwoBody<Multiplet_1_, Multiplet_2_> Multiplet12() const {
@@ -145,7 +158,7 @@ private:
 
     Mutable<TwoBody<Multiplet_1_, Multiplet_3_>> multiplet_13_;
 
-    boca::EventShapes event_shapes_;
+    Mutable<boca::EventShapes> event_shapes_;
 
     double veto_bdt_;
 
