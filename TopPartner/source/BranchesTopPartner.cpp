@@ -30,7 +30,12 @@ SignatureSingleHadronicBranch::SignatureSingleHadronicBranch()
 
 Observables SignatureSingleHadronicBranch::Variables()
 {
-    return SignatureBranch::Variables() + OBSERVABLE(VetoBdt, "BDT_{V}") + OBSERVABLE(TopPt, "p_{T}(t)") + OBSERVABLE(HiggsPt, "p_{T}(h)");
+    return SignatureBranch::Variables() + OBSERVABLE(VetoBdt, "BDT_{V}") + OBSERVABLE(TopPt, "p_{T}(t)") + OBSERVABLE(HiggsPt, "p_{T}(h)") + EventShapesBranch::Variables();
+}
+
+Observables SignatureSingleHadronicBranch::Spectators()
+{
+  return SignatureBranch::Spectators() + EventShapesBranch::Spectators();
 }
 
 TruthBranch::TruthBranch()

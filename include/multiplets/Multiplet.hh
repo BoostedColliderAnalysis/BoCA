@@ -7,6 +7,7 @@
 #include "SubJettiness.hh"
 #include "ClosestLepton.hh"
 #include "Particle.hh"
+#include "EventShapes.hh"
 
 namespace boca
 {
@@ -73,11 +74,19 @@ public:
 
     boca::SubJettiness SubJettiness() const;
 
+    boca::EventShapes EventShapes() const {
+        return event_shapes_.Get([this]() {
+            return boca::EventShapes(Jets());
+        });
+    }
+
 protected:
 
     virtual Singlet GetConstituentJet() const = 0;
 
     virtual boca::Jet GetJet() const = 0;
+
+    virtual std::vector<boca::Jet> Jets() const = 0;
 
 private:
 
@@ -86,6 +95,8 @@ private:
     Mutable<boca::Singlet> constituent_jet_;
 
     Mutable<boca::Jet> jet_;
+
+    Mutable<boca::EventShapes> event_shapes_;
 
 };
 

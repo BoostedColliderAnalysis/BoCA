@@ -62,6 +62,12 @@ public:
         vector_3_(std::move(vector3)),
         scalar_(t) {}
 
+    template<typename Value_2>
+    LorentzVectorBase(LorentzVectorBase<Value_2> const& lorentz_vector) {
+        vector_3_ = Vector3<Value_2>(lorentz_vector.Vector());
+        scalar_ = Value_2(lorentz_vector.Scalar());
+    }
+
 // Set position and time.
     void SetX(Value x) {
         vector_3_.SetX(x);
@@ -147,6 +153,9 @@ public:
 
 // Get spatial component.
     Vector3<Value> Vect() const {
+        return vector_3_;
+    }
+    Vector3<Value> Vector() const {
         return vector_3_;
     }
 
@@ -251,11 +260,8 @@ public:
         return T() - Z();
     }
 
-    /**
-     * Boost from reference frame into this vector's rest
-     * frame: \f$\frac{\vec{x}}{t}\f$.
-     */
-// Returns the spatial components divided by the time component.
+
+    // Returns the spatial components divided by the time component.
     Vector3<double> BoostVector() const {
         if (T() == Value(0)) {
             if (Rho() > Value(0)) std::cout << "boostVector computed for LorentzVector with t=0 -- infinite result" << std::endl;
@@ -289,6 +295,25 @@ public:
         Boost(b.X(), b.Y(), b.Z());
     }
 
+    // Lorentz boost.
+    LorentzVectorBase<Value> Boosted(double x, double y, double z) const {
+        //Boost this Lorentz vector
+        double b2 = sqr(x) + sqr(y) + sqr(z);
+        double gamma = 1. / std::sqrt(1. - b2);
+        double gamma2 = b2 > 0. ? (gamma - 1.) / b2 : 0.;
+        Value bp = x * X() + y * Y() + z * Z();
+        LorentzVectorBase<Value> lorentz_vector;
+        lorentz_vector.SetX(X() + gamma2 * bp * x + gamma * x * T());
+        lorentz_vector.SetY(Y() + gamma2 * bp * y + gamma * y * T());
+        lorentz_vector.SetZ(Z() + gamma2 * bp * z + gamma * z * T());
+        lorentz_vector.SetT(gamma * (T() + bp));
+        return lorentz_vector;
+    }
+
+    LorentzVectorBase<Value> Boosted(Vector3<double> const& b) const {
+        return Boosted(b.X(), b.Y(), b.Z());
+    }
+
 // Returns the rapidity, i.e. 0.5*ln((E+pz)/(E-pz))
     boca::Angle Rapidity() const {
         //return rapidity
@@ -300,8 +325,8 @@ public:
     boca::Angle Rapidity(Vector3<double> const& ref) const {
         double r = ref.Mag2();
         if (r == 0) {
-          std::cout << "A zero vector used as reference to LorentzVector rapidity" << std::endl;
-          return 0;
+            std::cout << "A zero vector used as reference to LorentzVector rapidity" << std::endl;
+            return 0;
         }
         Value vdotu = Vect().Dot(ref) / std::sqrt(r);
         if (vdotu == Value(0)) return 0_rad;

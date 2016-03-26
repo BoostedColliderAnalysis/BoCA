@@ -542,4 +542,51 @@ private:
     ClassDef(EventBranch, 1)
 };
 
+/**
+ * @brief Event Shape Branch
+ *
+ */
+class EventShapesBranch
+{
+public:
+  EventShapesBranch();
+
+  float Thrust;
+  float ThrustMajor;
+  float ThrustMinor;
+  float Oblateness;
+  float CParameter;
+  float DParameter;
+  float Sphericity;
+  float Aplanarity;
+  float Planarity;
+  float MHigh2;
+  float MLow2;
+  float BMax;
+  float BMin;
+
+  template<typename Multiplet>
+  void Fill(Multiplet const& multiplet) {
+    Thrust = multiplet.EventShapes().Thrust();
+    ThrustMajor = multiplet.EventShapes().ThrustMajor();
+    ThrustMinor = multiplet.EventShapes().ThrustMinor();
+    Oblateness = multiplet.EventShapes().Oblateness();
+    CParameter = multiplet.EventShapes().CParameter();
+    DParameter = multiplet.EventShapes().DParameter();
+    Sphericity = multiplet.EventShapes().Sphericity();
+    Aplanarity = multiplet.EventShapes().Aplanarity();
+    Planarity = multiplet.EventShapes().Planarity();
+    MHigh2 = multiplet.EventShapes().HemisphereMasses().MHigh2();
+    MLow2 = multiplet.EventShapes().HemisphereMasses().MLow2();
+    BMax = multiplet.EventShapes().HemisphereMasses().BMax();
+    BMin = multiplet.EventShapes().HemisphereMasses().BMin();
+  }
+  virtual Observables Variables();
+  virtual Observables Spectators();
+
+private:
+  ClassDef(EventShapesBranch, 1)
+  float InValue();
+};
+
 }

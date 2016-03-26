@@ -9,5 +9,6 @@ Barn.cpp
 ElectronVolt.cpp
 Si.cpp
 Particles.cpp
+Vector3.cpp
 )
 create_library(Physics PhysicsSources)

@@ -32,7 +32,7 @@ protected:
 
     std::string AnalysisName() const override {
         INFO0;
-        return "Single-Hadronic-" + Name(DetectorGeometry::DetectorType()) + "-" + boca::Name(this->Mass()) + "-new-three-body";
+        return "Single-Hadronic-" + Name(DetectorGeometry::DetectorType()) + "-" + boca::Name(this->Mass()) + "-event-shapes";
     }
 
     void SetFiles(Tag tag, Stage)override {

@@ -4,25 +4,10 @@
 #pragma once
 
 #include "multiplets/Multiplet.hh"
-#include "EventShapes.hh"
 #include "multiplets/TwoBody.hh"
 
 namespace boca
 {
-
-template<typename Multiplet_1_, typename Multiplet_2_, typename Multiplet_3_>
-Jet Join(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2, Multiplet_3_ const& multiplet_3)
-{
-    return Join(multiplet_1.Jet(), multiplet_2.Jet(), multiplet_3.Jet());
-}
-
-template<typename Multiplet_1_, typename Multiplet_2_, typename Multiplet_3_>
-boca::Singlet JoinConstituents(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2, Multiplet_3_ const& multiplet_3)
-{
-    auto constituents = SortedByPt(Combine(multiplet_1.Constituents(), multiplet_2.Constituents(), multiplet_3.Constituents()));
-    boost::erase(constituents, boost::unique<boost::return_next_end>(constituents));
-    return Join(constituents);
-}
 
 template <typename Multiplet_1_, typename Multiplet_2_, typename Multiplet_3_>
 class ThreeBody : public Multiplet
@@ -104,12 +89,6 @@ public:
         return Multiplet1().Charge() + Multiplet2().Charge() + Multiplet3().Charge();
     }
 
-    boca::EventShapes EventShapes() const {
-        return event_shapes_.Get([this]() {
-            return boca::EventShapes(Jets());
-        });
-    }
-
     TwoBody<Multiplet_1_, Multiplet_2_> Multiplet12() const {
         return multiplet_12_.Get([this]() {
             return TwoBody<Multiplet_1_, Multiplet_2_>(Multiplet1(), Multiplet2());
@@ -158,8 +137,6 @@ private:
 
     Mutable<TwoBody<Multiplet_1_, Multiplet_3_>> multiplet_13_;
 
-    Mutable<boca::EventShapes> event_shapes_;
-
     double veto_bdt_;
 
     Multiplet_1_ multiplet_1_;
@@ -169,5 +146,19 @@ private:
     Multiplet_3_ multiplet_3_;
 
 };
+
+template<typename Multiplet_1_, typename Multiplet_2_, typename Multiplet_3_>
+Jet Join(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2, Multiplet_3_ const& multiplet_3)
+{
+  return Join(multiplet_1.Jet(), multiplet_2.Jet(), multiplet_3.Jet());
+}
+
+template<typename Multiplet_1_, typename Multiplet_2_, typename Multiplet_3_>
+boca::Singlet JoinConstituents(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2, Multiplet_3_ const& multiplet_3)
+{
+  auto constituents = SortedByPt(Combine(multiplet_1.Constituents(), multiplet_2.Constituents(), multiplet_3.Constituents()));
+  boost::erase(constituents, boost::unique<boost::return_next_end>(constituents));
+  return Join(constituents);
+}
 
 }

@@ -2,6 +2,7 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "SignatureSingleHadronicTagger.hh"
+#include "EventShapesOld.hh"
 // #define INFORMATION
 #include "DEBUG.hh"
 
@@ -48,7 +49,6 @@ std::vector<Decuplet532> SignatureSingleHadronicTagger::Decuplets(Event const& e
             }
         }
     }
-    DEBUG(decuplets.size());
     return decuplets;
 }
 

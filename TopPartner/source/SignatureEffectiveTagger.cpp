@@ -1,5 +1,6 @@
 #include "SignatureEffectiveTagger.hh"
 #include "Exception.hh"
+#include "EventShapesOld.hh"
 #include "plotting/Font.hh"
 #include "DEBUG.hh"
 
@@ -43,17 +44,6 @@ std::vector<Quattuordecuplet554> SignatureEffectiveTagger::Quattuordecuplets(boc
         if (quattuordecuplet.Overlap()) throw Overlap();
         return function(quattuordecuplet);
     });
-    if (!signatures.empty()) {
-        auto a = signatures.front().EventShapes().Thrust();
-        ERROR(a);
-        auto b = signatures.front().EventShapes().Aplanarity();
-        ERROR(b);
-        auto c = signatures.front().EventShapes().MDiff2();
-        ERROR(c);
-        auto d = signatures.front().EventShapes().DParameter();
-        ERROR(d);
-    }
-
     static int sig = 0;
     static int eve = 0;
     ++eve;

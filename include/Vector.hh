@@ -190,10 +190,11 @@ int Position(std::vector<Element_> const& vector, Element_ const& element)
 }
 
 template <typename Element_>
-int Position(std::array<Element_, 3> const& vector, Element_ const& element)
+int Position(std::array<Element_,3> const& vector, Element_ const& element)
 {
   return std::addressof(element) - vector.data();
 }
+
 
 template <typename Element_>
 bool FindInVector(const std::vector<Element_> vector, const Element_ element)

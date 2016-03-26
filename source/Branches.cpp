@@ -245,10 +245,10 @@ SignatureBranch::SignatureBranch()
 
 Observables SignatureBranch::Variables()
 {
-    return ParticleBranch::Variables() + OBSERVABLE(Ht, "H_{T}") + OBSERVABLE(Bdt1, "BDT_{1}") + OBSERVABLE(Bdt2, "BDT_{2}") + OBSERVABLE(Bdt3, "BDT_{3}") + OBSERVABLE(Mass12, "m_{12}") + OBSERVABLE(Mass23, "m_{23}") + OBSERVABLE(Mass13, "m_{13}") + OBSERVABLE(Pt12, "p_{T}^{12}") + OBSERVABLE(Pt23, "p_{T}^{23}") + OBSERVABLE(Pt13, "p_{T}^{13}") + OBSERVABLE(DeltaPt12, "\\Delta p_{T}^{12}") + OBSERVABLE(DeltaPt23, "\\Delta p_{T}^{23}") + OBSERVABLE(DeltaPt13, "\\Delta p_{T}^{13}") + OBSERVABLE(Ht12, "H_{T}^{12}") + OBSERVABLE(Ht23, "H_{T}^{23}") + OBSERVABLE(Ht13, "H_{T}^{13}") + OBSERVABLE(Rho12, "\\rho_{12}") + OBSERVABLE(Rho23, "\\rho_{23}") + OBSERVABLE(Rho13, "\\rho_{13}") + OBSERVABLE(DeltaRap12, "\\Delta\\eta_{12}") + OBSERVABLE(DeltaRap23, "\\Delta\\eta_{23}") + OBSERVABLE(DeltaRap12, "\\Delta\\eta_{12}") + OBSERVABLE(DeltaRap13, "\\Delta\\eta_{13}") + OBSERVABLE(DeltaPhi23, "\\Delta\\phi_{23}") + OBSERVABLE(DeltaPhi13, "\\Delta\\phi_{13}") + OBSERVABLE(DeltaR12, "\\Delta R_{12}") + OBSERVABLE(DeltaR23, "\\Delta R_{23}") + OBSERVABLE(DeltaR13, "\\Delta R_{13}") + OBSERVABLE(DeltaM12, "\\Delta m_{12}") + OBSERVABLE(DeltaM23, "\\Delta m_{23}") + OBSERVABLE(DeltaM13, "\\Delta m_{13}") + OBSERVABLE(DeltaHt12, "\\Delta H_{T}^{12}") + OBSERVABLE(DeltaHt23, "\\Delta H_{T}^{23}") + OBSERVABLE(DeltaHt13, "\\Delta H_{T}^{13}") + OBSERVABLE(Pull23, "#theta_{23}") + OBSERVABLE(Pull13, "#theta_{13}") + OBSERVABLE(Pull32, "#theta_{32}") + OBSERVABLE(Pull31, "#theta_{31}") /*+ OBSERVABLE(Dipolarity23, "D_{23}") + OBSERVABLE(Dipolarity13, "D_{13}")*/ + OBSERVABLE(Aplanarity, "#slashed{P}") + OBSERVABLE(Sphericity, "S");
+    return ParticleBranch::Variables() + OBSERVABLE(Ht, "H_{T}") + OBSERVABLE(Bdt1, "BDT_{1}") + OBSERVABLE(Bdt2, "BDT_{2}") + OBSERVABLE(Bdt3, "BDT_{3}") + OBSERVABLE(Mass12, "m_{12}") + OBSERVABLE(Mass23, "m_{23}") + OBSERVABLE(Mass13, "m_{13}") + OBSERVABLE(Pt12, "p_{T}^{12}") + OBSERVABLE(Pt23, "p_{T}^{23}") + OBSERVABLE(Pt13, "p_{T}^{13}") + OBSERVABLE(DeltaPt12, "\\Delta p_{T}^{12}") + OBSERVABLE(DeltaPt23, "\\Delta p_{T}^{23}") + OBSERVABLE(DeltaPt13, "\\Delta p_{T}^{13}") + OBSERVABLE(Ht12, "H_{T}^{12}") + OBSERVABLE(Ht23, "H_{T}^{23}") + OBSERVABLE(Ht13, "H_{T}^{13}") + OBSERVABLE(Rho12, "\\rho_{12}") + OBSERVABLE(Rho23, "\\rho_{23}") + OBSERVABLE(Rho13, "\\rho_{13}") + OBSERVABLE(DeltaRap12, "\\Delta\\eta_{12}") + OBSERVABLE(DeltaRap23, "\\Delta\\eta_{23}") + OBSERVABLE(DeltaRap13, "\\Delta\\eta_{13}") + OBSERVABLE(DeltaPhi12, "\\Delta\\phi_{12}") + OBSERVABLE(DeltaPhi23, "\\Delta\\phi_{23}") + OBSERVABLE(DeltaPhi13, "\\Delta\\phi_{13}") + OBSERVABLE(DeltaR12, "\\Delta R_{12}") + OBSERVABLE(DeltaR23, "\\Delta R_{23}") + OBSERVABLE(DeltaR13, "\\Delta R_{13}") + OBSERVABLE(DeltaM12, "\\Delta m_{12}") + OBSERVABLE(DeltaM23, "\\Delta m_{23}") + OBSERVABLE(DeltaM13, "\\Delta m_{13}") + OBSERVABLE(DeltaHt12, "\\Delta H_{T}^{12}") + OBSERVABLE(DeltaHt23, "\\Delta H_{T}^{23}") + OBSERVABLE(DeltaHt13, "\\Delta H_{T}^{13}") + OBSERVABLE(Pull23, "#theta_{23}") + OBSERVABLE(Pull13, "#theta_{13}") + OBSERVABLE(Pull32, "#theta_{32}") + OBSERVABLE(Pull31, "#theta_{31}") /*+ OBSERVABLE(Dipolarity23, "D_{23}") + OBSERVABLE(Dipolarity13, "D_{13}")*/ /*+ OBSERVABLE(Aplanarity, "#slashed{P}") + OBSERVABLE(Sphericity, "S")*/;
 }
 
-        JetPairBranch::JetPairBranch()
+JetPairBranch::JetPairBranch()
 {
 //     DeltaM = InitialValue();
     Jet1Mass = InitialValue();
@@ -363,6 +363,38 @@ EventBranch::EventBranch()
 Observables EventBranch::Variables()
 {
     return MultiBranch::Variables() + OBSERVABLE(LeptonNumber, "#l") + OBSERVABLE(BottomNumber, "#b") + OBSERVABLE(JetNumber, "#j") + OBSERVABLE(MissingEt, "E_{T}^{miss}") + OBSERVABLE(ScalarHt, "H_{T}^{scalar}") + OBSERVABLE(LeptonHt, "H_{T}^{l}") + OBSERVABLE(JetMass, "m_{j}") + OBSERVABLE(JetPt, "p_{T}^{j}") + OBSERVABLE(JetHt, "H_{T}^{j}") + OBSERVABLE(JetRap, "\\eta_{j}") + OBSERVABLE(JetPhi, "\\phi_{j}");
+}
+
+float EventShapesBranch::InValue()
+{
+    return BaseBranch::InitialValue();
+}
+
+EventShapesBranch::EventShapesBranch()
+{
+    Thrust = InValue();
+    ThrustMajor = InValue();
+    ThrustMinor = InValue();
+    Oblateness = InValue();
+    CParameter = InValue();
+    DParameter = InValue();
+    Sphericity = InValue();
+    Aplanarity = InValue();
+    Planarity = InValue();
+    MHigh2 = InValue();
+    MLow2 = InValue();
+    BMax = InValue();
+    BMin = InValue();
+}
+
+Observables EventShapesBranch::Variables()
+{
+    return OBSERVABLE(Thrust, "T") + OBSERVABLE(ThrustMajor, "T_{maj}") + OBSERVABLE(ThrustMinor, "T_{min}") + OBSERVABLE(Oblateness, "O") + OBSERVABLE(CParameter, "C") + OBSERVABLE(DParameter, "D") + OBSERVABLE(Sphericity, "S") + OBSERVABLE(Aplanarity, "#slash P") + OBSERVABLE(Planarity, "P") + OBSERVABLE(MHigh2, "M_{max}") + OBSERVABLE(MLow2, "M_{min}") + OBSERVABLE(BMax, "B_{max}") + OBSERVABLE(BMin, "B_{min}");
+}
+
+Observables EventShapesBranch::Spectators()
+{
+    return {};
 }
 
 }

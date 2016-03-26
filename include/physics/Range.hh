@@ -20,36 +20,43 @@ public:
     Range(Value min, Value max) :
         min_(min),
         max_(max) {
-        CheckHierachy();
+        ImposeHierachy();
     }
 
     template<typename Value_2>
     Range(Value_2 min, Value_2 max) :
         min_(Value(min)),
         max_(Value(max)) {
-        CheckHierachy();
+        ImposeHierachy();
+    }
+
+    template<typename Value_2>
+    Range(Range<Value_2> const& range) :
+        min_(Value(range.Min())),
+        max_(Value(range.Max())) {
+        ImposeHierachy();
     }
 
     void SetMin(Value min) {
         min_ = min;
-        CheckHierachy();
+        ImposeHierachy();
     }
 
     void SetMax(Value max) {
         max_ = max;
-        CheckHierachy();
+        ImposeHierachy();
     }
 
     void Set(Value min, Value max) {
         min_ = min;
         max_ = max;
-        CheckHierachy();
+        ImposeHierachy();
     }
 
     void Set(std::pair<Value, Value> const pair) {
         min_ = pair.first;
         max_ = pair.second;
-        CheckHierachy();
+        ImposeHierachy();
     }
 
     void Widen(Range<Value> const& bound) {
@@ -103,11 +110,14 @@ public:
         return max_ - min_;
     }
 
+    Value Sum() const {
+        return max_ + min_;
+    }
+
     operator bool() const {
         return min_ != InitialMin() && max_ != InitialMax();
     }
 
-    //FIXME why is the return dimension for quantities not correct?
     template<typename Value2>
     friend Range<ValueQuotient<Value, Value2>> operator/(Range const& range, Value2 const& scalar) {
         return {range.Min() / scalar, range.Max() / scalar};
@@ -119,8 +129,8 @@ public:
     }
 
 private:
-    void CheckHierachy() {
-        if (min_ != InitialMin() && max_ != InitialMax() && min_ > max_) std::cout << "Minimal value: " << min_ << " is greater than maximal value: " << max_ << std::endl;
+    void ImposeHierachy() {
+        if (min_ != InitialMin() && max_ != InitialMax() && min_ > max_) std::swap(min_, max_);
     }
     Value InitialMin() const {
         return std::numeric_limits<Value>::max();

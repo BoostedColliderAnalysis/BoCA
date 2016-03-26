@@ -66,7 +66,7 @@ private:
     ClassDef(SignatureSingleBranch, 1)
 };
 
-class SignatureSingleHadronicBranch : public SignatureBranch
+class SignatureSingleHadronicBranch : public SignatureBranch, public EventShapesBranch
 {
 public:
     SignatureSingleHadronicBranch();
@@ -76,11 +76,13 @@ public:
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         SignatureBranch::Fill(multiplet);
+        EventShapesBranch::Fill(multiplet);
         VetoBdt = multiplet.VetoBdt();
         TopPt = multiplet.Triplet().Pt() / GeV;
         HiggsPt = multiplet.Doublet().Pt() / GeV;
     }
     Observables Variables();
+    Observables Spectators();
 private:
     ClassDef(SignatureSingleHadronicBranch, 1)
 };

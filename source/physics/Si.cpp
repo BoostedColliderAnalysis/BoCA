@@ -31,20 +31,30 @@ Angle to_angle(double angle)
     return double(angle) * rad;
 }
 
+Angle Pi()
+{
+    return boost::math::constants::pi<double>() * rad;
+}
+
+Angle TwoPi()
+{
+    return 2. * Pi();
+}
+
 Angle RestrictPhi(Angle phi)
 {
     if (std::isnan(phi.value())) {
         ERROR("function called with NaN");
         return phi;
     }
-    while (phi >= boost::math::constants::pi<double>() * rad) phi -= boost::math::constants::pi<double>() * 2_rad;
-    while (phi < -boost::math::constants::pi<double>() * rad) phi += boost::math::constants::pi<double>() * 2_rad;
+    while (phi >= Pi()) phi -= TwoPi();
+    while (phi < -Pi()) phi += TwoPi();
     return phi;
 }
 
 Angle Wrap(Angle phi)
 {
-    phi -= sgn(phi) * boost::math::constants::pi<double>() * 2_rad;
+    phi -= double(sgn(phi)) * TwoPi();
     return phi;
 }
 

@@ -13,7 +13,8 @@ create_dictionary(Names Names.cpp ../include/LinkDef.hh)
 
 set(vector_sources
 EventShapes.cpp
-# EventShape.cpp
+EventShapesOld.cpp
+HemisphereMasses.cpp
 PseudoJet.cpp
 Jet.cpp
 Particle.cpp

@@ -14,15 +14,22 @@
 
 #include <iostream>
 
-// class TVector3;
-// #include "TVector3.h"
-// #include "TRotation.h"
-
 #include "TVector3.h"
 #include "physics/Vector2.hh"
 
 namespace boca
 {
+
+enum class Dimension3
+{
+    x,
+    y,
+    z
+};
+
+std::string Name(Dimension3 dimension);
+
+std::vector<Dimension3> Dimensions3();
 
 /**
  * @brief Copy of root::TVector3 in order to get rid of TObject
@@ -57,20 +64,20 @@ public:
     Vector3(Value x, Value y, Value z) : x_(x), y_(y), z_(z) {};
 
     // Constructor
+    template<typename Value_2>
+    Vector3(Vector3<Value_2> const& vector) {
+        x_ = Value(vector.X());
+        y_ = Value(vector.Y());
+        z_ = Value(vector.Z());
+    }
+
+    // Constructor
     Vector3(TVector3 const& vector) {
 //         std::cout << "must be double" << std::endl;
 //         std::cout << "vector not initiliazed" << std::endl;
         x_ = vector.X();
         y_ = vector.Y();
         z_ = vector.Z();
-    }
-
-    // Constructor
-    template<typename Value_2>
-    Vector3(Vector3<Value_2> const& vector) {
-      x_ = Value(vector.X());
-      y_ = Value(vector.Y());
-      z_ = Value(vector.Z());
     }
 
     void SetX(Value x) {
@@ -91,13 +98,13 @@ public:
         z_ = z;
     }
 
-        //set Pt, Eta and Phi
+    //set Pt, Eta and Phi
     void SetPtEtaPhi(Value pt, boca::Angle eta, boca::Angle phi) {
         Value apt = abs(pt);
         SetXYZ(apt * boost::units::cos(phi), apt * boost::units::sin(phi), apt / boost::units::tan(2.0 * boost::units::atan(units::exp(-eta))));
     }
 
-        //set Pt, Theta and Phi
+    //set Pt, Theta and Phi
     void SetPtThetaPhi(Value pt, boca::Angle theta, boca::Angle phi) {
         x_ = pt * boost::units::cos(phi);
         y_ = pt * boost::units::sin(phi);
@@ -367,18 +374,18 @@ public:
 
 //     void Rotate(boca::Angle angle, const Vector3& axis) {
 //         //rotate vector
-//         TRotation trans;
+//         Matrix3<Value> trans;
 //         trans.Rotate(angle, axis);
 //         operator*=(trans);
 //     }
     // Rotates around the axis specified by another Hep3Vector.
 
-//     Vector3& operator*=(const TRotation& m) {
+//     Vector3& operator*=(const Matrix3<Value>& m) {
 //         //multiplication operator
 //         return *this = m *(*this);
 //     }
 
-//     Vector3& Transform(const TRotation& m) {
+//     Vector3& Transform(const Matrix3<Value>& m) {
 //         //transform this vector with a Rotation
 //         return *this = m *(*this);
 //     }
@@ -504,6 +511,38 @@ public:
 
     Value& operator[](int i) {
         return operator()(i);
+    }
+
+    // Get components by index
+    Value operator()(Dimension3 dimension) const {
+        //dereferencing operator const
+        switch (dimension) {
+        case Dimension3::x : return x_;
+        case Dimension3::y : return y_;
+        case Dimension3::z : return z_;
+        default : std::cout << "bad index(%d) returning 0 " << Name(dimension) << std::endl;
+            return 0;
+        }
+    }
+
+    Value operator[](Dimension3 dimension) const {
+        return operator()(dimension);
+    }
+
+    // Set components by index.
+    Value& operator()(Dimension3 dimension) {
+        //dereferencing operator
+        switch (dimension) {
+        case Dimension3::x : return x_;
+        case Dimension3::y : return y_;
+        case Dimension3::z : return z_;
+        default : std::cout << "bad index(%d) returning &x_" <<  Name(dimension) << std::endl;
+        }
+        return x_;
+    }
+
+    Value& operator[](Dimension3 dimension) {
+        return operator()(dimension);
     }
 
     // Comparisons
