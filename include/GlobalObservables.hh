@@ -63,6 +63,8 @@ public:
 
     std::vector<boca::Jet> Constituents() const;
 
+    std::vector<LorentzVector<Momentum>> LorentzVectors() const;
+
 private:
 
     std::vector<boca::Jet> jets_;

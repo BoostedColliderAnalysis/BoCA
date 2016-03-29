@@ -46,7 +46,7 @@ std::string LatexName(Process process)
     case Process::gg : return Formula("g");
     case Process::hh : return Formula("h");
     case Process::hh_bb : return Formula("h#lbar_{b}");
-    case Process::ww : return Formula("W^{\\pm}");
+    case Process::ww : return Formula("W^{#pm}");
     case Process::zz : return Formula("Z");
     case Process::zz_bb : return Formula("Z#lbar_{b}");
     case Process::tt_had : return Formula("t_{h}");

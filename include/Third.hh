@@ -50,7 +50,7 @@ public:
 
     void Increment(int number) {
         EventNumber() += core_sum_;
-        BranchWriter().Increment(number);
+        if(number > 0) BranchWriter().Increment(number);
     }
 
     bool KeepGoing(int number) {

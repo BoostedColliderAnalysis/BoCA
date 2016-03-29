@@ -18,6 +18,19 @@
 namespace boca
 {
 
+// Safe indexing of the coordinates when using with matrices, arrays, etc.
+enum class LorentzDimension
+{
+    t,
+    x,
+    y,
+    z,
+};
+
+std::string Name(LorentzDimension dimension);
+
+std::vector<LorentzDimension> LorentzDimensions();
+
 /**
  * @brief Copy of root::TLorentzVector in order to get rid of TObject which makes it unsuitable for heavy usage
  *
@@ -44,9 +57,6 @@ public:
 
     template<typename Value_2>
     using OnlyIfNotQuantity = typename std::enable_if < !IsQuantity<Value_2>::value >::type;
-
-// Safe indexing of the coordinates when using with matrices, arrays, etc.
-    enum { kX = 0, kY = 1, kZ = 2, kT = 3, kNUM_COORDINATES = 4, kSIZE = kNUM_COORDINATES };
 
     LorentzVectorBase() :
         vector_3_(),
@@ -125,16 +135,16 @@ public:
     }
 
 // Get position and time.
-    Value const& X() const {
+    Value X() const {
         return vector_3_.X();
     }
-    Value const& Y() const {
+    Value Y() const {
         return vector_3_.Y();
     }
-    Value const& Z() const {
+    Value Z() const {
         return vector_3_.Z();
     }
-    Value const& T() const {
+    Value T() const {
         return scalar_;
     }
 
@@ -384,42 +394,87 @@ public:
         ;
     }
 
-    //     ValueSqr operator*(LorentzVectorBase const& q) const {
-    //         return Dot(q);
-    //     }
+    // Get components by index.
+    Value operator()(LorentzDimension i) const {
+        //dereferencing operatorconst
+        switch (i) {
+        case LorentzDimension::x : return vector_3_(Dimension3::x);
+        case LorentzDimension::y : return vector_3_(Dimension3::y);
+        case LorentzDimension::z : return vector_3_(Dimension3::z);
+        case LorentzDimension::t : return scalar_;
+        default: std::cout << "bad index(%d) returning 0 " << Name(i) << std::endl;
+        }
+        return Value(0);
+    }
 
-//     // Get components by index.
-//     Value operator()(int i) const {
-//         //dereferencing operatorconst
-//         switch (i) {
-//         case kX:
-//         case kY:
-//         case kZ: return vector_3_(i);
-//         case kT: return scalar_;
-//         default: std::cout << "bad index(%d) returning 0 " << i << std::endl;
-//         }
-//         return Value(0);
-//     }
-//     Value operator[](int i) const {
-//         return (*this)(i);
-//     }
-//
-//     // Set components by index.
-//     Value& operator()(int i) {
-//         //dereferencing operator
-//         switch (i) {
-//         case kX:
-//         case kY:
-//         case kZ: return vector_3_(i);
-//         case kT: return scalar_;
-//         default:  std::cout << "bad index(%d) returning &e_ " << i << std::endl;
-//         }
-//         return scalar_;
-//     }
-//
-//     Value& operator[](int i) {
-//         return (*this)(i);
-//     }
+    Value operator[](LorentzDimension i) const {
+        return (*this)(i);
+    }
+
+    // Get components by index.
+    Value operator()(int i) const {
+        //dereferencing operatorconst
+        switch (i) {
+        case 0 : ;
+        case 1 : ;
+        case 2 : return vector_3_(i);
+        case 3 : return scalar_;
+        default: std::cout << "bad index(%d) returning 0 " << i << std::endl;
+        }
+        return Value(0);
+    }
+    Value operator[](int i) const {
+        return (*this)(i);
+    }
+
+    // Set components by index.
+    Value& operator()(Dimension3 i) {
+        //dereferencing operator
+        switch (i) {
+        case LorentzDimension::x : return vector_3_(Dimension3::x);
+        case LorentzDimension::y : return vector_3_(Dimension3::y);
+        case LorentzDimension::z : return vector_3_(Dimension3::z);
+        case LorentzDimension::t : return scalar_;
+        default:  std::cout << "bad index(%d) returning &e_ " << Name(i) << std::endl;
+        }
+        return scalar_;
+    }
+
+    Value& operator[](Dimension3 i) {
+        return (*this)(i);
+    }
+
+    Value& operator()(int i) {
+        //dereferencing operator
+        switch (i) {
+        case 0 : ;
+        case 1 : ;
+        case 2 : return vector_3_(i);
+        case 3 : return scalar_;
+        default:  std::cout << "bad index(%d) returning &e_ " << i << std::endl;
+        }
+        return scalar_;
+    }
+
+    Value& operator[](int i) {
+        return (*this)(i);
+    }
+
+    ConstIterator<Vector3, Value> begin() const {
+      return {this, 0};
+    }
+
+    ConstIterator<Vector3, Value> end() const {
+      return {this, 3};
+    }
+
+    Iterator<Vector3, Value> begin() {
+      return {this, 0};
+    }
+
+    Iterator<Vector3, Value> end() {
+      return {this, 3};
+    }
 
     // Additions.
     template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
@@ -457,11 +512,6 @@ public:
     LorentzVectorBase operator-() const {
         return { -X(), -Y(), -Z(), -T()};
     }
-
-    // Scaling with real numbers.
-    //     LorentzVectorBase operator*(Value a) const {
-    //         return {a * X(), a * Y(), a * Z(), a * T()};
-    //     }
 
     template <typename Value_2, typename = OnlyIfNotQuantity<Value_2>>
     LorentzVectorBase& operator*=(Value_2 scalar) {

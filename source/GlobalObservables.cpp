@@ -158,6 +158,10 @@ std::vector< Jet > GlobalObservables::Constituents() const
 {
     return ConstituentJet().Constituents();
 }
+std::vector< LorentzVector< Momentum > > GlobalObservables::LorentzVectors() const
+{
+    return {};
+}
 
 
 }

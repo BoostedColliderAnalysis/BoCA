@@ -68,25 +68,25 @@ Momentum DetectorGeometry::JetMinPt()
 Angle DetectorGeometry::JetConeSize()
 {
     switch (DetectorType()) {
-    case boca::DetectorType::CMS : return 0.4_rad;
-    case boca::DetectorType::Spp : return 0.4_rad;
-        DEFAULT(Name(DetectorType()), 0.5_rad);
+    case boca::DetectorType::CMS : return 400_mrad;
+    case boca::DetectorType::Spp : return 400_mrad;
+        DEFAULT(Name(DetectorType()), 500_mrad);
     }
 }
 
 Angle DetectorGeometry::OverlapConeSize()
 {
-    return 0.2_rad;
+    return 200_mrad;
 }
 
 Momentum DetectorGeometry::MinCellPt()
 {
-    return .5_GeV;
+    return 500_MeV;
 }
 
 Angle DetectorGeometry::MinCellResolution()
 {
-    return .1_rad;
+    return 100_mrad;
 }
 
 Angle DetectorGeometry::TrackerEtaMax()
@@ -116,7 +116,7 @@ fastjet::JetDefinition DetectorGeometry::SubJetDefinition()
 
 Length DetectorGeometry::TrackerDistanceMin()
 {
-    return 0.1_mm;
+    return 100_um;
 }
 
 Length DetectorGeometry::TrackerDistanceMax()
@@ -126,7 +126,7 @@ Length DetectorGeometry::TrackerDistanceMax()
 
 Mass DetectorGeometry::VertexMassMin()
 {
-    return 0.1_GeV;
+    return 100_MeV;
 }
 
 Momentum DetectorGeometry::LeptonMinPt()
@@ -163,7 +163,7 @@ boca::JetType DetectorGeometry::JetType()
 
 Angle DetectorGeometry::IsolationConeSize()
 {
-    return 0.3_rad;
+    return 300_mrad;
 }
 
 Momentum DetectorGeometry::HardLeptonMomentum()
@@ -177,7 +177,7 @@ Momentum DetectorGeometry::HardLeptonMomentum()
 
 double DetectorGeometry::IsolationFraction()
 {
-    return 1;
+    return 0.3;
 }
 
 Momentum DetectorGeometry::ForwardJetPt()

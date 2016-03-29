@@ -15,7 +15,7 @@
 #include "Jet.hh"
 #include "Mutable.hh"
 #include "HemisphereMasses.hh"
-#include "EventShape.hh"
+#include "GradedVector.hh"
 #include "physics/Matrix3.hh"
 
 namespace boca
@@ -39,6 +39,10 @@ public:
      * The constructor accepting jets.
      */
     EventShapes(std::vector<Jet> const& jets);
+    /**
+     * The constructor accepting lorentz vectors.
+     */
+    EventShapes(std::vector<LorentzVector<Momentum>> const& lorentz_vectors);
     /**
     * Thrust related event shapes
     */
@@ -209,15 +213,15 @@ private:
     /**
     * Accessor for the thrust related variables
     */
-    Vector<EventShape<double>> Thrusts() const;
+    Vector<GradedVector<double>> Thrusts() const;
     /**
     * Accessor for the linear tensor related variables
     */
-    Vector<EventShape<double>> LinearTensors() const;
+    Vector<GradedVector<double>> LinearTensors() const;
     /**
     * Accessor for the quadratic tensor related variables
     */
-    Vector<EventShape<double>> SphericalTensors() const;
+    Vector<GradedVector<double>> SphericalTensors() const;
     //@}
     /**
     * Methods that actually calculate the event shapes
@@ -230,38 +234,31 @@ private:
     /**
     * Calculate the thrust and related axes
     */
-    Vector<EventShape<double>> GetThrusts() const;
+    Vector<GradedVector<double>> GetThrusts() const;
     /**
      * Calculate the thrust and related axes for less than two jets
      */
-    Vector<EventShape<double>> GetThrusts1() const;
+    Vector<GradedVector<double>> GetThrusts1() const;
     /**
      * Calculate the thrust and related axes for two jets
      */
-    Vector<EventShape<double>> GetThrusts2() const;
+    Vector<GradedVector<double>> GetThrusts2() const;
     /**
      * Calculate the thrust and related axes for three jets
      */
-    Vector<EventShape<double>> GetThrusts3() const;
+    Vector<GradedVector<double>> GetThrusts3() const;
     /**
      * Calculate the thrust and related axes for more than three jets
      */
-    Vector<EventShape<double>> GetThrusts4() const;
-    /**
-    * Diagonalize the tensors @param linear switch between
-    * diagonalization of linear/quadratic tensor.
-    */
-//     Vector<EventShape<double>> DiagonalizeTensors(bool linear) const;
-//     Vector<EventShape<double>> DiagonalizeLinearTensors() const;
-//     Vector<EventShape<double>> DiagonalizeSphericalTensors() const;
+    Vector<GradedVector<double>> GetThrusts4() const;
     /**
      * Diagonalize the linear tensors
      */
-    Vector<EventShape<double>> DiagonalizeLinearTensors() const;
+    Vector<GradedVector<double>> DiagonalizeLinearTensors() const;
     /**
      * Diagonalize the quadratic tensor
      */
-    Vector<EventShape<double>> DiagonalizeSphericalTensors() const;
+    Vector<GradedVector<double>> DiagonalizeSphericalTensors() const;
     /**
     * Quite general diagonalization of a symmetric @param matrix, given as an
     * array of doubles. The symmetry is not checked explicitly as this
@@ -273,7 +270,7 @@ private:
     /**
      * The eigensystem of @param matrix
      */
-    Vector<EventShape<double>> EigenSystem(Matrix3<double> const& matrix) const;
+    Vector<GradedVector<double>> EigenSystem(Matrix3<double> const& matrix) const;
     /**
      * The eigenvector of @param matrix to a given eigenvalue @param eigenvalue
     */
@@ -288,12 +285,12 @@ private:
     * Calculate the thrust
     * @param vectors The three vectors
     */
-    EventShape<Momentum> Thrust(std::vector<Vector3<Momentum>> const& vectors) const;
+    GradedVector<Momentum> Thrust(std::vector<Vector3<Momentum>> const& vectors) const;
     /**
     * Calculate the major
     * @param vectors The three vectors
     */
-    EventShape<Momentum> Major(std::vector<Vector3<Momentum>> const& vectors) const;
+    GradedVector<Momentum> Major(std::vector<Vector3<Momentum>> const& vectors) const;
     //@}
     /**
      * @brief Accessor for all vecor of LorentzVectors
@@ -310,15 +307,15 @@ private:
      */
     Momentum ScalarMomentum() const;
     /**
-    * Vector of particle momenta to be analysed
+    * Vector of particle 4 momenta to be analysed
     */
     std::vector<LorentzVector<Momentum>> lorentz_vectors_;
 
-    std::vector<Vector3<Momentum>> vectors_;
     /**
-     * Whether ot not to boost to the CMS frame for the tensor diagonalizations
+     * Vector of particle 3 momenta to be analysed
      */
-    bool use_cm_boost_ = true;
+    std::vector<Vector3<Momentum>> vectors_;
+
     /**
      * Various event shapes
      */
@@ -326,15 +323,15 @@ private:
     /**
      * The thrust related axes
      */
-    Mutable<Vector<EventShape<double>>> thrusts_;
+    Mutable<Vector<GradedVector<double>>> thrusts_;
     /**
      * The sphericity related axes
      */
-    Mutable<Vector<EventShape<double>>> spherical_tensors_;
+    Mutable<Vector<GradedVector<double>>> spherical_tensors_;
     /**
      * The linearised tensor axes
      */
-    Mutable<Vector<EventShape<double>>> linear_tensors_;
+    Mutable<Vector<GradedVector<double>>> linear_tensors_;
     //@}
     /**
      * The hemisphere masses

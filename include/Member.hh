@@ -28,7 +28,7 @@ public:
 
     Member(TLorentzVector const& momentum, int id, int position);
 
-    LorentzVector<boca::Momentum>  const& Momentum() const;
+    LorentzVector<boca::Momentum> Momentum() const;
 
     int Position() const;
 

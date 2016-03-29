@@ -8,6 +8,7 @@
 // #include "boost/filesystem.hpp"
 
 #include "File.hh"
+#include "Types.hh"
 #include "AnalysisBase.hh"
 #include "plotting/Plotting.hh"
 #include "Event.hh"

@@ -107,6 +107,10 @@ public:
         });
     }
 
+    std::vector<boca::LorentzVector<Momentum>> LorentzVectors() const {
+        return Combine(Multiplet1().LorentzVectors(), Multiplet2().LorentzVectors(), Multiplet3().LorentzVectors()) ;
+    }
+
 protected:
 
     void SetMultiplet1(Multiplet_1_ const& multiplet_1) {
@@ -150,15 +154,15 @@ private:
 template<typename Multiplet_1_, typename Multiplet_2_, typename Multiplet_3_>
 Jet Join(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2, Multiplet_3_ const& multiplet_3)
 {
-  return Join(multiplet_1.Jet(), multiplet_2.Jet(), multiplet_3.Jet());
+    return Join(multiplet_1.Jet(), multiplet_2.Jet(), multiplet_3.Jet());
 }
 
 template<typename Multiplet_1_, typename Multiplet_2_, typename Multiplet_3_>
 boca::Singlet JoinConstituents(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2, Multiplet_3_ const& multiplet_3)
 {
-  auto constituents = SortedByPt(Combine(multiplet_1.Constituents(), multiplet_2.Constituents(), multiplet_3.Constituents()));
-  boost::erase(constituents, boost::unique<boost::return_next_end>(constituents));
-  return Join(constituents);
+    auto constituents = SortedByPt(Combine(multiplet_1.Constituents(), multiplet_2.Constituents(), multiplet_3.Constituents()));
+    boost::erase(constituents, boost::unique<boost::return_next_end>(constituents));
+    return Join(constituents);
 }
 
 }

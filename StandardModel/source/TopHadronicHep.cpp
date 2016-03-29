@@ -12,6 +12,7 @@
 #include "delphes/Hadrons.hh"
 #include "HEPTopTagger.hh"
 #include "Exception.hh"
+#include "Event.hh"
 #include "plotting/Font.hh"
 // #define DEBUGGING
 #include "DEBUG.hh"
@@ -82,17 +83,19 @@ std::vector<Triplet> TopHadronicHep::Triplets(Event const& event, PreCuts const&
     INFO0;
     std::vector<Jet> jets = static_cast<delphes::Hadrons const&>(event.Hadrons()).EFlow(JetDetail::structure | JetDetail::isolation);
     if (jets.empty()) return {};
-//     ERROR(jets.size(),pre_cuts.JetConeMax(Id::top));
-    if(jets.size() == 306) return {}; /// FIXME remove this nasty hack which seems to be necissary for a specific gluon file
+    INFO(jets.size(), pre_cuts.JetConeMax(Id::top));
+//     if(jets.size() == 209 || jets.size() == 115) return {}; /// FIXME remove this nasty hack which seems to be necessary for a specific gluon file
     boca::ClusterSequence cluster_sequence(jets, DetectorGeometry::JetDefinition(pre_cuts.JetConeMax(Id::top)));
     jets = SortedByPt(cluster_sequence.InclusiveJets(pre_cuts.PtLowerCut().Get(Id::top)));
+    INFO(jets.size());
     std::vector<Triplet> triplets;
     for (auto const & jet : jets) {
         HEPTopTagger top_tagger(cluster_sequence.Get(), jet, MassOf(Id::top) / GeV, MassOf(Id::W) / GeV);
         top_tagger.set_top_range((MassOf(Id::top) - top_mass_window_) / GeV, (MassOf(Id::top) + top_mass_window_) / GeV);
         top_tagger.run_tagger();
-        if (top_tagger.top_subjets().size() < 3) continue;
-        Triplet triplet(Doublet(top_tagger.top_subjets().at(1), top_tagger.top_subjets().at(2)), top_tagger.top_subjets().at(0));
+        std::vector<Jet> sub_jets = JetVector(top_tagger.top_subjets());
+        if (sub_jets.size() < 3) continue;
+        Triplet triplet(Doublet(sub_jets.at(1), sub_jets.at(2)), sub_jets.at(0));
         DEBUG(triplet.Mass());
         try {
             triplet = function(triplet);

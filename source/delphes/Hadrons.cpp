@@ -9,6 +9,7 @@
 
 #include "ClusterSequence.hh"
 #include "Vector.hh"
+#include "Types.hh"
 #include "Sort.hh"
 #include "Exception.hh"
 // #define DEBUGGING

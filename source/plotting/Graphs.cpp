@@ -77,9 +77,10 @@ void Graphs::SetXAxis(std::string const& title, boca::Range<double> const& range
     multi_graph_.GetXaxis()->SetLimits(range_.Horizontal().Floor(), range_.Horizontal().Ceil());
 }
 
-void Graphs::SetYAxis(std::string const& title, boca::Range<double> const&)
+void Graphs::SetYAxis(std::string const& title, boca::Range<double> const& range)
 {
     INFO(title);
+    range_.WidenY(range);
 //     if (range) {
 //         range_.SetY(range);
 //         range_.ResetX();

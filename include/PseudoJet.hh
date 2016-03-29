@@ -4,12 +4,15 @@
 #pragma once
 
 #include "fastjet/PseudoJet.hh"
-#include "physics/LorentzVector.hh"
+#include "physics/Vector2.hh"
 
 class TLorentzVector;
 
 namespace boca
 {
+
+template<typename Value_>
+class LorentzVector;
 
 class PseudoJet : public fastjet::PseudoJet
 {

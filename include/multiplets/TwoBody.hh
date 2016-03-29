@@ -173,6 +173,10 @@ public:
         multiplet_2_ = multiplet_2;
     }
 
+    std::vector<LorentzVector<Momentum>> LorentzVectors() const {
+      return DeltaR() > DetectorGeometry::JetConeSize() ? Combine(Multiplet1().LorentzVectors(), Multiplet2().LorentzVectors()) : std::vector<LorentzVector<Momentum>>{Jet().Vector()};
+    }
+
 protected:
 
     void SetMultiplet1(Multiplet_1_ const& multiplet_1) {

@@ -4,6 +4,6 @@
 namespace boca
 {
 
-  std::mutex ReaderBase::mutex_;
+//   std::mutex ReaderBase::mutex_;
 
 }

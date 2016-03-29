@@ -179,7 +179,7 @@ std::string WHadronicTagger::Name() const
 
 std::string WHadronicTagger::LatexName() const
 {
-    return Formula("W_{h}^{\\pm}");
+    return Formula("W_{h}^{#pm}");
 }
 
 }

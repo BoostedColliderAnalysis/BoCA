@@ -190,9 +190,9 @@ int Position(std::vector<Element_> const& vector, Element_ const& element)
 }
 
 template <typename Element_>
-int Position(std::array<Element_,3> const& vector, Element_ const& element)
+int Position(std::array<Element_, 3> const& vector, Element_ const& element)
 {
-  return std::addressof(element) - vector.data();
+    return std::addressof(element) - vector.data();
 }
 
 
@@ -219,8 +219,8 @@ std::vector<Element_> Combine(std::vector<Element_> const& vector_1, std::vector
 {
     std::vector<Element_> combined;
     combined.reserve(vector_1.size() + vector_2.size());
-    combined.insert(combined.end(), vector_1.begin(), vector_1.end());
-    combined.insert(combined.end(), vector_2.begin(), vector_2.end());
+    if (!vector_1.empty()) combined.insert(combined.end(), vector_1.begin(), vector_1.end());
+    if (!vector_2.empty()) combined.insert(combined.end(), vector_2.begin(), vector_2.end());
     return combined;
 }
 
@@ -233,9 +233,9 @@ std::vector<Element_> Combine(std::vector<Element_> const& vector_1, std::vector
 {
     std::vector<Element_> combined;
     combined.reserve(vector_1.size() + vector_2.size() + vector_3.size());
-    combined.insert(combined.end(), vector_1.begin(), vector_1.end());
-    combined.insert(combined.end(), vector_2.begin(), vector_2.end());
-    combined.insert(combined.end(), vector_3.begin(), vector_3.end());
+    if (!vector_1.empty()) combined.insert(combined.end(), vector_1.begin(), vector_1.end());
+    if (!vector_2.empty()) combined.insert(combined.end(), vector_2.begin(), vector_2.end());
+    if (!vector_3.empty()) combined.insert(combined.end(), vector_3.begin(), vector_3.end());
     return combined;
 }
 
@@ -246,7 +246,7 @@ std::vector<Element_> Combine(std::vector<Element_> const& vector_1, std::vector
 template <typename Element_>
 void Insert(std::vector<Element_>& vector_1, std::vector<Element_> const& vector_2)
 {
-    vector_1.insert(vector_1.end(), vector_2.begin(), vector_2.end());
+    if (!vector_2.empty()) vector_1.insert(vector_1.end(), vector_2.begin(), vector_2.end());
 }
 
 /**
@@ -256,8 +256,8 @@ void Insert(std::vector<Element_>& vector_1, std::vector<Element_> const& vector
 template <typename Element_>
 void Insert(std::vector<Element_>& vector_1, std::vector<Element_> const& vector_2, std::vector<Element_> const& vector_3)
 {
-    vector_1.insert(vector_1.end(), vector_2.begin(), vector_2.end());
-    vector_1.insert(vector_1.end(), vector_3.begin(), vector_3.end());
+    if (!vector_2.empty()) vector_1.insert(vector_1.end(), vector_2.begin(), vector_2.end());
+    if (!vector_3.empty()) vector_1.insert(vector_1.end(), vector_3.begin(), vector_3.end());
 }
 
 /**

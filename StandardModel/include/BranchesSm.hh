@@ -142,6 +142,7 @@ public:
     float BottomMass;
     float WMass;
     float LeptonPt;
+    float LeptonDeltaR;
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
         MultiBranch::Fill(multiplet);
@@ -149,6 +150,7 @@ public:
         BottomMass = multiplet.Singlet().Mass() / GeV;
         WMass = multiplet.Doublet().Mass() / GeV;
         LeptonPt = multiplet.Lepton().Pt() / GeV;
+        LeptonDeltaR = multiplet.Lepton().DeltaR() / rad;
     }
     Observables Variables();
     Observables Spectators();

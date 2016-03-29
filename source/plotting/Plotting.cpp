@@ -235,7 +235,7 @@ std::vector<std::string> Plotting::PlotAcceptanceGraph(Results const& results) c
         for (auto const & background : results.Backgrounds()) graphs.AddGraph(signal.PureEfficiencies(), background.PureEfficiencies(), background.InfoBranch().LatexName());
         graphs.SetLegend(Orientation::right | Orientation::bottom, signal.InfoBranch().LatexName());
         graphs.SetXAxis("Signal acceptance", {0.2, 0.9});
-        graphs.SetYAxis("Background acceptance");
+        graphs.SetYAxis("Background acceptance", {1e-3, 1});
         names.emplace_back(graphs.FileBaseName());
     }
     return names;

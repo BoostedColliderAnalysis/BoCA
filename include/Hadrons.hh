@@ -3,7 +3,6 @@
  */
 #pragma once
 
-#include "Types.hh"
 #include "FourVector.hh"
 #include "Flag.hh"
 #include "Jet.hh"

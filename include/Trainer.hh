@@ -57,13 +57,13 @@ private:
      */
     void PrepareTrainingAndTestTree(long event_number);
 
-    long AddTree(std::string const& tree_name, boca::Tag tag);
+    long AddTree(std::string const& tree_name, Tag tag);
 
     long Entries(exroot::TreeReader& tree_reader);
 
     double Weight(exroot::TreeReader& tree_reader);
 
-    TTree &Tree(std::string const& tree_name, boca::Tag tag);
+    TTree &Tree(std::string const& tree_name, Tag tag);
 
     exroot::TreeReader TreeReader(std::string const& tree_name, Tag tag);
 

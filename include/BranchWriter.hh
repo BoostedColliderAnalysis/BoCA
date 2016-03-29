@@ -40,7 +40,7 @@ public:
     }
 
     void Write() {
-        std::lock_guard<std::mutex> object_sum_guard(object_sum_mutex_);
+//         std::lock_guard<std::mutex> object_sum_guard(object_sum_mutex_);
         if (object_sum_) TreeWriter().Write();
     }
 
@@ -62,7 +62,7 @@ public:
 //     }
 
     long EventSum() {
-        std::lock_guard<std::mutex> event_sum_guard(event_sum_mutex_);
+//         std::lock_guard<std::mutex> event_sum_guard(event_sum_mutex_);
         return event_sum_;
     }
 
@@ -72,15 +72,15 @@ public:
 //     }
 
     void Increment(int number) {
-        std::lock_guard<std::mutex> object_sum_guard(object_sum_mutex_);
+//         std::lock_guard<std::mutex> object_sum_guard(object_sum_mutex_);
         object_sum_ += number;
-        std::lock_guard<std::mutex> event_sum_guard(event_sum_mutex_);
+//         std::lock_guard<std::mutex> event_sum_guard(event_sum_mutex_);
 //         if(number)
-        ++event_sum_;
+        if(number > 0) ++event_sum_;
     }
 
     bool KeepGoing(long max) {
-        std::lock_guard<std::mutex> object_sum_guard(object_sum_mutex_);
+//         std::lock_guard<std::mutex> object_sum_guard(object_sum_mutex_);
         return object_sum_ < max;
     }
 
@@ -111,10 +111,10 @@ private:
     exroot::TreeBranch* tree_branch_;
 
     long object_sum_ = 0;
-    std::mutex object_sum_mutex_;
+//     std::mutex object_sum_mutex_;
 
     long event_sum_ = 0;
-    std::mutex event_sum_mutex_;
+//     std::mutex event_sum_mutex_;
 
 };
 

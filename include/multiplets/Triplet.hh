@@ -5,9 +5,11 @@
 
 #include "multiplets/Doublet.hh"
 
-namespace boca {
+namespace boca
+{
 
-class Triplet : public TwoBody<boca::Doublet, boca::Singlet> {
+class Triplet : public TwoBody<boca::Doublet, boca::Singlet>
+{
 
 public:
 

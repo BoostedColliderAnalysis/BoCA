@@ -1,0 +1,22 @@
+--- /home/hajer/HEPTopTagger.hh	2011-05-23 03:02:48.000000000 +0800
++++ HEPTopTagger.hh	2016-03-27 21:22:16.041446675 +0800
+@@ -1,6 +1,8 @@
+ #ifndef __HEPTOPTAGGER_HH__
+ #define __HEPTOPTAGGER_HH__
+ 
++#include "ClusterSequence.hh"
++
+ using namespace std;
+ using namespace fastjet;
+ 
+@@ -288,8 +290,8 @@
+ 	_top_count++;
+ 	// obtain 3 subjets
+ 	JetDefinition reclustering(_jet_algorithm_recluster, 3.14/2);
+-	ClusterSequence cssubtop(top_constits_filtered,reclustering);
+-	vector <PseudoJet> top_subs = sorted_by_pt(cssubtop.exclusive_jets(3));	      
++	boca::ClusterSequence cssubtop(top_constits_filtered,reclustering);
++	vector <PseudoJet> top_subs = sorted_by_pt(PseudoJetVector(cssubtop.ExclusiveJets(3)));
+ 	_candjets.push_back(top_subs); //
+ 	
+ 	// transfer infos of the positively identified top to the outer world 

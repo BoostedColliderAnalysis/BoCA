@@ -115,6 +115,10 @@ public:
 
     AngleSquareMomentum Dipolarity(Line2<Angle> const& line) const;
 
+    std::vector<boca::LorentzVector<Momentum>> LorentzVectors() const {
+      return {Vector()};
+    }
+
 private:
 
     Angle GetRadius() const;

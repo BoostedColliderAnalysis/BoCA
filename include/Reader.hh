@@ -5,7 +5,7 @@
 
 #include "TMVA/Reader.h"
 
-#include "ReaderBase.hh"
+// #include "ReaderBase.hh"
 #include "PreCuts.hh"
 #include "Phase.hh"
 #include "Options.hh"
@@ -21,7 +21,7 @@ namespace boca
  *
  */
 template<typename Tagger_>
-class Reader : public ReaderBase
+class Reader //: public ReaderBase
 {
 
 public:
@@ -151,13 +151,13 @@ private:
     }
 
     void AddObservables() {
-        std::lock_guard<std::mutex> guard(mutex_);
+//         std::lock_guard<std::mutex> guard(mutex_);
         for (auto const & variable : Tagger().Variables()) TReader().AddVariable(variable.Expression(), &variable.Value());
         for (auto const & spectator : Tagger().Spectators()) TReader().AddSpectator(spectator.Expression(), &spectator.Value());
     }
 
     TMVA::IMethod& BookMva() {
-        std::lock_guard<std::mutex> guard(mutex_);
+//         std::lock_guard<std::mutex> guard(mutex_);
         std::cout << Tagger().MethodName() << "  " << Tagger().WeightFileName() << std::endl;
         return *TReader().BookMVA(Tagger().MethodName(), Tagger().WeightFileName());
     }

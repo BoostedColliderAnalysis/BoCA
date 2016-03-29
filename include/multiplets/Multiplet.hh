@@ -76,7 +76,7 @@ public:
 
     boca::EventShapes EventShapes() const {
         return event_shapes_.Get([this]() {
-            return boca::EventShapes(Jets());
+            return boca::EventShapes(LorentzVectors());
         });
     }
 
@@ -87,6 +87,8 @@ protected:
     virtual boca::Jet GetJet() const = 0;
 
     virtual std::vector<boca::Jet> Jets() const = 0;
+
+    virtual std::vector<LorentzVector<Momentum>> LorentzVectors() const = 0;
 
 private:
 

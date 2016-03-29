@@ -60,15 +60,15 @@ private:
         BranchWriter<Tagger_> branch_writer(files, tagger_);
         bool do_threading = false;
         if (do_threading) {
-            std::mutex branch_writer_mutex;
+//             std::mutex branch_writer_mutex;
             std::vector<std::thread> threads;
 //         int cores = std::thread::hardware_concurrency(); // breaks in the tree reader, find  a cheap way to store the position of the data
             int cores = 1;
             for (auto core : IntegerRange(cores)) {
                 threads.emplace_back(std::thread([&, core, cores] {
-                    branch_writer_mutex.lock();
+//                     branch_writer_mutex.lock();
                     Third<Tagger_> third(branch_writer, core, cores, TrainNumberMax());
-                    branch_writer_mutex.unlock();
+//                     branch_writer_mutex.unlock();
                     ReadEvents(third);
                 }));
             }
@@ -89,8 +89,8 @@ private:
     void ReadEvent(Third<Tagger_>& third) const {
         if (!third.ReadEntry()) return;
         Event event(third.TreeReader(), third.Files().Import().Source());
-        if (!PassPreCut(event, third.Files().Phase().Tag())) return;
-        third.SaveEntry(Switch(event, third));
+        if (PassPreCut(event, third.Files().Phase().Tag())) return third.SaveEntry(Switch(event, third));
+        third.Increment(0);
     }
 
     int Switch(Event const& event, Third<Tagger_>& third) const {

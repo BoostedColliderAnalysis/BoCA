@@ -6,7 +6,6 @@
 #include "fastjet/PseudoJet.hh"
 
 #include "Family.hh"
-// #include "InfoRecombiner.hh"
 
 namespace boca
 {

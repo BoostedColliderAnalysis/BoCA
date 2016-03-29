@@ -15,6 +15,8 @@
 #include <iostream>
 
 #include "TVector3.h"
+#include "TMatrix.h"
+#include "Iterator.hh"
 #include "physics/Vector2.hh"
 
 namespace boca
@@ -543,6 +545,22 @@ public:
 
     Value& operator[](Dimension3 dimension) {
         return operator()(dimension);
+    }
+
+    ConstIterator<Vector3, Value> begin() const {
+      return {this, 0};
+    }
+
+    ConstIterator<Vector3, Value> end() const {
+      return {this, 3};
+    }
+
+    Iterator<Vector3, Value> begin() {
+      return {this, 0};
+    }
+
+    Iterator<Vector3, Value> end() {
+      return {this, 3};
     }
 
     // Comparisons
