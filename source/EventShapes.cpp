@@ -301,10 +301,16 @@ EventShapes::Vector<double> EventShapes::Eigenvalues(Matrix3<double> const& matr
 {
     INFO0;
     // b, c, d are the coefficients of the characteristic polynomial, a lambda^3 + b lambda^2 + c lambda + d  where a is chosen to be +1.
-    auto trace = matrix.Trace();
-    auto b = - trace;
-    auto c = - (sqr(matrix).Trace() - sqr(trace)) / 2;
-    auto d = - matrix.Determinant();
+
+    auto t11 = matrix[0][0];
+    auto t12 = matrix[0][1];
+    auto t13 = matrix[0][2];
+    auto t22 = matrix[1][1];
+    auto t23 = matrix[1][2];
+    auto t33 = matrix[2][2];
+    auto b = -(t11 + t22 + t33);
+    auto c = t11*t22 + t11*t33 + t22*t33 - sqr(t12) - sqr(t13) - sqr(t23);
+    auto d = - t11*t22*t33 - 2.*t12*t23*t13 + t11*sqr(t23) + t22*sqr(t13) + t33*sqr(t12);
     // use Cardano's formula to compute the zeros
     auto p = (3. * c - sqr(b)) / 3.;
     auto q = (2. * sqr(b) * b - 9. * b * c + 27. * d) / 27.;
@@ -325,6 +331,7 @@ EventShapes::Vector<double> EventShapes::Eigenvalues(Matrix3<double> const& matr
     if (eigenvalues[0] < eigenvalues[1]) std::swap(eigenvalues[0], eigenvalues[1]);
     if (eigenvalues[0] < eigenvalues[2]) std::swap(eigenvalues[0], eigenvalues[2]);
     if (eigenvalues[1] < eigenvalues[2]) std::swap(eigenvalues[1], eigenvalues[2]);
+    for(auto ev : eigenvalues) ERROR(ev);
     return eigenvalues;
 }
 
@@ -369,6 +376,26 @@ EventShapes::Vector<GradedVector3<double>> EventShapes::EigenSystem(Matrix3<doub
 
 EventShapes::Vector<GradedVector3<double>> EventShapes::DiagonalizeLinearTensors() const
 {
+
+  boca::Matrix3<double> m1( {1, 2, 3}, {4, 5, 6}, {7, 8, 9});
+  auto eval = m1.Eigen().Values();
+  for(auto ev : eval) std::cout << "val : "<< ev << std::endl;
+  auto evec = m1.Eigen().Vectors();
+  for(auto vec : evec) for(auto cell : vec)  std::cout << "evec: "<< cell << std::endl;
+
+  m1 = Matrix3<double>( {5, 2, 3}, {4, 5, 6}, {7, 8, 9});
+  eval = m1.Eigen().Values();
+  for(auto ev : eval) std::cout << "val : "<< ev << std::endl;
+  evec = m1.Eigen().Vectors();
+  for(auto vec : evec) for(auto cell : vec)  std::cout << "evec: "<< cell << std::endl;
+
+  m1 = Matrix3<double>( {5, 2, 20}, {4, 5, 21}, {27, 8, 9});
+  eval = m1.Eigen().Values();
+  for(auto ev : eval) std::cout << "val : "<< ev << std::endl;
+  evec = m1.Eigen().Vectors();
+  for(auto vec : evec) for(auto cell : vec)  std::cout << "evec: "<< cell << std::endl;
+
+
     ERROR0;
     Matrix3<Momentum> matrix;
     Momentum sum;
@@ -379,7 +406,7 @@ EventShapes::Vector<GradedVector3<double>> EventShapes::DiagonalizeLinearTensors
     }
     Matrix3<double> matrix2 = matrix / sum;
     std::array<GradedVector3<double>, 3> system = EigenSystem(matrix2);
-    std::array<GradedVector3<double>, 3> system2 = matrix2.eigen().System();
+    std::array<GradedVector3<double>, 3> system2 = matrix2.Eigen().System();
     auto s1 = system.at(0);
     auto s2 = system2.at(0);
     CHECK(s1 == s2, s1.Scalar(), s2.Scalar(), s1.Vector().X(), s2.Vector().X())
@@ -402,7 +429,19 @@ EventShapes::Vector<GradedVector3<double>> EventShapes::DiagonalizeSphericalTens
         sum += vector.Mag2();
         matrix += MatrixProduct(vector, vector);
     }
-    return EigenSystem(matrix / sum);
+    Matrix3<double> matrix2 = matrix / sum;
+    std::array<GradedVector3<double>, 3> system = EigenSystem(matrix2);
+    std::array<GradedVector3<double>, 3> system2 = matrix2.Eigen().System();
+    auto s1 = system.at(0);
+    auto s2 = system2.at(0);
+    CHECK(s1 == s2, s1.Scalar(), s2.Scalar(), s1.Vector().X(), s2.Vector().X())
+    s1 = system.at(1);
+    s2 = system2.at(1);
+    CHECK(s1 == s2, s1.Scalar(), s2.Scalar(), s1.Vector().X(), s2.Vector().X())
+    s1 = system.at(2);
+    s2 = system2.at(2);
+    CHECK(s1 == s2, s1.Scalar(), s2.Scalar(), s1.Vector().X(), s2.Vector().X())
+    return system;
 
 }
 

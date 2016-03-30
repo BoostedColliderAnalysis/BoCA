@@ -13,6 +13,7 @@
 // #include "boost/operators.hpp"
 #include "boost/range/algorithm/sort.hpp"
 #include "Vector3.hh"
+#include "Matrix2.hh"
 #include "GradedVector.hh"
 #include "Units.hh"
 #include "Types.hh"
@@ -54,7 +55,7 @@ public:
     Matrix3() {}
 
     // Diagonal Matrix
-    Matrix3(Value_ scalar) : x_( {scalar, Value_(0), Value_(0)}), y_( {Value_(0), scalar, Value_(0)}), z_( {Value_(0), Value_(0), scalar}) {}
+    Matrix3(Value_ scalar) : x_(scalar, Value_(0), Value_(0)), y_(Value_(0), scalar, Value_(0)), z_(Value_(0), Value_(0), scalar) {}
 
 //     // Protected constructor.
 //     Matrix3(Value_ xx, Value_ xy, Value_ xz, Value_ yx, Value_ yy, Value_ yz, Value_ zx, Value_ zy, Value_ zz) : x_( {xx, xy, xz}), y_( {yx, yy, yz}), z_( {zx, zy, zz}) {}
@@ -400,19 +401,33 @@ public:
     }
 
     ValueCubed Determinant()const {
-        return x_.X() * y_.Y() * z_.Z() + x_.Y() * y_.Z() * z_.X() + x_.Z() * y_.X() * z_.Y() - x_.Z() * y_.Y() * z_.X() - x_.Y() * y_.X() * z_.Z() - x_.X() * y_.Z() * z_.Y();
+        return x_.X() * Minor(Dimension3::x, Dimension3::x) - x_.Y() * Minor(Dimension3::x, Dimension3::y) + x_.Z() * Minor(Dimension3::x, Dimension3::z);
+    }
+
+    ValueSquare Minor(Dimension3 dimension_1, Dimension3 dimension_2) const {
+        int counter = 0;
+        Matrix2<Value_> matrix;
+        for (auto dimension_3 : Dimensions3()) {
+            if (dimension_1 == dimension_3) continue;
+            for (auto dimension_4 : Dimensions3()) {
+                if (dimension_2 == dimension_4) continue;
+                matrix[counter / 2][counter % 2] = (*this)[dimension_3][dimension_4];
+                ++counter;
+            }
+        }
+        return matrix.Determinant();
     }
 
     Matrix3<ValueSquare> Square() const {
         return sqr(*this);
     }
 
-    class Characteristic
+    class Characteristic_
     {
     public:
-        Characteristic(Matrix3 const& matrix) {
+        Characteristic_(Matrix3 const& matrix) {
             qudratic_ = - matrix.Trace();
-            linear_ = (matrix.Square().Trace() - sqr(qudratic_)) / 2;
+            linear_ = - (matrix.Square().Trace() - sqr(qudratic_)) / 2;
             constant_ = - matrix.Determinant();
         }
         Value_ Qudratic() const {
@@ -430,10 +445,10 @@ public:
         ValueCubed constant_;
     };
 
-    class Depressed
+    class Depressed_
     {
     public:
-        Depressed(Characteristic const& c) {
+        Depressed_(Characteristic_ const& c) {
             auto quadratic = c.Qudratic() / 3;
             linear_ = c.Linear() - sqr(quadratic) * 3;
             constant_ = 2. * cube(quadratic) - quadratic * c.Linear() + c.Constant();
@@ -450,14 +465,14 @@ public:
         ValueCubed constant_;
     };
 
-    class Eigen
+    class Eigen_
     {
     public:
-        Eigen() {}
-        Eigen(Depressed const& d, Matrix3<Value_> const& matrix) {
+        Eigen_() {}
+        Eigen_(Depressed_ const& d, Matrix3<Value_> const& matrix) {
             factor_ = 2. * sqrt(- d.Linear() / 3.);
             angle_ = acos(3. * d.Constant() / d.Linear() / factor_);
-            if (4 * cube(d.Linear()) + 27 * sqr(d.Constant()) > 0) complex_ = true;
+            complex_ = 4 * cube(d.Linear()) + 27 * sqr(d.Constant()) > 0;
             matrix_ = &matrix;
         }
         template<typename Value_2_>
@@ -474,7 +489,7 @@ public:
                 values.at(1) = Value(1);
                 values.at(2) = Value(2);
                 return boost::range::sort(values, [](Value_ i, Value_ j) {
-                    return i > j;
+                    return abs(i) > abs(j);
                 });
             });
         }
@@ -502,37 +517,29 @@ public:
         }
 
         Value_ Value(int index) const {
-            return Factor() * boost::units::cos((Angle() - 2. * Pi() * double(index)) / 3.);
+            return Factor() * boost::units::cos((Angle() - TwoPi() * double(index)) / 3.) + matrix_->Trace() / 3;
         }
 
         Vector3<Value_> Vector(int index) const {
-            // set up matrix of system to be solved
-            auto a11 = matrix_->X().X() - Values().at(index);
-            auto a12 = matrix_->X().Y();
-            auto a13 = matrix_->X().Z();
-            auto a23 = matrix_->Y().Z();
-            auto a33 = matrix_->Z().Z() - Values().at(index);
-            // intermediate steps from gauss type algorithm
-            auto b1 = a11 * a33 - sqr(a13);
-            auto b2 = a12 * a33 - a13 * a23;
-            auto b4 = a11 * a23 - a12 * a13;
-            // vector
-            Vector3<Value_> vector(b2, -b1, b4);
-            return vector.Unit();
+            auto matrix = *matrix_ - Matrix3<Value_>(Values().at(index));
+            auto x = matrix.Minor(Dimension3::z, Dimension3::x);
+            auto y = matrix.Minor(Dimension3::z, Dimension3::y);
+            auto z = matrix.Minor(Dimension3::z, Dimension3::z);
+            return Vector3<Value_>(-x, y , - z).Unit();
         }
         Value_ factor_;
         boca::Angle angle_;
-        bool complex_ = false;
+        bool complex_;
         Mutable<Array<Value_>> values_;
         Mutable<Array<Vector3<Value_>>> vectors_;
         Matrix3<Value_> const* matrix_;
     };
 
-    Mutable<Eigen> eigen_;
+    Mutable<Eigen_> eigen_;
 
-    Eigen const& eigen() const {
+    Eigen_ const& Eigen() const {
         return eigen_.Get([&]() {
-            return Eigen(Depressed(Characteristic(*this)), *this);
+            return Eigen_(Depressed_(Characteristic_(*this)), *this);
         });
     }
 
@@ -731,6 +738,35 @@ public:
         z_ += matrix.z_;
         return *this;
     }
+    // Addition.
+    template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
+    Matrix3 operator+(Matrix3<Value_2> const& matrix) const {
+        Matrix3<Value_> m;
+        m.X() = x_ + matrix.x_;
+        m.Y() = y_ + matrix.y_;
+        m.Z() = z_ + matrix.z_;
+        return m;
+    }
+
+    // Addition.
+    template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
+    Matrix3& operator-=(Matrix3<Value_2> const& matrix) {
+        x_ -= matrix.x_;
+        y_ -= matrix.y_;
+        z_ -= matrix.z_;
+        return *this;
+    }
+
+    // Addition.
+    template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
+    Matrix3 operator-(Matrix3<Value_2> const& matrix) const {
+        Matrix3<Value_> m;
+        m.X() = x_ - matrix.x_;
+        m.Y() = y_ - matrix.y_;
+        m.Z() = z_ - matrix.z_;
+        return m;
+    }
+
 
     Vector3<Value_> ColumnX() const {
         return {x_.X(), y_.X(), z_.X()};

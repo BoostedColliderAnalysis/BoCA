@@ -36,8 +36,8 @@ public:
     // Construct from three rows
     Matrix2(Vector2<Value_> const& x, Vector2<Value_> const& y) : x_(x), y_(y) {}
 
-    // Construct from vector product
-    Matrix2(Vector2<Value_> const& vector_1, Vector2<Value_> const& vector_2) : x_(vector_1.X()* vector_2), y_(vector_1.Y()* vector_2) {}
+//     // Construct from vector product
+//     Matrix2(Vector2<Value_> const& vector_1, Vector2<Value_> const& vector_2) : x_(vector_1.X()* vector_2), y_(vector_1.Y()* vector_2) {}
 
     // Constructor
     template<typename Value_2>
@@ -133,7 +133,7 @@ public:
         Array<Value_> Values() const {
             return values_.Get([&]() {
                 Array<Value_> values;
-                if (error_) {
+                if (complex_) {
                     for (auto & value : values) value = -1;
                     std::cerr << "Eigensystem has no real Eigenvalues!\n";
                     return values;
