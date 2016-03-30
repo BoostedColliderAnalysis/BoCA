@@ -1,16 +1,5 @@
-// @(#)root/physics:$Id$
-// Author: Peter Malzacher   19/06/99
-
-/*************************************************************************
- * Copyright(C) 1995-2000, Rene Brun and Fons Rademakers.               *
- * All rights reserved.                                                  *
- *                                                                       *
- * For the licensing terms see $ROOTSYS/LICENSE.                         *
- * For the list of contributors see $ROOTSYS/README/CREDITS.             *
- *************************************************************************/
 #pragma once
 
-// #include "boost/operators.hpp"
 #include "boost/range/algorithm/sort.hpp"
 #include "Vector2.hh"
 #include "GradedVector.hh"
@@ -23,7 +12,6 @@ namespace boca
 
 template <typename Value_>
 class Matrix2
-// : boost::operators<Matrix2<Value_>>
 {
 
 public:
