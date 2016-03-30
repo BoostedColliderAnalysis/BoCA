@@ -22,6 +22,15 @@
 namespace boca
 {
 
+enum class Matrix
+{
+    diagonal,
+    symmetric,
+    antisymmetric,
+    row,
+    column
+};
+
 template <typename Value_>
 class Matrix3
 // : boost::operators<Matrix3<Value_>>
@@ -32,8 +41,7 @@ public:
     template<typename Value_2_>
     using ValueProduct = ValueProduct<Value_, Value_2_>;
     using ValueSquare = boca::ValueSquare<Value_>;
-    template<typename Value_2_, typename Value_3>
-    using ValueCubed = boca::ValueProduct<ValueProduct<Value_2_>, Value_3>;
+    using ValueCubed = boca::ValueCubed<Value_>;
     template<typename Value_2>
     using ValueQuotient = ValueQuotient<Value_, Value_2>;
     using ValueInverse = boost::units::divide_typeof_helper<double, Value_>;
@@ -107,16 +115,25 @@ public:
 
 // Returns true if the identity matrix(Geant4).
     bool IsIdentity() const {
-        return x_ == Vector3<Value_>(1, 0, 0) && y_ == Vector3<Value_>(0, 1, 0) && z_ == Vector3<Value_>(0, 0, 1) ? true : false;
+        return x_ == Vector3<Value_>(1, 0, 0) && y_ == Vector3<Value_>(0, 1, 0) && z_ == Vector3<Value_>(0, 0, 1);
     }
 // Returns the inverse.
-    Matrix3 Inverse() const {
+    Matrix3 Transposed() const {
         return {ColumnX(), ColumnY(), ColumnZ()};
     }
 
 // Inverts the Rotation matrix.
-    Matrix3& Invert() {
-        return *this = Inverse();
+    Matrix3& Transpose() {
+        return *this = Transposed();
+    }
+
+    Matrix3<ValueInverse> Inverse() {
+        auto x = ColumnX();
+        auto y = ColumnY();
+        auto z = ColumnZ();
+        auto det = Determinant();
+        if (det = ValueCubed(0)) std::cout << "Matrix is not invertible" << std::endl;
+        return Matrix3<ValueSquare>(y ^ z, z ^ x, x ^ y) / Determinant();
     }
 
 // Rotation around the x-axis.
@@ -382,7 +399,7 @@ public:
         return x_.X() + y_.Y() + z_.Z();
     }
 
-    ValueCubed<Value_, Value_> Determinant()const {
+    ValueCubed Determinant()const {
         return x_.X() * y_.Y() * z_.Z() + x_.Y() * y_.Z() * z_.X() + x_.Z() * y_.X() * z_.Y() - x_.Z() * y_.Y() * z_.X() - x_.Y() * y_.X() * z_.Z() - x_.X() * y_.Z() * z_.Y();
     }
 
@@ -390,20 +407,67 @@ public:
         return sqr(*this);
     }
 
+    class Characteristic
+    {
+    public:
+        Characteristic(Matrix3 const& matrix) {
+            qudratic_ = - matrix.Trace();
+            linear_ = (matrix.Square().Trace() - sqr(qudratic_)) / 2;
+            constant_ = - matrix.Determinant();
+        }
+        Value_ Qudratic() const {
+            return qudratic_;
+        }
+        ValueSquare Linear() const {
+            return linear_;
+        }
+        ValueCubed Constant() const {
+            return constant_;
+        }
+    private:
+        Value_ qudratic_;
+        ValueSquare linear_;
+        ValueCubed constant_;
+    };
+
+    class Depressed
+    {
+    public:
+        Depressed(Characteristic const& c) {
+            auto quadratic = c.Qudratic() / 3;
+            linear_ = c.Linear() - sqr(quadratic) * 3;
+            constant_ = 2. * cube(quadratic) - quadratic * c.Linear() + c.Constant();
+        }
+        ValueSquare Linear() const {
+            return linear_;
+        }
+
+        ValueCubed Constant() const {
+            return constant_;
+        }
+    private:
+        ValueSquare linear_;
+        ValueCubed constant_;
+    };
+
     class Eigen
     {
-
     public:
-
+        Eigen() {}
+        Eigen(Depressed const& d, Matrix3<Value_> const& matrix) {
+            factor_ = 2. * sqrt(- d.Linear() / 3.);
+            angle_ = acos(3. * d.Constant() / d.Linear() / factor_);
+            if (4 * cube(d.Linear()) + 27 * sqr(d.Constant()) > 0) complex_ = true;
+            matrix_ = &matrix;
+        }
         template<typename Value_2_>
         using Array = std::array<Value_2_, 3>;
-
-        Array<Value_> Values() {
-            return values_.Get([]() {
+        Array<Value_> Values() const {
+            return values_.Get([&]() {
                 Array<Value_> values;
-                if (4 * LinearDepressed() * sqr(LinearDepressed()) + 27 * sqr(ConstantDepressed()) > 2.0e-16) {
+                if (complex_) {
                     for (auto & value : values) value = -1;
-                    std::cerr << "EventShapes::values: found D = " << 4. * LinearDepressed()* sqr(LinearDepressed()) + 27. * sqr(ConstantDepressed()) << " > 0! No real Eigenvalues!\n";
+                    std::cerr << "Eigensystem has no real Eigenvalues!\n";
                     return values;
                 }
                 values.at(0) = Value(0);
@@ -414,74 +478,40 @@ public:
                 });
             });
         }
-
         Array<Vector3<Value_>> Vectors() const {
-            return vectors_.Get([]() {
+            return vectors_.Get([&]() {
                 Array<Vector3<Value_>> vectors;
-                for (auto & index : IntegerRange(vectors.size())) vectors.at(index) = Vector(index);
+                for (auto index : IntegerRange(vectors.size())) vectors.at(index) = Vector(index);
                 return vectors;
             });
         }
-
-        Array<GradedVector<Value_>> System() const {
-            Array<GradedVector<Value_>> system;
-            for (auto index : IntegerRange(system.size())) system.at(index) = GradedVector<Value_>(Vectors().at(index), Values().at(index));
+        Array<GradedVector3<Value_>> System() const {
+            Array<GradedVector3<Value_>> system;
+            for (auto index : IntegerRange(system.size())) system.at(index) = GradedVector3<Value_>(Vectors().at(index), Values().at(index));
             return system;
         }
 
     private:
 
-        Value_ QudraticCharacteristic() const {
-            return qudratic_characteristic_.Get([]() {
-                return - Trace();
-            });
-        }
-
-        ValueSquare LinearCharacteristic() const {
-            return linear_characteristic_.Get([]() {
-                return (Square().Trace() - sqr(QudraticCharacteristic())) / 2;
-            });
-        }
-
-        ValueCubed<Value_, Value_> ConstantCharacteristic() {
-            return - Determinant();
-        }
-
-        ValueSquare LinearDepressed() const {
-            return linear_depressed_.Get([]() {
-                return (3. * LinearCharacteristic() - sqr(QudraticCharacteristic())) / 3.;
-            });
-        }
-
-        ValueCubed<Value_, Value_> ConstantDepressed() const {
-            return constant_depressed_.Get([]() {
-                return (2. * sqr(QudraticCharacteristic()) * QudraticCharacteristic() - 9. * QudraticCharacteristic() * LinearCharacteristic() + 27. * ConstantCharacteristic()) / 27.;
-            });
-        }
-
         Value_ Factor() const {
-            return factor_.Get([]() {
-                return 2. * sqrt(- LinearDepressed() / 3.);
-            });
+            return factor_;
         }
 
-        Value_ ACos() const {
-            return acos_.Get([]() {
-                return acos(3. * ConstantDepressed() / LinearDepressed() / Factor());
-            });
+        boca::Angle Angle() const {
+            return angle_;
         }
 
         Value_ Value(int index) const {
-            return Factor() * boost::units::cos((ACos() - 2. * Pi() * double(index)) / 3.);
+            return Factor() * boost::units::cos((Angle() - 2. * Pi() * double(index)) / 3.);
         }
 
         Vector3<Value_> Vector(int index) const {
             // set up matrix of system to be solved
-            auto a11 = x_.X() - Values.at(index);
-            auto a12 = x_.Y();
-            auto a13 = x_.Z();
-            auto a23 = y_.Z();
-            auto a33 = z_.Z() - Values.at(index);
+            auto a11 = matrix_->X().X() - Values().at(index);
+            auto a12 = matrix_->X().Y();
+            auto a13 = matrix_->X().Z();
+            auto a23 = matrix_->Y().Z();
+            auto a33 = matrix_->Z().Z() - Values().at(index);
             // intermediate steps from gauss type algorithm
             auto b1 = a11 * a33 - sqr(a13);
             auto b2 = a12 * a33 - a13 * a23;
@@ -490,20 +520,20 @@ public:
             Vector3<Value_> vector(b2, -b1, b4);
             return vector.Unit();
         }
-
-        Mutable<Value_> qudratic_characteristic_;
-        Mutable<Value_> linear_characteristic_;
-        Mutable<Value_> linear_depressed_;
-        Mutable<Value_> constant_depressed_;
-        Mutable<Value_> factor_;
-        Mutable<Value_> acos_;
+        Value_ factor_;
+        boca::Angle angle_;
+        bool complex_ = false;
         Mutable<Array<Value_>> values_;
         Mutable<Array<Vector3<Value_>>> vectors_;
+        Matrix3<Value_> const* matrix_;
+    };
 
-    } eigen_;
+    Mutable<Eigen> eigen_;
 
-    Eigen const& Eigen() const {
-        return eigen_;
+    Eigen const& eigen() const {
+        return eigen_.Get([&]() {
+            return Eigen(Depressed(Characteristic(*this)), *this);
+        });
     }
 
 
@@ -739,7 +769,7 @@ public:
     //multiplication operator
     template<typename Value_2_>
     Matrix3<ValueProduct<Value_2_>> Multiply(Matrix3<Value_2_> const& matrix) const {
-        return {Vector3<ValueProduct<Value_2_>>(x_ * matrix.ColumnX(), x_ * matrix.ColumnY(), x_ * matrix.ColumnZ()), Vector3<ValueProduct<Value_2_>>(y_ * matrix.ColumnX(), y_ * matrix.ColumnY(), y_ * matrix.ColumnZ()), Vector3<ValueProduct<Value_2_>>(z_ * matrix.ColumnX(), z_ * matrix.ColumnY(), z_ * matrix.ColumnZ())};
+        return {{x_ * matrix.ColumnX(), x_ * matrix.ColumnY(), x_ * matrix.ColumnZ()}, {y_ * matrix.ColumnX(), y_ * matrix.ColumnY(), y_ * matrix.ColumnZ()}, {z_ * matrix.ColumnX(), z_ * matrix.ColumnY(), z_ * matrix.ColumnZ()}};
     }
 
     //multiplication operator

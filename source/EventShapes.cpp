@@ -15,6 +15,7 @@
 #include <boost/range/numeric.hpp>
 #include "EventShapes.hh"
 #include "Vector.hh"
+#include "Exception.hh"
 // #define INFORMATION
 #include "DEBUG.hh"
 #include "Sort.hh"
@@ -127,7 +128,7 @@ double EventShapes::DParameter() const
 std::vector<double> EventShapes::LinTenEigenValues() const
 {
     INFO0;
-    return Transform(LinearTensors(), [](GradedVector<double> const & event_shape) {
+    return Transform(LinearTensors(), [](GradedVector3<double> const & event_shape) {
         return event_shape.Scalar();
     });
 }
@@ -135,7 +136,7 @@ std::vector<double> EventShapes::LinTenEigenValues() const
 std::vector<Vector3<double>> EventShapes::LinTenEigenVectors() const
 {
     INFO0;
-    return Transform(LinearTensors(), [](GradedVector<double> const & event_shape) {
+    return Transform(LinearTensors(), [](GradedVector3<double> const & event_shape) {
         return event_shape.Vector();
     });
 }
@@ -167,14 +168,14 @@ Vector3< double > EventShapes::SphericityAxis() const
 std::vector<double> EventShapes::SphericityEigenValues() const
 {
     INFO0;
-    return Transform(SphericalTensors(), [](GradedVector<double> const & event_shape) {
+    return Transform(SphericalTensors(), [](GradedVector3<double> const & event_shape) {
         return event_shape.Scalar();
     });
 }
 std::vector<Vector3<double>> EventShapes::SphericityEigenVectors() const
 {
     INFO0;
-    return Transform(SphericalTensors(), [](GradedVector<double> const & event_shape) {
+    return Transform(SphericalTensors(), [](GradedVector3<double> const & event_shape) {
         return event_shape.Vector();
     });
 }
@@ -212,7 +213,7 @@ Momentum EventShapes::PtOutT(LorentzVector<Momentum> const& lorentz_vector) cons
 Angle EventShapes::RapidityT(LorentzVector<Momentum> const& lorentz_vector) const
 {
     INFO0;
-    return (lorentz_vector.T() > lorentz_vector.Vector() * Thrusts().at(0).Vector() ? lorentz_vector.Rapidity(Thrusts().at(0).Vector()) : 1e99_rad);
+    return lorentz_vector.T() > lorentz_vector.Vector() * Thrusts().at(0).Vector() ? lorentz_vector.Rapidity(Thrusts().at(0).Vector()) : 1e99_rad;
 }
 
 Momentum EventShapes::PtInS(LorentzVector<Momentum> const& lorentz_vector) const
@@ -230,7 +231,7 @@ Momentum EventShapes::PtOutS(LorentzVector<Momentum> const& lorentz_vector) cons
 Angle EventShapes::RapidityS(LorentzVector<Momentum> const& lorentz_vector) const
 {
     INFO0;
-    return (lorentz_vector.T() > lorentz_vector.Vector() * SphericalTensors().at(0).Vector() ? lorentz_vector.Rapidity(SphericalTensors().at(0).Vector()) : 1e99_rad);
+    return lorentz_vector.T() > lorentz_vector.Vector() * SphericalTensors().at(0).Vector() ? lorentz_vector.Rapidity(SphericalTensors().at(0).Vector()) : 1e99_rad;
 }
 
 void EventShapes::NormalizeEEC(std::vector<double>& hi, long int evts) const
@@ -249,7 +250,7 @@ double EventShapes::AEEC(std::vector<double>& hi, double& coschi) const
     } else return 1e99;
 }
 
-EventShapes::Vector<GradedVector<double>> EventShapes::Thrusts() const
+EventShapes::Vector<GradedVector3<double>> EventShapes::Thrusts() const
 {
     INFO0;
     return thrusts_.Get([this]() {
@@ -257,7 +258,7 @@ EventShapes::Vector<GradedVector<double>> EventShapes::Thrusts() const
     });
 }
 
-EventShapes::Vector<GradedVector<double>> EventShapes::LinearTensors() const
+EventShapes::Vector<GradedVector3<double>> EventShapes::LinearTensors() const
 {
     INFO0;
     return linear_tensors_.Get([this]() {
@@ -265,7 +266,7 @@ EventShapes::Vector<GradedVector<double>> EventShapes::LinearTensors() const
     });
 }
 
-EventShapes::Vector<GradedVector<double>> EventShapes::SphericalTensors() const
+EventShapes::Vector<GradedVector3<double>> EventShapes::SphericalTensors() const
 {
     INFO0;
     return spherical_tensors_.Get([this]() {
@@ -284,29 +285,15 @@ HemisphereMasses EventShapes::HemisphereMasses() const
 HemisphereMasses EventShapes::GetHemisphereMasses() const
 {
     INFO0;
-    LorentzVector<Momentum> positive;
-    LorentzVector<Momentum> negative;
-    Energy epos = 0_eV;
-    Energy eneg = 0_eV;
-    for (auto const & lorentz_vector : LorentzVectors()) {
-        if (lorentz_vector.Vector() * ThrustAxis() > 0_eV) {
-            positive += lorentz_vector;
-            // can be replaced with, once perp() is giving non-nan results
-            // for nearly parallel Vectors().
-            // epos += LorentzVectors()[ix].perp(ThrustAxis());
-            epos += lorentz_vector.Vector().Cross(ThrustAxis()).Mag();
-        } else {
-            negative += lorentz_vector;
-            // see above
-            // eneg += LorentzVectors()[ix].perp(ThrustAxis());
-            eneg += lorentz_vector.Vector().Cross(ThrustAxis()).Mag();
-        }
-    }
+    GradedLorentzVector<Momentum> positive;
+    GradedLorentzVector<Momentum> negative;
+    for (auto const & lorentz_vector : LorentzVectors()) if (lorentz_vector.Vector() * ThrustAxis() > 0_eV) positive += {lorentz_vector, lorentz_vector.Perp(ThrustAxis())};
+        else negative += {lorentz_vector, lorentz_vector.Perp(ThrustAxis())};
     boca::HemisphereMasses hemisphere_masses;
     // masses
-    hemisphere_masses.SetMasses(Range<EnergySquare>(negative.M2(), positive.M2()) / sqr(positive.E() + negative.E()));
+    hemisphere_masses.SetMasses(Range<EnergySquare>(negative.Vector().M2(), positive.Vector().M2()) / sqr(positive.Vector().E() + negative.Vector().E()));
     // jet broadening
-    hemisphere_masses.SetBroadenings(Range<Energy>(eneg, epos) / ScalarMomentum() / 2);
+    hemisphere_masses.SetBroadenings(Range<Energy>(negative.Scalar(), positive.Scalar()) / ScalarMomentum() / 2);
     return hemisphere_masses;
 }
 
@@ -367,20 +354,20 @@ EventShapes::Vector<Vector3<double>> EventShapes::Eigenvectors(Matrix3<double> c
     return eigenvectors;
 }
 
-EventShapes::Vector<GradedVector<double>> EventShapes::EigenSystem(Matrix3<double> const& matrix) const
+EventShapes::Vector<GradedVector3<double>> EventShapes::EigenSystem(Matrix3<double> const& matrix) const
 {
     INFO0;
     Vector<double> eigenvalues = Eigenvalues(matrix);
     Vector<Vector3<double>> eigenvectors = Eigenvectors(matrix, eigenvalues);
-    Vector<GradedVector<double>> eigensystem;
+    Vector<GradedVector3<double>> eigensystem;
     for (auto const & eigenvalue : eigenvalues) {
         auto index = Position(eigenvalues, eigenvalue);
-        eigensystem.at(index) = GradedVector<double>(eigenvectors.at(index), eigenvalue);
+        eigensystem.at(index) = GradedVector3<double>(eigenvectors.at(index), eigenvalue);
     }
     return eigensystem;
 }
 
-EventShapes::Vector<GradedVector<double>> EventShapes::DiagonalizeLinearTensors() const
+EventShapes::Vector<GradedVector3<double>> EventShapes::DiagonalizeLinearTensors() const
 {
     ERROR0;
     Matrix3<Momentum> matrix;
@@ -390,9 +377,9 @@ EventShapes::Vector<GradedVector<double>> EventShapes::DiagonalizeLinearTensors(
         sum += vector.Mag();
         matrix += MatrixProduct(vector, vector) / vector.Mag();
     }
-    auto matrix2 = matrix / sum;
-    auto system = EigenSystem(matrix2);
-    auto system2 = matrix2.Eigen().System();
+    Matrix3<double> matrix2 = matrix / sum;
+    std::array<GradedVector3<double>, 3> system = EigenSystem(matrix2);
+    std::array<GradedVector3<double>, 3> system2 = matrix2.eigen().System();
     auto s1 = system.at(0);
     auto s2 = system2.at(0);
     CHECK(s1 == s2, s1.Scalar(), s2.Scalar(), s1.Vector().X(), s2.Vector().X())
@@ -405,7 +392,7 @@ EventShapes::Vector<GradedVector<double>> EventShapes::DiagonalizeLinearTensors(
     return system;
 }
 
-EventShapes::Vector<GradedVector<double>> EventShapes::DiagonalizeSphericalTensors() const
+EventShapes::Vector<GradedVector3<double>> EventShapes::DiagonalizeSphericalTensors() const
 {
     INFO0;
     Matrix3<MomentumSquare> matrix;
@@ -419,7 +406,7 @@ EventShapes::Vector<GradedVector<double>> EventShapes::DiagonalizeSphericalTenso
 
 }
 
-EventShapes::Vector< GradedVector< double >> EventShapes::GetThrusts() const
+EventShapes::Vector< GradedVector3< double >> EventShapes::GetThrusts() const
 {
     INFO0;
     // algorithm based on Brandt/Dahmen Z Phys C1 (1978)
@@ -432,10 +419,10 @@ EventShapes::Vector< GradedVector< double >> EventShapes::GetThrusts() const
     }
 }
 
-EventShapes::Vector< GradedVector< double >> EventShapes::GetThrusts1() const
+EventShapes::Vector< GradedVector3< double >> EventShapes::GetThrusts1() const
 {
     INFO0;
-    Vector<GradedVector<double>> thrusts;
+    Vector<GradedVector3<double>> thrusts;
     for (auto & thrust : thrusts) thrust.Set(-1);
     return thrusts;
 }
@@ -448,10 +435,10 @@ Vector3<double> Mirror(Vector3<double> const& axis, Dimension3 dimension)
 }
 }
 
-EventShapes::Vector< GradedVector< double >> EventShapes::GetThrusts2() const
+EventShapes::Vector< GradedVector3< double >> EventShapes::GetThrusts2() const
 {
     INFO0;
-    Vector<GradedVector<double>> thrusts;
+    Vector<GradedVector3<double>> thrusts;
     auto thrust = Mirror(Vectors().at(0).Unit(), Dimension3::z);
     thrusts.at(0).Set(thrust, 1);
     thrusts.at(1).Set(thrust.Orthogonal(), 0);
@@ -459,14 +446,14 @@ EventShapes::Vector< GradedVector< double >> EventShapes::GetThrusts2() const
     return thrusts;
 }
 
-EventShapes::Vector< GradedVector< double >> EventShapes::GetThrusts3() const
+EventShapes::Vector< GradedVector3< double >> EventShapes::GetThrusts3() const
 {
     INFO0;
     if (Vectors().at(0).Mag2() < Vectors().at(1).Mag2()) std::swap(Vectors().at(0), Vectors().at(1));
     if (Vectors().at(0).Mag2() < Vectors().at(2).Mag2()) std::swap(Vectors().at(0), Vectors().at(2));
     if (Vectors().at(1).Mag2() < Vectors().at(2).Mag2()) std::swap(Vectors().at(1), Vectors().at(2));
     // thrust
-    Vector<GradedVector<double>> thrusts;
+    Vector<GradedVector3<double>> thrusts;
     auto scalar_momentum = ScalarMomentum();
     thrusts.at(0).Set(Mirror(Vectors().at(0).Unit(), Dimension3::z), 2. * Vectors().at(0).Mag() / scalar_momentum);
     // major
@@ -477,13 +464,13 @@ EventShapes::Vector< GradedVector< double >> EventShapes::GetThrusts3() const
     return thrusts;
 }
 
-EventShapes::Vector< GradedVector< double >> EventShapes::GetThrusts4() const
+EventShapes::Vector< GradedVector3< double >> EventShapes::GetThrusts4() const
 {
     INFO0;
     // TODO special case with >= 4 coplanar particles will still fail. probably not too important...
     auto thrust = Thrust(Vectors());
     auto scalar_momentum = ScalarMomentum();
-    Vector<GradedVector<double>> thrusts;
+    Vector<GradedVector3<double>> thrusts;
     thrusts.at(0).Set(Mirror(thrust.Vector().Unit(), Dimension3::z), thrust.Scalar() / scalar_momentum);
     //major
     auto mod_vectors = Transform(Vectors(), [&](Vector3<Momentum> const & vector) {
@@ -503,10 +490,10 @@ EventShapes::Vector< GradedVector< double >> EventShapes::GetThrusts4() const
     return thrusts;
 }
 
-GradedVector<Momentum> EventShapes::Thrust(std::vector<Vector3<Momentum>> const& vectors) const
+GradedVector3<Momentum> EventShapes::Thrust(std::vector<Vector3<Momentum>> const& vectors) const
 {
     INFO0;
-    GradedVector<Momentum> thrust;
+    GradedVector3<Momentum> thrust;
     for (unsigned first = 1; first < Vectors().size(); ++first) {
         for (unsigned second = 0; second < first; ++second) {
             auto cross = Vectors().at(second).Cross(Vectors().at(first));
@@ -523,10 +510,10 @@ GradedVector<Momentum> EventShapes::Thrust(std::vector<Vector3<Momentum>> const&
     return thrust;
 }
 
-GradedVector<Momentum> EventShapes::Major(std::vector<Vector3<Momentum>> const& vectors) const
+GradedVector3<Momentum> EventShapes::Major(std::vector<Vector3<Momentum>> const& vectors) const
 {
     INFO0;
-    GradedVector<Momentum> major;
+    GradedVector3<Momentum> major;
     for (unsigned first = 0; first < Vectors().size(); ++first) {
         Vector3<Momentum> total_momentum;
         for (unsigned second = 0; second < Vectors().size(); ++second) if (second != first) total_momentum += (vectors[second] * vectors[first] > 0_eV * eV) ? vectors[second] : -vectors[second];
@@ -538,28 +525,29 @@ GradedVector<Momentum> EventShapes::Major(std::vector<Vector3<Momentum>> const& 
     return major;
 }
 
-void EventShapes::BookEEC(std::vector<double>& hi) const
+std::vector<double> EventShapes::EnergyEnergyCorrelation(int bins) const
 {
     INFO0;
+    std::vector<double> correlations(bins);
+    if (LorentzVectors().size() < 2) return correlations;
     // hi is the histogram. It is understood that hi.front() contains
     // the bin [-1 < std::cos(chi) < -1+delta] and hi.back() the bin [1-delta
     // < std::cos(chi) < 1]. Here, delta = 2/hi.size().
-    auto total_energy = boost::accumulate(LorentzVectors(), 0_eV, [](Energy & sum, LorentzVector<Momentum> const & lorentz_vector) {
+    auto energy_square = sqr(boost::accumulate(LorentzVectors(), 0_eV, [](Energy & sum, LorentzVector<Momentum> const & lorentz_vector) {
         return sum + lorentz_vector.E();
+    }));
+    auto pairs = UnorderedPairs(LorentzVectors(), [&](LorentzVector<Momentum> const & lorentz_vector_1, LorentzVector<Momentum> const & lorentz_vector_2) {
+        return std::make_pair(lorentz_vector_1, lorentz_vector_2);
     });
-    for (auto & bin : hi) {
-        double delta = 2. / hi.size();
-        double coschi = -1 + Position(hi, bin) * delta;
-        if (Vectors().size() < 2) continue;
-        for (unsigned i = 0; i < Vectors().size() - 1; ++i) {
-            for (unsigned j = i + 1; j < Vectors().size(); ++j) {
-                double diff = std::abs(coschi - boost::units::cos(Vectors()[i].Angle(Vectors()[j])));
-                if (delta > diff) bin += LorentzVectors()[i].E() * LorentzVectors()[j].E() / GeV2;
-            }
+    auto delta = 2. / bins;
+    for (auto & correlation : correlations) {
+        auto cos_chi = Position(correlations, correlation) * delta - 1;
+        for (auto const & pair : pairs) {
+            auto diff = std::abs(cos_chi - boost::units::cos(pair.first.Angle(pair.second)));
+            if (delta > diff) correlation += pair.first.E() * pair.second.E() / energy_square;
         }
-
-        hi[bin] /= (total_energy * total_energy) / GeV2;
     }
+    return correlations;
 }
 
 Momentum EventShapes::ScalarMomentum() const

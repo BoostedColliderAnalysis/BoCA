@@ -203,7 +203,8 @@ public:
         return vector_3_.Perp2(vector);
     }
 
-    Value Perp(Vector3<Value> const& vector) const {
+    template <typename Value_2>
+    Value Perp(Vector3<Value_2> const& vector) const {
         return vector_3_.Perp(vector);
     }
 
@@ -226,8 +227,13 @@ public:
     }
 
 // Angle wrt. another vector.
-    Value Angle(Vector3<Value> const& vector) const {
+    boca::Angle Angle(Vector3<Value> const& vector) const {
         return vector_3_.Angle(vector);
+    }
+
+    // Angle wrt. another vector.
+    boca::Angle Angle(LorentzVectorBase const& vector) const {
+        return vector_3_.Angle(vector.Vector());
     }
 
 // Invariant mass squared.
@@ -461,19 +467,19 @@ public:
     }
 
     ConstIterator<Vector3, Value> begin() const {
-      return {this, 0};
+        return {this, 0};
     }
 
     ConstIterator<Vector3, Value> end() const {
-      return {this, 3};
+        return {this, 3};
     }
 
     Iterator<Vector3, Value> begin() {
-      return {this, 0};
+        return {this, 0};
     }
 
     Iterator<Vector3, Value> end() {
-      return {this, 3};
+        return {this, 3};
     }
 
     // Additions.

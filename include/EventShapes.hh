@@ -188,7 +188,7 @@ public:
     * 1]. delta = 2/hi.size(). We use classical indices to access the
     * vector.
     */
-    void BookEEC(std::vector<double>& hi) const;
+    std::vector<double> EnergyEnergyCorrelation(int bins = 10) const;
 
     /**
     * Before writing the histogram it has to be normalized according to
@@ -213,15 +213,15 @@ private:
     /**
     * Accessor for the thrust related variables
     */
-    Vector<GradedVector<double>> Thrusts() const;
+    Vector<GradedVector3<double>> Thrusts() const;
     /**
     * Accessor for the linear tensor related variables
     */
-    Vector<GradedVector<double>> LinearTensors() const;
+    Vector<GradedVector3<double>> LinearTensors() const;
     /**
     * Accessor for the quadratic tensor related variables
     */
-    Vector<GradedVector<double>> SphericalTensors() const;
+    Vector<GradedVector3<double>> SphericalTensors() const;
     //@}
     /**
     * Methods that actually calculate the event shapes
@@ -234,31 +234,31 @@ private:
     /**
     * Calculate the thrust and related axes
     */
-    Vector<GradedVector<double>> GetThrusts() const;
+    Vector<GradedVector3<double>> GetThrusts() const;
     /**
      * Calculate the thrust and related axes for less than two jets
      */
-    Vector<GradedVector<double>> GetThrusts1() const;
+    Vector<GradedVector3<double>> GetThrusts1() const;
     /**
      * Calculate the thrust and related axes for two jets
      */
-    Vector<GradedVector<double>> GetThrusts2() const;
+    Vector<GradedVector3<double>> GetThrusts2() const;
     /**
      * Calculate the thrust and related axes for three jets
      */
-    Vector<GradedVector<double>> GetThrusts3() const;
+    Vector<GradedVector3<double>> GetThrusts3() const;
     /**
      * Calculate the thrust and related axes for more than three jets
      */
-    Vector<GradedVector<double>> GetThrusts4() const;
+    Vector<GradedVector3<double>> GetThrusts4() const;
     /**
      * Diagonalize the linear tensors
      */
-    Vector<GradedVector<double>> DiagonalizeLinearTensors() const;
+    Vector<GradedVector3<double>> DiagonalizeLinearTensors() const;
     /**
      * Diagonalize the quadratic tensor
      */
-    Vector<GradedVector<double>> DiagonalizeSphericalTensors() const;
+    Vector<GradedVector3<double>> DiagonalizeSphericalTensors() const;
     /**
     * Quite general diagonalization of a symmetric @param matrix, given as an
     * array of doubles. The symmetry is not checked explicitly as this
@@ -270,7 +270,7 @@ private:
     /**
      * The eigensystem of @param matrix
      */
-    Vector<GradedVector<double>> EigenSystem(Matrix3<double> const& matrix) const;
+    Vector<GradedVector3<double>> EigenSystem(Matrix3<double> const& matrix) const;
     /**
      * The eigenvector of @param matrix to a given eigenvalue @param eigenvalue
     */
@@ -285,12 +285,12 @@ private:
     * Calculate the thrust
     * @param vectors The three vectors
     */
-    GradedVector<Momentum> Thrust(std::vector<Vector3<Momentum>> const& vectors) const;
+    GradedVector3<Momentum> Thrust(std::vector<Vector3<Momentum>> const& vectors) const;
     /**
     * Calculate the major
     * @param vectors The three vectors
     */
-    GradedVector<Momentum> Major(std::vector<Vector3<Momentum>> const& vectors) const;
+    GradedVector3<Momentum> Major(std::vector<Vector3<Momentum>> const& vectors) const;
     //@}
     /**
      * @brief Accessor for all vecor of LorentzVectors
@@ -323,15 +323,15 @@ private:
     /**
      * The thrust related axes
      */
-    Mutable<Vector<GradedVector<double>>> thrusts_;
+    Mutable<Vector<GradedVector3<double>>> thrusts_;
     /**
      * The sphericity related axes
      */
-    Mutable<Vector<GradedVector<double>>> spherical_tensors_;
+    Mutable<Vector<GradedVector3<double>>> spherical_tensors_;
     /**
      * The linearised tensor axes
      */
-    Mutable<Vector<GradedVector<double>>> linear_tensors_;
+    Mutable<Vector<GradedVector3<double>>> linear_tensors_;
     //@}
     /**
      * The hemisphere masses
