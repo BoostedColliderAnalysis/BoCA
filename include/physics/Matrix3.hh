@@ -23,15 +23,6 @@
 namespace boca
 {
 
-enum class Matrix
-{
-    diagonal,
-    symmetric,
-    antisymmetric,
-    row,
-    column
-};
-
 template <typename Value_>
 class Matrix3
 // : boost::operators<Matrix3<Value_>>

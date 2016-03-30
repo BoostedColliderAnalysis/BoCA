@@ -10,6 +10,15 @@
 namespace boca
 {
 
+  enum class Matrix
+  {
+    diagonal,
+    symmetric,
+    antisymmetric,
+    row,
+    column
+  };
+
 template <typename Value_>
 class Matrix2
 {
