@@ -2,6 +2,7 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "Hadrons.hh"
+#include "Types.hh"
 #include "DEBUG.hh"
 
 namespace boca

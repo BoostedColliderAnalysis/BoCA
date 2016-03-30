@@ -66,6 +66,7 @@ public:
 protected:
 
     Momentum LowerPtCut() const {
+        return 750_GeV;
         return 500_GeV;
         return 600_GeV;
         return 1_TeV;
@@ -88,7 +89,8 @@ protected:
     }
 
     Momentum UpperPtCut() const {
-        switch (Int(LowerPtCut())) {
+        switch (int(LowerPtCut() / GeV)) {
+        case 750 : return 1_TeV;
         case 500 : return 600_GeV;
         case 600 : return 700_GeV;
         case 700 : return 1_TeV;
@@ -135,10 +137,11 @@ private:
     }
 
     Momentum MadGraphCut() const {
-        switch (Int(LowerPtCut())) {
+        switch (int(LowerPtCut() / GeV)) {
         case 500: return 500_GeV;
         case 600: return 500_GeV;
         case 700 : return 500_GeV;
+        case 750 : return 750_GeV;
         case 1000 : return 1_TeV;
         case 1200 : return 1_TeV;
         case 1500 : return 1_TeV;

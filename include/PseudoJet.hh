@@ -4,12 +4,15 @@
 #pragma once
 
 #include "fastjet/PseudoJet.hh"
-#include "physics/LorentzVector.hh"
+#include "physics/Vector2.hh"
 
 class TLorentzVector;
 
 namespace boca
 {
+
+template<typename Value_>
+class LorentzVector;
 
 class PseudoJet : public fastjet::PseudoJet
 {
@@ -46,6 +49,10 @@ public:
     Angle DeltaRapTo(PseudoJet const& jet) const;
 
     Vector2<Angle> DeltaTo(PseudoJet const& jet) const;
+
+    Vector2<Angle> Angles() const;
+
+    Vector2<Angle> Angles(Vector2<Angle> const& angles) const;
 
     boca::MassSquare MassSquare() const;
 

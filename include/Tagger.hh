@@ -9,7 +9,6 @@
 
 #include "Vector.hh"
 #include "Branches.hh"
-#include "Event.hh"
 #include "Phase.hh"
 #include "physics/Range.hh"
 
@@ -30,6 +29,8 @@ namespace boca
 {
 
 class PreCuts;
+class Event;
+class Jet;
 /**
  * @brief Prepares multivariant analysis
  *

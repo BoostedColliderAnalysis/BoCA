@@ -4,6 +4,7 @@
 #include "ResonanceTagger.hh"
 #include "Particles.hh"
 #include "Exception.hh"
+#include "Event.hh"
 #include "DEBUG.hh"
 
 namespace boca

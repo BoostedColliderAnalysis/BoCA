@@ -18,6 +18,19 @@
 namespace boca
 {
 
+// Safe indexing of the coordinates when using with matrices, arrays, etc.
+enum class LorentzDimension
+{
+    t,
+    x,
+    y,
+    z,
+};
+
+std::string Name(LorentzDimension dimension);
+
+std::vector<LorentzDimension> LorentzDimensions();
+
 /**
  * @brief Copy of root::TLorentzVector in order to get rid of TObject which makes it unsuitable for heavy usage
  *
@@ -45,9 +58,6 @@ public:
     template<typename Value_2>
     using OnlyIfNotQuantity = typename std::enable_if < !IsQuantity<Value_2>::value >::type;
 
-// Safe indexing of the coordinates when using with matrices, arrays, etc.
-    enum { kX = 0, kY = 1, kZ = 2, kT = 3, kNUM_COORDINATES = 4, kSIZE = kNUM_COORDINATES };
-
     LorentzVectorBase() :
         vector_3_(),
         scalar_(Value(0)) {}
@@ -61,6 +71,12 @@ public:
     LorentzVectorBase(Vector3<Value> vector3, Value t) :
         vector_3_(std::move(vector3)),
         scalar_(t) {}
+
+    template<typename Value_2>
+    LorentzVectorBase(LorentzVectorBase<Value_2> const& lorentz_vector) {
+        vector_3_ = Vector3<Value_2>(lorentz_vector.Vector());
+        scalar_ = Value_2(lorentz_vector.Scalar());
+    }
 
 // Set position and time.
     void SetX(Value x) {
@@ -119,16 +135,16 @@ public:
     }
 
 // Get position and time.
-    Value const& X() const {
+    Value X() const {
         return vector_3_.X();
     }
-    Value const& Y() const {
+    Value Y() const {
         return vector_3_.Y();
     }
-    Value const& Z() const {
+    Value Z() const {
         return vector_3_.Z();
     }
-    Value const& T() const {
+    Value T() const {
         return scalar_;
     }
 
@@ -147,6 +163,9 @@ public:
 
 // Get spatial component.
     Vector3<Value> Vect() const {
+        return vector_3_;
+    }
+    Vector3<Value> Vector() const {
         return vector_3_;
     }
 
@@ -184,7 +203,8 @@ public:
         return vector_3_.Perp2(vector);
     }
 
-    Value Perp(Vector3<Value> const& vector) const {
+    template <typename Value_2>
+    Value Perp(Vector3<Value_2> const& vector) const {
         return vector_3_.Perp(vector);
     }
 
@@ -207,8 +227,13 @@ public:
     }
 
 // Angle wrt. another vector.
-    Value Angle(Vector3<Value> const& vector) const {
+    boca::Angle Angle(Vector3<Value> const& vector) const {
         return vector_3_.Angle(vector);
+    }
+
+    // Angle wrt. another vector.
+    boca::Angle Angle(LorentzVectorBase const& vector) const {
+        return vector_3_.Angle(vector.Vector());
     }
 
 // Invariant mass squared.
@@ -251,11 +276,8 @@ public:
         return T() - Z();
     }
 
-    /**
-     * Boost from reference frame into this vector's rest
-     * frame: \f$\frac{\vec{x}}{t}\f$.
-     */
-// Returns the spatial components divided by the time component.
+
+    // Returns the spatial components divided by the time component.
     Vector3<double> BoostVector() const {
         if (T() == Value(0)) {
             if (Rho() > Value(0)) std::cout << "boostVector computed for LorentzVector with t=0 -- infinite result" << std::endl;
@@ -289,6 +311,25 @@ public:
         Boost(b.X(), b.Y(), b.Z());
     }
 
+    // Lorentz boost.
+    LorentzVectorBase<Value> Boosted(double x, double y, double z) const {
+        //Boost this Lorentz vector
+        double b2 = sqr(x) + sqr(y) + sqr(z);
+        double gamma = 1. / std::sqrt(1. - b2);
+        double gamma2 = b2 > 0. ? (gamma - 1.) / b2 : 0.;
+        Value bp = x * X() + y * Y() + z * Z();
+        LorentzVectorBase<Value> lorentz_vector;
+        lorentz_vector.SetX(X() + gamma2 * bp * x + gamma * x * T());
+        lorentz_vector.SetY(Y() + gamma2 * bp * y + gamma * y * T());
+        lorentz_vector.SetZ(Z() + gamma2 * bp * z + gamma * z * T());
+        lorentz_vector.SetT(gamma * (T() + bp));
+        return lorentz_vector;
+    }
+
+    LorentzVectorBase<Value> Boosted(Vector3<double> const& b) const {
+        return Boosted(b.X(), b.Y(), b.Z());
+    }
+
 // Returns the rapidity, i.e. 0.5*ln((E+pz)/(E-pz))
     boca::Angle Rapidity() const {
         //return rapidity
@@ -300,8 +341,8 @@ public:
     boca::Angle Rapidity(Vector3<double> const& ref) const {
         double r = ref.Mag2();
         if (r == 0) {
-          std::cout << "A zero vector used as reference to LorentzVector rapidity" << std::endl;
-          return 0;
+            std::cout << "A zero vector used as reference to LorentzVector rapidity" << std::endl;
+            return 0;
         }
         Value vdotu = Vect().Dot(ref) / std::sqrt(r);
         if (vdotu == Value(0)) return 0_rad;
@@ -359,42 +400,87 @@ public:
         ;
     }
 
-    //     ValueSqr operator*(LorentzVectorBase const& q) const {
-    //         return Dot(q);
-    //     }
+    // Get components by index.
+    Value operator()(LorentzDimension i) const {
+        //dereferencing operatorconst
+        switch (i) {
+        case LorentzDimension::x : return vector_3_(Dimension3::x);
+        case LorentzDimension::y : return vector_3_(Dimension3::y);
+        case LorentzDimension::z : return vector_3_(Dimension3::z);
+        case LorentzDimension::t : return scalar_;
+        default: std::cout << "bad index(%d) returning 0 " << Name(i) << std::endl;
+        }
+        return Value(0);
+    }
 
-//     // Get components by index.
-//     Value operator()(int i) const {
-//         //dereferencing operatorconst
-//         switch (i) {
-//         case kX:
-//         case kY:
-//         case kZ: return vector_3_(i);
-//         case kT: return scalar_;
-//         default: std::cout << "bad index(%d) returning 0 " << i << std::endl;
-//         }
-//         return Value(0);
-//     }
-//     Value operator[](int i) const {
-//         return (*this)(i);
-//     }
-//
-//     // Set components by index.
-//     Value& operator()(int i) {
-//         //dereferencing operator
-//         switch (i) {
-//         case kX:
-//         case kY:
-//         case kZ: return vector_3_(i);
-//         case kT: return scalar_;
-//         default:  std::cout << "bad index(%d) returning &e_ " << i << std::endl;
-//         }
-//         return scalar_;
-//     }
-//
-//     Value& operator[](int i) {
-//         return (*this)(i);
-//     }
+    Value operator[](LorentzDimension i) const {
+        return (*this)(i);
+    }
+
+    // Get components by index.
+    Value operator()(int i) const {
+        //dereferencing operatorconst
+        switch (i) {
+        case 0 : ;
+        case 1 : ;
+        case 2 : return vector_3_(i);
+        case 3 : return scalar_;
+        default: std::cout << "bad index(%d) returning 0 " << i << std::endl;
+        }
+        return Value(0);
+    }
+    Value operator[](int i) const {
+        return (*this)(i);
+    }
+
+    // Set components by index.
+    Value& operator()(Dimension3 i) {
+        //dereferencing operator
+        switch (i) {
+        case LorentzDimension::x : return vector_3_(Dimension3::x);
+        case LorentzDimension::y : return vector_3_(Dimension3::y);
+        case LorentzDimension::z : return vector_3_(Dimension3::z);
+        case LorentzDimension::t : return scalar_;
+        default:  std::cout << "bad index(%d) returning &e_ " << Name(i) << std::endl;
+        }
+        return scalar_;
+    }
+
+    Value& operator[](Dimension3 i) {
+        return (*this)(i);
+    }
+
+    Value& operator()(int i) {
+        //dereferencing operator
+        switch (i) {
+        case 0 : ;
+        case 1 : ;
+        case 2 : return vector_3_(i);
+        case 3 : return scalar_;
+        default:  std::cout << "bad index(%d) returning &e_ " << i << std::endl;
+        }
+        return scalar_;
+    }
+
+    Value& operator[](int i) {
+        return (*this)(i);
+    }
+
+    ConstIterator<Vector3, Value> begin() const {
+        return {this, 0};
+    }
+
+    ConstIterator<Vector3, Value> end() const {
+        return {this, 3};
+    }
+
+    Iterator<Vector3, Value> begin() {
+        return {this, 0};
+    }
+
+    Iterator<Vector3, Value> end() {
+        return {this, 3};
+    }
 
     // Additions.
     template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
@@ -432,11 +518,6 @@ public:
     LorentzVectorBase operator-() const {
         return { -X(), -Y(), -Z(), -T()};
     }
-
-    // Scaling with real numbers.
-    //     LorentzVectorBase operator*(Value a) const {
-    //         return {a * X(), a * Y(), a * Z(), a * T()};
-    //     }
 
     template <typename Value_2, typename = OnlyIfNotQuantity<Value_2>>
     LorentzVectorBase& operator*=(Value_2 scalar) {

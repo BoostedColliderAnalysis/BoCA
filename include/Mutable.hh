@@ -12,17 +12,17 @@ public:
 
 //     Mutable() {};
 
-//     Mutable(std::function<Member_()> const& function) :
+  //     Mutable(std::function<Member_()> const& function) :
 //         function_(function)
 //     {}
 
     void SetFunction(std::function<Member_()> const& function) const {
-        function_ = function;
+        if (!function_) function_ = function;
     }
 
     Member_ const& Get(std::function<Member_()> const& function) const {
-        if (!function_) SetFunction(function);
-        if (!set_) Set();
+        SetFunction(function);
+        Set();
         return member_;
     }
 
@@ -32,6 +32,7 @@ public:
 //     }
 
     void Set() const {
+        if (set_) return;
         if (!function_) std::cout << "defining function of mutable class got lost" << std::endl;
         member_ = function_();
         set_ = true;

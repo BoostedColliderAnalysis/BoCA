@@ -7,7 +7,7 @@
 #include "SubJettiness.hh"
 #include "ClosestLepton.hh"
 #include "Particle.hh"
-#include "Multiplets.hh"
+#include "EventShapes.hh"
 
 namespace boca
 {
@@ -32,6 +32,10 @@ public:
     Angle Rap() const;
 
     Angle Phi() const;
+
+    Vector2<Angle> Angles() const;
+
+    Vector2<Angle> Angles(Vector2<Angle> const& angles) const;
 
     template<typename Multiplet_>
     using NotJet = typename std::enable_if < !std::is_same<Multiplet_, boca::Jet>::value && !std::is_same<Multiplet_, boca::PseudoJet>::value && !std::is_same<Multiplet_, boca::Particle>::value >::type;
@@ -66,13 +70,25 @@ public:
 
     std::vector<boca::Jet> Constituents() const;
 
+    bool HasConstituents() const;
+
     boca::SubJettiness SubJettiness() const;
+
+    boca::EventShapes EventShapes() const {
+        return event_shapes_.Get([this]() {
+            return boca::EventShapes(LorentzVectors());
+        });
+    }
 
 protected:
 
     virtual Singlet GetConstituentJet() const = 0;
 
     virtual boca::Jet GetJet() const = 0;
+
+    virtual std::vector<boca::Jet> Jets() const = 0;
+
+    virtual std::vector<LorentzVector<Momentum>> LorentzVectors() const = 0;
 
 private:
 
@@ -81,6 +97,8 @@ private:
     Mutable<boca::Singlet> constituent_jet_;
 
     Mutable<boca::Jet> jet_;
+
+    Mutable<boca::EventShapes> event_shapes_;
 
 };
 

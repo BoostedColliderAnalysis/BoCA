@@ -52,13 +52,13 @@ void Histogram2Dim::Draw()
 void Histogram2Dim::SetXAxis(std::string const& title)
 {
     INFO0;
-    for (auto & histogram : histograms_) SetTitle(*histogram.GetXaxis(), title.c_str());
+    for (auto & histogram : histograms_) SetAxis(*histogram.GetXaxis(), title.c_str());
 }
 
 void Histogram2Dim::SetYAxis(std::string const& title)
 {
     INFO0;
-    for (auto & histogram : histograms_) SetTitle(*histogram.GetYaxis(), title.c_str());
+    for (auto & histogram : histograms_) SetAxis(*histogram.GetYaxis(), title.c_str());
 }
 
 void Histogram2Dim::AddHistogram(std::string const& name, int bins, Rectangle<double> const& range, Plot const& plot, EColor color)

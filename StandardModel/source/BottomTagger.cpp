@@ -58,7 +58,7 @@ std::vector<Jet> BottomTagger::Multiplets(std::vector<Jet> jets, std::function<J
     if (sub_jet_number > 1) jets = SubJets(jets, sub_jet_number);
     std::vector<Jet> final_jets;
     for (auto & jet : jets) try {
-      DEBUG(jet.m(),jet.rap(),jet.phi_std(),jet.has_user_info());
+            DEBUG(jet.m(), jet.rap(), jet.phi_std(), jet.has_user_info());
             final_jets.emplace_back(function(jet));
         } catch (std::exception&) {
             continue;
@@ -75,10 +75,10 @@ std::vector<Jet> BottomTagger::Multiplets(Event const& event, PreCuts const& pre
     });
 }
 
-Jet BottomTagger::Multiplet(Jet & jet, TMVA::Reader const& reader) const
+Jet BottomTagger::Multiplet(Jet& jet, TMVA::Reader const& reader) const
 {
     INFO0;
-    DEBUG(jet.m(),jet.rap(),jet.phi_std(),jet.has_user_info());
+    DEBUG(jet.m(), jet.rap(), jet.phi_std(), jet.has_user_info());
     jet.Info().SetBdt(Bdt(jet, reader));
     return jet;
 }
@@ -127,10 +127,13 @@ std::vector<Jet> BottomTagger::SubMultiplet(Jet const& jet, TMVA::Reader const& 
     INFO0;
     std::vector<Jet> jets;
     for (auto & sub_jet : Tagger::SubJets(jet, sub_jet_number)) {
-        if (sub_jet.Mass() <= massless) continue;
+//         if (sub_jet.Mass() <= massless) continue;
         jets.emplace_back(Multiplet(sub_jet, reader));
     }
     return jets;
+//     boost::push_back(jets, Tagger::SubJets(jet, sub_jet_number) | boost::adaptors::transformed([&](Jet & sub_jet) -> Jet {
+//         return Multiplet(sub_jet, reader);
+//     }));
 }
 
 std::string BottomTagger::Name() const
@@ -146,4 +149,3 @@ std::string BottomTagger::LatexName() const
 }
 
 }
-

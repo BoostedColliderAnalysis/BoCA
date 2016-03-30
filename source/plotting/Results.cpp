@@ -193,7 +193,7 @@ int BestMIBin(std::vector<Result> const& signals_, int step, std::function<std::
         });
         auto dist = std::distance(vector.begin(), min);
         map.emplace(*min, dist);
-        ERROR(*min, dist);
+        INFO(*min, dist);
     }
     return map.rbegin()->second;
 }

@@ -80,20 +80,12 @@ TopHadronicBranch::TopHadronicBranch()
     BottomMass = InitialValue();
     WMass = InitialValue();
     LeptonPt = InitialValue();
-//     Tau1_1 = InitialValue();
-//     Tau2_1 = InitialValue();
-//     Tau3_1 = InitialValue();
-//     Tau21_1 = InitialValue();
-//     Tau32_1 = InitialValue();
-//     Tau1_2 = InitialValue();
-//     Tau2_2 = InitialValue();
-//     Tau3_2 = InitialValue();
-//     Tau21_2 = InitialValue();
-//     Tau32_2 = InitialValue();
+    LeptonDeltaR = InitialValue();
 }
 
 Observables TopHadronicBranch::Variables()
 {
+    return MultiBranch::Variables() + BottomBase::Variables() /*+ OBSERVABLE(LeptonPt) + OBSERVABLE(LeptonDeltaR)*/ + OBSERVABLE(WMass) + OBSERVABLE(BottomMass);
     return BottomBase::Variables() + OBSERVABLE(DeltaHt, Formula("\\Delta H_{T}") + " [GeV]") + OBSERVABLE(Bdt1, "BDT" + Formula("_{W}")) + OBSERVABLE(Bdt2, "BDT" + Formula("_{b}")) + OBSERVABLE(Mass, Formula("m") + " [GeV]") + OBSERVABLE(DeltaPt, Formula("\\Delta P_{T}") + " [GeV]") + OBSERVABLE(DeltaM, Formula("\\Delta m") + " [GeV]") + OBSERVABLE(DeltaRap, Formula("\\Delta \\eta")) + OBSERVABLE(DeltaPhi, Formula("\\Delta \\phi")) + OBSERVABLE(DeltaR, Formula("\\Delta R")) + OBSERVABLE(Rho, Formula("\\rho")) + OBSERVABLE(BottomMass, Formula("m_{b}") + " [GeV]") + OBSERVABLE(WMass, Formula("m_{W}") + " [GeV]") + OBSERVABLE(Pull1, Formula("#theta_{1}")) + OBSERVABLE(Pull2, Formula("#theta_{2}")) /*+ OBSERVABLE(Dipolarity, Formula("D"))*/; // everything
     return OBSERVABLE(Mass, Formula("m") + " [GeV]") + OBSERVABLE(WMass, Formula("m_{W}") + " [GeV]"); // masses
     return BottomBase::Variables() + OBSERVABLE(DeltaHt, Formula("\\Delta H_{T}") + " [GeV]") + OBSERVABLE(Mass, Formula("m") + " [GeV]") + OBSERVABLE(DeltaPt, Formula("\\Delta P_{T}") + " [GeV]") + OBSERVABLE(DeltaM, Formula("\\Delta m") + " [GeV]") + OBSERVABLE(DeltaRap, Formula("\\Delta \\eta")) + OBSERVABLE(DeltaPhi, Formula("\\Delta \\phi")) + OBSERVABLE(DeltaR, Formula("\\Delta R")) + OBSERVABLE(Rho, Formula("\\rho")) + OBSERVABLE(BottomMass, Formula("m_{b}") + " [GeV]") + OBSERVABLE(WMass, Formula("m_{W}") + " [GeV]") + OBSERVABLE(Pull1, Formula("#theta_{1}")) + OBSERVABLE(Pull2, Formula("#theta_{2}")) /*+ OBSERVABLE(Dipolarity, Formula("D"))*/; // bottom
@@ -103,7 +95,6 @@ Observables TopHadronicBranch::Variables()
     return OBSERVABLE(DeltaHt, Formula("\\Delta H_{T}") + " [GeV]") + OBSERVABLE(Bdt1, "BDT" + Formula("_{W}")) + OBSERVABLE(Bdt2, "BDT" + Formula("_{b}")) + OBSERVABLE(Mass, Formula("m") + " [GeV]") + OBSERVABLE(DeltaPt, Formula("\\Delta P_{T}") + " [GeV]") + OBSERVABLE(DeltaM, Formula("\\Delta m") + " [GeV]") + OBSERVABLE(DeltaRap, Formula("\\Delta \\eta")) + OBSERVABLE(DeltaPhi, Formula("\\Delta \\phi")) + OBSERVABLE(DeltaR, Formula("\\Delta R")) + OBSERVABLE(Rho, Formula("\\rho")) + OBSERVABLE(BottomMass, Formula("m_{b}") + " [GeV]") + OBSERVABLE(WMass, Formula("m_{W}") + " [GeV]"); // kinematics + bdts
     return OBSERVABLE(Mass, Formula("m") + " [GeV]") + OBSERVABLE(Bdt1, "BDT" + Formula("_{W}")); // mass and W bdt
     return OBSERVABLE(Mass, Formula("m") + " [GeV]") + OBSERVABLE(Bdt1, "BDT" + Formula("_{W}")) + OBSERVABLE(Bdt2, "BDT" + Formula("_{b}")); // mass and bdt
-    return MultiBranch::Variables() + BottomBase::Variables() +  Observables(OBSERVABLE(LeptonPt));
     return MultiBranch::Variables() + BottomBase::Variables(); // FIXME usually we use the lepton pt
 }
 

@@ -40,7 +40,7 @@ void Histograms::Initialize(std::string const& path, std::string const& name, bo
 
 void Histograms::AddHistogram(std::vector<double> const& values, std::string const& name, Range<double> const& range, bool is_int)
 {
-    ERROR(name);
+    INFO(name);
     range_.WidenX(range);
     double min = FloorToDigits(range.Min(), 1);
     double max = CeilToDigits(range.Max(), 1);
@@ -85,7 +85,7 @@ void Histograms::SetXAxis(std::string const& title, boca::Range<double> const& r
     INFO(title);
     AddHistograms();
     if (!stack_.GetXaxis()) return;
-    SetTitle(*stack_.GetXaxis(), title.c_str());
+    SetAxis(*stack_.GetXaxis(), title.c_str());
     if (range) stack_.GetXaxis()->SetLimits(range.Min(), range.Max());
 }
 
@@ -94,7 +94,7 @@ void Histograms::SetYAxis(std::string const& title, boca::Range<double> const& r
     INFO(title);
     AddHistograms();
     if (!stack_.GetYaxis()) return;
-    SetTitle(*stack_.GetYaxis(), title.c_str());
+    SetAxis(*stack_.GetYaxis(), title.c_str());
     if (range) {
         SetLog(range);
         stack_.GetYaxis()->SetLimits(range.Min(), range.Max());

@@ -7,6 +7,7 @@
 #include "GlobalObservables.hh"
 #include "Event.hh"
 #include "Sort.hh"
+#include "Vector.hh"
 #include "DEBUG.hh"
 
 namespace boca
@@ -135,12 +136,12 @@ Jet GlobalObservables::Jet() const
     });
 }
 
-const Singlet& GlobalObservables::ConstituentJet() const
+Singlet GlobalObservables::ConstituentJet() const
 {
     return constituent_jet_.Get([this]() {
-        std::vector<boca::Jet> jets;
-        for (auto const & jet : Jets()) Insert(jets, jet.Constituents());
-        return Join(jets);
+      return Join(boost::accumulate(Jets(), std::vector<boca::Jet>{}, [](std::vector<boca::Jet>& sum, boca::Jet const & jet) {
+            return Combine(sum, jet.Constituents());
+        }));
     });
 }
 
@@ -152,5 +153,15 @@ Angle GlobalObservables::DeltaRTo(const PseudoJet& jet) const
 {
     return Jet().DeltaRTo(jet);
 }
+
+std::vector< Jet > GlobalObservables::Constituents() const
+{
+    return ConstituentJet().Constituents();
+}
+std::vector< LorentzVector< Momentum > > GlobalObservables::LorentzVectors() const
+{
+    return {};
+}
+
 
 }

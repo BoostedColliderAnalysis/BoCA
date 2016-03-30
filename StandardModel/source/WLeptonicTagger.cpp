@@ -58,7 +58,9 @@ bool WLeptonicTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cut
     INFO0;
     if (Problematic(doublet, pre_cuts)) return true;
     switch (tag) {
-    case Tag::signal : if (pre_cuts.OutSideMassWindow(doublet, w_mass_window_, Id::W)) return true;
+    case Tag::signal :
+        if (pre_cuts.OutSideMassWindow(doublet, w_mass_window_, Id::W)) return true;
+        if (pre_cuts.NotParticleRho(doublet)) return true;
         break;
     case Tag::background : break;
     }
@@ -75,9 +77,8 @@ bool WLeptonicTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cut
 std::vector<Particle> WLeptonicTagger::Particles(Event const& event) const
 {
     INFO0;
-    std::vector<Particle> particles = event.Partons().GenParticles();
-    std::vector<Particle> leptons = CopyIfMother(CopyIfLepton(particles), Id::W);
-    return CopyIfDaughter(CopyIfParticle(particles, Id::W), leptons);
+    auto particles = event.Partons().GenParticles();
+    return CopyIfDaughter(CopyIfParticle(particles, Id::W), CopyIfMother(CopyIfLepton(particles), Id::W));
 }
 
 std::vector<Doublet> WLeptonicTagger::Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const

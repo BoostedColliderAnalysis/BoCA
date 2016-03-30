@@ -129,13 +129,16 @@ template<typename Value, typename Value_2>
 using ValueQuotient = typename boost::units::divide_typeof_helper<Value, Value_2>::type;
 
 template<typename Value>
-using ValueInvers = typename boost::units::divide_typeof_helper<double, Value>::type;
+using ValueInverse = typename boost::units::divide_typeof_helper<double, Value>::type;
 
 template<typename Value>
 using ValueSquare = typename boost::units::multiply_typeof_helper<Value, Value>::type;
 
 template<typename Value>
 using ValueSqrt = typename boost::units::root_typeof_helper<Value, double>::type;
+
+template<typename Value>
+using ValueCubed = typename boost::units::multiply_typeof_helper<ValueSquare<Value>, Value>::type;
 
 template<typename Value_2>
 double GetValue(Value_2 const& value)
@@ -249,6 +252,12 @@ template<typename Value>
 ValueSquare<Value> sqr(Value const& value)
 {
     return value * value;
+}
+
+template<typename Value>
+ValueCubed<Value> cube(Value const& value)
+{
+  return value * value * value;
 }
 
 

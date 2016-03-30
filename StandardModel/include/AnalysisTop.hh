@@ -31,15 +31,15 @@ public:
     }
 
     static Decay TopDecay() {
-        return Decay::leptonic;
         return Decay::hadronic;
         return Decay::other;
+        return Decay::leptonic;
     }
 
 private:
 
     std::string AnalysisName() const override {
-        return Name(this->Collider()) + "-" + boca::Name(this->LowerPtCut()) + "-" + Name(TopDecay()) + "-with-w";
+        return Name(this->Collider()) + "-" + boca::Name(this->LowerPtCut()) + "-" + Name(TopDecay()) + "-revised";
     }
 
     void SetFiles(Tag tag, Stage)override {
@@ -69,6 +69,7 @@ private:
         std::vector<Particle> particles = SortedByPt(event.Partons().GenParticles());
         particles = CopyIfDrellYan(particles);
         particles = RemoveIfOutsidePtWindow(particles, this->LowerPtCut(), this->UpperPtCut());
+//         std::cout << "pre cut " << particles.size() << std::endl;
         return particles.size() == 1 ? 1 : 0;
     }
 

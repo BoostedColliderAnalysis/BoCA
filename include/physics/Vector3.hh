@@ -14,15 +14,24 @@
 
 #include <iostream>
 
-// class TVector3;
-// #include "TVector3.h"
-// #include "TRotation.h"
-
 #include "TVector3.h"
+#include "TMatrix.h"
+#include "Iterator.hh"
 #include "physics/Vector2.hh"
 
 namespace boca
 {
+
+enum class Dimension3
+{
+    x,
+    y,
+    z
+};
+
+std::string Name(Dimension3 dimension);
+
+std::vector<Dimension3> Dimensions3();
 
 /**
  * @brief Copy of root::TVector3 in order to get rid of TObject
@@ -57,6 +66,14 @@ public:
     Vector3(Value x, Value y, Value z) : x_(x), y_(y), z_(z) {};
 
     // Constructor
+    template<typename Value_2>
+    Vector3(Vector3<Value_2> const& vector) {
+        x_ = Value(vector.X());
+        y_ = Value(vector.Y());
+        z_ = Value(vector.Z());
+    }
+
+    // Constructor
     Vector3(TVector3 const& vector) {
 //         std::cout << "must be double" << std::endl;
 //         std::cout << "vector not initiliazed" << std::endl;
@@ -64,28 +81,33 @@ public:
         y_ = vector.Y();
         z_ = vector.Z();
     }
+
     void SetX(Value x) {
         x_ = x;
     }
+
     void SetY(Value y) {
         y_ = y;
     }
+
     void SetZ(Value z) {
         z_ = z;
     }
+
     void SetXYZ(Value x, Value y, Value z) {
         x_ = x;
         y_ = y;
         z_ = z;
     }
+
+    //set Pt, Eta and Phi
     void SetPtEtaPhi(Value pt, boca::Angle eta, boca::Angle phi) {
-        //set Pt, Eta and Phi
         Value apt = abs(pt);
         SetXYZ(apt * boost::units::cos(phi), apt * boost::units::sin(phi), apt / boost::units::tan(2.0 * boost::units::atan(units::exp(-eta))));
     }
 
+    //set Pt, Theta and Phi
     void SetPtThetaPhi(Value pt, boca::Angle theta, boca::Angle phi) {
-        //set Pt, Theta and Phi
         x_ = pt * boost::units::cos(phi);
         y_ = pt * boost::units::sin(phi);
         double tanTheta = boost::units::tan(theta);
@@ -94,7 +116,6 @@ public:
 
     // Set phi keeping mag and theta constant(BaBar).
     void SetPhi(boca::Angle phi) {
-        // Set phi keeping mag and theta constant(BaBar).
         Value perp = Perp();
         SetX(perp * boost::units::cos(phi));
         SetY(perp * boost::units::sin(phi));
@@ -102,7 +123,6 @@ public:
 
     // Set theta keeping mag and phi constant(BaBar).
     void SetTheta(boca::Angle theta) {
-        // Set theta keeping mag and phi constant(BaBar).
         Value magnitude = Mag();
         boca::Angle phi = Phi();
         SetX(magnitude * boost::units::sin(theta) * boost::units::cos(phi));
@@ -208,8 +228,8 @@ public:
     ValueSquare Perp2(Vector3<Value_2> const& vector) const {
         auto other_mag2 = vector.Mag2();
         auto mixing = Dot(vector);
-        ValueSquare this_mag_2 = Mag2();
-        if (other_mag2 >  boca::ValueSquare<Value_2>(0)) this_mag_2 -= sqr(mixing) / other_mag2;
+        auto this_mag_2 = Mag2();
+        if (other_mag2 > boca::ValueSquare<Value_2>(0)) this_mag_2 -= sqr(mixing) / other_mag2;
         if (this_mag_2 < ValueSquare(0)) this_mag_2 = ValueSquare(0);
         return this_mag_2;
     }
@@ -356,18 +376,18 @@ public:
 
 //     void Rotate(boca::Angle angle, const Vector3& axis) {
 //         //rotate vector
-//         TRotation trans;
+//         Matrix3<Value> trans;
 //         trans.Rotate(angle, axis);
 //         operator*=(trans);
 //     }
     // Rotates around the axis specified by another Hep3Vector.
 
-//     Vector3& operator*=(const TRotation& m) {
+//     Vector3& operator*=(const Matrix3<Value>& m) {
 //         //multiplication operator
 //         return *this = m *(*this);
 //     }
 
-//     Vector3& Transform(const TRotation& m) {
+//     Vector3& Transform(const Matrix3<Value>& m) {
 //         //transform this vector with a Rotation
 //         return *this = m *(*this);
 //     }
@@ -493,6 +513,54 @@ public:
 
     Value& operator[](int i) {
         return operator()(i);
+    }
+
+    // Get components by index
+    Value operator()(Dimension3 dimension) const {
+        //dereferencing operator const
+        switch (dimension) {
+        case Dimension3::x : return x_;
+        case Dimension3::y : return y_;
+        case Dimension3::z : return z_;
+        default : std::cout << "bad index(%d) returning 0 " << Name(dimension) << std::endl;
+            return 0;
+        }
+    }
+
+    Value operator[](Dimension3 dimension) const {
+        return operator()(dimension);
+    }
+
+    // Set components by index.
+    Value& operator()(Dimension3 dimension) {
+        //dereferencing operator
+        switch (dimension) {
+        case Dimension3::x : return x_;
+        case Dimension3::y : return y_;
+        case Dimension3::z : return z_;
+        default : std::cout << "bad index(%d) returning &x_" <<  Name(dimension) << std::endl;
+        }
+        return x_;
+    }
+
+    Value& operator[](Dimension3 dimension) {
+        return operator()(dimension);
+    }
+
+    ConstIterator<Vector3, Value> begin() const {
+      return {this, 0};
+    }
+
+    ConstIterator<Vector3, Value> end() const {
+      return {this, 3};
+    }
+
+    Iterator<Vector3, Value> begin() {
+      return {this, 0};
+    }
+
+    Iterator<Vector3, Value> end() {
+      return {this, 3};
     }
 
     // Comparisons

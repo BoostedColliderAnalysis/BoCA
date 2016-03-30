@@ -19,7 +19,7 @@ LatexFile::LatexFile(std::string const& name)
                 // << "\\usepackage{siunitx}\n\n"
                 // << "\\newcolumntype{R}{S[table-number-alignment = right, table-parse-only]}\n"
                 // << "\\newcolumntype{L}{S[table-number-alignment = left,table-parse-only]}\n"
-                // << "\\newcolumntype{E}{R@{$\\pm$}L}\n"
+                // << "\\newcolumntype{E}{R@{$#pm$}L}\n"
 //                     << "\\usepackage{tikz}\n"
 //                     << "\\usetikzlibrary{patterns}\n"
 //                     << "\\usetikzlibrary{plotmarks}\n"

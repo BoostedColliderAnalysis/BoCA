@@ -36,23 +36,21 @@ int WHadronicTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag)
 std::vector<Doublet> WHadronicTagger::Doublets(Event const& event, PreCuts const& pre_cuts, Function const& function) const
 {
     INFO0;
-    std::vector<Jet> jets = bottom_reader_.Jets(event);
-
+    auto jets = event.Hadrons().Jets();
     MomentumRange two_jet_range(Id::W);
-    std::vector<Doublet> doublets = Doublets(two_jet_range.SofterThanMax(jets), function);
+    std::vector<Jet> soft;
+    for (auto & jet : two_jet_range.SofterThanMax(jets)) soft.emplace_back(bottom_reader_.Multiplet(jet));
+    auto doublets = Doublets(soft, function);
 
     MomentumRange w_jet_range(Id::W, SubJet(Id::W));
     for (auto const & jet : w_jet_range.HarderThanMin(jets)) {
 
         MomentumRange top_jet_range(Id::top, SubJet(Id::W));
-        if (pre_cuts.DoSubJets(Id::W) && top_jet_range.InsideRange(jet)) {
-            std::vector<Jet> pieces = bottom_reader_.SubMultiplet(jet, 3);
-            Insert(doublets, Doublets(pieces, function));
-        }
+        if (pre_cuts.DoSubJets(Id::W) && top_jet_range.InsideRange(jet)) Insert(doublets, Doublets(bottom_reader_.SubMultiplet(jet, 3), function));
 
         MomentumRange boosted_range((SubJet(Id::W)), (SubJet(Id::top)));
         if (pre_cuts.DoSubJets(Id::W) && boosted_range.InsideRange(jet)) {
-            std::vector<Jet> pieces = bottom_reader_.SubMultiplet(jet, 2);
+            auto pieces = bottom_reader_.SubMultiplet(jet, 2);
             for (auto piece : pieces) {
                 Doublet doublet;
                 doublet.Enforce(piece);
@@ -60,11 +58,10 @@ std::vector<Doublet> WHadronicTagger::Doublets(Event const& event, PreCuts const
             }
         }
 
-        if (w_jet_range.BelowUpperBound(jet) || boosted_range.AboveLowerBound(jet)) {
-            Doublet doublet;
-            doublet.Enforce(jet);
-            if (boost::optional<Doublet> optional = function(doublet)) doublets.emplace_back(*optional);
-        }
+        Doublet doublet;
+        doublet.Enforce(bottom_reader_.SubMultiplet(jet, 2));
+        if (boost::optional<Doublet> optional = function(doublet)) doublets.emplace_back(*optional);
+
     }
     return doublets;
 }
@@ -120,10 +117,9 @@ bool WHadronicTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cut
 std::vector<Doublet> WHadronicTagger::Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
 {
     INFO0;
-    std::vector<Doublet> doublets = Doublets(event, pre_cuts, [&](Doublet & doublet) {
+    return Doublets(event, pre_cuts, [&](Doublet & doublet) {
         return Multiplet(doublet, pre_cuts, reader);
     });
-    return doublets;
 }
 
 boost::optional<Doublet> WHadronicTagger::Multiplet(Doublet& doublet, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
@@ -183,12 +179,13 @@ std::string WHadronicTagger::Name() const
 
 std::string WHadronicTagger::LatexName() const
 {
-    return Formula("W_{h}^{\\pm}");
+    return Formula("W_{h}^{#pm}");
 }
 
 }
 
 }
+
 
 
 

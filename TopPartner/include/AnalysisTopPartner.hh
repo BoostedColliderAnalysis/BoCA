@@ -62,8 +62,9 @@ protected:
 
     auto Mass() const {
         INFO0;
-        return 2_TeV;
         return 1_TeV;
+        return 1.5_TeV;
+        return 2_TeV;
         return 4_TeV;
         return 6_TeV;
         return 10_TeV;
@@ -126,12 +127,14 @@ protected:
             case Process::TthHad :
                 switch (Int(Mass())) {
                 case 1000 : return 0.003087_pb;
+                case 1500 : return 0.0006824_pb;
                 case 2000 : return 0.0002097_pb;
                     DEFAULT(Mass(), pb);
                 }
             case Process::TT :
                 switch (Int(Mass())) {
                 case 1000 : return 0.3919 * 2_pb;
+                case 1500 : return 0.05993 * 2_pb;
                 case 2000 : return 0.01468 * 2_pb;
                     DEFAULT(Mass(), pb);
                 }

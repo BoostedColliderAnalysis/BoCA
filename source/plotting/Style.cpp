@@ -28,7 +28,7 @@ void SetAxis(TAttAxis& axis)
 
 }
 
-void SetTitle(TAxis& axis, std::string const& title)
+void SetAxis(TAxis& axis, std::string const& title)
 {
     INFO0;
     axis.SetTitle(title.c_str());

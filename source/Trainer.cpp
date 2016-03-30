@@ -4,6 +4,7 @@
 
 #include "boost/range/algorithm/max_element.hpp"
 
+#include "TClonesArray.h"
 #include "TMVA/Config.h"
 #include "TMVA/MethodBDT.h"
 

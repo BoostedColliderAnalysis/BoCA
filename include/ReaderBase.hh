@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include <mutex>
+// #include <mutex>
 
 namespace boca
 {
@@ -13,7 +13,7 @@ class ReaderBase
 
 public:
 
-static  std::mutex mutex_;
+// static  std::mutex mutex_;
 
 };
 

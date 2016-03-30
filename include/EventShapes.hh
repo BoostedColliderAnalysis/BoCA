@@ -13,6 +13,10 @@
 #pragma once
 
 #include "Jet.hh"
+#include "Mutable.hh"
+#include "HemisphereMasses.hh"
+#include "GradedVector.hh"
+#include "physics/Matrix3.hh"
 
 namespace boca
 {
@@ -26,64 +30,52 @@ namespace boca
  */
 class EventShapes
 {
-
 public:
-
     /**
     * The default constructor.
     */
     EventShapes();
-
     /**
      * The constructor accepting jets.
      */
     EventShapes(std::vector<Jet> const& jets);
-
     /**
-    * Member to reset the particles to be considered
-    */
-    void Reset(std::vector<Jet> const& jets);
-
+     * The constructor accepting lorentz vectors.
+     */
+    EventShapes(std::vector<LorentzVector<Momentum>> const& lorentz_vectors);
     /**
-    * Member functions to return thrust related shapes
+    * Thrust related event shapes
     */
     //@{
     /**
     * The thrust
     */
     double Thrust() const;
-
     /**
     * The major
     */
     double ThrustMajor() const;
-
     /**
     * The minor
     */
     double ThrustMinor() const;
-
     /**
     * The oblateness
     */
     double Oblateness() const;
-
     /**
     * The thrust axis
     */
     Vector3<double> ThrustAxis() const;
-
     /**
     * The major axis
     */
     Vector3<double> MajorAxis() const;
-
     /**
     * The minor axis
     */
     Vector3<double> MinorAxis() const;
     //@}
-
     /**
     * Linear momentum tensor related event shapes
     */
@@ -92,24 +84,19 @@ public:
     * The C parameter
     */
     double CParameter() const;
-
     /**
     * The D parameter
     */
     double DParameter() const;
-
     /**
     * The eigenvalues in descending order
     */
     std::vector<double> LinTenEigenValues() const;
-
     /**
     * The eigenvectors in order of descending eigenvalue
     */
     std::vector<Vector3<double>> LinTenEigenVectors() const;
-
     //@}
-
     /**
     * Quadratic momentum tensor related variables
     */
@@ -118,141 +105,79 @@ public:
     * The sphericity
     */
     double Sphericity() const;
-
     /**
     * The aplanarity
     */
     double Aplanarity() const;
-
     /**
     * The planarity
     */
     double Planarity() const;
-
     /**
     * The sphericity axis
     */
     Vector3<double> SphericityAxis() const;
-
     /**
     * The sphericity eigenvalues
     */
     std::vector<double> SphericityEigenValues() const;
-
     /**
     * The sphericity eigenvectors
     */
     std::vector<Vector3<double>> SphericityEigenVectors() const;
-
     //@}
-
     /**
-    * Jet mass related event shapes
-    */
-    //@{
-    /**
-    * The high hemishpere mass squared divided by the visible energy
-    * squared
-    */
-    double MHigh2() const;
-
-    /**
-    * The low hemishpere mass squared divided by the visible energy
-    * squared
-    */
-    double MLow2() const;
-
-    /**
-    * The difference between the
-    * hemishpere masses squared divided by the visible energy squared
-    */
-    double MDiff2() const;
-
-    //@}
-
-    /**
-    * Jet broadening related event shapes
-    */
-    //@{
-    /**
-    * The wide jet broadening
-    */
-    double BMax() const;
-
-    /**
-    * The narrow jet broadening
-    */
-    double BMin() const;
-
-    /**
-    * The sum of the jet broadenings
-    */
-    double BSum() const;
-
-    /**
-    * The difference of the jet broadenings
-    */
-    double BDiff() const;
-    //@}
-
+     * Hemisphere massvariables and jet broadenings
+     */
+    boca::HemisphereMasses HemisphereMasses() const;
     /**
     * Single particle variables which do not depend on event shapes axes
     */
     //@{
-
     /**
     * The scaled momentum \f$\xi=-\log\left( p/E_{\rm beam}\right)\f$.
     */
-    double ScaledMomentum(LorentzVector<Momentum> const& p, const Energy& Ebeam) const;
-
+    double ScaledMomentum(LorentzVector<Momentum> const& lorentz_vector, Energy const& energy) const;
     /**
     * Transverse momentum with respect to the beam
     */
-    Energy Pt(LorentzVector<Momentum> const& p) const;
-
+    Momentum Pt(LorentzVector<Momentum> const& lorentz_vector) const;
     /**
     * Rapidity with respect to the beam direction
     */
-    Angle Rapidity(LorentzVector<Momentum> const& p) const;
+    Angle Rapidity(LorentzVector<Momentum> const& lorentz_vector) const;
     //@}
-
     /**
     * Single particle variables related to one of the shape axis.
     */
     //@{
-
     /**
     * Transverse momentum with respect to the thrust axis in the event plane
     */
-    Momentum PtInT(LorentzVector<Momentum> const& p) const;
-
+    Momentum PtInT(LorentzVector<Momentum> const& lorentz_vector) const;
     /**
     * Transverse momentum with respect to the thrust axis out of the
     * event plane
     */
-    Momentum PtOutT(LorentzVector<Momentum> const& p) const;
-
+    Momentum PtOutT(LorentzVector<Momentum> const& lorentz_vector) const;
     /**
     * Rapidity with respect to the thrust axis
     */
-    Angle RapidityT(LorentzVector<Momentum> const& p) const;
-
+    Angle RapidityT(LorentzVector<Momentum> const& lorentz_vector) const;
     /**
     * Transverse momentum with respect to the sphericity axis in the
     * event plane
     */
-    Momentum PtInS(LorentzVector<Momentum> const& p) const;
-
+    Momentum PtInS(LorentzVector<Momentum> const& lorentz_vector) const;
     /**
     * Transverse momentum with respect to the sphericity axis out of the
     * event plane
     */
-    Momentum PtOutS(LorentzVector<Momentum> const& p) const;
-
+    Momentum PtOutS(LorentzVector<Momentum> const& lorentz_vector) const;
     /**
     * Rapidity with respect to the sphericity axis
     */
-    Angle RapidityS(LorentzVector<Momentum> const& p) const;
+    Angle RapidityS(LorentzVector<Momentum> const& lorentz_vector) const;
     //@}
 
     /**
@@ -263,7 +188,7 @@ public:
     * 1]. delta = 2/hi.size(). We use classical indices to access the
     * vector.
     */
-    void BookEEC(std::vector<double>& hi) const;
+    std::vector<double> EnergyEnergyCorrelation(int bins = 10) const;
 
     /**
     * Before writing the histogram it has to be normalized according to
@@ -279,41 +204,25 @@ public:
 
 private:
 
+    template<typename Value_>
+    using Vector = std::array<Value_, 3>;
     /**
-     * Initialize variables and get LorentzVector from Jets
-     */
-    void Initialize();
-
-    /**
-    * Check whether the initialization of a certain class of event shapes
-    * has been calculated and if not do so
+    * Accessors for certain class of event shapes
     */
     //@{
     /**
-    * Check if thrust related variables have been calculated and if not
-    * do so
+    * Accessor for the thrust related variables
     */
-    void CheckThrust() const;
-
+    Vector<GradedVector3<double>> Thrusts() const;
     /**
-    * Check if the linear tensor related variables have been calculated
-    * and if not do so
+    * Accessor for the linear tensor related variables
     */
-    void CheckLinTen() const;
-
+    Vector<GradedVector3<double>> LinearTensors() const;
     /**
-    * Check if the quadratic tensor related variables have been
-    * calculated and if not do so
+    * Accessor for the quadratic tensor related variables
     */
-    void CheckSphericity() const;
-
-    /**
-    * Check if the hemisphere mass variables and jet broadenings have
-    * been calculated and if not do so
-    */
-    void CheckHemispheres() const;
+    Vector<GradedVector3<double>> SphericalTensors() const;
     //@}
-
     /**
     * Methods that actually calculate the event shapes
     */
@@ -321,163 +230,113 @@ private:
     /**
     * Calculate the hemisphere masses and jet broadenings
     */
-    void CalcHemisphereMasses() const;
-
+    boca::HemisphereMasses GetHemisphereMasses() const;
     /**
     * Calculate the thrust and related axes
     */
-    void CalculateThrust() const;
-
+    Vector<GradedVector3<double>> GetThrusts() const;
     /**
-    * Diagonalize the tensors @param linear switch between
-    * diagonalization of linear/quadratic tensor. @param cmboost tells
-    * whether to boost into cm frame of all momenta first, or not
-    * (default off, and no interface to this).
-    */
-    void DiagonalizeTensors(bool linear, bool cmboost) const;
-
+     * Calculate the thrust and related axes for less than two jets
+     */
+    Vector<GradedVector3<double>> GetThrusts1() const;
     /**
-    * Quite general diagonalization of a symmetric Matrix T, given as an
+     * Calculate the thrust and related axes for two jets
+     */
+    Vector<GradedVector3<double>> GetThrusts2() const;
+    /**
+     * Calculate the thrust and related axes for three jets
+     */
+    Vector<GradedVector3<double>> GetThrusts3() const;
+    /**
+     * Calculate the thrust and related axes for more than three jets
+     */
+    Vector<GradedVector3<double>> GetThrusts4() const;
+    /**
+     * Diagonalize the linear tensors
+     */
+    Vector<GradedVector3<double>> DiagonalizeLinearTensors() const;
+    /**
+     * Diagonalize the quadratic tensor
+     */
+    Vector<GradedVector3<double>> DiagonalizeSphericalTensors() const;
+    /**
+    * Quite general diagonalization of a symmetric @param matrix, given as an
     * array of doubles. The symmetry is not checked explicitly as this
     * is clear in the context. It uses an explicit generic solution of
     * the eigenvalue problem and no numerical approximation, based on
-    * Cardano's formula. @param T Matrix to be diagonalised
+    * Cardano's formula.
     */
-    std::vector<double> Eigenvalues(const double T[3][3]) const;
-
+    Vector<double> Eigenvalues(Matrix3<double> const& matrix) const;
     /**
-    * The eigenvector of @param T to a given eigenvalue @param lam
+     * The eigensystem of @param matrix
+     */
+    Vector<GradedVector3<double>> EigenSystem(Matrix3<double> const& matrix) const;
+    /**
+     * The eigenvector of @param matrix to a given eigenvalue @param eigenvalue
     */
-    Vector3<double> Eigenvector(const double T[3][3], const double& lam) const;
-
+    Vector3<double> Eigenvector(Matrix3<double> const& matrix, double const& eigenvalue) const;
     /**
-    * The eigenvectors of @param T corresponding to the eigenvectors
-    * @param lam . The ordering of the vectors corresponds to the
+     * The eigenvectors of @param matrix corresponding to the eigenvalues
+    * @param eigenvalues. The ordering of the vectors corresponds to the
     * ordering of the eigenvalues.
     */
-    std::vector<Vector3<double>> Eigenvectors(const double T[3][3], const std::vector<double>& lam) const;
-
+    Vector<Vector3<double>> Eigenvectors(Matrix3<double> const& matrix, Vector<double> const& eigenvalues) const;
     /**
-    * Member to calculate the thrust
-    * @param p The three vectors
-    * @param t The thrust-squared (up to an Energy scale factor)
-    * @param taxis The thrust axis
+    * Calculate the thrust
+    * @param vectors The three vectors
     */
-    void CalcT(std::vector<Vector3<Momentum>> const& p, EnergySquare& t, Vector3< double >& taxis) const;
-
+    GradedVector3<Momentum> Thrust(std::vector<Vector3<Momentum>> const& vectors) const;
     /**
-    * Member to calculate the major
-    * @param p The three vectors
-    * @param m The major-squared (up to an Energy scale factor)
-    * @param maxis The major axis
+    * Calculate the major
+    * @param vectors The three vectors
     */
-    void CalcM(std::vector<Vector3<Momentum>> const& p, EnergySquare& m, Vector3<double>& maxis) const;
+    GradedVector3<Momentum> Major(std::vector<Vector3<Momentum>> const& vectors) const;
     //@}
-
     /**
-    * Vector of particle momenta to be analysed
+     * @brief Accessor for all vecor of LorentzVectors
+     *
+     */
+    std::vector<LorentzVector<Momentum>> LorentzVectors() const;
+    /**
+     * @brief Accessor for vector of three momenta
+     *
+     */
+    std::vector<Vector3<Momentum>> Vectors() const;
+    /**
+     * @brief scalar sum of all momenta
+     */
+    Momentum ScalarMomentum() const;
+    /**
+    * Vector of particle 4 momenta to be analysed
     */
     std::vector<LorentzVector<Momentum>> lorentz_vectors_;
 
     /**
-     * Whether ot not to boost to the CMS frame for the tensor diagonalizations
+     * Vector of particle 3 momenta to be analysed
      */
-    bool use_cm_boost_;
+    std::vector<Vector3<Momentum>> vectors_;
 
     /**
-    * Various event shape axes
-    */
+     * Various event shapes
+     */
     //@{
     /**
-    * The thrust related axes
-    */
-    mutable std::vector<Vector3<double>> thrust_axis_;
-
+     * The thrust related axes
+     */
+    Mutable<Vector<GradedVector3<double>>> thrusts_;
     /**
-    * The sphericity related axes
-    */
-    mutable std::vector<Vector3<double>> spher_axis_;
-
+     * The sphericity related axes
+     */
+    Mutable<Vector<GradedVector3<double>>> spherical_tensors_;
     /**
-    * The linearised tensor axes
-    */
-    mutable std::vector<Vector3<double>> lin_ten_axis_;
+     * The linearised tensor axes
+     */
+    Mutable<Vector<GradedVector3<double>>> linear_tensors_;
     //@}
-
     /**
-    * Values of axis related event shapes
-    */
-    //@{
-    /**
-    * Values of thrust related variables
-    */
-    mutable std::vector<double> thrust_;
-
-    /**
-    * Values of sphericity related variables
-    */
-    mutable std::vector<double> spher_;
-
-    /**
-    * Values of linearized tensor related variables
-    */
-    mutable std::vector<double> lin_ten_;
-    //@}
-
-    /**
-    * Whether or not certain event axes have been calculated
-    */
-    //@{
-    /**
-    * Whether or not the thrust is calculated
-    */
-    mutable bool thrust_done_;
-
-    /**
-    * Whether or not the sphericity is calculated
-    */
-    mutable bool spher_done_;
-
-    /**
-    * Whether or not the linearizes tensor is calculated
-    */
-    mutable bool lin_ten_done_;
-
-    /**
-    * Whether or not the hemisphere masses have been calculated
-    */
-    mutable bool hem_done_;
-    //@}
-
-    /**
-    * Hemisphere masses
-    */
-    //@{
-    /**
-    * The high hemisphere mass
-    */
-    mutable double m_plus_;
-
-    /**
-    * The low hemisphere mass
-    */
-    mutable double m_minus_;
-    //@}
-
-    /**
-    * The jet broadenings
-    */
-    //@{
-    /**
-    * The wide jet broadening
-    */
-    mutable double b_plus_;
-
-    /**
-    * The narrow jet broadening
-    */
-    mutable double b_minus_;
-    //@}
+     * The hemisphere masses
+     */
+    Mutable<boca::HemisphereMasses> hemishpere_masses_;
 
 };
 

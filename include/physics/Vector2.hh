@@ -13,9 +13,21 @@
 #pragma once
 
 #include "physics/Units.hh"
+#include "Iterator.hh"
+#include <iostream>
 
 namespace boca
 {
+
+enum class Dimension2
+{
+    x,
+    y
+};
+
+std::string Name(Dimension2 dimension);
+
+std::vector<Dimension2> Dimensions2();
 
 /**
  * @brief Copy of root::TVector2 in order to get rid of TObject
@@ -240,6 +252,82 @@ public:
 
     bool operator!=(Vector2 const& vector) const {
         return vector.x_ != x_ || vector.y_ != y_ ;
+    }
+
+    // Get components by index
+    Value operator()(int i) const {
+        //dereferencing operator const
+        switch (i) {
+        case 0 : return x_;
+        case 1 : return y_;
+        default : std::cout << "bad index(%d) returning 0 " << i << std::endl;
+        }
+        return 0;
+    }
+
+    Value operator[](int i) const {
+        return operator()(i);
+    }
+
+    // Set components by index.
+    Value& operator()(int i) {
+        //dereferencing operator
+        switch (i) {
+        case 0 : return x_;
+        case 1 : return y_;
+        default : std::cout << "bad index(%d) returning &x_" <<  i << std::endl;
+        }
+        return x_;
+    }
+
+    Value& operator[](int i) {
+        return operator()(i);
+    }
+
+    // Get components by index
+    Value operator()(Dimension2 dimension) const {
+        //dereferencing operator const
+        switch (dimension) {
+        case Dimension2::x : return x_;
+        case Dimension2::y : return y_;
+        default : std::cout << "bad index(%d) returning 0 " << Name(dimension) << std::endl;
+            return 0;
+        }
+    }
+
+    Value operator[](Dimension2 dimension) const {
+        return operator()(dimension);
+    }
+
+    // Set components by index.
+    Value& operator()(Dimension2 dimension) {
+        //dereferencing operator
+        switch (dimension) {
+        case Dimension2::x : return x_;
+        case Dimension2::y : return y_;
+        default : std::cout << "bad index(%d) returning &x_" <<  Name(dimension) << std::endl;
+        }
+        return x_;
+    }
+
+    Value& operator[](Dimension2 dimension) {
+        return operator()(dimension);
+    }
+
+    ConstIterator<Vector2, Value> begin() const {
+        return {this, 0};
+    }
+
+    ConstIterator<Vector2, Value> end() const {
+        return {this, 2};
+    }
+
+    Iterator<Vector2, Value> begin() {
+        return {this, 0};
+    }
+
+    Iterator<Vector2, Value> end() {
+        return {this, 2};
     }
 
 private:

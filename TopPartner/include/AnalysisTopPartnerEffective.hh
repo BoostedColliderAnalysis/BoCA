@@ -26,7 +26,7 @@ class AnalysisEffective : public AnalysisNaturalness<Tagger>
 protected:
 
     std::string AnalysisName() const override {
-        return "Naturalness-Effective-" + Name(DetectorGeometry::DetectorType()) + "-" + boca::Name(this->Mass()) + "-neutral-new-higgs";
+        return "Naturalness-Effective-" + Name(DetectorGeometry::DetectorType()) + "-" + boca::Name(this->Mass()) + "-neutral-new-three-body";
     }
 
     void SetFiles(Tag tag, Stage)override {

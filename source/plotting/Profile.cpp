@@ -3,7 +3,6 @@
  */
 
 #include <sys/stat.h>
-// #include <cmath>
 
 #include "plotting/Style.hh"
 #include "plotting/Profile.hh"
@@ -43,18 +42,18 @@ void Profile::Draw()
 void Profile::SetXAxis(std::string const& title)
 {
     INFO(title);
-    SetTitle(*profile_.GetXaxis(), title);
+    SetAxis(*profile_.GetXaxis(), title);
 }
 
 void Profile::SetYAxis(std::string const& title)
 {
     INFO(title);
-    SetTitle(*profile_.GetYaxis(), title);
+    SetAxis(*profile_.GetYaxis(), title);
 }
 
 void Profile::SetZAxis(const std::string& title, int bins)
 {
-    SetTitle(*profile_.GetZaxis(), title);
+    SetAxis(*profile_.GetZaxis(), title);
     profile_.SetMinimum(range_.Min());
     profile_.SetMaximum(range_.Max());
     profile_.SetContour(bins);

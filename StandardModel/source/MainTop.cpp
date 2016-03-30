@@ -2,6 +2,7 @@
 #include "TopHadronicTagger.hh"
 #include "TopHadronicHep.hh"
 #include "TopLeptonicTagger.hh"
+#include "physics/Matrix3.hh"
 
 template<typename Tagger>
 void Run(boca::Output output = boca::Output::normal)

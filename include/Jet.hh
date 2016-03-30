@@ -84,4 +84,6 @@ Jet Join(std::vector<Jet> const& jets);
 
 Jet Join(Jet const& jet_1, Jet const& jet_2);
 
+Jet Join(Jet const& jet_1, Jet const& jet_2, Jet const& jet_3);
+
 }

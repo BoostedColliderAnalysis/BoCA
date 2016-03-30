@@ -73,13 +73,14 @@ void Graphs::SetXAxis(std::string const& title, boca::Range<double> const& range
     AddGraphs();
     if (!multi_graph_.GetXaxis()) return;
     INFO("set title", range_.Horizontal().Floor(), range_.Horizontal().Ceil());
-    SetTitle(*multi_graph_.GetXaxis(), title);
+    SetAxis(*multi_graph_.GetXaxis(), title);
     multi_graph_.GetXaxis()->SetLimits(range_.Horizontal().Floor(), range_.Horizontal().Ceil());
 }
 
-void Graphs::SetYAxis(std::string const& title, boca::Range<double> const&)
+void Graphs::SetYAxis(std::string const& title, boca::Range<double> const& range)
 {
     INFO(title);
+    range_.WidenY(range);
 //     if (range) {
 //         range_.SetY(range);
 //         range_.ResetX();
@@ -92,7 +93,7 @@ void Graphs::SetYAxis(std::string const& title, boca::Range<double> const&)
     AddGraphs();
     if (!multi_graph_.GetYaxis()) return;
     INFO("set title", range_.Vertical().Floor(), range_.Vertical().Ceil());
-    SetTitle(*multi_graph_.GetYaxis(), title);
+    SetAxis(*multi_graph_.GetYaxis(), title);
     multi_graph_.GetYaxis()->SetLimits(range_.Vertical().Floor(), range_.Vertical().Ceil());
     multi_graph_.SetMinimum(range_.Vertical().Floor());
     multi_graph_.SetMaximum(range_.Vertical().Ceil());

@@ -125,7 +125,7 @@ Vector2<double> Position(Orientation orientation, double width, double height)
         min.SetX(gPad->GetLeftMargin() + margin + x_shift * x_unit - x_offset);
         min.SetY(gPad->GetBottomMargin() + margin + y_shift * y_unit - y_offset);
     }
-    ERROR(min.X(), min.Y());
+    INFO(min.X(), min.Y());
     return min;
 }
 

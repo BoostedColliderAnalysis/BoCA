@@ -245,10 +245,13 @@ private:
  * @brief Higgs cpv tagger root tree structure
  *
  */
-class SignatureBranch : public MultiBranch
+class SignatureBranch : public ParticleBranch
 {
 public:
     SignatureBranch();
+    float Ht;
+    float Bdt1;
+    float Bdt2;
     float Bdt3;
     float Mass12;
     float Mass23;
@@ -256,23 +259,32 @@ public:
     float Pt12;
     float Pt23;
     float Pt13;
+    float DeltaPt12;
     float DeltaPt23;
     float DeltaPt13;
     float Ht12;
     float Ht23;
     float Ht13;
+    float Rho12;
     float Rho23;
     float Rho13;
+    float DeltaRap12;
     float DeltaRap23;
     float DeltaRap13;
+    float DeltaPhi12;
     float DeltaPhi23;
     float DeltaPhi13;
+    float DeltaR12;
     float DeltaR23;
     float DeltaR13;
+    float DeltaM12;
     float DeltaM23;
     float DeltaM13;
+    float DeltaHt12;
     float DeltaHt23;
     float DeltaHt13;
+    float Pull12;
+    float Pull21;
     float Pull23;
     float Pull13;
     float Pull32;
@@ -283,37 +295,49 @@ public:
     float Aplanarity;
     template<typename Multiplet>
     void Fill(Multiplet const& multiplet) {
-        MultiBranch::Fill(multiplet);
+        ParticleBranch::Fill(multiplet);
+        Ht = multiplet.Ht() / GeV;
+        Bdt1 = multiplet.Multiplet1().Bdt();
+        Bdt2 = multiplet.Multiplet2().Bdt();
         Bdt3 = multiplet.Multiplet3().Bdt();
-        Mass12 = multiplet.Jet12().Mass() / GeV;
-        Mass23 = multiplet.Jet23().Mass() / GeV;
-        Mass13 = multiplet.Jet13().Mass() / GeV;
-        Pt12 = multiplet.Jet12().Pt() / GeV;
-        Pt23 = multiplet.Jet23().Pt() / GeV;
-        Pt13 = multiplet.Jet13().Pt() / GeV;
-        DeltaPt23 = multiplet.DeltaPt23() / GeV;
-        DeltaPt13 = multiplet.DeltaPt13() / GeV;
-        Ht12 = multiplet.Ht12() / GeV;
-        Ht23 = multiplet.Ht23() / GeV;
-        Ht13 = multiplet.Ht13() / GeV;
-        Rho23 = multiplet.Rho23();
-        Rho13 = multiplet.Rho13();
-        DeltaRap23 = multiplet.DeltaRap23() / rad;
-        DeltaRap13 = multiplet.DeltaRap13() / rad;
-        DeltaPhi23 = multiplet.DeltaPhi23() / rad;
-        DeltaPhi13 = multiplet.DeltaPhi13() / rad;
-        DeltaR23 = multiplet.DeltaR23() / rad;
-        DeltaR13 = multiplet.DeltaR13() / rad;
-        DeltaM23 = multiplet.DeltaM23() / GeV;
-        DeltaM13 = multiplet.DeltaM13() / GeV;
-        DeltaHt23 = multiplet.DeltaHt23() / GeV;
-        DeltaHt13 = multiplet.DeltaHt13() / GeV;
-        Pull23 = multiplet.Pull23() / rad;
-        Pull13 = multiplet.Pull13() / rad;
-        Pull32 = multiplet.Pull32() / rad;
-        Pull31 = multiplet.Pull31() / rad;
-//         Dipolarity23 = multiplet.Dipolarity23();
-//         Dipolarity13 = multiplet.Dipolarity13();
+        Mass12 = multiplet.Multiplet12().Mass() / GeV;
+        Mass23 = multiplet.Multiplet23().Mass() / GeV;
+        Mass13 = multiplet.Multiplet13().Mass() / GeV;
+        Pt12 = multiplet.Multiplet12().Pt() / GeV;
+        Pt23 = multiplet.Multiplet23().Pt() / GeV;
+        Pt13 = multiplet.Multiplet13().Pt() / GeV;
+        DeltaPt12 = multiplet.Multiplet12().DeltaPt() / GeV;
+        DeltaPt23 = multiplet.Multiplet23().DeltaPt() / GeV;
+        DeltaPt13 = multiplet.Multiplet13().DeltaPt() / GeV;
+        Ht12 = multiplet.Multiplet12().Ht() / GeV;
+        Ht23 = multiplet.Multiplet23().Ht() / GeV;
+        Ht13 = multiplet.Multiplet13().Ht() / GeV;
+        Rho12 = multiplet.Multiplet12().Rho();
+        Rho23 = multiplet.Multiplet23().Rho();
+        Rho13 = multiplet.Multiplet13().Rho();
+        DeltaRap12 = multiplet.Multiplet12().DeltaRap() / rad;
+        DeltaRap23 = multiplet.Multiplet23().DeltaRap() / rad;
+        DeltaRap13 = multiplet.Multiplet13().DeltaRap() / rad;
+        DeltaPhi12 = multiplet.Multiplet12().DeltaPhi() / rad;
+        DeltaPhi23 = multiplet.Multiplet23().DeltaPhi() / rad;
+        DeltaPhi13 = multiplet.Multiplet13().DeltaPhi() / rad;
+        DeltaR12 = multiplet.Multiplet12().DeltaR() / rad;
+        DeltaR23 = multiplet.Multiplet23().DeltaR() / rad;
+        DeltaR13 = multiplet.Multiplet13().DeltaR() / rad;
+        DeltaM12 = multiplet.Multiplet12().DeltaM() / GeV;
+        DeltaM23 = multiplet.Multiplet23().DeltaM() / GeV;
+        DeltaM13 = multiplet.Multiplet13().DeltaM() / GeV;
+        DeltaHt12 = multiplet.Multiplet12().DeltaHt() / GeV;
+        DeltaHt23 = multiplet.Multiplet23().DeltaHt() / GeV;
+        DeltaHt13 = multiplet.Multiplet13().DeltaHt() / GeV;
+        Pull12 = multiplet.Multiplet12().Pull12() / rad;
+        Pull21 = multiplet.Multiplet12().Pull21() / rad;
+        Pull23 = multiplet.Multiplet23().Pull12() / rad;
+        Pull32 = multiplet.Multiplet23().Pull21() / rad;
+        Pull13 = multiplet.Multiplet13().Pull12() / rad;
+        Pull31 = multiplet.Multiplet13().Pull21() / rad;
+        //         Dipolarity23 = multiplet.Multiplet23().Dipolarity();
+        //         Dipolarity13 = multiplet.Multiplet13().Dipolarity();
         Aplanarity = multiplet.EventShapes().Aplanarity();
         Sphericity = multiplet.EventShapes().Sphericity();
     }
@@ -516,6 +540,53 @@ public:
 
 private:
     ClassDef(EventBranch, 1)
+};
+
+/**
+ * @brief Event Shape Branch
+ *
+ */
+class EventShapesBranch
+{
+public:
+  EventShapesBranch();
+
+  float Thrust;
+  float ThrustMajor;
+  float ThrustMinor;
+  float Oblateness;
+  float CParameter;
+  float DParameter;
+  float Sphericity;
+  float Aplanarity;
+  float Planarity;
+  float MHigh2;
+  float MLow2;
+  float BMax;
+  float BMin;
+
+  template<typename Multiplet>
+  void Fill(Multiplet const& multiplet) {
+    Thrust = multiplet.EventShapes().Thrust();
+    ThrustMajor = multiplet.EventShapes().ThrustMajor();
+    ThrustMinor = multiplet.EventShapes().ThrustMinor();
+    Oblateness = multiplet.EventShapes().Oblateness();
+    CParameter = multiplet.EventShapes().CParameter();
+    DParameter = multiplet.EventShapes().DParameter();
+    Sphericity = multiplet.EventShapes().Sphericity();
+    Aplanarity = multiplet.EventShapes().Aplanarity();
+    Planarity = multiplet.EventShapes().Planarity();
+    MHigh2 = multiplet.EventShapes().HemisphereMasses().MHigh2();
+    MLow2 = multiplet.EventShapes().HemisphereMasses().MLow2();
+    BMax = multiplet.EventShapes().HemisphereMasses().BMax();
+    BMin = multiplet.EventShapes().HemisphereMasses().BMin();
+  }
+  virtual Observables Variables();
+  virtual Observables Spectators();
+
+private:
+  ClassDef(EventShapesBranch, 1)
+  float InValue();
 };
 
 }

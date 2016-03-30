@@ -36,7 +36,7 @@ Member::Member(TLorentzVector const& momentum, int id, int position)
     position_ = position;
     momentum_ = momentum;
 }
-LorentzVector< Momentum >  const& Member::Momentum() const
+LorentzVector< Momentum > Member::Momentum() const
 {
     return momentum_;
 }

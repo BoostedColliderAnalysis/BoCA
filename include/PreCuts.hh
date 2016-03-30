@@ -3,7 +3,6 @@
  */
 #pragma once
 
-#include "Jet.hh"
 #include "physics/Range.hh"
 
 #include "PreCut.hh"

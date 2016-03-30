@@ -43,5 +43,9 @@ Angle RestrictPhi(Angle phi);
 // Wrap phi around by 2 pi
 Angle Wrap(Angle phi);
 
+Angle Pi();
+
+Angle TwoPi();
+
 }
 
