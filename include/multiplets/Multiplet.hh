@@ -21,7 +21,7 @@ public:
 
     ClosestLepton Lepton() const;
 
-    boca::Singlet const& ConstituentJet() const;
+    boca::Singlet ConstituentJet() const;
 
     boca::Jet Jet() const;
 

@@ -19,12 +19,12 @@ public:
 
     ThreeBody() {};
 
-    ThreeBody(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2, const Multiplet_3_& multiplet_3) {
+    ThreeBody(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2, Multiplet_3_ const& multiplet_3) {
         SetMultiplets(multiplet_1, multiplet_2, multiplet_3);
         event_shapes_.Reset(Jets());
     }
 
-    void SetMultiplets(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2, const Multiplet_3_& multiplet_3) {
+    void SetMultiplets(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2, Multiplet_3_ const& multiplet_3) {
         multiplet_1_ = multiplet_1;
         multiplet_2_ = multiplet_2;
         multiplet_3_ = multiplet_3;
@@ -67,7 +67,6 @@ public:
     }
 
     boca::Singlet ConstituentJet23() const {
-
         return constituent_jet_23_.Get([this]() {
             return GetConstituentJet23();
         });

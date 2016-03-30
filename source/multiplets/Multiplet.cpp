@@ -19,7 +19,7 @@ ClosestLepton Multiplet::Lepton() const
     return closest_lepton_;
 }
 
-const Singlet& Multiplet::ConstituentJet() const
+Singlet Multiplet::ConstituentJet() const
 {
     return constituent_jet_.Get([this]() {
         return GetConstituentJet();

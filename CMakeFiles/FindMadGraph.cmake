@@ -5,6 +5,7 @@
 # set path to madgraph folder
 set(
   MadGraphDir
+  ~/Development/MadGraph
   ~/Development/madgraph
   ~/madness/MadGraph
   ~/HEP/MadGraph5_v1_5_14
