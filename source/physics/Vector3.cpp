@@ -3,19 +3,19 @@
 #include "DEBUG.hh"
 namespace boca
 {
-std::string Name(Dimension3 dimension)
+std::string Name(Dim3 dimension)
 {
     switch (dimension) {
-    case Dimension3::x : return "x";
-    case Dimension3::y : return "y";
-    case Dimension3::z : return "z";
+    case Dim3::x : return "x";
+    case Dim3::y : return "y";
+    case Dim3::z : return "z";
         DEFAULT(to_int(dimension), "");
     }
 }
 
-std::vector<Dimension3> Dimensions3()
+std::vector<Dim3> Dimensions3()
 {
-    return {Dimension3::x, Dimension3::y, Dimension3::z};
+    return {Dim3::x, Dim3::y, Dim3::z};
 }
 
 }

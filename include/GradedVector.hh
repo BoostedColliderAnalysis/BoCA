@@ -1,9 +1,10 @@
 #pragma once
 
-#include "physics/LorentzVector.hh"
-
 namespace boca
 {
+
+template<typename Value_>
+using Array3 = std::array<Value_, 3>;
 
 template<template <typename> class Vector_, typename Value_>
 class GradedVector
@@ -32,6 +33,9 @@ public:
     Vector_<Value_> Vector() const {
         return vector_;
     }
+    Vector_<double> Scale() const {
+        return vector_ / scalar_;
+    }
     Value_ Scalar() const {
         return scalar_;
     }
@@ -44,7 +48,7 @@ public:
         return vector_ == graded_vector.vector_ && scalar_ == graded_vector.scalar_;
     }
     bool operator!=(GradedVector const& graded_vector) const {
-      return vector_ != graded_vector.vector_ || scalar_ != graded_vector.scalar_;
+        return vector_ != graded_vector.vector_ || scalar_ != graded_vector.scalar_;
     }
 
 private:
@@ -52,9 +56,5 @@ private:
     Value_ scalar_ = Value_(0);
 };
 
-template<typename Value_>
-using GradedVector3 = GradedVector<Vector3, Value_>;
-template<typename Value_>
-using GradedLorentzVector = GradedVector<LorentzVector, Value_>;
 
 }

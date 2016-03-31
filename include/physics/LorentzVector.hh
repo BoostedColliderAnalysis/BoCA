@@ -155,6 +155,8 @@ public:
 
 };
 
+template<typename Value_>
+using GradedLorentzVector = GradedVector<LorentzVector, Value_>;
 
 }
 

@@ -203,9 +203,6 @@ public:
     double AEEC(std::vector<double>& hi, double& coschi) const;
 
 private:
-
-    template<typename Value_>
-    using Vector = std::array<Value_, 3>;
     /**
     * Accessors for certain class of event shapes
     */
@@ -213,15 +210,15 @@ private:
     /**
     * Accessor for the thrust related variables
     */
-    Vector<GradedVector3<double>> Thrusts() const;
+    Array3<GradedVector3<double>> Thrusts() const;
     /**
     * Accessor for the linear tensor related variables
     */
-    Vector<GradedVector3<double>> LinearTensors() const;
+    Array3<GradedVector3<double>> LinearTensors() const;
     /**
     * Accessor for the quadratic tensor related variables
     */
-    Vector<GradedVector3<double>> SphericalTensors() const;
+    Array3<GradedVector3<double>> SphericalTensors() const;
     //@}
     /**
     * Methods that actually calculate the event shapes
@@ -234,53 +231,31 @@ private:
     /**
     * Calculate the thrust and related axes
     */
-    Vector<GradedVector3<double>> GetThrusts() const;
+    Array3<GradedVector3<double>> GetThrusts() const;
     /**
      * Calculate the thrust and related axes for less than two jets
      */
-    Vector<GradedVector3<double>> GetThrusts1() const;
+    Array3<GradedVector3<double>> GetThrusts1() const;
     /**
      * Calculate the thrust and related axes for two jets
      */
-    Vector<GradedVector3<double>> GetThrusts2() const;
+    Array3<GradedVector3<double>> GetThrusts2() const;
     /**
      * Calculate the thrust and related axes for three jets
      */
-    Vector<GradedVector3<double>> GetThrusts3() const;
+    Array3<GradedVector3<double>> GetThrusts3() const;
     /**
      * Calculate the thrust and related axes for more than three jets
      */
-    Vector<GradedVector3<double>> GetThrusts4() const;
+    Array3<GradedVector3<double>> GetThrusts4() const;
     /**
      * Diagonalize the linear tensors
      */
-    Vector<GradedVector3<double>> DiagonalizeLinearTensors() const;
+    Array3<GradedVector3<double>> DiagonalizeLinearTensors() const;
     /**
      * Diagonalize the quadratic tensor
      */
-    Vector<GradedVector3<double>> DiagonalizeSphericalTensors() const;
-    /**
-    * Quite general diagonalization of a symmetric @param matrix, given as an
-    * array of doubles. The symmetry is not checked explicitly as this
-    * is clear in the context. It uses an explicit generic solution of
-    * the eigenvalue problem and no numerical approximation, based on
-    * Cardano's formula.
-    */
-    Vector<double> Eigenvalues(Matrix3<double> const& matrix) const;
-    /**
-     * The eigensystem of @param matrix
-     */
-    Vector<GradedVector3<double>> EigenSystem(Matrix3<double> const& matrix) const;
-    /**
-     * The eigenvector of @param matrix to a given eigenvalue @param eigenvalue
-    */
-    Vector3<double> Eigenvector(Matrix3<double> const& matrix, double const& eigenvalue) const;
-    /**
-     * The eigenvectors of @param matrix corresponding to the eigenvalues
-    * @param eigenvalues. The ordering of the vectors corresponds to the
-    * ordering of the eigenvalues.
-    */
-    Vector<Vector3<double>> Eigenvectors(Matrix3<double> const& matrix, Vector<double> const& eigenvalues) const;
+    Array3<GradedVector3<double>> DiagonalizeSphericalTensors() const;
     /**
     * Calculate the thrust
     * @param vectors The three vectors
@@ -323,15 +298,15 @@ private:
     /**
      * The thrust related axes
      */
-    Mutable<Vector<GradedVector3<double>>> thrusts_;
+    Mutable<Array3<GradedVector3<double>>> thrusts_;
     /**
      * The sphericity related axes
      */
-    Mutable<Vector<GradedVector3<double>>> spherical_tensors_;
+    Mutable<Array3<GradedVector3<double>>> spherical_tensors_;
     /**
      * The linearised tensor axes
      */
-    Mutable<Vector<GradedVector3<double>>> linear_tensors_;
+    Mutable<Array3<GradedVector3<double>>> linear_tensors_;
     //@}
     /**
      * The hemisphere masses

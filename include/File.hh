@@ -58,7 +58,8 @@ private:
     std::string FileSuffix() const;
 
     std::string BasePath(){
-      return "$HOME/Development/MadGraph/";
+      return base_path_;
+//       return "$HOME/Development/MadGraph/";
 //       return @MadGraphPath@;
     }
 
@@ -71,6 +72,8 @@ private:
     boca::Mass mass_ = massless;
 
     std::string file_suffix_ = ".root";
+
+    std::string base_path_ = "$HOME/Development/MadGraph/";
 
     boca::Names names_;
 

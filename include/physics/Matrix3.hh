@@ -12,13 +12,15 @@
 
 // #include "boost/operators.hpp"
 #include "boost/range/algorithm/sort.hpp"
+#include "boost/range/numeric.hpp"
+
+#include "TQuaternion.h"
+
 #include "Vector3.hh"
 #include "Matrix2.hh"
-#include "GradedVector.hh"
 #include "Units.hh"
 #include "Types.hh"
 #include "Mutable.hh"
-#include "TQuaternion.h"
 
 namespace boca
 {
@@ -46,19 +48,38 @@ public:
     Matrix3() {}
 
     // Diagonal Matrix
-    Matrix3(Value_ scalar) : x_(scalar, Value_(0), Value_(0)), y_(Value_(0), scalar, Value_(0)), z_(Value_(0), Value_(0), scalar) {}
-
-//     // Protected constructor.
-//     Matrix3(Value_ xx, Value_ xy, Value_ xz, Value_ yx, Value_ yy, Value_ yz, Value_ zx, Value_ zy, Value_ zz) : x_( {xx, xy, xz}), y_( {yx, yy, yz}), z_( {zx, zy, zz}) {}
+    Matrix3(Value_ scalar, Matrix matrix = Matrix::diagonal) {
+        switch (matrix) {
+        case Matrix::diagonal : SetDiagonal(scalar); break;
+        case Matrix::uniform : SetUniform(scalar); break;
+        default : std::cout << "Maformed matrix constructor: " << Name(matrix) << std::endl;
+        }
+    }
 
     // Construct from three rows
-    Matrix3(Vector3<Value_> const& x, Vector3<Value_> const& y, Vector3<Value_> const& z) : x_(x), y_(y), z_(z) {}
+    Matrix3(Vector3<Value_> const& x, Vector3<Value_> const& y, Vector3<Value_> const& z, Matrix matrix = Matrix::row) {
+        switch (matrix) {
+        case Matrix::row: SetRows(x, y, z); break;
+        case Matrix::column : SetColumns(x, y, z); break;
+        default : std::cout << "Maformed matrix constructor: " << Name(matrix) << std::endl;
+        }
+    }
 
     // Construct from vector product
-    Matrix3(Vector3<Value_> const& vector_1, Vector3<Value_> const& vector_2) : x_(vector_1.X()* vector_2), y_(vector_1.Y()* vector_2), z_(vector_1.Z()* vector_2) {}
+    Matrix3(Vector3<Value_> const& vector_1, Vector3<Value_> const& vector_2, Matrix matrix = Matrix::symmetric) {
+        switch (matrix) {
+        case Matrix::symmetric: *this = MatrixProduct(vector_1, vector_2);  break;
+        default : std::cout << "Maformed matrix constructor: " << Name(matrix) << std::endl;
+        }
+    }
 
     // Construct anti symetric matrix from vector
-    Matrix3(Vector3<Value_> const& vector) : x_(Value_(0), vector.Z(), -vector.Y()), y_(-vector.Z(), Value_(0), vector.X()) , z_(vector.Y(), -vector.X(), Value_(0)) {};
+    Matrix3(Vector3<Value_> const& vector, Matrix matrix = Matrix::antisymmetric) {
+        switch (matrix) {
+        case Matrix::antisymmetric: SetAntisymmetric(vector);  break;
+        default : std::cout << "Maformed matrix constructor: " << Name(matrix) << std::endl;
+        }
+    }
 
     // Constructor for a rotation based on a Quaternion
     // if magnitude of quaternion is null, creates identity rotation
@@ -83,6 +104,143 @@ public:
         x_ = matrix.X();
         y_ = matrix.Y();
         z_ = matrix.Z();
+    }
+
+    Matrix3& SetDiagonal(Value_ value) {
+        x_ = {value, 0, 0};
+        y_ = {0, value, 0};
+        z_ = {0, 0, value};
+        return *this;
+    }
+
+    // Set equal to the identity rotation.
+    Matrix3& SetToIdentity() {
+        return SetDiagonal(1);
+    }
+
+    Matrix3& SetUniform(Value_ value) {
+        x_ = {value, value, value};
+        y_ = {value, value, value};
+        z_ = {value, value, value};
+        return *this;
+    }
+
+    void SetRows(Vector3<Value_> const& x, Vector3<Value_> const& y, Vector3<Value_> const& z) {
+        x_ = x;
+        y_ = y;
+        z_ = z;
+    }
+
+    void SetColumns(Vector3<Value_> const& x, Vector3<Value_> const& y, Vector3<Value_> const& z) {
+        x_ = {x.X(), y.X(), z.X()};
+        y_ = {x.Y(), y.Y(), z.Y()};
+        z_ = {x.Z(), y.Z(), z.Z()};
+    }
+
+    void SetAntisymmetric(Vector3<Value_> const& vector) {
+        x_ = {Value_(0), vector.Z(), -vector.Y()};
+        y_ = { -vector.Z(), Value_(0), vector.X()};
+        z_ = {vector.Y(), -vector.X(), Value_(0)};
+    }
+
+    // Rotate using the x-convention(Landau and Lifshitz, Goldstein, &c) by
+    // doing the explicit rotations.  This is slightly less efficient than
+    // directly applying the rotation, but makes the code much clearer.  My
+    // presumption is that this code is not going to be a speed bottle neck.
+    Matrix3& SetXEulerAngles(Angle phi, Angle theta, Angle psi) {
+        SetToIdentity();
+        RotateZ(phi);
+        RotateX(theta);
+        RotateZ(psi);
+        return *this;
+    }
+
+    //set XPhi
+    void SetXPhi(Angle phi) {
+        SetXEulerAngles(phi, XTheta(), XPsi());
+    }
+
+    //set XTheta
+    void SetXTheta(Angle theta) {
+        SetXEulerAngles(XPhi(), theta, XPsi());
+    }
+
+    //set XPsi
+    void SetXPsi(Angle psi) {
+        SetXEulerAngles(XPhi(), XTheta(), psi);
+    }
+
+    // Rotate using the y-convention.
+    Matrix3& SetYEulerAngles(Angle phi, Angle theta, Angle psi) {
+        SetToIdentity();
+        RotateZ(phi);
+        RotateY(theta);
+        RotateZ(psi);
+        return *this;
+    }
+
+    //set YPhi
+    void SetYPhi(Angle phi) {
+        SetYEulerAngles(phi, YTheta(), YPsi());
+    }
+
+    //set YTheta
+    void SetYTheta(Angle theta) {
+        SetYEulerAngles(YPhi(), theta, YPsi());
+    }
+
+    //set YPsi
+    void SetYPsi(Angle psi) {
+        SetYEulerAngles(YPhi(), YTheta(), psi);
+    }
+
+    //set X axis
+    Matrix3& SetXAxis(Vector3<Value_> const& axis) {
+        Vector3<Value_> xyPlane(0, 1, 0);
+        return SetXAxis(axis, xyPlane);
+    }
+
+    //set X axis
+    Matrix3& SetXAxis(Vector3<Value_> const& axis, Vector3<Value_> const& xyPlane) {
+        Matrix3 matrix = MakeBasis(xyPlane, axis);
+        Matrix3 matrix2(matrix.Z(), matrix.X(), matrix.Y());
+        x_ = matrix2.ColumnX();
+        y_ = matrix2.ColumnY();
+        z_ = matrix2.ColumnZ();
+        return *this;
+    }
+
+    //set Y axis
+    Matrix3& SetYAxis(Vector3<Value_> const& axis) {
+        Vector3<Value_> yzPlane(0, 0, 1);
+        return SetYAxis(axis, yzPlane);
+    }
+
+    //set Y axis
+    Matrix3& SetYAxis(Vector3<Value_> const& axis, Vector3<Value_> const& yzPlane) {
+        Matrix3 matrix = MakeBasis(yzPlane, axis);
+        Matrix3 matrix2(matrix.Y(), matrix.Z(), matrix.X());
+        x_ = matrix2.ColumnX();
+        y_ = matrix2.ColumnY();
+        z_ = matrix2.ColumnZ();
+        return *this;
+    }
+
+    //set Z axis
+    Matrix3& SetZAxis(Vector3<Value_> const& axis) {
+        Vector3<Value_> zxPlane(1, 0, 0);
+        return SetZAxis(axis, zxPlane);
+    }
+
+    // Create a rotation with the axis vector parallel to the rotated coordinate
+    // systematrix.  If a second vector is provided it defines a plane passing
+    //set Z axis
+    Matrix3& SetZAxis(Vector3<Value_> const& axis, Vector3<Value_> const& zxPlane) {
+        Matrix3 matrix = MakeBasis(zxPlane, axis);
+        x_ = matrix.ColumnX();
+        y_ = matrix.ColumnY();
+        z_ = matrix.ColumnZ();
+        return *this;
     }
 
     Vector3<Value_> const& X() const {
@@ -125,7 +283,7 @@ public:
         auto z = ColumnZ();
         auto det = Determinant();
         if (det = ValueCubed(0)) std::cout << "Matrix is not invertible" << std::endl;
-        return Matrix3<ValueSquare>(y ^ z, z ^ x, x ^ y) / Determinant();
+        return Matrix3<ValueSquare>(y ^ z, z ^ x, x ^ y) / det;
     }
 
 // Rotation around the x-axis.
@@ -237,47 +395,7 @@ public:
         }
     }
 
-// Set equal to the identity rotation.
-    Matrix3& SetToIdentity() {
-        x_ = Vector3<Value_>(1, 0, 0);
-        y_ = Vector3<Value_>(0, 1, 0);
-        z_ = Vector3<Value_>(0, 0, 1);
-        return *this;
-    }
 
-    Matrix3& SetDiagonal(Value_ value) {
-        x_ = Vector3<Value_>(value, 0, 0);
-        y_ = Vector3<Value_>(0, value, 0);
-        z_ = Vector3<Value_>(0, 0, value);
-        return *this;
-    }
-
-    Matrix3& SetXEulerAngles(Angle phi, Angle theta, Angle psi) {
-        // Rotate using the x-convention(Landau and Lifshitz, Goldstein, &c) by
-        // doing the explicit rotations.  This is slightly less efficient than
-        // directly applying the rotation, but makes the code much clearer.  My
-        // presumption is that this code is not going to be a speed bottle neck.
-        SetToIdentity();
-        RotateZ(phi);
-        RotateX(theta);
-        RotateZ(psi);
-        return *this;
-    }
-
-//set XPhi
-    void SetXPhi(Angle phi) {
-        SetXEulerAngles(phi, XTheta(), XPsi());
-    }
-
-    void SetXTheta(Angle theta) {
-        //set XTheta
-        SetXEulerAngles(XPhi(), theta, XPsi());
-    }
-
-    void SetXPsi(Angle psi) {
-        //set XPsi
-        SetXEulerAngles(XPhi(), XTheta(), psi);
-    }
 
 // Set the euler angles of the rotation.  The angles are defined using the
 // y-convention which rotates around the Z axis, around the new X axis, and
@@ -363,54 +481,45 @@ public:
         }
     }
 
-    // Rotate using the y-convention.
-    Matrix3& SetYEulerAngles(Angle phi, Angle theta, Angle psi) {
-        SetToIdentity();
-        RotateZ(phi);
-        RotateY(theta);
-        RotateZ(psi);
-        return *this;
-    }
-
-    //set YPhi
-    void SetYPhi(Angle phi) {
-        SetYEulerAngles(phi, YTheta(), YPsi());
-    }
-
-    //set YTheta
-    void SetYTheta(Angle theta) {
-        SetYEulerAngles(YPhi(), theta, YPsi());
-    }
-
-    //set YPsi
-    void SetYPsi(Angle psi) {
-        SetYEulerAngles(YPhi(), YTheta(), psi);
-    }
 
     Value_ Trace()const {
         return x_.X() + y_.Y() + z_.Z();
     }
 
     ValueCubed Determinant()const {
-        return x_.X() * Minor(Dimension3::x, Dimension3::x) - x_.Y() * Minor(Dimension3::x, Dimension3::y) + x_.Z() * Minor(Dimension3::x, Dimension3::z);
+        ValueCubed det1 = x_.X() * Minor(Dim3::x, Dim3::x) - x_.Y() * Minor(Dim3::x, Dim3::y) + x_.Z() * Minor(Dim3::x, Dim3::z);
+        ValueCubed det2 = boost::accumulate(Dimensions3(), ValueCubed(0), [&](ValueCubed & sum, Dim3 dim) {
+            return sum + x_[dim] * SignedMinor(Dim3::x, dim);
+        });
+        if (det1 != det2) std::cout << "det error: " << det1 << " " << det2 << std::endl;
+        return det1;
     }
 
-    ValueSquare Minor(Dimension3 dimension_1, Dimension3 dimension_2) const {
+    ValueSquare Minor(Dim3 delete_1, Dim3 delete_2) const {
         int counter = 0;
         Matrix2<Value_> matrix;
-        for (auto dimension_3 : Dimensions3()) {
-            if (dimension_1 == dimension_3) continue;
-            for (auto dimension_4 : Dimensions3()) {
-                if (dimension_2 == dimension_4) continue;
-                matrix[counter / 2][counter % 2] = (*this)[dimension_3][dimension_4];
+        for (auto dim_1 : Dimensions3()) {
+            if (dim_1 == delete_1) continue;
+            for (auto dim_2 : Dimensions3()) {
+                if (dim_2 == delete_2) continue;
+                matrix[counter / 2][counter % 2] = (*this)[dim_1][dim_2];
                 ++counter;
             }
         }
         return matrix.Determinant();
     }
 
-    Matrix3<ValueSquare> Square() const {
-        return sqr(*this);
+    int Sign(Dim3 i, Dim3 j) const {
+        return (static_cast<int>(i) + static_cast<int>(j)) % 2 ? -1 : 1;
+    }
+
+    ValueSquare SignedMinor(Dim3 dim_1, Dim3 dim_2) const {
+        return Sign(dim_1, dim_2) * Minor(dim_1, dim_2);
+    }
+
+    template<typename Value_2_>
+    ValueProduct<Value_2_> ProductTrace(Matrix3<Value_2_> const& matrix) const {
+        return x_ * matrix.ColumnX() + y_ * matrix.ColumnY() + z_ * matrix.ColumnZ();
     }
 
     class Characteristic_
@@ -418,7 +527,7 @@ public:
     public:
         Characteristic_(Matrix3 const& matrix) {
             qudratic_ = - matrix.Trace();
-            linear_ = - (matrix.Square().Trace() - sqr(qudratic_)) / 2;
+            linear_ = - (matrix.ProductTrace(matrix) - sqr(qudratic_)) / 2;
             constant_ = - matrix.Determinant();
         }
         Value_ Qudratic() const {
@@ -463,37 +572,33 @@ public:
         Eigen_(Depressed_ const& d, Matrix3<Value_> const& matrix) {
             factor_ = 2. * sqrt(- d.Linear() / 3.);
             angle_ = acos(3. * d.Constant() / d.Linear() / factor_);
-            complex_ = 4 * cube(d.Linear()) + 27 * sqr(d.Constant()) > 0;
+            complex_ = 4 * cube(d.Linear()) > - 27 * sqr(d.Constant());
             matrix_ = &matrix;
         }
-        template<typename Value_2_>
-        using Array = std::array<Value_2_, 3>;
-        Array<Value_> Values() const {
+        Array3<Value_> Values() const {
             return values_.Get([&]() {
-                Array<Value_> values;
+                Array3<Value_> values;
                 if (complex_) {
                     for (auto & value : values) value = -1;
                     std::cerr << "Eigensystem has no real Eigenvalues!\n";
                     return values;
                 }
-                values.at(0) = Value(0);
-                values.at(1) = Value(1);
-                values.at(2) = Value(2);
+                for (auto index : IntegerRange(values.size())) values.at(index) = Value(index);
                 return boost::range::sort(values, [](Value_ i, Value_ j) {
                     return abs(i) > abs(j);
                 });
             });
         }
-        Array<Vector3<Value_>> Vectors() const {
+        Array3<Vector3<Value_>> Vectors() const {
             return vectors_.Get([&]() {
-                Array<Vector3<Value_>> vectors;
+                Array3<Vector3<Value_>> vectors;
                 for (auto index : IntegerRange(vectors.size())) vectors.at(index) = Vector(index);
                 return vectors;
             });
         }
-        Array<GradedVector3<Value_>> System() const {
-            Array<GradedVector3<Value_>> system;
-            for (auto index : IntegerRange(system.size())) system.at(index) = GradedVector3<Value_>(Vectors().at(index), Values().at(index));
+        Array3<GradedVector3<Value_>> System() const {
+            Array3<GradedVector3<Value_>> system;
+            for (auto index : IntegerRange(system.size())) system.at(index) = {Vectors().at(index), Values().at(index)};
             return system;
         }
 
@@ -513,16 +618,13 @@ public:
 
         Vector3<Value_> Vector(int index) const {
             auto matrix = *matrix_ - Matrix3<Value_>(Values().at(index));
-            auto x = matrix.Minor(Dimension3::z, Dimension3::x);
-            auto y = matrix.Minor(Dimension3::z, Dimension3::y);
-            auto z = matrix.Minor(Dimension3::z, Dimension3::z);
-            return Vector3<Value_>(-x, y , - z).Unit();
+            return Vector3<Value_>(matrix.SignedMinor(Dim3::x, Dim3::x), matrix.SignedMinor(Dim3::x, Dim3::y), matrix.SignedMinor(Dim3::x, Dim3::z)).Unit();
         }
         Value_ factor_;
         boca::Angle angle_;
         bool complex_;
-        Mutable<Array<Value_>> values_;
-        Mutable<Array<Vector3<Value_>>> vectors_;
+        Mutable<Array3<Value_>> values_;
+        Mutable<Array3<Vector3<Value_>>> vectors_;
         Matrix3<Value_> const* matrix_;
     };
 
@@ -567,54 +669,7 @@ public:
         return XPsi() - Pi() / 2.;
     }
 
-    //set X axis
-    Matrix3& SetXAxis(Vector3<Value_> const& axis) {
-        Vector3<Value_> xyPlane(0, 1, 0);
-        return SetXAxis(axis, xyPlane);
-    }
 
-    //set X axis
-    Matrix3& SetXAxis(Vector3<Value_> const& axis, Vector3<Value_> const& xyPlane) {
-        Matrix3 matrix = MakeBasis(xyPlane, axis);
-        Matrix3 matrix2(matrix.Z(), matrix.X(), matrix.Y());
-        x_ = matrix2.ColumnX();
-        y_ = matrix2.ColumnY();
-        z_ = matrix2.ColumnZ();
-        return *this;
-    }
-
-    //set Y axis
-    Matrix3& SetYAxis(Vector3<Value_> const& axis) {
-        Vector3<Value_> yzPlane(0, 0, 1);
-        return SetYAxis(axis, yzPlane);
-    }
-
-    //set Y axis
-    Matrix3& SetYAxis(Vector3<Value_> const& axis, Vector3<Value_> const& yzPlane) {
-        Matrix3 matrix = MakeBasis(yzPlane, axis);
-        Matrix3 matrix2(matrix.Y(), matrix.Z(), matrix.X());
-        x_ = matrix2.ColumnX();
-        y_ = matrix2.ColumnY();
-        z_ = matrix2.ColumnZ();
-        return *this;
-    }
-
-    //set Z axis
-    Matrix3& SetZAxis(Vector3<Value_> const& axis) {
-        Vector3<Value_> zxPlane(1, 0, 0);
-        return SetZAxis(axis, zxPlane);
-    }
-
-// Create a rotation with the axis vector parallel to the rotated coordinate
-// systematrix.  If a second vector is provided it defines a plane passing
-    //set Z axis
-    Matrix3& SetZAxis(Vector3<Value_> const& axis, Vector3<Value_> const& zxPlane) {
-        Matrix3 matrix = MakeBasis(zxPlane, axis);
-        x_ = matrix.ColumnX();
-        y_ = matrix.ColumnY();
-        z_ = matrix.ColumnZ();
-        return *this;
-    }
 
 // through the axis.
 
@@ -657,17 +712,25 @@ public:
         return operator()(i);
     }
 
+    Vector3<Value_> const& operator()(int i, int j) const {
+        return operator()(i)(j);
+    }
+
     // Returns object of the helper class for C-style subscripting r[i][j]
-    Vector3<Value_> const& operator()(Dimension3 i) const {
+    Vector3<Value_> const& operator()(Dim3 i) const {
         switch (i) {
-        case Dimension3::x : return x_;
-        case Dimension3::y : return y_;
-        case Dimension3::z : return z_;
+        case Dim3::x : return x_;
+        case Dim3::y : return y_;
+        case Dim3::z : return z_;
         }
     }
 
-    Vector3<Value_> const& operator[](Dimension3 i) const {
+    Vector3<Value_> const& operator[](Dim3 i) const {
         return operator()(i);
+    }
+
+    Vector3<Value_> const& operator()(Dim3 i, Dim3 j) const {
+        return operator()(i)(j);
     }
 
     // Returns object of the helper class for C-style subscripting r[i][j]
@@ -684,17 +747,25 @@ public:
         return operator()(i);
     }
 
+    Vector3<Value_>& operator()(int i, int j) {
+        return operator()(i)(j);
+    }
+
     // Returns object of the helper class for C-style subscripting r[i][j]
-    Vector3<Value_>& operator()(Dimension3 i)  {
+    Vector3<Value_>& operator()(Dim3 i)  {
         switch (i) {
-        case Dimension3::x : return x_;
-        case Dimension3::y : return y_;
-        case Dimension3::z : return z_;
+        case Dim3::x : return x_;
+        case Dim3::y : return y_;
+        case Dim3::z : return z_;
         }
     }
 
-    Vector3<Value_>& operator[](Dimension3 i)  {
+    Vector3<Value_>& operator[](Dim3 i)  {
         return operator()(i);
+    }
+
+    Vector3<Value_>& operator()(Dim3 i, Dim3 j) {
+        return operator()(i)(j);
     }
 
     ConstIterator2<Matrix3, Vector3, Value_> begin() const {
@@ -777,7 +848,7 @@ public:
     }
 
     template<typename Value_2_>
-    Matrix3<ValueQuotient<Value_2_>> operator/(Value_2_ scalar) {
+    Matrix3<ValueQuotient<Value_2_>> operator/(Value_2_ scalar) const {
         return Scaled(1. / scalar);
     }
 
@@ -809,6 +880,24 @@ public:
     template<typename Value_2_, typename = OnlyIfNotQuantity<Value_2_>>
     Matrix3& operator*=(Matrix3<Value_2_> const& matrix) {
         return *this = Multiply(matrix);
+    }
+
+    Vector3<Value_> Diagonal() {
+        return {x_.X(), y_.Y(), z_(Z)};
+    }
+
+    Vector3<Value_> UpperTriangle() {
+        return {x_.Y(), x_.Z(), y_.Z()};
+    }
+
+    Vector3<Value_> LowerTriangle() {
+        return {y_.X(), z_.X(), z_.Y()};
+    }
+
+    Matrix Symmetry() {
+        if (UpperTriangle() == LowerTriangle()) return Matrix::symmetric;
+        if (UpperTriangle() == -LowerTriangle() && Diagonal() == Vector3<Value_> {0, 0, 0}) return Matrix::antisymmetric;
+        return Matrix::none;
     }
 
 private:
@@ -858,5 +947,8 @@ Matrix3<ValueProduct<Value_1_, Value_2_>> MatrixProduct(Vector3<Value_1_> const&
 {
     return {vector_1.X()* vector_2, vector_1.Y()* vector_2, vector_1.Z()* vector_2};
 }
+
+template<typename Value_>
+using GradedMatrix3 = GradedVector<Matrix3, Value_>;
 
 }

@@ -24,6 +24,20 @@ private:
     ClassDef(TopPartnerBranch, 1)
 };
 
+class VetoTopPartnerBranch : public MultiBranch, public EventShapesBranch
+{
+public:
+    template<typename Multiplet>
+    void Fill(Multiplet const& multiplet) {
+        MultiBranch::Fill(multiplet);
+        EventShapesBranch::Fill(multiplet);
+    }
+    virtual Observables Variables();
+    virtual Observables Spectators();
+private:
+    ClassDef(VetoTopPartnerBranch, 1)
+};
+
 /**
  *
  * @brief Higgs cpv tagger root tree structure
@@ -157,22 +171,22 @@ private:
 class NewEventBranch3 : public BdtBranch, GlobalBase
 {
 public:
-  NewEventBranch3();
+    NewEventBranch3();
 
-  float SignatureBdt;
-  float VetoBdt;
+    float SignatureBdt;
+    float VetoBdt;
 
-  template<typename Multiplet>
-  void Fill(Multiplet const& multiplet) {
-    boca::BdtBranch::Fill(multiplet);
-    GlobalBase::Fill(multiplet.GlobalObservables());
-    SignatureBdt = multiplet.Signature().Bdt();
-  }
-  Observables Variables();
-  Observables Spectators();
+    template<typename Multiplet>
+    void Fill(Multiplet const& multiplet) {
+        boca::BdtBranch::Fill(multiplet);
+        GlobalBase::Fill(multiplet.GlobalObservables());
+        SignatureBdt = multiplet.Signature().Bdt();
+    }
+    Observables Variables();
+    Observables Spectators();
 
 private:
-  ClassDef(NewEventBranch3, 1)
+    ClassDef(NewEventBranch3, 1)
 };
 
 /**

@@ -13,21 +13,22 @@
 #pragma once
 
 #include "physics/Units.hh"
+#include "GradedVector.hh"
 #include "Iterator.hh"
 #include <iostream>
 
 namespace boca
 {
 
-enum class Dimension2
+enum class Dim2
 {
     x,
     y
 };
 
-std::string Name(Dimension2 dimension);
+std::string Name(Dim2 dimension);
 
-std::vector<Dimension2> Dimensions2();
+std::vector<Dim2> Dimensions2();
 
 /**
  * @brief Copy of root::TVector2 in order to get rid of TObject
@@ -285,32 +286,32 @@ public:
     }
 
     // Get components by index
-    Value operator()(Dimension2 dimension) const {
+    Value operator()(Dim2 dimension) const {
         //dereferencing operator const
         switch (dimension) {
-        case Dimension2::x : return x_;
-        case Dimension2::y : return y_;
+        case Dim2::x : return x_;
+        case Dim2::y : return y_;
         default : std::cout << "bad index(%d) returning 0 " << Name(dimension) << std::endl;
             return 0;
         }
     }
 
-    Value operator[](Dimension2 dimension) const {
+    Value operator[](Dim2 dimension) const {
         return operator()(dimension);
     }
 
     // Set components by index.
-    Value& operator()(Dimension2 dimension) {
+    Value& operator()(Dim2 dimension) {
         //dereferencing operator
         switch (dimension) {
-        case Dimension2::x : return x_;
-        case Dimension2::y : return y_;
+        case Dim2::x : return x_;
+        case Dim2::y : return y_;
         default : std::cout << "bad index(%d) returning &x_" <<  Name(dimension) << std::endl;
         }
         return x_;
     }
 
-    Value& operator[](Dimension2 dimension) {
+    Value& operator[](Dim2 dimension) {
         return operator()(dimension);
     }
 
@@ -363,6 +364,9 @@ auto operator*(Value const& scalar, Vector2<Value_2> const& vector)
 {
     return vector.Scale(scalar);
 }
+
+template<typename Value_>
+using GradedVector2 = GradedVector<Vector2, Value_>;
 
 }
 

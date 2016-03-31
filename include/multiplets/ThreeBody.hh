@@ -69,45 +69,6 @@ public:
         return multiplet_1_.Overlap(multiplet_2_) || multiplet_1_.Overlap(multiplet_3_) || multiplet_2_.Overlap(multiplet_3_);
     }
 
-<<<<<<< HEAD
-    boca::Singlet ConstituentJet12() const {
-        return constituent_jet_12_.Get([this]() {
-            return GetConstituentJet12();
-        });
-    }
-
-    boca::Singlet ConstituentJet23() const {
-        return constituent_jet_23_.Get([this]() {
-            return GetConstituentJet23();
-        });
-    }
-
-    boca::Singlet ConstituentJet13() const {
-        return constituent_jet_13_.Get([this]() {
-            return GetConstituentJet13();
-        });
-    }
-
-    boca::Jet Jet12() const {
-        return jet_12_.Get([this]() {
-            return GetJet12();
-        });
-    }
-
-    boca::Jet Jet23() const {
-        return jet_23_.Get([this]() {
-            return GetJet23();
-        });
-    }
-
-    boca::Jet Jet13() const {
-        return jet_13_.Get([this]() {
-            return GetJet13();
-        });
-    }
-
-=======
->>>>>>> 1378c3c247d55a5bbba1488119897a5fc5a35438
     std::vector<boca::Jet> Jets() const {
         return Combine(Multiplet1().Jets(), Multiplet2().Jets(), Multiplet3().Jets());
     }
@@ -148,6 +109,12 @@ public:
 
     std::vector<boca::LorentzVector<Momentum>> LorentzVectors() const {
         return Combine(Multiplet1().LorentzVectors(), Multiplet2().LorentzVectors(), Multiplet3().LorentzVectors()) ;
+    }
+
+    boca::EventShapes EventShapes() const {
+      return event_shapes_.Get([this]() {
+        return boca::EventShapes(LorentzVectors());
+      });
     }
 
 protected:

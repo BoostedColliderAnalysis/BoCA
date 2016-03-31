@@ -11,6 +11,16 @@ namespace boca
 namespace naturalness
 {
 
+Observables VetoTopPartnerBranch::Variables()
+{
+    return MultiBranch::Variables() + EventShapesBranch::Variables();
+}
+
+Observables VetoTopPartnerBranch::Spectators()
+{
+    return MultiBranch::Spectators() + EventShapesBranch::Spectators();
+}
+
 SignatureSingleBranch::SignatureSingleBranch()
 {
     VetoBdt = InitialValue();
@@ -35,7 +45,7 @@ Observables SignatureSingleHadronicBranch::Variables()
 
 Observables SignatureSingleHadronicBranch::Spectators()
 {
-  return SignatureBranch::Spectators() + EventShapesBranch::Spectators();
+    return SignatureBranch::Spectators() + EventShapesBranch::Spectators();
 }
 
 TruthBranch::TruthBranch()
@@ -82,22 +92,22 @@ Observables NewEventBranch2::Variables()
 
 Observables NewEventBranch2::Spectators()
 {
-  return BdtBranch::Spectators() + GlobalBase::Spectators();
+    return BdtBranch::Spectators() + GlobalBase::Spectators();
 }
 
 NewEventBranch3::NewEventBranch3()
 {
-  SignatureBdt = InitialValue();
+    SignatureBdt = InitialValue();
 }
 
 Observables NewEventBranch3::Variables()
 {
-  return BdtBranch::Variables() + GlobalBase::Variables() + OBSERVABLE(SignatureBdt, "BDT_{Signature}");
+    return BdtBranch::Variables() + GlobalBase::Variables() + OBSERVABLE(SignatureBdt, "BDT_{Signature}");
 }
 
 Observables NewEventBranch3::Spectators()
 {
-  return BdtBranch::Spectators() + GlobalBase::Spectators();
+    return BdtBranch::Spectators() + GlobalBase::Spectators();
 }
 
 CompleteBranch::CompleteBranch()

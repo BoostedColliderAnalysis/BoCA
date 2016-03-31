@@ -177,6 +177,12 @@ public:
       return DeltaR() > DetectorGeometry::JetConeSize() ? Combine(Multiplet1().LorentzVectors(), Multiplet2().LorentzVectors()) : std::vector<LorentzVector<Momentum>>{Jet().Vector()};
     }
 
+    boca::EventShapes EventShapes() const {
+      return event_shapes_.Get([this]() {
+        return boca::EventShapes(Jets());
+      });
+    }
+
 protected:
 
     void SetMultiplet1(Multiplet_1_ const& multiplet_1) {

@@ -74,12 +74,6 @@ public:
 
     boca::SubJettiness SubJettiness() const;
 
-    boca::EventShapes EventShapes() const {
-        return event_shapes_.Get([this]() {
-            return boca::EventShapes(LorentzVectors());
-        });
-    }
-
 protected:
 
     virtual Singlet GetConstituentJet() const = 0;

@@ -404,9 +404,9 @@ public:
     Value operator()(LorentzDimension i) const {
         //dereferencing operatorconst
         switch (i) {
-        case LorentzDimension::x : return vector_3_(Dimension3::x);
-        case LorentzDimension::y : return vector_3_(Dimension3::y);
-        case LorentzDimension::z : return vector_3_(Dimension3::z);
+        case LorentzDimension::x : return vector_3_(Dim3::x);
+        case LorentzDimension::y : return vector_3_(Dim3::y);
+        case LorentzDimension::z : return vector_3_(Dim3::z);
         case LorentzDimension::t : return scalar_;
         default: std::cout << "bad index(%d) returning 0 " << Name(i) << std::endl;
         }
@@ -434,19 +434,19 @@ public:
     }
 
     // Set components by index.
-    Value& operator()(Dimension3 i) {
+    Value& operator()(Dim3 i) {
         //dereferencing operator
         switch (i) {
-        case LorentzDimension::x : return vector_3_(Dimension3::x);
-        case LorentzDimension::y : return vector_3_(Dimension3::y);
-        case LorentzDimension::z : return vector_3_(Dimension3::z);
+        case LorentzDimension::x : return vector_3_(Dim3::x);
+        case LorentzDimension::y : return vector_3_(Dim3::y);
+        case LorentzDimension::z : return vector_3_(Dim3::z);
         case LorentzDimension::t : return scalar_;
         default:  std::cout << "bad index(%d) returning &e_ " << Name(i) << std::endl;
         }
         return scalar_;
     }
 
-    Value& operator[](Dimension3 i) {
+    Value& operator[](Dim3 i) {
         return (*this)(i);
     }
 

@@ -2,7 +2,7 @@
 
 #include "boost/range/algorithm/sort.hpp"
 #include "Vector2.hh"
-#include "GradedVector.hh"
+// #include "GradedVector.hh"
 #include "Units.hh"
 #include "Types.hh"
 #include "Mutable.hh"
@@ -10,14 +10,29 @@
 namespace boca
 {
 
-  enum class Matrix
-  {
+enum class Matrix
+{
+    none,
     diagonal,
     symmetric,
     antisymmetric,
     row,
-    column
-  };
+    column,
+    uniform
+};
+
+inline std::string Name(Matrix matrix)
+{
+    switch (matrix) {
+    case Matrix::diagonal : return "diagonal";
+    case Matrix::symmetric : return "symmetric";
+    case Matrix::antisymmetric : return "antisymmetric";
+    case Matrix::row : return "row";
+    case Matrix::column : return "column";
+    case Matrix::uniform : return "uniform";
+    default : return "";
+    }
+}
 
 template <typename Value_>
 class Matrix2
@@ -55,6 +70,29 @@ public:
         y_ = matrix.Y();
     }
 
+    // Set equal to the identity rotation.
+    Matrix2& SetToIdentity() {
+        return SetDiagonal(1);
+    }
+
+    Matrix2& SetDiagonal(Value_ value) {
+        x_ = {value, 0};
+        y_ = {0, value};
+        return *this;
+    }
+
+    //set X axis
+    Matrix2& SetXAxis(Vector2<Value_> const& axis) {
+        Vector2<Value_> xyPlane(0, 1, 0);
+        return SetXAxis(axis, xyPlane);
+    }
+
+    //set Y axis
+    Matrix2& SetYAxis(Vector2<Value_> const& axis) {
+        Vector2<Value_> yzPlane(0, 0, 1);
+        return SetYAxis(axis, yzPlane);
+    }
+
     Vector2<Value_> const& X() const {
         return x_;
     }
@@ -84,9 +122,9 @@ public:
     }
 
     Matrix2<ValueInverse> Inverse() {
-      auto det = Determinant();
-      if (det = ValueSquare(0)) std::cout << "Matrix is not invertible" << std::endl;
-      return (Matrix2(Trace()) - *this) / det;
+        auto det = Determinant();
+        if (det = ValueSquare(0)) std::cout << "Matrix is not invertible" << std::endl;
+        return (Matrix2(Trace()) - *this) / det;
     }
 
 
@@ -98,19 +136,6 @@ public:
 //return Phi
     Angle PhiY() const {
         return y_.Y() == Value_(0) && x_.Y() == Value_(0) ? 0_rad : boost::units::atan2(y_.Y(), x_.Y());
-    }
-
-// Set equal to the identity rotation.
-    Matrix2& SetToIdentity() {
-        x_ = Vector2<Value_>(1, 0);
-        y_ = Vector2<Value_>(0, 1);
-        return *this;
-    }
-
-    Matrix2& SetDiagonal(Value_ value) {
-        x_ = Vector2<Value_>(value, 0);
-        y_ = Vector2<Value_>(0, value);
-        return *this;
     }
 
 
@@ -126,11 +151,11 @@ public:
         return sqr(*this);
     }
 
-    class Eigen
+    class Eigen_
     {
     public:
-        Eigen() {}
-        Eigen(Matrix2<Value_> const& matrix) {
+        Eigen_() {}
+        Eigen_(Matrix2<Value_> const& matrix) {
             trace_ = matrix.Trace();
             auto radicant = sqr(trace_) - 4 * matrix.Determinant();
             if (radicant < 0) complex_ = true;
@@ -147,8 +172,8 @@ public:
                     std::cerr << "Eigensystem has no real Eigenvalues!\n";
                     return values;
                 }
-                values.at(0) = Value1();
-                values.at(1) = Value2();
+                for (auto index : IntegerRange(values.size())) values.at(index) = Value(index);
+                return values;
             });
         }
         Array<Vector2<Value_>> Vectors() const {
@@ -158,9 +183,9 @@ public:
                 return vectors;
             });
         }
-        Array<GradedVector3<Value_>> System() const {
-            Array<GradedVector3<Value_>> system;
-            for (auto index : IntegerRange(system.size())) system.at(index) = GradedVector3<Value_>(Vectors().at(index), Values().at(index));
+        Array<GradedVector2<Value_>> System() const {
+            Array<GradedVector2<Value_>> system;
+            for (auto index : IntegerRange(system.size())) system.at(index) = {Vectors().at(index), Values().at(index)};
             return system;
         }
 
@@ -174,24 +199,16 @@ public:
             return trace_;
         }
 
-        Value_ Value1() const {
-            return (Trace() + Sqrt()) / 2;
-        }
-
-        Value_ Value2() const {
-            return (Trace() - Sqrt()) / 2;
+        Value_ Value(int i) const {
+            switch (i) {
+            case 0 : return (Trace() - Sqrt()) / 2;
+            case 1 : return (Trace() + Sqrt()) / 2;
+            }
         }
 
         Vector2<Value_> Vector(int index) const {
-            // set up matrix of system to be solved
-            auto a11 = matrix_->X().X() - Values().at(index);
-            auto a12 = matrix_->X().Y();
-            // FIXME this is simply wrong
-            auto b1 = a11;
-            auto b2 = a11 - a12;
-            // vector
-            Vector2<Value_> vector(b2, -b1);
-            return vector.Unit();
+            auto matrix = *matrix_ - Matrix2<Value_>(Values().at(index));
+            return Vector2<Value_>(matrix.X().Y(), -matrix.X().X()).Unit();
         }
         Value_ sqrt_;
         boca::Angle trace_;
@@ -201,29 +218,13 @@ public:
         Matrix2<Value_> const* matrix_;
     };
 
-    Mutable<Eigen> eigen_;
+    Mutable<Eigen_> eigen_;
 
-    Eigen const& eigen() const {
+    Eigen_ const& Eigen() const {
         return eigen_.Get([&]() {
-            return Eigen(*this);
+            return Eigen_(*this);
         });
     }
-
-
-    //set X axis
-    Matrix2& SetXAxis(Vector2<Value_> const& axis) {
-        Vector2<Value_> xyPlane(0, 1, 0);
-        return SetXAxis(axis, xyPlane);
-    }
-
-
-
-    //set Y axis
-    Matrix2& SetYAxis(Vector2<Value_> const& axis) {
-        Vector2<Value_> yzPlane(0, 0, 1);
-        return SetYAxis(axis, yzPlane);
-    }
-
 
 
     // Elements of the rotation matrix(Geant4).
@@ -242,14 +243,14 @@ public:
     }
 
     // Returns object of the helper class for C-style subscripting r[i][j]
-    Vector2<Value_> const& operator()(Dimension2 i) const {
+    Vector2<Value_> const& operator()(Dim2 i) const {
         switch (i) {
-        case Dimension2::x : return x_;
-        case Dimension2::y : return y_;
+        case Dim2::x : return x_;
+        case Dim2::y : return y_;
         }
     }
 
-    Vector2<Value_> const& operator[](Dimension2 i) const {
+    Vector2<Value_> const& operator[](Dim2 i) const {
         return operator()(i);
     }
 
@@ -267,14 +268,14 @@ public:
     }
 
     // Returns object of the helper class for C-style subscripting r[i][j]
-    Vector2<Value_>& operator()(Dimension2 i)  {
+    Vector2<Value_>& operator()(Dim2 i)  {
         switch (i) {
-        case Dimension2::x : return x_;
-        case Dimension2::y : return y_;
+        case Dim2::x : return x_;
+        case Dim2::y : return y_;
         }
     }
 
-    Vector2<Value_>& operator[](Dimension2 i)  {
+    Vector2<Value_>& operator[](Dim2 i)  {
         return operator()(i);
     }
 

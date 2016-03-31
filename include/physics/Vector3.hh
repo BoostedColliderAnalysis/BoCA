@@ -22,16 +22,16 @@
 namespace boca
 {
 
-enum class Dimension3
+enum class Dim3
 {
     x,
     y,
     z
 };
 
-std::string Name(Dimension3 dimension);
+std::string Name(Dim3 dimension);
 
-std::vector<Dimension3> Dimensions3();
+std::vector<Dim3> Dimensions3();
 
 /**
  * @brief Copy of root::TVector3 in order to get rid of TObject
@@ -516,34 +516,34 @@ public:
     }
 
     // Get components by index
-    Value operator()(Dimension3 dimension) const {
+    Value operator()(Dim3 dimension) const {
         //dereferencing operator const
         switch (dimension) {
-        case Dimension3::x : return x_;
-        case Dimension3::y : return y_;
-        case Dimension3::z : return z_;
+        case Dim3::x : return x_;
+        case Dim3::y : return y_;
+        case Dim3::z : return z_;
         default : std::cout << "bad index(%d) returning 0 " << Name(dimension) << std::endl;
             return 0;
         }
     }
 
-    Value operator[](Dimension3 dimension) const {
+    Value operator[](Dim3 dimension) const {
         return operator()(dimension);
     }
 
     // Set components by index.
-    Value& operator()(Dimension3 dimension) {
+    Value& operator()(Dim3 dimension) {
         //dereferencing operator
         switch (dimension) {
-        case Dimension3::x : return x_;
-        case Dimension3::y : return y_;
-        case Dimension3::z : return z_;
+        case Dim3::x : return x_;
+        case Dim3::y : return y_;
+        case Dim3::z : return z_;
         default : std::cout << "bad index(%d) returning &x_" <<  Name(dimension) << std::endl;
         }
         return x_;
     }
 
-    Value& operator[](Dimension3 dimension) {
+    Value& operator[](Dim3 dimension) {
         return operator()(dimension);
     }
 
@@ -616,16 +616,7 @@ Vector3 <ValueProduct<Value, Value_2>> operator*(Value_2 scalar, Vector3<Value> 
     return vector.Scale(scalar);
 }
 
-// Vector3 operator*(TMatrix const&, Vector3 const& v)
-// {
-//     return Vector3(m(0, 0) * v.X() + m(0, 1) * v.Y() + m(0, 2) * v.Z(),
-//                    m(1, 0) * v.X() + m(1, 1) * v.Y() + m(1, 2) * v.Z(),
-//                    m(2, 0) * v.X() + m(2, 1) * v.Y() + m(2, 2) * v.Z());
-// }
-
-
-
-// template
-// Vector3<double>::Vector3(TVector3 const& vector);
+template<typename Value_>
+using GradedVector3 = GradedVector<Vector3, Value_>;
 
 }

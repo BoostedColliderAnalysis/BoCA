@@ -32,20 +32,20 @@ protected:
 
     std::string AnalysisName() const override {
         INFO0;
-        return "Single-Hadronic-" + Name(DetectorGeometry::DetectorType()) + "-" + boca::Name(this->Mass()) + "-event-shapes";
+        return "Single-Hadronic-" + Name(DetectorGeometry::DetectorType()) + "-" + boca::Name(this->Mass()) + "-better-veto";
     }
 
     void SetFiles(Tag tag, Stage)override {
         INFO0;
         switch (tag) {
         case Tag::signal :
-          if (this->template TaggerIs<VetoTopPartnerLeptonicTagger>() || this->template TaggerIs<TopPartnerLeptonicNeutralTagger>()) this->NewFile(tag, Process::TT);
+            if (this->template TaggerIs<VetoTopPartnerLeptonicTagger>() || this->template TaggerIs<TopPartnerLeptonicNeutralTagger>()) this->NewFile(tag, Process::TT);
             else this->NewFile(tag, Process::TthHad);
             break;
         case Tag::background :
-          if (this->template TaggerIs<VetoTopPartnerLeptonicTagger>() || this->template TaggerIs<TopPartnerLeptonicNeutralTagger>()) this->NewFile(tag, Process::TthHad);
-            else if (!this->template TaggerIs<TopPartnerHadronicTagger>()) this->NewFile(tag, Process::TT);
-            if (!this->template TaggerIs<VetoTopPartnerLeptonicTagger>() || !this->template TaggerIs<TopPartnerLeptonicNeutralTagger>()) {
+            if (this->template TaggerIs<VetoTopPartnerLeptonicTagger>() || this->template TaggerIs<TopPartnerLeptonicNeutralTagger>()) this->NewFile(tag, Process::TthHad);
+            else if (!this->template TaggerIs<TopPartnerHadronicTagger>()){ this->NewFile(tag, Process::TT);
+//             if (!this->template TaggerIs<VetoTopPartnerLeptonicTagger>() || !this->template TaggerIs<TopPartnerLeptonicNeutralTagger>()) {
                 this->NewFile(tag, Process::ttBB);
                 this->NewFile(tag, Process::ttBjj);
             }
