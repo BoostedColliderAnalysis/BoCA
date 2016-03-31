@@ -107,9 +107,9 @@ public:
     }
 
     Matrix3& SetDiagonal(Value_ value) {
-        x_ = {value, 0, 0};
-        y_ = {0, value, 0};
-        z_ = {0, 0, value};
+        x_ = {value, Dim3::x};
+        y_ = {value, Dim3::y};
+        z_ = {value, Dim3::z};
         return *this;
     }
 
@@ -883,7 +883,7 @@ public:
     }
 
     Vector3<Value_> Diagonal() {
-        return {x_.X(), y_.Y(), z_(Z)};
+        return {x_.X(), y_.Y(), z_.Z()};
     }
 
     Vector3<Value_> UpperTriangle() {

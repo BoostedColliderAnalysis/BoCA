@@ -66,6 +66,13 @@ public:
     Vector3(Value x, Value y, Value z) : x_(x), y_(y), z_(z) {};
 
     // Constructor
+    Vector3(Value value, Dim3 dim) {
+      x_ = dim == Dim3::x ? value: Value(0);
+      y_ = dim == Dim3::y ? value: Value(0);
+      z_ = dim == Dim3::z ? value: Value(0);
+    }
+
+    // Constructor
     template<typename Value_2>
     Vector3(Vector3<Value_2> const& vector) {
         x_ = Value(vector.X());
@@ -487,10 +494,14 @@ public:
     Value operator()(int i) const {
         //dereferencing operator const
         switch (i) {
-        case 0 : return x_;
-        case 1 : return y_;
-        case 2 : return z_;
-        default : std::cout << "bad index(%d) returning 0 " << i << std::endl;
+        case 0 :
+            return x_;
+        case 1 :
+            return y_;
+        case 2 :
+            return z_;
+        default :
+            std::cout << "bad index(%d) returning 0 " << i << std::endl;
         }
         return 0;
     }
@@ -503,10 +514,14 @@ public:
     Value& operator()(int i) {
         //dereferencing operator
         switch (i) {
-        case 0 : return x_;
-        case 1 : return y_;
-        case 2 : return z_;
-        default : std::cout << "bad index(%d) returning &x_" <<  i << std::endl;
+        case 0 :
+            return x_;
+        case 1 :
+            return y_;
+        case 2 :
+            return z_;
+        default :
+            std::cout << "bad index(%d) returning &x_" <<  i << std::endl;
         }
         return x_;
     }
@@ -519,10 +534,14 @@ public:
     Value operator()(Dim3 dimension) const {
         //dereferencing operator const
         switch (dimension) {
-        case Dim3::x : return x_;
-        case Dim3::y : return y_;
-        case Dim3::z : return z_;
-        default : std::cout << "bad index(%d) returning 0 " << Name(dimension) << std::endl;
+        case Dim3::x :
+            return x_;
+        case Dim3::y :
+            return y_;
+        case Dim3::z :
+            return z_;
+        default :
+            std::cout << "bad index(%d) returning 0 " << Name(dimension) << std::endl;
             return 0;
         }
     }
@@ -535,10 +554,14 @@ public:
     Value& operator()(Dim3 dimension) {
         //dereferencing operator
         switch (dimension) {
-        case Dim3::x : return x_;
-        case Dim3::y : return y_;
-        case Dim3::z : return z_;
-        default : std::cout << "bad index(%d) returning &x_" <<  Name(dimension) << std::endl;
+        case Dim3::x :
+            return x_;
+        case Dim3::y :
+            return y_;
+        case Dim3::z :
+            return z_;
+        default :
+            std::cout << "bad index(%d) returning &x_" <<  Name(dimension) << std::endl;
         }
         return x_;
     }
@@ -548,19 +571,19 @@ public:
     }
 
     ConstIterator<Vector3, Value> begin() const {
-      return {this, 0};
+        return {this, 0};
     }
 
     ConstIterator<Vector3, Value> end() const {
-      return {this, 3};
+        return {this, 3};
     }
 
     Iterator<Vector3, Value> begin() {
-      return {this, 0};
+        return {this, 0};
     }
 
     Iterator<Vector3, Value> end() {
-      return {this, 3};
+        return {this, 3};
     }
 
     // Comparisons
