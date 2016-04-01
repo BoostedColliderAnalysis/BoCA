@@ -17,6 +17,7 @@
 #include "TVector3.h"
 #include "TMatrix.h"
 #include "generic/Iterator.hh"
+#include "generic/Enum.hh"
 #include "math/Vector2.hh"
 
 namespace boca
@@ -26,7 +27,8 @@ enum class Dim3
 {
     x,
     y,
-    z
+    z,
+    last
 };
 
 std::string Name(Dim3 dimension);
@@ -67,9 +69,9 @@ public:
 
     // Constructor
     Vector3(Value value, Dim3 dim) {
-      x_ = dim == Dim3::x ? value: Value(0);
-      y_ = dim == Dim3::y ? value: Value(0);
-      z_ = dim == Dim3::z ? value: Value(0);
+        x_ = dim == Dim3::x ? value : Value(0);
+        y_ = dim == Dim3::y ? value : Value(0);
+        z_ = dim == Dim3::z ? value : Value(0);
     }
 
     // Constructor
@@ -491,99 +493,51 @@ public:
     }
 
     // Get components by index
-    Value operator()(int i) const {
-        //dereferencing operator const
-        switch (i) {
-        case 0 :
-            return x_;
-        case 1 :
-            return y_;
-        case 2 :
-            return z_;
-        default :
-            std::cout << "bad index(%d) returning 0 " << i << std::endl;
-        }
-        return 0;
-    }
-
-    Value operator[](int i) const {
-        return operator()(i);
-    }
-
-    // Set components by index.
-    Value& operator()(int i) {
-        //dereferencing operator
-        switch (i) {
-        case 0 :
-            return x_;
-        case 1 :
-            return y_;
-        case 2 :
-            return z_;
-        default :
-            std::cout << "bad index(%d) returning &x_" <<  i << std::endl;
-        }
-        return x_;
-    }
-
-    Value& operator[](int i) {
-        return operator()(i);
-    }
-
-    // Get components by index
-    Value operator()(Dim3 dimension) const {
+    Value const& operator()(Dim3 dimension) const {
         //dereferencing operator const
         switch (dimension) {
-        case Dim3::x :
-            return x_;
-        case Dim3::y :
-            return y_;
-        case Dim3::z :
-            return z_;
-        default :
-            std::cout << "bad index(%d) returning 0 " << Name(dimension) << std::endl;
-            return 0;
+        case Dim3::x : return x_;
+        case Dim3::y : return y_;
+        case Dim3::z : return z_;
+        default : std::cout << "bad index(%d) returning 0 " << Name(dimension) << std::endl;
         }
-    }
-
-    Value operator[](Dim3 dimension) const {
-        return operator()(dimension);
+        return x_;
     }
 
     // Set components by index.
     Value& operator()(Dim3 dimension) {
         //dereferencing operator
         switch (dimension) {
-        case Dim3::x :
-            return x_;
-        case Dim3::y :
-            return y_;
-        case Dim3::z :
-            return z_;
-        default :
-            std::cout << "bad index(%d) returning &x_" <<  Name(dimension) << std::endl;
+        case Dim3::x : return x_;
+        case Dim3::y : return y_;
+        case Dim3::z : return z_;
+        default : std::cout << "bad index(%d) returning &x_" <<  Name(dimension) << std::endl;
         }
         return x_;
+    }
+
+    Value const& operator[](Dim3 dimension) const {
+        return operator()(dimension);
     }
 
     Value& operator[](Dim3 dimension) {
         return operator()(dimension);
     }
 
-    ConstIterator<Vector3, Value> begin() const {
-        return {this, 0};
+    ConstIterator<Vector3, Value, Dim3> begin() const {
+        return {this, Dim3::x};
     }
 
-    ConstIterator<Vector3, Value> end() const {
-        return {this, 3};
+    ConstIterator<Vector3, Value, Dim3> end() const {
+        return {this, Dim3::last};
     }
 
-    Iterator<Vector3, Value> begin() {
-        return {this, 0};
+    Iterator<Vector3, Value, Dim3> begin() {
+        return {this, Dim3::x};
     }
 
-    Iterator<Vector3, Value> end() {
-        return {this, 3};
+    Iterator<Vector3, Value, Dim3> end() {
+        return {this, Dim3::last};
     }
 
     // Comparisons
@@ -640,6 +594,6 @@ Vector3 <ValueProduct<Value, Value_2>> operator*(Value_2 scalar, Vector3<Value> 
 }
 
 template<typename Value_>
-using GradedVector3 = GradedVector<Vector3, Value_>;
+using GradedVector3 = GradedContainer<Vector3, Value_>;
 
 }

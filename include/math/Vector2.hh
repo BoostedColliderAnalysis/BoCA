@@ -23,7 +23,8 @@ namespace boca
 enum class Dim2
 {
     x,
-    y
+    y,
+    last
 };
 
 std::string Name(Dim2 dimension);
@@ -256,36 +257,6 @@ public:
     }
 
     // Get components by index
-    Value operator()(int i) const {
-        //dereferencing operator const
-        switch (i) {
-        case 0 : return x_;
-        case 1 : return y_;
-        default : std::cout << "bad index(%d) returning 0 " << i << std::endl;
-        }
-        return 0;
-    }
-
-    Value operator[](int i) const {
-        return operator()(i);
-    }
-
-    // Set components by index.
-    Value& operator()(int i) {
-        //dereferencing operator
-        switch (i) {
-        case 0 : return x_;
-        case 1 : return y_;
-        default : std::cout << "bad index(%d) returning &x_" <<  i << std::endl;
-        }
-        return x_;
-    }
-
-    Value& operator[](int i) {
-        return operator()(i);
-    }
-
-    // Get components by index
     Value operator()(Dim2 dimension) const {
         //dereferencing operator const
         switch (dimension) {
@@ -315,20 +286,20 @@ public:
         return operator()(dimension);
     }
 
-    ConstIterator<Vector2, Value> begin() const {
-        return {this, 0};
+    ConstIterator<Vector2, Value, Dim2> begin() const {
+        return {this, Dim2::x};
     }
 
-    ConstIterator<Vector2, Value> end() const {
-        return {this, 2};
+    ConstIterator<Vector2, Value, Dim2> end() const {
+        return {this, Dim2::last};
     }
 
-    Iterator<Vector2, Value> begin() {
-        return {this, 0};
+    Iterator<Vector2, Value, Dim2> begin() {
+        return {this, Dim2::x}; //0
     }
 
-    Iterator<Vector2, Value> end() {
-        return {this, 2};
+    Iterator<Vector2, Value, Dim2> end() {
+        return {this, Dim2::last}; //0
     }
 
 private:
@@ -366,7 +337,7 @@ auto operator*(Value const& scalar, Vector2<Value_2> const& vector)
 }
 
 template<typename Value_>
-using GradedVector2 = GradedVector<Vector2, Value_>;
+using GradedVector2 = GradedContainer<Vector2, Value_>;
 
 }
 

@@ -8,56 +8,68 @@ namespace boca
 template<typename Value_>
 using Array3 = std::array<Value_, 3>;
 
-template<template <typename> class Vector_, typename Value_>
-class GradedVector
+template<template <typename> class Container_, typename Value_>
+class GradedContainer
 {
 public:
-    GradedVector() {}
-    GradedVector(Vector_<Value_> vector, Value_ scalar) {
+    GradedContainer() {}
+    GradedContainer(Container_<Value_> vector, Value_ scalar) {
         Set(vector, scalar);
     }
-    void Set(Vector_<Value_> vector, Value_ scalar) {
-        vector_ = vector;
+    void Set(Container_<Value_> vector, Value_ scalar) {
+        container_ = vector;
         scalar_ = scalar;
     }
-    void Set(Vector_<Value_> vector) {
-        vector_ = vector;
+    void Set(Container_<Value_> vector) {
+        container_ = vector;
     }
     void Set(Value_ scalar) {
         scalar_ = scalar;
     }
-    Vector_<Value_>& Vector() {
-        return vector_;
+    Container_<Value_>& Vector() {
+        return container_;
     }
-    Value_& Scalar() {
-        return scalar_;
+    Container_<Value_> Vector() const {
+        return container_;
     }
-    Vector_<Value_> Vector() const {
-        return vector_;
+    Container_<Value_>& Container() {
+      return container_;
     }
-    Vector_<double> Normalize() const {
-        return vector_ / scalar_;
+    Container_<Value_> Container() const {
+      return container_;
+    }
+    Container_<Value_>& Matrix() {
+      return container_;
+    }
+    Container_<Value_> Matrix() const {
+      return container_;
+    }
+    Container_<double> Normalize() const {
+        return container_ / scalar_;
     }
     Value_ Scalar() const {
         return scalar_;
     }
-    GradedVector& operator+=(GradedVector const& graded_vector) {
-        vector_ += graded_vector.vector_;
+    Value_& Scalar() {
+        return scalar_;
+    }
+    GradedContainer& operator+=(GradedContainer const& graded_vector) {
+        container_ += graded_vector.container_;
         scalar_ += graded_vector.scalar_;
         return *this;
     }
-    GradedVector operator+(GradedVector const& graded_vector) {
-      return GradedVector(*this) += graded_vector;
+    GradedContainer operator+(GradedContainer const& graded_vector) {
+      return GradedContainer(*this) += graded_vector;
     }
-    bool operator==(GradedVector const& graded_vector) const {
-        return vector_ == graded_vector.vector_ && scalar_ == graded_vector.scalar_;
+    bool operator==(GradedContainer const& graded_vector) const {
+        return container_ == graded_vector.container_ && scalar_ == graded_vector.scalar_;
     }
-    bool operator!=(GradedVector const& graded_vector) const {
-        return vector_ != graded_vector.vector_ || scalar_ != graded_vector.scalar_;
+    bool operator!=(GradedContainer const& graded_vector) const {
+        return container_ != graded_vector.container_ || scalar_ != graded_vector.scalar_;
     }
 
 private:
-    Vector_<Value_> vector_;
+    Container_<Value_> container_;
     Value_ scalar_ = Value_(0);
 };
 

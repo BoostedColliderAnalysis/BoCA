@@ -156,7 +156,7 @@ public:
 };
 
 template<typename Value_>
-using GradedLorentzVector = GradedVector<LorentzVector, Value_>;
+using GradedLorentzVector = GradedContainer<LorentzVector, Value_>;
 
 }
 

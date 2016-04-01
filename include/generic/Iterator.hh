@@ -1,13 +1,13 @@
 #pragma once
-
+#include "generic/EnumIterator.hh"
 namespace boca
 {
 
-template <template <typename> class Container_, template <typename> class SubContainer_, typename Value_>
+template <template <typename> class Container_, template <typename> class SubContainer_, typename Value_, typename Enum_>
 class Iterator2
 {
 public:
-    Iterator2(Container_<Value_>* container, int position) :
+    Iterator2(Container_<Value_>* container, Enum_ position) :
         position_(position),
         container_(container)
     {}
@@ -17,7 +17,7 @@ public:
     }
 
     SubContainer_<Value_>& operator*() {
-        return (*container_)(position_);
+        return (*container_)(*position_);
     }
 
     Iterator2 const& operator++ () {
@@ -26,15 +26,15 @@ public:
     }
 
 private:
-    int position_;
+    EnumIterator<Enum_> position_;
     Container_<Value_>* container_;
 };
 
-template <template <typename> class Container_, template <typename> class SubContainer_, typename Value_>
+template <template <typename> class Container_, template <typename> class SubContainer_, typename Value_, typename Enum_>
 class ConstIterator2
 {
 public:
-    ConstIterator2(Container_<Value_> const* container, int position) :
+    ConstIterator2(Container_<Value_> const* container, Enum_ position) :
         position_(position),
         container_(container)
     {}
@@ -44,7 +44,7 @@ public:
     }
 
     SubContainer_<Value_> operator*() const {
-        return (*container_)(position_);
+        return (*container_)(*position_);
     }
 
     ConstIterator2 const& operator++ () {
@@ -53,15 +53,15 @@ public:
     }
 
 private:
-    int position_;
+    EnumIterator<Enum_> position_;
     Container_<Value_> const* container_;
 };
 
-template <template <typename> class Container_, typename Value_>
+template <template <typename> class Container_, typename Value_, typename Enum_>
 class Iterator
 {
 public:
-    Iterator(Container_<Value_>* container, int position) :
+    Iterator(Container_<Value_>* container, Enum_ position) :
         position_(position),
         container_(container)
     {}
@@ -71,7 +71,7 @@ public:
     }
 
     Value_& operator*() {
-        return (*container_)(position_);
+        return (*container_)(*position_);
     }
 
     Iterator const& operator++ () {
@@ -80,15 +80,15 @@ public:
     }
 
 private:
-    int position_;
+    EnumIterator<Enum_> position_;
     Container_<Value_>* container_;
 };
 
-template <template <typename> class Container_, typename Value_>
+template <template <typename> class Container_, typename Value_, typename Enum_>
 class ConstIterator
 {
 public:
-    ConstIterator(Container_<Value_> const* container, int position) :
+    ConstIterator(Container_<Value_> const* container, Enum_ position) :
         position_(position),
         container_(container)
     {}
@@ -98,7 +98,7 @@ public:
     }
 
     Value_ operator*() const {
-        return (*container_)(position_);
+        return (*container_)(*position_);
     }
 
     ConstIterator const& operator++ () {
@@ -107,7 +107,7 @@ public:
     }
 
 private:
-    int position_;
+    EnumIterator<Enum_> position_;
     Container_<Value_> const* container_;
 };
 

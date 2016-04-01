@@ -13,7 +13,7 @@
 
 #include <limits.h>
 
-#include "Vector3.hh"
+#include "math/Vector3.hh"
 
 namespace boca
 {
@@ -21,10 +21,11 @@ namespace boca
 // Safe indexing of the coordinates when using with matrices, arrays, etc.
 enum class LorentzDim
 {
-    t,
     x,
     y,
     z,
+    t,
+    last
 };
 
 std::string Name(LorentzDim dimension);
@@ -417,24 +418,8 @@ public:
         return (*this)(i);
     }
 
-    // Get components by index.
-    Value operator()(int i) const {
-        //dereferencing operatorconst
-        switch (i) {
-        case 0 : ;
-        case 1 : ;
-        case 2 : return vector_3_(i);
-        case 3 : return scalar_;
-        default: std::cout << "bad index(%d) returning 0 " << i << std::endl;
-        }
-        return Value(0);
-    }
-    Value operator[](int i) const {
-        return (*this)(i);
-    }
-
     // Set components by index.
-    Value& operator()(Dim3 i) {
+    Value& operator()(LorentzDim i) {
         //dereferencing operator
         switch (i) {
         case LorentzDim::x : return vector_3_(Dim3::x);
@@ -446,40 +431,24 @@ public:
         return scalar_;
     }
 
-    Value& operator[](Dim3 i) {
+    Value& operator[](LorentzDim i) {
         return (*this)(i);
     }
 
-    Value& operator()(int i) {
-        //dereferencing operator
-        switch (i) {
-        case 0 : ;
-        case 1 : ;
-        case 2 : return vector_3_(i);
-        case 3 : return scalar_;
-        default:  std::cout << "bad index(%d) returning &e_ " << i << std::endl;
-        }
-        return scalar_;
+    ConstIterator<Vector3, Value, LorentzDim> begin() const {
+        return {this, LorentzDim::x};
     }
 
-    Value& operator[](int i) {
-        return (*this)(i);
+    ConstIterator<Vector3, Value, LorentzDim> end() const {
+        return {this, LorentzDim::last};
     }
 
-    ConstIterator<Vector3, Value> begin() const {
-        return {this, 0};
+    Iterator<Vector3, Value, LorentzDim> begin() {
+        return {this, LorentzDim::x};
     }
 
-    ConstIterator<Vector3, Value> end() const {
-        return {this, 3};
-    }
-
-    Iterator<Vector3, Value> begin() {
-        return {this, 0};
-    }
-
-    Iterator<Vector3, Value> end() {
-        return {this, 3};
+    Iterator<Vector3, Value, LorentzDim> end() {
+        return {this, LorentzDim::last};
     }
 
     // Additions.

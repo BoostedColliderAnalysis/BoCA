@@ -224,22 +224,6 @@ public:
         });
     }
 
-
-    // Elements of the rotation matrix(Geant4).
-
-    // Returns object of the helper class for C-style subscripting r[i][j]
-    Vector2<Value_> const& operator()(int i) const {
-        switch (i) {
-        case 0 : return x_;
-        case 1 : return y_;
-        }
-        std::cout << "operator()(i) bad index " << i << std::endl;
-    }
-
-    Vector2<Value_> const& operator[](int i) const {
-        return operator()(i);
-    }
-
     // Returns object of the helper class for C-style subscripting r[i][j]
     Vector2<Value_> const& operator()(Dim2 i) const {
         switch (i) {
@@ -247,50 +231,44 @@ public:
         case Dim2::y : return y_;
         }
     }
-
-    Vector2<Value_> const& operator[](Dim2 i) const {
-        return operator()(i);
-    }
-
-    // Returns object of the helper class for C-style subscripting r[i][j]
-    Vector2<Value_>& operator()(int i)  {
-        switch (i) {
-        case 0 : return x_;
-        case 1 : return y_;
-        }
-        std::cout << "operator()(i) bad index " << i << std::endl;
-    }
-
-    Vector2<Value_>& operator[](int i)  {
-        return operator()(i);
-    }
-
-    // Returns object of the helper class for C-style subscripting r[i][j]
-    Vector2<Value_>& operator()(Dim2 i)  {
+    Vector2<Value_>& operator()(Dim2 i) {
         switch (i) {
         case Dim2::x : return x_;
         case Dim2::y : return y_;
         }
     }
 
+    Value_ const& operator()(Dim2 i, Dim2 j) const {
+        return operator()(i)(j);
+    }
+
+    // Returns object of the helper class for C-style subscripting r[i][j]
+    Value_& operator()(Dim2 i, Dim2 j)  {
+        return operator()(i)(j);
+    }
+
+    Vector2<Value_> const& operator[](Dim2 i) const {
+        return operator()(i);
+    }
+
     Vector2<Value_>& operator[](Dim2 i)  {
         return operator()(i);
     }
 
-    ConstIterator2<Matrix2, Vector2, Value_> begin() const {
-        return {this, 0};
+    ConstIterator2<Matrix2, Vector2, Value_, Dim2> begin() const {
+        return {this, Dim2::x};
     }
 
-    ConstIterator2<Matrix2, Vector2, Value_> end() const {
-        return {this, 2};
+    ConstIterator2<Matrix2, Vector2, Value_, Dim2> end() const {
+        return {this, Dim2::last};
     }
 
-    Iterator2<Matrix2, Vector2, Value_> begin() {
-        return {this, 0};
+    Iterator2<Matrix2, Vector2, Value_, Dim2> begin() {
+        return {this, Dim2::x};
     }
 
-    Iterator2<Matrix2, Vector2, Value_> end() {
-        return {this, 2};
+    Iterator2<Matrix2, Vector2, Value_, Dim2> end() {
+        return {this, Dim2::last};
     }
 
     // Comparisons(Geant4).

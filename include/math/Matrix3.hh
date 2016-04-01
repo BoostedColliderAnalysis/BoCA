@@ -16,11 +16,11 @@
 
 #include "TQuaternion.h"
 
-#include "Vector3.hh"
-#include "Matrix2.hh"
-#include "physics/Units.hh"
-#include "generic/Types.hh"
 #include "generic/Mutable.hh"
+#include "generic/Types.hh"
+#include "math/Vector3.hh"
+#include "math/Matrix2.hh"
+#include "physics/Units.hh"
 
 namespace boca
 {
@@ -496,17 +496,24 @@ public:
     }
 
     ValueSquare Minor(Dim3 delete_1, Dim3 delete_2) const {
-        int counter = 0;
+        return MinorMatrix(delete_1, delete_2).Determinant();
+    }
+
+    Matrix2<Value_> MinorMatrix(Dim3 delete_1, Dim3 delete_2) const {
+        EnumIterator<Dim2> dim2_1(Dim2::x);
+        EnumIterator<Dim2> dim2_2(Dim2::x);
         Matrix2<Value_> matrix;
-        for (auto dim_1 : Dimensions3()) {
-            if (dim_1 == delete_1) continue;
-            for (auto dim_2 : Dimensions3()) {
-                if (dim_2 == delete_2) continue;
-                matrix[counter / 2][counter % 2] = (*this)[dim_1][dim_2];
-                ++counter;
+        for (auto dim3_1 : Dimensions3()) {
+            if (dim3_1 == delete_1) continue;
+            for (auto dim3_2 : Dimensions3()) {
+                if (dim3_2 == delete_2) continue;
+                matrix(*dim2_1, *dim2_2) = (*this)(dim3_1, dim3_2);
+                ++dim2_2;
             }
+            ++dim2_1;
+            dim2_2.Set(Dim2::x);
         }
-        return matrix.Determinant();
+        return matrix;
     }
 
     int Sign(Dim3 i, Dim3 j) const {
@@ -692,26 +699,6 @@ public:
         return matrix;
     }
 
-    // Elements of the rotation matrix(Geant4).
-
-    // Returns object of the helper class for C-style subscripting r[i][j]
-    Vector3<Value_> const& operator()(int i) const {
-        switch (i) {
-        case 0 : return x_;
-        case 1 : return y_;
-        case 2 : return z_;
-        }
-        std::cout << "operator()(i) bad index " << i << std::endl;
-    }
-
-    Vector3<Value_> const& operator[](int i) const {
-        return operator()(i);
-    }
-
-    Vector3<Value_> const& operator()(int i, int j) const {
-        return operator()(i)(j);
-    }
-
     // Returns object of the helper class for C-style subscripting r[i][j]
     Vector3<Value_> const& operator()(Dim3 i) const {
         switch (i) {
@@ -719,32 +706,6 @@ public:
         case Dim3::y : return y_;
         case Dim3::z : return z_;
         }
-    }
-
-    Vector3<Value_> const& operator[](Dim3 i) const {
-        return operator()(i);
-    }
-
-    Vector3<Value_> const& operator()(Dim3 i, Dim3 j) const {
-        return operator()(i)(j);
-    }
-
-    // Returns object of the helper class for C-style subscripting r[i][j]
-    Vector3<Value_>& operator()(int i)  {
-        switch (i) {
-        case 0 : return x_;
-        case 1 : return y_;
-        case 2 : return z_;
-        }
-        std::cout << "operator()(i) bad index " << i << std::endl;
-    }
-
-    Vector3<Value_>& operator[](int i)  {
-        return operator()(i);
-    }
-
-    Vector3<Value_>& operator()(int i, int j) {
-        return operator()(i)(j);
     }
 
     // Returns object of the helper class for C-style subscripting r[i][j]
@@ -756,28 +717,36 @@ public:
         }
     }
 
+    Value_ const& operator()(Dim3 i, Dim3 j) const {
+        return operator()(i)(j);
+    }
+
+    Value_& operator()(Dim3 i, Dim3 j) {
+        return operator()(i)(j);
+    }
+
+    Vector3<Value_> const& operator[](Dim3 i) const {
+        return operator()(i);
+    }
+
     Vector3<Value_>& operator[](Dim3 i)  {
         return operator()(i);
     }
 
-    Vector3<Value_>& operator()(Dim3 i, Dim3 j) {
-        return operator()(i)(j);
+    ConstIterator2<Matrix3, Vector3, Value_, Dim3> begin() const {
+        return {this, Dim3::x};
     }
 
-    ConstIterator2<Matrix3, Vector3, Value_> begin() const {
-        return {this, 0};
+    ConstIterator2<Matrix3, Vector3, Value_, Dim3> end() const {
+        return {this, Dim3::last};
     }
 
-    ConstIterator2<Matrix3, Vector3, Value_> end() const {
-        return {this, 3};
+    Iterator2<Matrix3, Vector3, Value_, Dim3> begin() {
+        return {this, Dim3::x};
     }
 
-    Iterator2<Matrix3, Vector3, Value_> begin() {
-        return {this, 0};
-    }
-
-    Iterator2<Matrix3, Vector3, Value_> end() {
-        return {this, 3};
+    Iterator2<Matrix3, Vector3, Value_, Dim3> end() {
+        return {this, Dim3::last};
     }
 
     // Comparisons(Geant4).
@@ -945,6 +914,6 @@ Matrix3<ValueProduct<Value_1_, Value_2_>> MatrixProduct(Vector3<Value_1_> const&
 }
 
 template<typename Value_>
-using GradedMatrix3 = GradedVector<Matrix3, Value_>;
+using GradedMatrix3 = GradedContainer<Matrix3, Value_>;
 
 }
