@@ -1,6 +1,7 @@
 #
 # Copyright (C) 2015-2016 Jan Hajer
 #
+add_subdirectory(external)
 add_subdirectory(generic)
 add_subdirectory(math)
 add_subdirectory(physics)
@@ -56,12 +57,6 @@ Trainer.cpp
 )
 create_library(Tagger tagger_sources)
 
-set(wimp_sources
-WimpMass.cpp
-)
-create_library(Wimp wimp_sources)
-add_dependencies(Wimp WimpMass)
-
 set(analysis_sources
 # Configuration.cpp
 AnalysisBase.cpp
@@ -69,6 +64,7 @@ Constituent.cpp
 SubJettiness.cpp
 DetectorGeometry.cpp
 InfoRecombiner.cpp
+WimpMass.cpp
 # JetInfoFamily.cpp
 )
 create_library(Analysis analysis_sources)

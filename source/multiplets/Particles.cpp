@@ -253,7 +253,7 @@ std::vector<Particle> CopyIfPosition(std::vector<Particle> const& particles, int
     return good;
 }
 
-std::vector<Particle> CopyFirst(std::vector<Particle> particles, int number)
+std::vector<Particle> CopyFirst(std::vector<Particle> particles, std::size_t number)
 {
     if (particles.size() <= number) return particles;
     particles = boost::range::sort(particles, [](Particle const & particle_1, Particle const & particle_2) {

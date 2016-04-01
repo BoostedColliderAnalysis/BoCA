@@ -234,10 +234,10 @@ void Results::Efficiencies()
             return i > j;
         }) - 1);
         signals_.front().AddSelectedEfficiency(elem);
-        int index = Position(sig_eff, elem);
+        std::size_t index = Position(sig_eff, elem);
         selected_efficiencies_.emplace_back(XValue(index));
         if (index >= sig_eff.size()) index = 0;
-        for (auto & background : backgrounds_) background.AddSelectedEfficiency(index);
+        for (auto & background : backgrounds_) background.AddSelectedEfficiency(int(index));
     }
 }
 

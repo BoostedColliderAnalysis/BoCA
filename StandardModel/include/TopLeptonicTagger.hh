@@ -47,8 +47,6 @@ private:
 
     Stage InitializeLeptonicReader();
 
-    bool use_w_;
-
     Reader<BottomTagger> bottom_reader_;
 
     Reader<WLeptonicTagger> w_leptonic_reader_;
@@ -58,6 +56,8 @@ private:
     Mass top_mass_shift_;
 
     Id id_;
+
+    bool use_w_;
 
 //     std::vector<std::shared_ptr<Tagger>> Prerequisite() {
 //         return

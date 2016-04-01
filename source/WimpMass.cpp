@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "WIMPMASS.h"
+#include "external/Invisible2.hh"
 
 #include <map>
 #include <boost/range/algorithm/transform.hpp>
@@ -40,7 +40,7 @@ std::vector<boca::Sextet> WimpMass::Sextets(std::vector<Quartet22> const& quarte
 std::vector<boca::Sextet> WimpMass::Sextets(Quartet22 const& quartet, Jet const& missing_et)
 {
     INFO0;
-    event22 structure;
+    wimpmass::event22 structure;
     SetMomentum(structure.p3, quartet.Doublet1().Singlet2());
     SetMomentum(structure.p4, quartet.Doublet2().Singlet2());
     SetMomentum(structure.p5, quartet.Doublet1().Singlet1());
@@ -48,7 +48,7 @@ std::vector<boca::Sextet> WimpMass::Sextets(Quartet22 const& quartet, Jet const&
     SetMomentum(structure.pmiss, missing_et);
     double momentum_1[4][4], momentum_2[4][4];
     int solution_sum;
-    solve22(structure, MassOf(Id::electron_neutrino) / GeV, MassOf(Id::W) / GeV, MassOf(Id::top) / GeV, solution_sum, momentum_1, momentum_2);
+    wimpmass::solve22(structure, MassOf(Id::electron_neutrino) / GeV, MassOf(Id::W) / GeV, MassOf(Id::top) / GeV, solution_sum, momentum_1, momentum_2);
     DEBUG("Number solutions", solution_sum);
     std::vector<boca::Sextet> sextets;
     for (auto const & solution_number : IntegerRange(solution_sum)) {

@@ -434,7 +434,7 @@ std::string Plotting::EfficienciesTable(Results const& results, int bin) const
     return table.str();
 }
 
-std::string Plotting::EfficienciesRow(Result const& result, int index, Tag tag, int bin) const
+std::string Plotting::EfficienciesRow(Result const& result, int, Tag , int bin) const
 {
     INFO0;
     std::stringstream row;
@@ -461,7 +461,7 @@ std::string Plotting::EfficienciesTableMI(Results const& results, int bin, std::
     return table.str();
 }
 
-std::string Plotting::EfficienciesRowMI(Result const& result, int index, Tag tag, int bin, std::function<std::vector<Crosssection>(Result const&)> const& function) const
+std::string Plotting::EfficienciesRowMI(Result const& result, int , Tag , int bin, std::function<std::vector<Crosssection>(Result const&)> const& function) const
 {
     INFO0;
     std::stringstream row;
@@ -495,7 +495,7 @@ std::string Plotting::CutEfficiencyTable(Results const& results) const
     return table.str();
 }
 
-std::string Plotting::CutEfficiencyRow(Result const& result, int index, Tag tag) const
+std::string Plotting::CutEfficiencyRow(Result const& result, int , Tag ) const
 {
     INFO0;
     std::stringstream row;
@@ -518,7 +518,7 @@ std::string Plotting::TruthLevelCutTable(Results const& results) const
     return table.str();
 }
 
-std::string Plotting::TruthLevelCutRow(Result const& result, Tag tag) const
+std::string Plotting::TruthLevelCutRow(Result const& result, Tag ) const
 {
     INFO0;
     std::stringstream row;

@@ -39,7 +39,7 @@ add_libraries(fastjettools)
 add_libraries(Nsubjettiness)
 
 # Download external projects
-include(CMakeFiles/External.cmake)
+# include(CMakeFiles/External.cmake)
 
 # MadGraph
 include(CMakeFiles/FindMadGraph.cmake)

@@ -396,9 +396,7 @@ public:
     // Scalar product.
     template <typename Value_2>
     ValueProduct<Value_2> Dot(LorentzVectorBase<Value_2> const& lorentz_vector) const {
-        return T() * lorentz_vector.T() - Z() * lorentz_vector.Z() - Y() * lorentz_vector.Y() - X() * lorentz_vector.X();
         return T() * lorentz_vector.T() - Vect().Dot(lorentz_vector.Vect());
-        ;
     }
 
     // Get components by index.

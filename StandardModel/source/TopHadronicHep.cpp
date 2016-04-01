@@ -10,7 +10,7 @@
 #include "multiplets/Particles.hh"
 #include "multiplets/Sort.hh"
 #include "delphes/Hadrons.hh"
-#include "HEPTopTagger.hh"
+#include "external/TopTagger.hh"
 #include "generic/Exception.hh"
 #include "Event.hh"
 #include "plotting/Font.hh"
@@ -90,7 +90,7 @@ std::vector<Triplet> TopHadronicHep::Triplets(Event const& event, PreCuts const&
     INFO(jets.size());
     std::vector<Triplet> triplets;
     for (auto const & jet : jets) {
-        HEPTopTagger top_tagger(cluster_sequence.Get(), jet, MassOf(Id::top) / GeV, MassOf(Id::W) / GeV);
+        HEP::TopTagger top_tagger(cluster_sequence.Get(), jet, MassOf(Id::top) / GeV, MassOf(Id::W) / GeV);
         top_tagger.set_top_range((MassOf(Id::top) - top_mass_window_) / GeV, (MassOf(Id::top) + top_mass_window_) / GeV);
         top_tagger.run_tagger();
         std::vector<Jet> sub_jets = JetVector(top_tagger.top_subjets());

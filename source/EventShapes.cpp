@@ -361,7 +361,7 @@ Array3< GradedVector3< double >> EventShapes::GetThrusts3() const
     INFO0;
     auto vectors = Vectors();
     vectors = boost::range::sort(vectors, [](Vector3<Momentum> const & vector_1, Vector3<Momentum> const &  vector_2) {
-        return vector_1.Mag2() > vector_1.Mag2();
+        return vector_1.Mag2() > vector_2.Mag2();
     });
     // thrust
     Array3<GradedVector3<double>> thrusts;

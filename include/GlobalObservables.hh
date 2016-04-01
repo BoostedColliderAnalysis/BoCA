@@ -45,9 +45,9 @@ public:
 
     int Charge() const;
 
-    Momentum JetPt(int number) const;
+    Momentum JetPt(std::size_t number) const;
 
-    Momentum LeptonPt(int number) const;
+    Momentum LeptonPt(std::size_t number) const;
 
     Energy MissingEt() const;
 

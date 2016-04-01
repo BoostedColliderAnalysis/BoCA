@@ -7,8 +7,8 @@ namespace boca
 {
 
 Isolation::Isolation(Event& event, boca::TreeReader const& tree_reader) :
-    event_(event),
-    Leptons(tree_reader)
+    Leptons(tree_reader),
+    event_(event)
 {
     INFO0;
 }
