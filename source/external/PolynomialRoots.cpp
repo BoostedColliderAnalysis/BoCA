@@ -14,8 +14,8 @@
 // to the C++ versions posted below:
 // 1) All global variables have been eliminated.
 // 2) The "FAIL" parameter passed into RPOLY.FOR has been eliminated.
-// 3) RPOLY.FOR solves polynomials of degree up to 100, but does not std::explicitly state this limit.
-//     rpoly std::explicitly states this limit; uses the macro name MAXDEGREE to specify this limit;
+// 3) RPOLY.FOR solves polynomials of degree up to 100, but does not explicitly state this limit.
+//     rpoly explicitly states this limit; uses the macro name MAXDEGREE to specify this limit;
 //     and does a check to ensure that the user input variable Degree is not greater than MAXDEGREE
 //     (if it is, an error message is output and rpoly terminates). If a user wishes to compute
 //     roots of polynomials of degree greater than MAXDEGREE, using a macro name like MAXDEGREE provides
@@ -91,7 +91,7 @@ void PolynomialRoots::rpoly(double op[MDP1], int* Degree, double zeror[MAXDEGREE
                     zeroi[(*Degree) - 1] = 0.0;
                 } // End if (N < 2)
                 else { // else N == 2
-                    Quad(p[0], p[1], p[2], &zeror[(*Degree) - 2], &zeroi[(*Degree) - 2], &zeror[(*Degree) - 1], &zeroi[(*Degree) - 1]);
+                    Quadratic(p[0], p[1], p[2], &zeror[(*Degree) - 2], &zeroi[(*Degree) - 2], &zeror[(*Degree) - 1], &zeroi[(*Degree) - 1]);
                 } // End else N == 2
                 break;
             } // End if (N <= 2)
@@ -610,7 +610,7 @@ void PolynomialRoots::QuadIT(int N, int* NZ, double uu, double vv, double* szr, 
     v = vv;
 
     do {
-        Quad(1.0, u, v, szr, szi, lzr, lzi);
+        Quadratic(1.0, u, v, szr, szi, lzr, lzi);
 
         // Return if roots of the quadratic are real and not close to multiple or nearly
         // equal and of opposite sign.
@@ -804,7 +804,7 @@ void PolynomialRoots::RealIT(int* iFlag, int* NZ, double* sss, int N, double p[M
 
 } // End RealIT
 
-void PolynomialRoots::Quad(double a, double b1, double c, double* sr, double* si, double* lr, double* li)
+void PolynomialRoots::Quadratic(double quadratic, double linear, double constant, double* sr, double* si, double* lr, double* li)
 {
 // Calculates the zeros of the quadratic a*Z^2 + b1*Z + c
 // The quadratic formula, modified to avoid overflow, is used to find the larger zero if the
@@ -815,26 +815,26 @@ void PolynomialRoots::Quad(double a, double b1, double c, double* sr, double* si
 
     *sr = *si = *lr = *li = 0.0;
 
-    if (a == 0) {
-        *sr = ((b1 != 0) ? -(c / b1) : *sr);
+    if (quadratic == 0) {
+        *sr = ((linear != 0) ? -(constant / linear) : *sr);
         return;
     } // End if (a == 0))
 
-    if (c == 0) {
-        *lr = -(b1 / a);
+    if (constant == 0) {
+        *lr = -(linear / quadratic);
         return;
     } // End if (c == 0)
 
 // Compute discriminant avoiding overflow
 
-    b = b1 / 2.0;
-    if (fabs(b) < fabs(c)) {
-        e = ((c >= 0) ? a : -a);
-        e = -e + b * (b / fabs(c));
-        d = sqrt(fabs(e)) * sqrt(fabs(c));
+    b = linear / 2.0;
+    if (fabs(b) < fabs(constant)) {
+        e = ((constant >= 0) ? quadratic : -quadratic);
+        e = -e + b * (b / fabs(constant));
+        d = sqrt(fabs(e)) * sqrt(fabs(constant));
     } // End if (fabs(b) < fabs(c))
     else { // Else (fabs(b) >= fabs(c))
-        e = -((a / b) * (c / b)) + 1.0;
+        e = -((quadratic / b) * (constant / b)) + 1.0;
         d = sqrt(fabs(e)) * (fabs(b));
     } // End else (fabs(b) >= fabs(c))
 
@@ -842,14 +842,14 @@ void PolynomialRoots::Quad(double a, double b1, double c, double* sr, double* si
         // Real zeros
 
         d = ((b >= 0) ? -d : d);
-        *lr = (-b + d) / a;
-        *sr = ((*lr != 0) ? (c / (*lr)) / a : *sr);
+        *lr = (-b + d) / quadratic;
+        *sr = ((*lr != 0) ? (constant / (*lr)) / quadratic : *sr);
     } // End if (e >= 0)
     else { // Else (e < 0)
         // Complex conjugate zeros
 
-        *lr = *sr = -(b / a);
-        *si = fabs(d / a);
+        *lr = *sr = -(b / quadratic);
+        *si = fabs(d / quadratic);
         *li = -(*si);
     } // End else (e < 0)
 

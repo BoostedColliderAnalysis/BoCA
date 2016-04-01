@@ -30,7 +30,7 @@ private:
 
     void RealIT(int* iFlag, int* NZ, double* sss, int N, double p[MDP1], int NN, double qp[MDP1], double* szr, double* szi, double K[MDP1], double qk[MDP1]);
 
-    void Quad(double a, double b1, double c, double* sr, double* si, double* lr, double* li);
+    void Quadratic(double quadratic, double linear, double constant, double* sr, double* si, double* lr, double* li);
 
 };
 
