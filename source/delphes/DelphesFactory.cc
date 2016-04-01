@@ -29,7 +29,7 @@
 #include "delphes/DelphesFactory.h"
 #include "delphes/DelphesClasses.h"
 
-#include "ExRootAnalysis/ExRootTreeBranch.h"
+#include "exroot/ExRootTreeBranch.h"
 
 #include "TClass.h"
 #include "TObjArray.h"

@@ -7,11 +7,17 @@
 
 // #include "TClonesArray.h"
 
-#include "ExRootAnalysis/ExRootClasses.h"
-#include "ExRootAnalysis/ExRootTreeWriter.h"
-#include "ExRootAnalysis/ExRootTreeReader.h"
-#include "ExRootAnalysis/ExRootTreeBranch.h"
-#include "ExRootAnalysis/ExRootProgressBar.h"
+// #include "ExRootAnalysis/ExRootClasses.h"
+// #include "ExRootAnalysis/ExRootTreeWriter.h"
+// #include "ExRootAnalysis/ExRootTreeReader.h"
+// #include "ExRootAnalysis/ExRootTreeBranch.h"
+// #include "ExRootAnalysis/ExRootProgressBar.h"
+
+#include "exroot/ExRootClasses.h"
+#include "exroot/ExRootTreeWriter.h"
+#include "exroot/ExRootTreeReader.h"
+#include "exroot/ExRootTreeBranch.h"
+// #include "exroot/ExRootProgressBar.h"
 
 #include "generic/Types.hh"
 
@@ -37,7 +43,7 @@ typedef ::TRootJet Jet;
 typedef ::ExRootTreeWriter TreeWriter;
 typedef ::ExRootTreeBranch TreeBranch;
 typedef ::ExRootTreeReader TreeReader;
-typedef ::ExRootProgressBar ProgressBar;
+// typedef ::ExRootProgressBar ProgressBar;
 
 }
 

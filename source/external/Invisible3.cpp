@@ -466,7 +466,7 @@ int solve_3_2(double a0, double a1, double a2, double a3, double a4, double a5, 
     a[0] = 1.; a[1] = a8; a[2] = a7; a[3] = a6; a[4] = a5; a[5] = a4; a[6] = a3;
     a[7] = a2; a[8] = a1; a[9] = a0;
     int n = 9;
-    polynomialroots::rpoly(a, &n, wr, wi);
+    polynomialroots::PolynomialRoots().rpoly(a, &n, wr, wi);
     int nsols = 0;
     /*if (debug==1) for (int i=0;i<n;i++)
     {

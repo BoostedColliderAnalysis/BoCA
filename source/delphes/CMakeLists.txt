@@ -8,7 +8,7 @@ DelphesFactory.cc
 )
 create_library(DelphesFactory DelphesFactorySources)
 
-create_dictionary2(Delphes DelphesClasses.cc ../../include/delphes/ClassesLinkDef.h)
+create_dictionary(Delphes DelphesClasses.cc ../../include/delphes/ClassesLinkDef.h delphes)
 
 set(EventDelphesSources
 Partons.cpp

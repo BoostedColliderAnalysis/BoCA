@@ -42,7 +42,7 @@ add_libraries(Nsubjettiness)
 # include(CMakeFiles/External.cmake)
 
 # MadGraph
-include(CMakeFiles/FindMadGraph.cmake)
+# include(CMakeFiles/FindMadGraph.cmake)
 # configure_file(File.hh.in ${CMAKE_BINARY_DIR}/include/File.hh)
 
 # libConfig

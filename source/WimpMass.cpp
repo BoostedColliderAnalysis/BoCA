@@ -54,17 +54,12 @@ std::vector<boca::Sextet> WimpMass::Sextets(Quartet22 const& quartet, Jet const&
     for (auto const & solution_number : IntegerRange(solution_sum)) {
         DEBUG("Solution ", solution_number);
         Doublet doublet_1(quartet.Doublet1().Singlet2(), Jet(momentum_1[solution_number]));
-        if (doublet_1.Mass() <= massless) continue;
         Doublet doublet_2(quartet.Doublet2().Singlet2(), Jet(momentum_2[solution_number]));
-        if (doublet_2.Mass() <= massless) continue;
         Triplet triplet_1(doublet_1, quartet.Doublet1().Singlet1());
-        if (triplet_1.Mass() <= massless) continue;
         triplet_1.SetBdt(quartet.Doublet1().Bdt());
         Triplet triplet_2(doublet_2, quartet.Doublet2().Singlet1());
-        if (triplet_2.Mass() <= massless) continue;
         triplet_2.SetBdt(quartet.Doublet2().Bdt());
         boca::Sextet sextet(triplet_1, triplet_2);
-        if (sextet.Mass() <= massless) continue;
         sextet.SetTag(quartet.Tag());
         sextet.SetBdt(quartet.Bdt());
         sextets.emplace_back(sextet);

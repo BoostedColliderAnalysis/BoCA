@@ -17,7 +17,7 @@ endif()
 
 # set library versions
 set(major_version 0)
-set(minor_version 1)
+set(minor_version 3)
 set(patch_version 0)
 set(version ${major_version}.${minor_version}.${patch_version})
 set(library_properties
@@ -63,26 +63,21 @@ macro(create_executable executable_name executable_source)
 endmacro()
 
 macro(create_dictionary dictionary_name dictionary_source link_def)
-  message("Dictionary:   ${dictionary_name} <- ${dictionary_source} & ${link_def}")
+  message("Dictionary:   ${dictionary_name} <- ${dictionary_source} & ${link_def} | ${ARGV3}")
   set(dictionary_file ${dictionary_name}Dict.cpp)
-#   message("ROOT INCLUDE DIRECTORIES: ${include_directories}")
-  ROOT_GENERATE_DICTIONARY("../source/${dictionary_source}" "${link_def}" "${dictionary_file}" "${include_directories}")
-#   get_filename_component(BaseName ${dictionary_name} NAME_WE)
-#   ROOT_GENERATE_DICTIONARY("${dictionary_file}" "../include/${BaseName}.hh" LINKDEF "${link_def}" "-s ../source/${dictionary_source}")
+  if(${ARGC} GREATER 3)
+    set(path ../../source/${ARGV3}/${dictionary_source})
+  else()
+    set(path ../source/${dictionary_source})
+  endif()
+  ROOT_GENERATE_DICTIONARY("${path}" "${link_def}" "${dictionary_file}" "${include_directories}")
   create_library(${dictionary_name} dictionary_file "-w")
-#   install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${dictionary_name}Dict_rdict.pcm DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
- add_custom_command(
-  TARGET ${CMAKE_CURRENT_BINARY_DIR}/${dictionary_name}Dict_rdict.pcm
-  COMMAND ${CMAKE_COMMAND} copy ${CMAKE_CURRENT_BINARY_DIR}/${dictionary_name}Dict_rdict.pcm ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
+  add_custom_command(
+    TARGET ${dictionary_name}
+    PRE_LINK
+    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_BINARY_DIR}/${dictionary_name}Dict_rdict.pcm ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
+    COMMENT "Copy: ${CMAKE_CURRENT_BINARY_DIR}/${dictionary_name}Dict_rdict.pcm to ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}"
   )
-endmacro()
-
-macro(create_dictionary2 dictionary_name dictionary_source link_def)
-  message("Dictionary:   ${dictionary_name} <- ${dictionary_source} & ${link_def}")
-  set(dictionary_file ${dictionary_name}Dict.cpp)
-  ROOT_GENERATE_DICTIONARY("../../source/delphes/${dictionary_source}" "${link_def}" "${dictionary_file}" "${include_directories}")
-  create_library(${dictionary_name} dictionary_file "-w")
-  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${dictionary_name}Dict_rdict.pcm DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 endmacro()
 
 macro(add_libraries link_library_sources)

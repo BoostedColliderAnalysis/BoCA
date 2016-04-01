@@ -39,7 +39,7 @@
 namespace polynomialroots
 {
 
-void rpoly(double op[MDP1], int* Degree, double zeror[MAXDEGREE], double zeroi[MAXDEGREE])
+void PolynomialRoots::rpoly(double op[MDP1], int* Degree, double zeror[MAXDEGREE], double zeroi[MAXDEGREE])
 {
 
     int i, j, jj, l, N, NM1, NN, NZ, zerok;
@@ -286,7 +286,7 @@ void rpoly(double op[MDP1], int* Degree, double zeror[MAXDEGREE], double zeroi[M
     return;
 } // End rpoly
 
-void Fxshfr(int L2, int* NZ, double sr, double v, double K[MDP1], int N, double p[MDP1], int NN, double qp[MDP1], double u, double* lzi, double* lzr, double* szi, double* szr)
+void PolynomialRoots::Fxshfr(int L2, int* NZ, double sr, double v, double K[MDP1], int N, double p[MDP1], int NN, double qp[MDP1], double u, double* lzi, double* lzr, double* szi, double* szr)
 {
 
 // Computes up to L2 fixed shift K-polynomials, testing for convergence in the linear or
@@ -298,8 +298,8 @@ void Fxshfr(int L2, int* NZ, double sr, double v, double K[MDP1], int N, double 
 
     int fflag, i, iFlag = 1, j, spass, stry, tFlag, vpass, vtry;
     double a, a1, a3, a7, b, betas, betav, c, d, e, f, g, h, oss, ots, otv, ovv, s, ss, ts, tss, tv, tvv, ui, vi, vv;
-    otv=0;
-    ots=0;
+    otv = 0;
+    ots = 0;
     double qk[MDP1], svk[MDP1];
 
     *NZ = 0;
@@ -446,7 +446,7 @@ void Fxshfr(int L2, int* NZ, double sr, double v, double K[MDP1], int N, double 
     return;
 } // End Fxshfr
 
-void QuadSD(int NN, double u, double v, double p[MDP1], double q[MDP1], double* a, double* b)
+void PolynomialRoots::QuadSD(int NN, double u, double v, double p[MDP1], double q[MDP1], double* a, double* b)
 {
 
 // Divides p by the quadratic 1, u, v placing the quotient in q and the remainder in a, b
@@ -465,7 +465,7 @@ void QuadSD(int NN, double u, double v, double p[MDP1], double q[MDP1], double* 
     return;
 } // End QuadSD
 
-int calcSC(int N, double a, double b, double* a1, double* a3, double* a7, double* c, double* d, double* e, double* f, double* g, double* h, double K[MDP1], double u, double v, double qk[MDP1])
+int PolynomialRoots::calcSC(int N, double a, double b, double* a1, double* a3, double* a7, double* c, double* d, double* e, double* f, double* g, double* h, double K[MDP1], double u, double v, double qk[MDP1])
 {
 
 // This routine calculates scalar quantities used to compute the next K polynomial and
@@ -508,7 +508,7 @@ int calcSC(int N, double a, double b, double* a1, double* a3, double* a7, double
     return dumFlag;
 } // End calcSC
 
-void nextK(int N, int tFlag, double a, double b, double a1, double* a3, double* a7, double K[MDP1], double qk[MDP1], double qp[MDP1])
+void PolynomialRoots::nextK(int N, int tFlag, double a, double b, double a1, double* a3, double* a7, double K[MDP1], double qk[MDP1], double qp[MDP1])
 {
 
 // Computes the next K polynomials using the scalars computed in calcSC
@@ -556,7 +556,7 @@ void nextK(int N, int tFlag, double a, double b, double a1, double* a3, double* 
 
 } // End nextK
 
-void newest(int tFlag, double* uu, double* vv, double a, double a1, double a3, double a7, double b, double c, double d, double f, double g, double h, double u, double v, double K[MDP1], int N, double p[MDP1])
+void PolynomialRoots::newest(int tFlag, double* uu, double* vv, double a, double a1, double a3, double a7, double b, double c, double d, double f, double g, double h, double u, double v, double K[MDP1], int N, double p[MDP1])
 {
 // Compute new estimates of the quadratic coefficients using the scalars computed in calcSC
 
@@ -594,7 +594,7 @@ void newest(int tFlag, double* uu, double* vv, double a, double a1, double a3, d
     return;
 } // End newest
 
-void QuadIT(int N, int* NZ, double uu, double vv, double* szr, double* szi, double* lzr, double* lzi, double qp[MDP1], int NN, double* a, double* b, double p[MDP1], double qk[MDP1], double* a1, double* a3, double* a7, double* c, double* d, double* e, double* f, double* g, double* h, double K[MDP1])
+void PolynomialRoots::QuadIT(int N, int* NZ, double uu, double vv, double* szr, double* szi, double* lzr, double* lzi, double qp[MDP1], int NN, double* a, double* b, double p[MDP1], double qk[MDP1], double* a1, double* a3, double* a7, double* c, double* d, double* e, double* f, double* g, double* h, double K[MDP1])
 {
 
 // Variable-shift K-polynomial iteration for a quadratic factor converges only if the
@@ -602,8 +602,8 @@ void QuadIT(int N, int* NZ, double uu, double vv, double* szr, double* szi, doub
 
     int i, j = 0, tFlag, triedFlag = 0;
     double ee, mp, omp, relstp, t, u, ui, v, vi, zm;
-    relstp=0;
-    omp=0;
+    relstp = 0;
+    omp = 0;
 
     *NZ = 0; // Number of zeros found
     u = uu; // uu and vv are coefficients of the starting quadratic
@@ -697,7 +697,7 @@ void QuadIT(int N, int* NZ, double uu, double vv, double* szr, double* szi, doub
 
 } //End QuadIT
 
-void RealIT(int* iFlag, int* NZ, double* sss, int N, double p[MDP1], int NN, double qp[MDP1], double* szr, double* szi, double K[MDP1], double qk[MDP1])
+void PolynomialRoots::RealIT(int* iFlag, int* NZ, double* sss, int N, double p[MDP1], int NN, double qp[MDP1], double* szr, double* szi, double K[MDP1], double qk[MDP1])
 {
 
 // Variable-shift H-polynomial iteration for a real zero
@@ -708,8 +708,8 @@ void RealIT(int* iFlag, int* NZ, double* sss, int N, double p[MDP1], int NN, dou
 
     int i, j = 0, nm1 = N - 1;
     double ee, kv, mp, ms, omp, pv, s, t;
-    t=0;
-    omp=0;
+    t = 0;
+    omp = 0;
 
     *iFlag = *NZ = 0;
     s = *sss;
@@ -804,7 +804,7 @@ void RealIT(int* iFlag, int* NZ, double* sss, int N, double p[MDP1], int NN, dou
 
 } // End RealIT
 
-void Quad(double a, double b1, double c, double* sr, double* si, double* lr, double* li)
+void PolynomialRoots::Quad(double a, double b1, double c, double* sr, double* si, double* lr, double* li)
 {
 // Calculates the zeros of the quadratic a*Z^2 + b1*Z + c
 // The quadratic formula, modified to avoid overflow, is used to find the larger zero if the
