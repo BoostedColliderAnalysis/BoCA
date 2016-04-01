@@ -20,10 +20,10 @@
 #include "plotting/Plots.hh"
 #include "plotting/Font.hh"
 #include "Branches.hh"
-#include "Vector.hh"
+#include "generic/Vector.hh"
 
 // #define INFORMATION
-#include "DEBUG.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

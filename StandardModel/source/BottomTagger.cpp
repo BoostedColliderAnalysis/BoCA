@@ -4,11 +4,11 @@
 #include "BottomTagger.hh"
 
 #include "Event.hh"
-#include "Particles.hh"
+#include "multiplets/Particles.hh"
 #include "PreCuts.hh"
-#include "Exception.hh"
+#include "generic/Exception.hh"
 // #define DEBUGGING
-#include "DEBUG.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

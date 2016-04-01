@@ -7,12 +7,12 @@
 #include <boost/range/algorithm/max_element.hpp>
 #include <boost/range/numeric.hpp>
 
-#include "Types.hh"
-#include "Vector.hh"
+#include "generic/Types.hh"
+#include "generic/Vector.hh"
 #include "physics/Units.hh"
 #include "DetectorGeometry.hh"
 // #define DEBUGGING
-#include "DEBUG.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

@@ -4,9 +4,9 @@
 #include "JetInfoFamily.hh"
 
 #include <numeric>
-#include "Types.hh"
+#include "generic/Types.hh"
 #include "delphes/Delphes.hh"
-#include "DEBUG.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca {
 

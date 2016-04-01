@@ -3,9 +3,9 @@
  */
 #pragma once
 
-#include "Identification.hh"
-#include "Particle.hh"
-#include "Jet.hh"
+#include "multiplets/Identification.hh"
+#include "multiplets/Particle.hh"
+#include "multiplets/Jet.hh"
 
 namespace boca
 {

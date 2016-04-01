@@ -3,8 +3,8 @@
  */
 #pragma once
 
-#include "Identification.hh"
-#include "Particle.hh"
+#include "multiplets/Identification.hh"
+#include "multiplets/Particle.hh"
 #include "physics/Particles.hh"
 #include "physics/Units.hh"
 

@@ -3,9 +3,9 @@
  */
 #include "plotting/Plots.hh"
 
-#include "Vector.hh"
+#include "generic/Vector.hh"
 // #define DEBUGGING
-#include "DEBUG.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

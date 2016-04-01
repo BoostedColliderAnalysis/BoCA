@@ -1,8 +1,8 @@
 #include "../include/SignatureLeptonTagger.hh"
 #include "Event.hh"
-#include "Exception.hh"
+#include "generic/Exception.hh"
 // #define DEBUGGING
-#include "DEBUG.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

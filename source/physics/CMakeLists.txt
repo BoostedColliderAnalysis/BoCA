@@ -3,13 +3,11 @@
 #
 add_include_path(../../include/)
 set(PhysicsSources
-Math.cpp
-LorentzVector.cpp
 Barn.cpp
 ElectronVolt.cpp
 Si.cpp
 Particles.cpp
-Vector3.cpp
-Vector2.cpp
+Member.cpp
+Family.cpp
 )
 create_library(Physics PhysicsSources)

@@ -3,10 +3,10 @@
  */
 #include "VetoTopPartnerHadronicTagger.hh"
 #include "Decuplet.hh"
-#include "Particles.hh"
+#include "multiplets/Particles.hh"
 // #define DEBUGGING
 // #define INFORMATION
-#include "DEBUG.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

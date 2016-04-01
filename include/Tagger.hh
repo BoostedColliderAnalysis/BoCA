@@ -7,7 +7,7 @@
 
 #include "TMVA/Types.h"
 
-#include "Vector.hh"
+#include "generic/Vector.hh"
 #include "Branches.hh"
 #include "Phase.hh"
 #include "physics/Range.hh"

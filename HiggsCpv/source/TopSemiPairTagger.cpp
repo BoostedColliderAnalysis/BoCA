@@ -1,8 +1,8 @@
 #include "TopSemiPairTagger.hh"
 
-#include "Sort.hh"
+#include "multiplets/Sort.hh"
 #include "Event.hh"
-#include "DEBUG.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca {
 

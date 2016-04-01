@@ -4,7 +4,7 @@
 #pragma once
 
 #include <string>
-#include "Flag.hh"
+#include "generic/Flag.hh"
 
 namespace boca
 {

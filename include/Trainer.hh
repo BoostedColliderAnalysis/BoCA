@@ -6,7 +6,7 @@
 #include "TMVA/Factory.h"
 
 #include "exroot/ExRootAnalysisForward.hh"
-#include "Identification.hh"
+#include "multiplets/Identification.hh"
 
 namespace TMVA {
 class MethodBDT;

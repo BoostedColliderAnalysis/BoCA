@@ -8,13 +8,13 @@
 // #include "boost/filesystem.hpp"
 
 #include "File.hh"
-#include "Types.hh"
+#include "generic/Types.hh"
 #include "AnalysisBase.hh"
 #include "plotting/Plotting.hh"
 #include "Event.hh"
 #include "Trainer.hh"
 // #define INFORMATION
-#include "DEBUG.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

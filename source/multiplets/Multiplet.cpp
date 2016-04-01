@@ -2,9 +2,9 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 
-#include "Sort.hh"
+#include "multiplets/Sort.hh"
 #include "multiplets/Multiplet.hh"
-#include "DEBUG.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

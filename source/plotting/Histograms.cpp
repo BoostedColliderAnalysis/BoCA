@@ -6,7 +6,7 @@
 #include "plotting/Style.hh"
 #include "plotting/Histograms.hh"
 // #define INFORMATION
-#include "DEBUG.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

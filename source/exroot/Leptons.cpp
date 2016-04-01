@@ -1,8 +1,8 @@
 #include "exroot/Leptons.hh"
 
 #include "exroot/ExRootAnalysis.hh"
-#include "Types.hh"
-#include "DEBUG.hh"
+#include "generic/Types.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

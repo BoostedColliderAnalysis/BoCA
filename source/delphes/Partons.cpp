@@ -5,8 +5,8 @@
 #include "delphes/Partons.hh"
 
 #include "physics/Particles.hh"
-#include "Types.hh"
-#include "DEBUG.hh"
+#include "generic/Types.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

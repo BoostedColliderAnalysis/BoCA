@@ -1,8 +1,8 @@
 #include "TopPartnerHadronicNeutralTagger.hh"
 #include "Event.hh"
-#include "Exception.hh"
-#include "Particles.hh"
-#include "DEBUG.hh"
+#include "generic/Exception.hh"
+#include "multiplets/Particles.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

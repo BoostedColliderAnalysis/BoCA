@@ -1,9 +1,11 @@
 #
 # Copyright (C) 2015-2016 Jan Hajer
 #
+add_subdirectory(generic)
+add_subdirectory(math)
+add_subdirectory(physics)
 add_subdirectory(exroot)
 add_subdirectory(delphes)
-add_subdirectory(physics)
 
 create_dictionary(Colors Colors.cpp ../include/LinkDef.hh)
 add_subdirectory(plotting)
@@ -14,11 +16,7 @@ create_dictionary(Names Names.cpp ../include/LinkDef.hh)
 
 set(vector_sources
 EventShapes.cpp
-EventShapesOld.cpp
 HemisphereMasses.cpp
-PseudoJet.cpp
-Jet.cpp
-Particle.cpp
 ClusterSequence.cpp
 )
 create_library(Vector vector_sources)
@@ -26,29 +24,19 @@ create_library(Vector vector_sources)
 
 add_subdirectory(multiplets)
 
-set(global_sources
-Debug.cpp
-Types.cpp
-Particles.cpp
-Exception.cpp
-Options.cpp
-)
-create_library(Global global_sources)
-
 set(event_sources
 File.cpp
 TreeReader.cpp
 Event.cpp
-Isolation.cpp
 FourVector.cpp
+Hadrons.cpp
 Partons.cpp
 Leptons.cpp
-Hadrons.cpp
+Isolation.cpp
 )
 create_library(Event event_sources)
 
 set(multiplet_sources
-Identification.cpp
 GlobalObservables.cpp
 GlobalTagger.cpp
 # EventTagger.cpp
@@ -77,13 +65,9 @@ add_dependencies(Wimp WimpMass)
 set(analysis_sources
 # Configuration.cpp
 AnalysisBase.cpp
-Member.cpp
-Family.cpp
 Constituent.cpp
 SubJettiness.cpp
 DetectorGeometry.cpp
-JetInfo.cpp
-ParticleInfo.cpp
 InfoRecombiner.cpp
 # JetInfoFamily.cpp
 )

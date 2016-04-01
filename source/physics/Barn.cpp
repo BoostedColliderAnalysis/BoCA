@@ -3,7 +3,7 @@
 
 #include "physics/Barn.hh"
 #include "physics/Prefixes.hh"
-#include "Vector.hh"
+#include "generic/Vector.hh"
 
 namespace boca
 {

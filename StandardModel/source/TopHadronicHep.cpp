@@ -7,15 +7,15 @@
 #include "ClusterSequence.hh"
 #include "DetectorGeometry.hh"
 #include "PreCuts.hh"
-#include "Particles.hh"
-#include "Sort.hh"
+#include "multiplets/Particles.hh"
+#include "multiplets/Sort.hh"
 #include "delphes/Hadrons.hh"
 #include "HEPTopTagger.hh"
-#include "Exception.hh"
+#include "generic/Exception.hh"
 #include "Event.hh"
 #include "plotting/Font.hh"
 // #define DEBUGGING
-#include "DEBUG.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

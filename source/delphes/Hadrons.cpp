@@ -8,12 +8,12 @@
 #include "delphes/Hadrons.hh"
 
 #include "ClusterSequence.hh"
-#include "Vector.hh"
-#include "Types.hh"
-#include "Sort.hh"
-#include "Exception.hh"
+#include "generic/Vector.hh"
+#include "generic/Types.hh"
+#include "multiplets/Sort.hh"
+#include "generic/Exception.hh"
 // #define DEBUGGING
-#include "DEBUG.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

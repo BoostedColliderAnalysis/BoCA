@@ -112,9 +112,9 @@ public:
     }
 
     boca::EventShapes EventShapes() const {
-      return event_shapes_.Get([this]() {
-        return boca::EventShapes(LorentzVectors());
-      });
+        return event_shapes_.Get([this]() {
+            return boca::EventShapes(LorentzVectors());
+        });
     }
 
 protected:

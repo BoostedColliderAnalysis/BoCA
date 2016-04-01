@@ -2,7 +2,7 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "Configuration.hh"
-#include "DEBUG.hh"
+#include "generic/DEBUG.hh"
 
 
 namespace boca {

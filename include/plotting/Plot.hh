@@ -5,7 +5,7 @@
 
 #include "Names.hh"
 #include "physics/Range.hh"
-#include "physics/Vector3.hh"
+#include "math/Vector3.hh"
 
 namespace boca
 {

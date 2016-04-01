@@ -9,7 +9,7 @@
 #include "TopPartnerLeptonicNeutralTagger.hh"
 #include "TopPartnerHadronicTagger.hh"
 #define INFORMATION
-#include "DEBUG.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

@@ -1,6 +1,6 @@
 #include "EventNeutralTagger.hh"
 #include "Event.hh"
-#include "DEBUG.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

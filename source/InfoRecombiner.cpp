@@ -2,7 +2,7 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "InfoRecombiner.hh"
-#include "JetInfo.hh"
+#include "multiplets/JetInfo.hh"
 
 namespace boca {
 

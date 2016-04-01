@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Analysis.hh"
-#include "DEBUG.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

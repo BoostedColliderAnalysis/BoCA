@@ -6,7 +6,7 @@
 #include "PreCuts.hh"
 #include "Phase.hh"
 #include "Names.hh"
-#include "Flag.hh"
+#include "generic/Flag.hh"
 
 namespace boca
 {

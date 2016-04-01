@@ -3,8 +3,8 @@
  */
 #include "Leptons.hh"
 
-#include "Vector.hh"
-#include "DEBUG.hh"
+#include "generic/Vector.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

@@ -3,10 +3,10 @@
  */
 #include "TauTagger.hh"
 
-#include "Sort.hh"
-#include "Particles.hh"
+#include "multiplets/Sort.hh"
+#include "multiplets/Particles.hh"
 #include "Event.hh"
-#include "DEBUG.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

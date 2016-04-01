@@ -4,7 +4,7 @@
 #pragma once
 
 #include "FourVector.hh"
-#include "Jet.hh"
+#include "multiplets/Jet.hh"
 
 namespace boca {
 

@@ -4,9 +4,9 @@
 
 #include <boost/math/constants/constants.hpp>
 #include "physics/Si.hh"
-#include "physics/Math.hh"
+#include "math/Math.hh"
 #include "physics/Prefixes.hh"
-#include "DEBUG.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

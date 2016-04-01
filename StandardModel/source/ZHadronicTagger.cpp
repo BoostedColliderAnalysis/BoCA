@@ -4,9 +4,9 @@
 #include "ZHadronicTagger.hh"
 #include "MomentumRange.hh"
 #include "Event.hh"
-#include "Particles.hh"
-#include "Exception.hh"
-#include "DEBUG.hh"
+#include "multiplets/Particles.hh"
+#include "generic/Exception.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include "Particle.hh"
+#include "multiplets/Particle.hh"
 #include "FourVector.hh"
 
 namespace boca

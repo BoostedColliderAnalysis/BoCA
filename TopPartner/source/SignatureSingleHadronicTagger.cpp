@@ -2,9 +2,8 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "SignatureSingleHadronicTagger.hh"
-#include "EventShapesOld.hh"
 // #define INFORMATION
-#include "DEBUG.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

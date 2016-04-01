@@ -3,7 +3,7 @@
 #include <iostream>
 #include <utility>
 #include "physics/Units.hh"
-#include "physics/Math.hh"
+#include "math/Math.hh"
 
 namespace boca
 {

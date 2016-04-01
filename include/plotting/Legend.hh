@@ -5,7 +5,7 @@
 
 #include "TLegend.h"
 
-#include "Flag.hh"
+#include "generic/Flag.hh"
 #include "physics/Rectangle.hh"
 
 namespace boca

@@ -6,7 +6,7 @@
 #include "multiplets/Singlet.hh"
 #include "SubJettiness.hh"
 #include "ClosestLepton.hh"
-#include "Particle.hh"
+#include "multiplets/Particle.hh"
 #include "EventShapes.hh"
 
 namespace boca
@@ -84,6 +84,8 @@ protected:
 
     virtual std::vector<LorentzVector<Momentum>> LorentzVectors() const = 0;
 
+    Mutable<boca::EventShapes> event_shapes_;
+
 private:
 
     ClosestLepton closest_lepton_;
@@ -91,8 +93,6 @@ private:
     Mutable<boca::Singlet> constituent_jet_;
 
     Mutable<boca::Jet> jet_;
-
-    Mutable<boca::EventShapes> event_shapes_;
 
 };
 

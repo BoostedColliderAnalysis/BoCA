@@ -9,9 +9,9 @@
 #include "fastjet/PseudoJet.hh"
 #include "physics/Particles.hh"
 
-#include "Identification.hh"
+#include "multiplets/Identification.hh"
 #include "FourVector.hh"
-#include "Family.hh"
+#include "physics/Family.hh"
 
 namespace boca {
 

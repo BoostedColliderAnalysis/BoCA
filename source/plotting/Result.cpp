@@ -2,10 +2,10 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "plotting/Result.hh"
-#include "Types.hh"
+#include "generic/Types.hh"
 #include "DetectorGeometry.hh"
 // #define DEBUGGING
-#include "DEBUG.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

@@ -8,8 +8,8 @@
 // #include "ReaderBase.hh"
 #include "PreCuts.hh"
 #include "Phase.hh"
-#include "Options.hh"
-#include "Sort.hh"
+#include "generic/Options.hh"
+#include "multiplets/Sort.hh"
 #include "Event.hh"
 
 namespace boca

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Jet.hh"
+#include "multiplets/Jet.hh"
 
 namespace boca
 {

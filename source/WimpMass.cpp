@@ -7,12 +7,12 @@
 #include <boost/range/algorithm/transform.hpp>
 
 #include "multiplets/Quartet.hh"
-#include "physics/Math.hh"
+#include "math/Math.hh"
 #include "WimpMass.hh"
-#include "Types.hh"
-#include "Vector.hh"
-#include "Particle.hh"
-#include "DEBUG.hh"
+#include "generic/Types.hh"
+#include "generic/Vector.hh"
+#include "multiplets/Particle.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

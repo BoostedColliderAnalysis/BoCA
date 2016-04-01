@@ -4,7 +4,7 @@
 
 #include "fastjet/contrib/Nsubjettiness.hh"
 #include "SubJettiness.hh"
-#include "Jet.hh"
+#include "multiplets/Jet.hh"
 
 namespace boca
 {

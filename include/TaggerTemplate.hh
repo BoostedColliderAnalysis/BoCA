@@ -6,10 +6,10 @@
 #include "exroot/ExRootAnalysis.hh"
 
 #include "Tagger.hh"
-#include "Sort.hh"
+#include "multiplets/Sort.hh"
 #include "PreCuts.hh"
 #include "Filter.hh"
-#include "Debug.hh"
+#include "generic/Debug.hh"
 
 namespace boca
 {

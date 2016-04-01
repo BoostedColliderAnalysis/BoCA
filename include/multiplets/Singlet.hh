@@ -3,9 +3,9 @@
  */
 #pragma once
 
-#include "Jet.hh"
-#include "Mutable.hh"
-#include "Line2.hh"
+#include "generic/Mutable.hh"
+#include "math/Line2.hh"
+#include "multiplets/Jet.hh"
 
 namespace boca
 {

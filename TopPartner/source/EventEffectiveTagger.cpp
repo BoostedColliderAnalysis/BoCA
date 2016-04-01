@@ -4,7 +4,7 @@
 #include "EventEffectiveTagger.hh"
 #include "plotting/Font.hh"
 // #define DEBUGGING
-#include "DEBUG.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

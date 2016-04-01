@@ -2,7 +2,7 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #pragma once
-#include "Jet.hh"
+#include "multiplets/Jet.hh"
 
 namespace fastjet
 {

@@ -1,9 +1,9 @@
 #include "../include/TruthVariables.hh"
 #include "physics/Particles.hh"
 #include "physics/Units.hh"
-#include "Sort.hh"
-#include "Vector.hh"
-#include "DEBUG.hh"
+#include "multiplets/Sort.hh"
+#include "generic/Vector.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

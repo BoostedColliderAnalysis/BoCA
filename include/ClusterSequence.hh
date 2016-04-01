@@ -3,7 +3,7 @@
  */
 #pragma once
 #include "fastjet/ClusterSequence.hh"
-#include "Jet.hh"
+#include "multiplets/Jet.hh"
 
 namespace boca
 {

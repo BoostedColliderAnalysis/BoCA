@@ -5,8 +5,8 @@
 
 #include <boost/range/algorithm/unique.hpp>
 #include <boost/range/algorithm_ext/erase.hpp>
-#include "Sort.hh"
-#include "Vector.hh"
+#include "multiplets/Sort.hh"
+#include "generic/Vector.hh"
 
 #include "multiplets/Multiplet.hh"
 #include "physics/Particles.hh"
@@ -174,13 +174,13 @@ public:
     }
 
     std::vector<LorentzVector<Momentum>> LorentzVectors() const {
-      return DeltaR() > DetectorGeometry::JetConeSize() ? Combine(Multiplet1().LorentzVectors(), Multiplet2().LorentzVectors()) : std::vector<LorentzVector<Momentum>>{Jet().Vector()};
+        return DeltaR() > DetectorGeometry::JetConeSize() ? Combine(Multiplet1().LorentzVectors(), Multiplet2().LorentzVectors()) : std::vector<LorentzVector<Momentum>> {Jet().Vector()};
     }
 
     boca::EventShapes EventShapes() const {
-      return event_shapes_.Get([this]() {
-        return boca::EventShapes(Jets());
-      });
+        return event_shapes_.Get([this]() {
+            return boca::EventShapes(Jets());
+        });
     }
 
 protected:

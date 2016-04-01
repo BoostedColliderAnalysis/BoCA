@@ -1,8 +1,8 @@
 #include "multiplets/ClosestLepton.hh"
-#include "Vector.hh"
+#include "generic/Vector.hh"
 #include "Event.hh"
 // #define INFORMATION
-#include "DEBUG.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

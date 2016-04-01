@@ -7,10 +7,10 @@
 
 #include "multiplets/Singlet.hh"
 #include "DetectorGeometry.hh"
-#include "Vector.hh"
-#include "physics/Math.hh"
+#include "generic/Vector.hh"
+#include "math/Math.hh"
 #include "physics/Range.hh"
-#include "DEBUG.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

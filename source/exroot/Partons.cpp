@@ -1,8 +1,8 @@
 #include "exroot/Partons.hh"
 
 #include "exroot/ExRootAnalysis.hh"
-#include "Types.hh"
-#include "DEBUG.hh"
+#include "generic/Types.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

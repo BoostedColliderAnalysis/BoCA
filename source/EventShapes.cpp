@@ -13,11 +13,11 @@
 
 #include <boost/range/numeric.hpp>
 #include "EventShapes.hh"
-#include "Vector.hh"
-#include "Exception.hh"
+#include "generic/Vector.hh"
+#include "generic/Exception.hh"
 // #define INFORMATION
-#include "DEBUG.hh"
-#include "Sort.hh"
+#include "generic/DEBUG.hh"
+#include "multiplets/Sort.hh"
 
 namespace boca
 {
@@ -288,8 +288,10 @@ HemisphereMasses EventShapes::GetHemisphereMasses() const
     INFO0;
     GradedLorentzVector<Momentum> positive;
     GradedLorentzVector<Momentum> negative;
-    for (auto const & lorentz_vector : LorentzVectors()) if (lorentz_vector.Vector() * ThrustAxis() > 0_eV) positive += {lorentz_vector, lorentz_vector.Perp(ThrustAxis())};
+    for (auto const & lorentz_vector : LorentzVectors()) {
+        if (lorentz_vector.Vector() * ThrustAxis() > 0_eV) positive += {lorentz_vector, lorentz_vector.Perp(ThrustAxis())};
         else negative += {lorentz_vector, lorentz_vector.Perp(ThrustAxis())};
+    }
     boca::HemisphereMasses hemisphere_masses;
     // masses
     hemisphere_masses.SetMasses(Range<EnergySquare>(negative.Vector().M2(), positive.Vector().M2()) / sqr(positive.Vector().E() + negative.Vector().E()));
@@ -301,17 +303,17 @@ HemisphereMasses EventShapes::GetHemisphereMasses() const
 Array3<GradedVector3<double>> EventShapes::DiagonalizeLinearTensors() const
 {
     INFO0;
-    GradedMatrix3<Momentum> matrix;
-    for (auto vector : Vectors()) if (vector.Mag2() > 0_eV * eV) matrix += {MatrixProduct(vector, vector) / vector.Mag(), vector.Mag()};
-    return Matrix3<double>(matrix.Scale()).Eigen().System();
+    return Matrix3<double>(boost::accumulate(Vectors(), GradedMatrix3<Momentum>(), [](GradedMatrix3<Momentum>& sum, Vector3<Momentum> const & vector) {
+        return vector.Mag2() > 0_eV * eV ? sum + GradedMatrix3<Momentum>(MatrixProduct(vector, vector) / vector.Mag(), vector.Mag()) : sum;
+    }).Normalize()).Eigen().System();
 }
 
 Array3<GradedVector3<double>> EventShapes::DiagonalizeSphericalTensors() const
 {
     INFO0;
-    GradedMatrix3<MomentumSquare> matrix;
-    for (auto vector : Vectors()) if (vector.Mag2() > 0_eV * eV) matrix += {MatrixProduct(vector, vector), vector.Mag2()};
-    return Matrix3<double>(matrix.Scale()).Eigen().System();
+    return Matrix3<double>(boost::accumulate(Vectors(), GradedMatrix3<MomentumSquare>(), [](GradedMatrix3<MomentumSquare>& sum, Vector3<Momentum> const & vector) {
+        return vector.Mag2() > 0_eV * eV ? sum + GradedMatrix3<MomentumSquare>(MatrixProduct(vector, vector), vector.Mag2()) : sum;
+    }).Normalize()).Eigen().System();
 }
 
 Array3< GradedVector3< double >> EventShapes::GetThrusts() const
@@ -357,16 +359,17 @@ Array3< GradedVector3< double >> EventShapes::GetThrusts2() const
 Array3< GradedVector3< double >> EventShapes::GetThrusts3() const
 {
     INFO0;
-    if (Vectors().at(0).Mag2() < Vectors().at(1).Mag2()) std::swap(Vectors().at(0), Vectors().at(1));
-    if (Vectors().at(0).Mag2() < Vectors().at(2).Mag2()) std::swap(Vectors().at(0), Vectors().at(2));
-    if (Vectors().at(1).Mag2() < Vectors().at(2).Mag2()) std::swap(Vectors().at(1), Vectors().at(2));
+    auto vectors = Vectors();
+    vectors = boost::range::sort(vectors, [](Vector3<Momentum> const & vector_1, Vector3<Momentum> const &  vector_2) {
+        return vector_1.Mag2() > vector_1.Mag2();
+    });
     // thrust
     Array3<GradedVector3<double>> thrusts;
     auto scalar_momentum = ScalarMomentum();
-    thrusts.at(0).Set(Mirror(Vectors().at(0).Unit(), Dim3::z), 2. * Vectors().at(0).Mag() / scalar_momentum);
+    thrusts.at(0).Set(Mirror(vectors.at(0).Unit(), Dim3::z), 2. * vectors.at(0).Mag() / scalar_momentum);
     // major
-    auto major = Mirror((Vectors().at(1) - (thrusts.at(0).Vector() * Vectors().at(1)) * thrusts.at(0).Vector()).Unit(), Dim3::x);
-    thrusts.at(1).Set(major, (abs(Vectors().at(1) * major) + abs(Vectors().at(2) * major)) / scalar_momentum);
+    auto major = Mirror((vectors.at(1) - (thrusts.at(0).Vector() * vectors.at(1)) * thrusts.at(0).Vector()).Unit(), Dim3::x);
+    thrusts.at(1).Set(major, (abs(vectors.at(1) * major) + abs(vectors.at(2) * major)) / scalar_momentum);
     // minor
     thrusts.at(2).Set(thrusts.at(0).Vector().Cross(thrusts.at(1).Vector()), 0);
     return thrusts;

@@ -7,7 +7,7 @@
 #include <boost/range/algorithm/min_element.hpp>
 #include <boost/range/algorithm_ext/is_sorted.hpp>
 
-#include "physics/Vector2.hh"
+#include "math/Vector2.hh"
 #include "physics/Range.hh"
 
 namespace boca

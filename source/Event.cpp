@@ -8,9 +8,9 @@
 #include "exroot/Leptons.hh"
 #include "exroot/Hadrons.hh"
 #include "exroot/Partons.hh"
-#include "Vector.hh"
+#include "generic/Vector.hh"
 #include "DetectorGeometry.hh"
-#include "DEBUG.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

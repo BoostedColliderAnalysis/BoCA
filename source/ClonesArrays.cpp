@@ -7,7 +7,7 @@
 #include "TObjArray.h"
 #include "exroot/ExRootAnalysis.hh"
 // #define DEBUGGING
-#include "DEBUG.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

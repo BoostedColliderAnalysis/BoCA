@@ -6,11 +6,11 @@
 #include "plotting/Font.hh"
 #include "TopHadronicTagger.hh"
 #include "Event.hh"
-#include "Exception.hh"
-#include "Particles.hh"
+#include "generic/Exception.hh"
+#include "multiplets/Particles.hh"
 #include "MomentumRange.hh"
 // #define INFORMATION
-#include "DEBUG.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

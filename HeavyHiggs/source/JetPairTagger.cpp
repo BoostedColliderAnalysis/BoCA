@@ -4,9 +4,9 @@
 #include "JetPairTagger.hh"
 #include "HeavyHiggsSemiTagger.hh"
 #include "Event.hh"
-#include "Sort.hh"
-#include "Particles.hh"
-#include "DEBUG.hh"
+#include "multiplets/Sort.hh"
+#include "multiplets/Particles.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

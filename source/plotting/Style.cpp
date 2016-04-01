@@ -6,10 +6,10 @@
 #include "TAttLine.h"
 // #include "plotting/Style.hh"
 #include "plotting/Font.hh"
-#include "Types.hh"
-#include "Vector.hh"
+#include "generic/Types.hh"
+#include "generic/Vector.hh"
 // #define INFORMATION
-#include "DEBUG.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

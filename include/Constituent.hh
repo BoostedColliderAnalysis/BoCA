@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include "physics/LorentzVector.hh"
+#include "math/LorentzVector.hh"
 
 namespace boca {
 

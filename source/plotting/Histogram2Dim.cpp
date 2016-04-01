@@ -6,9 +6,9 @@
 #include "plotting/Histogram2Dim.hh"
 #include "plotting/Font.hh"
 #include "Colors.hh"
-#include "Vector.hh"
+#include "generic/Vector.hh"
 // #define INFORMATION
-#include "DEBUG.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

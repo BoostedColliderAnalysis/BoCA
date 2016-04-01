@@ -1,12 +1,12 @@
 #include "TopLeptonicPairTagger.hh"
 #include "multiplets/Quartet.hh"
 #include "WimpMass.hh"
-#include "Types.hh"
+#include "generic/Types.hh"
 #include "Event.hh"
-#include "Particles.hh"
-#include "Vector.hh"
-#include "DEBUG.hh"
-#include "Exception.hh"
+#include "multiplets/Particles.hh"
+#include "generic/Vector.hh"
+#include "generic/DEBUG.hh"
+#include "generic/Exception.hh"
 
 namespace boca
 {

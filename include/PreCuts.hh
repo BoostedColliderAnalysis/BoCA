@@ -6,7 +6,7 @@
 #include "physics/Range.hh"
 
 #include "PreCut.hh"
-#include "Vector.hh"
+#include "generic/Vector.hh"
 
 namespace boca
 {

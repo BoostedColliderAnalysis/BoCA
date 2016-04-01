@@ -11,9 +11,9 @@
 #include "exroot/ExRootAnalysis.hh"
 #include "Trainer.hh"
 #include "Tagger.hh"
-#include "Options.hh"
+#include "generic/Options.hh"
 // #define DEBUGGING
-#include "DEBUG.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

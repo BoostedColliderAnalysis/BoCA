@@ -2,10 +2,10 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "TripletJetPairTagger.hh"
-#include "Sort.hh"
+#include "multiplets/Sort.hh"
 #include "Event.hh"
-#include "Particles.hh"
-#include "DEBUG.hh"
+#include "multiplets/Particles.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca {
 

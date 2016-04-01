@@ -6,9 +6,9 @@
 #include <boost/range/algorithm/transform.hpp>
 
 #include "plotting/Plot.hh"
-#include "Vector.hh"
+#include "generic/Vector.hh"
 // #define DEBUGGING
-#include "DEBUG.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

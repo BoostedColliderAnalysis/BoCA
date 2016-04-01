@@ -4,10 +4,10 @@
 #include "WLeptonicTagger.hh"
 
 #include "Event.hh"
-#include "Particles.hh"
+#include "multiplets/Particles.hh"
 #include "plotting/Font.hh"
 // #define DEBUGGING
-#include "DEBUG.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

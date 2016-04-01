@@ -6,12 +6,12 @@
 #include "WHadronicTagger.hh"
 #include "MomentumRange.hh"
 #include "Event.hh"
-#include "physics/Math.hh"
-#include "Exception.hh"
-#include "Particles.hh"
+#include "math/Math.hh"
+#include "generic/Exception.hh"
+#include "multiplets/Particles.hh"
 #include "plotting/Font.hh"
 // #define NOTIFICATION
-#include "DEBUG.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

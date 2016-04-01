@@ -3,8 +3,8 @@
  */
 #pragma once
 #include "physics/Particles.hh"
-#include "Vector.hh"
-#include "Jet.hh"
+#include "generic/Vector.hh"
+#include "multiplets/Jet.hh"
 
 namespace boca
 {

@@ -3,12 +3,12 @@
  */
 #include "BosonTagger.hh"
 #include "Event.hh"
-#include "Particles.hh"
+#include "multiplets/Particles.hh"
 #include "multiplets/Doublet.hh"
 #include "MomentumRange.hh"
-#include "Exception.hh"
+#include "generic/Exception.hh"
 // #define DEBUGGING
-#include "DEBUG.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

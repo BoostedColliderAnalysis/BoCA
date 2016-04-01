@@ -8,7 +8,7 @@
 #include "plotting/Style.hh"
 #include "plotting/Graphs.hh"
 // #define INFORMATION
-#include "DEBUG.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

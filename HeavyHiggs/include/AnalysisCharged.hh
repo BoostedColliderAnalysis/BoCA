@@ -1,8 +1,8 @@
 #pragma once
 
 #include "AnalysisHeavyHiggs.hh"
-#include "Sort.hh"
-#include "Particles.hh"
+#include "multiplets/Sort.hh"
+#include "multiplets/Particles.hh"
 
 namespace boca
 {

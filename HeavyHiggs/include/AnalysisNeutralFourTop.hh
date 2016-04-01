@@ -4,7 +4,7 @@
 
 #include "JetPairTagger.hh"
 #include "multiplets/Doublet.hh"
-#include "DEBUG.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

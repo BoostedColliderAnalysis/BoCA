@@ -12,11 +12,11 @@
 
 #pragma once
 
-#include "Jet.hh"
-#include "Mutable.hh"
+#include "generic/Mutable.hh"
+#include "math/Matrix3.hh"
+#include "math/GradedContainer.hh"
+#include "multiplets/Jet.hh"
 #include "HemisphereMasses.hh"
-#include "GradedVector.hh"
-#include "physics/Matrix3.hh"
 
 namespace boca
 {

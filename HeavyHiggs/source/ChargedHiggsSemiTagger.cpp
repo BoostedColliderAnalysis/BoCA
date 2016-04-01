@@ -1,7 +1,7 @@
 #include "ChargedHiggsSemiTagger.hh"
 #include "Event.hh"
-#include "Particles.hh"
-#include "DEBUG.hh"
+#include "multiplets/Particles.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

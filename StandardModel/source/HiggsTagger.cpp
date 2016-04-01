@@ -6,13 +6,13 @@
 
 #include "multiplets/Doublet.hh"
 #include "Event.hh"
-#include "Particles.hh"
+#include "multiplets/Particles.hh"
 #include "ClusterSequence.hh"
-#include "Types.hh"
+#include "generic/Types.hh"
 #include "HiggsTagger.hh"
 #include "MomentumRange.hh"
-#include "Exception.hh"
-#include "DEBUG.hh"
+#include "generic/Exception.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

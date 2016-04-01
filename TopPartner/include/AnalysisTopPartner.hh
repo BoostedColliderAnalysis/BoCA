@@ -6,7 +6,7 @@
 #include "Analysis.hh"
 #include "DetectorGeometry.hh"
 // #define INFORMATION
-#include "DEBUG.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {
@@ -62,9 +62,9 @@ protected:
 
     auto Mass() const {
         INFO0;
-        return 1_TeV;
-        return 1.5_TeV;
         return 2_TeV;
+        return 1.5_TeV;
+        return 1_TeV;
         return 4_TeV;
         return 6_TeV;
         return 10_TeV;

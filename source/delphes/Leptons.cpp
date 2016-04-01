@@ -3,8 +3,8 @@
  */
 #include "delphes/Leptons.hh"
 #include "delphes/Delphes.hh"
-#include "Types.hh"
-#include "DEBUG.hh"
+#include "generic/Types.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

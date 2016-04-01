@@ -6,9 +6,9 @@
 
 #include "GlobalObservables.hh"
 #include "Event.hh"
-#include "Sort.hh"
-#include "Vector.hh"
-#include "DEBUG.hh"
+#include "multiplets/Sort.hh"
+#include "generic/Vector.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

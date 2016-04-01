@@ -5,8 +5,8 @@
 #include "boost/range/algorithm/max_element.hpp"
 #include "physics/Particles.hh"
 #include "physics/Prefixes.hh"
-#include "Types.hh"
-#include "DEBUG.hh"
+#include "generic/Types.hh"
+#include "generic/DEBUG.hh"
 
 namespace boca
 {

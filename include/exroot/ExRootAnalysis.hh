@@ -13,7 +13,7 @@
 #include "ExRootAnalysis/ExRootTreeBranch.h"
 #include "ExRootAnalysis/ExRootProgressBar.h"
 
-#include "Types.hh"
+#include "generic/Types.hh"
 
 /**
  * @brief ExRoot
