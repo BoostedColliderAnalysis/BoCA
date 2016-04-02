@@ -88,3 +88,26 @@ macro(add_libraries link_library_sources)
     CACHE INTERNAL link_libraries FORCE
   )
 endmacro()
+
+
+macro(create_dictionary_2 create_dictionary dictionary_name dictionary_source link_def)
+  set(dictionary_file ${dictionary_name}Dict.cpp)
+  if(${ARGC} GREATER 3)
+    set(path ../../source/${ARGV3}/${dictionary_source})
+  else()
+    set(path ../source/${dictionary_source})
+  endif()
+
+  ADD_CUSTOM_COMMAND(
+    OUTPUT ${dictionary_file}
+    COMMAND create_dictionary(${create_dictionary} ${dictionary_name} ${dictionary_source} ${link_def})
+    DEPENDS ${path}
+    COMMENT "Generating Dictionary"
+    )
+
+
+  ADD_CUSTOM_TARGET( RunGenerator
+    DEPENDS ${dictionary_file}
+    COMMENT "Checking if re-generation is required"
+    )
+endmacro()

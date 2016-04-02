@@ -27,7 +27,6 @@ class Candidate;
  *
  */
 namespace delphes {
-
 typedef ::Event Event;
 typedef ::LHCOEvent LHCOEvent;
 typedef ::LHEFEvent LHEFEvent;
@@ -46,32 +45,5 @@ typedef ::Track Track;
 typedef ::Tower Tower;
 typedef ::HectorHit HectorHit;
 typedef ::Candidate Candidate;
-
 }
 
-/**
- * @brief Delphes
- *
- */
-// namespace delphes {
-//
-//   class Event;
-//   class LHCOEvent;
-//   class LHEFEvent;
-//   class HepMCEvent;
-//   class GenParticle;
-//   class Vertex;
-//   class MissingET;
-//   class ScalarHT;
-//   class Rho;
-//   class Weight;
-//   class Photon;
-//   class Electron;
-//   class Muon;
-//   class Jet;
-//   class Track;
-//   class Tower;
-//   class HectorHit;
-//   class Candidate;
-//
-// }

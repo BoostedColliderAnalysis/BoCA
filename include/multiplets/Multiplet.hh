@@ -4,9 +4,9 @@
 #pragma once
 
 #include "multiplets/Singlet.hh"
+#include "multiplets/Particle.hh"
 #include "SubJettiness.hh"
 #include "ClosestLepton.hh"
-#include "multiplets/Particle.hh"
 #include "EventShapes.hh"
 
 namespace boca

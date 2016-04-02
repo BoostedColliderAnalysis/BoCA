@@ -12,11 +12,7 @@
 
 #pragma once
 
-#include <iostream>
-
 #include "TVector3.h"
-#include "TMatrix.h"
-#include "generic/Iterator.hh"
 #include "math/Vector2.hh"
 
 namespace boca

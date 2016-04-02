@@ -4,12 +4,10 @@
 #pragma once
 
 #include <boost/range/algorithm/unique.hpp>
-#include <boost/range/algorithm_ext/erase.hpp>
 #include "multiplets/Sort.hh"
 #include "generic/Vector.hh"
 
 #include "multiplets/Multiplet.hh"
-#include "physics/Particles.hh"
 #include "ClusterSequence.hh"
 
 namespace boca

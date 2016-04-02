@@ -3,7 +3,6 @@
 #include "multiplets/Octet.hh"
 #include "TopPartnerLeptonicNeutralTagger.hh"
 #include "TopHadronicTagger.hh"
-#include "BranchesTopPartner.hh"
 
 namespace boca {
 

@@ -35,7 +35,9 @@
 
 class TObjArray;
 
-class ExRootTreeBranch;
+namespace exroot {
+class TreeBranch;
+}
 
 // namespace delphes{
 
@@ -63,10 +65,10 @@ public:
 
 private:
 
-  ExRootTreeBranch *fObjArrays; //!
+  exroot::TreeBranch *fObjArrays; //!
 
 #if !defined(__CINT__) && !defined(__CLING__)
-  std::map< const TClass*, ExRootTreeBranch* > fBranches; //!
+  std::map< const TClass*, exroot::TreeBranch* > fBranches; //!
 #endif
 
   std::set< TObject* > fPool; //!

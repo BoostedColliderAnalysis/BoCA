@@ -14,12 +14,12 @@
 // #include "ExRootAnalysis/ExRootProgressBar.h"
 
 #include "exroot/ExRootClasses.h"
-#include "exroot/ExRootTreeWriter.h"
-#include "exroot/ExRootTreeReader.h"
-#include "exroot/ExRootTreeBranch.h"
+// #include "exroot/TreeWriter.h"
+// #include "exroot/TreeReader.h"
+// #include "exroot/TreeBranch.h"
 // #include "exroot/ExRootProgressBar.h"
 
-#include "generic/Types.hh"
+// #include "generic/Types.hh"
 
 /**
  * @brief ExRoot
@@ -27,7 +27,6 @@
  */
 namespace exroot
 {
-
 typedef ::TRootLHEFEvent LHEFEvent;
 typedef ::TRootLHEFParticle LHEFParticle;
 typedef ::TRootGenEvent GenEvent;
@@ -40,33 +39,28 @@ typedef ::TRootElectron Electron;
 typedef ::TRootMuon Muon;
 typedef ::TRootTau Tau;
 typedef ::TRootJet Jet;
-typedef ::ExRootTreeWriter TreeWriter;
-typedef ::ExRootTreeBranch TreeBranch;
-typedef ::ExRootTreeReader TreeReader;
-// typedef ::ExRootProgressBar ProgressBar;
-
 }
 
-namespace boca
-{
-
-class TreeWriter
-{
-public:
-    TreeWriter(TFile& file, std::string const& name) : tree_writer_(&file, name.c_str()) {}
-    ~TreeWriter() {
-        tree_writer_.Write();
-    }
-    ::exroot::TreeBranch& NewBranch(std::string const& name, TClass& Class) {
-        return *tree_writer_.NewBranch(name.c_str(), &Class);
-    }
-    void Fill() {
-        tree_writer_.Fill();
-        tree_writer_.Clear();
-    }
-private:
-    ::exroot::TreeWriter tree_writer_;
-};
+// namespace boca
+// {
+//
+// class TreeWriter
+// {
+// public:
+//     TreeWriter(TFile& file, std::string const& name) : tree_writer_(&file, name.c_str()) {}
+//     ~TreeWriter() {
+//         tree_writer_.Write();
+//     }
+//     ::exroot::TreeBranch& NewBranch(std::string const& name, TClass& Class) {
+//         return *tree_writer_.NewBranch(name.c_str(), &Class);
+//     }
+//     void Fill() {
+//         tree_writer_.Fill();
+//         tree_writer_.Clear();
+//     }
+// private:
+//     ::exroot::TreeWriter tree_writer_;
+// };
 
 // class TreeReader
 // {
@@ -88,4 +82,4 @@ private:
 //     ::exroot::TreeReader tree_reader_;
 // };
 
-}
+// }

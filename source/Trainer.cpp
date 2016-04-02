@@ -4,14 +4,18 @@
 
 #include "boost/range/algorithm/max_element.hpp"
 
+#include "TFile.h"
 #include "TClonesArray.h"
+
 #include "TMVA/Config.h"
 #include "TMVA/MethodBDT.h"
 
-#include "exroot/ExRootAnalysis.hh"
+#include "generic/Options.hh"
+#include "generic/Types.hh"
+#include "exroot/TreeReader.h"
 #include "Trainer.hh"
 #include "Tagger.hh"
-#include "generic/Options.hh"
+#include "Branches.hh"
 // #define DEBUGGING
 #include "generic/DEBUG.hh"
 

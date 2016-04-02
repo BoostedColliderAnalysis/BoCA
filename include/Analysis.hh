@@ -3,8 +3,9 @@
  */
 #pragma once
 
-#include <thread>
+// #include <thread>
 
+#include "generic/Types.hh"
 #include "Third.hh"
 #include "AnalysisBase.hh"
 #include "Event.hh"
@@ -61,18 +62,18 @@ private:
         bool do_threading = false;
         if (do_threading) {
 //             std::mutex branch_writer_mutex;
-            std::vector<std::thread> threads;
+//             std::vector<std::thread> threads;
 //         int cores = std::thread::hardware_concurrency(); // breaks in the tree reader, find  a cheap way to store the position of the data
-            int cores = 1;
-            for (auto core : IntegerRange(cores)) {
-                threads.emplace_back(std::thread([&, core, cores] {
+//             int cores = 1;
+//             for (auto core : IntegerRange(cores)) {
+//                 threads.emplace_back(std::thread([&, core, cores] {
 //                     branch_writer_mutex.lock();
-                    Third<Tagger_> third(branch_writer, core, cores, TrainNumberMax());
+//                     Third<Tagger_> third(branch_writer, core, cores, TrainNumberMax());
 //                     branch_writer_mutex.unlock();
-                    ReadEvents(third);
-                }));
-            }
-            for (auto & thread : threads) thread.join();
+//                     ReadEvents(third);
+//                 }));
+//             }
+//             for (auto & thread : threads) thread.join();
         } else {
             int cores = 1;
             int core = 0;

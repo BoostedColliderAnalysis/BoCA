@@ -10,17 +10,13 @@
  *************************************************************************/
 #pragma once
 
-// #include "boost/operators.hpp"
-#include "boost/range/algorithm/sort.hpp"
 #include "boost/range/numeric.hpp"
 
 #include "TQuaternion.h"
 
 #include "generic/Mutable.hh"
-#include "generic/Types.hh"
 #include "math/Vector3.hh"
 #include "math/Matrix2.hh"
-#include "physics/Units.hh"
 
 namespace boca
 {
