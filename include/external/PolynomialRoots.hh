@@ -1,7 +1,14 @@
 #pragma once
+#include <complex>
 
 namespace polynomialroots
 {
+
+  struct GradedComplex{
+    std::complex<double> sz=0;
+    int flag=0;
+    int number_of_zeros=0;
+  };
 
 class PolynomialRoots
 {
@@ -12,7 +19,7 @@ class PolynomialRoots
 
 public:
 
-    void rpoly(double op[MDP1], int* Degree, double zeror[MAXDEGREE], double zeroi[MAXDEGREE]);
+    std::vector< std::complex< double >, std::allocator< void > > rpoly(std::vector< double, std::allocator< void > > coefficients);
 
 private:
 
@@ -28,9 +35,9 @@ private:
 
     void QuadIT(int N, int* NZ, double uu, double vv, double* szr, double* szi, double* lzr, double* lzi, double qp[MDP1], int NN, double* a, double* b, double p[MDP1], double qk[MDP1], double* a1, double* a3, double* a7, double* c, double* d, double* e, double* f, double* g, double* h, double K[MDP1]);
 
-    void RealIT(int* iFlag, int* NZ, double* sss, int N, double p[MDP1], int NN, double qp[MDP1], double* szr, double* szi, double K[MDP1], double qk[MDP1]);
+    GradedComplex RealIT(double* sss, int N, const double p[MDP1], int NN, double qp[MDP1], double K[MDP1], double qk[MDP1]) const;
 
-    void Quadratic(double quadratic, double linear, double constant, double* sr, double* si, double* lr, double* li);
+    std::pair< std::complex< double >, std::complex< double > > Quadratic(double quadratic, double linear, double constant) const;
 
 };
 

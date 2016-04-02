@@ -523,19 +523,19 @@ public:
         return operator()(dimension);
     }
 
-    ConstIterator<Vector3, Value, Dim3> begin() const {
+    ConstIterator<boca::Vector3, Value, Dim3> begin() const {
         return {this, Dim3::x};
     }
 
-    ConstIterator<Vector3, Value, Dim3> end() const {
+    ConstIterator<boca::Vector3, Value, Dim3> end() const {
         return {this, Dim3::last};
     }
 
-    Iterator<Vector3, Value, Dim3> begin() {
+    Iterator<boca::Vector3, Value, Dim3> begin() {
         return {this, Dim3::x};
     }
 
-    Iterator<Vector3, Value, Dim3> end() {
+    Iterator<boca::Vector3, Value, Dim3> end() {
         return {this, Dim3::last};
     }
 

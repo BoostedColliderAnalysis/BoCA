@@ -29,24 +29,23 @@
 #include <iostream>
 #include <fstream>
 #include <cctype>
-#include <cmath>
 #include <cfloat>
 
 #include "external/PolynomialRoots.hh"
-
-// using namespace std;
+#include "generic/Types.hh"
 
 namespace polynomialroots
 {
 
-void PolynomialRoots::rpoly(double op[MDP1], int* Degree, double zeror[MAXDEGREE], double zeroi[MAXDEGREE])
+std::vector<std::complex<double>> PolynomialRoots::rpoly(std::vector<double> coefficients)
 {
+    std::vector<std::complex<double>> zeros(coefficients.size());
 
-    int i, j, jj, l, N, NM1, NN, NZ, zerok;
+//     int i, j, jj, l, N, NM1, NN, NZ, zerok;
 
-    double K[MDP1], p[MDP1], pt[MDP1], qp[MDP1], temp[MDP1];
-    double bnd, df, dx, factor, ff, moduli_max, moduli_min, sc, x, xm;
-    double aa, bb, cc, lzi, lzr, sr, szi, szr, t, u, xx, xxx, yy;
+//     double K[MDP1], p[MDP1], pt[MDP1], qp[MDP1], temp[MDP1];
+//     double bnd, df, dx, factor, ff, moduli_max, moduli_min, sc, x, xm;
+//     double aa, bb, cc, lzi, lzr, sr, szi, szr, t, u, xx, xxx, yy;
 
     const double RADFAC = 3.14159265358979323846 / 180; // Degrees-to-radians conversion factor = pi/180
     const double lb2 = std::log(2.0); // Dummy variable to avoid re-calculating this value in loop below
@@ -54,62 +53,59 @@ void PolynomialRoots::rpoly(double op[MDP1], int* Degree, double zeror[MAXDEGREE
     const double cosr = cos(94.0 * RADFAC); // = -0.069756474
     const double sinr = sin(94.0 * RADFAC); // = 0.99756405
 
-    if ((*Degree) > MAXDEGREE) {
+    int Degree = coefficients.size();
+
+    if (Degree > MAXDEGREE) {
         std::cout << "\nThe entered Degree is greater than MAXDEGREE. Exiting rpoly. No further action taken.\n";
-        *Degree = -1;
-        return;
-    } // End ((*Degree) > MAXDEGREE)
+        return zeros;
+    }
 
 //Do a quick check to see if leading coefficient is 0
-    if (op[0] != 0) {
-
-        N = *Degree;
-        xx = sqrt(0.5); // = 0.70710678
-        yy = -xx;
+if (coefficients.at(0) == 0) {
+    std::cout << "\nThe leading coefficient is zero. No further action taken. Program terminated.\n";
+    return zeros;
+}
+        double xx = std::sqrt(0.5); // = 0.70710678
+        double yy = -xx;
 
 // Remove zeros at the origin, if any
-        j = 0;
-        while (op[N] == 0) {
-            zeror[j] = zeroi[j] = 0.0;
+        int j = 0;
+        int N = Degree;
+        while (coefficients[N] == 0) {
+            zeros[j] = 0;
             N--;
             j++;
-        } // End while (op[N] == 0)
-
-        NN = N + 1;
-
-// Make a copy of the coefficients
-        for (i = 0; i < NN; i++) {
-            p[i] = op[i];
         }
 
-        while (N >= 1) { // Main loop
+        int NN = N + 1;
+
+// Make a copy of the coefficients
+//         for (i = 0; i < NN; i++) {
+//             p[i] = coefficients[i];
+//         }
+            auto cs = coefficients;
+
+        while (N >= 1) {
             // Start the algorithm for one zero
             if (N <= 2) {
                 // Calculate the final zero or pair of zeros
-                if (N < 2) {
-                    zeror[(*Degree) - 1] = -(p[1] / p[0]);
-                    zeroi[(*Degree) - 1] = 0.0;
-                } // End if (N < 2)
-                else { // else N == 2
-                    Quadratic(p[0], p[1], p[2], &zeror[(*Degree) - 2], &zeroi[(*Degree) - 2], &zeror[(*Degree) - 1], &zeroi[(*Degree) - 1]);
-                } // End else N == 2
+              if (N < 2) zeros[(Degree) - 1] = -cs[1] / cs[0];
+                else {
+                  auto roots = Quadratic(cs[0], cs[1], cs[2]);
+                    zeros[(Degree) - 2] = roots.first;
+                    zeros[(Degree) - 1] = roots.second;
+                }
                 break;
-            } // End if (N <= 2)
+            }
 
             // Find the largest and smallest moduli of the coefficients
-
-            moduli_max = 0.0;
-            moduli_min = DBL_MAX;
-
-            for (i = 0; i < NN; i++) {
-                x = fabs(p[i]);
-                if (x > moduli_max) {
-                    moduli_max = x;
-                }
-                if ((x != 0) && (x < moduli_min)) {
-                    moduli_min = x;
-                }
-            } // End for i
+            double moduli_max = 0.0;
+            double moduli_min = DBL_MAX;
+            for (auto const& c : cs) {
+              double x = std::abs(c);
+                if (x > moduli_max) moduli_max = x;
+                if (x != 0 && x < moduli_min) moduli_min = x;
+            }
 
             // Scale if there are large or very small coefficients
             // Computes a scale factor to multiply the coefficients of the polynomial. The scaling
@@ -117,41 +113,33 @@ void PolynomialRoots::rpoly(double op[MDP1], int* Degree, double zeror[MAXDEGREE
             // convergence criterion.
             // The factor is a power of the base.
 
-            sc = lo / moduli_min;
-
-            if (((sc <= 1.0) && (moduli_max >= 10)) || ((sc > 1.0) && (DBL_MAX / sc >= moduli_max))) {
-                sc = ((sc == 0) ? DBL_MIN : sc);
-                l = std::log(sc) / lb2 + 0.5;
-                factor = pow(2.0, l);
-                if (factor != 1.0) {
-                    for (i = 0; i < NN; i++) {
-                        p[i] *= factor;
-                    }
-                } // End if (factor != 1.0)
-            } // End if (((sc <= 1.0) && (moduli_max >= 10)) || ((sc > 1.0) && (DBL_MAX/sc >= moduli_max)))
+            double sc = lo / moduli_min;
+            if ((sc <= 1.0 && moduli_max >= 10) || (sc > 1.0 && DBL_MAX / sc >= moduli_max)) {
+                sc = (sc == 0 ? DBL_MIN : sc);
+                double l = std::log(sc) / lb2 + 0.5;
+                double factor = pow(2.0, l);
+                if (factor != 1.0) for (i = 0; i < NN; i++) cs[i] *= factor;
+            }
 
             // Compute lower bound on moduli of zeros
-
-            for (i = 0; i < NN; i++) {
-                pt[i] = fabs(p[i]);
-            }
+            std::vector<double> pt(Degree);
+            for (i = 0; i < NN; i++) pt[i] = std::abs(p[i]);
             pt[N] = -(pt[N]);
 
-            NM1 = N - 1;
 
             // Compute upper estimate of bound
+            double x = std::exp((std::log(-pt[N]) - std::log(pt[0])) / N);
 
-            x = std::exp((std::log(-pt[N]) - std::log(pt[0])) / N);
-
+            int NM1 = N - 1;
             if (pt[NM1] != 0) {
                 // If Newton step at the origin is better, use it
-                xm = -pt[N] / pt[NM1];
-                x = ((xm < x) ? xm : x);
-            } // End if (pt[NM1] != 0)
+                double xm = -pt[N] / pt[NM1];
+                x = (xm < x ? xm : x);
+            }
 
             // Chop the interval (0, x) until ff <= 0
-
-            xm = x;
+            double xm = x;
+            double ff;
             do {
                 x = xm;
                 xm = 0.1 * x;
@@ -161,12 +149,11 @@ void PolynomialRoots::rpoly(double op[MDP1], int* Degree, double zeror[MAXDEGREE
                 }
             } while (ff > 0); // End do-while loop
 
-            dx = x;
+            double dx = x;
 
             // Do Newton iteration until x converges to two decimal places
-
             do {
-                df = ff = pt[0];
+                double df = ff = pt[0];
                 for (i = 1; i < N; i++) {
                     ff = x * ff + pt[i];
                     df = x * df + ff;
@@ -174,23 +161,21 @@ void PolynomialRoots::rpoly(double op[MDP1], int* Degree, double zeror[MAXDEGREE
                 ff = x * ff + pt[N];
                 dx = ff / df;
                 x -= dx;
-            } while (fabs(dx / x) > 0.005); // End do-while loop
+            } while (std::abs(dx / x) > 0.005); // End do-while loop
 
-            bnd = x;
+            double bnd = x;
 
             // Compute the derivative as the initial K polynomial and do 5 steps with no shift
-
-            for (i = 1; i < N; i++) {
-                K[i] = double(N - i) * p[i] / N;
-            }
+            std::vector<double> K(Degree);
+            for (i = 1; i < N; i++) K[i] = double(N - i) * p[i] / N;
             K[0] = p[0];
 
-            aa = p[N];
-            bb = p[NM1];
-            zerok = ((K[NM1] == 0) ? 1 : 0);
+            double aa = p[N];
+            double bb = p[NM1];
+            int zerok = K[NM1] == 0 ? 1 : 0;
 
-            for (jj = 0; jj < 5; jj++) {
-                cc = K[NM1];
+            for (int jj = 0; jj < 5; jj++) {
+                double cc = K[NM1];
                 if (zerok) {
                     // Use unscaled form of recurrence
                     for (i = 0; i < NM1; i++) {
@@ -209,29 +194,30 @@ void PolynomialRoots::rpoly(double op[MDP1], int* Degree, double zeror[MAXDEGREE
                         K[j] = t * K[j - 1] + p[j];
                     } // End for i
                     K[0] = p[0];
-                    zerok = ((fabs(K[NM1]) <= fabs(bb) * DBL_EPSILON * 10.0) ? 1 : 0);
+                    zerok = ((std::abs(K[NM1]) <= std::abs(bb) * DBL_EPSILON * 10.0) ? 1 : 0);
                 } // End else !zerok
 
             } // End for jj
 
             // Save K for restarts with new shifts
+            std::vector<double> temp(Degree);
             for (i = 0; i < N; i++) {
                 temp[i] = K[i];
             }
 
             // Loop to select the quadratic corresponding to each new shift
 
-            for (jj = 1; jj <= 20; jj++) {
+            for (int jj = 1; jj <= 20; jj++) {
 
                 // Quadratic corresponds to a double shift to a non-real point and its
                 // complex conjugate. The point has modulus BND and amplitude rotated
                 // by 94 degrees from the previous shift.
 
-                xxx = -(sinr * yy) + cosr * xx;
+                double xxx = -(sinr * yy) + cosr * xx;
                 yy = sinr * xx + cosr * yy;
                 xx = xxx;
-                sr = bnd * xx;
-                u = -(2.0 * sr);
+                double sr = bnd * xx;
+                double u = -(2.0 * sr);
 
                 // Second stage calculation, fixed quadratic
 
@@ -243,7 +229,7 @@ void PolynomialRoots::rpoly(double op[MDP1], int* Degree, double zeror[MAXDEGREE
                     // returns here if successful. Deflate the polynomial, store the zero or
                     // zeros, and return to the main algorithm.
 
-                    j = (*Degree) - N;
+                    j = (Degree) - N;
                     zeror[j] = szr;
                     zeroi[j] = szi;
                     NN = NN - NZ;
@@ -271,17 +257,11 @@ void PolynomialRoots::rpoly(double op[MDP1], int* Degree, double zeror[MAXDEGREE
 
             if (jj > 20) {
                 std::cout << "\nFailure. No convergence after 20 shifts. Program terminated.\n";
-                *Degree -= N;
+                Degree -= N;
                 break;
             } // End if (jj > 20)
 
         } // End while (N >= 1)
-
-    } // End if op[0] != 0
-    else { // else op[0] == 0
-        std::cout << "\nThe leading coefficient is zero. No further action taken. Program terminated.\n";
-        *Degree = 0;
-    } // End else op[0] == 0
 
     return;
 } // End rpoly
@@ -332,8 +312,8 @@ void PolynomialRoots::Fxshfr(int L2, int* NZ, double sr, double v, double K[MDP1
 
             // Compute relative measures of convergence of s and v sequences
 
-            tv = ((vv != 0.0) ? fabs((vv - ovv) / vv) : tv);
-            ts = ((ss != 0.0) ? fabs((ss - oss) / ss) : ts);
+            tv = ((vv != 0.0) ? std::abs((vv - ovv) / vv) : tv);
+            ts = ((ss != 0.0) ? std::abs((ss - oss) / ss) : ts);
 
             // If decreasing, multiply the two most recent convergence measures
 
@@ -360,7 +340,7 @@ void PolynomialRoots::Fxshfr(int L2, int* NZ, double sr, double v, double K[MDP1
 
                 stry = vtry = 0;
 
-                for (; ;) {
+                while(true) {
 
                     if ((fflag && ((fflag = 0) == 0)) && ((spass) && (!vpass || (tss < tvv)))) {
                         ; // Do nothing. Provides a quick "short circuit".
@@ -392,7 +372,11 @@ void PolynomialRoots::Fxshfr(int L2, int* NZ, double sr, double v, double K[MDP1
                     } // End else fflag
 
                     if (iFlag != 0) {
-                        RealIT(&iFlag, NZ, &s, N, p, NN, qp, szr, szi, K, qk);
+                        auto  complex = RealIT(&s, N, p, NN, qp, K, qk);
+                        *szr = complex.sz.real();
+                        *szr = complex.sz.imag();
+                        *NZ = complex.number_of_zeros;
+                        iFlag = complex.flag;
 
                         if ((*NZ) > 0) {
                             return;
@@ -479,14 +463,14 @@ int PolynomialRoots::calcSC(int N, double a, double b, double* a1, double* a3, d
 // Synthetic division of K by the quadratic 1, u, v
     QuadSD(N, u, v, K, qk, c, d);
 
-    if (fabs((*c)) <= (100.0 * DBL_EPSILON * fabs(K[N - 1]))) {
-        if (fabs((*d)) <= (100.0 * DBL_EPSILON * fabs(K[N - 2]))) {
+    if (std::abs((*c)) <= (100.0 * DBL_EPSILON * std::abs(K[N - 1]))) {
+        if (std::abs((*d)) <= (100.0 * DBL_EPSILON * std::abs(K[N - 2]))) {
             return dumFlag;
         }
-    } // End if (fabs(c) <= (100.0*DBL_EPSILON*fabs(K[N - 1])))
+    } // End if (std::abs(c) <= (100.0*DBL_EPSILON*std::abs(K[N - 1])))
 
     *h = v * b;
-    if (fabs((*d)) >= fabs((*c))) {
+    if (std::abs((*d)) >= std::abs((*c))) {
         dumFlag = 2; // TYPE = 2 indicates that all formulas are divided by d
         *e = a / (*d);
         *f = (*c) / (*d);
@@ -494,7 +478,7 @@ int PolynomialRoots::calcSC(int N, double a, double b, double* a1, double* a3, d
         *a3 = (*e) * ((*g) + a) + (*h) * (b / (*d));
         *a1 = -a + (*f) * b;
         *a7 = (*h) + ((*f) + u) * a;
-    } // End if(fabs(d) >= fabs(c))
+    } // End if(std::abs(d) >= std::abs(c))
     else {
         dumFlag = 1; // TYPE = 1 indicates that all formulas are divided by c;
         *e = a / (*c);
@@ -528,7 +512,7 @@ void PolynomialRoots::nextK(int N, int tFlag, double a, double b, double a1, dou
 
     temp = ((tFlag == 1) ? b : a);
 
-    if (fabs(a1) > (10.0 * DBL_EPSILON * fabs(temp))) {
+    if (std::abs(a1) > (10.0 * DBL_EPSILON * std::abs(temp))) {
         // Use scaled form of the recurrence
 
         (*a7) /= a1;
@@ -540,7 +524,7 @@ void PolynomialRoots::nextK(int N, int tFlag, double a, double b, double a1, dou
             K[i] = -((*a7) * qp[i - 1]) + (*a3) * qk[i - 2] + qp[i];
         }
 
-    } // End if (fabs(a1) > (10.0*DBL_EPSILON*fabs(temp)))
+    } // End if (std::abs(a1) > (10.0*DBL_EPSILON*std::abs(temp)))
     else {
         // If a1 is nearly zero, then use a special form of the recurrence
 
@@ -610,12 +594,17 @@ void PolynomialRoots::QuadIT(int N, int* NZ, double uu, double vv, double* szr, 
     v = vv;
 
     do {
-        Quadratic(1.0, u, v, szr, szi, lzr, lzi);
+        auto roots = Quadratic(1, u, v);
+        *szr = roots.first.real();
+        *szi = roots.first.imag();
+        *lzr = roots.first.real();
+        *lzi = roots.first.imag();
+
 
         // Return if roots of the quadratic are real and not close to multiple or nearly
         // equal and of opposite sign.
 
-        if (fabs(fabs(*szr) - fabs(*lzr)) > 0.01 * fabs(*lzr)) {
+        if (std::abs(std::abs(*szr) - std::abs(*lzr)) > 0.01 * std::abs(*lzr)) {
             break;
         }
 
@@ -623,20 +612,20 @@ void PolynomialRoots::QuadIT(int N, int* NZ, double uu, double vv, double* szr, 
 
         QuadSD(NN, u, v, p, qp, a, b);
 
-        mp = fabs(-((*szr) * (*b)) + (*a)) + fabs((*szi) * (*b));
+        mp = std::abs(-((*szr) * (*b)) + (*a)) + std::abs((*szi) * (*b));
 
         // Compute a rigorous bound on the rounding error in evaluating p
 
-        zm = sqrt(fabs(v));
-        ee = 2.0 * fabs(qp[0]);
+        zm = std::sqrt(std::abs(v));
+        ee = 2.0 * std::abs(qp[0]);
         t = -((*szr) * (*b));
 
         for (i = 1; i < N; i++) {
-            ee = ee * zm + fabs(qp[i]);
+            ee = ee * zm + std::abs(qp[i]);
         }
 
-        ee = ee * zm + fabs((*a) + t);
-        ee = (9.0 * ee + 2.0 * fabs(t) - 7.0 * (fabs((*a) + t) + zm * fabs((*b)))) * DBL_EPSILON;
+        ee = ee * zm + std::abs((*a) + t);
+        ee = (9.0 * ee + 2.0 * std::abs(t) - 7.0 * (std::abs((*a) + t) + zm * std::abs((*b)))) * DBL_EPSILON;
 
         // Iteration has converged sufficiently if the polynomial value is less than 20 times this bound
 
@@ -657,7 +646,7 @@ void PolynomialRoots::QuadIT(int N, int* NZ, double uu, double vv, double* szr, 
                 // A cluster appears to be stalling the convergence. Five fixed shift
                 // steps are taken with a u, v close to the cluster.
 
-                relstp = ((relstp < DBL_EPSILON) ? sqrt(DBL_EPSILON) : sqrt(relstp));
+                relstp = ((relstp < DBL_EPSILON) ? std::sqrt(DBL_EPSILON) : std::sqrt(relstp));
 
                 u -= u * relstp;
                 v += v * relstp;
@@ -687,7 +676,7 @@ void PolynomialRoots::QuadIT(int N, int* NZ, double uu, double vv, double* szr, 
 
         // If vi is zero, the iteration is not converging
         if (vi != 0) {
-            relstp = fabs((-v + vi) / vi);
+            relstp = std::abs((-v + vi) / vi);
             u = ui;
             v = vi;
         } // End if (vi != 0)
@@ -695,9 +684,10 @@ void PolynomialRoots::QuadIT(int N, int* NZ, double uu, double vv, double* szr, 
 
     return;
 
-} //End QuadIT
+}
 
-void PolynomialRoots::RealIT(int* iFlag, int* NZ, double* sss, int N, double p[MDP1], int NN, double qp[MDP1], double* szr, double* szi, double K[MDP1], double qk[MDP1])
+
+GradedComplex PolynomialRoots::RealIT(double* sss, int N, double const p[101], int NN, double qp[101], double K[101], double qk[101]) const
 {
 
 // Variable-shift H-polynomial iteration for a real zero
@@ -706,155 +696,110 @@ void PolynomialRoots::RealIT(int* iFlag, int* NZ, double* sss, int N, double p[M
 // NZ - number of zeros found
 // iFlag - flag to indicate a pair of zeros near real axis
 
-    int i, j = 0, nm1 = N - 1;
-    double ee, kv, mp, ms, omp, pv, s, t;
-    t = 0;
-    omp = 0;
+    GradedComplex complex;
 
-    *iFlag = *NZ = 0;
-    s = *sss;
-
-    for (; ;) {
-        pv = p[0];
-
+    int counter = 0;
+    double t = 0;
+    double omp = 0;
+    double s = *sss;
+    while(true) {
+        double pv = p[0];
         // Evaluate p at s
         qp[0] = pv;
-        for (i = 1; i < NN; i++) {
-            qp[i] = pv = pv * s + p[i];
-        }
-
-        mp = fabs(pv);
-
+        for (int i = 1; i < NN; i++) qp[i] = pv = pv * s + p[i];
+        double mp = std::abs(pv);
         // Compute a rigorous bound on the error in evaluating p
-
-        ms = fabs(s);
-        ee = 0.5 * fabs(qp[0]);
-        for (i = 1; i < NN; i++) {
-            ee = ee * ms + fabs(qp[i]);
-        }
-
+        double ms = std::abs(s);
+        double ee = 0.5 * std::abs(qp[0]);
+        for (int i = 1; i < NN; i++) ee = ee * ms + std::abs(qp[i]);
         // Iteration has converged sufficiently if the polynomial value is less than
         // 20 times this bound
-
         if (mp <= 20.0 * DBL_EPSILON * (2.0 * ee - mp)) {
-            *NZ = 1;
-            *szr = s;
-            *szi = 0.0;
-            break;
-        } // End if (mp <= 20.0*DBL_EPSILON*(2.0*ee - mp))
-
-        j++;
-
-        // Stop iteration after 10 steps
-
-        if (j > 10) {
+            complex.number_of_zeros = 1;
+            complex.sz = s;
             break;
         }
-
-        if (j >= 2) {
-            if ((fabs(t) <= 0.001 * fabs(-t + s)) && (mp > omp)) {
+        counter++;
+        // Stop iteration after 10 steps
+        if (counter > 10) break;
+        if (counter >= 2) {
+            if ((std::abs(t) <= 0.001 * std::abs(-t + s)) && (mp > omp)) {
                 // A cluster of zeros near the real axis has been encountered;
                 // Return with iFlag set to initiate a quadratic iteration
-
-                *iFlag = 1;
+                complex.flag = 1;
                 *sss = s;
                 break;
-            } // End if ((fabs(t) <= 0.001*fabs(s - t)) && (mp > omp))
-
-        } //End if (j >= 2)
-
-        // Return if the polynomial value has increased significantly
-
-        omp = mp;
-
-        // Compute t, the next polynomial and the new iterate
-        qk[0] = kv = K[0];
-        for (i = 1; i < N; i++) {
-            qk[i] = kv = kv * s + K[i];
+            }
         }
+        // Return if the polynomial value has increased significantly
+        omp = mp;
+        // Compute t, the next polynomial and the new iterate
+        qk[0] = K[0];
+        double kv = K[0];
+        for (int i = 1; i < N; i++) qk[i] = kv = kv * s + K[i];
 
-        if (fabs(kv) > fabs(K[nm1]) * 10.0 * DBL_EPSILON) {
+        if (std::abs(kv) > std::abs(K[N - 1]) * 10.0 * DBL_EPSILON) {
             // Use the scaled form of the recurrence if the value of K at s is non-zero
             t = -(pv / kv);
             K[0] = qp[0];
-            for (i = 1; i < N; i++) {
-                K[i] = t * qk[i - 1] + qp[i];
-            }
-        } // End if (fabs(kv) > fabs(K[nm1])*10.0*DBL_EPSILON)
-        else { // else (fabs(kv) <= fabs(K[nm1])*10.0*DBL_EPSILON)
+            for (int i = 1; i < N; i++) K[i] = t * qk[i - 1] + qp[i];
+        } else {
             // Use unscaled form
             K[0] = 0.0;
-            for (i = 1; i < N; i++) {
-                K[i] = qk[i - 1];
-            }
-        } // End else (fabs(kv) <= fabs(K[nm1])*10.0*DBL_EPSILON)
-
-        kv = K[0];
-        for (i = 1; i < N; i++) {
-            kv = kv * s + K[i];
+            for (int i = 1; i < N; i++) K[i] = qk[i - 1];
         }
-
-        t = ((fabs(kv) > (fabs(K[nm1]) * 10.0 * DBL_EPSILON)) ? -(pv / kv) : 0.0);
-
+        kv = K[0];
+        for (int i = 1; i < N; i++) kv = kv * s + K[i];
+        t = ((std::abs(kv) > (std::abs(K[N - 1]) * 10.0 * DBL_EPSILON)) ? -(pv / kv) : 0.0);
         s += t;
+    }
+    return complex;
+}
 
-    } // End infinite for loop
-
-    return;
-
-} // End RealIT
-
-void PolynomialRoots::Quadratic(double quadratic, double linear, double constant, double* sr, double* si, double* lr, double* li)
-{
 // Calculates the zeros of the quadratic a*Z^2 + b1*Z + c
 // The quadratic formula, modified to avoid overflow, is used to find the larger zero if the
 // zeros are real and both zeros are complex. The smaller real zero is found directly from
 // the product of the zeros c/a.
-
-    double b, d, e;
-
-    *sr = *si = *lr = *li = 0.0;
+std::pair<std::complex<double>,std::complex<double>> PolynomialRoots::Quadratic(double quadratic, double linear, double constant) const
+{
+    std::complex<double> s(0);
+    std::complex<double> l(0);
 
     if (quadratic == 0) {
-        *sr = ((linear != 0) ? -(constant / linear) : *sr);
-        return;
-    } // End if (a == 0))
+        if (linear != 0) s = - constant / linear;
+        return std::make_pair(s,l);
+    }
 
     if (constant == 0) {
-        *lr = -(linear / quadratic);
-        return;
-    } // End if (c == 0)
+        l = - linear / quadratic;
+        return std::make_pair(s,l);
+    }
 
 // Compute discriminant avoiding overflow
+    auto lin = linear / 2;
+    double root, discriminant;
+    if (std::abs(lin) < std::abs(constant)) {
+        discriminant = constant >= 0 ? quadratic : -quadratic;
+        discriminant = -discriminant + lin * (lin / std::abs(constant));
+        root = std::sqrt(std::abs(discriminant)) * std::sqrt(std::abs(constant));
+    } else {
+        discriminant = -((quadratic / lin) * (constant / lin)) + 1.0;
+        root = std::sqrt(std::abs(discriminant)) * (std::abs(lin));
+    }
 
-    b = linear / 2.0;
-    if (fabs(b) < fabs(constant)) {
-        e = ((constant >= 0) ? quadratic : -quadratic);
-        e = -e + b * (b / fabs(constant));
-        d = sqrt(fabs(e)) * sqrt(fabs(constant));
-    } // End if (fabs(b) < fabs(c))
-    else { // Else (fabs(b) >= fabs(c))
-        e = -((quadratic / b) * (constant / b)) + 1.0;
-        d = sqrt(fabs(e)) * (fabs(b));
-    } // End else (fabs(b) >= fabs(c))
-
-    if (e >= 0) {
+    if (discriminant >= 0) {
         // Real zeros
-
-        d = ((b >= 0) ? -d : d);
-        *lr = (-b + d) / quadratic;
-        *sr = ((*lr != 0) ? (constant / (*lr)) / quadratic : *sr);
-    } // End if (e >= 0)
-    else { // Else (e < 0)
+        root = lin >= 0 ? -root : root;
+        l = (root -lin) / quadratic;
+        s = l.real() != 0 ? constant / l / quadratic : s;
+    } else {
         // Complex conjugate zeros
-
-        *lr = *sr = -(b / quadratic);
-        *si = fabs(d / quadratic);
-        *li = -(*si);
-    } // End else (e < 0)
-
-    return;
-} // End Quad
+        l = s = - lin / quadratic;
+        s.imag(std::abs(root / quadratic));
+        l.imag(- s.imag());
+    }
+    return std::make_pair(s,l);
+}
 
 }
 
@@ -955,3 +900,4 @@ std::cout << "\nEnter any key to continue. \n";
 cin >> rflag;
 return 0;
 } // End main program.*/
+
