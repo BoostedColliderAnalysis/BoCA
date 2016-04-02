@@ -17,6 +17,7 @@ class Result;
 class Results;
 class Plot;
 class Graphs;
+class InfoBranch;
 
 /**
  * @brief Presents result of multivariant analysis

@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include "exroot/ExRootAnalysis.hh"
+#include "exroot/TreeWriter.h"
 #include "Reader.hh"
 #include "Branches.hh"
 #include "Files.hh"

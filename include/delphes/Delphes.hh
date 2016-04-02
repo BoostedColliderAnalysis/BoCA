@@ -3,7 +3,6 @@
  */
 #pragma once
 
-// #include "classes/DelphesClasses.h"
 #include "delphes/DelphesClasses.h"
 
 /**
@@ -11,7 +10,6 @@
  *
  */
 namespace delphes {
-
 typedef ::Event Event;
 typedef ::LHCOEvent LHCOEvent;
 typedef ::LHEFEvent LHEFEvent;
@@ -30,5 +28,4 @@ typedef ::Track Track;
 typedef ::Tower Tower;
 typedef ::HectorHit HectorHit;
 typedef ::Candidate Candidate;
-
 }

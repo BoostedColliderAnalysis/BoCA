@@ -8,7 +8,7 @@
 
 #include "ClusterSequence.hh"
 
-#include "exroot/ExRootAnalysis.hh"
+#include "exroot/TreeWriter.h"
 #include "Tagger.hh"
 #include "AnalysisBase.hh"
 #include "Filter.hh"

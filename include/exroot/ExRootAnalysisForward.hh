@@ -15,10 +15,6 @@ class TRootElectron;
 class TRootMuon;
 class TRootTau;
 class TRootJet;
-class ExRootTreeWriter;
-class ExRootTreeBranch;
-class ExRootTreeReader;
-class ExRootProgressBar;
 
 /**
  * @brief ExRoot
@@ -39,9 +35,7 @@ typedef ::TRootElectron Electron;
 typedef ::TRootMuon Muon;
 typedef ::TRootTau Tau;
 typedef ::TRootJet Jet;
-typedef ::ExRootTreeWriter TreeWriter;
-typedef ::ExRootTreeBranch TreeBranch;
-typedef ::ExRootTreeReader TreeReader;
-typedef ::ExRootProgressBar ProgressBar;
-
+class TreeWriter;
+class TreeBranch;
+class TreeReader;
 }

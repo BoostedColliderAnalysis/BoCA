@@ -30,6 +30,7 @@ add_include_path(${ROOT_INCLUDE_DIR})
 add_libraries("${ROOT_LIBRARIES}")
 add_libraries(TMVA)
 add_libraries(TreePlayer)
+# add_libraries(MathMore)
 
 # FastJet
 include(CMakeFiles/Findfastjet.cmake)
@@ -38,16 +39,6 @@ add_libraries(${fastjet_LIBRARIES})
 add_libraries(fastjettools)
 add_libraries(Nsubjettiness)
 
-# Download external projects
-# include(CMakeFiles/External.cmake)
-
-# MadGraph
-# include(CMakeFiles/FindMadGraph.cmake)
-# configure_file(File.hh.in ${CMAKE_BINARY_DIR}/include/File.hh)
-
-# libConfig
-# include(CMakeFiles/FindLibConfig.cmake)
-# add_libraries(${LIBCONFIGPP_LIBRARIES})
 
 # Doxygen
 # if(CMAKE_BUILD_TYPE MATCHES "Release")
@@ -58,9 +49,6 @@ endif()
 
 # Libraries
 add_subdirectory(source)
-
-# Download HEPTopTagger
-# include(CMakeFiles/HEPTopTagger.cmake)
 
 add_subdirectory(StandardModel)
 # add_subdirectory(HiggsCpv)

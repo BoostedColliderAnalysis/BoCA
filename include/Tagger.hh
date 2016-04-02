@@ -8,26 +8,21 @@
 #include "TMVA/Types.h"
 
 #include "generic/Vector.hh"
-#include "Branches.hh"
-#include "Phase.hh"
 #include "physics/Range.hh"
+#include "exroot/ExRootAnalysisForward.hh"
+#include "Observable.hh"
+#include "Phase.hh"
+#include "Filter.hh"
 
 namespace TMVA
 {
 class Reader;
 }
 
-class ExRootTreeWriter;
-class ExRootTreeBranch;
-namespace exroot
-{
-typedef ::ExRootTreeWriter TreeWriter;
-typedef ::ExRootTreeBranch TreeBranch;
-}
-
 namespace boca
 {
 
+class ResultBranch;
 class PreCuts;
 class Event;
 class Jet;
@@ -108,8 +103,6 @@ public:
 
     std::string ReaderName(std::string const& name) const;
 
-//     static std::mutex mutex_;
-
 protected:
 
     virtual TClass& Class() const = 0;
@@ -129,41 +122,6 @@ protected:
     double Bdt(TMVA::Reader const& reader) const;
 
     bool Cut(TMVA::Reader const& reader, double eff) const;
-
-//     template<typename Multiplet>
-//     Multiplet SetTag(Multiplet& multiplet, Tag tag) const {
-//         multiplet.SetTag(tag);
-//         return multiplet;
-//     }
-//
-//     template<typename Multiplet>
-//     Multiplet SetBdt(Multiplet& multiplet, TMVA::Reader const& reader) const {
-//         multiplet.SetBdt(Bdt(multiplet, reader));
-//         return multiplet;
-//     }
-
-//     template<typename Multiplet>
-//     std::vector<Multiplet> SetClosestLepton(Event const& event, std::vector<Multiplet>& multiplets) const {
-//         std::vector<Lepton> leptons = event.Leptons().leptons();
-//         if (leptons.empty()) return multiplets;
-//         for (auto & multiplet : multiplets) {
-//             try {
-//                 SetClosestLepton(multiplet, leptons);
-//             } catch (std::exception const&) {
-//                 continue;
-//             }
-//         }
-//         return multiplets;
-//     }
-//
-//     template<typename Multiplet>
-//     Multiplet SetClosestLepton(Multiplet& multiplet, std::vector<Lepton>& leptons) const {
-//         if (leptons.empty()) leptons.emplace_back(multiplet.Jet() * (DetectorGeometry::LeptonMinPt() / multiplet.Pt()));
-//         auto lepton = ClosestJet(leptons, multiplet);
-//         multiplet.SetLeptonPt(lepton.Pt());
-//         multiplet.SetLeptonDeltaR(multiplet.DeltaRTo(lepton));
-//         return multiplet;
-//     }
 
     virtual boca::Filter Filter() const;
 

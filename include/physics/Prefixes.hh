@@ -5,10 +5,8 @@
 
 // #include <boost/math/constants/constants.hpp>
 #include <boost/units/scale.hpp>
-#include <boost/units/quantity.hpp>
 #include <boost/units/make_scaled_unit.hpp>
 #include <boost/units/systems/si/dimensionless.hpp>
-#include <boost/units/systems/si/length.hpp>
 #include <boost/units/pow.hpp>
 
 #include "Si.hh"

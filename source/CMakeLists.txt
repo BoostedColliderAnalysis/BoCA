@@ -7,6 +7,7 @@ add_subdirectory(math)
 add_subdirectory(physics)
 add_subdirectory(exroot)
 add_subdirectory(delphes)
+add_subdirectory(multiplets)
 
 create_dictionary(Colors Colors.cpp ../include/LinkDef.hh)
 add_subdirectory(plotting)
@@ -15,19 +16,16 @@ add_include_path(../include)
 create_dictionary(Branches Branches.cpp ../include/LinkDef.hh)
 create_dictionary(Names Names.cpp ../include/LinkDef.hh)
 
-set(vector_sources
-EventShapes.cpp
-HemisphereMasses.cpp
+set(fastjet_sources
 ClusterSequence.cpp
+SubJettiness.cpp
+InfoRecombiner.cpp
+HemisphereMasses.cpp
+EventShapes.cpp
 )
-create_library(Vector vector_sources)
-
-
-add_subdirectory(multiplets)
+create_library(FastJet fastjet_sources)
 
 set(event_sources
-File.cpp
-TreeReader.cpp
 Event.cpp
 FourVector.cpp
 Hadrons.cpp
@@ -37,37 +35,30 @@ Isolation.cpp
 )
 create_library(Event event_sources)
 
-set(multiplet_sources
-GlobalObservables.cpp
-GlobalTagger.cpp
-# EventTagger.cpp
-)
-create_library(Multiplets2 multiplet_sources)
-
-set(tagger_sources
-Tagger.cpp
-ReaderBase.cpp
+set(analysis_sources
+MomentumRange.cpp
 Phase.cpp
-Files.cpp
 Observable.cpp
 Observables.cpp
-MomentumRange.cpp
 PreCuts.cpp
+Constituent.cpp
+DetectorGeometry.cpp
+WimpMass.cpp
+)
+create_library(Analysis analysis_sources)
+
+set(tagger_sources
+GlobalObservables.cpp
+GlobalTagger.cpp
+File.cpp
+TreeReader.cpp
+Tagger.cpp
+ReaderBase.cpp
+AnalysisBase.cpp
+Files.cpp
 Trainer.cpp
 )
 create_library(Tagger tagger_sources)
-
-set(analysis_sources
-# Configuration.cpp
-AnalysisBase.cpp
-Constituent.cpp
-SubJettiness.cpp
-DetectorGeometry.cpp
-InfoRecombiner.cpp
-WimpMass.cpp
-# JetInfoFamily.cpp
-)
-create_library(Analysis analysis_sources)
 
 add_executable(root-browser Browser.cpp)
 target_link_libraries(root-browser ${ROOT_LIBRARIES})

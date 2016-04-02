@@ -4,27 +4,21 @@ This code performs staged BDT analyses using root files as in- and output format
 
 ## Dependencies
 
-* `ROOT`
-* `MadGraph` with installed `ExRootAnalysis` and `Delphes`
+* `ROOT` with version > 5
 * `fastjet`
 * `fastjet contrib` (must be compiled with `CXXFLAGS=-fPIC`)
-* `libconfig`
-* `doxygen` for class documentation
-* `The PEG`
 * `Boost` (`Optional`, `Range`, `Units`)
 
 ## Installation
 
 * the following is tested on recent ubuntu installations
-* edit `MadGraphDir` in `FindMadGraph.cmake`
 * if you are using a `ROOT` version other than the system version edit the `ROOT` path in `FindROOT.cmake`
 
 ~~~~
 mkdir build
 cd build
 cmake ..
-make # for external dependencies
-make # for the actual program
+make
 ~~~~
 
 ## Usage
@@ -72,4 +66,4 @@ Please cite:
 * prefer references `&` over pointers `*`
 * Classes and functions are written in CamelCase
 * variables are written small_with_underscore
-* member variables end on an underscore
+* member variables and template paramter end on an underscore

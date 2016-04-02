@@ -51,9 +51,9 @@
 #include "TMatrixD.h"
 #include "TVectorD.h"
 #include "TDecompLU.h"
+#include "Math/Polynomial.h"
 
 #include "external/Invisible3.hh"
-#include "external/PolynomialRoots.hh"
 
 using namespace std;
 
@@ -462,31 +462,43 @@ void solve33(event33& evt1, event33& evt2, int& nsols, double p1[][4],
 
 int solve_3_2(double a0, double a1, double a2, double a3, double a4, double a5, double a6, double a7, double a8, double* solutions)
 {
-    double a[21], wr[21], wi[21];
-    a[0] = 1.; a[1] = a8; a[2] = a7; a[3] = a6; a[4] = a5; a[5] = a4; a[6] = a3;
-    a[7] = a2; a[8] = a1; a[9] = a0;
-    int n = 9;
-    polynomialroots::PolynomialRoots().rpoly(a, &n, wr, wi);
+//     double a[21], wr[21], wi[21];
+//     a[0] = 1.; a[1] = a8; a[2] = a7; a[3] = a6; a[4] = a5; a[5] = a4; a[6] = a3;
+//     a[7] = a2; a[8] = a1; a[9] = a0;
+//     int n = 9;
+//     polynomialroots::PolynomialRoots().rpoly(a, &n, wr, wi);
+//     int nsols = 0;
+//     /*if (debug==1) for (int i=0;i<n;i++)
+//     {
+//         cout.setf(ios::showpoint);
+//         cout.precision(15);
+//         cout.setf(ios::showpos);
+//         cout.width(18);
+//         if ((wr[i] != 0.0) || (wi[i] != 0.0))
+//             cout << wr[i] << " " << wi[i] << "I" << endl;
+//      }*/
+//     for (int i = 0; i < n; i++)
+//         if (fabs(wi[i]) < 2) {
+//             nsols++;
+//             solutions[(nsols - 1) * 3] = wr[i];
+//         }
+//     return nsols;
+
+
+    std::vector<double> coefficients {a0, a1, a2, a3, a4, a5, a6, a7, a8, 1};
+    ROOT::Math::Polynomial poly(9);
+    poly.SetParameters(coefficients.data());
+    auto roots = poly.FindRoots();
     int nsols = 0;
-    /*if (debug==1) for (int i=0;i<n;i++)
-    {
-        cout.setf(ios::showpoint);
-        cout.precision(15);
-        cout.setf(ios::showpos);
-        cout.width(18);
-        if ((wr[i] != 0.0) || (wi[i] != 0.0))
-            cout << wr[i] << " " << wi[i] << "I" << endl;
-     }*/
-    for (int i = 0; i < n; i++)
-        if (fabs(wi[i]) < 2) {
+    for (auto const & root : roots) {
+        if (fabs(root.imag()) < 2) {
             nsols++;
-            solutions[(nsols - 1) * 3] = wr[i];
+            solutions[(nsols - 1) * 3] = root.real();
         }
-
-
+    }
     return nsols;
-
 }
+
 int solve_2_2(double aa0, double aa1, double aa2, double aa3, double aa4, double aa5, double aa6, double aa7, double aa8, double bb0, double bb1, double bb2, double bb3, double bb4, double bb5, double bb6, double bb7, double* solutions)
 {
     /*if(debug==1)

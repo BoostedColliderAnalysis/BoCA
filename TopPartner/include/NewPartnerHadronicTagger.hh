@@ -3,7 +3,6 @@
 #include "multiplets/Quintet.hh"
 #include "TopHadronicTagger.hh"
 #include "ResonanceTagger.hh"
-#include "BranchesTopPartner.hh"
 
 namespace boca
 {

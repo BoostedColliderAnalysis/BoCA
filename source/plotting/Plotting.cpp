@@ -8,7 +8,11 @@
 #include "TClonesArray.h"
 #include "TTree.h"
 
-#include "exroot/ExRootAnalysis.hh"
+#include "generic/Vector.hh"
+#include "generic/Types.hh"
+
+#include "exroot/TreeReader.h"
+#include "exroot/TreeWriter.h"
 
 #include "plotting/Plotting.hh"
 #include "plotting/LatexFile.hh"
@@ -19,8 +23,6 @@
 #include "plotting/Profile.hh"
 #include "plotting/Plots.hh"
 #include "plotting/Font.hh"
-#include "Branches.hh"
-#include "generic/Vector.hh"
 
 // #define INFORMATION
 #include "generic/DEBUG.hh"

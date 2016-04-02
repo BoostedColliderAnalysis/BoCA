@@ -27,7 +27,6 @@ set(hep_tagger_source
 TopHadronicHep.cpp
 )
 create_library(HepTagger hep_tagger_source)
-add_dependencies(HepTagger HepTopTagger)
 
 create_executable(BottomAnalysis MainBottom.cpp)
 create_executable(WAnalysis MainW.cpp)

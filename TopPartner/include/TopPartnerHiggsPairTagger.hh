@@ -3,7 +3,6 @@
 #include "Septet.hh"
 #include "TopPartnerLeptonicNeutralTagger.hh"
 #include "HiggsTagger.hh"
-#include "BranchesTopPartner.hh"
 
 namespace boca {
 

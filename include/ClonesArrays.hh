@@ -8,10 +8,10 @@
 
 #include "TreeReader.hh"
 
-class ExRootTreeReader;
+class TreeReader;
 namespace exroot
 {
-typedef ::ExRootTreeReader TreeReader;
+typedef ::TreeReader TreeReader;
 }
 class TClonesArray;
 class TObject;
