@@ -26,7 +26,7 @@ public:
 
     class MemoryAllocationExeption {};
 
-    TreeBranch(const char* name, TClass* cl, TTree* tree = 0);
+    TreeBranch(const char* name, TClass* cl, TTree* tree = nullptr);
 
     ~TreeBranch();
 

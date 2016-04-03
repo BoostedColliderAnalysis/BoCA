@@ -5,8 +5,7 @@
 
 #include <vector>
 #include <map>
-
-#include "TreeReader.hh"
+#include "ClonesArray.hh"
 
 class TreeReader;
 namespace exroot
@@ -38,6 +37,8 @@ enum class Branch
     tau
 };
 
+std::string Name(Branch branch) const;
+
 enum class Source
 {
     delphes, pgs, parton
@@ -56,17 +57,13 @@ public:
 
     ClonesArrays(Source source);
 
-    std::string BranchName(Branch branch) const;
-
     Source source() const;
 
     std::vector<Branch> Branches() const;
 
     void UseBranches(exroot::TreeReader& tree_reader);
 
-//     void UseBranches(boca::TreeReader& tree_reader);
-
-    TClonesArray& ClonesArray(Branch branch) const;
+    auto& ClonesArray(Branch branch) const;
 
     TObject& Object(Branch branch, int number) const;
 

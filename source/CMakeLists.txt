@@ -51,6 +51,7 @@ set(tagger_sources
 GlobalObservables.cpp
 GlobalTagger.cpp
 File.cpp
+TreeReaderArray.cpp
 TreeReader.cpp
 Tagger.cpp
 ReaderBase.cpp
