@@ -27,7 +27,7 @@ std::vector<Particle> Partons::Particles(Status max_status) const
 {
     INFO0;
     std::vector<Particle> particles;
-    for (auto const & particle : TreeReader().Objects<::exroot::LHEFParticle>(Branch::particle)) {
+    for (auto const & particle : TreeReader().Array<::exroot::LHEFParticle>(Branch::particle)) {
         if (particle.Status < to_int(max_status)) break;
         particles.emplace_back(Particle(particle, particle.PID));
     }

@@ -62,9 +62,9 @@ protected:
 
     auto Mass() const {
         INFO0;
-        return 2_TeV;
-        return 1.5_TeV;
         return 1_TeV;
+        return 1.5_TeV;
+        return 2_TeV;
         return 4_TeV;
         return 6_TeV;
         return 10_TeV;
@@ -103,7 +103,7 @@ protected:
         case DetectorType::CMS : {
             switch (process) {
             case Process::TT :
-                switch (Int(Mass())) {
+                switch (int(Mass() / GeV)) {
                 case 500 : return 0.5156 * 2_pb;
                 case 1000 : return 0.01041 * 2_pb;
                 case 1500 : return 0.0005753 * 2_pb;
@@ -120,37 +120,39 @@ protected:
         case DetectorType::Spp : {
             switch (process) {
             case Process::TthLep :
-                switch (Int(Mass())) {
+                switch (int(Mass() / GeV)) {
                 case 1000 : return 0.003087_pb;
                     DEFAULT(Mass(), pb);
                 }
             case Process::TthHad :
-                switch (Int(Mass())) {
+                switch (int(Mass() / GeV)) {
                 case 1000 : return 0.003087_pb;
                 case 1500 : return 0.0006824_pb;
                 case 2000 : return 0.0002097_pb;
                     DEFAULT(Mass(), pb);
                 }
             case Process::TT :
-                switch (Int(Mass())) {
+                switch (int(Mass() / GeV)) {
                 case 1000 : return 0.3919 * 2_pb;
                 case 1500 : return 0.05993 * 2_pb;
                 case 2000 : return 0.01468 * 2_pb;
                     DEFAULT(Mass(), pb);
                 }
             case Process::ttBjj :
-                switch (Int(PreCut())) {
+                switch (int(PreCut() / GeV)) {
                 case 0 : return 1.669 * 2_pb;
                     DEFAULT(Mass(), pb);
                 }
             case Process::tthBjj :
-                switch (Int(PreCut())) {
+                switch (int(PreCut() / GeV)) {
                 case 0 : return 0.02535 * 2_pb;
                     DEFAULT(Mass(), pb);
                 }
             case Process::TThh :
-                switch (Int(Mass())) {
+                switch (int(Mass() / GeV)) {
                 case 1000 : return 4.374e-07 * 2_pb;
+                case 1500 : return 6.82e-08 * 2_pb;
+                case 2000 : return 1.698e-08 * 2_pb;
                     DEFAULT(Mass(), pb);
                 }
             case Process::ttBB : return 0.03206 * 2_pb;

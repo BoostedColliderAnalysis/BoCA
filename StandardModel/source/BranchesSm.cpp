@@ -111,8 +111,7 @@ TopLeptonicBranch::TopLeptonicBranch()
 
 Observables TopLeptonicBranch::Variables()
 {
-    Observables observables = BottomBase::Variables() + ParticleBranch::Variables() + OBSERVABLE(Ht) + OBSERVABLE(DeltaPt) + OBSERVABLE(DeltaM) + OBSERVABLE(DeltaRap) + OBSERVABLE(DeltaPhi) + OBSERVABLE(DeltaR) + OBSERVABLE(Rho) + OBSERVABLE(Bdt2) + OBSERVABLE(BottomPt) + OBSERVABLE(LeptonPt) + OBSERVABLE(Pull1, Formula("#theta_{1}")) + OBSERVABLE(Pull2, Formula("#theta")) /*+ OBSERVABLE(Dipolarity, Formula("D"))*/ + OBSERVABLE(Bdt1);
-    return observables;
+    return BottomBase::Variables() + ParticleBranch::Variables() + OBSERVABLE(Ht) + OBSERVABLE(DeltaPt) + OBSERVABLE(DeltaM) + OBSERVABLE(DeltaRap) + OBSERVABLE(DeltaPhi) + OBSERVABLE(DeltaR) + OBSERVABLE(Rho) + OBSERVABLE(Bdt2) + OBSERVABLE(BottomPt) + OBSERVABLE(LeptonPt) + OBSERVABLE(Pull1, Formula("#theta_{1}")) + OBSERVABLE(Pull2, Formula("#theta")) /*+ OBSERVABLE(Dipolarity, Formula("D"))*/ + OBSERVABLE(Bdt1);
 }
 
 Observables TopLeptonicBranch::Spectators()

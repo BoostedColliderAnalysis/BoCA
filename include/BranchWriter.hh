@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include "exroot/TreeWriter.h"
+#include "exroot/TreeWriter.hh"
 #include "Reader.hh"
 #include "Branches.hh"
 #include "Files.hh"
@@ -20,7 +20,7 @@ public:
         files_(files),
         tagger_(tagger),
         reader_(files.Phase().Stage()),
-        tree_writer_(&(files.Export()), files.Import().Title().c_str()) {
+        tree_writer_(files.Export(), files.Import().Title()) {
         Initialize();
     }
 
@@ -31,7 +31,7 @@ public:
         case Stage::reader : reader_.NewBranch(TreeWriter(), Files().Phase().Stage());
             break;
         }
-        tree_branch_ = tree_writer_.NewBranch(tagger_.WeightBranchName().c_str(), InfoBranch::Class());
+        tree_branch_ = &tree_writer_.NewBranch<InfoBranch>(tagger_.WeightBranchName());
         for (auto const & path : Files().Import().Paths()) chain_.AddFile(path.c_str(), TChain::kBigNumber, Files().Import().TreeName().c_str());
     }
 
@@ -48,11 +48,11 @@ public:
         return files_;
     }
 
-    exroot::TreeBranch& TreeBranch() {
+    boca::TreeBranch& TreeBranch() {
         return *tree_branch_;
     }
 
-    exroot::TreeWriter& TreeWriter() {
+    boca::TreeWriter& TreeWriter() {
         return tree_writer_;
     }
 
@@ -106,9 +106,9 @@ private:
 
     boca::Reader<Tagger_> reader_;
 
-    exroot::TreeWriter tree_writer_;
+    boca::TreeWriter tree_writer_;
 
-    exroot::TreeBranch* tree_branch_;
+    boca::TreeBranch* tree_branch_;
 
     long object_sum_ = 0;
 //     std::mutex object_sum_mutex_;

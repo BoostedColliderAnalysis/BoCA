@@ -29,7 +29,6 @@
 #include "delphes/DelphesFactory.h"
 #include "delphes/DelphesClasses.h"
 
-#include "exroot/TreeBranch.h"
 
 #include "TClass.h"
 #include "TObjArray.h"
@@ -43,7 +42,7 @@ using namespace std;
 DelphesFactory::DelphesFactory(const char *name) :
   TNamed(name, ""), fObjArrays(0)
 {
-  fObjArrays = new exroot::TreeBranch("PermanentObjArrays", TObjArray::Class(), 0);
+  fObjArrays = new ExRootTreeBranch("PermanentObjArrays", TObjArray::Class(), 0);
 }
 
 
@@ -52,7 +51,7 @@ DelphesFactory::~DelphesFactory()
 {
   if(fObjArrays) delete fObjArrays;
 
-  map< const TClass*, exroot::TreeBranch* >::iterator itBranches;
+  map< const TClass*, ExRootTreeBranch* >::iterator itBranches;
   for(itBranches = fBranches.begin(); itBranches != fBranches.end(); ++itBranches)
   {
     delete (itBranches->second);
@@ -71,7 +70,7 @@ void DelphesFactory::Clear()
 
   TProcessID::SetObjectCount(0);
 
-  map< const TClass*, exroot::TreeBranch* >::iterator itBranches;
+  map< const TClass*, ExRootTreeBranch* >::iterator itBranches;
   for(itBranches = fBranches.begin(); itBranches != fBranches.end(); ++itBranches)
   {
     itBranches->second->Clear();
@@ -102,8 +101,8 @@ Candidate *DelphesFactory::NewCandidate()
 TObject *DelphesFactory::New(TClass *cl)
 {
   TObject *object = 0;
-  exroot::TreeBranch *branch = 0;
-  map<const TClass *, exroot::TreeBranch *>::iterator it = fBranches.find(cl);
+  ExRootTreeBranch *branch = 0;
+  map<const TClass *, ExRootTreeBranch *>::iterator it = fBranches.find(cl);
 
   if(it != fBranches.end())
   {
@@ -111,7 +110,7 @@ TObject *DelphesFactory::New(TClass *cl)
   }
   else
   {
-    branch = new exroot::TreeBranch(cl->GetName(), cl, 0);
+    branch = new ExRootTreeBranch(cl->GetName(), cl, 0);
     fBranches.insert(make_pair(cl, branch));
   }
 

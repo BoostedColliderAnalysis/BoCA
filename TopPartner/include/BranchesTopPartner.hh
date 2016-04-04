@@ -101,6 +101,21 @@ private:
     ClassDef(SignatureSingleHadronicBranch, 1)
 };
 
+class SignatureEffectiveBranch : public SignatureBranch, public EventShapesBranch
+{
+public:
+  SignatureEffectiveBranch();
+  template<typename Multiplet>
+  void Fill(Multiplet const& multiplet) {
+    SignatureBranch::Fill(multiplet);
+    EventShapesBranch::Fill(multiplet);
+  }
+  Observables Variables();
+  Observables Spectators();
+private:
+  ClassDef(SignatureEffectiveBranch, 1)
+};
+
 class EventBranch : public boca::EventBranch
 {
 public:

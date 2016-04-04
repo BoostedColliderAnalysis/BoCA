@@ -3,11 +3,12 @@
  */
 #include "BottomTagger.hh"
 
-#include "Event.hh"
+#include "generic/Exception.hh"
 #include "multiplets/Particles.hh"
 #include "PreCuts.hh"
-#include "generic/Exception.hh"
+#include "Event.hh"
 // #define DEBUGGING
+// #define INFORMATION
 #include "generic/DEBUG.hh"
 
 namespace boca
@@ -35,7 +36,9 @@ int BottomTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) co
 std::vector<Particle> BottomTagger::Particles(Event const& event) const
 {
     INFO0;
-    return RemoveIfSoft(CopyIfParticle(event.Partons().Particles(), Id::bottom), DetectorGeometry::JetMinPt());
+    auto particles = RemoveIfSoft(CopyIfParticle(event.Partons().Particles(), Id::bottom), DetectorGeometry::JetMinPt());
+    for(auto const& particle : particles) DEBUG(particle.Mass(), particle.Pt(), particle.Rap(), particle.Phi());
+    return particles;
 }
 
 std::vector<Jet> BottomTagger::Jets(Event const& event, PreCuts const& pre_cuts, std::function<Jet(Jet&)> const& function) const
@@ -58,7 +61,7 @@ std::vector<Jet> BottomTagger::Multiplets(std::vector<Jet> jets, std::function<J
     if (sub_jet_number > 1) jets = SubJets(jets, sub_jet_number);
     std::vector<Jet> final_jets;
     for (auto & jet : jets) try {
-            DEBUG(jet.m(), jet.rap(), jet.phi_std(), jet.has_user_info());
+            DEBUG(jet.Mass(), jet.Pt(), jet.Rap(), jet.Phi());
             final_jets.emplace_back(function(jet));
         } catch (std::exception&) {
             continue;
@@ -78,7 +81,7 @@ std::vector<Jet> BottomTagger::Multiplets(Event const& event, PreCuts const& pre
 Jet BottomTagger::Multiplet(Jet& jet, TMVA::Reader const& reader) const
 {
     INFO0;
-    DEBUG(jet.m(), jet.rap(), jet.phi_std(), jet.has_user_info());
+    DEBUG(jet.Mass(), jet.Rap(), jet.Phi(), jet.has_user_info());
     jet.Info().SetBdt(Bdt(jet, reader));
     return jet;
 }
@@ -91,7 +94,7 @@ bool BottomTagger::Problematic(Jet const& jet, PreCuts const& pre_cuts, Tag tag)
     if (boost::units::abs(jet.Rap()) > DetectorGeometry::TrackerEtaMax()) return true;
     switch (tag) {
     case Tag::signal :
-        if (jet.Info().SumDisplacement() == 0_mm) return true;
+        if (jet.Info().SumDisplacement() == 0_m) return true;
         break;
     case Tag::background : break;
     }

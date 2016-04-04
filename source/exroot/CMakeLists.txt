@@ -4,9 +4,8 @@
 add_include_path(../../include/exroot)
 
 set(ExRootSources
-TreeBranch.cc
-TreeReader.cc
-TreeWriter.cc
+TreeBranch.cpp
+TreeWriter.cpp
 )
 create_library(ExRootTree ExRootSources)
 

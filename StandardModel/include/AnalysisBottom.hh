@@ -3,10 +3,9 @@
  */
 #pragma once
 
-#include "AnalysisStandardModel.hh"
 #include "multiplets/Sort.hh"
-#include "multiplets/Particle.hh"
 #include "multiplets/Particles.hh"
+#include "AnalysisStandardModel.hh"
 #include "Event.hh"
 
 namespace boca

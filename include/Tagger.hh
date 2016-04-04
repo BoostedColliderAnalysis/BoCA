@@ -9,7 +9,6 @@
 
 #include "generic/Vector.hh"
 #include "physics/Range.hh"
-#include "exroot/ExRootAnalysisForward.hh"
 #include "Observable.hh"
 #include "Phase.hh"
 #include "Filter.hh"
@@ -26,6 +25,8 @@ class ResultBranch;
 class PreCuts;
 class Event;
 class Jet;
+class TreeWriter;
+class TreeBranch;
 /**
  * @brief Prepares multivariant analysis
  *
@@ -95,7 +96,7 @@ public:
 
     void AddTreeName(std::string const& signal_tree_name, Tag tag);
 
-    void NewBranch(exroot::TreeWriter& tree_writer, Stage stage);
+    void NewBranch(TreeWriter& tree_writer, boca::Stage stage);
 
     void ClearTreeNames();
 
@@ -103,9 +104,9 @@ public:
 
     std::string ReaderName(std::string const& name) const;
 
-protected:
-
     virtual TClass& Class() const = 0;
+
+protected:
 
     virtual void DefineVariables() = 0;
 
@@ -117,7 +118,7 @@ protected:
 
     void ClearObservables();
 
-    exroot::TreeBranch& TreeBranch() const;
+    boca::TreeBranch& TreeBranch() const;
 
     double Bdt(TMVA::Reader const& reader) const;
 
@@ -163,7 +164,7 @@ private:
      * @brief Tree Branch pointer saving the results
      *
      */
-    exroot::TreeBranch* tree_branch_;
+    boca::TreeBranch* tree_branch_;
 
     /**
      * @brief Name of the Analysis

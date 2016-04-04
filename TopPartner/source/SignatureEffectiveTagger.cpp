@@ -1,6 +1,7 @@
 #include "SignatureEffectiveTagger.hh"
 #include "generic/Exception.hh"
 #include "plotting/Font.hh"
+// #define DEBUGGING
 #include "generic/DEBUG.hh"
 
 namespace boca
@@ -43,13 +44,12 @@ std::vector<Quattuordecuplet554> SignatureEffectiveTagger::Quattuordecuplets(boc
         if (quattuordecuplet.Overlap()) throw Overlap();
         return function(quattuordecuplet);
     });
-    static int sig = 0;
-    static int eve = 0;
-    ++eve;
-    if (!signatures.empty()) ++sig;
-    double fraction = double(sig) / eve;
-
-    ERROR(signatures.size(), hadronic.size(), leptonic.size(), higgs_pairs.size(), fraction);
+//     static int sig = 0;
+//     static int eve = 0;
+//     ++eve;
+//     if (!signatures.empty()) ++sig;
+//     double fraction = double(sig) / eve;
+//     ERROR(signatures.size(), hadronic.size(), leptonic.size(), higgs_pairs.size(), fraction);
     return signatures;
 }
 

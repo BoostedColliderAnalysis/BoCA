@@ -12,10 +12,10 @@
 
 #include "generic/Options.hh"
 #include "generic/Types.hh"
-#include "exroot/TreeReader.h"
+#include "TreeReader.hh"
 #include "Trainer.hh"
-#include "Tagger.hh"
 #include "Branches.hh"
+#include "Tagger.hh"
 // #define DEBUGGING
 #include "generic/DEBUG.hh"
 
@@ -77,9 +77,9 @@ long Trainer::AddTrees(Tag tag)
 long Trainer::AddTree(std::string const& tree_name, Tag tag)
 {
     INFO(tree_name, Name(tag));
+    double weight = Weight(tree_name, tag);
     TTree& tree = Tree(tree_name, tag);
-    exroot::TreeReader tree_reader = TreeReader(tree_name, tag);
-    double weight = Weight(tree_reader);
+//     TreeReader tree_reader(Tagger().FileName(Stage::trainer, tag), tree_name, Source::tagger);
     NOTE(weight);
     switch (tag) {
     case Tag::signal : Factory().AddSignalTree(&tree, weight);
@@ -87,37 +87,31 @@ long Trainer::AddTree(std::string const& tree_name, Tag tag)
     case Tag::background : Factory().AddBackgroundTree(&tree, weight);
         break;
     }
-    return Entries(tree_reader);
+    return Entries(tree_name, tag);
 }
 
-exroot::TreeReader Trainer::TreeReader(std::string const& tree_name, Tag tag)
+double Trainer::Weight(std::string const& tree_name, Tag tag)
 {
-    INFO0;
-    return exroot::TreeReader(&Tree(tree_name, tag));
+  INFO(Tagger().WeightBranchName());
+  TreeReader tree_reader({Tagger().FileName(Stage::trainer, tag)} , tree_name, Source::tagger);
+  auto & array = tree_reader.Array<InfoBranch>(Tagger().WeightBranchName());
+  tree_reader.ReadEntry(0);
+  return array.At(0).Crosssection() / fb / tree_reader.GetEntries();
 }
 
-long Trainer::Entries(exroot::TreeReader& tree_reader)
+
+long Trainer::Entries(std::string const& tree_name, Tag tag)
 {
     INFO0;
+    TreeReader tree_reader({Tagger().FileName(Stage::trainer, tag)} , tree_name, Source::tagger);
+    auto & array = tree_reader.Array(Tagger().BranchName(Stage::trainer), Tagger().Class());
     long entries = 0;
-    auto* clones_array = tree_reader.UseBranch(Tagger().BranchName(Stage::trainer).c_str());
-    CHECK(clones_array, "no " + Tagger().BranchName(Stage::trainer) + " Branch");
     for (auto const & entry : IntegerRange(tree_reader.GetEntries())) {
-        tree_reader.ReadEntry(entry);
-        entries += clones_array->GetEntries();
+      tree_reader.ReadEntry(entry);
+      entries += array.GetSize();
     }
     return entries;
 }
-
-double Trainer::Weight(exroot::TreeReader& tree_reader)
-{
-    INFO(Tagger().WeightBranchName());
-    auto* clones_array = tree_reader.UseBranch(Tagger().WeightBranchName().c_str());
-    CHECK(clones_array, "no " + Tagger().WeightBranchName() + " Branch");
-    tree_reader.ReadEntry(0);
-    return static_cast<InfoBranch&>(*clones_array->First()).Crosssection() / fb / tree_reader.GetEntries();
-}
-
 TTree& Trainer::Tree(std::string const& tree_name, Tag tag)
 {
     INFO(Tagger().FileName(Stage::trainer, tag));

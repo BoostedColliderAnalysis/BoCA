@@ -11,8 +11,7 @@
 #include "generic/Vector.hh"
 #include "generic/Types.hh"
 
-#include "exroot/TreeReader.h"
-#include "exroot/TreeWriter.h"
+#include "exroot/TreeWriter.hh"
 
 #include "plotting/Plotting.hh"
 #include "plotting/LatexFile.hh"
@@ -23,6 +22,7 @@
 #include "plotting/Profile.hh"
 #include "plotting/Plots.hh"
 #include "plotting/Font.hh"
+#include "TreeReader.hh"
 
 // #define INFORMATION
 #include "generic/DEBUG.hh"
@@ -115,33 +115,23 @@ std::vector<Result> Plotting::ReadBdtFile(TFile& export_file, Phase const& phase
     });
 }
 
-std::unique_ptr<TFile> Plotting::File(Phase const& phase) const
-{
-    INFO0;
-    auto file_name = Tagger().FileName(phase);
-    CHECK(Exists(file_name), "non existent", file_name);
-    return std::unique_ptr<TFile>(new TFile(file_name.c_str(), "Read"));
-}
-
 Result Plotting::BdtDistribution(Phase const& phase, int tree_number, TFile& export_file) const
 {
     INFO0;
-    std::unique_ptr<TFile> file = File(phase);
-    exroot::TreeReader tree_reader(static_cast<TTree*>(file->Get(Tagger().TreeNames(phase).at(tree_number).c_str())));
+    TreeReader tree_reader(Tagger().FileName(phase),Tagger().TreeNames(phase).at(tree_number), Source::tagger);
     std::string branch_name = Tagger().BranchName(phase.Stage());
-    TClonesArray& clones_array = *tree_reader.UseBranch(branch_name.c_str());
-    exroot::TreeWriter tree_writer(&export_file, Tagger().TreeNames(phase).at(tree_number).c_str());
-    exroot::TreeBranch& branch = *tree_writer.NewBranch(branch_name.c_str(), BdtBranch::Class());
+    auto & array = tree_reader.Array(branch_name, Tagger().Class());
+    TreeWriter tree_writer(export_file, Tagger().TreeNames(phase).at(tree_number));
+    auto & branch = tree_writer.NewBranch<BdtBranch>(branch_name);
     std::vector<double> bdts;
     for (auto const & event_number : IntegerRange(tree_reader.GetEntries())) {
         tree_reader.ReadEntry(event_number);
-        for (auto const & entry : IntegerRange(clones_array.GetEntriesFast())) {
-            double bdt =  static_cast<BdtBranch&>(*clones_array.At(entry)).Bdt;
+        for (auto const & entry : array) {
+            double bdt = static_cast<BdtBranch const&>(entry).Bdt;
             static_cast<BdtBranch&>(*branch.NewEntry()).Bdt = bdt;
             bdts.emplace_back(bdt);
         }
         tree_writer.Fill();
-        tree_writer.Clear();
     }
     tree_writer.Write();
     return Result(InfoBranch(Phase(Stage::reader, phase.Tag()), tree_number).first, InfoBranch(Phase(Stage::trainer, phase.Tag()), tree_number), bdts, Tagger().Mva());
@@ -150,22 +140,20 @@ Result Plotting::BdtDistribution(Phase const& phase, int tree_number, TFile& exp
 Result Plotting::CutDistribution(Phase const& phase, int tree_number, TFile& export_file) const
 {
     INFO(tree_number);
-    std::unique_ptr<TFile> file = File(phase);
-    exroot::TreeReader tree_reader(static_cast<TTree*>(file->Get(Tagger().TreeNames(phase).at(tree_number).c_str())));
+    TreeReader tree_reader(Tagger().FileName(phase),Tagger().TreeNames(phase).at(tree_number), Source::tagger);
     std::string branch_name = Tagger().BranchName(phase.Stage());
-    TClonesArray& clones_array = *tree_reader.UseBranch(branch_name.c_str());
-    exroot::TreeWriter tree_writer(&export_file, Tagger().TreeNames(phase).at(tree_number).c_str());
-    exroot::TreeBranch& branch = *tree_writer.NewBranch(branch_name.c_str(), CutBranch::Class());
+    auto & array = tree_reader.Array(branch_name, Tagger().Class());
+    TreeWriter tree_writer(export_file, Tagger().TreeNames(phase).at(tree_number));
+    auto & branch = tree_writer.NewBranch<CutBranch>(branch_name);
     std::vector<std::vector<bool>> passed_matrix;
     for (auto const & event_number : IntegerRange(tree_reader.GetEntries())) {
         tree_reader.ReadEntry(event_number);
-        for (auto const & entry : IntegerRange(clones_array.GetEntriesFast())) {
-            std::vector<bool> passed_vector = dynamic_cast<CutBranch&>(*clones_array.At(entry)).passed_;
+        for (auto const & entry : array) {
+            std::vector<bool> passed_vector = static_cast<CutBranch const &>(entry).passed_;
             static_cast<CutBranch&>(*branch.NewEntry()).passed_ = passed_vector;
             passed_matrix.emplace_back(passed_vector);
         }
         tree_writer.Fill();
-        tree_writer.Clear();
     }
     tree_writer.Write();
     return Result(InfoBranch(Phase(Stage::reader, phase.Tag()), tree_number).first, InfoBranch(Phase(Stage::trainer, phase.Tag()), tree_number), passed_matrix, Tagger().Mva());
@@ -173,22 +161,22 @@ Result Plotting::CutDistribution(Phase const& phase, int tree_number, TFile& exp
 
 std::pair<InfoBranch, int> Plotting::InfoBranch(Phase const& phase, int tree_number) const
 {
-    INFO(Name(phase.Tag()), tree_number);
-    std::unique_ptr<TFile> file = File(phase);
-    auto* tree = static_cast<TTree*>(file->Get(Tagger().TreeNames(phase).at(tree_number).c_str()));
-    INFO(tree->GetName());
-    exroot::TreeReader tree_reader(tree);
+  INFO(Name(phase.Tag()), tree_number);
+  TreeReader tree_reader(Tagger().FileName(phase),Tagger().TreeNames(phase).at(tree_number), Source::tagger);
     INFO(Tagger().WeightBranchName());
-    auto* clones_array = tree_reader.UseBranch(Tagger().WeightBranchName().c_str());
-    if (!clones_array) ERROR("empty clones array");
-    INFO(tree_reader.GetEntries());
-    tree_reader.ReadEntry(tree_reader.GetEntries() - 1);
-    auto* object = clones_array->Last();
-    if (!object) {
+    auto & array = tree_reader.Array<boca::InfoBranch>(Tagger().WeightBranchName());
+    ERROR(tree_reader.GetEntries());
+    if (tree_reader.GetEntries() == 0) {
+      ERROR("no object for casting");
+      return std::make_pair(boca::InfoBranch(), 0);
+    }
+    auto last = tree_reader.ReadEntry(tree_reader.GetEntries() - 1);
+    ERROR(array.GetSize());
+    if (array.GetSize() == 0) {
         ERROR("no object for casting");
         return std::make_pair(boca::InfoBranch(), 0);
     }
-    return std::make_pair(static_cast<boca::InfoBranch&>(*object), tree_reader.GetEntries());
+    return std::make_pair(array.At(array.GetSize()-1), tree_reader.GetEntries());
 }
 
 std::string Plotting::PlotHistograms(Results const& results) const

@@ -22,7 +22,7 @@ Names::Names(std::string const& name, std::string const& latex_name)
 
 std::string const& Names::Name() const
 {
-    INFO0;
+    INFO(name_);
     return name_;
 }
 

@@ -86,7 +86,7 @@ std::vector<Particle> Partons::Particles(Status min_status) const
 {
     INFO0;
     std::vector<Particle> particles;
-    auto& gen_particles = TreeReader().Objects<::delphes::GenParticle>(Branch::particle);
+    auto& gen_particles = TreeReader().Array<::delphes::GenParticle>(Branch::particle);
     auto position = 0;
     for (auto const & particle : gen_particles) {
         if (particle.Status < to_int(min_status)) {

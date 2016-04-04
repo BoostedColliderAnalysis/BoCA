@@ -66,8 +66,8 @@ public:
 protected:
 
     Momentum LowerPtCut() const {
-        return 750_GeV;
         return 500_GeV;
+        return 750_GeV;
         return 600_GeV;
         return 1_TeV;
         return 1.5_TeV;
@@ -121,9 +121,9 @@ protected:
 private:
 
     long TrainNumberMax() const override {
-        return 10000;
-        return 100;
         return 1000;
+        return 100;
+        return 10000;
         return 5000;
         return 500;
     }

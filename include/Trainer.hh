@@ -5,12 +5,7 @@
 
 #include "TMVA/Factory.h"
 
-#include "exroot/ExRootAnalysisForward.hh"
 #include "multiplets/Identification.hh"
-
-namespace TMVA {
-class MethodBDT;
-}
 
 namespace boca {
 
@@ -59,13 +54,11 @@ private:
 
     long AddTree(std::string const& tree_name, Tag tag);
 
-    long Entries(exroot::TreeReader& tree_reader);
+    long Entries(std::string const& tree_name, Tag tag);
 
-    double Weight(exroot::TreeReader& tree_reader);
+    double Weight(std::string const& tree_name, Tag tag);
 
     TTree &Tree(std::string const& tree_name, Tag tag);
-
-    exroot::TreeReader TreeReader(std::string const& tree_name, Tag tag);
 
     TFile& OutputFile() const;
 

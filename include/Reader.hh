@@ -5,9 +5,9 @@
 
 #include "TMVA/Reader.h"
 
-// #include "ReaderBase.hh"
 #include "PreCuts.hh"
 #include "Phase.hh"
+#include "exroot/TreeWriter.hh"
 #include "generic/Options.hh"
 #include "multiplets/Sort.hh"
 #include "Event.hh"
@@ -21,7 +21,7 @@ namespace boca
  *
  */
 template<typename Tagger_>
-class Reader //: public ReaderBase
+class Reader
 {
 
 public:
@@ -47,6 +47,7 @@ public:
     }
 
     void Initialize() {
+        if(Debug()) std::cout << "Reader: " << Tagger().Name() << std::endl;
         Tagger().Initialize();
         if (stage_ == Stage::trainer) return;
         std::ofstream cout_file(Tagger().AnalysisName() + "/Reader.txt", std::ios_base::app | std::ios_base::out);
@@ -63,6 +64,7 @@ public:
 
     template <typename Multiplet_>
     double Bdt(Multiplet_ const& multiplet) const {
+        if(Debug()) std::cout << "Reader: " << Tagger().Name() << " reading bdt" << std::endl;
         return Tagger().Bdt(multiplet, TReader());
     }
 
@@ -120,7 +122,7 @@ public:
         return tagger_;
     }
 
-    void NewBranch(exroot::TreeWriter& tree_writer, Stage stage) {
+    void NewBranch(TreeWriter& tree_writer, Stage stage) {
         Tagger().NewBranch(tree_writer, stage);
     }
 
@@ -151,13 +153,11 @@ private:
     }
 
     void AddObservables() {
-//         std::lock_guard<std::mutex> guard(mutex_);
         for (auto const & variable : Tagger().Variables()) TReader().AddVariable(variable.Expression(), &variable.Value());
         for (auto const & spectator : Tagger().Spectators()) TReader().AddSpectator(spectator.Expression(), &spectator.Value());
     }
 
     TMVA::IMethod& BookMva() {
-//         std::lock_guard<std::mutex> guard(mutex_);
         std::cout << Tagger().MethodName() << "  " << Tagger().WeightFileName() << std::endl;
         return *TReader().BookMVA(Tagger().MethodName(), Tagger().WeightFileName());
     }
@@ -168,6 +168,10 @@ private:
 
     Tagger_& Tagger() {
         return tagger_;
+    }
+
+    constexpr bool Debug() const {
+      return false;
     }
 
     TMVA::Reader reader_;

@@ -113,33 +113,26 @@ static const EnergySixth GeV6 = boost::units::pow<6>(GeV);
 std::vector<Doublet> WLeptonicTagger::ReconstructNeutrino(Doublet const& doublet) const
 {
     INFO0;
-    Lepton lepton = doublet.Singlet1();
-    MissingEt missing_et = doublet.Singlet2();
-    EnergySquare linear_term = (sqr(MassOf(Id::W)) - lepton.MassSquare()) / 2. + missing_et.Px() * lepton.Px() + missing_et.Py() * lepton.Py();
-    MomentumSquare lepton_pz_square = sqr(lepton.Pz());
-    EnergySquare lepton_square = sqr(lepton.Energy()) - lepton_pz_square;
-    EnergySquare missing_et_square = sqr(missing_et.Px()) + sqr(missing_et.Py());
-    EnergySixth radicant = lepton_pz_square * (sqr(linear_term) -  lepton_square * missing_et_square);
+    auto lepton = doublet.Singlet1();
+    auto missing_et = doublet.Singlet2();
+    auto linear_term = (sqr(MassOf(Id::W)) - lepton.MassSquare()) / 2. + missing_et.Px() * lepton.Px() + missing_et.Py() * lepton.Py();
+    auto lepton_pz_square = sqr(lepton.Pz());
+    auto lepton_square = sqr(lepton.Energy()) - lepton_pz_square;
+    auto missing_et_square = sqr(missing_et.Px()) + sqr(missing_et.Py());
+    auto radicant = lepton_pz_square * (sqr(linear_term) -  lepton_square * missing_et_square);
     if (radicant < 0. * GeV6) {
         INFO("Imaginary root", "move missing et towards lepton");
         return ReconstructNeutrino(Doublet(lepton, Lepton(missing_et + 0.1 * (lepton - missing_et), missing_et.Info())));
     }
     CHECK(radicant != 0. * GeV6, "Radicant exactly zero", "implement this case!");
-    EnergyCubed sqrt = boost::units::sqrt(radicant);
-    Energy neutrino_1_e = (lepton.Energy() * linear_term - sqrt) / lepton_square;
-    Momentum neutrino_1_pz = (lepton_pz_square * linear_term - lepton.Energy() * sqrt) / lepton.Pz() / lepton_square;
+    auto sqrt = boost::units::sqrt(radicant);
+    auto neutrino_1_e = (lepton.Energy() * linear_term - sqrt) / lepton_square;
+    auto neutrino_1_pz = (lepton_pz_square * linear_term - lepton.Energy() * sqrt) / lepton.Pz() / lepton_square;
     Lepton neutrino_1(missing_et.Px(), missing_et.Py(), neutrino_1_pz, neutrino_1_e);
-    DEBUG(neutrino_1);
-    std::vector<Doublet> doublets;
-    doublets.emplace_back(Doublet(lepton, neutrino_1));
-
-    Energy neutrino_2_e = (lepton.Energy() * linear_term + sqrt) / lepton_square;
-    Momentum neutrino_2_pz = (lepton_pz_square * linear_term + lepton.Energy() * sqrt) / lepton.Pz() / lepton_square;
+    auto neutrino_2_e = (lepton.Energy() * linear_term + sqrt) / lepton_square;
+    auto neutrino_2_pz = (lepton_pz_square * linear_term + lepton.Energy() * sqrt) / lepton.Pz() / lepton_square;
     Lepton neutrino_2(missing_et.Px(), missing_et.Py(), neutrino_2_pz, neutrino_2_e);
-    DEBUG(neutrino_2);
-    doublets.emplace_back(Doublet(lepton, neutrino_2));
-
-    return doublets;
+    return {Doublet(lepton, neutrino_1), Doublet(lepton, neutrino_2)};
 }
 
 std::string WLeptonicTagger::Name() const

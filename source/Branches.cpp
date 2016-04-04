@@ -110,12 +110,12 @@ BdtBranch::BdtBranch()
 
 Observables BdtBranch::Variables()
 {
-    return {};
+    return ResultBranch::Variables();
 }
 
 Observables BdtBranch::Spectators()
 {
-    return OBSERVABLE(Bdt);
+    return ResultBranch::Spectators() /*+ OBSERVABLE(Bdt)*/;
 }
 
 ParticleBranch::ParticleBranch()
@@ -129,12 +129,12 @@ ParticleBranch::ParticleBranch()
 
 Observables ParticleBranch::Variables()
 {
-    return ResultBranch::Variables() + OBSERVABLE(Mass, Formula("m") + " [GeV]") + OBSERVABLE(Pt, Formula("p_{T}") + " [GeV]");
+    return BdtBranch::Variables() + OBSERVABLE(Mass, Formula("m") + " [GeV]") + OBSERVABLE(Pt, Formula("p_{T}") + " [GeV]");
 }
 
 Observables ParticleBranch::Spectators()
 {
-    return ResultBranch::Spectators() + OBSERVABLE(Charge, "e") + OBSERVABLE(Rap, "\\eta") + OBSERVABLE(Phi, "\\phi");
+    return BdtBranch::Spectators() + OBSERVABLE(Charge, "e") + OBSERVABLE(Rap, "\\eta") + OBSERVABLE(Phi, "\\phi");
 }
 
 BottomBase::BottomBase()

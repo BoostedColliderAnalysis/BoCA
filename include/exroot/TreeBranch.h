@@ -1,4 +1,5 @@
-#pragma once
+#ifndef TreeBranch_h
+#define TreeBranch_h
 
 /** \class TreeBranch
  *
@@ -13,32 +14,32 @@
  *
  */
 
-#include "TObject.h"
+#include "Rtypes.h"
 
 class TTree;
+class TClonesArray;
 
-namespace exroot
-{
+namespace exroot {
 
 class TreeBranch
 {
 public:
 
-    class MemoryAllocationExeption {};
+  class MemoryAllocationExeption{};
 
-    TreeBranch(const char* name, TClass* cl, TTree* tree = nullptr);
+  TreeBranch(const char *name, TClass *cl, TTree *tree = 0);
+  ~TreeBranch();
 
-    ~TreeBranch();
-
-    TObject* NewEntry();
-
-    void Clear();
+  TObject *NewEntry();
+  void Clear();
 
 private:
 
-    int size_ = 0;
-    int capacity_ = 1;
-    TClonesArray* clones_array_ = nullptr;
+  Int_t fSize, fCapacity;
+  TClonesArray *fData;
 };
 
 }
+
+#endif /* TreeBranch */
+

@@ -13,13 +13,13 @@ std::string Name(JetDetail jet_detail)
     std::string name;
     FlagSwitch(jet_detail, [&](JetDetail jet_detail) {
         switch (jet_detail) {
-        case JetDetail::none : name += "None";
+        case JetDetail::none : name += "None ";
             break;
-        case JetDetail::plain : name += "Plain";
+        case JetDetail::plain : name += "Plain ";
             break;
-        case JetDetail::isolation : name += "Isolation";
+        case JetDetail::isolation : name += "Isolation ";
             break;
-        case JetDetail::structure : name += "Structure";
+        case JetDetail::structure : name += "Structure ";
             break;
             DEFAULT(to_int(jet_detail));
         }

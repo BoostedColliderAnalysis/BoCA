@@ -37,8 +37,8 @@ private:
 
     Reader<TopPartnerHadronicNeutralTagger> top_partner_hadronic_reader_;
     Reader<TopPartnerLeptonicNeutralTagger> top_partner_leptonic_reader_;
-
     Reader<HiggsPairTagger> higgs_pair_reader_;
+
 };
 
 }

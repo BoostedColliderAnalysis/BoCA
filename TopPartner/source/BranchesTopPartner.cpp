@@ -48,6 +48,20 @@ Observables SignatureSingleHadronicBranch::Spectators()
     return SignatureBranch::Spectators() + EventShapesBranch::Spectators();
 }
 
+SignatureEffectiveBranch::SignatureEffectiveBranch()
+{
+}
+
+Observables SignatureEffectiveBranch::Variables()
+{
+    return SignatureBranch::Variables() + EventShapesBranch::Variables();
+}
+
+Observables SignatureEffectiveBranch::Spectators()
+{
+    return SignatureBranch::Spectators() + EventShapesBranch::Spectators();
+}
+
 TruthBranch::TruthBranch()
 {
     TopPt = InitialValue();
