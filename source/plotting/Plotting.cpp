@@ -128,7 +128,7 @@ Result Plotting::BdtDistribution(Phase const& phase, int tree_number, TFile& exp
         tree_reader.ReadEntry(event_number);
         for (auto const & entry : array) {
             double bdt = static_cast<BdtBranch const&>(entry).Bdt;
-            static_cast<BdtBranch&>(*branch.NewEntry()).Bdt = bdt;
+            branch.AddEntry<BdtBranch>().Bdt = bdt;
             bdts.emplace_back(bdt);
         }
         tree_writer.Fill();
@@ -150,7 +150,7 @@ Result Plotting::CutDistribution(Phase const& phase, int tree_number, TFile& exp
         tree_reader.ReadEntry(event_number);
         for (auto const & entry : array) {
             std::vector<bool> passed_vector = static_cast<CutBranch const &>(entry).passed_;
-            static_cast<CutBranch&>(*branch.NewEntry()).passed_ = passed_vector;
+            branch.AddEntry<CutBranch>().passed_ = passed_vector;
             passed_matrix.emplace_back(passed_vector);
         }
         tree_writer.Fill();

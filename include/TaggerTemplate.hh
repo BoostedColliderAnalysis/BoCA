@@ -166,7 +166,7 @@ protected:
         for (auto const & counter : IntegerRange(sum)) {
             FillBranch(multiplets.at(counter));
 //             std::lock_guard<std::mutex> guard(mutex_);
-            static_cast<Branch_&>(*TreeBranch().NewEntry()) = Branch();
+            TreeBranch().AddEntry(Branch());
         }
         return sum;
     }
