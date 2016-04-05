@@ -9,8 +9,6 @@
 namespace boca
 {
 
-bool Exists(std::string const& name);
-
 template<typename Integer>
 boost::integer_range<Integer> IntegerRange(Integer last) {
   return boost::integer_range<Integer>(0, last);

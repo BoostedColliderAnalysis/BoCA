@@ -156,7 +156,7 @@ public:
         Eigen_(Matrix2<Value_> const& matrix) {
             trace_ = matrix.Trace();
             auto radicant = sqr(trace_) - 4 * matrix.Determinant();
-            if (radicant < 0) complex_ = true;
+            complex_ = radicant < 0;
             sqrt_ = sqrt(radicant) / 2;
             matrix_ = &matrix;
         }

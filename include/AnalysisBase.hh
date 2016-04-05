@@ -73,11 +73,11 @@ protected:
 
     virtual void SetFiles(Tag tag, Stage) = 0;
 
-    virtual int PassPreCut(Event const&, Tag tag) const = 0;
-
     virtual boca::Tagger const& Tagger() const = 0;
 
     virtual std::string AnalysisName() const = 0;
+
+    virtual int PassPreCut(Event const&, Tag tag) const;
 
     virtual long TrainNumberMax() const;
 

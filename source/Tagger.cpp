@@ -8,12 +8,12 @@
 
 #include "ClusterSequence.hh"
 
-#include "exroot/TreeWriter.h"
+#include "io/TreeWriter.hh"
 #include "Tagger.hh"
 #include "AnalysisBase.hh"
 #include "Filter.hh"
 #include "DetectorGeometry.hh"
-#include "ReaderBase.hh"
+#include "Reader.hh"
 // #define INFORMATION
 #include "generic/DEBUG.hh"
 
@@ -52,14 +52,14 @@ std::string Tagger::MvaName() const
 
 double Tagger::Bdt(TMVA::Reader const& reader) const
 {
-    INFO0;
+    INFO(Name());
 //     std::lock_guard<std::mutex> guard(ReaderBase::mutex_);
     return const_cast<TMVA::Reader&>(reader).EvaluateMVA(MethodName());  // const cast is necessary because TMVA is not using const getters
 }
 
 bool Tagger::Cut(TMVA::Reader const& reader, double eff) const
 {
-    INFO0;
+    INFO(Name());
 //     std::lock_guard<std::mutex> guard(ReaderBase::mutex_);
     return const_cast<TMVA::Reader&>(reader).EvaluateMVA(MethodName(), eff);  // const cast is necessary because TMVA is not using const getters
 }
@@ -325,10 +325,10 @@ std::string Tagger::BackgroundName(std::string const& name) const
     return "Not" + name;
     return name + "BG";
 }
-void Tagger::NewBranch(exroot::TreeWriter& tree_writer, Stage stage)
+void Tagger::NewBranch(TreeWriter& tree_writer, Stage stage)
 {
     INFO(Name(stage));
-    tree_branch_ = tree_writer.NewBranch(Name(stage).c_str(), &Class());
+    tree_branch_ = &tree_writer.NewBranch(Name(stage), Class());
 }
 
 void Tagger::AddVariable(Observable& observable)
@@ -350,7 +350,7 @@ void Tagger::ClearObservables()
     spectators_.clear();
 }
 
-exroot::TreeBranch& Tagger::TreeBranch() const
+TreeBranch& Tagger::TreeBranch() const
 {
     INFO0;
     return *tree_branch_;

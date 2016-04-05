@@ -1,8 +1,8 @@
-#include "HiggsPairTagger.hh"
+#include "generic/Exception.hh"
 #include "plotting/Font.hh"
+#include "HiggsPairTagger.hh"
 // #define INFORMATION
 #include "generic/DEBUG.hh"
-#include "generic/Exception.hh"
 
 namespace boca
 {

@@ -32,12 +32,9 @@
 
 #include <map>
 #include <set>
+#include "io/TreeBranch.hh"
 
 class TObjArray;
-
-namespace exroot {
-class TreeBranch;
-}
 
 // namespace delphes{
 
@@ -65,10 +62,10 @@ public:
 
 private:
 
-  exroot::TreeBranch *fObjArrays; //!
+  ExRootTreeBranch *fObjArrays; //!
 
 #if !defined(__CINT__) && !defined(__CLING__)
-  std::map< const TClass*, exroot::TreeBranch* > fBranches; //!
+  std::map< const TClass*, ExRootTreeBranch* > fBranches; //!
 #endif
 
   std::set< TObject* > fPool; //!

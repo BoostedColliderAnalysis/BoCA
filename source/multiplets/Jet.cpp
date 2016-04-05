@@ -2,7 +2,7 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 
-#include "exroot/ExRootAnalysis.hh"
+#include "exroot/Classes.hh"
 #include "multiplets/Jet.hh"
 #include "generic/Vector.hh"
 #include "generic/DEBUG.hh"

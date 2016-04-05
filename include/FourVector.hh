@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include "TreeReader.hh"
+#include "io/TreeReader.hh"
 
 namespace boca
 {

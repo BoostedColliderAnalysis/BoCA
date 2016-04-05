@@ -1,7 +1,8 @@
 #pragma once
 
 #include "TopPartnerPairTagger.hh"
-#include "MultipletEvent.hh"
+#include "GlobalTagger.hh"
+#include "EventMultiplet.hh"
 #include "AnalysisBase.hh"
 
 namespace boca
@@ -15,14 +16,14 @@ namespace naturalness
  * @brief Prepares multivariant analysis
  *
  */
-class EventPairTagger : public TaggerTemplate<MultipletEvent<Decuplet55>,EventBranch>
+class EventPairTagger : public TaggerTemplate<EventMultiplet<Decuplet55>,NewEventBranch4>
 {
 
 public:
 
     int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const override;
 
-    std::vector<MultipletEvent<Decuplet55>> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
+    std::vector<EventMultiplet<Decuplet55>> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
 
     std::string Name() const override;
 
@@ -30,9 +31,11 @@ public:
 
 private:
 
+    std::vector<EventMultiplet<Decuplet55>> Events(Event const& event, std::function<EventMultiplet<Decuplet55>(EventMultiplet<Decuplet55> &)> const& function) const;
+
     Reader<TopPartnerPairTagger> signature_reader_;
 
-    Reader<standardmodel::BottomTagger> bottom_reader_;
+    Reader<GlobalTagger> global_reader_;
 
 };
 

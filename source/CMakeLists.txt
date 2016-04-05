@@ -3,6 +3,7 @@
 #
 add_subdirectory(external)
 add_subdirectory(generic)
+add_subdirectory(io)
 add_subdirectory(math)
 add_subdirectory(physics)
 add_subdirectory(exroot)
@@ -51,9 +52,7 @@ set(tagger_sources
 GlobalObservables.cpp
 GlobalTagger.cpp
 File.cpp
-TreeReader.cpp
 Tagger.cpp
-ReaderBase.cpp
 AnalysisBase.cpp
 Files.cpp
 Trainer.cpp

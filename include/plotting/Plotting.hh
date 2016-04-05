@@ -128,8 +128,6 @@ private:
 
     void PlotVariables(Plots const& plots) const;
 
-    std::unique_ptr< TFile > File(Phase const& phase) const;
-
     boca::Tagger const& Tagger() const;
 
     boca::Tagger& tagger_;

@@ -59,7 +59,7 @@ public:
         return *this;
     }
     GradedContainer operator+(GradedContainer const& graded_vector) {
-      return GradedContainer(*this) += graded_vector;
+      return *this += graded_vector;
     }
     bool operator==(GradedContainer const& graded_vector) const {
         return container_ == graded_vector.container_ && scalar_ == graded_vector.scalar_;

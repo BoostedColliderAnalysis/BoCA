@@ -546,10 +546,10 @@ private:
  * @brief Event Shape Branch
  *
  */
-class EventShapesBranch
+class EventShapesBase
 {
 public:
-  EventShapesBranch();
+  EventShapesBase();
 
   float Thrust;
   float ThrustMajor;
@@ -585,7 +585,7 @@ public:
   virtual Observables Spectators();
 
 private:
-  ClassDef(EventShapesBranch, 1)
+  ClassDef(EventShapesBase, 1)
   float InValue();
 };
 

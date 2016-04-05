@@ -8,8 +8,8 @@
 
 #include "TLorentzVector.h"
 
-#include "exroot/ExRootAnalysis.hh"
-#include "delphes/Delphes.hh"
+#include "exroot/Classes.hh"
+#include "delphes/Classes.hh"
 
 #include "math/LorentzVector.hh"
 #include "physics/Particles.hh"

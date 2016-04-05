@@ -3,10 +3,9 @@
  */
 #pragma once
 
-#include "AnalysisStandardModel.hh"
 #include "multiplets/Sort.hh"
-#include "multiplets/Particle.hh"
 #include "multiplets/Particles.hh"
+#include "AnalysisStandardModel.hh"
 #include "Event.hh"
 
 namespace boca
@@ -47,7 +46,7 @@ public:
 private:
 
     std::string AnalysisName() const override {
-        return  Name(this->Collider()) + "-" + boca::Name(this->LowerPtCut()) + "-all-new";
+        return  Name(this->Collider()) + "-" + boca::Name(this->LowerPtCut()) + "-ca-test";
 //       return  Name(production_channel()) + "_" + Name(this->Collider()) + "_" + boca::Name(this->LowerPtCut()) + "-large-new";
     }
 

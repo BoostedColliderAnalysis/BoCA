@@ -38,9 +38,7 @@ template <class Multiplet>
 std::vector<Multiplet> SortedByMassTo(std::vector<Multiplet> multiplets, Id id)
 {
     Mass mass = MassOf(id);
-    return boost::range::sort(multiplets, [mass](Multiplet const & multiplet_1, Multiplet const & multiplet_2) {
-        return boost::units::abs(multiplet_1.Mass() - mass) < boost::units::abs(multiplet_2.Mass() - mass);
-    });
+    return SortedByMassTo(multiplets, mass);
 }
 
 template <class Multiplet>
@@ -65,6 +63,14 @@ std::vector<Multiplet> SortedByRap(std::vector<Multiplet> multiplets)
     return boost::range::sort(multiplets, [](Multiplet const & multiplet_1, Multiplet const & multiplet_2) {
         return boost::units::abs(multiplet_1.Rap()) > boost::units::abs(multiplet_2.Rap());
     });
+}
+
+template <class Multiplet>
+std::vector<Multiplet> SortedByPhi(std::vector<Multiplet> multiplets)
+{
+  return boost::range::sort(multiplets, [](Multiplet const & multiplet_1, Multiplet const & multiplet_2) {
+    return multiplet_1.Phi() > multiplet_2.Phi();
+  });
 }
 
 /**

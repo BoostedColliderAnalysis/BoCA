@@ -11,7 +11,7 @@
 #include "math/Math.hh"
 #include "multiplets/JetInfo.hh"
 #include "multiplets/Singlet.hh"
-#include "delphes/Delphes.hh"
+#include "delphes/Classes.hh"
 
 // #define DEBUGGING
 #include "generic/DEBUG.hh"

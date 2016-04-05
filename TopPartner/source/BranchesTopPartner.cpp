@@ -13,12 +13,12 @@ namespace naturalness
 
 Observables VetoTopPartnerBranch::Variables()
 {
-    return MultiBranch::Variables() + EventShapesBranch::Variables();
+    return MultiBranch::Variables() + EventShapesBase::Variables();
 }
 
 Observables VetoTopPartnerBranch::Spectators()
 {
-    return MultiBranch::Spectators() + EventShapesBranch::Spectators();
+    return MultiBranch::Spectators() + EventShapesBase::Spectators();
 }
 
 SignatureSingleBranch::SignatureSingleBranch()
@@ -40,12 +40,26 @@ SignatureSingleHadronicBranch::SignatureSingleHadronicBranch()
 
 Observables SignatureSingleHadronicBranch::Variables()
 {
-    return SignatureBranch::Variables() + OBSERVABLE(VetoBdt, "BDT_{V}") + OBSERVABLE(TopPt, "p_{T}(t)") + OBSERVABLE(HiggsPt, "p_{T}(h)") + EventShapesBranch::Variables();
+    return SignatureBranch::Variables() + OBSERVABLE(VetoBdt, "BDT_{V}") + OBSERVABLE(TopPt, "p_{T}(t)") + OBSERVABLE(HiggsPt, "p_{T}(h)") + EventShapesBase::Variables();
 }
 
 Observables SignatureSingleHadronicBranch::Spectators()
 {
-    return SignatureBranch::Spectators() + EventShapesBranch::Spectators();
+    return SignatureBranch::Spectators() + EventShapesBase::Spectators();
+}
+
+SignatureEffectiveBranch::SignatureEffectiveBranch()
+{
+}
+
+Observables SignatureEffectiveBranch::Variables()
+{
+    return SignatureBranch::Variables() + EventShapesBase::Variables();
+}
+
+Observables SignatureEffectiveBranch::Spectators()
+{
+    return SignatureBranch::Spectators() + EventShapesBase::Spectators();
 }
 
 TruthBranch::TruthBranch()
@@ -108,6 +122,20 @@ Observables NewEventBranch3::Variables()
 Observables NewEventBranch3::Spectators()
 {
     return BdtBranch::Spectators() + GlobalBase::Spectators();
+}
+
+NewEventBranch4::NewEventBranch4(){
+  SignatureBdt = InitialValue();
+}
+
+Observables NewEventBranch4::Variables()
+{
+  return BdtBranch::Variables() + GlobalBase::Variables() + EventShapesBase::Variables() + OBSERVABLE(SignatureBdt, "BDT_{Signature}");
+}
+
+Observables NewEventBranch4::Spectators()
+{
+  return BdtBranch::Spectators() + GlobalBase::Spectators() + EventShapesBase::Spectators();
 }
 
 CompleteBranch::CompleteBranch()

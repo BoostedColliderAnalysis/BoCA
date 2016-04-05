@@ -217,7 +217,7 @@ template<typename Multiplet_1_, typename Multiplet_2_>
 boca::Singlet JoinConstituents(Multiplet_1_ const& multiplet_1, Multiplet_2_ const& multiplet_2)
 {
     auto constituents = SortedByPt(Combine(multiplet_1.Constituents(), multiplet_2.Constituents()));
-    boost::erase(constituents, boost::unique<boost::return_next_end>(constituents));
+    boost::erase(constituents, boost::unique<boost::return_found_end>(constituents));
     return Join(constituents);
 }
 
