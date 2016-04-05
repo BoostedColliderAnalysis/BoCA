@@ -53,7 +53,6 @@ GlobalObservables.cpp
 GlobalTagger.cpp
 File.cpp
 Tagger.cpp
-ReaderBase.cpp
 AnalysisBase.cpp
 Files.cpp
 Trainer.cpp

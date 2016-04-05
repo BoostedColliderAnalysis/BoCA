@@ -12,6 +12,7 @@
 #include "generic/Types.hh"
 
 #include "io/TreeWriter.hh"
+#include "io/TreeReader.hh"
 
 #include "plotting/Plotting.hh"
 #include "plotting/LatexFile.hh"
@@ -22,9 +23,8 @@
 #include "plotting/Profile.hh"
 #include "plotting/Plots.hh"
 #include "plotting/Font.hh"
-#include "io/TreeReader.hh"
 
-#define INFORMATION
+// #define DETAILED
 #include "generic/DEBUG.hh"
 
 namespace boca
@@ -149,7 +149,7 @@ Result Plotting::CutDistribution(Phase const& phase, int tree_number, TFile& exp
     for (auto const & event_number : IntegerRange(tree_reader.GetEntries())) {
         tree_reader.ReadEntry(event_number);
         for (auto const & entry : array) {
-            std::vector<bool> passed_vector = static_cast<CutBranch const &>(entry).passed_;
+            auto passed_vector = static_cast<CutBranch const &>(entry).passed_;
             branch.AddEntry<CutBranch>().passed_ = passed_vector;
             passed_matrix.emplace_back(passed_vector);
         }
@@ -161,22 +161,20 @@ Result Plotting::CutDistribution(Phase const& phase, int tree_number, TFile& exp
 
 std::pair<InfoBranch, int> Plotting::InfoBranch(Phase const& phase, int tree_number) const
 {
-  INFO(Name(phase.Tag()), tree_number);
-  TreeReader tree_reader(Tagger().FileName(phase),Tagger().TreeNames(phase).at(tree_number), Source::tagger);
+    INFO(Name(phase.Tag()), tree_number);
+    TreeReader tree_reader(Tagger().FileName(phase),Tagger().TreeNames(phase).at(tree_number), Source::tagger);
     INFO(Tagger().WeightBranchName());
-    auto & array = tree_reader.Array<boca::InfoBranch>(Tagger().WeightBranchName());
-    ERROR(tree_reader.GetEntries());
     if (tree_reader.GetEntries() == 0) {
-      ERROR("no object for casting");
+      ERROR("tree reader empty, no object for casting");
       return std::make_pair(boca::InfoBranch(), 0);
     }
-    auto last = tree_reader.ReadEntry(tree_reader.GetEntries() - 1);
-    ERROR(array.GetSize());
+    auto & array = tree_reader.Array<boca::InfoBranch>(Tagger().WeightBranchName());
+    tree_reader.ReadEntry(tree_reader.GetEntries() - 1);
     if (array.GetSize() == 0) {
-        ERROR("no object for casting");
+        ERROR("array empty, no object for casting");
         return std::make_pair(boca::InfoBranch(), 0);
     }
-    return std::make_pair(array.At(array.GetSize()-1), tree_reader.GetEntries());
+    return std::make_pair(array.At(array.GetSize() - 1), tree_reader.GetEntries());
 }
 
 std::string Plotting::PlotHistograms(Results const& results) const
@@ -651,7 +649,7 @@ Plot Plotting::ReadTree(TTree& tree, std::string const& leaf_1_name, std::string
     SetBranch(tree, branch_size, branch_name + "_size");
 
     //FIXME remove this magic number
-    std::size_t max_value = 200;
+    std::size_t max_value = 10;
     std::vector<double> leaf_values_1(max_value);
     SetBranch(tree, leaf_values_1, branch_name + "." + leaf_1_name);
 
@@ -670,21 +668,6 @@ Plot Plotting::ReadTree(TTree& tree, std::string const& leaf_1_name, std::string
     }
     return plot;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

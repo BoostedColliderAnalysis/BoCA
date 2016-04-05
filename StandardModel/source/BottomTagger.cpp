@@ -3,6 +3,7 @@
  */
 #include "BottomTagger.hh"
 
+#include <boost/range/algorithm/unique.hpp>
 #include "generic/Exception.hh"
 #include "multiplets/Particles.hh"
 #include "PreCuts.hh"
@@ -36,8 +37,20 @@ int BottomTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) co
 std::vector<Particle> BottomTagger::Particles(Event const& event) const
 {
     INFO0;
-    auto particles = RemoveIfSoft(CopyIfParticle(event.Partons().Particles(), Id::bottom), DetectorGeometry::JetMinPt());
-    for(auto const& particle : particles) DEBUG(particle.Mass(), particle.Pt(), particle.Rap(), particle.Phi());
+    auto particles = SortedByPhi(RemoveIfSoft(CopyIfParticle(event.Partons().Particles(), Id::bottom), DetectorGeometry::JetMinPt()));
+
+//     ERROR(particles.size());
+//     for(auto const& particle : particles) ERROR(particle.Mass(), particle.Pt(), particle.Rap(), particle.Phi());
+
+
+    boost::erase(particles, boost::unique<boost::return_found_end>(particles,[](Particle const& particle_1, Particle const& particle_2){
+      return particle_1.DeltaRTo(particle_2) < DetectorGeometry::IsolationConeSize();
+    }));
+//     ERROR(particles.size());
+//     for(auto const& particle : particles) ERROR(particle.Mass(), particle.Pt(), particle.Rap(), particle.Phi());
+
+
+
     return particles;
 }
 

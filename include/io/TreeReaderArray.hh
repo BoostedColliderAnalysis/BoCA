@@ -1,5 +1,11 @@
 #pragma once
+
+#include <string>
 #include "TTreeReaderArray.h"
+
+class TTreeReader;
+class TClass;
+class TObject;
 
 namespace boca
 {

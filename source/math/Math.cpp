@@ -31,7 +31,7 @@ double CeilToDigits(double value, int digits) {
     return std::ceil(value * factor) / factor;
 }
 
-double RoundERROR(double value){
+double RoundError(double value){
     return RoundToDigits(value, 2);
 }
 
@@ -42,7 +42,7 @@ double RoundToDigits(double value, int digits) {
     return std::round(value * factor) / factor;
 }
 
-double RoundToERROR(double value, double error) {
+double RoundToError(double value, double error) {
     INFO0;
     if (value == 0 || value != value) return 0;
     double factor = Factor(error, 2);

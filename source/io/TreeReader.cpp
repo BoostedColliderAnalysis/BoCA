@@ -84,10 +84,7 @@ void TreeReader::Initialize()
 long TreeReader::GetEntries() const
 {
     INFO0;
-    auto entries = tree_reader_.GetEntries(true);
-    INFO(entries);
-    return entries;
-    return 100;
+    return tree_reader_.GetEntries(true);
 }
 
 bool TreeReader::ReadEntry(long number)

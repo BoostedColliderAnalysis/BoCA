@@ -353,6 +353,10 @@ long int AnalysisBase::EventNumberMax(Stage stage) const
         DEFAULT(Name(stage), 0);
     }
 }
+int AnalysisBase::PassPreCut(const Event&, Tag tag) const
+{
+    return 1;
+}
 
 }
 

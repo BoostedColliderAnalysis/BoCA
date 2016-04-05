@@ -12,11 +12,13 @@ int main()
 {
     Run<boca::standardmodel::BottomTagger>();
     Run<boca::standardmodel::WHadronicTagger>();
+    Run<boca::standardmodel::WLeptonicTagger>();
     Run<boca::standardmodel::BosonTagger>();
     Run<boca::standardmodel::TopHadronicTagger>();
     Run<boca::standardmodel::TopLeptonicTagger>();
     Run<boca::naturalness::TopPartnerHadronicNeutralTagger>();
     Run<boca::naturalness::TopPartnerLeptonicNeutralTagger>();
-    Run<boca::naturalness::TopPartnerPairTagger>(boca::Output::efficiency | boca::Output::plot);
-    Run<boca::naturalness::EventPairTagger>(boca::Output::efficiency | boca::Output::plot);
+    Run<boca::naturalness::TopPartnerPairTagger>(boca::Output::efficiency);
+    Run<boca::GlobalTagger>(boca::Output::efficiency);
+    Run<boca::naturalness::EventPairTagger>(boca::Output::efficiency);
 }

@@ -80,7 +80,6 @@ long Trainer::AddTree(std::string const& tree_name, Tag tag)
     INFO(tree_name, Name(tag));
     double weight = Weight(tree_name, tag);
     TTree& tree = Tree(tree_name, tag);
-//     TreeReader tree_reader(Tagger().FileName(Stage::trainer, tag), tree_name, Source::tagger);
     NOTE(weight);
     switch (tag) {
     case Tag::signal : Factory().AddSignalTree(&tree, weight);

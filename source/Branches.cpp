@@ -365,12 +365,12 @@ Observables EventBranch::Variables()
     return MultiBranch::Variables() + OBSERVABLE(LeptonNumber, "#l") + OBSERVABLE(BottomNumber, "#b") + OBSERVABLE(JetNumber, "#j") + OBSERVABLE(MissingEt, "E_{T}^{miss}") + OBSERVABLE(ScalarHt, "H_{T}^{scalar}") + OBSERVABLE(LeptonHt, "H_{T}^{l}") + OBSERVABLE(JetMass, "m_{j}") + OBSERVABLE(JetPt, "p_{T}^{j}") + OBSERVABLE(JetHt, "H_{T}^{j}") + OBSERVABLE(JetRap, "\\eta_{j}") + OBSERVABLE(JetPhi, "\\phi_{j}");
 }
 
-float EventShapesBranch::InValue()
+float EventShapesBase::InValue()
 {
     return BaseBranch::InitialValue();
 }
 
-EventShapesBranch::EventShapesBranch()
+EventShapesBase::EventShapesBase()
 {
     Thrust = InValue();
     ThrustMajor = InValue();
@@ -387,12 +387,12 @@ EventShapesBranch::EventShapesBranch()
     BMin = InValue();
 }
 
-Observables EventShapesBranch::Variables()
+Observables EventShapesBase::Variables()
 {
     return OBSERVABLE(Thrust, "T") + OBSERVABLE(ThrustMajor, "T_{maj}") + OBSERVABLE(ThrustMinor, "T_{min}") + OBSERVABLE(Oblateness, "O") + OBSERVABLE(CParameter, "C") + OBSERVABLE(DParameter, "D") + OBSERVABLE(Sphericity, "S") + OBSERVABLE(Aplanarity, "#slash P") + OBSERVABLE(Planarity, "P") + OBSERVABLE(MHigh2, "M_{max}") + OBSERVABLE(MLow2, "M_{min}") + OBSERVABLE(BMax, "B_{max}") + OBSERVABLE(BMin, "B_{min}");
 }
 
-Observables EventShapesBranch::Spectators()
+Observables EventShapesBase::Spectators()
 {
     return {};
 }
