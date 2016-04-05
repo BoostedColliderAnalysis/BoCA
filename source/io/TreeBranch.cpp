@@ -1,5 +1,5 @@
 
-#include "exroot/TreeBranch.hh"
+#include "io/TreeBranch.hh"
 #include "generic/DEBUG.hh"
 
 #include "TTree.h"
@@ -8,8 +8,7 @@ namespace boca
 {
 
 TreeBranch::TreeBranch(char const* name, TClass* cl, TTree* tree) :
-    capacity_(1),
-    clones_array_(cl, capacity_)
+    clones_array_(cl, size_)
 {
     INFO(name);
     SetClonesArray(name);
@@ -17,8 +16,7 @@ TreeBranch::TreeBranch(char const* name, TClass* cl, TTree* tree) :
 }
 
 TreeBranch::TreeBranch(std::string const& name, TClass& cl, TTree& tree) :
-    capacity_(1),
-    clones_array_(&cl, capacity_)
+    clones_array_(&cl, size_)
 {
     INFO0;
     SetClonesArray(name);
@@ -26,8 +24,7 @@ TreeBranch::TreeBranch(std::string const& name, TClass& cl, TTree& tree) :
 }
 
 TreeBranch::TreeBranch(std::string const& name, TClass& cl) :
-    capacity_(1),
-    clones_array_(&cl, capacity_)
+    clones_array_(&cl, size_)
 {
     INFO(name);
     SetClonesArray(name);
@@ -37,7 +34,7 @@ void TreeBranch::SetClonesArray(std::string const& name)
 {
     INFO(name);
     clones_array_.SetName(name.c_str());
-    clones_array_.ExpandCreateFast(capacity_);
+    clones_array_.ExpandCreateFast(size_);
     clones_array_.Clear();
 }
 
@@ -45,32 +42,32 @@ void TreeBranch::SetTree(TTree& tree, std::string const& name)
 {
     INFO0;
     tree.Branch(name.c_str(), &clones_array_, 64000);
-    tree.Branch((name + "_size").c_str(), &size_, (name + "_size/I").c_str());
+    tree.Branch((name + "_size").c_str(), &position_, (name + "_size/I").c_str());
 }
 
 TObject* TreeBranch::NewEntry()
 {
     INFO(clones_array_.GetName());
     CheckCapacity();
-    auto * object = clones_array_.AddrAt(size_++);
+    auto * object = clones_array_.AddrAt(position_++);
     CHECK(object, "not object to write to");
     return object;
 }
 
 void TreeBranch::CheckCapacity()
 {
-    INFO(capacity_, size_);
-    if (capacity_ > size_) return;
-    capacity_ *= 4;
-    clones_array_.ExpandCreateFast(capacity_);
-    clones_array_.Clear();
+    INFO(size_, position_);
+    if (size_ > position_) return;
+    size_ *= 4;
     clones_array_.ExpandCreateFast(size_);
+    clones_array_.Clear();
+    clones_array_.ExpandCreateFast(position_);
 }
 
 void TreeBranch::Clear()
 {
     INFO0;
-    size_ = 0;
+    position_ = 0;
     clones_array_.Clear();
 }
 

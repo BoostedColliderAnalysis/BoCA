@@ -1,6 +1,6 @@
 #include "exroot/Partons.hh"
 
-#include "exroot/ExRootAnalysis.hh"
+#include "exroot/Classes.hh"
 #include "generic/Types.hh"
 #include "generic/DEBUG.hh"
 

@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "delphes/Delphes.hh"
+#include "delphes/Classes.hh"
 #include "delphes/Partons.hh"
 
 #include "physics/Particles.hh"

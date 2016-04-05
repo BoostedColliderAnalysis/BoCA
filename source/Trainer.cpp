@@ -12,7 +12,8 @@
 
 #include "generic/Options.hh"
 #include "generic/Types.hh"
-#include "TreeReader.hh"
+#include "io/Io.hh"
+#include "io/TreeReader.hh"
 #include "Trainer.hh"
 #include "Branches.hh"
 #include "Tagger.hh"

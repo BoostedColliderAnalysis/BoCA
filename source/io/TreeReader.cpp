@@ -1,9 +1,9 @@
 
-#include "delphes/Delphes.hh"
-#include "exroot/ExRootAnalysis.hh"
+#include "delphes/Classes.hh"
+#include "exroot/Classes.hh"
 
 #include "generic/Types.hh"
-#include "TreeReader.hh"
+#include "io/TreeReader.hh"
 #include "Branches.hh"
 // #define INFORMATION
 #include "generic/DEBUG.hh"

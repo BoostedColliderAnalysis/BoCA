@@ -5,7 +5,7 @@
 
 #include "Names.hh"
 #include "physics/Units.hh"
-#include "TreeReader.hh"
+#include "io/TreeReader.hh"
 
 namespace boca
 {

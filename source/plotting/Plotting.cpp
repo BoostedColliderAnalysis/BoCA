@@ -11,7 +11,7 @@
 #include "generic/Vector.hh"
 #include "generic/Types.hh"
 
-#include "exroot/TreeWriter.hh"
+#include "io/TreeWriter.hh"
 
 #include "plotting/Plotting.hh"
 #include "plotting/LatexFile.hh"
@@ -22,9 +22,9 @@
 #include "plotting/Profile.hh"
 #include "plotting/Plots.hh"
 #include "plotting/Font.hh"
-#include "TreeReader.hh"
+#include "io/TreeReader.hh"
 
-// #define INFORMATION
+#define INFORMATION
 #include "generic/DEBUG.hh"
 
 namespace boca

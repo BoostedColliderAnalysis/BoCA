@@ -7,7 +7,7 @@
 #include "TChain.h"
 #include "TTreeReader.h"
 
-#include "TreeReaderArray.hh"
+#include "io/TreeReaderArray.hh"
 
 namespace boca
 {

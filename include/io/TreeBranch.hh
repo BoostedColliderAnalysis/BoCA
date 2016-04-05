@@ -40,9 +40,9 @@ private:
 
     void CheckCapacity();
 
-    int size_ = 0;
+    int position_ = 0;
 
-    int capacity_ = 1;
+    int size_ = 1;
 
     TClonesArray clones_array_;
 

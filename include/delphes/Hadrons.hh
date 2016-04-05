@@ -4,7 +4,7 @@
 #pragma once
 
 #include "../Hadrons.hh"
-#include "DelphesForward.hh"
+#include "delphes/Forward.hh"
 #include "Constituent.hh"
 
 namespace boca

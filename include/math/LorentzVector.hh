@@ -11,8 +11,8 @@
 
 #pragma once
 
-#include "delphes/DelphesForward.hh"
-#include "exroot/ExRootAnalysisForward.hh"
+#include "delphes/Forward.hh"
+#include "exroot/Forward.hh"
 
 #include "LorentzVectorBase.hh"
 

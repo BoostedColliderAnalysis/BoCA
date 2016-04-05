@@ -1,7 +1,7 @@
 #include "TROOT.h"
 #include "TFile.h"
 
-#include "exroot/TreeWriter.hh"
+#include "io/TreeWriter.hh"
 #include "generic/DEBUG.hh"
 
 namespace boca {

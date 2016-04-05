@@ -2,7 +2,7 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "delphes/Leptons.hh"
-#include "delphes/Delphes.hh"
+#include "delphes/Classes.hh"
 #include "generic/Types.hh"
 #include "generic/DEBUG.hh"
 

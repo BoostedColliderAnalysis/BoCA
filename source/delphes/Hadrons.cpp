@@ -4,7 +4,7 @@
 
 #include<boost/optional.hpp>
 
-#include "delphes/Delphes.hh"
+#include "delphes/Classes.hh"
 #include "delphes/Hadrons.hh"
 
 #include "ClusterSequence.hh"
