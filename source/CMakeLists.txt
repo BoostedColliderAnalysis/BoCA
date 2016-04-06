@@ -54,7 +54,6 @@ GlobalTagger.cpp
 File.cpp
 Tagger.cpp
 AnalysisBase.cpp
-Files.cpp
 Trainer.cpp
 )
 create_library(Tagger tagger_sources)

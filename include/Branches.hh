@@ -21,7 +21,6 @@ class File;
 class BaseBranch : public TObject
 {
 public:
-//     virtual ~BaseBranch();
     static float InitialValue();
 protected:
 private:

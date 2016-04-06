@@ -39,7 +39,7 @@ void Graphs::AddGraph(std::vector<double> const& xs, std::vector<double> const& 
     SetLine(graph, graphs_.size());
     graph.SetTitle(name.c_str());
     graphs_.emplace_back(graph);
-    datas_.emplace_back(std::make_pair(xs, ys));
+    datas_.emplace_back(xs, ys);
 }
 
 void Graphs::SetLegend(boca::Orientation orientation, std::string const& title)
@@ -133,7 +133,7 @@ void Graphs::AddLine(double x_value, std::string const& title)
     Range<double> y = RangeY();
     TLine line(x_value, y.Min(), x_value, y.Max());
     SetLine(line, graphs_.size() + lines_.size());
-    lines_.emplace_back(std::make_pair(line, title));
+    lines_.emplace_back(line, title);
 }
 
 }

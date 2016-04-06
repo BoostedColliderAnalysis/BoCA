@@ -3,7 +3,7 @@
 #
 add_include_path(../../include/)
 set(plot_sources
-Plotting.cpp
+PlottingBase.cpp
 Result.cpp
 Results.cpp
 Plot.cpp

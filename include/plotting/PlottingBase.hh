@@ -4,6 +4,7 @@
 #pragma once
 
 #include "Tagger.hh"
+#include "Observables.hh"
 #include "physics/Rectangle.hh"
 
 class TFile;
@@ -23,7 +24,7 @@ class InfoBranch;
  * @brief Presents result of multivariant analysis
  *
  */
-class Plotting
+class PlottingBase
 {
 
 public:
@@ -32,7 +33,7 @@ public:
      * @brief Constructor
      *
      */
-    Plotting(boca::Tagger& tagger);
+//     PlottingBase(boca::Tagger& tagger);
 
     void TaggingEfficiency() const;
 
@@ -128,9 +129,15 @@ private:
 
     void PlotVariables(Plots const& plots) const;
 
-    boca::Tagger const& Tagger() const;
+    virtual boca::Tagger const& Tagger() const = 0;
+    virtual boca::Tagger & Tagger() = 0;
 
-    boca::Tagger& tagger_;
+    template<typename Branch_>
+    Branch_ ConstCast(Branch_ const& branch) const{
+      return const_cast<Branch_&>(branch);
+    }
+
+//     boca::Tagger& tagger_;
 
 };
 
