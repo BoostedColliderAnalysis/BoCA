@@ -5,7 +5,7 @@
 namespace boca
 {
 
-int EventTagger::Train(boca::Event const& event, PreCuts const& , Tag tag) const
+int EventTagger::Train(boca::Event const& event, PreCuts const& , Tag tag)
 {
     INFO0;
     EventMultiplet<Tagger_> event_multiplet(signature_reader.Multiplets(), global_reader.Multiplets());
@@ -13,7 +13,7 @@ int EventTagger::Train(boca::Event const& event, PreCuts const& , Tag tag) const
     return SaveEntries( {event_multiplet});
 }
 
-std::vector<GlobalObservables> EventTagger::Multiplets(Event const& event, PreCuts const& , TMVA::Reader const& reader) const
+std::vector<GlobalObservables> EventTagger::Multiplets(Event const& event, PreCuts const& , TMVA::Reader const& reader)
 {
     INFO0;
     EventMultiplet<Tagger_> event_multiplet(signature_reader.Multiplets(), global_reader.Multiplets());

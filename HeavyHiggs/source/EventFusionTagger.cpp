@@ -9,7 +9,7 @@ namespace boca
 namespace heavyhiggs
 {
 
-int EventFusionTagger::Train(Event const& event, PreCuts const& , Tag tag) const
+int EventFusionTagger::Train(Event const& event, PreCuts const& , Tag tag)
 {
     INFO0;
     std::vector<Jet> jets = bottom_reader_.Jets(event);
@@ -41,7 +41,7 @@ int EventFusionTagger::Train(Event const& event, PreCuts const& , Tag tag) const
     return SaveEntries(sextet_events);
 }
 
-std::vector<MultipletEvent<Sextet>> EventFusionTagger::Multiplets(Event const& event, PreCuts const& , TMVA::Reader const& reader) const
+std::vector<MultipletEvent<Sextet>> EventFusionTagger::Multiplets(Event const& event, PreCuts const& , TMVA::Reader const& reader)
 {
     INFO0;
     std::vector<Sextet> sextets = heavy_higgs_semi_reader_.Multiplets(event);

@@ -5,7 +5,7 @@ namespace boca {
 
 namespace heavyhiggs {
 
-int ChargedHiggsLeptonicTagger::Train(Event const& event, PreCuts const&, const Tag) const
+int ChargedHiggsLeptonicTagger::Train(Event const& event, PreCuts const&, const Tag)
 {
     INFO0;
    std::vector<Jet> jets = bottom_reader_.Jets(event);
@@ -39,7 +39,7 @@ int ChargedHiggsLeptonicTagger::Train(Event const& event, PreCuts const&, const 
     return 1;
 }
 
-std::vector<Triplet>  ChargedHiggsLeptonicTagger::Multiplets(Event const&, PreCuts const& , TMVA::Reader const&) const
+std::vector<Triplet>  ChargedHiggsLeptonicTagger::Multiplets(Event const&, PreCuts const& , TMVA::Reader const&)
 {
     INFO0;
 //    std::vector<Jet> jets = bottom_reader_.Jets(event);

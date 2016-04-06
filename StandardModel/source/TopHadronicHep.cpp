@@ -29,7 +29,7 @@ TopHadronicHep::TopHadronicHep()
     top_mass_window_ = MassOf(Id::top);
 }
 
-int TopHadronicHep::Train(const Event& event, const PreCuts& pre_cuts, Tag tag) const
+int TopHadronicHep::Train(const Event& event, const PreCuts& pre_cuts, Tag tag)
 {
     INFO0;
     return SaveEntries(Triplets(event, pre_cuts, [&](Triplet & triplet) {
@@ -68,7 +68,7 @@ bool TopHadronicHep::Problematic(Triplet const& triplet, PreCuts const& pre_cuts
     return false;
 }
 
-std::vector<Triplet> TopHadronicHep::Multiplets(const Event& event, const boca::PreCuts& pre_cuts, const TMVA::Reader& reader) const
+std::vector<Triplet> TopHadronicHep::Multiplets(const Event& event, const boca::PreCuts& pre_cuts, TMVA::Reader const& reader)
 {
     INFO0;
     return Triplets(event, pre_cuts, [&](Triplet & triplet) {

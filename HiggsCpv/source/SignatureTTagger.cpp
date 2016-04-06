@@ -10,7 +10,7 @@ namespace boca
 namespace higgscpv
 {
 
-int SignatureTTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) const
+int SignatureTTagger::Train(Event const& event, boca::PreCuts const&, Tag tag)
 {
     INFO0;
    std::vector<Particle> particles = event.Partons().GenParticles();
@@ -45,7 +45,7 @@ MultipletSignature<Octet332> SignatureTTagger::Signature(Triplet const& triplet_
     return MultipletSignature<Octet332>(octet);
 }
 
-std::vector<MultipletSignature<Octet332>> SignatureTTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
+std::vector<MultipletSignature<Octet332>> SignatureTTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader)
 {
     INFO0;
     std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);

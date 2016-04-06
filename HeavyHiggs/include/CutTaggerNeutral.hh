@@ -22,9 +22,9 @@ class CutTaggerNeutral : public TaggerTemplate<CutVariables, HeavyHiggsCutNeutra
 
 public:
 
-    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const override;
+    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) override;
 
-    std::vector<CutVariables> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
+    std::vector<CutVariables> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
 
     std::string Name() const override;
 
@@ -32,7 +32,7 @@ public:
 
 private:
 
-    boost::optional<CutVariables> CutMethod(Event const& event) const;
+    boost::optional<CutVariables> CutMethod(const boca::Event& event);
 
     Reader<standardmodel::BottomTagger> bottom_reader_;
 

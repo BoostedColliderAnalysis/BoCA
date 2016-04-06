@@ -10,4 +10,4 @@ Particles.cpp
 Member.cpp
 Family.cpp
 )
-create_library(Physics PhysicsSources)
+create_library(physics PhysicsSources)

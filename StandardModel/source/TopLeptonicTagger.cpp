@@ -46,7 +46,7 @@ TopLeptonicTagger::TopLeptonicTagger(Id id) :
     top_mass_shift_ = use_w_ ? 0_GeV : 40_GeV;
 }
 
-int TopLeptonicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Tag tag) const
+int TopLeptonicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Tag tag)
 {
     INFO0;
     return SaveEntries(Triplets(event, [&](Triplet & triplet) {
@@ -85,7 +85,7 @@ bool TopLeptonicTagger::Problematic(Triplet const& triplet, PreCuts const& pre_c
     return false;
 }
 
-std::vector<Triplet> TopLeptonicTagger::Triplets(Event const& event, std::function<Triplet(Triplet&)> const& function) const
+std::vector<Triplet> TopLeptonicTagger::Triplets(Event const& event, std::function<Triplet(Triplet&)> const& function)
 {
     INFO0;
     std::vector<Jet> jets = SortedByPt(bottom_reader_.Jets(event));
@@ -107,7 +107,7 @@ std::vector<Triplet> TopLeptonicTagger::Triplets(Event const& event, std::functi
     return triplets;
 }
 
-std::vector<Triplet> TopLeptonicTagger::Multiplets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const
+std::vector<Triplet> TopLeptonicTagger::Multiplets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader)
 {
     INFO0;
     return Triplets(event, [&](Triplet & triplet) {

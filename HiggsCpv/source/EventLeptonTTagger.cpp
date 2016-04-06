@@ -7,7 +7,7 @@ namespace boca
 namespace higgscpv
 {
 
-int EventLeptonTTagger::Train(boca::Event const& event, boca::PreCuts const&, Tag tag) const
+int EventLeptonTTagger::Train(boca::Event const& event, boca::PreCuts const&, Tag tag)
 {
     INFO0;
    std::vector<Jet> jets = bottom_reader_.Jets(event);
@@ -39,7 +39,7 @@ int EventLeptonTTagger::Train(boca::Event const& event, boca::PreCuts const&, Ta
     return SaveEntries(multipletevents, 1);
 }
 
-std::vector<MultipletEvent<Octet332>> EventLeptonTTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
+std::vector<MultipletEvent<Octet332>> EventLeptonTTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader)
 {
     INFO0;
    std::vector<Jet> jets = bottom_reader_.Jets(event);

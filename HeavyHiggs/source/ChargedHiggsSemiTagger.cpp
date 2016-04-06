@@ -9,7 +9,7 @@ namespace boca
 namespace heavyhiggs
 {
 
-int ChargedHiggsSemiTagger::Train(Event const& event, PreCuts const&, Tag tag) const
+int ChargedHiggsSemiTagger::Train(Event const& event, PreCuts const&, Tag tag)
 {
     INFO0;
 //     Mass mass = event.mass();
@@ -74,7 +74,7 @@ int ChargedHiggsSemiTagger::Train(Event const& event, PreCuts const&, Tag tag) c
     return SaveEntries(quartets);
 }
 
-std::vector<Quartet31> ChargedHiggsSemiTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
+std::vector<Quartet31> ChargedHiggsSemiTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader)
 {
     auto jets = bottom_reader_.Jets(event);
     auto triplets = top_leptonic_reader_.Multiplets(event);

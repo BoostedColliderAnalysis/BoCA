@@ -21,9 +21,9 @@ class SignatureTagger : public TaggerTemplate<boca::MultipletSignature< boca::Oc
 
 public:
 
-    int Train(Event const& event, boca::PreCuts const&, Tag tag) const override;
+    int Train(Event const& event, boca::PreCuts const&, Tag tag) override;
 
-    std::vector< boca::MultipletSignature< boca::Octet62 > > Multiplets(boca::Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const override;
+    std::vector< boca::MultipletSignature< boca::Octet62 > > Multiplets(boca::Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) override;
 
     std::string Name() const override;
 

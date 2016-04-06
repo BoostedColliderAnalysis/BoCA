@@ -38,9 +38,9 @@ public:
 
     virtual auto Name() const -> std::string = 0;
 
-    virtual int SaveBdt(Event const&, PreCuts const&, TMVA::Reader const&) const = 0;
+    virtual int SaveBdt(Event const&, PreCuts const&, TMVA::Reader const&) = 0;
 
-    virtual auto Train(Event const&, PreCuts const&, const Tag) const -> int= 0;
+    virtual auto Train(Event const&, PreCuts const&, const Tag) -> int = 0;
 
     virtual const ResultBranch& Branch() const = 0;
 

@@ -43,7 +43,7 @@ WLeptonicTagger::WLeptonicTagger()
     w_mass_window_ = 20_GeV;
 }
 
-int WLeptonicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Tag tag) const
+int WLeptonicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Tag tag)
 {
     INFO0;
     return SaveEntries(Doublets(event, [&](Doublet & doublet) -> boost::optional<Doublet> {
@@ -81,7 +81,7 @@ std::vector<Particle> WLeptonicTagger::Particles(Event const& event) const
     return CopyIfDaughter(CopyIfParticle(particles, Id::W), CopyIfMother(CopyIfLepton(particles), Id::W));
 }
 
-std::vector<Doublet> WLeptonicTagger::Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
+std::vector<Doublet> WLeptonicTagger::Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader)
 {
     INFO0;
     return Doublets(event, [&](Doublet & doublet) -> boost::optional<Doublet> {

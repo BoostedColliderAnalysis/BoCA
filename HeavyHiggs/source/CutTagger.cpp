@@ -45,7 +45,7 @@ std::vector<Lepton> IsolateLeptons(std::vector<Lepton> const& leptons, Jet const
 
 }
 
-int CutTagger::Train(Event const& event, PreCuts const&, Tag) const
+int CutTagger::Train(Event const& event, PreCuts const&, Tag)
 {
     INFO0;
     std::vector<CutVariables> variables;
@@ -53,7 +53,7 @@ int CutTagger::Train(Event const& event, PreCuts const&, Tag) const
     return SaveEntries(variables);
 }
 
-std::vector<CutVariables> CutTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
+std::vector<CutVariables> CutTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader)
 {
     INFO0;
     std::vector<CutVariables> variables;
@@ -62,7 +62,7 @@ std::vector<CutVariables> CutTagger::Multiplets(Event const& event, PreCuts cons
     return variables;
 }
 
-boost::optional<CutVariables> CutTagger::CutMethod(Event const& event) const
+boost::optional<CutVariables> CutTagger::CutMethod(Event const& event)
 {
     INFO0;
     CutVariables variables;

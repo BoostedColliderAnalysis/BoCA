@@ -14,7 +14,7 @@ namespace boca
 namespace heavyhiggs
 {
 
-// int JetPairTagger::Train(Event const& event, PreCuts const& , Tag tag) const
+// int JetPairTagger::Train(Event const& event, PreCuts const& , Tag tag)
 // {
 //     INFO0;
 //     std::vector<Jet> jets = bottom_reader_.Jets(event);
@@ -71,7 +71,7 @@ std::vector<Particle>JetPairTagger::PairBottomQuarks(Event const& event, Tag tag
     return bottom_not_from_higgs;
 }
 
-// std::vector<Doublet> JetPairTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
+// std::vector<Doublet> JetPairTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader)
 // {
 //     std::vector<Jet> jets = bottom_reader_.Jets(event);
 //     std::vector<Doublet>  doublets;
@@ -111,7 +111,7 @@ std::string JetPairTagger::Name() const
 }
 
 
-int JetPairTagger::Train(const Event& event, const PreCuts&, Tag tag) const
+int JetPairTagger::Train(const Event& event, const PreCuts&, Tag tag)
 {
     INFO0;
     std::vector<Jet> jets = bottom_reader_.Multiplets(event);
@@ -191,7 +191,7 @@ Doublet JetPairTagger::TruthDoubletPair(Doublet const& doublet, std::vector<Part
     throw "Problematic";
 }
 
-std::vector<Doublet> JetPairTagger::Multiplets(const Event& event, const PreCuts&, const TMVA::Reader& reader) const
+std::vector<Doublet> JetPairTagger::Multiplets(const Event& event, const PreCuts&, TMVA::Reader const& reader)
 {
     std::vector<Jet> jets = bottom_reader_.Multiplets(event);
     std::vector<Doublet>  doublets;

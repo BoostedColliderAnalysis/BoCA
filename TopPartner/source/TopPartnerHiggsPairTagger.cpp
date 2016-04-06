@@ -8,7 +8,7 @@ namespace boca
 namespace naturalness
 {
 
-int TopPartnerHiggsPairTagger::Train(Event const& event, PreCuts const&, Tag tag) const
+int TopPartnerHiggsPairTagger::Train(Event const& event, PreCuts const&, Tag tag)
 {
     INFO0;
     std::vector<Septet> septets = Pairs(top_partner_hadronic_reader_.Multiplets(event), higgs_reader_.Multiplets(event), [&](Quintet const & quintet, Doublet const & doublet) {
@@ -20,7 +20,7 @@ int TopPartnerHiggsPairTagger::Train(Event const& event, PreCuts const&, Tag tag
     return SaveEntries(septets);
 }
 
-std::vector<Septet> TopPartnerHiggsPairTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
+std::vector<Septet> TopPartnerHiggsPairTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader)
 {
     return Pairs(top_partner_hadronic_reader_.Multiplets(event), higgs_reader_.Multiplets(event), [&](Quintet const & quintet, Doublet const & doublet) {
         Septet septet(quintet, doublet);

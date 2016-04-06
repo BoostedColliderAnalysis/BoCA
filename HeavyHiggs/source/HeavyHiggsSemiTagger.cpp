@@ -9,7 +9,7 @@ namespace boca
 namespace heavyhiggs
 {
 
-int HeavyHiggsSemiTagger::Train(Event const& event, PreCuts const&, Tag tag) const
+int HeavyHiggsSemiTagger::Train(Event const& event, PreCuts const&, Tag tag)
 {
     INFO0;
     std::vector<Particle> higgs_boson = HiggsParticle(event, tag);
@@ -26,7 +26,7 @@ int HeavyHiggsSemiTagger::Train(Event const& event, PreCuts const&, Tag tag) con
     return SaveEntries(sextets, higgs_boson, tag);
 }
 
-std::vector<Sextet>  HeavyHiggsSemiTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
+std::vector<Sextet>  HeavyHiggsSemiTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader)
 {
     std::vector<Triplet> triplets_leptonic = top_leptonic_reader_.Multiplets(event);
     std::vector<Triplet> triplets_hadronic = top_hadronic_reader_.Multiplets(event);
@@ -42,7 +42,7 @@ std::vector<Sextet>  HeavyHiggsSemiTagger::Multiplets(Event const& event, PreCut
     return sextets;
 }
 
-std::vector<Triplet> HeavyHiggsSemiTagger::FinalTriplet(Event const& event, Tag tag, Decay decay) const
+std::vector<Triplet> HeavyHiggsSemiTagger::FinalTriplet(Event const& event, Tag tag, Decay decay)
 {
     std::vector<Triplet> triplets;
     std::vector<Particle> tops;

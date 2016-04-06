@@ -17,7 +17,7 @@ namespace boca
 namespace naturalness
 {
 
-int TruthLevel::Train(Event const& event, PreCuts const& pre_cuts, Tag) const
+int TruthLevel::Train(Event const& event, PreCuts const& pre_cuts, Tag)
 {
     INFO0;
     return SaveEntries(Jets(event, pre_cuts, [&](Particle & jet) {
@@ -25,7 +25,7 @@ int TruthLevel::Train(Event const& event, PreCuts const& pre_cuts, Tag) const
     }));
 }
 
-std::vector<TruthVariables> TruthLevel::Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const&) const
+std::vector<TruthVariables> TruthLevel::Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const&)
 {
     INFO0;
     return Jets(event, pre_cuts, [&](Particle & jet) {

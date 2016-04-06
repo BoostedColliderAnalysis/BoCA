@@ -26,7 +26,7 @@ HiggsTagger::HiggsTagger()
     higgs_mass_window = 70_GeV;
 }
 
-int HiggsTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const
+int HiggsTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag)
 {
     INFO0;
     auto leptons = event.Leptons().leptons();
@@ -60,7 +60,7 @@ std::vector<Particle> HiggsTagger::Particles(Event const& event) const
     return CopyIfParticles(event.Partons().GenParticles(), {Id::higgs, Id::CP_violating_higgs});
 }
 
-boost::optional<Doublet> HiggsTagger::SetTag(Doublet& doublet, std::vector<Lepton>& leptons, PreCuts const& pre_cuts, Tag tag) const
+boost::optional<Doublet> HiggsTagger::SetTag(Doublet& doublet, std::vector<Lepton>& leptons, PreCuts const& pre_cuts, Tag tag)
 {
     INFO0;
     doublet = PrepareDoublet(doublet, leptons);
@@ -69,8 +69,7 @@ boost::optional<Doublet> HiggsTagger::SetTag(Doublet& doublet, std::vector<Lepto
     return doublet;
 }
 
-Doublet HiggsTagger::PrepareDoublet(Doublet const& doublet, std::vector<Lepton>& leptons) const
-{
+Doublet HiggsTagger::PrepareDoublet(Doublet const& doublet, std::vector<Lepton>& leptons) {
     INFO0;
     //     if (auto optional = MassDrop(doublet)) prepared = *optional;
     Jet jet_1 = doublet.Singlet1();
@@ -102,7 +101,7 @@ bool HiggsTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts) c
     return false;
 }
 
-std::vector<Doublet> HiggsTagger::Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
+std::vector<Doublet> HiggsTagger::Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader)
 {
     INFO0;
     auto leptons = event.Leptons().leptons();
@@ -111,7 +110,7 @@ std::vector<Doublet> HiggsTagger::Multiplets(Event const& event, PreCuts const& 
     });
 }
 
-boost::optional<Doublet> HiggsTagger::Multiplet(Doublet& doublet, std::vector<Lepton>& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
+boost::optional<Doublet> HiggsTagger::Multiplet(Doublet& doublet, std::vector<Lepton>& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader)
 {
     INFO0;
     doublet = PrepareDoublet(doublet, leptons);
@@ -120,7 +119,7 @@ boost::optional<Doublet> HiggsTagger::Multiplet(Doublet& doublet, std::vector<Le
     return doublet;
 }
 
-boost::optional<Doublet> HiggsTagger::MassDrop(Doublet const& doublet) const
+boost::optional<Doublet> HiggsTagger::MassDrop(Doublet const& doublet)
 {
     INFO0;
     ClusterSequence cluster_sequence(doublet.Constituents(), DetectorGeometry::JetDefinition(doublet.DeltaR() + 2. * DetectorGeometry::JetConeSize()));

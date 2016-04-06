@@ -23,9 +23,9 @@ class CompleteSingleHadronicTagger : public TaggerTemplate<EventMultiplet<Decupl
 
 public:
 
-    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const override;
+    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) override;
 
-    std::vector<EventMultiplet<Decuplet532>> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
+    std::vector<EventMultiplet<Decuplet532>> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
 
     std::string Name() const override;
 
@@ -33,7 +33,7 @@ public:
 
 private:
 
-    std::vector<EventMultiplet<Decuplet532>> Decuplets(Event const& event, std::function<EventMultiplet<Decuplet532>(EventMultiplet<Decuplet532>&)> const& function) const;
+    std::vector<EventMultiplet<Decuplet532>> Decuplets(Event const& event, std::function<EventMultiplet<Decuplet532>(EventMultiplet<Decuplet532>&)> const& function);
 
     Reader<TopPartnerHadronicNeutralTagger> partner_reader_;
 

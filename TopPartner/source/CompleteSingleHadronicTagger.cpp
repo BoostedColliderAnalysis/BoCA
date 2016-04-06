@@ -12,7 +12,7 @@ namespace boca
 namespace naturalness
 {
 
-int CompleteSingleHadronicTagger::Train(Event const& event, PreCuts const& , Tag tag) const
+int CompleteSingleHadronicTagger::Train(Event const& event, PreCuts const& , Tag tag)
 {
     INFO0;
     return SaveEntries(Decuplets(event, [&](EventMultiplet<Decuplet532> & decuplet) {
@@ -21,7 +21,7 @@ int CompleteSingleHadronicTagger::Train(Event const& event, PreCuts const& , Tag
     }), tag);
 }
 
-std::vector<EventMultiplet<Decuplet532>> CompleteSingleHadronicTagger::Multiplets(Event const& event, boca::PreCuts const& , TMVA::Reader const& reader) const
+std::vector<EventMultiplet<Decuplet532>> CompleteSingleHadronicTagger::Multiplets(Event const& event, boca::PreCuts const& , TMVA::Reader const& reader)
 {
     INFO0;
     return ReduceResult(Decuplets(event, [&](EventMultiplet<Decuplet532> & decuplet) {
@@ -30,7 +30,7 @@ std::vector<EventMultiplet<Decuplet532>> CompleteSingleHadronicTagger::Multiplet
     }), 1);
 }
 
-std::vector<EventMultiplet<Decuplet532>> CompleteSingleHadronicTagger::Decuplets(Event const& event, std::function<EventMultiplet<Decuplet532>(EventMultiplet<Decuplet532>&)> const& function) const
+std::vector<EventMultiplet<Decuplet532>> CompleteSingleHadronicTagger::Decuplets(Event const& event, std::function<EventMultiplet<Decuplet532>(EventMultiplet<Decuplet532>&)> const& function)
 {
     INFO0;
     boca::GlobalObservables global_observables(event, bottom_reader_.Jets(event));

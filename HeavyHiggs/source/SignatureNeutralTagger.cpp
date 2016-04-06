@@ -9,7 +9,7 @@ namespace boca
 namespace heavyhiggs
 {
 
-int SignatureNeutralTagger::Train(Event const& event, PreCuts const&, Tag tag) const
+int SignatureNeutralTagger::Train(Event const& event, PreCuts const&, Tag tag)
 {
     INFO0;
     std::vector<Particle> higgs = heavy_higgs_semi_reader_.Tagger().HiggsParticle(event, tag);
@@ -86,7 +86,7 @@ int SignatureNeutralTagger::Train(Event const& event, PreCuts const&, Tag tag) c
 }
 
 
-std::vector<Octet62> SignatureNeutralTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
+std::vector<Octet62> SignatureNeutralTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader)
 {
     INFO0;
     std::vector<Doublet> doublets = jet_pair_reader_.Multiplets(event);

@@ -25,9 +25,9 @@ public:
 
     TopLeptonicTagger(Id id = Id::top);
 
-    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const override;
+    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) override;
 
-    std::vector<Triplet> Multiplets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
+    std::vector<Triplet> Multiplets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
 
     std::vector<Particle> Particles(boca::Event const& event) const;
 
@@ -43,7 +43,7 @@ private:
 
     bool Problematic(Triplet const& triplet, PreCuts const& pre_cuts) const;
 
-    std::vector<Triplet> Triplets(Event const& event, std::function<Triplet(Triplet&)> const& function) const;
+    std::vector<Triplet> Triplets(Event const& event, std::function<Triplet(Triplet&)> const& function);
 
     Stage InitializeLeptonicReader();
 

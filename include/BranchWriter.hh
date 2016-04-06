@@ -44,11 +44,6 @@ public:
         TreeBranch().AddEntry(info_branch);
         TreeWriter().Fill();
     }
-
-    long EventSum() {
-        return event_sum_;
-    }
-
     void Increment(int number) {
         object_sum_ += number;
         if (number > 0) ++event_sum_;
@@ -66,15 +61,20 @@ public:
         return object_sum_ < max;
     }
 
-    boca::Phase const& Phase() const {
+    boca::Phase Phase() const {
         return phase_;
     }
-    
-    boca::File const& Import() const {
+
+    boca::File Import() const {
         return import_file_;
     }
 
 private:
+
+    long EventSum() const {
+        return event_sum_;
+    }
+
 
     boca::FileWriter& FileWriter() {
         return file_writer_;

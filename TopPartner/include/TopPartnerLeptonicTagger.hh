@@ -18,13 +18,13 @@ class TopPartnerLeptonicTagger : public TaggerTemplate<Quintet, TopPartnerBranch
 
 public:
 
-    int Train(Event const& event, PreCuts const&, Tag tag) const;
+    int Train(Event const& event, PreCuts const&, Tag tag);
 
     std::vector<Quintet> Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const&) const{}
 
-    std::vector<Quintet> Multiplets(Event const& event, boca::PreCuts const&) const;
+    std::vector<Quintet> Multiplets(const boca::Event& event, const boca::PreCuts&);
 
-    std::vector<Quintet> Multiplets(Event const& event) const;
+    std::vector<Quintet> Multiplets(Event const& event);
 
     std::vector<Particle> Particles(Event const& event) const;
 

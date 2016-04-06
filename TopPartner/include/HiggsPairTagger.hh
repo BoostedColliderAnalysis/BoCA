@@ -19,9 +19,9 @@ class HiggsPairTagger : public TaggerTemplate<Quartet22, MultiBranch>
 
 public:
 
-    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const override;
+    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) override;
 
-    std::vector<Quartet22> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
+    std::vector<Quartet22> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
 
     std::string Name() const override;
 
@@ -31,7 +31,7 @@ public:
 
 private:
 
-    std::vector<Quartet22> Quartets(Event const& event, std::function<Quartet22(Quartet22&)> const& function) const;
+  std::vector<Quartet22> Quartets(const boca::Event& event, const std::function< Quartet22(Quartet22&) >& function);
 
     Reader<standardmodel::HiggsTagger> higgs_reader_;
 };

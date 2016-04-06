@@ -10,7 +10,7 @@ namespace boca
 namespace naturalness
 {
 
-int TopPartnerHadronicNeutralTagger::Train(Event const& event, PreCuts const&, Tag tag) const
+int TopPartnerHadronicNeutralTagger::Train(Event const& event, PreCuts const&, Tag tag)
 {
     INFO0;
     return SaveEntries(Quintets(event, [&](Quintet & quintet) {
@@ -19,7 +19,7 @@ int TopPartnerHadronicNeutralTagger::Train(Event const& event, PreCuts const&, T
     }), Particles(event), tag);
 }
 
-std::vector<Quintet> TopPartnerHadronicNeutralTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
+std::vector<Quintet> TopPartnerHadronicNeutralTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader)
 {
     INFO0;
     return Quintets(event, [&](Quintet & quintet) {
@@ -28,7 +28,7 @@ std::vector<Quintet> TopPartnerHadronicNeutralTagger::Multiplets(Event const& ev
     });
 }
 
-std::vector<Quintet> TopPartnerHadronicNeutralTagger::Quintets(Event const& event, std::function<Quintet(Quintet&)> const& function) const
+std::vector<Quintet> TopPartnerHadronicNeutralTagger::Quintets(Event const& event, std::function<Quintet(Quintet&)> const& function)
 {
     INFO0;
     return Pairs(top_reader_.Multiplets(event,8), boson_reader_.Multiplets(event,8), [&](Triplet const & triplet, Doublet const & doublet) {

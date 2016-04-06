@@ -51,7 +51,7 @@ private:
         BranchWriter().SafeEntry();
     }
 
-    int Switch(Event const& event, PreCuts const& pre_cuts) const {
+    int Switch(Event const& event, PreCuts const& pre_cuts) {
         switch (BranchWriter().Phase().Stage()) {
         case Stage::trainer : return Tagger().Train(event, pre_cuts, BranchWriter().Phase().Tag());
         case Stage::reader : return Reader().Bdt(event, pre_cuts);
@@ -88,19 +88,19 @@ private:
         return event_number_;
     }
 
-    long const& EventNumber() const {
+    long EventNumber() const {
       return event_number_;
     }
 
-    Tagger_ const& Tagger() const {
-        return tagger_;
+    Tagger_ & Tagger() {
+      return tagger_;
     }
 
     boca::BranchWriter<Tagger_> const& BranchWriter() const {
         return branch_writer_;
     }
 
-    boca::Reader<Tagger_> const& Reader() const {
+    boca::Reader<Tagger_> & Reader() {
         return reader_;
     }
 

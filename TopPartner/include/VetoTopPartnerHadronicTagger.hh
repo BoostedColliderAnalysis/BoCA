@@ -24,9 +24,9 @@ class VetoTopPartnerHadronicTagger : public TaggerTemplate<Quintet, TopPartnerBr
 
 public:
 
-    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const override;
+    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) override;
 
-    std::vector<Quintet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
+    std::vector<Quintet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
 
     std::string Name() const override;
 
@@ -36,7 +36,7 @@ private:
 
     std::vector<Particle> Particles(Event const& event) const;
 
-    std::vector<Quintet> Quintets(Event const& event, std::function<Quintet(Quintet&)> const& function) const;
+    std::vector<Quintet> Quintets(Event const& event, std::function<Quintet(Quintet&)> const& function);
 
     Reader<TopPartnerLeptonicNeutralTagger> partner_reader_;
 

@@ -32,31 +32,31 @@ public:
     /**
      * @brief Train the bottom tagger with pre cuts
      */
-    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const override;
+    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) override;
 
     /**
      * @brief Return all jets of the event with bottom bdt value considering pre cuts
      *
      */
-    std::vector<Jet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
+    std::vector<Jet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
 
     /**
      * @brief Return all jets of the event with bottom bdt value considering pre cuts
      *
      */
-    std::vector<Jet> Jets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
+    std::vector<Jet> Jets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader);
 
     /**
      * @brief calculate bottom bdt for subjets of given jet
      *
      */
-    std::vector<Jet> SubMultiplet(Jet const& jet, TMVA::Reader const& reader, int sub_jet_number) const;
+    std::vector<Jet> SubMultiplet(Jet const& jet, TMVA::Reader const& reader, int sub_jet_number);
 
     /**
      * @brief calculate bottom bdt for given jet
      *
      */
-    Jet Multiplet(Jet & jet, TMVA::Reader const& reader) const;
+    Jet Multiplet(Jet & jet, TMVA::Reader const& reader);
 
     std::string Name() const override;
 
@@ -66,7 +66,7 @@ private:
 
     std::vector<Particle> Particles(Event const& event) const;
 
-    std::vector<Jet> Jets(Event const& event, PreCuts const& pre_cuts, std::function<Jet(Jet&)> const& function) const;
+    std::vector<Jet> Jets(Event const& event, PreCuts const& pre_cuts, std::function<Jet(Jet&)> const& function);
 
     std::vector<Jet> Multiplets(std::vector<Jet> jets, std::function<Jet(Jet&)> const& function, unsigned sub_jet_number = 1) const;
 
@@ -83,9 +83,9 @@ private:
 }
 
 template<>
-inline void TaggerTemplate<Jet, standardmodel::BottomBranch>::FillBranch(Jet const& multiplet) const
+inline void TaggerTemplate<Jet, standardmodel::BottomBranch>::FillBranch(Jet const& multiplet)
 {
-    branch_.Fill(Singlet(multiplet));
+    Branch().Fill(Singlet(multiplet));
 }
 
 }

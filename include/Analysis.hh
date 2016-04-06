@@ -76,6 +76,26 @@ private:
         });
     }
 
+    /**
+     * @brief Analysis performed on each file
+     *
+     */
+    void FileLoop2(BranchWriter<Tagger_> branch_writer) {
+        std::vector<std::thread> threads;
+        // int cores = std::thread::hardware_concurrency(); // breaks in the tree reader, find  a cheap way to store the position of the data
+        int cores = 1;
+        for (auto core : IntegerRange(cores)) threads.emplace_back(Thread(branch_writer, cores, core, TrainNumberMax()));
+        for (auto & thread : threads) thread.join();
+    }
+
+    auto Thread2(Third<Tagger_> third){
+      return std::thread([&] {
+        third.ReadEvents(PreCuts(), EventNumberMax(third.BranchWriter().Phase().Stage()), [&](Event const & event, Tag tag) {
+          return PassPreCut(event, tag);
+        });
+      });
+    }
+
     void RunSignificance() {
         if (Exists(Tagger().ExportFileName())) return;
         PrepareFiles(Stage::reader);

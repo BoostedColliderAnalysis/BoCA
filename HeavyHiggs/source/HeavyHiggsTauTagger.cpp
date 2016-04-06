@@ -9,7 +9,7 @@ namespace boca
 namespace heavyhiggs
 {
 
-int HeavyHiggsTauTagger::Train(Event const& event, PreCuts const&, Tag tag) const
+int HeavyHiggsTauTagger::Train(Event const& event, PreCuts const&, Tag tag)
 {
     INFO0;
     std::vector<Jet> jets;// = tau_reader_.Multiplets(event);
@@ -48,7 +48,7 @@ int HeavyHiggsTauTagger::Train(Event const& event, PreCuts const&, Tag tag) cons
     return SaveEntries(doublets);
 }
 
-std::vector<Doublet>  HeavyHiggsTauTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
+std::vector<Doublet>  HeavyHiggsTauTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader)
 {
     INFO0;
     std::vector<Jet> jets;// = tau_reader_.Multiplets(event);

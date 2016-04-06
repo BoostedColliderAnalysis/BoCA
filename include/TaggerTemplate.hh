@@ -24,17 +24,17 @@ class TaggerTemplate : public Tagger
 
 public:
 
-    double Bdt(Multiplet_ const& multiplet, TMVA::Reader const& reader) const {
+    double Bdt(Multiplet_ const& multiplet, TMVA::Reader const& reader) {
         FillBranch(multiplet);
         return Tagger::Bdt(reader);
     }
 
-    bool Cut(Multiplet_ const& multiplet, TMVA::Reader const& reader, double effeciency) const {
+    bool Cut(Multiplet_ const& multiplet, TMVA::Reader const& reader, double effeciency) {
         FillBranch(multiplet);
         return Tagger::Cut(reader, effeciency);
     }
 
-    std::vector<bool> Cuts(Multiplet_ const& multiplet, TMVA::Reader const& reader) const {
+    std::vector<bool> Cuts(Multiplet_ const& multiplet, TMVA::Reader const& reader) {
         FillBranch(multiplet);
         int steps = 50;
         // TODO why is this a 2?
@@ -47,22 +47,22 @@ public:
         return branch_;
     }
 
-    int SaveBdt(const Event& event, const PreCuts& pre_cuts, const TMVA::Reader& reader) const override {
+    int SaveBdt(const Event& event, const PreCuts& pre_cuts, TMVA::Reader const& reader) override {
         return SaveEntries(Multiplets(event, pre_cuts, reader), 1);
     }
 
     template<typename Input_>
-    std::vector<Multiplet_> ReducedMultiplets(const Input_& event, const PreCuts& pre_cuts, const TMVA::Reader& reader, std::size_t max = 4) const {
+    std::vector<Multiplet_> ReducedMultiplets(const Input_& event, const PreCuts& pre_cuts, TMVA::Reader const& reader, std::size_t max = 4) {
         return ReduceResult(Multiplets(event, pre_cuts, reader), max);
     }
 
 //     template<typename Input_>
-//     std::vector<Multiplet_> ReducedMultiplets(const Input_& event, const TMVA::Reader& reader, std::size_t max = 4) const {
+//     std::vector<Multiplet_> ReducedMultiplets(const Input_& event, TMVA::Reader const& reader, std::size_t max = 4) const {
 //       PreCuts pre_cuts;
 //       return ReduceResult(Multiplets(event, pre_cuts, reader), max);
 //     }
 
-    virtual std::vector<Multiplet_> Multiplets(std::vector<Jet> const&, PreCuts const&, TMVA::Reader const&) const {
+    virtual std::vector<Multiplet_> Multiplets(std::vector<Jet> const&, PreCuts const&, TMVA::Reader const&) {
         std::cout << "Never end up here!" << std::endl;
         return {};
     }
@@ -159,7 +159,7 @@ protected:
         }
     }
 
-    int SaveEntries(std::vector<Multiplet_> multiplets, int max = std::numeric_limits<int>::max()) const {
+    int SaveEntries(std::vector<Multiplet_> multiplets, int max = std::numeric_limits<int>::max())  {
         if (multiplets.size() > 1) multiplets = SortedByBdt(multiplets);
         if (multiplets.empty()) return 0;
         auto sum = std::min(int(multiplets.size()), max);
@@ -171,12 +171,12 @@ protected:
         return sum;
     }
 
-    int SaveEntries(std::vector<Multiplet_> multiplets, std::vector<Particle> particles, Tag tag, Id id = Id::none) const {
+    int SaveEntries(std::vector<Multiplet_> multiplets, std::vector<Particle> particles, Tag tag, Id id = Id::none) {
         if (Debug()) boca::Debug("multiplets", multiplets.size(), "particles", particles.size());
         return SaveEntries(BestMatches(multiplets, particles, tag, id));
     }
 
-    int SaveEntries(std::vector<Multiplet_> multiplets, Tag tag) const {
+    int SaveEntries(std::vector<Multiplet_> multiplets, Tag tag) {
         switch (tag) {
         case Tag::signal : return SaveEntries(multiplets, 1);
         case Tag::background : return SaveEntries(multiplets);
@@ -184,7 +184,7 @@ protected:
         }
     }
 
-    int SaveEntries(std::vector<Multiplet_> multiplets, std::vector<std::pair<Particle, Particle>> particles, Tag tag, Id id = Id::none) const {
+    int SaveEntries(std::vector<Multiplet_> multiplets, std::vector<std::pair<Particle, Particle>> particles, Tag tag, Id id = Id::none) {
         return SaveEntries(BestMatches(multiplets, particles, tag, id));
     }
 
@@ -198,9 +198,9 @@ protected:
         AddSpectators();
     }
 
-    virtual auto Multiplets(Event const&, PreCuts const&, TMVA::Reader const&) const -> std::vector<Multiplet_> = 0;
+    virtual auto Multiplets(Event const&, PreCuts const&, TMVA::Reader const&) -> std::vector<Multiplet_> = 0;
 
-    std::vector<Multiplet_> Multiplets(Event const& event, TMVA::Reader const& reader) const {
+    std::vector<Multiplet_> Multiplets(Event const& event, TMVA::Reader const& reader) {
         PreCuts pre_cuts;
         return Multiplets(event, pre_cuts, reader);
     };
@@ -220,15 +220,15 @@ private:
         for (auto & spectator : Branch().Spectators().Vector()) AddSpectator(spectator);
     }
 
-    void FillBranch(Multiplet_ const& multiplet) const {
-        branch_.Fill(multiplet);
+    void FillBranch(Multiplet_ const& multiplet) {
+        Branch().Fill(multiplet);
     }
 
     /**
     * @brief Branch storing the analysis results
     *
     */
-    mutable Branch_ branch_;
+    Branch_ branch_;
 
     constexpr bool Debug() const {
         return false;

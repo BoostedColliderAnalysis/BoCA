@@ -21,9 +21,9 @@ class EventPairTagger : public TaggerTemplate<EventMultiplet<Decuplet55>,NewEven
 
 public:
 
-    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const override;
+    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) override;
 
-    std::vector<EventMultiplet<Decuplet55>> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
+    std::vector<EventMultiplet<Decuplet55>> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
 
     std::string Name() const override;
 
@@ -31,7 +31,7 @@ public:
 
 private:
 
-    std::vector<EventMultiplet<Decuplet55>> Events(Event const& event, std::function<EventMultiplet<Decuplet55>(EventMultiplet<Decuplet55> &)> const& function) const;
+    std::vector<EventMultiplet<Decuplet55>> Events(Event const& event, std::function<EventMultiplet<Decuplet55>(EventMultiplet<Decuplet55> &)> const& function);
 
     Reader<TopPartnerPairTagger> signature_reader_;
 

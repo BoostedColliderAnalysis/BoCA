@@ -23,9 +23,9 @@ class EventEffectiveTagger : public TaggerTemplate<EventMultiplet<Quattuordecupl
 
 public:
 
-    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const override;
+    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) override;
 
-    std::vector<EventMultiplet<Quattuordecuplet554>> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
+    std::vector<EventMultiplet<Quattuordecuplet554>> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
 
     std::string Name() const override;
 
@@ -33,7 +33,7 @@ public:
 
 private:
 
-    std::vector<EventMultiplet<Quattuordecuplet554>> Events(Event const& event, std::function< EventMultiplet<Quattuordecuplet554>(EventMultiplet<Quattuordecuplet554>&)> const& function) const;
+    std::vector<EventMultiplet<Quattuordecuplet554>> Events(Event const& event, std::function< EventMultiplet<Quattuordecuplet554>(EventMultiplet<Quattuordecuplet554>&)> const& function);
 
     Reader<SignatureEffectiveTagger> signature_reader_;
 

@@ -8,7 +8,6 @@
 #include "Phase.hh"
 #include "Names.hh"
 #include "Tagger.hh"
-#include "Files.hh"
 
 namespace boca
 {

@@ -11,7 +11,7 @@ namespace boca {
 
 namespace heavyhiggs {
 
-int HeavyHiggsLeptonicTagger::Train(Event const& event, PreCuts const&, Tag tag) const
+int HeavyHiggsLeptonicTagger::Train(Event const& event, PreCuts const&, Tag tag)
 {
     INFO0;
     std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
@@ -37,7 +37,7 @@ int HeavyHiggsLeptonicTagger::Train(Event const& event, PreCuts const&, Tag tag)
     return SaveEntries(sextets);
 }
 
-std::vector<Sextet>  HeavyHiggsLeptonicTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
+std::vector<Sextet>  HeavyHiggsLeptonicTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader)
 {
     INFO0;
     std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
