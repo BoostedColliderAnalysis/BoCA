@@ -2,7 +2,7 @@
 
 #include "fastjet/JetDefinition.hh"
 
-namespace HEP
+namespace hep
 {
 
 class TopTagger

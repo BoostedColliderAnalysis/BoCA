@@ -33,24 +33,25 @@
 
 #include <iostream>
 #include <cmath>
-#include "external/mt2_bisect.h"
+#include "external/Mt2.hh"
 
+namespace mt2
+{
+
+namespace {
 /*The user can change the desired precision below, the larger one of the following two definitions is used. Relative precision less than 0.00001 is not guaranteed to be achievable--use with caution*/
 
-#define RELATIVE_PRECISION 0.00001 //defined as precision = RELATIVE_PRECISION * scale, where scale = max{Ea, Eb}
-#define ABSOLUTE_PRECISION 0.0 //absolute precision for mt2, unused by default
+const double RELATIVE_PRECISION = 0.00001; //defined as precision = RELATIVE_PRECISION * scale, where scale = max{Ea, Eb}
+const double ABSOLUTE_PRECISION = 0.0; //absolute precision for mt2, unused by default
 
 
 //Reserved for expert
-#define MIN_MASS 0.1 //if ma<MINMASS and mb<MINMASS, use massless code
-#define ZERO_MASS 0.000 //give massless particles a small mass
-#define SCANSTEP 0.1
+const double MIN_MASS = 0.1; //if ma<MINMASS and mb<MINMASS, use massless code
+const double ZERO_MASS = 0.000; //give massless particles a small mass
+const double SCANSTEP = 0.1;
+}
 
-using namespace std;
-
-namespace mt2_bisect
-{
-mt2::mt2()
+Mt2::Mt2()
 {
     solved = false;
     momenta_set = false;
@@ -58,25 +59,22 @@ mt2::mt2()
     scale = 1.;
 }
 
-double mt2::get_mt2()
+double Mt2::get_mt2()
 {
     if (!momenta_set) {
-        cout << " Please set momenta first!" << endl;
+        std::cout << " Please set momenta first!" << std::endl;
         return 0;
     }
-
-    if (!solved) {
-        mt2_bisect();
-    }
+    if (!solved) mt2_bisect();
     return mt2_b * scale;
 }
 
-void mt2::set_momenta(double* pa0, double* pb0, double* pmiss0)
+void Mt2::set_momenta(double* pa0, double* pb0, double* pmiss0)
 {
     solved = false; //reset solved tag when momenta are changed.
     momenta_set = true;
 
-    ma = fabs(pa0[0]); // mass cannot be negative
+    ma = std::abs(pa0[0]); // mass cannot be negative
 
     if (ma < ZERO_MASS) {
         ma = ZERO_MASS;
@@ -88,7 +86,7 @@ void mt2::set_momenta(double* pa0, double* pb0, double* pmiss0)
     Easq = masq + pax * pax + pay * pay;
     Ea = std::sqrt(Easq);
 
-    mb = fabs(pb0[0]);
+    mb = std::abs(pb0[0]);
 
     if (mb < ZERO_MASS) {
         mb = ZERO_MASS;
@@ -150,24 +148,24 @@ void mt2::set_momenta(double* pa0, double* pb0, double* pmiss0)
     }
 }
 
-void mt2::set_mn(double mn0)
+void Mt2::set_mn(double mn0)
 {
     solved = false; //reset solved tag when mn is changed.
-    mn_unscale = fabs(mn0); //mass cannot be negative
+    mn_unscale = std::abs(mn0); //mass cannot be negative
     mn = mn_unscale / scale;
     mnsq = mn * mn;
 }
 
-void mt2::print()
+void Mt2::print()
 {
-    cout << " pax = " << pax* scale << "; pay = " << pay* scale << "; ma = " << ma* scale << ";" << endl;
-    cout << " pbx = " << pbx* scale << "; pby = " << pby* scale << "; mb = " << mb* scale << ";" << endl;
-    cout << " pmissx = " << pmissx* scale << "; pmissy = " << pmissy* scale << ";" << endl;
-    cout << " mn = " << mn_unscale << ";" << endl;
+    std::cout << " pax = " << pax* scale << "; pay = " << pay* scale << "; ma = " << ma* scale << ";" << std::endl;
+    std::cout << " pbx = " << pbx* scale << "; pby = " << pby* scale << "; mb = " << mb* scale << ";" << std::endl;
+    std::cout << " pmissx = " << pmissx* scale << "; pmissy = " << pmissy* scale << ";" << std::endl;
+    std::cout << " mn = " << mn_unscale << ";" << std::endl;
 }
 
 //special case, the visible particle is massless
-void mt2::mt2_massless()
+void Mt2::mt2_massless()
 {
 
     //rotate so that pay = 0
@@ -259,7 +257,7 @@ void mt2::mt2_massless()
         }
         if (foundhigh == 0) {
 
-            cout << "Deltasq_high not found at event " << nevt << endl;
+            std::cout << "Deltasq_high not found at event " << nevt << std::endl;
 
 
             mt2_b = std::sqrt(Deltasq_low + mnsq);
@@ -268,9 +266,9 @@ void mt2::mt2_massless()
     }
 
     if (nsols_high == nsols_low) {
-        cout << "error: nsols_low=nsols_high=" << nsols_high << endl;
-        cout << "Deltasq_high=" << Deltasq_high << endl;
-        cout << "Deltasq_low= " << Deltasq_low << endl;
+        std::cout << "error: nsols_low=nsols_high=" << nsols_high << std::endl;
+        std::cout << "Deltasq_high=" << Deltasq_high << std::endl;
+        std::cout << "Deltasq_low= " << Deltasq_low << std::endl;
 
         mt2_b = std::sqrt(mnsq + Deltasq_low);
         return;
@@ -294,7 +292,7 @@ void mt2::mt2_massless()
     return;
 }
 
-int mt2::nsols_massless(double Dsq)
+int Mt2::nsols_massless(double Dsq)
 {
     double delta;
     delta = Dsq / (2 * Easq);
@@ -365,12 +363,12 @@ int mt2::nsols_massless(double Dsq)
 
 }
 
-void mt2::mt2_bisect()
+void Mt2::mt2_bisect()
 {
 
 
     solved = true;
-    cout.precision(11);
+    std::cout.precision(11);
 
     //if masses are very small, use code for massless case.
     if (masq < MIN_MASS && mbsq < MIN_MASS) {
@@ -467,7 +465,7 @@ void mt2::mt2_bisect()
 
     //number of solutions at Deltasq_low should not be larger than zero
     if (nsols(Deltasq_low) > 0) {
-        //cout << "nsolutions(Deltasq_low) > 0"<<endl;
+        //std::cout << "nsolutions(Deltasq_low) > 0"<<std::endl;
         mt2_b = std::sqrt(mnsq + Deltasq0);
         return;
     }
@@ -487,7 +485,7 @@ void mt2::mt2_bisect()
         //foundhigh = scan_high(Deltasq_high);
         foundhigh = find_high(Deltasq_high);
         if (foundhigh == 0) {
-            cout << "Deltasq_high not found at event " << nevt << endl;
+            std::cout << "Deltasq_high not found at event " << nevt << std::endl;
             mt2_b = std::sqrt(Deltasq_low + mnsq);
             return;
         }
@@ -519,7 +517,7 @@ void mt2::mt2_bisect()
     return;
 }
 
-int mt2::find_high(double& Deltasq_high)
+int Mt2::find_high(double& Deltasq_high)
 {
     double x0, y0;
     x0 = (c1 * d1 - b1 * e1) / (b1 * b1 - a1 * c1);
@@ -556,7 +554,7 @@ int mt2::find_high(double& Deltasq_high)
     } while (Deltasq_high - Deltasq_low > 0.001);
     return 0;
 }
-int mt2::scan_high(double& Deltasq_high)
+int Mt2::scan_high(double& Deltasq_high)
 {
     int foundhigh = 0 ;
     int nsols_high;
@@ -566,7 +564,7 @@ int mt2::scan_high(double& Deltasq_high)
     tempmass = mn + ma;
     maxmass = std::sqrt(mnsq + Deltasq_high);
     if (nevt == 32334) {
-        cout << "Deltasq_high = " << Deltasq_high << endl;
+        std::cout << "Deltasq_high = " << Deltasq_high << std::endl;
     }
     for (double mass = tempmass + SCANSTEP; mass < maxmass; mass += SCANSTEP) {
         Deltasq_high = mass * mass - mnsq;
@@ -580,7 +578,7 @@ int mt2::scan_high(double& Deltasq_high)
     }
     return foundhigh;
 }
-int mt2::nsols(double Dsq)
+int Mt2::nsols(double Dsq)
 {
     double delta = (Dsq - masq) / (2 * Easq);
 
@@ -673,7 +671,7 @@ int mt2::nsols(double Dsq)
 
 }
 
-inline int mt2::signchange_n(long double t1, long double t2, long double t3, long double t4, long double t5)
+inline int Mt2::signchange_n(long double t1, long double t2, long double t3, long double t4, long double t5)
 {
     int nsc;
     nsc = 0;
@@ -691,7 +689,7 @@ inline int mt2::signchange_n(long double t1, long double t2, long double t3, lon
     }
     return nsc;
 }
-inline int mt2::signchange_p(long double t1, long double t2, long double t3, long double t4, long double t5)
+inline int Mt2::signchange_p(long double t1, long double t2, long double t3, long double t4, long double t5)
 {
     int nsc;
     nsc = 0;

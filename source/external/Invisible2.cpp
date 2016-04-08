@@ -41,15 +41,23 @@
    see examples/example22.cpp for an example.
 ********************************************************************************/
 
-#include <math.h>
+#include <cmath>
 #include <iostream>
 
 #include "external/Invisible2.hh"
 
-using namespace std;
-
 namespace wimpmass
 {
+
+namespace
+{
+
+double dot(double* p1, double* p2)
+{
+    return p1[0] * p2[0] - p1[1] * p2[1] - p1[2] * p2[2] - p1[3] * p2[3];
+}
+
+}
 
 void cubic(double* a, double* x, int& l)
 {
@@ -64,19 +72,19 @@ void cubic(double* a, double* x, int& l)
         dis = q * q + p;
         double phi;
         if (dis < 0.) {
-            phi = acos(min(1., max(-1., q / sqrt(-p))));
-            p   = 2.*sqrt(cbrt(-p));
+            phi = std::acos(std::min(1., std::max(-1., q / std::sqrt(-p))));
+            p   = 2.*std::sqrt(std::cbrt(-p));
 
-            for (int i = 1; i < 4; i ++) u[i - 1] = p * cos((phi + 2.*i * pi) * third) - w;
-            x[0] = min(u[0], min(u[1], u[2]));
-            x[1] = max(min(u[0], u[1]), max(min(u[0], u[2]), min(u[1], u[2])));
-            x[2] = max(u[0], min(u[1], u[2]));
+            for (int i = 1; i < 4; i ++) u[i - 1] = p * std::cos((phi + 2.*i * pi) * third) - w;
+            x[0] = std::min(u[0], std::min(u[1], u[2]));
+            x[1] = std::max(std::min(u[0], u[1]), std::max(std::min(u[0], u[2]), std::min(u[1], u[2])));
+            x[2] = std::max(u[0], std::min(u[1], u[2]));
             l = 3;
         } else {
 
 //only one real solution!
-            dis  = sqrt(dis);
-            x[0] = cbrt(q + dis) + cbrt(q - dis) - w;
+            dis  = std::sqrt(dis);
+            x[0] = std::cbrt(q + dis) + std::cbrt(q - dis) - w;
             l    = 1;
         }
     } else if (a[2] != 0.) {
@@ -84,8 +92,8 @@ void cubic(double* a, double* x, int& l)
         p   = 0.5 * a[1] / a[2];
         dis = p * p - a[0] / a[2];
         if (dis >= 0.) {
-            x[0] = - p - sqrt(dis);
-            x[1] = - p + sqrt(dis);
+            x[0] = - p - std::sqrt(dis);
+            x[1] = - p + std::sqrt(dis);
             l    = 2;
         } else l = 0;
     } else if (a[1] != 0.) {
@@ -109,8 +117,8 @@ void quartic(double* dd, double* sol, double* soli, int& nsol)
     c = dd[2];
     d = dd[1];
     e = dd[0];
-    if (fabs(dd[4]) < 10e-30) {
-        cout << "ERROR: NOT A QUARTIC EQUATION";
+    if (std::abs(dd[4]) < 10e-30) {
+        std::cout << "ERROR: NOT A QUARTIC EQUATION";
         return;
     };
     double p, q, r;
@@ -129,20 +137,20 @@ void quartic(double* dd, double* sol, double* soli, int& nsol)
     double zsol;
     zsol = -1.e+99;
     for (i = 0; i < ncube; i ++)
-        zsol = max(zsol, z[i]);
+        zsol = std::max(zsol, z[i]);
     z[0] = zsol;
     double xk2, xk;
     xk2 = 2. * z[0] - p;
-    xk  = sqrt(xk2);
+    xk  = std::sqrt(xk2);
 //-----------------------------------------------
     double xl2, xl;
-    if (fabs(xk) < 10.e-30) {
+    if (std::abs(xk) < 10.e-30) {
         xl2 = z[0] * z[0] - r;
         if (xl2 < 0.) {
-            //cout<<"Sorry, no solution\n";
+            //std::cout<<"Sorry, no solution\n";
             return;
         }
-        xl  = sqrt(xl2);
+        xl  = std::sqrt(xl2);
     } else {
         xl = q / (2.*xk);
     };
@@ -155,36 +163,36 @@ void quartic(double* dd, double* sol, double* soli, int& nsol)
     for (i = 0; i < 4; i ++) soli[i] = 0.;
 
     if (sqp >= 0. && sqm >= 0.) {
-        sol[0] = 0.5 * (xk + sqrt(sqp));
-        sol[1] = 0.5 * (xk - sqrt(sqp));
-        sol[2] = 0.5 * (-xk + sqrt(sqm));
-        sol[3] = 0.5 * (-xk - sqrt(sqm));
+        sol[0] = 0.5 * (xk + std::sqrt(sqp));
+        sol[1] = 0.5 * (xk - std::sqrt(sqp));
+        sol[2] = 0.5 * (-xk + std::sqrt(sqm));
+        sol[3] = 0.5 * (-xk - std::sqrt(sqm));
         nsol = 4;
     } else if (sqp >= 0. && sqm < 0.) {
-        sol[0] =  0.5 * (xk + sqrt(sqp));
-        sol[1] =  0.5 * (xk - sqrt(sqp));
+        sol[0] =  0.5 * (xk + std::sqrt(sqp));
+        sol[1] =  0.5 * (xk - std::sqrt(sqp));
         sol[2] = -0.5 * xk;
         sol[3] = -0.5 * xk;
-        soli[2] =  sqrt(-0.25 * sqm);
-        soli[3] = -sqrt(-0.25 * sqm);
+        soli[2] =  std::sqrt(-0.25 * sqm);
+        soli[3] = -std::sqrt(-0.25 * sqm);
         nsol = 2;
     } else if (sqp < 0. && sqm >= 0.) {
-        sol[0]  = 0.5 * (-xk + sqrt(sqm));
-        sol[1]  = 0.5 * (-xk - sqrt(sqm));
+        sol[0]  = 0.5 * (-xk + std::sqrt(sqm));
+        sol[1]  = 0.5 * (-xk - std::sqrt(sqm));
         sol[2]  =  0.5 * xk;
         sol[3]  =  0.5 * xk;
-        soli[2] =  sqrt(-0.25 * sqp);
-        soli[3] = -sqrt(-0.25 * sqp);
+        soli[2] =  std::sqrt(-0.25 * sqp);
+        soli[3] = -std::sqrt(-0.25 * sqp);
         nsol    = 2;
     } else if (sqp < 0. && sqm < 0.) {
         sol[0]  = -0.5 * xk;
         sol[1]  = -0.5 * xk;
-        soli[0] =  sqrt(-0.25 * sqm);
-        soli[1] = -sqrt(-0.25 * sqm);
+        soli[0] =  std::sqrt(-0.25 * sqm);
+        soli[1] = -std::sqrt(-0.25 * sqm);
         sol[2]  =  0.5 * xk;
         sol[3]  =  0.5 * xk;
-        soli[2] =  sqrt(-0.25 * sqp);
-        soli[3] = -sqrt(-0.25 * sqp);
+        soli[2] =  std::sqrt(-0.25 * sqp);
+        soli[3] = -std::sqrt(-0.25 * sqp);
         nsol    = 0;
     }
     for (i = 0; i < 4; i ++)
@@ -338,7 +346,7 @@ void solve22(event22& evt, double mn, double mx, double my, int& nsols, double p
 
     if (nsolreal == 0) {
 //       nerr = 1;
-        //    cout<< "no real solutions, nerr=1"<<endl;
+        //    std::cout<< "no real solutions, nerr=1"<<endl;
         return;
     };
 
@@ -357,11 +365,11 @@ void solve22(event22& evt, double mn, double mx, double my, int& nsols, double p
               4*a22*b11*e1*e2 + 4*a11*b22*e1*e2 - 2*a22*b12*e2*e2 +
               2*a12*b22*e2*e2;
 
-              double jac=fabs(detjacf*detval); */
+              double jac=std::abs(detjacf*detval); */
 
         if (e1 <= 0. || e2 <= 0.) {
 //             nerr = 3;
-            //cout<< "e1 or e2 < 0"<<e1<<e2<<endl;
+            //std::cout<< "e1 or e2 < 0"<<e1<<e2<<endl;
             continue;
         };
 

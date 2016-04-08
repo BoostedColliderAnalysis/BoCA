@@ -1,7 +1,7 @@
 #include "external/TopTagger.hh"
 #include "ClusterSequence.hh"
 
-namespace HEP
+namespace hep
 {
 
 double TopTagger::cos_theta_h() const

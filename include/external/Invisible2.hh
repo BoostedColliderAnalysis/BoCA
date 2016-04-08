@@ -28,22 +28,8 @@ struct event22 {
 
 void solve22(event22& evt, double mn, double mx, double my, int& nsols, double p1[][4], double p2[][4]);
 
-inline double dot(double* p1, double* p2)
-{
-    return p1[0] * p2[0] - p1[1] * p2[1] - p1[2] * p2[2] - p1[3] * p2[3];
 }
 
-}
-
-
-// #include "WIMPMASS.h"
-// #include <iostream>
-// #include <fstream>
-// #include <string.h>
-// #include <math.h>
-// #include <stdlib.h>
-// using namespace std;
-//
 // int main()
 // {
 //   //read a data file in the lhe format

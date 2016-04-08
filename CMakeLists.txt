@@ -44,6 +44,7 @@ set(ROOT_CXX_FLAGS "${ROOT_CXX_FLAGS} -std=c++14 -fext-numeric-literals")
 include(${ROOT_USE_FILE})
 add_libraries("${ROOT_LIBRARIES}")
 add_libraries(TMVA)
+add_libraries(MathMore)
 
 # Doxygen
 # if(CMAKE_BUILD_TYPE MATCHES "Release")

@@ -11,7 +11,7 @@
 
 #pragma once
 
-#include <limits.h>
+#include <climits>
 
 #include "math/Vector3.hh"
 
