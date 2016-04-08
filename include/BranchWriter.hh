@@ -7,6 +7,7 @@
 #include "Reader.hh"
 #include "Branches.hh"
 #include "File.hh"
+#include <mutex>
 
 namespace boca
 {
@@ -41,10 +42,12 @@ public:
     void SafeEntry() {
         InfoBranch info_branch(Import());
         info_branch.SetEventNumber(EventSum());
+        std::lock_guard<std::mutex> lock(write_mutex);
         TreeBranch().AddEntry(info_branch);
         TreeWriter().Fill();
     }
     void Increment(int number) {
+        std::lock_guard<std::mutex> lock(sum_mutex);
         object_sum_ += number;
         if (number > 0) ++event_sum_;
     }
@@ -57,8 +60,8 @@ public:
         return tagger_;
     }
 
-    bool KeepGoing(long max) const {
-        return object_sum_ < max;
+    bool KeepGoing(std::function<long(Stage)> const& event_number_max) const {
+      return object_sum_ < event_number_max(Phase().Stage());
     }
 
     boca::Phase Phase() const {
@@ -74,7 +77,6 @@ private:
     long EventSum() const {
         return event_sum_;
     }
-
 
     boca::FileWriter& FileWriter() {
         return file_writer_;
@@ -105,6 +107,10 @@ private:
     File& import_file_;
 
     boca::FileWriter& file_writer_;
+
+    std::mutex sum_mutex;
+
+    std::mutex write_mutex;
 
 };
 

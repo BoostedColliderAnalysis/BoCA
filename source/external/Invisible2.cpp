@@ -327,7 +327,8 @@ void solve22(event22& evt, double mn, double mx, double my, int& nsols, double p
     dd[3] = bf;
     dd[4] = af;
 
-    int nsolreal, nerr;
+    int nsolreal;
+//     int nerr;
     double e1, e2;
     //double detjacf;
 
@@ -359,7 +360,7 @@ void solve22(event22& evt, double mn, double mx, double my, int& nsols, double p
               double jac=fabs(detjacf*detval); */
 
         if (e1 <= 0. || e2 <= 0.) {
-            nerr = 3;
+//             nerr = 3;
             //cout<< "e1 or e2 < 0"<<e1<<e2<<endl;
             continue;
         };

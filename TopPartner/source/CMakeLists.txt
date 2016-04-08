@@ -1,4 +1,4 @@
-create_dictionary(BranchTopPartner BranchesTopPartner.cpp ../include/LinkDefTopPartner.hh)
+create_dictionary(BranchTopPartner BranchesTopPartner.cpp BranchesTopPartner.hh LinkDefTopPartner.hh)
 
 set(AnalysisSources
 AnalysisTopPartner.cpp

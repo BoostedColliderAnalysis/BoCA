@@ -50,50 +50,26 @@ private:
      *
      */
     void FileLoop(BranchWriter<Tagger_> branch_writer) {
-        bool do_threading = true;
-        if (do_threading) {
-            std::vector<std::thread> threads;
-//             int cores = std::thread::hardware_concurrency(); // breaks in the tree reader, find  a cheap way to store the position of the data
-            int cores = 1;
-            for (auto core : IntegerRange(cores)) threads.emplace_back(Thread(branch_writer, cores, core));
-            for (auto & thread : threads) thread.join();
-        } else {
-            int cores = 1;
-            int core = 0;
-            Third<Tagger_> third(branch_writer, core, cores, TrainNumberMax());
-            third.ReadEvents(PreCuts(), EventNumberMax(third.BranchWriter().Phase().Stage()), [&](Event const & event, Tag tag) {
-                return PassPreCut(event, tag);
-            });
-        }
-    }
-
-    auto Thread(BranchWriter<Tagger_> & branch_writer, int cores, int core) {
-        return std::thread([&, core, cores] {
-            Third<Tagger_> third(branch_writer, core, cores, TrainNumberMax());
-            third.ReadEvents(PreCuts(), EventNumberMax(third.BranchWriter().Phase().Stage()), [&](Event const & event, Tag tag) {
-              return PassPreCut(event, tag);
-            });
-        });
-    }
-
-    /**
-     * @brief Analysis performed on each file
-     *
-     */
-    void FileLoop2(BranchWriter<Tagger_> branch_writer) {
+        bool threading = true;
+        if (threading){
         std::vector<std::thread> threads;
-        // int cores = std::thread::hardware_concurrency(); // breaks in the tree reader, find  a cheap way to store the position of the data
+        // int cores = std::thread::hardware_concurrency();
         int cores = 1;
-        for (auto core : IntegerRange(cores)) threads.emplace_back(Thread(branch_writer, cores, core, TrainNumberMax()));
+//         for (auto core : IntegerRange(cores))
+          for(int core = 0; core < cores; ++core)
+            threads.emplace_back([&] {
+            Thread({branch_writer, TrainNumberMax(), cores, core});
+        });
         for (auto & thread : threads) thread.join();
+        } else Thread({branch_writer, TrainNumberMax(), 1, 0});
     }
 
-    auto Thread2(Third<Tagger_> third){
-      return std::thread([&] {
-        third.ReadEvents(PreCuts(), EventNumberMax(third.BranchWriter().Phase().Stage()), [&](Event const & event, Tag tag) {
+    void Thread(Third<Tagger_> third){
+        third.ReadEvents(PreCuts(), [&](Stage stage){
+          return EventNumberMax(stage);
+        }, [&](Event const & event, Tag tag) {
           return PassPreCut(event, tag);
         });
-      });
     }
 
     void RunSignificance() {

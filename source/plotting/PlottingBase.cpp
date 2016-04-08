@@ -110,7 +110,7 @@ std::vector<Result> PlottingBase::ReadBdtFile(TFile& export_file, Phase const& p
         switch (Tagger().Mva()) {
         case TMVA::Types::EMVA::kBDT : return BdtDistribution(phase, tree_number, export_file);
         case TMVA::Types::EMVA::kCuts : return CutDistribution(phase, tree_number, export_file);
-            DEFAULT(Tagger().MvaName());
+            DEFAULT(Tagger().MvaName(),Result());
         }
     });
 }
@@ -124,8 +124,7 @@ Result PlottingBase::BdtDistribution(Phase const& phase, int tree_number, TFile&
     TreeWriter tree_writer(export_file, Tagger().TreeNames(phase).at(tree_number));
     auto & branch = tree_writer.NewBranch<BdtBranch>(branch_name);
     std::vector<double> bdts;
-    for (auto const & event_number : IntegerRange(tree_reader.GetEntries())) {
-        tree_reader.ReadEntry(event_number);
+    while(tree_reader.Next()) {
         for (auto const & entry : array) {
             double bdt = static_cast<BdtBranch const&>(entry).Bdt;
             branch.AddEntry<BdtBranch>().Bdt = bdt;
@@ -146,8 +145,7 @@ Result PlottingBase::CutDistribution(Phase const& phase, int tree_number, TFile&
     TreeWriter tree_writer(export_file, Tagger().TreeNames(phase).at(tree_number));
     auto & branch = tree_writer.NewBranch<CutBranch>(branch_name);
     std::vector<std::vector<bool>> passed_matrix;
-    for (auto const & event_number : IntegerRange(tree_reader.GetEntries())) {
-        tree_reader.ReadEntry(event_number);
+    while(tree_reader.Next()) {
         for (auto const & entry : array) {
             auto passed_vector = static_cast<CutBranch const &>(entry).passed_;
             branch.AddEntry<CutBranch>().passed_ = passed_vector;

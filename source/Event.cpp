@@ -42,6 +42,7 @@ Event::Event(TreeReader const& tree_reader, Source source) : isolation_(*this, t
     case Source::parton :
         partons_ = new exroot::Partons(tree_reader);
         break;
+        DEFAULT(Name(source_));
     }
 }
 
@@ -61,6 +62,7 @@ Event::~Event()
     case Source::parton:
         delete partons_;
         break;
+        DEFAULT(Name(source_));
     }
     partons_ = nullptr;
     leptons_ = nullptr;

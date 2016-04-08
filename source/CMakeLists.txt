@@ -9,13 +9,13 @@ add_subdirectory(physics)
 add_subdirectory(exroot)
 add_subdirectory(delphes)
 add_subdirectory(multiplets)
-
-create_dictionary(Colors Colors.cpp ../include/LinkDef.hh)
+#
+create_dictionary(Colors Colors.cpp Colors.hh LinkDef.hh)
 add_subdirectory(plotting)
 
 add_include_path(../include)
-create_dictionary(Branches Branches.cpp ../include/LinkDef.hh)
-create_dictionary(Names Names.cpp ../include/LinkDef.hh)
+create_dictionary(Branches Branches.cpp Branches.hh LinkDef.hh)
+create_dictionary(Names Names.cpp Names.hh LinkDef.hh)
 
 set(fastjet_sources
 ClusterSequence.cpp

@@ -3,7 +3,7 @@
 #
 add_include_path(../../include/exroot)
 
-create_dictionary(ExRoot ExRootClasses.cc ../../include/exroot/ExRootAnalysisLinkDef.h exroot)
+create_dictionary(ExRoot ExRootClasses.cc ExRootClasses.h ExRootAnalysisLinkDef.h exroot)
 
 set(EventExRootSources
 Partons.cpp

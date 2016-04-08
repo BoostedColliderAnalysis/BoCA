@@ -13,7 +13,7 @@ class Third
 {
 public:
 
-    Third(boca::BranchWriter<Tagger_>& branch_writer, int core_number, int core_sum, int object_sum_max) :
+    Third(boca::BranchWriter<Tagger_>& branch_writer, long object_sum_max, int core_number, int core_sum) :
         branch_writer_(branch_writer),
         reader_(branch_writer.Reader()),
         tagger_(branch_writer.Tagger()),
@@ -22,12 +22,8 @@ public:
         core_sum_ = core_sum;
     }
 
-    void ReadEvents(PreCuts const& pre_cuts, long event_number_max, std::function<int(Event const&, Tag)> const& pass_pre_cut) {
-        while (KeepGoing(event_number_max)) ReadEvent(pre_cuts, pass_pre_cut);
-    }
-
-    boca::BranchWriter<Tagger_>& BranchWriter() {
-        return branch_writer_;
+    void ReadEvents(PreCuts const& pre_cuts, std::function<long(Stage)> const& event_number_max, std::function<int(Event const&, Tag)> const& pass_pre_cut) {
+      while (KeepGoing(event_number_max)) ReadEvent(pre_cuts, pass_pre_cut);
     }
 
 private:
@@ -72,8 +68,12 @@ private:
         if (number > 0) BranchWriter().Increment(number);
     }
 
-    bool KeepGoing(int number) const {
-        return EventNumber() < GetEntries() && BranchWriter().KeepGoing(number);
+    bool KeepGoing(std::function<long(Stage)> const& event_number_max) const {
+        return EventNumber() < GetEntries() && BranchWriter().KeepGoing(event_number_max);
+    }
+
+    boca::BranchWriter<Tagger_>& BranchWriter() {
+        return branch_writer_;
     }
 
     boca::TreeReader& TreeReader() {
