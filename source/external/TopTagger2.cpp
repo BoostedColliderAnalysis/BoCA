@@ -1,7 +1,10 @@
-#include "external/TopTagger2.hh"
+#include "fastjet/tools/Filter.hh"
+
+#include "fastjet/contrib/Nsubjettiness.hh"
+
 #include "external/QJetsPlugin.hh"
 #include "external/QJetsBaseExtras.hh"
-#include "fastjet/tools/Filter.hh"
+#include "external/TopTagger2.hh"
 
 namespace hep
 {
@@ -17,9 +20,9 @@ double R_opt_calc_funct(double pt_filt)
 }
 
 //uncluster a fat jet to subjets of given cone size
-void TopTagger2::UnclusterFatjets(const std::vector<fastjet::PseudoJet>& big_fatjets,
+void TopTagger2::UnclusterFatjets(std::vector<fastjet::PseudoJet> const& big_fatjets,
                                   std::vector<fastjet::PseudoJet>& small_fatjets,
-                                  const fastjet::ClusterSequence& cseq,
+                                  fastjet::ClusterSequence const& cseq,
                                   const double small_radius)
 {
     for (unsigned i = 0; i < big_fatjets.size(); i++) {
@@ -56,7 +59,7 @@ TopTagger2::TopTagger2() : _do_optimalR(1), _do_qjets(0),
     _debug(false)
 {}
 
-TopTagger2::TopTagger2(const fastjet::PseudoJet& jet
+TopTagger2::TopTagger2(fastjet::PseudoJet const& jet
                       ) : _do_optimalR(1), _do_qjets(0),
     _jet(jet), _initial_jet(jet),
     _mass_drop_threshold(0.8), _max_subjet_mass(30.),
@@ -74,7 +77,7 @@ TopTagger2::TopTagger2(const fastjet::PseudoJet& jet
     _debug(false)
 {}
 
-TopTagger2::TopTagger2(const fastjet::PseudoJet& jet,
+TopTagger2::TopTagger2(fastjet::PseudoJet const& jet,
                        double mtmass, double mwmass
                       ) : _do_optimalR(1), _do_qjets(0),
     _jet(jet), _initial_jet(jet),
@@ -134,14 +137,14 @@ void TopTagger2::run()
         std::vector<fastjet::PseudoJet> _q_constits;
         fastjet::ClusterSequence* _qjet_seq;
         fastjet::PseudoJet _qjet;
-        const fastjet::ClusterSequence* _seq;
+        fastjet::ClusterSequence const* _seq;
         _seq = _initial_jet.validated_cluster_sequence();
         if (_do_qjets) {
             _q_constits = _initial_jet.associated_cluster_sequence()->constituents(_initial_jet);
             _qjet_seq = new fastjet::ClusterSequence(_q_constits, _qjet_def);
             _qjet = sorted_by_pt(_qjet_seq->inclusive_jets())[0];
             _qjet_seq->delete_self_when_unused();
-            const qjets::QJetsBaseExtras* ext = dynamic_cast<const qjets::QJetsBaseExtras*>(_qjet_seq->extras());
+            qjets::QJetsBaseExtras const* ext = dynamic_cast<qjets::QJetsBaseExtras const*>(_qjet_seq->extras());
             _qweight = ext->weight();
             _jet = _qjet;
             _seq = _qjet_seq;
@@ -294,55 +297,55 @@ double TopTagger2::f_rec()
 {
     return _TopTagger2_opt.f_rec();
 }
-const fastjet::PseudoJet& TopTagger2::t() const
+fastjet::PseudoJet const& TopTagger2::t() const
 {
     return _TopTagger2_opt.t();
 }
-const fastjet::PseudoJet& TopTagger2::b() const
+fastjet::PseudoJet const& TopTagger2::b() const
 {
     return _TopTagger2_opt.b();
 }
-const fastjet::PseudoJet& TopTagger2::W() const
+fastjet::PseudoJet const& TopTagger2::W() const
 {
     return _TopTagger2_opt.W();
 }
-const fastjet::PseudoJet& TopTagger2::W1() const
+fastjet::PseudoJet const& TopTagger2::W1() const
 {
     return _TopTagger2_opt.W1();
 }
-const fastjet::PseudoJet& TopTagger2::W2() const
+fastjet::PseudoJet const& TopTagger2::W2() const
 {
     return _TopTagger2_opt.W2();
 }
-const std::vector< fastjet::PseudoJet >& TopTagger2::top_subjets() const
+std::vector< fastjet::PseudoJet > const& TopTagger2::top_subjets() const
 {
     return _TopTagger2_opt.top_subjets();
 }
-const fastjet::PseudoJet& TopTagger2::j1() const
+fastjet::PseudoJet const& TopTagger2::j1() const
 {
     return _TopTagger2_opt.j1();
 }
-const fastjet::PseudoJet& TopTagger2::j2() const
+fastjet::PseudoJet const& TopTagger2::j2() const
 {
     return _TopTagger2_opt.j2();
 }
-const fastjet::PseudoJet& TopTagger2::j3() const
+fastjet::PseudoJet const& TopTagger2::j3() const
 {
     return _TopTagger2_opt.j3();
 }
-const std::vector< fastjet::PseudoJet >& TopTagger2::top_hadrons() const
+std::vector< fastjet::PseudoJet > const& TopTagger2::top_hadrons() const
 {
     return _TopTagger2_opt.top_hadrons();
 }
-const std::vector< fastjet::PseudoJet >& TopTagger2::hardparts() const
+std::vector< fastjet::PseudoJet > const& TopTagger2::hardparts() const
 {
     return _TopTagger2_opt.hardparts();
 }
-const fastjet::PseudoJet& TopTagger2::fat_initial()
+fastjet::PseudoJet const& TopTagger2::fat_initial()
 {
     return _fat;
 }
-const fastjet::PseudoJet& TopTagger2::fat_Ropt()
+fastjet::PseudoJet const& TopTagger2::fat_Ropt()
 {
     return _TopTagger2_opt.fat_initial();
 }

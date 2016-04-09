@@ -9,12 +9,12 @@ class TopTagger2
 {
 
 public:
-  
+
     TopTagger2();
 
-    TopTagger2(const fastjet::PseudoJet& jet);
+    TopTagger2(fastjet::PseudoJet const& jet);
 
-    TopTagger2(const fastjet::PseudoJet& jet, double mtmass, double mwmass );
+    TopTagger2(fastjet::PseudoJet const& jet, double mtmass, double mwmass);
 
     //run tagger
     void run();
@@ -31,19 +31,19 @@ public:
     double unfiltered_mass() const;
 
     double f_rec();
-    const fastjet::PseudoJet& t() const;
-    const fastjet::PseudoJet& b() const;
-    const fastjet::PseudoJet& W() const;
-    const fastjet::PseudoJet& W1() const;
-    const fastjet::PseudoJet& W2() const;
-    const std::vector<fastjet::PseudoJet>& top_subjets() const;
-    const fastjet::PseudoJet& j1() const;
-    const fastjet::PseudoJet& j2() const;
-    const fastjet::PseudoJet& j3() const;
-    const std::vector<fastjet::PseudoJet>& top_hadrons() const;
-    const std::vector<fastjet::PseudoJet>& hardparts() const;
-    const fastjet::PseudoJet& fat_initial();
-    const fastjet::PseudoJet& fat_Ropt();
+    fastjet::PseudoJet const& t() const;
+    fastjet::PseudoJet const& b() const;
+    fastjet::PseudoJet const& W() const;
+    fastjet::PseudoJet const& W1() const;
+    fastjet::PseudoJet const& W2() const;
+    std::vector<fastjet::PseudoJet> const& top_subjets() const;
+    fastjet::PseudoJet const& j1() const;
+    fastjet::PseudoJet const& j2() const;
+    fastjet::PseudoJet const& j3() const;
+    std::vector<fastjet::PseudoJet> const& top_hadrons() const;
+    std::vector<fastjet::PseudoJet> const& hardparts() const;
+    fastjet::PseudoJet const& fat_initial();
+    fastjet::PseudoJet const& fat_Ropt();
     TopTaggerFixedR TopTagger2agger(int i);
 
     double Ropt() const;
@@ -153,71 +153,66 @@ private:
     bool _debug;
     double _qweight;
 
-    void UnclusterFatjets(const std::vector<fastjet::PseudoJet>& big_fatjets, std::vector<fastjet::PseudoJet>& small_fatjets, const fastjet::ClusterSequence& cs, const double small_radius);
+    void UnclusterFatjets(std::vector<fastjet::PseudoJet> const& big_fatjets, std::vector<fastjet::PseudoJet>& small_fatjets, fastjet::ClusterSequence const& cs, const double small_radius);
 
 };
 
 }
 
-// int main(int argc, char *argv[])
+// int main(int argc, char* argv[])
 // {
-//   vector<fastjet::PseudoJet> hadrons;
+//     std::vector<fastjet::PseudoJet> hadrons;
 //
-//   //  jet definition
-//   double conesize=1.5;
-//   fastjet::JetDefinition jet_def(fastjet::cambridge_algorithm,conesize);
+//     //  jet definition
+//     double conesize = 1.5;
+//     fastjet::JetDefinition jet_def(fastjet::cambridge_algorithm, conesize);
 //
-//   // Read input and convert MeV->GeV
-//   ifstream fin("input.dat",ifstream::in );
-//   vector<fastjet::PseudoJet> input_clusters(0);
-//   while(!fin.eof()){
-//     double x,y,z,e;
-//     fastjet::PseudoJet p;
-//     fin >> x >> y >> z >> e;
-//     if(!fin.eof()){
-//       p.reset(x/1000., y/1000., z/1000., e/1000.);
-//       input_clusters.push_back(p);
+//     // Read input and convert MeV->GeV
+//     std::ifstream fin("input.dat", std::ifstream::in);
+//     std::vector<fastjet::PseudoJet> input_clusters(0);
+//     while (!fin.eof()) {
+//         double x, y, z, e;
+//         fastjet::PseudoJet p;
+//         fin >> x >> y >> z >> e;
+//         if (!fin.eof()) {
+//             p.reset(x / 1000., y / 1000., z / 1000., e / 1000.);
+//             input_clusters.push_back(p);
+//         }
 //     }
-//   }
-//   cout << "ReadEvent: " << input_clusters.size() << " particles are read" << endl;
+//     std::cout << "ReadEvent: " << input_clusters.size() << " particles are read" << std::endl;
 //
-//   // run the jet finding; find the hardest jet
-//   fastjet::ClusterSequence clust_seq(input_clusters, jet_def);
-//   double ptmin_jet=200.;
-//   vector<fastjet::PseudoJet> jets = sorted_by_pt(clust_seq.inclusive_jets(ptmin_jet));
+//     // run the jet finding; find the hardest jet
+//     fastjet::ClusterSequence clust_seq(input_clusters, jet_def);
+//     double ptmin_jet = 200.;
+//     std::vector<fastjet::PseudoJet> jets = fastjet::sorted_by_pt(clust_seq.inclusive_jets(ptmin_jet));
 //
 //
-//   for(unsigned ijet=0; ijet<jets.size(); ijet++)
-//   {
-//     HEPTopTagger::HEPTopTagger tagger(jets[ijet]);
+//     for (unsigned ijet = 0; ijet < jets.size(); ijet++) {
+//         hep::TopTagger2 tagger(jets[ijet]);
 //
-//     // Unclustering, Filtering & Subjet Settings
-//     tagger.set_max_subjet_mass(30.);
-//     tagger.set_mass_drop_threshold(0.8);
-//     tagger.set_filtering_R(0.3);
-//     tagger.set_filtering_n(5);
-//     tagger.set_filtering_minpt_subjet(30.);
+//         // Unclustering, Filtering & Subjet Settings
+//         tagger.set_max_subjet_mass(30.);
+//         tagger.set_mass_drop_threshold(0.8);
+//         tagger.set_filtering_R(0.3);
+//         tagger.set_filtering_n(5);
+//         tagger.set_filtering_minpt_subjet(30.);
 //
-//     // How to select among candidates
-//     tagger.set_mode(HEPTopTagger::TWO_STEP_FILTER);
+//         // How to select among candidates
+//         tagger.set_mode(hep::TWO_STEP_FILTER);
 //
-//     // Requirements to accept a candidate
-//     tagger.set_top_minpt(200);
-//     tagger.set_top_mass_range(150., 200.);
-//     tagger.set_fw(0.15);
+//         // Requirements to accept a candidate
+//         tagger.set_top_minpt(200);
+//         tagger.set_top_mass_range(150., 200.);
+//         tagger.set_fw(0.15);
 //
-//     // Run the tagger
-//     tagger.run();
+//         // Run the tagger
+//         tagger.run();
 //
-//     // Look at output if we have a tag:
-//     if (tagger.is_tagged()){
-//       cout << "Input fatjet: " << ijet << "  pT = " << jets[ijet].perp() << std::endl;
-//       cout << "Output: pT = " << tagger.t().perp() << " Mass = " << tagger.t().m() << " f_rec = " << tagger.f_rec() << std::endl;
+//         // Look at output if we have a tag:
+//         if (tagger.is_tagged()) {
+//             std::cout << "Input fatjet: " << ijet << "  pT = " << jets[ijet].perp() << std::endl;
+//             std::cout << "Output: pT = " << tagger.t().perp() << " Mass = " << tagger.t().m() << " f_rec = " << tagger.f_rec() << std::endl;
+//         }
 //     }
-//
-//   } // end of top tagger
-//
-//   //*********************
-//   return 0;  // end of main
 // }
 

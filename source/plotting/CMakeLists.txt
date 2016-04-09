@@ -1,7 +1,6 @@
 #
 # Copyright (C) 2015-2016 Jan Hajer
 #
-add_include_path(../../include/)
 set(plot_sources
 PlottingBase.cpp
 Result.cpp

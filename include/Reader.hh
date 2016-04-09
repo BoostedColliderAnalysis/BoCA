@@ -27,21 +27,21 @@ class Reader
 public:
 
     Reader(Stage stage = Stage::reader) :
+        stage_(stage),
         reader_(Options()) {
-        stage_ = stage;
         Initialize();
     }
 
     Reader(Reader const& reader) :
-        reader_(Options()),
         stage_(reader.stage_),
+        reader_(Options()),
         tagger_(reader.tagger_) {
         Initialize();
     }
 
     Reader(Reader const && reader) :
-        reader_(Options()),
         stage_(std::move(reader.stage_)),
+        reader_(Options()),
         tagger_(std::move(reader.tagger_)) {
         Initialize();
     }
@@ -174,11 +174,11 @@ private:
       return false;
     }
 
+    Stage stage_;
+
     TMVA::Reader reader_;
 
     Tagger_ tagger_;
-
-    Stage stage_;
 
 };
 

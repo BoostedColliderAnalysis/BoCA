@@ -136,16 +136,16 @@ public:
     }
 
 // Get position and time.
-    Value X() const {
+    Value const& X() const {
         return vector_3_.X();
     }
-    Value Y() const {
+    Value const& Y() const {
         return vector_3_.Y();
     }
-    Value Z() const {
+    Value const& Z() const {
         return vector_3_.Z();
     }
-    Value T() const {
+    Value const& T() const {
         return scalar_;
     }
 
@@ -163,11 +163,15 @@ public:
     }
 
 // Get spatial component.
-    Vector3<Value> Vect() const {
+//     Vector3<Value> Vector() const {
+//         return vector_3_;
+//     }
+    Vector3<Value> const& Vector() const {
         return vector_3_;
     }
-    Vector3<Value> Vector() const {
-        return vector_3_;
+
+    Vector3<Value> & Vector() {
+      return vector_3_;
     }
 
 // Get spatial vector components in spherical coordinate system.
@@ -345,7 +349,7 @@ public:
             std::cout << "A zero vector used as reference to LorentzVector rapidity" << std::endl;
             return 0;
         }
-        Value vdotu = Vect().Dot(ref) / std::sqrt(r);
+        Value vdotu = Vector().Dot(ref) / std::sqrt(r);
         if (vdotu == Value(0)) return 0_rad;
         if (T() <= Value(0)) std::cout << "Tried to take rapidity of negative-energy Lorentz vector" << std::endl;
         Value pt = sqrt(units::max(sqr(T() * std::numeric_limits<double>::epsilon()), Perp2(ref) + Mag2()));
@@ -396,7 +400,7 @@ public:
     // Scalar product.
     template <typename Value_2>
     ValueProduct<Value_2> Dot(LorentzVectorBase<Value_2> const& lorentz_vector) const {
-        return T() * lorentz_vector.T() - Vect().Dot(lorentz_vector.Vect());
+        return T() * lorentz_vector.T() - Vector().Dot(lorentz_vector.Vector());
     }
 
     // Get components by index.
@@ -452,12 +456,12 @@ public:
     // Additions.
     template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
     LorentzVectorBase operator+(const LorentzVectorBase<Value_2>& lorentz_vector) const {
-        return {vector_3_ + lorentz_vector.Vect(), scalar_ + lorentz_vector.T()};
+        return {vector_3_ + lorentz_vector.Vector(), scalar_ + lorentz_vector.T()};
     }
 
     template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
     LorentzVectorBase& operator+=(LorentzVectorBase<Value_2> const& lorentz_vector) {
-        vector_3_ += lorentz_vector.Vect();
+        vector_3_ += lorentz_vector.Vector();
         scalar_ += lorentz_vector.T();
         return *this;
     }
@@ -465,7 +469,7 @@ public:
     // Subtractions.
     template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
     LorentzVectorBase operator-(LorentzVectorBase<Value_2> const& lorentz_vector) const {
-        return {vector_3_ - lorentz_vector.Vect(), scalar_ - lorentz_vector.T()};
+        return {vector_3_ - lorentz_vector.Vector(), scalar_ - lorentz_vector.T()};
     }
 
     // Divison by scalar
@@ -476,7 +480,7 @@ public:
 
     template <typename Value_2, typename = OnlyIfNotOrSameQuantity<Value_2>>
     LorentzVectorBase& operator-=(LorentzVectorBase<Value_2> const& lorentz_vector) {
-        vector_3_ -= lorentz_vector.Vect();
+        vector_3_ -= lorentz_vector.Vector();
         scalar_ -= lorentz_vector.T();
         return *this;
     }
@@ -502,11 +506,11 @@ public:
 
     // Comparisons.
     bool operator==(LorentzVectorBase const& lorentz_vector) const {
-        return Vect() == lorentz_vector.Vect() && T() == lorentz_vector.T();
+        return Vector() == lorentz_vector.Vector() && T() == lorentz_vector.T();
     }
 
     bool operator!=(LorentzVectorBase const& lorentz_vector) const {
-        return Vect() != lorentz_vector.Vect() || T() != lorentz_vector.T();
+        return Vector() != lorentz_vector.Vector() || T() != lorentz_vector.T();
     }
 
 protected:
@@ -519,14 +523,17 @@ protected:
 
 };
 
-template <typename>
-struct IsLorentzVectorBase : std::false_type {};
+// template <typename>
+// struct IsLorentzVectorBase : std::false_type {};
+//
+// template <typename Value>
+// struct IsLorentzVectorBase<LorentzVectorBase<Value>> : std::true_type {};
 
-template <typename Value>
-struct IsLorentzVectorBase<LorentzVectorBase<Value>> : std::true_type {};
+// template<typename Value>
+// using OnlyIfNotLorentzVectorBase = typename std::enable_if < !IsLorentzVectorBase<Value>::value >::type;
 
 template<typename Value>
-using OnlyIfNotLorentzVectorBase = typename std::enable_if < !IsLorentzVectorBase<Value>::value >::type;
+using OnlyIfNotLorentzVectorBase = typename std::enable_if<std::is_base_of<LorentzVectorBase<Value>, Value>::value>::type;
 
 // Scalar product of lorentzvectors.
 template <class Value, class Value_2>

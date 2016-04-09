@@ -1,8 +1,6 @@
 #
 # Copyright (C) 2015-2016 Jan Hajer
 #
-add_include_path(../../include/io)
-
 set(TreeSources
 Io.cpp
 # Arrays.cpp

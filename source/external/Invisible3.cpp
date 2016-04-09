@@ -60,15 +60,6 @@ namespace wimpmass
 
 int solve3quad(double* coeff, double* solutions);
 
-namespace {
-
-double dot(double* p1, double* p2)
-{
-  return p1[0] * p2[0] - p1[1] * p2[1] - p1[2] * p2[2] - p1[3] * p2[3];
-}
-
-}
-
 double mass2(double E, double px, double py, double pz)
 {
     double m = E * E - px * px - py * py - pz * pz;

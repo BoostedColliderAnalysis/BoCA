@@ -60,29 +60,49 @@ LorentzVector< Momentum >::LorentzVector(const exroot::Muon& muon)
 {
     LorentzVectorByMass(muon, MassOf(Id::muon));
 }
-Momentum LorentzVector< Momentum >::Px() const
+Momentum const& LorentzVector< Momentum >::Px() const
 {
     return X();
 }
-Momentum LorentzVector< Momentum >::Py() const
+Momentum const& LorentzVector< Momentum >::Py() const
 {
     return Y();
 }
-Momentum LorentzVector< Momentum >::Pz() const
+Momentum const& LorentzVector< Momentum >::Pz() const
 {
     return Z();
+}
+Energy const& LorentzVector< Momentum >::E() const
+{
+    return T();
+}
+Energy const& LorentzVector< Momentum >::Energy() const
+{
+    return T();
+}
+Momentum & LorentzVector< Momentum >::Px()
+{
+  return X();
+}
+Momentum & LorentzVector< Momentum >::Py()
+{
+  return Y();
+}
+Momentum & LorentzVector< Momentum >::Pz()
+{
+  return Z();
+}
+Energy & LorentzVector< Momentum >::E()
+{
+  return T();
+}
+Energy & LorentzVector< Momentum >::Energy()
+{
+  return T();
 }
 Momentum LorentzVector< Momentum >::P() const
 {
     return vector_3_.Mag();
-}
-Energy LorentzVector< Momentum >::E() const
-{
-    return T();
-}
-Energy LorentzVector< Momentum >::Energy() const
-{
-    return T();
 }
 void LorentzVector< Momentum >::SetPx(Momentum a)
 {
@@ -150,7 +170,7 @@ Momentum LorentzVector< Momentum >::Pt() const
 
 LorentzVector< Momentum >::LorentzVector(const LorentzVectorBase<Momentum>& lorentz_vector)
 {
-    vector_3_ = lorentz_vector.Vect();
+    vector_3_ = lorentz_vector.Vector();
     scalar_ = lorentz_vector.T();
 }
 

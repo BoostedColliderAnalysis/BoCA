@@ -1,8 +1,11 @@
-#include "external/TopTaggerFixedR.hh"
 #include "fastjet/tools/Pruner.hh"
 #include "fastjet/tools/Filter.hh"
+
+#include "fastjet/contrib/Nsubjettiness.hh"
+
 #include "external/QJetsPlugin.hh"
 #include "external/QJetsBaseExtras.hh"
+#include "external/TopTaggerFixedR.hh"
 
 namespace hep
 {
@@ -24,7 +27,7 @@ void TopTaggerFixedR::print_banner()
 }
 
 //pt wrt a reference std::vector
-double TopTaggerFixedR::perp(const fastjet::PseudoJet& vec, const fastjet::PseudoJet& ref)
+double TopTaggerFixedR::perp(fastjet::PseudoJet const& vec, fastjet::PseudoJet const& ref)
 {
     double ref_ref = ref.px() * ref.px() + ref.py() * ref.py() + ref.pz() * ref.pz();
     double vec_ref = vec.px() * ref.px() + vec.py() * ref.py() + vec.pz() * ref.pz();
@@ -37,7 +40,7 @@ double TopTaggerFixedR::perp(const fastjet::PseudoJet& vec, const fastjet::Pseud
 }
 
 //modified Jade distance
-double TopTaggerFixedR::djademod(const fastjet::PseudoJet& subjet_i, const fastjet::PseudoJet& subjet_j, const fastjet::PseudoJet& ref)
+double TopTaggerFixedR::djademod(fastjet::PseudoJet const& subjet_i, fastjet::PseudoJet const& subjet_j, fastjet::PseudoJet const& ref)
 {
     double dj = -1.0;
     double delta_phi = subjet_i.delta_phi_to(subjet_j);
@@ -63,7 +66,7 @@ double TopTaggerFixedR::f_rec()
 }
 
 //find hard substructures
-void TopTaggerFixedR::FindHardSubst(const fastjet::PseudoJet& this_jet, std::vector<fastjet::PseudoJet>& t_parts)
+void TopTaggerFixedR::FindHardSubst(fastjet::PseudoJet const& this_jet, std::vector<fastjet::PseudoJet>& t_parts)
 {
     fastjet::PseudoJet parent1(0, 0, 0, 0), parent2(0, 0, 0, 0);
     if (this_jet.m() < _max_subjet_mass || !this_jet.validated_cs()->has_parents(this_jet, parent1, parent2)) {
@@ -78,7 +81,7 @@ void TopTaggerFixedR::FindHardSubst(const fastjet::PseudoJet& this_jet, std::vec
 }
 
 //store subjets as std::vector<fastjet::PseudoJet> with [0]->b [1]->W-jet 1 [2]->W-jet 2
-void TopTaggerFixedR::store_topsubjets(const std::vector<fastjet::PseudoJet>& top_subs)
+void TopTaggerFixedR::store_topsubjets(std::vector<fastjet::PseudoJet> const& top_subs)
 {
     _top_subjets.resize(0);
     double m12 = (top_subs[0] + top_subs[1]).m();
@@ -106,7 +109,7 @@ void TopTaggerFixedR::store_topsubjets(const std::vector<fastjet::PseudoJet>& to
 }
 
 //check mass plane cuts
-bool TopTaggerFixedR::check_mass_criteria(const std::vector<fastjet::PseudoJet>& top_subs) const
+bool TopTaggerFixedR::check_mass_criteria(std::vector<fastjet::PseudoJet> const& top_subs) const
 {
     bool is_passed = false;
     double m12 = (top_subs[0] + top_subs[1]).m();
@@ -217,7 +220,7 @@ void TopTaggerFixedR::run()
         _qjet_seq = new fastjet::ClusterSequence(_q_constits, _qjet_def);
         _qjet = fastjet::sorted_by_pt(_qjet_seq->inclusive_jets())[0];
         _qjet_seq->delete_self_when_unused();
-        const qjets::QJetsBaseExtras* ext = dynamic_cast<const qjets::QJetsBaseExtras*>(_qjet_seq->extras());
+        qjets::QJetsBaseExtras const* ext = dynamic_cast<qjets::QJetsBaseExtras const*>(_qjet_seq->extras());
         _qweight = ext->weight();
         _jet = _qjet;
         _fat = _qjet;
@@ -420,51 +423,51 @@ double TopTaggerFixedR::q_weight()
 {
     return _qweight;
 }
-const fastjet::PseudoJet& TopTaggerFixedR::fat_initial()
+fastjet::PseudoJet const& TopTaggerFixedR::fat_initial()
 {
     return _fat;
 }
-const std::vector< fastjet::PseudoJet >& TopTaggerFixedR::hardparts() const
+std::vector< fastjet::PseudoJet > const& TopTaggerFixedR::hardparts() const
 {
     return _top_parts;
 }
-const std::vector< fastjet::PseudoJet >& TopTaggerFixedR::top_hadrons() const
+std::vector< fastjet::PseudoJet > const& TopTaggerFixedR::top_hadrons() const
 {
     return _top_hadrons;
 }
-const fastjet::PseudoJet& TopTaggerFixedR::j3() const
+fastjet::PseudoJet const& TopTaggerFixedR::j3() const
 {
     return _top_subs[2];
 }
-const fastjet::PseudoJet& TopTaggerFixedR::j2() const
+fastjet::PseudoJet const& TopTaggerFixedR::j2() const
 {
     return _top_subs[1];
 }
-const fastjet::PseudoJet& TopTaggerFixedR::j1() const
+fastjet::PseudoJet const& TopTaggerFixedR::j1() const
 {
     return _top_subs[0];
 }
-const std::vector< fastjet::PseudoJet >& TopTaggerFixedR::top_subjets() const
+std::vector< fastjet::PseudoJet > const& TopTaggerFixedR::top_subjets() const
 {
     return _top_subjets;
 }
-const fastjet::PseudoJet& TopTaggerFixedR::W2() const
+fastjet::PseudoJet const& TopTaggerFixedR::W2() const
 {
     return _top_subjets[2];
 }
-const fastjet::PseudoJet& TopTaggerFixedR::W1() const
+fastjet::PseudoJet const& TopTaggerFixedR::W1() const
 {
     return _top_subjets[1];
 }
-const fastjet::PseudoJet& TopTaggerFixedR::W() const
+fastjet::PseudoJet const& TopTaggerFixedR::W() const
 {
     return _W;
 }
-const fastjet::PseudoJet& TopTaggerFixedR::b() const
+fastjet::PseudoJet const& TopTaggerFixedR::b() const
 {
     return _top_subjets[0];
 }
-const fastjet::PseudoJet& TopTaggerFixedR::t() const
+fastjet::PseudoJet const& TopTaggerFixedR::t() const
 {
     return _top_candidate;
 }

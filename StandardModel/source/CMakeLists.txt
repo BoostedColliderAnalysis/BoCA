@@ -25,6 +25,7 @@ create_library(AnalysisTagger TaggerLibraries)
 
 set(hep_tagger_source
 TopHadronicHep.cpp
+TopHadronicHep2.cpp
 )
 create_library(HepTagger hep_tagger_source)
 
@@ -35,3 +36,4 @@ create_executable(HiggsAnalysis MainHiggs.cpp)
 create_executable(BosonAnalysis MainBoson.cpp)
 create_executable(TopAnalysis MainTop.cpp)
 create_executable(TruthAnalysis MainTruth.cpp)
+

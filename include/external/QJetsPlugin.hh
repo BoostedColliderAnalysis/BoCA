@@ -8,10 +8,10 @@ namespace qjets
 class QJetsPlugin: public fastjet::JetDefinition::Plugin
 {
 private:
+    double _zcut, _dcut_fctr, _exp_min, _exp_max, _rigidity, _truncation_fctr;
     bool _rand_seed_set;
     unsigned int _seed;
     int _truncated_length;
-    double _zcut, _dcut_fctr, _exp_min, _exp_max, _rigidity, _truncation_fctr;
 public:
     QJetsPlugin(double zcut, double dcut_fctr, double exp_min, double exp_max, double rigidity, double truncation_fctr = 0.);
     void SetRandSeed(unsigned int seed); /* In case you want reproducible behavior */
@@ -48,7 +48,7 @@ public:
 //
 // using namespace std;
 //
-// void print_jets(const fastjet::ClusterSequence&, const vector<fastjet::PseudoJet>&);
+// void print_jets(fastjet::ClusterSequence const&, const vector<fastjet::PseudoJet>&);
 //
 //
 // double mean(vector<double>& masses)
@@ -136,7 +136,7 @@ public:
 //     outfile.close();
 // }
 //
-// void print_jets(const fastjet::ClusterSequence& clust_seq, const vector<fastjet::PseudoJet>& jets)
+// void print_jets(fastjet::ClusterSequence const& clust_seq, const vector<fastjet::PseudoJet>& jets)
 // {
 //
 //     // sort jets into increasing pt

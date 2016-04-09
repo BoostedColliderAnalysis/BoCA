@@ -1,4 +1,5 @@
 #pragma once
+
 #include "fastjet/ClusterSequence.hh"
 
 namespace qjets {
@@ -14,8 +15,6 @@ public:
     void SetWeight(double weight){
       _wij = weight;
     }
-    friend class Qjets;
-
 protected:
     double _wij;
 };

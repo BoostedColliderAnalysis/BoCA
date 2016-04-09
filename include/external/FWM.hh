@@ -1,4 +1,5 @@
 #pragma once
+
 #include "TopTagger2.hh"
 
 namespace hep

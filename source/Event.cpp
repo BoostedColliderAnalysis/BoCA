@@ -3,12 +3,14 @@
  */
 #include "Event.hh"
 #include "delphes/Partons.hh"
+
+#include "generic/Vector.hh"
+#include "generic/Types.hh"
 #include "delphes/Leptons.hh"
 #include "delphes/Hadrons.hh"
 #include "exroot/Leptons.hh"
 #include "exroot/Hadrons.hh"
 #include "exroot/Partons.hh"
-#include "generic/Vector.hh"
 #include "DetectorGeometry.hh"
 #include "generic/DEBUG.hh"
 
@@ -20,8 +22,7 @@ std::string Name(Decay decay)
     switch (decay) {
     case Decay::hadronic : return "hadronic";
     case Decay::leptonic : return "leptonic";
-    case Decay::other : return "other";
-        DEFAULT("decay", "");
+        DEFAULT(to_int(decay), "");
     }
 }
 

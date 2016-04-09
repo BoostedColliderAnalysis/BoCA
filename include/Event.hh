@@ -13,8 +13,7 @@ namespace boca
 enum class Decay
 {
     leptonic,
-    hadronic,
-    other
+    hadronic
 };
 
 std::string Name(Decay decay);

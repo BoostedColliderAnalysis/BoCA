@@ -17,18 +17,18 @@
 namespace boca
 {
 
-namespace
-{
-
-void SetMomentum(double momentum[4], Jet const& jet)
-{
-    momentum[0] = jet.E();
-    momentum[1] = jet.px();
-    momentum[2] = jet.py();
-    momentum[3] = jet.pz();
-}
-
-}
+// namespace
+// {
+//
+// void SetMomentum(double momentum[4], Jet const& jet)
+// {
+//     momentum[0] = jet.E();
+//     momentum[1] = jet.px();
+//     momentum[2] = jet.py();
+//     momentum[3] = jet.pz();
+// }
+//
+// }
 
 std::vector<boca::Sextet> WimpMass::Sextets(std::vector<Quartet22> const& quartets, Jet const& missing_et)
 {
@@ -40,21 +40,26 @@ std::vector<boca::Sextet> WimpMass::Sextets(std::vector<Quartet22> const& quarte
 std::vector<boca::Sextet> WimpMass::Sextets(Quartet22 const& quartet, Jet const& missing_et)
 {
     INFO0;
-    wimpmass::event22 structure;
-    SetMomentum(structure.p3, quartet.Doublet1().Singlet2());
-    SetMomentum(structure.p4, quartet.Doublet2().Singlet2());
-    SetMomentum(structure.p5, quartet.Doublet1().Singlet1());
-    SetMomentum(structure.p6, quartet.Doublet2().Singlet1());
-    SetMomentum(structure.pmiss, missing_et);
-    double momentum_1[4][4], momentum_2[4][4];
-    int solution_sum;
-    wimpmass::solve22(structure, MassOf(Id::electron_neutrino) / GeV, MassOf(Id::W) / GeV, MassOf(Id::top) / GeV, solution_sum, momentum_1, momentum_2);
-    DEBUG("Number solutions", solution_sum);
+//     wimpmass::event22 structure;
+//     SetMomentum(structure.p3, quartet.Doublet1().Singlet2());
+//     SetMomentum(structure.p5, quartet.Doublet1().Singlet1());
+//     SetMomentum(structure.p4, quartet.Doublet2().Singlet2());
+//     SetMomentum(structure.p6, quartet.Doublet2().Singlet1());
+//     SetMomentum(structure.pmiss, missing_et);
+//     double momentum_1[4][4], momentum_2[4][4];
+//     int solution_sum;
+    wimpmass::Invisible22 inv(missing_et.Vector());
+//     inv.Set(quartet);
+    auto sols = inv.Solve(MassOf(Id::top), MassOf(Id::W), MassOf(Id::electron_neutrino));
+//     inv.solve22(structure, MassOf(Id::electron_neutrino) / GeV, MassOf(Id::W) / GeV, MassOf(Id::top) / GeV, solution_sum, momentum_1, momentum_2);
+//     wimpmass::solve22(structure, MassOf(Id::electron_neutrino) / GeV, MassOf(Id::W) / GeV, MassOf(Id::top) / GeV, solution_sum, momentum_1, momentum_2);
+//     DEBUG("Number solutions", solution_sum);
     std::vector<boca::Sextet> sextets;
-    for (auto const & solution_number : IntegerRange(solution_sum)) {
-        DEBUG("Solution ", solution_number);
-        Doublet doublet_1(quartet.Doublet1().Singlet2(), Jet(momentum_1[solution_number]));
-        Doublet doublet_2(quartet.Doublet2().Singlet2(), Jet(momentum_2[solution_number]));
+    if (sols.size() == 0) sextets.emplace_back(Fake(quartet));
+    for (auto const & sol: sols){
+//         DEBUG("Solution ", solution_number);
+        Doublet doublet_1(quartet.Doublet1().Singlet2(), sol.first);
+        Doublet doublet_2(quartet.Doublet2().Singlet2(), sol.second);
         Triplet triplet_1(doublet_1, quartet.Doublet1().Singlet1());
         triplet_1.SetBdt(quartet.Doublet1().Bdt());
         Triplet triplet_2(doublet_2, quartet.Doublet2().Singlet1());
@@ -65,7 +70,6 @@ std::vector<boca::Sextet> WimpMass::Sextets(Quartet22 const& quartet, Jet const&
         sextets.emplace_back(sextet);
         DEBUG("TriplePair Bdt", sextet.Bdt(), quartet.Bdt());
     }
-    if (solution_sum == 0) sextets.emplace_back(Fake(quartet));
     return sextets;
 }
 

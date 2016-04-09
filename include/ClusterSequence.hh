@@ -31,7 +31,7 @@ public :
 
     fastjet::ClusterSequence& Get();
 
-    void AddConstituents(const fastjet::PseudoJet& jet, std::vector<fastjet::PseudoJet>& subjet_vector) const;
+    void AddConstituents(fastjet::PseudoJet const& jet, std::vector<fastjet::PseudoJet>& subjet_vector) const;
 
 private :
 

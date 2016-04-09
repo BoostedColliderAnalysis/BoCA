@@ -90,14 +90,6 @@ private:
         return *tree_writer_;
     }
 
-    Tagger_& tagger_;
-
-    boca::Reader<Tagger_> reader_;
-
-    boca::TreeWriter* tree_writer_;
-
-    boca::TreeBranch* tree_branch_;
-
     long object_sum_ = 0;
 
     long event_sum_ = 0;
@@ -107,6 +99,14 @@ private:
     File& import_file_;
 
     boca::FileWriter& file_writer_;
+
+    Tagger_& tagger_;
+
+    boca::Reader<Tagger_> reader_;
+
+    boca::TreeWriter* tree_writer_;
+
+    boca::TreeBranch* tree_branch_;
 
     std::mutex sum_mutex;
 

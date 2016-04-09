@@ -1,8 +1,6 @@
 #
 # Copyright (C) 2015-2016 Jan Hajer
 #
-add_include_path(../../include/delphes)
-
 set(DelphesFactorySources
 DelphesFactory.cc
 )

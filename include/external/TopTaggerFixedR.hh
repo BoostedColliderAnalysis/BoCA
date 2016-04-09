@@ -1,8 +1,6 @@
 #pragma once
 
-#include "fastjet/PseudoJet.hh"
-#include "fastjet/JetDefinition.hh"
-#include "fastjet/contrib/Nsubjettiness.hh"
+#include "fastjet/contrib/Njettiness.hh"
 
 namespace hep
 {
@@ -66,18 +64,18 @@ public:
     double unfiltered_mass() const;
 
     double f_rec();
-    const fastjet::PseudoJet& t() const;
-    const fastjet::PseudoJet& b() const;
-    const fastjet::PseudoJet& W() const;
-    const fastjet::PseudoJet& W1() const;
-    const fastjet::PseudoJet& W2() const;
-    const std::vector<fastjet::PseudoJet>& top_subjets() const;
-    const fastjet::PseudoJet& j1() const;
-    const fastjet::PseudoJet& j2() const;
-    const fastjet::PseudoJet& j3() const;
-    const std::vector<fastjet::PseudoJet>& top_hadrons() const;
-    const std::vector<fastjet::PseudoJet>& hardparts() const;
-    const fastjet::PseudoJet& fat_initial();
+    fastjet::PseudoJet const& t() const;
+    fastjet::PseudoJet const& b() const;
+    fastjet::PseudoJet const& W() const;
+    fastjet::PseudoJet const& W1() const;
+    fastjet::PseudoJet const& W2() const;
+    std::vector<fastjet::PseudoJet> const& top_subjets() const;
+    fastjet::PseudoJet const& j1() const;
+    fastjet::PseudoJet const& j2() const;
+    fastjet::PseudoJet const& j3() const;
+    std::vector<fastjet::PseudoJet> const& top_hadrons() const;
+    std::vector<fastjet::PseudoJet> const& hardparts() const;
+    fastjet::PseudoJet const& fat_initial();
 
     void get_setting() const;
     void get_info() const;
@@ -141,12 +139,12 @@ private:
     double _qweight;
 
     //internal functions
-    void FindHardSubst(const fastjet::PseudoJet& jet, std::vector<fastjet::PseudoJet>& t_parts);
+    void FindHardSubst(fastjet::PseudoJet const& jet, std::vector<fastjet::PseudoJet>& t_parts);
     std::vector<fastjet::PseudoJet> Filtering(const std::vector <fastjet::PseudoJet>& top_constits, const fastjet::JetDefinition& filtering_def);
-    void store_topsubjets(const std::vector<fastjet::PseudoJet>& top_subs);
-    bool check_mass_criteria(const std::vector<fastjet::PseudoJet>& top_subs) const;
-    double perp(const fastjet::PseudoJet& vec, const fastjet::PseudoJet& ref);
-    double djademod(const fastjet::PseudoJet& subjet_i, const fastjet::PseudoJet& subjet_j, const fastjet::PseudoJet& ref);
+    void store_topsubjets(std::vector<fastjet::PseudoJet> const& top_subs);
+    bool check_mass_criteria(std::vector<fastjet::PseudoJet> const& top_subs) const;
+    double perp(fastjet::PseudoJet const& vec, fastjet::PseudoJet const& ref);
+    double djademod(fastjet::PseudoJet const& subjet_i, fastjet::PseudoJet const& subjet_j, fastjet::PseudoJet const& ref);
 
     void print_banner();
 

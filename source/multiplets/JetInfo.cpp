@@ -162,7 +162,7 @@ Length JetInfo::SumDisplacement() const
 {
     DEBUG0;
     return displaced_constituents_.empty() ? 0_m : boost::accumulate(displaced_constituents_, 0_m, [](Length result, Constituent const & constituent) {
-        return result + constituent.Position().Vect().Perp();
+        return result + constituent.Position().Perp();
     });
 }
 
@@ -176,8 +176,8 @@ Length JetInfo::MaxDisplacement() const
 {
     DEBUG0;
     return displaced_constituents_.empty() ? 0_m : boost::max_element(displaced_constituents_, [](Constituent const & constituent_1, Constituent const & constituent_2) {
-        return constituent_1.Position().Vect().Perp() < constituent_2.Position().Vect().Perp();
-    })->Position().Vect().Perp();
+        return constituent_1.Position().Perp() < constituent_2.Position().Perp();
+    })->Position().Perp();
 }
 
 Mass JetInfo::VertexMass() const
@@ -210,7 +210,7 @@ bool JetInfo::VertexResultion(Constituent constituent) const
 //     Length x = constituent.Position().X();
     constituent.Smearing();
 //     DEBUG(x, constituent.Position().X());
-    auto perp = constituent.Position().Vect().Perp();
+    auto perp = constituent.Position().Perp();
     return (perp > DetectorGeometry::TrackerDistanceMin() && perp < DetectorGeometry::TrackerDistanceMax() && abs(constituent.Momentum().Rapidity()) < DetectorGeometry::TrackerEtaMax());
 }
 

@@ -22,30 +22,28 @@ class JetDistanceCompare
 {
 public:
     JetDistanceCompare() {};
-    bool operator()(const jet_distance& lhs, const jet_distance& rhs) const {
-        return lhs.dij > rhs.dij;
-    };
+    bool operator()(const jet_distance& lhs, const jet_distance& rhs) const;
 };
 
 class QJets
 {
 private:
-    double Omega;
+    double _zcut, _dcut_fctr, _exp_min, _exp_max, _rigidity, _dcut, _truncation_fctr;
     bool _rand_seed_set;
     unsigned int _seed;
-    double _zcut, _dcut, _dcut_fctr, _exp_min, _exp_max, _rigidity, _truncation_fctr;
+    double Omega;
     std::map<int, bool> _merged_jets;
     std::priority_queue <jet_distance, std::vector<jet_distance>, JetDistanceCompare> _distances;
 
-    double d_ij(const fastjet::PseudoJet& v1, const fastjet::PseudoJet& v2) const;
+    double d_ij(fastjet::PseudoJet const& v1, fastjet::PseudoJet const& v2) const;
     void ComputeDCut(fastjet::ClusterSequence& cs);
 
     double Rand();
     bool Prune(jet_distance& jd, fastjet::ClusterSequence& cs);
     bool JetsUnmerged(const jet_distance& jd) const;
     bool JetUnmerged(int num) const;
-    void ComputeNewDistanceMeasures(fastjet::ClusterSequence& cs, int new_jet);
-    void ComputeAllDistances(const std::vector<fastjet::PseudoJet>& inp);
+    void ComputeNewDistanceMeasures(fastjet::ClusterSequence& cs, unsigned int new_jet);
+    void ComputeAllDistances(std::vector<fastjet::PseudoJet> const& inp);
     double ComputeMinimumDistance();
     double ComputeNormalization(double dmin);
     jet_distance GetNextDistance();
