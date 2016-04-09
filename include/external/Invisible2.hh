@@ -36,19 +36,23 @@ public:
 
     Invisible22();
 
-    Invisible22(LorentzVector<Momentum> const& missing) : missing_(missing) {}
+    Invisible22(Quartet22 const& quartet, LorentzVector<Momentum> const& missing);
+
+    Invisible22(LorentzVector<Momentum> const& missing);
 
     void SetMissingMomentum(LorentzVector<Momentum> const& missing);
 
-    void SetFirstChain(LorentzVector<Momentum> const& first, LorentzVector<Momentum> const& second);
+//     void Set(Quartet22 const& quartet);
 
-    void SetFirstChain(Doublet const& doublet);
+//     void SetFirstChain(Doublet const& doublet);
+
+//     void SetSecondChain(Doublet const& doublet);
+
+    void SetFirstChain(LorentzVector<Momentum> const& first, LorentzVector<Momentum> const& second);
 
     void SetSecondChain(LorentzVector<Momentum> const& first, LorentzVector<Momentum> const& second);
 
-    void SetSecondChain(Doublet const& doublet);
 //
-    void Set(Quartet22 const& quartet);
 
     std::vector<std::pair<LorentzVector<Momentum>, LorentzVector<Momentum>>> Solve(Mass heavy, Mass light, Mass invisible);
 

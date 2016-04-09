@@ -1,34 +1,14 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
+
 #include "external/Invisible2.hh"
-
-#include <map>
-#include <boost/range/algorithm/transform.hpp>
-
 #include "multiplets/Quartet.hh"
-#include "math/Math.hh"
 #include "WimpMass.hh"
-#include "generic/Types.hh"
-#include "generic/Vector.hh"
-#include "multiplets/Particle.hh"
 #include "generic/DEBUG.hh"
 
 namespace boca
 {
-
-// namespace
-// {
-//
-// void SetMomentum(double momentum[4], Jet const& jet)
-// {
-//     momentum[0] = jet.E();
-//     momentum[1] = jet.px();
-//     momentum[2] = jet.py();
-//     momentum[3] = jet.pz();
-// }
-//
-// }
 
 std::vector<boca::Sextet> WimpMass::Sextets(std::vector<Quartet22> const& quartets, Jet const& missing_et)
 {
@@ -40,49 +20,25 @@ std::vector<boca::Sextet> WimpMass::Sextets(std::vector<Quartet22> const& quarte
 std::vector<boca::Sextet> WimpMass::Sextets(Quartet22 const& quartet, Jet const& missing_et)
 {
     INFO0;
-//     wimpmass::event22 structure;
-//     SetMomentum(structure.p3, quartet.Doublet1().Singlet2());
-//     SetMomentum(structure.p5, quartet.Doublet1().Singlet1());
-//     SetMomentum(structure.p4, quartet.Doublet2().Singlet2());
-//     SetMomentum(structure.p6, quartet.Doublet2().Singlet1());
-//     SetMomentum(structure.pmiss, missing_et);
-//     double momentum_1[4][4], momentum_2[4][4];
-//     int solution_sum;
-    wimpmass::Invisible22 inv(missing_et.Vector());
-//     inv.Set(quartet);
-    auto sols = inv.Solve(MassOf(Id::top), MassOf(Id::W), MassOf(Id::electron_neutrino));
-//     inv.solve22(structure, MassOf(Id::electron_neutrino) / GeV, MassOf(Id::W) / GeV, MassOf(Id::top) / GeV, solution_sum, momentum_1, momentum_2);
-//     wimpmass::solve22(structure, MassOf(Id::electron_neutrino) / GeV, MassOf(Id::W) / GeV, MassOf(Id::top) / GeV, solution_sum, momentum_1, momentum_2);
-//     DEBUG("Number solutions", solution_sum);
+    wimpmass::Invisible22 invisible(quartet, missing_et.Vector());
     std::vector<boca::Sextet> sextets;
-    if (sols.size() == 0) sextets.emplace_back(Fake(quartet));
-    for (auto const & sol: sols){
-//         DEBUG("Solution ", solution_number);
-        Doublet doublet_1(quartet.Doublet1().Singlet2(), sol.first);
-        Doublet doublet_2(quartet.Doublet2().Singlet2(), sol.second);
-        Triplet triplet_1(doublet_1, quartet.Doublet1().Singlet1());
-        triplet_1.SetBdt(quartet.Doublet1().Bdt());
-        Triplet triplet_2(doublet_2, quartet.Doublet2().Singlet1());
-        triplet_2.SetBdt(quartet.Doublet2().Bdt());
-        boca::Sextet sextet(triplet_1, triplet_2);
+    for (auto const & solution: invisible.Solve(MassOf(Id::top), MassOf(Id::W), MassOf(MultiId::neutrino))){
+        boca::Sextet sextet(Triplet(Doublet(quartet.Doublet1().Singlet2(), solution.first), quartet.Doublet1().Singlet1()), Triplet(Doublet(quartet.Doublet2().Singlet2(), solution.second), quartet.Doublet2().Singlet1()));
+        sextet.Triplet1().SetBdt(quartet.Doublet1().Bdt());
+        sextet.Triplet2().SetBdt(quartet.Doublet2().Bdt());
         sextet.SetTag(quartet.Tag());
         sextet.SetBdt(quartet.Bdt());
         sextets.emplace_back(sextet);
-        DEBUG("TriplePair Bdt", sextet.Bdt(), quartet.Bdt());
     }
+    if (sextets.size() == 0) sextets.emplace_back(Fake(quartet));
     return sextets;
 }
 
 std::vector<boca::Sextet> WimpMass::Sextet(Quartet22 const& quartet, Jet const& missing_et, std::vector<Particle> const& neutrinos, Tag tag)
 {
     INFO0;
-    auto sextets = Sextets(quartet, missing_et);
-    DEBUG(sextets.size());
-    if (sextets.empty()) return sextets;
-    for (auto const & neutrino : neutrinos) DEBUG(neutrino);
-    DEBUG(missing_et);
     std::map<Mass, boca::Sextet> map;
-    for (auto const & sextet : sextets) {
+    for (auto const & sextet : Sextets(quartet, missing_et)) {
         Jet neutrino_1 = sextet.Triplet1().Doublet().Singlet2();
         Jet neutrino_2 = sextet.Triplet2().Doublet().Singlet2();
         std::vector<Mass> errors_1, errors_2;
@@ -97,14 +53,13 @@ std::vector<boca::Sextet> WimpMass::Sextet(Quartet22 const& quartet, Jet const& 
                 if (error_1 + error_2 < error) error = error_1 + error_2;
             }
         map[error] = sextet;
-        DEBUG(sextet.Bdt());
     }
-    for (auto const & pair : map) DEBUG(pair.first);
+    if (map.empty()) return {};
     if (tag == Tag::signal) map.erase(std::next(map.begin()), map.end());
     else map.erase(map.begin());
-    std::vector<boca::Sextet> final_sextets;
-    for (auto const & pair : map) final_sextets.emplace_back(pair.second);
-    return final_sextets;
+    return Transform(map,[](std::pair<Mass, boca::Sextet> const& pair){
+      return pair.second;
+    });
 }
 
 Sextet WimpMass::Fake(Quartet22 const& quartet) const

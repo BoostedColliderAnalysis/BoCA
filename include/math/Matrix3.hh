@@ -488,7 +488,7 @@ public:
     }
 
     ValueSquare SignedMinor(Dim3 dim_1, Dim3 dim_2) const {
-        return Sign(dim_1, dim_2) * Minor(dim_1, dim_2);
+        return double(Sign(dim_1, dim_2)) * Minor(dim_1, dim_2);
     }
 
     ValueSquare Minor(Dim3 delete_1, Dim3 delete_2) const {
@@ -510,6 +510,10 @@ public:
             dim2_2.Set(Dim2::x);
         }
         return matrix;
+    }
+
+    ValueCubed ReducedDeterminant(Dim3 dim_1, Dim3 dim_2) const {
+      return Determinant() - (*this)[dim_1][dim_2] * SignedMinor(dim_1, dim_2);
     }
 
     int Sign(Dim3 i, Dim3 j) const {
