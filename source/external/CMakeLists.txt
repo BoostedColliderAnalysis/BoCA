@@ -8,7 +8,7 @@ Invisible3.cpp
 )
 create_library(External ExternalSources)
 
-create_executable(WimpMass inv.cpp)
+# create_executable(WimpMass inv.cpp)
 
 set(HEPSources
 TopTagger.cpp

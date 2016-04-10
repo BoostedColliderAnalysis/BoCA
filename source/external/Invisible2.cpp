@@ -69,23 +69,23 @@ void Invisible22::SetMissingMomentum(const LorentzVector< Momentum >& missing)
     missing_ = missing;
 }
 
-// void Invisible22::Set(const Quartet22& quartet)
-// {
-//     SetFirstChain(quartet.Doublet1());
-//     SetSecondChain(quartet.Doublet2());
-// }
+void Invisible22::Set(const Quartet22& quartet)
+{
+    SetFirstChain(quartet.Doublet1());
+    SetSecondChain(quartet.Doublet2());
+}
 
-// void Invisible22::SetFirstChain(const Doublet& doublet)
-// {
-//     p3_ = doublet.Singlet2().Vector();
-//     p5_ = doublet.Singlet1().Vector();
-// }
-//
-// void Invisible22::SetSecondChain(const Doublet& doublet)
-// {
-//     p4_ = doublet.Singlet2().Vector();
-//     p6_ = doublet.Singlet1().Vector();
-// }
+void Invisible22::SetFirstChain(const Doublet& doublet)
+{
+    p3_ = doublet.Singlet2().Vector();
+    p5_ = doublet.Singlet1().Vector();
+}
+
+void Invisible22::SetSecondChain(const Doublet& doublet)
+{
+    p4_ = doublet.Singlet2().Vector();
+    p6_ = doublet.Singlet1().Vector();
+}
 
 void Invisible22::SetFirstChain(const LorentzVector< Momentum >& first, const LorentzVector< Momentum >& second)
 {
@@ -132,8 +132,8 @@ void Invisible22::SetMomentum(double momentum[4], const LorentzVector<Momentum>&
 
 std::vector<std::pair<LorentzVector<Momentum>, LorentzVector<Momentum>>> Invisible22::Solve(Mass heavy, Mass light, Mass invisible)
 {
-    missing_ = - missing_;
     missing_.Pz() = 0;
+    missing_.E() = 0;
 
     auto coefficient_vector_1 = CoefficientVector1();
     auto coefficient_vector_2 = CoefficientVector2();
@@ -169,7 +169,7 @@ std::vector<std::pair<LorentzVector<Momentum>, LorentzVector<Momentum>>> Invisib
 
         auto pz_tot = coefficient_vector_1.T() * vector_1.E() + coefficient_vector_2.T() * vector_2.E() + coefficient_vector.T();
 
-        vector_2.Vector() = - missing_.Vector() - vector_1.Vector();
+        vector_2.Vector() = missing_.Vector() - vector_1.Vector();
         vector_2.Z() += pz_tot ;
 
         solutions.emplace_back(std::make_pair(vector_1, vector_2));
@@ -222,159 +222,42 @@ LorentzVector< double > Invisible22::CoefficientVector2() const
 
 LorentzVector< Momentum > Invisible22::CoefficientVector(Mass heavy, Mass light, Mass invisible) const
 {
-    auto m531sq = sqr(heavy);
-    auto m642sq = m531sq;
-    auto m31sq = sqr(light);
-    auto m42sq = m31sq;
-    auto m1sq = sqr(invisible);
-    auto m2sq = m1sq;
+    auto mass_4 = sqr(light) - sqr(invisible) - sqr(p4_);
+    auto mass_3 = sqr(light) - sqr(invisible) - sqr(p3_);
+    auto mass_46 = sqr(heavy) - sqr(light) - sqr(p4_ + p6_) + sqr(p4_);
+    auto mass_35 = sqr(heavy) - sqr(light) - sqr(p3_ + p5_) + sqr(p3_);
 
-    auto m3sq = sqr(p3_);
-    if (m3sq < 0_eV * eV) m3sq = 0_eV * eV;
-
-    auto m4sq = sqr(p4_);
-    if (m4sq < 0_eV * eV) m4sq = 0_eV * eV;
-
-    auto m5sq = sqr(p5_);
-    if (m5sq < 0_eV * eV) m5sq = 0_eV * eV;
-
-    auto m6sq = sqr(p6_);
-    if (m6sq < 0_eV * eV) m6sq = 0_eV * eV;
-
-    auto p3dp5 = p3_ * p5_;
-    auto p4dp6 = p4_ * p6_;
-
-    auto del2b = m3sq + m1sq - m31sq + m42sq - m2sq - m4sq;
-    auto del3b = m31sq + m5sq - m531sq + m642sq - m42sq - m6sq + 2.*p3dp5 - 2.*p4dp6;
-    auto del31 = m31sq - m1sq - m3sq;
-    auto del531 = m531sq - m31sq - m5sq - 2.0 * p3dp5;
-
-
-
-    Matrix2<Momentum> matrix_46( {p4_.Z(), p4_.E()}, {p6_.Z(), p6_.E()});
     Matrix3<Momentum> matrix_345(p3_.Vector(), p4_.Vector(), p5_.Vector());
     Matrix3<Momentum> matrix_356(p3_.Vector(), p5_.Vector(), p6_.Vector());
     Matrix3<Momentum> matrix_346(p3_.Vector(), p4_.Vector(), p6_.Vector());
     Matrix3<Momentum> matrix_456(p4_.Vector(), p5_.Vector(), p6_.Vector());
     auto red_det_3 = matrix_456.ReducedDeterminant(Dim3::y, Dim3::z);
-    auto red_det_4 = matrix_356.ReducedDeterminant(Dim3::z, Dim3::z);
     auto red_det_5 = matrix_346.ReducedDeterminant(Dim3::x, Dim3::z);
-    auto red_det_6 = matrix_345.ReducedDeterminant(Dim3::y, Dim3::z);
     auto denominator = 2. * (p5_.Pz() * red_det_5 + p3_.Pz() * red_det_3);
 
-    Matrix2<Momentum> matrix_35( {p3_.Y(), p3_.Z()}, {p5_.Y(), p5_.Z()});
-    Matrix2<Momentum> matrix_46_( {p4_.Y(), p4_.Z()}, {p6_.Y(), p6_.Z()});
+    auto missing3 = 2. * (missing_ * p3_);
+    auto missing4 = 2. * (missing_ * p4_);
+    auto missing5 = 2. * (missing_ * p5_);
+    auto missing6 = 2. * (missing_ * p6_);
+
+    auto factor_35 = p6_.Pz() * (mass_4 - missing4) - p4_.Pz() * (mass_46 - missing6);
+    auto factor_46 = p5_.Pz() * mass_3 - p3_.Pz() * mass_35;
 
     LorentzVector<Momentum> vector;
 
+    vector.X() = (factor_46 * matrix_456.SignedMinor(Dim3::y, Dim3::x) + factor_35 * matrix_345.SignedMinor(Dim3::y, Dim3::x)) / denominator;
 
-    vector.X() = (
-                     + p3_.Pz() * del531 * matrix_346.SignedMinor(Dim3::x, Dim3::x)
-                     - p4_.Pz() * (del3b + del531) * matrix_345.SignedMinor(Dim3::y, Dim3::x)
-                     + p5_.Pz() * del31 * matrix_456.SignedMinor(Dim3::y, Dim3::x)
-                     + p6_.Pz() * (del2b + del31) * matrix_345.SignedMinor(Dim3::y, Dim3::x)
-                     + 2. * p6_.Pz() * matrix_356.SignedMinor(Dim3::z, Dim3::x) * missing_.Vector() * p4_.Vector()
-                     + 2. * p4_.Pz() * matrix_345.SignedMinor(Dim3::y, Dim3::x) * missing_.Vector() * p6_.Vector()
+    vector.Y() = (factor_46 * matrix_456.SignedMinor(Dim3::y, Dim3::y) + factor_35 * matrix_345.SignedMinor(Dim3::y, Dim3::y)) / denominator;
+
+    vector.Z() = (factor_35 * matrix_345.SignedMinor(Dim3::y, Dim3::z) - mass_3 * red_det_3 - mass_35 * red_det_5) / denominator;
+
+    vector.T() = (- mass_46 * matrix_345.Determinant()
+                  - mass_35 * matrix_346.Determinant()
+                  - mass_3 * matrix_456.Determinant()
+                  - mass_4 * matrix_356.Determinant()
+                  - (p6_.Pz() * missing4 - p4_.Pz() * missing6) * matrix_345.SignedMinor(Dim3::y, Dim3::z)
+                  - (p3_.Pz() * missing5 - p5_.Pz() * missing3) * matrix_456.SignedMinor(Dim3::y, Dim3::z)
                  ) / denominator;
-
-    vector.Y() = (
-                     + p3_.Pz() * del531 * matrix_346.SignedMinor(Dim3::x, Dim3::y)
-                     - p4_.Pz() * (del3b + del531) * matrix_345.SignedMinor(Dim3::y, Dim3::y)
-                     + p5_.Pz() * del31 * matrix_456.SignedMinor(Dim3::y, Dim3::y)
-                     + p6_.Pz() * (del31 + del2b) * matrix_345.SignedMinor(Dim3::y, Dim3::y)
-
-                     + 2. * p6_.Pz() * matrix_356.SignedMinor(Dim3::z, Dim3::y) * missing_.Vector() * p4_.Vector()
-                     + 2. * p4_.Pz() * matrix_345.SignedMinor(Dim3::y, Dim3::y) * missing_.Vector() * p6_.Vector()
-                 ) / denominator;
-
-
-    vector.Z() = - ((
-                        + p4_.Pz() * (del3b + del531) * matrix_345.SignedMinor(Dim3::y, Dim3::z)
-                        - p6_.Pz() * (del2b + del31) * matrix_345.SignedMinor(Dim3::y, Dim3::z)
-                        + del31 * matrix_456.ReducedDeterminant(Dim3::y, Dim3::z)
-                        + del531 * matrix_346.ReducedDeterminant(Dim3::x, Dim3::z)
-                        - 2. * p6_.Pz() * matrix_356.SignedMinor(Dim3::z, Dim3::z) * missing_.Vector() * p4_.Vector()
-                        - 2. * p4_.Pz() * matrix_345.SignedMinor(Dim3::y, Dim3::z) * missing_.Vector() * p6_.Vector()
-                    ) / denominator);
-
-    vector.T() = (
-                     - (del3b + del531) * matrix_345.Determinant()
-                     - del531 * matrix_346.Determinant()
-                     - del31 * matrix_456.Determinant()
-                     - (del2b + del31) * matrix_356.Determinant()
-
-                     - 2. * p3_.Pz() * p4_.Py() * p5_.Px() * p6_.Px() * missing_.Px()
-                     + 2. * p3_.Py() * p4_.Pz() * p5_.Px() * p6_.Px() * missing_.Px()
-                     - 2. * p3_.Px() * p4_.Pz() * p5_.Py() * p6_.Px() * missing_.Px()
-                     + 2. * p3_.Px() * p4_.Py() * p5_.Pz() * p6_.Px() * missing_.Px()
-                     + 2. * p3_.Pz() * p4_.Px() * p5_.Px() * p6_.Py() * missing_.Px()
-                     - 2. * p3_.Px() * p4_.Px() * p5_.Pz() * p6_.Py() * missing_.Px()
-                     - 2. * p3_.Py() * p4_.Px() * p5_.Px() * p6_.Pz() * missing_.Px()
-                     + 2. * p3_.Px() * p4_.Px() * p5_.Py() * p6_.Pz() * missing_.Px()
-                     - 2. * p3_.Pz() * p4_.Py() * p5_.Py() * p6_.Px() * missing_.Py()
-                     + 2. * p3_.Py() * p4_.Py() * p5_.Pz() * p6_.Px() * missing_.Py()
-                     + 2. * p3_.Py() * p4_.Pz() * p5_.Px() * p6_.Py() * missing_.Py()
-                     + 2. * p3_.Pz() * p4_.Px() * p5_.Py() * p6_.Py() * missing_.Py()
-                     - 2. * p3_.Px() * p4_.Pz() * p5_.Py() * p6_.Py() * missing_.Py()
-                     - 2. * p3_.Py() * p4_.Px() * p5_.Pz() * p6_.Py() * missing_.Py()
-                     - 2. * p3_.Py() * p4_.Py() * p5_.Px() * p6_.Pz() * missing_.Py()
-                     + 2. * p3_.Px() * p4_.Py() * p5_.Py() * p6_.Pz() * missing_.Py()
-                     - 2. * p3_.Pz() * p4_.Pz() * p5_.Py() * p6_.Px() * missing_.Pz()
-                     + 2. * p3_.Py() * p4_.Pz() * p5_.Pz() * p6_.Px() * missing_.Pz()
-                     + 2. * p3_.Pz() * p4_.Pz() * p5_.Px() * p6_.Py() * missing_.Pz()
-                     - 2. * p3_.Px() * p4_.Pz() * p5_.Pz() * p6_.Py() * missing_.Pz()
-                     - 2. * p3_.Pz() * p4_.Py() * p5_.Px() * p6_.Pz() * missing_.Pz()
-                     + 2. * p3_.Pz() * p4_.Px() * p5_.Py() * p6_.Pz() * missing_.Pz()
-                     - 2. * p3_.Py() * p4_.Px() * p5_.Pz() * p6_.Pz() * missing_.Pz()
-                     + 2. * p3_.Px() * p4_.Py() * p5_.Pz() * p6_.Pz() * missing_.Pz()
-                 ) / denominator;
-
-
-
-
-                 auto test1 =
-
-//                  - 2. * p3_.Py() * p4_.Px() * p5_.Px() * p6_.Pz() * missing_.Px()
-//                  + 2. * p3_.Px() * p4_.Px() * p5_.Py() * p6_.Pz() * missing_.Px()
-//                  - 2. * p3_.Py() * p4_.Py() * p5_.Px() * p6_.Pz() * missing_.Py()
-//                  + 2. * p3_.Px() * p4_.Py() * p5_.Py() * p6_.Pz() * missing_.Py()
-
-                 + 2. * p3_.Py() * p4_.Pz() * p5_.Px() * p6_.Px() * missing_.Px()
-                 - 2. * p3_.Px() * p4_.Pz() * p5_.Py() * p6_.Px() * missing_.Px()
-                 + 2. * p3_.Py() * p4_.Pz() * p5_.Px() * p6_.Py() * missing_.Py()
-                 - 2. * p3_.Px() * p4_.Pz() * p5_.Py() * p6_.Py() * missing_.Py()
-
-
-//                  + 2. * p3_.Pz() * p4_.Px() * p5_.Px() * p6_.Py() * missing_.Px()
-//                  - 2. * p3_.Px() * p4_.Px() * p5_.Pz() * p6_.Py() * missing_.Px()
-//                  - 2. * p3_.Pz() * p4_.Py() * p5_.Py() * p6_.Px() * missing_.Py()
-//                  + 2. * p3_.Py() * p4_.Py() * p5_.Pz() * p6_.Px() * missing_.Py()
-
-//                  - 2. * p3_.Pz() * p4_.Py() * p5_.Px() * p6_.Px() * missing_.Px()
-//                  + 2. * p3_.Px() * p4_.Py() * p5_.Pz() * p6_.Px() * missing_.Px()
-//
-//                  + 2. * p3_.Pz() * p4_.Px() * p5_.Py() * p6_.Py() * missing_.Py()
-//                  - 2. * p3_.Py() * p4_.Px() * p5_.Pz() * p6_.Py() * missing_.Py()
-
-//                  - 2. * p3_.Pz() * p4_.Pz() * p5_.Py() * p6_.Px() * missing_.Pz()
-//                  + 2. * p3_.Py() * p4_.Pz() * p5_.Pz() * p6_.Px() * missing_.Pz()
-//                  + 2. * p3_.Pz() * p4_.Pz() * p5_.Px() * p6_.Py() * missing_.Pz()
-//                  - 2. * p3_.Px() * p4_.Pz() * p5_.Pz() * p6_.Py() * missing_.Pz()
-//
-//                  - 2. * p3_.Pz() * p4_.Py() * p5_.Px() * p6_.Pz() * missing_.Pz()
-//                  + 2. * p3_.Pz() * p4_.Px() * p5_.Py() * p6_.Pz() * missing_.Pz()
-//                  - 2. * p3_.Py() * p4_.Px() * p5_.Pz() * p6_.Pz() * missing_.Pz()
-//                  + 2. * p3_.Px() * p4_.Py() * p5_.Pz() * p6_.Pz() * missing_.Pz()
-        ;
-
-    auto test2 =
-//          2. * p6_.Pz() * matrix_356.SignedMinor(Dim3::z, Dim3::z) * missing_.Vector() * p4_.Vector()
-        + 2. * p4_.Pz() * matrix_345.SignedMinor(Dim3::y, Dim3::z) * missing_.Vector() * p6_.Vector()
-
-        ;
-    ERROR(test1, test2);
-
-
     return vector;
 }
 
@@ -391,9 +274,9 @@ Matrix2<double> Invisible22::MatrixA(LorentzVector<double> const& ce1, LorentzVe
 Matrix2<double> Invisible22::MatrixB(LorentzVector<double> const& ce1, LorentzVector<double> const& ce2)
 {
     Matrix2<double> matrix;
-    matrix.X().X() = sqr(ce1.Vector()) - 2. * ce1.Z() * ce1.T() + ce1.T() * ce1.T();
-    matrix.Y().Y() = -1. + sqr(ce2.Vector()) - 2. * ce2.Z() * ce2.T() + ce2.T() * ce2.T();
-    matrix.X().Y() = 2. * ce1.Vector() * ce2.Vector() - 2. * ce2.Z() * ce1.T() - 2. * ce1.Z() * ce2.T() + 2. * ce1.T() * ce2.T();
+    matrix.X().X() = ce1.Euclidean(ce1) - 2. * ce1.Z() * ce1.T();
+    matrix.Y().Y() = -1. + ce2.Euclidean(ce2) - 2. * ce2.Z() * ce2.T();
+    matrix.X().Y() = 2. * (ce1.Euclidean(ce2) - ce2.Z() * ce1.T() - ce1.Z() * ce2.T());
     return matrix;
 }
 
@@ -408,18 +291,8 @@ Vector2< Momentum > Invisible22::VectorA(const LorentzVector< Momentum >& c, con
 Vector2< Momentum > Invisible22::VectorB(const LorentzVector< Momentum >& c, const LorentzVector< double >& ce1, const LorentzVector< double >& ce2)
 {
     Vector2<Momentum> vector;
-    vector.X() = 2. * c.Vector() * ce1.Vector()
-                 - 2. * ce1.Z() * c.T()
-                 - 2. * c.Z() * ce1.T()
-                 + 2. * c.T() * ce1.T()
-                 + 2. * ce1.Vector() * missing_.Vector()
-                 - 2. * ce1.T() * missing_.Pz();
-    vector.Y() = 2. * c.Vector() * ce2.Vector()
-                 - 2. * ce2.Z() * c.T()
-                 - 2. * c.Z() * ce2.T()
-                 + 2. * c.T() * ce2.T()
-                 + 2. * ce2.Vector() * missing_.Vector()
-                 - 2. * ce2.T() * missing_.Pz();
+    vector.X() = 2. * (c.Euclidean(ce1) - ce1.Z() * c.T() - c.Z() * ce1.T() + ce1 * missing_);
+    vector.Y() = 2. * (c.Euclidean(ce2) - ce2.Z() * c.T() - c.Z() * ce2.T() + ce2 * missing_);
     return vector;
 }
 
@@ -430,24 +303,19 @@ MomentumSquare Invisible22::ScalarA(const LorentzVector< Momentum >& c, Mass inv
 
 MomentumSquare Invisible22::ScalarB(const LorentzVector< Momentum >& c, Mass invisible)
 {
-    return sqr(c.Vector())
-           - 2. * c.Z() * c.T()
-           + c.T() * c.T()
-           + sqr(invisible)
-           + sqr(missing_.Vector())
-           + 2. * c.Vector() * missing_.Vector()
-           - 2. * c.T() * missing_.Pz() ;
+    return c.Euclidean(c) + sqr(invisible) - sqr(missing_) - 2. * c.Z() * c.T() + 2. * (c * missing_);
 }
 
 std::array< double, 5 > Invisible22::Coefficients(Matrix2<double> const& ma, Matrix2<double> const& mb, Vector2<Momentum> const& va, Vector2<Momentum> const& vb, MomentumSquare a, MomentumSquare b)
 {
     std::array< double, 5 > coefficients;
 
-    coefficients.at(0) = (ma.X().X() * (ma.X().X() * b - a * mb.X().X()) * (ma.X().X() * b - a * mb.X().X())
-                          + va.X() * (ma.X().X() * b - a * mb.X().X()) * (-(ma.X().X() * vb.X()) + va.X() * mb.X().X())
-                          + a * (-(ma.X().X() * vb.X()) + va.X() * mb.X().X()) * (-(ma.X().X() * vb.X()) + va.X() * mb.X().X())) / GeV / GeV / GeV / GeV;
+    auto factor_1 = va.X() * mb.X().X() - ma.X().X() * vb.X();
+    auto factor_2 = ma.X().X() * b - a * mb.X().X();
 
-    coefficients.at(1) = (-(sqr(ma.X().X()) * ma.X().Y() * b * vb.X())
+    coefficients.at(0) = (ma.X().X() * sqr(factor_2) + va.X() * factor_2 * factor_1 + a * sqr(factor_1)) / GeV / GeV / GeV / GeV;
+
+    coefficients.at(1) = (- sqr(ma.X().X()) * ma.X().Y() * b * vb.X()
                           + sqr(ma.X().X()) * va.Y() * vb.X() * vb.X()
                           + 2. * va.X() * ma.X().X() * ma.X().Y() * b * mb.X().X()
                           - 2. * sqr(ma.X().X()) * va.Y() * b * mb.X().X()
@@ -484,7 +352,7 @@ std::array< double, 5 > Invisible22::Coefficients(Matrix2<double> const& ma, Mat
                           + va.X() * va.X() * ma.X().X() * mb.X().X() * mb.Y().Y()
                           - 2. * a * sqr(ma.X().X()) * mb.X().X() * mb.Y().Y()) / GeV / GeV;
 
-    coefficients.at(3) = (-(ma.X().X() * ma.X().Y() * ma.Y().Y() * vb.X() * mb.X().X())
+    coefficients.at(3) = (- ma.X().X() * ma.X().Y() * ma.Y().Y() * vb.X() * mb.X().X()
                           + 2. * ma.X().X() * va.Y() * ma.Y().Y() * sqr(mb.X().X())
                           + 2. * sqr(ma.X().X()) * ma.Y().Y() * vb.X() * mb.X().Y()
                           - ma.X().X() * ma.X().Y() * va.Y() * mb.X().X() * mb.X().Y()
@@ -512,11 +380,21 @@ std::array< double, 5 > Invisible22::Coefficients(Matrix2<double> const& ma, Mat
 Energy Invisible22::Energy1(const Matrix2< double >& ma, const Matrix2< double >& mb, const Vector2< Momentum >& va, const Vector2< Momentum >& vb, MomentumSquare a, MomentumSquare b, Energy energy_2)
 {
     // substitute p2.E() solution into general p1.E() solution in terms of p2.E()
-    return (ma.X().X() * b - a * mb.X().X() - va.Y() * mb.X().X() * energy_2 + ma.X().X() * vb.Y() * energy_2 - ma.Y().Y() * mb.X().X() * sqr(energy_2) + ma.X().X() * mb.Y().Y() * sqr(energy_2)) / (-(ma.X().X() * vb.X()) + va.X() * mb.X().X() + ma.X().Y() * mb.X().X() * energy_2 - ma.X().X() * mb.X().Y() * energy_2);
+    return (
+               ma.X().X() * b
+               - a * mb.X().X()
+               - va.Y() * mb.X().X() * energy_2
+               + ma.X().X() * vb.Y() * energy_2
+               - ma.Y().Y() * mb.X().X() * sqr(energy_2)
+               + ma.X().X() * mb.Y().Y() * sqr(energy_2)
+           ) / (
+               - ma.X().X() * vb.X()
+               + va.X() * mb.X().X()
+               + ma.X().Y() * mb.X().X() * energy_2
+               - ma.X().X() * mb.X().Y() * energy_2
+           );
 }
 
 }
 
 }
-
-

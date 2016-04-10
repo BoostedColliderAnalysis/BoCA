@@ -403,6 +403,12 @@ public:
         return T() * lorentz_vector.T() - Vector().Dot(lorentz_vector.Vector());
     }
 
+    // Scalar product.
+    template <typename Value_2>
+    ValueProduct<Value_2> Euclidean(LorentzVectorBase<Value_2> const& lorentz_vector) const {
+      return T() * lorentz_vector.T() + Vector().Dot(lorentz_vector.Vector());
+    }
+
     // Get components by index.
     Value operator()(LorentzDim i) const {
         //dereferencing operatorconst

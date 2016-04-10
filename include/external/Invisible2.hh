@@ -42,11 +42,11 @@ public:
 
     void SetMissingMomentum(LorentzVector<Momentum> const& missing);
 
-//     void Set(Quartet22 const& quartet);
+    void Set(Quartet22 const& quartet);
 
-//     void SetFirstChain(Doublet const& doublet);
+    void SetFirstChain(Doublet const& doublet);
 
-//     void SetSecondChain(Doublet const& doublet);
+    void SetSecondChain(Doublet const& doublet);
 
     void SetFirstChain(LorentzVector<Momentum> const& first, LorentzVector<Momentum> const& second);
 
