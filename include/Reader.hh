@@ -27,21 +27,21 @@ class Reader
 public:
 
     Reader(Stage stage = Stage::reader) :
+        stage_(stage),
         reader_(Options()) {
-        stage_ = stage;
         Initialize();
     }
 
     Reader(Reader const& reader) :
-        reader_(Options()),
         stage_(reader.stage_),
+        reader_(Options()),
         tagger_(reader.tagger_) {
         Initialize();
     }
 
     Reader(Reader const && reader) :
-        reader_(Options()),
         stage_(std::move(reader.stage_)),
+        reader_(Options()),
         tagger_(std::move(reader.tagger_)) {
         Initialize();
     }
@@ -58,12 +58,12 @@ public:
         std::cout.rdbuf(cout);
     }
 
-    int Bdt(Event const& event, PreCuts const& pre_cuts) const {
+    int Bdt(Event const& event, PreCuts const& pre_cuts) {
         return Tagger().SaveBdt(event, pre_cuts, TReader());
     }
 
     template <typename Multiplet_>
-    double Bdt(Multiplet_ const& multiplet) const {
+    double Bdt(Multiplet_ const& multiplet) {
         if(Debug()) std::cout << "Reader: " << Tagger().Name() << " reading bdt" << std::endl;
         return Tagger().Bdt(multiplet, TReader());
     }
@@ -79,13 +79,13 @@ public:
     }
 
     template <typename Input_>
-    auto Multiplets(Input_ const& input, std::size_t number = 4) const {
+    auto Multiplets(Input_ const& input, std::size_t number = 4) {
         PreCuts pre_cuts;
         return Tagger().ReducedMultiplets(input, pre_cuts, TReader(), number);
     }
 
     template <typename Input_>
-    auto Jets(Input_ const& input) const {
+    auto Jets(Input_ const& input) {
         PreCuts pre_cuts;
         return Tagger().Jets(input, pre_cuts, TReader());
     }
@@ -94,27 +94,27 @@ public:
         return Tagger().Particles(event);
     }
 
-    auto Multiplet(Jet& input) const {
+    auto Multiplet(Jet& input) {
         return Tagger().Multiplet(input, TReader());
     }
 
     template <typename Input_>
-    auto Multiplet(Input_ const& input) const {
+    auto Multiplet(Input_ const& input) {
         return Tagger().Multiplet(input, TReader());
     }
 
     template <typename Input_1_, typename Input_2_>
-    auto Multiplet(Input_1_ const& input_1, Input_2_ const& input_2) const {
+    auto Multiplet(Input_1_ const& input_1, Input_2_ const& input_2) {
         return Tagger().Multiplet(input_1, input_2, TReader());
     }
 
     template <typename Input_>
-    auto SubMultiplet(Input_ const& input, int number) const {
+    auto SubMultiplet(Input_ const& input, int number) {
         return Tagger().SubMultiplet(input, TReader(), number);
     }
 
     template <typename Input_>
-    auto SubMultiplet(Input_ const& input) const {
+    auto SubMultiplet(Input_ const& input) {
         return Tagger().SubMultiplet(input, TReader());
     }
 
@@ -127,7 +127,7 @@ public:
     }
 
     template<typename Multiplet_>
-    auto Transform(Event const& event) const {
+    auto Transform(Event const& event) {
         std::vector<Multiplet_> multiplets;
         for (auto const & multiplet : Multiplets(event)) {
             Multiplet_ new_multiplet;
@@ -135,6 +135,10 @@ public:
             multiplets.emplace_back(new_multiplet);
         }
         return multiplets;
+    }
+
+    Tagger_& Tagger() {
+      return tagger_;
     }
 
 protected:
@@ -166,19 +170,15 @@ private:
         return reader_;
     }
 
-    Tagger_& Tagger() {
-        return tagger_;
-    }
-
     constexpr bool Debug() const {
       return false;
     }
 
+    Stage stage_;
+
     TMVA::Reader reader_;
 
     Tagger_ tagger_;
-
-    Stage stage_;
 
 };
 

@@ -8,7 +8,7 @@ namespace boca
 namespace naturalness
 {
 
-int EventNewPairTagger::Train(Event const& event, PreCuts const&, Tag tag) const
+int EventNewPairTagger::Train(Event const& event, PreCuts const&, Tag tag)
 {
     INFO0;
     std::vector<Jet> jets = bottom_reader_.Jets(event);
@@ -21,7 +21,7 @@ int EventNewPairTagger::Train(Event const& event, PreCuts const&, Tag tag) const
     return SaveEntries(multipletevents, tag);
 }
 
-std::vector<MultipletEvent<Decuplet55>> EventNewPairTagger::Multiplets(boca::Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
+std::vector<MultipletEvent<Decuplet55>> EventNewPairTagger::Multiplets(boca::Event const& event, boca::PreCuts const&, TMVA::Reader const& reader)
 {
     INFO0;
     std::vector<Jet> jets = bottom_reader_.Jets(event);

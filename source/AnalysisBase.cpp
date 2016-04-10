@@ -3,14 +3,13 @@
  */
 
 #include <sys/stat.h>
-#include <fstream>
-#include <boost/lexical_cast.hpp>
+// #include <fstream>
+// #include <boost/lexical_cast.hpp>
 
-#include "File.hh"
 #include "generic/Types.hh"
 #include "io/Io.hh"
+#include "File.hh"
 #include "AnalysisBase.hh"
-#include "plotting/Plotting.hh"
 #include "Event.hh"
 #include "Trainer.hh"
 // #define INFORMATION
@@ -243,59 +242,6 @@ void AnalysisBase::RunTrainer()
     std::cout.rdbuf(cout);
 }
 
-
-void AnalysisBase::RunSignificance()
-{
-    INFO0;
-    if (Exists(Tagger().ExportFileName())) return;
-    PrepareFiles(Stage::reader);
-    Plotting plotting(Tagger());
-    plotting.OptimalCuts();
-}
-
-void AnalysisBase::RunEfficiency()
-{
-    INFO0;
-    if (Exists(Tagger().ExportFileName())) return;
-    PrepareFiles(Stage::reader);
-    Plotting plotting(Tagger());
-    plotting.TaggingEfficiency();
-}
-
-void AnalysisBase::RunPlots()
-{
-    INFO0;
-    if (Exists(Tagger().ExportFolderName())) return;
-    Plotting plotting(Tagger());
-    PrepareFiles(Stage::trainer);
-    plotting.RunPlots(Stage::trainer);
-    PrepareFiles(Stage::reader);
-    plotting.RunPlots(Stage::reader);
-//     if (Exists(Tagger().ExportFileName())) std::remove(Tagger().ExportFileName().c_str());
-}
-
-void AnalysisBase::RunPlotHist()
-{
-    INFO0;
-//   if (Exists(Tagger().ExportFolderName())) return;
-    Plotting plotting(Tagger());
-    PrepareFiles(Stage::trainer);
-    plotting.RunPlotHist();
-}
-
-void AnalysisBase::RunCut()
-{
-    INFO0;
-    RunTagger(Stage::trainer);
-    INFO("Analysis Loop done");
-    RunTrainer();
-    RunTagger(Stage::reader);
-    ERROR(Tagger().TreeNames(Tag::signal).size());
-    PrepareFiles(Stage::reader);
-    Plotting plotting(Tagger());
-    plotting.OptimalCuts();
-}
-
 std::string AnalysisBase::WorkingPath() const
 {
     INFO0;
@@ -353,9 +299,15 @@ long int AnalysisBase::EventNumberMax(Stage stage) const
         DEFAULT(Name(stage), 0);
     }
 }
-int AnalysisBase::PassPreCut(const Event&, Tag tag) const
+
+int AnalysisBase::PassPreCut(const Event&, Tag) const
 {
     return 1;
+}
+
+void AnalysisBase::AnalysisLoop(Stage stage)
+{
+    for (auto const & tag : std::array<Tag, 2> {Tag::signal, Tag::background}) TagLoop( {stage, tag});
 }
 
 }

@@ -19,9 +19,9 @@ class TopPartnerPairTagger : public TaggerTemplate<Decuplet55, MultiBranch>
 
 public:
 
-    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const override;
+    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) override;
 
-    std::vector<Decuplet55> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
+    std::vector<Decuplet55> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
 
     std::string Name() const override;
 
@@ -29,7 +29,7 @@ public:
 
 private:
 
-    std::vector<Decuplet55> Decuplets(Event const& event, std::function<Decuplet55(Decuplet55&)> const& function) const;
+    std::vector<Decuplet55> Decuplets(Event const& event, std::function<Decuplet55(Decuplet55&)> const& function);
 
     Reader<TopPartnerHadronicNeutralTagger> top_partner_hadronic_reader_;
 

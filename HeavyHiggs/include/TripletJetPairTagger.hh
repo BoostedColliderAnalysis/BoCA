@@ -18,9 +18,9 @@ class TripletJetPairTagger : public TaggerTemplate<Quartet31, TripletJetPairBran
 
 public:
 
-    int Train(const boca::Event& event, boca::PreCuts const& pre_cuts, Tag tag) const override;
+    int Train(const boca::Event& event, boca::PreCuts const& pre_cuts, Tag tag) override;
 
-    std::vector<Quartet31> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
+    std::vector<Quartet31> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
 
     std::string Name() const override;
 

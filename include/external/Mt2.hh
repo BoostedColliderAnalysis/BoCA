@@ -1,13 +1,13 @@
 #pragma once
 
-namespace mt2_bisect
+namespace mt2
 {
 
-class mt2
+class Mt2
 {
 public:
 
-    mt2();
+    Mt2();
     void mt2_bisect();
     void mt2_massless();
     void set_momenta ( double* pa0, double* pb0, double* pmiss0 );
@@ -66,7 +66,7 @@ private:
 // double pmiss[3] = { 0, -29.9, 35.9 };
 // double mn = 50.;
 //
-// mt2_bisect::mt2 mt2_event;
+// mt2::Mt2 mt2_event;
 //
 // mt2_event.set_momenta(pa,pb,pmiss);
 // mt2_event.set_mn(mn);

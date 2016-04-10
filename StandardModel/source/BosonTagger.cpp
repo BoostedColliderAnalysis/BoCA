@@ -23,7 +23,7 @@ BosonTagger::BosonTagger()
     boson_mass_window = 80_GeV;
 }
 
-int BosonTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const
+int BosonTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag)
 {
     INFO0;
     return SaveEntries(Doublets(event, [&](Doublet & doublet) {
@@ -39,7 +39,7 @@ boost::optional<Doublet> BosonTagger::CheckDoublet(Doublet doublet, PreCuts cons
     return doublet;
 }
 
-std::vector<Doublet> BosonTagger::Doublets(Event const& event, std::function<boost::optional<Doublet>(Doublet&)> const& function) const
+std::vector<Doublet> BosonTagger::Doublets(Event const& event, std::function<boost::optional<Doublet>(Doublet&)> const& function)
 {
     INFO0;
     auto jets =  bottom_reader_.Jets(event);
@@ -88,7 +88,7 @@ bool BosonTagger::Problematic(Doublet const& doublet, PreCuts const& pre_cuts) c
     return false;
 }
 
-std::vector<Doublet> BosonTagger::Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
+std::vector<Doublet> BosonTagger::Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader)
 {
     INFO0;
     return Doublets(event, [&](Doublet & doublet) {
@@ -96,7 +96,7 @@ std::vector<Doublet> BosonTagger::Multiplets(Event const& event, PreCuts const& 
     });
 }
 
-boost::optional<Doublet> BosonTagger::Multiplet(Doublet& doublet, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
+boost::optional<Doublet> BosonTagger::Multiplet(Doublet& doublet, PreCuts const& pre_cuts, TMVA::Reader const& reader)
 {
     INFO0;
     if (Problematic(doublet, pre_cuts)) return boost::none;

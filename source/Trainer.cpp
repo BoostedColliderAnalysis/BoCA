@@ -106,10 +106,7 @@ long Trainer::Entries(std::string const& tree_name, Tag tag)
     TreeReader tree_reader({Tagger().FileName(Stage::trainer, tag)} , tree_name, Source::tagger);
     auto & array = tree_reader.Array(Tagger().BranchName(Stage::trainer), Tagger().Class());
     long entries = 0;
-    for (auto const & entry : IntegerRange(tree_reader.GetEntries())) {
-      tree_reader.ReadEntry(entry);
-      entries += array.GetSize();
-    }
+    while(tree_reader.Next()) entries += array.GetSize();
     return entries;
 }
 TTree& Trainer::Tree(std::string const& tree_name, Tag tag)

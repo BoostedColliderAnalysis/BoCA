@@ -18,7 +18,7 @@ int main()
     Run<boca::standardmodel::TopLeptonicTagger>();
     Run<boca::naturalness::TopPartnerHadronicNeutralTagger>();
     Run<boca::naturalness::TopPartnerLeptonicNeutralTagger>();
-    Run<boca::naturalness::TopPartnerPairTagger>(boca::Output::efficiency);
-    Run<boca::GlobalTagger>(boca::Output::efficiency);
-    Run<boca::naturalness::EventPairTagger>(boca::Output::efficiency);
+    Run<boca::naturalness::TopPartnerPairTagger>(boca::Output::significance);
+    Run<boca::GlobalTagger>(boca::Output::significance);
+    Run<boca::naturalness::EventPairTagger>(boca::Output::significance);
 }

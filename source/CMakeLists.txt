@@ -1,21 +1,22 @@
 #
 # Copyright (C) 2015-2016 Jan Hajer
 #
-add_subdirectory(external)
+add_include_path(../include)
+
 add_subdirectory(generic)
 add_subdirectory(io)
-add_subdirectory(math)
 add_subdirectory(physics)
+add_subdirectory(math)
+add_subdirectory(external)
 add_subdirectory(exroot)
 add_subdirectory(delphes)
 add_subdirectory(multiplets)
 
-create_dictionary(Colors Colors.cpp ../include/LinkDef.hh)
+create_dictionary(Colors Colors.cpp Colors.hh LinkDef.hh)
 add_subdirectory(plotting)
 
-add_include_path(../include)
-create_dictionary(Branches Branches.cpp ../include/LinkDef.hh)
-create_dictionary(Names Names.cpp ../include/LinkDef.hh)
+create_dictionary(Branches Branches.cpp Branches.hh LinkDef.hh)
+create_dictionary(Names Names.cpp Names.hh LinkDef.hh)
 
 set(fastjet_sources
 ClusterSequence.cpp
@@ -54,7 +55,6 @@ GlobalTagger.cpp
 File.cpp
 Tagger.cpp
 AnalysisBase.cpp
-Files.cpp
 Trainer.cpp
 )
 create_library(Tagger tagger_sources)

@@ -66,8 +66,8 @@ public:
 protected:
 
     Momentum LowerPtCut() const {
-        return 750_GeV;
         return 500_GeV;
+        return 750_GeV;
         return 600_GeV;
         return 1_TeV;
         return 1.5_TeV;

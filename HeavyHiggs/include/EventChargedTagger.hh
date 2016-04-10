@@ -19,15 +19,15 @@ class EventChargedTagger : public TaggerTemplate<MultipletEvent<Octet44>, EventC
 
 public:
 
-    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const override;
+    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) override;
 
-    std::vector<MultipletEvent<Octet44>> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
+    std::vector<MultipletEvent<Octet44>> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
 
     std::string Name() const override;
 
 private:
 
-    std::vector<MultipletEvent<Octet44>> Events(Event const& event, std::function<MultipletEvent<Octet44>(MultipletEvent<Octet44> &)> const& function) const;
+    std::vector<MultipletEvent<Octet44>> Events(Event const& event, std::function<MultipletEvent<Octet44>(MultipletEvent<Octet44> &)> const& function);
 
     Reader<standardmodel::BottomTagger> bottom_reader_;
 

@@ -8,7 +8,7 @@ namespace boca
 namespace heavyhiggs
 {
 
-int EventChargedTagger::Train(boca::Event const& event, boca::PreCuts const&, Tag tag) const
+int EventChargedTagger::Train(boca::Event const& event, boca::PreCuts const&, Tag tag)
 {
     INFO0;
     return SaveEntries(Events(event, [&](MultipletEvent<Octet44>& multiplet_event) {
@@ -18,7 +18,7 @@ int EventChargedTagger::Train(boca::Event const& event, boca::PreCuts const&, Ta
 }
 
 
-std::vector<MultipletEvent<Octet44>> EventChargedTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
+std::vector<MultipletEvent<Octet44>> EventChargedTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader)
 {
     INFO0;
     return ReduceResult(Events(event, [&](MultipletEvent<Octet44>& multiplet_event) {
@@ -27,7 +27,7 @@ std::vector<MultipletEvent<Octet44>> EventChargedTagger::Multiplets(Event const&
     }), 1);
 }
 
-std::vector<MultipletEvent<Octet44>> EventChargedTagger::Events(Event const& event, std::function<MultipletEvent<Octet44>(MultipletEvent<Octet44> &)> const& function) const
+std::vector<MultipletEvent<Octet44>> EventChargedTagger::Events(Event const& event, std::function<MultipletEvent<Octet44>(MultipletEvent<Octet44> &)> const& function)
 {
     INFO0;
     std::vector<Jet> jets = bottom_reader_.Jets(event);

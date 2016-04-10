@@ -10,7 +10,7 @@ namespace boca
 namespace naturalness
 {
 
-int SignatureEffectiveTagger::Train(Event const& event, PreCuts const&, Tag tag) const
+int SignatureEffectiveTagger::Train(Event const& event, PreCuts const&, Tag tag)
 {
     INFO0;
     return SaveEntries(Quattuordecuplets(event, [&](Quattuordecuplet554 & quattuordecuplet) {
@@ -19,7 +19,7 @@ int SignatureEffectiveTagger::Train(Event const& event, PreCuts const&, Tag tag)
     }), tag);
 }
 
-std::vector<Quattuordecuplet554> SignatureEffectiveTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
+std::vector<Quattuordecuplet554> SignatureEffectiveTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader)
 {
     INFO0;
     return ReduceResult(Quattuordecuplets(event, [&](Quattuordecuplet554 & quattuordecuplet) {
@@ -28,7 +28,7 @@ std::vector<Quattuordecuplet554> SignatureEffectiveTagger::Multiplets(Event cons
     }), 1);
 }
 
-std::vector<Quattuordecuplet554> SignatureEffectiveTagger::Quattuordecuplets(boca::Event const& event, std::function< Quattuordecuplet554(Quattuordecuplet554&)> const& function) const
+std::vector<Quattuordecuplet554> SignatureEffectiveTagger::Quattuordecuplets(boca::Event const& event, std::function< Quattuordecuplet554(Quattuordecuplet554&)> const& function)
 {
     INFO0;
     auto hadronic = top_partner_hadronic_reader_.Multiplets(event, 8);

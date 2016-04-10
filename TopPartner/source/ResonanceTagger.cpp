@@ -13,7 +13,7 @@ namespace boca
 namespace naturalness
 {
 
-int ResonanceTagger::Train(Event const& event, PreCuts const&, Tag tag) const
+int ResonanceTagger::Train(Event const& event, PreCuts const&, Tag tag)
 {
     INFO0;
     return SaveEntries(Doublets(event, [&](Doublet & doublet) {
@@ -31,7 +31,7 @@ std::vector<Doublet> ResonanceTagger::Doublets(Event const& event, std::function
     });
 }
 
-std::vector<Doublet> ResonanceTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
+std::vector<Doublet> ResonanceTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader)
 {
     return Doublets(event, [&](Doublet & doublet) {
         doublet.SetBdt(Bdt(doublet, reader));

@@ -29,7 +29,7 @@ TopHadronicHep::TopHadronicHep()
     top_mass_window_ = MassOf(Id::top);
 }
 
-int TopHadronicHep::Train(const Event& event, const PreCuts& pre_cuts, Tag tag) const
+int TopHadronicHep::Train(const Event& event, const PreCuts& pre_cuts, Tag tag)
 {
     INFO0;
     return SaveEntries(Triplets(event, pre_cuts, [&](Triplet & triplet) {
@@ -68,7 +68,7 @@ bool TopHadronicHep::Problematic(Triplet const& triplet, PreCuts const& pre_cuts
     return false;
 }
 
-std::vector<Triplet> TopHadronicHep::Multiplets(const Event& event, const boca::PreCuts& pre_cuts, const TMVA::Reader& reader) const
+std::vector<Triplet> TopHadronicHep::Multiplets(const Event& event, const boca::PreCuts& pre_cuts, TMVA::Reader const& reader)
 {
     INFO0;
     return Triplets(event, pre_cuts, [&](Triplet & triplet) {
@@ -90,7 +90,7 @@ std::vector<Triplet> TopHadronicHep::Triplets(Event const& event, PreCuts const&
     INFO(jets.size());
     std::vector<Triplet> triplets;
     for (auto const & jet : jets) {
-        HEP::TopTagger top_tagger(cluster_sequence.Get(), jet, MassOf(Id::top) / GeV, MassOf(Id::W) / GeV);
+        hep::TopTagger top_tagger(cluster_sequence.Get(), jet, MassOf(Id::top) / GeV, MassOf(Id::W) / GeV);
         top_tagger.set_top_range((MassOf(Id::top) - top_mass_window_) / GeV, (MassOf(Id::top) + top_mass_window_) / GeV);
         top_tagger.run_tagger();
         std::vector<Jet> sub_jets = JetVector(top_tagger.top_subjets());

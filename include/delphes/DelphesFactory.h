@@ -70,7 +70,7 @@ private:
 
   std::set< TObject* > fPool; //!
 
-  ClassDef(DelphesFactory, 1)
+//   ClassDef(DelphesFactory, 1)
 };
 
 // }

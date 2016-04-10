@@ -20,9 +20,9 @@ class EventNewPairTagger : public TaggerTemplate<MultipletEvent<Decuplet55>,Even
 
 public:
 
-    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const override;
+    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) override;
 
-    std::vector<MultipletEvent<Decuplet55>> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
+    std::vector<MultipletEvent<Decuplet55>> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
 
     std::string Name() const override;
 

@@ -6,13 +6,13 @@ cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 project(BoCA CXX)
 
 include(CMakeFiles/CMakeConfig.cmake)
-# find_package(Boost 1.43)
-find_package(Boost 1.43 COMPONENTS system filesystem REQUIRED)
+find_package(Boost 1.43)
+# find_package(Boost 1.43 COMPONENTS system filesystem REQUIRED)
 add_include_path(${Boost_INCLUDE_DIRS})
-add_libraries(
-  ${Boost_FILESYSTEM_LIBRARY}
-  ${Boost_SYSTEM_LIBRARY}
-)
+# add_libraries(
+#   ${Boost_FILESYSTEM_LIBRARY}
+#   ${Boost_SYSTEM_LIBRARY}
+# )
 
 # set build type to debug
 if( NOT CMAKE_BUILD_TYPE )
@@ -31,14 +31,6 @@ if(CCACHE_FOUND)
     set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK ccache)
 endif(CCACHE_FOUND)
 
-# ROOT
-include(CMakeFiles/FindROOT.cmake)
-add_include_path(${ROOT_INCLUDE_DIR})
-add_libraries("${ROOT_LIBRARIES}")
-add_libraries(TMVA)
-add_libraries(TreePlayer)
-# add_libraries(MathMore)
-
 # FastJet
 include(CMakeFiles/Findfastjet.cmake)
 # add_include_path(${fastjet_INCLUDE_DIRS})
@@ -46,9 +38,15 @@ add_libraries(${fastjet_LIBRARIES})
 add_libraries(fastjettools)
 add_libraries(Nsubjettiness)
 
+# ROOT
+find_package(ROOT REQUIRED COMPONENTS RIO TMVA Physics Hist)
+set(ROOT_CXX_FLAGS "${ROOT_CXX_FLAGS} -std=c++14 -fext-numeric-literals")
+include(${ROOT_USE_FILE})
+add_libraries("${ROOT_LIBRARIES}")
+add_libraries(TMVA)
+add_libraries(MathMore)
 
 # Doxygen
-# if(CMAKE_BUILD_TYPE MATCHES "Release")
 set(DO_DOXYGEN 0)
 if(DO_DOXYGEN MATCHES 1)
 include(CMakeFiles/UseDoxygen.cmake)

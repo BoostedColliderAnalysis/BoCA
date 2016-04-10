@@ -3,10 +3,11 @@
  */
 #pragma once
 
-#include "io/TreeWriter.hh"
+#include "io/FileWriter.hh"
 #include "Reader.hh"
 #include "Branches.hh"
-#include "Files.hh"
+#include "File.hh"
+#include <mutex>
 
 namespace boca
 {
@@ -16,72 +17,39 @@ class BranchWriter
 {
 
 public:
-    BranchWriter(boca::Files& files, Tagger_& tagger) :
-        files_(files),
-        tagger_(tagger),
-        reader_(files.Phase().Stage()),
-        tree_writer_(files.Export(), files.Import().Title()) {
-        Initialize();
-    }
 
-    void Initialize() {
-        switch (Files().Phase().Stage()) {
-        case Stage::trainer : tagger_.NewBranch(TreeWriter(), Files().Phase().Stage());
+    BranchWriter(boca::Phase& phase, boca::File& file, boca::FileWriter& file_writer, Tagger_& tagger) :
+        phase_(phase),
+        import_file_(file),
+        file_writer_(file_writer),
+        tagger_(tagger),
+        reader_(phase.Stage()) {
+        tree_writer_ = &FileWriter().NewTree(Import().Title());
+        switch (Phase().Stage()) {
+        case Stage::trainer : tagger_.NewBranch(TreeWriter(), Phase().Stage());
             break;
-        case Stage::reader : reader_.NewBranch(TreeWriter(), Files().Phase().Stage());
+        case Stage::reader : reader_.NewBranch(TreeWriter(), Phase().Stage());
             break;
         }
-        tree_branch_ = &tree_writer_.NewBranch<InfoBranch>(tagger_.WeightBranchName());
-        for (auto const & path : Files().Import().Paths()) chain_.AddFile(path.c_str(), TChain::kBigNumber, Files().Import().TreeName().c_str());
+        tree_branch_ = &(tree_writer_->NewBranch<InfoBranch>(tagger_.WeightBranchName()));
     }
 
     ~BranchWriter() {
         std::cout << "PreCut ratio: " << RoundToDigits(double(object_sum_) / event_sum_) << std::endl;
-    }
-
-    void Write() {
-//         std::lock_guard<std::mutex> object_sum_guard(object_sum_mutex_);
         if (object_sum_) TreeWriter().Write();
     }
 
-    boca::Files& Files()  {
-        return files_;
+    void SafeEntry() {
+        InfoBranch info_branch(Import());
+        info_branch.SetEventNumber(EventSum());
+        std::lock_guard<std::mutex> lock(write_mutex);
+        TreeBranch().AddEntry(info_branch);
+        TreeWriter().Fill();
     }
-
-    boca::TreeBranch& TreeBranch() {
-        return *tree_branch_;
-    }
-
-    boca::TreeWriter& TreeWriter() {
-        return tree_writer_;
-    }
-
-//     long ObjectSum() {
-//         std::lock_guard<std::mutex> object_sum_guard(object_sum_mutex_);
-//         return object_sum_;
-//     }
-
-    long EventSum() {
-//         std::lock_guard<std::mutex> event_sum_guard(event_sum_mutex_);
-        return event_sum_;
-    }
-
-//     void Increment() {
-//         std::lock_guard<std::mutex> object_sum_guard(object_sum_mutex_);
-//         ++object_sum_;
-//     }
-
     void Increment(int number) {
-//         std::lock_guard<std::mutex> object_sum_guard(object_sum_mutex_);
+        std::lock_guard<std::mutex> lock(sum_mutex);
         object_sum_ += number;
-//         std::lock_guard<std::mutex> event_sum_guard(event_sum_mutex_);
-//         if(number)
-        if(number > 0) ++event_sum_;
-    }
-
-    bool KeepGoing(long max) {
-//         std::lock_guard<std::mutex> object_sum_guard(object_sum_mutex_);
-        return object_sum_ < max;
+        if (number > 0) ++event_sum_;
     }
 
     boca::Reader<Tagger_> Reader() const {
@@ -92,30 +60,60 @@ public:
         return tagger_;
     }
 
-    TChain& Chain() {
-        return chain_;
+    bool KeepGoing(std::function<long(Stage)> const& event_number_max) const {
+      return object_sum_ < event_number_max(Phase().Stage());
+    }
+
+    boca::Phase Phase() const {
+        return phase_;
+    }
+
+    boca::File Import() const {
+        return import_file_;
     }
 
 private:
 
-    TChain chain_;
+    long EventSum() const {
+        return event_sum_;
+    }
 
-    boca::Files& files_;
+    boca::FileWriter& FileWriter() {
+        return file_writer_;
+    }
+
+    boca::TreeBranch& TreeBranch() {
+        return *tree_branch_;
+    }
+
+    boca::TreeWriter& TreeWriter() {
+        return *tree_writer_;
+    }
+
+    long object_sum_ = 0;
+
+    long event_sum_ = 0;
+
+    boca::Phase phase_;
+
+    File& import_file_;
+
+    boca::FileWriter& file_writer_;
 
     Tagger_& tagger_;
 
     boca::Reader<Tagger_> reader_;
 
-    boca::TreeWriter tree_writer_;
+    boca::TreeWriter* tree_writer_;
 
     boca::TreeBranch* tree_branch_;
 
-    long object_sum_ = 0;
-//     std::mutex object_sum_mutex_;
+    std::mutex sum_mutex;
 
-    long event_sum_ = 0;
-//     std::mutex event_sum_mutex_;
+    std::mutex write_mutex;
 
 };
 
 }
+
+

@@ -4,7 +4,7 @@ This code performs staged BDT analyses using root files as in- and output format
 
 ## Dependencies
 
-* `ROOT` with version > 5
+* `ROOT` with version >= 6
 * `fastjet`
 * `fastjet contrib` (must be compiled with `CXXFLAGS=-fPIC`)
 * `Boost` (`Optional`, `Range`, `Units`)
@@ -12,13 +12,21 @@ This code performs staged BDT analyses using root files as in- and output format
 ## Installation
 
 * the following is tested on recent ubuntu installations
-* if you are using a `ROOT` version other than the system version edit the `ROOT` path in `FindROOT.cmake`
 
 ~~~~
 mkdir build
 cd build
 cmake ..
 make
+~~~~
+
+* for quicker compilation (install ccache and ninja-build)
+
+~~~~
+mkdir build
+cd build
+cmake -G Ninja ..
+ninja
 ~~~~
 
 ## Usage
@@ -66,4 +74,4 @@ Please cite:
 * prefer references `&` over pointers `*`
 * Classes and functions are written in CamelCase
 * variables are written small_with_underscore
-* member variables and template paramter end on an underscore
+* member_variables_ and TemplateParamter_ end on an underscore

@@ -14,6 +14,7 @@ namespace boca
 class Result
 {
 public:
+    Result(){};
     Result(boca::InfoBranch const& info_branch, std::vector<double> const& bdts, TMVA::Types::EMVA mva);
     Result(boca::InfoBranch const& info_branch, std::pair<boca::InfoBranch,int> const& trainer_info_branch, std::vector<double> const& bdts, TMVA::Types::EMVA mva);
     Result(boca::InfoBranch const& info_branch, std::vector<std::vector<bool>> const& passed, TMVA::Types::EMVA mva);

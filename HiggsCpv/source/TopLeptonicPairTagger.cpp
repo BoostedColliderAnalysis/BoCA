@@ -14,7 +14,7 @@ namespace boca
 namespace higgscpv
 {
 
-int TopLeptonicPairTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) const
+int TopLeptonicPairTagger::Train(Event const& event, boca::PreCuts const&, Tag tag)
 {
     INFO0;
     std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
@@ -64,7 +64,7 @@ std::vector<Sextet> TopLeptonicPairTagger::TruthLevel(Event const& event, std::v
     }
 }
 
-std::vector<Sextet> TopLeptonicPairTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
+std::vector<Sextet> TopLeptonicPairTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader)
 {
     std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
     INFO(triplets.size());

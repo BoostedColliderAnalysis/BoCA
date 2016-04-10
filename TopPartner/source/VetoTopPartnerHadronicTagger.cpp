@@ -14,7 +14,7 @@ namespace boca
 namespace naturalness
 {
 
-int VetoTopPartnerHadronicTagger::Train(Event const& event, PreCuts const& , Tag tag) const
+int VetoTopPartnerHadronicTagger::Train(Event const& event, PreCuts const& , Tag tag)
 {
     INFO0;
     return SaveEntries(Quintets(event, [&](Quintet & quintet) {
@@ -23,7 +23,7 @@ int VetoTopPartnerHadronicTagger::Train(Event const& event, PreCuts const& , Tag
     }), Particles(event), tag);
 }
 
-std::vector<Quintet> VetoTopPartnerHadronicTagger::Multiplets(Event const& event, boca::PreCuts const& , TMVA::Reader const& reader) const
+std::vector<Quintet> VetoTopPartnerHadronicTagger::Multiplets(Event const& event, boca::PreCuts const& , TMVA::Reader const& reader)
 {
     INFO0;
     return Quintets(event, [&](Quintet & quintet) {
@@ -47,7 +47,7 @@ std::vector<Particle> VetoTopPartnerHadronicTagger::Particles(Event const& event
     return CopyIfExactParticle(particles, id);
 }
 
-std::vector<Quintet> VetoTopPartnerHadronicTagger::Quintets(Event const& event, std::function<Quintet(Quintet&)> const& function) const
+std::vector<Quintet> VetoTopPartnerHadronicTagger::Quintets(Event const& event, std::function<Quintet(Quintet&)> const& function)
 {
     INFO0;
     auto triplets = top_reader_.Multiplets(event);

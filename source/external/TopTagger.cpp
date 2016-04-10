@@ -1,7 +1,7 @@
 #include "external/TopTagger.hh"
 #include "ClusterSequence.hh"
 
-namespace HEP
+namespace hep
 {
 
 double TopTagger::cos_theta_h() const
@@ -26,7 +26,7 @@ std::vector<double> TopTagger::dr_values() const
     return dr_values;
 }
 
-double TopTagger::r_max_3jets(const fastjet::PseudoJet& jet1, const fastjet::PseudoJet& jet2, const fastjet::PseudoJet& jet3) const
+double TopTagger::r_max_3jets(fastjet::PseudoJet const& jet1, fastjet::PseudoJet const& jet2, fastjet::PseudoJet const& jet3) const
 {
     fastjet::PseudoJet jet12, jet13, jet23;
     jet12 = jet1 + jet2;
@@ -53,7 +53,7 @@ double TopTagger::r_max_3jets(const fastjet::PseudoJet& jet1, const fastjet::Pse
     return std::max(dR1, dR2);
 }
 
-double TopTagger::check_cos_theta(const fastjet::PseudoJet& jet, const fastjet::PseudoJet& subj1, const fastjet::PseudoJet& subj2) const
+double TopTagger::check_cos_theta(fastjet::PseudoJet const& jet, fastjet::PseudoJet const& subj1, fastjet::PseudoJet const& subj2) const
 {
     // the two jets of interest: top and lower-pt prong of W
     fastjet::PseudoJet W2;
@@ -73,7 +73,7 @@ double TopTagger::check_cos_theta(const fastjet::PseudoJet& jet, const fastjet::
     return (csthet);
 }
 
-void TopTagger::FindHardSubst(const fastjet::PseudoJet& this_jet, std::vector<fastjet::PseudoJet>& t_parts)
+void TopTagger::FindHardSubst(fastjet::PseudoJet const& this_jet, std::vector<fastjet::PseudoJet>& t_parts)
 {
     fastjet::PseudoJet parent1(0, 0, 0, 0), parent2(0, 0, 0, 0);
     if (this_jet.m() < _max_subjet_mass || !_cs->has_parents(this_jet, parent1, parent2)) {
@@ -89,7 +89,7 @@ void TopTagger::FindHardSubst(const fastjet::PseudoJet& this_jet, std::vector<fa
     }
 }
 
-void TopTagger::store_topsubjets(const std::vector<fastjet::PseudoJet>& top_subs)
+void TopTagger::store_topsubjets(std::vector<fastjet::PseudoJet> const& top_subs)
 {
     _top_subjets.resize(0);
     double m12 = (top_subs[0] + top_subs[1]).m();
@@ -116,7 +116,7 @@ void TopTagger::store_topsubjets(const std::vector<fastjet::PseudoJet>& top_subs
     return;
 }
 
-bool TopTagger::check_mass_criteria(const std::vector<fastjet::PseudoJet>& top_subs) const
+bool TopTagger::check_mass_criteria(std::vector<fastjet::PseudoJet> const& top_subs) const
 {
     bool is_passed = false;
     double m12 = (top_subs[0] + top_subs[1]).m();
@@ -140,7 +140,7 @@ bool TopTagger::check_mass_criteria(const std::vector<fastjet::PseudoJet>& top_s
     return is_passed;
 }
 
-TopTagger::TopTagger(const fastjet::ClusterSequence& cs, const fastjet::PseudoJet& jet) :
+TopTagger::TopTagger(fastjet::ClusterSequence const& cs, fastjet::PseudoJet const& jet) :
     _cs(&cs), _jet(jet), _mtmass(172.3), _mwmass(80.4),
     _mass_drop_threshold(0.8), _max_subjet_mass(30.),
     _mtmin(172.3 - 25.), _mtmax(172.3 + 25.), _rmin(0.85 * 80.4 / 172.3), _rmax(1.15 * 80.4 / 172.3),
@@ -149,7 +149,7 @@ TopTagger::TopTagger(const fastjet::ClusterSequence& cs, const fastjet::PseudoJe
     debugg(false)
 {}
 
-TopTagger::TopTagger(const fastjet::ClusterSequence& cs, const fastjet::PseudoJet& jet, double mtmass, double mwmass) :
+TopTagger::TopTagger(fastjet::ClusterSequence const& cs, fastjet::PseudoJet const& jet, double mtmass, double mwmass) :
     _cs(&cs), _jet(jet), _mtmass(mtmass), _mwmass(mwmass),
     _mass_drop_threshold(0.8), _max_subjet_mass(30.),
     _mtmin(mtmass - 25.), _mtmax(mtmass + 25.), _rmin(0.85 * mwmass / mtmass), _rmax(1.15 * mwmass / mtmass),
@@ -226,7 +226,7 @@ void TopTagger::run_tagger()
     return;
 }
 
-std::vector<fastjet::PseudoJet> TopTagger::Filtering(const std::vector<fastjet::PseudoJet>& top_constits, const fastjet::JetDefinition& filtering_def)
+std::vector<fastjet::PseudoJet> TopTagger::Filtering(std::vector<fastjet::PseudoJet> const& top_constits, const fastjet::JetDefinition& filtering_def)
 {
     // perform filtering
     fastjet::ClusterSequence cstopfilt(top_constits, filtering_def);
@@ -242,7 +242,7 @@ std::vector<fastjet::PseudoJet> TopTagger::Filtering(const std::vector<fastjet::
     return top_constits_filtered;
 }
 
-fastjet::PseudoJet TopTagger::Sum(const std::vector<fastjet::PseudoJet>& vec_pjet)
+fastjet::PseudoJet TopTagger::Sum(std::vector<fastjet::PseudoJet> const& vec_pjet)
 {
     fastjet::PseudoJet sum;
     sum.reset(0., 0., 0., 0.);
@@ -292,15 +292,15 @@ bool TopTagger::is_masscut_passed() const
 {
     return _is_masscut_passed;
 }
-const fastjet::PseudoJet& TopTagger::top_candidate() const
+fastjet::PseudoJet const& TopTagger::top_candidate() const
 {
     return _top_candidate;
 }
-const std::vector< fastjet::PseudoJet >& TopTagger::top_subjets() const
+std::vector< fastjet::PseudoJet > const& TopTagger::top_subjets() const
 {
     return _top_subjets;
 }
-const std::vector< fastjet::PseudoJet >& TopTagger::top_hadrons() const
+std::vector< fastjet::PseudoJet > const& TopTagger::top_hadrons() const
 {
     return _top_hadrons;
 }
@@ -308,7 +308,7 @@ unsigned int TopTagger::top_count() const
 {
     return _top_count;
 }
-const std::vector< fastjet::PseudoJet >& TopTagger::hardparts() const
+std::vector< fastjet::PseudoJet > const& TopTagger::hardparts() const
 {
     return _top_parts;
 }

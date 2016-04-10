@@ -45,7 +45,7 @@
 ********************************************************************************/
 
 
-#include <math.h>
+#include <cmath>
 #include <iostream>
 
 #include "TMatrixD.h"
@@ -55,22 +55,18 @@
 
 #include "external/Invisible3.hh"
 
-using namespace std;
-
-
 namespace wimpmass
 {
 
 int solve3quad(double* coeff, double* solutions);
 
-inline double mass2(double E, double px, double py, double pz)
+double mass2(double E, double px, double py, double pz)
 {
     double m = E * E - px * px - py * py - pz * pz;
     return m;
 }
 
-void solve33(event33& evt1, event33& evt2, int& nsols, double p1[][4],
-             double p2[][4], double q1[][4], double q2[][4])
+void solve33(event33& evt1, event33& evt2, int& nsols, double p1[][4], double p2[][4], double q1[][4], double q2[][4])
 
 //double*p1,double*p2,double*p3,double*p4,double*p5,double*p6,
 //double*p7,double*p8,double*pmiss1,double*pa,double*pb,double*pc,double*pd,
@@ -158,7 +154,7 @@ void solve33(event33& evt1, event33& evt2, int& nsols, double p1[][4],
     TMatrixT<double> energyMatA(4, 4);
 
 //const
-    energyMatA[3][3] = -pow(L[0][0], 2) - pow(L[1][0], 2) - pow(L[2][0], 2) + pow(L[3][0], 2) + pow(L[4][0], 2) + pow(L[5][0], 2);
+    energyMatA[3][3] = -std::pow(L[0][0], 2) - std::pow(L[1][0], 2) - std::pow(L[2][0], 2) + std::pow(L[3][0], 2) + std::pow(L[4][0], 2) + std::pow(L[5][0], 2);
 //E1
     energyMatA[3][0] = -(L[0][0]) * (L[0][1]) - (L[1][0]) * (L[1][1]) - (L[2][0]) * (L[2][1]) + (L[3][0]) * (L[3][1]) + (L[4][0]) * (L[4][1]) + (L[5][0]) * (L[5][1]);
 //E2
@@ -172,11 +168,11 @@ void solve33(event33& evt1, event33& evt2, int& nsols, double p1[][4],
 //E2*Ea
     energyMatA[2][1] = -(L[0][2]) * (L[0][3]) - (L[1][2]) * (L[1][3]) - (L[2][2]) * (L[2][3]) + (L[3][2]) * (L[3][3]) + (L[4][2]) * (L[4][3]) + (L[5][2]) * (L[5][3]);
 //E1^2
-    energyMatA[0][0] = 1 - pow(L[0][1], 2) - pow(L[1][1], 2) - pow(L[2][1], 2) + pow(L[3][1], 2) + pow(L[4][1], 2) + pow(L[5][1], 2);
+    energyMatA[0][0] = 1 - std::pow(L[0][1], 2) - std::pow(L[1][1], 2) - std::pow(L[2][1], 2) + std::pow(L[3][1], 2) + std::pow(L[4][1], 2) + std::pow(L[5][1], 2);
 //E2^2
-    energyMatA[1][1] = -1 - pow(L[0][2], 2) - pow(L[1][2], 2) - pow(L[2][2], 2) + pow(L[3][2], 2) + pow(L[4][2], 2) + pow(L[5][2], 2);
+    energyMatA[1][1] = -1 - std::pow(L[0][2], 2) - std::pow(L[1][2], 2) - std::pow(L[2][2], 2) + std::pow(L[3][2], 2) + std::pow(L[4][2], 2) + std::pow(L[5][2], 2);
 //Ea^2
-    energyMatA[2][2] = -pow(L[0][3], 2) - pow(L[1][3], 2) - pow(L[2][3], 2) + pow(L[3][3], 2) + pow(L[4][3], 2) + pow(L[5][3], 2);
+    energyMatA[2][2] = -std::pow(L[0][3], 2) - std::pow(L[1][3], 2) - std::pow(L[2][3], 2) + std::pow(L[3][3], 2) + std::pow(L[4][3], 2) + std::pow(L[5][3], 2);
 
 
 //Symmetrize energyMatA
@@ -193,7 +189,7 @@ void solve33(event33& evt1, event33& evt2, int& nsols, double p1[][4],
     TMatrixT<double> energyMatB(4, 4);
 
 //const
-    energyMatB[3][3] = -pow(L[0][0], 2) - pow(L[1][0], 2) - pow(L[2][0], 2) + pow(L[6][0], 2) + pow(L[7][0], 2) + pow(L[8][0], 2);
+    energyMatB[3][3] = -std::pow(L[0][0], 2) - std::pow(L[1][0], 2) - std::pow(L[2][0], 2) + std::pow(L[6][0], 2) + std::pow(L[7][0], 2) + std::pow(L[8][0], 2);
 //E1
     energyMatB[3][0] = -(L[0][0]) * (L[0][1]) - (L[1][0]) * (L[1][1]) - (L[2][0]) * (L[2][1]) + (L[6][0]) * (L[6][1]) + (L[7][0]) * (L[7][1]) + (L[8][0]) * (L[8][1]);
 //E2
@@ -207,11 +203,11 @@ void solve33(event33& evt1, event33& evt2, int& nsols, double p1[][4],
 //E2*Ea
     energyMatB[2][1] = -(L[0][2]) * (L[0][3]) - (L[1][2]) * (L[1][3]) - (L[2][2]) * (L[2][3]) + (L[6][2]) * (L[6][3]) + (L[7][2]) * (L[7][3]) + (L[8][2]) * (L[8][3]);
 //E1^2
-    energyMatB[0][0] = 1 - pow(L[0][1], 2) - pow(L[1][1], 2) - pow(L[2][1], 2) + pow(L[6][1], 2) + pow(L[7][1], 2) + pow(L[8][1], 2);
+    energyMatB[0][0] = 1 - std::pow(L[0][1], 2) - std::pow(L[1][1], 2) - std::pow(L[2][1], 2) + std::pow(L[6][1], 2) + std::pow(L[7][1], 2) + std::pow(L[8][1], 2);
 //E2^2
-    energyMatB[1][1] = -pow(L[0][2], 2) - pow(L[1][2], 2) - pow(L[2][2], 2) + pow(L[6][2], 2) + pow(L[7][2], 2) + pow(L[8][2], 2);
+    energyMatB[1][1] = -std::pow(L[0][2], 2) - std::pow(L[1][2], 2) - std::pow(L[2][2], 2) + std::pow(L[6][2], 2) + std::pow(L[7][2], 2) + std::pow(L[8][2], 2);
 //Ea^2
-    energyMatB[2][2] = -1 - pow(L[0][3], 2) - pow(L[1][3], 2) - pow(L[2][3], 2) + pow(L[6][3], 2) + pow(L[7][3], 2) + pow(L[8][3], 2);
+    energyMatB[2][2] = -1 - std::pow(L[0][3], 2) - std::pow(L[1][3], 2) - std::pow(L[2][3], 2) + std::pow(L[6][3], 2) + std::pow(L[7][3], 2) + std::pow(L[8][3], 2);
 
 
 //Symmetrize energyMatB
@@ -227,7 +223,7 @@ void solve33(event33& evt1, event33& evt2, int& nsols, double p1[][4],
 //Construct energyMatC from equation E1^2-p1x^2-p1y^2-p1z^2-(Eb^2-pbx^2-pby^2-pbz^2)=0:
     TMatrixT<double> energyMatC(4, 4);
 //const
-    energyMatC[3][3] = -pow(L[0][0], 2) - pow(L[1][0], 2) - pow(L[2][0], 2) + pow(L[9][0], 2) + pow(L[10][0], 2) + pow(L[11][0], 2) - pow(L[12][0], 2);
+    energyMatC[3][3] = -std::pow(L[0][0], 2) - std::pow(L[1][0], 2) - std::pow(L[2][0], 2) + std::pow(L[9][0], 2) + std::pow(L[10][0], 2) + std::pow(L[11][0], 2) - std::pow(L[12][0], 2);
 //E1
     energyMatC[3][0] = -(L[0][0]) * (L[0][1]) - (L[1][0]) * (L[1][1]) - (L[2][0]) * (L[2][1]) + (L[9][0]) * (L[9][1]) + (L[10][0]) * (L[10][1]) + (L[11][0]) * (L[11][1]) - (L[12][0]) * (L[12][1]);
 //E2
@@ -241,11 +237,11 @@ void solve33(event33& evt1, event33& evt2, int& nsols, double p1[][4],
 //E2*Ea
     energyMatC[2][1] = -(L[0][2]) * (L[0][3]) - (L[1][2]) * (L[1][3]) - (L[2][2]) * (L[2][3]) + (L[9][2]) * (L[9][3]) + (L[10][2]) * (L[10][3]) + (L[11][2]) * (L[11][3]) - (L[12][2]) * (L[12][3]);
 //E1^2
-    energyMatC[0][0] = 1 - pow(L[0][1], 2) - pow(L[1][1], 2) - pow(L[2][1], 2) + pow(L[9][1], 2) + pow(L[10][1], 2) + pow(L[11][1], 2) - pow(L[12][1], 2);
+    energyMatC[0][0] = 1 - std::pow(L[0][1], 2) - std::pow(L[1][1], 2) - std::pow(L[2][1], 2) + std::pow(L[9][1], 2) + std::pow(L[10][1], 2) + std::pow(L[11][1], 2) - std::pow(L[12][1], 2);
 //E2^2
-    energyMatC[1][1] = -pow(L[0][2], 2) - pow(L[1][2], 2) - pow(L[2][2], 2) + pow(L[9][2], 2) + pow(L[10][2], 2) + pow(L[11][2], 2) - pow(L[12][2], 2);
+    energyMatC[1][1] = -std::pow(L[0][2], 2) - std::pow(L[1][2], 2) - std::pow(L[2][2], 2) + std::pow(L[9][2], 2) + std::pow(L[10][2], 2) + std::pow(L[11][2], 2) - std::pow(L[12][2], 2);
 //Ea^2
-    energyMatC[2][2] = -pow(L[0][3], 2) - pow(L[1][3], 2) - pow(L[2][3], 2) + pow(L[9][3], 2) + pow(L[10][3], 2) + pow(L[11][3], 2) - pow(L[12][3], 2);
+    energyMatC[2][2] = -std::pow(L[0][3], 2) - std::pow(L[1][3], 2) - std::pow(L[2][3], 2) + std::pow(L[9][3], 2) + std::pow(L[10][3], 2) + std::pow(L[11][3], 2) - std::pow(L[12][3], 2);
 
 
 //Symmetrize energyMatC
@@ -478,7 +474,7 @@ int solve_3_2(double a0, double a1, double a2, double a3, double a4, double a5, 
 //             cout << wr[i] << " " << wi[i] << "I" << endl;
 //      }*/
 //     for (int i = 0; i < n; i++)
-//         if (fabs(wi[i]) < 2) {
+//         if (std::abs(wi[i]) < 2) {
 //             nsols++;
 //             solutions[(nsols - 1) * 3] = wr[i];
 //         }
@@ -491,7 +487,7 @@ int solve_3_2(double a0, double a1, double a2, double a3, double a4, double a5, 
     auto roots = poly.FindRoots();
     int nsols = 0;
     for (auto const & root : roots) {
-        if (fabs(root.imag()) < 2) {
+        if (std::abs(root.imag()) < 2) {
             nsols++;
             solutions[(nsols - 1) * 3] = root.real();
         }
@@ -1073,7 +1069,7 @@ int solve3quad(double* coeff, double* solutions)
             }
         }
 
-        //if(fabs(q1)<10&&fabs(q2)<10&&fabs(q3)<10)
+        //if(std::abs(q1)<10&&std::abs(q2)<10&&std::abs(q3)<10)
         if (ratio < 1e-24) {
             solutions[isol * 3 + 0] = x;
             solutions[isol * 3 + 1] = y;
@@ -1086,9 +1082,9 @@ int solve3quad(double* coeff, double* solutions)
 //             y0 = solutions1[i * 3 + 1];
 //             z0 = solutions1[i * 3 + 2];
             //for(int itemp=0;itemp<nsols;itemp++)
-            //if(itemp!=i) if(fabs(x-solutions1[itemp*3+0])+fabs(y-solutions1[itemp*3+1])+fabs(z-solutions1[itemp*3+2])<fabs(x-x0)+fabs(y-y0)+fabs(z-z0)) ok=0;
+            //if(itemp!=i) if(std::abs(x-solutions1[itemp*3+0])+std::abs(y-solutions1[itemp*3+1])+std::abs(z-solutions1[itemp*3+2])<std::abs(x-x0)+std::abs(y-y0)+std::abs(z-z0)) ok=0;
             for (int itemp = 0; itemp < isol; itemp++)
-                if (fabs(x - solutions[itemp * 3 + 0]) + fabs(y - solutions[itemp * 3 + 1]) + fabs(z - solutions[itemp * 3 + 2]) < 0.1) {
+                if (std::abs(x - solutions[itemp * 3 + 0]) + std::abs(y - solutions[itemp * 3 + 1]) + std::abs(z - solutions[itemp * 3 + 2]) < 0.1) {
                     ok = 0;
                 }
             //cout<<"q1,q2,q3= "<<q1<<"  "<<q2<<"  "<<q3<<endl;

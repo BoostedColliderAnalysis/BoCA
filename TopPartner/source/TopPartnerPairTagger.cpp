@@ -9,7 +9,7 @@ namespace boca
 namespace naturalness
 {
 
-int TopPartnerPairTagger::Train(Event const& event, PreCuts const&, Tag tag) const
+int TopPartnerPairTagger::Train(Event const& event, PreCuts const&, Tag tag)
 {
     INFO0;
     return SaveEntries(Decuplets(event, [&](Decuplet55 & decuplet) {
@@ -18,7 +18,7 @@ int TopPartnerPairTagger::Train(Event const& event, PreCuts const&, Tag tag) con
     }), 1);
 }
 
-std::vector<Decuplet55> TopPartnerPairTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
+std::vector<Decuplet55> TopPartnerPairTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader)
 {
     INFO0;
     return Decuplets(event, [&](Decuplet55 & decuplet) {
@@ -27,7 +27,7 @@ std::vector<Decuplet55> TopPartnerPairTagger::Multiplets(Event const& event, Pre
     });
 }
 
-std::vector<Decuplet55> TopPartnerPairTagger::Decuplets(Event const& event, std::function<Decuplet55(Decuplet55&)> const& function) const
+std::vector<Decuplet55> TopPartnerPairTagger::Decuplets(Event const& event, std::function<Decuplet55(Decuplet55&)> const& function)
 {
     INFO0;
     return Pairs(top_partner_hadronic_reader_.Multiplets(event), top_partner_leptonic_reader_.Multiplets(event), [&](Quintet const & quintet_1, Quintet const & quintet_2) {

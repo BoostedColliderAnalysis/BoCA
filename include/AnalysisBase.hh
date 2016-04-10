@@ -3,16 +3,15 @@
  */
 #pragma once
 
-#include "PreCuts.hh"
-#include "Phase.hh"
-#include "Names.hh"
 #include "generic/Flag.hh"
+#include "PreCuts.hh"
+#include "Tagger.hh"
 
 namespace boca
 {
 
 class File;
-class Tagger;
+// class Tagger;
 class Event;
 
 enum class Output
@@ -65,17 +64,25 @@ protected:
 
     void RunFullEfficiency();
 
-    void RunPlots();
+    virtual void RunPlots() = 0;
 
-    void RunPlotHist();
+    virtual void RunPlotHist() = 0;
 
-    void RunCut();
+    virtual void RunCut() = 0;
+
+    virtual void RunSignificance() = 0;
+
+    virtual void RunEfficiency() = 0;
 
     virtual void SetFiles(Tag tag, Stage) = 0;
 
     virtual boca::Tagger const& Tagger() const = 0;
 
     virtual std::string AnalysisName() const = 0;
+
+    void RunTagger(Stage stage);
+
+    void RunTrainer();
 
     virtual int PassPreCut(Event const&, Tag tag) const;
 
@@ -127,17 +134,16 @@ private:
 
     virtual boca::Tagger& Tagger() = 0;
 
-    virtual void AnalysisLoop(Stage stage) = 0;
+    virtual void TagLoop(Phase phase) = 0;
+
+    /**
+     * @brief Main analysis loop which has to be called by main.cpp
+     *
+     */
+    void AnalysisLoop(Stage stage);
+
 
     std::string FileSuffix() const;
-
-    void RunTagger(Stage stage);
-
-    void RunTrainer();
-
-    void RunSignificance();
-
-    void RunEfficiency();
 
     boca::PreCuts pre_cuts_;
 

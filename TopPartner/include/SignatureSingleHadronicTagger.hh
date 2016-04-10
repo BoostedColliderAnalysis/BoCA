@@ -22,9 +22,9 @@ class SignatureSingleHadronicTagger : public TaggerTemplate<Decuplet532, Signatu
 
 public:
 
-    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const override;
+    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) override;
 
-    std::vector<Decuplet532> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
+    std::vector<Decuplet532> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
 
     std::string Name() const override;
 
@@ -32,7 +32,7 @@ public:
 
 private:
 
-    std::vector<Decuplet532> Decuplets(Event const& event, std::function<Decuplet532(Decuplet532&)> const& function) const;
+    std::vector<Decuplet532> Decuplets(Event const& event, std::function<Decuplet532(Decuplet532&)> const& function);
 
     Reader<TopPartnerHadronicNeutralTagger> partner_reader_;
 

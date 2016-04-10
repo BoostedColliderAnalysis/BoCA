@@ -27,9 +27,9 @@ public:
 
     HiggsTagger();
 
-    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const override;
+    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) override;
 
-    std::vector<Doublet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
+    std::vector<Doublet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
 
     std::string Name() const override;
 
@@ -41,17 +41,17 @@ private:
 
     std::vector<Doublet> Doublets(Event const& event, std::function<boost::optional<Doublet>(Doublet&)> const& function) const;
 
-    boost::optional<Doublet> Multiplet(boca::Doublet& doublet, std::vector<Lepton>& leptons, const boca::PreCuts& pre_cuts, const TMVA::Reader& reader) const;
+    boost::optional<Doublet> Multiplet(boca::Doublet& doublet, std::vector<Lepton>& leptons, const boca::PreCuts& pre_cuts, TMVA::Reader const& reader);
 
-    boost::optional<Doublet> SetTag(boca::Doublet& doublet, std::vector<Lepton>& leptons, const boca::PreCuts& pre_cuts, boca::Tag tag) const;
+    boost::optional<Doublet> SetTag(boca::Doublet& doublet, std::vector<Lepton>& leptons, const boca::PreCuts& pre_cuts, boca::Tag tag);
 
-    Doublet PrepareDoublet(boca::Doublet const& doublet, std::vector<Lepton>& leptons) const;
+    Doublet PrepareDoublet(const boca::Doublet& doublet, std::vector< boca::Lepton >& leptons);
 
     bool Problematic(Doublet const& doublet, PreCuts const& pre_cuts, Tag tag) const;
 
     bool Problematic(Doublet const& doublet, PreCuts const& pre_cuts) const;
 
-    boost::optional<Doublet> MassDrop(Doublet const& doublet) const;
+    boost::optional<Doublet> MassDrop(const boca::Doublet& doublet);
 
     Reader<BottomTagger> bottom_reader_;
 

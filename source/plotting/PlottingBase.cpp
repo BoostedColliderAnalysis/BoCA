@@ -14,7 +14,7 @@
 #include "io/TreeWriter.hh"
 #include "io/TreeReader.hh"
 
-#include "plotting/Plotting.hh"
+#include "plotting/PlottingBase.hh"
 #include "plotting/LatexFile.hh"
 #include "plotting/Graphs.hh"
 #include "plotting/Results.hh"
@@ -30,13 +30,13 @@
 namespace boca
 {
 
-Plotting::Plotting(boca::Tagger& tagger) :
-    tagger_(tagger)
-{
-    INFO0;
-}
+// PlottingBase::PlottingBase(boca::Tagger& tagger) :
+//     tagger_(tagger)
+// {
+//     INFO0;
+// }
 
-void Plotting::TaggingEfficiency() const
+void PlottingBase::TaggingEfficiency() const
 {
     INFO0;
     Results results = ReadBdtFiles(Stage::reader);
@@ -65,7 +65,7 @@ std::string Ratio(int min = 0)
 
 }
 
-void Plotting::OptimalCuts() const
+void PlottingBase::OptimalCuts() const
 {
     INFO0;
     Results results = ReadBdtFiles(Stage::reader);
@@ -96,26 +96,26 @@ void Plotting::OptimalCuts() const
     latex_file.Table("rccc", ScalingTable(results), "Significances as function of signal crosssection");
 }
 
-Results Plotting::ReadBdtFiles(Stage stage) const
+Results PlottingBase::ReadBdtFiles(Stage stage) const
 {
     INFO0;
     TFile file(Tagger().ExportFileName().c_str(), "Recreate");
     return Results(ReadBdtFile(file, Phase(stage, Tag::signal)), ReadBdtFile(file, Phase(stage, Tag::background)));
 }
 
-std::vector<Result> Plotting::ReadBdtFile(TFile& export_file, Phase const& phase) const
+std::vector<Result> PlottingBase::ReadBdtFile(TFile& export_file, Phase const& phase) const
 {
     INFO0;
     return Transform(IntegerRange(Tagger().TreeNames(phase).size()), [&](int tree_number) {
         switch (Tagger().Mva()) {
         case TMVA::Types::EMVA::kBDT : return BdtDistribution(phase, tree_number, export_file);
         case TMVA::Types::EMVA::kCuts : return CutDistribution(phase, tree_number, export_file);
-            DEFAULT(Tagger().MvaName());
+            DEFAULT(Tagger().MvaName(),Result());
         }
     });
 }
 
-Result Plotting::BdtDistribution(Phase const& phase, int tree_number, TFile& export_file) const
+Result PlottingBase::BdtDistribution(Phase const& phase, int tree_number, TFile& export_file) const
 {
     INFO0;
     TreeReader tree_reader(Tagger().FileName(phase),Tagger().TreeNames(phase).at(tree_number), Source::tagger);
@@ -124,8 +124,7 @@ Result Plotting::BdtDistribution(Phase const& phase, int tree_number, TFile& exp
     TreeWriter tree_writer(export_file, Tagger().TreeNames(phase).at(tree_number));
     auto & branch = tree_writer.NewBranch<BdtBranch>(branch_name);
     std::vector<double> bdts;
-    for (auto const & event_number : IntegerRange(tree_reader.GetEntries())) {
-        tree_reader.ReadEntry(event_number);
+    while(tree_reader.Next()) {
         for (auto const & entry : array) {
             double bdt = static_cast<BdtBranch const&>(entry).Bdt;
             branch.AddEntry<BdtBranch>().Bdt = bdt;
@@ -137,7 +136,7 @@ Result Plotting::BdtDistribution(Phase const& phase, int tree_number, TFile& exp
     return Result(InfoBranch(Phase(Stage::reader, phase.Tag()), tree_number).first, InfoBranch(Phase(Stage::trainer, phase.Tag()), tree_number), bdts, Tagger().Mva());
 }
 
-Result Plotting::CutDistribution(Phase const& phase, int tree_number, TFile& export_file) const
+Result PlottingBase::CutDistribution(Phase const& phase, int tree_number, TFile& export_file) const
 {
     INFO(tree_number);
     TreeReader tree_reader(Tagger().FileName(phase),Tagger().TreeNames(phase).at(tree_number), Source::tagger);
@@ -146,8 +145,7 @@ Result Plotting::CutDistribution(Phase const& phase, int tree_number, TFile& exp
     TreeWriter tree_writer(export_file, Tagger().TreeNames(phase).at(tree_number));
     auto & branch = tree_writer.NewBranch<CutBranch>(branch_name);
     std::vector<std::vector<bool>> passed_matrix;
-    for (auto const & event_number : IntegerRange(tree_reader.GetEntries())) {
-        tree_reader.ReadEntry(event_number);
+    while(tree_reader.Next()) {
         for (auto const & entry : array) {
             auto passed_vector = static_cast<CutBranch const &>(entry).passed_;
             branch.AddEntry<CutBranch>().passed_ = passed_vector;
@@ -159,7 +157,7 @@ Result Plotting::CutDistribution(Phase const& phase, int tree_number, TFile& exp
     return Result(InfoBranch(Phase(Stage::reader, phase.Tag()), tree_number).first, InfoBranch(Phase(Stage::trainer, phase.Tag()), tree_number), passed_matrix, Tagger().Mva());
 }
 
-std::pair<InfoBranch, int> Plotting::InfoBranch(Phase const& phase, int tree_number) const
+std::pair<InfoBranch, int> PlottingBase::InfoBranch(Phase const& phase, int tree_number) const
 {
     INFO(Name(phase.Tag()), tree_number);
     TreeReader tree_reader(Tagger().FileName(phase),Tagger().TreeNames(phase).at(tree_number), Source::tagger);
@@ -177,7 +175,7 @@ std::pair<InfoBranch, int> Plotting::InfoBranch(Phase const& phase, int tree_num
     return std::make_pair(array.At(array.GetSize() - 1), tree_reader.GetEntries());
 }
 
-std::string Plotting::PlotHistograms(Results const& results) const
+std::string PlottingBase::PlotHistograms(Results const& results) const
 {
     INFO0;
     Histograms histograms(Tagger().ExportFolderName(), "Bdt");
@@ -191,7 +189,7 @@ std::string Plotting::PlotHistograms(Results const& results) const
     return histograms.FileBaseName();
 }
 
-std::string Plotting::PlotEfficiencyGraph(Results const& results) const
+std::string PlottingBase::PlotEfficiencyGraph(Results const& results) const
 {
     INFO0;
     Graphs graphs(Tagger().ExportFolderName(), "Efficiency");
@@ -214,7 +212,7 @@ std::string Plotting::PlotEfficiencyGraph(Results const& results) const
     return graphs.FileBaseName();
 }
 
-std::vector<std::string> Plotting::PlotAcceptanceGraph(Results const& results) const
+std::vector<std::string> PlottingBase::PlotAcceptanceGraph(Results const& results) const
 {
     INFO0;
     std::vector<std::string> names;
@@ -229,7 +227,7 @@ std::vector<std::string> Plotting::PlotAcceptanceGraph(Results const& results) c
     return names;
 }
 
-void Plotting::SetDefaultXAxis(Graphs& graphs, Results const& results) const
+void PlottingBase::SetDefaultXAxis(Graphs& graphs, Results const& results) const
 {
     switch (Tagger().Mva()) {
     case TMVA::Types::EMVA::kBDT :
@@ -242,7 +240,7 @@ void Plotting::SetDefaultXAxis(Graphs& graphs, Results const& results) const
     }
 }
 
-std::string Plotting::PlotCrosssectionsGraph(Results const& results) const
+std::string PlottingBase::PlotCrosssectionsGraph(Results const& results) const
 {
     INFO0;
     Graphs graphs(Tagger().ExportFolderName(), "Crosssection");
@@ -256,7 +254,7 @@ std::string Plotting::PlotCrosssectionsGraph(Results const& results) const
     return graphs.FileBaseName();
 }
 
-std::string Plotting::PlotModelDependentGraph(Results const& results) const
+std::string PlottingBase::PlotModelDependentGraph(Results const& results) const
 {
     INFO0;
     Graphs graphs(Tagger().ExportFolderName(), "Significance");
@@ -267,7 +265,7 @@ std::string Plotting::PlotModelDependentGraph(Results const& results) const
     return graphs.FileBaseName();
 }
 
-std::string Plotting::PlotCrosssectionGraph(Results const& results) const
+std::string PlottingBase::PlotCrosssectionGraph(Results const& results) const
 {
     INFO0;
     Graphs graphs(Tagger().ExportFolderName(), "SsqrtB");
@@ -278,7 +276,7 @@ std::string Plotting::PlotCrosssectionGraph(Results const& results) const
     return graphs.FileBaseName();
 }
 
-std::string Plotting::PlotSBGraph(Results const& results) const
+std::string PlottingBase::PlotSBGraph(Results const& results) const
 {
     INFO0;
     Graphs graphs(Tagger().ExportFolderName(), "SB");
@@ -289,7 +287,7 @@ std::string Plotting::PlotSBGraph(Results const& results) const
     return graphs.FileBaseName();
 }
 
-std::string Plotting::PlotSBvsSsqrtBGraph(Results const& results) const
+std::string PlottingBase::PlotSBvsSsqrtBGraph(Results const& results) const
 {
     INFO0;
     Graphs graphs(Tagger().ExportFolderName(), "SBvsSsqrtB");
@@ -299,7 +297,7 @@ std::string Plotting::PlotSBvsSsqrtBGraph(Results const& results) const
     return graphs.FileBaseName();
 }
 
-std::string Plotting::PlotModelIndependentGraph(Results const& results) const
+std::string PlottingBase::PlotModelIndependentGraph(Results const& results) const
 {
     INFO0;
     Graphs graphs(Tagger().ExportFolderName(), "Exclusion");
@@ -313,7 +311,7 @@ std::string Plotting::PlotModelIndependentGraph(Results const& results) const
     return graphs.FileBaseName();
 }
 
-std::string Plotting::PlotModelIndependentGraphSB(Results const& results) const
+std::string PlottingBase::PlotModelIndependentGraphSB(Results const& results) const
 {
     INFO0;
     Graphs graphs(Tagger().ExportFolderName(), "ExclusionSB");
@@ -327,7 +325,7 @@ std::string Plotting::PlotModelIndependentGraphSB(Results const& results) const
     return graphs.FileBaseName();
 }
 
-std::string Plotting::PlotModelIndependentGraphSig(Results const& results) const
+std::string PlottingBase::PlotModelIndependentGraphSig(Results const& results) const
 {
     INFO0;
     Graphs graphs(Tagger().ExportFolderName(), "ExclusionSig");
@@ -341,7 +339,7 @@ std::string Plotting::PlotModelIndependentGraphSig(Results const& results) const
     return graphs.FileBaseName();
 }
 
-std::string Plotting::BestValueTable(Results const& results) const
+std::string PlottingBase::BestValueTable(Results const& results) const
 {
     INFO0;
     std::stringstream table;
@@ -360,7 +358,7 @@ std::string Plotting::BestValueTable(Results const& results) const
     return table.str();
 }
 
-std::string Plotting::BestValueRow(Results const& results, int bin, std::string const& name, std::function<std::vector<Crosssection>(Result const&)> const& function) const
+std::string PlottingBase::BestValueRow(Results const& results, int bin, std::string const& name, std::function<std::vector<Crosssection>(Result const&)> const& function) const
 {
     INFO0;
     std::stringstream row;
@@ -373,7 +371,7 @@ std::string Plotting::BestValueRow(Results const& results, int bin, std::string 
     return row.str();
 }
 
-std::string Plotting::ScalingTable(Results& results)const
+std::string PlottingBase::ScalingTable(Results& results)const
 {
     INFO0;
     std::stringstream table;
@@ -399,7 +397,7 @@ std::string BoldFace(std::string const& string, bool do_it)
 
 }
 
-std::string Plotting::ScalingRow(Results const& results, double factor) const
+std::string PlottingBase::ScalingRow(Results const& results, double factor) const
 {
     INFO0;
     std::stringstream row;
@@ -411,7 +409,7 @@ std::string Plotting::ScalingRow(Results const& results, double factor) const
     return row.str();
 }
 
-std::string Plotting::EfficienciesTable(Results const& results, int bin) const
+std::string PlottingBase::EfficienciesTable(Results const& results, int bin) const
 {
     INFO0;
     std::stringstream table;
@@ -422,7 +420,7 @@ std::string Plotting::EfficienciesTable(Results const& results, int bin) const
     return table.str();
 }
 
-std::string Plotting::EfficienciesRow(Result const& result, int, Tag , int bin) const
+std::string PlottingBase::EfficienciesRow(Result const& result, int, Tag , int bin) const
 {
     INFO0;
     std::stringstream row;
@@ -438,7 +436,7 @@ std::string Plotting::EfficienciesRow(Result const& result, int, Tag , int bin) 
     return row.str();
 }
 
-std::string Plotting::EfficienciesTableMI(Results const& results, int bin, std::function<std::vector<Crosssection>(Result const&)> const& function) const
+std::string PlottingBase::EfficienciesTableMI(Results const& results, int bin, std::function<std::vector<Crosssection>(Result const&)> const& function) const
 {
     INFO0;
     std::stringstream table;
@@ -449,7 +447,7 @@ std::string Plotting::EfficienciesTableMI(Results const& results, int bin, std::
     return table.str();
 }
 
-std::string Plotting::EfficienciesRowMI(Result const& result, int , Tag , int bin, std::function<std::vector<Crosssection>(Result const&)> const& function) const
+std::string PlottingBase::EfficienciesRowMI(Result const& result, int , Tag , int bin, std::function<std::vector<Crosssection>(Result const&)> const& function) const
 {
     INFO0;
     std::stringstream row;
@@ -463,7 +461,7 @@ std::string Plotting::EfficienciesRowMI(Result const& result, int , Tag , int bi
     return row.str();
 }
 
-std::string Plotting::EfficienciesRowMI(Result const& result, int index, Tag tag, int bin) const
+std::string PlottingBase::EfficienciesRowMI(Result const& result, int index, Tag tag, int bin) const
 {
     INFO0;
     return EfficienciesRowMI(result, index, tag, bin, [](Result const & result) {
@@ -471,7 +469,7 @@ std::string Plotting::EfficienciesRowMI(Result const& result, int index, Tag tag
     });
 }
 
-std::string Plotting::CutEfficiencyTable(Results const& results) const
+std::string PlottingBase::CutEfficiencyTable(Results const& results) const
 {
     INFO0;
     std::stringstream table;
@@ -483,7 +481,7 @@ std::string Plotting::CutEfficiencyTable(Results const& results) const
     return table.str();
 }
 
-std::string Plotting::CutEfficiencyRow(Result const& result, int , Tag ) const
+std::string PlottingBase::CutEfficiencyRow(Result const& result, int , Tag ) const
 {
     INFO0;
     std::stringstream row;
@@ -495,7 +493,7 @@ std::string Plotting::CutEfficiencyRow(Result const& result, int , Tag ) const
     return row.str();
 }
 
-std::string Plotting::TruthLevelCutTable(Results const& results) const
+std::string PlottingBase::TruthLevelCutTable(Results const& results) const
 {
     INFO0;
     std::stringstream table;
@@ -506,7 +504,7 @@ std::string Plotting::TruthLevelCutTable(Results const& results) const
     return table.str();
 }
 
-std::string Plotting::TruthLevelCutRow(Result const& result, Tag ) const
+std::string PlottingBase::TruthLevelCutRow(Result const& result, Tag ) const
 {
     INFO0;
     std::stringstream row;
@@ -516,7 +514,7 @@ std::string Plotting::TruthLevelCutRow(Result const& result, Tag ) const
     return row.str();
 }
 
-void Plotting::RunPlots(Stage stage) const
+void PlottingBase::RunPlots(Stage stage) const
 {
     INFO0;
     DEBUG(Tagger().FileName(stage, Tag::signal), Tagger().TreeNames(Tag::signal).size());
@@ -532,10 +530,10 @@ void Plotting::RunPlots(Stage stage) const
     for (auto & signal : signals) DoPlot(signal, background, stage);
 }
 
-void Plotting::DoPlot(Plots& signals, Plots& backgrounds, Stage stage) const
+void PlottingBase::DoPlot(Plots& signals, Plots& backgrounds, Stage stage) const
 {
     INFO0;
-    NamePairs names = UnorderedPairs(tagger_.Branch().Variables().Vector(), [&](Observable const & variable_1, Observable const & variable_2) {
+    NamePairs names = UnorderedPairs(ConstCast(Tagger().Branch()).Variables().Vector(), [&](Observable const & variable_1, Observable const & variable_2) {
         return std::make_pair(variable_1.Names(), variable_2.Names());
     });
     signals.SetNames(names);
@@ -543,7 +541,7 @@ void Plotting::DoPlot(Plots& signals, Plots& backgrounds, Stage stage) const
     for (auto & signal : signals.PlotVector()) PlotDetails(signal, backgrounds.PlotVector().at(Position(signals.PlotVector(), signal)), stage);
 }
 
-void Plotting::PlotDetails(Plot& signal, Plot& background, Stage stage) const
+void PlottingBase::PlotDetails(Plot& signal, Plot& background, Stage stage) const
 {
     INFO(signal.Data().size(), background.Data().size());
     std::vector<Vector3<double>> signal_x = signal.CoreData([](Vector3<double> const & a, Vector3<double> const & b) {
@@ -569,7 +567,7 @@ void Plotting::PlotDetails(Plot& signal, Plot& background, Stage stage) const
     }
 }
 
-void Plotting::PlotHistogram(Plot const& signal, Plot const& background, Rectangle<double> const& range) const
+void PlottingBase::PlotHistogram(Plot const& signal, Plot const& background, Rectangle<double> const& range) const
 {
     INFO(signal.Data().size(), background.Data().size());
     Histogram2Dim histogram(Tagger().ExportFolderName(), signal.XAxis().Name() + "-" + signal.YAxis().Name());
@@ -581,7 +579,7 @@ void Plotting::PlotHistogram(Plot const& signal, Plot const& background, Rectang
     histogram.SetYAxis(signal.YAxis().LatexName());
 }
 
-void Plotting::PlotProfile(Plot const& signal, Plot const& background, Rectangle<double> const& range) const
+void PlottingBase::PlotProfile(Plot const& signal, Plot const& background, Rectangle<double> const& range) const
 {
     INFO0;
     Profile profile(Tagger().ExportFolderName(), signal.Title().Name(), signal.XAxis().Name() + "-" + signal.YAxis().Name());
@@ -592,7 +590,7 @@ void Plotting::PlotProfile(Plot const& signal, Plot const& background, Rectangle
     profile.SetZAxis("BDT_{" + signal.Title().LatexName() + "}", 30);
 }
 
-std::vector<Plots> Plotting::Import(Phase const& phase) const
+std::vector<Plots> PlottingBase::Import(Phase const& phase) const
 {
     INFO(Tagger().FileName(phase), Tagger().TreeNames(phase).size());
     TFile file(Tagger().FileName(phase).c_str(), "Read");
@@ -601,20 +599,20 @@ std::vector<Plots> Plotting::Import(Phase const& phase) const
     return results;
 }
 
-Plots Plotting::PlotResult(TFile& file, int tree_number, Phase const& phase) const
+Plots PlottingBase::PlotResult(TFile& file, int tree_number, Phase const& phase) const
 {
     INFO(tree_number);
     Plots plots(InfoBranch(phase, tree_number).first);
     TTree& tree = static_cast<TTree&>(*file.Get(Tagger().TreeNames(phase).at(tree_number).c_str()));
     tree.SetMakeClass(true);
-    plots.PlotVector() = UnorderedPairs(tagger_.Branch().Variables().Vector(), [&](Observable const & variable_1, Observable const & variable_2) {
+    plots.PlotVector() = UnorderedPairs(ConstCast(Tagger().Branch()).Variables().Vector(), [&](Observable const & variable_1, Observable const & variable_2) {
         Plot plot = ReadTree(tree, variable_1.Name(), variable_2.Name(), phase.Stage());
         plot.x_is_int = variable_1.IsInt();
         plot.y_is_int = variable_2.IsInt();
         return plot;
     });
     plots.Names().SetName(Tagger().TreeNames(phase).at(tree_number));
-    DEBUG(plots.PlotVector().size(), tagger_.Branch().Variables().Vector().size());
+    DEBUG(plots.PlotVector().size(), ConstCast(Tagger().Branch()).Variables().Vector().size());
     return plots;
 }
 
@@ -635,7 +633,7 @@ void SetBranch(TTree& tree, int& value, std::string const& name)
 
 }
 
-Plot Plotting::ReadTree(TTree& tree, std::string const& leaf_1_name, std::string const& leaf_2_name, Stage stage) const
+Plot PlottingBase::ReadTree(TTree& tree, std::string const& leaf_1_name, std::string const& leaf_2_name, Stage stage) const
 {
     INFO0;
     tree.SetBranchStatus("*", false);
@@ -671,14 +669,14 @@ Plot Plotting::ReadTree(TTree& tree, std::string const& leaf_1_name, std::string
 
 
 
-std::vector<Plots> Plotting::Import2() const
+std::vector<Plots> PlottingBase::Import2() const
 {
-    return Transform(tagger_.Branch().Variables().Vector(), [this](Observable const & variable) {
+    return Transform(ConstCast(Tagger().Branch()).Variables().Vector(), [this](Observable const & variable) {
         return PlotResult3(variable);
     });
 }
 
-Plots Plotting::PlotResult3(Observable const& variable) const
+Plots PlottingBase::PlotResult3(Observable const& variable) const
 {
     ERROR0;
     Plots plots;
@@ -688,7 +686,7 @@ Plots Plotting::PlotResult3(Observable const& variable) const
 }
 
 
-Plots Plotting::PlotResult2(Observable const& variable, Tag tag, Plots& plots) const
+Plots PlottingBase::PlotResult2(Observable const& variable, Tag tag, Plots& plots) const
 {
     ERROR(Name(tag));
     Phase phase(Stage::trainer, tag);
@@ -707,7 +705,7 @@ Plots Plotting::PlotResult2(Observable const& variable, Tag tag, Plots& plots) c
     return plots;
 }
 
-Plot Plotting::ReadTree2(TTree& tree, std::string const& leaf_name) const
+Plot PlottingBase::ReadTree2(TTree& tree, std::string const& leaf_name) const
 {
     INFO0;
     tree.SetBranchStatus("*", false);
@@ -735,14 +733,13 @@ Plot Plotting::ReadTree2(TTree& tree, std::string const& leaf_name) const
     return plot;
 }
 
-
-void Plotting::RunPlotHist() const
+void PlottingBase::RunPlotHist() const
 {
-    INFO0;
-    for (auto const & plots : Import2()) PlotVariables(plots);
+  INFO0;
+  for (auto const & plots : Import2()) PlotVariables(plots);
 }
 
-void Plotting::PlotVariables(Plots const& plots) const
+void PlottingBase::PlotVariables(Plots const& plots) const
 {
 
     Histograms histograms(Tagger().ExportFolderName(), plots.Names().Name());
@@ -753,10 +750,10 @@ void Plotting::PlotVariables(Plots const& plots) const
     histograms.SetXAxis(plots.Names().LatexName());
 }
 
-Tagger const& Plotting::Tagger() const
-{
-    return tagger_;
-}
+// Tagger const& PlottingBase::Tagger() const
+// {
+//     return tagger_;
+// }
 
 }
 

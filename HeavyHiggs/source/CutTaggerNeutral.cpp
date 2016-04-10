@@ -7,7 +7,7 @@ namespace boca
 namespace heavyhiggs
 {
 
-int CutTaggerNeutral::Train(Event const& event, PreCuts const&, Tag) const
+int CutTaggerNeutral::Train(Event const& event, PreCuts const&, Tag)
 {
     INFO0;
     std::vector<CutVariables> variables;
@@ -15,7 +15,7 @@ int CutTaggerNeutral::Train(Event const& event, PreCuts const&, Tag) const
     return SaveEntries(variables);
 }
 
-std::vector<CutVariables> CutTaggerNeutral::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
+std::vector<CutVariables> CutTaggerNeutral::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader)
 {
     INFO0;
     std::vector<CutVariables> variables;
@@ -24,7 +24,7 @@ std::vector<CutVariables> CutTaggerNeutral::Multiplets(Event const& event, PreCu
     return variables;
 }
 
-boost::optional<CutVariables> CutTaggerNeutral::CutMethod(Event const& event) const
+boost::optional<CutVariables> CutTaggerNeutral::CutMethod(Event const& event)
 {
     INFO0;
     CutVariables variables;

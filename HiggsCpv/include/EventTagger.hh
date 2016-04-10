@@ -16,9 +16,9 @@ class GlobalTagger : public TaggerTemplate<MultipletEvent<Octet62>,EventBranch> 
 
 public:
 
-    int Train(Event const& event, boca::PreCuts const&, Tag tag) const override;
+    int Train(Event const& event, boca::PreCuts const&, Tag tag) override;
 
-    std::vector<MultipletEvent<Octet62>> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
+    std::vector<MultipletEvent<Octet62>> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
 
     std::string Name() const override;
 

@@ -12,7 +12,7 @@ namespace boca
 namespace naturalness
 {
 
-int EventEffectiveTagger::Train(Event const& event, PreCuts const&, Tag tag) const
+int EventEffectiveTagger::Train(Event const& event, PreCuts const&, Tag tag)
 {
     INFO0;
     return SaveEntries(Events(event, [&](EventMultiplet<Quattuordecuplet554>& multiplet_event) {
@@ -21,7 +21,7 @@ int EventEffectiveTagger::Train(Event const& event, PreCuts const&, Tag tag) con
     }), tag);
 }
 
-std::vector<EventMultiplet<Quattuordecuplet554>> EventEffectiveTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
+std::vector<EventMultiplet<Quattuordecuplet554>> EventEffectiveTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader)
 {
     INFO0;
     return ReduceResult(Events(event, [&](EventMultiplet<Quattuordecuplet554>& multiplet_event) {
@@ -30,7 +30,7 @@ std::vector<EventMultiplet<Quattuordecuplet554>> EventEffectiveTagger::Multiplet
     }), 1);
 }
 
-std::vector<EventMultiplet<Quattuordecuplet554>> EventEffectiveTagger::Events(Event const& event, std::function< EventMultiplet<Quattuordecuplet554>(EventMultiplet<Quattuordecuplet554>&)> const& function) const
+std::vector<EventMultiplet<Quattuordecuplet554>> EventEffectiveTagger::Events(Event const& event, std::function< EventMultiplet<Quattuordecuplet554>(EventMultiplet<Quattuordecuplet554>&)> const& function)
 {
   INFO0;
     auto global_observables = global_reader_.Multiplets(event).front();

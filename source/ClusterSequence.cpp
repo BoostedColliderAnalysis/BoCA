@@ -6,7 +6,7 @@
 namespace boca
 {
 
-ClusterSequence::ClusterSequence(const std::vector< fastjet::PseudoJet >& jets, const fastjet::JetDefinition& jet_definition)
+ClusterSequence::ClusterSequence(std::vector< fastjet::PseudoJet > const& jets, const fastjet::JetDefinition& jet_definition)
     : cluster_sequence_(new fastjet::ClusterSequence(jets, jet_definition))
 {}
 
@@ -46,7 +46,7 @@ fastjet::ClusterSequence& ClusterSequence::Get()
     return *cluster_sequence_;
 }
 
-void ClusterSequence::AddConstituents(const fastjet::PseudoJet& jet, std::vector< fastjet::PseudoJet >& subjet_vector) const
+void ClusterSequence::AddConstituents(fastjet::PseudoJet const& jet, std::vector< fastjet::PseudoJet >& subjet_vector) const
 {
     cluster_sequence_->add_constituents(jet, subjet_vector);
 }

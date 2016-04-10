@@ -6,10 +6,12 @@ unset(link_libraries CACHE)
 unset(include_directories CACHE)
 
 # set library and excecutable destination
+set(CMAKE_INSTALL_LIBDIR ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 #set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR})
+# set(CMAKE_CXX_STANDARD_REQUIRED on)
 
 if(APPLE)
   set(CMAKE_MACOSX_RPATH ON)
@@ -40,74 +42,64 @@ macro(add_include_path relative_directory)
   include_directories(${ARGV1} ${include_directories})
 endmacro()
 
-macro(create_library library_name library_sources)
-  message("Library:      ${library_name} <- ${${library_sources}} ${ARGV2}")
+macro(create_library name source)
+  message("Library:      ${name} <- ${${source}} ${ARGV2}")
   if(${ARGC} GREATER 2)
-    set_source_files_properties(${${library_sources}} PROPERTIES COMPILE_FLAGS ${ARGV2})
+    set_source_files_properties(${${source}} PROPERTIES COMPILE_FLAGS ${ARGV2})
   endif(${ARGC} GREATER 2)
   if(APPLE)
-    add_library(${library_name} STATIC ${${library_sources}})
+    add_library(${name} STATIC ${${source}})
   else()
-    add_library(${library_name} SHARED ${${library_sources}})
+    add_library(${name} SHARED ${${source}})
   endif()
-  target_link_libraries(${library_name} ${link_libraries})
-  set_target_properties(${library_name} PROPERTIES ${library_properties})
-  install(TARGETS ${library_name} DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
-  add_libraries(${library_name})
+  target_link_libraries(${name} ${link_libraries})
+  set_target_properties(${name} PROPERTIES ${library_properties})
+#   set_property(TARGET ${name} PROPERTY CXX_STANDARD 11)
+#   target_compile_features(${name} PRIVATE cxx_range_for)
+  target_compile_features(${name} PRIVATE cxx_decltype_auto)
+  install(TARGETS ${name} DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+  add_libraries(${name})
 endmacro()
 
-macro(create_executable executable_name executable_source)
-  message("Executable:   ${executable_name} <- ${executable_source}")
-  add_executable(${executable_name} ${executable_source})
-  target_link_libraries(${executable_name} ${link_libraries})
+macro(create_executable name source)
+  message("Executable:   ${name} <- ${source}")
+  add_executable(${name} ${source})
+  target_link_libraries(${name} ${link_libraries})
+#   set_property(TARGET ${name} PROPERTY CXX_STANDARD 11)
+#   target_compile_features(${name} PRIVATE cxx_range_for)
+  target_compile_features(${name} PRIVATE cxx_decltype_auto)
 endmacro()
 
-macro(create_dictionary dictionary_name dictionary_source link_def)
-  message("Dictionary:   ${dictionary_name} <- ${dictionary_source} & ${link_def} | ${ARGV3}")
-  set(dictionary_file ${dictionary_name}Dict.cpp)
-  if(${ARGC} GREATER 3)
-    set(path ../../source/${ARGV3}/${dictionary_source})
+macro(create_dictionary name source header link_def)
+  message("Dictionary:   ${name} <- ${source} & ${link_def} | ${ARGV3}")
+  if(${ARGC} GREATER 4)
+    set(link_def2 ../../include/${ARGV4}/${link_def})
+    set(header2 ../../include/${ARGV4}/${header})
+    include_directories(../../include/${ARGV4})
   else()
-    set(path ../source/${dictionary_source})
+    set(header2 ../include/${header})
+    set(link_def2 ../include/${link_def})
+    include_directories(../include/)
   endif()
-  ROOT_GENERATE_DICTIONARY("${path}" "${link_def}" "${dictionary_file}" "${include_directories}")
-  create_library(${dictionary_name} dictionary_file "-w")
+  message("LinkDef ${link_def2}")
+  message("Header ${header2}")
+  set(dictionary ${name}Dict)
+  ROOT_GENERATE_DICTIONARY(${dictionary} ${header2} LINKDEF ${link_def2})
+  set(Sources ${source} ${dictionary}.cxx)
+  create_library(${name} Sources "-w")
   add_custom_command(
-    TARGET ${dictionary_name}
+    TARGET ${name}
     PRE_LINK
-    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_BINARY_DIR}/${dictionary_name}Dict_rdict.pcm ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
-    COMMENT "Copy: ${CMAKE_CURRENT_BINARY_DIR}/${dictionary_name}Dict_rdict.pcm to ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}"
+    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_BINARY_DIR}/${name}Dict_rdict.pcm ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
+    COMMENT "Copy: ${CMAKE_CURRENT_BINARY_DIR}/${name}Dict_rdict.pcm to ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}"
   )
 endmacro()
 
-macro(add_libraries link_library_sources)
-  message("Link Library: ${link_library_sources}")
+macro(add_libraries source)
+  message("Link Library: ${source}")
   set(link_libraries
     ${link_libraries}
-    ${link_library_sources}
+    ${source}
     CACHE INTERNAL link_libraries FORCE
   )
-endmacro()
-
-
-macro(create_dictionary_2 create_dictionary dictionary_name dictionary_source link_def)
-  set(dictionary_file ${dictionary_name}Dict.cpp)
-  if(${ARGC} GREATER 3)
-    set(path ../../source/${ARGV3}/${dictionary_source})
-  else()
-    set(path ../source/${dictionary_source})
-  endif()
-
-  ADD_CUSTOM_COMMAND(
-    OUTPUT ${dictionary_file}
-    COMMAND create_dictionary(${create_dictionary} ${dictionary_name} ${dictionary_source} ${link_def})
-    DEPENDS ${path}
-    COMMENT "Generating Dictionary"
-    )
-
-
-  ADD_CUSTOM_TARGET( RunGenerator
-    DEPENDS ${dictionary_file}
-    COMMENT "Checking if re-generation is required"
-    )
 endmacro()

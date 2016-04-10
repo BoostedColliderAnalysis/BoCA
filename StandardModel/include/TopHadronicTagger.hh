@@ -26,9 +26,9 @@ public:
 
     TopHadronicTagger(Id id = Id::top);
 
-    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const override;
+    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) override;
 
-    std::vector<Triplet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
+    std::vector<Triplet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
 
     std::string Name() const override;
 
@@ -40,13 +40,13 @@ private:
 
     using Function = std::function<boost::optional<Triplet>(Triplet&, std::vector<Jet> const&)>;
 
-    std::vector<Triplet> ThreeJets(std::vector<Jet> const& jets, std::vector<Lepton> const& leptons, Function const& function, MomentumRange const& range) const;
+    std::vector<Triplet> ThreeJets(const std::vector< boca::Jet >& jets, const std::vector< boca::Lepton >& leptons, const Function& function, const boca::MomentumRange& range);
 
-    std::vector<Triplet> TwoJets(std::vector<Jet> const& jets, Jet const& jet, std::vector<Lepton> const& leptons, Function const& function, MomentumRange const& range) const;
+    std::vector<Triplet> TwoJets(const std::vector< boca::Jet >& jets, const boca::Jet& jet, const std::vector< boca::Lepton >& leptons, const Function& function, const boca::MomentumRange& range);
 
-    std::vector<Triplet> ThreeSubJets(Jet const& jet, std::vector<Lepton> const& leptons, Function const& function, MomentumRange const& range) const;
+    std::vector<Triplet> ThreeSubJets(const boca::Jet& jet, const std::vector< boca::Lepton >& leptons, const Function& function, const boca::MomentumRange& range);
 
-    std::vector<Triplet> TwoSubJets(Jet const& jet, std::vector<Lepton> const& leptons, Function const& function, MomentumRange const& range) const;
+    std::vector<Triplet> TwoSubJets(const boca::Jet& jet, const std::vector< boca::Lepton >& leptons, const Function& function, const boca::MomentumRange& range);
 
     boost::optional<Triplet> HighlyBoosted(Jet const& jet, std::vector<Lepton> const& leptons, Function const& function) const;
 
@@ -54,13 +54,13 @@ private:
 
     boost::optional<Triplet> Tripple(Triplet& triplet, std::vector<Lepton> const& leptons, PreCuts const& pre_cuts, Tag tag) const;
 
-    std::vector<Triplet> Triplets(Event const& event, Function const& function) const;
+    std::vector<Triplet> Triplets(Event const& event, Function const& function);
 
     std::vector<Triplet> Triplets(std::vector<Doublet> const& doublets, std::vector<Jet> const& jets, std::vector<Lepton> const& leptons, Function const& function, MomentumRange const& range) const;
 
     std::vector<Triplet> Triplets(Doublet const& doublet, std::vector<Jet> const& jets, std::vector<Lepton> const& leptons, Function const& function, MomentumRange const& range) const;
 
-    boost::optional<Triplet> Multiplet(Triplet& triplet, std::vector<Lepton> const& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader) const;
+    boost::optional<Triplet> Multiplet(Triplet& triplet, std::vector<Lepton> const& leptons, PreCuts const& pre_cuts, TMVA::Reader const& reader);
 
     bool Problematic(Triplet const& triplet, PreCuts const& pre_cuts, Tag tag) const;
 

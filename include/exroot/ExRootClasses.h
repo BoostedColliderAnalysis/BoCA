@@ -28,7 +28,7 @@
 class TCompare
 {
 public:
-  virtual Bool_t IsSortable(const TObject *obj) const { return kTRUE; }
+  virtual Bool_t IsSortable(const TObject *) const { return kTRUE; }
   virtual Int_t Compare(const TObject *obj1, const TObject *obj2) const = 0;
 };
 

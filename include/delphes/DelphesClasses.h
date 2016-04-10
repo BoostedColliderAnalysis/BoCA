@@ -38,8 +38,6 @@
 
 #include "delphes/SortableObject.h"
 
-// namespace delphes{
-
 class DelphesFactory;
 
 //---------------------------------------------------------------------------
@@ -599,8 +597,4 @@ private:
   ClassDef(Candidate, 4)
 };
 
-// }
-
 #endif // DelphesClasses_h
-
-

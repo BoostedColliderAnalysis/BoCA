@@ -18,9 +18,9 @@ class TruthLevel : public TaggerTemplate<TruthVariables, TruthBranch>
 
 public:
 
-    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const override;
+    int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) override;
 
-    std::vector<TruthVariables> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const override;
+    std::vector<TruthVariables> Multiplets(const boca::Event& event, const boca::PreCuts& pre_cuts, const TMVA::Reader&) override;
 
     std::string Name() const override;
 

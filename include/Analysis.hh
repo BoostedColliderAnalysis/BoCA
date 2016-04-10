@@ -3,12 +3,14 @@
  */
 #pragma once
 
-// #include <thread>
+#include <thread>
 
 #include "generic/Types.hh"
+#include "io/Io.hh"
+#include "plotting/Plotting.hh"
 #include "Third.hh"
-#include "AnalysisBase.hh"
 #include "Event.hh"
+#include "AnalysisBase.hh"
 
 namespace boca
 {
@@ -27,82 +29,90 @@ template<typename Tagger_>
 class Analysis : public AnalysisBase
 {
 
-public:
-
-    /**
-     * @brief Main analysis loop which has to be called by main.cpp
-     *
-     */
-    void AnalysisLoop(Stage stage) override {
-        for (auto const & tag : std::vector<Tag> {Tag::signal, Tag::background}) TagLoop({stage, tag});
-    }
-
 protected:
 
-    template<typename Class>
+    template<typename Class_>
     bool TaggerIs() const {
-        return typeid(tagger_).hash_code() == typeid(Class).hash_code();
+        return typeid(Tagger_).hash_code() == typeid(Class_).hash_code();
     }
 
 private:
 
     void TagLoop(Phase phase) {
-        TFile export_file(Tagger().ExportFileName(phase).c_str(), "Recreate");
+        FileWriter file_writer(Tagger().ExportFileName(phase));
         ClearFiles();
         SetFiles(phase.Tag(), phase.Stage());
-        for (auto & file : this->Files(phase.Tag())) FileLoop( {phase, file, export_file});
+        for (auto & file : this->Files(phase.Tag())) FileLoop( {phase, file, file_writer, tagger_});
     }
 
     /**
      * @brief Analysis performed on each file
      *
      */
-    void FileLoop(boca::Files files) {
-        BranchWriter<Tagger_> branch_writer(files, tagger_);
-        bool do_threading = false;
-        if (do_threading) {
-//             std::mutex branch_writer_mutex;
-//             std::vector<std::thread> threads;
-//         int cores = std::thread::hardware_concurrency(); // breaks in the tree reader, find  a cheap way to store the position of the data
-//             int cores = 1;
-//             for (auto core : IntegerRange(cores)) {
-//                 threads.emplace_back(std::thread([&, core, cores] {
-//                     branch_writer_mutex.lock();
-//                     Third<Tagger_> third(branch_writer, core, cores, TrainNumberMax());
-//                     branch_writer_mutex.unlock();
-//                     ReadEvents(third);
-//                 }));
-//             }
-//             for (auto & thread : threads) thread.join();
-        } else {
-            int cores = 1;
-            int core = 0;
-            Third<Tagger_> third(branch_writer, core, cores, TrainNumberMax());
-            ReadEvents(third);
-        }
-        branch_writer.Write();
+    void FileLoop(BranchWriter<Tagger_> branch_writer) {
+        bool threading = true;
+        if (threading){
+        std::vector<std::thread> threads;
+        // int cores = std::thread::hardware_concurrency();
+        int cores = 1;
+//         for (auto core : IntegerRange(cores))
+          for(int core = 0; core < cores; ++core)
+            threads.emplace_back([&] {
+            Thread({branch_writer, TrainNumberMax(), cores, core});
+        });
+        for (auto & thread : threads) thread.join();
+        } else Thread({branch_writer, TrainNumberMax(), 1, 0});
     }
 
-    void ReadEvents(Third<Tagger_>& third) {
-      while (third.KeepGoing(EventNumberMax(third.Files().Phase().Stage()))) ReadEvent(third);
+    void Thread(Third<Tagger_> third){
+        third.ReadEvents(PreCuts(), [&](Stage stage){
+          return EventNumberMax(stage);
+        }, [&](Event const & event, Tag tag) {
+          return PassPreCut(event, tag);
+        });
     }
 
-    void ReadEvent(Third<Tagger_>& third) const {
-        if (!third.ReadEntry()) return;
-        Event event(third.TreeReader(), third.Files().Import().Source());
-        if (PassPreCut(event, third.Files().Phase().Tag())) return third.SaveEntry(Switch(event, third));
-        third.Increment(0);
+    void RunSignificance() {
+        if (Exists(Tagger().ExportFileName())) return;
+        PrepareFiles(Stage::reader);
+        Plotting<Tagger_> plotting(Tagger());
+        plotting.OptimalCuts();
     }
 
-    int Switch(Event const& event, Third<Tagger_>& third) const {
-        switch (third.Files().Phase().Stage()) {
-        case Stage::trainer : return third.Tagger().Train(event, PreCuts(), third.Files().Phase().Tag());
-        case Stage::reader : return third.Reader().Bdt(event, PreCuts());
-        default : return 0;
-        }
+    void RunEfficiency() {
+        if (Exists(Tagger().ExportFileName())) return;
+        PrepareFiles(Stage::reader);
+        Plotting<Tagger_> plotting(Tagger());
+        plotting.TaggingEfficiency();
     }
 
-    Tagger_& Tagger()override {
+    void RunPlots() {
+        if (Exists(Tagger().ExportFolderName())) return;
+        Plotting<Tagger_> plotting(Tagger());
+        PrepareFiles(Stage::trainer);
+        plotting.RunPlots(Stage::trainer);
+        PrepareFiles(Stage::reader);
+        plotting.RunPlots(Stage::reader);
+        //     if (Exists(Tagger().ExportFileName())) std::remove(Tagger().ExportFileName().c_str());
+    }
+
+    void RunPlotHist() {
+        //   if (Exists(Tagger().ExportFolderName())) return;
+        Plotting<Tagger_> plotting(Tagger());
+        PrepareFiles(Stage::trainer);
+        plotting.RunPlotHist();
+    }
+
+    void RunCut() {
+        RunTagger(Stage::trainer);
+        RunTrainer();
+        RunTagger(Stage::reader);
+        PrepareFiles(Stage::reader);
+        Plotting<Tagger_> plotting(Tagger());
+        plotting.OptimalCuts();
+    }
+
+    Tagger_& Tagger() override {
         return tagger_;
     }
 

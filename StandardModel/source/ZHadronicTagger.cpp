@@ -20,7 +20,7 @@ ZHadronicTagger::ZHadronicTagger()
     z_mass_window = 50_GeV;
 }
 
-int ZHadronicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Tag tag) const
+int ZHadronicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Tag tag)
 {
     INFO0;
     return SaveEntries(Doublets(event, [&](Doublet & doublet) {
@@ -28,7 +28,7 @@ int ZHadronicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, Ta
     }), Particles(event), tag, Id::Z);
 }
 
-std::vector<Doublet> ZHadronicTagger::Doublets(Event const& event, std::function<boost::optional<Doublet>(Doublet&)> function) const
+std::vector<Doublet> ZHadronicTagger::Doublets(Event const& event, std::function<boost::optional<Doublet>(Doublet&)> function)
 {
     INFO0;
     auto jets = event.Hadrons().Jets();
@@ -87,7 +87,7 @@ bool ZHadronicTagger::Problematic(boca::Doublet const& doublet, boca::PreCuts co
     return false;
 }
 
-std::vector<Doublet> ZHadronicTagger::Multiplets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const
+std::vector<Doublet> ZHadronicTagger::Multiplets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader)
 {
     INFO0;
     return Doublets(event, [&](Doublet & doublet) {
@@ -95,7 +95,7 @@ std::vector<Doublet> ZHadronicTagger::Multiplets(Event const& event, boca::PreCu
     });
 }
 
-boost::optional<Doublet> ZHadronicTagger::Multiplet(Doublet& doublet, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
+boost::optional<Doublet> ZHadronicTagger::Multiplet(Doublet& doublet, PreCuts const& pre_cuts, TMVA::Reader const& reader)
 {
     INFO0;
     if (Problematic(doublet, pre_cuts)) return boost::none;

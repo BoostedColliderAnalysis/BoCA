@@ -5,7 +5,7 @@ namespace boca {
 
 namespace naturalness {
 
-int TopPartnerTopPairTagger::Train(Event const& event, PreCuts const&, Tag tag) const
+int TopPartnerTopPairTagger::Train(Event const& event, PreCuts const&, Tag tag)
 {
     INFO0;
     std::vector<Quintet> quintets = top_partner_reader_.Multiplets(event);
@@ -23,7 +23,7 @@ int TopPartnerTopPairTagger::Train(Event const& event, PreCuts const&, Tag tag) 
     return SaveEntries(octets);
 }
 
-std::vector<Octet53> TopPartnerTopPairTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
+std::vector<Octet53> TopPartnerTopPairTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader)
 {
     std::vector<Quintet> quintets = top_partner_reader_.Multiplets(event);
     std::vector<Triplet> triplets = top_reader_.Multiplets(event);

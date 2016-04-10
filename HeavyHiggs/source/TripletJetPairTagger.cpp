@@ -9,7 +9,7 @@
 
 namespace boca {
 
-int TripletJetPairTagger::Train(boca::Event const& event, boca::PreCuts const&, Tag tag) const
+int TripletJetPairTagger::Train(boca::Event const& event, boca::PreCuts const&, Tag tag)
 {
     INFO("W Tags");
    std::vector<Jet> jets = bottom_reader_.Jets(event);
@@ -97,7 +97,7 @@ std::vector<Particle> BottomParticles = event.Partons().GenParticles();
 //     return JetPairBranches;
 }
 
-std::vector<Quartet31>  TripletJetPairTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
+std::vector<Quartet31>  TripletJetPairTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader)
 {
    std::vector<Jet> jets = bottom_reader_.Jets(event);
     std::vector<Triplet> triplets = top_hadronic_reader_.Multiplets(event);

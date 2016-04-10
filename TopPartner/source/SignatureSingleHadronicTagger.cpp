@@ -11,7 +11,7 @@ namespace boca
 namespace naturalness
 {
 
-int SignatureSingleHadronicTagger::Train(Event const& event, PreCuts const& , Tag tag) const
+int SignatureSingleHadronicTagger::Train(Event const& event, PreCuts const& , Tag tag)
 {
     INFO0;
     return SaveEntries(Decuplets(event, [&](Decuplet532 & decuplet) {
@@ -20,7 +20,7 @@ int SignatureSingleHadronicTagger::Train(Event const& event, PreCuts const& , Ta
     }), tag);
 }
 
-std::vector<Decuplet532> SignatureSingleHadronicTagger::Multiplets(Event const& event, boca::PreCuts const& , TMVA::Reader const& reader) const
+std::vector<Decuplet532> SignatureSingleHadronicTagger::Multiplets(Event const& event, boca::PreCuts const& , TMVA::Reader const& reader)
 {
     INFO0;
     return ReduceResult(Decuplets(event, [&](Decuplet532 & decuplet) {
@@ -29,7 +29,7 @@ std::vector<Decuplet532> SignatureSingleHadronicTagger::Multiplets(Event const& 
     }), 1);
 }
 
-std::vector<Decuplet532> SignatureSingleHadronicTagger::Decuplets(Event const& event, std::function<Decuplet532(Decuplet532&)> const& function) const
+std::vector<Decuplet532> SignatureSingleHadronicTagger::Decuplets(Event const& event, std::function<Decuplet532(Decuplet532&)> const& function)
 {
     INFO0;
     auto triplets = top_reader_.Multiplets(event);

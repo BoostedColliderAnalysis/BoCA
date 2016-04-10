@@ -56,6 +56,10 @@ public:
 
     long GetEntries() const;
 
+    bool Next(){
+      return tree_reader_.Next();
+    }
+
     bool ReadEntry(long number);
 
     template<typename Object_>

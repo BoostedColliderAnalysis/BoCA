@@ -14,7 +14,7 @@ namespace boca
 namespace standardmodel
 {
 
-int TauTagger::Train(Event const& event, PreCuts const&, Tag tag) const
+int TauTagger::Train(Event const& event, PreCuts const&, Tag tag)
 {
     INFO0;
     std::vector<Jet> jets = event.Hadrons().Jets();
@@ -63,7 +63,7 @@ std::vector<Jet> TauTagger::CleanJets(std::vector<Jet>& jets, std::vector<Partic
     return NewCleanJets;
 }
 
-std::vector<Singlet> TauTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
+std::vector<Singlet> TauTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader)
 {
     std::vector<Singlet> final_jets;
     INFO0;

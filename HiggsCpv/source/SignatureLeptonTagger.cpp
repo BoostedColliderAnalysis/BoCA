@@ -10,7 +10,7 @@ namespace boca
 namespace higgscpv
 {
 
-int SignatureLeptonTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) const
+int SignatureLeptonTagger::Train(Event const& event, boca::PreCuts const&, Tag tag)
 {
     INFO0;
    std::vector<Lepton> leptons = event.Leptons().leptons();
@@ -37,7 +37,7 @@ int SignatureLeptonTagger::Train(Event const& event, boca::PreCuts const&, Tag t
     return  SaveEntries(quartets);
 }
 
-std::vector<MultipletSignature<Quartet211>> SignatureLeptonTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
+std::vector<MultipletSignature<Quartet211>> SignatureLeptonTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader)
 {
     INFO0;
    std::vector<Lepton> leptons = event.Leptons().leptons();

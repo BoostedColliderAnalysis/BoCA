@@ -10,7 +10,7 @@ namespace boca
 namespace naturalness
 {
 
-int HiggsPairTagger::Train(Event const& event, PreCuts const&, Tag tag) const
+int HiggsPairTagger::Train(Event const& event, PreCuts const&, Tag tag)
 {
     INFO0;
     return SaveEntries(Quartets(event, [&](Quartet22 & quartet) {
@@ -19,7 +19,7 @@ int HiggsPairTagger::Train(Event const& event, PreCuts const&, Tag tag) const
     }), Particles(event, tag), tag);
 }
 
-std::vector<Quartet22> HiggsPairTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const
+std::vector<Quartet22> HiggsPairTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader)
 {
     INFO0;
     return Quartets(event, [&](Quartet22 & quartet) {
@@ -54,7 +54,7 @@ std::vector<std::pair<Particle, Particle>> HiggsPairTagger::Particles(Event cons
     return higgs_pairs;
 }
 
-std::vector<Quartet22> HiggsPairTagger::Quartets(Event const& event, std::function<Quartet22(Quartet22&)> const& function) const
+std::vector<Quartet22> HiggsPairTagger::Quartets(Event const& event, std::function<Quartet22(Quartet22&)> const& function)
 {
     INFO0;
     auto higgses = higgs_reader_.Multiplets(event, 16);

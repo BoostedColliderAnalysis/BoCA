@@ -24,7 +24,7 @@ BottomTagger::BottomTagger()
     bottom_max_mass_ = 75_GeV;
 }
 
-int BottomTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag) const
+int BottomTagger::Train(Event const& event, PreCuts const& pre_cuts, Tag tag)
 {
     INFO0;
     auto jets = Jets(event, pre_cuts, [&](Jet & jet) {
@@ -54,7 +54,7 @@ std::vector<Particle> BottomTagger::Particles(Event const& event) const
     return particles;
 }
 
-std::vector<Jet> BottomTagger::Jets(Event const& event, PreCuts const& pre_cuts, std::function<Jet(Jet&)> const& function) const
+std::vector<Jet> BottomTagger::Jets(Event const& event, PreCuts const& pre_cuts, std::function<Jet(Jet&)> const& function)
 {
     INFO0;
     std::vector<Jet> jets = event.Hadrons().Jets();
@@ -82,7 +82,7 @@ std::vector<Jet> BottomTagger::Multiplets(std::vector<Jet> jets, std::function<J
     return final_jets;
 }
 
-std::vector<Jet> BottomTagger::Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) const
+std::vector<Jet> BottomTagger::Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader)
 {
     INFO0;
     return Jets(event, pre_cuts, [&](Jet & jet) {
@@ -91,7 +91,7 @@ std::vector<Jet> BottomTagger::Multiplets(Event const& event, PreCuts const& pre
     });
 }
 
-Jet BottomTagger::Multiplet(Jet& jet, TMVA::Reader const& reader) const
+Jet BottomTagger::Multiplet(Jet& jet, TMVA::Reader const& reader)
 {
     INFO0;
     DEBUG(jet.Mass(), jet.Rap(), jet.Phi(), jet.has_user_info());
@@ -129,7 +129,7 @@ std::vector<Jet> BottomTagger::SubJets(std::vector<Jet> const& jets, int sub_jet
     return subjets;
 }
 
-std::vector<Jet> BottomTagger::Jets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) const
+std::vector<Jet> BottomTagger::Jets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader)
 {
     INFO0;
     return Multiplets(event.Hadrons().Jets(), [&](Jet & jet) {
@@ -138,7 +138,7 @@ std::vector<Jet> BottomTagger::Jets(Event const& event, boca::PreCuts const& pre
     });
 }
 
-std::vector<Jet> BottomTagger::SubMultiplet(Jet const& jet, TMVA::Reader const& reader, int sub_jet_number) const
+std::vector<Jet> BottomTagger::SubMultiplet(Jet const& jet, TMVA::Reader const& reader, int sub_jet_number)
 {
     INFO0;
     std::vector<Jet> jets;

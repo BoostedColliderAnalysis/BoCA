@@ -62,10 +62,10 @@ protected:
 
     auto Mass() const {
         INFO0;
-        return 1_TeV;
-        return 1.5_TeV;
-        return 2_TeV;
         return 4_TeV;
+        return 2_TeV;
+        return 1.5_TeV;
+        return 1_TeV;
         return 6_TeV;
         return 10_TeV;
         return 8_TeV;
@@ -136,6 +136,7 @@ protected:
                 case 1000 : return 0.3919 * 2_pb;
                 case 1500 : return 0.05993 * 2_pb;
                 case 2000 : return 0.01468 * 2_pb;
+                case 4000 : return 0.0003704 * 2_pb;
                     DEFAULT(Mass(), pb);
                 }
             case Process::ttBjj :

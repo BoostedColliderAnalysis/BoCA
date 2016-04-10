@@ -6,7 +6,7 @@ namespace boca {
 
 namespace higgscpv {
 
-int SignatureTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) const
+int SignatureTagger::Train(Event const& event, boca::PreCuts const&, Tag tag)
 {
     INFO0;
     std::vector<Sextet> sextets = triplet_pair_reader_.Tagger().TruthLevel(event,triplet_pair_reader_.Multiplets(event),tag);
@@ -29,7 +29,7 @@ int SignatureTagger::Train(Event const& event, boca::PreCuts const&, Tag tag) co
     return SaveEntries(octets, tag);
 }
 
-std::vector<MultipletSignature<Octet62>> SignatureTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader) const
+std::vector<MultipletSignature<Octet62>> SignatureTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader)
 {
     INFO0;
     std::vector<Doublet> doublets = higgs_reader_.Multiplets(event);

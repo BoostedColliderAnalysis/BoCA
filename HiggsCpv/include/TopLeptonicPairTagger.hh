@@ -19,9 +19,9 @@ class TopLeptonicPairTagger : public TaggerTemplate<Sextet, TopLeptonicPairBranc
 
 public:
 
-    int Train(Event const& event, boca::PreCuts const&, Tag tag) const override;
+    int Train(Event const& event, boca::PreCuts const&, Tag tag) override;
 
-    std::vector<Sextet> Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) const override;
+    std::vector<Sextet> Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader) override;
 
     std::string Name() const override;
 
