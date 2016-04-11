@@ -61,4 +61,4 @@ create_library(Tagger tagger_sources)
 
 add_executable(root-browser Browser.cpp)
 target_link_libraries(root-browser ${ROOT_LIBRARIES})
-install (TARGETS root-browser DESTINATION ~/.bin)
+install (TARGETS root-browser DESTINATION "$ENV{HOME}/.bin")

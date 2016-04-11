@@ -46,6 +46,9 @@ add_libraries("${ROOT_LIBRARIES}")
 add_libraries(TMVA)
 add_libraries(MathMore)
 
+# add_libraries(gmpxx)
+# add_libraries(gmp)
+
 # Doxygen
 set(DO_DOXYGEN 0)
 if(DO_DOXYGEN MATCHES 1)

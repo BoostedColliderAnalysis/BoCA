@@ -483,19 +483,23 @@ public:
 
     ValueCubed Determinant()const {
         return  boost::accumulate(Dimensions3(), ValueCubed(0), [&](ValueCubed & sum, Dim3 dim) {
-            return sum + x_[dim] * SignedMinor(Dim3::x, dim);
+            return sum + Laplace(Dim3::x, dim);
         });
     }
 
-    ValueSquare SignedMinor(Dim3 dim_1, Dim3 dim_2) const {
+    ValueCubed Laplace(Dim3 dim_1, Dim3 dim_2) const {
+      return (*this)[dim_1][dim_2] * Cofactor(dim_1, dim_2);
+    }
+
+    ValueSquare Cofactor(Dim3 dim_1, Dim3 dim_2) const {
         return double(Sign(dim_1, dim_2)) * Minor(dim_1, dim_2);
     }
 
     ValueSquare Minor(Dim3 delete_1, Dim3 delete_2) const {
-        return MinorMatrix(delete_1, delete_2).Determinant();
+        return SubMatrix(delete_1, delete_2).Determinant();
     }
 
-    Matrix2<Value_> MinorMatrix(Dim3 delete_1, Dim3 delete_2) const {
+    Matrix2<Value_> SubMatrix(Dim3 delete_1, Dim3 delete_2) const {
         EnumIterator<Dim2> dim2_1(Dim2::x);
         EnumIterator<Dim2> dim2_2(Dim2::x);
         Matrix2<Value_> matrix;
@@ -513,7 +517,7 @@ public:
     }
 
     ValueCubed ReducedDeterminant(Dim3 dim_1, Dim3 dim_2) const {
-      return Determinant() - (*this)[dim_1][dim_2] * SignedMinor(dim_1, dim_2);
+        return Determinant() - Laplace(dim_1, dim_2);
     }
 
     int Sign(Dim3 i, Dim3 j) const {
@@ -621,7 +625,7 @@ public:
 
         Vector3<Value_> Vector(int index) const {
             auto matrix = *matrix_ - Matrix3<Value_>(Values().at(index));
-            return Vector3<Value_>(matrix.SignedMinor(Dim3::x, Dim3::x), matrix.SignedMinor(Dim3::x, Dim3::y), matrix.SignedMinor(Dim3::x, Dim3::z)).Unit();
+            return Vector3<Value_>(matrix.Cofactor(Dim3::x, Dim3::x), matrix.Cofactor(Dim3::x, Dim3::y), matrix.Cofactor(Dim3::x, Dim3::z)).Unit();
         }
         Value_ factor_;
         boca::Angle angle_;

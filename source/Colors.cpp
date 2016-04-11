@@ -3,6 +3,7 @@
  */
 #include "TColor.h"
 #include "TStyle.h"
+#include "generic/Vector.hh"
 
 #include "Colors.hh"
 #include "generic/DEBUG.hh"
@@ -24,7 +25,7 @@ void Color::Initialize()
     CHECK(Length().size() == blue().size(), blue().size());
     Palette().reserve(50);
     auto color_table = TColor::CreateGradientColorTable(Length().size(), Length().data(), red().data(), green().data(), blue().data(), Palette().size());
-    for (auto & color : Palette()) color = color_table + (&color - Palette().data());
+    for (auto & color : Palette()) color = color_table + Position(Palette(), color);
 }
 
 void Color::SetPalette()

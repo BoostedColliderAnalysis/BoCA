@@ -145,6 +145,16 @@ public:
         return x_.X() * y_.Y() - x_.Y() * y_.X();
     }
 
+    Value_ Minor(Dim2 delete_1, Dim2 delete_2) const {
+        for (auto const & x : Dimensions2()) {
+            if (x == delete_1) continue;
+            for (auto const & y : Dimensions2()) {
+                if (y == delete_2) continue;
+                return (*this)[x][y];
+            }
+        }
+    }
+
     Matrix2<ValueSquare> Square() const {
         return sqr(*this);
     }

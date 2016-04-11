@@ -61,7 +61,7 @@ Invisible22::Invisible22(const LorentzVector< Momentum >& missing) :
 Invisible22::Invisible22(const Quartet22& quartet, const LorentzVector< Momentum >& missing) :
     missing_(missing)
 {
-//     Set(quartet);
+    Set(quartet);
 }
 
 void Invisible22::SetMissingMomentum(const LorentzVector< Momentum >& missing)
@@ -192,8 +192,8 @@ LorentzVector< double > Invisible22::CoefficientVector1() const
     auto denominator = p5_.Pz() * red_det_5 + p3_.Pz() * red_det_3;
 
     LorentzVector<double> vector;
-    vector.X() = matrix_35.Determinant() * matrix_456.SignedMinor(Dim3::y, Dim3::x) / (p4_.Z() * red_det_4 + p6_.Z() * red_det_6);
-    vector.Y() = matrix_35.Determinant() * matrix_456.SignedMinor(Dim3::y, Dim3::y) / denominator;
+    vector.X() = matrix_35.Determinant() * matrix_456.Cofactor(Dim3::y, Dim3::x) / (p4_.Z() * red_det_4 + p6_.Z() * red_det_6);
+    vector.Y() = matrix_35.Determinant() * matrix_456.Cofactor(Dim3::y, Dim3::y) / denominator;
     vector.Z() = (p5_.E() * red_det_5 + p3_.E() * red_det_3) / denominator;
     vector.T() = (p5_.E() * matrix_346.Determinant() + p3_.E() * matrix_456.Determinant()) / denominator;
     return vector;
@@ -213,12 +213,14 @@ LorentzVector< double > Invisible22::CoefficientVector2() const
     auto denominator = p5_.Pz() * red_det_5 + p3_.Pz() * red_det_3;
 
     LorentzVector<double> vector;
-    vector.X() = matrix_46.Determinant() * matrix_345.SignedMinor(Dim3::y, Dim3::x) / (p4_.Z() * red_det_4 + p6_.Z() * red_det_6);
-    vector.Y() = matrix_46.Determinant() * matrix_345.SignedMinor(Dim3::y, Dim3::y) / denominator;
-    vector.Z() = matrix_46.Determinant() * matrix_345.SignedMinor(Dim3::y, Dim3::z) / denominator;
+    vector.X() = matrix_46.Determinant() * matrix_345.Cofactor(Dim3::y, Dim3::x) / (p4_.Z() * red_det_4 + p6_.Z() * red_det_6);
+    vector.Y() = matrix_46.Determinant() * matrix_345.Cofactor(Dim3::y, Dim3::y) / denominator;
+    vector.Z() = matrix_46.Determinant() * matrix_345.Cofactor(Dim3::y, Dim3::z) / denominator;
     vector.T() = (p6_.E() * matrix_345.Determinant() + p4_.E() * matrix_356.Determinant()) / denominator;
     return vector;
 }
+
+using Momentum5 = typename boost::units::power_typeof_helper<Momentum, boost::units::static_rational<5>>::type;
 
 LorentzVector< Momentum > Invisible22::CoefficientVector(Mass heavy, Mass light, Mass invisible) const
 {
@@ -233,7 +235,6 @@ LorentzVector< Momentum > Invisible22::CoefficientVector(Mass heavy, Mass light,
     Matrix3<Momentum> matrix_456(p4_.Vector(), p5_.Vector(), p6_.Vector());
     auto red_det_3 = matrix_456.ReducedDeterminant(Dim3::y, Dim3::z);
     auto red_det_5 = matrix_346.ReducedDeterminant(Dim3::x, Dim3::z);
-    auto denominator = 2. * (p5_.Pz() * red_det_5 + p3_.Pz() * red_det_3);
 
     auto missing3 = 2. * (missing_ * p3_);
     auto missing4 = 2. * (missing_ * p4_);
@@ -243,22 +244,18 @@ LorentzVector< Momentum > Invisible22::CoefficientVector(Mass heavy, Mass light,
     auto factor_35 = p6_.Pz() * (mass_4 - missing4) - p4_.Pz() * (mass_46 - missing6);
     auto factor_46 = p5_.Pz() * mass_3 - p3_.Pz() * mass_35;
 
-    LorentzVector<Momentum> vector;
-
-    vector.X() = (factor_46 * matrix_456.SignedMinor(Dim3::y, Dim3::x) + factor_35 * matrix_345.SignedMinor(Dim3::y, Dim3::x)) / denominator;
-
-    vector.Y() = (factor_46 * matrix_456.SignedMinor(Dim3::y, Dim3::y) + factor_35 * matrix_345.SignedMinor(Dim3::y, Dim3::y)) / denominator;
-
-    vector.Z() = (factor_35 * matrix_345.SignedMinor(Dim3::y, Dim3::z) - mass_3 * red_det_3 - mass_35 * red_det_5) / denominator;
-
-    vector.T() = (- mass_46 * matrix_345.Determinant()
+    LorentzVector<Momentum5> vector;
+    vector.X() = factor_46 * matrix_456.Cofactor(Dim3::y, Dim3::x) + factor_35 * matrix_345.Cofactor(Dim3::y, Dim3::x);
+    vector.Y() = factor_46 * matrix_456.Cofactor(Dim3::y, Dim3::y) + factor_35 * matrix_345.Cofactor(Dim3::y, Dim3::y);
+    vector.Z() = factor_35 * matrix_345.Cofactor(Dim3::y, Dim3::z) - mass_3 * red_det_3 - mass_35 * red_det_5;
+    vector.T() =  - mass_46 * matrix_345.Determinant()
+                  - mass_4 * matrix_356.Determinant()
                   - mass_35 * matrix_346.Determinant()
                   - mass_3 * matrix_456.Determinant()
-                  - mass_4 * matrix_356.Determinant()
-                  - (p6_.Pz() * missing4 - p4_.Pz() * missing6) * matrix_345.SignedMinor(Dim3::y, Dim3::z)
-                  - (p3_.Pz() * missing5 - p5_.Pz() * missing3) * matrix_456.SignedMinor(Dim3::y, Dim3::z)
-                 ) / denominator;
-    return vector;
+                  - (p6_.Pz() * missing4 - p4_.Pz() * missing6) * matrix_345.Cofactor(Dim3::y, Dim3::z)
+                  - (p3_.Pz() * missing5 - p5_.Pz() * missing3) * matrix_456.Cofactor(Dim3::y, Dim3::z);
+    auto denominator = 2. * (p5_.Pz() * red_det_5 + p3_.Pz() * red_det_3);
+    return vector / denominator;
 }
 
 
@@ -398,3 +395,4 @@ Energy Invisible22::Energy1(const Matrix2< double >& ma, const Matrix2< double >
 }
 
 }
+
