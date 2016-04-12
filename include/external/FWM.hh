@@ -20,7 +20,7 @@ private:
     double cos_Omega(fastjet::PseudoJet jet1, fastjet::PseudoJet jet2);
     double ATan2(double x, double y);
     double Theta(fastjet::PseudoJet j);
-    double legendre(int l, double x);;
+    double legendre(int l, double x);
 
     std::vector<fastjet::PseudoJet> _jets;
 };

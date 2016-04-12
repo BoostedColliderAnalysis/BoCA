@@ -7,6 +7,7 @@ LorentzVector.cpp
 LorentzVectorBase.cpp
 Vector3.cpp
 Vector2.cpp
+Matrix2.cpp
 )
 create_library(Math MathSources)
 

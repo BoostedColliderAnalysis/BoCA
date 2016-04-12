@@ -29,7 +29,21 @@ find_program(CCACHE_FOUND ccache)
 if(CCACHE_FOUND)
     set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
     set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK ccache)
+  else ()
+    message("CCache is not available.")
 endif(CCACHE_FOUND)
+
+option(USE_LD_GOLD "Use GNU gold linker" ON)
+if (USE_LD_GOLD)
+  execute_process(COMMAND ${CMAKE_CXX_COMPILER} -fuse-ld=gold -Wl,--version ERROR_QUIET OUTPUT_VARIABLE LD_VERSION)
+  if ("${LD_VERSION}" MATCHES "GNU gold")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fuse-ld=gold")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fuse-ld=gold")
+  else ()
+    message("GNU gold linker is not available, using the default system linker.")
+  endif ()
+endif ()
+
 
 # FastJet
 include(CMakeFiles/Findfastjet.cmake)
@@ -48,6 +62,8 @@ add_libraries(MathMore)
 
 # add_libraries(gmpxx)
 # add_libraries(gmp)
+add_libraries(gsl)
+add_libraries(gslcblas)
 
 # Doxygen
 set(DO_DOXYGEN 0)

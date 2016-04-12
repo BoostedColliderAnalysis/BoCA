@@ -19,18 +19,7 @@ enum class Matrix
     uniform
 };
 
-inline std::string Name(Matrix matrix)
-{
-    switch (matrix) {
-    case Matrix::diagonal : return "diagonal";
-    case Matrix::symmetric : return "symmetric";
-    case Matrix::antisymmetric : return "antisymmetric";
-    case Matrix::row : return "row";
-    case Matrix::column : return "column";
-    case Matrix::uniform : return "uniform";
-    default : return "";
-    }
-}
+std::string Name(Matrix matrix);
 
 template <typename Value_>
 class Matrix2
