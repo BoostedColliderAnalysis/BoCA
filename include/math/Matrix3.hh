@@ -82,7 +82,7 @@ public:
     // if magnitude of quaternion is null, creates identity rotation
     // if quaternion is non-unit, creates rotation corresponding to the normalized(unit) quaternion
     Matrix3(TQuaternion const& quaternion) {
-        double mag2 = quaternion.QMag2();
+        auto mag2 = quaternion.QMag2();
         if (mag2 <= 0) {
             // Identity
             *this = Matrix3(1.);
@@ -144,7 +144,7 @@ public:
     // doing the explicit rotations.  This is slightly less efficient than
     // directly applying the rotation, but makes the code much clearer.  My
     // presumption is that this code is not going to be a speed bottle neck.
-    Matrix3& SetXEulerAngles(Angle phi, Angle theta, Angle psi) {
+    Matrix3& SetXEulerAngles(Angle const& phi, Angle const& theta, Angle const& psi) {
         SetToIdentity();
         RotateZ(phi);
         RotateX(theta);
@@ -153,22 +153,22 @@ public:
     }
 
     //set XPhi
-    void SetXPhi(Angle phi) {
+    void SetXPhi(Angle const& phi) {
         SetXEulerAngles(phi, XTheta(), XPsi());
     }
 
     //set XTheta
-    void SetXTheta(Angle theta) {
+    void SetXTheta(Angle const& theta) {
         SetXEulerAngles(XPhi(), theta, XPsi());
     }
 
     //set XPsi
-    void SetXPsi(Angle psi) {
+    void SetXPsi(Angle const& psi) {
         SetXEulerAngles(XPhi(), XTheta(), psi);
     }
 
     // Rotate using the y-convention.
-    Matrix3& SetYEulerAngles(Angle phi, Angle theta, Angle psi) {
+    Matrix3& SetYEulerAngles(Angle const& phi, Angle const& theta, Angle const& psi) {
         SetToIdentity();
         RotateZ(phi);
         RotateY(theta);
@@ -177,17 +177,17 @@ public:
     }
 
     //set YPhi
-    void SetYPhi(Angle phi) {
+    void SetYPhi(Angle const& phi) {
         SetYEulerAngles(phi, YTheta(), YPsi());
     }
 
     //set YTheta
-    void SetYTheta(Angle theta) {
+    void SetYTheta(Angle const& theta) {
         SetYEulerAngles(YPhi(), theta, YPsi());
     }
 
     //set YPsi
-    void SetYPsi(Angle psi) {
+    void SetYPsi(Angle const& psi) {
         SetYEulerAngles(YPhi(), YTheta(), psi);
     }
 
@@ -199,7 +199,7 @@ public:
 
     //set X axis
     Matrix3& SetXAxis(Vector3<Value_> const& axis, Vector3<Value_> const& xyPlane) {
-        Matrix3 matrix = MakeBasis(xyPlane, axis);
+        auto matrix = MakeBasis(xyPlane, axis);
         Matrix3 matrix2(matrix.Z(), matrix.X(), matrix.Y());
         x_ = matrix2.ColumnX();
         y_ = matrix2.ColumnY();
@@ -215,7 +215,7 @@ public:
 
     //set Y axis
     Matrix3& SetYAxis(Vector3<Value_> const& axis, Vector3<Value_> const& yzPlane) {
-        Matrix3 matrix = MakeBasis(yzPlane, axis);
+        auto matrix = MakeBasis(yzPlane, axis);
         Matrix3 matrix2(matrix.Y(), matrix.Z(), matrix.X());
         x_ = matrix2.ColumnX();
         y_ = matrix2.ColumnY();
@@ -233,7 +233,7 @@ public:
     // systematrix.  If a second vector is provided it defines a plane passing
     //set Z axis
     Matrix3& SetZAxis(Vector3<Value_> const& axis, Vector3<Value_> const& zxPlane) {
-        Matrix3 matrix = MakeBasis(zxPlane, axis);
+        auto matrix = MakeBasis(zxPlane, axis);
         x_ = matrix.ColumnX();
         y_ = matrix.ColumnY();
         z_ = matrix.ColumnZ();
@@ -284,33 +284,33 @@ public:
     }
 
 // Rotation around the x-axis.
-    Matrix3& RotateX(Angle phi) {
+Matrix3& RotateX(Angle const& phi) {
         //rotate around x
-        double cos = boost::units::cos(phi);
-        double sin = boost::units::sin(phi);
-        Vector3<Value_> vector = y_;
+        auto cos = boost::units::cos(phi);
+        auto sin = boost::units::sin(phi);
+        auto vector = y_;
         y_ = cos * vector - sin * z_;
         z_ = sin * vector + cos * z_;
         return *this;
     }
 
 // Rotation around the y-axis.
-    Matrix3& RotateY(Angle phi) {
+Matrix3& RotateY(Angle const& phi) {
         //rotate around y
-        double cos = boost::units::cos(phi);
-        double sin = boost::units::sin(phi);
-        Vector3<Value_> vector = z_;
+        auto cos = boost::units::cos(phi);
+        auto sin = boost::units::sin(phi);
+        auto vector = z_;
         z_ = cos * vector - sin * x_;
         x_ = sin * vector + cos * x_;
         return *this;
     }
 
 // Rotation around the z-axis.
-    Matrix3& RotateZ(Angle phi) {
+Matrix3& RotateZ(Angle const& phi) {
         //rotate around z
-        double cos = boost::units::cos(phi);
-        double sin = boost::units::sin(phi);
-        Vector3<Value_> vector = x_;
+        auto cos = boost::units::cos(phi);
+        auto sin = boost::units::sin(phi);
+        auto vector = x_;
         x_ = cos * vector - sin * y_;
         y_ = sin * vector + cos * y_;
         return *this;
@@ -318,11 +318,11 @@ public:
 
 // Rotation around a specified vector.
     //rotate along an axis
-    Matrix3& Rotate(Angle phi, Vector3<Value_> const& axis) {
+    Matrix3& Rotate(Angle const& phi, Vector3<Value_> const& axis) {
         if (phi == 0_rad)  return *this;
-        double sin = boost::units::sin(phi);
-        double cos = boost::units::cos(phi);
-        Vector3<double> vector = axis.Unit();
+        auto sin = boost::units::sin(phi);
+        auto cos = boost::units::cos(phi);
+        auto vector = axis.Unit();
         Transform(Matrix3(cos) + Matrix3(vector, vector) * (1 - cos) - Matrix3(vector * sin));
         return *this;
     }
@@ -330,7 +330,7 @@ public:
 // Rotation of local axes(Geant4).
     //rotate axes
     Matrix3& RotateAxes(Vector3<Value_> const& vector_x, Vector3<Value_> const& vector_y, Vector3<Value_> const& vector_z) {
-        double epsilon = 0.001;
+        auto epsilon = 0.001;
         Vector3<Value_> cross = vector_x.Cross(vector_y);
         if (std::abs(vector_z.X() - cross.X()) > epsilon || std::abs(vector_z.Y() - cross.Y()) > epsilon || std::abs(vector_z.Z() - cross.Z()) > epsilon || std::abs(vector_x.Mag2() - 1) > epsilon || std::abs(vector_y.Mag2() - 1) > epsilon || std::abs(vector_z.Mag2() - 1) > epsilon || std::abs(vector_x.Dot(vector_y)) > epsilon || std::abs(vector_y.Dot(vector_z)) > epsilon || std::abs(vector_z.Dot(vector_x)) > epsilon) {
             std::cout << "RotateAxes bad axis vectors" << std::endl;
@@ -372,15 +372,15 @@ public:
 // Returns the rotation angle and rotation axis(Geant4).
     //rotation defined by an angle and a vector
     void AngleAxis(Angle& angle, Vector3<Value_>& axis) const {
-        Value_ cosa  = 0.5 * (x_.X() + y_.Y() + z_.Z() - 1);
-        Value_ cosa1 = 1 - cosa;
+        auto cosa  = 0.5 * (x_.X() + y_.Y() + z_.Z() - 1);
+        auto cosa1 = 1 - cosa;
         if (cosa1 <= Value_(0)) {
             angle = 0_rad;
             axis  = Vector3<Value_>(0, 0, 1);
         } else {
-            double x = 0;
-            double y = 0;
-            double z = 0;
+            auto x = 0.;
+            auto y = 0.;
+            auto z = 0.;
             if (x_.X() > cosa) x = std::sqrt((x_.X() - cosa) / cosa1);
             if (y_.Y() > cosa) y = std::sqrt((y_.Y() - cosa) / cosa1);
             if (z_.Z() > cosa) z = std::sqrt((z_.Z() - cosa) / cosa1);
@@ -402,7 +402,7 @@ public:
 
 // Adds a rotation of the local axes defined by the Euler angle to the
 // current rotation.  See SetXEulerAngles for a note about conventions.
-    Matrix3& RotateXEulerAngles(Angle phi, Angle theta, Angle psi) {
+Matrix3& RotateXEulerAngles(Angle const& phi, Angle const& theta, Angle const& psi) {
         // Rotate using the x-convention.
         Matrix3 euler;
         euler.SetXEulerAngles(phi, theta, psi);
@@ -424,7 +424,7 @@ public:
                 std::cout << "Phi() finds | cos phi | > 1" << std::endl;
                 cosAbsPhi = 1;
             }
-            Angle absPhi = acos(cosAbsPhi);
+            auto absPhi = acos(cosAbsPhi);
             if (z_.X() > 0) return absPhi;
             if (z_.X() < 0) return -absPhi;
             if (z_.Y() > 0) return 0_rad;
@@ -452,15 +452,15 @@ public:
             std::cout << "Psi() |z_.Z()| > 1 " << std::endl;
             s2 = 0;
         }
-        double sinTheta = std::sqrt(s2);
+        auto sinTheta = std::sqrt(s2);
         if (sinTheta != 0) {
-            double cscTheta = 1 / sinTheta;
+            auto cscTheta = 1 / sinTheta;
             double cosAbsPsi =  - y_.Z() * cscTheta;
             if (std::abs(cosAbsPsi) > 1) {         // NaN-proofing
                 std::cout << "Psi() | cos psi | > 1 " << std::endl;
                 cosAbsPsi = 1;
             }
-            Angle absPsi = boca::acos(cosAbsPsi);
+            auto absPsi = boca::acos(cosAbsPsi);
             if (x_.Z() > 0) return absPsi;
             if (x_.Z() < 0) return -absPsi;
             return (y_.Z() < 0) ? 0_rad : Pi();
@@ -655,7 +655,7 @@ public:
 // Adds a rotation of the local axes defined by the Euler angle to the
 // current rotation.  See SetYEulerAngles for a note about conventions.
     // Rotate using the y-convention.
-    Matrix3& RotateYEulerAngles(Angle phi, Angle theta, Angle psi) {
+    Matrix3& RotateYEulerAngles(Angle const& phi, Angle const& theta, Angle const& psi) {
         Matrix3 euler;
         euler.SetYEulerAngles(phi, theta, psi);
         return Transform(euler);

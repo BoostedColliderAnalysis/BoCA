@@ -103,7 +103,7 @@ std::vector<Lepton> Event::IsolatedLeptons()
             leptons.emplace_back(lepton);
             continue;
         }
-        bool isolated = true;
+        auto isolated = true;
         for (auto const & jet : hadrons_->Jets())
             if (Close<Lepton>(lepton, DetectorGeometry::IsolationConeSize())(jet) && jet.Pt() / lepton.Pt() > DetectorGeometry::IsolationFraction()) {
                 isolated = false;

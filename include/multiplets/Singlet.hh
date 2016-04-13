@@ -125,7 +125,7 @@ private:
 
     Vector2<AngleSquare> GetPull() const;
 
-    double Log(Length length) const;
+    double Log(const boca::Length& length) const;
 
     // save expensive results in mutable member variables
 

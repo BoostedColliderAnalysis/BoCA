@@ -344,8 +344,8 @@ public:
 
   Int_t Compare(const TObject *obj1, const TObject *obj2) const
   {
-    const T *t1 = static_cast<const T*>(obj1);
-    const T *t2 = static_cast<const T*>(obj2);
+    auto t1 = static_cast<const T*>(obj1);
+    auto t2 = static_cast<const T*>(obj2);
     if(t1->E > t2->E)
       return -1;
     else if(t1->E < t2->E)
@@ -370,8 +370,8 @@ public:
 
   Int_t Compare(const TObject *obj1, const TObject *obj2) const
   {
-    const T *t1 = static_cast<const T*>(obj1);
-    const T *t2 = static_cast<const T*>(obj2);
+    auto t1 = static_cast<const T*>(obj1);
+    auto t2 = static_cast<const T*>(obj2);
     if(t1->PT > t2->PT)
       return -1;
     else if(t1->PT < t2->PT)
@@ -396,8 +396,8 @@ public:
 
   Int_t Compare(const TObject *obj1, const TObject *obj2) const
   {
-    const T *t1 = static_cast<const T*>(obj1);
-    const T *t2 = static_cast<const T*>(obj2);
+    auto t1 = static_cast<const T*>(obj1);
+    auto t2 = static_cast<const T*>(obj2);
     if(t1->ET > t2->ET)
       return -1;
     else if(t1->ET < t2->ET)
@@ -416,7 +416,7 @@ class TCompareDeltaR: public TCompare
 
   Double_t DeltaPhi(Double_t phi1, Double_t phi2)
   {
-    Double_t phi = TMath::Abs(phi1 - phi2);
+    auto phi = TMath::Abs(phi1 - phi2);
     return (phi <= TMath::Pi()) ? phi : (2.0*TMath::Pi()) - phi;
   }
 
@@ -424,8 +424,8 @@ class TCompareDeltaR: public TCompare
 
   Double_t SumSqr(Double_t a, Double_t b)
   {
-    Double_t aAbs = TMath::Abs(a);
-    Double_t bAbs = TMath::Abs(b);
+    auto aAbs = TMath::Abs(a);
+    auto bAbs = TMath::Abs(b);
     if(aAbs > bAbs) return aAbs * TMath::Sqrt(1.0 + Sqr(bAbs / aAbs));
     else return (bAbs == 0) ? 0.0 : bAbs * TMath::Sqrt(1.0 + Sqr(aAbs / bAbs));
   };
@@ -444,8 +444,8 @@ public:
   Int_t Compare(const TObject *obj1, const TObject *obj2) const
   {
     Double_t eta[3], phi[3], deltaR[2];
-    const T1 *t1 = static_cast<const T1*>(obj1);
-    const T1 *t2 = static_cast<const T1*>(obj2);
+    auto t1 = static_cast<const T1*>(obj1);
+    auto t2 = static_cast<const T1*>(obj2);
 
     eta[0] = fObj->Eta;
     phi[0] = fObj->Phi;

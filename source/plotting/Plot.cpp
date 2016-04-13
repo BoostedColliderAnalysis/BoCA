@@ -70,7 +70,7 @@ void Plot::Insert(std::vector<Vector3<double>> const& data)
 std::vector< Vector3< double > > Plot::CoreData(std::function<bool (Vector3<double> const&, Vector3<double> const&)> const& function) const
 {
     INFO0;
-    std::vector<Vector3<double>> data = data_;
+    auto data = data_;
     boost::range::sort(data, [&](Vector3<double> const & a, Vector3<double> const & b) {
         return function(a, b);
     });
@@ -94,7 +94,7 @@ boca::Range< double > Plot::XRange() const
 std::vector< double > Plot::XCoreData() const
 {
   INFO0;
-  std::vector<double> data = XData();
+  auto data = XData();
   boost::range::sort(data);
   int cut_off = data.size() / 25;
   data.erase(data.end() - cut_off, data.end());

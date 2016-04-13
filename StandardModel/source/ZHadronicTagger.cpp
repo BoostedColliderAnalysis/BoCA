@@ -39,14 +39,14 @@ std::vector<Doublet> ZHadronicTagger::Doublets(Event const& event, std::function
     auto doublets = UnorderedPairs(soft, [&](Jet const & jet_1, Jet const & jet_2) {
         Doublet doublet(jet_1, jet_2);
         if (!jet_range.BelowUpperBound(doublet)) throw boca::Problematic();
-        if (boost::optional<Doublet> optional = function(doublet)) return *optional;
+        if (auto optional = function(doublet)) return *optional;
         else throw boca::Problematic();
     });
 
     for (auto const & jet : jet_range.HarderThanMin(jets)) {
         Doublet doublet;
         doublet.Enforce(bottom_reader_.SubMultiplet(jet, 2));
-        if (boost::optional<Doublet> optional = function(doublet)) doublets.emplace_back(*optional);
+        if (auto optional = function(doublet)) doublets.emplace_back(*optional);
     }
     return doublets;
 }

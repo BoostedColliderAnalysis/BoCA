@@ -28,20 +28,20 @@ std::string EnergyBaseUnit::symbol()
 
 }
 
-std::string Name(Energy energy)
+std::string Name(Energy const& energy)
 {
     std::stringstream stream;
     stream << boost::units::engineering_prefix << energy;
-    std::string string = stream.str();
+    auto string = stream.str();
     return boost::range::remove_erase_if(string, isspace);
 }
 
-int Int(Momentum energy)
+int Int(Momentum const& energy)
 {
     return energy / GeV;
 }
 
-double to_double(Energy energy)
+double to_double(Energy const& energy)
 {
     return energy / GeV;
 }

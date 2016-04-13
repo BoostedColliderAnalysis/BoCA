@@ -22,7 +22,7 @@ void Plots::SetNames(NamePairs const& names)
 {
     INFO0;
     for (auto & plot : plots_) {
-        int index = Position(plots_, plot);
+        auto index = Position(plots_, plot);
         plot.XAxis() = names.at(index).first;
         plot.YAxis() = names.at(index).second;
         plot.Title() = info_branch_.Names();

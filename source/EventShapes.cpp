@@ -245,8 +245,8 @@ double EventShapes::AEEC(std::vector<double>& hi, double& coschi) const
 {
     INFO0;
     if (coschi > 0. && coschi <= 1.) {
-        int i = static_cast<int>(floor((-coschi + 1.) / 2 * hi.size()));
-        int j = static_cast<int>(floor((coschi + 1.) / 2 * hi.size()));
+        auto i = static_cast<int>(floor((-coschi + 1.) / 2 * hi.size()));
+        auto j = static_cast<int>(floor((coschi + 1.) / 2 * hi.size()));
         return hi[i] - hi[j];
     } else return 1e99;
 }

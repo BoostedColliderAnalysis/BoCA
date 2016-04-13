@@ -54,7 +54,7 @@ public:
 
 //
 
-    std::vector<std::pair<LorentzVector<Momentum>, LorentzVector<Momentum>>> Solve(Mass heavy, Mass light, Mass invisible);
+    std::vector<std::pair<LorentzVector<Momentum>, LorentzVector<Momentum>>> Solve(const boca::Mass& heavy, const boca::Mass& light, boca::Mass const& invisible);
 
     struct event22 {
         double p3[4], p4[4], p5[4], p6[4];
@@ -76,15 +76,15 @@ private:
 
     LorentzVector<double> CoefficientVector1() const;
     LorentzVector<double> CoefficientVector2() const;
-    LorentzVector<Momentum> CoefficientVector(Mass heavy, Mass light, Mass invisible) const;
+    LorentzVector<Momentum> CoefficientVector(const boca::Mass& heavy, const boca::Mass& light, const boca::Mass& invisible) const;
     Matrix2<double> MatrixA(LorentzVector<double> const& ce1, LorentzVector<double> const& ce2);
     Matrix2<double> MatrixB(LorentzVector<double> const& ce1, LorentzVector<double> const& ce2);
     Vector2<Momentum> VectorA(LorentzVector<Momentum> const& c, LorentzVector<double> const& ce1, LorentzVector<double> const& ce2);
     Vector2<Momentum> VectorB(LorentzVector<Momentum> const& c, LorentzVector<double> const& ce1, LorentzVector<double> const& ce2);
-    MomentumSquare ScalarA(LorentzVector<Momentum> const& c, Mass invisible);
-    MomentumSquare ScalarB(LorentzVector<Momentum> const& c, Mass invisible);
-    std::array<double,5> Coefficients(const Matrix2< double >& ma, const Matrix2< double >& mb, const Vector2< Momentum >& va, const Vector2< Momentum >& vb, MomentumSquare a, MomentumSquare b);
-    Energy Energy1(const Matrix2< double >& ma, const Matrix2< double >& mb, const Vector2< Momentum >& va, const Vector2< Momentum >& vb, MomentumSquare a, MomentumSquare b, Energy energy_2);
+    MomentumSquare ScalarA(const boca::LorentzVector< boca::Momentum >& c, const boca::Mass& invisible);
+    MomentumSquare ScalarB(LorentzVector<Momentum> const& c, Mass const& invisible);
+    std::array<double,5> Coefficients(const boca::Matrix2< double >& ma, const boca::Matrix2< double >& mb, const boca::Vector2< boca::Momentum >& va, const boca::Vector2< boca::Momentum >& vb, const MomentumSquare& a, MomentumSquare const& b);
+    Energy Energy1(const boca::Matrix2< double >& ma, const boca::Matrix2< double >& mb, const boca::Vector2< boca::Momentum >& va, const boca::Vector2< boca::Momentum >& vb, const MomentumSquare& a, const MomentumSquare& b, const boca::Energy& energy_2);
 };
 
 }

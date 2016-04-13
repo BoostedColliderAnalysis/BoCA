@@ -32,7 +32,7 @@ Jet::Jet(double x, double y, double z, double e) :
     SetInfo();
 }
 
-Jet::Jet(Momentum x, Momentum y, Momentum z, boca::Energy e) :
+Jet::Jet(Momentum const& x, Momentum const& y, Momentum const& z, boca::Energy const& e) :
     PseudoJet(x / GeV, y / GeV, z / GeV, e / GeV)
 {
     SetInfo();

@@ -71,7 +71,7 @@ std::vector<Elements_> CopyIf(std::vector<Elements_>& inputs, Function_ const& f
 }
 
 template <typename Multiplet_>
-std::vector<Multiplet_> RemoveIfOutsidePtWindow(std::vector<Multiplet_> jets, Momentum lower_cut, Momentum upper_cut)
+std::vector<Multiplet_> RemoveIfOutsidePtWindow(std::vector<Multiplet_> jets, Momentum const& lower_cut, Momentum const& upper_cut)
 {
     return boost::range::remove_erase_if(jets, [lower_cut, upper_cut](Multiplet_ const & jet) {
         return jet.Pt() < lower_cut || jet.Pt() > upper_cut;
@@ -91,7 +91,7 @@ std::vector<Multiplet_> CopyIfTag(std::vector<Multiplet_> const& multiplets, dou
 }
 
 template<typename Multiplet_>
-std::vector<Multiplet_> RemoveIfSoft(std::vector<Multiplet_> multiplets, Momentum pt_min)
+std::vector<Multiplet_> RemoveIfSoft(std::vector<Multiplet_> multiplets, Momentum const& pt_min)
 {
     return boost::range::remove_erase_if(multiplets, [&](Multiplet_ const & multiplet) {
         return multiplet.Pt() < pt_min;
@@ -99,7 +99,7 @@ std::vector<Multiplet_> RemoveIfSoft(std::vector<Multiplet_> multiplets, Momentu
 }
 
 template<typename Multiplet_>
-std::vector<Multiplet_> RemoveIfHard(std::vector<Multiplet_> multiplets, Momentum pt_max)
+std::vector<Multiplet_> RemoveIfHard(std::vector<Multiplet_> multiplets, Momentum const& pt_max)
 {
     return boost::range::remove_erase_if(multiplets, [&](Multiplet_ const & multiplet) {
         return multiplet.Pt() > pt_max;
@@ -114,7 +114,7 @@ public:
         particle_(particle) ,
         cone_size_(DetectorGeometry::JetConeSize())
     {}
-    Close(Multiplet_1_ const& particle, Angle cone_size) :
+    Close(Multiplet_1_ const& particle, Angle const& cone_size) :
         particle_(particle) ,
         cone_size_(cone_size)
     {}

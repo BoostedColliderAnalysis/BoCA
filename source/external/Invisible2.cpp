@@ -130,7 +130,7 @@ void Invisible22::SetMomentum(double momentum[4], const LorentzVector<Momentum>&
     momentum[3] = jet.Pz() / GeV;
 }
 
-std::vector<std::pair<LorentzVector<Momentum>, LorentzVector<Momentum>>> Invisible22::Solve(Mass heavy, Mass light, Mass invisible)
+std::vector<std::pair<LorentzVector<Momentum>, LorentzVector<Momentum>>> Invisible22::Solve(Mass const& heavy, Mass const& light, Mass const& invisible)
 {
     missing_.Pz() = 0;
     missing_.E() = 0;
@@ -222,7 +222,7 @@ LorentzVector< double > Invisible22::CoefficientVector2() const
 
 using Momentum5 = typename boost::units::power_typeof_helper<Momentum, boost::units::static_rational<5>>::type;
 
-LorentzVector< Momentum > Invisible22::CoefficientVector(Mass heavy, Mass light, Mass invisible) const
+LorentzVector< Momentum > Invisible22::CoefficientVector(Mass const& heavy, Mass const& light, Mass const& invisible) const
 {
     auto mass_4 = sqr(light) - sqr(invisible) - sqr(p4_);
     auto mass_3 = sqr(light) - sqr(invisible) - sqr(p3_);
@@ -293,17 +293,17 @@ Vector2< Momentum > Invisible22::VectorB(const LorentzVector< Momentum >& c, con
     return vector;
 }
 
-MomentumSquare Invisible22::ScalarA(const LorentzVector< Momentum >& c, Mass invisible)
+MomentumSquare Invisible22::ScalarA(const LorentzVector< Momentum >& c, Mass const& invisible)
 {
     return sqr(c.Vector()) + sqr(invisible);
 }
 
-MomentumSquare Invisible22::ScalarB(const LorentzVector< Momentum >& c, Mass invisible)
+MomentumSquare Invisible22::ScalarB(const LorentzVector< Momentum >& c, Mass const& invisible)
 {
     return c.Euclidean(c) + sqr(invisible) - sqr(missing_) - 2. * c.Z() * c.T() + 2. * (c * missing_);
 }
 
-std::array< double, 5 > Invisible22::Coefficients(Matrix2<double> const& ma, Matrix2<double> const& mb, Vector2<Momentum> const& va, Vector2<Momentum> const& vb, MomentumSquare a, MomentumSquare b)
+std::array< double, 5 > Invisible22::Coefficients(Matrix2<double> const& ma, Matrix2<double> const& mb, Vector2<Momentum> const& va, Vector2<Momentum> const& vb, MomentumSquare const& a, MomentumSquare const& b)
 {
     std::array< double, 5 > coefficients;
 
@@ -374,7 +374,7 @@ std::array< double, 5 > Invisible22::Coefficients(Matrix2<double> const& ma, Mat
 
     return coefficients;
 }
-Energy Invisible22::Energy1(const Matrix2< double >& ma, const Matrix2< double >& mb, const Vector2< Momentum >& va, const Vector2< Momentum >& vb, MomentumSquare a, MomentumSquare b, Energy energy_2)
+Energy Invisible22::Energy1(const Matrix2< double >& ma, const Matrix2< double >& mb, const Vector2< Momentum >& va, const Vector2< Momentum >& vb, MomentumSquare const& a, MomentumSquare const& b, Energy const& energy_2)
 {
     // substitute p2.E() solution into general p1.E() solution in terms of p2.E()
     return (

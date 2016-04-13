@@ -18,7 +18,7 @@ public:
 
     Jet(double x, double y, double z, double e);
 
-    Jet(Momentum x, Momentum y, Momentum z, boca::Energy e);
+    Jet(const boca::Momentum& x, const boca::Momentum& y, const boca::Momentum& z, const boca::Energy& e);
 
     Jet(fastjet::PseudoJet const& jet);
 

@@ -11,7 +11,7 @@ namespace naturalness
 int NewPartnerPairTagger::Train(Event const& event, PreCuts const&, Tag tag)
 {
     INFO0;
-    std::vector<Decuplet55> decuplets = Pairs(top_partner_hadronic_reader_.Multiplets(event), top_partner_leptonic_reader_.Multiplets(event), [&](Quintet const & quintet_1, Quintet const & quintet_2) {
+    auto decuplets = Pairs(top_partner_hadronic_reader_.Multiplets(event), top_partner_leptonic_reader_.Multiplets(event), [&](Quintet const & quintet_1, Quintet const & quintet_2) {
         Decuplet55 decuplet(quintet_1, quintet_2);
         if (decuplet.Overlap()) throw Overlap();
         decuplet.SetTag(tag);

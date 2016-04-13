@@ -12,19 +12,19 @@ namespace heavyhiggs
 int SignatureNeutralTagger::Train(Event const& event, PreCuts const&, Tag tag)
 {
     INFO0;
-    std::vector<Particle> higgs = heavy_higgs_semi_reader_.Tagger().HiggsParticle(event, tag);
-    std::vector<Sextet> sextets = heavy_higgs_semi_reader_.Multiplets(event);
+    auto higgs = heavy_higgs_semi_reader_.Tagger().HiggsParticle(event, tag);
+    auto sextets = heavy_higgs_semi_reader_.Multiplets(event);
     sextets = BestMatches(sextets, higgs, tag);
 
-    std::vector<Doublet> doublets = jet_pair_reader_.Multiplets(event);
-    std::vector<Particle> bottoms = SortedByPt(jet_pair_reader_.Tagger().PairBottomQuarks(event, tag));
+    auto doublets = jet_pair_reader_.Multiplets(event);
+    auto bottoms = SortedByPt(jet_pair_reader_.Tagger().PairBottomQuarks(event, tag));
 
-    std::vector<Particle> particles = event.Partons().GenParticles();
-    std::vector<Particle> tops = CopyIfParticle(particles, Id::top);
-    std::vector<Particle> tops_even = CopyIfMother(tops, Id::heavy_higgs);
-    std::vector<Particle> tops_odd = CopyIfMother(tops, Id::CP_odd_higgs);
-    std::vector<Particle> top_higgs = Combine(tops_even, tops_odd);
-    int  one_close_to_top = 0, two_close_to_top = 0;
+    auto particles = event.Partons().GenParticles();
+    auto tops = CopyIfParticle(particles, Id::top);
+    auto tops_even = CopyIfMother(tops, Id::heavy_higgs);
+    auto tops_odd = CopyIfMother(tops, Id::CP_odd_higgs);
+    auto top_higgs = Combine(tops_even, tops_odd);
+    auto one_close_to_top = 0, two_close_to_top = 0;
 
     if (top_higgs.size() == 2) {
 
@@ -35,7 +35,7 @@ int SignatureNeutralTagger::Train(Event const& event, PreCuts const&, Tag tag)
     }
 
 //     ERROR(one_close_to_top, two_close_to_top);
-    static int close_to_top_ = 0;
+    static auto close_to_top_ = 0;
     if (one_close_to_top == 6) {
         ++close_to_top_;
     }
@@ -56,7 +56,7 @@ int SignatureNeutralTagger::Train(Event const& event, PreCuts const&, Tag tag)
         break;
     }
 
-    static int zero_doublets = 0;
+    static auto zero_doublets = 0;
     if (one_close_to_top < 6 && final_doublets.empty()) {
         ++zero_doublets;
     }
@@ -70,7 +70,7 @@ int SignatureNeutralTagger::Train(Event const& event, PreCuts const&, Tag tag)
             octets.emplace_back(octet);
         }
     }
-    static int zero_octets = 0;
+    static auto zero_octets = 0;
     if (one_close_to_top < 6 && !final_doublets.empty() && octets.empty()) {
         ++zero_octets;
     }
@@ -89,8 +89,8 @@ int SignatureNeutralTagger::Train(Event const& event, PreCuts const&, Tag tag)
 std::vector<Octet62> SignatureNeutralTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader)
 {
     INFO0;
-    std::vector<Doublet> doublets = jet_pair_reader_.Multiplets(event);
-    std::vector<Sextet> sextets = heavy_higgs_semi_reader_.Multiplets(event);
+    auto doublets = jet_pair_reader_.Multiplets(event);
+    auto sextets = heavy_higgs_semi_reader_.Multiplets(event);
     std::vector<Octet62> octets;
     for (auto const & doublet : doublets) {
         for (auto const & sextet : sextets) {
@@ -107,9 +107,9 @@ std::vector<Octet62> SignatureNeutralTagger::Multiplets(Event const& event, PreC
 std::vector<Octet62> SignatureNeutralTagger::CleanOctets(Event const& event, std::vector<Octet62> const& octets, Tag tag) const
 {
     std::vector<Octet62> final_octets;
-    std::vector<Particle> bottoms = jet_pair_reader_.Tagger().PairBottomQuarks(event, tag);
+    auto bottoms = jet_pair_reader_.Tagger().PairBottomQuarks(event, tag);
     //   CHECK((tag==Tag::signal && bottoms.size()==2) || (tag==Tag::background && bottoms.size() == 2), bottoms.size());
-    std::vector<Particle> higgses = heavy_higgs_semi_reader_.Tagger().HiggsParticle(event, tag);
+    auto higgses = heavy_higgs_semi_reader_.Tagger().HiggsParticle(event, tag);
     //   CHECK((tag==Tag::signal && higgses.size()==1) || (tag==Tag::background && higgses.empty()), higgses.size());
     //   ERROR(bottoms.size());
     for (auto const & octet : octets) {
@@ -121,7 +121,7 @@ std::vector<Octet62> SignatureNeutralTagger::CleanOctets(Event const& event, std
             break;
         }
         try {
-            Doublet doublet = jet_pair_reader_.Tagger().TruthDoubletPair(octet.Doublet(), bottoms, tag);
+            auto doublet = jet_pair_reader_.Tagger().TruthDoubletPair(octet.Doublet(), bottoms, tag);
         } catch (char const*) {
             continue;
         }

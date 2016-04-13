@@ -89,7 +89,7 @@ private:
     TreeReaderArray& Array(std::string const& name) const;
 
     template<typename Object_>
-    void NewElement(std::string name) {
+    void NewElement(std::string const& name) {
       if (Has(name)) std::cout << name << " exists already, will be overwritten" << tagger_arrays_.size() << std::endl;
       tagger_arrays_.emplace(name, std::make_shared<TTreeReaderArray<Object_>>(tree_reader_, name.c_str()));
     }

@@ -17,14 +17,14 @@ namespace standardmodel
 int TauTagger::Train(Event const& event, PreCuts const&, Tag tag)
 {
     INFO0;
-    std::vector<Jet> jets = event.Hadrons().Jets();
+    auto jets = event.Hadrons().Jets();
     INFO(jets.size());
-    std::vector<Particle> Particles = event.Partons().GenParticles();
+    auto Particles = event.Partons().GenParticles();
     Particles = CopyIfParticle(Particles, Id::tau);
 //     Particles.erase(std::remove_if(Particles.begin(), Particles.end(), WrongAbsId(Id::tau)), Particles.end());
 //     if(Particles.size()!=1)
     INFO(Particles.size());
-    std::vector<Jet> final_jets = CleanJets(jets, Particles, tag);
+    auto final_jets = CleanJets(jets, Particles, tag);
 //     if(FinalJets.size()!=1)
     INFO(final_jets.size());
 //    std::vector<Jet> Pieces = GetSubJets(jets, Particles, Tag, 2);
@@ -67,7 +67,7 @@ std::vector<Singlet> TauTagger::Multiplets(Event const& event, boca::PreCuts con
 {
     std::vector<Singlet> final_jets;
     INFO0;
-    std::vector<Jet> jets = event.Hadrons().Jets();
+    auto jets = event.Hadrons().Jets();
     for (auto & jet : jets) {
         jet.Info().SetBdt(Bdt(jet, reader));
         final_jets.emplace_back(Singlet(jet));

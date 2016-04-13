@@ -7,24 +7,24 @@ namespace hep
 
 LowPt::LowPt() {};
 
-bool LowPt::is_tagged(TopTagger2 htt)
+bool LowPt::is_tagged(TopTagger2 const& htt)
 {
     if (htt.is_tagged()) return true;
     if (!htt.is_masscut_passed()) return false;
 
-    double pt = htt.t().pt();
-    double m_rec = htt.t().m();
-    double m_ratio = (htt.W().m() / htt.t().m()) / (80.4 / 172.3);
-    double m12 = (htt.j1() + htt.j2()).m();
-    double m13 = (htt.j1() + htt.j3()).m();
-    double m23 = (htt.j2() + htt.j3()).m();
-    double atan_13_12 = atan(m12 / m13);
-    double m23_m123 = m23 / m_rec;
+    auto pt = htt.t().pt();
+    auto m_rec = htt.t().m();
+    auto m_ratio = (htt.W().m() / htt.t().m()) / (80.4 / 172.3);
+    auto m12 = (htt.j1() + htt.j2()).m();
+    auto m13 = (htt.j1() + htt.j3()).m();
+    auto m23 = (htt.j2() + htt.j3()).m();
+    auto atan_13_12 = atan(m12 / m13);
+    auto m23_m123 = m23 / m_rec;
 
-    double FWM_W1W2_U1 = FWM(htt, 11).U(1);
-    double FWM_pW1W2_U1 = FWM(htt, 1011).U(2);
-    double FWM_pbW1W2_U1 = FWM(htt, 1111).U(2);
-    double FWM_pbW2_U1 = FWM(htt, 1101).U(1);
+    auto FWM_W1W2_U1 = FWM(htt, 11).U(1);
+    auto FWM_pW1W2_U1 = FWM(htt, 1011).U(2);
+    auto FWM_pbW1W2_U1 = FWM(htt, 1111).U(2);
+    auto FWM_pbW2_U1 = FWM(htt, 1101).U(1);
 
     if (pt < 150. || pt > 200.) return false;
     if (m_rec < 108. || m_rec > 282.) return false;

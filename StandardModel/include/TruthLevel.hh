@@ -28,7 +28,7 @@ public:
 
 private:
 
-    std::vector<TruthVariables> Jets(Event const& event, PreCuts const& pre_cuts, std::function<Particle(Particle&)>)const;
+  std::vector<TruthVariables> Jets(const boca::Event& event, const boca::PreCuts& pre_cuts, std::function< Particle(Particle&) > const&)const;
 
 };
 

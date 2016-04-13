@@ -27,9 +27,9 @@ Lepton FakeLepton(Jet const& jet)
 std::vector<Lepton> Leptons(Event const& event)
 {
     INFO0;
-    bool do_fake_leptons = true;
-    std::vector<Lepton> leptons = RemoveIfSoft(event.Leptons().leptons(), DetectorGeometry::LeptonMinPt());
-    std::vector<Jet> jets = SortedByPt(event.Hadrons().Jets());
+    auto do_fake_leptons = true;
+    auto leptons = RemoveIfSoft(event.Leptons().leptons(), DetectorGeometry::LeptonMinPt());
+    auto jets = SortedByPt(event.Hadrons().Jets());
     if (do_fake_leptons && leptons.empty() && !jets.empty()) leptons.emplace_back(FakeLepton(jets.front()));
     DEBUG(jets.size(), leptons.size());
     return leptons;
@@ -95,12 +95,12 @@ std::vector<Doublet> WLeptonicTagger::Doublets(Event const& event, std::function
 {
     INFO0;
 //     std::vector<Lepton> leptons = SortedByPt(event.Leptons().leptons());
-    std::vector<Lepton> leptons = Leptons(event);
-    MissingEt missing_et = event.Hadrons().MissingEt();
+    auto leptons = Leptons(event);
+    auto missing_et = event.Hadrons().MissingEt();
     std::vector<Doublet> doublets;
     for (auto const & lepton : leptons) {
         Doublet pre_doublet(lepton, missing_et);
-        std::vector<Doublet> post_doublets = ReconstructNeutrino(pre_doublet);
+        auto post_doublets = ReconstructNeutrino(pre_doublet);
         for (auto & doublet : post_doublets) if (auto optional = function(doublet)) doublets.emplace_back(*optional);
     }
     return doublets;

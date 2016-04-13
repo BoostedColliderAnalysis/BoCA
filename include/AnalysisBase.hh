@@ -104,21 +104,21 @@ protected:
 
     void NewFile(Tag tag, std::vector<std::string> const& names, std::string const& nice_name = "");
 
-    void NewFile(Tag tag, std::vector<std::string> const& names, Crosssection crosssection, Names const& nice_name, Mass mass = Massless());
+    void NewFile(boca::Tag tag, const std::vector< std::string >& names, const boca::Crosssection& crosssection, const boca::Names& nice_name, boca::Mass const& mass = Massless());
 
-    void NewFile(Tag tag, std::vector<std::string> const& names, Crosssection crosssection, std::string const& nice_name = "", Mass mass = Massless());
+    void NewFile(boca::Tag tag, const std::vector< std::string >& names, const boca::Crosssection& crosssection, const std::string& nice_name = "", boca::Mass const& mass = Massless());
 
-    boca::File File(std::vector<std::string> const& names, Crosssection crosssection, std::string const& nice_name = "", Mass mass = Massless()) const;
+    boca::File File(const std::vector< std::string >& names, const boca::Crosssection& crosssection, const std::string& nice_name, const boca::Mass& mass) const;
 
     boca::File File(std::vector<std::string> const& names, std::string const& nice_name = "") const;
 
-    boca::File File(const std::vector< std::string >& names, const boca::Names& nice_name, boca::Crosssection crosssection, const boca::Mass& mass) const;
+    boca::File File(const std::vector< std::string >& names, const boca::Names& nice_name, const boca::Crosssection& crosssection, const boca::Mass& mass) const;
 
     void NewFile(Tag tag, std::string const& names, std::string const& nice_name = "");
 
-    void NewFile(Tag tag, std::string const& names, Crosssection crosssection, std::string const& nice_name = "", Mass mass = Massless());
+    void NewFile(boca::Tag tag, const std::string& name, const boca::Crosssection& crosssection, const std::string& nice_name = "", boca::Mass const& mass = Massless());
 
-    void NewFile(Tag tag, std::string const& names, Crosssection crosssection, Names const& nice_name, Mass mass = Massless());
+    void NewFile(boca::Tag tag, const std::string& name, const boca::Crosssection& crosssection, const boca::Names& nice_name, const boca::Mass& mass);
 
     std::string TreeName(std::string const& name) const;
 

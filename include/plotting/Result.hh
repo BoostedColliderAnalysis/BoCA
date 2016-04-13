@@ -29,11 +29,11 @@ public:
     std::vector<int> const& EventSums() const;
     int Steps() const;
     TMVA::Types::EMVA const& Mva() const;
-    void SetModelIndependent(Crosssection crosssection, int step);
+    void SetModelIndependent(const boca::Crosssection& crosssection, int step);
     std::vector<Crosssection> ModelIndependent() const;
-    void SetModelIndependentSB(Crosssection crosssection, int step);
+    void SetModelIndependentSB(const boca::Crosssection& crosssection, int step);
     std::vector<Crosssection> ModelIndependentSB() const;
-    void SetModelIndependentSig(Crosssection crosssection, int step);
+    void SetModelIndependentSig(const boca::Crosssection& crosssection, int step);
     std::vector<Crosssection> ModelIndependentSig() const;
     std::vector<double> const& SelectedEfficiencies() const;
     void AddSelectedEfficiency(double selected_efficiency);

@@ -112,7 +112,7 @@ void Mt2::set_momenta(double* pa0, double* pb0, double* pmiss0)
 
     if (std::sqrt(pmissxsq + pmissysq) / 100 > scale) scale = std::sqrt(pmissxsq + pmissysq) / 100;
     //scale = 1;
-    double scalesq = scale * scale;
+    auto scalesq = scale * scale;
     ma = ma / scale;
     mb = mb / scale;
     masq = masq / scalesq;
@@ -154,20 +154,20 @@ void Mt2::print()
 void Mt2::mt2_massless()
 {
     //rotate so that pay = 0
-    double theta = atan(pay / pax);
-    double s = sin(theta);
-    double c = cos(theta);
+    auto theta = atan(pay / pax);
+    auto s = sin(theta);
+    auto c = cos(theta);
 
     Easq = pax * pax + pay * pay;
     Ebsq = pbx * pbx + pby * pby;
     Ea = std::sqrt(Easq);
     Eb = std::sqrt(Ebsq);
 
-    double pxtemp = pax * c + pay * s;
+    auto pxtemp = pax * c + pay * s;
     pax = pxtemp;
     pay = 0;
     pxtemp = pbx * c + pby * s;
-    double pytemp = -s * pbx + c * pby;
+    auto pytemp = -s * pbx + c * pby;
     pbx = pxtemp;
     pby = pytemp;
     pxtemp = pmissx * c + pmissy * s;
@@ -188,8 +188,8 @@ void Mt2::mt2_massless()
     f20 = mnsq + pmissxsq + pmissysq - (pbx * pmissx + pby * pmissy) * (pbx * pmissx + pby * pmissy) / Ebsq;
 
     double Deltasq0 = 0;
-    double Deltasq_low = Deltasq0 + precision;
-    int nsols_low = nsols_massless(Deltasq_low);
+    auto Deltasq_low = Deltasq0 + precision;
+    auto nsols_low = nsols_massless(Deltasq_low);
 
     if (nsols_low > 1) {
         mt2_b = std::sqrt(Deltasq0 + mnsq);
@@ -211,14 +211,14 @@ void Mt2::mt2_massless()
     double Deltasq_high;
     if (Deltasq_high1 < Deltasq_high2) Deltasq_high = Deltasq_high2;
     else Deltasq_high = Deltasq_high1;
-    int nsols_high = nsols_massless(Deltasq_high);
+    auto nsols_high = nsols_massless(Deltasq_high);
 
     if (nsols_high == nsols_low) {
-        int foundhigh= 0;
+        auto foundhigh= 0;
         double minmass, maxmass;
         minmass = mn ;
         maxmass = std::sqrt(mnsq + Deltasq_high);
-        for (double mass = minmass + SCANSTEP; mass < maxmass; mass += SCANSTEP) {
+        for (auto mass = minmass + SCANSTEP; mass < maxmass; mass += SCANSTEP) {
             Deltasq_high = mass * mass - mnsq;
             nsols_high = nsols_massless(Deltasq_high);
             if (nsols_high > 0) {
@@ -258,7 +258,7 @@ void Mt2::mt2_massless()
 
 int Mt2::nsols_massless(double Dsq)
 {
-    double delta = Dsq / (2 * Easq);
+    auto delta = Dsq / (2 * Easq);
     d1 = d11 * delta;
     e1 = e11 * delta;
     f1 = f12 * delta * delta + f10;
@@ -274,36 +274,36 @@ int Mt2::nsols_massless(double Dsq)
     if (pax > 0) b = -Dsq / (4 * Ea) + mnsq * Ea / Dsq;
     else b = Dsq / (4 * Ea) - mnsq * Ea / Dsq;
 
-    double A4 = a * a * a2;
-    double A3 = 2 * a * b2 / Ea;
-    double A2 = (2 * a * a2 * b + c2 + 2 * a * d2) / (Easq);
-    double A1 = (2 * b * b2 + 2 * e2) / (Easq * Ea);
-    double A0 = (a2 * b * b + 2 * b * d2 + f2) / (Easq * Easq);
+    auto A4 = a * a * a2;
+    auto A3 = 2 * a * b2 / Ea;
+    auto A2 = (2 * a * a2 * b + c2 + 2 * a * d2) / (Easq);
+    auto A1 = (2 * b * b2 + 2 * e2) / (Easq * Ea);
+    auto A0 = (a2 * b * b + 2 * b * d2 + f2) / (Easq * Easq);
 
-    long double A3sq = A3 * A3;
+    auto A3sq = A3 * A3;
 
-    long double B3 = 4 * A4;
-    long double  B2 = 3 * A3;
-    long double B1 = 2 * A2;
-    long double B0 = A1;
+    auto B3 = 4 * A4;
+    auto B2 = 3 * A3;
+    auto B1 = 2 * A2;
+    auto B0 = A1;
 
-    long double C2 = -(A2 / 2 - 3 * A3sq / (16 * A4));
-    long double C1 = -(3 * A1 / 4. - A2 * A3 / (8 * A4));
-    long double C0 = -A0 + A1 * A3 / (16 * A4);
+    auto C2 = -(A2 / 2 - 3 * A3sq / (16 * A4));
+    auto C1 = -(3 * A1 / 4. - A2 * A3 / (8 * A4));
+    auto C0 = -A0 + A1 * A3 / (16 * A4);
 
-    long double D1 = -B1 - (B3 * C1 * C1 / C2 - B3 * C0 - B2 * C1) / C2;
-    long double D0 = -B0 - B3 * C0 * C1 / (C2 * C2) + B2 * C0 / C2;
+    auto D1 = -B1 - (B3 * C1 * C1 / C2 - B3 * C0 - B2 * C1) / C2;
+    auto D0 = -B0 - B3 * C0 * C1 / (C2 * C2) + B2 * C0 / C2;
 
-    long double E0 = -C0 - C2 * D0 * D0 / (D1 * D1) + C1 * D0 / D1;
+    auto E0 = -C0 - C2 * D0 * D0 / (D1 * D1) + C1 * D0 / D1;
 
     //find the coefficients for the leading term in the Sturm sequence
-    long double t1 = A4;
-    long double t2 = A4;
-    long double t3 = C2;
-    long double t4 = D1;
-    long double t5 = E0;
+    auto t1 = A4;
+    auto t2 = A4;
+    auto t3 = C2;
+    auto t4 = D1;
+    auto t5 = E0;
 
-    int nsol = signchange_n(t1, t2, t3, t4, t5) - signchange_p(t1, t2, t3, t4, t5);
+    auto nsol = signchange_n(t1, t2, t3, t4, t5) - signchange_p(t1, t2, t3, t4, t5);
     if (nsol < 0) nsol = 0;
     return nsol;
 }
@@ -319,7 +319,7 @@ void Mt2::mt2_bisect()
         return;
     }
 
-    double Deltasq0 = ma * (ma + 2 * mn); //The minimum mass square to have two ellipses
+    auto Deltasq0 = ma * (ma + 2 * mn); //The minimum mass square to have two ellipses
     // find the coefficients for the two quadratic equations when Deltasq=Deltasq0.
     a1 = 1 - pax * pax / (Easq);
     b1 = -pax * pay / (Easq);
@@ -336,12 +336,12 @@ void Mt2::mt2_bisect()
                     (pbx * pmissx + pby * pmissy) / Eb) + mnsq;
 
     // find the center of the smaller ellipse
-    double x0 = (c1 * d1 - b1 * e1) / (b1 * b1 - a1 * c1);
-    double y0 = (a1 * e1 - b1 * d1) / (b1 * b1 - a1 * c1);
+    auto x0 = (c1 * d1 - b1 * e1) / (b1 * b1 - a1 * c1);
+    auto y0 = (a1 * e1 - b1 * d1) / (b1 * b1 - a1 * c1);
 
 
     // Does the larger ellipse contain the smaller one?
-    double dis = a2 * x0 * x0 + 2 * b2 * x0 * y0 + c2 * y0 * y0 + 2 * d2 * x0 + 2 * e2 * y0 + f2;
+    auto dis = a2 * x0 * x0 + 2 * b2 * x0 * y0 + c2 * y0 * y0 + 2 * d2 * x0 + 2 * e2 * y0 + f2;
 
     if (dis <= 0.01) {
         mt2_b = std::sqrt(mnsq + Deltasq0);
@@ -370,14 +370,14 @@ void Mt2::mt2_bisect()
 
     //Estimate upper bound of mT2
     //when Deltasq > Deltasq_high1, the larger encloses the center of the smaller
-    double p2x0 = pmissx - x0;
-    double p2y0 = pmissy - y0;
-    double Deltasq_high1 = 2 * Eb * std::sqrt(p2x0 * p2x0 + p2y0 * p2y0 + mnsq) - 2 * pbx * p2x0 - 2 * pby * p2y0 + mbsq;
+    auto p2x0 = pmissx - x0;
+    auto p2y0 = pmissy - y0;
+    auto Deltasq_high1 = 2 * Eb * std::sqrt(p2x0 * p2x0 + p2y0 * p2y0 + mnsq) - 2 * pbx * p2x0 - 2 * pby * p2y0 + mbsq;
 
     //Another estimate, if both ellipses enclose the origin, Deltasq > mT2
 
-    double Deltasq_high21 = 2 * Eb * std::sqrt(pmissx * pmissx + pmissy * pmissy + mnsq) - 2 * pbx * pmissx - 2 * pby * pmissy + mbsq;
-    double Deltasq_high22 = 2 * Ea * mn + masq;
+    auto Deltasq_high21 = 2 * Eb * std::sqrt(pmissx * pmissx + pmissy * pmissy + mnsq) - 2 * pbx * pmissx - 2 * pby * pmissy + mbsq;
+    auto Deltasq_high22 = 2 * Ea * mn + masq;
 
     double Deltasq_high2;
     if (Deltasq_high21 < Deltasq_high22) Deltasq_high2 = Deltasq_high22;
@@ -397,13 +397,13 @@ void Mt2::mt2_bisect()
         mt2_b = std::sqrt(mnsq + Deltasq0);
         return;
     }
-    int nsols_low = nsols(Deltasq_low);
+    auto nsols_low = nsols(Deltasq_low);
     int foundhigh;
 
     //if nsols_high=nsols_low, we missed the region where the two ellipse overlap
     //if nsols_high=4, also need a scan because we may find the wrong tangent point.
 
-    int nsols_high = nsols(Deltasq_high);
+    auto nsols_high = nsols(Deltasq_high);
     if (nsols_high == nsols_low || nsols_high == 4) {
         //foundhigh = scan_high(Deltasq_high);
         foundhigh = find_high(Deltasq_high);
@@ -415,7 +415,7 @@ void Mt2::mt2_bisect()
     }
     while (std::sqrt(Deltasq_high + mnsq) - std::sqrt(Deltasq_low + mnsq) > precision) {
         //bisect
-        double Deltasq_mid = (Deltasq_high + Deltasq_low) / 2.;
+        auto Deltasq_mid = (Deltasq_high + Deltasq_low) / 2.;
         double nsols_mid = nsols(Deltasq_mid);
         // if nsols_mid = 4, rescan for Deltasq_high
         if (nsols_mid == 4) {
@@ -433,12 +433,12 @@ void Mt2::mt2_bisect()
 
 int Mt2::find_high(double& Deltasq_high)
 {
-    double x0 = (c1 * d1 - b1 * e1) / (b1 * b1 - a1 * c1);
-    double y0 = (a1 * e1 - b1 * d1) / (b1 * b1 - a1 * c1);
-    double Deltasq_low = (mn + ma) * (mn + ma) - mnsq;
+    auto x0 = (c1 * d1 - b1 * e1) / (b1 * b1 - a1 * c1);
+    auto y0 = (a1 * e1 - b1 * d1) / (b1 * b1 - a1 * c1);
+    auto Deltasq_low = (mn + ma) * (mn + ma) - mnsq;
     do {
-        double Deltasq_mid = (Deltasq_high + Deltasq_low) / 2.;
-        int nsols_mid = nsols(Deltasq_mid);
+        auto Deltasq_mid = (Deltasq_high + Deltasq_low) / 2.;
+        auto nsols_mid = nsols(Deltasq_mid);
         if (nsols_mid == 2) {
             Deltasq_high = Deltasq_mid;
             return 1;
@@ -456,7 +456,7 @@ int Mt2::find_high(double& Deltasq_high)
                     (pbx * pmissx + pby * pmissy) / Eb) * ((Deltasq_mid - mbsq) / (2 * Eb) +
                             (pbx * pmissx + pby * pmissy) / Eb) + mnsq;
             // Does the larger ellipse contain the smaller one?
-            double dis = a2 * x0 * x0 + 2 * b2 * x0 * y0 + c2 * y0 * y0 + 2 * d2 * x0 + 2 * e2 * y0 + f2;
+            auto dis = a2 * x0 * x0 + 2 * b2 * x0 * y0 + c2 * y0 * y0 + 2 * d2 * x0 + 2 * e2 * y0 + f2;
             if (dis < 0) Deltasq_high = Deltasq_mid;
             else Deltasq_low = Deltasq_mid;
         }
@@ -466,11 +466,11 @@ int Mt2::find_high(double& Deltasq_high)
 
 int Mt2::scan_high(double& Deltasq_high)
 {
-    int foundhigh = 0 ;
-    double tempmass = mn + ma;
-    double maxmass = std::sqrt(mnsq + Deltasq_high);
+    auto foundhigh = 0 ;
+    auto tempmass = mn + ma;
+    auto maxmass = std::sqrt(mnsq + Deltasq_high);
     if (nevt == 32334) std::cout << "Deltasq_high = " << Deltasq_high << std::endl;
-    for (double mass = tempmass + SCANSTEP; mass < maxmass; mass += SCANSTEP) {
+    for (auto mass = tempmass + SCANSTEP; mass < maxmass; mass += SCANSTEP) {
         Deltasq_high = mass * mass - mnsq;
         if (nsols(Deltasq_high) > 0) {
 //             Deltasq_low = (mass - SCANSTEP) * (mass - SCANSTEP) - mnsq;
@@ -482,7 +482,7 @@ int Mt2::scan_high(double& Deltasq_high)
 }
 
 int Mt2::nsols(double Dsq){
-    double delta = (Dsq - masq) / (2 * Easq);
+    auto delta = (Dsq - masq) / (2 * Easq);
     //calculate coefficients for the two quadratic equations
     d1 = d11 * delta;
     e1 = e11 * delta;
@@ -493,75 +493,75 @@ int Mt2::nsols(double Dsq){
 
     //obtain the coefficients for the 4th order equation
     //devided by Ea^n to make the variable dimensionless
-    long double A4 = -4 * a2 * b1 * b2 * c1 + 4 * a1 * b2 * b2 * c1 + a2 * a2 * c1 * c1 +
+    auto A4 = -4 * a2 * b1 * b2 * c1 + 4 * a1 * b2 * b2 * c1 + a2 * a2 * c1 * c1 +
                      4 * a2 * b1 * b1 * c2 - 4 * a1 * b1 * b2 * c2 - 2 * a1 * a2 * c1 * c2 +
                      a1 * a1 * c2 * c2;
 
-    long double A3 = (-4 * a2 * b2 * c1 * d1 + 8 * a2 * b1 * c2 * d1 - 4 * a1 * b2 * c2 * d1 - 4 * a2 * b1 * c1 * d2 +
+    auto A3 = (-4 * a2 * b2 * c1 * d1 + 8 * a2 * b1 * c2 * d1 - 4 * a1 * b2 * c2 * d1 - 4 * a2 * b1 * c1 * d2 +
                       8 * a1 * b2 * c1 * d2 - 4 * a1 * b1 * c2 * d2 - 8 * a2 * b1 * b2 * e1 + 8 * a1 * b2 * b2 * e1 +
                       4 * a2 * a2 * c1 * e1 - 4 * a1 * a2 * c2 * e1 + 8 * a2 * b1 * b1 * e2 - 8 * a1 * b1 * b2 * e2 -
                       4 * a1 * a2 * c1 * e2 + 4 * a1 * a1 * c2 * e2) / Ea;
 
 
-    long double A2 = (4 * a2 * c2 * d1 * d1 - 4 * a2 * c1 * d1 * d2 - 4 * a1 * c2 * d1 * d2 + 4 * a1 * c1 * d2 * d2 -
+    auto A2 = (4 * a2 * c2 * d1 * d1 - 4 * a2 * c1 * d1 * d2 - 4 * a1 * c2 * d1 * d2 + 4 * a1 * c1 * d2 * d2 -
                       8 * a2 * b2 * d1 * e1 - 8 * a2 * b1 * d2 * e1 + 16 * a1 * b2 * d2 * e1 +
                       4 * a2 * a2 * e1 * e1 + 16 * a2 * b1 * d1 * e2 - 8 * a1 * b2 * d1 * e2 -
                       8 * a1 * b1 * d2 * e2 - 8 * a1 * a2 * e1 * e2 + 4 * a1 * a1 * e2 * e2 - 4 * a2 * b1 * b2 * f1 +
                       4 * a1 * b2 * b2 * f1 + 2 * a2 * a2 * c1 * f1 - 2 * a1 * a2 * c2 * f1 +
                       4 * a2 * b1 * b1 * f2 - 4 * a1 * b1 * b2 * f2 - 2 * a1 * a2 * c1 * f2 + 2 * a1 * a1 * c2 * f2) / Easq;
 
-    long double A1 = (-8 * a2 * d1 * d2 * e1 + 8 * a1 * d2 * d2 * e1 + 8 * a2 * d1 * d1 * e2 - 8 * a1 * d1 * d2 * e2 -
+    auto A1 = (-8 * a2 * d1 * d2 * e1 + 8 * a1 * d2 * d2 * e1 + 8 * a2 * d1 * d1 * e2 - 8 * a1 * d1 * d2 * e2 -
                       4 * a2 * b2 * d1 * f1 - 4 * a2 * b1 * d2 * f1 + 8 * a1 * b2 * d2 * f1 + 4 * a2 * a2 * e1 * f1 -
                       4 * a1 * a2 * e2 * f1 + 8 * a2 * b1 * d1 * f2 - 4 * a1 * b2 * d1 * f2 - 4 * a1 * b1 * d2 * f2 -
                       4 * a1 * a2 * e1 * f2 + 4 * a1 * a1 * e2 * f2) / (Easq * Ea);
 
-    long double A0 = (-4 * a2 * d1 * d2 * f1 + 4 * a1 * d2 * d2 * f1 + a2 * a2 * f1 * f1 +
+    auto A0 = (-4 * a2 * d1 * d2 * f1 + 4 * a1 * d2 * d2 * f1 + a2 * a2 * f1 * f1 +
                       4 * a2 * d1 * d1 * f2 - 4 * a1 * d1 * d2 * f2 - 2 * a1 * a2 * f1 * f2 +
                       a1 * a1 * f2 * f2) / (Easq * Easq);
 
-    long double A3sq = A3 * A3;
+    auto A3sq = A3 * A3;
 
-    long double B3 = 4 * A4;
-    long double B2 = 3 * A3;
-    long double B1 = 2 * A2;
-    long double B0 = A1;
+    auto B3 = 4 * A4;
+    auto B2 = 3 * A3;
+    auto B1 = 2 * A2;
+    auto B0 = A1;
 
-    long double C2 = -(A2 / 2 - 3 * A3sq / (16 * A4));
-    long double C1 = -(3 * A1 / 4. - A2 * A3 / (8 * A4));
-    long double C0 = -A0 + A1 * A3 / (16 * A4);
+    auto C2 = -(A2 / 2 - 3 * A3sq / (16 * A4));
+    auto C1 = -(3 * A1 / 4. - A2 * A3 / (8 * A4));
+    auto C0 = -A0 + A1 * A3 / (16 * A4);
 
-    long double D1 = -B1 - (B3 * C1 * C1 / C2 - B3 * C0 - B2 * C1) / C2;
-    long double D0 = -B0 - B3 * C0 * C1 / (C2 * C2) + B2 * C0 / C2;
+    auto D1 = -B1 - (B3 * C1 * C1 / C2 - B3 * C0 - B2 * C1) / C2;
+    auto D0 = -B0 - B3 * C0 * C1 / (C2 * C2) + B2 * C0 / C2;
 
-    long double E0 = -C0 - C2 * D0 * D0 / (D1 * D1) + C1 * D0 / D1;
+    auto E0 = -C0 - C2 * D0 * D0 / (D1 * D1) + C1 * D0 / D1;
 
     //find the coefficients for the leading term in the Sturm sequence
-    long double t1 = A4;
-    long double t2 = A4;
-    long double t3 = C2;
-    long double t4 = D1;
-    long double t5 = E0;
+    auto t1 = A4;
+    auto t2 = A4;
+    auto t3 = C2;
+    auto t4 = D1;
+    auto t5 = E0;
 
     //The number of solutions depends on diffence of number of sign changes for x->Inf and x->-Inf
-    int nsol = signchange_n(t1, t2, t3, t4, t5) - signchange_p(t1, t2, t3, t4, t5);
+    auto nsol = signchange_n(t1, t2, t3, t4, t5) - signchange_p(t1, t2, t3, t4, t5);
 
     //Cannot have negative number of solutions, must be roundoff effect
     if (nsol < 0) nsol = 0;
     return nsol;
 }
 
-int Mt2::signchange_n(long double t1, long double t2, long double t3, long double t4, long double t5)
+int Mt2::signchange_n(double t1, double t2, double t3, double t4, double t5)
 {
-    int nsc = 0;
+    auto nsc = 0;
     if (t1 * t2 > 0) nsc++;
     if (t2 * t3 > 0) nsc++;
     if (t3 * t4 > 0) nsc++;
     if (t4 * t5 > 0) nsc++;
     return nsc;
 }
-int Mt2::signchange_p(long double t1, long double t2, long double t3, long double t4, long double t5)
+int Mt2::signchange_p(double t1, double t2, double t3, double t4, double t5)
 {
-    int nsc = 0;
+    auto nsc = 0;
     if (t1 * t2 < 0) nsc++;
     if (t2 * t3 < 0) nsc++;
     if (t3 * t4 < 0) nsc++;

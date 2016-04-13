@@ -30,8 +30,8 @@ std::vector<MultipletEvent<Octet44>> EventChargedTagger::Multiplets(Event const&
 std::vector<MultipletEvent<Octet44>> EventChargedTagger::Events(Event const& event, std::function<MultipletEvent<Octet44>(MultipletEvent<Octet44> &)> const& function)
 {
     INFO0;
-    std::vector<Jet> jets = bottom_reader_.Jets(event);
-    std::vector<Octet44> octets = signature_semi_reader_.Multiplets(event);
+    auto jets = bottom_reader_.Jets(event);
+    auto octets = signature_semi_reader_.Multiplets(event);
     std::vector<MultipletEvent<Octet44>> multiplet_events;
     for (auto & octet : octets) {
         MultipletEvent<Octet44> multiplet_event(octet, event, jets);

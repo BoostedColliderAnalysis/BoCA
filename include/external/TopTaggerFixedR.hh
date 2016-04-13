@@ -17,9 +17,9 @@ class TopTaggerFixedR
 public:
     TopTaggerFixedR();
 
-    TopTaggerFixedR(fastjet::PseudoJet jet);
+    TopTaggerFixedR(const fastjet::PseudoJet& jet);
 
-    TopTaggerFixedR(fastjet::PseudoJet jet, double mtmass, double mwmass);
+    TopTaggerFixedR(fastjet::PseudoJet const& jet, double mtmass, double mwmass);
 
     //run tagger
     void run();
@@ -80,7 +80,7 @@ public:
     void get_setting() const;
     void get_info() const;
 
-    double nsub(fastjet::PseudoJet jet, int order, fastjet::contrib::Njettiness::AxesMode axes = fastjet::contrib::Njettiness::kt_axes, double beta = 1., double R0 = 1.);
+    double nsub(const fastjet::PseudoJet& jet, int order, fastjet::contrib::Njettiness::AxesMode axes = fastjet::contrib::Njettiness::kt_axes, double beta = 1., double R0 = 1.);
     double q_weight();
 
 private:

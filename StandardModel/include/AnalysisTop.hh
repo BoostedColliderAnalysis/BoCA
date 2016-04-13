@@ -87,7 +87,7 @@ private:
     }
 
     int PassPreCut(Event const& event, Tag) const override {
-        std::vector<Particle> particles = SortedByPt(event.Partons().GenParticles());
+        auto particles = SortedByPt(event.Partons().GenParticles());
         particles = CopyIfDrellYan(particles);
         particles = RemoveIfOutsidePtWindow(particles, this->LowerPtCut(), this->UpperPtCut());
 //         std::cout << "pre cut " << particles.size() << std::endl;

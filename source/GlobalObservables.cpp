@@ -70,7 +70,7 @@ Momentum GlobalObservables::ScalarHt() const
 Momentum GlobalObservables::LeptonHt() const
 {
     INFO0;
-    return boost::accumulate(leptons_, 0_eV, [](Momentum ht, boca::Jet const & lepton) {
+    return boost::accumulate(leptons_, 0_eV, [](Momentum const& ht, boca::Jet const & lepton) {
         return ht + lepton.Pt();
     });
 }
@@ -78,7 +78,7 @@ Momentum GlobalObservables::LeptonHt() const
 Momentum GlobalObservables::JetHt() const
 {
     INFO0;
-    return boost::accumulate(jets_, 0_eV, [](Momentum ht, boca::Jet const & jet) {
+    return boost::accumulate(jets_, 0_eV, [](Momentum const& ht, boca::Jet const & jet) {
         return ht + jet.Pt();
     });
 }

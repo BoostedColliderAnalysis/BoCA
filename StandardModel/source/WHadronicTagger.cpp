@@ -51,16 +51,16 @@ std::vector<Doublet> WHadronicTagger::Doublets(Event const& event, PreCuts const
         MomentumRange boosted_range((SubJet(Id::W)), (SubJet(Id::top)));
         if (pre_cuts.DoSubJets(Id::W) && boosted_range.InsideRange(jet)) {
             auto pieces = bottom_reader_.SubMultiplet(jet, 2);
-            for (auto piece : pieces) {
+            for (auto const& piece : pieces) {
                 Doublet doublet;
                 doublet.Enforce(piece);
-                if (boost::optional<Doublet> optional = function(doublet)) doublets.emplace_back(*optional);
+                if (auto optional = function(doublet)) doublets.emplace_back(*optional);
             }
         }
 
         Doublet doublet;
         doublet.Enforce(bottom_reader_.SubMultiplet(jet, 2));
-        if (boost::optional<Doublet> optional = function(doublet)) doublets.emplace_back(*optional);
+        if (auto optional = function(doublet)) doublets.emplace_back(*optional);
 
     }
     return doublets;
@@ -88,7 +88,7 @@ std::vector<Doublet> WHadronicTagger::Doublets(std::vector<Jet> const& jets, Fun
 {
     return UnorderedPairs(jets, [&](Jet const & jet_1, Jet const & jet_2) {
         Doublet doublet(jet_1, jet_2);
-        if (boost::optional<Doublet> optional = function(doublet)) return *optional;
+        if (auto optional = function(doublet)) return *optional;
         throw boca::Problematic();
     });
 }
@@ -138,7 +138,7 @@ std::vector<Doublet> WHadronicTagger::Multiplets(std::vector<Jet> const& jets, P
     });
 }
 
-boost::optional<Doublet> WHadronicTagger::Multiplet(Jet jet, TMVA::Reader const& reader) {
+boost::optional<Doublet> WHadronicTagger::Multiplet(Jet const& jet, TMVA::Reader const& reader) {
     PreCuts pre_cuts;
     Doublet doublet;
     doublet.Enforce(jet);
@@ -156,7 +156,7 @@ boost::optional<Doublet> WHadronicTagger::SubMultiplet(Jet const& jet, TMVA::Rea
 boost::optional<Doublet> WHadronicTagger::SubDoublet(Jet const& jet, Function const& function)
 {
     INFO0;
-    std::vector<Jet> pieces = bottom_reader_.SubMultiplet(jet, 2);
+    auto pieces = bottom_reader_.SubMultiplet(jet, 2);
     if (pieces.empty()) return boost::none;
     Doublet doublet;
     if (pieces.size() == 1) doublet.Enforce(pieces.front());

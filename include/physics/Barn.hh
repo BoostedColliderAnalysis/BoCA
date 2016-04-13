@@ -31,7 +31,7 @@ BOOST_UNITS_STATIC_CONSTANT(Barns, barn::Area);
  */
 using Crosssection = boost::units::quantity<barn::Area>;
 
-double to_double(Crosssection crosssection);
+double to_double(Crosssection const& crosssection);
 
 Crosssection to_crosssection(double crosssection);
 

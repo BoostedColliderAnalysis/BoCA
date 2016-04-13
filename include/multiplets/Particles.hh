@@ -11,11 +11,11 @@ namespace boca
 
 std::vector<Particle> CopyIfRelativeIs(std::vector<Particle> const& particles, Relative relative, Id id);
 
-std::vector<Particle> CopyIfRelativeIs(std::vector<Particle> const& particles, Relative relative, std::vector<Id> ids);
+std::vector<Particle> CopyIfRelativeIs(const std::vector<boca::Particle>& particles, boca::Relative relative, std::vector<Id> const& ids);
 
 std::vector<Particle> CopyIfParticle(std::vector<Particle> const& particles, Id id);
 
-std::vector<Particle> CopyIfParticles(std::vector<Particle> const& particles, std::vector<Id> ids);
+std::vector<Particle> CopyIfParticles(std::vector<Particle> const& particles, std::vector<Id> const& ids);
 
 std::vector<Particle> CopyIfNeutrino(std::vector<Particle> const& particles);
 
@@ -31,7 +31,7 @@ std::vector<Particle> CopyIfFamily(std::vector<Particle> const& particles, Id id
  * @brief returns only particles with the correct id and non fitting grand mother id
  *
  */
-std::vector<Particle> RemoveIfGrandFamily(std::vector<Particle> particles, Id id, Id grand_mother_id);
+std::vector<Particle> RemoveIfGrandFamily(std::vector<Particle> const& particles, Id id, Id grand_mother_id);
 
 std::vector<Particle> CopyIfParticle(std::vector<Particle> const& particles, Id id);
 
@@ -39,7 +39,7 @@ std::vector<Particle> RemoveIfParticle(std::vector<Particle> particles, Id id);
 
 std::vector<Particle> CopyIfMother(std::vector<Particle> const& particles, Id mother_id);
 
-std::vector<Particle> CopyIfMother(std::vector<Particle> const& particles, std::vector<Id> mother_id);
+std::vector<Particle> CopyIfMother(std::vector<Particle> const& particles, std::vector<Id> const& mother_id);
 
 std::vector<Particle> CopyIfMother(std::vector<Particle> const& particles, Particle mother);
 
@@ -49,17 +49,17 @@ std::vector<Particle> CopyIfGrandMother(std::vector<Particle> const& particles, 
 
 std::vector<Particle> CopyIfGreatGrandMother(std::vector<Particle> const& particles, Id grand_grand_mother_id);
 
-std::vector<Particle> RemoveIfMother(std::vector<Particle> particles, Id mother_id);
+std::vector<Particle> RemoveIfMother(std::vector<Particle> const& particles, Id mother_id);
 
-std::vector<Particle> RemoveIfMother(std::vector<Particle> particles, std::vector<Id> mother_ids);
+std::vector<Particle> RemoveIfMother(std::vector<Particle> const& particles, std::vector<Id> const& mother_ids);
 
-std::vector<Particle> RemoveIfSingleMother(std::vector<Particle> particles);
+std::vector<Particle> RemoveIfSingleMother(std::vector<Particle> const& particles);
 
-std::vector<Particle> RemoveIfOnlyMother(std::vector<Particle> particles, Id mother_id);
+std::vector<Particle> RemoveIfOnlyMother(std::vector<Particle> const& particles, Id mother_id);
 
-std::vector<Particle> RemoveIfLetpon(std::vector<Particle> particles);
+std::vector<Particle> RemoveIfLetpon(std::vector<Particle> const& particles);
 
-std::vector<Particle> RemoveIfQuark(std::vector<Particle> particles);
+std::vector<Particle> RemoveIfQuark(std::vector<Particle> const& particles);
 
 std::vector<Particle> CopyIfQuark(std::vector<Particle> const& particles);
 

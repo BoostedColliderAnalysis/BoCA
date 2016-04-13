@@ -130,12 +130,12 @@ void Result::Calculate()
     case TMVA::Types::EMVA::kBDT : {
         for (auto const & bdt : bdts_) ++bins_.at(XBin(bdt));
         event_sums_.at(Steps() - 1) = bins_.at(Steps() - 1);
-        for (int step = Steps() - 2; step >= 0; --step) event_sums_.at(step) = event_sums_.at(step + 1) + bins_.at(step);
+        for (auto step = Steps() - 2; step >= 0; --step) event_sums_.at(step) = event_sums_.at(step + 1) + bins_.at(step);
         break;
     }
     case TMVA::Types::EMVA::kCuts : {
         for (auto const & passed : passed_) {
-            int counter = 0;
+            auto counter = 0;
             for (auto const & p : passed) {
                 if (p) ++event_sums_.at(counter);
                 ++counter;
@@ -171,7 +171,7 @@ TMVA::Types::EMVA const& Result::Mva() const
     INFO0;
     return mva_;
 }
-void Result::SetModelIndependent(Crosssection crosssection, int step)
+void Result::SetModelIndependent(Crosssection const& crosssection, int step)
 {
     INFO0;
     model_independent_.at(step) = crosssection;
@@ -180,7 +180,7 @@ std::vector< Crosssection > Result::ModelIndependent() const
 {
     return model_independent_;
 }
-void Result::SetModelIndependentSB(Crosssection crosssection, int step)
+void Result::SetModelIndependentSB(Crosssection const& crosssection, int step)
 {
     INFO0;
     model_independent_sb_.at(step) = crosssection;
@@ -189,7 +189,7 @@ std::vector< Crosssection > Result::ModelIndependentSB() const
 {
     return model_independent_sb_;
 }
-void Result::SetModelIndependentSig(Crosssection crosssection, int step)
+void Result::SetModelIndependentSig(Crosssection const& crosssection, int step)
 {
     INFO0;
     model_independent_sig_.at(step) = crosssection;

@@ -62,7 +62,7 @@ public:
     }
 
     template<typename Particle>
-    void LorentzVectorByMass(const Particle& particle, boca::Mass mass) {
+    void LorentzVectorByMass(const Particle& particle, boca::Mass const& mass) {
         SetPtEtaPhiM(particle.PT * GeV, particle.Eta * rad, particle.Phi * rad, mass);
     }
 
@@ -89,10 +89,10 @@ public:
     Momentum P() const;
 
     // Set momentum and energy.
-    void SetPx(Momentum a);
-    void SetPy(Momentum a);
-    void SetPz(Momentum a);
-    void SetE(boca::Energy a);
+    void SetPx(const boca::Momentum& a);
+    void SetPy(Momentum const& a);
+    void SetPz(Momentum const& a);
+    void SetE(boca::Energy const& a);
     // Transverse energy squared.
     EnergySquare Et2() const;
 
@@ -115,11 +115,11 @@ public:
     }
 
     // Setters to provide the functionality(but a more meanigful name) of
-    void SetPxPyPzE(Momentum px, Momentum py, Momentum pz, boca::Energy energy);
+    void SetPxPyPzE(const boca::Momentum& px, const boca::Momentum& py, const boca::Momentum& pz, const boca::Energy& energy);
 
-    void SetPtEtaPhiM(Momentum pt, boca::Angle eta, boca::Angle phi, boca::Mass mass);
+    void SetPtEtaPhiM(Momentum const& pt, boca::Angle const& eta, boca::Angle const& phi, boca::Mass const& mass);
 
-    void SetPtEtaPhiE(Momentum pt, boca::Angle eta, boca::Angle phi, boca::Energy energy);
+    void SetPtEtaPhiE(Momentum const& pt, boca::Angle const& eta, boca::Angle const& phi, boca::Energy const& energy);
 
     MassSquare M2() const;
 
@@ -156,7 +156,7 @@ public:
 
     LorentzVector(::delphes::GenParticle& particle);
 
-    void Smearing(Length amount);
+    void Smearing(const boca::Length& amount);
 
 };
 

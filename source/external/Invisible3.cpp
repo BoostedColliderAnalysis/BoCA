@@ -62,7 +62,7 @@ int solve3quad(double* coeff, double* solutions);
 
 double mass2(double E, double px, double py, double pz)
 {
-    double m = E * E - px * px - py * py - pz * pz;
+    auto m = E * E - px * px - py * py - pz * pz;
     return m;
 }
 
@@ -115,23 +115,23 @@ void solve33(event33& evt1, event33& evt2, int& nsols, double p1[][4], double p2
     Eg = pg[0]; pgx = pg[1]; pgy = pg[2]; pgz = pg[3];
     Eh = ph[0]; phx = ph[1]; phy = ph[2]; phz = ph[3];
 
-    double PmissEvt1x = pmiss1[1];
-    double PmissEvt1y = pmiss1[2];
-    double PmissEvt2x = pmiss2[1];
-    double PmissEvt2y = pmiss2[2];
+    auto PmissEvt1x = pmiss1[1];
+    auto PmissEvt1y = pmiss1[2];
+    auto PmissEvt2x = pmiss2[1];
+    auto PmissEvt2y = pmiss2[2];
 
-    double m3 = mass2(E3, p3x, p3y, p3z);
-    double m4 = mass2(E4, p4x, p4y, p4z);
-    double m5 = mass2(E5, p5x, p5y, p5z);
-    double m6 = mass2(E6, p6x, p6y, p6z);
-    double m7 = mass2(E7, p7x, p7y, p7z);
-    double m8 = mass2(E8, p8x, p8y, p8z);
-    double mc = mass2(Ec, pcx, pcy, pcz);
-    double md = mass2(Ed, pdx, pdy, pdz);
-    double me = mass2(Ee, pex, pey, pez);
-    double mf = mass2(Ef, pfx, pfy, pfz);
-    double mg = mass2(Eg, pgx, pgy, pgz);
-    double mh = mass2(Eh, phx, phy, phz);
+    auto m3 = mass2(E3, p3x, p3y, p3z);
+    auto m4 = mass2(E4, p4x, p4y, p4z);
+    auto m5 = mass2(E5, p5x, p5y, p5z);
+    auto m6 = mass2(E6, p6x, p6y, p6z);
+    auto m7 = mass2(E7, p7x, p7y, p7z);
+    auto m8 = mass2(E8, p8x, p8y, p8z);
+    auto mc = mass2(Ec, pcx, pcy, pcz);
+    auto md = mass2(Ed, pdx, pdy, pdz);
+    auto me = mass2(Ee, pex, pey, pez);
+    auto mf = mass2(Ef, pfx, pfy, pfz);
+    auto mg = mass2(Eg, pgx, pgy, pgz);
+    auto mh = mass2(Eh, phx, phy, phz);
 
     double array13by4[52] = {(m4 - m3) / 2, -E3, E4, 0, (mc - m3) / 2, -E3, 0, Ec, (md - m3) / 2, -E3, 0, 0, (m4 + m6 - m3 - m5) / 2 + E4* E6 - E3* E5 - p4x* p6x - p4y* p6y - p4z* p6z + p3x* p5x + p3y* p5y + p3z * p5z, -E3 - E5, E4 + E6, 0, (mc + me - m3 - m5) / 2 + Ec* Ee - E3* E5 - pcx* pex - pcy* pey - pcz* pez + p3x* p5x + p3y* p5y + p3z * p5z, -E3 - E5, 0, Ec + Ee, (md + mf - m3 - m5) / 2 + Ed* Ef - E3* E5 - pdx* pfx - pdy* pfy - pdz* pfz + p3x* p5x + p3y* p5y + p3z * p5z, -E3 - E5, 0, 0, (m4 + m6 + m8 - m3 - m5 - m7) / 2 + E4* E6 + E6* E8 + E4* E8 - E3* E5 - E5* E7 - E3* E7 - p4x* p6x - p4y* p6y - p4z* p6z - p6x* p8x - p6y* p8y - p6z* p8z - p4x* p8x - p4y* p8y - p4z* p8z + p3x* p5x + p3y* p5y + p3z* p5z + p5x* p7x + p5y* p7y + p5z* p7z + p3x* p7x + p3y* p7y + p3z * p7z, -E3 - E5 - E7, E4 + E6 + E8, 0, (mc + me + mg - m3 - m5 - m7) / 2 + Ec* Ee + Ee* Eg + Ec* Eg - E3* E5 - E5* E7 - E3* E7 - pcx* pex - pcy* pey - pcz* pez - pex* pgx - pey* pgy - pez* pgz - pcx* pgx - pcy* pgy - pcz* pgz + p3x* p5x + p3y* p5y + p3z* p5z + p5x* p7x + p5y* p7y + p5z* p7z + p3x* p7x + p3y* p7y + p3z * p7z, -E3 - E5 - E7, 0, Ec + Ee + Eg, (md + mf + mh - m3 - m5 - m7) / 2 + Ed* Ef + Ef* Eh + Ed* Eh - E3* E5 - E5* E7 - E3* E7 - pdx* pfx - pdy* pfy - pdz* pfz - pfx* phx - pfy* phy - pfz* phz - pdx* phx - pdy* phy - pdz* phz + p3x* p5x + p3y* p5y + p3z* p5z + p5x* p7x + p5y* p7y + p5z* p7z + p3x* p7x + p3y* p7y + p3z * p7z, -E3 - E5 - E7, 0, 0, PmissEvt1x, 0, 0, 0, PmissEvt1y, 0, 0, 0, PmissEvt2x, 0, 0, 0, PmissEvt2y, 0, 0, 0};
 
@@ -379,7 +379,7 @@ void solve33(event33& evt1, event33& evt2, int& nsols, double p1[][4], double p2
         nallsols[scheme]  = solve3quad(coeff, solutions);
         npsols[scheme] = 0;
 
-        for (int i = 0; i < nallsols[scheme]; i ++) {
+        for (auto i = 0; i < nallsols[scheme]; i ++) {
             if (scheme == 0) {
                 E1 = solutions[i * 3 + 2];
                 E2 = solutions[i * 3 + 1];
@@ -408,10 +408,10 @@ void solve33(event33& evt1, event33& evt2, int& nsols, double p1[][4], double p2
             pby = L[10][0] + L[10][1] * E1 + L[10][2] * E2 + L[10][3] * Ea;
             pbz = L[11][0] + L[11][1] * E1 + L[11][2] * E2 + L[11][3] * Ea;
             Eb  = L[12][0] + L[12][1] * E1 + L[12][2] * E2 + L[12][3] * Ea;
-            double mn2 = mass2(E1, p1x, p1y, p1z);
+            auto mn2 = mass2(E1, p1x, p1y, p1z);
 
             if (E1 > 0 && E2 > 0 && Ea > 0 && Eb > 0 && mn2 > 0) {
-                int isol = npsols[scheme];
+                auto isol = npsols[scheme];
                 p1a[scheme][isol * 4] = E1;
                 p1a[scheme][isol * 4 + 1] = p1x;
                 p1a[scheme][isol * 4 + 2] = p1y;
@@ -443,8 +443,8 @@ void solve33(event33& evt1, event33& evt2, int& nsols, double p1[][4], double p2
         scheme = 2;
     }
 
-    for (int isol = 0; isol < npsols[scheme]; isol ++) {
-        for (int i = 0; i < 4; i ++) {
+    for (auto isol = 0; isol < npsols[scheme]; isol ++) {
+        for (auto i = 0; i < 4; i ++) {
             p1[isol][i] = p1a[scheme][isol * 4 + i];
             p2[isol][i] = p2a[scheme][isol * 4 + i];
             q1[isol][i] = paa[scheme][isol * 4 + i];
@@ -485,7 +485,7 @@ int solve_3_2(double a0, double a1, double a2, double a3, double a4, double a5, 
     ROOT::Math::Polynomial poly(9);
     poly.SetParameters(coefficients.data());
     auto roots = poly.FindRoots();
-    int nsols = 0;
+    auto nsols = 0;
     for (auto const & root : roots) {
         if (std::abs(root.imag()) < 2) {
             nsols++;
@@ -722,7 +722,7 @@ int solve_2_2(double aa0, double aa1, double aa2, double aa3, double aa4, double
     c9 = a3 * a3 + a6 * a6 * b3 - 2 * a3 * a8 * b3 - 2 * a6 * b3 * b3 + a8 * a8 * b3 * b3 + b3 * b3 * b3 - a3 * a6 * b6 +
          3 * a3 * b3 * b6 - a6 * a8 * b3 * b6 - a8 * b3 * b3 * b6 + a3 * a8 * b6 * b6 + a6 * b3 * b6 * b6 - a3 * b6 * b6 * b6;
     //cout<<"cs:"<<c0<<"  "<<c1<<"  "<<c2<<"  "<<c3<<"  "<<c4<<"  "<<c5<<"  "<<c6<<"  "<<c7<<"  "<<c8<<"  "<<c9<<endl;
-    int nsols = solve_3_2(c0 / c9, c1 / c9, c2 / c9, c3 / c9, c4 / c9, c5 / c9, c6 / c9, c7 / c9, c8 / c9, solutions);
+    auto nsols = solve_3_2(c0 / c9, c1 / c9, c2 / c9, c3 / c9, c4 / c9, c5 / c9, c6 / c9, c7 / c9, c8 / c9, solutions);
 
     c0 = -(a7 * b0) + b0 * b5 + a0 * b7 - b0 * b6 * b7;
     c1 = a0 - a8 * b0 - a7 * b1 + b1 * b5 + b0 * b6 + a1 * b7 - b1 * b6 * b7;
@@ -774,15 +774,15 @@ int solve_2_2(double aa0, double aa1, double aa2, double aa3, double aa4, double
     a0 = b0; a1 = b1; a2 = b2; a3 = b3; a4 = b4; a5 = b5; a6 = b6; a7 = b7; a8 = b8; a9 = b9;
     b0 = c0; b1 = c1; b2 = c2; b3 = c3; b4 = c4; b5 = c5; b6 = c6; b7 = c7; b8 = c8; b9 = c9;
 
-    for (int i = 0; i < nsols; i++) {
+    for (auto i = 0; i < nsols; i++) {
         double q1, q2;
-        double x = solutions[i * 3 + 0];
+        auto x = solutions[i * 3 + 0];
         //cout<<"yn= "<<(-a0 - a1*x - a2*x*x - a3*x*x*x - a4*x*x*x*x - a5*x*x*x*x*x)<<endl;
         //cout<<"yd= "<<(a6 + a7*x + a8*x*x + a9*x*x*x + x*x*x*x)<<endl;
-        double y = (-a0 - a1 * x - a2 * x * x - a3 * x * x * x - a4 * x * x * x * x - a5 * x * x * x * x * x) /
+        auto y = (-a0 - a1 * x - a2 * x * x - a3 * x * x * x - a4 * x * x * x * x - a5 * x * x * x * x * x) /
                    (a6 + a7 * x + a8 * x * x + a9 * x * x * x + x * x * x * x);
 //apply a Newton's method
-        for (int inewton = 0; inewton < 2; inewton++) {
+        for (auto inewton = 0; inewton < 2; inewton++) {
             TMatrixD jacob(2, 2);
             q1 = aa0 + aa1 * x + aa2 * x * x + aa3 * x * x * x + aa4 * y + aa5 * x * y + aa6 * x * x * y + aa7 * y * y +
                  aa8 * x * y * y + y * y * y;
@@ -916,11 +916,11 @@ int solve_1(double a0, double a1, double a2, double a3, double a4, double a5, do
     g0 = g0 / g9; g1 = g1 / g9; g2 = g2 / g9; g3 = g3 / g9; g4 = g4 / g9; g5 = g5 / g9; g6 = g6 / g9; g7 = g7 / g9; g8 = g8 / g9;
     h0 = f0 - g0; h1 = f1 - g1; h2 = f2 - g2; h3 = f3 - g3; h4 = f4 - g4; h5 = f5 - g5; h6 = f6 - g6; h7 = f7 - g7; h8 = f8 - g8;
     h0 = h0 / h8; h1 = h1 / h8; h2 = h2 / h8; h3 = h3 / h8; h4 = h4 / h8; h5 = h5 / h8; h6 = h6 / h8; h7 = h7 / h8;
-    int nsols = solve_2_2(f0, f1, f2, f3, f4, f5, f6, f7, f8, h0, h1, h2, h3, h4, h5, h6, h7, solutions);
-    for (int i = 0; i < nsols; i++) {
-        double x = solutions[i * 3 + 0];
-        double y = solutions[i * 3 + 1];
-        double z = (-(a6 * c0) + a8 * b6 * c0 + c0 * c1 + b0 * c3 - b7 * c0 * c3 - b6 * c0 * c4 - b0 * b6 * c5 +
+    auto nsols = solve_2_2(f0, f1, f2, f3, f4, f5, f6, f7, f8, h0, h1, h2, h3, h4, h5, h6, h7, solutions);
+    for (auto i = 0; i < nsols; i++) {
+        auto x = solutions[i * 3 + 0];
+        auto y = solutions[i * 3 + 1];
+        auto z = (-(a6 * c0) + a8 * b6 * c0 + c0 * c1 + b0 * c3 - b7 * c0 * c3 - b6 * c0 * c4 - b0 * b6 * c5 +
                     2 * b6 * b7 * c0 * c5 + a0 * c6 - a8 * b0 * c6 - c0 * c2 * c6 + b7 * c0 * c4 * c6 - b7 * b7 * c0 * c5 * c6 +
                     a0 * x - a8 * b0 * x - a7 * c0 * x + a8 * b7 * c0 * x - a6 * c1 * x + a8 * b6 * c1 * x + c1 * c1 * x +
                     c0 * c2 * x + b1 * c3 * x - b7 * c1 * c3 * x + b0 * c4 * x - b7 * c0 * c4 * x - b6 * c1 * c4 * x -
@@ -998,10 +998,10 @@ int solve3quad(double* coeff, double* solutions)
     double f0, f1, f2, f3, f4, f5, f6, f7;
     f0 = d0 - e0; f1 = d1 - e1; f2 = d2 - e2; f3 = d3 - e3; f4 = d4 - e4; f5 = d5 - e5; f6 = d6 - e6; f7 = d7 - e7;
     f0 = f0 / f7; f1 = f1 / f7; f2 = f2 / f7; f3 = f3 / f7; f4 = f4 / f7; f5 = f5 / f7; f6 = f6 / f7;
-    int nsols = solve_1(a0, a1, a2, a3, a4, a5, a6, a7, a8, d0, d1, d2, d3, d4, d5, d6, d7, f0, f1, f2, f3, f4, f5, f6, solutions1);
-    int isol = 0;
+    auto nsols = solve_1(a0, a1, a2, a3, a4, a5, a6, a7, a8, d0, d1, d2, d3, d4, d5, d6, d7, f0, f1, f2, f3, f4, f5, f6, solutions1);
+    auto isol = 0;
     double ratio;
-    for (int i = 0; i < nsols; i++) {
+    for (auto i = 0; i < nsols; i++) {
         double x, y, z;
         x = solutions1[i * 3 + 0];
         y = solutions1[i * 3 + 1];
@@ -1020,7 +1020,7 @@ int solve3quad(double* coeff, double* solutions)
              cout<<"quadratic 3: "<<q3<<endl;
              cout<<"x,y,z= "<<x<<"  "<<y<<"  "<<z<<endl;
         }*/
-        for (int ii = 0; ii < 20; ii++) {
+        for (auto ii = 0; ii < 20; ii++) {
 
 
 
@@ -1075,7 +1075,7 @@ int solve3quad(double* coeff, double* solutions)
             solutions[isol * 3 + 1] = y;
             solutions[isol * 3 + 2] = z;
 //             double temp;
-            int ok = 1;
+            auto ok = 1;
             //cout<<"passed x,y,z= "<<x<<"  "<<y<<"  "<<z<<endl;
 //             double x0, y0, z0;
 //             x0 = solutions1[i * 3 + 0];
@@ -1083,7 +1083,7 @@ int solve3quad(double* coeff, double* solutions)
 //             z0 = solutions1[i * 3 + 2];
             //for(int itemp=0;itemp<nsols;itemp++)
             //if(itemp!=i) if(std::abs(x-solutions1[itemp*3+0])+std::abs(y-solutions1[itemp*3+1])+std::abs(z-solutions1[itemp*3+2])<std::abs(x-x0)+std::abs(y-y0)+std::abs(z-z0)) ok=0;
-            for (int itemp = 0; itemp < isol; itemp++)
+            for (auto itemp = 0; itemp < isol; itemp++)
                 if (std::abs(x - solutions[itemp * 3 + 0]) + std::abs(y - solutions[itemp * 3 + 1]) + std::abs(z - solutions[itemp * 3 + 2]) < 0.1) {
                     ok = 0;
                 }

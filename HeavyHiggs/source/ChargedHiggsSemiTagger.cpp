@@ -15,17 +15,17 @@ int ChargedHiggsSemiTagger::Train(Event const& event, PreCuts const&, Tag tag)
 //     Mass mass = event.mass();
     Jet HiggsBoson;
     if (tag == Tag::signal) {
-        std::vector<Particle> HiggsParticles = event.Partons().GenParticles();
+        auto HiggsParticles = event.Partons().GenParticles();
         HiggsParticles = CopyIfParticle(HiggsParticles, Id::charged_higgs);
         if (tag == Tag::signal) {
             if (HiggsParticles.size() == 1) HiggsBoson = HiggsParticles.front();
             else ERROR(HiggsParticles.size());
         }
     }
-    std::vector<Jet> jets = bottom_reader_.Jets(event);
-    std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
+    auto jets = bottom_reader_.Jets(event);
+    auto triplets = top_leptonic_reader_.Multiplets(event);
 //     int WSemiId = w_semi_tagger.WSemiId(event);
-    std::vector<Particle> TopParticles = top_leptonic_reader_.Tagger().Particles(event);
+    auto TopParticles = top_leptonic_reader_.Tagger().Particles(event);
 //     TopParticles = CopyIfExactParticle(TopParticles, TopSemiId);
     Particle TopQuark;
     if (TopParticles.size() == 1) TopQuark = TopParticles.front();
@@ -43,7 +43,7 @@ int ChargedHiggsSemiTagger::Train(Event const& event, PreCuts const&, Tag tag)
     std::vector<Jet> BottomJets;
     switch (tag) {
     case Tag::signal : {
-        std::vector<Particle> BottomParticles = event.Partons().GenParticles();
+        auto BottomParticles = event.Partons().GenParticles();
         BottomParticles = CopyIfFamily(BottomParticles, Id::bottom, Id::charged_higgs);
         Jet BottomQuark;
         if (BottomParticles.size() == 1) BottomQuark = BottomParticles.front();

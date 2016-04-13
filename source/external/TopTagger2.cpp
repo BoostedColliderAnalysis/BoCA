@@ -26,9 +26,9 @@ void TopTagger2::UnclusterFatjets(std::vector<fastjet::PseudoJet> const& big_fat
                                   const double small_radius)
 {
     for (unsigned i = 0; i < big_fatjets.size(); i++) {
-        fastjet::PseudoJet this_jet = big_fatjets[i];
+        auto this_jet = big_fatjets[i];
         fastjet::PseudoJet parent1(0, 0, 0, 0), parent2(0, 0, 0, 0);
-        bool test = cseq.has_parents(this_jet, parent1, parent2);
+        auto test = cseq.has_parents(this_jet, parent1, parent2);
         double dR = 100;
 
         if (test) dR = sqrt(parent1.squared_distance(parent2));
@@ -101,9 +101,9 @@ void TopTagger2::run()
     //cout << "--- new Tagger run ---" << endl;
 
     qjets::QJetsPlugin _qjet_plugin(_q_zcut, _q_dcut_fctr, _q_exp_min, _q_exp_max, _q_rigidity, _q_truncation_fctr);
-    int maxR = int(_max_fatjet_R * 10);
-    int minR = int(_min_fatjet_R * 10);
-    int stepR = int(_step_R * 10);
+    auto maxR = int(_max_fatjet_R * 10);
+    auto minR = int(_min_fatjet_R * 10);
+    auto stepR = int(_step_R * 10);
     _qweight = -1;
 
     if (!_do_optimalR) {
@@ -144,7 +144,7 @@ void TopTagger2::run()
             _qjet_seq = new fastjet::ClusterSequence(_q_constits, _qjet_def);
             _qjet = sorted_by_pt(_qjet_seq->inclusive_jets())[0];
             _qjet_seq->delete_self_when_unused();
-            qjets::QJetsBaseExtras const* ext = dynamic_cast<qjets::QJetsBaseExtras const*>(_qjet_seq->extras());
+            auto ext = dynamic_cast<qjets::QJetsBaseExtras const*>(_qjet_seq->extras());
             _qweight = ext->weight();
             _jet = _qjet;
             _seq = _qjet_seq;
@@ -158,7 +158,7 @@ void TopTagger2::run()
         big_fatjets.push_back(_jet);
         _Ropt = 0;
 
-        for (int R = maxR; R >= minR; R -= stepR) {
+        for (auto R = maxR; R >= minR; R -= stepR) {
             UnclusterFatjets(big_fatjets, small_fatjets, *_seq, R / 10.);
 
             if (_debug) {

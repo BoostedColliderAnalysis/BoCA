@@ -47,7 +47,7 @@ double Singlet::Spread() const
     }) / Pt() / Radius()) : 0;
 }
 
-double Singlet::Log(Length length) const
+double Singlet::Log(Length const& length) const
 {
     INFO(length);
     return std::log10(length < nm ? DetectorGeometry::TrackerDistanceMin() / cm : length / mm);

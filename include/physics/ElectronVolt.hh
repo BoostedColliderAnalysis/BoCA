@@ -57,11 +57,11 @@ using Mass = Energy;
  *
  */
 using Momentum = Energy;
-std::string Name(Energy energy);
+std::string Name(const boca::Energy& energy);
 // int to_int(Energy energy);
 
-int Int(Momentum energy);
-double to_double(Energy energy);
+int Int(const boca::Momentum& energy);
+double to_double(Energy const& energy);
 Energy to_energy(double energy);
 
 Momentum AtRest();

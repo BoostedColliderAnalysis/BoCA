@@ -22,13 +22,13 @@ public:
 //         latex_file_ << string;
 //     }
 
-    void IncludeGraphic(std::string file_name, std::string caption);
+    void IncludeGraphic(const std::string& file_name, const std::string& caption);
 
     void IncludeGraphic(std::vector<std::string>  const& file_names, std::string  const& caption);
 
-    void Table(std::string const& header, std::string const& content, std::string caption);
+    void Table(std::string const& header, std::string const& content, std::string const& caption);
 
-    void Mass(boca::Mass mass);
+    void Mass(const boca::Mass& mass);
 
     std::ofstream latex_file_;
 };

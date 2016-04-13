@@ -27,8 +27,8 @@ Lepton FakeLepton(Jet const& jet)
 std::vector<Lepton> Leptons(Event const& event, std::vector<Jet> const& jets)
 {
     INFO0;
-    bool do_fake_leptons = true;
-    std::vector<Lepton> leptons = RemoveIfSoft(event.Leptons().leptons(), DetectorGeometry::LeptonMinPt());
+    auto do_fake_leptons = true;
+    auto leptons = RemoveIfSoft(event.Leptons().leptons(), DetectorGeometry::LeptonMinPt());
     if (do_fake_leptons && leptons.empty() && !jets.empty()) leptons.emplace_back(FakeLepton(jets.front()));
     DEBUG(jets.size(), leptons.size());
     return leptons;
@@ -59,8 +59,8 @@ int TopLeptonicTagger::Train(Event const& event, boca::PreCuts const& pre_cuts, 
 std::vector<Particle> TopLeptonicTagger::Particles(Event const& event) const
 {
     INFO0;
-    std::vector<Particle> particles = event.Partons().GenParticles();
-    std::vector<Particle> leptons = CopyIfGrandMother(CopyIfLepton(particles), id_);
+    auto particles = event.Partons().GenParticles();
+    auto leptons = CopyIfGrandMother(CopyIfLepton(particles), id_);
     return CopyIfGrandDaughter(particles, leptons);
 }
 
@@ -88,8 +88,8 @@ bool TopLeptonicTagger::Problematic(Triplet const& triplet, PreCuts const& pre_c
 std::vector<Triplet> TopLeptonicTagger::Triplets(Event const& event, std::function<Triplet(Triplet&)> const& function)
 {
     INFO0;
-    std::vector<Jet> jets = SortedByPt(bottom_reader_.Jets(event));
-    std::vector<Lepton> leptons = Leptons(event, jets);
+    auto jets = SortedByPt(bottom_reader_.Jets(event));
+    auto leptons = Leptons(event, jets);
     DEBUG(jets.size(), leptons.size());
     std::vector<Doublet> doublets;
     if (use_w_) doublets = w_leptonic_reader_.Multiplets(event);
@@ -98,7 +98,7 @@ std::vector<Triplet> TopLeptonicTagger::Triplets(Event const& event, std::functi
             doublet.Enforce(lepton);
             doublets.emplace_back(doublet);
         }
-    std::vector<Triplet> triplets = Pairs(doublets, jets, [&](Doublet const & doublet, Jet const & jet) {
+    auto triplets = Pairs(doublets, jets, [&](Doublet const & doublet, Jet const & jet) {
         DEBUG(doublet.Rap(), jet.rap());
         Triplet triplet(doublet, jet);
         CHECK(triplet.Mass() == triplet.Mass(), triplet.Mass());

@@ -42,8 +42,8 @@ int TopHadronicHep2::Train(const Event& event, const PreCuts& pre_cuts, Tag tag)
 std::vector<Particle>TopHadronicHep2::Particles(Event const& event) const
 {
     INFO0;
-    std::vector<Particle> particles = event.Partons().GenParticles();
-    std::vector<Particle> quarks = CopyIfGrandMother(CopyIfQuark(particles), Id::top);
+    auto particles = event.Partons().GenParticles();
+    auto quarks = CopyIfGrandMother(CopyIfQuark(particles), Id::top);
     return CopyIfGrandDaughter(particles, quarks);
 }
 
@@ -81,7 +81,7 @@ std::vector<Triplet> TopHadronicHep2::Multiplets(const Event& event, const boca:
 std::vector<Triplet> TopHadronicHep2::Triplets(Event const& event, PreCuts const& pre_cuts, std::function<Triplet(Triplet&)> const& function) const
 {
     INFO0;
-    std::vector<Jet> jets = static_cast<delphes::Hadrons const&>(event.Hadrons()).EFlow(JetDetail::structure | JetDetail::isolation);
+    auto jets = static_cast<delphes::Hadrons const&>(event.Hadrons()).EFlow(JetDetail::structure | JetDetail::isolation);
     if (jets.empty()) return {};
     INFO(jets.size(), pre_cuts.JetConeMax(Id::top));
 //     if(jets.size() == 209 || jets.size() == 115) return {}; /// FIXME remove this nasty hack which seems to be necessary for a specific gluon file
@@ -109,7 +109,7 @@ std::vector<Triplet> TopHadronicHep2::Triplets(Event const& event, PreCuts const
 
 
         tagger.run();
-        std::vector<Jet> sub_jets = JetVector(tagger.top_subjets());
+        auto sub_jets = JetVector(tagger.top_subjets());
         if (sub_jets.size() < 3) continue;
         Triplet triplet(Doublet(sub_jets.at(1), sub_jets.at(2)), sub_jets.at(0));
         DEBUG(triplet.Mass());

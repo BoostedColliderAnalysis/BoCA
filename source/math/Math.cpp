@@ -21,13 +21,13 @@ double Factor(double value, int digits) {
 
 double FloorToDigits(double value, int digits) {
     if (value == 0 || value != value) return 0;
-    double factor = Factor(value, digits);
+    auto factor = Factor(value, digits);
     return std::floor(value * factor) / factor;
 }
 
 double CeilToDigits(double value, int digits) {
     if (value == 0 || value != value) return 0;
-    double factor = Factor(value, digits);
+    auto factor = Factor(value, digits);
     return std::ceil(value * factor) / factor;
 }
 
@@ -38,14 +38,14 @@ double RoundError(double value){
 double RoundToDigits(double value, int digits) {
     INFO0;
     if (value == 0 || value != value) return 0;
-    double factor = Factor(value, digits);
+    auto factor = Factor(value, digits);
     return std::round(value * factor) / factor;
 }
 
 double RoundToError(double value, double error) {
     INFO0;
     if (value == 0 || value != value) return 0;
-    double factor = Factor(error, 2);
+    auto factor = Factor(error, 2);
     return std::round(value * factor) / factor;
 }
 

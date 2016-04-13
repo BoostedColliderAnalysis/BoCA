@@ -85,8 +85,8 @@ private:
 
     int PassPreCut(Event const& event, Tag) const override {
 //         INFO("pass pre cut");
-        std::vector<Particle> particles = event.Partons().GenParticles();
-        std::vector<Particle> quarks = SortedByPt(CopyIf5Quark(particles));
+        auto particles = event.Partons().GenParticles();
+        auto quarks = SortedByPt(CopyIf5Quark(particles));
         quarks = SortedByPt(RemoveIfMother(quarks, Id::top));
         if (quarks.empty()) {
             //       if (Tag == Tag::signal && PreCut() > 0 && !(Tagger == BottomTagger || Tagger == HBottomReader))
@@ -94,16 +94,16 @@ private:
 //             ERROR("Not enough bottom quarks", Quarks.size());
             return 0;
         } else if (quarks.front().Pt() < this->PreCut()) return 0;
-        std::vector<Particle> TopQuarks = SortedByPt(CopyIfParticle(particles, Id::top));
+        auto TopQuarks = SortedByPt(CopyIfParticle(particles, Id::top));
         if (TopQuarks.size() != 2) {
 //             ERROR("Not enough top quarks", TopQuarks.size());
             return 0;
         } else if (TopQuarks.front().Pt() < this->PreCut()) return 0;
         if (event.Hadrons().MissingEt().Pt() < this->MissingEt()) return 0;
-        std::vector<Lepton> leptons = SortedByPt(event.Leptons().leptons());
+        auto leptons = SortedByPt(event.Leptons().leptons());
         if (leptons.empty()) return 0;
         if (leptons.front().Pt() < this->LeptonPt()) return 0;
-        std::vector<Jet> jets = event.Hadrons().Jets();
+        auto jets = event.Hadrons().Jets();
         if (jets.size() < 4) return 0;
         return 1;
     }

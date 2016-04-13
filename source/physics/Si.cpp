@@ -11,19 +11,19 @@
 namespace boca
 {
 
-double to_double(Length length)
+double to_double(Length const& length)
 {
-    return (length / mm);
+    return length / mm;
 }
 
 Length to_length(double length)
 {
-    return double(length) * mm;
+    return length * mm;
 }
 
-double to_double(Angle angle)
+double to_double(Angle const& angle)
 {
-    return (angle / rad);
+    return angle / rad;
 }
 
 Angle to_angle(double angle)

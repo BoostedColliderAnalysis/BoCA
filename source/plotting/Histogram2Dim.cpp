@@ -40,7 +40,7 @@ void Histogram2Dim::Draw()
 {
     INFO0;
     std::string options = "cont1";
-    bool first = true;
+    auto first = true;
     for (auto & histogram : histograms_) {
         histogram.Draw(options.c_str());
         execs_.at(Position(histograms_, histogram)).Draw();

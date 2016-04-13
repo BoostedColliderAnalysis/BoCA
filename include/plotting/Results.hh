@@ -12,7 +12,7 @@ namespace boca
 class Results
 {
 public:
-    Results(std::vector<Result> signals, std::vector<Result> backgrounds);
+    Results(const std::vector< boca::Result >& signals, const std::vector< boca::Result >& backgrounds);
     void CalculateSignificances(double scaling = 1);
     std::vector<Result> const& Signals() const;
     std::vector<Result> const& Backgrounds() const;

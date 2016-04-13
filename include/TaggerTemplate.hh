@@ -36,7 +36,7 @@ public:
 
     std::vector<bool> Cuts(Multiplet_ const& multiplet, TMVA::Reader const& reader) {
         FillBranch(multiplet);
-        int steps = 50;
+        auto steps = 50;
         // TODO why is this a 2?
         return Transform(IntegerRange(2, steps), [&](int effeciency) {
             return Tagger::Cut(reader, double(effeciency) / steps);
@@ -146,7 +146,7 @@ protected:
         return sum;
     }
 
-    int SaveEntries(std::vector<Multiplet_> multiplets, std::vector<Particle> particles, Tag tag, Id id = Id::none) {
+    int SaveEntries(std::vector<Multiplet_> multiplets, std::vector<Particle> const& particles, Tag tag, Id id = Id::none) {
         if (Debug()) boca::Debug("multiplets", multiplets.size(), "particles", particles.size());
         return SaveEntries(BestMatches(multiplets, particles, tag, id));
     }
@@ -159,7 +159,7 @@ protected:
         }
     }
 
-    int SaveEntries(std::vector<Multiplet_> multiplets, std::vector<std::pair<Particle, Particle>> particles, Tag tag, Id id = Id::none) {
+    int SaveEntries(std::vector<Multiplet_> multiplets, std::vector<std::pair<Particle, Particle>> const& particles, Tag tag, Id id = Id::none) {
         return SaveEntries(BestMatches(multiplets, particles, tag, id));
     }
 

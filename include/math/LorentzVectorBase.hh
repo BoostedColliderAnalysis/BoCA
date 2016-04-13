@@ -99,10 +99,10 @@ public:
     }
 
 // Set spatial vector components in spherical coordinate system.
-    void SetTheta(boca::Angle theta) {
+    void SetTheta(boca::Angle const& theta) {
         vector_3_.SetTheta(theta);
     }
-    void SetPhi(boca::Angle phi) {
+    void SetPhi(boca::Angle const& phi) {
         vector_3_.SetPhi(phi);
     }
     void SetRho(Value rho) {
@@ -302,10 +302,10 @@ public:
 // Lorentz boost.
     void Boost(double x, double y, double z) {
         //Boost this Lorentz vector
-        double b2 = sqr(x) + sqr(y) + sqr(z);
-        double gamma = 1. / std::sqrt(1. - b2);
+        auto b2 = sqr(x) + sqr(y) + sqr(z);
+        auto gamma = 1. / std::sqrt(1. - b2);
         Value bp = x * X() + y * Y() + z * Z();
-        double gamma2 = b2 > 0. ? (gamma - 1.) / b2 : 0.;
+        auto gamma2 = b2 > 0. ? (gamma - 1.) / b2 : 0.;
         SetX(X() + gamma2 * bp * x + gamma * x * T());
         SetY(Y() + gamma2 * bp * y + gamma * y * T());
         SetZ(Z() + gamma2 * bp * z + gamma * z * T());
@@ -319,9 +319,9 @@ public:
     // Lorentz boost.
     LorentzVectorBase<Value> Boosted(double x, double y, double z) const {
         //Boost this Lorentz vector
-        double b2 = sqr(x) + sqr(y) + sqr(z);
-        double gamma = 1. / std::sqrt(1. - b2);
-        double gamma2 = b2 > 0. ? (gamma - 1.) / b2 : 0.;
+        auto b2 = sqr(x) + sqr(y) + sqr(z);
+        auto gamma = 1. / std::sqrt(1. - b2);
+        auto gamma2 = b2 > 0. ? (gamma - 1.) / b2 : 0.;
         Value bp = x * X() + y * Y() + z * Z();
         LorentzVectorBase<Value> lorentz_vector;
         lorentz_vector.SetX(X() + gamma2 * bp * x + gamma * x * T());
@@ -344,7 +344,7 @@ public:
 
     /// Rapidity with respect to another vector
     boca::Angle Rapidity(Vector3<double> const& ref) const {
-        double r = ref.Mag2();
+        auto r = ref.Mag2();
         if (r == 0) {
             std::cout << "A zero vector used as reference to LorentzVector rapidity" << std::endl;
             return 0;

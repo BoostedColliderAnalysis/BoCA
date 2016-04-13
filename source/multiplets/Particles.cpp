@@ -20,7 +20,7 @@ struct RelativeIs {
         relative_ = relative;
         ids_ = {id};
     }
-    RelativeIs(Relative relative, std::vector<Id> ids) {
+    RelativeIs(Relative relative, std::vector<Id> const& ids) {
         relative_ = relative;
         ids_ = ids;
     }
@@ -38,7 +38,7 @@ struct RelativeIsExactly {
         relative_ = relative;
         ids_ = {id};
     }
-    RelativeIsExactly(Relative relative, std::vector<int> ids) {
+    RelativeIsExactly(Relative relative, std::vector<int> const& ids) {
         relative_ = relative;
         ids_ = ids;
     }
@@ -58,7 +58,7 @@ std::vector<Particle> CopyIfRelativeIs(std::vector<Particle> const& particles, R
     return matches;
 }
 
-std::vector<Particle> CopyIfRelativeIs(std::vector<Particle> const& particles, Relative relative, std::vector<Id> ids)
+std::vector<Particle> CopyIfRelativeIs(std::vector<Particle> const& particles, Relative relative, std::vector<Id> const& ids)
 {
     std::vector<Particle> matches;
     boost::range::copy(particles | boost::adaptors::filtered(RelativeIs(relative, ids)), std::back_inserter(matches));
@@ -72,7 +72,7 @@ std::vector<Particle> CopyIfRelativeIsExactly(std::vector<Particle> const& parti
     return matches;
 }
 
-std::vector<Particle> CopyIfRelativeIsExactly(std::vector<Particle> const& particles, Relative relative, std::vector<int> ids)
+std::vector<Particle> CopyIfRelativeIsExactly(std::vector<Particle> const& particles, Relative relative, std::vector<int> const& ids)
 {
     std::vector<Particle> matches;
     boost::range::copy(particles | boost::adaptors::filtered(RelativeIsExactly(relative, ids)), std::back_inserter(matches));
@@ -84,7 +84,7 @@ std::vector<Particle> RemoveIfRelativeIs(std::vector<Particle> particles, Relati
     return boost::range::remove_erase_if(particles, RelativeIs(relative, id));
 }
 
-std::vector<Particle> RemoveIfRelativeIs(std::vector<Particle> particles, Relative relative, std::vector<Id> id)
+std::vector<Particle> RemoveIfRelativeIs(std::vector<Particle> particles, Relative relative, std::vector<Id> const& id)
 {
     return boost::range::remove_erase_if(particles, RelativeIs(relative, id));
 }
@@ -94,7 +94,7 @@ std::vector<Particle> RemoveIfRelativeIsExactly(std::vector<Particle> particles,
     return boost::range::remove_erase_if(particles, RelativeIsExactly(relative, id));
 }
 
-std::vector<Particle> RemoveIfRelativeIsExactly(std::vector<Particle> particles, Relative relative, std::vector<int> id)
+std::vector<Particle> RemoveIfRelativeIsExactly(std::vector<Particle> particles, Relative relative, std::vector<int> const& id)
 {
     return boost::range::remove_erase_if(particles, RelativeIsExactly(relative, id));
 }
@@ -104,7 +104,7 @@ std::vector<Particle> CopyIfParticle(std::vector<Particle> const& particles, Id 
     return CopyIfRelativeIs(particles, Relative::particle, id);
 }
 
-std::vector<Particle> CopyIfParticles(std::vector<Particle> const& particles, std::vector<Id> ids)
+std::vector<Particle> CopyIfParticles(std::vector<Particle> const& particles, std::vector<Id> const& ids)
 {
     return CopyIfRelativeIs(particles, Relative::particle, ids);
 }
@@ -114,7 +114,7 @@ std::vector<Particle> CopyIfExactParticle(std::vector<Particle> const& particles
     return CopyIfRelativeIsExactly(particles, Relative::particle, id);
 }
 
-std::vector<Particle> RemoveIfExactParticle(std::vector<Particle> particles, int id)
+std::vector<Particle> RemoveIfExactParticle(std::vector<Particle> const& particles, int id)
 {
     return RemoveIfRelativeIsExactly(particles, Relative::particle, id);
 }
@@ -134,12 +134,12 @@ std::vector<Particle> CopyIfFamily(std::vector<Particle> const& particles, Id id
     return CopyIfRelativeIs(CopyIfRelativeIs(particles, Relative::particle, id), Relative::mother, mother_id);
 }
 
-std::vector<Particle> RemoveIfGrandFamily(std::vector<Particle> particles, Id id , Id grand_mother_id)
+std::vector<Particle> RemoveIfGrandFamily(std::vector<Particle> const& particles, Id id , Id grand_mother_id)
 {
     return CopyIfRelativeIs(CopyIfRelativeIs(particles, Relative::particle, id), Relative::grand_mother, grand_mother_id);
 }
 
-std::vector<Particle> RemoveIfParticle(std::vector<Particle> particles, Id id)
+std::vector<Particle> RemoveIfParticle(std::vector<Particle> const& particles, Id id)
 {
     return RemoveIfRelativeIs(particles, Relative::particle, id);
 }
@@ -149,7 +149,7 @@ std::vector<Particle> CopyIfMother(std::vector<Particle> const& particles, Id mo
     return CopyIfRelativeIs(particles, Relative::mother, mother_id);
 }
 
-std::vector<Particle> CopyIfMother(std::vector<Particle> const& particles, std::vector<Id> mother_id)
+std::vector<Particle> CopyIfMother(std::vector<Particle> const& particles, std::vector<Id> const& mother_id)
 {
     return CopyIfRelativeIs(particles, Relative::mother, mother_id);
 }
@@ -172,12 +172,12 @@ std::vector<Particle> CopyIfGrandMother(std::vector<Particle> const& particles, 
     return daughters;
 }
 
-std::vector<Particle> RemoveIfMother(std::vector<Particle> particles, Id mother_id)
+std::vector<Particle> RemoveIfMother(std::vector<Particle> const& particles, Id mother_id)
 {
     return RemoveIfRelativeIs(particles, Relative::mother, mother_id);
 }
 
-std::vector<Particle> RemoveIfMother(std::vector<Particle> particles, std::vector<Id> ids)
+std::vector<Particle> RemoveIfMother(std::vector<Particle> const& particles, std::vector<Id> const& ids)
 {
     return RemoveIfRelativeIs(particles, Relative::mother, ids);
 }
@@ -199,17 +199,17 @@ std::vector<Particle> CopyIfGreatGrandMother(std::vector<Particle> const& partic
     return CopyIfRelativeIs(particles, Relative::great_grand_mother, great_grand_mother_id);
 }
 
-std::vector<Particle> RemoveIfSingleMother(std::vector<Particle> particles)
+std::vector<Particle> RemoveIfSingleMother(std::vector<Particle> const& particles)
 {
     return RemoveIfRelativeIs(particles, Relative::step_mother, Id::none);
 }
 
-std::vector<Particle> RemoveIfLetpon(std::vector<Particle> particles)
+std::vector<Particle> RemoveIfLetpon(std::vector<Particle> const& particles)
 {
     return RemoveIfRelativeIs(particles, Relative::particle, Resolve(MultiId::charged_lepton));
 }
 
-std::vector<Particle> RemoveIfQuark(std::vector<Particle> particles)
+std::vector<Particle> RemoveIfQuark(std::vector<Particle> const& particles)
 {
     return RemoveIfRelativeIs(particles, Relative::particle, Resolve(MultiId::quark));
 }

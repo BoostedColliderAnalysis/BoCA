@@ -122,7 +122,7 @@ Vector2< Angle > PseudoJet::Angles() const
 
 Vector2<Angle> PseudoJet::Angles(Vector2<Angle> const& angles) const
 {
-    Angle phi = Phi();
+    auto phi = Phi();
     Vector2<Angle> angles_1(Rap(), phi);
     auto distance_1 = (angles - angles_1).Mod2();
     phi = Wrap(phi);

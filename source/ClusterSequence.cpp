@@ -22,21 +22,21 @@ ClusterSequence::~ClusterSequence()
 
 std::vector< Jet > ClusterSequence::ExclusiveJets(int jet_number) const
 {
-    std::vector<Jet> jets = JetVector(cluster_sequence_->exclusive_jets(jet_number));
+    auto jets = JetVector(cluster_sequence_->exclusive_jets(jet_number));
     if (jets.empty()) sucess_ = false;
     return jets;
 }
 
 std::vector< Jet > ClusterSequence::ExclusiveJetsUpTo(int sub_jet_number) const
 {
-    std::vector<Jet> jets = JetVector(cluster_sequence_->exclusive_jets_up_to(sub_jet_number));
+    auto jets = JetVector(cluster_sequence_->exclusive_jets_up_to(sub_jet_number));
     if (jets.empty()) sucess_ = false;
     return jets;
 }
 
 std::vector< Jet > ClusterSequence::InclusiveJets(const Momentum& min_pt) const
 {
-    std::vector<Jet> jets = JetVector(cluster_sequence_->inclusive_jets(min_pt / GeV));
+    auto jets = JetVector(cluster_sequence_->inclusive_jets(min_pt / GeV));
     if (jets.empty()) sucess_ = false;
     return jets;
 }

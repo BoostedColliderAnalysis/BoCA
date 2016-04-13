@@ -33,6 +33,7 @@ if(CCACHE_FOUND)
     message("CCache is not available.")
 endif(CCACHE_FOUND)
 
+# use gold linker if installed
 option(USE_LD_GOLD "Use GNU gold linker" ON)
 if (USE_LD_GOLD)
   execute_process(COMMAND ${CMAKE_CXX_COMPILER} -fuse-ld=gold -Wl,--version ERROR_QUIET OUTPUT_VARIABLE LD_VERSION)

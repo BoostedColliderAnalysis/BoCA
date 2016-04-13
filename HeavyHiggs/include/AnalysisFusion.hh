@@ -128,7 +128,7 @@ private:
 
     int PassPreCut(Event const& event, Tag) const final
     {
-       std::vector<Particle> particles = event.Partons().GenParticles();
+       auto particles = event.Partons().GenParticles();
         particles = CopyIfParticle(particles, Id::top);
         if (particles.size() != 2) {
 //             ERROR("Not enough top quarks", Particles.size());
@@ -138,10 +138,10 @@ private:
           if (particles.at(1).Pt() < this->PreCut()) return 0;
         }
         if (event.Hadrons().MissingEt().Pt() < this->MissingEt()) return 0;
-       std::vector<Lepton> leptons = SortedByPt(event.Leptons().leptons());
+       auto leptons = SortedByPt(event.Leptons().leptons());
        if (leptons.empty()) return 0;
        if (leptons.front().Pt() < this->LeptonPt()) return 0;
-       std::vector<Jet> jets = event.Hadrons().Jets();
+       auto jets = event.Hadrons().Jets();
         if (jets.size() < 4) return 0;
         return 1;
     }

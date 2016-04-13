@@ -51,7 +51,7 @@ public:
         Tagger().Initialize();
         if (stage_ == Stage::trainer) return;
         std::ofstream cout_file(Tagger().AnalysisName() + "/Reader.txt", std::ios_base::app | std::ios_base::out);
-        std::streambuf* cout = std::cout.rdbuf();
+        auto cout = std::cout.rdbuf();
         std::cout.rdbuf(cout_file.rdbuf());
         AddObservables();
         BookMva();

@@ -39,7 +39,7 @@ namespace boca
 void PlottingBase::TaggingEfficiency() const
 {
     INFO0;
-    Results results = ReadBdtFiles(Stage::reader);
+    auto results = ReadBdtFiles(Stage::reader);
     results.Efficiencies();
     LatexFile latex_file(Tagger().ExportFolderName());
     latex_file.IncludeGraphic(PlotHistograms(results), "BDT Distribution");
@@ -68,7 +68,7 @@ std::string Ratio(int min = 0)
 void PlottingBase::OptimalCuts() const
 {
     INFO0;
-    Results results = ReadBdtFiles(Stage::reader);
+    auto results = ReadBdtFiles(Stage::reader);
     results.CalculateSignificances();
     LatexFile latex_file(Tagger().ExportFolderName());
     latex_file.Mass(results.Signals().front().InfoBranch().Mass());
@@ -119,7 +119,7 @@ Result PlottingBase::BdtDistribution(Phase const& phase, int tree_number, TFile&
 {
     INFO0;
     TreeReader tree_reader(Tagger().FileName(phase),Tagger().TreeNames(phase).at(tree_number), Source::tagger);
-    std::string branch_name = Tagger().BranchName(phase.Stage());
+    auto branch_name = Tagger().BranchName(phase.Stage());
     auto & array = tree_reader.Array(branch_name, Tagger().Class());
     TreeWriter tree_writer(export_file, Tagger().TreeNames(phase).at(tree_number));
     auto & branch = tree_writer.NewBranch<BdtBranch>(branch_name);
@@ -140,7 +140,7 @@ Result PlottingBase::CutDistribution(Phase const& phase, int tree_number, TFile&
 {
     INFO(tree_number);
     TreeReader tree_reader(Tagger().FileName(phase),Tagger().TreeNames(phase).at(tree_number), Source::tagger);
-    std::string branch_name = Tagger().BranchName(phase.Stage());
+    auto branch_name = Tagger().BranchName(phase.Stage());
     auto & array = tree_reader.Array(branch_name, Tagger().Class());
     TreeWriter tree_writer(export_file, Tagger().TreeNames(phase).at(tree_number));
     auto & branch = tree_writer.NewBranch<CutBranch>(branch_name);
@@ -518,10 +518,10 @@ void PlottingBase::RunPlots(Stage stage) const
 {
     INFO0;
     DEBUG(Tagger().FileName(stage, Tag::signal), Tagger().TreeNames(Tag::signal).size());
-    std::vector<Plots> signals = Import(Phase(stage, Tag::signal));
+    auto signals = Import(Phase(stage, Tag::signal));
     DEBUG(Tagger().FileName(stage, Tag::background), Tagger().TreeNames(Tag::background).size());
-    std::vector<Plots> backgrounds = Import(Phase(stage, Tag::background));
-    Plots background = backgrounds.front();
+    auto backgrounds = Import(Phase(stage, Tag::background));
+    auto background = backgrounds.front();
     background = std::accumulate(backgrounds.begin() + 1, backgrounds.end(), background, [](Plots & sum, Plots const & plots) {
         for (auto & plot : sum.PlotVector()) plot.Insert(plots.PlotVector().at(Position(sum.PlotVector(), plot)).Data());
         return sum;
@@ -533,7 +533,7 @@ void PlottingBase::RunPlots(Stage stage) const
 void PlottingBase::DoPlot(Plots& signals, Plots& backgrounds, Stage stage) const
 {
     INFO0;
-    NamePairs names = UnorderedPairs(ConstCast(Tagger().Branch()).Variables().Vector(), [&](Observable const & variable_1, Observable const & variable_2) {
+    auto names = UnorderedPairs(ConstCast(Tagger().Branch()).Variables().Vector(), [&](Observable const & variable_1, Observable const & variable_2) {
         return std::make_pair(variable_1.Names(), variable_2.Names());
     });
     signals.SetNames(names);
@@ -544,16 +544,16 @@ void PlottingBase::DoPlot(Plots& signals, Plots& backgrounds, Stage stage) const
 void PlottingBase::PlotDetails(Plot& signal, Plot& background, Stage stage) const
 {
     INFO(signal.Data().size(), background.Data().size());
-    std::vector<Vector3<double>> signal_x = signal.CoreData([](Vector3<double> const & a, Vector3<double> const & b) {
+    auto signal_x = signal.CoreData([](Vector3<double> const & a, Vector3<double> const & b) {
         return a.X() < b.X();
     });
-    std::vector<Vector3<double>> signal_y = signal.CoreData([](Vector3<double> const & a, Vector3<double> const & b) {
+    auto signal_y = signal.CoreData([](Vector3<double> const & a, Vector3<double> const & b) {
         return a.Y() < b.Y();
     });
-    std::vector<Vector3<double>> background_x = background.CoreData([](Vector3<double> const & a, Vector3<double> const & b) {
+    auto background_x = background.CoreData([](Vector3<double> const & a, Vector3<double> const & b) {
         return a.X() < b.X();
     });
-    std::vector<Vector3<double>> background_y = background.CoreData([](Vector3<double> const & a, Vector3<double> const & b) {
+    auto background_y = background.CoreData([](Vector3<double> const & a, Vector3<double> const & b) {
         return a.Y() < b.Y();
     });
     Rectangle<double> range;
@@ -571,7 +571,7 @@ void PlottingBase::PlotHistogram(Plot const& signal, Plot const& background, Rec
 {
     INFO(signal.Data().size(), background.Data().size());
     Histogram2Dim histogram(Tagger().ExportFolderName(), signal.XAxis().Name() + "-" + signal.YAxis().Name());
-    int bin_number = 20;
+    auto bin_number = 20;
     histogram.AddHistogram("Background", bin_number, range, background, kBlue);
     histogram.AddHistogram("Signal", bin_number, range, signal, kRed);
     histogram.SetLegend(Orientation::top | Orientation::outside);
@@ -606,7 +606,7 @@ Plots PlottingBase::PlotResult(TFile& file, int tree_number, Phase const& phase)
     TTree& tree = static_cast<TTree&>(*file.Get(Tagger().TreeNames(phase).at(tree_number).c_str()));
     tree.SetMakeClass(true);
     plots.PlotVector() = UnorderedPairs(ConstCast(Tagger().Branch()).Variables().Vector(), [&](Observable const & variable_1, Observable const & variable_2) {
-        Plot plot = ReadTree(tree, variable_1.Name(), variable_2.Name(), phase.Stage());
+        auto plot = ReadTree(tree, variable_1.Name(), variable_2.Name(), phase.Stage());
         plot.x_is_int = variable_1.IsInt();
         plot.y_is_int = variable_2.IsInt();
         return plot;
@@ -637,13 +637,13 @@ Plot PlottingBase::ReadTree(TTree& tree, std::string const& leaf_1_name, std::st
 {
     INFO0;
     tree.SetBranchStatus("*", false);
-    std::string branch_name = Tagger().BranchName(stage);
+    auto branch_name = Tagger().BranchName(stage);
     DEBUG(branch_name);
 
-    int branch_value = 0;
+    auto branch_value = 0;
     SetBranch(tree, branch_value, branch_name);
 
-    int branch_size = 0;
+    auto branch_size = 0;
     SetBranch(tree, branch_size, branch_name + "_size");
 
     //FIXME remove this magic number
@@ -692,12 +692,12 @@ Plots PlottingBase::PlotResult2(Observable const& variable, Tag tag, Plots& plot
     Phase phase(Stage::trainer, tag);
     TFile file(Tagger().FileName(phase).c_str(), "Read");
     std::vector<boca::InfoBranch> branches;
-    std::vector<std::string>  names = Tagger().TreeNames(phase);
+    auto names = Tagger().TreeNames(phase);
     for (auto const & tree_number : IntegerRange(names.size())) {
         if (branches.size() < names.size()) branches.emplace_back(InfoBranch(phase, tree_number).first);
         TTree& tree = static_cast<TTree&>(*file.Get(Tagger().TreeNames(phase).at(tree_number).c_str()));
         tree.SetMakeClass(true);
-        Plot plot = ReadTree2(tree, variable.Name());
+        auto plot = ReadTree2(tree, variable.Name());
         plot.x_is_int = variable.IsInt();
         plot.Title() = branches.at(tree_number).Names();
         plots.PlotVector().emplace_back(plot);
@@ -709,13 +709,13 @@ Plot PlottingBase::ReadTree2(TTree& tree, std::string const& leaf_name) const
 {
     INFO0;
     tree.SetBranchStatus("*", false);
-    std::string branch_name = Tagger().BranchName(Stage::trainer);
+    auto branch_name = Tagger().BranchName(Stage::trainer);
     DEBUG(branch_name);
 
-    int branch_value = 0;
+    auto branch_value = 0;
     SetBranch(tree, branch_value, branch_name);
 
-    int branch_size = 0;
+    auto branch_size = 0;
     SetBranch(tree, branch_size, branch_name + "_size");
 
     //FIXME remove this magic number

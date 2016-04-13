@@ -8,7 +8,7 @@
 namespace boca
 {
 
-double to_double(Crosssection crosssection)
+double to_double(Crosssection const& crosssection)
 {
     return crosssection / fb;
 }
@@ -18,7 +18,7 @@ Crosssection to_crosssection(double crosssection)
     return crosssection * fb;
 }
 
-double to_double(Luminosity luminosity)
+double to_double(Luminosity const& luminosity)
 {
     return luminosity * fb;
 }

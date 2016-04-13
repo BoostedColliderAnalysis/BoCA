@@ -53,9 +53,9 @@ void SetLine(TAttLine& line, int index)
 void SetLogarithmic(TAxis& axis)
 {
     INFO0;
-    int bins = axis.GetNbins();
-    double min = axis.GetXmin();
-    double width = (axis.GetXmax() - min) / bins;
+    auto bins = axis.GetNbins();
+    auto min = axis.GetXmin();
+    auto width = (axis.GetXmax() - min) / bins;
     axis.Set(bins, Transform(IntegerRange(bins), [=](int bin) {
         return std::pow(10., min + bin * width);
     }).data());

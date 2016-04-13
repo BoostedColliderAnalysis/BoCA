@@ -17,7 +17,7 @@ std::vector<Lepton> Leptons::Electrons() const
 {
     INFO0;
     std::vector<Lepton> leptons;
-    for (auto const electron : TreeReader().Array<::exroot::Electron>(Branch::electron)) leptons.emplace_back(Lepton(electron));
+    for (auto const& electron : TreeReader().Array<::exroot::Electron>(Branch::electron)) leptons.emplace_back(Lepton(electron));
     return leptons;
 }
 

@@ -27,7 +27,7 @@ std::vector<Multiplet> SortedByMaxDeltaRap(std::vector<Multiplet> multiplets)
 }
 
 template <class Multiplet>
-std::vector<Multiplet> SortedByMassTo(std::vector<Multiplet> multiplets, Mass mass)
+std::vector<Multiplet> SortedByMassTo(std::vector<Multiplet> multiplets, Mass const& mass)
 {
     return boost::range::sort(multiplets, [mass](const Multiplet & multiplet_1, const Multiplet & multiplet_2) {
         return boost::units::abs(multiplet_1.Mass() - mass) < boost::units::abs(multiplet_2.Mass() - mass);
@@ -37,7 +37,7 @@ std::vector<Multiplet> SortedByMassTo(std::vector<Multiplet> multiplets, Mass ma
 template <class Multiplet>
 std::vector<Multiplet> SortedByMassTo(std::vector<Multiplet> multiplets, Id id)
 {
-    Mass mass = MassOf(id);
+    auto mass = MassOf(id);
     return SortedByMassTo(multiplets, mass);
 }
 

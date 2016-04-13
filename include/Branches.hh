@@ -43,9 +43,9 @@ public:
     std::string Name() const;
     boca::Names Names() const;
     std::string LatexName() const;
-    void SetCrosssection(boca::Crosssection crosssection);
-    void SetCrosssectionError(boca::Crosssection crosssection_error);
-    void SetMass(boca::Mass mass);
+    void SetCrosssection(const boca::Crosssection& crosssection_);
+    void SetCrosssectionError(const boca::Crosssection& crosssection_error_);
+    void SetMass(const boca::Mass& mass_);
     void SetEventNumber(int event_number);
     void SetNames(boca::Names const& names);
 private:

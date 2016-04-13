@@ -91,7 +91,7 @@ template<typename Enum, typename Function>
 // typename FlagReturn<Enum, void>::type
 void FlagSwitch(Enum enum_1, Function function)
 {
-    Enum mask = Enum(1); // define mask of lowest enum value
+    auto mask = Enum(1); // define mask of lowest enum value
     while (to_bool(enum_1)) {
         Enum pure = enum_1 & mask; // project onto mask value
         if (pure != Enum(0)) function(pure); // if non-zero apply function

@@ -11,7 +11,7 @@ int CutTaggerNeutral::Train(Event const& event, PreCuts const&, Tag)
 {
     INFO0;
     std::vector<CutVariables> variables;
-    if (boost::optional<CutVariables> optional = CutMethod(event)) variables.emplace_back(*optional);
+    if (auto optional = CutMethod(event)) variables.emplace_back(*optional);
     return SaveEntries(variables);
 }
 
@@ -19,7 +19,7 @@ std::vector<CutVariables> CutTaggerNeutral::Multiplets(Event const& event, PreCu
 {
     INFO0;
     std::vector<CutVariables> variables;
-    if (boost::optional<CutVariables> optional = CutMethod(event)) variables.emplace_back(*optional);
+    if (auto optional = CutMethod(event)) variables.emplace_back(*optional);
     for (auto & variable : variables) Mva() == TMVA::Types::EMVA::kCuts ? variable.SetPassed(Cuts(variable, reader)) : variable.SetBdt(Bdt(variable, reader));
     return variables;
 }

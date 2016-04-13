@@ -65,7 +65,7 @@ MomentumRange::MomentumRange(SubJet const& min)
     Set(PtMin(min), std::numeric_limits<double>::max() * GeV);
 }
 
-void MomentumRange::Set(Momentum min, Momentum max)
+void MomentumRange::Set(Momentum const& min, Momentum const& max)
 {
     min_ = min;
     max_ = max;
@@ -111,17 +111,17 @@ bool MomentumRange::AboveLowerBound(Jet const& jet) const
     return jet.Pt() > min_;
 }
 
-Momentum MomentumRange::Pt(Id id, Angle cone_size)
+Momentum MomentumRange::Pt(Id id, Angle const& cone_size)
 {
     return MassOf(id) * (2_rad / cone_size);
 }
 
-Momentum MomentumRange::PtMin(Id id, Angle cone_size)
+Momentum MomentumRange::PtMin(Id id, Angle const& cone_size)
 {
     return Pt(id, cone_size) * SmearingMin();
 }
 
-Momentum MomentumRange::PtMax(Id id, Angle cone_size)
+Momentum MomentumRange::PtMax(Id id, Angle const& cone_size)
 {
     return Pt(id, cone_size) * SmearingMax();
 }

@@ -77,12 +77,12 @@ private:
     }
 
     int PassPreCut(Event const& event, Tag) const override {
-        std::vector<Particle> particles = SortedByPt(event.Partons().GenParticles());
+        auto particles = SortedByPt(event.Partons().GenParticles());
         particles = CopyIfDrellYan(particles);
         particles = RemoveIfOutsidePtWindow(particles, this->LowerPtCut(), this->UpperPtCut());
         if (particles.size() != 1) return 0;
         return 1;
-        std::vector<Jet> jets = event.Hadrons().Jets();
+        auto jets = event.Hadrons().Jets();
         jets = RemoveIfOutsidePtWindow(jets, this->LowerPtCut(), this->UpperPtCut());
         return jets.size();
     }

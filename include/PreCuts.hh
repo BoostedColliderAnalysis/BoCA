@@ -89,7 +89,7 @@ public:
     }
 
     template<typename Multiplet>
-    bool OutSideMassWindow(Multiplet const& multiplet, Mass mass_window, Id id) const {
+    bool OutSideMassWindow(Multiplet const& multiplet, Mass const& mass_window, Id id) const {
         return boost::units::abs(multiplet.Mass() - MassOf(id)) > mass_window;
     }
 

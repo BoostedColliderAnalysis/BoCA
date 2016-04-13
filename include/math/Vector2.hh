@@ -94,8 +94,8 @@ public:
     }
 
     /// Set vector using mag and phi
-    void SetMagPhi(Value magnitude, Angle phi) {
-        Value absolute = abs(magnitude, IsQuantity<Value>());
+    void SetMagPhi(Value magnitude, Angle const& phi) {
+        auto absolute = abs(magnitude, IsQuantity<Value>());
         x_ = absolute * boost::units::cos(phi);
         y_ = absolute * boost::units::sin(phi);
     }
@@ -158,7 +158,7 @@ public:
     }
 
     // rotates 2-vector by phi radians
-    Vector2 Rotate(Angle phi) const {
+    Vector2 Rotate(Angle const& phi) const {
         return {x_* boost::units::cos(phi) - y_* boost::units::sin(phi), x_* boost::units::sin(phi) + y_* boost::units::cos(phi)};
     }
 

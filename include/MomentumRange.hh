@@ -28,7 +28,7 @@ public:
     MomentumRange(Id min, SubJet const& max);
     MomentumRange(SubJet const& min, SubJet const& max);
     MomentumRange(SubJet const& min);
-    void Set(Momentum min, Momentum max);
+    void Set(const boca::Momentum& min, boca::Momentum const& max);
     Momentum Min() const;
     Momentum Max() const;
 
@@ -70,9 +70,9 @@ private:
     Momentum PtMax(Id id);
     Momentum PtMin(SubJet const& id);
     Momentum PtMax(SubJet const& id);
-    Momentum PtMin(Id id, Angle cone_size);
-    Momentum PtMax(Id id, Angle cone_size);
-    Momentum Pt(Id id, Angle cone_size);
+    Momentum PtMin(boca::Id id, const boca::Angle& cone_size);
+    Momentum PtMax(boca::Id id, const boca::Angle& cone_size);
+    Momentum Pt(boca::Id id, const boca::Angle& cone_size);
     Momentum min_ = AtRest();
     Momentum max_ = AtRest();
 

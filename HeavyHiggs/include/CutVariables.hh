@@ -19,12 +19,12 @@ public:
 
     void SetJetNumber(int jet_number);
     void SetBottomNumber(int bottom_number);
-    void SetInvariantMass(Mass invariant_mass);
-    void SetHt(Energy ht);
-    void SetEtMiss(Energy et_miss);
-    void SetBottomMinPt(Momentum bottom_min_pt);
-    void SetBottomMaxRap(Angle bottom_max_rap);
-    void SetLeptonPts(std::vector<Lepton> leptons);
+    void SetInvariantMass(const boca::Mass& invariant_mass);
+    void SetHt(const boca::Energy& ht);
+    void SetEtMiss(const boca::Energy& et_miss);
+    void SetBottomMinPt(Momentum const& bottom_min_pt);
+    void SetBottomMaxRap(Angle const& bottom_max_rap);
+    void SetLeptonPts(const std::vector< boca::Lepton >& leptons);
     int JetNumber() const;
     int BottomNumber() const;
     int Charge() const;

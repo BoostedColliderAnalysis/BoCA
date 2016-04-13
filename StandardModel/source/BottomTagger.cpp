@@ -57,9 +57,9 @@ std::vector<Particle> BottomTagger::Particles(Event const& event) const
 std::vector<Jet> BottomTagger::Jets(Event const& event, PreCuts const& pre_cuts, std::function<Jet(Jet&)> const& function)
 {
     INFO0;
-    std::vector<Jet> jets = event.Hadrons().Jets();
+    auto jets = event.Hadrons().Jets();
     INFO(jets.size());
-    std::vector<Jet> bottoms = Multiplets(jets, function);
+    auto bottoms = Multiplets(jets, function);
     if (pre_cuts.DoSubJets(Id::bottom)) {
         Insert(bottoms, Multiplets(jets, function, 2));
         Insert(bottoms, Multiplets(jets, function, 3));

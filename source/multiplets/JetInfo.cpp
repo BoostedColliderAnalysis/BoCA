@@ -161,7 +161,7 @@ boca::Singlet JetInfo::VertexJet() const
 Length JetInfo::SumDisplacement() const
 {
     DEBUG0;
-    return displaced_constituents_.empty() ? 0_m : boost::accumulate(displaced_constituents_, 0_m, [](Length result, Constituent const & constituent) {
+    return displaced_constituents_.empty() ? 0_m : boost::accumulate(displaced_constituents_, 0_m, [](Length const& result, Constituent const & constituent) {
         return result + constituent.Position().Perp();
     });
 }
@@ -251,12 +251,12 @@ struct IsDetector {
 double JetInfo::LeadingTrackMomentumFraction() const
 {
     DEBUG0;
-    std::vector<Constituent> constituents = Constituents();
+    auto constituents = Constituents();
     constituents = boost::range::remove_erase_if(constituents, IsDetector(DetectorPart::track));
     std::sort(constituents.begin(), constituents.end(), [](Constituent const & constituent_1, Constituent const & constituent_2) {
         return (constituent_1.Momentum().Pt() > constituent_2.Momentum().Pt());
     });
-    Momentum sum = boost::accumulate(constituents, AtRest(), [](Momentum result, Constituent const & constituent) {
+    auto sum = boost::accumulate(constituents, AtRest(), [](Momentum const& result, Constituent const & constituent) {
         return (result + constituent.Momentum().Pt());
     });
     return constituents.front().Momentum().Pt() / sum;
@@ -265,8 +265,8 @@ double JetInfo::LeadingTrackMomentumFraction() const
 double JetInfo::CoreEnergyFraction(Jet const& jet) const
 {
     DEBUG0;
-    Energy energy = 0;
-    Energy core_energy = 0;
+    auto energy = 0_eV;
+    auto core_energy = 0_eV;
     for (auto const & constituent : Constituents()) if (constituent.DetectorPart() == DetectorPart::photon) {
             energy += constituent.Momentum().Et();
             if (jet.DeltaRTo(constituent.Momentum()) < 0.2_rad) core_energy += constituent.Momentum().Et();
@@ -277,8 +277,8 @@ double JetInfo::CoreEnergyFraction(Jet const& jet) const
 double JetInfo::ElectroMagneticFraction() const
 {
     DEBUG0;
-    Energy em_energy = 0_eV;
-    Energy energy = 0_eV;
+    auto em_energy = 0_eV;
+    auto energy = 0_eV;
     for (auto const & constituent : Constituents()) {
         energy += constituent.Momentum().Et();
         if (constituent.DetectorPart() == DetectorPart::photon) em_energy += constituent.Momentum().Et();
@@ -346,9 +346,9 @@ void JetInfo::SecondayVertex() const
     auto leading = boost::range::max_element(constituents_, [](Constituent const & consituent_1, Constituent const & constituent_2) {
         return consituent_1.Momentum().Pt() < constituent_2.Momentum().Pt();
     });
-    Length x = (*leading).Position().X();
-    Length y = (*leading).Position().Y();
-    Length radius = (*leading).Position().Perp() / 2.;
+    auto x = (*leading).Position().X();
+    auto y = (*leading).Position().Y();
+    auto radius = (*leading).Position().Perp() / 2.;
     std::vector<Constituent> constituents;
     auto constituent = std::copy_if(constituents_.begin(), constituents_.end(), constituents.begin(), [&](Constituent const & constituent) {
         return (constituent.Position().X() < x + radius && constituent.Position().X() > x - radius && constituent.Position().Y() < y + radius && constituent.Position().Y() > y - radius);

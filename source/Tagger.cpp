@@ -166,7 +166,7 @@ std::string Tagger::Name(Stage stage) const
 std::string Tagger::Name(Phase const& phase) const
 {
     INFO0;
-    std::string name = Tagger::Name(phase.Stage());
+    auto name = Tagger::Name(phase.Stage());
     switch (phase.Tag()) {
     case Tag::signal : return name;
     case Tag::background : return BackgroundName(name);
@@ -202,7 +202,7 @@ std::string Tagger::FileName(Phase const& phase) const
 std::string Tagger::SignalFileName(Stage stage) const
 {
     INFO0;
-    std::string name = SignalName();
+    auto name = SignalName();
     switch (stage) {
     case Stage::trainer : break;
     case Stage::reader : name = ReaderName(name);
@@ -214,7 +214,7 @@ std::string Tagger::SignalFileName(Stage stage) const
 std::string Tagger::BackgroundFileName(Stage stage) const
 {
     INFO0;
-    std::string name = BackgroundName();
+    auto name = BackgroundName();
     switch (stage) {
     case Stage::trainer : // TrainerName(name);
         break;

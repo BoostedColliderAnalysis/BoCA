@@ -10,7 +10,7 @@ class LowPt
 {
 public:
     LowPt();
-    bool is_tagged(TopTagger2 htt);
+    bool is_tagged(const hep::TopTagger2& htt);
 };
 
 }

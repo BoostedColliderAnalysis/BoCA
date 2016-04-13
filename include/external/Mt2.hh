@@ -24,8 +24,8 @@ private:
 
     int nsols ( double Dsq );
     int nsols_massless ( double Dsq );
-    int signchange_n ( long double t1, long double t2, long double t3, long double t4, long double t5 );
-    int signchange_p ( long double t1, long double t2, long double t3, long double t4, long double t5 );
+    int signchange_n ( double t1, double t2, double t3, double t4, double t5 );
+    int signchange_p ( double t1, double t2, double t3, double t4, double t5 );
     int scan_high ( double& Deltasq_high );
     int find_high ( double& Deltasq_high );
 //data members

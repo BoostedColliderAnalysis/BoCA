@@ -90,7 +90,7 @@ long TreeReader::GetEntries() const
 bool TreeReader::ReadEntry(long number)
 {
     INFO(number);
-    bool valid = tree_reader_.SetEntry(number) == TTreeReader::kEntryValid;
+    auto valid = tree_reader_.SetEntry(number) == TTreeReader::kEntryValid;
     CHECK(valid, "not a valid entry in tree reader", number);
     for (auto & pair : generator_arrays_) valid = valid && pair.second->ProxyRead() == ROOT::TTreeReaderArrayBase::kReadSuccess;
     CHECK(valid, "not a valid entry in tree reader generator array", number);

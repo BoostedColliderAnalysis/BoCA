@@ -268,7 +268,7 @@ public:
         boca::AnalysisBase::NewFile(tag, FileNames(process, tag), this->Crosssection(process), LatexName(process));
     }
 
-    virtual void NewFile(Tag tag, boca::Crosssection crosssection, Process process) {
+    virtual void NewFile(Tag tag, boca::Crosssection const& crosssection, Process process) {
         boca::AnalysisBase::NewFile(tag, FileNames(process, tag), crosssection, Names(Name(process), LatexName(process)), Mass());
     }
 

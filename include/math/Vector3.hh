@@ -105,30 +105,30 @@ public:
     }
 
     //set Pt, Eta and Phi
-    void SetPtEtaPhi(Value pt, boca::Angle eta, boca::Angle phi) {
-        Value apt = abs(pt);
+    void SetPtEtaPhi(Value pt, boca::Angle const& eta, boca::Angle const& phi) {
+        auto apt = abs(pt);
         SetXYZ(apt * boost::units::cos(phi), apt * boost::units::sin(phi), apt / boost::units::tan(2.0 * boost::units::atan(units::exp(-eta))));
     }
 
     //set Pt, Theta and Phi
-    void SetPtThetaPhi(Value pt, boca::Angle theta, boca::Angle phi) {
+    void SetPtThetaPhi(Value pt, boca::Angle const& theta, boca::Angle const& phi) {
         x_ = pt * boost::units::cos(phi);
         y_ = pt * boost::units::sin(phi);
-        double tanTheta = boost::units::tan(theta);
-        z_ = tanTheta ? pt / tanTheta : 0;
+        auto tanTheta = boost::units::tan(theta);
+        z_ = tanTheta ? pt / tanTheta : Value(0);
     }
 
     // Set phi keeping mag and theta constant(BaBar).
-    void SetPhi(boca::Angle phi) {
-        Value perp = Perp();
+    void SetPhi(boca::Angle const& phi) {
+        auto perp = Perp();
         SetX(perp * boost::units::cos(phi));
         SetY(perp * boost::units::sin(phi));
     }
 
     // Set theta keeping mag and phi constant(BaBar).
-    void SetTheta(boca::Angle theta) {
-        Value magnitude = Mag();
-        boca::Angle phi = Phi();
+    void SetTheta(boca::Angle const& theta) {
+        auto magnitude = Mag();
+        auto phi = Phi();
         SetX(magnitude * boost::units::sin(theta) * boost::units::cos(phi));
         SetY(magnitude * boost::units::sin(theta) * boost::units::sin(phi));
         SetZ(magnitude * boost::units::cos(theta));
@@ -136,20 +136,20 @@ public:
 
     // Set magnitude keeping theta and phi constant(BaBar).
     void SetMag(Value magnitude) {
-        Value old = Mag();
+        auto old = Mag();
         if (old == 0) {
             // Warning("SetMag","zero vector can't be stretched");
         } else {
-            double factor = magnitude / old;
+            auto factor = magnitude / old;
             SetX(x_ * factor);
             SetY(y_ * factor);
             SetZ(z_ * factor);
         }
     }
 
-    void SetMagThetaPhi(Value mag, boca::Angle theta, boca::Angle phi) {
+    void SetMagThetaPhi(Value mag, boca::Angle const& theta, boca::Angle const& phi) {
         //setter with mag, theta, phi
-        Value amag = abs(mag);
+        auto amag = abs(mag);
         x_ = amag * boost::units::sin(theta) * boost::units::cos(phi);
         y_ = amag * boost::units::sin(theta) * boost::units::sin(phi);
         z_ = amag * boost::units::cos(theta);
@@ -157,7 +157,7 @@ public:
 
     // Set the transverse component keeping phi and z constant.
     void SetPerp(Value perp) {
-        Value old = Perp();
+        auto old = Perp();
         if (old != 0) {
             x_ *= perp / old;
             y_ *= perp / old;
@@ -201,7 +201,7 @@ public:
 
 // Cosine of the polar angle.
     double CosTheta() const {
-        Value ptot = Mag();
+        auto ptot = Mag();
         return ptot == 0 ? 1 : z_ / ptot;
     }
 
@@ -276,23 +276,23 @@ public:
     }
 
     Vector3<double> Unit(std::true_type) const {
-        ValueSquare tot2 = Mag2();
+        auto tot2 = Mag2();
         if (tot2 == ValueSquare(0)) return {x_.value(), y_.value(), z_.value()};
         auto tot = 1. / boost::units::sqrt(tot2);
         return {x_ * tot, y_ * tot, z_ * tot};
     }
 
     Vector3<double> Unit(std::false_type) const {
-        Value tot2 = Mag2();
-        Value tot = tot2 > Value(0) ? 1. / std::sqrt(tot2) : 1.;
+        auto tot2 = Mag2();
+        auto tot = tot2 > Value(0) ? 1. / std::sqrt(tot2) : 1.;
         return {x_ * tot, y_ * tot, z_ * tot};
     }
 
 // Vector orthogonal to this(Geant4).
     Vector3 Orthogonal() const {
-        Value x = x_ < Value(0) ? -x_ : x_;
-        Value y = y_ < Value(0) ? -y_ : y_;
-        Value z = z_ < Value(0) ? -z_ : z_;
+        auto x = x_ < Value(0) ? -x_ : x_;
+        auto y = y_ < Value(0) ? -y_ : y_;
+        auto z = z_ < Value(0) ? -z_ : z_;
         if (x < y) return x < z ? Vector3(Value(0), z_, -y_) : Vector3(y_, -x_, Value(0));
         else return y < z ? Vector3(-z_, Value(0), x_) : Vector3(y_, -x_, Value(0));
     }
@@ -301,12 +301,12 @@ public:
 // The angle w.r.t. another 3-vector.
     boca::Angle Angle(Vector3 const& vector) const {
         // return the angle w.r.t. another 3-vector
-        Value4 ptot2 = Mag2() * vector.Mag2();
+        auto ptot2 = Mag2() * vector.Mag2();
         if (ptot2 <= Value4(0)) return 0_rad;
-        double arg = Dot(vector) / sqrt(ptot2);
+        auto arg = Dot(vector) / sqrt(ptot2);
         if (arg > 1) arg = 1;
         if (arg < -1) arg = -1;
-        return acos(arg);
+        return boca::Angle(acos(arg));
     }
 
 // Returns the pseudo-rapidity, i.e. -ln(tan(theta/2))
@@ -314,7 +314,7 @@ public:
         //Value m = Mag();
         //return 0.5*log((m+z_)/(m-z_) );
         // guard against Pt=0
-        double cosTheta = CosTheta();
+        auto cosTheta = CosTheta();
         if (sqr(cosTheta) < 1) return -0.5 * units::log((1 - cosTheta) / (1 + cosTheta));
         if (z_ == 0) return 0_rad;
         // Warning("PseudoRapidity","transvers momentum = 0! return +/- 10e10");
@@ -327,32 +327,32 @@ public:
     }
 
 // Rotates the Hep3Vector around the x-axis.
-    void RotateX(boca::Angle angle) {
+    void RotateX(boca::Angle const& angle) {
         //rotate vector around X
-        double s = boost::units::sin(angle);
-        double c = boost::units::cos(angle);
-        Value y = y_;
+        auto s = boost::units::sin(angle);
+        auto c = boost::units::cos(angle);
+        auto y = y_;
         y_ = c * y - s * z_;
         z_ = s * y + c * z_;
     }
 
 // Rotates the Hep3Vector around the y-axis.
-    void RotateY(boca::Angle angle) {
+    void RotateY(boca::Angle const& angle) {
         //rotate vector around Y
-        double s = boost::units::sin(angle);
-        double c = boost::units::cos(angle);
-        Value z = z_;
+        auto s = boost::units::sin(angle);
+        auto c = boost::units::cos(angle);
+        auto z = z_;
         z_ = c * z - s * x_;
         x_ = s * z + c * x_;
     }
 
 // Rotates the Hep3Vector around the z-axis.
-    void RotateZ(boca::Angle angle) {
+    void RotateZ(boca::Angle const& angle) {
         //rotate vector around Z
-        double s = boost::units::sin(angle);
-        double c = boost::units::cos(angle);
-        Value z = z_;
-        Value x = x_;
+        auto s = boost::units::sin(angle);
+        auto c = boost::units::cos(angle);
+        auto z = z_;
+        auto x = x_;
         x_ = c * x - s * y_;
         y_ = s * x + c * y_;
     }
@@ -360,18 +360,18 @@ public:
 // Rotates reference frame from Uz to newUz(unit vector)(Geant4).
     void RotateUz(Vector3 const& vector) {
         // NewUzVector must be normalized !
-        Value x = vector.x_;
-        Value y = vector.y_;
-        Value z = vector.z_;
-        ValueSquare square = sqr(x) + sqr(y);
+        auto x = vector.x_;
+        auto y = vector.y_;
+        auto z = vector.z_;
+        auto square = sqr(x) + sqr(y);
         if (square) {
-            square = std::sqrt(square);
-            Value px = x_;
-            Value py = y_;
-            Value pz = z_;
-            x_ = (x * z * px - y * py + x * square * pz) / square;
-            y_ = (y * z * px + x * py + y * square * pz) / square;
-            z_ = (z * z * px - px + z * square * pz) / square;
+            auto sqrt = std::sqrt(square);
+            auto px = x_;
+            auto py = y_;
+            auto pz = z_;
+            x_ = (x * z * px - y * py + x * sqrt * pz) / sqrt;
+            y_ = (y * z * px + x * py + y * sqrt * pz) / sqrt;
+            z_ = (z * z * px - px + z * sqrt * pz) / sqrt;
         } else if (z < Value(0)) {
             x_ = -x_; // phi=0 teta=pi
             z_ = -z_;

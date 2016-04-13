@@ -56,27 +56,27 @@ void CutVariables::SetBottomNumber(int bottom_number)
 {
     bottom_number_ = bottom_number;
 }
-void CutVariables::SetInvariantMass(Mass invariant_mass)
+void CutVariables::SetInvariantMass(Mass const& invariant_mass)
 {
     invariant_mass_ = invariant_mass;
 }
-void CutVariables::SetHt(Energy ht)
+void CutVariables::SetHt(Energy const& ht)
 {
     ht_ = ht;
 }
-void CutVariables::SetEtMiss(Energy et_miss)
+void CutVariables::SetEtMiss(Energy const& et_miss)
 {
     et_miss_ = et_miss;
 }
-void CutVariables::SetBottomMinPt(Momentum bottom_min_pt)
+void CutVariables::SetBottomMinPt(Momentum const& bottom_min_pt)
 {
     bottom_min_pt_ = bottom_min_pt;
 }
-void CutVariables::SetBottomMaxRap(Angle bottom_max_rap)
+void CutVariables::SetBottomMaxRap(Angle const& bottom_max_rap)
 {
     bottom_max_rap_ = bottom_max_rap;
 }
-void CutVariables::SetLeptonPts(std::vector<Lepton> leptons)
+void CutVariables::SetLeptonPts(std::vector<Lepton> const& leptons)
 {
   for (auto const & lepton : leptons) lepton_pts_.emplace_back(lepton.Pt());
   boost::range::sort(lepton_pts_, [](Momentum const & pt_1, Momentum const & pt_2) {

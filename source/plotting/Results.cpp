@@ -89,7 +89,7 @@ std::vector<double> const& Results::SOverB() const
     return s_over_b_;
 }
 
-Results::Results(std::vector<Result> signals, std::vector<Result> backgrounds)
+Results::Results(std::vector<Result> const& signals, std::vector<Result> const& backgrounds)
 {
     INFO0;
     signals_ = signals;
@@ -188,7 +188,7 @@ int BestMIBin(std::vector<Result> const& signals_, int step, std::function<std::
     for (auto const & signal : signals_) {
 //         auto vector = signal.ModelIndependent();
         auto vector = function(signal);
-        auto min = std::min_element(std::begin(vector), std::end(vector) - step, [](Crosssection i, Crosssection j) {
+        auto min = std::min_element(std::begin(vector), std::end(vector) - step, [](Crosssection const& i, Crosssection const& j) {
             return i > 0_b ? i < j : i > j;
         });
         auto dist = std::distance(vector.begin(), min);
@@ -203,7 +203,7 @@ void Results::BestBins()
 {
     INFO0;
     std::vector<double> efficiencies(backgrounds_.size(), 0);
-    int counter = 0;
+    auto counter = 0;
     for (auto const & number : IntegerRange(backgrounds_.size())) {
         while (efficiencies.at(number) == 0 && counter < Steps()) {
             best_model_dependent_bin_ = BestBin(significances_, counter);
@@ -227,7 +227,7 @@ void Results::BestBins()
 void Results::Efficiencies()
 {
     INFO0;
-    int steps = 10;
+    auto steps = 10;
     auto sig_eff = signals_.front().PureEfficiencies();
     for (double eff : IntegerRange(1, steps)) {
         double& elem = *(boost::range::lower_bound(sig_eff, eff / steps, [](double i, double j) {
@@ -285,7 +285,7 @@ double Results::SOverB(double signal_events, double background_events) const
 Crosssection Results::BackgroundEfficiencyCrosssection(int step) const
 {
     INFO0;
-    return boost::accumulate(backgrounds_, 0_b, [&](Crosssection sum, Result const & background) {
+    return boost::accumulate(backgrounds_, 0_b, [&](Crosssection & sum, Result const & background) {
         return sum  + double(background.Efficiencies().at(step)) * background.InfoBranch().Crosssection();
     });
 }
