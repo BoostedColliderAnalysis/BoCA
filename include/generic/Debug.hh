@@ -169,4 +169,11 @@ void Debug(std::string const& variable, const Value value, std::string const& va
   std::cout << "\n";
 }
 
+template<typename Value>
+void Default(std::string const& variable, const Value value){
+  std::cout << "Defaul value for switch" << std::endl;
+  LogVariable(variable, value);
+  std::cout << "\n";
+}
+
 }

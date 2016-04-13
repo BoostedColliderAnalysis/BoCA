@@ -83,9 +83,9 @@ void CutVariables::SetLeptonPts(std::vector<Lepton> leptons)
     return pt_1 > pt_2;
   });
 }
-Momentum CutVariables::LeptonPt(int number) const
+Momentum CutVariables::LeptonPt(unsigned number) const
 {
-  return lepton_pts_.size() > number ? lepton_pts_.at(number) : at_rest;
+  return lepton_pts_.size() > number ? lepton_pts_.at(number) : AtRest();
 }
 Momentum CutVariables::BottomMinPt() const
 {
@@ -107,9 +107,9 @@ void CutVariables::SetJetPts(std::vector<Jet> const& jets)
     });
 }
 
-Momentum CutVariables::JetPt(int number) const
+Momentum CutVariables::JetPt(unsigned number) const
 {
-    return jet_pts_.size() > number ? jet_pts_.at(number) : at_rest;
+    return jet_pts_.size() > number ? jet_pts_.at(number) : AtRest();
 }
 
 }

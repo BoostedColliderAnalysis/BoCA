@@ -38,7 +38,7 @@ protected:
 
 private:
 
-    void TagLoop(Phase phase) {
+    void TagLoop(Phase phase) override {
         FileWriter file_writer(Tagger().ExportFileName(phase));
         ClearFiles();
         SetFiles(phase.Tag(), phase.Stage());
@@ -72,21 +72,21 @@ private:
         });
     }
 
-    void RunSignificance() {
+    void RunSignificance() override {
         if (Exists(Tagger().ExportFileName())) return;
         PrepareFiles(Stage::reader);
         Plotting<Tagger_> plotting(Tagger());
         plotting.OptimalCuts();
     }
 
-    void RunEfficiency() {
+    void RunEfficiency() override {
         if (Exists(Tagger().ExportFileName())) return;
         PrepareFiles(Stage::reader);
         Plotting<Tagger_> plotting(Tagger());
         plotting.TaggingEfficiency();
     }
 
-    void RunPlots() {
+    void RunPlots() override {
         if (Exists(Tagger().ExportFolderName())) return;
         Plotting<Tagger_> plotting(Tagger());
         PrepareFiles(Stage::trainer);
@@ -96,14 +96,14 @@ private:
         //     if (Exists(Tagger().ExportFileName())) std::remove(Tagger().ExportFileName().c_str());
     }
 
-    void RunPlotHist() {
+    void RunPlotHist() override {
         //   if (Exists(Tagger().ExportFolderName())) return;
         Plotting<Tagger_> plotting(Tagger());
         PrepareFiles(Stage::trainer);
         plotting.RunPlotHist();
     }
 
-    void RunCut() {
+    void RunCut() override {
         RunTagger(Stage::trainer);
         RunTrainer();
         RunTagger(Stage::reader);

@@ -45,8 +45,10 @@ class DelphesFactory: public TNamed
 public:
 
   DelphesFactory(const char *name = "ObjectFactory");
+
   ~DelphesFactory();
 
+  using TNamed::Clear;
   void Clear();
 
   TObjArray *NewPermanentArray();

@@ -99,7 +99,7 @@ public:
         return multiplet_1_.Overlap(multiplet_2_);
     }
 
-    std::vector<boca::Jet> Jets() const {
+    std::vector<boca::Jet> Jets() const override {
         return Combine(Multiplet1().Jets(), Multiplet2().Jets());
     }
 
@@ -157,7 +157,7 @@ public:
     }
 
     double Dipolarity() const {
-        if (Pt() <= at_rest || DeltaR() <= 0_rad) return 0;
+        if (Pt() <= AtRest() || DeltaR() <= 0_rad) return 0;
         return ConstituentJet().Dipolarity(Line()) / Pt() / sqr(DeltaR());
     }
 
@@ -171,7 +171,7 @@ public:
         multiplet_2_ = multiplet_2;
     }
 
-    std::vector<LorentzVector<Momentum>> LorentzVectors() const {
+    std::vector<LorentzVector<Momentum>> LorentzVectors() const override {
         return DeltaR() > DetectorGeometry::JetConeSize() ? Combine(Multiplet1().LorentzVectors(), Multiplet2().LorentzVectors()) : std::vector<LorentzVector<Momentum>> {Jet().Vector()};
     }
 

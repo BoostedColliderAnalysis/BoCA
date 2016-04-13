@@ -31,7 +31,7 @@ public:
     double BottomBdt() const;
     Angle DeltaR() const;
     Mass InvariantMass() const;
-    Momentum LeptonPt(int number) const;
+    Momentum LeptonPt(unsigned int number) const;
     Momentum BottomMinPt() const;
     Angle BottomMaxRap() const;
     Momentum Ht() const;
@@ -40,7 +40,7 @@ public:
     bool IsNaN();
     std::vector<bool> Passed() const;
     void SetJetPts(std::vector<Jet> const& jets);
-    Momentum JetPt(int number) const;
+    Momentum JetPt(unsigned number) const;
 
 private:
 

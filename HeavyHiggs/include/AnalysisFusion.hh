@@ -44,11 +44,10 @@ public:
 
 private:
 
-    int BackgroundFileNumber() const
-    {
+    int BackgroundFileNumber() const override {
         switch (this->Collider()) {
         case Collider::LHC :
-            switch (this->PreCut()) {
+            switch (int(this->PreCut() / GeV)) {
             case  0 :
                 return 79;
             //                 return 1; // < this must be removed !!
@@ -56,7 +55,7 @@ private:
                 return 41;
             }
         case Collider::LE :
-            switch (this->PreCut()) {
+            switch (int(this->PreCut() / GeV)) {
             case  0 :
                 //                   return 98;
                 return 1; // < this must be removed !!

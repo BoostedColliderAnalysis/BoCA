@@ -388,14 +388,14 @@ std::string PlottingBase::ScalingTable(Results& results)const
     return table.str();
 }
 
-namespace
-{
-std::string BoldFace(std::string const& string, bool do_it)
-{
-    return do_it ? "\\textbf{" + string + "}" : string;
-}
-
-}
+// namespace
+// {
+// std::string BoldFace(std::string const& string, bool do_it)
+// {
+//     return do_it ? "\\textbf{" + string + "}" : string;
+// }
+//
+// }
 
 std::string PlottingBase::ScalingRow(Results const& results, double factor) const
 {

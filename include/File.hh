@@ -21,9 +21,9 @@ class File
 
 public:
 
-    File(std::vector<std::string> const& processes, std::string const& run_folder, std::string const& file_suffix, std::string const& nice_name = "", boca::Crosssection crosssection = pb, boca::Mass mass = massless);
+    File(std::vector<std::string> const& processes, std::string const& run_folder, std::string const& file_suffix, std::string const& nice_name = "", boca::Crosssection crosssection = pb, boca::Mass mass = Massless());
 
-    File(std::vector<std::string> const& processes, std::string const& run_folder, std::string const& file_suffix, boca::Names const& nice_name, boca::Crosssection crosssection = pb, boca::Mass mass = massless);
+    File(std::vector<std::string> const& processes, std::string const& run_folder, std::string const& file_suffix, boca::Names const& nice_name, boca::Crosssection crosssection = pb, boca::Mass mass = Massless());
 
     std::string Title() const;
 
@@ -69,7 +69,7 @@ private:
 
     boca::Crosssection crosssection_error_ = 0_b;
 
-    boca::Mass mass_ = massless;
+    boca::Mass mass_ = Massless();
 
     std::string file_suffix_ = ".root";
 

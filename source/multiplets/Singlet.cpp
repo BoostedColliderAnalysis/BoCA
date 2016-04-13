@@ -78,7 +78,7 @@ Vector2<AngleSquare> Singlet::GetPull() const
 AngleSquareMomentum Singlet::Dipolarity(const Line2< Angle >& line) const
 {
     if (!has_constituents()) return 0;
-    return boost::accumulate(Constituents(), at_rest * rad2, [&](AngleSquareMomentum & sum, boca::Jet const & constituent) {
+    return boost::accumulate(Constituents(), AtRest() * rad2, [&](AngleSquareMomentum & sum, boca::Jet const & constituent) {
         return sum + constituent.Pt() * sqr(line.Distance(constituent));
     });
 }

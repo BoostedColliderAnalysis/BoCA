@@ -178,7 +178,9 @@ public:
         }
 //         std::cout << "min_x " << bound.Min() << " max_x " << bound.Max() << std::endl;
         Range<Value2> bound_y;
-        bound_y.SetMin(*std::min_element(ys.begin() + bound.Min(), ys.begin() + bound.Max(), SmallerButNonZero<Value2>()));
+        auto min = std::min_element(ys.begin() + bound.Min(), ys.begin() + bound.Max());
+//         , SmallerButNonZero<Value2>());
+        bound_y.SetMin(*min);
         bound_y.SetMax(*std::max_element(ys.begin() + bound.Min(), ys.begin() + bound.Max()));
 //         std::cout << "min " << bound_y.Min() << " max " << bound_y.Max() << std::endl;
         y_.Widen(bound_y);

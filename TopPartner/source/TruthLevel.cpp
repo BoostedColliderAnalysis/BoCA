@@ -33,7 +33,7 @@ std::vector<TruthVariables> TruthLevel::Multiplets(Event const& event, PreCuts c
     });
 }
 
-std::vector<TruthVariables> TruthLevel::Jets(Event const& event, PreCuts const& pre_cuts, std::function<Particle(Particle&)>)const
+std::vector<TruthVariables> TruthLevel::Jets(Event const& event, PreCuts const&, std::function<Particle(Particle&)>)const
 {
     INFO0;
     TruthVariables truths;

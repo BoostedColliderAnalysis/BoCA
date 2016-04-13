@@ -286,19 +286,19 @@ public:
         return operator()(dimension);
     }
 
-    ConstIterator<Vector2, Value, Dim2> begin() const {
+    ConstIterator<boca::Vector2, Value, Dim2> begin() const {
         return {this, Dim2::x};
     }
 
-    ConstIterator<Vector2, Value, Dim2> end() const {
+    ConstIterator<boca::Vector2, Value, Dim2> end() const {
         return {this, Dim2::last};
     }
 
-    Iterator<Vector2, Value, Dim2> begin() {
+    Iterator<boca::Vector2, Value, Dim2> begin() {
         return {this, Dim2::x}; //0
     }
 
-    Iterator<Vector2, Value, Dim2> end() {
+    Iterator<boca::Vector2, Value, Dim2> end() {
         return {this, Dim2::last}; //0
     }
 

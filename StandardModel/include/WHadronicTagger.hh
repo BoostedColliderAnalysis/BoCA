@@ -30,7 +30,9 @@ public:
 
     int Train(Event const& event, PreCuts const& pre_cuts, Tag Tag) override;
 
-    std::vector<Doublet> Multiplets(std::vector<Jet> const& jets, PreCuts const& pre_cuts, TMVA::Reader const& reader);
+    using TaggerTemplate::Multiplets;
+
+    std::vector<Doublet> Multiplets(std::vector<Jet> const& jets, PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
 
     boost::optional<Doublet> Multiplet(boca::Jet jet, TMVA::Reader const& reader);
 

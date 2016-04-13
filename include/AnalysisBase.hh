@@ -100,15 +100,15 @@ protected:
 
     void PrepareFiles(Stage stage);
 
-    int BackgroundFileNumber() const;
+    virtual int BackgroundFileNumber() const;
 
     void NewFile(Tag tag, std::vector<std::string> const& names, std::string const& nice_name = "");
 
-    void NewFile(Tag tag, std::vector<std::string> const& names, Crosssection crosssection, Names const& nice_name, Mass mass = massless);
+    void NewFile(Tag tag, std::vector<std::string> const& names, Crosssection crosssection, Names const& nice_name, Mass mass = Massless());
 
-    void NewFile(Tag tag, std::vector<std::string> const& names, Crosssection crosssection, std::string const& nice_name = "", Mass mass = massless);
+    void NewFile(Tag tag, std::vector<std::string> const& names, Crosssection crosssection, std::string const& nice_name = "", Mass mass = Massless());
 
-    boca::File File(std::vector<std::string> const& names, Crosssection crosssection, std::string const& nice_name = "", Mass mass = massless) const;
+    boca::File File(std::vector<std::string> const& names, Crosssection crosssection, std::string const& nice_name = "", Mass mass = Massless()) const;
 
     boca::File File(std::vector<std::string> const& names, std::string const& nice_name = "") const;
 
@@ -116,9 +116,9 @@ protected:
 
     void NewFile(Tag tag, std::string const& names, std::string const& nice_name = "");
 
-    void NewFile(Tag tag, std::string const& names, Crosssection crosssection, std::string const& nice_name = "", Mass mass = massless);
+    void NewFile(Tag tag, std::string const& names, Crosssection crosssection, std::string const& nice_name = "", Mass mass = Massless());
 
-    void NewFile(Tag tag, std::string const& names, Crosssection crosssection, Names const& nice_name, Mass mass = massless);
+    void NewFile(Tag tag, std::string const& names, Crosssection crosssection, Names const& nice_name, Mass mass = Massless());
 
     std::string TreeName(std::string const& name) const;
 

@@ -73,8 +73,8 @@ private:
     Momentum PtMin(Id id, Angle cone_size);
     Momentum PtMax(Id id, Angle cone_size);
     Momentum Pt(Id id, Angle cone_size);
-    Momentum min_ = at_rest;
-    Momentum max_ = at_rest;
+    Momentum min_ = AtRest();
+    Momentum max_ = AtRest();
 
 };
 

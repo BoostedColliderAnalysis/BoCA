@@ -25,8 +25,8 @@ public:
 
     ~EnumIterator() {}
 
-    void Set(Enum_ value){
-      enum_ = value;
+    void Set(Enum_ value) {
+        enum_ = value;
     }
 
     EnumIterator& operator=(EnumIterator const& rhs) {
@@ -35,7 +35,7 @@ public:
     }
 
     EnumIterator& operator++() {
-        enum_ = Add(enum_, 1);
+        Add(1);
         return *this;
     }
 
@@ -46,20 +46,20 @@ public:
     }
 
     EnumIterator& operator+=(size_type size) {
-        enum_ = Add(enum_, size);
+        Add(size);
         return *this;
     }
 
-    friend constexpr EnumIterator operator+(EnumIterator const& it, size_type size) {
-        return EnumIterator(Add(it, size));
+    friend EnumIterator operator+(EnumIterator const& it, size_type size) {
+        return it.Add(size);
     }
 
-    friend constexpr EnumIterator operator+(size_type size, EnumIterator const& it) {
-        return EnumIterator(Add(it, size));
+    friend EnumIterator operator+(size_type size, EnumIterator const& it) {
+        return it.Add(size);
     }
 
     EnumIterator& operator--() {
-        enum_ = Substract(enum_, 1);
+        Substract(1);
         return *this;
     }
 
@@ -70,12 +70,12 @@ public:
     }
 
     EnumIterator& operator-=(size_type size) {
-        enum_ = Add(enum_, size);
+        Add(size);
         return *this;
     }
 
-    friend constexpr EnumIterator operator-(EnumIterator const& it, size_type size) {
-        return EnumIterator(Substract(it, size));
+    friend EnumIterator operator-(EnumIterator const& it, size_type size) {
+        return it.Substract(size);
     }
 
     friend constexpr difference_type operator-(EnumIterator lhs, EnumIterator rhs) {
@@ -87,7 +87,7 @@ public:
     }
 
     constexpr reference operator[](size_type size) const {
-        return Add(enum_, size);
+        return Add(size);
     }
 
     constexpr const Enum_* operator->() const {
@@ -124,11 +124,15 @@ public:
 private:
     Enum_ enum_;
     using Type_ = typename std::underlying_type<Enum_>::type;
-    Enum_ Add(Enum_ _enum, size_type size) {
-        return static_cast<Enum_>(static_cast<Type_>(_enum) + size);
+
+    Enum_ Add(size_type size) {
+        enum_ = static_cast<Enum_>(static_cast<Type_>(enum_) + size);
+        return enum_;
     }
-    Enum_ Substract(Enum_ _enum, size_type size) {
-        return static_cast<Enum_>(static_cast<Type_>(_enum) - size);
+
+    Enum_ Substract(size_type size) {
+        enum_ = static_cast<Enum_>(static_cast<Type_>(enum_) - size);
+        return enum_;
     }
 
 };

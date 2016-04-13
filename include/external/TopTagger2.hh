@@ -53,8 +53,8 @@ public:
     double nsub_unfiltered(int order, fastjet::contrib::Njettiness::AxesMode axes = fastjet::contrib::Njettiness::kt_axes, double beta = 1., double R0 = 1.);
     double nsub_filtered(int order, fastjet::contrib::Njettiness::AxesMode axes = fastjet::contrib::Njettiness::kt_axes, double beta = 1., double R0 = 1.);
 
-    void get_setting() const;;
-    void get_info() const;;
+    void get_setting() const;
+    void get_info() const;
 
     double q_weight();
 

@@ -1,4 +1,4 @@
-#include "gsl/gsl_sf_legendre.h"
+#include "Math/SpecFuncMathMore.h"
 #include "fastjet/tools/Boost.hh"
 #include "external/FWM.hh"
 
@@ -24,15 +24,14 @@ FWM::FWM(TopTagger2 htt, int selection)
 
 double perp(fastjet::PseudoJet v_pj, fastjet::PseudoJet ref_pj)
 {
-    double pt = 0.;
+//     double pt = 0.;
     std::valarray<double> v = v_pj.four_mom();
     std::valarray<double> ref = ref_pj.four_mom();
     ref[3] = 0.;
     double mag2 = ref[0] * ref[0] + ref[1] * ref[1] + ref[2] * ref[2];
     double v_ref = v[0] * ref[0] + v[1] * ref[1] + v[2] * ref[2];
     std::valarray<double> v_perp = v - (v_ref / mag2) * ref;
-    pt = sqrt(v_perp[0] * v_perp[0] + v_perp[1] * v_perp[1] + v_perp[2] * v_perp[2]);
-    return pt;
+    return sqrt(v_perp[0] * v_perp[0] + v_perp[1] * v_perp[1] + v_perp[2] * v_perp[2]);
 }
 
 double FWM::ATan2(double y, double x)
@@ -96,7 +95,8 @@ double FWM::Pt(unsigned order, fastjet::PseudoJet ref_pj)
 
 double FWM::legendre(int l, double x)
 {
-    return gsl_sf_legendre_Pl(l, x);
+    return ROOT::Math::legendre(l, x);
+//     return gsl_sf_legendre_Pl(l, x);
 }
 
 }

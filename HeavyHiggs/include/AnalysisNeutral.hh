@@ -37,7 +37,7 @@ public:
 
 private:
 
-    int PassPreCut(Event const& event, Tag tag) const override {
+    int PassPreCut(Event const&, Tag) const override {
 //         if (tag == Tag::background) return 1;
 //         std::vector<Particle> particles = event.Partons().GenParticles();
 //         for (auto const & particle : particles) ERROR(boca::Name(particle.Info().Family().Member(Relative::particle).Id()), boca::Name(particle.Info().Family().Member(Relative::mother).Id()), boca::Name(particle.Info().Family().Member(Relative::step_mother).Id()), boca::Name(particle.Info().Family().Member(Relative::grand_mother).Id()));

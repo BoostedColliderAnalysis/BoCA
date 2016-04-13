@@ -99,12 +99,12 @@ Mass MassOf(Id id)
     case Id::bottom : return 4.18_GeV;
     case Id::top : return 173.5_GeV;
     case Id::electron : return 0.000511_GeV;
-    case Id::electron_neutrino : return massless;
+    case Id::electron_neutrino : return Massless();
     case Id::muon : return 0.1134_GeV;
-    case Id::muon_neutrino : return massless;
+    case Id::muon_neutrino : return Massless();
     case Id::tau : return 1.776_GeV;
-    case Id::tau_neutrino : return massless;
-    case Id::photon : return massless;
+    case Id::tau_neutrino : return Massless();
+    case Id::photon : return Massless();
     case Id::Z : return 91.188_GeV;
     case Id::W : return 80.39_GeV;
     case Id::higgs : return 125._GeV;
@@ -117,7 +117,7 @@ Mass MassOf(Id id)
     case Id::proton : return 0.93827_GeV;
     case Id::top_partner: return 1_TeV; //< FIXME remove again
     case Id::CP_violating_higgs : return MassOf(Id::higgs);
-        DEFAULT(Name(id), massless);
+        DEFAULT(Name(id), Massless());
     }
 }
 std::string Name(MultiId multi_id)
@@ -136,8 +136,8 @@ std::string Name(MultiId multi_id)
 Mass MassOf(MultiId multi_id)
 {
     switch (multi_id) {
-    case MultiId::neutrino : return massless;
-        DEFAULT(Name(multi_id), massless);
+    case MultiId::neutrino : return Massless();
+        DEFAULT(Name(multi_id), Massless());
     }
 }
 

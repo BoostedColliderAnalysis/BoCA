@@ -11,14 +11,14 @@ namespace boca
 namespace naturalness
 {
 
-Momentum TruthVariables::LeptonPt(int number) const
+Momentum TruthVariables::LeptonPt(unsigned number) const
 {
-    return leptons_.size() > number ? leptons_.at(number).Pt() : at_rest;
+    return leptons_.size() > number ? leptons_.at(number).Pt() : AtRest();
 }
 
-Momentum TruthVariables::TopPt(int number) const
+Momentum TruthVariables::TopPt(unsigned number) const
 {
-    return tops_.size() > number ? tops_.at(number).Pt() : at_rest;
+    return tops_.size() > number ? tops_.at(number).Pt() : AtRest();
 }
 
 int TruthVariables::BosonNumber() const
@@ -38,12 +38,12 @@ int TruthVariables::DetectableBosonNumber() const
 
 Momentum TruthVariables::HardBosonPt() const
 {
-    return bosons_.empty() ? at_rest : bosons_.front().Pt();
+    return bosons_.empty() ? AtRest() : bosons_.front().Pt();
 }
 
 Momentum TruthVariables::SoftBosonPt() const
 {
-    return bosons_.empty() ? at_rest : bosons_.back().Pt();
+    return bosons_.empty() ? AtRest() : bosons_.back().Pt();
 }
 
 Angle TruthVariables::BosonDeltaRMin() const
@@ -100,9 +100,9 @@ void TruthVariables::SetJets(std::vector<Jet> const& jets)
     jets_ = SortedByPt(jets);
 }
 
-Momentum TruthVariables::JetPt(int number) const
+Momentum TruthVariables::JetPt(unsigned number) const
 {
-    return jets_.size() > number ? jets_.at(number).Pt() : at_rest;
+    return jets_.size() > number ? jets_.at(number).Pt() : AtRest();
 }
 
 }

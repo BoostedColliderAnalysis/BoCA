@@ -68,7 +68,7 @@ public:
         return multiplet_1_.Overlap(multiplet_2_) || multiplet_1_.Overlap(multiplet_3_) || multiplet_2_.Overlap(multiplet_3_);
     }
 
-    std::vector<boca::Jet> Jets() const {
+    std::vector<boca::Jet> Jets() const override {
         return Combine(Multiplet1().Jets(), Multiplet2().Jets(), Multiplet3().Jets());
     }
 
@@ -106,7 +106,7 @@ public:
         });
     }
 
-    std::vector<boca::LorentzVector<Momentum>> LorentzVectors() const {
+    std::vector<boca::LorentzVector<Momentum>> LorentzVectors() const override {
         return Combine(Multiplet1().LorentzVectors(), Multiplet2().LorentzVectors(), Multiplet3().LorentzVectors()) ;
     }
 

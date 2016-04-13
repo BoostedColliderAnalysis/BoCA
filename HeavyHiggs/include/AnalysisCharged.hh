@@ -83,7 +83,7 @@ private:
         }
     }
 
-    int PassPreCut(Event const& event, Tag) const {
+    int PassPreCut(Event const& event, Tag) const override {
 //         INFO("pass pre cut");
         std::vector<Particle> particles = event.Partons().GenParticles();
         std::vector<Particle> quarks = SortedByPt(CopyIf5Quark(particles));
@@ -107,10 +107,10 @@ private:
         if (jets.size() < 4) return 0;
         return 1;
     }
-    int BackgroundFileNumber() const {
+    int BackgroundFileNumber() const override {
         switch (this->Collider()) {
         case heavyhiggs::Collider::LHC :
-            switch (this->PreCut()) {
+            switch (int(this->PreCut() / GeV)) {
             case 0 :
                 //                 return 1;
                 return 79; // < should be switched on
@@ -120,7 +120,7 @@ private:
                 return 1;
             }
         case heavyhiggs::Collider::LE :
-            switch (this->PreCut()) {
+            switch (int(this->PreCut() / GeV)) {
             case 2500 :
                 return 28;
             case 2000 :

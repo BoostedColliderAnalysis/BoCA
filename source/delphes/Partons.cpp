@@ -37,6 +37,7 @@ auto Family(TTreeReaderArray<::delphes::GenParticle>& particles, Relative relati
     return Family(particles, family, relative, position);
 }
 
+#ifdef DEBUGGING
 template<typename Data>
 void PrintCell(Data data)
 {
@@ -66,6 +67,7 @@ void PrintCells(Particle const& particle)
     //     PrintCell(particle.Pz);
     std::cout << "\n";
 }
+#endif
 
 }
 

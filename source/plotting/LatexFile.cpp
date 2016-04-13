@@ -63,7 +63,7 @@ void LatexFile::Table(std::string const& header, std::string const& content, std
 void LatexFile::Mass(boca::Mass mass)
 {
     INFO0;
-    if (mass > massless) {
+    if (mass > Massless()) {
         std::stringstream mass_string;
         mass_string << boost::units::engineering_prefix << "\\section*{Mass = " << mass << "}\n";
         latex_file_ << mass_string.str();

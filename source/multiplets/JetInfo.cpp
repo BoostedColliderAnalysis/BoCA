@@ -187,7 +187,7 @@ Mass JetInfo::VertexMass() const
         return momentum + constituent.Momentum();
     }).M();
     DEBUG(vertex_mass);
-    return vertex_mass < DetectorGeometry::VertexMassMin() ? massless : vertex_mass;
+    return vertex_mass < DetectorGeometry::VertexMassMin() ? Massless() : vertex_mass;
 }
 
 Energy JetInfo::VertexEnergy() const
@@ -256,7 +256,7 @@ double JetInfo::LeadingTrackMomentumFraction() const
     std::sort(constituents.begin(), constituents.end(), [](Constituent const & constituent_1, Constituent const & constituent_2) {
         return (constituent_1.Momentum().Pt() > constituent_2.Momentum().Pt());
     });
-    Momentum sum = boost::accumulate(constituents, at_rest, [](Momentum result, Constituent const & constituent) {
+    Momentum sum = boost::accumulate(constituents, AtRest(), [](Momentum result, Constituent const & constituent) {
         return (result + constituent.Momentum().Pt());
     });
     return constituents.front().Momentum().Pt() / sum;

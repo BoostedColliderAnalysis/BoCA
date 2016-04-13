@@ -17,6 +17,7 @@
 #include "generic/Mutable.hh"
 #include "math/Vector3.hh"
 #include "math/Matrix2.hh"
+#include "physics/Units.hh"
 
 namespace boca
 {
@@ -459,19 +460,20 @@ public:
                 std::cout << "Psi() | cos psi | > 1 " << std::endl;
                 cosAbsPsi = 1;
             }
-            double absPsi = acos(cosAbsPsi);
+            Angle absPsi = boca::acos(cosAbsPsi);
             if (x_.Z() > 0) return absPsi;
             if (x_.Z() < 0) return -absPsi;
             return (y_.Z() < 0) ? 0_rad : Pi();
         } else {              // sinTheta == Value(0) so |Fzz| = 1
-            double absPsi = x_.X();
-            if (std::abs(x_.X()) > 1) {         // NaN-proofing
+            Value_ absPsi = x_.X();
+            // NaN-proofing
+            if (std::abs(x_.X()) > 1) {
                 std::cout << "Psi() | x_.X() | > 1 " << std::endl;
                 absPsi = 1;
             }
-            absPsi = .5 * acos(absPsi);
-            if (y_.X() > 0) return absPsi;
-            if (y_.X() < 0) return -absPsi;
+            Angle absPsi2 = .5 * acos(absPsi);
+            if (y_.X() > 0) return absPsi2;
+            if (y_.X() < 0) return -absPsi2;
             return (x_.X() > 0) ? 0_rad : Pi() / 2.;
 
         }
@@ -704,20 +706,24 @@ public:
     }
 
     // Returns object of the helper class for C-style subscripting r[i][j]
-    Vector3<Value_> const& operator()(Dim3 i) const {
-        switch (i) {
+    Vector3<Value_> const& operator()(Dim3 dim) const {
+        switch (dim) {
         case Dim3::x : return x_;
         case Dim3::y : return y_;
         case Dim3::z : return z_;
+        default : Default("Matrix3", to_int(dim));
+        return x_;
         }
     }
 
     // Returns object of the helper class for C-style subscripting r[i][j]
-    Vector3<Value_>& operator()(Dim3 i)  {
-        switch (i) {
+    Vector3<Value_>& operator()(Dim3 dim) {
+        switch (dim) {
         case Dim3::x : return x_;
         case Dim3::y : return y_;
         case Dim3::z : return z_;
+        default : Default("Matrix3", to_int(dim));
+        return x_;
         }
     }
 
@@ -737,19 +743,19 @@ public:
         return operator()(i);
     }
 
-    ConstIterator2<Matrix3, Vector3, Value_, Dim3> begin() const {
+    ConstIterator2<boca::Matrix3, Vector3, Value_, Dim3> begin() const {
         return {this, Dim3::x};
     }
 
-    ConstIterator2<Matrix3, Vector3, Value_, Dim3> end() const {
+    ConstIterator2<boca::Matrix3, Vector3, Value_, Dim3> end() const {
         return {this, Dim3::last};
     }
 
-    Iterator2<Matrix3, Vector3, Value_, Dim3> begin() {
+    Iterator2<boca::Matrix3, Vector3, Value_, Dim3> begin() {
         return {this, Dim3::x};
     }
 
-    Iterator2<Matrix3, Vector3, Value_, Dim3> end() {
+    Iterator2<boca::Matrix3, Vector3, Value_, Dim3> end() {
         return {this, Dim3::last};
     }
 

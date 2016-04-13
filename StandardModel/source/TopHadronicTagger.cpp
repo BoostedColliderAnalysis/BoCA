@@ -21,26 +21,26 @@ namespace standardmodel
 namespace
 {
 
-void TruthLevel(Event const& event, PreCuts const& pre_cuts, Id id)
-{
-    INFO0;
-    auto particle = event.Partons().GenParticles();
-    auto tops = CopyIfParticle(particle, id);
-    for (auto const & top : tops) {
-        if (pre_cuts.ApplyCuts(id, top)) continue;
-//         if (top.Pt() < pre_cuts.PtLowerCut().Get(id) || top.Pt() > pre_cuts.PtUpperCut().Get(id)) continue;
-        auto bottoms = CopyIfMother(CopyIfParticle(particle, Id::bottom), top);
-        if (bottoms.empty()) continue;
-        auto Ws = CopyIfMother(CopyIfParticle(particle, Id::W), top);
-        if (Ws.empty()) continue;
-        auto quarks = SortedByPt(CopyIfGrandMother(CopyIfQuark(particle), top));
-        if (quarks.size() < 2) continue;
-        DEBUG(top.Pt(), bottoms.front().Pt(), Ws.front().Pt(), quarks.at(0).Pt(), quarks.at(1).Pt());
-        auto delta_r_top = Ws.front().DeltaRTo(bottoms.front());
-        auto delat_r_w = quarks.at(0).DeltaRTo(quarks.at(1));
-        DEBUG(delta_r_top, delat_r_w);
-    }
-}
+// void TruthLevel(Event const& event, PreCuts const& pre_cuts, Id id)
+// {
+//     INFO0;
+//     auto particle = event.Partons().GenParticles();
+//     auto tops = CopyIfParticle(particle, id);
+//     for (auto const & top : tops) {
+//         if (pre_cuts.ApplyCuts(id, top)) continue;
+// //         if (top.Pt() < pre_cuts.PtLowerCut().Get(id) || top.Pt() > pre_cuts.PtUpperCut().Get(id)) continue;
+//         auto bottoms = CopyIfMother(CopyIfParticle(particle, Id::bottom), top);
+//         if (bottoms.empty()) continue;
+//         auto Ws = CopyIfMother(CopyIfParticle(particle, Id::W), top);
+//         if (Ws.empty()) continue;
+//         auto quarks = SortedByPt(CopyIfGrandMother(CopyIfQuark(particle), top));
+//         if (quarks.size() < 2) continue;
+//         DEBUG(top.Pt(), bottoms.front().Pt(), Ws.front().Pt(), quarks.at(0).Pt(), quarks.at(1).Pt());
+//         auto delta_r_top = Ws.front().DeltaRTo(bottoms.front());
+//         auto delat_r_w = quarks.at(0).DeltaRTo(quarks.at(1));
+//         DEBUG(delta_r_top, delat_r_w);
+//     }
+// }
 
 std::vector< Triplet > ordered_doublets(std::vector<Jet> const& jets, std::function< boost::optional<Triplet>(Jet const& piece_1, Jet const& piece_2)> const& function)
 {

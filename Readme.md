@@ -4,7 +4,7 @@ This code performs staged BDT analyses using root files as in- and output format
 
 ## Dependencies
 
-* `ROOT` with version >= 6
+* `ROOT` version >= 6 and compiled with TMVA and MathMore
 * `fastjet`
 * `fastjet contrib` (must be compiled with `CXXFLAGS=-fPIC`)
 * `Boost` (`Optional`, `Range`, `Units`)
