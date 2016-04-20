@@ -3,12 +3,51 @@
  */
 #include "plotting/Result.hh"
 #include "generic/Types.hh"
+#include "generic/Vector.hh"
 #include "DetectorGeometry.hh"
 // #define DEBUGGING
 #include "generic/DEBUG.hh"
 
 namespace boca
 {
+
+std::vector< Significance > SignificancesUnConstrained()
+{
+    return {Significance::background, Significance::sum, Significance::poisson};
+}
+
+std::vector< Significance > SignificancesConstrained()
+{
+    return Transform(SignificancesUnConstrained(), [](Significance significance) {
+        return significance | Significance::experimental;
+    });
+}
+
+std::vector< Significance > Significances()
+{
+    return Combine( {Significance::experimental}, SignificancesConstrained(), SignificancesUnConstrained());
+}
+
+std::string Name(Significance significance)
+{
+    std::string name;
+    FlagSwitch(significance, [&](Significance significance) {
+        switch (significance) {
+        case Significance::none : name += "None ";
+            break;
+        case Significance::experimental : name += "Experimental ";
+            break;
+        case Significance::background : name += "Background ";
+            break;
+        case Significance::sum : name += "Sum ";
+            break;
+        case Significance::poisson : name += "Poisson ";
+            break;
+            DEFAULT(to_int(significance));
+        }
+    });
+    return name;
+}
 
 int Result::Steps() const
 {
@@ -18,6 +57,26 @@ int Result::Steps() const
     case TMVA::Types::EMVA::kCuts : return passed_.front().size();
         DEFAULT(mva_, 0);
     }
+}
+
+double Result::XValue(int value) const
+{
+    INFO(value);
+    switch (Mva()) {
+    case TMVA::Types::kBDT : return 2. * value / Steps() - 1;
+    case TMVA::Types::kCuts : return (1. + value) / (Steps() + 1);
+        DEFAULT(Mva(), 0);
+    }
+}
+
+double Result::BestMDValue(Significance significance) const
+{
+    return XValue(BestMDBin(significance));
+}
+
+double Result::BestMIValue(Significance significance) const
+{
+    return XValue(BestMIBin(significance));
 }
 
 const InfoBranch& Result::InfoBranch() const
@@ -112,11 +171,14 @@ void Result::Inititialize()
 {
     INFO0;
     events_.resize(Steps(), 0);
-    efficiencies_.resize(Steps(), 0);
-    crosssections_.resize(Steps(), 0);
-    model_independent_.resize(Steps(), 0);
-    model_independent_sig_.resize(Steps(), 0);
-    model_independent_sb_.resize(Steps(), 0);
+    efficiencies_.resize(Steps(), 0.);
+    crosssections_.resize(Steps(), 0_b);
+    for (auto const & significnace : Significances()) {
+        model_dependent_[significnace].resize(Steps(), 0.);
+        model_independent_[significnace].resize(Steps(), 0_b);
+        best_model_dependent_bin_[significnace] = 0;
+        best_model_independent_bin_[significnace] = 0;
+    }
     pure_efficiencies_.resize(Steps(), 0);
     event_sums_.resize(Steps(), 0);
     bins_.resize(Steps(), 0);
@@ -168,48 +230,64 @@ int Result::XBin(double value) const
 
 TMVA::Types::EMVA const& Result::Mva() const
 {
-    INFO0;
     return mva_;
 }
-void Result::SetModelIndependent(Crosssection const& crosssection, int step)
+
+std::vector< Crosssection >& Result::MI(Significance significance)
 {
-    INFO0;
-    model_independent_.at(step) = crosssection;
+    return model_independent_.at(significance);
 }
-std::vector< Crosssection > Result::ModelIndependent() const
+
+std::vector<double>& Result::MD(Significance significance)
 {
-    return model_independent_;
+    return model_dependent_.at(significance);
 }
-void Result::SetModelIndependentSB(Crosssection const& crosssection, int step)
+
+int& Result::BestMDBin(Significance significance)
 {
-    INFO0;
-    model_independent_sb_.at(step) = crosssection;
+    return best_model_dependent_bin_.at(significance);
 }
-std::vector< Crosssection > Result::ModelIndependentSB() const
+
+int& Result::BestMIBin(Significance significance)
 {
-    return model_independent_sb_;
+    return best_model_independent_bin_.at(significance);
 }
-void Result::SetModelIndependentSig(Crosssection const& crosssection, int step)
+
+std::vector< Crosssection > const& Result::MI(Significance significance) const
 {
-    INFO0;
-    model_independent_sig_.at(step) = crosssection;
+    return model_independent_.at(significance);
 }
-std::vector< Crosssection > Result::ModelIndependentSig() const
+
+std::vector<double> const& Result::MD(Significance significance) const
 {
-    return model_independent_sig_;
+    return model_dependent_.at(significance);
 }
+
+int Result::BestMDBin(Significance significance) const
+{
+    return best_model_dependent_bin_.at(significance);
+}
+
+int Result::BestMIBin(Significance significance) const
+{
+    return best_model_independent_bin_.at(significance);
+}
+
 std::vector<double > const& Result::SelectedEfficiencies() const
 {
     return selected_efficiencies_;
 }
+
 void Result::AddSelectedEfficiency(double selected_efficiency)
 {
     selected_efficiencies_.emplace_back(selected_efficiency);
 }
+
 void Result::AddSelectedEfficiency(int index)
 {
     selected_efficiencies_.emplace_back(PureEfficiencies().at(index));
 }
+
 int Result::TrainerSize() const
 {
     return trainer_size_;

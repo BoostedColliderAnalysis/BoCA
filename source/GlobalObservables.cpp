@@ -109,12 +109,12 @@ void GlobalObservables::SetLeptons(std::vector<Lepton> const& leptons)
 
 Momentum GlobalObservables::JetPt(std::size_t number) const
 {
-    return jets_.size() > number ? jets_.at(number).Pt() : AtRest();
+    return jets_.size() > number ? jets_.at(number).Pt() : at_rest;
 }
 
 Momentum GlobalObservables::LeptonPt(std::size_t number) const
 {
-    return leptons_.size() > number ? leptons_.at(number).Pt() : AtRest();
+    return leptons_.size() > number ? leptons_.at(number).Pt() : at_rest;
 }
 
 Momentum GlobalObservables::Ht() const

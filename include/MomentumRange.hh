@@ -73,8 +73,8 @@ private:
     Momentum PtMin(boca::Id id, const boca::Angle& cone_size);
     Momentum PtMax(boca::Id id, const boca::Angle& cone_size);
     Momentum Pt(boca::Id id, const boca::Angle& cone_size);
-    Momentum min_ = AtRest();
-    Momentum max_ = AtRest();
+    Momentum min_ = at_rest;
+    Momentum max_ = at_rest;
 
 };
 

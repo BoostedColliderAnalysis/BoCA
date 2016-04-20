@@ -24,13 +24,12 @@ FWM::FWM(TopTagger2 const& htt, int selection)
 
 double perp(fastjet::PseudoJet const& v_pj, fastjet::PseudoJet const& ref_pj)
 {
-//     double pt = 0.;
     auto v = v_pj.four_mom();
     auto ref = ref_pj.four_mom();
     ref[3] = 0.;
     auto mag2 = ref[0] * ref[0] + ref[1] * ref[1] + ref[2] * ref[2];
     auto v_ref = v[0] * ref[0] + v[1] * ref[1] + v[2] * ref[2];
-    std::valarray<double> v_perp = v - (v_ref / mag2) * ref;
+    auto v_perp = v - (v_ref / mag2) * ref;
     return sqrt(v_perp[0] * v_perp[0] + v_perp[1] * v_perp[1] + v_perp[2] * v_perp[2]);
 }
 
@@ -83,9 +82,7 @@ double FWM::Pt(unsigned order, fastjet::PseudoJet const& ref_pj)
         norm += perp(_jets[ii], ref_pj) * perp(_jets[ii], ref_pj);
         for (unsigned jj = 0; jj < _jets.size(); jj++) {
             auto W = perp(_jets[ii], ref_pj) * perp(_jets[jj], ref_pj);
-            double cos_O;
-            if (ii == jj) cos_O = 1.0;
-            else cos_O = cos_Omega(_jets[ii], _jets[jj]);
+            auto cos_O = ii == jj ? 1. : cos_Omega(_jets[ii], _jets[jj]);
             H += W * legendre(order, cos_O);
         }
     }

@@ -16,28 +16,28 @@ ClusterSequence::ClusterSequence(const std::vector< Jet >& jets, const fastjet::
 
 ClusterSequence::~ClusterSequence()
 {
-    if (sucess_) cluster_sequence_->delete_self_when_unused();
+    if (success_) cluster_sequence_->delete_self_when_unused();
     else delete cluster_sequence_;
 }
 
 std::vector< Jet > ClusterSequence::ExclusiveJets(int jet_number) const
 {
     auto jets = JetVector(cluster_sequence_->exclusive_jets(jet_number));
-    if (jets.empty()) sucess_ = false;
+    if (jets.empty()) success_ = false;
     return jets;
 }
 
 std::vector< Jet > ClusterSequence::ExclusiveJetsUpTo(int sub_jet_number) const
 {
     auto jets = JetVector(cluster_sequence_->exclusive_jets_up_to(sub_jet_number));
-    if (jets.empty()) sucess_ = false;
+    if (jets.empty()) success_ = false;
     return jets;
 }
 
 std::vector< Jet > ClusterSequence::InclusiveJets(const Momentum& min_pt) const
 {
     auto jets = JetVector(cluster_sequence_->inclusive_jets(min_pt / GeV));
-    if (jets.empty()) sucess_ = false;
+    if (jets.empty()) success_ = false;
     return jets;
 }
 

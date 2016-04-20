@@ -176,4 +176,6 @@ void Default(std::string const& variable, const Value value){
   std::cout << "\n";
 }
 
+void Error(std::string const& variable);
+
 }

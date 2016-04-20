@@ -32,7 +32,7 @@ Momentum PseudoJet::Pt() const
 
 Mass PseudoJet::Mass() const
 {
-    return m() > 0 ? m() * GeV : Massless();
+    return m() > 0 ? m() * GeV : massless;
 }
 
 Angle PseudoJet::DeltaRTo(const PseudoJet& jet) const

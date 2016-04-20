@@ -46,8 +46,8 @@ jet_distance QJets::GetNextDistance()
     ret.j1 = -1;
     ret.j2 = -1;
     ret.dij = -1.;
-    bool dmin_set(false);
-    double dmin(0.);
+    auto dmin_set = false;
+    auto dmin = 0.;
 
     while (!_distances.empty()) {
         auto dist = _distances.top();
@@ -65,7 +65,8 @@ jet_distance QJets::GetNextDistance()
         }
     }
 
-    double rand(Rand()), tot_weight(0.);
+    auto rand = Rand();
+    auto tot_weight = 0.;
     for (auto it = popped_distances.begin(); it != popped_distances.end(); it++) {
         tot_weight += (*it).second / norm;
         if (tot_weight >= rand) {
@@ -124,7 +125,7 @@ void QJets::Cluster(fastjet::ClusterSequence& cs)
     cs.plugin_associate_extras(std::auto_ptr<fastjet::ClusterSequence::Extras>(extras));
 
     // merge remaining jets with beam
-    int num_merged_final(0);
+    auto num_merged_final = 0;
     for (unsigned int i = 0 ; i < cs.jets().size(); i++)
         if (JetUnmerged(i)) {
             num_merged_final++;

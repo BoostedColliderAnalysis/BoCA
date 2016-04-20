@@ -27,7 +27,7 @@ public :
 
     std::vector<Jet> ExclusiveJetsUpTo(int sub_jet_number) const;
 
-    std::vector<Jet> InclusiveJets(Momentum const& min_pt = AtRest()) const;
+    std::vector<Jet> InclusiveJets(Momentum const& min_pt = at_rest) const;
 
     fastjet::ClusterSequence& Get();
 
@@ -36,7 +36,8 @@ public :
 private :
 
     fastjet::ClusterSequence* cluster_sequence_;
-    mutable bool sucess_ = true;
+
+    mutable bool success_ = true;
 
 };
 

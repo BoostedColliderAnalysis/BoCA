@@ -5,11 +5,11 @@
 
 #include "TMVA/Reader.h"
 
-#include "PreCuts.hh"
-#include "Phase.hh"
-#include "io/TreeWriter.hh"
 #include "generic/Options.hh"
+#include "io/TreeWriter.hh"
 #include "multiplets/Sort.hh"
+#include "Phase.hh"
+#include "PreCuts.hh"
 #include "Event.hh"
 
 namespace boca
@@ -29,25 +29,26 @@ public:
     Reader(Stage stage = Stage::reader) :
         stage_(stage),
         reader_(Options()) {
-        Initialize();
+//         Initialize();
     }
 
     Reader(Reader const& reader) :
         stage_(reader.stage_),
         reader_(Options()),
         tagger_(reader.tagger_) {
-        Initialize();
+//         Initialize();
     }
 
     Reader(Reader const && reader) :
         stage_(std::move(reader.stage_)),
         reader_(Options()),
         tagger_(std::move(reader.tagger_)) {
-        Initialize();
+//         Initialize();
     }
 
     void Initialize() {
-        if(Debug()) std::cout << "Reader: " << Tagger().Name() << std::endl;
+        initialized_ = true;
+        if (Debug()) std::cout << "Reader: " << Tagger().Name() << std::endl;
         Tagger().Initialize();
         if (stage_ == Stage::trainer) return;
         std::ofstream cout_file(Tagger().AnalysisName() + "/Reader.txt", std::ios_base::app | std::ios_base::out);
@@ -64,7 +65,7 @@ public:
 
     template <typename Multiplet_>
     double Bdt(Multiplet_ const& multiplet) {
-        if(Debug()) std::cout << "Reader: " << Tagger().Name() << " reading bdt" << std::endl;
+        if (Debug()) std::cout << "Reader: " << Tagger().Name() << " reading bdt" << std::endl;
         return Tagger().Bdt(multiplet, TReader());
     }
 
@@ -138,12 +139,13 @@ public:
     }
 
     Tagger_& Tagger() {
-      return tagger_;
+        return tagger_;
     }
 
 protected:
 
     TMVA::Reader const& TReader() const {
+        if (!initialized_) const_cast<Reader*>(this)->Initialize();
         return reader_;
     }
 
@@ -167,11 +169,12 @@ private:
     }
 
     TMVA::Reader& TReader() {
+        if (!initialized_) Initialize();
         return reader_;
     }
 
     constexpr bool Debug() const {
-      return false;
+        return false;
     }
 
     Stage stage_;
@@ -180,7 +183,11 @@ private:
 
     Tagger_ tagger_;
 
+    bool initialized_ = false;
+
 };
 
 }
+
+
 

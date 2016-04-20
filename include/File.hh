@@ -69,7 +69,7 @@ private:
 
     boca::Crosssection crosssection_error_ = 0_b;
 
-    boca::Mass mass_ = Massless();
+    boca::Mass mass_ = massless;
 
     std::string file_suffix_ = ".root";
 

@@ -23,17 +23,13 @@ public:
 
     int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) override;
 
+    using TaggerTemplate::Multiplets;
+
     std::vector<Triplet> Multiplets(Event const& event, boca::PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
 
     std::string Name() const override;
 
     std::string LatexName() const override;
-
-    /**
-     * @brief tagges the tops
-     *
-     */
-    std::vector<fastjet::PseudoJet> Tops(std::vector<fastjet::PseudoJet>& e_flows);
 
 private:
 

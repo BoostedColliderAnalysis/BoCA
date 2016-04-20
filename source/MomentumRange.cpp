@@ -42,7 +42,7 @@ Id SubJet::Id() const
 
 MomentumRange::MomentumRange(Id max)
 {
-    Set(AtRest(), PtMax(max));
+    Set(at_rest, PtMax(max));
 }
 
 MomentumRange::MomentumRange(Id min, Id max)

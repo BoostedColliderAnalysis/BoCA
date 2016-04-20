@@ -98,8 +98,9 @@ void Mt2::set_momenta(double* pa0, double* pb0, double* pmiss0)
 
     // set ma>= mb
     if (masq < mbsq) {
-        double temp;
-        temp = pax; pax = pbx; pbx = temp;
+        auto temp = pax;
+        pax = pbx;
+        pbx = temp;
         temp = pay; pay = pby; pby = temp;
         temp = Ea; Ea = Eb; Eb = temp;
         temp = Easq; Easq = Ebsq; Ebsq = temp;
@@ -187,7 +188,7 @@ void Mt2::mt2_massless()
     f21 = -2 * Easq * (pbx * pmissx + pby * pmissy) / Ebsq;
     f20 = mnsq + pmissxsq + pmissysq - (pbx * pmissx + pby * pmissy) * (pbx * pmissx + pby * pmissy) / Ebsq;
 
-    double Deltasq0 = 0;
+    auto Deltasq0 = 0.;
     auto Deltasq_low = Deltasq0 + precision;
     auto nsols_low = nsols_massless(Deltasq_low);
 
@@ -204,20 +205,16 @@ void Mt2::mt2_massless()
     }*/
 
     //look for when both parablos contain origin
-    double Deltasq_high1, Deltasq_high2;
-    Deltasq_high1 = 2 * Eb * std::sqrt(pmissx * pmissx + pmissy * pmissy + mnsq) - 2 * pbx * pmissx - 2 * pby * pmissy;
-    Deltasq_high2 = 2 * Ea * mn;
+    auto Deltasq_high1 = 2 * Eb * std::sqrt(pmissx * pmissx + pmissy * pmissy + mnsq) - 2 * pbx * pmissx - 2 * pby * pmissy;
+    auto Deltasq_high2 = 2 * Ea * mn;
 
-    double Deltasq_high;
-    if (Deltasq_high1 < Deltasq_high2) Deltasq_high = Deltasq_high2;
-    else Deltasq_high = Deltasq_high1;
+    auto Deltasq_high = Deltasq_high1 < Deltasq_high2 ?  Deltasq_high2 : Deltasq_high1;
     auto nsols_high = nsols_massless(Deltasq_high);
 
     if (nsols_high == nsols_low) {
         auto foundhigh= 0;
-        double minmass, maxmass;
-        minmass = mn ;
-        maxmass = std::sqrt(mnsq + Deltasq_high);
+        auto minmass = mn ;
+        auto maxmass = std::sqrt(mnsq + Deltasq_high);
         for (auto mass = minmass + SCANSTEP; mass < maxmass; mass += SCANSTEP) {
             Deltasq_high = mass * mass - mnsq;
             nsols_high = nsols_massless(Deltasq_high);
@@ -241,14 +238,12 @@ void Mt2::mt2_massless()
         mt2_b = std::sqrt(mnsq + Deltasq_low);
         return;
     }
-    double minmass, maxmass;
-    minmass = std::sqrt(Deltasq_low + mnsq);
-    maxmass = std::sqrt(Deltasq_high + mnsq);
+    auto minmass = std::sqrt(Deltasq_low + mnsq);
+    auto maxmass = std::sqrt(Deltasq_high + mnsq);
     while (maxmass - minmass > precision) {
-        double Delta_mid, midmass, nsols_mid;
-        midmass = (minmass + maxmass) / 2.;
-        Delta_mid = midmass * midmass - mnsq;
-        nsols_mid = nsols_massless(Delta_mid);
+        auto midmass = (minmass + maxmass) / 2.;
+        auto Delta_mid = midmass * midmass - mnsq;
+        auto nsols_mid = nsols_massless(Delta_mid);
         if (nsols_mid != nsols_low) maxmass = midmass;
         if (nsols_mid == nsols_low) minmass = midmass;
     }
@@ -266,13 +261,9 @@ int Mt2::nsols_massless(double Dsq)
     e2 = e21 * delta + e20;
     f2 = f22 * delta * delta + f21 * delta + f20;
 
-    double a;
-    if (pax > 0) a = Ea / Dsq;
-    else a = -Ea / Dsq;
+    auto a = pax > 0 ? Ea / Dsq : -Ea / Dsq;
 
-    double b;
-    if (pax > 0) b = -Dsq / (4 * Ea) + mnsq * Ea / Dsq;
-    else b = Dsq / (4 * Ea) - mnsq * Ea / Dsq;
+    auto b = pax > 0 ? -Dsq / (4 * Ea) + mnsq * Ea / Dsq : Dsq / (4 * Ea) - mnsq * Ea / Dsq;
 
     auto A4 = a * a * a2;
     auto A3 = 2 * a * b2 / Ea;
@@ -379,17 +370,13 @@ void Mt2::mt2_bisect()
     auto Deltasq_high21 = 2 * Eb * std::sqrt(pmissx * pmissx + pmissy * pmissy + mnsq) - 2 * pbx * pmissx - 2 * pby * pmissy + mbsq;
     auto Deltasq_high22 = 2 * Ea * mn + masq;
 
-    double Deltasq_high2;
-    if (Deltasq_high21 < Deltasq_high22) Deltasq_high2 = Deltasq_high22;
-    else Deltasq_high2 = Deltasq_high21;
+    auto Deltasq_high2 = Deltasq_high21 < Deltasq_high22 ? Deltasq_high22 : Deltasq_high21;
 
     //pick the smaller upper bound
-    double Deltasq_high;
-    if (Deltasq_high1 < Deltasq_high2) Deltasq_high = Deltasq_high1;
-    else Deltasq_high = Deltasq_high2;
+    auto Deltasq_high = Deltasq_high1 < Deltasq_high2 ? Deltasq_high1 : Deltasq_high2;
 
-    double Deltasq_low; //lower bound
-    Deltasq_low = Deltasq0;
+    //lower bound
+    auto Deltasq_low = Deltasq0;
 
     //number of solutions at Deltasq_low should not be larger than zero
     if (nsols(Deltasq_low) > 0) {
@@ -416,7 +403,7 @@ void Mt2::mt2_bisect()
     while (std::sqrt(Deltasq_high + mnsq) - std::sqrt(Deltasq_low + mnsq) > precision) {
         //bisect
         auto Deltasq_mid = (Deltasq_high + Deltasq_low) / 2.;
-        double nsols_mid = nsols(Deltasq_mid);
+        auto nsols_mid = nsols(Deltasq_mid);
         // if nsols_mid = 4, rescan for Deltasq_high
         if (nsols_mid == 4) {
             Deltasq_high = Deltasq_mid;

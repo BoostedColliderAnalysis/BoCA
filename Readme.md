@@ -9,6 +9,11 @@ This code performs staged BDT analyses using root files as in- and output format
 * `fastjet contrib` (must be compiled with `CXXFLAGS=-fPIC`)
 * `Boost` (`Optional`, `Range`, `Units`)
 
+The BoCA code makes heavy use of modern c++ features. The limiting factor for the minimal supportet compiler version is given by the use of return type deduction.
+Therefore the compiler version must be
+* GCC version >= 4.9
+* Clang version >= 3.3
+
 ## Installation
 
 * the following is tested on recent ubuntu installations

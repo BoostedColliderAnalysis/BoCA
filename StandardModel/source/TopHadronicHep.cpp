@@ -1,19 +1,20 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "TopHadronicHep.hh"
 
 #include "fastjet/ClusterSequence.hh"
+
+#include "external/TopTagger.hh"
+#include "generic/Exception.hh"
+#include "delphes/Hadrons.hh"
+#include "plotting/Font.hh"
+#include "multiplets/Particles.hh"
+#include "multiplets/Sort.hh"
 #include "ClusterSequence.hh"
 #include "DetectorGeometry.hh"
 #include "PreCuts.hh"
-#include "multiplets/Particles.hh"
-#include "multiplets/Sort.hh"
-#include "delphes/Hadrons.hh"
-#include "external/TopTagger.hh"
-#include "generic/Exception.hh"
+#include "TopHadronicHep.hh"
 #include "Event.hh"
-#include "plotting/Font.hh"
 // #define DEBUGGING
 #include "generic/DEBUG.hh"
 
@@ -90,19 +91,18 @@ std::vector<Triplet> TopHadronicHep::Triplets(Event const& event, PreCuts const&
     INFO(jets.size());
     std::vector<Triplet> triplets;
     for (auto const & jet : jets) {
-        hep::TopTagger top_tagger(cluster_sequence.Get(), jet, MassOf(Id::top) / GeV, MassOf(Id::W) / GeV);
-        top_tagger.set_top_range((MassOf(Id::top) - top_mass_window_) / GeV, (MassOf(Id::top) + top_mass_window_) / GeV);
-        top_tagger.run_tagger();
-        auto sub_jets = JetVector(top_tagger.top_subjets());
-        if (sub_jets.size() < 3) continue;
-        Triplet triplet(Doublet(sub_jets.at(1), sub_jets.at(2)), sub_jets.at(0));
+        hep::TopTagger tagger(cluster_sequence.Get(), jet, MassOf(Id::top) / GeV, MassOf(Id::W) / GeV);
+        tagger.set_top_range((MassOf(Id::top) - top_mass_window_) / GeV, (MassOf(Id::top) + top_mass_window_) / GeV);
+        tagger.run_tagger();
+        if (tagger.top_subjets().size() < 3) continue;
+        Triplet triplet(Doublet(tagger.top_subjets().at(1), tagger.top_subjets().at(2)), tagger.top_subjets().at(0));
         DEBUG(triplet.Mass());
         try {
             triplet = function(triplet);
         } catch (std::exception const& exception) {
             continue;
         }
-        triplet.SetTag(Tag(top_tagger.is_masscut_passed()));
+        triplet.SetTag(Tag(tagger.is_masscut_passed()));
         triplets.emplace_back(triplet);
     }
     return triplets;
@@ -117,9 +117,10 @@ std::string TopHadronicHep::Name() const
 std::string TopHadronicHep::LatexName() const
 {
     INFO0;
-    return Formula("t") + Formula("_{h}") + "^{hep}";
+    return Formula("t_{h}") + "^{hep}";
 }
 
 }
+
 }
 

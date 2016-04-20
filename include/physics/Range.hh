@@ -119,8 +119,18 @@ public:
     }
 
     template<typename Value2>
+    Range<ValueProduct<Value, Value2>> Scale(Value2 const& scalar) const {
+        return {Min()* scalar, Max()* scalar};
+    }
+
+    template<typename Value2>
+    friend Range<ValueProduct<Value, Value2>> operator*(Range const& range, Value2 const& scalar) {
+      return range.Scale(scalar);
+    }
+
+    template<typename Value2>
     friend Range<ValueQuotient<Value, Value2>> operator/(Range const& range, Value2 const& scalar) {
-        return {range.Min() / scalar, range.Max() / scalar};
+        return range.Scale(1. / scalar);
     }
 
     void Log() {

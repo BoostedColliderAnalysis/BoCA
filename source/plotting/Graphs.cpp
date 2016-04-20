@@ -94,10 +94,11 @@ void Graphs::SetYAxis(std::string const& title, boca::Range<double> const& range
     if (!multi_graph_.GetYaxis()) return;
     INFO("set title", range_.Vertical().Floor(), range_.Vertical().Ceil());
     SetAxis(*multi_graph_.GetYaxis(), title);
-    multi_graph_.GetYaxis()->SetLimits(range_.Vertical().Floor(), range_.Vertical().Ceil());
-    multi_graph_.SetMinimum(range_.Vertical().Floor());
+    auto log = SetLog(range_.Vertical());
+    auto min = log && range_.Vertical().Floor() == 0 ? range_.Vertical().Min() : range_.Vertical().Floor();
+    multi_graph_.GetYaxis()->SetLimits(min, range_.Vertical().Ceil());
+    multi_graph_.SetMinimum(min);
     multi_graph_.SetMaximum(range_.Vertical().Ceil());
-    SetLog(range_.Vertical());
 }
 
 Range<double> Graphs::RangeY()

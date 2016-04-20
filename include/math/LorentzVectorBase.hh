@@ -218,8 +218,8 @@ public:
     }
 
     boca::Angle DeltaR(LorentzVectorBase const& lorentz_vector) const {
-        boca::Angle delta_eta = Eta() - lorentz_vector.Eta();
-        boca::Angle delta_phi = RestrictPhi(Phi() - lorentz_vector.Phi());
+        auto delta_eta = Eta() - lorentz_vector.Eta();
+        auto delta_phi = RestrictPhi(Phi() - lorentz_vector.Phi());
         return sqrt(sqr(delta_eta) + sqr(delta_phi));
     }
 
@@ -247,7 +247,7 @@ public:
     }
 // Invariant mass. If mag2() is negative then -sqrt(-mag2()) is returned.
     Value Mag() const {
-        ValueSquare mag2 = Mag2();
+        auto mag2 = Mag2();
         return mag2 < ValueSquare(0) ? -sqrt(-mag2) : sqrt(mag2);
     }
 
@@ -256,7 +256,7 @@ public:
     }
 
     double Gamma() const {
-        double beta = Beta();
+        auto beta = Beta();
         return 1. / std::sqrt(1. - sqr(beta));
     }
 
@@ -300,39 +300,26 @@ public:
     }
 
 // Lorentz boost.
-    void Boost(double x, double y, double z) {
-        //Boost this Lorentz vector
-        auto b2 = sqr(x) + sqr(y) + sqr(z);
-        auto gamma = 1. / std::sqrt(1. - b2);
-        Value bp = x * X() + y * Y() + z * Z();
-        auto gamma2 = b2 > 0. ? (gamma - 1.) / b2 : 0.;
-        SetX(X() + gamma2 * bp * x + gamma * x * T());
-        SetY(Y() + gamma2 * bp * y + gamma * y * T());
-        SetZ(Z() + gamma2 * bp * z + gamma * z * T());
-        SetT(gamma * (T() + bp));
-    }
-
     void Boost(Vector3<double> const& b) {
-        Boost(b.X(), b.Y(), b.Z());
-    }
-
-    // Lorentz boost.
-    LorentzVectorBase<Value> Boosted(double x, double y, double z) const {
-        //Boost this Lorentz vector
-        auto b2 = sqr(x) + sqr(y) + sqr(z);
-        auto gamma = 1. / std::sqrt(1. - b2);
-        auto gamma2 = b2 > 0. ? (gamma - 1.) / b2 : 0.;
-        Value bp = x * X() + y * Y() + z * Z();
-        LorentzVectorBase<Value> lorentz_vector;
-        lorentz_vector.SetX(X() + gamma2 * bp * x + gamma * x * T());
-        lorentz_vector.SetY(Y() + gamma2 * bp * y + gamma * y * T());
-        lorentz_vector.SetZ(Z() + gamma2 * bp * z + gamma * z * T());
-        lorentz_vector.SetT(gamma * (T() + bp));
-        return lorentz_vector;
+      //Boost this Lorentz vector
+      auto b2 = b.Mag2();
+      auto gamma = 1. / std::sqrt(1. - b2);
+      auto bp = b * Vector();
+      auto gamma2 = b2 > 0. ? (gamma - 1.) / b2 : 0.;
+      Vector() = Vector() + gamma2 * bp * b + gamma * b * T();
+      T() = gamma * (T() + bp);
     }
 
     LorentzVectorBase<Value> Boosted(Vector3<double> const& b) const {
-        return Boosted(b.X(), b.Y(), b.Z());
+        //Boost this Lorentz vector
+        auto b2 = b.Mag2();
+        auto gamma = 1. / std::sqrt(1. - b2);
+        auto gamma2 = b2 > 0. ? (gamma - 1.) / b2 : 0.;
+        auto bp = b * Vector();
+        LorentzVectorBase<Value> lorentz_vector;
+        lorentz_vector.Vector() = Vector() + gamma2 * bp * b + gamma * b * T();
+        lorentz_vector.SetT(gamma * (T() + bp));
+        return lorentz_vector;
     }
 
 // Returns the rapidity, i.e. 0.5*ln((E+pz)/(E-pz))
@@ -341,7 +328,6 @@ public:
         return 0.5 * units::log(double((T() + Z()) / (T() - Z())));
     }
 
-
     /// Rapidity with respect to another vector
     boca::Angle Rapidity(Vector3<double> const& ref) const {
         auto r = ref.Mag2();
@@ -349,11 +335,11 @@ public:
             std::cout << "A zero vector used as reference to LorentzVector rapidity" << std::endl;
             return 0;
         }
-        Value vdotu = Vector().Dot(ref) / std::sqrt(r);
+        auto vdotu = Vector().Dot(ref) / std::sqrt(r);
         if (vdotu == Value(0)) return 0_rad;
         if (T() <= Value(0)) std::cout << "Tried to take rapidity of negative-energy Lorentz vector" << std::endl;
-        Value pt = sqrt(units::max(sqr(T() * std::numeric_limits<double>::epsilon()), Perp2(ref) + Mag2()));
-        boca::Angle rap = units::log(((T() + abs(Z())) / pt).value());
+        auto pt = sqrt(units::max(sqr(T() * std::numeric_limits<double>::epsilon()), Perp2(ref) + Mag2()));
+        auto rap = units::log(((T() + abs(Z())) / pt).value());
         return Z() > Value(0) ? rap : -rap;
     }
 

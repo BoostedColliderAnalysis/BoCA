@@ -3,22 +3,45 @@
  */
 #pragma once
 
+#include <map>
+
 #include "TMVA/Types.h"
 
+#include "generic/Flag.hh"
 #include "physics/Units.hh"
 #include "Branches.hh"
 
 namespace boca
 {
 
+enum class Significance
+{
+    none = 0,
+    experimental = 1 << 0,
+    background = 1 << 1,
+    sum = 1 << 2,
+    poisson = 1 << 3,
+};
+
+std::string Name(Significance significance);
+
+template<>
+struct Flag<Significance> {
+    static const bool enable = true;
+};
+
+std::vector<Significance> Significances();
+std::vector<Significance> SignificancesConstrained();
+std::vector<Significance> SignificancesUnConstrained();
+
 class Result
 {
 public:
-    Result(){};
+    Result() {};
     Result(boca::InfoBranch const& info_branch, std::vector<double> const& bdts, TMVA::Types::EMVA mva);
-    Result(boca::InfoBranch const& info_branch, std::pair<boca::InfoBranch,int> const& trainer_info_branch, std::vector<double> const& bdts, TMVA::Types::EMVA mva);
+    Result(boca::InfoBranch const& info_branch, std::pair<boca::InfoBranch, int> const& trainer_info_branch, std::vector<double> const& bdts, TMVA::Types::EMVA mva);
     Result(boca::InfoBranch const& info_branch, std::vector<std::vector<bool>> const& passed, TMVA::Types::EMVA mva);
-    Result(boca::InfoBranch const& info_branch, std::pair<boca::InfoBranch,int> const& trainer_info_branch, std::vector<std::vector<bool>> const& passed, TMVA::Types::EMVA mva);
+    Result(boca::InfoBranch const& info_branch, std::pair<boca::InfoBranch, int> const& trainer_info_branch, std::vector<std::vector<bool>> const& passed, TMVA::Types::EMVA mva);
     boca::InfoBranch const& InfoBranch() const;
     boca::InfoBranch const& TrainerInfoBranch() const;
     std::vector<double> const& Bdts() const;
@@ -28,13 +51,18 @@ public:
     std::vector<Crosssection> const& Crosssections() const;
     std::vector<int> const& EventSums() const;
     int Steps() const;
+    double XValue(int value) const;
+    double BestMDValue(Significance significance) const;
+    double BestMIValue(Significance significance) const;
     TMVA::Types::EMVA const& Mva() const;
-    void SetModelIndependent(const boca::Crosssection& crosssection, int step);
-    std::vector<Crosssection> ModelIndependent() const;
-    void SetModelIndependentSB(const boca::Crosssection& crosssection, int step);
-    std::vector<Crosssection> ModelIndependentSB() const;
-    void SetModelIndependentSig(const boca::Crosssection& crosssection, int step);
-    std::vector<Crosssection> ModelIndependentSig() const;
+    std::vector<Crosssection>& MI(Significance significance);
+    std::vector<Crosssection> const& MI(Significance significance)const;
+    std::vector<double>& MD(Significance significance);
+    std::vector<double> const& MD(Significance significance) const;
+    int& BestMDBin(Significance significance);
+    int BestMDBin(Significance significance) const;
+    int& BestMIBin(Significance significance);
+    int BestMIBin(Significance significance)const;
     std::vector<double> const& SelectedEfficiencies() const;
     void AddSelectedEfficiency(double selected_efficiency);
     void AddSelectedEfficiency(int selected_efficiency);
@@ -43,22 +71,23 @@ private:
     void Inititialize();
     void Calculate();
     int XBin(double value) const;
+    int trainer_size_;
+    TMVA::Types::EMVA mva_;
+    boca::InfoBranch info_branch_;
+    boca::InfoBranch trainer_info_branch_;
     std::vector<int> bins_;
     std::vector<int> event_sums_;
     std::vector<double> events_;
     std::vector<double> efficiencies_;
     std::vector<double> pure_efficiencies_;
     std::vector<double> bdts_;
-    std::vector<Crosssection> crosssections_;
-    std::vector<Crosssection> model_independent_;
-    std::vector<Crosssection> model_independent_sb_;
-    std::vector<Crosssection> model_independent_sig_;
-    boca::InfoBranch info_branch_;
-    boca::InfoBranch trainer_info_branch_;
-    int trainer_size_;
-    std::vector<std::vector<bool>> passed_;
-    TMVA::Types::EMVA mva_;
     std::vector<double> selected_efficiencies_;
+    std::vector<Crosssection> crosssections_;
+    std::vector<std::vector<bool>> passed_;
+    std::map<Significance, int> best_model_dependent_bin_;
+    std::map<Significance, int> best_model_independent_bin_;
+    std::map<Significance, std::vector<double>> model_dependent_;
+    std::map<Significance, std::vector<Crosssection>> model_independent_;
 };
 
 }

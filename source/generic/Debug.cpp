@@ -80,6 +80,11 @@ void LogVariable(std::string const&, char const* value)
 {
     std::cout << Column(ValueLength(), value);
 }
+void Error(const std::__cxx11::string& variable)
+{
+    std::cout << "Error: " << variable << std::endl;
+    std::cout << "\n";
+}
 
 // std::stringstream Left(int width){
 //   std::stringstream stream;

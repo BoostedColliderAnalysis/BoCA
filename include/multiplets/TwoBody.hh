@@ -157,7 +157,7 @@ public:
     }
 
     double Dipolarity() const {
-        if (Pt() <= AtRest() || DeltaR() <= 0_rad) return 0;
+        if (Pt() <= at_rest || DeltaR() <= 0_rad) return 0;
         return ConstituentJet().Dipolarity(Line()) / Pt() / sqr(DeltaR());
     }
 

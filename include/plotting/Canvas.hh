@@ -28,16 +28,18 @@ public:
     TCanvas& canvas();
 
     template<typename Value>
-    void SetLog(Range<Value> const& range) {
-        //       std::cout << range.Min() << " " <<  range.Max() <<std::endl;
-        if (range.Min() > Value(0) && range.Min() / range.Max() < 0.05) canvas_.SetLogy();
+    bool SetLog(Range<Value> const& range) {
+      return false;
+        if (range.Min() < Value(0) || range.Min() / range.Max() < 0.001) return false;
+        canvas_.SetLogy();
+        return true;
     }
 
-    template<typename Value>
-    void SetLog(Rectangle<Value> const& range) {
-        if (range.XMin() > Value(0) && range.XMin() / range.XMax() < 0.05) canvas_.SetLogx();
-        if (range.YMin() > Value(0) && range.YMin() / range.YMax() < 0.05) canvas_.SetLogy();
-    }
+//     template<typename Value>
+//     void SetLog(Rectangle<Value> const& range) {
+//         if (range.XMin() > Value(0) && range.XMin() / range.XMax() < 0.02) canvas_.SetLogx();
+//         if (range.YMin() > Value(0) && range.YMin() / range.YMax() < 0.02) canvas_.SetLogy();
+//     }
 
     void SetLog();
 

@@ -130,10 +130,10 @@ void Histograms::AddHistograms()
 
 void Histograms::AddLine(double x_value, std::string const& title)
 {
-    INFO(title);
-    if (!RangeX().Inside(x_value)) return;
+    INFO(title, x_value);
+    if (!range_.Horizontal().Inside(x_value)) return;
     auto y = RangeY();
-    TLine line(x_value, y.Min(), x_value, y.Max() * 1.05);
+    TLine line(x_value, y.Min(), x_value, y.Max() * 0.8);
     SetLine(line, histograms_.size() + lines_.size() + 1);
     if (x_value != 0) line.Draw();
     if (!title.empty()) legend_.AddEntry(line, title);

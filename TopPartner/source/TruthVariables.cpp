@@ -13,12 +13,12 @@ namespace naturalness
 
 Momentum TruthVariables::LeptonPt(unsigned number) const
 {
-    return leptons_.size() > number ? leptons_.at(number).Pt() : AtRest();
+    return leptons_.size() > number ? leptons_.at(number).Pt() : at_rest;
 }
 
 Momentum TruthVariables::TopPt(unsigned number) const
 {
-    return tops_.size() > number ? tops_.at(number).Pt() : AtRest();
+    return tops_.size() > number ? tops_.at(number).Pt() : at_rest;
 }
 
 int TruthVariables::BosonNumber() const
@@ -38,12 +38,12 @@ int TruthVariables::DetectableBosonNumber() const
 
 Momentum TruthVariables::HardBosonPt() const
 {
-    return bosons_.empty() ? AtRest() : bosons_.front().Pt();
+    return bosons_.empty() ? at_rest : bosons_.front().Pt();
 }
 
 Momentum TruthVariables::SoftBosonPt() const
 {
-    return bosons_.empty() ? AtRest() : bosons_.back().Pt();
+    return bosons_.empty() ? at_rest : bosons_.back().Pt();
 }
 
 Angle TruthVariables::BosonDeltaRMin() const
@@ -102,7 +102,7 @@ void TruthVariables::SetJets(std::vector<Jet> const& jets)
 
 Momentum TruthVariables::JetPt(unsigned number) const
 {
-    return jets_.size() > number ? jets_.at(number).Pt() : AtRest();
+    return jets_.size() > number ? jets_.at(number).Pt() : at_rest;
 }
 
 }

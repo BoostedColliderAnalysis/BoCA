@@ -3,6 +3,7 @@
  */
 #pragma once
 
+#include "Result.hh"
 #include "Tagger.hh"
 #include "Observables.hh"
 #include "physics/Rectangle.hh"
@@ -14,7 +15,7 @@ namespace boca
 {
 
 class Plots;
-class Result;
+// class Result;
 class Results;
 class Plot;
 class Graphs;
@@ -79,8 +80,6 @@ private:
 
     std::string PlotCrosssectionsGraph(Results const& results) const;
 
-    std::string PlotCrosssectionGraph(Results const& results) const;
-
     std::string PlotSBGraph(Results const& results) const;
 
     std::string PlotSBvsSsqrtBGraph(Results const& results) const;
@@ -89,13 +88,13 @@ private:
 
     std::pair<boca::InfoBranch, int> InfoBranch(Phase const& phase, int tree_number) const;
 
-    std::string BestValueTable(Results const& results) const;
+    std::string BestValueTable(const boca::Result& signal, const std::vector< double >& x_values) const;
 
-    std::string BestValueRow(Results const& results, int bin, std::string const& name, std::function<std::vector<Crosssection>(Result const&)> const& function) const;
+    std::string BestValueRow(const boca::Result& signal, const std::vector< double >& x_values, boca::Significance significance, int bin) const;
 
-    std::string ScalingTable(boca::Results& results) const;
+//     std::string ScalingTable(boca::Results& results) const;
 
-    std::string ScalingRow(const boca::Results& results, double factor) const;
+//     std::string ScalingRow(const boca::Results& results, double factor) const;
 
     std::string EfficienciesTable(Results const& results, int bin) const;
 
@@ -117,13 +116,13 @@ private:
 
     std::string PlotEfficiencyGraph(Results const& results) const;
 
-    std::string PlotModelDependentGraph(Results const& results) const;
+    std::string PlotMDGraph(Results const& results) const;
 
-    std::string PlotModelIndependentGraph(Results const& results) const;
+    std::string PlotMIGraph(Results const& results) const;
 
-    std::string PlotModelIndependentGraphSig(Results const& results) const;
+    std::string PlotMIGraphSig(Results const& results) const;
 
-    std::string PlotModelIndependentGraphSB(Results const& results) const;
+    std::string PlotMIGraphSB(Results const& results) const;
 
     void SetDefaultXAxis(Graphs& graphs, Results const& results) const;
 

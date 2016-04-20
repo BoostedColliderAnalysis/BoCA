@@ -50,12 +50,5 @@ Energy to_energy(double energy)
 {
     return energy * GeV;
 }
-Momentum AtRest() {
-    return 0. * ElectronVolt;
-}
-
-Mass Massless() {
-    return 0. * ElectronVolt;
-}
 
 }

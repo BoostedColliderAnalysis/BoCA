@@ -21,7 +21,7 @@ public:
 
     Value DistanceToSegment(Vector2<Value> const& point) const {
         if (Mod2() == ValueSquare(0)) return Distance_1(point); // v == w case
-        double parameter = Paramter(point);
+        auto parameter = Paramter(point);
         if (parameter < 0) return Distance_1(point); // Beyond the 'v' end of the segment
         if (parameter > 1) return Distance_2(point); // Beyond the 'w' end of the segment
         return DistanceToLine(point); // Projection falls on the segment
@@ -32,13 +32,12 @@ public:
         return Area(point) / Mod(); // first implementation
     }
     template<typename Jet_>
-    Angle Distance(Jet_ const& jet) const
-    {
-      auto phi = jet.Phi();
-      auto distance_1 = DistanceToSegment(Vector2<Angle>(jet.Rap(), phi));
-      phi = Wrap(phi);
-      auto distance_2 = DistanceToSegment(Vector2<Angle>(jet.Rap(), phi));
-      return std::min(distance_1, distance_2);
+    Angle Distance(Jet_ const& jet) const {
+        auto phi = jet.Phi();
+        auto distance_1 = DistanceToSegment(Vector2<Angle>(jet.Rap(), phi));
+        phi = Wrap(phi);
+        auto distance_2 = DistanceToSegment(Vector2<Angle>(jet.Rap(), phi));
+        return std::min(distance_1, distance_2);
     }
     Vector2<Value> const& Point_1() const {
         return point_1_;

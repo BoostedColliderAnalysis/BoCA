@@ -1,6 +1,7 @@
 #pragma once
 #include <functional>
 #include <iostream>
+#include "Debug.hh"
 
 namespace boca
 {
@@ -9,12 +10,6 @@ template<typename Member_>
 class Mutable
 {
 public:
-
-//     Mutable() {};
-
-  //     Mutable(std::function<Member_()> const& function) :
-//         function_(function)
-//     {}
 
     void SetFunction(std::function<Member_()> const& function) const {
         if (!function_) function_ = function;
@@ -33,7 +28,7 @@ public:
 
     void Set() const {
         if (set_) return;
-        if (!function_) std::cout << "defining function of mutable class got lost" << std::endl;
+        if (!function_) Error("defining function of mutable class got lost");
         member_ = function_();
         set_ = true;
     }
@@ -47,16 +42,13 @@ public:
 //     }
 
 private:
+
     mutable Member_ member_;
+
     mutable bool set_ = false;
+
     mutable std::function<Member_()> function_;
+
 };
-
-
-// template<typename Member_>
-// Mutable<Member_> MakeMutable(std::function<Member_()> const& function)
-// {
-//     return Mutable<Member_>(function);
-// }
 
 }
