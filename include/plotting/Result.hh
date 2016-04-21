@@ -7,6 +7,7 @@
 
 #include "TMVA/Types.h"
 
+#include "generic/Mutable.hh"
 #include "generic/Flag.hh"
 #include "physics/Units.hh"
 #include "Branches.hh"
@@ -46,10 +47,11 @@ public:
     boca::InfoBranch const& TrainerInfoBranch() const;
     std::vector<double> const& Bdts() const;
     std::vector<double> const& Events() const;
-    std::vector<double> const& Efficiencies() const;
+    std::vector<double> const& PreCutEfficiencies() const;
     std::vector<double> const& PureEfficiencies() const;
     std::vector<Crosssection> const& Crosssections() const;
-    std::vector<int> const& EventSums() const;
+    std::vector<int> const& PartialSum() const;
+    std::vector<int> const& Bins() const;
     int Steps() const;
     double XValue(int value) const;
     double BestMDValue(Significance significance) const;
@@ -69,20 +71,19 @@ public:
     int TrainerSize() const;
 private:
     void Inititialize();
-    void Calculate();
     int XBin(double value) const;
     int trainer_size_;
     TMVA::Types::EMVA mva_;
     boca::InfoBranch info_branch_;
     boca::InfoBranch trainer_info_branch_;
-    std::vector<int> bins_;
-    std::vector<int> event_sums_;
-    std::vector<double> events_;
-    std::vector<double> efficiencies_;
-    std::vector<double> pure_efficiencies_;
+    Mutable<std::vector<int>> bins_;
+    Mutable<std::vector<int>> event_sums_;
     std::vector<double> bdts_;
     std::vector<double> selected_efficiencies_;
-    std::vector<Crosssection> crosssections_;
+    Mutable<std::vector<double>> events_;
+    Mutable<std::vector<double>> efficiencies_;
+    Mutable<std::vector<double>> pure_efficiencies_;
+    Mutable<std::vector<Crosssection>> crosssections_;
     std::vector<std::vector<bool>> passed_;
     std::map<Significance, int> best_model_dependent_bin_;
     std::map<Significance, int> best_model_independent_bin_;

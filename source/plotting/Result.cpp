@@ -100,31 +100,65 @@ std::vector<double> const& Result::Bdts() const
 std::vector<double> const& Result::Events() const
 {
     INFO0;
-    return events_;
+    return events_.Get([&]() {
+        return Transform(Crosssections(), [](Crosssection const & crosssection) -> double {
+            return crosssection * DetectorGeometry::Luminosity();
+        });
+    });
 }
 
-std::vector<double> const& Result::Efficiencies() const
+std::vector<double> const& Result::PreCutEfficiencies() const
 {
     INFO0;
-    return efficiencies_;
+    return efficiencies_.Get([&]() {
+        return Transform(PartialSum(), [&](double event_sum) {
+            return event_sum / InfoBranch().EventNumber();
+        });
+    });
 }
 
 std::vector<double> const& Result::PureEfficiencies() const
 {
     INFO0;
-    return pure_efficiencies_;
+    return pure_efficiencies_.Get([&]() {
+        return Transform(PartialSum(), [&](double event_sum) {
+            return event_sum / PartialSum().front();
+        });
+    });
 }
 
 std::vector<Crosssection> const& Result::Crosssections() const
 {
     INFO0;
-    return crosssections_;
+    return crosssections_.Get([&]() {
+        return Transform(PreCutEfficiencies(), [&](double efficiency) {
+            return InfoBranch().Crosssection() * efficiency;
+        });
+    });
 }
 
-std::vector<int> const& Result::EventSums() const
+std::vector<int> const& Result::PartialSum() const
 {
     INFO0;
-    return event_sums_;
+    return event_sums_.Get([&]() {
+        std::vector<int> event_sums(Steps());
+        switch (mva_) {
+        case TMVA::Types::EMVA::kBDT : std::partial_sum(Bins().rbegin(), Bins().rend(), event_sums.rbegin());
+            return event_sums;
+        case TMVA::Types::EMVA::kCuts : for (auto const & passed : passed_) for (auto const & step : IntegerRange(Steps())) if (passed.at(step)) ++event_sums.at(step);
+            return event_sums;
+            DEFAULT(mva_, event_sums);
+        };
+    });
+}
+
+std::vector<int> const& Result::Bins() const
+{
+    return bins_.Get([&]() {
+        std::vector<int> bins(Steps());
+        for (auto const & bdt : Bdts()) ++bins.at(XBin(bdt));
+        return bins;
+    });
 }
 
 Result::Result(boca::InfoBranch const& info_branch, std::vector<double> const& bdts, TMVA::Types::EMVA mva)
@@ -170,52 +204,12 @@ Result::Result(boca::InfoBranch const& info_branch, std::pair<boca::InfoBranch, 
 void Result::Inititialize()
 {
     INFO0;
-    events_.resize(Steps(), 0);
-    efficiencies_.resize(Steps(), 0.);
-    crosssections_.resize(Steps(), 0_b);
-    for (auto const & significnace : Significances()) {
-        model_dependent_[significnace].resize(Steps(), 0.);
-        model_independent_[significnace].resize(Steps(), 0_b);
-        best_model_dependent_bin_[significnace] = 0;
-        best_model_independent_bin_[significnace] = 0;
+    for (auto const & significance : Significances()) {
+        model_dependent_[significance].resize(Steps(), 0.);
+        model_independent_[significance].resize(Steps(), 0_b);
+        best_model_dependent_bin_[significance] = 0;
+        best_model_independent_bin_[significance] = 0;
     }
-    pure_efficiencies_.resize(Steps(), 0);
-    event_sums_.resize(Steps(), 0);
-    bins_.resize(Steps(), 0);
-    Calculate();
-}
-
-void Result::Calculate()
-{
-    INFO0;
-    switch (mva_) {
-    case TMVA::Types::EMVA::kBDT : {
-        for (auto const & bdt : bdts_) ++bins_.at(XBin(bdt));
-        event_sums_.at(Steps() - 1) = bins_.at(Steps() - 1);
-        for (auto step = Steps() - 2; step >= 0; --step) event_sums_.at(step) = event_sums_.at(step + 1) + bins_.at(step);
-        break;
-    }
-    case TMVA::Types::EMVA::kCuts : {
-        for (auto const & passed : passed_) {
-            auto counter = 0;
-            for (auto const & p : passed) {
-                if (p) ++event_sums_.at(counter);
-                ++counter;
-            }
-        }
-        break;
-    }
-    DEFAULT(mva_);
-    }
-
-    for (auto const & step : IntegerRange(Steps())) {
-        efficiencies_.at(step) = double(event_sums_.at(step)) / InfoBranch().EventNumber();
-        pure_efficiencies_.at(step) = double(event_sums_.at(step)) / event_sums_.front();
-        crosssections_.at(step) = InfoBranch().Crosssection() * double(efficiencies_.at(step));
-        events_.at(step) = crosssections_.at(step) * DetectorGeometry::Luminosity();
-        DEBUG(efficiencies_.at(step), events_.at(step));
-    }
-    INFO(InfoBranch().EventNumber(), event_sums_.front());
 }
 
 int Result::XBin(double value) const

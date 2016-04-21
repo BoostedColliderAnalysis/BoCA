@@ -184,7 +184,7 @@ std::vector<Multiplet_1_> CopyIfClose(std::vector<Multiplet_1_> const& multiplet
 // }
 
 template <typename Element_>
-int Position(std::vector<Element_> const& vector, Element_ const& element)
+std::size_t Position(std::vector<Element_> const& vector, Element_ const& element)
 {
     return std::addressof(element) - vector.data();
 }

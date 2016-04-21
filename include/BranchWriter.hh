@@ -49,7 +49,8 @@ public:
     void Increment(int number) {
         std::lock_guard<std::mutex> lock(sum_mutex);
         object_sum_ += number;
-        if (number > 0) ++event_sum_;
+//         if (number > 0)
+          ++event_sum_;
     }
 
     boca::Reader<Tagger_> Reader() const {

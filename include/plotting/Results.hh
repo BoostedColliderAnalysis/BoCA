@@ -24,10 +24,13 @@ public:
     std::vector<double> const& SelectedEfficiencies() const;
     static double ScalingFactor();
 private:
-    void CalculateSignificances(Result& signal,Significance significance, int step);
+    void CalculateSignificance(Result& signal,Significance significance, int step);
+    void CalculateSignificance(Result& signal,Significance significance);
     double SignalEvents(int step) const;
-    double BackgroundEvents(int step) const;
-    Crosssection BackgroundEfficiencyCrosssection(int step) const;
+    double BackgroundEvent(int step) const;
+    std::vector<Crosssection> BackgroundCrosssections() const;
+    std::vector<double> BackgroundEvents() const;
+    Crosssection BackgroundCrosssection(int step) const;
     Crosssection MI(Significance significance, double signal_efficiency, int step) const;
     Crosssection MIConstrained(Significance significance, double signal_efficiency, int step) const;
     Crosssection MISum(double signal_efficiency, int step) const;
@@ -43,6 +46,8 @@ private:
     std::vector<Result> backgrounds_;
     std::vector<double> x_values_;
     std::vector<double> selected_efficiencies_;
+    Mutable<std::vector<double>> background_events_;
+    Mutable<std::vector<Crosssection>> background_crosssections_;
 };
 
 }

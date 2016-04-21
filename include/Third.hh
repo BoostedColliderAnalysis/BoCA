@@ -38,7 +38,7 @@ private:
         if (!ReadEntry()) return;
         Event event(TreeReader(), BranchWriter().Import().Source());
         if (pass_pre_cut(event, BranchWriter().Phase().Tag())) return SaveEntry(Switch(event, pre_cuts));
-        Increment(0);
+        Increment();
     }
 
     void SaveEntry(int number) {
@@ -63,9 +63,10 @@ private:
         return TreeReader().GetEntries();
     }
 
-    void Increment(int number) {
+    void Increment(int number = 0) {
         EventNumber() += core_sum_;
-        if (number > 0) BranchWriter().Increment(number);
+//         if (number > 0) 
+          BranchWriter().Increment(number);
     }
 
     bool KeepGoing(std::function<long(Stage)> const& event_number_max) const {

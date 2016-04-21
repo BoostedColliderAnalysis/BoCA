@@ -190,11 +190,11 @@ std::string PlottingBase::PlotEfficiencyGraph(Results const& results) const
     INFO0;
     Graphs graphs(Tagger().ExportFolderName(), "Efficiency");
     for (auto const & signal : results.Signals()) {
-        graphs.AddGraph(results.XValues(), signal.Efficiencies(), signal.InfoBranch().LatexName());
+        graphs.AddGraph(results.XValues(), signal.PreCutEfficiencies(), signal.InfoBranch().LatexName());
         graphs.AddLine(signal.BestMDValue(Significance::sum));
         graphs.AddLine(signal.BestMIValue(Significance::sum | Significance::experimental));
     }
-    for (auto const & background : results.Backgrounds()) graphs.AddGraph(results.XValues(), background.Efficiencies(), background.InfoBranch().LatexName());
+    for (auto const & background : results.Backgrounds()) graphs.AddGraph(results.XValues(), background.PreCutEfficiencies(), background.InfoBranch().LatexName());
     graphs.SetLegend(Orientation::bottom | Orientation::left);
     switch (Tagger().Mva()) {
     case TMVA::Types::EMVA::kBDT :
@@ -432,10 +432,10 @@ std::string PlottingBase::EfficienciesRow(Result const& result, int, Tag , int b
 //     row << " \\verb|" << result.InfoBranch().LatexName() << "|";
     row << "$" << result.InfoBranch().Name() << "$";
     row << "\n  & " << result.InfoBranch().EventNumber();
-    row << "\n  & " << result.EventSums().at(bin);
-    row << "\n  & " << RoundToDigits(result.Efficiencies().at(bin));
+    row << "\n  & " << result.PartialSum().at(bin);
+    row << "\n  & " << RoundToDigits(result.PreCutEfficiencies().at(bin));
     row << "\n  & " << RoundToDigits(result.InfoBranch().Crosssection() / fb * Results::ScalingFactor());
-    row << "\n  & " << RoundToDigits(result.InfoBranch().Crosssection() * DetectorGeometry::Luminosity() * result.Efficiencies().at(bin) * Results::ScalingFactor());
+    row << "\n  & " << RoundToDigits(result.InfoBranch().Crosssection() * DetectorGeometry::Luminosity() * result.PreCutEfficiencies().at(bin) * Results::ScalingFactor());
     row << "\n \\\\";
     return row.str();
 }
@@ -458,8 +458,8 @@ std::string PlottingBase::EfficienciesRowMI(Result const& result, int , Tag , in
 //     row << " \\verb|" << result.InfoBranch().LatexName() << "|";
     row << "$" << result.InfoBranch().Name() << "$";
     row << "\n  & " << result.InfoBranch().EventNumber();
-    row << "\n  & " << result.EventSums().at(bin);
-    row << "\n  & " << RoundToDigits(result.Efficiencies().at(bin));
+    row << "\n  & " << result.PartialSum().at(bin);
+    row << "\n  & " << RoundToDigits(result.PreCutEfficiencies().at(bin));
     row << "\n  & " << RoundToDigits(function(result).at(bin) / fb);
     row << "\n \\\\";
     return row.str();

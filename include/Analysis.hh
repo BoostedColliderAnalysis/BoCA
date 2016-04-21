@@ -50,25 +50,25 @@ private:
      *
      */
     void FileLoop(BranchWriter<Tagger_> branch_writer) {
-        auto threading = true;
-        if (threading){
-        std::vector<std::thread> threads;
-        // int cores = std::thread::hardware_concurrency();
-        auto cores = 1;
+        auto threading = false;
+        if (threading) {
+            std::vector<std::thread> threads;
+            // int cores = std::thread::hardware_concurrency();
+            auto cores = 1;
 //         for (auto core : IntegerRange(cores))
-          for(auto core = 0; core < cores; ++core)
-            threads.emplace_back([&] {
-            Thread({branch_writer, TrainNumberMax(), cores, core});
-        });
-        for (auto & thread : threads) thread.join();
-        } else Thread({branch_writer, TrainNumberMax(), 1, 0});
+            for (auto core = 0; core < cores; ++core)
+                threads.emplace_back([&] {
+                Thread({branch_writer, TrainNumberMax(), cores, core});
+            });
+            for (auto & thread : threads) thread.join();
+        } else Thread( {branch_writer, TrainNumberMax(), 1, 0});
     }
 
-    void Thread(Third<Tagger_> third){
-        third.ReadEvents(PreCuts(), [&](Stage stage){
-          return EventNumberMax(stage);
+    void Thread(Third<Tagger_> third) {
+        third.ReadEvents(PreCuts(), [&](Stage stage) {
+            return EventNumberMax(stage);
         }, [&](Event const & event, Tag tag) {
-          return PassPreCut(event, tag);
+            return PassPreCut(event, tag);
         });
     }
 
