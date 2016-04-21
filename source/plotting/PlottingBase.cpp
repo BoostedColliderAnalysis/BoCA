@@ -69,9 +69,9 @@ void PlottingBase::OptimalCuts() const
     latex_file.IncludeGraphic(PlotEfficiencyGraph(results), "Efficiency");
     latex_file.IncludeGraphic(PlotCrosssectionsGraph(results), "Crosssection in fb");
     latex_file.IncludeGraphic(PlotMDGraph(results), "Maximization of significance");
-    latex_file.IncludeGraphic(PlotSBGraph(results), "Maximization of " + Ratio());
-    latex_file.IncludeGraphic(PlotMIGraphSig(results), "Minimization of the model independent crosssection for significance $\\geq 2$");
-    latex_file.IncludeGraphic(PlotMIGraphSB(results), "Minimization of model independent cross section for " + Ratio(1));
+    latex_file.IncludeGraphic(PlotMDExperimentalGraph(results), "Maximization of " + Ratio());
+    latex_file.IncludeGraphic(PlotMISignificanceGraph(results), "Minimization of the model independent crosssection for significance $\\geq 2$");
+    latex_file.IncludeGraphic(PlotMIExperimentalGraph(results), "Minimization of model independent cross section for " + Ratio(1));
     latex_file.IncludeGraphic(PlotMIGraph(results), "Minimization of model independent crosssection for significance $\\geq 2$ and " + Ratio(1));
     latex_file.IncludeGraphic(PlotSBvsSsqrtBGraph(results), Ratio() + "versus " + SignificanceString());
     for (const auto signal : results.Signals()) {
@@ -257,7 +257,7 @@ std::string PlottingBase::PlotCrosssectionsGraph(Results const& results) const
 std::string PlottingBase::PlotMDGraph(Results const& results) const
 {
     INFO0;
-    Graphs graphs(Tagger().ExportFolderName(), "Significance");
+    Graphs graphs(Tagger().ExportFolderName(), "MDSignificance");
     for (auto const & signal : results.Signals()) {
         graphs.AddGraph(results.XValues(), signal.MD(Significance::poisson), "Poisson");
         graphs.AddGraph(results.XValues(), signal.MD(Significance::sum), "#frac{S}{#sqrt{S + B}}");
@@ -272,10 +272,10 @@ std::string PlottingBase::PlotMDGraph(Results const& results) const
     return graphs.FileBaseName();
 }
 
-std::string PlottingBase::PlotSBGraph(Results const& results) const
+std::string PlottingBase::PlotMDExperimentalGraph(Results const& results) const
 {
     INFO0;
-    Graphs graphs(Tagger().ExportFolderName(), "SB");
+    Graphs graphs(Tagger().ExportFolderName(), "MDExperimental");
     for (auto const & signal : results.Signals()) {
         graphs.AddGraph(results.XValues(), signal.MD(Significance::experimental));
         graphs.AddLine(signal.BestMDValue(Significance::experimental));
@@ -298,7 +298,7 @@ std::string PlottingBase::PlotSBvsSsqrtBGraph(Results const& results) const
 std::string PlottingBase::PlotMIGraph(Results const& results) const
 {
     INFO0;
-    Graphs graphs(Tagger().ExportFolderName(), "Exclusion");
+    Graphs graphs(Tagger().ExportFolderName(), "MIConstrained");
     for (auto const & signal : results.Signals()) {
         graphs.AddGraph(results.XValues(), FloatVector(signal.MI(Significance::poisson | Significance::experimental)), "Poisson");
         graphs.AddGraph(results.XValues(), FloatVector(signal.MI(Significance::sum | Significance::experimental)), "#frac{S}{#sqrt{S+B}}");
@@ -313,15 +313,13 @@ std::string PlottingBase::PlotMIGraph(Results const& results) const
     return graphs.FileBaseName();
 }
 
-std::string PlottingBase::PlotMIGraphSB(Results const& results) const
+std::string PlottingBase::PlotMIExperimentalGraph(Results const& results) const
 {
     INFO0;
-    Graphs graphs(Tagger().ExportFolderName(), "ExclusionSB");
+    Graphs graphs(Tagger().ExportFolderName(), "MIExperimental");
     for (auto const & signal : results.Signals()) {
         graphs.AddGraph(results.XValues(), FloatVector(signal.MI(Significance::experimental)), signal.InfoBranch().LatexName());
-        graphs.AddLine(signal.BestMIValue(Significance::sum | Significance::experimental), "#frac{S}{#sqrt{S+B}} and #frac{S}{B}");
-        graphs.AddLine(signal.BestMDValue(Significance::background), "#frac{S}{#sqrt{S+B}}");
-        graphs.AddLine(signal.BestMDValue(Significance::experimental), "#frac{S}{B}");
+        graphs.AddLine(signal.BestMIValue(Significance::experimental), "#frac{S}{B}");
     }
     graphs.SetLegend(Orientation::left);
     graphs.SetYAxis("Exclusion crosssection [fb]");
@@ -329,10 +327,10 @@ std::string PlottingBase::PlotMIGraphSB(Results const& results) const
     return graphs.FileBaseName();
 }
 
-std::string PlottingBase::PlotMIGraphSig(Results const& results) const
+std::string PlottingBase::PlotMISignificanceGraph(Results const& results) const
 {
     INFO0;
-    Graphs graphs(Tagger().ExportFolderName(), "ExclusionSig");
+    Graphs graphs(Tagger().ExportFolderName(), "MISignificance");
     for (auto const & signal : results.Signals()) {
         graphs.AddGraph(results.XValues(), FloatVector(signal.MI(Significance::poisson)), "Poisson");
         graphs.AddGraph(results.XValues(), FloatVector(signal.MI(Significance::sum)), "#frac{S}{#sqrt{S+B}}");

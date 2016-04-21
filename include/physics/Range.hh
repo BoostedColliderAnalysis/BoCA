@@ -23,6 +23,10 @@ public:
         ImposeHierachy();
     }
 
+    Range(Value degenerate) :
+        min_(degenerate),
+        max_(degenerate) {}
+
     template<typename Value_2>
     Range(Value_2 min, Value_2 max) :
         min_(Value(min)),
@@ -62,6 +66,11 @@ public:
     void Widen(Range<Value> const& bound) {
         WidenMin(bound.Min());
         WidenMax(bound.Max());
+    }
+
+    void Widen(double  factor) {
+        min_ /= factor;
+        max_ *= factor;
     }
 
     void WidenMin(Value min) {
@@ -125,7 +134,7 @@ public:
 
     template<typename Value2>
     friend Range<ValueProduct<Value, Value2>> operator*(Range const& range, Value2 const& scalar) {
-      return range.Scale(scalar);
+        return range.Scale(scalar);
     }
 
     template<typename Value2>

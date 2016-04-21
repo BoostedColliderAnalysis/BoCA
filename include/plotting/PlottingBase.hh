@@ -80,7 +80,7 @@ private:
 
     std::string PlotCrosssectionsGraph(Results const& results) const;
 
-    std::string PlotSBGraph(Results const& results) const;
+    std::string PlotMDExperimentalGraph(Results const& results) const;
 
     std::string PlotSBvsSsqrtBGraph(Results const& results) const;
 
@@ -120,9 +120,9 @@ private:
 
     std::string PlotMIGraph(Results const& results) const;
 
-    std::string PlotMIGraphSig(Results const& results) const;
+    std::string PlotMISignificanceGraph(Results const& results) const;
 
-    std::string PlotMIGraphSB(Results const& results) const;
+    std::string PlotMIExperimentalGraph(Results const& results) const;
 
     void SetDefaultXAxis(Graphs& graphs, Results const& results) const;
 
