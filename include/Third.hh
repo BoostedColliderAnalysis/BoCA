@@ -23,7 +23,7 @@ public:
     }
 
     void ReadEvents(PreCuts const& pre_cuts, std::function<long(Stage)> const& event_number_max, std::function<int(Event const&, Tag)> const& pass_pre_cut) {
-      while (KeepGoing(event_number_max)) ReadEvent(pre_cuts, pass_pre_cut);
+        while (KeepGoing(event_number_max)) ReadEvent(pre_cuts, pass_pre_cut);
     }
 
 private:
@@ -38,7 +38,7 @@ private:
         if (!ReadEntry()) return;
         Event event(TreeReader(), BranchWriter().Import().Source());
         if (pass_pre_cut(event, BranchWriter().Phase().Tag())) return SaveEntry(Switch(event, pre_cuts));
-        Increment();
+        Increment(0);
     }
 
     void SaveEntry(int number) {
@@ -63,10 +63,10 @@ private:
         return TreeReader().GetEntries();
     }
 
-    void Increment(int number = 0) {
+    void Increment(int number) {
         EventNumber() += core_sum_;
-//         if (number > 0) 
-          BranchWriter().Increment(number);
+//         if (number > 0)
+            BranchWriter().Increment(number);
     }
 
     bool KeepGoing(std::function<long(Stage)> const& event_number_max) const {
@@ -82,26 +82,26 @@ private:
     }
 
     boca::TreeReader const& TreeReader() const {
-      return tree_reader_;
+        return tree_reader_;
     }
 
-    long & EventNumber() {
+    long& EventNumber() {
         return event_number_;
     }
 
     long EventNumber() const {
-      return event_number_;
+        return event_number_;
     }
 
-    Tagger_ & Tagger() {
-      return tagger_;
+    Tagger_& Tagger() {
+        return tagger_;
     }
 
     boca::BranchWriter<Tagger_> const& BranchWriter() const {
         return branch_writer_;
     }
 
-    boca::Reader<Tagger_> & Reader() {
+    boca::Reader<Tagger_>& Reader() {
         return reader_;
     }
 

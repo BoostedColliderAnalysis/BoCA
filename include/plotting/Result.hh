@@ -52,11 +52,11 @@ public:
     std::vector<Crosssection> const& Crosssections() const;
     std::vector<int> const& PartialSum() const;
     std::vector<int> const& Bins() const;
-    int Steps() const;
-    double XValue(int value) const;
+    static int Steps();
+    static double XValue(int value);
     double BestMDValue(Significance significance) const;
     double BestMIValue(Significance significance) const;
-    TMVA::Types::EMVA const& Mva() const;
+    static TMVA::Types::EMVA const& Mva();
     std::vector<Crosssection>& MI(Significance significance);
     std::vector<Crosssection> const& MI(Significance significance)const;
     std::vector<double>& MD(Significance significance);
@@ -73,7 +73,7 @@ private:
     void Inititialize();
     int XBin(double value) const;
     int trainer_size_;
-    TMVA::Types::EMVA mva_;
+    static TMVA::Types::EMVA mva_;
     boca::InfoBranch info_branch_;
     boca::InfoBranch trainer_info_branch_;
     Mutable<std::vector<int>> bins_;
@@ -84,7 +84,7 @@ private:
     Mutable<std::vector<double>> efficiencies_;
     Mutable<std::vector<double>> pure_efficiencies_;
     Mutable<std::vector<Crosssection>> crosssections_;
-    std::vector<std::vector<bool>> passed_;
+    static std::vector<std::vector<bool>> passed_;
     std::map<Significance, int> best_model_dependent_bin_;
     std::map<Significance, int> best_model_independent_bin_;
     std::map<Significance, std::vector<double>> model_dependent_;

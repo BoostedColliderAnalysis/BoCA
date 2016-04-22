@@ -17,10 +17,8 @@ public:
     std::vector<Result> const& Signals() const;
     std::vector<Result> const& Backgrounds() const;
     Rectangle<double> const& Range() const;
-    Rectangle<double>& Range();
-    double XValue(int value) const;
     std::vector<double> const& XValues() const;
-    void Efficiencies();
+    void CutEfficiencies();
     std::vector<double> const& SelectedEfficiencies() const;
     static double ScalingFactor();
 private:
@@ -37,17 +35,14 @@ private:
     Crosssection MIExperimental(double signal_efficiency, int step) const;
     Crosssection MIBackground(double signal_efficiency, int step) const;
     Crosssection MIPoisson(double signal_efficiency, int step) const;
-    int Steps() const;
-    TMVA::Types::EMVA Mva() const;
-    void ExtremeXValues();
     void BestBins(boca::Result& signal, boca::Significance significance);
-    Rectangle<double> range_;
     std::vector<Result> signals_;
     std::vector<Result> backgrounds_;
-    std::vector<double> x_values_;
     std::vector<double> selected_efficiencies_;
     Mutable<std::vector<double>> background_events_;
     Mutable<std::vector<Crosssection>> background_crosssections_;
+    Mutable<std::vector<double>> x_values_;
+    Mutable<Rectangle<double>> range_;
 };
 
 }

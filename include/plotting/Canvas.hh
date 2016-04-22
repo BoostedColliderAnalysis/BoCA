@@ -29,8 +29,8 @@ public:
 
     template<typename Value>
     bool SetLog(Range<Value> const& range) {
-      return false;
-        if (range.Min() < Value(0) || range.Min() / range.Max() < 0.001) return false;
+//       return false;
+        if (range.Min() < Value(0) || range.Min() / range.Max() < 0.02) return false;
         canvas_.SetLogy();
         return true;
     }

@@ -49,7 +49,7 @@ void PlottingBase::TaggingEfficiency() const
 {
     INFO0;
     auto results = ReadBdtFiles(Stage::reader);
-    results.Efficiencies();
+    results.CutEfficiencies();
     LatexFile latex_file(Tagger().ExportFolderName());
     latex_file.IncludeGraphic(PlotHistograms(results), "BDT Distribution");
     latex_file.IncludeGraphic(PlotAcceptanceGraph(results), "Acceptance");

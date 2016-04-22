@@ -1,11 +1,12 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "BottomTagger.hh"
 
 #include <boost/range/algorithm/unique.hpp>
+
 #include "generic/Exception.hh"
 #include "multiplets/Particles.hh"
+#include "BottomTagger.hh"
 #include "PreCuts.hh"
 #include "Event.hh"
 // #define DEBUGGING
@@ -101,7 +102,7 @@ Jet BottomTagger::Multiplet(Jet& jet, TMVA::Reader const& reader)
 
 bool BottomTagger::Problematic(Jet const& jet, PreCuts const& pre_cuts, Tag tag) const
 {
-    INFO0;
+    DEBUG0;
     if (Problematic(jet, pre_cuts)) return true;
     if (jet.Mass() > bottom_max_mass_) return true;
     if (boost::units::abs(jet.Rap()) > DetectorGeometry::TrackerEtaMax()) return true;
@@ -116,7 +117,7 @@ bool BottomTagger::Problematic(Jet const& jet, PreCuts const& pre_cuts, Tag tag)
 
 bool BottomTagger::Problematic(Jet const& jet, PreCuts const& pre_cuts) const
 {
-    INFO0;
+    DEBUG0;
     if (pre_cuts.ApplyCuts(Id::bottom, jet)) return true;
     return false;
 }

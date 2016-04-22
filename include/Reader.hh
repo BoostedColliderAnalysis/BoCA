@@ -120,6 +120,7 @@ public:
     }
 
     Tagger_ const& Tagger() const {
+        if (!initialized_) const_cast<Reader*>(this)->Initialize();
         return tagger_;
     }
 
@@ -139,6 +140,7 @@ public:
     }
 
     Tagger_& Tagger() {
+        if (!initialized_) Initialize();
         return tagger_;
     }
 

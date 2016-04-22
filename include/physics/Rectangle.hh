@@ -41,6 +41,14 @@ public:
         y_( {y_min, y_max})
     {}
 
+    void SetX(Value const& min, Value const& max) {
+        x_.Set(min, max);
+    }
+
+    void SetY(Value const& min, Value const& max) {
+        y_.Set(min, max);
+    }
+
     void SetX(Range<Value> const& x) {
         x_ = x;
     }
@@ -50,11 +58,11 @@ public:
     }
 
     void SetX(std::pair<Value, Value> const& x) {
-      x_.Set(x);
+        x_.Set(x);
     }
 
     void SetY(std::pair<Value, Value> const& y) {
-      y_.Set(y);
+        y_.Set(y);
     }
 
     void ResetY() {
@@ -134,12 +142,12 @@ public:
         return {x_.Max(), y_.Max()};
     }
 
-    Range<Value> & Horizontal()  {
-      return x_;
+    Range<Value>& Horizontal()  {
+        return x_;
     }
 
-    Range<Value> & Vertical()  {
-      return y_;
+    Range<Value>& Vertical()  {
+        return y_;
     }
 
     Range<Value> const& Horizontal() const {

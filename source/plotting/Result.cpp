@@ -49,17 +49,21 @@ std::string Name(Significance significance)
     return name;
 }
 
-int Result::Steps() const
+TMVA::Types::EMVA Result::mva_ = TMVA::Types::EMVA::kVariable;
+
+std::vector<std::vector<bool>> Result::passed_;
+
+int Result::Steps()
 {
     INFO0;
-    switch (mva_) {
+    switch (Mva()) {
     case TMVA::Types::EMVA::kBDT : return 200;
     case TMVA::Types::EMVA::kCuts : return passed_.front().size();
-        DEFAULT(mva_, 0);
+        DEFAULT(Mva(), 0);
     }
 }
 
-double Result::XValue(int value) const
+double Result::XValue(int value)
 {
     INFO(value);
     switch (Mva()) {
@@ -142,12 +146,12 @@ std::vector<int> const& Result::PartialSum() const
     INFO0;
     return event_sums_.Get([&]() {
         std::vector<int> event_sums(Steps());
-        switch (mva_) {
+        switch (Mva()) {
         case TMVA::Types::EMVA::kBDT : std::partial_sum(Bins().rbegin(), Bins().rend(), event_sums.rbegin());
             return event_sums;
         case TMVA::Types::EMVA::kCuts : for (auto const & passed : passed_) for (auto const & step : IntegerRange(Steps())) if (passed.at(step)) ++event_sums.at(step);
             return event_sums;
-            DEFAULT(mva_, event_sums);
+            DEFAULT(Mva(), event_sums);
         };
     });
 }
@@ -215,14 +219,14 @@ void Result::Inititialize()
 int Result::XBin(double value) const
 {
     INFO(value);
-    switch (mva_) {
+    switch (Mva()) {
     case TMVA::Types::kBDT : return std::floor((value + 1) * (Steps() - 1) / 2);
     case TMVA::Types::kCuts : return std::floor((value - 1) * (Steps() - 1) * 10);
-        DEFAULT(mva_, 0);
+        DEFAULT(Mva(), 0);
     }
 }
 
-TMVA::Types::EMVA const& Result::Mva() const
+TMVA::Types::EMVA const& Result::Mva()
 {
     return mva_;
 }

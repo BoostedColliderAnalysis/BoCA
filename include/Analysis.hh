@@ -50,12 +50,12 @@ private:
      *
      */
     void FileLoop(BranchWriter<Tagger_> branch_writer) {
-        auto threading = false;
+        auto threading = true;
         if (threading) {
             std::vector<std::thread> threads;
             // int cores = std::thread::hardware_concurrency();
             auto cores = 1;
-//         for (auto core : IntegerRange(cores))
+//         for (auto core : IntegerRange(cores)) // FIXME why is this not the same as next line
             for (auto core = 0; core < cores; ++core)
                 threads.emplace_back([&] {
                 Thread({branch_writer, TrainNumberMax(), cores, core});

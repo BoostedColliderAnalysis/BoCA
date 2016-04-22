@@ -78,43 +78,16 @@ auto BestMIBin(std::vector<Crosssection> const& vector)
 
 Results::Results(std::vector<Result> const& signals, std::vector<Result> const& backgrounds) :
     signals_(signals),
-    backgrounds_(backgrounds)
+    backgrounds_(backgrounds) {}
+
+std::vector<double> const& Results::XValues() const
 {
     INFO0;
-    x_values_.resize(Steps(), 0);
-    for (auto & x_value : x_values_) x_value = XValue(Position(x_values_, x_value));
-    ExtremeXValues();
-}
-
-void Results::ExtremeXValues()
-{
-    INFO0;
-    switch (Mva()) {
-    case TMVA::Types::kBDT : for (auto const & signal : signals_) range_.WidenXMax(*boost::range::max_element(signal.Bdts()));
-        for (auto const & background : backgrounds_) range_.WidenXMin(*boost::range::min_element(background.Bdts()));
-        break;
-    case TMVA::Types::kCuts : if (!x_values_.empty()) range_.SetX( {x_values_.front(), x_values_.back()});
-        break;
-        DEFAULT(Mva());
-    }
-}
-
-int Results::Steps() const
-{
-    INFO0;
-    return signals_.empty() ? 0 : signals_.front().Steps();
-}
-
-TMVA::Types::EMVA Results::Mva() const
-{
-    INFO0;
-    return signals_.empty() ? TMVA::Types::kVariable : signals_.front().Mva();
-}
-
-double Results::XValue(int value) const
-{
-    INFO(value);
-    return signals_.empty() ? 0 : signals_.front().XValue(value);
+    return x_values_.Get([&]() {
+        std::vector<double> x_values(Result::Steps());
+        for (auto & x_value : x_values) x_value = Result::XValue(Position(x_values, x_value));
+        return x_values;
+    });
 }
 
 void Results::CalculateSignificances()
@@ -126,7 +99,7 @@ void Results::CalculateSignificances()
 void Results::CalculateSignificance(Result& signal, Significance significance)
 {
     INFO0;
-    for (auto const & step : IntegerRange(Steps())) CalculateSignificance(signal, significance, step);
+    for (auto const & step : IntegerRange(Result::Steps())) CalculateSignificance(signal, significance, step);
     BestBins(signal, significance);
 }
 
@@ -144,18 +117,34 @@ void Results::BestBins(Result& signal, Significance significance)
     signal.BestMIBin(significance) = BestMIBin(signal.MI(significance));
 }
 
-void Results::Efficiencies()
+Rectangle<double> const& Results::Range() const
+{
+    return range_.Get([&]() {
+        Rectangle<double> range;
+        switch (Result::Mva()) {
+        case TMVA::Types::kBDT : for (auto const & signal : signals_) range.WidenXMax(*boost::range::max_element(signal.Bdts()));
+            for (auto const & background : backgrounds_) range.WidenXMin(*boost::range::min_element(background.Bdts()));
+            break;
+        case TMVA::Types::kCuts : if (!XValues().empty()) range.SetX(XValues().front(), XValues().back());
+            break;
+            DEFAULT(Result::Mva());
+        }
+        return range;
+    });
+}
+
+void Results::CutEfficiencies()
 {
     INFO0;
     auto steps = 10;
     auto sig_eff = signals_.front().PureEfficiencies();
     for (double eff : IntegerRange(1, steps)) {
-        double& elem = *(boost::range::lower_bound(sig_eff, eff / steps, [](double i, double j) {
+        auto& elem = *(boost::range::lower_bound(sig_eff, eff / steps, [](double i, double j) {
             return i > j;
         }) - 1);
         signals_.front().AddSelectedEfficiency(elem);
         auto index = Position(sig_eff, elem);
-        selected_efficiencies_.emplace_back(XValue(index));
+        selected_efficiencies_.emplace_back(Result::XValue(index));
         if (index >= sig_eff.size()) index = 0;
         for (auto & background : backgrounds_) background.AddSelectedEfficiency(int(index));
     }
@@ -173,7 +162,7 @@ std::vector<double> Results::BackgroundEvents() const
 {
     INFO0;
     return background_events_.Get([&]() {
-        return Transform(IntegerRange(Steps()), [&](int step) {
+        return Transform(IntegerRange(Result::Steps()), [&](int step) {
             return BackgroundEvent(step);
         });
     });
@@ -193,7 +182,7 @@ double Results::BackgroundEvent(int step) const
 std::vector<Crosssection> Results::BackgroundCrosssections() const
 {
     return background_crosssections_.Get([&]() {
-        return Transform(IntegerRange(Steps()), [&](int step) {
+        return Transform(IntegerRange(Result::Steps()), [&](int step) {
             return BackgroundCrosssection(step);
         });
     });
@@ -254,7 +243,9 @@ Crosssection Results::MIPoisson(double signal_efficiency, int step) const
         return SignificancePoisson(signal_events, background_events) - exclusion;
     });
     boca::Range<double> range(MIBackground(signal_efficiency, step) / fb);
-    while (sgn(function(range.Min())) == sgn(function(range.Max()))) range.Widen(1.1);
+    do {
+        range.Widen(1.1);
+    } while (sgn(function(range.Min())) == sgn(function(range.Max())));
     ROOT::Math::RootFinder root_finder(ROOT::Math::RootFinder::kGSL_BRENT);
     auto success = root_finder.Solve(function, range.Min(), range.Max());
     auto xsec = root_finder.Root() * fb;
@@ -300,21 +291,6 @@ std::vector<Result> const& Results::Signals() const
 std::vector<Result> const& Results::Backgrounds() const
 {
     return backgrounds_;
-}
-
-Rectangle<double> const& Results::Range() const
-{
-    return range_;
-}
-
-Rectangle<double>& Results::Range()
-{
-    return range_;
-}
-
-std::vector<double> const& Results::XValues() const
-{
-    return x_values_;
 }
 
 const std::vector< double >& Results::SelectedEfficiencies() const
