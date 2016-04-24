@@ -68,6 +68,7 @@ private:
 
     std::vector<Jet> Jets(Event const& event, PreCuts const& pre_cuts, std::function<Jet(Jet&)> const& function);
 
+    using TaggerTemplate::Multiplets;
     std::vector<Jet> Multiplets(std::vector<Jet> jets, std::function<Jet(Jet&)> const& function, unsigned sub_jet_number = 1) const;
 
     bool Problematic(Jet const& jet, boca::PreCuts const& pre_cuts, Tag tag) const;

@@ -52,22 +52,16 @@ public:
     }
 
     template<typename Input_>
-    std::vector<Multiplet_> ReducedMultiplets(const Input_& event, const PreCuts& pre_cuts, TMVA::Reader const& reader, std::size_t max = 4) {
-        return ReduceResult(Multiplets(event, pre_cuts, reader), max);
+    std::vector<Multiplet_> ReducedMultiplets(Input_ const& input, const PreCuts& pre_cuts, TMVA::Reader const& reader, std::size_t max = 4) {
+        return ReduceResult(Multiplets(input, pre_cuts, reader), max);
     }
 
-//     template<typename Input_>
-//     std::vector<Multiplet_> ReducedMultiplets(const Input_& event, TMVA::Reader const& reader, std::size_t max = 4) const {
-//       PreCuts pre_cuts;
-//       return ReduceResult(Multiplets(event, pre_cuts, reader), max);
-//     }
+protected:
 
     virtual std::vector<Multiplet_> Multiplets(std::vector<Jet> const&, PreCuts const&, TMVA::Reader const&) {
         std::cout << "Never end up here! Must be overlaoded" << std::endl;
         return {};
     }
-
-protected:
 
     template<typename Multiplet_2_>
     std::vector<Multiplet_2_> ReduceResult(std::vector<Multiplet_2_> multiplets, std::size_t max = 4) const {
@@ -84,14 +78,6 @@ protected:
         multiplets.erase(multiplets.begin() + number, multiplets.end());
         return multiplets;
     }
-
-//     template<typename Multiplet_2_>
-//     std::vector<Multiplet_2_> BestMatch(std::vector<Multiplet_2_> const& multiplets, std::vector<Particle> const& particles, Id id = Id::none) const {
-//         std::vector<Multiplet_2_> close = CopyIfClose(multiplets, particles);
-//         close = SortedByBdt(close);
-//         if (id != Id::none) close = SortedByMassTo(close, id);
-//         return std::vector<Multiplet_2_>(close.data(), &close.at(std::min(close.size(), particles.size())));
-//     }
 
     template<typename Multiplet_2_, typename Particle_>
     std::vector<Multiplet_2_> BestMatch(std::vector<Multiplet_2_> const& multiplets, std::vector<Particle_> const& particles, Id id = Id::none) const {
@@ -113,17 +99,6 @@ protected:
         if (close.empty()) return close;
         return {close.front()};
     }
-
-//     template<typename Multiplet_2_>
-//     std::vector<Multiplet_2_> BestMatch(std::vector<Multiplet_2_> const& multiplets, std::vector<std::pair<Particle, Particle>> const& particles, Id id = Id::none) const {
-//         if (Debug()) boca::Debug("multiplets", multiplets.size(), "particles", particles.size());
-//         if (multiplets.empty()) return multiplets;
-//         auto close = CopyIfClose(multiplets, particles);
-//         if (close.empty()) return close;
-//         close = id == Id::none ? SortedByBdt(close) : SortedByMassTo(close, id);
-//         if (Debug()) boca::Debug("close", close.size());
-//         return close.empty() ? close : std::vector<Multiplet_2_>(close.data(), &close.at(std::min(close.size(), particles.size()) - 1));
-//     }
 
     template<typename Multiplet_2_>
     std::vector<Multiplet_2_> RemoveBestMatch(std::vector<Multiplet_2_> const& multiplets, std::vector<Particle> const& particles) const {
@@ -224,15 +199,15 @@ private:
         Branch().Fill(multiplet);
     }
 
+    constexpr bool Debug() const {
+        return false;
+    }
+
     /**
     * @brief Branch storing the analysis results
     *
     */
     Branch_ branch_;
-
-    constexpr bool Debug() const {
-        return false;
-    }
 
 };
 

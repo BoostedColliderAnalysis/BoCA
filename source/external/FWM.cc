@@ -1,21 +1,9 @@
-#include "external/FWM.hh"
+#include "Math/SpecFuncMathMore.h"
 #include "fastjet/tools/Boost.hh"
+#include "external/FWM.hh"
 
 namespace hep
 {
-
-double perp(fastjet::PseudoJet v_pj, fastjet::PseudoJet ref_pj)
-{
-    double pt = 0.;
-    std::valarray<double> v = v_pj.four_mom();
-    std::valarray<double> ref = ref_pj.four_mom();
-    ref[3] = 0.;
-    double mag2 = ref[0] * ref[0] + ref[1] * ref[1] + ref[2] * ref[2];
-    double v_ref =  v[0] * ref[0] + v[1] * ref[1] + v[2] * ref[2];
-    std::valarray<double> v_perp = v - (v_ref / mag2) * ref;
-    pt = sqrt(v_perp[0] * v_perp[0] + v_perp[1] * v_perp[1] + v_perp[2] * v_perp[2]);
-    return pt;
-}
 
 FWM::FWM() {};
 
@@ -26,29 +14,32 @@ FWM::FWM(TopTagger2 htt, int selection)
     fastjet::PseudoJet top = htt.t();
     fastjet::Unboost rf(top);
     fastjet::PseudoJet a(-top.px(), -top.py(), -top.pz(), 0.);
-
     std::vector<fastjet::PseudoJet> jets;
-    if (selection / 1000 == 1)  {
-        jets.push_back(a);
-    }
-    if ((selection % 1000) / 100 == 1) {
-        jets.push_back(rf(htt.b()));
-    }
-    if ((selection % 100) / 10 == 1) {
-        jets.push_back(rf(htt.W1()));
-    }
-    if ((selection % 10) == 1) {
-        jets.push_back(rf(htt.W2()));
-    }
+    if (selection / 1000 == 1) jets.push_back(a);
+    if ((selection % 1000) / 100 == 1) jets.push_back(rf(htt.b()));
+    if ((selection % 100) / 10 == 1) jets.push_back(rf(htt.W1()));
+    if ((selection % 10) == 1) jets.push_back(rf(htt.W2()));
     _jets = jets;
 }
 
-inline double FWM::ATan2(double y, double x)
+double perp(fastjet::PseudoJet v_pj, fastjet::PseudoJet ref_pj)
 {
-    if (x != 0) return  atan2(y, x);
-    if (y == 0) return  0;
-    if (y >  0) return  M_PI / 2;
-    else        return -M_PI / 2;
+//     double pt = 0.;
+    std::valarray<double> v = v_pj.four_mom();
+    std::valarray<double> ref = ref_pj.four_mom();
+    ref[3] = 0.;
+    double mag2 = ref[0] * ref[0] + ref[1] * ref[1] + ref[2] * ref[2];
+    double v_ref = v[0] * ref[0] + v[1] * ref[1] + v[2] * ref[2];
+    std::valarray<double> v_perp = v - (v_ref / mag2) * ref;
+    return sqrt(v_perp[0] * v_perp[0] + v_perp[1] * v_perp[1] + v_perp[2] * v_perp[2]);
+}
+
+double FWM::ATan2(double y, double x)
+{
+    if (x != 0) return std::atan2(y, x);
+    if (y == 0) return 0;
+    if (y > 0) return M_PI / 2;
+    else return -M_PI / 2;
 }
 
 double FWM::Theta(fastjet::PseudoJet j)
@@ -58,9 +49,7 @@ double FWM::Theta(fastjet::PseudoJet j)
 
 double FWM::cos_Omega(fastjet::PseudoJet jet1, fastjet::PseudoJet jet2)
 {
-    double cos_omega = cos(Theta(jet1)) * cos(Theta(jet2))
-                       + sin(Theta(jet1)) * sin(Theta(jet2)) * cos(jet1.phi_std() - jet2.phi_std());
-    return cos_omega;
+    return std::cos(Theta(jet1)) * std::cos(Theta(jet2)) + std::sin(Theta(jet1)) * std::sin(Theta(jet2)) * std::cos(jet1.phi_std() - jet2.phi_std());
 }
 
 double FWM::U(unsigned order)
@@ -71,11 +60,8 @@ double FWM::U(unsigned order)
         for (unsigned jj = 0; jj < _jets.size(); jj++) {
             double W = 1.;
             double cos_O;
-            if (ii == jj) {
-                cos_O = 1.0;
-            } else {
-                cos_O = cos_Omega(_jets[ii], _jets[jj]);
-            }
+            if (ii == jj) cos_O = 1.0;
+            else cos_O = cos_Omega(_jets[ii], _jets[jj]);
             H += W * legendre(order, cos_O);
         }
     }
@@ -98,16 +84,19 @@ double FWM::Pt(unsigned order, fastjet::PseudoJet ref_pj)
         for (unsigned jj = 0; jj < _jets.size(); jj++) {
             double W = perp(_jets[ii], ref_pj) * perp(_jets[jj], ref_pj);
             double cos_O;
-            if (ii == jj) {
-                cos_O = 1.0;
-            } else {
-                cos_O = cos_Omega(_jets[ii], _jets[jj]);
-            }
+            if (ii == jj) cos_O = 1.0;
+            else cos_O = cos_Omega(_jets[ii], _jets[jj]);
             H += W * legendre(order, cos_O);
         }
     }
     if (norm > 0.) H /= norm;
     return H;
+}
+
+double FWM::legendre(int l, double x)
+{
+    return ROOT::Math::legendre(l, x);
+//     return gsl_sf_legendre_Pl(l, x);
 }
 
 }

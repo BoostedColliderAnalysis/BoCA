@@ -307,7 +307,7 @@ int AnalysisBase::PassPreCut(const Event&, Tag) const
 
 void AnalysisBase::AnalysisLoop(Stage stage)
 {
-    for (auto const & tag : std::array<Tag, 2> {Tag::signal, Tag::background}) TagLoop( {stage, tag});
+    for (auto const & tag : std::array<Tag, 2>{{Tag::signal, Tag::background}}) TagLoop( {stage, tag});
 }
 
 }

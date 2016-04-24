@@ -103,7 +103,7 @@ protected:
         case 3500 : return 4_TeV;
         case 4000 : return 4.5_TeV;
         default : std::cout << "Switch default for LowerPtCut of " << LowerPtCut() << std::endl;
-            return at_rest;
+            return AtRest();
         }
     }
     void NewFile(Tag tag, Process process) {
@@ -128,7 +128,7 @@ private:
         return 500;
     }
 
-    int BackgroundFileNumber() const {
+    int BackgroundFileNumber() const override {
         return 1;
         return 2;
         return 4;
@@ -151,7 +151,7 @@ private:
         case 3500 : return 1_TeV;
         case 4000 : return 1_TeV;
         default : std::cout << "Switch default for LowerPtCut of " << LowerPtCut() << std::endl;
-            return at_rest;
+            return AtRest();
         }
     }
 

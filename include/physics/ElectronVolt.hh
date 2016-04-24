@@ -64,8 +64,8 @@ int Int(Momentum energy);
 double to_double(Energy energy);
 Energy to_energy(double energy);
 
-static const Momentum at_rest(0. * ElectronVolt);
-static const Mass massless(0. * ElectronVolt);
+Momentum AtRest();
+Mass Massless();
 
 using EnergySquare = typename boost::units::multiply_typeof_helper<boca::Energy, boca::Energy>::type;
 using MassSquare = typename boost::units::multiply_typeof_helper<Mass, Mass>::type;

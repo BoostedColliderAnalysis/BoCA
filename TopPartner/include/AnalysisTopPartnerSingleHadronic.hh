@@ -32,7 +32,7 @@ protected:
 
     std::string AnalysisName() const override {
         INFO0;
-        return "Single-Hadronic-" + Name(DetectorGeometry::DetectorType()) + "-" + boca::Name(this->Mass()) + "-better-veto-test";
+        return "Single-Hadronic-" + Name(DetectorGeometry::DetectorType()) + "-" + boca::Name(this->Mass()) + "-smaller";
     }
 
     void SetFiles(Tag tag, Stage)override {

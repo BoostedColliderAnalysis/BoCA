@@ -11,7 +11,7 @@ private:
     double _zcut, _dcut_fctr, _exp_min, _exp_max, _rigidity, _truncation_fctr;
     bool _rand_seed_set;
     unsigned int _seed;
-    int _truncated_length;
+//     int _truncated_length;
 public:
     QJetsPlugin(double zcut, double dcut_fctr, double exp_min, double exp_max, double rigidity, double truncation_fctr = 0.);
     void SetRandSeed(unsigned int seed); /* In case you want reproducible behavior */
@@ -102,7 +102,7 @@ public:
 //
 //     cout << endl <<  "============================================" << endl;
 //     cout << "\tJets found in initial clustering" << endl;
-//     cout << "============================================" << endl << endl;;
+//     cout << "============================================" << endl << endl;
 //
 //     print_jets(clust_seq, inclusive_jets);
 //     cout << "============================================" << endl;

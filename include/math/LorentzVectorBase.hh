@@ -410,7 +410,7 @@ public:
     }
 
     // Get components by index.
-    Value operator()(LorentzDim i) const {
+    Value const& operator()(LorentzDim i) const {
         //dereferencing operatorconst
         switch (i) {
         case LorentzDim::x : return vector_3_(Dim3::x);
@@ -419,10 +419,10 @@ public:
         case LorentzDim::t : return scalar_;
         default: std::cout << "bad index(%d) returning 0 " << Name(i) << std::endl;
         }
-        return Value(0);
+        return vector_3_(Dim3::x);
     }
 
-    Value operator[](LorentzDim i) const {
+    Value const& operator[](LorentzDim i) const {
         return (*this)(i);
     }
 

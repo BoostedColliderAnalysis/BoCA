@@ -22,6 +22,20 @@ class LorentzMatrix
 
 public:
 
+    template<typename Value_2_>
+    using ValueProduct = ValueProduct<Value_, Value_2_>;
+    using ValueSquare = boca::ValueSquare<Value_>;
+    using ValueCubed = boca::ValueCubed<Value_>;
+    using Value4 = boca::Value4<Value_>;
+    template<typename Value_2>
+    using ValueQuotient = ValueQuotient<Value_, Value_2>;
+    using ValueInverse = boost::units::divide_typeof_helper<double, Value_>;
+    template<typename Value_2>
+    using OnlyIfNotOrSameQuantity = typename std::enable_if < !IsQuantity<Value_2>::value || std::is_same<Value_, Value_2>::value >::type;
+    template<typename Value_2>
+    using OnlyIfNotQuantity = typename std::enable_if < !IsQuantity<Value_2>::value >::type;
+
+
     // Default constructor
     LorentzMatrix() {}
 
@@ -46,6 +60,15 @@ public:
         SetBoost(vector);
     }
 
+    // Construct from three rows
+    LorentzMatrix(LorentzVector<Value_> const& x, LorentzVector<Value_> const& y, LorentzVector<Value_> const& z, LorentzVector<Value_> const& t, Matrix matrix = Matrix::row) {
+        switch (matrix) {
+        case Matrix::row: SetRows(x, y, z, t); break;
+        case Matrix::column : SetColumns(x, y, z, t); break;
+        default : std::cout << "Maformed matrix constructor: " << Name(matrix) << std::endl;
+        }
+    }
+
     void SetMatrix(Matrix3<Value_> const& matrix) {
         x_.SetVector(matrix.X());
         y_.SetVector(matrix.Y());
@@ -59,12 +82,26 @@ public:
         switch (symmetry) {
         case Matrix::symmetric : t_.SetVector(vector); break;
         case Matrix::antisymmetric : t_.SetVector(-vector); break;
-        default std::cout << "matrix symmetry not well defiend" << std::endl;
+        default : std::cout << "matrix symmetry not well defiend" << std::endl;
         }
     }
 
     void SetScalar(Value_ scalar) {
         t_.SetScalar(scalar);
+    }
+
+    void SetRows(LorentzVector<Value_> const& x, LorentzVector<Value_> const& y, LorentzVector<Value_> const& z, LorentzVector<Value_> const& t) {
+        x_ = x;
+        y_ = y;
+        z_ = z;
+        t_ = t;
+    }
+
+    void SetColumns(LorentzVector<Value_> const& x, LorentzVector<Value_> const& y, LorentzVector<Value_> const& z, LorentzVector<Value_> const& t) {
+        x_ = {x.X(), y.X(), z.X(), t.X()};
+        y_ = {x.Y(), y.Y(), z.Y(), t.Y()};
+        z_ = {x.Z(), y.Z(), z.Z(), t.Z()};
+        t_ = {x.T(), y.T(), z.T(), t.T()};
     }
 
     // Elements of the matrix.
@@ -93,35 +130,96 @@ public:
         return t_;
     }
 
+    Value4 Determinant()const {
+        return  boost::accumulate(LorentzDimensions(), Value4(0), [&](Value4 & sum, LorentzDim dim) {
+            return sum + Laplace(LorentzDim::x, dim);
+        });
+    }
+
+    Value4 Laplace(LorentzDim dim_1, LorentzDim dim_2) const {
+        return (*this)[dim_1][dim_2] * Cofactor(dim_1, dim_2);
+    }
+
+    ValueCubed Cofactor(LorentzDim dim_1, LorentzDim dim_2) const {
+        return double(Sign(dim_1, dim_2)) * Minor(dim_1, dim_2);
+    }
+
+    ValueCubed Minor(LorentzDim delete_1, LorentzDim delete_2) const {
+        return SubMatrix(delete_1, delete_2).Determinant();
+    }
+
+    Matrix3<Value_> SubMatrix(LorentzDim delete_1, LorentzDim delete_2) const {
+//       std::cout << "delete " << Name(delete_1) <<  " " << Name(delete_2) << std::endl;
+        EnumIterator<Dim3> dim3_1(Dim3::x);
+        EnumIterator<Dim3> dim3_2(Dim3::x);
+        Matrix3<Value_> matrix;
+        for (auto dim4_1 : LorentzDimensions()) {
+            if (dim4_1 == delete_1) continue;
+            for (auto dim4_2 : LorentzDimensions()) {
+                if (dim4_2 == delete_2) continue;
+//               std::cout << "insert " << Name(dim4_1) <<  " " << Name(dim4_2) << " into "<< Name(*dim3_1) <<  " " << Name(*dim3_2) << std::endl;
+                matrix(*dim3_1, *dim3_2) = (*this)(dim4_1, dim4_2);
+                ++dim3_2;
+            }
+            ++dim3_1;
+            dim3_2.Set(Dim3::x);
+        }
+        return matrix;
+    }
+
+    Value4 ReducedDeterminant(LorentzDim dim_1, LorentzDim dim_2) const {
+        return Determinant() - (*this)[dim_1][dim_2] * Cofactor(dim_1, dim_2);
+    }
+
+    Value4 ReducedLaplace(LorentzDim dim_1, LorentzDim dim_2, Dim3 dim_3, Dim3 dim_4) {
+        return (*this)[dim_1][dim_2] * SubMatrix(dim_1, dim_2).ReducedDeterminant(dim_3, dim_4);
+    }
+
+    int Sign(LorentzDim i, LorentzDim j) const {
+        return (static_cast<int>(i) + static_cast<int>(j)) % 2 ? -1 : 1;
+    }
+
+    Value_ const& operator()(LorentzDim i, LorentzDim j) const {
+        return operator()(i)(j);
+    }
+
+    Value_& operator()(LorentzDim i, LorentzDim j) {
+        return operator()(i)(j);
+    }
+
     // Returns object of the helper class for C-style subscripting r[i][j]
-    LorentzVector<Value_> operator[](int i) const {
-        return (*this, i);
+    LorentzVector<Value_> const& operator[](LorentzDim i) const {
+        return operator()(i);
     }
 
-
-    // Fortran-style subscriptimg: returns (i,j) element of the matrix.
-    LorentzVector<Value_> operator()(int i) const {
-        //derefencing operator
-        switch (i) {
-        case 0 : return x_;
-        case 1 : return y_;
-        case 2 : return z_;
-        case 3 : return t_;
-        }
-        std::cout << "operator()(i), subscripting: bad index " << i << std::endl;
-        return LorentzVector<Value_>;
+    // Returns object of the helper class for C-style subscripting r[i][j]
+    LorentzVector<Value_>& operator[](LorentzDim i) {
+        return operator()(i);
     }
 
     // Fortran-style subscriptimg: returns (i,j) element of the matrix.
-    LorentzVector<Value_>& operator()(int i) {
+    LorentzVector<Value_> const& operator()(LorentzDim i) const {
         //derefencing operator
         switch (i) {
-        case 0 : return x_;
-        case 1 : return y_;
-        case 2 : return z_;
-        case 3 : return t_;
+        case LorentzDim::x : return x_;
+        case LorentzDim::y : return y_;
+        case LorentzDim::z : return z_;
+        case LorentzDim::t : return t_;
         }
-        std::cout << "operator()(i), subscripting: bad index " << i << std::endl;
+        std::cout << "operator()(i), subscripting: bad index " << Name(i) << std::endl;
+        return x_;
+    }
+
+    // Fortran-style subscriptimg: returns (i,j) element of the matrix.
+    LorentzVector<Value_>& operator()(LorentzDim i) {
+        //derefencing operator
+        switch (i) {
+        case LorentzDim::x : return x_;
+        case LorentzDim::y : return y_;
+        case LorentzDim::z : return z_;
+        case LorentzDim::t : return t_;
+        }
+        std::cout << "operator()(i), subscripting: bad index " << Name(i) << std::endl;
         return x_;
     }
 
@@ -176,7 +274,7 @@ public:
     }
 
     //multiply this vector by a matrix
-    LorentzMatrix Multiply(const LorentzMatrix& matrix) const const {
+    LorentzMatrix Multiply(const LorentzMatrix& matrix) const {
         return {{x_ * matrix.ColumnX(), x_ * matrix.ColumnY(), x_ * matrix.ColumnZ(), x_ * matrix.ColumnT()}, {y_ * matrix.ColumnX(), y_ * matrix.ColumnY(), y_ * matrix.ColumnZ(), y_ * matrix.ColumnT()}, {z_ * matrix.ColumnX(), z_ * matrix.ColumnY(), z_ * matrix.ColumnZ(), z_ * matrix.ColumnT()}, {t_ * matrix.ColumnX(), t_ * matrix.ColumnY(), t_ * matrix.ColumnZ(), t_ * matrix.ColumnT()}};
     }
 
@@ -214,7 +312,7 @@ public:
     }
 
     // Lorenz boost.
-    LorentzMatrix& Boost(const Vector<Value_>& b) {
+    LorentzMatrix& Boost(const Vector3<Value_>& b) {
         return Transform(LorentzMatrix(b));
     }
 
@@ -234,10 +332,10 @@ public:
     }
 
     // Rotation around specified vector.
-    LorentzMatrix& Rotate(double angle, const Vector<Value_>& axis) {
+    LorentzMatrix& Rotate(double angle, const Vector3<Value_>& axis) {
         return Transform(Matrix3<Value_>().Rotate(angle, axis));
     }
-    LorentzMatrix& Rotate(double angle, const Vector<Value_>* axis) {
+    LorentzMatrix& Rotate(double angle, const Vector3<Value_>* axis) {
         return Transform(Matrix3<Value_>().Rotate(angle, axis));
     }
 

@@ -143,7 +143,7 @@ std::vector<Jet> BottomTagger::SubMultiplet(Jet const& jet, TMVA::Reader const& 
     INFO0;
     std::vector<Jet> jets;
     for (auto & sub_jet : Tagger::SubJets(jet, sub_jet_number)) {
-//         if (sub_jet.Mass() <= massless) continue;
+//         if (sub_jet.Mass() <= Massless()) continue;
         jets.emplace_back(Multiplet(sub_jet, reader));
     }
     return jets;

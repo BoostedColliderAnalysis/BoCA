@@ -140,6 +140,12 @@ using ValueSqrt = typename boost::units::root_typeof_helper<Value, double>::type
 template<typename Value>
 using ValueCubed = typename boost::units::multiply_typeof_helper<ValueSquare<Value>, Value>::type;
 
+template<typename Value>
+using ValueCubed = typename boost::units::multiply_typeof_helper<ValueSquare<Value>, Value>::type;
+
+template<typename Value>
+using Value4 = typename boost::units::multiply_typeof_helper<ValueSquare<Value>, ValueSquare<Value>>::type;
+
 template<typename Value_2>
 double GetValue(Value_2 const& value)
 {

@@ -26,7 +26,7 @@ struct RelativeIs {
     }
     bool operator()(Particle const& jet) const {
         return boost::range::find_if(ids_, [&](Id id) {
-            return std::abs(jet.Info().Family().Member(relative_).Id()) == to_unsigned(id);
+            return std::abs(jet.Info().Family().Member(relative_).Id()) == to_int(id);
         }) != ids_.end();
     }
     Relative relative_;

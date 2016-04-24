@@ -589,8 +589,9 @@ Vector3 <ValueProduct<Value, Value_2>> operator*(Value_2 scalar, Vector3<Value> 
 }
 
 template <class Value_1, class Value_2, class Value_3>
-auto Triple(Vector3<Value_1> const& vector_1, Vector3<Value_2> const& vector_2, Vector3<Value_3> const& vector_3){
-  return vector_1.Triple(vector_2, vector_3);
+auto Triple(Vector3<Value_1> const& vector_1, Vector3<Value_2> const& vector_2, Vector3<Value_3> const& vector_3)
+{
+    return vector_1.Triple(vector_2, vector_3);
 }
 
 template<typename Value_>

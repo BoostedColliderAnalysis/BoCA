@@ -22,29 +22,52 @@ endif()
 # set c++ flags
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -fPIC")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0 -Wall -Wextra -pedantic -Wpointer-arith -Wold-style-cast -Wno-unknown-pragmas -g")
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O2")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O2 -Wall -Wextra -pedantic -Wpointer-arith -Wold-style-cast -Wno-unknown-pragmas -Wno-language-extension-token")
 
 # use ccache if installed
 find_program(CCACHE_FOUND ccache)
 if(CCACHE_FOUND)
     set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
     set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK ccache)
+  else ()
+    message("CCache is not available.")
 endif(CCACHE_FOUND)
+
+option(USE_LD_GOLD "Use GNU gold linker" ON)
+if (USE_LD_GOLD)
+  execute_process(COMMAND ${CMAKE_CXX_COMPILER} -fuse-ld=gold -Wl,--version ERROR_QUIET OUTPUT_VARIABLE LD_VERSION)
+  if ("${LD_VERSION}" MATCHES "GNU gold")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fuse-ld=gold")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fuse-ld=gold")
+  else ()
+    message("GNU gold linker is not available, using the default system linker.")
+  endif ()
+endif ()
+
 
 # FastJet
 include(CMakeFiles/Findfastjet.cmake)
-# add_include_path(${fastjet_INCLUDE_DIRS})
 add_libraries(${fastjet_LIBRARIES})
+# add_libraries(fastjet)
 add_libraries(fastjettools)
+# add_libraries(fastjetplugins)
+# add_libraries(siscone)
+# add_libraries(siscone_spherical)
 add_libraries(Nsubjettiness)
 
 # ROOT
 find_package(ROOT REQUIRED COMPONENTS RIO TMVA Physics Hist)
-set(ROOT_CXX_FLAGS "${ROOT_CXX_FLAGS} -std=c++14 -fext-numeric-literals")
+# set(ROOT_CXX_FLAGS "${ROOT_CXX_FLAGS} -std=c++14 -fext-numeric-literals")
+set(ROOT_CXX_FLAGS "${ROOT_CXX_FLAGS} -std=c++14")
 include(${ROOT_USE_FILE})
 add_libraries("${ROOT_LIBRARIES}")
 add_libraries(TMVA)
 add_libraries(MathMore)
+
+# add_libraries(gmpxx)
+# add_libraries(gmp)
+# add_libraries(gsl)
+# add_libraries(gslcblas)
 
 # Doxygen
 set(DO_DOXYGEN 0)

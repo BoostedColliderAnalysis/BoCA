@@ -3,6 +3,8 @@
  */
 #pragma once
 
+#include "TFile.h"
+
 #include "TMVA/Factory.h"
 
 #include "multiplets/Identification.hh"
@@ -58,10 +60,6 @@ private:
 
     double Weight(std::string const& tree_name, Tag tag);
 
-    TTree &Tree(std::string const& tree_name, Tag tag);
-
-    TFile& OutputFile() const;
-
     std::string FactoryOptions();
 
     std::string MethodOptions() const;
@@ -76,7 +74,11 @@ private:
 
     boca::Tagger& tagger_;
 
+    TFile output_;
+
     TMVA::Factory factory_;
+
+    std::map<Tag, TFile> input_;
 
 };
 

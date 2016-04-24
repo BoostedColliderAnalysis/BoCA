@@ -194,8 +194,8 @@ double QJets::d_ij(fastjet::PseudoJet const& v1, const  fastjet::PseudoJet& v2) 
 double QJets::Rand()
 {
     double ret = 0.;
-    if (_rand_seed_set) ret = rand_r(&_seed) / (double)RAND_MAX;
-    else ret = rand() / (double)RAND_MAX;
+    if (_rand_seed_set) ret = double(rand_r(&_seed)) / RAND_MAX;
+    else ret = double(rand()) / RAND_MAX;
     return ret;
 }
 

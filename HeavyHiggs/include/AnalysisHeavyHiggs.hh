@@ -119,18 +119,18 @@ public:
         switch (Collider()) {
         case boca::heavyhiggs::Collider::LHC :
             switch (Int(Mass())) {
-            case 400 : return at_rest;
-            case 500 : return at_rest;
+            case 400 : return AtRest();
+            case 500 : return AtRest();
             case 1000 : return 250_GeV;
             case 2000 : return 250_GeV;
             case 3000 : return 250_GeV;
             default : std::cout << "Switch default for Mass of " << Mass() << std::endl;
-                return at_rest;
+                return AtRest();
             }
         case boca::heavyhiggs::Collider::LE :
             switch (Int(Mass())) {
-            case 400 : return at_rest;
-            case 500 : return at_rest;
+            case 400 : return AtRest();
+            case 500 : return AtRest();
             case 1000 : return 300_GeV;
             case 2000 : return 300_GeV;
             case 4000 : return 1.5_TeV;
@@ -139,10 +139,10 @@ public:
             case 15000 : return 2.5_TeV;
             case 20000 : return 2.5_TeV;
             default : std::cout << "Switch default for Mass of " << Mass() << std::endl;
-                return at_rest;
+                return AtRest();
             }
         default : std::cout << "Switch default for Collider " << to_int(Collider()) << std::endl;
-            return at_rest;
+            return AtRest();
         }
     };
 
@@ -151,7 +151,7 @@ public:
         case boca::heavyhiggs::Collider::LHC : return 30_GeV;
         case boca::heavyhiggs::Collider::LE : return 60_GeV;
         default : std::cout << "Switch default for Collider " << to_int(Collider()) << std::endl;
-            return at_rest;
+            return AtRest();
         }
     };
 
@@ -160,7 +160,7 @@ public:
         case boca::heavyhiggs::Collider::LHC : return 50_GeV;
         case boca::heavyhiggs::Collider::LE : return 100_GeV;
         default : std::cout << "Switch default for Collider " << to_int(Collider()) << std::endl;
-            return at_rest;
+            return AtRest();
         }
     };
 
@@ -169,7 +169,7 @@ public:
         case boca::heavyhiggs::Collider::LHC : return 20_GeV;
         case boca::heavyhiggs::Collider::LE : return 40_GeV;
         default : std::cout << "Switch default for Collider " << to_int(Collider()) << std::endl;
-            return at_rest;
+            return AtRest();
         }
     };
 

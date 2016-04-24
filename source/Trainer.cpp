@@ -3,9 +3,7 @@
  */
 
 #include "boost/range/algorithm/max_element.hpp"
-
-#include "TFile.h"
-#include "TClonesArray.h"
+#include "boost/range/numeric.hpp"
 
 #include "TMVA/Config.h"
 #include "TMVA/MethodBDT.h"
@@ -24,8 +22,9 @@ namespace boca
 {
 
 Trainer::Trainer(boca::Tagger& tagger) :
-    tagger_(tagger) ,
-    factory_(tagger.Name(), &OutputFile(), FactoryOptions())
+    tagger_(tagger),
+    output_(Tagger().FactoryFileName().c_str(), "Recreate"),
+    factory_(tagger.Name(), &output_, FactoryOptions())
 {
     INFO0;
     AddObservables();
@@ -46,12 +45,6 @@ std::string Trainer::FactoryOptions()
     return options;
 }
 
-TFile& Trainer::OutputFile() const
-{
-    INFO0;
-    return *TFile::Open(Tagger().FactoryFileName().c_str(), "Recreate");
-}
-
 void Trainer::AddObservables()
 {
     INFO0;
@@ -70,21 +63,19 @@ long Trainer::AddAllTrees()
 long Trainer::AddTrees(Tag tag)
 {
     INFO0;
-    long number = 0;
-    for (auto const & tree_name : Tagger().TreeNames(tag)) number += AddTree(tree_name, tag);
-    return number;
+    input_.emplace(std::piecewise_construct, std::forward_as_tuple(tag), std::forward_as_tuple(Tagger().FileName(Stage::trainer, tag).c_str()));
+    return boost::accumulate(Tagger().TreeNames(tag), 0, [&](long sum, std::string const & tree_name) {
+        return sum + AddTree(tree_name, tag);
+    });
 }
 
 long Trainer::AddTree(std::string const& tree_name, Tag tag)
 {
     INFO(tree_name, Name(tag));
-    double weight = Weight(tree_name, tag);
-    TTree& tree = Tree(tree_name, tag);
-    NOTE(weight);
     switch (tag) {
-    case Tag::signal : Factory().AddSignalTree(&tree, weight);
+    case Tag::signal : Factory().AddSignalTree(static_cast<TTree*>(input_.at(tag).Get(tree_name.c_str())), Weight(tree_name, tag));
         break;
-    case Tag::background : Factory().AddBackgroundTree(&tree, weight);
+    case Tag::background : Factory().AddBackgroundTree(static_cast<TTree*>(input_.at(tag).Get(tree_name.c_str())), Weight(tree_name, tag));
         break;
     }
     return Entries(tree_name, tag);
@@ -92,33 +83,21 @@ long Trainer::AddTree(std::string const& tree_name, Tag tag)
 
 double Trainer::Weight(std::string const& tree_name, Tag tag)
 {
-  INFO(Tagger().WeightBranchName());
-  TreeReader tree_reader({Tagger().FileName(Stage::trainer, tag)} , tree_name, Source::tagger);
-  auto & array = tree_reader.Array<InfoBranch>(Tagger().WeightBranchName());
-  tree_reader.ReadEntry(0);
-  return array.At(0).Crosssection() / fb / tree_reader.GetEntries();
+    INFO(Tagger().WeightBranchName());
+    TreeReader tree_reader( {Tagger().FileName(Stage::trainer, tag)} , tree_name, Source::tagger);
+    auto& array = tree_reader.Array<InfoBranch>(Tagger().WeightBranchName());
+    tree_reader.ReadEntry(0);
+    return array.At(0).Crosssection() / fb / tree_reader.GetEntries();
 }
-
 
 long Trainer::Entries(std::string const& tree_name, Tag tag)
 {
     INFO0;
-    TreeReader tree_reader({Tagger().FileName(Stage::trainer, tag)} , tree_name, Source::tagger);
-    auto & array = tree_reader.Array(Tagger().BranchName(Stage::trainer), Tagger().Class());
+    TreeReader tree_reader( {Tagger().FileName(Stage::trainer, tag)} , tree_name, Source::tagger);
+    auto& array = tree_reader.Array(Tagger().BranchName(Stage::trainer), Tagger().Class());
     long entries = 0;
-    while(tree_reader.Next()) entries += array.GetSize();
+    while (tree_reader.Next()) entries += array.GetSize();
     return entries;
-}
-TTree& Trainer::Tree(std::string const& tree_name, Tag tag)
-{
-    INFO(Tagger().FileName(Stage::trainer, tag));
-    CHECK(Exists(Tagger().FileName(Stage::trainer, tag)), "File not found", Tagger().FileName(Stage::trainer, tag));
-    TFile& file = *TFile::Open(Tagger().FileName(Stage::trainer, tag).c_str());
-    CHECK(file.GetListOfKeys()->Contains(tree_name.c_str()), "no tree", tree_name);
-    auto* tree = static_cast<TTree*>(file.Get(tree_name.c_str()));
-    if (!tree) ERROR("no tree");
-    if (!tree->GetListOfBranches()) ERROR("no branches");
-    return *tree;
 }
 
 void Trainer::PrepareTrainingAndTestTree(long event_number)
@@ -151,9 +130,7 @@ std::vector<double> Trainer::BookMethod()
     case TMVA::Types::EMVA::kCuts : break;
         DEFAULT(method->GetMethodName());
     }
-//     for (auto const & value : importance) ERROR(value);
-    auto & max = *boost::range::max_element(importance);
-    auto pos = Position(importance, max);
+    auto pos = Position(importance, *boost::range::max_element(importance));
     ERROR(Tagger().Variables().at(pos).Name());
     return importance;
 }

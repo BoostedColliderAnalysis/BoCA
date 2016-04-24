@@ -23,6 +23,11 @@ public:
 
     explicit EnumIterator(Enum_ value) : enum_(value) {}
 
+<<<<<<< HEAD
+=======
+    ~EnumIterator() {}
+
+>>>>>>> b1896f098ba125699a875919d288d9d87a7ceda6
     void Set(Enum_ value) {
         enum_ = value;
     }
@@ -33,7 +38,11 @@ public:
 //     }
 
     EnumIterator& operator++() {
+<<<<<<< HEAD
         enum_ = Add(1);
+=======
+        Add(1);
+>>>>>>> b1896f098ba125699a875919d288d9d87a7ceda6
         return *this;
     }
 
@@ -44,6 +53,7 @@ public:
     }
 
     EnumIterator& operator+=(size_type size) {
+<<<<<<< HEAD
         enum_ = Add(size);
         return *this;
     }
@@ -53,11 +63,26 @@ public:
     }
 
     friend  EnumIterator operator+(size_type size, EnumIterator const& it) {
+=======
+        Add(size);
+        return *this;
+    }
+
+    friend EnumIterator operator+(EnumIterator const& it, size_type size) {
+        return it.Add(size);
+    }
+
+    friend EnumIterator operator+(size_type size, EnumIterator const& it) {
+>>>>>>> b1896f098ba125699a875919d288d9d87a7ceda6
         return it.Add(size);
     }
 
     EnumIterator& operator--() {
+<<<<<<< HEAD
         enum_ = Substract(1);
+=======
+        Substract(1);
+>>>>>>> b1896f098ba125699a875919d288d9d87a7ceda6
         return *this;
     }
 
@@ -68,11 +93,19 @@ public:
     }
 
     EnumIterator& operator-=(size_type size) {
+<<<<<<< HEAD
         enum_ = Add(size);
         return *this;
     }
 
     friend  EnumIterator operator-(EnumIterator const& it, size_type size) {
+=======
+        Add(size);
+        return *this;
+    }
+
+    friend EnumIterator operator-(EnumIterator const& it, size_type size) {
+>>>>>>> b1896f098ba125699a875919d288d9d87a7ceda6
         return it.Substract(size);
     }
 
@@ -84,7 +117,11 @@ public:
         return enum_;
     }
 
+<<<<<<< HEAD
     reference operator[](size_type size) const {
+=======
+    constexpr reference operator[](size_type size) const {
+>>>>>>> b1896f098ba125699a875919d288d9d87a7ceda6
         return Add(size);
     }
 
@@ -124,12 +161,23 @@ private:
     
     using Type_ = typename std::underlying_type<Enum_>::type;
 
+<<<<<<< HEAD
     Enum_ Add(size_type size) const {
         return static_cast<Enum_>(static_cast<Type_>(enum_) + size);
     }
 
     Enum_ Substract(size_type size) const {
         return static_cast<Enum_>(static_cast<Type_>(enum_) - size);
+=======
+    Enum_ Add(size_type size) {
+        enum_ = static_cast<Enum_>(static_cast<Type_>(enum_) + size);
+        return enum_;
+    }
+
+    Enum_ Substract(size_type size) {
+        enum_ = static_cast<Enum_>(static_cast<Type_>(enum_) - size);
+        return enum_;
+>>>>>>> b1896f098ba125699a875919d288d9d87a7ceda6
     }
 
 };

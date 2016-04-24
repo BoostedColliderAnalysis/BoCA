@@ -62,14 +62,14 @@ public:
         }
     }
 
-    std::string AnalysisName() const {
+    std::string AnalysisName() const override {
       return  Name(DetectorType()) + "-eta3.5";
       //         return  ProductionChannelName(ProductionChannel()) + DetectorName(DetectorType())  + "_" + Name(Mass());
     }
 
 private:
 
-    long TrainNumberMax() const {
+    long TrainNumberMax() const override {
         return 1000000;
         return 100000;
         return 10000;
@@ -98,20 +98,10 @@ private:
         }
     }
 
-    int PassPreCut(Event const&, Tag) const {
-        return 1;
-    };
-
-//     std::string ProcessName() const {
-//         return "Fusion Pair";
-//     }
-
-
-    int BackgroundFileNumber() const {
+    int BackgroundFileNumber() const override {
         return 1;
     }
 
-    // in fb
     Crosssection SignalCrosssection() const {
         return pb;
     }

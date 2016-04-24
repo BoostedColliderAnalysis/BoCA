@@ -19,6 +19,7 @@ int main()
         Run<boca::standardmodel::WLeptonicTagger>();
         Run<boca::standardmodel::TopLeptonicTagger>(boca::Output::efficiency | boca::Output::plot);
         break;
+    case boca::Decay::hadronic :
         switch (boca::standardmodel::TopAnalysis<boca::standardmodel::BottomTagger>::TopTagger()) {
         case boca::standardmodel::TopTagger::boca :
             Run<boca::standardmodel::BottomTagger>() ;

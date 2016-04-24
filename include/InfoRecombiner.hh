@@ -23,6 +23,8 @@ public:
    */
   void recombine(fastjet::PseudoJet const& jet_1, fastjet::PseudoJet const& jet_2, fastjet::PseudoJet& jet) const override;
 
+private:
+
 };
 
 }

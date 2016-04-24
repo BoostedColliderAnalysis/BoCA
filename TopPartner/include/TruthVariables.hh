@@ -22,9 +22,9 @@ class TruthVariables : public Identification
 
 public:
 
-    Momentum LeptonPt(int number) const;
+    Momentum LeptonPt(unsigned int number) const;
 
-    Momentum TopPt(int number) const;
+    Momentum TopPt(unsigned int number) const;
 
     int BosonNumber() const;
 
@@ -56,7 +56,7 @@ public:
 
     void SetJets(std::vector<Jet> const& jets);
 
-    Momentum JetPt(int number) const;
+    Momentum JetPt(unsigned number) const;
 
 private:
 

@@ -42,7 +42,7 @@ public:
         }
     }
 
-    boca::Crosssection Crosssection(Process process) const {
+    boca::Crosssection Crosssection(Process process) const override {
         switch (this->Collider()) {
         case Collider::LHC:
             switch (process) {

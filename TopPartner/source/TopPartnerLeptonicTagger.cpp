@@ -7,10 +7,11 @@ namespace boca
 namespace naturalness
 {
 
-int TopPartnerLeptonicTagger::Train(Event const& event, PreCuts const&, Tag tag)
+int TopPartnerLeptonicTagger::Train(Event const&, PreCuts const&, Tag )
 {
     INFO0;
     //     return SaveEntries(Combine(neutral_.Multiplets(event), charged_.Transform<Quintet>(event)), Particles(event), tag);
+      return 1;
 }
 
 std::vector<Quintet> TopPartnerLeptonicTagger::Multiplets(Event const& event, boca::PreCuts const&)

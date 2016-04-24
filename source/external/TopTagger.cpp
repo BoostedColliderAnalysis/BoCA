@@ -96,9 +96,9 @@ void TopTagger::store_topsubjets(std::vector<fastjet::PseudoJet> const& top_subs
     double m13 = (top_subs[0] + top_subs[2]).m();
     double m23 = (top_subs[1] + top_subs[2]).m();
 //     double m123 = (top_subs[0] + top_subs[1] + top_subs[2]).m();
-    double dm12 = abs(m12 - _mwmass);
-    double dm13 = abs(m13 - _mwmass);
-    double dm23 = abs(m23 - _mwmass);
+    double dm12 = std::abs(m12 - _mwmass);
+    double dm13 = std::abs(m13 - _mwmass);
+    double dm23 = std::abs(m23 - _mwmass);
     //double dm_min=std::min(dm12,std::min(dm13,dm23));
     if (dm23 <= dm12 && dm23 <= dm13) {
         _top_subjets.push_back(top_subs[0]); //supposed to be b
@@ -210,7 +210,7 @@ void TopTagger::run_tagger()
                 _candjets.push_back(top_subs); //
 
                 // transfer infos of the positively identified top to the outer world
-                double deltatop = abs(topcandidate.m() - _mtmass);
+                double deltatop = std::abs(topcandidate.m() - _mtmass);
                 if (deltatop < _delta_top) {
                     _delta_top = deltatop;
                     _is_maybe_top = true;

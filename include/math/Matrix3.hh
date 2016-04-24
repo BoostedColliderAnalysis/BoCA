@@ -17,6 +17,7 @@
 #include "generic/Mutable.hh"
 #include "math/Vector3.hh"
 #include "math/Matrix2.hh"
+#include "physics/Units.hh"
 
 namespace boca
 {
@@ -459,19 +460,20 @@ public:
                 std::cout << "Psi() | cos psi | > 1 " << std::endl;
                 cosAbsPsi = 1;
             }
-            double absPsi = acos(cosAbsPsi);
+            Angle absPsi = boca::acos(cosAbsPsi);
             if (x_.Z() > 0) return absPsi;
             if (x_.Z() < 0) return -absPsi;
             return (y_.Z() < 0) ? 0_rad : Pi();
         } else {              // sinTheta == Value(0) so |Fzz| = 1
-            double absPsi = x_.X();
-            if (std::abs(x_.X()) > 1) {         // NaN-proofing
+            Value_ absPsi = x_.X();
+            // NaN-proofing
+            if (std::abs(x_.X()) > 1) {
                 std::cout << "Psi() | x_.X() | > 1 " << std::endl;
                 absPsi = 1;
             }
-            absPsi = .5 * acos(absPsi);
-            if (y_.X() > 0) return absPsi;
-            if (y_.X() < 0) return -absPsi;
+            Angle absPsi2 = .5 * acos(absPsi);
+            if (y_.X() > 0) return absPsi2;
+            if (y_.X() < 0) return -absPsi2;
             return (x_.X() > 0) ? 0_rad : Pi() / 2.;
 
         }
@@ -483,19 +485,23 @@ public:
 
     ValueCubed Determinant()const {
         return  boost::accumulate(Dimensions3(), ValueCubed(0), [&](ValueCubed & sum, Dim3 dim) {
-            return sum + x_[dim] * SignedMinor(Dim3::x, dim);
+            return sum + Laplace(Dim3::x, dim);
         });
     }
 
-    ValueSquare SignedMinor(Dim3 dim_1, Dim3 dim_2) const {
+    ValueCubed Laplace(Dim3 dim_1, Dim3 dim_2) const {
+      return (*this)[dim_1][dim_2] * Cofactor(dim_1, dim_2);
+    }
+
+    ValueSquare Cofactor(Dim3 dim_1, Dim3 dim_2) const {
         return double(Sign(dim_1, dim_2)) * Minor(dim_1, dim_2);
     }
 
     ValueSquare Minor(Dim3 delete_1, Dim3 delete_2) const {
-        return MinorMatrix(delete_1, delete_2).Determinant();
+        return SubMatrix(delete_1, delete_2).Determinant();
     }
 
-    Matrix2<Value_> MinorMatrix(Dim3 delete_1, Dim3 delete_2) const {
+    Matrix2<Value_> SubMatrix(Dim3 delete_1, Dim3 delete_2) const {
         EnumIterator<Dim2> dim2_1(Dim2::x);
         EnumIterator<Dim2> dim2_2(Dim2::x);
         Matrix2<Value_> matrix;
@@ -513,7 +519,7 @@ public:
     }
 
     ValueCubed ReducedDeterminant(Dim3 dim_1, Dim3 dim_2) const {
-      return Determinant() - (*this)[dim_1][dim_2] * SignedMinor(dim_1, dim_2);
+        return Determinant() - Laplace(dim_1, dim_2);
     }
 
     int Sign(Dim3 i, Dim3 j) const {
@@ -621,7 +627,7 @@ public:
 
         Vector3<Value_> Vector(int index) const {
             auto matrix = *matrix_ - Matrix3<Value_>(Values().at(index));
-            return Vector3<Value_>(matrix.SignedMinor(Dim3::x, Dim3::x), matrix.SignedMinor(Dim3::x, Dim3::y), matrix.SignedMinor(Dim3::x, Dim3::z)).Unit();
+            return Vector3<Value_>(matrix.Cofactor(Dim3::x, Dim3::x), matrix.Cofactor(Dim3::x, Dim3::y), matrix.Cofactor(Dim3::x, Dim3::z)).Unit();
         }
         Value_ factor_;
         boca::Angle angle_;
@@ -700,20 +706,24 @@ public:
     }
 
     // Returns object of the helper class for C-style subscripting r[i][j]
-    Vector3<Value_> const& operator()(Dim3 i) const {
-        switch (i) {
+    Vector3<Value_> const& operator()(Dim3 dim) const {
+        switch (dim) {
         case Dim3::x : return x_;
         case Dim3::y : return y_;
         case Dim3::z : return z_;
+        default : Default("Matrix3", to_int(dim));
+        return x_;
         }
     }
 
     // Returns object of the helper class for C-style subscripting r[i][j]
-    Vector3<Value_>& operator()(Dim3 i)  {
-        switch (i) {
+    Vector3<Value_>& operator()(Dim3 dim) {
+        switch (dim) {
         case Dim3::x : return x_;
         case Dim3::y : return y_;
         case Dim3::z : return z_;
+        default : Default("Matrix3", to_int(dim));
+        return x_;
         }
     }
 
@@ -733,19 +743,19 @@ public:
         return operator()(i);
     }
 
-    ConstIterator2<Matrix3, Vector3, Value_, Dim3> begin() const {
+    ConstIterator2<boca::Matrix3, Vector3, Value_, Dim3> begin() const {
         return {this, Dim3::x};
     }
 
-    ConstIterator2<Matrix3, Vector3, Value_, Dim3> end() const {
+    ConstIterator2<boca::Matrix3, Vector3, Value_, Dim3> end() const {
         return {this, Dim3::last};
     }
 
-    Iterator2<Matrix3, Vector3, Value_, Dim3> begin() {
+    Iterator2<boca::Matrix3, Vector3, Value_, Dim3> begin() {
         return {this, Dim3::x};
     }
 
-    Iterator2<Matrix3, Vector3, Value_, Dim3> end() {
+    Iterator2<boca::Matrix3, Vector3, Value_, Dim3> end() {
         return {this, Dim3::last};
     }
 

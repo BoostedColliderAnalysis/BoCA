@@ -3,6 +3,7 @@
 #include "boost/range/algorithm/sort.hpp"
 #include "generic/Types.hh"
 #include "generic/Mutable.hh"
+#include "generic/Debug.hh"
 #include "math/Vector2.hh"
 
 namespace boca
@@ -19,18 +20,7 @@ enum class Matrix
     uniform
 };
 
-inline std::string Name(Matrix matrix)
-{
-    switch (matrix) {
-    case Matrix::diagonal : return "diagonal";
-    case Matrix::symmetric : return "symmetric";
-    case Matrix::antisymmetric : return "antisymmetric";
-    case Matrix::row : return "row";
-    case Matrix::column : return "column";
-    case Matrix::uniform : return "uniform";
-    default : return "";
-    }
-}
+std::string Name(Matrix matrix);
 
 template <typename Value_>
 class Matrix2
@@ -121,7 +111,7 @@ public:
 
     Matrix2<ValueInverse> Inverse() {
         auto det = Determinant();
-        if (det = ValueSquare(0)) std::cout << "Matrix is not invertible" << std::endl;
+        if (det == ValueSquare(0)) std::cout << "Matrix is not invertible" << std::endl;
         return (Matrix2(Trace()) - *this) / det;
     }
 
@@ -143,6 +133,16 @@ public:
 
     ValueSquare Determinant()const {
         return x_.X() * y_.Y() - x_.Y() * y_.X();
+    }
+
+    Value_ Minor(Dim2 delete_1, Dim2 delete_2) const {
+        for (auto const & x : Dimensions2()) {
+            if (x == delete_1) continue;
+            for (auto const & y : Dimensions2()) {
+                if (y == delete_2) continue;
+                return (*this)[x][y];
+            }
+        }
     }
 
     Matrix2<ValueSquare> Square() const {
@@ -225,16 +225,20 @@ public:
     }
 
     // Returns object of the helper class for C-style subscripting r[i][j]
-    Vector2<Value_> const& operator()(Dim2 i) const {
-        switch (i) {
+    Vector2<Value_> const& operator()(Dim2 dim) const {
+        switch (dim) {
         case Dim2::x : return x_;
         case Dim2::y : return y_;
+        default : Default("Matrix2", to_int(dim));
+          return x_;
         }
     }
-    Vector2<Value_>& operator()(Dim2 i) {
-        switch (i) {
+    Vector2<Value_>& operator()(Dim2 dim) {
+        switch (dim) {
         case Dim2::x : return x_;
         case Dim2::y : return y_;
+        default : Default("Matrix2", to_int(dim));
+        return x_;
         }
     }
 
@@ -255,19 +259,19 @@ public:
         return operator()(i);
     }
 
-    ConstIterator2<Matrix2, Vector2, Value_, Dim2> begin() const {
+    ConstIterator2<boca::Matrix2, Vector2, Value_, Dim2> begin() const {
         return {this, Dim2::x};
     }
 
-    ConstIterator2<Matrix2, Vector2, Value_, Dim2> end() const {
+    ConstIterator2<boca::Matrix2, Vector2, Value_, Dim2> end() const {
         return {this, Dim2::last};
     }
 
-    Iterator2<Matrix2, Vector2, Value_, Dim2> begin() {
+    Iterator2<boca::Matrix2, Vector2, Value_, Dim2> begin() {
         return {this, Dim2::x};
     }
 
-    Iterator2<Matrix2, Vector2, Value_, Dim2> end() {
+    Iterator2<boca::Matrix2, Vector2, Value_, Dim2> end() {
         return {this, Dim2::last};
     }
 
