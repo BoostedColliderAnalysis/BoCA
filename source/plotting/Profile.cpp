@@ -64,7 +64,7 @@ void Profile::SetDimensions(std::string const& name, int bins, Rectangle<double>
     INFO(name);
 
     rectangle_ = range;
-    SetLog(range);
+    SetLog(range.Vertical());
     if (canvas().GetLogx()) rectangle_.Horizontal().Log();
     if (canvas().GetLogy()) rectangle_.Vertical().Log();
     SetDimensions(bins, bins, rectangle_);

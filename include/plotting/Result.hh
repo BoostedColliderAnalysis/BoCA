@@ -26,6 +26,8 @@ enum class Significance
 
 std::string Name(Significance significance);
 
+std::string LatexName(Significance significance);
+
 template<>
 struct Flag<Significance> {
     static const bool enable = true;

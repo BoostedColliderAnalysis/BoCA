@@ -185,4 +185,16 @@ Momentum DetectorGeometry::ForwardJetPt()
     return 40_GeV;
 }
 
+double DetectorGeometry::Exclusion()
+{
+    // significance needed to exclude signal
+    return 2.;
+}
+
+double DetectorGeometry::Experimental()
+{
+    // minimal alowd s over b value
+    return 0.01;
+}
+
 }

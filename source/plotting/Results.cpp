@@ -50,13 +50,13 @@ auto SignificancePoisson(double signal, double background)
     return significance;
 }
 
-auto MD(boca::Significance significance, double signal_events, double background_events)
+auto MD(boca::Significance significance, double signal, double background)
 {
     switch (significance) {
-    case Significance::experimental : return SignificanceExperimental(signal_events, background_events);
-    case Significance::background : return SignificanceBackground(signal_events, background_events);
-    case Significance::sum : return SignificanceSum(signal_events, background_events);
-    case Significance::poisson : return SignificancePoisson(signal_events, background_events);
+    case Significance::experimental : return SignificanceExperimental(signal, background);
+    case Significance::background : return SignificanceBackground(signal, background);
+    case Significance::sum : return SignificanceSum(signal, background);
+    case Significance::poisson : return SignificancePoisson(signal, background);
     default : return 0.;
     }
 }
@@ -106,7 +106,7 @@ void Results::CalculateSignificance(Result& signal, Significance significance)
 void Results::CalculateSignificance(Result& signal, Significance significance, int step)
 {
     INFO0;
-    signal.MD(significance).at(step) = MD(significance, signal.Events().at(step), BackgroundEvents().at(step));
+    signal.MD(significance).at(step) = MD(significance, signal.Events().at(step), BackgroundEvents(step));
     signal.MI(significance).at(step) = MI(significance, signal.PreCutEfficiencies().at(step), step);
 }
 
@@ -150,77 +150,47 @@ void Results::CutEfficiencies()
     }
 }
 
-double Results::SignalEvents(int step) const
+double Results::BackgroundEvents(int step) const
 {
     INFO0;
-    return boost::accumulate(signals_, 0., [&](double & sum, Result const & signal) {
-        return sum + signal.Events().at(step);
-    });
-}
-
-std::vector<double> Results::BackgroundEvents() const
-{
-    INFO0;
-    return background_events_.Get([&]() {
-        return Transform(IntegerRange(Result::Steps()), [&](int step) {
-            return BackgroundEvent(step);
-        });
-    });
-}
-
-double Results::BackgroundEvent(int step) const
-{
-    INFO0;
-    auto empty = false;
-    auto events = boost::accumulate(backgrounds_, 0., [&](double & sum, Result const & background) {
-        if (background.Events().at(step) == 0) empty = true;
-        return sum + background.Events().at(step);
-    });
-    return empty ? 0. : events;
+    return BackgroundCrosssections().at(step) * DetectorGeometry::Luminosity();
 }
 
 std::vector<Crosssection> Results::BackgroundCrosssections() const
 {
+    INFO0;
     return background_crosssections_.Get([&]() {
         return Transform(IntegerRange(Result::Steps()), [&](int step) {
-            return BackgroundCrosssection(step);
+            auto empty = false;
+            auto crosssection = boost::accumulate(backgrounds_, 0_b, [&](Crosssection & sum, Result const & background) {
+                if (background.Crosssections().at(step) == 0_b) empty = true;
+                return sum  + background.Crosssections().at(step);
+            });
+            return empty ? 0_b : crosssection;
         });
     });
-}
-
-Crosssection Results::BackgroundCrosssection(int step) const
-{
-    INFO0;
-    auto empty = false;
-    auto crosssection = boost::accumulate(backgrounds_, 0_b, [&](Crosssection & sum, Result const & background) {
-        return sum  + background.Crosssections().at(step);
-    });
-    return empty ? 0_b : crosssection;
 }
 
 Crosssection Results::MIExperimental(double signal_efficiency, int step) const
 {
     INFO0;
-    if (signal_efficiency == 0 || BackgroundEvents().at(step) == 0) return 0_b;
-    auto s_over_b_ = 0.01;
-    return BackgroundCrosssections().at(step) / signal_efficiency * s_over_b_;
+    if (signal_efficiency == 0 || BackgroundCrosssections().at(step) == 0_b) return 0_b;
+    return BackgroundCrosssections().at(step) / signal_efficiency * DetectorGeometry::Experimental();
 }
 
 Crosssection Results::MIBackground(double signal_efficiency, int step) const
 {
     INFO0;
-    if (signal_efficiency == 0 || BackgroundEvents().at(step) == 0) return 0_b;
-    auto exclusion = 2.;
-    return sqrt(BackgroundCrosssections().at(step) / DetectorGeometry::Luminosity()) / signal_efficiency * exclusion;
+    if (signal_efficiency == 0 || BackgroundCrosssections().at(step) == 0_b) return 0_b;
+    return sqrt(BackgroundCrosssections().at(step) / DetectorGeometry::Luminosity()) / signal_efficiency * DetectorGeometry::Exclusion();
 }
 
 Crosssection Results::MISum(double signal_efficiency, int step) const
 {
     INFO0;
-    if (signal_efficiency == 0 || BackgroundEvents().at(step) == 0) return 0_b;
-    auto exclusion = 2.;
-    auto numerator = exclusion + std::sqrt(sqr(exclusion) + 4. * BackgroundEvents().at(step));
-    return numerator * exclusion / 2. / signal_efficiency / DetectorGeometry::Luminosity();
+    if (signal_efficiency == 0 || BackgroundEvents(step) == 0) return 0_b;
+    auto numerator = DetectorGeometry::Exclusion() + std::sqrt(sqr(DetectorGeometry::Exclusion()) + 4. * BackgroundEvents(step));
+    return numerator * DetectorGeometry::Exclusion() / 2. / signal_efficiency / DetectorGeometry::Luminosity();
 }
 
 Crosssection Results::MIConstrained(Significance significance, double signal_efficiency, int step) const
@@ -234,13 +204,9 @@ Crosssection Results::MIConstrained(Significance significance, double signal_eff
 Crosssection Results::MIPoisson(double signal_efficiency, int step) const
 {
     INFO0;
-    auto background_events = BackgroundEvents().at(step);
-    if (signal_efficiency == 0 || background_events == 0) return 0_b;
-    auto exclusion = 2.;
-    ROOT::Math::Functor1D function([&](double signalxs) {
-        double signal_events = signalxs * fb * DetectorGeometry::Luminosity() / signal_efficiency;
-        CHECK(background_events > 0 && signal_events > 0, background_events, signal_events);
-        return SignificancePoisson(signal_events, background_events) - exclusion;
+    if (signal_efficiency == 0 || BackgroundEvents(step) == 0) return 0_b;
+    ROOT::Math::Functor1D function([&](double crosssection) {
+      return SignificancePoisson(crosssection * fb * DetectorGeometry::Luminosity() * signal_efficiency, BackgroundEvents(step)) - DetectorGeometry::Exclusion();
     });
     boca::Range<double> range(MIBackground(signal_efficiency, step) / fb);
     do {
@@ -248,10 +214,9 @@ Crosssection Results::MIPoisson(double signal_efficiency, int step) const
     } while (sgn(function(range.Min())) == sgn(function(range.Max())));
     ROOT::Math::RootFinder root_finder(ROOT::Math::RootFinder::kGSL_BRENT);
     auto success = root_finder.Solve(function, range.Min(), range.Max());
-    auto xsec = root_finder.Root() * fb;
-    CHECK(success && function(xsec / fb) < std::numeric_limits<double>::epsilon(), step, signal_efficiency, xsec, function(xsec / fb));
-    if (xsec < 0.0004_fb) ERROR(xsec, signal_efficiency, step, function(xsec / fb));
-    return xsec;
+    auto crosssection = root_finder.Root() * fb;
+    CHECK(success && std::abs(function(crosssection / fb)) < std::numeric_limits<float>::epsilon(), success, step, crosssection, function(crosssection / fb));
+    return crosssection;
 }
 
 Crosssection Results::MI(Significance significance, double signal_efficiency, int step) const

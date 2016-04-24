@@ -39,7 +39,7 @@ auto SignificanceString(int min = 0)
 
 auto Ratio(int min = 0)
 {
-    return "$\\frac{S}{B}" + (min > 0 ? "\\geq \\unit[" + std::to_string(min) + "]{\\%}$" : "$");
+    return "$\\frac{S}{B}" + (min > 0 ? "\\geq \\unit[" + std::to_string(min * 100) + "]{\\%}$" : "$");
 
 }
 
@@ -70,21 +70,21 @@ void PlottingBase::OptimalCuts() const
     latex_file.IncludeGraphic(PlotCrosssectionsGraph(results), "Crosssection in fb");
     latex_file.IncludeGraphic(PlotMDGraph(results), "Maximization of significance");
     latex_file.IncludeGraphic(PlotMDExperimentalGraph(results), "Maximization of " + Ratio());
-    latex_file.IncludeGraphic(PlotMISignificanceGraph(results), "Minimization of the model independent crosssection for significance $\\geq 2$");
-    latex_file.IncludeGraphic(PlotMIExperimentalGraph(results), "Minimization of model independent cross section for " + Ratio(1));
-    latex_file.IncludeGraphic(PlotMIGraph(results), "Minimization of model independent crosssection for significance $\\geq 2$ and " + Ratio(1));
+    latex_file.IncludeGraphic(PlotMISignificanceGraph(results), "Minimization of the model independent crosssection for significance $\\geq " + std::to_string(DetectorGeometry::Exclusion()) + "$");
+    latex_file.IncludeGraphic(PlotMIExperimentalGraph(results), "Minimization of model independent cross section for " + Ratio(DetectorGeometry::Experimental()));
+    latex_file.IncludeGraphic(PlotMIGraph(results), "Minimization of model independent crosssection for significance $\\geq " + std::to_string(DetectorGeometry::Exclusion()) + "$ and " + Ratio(DetectorGeometry::Experimental()));
     latex_file.IncludeGraphic(PlotSBvsSsqrtBGraph(results), Ratio() + "versus " + SignificanceString());
     for (const auto signal : results.Signals()) {
         latex_file.Table("rlllll", EfficienciesTable(results, signal.BestMDBin(Significance::sum)), "Model dependent efficiencies calculated by maximizing the Significance");
         latex_file.Table("rlllll", EfficienciesTableMI(results, signal.BestMDBin(Significance::sum | Significance::experimental), [](Result const & result) {
             return result.MI(Significance::sum);
-        }), "Model independent efficiencies calculated by minimizing the exclusion cross section for " + SignificanceString(2) + " and " + Ratio(1));
+        }), "Model independent efficiencies calculated by minimizing the exclusion cross section for " + SignificanceString(DetectorGeometry::Exclusion()) + " and " + Ratio(DetectorGeometry::Experimental()));
         latex_file.Table("rlllll", EfficienciesTableMI(results, signal.BestMDBin(Significance::background), [](Result const & result) {
             return result.MI(Significance::sum);
-        }), "Model independent efficiencies calculated by minimizing the exclusion cross section for " + SignificanceString(2));
+        }), "Model independent efficiencies calculated by minimizing the exclusion cross section for " + SignificanceString(DetectorGeometry::Exclusion()));
         latex_file.Table("rlllll", EfficienciesTableMI(results, signal.BestMDBin(Significance::experimental), [](Result const & result) {
             return result.MI(Significance::experimental);
-        }), "Model independent efficiencies calculated by minimizing the exclusion cross section for " + Ratio(1));
+        }), "Model independent efficiencies calculated by minimizing the exclusion cross section for " + Ratio(DetectorGeometry::Experimental()));
         latex_file.Table("rllllll", BestValueTable(signal, results.XValues()), "Results for the optimal model-(in)dependent cuts");
     }
 //     latex_file.Table("rccc", ScalingTable(results), "Significances as function of signal crosssection");
@@ -353,7 +353,7 @@ std::string PlottingBase::BestValueTable(Result const& signal, std::vector<doubl
     table << "\n \\\\ \\midrule\n   ";
     for (const auto & significance : SignificancesUnConstrained()) {
         table << " MD" << BestValueRow(signal, x_values, significance, signal.BestMDBin(significance));
-        table << " MI"<< BestValueRow(signal, x_values, significance, signal.BestMIBin(significance));
+        table << " MI" << BestValueRow(signal, x_values, significance, signal.BestMIBin(significance));
     }
     for (const auto & significance : SignificancesConstrained()) table << " MI" << BestValueRow(signal, x_values, significance, signal.BestMIBin(significance));
     return table.str();
@@ -363,7 +363,7 @@ std::string PlottingBase::BestValueRow(Result const& signal, std::vector<double>
 {
     INFO0;
     std::stringstream row;
-    row << boost::units::engineering_prefix << " " << Name(significance);
+    row << boost::units::engineering_prefix << " " << LatexName(significance);
     row << "\n  & " << RoundToDigits(x_values.at(bin));
     row << "\n  & " << RoundToDigits(signal.MD(significance &~Significance::experimental).at(bin));
     row << "\n  & " << RoundToDigits(signal.MD(Significance::experimental).at(bin) * 100);

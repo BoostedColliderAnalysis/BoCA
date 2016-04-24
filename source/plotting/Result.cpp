@@ -49,6 +49,29 @@ std::string Name(Significance significance)
     return name;
 }
 
+std::string LatexName(Significance significance)
+{
+    std::string name;
+    FlagSwitch(significance, [&](Significance significance) {
+        switch (significance) {
+        case Significance::experimental : name += name.empty() ? "" : " and " ;
+            name += "\\frac{S}{B}";
+            break;
+        case Significance::background : name += name.empty() ? "" : " and " ;
+            name += "\\frac{S}{\\sqrt B}";
+            break;
+        case Significance::sum : name += name.empty() ? "" : " and " ;
+            name += "\\frac{S}{\\sqrt {S + B}}";
+            break;
+        case Significance::poisson : name += name.empty() ? "" : " and " ;
+            name += "Poisson";
+            break;
+            DEFAULT(to_int(significance));
+        }
+    });
+    return name;
+}
+
 TMVA::Types::EMVA Result::mva_ = TMVA::Types::EMVA::kVariable;
 
 std::vector<std::vector<bool>> Result::passed_;

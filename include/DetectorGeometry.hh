@@ -87,6 +87,10 @@ public:
 
     static Momentum ForwardJetPt();
 
+    static double Exclusion();
+
+    static double Experimental();
+
 private:
 
     static boca::DetectorType detector_type_;

@@ -39,9 +39,9 @@ std::string LatexName(Process process)
     case Process::TthHad : return Formula("T_{h}t_{l}h");
     case Process::TThh : return Formula("T_{l}T_{h}hh");
     case Process::ttBB : return Formula("t_{l}t_{h}B^{0}B^{0}");
-    case Process::ttWWWW : return Formula("t_{l}t_{h}W^{#pm}W^{\\mp}W^{#pm}W^{\\mp}");
-    case Process::ttWWWB : return Formula("t_{l}t_{h}W^{#pm}W^{\\mp}W^{#pm}B^{0}");
-    case Process::ttWWBB : return Formula("t_{l}t_{h}W^{#pm}W^{\\mp}B^{0}B^{0}");
+    case Process::ttWWWW : return Formula("t_{l}t_{h}W^{#pm}W^{#mp}W^{#pm}W^{#mp}");
+    case Process::ttWWWB : return Formula("t_{l}t_{h}W^{#pm}W^{#mp}W^{#pm}B^{0}");
+    case Process::ttWWBB : return Formula("t_{l}t_{h}W^{#pm}W^{#mp}B^{0}B^{0}");
     case Process::ttWBBB : return Formula("t_{l}t_{h}W^{#pm}B^{0}B^{0}B^{0}");
     case Process::ttBBBB : return Formula("t_{l}t_{h}B^{0}B^{0}B^{0}B^{0}");
         DEFAULT(Name(process), "");

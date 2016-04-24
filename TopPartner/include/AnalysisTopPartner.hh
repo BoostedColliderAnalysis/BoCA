@@ -62,10 +62,10 @@ protected:
 
     auto Mass() const {
         INFO0;
-        return 2_TeV;
-        return 1.5_TeV;
-        return 1_TeV;
         return 500_GeV;
+        return 1_TeV;
+        return 1.5_TeV;
+        return 2_TeV;
         return 8_TeV;
         return 4_TeV;
         return 6_TeV;

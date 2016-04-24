@@ -43,7 +43,7 @@ std::string LatexName(Process process)
     case Process::Hbb : return Formula("H/Ab\\bar{b}");
     case Process::Htt : return Formula("H/At\\bar{t}");
     case Process::Htwb : return Formula("H/AtW^{#pm}b");
-    case Process::ttwwbb : return Formula("t\\bar{t}W^{#pm}W^{\\mp}b\\bar{b}");
+    case Process::ttwwbb : return Formula("t\\bar{t}W^{#pm}W^{#mp}b\\bar{b}");
     case Process::ttwbb : return Formula("t\\bar{t}W^{#pm}b\\bar{b}");
     case Process::H0 : return Formula("H/A");
     case Process::Htb : return Formula("H^{#pm}tb");
