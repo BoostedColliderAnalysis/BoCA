@@ -70,10 +70,10 @@ void PlottingBase::OptimalCuts() const
     latex_file.IncludeGraphic(PlotCrosssectionsGraph(results), "Crosssection in fb");
     latex_file.IncludeGraphic(PlotMDGraph(results), "Maximization of significance");
     latex_file.IncludeGraphic(PlotMDExperimentalGraph(results), "Maximization of " + Ratio());
-    latex_file.IncludeGraphic(PlotMISignificanceGraph(results), "Minimization of the model independent crosssection for significance $\\geq " + std::to_string(DetectorGeometry::Exclusion()) + "$");
+    latex_file.IncludeGraphic(PlotMISignificanceGraph(results), "Minimization of the model independent crosssection for significance $\\geq " + std::to_string(int(DetectorGeometry::Exclusion())) + "$");
     latex_file.IncludeGraphic(PlotMIExperimentalGraph(results), "Minimization of model independent cross section for " + Ratio(DetectorGeometry::Experimental()));
-    latex_file.IncludeGraphic(PlotMIGraph(results), "Minimization of model independent crosssection for significance $\\geq " + std::to_string(DetectorGeometry::Exclusion()) + "$ and " + Ratio(DetectorGeometry::Experimental()));
-    latex_file.IncludeGraphic(PlotSBvsSsqrtBGraph(results), Ratio() + "versus " + SignificanceString());
+    latex_file.IncludeGraphic(PlotMIGraph(results), "Minimization of model independent crosssection for significance $\\geq " + std::to_string(int(DetectorGeometry::Exclusion())) + "$ and " + Ratio(DetectorGeometry::Experimental()));
+    latex_file.IncludeGraphic(PlotExperimentalVsSignificance(results), Ratio() + "versus significance");
     for (const auto signal : results.Signals()) {
         latex_file.Table("rlllll", EfficienciesTable(results, signal.BestMDBin(Significance::sum)), "Model dependent efficiencies calculated by maximizing the Significance");
         latex_file.Table("rlllll", EfficienciesTableMI(results, signal.BestMDBin(Significance::sum | Significance::experimental), [](Result const & result) {
@@ -285,13 +285,17 @@ std::string PlottingBase::PlotMDExperimentalGraph(Results const& results) const
     return graphs.FileBaseName();
 }
 
-std::string PlottingBase::PlotSBvsSsqrtBGraph(Results const& results) const
+std::string PlottingBase::PlotExperimentalVsSignificance(Results const& results) const
 {
     INFO0;
     Graphs graphs(Tagger().ExportFolderName(), "SBvsSsqrtB");
-    for (auto const & signal : results.Signals()) graphs.AddGraph(signal.MD(Significance::experimental), signal.MD(Significance::sum));
+    for (auto const & signal : results.Signals()) {
+      graphs.AddGraph(signal.MD(Significance::experimental), signal.MD(Significance::poisson), "Poisson");
+      graphs.AddGraph(signal.MD(Significance::experimental), signal.MD(Significance::sum), "#frac{S}{#sqrt{S+B}}");
+      graphs.AddGraph(signal.MD(Significance::experimental), signal.MD(Significance::background), "#frac{S}{#sqrt B}");
+    }
     graphs.SetXAxis(Formula("S/B"));
-    graphs.SetYAxis(Formula("S/#sqrt{S+B}"));
+    graphs.SetYAxis("Significance");
     return graphs.FileBaseName();
 }
 
@@ -349,13 +353,14 @@ std::string PlottingBase::BestValueTable(Result const& signal, std::vector<doubl
 {
     INFO0;
     std::stringstream table;
-    table << "    Optimization\n  & Cut\n  & Significance\n  & Ratio [\\%]\n  & Crosssection [fb]";
+    table << "    Model optimization\n  & Cut\n  & Significance\n  & Ratio [\\%]\n  & Crosssection [fb]";
     table << "\n \\\\ \\midrule\n   ";
     for (const auto & significance : SignificancesUnConstrained()) {
-        table << " MD" << BestValueRow(signal, x_values, significance, signal.BestMDBin(significance));
-        table << " MI" << BestValueRow(signal, x_values, significance, signal.BestMIBin(significance));
+        table << " dependent" << BestValueRow(signal, x_values, significance, signal.BestMDBin(significance));
+        table << " independent" << BestValueRow(signal, x_values, significance, signal.BestMIBin(significance));
     }
-    for (const auto & significance : SignificancesConstrained()) table << " MI" << BestValueRow(signal, x_values, significance, signal.BestMIBin(significance));
+    table << " \\midrule\n";
+    for (const auto & significance : SignificancesConstrained()) table << " independent" << BestValueRow(signal, x_values, significance, signal.BestMIBin(significance));
     return table.str();
 }
 
@@ -456,7 +461,7 @@ std::string PlottingBase::EfficienciesRowMI(Result const& result, int , Tag , in
     INFO0;
     std::stringstream row;
 //     row << " \\verb|" << result.InfoBranch().LatexName() << "|";
-    row << "$" << result.InfoBranch().Name() << "$";
+    row << " $" << result.InfoBranch().Name() << "$";
     row << "\n  & " << result.InfoBranch().EventNumber();
     row << "\n  & " << result.PartialSum().at(bin);
     row << "\n  & " << RoundToDigits(result.PreCutEfficiencies().at(bin));

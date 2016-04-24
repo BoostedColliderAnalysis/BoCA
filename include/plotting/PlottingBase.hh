@@ -82,7 +82,7 @@ private:
 
     std::string PlotMDExperimentalGraph(Results const& results) const;
 
-    std::string PlotSBvsSsqrtBGraph(Results const& results) const;
+    std::string PlotExperimentalVsSignificance(Results const& results) const;
 
     std::string PlotHistograms(Results const& results) const;
 

@@ -1,6 +1,6 @@
-#include "Phase.hh"
-#include "generic/DEBUG.hh"
 #include "generic/Types.hh"
+#include "multivariant/Phase.hh"
+#include "generic/DEBUG.hh"
 namespace boca
 {
 std::string Name(Stage stage)

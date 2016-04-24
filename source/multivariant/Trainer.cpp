@@ -12,7 +12,7 @@
 #include "generic/Types.hh"
 #include "io/Io.hh"
 #include "io/TreeReader.hh"
-#include "Trainer.hh"
+#include "multivariant/Trainer.hh"
 #include "Branches.hh"
 #include "Tagger.hh"
 // #define DEBUGGING

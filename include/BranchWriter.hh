@@ -4,7 +4,7 @@
 #pragma once
 
 #include "io/FileWriter.hh"
-#include "Reader.hh"
+#include "multivariant/Reader.hh"
 #include "Branches.hh"
 #include "File.hh"
 #include <mutex>

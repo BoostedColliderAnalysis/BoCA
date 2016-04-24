@@ -11,6 +11,7 @@ add_subdirectory(external)
 add_subdirectory(exroot)
 add_subdirectory(delphes)
 add_subdirectory(multiplets)
+add_subdirectory(multivariant)
 
 create_dictionary(Colors Colors.cpp Colors.hh LinkDef.hh)
 add_subdirectory(plotting)
@@ -39,7 +40,6 @@ create_library(Event event_sources)
 
 set(analysis_sources
 MomentumRange.cpp
-Phase.cpp
 Observable.cpp
 Observables.cpp
 PreCuts.cpp
@@ -55,7 +55,6 @@ GlobalTagger.cpp
 File.cpp
 Tagger.cpp
 AnalysisBase.cpp
-Trainer.cpp
 )
 create_library(Tagger tagger_sources)
 

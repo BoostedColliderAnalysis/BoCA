@@ -3,7 +3,7 @@
 #include "TaggerTemplate.hh"
 #include "BranchesHeavyHiggs.hh"
 #include "BottomTagger.hh"
-#include "Reader.hh"
+#include "multivariant/Reader.hh"
 #include "CutVariables.hh"
 
 namespace boca

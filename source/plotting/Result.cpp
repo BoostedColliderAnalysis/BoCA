@@ -25,7 +25,7 @@ std::vector< Significance > SignificancesConstrained()
 
 std::vector< Significance > Significances()
 {
-    return Combine( {Significance::experimental}, SignificancesConstrained(), SignificancesUnConstrained());
+  return Combine(SignificancesConstrained(), SignificancesUnConstrained(), {Significance::experimental});
 }
 
 std::string Name(Significance significance)
@@ -55,13 +55,13 @@ std::string LatexName(Significance significance)
     FlagSwitch(significance, [&](Significance significance) {
         switch (significance) {
         case Significance::experimental : name += name.empty() ? "" : " and " ;
-            name += "\\frac{S}{B}";
+            name += "$\\frac{S}{B}$";
             break;
         case Significance::background : name += name.empty() ? "" : " and " ;
-            name += "\\frac{S}{\\sqrt B}";
+            name += "$\\frac{S}{\\sqrt B}$";
             break;
         case Significance::sum : name += name.empty() ? "" : " and " ;
-            name += "\\frac{S}{\\sqrt {S + B}}";
+            name += "$\\frac{S}{\\sqrt {S + B}}$";
             break;
         case Significance::poisson : name += name.empty() ? "" : " and " ;
             name += "Poisson";

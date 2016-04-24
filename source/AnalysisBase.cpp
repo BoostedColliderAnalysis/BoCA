@@ -11,7 +11,7 @@
 #include "File.hh"
 #include "AnalysisBase.hh"
 #include "Event.hh"
-#include "Trainer.hh"
+#include "multivariant/Trainer.hh"
 // #define INFORMATION
 #include "generic/DEBUG.hh"
 

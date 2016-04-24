@@ -4,7 +4,7 @@
 #include "TopLeptonicTagger.hh"
 #include "multiplets/Sextet.hh"
 #include "BranchesHiggsCpv.hh"
-#include "Reader.hh"
+#include "multivariant/Reader.hh"
 
 namespace boca
 {

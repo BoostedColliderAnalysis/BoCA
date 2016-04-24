@@ -13,7 +13,7 @@
 #include "AnalysisBase.hh"
 #include "Filter.hh"
 #include "DetectorGeometry.hh"
-#include "Reader.hh"
+#include "multivariant/Reader.hh"
 // #define INFORMATION
 #include "generic/DEBUG.hh"
 

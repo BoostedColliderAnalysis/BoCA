@@ -10,7 +10,7 @@
 #include "generic/Vector.hh"
 #include "physics/Range.hh"
 #include "Observable.hh"
-#include "Phase.hh"
+#include "multivariant/Phase.hh"
 #include "Filter.hh"
 
 namespace TMVA

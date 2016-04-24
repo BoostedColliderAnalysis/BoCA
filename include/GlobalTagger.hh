@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../StandardModel/include/BottomTagger.hh"
-#include "Reader.hh"
+#include "multivariant/Reader.hh"
 #include "GlobalObservables.hh"
 
 namespace boca
