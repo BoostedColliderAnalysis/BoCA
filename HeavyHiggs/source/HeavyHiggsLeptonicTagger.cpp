@@ -1,11 +1,11 @@
-#include "HeavyHiggsLeptonicTagger.hh"
+#include "boca/HeavyHiggsLeptonicTagger.hh"
 
-#include "WimpMass.hh"
-#include "multiplets/Quartet.hh"
-#include "generic/Types.hh"
-#include "Event.hh"
-#include "multiplets/Particles.hh"
-#include "generic/DEBUG.hh"
+#include "boca/WimpMass.hh"
+#include "boca/multiplets/Quartet.hh"
+#include "boca/generic/Types.hh"
+#include "boca/Event.hh"
+#include "boca/multiplets/Particles.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca {
 

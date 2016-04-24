@@ -1,5 +1,5 @@
-#include "ChargedHiggsLeptonicTagger.hh"
-#include "generic/DEBUG.hh"
+#include "boca/ChargedHiggsLeptonicTagger.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca {
 

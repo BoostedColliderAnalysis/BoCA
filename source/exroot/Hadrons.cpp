@@ -1,6 +1,6 @@
-#include "exroot/Classes.hh"
-#include "exroot/Hadrons.hh"
-#include "generic/DEBUG.hh"
+#include "boca/exroot/Classes.hh"
+#include "boca/exroot/Hadrons.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

@@ -7,8 +7,8 @@
 #include <boost/range/algorithm_ext/erase.hpp>
 #include <boost/units/systems/si/io.hpp>
 
-#include "physics/ElectronVolt.hh"
-#include "physics/Prefixes.hh"
+#include "boca/physics/ElectronVolt.hh"
+#include "boca/physics/Prefixes.hh"
 
 namespace boca
 {

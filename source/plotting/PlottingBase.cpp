@@ -7,24 +7,24 @@
 #include "TFile.h"
 #include "TTree.h"
 
-#include "generic/Vector.hh"
-#include "generic/Types.hh"
+#include "boca/generic/Vector.hh"
+#include "boca/generic/Types.hh"
 
-#include "io/TreeWriter.hh"
-#include "io/TreeReader.hh"
+#include "boca/io/TreeWriter.hh"
+#include "boca/io/TreeReader.hh"
 
-#include "plotting/PlottingBase.hh"
-#include "plotting/LatexFile.hh"
-#include "plotting/Graphs.hh"
-#include "plotting/Results.hh"
-#include "plotting/Histograms.hh"
-#include "plotting/Histogram2Dim.hh"
-#include "plotting/Profile.hh"
-#include "plotting/Plots.hh"
-#include "plotting/Font.hh"
+#include "boca/plotting/PlottingBase.hh"
+#include "boca/plotting/LatexFile.hh"
+#include "boca/plotting/Graphs.hh"
+#include "boca/plotting/Results.hh"
+#include "boca/plotting/Histograms.hh"
+#include "boca/plotting/Histogram2Dim.hh"
+#include "boca/plotting/Profile.hh"
+#include "boca/plotting/Plots.hh"
+#include "boca/plotting/Font.hh"
 
 // #define INFORMATION
-#include "generic/DEBUG.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

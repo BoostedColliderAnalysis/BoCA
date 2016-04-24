@@ -1,5 +1,5 @@
-#include "AnalysisPair.hh"
-#include "generic/DEBUG.hh"
+#include "boca/AnalysisPair.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

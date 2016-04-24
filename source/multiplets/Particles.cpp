@@ -8,9 +8,9 @@
 #include <boost/range/algorithm/copy.hpp>
 #include <boost/range/adaptors.hpp>
 
-#include "generic/Types.hh"
-#include "multiplets/Particles.hh"
-#include "generic/DEBUG.hh"
+#include "boca/generic/Types.hh"
+#include "boca/multiplets/Particles.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

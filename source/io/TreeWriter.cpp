@@ -1,8 +1,8 @@
 #include "TROOT.h"
 #include "TFile.h"
 
-#include "io/TreeWriter.hh"
-#include "generic/DEBUG.hh"
+#include "boca/io/TreeWriter.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca {
 

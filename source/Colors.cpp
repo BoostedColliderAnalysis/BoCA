@@ -3,10 +3,10 @@
  */
 #include "TColor.h"
 #include "TStyle.h"
-#include "generic/Vector.hh"
+#include "boca/generic/Vector.hh"
 
-#include "Colors.hh"
-#include "generic/DEBUG.hh"
+#include "boca/Colors.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

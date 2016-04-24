@@ -2,8 +2,8 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #include <sys/stat.h>
-#include "io/Io.hh"
-#include "generic/DEBUG.hh"
+#include "boca/io/Io.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca {
 

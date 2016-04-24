@@ -1,5 +1,5 @@
-#include "external/QJetsPlugin.hh"
-#include "external/QJets.hh"
+#include "boca/external/QJetsPlugin.hh"
+#include "boca/external/QJets.hh"
 
 namespace qjets
 {

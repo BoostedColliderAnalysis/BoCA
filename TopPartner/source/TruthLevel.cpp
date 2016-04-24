@@ -1,15 +1,15 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "../include/TruthLevel.hh"
+#include "boca/../boca/TruthLevel.hh"
 
-#include "Event.hh"
-#include "PreCuts.hh"
-#include "generic/Exception.hh"
-#include "physics/Particles.hh"
-#include "multiplets/Particles.hh"
+#include "boca/Event.hh"
+#include "boca/PreCuts.hh"
+#include "boca/generic/Exception.hh"
+#include "boca/physics/Particles.hh"
+#include "boca/multiplets/Particles.hh"
 // #define DEBUGGING
-#include "generic/DEBUG.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

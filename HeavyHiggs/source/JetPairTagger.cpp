@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "JetPairTagger.hh"
-#include "HeavyHiggsSemiTagger.hh"
-#include "Event.hh"
-#include "multiplets/Sort.hh"
-#include "multiplets/Particles.hh"
-#include "generic/DEBUG.hh"
+#include "boca/JetPairTagger.hh"
+#include "boca/HeavyHiggsSemiTagger.hh"
+#include "boca/Event.hh"
+#include "boca/multiplets/Sort.hh"
+#include "boca/multiplets/Particles.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

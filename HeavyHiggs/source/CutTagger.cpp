@@ -1,12 +1,12 @@
 #include "boost/range.hpp"
 #include <boost/range/algorithm/copy.hpp>
 #include <boost/range/adaptors.hpp>
-#include "math/Math.hh"
-#include "CutTagger.hh"
-#include "Event.hh"
-#include "multiplets/Particles.hh"
+#include "boca/math/Math.hh"
+#include "boca/CutTagger.hh"
+#include "boca/Event.hh"
+#include "boca/multiplets/Particles.hh"
 // #define DEBUGGING
-#include "generic/DEBUG.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

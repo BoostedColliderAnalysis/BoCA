@@ -1,6 +1,6 @@
-#include "generic/Types.hh"
-#include "math/LorentzVectorBase.hh"
-#include "generic/DEBUG.hh"
+#include "boca/generic/Types.hh"
+#include "boca/math/LorentzVectorBase.hh"
+#include "boca/generic/DEBUG.hh"
 namespace boca
 {
 std::string Name(LorentzDim dimension)

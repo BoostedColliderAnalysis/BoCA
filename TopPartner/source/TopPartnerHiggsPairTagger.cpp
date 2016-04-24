@@ -1,6 +1,6 @@
-#include "TopPartnerHiggsPairTagger.hh"
-#include "generic/Exception.hh"
-#include "generic/DEBUG.hh"
+#include "boca/TopPartnerHiggsPairTagger.hh"
+#include "boca/generic/Exception.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

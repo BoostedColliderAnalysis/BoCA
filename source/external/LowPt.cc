@@ -1,6 +1,6 @@
 //Example for a low_pt working point
-#include "external/LowPt.hh"
-#include "external/FWM.hh"
+#include "boca/external/LowPt.hh"
+#include "boca/external/FWM.hh"
 
 namespace hep
 {

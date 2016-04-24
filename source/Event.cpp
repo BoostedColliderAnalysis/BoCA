@@ -1,18 +1,18 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "Event.hh"
-#include "delphes/Partons.hh"
+#include "boca/Event.hh"
+#include "boca/delphes/Partons.hh"
 
-#include "generic/Vector.hh"
-#include "generic/Types.hh"
-#include "delphes/Leptons.hh"
-#include "delphes/Hadrons.hh"
-#include "exroot/Leptons.hh"
-#include "exroot/Hadrons.hh"
-#include "exroot/Partons.hh"
-#include "DetectorGeometry.hh"
-#include "generic/DEBUG.hh"
+#include "boca/generic/Vector.hh"
+#include "boca/generic/Types.hh"
+#include "boca/delphes/Leptons.hh"
+#include "boca/delphes/Hadrons.hh"
+#include "boca/exroot/Leptons.hh"
+#include "boca/exroot/Hadrons.hh"
+#include "boca/exroot/Partons.hh"
+#include "boca/DetectorGeometry.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

@@ -2,13 +2,13 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #include <sys/stat.h>
-#include "plotting/Style.hh"
-#include "plotting/Histogram2Dim.hh"
-#include "plotting/Font.hh"
-#include "Colors.hh"
-#include "generic/Vector.hh"
+#include "boca/plotting/Style.hh"
+#include "boca/plotting/Histogram2Dim.hh"
+#include "boca/plotting/Font.hh"
+#include "boca/Colors.hh"
+#include "boca/generic/Vector.hh"
 // #define INFORMATION
-#include "generic/DEBUG.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

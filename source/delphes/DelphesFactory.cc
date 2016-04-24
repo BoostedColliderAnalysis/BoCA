@@ -26,8 +26,8 @@
  *
  */
 
-#include "delphes/DelphesFactory.h"
-#include "delphes/DelphesClasses.h"
+#include "boca/delphes/DelphesFactory.h"
+#include "boca/delphes/DelphesClasses.h"
 
 
 #include "TClass.h"

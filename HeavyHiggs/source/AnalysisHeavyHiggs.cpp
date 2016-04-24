@@ -1,6 +1,6 @@
-#include "AnalysisHeavyHiggs.hh"
-#include "plotting/Font.hh"
-#include "generic/DEBUG.hh"
+#include "boca/AnalysisHeavyHiggs.hh"
+#include "boca/plotting/Font.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

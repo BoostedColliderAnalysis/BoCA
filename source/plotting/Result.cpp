@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "plotting/Result.hh"
-#include "generic/Types.hh"
-#include "generic/Vector.hh"
-#include "DetectorGeometry.hh"
+#include "boca/plotting/Result.hh"
+#include "boca/generic/Types.hh"
+#include "boca/generic/Vector.hh"
+#include "boca/DetectorGeometry.hh"
 // #define DEBUGGING
-#include "generic/DEBUG.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

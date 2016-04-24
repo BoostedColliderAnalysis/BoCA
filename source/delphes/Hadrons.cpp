@@ -4,16 +4,16 @@
 
 #include<boost/optional.hpp>
 
-#include "delphes/Classes.hh"
-#include "delphes/Hadrons.hh"
+#include "boca/delphes/Classes.hh"
+#include "boca/delphes/Hadrons.hh"
 
-#include "ClusterSequence.hh"
-#include "generic/Vector.hh"
-#include "generic/Types.hh"
-#include "multiplets/Sort.hh"
-#include "generic/Exception.hh"
+#include "boca/fastjet/ClusterSequence.hh"
+#include "boca/generic/Vector.hh"
+#include "boca/generic/Types.hh"
+#include "boca/multiplets/Sort.hh"
+#include "boca/generic/Exception.hh"
 // #define DEBUGGING
-#include "generic/DEBUG.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

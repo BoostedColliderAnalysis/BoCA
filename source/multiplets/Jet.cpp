@@ -2,10 +2,10 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 
-#include "exroot/Classes.hh"
-#include "multiplets/Jet.hh"
-#include "generic/Vector.hh"
-#include "generic/DEBUG.hh"
+#include "boca/exroot/Classes.hh"
+#include "boca/multiplets/Jet.hh"
+#include "boca/generic/Vector.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

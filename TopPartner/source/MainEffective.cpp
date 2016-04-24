@@ -1,5 +1,5 @@
-#include "AnalysisTopPartnerEffective.hh"
-#include "EventEffectiveTagger.hh"
+#include "boca/AnalysisTopPartnerEffective.hh"
+#include "boca/EventEffectiveTagger.hh"
 
 template<typename Tagger>
 void Run(boca::Output output = boca::Output::normal)

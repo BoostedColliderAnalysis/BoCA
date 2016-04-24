@@ -1,11 +1,11 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "plotting/Plots.hh"
+#include "boca/plotting/Plots.hh"
 
-#include "generic/Vector.hh"
+#include "boca/generic/Vector.hh"
 // #define DEBUGGING
-#include "generic/DEBUG.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

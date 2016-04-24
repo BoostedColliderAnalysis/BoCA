@@ -4,8 +4,8 @@
 
 #include <cmath>
 
-#include "math/Math.hh"
-#include "generic/DEBUG.hh"
+#include "boca/math/Math.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

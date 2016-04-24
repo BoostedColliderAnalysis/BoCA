@@ -1,5 +1,5 @@
-#include "TopPartnerTopPairTagger.hh"
-#include "generic/DEBUG.hh"
+#include "boca/TopPartnerTopPairTagger.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca {
 

@@ -1,8 +1,8 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "DetectorGeometry.hh"
-#include "generic/DEBUG.hh"
+#include "boca/DetectorGeometry.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

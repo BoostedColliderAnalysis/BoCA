@@ -6,14 +6,14 @@
 // #include <fstream>
 // #include <boost/lexical_cast.hpp>
 
-#include "generic/Types.hh"
-#include "io/Io.hh"
-#include "File.hh"
-#include "AnalysisBase.hh"
-#include "Event.hh"
-#include "multivariant/Trainer.hh"
+#include "boca/generic/Types.hh"
+#include "boca/io/Io.hh"
+#include "boca/File.hh"
+#include "boca/AnalysisBase.hh"
+#include "boca/Event.hh"
+#include "boca/multivariant/Trainer.hh"
 // #define INFORMATION
-#include "generic/DEBUG.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

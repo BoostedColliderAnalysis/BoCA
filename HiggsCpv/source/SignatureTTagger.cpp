@@ -1,8 +1,8 @@
-#include "../include/SignatureTTagger.hh"
-#include "Event.hh"
-#include "generic/Exception.hh"
+#include "boca/../boca/SignatureTTagger.hh"
+#include "boca/Event.hh"
+#include "boca/generic/Exception.hh"
 // #define DEBUGGING
-#include "generic/DEBUG.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

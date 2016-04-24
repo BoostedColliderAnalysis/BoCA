@@ -1,5 +1,5 @@
-#include "AnalysisNeutralFourTop.hh"
-#include "CutTagger.hh"
+#include "boca/AnalysisNeutralFourTop.hh"
+#include "boca/CutTagger.hh"
 
 template<typename Tagger>
 void Run(boca::Output output)

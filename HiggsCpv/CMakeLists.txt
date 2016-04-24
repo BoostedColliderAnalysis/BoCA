@@ -1,2 +1,2 @@
-add_include_path(include)
+add_include_path(.)
 add_subdirectory(source)

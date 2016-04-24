@@ -1,9 +1,9 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "AnalysisTopPartnerSingleHadronic.hh"
-#include "EventSingleHadronicTagger.hh"
-#include "CompleteSingleHadronicTagger.hh"
+#include "boca/AnalysisTopPartnerSingleHadronic.hh"
+#include "boca/EventSingleHadronicTagger.hh"
+#include "boca/CompleteSingleHadronicTagger.hh"
 
 template<typename Tagger>
 void Run(boca::Output output = boca::Output::normal)

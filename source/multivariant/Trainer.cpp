@@ -8,15 +8,15 @@
 #include "TMVA/Config.h"
 #include "TMVA/MethodBDT.h"
 
-#include "generic/Options.hh"
-#include "generic/Types.hh"
-#include "io/Io.hh"
-#include "io/TreeReader.hh"
-#include "multivariant/Trainer.hh"
-#include "Branches.hh"
-#include "Tagger.hh"
+#include "boca/generic/Options.hh"
+#include "boca/generic/Types.hh"
+#include "boca/io/Io.hh"
+#include "boca/io/TreeReader.hh"
+#include "boca/multivariant/Trainer.hh"
+#include "boca/Branches.hh"
+#include "boca/Tagger.hh"
 // #define DEBUGGING
-#include "generic/DEBUG.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

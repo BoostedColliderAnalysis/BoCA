@@ -1,7 +1,7 @@
-#include "EventFusionTagger.hh"
-#include "Event.hh"
-#include "multiplets/Particles.hh"
-#include "generic/DEBUG.hh"
+#include "boca/EventFusionTagger.hh"
+#include "boca/Event.hh"
+#include "boca/multiplets/Particles.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

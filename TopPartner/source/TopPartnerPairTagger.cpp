@@ -1,7 +1,7 @@
-#include "TopPartnerPairTagger.hh"
-#include "generic/Exception.hh"
-#include "plotting/Font.hh"
-#include "generic/DEBUG.hh"
+#include "boca/TopPartnerPairTagger.hh"
+#include "boca/generic/Exception.hh"
+#include "boca/plotting/Font.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

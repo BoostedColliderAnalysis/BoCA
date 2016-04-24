@@ -27,10 +27,10 @@
  *
  */
 
-#include "delphes/DelphesClasses.h"
+#include "boca/delphes/DelphesClasses.h"
 
-#include "delphes/DelphesFactory.h"
-// #include "delphes/SortableObject.h"
+#include "boca/delphes/DelphesFactory.h"
+// #include "boca/delphes/SortableObject.h"
 
 // namespace delphes {
 

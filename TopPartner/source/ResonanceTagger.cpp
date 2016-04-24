@@ -1,11 +1,11 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "ResonanceTagger.hh"
-#include "multiplets/Particles.hh"
-#include "generic/Exception.hh"
-#include "Event.hh"
-#include "generic/DEBUG.hh"
+#include "boca/ResonanceTagger.hh"
+#include "boca/multiplets/Particles.hh"
+#include "boca/generic/Exception.hh"
+#include "boca/Event.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

@@ -5,10 +5,10 @@
 #include <boost/range/algorithm/sort.hpp>
 #include <boost/range/algorithm/transform.hpp>
 
-#include "plotting/Plot.hh"
-#include "generic/Vector.hh"
+#include "boca/plotting/Plot.hh"
+#include "boca/generic/Vector.hh"
 // #define DEBUGGING
-#include "generic/DEBUG.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

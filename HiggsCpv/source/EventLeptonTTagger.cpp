@@ -1,5 +1,5 @@
-#include "EventLeptonTTagger.hh"
-#include "generic/DEBUG.hh"
+#include "boca/EventLeptonTTagger.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

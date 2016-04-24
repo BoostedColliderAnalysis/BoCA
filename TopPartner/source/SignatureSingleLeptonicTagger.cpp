@@ -1,8 +1,8 @@
-#include "SignatureSingleLeptonicTagger.hh"
-#include "Event.hh"
-#include "generic/Exception.hh"
+#include "boca/SignatureSingleLeptonicTagger.hh"
+#include "boca/Event.hh"
+#include "boca/generic/Exception.hh"
 // #define INFORMATION
-#include "generic/DEBUG.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

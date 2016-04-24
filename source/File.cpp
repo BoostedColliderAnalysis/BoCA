@@ -4,11 +4,11 @@
 #include "TFile.h"
 #include "TTree.h"
 
-#include "generic/Types.hh"
-#include "generic/Vector.hh"
-#include "File.hh"
+#include "boca/generic/Types.hh"
+#include "boca/generic/Vector.hh"
+#include "boca/File.hh"
 // #define INFORMATION
-#include "generic/DEBUG.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

@@ -4,12 +4,12 @@
 #include "TAxis.h"
 #include "TAttText.h"
 #include "TAttLine.h"
-// #include "plotting/Style.hh"
-#include "plotting/Font.hh"
-#include "generic/Types.hh"
-#include "generic/Vector.hh"
+// #include "boca/plotting/Style.hh"
+#include "boca/plotting/Font.hh"
+#include "boca/generic/Types.hh"
+#include "boca/generic/Vector.hh"
 // #define INFORMATION
-#include "generic/DEBUG.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

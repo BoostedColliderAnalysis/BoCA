@@ -8,11 +8,11 @@
 
 #include "TLorentzVector.h"
 
-#include "exroot/Classes.hh"
-#include "delphes/Classes.hh"
+#include "boca/exroot/Classes.hh"
+#include "boca/delphes/Classes.hh"
 
-#include "math/LorentzVector.hh"
-#include "physics/Particles.hh"
+#include "boca/math/LorentzVector.hh"
+#include "boca/physics/Particles.hh"
 
 namespace boca
 {

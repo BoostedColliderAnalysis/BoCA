@@ -33,7 +33,7 @@
 
 #include <iostream>
 #include <cmath>
-#include "external/Mt2.hh"
+#include "boca/external/Mt2.hh"
 
 namespace mt2
 {

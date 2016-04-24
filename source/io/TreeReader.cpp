@@ -1,12 +1,12 @@
 
-#include "delphes/Classes.hh"
-#include "exroot/Classes.hh"
+#include "boca/delphes/Classes.hh"
+#include "boca/exroot/Classes.hh"
 
-#include "generic/Types.hh"
-#include "io/TreeReader.hh"
-#include "Branches.hh"
+#include "boca/generic/Types.hh"
+#include "boca/io/TreeReader.hh"
+#include "boca/Branches.hh"
 // #define INFORMATION
-#include "generic/DEBUG.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

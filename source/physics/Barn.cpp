@@ -1,9 +1,9 @@
 #include <boost/range/algorithm/min_element.hpp>
 #include <boost/range/algorithm_ext/erase.hpp>
 
-#include "physics/Barn.hh"
-#include "physics/Prefixes.hh"
-#include "generic/Vector.hh"
+#include "boca/physics/Barn.hh"
+#include "boca/physics/Prefixes.hh"
+#include "boca/generic/Vector.hh"
 
 namespace boca
 {

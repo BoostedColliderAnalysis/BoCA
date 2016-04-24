@@ -1,5 +1,5 @@
-#include "CutTaggerNeutral.hh"
-#include "generic/DEBUG.hh"
+#include "boca/CutTaggerNeutral.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

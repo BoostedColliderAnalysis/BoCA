@@ -9,13 +9,13 @@
 #include "TMath.h"
 #include "Math/RootFinder.h"
 
-#include "generic/Types.hh"
-#include "generic/Vector.hh"
-#include "physics/Units.hh"
-#include "plotting/Results.hh"
-#include "DetectorGeometry.hh"
+#include "boca/generic/Types.hh"
+#include "boca/generic/Vector.hh"
+#include "boca/physics/Units.hh"
+#include "boca/plotting/Results.hh"
+#include "boca/DetectorGeometry.hh"
 // #define INFORMATION
-#include "generic/DEBUG.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

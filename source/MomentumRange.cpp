@@ -2,10 +2,10 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 
-#include "MomentumRange.hh"
+#include "boca/MomentumRange.hh"
 
-#include "DetectorGeometry.hh"
-#include "math/Math.hh"
+#include "boca/DetectorGeometry.hh"
+#include "boca/math/Math.hh"
 
 namespace boca
 {

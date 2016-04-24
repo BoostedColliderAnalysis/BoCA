@@ -1,4 +1,4 @@
-#include "external/QHTT.hh"
+#include "boca/external/QHTT.hh"
 
 namespace hep
 {

@@ -52,7 +52,7 @@
 #include "TDecompLU.h"
 #include "Math/Polynomial.h"
 
-#include "external/Invisible3.hh"
+#include "boca/external/Invisible3.hh"
 
 namespace wimpmass
 {

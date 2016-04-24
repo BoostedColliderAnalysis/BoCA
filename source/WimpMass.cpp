@@ -2,10 +2,10 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 
-#include "external/Invisible2.hh"
-#include "multiplets/Quartet.hh"
-#include "WimpMass.hh"
-#include "generic/DEBUG.hh"
+#include "boca/external/Invisible2.hh"
+#include "boca/multiplets/Quartet.hh"
+#include "boca/WimpMass.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

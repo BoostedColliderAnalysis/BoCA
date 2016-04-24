@@ -42,10 +42,11 @@
 ********************************************************************************/
 
 #include "Math/Polynomial.h"
-#include "external/Invisible2.hh"
-#include "generic/Types.hh"
-#include "multiplets/Quartet.hh"
-#include "generic/DEBUG.hh"
+
+#include "boca/external/Invisible2.hh"
+#include "boca/generic/Types.hh"
+#include "boca/multiplets/Quartet.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

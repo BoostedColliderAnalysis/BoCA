@@ -2,9 +2,9 @@
 
 #include "fastjet/contrib/Nsubjettiness.hh"
 
-#include "external/QJetsPlugin.hh"
-#include "external/QJetsBaseExtras.hh"
-#include "external/TopTagger2.hh"
+#include "boca/external/QJetsPlugin.hh"
+#include "boca/external/QJetsBaseExtras.hh"
+#include "boca/external/TopTagger2.hh"
 
 namespace hep
 {

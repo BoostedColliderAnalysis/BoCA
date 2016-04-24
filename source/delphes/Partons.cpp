@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "delphes/Classes.hh"
-#include "delphes/Partons.hh"
+#include "boca/delphes/Classes.hh"
+#include "boca/delphes/Partons.hh"
 
-#include "physics/Particles.hh"
-#include "generic/Types.hh"
-#include "generic/DEBUG.hh"
+#include "boca/physics/Particles.hh"
+#include "boca/generic/Types.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

@@ -3,10 +3,10 @@
  */
 
 #include <boost/math/constants/constants.hpp>
-#include "physics/Si.hh"
-#include "math/Math.hh"
-#include "physics/Prefixes.hh"
-#include "generic/DEBUG.hh"
+#include "boca/physics/Si.hh"
+#include "boca/math/Math.hh"
+#include "boca/physics/Prefixes.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

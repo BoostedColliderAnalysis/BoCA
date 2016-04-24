@@ -2,8 +2,8 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "boost/range/algorithm/sort.hpp"
-#include "CutVariables.hh"
-#include "generic/DEBUG.hh"
+#include "boca/CutVariables.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

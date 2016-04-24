@@ -1,6 +1,8 @@
 #include "Math/SpecFuncMathMore.h"
+
 #include "fastjet/tools/Boost.hh"
-#include "external/FWM.hh"
+
+#include "boca/external/FWM.hh"
 
 namespace hep
 {

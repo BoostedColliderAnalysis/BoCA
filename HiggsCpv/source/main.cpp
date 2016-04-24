@@ -1,7 +1,7 @@
-#include "AnalysisHiggsCpv.hh"
+#include "boca/AnalysisHiggsCpv.hh"
 
-#include "EventTTagger.hh"
-#include "EventLeptonTTagger.hh"
+#include "boca/EventTTagger.hh"
+#include "boca/EventLeptonTTagger.hh"
 
 template<typename Tagger>
 void Run(boca::Output output = boca::Output::normal)

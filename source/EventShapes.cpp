@@ -12,12 +12,12 @@
 //
 
 #include <boost/range/numeric.hpp>
-#include "EventShapes.hh"
-#include "generic/Vector.hh"
-#include "generic/Exception.hh"
+#include "boca/EventShapes.hh"
+#include "boca/generic/Vector.hh"
+#include "boca/generic/Exception.hh"
 // #define INFORMATION
-#include "generic/DEBUG.hh"
-#include "multiplets/Sort.hh"
+#include "boca/generic/DEBUG.hh"
+#include "boca/multiplets/Sort.hh"
 
 namespace boca
 {

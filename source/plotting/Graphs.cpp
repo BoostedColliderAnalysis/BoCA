@@ -5,10 +5,10 @@
 
 #include "TAxis.h"
 
-#include "plotting/Style.hh"
-#include "plotting/Graphs.hh"
+#include "boca/plotting/Style.hh"
+#include "boca/plotting/Graphs.hh"
 // #define INFORMATION
-#include "generic/DEBUG.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

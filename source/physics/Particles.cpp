@@ -1,12 +1,13 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "boost/range/algorithm/min_element.hpp"
-#include "boost/range/algorithm/max_element.hpp"
-#include "physics/Particles.hh"
-#include "physics/Prefixes.hh"
-#include "generic/Types.hh"
-#include "generic/DEBUG.hh"
+#include <boost/range/algorithm/min_element.hpp>
+#include <boost/range/algorithm/max_element.hpp>
+
+#include "boca/physics/Particles.hh"
+#include "boca/physics/Prefixes.hh"
+#include "boca/generic/Types.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

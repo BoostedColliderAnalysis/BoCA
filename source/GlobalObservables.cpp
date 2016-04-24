@@ -4,11 +4,11 @@
 #include <boost/range/numeric.hpp>
 #include <boost/range/algorithm/count_if.hpp>
 
-#include "GlobalObservables.hh"
-#include "Event.hh"
-#include "multiplets/Sort.hh"
-#include "generic/Vector.hh"
-#include "generic/DEBUG.hh"
+#include "boca/GlobalObservables.hh"
+#include "boca/Event.hh"
+#include "boca/multiplets/Sort.hh"
+#include "boca/generic/Vector.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

@@ -1,8 +1,8 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "Constituent.hh"
-#include "generic/DEBUG.hh"
+#include "boca/Constituent.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

@@ -1,6 +1,6 @@
-#include "EventPairTagger.hh"
+#include "boca/EventPairTagger.hh"
 // #define DEBUGGING
-#include "generic/DEBUG.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

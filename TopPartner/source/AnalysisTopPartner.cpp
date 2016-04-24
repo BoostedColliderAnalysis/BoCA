@@ -1,5 +1,5 @@
-#include  "AnalysisTopPartner.hh"
-#include  "plotting/Font.hh"
+#include "../boca/AnalysisTopPartner.hh"
+#include "boca/plotting/Font.hh"
 
 namespace boca
 {

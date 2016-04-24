@@ -1,8 +1,8 @@
-#include "SignatureEffectiveTagger.hh"
-#include "generic/Exception.hh"
-#include "plotting/Font.hh"
+#include "boca/SignatureEffectiveTagger.hh"
+#include "boca/generic/Exception.hh"
+#include "boca/plotting/Font.hh"
 // #define DEBUGGING
-#include "generic/DEBUG.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

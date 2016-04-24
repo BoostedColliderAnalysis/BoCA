@@ -2,10 +2,11 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "Rtypes.h"
-#include "generic/Types.hh"
-#include "plotting/Font.hh"
+
+#include "boca/generic/Types.hh"
+#include "boca/plotting/Font.hh"
 // #define INFORMATION
-#include "generic/DEBUG.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

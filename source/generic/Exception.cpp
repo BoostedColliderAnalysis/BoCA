@@ -1,4 +1,4 @@
-#include "generic/Exception.hh"
+#include "boca/generic/Exception.hh"
 
 namespace boca
 {

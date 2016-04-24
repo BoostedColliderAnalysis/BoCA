@@ -5,12 +5,12 @@
 #include <boost/range/algorithm/max_element.hpp>
 #include <boost/math/constants/constants.hpp>
 
-#include "multiplets/Singlet.hh"
-#include "DetectorGeometry.hh"
-#include "generic/Vector.hh"
-#include "math/Math.hh"
-#include "physics/Range.hh"
-#include "generic/DEBUG.hh"
+#include "boca/multiplets/Singlet.hh"
+#include "boca/DetectorGeometry.hh"
+#include "boca/generic/Vector.hh"
+#include "boca/math/Math.hh"
+#include "boca/physics/Range.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

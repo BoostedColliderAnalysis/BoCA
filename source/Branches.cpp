@@ -1,11 +1,11 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "plotting/Font.hh"
-#include "Branches.hh"
-#include "File.hh"
-#include "OBSERVABLE.hh"
-#include "generic/DEBUG.hh"
+#include "boca/plotting/Font.hh"
+#include "boca/Branches.hh"
+#include "boca/File.hh"
+#include "boca/OBSERVABLE.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

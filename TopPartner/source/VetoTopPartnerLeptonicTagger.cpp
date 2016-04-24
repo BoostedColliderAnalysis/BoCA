@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "VetoTopPartnerLeptonicTagger.hh"
-#include "Decuplet.hh"
-#include "multiplets/Particles.hh"
+#include "boca/VetoTopPartnerLeptonicTagger.hh"
+#include "boca/Decuplet.hh"
+#include "boca/multiplets/Particles.hh"
 // #define DEBUGGING
 // #define INFORMATION
-#include "generic/DEBUG.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

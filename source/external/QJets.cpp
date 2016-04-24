@@ -1,6 +1,6 @@
 #include <cmath>
-#include "external/QJets.hh"
-#include "external/QJetsBaseExtras.hh"
+#include "boca/external/QJets.hh"
+#include "boca/external/QJetsBaseExtras.hh"
 
 namespace qjets
 {

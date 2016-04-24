@@ -1,6 +1,6 @@
-#include "NewPartnerPairTagger.hh"
-#include "generic/Exception.hh"
-#include "generic/DEBUG.hh"
+#include "boca/NewPartnerPairTagger.hh"
+#include "boca/generic/Exception.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

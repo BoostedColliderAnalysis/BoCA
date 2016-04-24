@@ -6,16 +6,16 @@
 
 #include "TMVA/Reader.h"
 
-#include "ClusterSequence.hh"
+#include "boca/fastjet/ClusterSequence.hh"
 
-#include "io/TreeWriter.hh"
-#include "Tagger.hh"
-#include "AnalysisBase.hh"
-#include "Filter.hh"
-#include "DetectorGeometry.hh"
-#include "multivariant/Reader.hh"
+#include "boca/io/TreeWriter.hh"
+#include "boca/Tagger.hh"
+#include "boca/AnalysisBase.hh"
+#include "boca/Filter.hh"
+#include "boca/DetectorGeometry.hh"
+#include "boca/multivariant/Reader.hh"
 // #define INFORMATION
-#include "generic/DEBUG.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

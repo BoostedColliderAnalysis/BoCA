@@ -10,13 +10,13 @@
 #include "TPad.h"
 #include "TPave.h"
 
-#include "generic/Types.hh"
-#include "plotting/Legend.hh"
-#include "plotting/Style.hh"
-#include "plotting/Font.hh"
+#include "boca/generic/Types.hh"
+#include "boca/plotting/Legend.hh"
+#include "boca/plotting/Style.hh"
+#include "boca/plotting/Font.hh"
 
 // #define INFORMATION
-#include "generic/DEBUG.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

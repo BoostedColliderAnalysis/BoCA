@@ -6,15 +6,15 @@
 #include <boost/range/numeric.hpp>
 #include <boost/range/algorithm_ext/erase.hpp>
 
-#include "generic/Vector.hh"
-#include "generic/Types.hh"
-#include "math/Math.hh"
-#include "multiplets/JetInfo.hh"
-#include "multiplets/Singlet.hh"
-#include "delphes/Classes.hh"
+#include "boca/generic/Vector.hh"
+#include "boca/generic/Types.hh"
+#include "boca/math/Math.hh"
+#include "boca/multiplets/JetInfo.hh"
+#include "boca/multiplets/Singlet.hh"
+#include "boca/delphes/Classes.hh"
 
 // #define DEBUGGING
-#include "generic/DEBUG.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {
