@@ -44,7 +44,6 @@
 
 ********************************************************************************/
 
-
 #include <cmath>
 #include <iostream>
 
@@ -53,7 +52,7 @@
 #include "TDecompLU.h"
 #include "Math/Polynomial.h"
 
-#include "external/Invisible3.hh"
+#include "boca/external/Invisible3.hh"
 
 namespace wimpmass
 {
@@ -62,81 +61,62 @@ int solve3quad(double* coeff, double* solutions);
 
 double mass2(double E, double px, double py, double pz)
 {
-    double m = E * E - px * px - py * py - pz * pz;
-    return m;
+    return  E * E - px * px - py * py - pz * pz;
 }
 
 void solve33(event33& evt1, event33& evt2, int& nsols, double p1[][4], double p2[][4], double q1[][4], double q2[][4])
-
-//double*p1,double*p2,double*p3,double*p4,double*p5,double*p6,
-//double*p7,double*p8,double*pmiss1,double*pa,double*pb,double*pc,double*pd,
-//double*pe,double*pf,double*pg,double*ph,double*pmiss2)
 {
-    double* p3, *p4, *p5, *p6, *p7, *p8;
-    double* pc, *pd, *pe, *pf, *pg, *ph;
-    double* pmiss1, *pmiss2;
+    auto* p3 = evt1.p3;
+    auto* p4 = evt1.p4;
+    auto* p5 = evt1.p5;
+    auto* p6 = evt1.p6;
+    auto* p7 = evt1.p7;
+    auto* p8 = evt1.p8;
 
-    p3 = evt1.p3;
-    p4 = evt1.p4;
-    p5 = evt1.p5;
-    p6 = evt1.p6;
-    p7 = evt1.p7;
-    p8 = evt1.p8;
+    auto* pc = evt2.p3;
+    auto* pd = evt2.p4;
+    auto* pe = evt2.p5;
+    auto* pf = evt2.p6;
+    auto* pg = evt2.p7;
+    auto* ph = evt2.p8;
 
-    pc = evt2.p3;
-    pd = evt2.p4;
-    pe = evt2.p5;
-    pf = evt2.p6;
-    pg = evt2.p7;
-    ph = evt2.p8;
+    auto* pmiss1 = evt1.pmiss;
+    auto* pmiss2 = evt2.pmiss;
 
-    pmiss1 = evt1.pmiss;
-    pmiss2 = evt2.pmiss;
+    auto E3 = p3[0]; auto p3x = p3[1]; auto p3y = p3[2]; auto p3z = p3[3];
+    auto E4 = p4[0]; auto p4x = p4[1]; auto p4y = p4[2]; auto p4z = p4[3];
+    auto E5 = p5[0]; auto p5x = p5[1]; auto p5y = p5[2]; auto p5z = p5[3];
+    auto E6 = p6[0]; auto p6x = p6[1]; auto p6y = p6[2]; auto p6z = p6[3];
+    auto E7 = p7[0]; auto p7x = p7[1]; auto p7y = p7[2]; auto p7z = p7[3];
+    auto E8 = p8[0]; auto p8x = p8[1]; auto p8y = p8[2]; auto p8z = p8[3];
+    auto Ec = pc[0]; auto pcx = pc[1]; auto pcy = pc[2]; auto pcz = pc[3];
+    auto Ed = pd[0]; auto pdx = pd[1]; auto pdy = pd[2]; auto pdz = pd[3];
+    auto Ee = pe[0]; auto pex = pe[1]; auto pey = pe[2]; auto pez = pe[3];
+    auto Ef = pf[0]; auto pfx = pf[1]; auto pfy = pf[2]; auto pfz = pf[3];
+    auto Eg = pg[0]; auto pgx = pg[1]; auto pgy = pg[2]; auto pgz = pg[3];
+    auto Eh = ph[0]; auto phx = ph[1]; auto phy = ph[2]; auto phz = ph[3];
 
-    double E1,  E2,  E3,  E4,  E5,  E6,  E7,  E8;
-    double p1x, p2x, p3x, p4x, p5x, p6x, p7x, p8x;
-    double p1y, p2y, p3y, p4y, p5y, p6y, p7y, p8y;
-    double p1z, p2z, p3z, p4z, p5z, p6z, p7z, p8z;
-    double Ea,  Eb,  Ec,  Ed,  Ee,  Ef,  Eg,  Eh;
-    double pax, pbx, pcx, pdx, pex, pfx, pgx, phx;
-    double pay, pby, pcy, pdy, pey, pfy, pgy, phy;
-    double paz, pbz, pcz, pdz, pez, pfz, pgz, phz;
+    auto PmissEvt1x = pmiss1[1];
+    auto PmissEvt1y = pmiss1[2];
+    auto PmissEvt2x = pmiss2[1];
+    auto PmissEvt2y = pmiss2[2];
 
-    E3 = p3[0]; p3x = p3[1]; p3y = p3[2]; p3z = p3[3];
-    E4 = p4[0]; p4x = p4[1]; p4y = p4[2]; p4z = p4[3];
-    E5 = p5[0]; p5x = p5[1]; p5y = p5[2]; p5z = p5[3];
-    E6 = p6[0]; p6x = p6[1]; p6y = p6[2]; p6z = p6[3];
-    E7 = p7[0]; p7x = p7[1]; p7y = p7[2]; p7z = p7[3];
-    E8 = p8[0]; p8x = p8[1]; p8y = p8[2]; p8z = p8[3];
-    Ec = pc[0]; pcx = pc[1]; pcy = pc[2]; pcz = pc[3];
-    Ed = pd[0]; pdx = pd[1]; pdy = pd[2]; pdz = pd[3];
-    Ee = pe[0]; pex = pe[1]; pey = pe[2]; pez = pe[3];
-    Ef = pf[0]; pfx = pf[1]; pfy = pf[2]; pfz = pf[3];
-    Eg = pg[0]; pgx = pg[1]; pgy = pg[2]; pgz = pg[3];
-    Eh = ph[0]; phx = ph[1]; phy = ph[2]; phz = ph[3];
-
-    double PmissEvt1x = pmiss1[1];
-    double PmissEvt1y = pmiss1[2];
-    double PmissEvt2x = pmiss2[1];
-    double PmissEvt2y = pmiss2[2];
-
-    double m3 = mass2(E3, p3x, p3y, p3z);
-    double m4 = mass2(E4, p4x, p4y, p4z);
-    double m5 = mass2(E5, p5x, p5y, p5z);
-    double m6 = mass2(E6, p6x, p6y, p6z);
-    double m7 = mass2(E7, p7x, p7y, p7z);
-    double m8 = mass2(E8, p8x, p8y, p8z);
-    double mc = mass2(Ec, pcx, pcy, pcz);
-    double md = mass2(Ed, pdx, pdy, pdz);
-    double me = mass2(Ee, pex, pey, pez);
-    double mf = mass2(Ef, pfx, pfy, pfz);
-    double mg = mass2(Eg, pgx, pgy, pgz);
-    double mh = mass2(Eh, phx, phy, phz);
+    auto m3 = mass2(E3, p3x, p3y, p3z);
+    auto m4 = mass2(E4, p4x, p4y, p4z);
+    auto m5 = mass2(E5, p5x, p5y, p5z);
+    auto m6 = mass2(E6, p6x, p6y, p6z);
+    auto m7 = mass2(E7, p7x, p7y, p7z);
+    auto m8 = mass2(E8, p8x, p8y, p8z);
+    auto mc = mass2(Ec, pcx, pcy, pcz);
+    auto md = mass2(Ed, pdx, pdy, pdz);
+    auto me = mass2(Ee, pex, pey, pez);
+    auto mf = mass2(Ef, pfx, pfy, pfz);
+    auto mg = mass2(Eg, pgx, pgy, pgz);
+    auto mh = mass2(Eh, phx, phy, phz);
 
     double array13by4[52] = {(m4 - m3) / 2, -E3, E4, 0, (mc - m3) / 2, -E3, 0, Ec, (md - m3) / 2, -E3, 0, 0, (m4 + m6 - m3 - m5) / 2 + E4* E6 - E3* E5 - p4x* p6x - p4y* p6y - p4z* p6z + p3x* p5x + p3y* p5y + p3z * p5z, -E3 - E5, E4 + E6, 0, (mc + me - m3 - m5) / 2 + Ec* Ee - E3* E5 - pcx* pex - pcy* pey - pcz* pez + p3x* p5x + p3y* p5y + p3z * p5z, -E3 - E5, 0, Ec + Ee, (md + mf - m3 - m5) / 2 + Ed* Ef - E3* E5 - pdx* pfx - pdy* pfy - pdz* pfz + p3x* p5x + p3y* p5y + p3z * p5z, -E3 - E5, 0, 0, (m4 + m6 + m8 - m3 - m5 - m7) / 2 + E4* E6 + E6* E8 + E4* E8 - E3* E5 - E5* E7 - E3* E7 - p4x* p6x - p4y* p6y - p4z* p6z - p6x* p8x - p6y* p8y - p6z* p8z - p4x* p8x - p4y* p8y - p4z* p8z + p3x* p5x + p3y* p5y + p3z* p5z + p5x* p7x + p5y* p7y + p5z* p7z + p3x* p7x + p3y* p7y + p3z * p7z, -E3 - E5 - E7, E4 + E6 + E8, 0, (mc + me + mg - m3 - m5 - m7) / 2 + Ec* Ee + Ee* Eg + Ec* Eg - E3* E5 - E5* E7 - E3* E7 - pcx* pex - pcy* pey - pcz* pez - pex* pgx - pey* pgy - pez* pgz - pcx* pgx - pcy* pgy - pcz* pgz + p3x* p5x + p3y* p5y + p3z* p5z + p5x* p7x + p5y* p7y + p5z* p7z + p3x* p7x + p3y* p7y + p3z * p7z, -E3 - E5 - E7, 0, Ec + Ee + Eg, (md + mf + mh - m3 - m5 - m7) / 2 + Ed* Ef + Ef* Eh + Ed* Eh - E3* E5 - E5* E7 - E3* E7 - pdx* pfx - pdy* pfy - pdz* pfz - pfx* phx - pfy* phy - pfz* phz - pdx* phx - pdy* phy - pdz* phz + p3x* p5x + p3y* p5y + p3z* p5z + p5x* p7x + p5y* p7y + p5z* p7z + p3x* p7x + p3y* p7y + p3z * p7z, -E3 - E5 - E7, 0, 0, PmissEvt1x, 0, 0, 0, PmissEvt1y, 0, 0, 0, PmissEvt2x, 0, 0, 0, PmissEvt2y, 0, 0, 0};
 
     double array13by13[169] = { -p3x, -p3y, -p3z, p4x, p4y, p4z, 0, 0, 0, 0, 0, 0, 0, -p3x, -p3y, -p3z, 0, 0, 0, pcx, pcy, pcz, 0, 0, 0, 0, -p3x, -p3y, -p3z, 0, 0, 0, 0, 0, 0, pdx, pdy, pdz, -Ed, -p3x - p5x, -p3y - p5y, -p3z - p5z, p4x + p6x, p4y + p6y, p4z + p6z, 0, 0, 0, 0, 0, 0, 0, -p3x - p5x, -p3y - p5y, -p3z - p5z, 0, 0, 0, pcx + pex, pcy + pey, pcz + pez, 0, 0, 0, 0, -p3x - p5x, -p3y - p5y, -p3z - p5z, 0, 0, 0, 0, 0, 0, pdx + pfx, pdy + pfy, pdz + pfz, -Ed - Ef, -p3x - p5x - p7x, -p3y - p5y - p7y, -p3z - p5z - p7z, p4x + p6x + p8x, p4y + p6y + p8y, p4z + p6z + p8z, 0, 0, 0, 0, 0, 0, 0, -p3x - p5x - p7x, -p3y - p5y - p7y, -p3z - p5z - p7z, 0, 0, 0, pcx + pex + pgx, pcy + pey + pgy, pcz + pez + pgz, 0, 0, 0, 0, -p3x - p5x - p7x, -p3y - p5y - p7y, -p3z - p5z - p7z, 0, 0, 0, 0, 0, 0, pdx + pfx + phx, pdy + pfy + phy, pdz + pfz + phz, -Ed - Ef - Eh, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0};
-
 
 
     TMatrixT<double> mat13by4(13, 4, array13by4);
@@ -379,7 +359,8 @@ void solve33(event33& evt1, event33& evt2, int& nsols, double p1[][4], double p2
         nallsols[scheme]  = solve3quad(coeff, solutions);
         npsols[scheme] = 0;
 
-        for (int i = 0; i < nallsols[scheme]; i ++) {
+        double E1,  E2,  Ea;
+        for (auto i = 0; i < nallsols[scheme]; i ++) {
             if (scheme == 0) {
                 E1 = solutions[i * 3 + 2];
                 E2 = solutions[i * 3 + 1];
@@ -395,23 +376,23 @@ void solve33(event33& evt1, event33& evt2, int& nsols, double p1[][4], double p2
                 E2 = solutions[i * 3 + 0];
                 Ea = solutions[i * 3 + 1];
             }
-            p1x = L[0][0] + L[0][1] * E1 + L[0][2] * E2 + L[0][3] * Ea;
-            p1y = L[1][0] + L[1][1] * E1 + L[1][2] * E2 + L[1][3] * Ea;
-            p1z = L[2][0] + L[2][1] * E1 + L[2][2] * E2 + L[2][3] * Ea;
-            p2x = L[3][0] + L[3][1] * E1 + L[3][2] * E2 + L[3][3] * Ea;
-            p2y = L[4][0] + L[4][1] * E1 + L[4][2] * E2 + L[4][3] * Ea;
-            p2z = L[5][0] + L[5][1] * E1 + L[5][2] * E2 + L[5][3] * Ea;
-            pax = L[6][0] + L[6][1] * E1 + L[6][2] * E2 + L[6][3] * Ea;
-            pay = L[7][0] + L[7][1] * E1 + L[7][2] * E2 + L[7][3] * Ea;
-            paz = L[8][0] + L[8][1] * E1 + L[8][2] * E2 + L[8][3] * Ea;
-            pbx = L[9][0] + L[9][1] * E1 + L[9][2] * E2 + L[9][3] * Ea;
-            pby = L[10][0] + L[10][1] * E1 + L[10][2] * E2 + L[10][3] * Ea;
-            pbz = L[11][0] + L[11][1] * E1 + L[11][2] * E2 + L[11][3] * Ea;
-            Eb  = L[12][0] + L[12][1] * E1 + L[12][2] * E2 + L[12][3] * Ea;
-            double mn2 = mass2(E1, p1x, p1y, p1z);
+            auto p1x = L[0][0] + L[0][1] * E1 + L[0][2] * E2 + L[0][3] * Ea;
+            auto p1y = L[1][0] + L[1][1] * E1 + L[1][2] * E2 + L[1][3] * Ea;
+            auto p1z = L[2][0] + L[2][1] * E1 + L[2][2] * E2 + L[2][3] * Ea;
+            auto p2x = L[3][0] + L[3][1] * E1 + L[3][2] * E2 + L[3][3] * Ea;
+            auto p2y = L[4][0] + L[4][1] * E1 + L[4][2] * E2 + L[4][3] * Ea;
+            auto p2z = L[5][0] + L[5][1] * E1 + L[5][2] * E2 + L[5][3] * Ea;
+            auto pax = L[6][0] + L[6][1] * E1 + L[6][2] * E2 + L[6][3] * Ea;
+            auto pay = L[7][0] + L[7][1] * E1 + L[7][2] * E2 + L[7][3] * Ea;
+            auto paz = L[8][0] + L[8][1] * E1 + L[8][2] * E2 + L[8][3] * Ea;
+            auto pbx = L[9][0] + L[9][1] * E1 + L[9][2] * E2 + L[9][3] * Ea;
+            auto pby = L[10][0] + L[10][1] * E1 + L[10][2] * E2 + L[10][3] * Ea;
+            auto pbz = L[11][0] + L[11][1] * E1 + L[11][2] * E2 + L[11][3] * Ea;
+            auto Eb  = L[12][0] + L[12][1] * E1 + L[12][2] * E2 + L[12][3] * Ea;
+            auto mn2 = mass2(E1, p1x, p1y, p1z);
 
             if (E1 > 0 && E2 > 0 && Ea > 0 && Eb > 0 && mn2 > 0) {
-                int isol = npsols[scheme];
+                auto isol = npsols[scheme];
                 p1a[scheme][isol * 4] = E1;
                 p1a[scheme][isol * 4 + 1] = p1x;
                 p1a[scheme][isol * 4 + 2] = p1y;
@@ -443,8 +424,8 @@ void solve33(event33& evt1, event33& evt2, int& nsols, double p1[][4], double p2
         scheme = 2;
     }
 
-    for (int isol = 0; isol < npsols[scheme]; isol ++) {
-        for (int i = 0; i < 4; i ++) {
+    for (auto isol = 0; isol < npsols[scheme]; isol ++) {
+        for (auto i = 0; i < 4; i ++) {
             p1[isol][i] = p1a[scheme][isol * 4 + i];
             p2[isol][i] = p2a[scheme][isol * 4 + i];
             q1[isol][i] = paa[scheme][isol * 4 + i];
@@ -485,7 +466,7 @@ int solve_3_2(double a0, double a1, double a2, double a3, double a4, double a5, 
     ROOT::Math::Polynomial poly(9);
     poly.SetParameters(coefficients.data());
     auto roots = poly.FindRoots();
-    int nsols = 0;
+    auto nsols = 0;
     for (auto const & root : roots) {
         if (std::abs(root.imag()) < 2) {
             nsols++;
@@ -505,224 +486,221 @@ int solve_2_2(double aa0, double aa1, double aa2, double aa3, double aa4, double
         cout<<bb0<<"\t"<<bb1<<"\t"<<bb2<<"\t"<<bb3<<"\t"<<bb4<<"\t"<<
     bb5<<"\t"<<bb6<<"\t"<<bb7<<"\t"<<endl;
     }*/
-    double a0, a1, a2, a3, a4, a5, a6, a7, a8, a9;
-    double b0, b1, b2, b3, b4, b5, b6, b7, b8, b9;
-    double c0, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12;
-    a0 = aa0; a1 = aa1; a2 = aa2; a3 = aa3; a4 = aa4; a5 = aa5; a6 = aa6; a7 = aa7; a8 = aa8;
-    b0 = bb0; b1 = bb1; b2 = bb2; b3 = bb3; b4 = bb4; b5 = bb5; b6 = bb6; b7 = bb7;
-    c0 = b0 * b0 * b0 - a7 * b0 * b0 * b4 + a4 * b0 * b4 * b4 - a0 * b4 * b4 * b4 - 2 * a4 * b0 * b0 * b7 + a7 * a7 * b0 * b0 * b7 +
-         3 * a0 * b0 * b4 * b7 - a4 * a7 * b0 * b4 * b7 + a0 * a7 * b4 * b4 * b7 + a4 * a4 * b0 * b7 * b7 -
-         2 * a0 * a7 * b0 * b7 * b7 - a0 * a4 * b4 * b7 * b7 + a0 * a0 * b7 * b7 * b7;
-    c1 = -2 * a4 * b0 * b0 + a7 * a7 * b0 * b0 + 3 * b0 * b0 * b1 + 3 * a0 * b0 * b4 - a4 * a7 * b0 * b4 -
-         a8 * b0 * b0 * b4 - 2 * a7 * b0 * b1 * b4 + a0 * a7 * b4 * b4 + a5 * b0 * b4 * b4 + a4 * b1 * b4 * b4 -
-         a1 * b4 * b4 * b4 - a7 * b0 * b0 * b5 + 2 * a4 * b0 * b4 * b5 - 3 * a0 * b4 * b4 * b5 + 2 * a4 * a4 * b0 * b7 -
-         4 * a0 * a7 * b0 * b7 - 2 * a5 * b0 * b0 * b7 + 2 * a7 * a8 * b0 * b0 * b7 - 4 * a4 * b0 * b1 * b7 +
-         2 * a7 * a7 * b0 * b1 * b7 - 2 * a0 * a4 * b4 * b7 + 3 * a1 * b0 * b4 * b7 - a5 * a7 * b0 * b4 * b7 -
-         a4 * a8 * b0 * b4 * b7 + 3 * a0 * b1 * b4 * b7 - a4 * a7 * b1 * b4 * b7 + a1 * a7 * b4 * b4 * b7 +
-         a0 * a8 * b4 * b4 * b7 + 3 * a0 * b0 * b5 * b7 - a4 * a7 * b0 * b5 * b7 + 2 * a0 * a7 * b4 * b5 * b7 +
-         3 * a0 * a0 * b7 * b7 + 2 * a4 * a5 * b0 * b7 * b7 - 2 * a1 * a7 * b0 * b7 * b7 - 2 * a0 * a8 * b0 * b7 * b7 +
-         a4 * a4 * b1 * b7 * b7 - 2 * a0 * a7 * b1 * b7 * b7 - a1 * a4 * b4 * b7 * b7 - a0 * a5 * b4 * b7 * b7 -
-         a0 * a4 * b5 * b7 * b7 + 2 * a0 * a1 * b7 * b7 * b7;
-    c2 = a4 * a4 * b0 - 2 * a0 * a7 * b0 - 2 * a5 * b0 * b0 + 2 * a7 * a8 * b0 * b0 - 4 * a4 * b0 * b1 +
-         2 * a7 * a7 * b0 * b1 + 3 * b0 * b1 * b1 + 3 * b0 * b0 * b2 - a0 * a4 * b4 + 3 * a1 * b0 * b4 - a5 * a7 * b0 * b4 -
-         a4 * a8 * b0 * b4 + 3 * a0 * b1 * b4 - a4 * a7 * b1 * b4 - 2 * a8 * b0 * b1 * b4 - a7 * b1 * b1 * b4 -
-         2 * a7 * b0 * b2 * b4 + a1 * a7 * b4 * b4 + a0 * a8 * b4 * b4 + a6 * b0 * b4 * b4 + a5 * b1 * b4 * b4 +
-         a4 * b2 * b4 * b4 - a2 * b4 * b4 * b4 + 3 * a0 * b0 * b5 - a4 * a7 * b0 * b5 - a8 * b0 * b0 * b5 -
-         2 * a7 * b0 * b1 * b5 + 2 * a0 * a7 * b4 * b5 + 2 * a5 * b0 * b4 * b5 + 2 * a4 * b1 * b4 * b5 -
-         3 * a1 * b4 * b4 * b5 + a4 * b0 * b5 * b5 - 3 * a0 * b4 * b5 * b5 - a7 * b0 * b0 * b6 + 2 * a4 * b0 * b4 * b6 -
-         3 * a0 * b4 * b4 * b6 + 3 * a0 * a0 * b7 + 4 * a4 * a5 * b0 * b7 - 4 * a1 * a7 * b0 * b7 - 4 * a0 * a8 * b0 * b7 -
-         2 * a6 * b0 * b0 * b7 + a8 * a8 * b0 * b0 * b7 + 2 * a4 * a4 * b1 * b7 - 4 * a0 * a7 * b1 * b7 - 4 * a5 * b0 * b1 * b7 +
-         4 * a7 * a8 * b0 * b1 * b7 - 2 * a4 * b1 * b1 * b7 + a7 * a7 * b1 * b1 * b7 - 4 * a4 * b0 * b2 * b7 +
-         2 * a7 * a7 * b0 * b2 * b7 - 2 * a1 * a4 * b4 * b7 - 2 * a0 * a5 * b4 * b7 + 3 * a2 * b0 * b4 * b7 -
-         a6 * a7 * b0 * b4 * b7 - a5 * a8 * b0 * b4 * b7 + 3 * a1 * b1 * b4 * b7 - a5 * a7 * b1 * b4 * b7 -
-         a4 * a8 * b1 * b4 * b7 + 3 * a0 * b2 * b4 * b7 - a4 * a7 * b2 * b4 * b7 + a2 * a7 * b4 * b4 * b7 +
-         a1 * a8 * b4 * b4 * b7 - 2 * a0 * a4 * b5 * b7 + 3 * a1 * b0 * b5 * b7 - a5 * a7 * b0 * b5 * b7 -
-         a4 * a8 * b0 * b5 * b7 + 3 * a0 * b1 * b5 * b7 - a4 * a7 * b1 * b5 * b7 + 2 * a1 * a7 * b4 * b5 * b7 +
-         2 * a0 * a8 * b4 * b5 * b7 + a0 * a7 * b5 * b5 * b7 + 3 * a0 * b0 * b6 * b7 - a4 * a7 * b0 * b6 * b7 +
-         2 * a0 * a7 * b4 * b6 * b7 + 6 * a0 * a1 * b7 * b7 + a5 * a5 * b0 * b7 * b7 + 2 * a4 * a6 * b0 * b7 * b7 -
-         2 * a2 * a7 * b0 * b7 * b7 - 2 * a1 * a8 * b0 * b7 * b7 + 2 * a4 * a5 * b1 * b7 * b7 - 2 * a1 * a7 * b1 * b7 * b7 -
-         2 * a0 * a8 * b1 * b7 * b7 + a4 * a4 * b2 * b7 * b7 - 2 * a0 * a7 * b2 * b7 * b7 - a2 * a4 * b4 * b7 * b7 -
-         a1 * a5 * b4 * b7 * b7 - a0 * a6 * b4 * b7 * b7 - a1 * a4 * b5 * b7 * b7 - a0 * a5 * b5 * b7 * b7 -
-         a0 * a4 * b6 * b7 * b7 + a1 * a1 * b7 * b7 * b7 + 2 * a0 * a2 * b7 * b7 * b7;
-    c3 = a0 * a0 + 2 * a4 * a5 * b0 - 2 * a1 * a7 * b0 - 2 * a0 * a8 * b0 - 2 * a6 * b0 * b0 + a8 * a8 * b0 * b0 +
-         a4 * a4 * b1 - 2 * a0 * a7 * b1 - 4 * a5 * b0 * b1 + 4 * a7 * a8 * b0 * b1 - 2 * a4 * b1 * b1 + a7 * a7 * b1 * b1 +
-         b1 * b1 * b1 - 4 * a4 * b0 * b2 + 2 * a7 * a7 * b0 * b2 + 6 * b0 * b1 * b2 + 3 * b0 * b0 * b3 - a1 * a4 * b4 -
-         a0 * a5 * b4 + 3 * a2 * b0 * b4 - a6 * a7 * b0 * b4 - a5 * a8 * b0 * b4 + 3 * a1 * b1 * b4 -
-         a5 * a7 * b1 * b4 - a4 * a8 * b1 * b4 - a8 * b1 * b1 * b4 + 3 * a0 * b2 * b4 - a4 * a7 * b2 * b4 -
-         2 * a8 * b0 * b2 * b4 - 2 * a7 * b1 * b2 * b4 - 2 * a7 * b0 * b3 * b4 + a2 * a7 * b4 * b4 + a1 * a8 * b4 * b4 +
-         a6 * b1 * b4 * b4 + a5 * b2 * b4 * b4 + a4 * b3 * b4 * b4 - a3 * b4 * b4 * b4 - a0 * a4 * b5 + 3 * a1 * b0 * b5 -
-         a5 * a7 * b0 * b5 - a4 * a8 * b0 * b5 + 3 * a0 * b1 * b5 - a4 * a7 * b1 * b5 - 2 * a8 * b0 * b1 * b5 -
-         a7 * b1 * b1 * b5 - 2 * a7 * b0 * b2 * b5 + 2 * a1 * a7 * b4 * b5 + 2 * a0 * a8 * b4 * b5 + 2 * a6 * b0 * b4 * b5 +
-         2 * a5 * b1 * b4 * b5 + 2 * a4 * b2 * b4 * b5 - 3 * a2 * b4 * b4 * b5 + a0 * a7 * b5 * b5 + a5 * b0 * b5 * b5 +
-         a4 * b1 * b5 * b5 - 3 * a1 * b4 * b5 * b5 - a0 * b5 * b5 * b5 + 3 * a0 * b0 * b6 - a4 * a7 * b0 * b6 -
-         a8 * b0 * b0 * b6 - 2 * a7 * b0 * b1 * b6 + 2 * a0 * a7 * b4 * b6 + 2 * a5 * b0 * b4 * b6 + 2 * a4 * b1 * b4 * b6 -
-         3 * a1 * b4 * b4 * b6 + 2 * a4 * b0 * b5 * b6 - 6 * a0 * b4 * b5 * b6 + 6 * a0 * a1 * b7 + 2 * a5 * a5 * b0 * b7 +
-         4 * a4 * a6 * b0 * b7 - 4 * a2 * a7 * b0 * b7 - 4 * a1 * a8 * b0 * b7 + 4 * a4 * a5 * b1 * b7 -
-         4 * a1 * a7 * b1 * b7 - 4 * a0 * a8 * b1 * b7 - 4 * a6 * b0 * b1 * b7 + 2 * a8 * a8 * b0 * b1 * b7 -
-         2 * a5 * b1 * b1 * b7 + 2 * a7 * a8 * b1 * b1 * b7 + 2 * a4 * a4 * b2 * b7 - 4 * a0 * a7 * b2 * b7 -
-         4 * a5 * b0 * b2 * b7 + 4 * a7 * a8 * b0 * b2 * b7 - 4 * a4 * b1 * b2 * b7 + 2 * a7 * a7 * b1 * b2 * b7 -
-         4 * a4 * b0 * b3 * b7 + 2 * a7 * a7 * b0 * b3 * b7 - 2 * a2 * a4 * b4 * b7 - 2 * a1 * a5 * b4 * b7 -
-         2 * a0 * a6 * b4 * b7 + 3 * a3 * b0 * b4 * b7 - a6 * a8 * b0 * b4 * b7 + 3 * a2 * b1 * b4 * b7 -
-         a6 * a7 * b1 * b4 * b7 - a5 * a8 * b1 * b4 * b7 + 3 * a1 * b2 * b4 * b7 - a5 * a7 * b2 * b4 * b7 -
-         a4 * a8 * b2 * b4 * b7 + 3 * a0 * b3 * b4 * b7 - a4 * a7 * b3 * b4 * b7 + a3 * a7 * b4 * b4 * b7 +
-         a2 * a8 * b4 * b4 * b7 - 2 * a1 * a4 * b5 * b7 - 2 * a0 * a5 * b5 * b7 + 3 * a2 * b0 * b5 * b7 -
-         a6 * a7 * b0 * b5 * b7 - a5 * a8 * b0 * b5 * b7 + 3 * a1 * b1 * b5 * b7 - a5 * a7 * b1 * b5 * b7 -
-         a4 * a8 * b1 * b5 * b7 + 3 * a0 * b2 * b5 * b7 - a4 * a7 * b2 * b5 * b7 + 2 * a2 * a7 * b4 * b5 * b7 +
-         2 * a1 * a8 * b4 * b5 * b7 + a1 * a7 * b5 * b5 * b7 + a0 * a8 * b5 * b5 * b7 - 2 * a0 * a4 * b6 * b7 +
-         3 * a1 * b0 * b6 * b7 - a5 * a7 * b0 * b6 * b7 - a4 * a8 * b0 * b6 * b7 + 3 * a0 * b1 * b6 * b7 -
-         a4 * a7 * b1 * b6 * b7 + 2 * a1 * a7 * b4 * b6 * b7 + 2 * a0 * a8 * b4 * b6 * b7 + 2 * a0 * a7 * b5 * b6 * b7 +
-         3 * a1 * a1 * b7 * b7 + 6 * a0 * a2 * b7 * b7 + 2 * a5 * a6 * b0 * b7 * b7 - 2 * a3 * a7 * b0 * b7 * b7 -
-         2 * a2 * a8 * b0 * b7 * b7 + a5 * a5 * b1 * b7 * b7 + 2 * a4 * a6 * b1 * b7 * b7 - 2 * a2 * a7 * b1 * b7 * b7 -
-         2 * a1 * a8 * b1 * b7 * b7 + 2 * a4 * a5 * b2 * b7 * b7 - 2 * a1 * a7 * b2 * b7 * b7 - 2 * a0 * a8 * b2 * b7 * b7 +
-         a4 * a4 * b3 * b7 * b7 - 2 * a0 * a7 * b3 * b7 * b7 - a3 * a4 * b4 * b7 * b7 - a2 * a5 * b4 * b7 * b7 -
-         a1 * a6 * b4 * b7 * b7 - a2 * a4 * b5 * b7 * b7 - a1 * a5 * b5 * b7 * b7 - a0 * a6 * b5 * b7 * b7 -
-         a1 * a4 * b6 * b7 * b7 - a0 * a5 * b6 * b7 * b7 + 2 * a1 * a2 * b7 * b7 * b7 + 2 * a0 * a3 * b7 * b7 * b7;
-    c4 = 2 * a0 * a1 + a5 * a5 * b0 + 2 * a4 * a6 * b0 - 2 * a2 * a7 * b0 - 2 * a1 * a8 * b0 + 2 * a4 * a5 * b1 -
-         2 * a1 * a7 * b1 - 2 * a0 * a8 * b1 - 4 * a6 * b0 * b1 + 2 * a8 * a8 * b0 * b1 - 2 * a5 * b1 * b1 +
-         2 * a7 * a8 * b1 * b1 + a4 * a4 * b2 - 2 * a0 * a7 * b2 - 4 * a5 * b0 * b2 + 4 * a7 * a8 * b0 * b2 -
-         4 * a4 * b1 * b2 + 2 * a7 * a7 * b1 * b2 + 3 * b1 * b1 * b2 + 3 * b0 * b2 * b2 - 4 * a4 * b0 * b3 +
-         2 * a7 * a7 * b0 * b3 + 6 * b0 * b1 * b3 - a2 * a4 * b4 - a1 * a5 * b4 - a0 * a6 * b4 + 3 * a3 * b0 * b4 -
-         a6 * a8 * b0 * b4 + 3 * a2 * b1 * b4 - a6 * a7 * b1 * b4 - a5 * a8 * b1 * b4 + 3 * a1 * b2 * b4 -
-         a5 * a7 * b2 * b4 - a4 * a8 * b2 * b4 - 2 * a8 * b1 * b2 * b4 - a7 * b2 * b2 * b4 + 3 * a0 * b3 * b4 -
-         a4 * a7 * b3 * b4 - 2 * a8 * b0 * b3 * b4 - 2 * a7 * b1 * b3 * b4 + a3 * a7 * b4 * b4 + a2 * a8 * b4 * b4 +
-         a6 * b2 * b4 * b4 + a5 * b3 * b4 * b4 - a1 * a4 * b5 - a0 * a5 * b5 + 3 * a2 * b0 * b5 - a6 * a7 * b0 * b5 -
-         a5 * a8 * b0 * b5 + 3 * a1 * b1 * b5 - a5 * a7 * b1 * b5 - a4 * a8 * b1 * b5 - a8 * b1 * b1 * b5 +
-         3 * a0 * b2 * b5 - a4 * a7 * b2 * b5 - 2 * a8 * b0 * b2 * b5 - 2 * a7 * b1 * b2 * b5 - 2 * a7 * b0 * b3 * b5 +
-         2 * a2 * a7 * b4 * b5 + 2 * a1 * a8 * b4 * b5 + 2 * a6 * b1 * b4 * b5 + 2 * a5 * b2 * b4 * b5 +
-         2 * a4 * b3 * b4 * b5 - 3 * a3 * b4 * b4 * b5 + a1 * a7 * b5 * b5 + a0 * a8 * b5 * b5 + a6 * b0 * b5 * b5 +
-         a5 * b1 * b5 * b5 + a4 * b2 * b5 * b5 - 3 * a2 * b4 * b5 * b5 - a1 * b5 * b5 * b5 - a0 * a4 * b6 + 3 * a1 * b0 * b6 -
-         a5 * a7 * b0 * b6 - a4 * a8 * b0 * b6 + 3 * a0 * b1 * b6 - a4 * a7 * b1 * b6 - 2 * a8 * b0 * b1 * b6 -
-         a7 * b1 * b1 * b6 - 2 * a7 * b0 * b2 * b6 + 2 * a1 * a7 * b4 * b6 + 2 * a0 * a8 * b4 * b6 + 2 * a6 * b0 * b4 * b6 +
-         2 * a5 * b1 * b4 * b6 + 2 * a4 * b2 * b4 * b6 - 3 * a2 * b4 * b4 * b6 + 2 * a0 * a7 * b5 * b6 +
-         2 * a5 * b0 * b5 * b6 + 2 * a4 * b1 * b5 * b6 - 6 * a1 * b4 * b5 * b6 - 3 * a0 * b5 * b5 * b6 + a4 * b0 * b6 * b6 -
-         3 * a0 * b4 * b6 * b6 + 3 * a1 * a1 * b7 + 6 * a0 * a2 * b7 + 4 * a5 * a6 * b0 * b7 - 4 * a3 * a7 * b0 * b7 -
-         4 * a2 * a8 * b0 * b7 + 2 * a5 * a5 * b1 * b7 + 4 * a4 * a6 * b1 * b7 - 4 * a2 * a7 * b1 * b7 -
-         4 * a1 * a8 * b1 * b7 - 2 * a6 * b1 * b1 * b7 + a8 * a8 * b1 * b1 * b7 + 4 * a4 * a5 * b2 * b7 -
-         4 * a1 * a7 * b2 * b7 - 4 * a0 * a8 * b2 * b7 - 4 * a6 * b0 * b2 * b7 + 2 * a8 * a8 * b0 * b2 * b7 -
-         4 * a5 * b1 * b2 * b7 + 4 * a7 * a8 * b1 * b2 * b7 - 2 * a4 * b2 * b2 * b7 + a7 * a7 * b2 * b2 * b7 +
-         2 * a4 * a4 * b3 * b7 - 4 * a0 * a7 * b3 * b7 - 4 * a5 * b0 * b3 * b7 + 4 * a7 * a8 * b0 * b3 * b7 -
-         4 * a4 * b1 * b3 * b7 + 2 * a7 * a7 * b1 * b3 * b7 - 2 * a3 * a4 * b4 * b7 - 2 * a2 * a5 * b4 * b7 -
-         2 * a1 * a6 * b4 * b7 + 3 * a3 * b1 * b4 * b7 - a6 * a8 * b1 * b4 * b7 + 3 * a2 * b2 * b4 * b7 -
-         a6 * a7 * b2 * b4 * b7 - a5 * a8 * b2 * b4 * b7 + 3 * a1 * b3 * b4 * b7 - a5 * a7 * b3 * b4 * b7 -
-         a4 * a8 * b3 * b4 * b7 + a3 * a8 * b4 * b4 * b7 - 2 * a2 * a4 * b5 * b7 - 2 * a1 * a5 * b5 * b7 -
-         2 * a0 * a6 * b5 * b7 + 3 * a3 * b0 * b5 * b7 - a6 * a8 * b0 * b5 * b7 + 3 * a2 * b1 * b5 * b7 -
-         a6 * a7 * b1 * b5 * b7 - a5 * a8 * b1 * b5 * b7 + 3 * a1 * b2 * b5 * b7 - a5 * a7 * b2 * b5 * b7 -
-         a4 * a8 * b2 * b5 * b7 + 3 * a0 * b3 * b5 * b7 - a4 * a7 * b3 * b5 * b7 + 2 * a3 * a7 * b4 * b5 * b7 +
-         2 * a2 * a8 * b4 * b5 * b7 + a2 * a7 * b5 * b5 * b7 + a1 * a8 * b5 * b5 * b7 - 2 * a1 * a4 * b6 * b7 -
-         2 * a0 * a5 * b6 * b7 + 3 * a2 * b0 * b6 * b7 - a6 * a7 * b0 * b6 * b7 - a5 * a8 * b0 * b6 * b7 +
-         3 * a1 * b1 * b6 * b7 - a5 * a7 * b1 * b6 * b7 - a4 * a8 * b1 * b6 * b7 + 3 * a0 * b2 * b6 * b7 -
-         a4 * a7 * b2 * b6 * b7 + 2 * a2 * a7 * b4 * b6 * b7 + 2 * a1 * a8 * b4 * b6 * b7 + 2 * a1 * a7 * b5 * b6 * b7 +
-         2 * a0 * a8 * b5 * b6 * b7 + a0 * a7 * b6 * b6 * b7 + 6 * a1 * a2 * b7 * b7 + 6 * a0 * a3 * b7 * b7 +
-         a6 * a6 * b0 * b7 * b7 - 2 * a3 * a8 * b0 * b7 * b7 + 2 * a5 * a6 * b1 * b7 * b7 - 2 * a3 * a7 * b1 * b7 * b7 -
-         2 * a2 * a8 * b1 * b7 * b7 + a5 * a5 * b2 * b7 * b7 + 2 * a4 * a6 * b2 * b7 * b7 - 2 * a2 * a7 * b2 * b7 * b7 -
-         2 * a1 * a8 * b2 * b7 * b7 + 2 * a4 * a5 * b3 * b7 * b7 - 2 * a1 * a7 * b3 * b7 * b7 - 2 * a0 * a8 * b3 * b7 * b7 -
-         a3 * a5 * b4 * b7 * b7 - a2 * a6 * b4 * b7 * b7 - a3 * a4 * b5 * b7 * b7 - a2 * a5 * b5 * b7 * b7 -
-         a1 * a6 * b5 * b7 * b7 - a2 * a4 * b6 * b7 * b7 - a1 * a5 * b6 * b7 * b7 - a0 * a6 * b6 * b7 * b7 + a2 * a2 * b7 * b7 * b7 +
-         2 * a1 * a3 * b7 * b7 * b7;
-    c5 = a1 * a1 + 2 * a0 * a2 + 2 * a5 * a6 * b0 - 2 * a3 * a7 * b0 - 2 * a2 * a8 * b0 + a5 * a5 * b1 +
-         2 * a4 * a6 * b1 - 2 * a2 * a7 * b1 - 2 * a1 * a8 * b1 - 2 * a6 * b1 * b1 + a8 * a8 * b1 * b1 + 2 * a4 * a5 * b2 -
-         2 * a1 * a7 * b2 - 2 * a0 * a8 * b2 - 4 * a6 * b0 * b2 + 2 * a8 * a8 * b0 * b2 - 4 * a5 * b1 * b2 +
-         4 * a7 * a8 * b1 * b2 - 2 * a4 * b2 * b2 + a7 * a7 * b2 * b2 + 3 * b1 * b2 * b2 + a4 * a4 * b3 - 2 * a0 * a7 * b3 -
-         4 * a5 * b0 * b3 + 4 * a7 * a8 * b0 * b3 - 4 * a4 * b1 * b3 + 2 * a7 * a7 * b1 * b3 + 3 * b1 * b1 * b3 +
-         6 * b0 * b2 * b3 - a3 * a4 * b4 - a2 * a5 * b4 - a1 * a6 * b4 + 3 * a3 * b1 * b4 - a6 * a8 * b1 * b4 +
-         3 * a2 * b2 * b4 - a6 * a7 * b2 * b4 - a5 * a8 * b2 * b4 - a8 * b2 * b2 * b4 + 3 * a1 * b3 * b4 -
-         a5 * a7 * b3 * b4 - a4 * a8 * b3 * b4 - 2 * a8 * b1 * b3 * b4 - 2 * a7 * b2 * b3 * b4 + a3 * a8 * b4 * b4 +
-         a6 * b3 * b4 * b4 - a2 * a4 * b5 - a1 * a5 * b5 - a0 * a6 * b5 + 3 * a3 * b0 * b5 - a6 * a8 * b0 * b5 +
-         3 * a2 * b1 * b5 - a6 * a7 * b1 * b5 - a5 * a8 * b1 * b5 + 3 * a1 * b2 * b5 - a5 * a7 * b2 * b5 -
-         a4 * a8 * b2 * b5 - 2 * a8 * b1 * b2 * b5 - a7 * b2 * b2 * b5 + 3 * a0 * b3 * b5 - a4 * a7 * b3 * b5 -
-         2 * a8 * b0 * b3 * b5 - 2 * a7 * b1 * b3 * b5 + 2 * a3 * a7 * b4 * b5 + 2 * a2 * a8 * b4 * b5 +
-         2 * a6 * b2 * b4 * b5 + 2 * a5 * b3 * b4 * b5 + a2 * a7 * b5 * b5 + a1 * a8 * b5 * b5 + a6 * b1 * b5 * b5 +
-         a5 * b2 * b5 * b5 + a4 * b3 * b5 * b5 - 3 * a3 * b4 * b5 * b5 - a2 * b5 * b5 * b5 - a1 * a4 * b6 - a0 * a5 * b6 +
-         3 * a2 * b0 * b6 - a6 * a7 * b0 * b6 - a5 * a8 * b0 * b6 + 3 * a1 * b1 * b6 - a5 * a7 * b1 * b6 -
-         a4 * a8 * b1 * b6 - a8 * b1 * b1 * b6 + 3 * a0 * b2 * b6 - a4 * a7 * b2 * b6 - 2 * a8 * b0 * b2 * b6 -
-         2 * a7 * b1 * b2 * b6 - 2 * a7 * b0 * b3 * b6 + 2 * a2 * a7 * b4 * b6 + 2 * a1 * a8 * b4 * b6 +
-         2 * a6 * b1 * b4 * b6 + 2 * a5 * b2 * b4 * b6 + 2 * a4 * b3 * b4 * b6 - 3 * a3 * b4 * b4 * b6 +
-         2 * a1 * a7 * b5 * b6 + 2 * a0 * a8 * b5 * b6 + 2 * a6 * b0 * b5 * b6 + 2 * a5 * b1 * b5 * b6 +
-         2 * a4 * b2 * b5 * b6 - 6 * a2 * b4 * b5 * b6 - 3 * a1 * b5 * b5 * b6 + a0 * a7 * b6 * b6 + a5 * b0 * b6 * b6 +
-         a4 * b1 * b6 * b6 - 3 * a1 * b4 * b6 * b6 - 3 * a0 * b5 * b6 * b6 + 6 * a1 * a2 * b7 + 6 * a0 * a3 * b7 +
-         2 * a6 * a6 * b0 * b7 - 4 * a3 * a8 * b0 * b7 + 4 * a5 * a6 * b1 * b7 - 4 * a3 * a7 * b1 * b7 -
-         4 * a2 * a8 * b1 * b7 + 2 * a5 * a5 * b2 * b7 + 4 * a4 * a6 * b2 * b7 - 4 * a2 * a7 * b2 * b7 -
-         4 * a1 * a8 * b2 * b7 - 4 * a6 * b1 * b2 * b7 + 2 * a8 * a8 * b1 * b2 * b7 - 2 * a5 * b2 * b2 * b7 +
-         2 * a7 * a8 * b2 * b2 * b7 + 4 * a4 * a5 * b3 * b7 - 4 * a1 * a7 * b3 * b7 - 4 * a0 * a8 * b3 * b7 -
-         4 * a6 * b0 * b3 * b7 + 2 * a8 * a8 * b0 * b3 * b7 - 4 * a5 * b1 * b3 * b7 + 4 * a7 * a8 * b1 * b3 * b7 -
-         4 * a4 * b2 * b3 * b7 + 2 * a7 * a7 * b2 * b3 * b7 - 2 * a3 * a5 * b4 * b7 - 2 * a2 * a6 * b4 * b7 +
-         3 * a3 * b2 * b4 * b7 - a6 * a8 * b2 * b4 * b7 + 3 * a2 * b3 * b4 * b7 - a6 * a7 * b3 * b4 * b7 -
-         a5 * a8 * b3 * b4 * b7 - 2 * a3 * a4 * b5 * b7 - 2 * a2 * a5 * b5 * b7 - 2 * a1 * a6 * b5 * b7 +
-         3 * a3 * b1 * b5 * b7 - a6 * a8 * b1 * b5 * b7 + 3 * a2 * b2 * b5 * b7 - a6 * a7 * b2 * b5 * b7 -
-         a5 * a8 * b2 * b5 * b7 + 3 * a1 * b3 * b5 * b7 - a5 * a7 * b3 * b5 * b7 - a4 * a8 * b3 * b5 * b7 +
-         2 * a3 * a8 * b4 * b5 * b7 + a3 * a7 * b5 * b5 * b7 + a2 * a8 * b5 * b5 * b7 - 2 * a2 * a4 * b6 * b7 -
-         2 * a1 * a5 * b6 * b7 - 2 * a0 * a6 * b6 * b7 + 3 * a3 * b0 * b6 * b7 - a6 * a8 * b0 * b6 * b7 +
-         3 * a2 * b1 * b6 * b7 - a6 * a7 * b1 * b6 * b7 - a5 * a8 * b1 * b6 * b7 + 3 * a1 * b2 * b6 * b7 -
-         a5 * a7 * b2 * b6 * b7 - a4 * a8 * b2 * b6 * b7 + 3 * a0 * b3 * b6 * b7 - a4 * a7 * b3 * b6 * b7 +
-         2 * a3 * a7 * b4 * b6 * b7 + 2 * a2 * a8 * b4 * b6 * b7 + 2 * a2 * a7 * b5 * b6 * b7 + 2 * a1 * a8 * b5 * b6 * b7 +
-         a1 * a7 * b6 * b6 * b7 + a0 * a8 * b6 * b6 * b7 + 3 * a2 * a2 * b7 * b7 + 6 * a1 * a3 * b7 * b7 + a6 * a6 * b1 * b7 * b7 -
-         2 * a3 * a8 * b1 * b7 * b7 + 2 * a5 * a6 * b2 * b7 * b7 - 2 * a3 * a7 * b2 * b7 * b7 - 2 * a2 * a8 * b2 * b7 * b7 +
-         a5 * a5 * b3 * b7 * b7 + 2 * a4 * a6 * b3 * b7 * b7 - 2 * a2 * a7 * b3 * b7 * b7 - 2 * a1 * a8 * b3 * b7 * b7 -
-         a3 * a6 * b4 * b7 * b7 - a3 * a5 * b5 * b7 * b7 - a2 * a6 * b5 * b7 * b7 - a3 * a4 * b6 * b7 * b7 -
-         a2 * a5 * b6 * b7 * b7 - a1 * a6 * b6 * b7 * b7 + 2 * a2 * a3 * b7 * b7 * b7;
-    c6 = 2 * a1 * a2 + 2 * a0 * a3 + a6 * a6 * b0 - 2 * a3 * a8 * b0 + 2 * a5 * a6 * b1 - 2 * a3 * a7 * b1 -
-         2 * a2 * a8 * b1 + a5 * a5 * b2 + 2 * a4 * a6 * b2 - 2 * a2 * a7 * b2 - 2 * a1 * a8 * b2 - 4 * a6 * b1 * b2 +
-         2 * a8 * a8 * b1 * b2 - 2 * a5 * b2 * b2 + 2 * a7 * a8 * b2 * b2 + b2 * b2 * b2 + 2 * a4 * a5 * b3 - 2 * a1 * a7 * b3 -
-         2 * a0 * a8 * b3 - 4 * a6 * b0 * b3 + 2 * a8 * a8 * b0 * b3 - 4 * a5 * b1 * b3 + 4 * a7 * a8 * b1 * b3 -
-         4 * a4 * b2 * b3 + 2 * a7 * a7 * b2 * b3 + 6 * b1 * b2 * b3 + 3 * b0 * b3 * b3 - a3 * a5 * b4 - a2 * a6 * b4 +
-         3 * a3 * b2 * b4 - a6 * a8 * b2 * b4 + 3 * a2 * b3 * b4 - a6 * a7 * b3 * b4 - a5 * a8 * b3 * b4 -
-         2 * a8 * b2 * b3 * b4 - a7 * b3 * b3 * b4 - a3 * a4 * b5 - a2 * a5 * b5 - a1 * a6 * b5 + 3 * a3 * b1 * b5 -
-         a6 * a8 * b1 * b5 + 3 * a2 * b2 * b5 - a6 * a7 * b2 * b5 - a5 * a8 * b2 * b5 - a8 * b2 * b2 * b5 +
-         3 * a1 * b3 * b5 - a5 * a7 * b3 * b5 - a4 * a8 * b3 * b5 - 2 * a8 * b1 * b3 * b5 - 2 * a7 * b2 * b3 * b5 +
-         2 * a3 * a8 * b4 * b5 + 2 * a6 * b3 * b4 * b5 + a3 * a7 * b5 * b5 + a2 * a8 * b5 * b5 + a6 * b2 * b5 * b5 +
-         a5 * b3 * b5 * b5 - a3 * b5 * b5 * b5 - a2 * a4 * b6 - a1 * a5 * b6 - a0 * a6 * b6 + 3 * a3 * b0 * b6 -
-         a6 * a8 * b0 * b6 + 3 * a2 * b1 * b6 - a6 * a7 * b1 * b6 - a5 * a8 * b1 * b6 + 3 * a1 * b2 * b6 -
-         a5 * a7 * b2 * b6 - a4 * a8 * b2 * b6 - 2 * a8 * b1 * b2 * b6 - a7 * b2 * b2 * b6 + 3 * a0 * b3 * b6 -
-         a4 * a7 * b3 * b6 - 2 * a8 * b0 * b3 * b6 - 2 * a7 * b1 * b3 * b6 + 2 * a3 * a7 * b4 * b6 +
-         2 * a2 * a8 * b4 * b6 + 2 * a6 * b2 * b4 * b6 + 2 * a5 * b3 * b4 * b6 + 2 * a2 * a7 * b5 * b6 +
-         2 * a1 * a8 * b5 * b6 + 2 * a6 * b1 * b5 * b6 + 2 * a5 * b2 * b5 * b6 + 2 * a4 * b3 * b5 * b6 -
-         6 * a3 * b4 * b5 * b6 - 3 * a2 * b5 * b5 * b6 + a1 * a7 * b6 * b6 + a0 * a8 * b6 * b6 + a6 * b0 * b6 * b6 +
-         a5 * b1 * b6 * b6 + a4 * b2 * b6 * b6 - 3 * a2 * b4 * b6 * b6 - 3 * a1 * b5 * b6 * b6 - a0 * b6 * b6 * b6 +
-         3 * a2 * a2 * b7 + 6 * a1 * a3 * b7 + 2 * a6 * a6 * b1 * b7 - 4 * a3 * a8 * b1 * b7 + 4 * a5 * a6 * b2 * b7 -
-         4 * a3 * a7 * b2 * b7 - 4 * a2 * a8 * b2 * b7 - 2 * a6 * b2 * b2 * b7 + a8 * a8 * b2 * b2 * b7 + 2 * a5 * a5 * b3 * b7 +
-         4 * a4 * a6 * b3 * b7 - 4 * a2 * a7 * b3 * b7 - 4 * a1 * a8 * b3 * b7 - 4 * a6 * b1 * b3 * b7 +
-         2 * a8 * a8 * b1 * b3 * b7 - 4 * a5 * b2 * b3 * b7 + 4 * a7 * a8 * b2 * b3 * b7 - 2 * a4 * b3 * b3 * b7 +
-         a7 * a7 * b3 * b3 * b7 - 2 * a3 * a6 * b4 * b7 + 3 * a3 * b3 * b4 * b7 - a6 * a8 * b3 * b4 * b7 -
-         2 * a3 * a5 * b5 * b7 - 2 * a2 * a6 * b5 * b7 + 3 * a3 * b2 * b5 * b7 - a6 * a8 * b2 * b5 * b7 +
-         3 * a2 * b3 * b5 * b7 - a6 * a7 * b3 * b5 * b7 - a5 * a8 * b3 * b5 * b7 + a3 * a8 * b5 * b5 * b7 -
-         2 * a3 * a4 * b6 * b7 - 2 * a2 * a5 * b6 * b7 - 2 * a1 * a6 * b6 * b7 + 3 * a3 * b1 * b6 * b7 -
-         a6 * a8 * b1 * b6 * b7 + 3 * a2 * b2 * b6 * b7 - a6 * a7 * b2 * b6 * b7 - a5 * a8 * b2 * b6 * b7 +
-         3 * a1 * b3 * b6 * b7 - a5 * a7 * b3 * b6 * b7 - a4 * a8 * b3 * b6 * b7 + 2 * a3 * a8 * b4 * b6 * b7 +
-         2 * a3 * a7 * b5 * b6 * b7 + 2 * a2 * a8 * b5 * b6 * b7 + a2 * a7 * b6 * b6 * b7 + a1 * a8 * b6 * b6 * b7 +
-         6 * a2 * a3 * b7 * b7 + a6 * a6 * b2 * b7 * b7 - 2 * a3 * a8 * b2 * b7 * b7 + 2 * a5 * a6 * b3 * b7 * b7 -
-         2 * a3 * a7 * b3 * b7 * b7 - 2 * a2 * a8 * b3 * b7 * b7 - a3 * a6 * b5 * b7 * b7 - a3 * a5 * b6 * b7 * b7 -
-         a2 * a6 * b6 * b7 * b7 + a3 * a3 * b7 * b7 * b7;
-    c7 = a2 * a2 + 2 * a1 * a3 + a6 * a6 * b1 - 2 * a3 * a8 * b1 + 2 * a5 * a6 * b2 - 2 * a3 * a7 * b2 -
-         2 * a2 * a8 * b2 - 2 * a6 * b2 * b2 + a8 * a8 * b2 * b2 + a5 * a5 * b3 + 2 * a4 * a6 * b3 - 2 * a2 * a7 * b3 -
-         2 * a1 * a8 * b3 - 4 * a6 * b1 * b3 + 2 * a8 * a8 * b1 * b3 - 4 * a5 * b2 * b3 + 4 * a7 * a8 * b2 * b3 +
-         3 * b2 * b2 * b3 - 2 * a4 * b3 * b3 + a7 * a7 * b3 * b3 + 3 * b1 * b3 * b3 - a3 * a6 * b4 + 3 * a3 * b3 * b4 -
-         a6 * a8 * b3 * b4 - a8 * b3 * b3 * b4 - a3 * a5 * b5 - a2 * a6 * b5 + 3 * a3 * b2 * b5 - a6 * a8 * b2 * b5 +
-         3 * a2 * b3 * b5 - a6 * a7 * b3 * b5 - a5 * a8 * b3 * b5 - 2 * a8 * b2 * b3 * b5 - a7 * b3 * b3 * b5 +
-         a3 * a8 * b5 * b5 + a6 * b3 * b5 * b5 - a3 * a4 * b6 - a2 * a5 * b6 - a1 * a6 * b6 + 3 * a3 * b1 * b6 -
-         a6 * a8 * b1 * b6 + 3 * a2 * b2 * b6 - a6 * a7 * b2 * b6 - a5 * a8 * b2 * b6 - a8 * b2 * b2 * b6 +
-         3 * a1 * b3 * b6 - a5 * a7 * b3 * b6 - a4 * a8 * b3 * b6 - 2 * a8 * b1 * b3 * b6 - 2 * a7 * b2 * b3 * b6 +
-         2 * a3 * a8 * b4 * b6 + 2 * a6 * b3 * b4 * b6 + 2 * a3 * a7 * b5 * b6 + 2 * a2 * a8 * b5 * b6 +
-         2 * a6 * b2 * b5 * b6 + 2 * a5 * b3 * b5 * b6 - 3 * a3 * b5 * b5 * b6 + a2 * a7 * b6 * b6 + a1 * a8 * b6 * b6 +
-         a6 * b1 * b6 * b6 + a5 * b2 * b6 * b6 + a4 * b3 * b6 * b6 - 3 * a3 * b4 * b6 * b6 - 3 * a2 * b5 * b6 * b6 -
-         a1 * b6 * b6 * b6 + 6 * a2 * a3 * b7 + 2 * a6 * a6 * b2 * b7 - 4 * a3 * a8 * b2 * b7 + 4 * a5 * a6 * b3 * b7 -
-         4 * a3 * a7 * b3 * b7 - 4 * a2 * a8 * b3 * b7 - 4 * a6 * b2 * b3 * b7 + 2 * a8 * a8 * b2 * b3 * b7 -
-         2 * a5 * b3 * b3 * b7 + 2 * a7 * a8 * b3 * b3 * b7 - 2 * a3 * a6 * b5 * b7 + 3 * a3 * b3 * b5 * b7 -
-         a6 * a8 * b3 * b5 * b7 - 2 * a3 * a5 * b6 * b7 - 2 * a2 * a6 * b6 * b7 + 3 * a3 * b2 * b6 * b7 -
-         a6 * a8 * b2 * b6 * b7 + 3 * a2 * b3 * b6 * b7 - a6 * a7 * b3 * b6 * b7 - a5 * a8 * b3 * b6 * b7 +
-         2 * a3 * a8 * b5 * b6 * b7 + a3 * a7 * b6 * b6 * b7 + a2 * a8 * b6 * b6 * b7 + 3 * a3 * a3 * b7 * b7 +
-         a6 * a6 * b3 * b7 * b7 - 2 * a3 * a8 * b3 * b7 * b7 - a3 * a6 * b6 * b7 * b7;
-    c8 = 2 * a2 * a3 + a6 * a6 * b2 - 2 * a3 * a8 * b2 + 2 * a5 * a6 * b3 - 2 * a3 * a7 * b3 - 2 * a2 * a8 * b3 -
-         4 * a6 * b2 * b3 + 2 * a8 * a8 * b2 * b3 - 2 * a5 * b3 * b3 + 2 * a7 * a8 * b3 * b3 + 3 * b2 * b3 * b3 -
-         a3 * a6 * b5 + 3 * a3 * b3 * b5 - a6 * a8 * b3 * b5 - a8 * b3 * b3 * b5 - a3 * a5 * b6 - a2 * a6 * b6 +
-         3 * a3 * b2 * b6 - a6 * a8 * b2 * b6 + 3 * a2 * b3 * b6 - a6 * a7 * b3 * b6 - a5 * a8 * b3 * b6 -
-         2 * a8 * b2 * b3 * b6 - a7 * b3 * b3 * b6 + 2 * a3 * a8 * b5 * b6 + 2 * a6 * b3 * b5 * b6 + a3 * a7 * b6 * b6 +
-         a2 * a8 * b6 * b6 + a6 * b2 * b6 * b6 + a5 * b3 * b6 * b6 - 3 * a3 * b5 * b6 * b6 - a2 * b6 * b6 * b6 + 3 * a3 * a3 * b7 +
-         2 * a6 * a6 * b3 * b7 - 4 * a3 * a8 * b3 * b7 - 2 * a6 * b3 * b3 * b7 + a8 * a8 * b3 * b3 * b7 - 2 * a3 * a6 * b6 * b7 +
-         3 * a3 * b3 * b6 * b7 - a6 * a8 * b3 * b6 * b7 + a3 * a8 * b6 * b6 * b7;
-    c9 = a3 * a3 + a6 * a6 * b3 - 2 * a3 * a8 * b3 - 2 * a6 * b3 * b3 + a8 * a8 * b3 * b3 + b3 * b3 * b3 - a3 * a6 * b6 +
-         3 * a3 * b3 * b6 - a6 * a8 * b3 * b6 - a8 * b3 * b3 * b6 + a3 * a8 * b6 * b6 + a6 * b3 * b6 * b6 - a3 * b6 * b6 * b6;
+    auto a0 = aa0; auto a1 = aa1; auto a2 = aa2; auto a3 = aa3; auto a4 = aa4; auto a5 = aa5; auto a6 = aa6; auto a7 = aa7; auto a8 = aa8;
+    auto b0 = bb0; auto b1 = bb1; auto b2 = bb2; auto b3 = bb3; auto b4 = bb4; auto b5 = bb5; auto b6 = bb6; auto b7 = bb7;
+    auto c0 = b0 * b0 * b0 - a7 * b0 * b0 * b4 + a4 * b0 * b4 * b4 - a0 * b4 * b4 * b4 - 2 * a4 * b0 * b0 * b7 + a7 * a7 * b0 * b0 * b7 +
+              3 * a0 * b0 * b4 * b7 - a4 * a7 * b0 * b4 * b7 + a0 * a7 * b4 * b4 * b7 + a4 * a4 * b0 * b7 * b7 -
+              2 * a0 * a7 * b0 * b7 * b7 - a0 * a4 * b4 * b7 * b7 + a0 * a0 * b7 * b7 * b7;
+    auto c1 = -2 * a4 * b0 * b0 + a7 * a7 * b0 * b0 + 3 * b0 * b0 * b1 + 3 * a0 * b0 * b4 - a4 * a7 * b0 * b4 -
+              a8 * b0 * b0 * b4 - 2 * a7 * b0 * b1 * b4 + a0 * a7 * b4 * b4 + a5 * b0 * b4 * b4 + a4 * b1 * b4 * b4 -
+              a1 * b4 * b4 * b4 - a7 * b0 * b0 * b5 + 2 * a4 * b0 * b4 * b5 - 3 * a0 * b4 * b4 * b5 + 2 * a4 * a4 * b0 * b7 -
+              4 * a0 * a7 * b0 * b7 - 2 * a5 * b0 * b0 * b7 + 2 * a7 * a8 * b0 * b0 * b7 - 4 * a4 * b0 * b1 * b7 +
+              2 * a7 * a7 * b0 * b1 * b7 - 2 * a0 * a4 * b4 * b7 + 3 * a1 * b0 * b4 * b7 - a5 * a7 * b0 * b4 * b7 -
+              a4 * a8 * b0 * b4 * b7 + 3 * a0 * b1 * b4 * b7 - a4 * a7 * b1 * b4 * b7 + a1 * a7 * b4 * b4 * b7 +
+              a0 * a8 * b4 * b4 * b7 + 3 * a0 * b0 * b5 * b7 - a4 * a7 * b0 * b5 * b7 + 2 * a0 * a7 * b4 * b5 * b7 +
+              3 * a0 * a0 * b7 * b7 + 2 * a4 * a5 * b0 * b7 * b7 - 2 * a1 * a7 * b0 * b7 * b7 - 2 * a0 * a8 * b0 * b7 * b7 +
+              a4 * a4 * b1 * b7 * b7 - 2 * a0 * a7 * b1 * b7 * b7 - a1 * a4 * b4 * b7 * b7 - a0 * a5 * b4 * b7 * b7 -
+              a0 * a4 * b5 * b7 * b7 + 2 * a0 * a1 * b7 * b7 * b7;
+    auto c2 = a4 * a4 * b0 - 2 * a0 * a7 * b0 - 2 * a5 * b0 * b0 + 2 * a7 * a8 * b0 * b0 - 4 * a4 * b0 * b1 +
+              2 * a7 * a7 * b0 * b1 + 3 * b0 * b1 * b1 + 3 * b0 * b0 * b2 - a0 * a4 * b4 + 3 * a1 * b0 * b4 - a5 * a7 * b0 * b4 -
+              a4 * a8 * b0 * b4 + 3 * a0 * b1 * b4 - a4 * a7 * b1 * b4 - 2 * a8 * b0 * b1 * b4 - a7 * b1 * b1 * b4 -
+              2 * a7 * b0 * b2 * b4 + a1 * a7 * b4 * b4 + a0 * a8 * b4 * b4 + a6 * b0 * b4 * b4 + a5 * b1 * b4 * b4 +
+              a4 * b2 * b4 * b4 - a2 * b4 * b4 * b4 + 3 * a0 * b0 * b5 - a4 * a7 * b0 * b5 - a8 * b0 * b0 * b5 -
+              2 * a7 * b0 * b1 * b5 + 2 * a0 * a7 * b4 * b5 + 2 * a5 * b0 * b4 * b5 + 2 * a4 * b1 * b4 * b5 -
+              3 * a1 * b4 * b4 * b5 + a4 * b0 * b5 * b5 - 3 * a0 * b4 * b5 * b5 - a7 * b0 * b0 * b6 + 2 * a4 * b0 * b4 * b6 -
+              3 * a0 * b4 * b4 * b6 + 3 * a0 * a0 * b7 + 4 * a4 * a5 * b0 * b7 - 4 * a1 * a7 * b0 * b7 - 4 * a0 * a8 * b0 * b7 -
+              2 * a6 * b0 * b0 * b7 + a8 * a8 * b0 * b0 * b7 + 2 * a4 * a4 * b1 * b7 - 4 * a0 * a7 * b1 * b7 - 4 * a5 * b0 * b1 * b7 +
+              4 * a7 * a8 * b0 * b1 * b7 - 2 * a4 * b1 * b1 * b7 + a7 * a7 * b1 * b1 * b7 - 4 * a4 * b0 * b2 * b7 +
+              2 * a7 * a7 * b0 * b2 * b7 - 2 * a1 * a4 * b4 * b7 - 2 * a0 * a5 * b4 * b7 + 3 * a2 * b0 * b4 * b7 -
+              a6 * a7 * b0 * b4 * b7 - a5 * a8 * b0 * b4 * b7 + 3 * a1 * b1 * b4 * b7 - a5 * a7 * b1 * b4 * b7 -
+              a4 * a8 * b1 * b4 * b7 + 3 * a0 * b2 * b4 * b7 - a4 * a7 * b2 * b4 * b7 + a2 * a7 * b4 * b4 * b7 +
+              a1 * a8 * b4 * b4 * b7 - 2 * a0 * a4 * b5 * b7 + 3 * a1 * b0 * b5 * b7 - a5 * a7 * b0 * b5 * b7 -
+              a4 * a8 * b0 * b5 * b7 + 3 * a0 * b1 * b5 * b7 - a4 * a7 * b1 * b5 * b7 + 2 * a1 * a7 * b4 * b5 * b7 +
+              2 * a0 * a8 * b4 * b5 * b7 + a0 * a7 * b5 * b5 * b7 + 3 * a0 * b0 * b6 * b7 - a4 * a7 * b0 * b6 * b7 +
+              2 * a0 * a7 * b4 * b6 * b7 + 6 * a0 * a1 * b7 * b7 + a5 * a5 * b0 * b7 * b7 + 2 * a4 * a6 * b0 * b7 * b7 -
+              2 * a2 * a7 * b0 * b7 * b7 - 2 * a1 * a8 * b0 * b7 * b7 + 2 * a4 * a5 * b1 * b7 * b7 - 2 * a1 * a7 * b1 * b7 * b7 -
+              2 * a0 * a8 * b1 * b7 * b7 + a4 * a4 * b2 * b7 * b7 - 2 * a0 * a7 * b2 * b7 * b7 - a2 * a4 * b4 * b7 * b7 -
+              a1 * a5 * b4 * b7 * b7 - a0 * a6 * b4 * b7 * b7 - a1 * a4 * b5 * b7 * b7 - a0 * a5 * b5 * b7 * b7 -
+              a0 * a4 * b6 * b7 * b7 + a1 * a1 * b7 * b7 * b7 + 2 * a0 * a2 * b7 * b7 * b7;
+    auto c3 = a0 * a0 + 2 * a4 * a5 * b0 - 2 * a1 * a7 * b0 - 2 * a0 * a8 * b0 - 2 * a6 * b0 * b0 + a8 * a8 * b0 * b0 +
+              a4 * a4 * b1 - 2 * a0 * a7 * b1 - 4 * a5 * b0 * b1 + 4 * a7 * a8 * b0 * b1 - 2 * a4 * b1 * b1 + a7 * a7 * b1 * b1 +
+              b1 * b1 * b1 - 4 * a4 * b0 * b2 + 2 * a7 * a7 * b0 * b2 + 6 * b0 * b1 * b2 + 3 * b0 * b0 * b3 - a1 * a4 * b4 -
+              a0 * a5 * b4 + 3 * a2 * b0 * b4 - a6 * a7 * b0 * b4 - a5 * a8 * b0 * b4 + 3 * a1 * b1 * b4 -
+              a5 * a7 * b1 * b4 - a4 * a8 * b1 * b4 - a8 * b1 * b1 * b4 + 3 * a0 * b2 * b4 - a4 * a7 * b2 * b4 -
+              2 * a8 * b0 * b2 * b4 - 2 * a7 * b1 * b2 * b4 - 2 * a7 * b0 * b3 * b4 + a2 * a7 * b4 * b4 + a1 * a8 * b4 * b4 +
+              a6 * b1 * b4 * b4 + a5 * b2 * b4 * b4 + a4 * b3 * b4 * b4 - a3 * b4 * b4 * b4 - a0 * a4 * b5 + 3 * a1 * b0 * b5 -
+              a5 * a7 * b0 * b5 - a4 * a8 * b0 * b5 + 3 * a0 * b1 * b5 - a4 * a7 * b1 * b5 - 2 * a8 * b0 * b1 * b5 -
+              a7 * b1 * b1 * b5 - 2 * a7 * b0 * b2 * b5 + 2 * a1 * a7 * b4 * b5 + 2 * a0 * a8 * b4 * b5 + 2 * a6 * b0 * b4 * b5 +
+              2 * a5 * b1 * b4 * b5 + 2 * a4 * b2 * b4 * b5 - 3 * a2 * b4 * b4 * b5 + a0 * a7 * b5 * b5 + a5 * b0 * b5 * b5 +
+              a4 * b1 * b5 * b5 - 3 * a1 * b4 * b5 * b5 - a0 * b5 * b5 * b5 + 3 * a0 * b0 * b6 - a4 * a7 * b0 * b6 -
+              a8 * b0 * b0 * b6 - 2 * a7 * b0 * b1 * b6 + 2 * a0 * a7 * b4 * b6 + 2 * a5 * b0 * b4 * b6 + 2 * a4 * b1 * b4 * b6 -
+              3 * a1 * b4 * b4 * b6 + 2 * a4 * b0 * b5 * b6 - 6 * a0 * b4 * b5 * b6 + 6 * a0 * a1 * b7 + 2 * a5 * a5 * b0 * b7 +
+              4 * a4 * a6 * b0 * b7 - 4 * a2 * a7 * b0 * b7 - 4 * a1 * a8 * b0 * b7 + 4 * a4 * a5 * b1 * b7 -
+              4 * a1 * a7 * b1 * b7 - 4 * a0 * a8 * b1 * b7 - 4 * a6 * b0 * b1 * b7 + 2 * a8 * a8 * b0 * b1 * b7 -
+              2 * a5 * b1 * b1 * b7 + 2 * a7 * a8 * b1 * b1 * b7 + 2 * a4 * a4 * b2 * b7 - 4 * a0 * a7 * b2 * b7 -
+              4 * a5 * b0 * b2 * b7 + 4 * a7 * a8 * b0 * b2 * b7 - 4 * a4 * b1 * b2 * b7 + 2 * a7 * a7 * b1 * b2 * b7 -
+              4 * a4 * b0 * b3 * b7 + 2 * a7 * a7 * b0 * b3 * b7 - 2 * a2 * a4 * b4 * b7 - 2 * a1 * a5 * b4 * b7 -
+              2 * a0 * a6 * b4 * b7 + 3 * a3 * b0 * b4 * b7 - a6 * a8 * b0 * b4 * b7 + 3 * a2 * b1 * b4 * b7 -
+              a6 * a7 * b1 * b4 * b7 - a5 * a8 * b1 * b4 * b7 + 3 * a1 * b2 * b4 * b7 - a5 * a7 * b2 * b4 * b7 -
+              a4 * a8 * b2 * b4 * b7 + 3 * a0 * b3 * b4 * b7 - a4 * a7 * b3 * b4 * b7 + a3 * a7 * b4 * b4 * b7 +
+              a2 * a8 * b4 * b4 * b7 - 2 * a1 * a4 * b5 * b7 - 2 * a0 * a5 * b5 * b7 + 3 * a2 * b0 * b5 * b7 -
+              a6 * a7 * b0 * b5 * b7 - a5 * a8 * b0 * b5 * b7 + 3 * a1 * b1 * b5 * b7 - a5 * a7 * b1 * b5 * b7 -
+              a4 * a8 * b1 * b5 * b7 + 3 * a0 * b2 * b5 * b7 - a4 * a7 * b2 * b5 * b7 + 2 * a2 * a7 * b4 * b5 * b7 +
+              2 * a1 * a8 * b4 * b5 * b7 + a1 * a7 * b5 * b5 * b7 + a0 * a8 * b5 * b5 * b7 - 2 * a0 * a4 * b6 * b7 +
+              3 * a1 * b0 * b6 * b7 - a5 * a7 * b0 * b6 * b7 - a4 * a8 * b0 * b6 * b7 + 3 * a0 * b1 * b6 * b7 -
+              a4 * a7 * b1 * b6 * b7 + 2 * a1 * a7 * b4 * b6 * b7 + 2 * a0 * a8 * b4 * b6 * b7 + 2 * a0 * a7 * b5 * b6 * b7 +
+              3 * a1 * a1 * b7 * b7 + 6 * a0 * a2 * b7 * b7 + 2 * a5 * a6 * b0 * b7 * b7 - 2 * a3 * a7 * b0 * b7 * b7 -
+              2 * a2 * a8 * b0 * b7 * b7 + a5 * a5 * b1 * b7 * b7 + 2 * a4 * a6 * b1 * b7 * b7 - 2 * a2 * a7 * b1 * b7 * b7 -
+              2 * a1 * a8 * b1 * b7 * b7 + 2 * a4 * a5 * b2 * b7 * b7 - 2 * a1 * a7 * b2 * b7 * b7 - 2 * a0 * a8 * b2 * b7 * b7 +
+              a4 * a4 * b3 * b7 * b7 - 2 * a0 * a7 * b3 * b7 * b7 - a3 * a4 * b4 * b7 * b7 - a2 * a5 * b4 * b7 * b7 -
+              a1 * a6 * b4 * b7 * b7 - a2 * a4 * b5 * b7 * b7 - a1 * a5 * b5 * b7 * b7 - a0 * a6 * b5 * b7 * b7 -
+              a1 * a4 * b6 * b7 * b7 - a0 * a5 * b6 * b7 * b7 + 2 * a1 * a2 * b7 * b7 * b7 + 2 * a0 * a3 * b7 * b7 * b7;
+    auto c4 = 2 * a0 * a1 + a5 * a5 * b0 + 2 * a4 * a6 * b0 - 2 * a2 * a7 * b0 - 2 * a1 * a8 * b0 + 2 * a4 * a5 * b1 -
+              2 * a1 * a7 * b1 - 2 * a0 * a8 * b1 - 4 * a6 * b0 * b1 + 2 * a8 * a8 * b0 * b1 - 2 * a5 * b1 * b1 +
+              2 * a7 * a8 * b1 * b1 + a4 * a4 * b2 - 2 * a0 * a7 * b2 - 4 * a5 * b0 * b2 + 4 * a7 * a8 * b0 * b2 -
+              4 * a4 * b1 * b2 + 2 * a7 * a7 * b1 * b2 + 3 * b1 * b1 * b2 + 3 * b0 * b2 * b2 - 4 * a4 * b0 * b3 +
+              2 * a7 * a7 * b0 * b3 + 6 * b0 * b1 * b3 - a2 * a4 * b4 - a1 * a5 * b4 - a0 * a6 * b4 + 3 * a3 * b0 * b4 -
+              a6 * a8 * b0 * b4 + 3 * a2 * b1 * b4 - a6 * a7 * b1 * b4 - a5 * a8 * b1 * b4 + 3 * a1 * b2 * b4 -
+              a5 * a7 * b2 * b4 - a4 * a8 * b2 * b4 - 2 * a8 * b1 * b2 * b4 - a7 * b2 * b2 * b4 + 3 * a0 * b3 * b4 -
+              a4 * a7 * b3 * b4 - 2 * a8 * b0 * b3 * b4 - 2 * a7 * b1 * b3 * b4 + a3 * a7 * b4 * b4 + a2 * a8 * b4 * b4 +
+              a6 * b2 * b4 * b4 + a5 * b3 * b4 * b4 - a1 * a4 * b5 - a0 * a5 * b5 + 3 * a2 * b0 * b5 - a6 * a7 * b0 * b5 -
+              a5 * a8 * b0 * b5 + 3 * a1 * b1 * b5 - a5 * a7 * b1 * b5 - a4 * a8 * b1 * b5 - a8 * b1 * b1 * b5 +
+              3 * a0 * b2 * b5 - a4 * a7 * b2 * b5 - 2 * a8 * b0 * b2 * b5 - 2 * a7 * b1 * b2 * b5 - 2 * a7 * b0 * b3 * b5 +
+              2 * a2 * a7 * b4 * b5 + 2 * a1 * a8 * b4 * b5 + 2 * a6 * b1 * b4 * b5 + 2 * a5 * b2 * b4 * b5 +
+              2 * a4 * b3 * b4 * b5 - 3 * a3 * b4 * b4 * b5 + a1 * a7 * b5 * b5 + a0 * a8 * b5 * b5 + a6 * b0 * b5 * b5 +
+              a5 * b1 * b5 * b5 + a4 * b2 * b5 * b5 - 3 * a2 * b4 * b5 * b5 - a1 * b5 * b5 * b5 - a0 * a4 * b6 + 3 * a1 * b0 * b6 -
+              a5 * a7 * b0 * b6 - a4 * a8 * b0 * b6 + 3 * a0 * b1 * b6 - a4 * a7 * b1 * b6 - 2 * a8 * b0 * b1 * b6 -
+              a7 * b1 * b1 * b6 - 2 * a7 * b0 * b2 * b6 + 2 * a1 * a7 * b4 * b6 + 2 * a0 * a8 * b4 * b6 + 2 * a6 * b0 * b4 * b6 +
+              2 * a5 * b1 * b4 * b6 + 2 * a4 * b2 * b4 * b6 - 3 * a2 * b4 * b4 * b6 + 2 * a0 * a7 * b5 * b6 +
+              2 * a5 * b0 * b5 * b6 + 2 * a4 * b1 * b5 * b6 - 6 * a1 * b4 * b5 * b6 - 3 * a0 * b5 * b5 * b6 + a4 * b0 * b6 * b6 -
+              3 * a0 * b4 * b6 * b6 + 3 * a1 * a1 * b7 + 6 * a0 * a2 * b7 + 4 * a5 * a6 * b0 * b7 - 4 * a3 * a7 * b0 * b7 -
+              4 * a2 * a8 * b0 * b7 + 2 * a5 * a5 * b1 * b7 + 4 * a4 * a6 * b1 * b7 - 4 * a2 * a7 * b1 * b7 -
+              4 * a1 * a8 * b1 * b7 - 2 * a6 * b1 * b1 * b7 + a8 * a8 * b1 * b1 * b7 + 4 * a4 * a5 * b2 * b7 -
+              4 * a1 * a7 * b2 * b7 - 4 * a0 * a8 * b2 * b7 - 4 * a6 * b0 * b2 * b7 + 2 * a8 * a8 * b0 * b2 * b7 -
+              4 * a5 * b1 * b2 * b7 + 4 * a7 * a8 * b1 * b2 * b7 - 2 * a4 * b2 * b2 * b7 + a7 * a7 * b2 * b2 * b7 +
+              2 * a4 * a4 * b3 * b7 - 4 * a0 * a7 * b3 * b7 - 4 * a5 * b0 * b3 * b7 + 4 * a7 * a8 * b0 * b3 * b7 -
+              4 * a4 * b1 * b3 * b7 + 2 * a7 * a7 * b1 * b3 * b7 - 2 * a3 * a4 * b4 * b7 - 2 * a2 * a5 * b4 * b7 -
+              2 * a1 * a6 * b4 * b7 + 3 * a3 * b1 * b4 * b7 - a6 * a8 * b1 * b4 * b7 + 3 * a2 * b2 * b4 * b7 -
+              a6 * a7 * b2 * b4 * b7 - a5 * a8 * b2 * b4 * b7 + 3 * a1 * b3 * b4 * b7 - a5 * a7 * b3 * b4 * b7 -
+              a4 * a8 * b3 * b4 * b7 + a3 * a8 * b4 * b4 * b7 - 2 * a2 * a4 * b5 * b7 - 2 * a1 * a5 * b5 * b7 -
+              2 * a0 * a6 * b5 * b7 + 3 * a3 * b0 * b5 * b7 - a6 * a8 * b0 * b5 * b7 + 3 * a2 * b1 * b5 * b7 -
+              a6 * a7 * b1 * b5 * b7 - a5 * a8 * b1 * b5 * b7 + 3 * a1 * b2 * b5 * b7 - a5 * a7 * b2 * b5 * b7 -
+              a4 * a8 * b2 * b5 * b7 + 3 * a0 * b3 * b5 * b7 - a4 * a7 * b3 * b5 * b7 + 2 * a3 * a7 * b4 * b5 * b7 +
+              2 * a2 * a8 * b4 * b5 * b7 + a2 * a7 * b5 * b5 * b7 + a1 * a8 * b5 * b5 * b7 - 2 * a1 * a4 * b6 * b7 -
+              2 * a0 * a5 * b6 * b7 + 3 * a2 * b0 * b6 * b7 - a6 * a7 * b0 * b6 * b7 - a5 * a8 * b0 * b6 * b7 +
+              3 * a1 * b1 * b6 * b7 - a5 * a7 * b1 * b6 * b7 - a4 * a8 * b1 * b6 * b7 + 3 * a0 * b2 * b6 * b7 -
+              a4 * a7 * b2 * b6 * b7 + 2 * a2 * a7 * b4 * b6 * b7 + 2 * a1 * a8 * b4 * b6 * b7 + 2 * a1 * a7 * b5 * b6 * b7 +
+              2 * a0 * a8 * b5 * b6 * b7 + a0 * a7 * b6 * b6 * b7 + 6 * a1 * a2 * b7 * b7 + 6 * a0 * a3 * b7 * b7 +
+              a6 * a6 * b0 * b7 * b7 - 2 * a3 * a8 * b0 * b7 * b7 + 2 * a5 * a6 * b1 * b7 * b7 - 2 * a3 * a7 * b1 * b7 * b7 -
+              2 * a2 * a8 * b1 * b7 * b7 + a5 * a5 * b2 * b7 * b7 + 2 * a4 * a6 * b2 * b7 * b7 - 2 * a2 * a7 * b2 * b7 * b7 -
+              2 * a1 * a8 * b2 * b7 * b7 + 2 * a4 * a5 * b3 * b7 * b7 - 2 * a1 * a7 * b3 * b7 * b7 - 2 * a0 * a8 * b3 * b7 * b7 -
+              a3 * a5 * b4 * b7 * b7 - a2 * a6 * b4 * b7 * b7 - a3 * a4 * b5 * b7 * b7 - a2 * a5 * b5 * b7 * b7 -
+              a1 * a6 * b5 * b7 * b7 - a2 * a4 * b6 * b7 * b7 - a1 * a5 * b6 * b7 * b7 - a0 * a6 * b6 * b7 * b7 + a2 * a2 * b7 * b7 * b7 +
+              2 * a1 * a3 * b7 * b7 * b7;
+    auto c5 = a1 * a1 + 2 * a0 * a2 + 2 * a5 * a6 * b0 - 2 * a3 * a7 * b0 - 2 * a2 * a8 * b0 + a5 * a5 * b1 +
+              2 * a4 * a6 * b1 - 2 * a2 * a7 * b1 - 2 * a1 * a8 * b1 - 2 * a6 * b1 * b1 + a8 * a8 * b1 * b1 + 2 * a4 * a5 * b2 -
+              2 * a1 * a7 * b2 - 2 * a0 * a8 * b2 - 4 * a6 * b0 * b2 + 2 * a8 * a8 * b0 * b2 - 4 * a5 * b1 * b2 +
+              4 * a7 * a8 * b1 * b2 - 2 * a4 * b2 * b2 + a7 * a7 * b2 * b2 + 3 * b1 * b2 * b2 + a4 * a4 * b3 - 2 * a0 * a7 * b3 -
+              4 * a5 * b0 * b3 + 4 * a7 * a8 * b0 * b3 - 4 * a4 * b1 * b3 + 2 * a7 * a7 * b1 * b3 + 3 * b1 * b1 * b3 +
+              6 * b0 * b2 * b3 - a3 * a4 * b4 - a2 * a5 * b4 - a1 * a6 * b4 + 3 * a3 * b1 * b4 - a6 * a8 * b1 * b4 +
+              3 * a2 * b2 * b4 - a6 * a7 * b2 * b4 - a5 * a8 * b2 * b4 - a8 * b2 * b2 * b4 + 3 * a1 * b3 * b4 -
+              a5 * a7 * b3 * b4 - a4 * a8 * b3 * b4 - 2 * a8 * b1 * b3 * b4 - 2 * a7 * b2 * b3 * b4 + a3 * a8 * b4 * b4 +
+              a6 * b3 * b4 * b4 - a2 * a4 * b5 - a1 * a5 * b5 - a0 * a6 * b5 + 3 * a3 * b0 * b5 - a6 * a8 * b0 * b5 +
+              3 * a2 * b1 * b5 - a6 * a7 * b1 * b5 - a5 * a8 * b1 * b5 + 3 * a1 * b2 * b5 - a5 * a7 * b2 * b5 -
+              a4 * a8 * b2 * b5 - 2 * a8 * b1 * b2 * b5 - a7 * b2 * b2 * b5 + 3 * a0 * b3 * b5 - a4 * a7 * b3 * b5 -
+              2 * a8 * b0 * b3 * b5 - 2 * a7 * b1 * b3 * b5 + 2 * a3 * a7 * b4 * b5 + 2 * a2 * a8 * b4 * b5 +
+              2 * a6 * b2 * b4 * b5 + 2 * a5 * b3 * b4 * b5 + a2 * a7 * b5 * b5 + a1 * a8 * b5 * b5 + a6 * b1 * b5 * b5 +
+              a5 * b2 * b5 * b5 + a4 * b3 * b5 * b5 - 3 * a3 * b4 * b5 * b5 - a2 * b5 * b5 * b5 - a1 * a4 * b6 - a0 * a5 * b6 +
+              3 * a2 * b0 * b6 - a6 * a7 * b0 * b6 - a5 * a8 * b0 * b6 + 3 * a1 * b1 * b6 - a5 * a7 * b1 * b6 -
+              a4 * a8 * b1 * b6 - a8 * b1 * b1 * b6 + 3 * a0 * b2 * b6 - a4 * a7 * b2 * b6 - 2 * a8 * b0 * b2 * b6 -
+              2 * a7 * b1 * b2 * b6 - 2 * a7 * b0 * b3 * b6 + 2 * a2 * a7 * b4 * b6 + 2 * a1 * a8 * b4 * b6 +
+              2 * a6 * b1 * b4 * b6 + 2 * a5 * b2 * b4 * b6 + 2 * a4 * b3 * b4 * b6 - 3 * a3 * b4 * b4 * b6 +
+              2 * a1 * a7 * b5 * b6 + 2 * a0 * a8 * b5 * b6 + 2 * a6 * b0 * b5 * b6 + 2 * a5 * b1 * b5 * b6 +
+              2 * a4 * b2 * b5 * b6 - 6 * a2 * b4 * b5 * b6 - 3 * a1 * b5 * b5 * b6 + a0 * a7 * b6 * b6 + a5 * b0 * b6 * b6 +
+              a4 * b1 * b6 * b6 - 3 * a1 * b4 * b6 * b6 - 3 * a0 * b5 * b6 * b6 + 6 * a1 * a2 * b7 + 6 * a0 * a3 * b7 +
+              2 * a6 * a6 * b0 * b7 - 4 * a3 * a8 * b0 * b7 + 4 * a5 * a6 * b1 * b7 - 4 * a3 * a7 * b1 * b7 -
+              4 * a2 * a8 * b1 * b7 + 2 * a5 * a5 * b2 * b7 + 4 * a4 * a6 * b2 * b7 - 4 * a2 * a7 * b2 * b7 -
+              4 * a1 * a8 * b2 * b7 - 4 * a6 * b1 * b2 * b7 + 2 * a8 * a8 * b1 * b2 * b7 - 2 * a5 * b2 * b2 * b7 +
+              2 * a7 * a8 * b2 * b2 * b7 + 4 * a4 * a5 * b3 * b7 - 4 * a1 * a7 * b3 * b7 - 4 * a0 * a8 * b3 * b7 -
+              4 * a6 * b0 * b3 * b7 + 2 * a8 * a8 * b0 * b3 * b7 - 4 * a5 * b1 * b3 * b7 + 4 * a7 * a8 * b1 * b3 * b7 -
+              4 * a4 * b2 * b3 * b7 + 2 * a7 * a7 * b2 * b3 * b7 - 2 * a3 * a5 * b4 * b7 - 2 * a2 * a6 * b4 * b7 +
+              3 * a3 * b2 * b4 * b7 - a6 * a8 * b2 * b4 * b7 + 3 * a2 * b3 * b4 * b7 - a6 * a7 * b3 * b4 * b7 -
+              a5 * a8 * b3 * b4 * b7 - 2 * a3 * a4 * b5 * b7 - 2 * a2 * a5 * b5 * b7 - 2 * a1 * a6 * b5 * b7 +
+              3 * a3 * b1 * b5 * b7 - a6 * a8 * b1 * b5 * b7 + 3 * a2 * b2 * b5 * b7 - a6 * a7 * b2 * b5 * b7 -
+              a5 * a8 * b2 * b5 * b7 + 3 * a1 * b3 * b5 * b7 - a5 * a7 * b3 * b5 * b7 - a4 * a8 * b3 * b5 * b7 +
+              2 * a3 * a8 * b4 * b5 * b7 + a3 * a7 * b5 * b5 * b7 + a2 * a8 * b5 * b5 * b7 - 2 * a2 * a4 * b6 * b7 -
+              2 * a1 * a5 * b6 * b7 - 2 * a0 * a6 * b6 * b7 + 3 * a3 * b0 * b6 * b7 - a6 * a8 * b0 * b6 * b7 +
+              3 * a2 * b1 * b6 * b7 - a6 * a7 * b1 * b6 * b7 - a5 * a8 * b1 * b6 * b7 + 3 * a1 * b2 * b6 * b7 -
+              a5 * a7 * b2 * b6 * b7 - a4 * a8 * b2 * b6 * b7 + 3 * a0 * b3 * b6 * b7 - a4 * a7 * b3 * b6 * b7 +
+              2 * a3 * a7 * b4 * b6 * b7 + 2 * a2 * a8 * b4 * b6 * b7 + 2 * a2 * a7 * b5 * b6 * b7 + 2 * a1 * a8 * b5 * b6 * b7 +
+              a1 * a7 * b6 * b6 * b7 + a0 * a8 * b6 * b6 * b7 + 3 * a2 * a2 * b7 * b7 + 6 * a1 * a3 * b7 * b7 + a6 * a6 * b1 * b7 * b7 -
+              2 * a3 * a8 * b1 * b7 * b7 + 2 * a5 * a6 * b2 * b7 * b7 - 2 * a3 * a7 * b2 * b7 * b7 - 2 * a2 * a8 * b2 * b7 * b7 +
+              a5 * a5 * b3 * b7 * b7 + 2 * a4 * a6 * b3 * b7 * b7 - 2 * a2 * a7 * b3 * b7 * b7 - 2 * a1 * a8 * b3 * b7 * b7 -
+              a3 * a6 * b4 * b7 * b7 - a3 * a5 * b5 * b7 * b7 - a2 * a6 * b5 * b7 * b7 - a3 * a4 * b6 * b7 * b7 -
+              a2 * a5 * b6 * b7 * b7 - a1 * a6 * b6 * b7 * b7 + 2 * a2 * a3 * b7 * b7 * b7;
+    auto c6 = 2 * a1 * a2 + 2 * a0 * a3 + a6 * a6 * b0 - 2 * a3 * a8 * b0 + 2 * a5 * a6 * b1 - 2 * a3 * a7 * b1 -
+              2 * a2 * a8 * b1 + a5 * a5 * b2 + 2 * a4 * a6 * b2 - 2 * a2 * a7 * b2 - 2 * a1 * a8 * b2 - 4 * a6 * b1 * b2 +
+              2 * a8 * a8 * b1 * b2 - 2 * a5 * b2 * b2 + 2 * a7 * a8 * b2 * b2 + b2 * b2 * b2 + 2 * a4 * a5 * b3 - 2 * a1 * a7 * b3 -
+              2 * a0 * a8 * b3 - 4 * a6 * b0 * b3 + 2 * a8 * a8 * b0 * b3 - 4 * a5 * b1 * b3 + 4 * a7 * a8 * b1 * b3 -
+              4 * a4 * b2 * b3 + 2 * a7 * a7 * b2 * b3 + 6 * b1 * b2 * b3 + 3 * b0 * b3 * b3 - a3 * a5 * b4 - a2 * a6 * b4 +
+              3 * a3 * b2 * b4 - a6 * a8 * b2 * b4 + 3 * a2 * b3 * b4 - a6 * a7 * b3 * b4 - a5 * a8 * b3 * b4 -
+              2 * a8 * b2 * b3 * b4 - a7 * b3 * b3 * b4 - a3 * a4 * b5 - a2 * a5 * b5 - a1 * a6 * b5 + 3 * a3 * b1 * b5 -
+              a6 * a8 * b1 * b5 + 3 * a2 * b2 * b5 - a6 * a7 * b2 * b5 - a5 * a8 * b2 * b5 - a8 * b2 * b2 * b5 +
+              3 * a1 * b3 * b5 - a5 * a7 * b3 * b5 - a4 * a8 * b3 * b5 - 2 * a8 * b1 * b3 * b5 - 2 * a7 * b2 * b3 * b5 +
+              2 * a3 * a8 * b4 * b5 + 2 * a6 * b3 * b4 * b5 + a3 * a7 * b5 * b5 + a2 * a8 * b5 * b5 + a6 * b2 * b5 * b5 +
+              a5 * b3 * b5 * b5 - a3 * b5 * b5 * b5 - a2 * a4 * b6 - a1 * a5 * b6 - a0 * a6 * b6 + 3 * a3 * b0 * b6 -
+              a6 * a8 * b0 * b6 + 3 * a2 * b1 * b6 - a6 * a7 * b1 * b6 - a5 * a8 * b1 * b6 + 3 * a1 * b2 * b6 -
+              a5 * a7 * b2 * b6 - a4 * a8 * b2 * b6 - 2 * a8 * b1 * b2 * b6 - a7 * b2 * b2 * b6 + 3 * a0 * b3 * b6 -
+              a4 * a7 * b3 * b6 - 2 * a8 * b0 * b3 * b6 - 2 * a7 * b1 * b3 * b6 + 2 * a3 * a7 * b4 * b6 +
+              2 * a2 * a8 * b4 * b6 + 2 * a6 * b2 * b4 * b6 + 2 * a5 * b3 * b4 * b6 + 2 * a2 * a7 * b5 * b6 +
+              2 * a1 * a8 * b5 * b6 + 2 * a6 * b1 * b5 * b6 + 2 * a5 * b2 * b5 * b6 + 2 * a4 * b3 * b5 * b6 -
+              6 * a3 * b4 * b5 * b6 - 3 * a2 * b5 * b5 * b6 + a1 * a7 * b6 * b6 + a0 * a8 * b6 * b6 + a6 * b0 * b6 * b6 +
+              a5 * b1 * b6 * b6 + a4 * b2 * b6 * b6 - 3 * a2 * b4 * b6 * b6 - 3 * a1 * b5 * b6 * b6 - a0 * b6 * b6 * b6 +
+              3 * a2 * a2 * b7 + 6 * a1 * a3 * b7 + 2 * a6 * a6 * b1 * b7 - 4 * a3 * a8 * b1 * b7 + 4 * a5 * a6 * b2 * b7 -
+              4 * a3 * a7 * b2 * b7 - 4 * a2 * a8 * b2 * b7 - 2 * a6 * b2 * b2 * b7 + a8 * a8 * b2 * b2 * b7 + 2 * a5 * a5 * b3 * b7 +
+              4 * a4 * a6 * b3 * b7 - 4 * a2 * a7 * b3 * b7 - 4 * a1 * a8 * b3 * b7 - 4 * a6 * b1 * b3 * b7 +
+              2 * a8 * a8 * b1 * b3 * b7 - 4 * a5 * b2 * b3 * b7 + 4 * a7 * a8 * b2 * b3 * b7 - 2 * a4 * b3 * b3 * b7 +
+              a7 * a7 * b3 * b3 * b7 - 2 * a3 * a6 * b4 * b7 + 3 * a3 * b3 * b4 * b7 - a6 * a8 * b3 * b4 * b7 -
+              2 * a3 * a5 * b5 * b7 - 2 * a2 * a6 * b5 * b7 + 3 * a3 * b2 * b5 * b7 - a6 * a8 * b2 * b5 * b7 +
+              3 * a2 * b3 * b5 * b7 - a6 * a7 * b3 * b5 * b7 - a5 * a8 * b3 * b5 * b7 + a3 * a8 * b5 * b5 * b7 -
+              2 * a3 * a4 * b6 * b7 - 2 * a2 * a5 * b6 * b7 - 2 * a1 * a6 * b6 * b7 + 3 * a3 * b1 * b6 * b7 -
+              a6 * a8 * b1 * b6 * b7 + 3 * a2 * b2 * b6 * b7 - a6 * a7 * b2 * b6 * b7 - a5 * a8 * b2 * b6 * b7 +
+              3 * a1 * b3 * b6 * b7 - a5 * a7 * b3 * b6 * b7 - a4 * a8 * b3 * b6 * b7 + 2 * a3 * a8 * b4 * b6 * b7 +
+              2 * a3 * a7 * b5 * b6 * b7 + 2 * a2 * a8 * b5 * b6 * b7 + a2 * a7 * b6 * b6 * b7 + a1 * a8 * b6 * b6 * b7 +
+              6 * a2 * a3 * b7 * b7 + a6 * a6 * b2 * b7 * b7 - 2 * a3 * a8 * b2 * b7 * b7 + 2 * a5 * a6 * b3 * b7 * b7 -
+              2 * a3 * a7 * b3 * b7 * b7 - 2 * a2 * a8 * b3 * b7 * b7 - a3 * a6 * b5 * b7 * b7 - a3 * a5 * b6 * b7 * b7 -
+              a2 * a6 * b6 * b7 * b7 + a3 * a3 * b7 * b7 * b7;
+    auto c7 = a2 * a2 + 2 * a1 * a3 + a6 * a6 * b1 - 2 * a3 * a8 * b1 + 2 * a5 * a6 * b2 - 2 * a3 * a7 * b2 -
+              2 * a2 * a8 * b2 - 2 * a6 * b2 * b2 + a8 * a8 * b2 * b2 + a5 * a5 * b3 + 2 * a4 * a6 * b3 - 2 * a2 * a7 * b3 -
+              2 * a1 * a8 * b3 - 4 * a6 * b1 * b3 + 2 * a8 * a8 * b1 * b3 - 4 * a5 * b2 * b3 + 4 * a7 * a8 * b2 * b3 +
+              3 * b2 * b2 * b3 - 2 * a4 * b3 * b3 + a7 * a7 * b3 * b3 + 3 * b1 * b3 * b3 - a3 * a6 * b4 + 3 * a3 * b3 * b4 -
+              a6 * a8 * b3 * b4 - a8 * b3 * b3 * b4 - a3 * a5 * b5 - a2 * a6 * b5 + 3 * a3 * b2 * b5 - a6 * a8 * b2 * b5 +
+              3 * a2 * b3 * b5 - a6 * a7 * b3 * b5 - a5 * a8 * b3 * b5 - 2 * a8 * b2 * b3 * b5 - a7 * b3 * b3 * b5 +
+              a3 * a8 * b5 * b5 + a6 * b3 * b5 * b5 - a3 * a4 * b6 - a2 * a5 * b6 - a1 * a6 * b6 + 3 * a3 * b1 * b6 -
+              a6 * a8 * b1 * b6 + 3 * a2 * b2 * b6 - a6 * a7 * b2 * b6 - a5 * a8 * b2 * b6 - a8 * b2 * b2 * b6 +
+              3 * a1 * b3 * b6 - a5 * a7 * b3 * b6 - a4 * a8 * b3 * b6 - 2 * a8 * b1 * b3 * b6 - 2 * a7 * b2 * b3 * b6 +
+              2 * a3 * a8 * b4 * b6 + 2 * a6 * b3 * b4 * b6 + 2 * a3 * a7 * b5 * b6 + 2 * a2 * a8 * b5 * b6 +
+              2 * a6 * b2 * b5 * b6 + 2 * a5 * b3 * b5 * b6 - 3 * a3 * b5 * b5 * b6 + a2 * a7 * b6 * b6 + a1 * a8 * b6 * b6 +
+              a6 * b1 * b6 * b6 + a5 * b2 * b6 * b6 + a4 * b3 * b6 * b6 - 3 * a3 * b4 * b6 * b6 - 3 * a2 * b5 * b6 * b6 -
+              a1 * b6 * b6 * b6 + 6 * a2 * a3 * b7 + 2 * a6 * a6 * b2 * b7 - 4 * a3 * a8 * b2 * b7 + 4 * a5 * a6 * b3 * b7 -
+              4 * a3 * a7 * b3 * b7 - 4 * a2 * a8 * b3 * b7 - 4 * a6 * b2 * b3 * b7 + 2 * a8 * a8 * b2 * b3 * b7 -
+              2 * a5 * b3 * b3 * b7 + 2 * a7 * a8 * b3 * b3 * b7 - 2 * a3 * a6 * b5 * b7 + 3 * a3 * b3 * b5 * b7 -
+              a6 * a8 * b3 * b5 * b7 - 2 * a3 * a5 * b6 * b7 - 2 * a2 * a6 * b6 * b7 + 3 * a3 * b2 * b6 * b7 -
+              a6 * a8 * b2 * b6 * b7 + 3 * a2 * b3 * b6 * b7 - a6 * a7 * b3 * b6 * b7 - a5 * a8 * b3 * b6 * b7 +
+              2 * a3 * a8 * b5 * b6 * b7 + a3 * a7 * b6 * b6 * b7 + a2 * a8 * b6 * b6 * b7 + 3 * a3 * a3 * b7 * b7 +
+              a6 * a6 * b3 * b7 * b7 - 2 * a3 * a8 * b3 * b7 * b7 - a3 * a6 * b6 * b7 * b7;
+    auto c8 = 2 * a2 * a3 + a6 * a6 * b2 - 2 * a3 * a8 * b2 + 2 * a5 * a6 * b3 - 2 * a3 * a7 * b3 - 2 * a2 * a8 * b3 -
+              4 * a6 * b2 * b3 + 2 * a8 * a8 * b2 * b3 - 2 * a5 * b3 * b3 + 2 * a7 * a8 * b3 * b3 + 3 * b2 * b3 * b3 -
+              a3 * a6 * b5 + 3 * a3 * b3 * b5 - a6 * a8 * b3 * b5 - a8 * b3 * b3 * b5 - a3 * a5 * b6 - a2 * a6 * b6 +
+              3 * a3 * b2 * b6 - a6 * a8 * b2 * b6 + 3 * a2 * b3 * b6 - a6 * a7 * b3 * b6 - a5 * a8 * b3 * b6 -
+              2 * a8 * b2 * b3 * b6 - a7 * b3 * b3 * b6 + 2 * a3 * a8 * b5 * b6 + 2 * a6 * b3 * b5 * b6 + a3 * a7 * b6 * b6 +
+              a2 * a8 * b6 * b6 + a6 * b2 * b6 * b6 + a5 * b3 * b6 * b6 - 3 * a3 * b5 * b6 * b6 - a2 * b6 * b6 * b6 + 3 * a3 * a3 * b7 +
+              2 * a6 * a6 * b3 * b7 - 4 * a3 * a8 * b3 * b7 - 2 * a6 * b3 * b3 * b7 + a8 * a8 * b3 * b3 * b7 - 2 * a3 * a6 * b6 * b7 +
+              3 * a3 * b3 * b6 * b7 - a6 * a8 * b3 * b6 * b7 + a3 * a8 * b6 * b6 * b7;
+    auto c9 = a3 * a3 + a6 * a6 * b3 - 2 * a3 * a8 * b3 - 2 * a6 * b3 * b3 + a8 * a8 * b3 * b3 + b3 * b3 * b3 - a3 * a6 * b6 +
+              3 * a3 * b3 * b6 - a6 * a8 * b3 * b6 - a8 * b3 * b3 * b6 + a3 * a8 * b6 * b6 + a6 * b3 * b6 * b6 - a3 * b6 * b6 * b6;
     //cout<<"cs:"<<c0<<"  "<<c1<<"  "<<c2<<"  "<<c3<<"  "<<c4<<"  "<<c5<<"  "<<c6<<"  "<<c7<<"  "<<c8<<"  "<<c9<<endl;
-    int nsols = solve_3_2(c0 / c9, c1 / c9, c2 / c9, c3 / c9, c4 / c9, c5 / c9, c6 / c9, c7 / c9, c8 / c9, solutions);
+    auto nsols = solve_3_2(c0 / c9, c1 / c9, c2 / c9, c3 / c9, c4 / c9, c5 / c9, c6 / c9, c7 / c9, c8 / c9, solutions);
 
     c0 = -(a7 * b0) + b0 * b5 + a0 * b7 - b0 * b6 * b7;
     c1 = a0 - a8 * b0 - a7 * b1 + b1 * b5 + b0 * b6 + a1 * b7 - b1 * b6 * b7;
@@ -747,47 +725,70 @@ int solve_2_2(double aa0, double aa1, double aa2, double aa3, double aa4, double
     c7 = a5 - b5 + a6 * b7;
     c8 = a6 - b6 + a7 * b7;
     c9 = a7 + a8 * b7;
-    c10 = a8;
+    auto c10 = a8;
     c0 = c0 / c10; c1 = c1 / c10; c2 = c2 / c10; c3 = c3 / c10; c4 = c4 / c10; c5 = c5 / c10; c6 = c6 / c10; c7 = c7 / c10; c8 = c8 / c10;
     c9 = c9 / c10;
-    b0 = c0; b1 = c1; b2 = c2; b3 = c3; b4 = c4; b5 = c5; b6 = c6; b7 = c7; b8 = c8; b9 = c9;
+    b0 = c0; b1 = c1; b2 = c2; b3 = c3; b4 = c4; b5 = c5; b6 = c6; b7 = c7; auto b8 = c8; auto b9 = c9;
 
-    c0 = -(a5 * b0) + b0 * b4 + a0 * b6 - b0 * b5 * b9;
-    c1 = -(a6 * b0) - a5 * b1 + b1 * b4 + b0 * b5 + a1 * b6 + a0 * b7 - b1 * b5 * b9;
-    c2 = -(a7 * b0) - a6 * b1 - a5 * b2 + b2 * b4 + b1 * b5 + a2 * b6 + a1 * b7 + a0 * b8 -
-         b2 * b5 * b9;
-    c3 = -(a8 * b0) - a7 * b1 - a6 * b2 - a5 * b3 + b3 * b4 + b2 * b5 + a3 * b6 + a2 * b7 +
-         a1 * b8 + a0 * b9 - b3 * b5 * b9;
-    c4 = a0 - a8 * b1 - a7 * b2 - a6 * b3 - a5 * b4 + b4 * b4 + b3 * b5 + a4 * b6 + a3 * b7 +
-         a2 * b8 + a1 * b9 - b4 * b5 * b9;
-    c5 = a1 - a8 * b2 - a7 * b3 - a6 * b4 - a5 * b5 + 2 * b4 * b5 + a4 * b7 + a3 * b8 + a2 * b9 -
-         b5 * b5 * b9;
-    c6 = a2 - a8 * b3 - a7 * b4 - a6 * b5 + b5 * b5 + a4 * b8 + a3 * b9;
-    c7 = a3 - a8 * b4 - a7 * b5 + a4 * b9;
-    c8 = a4 - a8 * b5;
-    c9 = -b0 + b4 * b6 - b5 * b6 * b9;
-    c10 = -b1 + b5 * b6 + b4 * b7 - b5 * b7 * b9;
-    c11 = -b2 + b5 * b7 + b4 * b8 - b5 * b8 * b9;
-    c12 = -b3 + b5 * b8 + b4 * b9 - b5 * b9 * b9;
-    c0 = c0 / c12; c1 = c1 / c12; c2 = c2 / c12; c3 = c3 / c12; c4 = c4 / c12; c5 = c5 / c12; c6 = c6 / c12; c7 = c7 / c12; c8 = c8 / c12;
-    c9 = c9 / c12; c10 = c10 / c12; c11 = c11 / c12;
-    a0 = b0; a1 = b1; a2 = b2; a3 = b3; a4 = b4; a5 = b5; a6 = b6; a7 = b7; a8 = b8; a9 = b9;
-    b0 = c0; b1 = c1; b2 = c2; b3 = c3; b4 = c4; b5 = c5; b6 = c6; b7 = c7; b8 = c8; b9 = c9;
+//     c0 = -(a5 * b0) + b0 * b4 + a0 * b6 - b0 * b5 * b9;
+//     c1 = -(a6 * b0) - a5 * b1 + b1 * b4 + b0 * b5 + a1 * b6 + a0 * b7 - b1 * b5 * b9;
+//     c2 = -(a7 * b0) - a6 * b1 - a5 * b2 + b2 * b4 + b1 * b5 + a2 * b6 + a1 * b7 + a0 * b8 - b2 * b5 * b9;
+//     c3 = -(a8 * b0) - a7 * b1 - a6 * b2 - a5 * b3 + b3 * b4 + b2 * b5 + a3 * b6 + a2 * b7 + a1 * b8 + a0 * b9 - b3 * b5 * b9;
+//     c4 = a0 - a8 * b1 - a7 * b2 - a6 * b3 - a5 * b4 + b4 * b4 + b3 * b5 + a4 * b6 + a3 * b7 + a2 * b8 + a1 * b9 - b4 * b5 * b9;
+//     c5 = a1 - a8 * b2 - a7 * b3 - a6 * b4 - a5 * b5 + 2 * b4 * b5 + a4 * b7 + a3 * b8 + a2 * b9 - b5 * b5 * b9;
+//     c6 = a2 - a8 * b3 - a7 * b4 - a6 * b5 + b5 * b5 + a4 * b8 + a3 * b9;
+//     c7 = a3 - a8 * b4 - a7 * b5 + a4 * b9;
+//     c8 = a4 - a8 * b5;
+//     c9 = -b0 + b4 * b6 - b5 * b6 * b9;
+//     c10 = -b1 + b5 * b6 + b4 * b7 - b5 * b7 * b9;
+//     auto c11 = -b2 + b5 * b7 + b4 * b8 - b5 * b8 * b9;
+//     auto c12 = -b3 + b5 * b8 + b4 * b9 - b5 * b9 * b9;
+//     c0 = c0 / c12;
+//     c1 = c1 / c12;
+//     c2 = c2 / c12;
+//     c3 = c3 / c12;
+//     c4 = c4 / c12;
+//     c5 = c5 / c12;
+//     c6 = c6 / c12;
+//     c7 = c7 / c12;
+//     c8 = c8 / c12;
+//     c9 = c9 / c12;
+//     c10 = c10 / c12;
+//     c11 = c11 / c12;
+    a0 = b0;
+    a1 = b1;
+    a2 = b2;
+    a3 = b3;
+    a4 = b4;
+    a5 = b5;
+    a6 = b6;
+    a7 = b7;
+    a8 = b8;
+    auto a9 = b9;
+//     b0 = c0;
+//     b1 = c1;
+//     b2 = c2;
+//     b3 = c3;
+//     b4 = c4;
+//     b5 = c5;
+//     b6 = c6;
+//     b7 = c7;
+//     b8 = c8;
+//     b9 = c9;
 
-    for (int i = 0; i < nsols; i++) {
-        double q1, q2;
-        double x = solutions[i * 3 + 0];
+    for (auto i = 0; i < nsols; i++) {
+        auto x = solutions[i * 3 + 0];
         //cout<<"yn= "<<(-a0 - a1*x - a2*x*x - a3*x*x*x - a4*x*x*x*x - a5*x*x*x*x*x)<<endl;
         //cout<<"yd= "<<(a6 + a7*x + a8*x*x + a9*x*x*x + x*x*x*x)<<endl;
-        double y = (-a0 - a1 * x - a2 * x * x - a3 * x * x * x - a4 * x * x * x * x - a5 * x * x * x * x * x) /
-                   (a6 + a7 * x + a8 * x * x + a9 * x * x * x + x * x * x * x);
+        auto y = (-a0 - a1 * x - a2 * x * x - a3 * x * x * x - a4 * x * x * x * x - a5 * x * x * x * x * x) /
+                 (a6 + a7 * x + a8 * x * x + a9 * x * x * x + x * x * x * x);
 //apply a Newton's method
-        for (int inewton = 0; inewton < 2; inewton++) {
+        for (auto inewton = 0; inewton < 2; inewton++) {
             TMatrixD jacob(2, 2);
-            q1 = aa0 + aa1 * x + aa2 * x * x + aa3 * x * x * x + aa4 * y + aa5 * x * y + aa6 * x * x * y + aa7 * y * y +
-                 aa8 * x * y * y + y * y * y;
-            q2 = bb0 + bb1 * x + bb2 * x * x + bb3 * x * x * x + bb4 * y + bb5 * x * y + bb6 * x * x * y + bb7 * y * y +
-                 x * y * y;
+            auto q1 = aa0 + aa1 * x + aa2 * x * x + aa3 * x * x * x + aa4 * y + aa5 * x * y + aa6 * x * x * y + aa7 * y * y +
+                      aa8 * x * y * y + y * y * y;
+            auto q2 = bb0 + bb1 * x + bb2 * x * x + bb3 * x * x * x + bb4 * y + bb5 * x * y + bb6 * x * x * y + bb7 * y * y +
+                      x * y * y;
             jacob(0, 0) = aa1 + 2 * aa2 * x + 3 * aa3 * x * x + aa5 * y + 2 * aa6 * x * y + aa8 * y * y;
             jacob(0, 1) = aa4 + aa5 * x + aa6 * x * x + 2 * aa7 * y + 2 * aa8 * x * y + 3 * y * y;
             jacob(1, 0) = bb1 + 2 * bb2 * x + 3 * bb3 * x * x + bb5 * y + 2 * bb6 * x * y + y * y;
@@ -832,61 +833,57 @@ int solve_1(double a0, double a1, double a2, double a3, double a4, double a5, do
        cout<<c0<<"\t"<<c1<<"\t"<<c2<<"\t"<<c3<<"\t"<<c4<<"\t"<<
     c5<<"\t"<<c6<<"\t"<<endl;
     }*/
-    double d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10;
-    d0 = -(a6 * b0) + b0 * b3 + a0 * b6 - b0 * b5 * b6 + b1 * c0 - b4 * b6 * c0 - b3 * b7 * c0 +
-         2 * b5 * b6 * b7 * c0 - b2 * c0 * c6 + b4 * b7 * c0 * c6 - b5 * b7 * b7 * c0 * c6;
-    d1 = -(a7 * b0) - a6 * b1 + b1 * b3 + b0 * b4 + a1 * b6 - b1 * b5 * b6 + a0 * b7 - b0 * b5 * b7 +
-         b2 * c0 - b4 * b7 * c0 + b5 * b7 * b7 * c0 + b1 * c1 - b4 * b6 * c1 - b3 * b7 * c1 +
-         2 * b5 * b6 * b7 * c1 - b2 * c1 * c6 + b4 * b7 * c1 * c6 - b5 * b7 * b7 * c1 * c6;
-    d2 = -(a7 * b1) - a6 * b2 + b2 * b3 + b1 * b4 + a2 * b6 - b2 * b5 * b6 + a1 * b7 - b1 * b5 * b7 +
-         b2 * c1 - b4 * b7 * c1 + b5 * b7 * b7 * c1 + b1 * c2 - b4 * b6 * c2 - b3 * b7 * c2 +
-         2 * b5 * b6 * b7 * c2 - b2 * c2 * c6 + b4 * b7 * c2 * c6 - b5 * b7 * b7 * c2 * c6;
-    d3 = -(a7 * b2) + b2 * b4 + a2 * b7 - b2 * b5 * b7 + b2 * c2 - b4 * b7 * c2 + b5 * b7 * b7 * c2;
-    d4 = a0 - a8 * b0 - a6 * b3 + b3 * b3 + b0 * b5 + a3 * b6 - b3 * b5 * b6 + b1 * c3 -
-         b4 * b6 * c3 - b3 * b7 * c3 + 2 * b5 * b6 * b7 * c3 - b2 * c3 * c6 + b4 * b7 * c3 * c6 - b5 * b7 * b7 * c3 * c6;
-    d5 = a1 - a8 * b1 - a7 * b3 - a6 * b4 + 2 * b3 * b4 + b1 * b5 + a4 * b6 - b4 * b5 * b6 +
-         a3 * b7 - b3 * b5 * b7 + b2 * c3 - b4 * b7 * c3 + b5 * b7 * b7 * c3 + b1 * c4 - b4 * b6 * c4 -
-         b3 * b7 * c4 + 2 * b5 * b6 * b7 * c4 - b2 * c4 * c6 + b4 * b7 * c4 * c6 - b5 * b7 * b7 * c4 * c6;
-    d6 = a2 - a8 * b2 - a7 * b4 + b4 * b4 + b2 * b5 + a4 * b7 - b4 * b5 * b7 + b2 * c4 -
-         b4 * b7 * c4 + b5 * b7 * b7 * c4;
-    d7 = a3 - a8 * b3 - a6 * b5 + 2 * b3 * b5 + a5 * b6 - b5 * b5 * b6 + b1 * c5 - b4 * b6 * c5 -
-         b3 * b7 * c5 + 2 * b5 * b6 * b7 * c5 - b2 * c5 * c6 + b4 * b7 * c5 * c6 - b5 * b7 * b7 * c5 * c6;
-    d8 = a4 - a8 * b4 - a7 * b5 + 2 * b4 * b5 + a5 * b7 - b5 * b5 * b7 + b2 * c5 - b4 * b7 * c5 +
-         b5 * b7 * b7 * c5;
-    d9 = a5 - a8 * b5 + b5 * b5;
-    d10 = -b0 + b3 * b6 - b5 * b6 * b6 + b1 * c6 - b4 * b6 * c6 - b3 * b7 * c6 + 2 * b5 * b6 * b7 * c6 -
-          b2 * c6 * c6 + b4 * b7 * c6 * c6 - b5 * b7 * b7 * c6 * c6;
+    auto d0 = -(a6 * b0) + b0 * b3 + a0 * b6 - b0 * b5 * b6 + b1 * c0 - b4 * b6 * c0 - b3 * b7 * c0 +
+              2 * b5 * b6 * b7 * c0 - b2 * c0 * c6 + b4 * b7 * c0 * c6 - b5 * b7 * b7 * c0 * c6;
+    auto d1 = -(a7 * b0) - a6 * b1 + b1 * b3 + b0 * b4 + a1 * b6 - b1 * b5 * b6 + a0 * b7 - b0 * b5 * b7 +
+              b2 * c0 - b4 * b7 * c0 + b5 * b7 * b7 * c0 + b1 * c1 - b4 * b6 * c1 - b3 * b7 * c1 +
+              2 * b5 * b6 * b7 * c1 - b2 * c1 * c6 + b4 * b7 * c1 * c6 - b5 * b7 * b7 * c1 * c6;
+    auto d2 = -(a7 * b1) - a6 * b2 + b2 * b3 + b1 * b4 + a2 * b6 - b2 * b5 * b6 + a1 * b7 - b1 * b5 * b7 +
+              b2 * c1 - b4 * b7 * c1 + b5 * b7 * b7 * c1 + b1 * c2 - b4 * b6 * c2 - b3 * b7 * c2 +
+              2 * b5 * b6 * b7 * c2 - b2 * c2 * c6 + b4 * b7 * c2 * c6 - b5 * b7 * b7 * c2 * c6;
+    auto d3 = -(a7 * b2) + b2 * b4 + a2 * b7 - b2 * b5 * b7 + b2 * c2 - b4 * b7 * c2 + b5 * b7 * b7 * c2;
+    auto d4 = a0 - a8 * b0 - a6 * b3 + b3 * b3 + b0 * b5 + a3 * b6 - b3 * b5 * b6 + b1 * c3 -
+              b4 * b6 * c3 - b3 * b7 * c3 + 2 * b5 * b6 * b7 * c3 - b2 * c3 * c6 + b4 * b7 * c3 * c6 - b5 * b7 * b7 * c3 * c6;
+    auto d5 = a1 - a8 * b1 - a7 * b3 - a6 * b4 + 2 * b3 * b4 + b1 * b5 + a4 * b6 - b4 * b5 * b6 +
+              a3 * b7 - b3 * b5 * b7 + b2 * c3 - b4 * b7 * c3 + b5 * b7 * b7 * c3 + b1 * c4 - b4 * b6 * c4 -
+              b3 * b7 * c4 + 2 * b5 * b6 * b7 * c4 - b2 * c4 * c6 + b4 * b7 * c4 * c6 - b5 * b7 * b7 * c4 * c6;
+    auto d6 = a2 - a8 * b2 - a7 * b4 + b4 * b4 + b2 * b5 + a4 * b7 - b4 * b5 * b7 + b2 * c4 -
+              b4 * b7 * c4 + b5 * b7 * b7 * c4;
+    auto d7 = a3 - a8 * b3 - a6 * b5 + 2 * b3 * b5 + a5 * b6 - b5 * b5 * b6 + b1 * c5 - b4 * b6 * c5 -
+              b3 * b7 * c5 + 2 * b5 * b6 * b7 * c5 - b2 * c5 * c6 + b4 * b7 * c5 * c6 - b5 * b7 * b7 * c5 * c6;
+    auto d8 = a4 - a8 * b4 - a7 * b5 + 2 * b4 * b5 + a5 * b7 - b5 * b5 * b7 + b2 * c5 - b4 * b7 * c5 +
+              b5 * b7 * b7 * c5;
+    auto d9 = a5 - a8 * b5 + b5 * b5;
+    auto d10 = -b0 + b3 * b6 - b5 * b6 * b6 + b1 * c6 - b4 * b6 * c6 - b3 * b7 * c6 + 2 * b5 * b6 * b7 * c6 - b2 * c6 * c6 + b4 * b7 * c6 * c6 - b5 * b7 * b7 * c6 * c6;
 
-    double e0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10;
-    double f0, f1, f2, f3, f4, f5, f6, f7, f8, f9;
-    e0 = -(a6 * c0) + a8 * b6 * c0 + c0 * c1 + b0 * c3 - b7 * c0 * c3 - b6 * c0 * c4 - b0 * b6 * c5 +
-         2 * b6 * b7 * c0 * c5 + a0 * c6 - a8 * b0 * c6 - c0 * c2 * c6 + b7 * c0 * c4 * c6 - b7 * b7 * c0 * c5 * c6;
-    e1 = a0 - a8 * b0 - a7 * c0 + a8 * b7 * c0 - a6 * c1 + a8 * b6 * c1 + c1 * c1 + c0 * c2 +
-         b1 * c3 - b7 * c1 * c3 + b0 * c4 - b7 * c0 * c4 - b6 * c1 * c4 - b1 * b6 * c5 - b0 * b7 * c5 +
-         b7 * b7 * c0 * c5 + 2 * b6 * b7 * c1 * c5 + a1 * c6 - a8 * b1 * c6 - c1 * c2 * c6 + b7 * c1 * c4 * c6 -
-         b7 * b7 * c1 * c5 * c6;
-    e2 = a1 - a8 * b1 - a7 * c1 + a8 * b7 * c1 - a6 * c2 + a8 * b6 * c2 + 2 * c1 * c2 + b2 * c3 -
-         b7 * c2 * c3 + b1 * c4 - b7 * c1 * c4 - b6 * c2 * c4 - b2 * b6 * c5 - b1 * b7 * c5 + b7 * b7 * c1 * c5 +
-         2 * b6 * b7 * c2 * c5 + a2 * c6 - a8 * b2 * c6 - c2 * c2 * c6 + b7 * c2 * c4 * c6 - b7 * b7 * c2 * c5 * c6;
-    e3 = a2 - a8 * b2 - a7 * c2 + a8 * b7 * c2 + c2 * c2 + b2 * c4 - b7 * c2 * c4 - b2 * b7 * c5 +
-         b7 * b7 * c2 * c5;
-    e4 = -(a6 * c3) + b3 * c3 + a8 * b6 * c3 + c1 * c3 - b7 * c3 * c3 - b6 * c3 * c4 + b0 * c5 -
-         b3 * b6 * c5 + 2 * b6 * b7 * c3 * c5 + a3 * c6 - a8 * b3 * c6 - c2 * c3 * c6 + b7 * c3 * c4 * c6 -
-         b7 * b7 * c3 * c5 * c6;
-    e5 = a3 - a8 * b3 - a7 * c3 + b4 * c3 + a8 * b7 * c3 + c2 * c3 - a6 * c4 + b3 * c4 +
-         a8 * b6 * c4 + c1 * c4 - 2 * b7 * c3 * c4 - b6 * c4 * c4 + b1 * c5 - b4 * b6 * c5 - b3 * b7 * c5 +
-         b7 * b7 * c3 * c5 + 2 * b6 * b7 * c4 * c5 + a4 * c6 - a8 * b4 * c6 - c2 * c4 * c6 + b7 * c4 * c4 * c6 -
-         b7 * b7 * c4 * c5 * c6;
-    e6 = a4 - a8 * b4 - a7 * c4 + b4 * c4 + a8 * b7 * c4 + c2 * c4 - b7 * c4 * c4 + b2 * c5 -
-         b4 * b7 * c5 + b7 * b7 * c4 * c5;
-    e7 = b5 * c3 - a6 * c5 + b3 * c5 + a8 * b6 * c5 - b5 * b6 * c5 + c1 * c5 - b7 * c3 * c5 -
-         b6 * c4 * c5 + 2 * b6 * b7 * c5 * c5 + a5 * c6 - a8 * b5 * c6 - c2 * c5 * c6 + b7 * c4 * c5 * c6 -
-         b7 * b7 * c5 * c5 * c6;
-    e8 = a5 - a8 * b5 + b5 * c4 - a7 * c5 + b4 * c5 + a8 * b7 * c5 - b5 * b7 * c5 + c2 * c5 -
-         b7 * c4 * c5 + b7 * b7 * c5 * c5;
-    e9 = b5 * c5;
-    e10 = -c0 + b6 * c3 - b6 * b6 * c5 + c1 * c6 - b7 * c3 * c6 - b6 * c4 * c6 + 2 * b6 * b7 * c5 * c6 -
-          c2 * c6 * c6 + b7 * c4 * c6 * c6 - b7 * b7 * c5 * c6 * c6;
+    auto e0 = -(a6 * c0) + a8 * b6 * c0 + c0 * c1 + b0 * c3 - b7 * c0 * c3 - b6 * c0 * c4 - b0 * b6 * c5 +
+              2 * b6 * b7 * c0 * c5 + a0 * c6 - a8 * b0 * c6 - c0 * c2 * c6 + b7 * c0 * c4 * c6 - b7 * b7 * c0 * c5 * c6;
+    auto e1 = a0 - a8 * b0 - a7 * c0 + a8 * b7 * c0 - a6 * c1 + a8 * b6 * c1 + c1 * c1 + c0 * c2 +
+              b1 * c3 - b7 * c1 * c3 + b0 * c4 - b7 * c0 * c4 - b6 * c1 * c4 - b1 * b6 * c5 - b0 * b7 * c5 +
+              b7 * b7 * c0 * c5 + 2 * b6 * b7 * c1 * c5 + a1 * c6 - a8 * b1 * c6 - c1 * c2 * c6 + b7 * c1 * c4 * c6 -
+              b7 * b7 * c1 * c5 * c6;
+    auto e2 = a1 - a8 * b1 - a7 * c1 + a8 * b7 * c1 - a6 * c2 + a8 * b6 * c2 + 2 * c1 * c2 + b2 * c3 -
+              b7 * c2 * c3 + b1 * c4 - b7 * c1 * c4 - b6 * c2 * c4 - b2 * b6 * c5 - b1 * b7 * c5 + b7 * b7 * c1 * c5 +
+              2 * b6 * b7 * c2 * c5 + a2 * c6 - a8 * b2 * c6 - c2 * c2 * c6 + b7 * c2 * c4 * c6 - b7 * b7 * c2 * c5 * c6;
+    auto e3 = a2 - a8 * b2 - a7 * c2 + a8 * b7 * c2 + c2 * c2 + b2 * c4 - b7 * c2 * c4 - b2 * b7 * c5 +
+              b7 * b7 * c2 * c5;
+    auto e4 = -(a6 * c3) + b3 * c3 + a8 * b6 * c3 + c1 * c3 - b7 * c3 * c3 - b6 * c3 * c4 + b0 * c5 -
+              b3 * b6 * c5 + 2 * b6 * b7 * c3 * c5 + a3 * c6 - a8 * b3 * c6 - c2 * c3 * c6 + b7 * c3 * c4 * c6 -
+              b7 * b7 * c3 * c5 * c6;
+    auto e5 = a3 - a8 * b3 - a7 * c3 + b4 * c3 + a8 * b7 * c3 + c2 * c3 - a6 * c4 + b3 * c4 +
+              a8 * b6 * c4 + c1 * c4 - 2 * b7 * c3 * c4 - b6 * c4 * c4 + b1 * c5 - b4 * b6 * c5 - b3 * b7 * c5 +
+              b7 * b7 * c3 * c5 + 2 * b6 * b7 * c4 * c5 + a4 * c6 - a8 * b4 * c6 - c2 * c4 * c6 + b7 * c4 * c4 * c6 -
+              b7 * b7 * c4 * c5 * c6;
+    auto e6 = a4 - a8 * b4 - a7 * c4 + b4 * c4 + a8 * b7 * c4 + c2 * c4 - b7 * c4 * c4 + b2 * c5 -
+              b4 * b7 * c5 + b7 * b7 * c4 * c5;
+    auto e7 = b5 * c3 - a6 * c5 + b3 * c5 + a8 * b6 * c5 - b5 * b6 * c5 + c1 * c5 - b7 * c3 * c5 -
+              b6 * c4 * c5 + 2 * b6 * b7 * c5 * c5 + a5 * c6 - a8 * b5 * c6 - c2 * c5 * c6 + b7 * c4 * c5 * c6 -
+              b7 * b7 * c5 * c5 * c6;
+    auto e8 = a5 - a8 * b5 + b5 * c4 - a7 * c5 + b4 * c5 + a8 * b7 * c5 - b5 * b7 * c5 + c2 * c5 -
+              b7 * c4 * c5 + b7 * b7 * c5 * c5;
+    auto e9 = b5 * c5;
+    auto e10 = -c0 + b6 * c3 - b6 * b6 * c5 + c1 * c6 - b7 * c3 * c6 - b6 * c4 * c6 + 2 * b6 * b7 * c5 * c6 -
+               c2 * c6 * c6 + b7 * c4 * c6 * c6 - b7 * b7 * c5 * c6 * c6;
     /*cout<<d0<<"\t"<<d1<<"\t"<<d2<<"\t"<<d3<<"\t"<<d4<<"\t"<<
     d5<<"\t"<<d6<<"\t"<<d7<<"\t"<<d8<<"\t"<<d9<<"\t"<<d10<<endl;
     cout<<e0<<"\t"<<e1<<"\t"<<e2<<"\t"<<e3<<"\t"<<e4<<"\t"<<
@@ -896,59 +893,57 @@ int solve_1(double a0, double a1, double a2, double a3, double a4, double a5, do
     d6 = d6 / d10; d7 = d7 / d10; d8 = d8 / d10; d9 = d9 / d10;
     e0 = e0 / e10; e1 = e1 / e10; e2 = e2 / e10; e3 = e3 / e10; e4 = e4 / e10; e5 = e5 / e10;
     e6 = e6 / e10; e7 = e7 / e10; e8 = e8 / e10; e9 = e9 / e10;
-    f0 = d0 - e0; f1 = d1 - e1; f2 = d2 - e2; f3 = d3 - e3; f4 = d4 - e4; f5 = d5 - e5; f6 = d6 - e6; f7 = d7 - e7;
-    f8 = d8 - e8; f9 = d9 - e9;
+    auto f0 = d0 - e0; auto f1 = d1 - e1; auto f2 = d2 - e2; auto f3 = d3 - e3; auto f4 = d4 - e4; auto f5 = d5 - e5; auto f6 = d6 - e6; auto f7 = d7 - e7;
+    auto f8 = d8 - e8; auto f9 = d9 - e9;
     f0 = f0 / f9; f1 = f1 / f9; f2 = f2 / f9; f3 = f3 / f9; f4 = f4 / f9; f5 = f5 / f9; f6 = f6 / f9; f7 = f7 / f9; f8 = f8 / f9;
 
-    double g0, g1, g2, g3, g4, g5, g6, g7, g8, g9;
-    double h0, h1, h2, h3, h4, h5, h6, h7, h8;
-    g0 = -(b6 * c0) + b0 * c6;
-    g1 = b0 - b7 * c0 - b6 * c1 + b1 * c6;
-    g2 = b1 - b7 * c1 - b6 * c2 + b2 * c6;
-    g3 = b2 - b7 * c2;
-    g4 = -c0 - b6 * c3 + b3 * c6;
-    g5 = b3 - c1 - b7 * c3 - b6 * c4 + b4 * c6;
-    g6 = b4 - c2 - b7 * c4;
-    g7 = -c3 - b6 * c5 + b5 * c6;
-    g8 = b5 - c4 - b7 * c5;
-    g9 = -c5;
+    auto g0 = -(b6 * c0) + b0 * c6;
+    auto g1 = b0 - b7 * c0 - b6 * c1 + b1 * c6;
+    auto g2 = b1 - b7 * c1 - b6 * c2 + b2 * c6;
+    auto g3 = b2 - b7 * c2;
+    auto g4 = -c0 - b6 * c3 + b3 * c6;
+    auto g5 = b3 - c1 - b7 * c3 - b6 * c4 + b4 * c6;
+    auto g6 = b4 - c2 - b7 * c4;
+    auto g7 = -c3 - b6 * c5 + b5 * c6;
+    auto g8 = b5 - c4 - b7 * c5;
+    auto g9 = -c5;
     //cout<<g0<<"\t"<<g1<<"\t"<<g2<<"\t"<<g3<<"\t"<<g4<<"\t"<<g5<<"\t"<<g6<<"\t"<<g7<<"\t"<<g8<<"\t"<<g9<<endl;
     g0 = g0 / g9; g1 = g1 / g9; g2 = g2 / g9; g3 = g3 / g9; g4 = g4 / g9; g5 = g5 / g9; g6 = g6 / g9; g7 = g7 / g9; g8 = g8 / g9;
-    h0 = f0 - g0; h1 = f1 - g1; h2 = f2 - g2; h3 = f3 - g3; h4 = f4 - g4; h5 = f5 - g5; h6 = f6 - g6; h7 = f7 - g7; h8 = f8 - g8;
+    auto h0 = f0 - g0; auto h1 = f1 - g1; auto h2 = f2 - g2; auto h3 = f3 - g3; auto h4 = f4 - g4; auto h5 = f5 - g5; auto h6 = f6 - g6; auto h7 = f7 - g7; auto h8 = f8 - g8;
     h0 = h0 / h8; h1 = h1 / h8; h2 = h2 / h8; h3 = h3 / h8; h4 = h4 / h8; h5 = h5 / h8; h6 = h6 / h8; h7 = h7 / h8;
-    int nsols = solve_2_2(f0, f1, f2, f3, f4, f5, f6, f7, f8, h0, h1, h2, h3, h4, h5, h6, h7, solutions);
-    for (int i = 0; i < nsols; i++) {
-        double x = solutions[i * 3 + 0];
-        double y = solutions[i * 3 + 1];
-        double z = (-(a6 * c0) + a8 * b6 * c0 + c0 * c1 + b0 * c3 - b7 * c0 * c3 - b6 * c0 * c4 - b0 * b6 * c5 +
-                    2 * b6 * b7 * c0 * c5 + a0 * c6 - a8 * b0 * c6 - c0 * c2 * c6 + b7 * c0 * c4 * c6 - b7 * b7 * c0 * c5 * c6 +
-                    a0 * x - a8 * b0 * x - a7 * c0 * x + a8 * b7 * c0 * x - a6 * c1 * x + a8 * b6 * c1 * x + c1 * c1 * x +
-                    c0 * c2 * x + b1 * c3 * x - b7 * c1 * c3 * x + b0 * c4 * x - b7 * c0 * c4 * x - b6 * c1 * c4 * x -
-                    b1 * b6 * c5 * x - b0 * b7 * c5 * x + b7 * b7 * c0 * c5 * x + 2 * b6 * b7 * c1 * c5 * x + a1 * c6 * x -
-                    a8 * b1 * c6 * x - c1 * c2 * c6 * x + b7 * c1 * c4 * c6 * x - b7 * b7 * c1 * c5 * c6 * x + a1 * x * x -
-                    a8 * b1 * x * x - a7 * c1 * x * x + a8 * b7 * c1 * x * x - a6 * c2 * x * x + a8 * b6 * c2 * x * x +
-                    2 * c1 * c2 * x * x + b2 * c3 * x * x - b7 * c2 * c3 * x * x + b1 * c4 * x * x - b7 * c1 * c4 * x * x -
-                    b6 * c2 * c4 * x * x - b2 * b6 * c5 * x * x - b1 * b7 * c5 * x * x + b7 * b7 * c1 * c5 * x * x +
-                    2 * b6 * b7 * c2 * c5 * x * x + a2 * c6 * x * x - a8 * b2 * c6 * x * x - c2 * c2 * c6 * x * x +
-                    b7 * c2 * c4 * c6 * x * x - b7 * b7 * c2 * c5 * c6 * x * x + a2 * x * x * x - a8 * b2 * x * x * x - a7 * c2 * x * x * x +
-                    a8 * b7 * c2 * x * x * x + c2 * c2 * x * x * x + b2 * c4 * x * x * x - b7 * c2 * c4 * x * x * x - b2 * b7 * c5 * x * x * x +
-                    b7 * b7 * c2 * c5 * x * x * x - a6 * c3 * y + b3 * c3 * y + a8 * b6 * c3 * y + c1 * c3 * y - b7 * c3 * c3 * y -
-                    b6 * c3 * c4 * y + b0 * c5 * y - b3 * b6 * c5 * y + 2 * b6 * b7 * c3 * c5 * y + a3 * c6 * y -
-                    a8 * b3 * c6 * y - c2 * c3 * c6 * y + b7 * c3 * c4 * c6 * y - b7 * b7 * c3 * c5 * c6 * y + a3 * x * y -
-                    a8 * b3 * x * y - a7 * c3 * x * y + b4 * c3 * x * y + a8 * b7 * c3 * x * y + c2 * c3 * x * y - a6 * c4 * x * y +
-                    b3 * c4 * x * y + a8 * b6 * c4 * x * y + c1 * c4 * x * y - 2 * b7 * c3 * c4 * x * y - b6 * c4 * c4 * x * y +
-                    b1 * c5 * x * y - b4 * b6 * c5 * x * y - b3 * b7 * c5 * x * y + b7 * b7 * c3 * c5 * x * y +
-                    2 * b6 * b7 * c4 * c5 * x * y + a4 * c6 * x * y - a8 * b4 * c6 * x * y - c2 * c4 * c6 * x * y +
-                    b7 * c4 * c4 * c6 * x * y - b7 * b7 * c4 * c5 * c6 * x * y + a4 * x * x * y - a8 * b4 * x * x * y - a7 * c4 * x * x * y +
-                    b4 * c4 * x * x * y + a8 * b7 * c4 * x * x * y + c2 * c4 * x * x * y - b7 * c4 * c4 * x * x * y + b2 * c5 * x * x * y -
-                    b4 * b7 * c5 * x * x * y + b7 * b7 * c4 * c5 * x * x * y + b5 * c3 * y * y - a6 * c5 * y * y + b3 * c5 * y * y +
-                    a8 * b6 * c5 * y * y - b5 * b6 * c5 * y * y + c1 * c5 * y * y - b7 * c3 * c5 * y * y - b6 * c4 * c5 * y * y +
-                    2 * b6 * b7 * c5 * c5 * y * y + a5 * c6 * y * y - a8 * b5 * c6 * y * y - c2 * c5 * c6 * y * y +
-                    b7 * c4 * c5 * c6 * y * y - b7 * b7 * c5 * c5 * c6 * y * y + a5 * x * y * y - a8 * b5 * x * y * y + b5 * c4 * x * y * y -
-                    a7 * c5 * x * y * y + b4 * c5 * x * y * y + a8 * b7 * c5 * x * y * y - b5 * b7 * c5 * x * y * y + c2 * c5 * x * y * y -
-                    b7 * c4 * c5 * x * y * y + b7 * b7 * c5 * c5 * x * y * y + b5 * c5 * y * y * y) /
-                   (c0 - b6 * c3 + b6 * b6 * c5 - c1 * c6 + b7 * c3 * c6 + b6 * c4 * c6 - 2 * b6 * b7 * c5 * c6 +
-                    c2 * c6 * c6 - b7 * c4 * c6 * c6 + b7 * b7 * c5 * c6 * c6);
+    auto nsols = solve_2_2(f0, f1, f2, f3, f4, f5, f6, f7, f8, h0, h1, h2, h3, h4, h5, h6, h7, solutions);
+    for (auto i = 0; i < nsols; i++) {
+        auto x = solutions[i * 3 + 0];
+        auto y = solutions[i * 3 + 1];
+        auto z = (-(a6 * c0) + a8 * b6 * c0 + c0 * c1 + b0 * c3 - b7 * c0 * c3 - b6 * c0 * c4 - b0 * b6 * c5 +
+                  2 * b6 * b7 * c0 * c5 + a0 * c6 - a8 * b0 * c6 - c0 * c2 * c6 + b7 * c0 * c4 * c6 - b7 * b7 * c0 * c5 * c6 +
+                  a0 * x - a8 * b0 * x - a7 * c0 * x + a8 * b7 * c0 * x - a6 * c1 * x + a8 * b6 * c1 * x + c1 * c1 * x +
+                  c0 * c2 * x + b1 * c3 * x - b7 * c1 * c3 * x + b0 * c4 * x - b7 * c0 * c4 * x - b6 * c1 * c4 * x -
+                  b1 * b6 * c5 * x - b0 * b7 * c5 * x + b7 * b7 * c0 * c5 * x + 2 * b6 * b7 * c1 * c5 * x + a1 * c6 * x -
+                  a8 * b1 * c6 * x - c1 * c2 * c6 * x + b7 * c1 * c4 * c6 * x - b7 * b7 * c1 * c5 * c6 * x + a1 * x * x -
+                  a8 * b1 * x * x - a7 * c1 * x * x + a8 * b7 * c1 * x * x - a6 * c2 * x * x + a8 * b6 * c2 * x * x +
+                  2 * c1 * c2 * x * x + b2 * c3 * x * x - b7 * c2 * c3 * x * x + b1 * c4 * x * x - b7 * c1 * c4 * x * x -
+                  b6 * c2 * c4 * x * x - b2 * b6 * c5 * x * x - b1 * b7 * c5 * x * x + b7 * b7 * c1 * c5 * x * x +
+                  2 * b6 * b7 * c2 * c5 * x * x + a2 * c6 * x * x - a8 * b2 * c6 * x * x - c2 * c2 * c6 * x * x +
+                  b7 * c2 * c4 * c6 * x * x - b7 * b7 * c2 * c5 * c6 * x * x + a2 * x * x * x - a8 * b2 * x * x * x - a7 * c2 * x * x * x +
+                  a8 * b7 * c2 * x * x * x + c2 * c2 * x * x * x + b2 * c4 * x * x * x - b7 * c2 * c4 * x * x * x - b2 * b7 * c5 * x * x * x +
+                  b7 * b7 * c2 * c5 * x * x * x - a6 * c3 * y + b3 * c3 * y + a8 * b6 * c3 * y + c1 * c3 * y - b7 * c3 * c3 * y -
+                  b6 * c3 * c4 * y + b0 * c5 * y - b3 * b6 * c5 * y + 2 * b6 * b7 * c3 * c5 * y + a3 * c6 * y -
+                  a8 * b3 * c6 * y - c2 * c3 * c6 * y + b7 * c3 * c4 * c6 * y - b7 * b7 * c3 * c5 * c6 * y + a3 * x * y -
+                  a8 * b3 * x * y - a7 * c3 * x * y + b4 * c3 * x * y + a8 * b7 * c3 * x * y + c2 * c3 * x * y - a6 * c4 * x * y +
+                  b3 * c4 * x * y + a8 * b6 * c4 * x * y + c1 * c4 * x * y - 2 * b7 * c3 * c4 * x * y - b6 * c4 * c4 * x * y +
+                  b1 * c5 * x * y - b4 * b6 * c5 * x * y - b3 * b7 * c5 * x * y + b7 * b7 * c3 * c5 * x * y +
+                  2 * b6 * b7 * c4 * c5 * x * y + a4 * c6 * x * y - a8 * b4 * c6 * x * y - c2 * c4 * c6 * x * y +
+                  b7 * c4 * c4 * c6 * x * y - b7 * b7 * c4 * c5 * c6 * x * y + a4 * x * x * y - a8 * b4 * x * x * y - a7 * c4 * x * x * y +
+                  b4 * c4 * x * x * y + a8 * b7 * c4 * x * x * y + c2 * c4 * x * x * y - b7 * c4 * c4 * x * x * y + b2 * c5 * x * x * y -
+                  b4 * b7 * c5 * x * x * y + b7 * b7 * c4 * c5 * x * x * y + b5 * c3 * y * y - a6 * c5 * y * y + b3 * c5 * y * y +
+                  a8 * b6 * c5 * y * y - b5 * b6 * c5 * y * y + c1 * c5 * y * y - b7 * c3 * c5 * y * y - b6 * c4 * c5 * y * y +
+                  2 * b6 * b7 * c5 * c5 * y * y + a5 * c6 * y * y - a8 * b5 * c6 * y * y - c2 * c5 * c6 * y * y +
+                  b7 * c4 * c5 * c6 * y * y - b7 * b7 * c5 * c5 * c6 * y * y + a5 * x * y * y - a8 * b5 * x * y * y + b5 * c4 * x * y * y -
+                  a7 * c5 * x * y * y + b4 * c5 * x * y * y + a8 * b7 * c5 * x * y * y - b5 * b7 * c5 * x * y * y + c2 * c5 * x * y * y -
+                  b7 * c4 * c5 * x * y * y + b7 * b7 * c5 * c5 * x * y * y + b5 * c5 * y * y * y) /
+                 (c0 - b6 * c3 + b6 * b6 * c5 - c1 * c6 + b7 * c3 * c6 + b6 * c4 * c6 - 2 * b6 * b7 * c5 * c6 +
+                  c2 * c6 * c6 - b7 * c4 * c6 * c6 + b7 * b7 * c5 * c6 * c6);
         solutions[i * 3 + 2] = z;
     }
     return nsols;
@@ -956,25 +951,22 @@ int solve_1(double a0, double a1, double a2, double a3, double a4, double a5, do
 
 int solve3quad(double* coeff, double* solutions)
 {
-    double a0, a1, a2, a3, a4, a5, a6, a7, a8, a9;
-    double b0, b1, b2, b3, b4, b5, b6, b7, b8, b9;
-    double c0, c1, c2, c3, c4, c5, c6, c7, c8, c9;
     double solutions1[36];
     int i;
-    a9 = coeff[9];
+    auto a9 = coeff[9];
     //cout<<"a9= "<<a9<<endl;
-    a0 = coeff[0] / a9; a1 = coeff[1] / a9; a2 = coeff[2] / a9; a3 = coeff[3] / a9; a4 = coeff[4] / a9;
-    a5 = coeff[5] / a9; a6 = coeff[6] / a9; a7 = coeff[7] / a9; a8 = coeff[8] / a9; a9 = 1.;
+    auto a0 = coeff[0] / a9; auto a1 = coeff[1] / a9; auto a2 = coeff[2] / a9; auto a3 = coeff[3] / a9; auto a4 = coeff[4] / a9;
+    auto a5 = coeff[5] / a9; auto a6 = coeff[6] / a9; auto a7 = coeff[7] / a9; auto a8 = coeff[8] / a9; a9 = 1.;
     i = 10;
-    b9 = coeff[19];
+    auto b9 = coeff[19];
     //cout<<"b9= "<<b9<<endl;
-    b0 = coeff[i + 0] / b9; b1 = coeff[i + 1] / b9; b2 = coeff[i + 2] / b9; b3 = coeff[i + 3] / b9; b4 = coeff[i + 4] / b9;
-    b5 = coeff[i + 5] / b9; b6 = coeff[i + 6] / b9; b7 = coeff[i + 7] / b9; b8 = coeff[i + 8] / b9; b9 = 1.;
+    auto b0 = coeff[i + 0] / b9; auto b1 = coeff[i + 1] / b9; auto b2 = coeff[i + 2] / b9; auto b3 = coeff[i + 3] / b9; auto b4 = coeff[i + 4] / b9;
+    auto b5 = coeff[i + 5] / b9; auto b6 = coeff[i + 6] / b9; auto b7 = coeff[i + 7] / b9; auto b8 = coeff[i + 8] / b9; b9 = 1.;
     i = 20;
-    c9 = coeff[29];
+    auto c9 = coeff[29];
     //cout<<"c9= "<<c9<<endl;
-    c0 = coeff[i + 0] / c9; c1 = coeff[i + 1] / c9; c2 = coeff[i + 2] / c9; c3 = coeff[i + 3] / c9; c4 = coeff[i + 4] / c9;
-    c5 = coeff[i + 5] / c9; c6 = coeff[i + 6] / c9; c7 = coeff[i + 7] / c9; c8 = coeff[i + 8] / c9; c9 = 1.;
+    auto c0 = coeff[i + 0] / c9; auto c1 = coeff[i + 1] / c9; auto c2 = coeff[i + 2] / c9; auto c3 = coeff[i + 3] / c9; auto c4 = coeff[i + 4] / c9;
+    auto c5 = coeff[i + 5] / c9; auto c6 = coeff[i + 6] / c9; auto c7 = coeff[i + 7] / c9; auto c8 = coeff[i + 8] / c9; c9 = 1.;
     /*if(debug==1)
     {
         cout<<a0<<"\t"<<a1<<"\t"<<a2<<"\t"<<a3<<"\t"<<a4<<"\t"<<
@@ -987,31 +979,25 @@ int solve3quad(double* coeff, double* solutions)
         cout<<c0<<"\t"<<c1<<"\t"<<c2<<"\t"<<c3<<"\t"<<c4<<"\t"<<
     c5<<"\t"<<c6<<"\t"<<c7<<"\t"<<c8<<endl;
     }*/
-    double d0, d1, d2, d3, d4, d5, d6, d7, d8;
-    d0 = a0 - b0; d1 = a1 - b1; d2 = a2 - b2; d3 = a3 - b3;
-    d4 = a4 - b4; d5 = a5 - b5; d6 = a6 - b6; d7 = a7 - b7; d8 = a8 - b8;
+    auto d0 = a0 - b0; auto d1 = a1 - b1; auto d2 = a2 - b2; auto d3 = a3 - b3;
+    auto d4 = a4 - b4; auto d5 = a5 - b5; auto d6 = a6 - b6; auto d7 = a7 - b7; auto d8 = a8 - b8;
     d0 = d0 / d8; d1 = d1 / d8; d2 = d2 / d8; d3 = d3 / d8; d4 = d4 / d8; d5 = d5 / d8; d6 = d6 / d8; d7 = d7 / d8;
-    double e0, e1, e2, e3, e4, e5, e6, e7, e8;
-    e0 = c0 - b0; e1 = c1 - b1; e2 = c2 - b2; e3 = c3 - b3;
-    e4 = c4 - b4; e5 = c5 - b5; e6 = c6 - b6; e7 = c7 - b7; e8 = c8 - b8;
+    auto e0 = c0 - b0; auto e1 = c1 - b1; auto e2 = c2 - b2; auto e3 = c3 - b3;
+    auto e4 = c4 - b4; auto e5 = c5 - b5; auto e6 = c6 - b6; auto e7 = c7 - b7; auto e8 = c8 - b8;
     e0 = e0 / e8; e1 = e1 / e8; e2 = e2 / e8; e3 = e3 / e8; e4 = e4 / e8; e5 = e5 / e8; e6 = e6 / e8; e7 = e7 / e8;
-    double f0, f1, f2, f3, f4, f5, f6, f7;
-    f0 = d0 - e0; f1 = d1 - e1; f2 = d2 - e2; f3 = d3 - e3; f4 = d4 - e4; f5 = d5 - e5; f6 = d6 - e6; f7 = d7 - e7;
+    auto f0 = d0 - e0; auto f1 = d1 - e1; auto f2 = d2 - e2; auto f3 = d3 - e3; auto f4 = d4 - e4; auto f5 = d5 - e5; auto f6 = d6 - e6; auto f7 = d7 - e7;
     f0 = f0 / f7; f1 = f1 / f7; f2 = f2 / f7; f3 = f3 / f7; f4 = f4 / f7; f5 = f5 / f7; f6 = f6 / f7;
-    int nsols = solve_1(a0, a1, a2, a3, a4, a5, a6, a7, a8, d0, d1, d2, d3, d4, d5, d6, d7, f0, f1, f2, f3, f4, f5, f6, solutions1);
-    int isol = 0;
-    double ratio;
-    for (int i = 0; i < nsols; i++) {
-        double x, y, z;
-        x = solutions1[i * 3 + 0];
-        y = solutions1[i * 3 + 1];
-        z = solutions1[i * 3 + 2];
-        double q1, q2, q3;
+    auto nsols = solve_1(a0, a1, a2, a3, a4, a5, a6, a7, a8, d0, d1, d2, d3, d4, d5, d6, d7, f0, f1, f2, f3, f4, f5, f6, solutions1);
+    auto isol = 0;
+    for (auto i = 0; i < nsols; i++) {
+        auto x = solutions1[i * 3 + 0];
+        auto y = solutions1[i * 3 + 1];
+        auto z = solutions1[i * 3 + 2];
         //if(debug==1) cout<<"solutions "<<i<<endl;
-        q1 = a0 + a1 * x + a2 * x * x + a3 * y + a4 * y * x + a5 * y * y + a6 * z + a7 * z * x + a8 * z * y + a9 * z * z;
-        q2 = b0 + b1 * x + b2 * x * x + b3 * y + b4 * y * x + b5 * y * y + b6 * z + b7 * z * x + b8 * z * y + b9 * z * z;
-        q3 = c0 + c1 * x + c2 * x * x + c3 * y + c4 * y * x + c5 * y * y + c6 * z + c7 * z * x + c8 * z * y + c9 * z * z;
-        ratio = (q1 * q1 + q2 * q2 + q3 * q3) / ((z * z + x * x + y * y) * (z * z + x * x + y * y));
+        auto q1 = a0 + a1 * x + a2 * x * x + a3 * y + a4 * y * x + a5 * y * y + a6 * z + a7 * z * x + a8 * z * y + a9 * z * z;
+        auto q2 = b0 + b1 * x + b2 * x * x + b3 * y + b4 * y * x + b5 * y * y + b6 * z + b7 * z * x + b8 * z * y + b9 * z * z;
+        auto q3 = c0 + c1 * x + c2 * x * x + c3 * y + c4 * y * x + c5 * y * y + c6 * z + c7 * z * x + c8 * z * y + c9 * z * z;
+        auto ratio = (q1 * q1 + q2 * q2 + q3 * q3) / ((z * z + x * x + y * y) * (z * z + x * x + y * y));
         /*if(debug==1)
         {
              cout<<"step 0 "<<endl;
@@ -1020,10 +1006,7 @@ int solve3quad(double* coeff, double* solutions)
              cout<<"quadratic 3: "<<q3<<endl;
              cout<<"x,y,z= "<<x<<"  "<<y<<"  "<<z<<endl;
         }*/
-        for (int ii = 0; ii < 20; ii++) {
-
-
-
+        for (auto ii = 0; ii < 20; ii++) {
             TMatrixD jacob(3, 3);
             jacob(0, 0) = a1 + 2 * a2 * x + a4 * y + a7 * z;
             jacob(0, 1) = a3 + a4 * x + 2 * a5 * y + a8 * z;
@@ -1061,12 +1044,8 @@ int solve3quad(double* coeff, double* solutions)
                cout<<"x,y,z= "<<x<<"  "<<y<<"  "<<z<<endl;
             }*/
             //if(debug==1) cout<<"ratio= "<<ratio<<endl;
-            if (ratio < 1e-24) {
-                break;
-            }
-            if (ratio > 0.1) {
-                break;
-            }
+            if (ratio < 1e-24) break;
+            if (ratio > 0.1) break;
         }
 
         //if(std::abs(q1)<10&&std::abs(q2)<10&&std::abs(q3)<10)
@@ -1075,7 +1054,7 @@ int solve3quad(double* coeff, double* solutions)
             solutions[isol * 3 + 1] = y;
             solutions[isol * 3 + 2] = z;
 //             double temp;
-            int ok = 1;
+            auto ok = 1;
             //cout<<"passed x,y,z= "<<x<<"  "<<y<<"  "<<z<<endl;
 //             double x0, y0, z0;
 //             x0 = solutions1[i * 3 + 0];
@@ -1083,14 +1062,12 @@ int solve3quad(double* coeff, double* solutions)
 //             z0 = solutions1[i * 3 + 2];
             //for(int itemp=0;itemp<nsols;itemp++)
             //if(itemp!=i) if(std::abs(x-solutions1[itemp*3+0])+std::abs(y-solutions1[itemp*3+1])+std::abs(z-solutions1[itemp*3+2])<std::abs(x-x0)+std::abs(y-y0)+std::abs(z-z0)) ok=0;
-            for (int itemp = 0; itemp < isol; itemp++)
+            for (auto itemp = 0; itemp < isol; itemp++)
                 if (std::abs(x - solutions[itemp * 3 + 0]) + std::abs(y - solutions[itemp * 3 + 1]) + std::abs(z - solutions[itemp * 3 + 2]) < 0.1) {
                     ok = 0;
                 }
             //cout<<"q1,q2,q3= "<<q1<<"  "<<q2<<"  "<<q3<<endl;
-            if (ok == 1) {
-                isol++;
-            }
+            if (ok == 1) isol++;
         }
     }
     return isol;

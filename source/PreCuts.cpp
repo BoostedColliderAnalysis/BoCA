@@ -1,8 +1,8 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "PreCuts.hh"
-#include "DetectorGeometry.hh"
+#include "boca/PreCuts.hh"
+#include "boca/DetectorGeometry.hh"
 
 namespace boca
 {

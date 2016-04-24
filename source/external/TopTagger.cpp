@@ -1,5 +1,5 @@
-#include "external/TopTagger.hh"
-#include "ClusterSequence.hh"
+#include "boca/external/TopTagger.hh"
+#include "boca/fastjet/ClusterSequence.hh"
 
 namespace hep
 {
@@ -33,10 +33,10 @@ double TopTagger::r_max_3jets(fastjet::PseudoJet const& jet1, fastjet::PseudoJet
     jet13 = jet1 + jet3;
     jet23 = jet2 + jet3;
 
-    double a = sqrt(jet1.squared_distance(jet2));
-    double b = sqrt(jet2.squared_distance(jet3));
-    double c = sqrt(jet3.squared_distance(jet1));
-    double dR1 = a, dR2 = a;
+    auto a = sqrt(jet1.squared_distance(jet2));
+    auto b = sqrt(jet2.squared_distance(jet3));
+    auto c = sqrt(jet3.squared_distance(jet1));
+    auto dR1 = a, dR2 = a;
 
     if (a <= b && a <= c) {
         dR1 = a;
@@ -57,7 +57,7 @@ double TopTagger::check_cos_theta(fastjet::PseudoJet const& jet, fastjet::Pseudo
 {
     // the two jets of interest: top and lower-pt prong of W
     fastjet::PseudoJet W2;
-    fastjet::PseudoJet top = jet;
+    auto top = jet;
 
     if (subj1.perp2() < subj2.perp2()) {
         W2 = subj1;
@@ -69,7 +69,7 @@ double TopTagger::check_cos_theta(fastjet::PseudoJet const& jet, fastjet::Pseudo
     W2.unboost(subj1 + subj2);
     top.unboost(subj1 + subj2);
 
-    double csthet = (W2.px() * top.px() + W2.py() * top.py() + W2.pz() * top.pz()) / sqrt(W2.modp2() * top.modp2());
+    auto csthet = (W2.px() * top.px() + W2.py() * top.py() + W2.pz() * top.pz()) / sqrt(W2.modp2() * top.modp2());
     return (csthet);
 }
 
@@ -92,13 +92,13 @@ void TopTagger::FindHardSubst(fastjet::PseudoJet const& this_jet, std::vector<fa
 void TopTagger::store_topsubjets(std::vector<fastjet::PseudoJet> const& top_subs)
 {
     _top_subjets.resize(0);
-    double m12 = (top_subs[0] + top_subs[1]).m();
-    double m13 = (top_subs[0] + top_subs[2]).m();
-    double m23 = (top_subs[1] + top_subs[2]).m();
+    auto m12 = (top_subs[0] + top_subs[1]).m();
+    auto m13 = (top_subs[0] + top_subs[2]).m();
+    auto m23 = (top_subs[1] + top_subs[2]).m();
 //     double m123 = (top_subs[0] + top_subs[1] + top_subs[2]).m();
-    double dm12 = std::abs(m12 - _mwmass);
-    double dm13 = std::abs(m13 - _mwmass);
-    double dm23 = std::abs(m23 - _mwmass);
+    auto dm12 = std::abs(m12 - _mwmass);
+    auto dm13 = std::abs(m13 - _mwmass);
+    auto dm23 = std::abs(m23 - _mwmass);
     //double dm_min=std::min(dm12,std::min(dm13,dm23));
     if (dm23 <= dm12 && dm23 <= dm13) {
         _top_subjets.push_back(top_subs[0]); //supposed to be b
@@ -118,11 +118,11 @@ void TopTagger::store_topsubjets(std::vector<fastjet::PseudoJet> const& top_subs
 
 bool TopTagger::check_mass_criteria(std::vector<fastjet::PseudoJet> const& top_subs) const
 {
-    bool is_passed = false;
-    double m12 = (top_subs[0] + top_subs[1]).m();
-    double m13 = (top_subs[0] + top_subs[2]).m();
-    double m23 = (top_subs[1] + top_subs[2]).m();
-    double m123 = (top_subs[0] + top_subs[1] + top_subs[2]).m();
+    auto is_passed = false;
+    auto m12 = (top_subs[0] + top_subs[1]).m();
+    auto m13 = (top_subs[0] + top_subs[2]).m();
+    auto m23 = (top_subs[1] + top_subs[2]).m();
+    auto m123 = (top_subs[0] + top_subs[1] + top_subs[2]).m();
     if (
         (atan(m13 / m12) > _m13cutmin && _m13cutmax > atan(m13 / m12)
          && (m23 / m123 > _rmin && _rmax > m23 / m123))
@@ -186,31 +186,31 @@ void TopTagger::run_tagger()
     if (_top_parts.size() < 3) return;
 
     for (unsigned rr = 0; rr < _top_parts.size(); rr++) {
-        for (unsigned ll = rr + 1; ll < _top_parts.size(); ll++) {
-            for (unsigned kk = ll + 1; kk < _top_parts.size(); kk++) {
+        for (auto ll = rr + 1; ll < _top_parts.size(); ll++) {
+            for (auto kk = ll + 1; kk < _top_parts.size(); kk++) {
                 // define top_constituents candidate before filtering
-                std::vector<fastjet::PseudoJet> top_constits = _cs->constituents(_top_parts[rr]);
+                auto top_constits = _cs->constituents(_top_parts[rr]);
                 _cs->add_constituents(_top_parts[ll], top_constits);
                 _cs->add_constituents(_top_parts[kk], top_constits);
 
                 // define Filtering: filt_top_R and jetdefinition
-                double filt_top_R
+                auto filt_top_R
                     = std::min(0.3, 0.5 * sqrt(std::min(_top_parts[kk].squared_distance(_top_parts[ll]),
                                                         std::min(_top_parts[rr].squared_distance(_top_parts[ll]),
                                                                 _top_parts[kk].squared_distance(_top_parts[rr])))));
                 fastjet::JetDefinition filtering_def(_jet_algorithm, filt_top_R);
-                std::vector<fastjet::PseudoJet> top_constits_filtered = Filtering(top_constits, filtering_def);
-                fastjet::PseudoJet topcandidate = Sum(top_constits_filtered);
+                auto top_constits_filtered = Filtering(top_constits, filtering_def);
+                auto topcandidate = Sum(top_constits_filtered);
                 if (topcandidate.m() < _mtmin || _mtmax < topcandidate.m()) continue;
                 _top_count++;
                 // obtain 3 subjets
                 fastjet::JetDefinition reclustering(_jet_algorithm_recluster, 3.14 / 2);
                 boca::ClusterSequence cssubtop(top_constits_filtered, reclustering);
-                std::vector<fastjet::PseudoJet> top_subs = sorted_by_pt(PseudoJetVector(cssubtop.ExclusiveJets(3)));
+                auto top_subs = sorted_by_pt(PseudoJetVector(cssubtop.ExclusiveJets(3)));
                 _candjets.push_back(top_subs); //
 
                 // transfer infos of the positively identified top to the outer world
-                double deltatop = std::abs(topcandidate.m() - _mtmass);
+                auto deltatop = std::abs(topcandidate.m() - _mtmass);
                 if (deltatop < _delta_top) {
                     _delta_top = deltatop;
                     _is_maybe_top = true;
@@ -232,7 +232,7 @@ std::vector<fastjet::PseudoJet> TopTagger::Filtering(std::vector<fastjet::Pseudo
     fastjet::ClusterSequence cstopfilt(top_constits, filtering_def);
 
     // extract top subjets
-    std::vector<fastjet::PseudoJet> filt_top_subjets = sorted_by_pt(cstopfilt.inclusive_jets());
+    auto filt_top_subjets = sorted_by_pt(cstopfilt.inclusive_jets());
 
     // take first n_topfilt subjets
     std::vector<fastjet::PseudoJet> top_constits_filtered;

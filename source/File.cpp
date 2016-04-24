@@ -4,16 +4,16 @@
 #include "TFile.h"
 #include "TTree.h"
 
-#include "generic/Types.hh"
-#include "generic/Vector.hh"
-#include "File.hh"
+#include "boca/generic/Types.hh"
+#include "boca/generic/Vector.hh"
+#include "boca/File.hh"
 // #define INFORMATION
-#include "generic/DEBUG.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {
 
-File::File(std::vector<std::string> const& processes, std::string const& base_path, std::string const& file_suffix, std::string const& nice_name, boca::Crosssection crosssection, boca::Mass mass)
+  File::File(std::vector<std::string> const& processes, std::string const& base_path, std::string const& file_suffix, std::string const& nice_name, boca::Crosssection const& crosssection, boca::Mass const& mass)
 {
     INFO0;
     process_folders_ = processes;
@@ -24,7 +24,7 @@ File::File(std::vector<std::string> const& processes, std::string const& base_pa
     mass_ = mass;
 }
 
-File::File(std::vector<std::string> const& processes, std::string const& base_path, std::string const& file_suffix, boca::Names const& nice_name, boca::Crosssection crosssection, boca::Mass mass)
+File::File(std::vector<std::string> const& processes, std::string const& base_path, std::string const& file_suffix, boca::Names const& nice_name, boca::Crosssection const& crosssection, boca::Mass const& mass)
 {
     INFO0;
     process_folders_ = processes;

@@ -4,15 +4,15 @@
 
 #include <sys/stat.h>
 
-#include "plotting/Style.hh"
-#include "plotting/Profile.hh"
-#include "plotting/Font.hh"
+#include "boca/plotting/Style.hh"
+#include "boca/plotting/Profile.hh"
+#include "boca/plotting/Font.hh"
 
-#include "Colors.hh"
-#include "generic/Types.hh"
+#include "boca/Colors.hh"
+#include "boca/generic/Types.hh"
 
 // #define INFORMATION
-#include "generic/DEBUG.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {
@@ -64,7 +64,7 @@ void Profile::SetDimensions(std::string const& name, int bins, Rectangle<double>
     INFO(name);
 
     rectangle_ = range;
-    SetLog(range);
+    SetLog(range.Vertical());
     if (canvas().GetLogx()) rectangle_.Horizontal().Log();
     if (canvas().GetLogy()) rectangle_.Vertical().Log();
     SetDimensions(bins, bins, rectangle_);

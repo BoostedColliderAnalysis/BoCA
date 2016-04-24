@@ -1,10 +1,10 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "generic/Types.hh"
-#include "physics/Member.hh"
-#include "physics/Particles.hh"
-#include "generic/DEBUG.hh"
+#include "boca/generic/Types.hh"
+#include "boca/physics/Member.hh"
+#include "boca/physics/Particles.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

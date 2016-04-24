@@ -3,27 +3,27 @@
  */
 
 #include <boost/math/constants/constants.hpp>
-#include "physics/Si.hh"
-#include "math/Math.hh"
-#include "physics/Prefixes.hh"
-#include "generic/DEBUG.hh"
+#include "boca/physics/Si.hh"
+#include "boca/math/Math.hh"
+#include "boca/physics/Prefixes.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {
 
-double to_double(Length length)
+double to_double(Length const& length)
 {
-    return (length / mm);
+    return length / mm;
 }
 
 Length to_length(double length)
 {
-    return double(length) * mm;
+    return length * mm;
 }
 
-double to_double(Angle angle)
+double to_double(Angle const& angle)
 {
-    return (angle / rad);
+    return angle / rad;
 }
 
 Angle to_angle(double angle)

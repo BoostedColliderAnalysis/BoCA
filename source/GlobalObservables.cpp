@@ -4,11 +4,11 @@
 #include <boost/range/numeric.hpp>
 #include <boost/range/algorithm/count_if.hpp>
 
-#include "GlobalObservables.hh"
-#include "Event.hh"
-#include "multiplets/Sort.hh"
-#include "generic/Vector.hh"
-#include "generic/DEBUG.hh"
+#include "boca/GlobalObservables.hh"
+#include "boca/Event.hh"
+#include "boca/multiplets/Sort.hh"
+#include "boca/generic/Vector.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {
@@ -70,7 +70,7 @@ Momentum GlobalObservables::ScalarHt() const
 Momentum GlobalObservables::LeptonHt() const
 {
     INFO0;
-    return boost::accumulate(leptons_, 0_eV, [](Momentum ht, boca::Jet const & lepton) {
+    return boost::accumulate(leptons_, 0_eV, [](Momentum const& ht, boca::Jet const & lepton) {
         return ht + lepton.Pt();
     });
 }
@@ -78,7 +78,7 @@ Momentum GlobalObservables::LeptonHt() const
 Momentum GlobalObservables::JetHt() const
 {
     INFO0;
-    return boost::accumulate(jets_, 0_eV, [](Momentum ht, boca::Jet const & jet) {
+    return boost::accumulate(jets_, 0_eV, [](Momentum const& ht, boca::Jet const & jet) {
         return ht + jet.Pt();
     });
 }
@@ -109,12 +109,12 @@ void GlobalObservables::SetLeptons(std::vector<Lepton> const& leptons)
 
 Momentum GlobalObservables::JetPt(std::size_t number) const
 {
-    return jets_.size() > number ? jets_.at(number).Pt() : AtRest();
+    return jets_.size() > number ? jets_.at(number).Pt() : at_rest;
 }
 
 Momentum GlobalObservables::LeptonPt(std::size_t number) const
 {
-    return leptons_.size() > number ? leptons_.at(number).Pt() : AtRest();
+    return leptons_.size() > number ? leptons_.at(number).Pt() : at_rest;
 }
 
 Momentum GlobalObservables::Ht() const

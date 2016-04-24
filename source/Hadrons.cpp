@@ -1,9 +1,9 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "Hadrons.hh"
-#include "generic/Types.hh"
-#include "generic/DEBUG.hh"
+#include "boca/Hadrons.hh"
+#include "boca/generic/Types.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {
@@ -33,7 +33,7 @@ Hadrons::Hadrons(boca::TreeReader const& tree_reader) :
 Momentum Hadrons::ScalarHt() const
 {
     ERROR("No Scalar Ht");
-    return AtRest();
+    return at_rest;
 }
 
 boca::MissingEt Hadrons::MissingEt() const

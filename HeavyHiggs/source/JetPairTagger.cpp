@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "JetPairTagger.hh"
-#include "HeavyHiggsSemiTagger.hh"
-#include "Event.hh"
-#include "multiplets/Sort.hh"
-#include "multiplets/Particles.hh"
-#include "generic/DEBUG.hh"
+#include "boca/JetPairTagger.hh"
+#include "boca/HeavyHiggsSemiTagger.hh"
+#include "boca/Event.hh"
+#include "boca/multiplets/Sort.hh"
+#include "boca/multiplets/Particles.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {
@@ -65,9 +65,9 @@ namespace heavyhiggs
 std::vector<Particle>JetPairTagger::PairBottomQuarks(Event const& event, Tag tag) const
 {
     if (tag == Tag::background) return std::vector<Particle> {};
-    std::vector<Particle> particles = event.Partons().GenParticles();
-    std::vector<Particle> bottom_not_from_even = RemoveIfGrandFamily(particles, Id::bottom, Id::heavy_higgs);
-    std::vector<Particle> bottom_not_from_higgs = RemoveIfGrandFamily(bottom_not_from_even, Id::bottom, Id::CP_odd_higgs);
+    auto particles = event.Partons().GenParticles();
+    auto bottom_not_from_even = RemoveIfGrandFamily(particles, Id::bottom, Id::heavy_higgs);
+    auto bottom_not_from_higgs = RemoveIfGrandFamily(bottom_not_from_even, Id::bottom, Id::CP_odd_higgs);
     return bottom_not_from_higgs;
 }
 
@@ -99,9 +99,9 @@ bool JetPairTagger::CheckIfBadBottom(boca::Doublet const& doublet, std::vector<P
 std::vector<Particle> JetPairTagger::HiggsParticle(Event const& event, Tag tag) const
 {
     if (tag == Tag::background) return std::vector<Particle> {};
-    std::vector<Particle> particles = event.Partons().GenParticles();
-    std::vector<Particle> even = CopyIfFamily(particles, Id::heavy_higgs, Id::gluon);
-    std::vector<Particle> odd = CopyIfFamily(particles, Id::CP_odd_higgs, Id::gluon);
+    auto particles = event.Partons().GenParticles();
+    auto even = CopyIfFamily(particles, Id::heavy_higgs, Id::gluon);
+    auto odd = CopyIfFamily(particles, Id::CP_odd_higgs, Id::gluon);
     return Combine(even, odd);
 }
 
@@ -114,13 +114,13 @@ std::string JetPairTagger::Name() const
 int JetPairTagger::Train(const Event& event, const PreCuts&, Tag tag)
 {
     INFO0;
-    std::vector<Jet> jets = bottom_reader_.Multiplets(event);
+    auto jets = bottom_reader_.Multiplets(event);
     if (jets.size() < 2) return 0;
     DEBUG(jets.size());
-    std::vector<Particle> higgs = HeavyHiggsSemiTagger::HiggsParticle(event, tag);
-    std::vector<Jet> bottom_jets = TruthJetPair(event, jets, tag);
+    auto higgs = HeavyHiggsSemiTagger::HiggsParticle(event, tag);
+    auto bottom_jets = TruthJetPair(event, jets, tag);
 
-    std::vector<Particle> bottoms = PairBottomQuarks(event, tag);
+    auto bottoms = PairBottomQuarks(event, tag);
     std::vector<Doublet> doublets;
     for (auto jet1 = bottom_jets.begin(); jet1 != bottom_jets.end(); ++jet1)
         for (auto jet2 = jet1 + 1; jet2 != bottom_jets.end(); ++jet2) {
@@ -144,7 +144,7 @@ int JetPairTagger::Train(const Event& event, const PreCuts&, Tag tag)
 
 std::vector<Jet> JetPairTagger::TruthJetPair(Event const& event, std::vector<Jet>& jets, Tag tag) const
 {
-    std::vector<Particle> bottoms = PairBottomQuarks(event, tag);
+    auto bottoms = PairBottomQuarks(event, tag);
     std::vector<Jet> bottom_jets;
     switch (tag) {
     case Tag::signal :
@@ -164,7 +164,7 @@ std::vector<Jet> JetPairTagger::TruthJetPair(Event const& event, std::vector<Jet
 
 std::vector<Doublet> JetPairTagger::TruthDoubletPairs(Event const& event, std::vector<Doublet>& doublets, Tag tag) const
 {
-    std::vector<Particle> bottoms = PairBottomQuarks(event, tag);
+    auto bottoms = PairBottomQuarks(event, tag);
 
     std::vector<Doublet> final_doublets;
     for (const auto & doublet : doublets) try {
@@ -193,7 +193,7 @@ Doublet JetPairTagger::TruthDoubletPair(Doublet const& doublet, std::vector<Part
 
 std::vector<Doublet> JetPairTagger::Multiplets(const Event& event, const PreCuts&, TMVA::Reader const& reader)
 {
-    std::vector<Jet> jets = bottom_reader_.Multiplets(event);
+    auto jets = bottom_reader_.Multiplets(event);
     std::vector<Doublet>  doublets;
     for (auto jet_1 = jets.begin(); jet_1 != jets.end(); ++jet_1)
         for (auto jet_2 = jet_1 + 1; jet_2 != jets.end(); ++jet_2) {

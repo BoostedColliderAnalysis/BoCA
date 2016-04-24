@@ -1,6 +1,6 @@
-#include "generic/Types.hh"
-#include "math/Vector3.hh"
-#include "generic/DEBUG.hh"
+#include "boca/generic/Types.hh"
+#include "boca/math/Vector3.hh"
+#include "boca/generic/DEBUG.hh"
 namespace boca
 {
 std::string Name(Dim3 dimension)

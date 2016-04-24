@@ -1,6 +1,6 @@
-#include "math/Vector2.hh"
-#include "generic/Types.hh"
-#include "generic/DEBUG.hh"
+#include "boca/math/Vector2.hh"
+#include "boca/generic/Types.hh"
+#include "boca/generic/DEBUG.hh"
 namespace boca
 {
 std::string Name(Dim2 dimension)

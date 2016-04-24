@@ -1,8 +1,8 @@
-#include "generic/Exception.hh"
-#include "plotting/Font.hh"
-#include "HiggsPairTagger.hh"
+#include "boca/generic/Exception.hh"
+#include "boca/plotting/Font.hh"
+#include "boca/HiggsPairTagger.hh"
 // #define INFORMATION
-#include "generic/DEBUG.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {
@@ -31,12 +31,12 @@ std::vector<Quartet22> HiggsPairTagger::Multiplets(Event const& event, boca::Pre
 std::vector<std::pair<Particle, Particle>> HiggsPairTagger::Particles(Event const& event, Tag tag) const
 {
     auto higgs_pairs = UnorderedPairs(higgs_reader_.Particles(event), [&](Particle const & particle_1, Particle const & particle_2) {
-        Member part_1 = particle_1.Info().Family().Member(Relative::particle);
-        Member part_2 = particle_2.Info().Family().Member(Relative::particle);
-        Member mother_1 = particle_1.Info().Family().Member(Relative::mother);
-        Member mother_2 = particle_2.Info().Family().Member(Relative::mother);
-        Member step_mother_1 = particle_1.Info().Family().Member(Relative::step_mother);
-        Member step_mother_2 = particle_2.Info().Family().Member(Relative::step_mother);
+        auto part_1 = particle_1.Info().Family().Member(Relative::particle);
+        auto part_2 = particle_2.Info().Family().Member(Relative::particle);
+        auto mother_1 = particle_1.Info().Family().Member(Relative::mother);
+        auto mother_2 = particle_2.Info().Family().Member(Relative::mother);
+        auto step_mother_1 = particle_1.Info().Family().Member(Relative::step_mother);
+        auto step_mother_2 = particle_2.Info().Family().Member(Relative::step_mother);
         INFO(part_1.Position(), part_2.Position());
         INFO(mother_1.Position(), mother_2.Position(), step_mother_1.Position(), step_mother_2.Position());
 //         if (mother_1.Position() + step_mother_2.Position() != mother_2.Position() + step_mother_1.Position()) throw Overlap(); // FIXME this is fragile

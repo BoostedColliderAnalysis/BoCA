@@ -33,6 +33,7 @@ if(CCACHE_FOUND)
     message("CCache is not available.")
 endif(CCACHE_FOUND)
 
+# use gold linker if installed
 option(USE_LD_GOLD "Use GNU gold linker" ON)
 if (USE_LD_GOLD)
   execute_process(COMMAND ${CMAKE_CXX_COMPILER} -fuse-ld=gold -Wl,--version ERROR_QUIET OUTPUT_VARIABLE LD_VERSION)
@@ -44,15 +45,10 @@ if (USE_LD_GOLD)
   endif ()
 endif ()
 
-
 # FastJet
 include(CMakeFiles/Findfastjet.cmake)
 add_libraries(${fastjet_LIBRARIES})
-# add_libraries(fastjet)
 add_libraries(fastjettools)
-# add_libraries(fastjetplugins)
-# add_libraries(siscone)
-# add_libraries(siscone_spherical)
 add_libraries(Nsubjettiness)
 
 # ROOT
@@ -64,21 +60,15 @@ add_libraries("${ROOT_LIBRARIES}")
 add_libraries(TMVA)
 add_libraries(MathMore)
 
-# add_libraries(gmpxx)
-# add_libraries(gmp)
-# add_libraries(gsl)
-# add_libraries(gslcblas)
-
 # Doxygen
-set(DO_DOXYGEN 0)
-if(DO_DOXYGEN MATCHES 1)
+set(DO_DOXYGEN FALSE)
+if(DO_DOXYGEN MATCHES TRUE)
 include(CMakeFiles/UseDoxygen.cmake)
 endif()
 
 # Libraries
 add_subdirectory(source)
 
-add_subdirectory(StandardModel)
 # add_subdirectory(HiggsCpv)
 add_subdirectory(HeavyHiggs)
 add_subdirectory(TopPartner)

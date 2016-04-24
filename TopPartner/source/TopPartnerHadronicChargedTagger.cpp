@@ -1,4 +1,4 @@
-#include "TopPartnerHadronicChargedTagger.hh"
+#include "boca/TopPartnerHadronicChargedTagger.hh"
 
 namespace boca
 {

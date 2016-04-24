@@ -1,8 +1,8 @@
-#include "exroot/Leptons.hh"
+#include "boca/exroot/Leptons.hh"
 
-#include "exroot/Classes.hh"
-#include "generic/Types.hh"
-#include "generic/DEBUG.hh"
+#include "boca/exroot/Classes.hh"
+#include "boca/generic/Types.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {
@@ -17,7 +17,7 @@ std::vector<Lepton> Leptons::Electrons() const
 {
     INFO0;
     std::vector<Lepton> leptons;
-    for (auto const electron : TreeReader().Array<::exroot::Electron>(Branch::electron)) leptons.emplace_back(Lepton(electron));
+    for (auto const& electron : TreeReader().Array<::exroot::Electron>(Branch::electron)) leptons.emplace_back(Lepton(electron));
     return leptons;
 }
 

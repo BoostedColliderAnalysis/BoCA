@@ -1,7 +1,7 @@
-#include "EventFusionTagger.hh"
-#include "Event.hh"
-#include "multiplets/Particles.hh"
-#include "generic/DEBUG.hh"
+#include "boca/EventFusionTagger.hh"
+#include "boca/Event.hh"
+#include "boca/multiplets/Particles.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {
@@ -12,12 +12,12 @@ namespace heavyhiggs
 int EventFusionTagger::Train(Event const& event, PreCuts const& , Tag tag)
 {
     INFO0;
-    std::vector<Jet> jets = bottom_reader_.Jets(event);
-    std::vector<Lepton> leptons = event.Leptons().leptons();
-    std::vector<Sextet> sextets = heavy_higgs_semi_reader_.Multiplets(event);
-    std::vector<Particle> HiggsParticles = event.Partons().GenParticles();
-    std::vector<Particle> Even = CopyIfFamily(HiggsParticles, Id::heavy_higgs, Id::gluon);
-    std::vector<Particle> Odd = CopyIfFamily(HiggsParticles, Id::CP_odd_higgs, Id::gluon);
+    auto jets = bottom_reader_.Jets(event);
+    auto leptons = event.Leptons().leptons();
+    auto sextets = heavy_higgs_semi_reader_.Multiplets(event);
+    auto HiggsParticles = event.Partons().GenParticles();
+    auto Even = CopyIfFamily(HiggsParticles, Id::heavy_higgs, Id::gluon);
+    auto Odd = CopyIfFamily(HiggsParticles, Id::CP_odd_higgs, Id::gluon);
     HiggsParticles = Even;
     HiggsParticles.insert(HiggsParticles.end(), Odd.begin(), Odd.end());
     Particle HiggsBoson;
@@ -44,9 +44,9 @@ int EventFusionTagger::Train(Event const& event, PreCuts const& , Tag tag)
 std::vector<MultipletEvent<Sextet>> EventFusionTagger::Multiplets(Event const& event, PreCuts const& , TMVA::Reader const& reader)
 {
     INFO0;
-    std::vector<Sextet> sextets = heavy_higgs_semi_reader_.Multiplets(event);
-    std::vector<Jet> jets = bottom_reader_.Jets(event);
-    std::vector<Lepton> leptons = event.Leptons().leptons();
+    auto sextets = heavy_higgs_semi_reader_.Multiplets(event);
+    auto jets = bottom_reader_.Jets(event);
+    auto leptons = event.Leptons().leptons();
     std::vector<MultipletEvent<Sextet>> sextet_events;
     for (auto const & sextet : sextets) {
         MultipletEvent<Sextet> multiplet_event(sextet, event, jets);

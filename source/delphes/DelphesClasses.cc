@@ -27,10 +27,10 @@
  *
  */
 
-#include "delphes/DelphesClasses.h"
+#include "boca/delphes/DelphesClasses.h"
 
-#include "delphes/DelphesFactory.h"
-// #include "delphes/SortableObject.h"
+#include "boca/delphes/DelphesFactory.h"
+// #include "boca/delphes/SortableObject.h"
 
 // namespace delphes {
 
@@ -223,7 +223,7 @@ Bool_t Candidate::Overlaps(const Candidate *object) const
 
 TObject *Candidate::Clone(const char *newname) const
 {
-  Candidate *object = fFactory->NewCandidate();
+  auto object = fFactory->NewCandidate();
   Copy(*object);
   return object;
 }
@@ -324,7 +324,7 @@ void Candidate::Copy(TObject &obj) const
   if(fArray && fArray->GetEntriesFast() > 0)
   {
     TIter itArray(fArray);
-    TObjArray *array = object.GetCandidates();
+    auto array = object.GetCandidates();
     while((candidate = static_cast<Candidate *>(itArray.Next())))
     {
       array->Add(candidate);

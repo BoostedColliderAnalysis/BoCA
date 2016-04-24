@@ -1,4 +1,4 @@
-create_dictionary(BranchesHiggsCpv BranchesHiggsCpv.cpp ../include/LinkDefHiggsCpv.hh)
+create_dictionary(BranchesHiggsCpv BranchesHiggsCpv.cpp BranchesHiggsCpv.hh LinkDefHiggsCpv.hh)
 
 set(LibrarySources
 TopSemiPairTagger.cpp

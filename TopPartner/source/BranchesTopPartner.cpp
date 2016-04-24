@@ -1,9 +1,9 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "BranchesTopPartner.hh"
-#include "plotting/Font.hh"
-#include "OBSERVABLE.hh"
+#include "boca/BranchesTopPartner.hh"
+#include "boca/plotting/Font.hh"
+#include "boca/OBSERVABLE.hh"
 
 namespace boca
 {

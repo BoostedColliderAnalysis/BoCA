@@ -1,19 +1,19 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "TripletJetPairTagger.hh"
-#include "multiplets/Sort.hh"
-#include "Event.hh"
-#include "multiplets/Particles.hh"
-#include "generic/DEBUG.hh"
+#include "boca/TripletJetPairTagger.hh"
+#include "boca/multiplets/Sort.hh"
+#include "boca/Event.hh"
+#include "boca/multiplets/Particles.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca {
 
 int TripletJetPairTagger::Train(boca::Event const& event, boca::PreCuts const&, Tag tag)
 {
     INFO("W Tags");
-   std::vector<Jet> jets = bottom_reader_.Jets(event);
-    std::vector<Triplet> triplets = top_hadronic_reader_.Multiplets(event);
+   auto jets = bottom_reader_.Jets(event);
+    auto triplets = top_hadronic_reader_.Multiplets(event);
 //    std::vector<Jet> jets = GetJets(event);
     //     jets = bottom_tagger_.GetJetBdt(jets, BottomReader); // TODO reenable this
 //     std::vector<Doublet> doublets = WTagger.SaveBdt(jets, WReader);
@@ -39,7 +39,7 @@ int TripletJetPairTagger::Train(boca::Event const& event, boca::PreCuts const&, 
 //         triplets.erase(triplets.begin() + std::min(max_combi(), int(triplets.size())), triplets.end());
 //     }
 //     std::vector<Triplet> triplets = top_hadronic_tagger.SaveBdt(jets, TopHadronicReader);
-    std::vector<Particle> TopParticles = event.Partons().GenParticles();
+    auto TopParticles = event.Partons().GenParticles();
     TopParticles = CopyIfFamily(TopParticles, Id::top, Id::gluon);
     if (TopParticles.size() != 1 && tag == Tag::signal)
         ERROR("Where is the Top?", TopParticles.size());
@@ -56,7 +56,7 @@ int TripletJetPairTagger::Train(boca::Event const& event, boca::PreCuts const&, 
 //     std::sort(triplets.begin(), triplets.end(), MinDeltaR(TopParticles.front()));
 //     if (Tag == Tag::signal && triplets.size() > 1) triplets.erase(triplets.begin() + 1, triplets.end());
 //     if (Tag == HBackground && !triplets.empty()) triplets.erase(triplets.begin());
-std::vector<Particle> BottomParticles = event.Partons().GenParticles();
+auto BottomParticles = event.Partons().GenParticles();
     BottomParticles = CopyIfFamily(BottomParticles, Id::bottom, Id::gluon);
     if (BottomParticles.size() != 1 && tag == Tag::signal)
         ERROR("Where is the Bottom?", BottomParticles.size());
@@ -99,8 +99,8 @@ std::vector<Particle> BottomParticles = event.Partons().GenParticles();
 
 std::vector<Quartet31>  TripletJetPairTagger::Multiplets(Event const& event, boca::PreCuts const&, TMVA::Reader const& reader)
 {
-   std::vector<Jet> jets = bottom_reader_.Jets(event);
-    std::vector<Triplet> triplets = top_hadronic_reader_.Multiplets(event);
+   auto jets = bottom_reader_.Jets(event);
+    auto triplets = top_hadronic_reader_.Multiplets(event);
     std::vector<Quartet31>  quartets;
     for (auto const& triplet : triplets)
         for (auto const& Jet : jets)  {

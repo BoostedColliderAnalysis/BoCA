@@ -1,9 +1,9 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "Partons.hh"
-#include "generic/Types.hh"
-#include "generic/DEBUG.hh"
+#include "boca/Partons.hh"
+#include "boca/generic/Types.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

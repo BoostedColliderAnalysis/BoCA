@@ -2,10 +2,10 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 
-#include "external/Invisible2.hh"
-#include "multiplets/Quartet.hh"
-#include "WimpMass.hh"
-#include "generic/DEBUG.hh"
+#include "boca/external/Invisible2.hh"
+#include "boca/multiplets/Quartet.hh"
+#include "boca/WimpMass.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {
@@ -46,7 +46,7 @@ std::vector<boca::Sextet> WimpMass::Sextet(Quartet22 const& quartet, Jet const& 
             errors_1.emplace_back(Particle(neutrino + Particle(neutrino_1)).Mass());
             errors_2.emplace_back(Particle(neutrino + Particle(neutrino_2)).Mass());
         }
-        Mass error = std::numeric_limits<Mass>::max();
+        auto error = std::numeric_limits<Mass>::max();
         for (auto const & error_1 : errors_1)
             for (auto const & error_2 : errors_2) {
                 if (Position(errors_1, error_1) == Position(errors_2, error_2)) continue;

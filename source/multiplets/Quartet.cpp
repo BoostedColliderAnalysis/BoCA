@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "multiplets/Quartet.hh"
+#include "boca/multiplets/Quartet.hh"
 
 namespace boca {
 

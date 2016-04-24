@@ -1,10 +1,10 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "EventEffectiveTagger.hh"
-#include "plotting/Font.hh"
+#include "boca/EventEffectiveTagger.hh"
+#include "boca/plotting/Font.hh"
 // #define DEBUGGING
-#include "generic/DEBUG.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

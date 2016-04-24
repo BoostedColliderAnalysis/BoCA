@@ -2,7 +2,6 @@
 # Copyright (C) 2015-2016 Jan Hajer
 #
 set(multiplet_sources
-PseudoJet.cpp
 Jet.cpp
 Particle.cpp
 JetInfo.cpp

@@ -1,6 +1,6 @@
-#include "EventSingleLeptonicTagger.hh"
-#include "plotting/Font.hh"
-#include "generic/DEBUG.hh"
+#include "boca/EventSingleLeptonicTagger.hh"
+#include "boca/plotting/Font.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca {
 

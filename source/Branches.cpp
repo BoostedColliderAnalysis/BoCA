@@ -1,11 +1,11 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "plotting/Font.hh"
-#include "Branches.hh"
-#include "File.hh"
-#include "OBSERVABLE.hh"
-#include "generic/DEBUG.hh"
+#include "boca/plotting/Font.hh"
+#include "boca/Branches.hh"
+#include "boca/File.hh"
+#include "boca/OBSERVABLE.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {
@@ -67,11 +67,11 @@ std::string InfoBranch::LatexName() const
 {
     return names.LatexName();
 }
-void InfoBranch::SetCrosssection(boca::Crosssection crosssection_)
+void InfoBranch::SetCrosssection(boca::Crosssection const& crosssection_)
 {
     crosssection = crosssection_ / fb;
 }
-void InfoBranch::SetCrosssectionError(boca::Crosssection crosssection_error_)
+void InfoBranch::SetCrosssectionError(boca::Crosssection const& crosssection_error_)
 {
     crosssection_error = crosssection_error_ / fb;
 }
@@ -79,7 +79,7 @@ void InfoBranch::SetEventNumber(int event_number_)
 {
     event_number = event_number_;
 }
-void InfoBranch::SetMass(boca::Mass mass_)
+void InfoBranch::SetMass(boca::Mass const& mass_)
 {
     mass = mass_ / GeV;
 }

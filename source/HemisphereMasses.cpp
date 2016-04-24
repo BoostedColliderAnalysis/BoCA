@@ -1,5 +1,5 @@
 
-#include "HemisphereMasses.hh"
+#include "boca/HemisphereMasses.hh"
 namespace boca
 {
 void HemisphereMasses::SetMasses(const boca::Range< double >& masses)

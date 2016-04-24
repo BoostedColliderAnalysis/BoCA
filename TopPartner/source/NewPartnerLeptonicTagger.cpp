@@ -1,7 +1,7 @@
-#include "NewPartnerLeptonicTagger.hh"
-#include "multiplets/Particles.hh"
-#include "generic/Exception.hh"
-#include "generic/DEBUG.hh"
+#include "boca/NewPartnerLeptonicTagger.hh"
+#include "boca/multiplets/Particles.hh"
+#include "boca/generic/Exception.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {
@@ -37,18 +37,18 @@ std::vector<Quintet> NewPartnerLeptonicTagger::Multiplets(Event const& event, bo
 
 std::vector<Particle> NewPartnerLeptonicTagger::Particles(Event const& event) const
 {
-    std::vector<Particle> particles = event.Partons().GenParticles();
-    std::vector<Particle> leptons = CopyIfLepton(particles);
-    std::vector<Particle>candidate = CopyIfGreatGrandMother(leptons, Id::top_partner);
+    auto particles = event.Partons().GenParticles();
+    auto leptons = CopyIfLepton(particles);
+    auto candidate = CopyIfGreatGrandMother(leptons, Id::top_partner);
     if (!candidate.empty()) {
         CHECK(leptons.size() == 1, leptons.size());
-        int grand_grand_mother = candidate.front().Info().Family().Member(Relative::great_grand_mother).Id();
+        auto grand_grand_mother = candidate.front().Info().Family().Member(Relative::great_grand_mother).Id();
         return CopyIfExactParticle(particles, grand_grand_mother);
     } else { // this is necessary because madspin doesnt label relations correctly
         candidate = CopyIfGrandMother(leptons, Id::top_partner);
         candidate = CopyIfMother(candidate, Id::W);
         if (candidate.empty()) return {};
-        int grand_mother = candidate.front().Info().Family().Member(Relative::grand_mother).Id();
+        auto grand_mother = candidate.front().Info().Family().Member(Relative::grand_mother).Id();
         return CopyIfExactParticle(particles, grand_mother);
     }
 }

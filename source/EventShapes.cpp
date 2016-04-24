@@ -12,12 +12,12 @@
 //
 
 #include <boost/range/numeric.hpp>
-#include "EventShapes.hh"
-#include "generic/Vector.hh"
-#include "generic/Exception.hh"
+#include "boca/EventShapes.hh"
+#include "boca/generic/Vector.hh"
+#include "boca/generic/Exception.hh"
 // #define INFORMATION
-#include "generic/DEBUG.hh"
-#include "multiplets/Sort.hh"
+#include "boca/generic/DEBUG.hh"
+#include "boca/multiplets/Sort.hh"
 
 namespace boca
 {
@@ -245,8 +245,8 @@ double EventShapes::AEEC(std::vector<double>& hi, double& coschi) const
 {
     INFO0;
     if (coschi > 0. && coschi <= 1.) {
-        int i = static_cast<int>(floor((-coschi + 1.) / 2 * hi.size()));
-        int j = static_cast<int>(floor((coschi + 1.) / 2 * hi.size()));
+        auto i = static_cast<int>(floor((-coschi + 1.) / 2 * hi.size()));
+        auto j = static_cast<int>(floor((coschi + 1.) / 2 * hi.size()));
         return hi[i] - hi[j];
     } else return 1e99;
 }

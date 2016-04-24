@@ -26,8 +26,8 @@
  *
  */
 
-#include "delphes/DelphesFactory.h"
-#include "delphes/DelphesClasses.h"
+#include "boca/delphes/DelphesFactory.h"
+#include "boca/delphes/DelphesClasses.h"
 
 
 #include "TClass.h"
@@ -81,7 +81,7 @@ void DelphesFactory::Clear()
 
 TObjArray *DelphesFactory::NewPermanentArray()
 {
-  TObjArray *array = static_cast<TObjArray *>(fObjArrays->NewEntry());
+  auto array = static_cast<TObjArray *>(fObjArrays->NewEntry());
   fPool.insert(array);
   return array;
 }
@@ -90,7 +90,7 @@ TObjArray *DelphesFactory::NewPermanentArray()
 
 Candidate *DelphesFactory::NewCandidate()
 {
-  Candidate *object = New<Candidate>();
+  auto object = New<Candidate>();
   object->SetFactory(this);
   TProcessID::AssignID(object);
   return object;
@@ -102,7 +102,7 @@ TObject *DelphesFactory::New(TClass *cl)
 {
   TObject *object = 0;
   ExRootTreeBranch *branch = 0;
-  map<const TClass *, ExRootTreeBranch *>::iterator it = fBranches.find(cl);
+  auto it = fBranches.find(cl);
 
   if(it != fBranches.end())
   {

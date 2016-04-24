@@ -1,5 +1,5 @@
-#include "TopPartnerHadronicTagger.hh"
-#include "generic/DEBUG.hh"
+#include "boca/TopPartnerHadronicTagger.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

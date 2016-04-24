@@ -2,10 +2,10 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 
-#include "exroot/Classes.hh"
-#include "multiplets/Jet.hh"
-#include "generic/Vector.hh"
-#include "generic/DEBUG.hh"
+#include "boca/exroot/Classes.hh"
+#include "boca/multiplets/Jet.hh"
+#include "boca/generic/Vector.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {
@@ -32,7 +32,7 @@ Jet::Jet(double x, double y, double z, double e) :
     SetInfo();
 }
 
-Jet::Jet(Momentum x, Momentum y, Momentum z, boca::Energy e) :
+Jet::Jet(Momentum const& x, Momentum const& y, Momentum const& z, boca::Energy const& e) :
     PseudoJet(x / GeV, y / GeV, z / GeV, e / GeV)
 {
     SetInfo();

@@ -1,5 +1,5 @@
-#include "math/Matrix2.hh"
-#include "generic/DEBUG.hh"
+#include "boca/math/Matrix2.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

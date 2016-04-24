@@ -1,5 +1,5 @@
-#include "BranchesHiggsCpv.hh"
-#include "OBSERVABLE.hh"
+#include "boca/BranchesHiggsCpv.hh"
+#include "boca/OBSERVABLE.hh"
 
 namespace boca
 {

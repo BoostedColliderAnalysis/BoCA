@@ -1,7 +1,7 @@
-#include "HeavyHiggsSemiTagger.hh"
-#include "Event.hh"
-#include "multiplets/Particles.hh"
-#include "generic/DEBUG.hh"
+#include "boca/HeavyHiggsSemiTagger.hh"
+#include "boca/Event.hh"
+#include "boca/multiplets/Particles.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {
@@ -12,9 +12,9 @@ namespace heavyhiggs
 int HeavyHiggsSemiTagger::Train(Event const& event, PreCuts const&, Tag tag)
 {
     INFO0;
-    std::vector<Particle> higgs_boson = HiggsParticle(event, tag);
-    std::vector<Triplet> triplets_hadronic = FinalTriplet(event, tag, Decay::hadronic);
-    std::vector<Triplet> triplets_leptonic = FinalTriplet(event, tag, Decay::leptonic);
+    auto higgs_boson = HiggsParticle(event, tag);
+    auto triplets_hadronic = FinalTriplet(event, tag, Decay::hadronic);
+    auto triplets_leptonic = FinalTriplet(event, tag, Decay::leptonic);
     std::vector<Sextet> sextets;
     for (auto const & triplet_leptonic : triplets_leptonic)
         for (auto const & triplet_hadronic : triplets_hadronic) {
@@ -28,8 +28,8 @@ int HeavyHiggsSemiTagger::Train(Event const& event, PreCuts const&, Tag tag)
 
 std::vector<Sextet>  HeavyHiggsSemiTagger::Multiplets(Event const& event, PreCuts const&, TMVA::Reader const& reader)
 {
-    std::vector<Triplet> triplets_leptonic = top_leptonic_reader_.Multiplets(event);
-    std::vector<Triplet> triplets_hadronic = top_hadronic_reader_.Multiplets(event);
+    auto triplets_leptonic = top_leptonic_reader_.Multiplets(event);
+    auto triplets_hadronic = top_hadronic_reader_.Multiplets(event);
     std::vector<Sextet> sextets;
     for (auto const & triplet_leptonic : triplets_leptonic)
         for (auto const & triplet_hadronic : triplets_hadronic) {
@@ -62,9 +62,9 @@ std::vector<Triplet> HeavyHiggsSemiTagger::FinalTriplet(Event const& event, Tag 
 std::vector<Particle> HeavyHiggsSemiTagger::HiggsParticle(Event const& event, Tag tag)
 {
     if (tag == Tag::background) return std::vector<Particle> {};
-    std::vector<Particle> particles = event.Partons().GenParticles();
-    std::vector<Particle> even = CopyIfFamily(particles, Id::heavy_higgs, Id::gluon);
-    std::vector<Particle> odd = CopyIfFamily(particles, Id::CP_odd_higgs, Id::gluon);
+    auto particles = event.Partons().GenParticles();
+    auto even = CopyIfFamily(particles, Id::heavy_higgs, Id::gluon);
+    auto odd = CopyIfFamily(particles, Id::CP_odd_higgs, Id::gluon);
     return  Combine(even, odd);
 }
 

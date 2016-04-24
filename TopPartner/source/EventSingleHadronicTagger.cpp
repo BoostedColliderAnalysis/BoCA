@@ -1,10 +1,10 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "EventSingleHadronicTagger.hh"
-#include "plotting/Font.hh"
+#include "boca/EventSingleHadronicTagger.hh"
+#include "boca/plotting/Font.hh"
 // #define DEBUGGING
-#include "generic/DEBUG.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

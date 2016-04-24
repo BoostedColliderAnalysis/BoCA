@@ -1,4 +1,4 @@
-#include "external/QHTT.hh"
+#include "boca/external/QHTT.hh"
 
 namespace hep
 {
@@ -6,7 +6,7 @@ namespace hep
 QHTT::QHTT() : _niter(100),   _q_zcut(0.1), _q_dcut_fctr(0.5), _q_exp_min(0.), _q_exp_max(0.), _q_rigidity(0.1), _q_truncation_fctr(0.0)
 {};
 
-void QHTT::run(TopTagger2 htt)
+void QHTT::run(TopTagger2 const& htt)
 {
     htt.get_setting();
     _weight_q1 = -1.;
@@ -15,10 +15,10 @@ void QHTT::run(TopTagger2 htt)
     _m2_sum = 0.;
     _eps_q = 0.;
     _qtags = 0;
-    TopTagger2 _htt_q = htt;
+    auto _htt_q = htt;
     _htt_q.set_qjets(_q_zcut, _q_dcut_fctr, _q_exp_min, _q_exp_max, _q_rigidity, _q_truncation_fctr);
     _htt_q.do_qjets(true);
-    for (int iq = 0; iq < _niter; iq++) {
+    for (auto iq = 0; iq < _niter; iq++) {
         _htt_q.run();
         if (_htt_q.is_tagged()) {
             _qtags++;

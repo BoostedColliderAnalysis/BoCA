@@ -1,8 +1,8 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "plotting/LatexFile.hh"
-#include "generic/DEBUG.hh"
+#include "boca/plotting/LatexFile.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {
@@ -42,7 +42,7 @@ void LatexFile::operator<<(std::string const& string)
     latex_file_ << string;
 }
 
-void LatexFile::IncludeGraphic(std::string file_name, std::string caption)
+void LatexFile::IncludeGraphic(std::string const& file_name, std::string const& caption)
 {
     latex_file_ << "\n\\begin{figure}\n\\centering\n\\includegraphics[width=0.5\\textwidth]{{{../" + file_name + "}}}\n\\caption{" + caption + ".}\n\\end{figure}\n";
 //         return "\n\\begin{figure}\n\\centering\n\\scalebox{0.6}{\\input{" + file_name + "}}\n\\caption{" + caption + ".}\n\\end{figure}\n";
@@ -53,17 +53,17 @@ void LatexFile::IncludeGraphic(std::vector< std::string > const& file_names, std
     for (auto const & name : file_names) IncludeGraphic(name, caption);
 }
 
-void LatexFile::Table(std::string const& header, std::string const& content, std::string caption)
+void LatexFile::Table(std::string const& header, std::string const& content, std::string const& caption)
 {
     latex_file_ << "\n\\begin{table}\n\\centering\n\\begin{tabular}{" << header << "}\n    \\toprule\n";
     latex_file_ << content;
     latex_file_ << " \\bottomrule\n\\end{tabular}\n\\caption{" << caption << ".}\n\\end{table}\n";
 }
 
-void LatexFile::Mass(boca::Mass mass)
+void LatexFile::Mass(boca::Mass const& mass)
 {
     INFO0;
-    if (mass > Massless()) {
+    if (mass > massless) {
         std::stringstream mass_string;
         mass_string << boost::units::engineering_prefix << "\\section*{Mass = " << mass << "}\n";
         latex_file_ << mass_string.str();

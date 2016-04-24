@@ -5,12 +5,12 @@
 #include <boost/range/algorithm/max_element.hpp>
 #include <boost/math/constants/constants.hpp>
 
-#include "multiplets/Singlet.hh"
-#include "DetectorGeometry.hh"
-#include "generic/Vector.hh"
-#include "math/Math.hh"
-#include "physics/Range.hh"
-#include "generic/DEBUG.hh"
+#include "boca/multiplets/Singlet.hh"
+#include "boca/DetectorGeometry.hh"
+#include "boca/generic/Vector.hh"
+#include "boca/math/Math.hh"
+#include "boca/physics/Range.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {
@@ -47,7 +47,7 @@ double Singlet::Spread() const
     }) / Pt() / Radius()) : 0;
 }
 
-double Singlet::Log(Length length) const
+double Singlet::Log(Length const& length) const
 {
     INFO(length);
     return std::log10(length < nm ? DetectorGeometry::TrackerDistanceMin() / cm : length / mm);
@@ -66,7 +66,6 @@ Vector2<AngleSquare> Singlet::Pull() const
     });
 }
 
-
 Vector2<AngleSquare> Singlet::GetPull() const
 {
     if (Pt() <= 0_eV || !has_constituents()) return {};
@@ -78,7 +77,7 @@ Vector2<AngleSquare> Singlet::GetPull() const
 AngleSquareMomentum Singlet::Dipolarity(const Line2< Angle >& line) const
 {
     if (!has_constituents()) return 0;
-    return boost::accumulate(Constituents(), AtRest() * rad2, [&](AngleSquareMomentum & sum, boca::Jet const & constituent) {
+    return boost::accumulate(Constituents(), at_rest * rad2, [&](AngleSquareMomentum & sum, boca::Jet const & constituent) {
         return sum + constituent.Pt() * sqr(line.Distance(constituent));
     });
 }

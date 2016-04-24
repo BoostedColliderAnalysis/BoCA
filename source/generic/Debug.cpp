@@ -1,9 +1,9 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "multiplets/Jet.hh"
-#include "multiplets/Particle.hh"
-#include "generic/Debug.hh"
+#include "boca/multiplets/Jet.hh"
+#include "boca/multiplets/Particle.hh"
+#include "boca/generic/Debug.hh"
 
 namespace boca {
 
@@ -79,6 +79,11 @@ void LogVariable(std::string const& variable, Jet const& jet)
 void LogVariable(std::string const&, char const* value)
 {
     std::cout << Column(ValueLength(), value);
+}
+void Error(const std::__cxx11::string& variable)
+{
+    std::cout << "Error: " << variable << std::endl;
+    std::cout << "\n";
 }
 
 // std::stringstream Left(int width){

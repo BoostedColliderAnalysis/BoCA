@@ -1,6 +1,6 @@
-#include "GlobalTagger.hh"
-#include "Event.hh"
-#include "generic/DEBUG.hh"
+#include "boca/GlobalTagger.hh"
+#include "boca/Event.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

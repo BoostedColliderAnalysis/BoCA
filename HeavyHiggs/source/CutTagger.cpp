@@ -1,12 +1,12 @@
 #include "boost/range.hpp"
 #include <boost/range/algorithm/copy.hpp>
 #include <boost/range/adaptors.hpp>
-#include "math/Math.hh"
-#include "CutTagger.hh"
-#include "Event.hh"
-#include "multiplets/Particles.hh"
+#include "boca/math/Math.hh"
+#include "boca/CutTagger.hh"
+#include "boca/Event.hh"
+#include "boca/multiplets/Particles.hh"
 // #define DEBUGGING
-#include "generic/DEBUG.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {
@@ -49,7 +49,7 @@ int CutTagger::Train(Event const& event, PreCuts const&, Tag)
 {
     INFO0;
     std::vector<CutVariables> variables;
-    if (boost::optional<CutVariables> optional = CutMethod(event)) variables.emplace_back(*optional);
+    if (auto optional = CutMethod(event)) variables.emplace_back(*optional);
     return SaveEntries(variables);
 }
 
@@ -57,7 +57,7 @@ std::vector<CutVariables> CutTagger::Multiplets(Event const& event, PreCuts cons
 {
     INFO0;
     std::vector<CutVariables> variables;
-    if (boost::optional<CutVariables> optional = CutMethod(event)) variables.emplace_back(*optional);
+    if (auto optional = CutMethod(event)) variables.emplace_back(*optional);
     for (auto & variable : variables) variable.SetPassed(Cuts(variable, reader));
     return variables;
 }
@@ -67,8 +67,8 @@ boost::optional<CutVariables> CutTagger::CutMethod(Event const& event)
     INFO0;
     CutVariables variables;
 
-    std::vector<Particle> particles = event.Partons().GenParticles();
-    std::vector<Particle> bottom = SortedByPt(CopyIfParticle(particles, Id::bottom));
+    auto particles = event.Partons().GenParticles();
+    auto bottom = SortedByPt(CopyIfParticle(particles, Id::bottom));
     DEBUG(bottom.size());
     if (bottom.empty()) return boost::none;
 
@@ -77,9 +77,9 @@ boost::optional<CutVariables> CutTagger::CutMethod(Event const& event)
     bottom = SortedByRap(bottom);
     variables.SetBottomMaxRap(boost::units::abs(bottom.front().Rap()));
 
-    std::vector<Jet> jets = RemoveIfSoft(bottom_reader_.Jets(event), 40_GeV);
-    std::vector<Lepton> electrons = event.Leptons().Electrons();
-    std::vector<Lepton> muons = event.Leptons().Muons();
+    auto jets = RemoveIfSoft(bottom_reader_.Jets(event), 40_GeV);
+    auto electrons = event.Leptons().Electrons();
+    auto muons = event.Leptons().Muons();
 
     for (auto const & jet : jets) {
         electrons = IsolateLeptons(electrons, jet);
@@ -90,12 +90,12 @@ boost::optional<CutVariables> CutTagger::CutMethod(Event const& event)
     if (electrons.size() + muons.size() != 2) return boost::none;
     electrons = Window(electrons);
 
-    std::vector<Lepton> leptons = SortedByPt(RemoveIfSoft(Combine(electrons, muons), 15_GeV));
+    auto leptons = SortedByPt(RemoveIfSoft(Combine(electrons, muons), 15_GeV));
     DEBUG(electrons.size(), muons.size());
     if (electrons.size() + muons.size() != 2) return boost::none;
 
-    std::vector<Lepton> positive = Signed(leptons, 1);
-    std::vector<Lepton> negative = Signed(leptons, -1);
+    auto positive = Signed(leptons, 1);
+    auto negative = Signed(leptons, -1);
 
     DEBUG(positive.size(), negative.size());
     if (positive.size() != 2 && negative.size() != 2) return boost::none;
@@ -115,7 +115,7 @@ boost::optional<CutVariables> CutTagger::CutMethod(Event const& event)
     if (bottoms.size() < 4) return boost::none;
     variables.SetBottomNumber(bottoms.size());
 
-    MissingEt missing_et = event.Hadrons().MissingEt();
+    auto missing_et = event.Hadrons().MissingEt();
     DEBUG(missing_et.Pt());
     if (missing_et.Pt() < 30_GeV) return boost::none;
     variables.SetEtMiss(missing_et.Pt());

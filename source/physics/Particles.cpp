@@ -1,12 +1,13 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "boost/range/algorithm/min_element.hpp"
-#include "boost/range/algorithm/max_element.hpp"
-#include "physics/Particles.hh"
-#include "physics/Prefixes.hh"
-#include "generic/Types.hh"
-#include "generic/DEBUG.hh"
+#include <boost/range/algorithm/min_element.hpp>
+#include <boost/range/algorithm/max_element.hpp>
+
+#include "boca/physics/Particles.hh"
+#include "boca/physics/Prefixes.hh"
+#include "boca/generic/Types.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {
@@ -99,12 +100,12 @@ Mass MassOf(Id id)
     case Id::bottom : return 4.18_GeV;
     case Id::top : return 173.5_GeV;
     case Id::electron : return 0.000511_GeV;
-    case Id::electron_neutrino : return Massless();
+    case Id::electron_neutrino : return massless;
     case Id::muon : return 0.1134_GeV;
-    case Id::muon_neutrino : return Massless();
+    case Id::muon_neutrino : return massless;
     case Id::tau : return 1.776_GeV;
-    case Id::tau_neutrino : return Massless();
-    case Id::photon : return Massless();
+    case Id::tau_neutrino : return massless;
+    case Id::photon : return massless;
     case Id::Z : return 91.188_GeV;
     case Id::W : return 80.39_GeV;
     case Id::higgs : return 125._GeV;
@@ -117,7 +118,7 @@ Mass MassOf(Id id)
     case Id::proton : return 0.93827_GeV;
     case Id::top_partner: return 1_TeV; //< FIXME remove again
     case Id::CP_violating_higgs : return MassOf(Id::higgs);
-        DEFAULT(Name(id), Massless());
+        DEFAULT(Name(id), massless);
     }
 }
 std::string Name(MultiId multi_id)
@@ -136,8 +137,8 @@ std::string Name(MultiId multi_id)
 Mass MassOf(MultiId multi_id)
 {
     switch (multi_id) {
-    case MultiId::neutrino : return Massless();
-        DEFAULT(Name(multi_id), Massless());
+    case MultiId::neutrino : return massless;
+        DEFAULT(Name(multi_id), massless);
     }
 }
 
@@ -156,7 +157,7 @@ std::vector<Id> Resolve(MultiId multi_id)
 
 Id Lightest(MultiId multi_id)
 {
-    std::vector<Id> multi = Resolve(multi_id);
+    auto multi = Resolve(multi_id);
     return *boost::range::min_element(multi, [](Id id_1, Id id_2) {
         return MassOf(id_1) < MassOf(id_2);
     });
@@ -164,7 +165,7 @@ Id Lightest(MultiId multi_id)
 
 Id Heavyest(MultiId multi_id)
 {
-    std::vector<Id> multi = Resolve(multi_id);
+    auto multi = Resolve(multi_id);
     return *boost::range::max_element(multi, [](Id id_1, Id id_2) {
         return MassOf(id_1) < MassOf(id_2);
     });

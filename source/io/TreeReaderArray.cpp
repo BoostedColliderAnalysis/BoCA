@@ -1,7 +1,7 @@
 #include "TTreeReader.h"
-#include "io/TreeReaderArray.hh"
+#include "boca/io/TreeReaderArray.hh"
 // #define INFORMATION
-#include "generic/DEBUG.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {
@@ -33,7 +33,7 @@ bool TreeReaderArray::Iterator::operator!=(const TreeReaderArray::Iterator& iter
 TreeReaderArray::Iterator TreeReaderArray::Iterator::operator++(int)
 {
     // Post-increment (it++).
-    Iterator iterator = *this;
+    auto iterator = *this;
     this->operator++();
     return iterator;
 }

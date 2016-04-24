@@ -10,8 +10,8 @@
  *
  */
 
-// #include "ExRootAnalysis/ExRootClasses.h"
-#include "exroot/ExRootClasses.h"
+// #include "boca/ExRootAnalysis/ExRootClasses.h"
+#include "boca/exroot/ExRootClasses.h"
 
 TCompare *TRootLHEFParticle::fgCompare = 0;
 TCompare *TRootGenParticle::fgCompare = 0;

@@ -1,5 +1,5 @@
-#include "ChargedHiggsLeptonicTagger.hh"
-#include "generic/DEBUG.hh"
+#include "boca/ChargedHiggsLeptonicTagger.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca {
 
@@ -8,8 +8,8 @@ namespace heavyhiggs {
 int ChargedHiggsLeptonicTagger::Train(Event const& event, PreCuts const&, const Tag)
 {
     INFO0;
-   std::vector<Jet> jets = bottom_reader_.Jets(event);
-    std::vector<Triplet> triplets = top_leptonic_reader_.Multiplets(event);
+   auto jets = bottom_reader_.Jets(event);
+    auto triplets = top_leptonic_reader_.Multiplets(event);
     INFO(triplets.size());
     /*
         std::vector<Triplet> triplets;

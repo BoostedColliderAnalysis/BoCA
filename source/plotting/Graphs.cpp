@@ -5,10 +5,10 @@
 
 #include "TAxis.h"
 
-#include "plotting/Style.hh"
-#include "plotting/Graphs.hh"
+#include "boca/plotting/Style.hh"
+#include "boca/plotting/Graphs.hh"
 // #define INFORMATION
-#include "generic/DEBUG.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {
@@ -31,9 +31,9 @@ void Graphs::AddGraph(std::vector<double> const& xs, std::vector<double> const& 
 {
     INFO(xs.size(), ys.size(), name);
     CHECK(xs.size() == ys.size() && !xs.empty(), xs.size(), ys.size());
-    std::vector<double> xs2 = xs;
+    auto xs2 = xs;
     range_.WidenX(MinMax(boost::remove_erase(xs2, 0)));
-    std::vector<double> ys2 = ys;
+    auto ys2 = ys;
     range_.WidenY(MinMax(boost::remove_erase(ys2, 0)));
     TGraph graph(xs.size(), xs.data(), ys.data());
     SetLine(graph, graphs_.size());
@@ -94,10 +94,11 @@ void Graphs::SetYAxis(std::string const& title, boca::Range<double> const& range
     if (!multi_graph_.GetYaxis()) return;
     INFO("set title", range_.Vertical().Floor(), range_.Vertical().Ceil());
     SetAxis(*multi_graph_.GetYaxis(), title);
-    multi_graph_.GetYaxis()->SetLimits(range_.Vertical().Floor(), range_.Vertical().Ceil());
-    multi_graph_.SetMinimum(range_.Vertical().Floor());
+    auto log = SetLog(range_.Vertical());
+    auto min = log && range_.Vertical().Floor() == 0 ? range_.Vertical().Min() : range_.Vertical().Floor();
+    multi_graph_.GetYaxis()->SetLimits(min, range_.Vertical().Ceil());
+    multi_graph_.SetMinimum(min);
     multi_graph_.SetMaximum(range_.Vertical().Ceil());
-    SetLog(range_.Vertical());
 }
 
 Range<double> Graphs::RangeY()
@@ -130,7 +131,7 @@ void Graphs::AddLine(double x_value, std::string const& title)
     INFO(x_value);
 //     if (!RangeX().Inside(x_value)) return;
     if (x_value <= -1 ) return; // FIXME reenable proper check
-    Range<double> y = RangeY();
+    auto y = RangeY();
     TLine line(x_value, y.Min(), x_value, y.Max());
     SetLine(line, graphs_.size() + lines_.size());
     lines_.emplace_back(line, title);

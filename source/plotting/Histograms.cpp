@@ -3,10 +3,10 @@
  */
 #include "TAxis.h"
 
-#include "plotting/Style.hh"
-#include "plotting/Histograms.hh"
+#include "boca/plotting/Style.hh"
+#include "boca/plotting/Histograms.hh"
 // #define INFORMATION
-#include "generic/DEBUG.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {
@@ -42,8 +42,8 @@ void Histograms::AddHistogram(std::vector<double> const& values, std::string con
 {
     INFO(name);
     range_.WidenX(range);
-    double min = FloorToDigits(range.Min(), 1);
-    double max = CeilToDigits(range.Max(), 1);
+    auto min = FloorToDigits(range.Min(), 1);
+    auto max = CeilToDigits(range.Max(), 1);
     int bins = is_int ? max - min : 50;
     TH1F histogram(name.c_str(), "", bins, min , max);
     for (auto const & bdt : values) histogram.Fill(bdt);
@@ -130,10 +130,10 @@ void Histograms::AddHistograms()
 
 void Histograms::AddLine(double x_value, std::string const& title)
 {
-    INFO(title);
-    if (!RangeX().Inside(x_value)) return;
-    Range<double> y = RangeY();
-    TLine line(x_value, y.Min(), x_value, y.Max() * 1.05);
+    INFO(title, x_value);
+    if (!range_.Horizontal().Inside(x_value)) return;
+    auto y = RangeY();
+    TLine line(x_value, y.Min(), x_value, y.Max() * 0.8);
     SetLine(line, histograms_.size() + lines_.size() + 1);
     if (x_value != 0) line.Draw();
     if (!title.empty()) legend_.AddEntry(line, title);

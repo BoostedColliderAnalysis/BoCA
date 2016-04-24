@@ -1,14 +1,14 @@
 #include <boost/range/algorithm/min_element.hpp>
 #include <boost/range/algorithm_ext/erase.hpp>
 
-#include "physics/Barn.hh"
-#include "physics/Prefixes.hh"
-#include "generic/Vector.hh"
+#include "boca/physics/Barn.hh"
+#include "boca/physics/Prefixes.hh"
+#include "boca/generic/Vector.hh"
 
 namespace boca
 {
 
-double to_double(Crosssection crosssection)
+double to_double(Crosssection const& crosssection)
 {
     return crosssection / fb;
 }
@@ -18,7 +18,7 @@ Crosssection to_crosssection(double crosssection)
     return crosssection * fb;
 }
 
-double to_double(Luminosity luminosity)
+double to_double(Luminosity const& luminosity)
 {
     return luminosity * fb;
 }

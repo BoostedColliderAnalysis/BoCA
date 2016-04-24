@@ -1,5 +1,5 @@
 #include "TString.h"
-#include "generic/Options.hh"
+#include "boca/generic/Options.hh"
 
 namespace boca
 {

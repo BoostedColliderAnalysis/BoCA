@@ -1,9 +1,9 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "multiplets/Identification.hh"
-#include "Branches.hh"
-#include "generic/DEBUG.hh"
+#include "boca/multiplets/Identification.hh"
+#include "boca/Branches.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

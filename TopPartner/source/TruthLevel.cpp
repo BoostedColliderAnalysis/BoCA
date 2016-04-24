@@ -1,15 +1,15 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "../include/TruthLevel.hh"
+#include "boca/../boca/TruthLevel.hh"
 
-#include "Event.hh"
-#include "PreCuts.hh"
-#include "generic/Exception.hh"
-#include "physics/Particles.hh"
-#include "multiplets/Particles.hh"
+#include "boca/Event.hh"
+#include "boca/PreCuts.hh"
+#include "boca/generic/Exception.hh"
+#include "boca/physics/Particles.hh"
+#include "boca/multiplets/Particles.hh"
 // #define DEBUGGING
-#include "generic/DEBUG.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {
@@ -33,16 +33,16 @@ std::vector<TruthVariables> TruthLevel::Multiplets(Event const& event, PreCuts c
     });
 }
 
-std::vector<TruthVariables> TruthLevel::Jets(Event const& event, PreCuts const&, std::function<Particle(Particle&)>)const
+std::vector<TruthVariables> TruthLevel::Jets(Event const& event, PreCuts const&, std::function<Particle(Particle&)>const&)const
 {
     INFO0;
     TruthVariables truths;
-    std::vector<Particle> particles = event.Partons().GenParticles();
-    std::vector<Particle> bosons = CopyFirst(RemoveIfMother(CopyIfParticles(particles, Resolve(MultiId::bosons)),Id::higgs),6);
+    auto particles = event.Partons().GenParticles();
+    auto bosons = CopyFirst(RemoveIfMother(CopyIfParticles(particles, Resolve(MultiId::bosons)),Id::higgs),6);
     if(bosons.size() > 6) for (auto const & boson : bosons) {
-        Member particle = boson.Info().Family().Member(Relative::particle);
-        Member mother = boson.Info().Family().Member(Relative::mother);
-        Member step_mother = boson.Info().Family().Member(Relative::step_mother);
+        auto particle = boson.Info().Family().Member(Relative::particle);
+        auto mother = boson.Info().Family().Member(Relative::mother);
+        auto step_mother = boson.Info().Family().Member(Relative::step_mother);
         INFO(boca::Name(particle.Id()), boca::Name(mother.Id()), boca::Name(step_mother.Id()));
     }
     truths.SetLeptons(CopyIfGrandMother(CopyIfParticles(particles, Resolve(MultiId::charged_lepton)), Id::top));
@@ -51,7 +51,7 @@ std::vector<TruthVariables> TruthLevel::Jets(Event const& event, PreCuts const&,
     auto detectable = CopyIfDaughter(bosons, RemoveIfSoft(CopyIfQuark(particles), 40_GeV));
     std::vector<Particle> alone;
     for (auto const & particle_1 : detectable) {
-        bool overlap = false;
+        auto overlap = false;
         for (auto const & particle_2 : detectable) if (particle_1 != particle_2 && particle_1.DeltaRTo(particle_2) < 0.1_rad) overlap = true;
         if (!overlap) alone.emplace_back(particle_1);
     }

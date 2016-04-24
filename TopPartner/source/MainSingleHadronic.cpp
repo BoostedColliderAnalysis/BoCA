@@ -1,9 +1,9 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "AnalysisTopPartnerSingleHadronic.hh"
-#include "EventSingleHadronicTagger.hh"
-#include "CompleteSingleHadronicTagger.hh"
+#include "boca/AnalysisTopPartnerSingleHadronic.hh"
+#include "boca/EventSingleHadronicTagger.hh"
+#include "boca/CompleteSingleHadronicTagger.hh"
 
 template<typename Tagger>
 void Run(boca::Output output = boca::Output::normal)
@@ -25,8 +25,8 @@ int main()
     Run<boca::naturalness::TopPartnerLeptonicNeutralTagger>(boca::Output::efficiency);
     Run<boca::naturalness::VetoTopPartnerLeptonicTagger>(boca::Output::efficiency);
     Run<boca::naturalness::SignatureSingleHadronicTagger>(boca::Output::significance);
-    Run<boca::GlobalTagger>(boca::Output::significance | boca::Output::plot);
+    Run<boca::GlobalTagger>(boca::Output::significance);
     Run<boca::naturalness::EventSingleHadronicTagger>(boca::Output::significance);
-    Run<boca::naturalness::CompleteSingleHadronicTagger>(boca::Output::significance);
+//     Run<boca::naturalness::CompleteSingleHadronicTagger>(boca::Output::significance);
 }
 

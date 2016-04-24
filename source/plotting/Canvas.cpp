@@ -4,10 +4,10 @@
 #include "TPad.h"
 #include "TStyle.h"
 
-#include "plotting/Canvas.hh"
-#include "plotting/Font.hh"
+#include "boca/plotting/Canvas.hh"
+#include "boca/plotting/Font.hh"
 // #define INFORMATION
-#include "generic/DEBUG.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

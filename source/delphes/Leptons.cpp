@@ -1,10 +1,10 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "delphes/Leptons.hh"
-#include "delphes/Classes.hh"
-#include "generic/Types.hh"
-#include "generic/DEBUG.hh"
+#include "boca/delphes/Leptons.hh"
+#include "boca/delphes/Classes.hh"
+#include "boca/generic/Types.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

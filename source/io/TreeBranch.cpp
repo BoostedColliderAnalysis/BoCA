@@ -1,6 +1,6 @@
 
-#include "io/TreeBranch.hh"
-#include "generic/DEBUG.hh"
+#include "boca/io/TreeBranch.hh"
+#include "boca/generic/DEBUG.hh"
 
 #include "TTree.h"
 

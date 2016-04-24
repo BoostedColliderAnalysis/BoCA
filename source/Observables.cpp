@@ -1,10 +1,10 @@
 
 #include <boost/range/algorithm_ext/erase.hpp>
 
-#include "Observables.hh"
-#include "generic/Vector.hh"
-#include "Filter.hh"
-#include "generic/DEBUG.hh"
+#include "boca/Observables.hh"
+#include "boca/generic/Vector.hh"
+#include "boca/Filter.hh"
+#include "boca/generic/DEBUG.hh"
 namespace boca
 {
 

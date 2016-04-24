@@ -1,12 +1,12 @@
 
-#include "delphes/Classes.hh"
-#include "exroot/Classes.hh"
+#include "boca/delphes/Classes.hh"
+#include "boca/exroot/Classes.hh"
 
-#include "generic/Types.hh"
-#include "io/TreeReader.hh"
-#include "Branches.hh"
+#include "boca/generic/Types.hh"
+#include "boca/io/TreeReader.hh"
+#include "boca/Branches.hh"
 // #define INFORMATION
-#include "generic/DEBUG.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {
@@ -90,7 +90,7 @@ long TreeReader::GetEntries() const
 bool TreeReader::ReadEntry(long number)
 {
     INFO(number);
-    bool valid = tree_reader_.SetEntry(number) == TTreeReader::kEntryValid;
+    auto valid = tree_reader_.SetEntry(number) == TTreeReader::kEntryValid;
     CHECK(valid, "not a valid entry in tree reader", number);
     for (auto & pair : generator_arrays_) valid = valid && pair.second->ProxyRead() == ROOT::TTreeReaderArrayBase::kReadSuccess;
     CHECK(valid, "not a valid entry in tree reader generator array", number);

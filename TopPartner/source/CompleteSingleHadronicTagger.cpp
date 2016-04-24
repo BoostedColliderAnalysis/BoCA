@@ -1,10 +1,10 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "CompleteSingleHadronicTagger.hh"
-#include "GlobalObservables.hh"
+#include "boca/CompleteSingleHadronicTagger.hh"
+#include "boca/GlobalObservables.hh"
 // #define INFORMATION
-#include "generic/DEBUG.hh"
+#include "boca/generic/DEBUG.hh"
 
 namespace boca
 {

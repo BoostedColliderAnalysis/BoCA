@@ -1,5 +1,5 @@
-#include "AnalysisNewPartnerPair.hh"
-#include "EventNewPairTagger.hh"
+#include "boca/AnalysisNewPartnerPair.hh"
+#include "boca/EventNewPairTagger.hh"
 
 template<typename Tagger>
 void Run(boca::Output output = boca::Output::normal)

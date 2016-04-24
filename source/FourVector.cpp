@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "FourVector.hh"
+#include "boca/FourVector.hh"
 
 namespace boca
 {

@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "multiplets/Doublet.hh"
+#include "boca/multiplets/Doublet.hh"
 
 namespace boca
 {
