@@ -14,7 +14,7 @@ add_include_path(${Boost_INCLUDE_DIRS})
 #   ${Boost_SYSTEM_LIBRARY}
 # )
 
-# set build type to debug
+# set build type
 if( NOT CMAKE_BUILD_TYPE )
 set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel." FORCE )
 endif()
@@ -53,7 +53,6 @@ add_libraries(Nsubjettiness)
 
 # ROOT
 find_package(ROOT REQUIRED COMPONENTS RIO TMVA Physics Hist)
-# set(ROOT_CXX_FLAGS "${ROOT_CXX_FLAGS} -std=c++14 -fext-numeric-literals")
 set(ROOT_CXX_FLAGS "${ROOT_CXX_FLAGS} -std=c++14")
 include(${ROOT_USE_FILE})
 add_libraries("${ROOT_LIBRARIES}")

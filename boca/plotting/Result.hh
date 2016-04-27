@@ -10,6 +10,7 @@
 #include "boca/generic/Mutable.hh"
 #include "boca/generic/Flag.hh"
 #include "boca/physics/Units.hh"
+#include "boca/Latex.hh"
 #include "boca/Branches.hh"
 
 namespace boca
@@ -22,20 +23,27 @@ enum class Significance
     background = 1 << 1,
     sum = 1 << 2,
     poisson = 1 << 3,
+    discovery = 1 << 4,
+    exclusion = 1 << 5,
 };
 
 std::string Name(Significance significance);
 
-std::string LatexName(Significance significance);
+Latex LatexName(Significance significance);
 
 template<>
 struct Flag<Significance> {
     static const bool enable = true;
 };
 
+std::vector<Significance> Constrained(std::vector<Significance> const& significances);
+std::vector<Significance> Exclusion(std::vector<Significance> const& significances);
+std::vector<Significance> Discovery(std::vector<Significance> const& significances);
+std::vector<Significance> SignificancesSimple();
+std::vector<Significance> SignificancesBase();
+std::vector<Significance> SignificancesMD();
+std::vector<Significance> SignificancesMI();
 std::vector<Significance> Significances();
-std::vector<Significance> SignificancesConstrained();
-std::vector<Significance> SignificancesUnConstrained();
 
 class Result
 {

@@ -5,6 +5,7 @@
 
 #include "boca/fastjet/InfoRecombiner.hh"
 #include "boca/physics/Units.hh"
+#include "boca/plotting/Font.hh"
 
 namespace boca
 {
@@ -87,9 +88,9 @@ public:
 
     static Momentum ForwardJetPt();
 
-    static double Exclusion();
-
     static double Experimental();
+
+    static boca::Font Font();
 
 private:
 

@@ -61,9 +61,9 @@ std::string TopPartnerLeptonicNeutralTagger::Name() const
     return "TopPartnerLeptonicNeutral";
 }
 
-std::string TopPartnerLeptonicNeutralTagger::LatexName() const
+Latex TopPartnerLeptonicNeutralTagger::LatexName() const
 {
-    return Formula("T_{l}");
+    return "T_{l}";
 }
 
 }

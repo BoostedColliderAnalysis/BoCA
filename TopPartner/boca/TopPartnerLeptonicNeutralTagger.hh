@@ -26,7 +26,7 @@ public:
 
     std::string Name() const override;
 
-    std::string LatexName() const override;
+    Latex LatexName() const override;
 
     std::vector<Particle> Particles(Event const& event, Tag tag = Tag::signal) const;
 

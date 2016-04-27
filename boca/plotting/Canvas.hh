@@ -19,10 +19,6 @@ public:
 
     Canvas(std::string const& path, std::string const& name, bool show_title = false);
 
-    void Initialize(std::string const& path, std::string const& name, bool show_title);
-
-    void Initialize(std::string const& path, std::string const& name);
-
     TCanvas const& canvas() const;
 
     TCanvas& canvas();
@@ -30,7 +26,7 @@ public:
     template<typename Value>
     bool SetLog(Range<Value> const& range) {
 //       return false;
-        if (range.Min() < Value(0) || range.Min() / range.Max() < 0.01) return false;
+        if (range.Min() < Value(0) || range.Min() / range.Max() < 10_mU) return false;
         canvas_.SetLogy();
         return true;
     }

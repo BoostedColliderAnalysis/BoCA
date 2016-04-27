@@ -131,28 +131,28 @@ Vector2<double> Position(Orientation orientation, double width, double height)
 
 }
 
-double Legend::Width(std::vector<std::string> const& entries) const
+double Legend::Width(std::vector<Latex> const& entries) const
 {
     INFO(entries.size());
-    TLatex longest(0, 0, boost::range::max_element(entries, [](std::string const & entry_1, std::string const & entry_2) {
-        TLatex latex_1(0, 0, entry_1.c_str());
+    TLatex longest(0, 0, boost::range::max_element(entries, [](Latex const & entry_1, Latex const & entry_2) {
+        TLatex latex_1(0, 0, entry_1.str(Medium::root).c_str());
         SetText(latex_1);
-        TLatex latex_2(0, 0, entry_2.c_str());
+        TLatex latex_2(0, 0, entry_2.str(Medium::root).c_str());
         SetText(latex_2);
         return latex_1.GetXsize() < latex_2.GetXsize();
-    })->c_str());
+    })->str(Medium::root).c_str());
     auto extra_width = 0.5 * TextHeight();
     auto width = longest.GetXsize() + RepresentationWidth() + extra_width;
     return width * columns_;  // TODO must be more sofisticated
 }
 
-double Legend::Height(std::vector<std::string> const& entries, std::string const& title) const
+double Legend::Height(std::vector<Latex> const& entries, Latex const& title) const
 {
-    INFO(entries.size(), title);
-    auto height = boost::accumulate(entries, 0., [](double height, std::string const & entry) {
-        TLatex latex(0, 0, entry.c_str());
+    INFO(entries.size(), title.str(Medium::root));
+    auto height = boost::accumulate(entries, 0., [](double height, Latex const & entry) {
+        TLatex latex(0, 0, entry.str(Medium::root).c_str());
         SetText(latex);
-        INFO(entry, latex.GetYsize());
+        INFO(entry.str(Medium::root), latex.GetYsize());
         return height + latex.GetYsize();
     });
     INFO(height);
@@ -160,14 +160,14 @@ double Legend::Height(std::vector<std::string> const& entries, std::string const
     height /= columns_; // TODO must be more sofisticated
     INFO(height);
     if (title.empty()) return height;
-    TLatex latex(0, 0, title.c_str());
+    TLatex latex(0, 0, title.str(Medium::root).c_str());
     SetText(latex);
     height += latex.GetYsize();
     height += EntrySeparation();
     return height;
 }
 
-Legend::Legend(std::string const& title)
+Legend::Legend(Latex const& title)
 {
     INFO0;
     SetTitle(title);
@@ -179,28 +179,28 @@ Legend::Legend()
 }
 
 
-Legend::Legend(boca::Rectangle<double> const& rectangle, std::string const& title)
+Legend::Legend(boca::Rectangle<double> const& rectangle, Latex const& title)
 {
     INFO0;
     SetCorners(rectangle);
     SetTitle(title);
 }
 
-Legend::Legend(Orientation orientation, std::vector<std::string> const& entries, std::string const& title)
+Legend::Legend(Orientation orientation, std::vector<Latex> const& entries, Latex const& title)
 {
     INFO0;
     SetOrientation(orientation, entries, title);
     SetTitle(title);
 }
 
-void Legend::Set(boca::Rectangle<double> const& rectangle, std::string const& title)
+void Legend::Set(boca::Rectangle<double> const& rectangle, Latex const& title)
 {
     INFO0;
     SetCorners(rectangle);
     SetTitle(title);
 }
 
-void Legend::SetOrientation(Orientation orientation, std::vector<std::string> const& entries, std::string const& title)
+void Legend::SetOrientation(Orientation orientation, std::vector<Latex> const& entries, Latex const& title)
 {
     INFO0;
     auto width = Width(entries);
@@ -209,11 +209,11 @@ void Legend::SetOrientation(Orientation orientation, std::vector<std::string> co
     SetCorners(boca::Rectangle<double>(min, width, height));
 }
 
-void Legend::SetOrientation(Orientation orientation, std::string const& title)
+void Legend::SetOrientation(Orientation orientation, Latex const& title)
 {
     INFO0;
-    if(!legend_.GetListOfPrimitives()) return;
-    std::vector<std::string> entries;
+    if (!legend_.GetListOfPrimitives()) return;
+    std::vector<Latex> entries;
     auto list = legend_.GetListOfPrimitives()->MakeIterator();
     TLegendEntry* entry;
     while ((entry = static_cast<TLegendEntry*>(list->Next()))) entries.emplace_back(entry->GetLabel());
@@ -231,10 +231,16 @@ void Legend::Draw()
     legend_.Draw("arc");
 }
 
-void Legend::AddEntry(TObject const& object, std::string const& name)
+void Legend::AddEntry(TObject const& object, Latex const& name)
 {
-    INFO0;
-    legend_.AddEntry(&object, name.c_str(), "l");
+    INFO(name.str(Medium::root));
+    legend_.AddEntry(&object, name.str(Medium::root).c_str(), "l");
+}
+
+void Legend::AddEntry(TObject const& object, char const* name)
+{
+    INFO(name);
+    legend_.AddEntry(&object, name, "l");
 }
 
 void Legend::TwoColumn()
@@ -263,11 +269,11 @@ void Legend::SetStyle()
     legend_.SetMargin(RepresentationWidth() / Rectangle().Width());
 }
 
-void Legend::SetTitle(std::string const& title)
+void Legend::SetTitle(Latex const& title)
 {
     INFO0;
     if (title.empty()) return;
-    legend_.SetHeader(title.c_str());
+    legend_.SetHeader(title.str(Medium::root).c_str());
     SetText(static_cast<TLegendEntry&>(*legend_.GetListOfPrimitives()->First()));
 
 }

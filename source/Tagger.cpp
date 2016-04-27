@@ -88,16 +88,16 @@ std::string Tagger::BranchName(Stage stage) const
     return Name(stage);
 }
 
-std::string Tagger::BranchName(Stage stage, Tag tag) const
-{
-    INFO0;
-    return Name(stage, tag);
-}
+// std::string Tagger::BranchName(Stage stage, Tag tag) const
+// {
+//     INFO0;
+//     return Name(stage, tag);
+// }
 
 std::string Tagger::BranchName(Phase const& phase) const
 {
     INFO0;
-    return Name(phase);
+    return Name(phase.Stage());
 }
 
 std::string Tagger::TrainerName() const
@@ -356,7 +356,7 @@ TreeBranch& Tagger::TreeBranch() const
     return *tree_branch_;
 }
 
-auto Tagger::LatexName() const -> std::string
+Latex Tagger::LatexName() const
 {
     INFO0;
     return Name();

@@ -60,6 +60,11 @@ void LatexFile::Table(std::string const& header, std::string const& content, std
     latex_file_ << " \\bottomrule\n\\end{tabular}\n\\caption{" << caption << ".}\n\\end{table}\n";
 }
 
+void LatexFile::AddTable(LatexTable const& table)
+{
+  latex_file_ << table.Table();
+}
+
 void LatexFile::Mass(boca::Mass const& mass)
 {
     INFO0;

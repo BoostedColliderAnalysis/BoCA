@@ -47,9 +47,9 @@ std::string ResonanceTagger::Name() const
 {
     return "Resonance";
 }
-std::string ResonanceTagger::LatexName() const
+Latex ResonanceTagger::LatexName() const
 {
-    return "S";
+    return {"S", true};
 }
 
 }

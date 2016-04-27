@@ -7,7 +7,7 @@
 namespace boca
 {
 
-Observable::Observable(float& value, std::string const& name, std::string const& latex_name) :
+Observable::Observable(float& value, const std::string& name, Latex const& latex_name) :
     value_(&value)
 {
     names_.Set(name, latex_name);
@@ -39,7 +39,7 @@ char Observable::Type() const
     return IsInt() ? 'I' : 'F';
 }
 
-std::string Observable::LatexName() const
+Latex Observable::LatexName() const
 {
     return names_.LatexName();
 }

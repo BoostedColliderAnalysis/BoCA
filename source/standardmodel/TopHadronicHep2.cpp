@@ -9,7 +9,6 @@
 #include "boca/delphes/Hadrons.hh"
 #include "boca/multiplets/Particles.hh"
 #include "boca/multiplets/Sort.hh"
-#include "boca/plotting/Font.hh"
 #include "boca/fastjet/ClusterSequence.hh"
 #include "boca/DetectorGeometry.hh"
 #include "boca/PreCuts.hh"
@@ -130,10 +129,10 @@ std::string TopHadronicHep2::Name() const
     return "TopHadronicHep2";
 }
 
-std::string TopHadronicHep2::LatexName() const
+Latex TopHadronicHep2::LatexName() const
 {
     INFO0;
-    return Formula("t") + Formula("_{h}") + "^{hep2}";
+    return {"t_{h}^{hep2}", true};
 }
 
 }

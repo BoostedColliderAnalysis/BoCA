@@ -2,7 +2,6 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "boca/EventSingleHadronicTagger.hh"
-#include "boca/plotting/Font.hh"
 // #define DEBUGGING
 #include "boca/generic/DEBUG.hh"
 
@@ -45,9 +44,9 @@ std::string EventSingleHadronicTagger::Name() const
 {
     return "EventSingleHadronic";
 }
-std::string EventSingleHadronicTagger::LatexName() const
+Latex EventSingleHadronicTagger::LatexName() const
 {
-    return Formula("T_{h}t_{l}h");
+    return "T_{h}t_{l}h";
 }
 
 }

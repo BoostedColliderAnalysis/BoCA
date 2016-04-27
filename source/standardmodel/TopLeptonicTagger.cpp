@@ -3,7 +3,6 @@
  */
 #include "boca/generic/Exception.hh"
 #include "boca/multiplets/Particles.hh"
-#include "boca/plotting/Font.hh"
 #include "boca/standardmodel/TopLeptonicTagger.hh"
 #include "boca/Event.hh"
 // #define DEBUGGING
@@ -128,9 +127,9 @@ std::string TopLeptonicTagger::Name() const
     return "TopLeptonic";
 }
 
-std::string TopLeptonicTagger::LatexName() const
+Latex TopLeptonicTagger::LatexName() const
 {
-    return Formula("t_{l}");
+    return {"t_{l}", true};
 }
 
 boca::Filter TopLeptonicTagger::Filter() const

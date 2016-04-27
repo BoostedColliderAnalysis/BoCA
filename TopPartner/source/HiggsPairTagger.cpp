@@ -1,5 +1,4 @@
 #include "boca/generic/Exception.hh"
-#include "boca/plotting/Font.hh"
 #include "boca/HiggsPairTagger.hh"
 // #define INFORMATION
 #include "boca/generic/DEBUG.hh"
@@ -72,9 +71,9 @@ std::string HiggsPairTagger::Name() const
     return "HiggsPair";
 }
 
-std::string HiggsPairTagger::LatexName() const
+Latex HiggsPairTagger::LatexName() const
 {
-    return Formula("hh");
+    return {"hh", true};
 }
 
 }

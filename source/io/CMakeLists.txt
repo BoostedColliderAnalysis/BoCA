@@ -8,5 +8,6 @@ TreeBranch.cpp
 TreeReaderArray.cpp
 TreeReader.cpp
 TreeWriter.cpp
+FileWriter.cpp
 )
 create_library(Trees TreeSources)

@@ -4,8 +4,6 @@
 
 #include "boca/io/TreeWriter.hh"
 
-class TFile;
-
 namespace boca
 {
 
@@ -14,13 +12,9 @@ class FileWriter
 
 public:
 
-    FileWriter(std::string const& file_name) :
-        file_(file_name.c_str(), "Recreate") {}
+    FileWriter(std::string const& file_name);
 
-    TreeWriter& NewTree(std::string const& tree_name) {
-        tree_writers_.emplace_back(file_, tree_name);
-        return tree_writers_.back();
-    }
+    TreeWriter& NewTree(std::string const& tree_name);
 
 private:
 

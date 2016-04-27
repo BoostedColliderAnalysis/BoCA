@@ -1,5 +1,5 @@
 
-create_dictionary(BranchesSm BranchesSm.cpp BranchesSm.hh LinkDefSm.hh standardmodel)
+create_dictionary(BranchesSM Branches.cpp Branches.hh LinkDef.hh standardmodel)
 
 set(sm_tagger_sources
 TauTagger.cpp

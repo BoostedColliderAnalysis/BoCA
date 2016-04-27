@@ -13,9 +13,10 @@ std::string TopPartnerLeptonicChargedTagger::Name() const
 {
     return "TopPartnerLeptonicCharged";
 }
-std::string TopPartnerLeptonicChargedTagger::LatexName() const
+
+Latex TopPartnerLeptonicChargedTagger::LatexName() const
 {
-    return "T_{l}";
+    return {"T_{l}", true};
 }
 
 }

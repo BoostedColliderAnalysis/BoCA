@@ -1,5 +1,4 @@
 #include "boca/standardmodel/AnalysisStandardModel.hh"
-#include "boca/plotting/Font.hh"
 #include "boca/generic/DEBUG.hh"
 
 namespace boca
@@ -37,20 +36,20 @@ std::string Name(Collider collider)
     }
 }
 
-std::string LatexName(Process process)
+Latex LatexName(Process process)
 {
     switch (process) {
-    case Process::bb : return Formula("b");
-    case Process::cc : return Formula("c");
-    case Process::qq : return Formula("q");
-    case Process::gg : return Formula("g");
-    case Process::hh : return Formula("h");
-    case Process::hh_bb : return Formula("h#lbar_{b}");
-    case Process::ww : return Formula("W^{#pm}");
-    case Process::zz : return Formula("Z");
-    case Process::zz_bb : return Formula("Z#lbar_{b}");
-    case Process::tt_had : return Formula("t_{h}");
-    case Process::tt_lep : return Formula("t_{l}");
+    case Process::bb : return {"b", true};
+    case Process::cc : return {"c", true};
+    case Process::qq : return {"q", true};
+    case Process::gg : return {"g", true};
+    case Process::hh : return {"h", true};
+    case Process::hh_bb : return "h#lbar_{b}";
+    case Process::ww : return "W^{#pm}";
+    case Process::zz : return {"Z", true};
+    case Process::zz_bb : return "Z#lbar_{b}";
+    case Process::tt_had : return "t_{h}";
+    case Process::tt_lep : return "t_{l}";
         DEFAULT(ProcessName(process), "");
     }
 }

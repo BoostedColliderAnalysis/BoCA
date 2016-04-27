@@ -60,7 +60,7 @@ std::string CompleteSingleHadronicTagger::Name() const
     return "CompleteSingleHadronic";
 }
 
-std::string CompleteSingleHadronicTagger::LatexName() const
+Latex CompleteSingleHadronicTagger::LatexName() const
 {
     return "T_{h}t_{l}h";
 }

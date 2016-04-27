@@ -1,13 +1,9 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-
-#include "fastjet/ClusterSequence.hh"
-
 #include "boca/external/TopTagger.hh"
 #include "boca/generic/Exception.hh"
 #include "boca/delphes/Hadrons.hh"
-#include "boca/plotting/Font.hh"
 #include "boca/multiplets/Particles.hh"
 #include "boca/multiplets/Sort.hh"
 #include "boca/standardmodel/TopHadronicHep.hh"
@@ -114,10 +110,10 @@ std::string TopHadronicHep::Name() const
     return "TopHadronicHep";
 }
 
-std::string TopHadronicHep::LatexName() const
+Latex TopHadronicHep::LatexName() const
 {
     INFO0;
-    return Formula("t_{h}") + "^{hep}";
+    return {"t_{h}^{hep}", true};
 }
 
 }

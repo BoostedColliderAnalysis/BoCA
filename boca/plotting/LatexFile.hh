@@ -5,6 +5,7 @@
 
 #include <fstream>
 #include "boca/physics/Units.hh"
+#include "boca/plotting/LatexTable.hh"
 
 namespace boca
 {
@@ -27,6 +28,8 @@ public:
     void IncludeGraphic(std::vector<std::string>  const& file_names, std::string  const& caption);
 
     void Table(std::string const& header, std::string const& content, std::string const& caption);
+
+    void AddTable(LatexTable const& table);
 
     void Mass(const boca::Mass& mass);
 

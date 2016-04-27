@@ -1,5 +1,4 @@
 #include "boca/EventSingleLeptonicTagger.hh"
-#include "boca/plotting/Font.hh"
 #include "boca/generic/DEBUG.hh"
 
 namespace boca {
@@ -41,9 +40,9 @@ std::string EventSingleLeptonicTagger::Name() const
 {
     return "EventSingleLep";
 }
-std::string EventSingleLeptonicTagger::LatexName() const
+Latex EventSingleLeptonicTagger::LatexName() const
 {
-  return Formula("T_{l}t_{h}h");
+  return "T_{l}t_{h}h";
 }
 
 }

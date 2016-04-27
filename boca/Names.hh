@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include <string>
+#include "boca/Latex.hh"
 
 namespace boca
 {
@@ -13,16 +13,16 @@ class Names
 public:
     Names();
     Names(std::string const& name);
-    Names(std::string const& name, std::string const& latex_name);
-    std::string const& Name()const;
-    std::string const& LatexName()const;
+    Names(std::string const& name, Latex const& latex_name);
+    std::string Name()const;
+    Latex LatexName()const;
     void SetName(std::string const& name);
-    void SetLatexName(std::string const& latex_name);
-    void Set(std::string const& name, std::string const& latex_name);
+    void SetLatexName(Latex const& latex_name);
+    void Set(std::string const& name, Latex const& latex_name);
     void Set(std::string const& name);
 private:
     std::string name_;
-    std::string latex_name_;
+    Latex latex_name_;
 };
 
 }

@@ -1,5 +1,4 @@
 #include "boca/AnalysisHeavyHiggs.hh"
-#include "boca/plotting/Font.hh"
 #include "boca/generic/DEBUG.hh"
 
 namespace boca
@@ -37,21 +36,21 @@ std::string Name(Process process)
     }
 }
 
-std::string LatexName(Process process)
+Latex LatexName(Process process)
 {
     switch (process) {
-    case Process::Hbb : return Formula("H/Ab\\bar{b}");
-    case Process::Htt : return Formula("H/At\\bar{t}");
-    case Process::Htwb : return Formula("H/AtW^{#pm}b");
-    case Process::ttwwbb : return Formula("t\\bar{t}W^{#pm}W^{#mp}b\\bar{b}");
-    case Process::ttwbb : return Formula("t\\bar{t}W^{#pm}b\\bar{b}");
-    case Process::H0 : return Formula("H/A");
-    case Process::Htb : return Formula("H^{#pm}tb");
-    case Process::tt : return Formula("t\\bar{t}");
-    case Process::tttt : return Formula("t\\bar{t}t\\bar{t}");
-    case Process::tttwb : return Formula("t\\bar{t}W^{#pm}b");
-    case Process::tt2 : return Formula("t\\bar{t}");
-    case Process::hbb : return Formula("H/Ab\\bar{b}");
+    case Process::Hbb : return "H/Ab\\bar{b}";
+    case Process::Htt : return "H/At\\bar{t}";
+    case Process::Htwb : return "H/AtW^{#pm}b";
+    case Process::ttwwbb : return "t\\bar{t}W^{#pm}W^{#mp}b\\bar{b}";
+    case Process::ttwbb : return "t\\bar{t}W^{#pm}b\\bar{b}";
+    case Process::H0 : return {"H/A", true};
+    case Process::Htb : return "H^{#pm}tb";
+    case Process::tt : return "t\\bar{t}";
+    case Process::tttt : return "t\\bar{t}t\\bar{t}";
+    case Process::tttwb : return "t\\bar{t}W^{#pm}b";
+    case Process::tt2 : return "t\\bar{t}";
+    case Process::hbb : return "H/Ab\\bar{b}";
         DEFAULT(Name(process), "");
     }
 }

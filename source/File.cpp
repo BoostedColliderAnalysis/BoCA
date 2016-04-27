@@ -13,25 +13,25 @@
 namespace boca
 {
 
-  File::File(std::vector<std::string> const& processes, std::string const& base_path, std::string const& file_suffix, std::string const& nice_name, boca::Crosssection const& crosssection, boca::Mass const& mass)
+  File::File(std::vector<std::string> const& processes, std::string const& base_path, std::string const& file_suffix, Latex const& latex_name, boca::Crosssection const& crosssection, boca::Mass const& mass)
 {
     INFO0;
     process_folders_ = processes;
     base_path_ = base_path;
     file_suffix_ = file_suffix;
     crosssection_ = crosssection;
-    names_.Set(nice_name);
+    names_.Set(latex_name.str(Medium::latex), latex_name); // FIXME dont do that
     mass_ = mass;
 }
 
-File::File(std::vector<std::string> const& processes, std::string const& base_path, std::string const& file_suffix, boca::Names const& nice_name, boca::Crosssection const& crosssection, boca::Mass const& mass)
+File::File(std::vector<std::string> const& processes, std::string const& base_path, std::string const& file_suffix, boca::Names const& latex_name, boca::Crosssection const& crosssection, boca::Mass const& mass)
 {
     INFO0;
     process_folders_ = processes;
     base_path_ = base_path;
     file_suffix_ = file_suffix;
     crosssection_ = crosssection;
-    names_ = nice_name;
+    names_ = latex_name;
     mass_ = mass;
 }
 

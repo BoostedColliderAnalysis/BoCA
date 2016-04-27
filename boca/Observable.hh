@@ -13,7 +13,7 @@ class Observable
 
 public:
 
-    Observable(float& value, std::string const& name, std::string const& latex_name = "");
+    Observable(float& value, std::string const& name, Latex const& latex_name = Latex());
 
     float& Value() const;
 
@@ -21,7 +21,7 @@ public:
 
     std::string Name() const;
 
-    std::string LatexName() const;
+    Latex LatexName() const;
 
     std::string Unit() const;
 

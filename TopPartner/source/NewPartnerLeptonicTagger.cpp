@@ -56,7 +56,7 @@ std::string NewPartnerLeptonicTagger::Name() const
 {
     return "TopPartnerLeptonic";
 }
-std::string NewPartnerLeptonicTagger::LatexName() const
+Latex NewPartnerLeptonicTagger::LatexName() const
 {
     return "T_{l}";
 }

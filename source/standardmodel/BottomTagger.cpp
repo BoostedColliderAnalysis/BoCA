@@ -44,8 +44,8 @@ std::vector<Particle> BottomTagger::Particles(Event const& event) const
 //     for(auto const& particle : particles) ERROR(particle.Mass(), particle.Pt(), particle.Rap(), particle.Phi());
 
 
-    boost::erase(particles, boost::unique<boost::return_found_end>(particles,[](Particle const& particle_1, Particle const& particle_2){
-      return particle_1.DeltaRTo(particle_2) < DetectorGeometry::IsolationConeSize();
+    boost::erase(particles, boost::unique<boost::return_found_end>(particles, [](Particle const & particle_1, Particle const & particle_2) {
+        return particle_1.DeltaRTo(particle_2) < DetectorGeometry::IsolationConeSize();
     }));
 //     ERROR(particles.size());
 //     for(auto const& particle : particles) ERROR(particle.Mass(), particle.Pt(), particle.Rap(), particle.Phi());
@@ -158,9 +158,9 @@ std::string BottomTagger::Name() const
     return "Bottom";
 }
 
-std::string BottomTagger::LatexName() const
+Latex BottomTagger::LatexName() const
 {
-    return "b";
+    return {"b", true};
 }
 
 }

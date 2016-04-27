@@ -69,7 +69,7 @@ std::string TruthLevel::Name() const
     return "Truth";
 }
 
-std::string TruthLevel::LatexName() const
+Latex TruthLevel::LatexName() const
 {
     return "truth";
 }

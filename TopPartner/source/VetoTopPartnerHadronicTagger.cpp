@@ -73,7 +73,7 @@ std::string VetoTopPartnerHadronicTagger::Name() const
     return "VetoTopPartnerHadronic";
 }
 
-std::string VetoTopPartnerHadronicTagger::LatexName() const
+Latex VetoTopPartnerHadronicTagger::LatexName() const
 {
     return "#slash{T}_{h}";
 }

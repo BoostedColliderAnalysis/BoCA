@@ -109,9 +109,9 @@ std::string BosonTagger::Name() const
     return "Boson";
 }
 
-std::string BosonTagger::LatexName() const
+Latex BosonTagger::LatexName() const
 {
-    return "B";
+    return {"B", true};
 }
 
 }

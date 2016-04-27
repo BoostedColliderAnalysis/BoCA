@@ -7,6 +7,7 @@
 
 #include "boca/generic/Flag.hh"
 #include "boca/physics/Rectangle.hh"
+#include "boca/Latex.hh"
 
 namespace boca
 {
@@ -43,21 +44,23 @@ public:
 
     Legend();
 
-    Legend(std::string const& title);
+    Legend(Latex const& title);
 
-    Legend(boca::Rectangle<double> const& rectangle, std::string const& title = "");
+    Legend(boca::Rectangle<double> const& rectangle, Latex const& title = Latex());
 
-    Legend(Orientation orientation, std::vector<std::string> const& entries, std::string const& title = "");
+    Legend(Orientation orientation, std::vector<Latex> const& entries, Latex const& title = Latex());
 
-    void SetOrientation(Orientation orientation, std::vector<std::string> const& entries, std::string const& title);
+    void SetOrientation(Orientation orientation, std::vector<Latex> const& entries, Latex const& title);
 
-    void Set(boca::Rectangle<double> const& rectangle, std::string const& title = "");
+    void Set(boca::Rectangle<double> const& rectangle, Latex const& title = Latex());
 
-    void SetOrientation(Orientation orientation, std::string const& title);
+    void SetOrientation(Orientation orientation, Latex const& title);
 
     void Draw();
 
-    void AddEntry(TObject const& object, std::string const& name);
+    void AddEntry(TObject const& object, Latex const& name);
+
+    void AddEntry(TObject const& object, char const* name);
 
     void TwoColumn();
 
@@ -65,15 +68,15 @@ public:
 
 private:
 
-    double Width(std::vector<std::string> const& entries) const;
+    double Width(std::vector<Latex> const& entries) const;
 
-    double Height(std::vector<std::string> const& entries, std::string const& title) const;
+    double Height(std::vector<Latex> const& entries, Latex const& title) const;
 
     void SetCorners(boca::Rectangle<double> const& rectangle);
 
     void SetStyle();
 
-    void SetTitle(std::string const& title);
+    void SetTitle(Latex const& title);
 
     TLegend legend_;
 

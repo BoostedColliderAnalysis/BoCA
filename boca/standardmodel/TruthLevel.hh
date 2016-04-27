@@ -4,7 +4,7 @@
 #pragma once
 
 #include "boca/TaggerTemplate.hh"
-#include "boca/standardmodel/BranchesSm.hh"
+#include "boca/standardmodel/Branches.hh"
 #include "boca/standardmodel/TruthVariables.hh"
 
 namespace boca
@@ -24,7 +24,7 @@ public:
 
     std::string Name() const override;
 
-    std::string LatexName() const override;
+    Latex LatexName() const override;
 
 private:
 
