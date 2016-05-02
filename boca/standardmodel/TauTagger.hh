@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include "boca/standardmodel/BranchesSm.hh"
+#include "boca/standardmodel/Branches.hh"
 #include "boca/TaggerTemplate.hh"
 #include "boca/multiplets/Singlet.hh"
 

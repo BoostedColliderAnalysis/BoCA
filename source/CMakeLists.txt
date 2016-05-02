@@ -21,8 +21,9 @@ add_subdirectory(multivariant)
 create_dictionary(Colors Colors.cpp Colors.hh LinkDef.hh)
 add_subdirectory(plotting)
 
-create_dictionary(Branches Branches.cpp Branches.hh LinkDef.hh)
 create_dictionary(Names Names.cpp Names.hh LinkDef.hh)
+create_dictionary(Latex Latex.cpp Latex.hh LinkDef.hh)
+create_dictionary(Branches Branches.cpp Branches.hh LinkDef.hh)
 
 set(shape_sources
 HemisphereMasses.cpp

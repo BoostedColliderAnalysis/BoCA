@@ -2,7 +2,6 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "boca/multiplets/Particles.hh"
-#include "boca/plotting/Font.hh"
 #include "boca/standardmodel/WLeptonicTagger.hh"
 #include "boca/Event.hh"
 // #define DEBUGGING
@@ -139,9 +138,9 @@ std::string WLeptonicTagger::Name() const
     return "WLeptonic";
 }
 
-std::string WLeptonicTagger::LatexName() const
+Latex WLeptonicTagger::LatexName() const
 {
-    return Formula("W_{l}");
+    return {"W_{l}", true};
 }
 
 }

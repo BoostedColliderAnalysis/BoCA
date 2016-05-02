@@ -46,7 +46,7 @@ public:
 
     virtual ResultBranch& Branch() = 0;
 
-    virtual auto LatexName() const -> std::string;
+    virtual Latex LatexName() const;
 
     virtual TMVA::Types::EMVA Mva() const;
 
@@ -158,7 +158,7 @@ private:
 
     std::string Name(Stage stage) const;
 
-    std::string BranchName(Stage stage, Tag tag) const;
+//     std::string BranchName(Stage stage, Tag tag) const;
 
     /**
      * @brief Tree Branch pointer saving the results

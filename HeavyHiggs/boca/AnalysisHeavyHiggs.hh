@@ -46,7 +46,7 @@ std::string Name(Collider collider);
 
 std::string Name(Process process);
 
-std::string LatexName(Process process);
+Latex LatexName(Process process);
 
 /**
  *

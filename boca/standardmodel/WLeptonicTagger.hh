@@ -4,7 +4,7 @@
 #pragma once
 
 #include "boca/multiplets/Doublet.hh"
-#include "boca/standardmodel/BranchesSm.hh"
+#include "boca/standardmodel/Branches.hh"
 #include "boca/TaggerTemplate.hh"
 
 namespace boca
@@ -31,7 +31,7 @@ public:
 
     std::string Name() const override;
 
-    std::string LatexName() const override;
+    Latex LatexName() const override;
 
 private:
 

@@ -3,7 +3,6 @@
  */
 #pragma once
 
-#include <string>
 #include "boca/generic/Flag.hh"
 
 namespace boca
@@ -36,10 +35,6 @@ double LabelHeight();
 
 int ColorCode(int number);
 
-std::string Formula(std::string const& text, Font font = Font::times);
-
-std::string Text(std::string const& text, Font font = Font::times);
-
-int FontCode(Font font = Font::times, Style style = Style::normal);
+int FontCode(Style style = Style::normal);
 
 }

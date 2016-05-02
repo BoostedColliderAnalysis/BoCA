@@ -22,15 +22,15 @@ public:
 
     ~Graphs();
 
-    void AddGraph(std::vector<double> const& xs, std::vector<double> const& ys, std::string const& name = "");
+    void AddGraph(std::vector<double> const& xs, std::vector<double> const& ys, Latex const& name = Latex());
 
-    void SetLegend(Orientation orientation, std::string const& title = "");
+    void SetLegend(Orientation orientation, Latex const& title = Latex());
 
-    void SetXAxis(std::string const& title, Range<double> const& range = Range<double>());
+    void SetXAxis(const boca::Latex& title, const boca::Range< double >& range = Range<double>());
 
-    void SetYAxis(std::string const& title, Range<double> const& range = Range<double>());
+    void SetYAxis(const boca::Latex& title, const boca::Range< double >& range = Range<double>());
 
-    void AddLine(double x_value, std::string const& title = "");
+    void AddLine(double x_value, Latex const& title = Latex());
 
 private:
 
@@ -57,3 +57,4 @@ private:
 };
 
 }
+

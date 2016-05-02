@@ -30,7 +30,7 @@ std::string TopPartnerLeptonicTagger::Name() const
     return "TopPartnerLeptonic";
 }
 
-std::string TopPartnerLeptonicTagger::LatexName() const
+Latex TopPartnerLeptonicTagger::LatexName() const
 {
     return "T_{h}";
 }

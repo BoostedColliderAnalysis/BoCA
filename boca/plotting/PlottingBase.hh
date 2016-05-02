@@ -3,10 +3,8 @@
  */
 #pragma once
 
-#include "boca/physics/Rectangle.hh"
 #include "boca/plotting/Result.hh"
-#include "boca/Tagger.hh"
-#include "boca/Observables.hh"
+#include "boca/multivariant/Phase.hh"
 
 class TFile;
 class TTree;
@@ -15,11 +13,16 @@ namespace boca
 {
 
 class Plots;
-// class Result;
+class FileWriter;
 class Results;
 class Plot;
 class Graphs;
 class InfoBranch;
+template<typename Type_>
+class Rectangle;
+class Tagger;
+class LatexRow;
+class LatexTable;
 
 /**
  * @brief Presents result of multivariant analysis
@@ -29,12 +32,6 @@ class PlottingBase
 {
 
 public:
-
-    /**
-     * @brief Constructor
-     *
-     */
-//     PlottingBase(boca::Tagger& tagger);
 
     void TaggingEfficiency() const;
 
@@ -48,11 +45,13 @@ private:
 
     Results ReadBdtFiles(boca::Stage stage) const;
 
-    std::vector<Result> ReadBdtFile(TFile& export_file, Phase const& phase) const;
+    std::vector<Result> ReadBdtFile(boca::FileWriter& file_writer, const boca::Phase& phase) const;
 
-    Result BdtDistribution(const boca::Phase& phase, int tree_number, TFile& export_file) const;
+    Result BdtDistribution(boca::FileWriter& file_writer, const boca::Phase& phase, int tree_number) const;
 
-    Result CutDistribution(const boca::Phase& phase, int tree_number, TFile& export_file) const;
+    Result CutDistribution(boca::FileWriter& file_writer, const boca::Phase& phase, int tree_number) const;
+
+    std::pair<boca::InfoBranch, int> InfoBranch(Phase const& phase, int tree_number) const;
 
     void DoPlot(Plots& signals, Plots& backgrounds, Stage stage) const;
 
@@ -86,41 +85,41 @@ private:
 
     std::string PlotHistograms(Results const& results) const;
 
-    std::pair<boca::InfoBranch, int> InfoBranch(Phase const& phase, int tree_number) const;
+    LatexTable BestValueTable(const boca::Result& signal, const std::vector< double >& x_values) const;
 
-    std::string BestValueTable(const boca::Result& signal, const std::vector< double >& x_values) const;
-
-    std::string BestValueRow(const boca::Result& signal, const std::vector< double >& x_values, boca::Significance significance, int bin) const;
+    LatexRow BestValueRow(const boca::Result& signal, const std::vector< double >& x_values, boca::Significance significance, const std::__cxx11::string& model, int bin) const;
 
 //     std::string ScalingTable(boca::Results& results) const;
 
 //     std::string ScalingRow(const boca::Results& results, double factor) const;
 
-    std::string EfficienciesTable(Results const& results, int bin) const;
+    LatexTable EfficienciesTable(const boca::Results& results, int bin) const;
 
-    std::string EfficienciesRow(const Result& result, int index, Tag tag, int bin) const;
+    LatexRow EfficienciesRow(const boca::Result& result, int, boca::Tag, int bin) const;
 
-    std::string EfficienciesTableMI(Results const& results, int bin, std::function<std::vector<Crosssection>(Result const&)> const& function) const;
+    LatexTable EfficienciesTableMI(const boca::Results& results, boca::Significance significance) const;
 
-    std::string EfficienciesRowMI(const Result& result, int index, Tag tag, int bin, std::function<std::vector<Crosssection>(Result const&)> const& function) const;
+    LatexRow EfficienciesRowMI(const boca::Result& result, int bin) const;
 
-    std::string EfficienciesRowMI(const Result& result, int index, Tag tag, int bin) const;
+    LatexTable CutEfficiencyTable(Results const& results) const;
 
-    std::string CutEfficiencyTable(Results const& results) const;
+    LatexRow CutEfficiencyRow(const boca::Result& result, int, boca::Tag) const;
 
-    std::string CutEfficiencyRow(Result const& result, int index, Tag tag) const;
+    LatexTable TruthLevelCutTable(const boca::Results& results) const;
 
-    std::string TruthLevelCutTable(Results const& results) const;
-
-    std::string TruthLevelCutRow(Result const& result, Tag tag) const;
+    LatexRow TruthLevelCutRow(const boca::Result& result, boca::Tag) const;
 
     std::string PlotEfficiencyGraph(Results const& results) const;
 
     std::string PlotMDGraph(Results const& results) const;
 
-    std::string PlotMIGraph(Results const& results) const;
+    std::string PlotMIExclusion(Results const& results) const;
 
-    std::string PlotMISignificanceGraph(Results const& results) const;
+    std::string PlotMIDiscovery(Results const& results) const;
+
+    std::string PlotMISignificanceExclusion(Results const& results) const;
+
+    std::string PlotMISignificanceDiscovery(Results const& results) const;
 
     std::string PlotMIExperimentalGraph(Results const& results) const;
 
@@ -129,14 +128,13 @@ private:
     void PlotVariables(Plots const& plots) const;
 
     virtual boca::Tagger const& Tagger() const = 0;
+
     virtual boca::Tagger & Tagger() = 0;
 
     template<typename Branch_>
     Branch_ ConstCast(Branch_ const& branch) const{
       return const_cast<Branch_&>(branch);
     }
-
-//     boca::Tagger& tagger_;
 
 };
 

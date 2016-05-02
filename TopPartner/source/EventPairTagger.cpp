@@ -42,9 +42,10 @@ std::string EventPairTagger::Name() const
 {
     return "EventPair";
 }
-std::string EventPairTagger::LatexName() const
+
+Latex EventPairTagger::LatexName() const
 {
-    return "T_{h} T_{l}";
+    return {"T_{h} T_{l}", true};
 }
 
 }

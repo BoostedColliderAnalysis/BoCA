@@ -42,7 +42,7 @@ public:
     int EventNumber() const;
     std::string Name() const;
     boca::Names Names() const;
-    std::string LatexName() const;
+    Latex LatexName() const;
     void SetCrosssection(const boca::Crosssection& crosssection_);
     void SetCrosssectionError(const boca::Crosssection& crosssection_error_);
     void SetMass(const boca::Mass& mass_);

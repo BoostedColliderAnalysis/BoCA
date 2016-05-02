@@ -3,13 +3,12 @@
  */
 #include <boost/range/algorithm/adjacent_find.hpp>
 
-#include "boca/standardmodel/WHadronicTagger.hh"
-#include "boca/MomentumRange.hh"
-#include "boca/Event.hh"
-#include "boca/math/Math.hh"
 #include "boca/generic/Exception.hh"
+#include "boca/math/Math.hh"
 #include "boca/multiplets/Particles.hh"
-#include "boca/plotting/Font.hh"
+#include "boca/standardmodel/WHadronicTagger.hh"
+#include "boca/Event.hh"
+#include "boca/MomentumRange.hh"
 // #define NOTIFICATION
 #include "boca/generic/DEBUG.hh"
 
@@ -176,9 +175,9 @@ std::string WHadronicTagger::Name() const
     return "WHadronic";
 }
 
-std::string WHadronicTagger::LatexName() const
+Latex WHadronicTagger::LatexName() const
 {
-    return Formula("W_{h}^{#pm}");
+    return {"W_{h}^{#pm}", true};
 }
 
 }

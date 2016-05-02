@@ -2,7 +2,6 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "boca/BranchesTopPartner.hh"
-#include "boca/plotting/Font.hh"
 #include "boca/OBSERVABLE.hh"
 
 namespace boca
@@ -79,7 +78,7 @@ TruthBranch::TruthBranch()
 
 Observables TruthBranch::Variables()
 {
-    return OBSERVABLE(TopPt, Formula("p_{T}(t)")) + OBSERVABLE(LeptonPt, Formula("p_{T}(l)")) + OBSERVABLE(HardBosonNumber, Formula("#B^{0}") + "_{hard}") + OBSERVABLE(SoftestBosonPt, Formula("p_{T}(B^{0})") + "_{soft}") + OBSERVABLE(DetectableBosonNumber, Formula("#B^{0}") + "_{detect}") + OBSERVABLE(HardestBosonPt, Formula("p_{T}(B)") + "_{hard}") + OBSERVABLE(BosonDeltaRMin, Formula("\\Delta R(B,B)") + "_{min}") + OBSERVABLE(MissingEt, Formula("E_{T}") + "^{miss}") + OBSERVABLE(ScalarHt, Formula("H_{T}")) + OBSERVABLE(JetPt, Formula("p_{T}(j)"));
+    return OBSERVABLE(TopPt, "p_{T}(t)") + OBSERVABLE(LeptonPt, "p_{T}(l)") + OBSERVABLE(HardBosonNumber, "#B^{0}_{hard}") + OBSERVABLE(SoftestBosonPt, "p_{T}(B^{0})_{soft}") + OBSERVABLE(DetectableBosonNumber, "#B^{0}_{detect}") + OBSERVABLE(HardestBosonPt, "p_{T}(B)_{hard}") + OBSERVABLE(BosonDeltaRMin, "\\Delta R(B,B)_{min}") + OBSERVABLE(MissingEt, "E_{T}^{miss}") + OBSERVABLE(ScalarHt, "H_{T}") + OBSERVABLE(JetPt, "p_{T}(j)");
 }
 
 NewEventBranch::NewEventBranch()

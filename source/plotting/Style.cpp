@@ -4,10 +4,11 @@
 #include "TAxis.h"
 #include "TAttText.h"
 #include "TAttLine.h"
-// #include "boca/plotting/Style.hh"
-#include "boca/plotting/Font.hh"
+
 #include "boca/generic/Types.hh"
 #include "boca/generic/Vector.hh"
+#include "boca/plotting/Style.hh"
+#include "boca/plotting/Font.hh"
 // #define INFORMATION
 #include "boca/generic/DEBUG.hh"
 
@@ -28,10 +29,10 @@ void SetAxis(TAttAxis& axis)
 
 }
 
-void SetAxis(TAxis& axis, std::string const& title)
+void SetAxis(TAxis& axis, Latex const& title)
 {
     INFO0;
-    axis.SetTitle(title.c_str());
+    axis.SetTitle(title.str(Medium::root).c_str());
     axis.CenterTitle();
     SetAxis(axis);
 }

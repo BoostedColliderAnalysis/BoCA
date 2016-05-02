@@ -4,13 +4,10 @@
 #include <boost/range/numeric.hpp>
 #include <boost/range/join.hpp>
 
-#include "TFile.h"
-#include "TTree.h"
-
 #include "boca/generic/Vector.hh"
 #include "boca/generic/Types.hh"
 
-#include "boca/io/TreeWriter.hh"
+#include "boca/io/FileWriter.hh"
 #include "boca/io/TreeReader.hh"
 
 #include "boca/plotting/PlottingBase.hh"
@@ -23,6 +20,8 @@
 #include "boca/plotting/Plots.hh"
 #include "boca/plotting/Font.hh"
 
+#include "boca/Tagger.hh"
+
 // #define INFORMATION
 #include "boca/generic/DEBUG.hh"
 
@@ -31,11 +30,6 @@ namespace boca
 
 namespace
 {
-
-auto SignificanceString(int min = 0)
-{
-    return "$\\frac{S}{\\sqrt{S + B}}" + (min > 0 ? "\\geq" + std::to_string(min) + "$" : "$");
-}
 
 auto Ratio(int min = 0)
 {
@@ -54,8 +48,8 @@ void PlottingBase::TaggingEfficiency() const
     latex_file.IncludeGraphic(PlotHistograms(results), "BDT Distribution");
     latex_file.IncludeGraphic(PlotAcceptanceGraph(results), "Acceptance");
     latex_file.IncludeGraphic(PlotEfficiencyGraph(results), "Efficiency");
-    latex_file.Table("rllllllllll", CutEfficiencyTable(results), "Tagging rates and fake rates");
-    latex_file.Table("rll", TruthLevelCutTable(results), "Truth level cut efficiency");
+    latex_file.AddTable(CutEfficiencyTable(results));
+    latex_file.AddTable(TruthLevelCutTable(results));
 }
 
 void PlottingBase::OptimalCuts() const
@@ -70,53 +64,47 @@ void PlottingBase::OptimalCuts() const
     latex_file.IncludeGraphic(PlotCrosssectionsGraph(results), "Crosssection in fb");
     latex_file.IncludeGraphic(PlotMDGraph(results), "Maximization of significance");
     latex_file.IncludeGraphic(PlotMDExperimentalGraph(results), "Maximization of " + Ratio());
-    latex_file.IncludeGraphic(PlotMISignificanceGraph(results), "Minimization of the model independent crosssection for significance $\\geq " + std::to_string(int(DetectorGeometry::Exclusion())) + "$");
+    latex_file.IncludeGraphic(PlotMISignificanceExclusion(results), "Minimization of the model independent crosssection for significance");
+    latex_file.IncludeGraphic(PlotMISignificanceDiscovery(results), "Minimization of the model independent crosssection for significance");
     latex_file.IncludeGraphic(PlotMIExperimentalGraph(results), "Minimization of model independent cross section for " + Ratio(DetectorGeometry::Experimental()));
-    latex_file.IncludeGraphic(PlotMIGraph(results), "Minimization of model independent crosssection for significance $\\geq " + std::to_string(int(DetectorGeometry::Exclusion())) + "$ and " + Ratio(DetectorGeometry::Experimental()));
+    latex_file.IncludeGraphic(PlotMIExclusion(results), "Minimization of model independent crosssection for significance and " + Ratio(DetectorGeometry::Experimental()));
+    latex_file.IncludeGraphic(PlotMIDiscovery(results), "Minimization of model independent crosssection for significance and " + Ratio(DetectorGeometry::Experimental()));
     latex_file.IncludeGraphic(PlotExperimentalVsSignificance(results), Ratio() + "versus significance");
     for (const auto signal : results.Signals()) {
-        latex_file.Table("rlllll", EfficienciesTable(results, signal.BestMDBin(Significance::sum)), "Model dependent efficiencies calculated by maximizing the Significance");
-        latex_file.Table("rlllll", EfficienciesTableMI(results, signal.BestMDBin(Significance::sum | Significance::experimental), [](Result const & result) {
-            return result.MI(Significance::sum);
-        }), "Model independent efficiencies calculated by minimizing the exclusion cross section for " + SignificanceString(DetectorGeometry::Exclusion()) + " and " + Ratio(DetectorGeometry::Experimental()));
-        latex_file.Table("rlllll", EfficienciesTableMI(results, signal.BestMDBin(Significance::background), [](Result const & result) {
-            return result.MI(Significance::sum);
-        }), "Model independent efficiencies calculated by minimizing the exclusion cross section for " + SignificanceString(DetectorGeometry::Exclusion()));
-        latex_file.Table("rlllll", EfficienciesTableMI(results, signal.BestMDBin(Significance::experimental), [](Result const & result) {
-            return result.MI(Significance::experimental);
-        }), "Model independent efficiencies calculated by minimizing the exclusion cross section for " + Ratio(DetectorGeometry::Experimental()));
-        latex_file.Table("rllllll", BestValueTable(signal, results.XValues()), "Results for the optimal model-(in)dependent cuts");
+        latex_file.AddTable(EfficienciesTable(results, signal.BestMDBin(Significance::sum)));
+        latex_file.AddTable(EfficienciesTableMI(results, Significance::sum | Significance::experimental));
+        latex_file.AddTable(EfficienciesTableMI(results, Significance::background));
+        latex_file.AddTable(EfficienciesTableMI(results, Significance::experimental));
+        latex_file.AddTable(BestValueTable(signal, results.XValues()));
     }
-//     latex_file.Table("rccc", ScalingTable(results), "Significances as function of signal crosssection");
 }
 
 Results PlottingBase::ReadBdtFiles(Stage stage) const
 {
     INFO0;
-    TFile file(Tagger().ExportFileName().c_str(), "Recreate");
-    return Results(ReadBdtFile(file, Phase(stage, Tag::signal)), ReadBdtFile(file, Phase(stage, Tag::background)));
+    FileWriter file_writer(Tagger().ExportFileName());
+    return Results(ReadBdtFile(file_writer, {stage, Tag::signal}), ReadBdtFile(file_writer, {stage, Tag::background}));
 }
 
-std::vector<Result> PlottingBase::ReadBdtFile(TFile& export_file, Phase const& phase) const
+std::vector<Result> PlottingBase::ReadBdtFile(FileWriter& file_writer, Phase const& phase) const
 {
     INFO0;
     return Transform(IntegerRange(Tagger().TreeNames(phase).size()), [&](int tree_number) {
         switch (Tagger().Mva()) {
-        case TMVA::Types::EMVA::kBDT : return BdtDistribution(phase, tree_number, export_file);
-        case TMVA::Types::EMVA::kCuts : return CutDistribution(phase, tree_number, export_file);
+        case TMVA::Types::EMVA::kBDT : return BdtDistribution(file_writer, phase, tree_number);
+        case TMVA::Types::EMVA::kCuts : return CutDistribution(file_writer, phase, tree_number);
             DEFAULT(Tagger().MvaName(), Result());
         }
     });
 }
 
-Result PlottingBase::BdtDistribution(Phase const& phase, int tree_number, TFile& export_file) const
+Result PlottingBase::BdtDistribution(FileWriter& file_writer, Phase const& phase, int tree_number) const
 {
     INFO0;
     TreeReader tree_reader(Tagger().FileName(phase), Tagger().TreeNames(phase).at(tree_number), Source::tagger);
-    auto branch_name = Tagger().BranchName(phase.Stage());
-    auto& array = tree_reader.Array(branch_name, Tagger().Class());
-    TreeWriter tree_writer(export_file, Tagger().TreeNames(phase).at(tree_number));
-    auto& branch = tree_writer.NewBranch<BdtBranch>(branch_name);
+    auto& array = tree_reader.Array(Tagger().BranchName(phase), Tagger().Class());
+    auto& tree_writer = file_writer.NewTree(Tagger().TreeNames(phase).at(tree_number));
+    auto& branch = tree_writer.NewBranch<BdtBranch>(Tagger().BranchName(phase));
     std::vector<double> bdts;
     while (tree_reader.Next()) {
         for (auto const & entry : array) {
@@ -130,14 +118,13 @@ Result PlottingBase::BdtDistribution(Phase const& phase, int tree_number, TFile&
     return Result(InfoBranch(Phase(Stage::reader, phase.Tag()), tree_number).first, InfoBranch(Phase(Stage::trainer, phase.Tag()), tree_number), bdts, Tagger().Mva());
 }
 
-Result PlottingBase::CutDistribution(Phase const& phase, int tree_number, TFile& export_file) const
+Result PlottingBase::CutDistribution(FileWriter& file_writer, Phase const& phase, int tree_number) const
 {
     INFO(tree_number);
     TreeReader tree_reader(Tagger().FileName(phase), Tagger().TreeNames(phase).at(tree_number), Source::tagger);
-    auto branch_name = Tagger().BranchName(phase.Stage());
-    auto& array = tree_reader.Array(branch_name, Tagger().Class());
-    TreeWriter tree_writer(export_file, Tagger().TreeNames(phase).at(tree_number));
-    auto& branch = tree_writer.NewBranch<CutBranch>(branch_name);
+    auto& array = tree_reader.Array(Tagger().BranchName(phase), Tagger().Class());
+    auto& tree_writer = file_writer.NewTree(Tagger().TreeNames(phase).at(tree_number));
+    auto& branch = tree_writer.NewBranch<CutBranch>(Tagger().BranchName(phase));
     std::vector<std::vector<bool>> passed_matrix;
     while (tree_reader.Next()) {
         for (auto const & entry : array) {
@@ -174,14 +161,14 @@ std::string PlottingBase::PlotHistograms(Results const& results) const
     INFO0;
     Histograms histograms(Tagger().ExportFolderName(), "Bdt");
     for (auto const & signal : results.Signals()) {
-        histograms.AddHistogram(signal.Bdts(), signal.InfoBranch().LatexName(), results.Range());
+        histograms.AddHistogram(signal.Bdts(), signal.InfoBranch().Names(), results.Range());
         histograms.AddLine(signal.BestMIValue(Significance::sum | Significance::experimental));
         histograms.AddLine(signal.BestMDValue(Significance::sum));
     }
-    for (auto const & background : results.Backgrounds()) histograms.AddHistogram(background.Bdts(), background.InfoBranch().LatexName(), results.Range());
+    for (auto const & background : results.Backgrounds()) histograms.AddHistogram(background.Bdts(), background.InfoBranch().Names(), results.Range());
     histograms.SetLegend(Orientation::top);
     histograms.SetXAxis("BDT");
-    histograms.SetYAxis(Formula("N"));
+    histograms.SetYAxis(Latex("N", true));
     return histograms.FileBaseName();
 }
 
@@ -258,14 +245,10 @@ std::string PlottingBase::PlotMDGraph(Results const& results) const
 {
     INFO0;
     Graphs graphs(Tagger().ExportFolderName(), "MDSignificance");
-    for (auto const & signal : results.Signals()) {
-        graphs.AddGraph(results.XValues(), signal.MD(Significance::poisson), "Poisson");
-        graphs.AddGraph(results.XValues(), signal.MD(Significance::sum), "#frac{S}{#sqrt{S + B}}");
-        graphs.AddGraph(results.XValues(), signal.MD(Significance::background), "#frac{S}{#sqrt{B}}");
-        graphs.AddLine(signal.BestMDValue(Significance::poisson));
-        graphs.AddLine(signal.BestMDValue(Significance::sum));
-        graphs.AddLine(signal.BestMDValue(Significance::background));
-    }
+    for (auto const & signal : results.Signals()) for (auto const & significance : SignificancesMD()) {
+            graphs.AddGraph(results.XValues(), signal.MD(significance), LatexName(significance));
+            graphs.AddLine(signal.BestMDValue(significance));
+        }
     graphs.SetLegend(Orientation::top | Orientation::left);
     SetDefaultXAxis(graphs, results);
     graphs.SetYAxis("Significance");
@@ -281,7 +264,7 @@ std::string PlottingBase::PlotMDExperimentalGraph(Results const& results) const
         graphs.AddLine(signal.BestMDValue(Significance::experimental));
     }
     SetDefaultXAxis(graphs, results);
-    graphs.SetYAxis(Formula("S/B"));
+    graphs.SetYAxis( {"S/B", true});
     return graphs.FileBaseName();
 }
 
@@ -289,30 +272,36 @@ std::string PlottingBase::PlotExperimentalVsSignificance(Results const& results)
 {
     INFO0;
     Graphs graphs(Tagger().ExportFolderName(), "SBvsSsqrtB");
-    for (auto const & signal : results.Signals()) {
-      graphs.AddGraph(signal.MD(Significance::experimental), signal.MD(Significance::poisson), "Poisson");
-      graphs.AddGraph(signal.MD(Significance::experimental), signal.MD(Significance::sum), "#frac{S}{#sqrt{S+B}}");
-      graphs.AddGraph(signal.MD(Significance::experimental), signal.MD(Significance::background), "#frac{S}{#sqrt B}");
-    }
-    graphs.SetXAxis(Formula("S/B"));
+    for (auto const & signal : results.Signals()) for (auto const & significance : SignificancesMD()) graphs.AddGraph(signal.MD(Significance::experimental), signal.MD(significance), LatexName(significance));
+    graphs.SetXAxis(Latex("S/B", true));
     graphs.SetYAxis("Significance");
     return graphs.FileBaseName();
 }
 
-std::string PlottingBase::PlotMIGraph(Results const& results) const
+std::string PlottingBase::PlotMISignificanceExclusion(Results const& results) const
 {
     INFO0;
-    Graphs graphs(Tagger().ExportFolderName(), "MIConstrained");
-    for (auto const & signal : results.Signals()) {
-        graphs.AddGraph(results.XValues(), FloatVector(signal.MI(Significance::poisson | Significance::experimental)), "Poisson");
-        graphs.AddGraph(results.XValues(), FloatVector(signal.MI(Significance::sum | Significance::experimental)), "#frac{S}{#sqrt{S+B}}");
-        graphs.AddGraph(results.XValues(), FloatVector(signal.MI(Significance::background | Significance::experimental)), "#frac{S}{#sqrt{B}}");
-        graphs.AddLine(signal.BestMIValue(Significance::poisson | Significance::experimental));
-        graphs.AddLine(signal.BestMIValue(Significance::sum | Significance::experimental));
-        graphs.AddLine(signal.BestMIValue(Significance::background | Significance::experimental));
-    }
+    Graphs graphs(Tagger().ExportFolderName(), "MISignificanceExclusion");
+    for (auto const & signal : results.Signals()) for (auto const & significance : Exclusion(SignificancesBase())) {
+            graphs.AddGraph(results.XValues(), FloatVector(signal.MI(significance)), LatexName(significance));
+            graphs.AddLine(signal.BestMIValue(significance));
+        }
     graphs.SetLegend(Orientation::left);
     graphs.SetYAxis("Exclusion crosssection [fb]");
+    SetDefaultXAxis(graphs, results);
+    return graphs.FileBaseName();
+}
+
+std::string PlottingBase::PlotMISignificanceDiscovery(Results const& results) const
+{
+    INFO0;
+    Graphs graphs(Tagger().ExportFolderName(), "MISignificanceDiscovery");
+    for (auto const & signal : results.Signals()) for (auto const & significance : Discovery(SignificancesBase())) {
+            graphs.AddGraph(results.XValues(), FloatVector(signal.MI(significance)), LatexName(significance));
+            graphs.AddLine(signal.BestMIValue(significance));
+        }
+    graphs.SetLegend(Orientation::left);
+    graphs.SetYAxis("Discovery crosssection [fb]");
     SetDefaultXAxis(graphs, results);
     return graphs.FileBaseName();
 }
@@ -323,204 +312,159 @@ std::string PlottingBase::PlotMIExperimentalGraph(Results const& results) const
     Graphs graphs(Tagger().ExportFolderName(), "MIExperimental");
     for (auto const & signal : results.Signals()) {
         graphs.AddGraph(results.XValues(), FloatVector(signal.MI(Significance::experimental)), signal.InfoBranch().LatexName());
-        graphs.AddLine(signal.BestMIValue(Significance::experimental), "#frac{S}{B}");
+        graphs.AddLine(signal.BestMIValue(Significance::experimental), LatexName(Significance::experimental));
     }
+    graphs.SetLegend(Orientation::left);
+    graphs.SetYAxis("Crosssection [fb]");
+    SetDefaultXAxis(graphs, results);
+    return graphs.FileBaseName();
+}
+
+std::string PlottingBase::PlotMIDiscovery(Results const& results) const
+{
+    INFO0;
+    Graphs graphs(Tagger().ExportFolderName(), "MIConstrainedDiscovery");
+    for (auto const & signal : results.Signals()) for (auto const & significance : Constrained(Discovery(SignificancesBase()))) {
+            graphs.AddGraph(results.XValues(), FloatVector(signal.MI(significance)), LatexName(significance &~ Significance::experimental));
+            graphs.AddLine(signal.BestMIValue(significance));
+        }
+    graphs.SetLegend(Orientation::left);
+    graphs.SetYAxis("Discovery crosssection [fb]");
+    SetDefaultXAxis(graphs, results);
+    return graphs.FileBaseName();
+}
+
+std::string PlottingBase::PlotMIExclusion(Results const& results) const
+{
+    INFO0;
+    Graphs graphs(Tagger().ExportFolderName(), "MIConstrainedExclusion");
+    for (auto const & signal : results.Signals()) for (auto const & significance : Constrained(Exclusion(SignificancesBase()))) {
+            graphs.AddGraph(results.XValues(), FloatVector(signal.MI(significance)), LatexName(significance &~ Significance::experimental));
+            graphs.AddLine(signal.BestMIValue(significance));
+        }
     graphs.SetLegend(Orientation::left);
     graphs.SetYAxis("Exclusion crosssection [fb]");
     SetDefaultXAxis(graphs, results);
     return graphs.FileBaseName();
 }
 
-std::string PlottingBase::PlotMISignificanceGraph(Results const& results) const
+LatexTable PlottingBase::BestValueTable(Result const& signal, std::vector<double> const& x_values) const
 {
     INFO0;
-    Graphs graphs(Tagger().ExportFolderName(), "MISignificance");
+    LatexTable table("rllllll");
+    table.AddRow("Model optimization", "Cut", "Significance", "Ratio [\\%]", "Crosssection [fb]");
+    table.AddLine();
+    for (const auto & significance : SignificancesMD()) table.AddRow(BestValueRow(signal, x_values, significance, "dependent ", signal.BestMDBin(significance)));
+    table.AddLine();
+    for (const auto & significance : SignificancesMI()) table.AddRow(BestValueRow(signal, x_values, significance, "independent ", signal.BestMIBin(significance)));
+    table.AddLine();
+    for (const auto & significance : Constrained(SignificancesMI())) table.AddRow(BestValueRow(signal, x_values, significance, "independent ", signal.BestMIBin(significance)));
+    table.AddCaption("Results for the optimal model-(in)dependent cuts");
+    return table;
+}
+
+LatexRow PlottingBase::BestValueRow(Result const& signal, std::vector<double> const& x_values, Significance significance, std::string const& model, int bin) const
+{
+    INFO0;
+    LatexRow row(model + LatexName(significance).str(Medium::latex));
+    row.AddCell(RoundToDigits(x_values.at(bin)));
+    row.AddCell(RoundToDigits(signal.MD(significance &~Significance::experimental).at(bin)));
+    row.AddCell(RoundToDigits(signal.MD(Significance::experimental).at(bin) / cU));
+    row.AddCell(RoundToDigits(signal.MI(significance).at(bin) / fb));
+    return row;
+}
+
+LatexTable PlottingBase::EfficienciesTable(Results const& results, int bin) const
+{
+    INFO0;
+    LatexTable table("rlllll");
+    table.AddRow("Sample", "before", "after", "Efficiency", "$\\sigma$  [fb]", "$N_{\\mathcal L = \\unit[" + std::to_string(RoundToDigits(DetectorGeometry::Luminosity() * fb)) + "]{fb^{-1}}}$");
+    table.AddLine();
+    for (auto const & result : results.Signals()) table.AddRow(EfficienciesRow(result, Position(results.Signals(), result), Tag::signal, bin));
+    for (auto const & result : results.Backgrounds()) table.AddRow(EfficienciesRow(result, Position(results.Backgrounds(), result), Tag::background, bin));
+    table.AddCaption("Model dependent efficiencies calculated by maximizing the Significance");
+    return table;
+}
+
+LatexRow PlottingBase::EfficienciesRow(Result const& result, int, Tag , int bin) const
+{
+    INFO0;
+    LatexRow row(result.InfoBranch().LatexName().str(Medium::latex));
+    row.AddCell(result.InfoBranch().EventNumber());
+    row.AddCell(result.PartialSum().at(bin));
+    row.AddCell(RoundToDigits(result.PreCutEfficiencies().at(bin)));
+    row.AddCell(RoundToDigits(result.InfoBranch().Crosssection() / fb * Results::ScalingFactor()));
+    row.AddCell(RoundToDigits(result.InfoBranch().Crosssection() * DetectorGeometry::Luminosity() * result.PreCutEfficiencies().at(bin) * Results::ScalingFactor()));
+    return row;
+}
+
+LatexTable PlottingBase::EfficienciesTableMI(Results const& results, Significance significance) const
+{
+    INFO0;
+    LatexTable table("rlllll");
+    table.AddRow("Sample", "before", "after", "Efficiency", "$\\sigma$  [fb]\n");
+    table.AddLine();
     for (auto const & signal : results.Signals()) {
-        graphs.AddGraph(results.XValues(), FloatVector(signal.MI(Significance::poisson)), "Poisson");
-        graphs.AddGraph(results.XValues(), FloatVector(signal.MI(Significance::sum)), "#frac{S}{#sqrt{S+B}}");
-        graphs.AddGraph(results.XValues(), FloatVector(signal.MI(Significance::background)), "#frac{S}{#sqrt{B}}");
-        graphs.AddLine(signal.BestMIValue(Significance::poisson));
-        graphs.AddLine(signal.BestMIValue(Significance::sum));
-        graphs.AddLine(signal.BestMIValue(Significance::background));
+        auto bin = signal.BestMIBin(significance);
+        table.AddRow(EfficienciesRowMI(signal, bin));
+        for (auto const & background : results.Backgrounds()) table.AddRow(EfficienciesRowMI(background, bin));
     }
-    graphs.SetLegend(Orientation::left);
-    graphs.SetYAxis("Exclusion crosssection [fb]");
-    SetDefaultXAxis(graphs, results);
-    return graphs.FileBaseName();
+    table.AddCaption("Model independent efficiencies calculated by minimizing the exclusion cross section" + LatexName(significance).str(Medium::latex));
+    return table;
 }
 
-std::string PlottingBase::BestValueTable(Result const& signal, std::vector<double> const& x_values) const
+LatexRow PlottingBase::EfficienciesRowMI(const boca::Result& result, int bin) const
 {
     INFO0;
-    std::stringstream table;
-    table << "    Model optimization\n  & Cut\n  & Significance\n  & Ratio [\\%]\n  & Crosssection [fb]";
-    table << "\n \\\\ \\midrule\n   ";
-    for (const auto & significance : SignificancesUnConstrained()) {
-        table << " dependent" << BestValueRow(signal, x_values, significance, signal.BestMDBin(significance));
-        table << " independent" << BestValueRow(signal, x_values, significance, signal.BestMIBin(significance));
-    }
-    table << " \\midrule\n";
-    for (const auto & significance : SignificancesConstrained()) table << " independent" << BestValueRow(signal, x_values, significance, signal.BestMIBin(significance));
-    return table.str();
+    LatexRow row(result.InfoBranch().LatexName().str(Medium::latex));
+    row.AddCell(result.InfoBranch().EventNumber());
+    row.AddCell(result.PartialSum().at(bin));
+    row.AddCell(RoundToDigits(result.PreCutEfficiencies().at(bin)));
+    row.AddCell(RoundToDigits(result.Crosssections().at(bin) / fb));
+    return row;
 }
 
-std::string PlottingBase::BestValueRow(Result const& signal, std::vector<double> const& x_values, Significance significance, int bin) const
+LatexTable PlottingBase::CutEfficiencyTable(Results const& results) const
 {
     INFO0;
-    std::stringstream row;
-    row << boost::units::engineering_prefix << " " << LatexName(significance);
-    row << "\n  & " << RoundToDigits(x_values.at(bin));
-    row << "\n  & " << RoundToDigits(signal.MD(significance &~Significance::experimental).at(bin));
-    row << "\n  & " << RoundToDigits(signal.MD(Significance::experimental).at(bin) * 100);
-    row << "\n  & " << RoundToDigits(signal.MI(significance).at(bin) / fb);
-//     row << "\n  & " << RoundToDigits(signal.Crosssections().at(bin) / fb);
-    row << "\n \\\\";
-    return row.str();
+    LatexTable table("rllllllllll");
+    table.AddRow("", "\\multicolumn{9}{c}{Pure Efficiencies [\\%]}");
+    LatexRow row("BDT value");
+    for (auto const & eff : results.SelectedEfficiencies()) row.AddCell(RoundToDigits(eff));
+    table.AddRow(row);
+    table.AddLine();
+    for (auto const & result : results.Signals()) table.AddRow(CutEfficiencyRow(result, Position(results.Signals(), result), Tag::signal));
+    for (auto const & result : results.Backgrounds()) table.AddRow(CutEfficiencyRow(result, Position(results.Backgrounds(), result), Tag::background));
+    table.AddCaption("Tagging rates and fake rates");
+    return table;
 }
 
-// std::string PlottingBase::ScalingTable(Results& results)const
-// {
-//     INFO0;
-//     std::stringstream table;
-//     table << "    $\\sigma$ [fb]\n  & " + SignificanceString() + " and " + Ratio() + "\n  &" + SignificanceString() + "\n  &" + Ratio() + "\n";
-//     table << "\n \\\\ \\midrule\n   ";
-//     for (auto const & exponent : IntegerRange(-3, 4)) {
-//         auto factor = std::pow(2., exponent);
-//         INFO(exponent, factor);
-//         results.CalculateSignificances(factor);
-//         if(factor == 1) table << "  \\midrule";
-//         table << ScalingRow(results, factor);
-//         if(factor == 1) table << "  \\midrule";
-//     }
-//     return table.str();
-// }
-
-// namespace
-// {
-// std::string BoldFace(std::string const& string, bool do_it)
-// {
-//     return do_it ? "\\textbf{" + string + "}" : string;
-// }
-//
-// }
-
-// std::string PlottingBase::ScalingRow(Results const& results, double factor) const
-// {
-//     INFO0;
-//     std::stringstream row;
-//     row << " " << RoundToDigits(factor * results.Signals().front().InfoBranch().Crosssection() / fb);
-//     for(auto const signal : results.Signals()){
-//       row << "\n  & " << RoundToDigits(signal.MD(Significance::sum).at(signal.BestMIValue(Significance::sum)));
-//       row << "\n  & " << RoundToDigits(signal.MD(Significance::background).at(signal.BestMDValue(Significance::background)));
-//       row << "\n  & " << RoundToDigits(signal.MD(Significance::experimental).at(signal.BestMDValue(Significance::experimental)));
-//     }
-//     row << "\n \\\\";
-//     return row.str();
-// }
-
-std::string PlottingBase::EfficienciesTable(Results const& results, int bin) const
+LatexRow PlottingBase::CutEfficiencyRow(Result const& result, int , Tag) const
 {
     INFO0;
-    std::stringstream table;
-    table << "    Sample\n  & before\n  & after\n  & Efficiency\n  & $\\sigma$  [fb]\n  & $N_{\\mathcal L = \\unit[" << RoundToDigits(DetectorGeometry::Luminosity() * fb) << "]{fb^{-1}}}$";
-    table << "\n \\\\ \\midrule\n   ";
-    for (auto const & result : results.Signals()) table << EfficienciesRow(result, Position(results.Signals(), result), Tag::signal, bin);
-    for (auto const & result : results.Backgrounds()) table << EfficienciesRow(result, Position(results.Backgrounds(), result), Tag::background, bin);
-    return table.str();
+    LatexRow row(result.InfoBranch().LatexName().str(Medium::latex));
+    for (auto const & eff : result.SelectedEfficiencies()) row.AddCell(RoundToDigits(eff * 100));
+    return row;
 }
 
-std::string PlottingBase::EfficienciesRow(Result const& result, int, Tag , int bin) const
+LatexTable PlottingBase::TruthLevelCutTable(Results const& results) const
 {
     INFO0;
-    std::stringstream row;
-//     row << " \\verb|" << Tagger().TreeNames(tag).at(index) << "|";
-//     row << " \\verb|" << result.InfoBranch().LatexName() << "|";
-    row << "$" << result.InfoBranch().Name() << "$";
-    row << "\n  & " << result.InfoBranch().EventNumber();
-    row << "\n  & " << result.PartialSum().at(bin);
-    row << "\n  & " << RoundToDigits(result.PreCutEfficiencies().at(bin));
-    row << "\n  & " << RoundToDigits(result.InfoBranch().Crosssection() / fb * Results::ScalingFactor());
-    row << "\n  & " << RoundToDigits(result.InfoBranch().Crosssection() * DetectorGeometry::Luminosity() * result.PreCutEfficiencies().at(bin) * Results::ScalingFactor());
-    row << "\n \\\\";
-    return row.str();
+    LatexTable table("rll");
+    table.AddRow("Sample", "Efficiency");
+    table.AddLine();
+    for (auto const & result : results.Signals()) table.AddRow(TruthLevelCutRow(result, Tag::signal));
+    for (auto const & result : results.Backgrounds()) table.AddRow(TruthLevelCutRow(result, Tag::background));
+    table.AddCaption("Truth level cut efficiency");
+    return table;
 }
 
-std::string PlottingBase::EfficienciesTableMI(Results const& results, int bin, std::function<std::vector<Crosssection>(Result const&)> const& function) const
+LatexRow PlottingBase::TruthLevelCutRow(Result const& result, Tag) const
 {
     INFO0;
-    std::stringstream table;
-    table << "    Sample\n  & before\n  & after\n  & Efficiency\n  & $\\sigma$  [fb]\n";
-    table << "\n \\\\ \\midrule\n   ";
-    for (auto const & result : results.Signals()) table << EfficienciesRowMI(result, Position(results.Signals(), result), Tag::signal, bin, function);
-    for (auto const & result : results.Backgrounds()) table << EfficienciesRowMI(result, Position(results.Backgrounds(), result), Tag::background, bin);
-    return table.str();
-}
-
-std::string PlottingBase::EfficienciesRowMI(Result const& result, int , Tag , int bin, std::function<std::vector<Crosssection>(Result const&)> const& function) const
-{
-    INFO0;
-    std::stringstream row;
-//     row << " \\verb|" << result.InfoBranch().LatexName() << "|";
-    row << " $" << result.InfoBranch().Name() << "$";
-    row << "\n  & " << result.InfoBranch().EventNumber();
-    row << "\n  & " << result.PartialSum().at(bin);
-    row << "\n  & " << RoundToDigits(result.PreCutEfficiencies().at(bin));
-    row << "\n  & " << RoundToDigits(function(result).at(bin) / fb);
-    row << "\n \\\\";
-    return row.str();
-}
-
-std::string PlottingBase::EfficienciesRowMI(Result const& result, int index, Tag tag, int bin) const
-{
-    INFO0;
-    return EfficienciesRowMI(result, index, tag, bin, [](Result const & result) {
-        return std::vector<Crosssection>(result.Steps(), result.InfoBranch().Crosssection() * Results::ScalingFactor());
-    });
-}
-
-std::string PlottingBase::CutEfficiencyTable(Results const& results) const
-{
-    INFO0;
-    std::stringstream table;
-    table << "  & \\multicolumn{9}{c}{Pure Efficiencies [\\%]}\n \\\\\n    BDT value";
-    for (auto const & eff : results.SelectedEfficiencies()) table << "\n  & " << RoundToDigits(eff);
-    table << "\n \\\\ \\midrule\n   ";
-    for (auto const & result : results.Signals()) table << CutEfficiencyRow(result, Position(results.Signals(), result), Tag::signal);
-    for (auto const & result : results.Backgrounds()) table << CutEfficiencyRow(result, Position(results.Backgrounds(), result), Tag::background);
-    return table.str();
-}
-
-std::string PlottingBase::CutEfficiencyRow(Result const& result, int , Tag) const
-{
-    INFO0;
-    std::stringstream row;
-    //   row << " \\verb|" << Tagger().TreeNames(tag).at(index) << "|";
-//     row << " \\verb|" << result.InfoBranch().LatexName() << "|";
-    row << "$" << result.InfoBranch().Name() << "$";
-    for (auto const & eff : result.SelectedEfficiencies()) row << "\n  & " << RoundToDigits(eff * 100);
-    row << "\n \\\\";
-    return row.str();
-}
-
-std::string PlottingBase::TruthLevelCutTable(Results const& results) const
-{
-    INFO0;
-    std::stringstream table;
-    table << "    Sample\n  & Efficiency\n";
-    table << "\n \\\\ \\midrule\n   ";
-    for (auto const & result : results.Signals()) table << TruthLevelCutRow(result, Tag::signal);
-    for (auto const & result : results.Backgrounds()) table << TruthLevelCutRow(result, Tag::background);
-    return table.str();
-}
-
-std::string PlottingBase::TruthLevelCutRow(Result const& result, Tag) const
-{
-    INFO0;
-    std::stringstream row;
-    row << "$" << result.InfoBranch().Name() << "$";
-    row << "\n  & " << RoundToDigits(double(result.TrainerSize()) / result.TrainerInfoBranch().EventNumber());
-    row << "\n \\\\";
-    return row.str();
+    LatexRow row(result.InfoBranch().LatexName().str(Medium::latex));
+    row.AddCell(RoundToDigits(double(result.TrainerSize()) / result.TrainerInfoBranch().EventNumber()));
+    return row;
 }
 
 void PlottingBase::RunPlots(Stage stage) const
@@ -596,7 +540,7 @@ void PlottingBase::PlotProfile(Plot const& signal, Plot const& background, Recta
     profile.SetProfile(signal, background);
     profile.SetXAxis(signal.XAxis().LatexName());
     profile.SetYAxis(signal.YAxis().LatexName());
-    profile.SetZAxis("BDT_{" + signal.Title().LatexName() + "}", 30);
+    profile.SetZAxis(Latex("BDT_{") + signal.Title().LatexName() + "}", 30);
 }
 
 std::vector<Plots> PlottingBase::Import(Phase const& phase) const
@@ -751,10 +695,10 @@ void PlottingBase::RunPlotHist() const
 void PlottingBase::PlotVariables(Plots const& plots) const
 {
     Histograms histograms(Tagger().ExportFolderName(), plots.Names().Name());
-    for (auto const & plot : plots.PlotVector()) histograms.AddHistogram(plot.XData(), plot.Title().LatexName(), plots.XRange(), plot.x_is_int);
+    for (auto const & plot : plots.PlotVector()) histograms.AddHistogram(plot.XData(), plot.Title(), plots.XRange(), plot.x_is_int);
     histograms.SetLog();
     histograms.SetLegend(Orientation::outside | Orientation::right);
-    histograms.SetYAxis(Formula("N"));
+    histograms.SetYAxis(Latex("N", true));
     histograms.SetXAxis(plots.Names().LatexName());
 }
 

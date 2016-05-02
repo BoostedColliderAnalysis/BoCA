@@ -2,7 +2,7 @@
 
 #include "boca/TaggerTemplate.hh"
 #include "boca/multiplets/Triplet.hh"
-#include "boca/standardmodel/BranchesSm.hh"
+#include "boca/standardmodel/Branches.hh"
 
 namespace boca
 {
@@ -29,7 +29,7 @@ public:
 
     std::string Name() const override;
 
-    std::string LatexName() const override;
+    Latex LatexName() const override;
 
 private:
 

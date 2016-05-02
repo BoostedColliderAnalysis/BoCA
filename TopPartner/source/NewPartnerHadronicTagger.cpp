@@ -59,7 +59,7 @@ std::string NewPartnerHadronicTagger::Name() const
 {
     return "TopPartnerHadronic";
 }
-std::string NewPartnerHadronicTagger::LatexName() const
+Latex NewPartnerHadronicTagger::LatexName() const
 {
     return "T_{h}";
 }

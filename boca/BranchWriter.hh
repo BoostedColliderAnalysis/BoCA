@@ -3,11 +3,11 @@
  */
 #pragma once
 
+#include <mutex>
 #include "boca/io/FileWriter.hh"
 #include "boca/multivariant/Reader.hh"
 #include "boca/Branches.hh"
 #include "boca/File.hh"
-#include <mutex>
 
 namespace boca
 {

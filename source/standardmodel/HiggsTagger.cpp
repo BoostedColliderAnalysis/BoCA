@@ -69,7 +69,8 @@ boost::optional<Doublet> HiggsTagger::SetTag(Doublet& doublet, std::vector<Lepto
     return doublet;
 }
 
-Doublet HiggsTagger::PrepareDoublet(Doublet const& doublet, std::vector<Lepton>& leptons) {
+Doublet HiggsTagger::PrepareDoublet(Doublet const& doublet, std::vector<Lepton>& leptons)
+{
     INFO0;
     //     if (auto optional = MassDrop(doublet)) prepared = *optional;
     Jet jet_1 = doublet.Singlet1();
@@ -144,9 +145,9 @@ std::string HiggsTagger::Name() const
     return "Higgs";
 }
 
-std::string HiggsTagger::LatexName() const
+Latex HiggsTagger::LatexName() const
 {
-    return "h";
+    return {"h", true};
 }
 
 }

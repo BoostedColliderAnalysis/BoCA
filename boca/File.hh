@@ -21,7 +21,7 @@ class File
 
 public:
 
-    File(const std::vector< std::string >& processes, const std::string& base_path, const std::string& file_suffix, const std::string& nice_name, const boca::Crosssection& crosssection = pb, const boca::Mass& mass = 0_eV);
+    File(const std::vector< std::string >& processes, const std::string& base_path, const std::string& file_suffix, Latex const& latex_name, const boca::Crosssection& crosssection = pb, const boca::Mass& mass = 0_eV);
 
     File(const std::vector< std::string >& processes, const std::string& base_path, const std::string& file_suffix, const boca::Names& nice_name, const boca::Crosssection& crosssection = pb, const boca::Mass& mass = 0_eV);
 
@@ -37,7 +37,7 @@ public:
 
     std::string TreeName() const;
 
-    std::string LatexName() const;
+    Latex LatexName() const;
 
     std::string Name() const;
 

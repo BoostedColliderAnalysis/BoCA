@@ -42,9 +42,9 @@ std::string TopPartnerPairTagger::Name() const
     return "TopPartnerPair";
 }
 
-std::string TopPartnerPairTagger::LatexName() const
+Latex TopPartnerPairTagger::LatexName() const
 {
-    return Formula("T_{h} T_{l}");
+    return "T_{h} T_{l}";
 }
 
 }

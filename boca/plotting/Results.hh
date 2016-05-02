@@ -28,10 +28,10 @@ private:
     double BackgroundEvents(int step) const;
     Crosssection MI(Significance significance, double signal_efficiency, int step) const;
     Crosssection MIConstrained(Significance significance, double signal_efficiency, int step) const;
-    Crosssection MISum(double signal_efficiency, int step) const;
+    Crosssection MISum(Significance significance, double signal_efficiency, int step) const;
     Crosssection MIExperimental(double signal_efficiency, int step) const;
-    Crosssection MIBackground(double signal_efficiency, int step) const;
-    Crosssection MIPoisson(double signal_efficiency, int step) const;
+    Crosssection MIBackground(Significance significance, double signal_efficiency, int step) const;
+    Crosssection MIPoisson(boca::Significance significance, double signal_efficiency, int step) const;
     void BestBins(boca::Result& signal, boca::Significance significance);
     std::vector<Result> signals_;
     std::vector<Result> backgrounds_;
@@ -42,3 +42,4 @@ private:
 };
 
 }
+

@@ -102,23 +102,23 @@ protected:
 
     virtual int BackgroundFileNumber() const;
 
-    void NewFile(Tag tag, std::vector<std::string> const& names, std::string const& nice_name = "");
+    void NewFile(Tag tag, std::vector<std::string> const& names, Latex const& latex_name = "");
 
-    void NewFile(boca::Tag tag, const std::vector< std::string >& names, const boca::Crosssection& crosssection, const boca::Names& nice_name, boca::Mass const& mass = massless);
+    void NewFile(boca::Tag tag, const std::vector< std::string >& names, const boca::Crosssection& crosssection, const boca::Names& latex_name, boca::Mass const& mass = massless);
 
-    void NewFile(boca::Tag tag, const std::vector< std::string >& names, const boca::Crosssection& crosssection, const std::string& nice_name = "", boca::Mass const& mass = massless);
+    void NewFile(boca::Tag tag, const std::vector< std::string >& names, const boca::Crosssection& crosssection, Latex const& latex_name = "", boca::Mass const& mass = massless);
 
-    boca::File File(const std::vector< std::string >& names, const boca::Crosssection& crosssection, const std::string& nice_name, const boca::Mass& mass) const;
+    boca::File File(const std::vector< std::string >& names, const boca::Crosssection& crosssection, Latex const& latex_name, const boca::Mass& mass) const;
 
-    boca::File File(std::vector<std::string> const& names, std::string const& nice_name = "") const;
+    boca::File File(std::vector<std::string> const& names, Latex const& latex_name = "") const;
 
-    boca::File File(const std::vector< std::string >& names, const boca::Names& nice_name, const boca::Crosssection& crosssection, const boca::Mass& mass) const;
+    boca::File File(const std::vector< std::string >& names, const boca::Names& latex_name, const boca::Crosssection& crosssection, const boca::Mass& mass) const;
 
-    void NewFile(Tag tag, std::string const& names, std::string const& nice_name = "");
+    void NewFile(Tag tag, std::string const& names, Latex const& latex_name = "");
 
-    void NewFile(boca::Tag tag, const std::string& name, const boca::Crosssection& crosssection, const std::string& nice_name = "", boca::Mass const& mass = massless);
+    void NewFile(boca::Tag tag, const std::string& name, const boca::Crosssection& crosssection, Latex const& latex_name = "", boca::Mass const& mass = massless);
 
-    void NewFile(boca::Tag tag, const std::string& name, const boca::Crosssection& crosssection, const boca::Names& nice_name, const boca::Mass& mass);
+    void NewFile(boca::Tag tag, const std::string& name, const boca::Crosssection& crosssection, const boca::Names& latex_name, const boca::Mass& mass);
 
     std::string TreeName(std::string const& name) const;
 

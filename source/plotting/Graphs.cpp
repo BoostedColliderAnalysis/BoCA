@@ -27,9 +27,9 @@ Graphs::~Graphs()
     SaveAs(FileName());
 }
 
-void Graphs::AddGraph(std::vector<double> const& xs, std::vector<double> const& ys, std::string const& name)
+void Graphs::AddGraph(std::vector<double> const& xs, std::vector<double> const& ys, Latex const& name)
 {
-    INFO(xs.size(), ys.size(), name);
+    INFO(xs.size(), ys.size(), name.str(Medium::root));
     CHECK(xs.size() == ys.size() && !xs.empty(), xs.size(), ys.size());
     auto xs2 = xs;
     range_.WidenX(MinMax(boost::remove_erase(xs2, 0)));
@@ -37,14 +37,14 @@ void Graphs::AddGraph(std::vector<double> const& xs, std::vector<double> const& 
     range_.WidenY(MinMax(boost::remove_erase(ys2, 0)));
     TGraph graph(xs.size(), xs.data(), ys.data());
     SetLine(graph, graphs_.size());
-    graph.SetTitle(name.c_str());
+    graph.SetTitle(name.str(Medium::root).c_str());
     graphs_.emplace_back(graph);
     datas_.emplace_back(xs, ys);
 }
 
-void Graphs::SetLegend(boca::Orientation orientation, std::string const& title)
+void Graphs::SetLegend(boca::Orientation orientation, Latex const& title)
 {
-    INFO(title, Name(orientation));
+    INFO(title.str(Medium::root), Name(orientation));
     AddGraphs();
     for (auto & line : lines_) if (!line.second.empty()) legend_.AddEntry(line.first, line.second);
     legend_.SetOrientation(orientation, title);
@@ -55,16 +55,16 @@ void Graphs::Draw()
     INFO0;
     multi_graph_.Draw("al");
     for (auto & line : lines_) {
-      line.first.SetY1(RangeY().Min());
-      line.first.SetY2(RangeY().Max());
-      line.first.Draw();
+        line.first.SetY1(RangeY().Min());
+        line.first.SetY2(RangeY().Max());
+        line.first.Draw();
     }
     legend_.Draw();
 }
 
-void Graphs::SetXAxis(std::string const& title, boca::Range<double> const& range)
+void Graphs::SetXAxis(Latex const& title, boca::Range<double> const& range)
 {
-    INFO(title);
+    INFO0;
     if (range) {
         range_.SetX(range);
         range_.ResetY();
@@ -77,9 +77,9 @@ void Graphs::SetXAxis(std::string const& title, boca::Range<double> const& range
     multi_graph_.GetXaxis()->SetLimits(range_.Horizontal().Floor(), range_.Horizontal().Ceil());
 }
 
-void Graphs::SetYAxis(std::string const& title, boca::Range<double> const& range)
+void Graphs::SetYAxis(Latex const& title, boca::Range<double> const& range)
 {
-    INFO(title);
+    INFO0;
     range_.WidenY(range);
 //     if (range) {
 //         range_.SetY(range);
@@ -126,15 +126,15 @@ void Graphs::AddGraphs()
     }
 }
 
-void Graphs::AddLine(double x_value, std::string const& title)
+void Graphs::AddLine(double x_value, Latex const& title)
 {
     INFO(x_value);
 //     if (!RangeX().Inside(x_value)) return;
-    if (x_value <= -1 ) return; // FIXME reenable proper check
+    if (x_value <= -1) return;  // FIXME reenable proper check
     auto y = RangeY();
     TLine line(x_value, y.Min(), x_value, y.Max());
     SetLine(line, graphs_.size() + lines_.size());
-    lines_.emplace_back(line, title);
+    lines_.emplace_back(line, title.str(Medium::root));
 }
 
 }

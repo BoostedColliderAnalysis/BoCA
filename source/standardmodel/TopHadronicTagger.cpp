@@ -117,7 +117,7 @@ std::vector<Triplet> TopHadronicTagger::Triplets(Event const& event, Function co
 
     MomentumRange three_sub_jet_range(id_, SubJet(Id::W));
     for (auto const & jet : three_sub_jet_range.HarderThanMin(jets)) {
-      if (three_sub_jet_range.InsideRange(jet)) Insert(triplets, ThreeSubJets(jet, leptons, function, three_sub_jet_range));
+        if (three_sub_jet_range.InsideRange(jet)) Insert(triplets, ThreeSubJets(jet, leptons, function, three_sub_jet_range));
         MomentumRange two_sub_jet_range((SubJet(Id::W)), (SubJet(id_)));
         if (two_sub_jet_range.InsideRange(jet)) Insert(triplets, TwoSubJets(jet, leptons, function, two_sub_jet_range));
         MomentumRange one_sub_jet_range((SubJet(id_)));
@@ -259,9 +259,9 @@ std::string TopHadronicTagger::Name() const
     return "TopHadronic";
 }
 
-std::string TopHadronicTagger::LatexName() const
+Latex TopHadronicTagger::LatexName() const
 {
-    return Formula("t_{h}");
+    return {"t_{h}", true};
 }
 
 }

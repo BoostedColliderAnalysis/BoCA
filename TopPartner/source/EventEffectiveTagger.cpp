@@ -2,7 +2,6 @@
  * Copyright (C) 2015-2016 Jan Hajer
  */
 #include "boca/EventEffectiveTagger.hh"
-#include "boca/plotting/Font.hh"
 // #define DEBUGGING
 #include "boca/generic/DEBUG.hh"
 
@@ -47,9 +46,9 @@ std::string EventEffectiveTagger::Name() const
     return "Event";
 }
 
-std::string EventEffectiveTagger::LatexName() const
+Latex EventEffectiveTagger::LatexName() const
 {
-    return Formula("T_{h} T_{l} h h");
+    return "T_{h} T_{l} h h";
 }
 
 }

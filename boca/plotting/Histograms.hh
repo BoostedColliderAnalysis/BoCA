@@ -9,6 +9,7 @@
 
 #include "boca/plotting/Canvas.hh"
 #include "boca/plotting/Legend.hh"
+#include "boca/Names.hh"
 
 namespace boca
 {
@@ -24,19 +25,17 @@ public:
 
     ~Histograms();
 
-    void Initialize(std::string const& path, std::string const& name, bool show_title = false);
+    void AddHistogram(const std::vector< double >& values, const Names& name, const boca::Rectangle< double >& range);
 
-    void AddHistogram(std::vector<double> const& values, std::string const& name, Rectangle<double> const& range);
-
-    void AddHistogram(std::vector<double> const& values, std::string const& name, Range<double> const& range, bool is_int = false);
+    void AddHistogram(const std::vector< double >& values, const Names& name, const boca::Range< double >& range, bool is_int = false);
 
     void SetLegend(Orientation orientation, std::string const& title = "");
 
     void Draw();
 
-    void SetXAxis(std::string const& title, Range<double> const& range = Range<double>());
+    void SetXAxis(Latex const& title, Range<double> const& range = Range<double>());
 
-    void SetYAxis(std::string const& title, Range<double> const& range = Range<double>());
+    void SetYAxis(Latex const& title, Range<double> const& range = Range<double>());
 
     void AddLine(double x_value, std::string const& title = "");
 

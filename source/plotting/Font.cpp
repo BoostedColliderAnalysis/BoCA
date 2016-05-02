@@ -5,6 +5,7 @@
 
 #include "boca/generic/Types.hh"
 #include "boca/plotting/Font.hh"
+#include "boca/DetectorGeometry.hh"
 // #define INFORMATION
 #include "boca/generic/DEBUG.hh"
 
@@ -64,7 +65,7 @@ double TextHeight()
     switch (Precision()) {
     case 2 : return 0.07;
     case 3 : return 20;
-    default : return 0.0;
+        DEFAULT(Precision(), 0.07);
     }
 }
 
@@ -74,7 +75,7 @@ double LabelHeight()
     switch (Precision()) {
     case 2 : return 0.05;
     case 3 : return 15;
-    default : return 0.04;
+        DEFAULT(Precision(), 0.04);
     }
 }
 
@@ -96,26 +97,14 @@ int ColorCode(int number)
     case 11 : return kYellow - 9;
     case 12 : return kSpring - 5;
     case 13 : return kGray;
-    default : return kBlack;
+        DEFAULT(number, kBlack);
     }
 }
 
-std::string Formula(std::string const& text, Font font)
-{
-    INFO(text);
-    return "#font[" + std::to_string(FontCode(font, Style::italic)) + "]{" + text + "}";
-}
-
-std::string Text(std::string const& text, Font font)
-{
-    INFO(text);
-    return "#font[" + std::to_string(FontCode(font, Style::normal)) + "]{" + text + "}";
-}
-
-int FontCode(Font font, Style style)
+int FontCode(Style style)
 {
     INFO0;
-    return 10 * FontNumber(font, style) + Precision();
+    return 10 * FontNumber(DetectorGeometry::Font(), style) + Precision();
 }
 
 }

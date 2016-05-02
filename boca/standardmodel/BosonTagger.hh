@@ -38,7 +38,7 @@ public:
 
     std::string Name() const override;
 
-    std::string LatexName() const override;
+    Latex LatexName() const override;
 
     boost::optional<Doublet> Multiplet(boca::Doublet& doublet, const boca::PreCuts& pre_cuts, TMVA::Reader const& reader);
 

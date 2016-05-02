@@ -1,35 +1,80 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "boca/plotting/Result.hh"
+#include <boost/range/numeric.hpp>
+
 #include "boca/generic/Types.hh"
 #include "boca/generic/Vector.hh"
+#include "boca/plotting/Result.hh"
 #include "boca/DetectorGeometry.hh"
-// #define DEBUGGING
+// #define INFORMATION
 #include "boca/generic/DEBUG.hh"
 
 namespace boca
 {
 
-std::vector< Significance > SignificancesUnConstrained()
+std::vector< Significance > Constrained(std::vector<Significance> const& significances)
 {
-    return {Significance::background, Significance::sum, Significance::poisson};
-}
-
-std::vector< Significance > SignificancesConstrained()
-{
-    return Transform(SignificancesUnConstrained(), [](Significance significance) {
+    INFO0;
+    return Transform(significances, [](Significance significance) {
         return significance | Significance::experimental;
     });
 }
 
+std::vector< Significance > Exclusion(std::vector<Significance> const& significances)
+{
+    INFO0;
+    return Transform(significances, [](Significance significance) {
+        return significance | Significance::exclusion;
+    });
+}
+
+std::vector< Significance > Discovery(std::vector<Significance> const& significances)
+{
+    INFO0;
+    return Transform(significances, [](Significance significance) {
+        return significance | Significance::discovery;
+    });
+}
+std::vector< Significance > SignificancesSimple()
+{
+    INFO0;
+    return {Significance::sum, Significance::background};
+}
+
+std::vector< Significance > SignificancesMD()
+{
+    INFO0;
+    return Combine(SignificancesSimple(), Exclusion( {Significance::poisson}), Discovery( {Significance::poisson}));
+}
+
+std::vector< Significance > SignificancesBase()
+{
+    INFO0;
+    return Combine(SignificancesSimple(), {Significance::poisson});
+}
+
+std::vector< Significance > SignificancesMI()
+{
+    INFO0;
+    return Combine(Exclusion(SignificancesBase()), Discovery(SignificancesBase()));
+}
+
+std::vector< Significance > SignificancesMDI()
+{
+    INFO0;
+    return Combine(SignificancesMI(), SignificancesSimple(), {Significance::experimental});
+}
+
 std::vector< Significance > Significances()
 {
-  return Combine(SignificancesConstrained(), SignificancesUnConstrained(), {Significance::experimental});
+    INFO0;
+    return Combine(Constrained(Combine(SignificancesMI(), SignificancesSimple())), SignificancesMDI());
 }
 
 std::string Name(Significance significance)
 {
+    INFO0;
     std::string name;
     FlagSwitch(significance, [&](Significance significance) {
         switch (significance) {
@@ -41,6 +86,10 @@ std::string Name(Significance significance)
             break;
         case Significance::sum : name += "Sum ";
             break;
+        case Significance::discovery : name += "Discovery ";
+            break;
+        case Significance::exclusion : name += "Exclusion ";
+            break;
         case Significance::poisson : name += "Poisson ";
             break;
             DEFAULT(to_int(significance));
@@ -49,22 +98,35 @@ std::string Name(Significance significance)
     return name;
 }
 
-std::string LatexName(Significance significance)
+Latex LatexName(Significance significance)
 {
-    std::string name;
+    INFO0;
+    Latex name;
     FlagSwitch(significance, [&](Significance significance) {
         switch (significance) {
-        case Significance::experimental : name += name.empty() ? "" : " and " ;
-            name += "$\\frac{S}{B}$";
+        case Significance::experimental :
+            name += name.empty() ? "" : " and " ;
+            name += "\\frac{S}{B}";
             break;
-        case Significance::background : name += name.empty() ? "" : " and " ;
-            name += "$\\frac{S}{\\sqrt B}$";
+        case Significance::background :
+            name += name.empty() ? "" : " and " ;
+            name += "\\frac{S}{\\sqrt{B}}";
             break;
-        case Significance::sum : name += name.empty() ? "" : " and " ;
-            name += "$\\frac{S}{\\sqrt {S + B}}$";
+        case Significance::sum :
+            name += name.empty() ? "" : " and " ;
+            name += "\\frac{S}{\\sqrt{S + B}}";
             break;
-        case Significance::poisson : name += name.empty() ? "" : " and " ;
-            name += "Poisson";
+        case Significance::discovery :
+//           name += name.empty() ? "" : " and " ;
+            name += "|_{5}";
+            break;
+        case Significance::exclusion :
+//           name += name.empty() ? "" : " and " ;
+            name += "|_{2}";
+            break;
+        case Significance::poisson :
+            name += name.empty() ? "" : " and " ;
+            name += "\\sqrt{2\\frac{L_{1}}{L_{0}}}";
             break;
             DEFAULT(to_int(significance));
         }
@@ -78,7 +140,7 @@ std::vector<std::vector<bool>> Result::passed_;
 
 int Result::Steps()
 {
-    INFO0;
+    DEBUG0;
     switch (Mva()) {
     case TMVA::Types::EMVA::kBDT : return 200;
     case TMVA::Types::EMVA::kCuts : return passed_.front().size();
@@ -98,11 +160,13 @@ double Result::XValue(int value)
 
 double Result::BestMDValue(Significance significance) const
 {
+    INFO0;
     return XValue(BestMDBin(significance));
 }
 
 double Result::BestMIValue(Significance significance) const
 {
+    INFO0;
     return XValue(BestMIBin(significance));
 }
 
@@ -170,17 +234,19 @@ std::vector<int> const& Result::PartialSum() const
     return event_sums_.Get([&]() {
         std::vector<int> event_sums(Steps());
         switch (Mva()) {
-        case TMVA::Types::EMVA::kBDT : std::partial_sum(Bins().rbegin(), Bins().rend(), event_sums.rbegin());
-            return event_sums;
+        case TMVA::Types::EMVA::kBDT : boost::partial_sum(boost::adaptors::reverse(Bins()) , event_sums.rbegin());
+            break;
         case TMVA::Types::EMVA::kCuts : for (auto const & passed : passed_) for (auto const & step : IntegerRange(Steps())) if (passed.at(step)) ++event_sums.at(step);
-            return event_sums;
-            DEFAULT(Mva(), event_sums);
+            break;
+            DEFAULT(Mva());
         };
+        return event_sums;
     });
 }
 
 std::vector<int> const& Result::Bins() const
 {
+    INFO0;
     return bins_.Get([&]() {
         std::vector<int> bins(Steps());
         for (auto const & bdt : Bdts()) ++bins.at(XBin(bdt));
@@ -241,7 +307,7 @@ void Result::Inititialize()
 
 int Result::XBin(double value) const
 {
-    INFO(value);
+    DEBUG(value);
     switch (Mva()) {
     case TMVA::Types::kBDT : return std::floor((value + 1) * (Steps() - 1) / 2);
     case TMVA::Types::kCuts : return std::floor((value - 1) * (Steps() - 1) * 10);
@@ -251,66 +317,79 @@ int Result::XBin(double value) const
 
 TMVA::Types::EMVA const& Result::Mva()
 {
+    DEBUG0;
     return mva_;
 }
 
 std::vector< Crosssection >& Result::MI(Significance significance)
 {
+    INFO0;
     return model_independent_.at(significance);
 }
 
 std::vector<double>& Result::MD(Significance significance)
 {
+    INFO0;
     return model_dependent_.at(significance);
 }
 
 int& Result::BestMDBin(Significance significance)
 {
+    INFO0;
     return best_model_dependent_bin_.at(significance);
 }
 
 int& Result::BestMIBin(Significance significance)
 {
+    INFO0;
     return best_model_independent_bin_.at(significance);
 }
 
 std::vector< Crosssection > const& Result::MI(Significance significance) const
 {
+    INFO0;
     return model_independent_.at(significance);
 }
 
 std::vector<double> const& Result::MD(Significance significance) const
 {
+    INFO0;
     return model_dependent_.at(significance);
 }
 
 int Result::BestMDBin(Significance significance) const
 {
+    INFO0;
     return best_model_dependent_bin_.at(significance);
 }
 
 int Result::BestMIBin(Significance significance) const
 {
+    INFO0;
     return best_model_independent_bin_.at(significance);
 }
 
 std::vector<double > const& Result::SelectedEfficiencies() const
 {
+    INFO0;
     return selected_efficiencies_;
 }
 
 void Result::AddSelectedEfficiency(double selected_efficiency)
 {
+    INFO0;
     selected_efficiencies_.emplace_back(selected_efficiency);
 }
 
 void Result::AddSelectedEfficiency(int index)
 {
+    INFO0;
     selected_efficiencies_.emplace_back(PureEfficiencies().at(index));
 }
 
 int Result::TrainerSize() const
 {
+    INFO0;
     return trainer_size_;
 }
 

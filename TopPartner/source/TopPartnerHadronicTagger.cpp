@@ -30,9 +30,9 @@ std::string TopPartnerHadronicTagger::Name() const
     return "TopPartnerHadronic";
 }
 
-std::string TopPartnerHadronicTagger::LatexName() const
+Latex TopPartnerHadronicTagger::LatexName() const
 {
-    return "T_{h}";
+    return {"T_{h}", true};
 }
 
 std::vector< Quintet > TopPartnerHadronicTagger::Multiplets(const Event& event)

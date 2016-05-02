@@ -1,8 +1,6 @@
 /**
  * Copyright (C) 2015-2016 Jan Hajer
  */
-#include "TAxis.h"
-
 #include "boca/plotting/Style.hh"
 #include "boca/plotting/Histograms.hh"
 // #define INFORMATION
@@ -15,13 +13,11 @@ Histograms::Histograms() :
     Canvas()
 {}
 
-Histograms::Histograms(std::string const& path, std::string const& name, bool show_title)
-// :
-//     Canvas(path, name, show_title)
+Histograms::Histograms(std::string const& path, std::string const& name, bool show_title) :
+    Canvas(path, name, show_title)
 {
     INFO(name);
-//     if (show_title) stack_.SetTitle(Title().c_str());
-    Initialize(path, name, show_title);
+    if (show_title) stack_.SetTitle(Title().c_str());
 }
 
 Histograms::~Histograms()
@@ -31,31 +27,24 @@ Histograms::~Histograms()
     SaveAs(FileName());
 }
 
-void Histograms::Initialize(std::string const& path, std::string const& name, bool show_title)
+void Histograms::AddHistogram(std::vector<double> const& values, Names const& names, Range<double> const& range, bool is_int)
 {
-    INFO(name);
-    Canvas::Initialize(path, name, show_title);
-    if (show_title) stack_.SetTitle(Title().c_str());
-}
-
-void Histograms::AddHistogram(std::vector<double> const& values, std::string const& name, Range<double> const& range, bool is_int)
-{
-    INFO(name);
+    INFO0;
     range_.WidenX(range);
     auto min = FloorToDigits(range.Min(), 1);
     auto max = CeilToDigits(range.Max(), 1);
     int bins = is_int ? max - min : 50;
-    TH1F histogram(name.c_str(), "", bins, min , max);
+    TH1F histogram(names.Name().c_str(), names.LatexName().str(Medium::root).c_str(), bins, min , max);
+    INFO(names.LatexName().str(Medium::root).c_str(), histogram.GetTitle());
     for (auto const & bdt : values) histogram.Fill(bdt);
     if (histogram.Integral() != 0) histogram.Scale(1. / histogram.Integral());
     SetLine(histogram, histograms_.size());
-    histogram.SetTitle(name.c_str());
     histograms_.emplace_back(histogram);
 }
 
-void Histograms::AddHistogram(std::vector<double> const& values, std::string const& name, Rectangle<double> const& range)
+void Histograms::AddHistogram(std::vector<double> const& values, Names const& name, Rectangle<double> const& range)
 {
-    INFO(name);
+    INFO0;
     range_.WidenY(range.Vertical());
     AddHistogram(values, name, range.Horizontal());
 }
@@ -80,21 +69,21 @@ void Histograms::Draw()
     }
 }
 
-void Histograms::SetXAxis(std::string const& title, boca::Range<double> const& range)
+void Histograms::SetXAxis(Latex const& title, boca::Range<double> const& range)
 {
-    INFO(title);
+    INFO(title.str(Medium::root));
     AddHistograms();
     if (!stack_.GetXaxis()) return;
-    SetAxis(*stack_.GetXaxis(), title.c_str());
+    SetAxis(*stack_.GetXaxis(), title);
     if (range) stack_.GetXaxis()->SetLimits(range.Min(), range.Max());
 }
 
-void Histograms::SetYAxis(std::string const& title, boca::Range<double> const& range)
+void Histograms::SetYAxis(Latex const& title, boca::Range<double> const& range)
 {
-    INFO(title);
+    INFO(title.str(Medium::root));
     AddHistograms();
     if (!stack_.GetYaxis()) return;
-    SetAxis(*stack_.GetYaxis(), title.c_str());
+    SetAxis(*stack_.GetYaxis(), title);
     if (range) {
         SetLog(range);
         stack_.GetYaxis()->SetLimits(range.Min(), range.Max());
@@ -121,9 +110,10 @@ void Histograms::AddHistograms()
 {
     INFO(histograms_.size(), stack_.GetHists());
     if (stack_.GetHists()) return;
-    for (auto & graph : histograms_) {
-        stack_.Add(&graph);
-        if (histograms_.size() > 1) legend_.AddEntry(graph, graph.GetTitle());
+    for (auto & histogram : histograms_) {
+        stack_.Add(&histogram);
+        INFO(histogram.GetTitle());
+        if (histograms_.size() > 1) legend_.AddEntry(histogram, histogram.GetTitle());
     }
     Draw();
 }

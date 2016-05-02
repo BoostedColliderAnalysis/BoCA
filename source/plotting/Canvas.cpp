@@ -27,26 +27,16 @@ std::string ExportFileSuffix()
 
 Canvas::Canvas()
 {
+    INFO0;
     Initialize();
 }
 
 Canvas::Canvas(std::string const& path, std::string const& name, bool show_title)
 {
     INFO0;
-    Initialize(path, name, show_title);
-}
-
-void Canvas::Initialize(std::string const& path, std::string const& name, bool show_title)
-{
-    Initialize(path, name);
-    SetMargins(show_title);
-}
-
-void Canvas::Initialize(std::string const& path, std::string const& name)
-{
-    INFO0;
     path_ = path;
     title_ = name;
+    SetMargins(show_title);
     Initialize();
 }
 
@@ -68,11 +58,13 @@ void Canvas::Initialize()
 
 std::string Canvas::FileName() const
 {
+    INFO0;
     return FileBaseName() + ExportFileSuffix();
 }
 
 std::string Canvas::FileBaseName() const
 {
+    INFO0;
     return path_ + "-" + title_ ;
 }
 
@@ -99,19 +91,25 @@ std::string Canvas::SaveAs(std::string const& name)
 
 TCanvas const& Canvas::canvas() const
 {
+    INFO0;
     return canvas_;
 }
 
 TCanvas& Canvas::canvas()
 {
+    INFO0;
     return canvas_;
 }
+
 std::string const& Canvas::Title() const
 {
+    INFO0;
     return title_;
 }
+
 void Canvas::SetLog()
 {
+    INFO0;
     canvas_.SetLogy();
 }
 

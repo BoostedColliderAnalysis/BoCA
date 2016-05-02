@@ -105,14 +105,12 @@ boost::optional<Doublet> ZHadronicTagger::Multiplet(Doublet& doublet, PreCuts co
 
 std::string ZHadronicTagger::Name() const
 {
-    INFO0;
     return "ZHadronic";
 }
 
-std::string ZHadronicTagger::LatexName() const
+Latex ZHadronicTagger::LatexName() const
 {
-    INFO0;
-    return "Z";
+    return {"Z", true};
 }
 
 }
