@@ -34,8 +34,8 @@ void Histograms::AddHistogram(std::vector<double> const& values, Names const& na
     auto min = FloorToDigits(range.Min(), 1);
     auto max = CeilToDigits(range.Max(), 1);
     int bins = is_int ? max - min : 50;
-    TH1F histogram(names.Name().c_str(), names.LatexName().str(Medium::root).c_str(), bins, min , max);
-    INFO(names.LatexName().str(Medium::root).c_str(), histogram.GetTitle());
+    TH1F histogram(names.Name().c_str(), names.LatexName().str(latex::Medium::root).c_str(), bins, min , max);
+    INFO(names.LatexName().str(latex::Medium::root).c_str(), histogram.GetTitle());
     for (auto const & bdt : values) histogram.Fill(bdt);
     if (histogram.Integral() != 0) histogram.Scale(1. / histogram.Integral());
     SetLine(histogram, histograms_.size());
@@ -69,18 +69,18 @@ void Histograms::Draw()
     }
 }
 
-void Histograms::SetXAxis(Latex const& title, boca::Range<double> const& range)
+void Histograms::SetXAxis(latex::String const& title, boca::Range<double> const& range)
 {
-    INFO(title.str(Medium::root));
+    INFO(title.str(latex::Medium::root));
     AddHistograms();
     if (!stack_.GetXaxis()) return;
     SetAxis(*stack_.GetXaxis(), title);
     if (range) stack_.GetXaxis()->SetLimits(range.Min(), range.Max());
 }
 
-void Histograms::SetYAxis(Latex const& title, boca::Range<double> const& range)
+void Histograms::SetYAxis(latex::String const& title, boca::Range<double> const& range)
 {
-    INFO(title.str(Medium::root));
+    INFO(title.str(latex::Medium::root));
     AddHistograms();
     if (!stack_.GetYaxis()) return;
     SetAxis(*stack_.GetYaxis(), title);

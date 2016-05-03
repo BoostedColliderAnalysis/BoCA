@@ -36,7 +36,7 @@ std::string Name(Collider collider)
     }
 }
 
-Latex LatexName(Process process)
+latex::String LatexName(Process process)
 {
     switch (process) {
     case Process::bb : return {"b", true};

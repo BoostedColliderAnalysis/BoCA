@@ -127,7 +127,7 @@ std::string TopLeptonicTagger::Name() const
     return "TopLeptonic";
 }
 
-Latex TopLeptonicTagger::LatexName() const
+latex::String TopLeptonicTagger::LatexName() const
 {
     return {"t_{l}", true};
 }

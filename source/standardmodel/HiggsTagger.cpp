@@ -145,7 +145,7 @@ std::string HiggsTagger::Name() const
     return "Higgs";
 }
 
-Latex HiggsTagger::LatexName() const
+latex::String HiggsTagger::LatexName() const
 {
     return {"h", true};
 }

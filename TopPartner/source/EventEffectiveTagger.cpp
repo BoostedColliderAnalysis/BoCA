@@ -46,7 +46,7 @@ std::string EventEffectiveTagger::Name() const
     return "Event";
 }
 
-Latex EventEffectiveTagger::LatexName() const
+latex::String EventEffectiveTagger::LatexName() const
 {
     return "T_{h} T_{l} h h";
 }

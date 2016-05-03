@@ -4,7 +4,7 @@ namespace hep
 {
 
 QHTT::QHTT() : _niter(100),   _q_zcut(0.1), _q_dcut_fctr(0.5), _q_exp_min(0.), _q_exp_max(0.), _q_rigidity(0.1), _q_truncation_fctr(0.0)
-{};
+{}
 
 void QHTT::run(TopTagger2 const& htt)
 {
@@ -33,7 +33,8 @@ void QHTT::run(TopTagger2 const& htt)
         }
     }
     _eps_q = float(_qtags) / float(_niter);
-};
+}
+
 void QHTT::set_iterations(int niter)
 {
     _niter = niter;

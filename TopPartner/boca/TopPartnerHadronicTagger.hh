@@ -32,7 +32,7 @@ public:
 
     std::string Name() const override;
 
-    Latex LatexName() const override;
+    latex::String LatexName() const override;
 
 private:
 

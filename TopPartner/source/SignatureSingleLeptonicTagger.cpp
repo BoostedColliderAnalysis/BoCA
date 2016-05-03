@@ -53,7 +53,7 @@ std::vector<Decuplet532> SignatureSingleLeptonicTagger::Decuplets(Event const& e
   return decuplets;
 }
 
-Latex SignatureSingleLeptonicTagger::LatexName() const
+latex::String SignatureSingleLeptonicTagger::LatexName() const
 {
     return "T_{l}t_{h}h";
 }

@@ -98,10 +98,10 @@ std::string Name(Significance significance)
     return name;
 }
 
-Latex LatexName(Significance significance)
+latex::String LatexName(Significance significance)
 {
     INFO0;
-    Latex name;
+    latex::String name;
     FlagSwitch(significance, [&](Significance significance) {
         switch (significance) {
         case Significance::experimental :

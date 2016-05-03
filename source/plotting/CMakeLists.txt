@@ -7,8 +7,6 @@ Results.cpp
 Plot.cpp
 Plots.cpp
 Legend.cpp
-LatexFile.cpp
-LatexTable.cpp
 Canvas.cpp
 Histograms.cpp
 Histogram2Dim.cpp

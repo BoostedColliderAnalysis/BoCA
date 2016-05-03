@@ -89,14 +89,14 @@ long AnalysisBase::ReadNumberMax() const
     return TrainNumberMax();
 }
 
-void AnalysisBase::NewFile(Tag tag, const std::vector<std::string>& names, Crosssection const& crosssection, Latex const& latex_name, Mass const& mass)
+void AnalysisBase::NewFile(Tag tag, const std::vector<std::string>& names, Crosssection const& crosssection, latex::String const& latex_name, Mass const& mass)
 {
     INFO0;
     files_.emplace_back(File(names, crosssection, latex_name, mass));
     Tagger().AddTreeName(TreeName(names.front()), tag);
 }
 
-void AnalysisBase::NewFile(Tag tag, std::vector<std::string> const& names, Latex const& latex_name)
+void AnalysisBase::NewFile(Tag tag, std::vector<std::string> const& names, latex::String const& latex_name)
 {
     INFO0;
     files_.emplace_back(File(names, latex_name));
@@ -110,7 +110,7 @@ void AnalysisBase::NewFile(Tag tag, std::vector<std::string> const& names, Cross
     Tagger().AddTreeName(TreeName(names.front()), tag);
 }
 
-void AnalysisBase::NewFile(Tag tag, std::string const& name, Crosssection const& crosssection, Latex const& latex_name, Mass const& mass)
+void AnalysisBase::NewFile(Tag tag, std::string const& name, Crosssection const& crosssection, latex::String const& latex_name, Mass const& mass)
 {
     INFO0;
     files_.emplace_back(File( {name}, crosssection, latex_name, mass));
@@ -124,7 +124,7 @@ void AnalysisBase::NewFile(Tag tag, std::string const& name, Crosssection const&
     Tagger().AddTreeName(TreeName(name), tag);
 }
 
-void AnalysisBase::NewFile(Tag tag, std::string const& name, Latex const& latex_name)
+void AnalysisBase::NewFile(Tag tag, std::string const& name, latex::String const& latex_name)
 {
     INFO0;
     files_.emplace_back(File( {name}, latex_name));
@@ -137,13 +137,13 @@ File AnalysisBase::File(std::vector<std::string> const& names, Names const& late
     return boca::File(names, FilePath(), FileSuffix(), latex_name, crosssection, mass);
 }
 
-File AnalysisBase::File(std::vector<std::string> const& names, Latex const& latex_name) const
+File AnalysisBase::File(std::vector<std::string> const& names, latex::String const& latex_name) const
 {
     INFO0;
     return boca::File(names, FilePath(), FileSuffix(), latex_name);
 }
 
-File AnalysisBase::File(std::vector<std::string> const& names, Crosssection const& crosssection, Latex const& latex_name, Mass const& mass) const
+File AnalysisBase::File(std::vector<std::string> const& names, Crosssection const& crosssection, latex::String const& latex_name, Mass const& mass) const
 {
     INFO0;
     return boca::File(names, FilePath(), FileSuffix(), latex_name, crosssection, mass);

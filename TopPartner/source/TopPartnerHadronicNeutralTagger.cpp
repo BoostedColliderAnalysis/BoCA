@@ -59,7 +59,7 @@ std::string TopPartnerHadronicNeutralTagger::Name() const
     return "TopPartnerHadronicNeutral";
 }
 
-Latex TopPartnerHadronicNeutralTagger::LatexName() const
+latex::String TopPartnerHadronicNeutralTagger::LatexName() const
 {
     return "T_{h}";
 }

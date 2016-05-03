@@ -71,7 +71,7 @@ std::string HiggsPairTagger::Name() const
     return "HiggsPair";
 }
 
-Latex HiggsPairTagger::LatexName() const
+latex::String HiggsPairTagger::LatexName() const
 {
     return {"hh", true};
 }

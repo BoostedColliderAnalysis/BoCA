@@ -21,15 +21,15 @@ public:
 
     ~Profile();
 
-    void SetXAxis(Latex const& title);
+    void SetXAxis(latex::String const& title);
 
-    void SetYAxis(Latex const& title);
+    void SetYAxis(latex::String const& title);
 
-    void SetZAxis(Latex const& title, int bins);
+    void SetZAxis(latex::String const& title, int bins);
 
     void SetProfile(Plot const& signal, Plot const& background);
 
-    void SetDimensions(Latex const& name, int bins, Rectangle<double> const& range);
+    void SetDimensions(latex::String const& name, int bins, Rectangle<double> const& range);
 
     std::string FileBaseName() const override;
 

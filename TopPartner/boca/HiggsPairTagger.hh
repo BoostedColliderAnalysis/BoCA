@@ -25,7 +25,7 @@ public:
 
     std::string Name() const override;
 
-    Latex LatexName() const override;
+    latex::String LatexName() const override;
 
     std::vector<std::pair<Particle, Particle>> Particles(const boca::Event& event, boca::Tag tag) const;
 

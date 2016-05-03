@@ -22,8 +22,8 @@ public:
     std::vector<double> const& SelectedEfficiencies() const;
     static double ScalingFactor();
 private:
-    void CalculateSignificance(Result& signal,Significance significance, int step);
-    void CalculateSignificance(Result& signal,Significance significance);
+    void CalculateSignificance(Result& signal, Significance significance, int step);
+    void CalculateSignificance(Result& signal, Significance significance);
     std::vector<Crosssection> BackgroundCrosssections() const;
     double BackgroundEvents(int step) const;
     Crosssection MI(Significance significance, double signal_efficiency, int step) const;

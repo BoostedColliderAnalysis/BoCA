@@ -356,7 +356,7 @@ TreeBranch& Tagger::TreeBranch() const
     return *tree_branch_;
 }
 
-Latex Tagger::LatexName() const
+latex::String Tagger::LatexName() const
 {
     INFO0;
     return Name();

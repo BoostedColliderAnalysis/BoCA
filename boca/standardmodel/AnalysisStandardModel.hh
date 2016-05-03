@@ -34,7 +34,7 @@ enum class Process
 
 std::string ProcessName(Process process);
 
-Latex LatexName(Process process);
+latex::String LatexName(Process process);
 
 std::string Name(Process process);
 

@@ -36,7 +36,7 @@ std::string Name(Process process)
     }
 }
 
-Latex LatexName(Process process)
+latex::String LatexName(Process process)
 {
     switch (process) {
     case Process::Hbb : return "H/Ab\\bar{b}";

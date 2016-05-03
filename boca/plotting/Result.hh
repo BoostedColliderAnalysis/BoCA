@@ -9,8 +9,6 @@
 
 #include "boca/generic/Mutable.hh"
 #include "boca/generic/Flag.hh"
-#include "boca/physics/Units.hh"
-#include "boca/Latex.hh"
 #include "boca/Branches.hh"
 
 namespace boca
@@ -29,7 +27,7 @@ enum class Significance
 
 std::string Name(Significance significance);
 
-Latex LatexName(Significance significance);
+latex::String LatexName(Significance significance);
 
 template<>
 struct Flag<Significance> {

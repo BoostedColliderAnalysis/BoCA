@@ -69,7 +69,7 @@ boca::Names InfoBranch::Names() const
     INFO0;
     return names;
 }
-Latex InfoBranch::LatexName() const
+latex::String InfoBranch::LatexName() const
 {
     INFO0;
     return names.LatexName();
@@ -141,7 +141,7 @@ ParticleBranch::ParticleBranch()
 
 Observables ParticleBranch::Variables()
 {
-    return BdtBranch::Variables() + OBSERVABLE(Mass, Latex("m") + " [GeV]") + OBSERVABLE(Pt, Latex("p_{T}") + " [GeV]");
+    return BdtBranch::Variables() + OBSERVABLE(Mass, latex::String("m") + " [GeV]") + OBSERVABLE(Pt, latex::String("p_{T}") + " [GeV]");
 }
 
 Observables ParticleBranch::Spectators()
@@ -165,7 +165,7 @@ BottomBase::BottomBase()
 
 Observables BottomBase::Variables()
 {
-    return OBSERVABLE(VertexMass, Latex("m_{V}") + " [GeV]") + OBSERVABLE(MaxDisplacement, "log(" + Latex("\\Delta d") + "_{max} / mm)") + OBSERVABLE(MeanDisplacement, "log(" + Latex("\\Delta d") + "_{mean} / mm)") + OBSERVABLE(SumDisplacement, "log(" + Latex("\\Delta d") + "_{sum} / mm)") + OBSERVABLE(Multiplicity, Latex("n_{V}")) + OBSERVABLE(Radius, Latex("r")) + OBSERVABLE(Spread, Latex("s")) + OBSERVABLE(VertexRadius, Latex("r_{V}")) + OBSERVABLE(VertexSpread, Latex("s_{V}")) + OBSERVABLE(EnergyFraction, Latex("f_{E}"));
+    return OBSERVABLE(VertexMass, latex::String("m_{V}") + " [GeV]") + OBSERVABLE(MaxDisplacement, "log(" + latex::String("\\Delta d") + "_{max} / mm)") + OBSERVABLE(MeanDisplacement, "log(" + latex::String("\\Delta d") + "_{mean} / mm)") + OBSERVABLE(SumDisplacement, "log(" + latex::String("\\Delta d") + "_{sum} / mm)") + OBSERVABLE(Multiplicity, latex::String("n_{V}")) + OBSERVABLE(Radius, latex::String("r")) + OBSERVABLE(Spread, latex::String("s")) + OBSERVABLE(VertexRadius, latex::String("r_{V}")) + OBSERVABLE(VertexSpread, latex::String("s_{V}")) + OBSERVABLE(EnergyFraction, latex::String("f_{E}"));
 }
 
 Observables BottomBase::Spectators()
@@ -191,7 +191,7 @@ PairBranch::PairBranch()
 
 Observables PairBranch::Variables()
 {
-    return ParticleBranch::Variables() + OBSERVABLE(Ht, Latex("H_{T}") + " [GeV]") + OBSERVABLE(DeltaPt, Latex("\\Delta P_{T}") + " [GeV]") + OBSERVABLE(DeltaM, Latex("\\Delta m") + " [GeV]") + OBSERVABLE(DeltaRap, Latex("\\Delta \\eta")) + OBSERVABLE(DeltaPhi, Latex("\\Delta \\phi")) + OBSERVABLE(DeltaR, Latex("\\Delta R")) + OBSERVABLE(Rho, Latex("\\rho")) + OBSERVABLE(Bdt1, "BDT_{1}") + OBSERVABLE(Bdt2, "BDT_{2}") + OBSERVABLE(Pull1, Latex("#theta_{1}")) + OBSERVABLE(Pull2, Latex("#theta_{2}")) /*+ OBSERVABLE(Dipolarity, Latex("D"))*/;
+    return ParticleBranch::Variables() + OBSERVABLE(Ht, latex::String("H_{T}") + " [GeV]") + OBSERVABLE(DeltaPt, latex::String("\\Delta P_{T}") + " [GeV]") + OBSERVABLE(DeltaM, latex::String("\\Delta m") + " [GeV]") + OBSERVABLE(DeltaRap, latex::String("\\Delta \\eta")) + OBSERVABLE(DeltaPhi, latex::String("\\Delta \\phi")) + OBSERVABLE(DeltaR, latex::String("\\Delta R")) + OBSERVABLE(Rho, latex::String("\\rho")) + OBSERVABLE(Bdt1, "BDT_{1}") + OBSERVABLE(Bdt2, "BDT_{2}") + OBSERVABLE(Pull1, latex::String("#theta_{1}")) + OBSERVABLE(Pull2, latex::String("#theta_{2}")) /*+ OBSERVABLE(Dipolarity, latex::String("D"))*/;
     //return ParticleBranch::Variables() + OBSERVABLE(Ht) + OBSERVABLE(DeltaPt) + OBSERVABLE(DeltaM) + OBSERVABLE(DeltaRap) + OBSERVABLE(DeltaPhi) + OBSERVABLE(DeltaR) + OBSERVABLE(Rho);
 }
 
@@ -207,7 +207,7 @@ MultiBranch::MultiBranch()
 
 Observables MultiBranch::Variables()
 {
-    return PairBranch::Variables() + OBSERVABLE(DeltaHt, Latex("\\Delta H_{T}") + " [GeV]");
+    return PairBranch::Variables() + OBSERVABLE(DeltaHt, latex::String("\\Delta H_{T}") + " [GeV]");
 }
 
 SignatureBranch::SignatureBranch()

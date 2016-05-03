@@ -34,7 +34,7 @@ std::string NewPartnerPairTagger::Name() const
 {
     return "NewPartnerPair";
 }
-Latex NewPartnerPairTagger::LatexName() const
+latex::String NewPartnerPairTagger::LatexName() const
 {
     return "T_{h} T_{l}";
 }

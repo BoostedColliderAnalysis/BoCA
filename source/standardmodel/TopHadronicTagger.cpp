@@ -259,7 +259,7 @@ std::string TopHadronicTagger::Name() const
     return "TopHadronic";
 }
 
-Latex TopHadronicTagger::LatexName() const
+latex::String TopHadronicTagger::LatexName() const
 {
     return {"t_{h}", true};
 }

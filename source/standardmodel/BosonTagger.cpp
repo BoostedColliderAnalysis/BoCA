@@ -109,7 +109,7 @@ std::string BosonTagger::Name() const
     return "Boson";
 }
 
-Latex BosonTagger::LatexName() const
+latex::String BosonTagger::LatexName() const
 {
     return {"B", true};
 }

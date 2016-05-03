@@ -138,7 +138,7 @@ std::string WLeptonicTagger::Name() const
     return "WLeptonic";
 }
 
-Latex WLeptonicTagger::LatexName() const
+latex::String WLeptonicTagger::LatexName() const
 {
     return {"W_{l}", true};
 }

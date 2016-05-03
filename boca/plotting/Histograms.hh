@@ -33,9 +33,9 @@ public:
 
     void Draw();
 
-    void SetXAxis(Latex const& title, Range<double> const& range = Range<double>());
+    void SetXAxis(latex::String const& title, Range<double> const& range = Range<double>());
 
-    void SetYAxis(Latex const& title, Range<double> const& range = Range<double>());
+    void SetYAxis(latex::String const& title, Range<double> const& range = Range<double>());
 
     void AddLine(double x_value, std::string const& title = "");
 

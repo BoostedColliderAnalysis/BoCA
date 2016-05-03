@@ -80,6 +80,7 @@ BOOST_UNITS_METRIC_PREFIX_2(24, yotta);
         return boost::units::quantity<quant, double >(double(x) * std::pow(10, exponent) * unit); \
     } \
     static const boost::units::quantity<quant, double> prefix##suffix(1. * std::pow(10, exponent) * unit); \
+    static const auto prefix##suffix##2 = boost::units::pow<2>(prefix##suffix); \
 
 #define BOOST_UNITS_LITERAL_SET(suffix, quant, unit) \
     BOOST_UNITS_LITERAL(suffix, quant, unit, Y, 24) \
@@ -105,41 +106,41 @@ BOOST_UNITS_METRIC_PREFIX_2(24, yotta);
     BOOST_UNITS_LITERAL(suffix, quant, unit, y, -24)
 
 BOOST_UNITS_LITERAL_SET(m, boost::units::si::length, boost::units::si::metre)
-// BOOST_UNITS_LITERAL_SET(g, mass, 0.001 * kilogram)
-// BOOST_UNITS_LITERAL_SET(s, time, second)
-// BOOST_UNITS_LITERAL_SET(A, current, ampere)
-// BOOST_UNITS_LITERAL_SET(K, temperature, kelvin)
-// BOOST_UNITS_LITERAL_SET(mol, amount, mole)
-// BOOST_UNITS_LITERAL_SET(cd, luminous_intensity, candela)
-// BOOST_UNITS_LITERAL_SET(Hz, frequency, hertz)
+// BOOST_UNITS_LITERAL_SET(g, boost::units::si::mass, 0.001 * boost::units::si::kilogram)
+// BOOST_UNITS_LITERAL_SET(s, boost::units::si::time, boost::units::si::second)
+// BOOST_UNITS_LITERAL_SET(A, boost::units::si::current, boost::units::si::ampere)
+// BOOST_UNITS_LITERAL_SET(K, boost::units::si::temperature, boost::units::si::kelvin)
+// BOOST_UNITS_LITERAL_SET(mol, boost::units::si::amount, boost::units::si::mole)
+// BOOST_UNITS_LITERAL_SET(cd, boost::units::si::luminous_intensity, boost::units::si::candela)
+// BOOST_UNITS_LITERAL_SET(Hz, boost::units::si::frequency, boost::units::si::hertz)
 BOOST_UNITS_LITERAL_SET(rad, boost::units::si::plane_angle, boost::units::si::radian)
-// BOOST_UNITS_LITERAL_SET(sr, solid_angle, steradian)
-// BOOST_UNITS_LITERAL_SET(N, force, newton)
-// BOOST_UNITS_LITERAL_SET(Pa, pressure, pascal)
-// BOOST_UNITS_LITERAL_SET(J, energy, joule)
-// BOOST_UNITS_LITERAL_SET(W, power, watt)
-// BOOST_UNITS_LITERAL_SET(C, electric_charge, coulomb)
-// BOOST_UNITS_LITERAL_SET(V, electric_potential, volt)
-// BOOST_UNITS_LITERAL_SET(F, capacitance, farad)
-// BOOST_UNITS_LITERAL_SET(ohm, resistance, ohm)
-// BOOST_UNITS_LITERAL_SET(S, conductance, siemens)
-// BOOST_UNITS_LITERAL_SET(Wb, magnetic_flux, weber)
-// BOOST_UNITS_LITERAL_SET(T, magnetic_flux_density, tesla)
-// BOOST_UNITS_LITERAL_SET(H, inductance, henry)
-// BOOST_UNITS_LITERAL_SET(degC, temperature, kelvin + 273.15 * kelvin)
-// BOOST_UNITS_LITERAL_SET(lm, luminous_flux, lumen)
-// BOOST_UNITS_LITERAL_SET(lx, illuminance, lux)
-// BOOST_UNITS_LITERAL_SET(Bq, activity, becquerel)
-// BOOST_UNITS_LITERAL_SET(Gy, absorbed_dose, gray)
-// BOOST_UNITS_LITERAL_SET(Sv, dose_equivalent, sievert)
-// BOOST_UNITS_LITERAL_SET(kat, catalytic_activity, katal)
-// BOOST_UNITS_LITERAL_SET(min, time, 60.0 * second)
-// BOOST_UNITS_LITERAL_SET(h, time, 60.0 * 60.0 * second)
-// BOOST_UNITS_LITERAL_SET(day, time, 60.0 * 60.0 * 24.0 * second)
-// BOOST_UNITS_LITERAL_SET(deg, plane_angle, boost::math::constants::pi<double>() / 180.0 * radian)
-// BOOST_UNITS_LITERAL_SET(l, volume, 0.001 * cubic_meter)
-// BOOST_UNITS_LITERAL_SET(L, volume, 0.001 * cubic_meter)
-// BOOST_UNITS_LITERAL_SET(t, mass, 1000.0 * kilogram)
+// BOOST_UNITS_LITERAL_SET(sr, boost::units::si::solid_angle, boost::units::si::steradian)
+// BOOST_UNITS_LITERAL_SET(N, boost::units::si::force, boost::units::si::newton)
+// BOOST_UNITS_LITERAL_SET(Pa, boost::units::si::pressure, boost::units::si::pascal)
+// BOOST_UNITS_LITERAL_SET(J, boost::units::si::energy, boost::units::si::joule)
+// BOOST_UNITS_LITERAL_SET(W, boost::units::si::power, boost::units::si::watt)
+// BOOST_UNITS_LITERAL_SET(C, boost::units::si::electric_charge, boost::units::si::coulomb)
+// BOOST_UNITS_LITERAL_SET(V, boost::units::si::electric_potential, boost::units::si::volt)
+// BOOST_UNITS_LITERAL_SET(F, boost::units::si::capacitance, boost::units::si::farad)
+// BOOST_UNITS_LITERAL_SET(ohm, boost::units::si::resistance, boost::units::si::ohm)
+// BOOST_UNITS_LITERAL_SET(S, boost::units::si::conductance, boost::units::si::siemens)
+// BOOST_UNITS_LITERAL_SET(Wb, boost::units::si::magnetic_flux, boost::units::si::weber)
+// BOOST_UNITS_LITERAL_SET(T, boost::units::si::magnetic_flux_density, boost::units::si::tesla)
+// BOOST_UNITS_LITERAL_SET(H, boost::units::si::inductance, boost::units::si::henry)
+// BOOST_UNITS_LITERAL_SET(degC, boost::units::si::temperature, boost::units::si::kelvin + 273.15 * boost::units::si::kelvin)
+// BOOST_UNITS_LITERAL_SET(lm, boost::units::si::luminous_flux, boost::units::si::lumen)
+// BOOST_UNITS_LITERAL_SET(lx, boost::units::si::illuminance, boost::units::si::lux)
+// BOOST_UNITS_LITERAL_SET(Bq, boost::units::si::activity, boost::units::si::becquerel)
+// BOOST_UNITS_LITERAL_SET(Gy, boost::units::si::absorbed_dose, boost::units::si::gray)
+// BOOST_UNITS_LITERAL_SET(Sv, boost::units::si::dose_equivalent, boost::units::si::sievert)
+// BOOST_UNITS_LITERAL_SET(kat, boost::units::si::catalytic_activity, boost::units::si::katal)
+// BOOST_UNITS_LITERAL_SET(min, boost::units::si::time, 60. * boost::units::si::second)
+// BOOST_UNITS_LITERAL_SET(h, boost::units::si::time, 60. * 60. * boost::units::si::second)
+// BOOST_UNITS_LITERAL_SET(day, boost::units::si::time, 60. * 60. * 24. * boost::units::si::second)
+// BOOST_UNITS_LITERAL_SET(deg, boost::units::si::plane_angle, boost::math::constants::pi<double>() / 180. * boost::units::si::radian)
+// BOOST_UNITS_LITERAL_SET(l, boost::units::si::volume, 0.001 * boost::units::si::cubic_meter)
+// BOOST_UNITS_LITERAL_SET(L, boost::units::si::volume, 0.001 * boost::units::si::cubic_meter)
+// BOOST_UNITS_LITERAL_SET(t, boost::units::si::mass, 1000. * boost::units::si::kilogram)
 /**
  * @brief ElectronVolt
  * Unit of Energy
@@ -148,18 +149,12 @@ BOOST_UNITS_LITERAL_SET(eV, electronvolt::Energy, ElectronVolt)
 /**
  * @brief Barn
  * Unit of Area
- *
  */
 BOOST_UNITS_LITERAL_SET(b, barn::Area, Barn)
 /**
  * @brief Uno
- * dimensionless unit eg 1%=1cU, or 1ppm=1mU
- *
+ * dimensionless unit eg 1%=1cU, or 1ppm=1uU
  */
 BOOST_UNITS_LITERAL_SET(U, boost::units::si::dimensionless, boost::units::si::si_dimensionless)
-
-static const AngleSquare rad2 = boost::units::pow<2>(rad);
-static const MomentumSquare GeV2 = boost::units::pow<2>(GeV);
-
 
 }

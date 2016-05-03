@@ -29,11 +29,13 @@ public:
 
     int Train(Event const& event, PreCuts const& pre_cuts, Tag tag) override;
 
+    using TaggerTemplate::Multiplets;
+
     std::vector<Doublet> Multiplets(Event const& event, PreCuts const& pre_cuts, TMVA::Reader const& reader) override;
 
     std::string Name() const override;
 
-    Latex LatexName() const override;
+    latex::String LatexName() const override;
 
 private:
 

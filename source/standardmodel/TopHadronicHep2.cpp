@@ -129,7 +129,7 @@ std::string TopHadronicHep2::Name() const
     return "TopHadronicHep2";
 }
 
-Latex TopHadronicHep2::LatexName() const
+latex::String TopHadronicHep2::LatexName() const
 {
     INFO0;
     return {"t_{h}^{hep2}", true};

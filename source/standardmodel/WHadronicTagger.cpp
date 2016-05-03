@@ -175,7 +175,7 @@ std::string WHadronicTagger::Name() const
     return "WHadronic";
 }
 
-Latex WHadronicTagger::LatexName() const
+latex::String WHadronicTagger::LatexName() const
 {
     return {"W_{h}^{#pm}", true};
 }

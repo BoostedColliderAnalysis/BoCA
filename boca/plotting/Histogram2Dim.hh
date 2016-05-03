@@ -22,13 +22,13 @@ public:
 
     ~Histogram2Dim();
 
-    void SetLegend(Orientation orientation, Latex const& title = Latex());
+    void SetLegend(Orientation orientation, latex::String const& title = latex::String());
 
-    void SetXAxis(Latex const& title);
+    void SetXAxis(latex::String const& title);
 
-    void SetYAxis(Latex const& title);
+    void SetYAxis(latex::String const& title);
 
-    void AddHistogram(Latex const& name, int bins, Rectangle<double> const& range, Plot const& points, EColor color);
+    void AddHistogram(latex::String const& name, int bins, Rectangle<double> const& range, Plot const& points, EColor color);
 
     std::string FileBaseName() const override;
 

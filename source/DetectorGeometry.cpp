@@ -188,7 +188,7 @@ Momentum DetectorGeometry::ForwardJetPt()
 double DetectorGeometry::Experimental()
 {
     // minimal alowed s over b value
-    return 0.01;
+    return 10_mU; // aka 1%
 }
 
 boca::Font DetectorGeometry::Font()

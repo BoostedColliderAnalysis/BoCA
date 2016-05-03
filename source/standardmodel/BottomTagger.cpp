@@ -158,7 +158,7 @@ std::string BottomTagger::Name() const
     return "Bottom";
 }
 
-Latex BottomTagger::LatexName() const
+latex::String BottomTagger::LatexName() const
 {
     return {"b", true};
 }

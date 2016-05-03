@@ -41,11 +41,11 @@ auto SignificanceSum(double signal, double background)
     return background > 0 ? signal / std::sqrt(signal + background) : 0;
 }
 
-auto Ratio(boca::Significance significance, double signal, double background)
+auto LogLikelihoodRatio(boca::Significance significance, double signal, double background)
 {
     INFO(Name(significance));
     auto sum = background + signal;
-    double ratio = -1;
+    auto ratio = -1.;
     FlagSwitch(significance, [&](Significance sig) {
         switch (sig) {
         case Significance::discovery : ratio = signal + sum * std::log(background / sum); break;
@@ -61,7 +61,7 @@ auto SignificancePoisson(boca::Significance significance, double signal, double 
 {
     INFO0;
     if (signal <= 0 || background <= 0) return 0.;
-    auto ratio = Ratio(significance, signal, background);
+    auto ratio = LogLikelihoodRatio(significance, signal, background);
     CHECK(ratio < 0, ratio, signal, background);
     if (ratio > 0) ratio = 0;
     return std::sqrt(- 2 * ratio);
@@ -70,7 +70,7 @@ auto SignificancePoisson(boca::Significance significance, double signal, double 
 auto MD(boca::Significance significance, double signal, double background)
 {
     INFO(Name(significance));
-    double md = -1;
+    auto md = -1.;
     FlagSwitch(significance, [&](Significance sig) {
         switch (sig) {
         case Significance::experimental : md = SignificanceExperimental(signal, background); break;
@@ -102,7 +102,7 @@ auto BestMIBin(std::vector<Crosssection> const& vector)
 auto PValue(Significance significance)
 {
     INFO0;
-    double pvalue = 0;
+    auto pvalue = 0.;
     FlagSwitch(significance, [&](Significance sig) {
         switch (sig) {
         case Significance::discovery : pvalue = 5; break;
@@ -266,7 +266,7 @@ Crosssection Results::MIPoisson(Significance significance, double signal_efficie
 Crosssection Results::MI(Significance significance, double signal_efficiency, int step) const
 {
     INFO(Name(significance));
-    Crosssection mi = 0_b;
+    auto mi = 0_b;
     if (!is(significance, Significance::discovery) && !is(significance, Significance::exclusion) && significance != Significance::experimental) return mi;
     if (significance != Significance::experimental && is(significance, Significance::experimental)) {
         auto signif = significance &~Significance::experimental;

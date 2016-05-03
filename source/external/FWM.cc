@@ -7,7 +7,7 @@
 namespace hep
 {
 
-FWM::FWM() {};
+FWM::FWM() {}
 
 FWM::FWM(std::vector<fastjet::PseudoJet> const& jets) : _jets(jets) {}
 

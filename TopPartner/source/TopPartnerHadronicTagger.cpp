@@ -30,7 +30,7 @@ std::string TopPartnerHadronicTagger::Name() const
     return "TopPartnerHadronic";
 }
 
-Latex TopPartnerHadronicTagger::LatexName() const
+latex::String TopPartnerHadronicTagger::LatexName() const
 {
     return {"T_{h}", true};
 }

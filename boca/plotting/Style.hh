@@ -3,7 +3,7 @@
  */
 #pragma once
 
-#include "boca/Latex.hh"
+#include "boca/latex/String.hh"
 
 class TAttText;
 class TAttLine;
@@ -16,7 +16,7 @@ void SetText(TAttText& text);
 
 void SetLine(TAttLine& line, int index);
 
-void SetAxis(TAxis& axis, Latex const& title);
+void SetAxis(TAxis& axis, latex::String const& title);
 
 void SetLogarithmic(TAxis& axis);
 

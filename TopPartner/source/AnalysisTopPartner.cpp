@@ -27,7 +27,7 @@ std::string Name(Process process)
     }
 }
 
-Latex LatexName(Process process)
+latex::String LatexName(Process process)
 {
     INFO0;
     switch (process) {

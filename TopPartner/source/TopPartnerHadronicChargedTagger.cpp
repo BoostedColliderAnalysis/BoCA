@@ -14,7 +14,7 @@ std::string TopPartnerHadronicChargedTagger::Name() const
     return "TopPartnerHadronicCharged";
 }
 
-Latex TopPartnerHadronicChargedTagger::LatexName() const
+latex::String TopPartnerHadronicChargedTagger::LatexName() const
 {
     return {"T_{h}", true};
 }

@@ -46,7 +46,7 @@ public:
 
     virtual ResultBranch& Branch() = 0;
 
-    virtual Latex LatexName() const;
+    virtual latex::String LatexName() const;
 
     virtual TMVA::Types::EMVA Mva() const;
 

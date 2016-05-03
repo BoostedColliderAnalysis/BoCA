@@ -40,7 +40,7 @@ std::string EventSingleLeptonicTagger::Name() const
 {
     return "EventSingleLep";
 }
-Latex EventSingleLeptonicTagger::LatexName() const
+latex::String EventSingleLeptonicTagger::LatexName() const
 {
   return "T_{l}t_{h}h";
 }

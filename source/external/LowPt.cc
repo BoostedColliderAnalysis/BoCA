@@ -5,7 +5,7 @@
 namespace hep
 {
 
-LowPt::LowPt() {};
+LowPt::LowPt() {}
 
 bool LowPt::is_tagged(TopTagger2 const& htt)
 {
@@ -37,6 +37,6 @@ bool LowPt::is_tagged(TopTagger2 const& htt)
     if (FWM_pbW2_U1 < 0.145 || FWM_pbW2_U1 > 0.445) return false;
 
     return true;
-};
+}
 
 }

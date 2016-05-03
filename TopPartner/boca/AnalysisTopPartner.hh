@@ -37,7 +37,7 @@ enum class Process
 
 std::string Name(Process process);
 
-Latex LatexName(Process process);
+latex::String LatexName(Process process);
 
 bool MassDependent(Process process);
 
@@ -63,12 +63,12 @@ protected:
     auto Mass() const {
         INFO0;
         return 2_TeV;
+        return 6_TeV;
+        return 8_TeV;
+        return 4_TeV;
         return 1.5_TeV;
         return 1_TeV;
         return 500_GeV;
-        return 8_TeV;
-        return 6_TeV;
-        return 4_TeV;
         return 10_TeV;
         return 1.5_TeV;
         return 3_TeV;

@@ -9,6 +9,7 @@ install (TARGETS root-browser DESTINATION "$ENV{HOME}/.bin")
 
 add_subdirectory(fastjet)
 add_subdirectory(generic)
+add_subdirectory(latex)
 add_subdirectory(io)
 add_subdirectory(physics)
 add_subdirectory(math)
@@ -21,13 +22,14 @@ add_subdirectory(multivariant)
 create_dictionary(Colors Colors.cpp Colors.hh LinkDef.hh)
 add_subdirectory(plotting)
 
-create_dictionary(Names Names.cpp Names.hh LinkDef.hh)
-create_dictionary(Latex Latex.cpp Latex.hh LinkDef.hh)
+# create_dictionary(Names Names.cpp Names.hh LinkDef.hh)
+# create_dictionary(latex::String latex::String.cpp latex::String.hh LinkDef.hh)
 create_dictionary(Branches Branches.cpp Branches.hh LinkDef.hh)
 
 set(shape_sources
 HemisphereMasses.cpp
 EventShapes.cpp
+Names.cpp
 )
 create_library(EventShapes shape_sources)
 

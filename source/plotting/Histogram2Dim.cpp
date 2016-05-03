@@ -27,7 +27,7 @@ Histogram2Dim::~Histogram2Dim()
     SaveAs(FileName());
 }
 
-void Histogram2Dim::SetLegend(boca::Orientation orientation, Latex const& title)
+void Histogram2Dim::SetLegend(boca::Orientation orientation, latex::String const& title)
 {
     INFO0;
     canvas().SetTopMargin(TextHeight() * 2);
@@ -49,24 +49,24 @@ void Histogram2Dim::Draw()
     legend_.Draw();
 }
 
-void Histogram2Dim::SetXAxis(Latex const& title)
+void Histogram2Dim::SetXAxis(latex::String const& title)
 {
     INFO0;
     for (auto & histogram : histograms_) SetAxis(*histogram.GetXaxis(), title);
 }
 
-void Histogram2Dim::SetYAxis(Latex const& title)
+void Histogram2Dim::SetYAxis(latex::String const& title)
 {
     INFO0;
     for (auto & histogram : histograms_) SetAxis(*histogram.GetYaxis(), title);
 }
 
-void Histogram2Dim::AddHistogram(Latex const& name, int bins, Rectangle<double> const& range, Plot const& plot, EColor color)
+void Histogram2Dim::AddHistogram(latex::String const& name, int bins, Rectangle<double> const& range, Plot const& plot, EColor color)
 {
     INFO0;
     int x_bin = plot.x_is_int ? std::floor(range.Width()) : bins;
     int y_bin = plot.y_is_int ? std::floor(range.Height()) : bins;
-    TH2F histogram(name.str(Medium::root).c_str(), "", x_bin, range.XMin(), range.XMax(), y_bin, range.YMin(), range.YMax());
+    TH2F histogram(name.str(latex::Medium::root).c_str(), "", x_bin, range.XMin(), range.XMax(), y_bin, range.YMin(), range.YMax());
     for (auto const & point : plot.Data()) histogram.Fill(point.X(), point.Y());
     histogram.SetContour(20);
     histogram.SetMarkerColor(color);

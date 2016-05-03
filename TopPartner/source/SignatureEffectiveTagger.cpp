@@ -58,7 +58,7 @@ std::string SignatureEffectiveTagger::Name() const
     return "Signature";
 }
 
-Latex SignatureEffectiveTagger::LatexName() const
+latex::String SignatureEffectiveTagger::LatexName() const
 {
     return "T_{h} T_{l} h h";
 }
