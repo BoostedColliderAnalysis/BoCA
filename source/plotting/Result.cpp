@@ -394,3 +394,4 @@ int Result::TrainerSize() const
 }
 
 }
+

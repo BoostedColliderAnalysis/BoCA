@@ -18,7 +18,7 @@ class Results;
 class Plot;
 class Graphs;
 class InfoBranch;
-template<typename Type_>
+template<typename >
 class Rectangle;
 class Tagger;
 

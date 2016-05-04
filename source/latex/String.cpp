@@ -137,6 +137,18 @@ String String::operator+(String const& latex)
     return *this += latex;
 }
 
+std::string Formula::str()
+{
+    std::string str = "$";
+    for (auto const & string : strings_) str += string;
+    return str + "$";
+}
+
+Formula::operator std::string()
+{
+    return str();
+}
+
 }
 
 }

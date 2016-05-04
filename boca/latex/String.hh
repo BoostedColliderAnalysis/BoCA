@@ -77,17 +77,13 @@ class Formula
 public:
 
     template<typename... Arguments_>
-    Formula(Arguments_ ...arguments) {Set(arguments...);}
-
-    std::string str() {
-        std::string str = "$";
-        for (auto const & string : strings_) str += string;
-        return str + "$";
+    Formula(Arguments_ ...arguments) {
+        Set(arguments...);
     }
 
-    operator std::string() {
-        return str();
-    }
+    std::string str();
+
+    operator std::string();
 
 private:
 
